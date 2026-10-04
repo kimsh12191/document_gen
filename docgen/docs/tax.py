@@ -5,8 +5,8 @@
 """
 from ..registry import doc
 from ._common import *  # noqa: F401,F403
-from .business import (_bookkeeping_double, _filed_year, _half_share, _hometax_no, _industry, _pl, _prng,
-                       _revenue, _tax_office, _vat_simple)
+from .business import (_bookkeeping_double, _filed_year, _half_share, _hometax_no, _industry, _itr_filed_date, _pl,
+                       _prng, _revenue, _sincere_filer, _tax_office, _vat_simple)
 
 # 종합소득세 기본세율 (2023년 귀속 이후): (과세표준 상한, 세율 %, 누진공제)
 _BRACKETS = [
@@ -36,6 +36,19 @@ def _cert_purpose(rng: random.Random, p: Profile) -> str:
     return rng.choice(["금융기관 제출", "금융기관 제출용", "대출 신청", "은행 제출", f"{p.bank} 제출"])
 
 
+def _purpose_type(rng: random.Random) -> str:
+    """납세증명서 사용목적 체크항목 (별지 제94호서식: 대금 수령 / 해외이주 / 기타). 은행 제출은 대부분 '기타'."""
+    return rng.choices(["기타", "대금 수령"], [9, 1])[0]
+
+
+def _purpose_pair(rng: random.Random, p: Profile) -> dict:
+    """사용목적 체크항목 + 괄호 안 구체적 목적. '대금 수령'이면 대금 종류를 적는다."""
+    kind = _purpose_type(rng)
+    if kind == "대금 수령":
+        return {"purpose_type": kind, "purpose": rng.choice(["공사대금 수령", "용역대금 수령", "물품대금 수령"])}
+    return {"purpose_type": kind, "purpose": _cert_purpose(rng, p)}
+
+
 def _validity(p: Profile) -> str:
     """납세증명서 유효기간: 발급일부터 30일."""
     fmt = "kor"
@@ -59,8 +72,7 @@ def tax_payment_certificate(p: Profile, rng: random.Random) -> dict:
             "address": p.person.address.road_full,
         },
         "valid_period": _validity(p),
-        "purpose_type": "대금수령 이외",
-        "purpose": _cert_purpose(rng, p),
+        **_purpose_pair(rng, p),
         "deferral": "해당없음",
         "arrears": "없음",
         "issue_date": D(p.issue_date, "kor"),
@@ -82,8 +94,7 @@ def tax_payment_certificate_corp(p: Profile, rng: random.Random) -> dict:
             "address": c.address.road_full,
         },
         "valid_period": _validity(p),
-        "purpose_type": "대금수령 이외",
-        "purpose": _cert_purpose(rng, p),
+        **_purpose_pair(rng, p),
         "deferral": "해당없음",
         "arrears": "없음",
         "issue_date": D(p.issue_date, "kor"),
@@ -96,14 +107,17 @@ def tax_payment_certificate_corp(p: Profile, rng: random.Random) -> dict:
 # ---------------------------------------------------------------------------
 @doc("local_tax_payment_certificate", "지방세 납세증명서", "tax")
 def local_tax_payment_certificate(p: Profile, rng: random.Random) -> dict:
-    """정부24·위택스 발급 지방세 납세증명서 (체납 없음)."""
+    """정부24·위택스 발급 지방세 납세증명서 (체납 없음). 개인사업자면 상호·사업자등록번호도 적는다."""
+    taxpayer = {
+        "name": p.person.name,
+        "rrn": K.mask_rrn(p.person.rrn) if rng.random() < 0.7 else p.person.rrn,
+        "address": p.person.address.road_full,
+    }
+    if rng.random() < 0.4:
+        taxpayer.update(trade_name=p.business.name, biz_no=p.business.biz_no)
     return {
         "issue_no": issue_no(rng),
-        "taxpayer": {
-            "name": p.person.name,
-            "rrn": K.mask_rrn(p.person.rrn) if rng.random() < 0.7 else p.person.rrn,
-            "address": p.person.address.road_full,
-        },
+        "taxpayer": taxpayer,
         "valid_period": _validity(p),
         "purpose": _cert_purpose(rng, p),
         "deferral": "해당없음",
@@ -165,33 +179,35 @@ def local_tax_assessment(p: Profile, rng: random.Random) -> dict:
         pa = prop.address
         obj = f"{pa.sigungu or pa.sido} {pa.dong} {pa.jibun}"
         if ptax <= 200_000:
-            parts = [(date(y, 7, 31), "7월분", ptax)]
+            parts = [(date(y, 7, 31), "정기분", ptax)]
         else:
             half = _floor10(ptax // 2)
-            parts = [(date(y, 7, 31), "7월분(1/2)", half), (date(y, 9, 30), "9월분(2/2)", ptax - half)]
+            parts = [(date(y, 7, 31), "정기분(1/2)", half), (date(y, 9, 30), "정기분(2/2)", ptax - half)]
         for due, label, t in parts:
-            rows.append((due, {"year": f"{y}", "tax_item": "재산세(주택)", "due": label, "object": obj,
+            rows.append((due, {"tax_item": "재산세(주택)", "kind": label, "object": obj,
                                "base": won(base, ""), "tax": t, "edu": _floor10(t * 20 // 100)}))
         if car:
             age = y - car["model_year"] + 1
             cut = min(max(age - 2, 0) * 5, 50)
             per_cc = 80 if car["cc"] <= 1000 else 140 if car["cc"] <= 1600 else 200
             annual = car["cc"] * per_cc * (100 - cut) // 100
-            for due, label in ((date(y, 6, 30), "6월분(1기)"), (date(y, 12, 31), "12월분(2기)")):
+            for due, label in ((date(y, 6, 30), "1기분"), (date(y, 12, 31), "2기분")):
                 t = _floor10(annual // 2)
-                rows.append((due, {"year": f"{y}", "tax_item": "자동차세", "due": label,
+                rows.append((due, {"tax_item": "자동차세", "kind": label,
                                    "object": f"{car['no']} 승용", "base": f"{car['cc']:,}cc",
                                    "tax": t, "edu": _floor10(t * 30 // 100)}))
-        rows.append((date(y, 8, 31), {"year": f"{y}", "tax_item": "주민세(개인분)", "due": "8월분",
+        rows.append((date(y, 8, 31), {"tax_item": "주민세(개인분)", "kind": "정기분",
                                       "object": "세대주 개인분", "base": "-", "tax": resident_tax,
                                       "edu": _floor10(resident_tax * (25 if seoul else 10) // 100)}))
-    rows = [r for due, r in sorted(rows, key=lambda x: x[0]) if due < issue][-10:]
-    tot_tax = sum(r["tax"] for r in rows)
-    tot_edu = sum(r["edu"] for r in rows)
+    rows = sorted(((due, r) for due, r in rows if due < issue), key=lambda x: x[0])[-10:]
+    tot_tax = sum(r["tax"] for _, r in rows)
+    tot_edu = sum(r["edu"] for _, r in rows)
     items = []
-    for r in rows:
-        items.append({**r, "tax": won(r["tax"], ""), "edu": won(r["edu"], ""), "total": won(r["tax"] + r["edu"], "")})
-    first = rows[0]["year"]
+    for due, r in rows:
+        items.append({"tax_item": r["tax_item"], "levied": f"{due.year}.{due.month:02d}", "kind": r["kind"],
+                      "object": r["object"], "base": r["base"], "tax": won(r["tax"], ""), "edu": won(r["edu"], ""),
+                      "total": won(r["tax"] + r["edu"], "")})
+    first, last = rows[0][0].year, rows[-1][0].year
     return {
         "issue_no": issue_no(rng),
         "taxpayer": {
@@ -199,7 +215,7 @@ def local_tax_assessment(p: Profile, rng: random.Random) -> dict:
             "rrn": K.mask_rrn(p.person.rrn) if rng.random() < 0.6 else p.person.rrn,
             "address": a.road_full,
         },
-        "period": f"{first}년 ~ {issue.year}년",
+        "period": f"{first}년 ~ {last}년" if first < last else f"{first}년",
         "items": items,
         "sum": {"tax": won(tot_tax, ""), "edu": won(tot_edu, ""), "total": won(tot_tax + tot_edu, "")},
         "purpose": _cert_purpose(rng, p),
@@ -211,6 +227,9 @@ def local_tax_assessment(p: Profile, rng: random.Random) -> dict:
 # ---------------------------------------------------------------------------
 # 부가가치세 과세표준증명
 # ---------------------------------------------------------------------------
+_EXEMPT_ITEMS = ("학원", "농산물")
+
+
 @doc("vat_tax_base_certificate", "부가가치세 과세표준증명", "tax")
 def vat_tax_base_certificate(p: Profile, rng: random.Random) -> dict:
     """홈택스 발급 부가가치세 과세표준증명 (개인사업자, 최근 4개 과세기간)."""
@@ -227,7 +246,7 @@ def vat_tax_base_certificate(p: Profile, rng: random.Random) -> dict:
                 start = max(date(y, 1, 1), b.established)
                 base = _revenue(p, y)  # 공급대가
                 tax = 0 if base < 48_000_000 else max(0, _floor10(int(base * va_rate * 0.1) - int(base * 0.7 * 0.013)))
-                rows.append({"period": f"{y}년 ({start:%m.%d}~12.31)", "kind": "정기확정",
+                rows.append({"start": start, "end": date(y, 12, 31), "kind": "정기확정",
                              "filed": rand_date(rng, date(y + 1, 1, 5), min(due, issue - timedelta(days=1))),
                              "base": base, "tax": tax})
             y -= 1
@@ -246,27 +265,34 @@ def vat_tax_base_certificate(p: Profile, rng: random.Random) -> dict:
                 buy_ratio *= _prng(p, "vatbuy", y, h).uniform(0.9, 1.1)
                 card = int(base * 0.6 * 0.013) if b.biz_type in ("음식점업", "소매업") else 0
                 tax = _floor10(int(base * 0.1 * (1 - buy_ratio)) - min(card, 5_000_000))
-                rows.append({"period": f"{y}년 {h}기 ({start:%m.%d}~{end:%m.%d})", "kind": "정기확정",
+                rows.append({"start": start, "end": end, "kind": "정기확정",
                              "filed": rand_date(rng, end + timedelta(days=5), min(due, issue - timedelta(days=1))),
                              "base": base, "tax": tax})
             y, h = (y, 1) if h == 2 else (y - 1, 2)
     rows.reverse()
     fmt = rng.choice(["dash", "dot"])
+    # 학원(교육용역)·농산물은 면세 매출이 대부분인 과·면세 겸영사업자로 본다.
+    exempt_share = _prng(p, "vatexempt").uniform(0.85, 0.97) if b.biz_item in _EXEMPT_ITEMS else 0.0
+    items = []
+    for r in rows:
+        exempt = _floor10(int(r["base"] * exempt_share))
+        taxable = r["base"] - exempt
+        tax = _floor10(int(r["tax"] * (1 - exempt_share)))
+        items.append({"period": f"{D(r['start'], fmt)} ~ {D(r['end'], fmt)}", "kind": r["kind"],
+                      "filed": D(r["filed"], fmt), "base_total": won(r["base"], ""), "base_taxable": won(taxable, ""),
+                      "base_exempt": won(exempt, ""), "tax": _signed(tax)})
     return {
         "issue_no": _hometax_no(rng),
         "taxpayer": {
-            "trade_name": b.name,
-            "biz_no": b.biz_no,
             "name": p.person.name,
             "rrn": K.mask_rrn(p.person.rrn),
+            "trade_name": b.name,
+            "biz_no": b.biz_no,
             "address": b.address.road_full,
             "biz_type": b.biz_type,
             "biz_item": b.biz_item,
-            "kind": "간이과세자" if simple else "일반과세자",
         },
-        "period": f"{rows[0]['period'].split(' (')[0]} ~ {rows[-1]['period'].split(' (')[0]}",
-        "items": [{"period": r["period"], "kind": r["kind"], "filed": D(r["filed"], fmt),
-                   "base": won(r["base"], ""), "tax": _signed(r["tax"])} for r in rows],
+        "items": items,
         "purpose": _cert_purpose(rng, p),
         "issue_date": D(issue, "kor"),
         "issuer": _tax_office(b.address),
@@ -278,7 +304,10 @@ def vat_tax_base_certificate(p: Profile, rng: random.Random) -> dict:
 # ---------------------------------------------------------------------------
 @doc("income_tax_return", "종합소득세 과세표준확정신고 및 납부계산서", "tax")
 def income_tax_return(p: Profile, rng: random.Random) -> dict:
-    """종합소득세 확정신고서 첫 장 (기본사항 + 소득금액 + 세액계산). 사업소득은 표준손익계산서 당기순이익과 같다."""
+    """종합소득세 확정신고서 제1쪽 (기본사항 + 환급금 계좌 + 세액의 계산). 종합소득금액은 표준손익계산서 당기순이익과 같다.
+
+    현행 서식은 종합소득세ㆍ농어촌특별세만 적는다 (지방소득세는 별도 신고서).
+    """
     b = p.business
     y = max(_filed_year(p), b.established.year)
     biz_income = _pl(p, y)["net"]
@@ -311,45 +340,42 @@ def income_tax_return(p: Profile, rng: random.Random) -> dict:
     if payable > 10_000_000 and rng.random() < 0.6:
         installment = payable - 10_000_000 if payable <= 20_000_000 else _floor10(payable // 2)
 
-    l_computed = computed // 10
-    l_credit = min(l_computed, credit // 10)
-    l_determined = l_computed - l_credit
-    l_payable = _floor10(l_determined)
-
     double = _bookkeeping_double(p)
-    filed = rand_date(rng, date(y + 1, 5, 2), date(y + 1, 5, 31))
+    if double:
+        filing_type = "성실신고확인" if _sincere_filer(p) else rng.choice(["자기조정", "외부조정"])
+    else:
+        filing_type = rng.choices(["간편장부", "추계-기준율", "추계-단순율"], [8, 1, 1])[0]
+    filed = _itr_filed_date(p, y)  # 표준재무제표증명의 신고일과 같다
     w = lambda n: won(n, "")  # noqa: E731
-    return {
+    out = {
         "tax_year": f"{y}",
+        "residency": "거주자",
+        "nationality": "내국인",
         "taxpayer": {
             "name": p.person.name,
             "rrn": p.person.rrn if rng.random() < 0.5 else K.mask_rrn(p.person.rrn),
             "address": p.person.address.road_full,
-            "mobile": p.person.mobile,
             "email": p.person.email,
-            "trade_name": b.name,
-            "biz_no": b.biz_no,
-            "biz_address": b.address.road_full,
+            "biz_phone": b.phone,
+            "mobile": p.person.mobile,
         },
+        "filing_type": filing_type,
         "bookkeeping": "복식부기의무자" if double else "간편장부대상자",
-        "filing_type": rng.choice(["자기조정", "외부조정"]) if double else "간편장부",
         "filing_kind": "정기신고",
-        "income": {"interest": "0", "dividend": "0", "business": w(biz_income), "wage": "0",
-                   "pension": "0", "other": "0", "total": w(total_income)},
-        "deductions": {"personal": w(personal), "persons": f"{n_people}명", "pension": w(pension),
-                       "yellow_umbrella": w(yellow), "total": w(deduction)},
         "national": {
             "total_income": w(total_income), "deduction": w(deduction), "base": w(base), "rate": f"{rate}%",
             "computed": w(computed), "reduction": w(reduction), "credit": w(credit), "determined": w(determined),
-            "penalty": w(penalty), "total": w(total), "prepaid": w(prepaid), "payable": w(payable),
-            "installment": w(installment), "due_payable": w(payable - installment),
-        },
-        "local": {
-            "base": w(base), "rate": f"{rate / 10:g}%", "computed": w(l_computed), "reduction": "0",
-            "credit": w(l_credit), "determined": w(l_determined), "penalty": "0", "total": w(l_determined),
-            "prepaid": "0", "payable": w(l_payable), "due_payable": w(l_payable),
+            "penalty": w(penalty), "additional": "0", "total": w(total), "prepaid": w(prepaid), "payable": w(payable),
+            "special_deduct": "0", "special_add": "0", "installment": w(installment),
+            "due_payable": w(payable - installment),
         },
         "filed_date": D(filed, rng.choice(["kor", "kor_short"])),
         "tax_office": _tax_office(p.person.address),
-        "local_office": district_office(p.person.address),
     }
+    if rng.random() < 0.5:
+        acc = p.accounts[0]
+        out["refund_account"] = {"bank": acc.bank, "number": acc.number}
+    if filing_type in ("외부조정", "성실신고확인") or rng.random() < 0.3:
+        out["tax_agent"] = {"name": K.make_name(rng, rng.choice("MF"))[0], "biz_no": K.biz_no(rng),
+                            "phone": K.landline(rng, b.address.sido)}
+    return out
