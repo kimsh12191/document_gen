@@ -1,0 +1,77 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "bank_form/_account_common.html.j2" as bf with context %}
+{% block page_class %} dense{% endblock %}
+{% block style %}{{ bf.css() }}
+table.fc th { width: 132px; }
+table.res th, table.res td { text-align: center; }
+ol.reason { margin: 2px 0; padding-left: 1.2em; font-size: calc(var(--fs) - 3px); }
+ol.reason li { margin: 0; }
+{% endblock %}
+{% block content %}
+{{ bf.head("FATCA / CRS 자기확인서 (개인용)<br>보존기간: 거래종료 후 5년") }}
+{{ m.title("해외금융계좌 납세자 확인서 (개인)", sub="Individual Self-Certification for FATCA / CRS") }}
+<div class="bf-box bf-note">
+  <p>「국제조세조정에 관한 법률」 제36조, 「대한민국 정부와 미합중국 정부 간의 국제적 납세의무 준수 촉진을 위한 협정」(FATCA) 및 「다자간 금융정보 자동교환 협정」(CRS)에 따라 금융회사는 계좌보유자의 세법상 거주지국을 확인하여야 하며, 해외 거주자에 해당하는 경우 관련 금융정보가 국세청을 통하여 해당 국가 과세당국에 제공될 수 있습니다.</p>
+  <p class="muted">Under the Law for the Coordination of International Tax Affairs, FATCA and the CRS, we are required to collect certain information about each account holder's tax residence(s).</p>
+</div>
+
+{{ bf.sec("Part 1", "계좌보유자 정보", "Identification of Account Holder") }}
+<table class="bf fc">
+<tr><th>성명(국문)<span class="en">Name (Korean)</span></th><td>{{ f("holder.name", label="성명(국문)") }}</td>
+    <th>성명(영문)<span class="en">Name (English)</span></th><td>{{ f("holder.name_en", label="성명(영문)") }}</td></tr>
+<tr><th>생년월일<span class="en">Date of Birth</span></th><td>{{ f("holder.birth", label="생년월일") }}</td>
+    <th>국적<span class="en">Nationality</span></th><td>{{ f("holder.nationality", label="국적") }}</td></tr>
+<tr><th>출생지(국가)<span class="en">Place of Birth</span></th><td colspan="3">{{ f("holder.birth_place", label="출생지(국가)") }}</td></tr>
+<tr><th>현 거주지 주소<span class="en">Current Residence Address</span></th><td colspan="3">{{ f("holder.address", label="현거주지주소") }}</td></tr>
+</table>
+
+{{ bf.sec("Part 2", "미국인 여부 확인", "U.S. Person") }}
+<table class="bf fc">
+<tr><td class="q">귀하는 미국 시민권자이거나 미국 영주권자(Green Card 소지자) 또는 세법상 미국 거주자입니까?
+  <span class="en">Are you a U.S. citizen, U.S. permanent resident or U.S. resident for tax purposes?</span></td>
+  <td style="width:160px" class="c">{{ m.choice("us_person", ["예", "아니오"], label="미국인여부") }}</td></tr>
+</table>
+<div class="tiny muted">※ "예"에 해당하는 경우 Part 3에 미국 납세자번호(SSN/ITIN)를 기재하고 미국 국세청 양식 W-9을 함께 제출하여 주십시오.</div>
+
+{{ bf.sec("Part 3", "세법상 거주지국 및 납세자번호", "Country of Tax Residence and TIN") }}
+<table class="bf res">
+<colgroup><col style="width:34px"><col style="width:30%"><col><col style="width:150px"></colgroup>
+<tr><th>No</th><th>거주지국<span class="en">Country of Tax Residence</span></th><th>납세자번호<span class="en">TIN</span></th><th>TIN 미제공 사유<span class="en">Reason A, B or C</span></th></tr>
+{% for r in d.residences %}{% set i = loop.index0 %}
+<tr><td>{{ loop.index }}</td><td>{{ f("residences." ~ i ~ ".country", label="거주지국") }}</td>
+<td>{% if r.tin is defined %}{{ f("residences." ~ i ~ ".tin", label="납세자번호") }}{% endif %}</td>
+<td>{% if r.no_tin_reason is defined %}{{ f("residences." ~ i ~ ".no_tin_reason", label="TIN미제공사유") }}{% endif %}
+  {% if r.reason_detail is defined %}<div class="tiny">({{ f("residences." ~ i ~ ".reason_detail", label="사유B상세") }})</div>{% endif %}</td></tr>
+{% endfor %}
+{% for _ in range(3 - d.residences|length) %}<tr><td>{{ d.residences|length + loop.index }}</td><td>&nbsp;</td><td></td><td></td></tr>{% endfor %}
+</table>
+<ol class="reason" type="A">
+  <li>거주지국이 납세자번호를 발급하지 않는 경우 (The country does not issue TINs to its residents)</li>
+  <li>계좌보유자가 납세자번호를 발급받을 수 없는 경우 — 사유 기재 (The account holder is unable to obtain a TIN — explain)</li>
+  <li>거주지국 법률상 납세자번호 제공이 요구되지 않는 경우 (No TIN is required under the domestic law)</li>
+</ol>
+<div class="tiny muted">※ 대한민국 거주자의 납세자번호는 주민등록번호로 갈음할 수 있습니다. 거주지국이 둘 이상인 경우 모두 기재하여 주십시오.</div>
+
+{{ bf.sec("Part 4", "확인 및 서명", "Declaration and Signature") }}
+<div class="bf-box bf-note">
+  <p>본인은 위 기재사항이 사실과 다름없음을 확인하며, 기재사항에 변동이 있는 경우 변동일로부터 30일 이내에 은행에 통지하고 새로운 확인서를 제출하겠습니다. 본 확인서의 정보는 관련 법령에 따라 국세청 및 해당 국가 과세당국과 교환될 수 있음에 동의합니다.</p>
+  <p class="muted">I certify that the information provided on this form is true, correct and complete. I undertake to notify the bank within 30 days of any change in circumstances and to provide an updated self-certification.</p>
+</div>
+<div class="bf-sign">
+  <span>작성일 Date&nbsp; {{ f("date", label="작성일") }}</span>
+  <span>성명 Name <span class="who">{{ f("signature", label="성명") }}</span> (서명 Signature)</span>
+</div>
+<div class="right bold">{{ f("bank.name", label="은행명") }} 귀중</div>
+
+<div class="bf-use">
+  <div class="cap">은행 사용란 (For Bank Use Only)</div>
+  <div class="body">
+    <table class="bf" style="flex:1">
+      <tr><th style="width:96px">접수 영업점</th><td>{{ f("bank_use.branch", label="접수영업점") }}</td></tr>
+      <tr><th>합리성 검토</th><td class="tiny">실명확인증표·고객정보와 확인서 기재 내용의 일치 여부 확인 (불일치 시 추가 증빙 징구)</td></tr>
+    </table>
+    {{ bf.stamps([["담당", "bank_use.clerk"], ["책임자", "bank_use.manager"]]) }}
+  </div>
+</div>
+{% endblock %}

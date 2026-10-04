@@ -1,0 +1,73 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "bank_form/_account_common.html.j2" as bf with context %}
+{% block page_class %} dense{% endblock %}
+{% block style %}{{ bf.css() }}
+table.orm th { width: 112px; }
+table.orm td { font-variant-numeric: tabular-nums; }
+.amt { font-weight: 700; font-size: calc(var(--fs) + 2px); letter-spacing: .02em; }
+{% endblock %}
+{% block content %}
+{{ bf.head("외환-당발송금 (개인)<br>보존기간: 5년") }}
+{{ m.title("해외송금신청서", sub="APPLICATION FOR OUTWARD REMITTANCE") }}
+<div class="bf-note">※ 굵은 선 안쪽을 영문 대문자(수취인·수취은행 정보)로 정확히 작성하여 주십시오. 기재 오류로 인한 지연·반환 시 발생하는 수수료는 신청인 부담입니다.</div>
+
+{{ bf.sec("1", "송금인", "Remitter") }}
+<table class="bf orm">
+<tr><th>성명<span class="en">Name</span></th><td>{{ f("remitter.name", label="송금인성명") }}</td><th>영문명<span class="en">English Name</span></th><td>{{ f("remitter.name_en", label="송금인영문명") }}</td></tr>
+<tr><th>실명번호<span class="en">ID No.</span></th><td>{{ f("remitter.rrn", label="실명번호") }}</td><th>전화번호<span class="en">Tel No.</span></th><td>{{ f("remitter.phone", label="전화번호") }}</td></tr>
+<tr><th>주소<span class="en">Address</span></th><td colspan="3">{{ f("remitter.address", label="송금인주소") }}</td></tr>
+{% if d.remitter.company is defined %}<tr><th>상호(사업자번호)<span class="en">Company</span></th><td colspan="3">{{ f("remitter.company", label="상호(사업자번호)") }}</td></tr>{% endif %}
+</table>
+
+{{ bf.sec("2", "수취인", "Beneficiary") }}
+<table class="bf orm">
+<tr><th>성명(상호)<span class="en">Name</span></th><td colspan="3">{{ f("beneficiary.name", label="수취인성명") }}</td></tr>
+<tr><th>주소<span class="en">Address</span></th><td colspan="3">{{ f("beneficiary.address", label="수취인주소") }}</td></tr>
+<tr><th>국가<span class="en">Country</span></th><td>{{ f("beneficiary.country", label="수취인국가") }}</td><th>계좌번호<span class="en">Account No.</span></th><td>{{ f("beneficiary.account_no", label="수취인계좌번호") }}</td></tr>
+<tr><th>송금인과의 관계<span class="en">Relationship</span></th><td colspan="3">{{ f("beneficiary.relationship", label="송금인과의관계") }}</td></tr>
+</table>
+
+{{ bf.sec("3", "수취은행", "Beneficiary Bank") }}
+<table class="bf orm">
+<tr><th>은행명<span class="en">Bank Name</span></th><td>{{ f("beneficiary.bank_name", label="수취은행명") }}</td><th>SWIFT BIC</th><td>{{ f("beneficiary.swift", label="SWIFTBIC") }}</td></tr>
+<tr><th>은행주소<span class="en">Bank Address</span></th><td colspan="3">{{ f("beneficiary.bank_address", label="수취은행주소") }}</td></tr>
+<tr><th>중계은행<span class="en">Intermediary Bank</span></th><td colspan="3"><span class="tiny muted">(해당 시 기재 / If any)</span></td></tr>
+</table>
+
+{{ bf.sec("4", "송금 내용", "Remittance Details") }}
+<table class="bf orm">
+<tr><th>송금통화<span class="en">Currency</span></th><td class="amt">{{ f("remittance.currency", label="송금통화") }}</td><th>송금금액<span class="en">Amount</span></th><td class="amt">{{ f("remittance.amount", label="송금금액") }}</td></tr>
+<tr><th>송금사유<span class="en">Purpose</span></th><td colspan="3">{{ m.choice("remittance.purpose", ["수입대금", "유학생경비", "해외체재비", "증여", "기타"], label="송금사유") }}
+  &nbsp;&nbsp;거래코드 <span class="u">{{ f("remittance.purpose_code", label="거래코드") }}</span></td></tr>
+<tr><th>수수료 부담<span class="en">Charges</span></th><td colspan="3">{{ m.choice("remittance.charge", ["OUR", "SHA", "BEN"], label="수수료부담") }}
+  <div class="tiny muted">OUR: 국내외 수수료 모두 송금인 부담 / SHA: 국내 수수료는 송금인, 해외 수수료는 수취인 부담 / BEN: 모든 수수료 수취인 부담</div></td></tr>
+<tr><th>송금방법<span class="en">Method</span></th><td colspan="3">{{ m.choice("remittance.method", ["전신송금(T/T)", "송금수표(D/D)"], label="송금방법") }}</td></tr>
+<tr><th>송금메시지<span class="en">Message</span></th><td colspan="3">{{ f("remittance.message", label="송금메시지") }}</td></tr>
+<tr><th>지급증빙서류<span class="en">Documents</span></th><td colspan="3">{{ f("remittance.documents", label="지급증빙서류") }}</td></tr>
+</table>
+
+<div class="bf-box bf-note" style="margin-top:5px">
+  <p>1. 본인은 「외국환거래법」 및 외국환거래규정을 준수하며, 위 송금이 자금세탁·테러자금조달 또는 법령상 금지된 거래와 무관함을 확인합니다.</p>
+  <p>2. 수취인 정보 오류, 중계은행·수취은행의 사정 또는 해당 국가의 제재·규제로 인해 송금이 지연·반환될 수 있으며, 이로 인한 수수료와 환차손은 신청인이 부담합니다.</p>
+  <p>3. 지급증빙서류 미제출 송금은 연간 미화 10만불 상당액 이내로 제한되며, 거래외국환은행 지정이 필요할 수 있습니다.</p>
+</div>
+<div class="bf-sign">
+  <span>신청일 {{ f("date", label="신청일") }}</span>
+  <span>신청인 <span class="who">{{ f("signature", label="신청인") }}</span> (서명 또는 인)</span>
+</div>
+<div class="right bold">{{ f("bank.name", label="은행명") }} 앞</div>
+
+<div class="bf-use">
+  <div class="cap">은행 사용란 (For Bank Use Only)</div>
+  <div class="body">
+    <table class="bf orm" style="flex:1">
+      <tr><th style="width:92px">참조번호</th><td>{{ f("bank_use.ref_no", label="참조번호") }}</td><th style="width:92px">취급 영업점</th><td>{{ f("bank_use.branch", label="취급영업점") }}</td></tr>
+      <tr><th>적용환율</th><td>{{ f("bank_use.rate", label="적용환율") }}{% if val("remittance.currency") == "JPY" %} <span class="tiny">(100 JPY당)</span>{% endif %}</td><th>원화환산액</th><td class="num">{{ f("bank_use.krw_amount", label="원화환산액") }}</td></tr>
+      <tr><th>송금수수료</th><td class="num">{{ f("bank_use.fee", label="송금수수료") }}</td><th>전신료</th><td class="num">{{ f("bank_use.cable_fee", label="전신료") }}</td></tr>
+      <tr><th>합계(원)</th><td colspan="3" class="num bold">{{ f("bank_use.total", label="합계") }}</td></tr>
+    </table>
+    {{ bf.stamps([["담당", "bank_use.clerk"], ["책임자", "bank_use.manager"]]) }}
+  </div>
+</div>
+{% endblock %}
