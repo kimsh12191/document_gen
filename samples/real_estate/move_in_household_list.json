@@ -1,0 +1,26 @@
+{
+ "document_type": "전입세대확인서",
+ "issue_no": "8758-4117-9385-9947",
+ "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+ "jibun_address": "광주광역시 서구 치평동 193-4 114동 1401호",
+ "households": [
+  {
+   "no": "1",
+   "head_name": "김*윤",
+   "move_in_date": "2025-10-15",
+   "reg_type": "거주자",
+   "first_name": "한*영",
+   "first_date": "2025-10-13",
+   "first_reg_type": "거주자",
+   "cohabitants": "1"
+  }
+ ],
+ "applicant": {
+  "name": "김소윤",
+  "rrn": "901121-2******",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+  "purpose": "임대차계약 체결"
+ },
+ "view_date": "2025년 11월 29일",
+ "issuer": "서구 치평동장"
+}

@@ -1,0 +1,28 @@
+{
+ "document_type": "해외금융계좌 납세자 확인서(개인)",
+ "bank": {
+  "name": "농협은행"
+ },
+ "holder": {
+  "name": "김소윤",
+  "name_en": "KIM SOYUN",
+  "birth": "1990-11-21",
+  "nationality": "대한민국 (KOREA)",
+  "birth_place": "대한민국 (KOREA)",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)"
+ },
+ "us_person": "아니오",
+ "residences": [
+  {
+   "country": "대한민국 (KOREA)",
+   "tin": "901121-2******"
+  }
+ ],
+ "date": "2025년 11월 29일",
+ "signature": "김소윤",
+ "bank_use": {
+  "branch": "분당지점",
+  "clerk": "이채준",
+  "manager": "여소수"
+ }
+}

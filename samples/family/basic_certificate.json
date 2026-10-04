@@ -1,0 +1,24 @@
+{
+ "document_type": "기본증명서",
+ "reg_base": "서울특별시 마포구 서교동 159",
+ "self": {
+  "relation": "본인",
+  "name": "김소윤",
+  "name_hanja": "金素允",
+  "birth": "1990년 11월 21일",
+  "rrn": "901121-2******",
+  "gender": "여",
+  "bon": "安東"
+ },
+ "birth": {
+  "place": "대전광역시 유성구 도룡동",
+  "reported": "1990년 12월 06일",
+  "reporter": "모"
+ },
+ "issue_date": "2025년 11월 29일",
+ "issuer": "광주광역시 서구청장",
+ "issue_time": "12시 17분",
+ "officer": "주진원",
+ "officer_phone": "062-378-1180",
+ "applicant": "김소윤"
+}

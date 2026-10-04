@@ -1,0 +1,20 @@
+{
+ "document_type": "여권",
+ "type": "PM",
+ "country_code": "KOR",
+ "passport_no": "S26969009",
+ "surname": "KIM",
+ "given_names": "SOYUN",
+ "name_korean": "김소윤",
+ "nationality": "REPUBLIC OF KOREA",
+ "date_of_birth": "21 NOV 1990",
+ "sex": "F",
+ "personal_no": "2******",
+ "date_of_issue": "31 JUL 2020",
+ "date_of_expiry": "31 JUL 2030",
+ "authority": "MINISTRY OF FOREIGN AFFAIRS",
+ "mrz": {
+  "line1": "PMKORKIM<<SOYUN<<<<<<<<<<<<<<<<<<<<<<<<<<<<<",
+  "line2": "S269690097KOR9011218F3007310<<<<<<<<<<<<<<<0"
+ }
+}

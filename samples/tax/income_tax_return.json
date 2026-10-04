@@ -1,0 +1,65 @@
+{
+ "document_type": "종합소득세 과세표준확정신고 및 납부계산서",
+ "tax_year": "2024",
+ "taxpayer": {
+  "name": "김소윤",
+  "rrn": "901121-2******",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+  "mobile": "010-4372-6867",
+  "email": "soyun407@hanmail.net",
+  "trade_name": "넥스트몰",
+  "biz_no": "129-20-96799",
+  "biz_address": "서울특별시 송파구 중대로 398, 12층 13호 (잠실동, 에이스지식산업센터)"
+ },
+ "bookkeeping": "간편장부대상자",
+ "filing_type": "간편장부",
+ "filing_kind": "정기신고",
+ "income": {
+  "interest": "0",
+  "dividend": "0",
+  "business": "15,122,480",
+  "wage": "0",
+  "pension": "0",
+  "other": "0",
+  "total": "15,122,480"
+ },
+ "deductions": {
+  "persons": "4명",
+  "personal": "6,000,000",
+  "pension": "1,361,010",
+  "yellow_umbrella": "3,600,000",
+  "total": "10,961,010"
+ },
+ "national": {
+  "total_income": "15,122,480",
+  "deduction": "10,961,010",
+  "base": "4,161,470",
+  "rate": "6%",
+  "computed": "249,688",
+  "reduction": "0",
+  "credit": "90,000",
+  "determined": "159,688",
+  "penalty": "0",
+  "total": "159,688",
+  "prepaid": "74,380",
+  "payable": "85,300",
+  "installment": "0",
+  "due_payable": "85,300"
+ },
+ "local": {
+  "base": "4,161,470",
+  "rate": "0.6%",
+  "computed": "24,968",
+  "reduction": "0",
+  "credit": "9,000",
+  "determined": "15,968",
+  "penalty": "0",
+  "total": "15,968",
+  "prepaid": "0",
+  "payable": "15,960",
+  "due_payable": "15,960"
+ },
+ "filed_date": "2025년 05월 28일",
+ "tax_office": "치평세무서장",
+ "local_office": "광주광역시 서구청장"
+}

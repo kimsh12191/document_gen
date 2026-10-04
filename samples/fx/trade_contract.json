@@ -1,0 +1,50 @@
+{
+ "document_type": "무역 매매계약서(Sales Contract)",
+ "contract_no": "TSK-SC-25559",
+ "contract_date": "14 OCT 2025",
+ "seller": {
+  "name": "Tokyo Seimitsu Kogyo K.K.",
+  "address": "2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN",
+  "signer": "Kenji Sato",
+  "title": "General Manager"
+ },
+ "buyer": {
+  "name": "SAEHAN SOFT CO., LTD.",
+  "address": "8F, DONGBANG PLAZA, 22-7 GUKJEGEUMYUNG-RO, YEONGDEUNGPO-GU, SEOUL 07028, KOREA",
+  "signer": "Kim Soyun",
+  "title": "President & CEO"
+ },
+ "items": [
+  {
+   "description": "Multilayer Ceramic Capacitor 0402 100nF 16V",
+   "model": "CL05-920S",
+   "quantity": "12,900,000 PCS",
+   "unit_price": "JPY 1.42",
+   "amount": "JPY 18,318,000"
+  },
+  {
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "model": "INR18650-797S",
+   "quantity": "16,400 PCS",
+   "unit_price": "JPY 474",
+   "amount": "JPY 7,769,500"
+  },
+  {
+   "description": "LED Driver IC, SOP-8",
+   "model": "LD-127A",
+   "quantity": "440,000 PCS",
+   "unit_price": "JPY 36.19",
+   "amount": "JPY 15,923,600"
+  }
+ ],
+ "total_amount": "JPY 42,011,100",
+ "total_words": "SAY JAPANESE YEN FORTY TWO MILLION ELEVEN THOUSAND ONE HUNDRED ONLY",
+ "clauses": {
+  "price_terms": "FOB TOKYO, JAPAN (INCOTERMS 2020), prices in JPY.",
+  "shipment": "Shipment from TOKYO, JAPAN to BUSAN, KOREA not later than November 22, 2025. Partial shipments allowed, transshipment not allowed.",
+  "payment": "Documents against payment at sight through the Buyer's bank.",
+  "packing": "Export standard packing in cartons, suitable for ocean transportation.",
+  "inspection": "Seller's inspection at factory shall be final as to quality and quantity.",
+  "governing_law": "This contract shall be governed by the laws of the Republic of Korea. Any dispute shall be finally settled by arbitration in Seoul under the rules of the Korean Commercial Arbitration Board."
+ }
+}

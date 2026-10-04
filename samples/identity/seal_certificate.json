@@ -1,0 +1,17 @@
+{
+ "document_type": "인감증명서",
+ "doc_no": "1150-6716-9243",
+ "applicant_type": "본인",
+ "seal_name": "김소윤인",
+ "person": {
+  "name": "김소윤",
+  "name_hanja": "金素允",
+  "rrn": "901121-2030821",
+  "nationality": "대한민국",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)"
+ },
+ "usage_type": "일반용",
+ "purpose": "은행 대출용",
+ "issue_date": "2025년 11월 29일",
+ "issuer": "광주광역시 서구 치평동장"
+}

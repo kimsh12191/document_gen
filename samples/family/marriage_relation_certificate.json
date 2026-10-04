@@ -1,0 +1,34 @@
+{
+ "document_type": "혼인관계증명서",
+ "reg_base": "서울특별시 마포구 서교동 159",
+ "self": {
+  "relation": "본인",
+  "name": "김소윤",
+  "name_hanja": "金素允",
+  "birth": "1990년 11월 21일",
+  "rrn": "901121-2******",
+  "gender": "여",
+  "bon": "安東"
+ },
+ "spouse": {
+  "relation": "배우자",
+  "name": "김승성",
+  "name_hanja": "金承誠",
+  "birth": "1990년 03월 06일",
+  "rrn": "900306-1******",
+  "gender": "남",
+  "bon": "金海"
+ },
+ "marriage": {
+  "reported": "2016년 07월 31일",
+  "spouse_name": "김승성",
+  "spouse_rrn": "900306-1******",
+  "office": "광주광역시 서구"
+ },
+ "issue_date": "2025년 11월 29일",
+ "issuer": "광주광역시 서구 치평동장",
+ "issue_time": "12시 35분",
+ "officer": "황동윤",
+ "officer_phone": "062-363-9123",
+ "applicant": "김소윤"
+}

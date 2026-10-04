@@ -1,0 +1,57 @@
+{
+ "document_type": "학비 청구서(Tuition Invoice)",
+ "university": {
+  "name": "Westlake State University",
+  "office": "Office of Student Accounts",
+  "address": "1800 Lakeview Dr, Seattle, WA 98105, USA"
+ },
+ "student": {
+  "name": "Soyun Kim",
+  "id": "N42700432",
+  "program": "Master of Science (M.S.) in Data Science"
+ },
+ "invoice_no": "INV-2026652006",
+ "invoice_date": "October 26, 2025",
+ "term": "Spring 2026",
+ "items": [
+  {
+   "description": "Tuition - Graduate",
+   "amount": "$25,650.00"
+  },
+  {
+   "description": "Student Activity Fee",
+   "amount": "$430.00"
+  },
+  {
+   "description": "Technology Fee",
+   "amount": "$359.00"
+  },
+  {
+   "description": "Student Health Insurance Plan",
+   "amount": "$1,697.00"
+  },
+  {
+   "description": "International Student Service Fee",
+   "amount": "$318.00"
+  },
+  {
+   "description": "On-Campus Housing",
+   "amount": "$8,460.00"
+  },
+  {
+   "description": "Meal Plan",
+   "amount": "$2,830.00"
+  }
+ ],
+ "total": "USD 39,744.00",
+ "due_date": "January 01, 2026",
+ "bank": {
+  "beneficiary": "Westlake State University",
+  "bank_name": "Bank of America, N.A.",
+  "swift": "BOFAUS3N",
+  "account": "321450801",
+  "routing_label": "ABA Routing No.",
+  "routing": "041250495",
+  "reference": "N42700432 Soyun Kim"
+ }
+}

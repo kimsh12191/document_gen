@@ -1,0 +1,56 @@
+{
+ "document_type": "근로소득 원천징수영수증",
+ "copy_type": "발행자 보고용",
+ "year": "2024",
+ "resident": "거주자1",
+ "household_head": "세대원",
+ "settlement_type": "계속근로",
+ "payer": {
+  "name": "(주)새한소프트",
+  "ceo": "박연윤",
+  "biz_no": "458-86-13197",
+  "corp_no": "130111-2378651",
+  "address": "전라남도 여수시 여수시민로 411, 2층"
+ },
+ "earner": {
+  "name": "김소윤",
+  "rrn": "901121-2030821",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)"
+ },
+ "work": {
+  "company": "(주)새한소프트",
+  "biz_no": "458-86-13197",
+  "period": "2024.01.01 ~ 2024.12.31",
+  "salary": "62,330,000",
+  "bonus": "0",
+  "total": "62,330,000"
+ },
+ "nontax": {
+  "meal": "2,400,000",
+  "total": "2,400,000"
+ },
+ "calc": {
+  "total_pay": "62,330,000",
+  "earned_deduction": "12,866,500",
+  "earned_income": "49,463,500",
+  "personal": "6,000,000",
+  "pension": "2,804,760",
+  "special": "3,056,610",
+  "card": "2,954,110",
+  "tax_base": "34,648,020",
+  "calc_tax": "3,937,203",
+  "earned_credit": "660,000",
+  "child_credit": "0",
+  "special_credit": "0"
+ },
+ "tax": {
+  "final_income": "3,277,200",
+  "final_local": "327,720",
+  "prepaid_income": "3,720,240",
+  "prepaid_local": "372,020",
+  "diff_income": "-443,040",
+  "diff_local": "-44,300"
+ },
+ "issue_date": "2025년 3월 5일",
+ "tax_office": "여서세무서장"
+}

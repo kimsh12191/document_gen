@@ -1,0 +1,38 @@
+{
+ "document_type": "여신거래약정서(가계용)",
+ "bank": "농협은행",
+ "creditor": "주식회사 농협은행",
+ "branch": "분당지점",
+ "debtor": {
+  "name": "김소윤",
+  "rrn": "901121-2030821",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+  "phone": "010-4372-6867"
+ },
+ "loan": {
+  "subject": "전세자금대출",
+  "product": "HUG 전세보증금대출",
+  "method": "개별거래",
+  "account_no": "715-4432-7750-59",
+  "amount_korean": "금 이억칠천이백만원整",
+  "amount": "272,000,000원",
+  "start_date": "2025.12.07",
+  "maturity": "2027.12.07",
+  "rate_type": "고정금리",
+  "base_rate_name": "금융채 5년물(AAA)",
+  "base_rate": "3.00%",
+  "spread": "1.23%",
+  "pref_rate": "0.20%",
+  "applied_rate": "연 4.03%",
+  "rate_reset": "해당없음(만기까지 고정)",
+  "late_rate": "약정이자율 + 연 3%p (연 7.03%, 최고 연 15%)",
+  "repayment": "만기일시상환",
+  "prepay_fee": "0.70% × 중도상환금액 × 잔존기간/대출기간 (3년 이내)",
+  "interest_calc": "1년을 365일(윤년 366일)로 보고 1일 단위로 계산",
+  "interest_pay": "매월 10일 (후취)",
+  "debit_account": "농협은행 628-8975-1402-61"
+ },
+ "explained": "예",
+ "contract_date": "2025년 12월 6일",
+ "signature": "김소윤"
+}
