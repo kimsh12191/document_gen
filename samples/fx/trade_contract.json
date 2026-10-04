@@ -1,7 +1,5 @@
 {
  "document_type": "무역 매매계약서(Sales Contract)",
- "contract_no": "TSK-SC-25559",
- "contract_date": "14 OCT 2025",
  "seller": {
   "name": "Tokyo Seimitsu Kogyo K.K.",
   "address": "2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN",
@@ -14,6 +12,8 @@
   "signer": "Kim Soyun",
   "title": "President & CEO"
  },
+ "contract_no": "TSK-SC-25559",
+ "contract_date": "14 OCT 2025",
  "items": [
   {
    "description": "Multilayer Ceramic Capacitor 0402 100nF 16V",
@@ -41,10 +41,14 @@
  "total_words": "SAY JAPANESE YEN FORTY TWO MILLION ELEVEN THOUSAND ONE HUNDRED ONLY",
  "clauses": {
   "price_terms": "FOB TOKYO, JAPAN (INCOTERMS 2020), prices in JPY.",
-  "shipment": "Shipment from TOKYO, JAPAN to BUSAN, KOREA not later than November 22, 2025. Partial shipments allowed, transshipment not allowed.",
-  "payment": "Documents against payment at sight through the Buyer's bank.",
+  "origin": "Japan",
   "packing": "Export standard packing in cartons, suitable for ocean transportation.",
+  "shipping_mark": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-192\nMADE IN JAPAN",
+  "shipment": "Not later than November 22, 2025. Partial shipments allowed, transshipment not allowed.",
+  "port_of_shipment": "TOKYO, JAPAN",
+  "destination": "BUSAN, KOREA",
+  "payment": "Documents against payment at sight through the Buyer's bank.",
   "inspection": "Seller's inspection at factory shall be final as to quality and quantity.",
-  "governing_law": "This contract shall be governed by the laws of the Republic of Korea. Any dispute shall be finally settled by arbitration in Seoul under the rules of the Korean Commercial Arbitration Board."
+  "arbitration": "Any dispute shall be finally settled by arbitration in Seoul under the Arbitration Rules of the Korean Commercial Arbitration Board."
  }
 }

@@ -1,6 +1,11 @@
 {
  "document_type": "정관",
  "company_name": "주식회사 새한소프트",
+ "revision_history": [
+  "제정 2021.12.08",
+  "개정 2023.10.07",
+  "개정 2025.02.17"
+ ],
  "company_name_en": "Saehan Soft Co., Ltd.",
  "purposes": [
   "1. 응용 소프트웨어 개발 및 공급업",
@@ -15,11 +20,10 @@
  "authorized_shares": "100,000주",
  "par_value": "금 5,000원",
  "initial_shares": "20,000주",
- "effective_date": "2017년 3월 18일",
- "revision_history": [
-  "제정 2017.03.18",
-  "개정 2023.01.21",
-  "개정 2024.08.21"
+ "effective_date": "2021년 12월 8일",
+ "revision_effective": [
+  "2023년 10월 7일",
+  "2025년 2월 17일"
  ],
  "certify_date": "2025.11.26",
  "ceo_name": "김소윤"

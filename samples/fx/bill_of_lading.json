@@ -17,6 +17,7 @@
  },
  "pre_carriage": "TRUCK",
  "place_of_receipt": "TOKYO CY",
+ "origin": "JAPAN",
  "vessel_voyage": "CORAL VOYAGER 016E",
  "port_of_loading": "TOKYO, JAPAN",
  "port_of_discharge": "BUSAN, KOREA",
@@ -29,6 +30,7 @@
   }
  ],
  "marks": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-192\nMADE IN JAPAN",
+ "container_count": "1 X 20'GP",
  "packages": "192 CTNS",
  "description": "Multilayer Ceramic Capacitor 0402 100nF 16V  12,900,000 PCS\nLi-ion Battery Cell 18650 3.6V 3000mAh  16,400 PCS\nLED Driver IC, SOP-8  440,000 PCS",
  "freight": "FREIGHT COLLECT",

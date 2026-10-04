@@ -12,8 +12,8 @@
   "company": "(주)새한소프트"
  },
  "account_type": "보통예금",
- "purpose": "급여 및 아르바이트",
- "evidence": "재직증명서",
+ "purpose": "급여계좌",
+ "evidence": "근로소득원천징수영수증",
  "questions": {
   "q1": "아니오",
   "q2": "아니오",

@@ -5,24 +5,20 @@
  },
  "holder": {
   "name": "김소윤",
-  "name_en": "KIM SOYUN",
+  "surname_en": "KIM",
+  "given_en": "SOYUN",
   "birth": "1990-11-21",
-  "nationality": "대한민국 (KOREA)",
+  "mobile": "010-4372-6867",
   "birth_place": "대한민국 (KOREA)",
+  "nationality": "대한민국 (KOREA)",
   "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)"
  },
- "us_person": "아니오",
- "residences": [
-  {
-   "country": "대한민국 (KOREA)",
-   "tin": "901121-2******"
-  }
- ],
- "date": "2025년 11월 29일",
+ "residence_category": "해당사항 없음",
+ "date": "2025.11.29",
  "signature": "김소윤",
  "bank_use": {
   "branch": "분당지점",
-  "clerk": "이채준",
-  "manager": "여소수"
+  "clerk": "배훈희",
+  "manager": "남나혜"
  }
 }

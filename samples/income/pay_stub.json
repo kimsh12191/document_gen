@@ -1,20 +1,15 @@
 {
  "document_type": "급여명세서",
- "title_month": "2025년 11월",
+ "doc_title": "임금명세서",
+ "title_month": "2025년 11월분",
  "company": "(주)새한소프트",
  "pay_date": "2025-11-15",
  "employee": {
   "name": "김소윤",
+  "birth": "1990-11-21",
   "employee_no": "H94296",
   "department": "경영지원팀",
-  "position": "차장",
-  "hire_date": "2014-12-01"
- },
- "account": "농협은행 628-8975-1402-61",
- "work": {
-  "days": "20일",
-  "hours": "160시간",
-  "overtime_hours": "0시간"
+  "position": "차장"
  },
  "payments": [
   {
@@ -67,26 +62,45 @@
  "pay_total": "5,583,330",
  "deduction_total": "836,890",
  "net_pay": "4,746,440",
+ "work": {
+  "days": "20",
+  "hours": "160",
+  "overtime_hours": "0",
+  "night_hours": "0",
+  "holiday_hours": "0",
+  "hourly_wage": "24,800",
+  "family": "배우자 1명, 자녀 2명"
+ },
  "calc_methods": [
   {
    "item": "국민연금",
-   "method": "기준소득월액 × 4.5%"
+   "method": "기준소득월액 5,183,000원 × 4.5%",
+   "amount": "233,230"
   },
   {
    "item": "건강보험",
-   "method": "보수월액 × 3.545%"
+   "method": "보수월액 × 3.545%",
+   "amount": "183,740"
   },
   {
    "item": "장기요양보험",
-   "method": "건강보험료 × 12.95%"
+   "method": "건강보험료 × 12.95%",
+   "amount": "23,790"
   },
   {
    "item": "고용보험",
-   "method": "과세급여 × 0.9%"
+   "method": "과세대상 임금 × 0.9%",
+   "amount": "46,640"
+  },
+  {
+   "item": "소득세",
+   "method": "근로소득 간이세액표 적용",
+   "amount": "308,630"
   },
   {
    "item": "지방소득세",
-   "method": "소득세 × 10%"
+   "method": "소득세 × 10%",
+   "amount": "30,860"
   }
  ]
 }

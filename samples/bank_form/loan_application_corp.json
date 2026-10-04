@@ -8,9 +8,10 @@
   "biz_no": "530-82-09978",
   "corp_no": "135012-6946558",
   "ceo": "김소윤",
-  "established": "2017.03.18",
+  "established": "2021.12.08",
   "industry": "정보통신업 / 응용소프트웨어 개발",
   "employees": "308명",
+  "size": "중소기업",
   "capital": "100,000,000원",
   "revenue": "71,301백만원",
   "revenue_year": "2024년",
@@ -28,14 +29,25 @@
   "subject": "일반자금대출",
   "product": "기업일반운전자금대출",
   "rate_type": "고정금리",
-  "amount_korean": "금 십오억원整",
+  "amount_korean": "일금 십오억원정",
   "amount": "1,500,000,000원",
-  "term": "12개월",
+  "term": "1년",
+  "hope_date": "2025-12-08",
   "repayment": "만기일시상환",
+  "fund_type": "운전자금",
   "purpose": "운전자금(인건비 등 경상비)",
+  "deposit_account": "농협은행 108-9840-3627-48",
   "collateral": "부동산",
   "collateral_detail": "본사 사옥(서울특별시 영등포구 소재) 근저당권 설정, 채권최고액 1,800,000,000원"
  },
+ "other_loans": [
+  {
+   "lender": "수협은행",
+   "kind": "구매자금대출",
+   "balance": "1,300",
+   "collateral": "예금"
+  }
+ ],
  "apply_date": "2025년 11월 29일",
  "signature": "김소윤"
 }

@@ -8,13 +8,13 @@
   "name_en": "Saehan Soft Co., Ltd.",
   "biz_no": "530-82-09978",
   "corp_no": "135012-6946558",
-  "established": "2017년 03월 18일",
+  "established": "2021년 12월 08일",
   "industry": "정보통신업 / 응용소프트웨어 개발",
   "hq_address": "서울특별시 영등포구 국제금융로 22-7, 8층 (당산동, 동방프라자)",
   "biz_address": "서울특별시 영등포구 국제금융로 22-7, 8층",
   "phone": "02-9757-8466",
   "email": "contact@saehan.co.kr",
-  "corp_type": "영리법인",
+  "corp_type": "중소기업",
   "listed": "비상장"
  },
  "rep": {
@@ -38,17 +38,18 @@
   }
  ],
  "pep": "아니오",
- "date": "2025.11.29",
+ "date": "2025년 11월 29일",
  "bank_use": {
   "risk_grade": "저위험",
   "documents": [
    "사업자등록증",
    "법인등기사항전부증명서",
    "주주명부",
+   "정관",
    "법인인감증명서"
   ],
   "branch": "분당지점",
-  "clerk": "선지도",
-  "manager": "주윤호"
+  "clerk": "김환예",
+  "manager": "이환혜"
  }
 }

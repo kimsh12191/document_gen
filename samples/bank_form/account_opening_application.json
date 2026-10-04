@@ -18,6 +18,7 @@
   "name": "정기예금(일반)",
   "amount": "140,000,000원",
   "term": "6개월",
+  "interest_payment": "월이자지급",
   "linked_account": "628-8975-1402-61"
  },
  "passbook": "미발행",
@@ -31,8 +32,9 @@
  "alert": "앱 푸시",
  "mail_to": "이메일",
  "salary_transfer": "미지정",
- "date": "2025.11.29",
+ "protection_limit": "1억원",
  "signature": "김소윤",
+ "date": "2025.11.29",
  "bank_use": {
   "account_no": "895-2113-2533-03",
   "branch": "분당지점",

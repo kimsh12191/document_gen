@@ -9,10 +9,10 @@
   "address": "서울특별시 영등포구 국제금융로 22-7, 8층 (당산동, 동방프라자)"
  },
  "valid_period": "2025년 11월 29일 ~ 2025년 12월 28일",
- "purpose_type": "대금수령 이외",
- "purpose": "대출 신청",
+ "purpose_type": "기타",
+ "purpose": "금융기관 제출",
  "deferral": "해당없음",
  "arrears": "없음",
  "issue_date": "2025년 11월 29일",
- "issuer": "당산세무서장"
+ "issuer": "영등포세무서장"
 }

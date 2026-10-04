@@ -1,7 +1,7 @@
 {
- "document_type": "여신거래약정서(가계용)",
+ "document_type": "대출거래약정서(가계용)",
  "bank": "농협은행",
- "creditor": "주식회사 농협은행",
+ "creditor": "농협은행 주식회사",
  "branch": "분당지점",
  "debtor": {
   "name": "김소윤",
@@ -25,14 +25,17 @@
   "pref_rate": "0.20%",
   "applied_rate": "연 4.03%",
   "rate_reset": "해당없음(만기까지 고정)",
-  "late_rate": "약정이자율 + 연 3%p (연 7.03%, 최고 연 15%)",
-  "repayment": "만기일시상환",
-  "prepay_fee": "0.70% × 중도상환금액 × 잔존기간/대출기간 (3년 이내)",
-  "interest_calc": "1년을 365일(윤년 366일)로 보고 1일 단위로 계산",
   "interest_pay": "매월 10일 (후취)",
-  "debit_account": "농협은행 628-8975-1402-61"
+  "interest_calc": "1년을 365일(윤년 366일)로 보고 1일 단위로 계산",
+  "repayment": "만기일시상환",
+  "installment": "해당없음",
+  "debit_account": "농협은행 628-8975-1402-61",
+  "prepay_fee": "중도상환금액 × 0.60% × 잔존일수 ÷ 대출기간일수 (3년 경과 시 면제)",
+  "late_rate": "대출이자율 + 연체가산이자율 연 3% (현재 연 7.03%, 최고 연 15%)"
  },
+ "stamp_tax": "150,000원 (고객 75,000원 / 은행 75,000원)",
  "explained": "예",
+ "handwritten": "충분히 설명듣고 이해함",
  "contract_date": "2025년 12월 6일",
  "signature": "김소윤"
 }

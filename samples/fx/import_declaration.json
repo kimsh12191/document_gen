@@ -30,6 +30,9 @@
  "transport": "10 FCL",
  "export_country": "JP JAPAN",
  "vessel": "CORAL VOYAGER",
+ "master_bl": "TPMLJP94954710",
+ "carrier_code": "TPML",
+ "inspection_place": "03036774-85413653 부산신항국제터미널",
  "items": [
   {
    "line_no": "001",
@@ -89,18 +92,20 @@
    "vat_amount": "14,246,930"
   }
  ],
+ "line_total": "003",
  "payment": "FOB-JPY-42,011,100-DP",
  "exchange_rate": "8.8941",
  "total_taxable": "₩375,875,755",
  "freight": "₩1,963,274",
- "insurance": "₩261,557",
  "vat_base": "₩381,436,885",
+ "insurance": "₩261,557",
  "tax": {
   "duty": "5,561,130",
   "vat": "38,143,670",
   "total": "43,704,800"
  },
  "customs_office": "부산세관",
- "officer": "고기영",
+ "officer": "박선경",
+ "receipt_datetime": "2025/11/12 16:05",
  "accept_date": "2025/11/12"
 }

@@ -2,24 +2,25 @@
  "document_type": "근저당권설정계약서",
  "bank": "농협은행",
  "creditor": {
-  "name": "주식회사 농협은행",
+  "name": "농협은행 주식회사",
   "branch": "분당지점"
- },
- "debtor": {
-  "name": "김소윤",
-  "address": "광주광역시 서구 내방로 75, 114동 1401호"
  },
  "mortgagor": {
   "name": "김소윤",
   "rrn": "901121-2030821",
   "address": "광주광역시 서구 내방로 75, 114동 1401호"
  },
- "max_amount_korean": "금 삼억사백만원정",
+ "debtor": {
+  "name": "김소윤",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호"
+ },
+ "rank": "2",
+ "max_amount_korean": "금 삼억사백만원整",
  "max_amount": "304,000,000",
  "scope": "특정근담보",
- "secured_debt": "2025년 12월 6일자 여신거래약정에 의한 주택담보대출 금 253,000,000원",
- "settlement": "정하지 않음",
- "rank": "1순위",
+ "secured_debt": "2025년 12월 6일자 대출거래약정서(가계용)",
+ "settlement_type": "지정형",
+ "settlement": "2055년 12월 7일",
  "property": {
   "location": "광주광역시 서구 치평동 193-4 삼익센트럴아파트",
   "road_address": "광주광역시 서구 내방로 75",
@@ -28,11 +29,12 @@
   "unit": "114동 1401호",
   "kind": "아파트",
   "exclusive_area": "84.99㎡",
-  "land_right": "소유권대지권 8,921.3분의 53.80",
+  "land_right": "소유권대지권 11,128.0분의 53.80",
   "unique_no": "1928-2011-055218"
  },
  "scope_handwritten": "특정근담보",
- "contract_date": "2025년 12월 6일",
+ "handwritten_confirm": "설명을 듣고 이해함",
+ "contract_date": "2025년 12월 06일",
  "signature_debtor": "김소윤",
  "signature_mortgagor": "김소윤"
 }

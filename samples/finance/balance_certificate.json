@@ -1,42 +1,49 @@
 {
  "document_type": "잔액증명서",
- "cert_no": "제 2025-22854 호",
+ "cert_no": "제 2025-40819 호",
  "holder": {
   "name": "김소윤",
-  "rrn": "901121-2******",
-  "address": "광주광역시 서구 내방로 75, 114동 1401호"
+  "rrn": "901121-2******"
  },
  "base_date": "2025년 11월 29일 현재",
  "rows": [
   {
-   "account_no": "628-8975-1402-61",
    "kind": "저축예금",
+   "account_no": "628-8975-1402-61",
    "balance": "50,791,717",
-   "note": "신규 2010.05.18"
+   "uncleared": "0",
+   "pledge": "무",
+   "restriction": "무"
   },
   {
+   "kind": "정기적금",
    "account_no": "713-9463-7949-88",
-   "kind": "정기적금",
    "balance": "7,200,000",
-   "note": "만기 2026.11.12"
+   "uncleared": "0",
+   "pledge": "무",
+   "restriction": "무"
   },
   {
-   "account_no": "393-2543-3455-91",
    "kind": "정기적금",
+   "account_no": "393-2543-3455-91",
    "balance": "10,200,000",
-   "note": "만기 2026.03.22"
+   "uncleared": "0",
+   "pledge": "유",
+   "restriction": "무"
   },
   {
-   "account_no": "774-7902-9862-71",
    "kind": "자유적립식예금",
+   "account_no": "774-7902-9862-71",
    "balance": "9,300,000",
-   "note": "만기 2026.08.19"
+   "uncleared": "0",
+   "pledge": "유",
+   "restriction": "무"
   }
  ],
  "currency": "KRW",
  "total": "77,491,717",
  "total_korean": "금 칠천칠백사십구만일천칠백십칠원정",
- "purpose": "금융기관 제출용",
+ "purpose": "비자 발급용",
  "issue_date": "2025년 11월 29일",
  "issuer": "농협은행 분당지점장"
 }

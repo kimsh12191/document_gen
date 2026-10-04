@@ -1,23 +1,21 @@
 {
  "document_type": "국민연금 가입자 가입증명",
  "issue_no": "20251129-54497839",
+ "issue_date_head": "2025.11.29",
  "person": {
   "name": "김소윤",
-  "rrn": "901121-2030821",
-  "address": "광주광역시 서구 내방로 75, 114동 1401호"
+  "rrn": "901121-2030821"
  },
- "current_kind": "사업장가입자",
- "current_workplace": "(주)새한소프트",
+ "first_acquired": "2014.12.01",
  "total_months": "132개월",
- "purpose": "기타",
  "rows": [
   {
+   "kind": "사업장가입자",
    "workplace": "(주)새한소프트",
    "start": "2014.12.01",
-   "kind": "사업장가입자",
    "wage": "5,383,000"
   }
  ],
- "issue_date": "2025년 11월 29일",
- "issuer": "국민연금공단 광주서부지사장"
+ "purpose": "기타",
+ "issue_date": "2025년 11월 29일"
 }
