@@ -4,10 +4,10 @@
 
 | 상태 | 건수 |
 |---|---|
-| 반영(검색근거) | 43 |
-| 조사중 | 4 |
+| 반영(검색근거) | 57 |
+| 조사중 | 3 |
 | 보류 | 1 |
-| 대기 | 22 |
+| 대기 | 9 |
 | **합계** | **70 / 70** |
 
 ## 신원·신분
@@ -90,11 +90,11 @@
 
 | 서류 | ID | 근거 서식·출처 | 상태 | 주요 수정 |
 |---|---|---|---|---|
-| 법인 등기사항전부증명서(현재 유효사항) | `corporate_registry` |  | 조사중 |  |
-| 정관 | `articles_of_incorporation` |  | 대기 |  |
-| 주주명부 | `shareholder_registry` |  | 대기 |  |
-| 재무제표(재무상태표·손익계산서) | `financial_statements` |  | 대기 |  |
-| 법인인감증명서 | `corporate_seal_certificate` |  | 대기 |  |
+| 법인 등기사항전부증명서(현재 유효사항) | `corporate_registry` | 상업등기규칙 등기사항증명서(현재 유효사항), 인터넷등기소 발급본 / [헬프미 읽는법](https://www.help-me.kr/blog/article/%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%EB%B0%9C%EA%B8%89%EC%9D%BD%EB%8A%94%EB%B0%A9%EB%B2%95/), [정부24 안내](https://www.gov.kr/mw/AA020InfoCappView.do?CappBizCD=97400000001) | 반영(검색근거) | 상호를 정식 표기(주식회사 ○○)로 통일, 증자·본점이전 시 우측 변경/등기 연월일 칸 값 추가(GT capital_change·head_office_change), 목적·임원 머리줄 가운데 정렬, 법인등기에 없는 갑구·을구 각주 삭제 |
+| 정관 | `articles_of_incorporation` | 상법 제289조 절대적 기재사항, 법무부·상장회사협의회 표준정관 조문 체계 / [찾기쉬운생활법령 정관작성](https://easylaw.go.kr/CSP/CnpClsMain.laf?popMenu=ov&csmSeq=736&ccfNo=3&cciNo=1&cnpClsNo=1), [예스폼 주식회사 표준정관](https://www.yesform.com/forms/vform_151488.php) | 반영(검색근거) | 제1조 상호를 정식표기로, 제정·개정 이력을 제목 아래로 이동하고 개정마다 「부칙(개정 일자) 이 정관은 위 개정일부터 시행한다」 추가(GT revision_effective), 원본대조필 날인을 법인인감(원형)으로 교체, 여백 조정 |
+| 주주명부 | `shareholder_registry` | 상법 제352조(주주명부 기재사항) + 실무 양식(은행 제출용) / [헬프미 주주명부](https://www.help-me.kr/blog/article/%EC%A3%BC%EC%A3%BC%EB%AA%85%EB%B6%80/), [택스가이드 주주명부 양식](https://taxguide.im/blog/shareholder-list) | 반영(검색근거) | 실무 양식 항목에 맞춰 주식금액(원)·비고(대표이사·사내이사) 열과 합계금액 추가(GT amount·note·sum_amount), 주민등록번호(사업자번호) 열 제목, 지분율 소수 1·2자리 변형, 확인 날인을 법인인감(원형)으로 교체 |
+| 재무제표(재무상태표·손익계산서) | `financial_statements` |  | 조사중 |  |
+| 법인인감증명서 | `corporate_seal_certificate` | 상업등기규칙·등기예규「인감의 제출·관리와 인감증명서 발급 및 전자인감증명서에 관한 업무처리지침」 별지 양식 / [업무처리지침(LBOX)](https://lbox.kr/v2/statute-admin/%EC%9D%B8%EA%B0%90%EC%9D%98%EC%A0%9C%EC%B6%9C%E3%86%8D%EA%B4%80%EB%A6%AC%EC%99%80%EC%9D%B8%EA%B0%90%EC%A6%9D%EB%AA%85%EC%84%9C%EB%B0%9C%EA%B8%89%EB%B0%8F%EC%A0%84%EC%9E%90%EC%9D%B8%EA%B0%90%EC%A6%9D%EB%AA%85%EC%84%9C%EC%97%90%EA%B4%80%ED%95%9C%EC%97%85%EB%AC%B4%EC%B2%98%EB%A6%AC%EC%A7%80%EC%B9%A8), [헬프미 법인인감](https://www.help-me.kr/blog/article/%EB%B2%95%EC%9D%B8%EC%9D%B8%EA%B0%90%EB%93%B1%EB%A1%9D%EB%B0%8F%EC%9D%B8%EA%B0%90%EC%B9%B4%EB%93%9C%EC%8B%A0%EC%B2%AD%EC%A0%88%EC%B0%A8%EB%B3%84%ED%95%84%EC%88%98%EC%A4%80%EB%B9%84%EB%AC%BC/) | 반영(검색근거) | 증명문구를 「이 인감은 제출되어 있는 인감과 틀림없음을 증명합니다.」로 교체, 상호 정식표기(주식회사 ○○), 각주 문구 정리. 항목(등기번호·등록번호·상호·본점·자격/성명·주민등록번호) 순서는 검색결과와 일치 확인 |
 | 이사회의사록 | `board_minutes` |  | 대기 |  |
 | 임시주주총회의사록 | `shareholders_meeting_minutes` |  | 대기 |  |
 | 위임장 | `power_of_attorney` |  | 대기 |  |
@@ -106,26 +106,26 @@
 | 상업송장(Commercial Invoice) | `commercial_invoice` | 국내 무역실무 표준 C/I 양식(①~⑯ 번호식). [예스폼 Commercial Invoice](https://www.yesform.com/wdata/doc-959999.php), [트레드링스 작성법](https://www.tradlinx.com/blog/guide/%EC%BB%A4%EB%A8%B8%EC%85%9C-%EC%9D%B8%EB%B3%B4%EC%9D%B4%EC%8A%A4commercial-invoice-%EC%9E%91%EC%84%B1%EB%B2%95/) | 반영(검색근거) | 기존 ①~⑯ 번호식 구성이 국내 표준 양식과 일치함을 확인. 열 제목을 Quantity/Unit·Unit-price로 표준 표기 정정, 품목표 빈 행을 늘려 실제 양식처럼 표가 페이지 하단까지 이어지게 함. |
 | 무역 매매계약서(Sales Contract) | `trade_contract` | 국내 무역실무 물품매매계약서(SALES CONTRACT) 관행 양식(Messrs. 수신, 'We as Seller confirm having sold...' 문구, 이면 일반거래조건). [KITA 무역실무 매뉴얼](https://www.kita.net/cmmrcInfo/cmmrcPrcafsMnl/chapters/03/verse0406_02.do), [KOCW 무역계약 사례](http://contents.kocw.or.kr/KOCW/document/2015/duksung/kimsangman/5.pdf) | 반영(검색근거) | 매도인 레터헤드+Messrs.(매수인) 수신 구조와 표준 확인 문구로 변경. 조항을 국내 양식의 항목형(Price Terms·Origin·Packing·Shipping Mark·Shipment·Port of Shipment·Destination·Payment·Insurance·Inspection·Arbitration·Remarks)으로 재구성하고 원산지·화인·선적항·목적지 GT 추가. 수출 건 검사조항은 관행 문구 사용. 서명란을 ACCEPTED BY(Buyer)/Very truly yours(Seller)로 변경. |
 | 선하증권(B/L) | `bill_of_lading` | 선사 해상 선하증권 표준 레이아웃(Combined Transport B/L 관행 항목). [iContainers 작성법](https://www.icontainers.com/help/how-to-fill-out-a-bill-of-lading/), [Linbis B/L 샘플 해설](https://www.linbis.com/bill-of-lading/) | 반영(검색근거) | 기존 항목 구성이 표준 B/L과 일치함을 확인. Point and Country of Origin 칸과 컨테이너 수(예: 2 X 40'HC) 추가, 화물란에 SHIPPED ON BOARD 일자 스탬프 추가. |
-| 포장명세서(Packing List) | `packing_list` |  | 조사중 |  |
-| 수입신고필증 | `import_declaration` |  | 대기 |  |
-| 입학허가서(Letter of Admission) | `admission_letter` |  | 대기 |  |
-| 학비 청구서(Tuition Invoice) | `tuition_invoice` |  | 대기 |  |
+| 포장명세서(Packing List) | `packing_list` | 국내 무역실무 P/L 양식(C/I와 같은 ①~⑨ 상단 + 화인·품명·수량·순중량·총중량·용적). [트레드링스 작성법](https://www.tradlinx.com/blog/guide/%ED%8C%A8%ED%82%B9%EB%A6%AC%EC%8A%A4%ED%8A%B8-packing-list-%EC%9E%91%EC%84%B1%EB%B2%95/), [DGB 포장명세서 안내](https://www.dgb.co.kr/cms/fnm/sda_5/sda_54/sda_541/sda_5415/1186891_1365.html) | 반영(검색근거) | 기존 구성이 국내 양식과 일치함을 확인. 열 제목을 Marks and numbers of PKGS·Net weight·Gross weight·Measurement 표준 표기로 정정, 품목표 빈 행을 늘려 표가 하단까지 이어지게 함. |
+| 수입신고필증 | `import_declaration` | 관세법 시행규칙 [별지 제1호의3서식] 수입신고서 (UNI-PASS 수입신고필증 출력본). [law.go.kr 수입신고서 작성예](https://www.law.go.kr/LSW//flDownload.do?flSeq=159235099&bylClsCd=200203), [트레드링스 수입신고필증 보는 법](https://www.tradlinx.com/blog/guide/%EC%88%98%EC%9E%85%EC%8B%A0%EA%B3%A0%ED%95%84%EC%A6%9D-%EC%88%98%EC%9E%85%EB%A9%B4%EC%9E%A5-%EB%B3%B4%EB%8A%94-%EB%B2%95/) | 반영(검색근거) | 항목번호를 현행 서식대로 정정((4)입항일 (5)전자인보이스 (6)B/L (7)화물관리번호, 란 (27)품명~(49), (50)결제금액~(58), (59)~(61)총세액합계, (62)담당자 (63)접수일시 (64)수리일자). (24)MASTER B/L·(25)운수기관부호·(26)검사(반입)장소, (29)상표, (54)~(58) 칸, 미신고가산세 행 추가. 납세의무자 표기 순서 문구와 하단 책임·진위확인 안내문 정리. 1쪽 3란까지 표시하고 총 란수·쪽수 표기. |
+| 입학허가서(Letter of Admission) | `admission_letter` | 미국 대학 입학허가서 관행(레터헤드, Admissions Committee 명의 축하 문구, 학위·전공·입학학기, 등록예치금 기한, 유학생 재정증명·I-20 안내). [Howard Univ. 샘플](https://provost.howard.edu/sites/provost.howard.edu/files/2022-05/SAMPLE%20Admission%20Letter.pdf), [CollegeAdvisor 예시](https://www.collegeadvisor.com/resources/college-acceptance-letter/) | 반영(검색근거) | 샘플 관행 문구로 본문 수정(Admissions Committee and the entire ... community, admitted student portal 예치금, Statement of Financial Resources 제출 후 I-20 발급). 표 라벨을 Term of Entry·Classes Begin으로 조정. 대학 이메일 도메인을 머리글자(실존 대학 도메인과 충돌 가능)에서 이름 전체 기반으로 변경. |
+| 학비 청구서(Tuition Invoice) | `tuition_invoice` | 미국 대학 Bursar/Student Financial Services 학생계정 청구서(e-bill) 관행: 일자·내역·Charges·Payments/Credits, Previous Balance·Amount Due·Due Date. [Cornell 청구 절차](https://bursar.cornell.edu/students-parents/your-bursar-bill/billing-procedures), [UW-Madison Student Account](https://bursar.wisc.edu/student-tuition-account) | 반영(검색근거) | 청구 내역을 Date·Description·Charges·Payments/Credits 4열 원장형으로 변경(미국 MM/DD/YYYY, 그 외 DD/MM/YYYY), Previous Balance·New Charges·Payments/Credits·Total Amount Due 요약표 추가. 항목 GT를 amount에서 charge/credit로 분리. |
 
 ## 은행 서식
 
 | 서류 | ID | 근거 서식·출처 | 상태 | 주요 수정 |
 |---|---|---|---|---|
-| 대출거래신청서 | `loan_application` |  | 조사중 |  |
-| 기업여신 신청서 | `loan_application_corp` |  | 대기 |  |
-| 여신거래약정서(가계용) | `credit_agreement` |  | 대기 |  |
+| 대출거래신청서 | `loan_application` | 은행 자체서식 대출신청서(가계용): [하나 5-16-0178](https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2016/07/07/5160178_20160707.pdf), [신한 대출상담및신청서 3-202-0032](https://img.shinhan.com/sbank2016/form/20060418082700010029WF00001000000001.PDF) | 반영(검색근거) | 제목을 대출신청서(가계용)/대출상담 및 신청서로 변경, 은행별 서식관리번호 줄(하나·신한·국민 표기 방식), 은행별 결재란, 주택소유구분·주거형태·직업구분 추가, 부채현황·소유재산 표 추가, 대출희망일·자금용도 구분 추가, 금리인하요구권·청약철회권(금소법 제46조) 안내 및 설명서 수령 확인 추가, 법인명칭 앞 표기 |
+| 기업여신 신청서 | `loan_application_corp` | 은행별 자체서식(표준서식 없음). 항목은 여신신청 실무 자료 참고: [한경 금융NCS 여신승인 신청서](https://sgsg.hankyung.com/article/2018101925741), [신한 여신거래약정서(기업용) 4-201-0207](https://img.shinhan.com/sbank2016/form/930000027_form_20200528133904.pdf) | 반영(검색근거) | 은행별 서식관리번호 줄, 기업규모 체크, 자금용도 운전자금/시설자금 구분, 대출희망일·대출금 입금계좌 추가, 타 금융기관 여신현황 표(백만원) 추가, 업무담당자 한 줄로 압축, 제출서류 체크 한 줄, 금리인하요구권 안내, 은행 법인명칭 앞 표기 |
+| 여신거래약정서(가계용) | `credit_agreement` |  | 조사중 |  |
 | 여신거래약정서(기업용) | `credit_agreement_corp` |  | 대기 |  |
 | 근저당권설정계약서 | `collateral_agreement` |  | 대기 |  |
 | 보증약정서 | `guarantee_agreement` |  | 대기 |  |
 | 자동이체 신청서 | `auto_transfer_application` |  | 대기 |  |
-| 고객확인서(개인) | `customer_due_diligence` |  | 조사중 |  |
-| 고객확인서(법인·단체) | `corporate_customer_due_diligence` |  | 대기 |  |
-| 개인(신용)정보 수집·이용·제공·조회 동의서 | `privacy_consent` |  | 대기 |  |
-| 예금거래신청서 | `account_opening_application` |  | 대기 |  |
-| 금융거래목적확인서 | `financial_transaction_purpose` |  | 대기 |  |
+| 고객확인서(개인) | `customer_due_diligence` | 특정금융정보법 제5조의2, 은행 고객거래확인서(개인·개인사업자용) 관행 ([신한 고객거래확인서](http://img.shinhan.com/nexhpe/download/ftpfile/data0/20121022182213_remotebusiness_06.pdf), [IBK저축은행 서식](https://www.ibksb.co.kr/download/1478183165)) | 반영(검색근거) | 제목을 고객거래확인서(개인·개인사업자용)로 변경, 구분(내국인/재외국민/외국인)·성별 추가, 직업 9종 및 급여소득자(직장명·부서/직위·업종·직장전화)/개인사업자(상호·사업자번호·업태/종목·개업일) 구분, 거래목적 8종·자금원천 9종 실제 선택지로 확장, 실제소유자 미해당 시 기재란, 하단 서식번호 줄 |
+| 고객확인서(법인·단체) | `corporate_customer_due_diligence` | 특정금융정보법 시행령 제10조의5(실제소유자 3단계), 금융사 고객거래확인서(법인/단체) ([하나카드 KYC 서식](https://www.hanacard.co.kr/ATTACH/WWW/pdf/inhabit/kyc.pdf), [DB생명 서식](https://www.idblife.com/assets/Guide_owner_241212.pdf)) | 반영(검색근거) | 제목을 고객거래확인서(법인·단체용)로 변경, 법인구분을 대기업/중소기업/국가·지자체·공공단체/금융기관/비영리/외국법인 6종으로, 설립목적(비영리 필수)란 추가, 실제소유자 1~3단계 정의 문구를 시행령 문언에 맞춤, 실제소유자 지분율 내림차순 정렬, 하단 서식번호 줄 |
+| 개인(신용)정보 수집·이용·제공·조회 동의서 | `privacy_consent` | 금융권 표준 개인(신용)정보 동의서(여신 금융거래 필수/선택) ([카카오뱅크 여신 필수동의](https://og.kakaobank.io/download/d0dbab62-97a5-4587-af47-7ce9762b94d8), [하나저축은행 여신 필수동의](https://www.hanasavings.com/html/loan/sunshine/Terms2_sunshine.html), [하나은행 5-06-0753](https://image.kebhana.com/cont/download/documents/provide/5006008760000_20181026.pdf)) | 반영(검색근거) | 표준서식 순서(목적→보유·이용기간→거부권리·불이익→항목)로 재배열, 항목을 개인식별·신용거래·신용능력·신용도판단·공공정보로 정리, 고유식별정보를 수집 표에 통합, 동의 문구를 '위 ...에 동의하십니까?' 형식으로, 제공표 열 제목을 '제공받는 자의 이용 목적/제공하는 항목/보유·이용 기간'으로, 신용조회회사→개인신용평가회사, 한국신용정보원 이용목적 문구, '필수 동의만으로 계약 체결 가능' 문구 추가, 상단 은행 귀중 |
+| 예금거래신청서 | `account_opening_application` | 은행 자체 서식(공통 항목), 금융실명법 제3조 제3항 차명거래 금지 설명의무, 예금자보호법 시행령(2025.9.1. 1억원) ([금융위 보도자료](https://www.fsc.go.kr/no010101/84974), [easylaw 금융실명거래](https://easylaw.go.kr/CSP/CnpClsMain.laf?popMenu=ov&csmSeq=1771&ccfNo=2&cciNo=1&cnpClsNo=1)) | 반영(검색근거) | 차명거래 금지 설명 확인란(법정 문구+확인자 서명) 추가, 예금자보호 문구를 표준 안내문(1인당 원금+소정이자, 여타 보호상품 합산)으로 바꾸고 작성일 기준 한도(2025.9.1. 전 5천만원/이후 1억원)를 GT 필드로, 주택청약종합저축은 비보호 문구, 정기예금 이자지급방법 추가 |
+| 금융거래목적확인서 | `financial_transaction_purpose` |  | 조사중 |  |
 | 해외송금신청서 | `overseas_remittance_application` |  | 대기 |  |
 | 해외금융계좌 납세자 확인서(개인) | `fatca_crs` |  | 대기 |  |

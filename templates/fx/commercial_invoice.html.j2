@@ -23,7 +23,7 @@ table.gd tr.fill td { height: 100%; }
 <table class="ci">
   <colgroup><col style="width:28%"><col style="width:27%"><col style="width:22.5%"><col style="width:22.5%"></colgroup>
   <tr>
-    <td colspan="2"><span class="lb">① Shipper / Exporter</span><span class="v">{{ f("shipper.name", label="Shipper/Exporter") }}</span><br>{{ f("shipper.address", label="Shipper Address") }}</td>
+    <td colspan="2"><span class="lb">① Shipper/Exporter</span><span class="v">{{ f("shipper.name", label="Shipper/Exporter") }}</span><br>{{ f("shipper.address", label="Shipper Address") }}</td>
     <td colspan="2"><span class="lb">⑧ No. &amp; date of invoice</span><span class="v">{{ f("invoice_no", label="Invoice No") }}</span><br>{{ f("invoice_date", label="Invoice Date") }}</td>
   </tr>
   <tr>
@@ -51,18 +51,18 @@ table.gd tr.fill td { height: 100%; }
 </table>
 <table class="gd">
   <colgroup><col style="width:21%"><col style="width:33%"><col style="width:15%"><col style="width:13%"><col style="width:18%"></colgroup>
-  <tr><th>⑫ Marks and numbers of PKGS</th><th>⑬ Description of goods</th><th>⑭ Quantity</th><th>⑮ Unit price</th><th>⑯ Amount</th></tr>
+  <tr><th>⑫ Marks and numbers of PKGS</th><th>⑬ Description of goods</th><th>⑭ Quantity/Unit</th><th>⑮ Unit-price</th><th>⑯ Amount</th></tr>
   <tr><td></td><td></td><td></td><td colspan="2" class="c small bold">{{ val("terms.delivery").split(" (")[0] }}</td></tr>
   {% for it in d["items"] %}{% set pre = "items." ~ loop.index0 ~ "." %}
   <tr>
-    {% if loop.first %}<td class="marks" rowspan="{{ 7 }}">{{ f("marks", label="Marks and Numbers") }}</td>{% endif %}
+    {% if loop.first %}<td class="marks" rowspan="{{ 13 }}">{{ f("marks", label="Marks and Numbers") }}</td>{% endif %}
     <td>{{ f(pre ~ "description", label="Description of Goods") }}<br><span class="small">MODEL: {{ f(pre ~ "model", label="Model") }}</span></td>
-    <td class="num">{{ f(pre ~ "quantity", label="Quantity") }}</td>
-    <td class="num">{{ f(pre ~ "unit_price", label="Unit Price") }}</td>
+    <td class="num">{{ f(pre ~ "quantity", label="Quantity/Unit") }}</td>
+    <td class="num">{{ f(pre ~ "unit_price", label="Unit-price") }}</td>
     <td class="num">{{ f(pre ~ "amount", label="Amount") }}</td>
   </tr>
   {% endfor %}
-  {% for _ in range(7 - d["items"]|length) %}<tr><td>&nbsp;</td><td></td><td></td><td></td></tr>{% endfor %}
+  {% for _ in range(13 - d["items"]|length) %}<tr><td>&nbsp;</td><td></td><td></td><td></td></tr>{% endfor %}
   <tr class="tot"><td colspan="2" class="right">TOTAL : &nbsp;{{ f("total_quantity", label="Total Packages") }}</td><td></td><td></td>
     <td class="num">{{ f("total_amount", label="Total Amount") }}</td></tr>
 </table>

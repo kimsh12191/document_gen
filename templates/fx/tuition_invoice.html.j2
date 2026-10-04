@@ -14,6 +14,9 @@
 .meta th { color: #444; font-weight: 600; }
 table.it th { text-align: left; }
 table.it td.num, table.it th.num { text-align: right; }
+table.sm { width: 330px; margin: 6px 0 0 auto; }
+table.sm th { text-align: left; }
+table.sm tr.tot th, table.sm tr.tot td { font-weight: 700; border-top: 2px solid var(--border); }
 table.it tr.tot td { font-weight: 700; border-top: 2px solid var(--border); background: var(--label-bg); }
 .pay { border: 1.5px solid var(--border); padding: 8px 12px; margin-top: 14px; }
 .pay h3 { margin: 0 0 6px; font-size: calc(var(--fs) + 1px); color: var(--accent); }
@@ -41,12 +44,19 @@ table.it tr.tot td { font-weight: 700; border-top: 2px solid var(--border); back
   </table>
 </div>
 <table class="it">
-  <colgroup><col><col style="width:180px"></colgroup>
-  <tr><th>Description</th><th class="num">Amount</th></tr>
+  <colgroup><col style="width:100px"><col><col style="width:130px"><col style="width:130px"></colgroup>
+  <tr><th>Date</th><th>Description</th><th class="num">Charges</th><th class="num">Payments/Credits</th></tr>
   {% for it in d["items"] %}{% set pre = "items." ~ loop.index0 ~ "." %}
-  <tr><td>{{ f(pre ~ "description", label="Description") }}</td><td class="num">{{ f(pre ~ "amount", label="Amount") }}</td></tr>
+  <tr><td>{{ f(pre ~ "date", label="Date") }}</td><td>{{ f(pre ~ "description", label="Description") }}</td>
+    <td class="num">{% if it.charge is defined %}{{ f(pre ~ "charge", label="Charges") }}{% endif %}</td>
+    <td class="num">{% if it.credit is defined %}{{ f(pre ~ "credit", label="Payments/Credits") }}{% endif %}</td></tr>
   {% endfor %}
-  <tr class="tot"><td>TOTAL AMOUNT DUE</td><td class="num">{{ f("total", label="Total Amount Due") }}</td></tr>
+</table>
+<table class="sm">
+  <tr><th>Previous Balance</th><td class="num">{{ f("summary.previous_balance", label="Previous Balance") }}</td></tr>
+  <tr><th>New Charges</th><td class="num">{{ f("summary.charges", label="New Charges") }}</td></tr>
+  <tr><th>Payments/Credits</th><td class="num">{{ f("summary.credits", label="Payments/Credits") }}</td></tr>
+  <tr class="tot"><th>TOTAL AMOUNT DUE</th><td class="num">{{ f("total", label="Total Amount Due") }}</td></tr>
 </table>
 <div class="due">Payment Due Date: <b>{{ f("due_date", label="Due Date") }}</b></div>
 <div class="pay">

@@ -2,19 +2,30 @@
 
 | 서류 | ID | 근거 서식·출처 | 상태 | 주요 수정 |
 |---|---|---|---|---|
-| 상업송장(Commercial Invoice) | `commercial_invoice` |  | 대기 |  |
-| 무역 매매계약서(Sales Contract) | `trade_contract` |  | 대기 |  |
-| 선하증권(B/L) | `bill_of_lading` |  | 대기 |  |
-| 포장명세서(Packing List) | `packing_list` |  | 대기 |  |
-| 수입신고필증 | `import_declaration` |  | 대기 |  |
-| 입학허가서(Letter of Admission) | `admission_letter` |  | 대기 |  |
-| 학비 청구서(Tuition Invoice) | `tuition_invoice` |  | 대기 |  |
-| 등기사항전부증명서(집합건물) | `real_estate_registry` |  | 대기 |  |
-| 집합건축물대장(전유부) | `building_register` |  | 대기 |  |
-| 토지대장 | `land_register` |  | 대기 |  |
-| 부동산 매매계약서 | `sales_contract` |  | 대기 |  |
-| 주택임대차표준계약서 | `lease_contract` |  | 대기 |  |
-| 전입세대확인서 | `move_in_household_list` |  | 대기 |  |
+| 상업송장(Commercial Invoice) | `commercial_invoice` | 국내 무역실무 표준 C/I 양식(①~⑯ 번호식). [예스폼 Commercial Invoice](https://www.yesform.com/wdata/doc-959999.php), [트레드링스 작성법](https://www.tradlinx.com/blog/guide/%EC%BB%A4%EB%A8%B8%EC%85%9C-%EC%9D%B8%EB%B3%B4%EC%9D%B4%EC%8A%A4commercial-invoice-%EC%9E%91%EC%84%B1%EB%B2%95/) | 반영(검색근거) | 기존 ①~⑯ 번호식 구성이 국내 표준 양식과 일치함을 확인. 열 제목을 Quantity/Unit·Unit-price로 표준 표기 정정, 품목표 빈 행을 늘려 실제 양식처럼 표가 페이지 하단까지 이어지게 함. |
+| 무역 매매계약서(Sales Contract) | `trade_contract` | 국내 무역실무 물품매매계약서(SALES CONTRACT) 관행 양식(Messrs. 수신, 'We as Seller confirm having sold...' 문구, 이면 일반거래조건). [KITA 무역실무 매뉴얼](https://www.kita.net/cmmrcInfo/cmmrcPrcafsMnl/chapters/03/verse0406_02.do), [KOCW 무역계약 사례](http://contents.kocw.or.kr/KOCW/document/2015/duksung/kimsangman/5.pdf) | 반영(검색근거) | 매도인 레터헤드+Messrs.(매수인) 수신 구조와 표준 확인 문구로 변경. 조항을 국내 양식의 항목형(Price Terms·Origin·Packing·Shipping Mark·Shipment·Port of Shipment·Destination·Payment·Insurance·Inspection·Arbitration·Remarks)으로 재구성하고 원산지·화인·선적항·목적지 GT 추가. 수출 건 검사조항은 관행 문구 사용. 서명란을 ACCEPTED BY(Buyer)/Very truly yours(Seller)로 변경. |
+| 선하증권(B/L) | `bill_of_lading` | 선사 해상 선하증권 표준 레이아웃(Combined Transport B/L 관행 항목). [iContainers 작성법](https://www.icontainers.com/help/how-to-fill-out-a-bill-of-lading/), [Linbis B/L 샘플 해설](https://www.linbis.com/bill-of-lading/) | 반영(검색근거) | 기존 항목 구성이 표준 B/L과 일치함을 확인. Point and Country of Origin 칸과 컨테이너 수(예: 2 X 40'HC) 추가, 화물란에 SHIPPED ON BOARD 일자 스탬프 추가. |
+| 포장명세서(Packing List) | `packing_list` | 국내 무역실무 P/L 양식(C/I와 같은 ①~⑨ 상단 + 화인·품명·수량·순중량·총중량·용적). [트레드링스 작성법](https://www.tradlinx.com/blog/guide/%ED%8C%A8%ED%82%B9%EB%A6%AC%EC%8A%A4%ED%8A%B8-packing-list-%EC%9E%91%EC%84%B1%EB%B2%95/), [DGB 포장명세서 안내](https://www.dgb.co.kr/cms/fnm/sda_5/sda_54/sda_541/sda_5415/1186891_1365.html) | 반영(검색근거) | 기존 구성이 국내 양식과 일치함을 확인. 열 제목을 Marks and numbers of PKGS·Net weight·Gross weight·Measurement 표준 표기로 정정, 품목표 빈 행을 늘려 표가 하단까지 이어지게 함. |
+| 수입신고필증 | `import_declaration` | 관세법 시행규칙 [별지 제1호의3서식] 수입신고서 (UNI-PASS 수입신고필증 출력본). [law.go.kr 수입신고서 작성예](https://www.law.go.kr/LSW//flDownload.do?flSeq=159235099&bylClsCd=200203), [트레드링스 수입신고필증 보는 법](https://www.tradlinx.com/blog/guide/%EC%88%98%EC%9E%85%EC%8B%A0%EA%B3%A0%ED%95%84%EC%A6%9D-%EC%88%98%EC%9E%85%EB%A9%B4%EC%9E%A5-%EB%B3%B4%EB%8A%94-%EB%B2%95/) | 반영(검색근거) | 항목번호를 현행 서식대로 정정((4)입항일 (5)전자인보이스 (6)B/L (7)화물관리번호, 란 (27)품명~(49), (50)결제금액~(58), (59)~(61)총세액합계, (62)담당자 (63)접수일시 (64)수리일자). (24)MASTER B/L·(25)운수기관부호·(26)검사(반입)장소, (29)상표, (54)~(58) 칸, 미신고가산세 행 추가. 납세의무자 표기 순서 문구와 하단 책임·진위확인 안내문 정리. 1쪽 3란까지 표시하고 총 란수·쪽수 표기. |
+| 입학허가서(Letter of Admission) | `admission_letter` | 미국 대학 입학허가서 관행(레터헤드, Admissions Committee 명의 축하 문구, 학위·전공·입학학기, 등록예치금 기한, 유학생 재정증명·I-20 안내). [Howard Univ. 샘플](https://provost.howard.edu/sites/provost.howard.edu/files/2022-05/SAMPLE%20Admission%20Letter.pdf), [CollegeAdvisor 예시](https://www.collegeadvisor.com/resources/college-acceptance-letter/) | 반영(검색근거) | 샘플 관행 문구로 본문 수정(Admissions Committee and the entire ... community, admitted student portal 예치금, Statement of Financial Resources 제출 후 I-20 발급). 표 라벨을 Term of Entry·Classes Begin으로 조정. 대학 이메일 도메인을 머리글자(실존 대학 도메인과 충돌 가능)에서 이름 전체 기반으로 변경. |
+| 학비 청구서(Tuition Invoice) | `tuition_invoice` | 미국 대학 Bursar/Student Financial Services 학생계정 청구서(e-bill) 관행: 일자·내역·Charges·Payments/Credits, Previous Balance·Amount Due·Due Date. [Cornell 청구 절차](https://bursar.cornell.edu/students-parents/your-bursar-bill/billing-procedures), [UW-Madison Student Account](https://bursar.wisc.edu/student-tuition-account) | 반영(검색근거) | 청구 내역을 Date·Description·Charges·Payments/Credits 4열 원장형으로 변경(미국 MM/DD/YYYY, 그 외 DD/MM/YYYY), Previous Balance·New Charges·Payments/Credits·Total Amount Due 요약표 추가. 항목 GT를 amount에서 charge/credit로 분리. |
+| 등기사항전부증명서(집합건물) | `real_estate_registry` | 인터넷등기소 등기사항전부증명서(집합건물) 출력 양식, 주요 등기사항 요약(참고용). [easylaw 구분건물 보존등기](https://www.easylaw.go.kr/CSP/CnpClsMainBtr.laf?popMenu=ov&csmSeq=566&ccfNo=2&cciNo=3&cnpClsNo=1), [요약본 PDF 예시](https://leadingplusfunding.com/file/prodProof/A000001669/20250106/20250106094656641MTczMi5wZGY.pdf) | 반영(검색근거) | 1동 표시에 도로명주소 변경(1번 소재지 실선 말소, 2번 도로명주소) 행 구성. 상단 [인터넷 발급] 위변조 안내문·열람용 효력 문구, 하단 발행번호·발급확인번호(XXXX-XXXX-0000)·발행일·쪽번호 및 바코드 자리 추가. 수수료·관할등기소·발행등기소 줄과 인증문 순서 정리. 약 18%는 주요 등기사항 요약(참고용) 페이지(소유지분현황·을구 요약·참고사항)로 생성. |
+| 집합건축물대장(전유부) | `building_register` | 건축물대장의 기재 및 관리 등에 관한 규칙 [별지 제5호서식] <개정 2021. 7. 12.> 집합건축물대장(전유부, 갑), 297mm×210mm. [law.go.kr 서식](https://law.go.kr/flDownload.do?flSeq=106887043), [yesform](https://www.yesform.com/wdata/doc-1069707.php) | 반영(검색근거) | 서식번호를 별지 제4호→제5호(개정 2021.7.12.)로 정정, 쪽수 (3쪽 중 제1쪽)·장번호 추가. A4 가로(297×210) 배치로 변경하고 좌측 전유부분·공용부분, 우측 소유자현황·공동주택(아파트)가격 2단 구성. 소유자현황 성명/등록번호·변동일/변동원인 2단 표기, 하단 담당자·전화·용지규격 줄 정리. |
+| 토지대장 | `land_register` | 공간정보의 구축 및 관리 등에 관한 법률 시행규칙 제68조, [별지 제63호서식] 토지대장. [moleg 입법예고](https://www.moleg.go.kr/lawinfo/makingInfo.mo?mid=a10104010000&lawSeq=78592&lawCd=0&lawType=TYPE5), [정부24 토지(임야)대장 발급](https://www.gov.kr/mw/AA020InfoCappView.do?CappBizCD=13100000026) | 반영(검색근거) | 서식번호(별지 제63호) 확인, 기존 구조 유지. 개별공시지가 표시 연수를 5~7년(정부24 기본 최근 7년)으로 확대, 소유권보존 변동원인 코드 통일, 토지표시·소유자 표에 빈 행을 넣어 실제 서식처럼 고정 틀 형태로 채움, 발급자 값에서 폐지된 민원24 제거. |
+| 부동산 매매계약서 | `sales_contract` | 한국공인중개사협회 부동산(아파트) 매매계약서 양식(협회 서식 자료실). [kar.or.kr 부동산관련서식](http://www.kar.or.kr/pinfo/realtyformlist.asp), [easylaw 매매계약서 작성](https://easylaw.go.kr/CSP/CnpClsMain.laf?popMenu=ov&csmSeq=649&ccfNo=3&cciNo=2&cnpClsNo=1) | 반영(검색근거) | 협회 양식의 융자금·임대보증금 승계 행 추가, 맺음 문구를 간인·각 1통 보관 문장으로 교체하고 계약일을 별도 줄에 표기. 매도인·매수인별 대리인 행 추가, 개업공인중개사란을 공동중개 2단(사무소소재지·명칭·대표·등록번호·전화·소속공인중개사) 구성으로 변경(약 35% 공동중개). 원문 대조는 못 함. |
+| 주택임대차표준계약서 | `lease_contract` | 법무부·국토교통부 주택임대차표준계약서(2023. 10. 6. 개정). [법무부 개정 표준계약서 안내](https://www.immigration.go.kr/bbs/moj/118/575868/artclView.do), [법무부 표준계약서 PDF](https://www.moj.go.kr/sites/moj/download/210818_01.pdf) | 반영(검색근거) | 2023 개정 반영: 계약의 종류에 계약갱신요구권 갱신계약 문구, 미납 국세·지방세·선순위 확정일자 칸에 없음/있음(확인·설명서 ⑨ 기재) 선택지, 관리비(정액/비정액 산정방식) 행 추가. 차임 행을 빈 양식으로 바꾸고 GT에서 제외. 제10조 장기수선충당금 반환 문구 보강, 특약에 표준 담보권 설정 제한·해제 문구와 개정 권고 특약(선순위·체납 미고지 시 위약금 없는 해제) 반영. 대리인 행·공동중개 2단 중개사란 추가, 한 장에 맞게 글자 크기 고정. |
+| 전입세대확인서 | `move_in_household_list` | 주민등록법 시행규칙 [별지 제15호의2서식] <개정 2023. 12. 22.> 전입세대확인서 (신청서는 별지 제15호서식). [law.go.kr 서식](https://www.law.go.kr/flDownload.do?gubun=&flSeq=136503763&bylClsCd=110202), [신청서 서식](https://www.law.go.kr/flDownload.do?gubun=&flSeq=136503755&bylClsCd=110202) | 반영(검색근거) | 서식번호를 신청서 번호(제15호)에서 확인서 번호(제15호의2, 개정 2023.12.22.)로 정정. 상단 발급번호·발급일자 칸, 열람/교부 구분 추가. 2023 개정의 동거인 사항(순번·성명·전입일자·등록구분) 표 추가, 동거인 수를 대부분 0으로 현실화. 안내문 정리. |
 
 ## 메모
 
+- 원본 이미지·PDF 직접 대조는 하지 못함(WebFetch 차단). 모든 수정은 검색 결과 요약 2건 이상 일치 또는 기존 기억과 검색 결과가 맞는 범위에서만 반영.
+- 등기사항전부증명서: 하단 발행번호 자릿수(현재 20자리)와 발급확인번호 형식(XXXX-XXXX-0000), [인터넷 발급] 안내문 정확한 문구는 미확인. 고유번호 가운데 4자리(등기기록 개설연도)가 보존등기 연도와 맞지 않는 경우가 있음(Profile.property.unique_no 공유값이라 수정하지 않음). 관할등기소는 shared courthouse()가 경기도 전체를 수원지방법원 등기과로 돌려줌 → 시군별 등기소로 세분화 제안.
+- 주요 등기사항 요약 페이지는 약 18% 확률의 별도 변형(요약 페이지만 단독 렌더)으로 넣음. GT 키 summary.*.
+- 집합건축물대장: A4 가로 전환. 정부24 출력본의 2단 배치(좌 전유·공용, 우 소유자·공동주택가격)는 기억 기반이며 원본 미대조. 별지 제5호서식 최신 개정일 2021.7.12.(검색 확인), 그 이후 개정 여부 미확인.
+- 토지대장: 별지 제63호서식 개정일, 소유권 변동원인 코드 번호((01)·(03)), 하단 ※ 안내문은 미확인. 토지등급·공시지가 표 구조는 유지.
+- 부동산 매매계약서: 협회 양식의 융자금·임대보증금 행, 대리인 행, 공동중개 2단 중개사란은 기억 기반(검색으로 세부 미확인).
+- 주택임대차표준계약서: 2023 개정 내용(선순위·체납 미고지 시 해제 특약, 관리비 비목 기재)은 검색 확인. 한 장에 넣으려고 조항 문구는 축약 상태 유지, 차임은 전세라 빈 양식으로 표시.
+- 전입세대확인서: 서식번호 제15호의2(개정 2023.12.22.)와 동거인 사항(순번·성명·전입일자·등록구분)은 검색 확인. 신청인란·하단 안내문 문구는 미확인.
+- 수입신고필증: (1)~(9), (24)MASTER B/L, (35)·(39)·(50)·(61)·(64) 번호는 검색 확인, 나머지 번호는 같은 체계로 맞춤. 4란 이상은 1쪽에 3란만 보이고 총란수(/004)와 Page 1/2 표시.
+- 무역서류(C/I·P/L·B/L·S/C)·유학서류는 정해진 법정 서식이 없어 국내 실무 양식/미국 대학 관행 기준.
+- 공유 파일 제안: K.fmt_date에 미국식 숫자 날짜(MM/DD/YYYY) 스타일 추가(현재 fx.py의 _num_date로 처리).

@@ -1,78 +1,104 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
-{% block page_class %} dense{% endblock %}
 {% block style %}
-.page.a4.dense { padding: 40px 46px; }
-.br-head { display: flex; justify-content: space-between; font-size: 11px; color: #222; }
-.br-title { text-align: center; font-size: 22px; font-weight: 700; letter-spacing: .1em; margin: 8px 0 8px; }
+.page.a4_landscape { padding: 28px 36px 22px; font-size: 12.5px; line-height: 1.35; }
+.br-head { display: flex; justify-content: space-between; font-size: 10.5px; color: #222; }
+.br-titlerow { display: flex; align-items: flex-end; justify-content: space-between; margin: 2px 0 4px; }
+.br-title { flex: 1; text-align: center; font-size: 24px; font-weight: 700; letter-spacing: .08em; }
+.br-sheet { font-size: 11px; border: 1px solid var(--border); padding: 1px 8px; }
 table.br { border: 2px solid var(--border); margin: 0; }
-table.br th { font-size: 11.5px; padding: 3px 4px; }
-table.br td { font-size: 12px; padding: 3px 5px; }
-table.br + table.br { border-top: 0; }
-.br-cap { text-align: center; font-weight: 700; background: var(--label-bg); }
-.br-cert { margin: 14px 0 4px; text-align: center; font-size: calc(var(--fs) + 1px); }
-.br-info { display: flex; justify-content: center; gap: 24px; font-size: 12px; }
+table.br th { font-size: 11.5px; padding: 4px 3px; font-weight: 600; line-height: 1.25; }
+table.br td { font-size: 12.5px; padding: 5px 5px; }
+.br-cap { text-align: center; font-weight: 700; background: var(--label-bg); letter-spacing: .3em; }
+.br-cols { display: flex; height: 452px; }
+.br-cols > div { flex: 1; display: flex; flex-direction: column; border: 2px solid var(--border); border-top: 0; }
+.br-cols > div + div { border-left: 0; }
+.br-cols table.br { border: 0; }
+.br-cols table.br + table.br { border-top: 2px solid var(--border); }
+.br-cols table.br tr:first-child td { border-top: 0; }
+.br-cols table.br td:first-child, .br-cols table.br th:first-child { border-left: 0; }
+.br-cols table.br td:last-child, .br-cols table.br th:last-child { border-right: 0; }
+.br-cols .fill { flex: 1; border-top: var(--bw) solid var(--border); }
+.br-cert { margin: 16px 0 6px; text-align: center; font-size: 14px; }
+.br-foot { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 4px; }
+.br-foot .org { font-size: 18px; font-weight: 700; letter-spacing: .15em; position: relative; display: inline-block; padding-right: 22px; }
+.br-foot .seal.over { right: -36px; top: -20px; }
+.br-mini { font-size: 10px; color: #333; }
 {% endblock %}
 {% block content %}
 <div class="br-head">
-  <div>■ 건축물대장의 기재 및 관리 등에 관한 규칙 [별지 제4호서식]</div>
-  <div>(2쪽 중 제1쪽)</div>
+  <div>■ 건축물대장의 기재 및 관리 등에 관한 규칙 [별지 제5호서식] &lt;개정 2021. 7. 12.&gt;</div>
+  <div>(3쪽 중 제1쪽)</div>
 </div>
 <div class="docno">문서확인번호 : {{ f("confirm_no", label="문서확인번호") }}</div>
-<div class="br-title">집합건축물대장(전유부, 갑)</div>
+<div class="br-titlerow">
+  <div style="width:110px"></div>
+  <div class="br-title">집합건축물대장(전유부, 갑)</div>
+  <div class="br-sheet">장번호 : 1 - 1</div>
+</div>
 <table class="br">
-  <colgroup><col style="width:72px"><col style="width:190px"><col style="width:60px"><col><col style="width:60px"><col style="width:110px"></colgroup>
+  <colgroup><col style="width:68px"><col style="width:220px"><col style="width:64px"><col><col style="width:62px"><col style="width:150px"></colgroup>
   <tr><th>고유번호</th><td>{{ f("unique_no", label="고유번호") }}</td><th>명칭</th><td>{{ f("building_name", label="명칭") }}</td><th>호명칭</th><td class="c">{{ f("unit_name", label="호명칭") }}</td></tr>
-  <tr><th>대지위치</th><td>{{ f("site_location", label="대지위치") }}</td><th>지번</th><td>{{ f("jibun", label="지번") }}</td><th>도로명<br>주소</th><td class="small">{{ f("road_address", label="도로명주소") }}</td></tr>
 </table>
+<table class="br" style="border-top:0">
+  <colgroup><col style="width:68px"><col style="width:220px"><col style="width:64px"><col style="width:130px"><col style="width:80px"><col></colgroup>
+  <tr><th>대지위치</th><td>{{ f("site_location", label="대지위치") }}</td><th>지번</th><td>{{ f("jibun", label="지번") }}</td><th>도로명주소</th><td>{{ f("road_address", label="도로명주소") }}</td></tr>
+</table>
+<div class="br-cols" style="margin-top:0">
+<div>
 <table class="br">
-  <colgroup><col style="width:60px"><col style="width:70px"><col><col style="width:150px"><col style="width:100px"></colgroup>
-  <tr><td colspan="5" class="br-cap">전 유 부 분</td></tr>
+  <colgroup><col style="width:40px"><col style="width:52px"><col><col style="width:132px"><col style="width:66px"></colgroup>
+  <tr><td colspan="5" class="br-cap">전유부분</td></tr>
   <tr><th>구분</th><th>층별</th><th>※구조</th><th>용도</th><th>면적(㎡)</th></tr>
   {% for it in d.exclusive %}{% set pre = "exclusive." ~ loop.index0 ~ "." %}
   <tr><td class="c">{{ f(pre ~ "kind", label="구분") }}</td><td class="c">{{ f(pre ~ "floor", label="층별") }}</td>
     <td class="c">{{ f(pre ~ "structure", label="구조") }}</td><td class="c">{{ f(pre ~ "usage", label="용도") }}</td>
-    <td class="num">{{ f(pre ~ "area", label="면적") }}</td></tr>
+    <td class="num">{{ f(pre ~ "area", label="면적(㎡)") }}</td></tr>
   {% endfor %}
   <tr><td colspan="5" class="c small">- 이하여백 -</td></tr>
 </table>
 <table class="br">
-  <colgroup><col style="width:82px"><col style="width:120px"><col><col style="width:62px"><col style="width:82px"><col style="width:80px"></colgroup>
-  <tr><td colspan="6" class="br-cap">소 유 자 현 황</td></tr>
-  <tr><th>성명(명칭)</th><th>주민(법인)등록번호<br><span class="tiny">(부동산등기용등록번호)</span></th><th>주소</th><th>소유권<br>지분</th><th>변동일</th><th>변동원인</th></tr>
-  <tr><td class="c">{{ f("owner.name", label="성명(명칭)") }}</td><td class="c">{{ f("owner.rrn", label="주민등록번호") }}</td>
-    <td class="small">{{ f("owner.address", label="주소") }}</td><td class="c">{{ f("owner.share", label="소유권지분") }}</td>
-    <td class="c">{{ f("owner.change_date", label="변동일") }}</td><td class="c">{{ f("owner.change_cause", label="변동원인") }}</td></tr>
-  <tr><td colspan="6" class="c small">- 이하여백 -<br>※ 이 건축물대장은 현소유자만 표시한 것입니다.</td></tr>
-</table>
-<table class="br">
-  <colgroup><col style="width:60px"><col style="width:70px"><col><col style="width:150px"><col style="width:100px"></colgroup>
-  <tr><td colspan="5" class="br-cap">공 용 부 분</td></tr>
+  <colgroup><col style="width:40px"><col style="width:52px"><col><col style="width:132px"><col style="width:66px"></colgroup>
+  <tr><td colspan="5" class="br-cap">공용부분</td></tr>
   <tr><th>구분</th><th>층별</th><th>구조</th><th>용도</th><th>면적(㎡)</th></tr>
   {% for it in d.common %}{% set pre = "common." ~ loop.index0 ~ "." %}
   <tr><td class="c">{{ f(pre ~ "kind", label="구분") }}</td><td class="c">{{ f(pre ~ "floor", label="층별") }}</td>
-    <td class="c">{{ f(pre ~ "structure", label="구조") }}</td><td class="c">{{ f(pre ~ "usage", label="용도") }}</td>
-    <td class="num">{{ f(pre ~ "area", label="면적") }}</td></tr>
+    <td class="c">{{ f(pre ~ "structure", label="구조") }}</td><td class="c small">{{ f(pre ~ "usage", label="용도") }}</td>
+    <td class="num">{{ f(pre ~ "area", label="면적(㎡)") }}</td></tr>
   {% endfor %}
   <tr><td colspan="5" class="c small">- 이하여백 -</td></tr>
 </table>
+<div class="fill"></div>
+</div>
+<div>
+<table class="br">
+  <colgroup><col style="width:130px"><col><col style="width:54px"><col style="width:84px"></colgroup>
+  <tr><td colspan="4" class="br-cap">소유자현황</td></tr>
+  <tr><th>성명(명칭)<br>주민(법인)등록번호<br><span class="tiny">(부동산등기용등록번호)</span></th><th>주소</th><th>소유권<br>지분</th><th>변동일<br>변동원인</th></tr>
+  <tr><td class="c">{{ f("owner.name", label="성명(명칭)") }}<br>{{ f("owner.rrn", label="주민(법인)등록번호") }}</td>
+    <td>{{ f("owner.address", label="주소") }}</td><td class="c">{{ f("owner.share", label="소유권지분") }}</td>
+    <td class="c">{{ f("owner.change_date", label="변동일") }}<br>{{ f("owner.change_cause", label="변동원인") }}</td></tr>
+  <tr><td colspan="4" class="c small">- 이하여백 -<br>※ 이 건축물대장은 현소유자만 표시한 것입니다.</td></tr>
+</table>
 {% if d.house_prices is defined %}
 <table class="br">
-  <colgroup><col style="width:50%"><col></colgroup>
-  <tr><td colspan="2" class="br-cap">공 동 주 택 가 격 &nbsp;<span class="small" style="font-weight:400">(단위 : 원)</span></td></tr>
+  <colgroup><col style="width:40%"><col></colgroup>
+  <tr><td colspan="2" class="br-cap">공동주택(아파트)가격 <span class="small" style="font-weight:400;letter-spacing:0">(단위 : 원)</span></td></tr>
   <tr><th>기준일</th><th>공동주택(아파트)가격</th></tr>
   {% for it in d.house_prices %}{% set pre = "house_prices." ~ loop.index0 ~ "." %}
-  <tr><td class="c">{{ f(pre ~ "base_date", label="기준일") }}</td><td class="num">{{ f(pre ~ "price", label="공동주택가격") }}</td></tr>
+  <tr><td class="c">{{ f(pre ~ "base_date", label="기준일") }}</td><td class="num">{{ f(pre ~ "price", label="공동주택(아파트)가격") }}</td></tr>
   {% endfor %}
+  <tr><td colspan="2" class="small">※ 「부동산 가격공시에 관한 법률」에 따른 공동주택가격만 표시됩니다.</td></tr>
 </table>
-<div class="note">※ 「부동산 가격공시에 관한 법률」에 따른 공동주택가격만 표시됩니다.</div>
 {% endif %}
-<div class="br-cert">이 등(초)본은 건축물대장의 원본내용과 틀림없음을 증명합니다.</div>
-<div class="issuer" style="margin-top:10px">
-  <div class="date">발급일 : {{ f("issue_date", label="발급일") }}</div>
-  <div class="org">{{ f("issuer", label="발급기관") }}{{ m.seal(val("issuer").split()[-1] ~ "인", square=True, over=True) }}</div>
+<div class="fill"></div>
 </div>
-<div class="br-info mt">
-  <span>담당자 : {{ f("officer", label="담당자") }}</span><span>전화 : {{ f("officer_phone", label="전화") }}</span>
+</div>
+<div class="br-cert">이 등(초)본은 건축물대장의 원본내용과 틀림없음을 증명합니다.</div>
+<div class="br-foot">
+  <div class="br-mini">담당자 : {{ f("officer", label="담당자") }} &nbsp;&nbsp; 전화 : {{ f("officer_phone", label="전화") }}</div>
+  <div class="center">발급일 : {{ f("issue_date", label="발급일") }}<br>
+    <span class="org">{{ f("issuer", label="발급기관") }}{{ m.seal(val("issuer").split()[-1] ~ "인", square=True, over=True) }}</span></div>
+  <div class="br-mini">297mm×210mm[백상지(80g/㎡)]</div>
 </div>
 {% endblock %}

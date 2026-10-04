@@ -15,6 +15,7 @@ table.bl th { font-size: calc(var(--fs) - 5px); padding: 2px 3px; background: va
 table.pt td { border-top: 0; border-bottom: 0; height: 360px; }
 .pre { white-space: pre-line; }
 .sig { font-style: italic; font-family: 'Liberation Serif', serif; font-size: 18px; color: #1a2c6b; }
+.obs { display: inline-block; margin-top: 16px; border: 2px solid #2a4fa8; color: #2a4fa8; padding: 3px 10px; transform: rotate(-5deg); font-weight: 700; text-align: center; opacity: .85; }
 .orig { text-align: center; font-size: 18px; font-weight: 800; letter-spacing: .4em; color: var(--accent); margin-top: 4px; }
 {% endblock %}
 {% block content %}
@@ -40,7 +41,8 @@ table.pt td { border-top: 0; border-bottom: 0; height: 360px; }
   <tr>
     <td><span class="lb">Pre-carriage by</span>{{ f("pre_carriage", label="Pre-carriage by") }}</td>
     <td><span class="lb">Place of Receipt</span>{{ f("place_of_receipt", label="Place of Receipt") }}</td>
-    <td rowspan="3"><span class="lb">Final Destination (for the Merchant's reference only)</span>&nbsp;</td>
+    <td rowspan="3"><span class="lb">Point and Country of Origin</span>{{ f("origin", label="Point and Country of Origin") }}
+      <div style="margin-top:6px"><span class="lb">Final Destination (for the Merchant's reference only)</span>&nbsp;</div></td>
   </tr>
   <tr>
     <td><span class="lb">Ocean Vessel / Voy. No.</span>{{ f("vessel_voyage", label="Ocean Vessel/Voy No") }}</td>
@@ -58,9 +60,10 @@ table.pt td { border-top: 0; border-bottom: 0; height: 360px; }
     <td>{% for c in d.containers %}{% set pre = "containers." ~ loop.index0 ~ "." %}
       {{ f(pre ~ "no", label="Container No") }} / {{ f(pre ~ "type", label="Container Type") }}<br>SEAL: {{ f(pre ~ "seal", label="Seal No") }}<br>{% endfor %}
       <div class="mt" style="margin-top:8px">{{ f("marks", label="Marks and Numbers") }}</div></td>
-    <td class="c">{{ f("packages", label="No of Packages") }}</td>
+    <td class="c">{{ f("container_count", label="No. of Containers") }}<br><br>{{ f("packages", label="No. of Packages") }}</td>
     <td><b>SHIPPER'S LOAD, COUNT &amp; SEAL<br>SAID TO CONTAIN :</b><br>{{ f("description", label="Description of Goods") }}
-      <div class="mt bold" style="margin-top:14px">{{ f("freight", label="Freight") }}</div></td>
+      <div class="mt bold" style="margin-top:14px">{{ f("freight", label="Freight") }}</div>
+      <div class="obs">SHIPPED ON BOARD<br>{{ val("on_board_date") }}</div></td>
     <td class="num">{{ f("gross_weight", label="Gross Weight") }}</td>
     <td class="num">{{ f("measurement", label="Measurement") }}</td>
   </tr>

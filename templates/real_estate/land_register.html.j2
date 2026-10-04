@@ -10,6 +10,8 @@ table.ld + table.ld { border-top: 0; }
 table.ld th { font-size: 11.5px; padding: 3px 4px; }
 table.ld td { font-size: 11.5px; padding: 3px 5px; vertical-align: top; }
 table.ld td.mid { vertical-align: middle; }
+tr.blank td { height: 52px; }
+table.ld td { height: 30px; }
 .ld-cap { text-align: center; font-weight: 700; background: var(--label-bg); letter-spacing: .3em; }
 .ld-cert { margin: 16px 0 4px; text-align: center; font-size: calc(var(--fs) + 1px); }
 {% endblock %}
@@ -52,6 +54,7 @@ table.ld td.mid { vertical-align: middle; }
   </tr>
   {% endfor %}
   <tr><td colspan="3" class="c small">- 이하 여백 -</td><td colspan="3" class="c small">- 이하 여백 -</td></tr>
+  {% for _ in range(7 - n) %}<tr class="blank"><td></td><td></td><td></td><td></td><td></td><td></td></tr>{% endfor %}
 </table>
 <table class="ld">
   <colgroup><col style="width:120px"><col><col><col></colgroup>

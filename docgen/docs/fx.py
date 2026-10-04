@@ -422,7 +422,7 @@ def trade_contract(p: Profile, rng: random.Random) -> dict:
     latest = s["on_board"] + timedelta(days=rng.randint(3, 20))
     clauses = {
         "price_terms": f"{s['incoterm']} {s['incoterm_place']} (INCOTERMS 2020), prices in {cur}.",
-        "shipment": f"Shipment from {s['pol']} to {s['pod']} not later than {D(latest, 'en_long')}. "
+        "shipment": f"Not later than {D(latest, 'en_long')}. "
                     f"Partial shipments {rng.choice(['allowed', 'not allowed'])}, transshipment {rng.choice(['allowed', 'not allowed'])}.",
         "payment": {
             "T/T IN ADVANCE": "100% by telegraphic transfer in advance, within 7 days after the date of this contract.",
@@ -434,11 +434,17 @@ def trade_contract(p: Profile, rng: random.Random) -> dict:
             "D/A 60 DAYS AFTER B/L DATE": "Documents against acceptance, 60 days after B/L date.",
         }[s["payment"]],
         "packing": f"Export standard packing in {_PKG_WORD.get(s['pkg_unit'], 'packages').lower()}, suitable for ocean transportation.",
-        "inspection": rng.choice(["Seller's inspection at factory shall be final as to quality and quantity.",
-                                  "Inspection by an independent surveyor (SGS or equivalent) at the port of loading; cost borne by the Seller."]),
-        "governing_law": rng.choice([
-            "This contract shall be governed by the laws of the Republic of Korea. Any dispute shall be finally settled by arbitration in Seoul under the rules of the Korean Commercial Arbitration Board.",
-            "This contract shall be governed by the United Nations Convention on Contracts for the International Sale of Goods (CISG). Disputes shall be settled by arbitration in Singapore under the SIAC Rules.",
+        "inspection": ("Inspection performed under the export regulation of Korea is final in respect of quality and/or conditions of the contracted goods."
+                       if s["direction"] == "export" else
+                       rng.choice(["Seller's inspection at factory shall be final as to quality and quantity.",
+                                   "Inspection by an independent surveyor (SGS or equivalent) at the port of loading; cost borne by the Seller."])),
+        "origin": s["origin"].title() if s["origin"] != "KOREA" else "Republic of Korea",
+        "shipping_mark": s["marks"],
+        "port_of_shipment": s["pol"],
+        "destination": s["pod"],
+        "arbitration": rng.choice([
+            "Any dispute shall be finally settled by arbitration in Seoul under the Arbitration Rules of the Korean Commercial Arbitration Board.",
+            "Any dispute shall be settled by arbitration in Singapore under the SIAC Rules.",
         ]),
     }
     if s["incoterm"] == "CIF":
@@ -491,7 +497,9 @@ def bill_of_lading(p: Profile, rng: random.Random) -> dict:
         "forwarder": s["forwarder"],
         "containers": [{"no": c["no"], "seal": c["seal"], "type": c["type"]} for c in s["containers"]],
         "marks": s["marks"],
+        "container_count": f"{len(s['containers'])} X {s['containers'][0]['type']}",
         "packages": f"{s['total_pkgs']:,} {s['pkg_unit']}",
+        "origin": s["origin"],
         "description": descr,
         "gross_weight": f"{s['gross']:,.2f} KGS",
         "measurement": f"{s['cbm']:,.3f} CBM",
@@ -598,7 +606,8 @@ def import_declaration(p: Profile, rng: random.Random) -> dict:
     vat = sum(int(x["vat_amount"].replace(",", "")) for x in items)
     decl_date = s["arrival"] + timedelta(days=rng.randint(0, 3))
     accept = decl_date + timedelta(days=rng.randint(0, 1))
-    customs = {"BUSAN, KOREA": ("030", "부산세관", "KRPUS 부산항"), "INCHEON, KOREA": ("020", "인천세관", "KRINC 인천항")}[s["pod"]]
+    customs = {"BUSAN, KOREA": ("030", "부산세관", "KRPUS 부산항", ["부산신항만(주)", "부산신항국제터미널", "한진부산컨테이너터미널", "동부부산컨테이너터미널"]),
+               "INCHEON, KOREA": ("020", "인천세관", "KRINC 인천항", ["인천컨테이너터미널", "선광신컨테이너터미널", "한진인천컨테이너터미널"])}[s["pod"]]
     broker_name = f"{rng.choice(['한길', '세원', '대한', '국제', '미래', '정원'])}관세법인"
     cn = re.sub(r"주식회사|\(주\)|\s", "", corp.name)
     ccode = (cn + "가나다라")[:4] + f"{rng.randint(1, 9)}{rng.randint(100000, 999999)}"
@@ -625,7 +634,12 @@ def import_declaration(p: Profile, rng: random.Random) -> dict:
         "transport": "10 FCL",
         "export_country": f"{s['iso']} {cp['country']}",
         "vessel": s["vessel"],
-        "items": items,
+        "master_bl": s["bl_no"],
+        "carrier_code": s["scac"],
+        "inspection_place": f"{customs[0]}{rng.randint(10000, 99999)}-{rng.randint(10, 99)}{rng.randint(100000, 999999)} "
+                            + rng.choice(customs[3]),
+        "items": items[:3],  # 1쪽에는 3란까지, 나머지는 다음 쪽
+        "line_total": f"{len(items):03d}",
         "payment": f"{s['incoterm']}-{cur}-{_money(total, cur)}-{pay_code}",
         "exchange_rate": f"{rate:,.4f}" if cur == "JPY" else f"{rate:,.2f}",
         "freight": f"₩{int(freight * rate):,}",
@@ -634,6 +648,7 @@ def import_declaration(p: Profile, rng: random.Random) -> dict:
         "vat_base": f"₩{vat_base:,}",
         "tax": {"duty": f"{sum_duty:,}", "vat": f"{vat:,}", "total": f"{sum_duty + vat:,}"},
         "customs_office": customs[1],
+        "receipt_datetime": f"{D(decl_date, 'slash')} {rng.randint(9, 17):02d}:{rng.randint(0, 59):02d}",
         "accept_date": D(accept, "slash"),
         "officer": _kname(rng),
     }
@@ -706,10 +721,16 @@ def _study(p: Profile) -> dict:
         "level": level, "program": program, "degree": degree, "years": years, "start": start, "term": term,
         "letter_date": letter_date, "student_id": f"{r.choice('NWPLUM')}{r.randint(10, 99)}{r.randint(100000, 999999)}",
         "tuition": tuition, "director": r.choice(["Jennifer A. Collins", "Robert M. Hayes", "Emily R. Watson", "David L. Morgan", "Susan K. Patel"]),
-        "domain": "".join(w[0] for w in name.split() if w[0].isupper()).lower()
+        # 실제 대학 도메인(머리글자)과 겹치지 않도록 이름 전체로 만든다: westlakestate.edu
+        "domain": "".join(w for w in name.split() if w not in ("University", "of", "and", "College", "Institute")).lower()
                   + {"US": ".edu", "UK": ".ac.uk", "CA": ".ca", "AU": ".edu.au"}[cc],
         "housing": r.random() < 0.6,
     }
+
+
+def _num_date(d: date, cc: str) -> str:
+    """미국 MM/DD/YYYY, 그 외 DD/MM/YYYY."""
+    return f"{d:%m/%d/%Y}" if cc == "US" else f"{d:%d/%m/%Y}"
 
 
 def _student_name(st: Person) -> str:
@@ -776,7 +797,10 @@ def tuition_invoice(p: Profile, rng: random.Random) -> dict:
         "invoice_date": D(issue, "en_long"),
         "student": {"name": _student_name(st), "id": s["student_id"], "program": s["degree"] if "MBA" in s["degree"] else f"{s['degree']} in {s['program']}"},
         "term": s["term"],
-        "items": [{"description": d, "amount": fm(a)} for d, a in all_items],
+        "items": [{"date": _num_date(issue - timedelta(days=rng.randint(0, 3)) if a > 0 else s["letter_date"] + timedelta(days=rng.randint(5, 20)), s["cc"]),
+                   "description": d, **({"charge": fm(a)} if a > 0 else {"credit": fm(-a)})} for d, a in all_items],
+        "summary": {"previous_balance": fm(0), "charges": fm(sum(a for _, a in items)),
+                    "credits": fm(-sum(a for _, a in credits)) if credits else fm(0)},
         "total": f"{cur} {total:,.2f}",
         "due_date": D(due, "en_long"),
         "bank": {"beneficiary": s["uni"], "bank_name": s["bank"], "swift": s["swift"], "account": s["account"],

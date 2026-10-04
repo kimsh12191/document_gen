@@ -27,7 +27,7 @@ p { margin: 8px 0; text-align: justify; }
 <div class="mt">{{ f("student.name", label="Student Name") }}<br><span class="small">{{ f("student.address", label="Student Address") }}</span></div>
 <div class="ttl">LETTER OF ADMISSION</div>
 <p>Dear {{ val("student.name").split()[0] }},</p>
-<p>Congratulations! On behalf of the Admissions Committee, I am pleased to inform you that you have been admitted to {{ uname }} for the <b>{{ f("term", label="Term") }}</b> term. Your admission details are as follows:</p>
+<p>Congratulations! On behalf of the Admissions Committee and the entire {{ uname }} community, I am delighted to inform you that you have been admitted to {{ uname }} for the <b>{{ f("term", label="Term of Entry") }}</b> term. Your admission details are as follows:</p>
 <table class="al">
   <tr><th>Student Name</th><td>{{ val("student.name") }}</td></tr>
   <tr><th>Date of Birth</th><td>{{ f("student.dob", label="Date of Birth") }}</td></tr>
@@ -35,10 +35,10 @@ p { margin: 8px 0; text-align: justify; }
   <tr><th>Student ID</th><td>{{ f("student.id", label="Student ID") }}</td></tr>
   <tr><th>Program of Study</th><td>{{ f("program", label="Program") }}</td></tr>
   <tr><th>Degree</th><td>{{ f("degree", label="Degree") }}</td></tr>
-  <tr><th>Program Start Date</th><td>{{ f("start_date", label="Start Date") }}</td></tr>
+  <tr><th>Classes Begin</th><td>{{ f("start_date", label="Classes Begin") }}</td></tr>
   <tr><th>Expected Duration</th><td>{{ f("duration", label="Duration") }}</td></tr>
 </table>
-<p>To confirm your place, please submit your enrollment deposit and acceptance form no later than <b>{{ f("deposit_deadline", label="Deposit Deadline") }}</b>. As an international student, you will also need to provide evidence of sufficient financial resources to cover tuition and living expenses for the first year of study before your immigration documents (e.g., Form I-20, CAS or CoE) can be issued.</p>
+<p>To confirm your place, please accept your offer and submit your enrollment deposit through the admitted student portal no later than <b>{{ f("deposit_deadline", label="Deposit Deadline") }}</b>. As an international student, you will also need to submit the Statement of Financial Resources with supporting bank documents showing sufficient funds for tuition and living expenses for the first year of study before your immigration document (Form I-20, CAS or CoE) can be issued.</p>
 <p>A separate statement of fees will be sent by the student accounts office. Orientation for new international students is held during the week prior to the start of classes, and attendance is mandatory.</p>
 <p>We are delighted to welcome you to our academic community and look forward to seeing you on campus.</p>
 <div class="sg">

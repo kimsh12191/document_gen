@@ -22,7 +22,7 @@ table.gd tr.tot td { border-top: 1.5px solid var(--border); border-bottom: 1.5px
 <table class="ci">
   <colgroup><col style="width:28%"><col style="width:27%"><col style="width:45%"></colgroup>
   <tr>
-    <td colspan="2"><span class="lb">① Shipper / Exporter</span><span class="v">{{ f("shipper.name", label="Shipper/Exporter") }}</span><br>{{ f("shipper.address", label="Shipper Address") }}</td>
+    <td colspan="2"><span class="lb">① Shipper/Exporter</span><span class="v">{{ f("shipper.name", label="Shipper/Exporter") }}</span><br>{{ f("shipper.address", label="Shipper Address") }}</td>
     <td><span class="lb">⑧ No. &amp; date of invoice</span><span class="v">{{ f("invoice_no", label="Invoice No") }}</span><br>{{ f("invoice_date", label="Invoice Date") }}</td>
   </tr>
   <tr>
@@ -41,10 +41,10 @@ table.gd tr.tot td { border-top: 1.5px solid var(--border); border-bottom: 1.5px
 </table>
 <table class="gd">
   <colgroup><col style="width:17%"><col style="width:9%"><col style="width:24%"><col style="width:10%"><col style="width:11%"><col style="width:10%"><col style="width:10%"><col style="width:9%"></colgroup>
-  <tr><th>⑩ Marks &amp; Numbers</th><th>C/T No.</th><th>⑪ Description of goods</th><th>Packages</th><th>⑫ Quantity</th><th>⑬ Net Weight (KGS)</th><th>⑭ Gross Weight (KGS)</th><th>⑮ Meas. (CBM)</th></tr>
+  <tr><th>⑩ Marks and numbers of PKGS</th><th>C/T No.</th><th>⑪ Description of goods</th><th>Packages</th><th>⑫ Quantity</th><th>⑬ Net weight (KGS)</th><th>⑭ Gross weight (KGS)</th><th>⑮ Measurement (CBM)</th></tr>
   {% for it in d["items"] %}{% set pre = "items." ~ loop.index0 ~ "." %}
   <tr>
-    {% if loop.first %}<td class="marks" rowspan="7">{{ f("marks", label="Marks and Numbers") }}</td>{% endif %}
+    {% if loop.first %}<td class="marks" rowspan="13">{{ f("marks", label="Marks and Numbers") }}</td>{% endif %}
     <td class="c">{{ f(pre ~ "ctn_no", label="C/T No") }}</td>
     <td>{{ f(pre ~ "description", label="Description of Goods") }}</td>
     <td class="num">{{ f(pre ~ "packages", label="Packages") }}</td>
@@ -54,7 +54,7 @@ table.gd tr.tot td { border-top: 1.5px solid var(--border); border-bottom: 1.5px
     <td class="num">{{ f(pre ~ "measurement", label="Measurement") }}</td>
   </tr>
   {% endfor %}
-  {% for _ in range(7 - d["items"]|length) %}<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>{% endfor %}
+  {% for _ in range(13 - d["items"]|length) %}<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>{% endfor %}
   <tr class="tot"><td colspan="3" class="right">TOTAL</td><td class="num">{{ f("total.packages", label="Total Packages") }}</td><td></td>
     <td class="num">{{ f("total.net_weight", label="Total Net Weight") }}</td>
     <td class="num">{{ f("total.gross_weight", label="Total Gross Weight") }}</td>

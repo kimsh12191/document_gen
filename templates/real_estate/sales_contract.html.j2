@@ -2,14 +2,14 @@
 {% import "_macros.html.j2" as m with context %}
 {% block page_class %} dense{% endblock %}
 {% block style %}
-.page.a4.dense { padding: 34px 42px; font-size: calc(var(--fs) - 1px); line-height: 1.38; }
+.page.a4.dense { padding: 28px 40px; font-size: calc(var(--fs) - 1px); line-height: 1.38; }
 .sc-title { text-align: center; font-size: 24px; font-weight: 700; letter-spacing: .15em; margin: 0 0 8px; }
 .sc-lead { margin: 4px 0 4px; }
 .sc-h { font-weight: 700; margin: 6px 0 2px; }
 table.sc { margin: 2px 0; border: 1.5px solid var(--border); }
-table.sc th { padding: 3px 4px; font-size: 11.5px; }
-table.sc td { padding: 3px 5px; }
-.cl { font-size: calc(var(--fs) - 2.5px); line-height: 1.38; margin: 3px 0; text-align: justify; }
+table.sc th { padding: 2px 4px; font-size: 11.5px; }
+table.sc td { padding: 2px 5px; }
+.cl { font-size: calc(var(--fs) - 2.5px); line-height: 1.32; margin: 3px 0; text-align: justify; }
 .cl p { margin: 1px 0; }
 .sp { border: 1.5px solid var(--border); padding: 4px 8px; min-height: 60px; }
 .sp .h { font-weight: 700; }
@@ -34,6 +34,7 @@ table.sc td { padding: 3px 5px; }
   <colgroup><col style="width:80px"><col></colgroup>
   <tr><th>매매대금</th><td><b>{{ f("payment.price", label="매매대금") }}</b></td></tr>
   <tr><th>계 약 금</th><td>{{ f("payment.down", label="계약금") }} 은 계약시에 지불하고 영수함. <span style="float:right">영수자 (인)</span></td></tr>
+  <tr><th>융 자 금</th><td class="in">금 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 원정(은행)을 승계키로 한다. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b style="color:#111">임대보증금</b> &nbsp;총 금 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 원정을 승계키로 한다.</td></tr>
   {% if d.payment.middle is defined %}
   <tr><th>중 도 금</th><td>{{ f("payment.middle", label="중도금") }} 은 {{ f("payment.middle_date", label="중도금지급일") }}에 지불하며</td></tr>
   {% else %}
@@ -54,16 +55,25 @@ table.sc td { padding: 3px 5px; }
   <div class="h">[특약사항]</div>
   {% for s in d.specials %}<div>{{ f("specials." ~ loop.index0, label="특약사항") }}</div>{% endfor %}
 </div>
-<div class="center" style="margin:6px 0 4px">본 계약을 증명하기 위하여 계약 당사자가 이의 없음을 확인하고 각각 서명·날인한다. &nbsp;&nbsp;<b>{{ f("contract_date", label="계약일") }}</b></div>
+<div style="margin:6px 0 4px">본 계약을 증명하기 위하여 계약 당사자가 이의 없음을 확인하고 각각 서명·날인 후 매도인, 매수인 및 개업공인중개사는 매장마다 간인하여야 하며, 각각 1통씩 보관한다.</div>
+<div class="right bold" style="margin-bottom:3px">{{ f("contract_date", label="계약일") }}</div>
 <table class="sc">
-  <colgroup><col style="width:58px"><col style="width:84px"><col style="width:132px"><col style="width:42px"><col style="width:112px"><col style="width:42px"><col></colgroup>
+  <colgroup><col style="width:52px"><col style="width:84px"><col style="width:132px"><col style="width:42px"><col style="width:112px"><col style="width:42px"><col></colgroup>
   {% for role, key in [("매 도 인", "seller"), ("매 수 인", "buyer")] %}
-  <tr><th rowspan="2">{{ role }}</th><th>주 소</th><td colspan="5">{{ f(key ~ ".address", label=role ~ "주소") }}</td></tr>
-  <tr><th>주민등록번호</th><td class="c">{{ f(key ~ ".rrn", label=role ~ "주민등록번호") }}</td><th>전화</th><td class="c">{{ f(key ~ ".phone", label=role ~ "전화") }}</td>
-      <th>성명</th><td>{{ f(key ~ ".name", label=role ~ "성명") }} <span style="float:right" class="small">(인)</span></td></tr>
+  <tr><th rowspan="3">{{ role }}</th><th>주 소</th><td colspan="5">{{ f(key ~ ".address", label="주소") }}</td></tr>
+  <tr><th>주민등록번호</th><td class="c">{{ f(key ~ ".rrn", label="주민등록번호") }}</td><th>전 화</th><td class="c">{{ f(key ~ ".phone", label="전화") }}</td>
+      <th>성 명</th><td>{{ f(key ~ ".name", label="성명") }} <span style="float:right" class="small">(인)</span></td></tr>
+  <tr><th>대 리 인</th><td colspan="2" class="in small">주소</td><td colspan="2" class="in small">주민등록번호</td><td class="in small">성명</td></tr>
   {% endfor %}
-  <tr><th rowspan="3">개업<br>공인<br>중개사</th><th>사무소소재지</th><td colspan="5">{{ f("broker.office_address", label="사무소소재지") }}</td></tr>
-  <tr><th>사무소명칭</th><td>{{ f("broker.office_name", label="사무소명칭") }}</td><th>대표</th><td colspan="3">{{ f("broker.representative", label="대표") }} <span class="small">(서명 및 날인)</span></td></tr>
-  <tr><th>등록번호</th><td class="c">{{ f("broker.reg_no", label="등록번호") }}</td><th>전화</th><td colspan="3">{{ f("broker.phone", label="전화") }}</td></tr>
+</table>
+<table class="sc">
+  <colgroup><col style="width:52px"><col style="width:84px"><col><col style="width:84px"><col></colgroup>
+  {% set bs = d.brokers %}
+  {% macro bcell(i, key, label, extra="") %}{% if i < bs|length %}{{ f("brokers." ~ i ~ "." ~ key, label=label) }}{{ extra }}{% endif %}{% endmacro %}
+  <tr><th rowspan="5">개업<br>공인<br>중개사</th><th>사무소소재지</th><td>{{ bcell(0, "office_address", "사무소소재지") }}</td><th>사무소소재지</th><td>{{ bcell(1, "office_address", "사무소소재지") }}</td></tr>
+  <tr><th>사무소명칭</th><td>{{ bcell(0, "office_name", "사무소명칭") }}</td><th>사무소명칭</th><td>{{ bcell(1, "office_name", "사무소명칭") }}</td></tr>
+  <tr><th>대 표</th><td>{{ bcell(0, "representative", "대표") }} <span class="small" style="float:right">서명 및 날인 (인)</span></td><th>대 표</th><td>{{ bcell(1, "representative", "대표") }} <span class="small" style="float:right">서명 및 날인 (인)</span></td></tr>
+  <tr><th>등록번호</th><td>{{ bcell(0, "reg_no", "등록번호") }} <span style="float:right">전화 {{ bcell(0, "phone", "전화") }}</span></td><th>등록번호</th><td>{{ bcell(1, "reg_no", "등록번호") }} <span style="float:right">전화 {{ bcell(1, "phone", "전화") }}</span></td></tr>
+  <tr><th>소속공인중개사</th><td>{% if bs[0].assistant is defined %}{{ f("brokers.0.assistant", label="소속공인중개사") }}{% endif %} <span class="small" style="float:right">서명 및 날인 (인)</span></td><th>소속공인중개사</th><td>{% if bs|length > 1 and bs[1].assistant is defined %}{{ f("brokers.1.assistant", label="소속공인중개사") }}{% endif %} <span class="small" style="float:right">서명 및 날인 (인)</span></td></tr>
 </table>
 {% endblock %}

@@ -137,9 +137,21 @@ def _unit_label(f: dict) -> str:
     return f"{s} 제{f['floor']}층 제{f['ho']}호"
 
 
-def _broker(rng: random.Random, f: dict) -> dict:
+def _brokers(rng: random.Random, f: dict) -> list[dict]:
+    """개업공인중개사 (공동중개면 매도인측·매수인측 2곳)."""
+    out = [_broker(rng, f)]
+    if rng.random() < 0.35:
+        out.append(_broker(rng, f, other=True))
+    for b in out:
+        if rng.random() < 0.3:
+            b["assistant"] = _rand_person(rng)
+    return out
+
+
+def _broker(rng: random.Random, f: dict, other: bool = False) -> dict:
     a = f["a"]
-    office_name = f"{f['bname'][:rng.choice([2, 3])]}{rng.choice(['공인중개사사무소', '부동산중개', '공인중개사', '부동산공인중개사사무소'])}"
+    stem = (a.dong[:-1] if a.dong.endswith("동") else a.dong) + rng.choice(["", "역", "중앙", "제일", "행복", "명문"]) if other else f["bname"][:rng.choice([2, 3])]
+    office_name = f"{stem}{rng.choice(['공인중개사사무소', '부동산중개', '공인중개사', '부동산공인중개사사무소'])}"
     return {
         "office_address": f"{a.region} {a.road} {rng.randint(1, 400)}, 1층 {rng.randint(101, 112)}호 ({a.dong})",
         "office_name": office_name,
@@ -168,13 +180,12 @@ def real_estate_registry(p: Profile, rng: random.Random) -> dict:
               + (f"지하1층 {_area(round(f['floor_area'] * rng.uniform(0.6, 1.1), 2))}㎡\n" if under else "")
               + f"1층 {_area(area1)}㎡\n"
               + (f"2층 {_area(f['floor_area'])}㎡" if nf <= 2 else f"2층~{nf}층 각 {_area(f['floor_area'])}㎡"))
-    building = {
-        "display_no": "1" if not f["road_reg"] else "2",
-        "receipt": _rd(f["preserve"]),
-        "location": loc,
-        "detail": detail,
-        "cause": (f"도로명주소\n{_rd(f['road_reg'])} 등기" if f["road_reg"] else f["drawing_no"]),
-    }
+    loc_old = f"{a.jibun_full} {f['bname']}" + (f" 제{f['dong_no']}동" if f["dong_no"] else "")
+    buildings = [{"display_no": "1", "receipt": _rd(f["preserve"]),
+                  "location": loc_old if f["road_reg"] else loc, "detail": detail, "cause": f["drawing_no"]}]
+    if f["road_reg"]:  # 도로명주소 직권 등기: 1번은 말소(실선), 2번에 도로명주소 추가
+        buildings.append({"display_no": "2", "location": loc,
+                          "cause": f"도로명주소\n{_rd(f['road_reg'])} 등기"})
     land = {"display_no": "1", "location": f"1. {a.jibun_full}", "category": "대",
             "area": f"{_area(f['land_total'])}㎡", "cause": f"{_rd(f['preserve'])} 등기"}
     unit = {"display_no": "1", "receipt": _rd(f["preserve"]), "unit_no": f"제{f['floor']}층 제{f['ho']}호",
@@ -226,24 +237,48 @@ def real_estate_registry(p: Profile, rng: random.Random) -> dict:
     out = {
         "unique_no": pr.unique_no,
         "property": f"{a.jibun_full} {_unit_label(f)}",
-        "building": building, "land": land, "unit": unit, "land_right": land_right,
-        "gapgu": gapgu, "eulgu": eulgu,
-        "registry_office": courthouse(a),
     }
+    summary = rng.random() < 0.18  # 마지막 장: 주요 등기사항 요약 (참고용)
+    if summary:
+        out["summary"] = _registry_summary(gapgu, eulgu)
+    else:
+        out.update({"registry_office": courthouse(a), "buildings": buildings, "land": land, "unit": unit, "land_right": land_right,
+                    "gapgu": gapgu, "eulgu": eulgu})
     if rng.random() < 0.5:
         out["view_datetime"] = f"{t.year}년{t.month:02d}월{t.day:02d}일 {hh:02d}시{mm:02d}분{ss:02d}초"
     else:
         out["issue_no"] = "".join(str(rng.randint(0, 9)) for _ in range(20))
-        out["issue_date"] = f"{t.year}년 {t.month}월 {t.day}일"
-        out["fee"] = "1,000원"
+        letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        out["confirm_no"] = "-".join("".join(rng.choice(letters) for _ in range(4)) for _ in range(2)) + f"-{rng.randint(0, 9999):04d}"
+        out["issue_date_short"] = f"{t.year}/{t.month:02d}/{t.day:02d}"
+        if not summary:
+            out["issue_date"] = f"{t.year}년 {t.month}월 {t.day}일"
+            out["fee"] = "1,000원"
     return out
+
+
+def _registry_summary(gapgu: list, eulgu: list) -> dict:
+    """주요 등기사항 요약(참고용): 말소되지 않은 사항만."""
+    cur = gapgu[-1]
+    h = cur["holder"]
+    owners = [{"name": f"{h['name']} (소유자)", "reg_no": h["reg_no"], "share": "단독소유", "address": h["address"],
+               "rank": cur["rank"]}]
+    gone = {r["purpose"].split("번")[0] for r in eulgu if "번근저당권설정등기말소" in r["purpose"]}
+    rights = []
+    for r in eulgu:
+        if "max_amount" not in r or r["rank"] in gone:
+            continue
+        rights.append({"rank": r["rank"], "purpose": r["purpose"], "receipt": r["receipt"].replace("\n", " "),
+                       "main": f"채권최고액 {r['max_amount']}  근저당권자 {r['mortgagee'].split()[0]}",
+                       "target_owner": h["name"]})
+    return {"owners": owners, "rights": rights}
 
 
 # ---------------------------------------------------------------------------
 # 집합건축물대장(전유부, 갑)
 # ---------------------------------------------------------------------------
 
-@doc("building_register", "집합건축물대장(전유부)", "real_estate")
+@doc("building_register", "집합건축물대장(전유부)", "real_estate", page="a4_landscape")
 def building_register(p: Profile, rng: random.Random) -> dict:
     """집합건축물대장(전유부, 갑) 등본."""
     f = _facts(p)
@@ -317,7 +352,7 @@ def land_register(p: Profile, rng: random.Random) -> dict:
     land_rows.append({"category": "(08)대", "area": _area(f["land_total"]),
                       "reason": f"(30){D(d0, 'kor')}\n분할되어 본번에 -{f['bubun'] or rng.randint(1, 30)}을 부함"
                       if land_rows or rng.random() < 0.5 else f"(40){D(d0, 'kor')}\n구획정리 완료"})
-    owners = [{"change_date": D(f["preserve"], "kor"), "change_cause": "(03)소유권보존" if not f["is_apt"] else "(01)소유권보존",
+    owners = [{"change_date": D(f["preserve"], "kor"), "change_cause": "(01)소유권보존",
                "address": f["dev_addr"], "name": f["dev"], "reg_no": f["dev_no"]}]
     cur = (p.person, f["balance"], p.person.address.road_full) if f["transferred"] else (pr.seller, f["seller_acq"], f["seller_addr"])
     if f["transferred"]:
@@ -333,7 +368,7 @@ def land_register(p: Profile, rng: random.Random) -> dict:
     base = pr.official_price * rng.uniform(0.45, 0.65) / max(pr.land_area, 1)
     y = p.issue_date.year if p.issue_date >= date(p.issue_date.year, 5, 31) else p.issue_date.year - 1
     prices = []
-    for yy in range(y, y - 5, -1):
+    for yy in range(y, y - rng.choice([5, 6, 7, 7]), -1):  # 정부24 발급본은 최근 7년 기본 표시
         prices.append({"base_date": f"{yy}/01/01", "price": won(K.round_to(base, 1000), "")})
         base /= rng.uniform(1.0, 1.1)
     prices.reverse()
@@ -350,7 +385,7 @@ def land_register(p: Profile, rng: random.Random) -> dict:
         "processed_time": f"{rng.randint(9, 17):02d}시 {rng.randint(0, 59):02d}분 {rng.randint(0, 59):02d}초",
         "jibun": a.jibun,
         "scale": rng.choice(["수치", "1:1200", "1:600", "1:1000"]),
-        "issuer_name": rng.choice(["인터넷민원", "무인민원발급기", "민원24"]),
+        "issuer_name": rng.choice(["인터넷민원", "인터넷민원", "무인민원발급기"]),
         "land": land_rows,
         "owners": owners,
         "grades": grades,
@@ -408,7 +443,7 @@ def sales_contract(p: Profile, rng: random.Random) -> dict:
         "contract_date": D(f["contract"], dfmt),
         "seller": {"address": f["seller_addr"], "rrn": seller.rrn, "phone": seller.mobile, "name": seller.name},
         "buyer": {"address": p.person.address.road_full, "rrn": p.person.rrn, "phone": p.person.mobile, "name": p.person.name},
-        "broker": _broker(rng, f),
+        "brokers": _brokers(rng, f),
     }
 
 
@@ -429,16 +464,21 @@ def lease_contract(p: Profile, rng: random.Random) -> dict:
     down = K.round_to(dep * rng.choice([0.05, 0.1, 0.1]), 1_000_000)
     dfmt = rng.choice(["kor", "kor_short"])
     stamp_d = cdate + timedelta(days=rng.randint(0, 5))
+    mort_d = start + timedelta(days=2)
     specials = [
-        "주택을 인도받은 임차인은 " + D(start, "kor_short") + "까지 주민등록(전입신고)과 확정일자를 받기로 하고, "
-        "임대인은 위 약정일자의 다음날까지 임차주택에 저당권 등 담보권을 설정할 수 없다.",
-        f"임차인은 {p.bank} 전세자금대출을 신청할 예정이며, 임대인은 이에 필요한 서류 제공 등에 협조한다. "
+        f"주택을 인도받은 임차인은 {D(start, 'kor_short')}까지 주민등록(전입신고)과 주택임대차계약서상 확정일자를 받기로 하고, "
+        f"임대인은 {D(mort_d, 'kor_short')}(최소한 임차인의 위 약정일자 이틀 후부터 가능)에 저당권 등 담보권을 설정할 수 있다.",
+        "임대인이 위 특약에 위반하여 임차주택에 저당권 등 담보권을 설정한 경우에는 임차인은 임대차계약을 해제 또는 해지할 수 있다.",
+        f"임차인은 {p.bank} 전세자금대출을 신청할 예정이며, 임대인은 이에 협조한다. "
         "임차인의 귀책사유 없이 대출이 불가한 경우 본 계약은 무효로 하고 임대인은 계약금을 즉시 반환한다.",
     ]
+    if rng.random() < 0.6:  # 2023 개정 표준계약서 권고 특약
+        specials.insert(2, "임대차계약 체결 이후 임대인이 사전에 고지하지 않은 선순위 임대차 정보나 미납·체납한 국세·지방세가 "
+                           "확인되는 경우, 임차인은 위약금 없이 임대차계약을 해제할 수 있다.")
     if f["seller_mort"] and not f["transferred"]:
         specials.append(f"임대인은 잔금일까지 을구 1번 근저당권(채권최고액 금{won(f['seller_mort']['max'])})을 말소하기로 한다.")
     specials += rng.sample(["반려동물 사육은 임대인의 동의를 받아야 한다.", "벽걸이TV, 못 자국 등 경미한 훼손은 원상복구 대상에서 제외한다.",
-                            "관리비는 실사용 기준으로 임차인이 부담한다.", "도배·장판은 잔금일 전까지 임대인이 교체하여 준다."], 1)
+                            "관리비는 실사용 기준으로 임차인이 부담한다.", "도배·장판은 잔금일 전까지 임대인이 교체하여 준다."], int(rng.random() < 0.3))
     return {
         "landlord_name": lord.name, "tenant_name": p.person.name,
         "house": {
@@ -450,13 +490,14 @@ def lease_contract(p: Profile, rng: random.Random) -> dict:
             "lease_part": f"전부 ({_area(pr.exclusive_area)}㎡)",
         },
         "contract_type": rng.choice(["신규 계약", "신규 계약", "신규 계약", "합의에 의한 재계약"]),
+        "management_fee": rng.choice(["세대별 사용량 및 관리규약에 따른 부과액(공용관리비 면적 비례)", "관리사무소 부과 고지서 기준 실비",
+                                      "관리규약에 따라 관리주체가 부과하는 금액"]),
         "tax_arrears": "없음",
         "prior_fixed_date": "해당 없음",
         "deposit": _amount(dep),
         "down_payment": _amount(down),
         "balance": _amount(dep - down),
         "balance_date": D(start, dfmt),
-        "rent": "없음",
         "handover_date": D(start, dfmt),
         "end_date": D(end, dfmt),
         "fixed_date": {"date": D(stamp_d, "dot"), "no": f"{stamp_d.year}-{rng.randint(100, 9999)}",
@@ -465,7 +506,7 @@ def lease_contract(p: Profile, rng: random.Random) -> dict:
         "contract_date": D(cdate, dfmt),
         "landlord": {"address": f["seller_addr"], "rrn": lord.rrn, "phone": lord.mobile, "name": lord.name},
         "tenant": {"address": p.person.address.road_full, "rrn": p.person.rrn, "phone": p.person.mobile, "name": p.person.name},
-        "broker": _broker(rng, f),
+        "brokers": _brokers(rng, f),
     }
 
 
@@ -487,18 +528,27 @@ def move_in_household_list(p: Profile, rng: random.Random) -> dict:
             heads.append((_rand_person(rng), heads[0][1] + timedelta(days=rng.randint(200, 2000))))
     else:
         heads = [(_rand_person(rng), p.issue_date - timedelta(days=rng.randint(200, 1400)))]
+    cohab = []
     for i, (nm, d) in enumerate(heads):
         first_same = rng.random() < 0.75
         first_nm, first_d = (nm, d) if first_same else (_rand_person(rng), d - timedelta(days=rng.randint(0, 3)))
+        n_co = 1 if rng.random() < 0.15 else 0  # 주민등록표상 동거인(세대원 아님)은 드묾
         rows.append({"no": str(i + 1), "head_name": _mask_name(nm), "move_in_date": D(min(d, p.issue_date), "dash"),
                      "reg_type": "거주자", "first_name": _mask_name(first_nm), "first_date": D(min(first_d, p.issue_date), "dash"),
-                     "first_reg_type": "거주자", "cohabitants": str(rng.randint(0, 3))})
+                     "first_reg_type": "거주자", "cohabitants": str(n_co)})
+        for _ in range(n_co):
+            cd = min(d + timedelta(days=rng.randint(30, 900)), p.issue_date)
+            cohab.append({"no": str(len(cohab) + 1), "name": _mask_name(_rand_person(rng)), "move_in_date": D(cd, "dash"),
+                          "reg_type": "거주자"})
     purpose = rng.choice(["금융기관 대출(주택담보대출)", "금융기관 제출", "전세자금대출 신청", "임대차계약 체결"])
     return {
         "issue_no": issue_no(rng, 16),
+        "issue_date": D(p.issue_date, "dot"),
         "address": a.road_full,
         "jibun_address": f"{a.jibun_full} " + (f"{f['dong_no']}동 " if f["dong_no"] else "") + f"{f['ho']}호",
         "households": rows,
+        **({"cohabitants": cohab} if cohab else {}),
+        "kind": rng.choice(["열람", "교부", "교부"]),
         "applicant": {"name": p.person.name, "rrn": K.mask_rrn(p.person.rrn), "address": p.person.address.road_full,
                       "purpose": purpose},
         "view_date": D(p.issue_date, "kor"),
