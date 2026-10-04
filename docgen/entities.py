@@ -271,7 +271,9 @@ class World:
             capital = 0
             employees = r.randint(0, 8)
             revenue = K.round_to(r.uniform(4e7, 9e8), 100_000)
-        est = rand_date(r, date(2005, 1, 1), date(2023, 12, 31))
+        # 설립일은 대표자가 만 25세가 된 이후로 한다
+        earliest = max(date(2005, 1, 1), date(ceo.birth.year + 25, ceo.birth.month, 1))
+        est = rand_date(r, earliest, max(earliest + timedelta(days=200), date(2023, 12, 31)))
         return Company(
             name=name, name_en=name_en, biz_no=K.biz_no(r, corporate),
             corp_no=K.corp_reg_no(r) if corporate else None, ceo=ceo, address=addr,
