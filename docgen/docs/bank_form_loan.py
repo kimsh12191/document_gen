@@ -222,7 +222,7 @@ def _term_text(years: int, rng: random.Random) -> str:
     return f"{years}년" if rng.random() < 0.6 else f"{years * 12}개월"
 
 
-_LEGAL_BANK = {"농협은행": "농협은행 주식회사", "기업은행": "중소기업은행", "SC제일은행": "주식회사 한국스탠다드차타드은행"}
+_LEGAL_BANK = {"iM뱅크": "주식회사 아이엠뱅크", "농협은행": "농협은행 주식회사", "기업은행": "중소기업은행", "SC제일은행": "주식회사 한국스탠다드차타드은행"}
 
 
 def _legal_bank(bank: str) -> str:
@@ -454,7 +454,7 @@ def _stamp_tax(amount: int) -> str:
     return f"{won(tax)} (고객 {won(tax // 2)} / 은행 {won(tax // 2)})"
 
 
-@doc("credit_agreement", "여신거래약정서(가계용)", "bank_form", category="internal")
+@doc("credit_agreement", "대출거래약정서(가계용)", "bank_form", category="internal")
 def credit_agreement(p: Profile, rng: random.Random) -> dict:
     """대출거래약정서(가계용) 첫 장. 은행연합회 표준 구성(제1조 거래조건 ~ 인지세 부담) 기준."""
     pl = _plan_personal(p)

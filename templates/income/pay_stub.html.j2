@@ -1,6 +1,8 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
 {% block style %}
+.page.a4 { padding: min(var(--page-pad), 52px); line-height: min(var(--lh), 1.45); }
+table.ps th, table.ps td, table.wk th, table.wk td { padding-top: min(var(--pad), 5px); padding-bottom: min(var(--pad), 5px); }
 h1.title { margin: 4px 0 2px; letter-spacing: .3em; }
 .ps-sub { text-align: center; margin-bottom: 10px; }
 .ps-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4px; }

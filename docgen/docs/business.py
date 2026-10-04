@@ -65,7 +65,8 @@ def _sincere_filer(p: Profile) -> bool:
 def _itr_filed_date(p: Profile, y: int) -> date:
     """y년 귀속 종합소득세 신고일. 신고서·표준재무제표증명이 같은 날짜를 쓰도록 프로필 고정 난수로 만든다."""
     deadline = date(y + 1, 6, 30) if _bookkeeping_double(p) and _sincere_filer(p) else date(y + 1, 5, 31)
-    return rand_date(_prng(p, "itr_filed", y), date(y + 1, 5, 2), deadline)
+    filed = rand_date(_prng(p, "itr_filed", y), date(y + 1, 5, 2), deadline)
+    return max(date(y + 1, 5, 2), min(filed, p.issue_date - timedelta(days=1)))  # 발급일 이후 신고는 불가
 
 
 def _revenue(p: Profile, y: int) -> int:

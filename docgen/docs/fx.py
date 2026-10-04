@@ -29,7 +29,7 @@ _BANK_EN = {"국민은행": ("KOOKMIN BANK", "CZNBKRSE"), "신한은행": ("SHIN
             "우리은행": ("WOORI BANK", "HVBKKRSE"), "하나은행": ("HANA BANK", "KOEXKRSE"),
             "농협은행": ("NONGHYUP BANK", "NACFKRSE"), "기업은행": ("INDUSTRIAL BANK OF KOREA", "IBKOKRSE"),
             "SC제일은행": ("STANDARD CHARTERED BANK KOREA", "SCBLKRSE"), "부산은행": ("BUSAN BANK", "PUSBKR2P"),
-            "대구은행": ("iM BANK", "DAEBKR22")}
+            "iM뱅크": ("iM BANK", "DAEBKR22")}
 
 
 def _rom_syl(text: str) -> str:
