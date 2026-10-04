@@ -1,0 +1,50 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block style %}
+.page.card { background: linear-gradient(160deg, #fdf6e9 0%, #f6f1fa 40%, #e9f3ee 100%); border: 1px solid #c8bfa8; padding: 14px 20px; }
+.dl-head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #8a6d3b; padding-bottom: 3px; }
+.dl-head .t { font-size: 21px; font-weight: 800; letter-spacing: .12em; color: #3a2a10; }
+.dl-head .t small { font-size: 11px; font-weight: 600; letter-spacing: 0; color: #6b5a3a; margin-left: 4px; }
+.dl-head .k { font-size: 18px; font-weight: 800; color: #1b2b48; letter-spacing: .05em; }
+.dl-body { display: flex; gap: 16px; margin-top: 8px; }
+.dl-left { width: 102px; flex: none; }
+.dl-photo { width: 102px; height: 130px; }
+.dl-serial { font-size: 10.5px; margin-top: 6px; text-align: center; color: #333; letter-spacing: .08em; }
+.dl-serial .l { display: block; font-size: 9px; color: #666; letter-spacing: 0; }
+.dl-right { flex: 1; font-size: 12.5px; line-height: 1.35; }
+.dl-no { font-size: 19px; font-weight: 700; letter-spacing: .06em; color: #1b2b48; margin-bottom: 3px; }
+.dl-name { font-size: 18px; font-weight: 700; letter-spacing: .15em; }
+.dl-rrn { font-size: 15px; letter-spacing: .05em; margin: 1px 0 4px; }
+.dl-addr { font-size: 12px; line-height: 1.35; min-height: 32px; }
+.dl-row { font-size: 12px; margin-top: 3px; }
+.dl-row .l { display: inline-block; min-width: 74px; color: #444; }
+.dl-foot { position: absolute; right: 22px; bottom: 14px; text-align: right; }
+.dl-foot .d { font-size: 13px; letter-spacing: .08em; padding-right: 46px; }
+.dl-foot .o { font-size: 16px; font-weight: 700; letter-spacing: .08em; position: relative; display: inline-block; padding-right: 46px; }
+.dl-foot .o .seal { right: 0; top: -12px; }
+{% endblock %}
+{% block content %}
+<div class="dl-head">
+  <div class="t">자동차운전면허증<small>(Driver's License)</small></div>
+  <div class="k">{{ f("license_type", label="면허종류") }}</div>
+</div>
+<div class="dl-body">
+  <div class="dl-left">
+    <div class="photo dl-photo"></div>
+    <div class="dl-serial"><span class="l">암호일련번호</span>{{ f("serial", label="암호일련번호") }}</div>
+  </div>
+  <div class="dl-right">
+    <div class="dl-no">{{ f("license_no", label="면허번호") }}</div>
+    <div class="dl-name">{{ f("name", label="성명") }}</div>
+    <div class="dl-rrn">{{ f("rrn", label="주민등록번호") }}</div>
+    <div class="dl-addr">{{ f("address", label="주소") }}</div>
+    {% if d.aptitude_period is defined %}<div class="dl-row"><span class="l">적성검사기간</span>{{ f("aptitude_period", label="적성검사기간") }}</div>{% endif %}
+    {% if d.renewal_period is defined %}<div class="dl-row"><span class="l">갱신기간</span>{{ f("renewal_period", label="갱신기간") }}</div>{% endif %}
+    {% if d.condition is defined %}<div class="dl-row"><span class="l">조건</span>{{ f("condition", label="조건") }}</div>{% endif %}
+  </div>
+</div>
+<div class="dl-foot">
+  <div class="d">{{ f("issue_date", label="발급일") }}</div>
+  <div class="o">{{ f("issuer", label="발급기관") }}{{ m.seal("경찰청장인", square=True, size="sm", over=True) }}</div>
+</div>
+{% endblock %}

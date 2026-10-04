@@ -1,0 +1,48 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block style %}
+.page.passport { background: linear-gradient(170deg, #f3f0e4 0%, #eaf1ec 45%, #efe9f3 100%); border: 1px solid #b8b3a0; padding: 16px 24px; font-family: 'NanumBarunGothic', 'Noto Sans CJK KR', sans-serif; }
+.pp-head { display: flex; justify-content: space-between; align-items: baseline; color: #253a5e; border-bottom: 1px solid #9aa6b8; padding-bottom: 4px; }
+.pp-head .a { font-size: 17px; font-weight: 800; letter-spacing: .15em; }
+.pp-head .a small { font-size: 12px; font-weight: 600; letter-spacing: .06em; margin-left: 6px; }
+.pp-head .b { font-size: 15px; font-weight: 700; letter-spacing: .12em; }
+.pp-body { display: flex; gap: 22px; margin-top: 10px; }
+.pp-photo { width: 140px; height: 180px; flex: none; }
+.pp-sign { width: 140px; margin-top: 8px; font-size: 9px; color: #555; border-top: 1px solid #777; padding-top: 2px; text-align: center; }
+.pp-fields { flex: 1; display: grid; grid-template-columns: 1fr 1fr 1.3fr; column-gap: 14px; row-gap: 4px; align-content: start; }
+.pp-f { line-height: 1.15; }
+.pp-f .l { display: block; font-size: 9.5px; color: #4a5568; letter-spacing: .02em; }
+.pp-f .v { display: block; font-size: 15px; font-weight: 700; color: #111; letter-spacing: .04em; font-family: 'DejaVu Sans', 'NanumBarunGothic', sans-serif; }
+.pp-f .v.ko { font-family: 'NanumBarunGothic', 'Noto Sans CJK KR', sans-serif; letter-spacing: .15em; }
+.pp-f.w2 { grid-column: span 2; } .pp-f.w3 { grid-column: span 3; }
+.pp-mrz { position: absolute; left: 24px; right: 24px; bottom: 16px; font-family: 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 22.5px; letter-spacing: .5px; line-height: 1.35; color: #111; white-space: pre; background: rgba(255,255,255,.35); }
+{% endblock %}
+{% block content %}
+<div class="pp-head">
+  <div class="a">대한민국<small>REPUBLIC OF KOREA</small></div>
+  <div class="b">여권 PASSPORT</div>
+</div>
+<div class="pp-body">
+  <div>
+    <div class="photo pp-photo"></div>
+    <div class="pp-sign">소지인 서명 / Signature of bearer</div>
+  </div>
+  <div class="pp-fields">
+    <div class="pp-f"><span class="l">종류/Type</span><span class="v">{{ f("type", label="종류/Type") }}</span></div>
+    <div class="pp-f"><span class="l">발행국/Issuing country</span><span class="v">{{ f("country_code", label="발행국/Issuingcountry") }}</span></div>
+    <div class="pp-f"><span class="l">여권번호/Passport No.</span><span class="v">{{ f("passport_no", label="여권번호/PassportNo.") }}</span></div>
+    <div class="pp-f w3"><span class="l">성/Surname</span><span class="v">{{ f("surname", label="성/Surname") }}</span></div>
+    <div class="pp-f w3"><span class="l">이름/Given names</span><span class="v">{{ f("given_names", label="이름/Givennames") }}</span></div>
+    <div class="pp-f w2"><span class="l">한글성명</span><span class="v ko">{{ f("name_korean", label="한글성명") }}</span></div>
+    <div class="pp-f"><span class="l">국적/Nationality</span><span class="v" style="font-size:13px">{{ f("nationality", label="국적/Nationality") }}</span></div>
+    <div class="pp-f"><span class="l">생년월일/Date of birth</span><span class="v">{{ f("date_of_birth", label="생년월일/Dateofbirth") }}</span></div>
+    <div class="pp-f"><span class="l">성별/Sex</span><span class="v">{{ f("sex", label="성별/Sex") }}</span></div>
+    {% if d.personal_no is defined %}<div class="pp-f"><span class="l">주민등록번호/Personal No.</span><span class="v">{{ f("personal_no", label="주민등록번호/PersonalNo.") }}</span></div>{% else %}<div></div>{% endif %}
+    <div class="pp-f"><span class="l">발급일/Date of issue</span><span class="v">{{ f("date_of_issue", label="발급일/Dateofissue") }}</span></div>
+    <div class="pp-f w2"><span class="l">기간만료일/Date of expiry</span><span class="v">{{ f("date_of_expiry", label="기간만료일/Dateofexpiry") }}</span></div>
+    <div class="pp-f w3"><span class="l">발행관청/Authority</span><span class="v" style="font-size:13px">{{ f("authority", label="발행관청/Authority") }}</span></div>
+  </div>
+</div>
+<div class="pp-mrz">{{ f("mrz.line1", label="MRZ") }}
+{{ f("mrz.line2", label="MRZ") }}</div>
+{% endblock %}
