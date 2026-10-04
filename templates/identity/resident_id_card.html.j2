@@ -1,0 +1,25 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block style %}
+.page.card { background: linear-gradient(135deg, #eef6fb 0%, #f9fbf4 45%, #f3eefa 100%); border: 1px solid #b9c6d3; }
+.idc-title { font-size: 26px; font-weight: 800; letter-spacing: .35em; margin: 4px 0 14px; color: #1b2b48; }
+.idc-name { font-size: 22px; font-weight: 700; letter-spacing: .15em; }
+.idc-name .hj { font-size: 15px; font-weight: 400; letter-spacing: .05em; margin-left: 4px; }
+.idc-rrn { font-size: 20px; letter-spacing: .08em; margin: 6px 0 10px; }
+.idc-addr { font-size: 13px; line-height: 1.45; width: 330px; }
+.idc-photo { position: absolute; right: 26px; top: 56px; width: 118px; height: 150px; }
+.idc-foot { position: absolute; left: 0; right: 0; bottom: 18px; text-align: center; }
+.idc-foot .d { font-size: 14px; letter-spacing: .1em; }
+.idc-foot .o { font-size: 18px; font-weight: 700; letter-spacing: .15em; position: relative; display: inline-block; padding-right: 28px; }
+{% endblock %}
+{% block content %}
+<div class="idc-title">주민등록증</div>
+<div class="idc-name">{{ f("name", label="성명") }}<span class="hj">({{ f("name_hanja", label="한자성명") }})</span></div>
+<div class="idc-rrn">{{ f("rrn", label="주민등록번호") }}</div>
+<div class="idc-addr">{{ f("address", label="주소") }}</div>
+<div class="photo idc-photo"></div>
+<div class="idc-foot">
+  <div class="d">{{ f("issue_date", label="발급일") }}</div>
+  <div class="o">{{ f("issuer", label="발급기관") }}{{ m.seal(val("issuer").split()[-1] ~ "인", square=True, size="sm", over=True) }}</div>
+</div>
+{% endblock %}
