@@ -215,7 +215,8 @@ def _korean_under_10000(n: int, digits: str, units: list[str]) -> str:
     for i, u in zip(range(3, -1, -1), units):
         d = (n // 10 ** i) % 10
         if d:
-            out += ("" if (d == 1 and u and digits == _DIGITS) else digits[d]) + u
+            # 공식 금액 표기 관행: '일천', '일백'은 쓰고 '일십'은 '십'으로 쓴다.
+            out += ("" if (d == 1 and u in ("십",)) else digits[d]) + u
     return out
 
 

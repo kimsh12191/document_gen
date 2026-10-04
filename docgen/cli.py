@@ -13,7 +13,7 @@ import sys
 from pathlib import Path
 
 from .entities import make_profile
-from .registry import GROUPS, SCENARIOS, load_all
+from .registry import GROUPS, SCENARIO_EXTRA, SCENARIOS, load_all
 from .render import render, to_nested
 
 PROMPTS = [
@@ -101,6 +101,8 @@ def cmd_generate(args) -> None:
         for i in range(args.n):
             seed = args.seed + i
             profile = make_profile(seed)  # 같은 i 의 서류들은 모두 같은 고객
+            if args.scenario:
+                profile.extra.update(scenario=args.scenario, **SCENARIO_EXTRA.get(args.scenario, {}))
             for doc_id in ids:
                 spec = reg[doc_id]
                 sid = f"{doc_id}_{seed:06d}"
@@ -109,7 +111,7 @@ def cmd_generate(args) -> None:
                 (out / "html" / f"{sid}.html").write_text(html, encoding="utf-8")
                 label = {
                     "id": sid, "doc_type": doc_id, "doc_name": spec.name, "group": spec.group,
-                    "category": spec.category, "profile_seed": seed,
+                    "category": spec.category, "profile_seed": seed, "scenario": args.scenario,
                     "html": f"html/{sid}.html", "fields": fields, "gt": gt,
                 }
                 if renderer:

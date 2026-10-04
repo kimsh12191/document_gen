@@ -52,6 +52,13 @@ SCENARIOS = {
                                            "family_relation_certificate", "overseas_remittance_application"]),
 }
 
+# 시나리오별로 프로필에 주입하는 값 (Profile.extra). 서류 생성 함수가 참고한다.
+SCENARIO_EXTRA = {
+    "personal_credit_loan": {"loan_kind": "credit"},
+    "mortgage": {"loan_kind": "mortgage"},
+    "jeonse_loan": {"loan_kind": "jeonse"},
+}
+
 
 @dataclass
 class DocSpec:

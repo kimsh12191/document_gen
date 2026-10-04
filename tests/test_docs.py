@@ -55,7 +55,9 @@ def test_rrn_checksum():
 
 def test_won_korean():
     assert K.won_korean(120_000_000) == "일억이천만"
-    assert K.won_korean(1_234_567) == "백이십삼만사천오백육십칠"
+    assert K.won_korean(1_234_567) == "일백이십삼만사천오백육십칠"
+    assert K.won_korean(214_000_000) == "이억일천사백만"
+    assert K.won_korean(10_000) == "일만"
     assert K.won_korean(350_000_000, hanja=True) == "參億伍阡萬"
 
 

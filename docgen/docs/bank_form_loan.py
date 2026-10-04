@@ -71,6 +71,7 @@ def _plan_personal(p: Profile) -> dict:
     sal = p.employment.annual_salary
     prop = p.property
     kind = r.choices(["credit", "mortgage", "jeonse"], weights=[35, 45, 20])[0]
+    kind = p.extra.get("loan_kind", kind)  # 시나리오가 대출 종류를 정하면 그것을 따른다
 
     # 주택담보 조건은 근저당권설정계약서에서 항상 쓰므로 미리 계산한다.
     ltv = r.uniform(0.4, 0.7)
