@@ -4,9 +4,10 @@
 
 | 상태 | 건수 |
 |---|---|
-| 반영(검색근거) | 38 |
-| 조사중 | 2 |
-| 대기 | 30 |
+| 반영(검색근거) | 43 |
+| 조사중 | 4 |
+| 보류 | 1 |
+| 대기 | 22 |
 | **합계** | **70 / 70** |
 
 ## 신원·신분
@@ -61,9 +62,9 @@
 |---|---|---|---|---|
 | 통장사본 | `bankbook_copy` | 법정서식 없음, 통장 표지(첫 면) 사본 및 인터넷뱅킹 통장사본(통장표지) 출력 ([은행별 통장사본 출력](https://0muwon.com/entry/%EA%B5%AD%EB%AF%BC%EC%9D%80%ED%96%89-%EC%9A%B0%EB%A6%AC%EC%9D%80%ED%96%89-%EB%86%8D%ED%98%91-%ED%86%B5%EC%9E%A5-%EB%93%B1-%EC%9D%80%ED%96%89%EB%B3%84-%ED%86%B5%EC%9E%A5%ED%91%9C%EC%A7%80-%ED%86%B5%EC%9E%A5%EC%82%AC%EB%B3%B8-%EC%B6%9C%EB%A0%A5%EB%B0%A9%EB%B2%95), [하나은행 FAQ](https://kebhana.com/cont/customer/customer01/index,1,list,24.jsp)) | 반영(검색근거) | 인터넷 출력본을 증명서형(확인 문구·은행 직인)에서 통장 표지형(은행명·상품명·계좌번호·예금주 님·신규일·관리점, 출력일)으로 변경, 스캔본의 임의 문구(원본대조필) 삭제 |
 | 거래내역확인서 | `bank_statement` | 법정서식 없음, 은행별 거래내역확인서·입출금거래내역서 통용 형식 ([거래내역확인서 출력](https://jab-guyver.co.kr/244), [국민은행 거래내역서](https://laystory.com/entry/%EA%B5%AD%EB%AF%BC%EC%9D%80%ED%96%89-%EC%9E%85%EC%B6%9C%EA%B8%88-%EA%B1%B0%EB%9E%98%EB%82%B4%EC%97%AD%EC%84%9C-%EB%B0%9C%EA%B8%89-%EB%B0%A9%EB%B2%95-%EC%A0%95%EB%A6%AC/)) | 반영(검색근거) | 열을 은행 통용 표기(거래일시·적요·기재내용·찾으신금액·맡기신금액·거래후잔액)로 변경: 거래구분은 적요(type), 상대방은 기재내용(memo)으로 분리하고 거래점 열 삭제, 적요 값(타행입금·자동이체·체크카드·CD출금·결산 등) 정리 |
-| 잔액증명서 | `balance_certificate` |  | 조사중 |  |
-| 부채증명서 | `debt_certificate` |  | 대기 |  |
-| 신용카드 이용대금명세서 | `card_statement` |  | 대기 |  |
+| 잔액증명서 | `balance_certificate` | 법정서식 없음, 은행 예금잔액증명서 통용 항목 ([우리은행 발급대상안내](https://spib.wooribank.com/pib/Dream?withyou=PSBKM0213), [헬프미 잔고증명서](https://www.help-me.kr/blog/article/%EC%9E%94%EC%95%A1%EC%A6%9D%EB%AA%85%EC%84%9C%EC%9D%98_%EB%AA%A8%EB%93%A0_%EA%B2%83/)) | 반영(검색근거) | 표 열을 과목·계좌번호·예금잔액·미결제타점권·질권·지급정지/압류/가압류로 변경(비고 삭제), 최대 5계좌 제한, 고객번호(주민등록번호) 표기, 주소 삭제 |
+| 부채증명서 | `debt_certificate` | 법정서식 없음, 은행별 부채증명서(부채잔액증명서) ([SC제일은행 부채잔액증명서](https://bb.standardchartered.co.kr/scdemo/static/html/sc10/UMLC_03001001.html), [은행별 발급방법](https://info.welloffmap.com/%EB%B6%80%EC%B1%84%EC%A6%9D%EB%AA%85%EC%84%9C-%EB%B0%9C%EA%B8%89%EB%B0%A9%EB%B2%95/)) | 보류 | 검색으로 확인된 항목(대출계좌·대출잔액·연체여부·기준일)이 이미 반영되어 있어 현행 유지. 은행별 실제 열 구성 미확인 |
+| 신용카드 이용대금명세서 | `card_statement` | 신용카드 개인회원 표준약관(연간 할부수수료율·100원당 할부개월별 수수료 통지) 및 카드사 명세서 통용 항목 ([여신금융협회 표준약관](https://m.crefia.or.kr/mobile/infocenter/regulation/selfRegulation.xx), [카드고릴라 명세서 4가지](https://www.card-gorilla.com/contents/detail/1733)) | 반영(검색근거) | 이용내역 열 제목을 통용 표기(이용일자·이용하신 가맹점·원금·수수료(이자)·결제 후 잔액)로 변경, 연간 할부수수료율과 100원당 할부개월별 수수료 안내표 추가(fee_per_100) |
 
 ## 부동산
 
@@ -89,7 +90,7 @@
 
 | 서류 | ID | 근거 서식·출처 | 상태 | 주요 수정 |
 |---|---|---|---|---|
-| 법인 등기사항전부증명서(현재 유효사항) | `corporate_registry` |  | 대기 |  |
+| 법인 등기사항전부증명서(현재 유효사항) | `corporate_registry` |  | 조사중 |  |
 | 정관 | `articles_of_incorporation` |  | 대기 |  |
 | 주주명부 | `shareholder_registry` |  | 대기 |  |
 | 재무제표(재무상태표·손익계산서) | `financial_statements` |  | 대기 |  |
@@ -102,10 +103,10 @@
 
 | 서류 | ID | 근거 서식·출처 | 상태 | 주요 수정 |
 |---|---|---|---|---|
-| 상업송장(Commercial Invoice) | `commercial_invoice` |  | 조사중 |  |
-| 무역 매매계약서(Sales Contract) | `trade_contract` |  | 대기 |  |
-| 선하증권(B/L) | `bill_of_lading` |  | 대기 |  |
-| 포장명세서(Packing List) | `packing_list` |  | 대기 |  |
+| 상업송장(Commercial Invoice) | `commercial_invoice` | 국내 무역실무 표준 C/I 양식(①~⑯ 번호식). [예스폼 Commercial Invoice](https://www.yesform.com/wdata/doc-959999.php), [트레드링스 작성법](https://www.tradlinx.com/blog/guide/%EC%BB%A4%EB%A8%B8%EC%85%9C-%EC%9D%B8%EB%B3%B4%EC%9D%B4%EC%8A%A4commercial-invoice-%EC%9E%91%EC%84%B1%EB%B2%95/) | 반영(검색근거) | 기존 ①~⑯ 번호식 구성이 국내 표준 양식과 일치함을 확인. 열 제목을 Quantity/Unit·Unit-price로 표준 표기 정정, 품목표 빈 행을 늘려 실제 양식처럼 표가 페이지 하단까지 이어지게 함. |
+| 무역 매매계약서(Sales Contract) | `trade_contract` | 국내 무역실무 물품매매계약서(SALES CONTRACT) 관행 양식(Messrs. 수신, 'We as Seller confirm having sold...' 문구, 이면 일반거래조건). [KITA 무역실무 매뉴얼](https://www.kita.net/cmmrcInfo/cmmrcPrcafsMnl/chapters/03/verse0406_02.do), [KOCW 무역계약 사례](http://contents.kocw.or.kr/KOCW/document/2015/duksung/kimsangman/5.pdf) | 반영(검색근거) | 매도인 레터헤드+Messrs.(매수인) 수신 구조와 표준 확인 문구로 변경. 조항을 국내 양식의 항목형(Price Terms·Origin·Packing·Shipping Mark·Shipment·Port of Shipment·Destination·Payment·Insurance·Inspection·Arbitration·Remarks)으로 재구성하고 원산지·화인·선적항·목적지 GT 추가. 수출 건 검사조항은 관행 문구 사용. 서명란을 ACCEPTED BY(Buyer)/Very truly yours(Seller)로 변경. |
+| 선하증권(B/L) | `bill_of_lading` | 선사 해상 선하증권 표준 레이아웃(Combined Transport B/L 관행 항목). [iContainers 작성법](https://www.icontainers.com/help/how-to-fill-out-a-bill-of-lading/), [Linbis B/L 샘플 해설](https://www.linbis.com/bill-of-lading/) | 반영(검색근거) | 기존 항목 구성이 표준 B/L과 일치함을 확인. Point and Country of Origin 칸과 컨테이너 수(예: 2 X 40'HC) 추가, 화물란에 SHIPPED ON BOARD 일자 스탬프 추가. |
+| 포장명세서(Packing List) | `packing_list` |  | 조사중 |  |
 | 수입신고필증 | `import_declaration` |  | 대기 |  |
 | 입학허가서(Letter of Admission) | `admission_letter` |  | 대기 |  |
 | 학비 청구서(Tuition Invoice) | `tuition_invoice` |  | 대기 |  |
@@ -114,14 +115,14 @@
 
 | 서류 | ID | 근거 서식·출처 | 상태 | 주요 수정 |
 |---|---|---|---|---|
-| 대출거래신청서 | `loan_application` |  | 대기 |  |
+| 대출거래신청서 | `loan_application` |  | 조사중 |  |
 | 기업여신 신청서 | `loan_application_corp` |  | 대기 |  |
 | 여신거래약정서(가계용) | `credit_agreement` |  | 대기 |  |
 | 여신거래약정서(기업용) | `credit_agreement_corp` |  | 대기 |  |
 | 근저당권설정계약서 | `collateral_agreement` |  | 대기 |  |
 | 보증약정서 | `guarantee_agreement` |  | 대기 |  |
 | 자동이체 신청서 | `auto_transfer_application` |  | 대기 |  |
-| 고객확인서(개인) | `customer_due_diligence` |  | 대기 |  |
+| 고객확인서(개인) | `customer_due_diligence` |  | 조사중 |  |
 | 고객확인서(법인·단체) | `corporate_customer_due_diligence` |  | 대기 |  |
 | 개인(신용)정보 수집·이용·제공·조회 동의서 | `privacy_consent` |  | 대기 |  |
 | 예금거래신청서 | `account_opening_application` |  | 대기 |  |

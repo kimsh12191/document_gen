@@ -5,23 +5,26 @@ from ._common import *  # noqa: F401,F403
 
 @doc("employment_certificate", "재직증명서", "income")
 def employment_certificate(p: Profile, rng: random.Random) -> dict:
-    """회사가 발급하는 재직증명서."""
+    """회사가 발급하는 재직증명서 (근로기준법 제39조 사용증명서, 법정서식 없음 — 통용 양식).
+
+    통용 양식: 문서번호 / 인적사항(성명·주민등록번호(또는 생년월일)·주소) / 재직사항(회사명·사업자등록번호·
+    소재지·소속·직위·재직기간·담당업무) / 용도·제출처 / 증명 문구 / 발급일 / 회사명·대표이사 (직인).
+    """
     e = p.employment
     c = e.company
-    purpose = rng.choice(["금융기관 제출용", "은행 제출용", "대출 신청용", "제출처: " + p.bank])
+    df = rng.choice(["kor", "dot", "dot"])
+    idv = rng.random()
+    employee = {"name": p.person.name, "address": p.person.address.road_full}
+    if idv < 0.55:
+        employee["rrn"] = K.mask_rrn(p.person.rrn)
+    elif idv < 0.75:
+        employee["rrn"] = p.person.rrn
+    else:
+        employee["birth"] = D(p.person.birth, rng.choice(["kor", "dot"]))
     return {
-        "doc_no": f"제 {p.issue_date.year}-{rng.randint(1, 999):03d} 호",
-        "employee": {
-            "name": p.person.name,
-            "rrn": K.mask_rrn(p.person.rrn) if rng.random() < 0.6 else p.person.rrn,
-            "address": p.person.address.road_full,
-        },
-        "employment": {
-            "department": e.department,
-            "position": e.position,
-            "job": e.job,
-            "period": f"{D(e.hire_date, 'kor')} ~ 현재",
-        },
+        "doc_no": rng.choice([f"제 {p.issue_date.year}-{rng.randint(1, 999):03d} 호",
+                              f"제{p.issue_date:%y}{rng.randint(1, 999):04d}호"]),
+        "employee": employee,
         "company": {
             "name": c.name,
             "biz_no": c.biz_no,
@@ -29,7 +32,14 @@ def employment_certificate(p: Profile, rng: random.Random) -> dict:
             "phone": c.phone,
             "ceo": c.ceo.name,
         },
-        "purpose": purpose,
+        "employment": {
+            "department": e.department,
+            "position": e.position,
+            "period": f"{D(e.hire_date, df)} ~ 현재",
+            "duty": _DUTIES.get(e.department, "일반 사무"),
+        },
+        "purpose": rng.choice(["금융기관 제출용", "대출 신청용", "은행 제출용"]),
+        "submit_to": p.bank,
         "issue_date": D(p.issue_date, rng.choice(["kor", "kor_short"])),
     }
 
@@ -59,15 +69,33 @@ def _t10(x: float) -> int:
 
 
 def _ins_rates(year: int) -> tuple[float, float, float]:
-    """근로자 부담 (국민연금, 건강보험, 장기요양보험(건강보험료 대비)) 요율."""
+    """근로자 부담 (국민연금, 건강보험, 장기요양보험(건강보험료 대비)) 요율.
+
+    2026: 국민연금 9.5%(연금개혁, 근로자 4.75%), 건강보험 7.19%(3.595%), 장기요양 건보료의 13.14%.
+    2024~2025: 9%, 7.09%, 12.95% / 2023: 9%, 7.09%, 12.81% / 2022: 9%, 6.99%, 12.27% / 2021: 9%, 6.86%, 11.52%.
+    """
     if year >= 2026:
         return 0.0475, 0.03595, 0.1314
-    return 0.045, 0.03545, 0.1295
+    if year >= 2024:
+        return 0.045, 0.03545, 0.1295
+    if year == 2023:
+        return 0.045, 0.03545, 0.1281
+    if year == 2022:
+        return 0.045, 0.03495, 0.1227
+    return 0.045, 0.0343, 0.1152
 
 
 def _pension_base(monthly: int, d: date) -> int:
-    """국민연금 기준소득월액 (천원 미만 절사, 상·하한 적용)."""
-    lo, hi = (400_000, 6_370_000) if (d.year, d.month) >= (2025, 7) else (390_000, 6_170_000)
+    """국민연금 기준소득월액 (천원 미만 절사, 상·하한 적용). 상·하한은 매년 7월 조정."""
+    ym = (d.year, d.month)
+    if ym >= (2026, 7):
+        lo, hi = 410_000, 6_590_000
+    elif ym >= (2025, 7):
+        lo, hi = 400_000, 6_370_000
+    elif ym >= (2024, 7):
+        lo, hi = 390_000, 6_170_000
+    else:
+        lo, hi = 370_000, 5_900_000
     return min(hi, max(lo, monthly // 1000 * 1000))
 
 
@@ -139,7 +167,7 @@ def _simple_monthly_tax(taxable_monthly: int, deps: int, n_child8: int, year: in
     """근로소득 간이세액표를 흉내 낸 월 원천징수 소득세."""
     pr, hr, lr = _ins_rates(year)
     annual = taxable_monthly * 12
-    pension = int(min(taxable_monthly, 6_370_000) * pr) * 12
+    pension = int(_pension_base(taxable_monthly, date(year, 6, 1)) * pr) * 12
     special = int(annual * (hr * (1 + lr) + 0.009))
     t = _income_tax_calc(annual, pension, special, deps, n_child8)
     return _t10(t["final"] / 12)
@@ -284,20 +312,14 @@ def _months_between(a: date, b: date) -> int:
     return max(1, (b.year * 12 + b.month) - (a.year * 12 + a.month) + (1 if a.day == 1 else 0))
 
 
-def _nps_branch(addr: Address) -> str:
-    last = addr.sigungu.split()[0] if addr.sigungu else K.sido_short(addr.sido)
-    if len(last) == 2 and last[-1] in "구시군":
-        return f"{K.sido_short(addr.sido)}{last[0]}부지사"
-    return f"{last[:-1] if last[-1] in '구시군' else last}지사"
-
-
 # ---------------------------------------------------------------------------
 # 서류
 # ---------------------------------------------------------------------------
 
 @doc("career_certificate", "경력증명서", "income")
 def career_certificate(p: Profile, rng: random.Random) -> dict:
-    """현 직장이 발급하는 경력증명서 (재직 중 부서·직위 이력)."""
+    """현 직장이 발급하는 경력증명서 (근로기준법 제39조 사용증명서, 통용 양식: 인적사항 / 경력사항
+    (근무기간·근무부서·직위·담당업무) / 총 근무기간 / 용도·제출처 / 증명 문구 / 회사 정보·대표이사 직인)."""
     e = p.employment
     c = e.company
     names = [x[0] for x in POSITIONS]
@@ -332,6 +354,7 @@ def career_certificate(p: Profile, rng: random.Random) -> dict:
         "total_period": f"{m // 12}년 {m % 12}개월",
         "careers": rows,
         "purpose": rng.choice(["금융기관 제출용", "은행 제출용", "대출 신청용", "경력 확인용"]),
+        "submit_to": p.bank,
         "company": {
             "name": c.name,
             "biz_no": c.biz_no,
@@ -345,80 +368,114 @@ def career_certificate(p: Profile, rng: random.Random) -> dict:
 
 @doc("pay_stub", "급여명세서", "income")
 def pay_stub(p: Profile, rng: random.Random) -> dict:
-    """회사 급여명세서 (월 급여, 4대보험·소득세 공제)."""
+    """임금명세서 (근로기준법 제48조제2항, 시행령 제27조의2 — 고용노동부 임금명세서 표준 예시 구조).
+
+    지급일 / 성명·생년월일·사번·부서·직급 / 세부내역(매월 지급 · 격월 또는 부정기 지급 / 공제) /
+    지급액 계·공제액 계·실수령액 / 근로일수·근로시간수·통상시급 / 계산방법(산출식 또는 산출방법).
+    """
     e = p.employment
     pm = months_back(p.issue_date, 1 if p.issue_date.day < 25 else 0)
     pr = _payroll(p, pm.year, pm.month)
     pay_date = date(pm.year, pm.month, pr["pay_day"])
-    df = rng.choice(["dot", "dash", "kor_short"])
+    df = rng.choice(["dot", "dash", "dash"])
     rate = lambda x: f"{x * 100:.3f}".rstrip("0").rstrip(".") + "%"  # noqa: E731
     p_rate, h_rate, l_rate = pr["rates"]
-    calc = [
-        ("연장근로수당", f"통상시급 {pr['hourly']:,}원 × {pr['hours']}시간 × 1.5"),
-        ("국민연금", f"기준소득월액 × {rate(p_rate)}"),
-        ("건강보험", f"보수월액 × {rate(h_rate)}"),
-        ("장기요양보험", f"건강보험료 × {rate(l_rate)}"),
-        ("고용보험", "과세급여 × 0.9%"),
-        ("지방소득세", "소득세 × 10%"),
+    amt = dict(pr["pay"])
+    ded = dict(pr["ded"])
+    w = lambda n: won(n, "")  # noqa: E731
+    pbase = _pension_base(pr["base"] + pr["pos"], date(pm.year, pm.month, 1))
+    calc = []
+    if pr["hours"]:
+        calc.append(("연장근로수당", f"{pr['hours']}시간 × {pr['hourly']:,}원 × 1.5", w(amt["연장근로수당"])))
+    if "명절상여금" in amt:
+        calc.append(("명절상여금", "기본급 × 50%", w(amt["명절상여금"])))
+    calc += [
+        ("국민연금", f"기준소득월액 {pbase:,}원 × {rate(p_rate)}", w(ded["국민연금"])),
+        ("건강보험", f"보수월액 × {rate(h_rate)}", w(ded["건강보험"])),
+        ("장기요양보험", f"건강보험료 × {rate(l_rate)}", w(ded["장기요양보험"])),
+        ("고용보험", "과세대상 임금 × 0.9%", w(ded["고용보험"])),
+        ("소득세", "근로소득 간이세액표 적용", w(ded["소득세"])),
+        ("지방소득세", "소득세 × 10%", w(ded["지방소득세"])),
     ]
-    if not pr["hours"]:
-        calc = calc[1:]
     nxt = months_back(pm, -1)
     wd = sum(1 for i in range((nxt - pm).days) if (pm + timedelta(days=i)).weekday() < 5)
-    return {
-        "title_month": f"{pm.year}년 {pm.month:02d}월",
+    fam = []
+    if p.spouse:
+        fam.append("배우자 1명")
+    if p.children:
+        fam.append(f"자녀 {len(p.children)}명")
+    monthly = [{"name": n, "amount": w(v)} for n, v in pr["pay"] if n != "명절상여금"]
+    irregular = [{"name": n, "amount": w(v)} for n, v in pr["pay"] if n == "명절상여금"]
+    d = {
+        "doc_title": rng.choice(["임금명세서", "임금명세서", "급여명세서"]),
+        "title_month": f"{pm.year}년 {pm.month:02d}월분",
         "company": e.company.name,
         "pay_date": D(pay_date, df),
         "employee": {
-            "name": p.person.name, "employee_no": e.employee_no, "department": e.department,
-            "position": e.position, "hire_date": D(e.hire_date, df),
+            "name": p.person.name, "birth": D(p.person.birth, df), "employee_no": e.employee_no,
+            "department": e.department, "position": e.position,
         },
-        "payments": [{"name": n, "amount": won(v, "")} for n, v in pr["pay"]],
-        "deductions": [{"name": n, "amount": won(v, "")} for n, v in pr["ded"]],
-        "pay_total": won(pr["total"], ""),
-        "deduction_total": won(pr["ded_total"], ""),
-        "net_pay": won(pr["net"], ""),
-        "calc_methods": [{"item": a, "method": b} for a, b in calc],
-        "account": f"{p.accounts[0].bank} {p.accounts[0].number}",
-        "work": {"days": f"{wd}일", "hours": f"{wd * 8 + pr['hours']}시간", "overtime_hours": f"{pr['hours']}시간"},
+        "payments": monthly,
+        "deductions": [{"name": n, "amount": w(v)} for n, v in pr["ded"]],
+        "pay_total": w(pr["total"]),
+        "deduction_total": w(pr["ded_total"]),
+        "net_pay": w(pr["net"]),
+        "work": {"days": f"{wd}", "hours": f"{wd * 8 + pr['hours']}", "overtime_hours": f"{pr['hours']}",
+                 "night_hours": "0", "holiday_hours": "0", "hourly_wage": w(pr["hourly"]),
+                 "family": ", ".join(fam) if fam else "-"},
+        "calc_methods": [{"item": a, "method": b, "amount": c} for a, b, c in calc],
     }
+    if irregular:
+        d["payments_irregular"] = irregular
+    return d
 
 
 @doc("employment_contract", "근로계약서", "income")
 def employment_contract(p: Profile, rng: random.Random) -> dict:
-    """표준근로계약서 (기간의 정함이 없는 경우)."""
+    """고용노동부 표준근로계약서 (기간의 정함이 없는 경우) — 1.근로개시일 ~ 11.기타, 사업주·근로자 서명."""
     e = p.employment
     c = e.company
+    cfg = _pay_cfg(p)
     years = max(0, p.issue_date.year - e.hire_date.year)
     annual = K.round_to(e.annual_salary / (1.035 ** years), 100_000)
     monthly = _t10(annual / 12)
     s_h = rng.choice([8, 9, 9, 9, 10])
-    pay_day = _pay_cfg(p)["pay_day"]
     df = rng.choice(["kor", "kor_short"])
-    return {
+    allow = [{"name": "식대", "amount": won(_MEAL)}]
+    if cfg["car"]:
+        allow.append({"name": "자가운전보조금", "amount": won(cfg["car"])})
+    d = {
         "employer": {"name": c.name, "ceo": c.ceo.name, "address": c.address.road_short, "phone": c.phone},
-        "employee": {"name": p.person.name, "address": p.person.address.road_short, "phone": p.person.mobile,
-                     "rrn": K.mask_rrn(p.person.rrn) if rng.random() < 0.5 else p.person.rrn},
+        "employee": {"name": p.person.name, "address": p.person.address.road_short, "phone": p.person.mobile},
         "start_date": D(e.hire_date, df),
         "workplace": rng.choice([c.address.road_short, f"{c.name} 본사"]),
         "job": f"{e.department} {_DUTIES.get(e.department, '일반 사무')}",
-        "work_hours": f"{s_h:02d}시 00분부터 {s_h + 9:02d}시 00분까지",
-        "break_time": "12시 00분 ~ 13시 00분",
-        "work_days": "매주 5일(월~금) 근무",
-        "holiday": rng.choice(["매주 일요일", "매주 토요일, 일요일"]),
-        "annual_salary": won(annual),
-        "monthly_salary": won(monthly),
-        "bonus": rng.choice(["있음", "없음"]),
-        "allowances": "식대 월 200,000원" + (", 직책수당" if e.position in _POS_ALLOW else ""),
-        "pay_day": f"매월 {pay_day}일",
+        "work_start": f"{s_h:02d}시 00분",
+        "work_end": f"{s_h + 9:02d}시 00분",
+        "break_time": rng.choice(["12시 00분 ~ 13시 00분", "12시 00분 ~ 13시 00분", "11시 30분 ~ 12시 30분"]),
+        "work_days": "5",
+        "weekly_holiday": "일",
+        "monthly_salary": won(monthly, ""),
+        "bonus": "있음" if cfg["holiday_bonus"] else "없음",
+        "other_pay": "있음",
+        "allowances": allow,
+        "pay_day": f"{cfg['pay_day']}",
         "pay_method": "근로자 명의 예금통장에 입금",
         "contract_date": D(e.hire_date - timedelta(days=rng.randint(0, 7)), df),
     }
+    if cfg["holiday_bonus"]:
+        d["bonus_amount"] = won(_t10((monthly - _MEAL - cfg["car"]) * 0.5) * 2, "")
+    return d
 
 
 @doc("withholding_receipt", "근로소득 원천징수영수증", "income")
 def withholding_receipt(p: Profile, rng: random.Random) -> dict:
-    """근로소득 원천징수영수증(근로소득 지급명세서) — 연말정산 결과."""
+    """근로소득 원천징수영수증(근로소득 지급명세서) 제1쪽 — 소득세법 시행규칙 [별지 제24호서식(1)].
+
+    제1쪽 구성: 관리번호·영수증/지급명세서 구분·보관용 구분 / 거주구분 등 / 징수의무자 ①~⑤ / 소득자 ⑥~⑧ /
+    Ⅰ 근무처별 소득명세 ⑨~⑯ / Ⅱ 비과세 및 감면 소득 명세 / Ⅲ 세액명세 (72)~(76)·실효세율 / 영수 문구·서명.
+    (정산명세 ㉑~ 는 제2쪽이라 표시하지 않는다.)
+    """
     e = p.employment
     c = e.company
     y = _latest_tax_year(p)
@@ -427,71 +484,76 @@ def withholding_receipt(p: Profile, rng: random.Random) -> dict:
     issued = date(y + 1, 2, 28) + timedelta(days=rng.randint(0, 20))
     if issued > p.issue_date:
         issued = p.issue_date
+    eff = t["final"] / t["taxable"] * 100 if t["taxable"] else 0
     return {
-        "copy_type": rng.choice(["소득자 보관용", "발행자 보관용", "발행자 보고용"]),
+        "copy_type": rng.choice(["소득자 보관용", "소득자 보관용", "발행자 보관용", "발행자 보고용"]),
         "year": f"{y}",
         "resident": "거주자1",
-        "household_head": "세대주" if (p.spouse is None or p.person.gender == "M") else "세대원",
-        "settlement_type": "계속근로",
-        "payer": {"name": c.name, "ceo": c.ceo.name, "biz_no": c.biz_no, "corp_no": c.corp_no,
-                  "address": c.address.road_short},
+        "nationality": "내국인1",
+        "household_head": "세대주1" if (p.spouse is None or p.person.gender == "M") else "세대원2",
+        "settlement_type": "계속근로1",
+        "payer": {"name": c.name, "ceo": c.ceo.name, "biz_no": c.biz_no, "address": c.address.road_short},
         "earner": {"name": p.person.name, "rrn": p.person.rrn, "address": p.person.address.road_full},
         "work": {
             "company": c.name, "biz_no": c.biz_no,
-            "period": f"{D(t['start'], 'dot')} ~ {D(t['end'], 'dot')}",
+            "period": f"{D(t['start'], 'dot')}~{D(t['end'], 'dot')}",
             "salary": w(t["salary"]), "bonus": w(t["bonus"]), "total": w(t["taxable"]),
         },
         "nontax": {"meal": w(t["nontax"]), "total": w(t["nontax"])},
-        "calc": {
-            "total_pay": w(t["total"]), "earned_deduction": w(t["eid"]), "earned_income": w(t["earned"]),
-            "personal": w(t["personal"]), "pension": w(t["pension"]), "special": w(t["special"]),
-            "card": w(t["card"]), "tax_base": w(t["base"]), "calc_tax": w(t["calc"]),
-            "earned_credit": w(t["etc"]), "child_credit": w(t["child"]), "special_credit": w(t["special_credit"]),
-        },
         "tax": {
             "final_income": w(t["final"]), "final_local": w(t["final_local"]),
             "prepaid_income": w(t["prepaid"]), "prepaid_local": w(t["prepaid_local"]),
             "diff_income": w(t["diff"]), "diff_local": w(t["diff_local"]),
+            "effective_rate": f"{eff:.1f}",
         },
-        "issue_date": D(issued, "kor_short"),
+        "issue_date": D(issued, rng.choice(["kor_short", "kor"])),
         "tax_office": tax_office(c.address),
     }
 
 
 @doc("income_certificate", "소득금액증명원", "income")
 def income_certificate(p: Profile, rng: random.Random) -> dict:
-    """국세청(홈택스) 발급 소득금액증명 — 근로소득자용 / 종합소득세 신고자용."""
+    """국세청(홈택스) 발급 소득금액증명.
+
+    2022.9.22. 서식 개정으로 종전 5종(종합소득세 신고자용·근로소득자용 등)이 1종으로 통합되어,
+    '종합소득세 신고 현황'(소득구분별 수입금액·소득금액)과 '연말정산 현황'(원천징수의무자별
+    소득금액(과세대상급여액)·총결정세액)을 한 장에 표시한다.
+    """
     e = p.employment
     latest = _latest_tax_year(p)
-    n = min(rng.choice([2, 3, 3]), latest - e.hire_date.year + 1)
-    kind = rng.choice(["근로소득자용", "근로소득자용", "종합소득세 신고자용"])
+    n = min(rng.choice([1, 2, 3, 3]), latest - e.hire_date.year + 1)
+    years = list(range(latest, latest - n, -1))
     rows = []
-    for y in range(latest, latest - n, -1):
+    for y in years:
         t = _year_end(p, y)
-        amount = t["taxable"] if kind == "근로소득자용" else t["earned"]
-        rows.append({"year": f"{y}", "income_type": "근로소득", "payer": e.company.name, "payer_biz_no": e.company.biz_no,
-                     "amount": won(amount, ""), "tax": won(t["final"], "")})
+        rows.append({"year": f"{y}", "income_type": "근로", "payer": e.company.name, "payer_biz_no": e.company.biz_no,
+                     "amount": won(t["taxable"], ""), "tax": won(t["final"], "")})
     d = {
         "issue_no": f"{rng.randint(1000, 9999)}-{rng.randint(100, 999)}-{rng.randint(1000, 9999)}-{rng.randint(100, 999)}",
-        "kind": kind,
         "taxpayer": {"name": p.person.name, "rrn": K.mask_rrn(p.person.rrn, rng.choice([1, 7])),
                      "address": p.person.address.road_full},
-        "period": f"{rows[-1]['year']}년 ~ {rows[0]['year']}년",
+        "period": f"{years[-1]}년 ~ {years[0]}년" if n > 1 else f"{years[0]}년",
         "rows": rows,
         "purpose": rng.choice(["금융기관 제출용", "대출용", "은행 제출용"]),
         "submit_to": p.bank,
         "issue_date": D(p.issue_date, "kor_short"),
         "issuer": tax_office(p.person.address),
     }
-    if kind == "종합소득세 신고자용":
-        d["taxpayer"]["biz_name"] = e.company.name
-        d["taxpayer"]["biz_no"] = e.company.biz_no
+    if rng.random() < 0.2:  # 의료비 등 추가 공제를 위해 종합소득세 확정신고를 한 경우
+        y = years[0]
+        t = _year_end(p, y)
+        d["filing_rows"] = [{"year": f"{y}", "income_type": "근로", "revenue": won(t["taxable"], ""),
+                             "income": won(t["earned"], "")}]
     return d
 
 
 @doc("pension_enrollment_certificate", "국민연금 가입자 가입증명", "income")
 def pension_enrollment_certificate(p: Profile, rng: random.Random) -> dict:
-    """국민연금공단 발급 가입자 가입증명(가입내역확인서)."""
+    """국민연금공단 발급 가입자 가입증명 — 국민연금법 시행규칙 [별지 제11호서식] 국민연금가입자증명서.
+
+    □ 가입자의 인적사항(발급번호·발급일자·성명·주민등록번호) / □ 가입자의 종류 및 자격 취득일
+    (최초 자격취득일, 가입자 종류·사업장명칭·자격취득일·자격상실일) / 증명 문구 / 국민연금공단 이사장.
+    """
     hist = _work_history(p)
     df = rng.choice(["dot", "dash"])
     cur_wage = _pension_base(_t10(p.employment.annual_salary / 12) - _MEAL, p.issue_date)
@@ -499,7 +561,7 @@ def pension_enrollment_certificate(p: Profile, rng: random.Random) -> dict:
     for h in hist:
         end = h["end"] or p.issue_date
         months += _months_between(h["start"], end)
-        row = {"start": D(h["start"], df), "kind": "사업장가입자" if h["kind"] == "work" else "지역가입자"}
+        row = {"kind": "사업장가입자" if h["kind"] == "work" else "지역가입자", "start": D(h["start"], df)}
         if h["kind"] == "work":
             row["workplace"] = h["name"]
             row["wage"] = won(h["wage"] if h["wage"] else cur_wage, "")
@@ -510,26 +572,27 @@ def pension_enrollment_certificate(p: Profile, rng: random.Random) -> dict:
         rows.append(row)
     return {
         "issue_no": f"{p.issue_date:%Y%m%d}-{rng.randint(10000000, 99999999)}",
-        "person": {"name": p.person.name, "rrn": K.mask_rrn(p.person.rrn) if rng.random() < 0.5 else p.person.rrn,
-                   "address": p.person.address.road_short},
-        "current_kind": "사업장가입자",
-        "current_workplace": p.employment.company.name,
+        "person": {"name": p.person.name, "rrn": K.mask_rrn(p.person.rrn) if rng.random() < 0.5 else p.person.rrn},
+        "first_acquired": D(hist[0]["start"], df),
         "total_months": f"{months}개월",
         "rows": rows,
         "purpose": rng.choice(["금융기관 제출용", "은행 제출용", "기타"]),
         "issue_date": D(p.issue_date, "kor_short"),
-        "issuer": f"국민연금공단 {_nps_branch(p.person.address)}장",
+        "issue_date_head": D(p.issue_date, df),
     }
 
 
 @doc("health_insurance_qualification", "건강보험 자격득실확인서", "income")
 def health_insurance_qualification(p: Profile, rng: random.Random) -> dict:
-    """국민건강보험공단 발급 건강보험 자격득실 확인서."""
+    """국민건강보험공단 발급 건강보험 자격득실 확인서 (국민건강보험법 제11조 자격취득 등의 확인).
+
+    가입자구분(직장가입자·지역세대주·지역세대원·직장피부양자) / 사업장 명칭 / 자격취득일 / 자격상실일.
+    """
     hist = _work_history(p)
     df = rng.choice(["dot", "dash"])
-    rows = [{"kind": "피부양자", "start": D(p.person.birth, df), "end": D(hist[0]["start"], df)}]
+    rows = [{"kind": "직장피부양자", "start": D(p.person.birth, df), "end": D(hist[0]["start"], df)}]
     for h in hist:
-        row = {"kind": "직장가입자" if h["kind"] == "work" else "지역가입자", "start": D(h["start"], df)}
+        row = {"kind": "직장가입자" if h["kind"] == "work" else rng.choice(["지역세대주", "지역세대원"]), "start": D(h["start"], df)}
         if h["kind"] == "work":
             row["workplace"] = h["name"]
         if h["end"]:
@@ -548,7 +611,7 @@ def health_insurance_qualification(p: Profile, rng: random.Random) -> dict:
 
 @doc("health_insurance_payment", "건강보험료 납부확인서", "income")
 def health_insurance_payment(p: Profile, rng: random.Random) -> dict:
-    """국민건강보험공단 발급 건강보험료 납부확인서 (직장가입자 본인부담분)."""
+    """국민건강보험공단 발급 건강보험료 납부확인서 (직장가입자 본인부담분, 월별 고지·납부 보험료를 건강/장기요양 구분)."""
     e = p.employment
     n = rng.choice([6, 12, 12])
     last = months_back(p.issue_date, 1 if p.issue_date.day > 10 else 2)
@@ -568,17 +631,19 @@ def health_insurance_payment(p: Profile, rng: random.Random) -> dict:
             paid += timedelta(days=1)
         tot_h += h
         tot_l += l
-        rows.append({"month": f"{m.year}.{m.month:02d}", "health": won(h, ""), "ltc": won(l, ""),
-                     "total": won(h + l, ""), "paid_date": D(paid, "dot")})
+        rows.append({"month": f"{m.year}.{m.month:02d}", "notice_health": won(h, ""), "notice_ltc": won(l, ""),
+                     "health": won(h, ""), "ltc": won(l, ""), "total": won(h + l, ""), "paid_date": D(paid, "dot")})
     biz = e.company.biz_no.replace("-", "")
     return {
         "issue_no": f"{rng.randint(10, 99)}-{rng.randint(100000, 999999)}-{rng.randint(1000, 9999)}",
-        "person": {"name": p.person.name, "rrn": K.mask_rrn(p.person.rrn), "address": p.person.address.road_short},
+        "person": {"name": p.person.name, "address": p.person.address.road_short,
+                   **({"rrn": K.mask_rrn(p.person.rrn)} if rng.random() < 0.5 else {"birth": D(p.person.birth, "dot")})},
         "member_kind": "직장가입자",
         "workplace": {"name": e.company.name, "mgmt_no": f"{biz}0", "address": e.company.address.road_short},
         "period": f"{rows[0]['month']} ~ {rows[-1]['month']}",
         "rows": rows,
-        "sum": {"health": won(tot_h, ""), "ltc": won(tot_l, ""), "total": won(tot_h + tot_l, "")},
+        "sum": {"notice_health": won(tot_h, ""), "notice_ltc": won(tot_l, ""),
+                "health": won(tot_h, ""), "ltc": won(tot_l, ""), "total": won(tot_h + tot_l, "")},
         "purpose": rng.choice(["금융기관 제출용", "은행 제출용", "기타"]),
         "issue_date": D(p.issue_date, "kor_short"),
     }

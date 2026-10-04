@@ -20,7 +20,14 @@ table.pbt { font-size: 10px; margin-top: 12px; }
 table.pbt th, table.pbt td { border: 0; border-bottom: 1px solid #b9c0c6; padding: 3px 2px; background: none; font-weight: 500; }
 table.pbt th { color: #555; border-bottom: 1px solid #555; }
 .copy-note { margin-top: 18px; font-size: 13px; color: #444; }
-.pr-box { border: 2px solid var(--border); padding: 18px 24px; margin-top: 18px; }
+.pr-head { border-bottom: 2px solid var(--accent); padding-bottom: 6px; margin-bottom: 18px; }
+.pr-bank { font-weight: 800; color: var(--accent); font-size: 18px; letter-spacing: .05em; }
+.pr-cover { border: 1px solid #9aa3ad; border-radius: 8px; padding: 26px 34px; background: linear-gradient(180deg, #f7f8f5, #eef1ec);
+      box-shadow: 2px 3px 0 #d0d0d0; }
+.pr-top { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #b9c0c6; padding-bottom: 8px; margin-bottom: 8px; }
+.pr-tag { border: 1px solid var(--accent); color: var(--accent); padding: 2px 10px; font-size: 13px; border-radius: 3px; }
+.pr-t td { padding: 7px 6px !important; font-size: 15px; }
+.pr-t td:first-child { color: #444; width: 110px; }
 {% endblock %}
 {% block content %}
 {% if d.first_tx is defined %}
@@ -52,18 +59,21 @@ table.pbt th { color: #555; border-bottom: 1px solid #555; }
     </table>
   </div>
 </div>
-<div class="copy-note">※ 통장 사본 (원본대조필)</div>
 {% else %}
-{{ m.title("통 장 사 본") }}
-<div class="pr-box">
-{{ m.kv([["은 행 명", "bank"], ["예 금 주", "holder"], ["계좌번호", "account_no"], ["상 품 명", "product"],
-         ["신 규 일", "opened"], ["관 리 점", "branch"], ["전화번호", "branch_phone"]], label_w="130px") }}
+<div class="pr-head between"><span class="pr-bank">{{ val("bank") }}</span><span class="small muted">출력일 : {{ f("issue_date", label="출력일") }}</span></div>
+<div class="pr-cover">
+  <div class="pr-top"><span class="pb-bank">{{ f("bank", label="은행명") }}</span><span class="pr-tag">통장사본</span></div>
+  <div class="pb-prod">{{ f("product", label="상품명") }}</div>
+  <table class="plain pr-t">
+    <tr><td>계좌번호</td><td class="pb-acct">{{ f("account_no", label="계좌번호") }}</td></tr>
+    <tr><td>예 금 주</td><td style="font-size:18px;font-weight:700">{{ f("holder", label="예금주") }} 님</td></tr>
+    <tr><td>신 규 일</td><td>{{ f("opened", label="신규일") }}</td></tr>
+    <tr><td>관 리 점</td><td>{{ f("branch", label="관리점") }} ({{ f("branch_phone", label="관리점전화번호") }})</td></tr>
+  </table>
 </div>
-<p class="center mt-l" style="font-size:calc(var(--fs) + 2px)">위 계좌가 예금주 본인 명의의 계좌임을 확인합니다.</p>
-<div class="issuer">
-  <div class="date">{{ f("issue_date", label="발급일") }}</div>
-  <div class="org">{{ val("bank") }}{{ m.seal(val("bank") ~ "인", square=True, over=True) }}</div>
-</div>
-<p class="note mt-l">※ 본 통장사본은 인터넷뱅킹에서 출력한 것으로, 출력 시점의 계좌 정보를 기준으로 합니다. 해지된 계좌는 출력되지 않습니다.</p>
+<ul class="note mt">
+  <li>본 통장사본은 인터넷뱅킹에서 출력한 것으로, 출력 시점의 계좌 정보를 기준으로 합니다.</li>
+  <li>해지된 계좌 및 거래가 제한된 계좌는 출력되지 않습니다.</li>
+</ul>
 {% endif %}
 {% endblock %}

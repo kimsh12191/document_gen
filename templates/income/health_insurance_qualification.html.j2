@@ -6,7 +6,7 @@
 {{ m.kv([["성　　명", "person.name"], ["주민등록번호", "person.rrn"]], cols=2, label_w="110px") }}
 <table class="hq mt">
   <colgroup><col style="width:7%"><col style="width:19%"><col style="width:34%"><col style="width:20%"><col></colgroup>
-  <tr><th>번호</th><th>가입자구분</th><th>사업장명칭</th><th>자격취득일</th><th>자격상실일</th></tr>
+  <tr><th>번호</th><th>가입자구분</th><th>사업장 명칭</th><th>자격취득일</th><th>자격상실일</th></tr>
   {% for r in d.rows %}{% set i = loop.index0 %}
   <tr>
     <td class="c">{{ loop.index }}</td>
@@ -23,11 +23,11 @@
   <tr><th>용　　도</th><td>{{ f("purpose", label="용도") }}</td></tr>
 </table>
 <ul class="note">
-  <li>가입자구분은 직장가입자, 지역가입자, 피부양자로 구분하며, 자격상실일이 없는 경우 현재 자격을 유지하고 있음을 의미합니다.</li>
+  <li>가입자구분은 직장가입자, 지역가입자(세대주·세대원), 피부양자로 구분하며, 자격상실일이 없는 경우 현재 자격을 유지하고 있음을 의미합니다.</li>
   <li>자격상실일은 퇴직일(또는 사유 발생일)의 다음날입니다.</li>
   <li>본 확인서는 국민건강보험공단 홈페이지(www.nhis.or.kr)에서 발급번호로 진위 여부를 확인할 수 있습니다.</li>
 </ul>
-<p class="center mt-l" style="font-size:calc(var(--fs) + 2px)">「국민건강보험법」 제96조의2에 따라 위와 같이 건강보험 자격의 취득 및 상실 내역을 확인합니다.</p>
+<p class="center mt-l" style="font-size:calc(var(--fs) + 2px)">「국민건강보험법」 제11조에 따라 위와 같이 건강보험 자격의 취득·상실 사실을 확인합니다.</p>
 <div class="issuer">
   <div class="date">{{ f("issue_date", label="발급일") }}</div>
   <div class="org">국민건강보험공단 이사장{{ m.seal("국민건강보험공단이사장인", square=True, size="lg", over=True) }}</div>

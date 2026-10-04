@@ -63,7 +63,11 @@ def bankbook_copy(p: Profile, rng: random.Random) -> dict:
 
 @doc("bank_statement", "거래내역확인서", "finance")
 def bank_statement(p: Profile, rng: random.Random) -> dict:
-    """은행 발급 예금 거래내역확인서 (조회기간 거래 목록, 잔액 일관)."""
+    """은행 발급 예금 거래내역확인서 (조회기간 거래 목록, 잔액 일관).
+
+    열 구성은 국내 은행 거래내역 통용 형식: 거래일시 / 적요(거래구분) / 기재내용(보낸분·받는분) /
+    찾으신금액 / 맡기신금액 / 거래후잔액.
+    """
     a = p.accounts[0]
     end = p.issue_date - timedelta(days=1)
     n_m = rng.choice([1, 2, 2, 3])
@@ -85,13 +89,13 @@ def bank_statement(p: Profile, rng: random.Random) -> dict:
     while m <= end:
         pr = _payroll(p, m.year, m.month)
         pd = date(m.year, m.month, min(cfg["pay_day"], 28))
-        add(pd, rng.choice([employer, f"{employer[:6]}급여", "급여"]), inn=pr["net"], br=rng.choice(["펌뱅킹", "타행"]))
+        add(pd, rng.choice([employer, f"{employer[:6]}급여", "급여"]), inn=pr["net"], br=rng.choice(["펌뱅킹", "타행입금"]))
         add(date(m.year, m.month, card_day), card, out=K.round_to(rng.uniform(250_000, 2_200_000), 10), br="자동이체")
         if mgmt:
             add(date(m.year, m.month, rng.choice([25, 26, 27])), "아파트관리비", out=K.round_to(rng.uniform(150_000, 420_000), 10), br="자동이체")
         add(date(m.year, m.month, rng.choice([18, 20, 21])), rng.choice(_TELCO), out=K.round_to(rng.uniform(45_000, 130_000), 10), br="자동이체")
         if m.month in (3, 6, 9, 12):
-            add(date(m.year, m.month, 21), "결산이자", inn=rng.randint(30, 4000), br="본점")
+            add(date(m.year, m.month, 21), "예금결산이자", inn=rng.randint(30, 4000), br="결산")
         m = months_back(m, -1)
     fixed = len(ev)
     target = rng.randint(max(12, fixed + 2), 20)
@@ -99,13 +103,13 @@ def bank_statement(p: Profile, rng: random.Random) -> dict:
         d = start + timedelta(days=rng.randint(0, span))
         k = rng.random()
         if k < 0.25:
-            add(d, f"체크{rng.choice(_SHOPS)}", out=K.round_to(rng.uniform(3_000, 120_000), 10), br="체크카드")
+            add(d, rng.choice(_SHOPS), out=K.round_to(rng.uniform(3_000, 120_000), 10), br="체크카드")
         elif k < 0.45:
             add(d, K.make_name(rng, rng.choice("MF"))[0], out=K.round_to(rng.uniform(20_000, 800_000), 1000))
         elif k < 0.55:
-            add(d, rng.choice(["CD출금", "ATM출금"]), out=rng.choice([50_000, 100_000, 200_000, 300_000]), br="CD/ATM")
+            add(d, rng.choice(["CD출금", "ATM출금"]), out=rng.choice([50_000, 100_000, 200_000, 300_000]), br="CD출금")
         elif k < 0.7:
-            add(d, K.make_name(rng, rng.choice("MF"))[0], inn=K.round_to(rng.uniform(10_000, 600_000), 1000), br="타행")
+            add(d, K.make_name(rng, rng.choice("MF"))[0], inn=K.round_to(rng.uniform(10_000, 600_000), 1000), br=rng.choice(["타행입금", "모바일"]))
         elif k < 0.82:
             add(d, rng.choice(_INSURERS), out=K.round_to(rng.uniform(40_000, 250_000), 10), br="자동이체")
         elif k < 0.9:
@@ -140,7 +144,7 @@ def bank_statement(p: Profile, rng: random.Random) -> dict:
     for e_, b in zip(ev, bals):
         t = e_[5]
         r = {"datetime": f"{D(e_[0], 'dot')} {t // 3600:02d}:{t % 3600 // 60:02d}:{rng.randint(0, 59):02d}",
-             "memo": e_[1], "balance": won(b, ""), "branch": e_[4]}
+             "type": e_[4], "memo": e_[1], "balance": won(b, "")}
         if e_[2] or zero:
             r["out"] = won(e_[2], "")
         if e_[3] or zero:
@@ -165,7 +169,7 @@ def bank_statement(p: Profile, rng: random.Random) -> dict:
 
 @doc("balance_certificate", "잔액증명서", "finance")
 def balance_certificate(p: Profile, rng: random.Random) -> dict:
-    """은행 예금잔액증명서."""
+    """은행 예금잔액증명서 (예금주·고객번호 / 과목·계좌번호·예금잔액·미결제타점권·질권·지급정지·압류 여부 / 합계)."""
     a = p.accounts[0]
     base = p.issue_date - timedelta(days=rng.choice([0, 0, 1]))
     accts = [(x.number, rng.choice(["보통예금", "저축예금"]), x.balance, x.opened, None) for x in p.accounts if x.bank == a.bank]
@@ -184,13 +188,15 @@ def balance_certificate(p: Profile, rng: random.Random) -> dict:
             mat += timedelta(days=365)
         accts.append((_acct_no(rng, a.bank), kind, bal, opened, mat))
     rows = []
-    for no, kind, bal, opened, mat in accts:
-        note = f"만기 {D(mat, 'dot')}" if mat else rng.choice(["-", "질권설정 없음", f"신규 {D(opened, 'dot')}"])
-        rows.append({"account_no": no, "kind": kind, "balance": won(bal, ""), "note": note})
+    for no, kind, bal, opened, mat in accts[:5]:  # 한 번에 최대 5계좌 표시
+        pledged = mat is not None and rng.random() < 0.1
+        rows.append({"kind": kind, "account_no": no, "balance": won(bal, ""), "uncleared": "0",
+                     "pledge": "유" if pledged else "무", "restriction": "무"})
+    accts = accts[:5]
     total = sum(x[2] for x in accts)
     return {
         "cert_no": f"제 {base.year}-{rng.randint(10000, 99999)} 호",
-        "holder": {"name": p.person.name, "rrn": K.mask_rrn(p.person.rrn), "address": p.person.address.road_short},
+        "holder": {"name": p.person.name, "rrn": K.mask_rrn(p.person.rrn)},
         "base_date": D(base, "kor") + " 현재",
         "rows": rows,
         "total": won(total, ""),
@@ -274,7 +280,11 @@ def debt_certificate(p: Profile, rng: random.Random) -> dict:
 
 @doc("card_statement", "신용카드 이용대금명세서", "finance")
 def card_statement(p: Profile, rng: random.Random) -> dict:
-    """카드사 신용카드 이용대금명세서 (일시불·할부·수수료 합계 일관)."""
+    """카드사 신용카드 이용대금명세서 (일시불·할부·수수료 합계 일관).
+
+    결제하실 금액·결제일·결제계좌·이용기간 요약 / 이용내역(이용일자·이용하신 가맹점·이용금액·할부·회차·
+    원금·수수료(이자)·결제 후 잔액) / 연간 할부수수료율 및 100원당 할부개월별 수수료 안내(표준약관상 통지사항).
+    """
     company = rng.choice(_CARD_COS)
     pay_day = rng.choice([12, 14, 15])
     pm = months_back(p.issue_date, 0 if p.issue_date.day >= 5 else 1)
@@ -329,6 +339,8 @@ def card_statement(p: Profile, rng: random.Random) -> dict:
         "summary": {"lump": won(lump, ""), "installment": won(inst, ""), "cash": "0", "fee": won(fees, ""),
                     "total": won(total, ""), "next_month": won(next_month, ""), "limit": won(limit, "")},
         "fee_rate": f"연 {fee_rate * 100:.1f}%",
+        # 100원당 할부개월별 수수료 (원금균등 상환 가정: 100 × 연율/12 × (n+1)/2)
+        "fee_per_100": [{"months": f"{n}개월", "fee": f"{100 * fee_rate / 12 * (n + 1) / 2:.2f}원"} for n in (2, 3, 6, 10, 12)],
         "rows": rows,
         "sum": {"amount": won(sum(x[2] for x in items), ""), "principal": won(lump + inst, ""), "fee": won(fees, "")},
     }

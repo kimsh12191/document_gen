@@ -3,48 +3,64 @@
 {% block style %}
 .hdr { display: flex; justify-content: space-between; font-size: calc(var(--fs) - 1px); }
 .issuer .org { letter-spacing: .1em; }
-.verify { border-top: 1px solid #999; margin-top: 26px; padding-top: 6px; }
+.verify { border-top: 1px solid #999; margin-top: 22px; padding-top: 6px; }
+h3.sec { display: flex; justify-content: space-between; align-items: flex-end; }
+h3.sec .unit { font-size: calc(var(--fs) - 2px); font-weight: 400; }
+table.ic th.v { width: 40px; white-space: normal; line-height: 1.3; }
 {% endblock %}
 {% block content %}
 <div class="hdr"><span>발급번호 : {{ f("issue_no", label="발급번호") }}</span><span>처리기간 : 즉시</span></div>
-{{ m.title("소 득 금 액 증 명", sub="( " ~ val("kind") ~ " )") | replace("( " ~ val("kind") ~ " )", "( " ~ f("kind", label="증명구분") ~ " )") }}
+{{ m.title("소 득 금 액 증 명") }}
 <table class="ic">
-  <colgroup><col style="width:18%"><col style="width:32%"><col style="width:18%"><col></colgroup>
-  <tr><th rowspan="1">성명(대표자)</th><td>{{ f("taxpayer.name", label="성명") }}</td><th>주민등록번호</th><td>{{ f("taxpayer.rrn", label="주민등록번호") }}</td></tr>
-  <tr><th>주소(사업장소재지)</th><td colspan="3">{{ f("taxpayer.address", label="주소") }}</td></tr>
-  <tr><th>상호(법인명)</th><td>{% if d.taxpayer.biz_name is defined %}{{ f("taxpayer.biz_name", label="상호") }}{% endif %}</td>
-      <th>사업자등록번호</th><td>{% if d.taxpayer.biz_no is defined %}{{ f("taxpayer.biz_no", label="사업자등록번호") }}{% endif %}</td></tr>
-  <tr><th>증명기간</th><td colspan="3">{{ f("period", label="증명기간") }}</td></tr>
+  <colgroup><col style="width:40px"><col style="width:17%"><col style="width:30%"><col style="width:17%"><col></colgroup>
+  <tr><th rowspan="3" class="v">납<br>세<br>자</th>
+      <th>성명(대표자)</th><td>{{ f("taxpayer.name", label="성명(대표자)") }}</td><th>주민등록번호</th><td>{{ f("taxpayer.rrn", label="주민등록번호") }}</td></tr>
+  <tr><th>주소(사업장소재지)</th><td colspan="3">{{ f("taxpayer.address", label="주소(사업장소재지)") }}</td></tr>
+  <tr><th>상호(법인명)</th><td></td><th>사업자등록번호</th><td></td></tr>
+  <tr><th colspan="2">증 명 기 간</th><td colspan="3">{{ f("period", label="증명기간") }}</td></tr>
 </table>
-<h3 class="sec">소득내역</h3>
+<h3 class="sec"><span>□ 종합소득세 신고 현황</span><span class="unit">(단위 : 원)</span></h3>
 <table class="ic">
-  <colgroup><col style="width:11%"><col style="width:12%"><col style="width:24%"><col style="width:17%"><col style="width:18%"><col></colgroup>
-  <tr><th rowspan="2">귀속연도</th><th rowspan="2">소득구분</th><th colspan="2">지급자(원천징수의무자)</th><th rowspan="2">소득금액</th><th rowspan="2">결정세액</th></tr>
-  <tr><th>상호</th><th>사업자등록번호</th></tr>
+  <colgroup><col style="width:13%"><col style="width:13%"><col style="width:20%"><col style="width:20%"><col style="width:17%"><col></colgroup>
+  <tr><th>귀속연도</th><th>소득구분</th><th>상호</th><th>사업자등록번호</th><th>수입금액</th><th>소득금액</th></tr>
+  {% if d.filing_rows is defined %}
+  {% for r in d.filing_rows %}{% set i = loop.index0 %}
+  <tr>
+    <td class="c">{{ f("filing_rows." ~ i ~ ".year", label="귀속연도") }}</td>
+    <td class="c">{{ f("filing_rows." ~ i ~ ".income_type", label="소득구분") }}</td>
+    <td class="c">-</td><td class="c">-</td>
+    <td class="num">{{ f("filing_rows." ~ i ~ ".revenue", label="수입금액") }}</td>
+    <td class="num">{{ f("filing_rows." ~ i ~ ".income", label="소득금액") }}</td>
+  </tr>
+  {% endfor %}
+  {% else %}
+  <tr><td colspan="6" class="c">해당 사항 없음</td></tr>
+  {% endif %}
+</table>
+<h3 class="sec"><span>□ 연말정산 현황</span><span class="unit">(단위 : 원)</span></h3>
+<table class="ic">
+  <colgroup><col style="width:11%"><col style="width:10%"><col style="width:24%"><col style="width:17%"><col style="width:20%"><col></colgroup>
+  <tr><th rowspan="2">귀속연도</th><th rowspan="2">소득구분</th><th colspan="2">원천징수의무자</th><th rowspan="2">소득금액<br><span class="tiny">(과세대상급여액)</span></th><th rowspan="2">총결정세액</th></tr>
+  <tr><th>법인명(상호)</th><th>사업자등록번호</th></tr>
   {% for r in d.rows %}{% set i = loop.index0 %}
   <tr>
     <td class="c">{{ f("rows." ~ i ~ ".year", label="귀속연도") }}</td>
     <td class="c">{{ f("rows." ~ i ~ ".income_type", label="소득구분") }}</td>
-    <td class="c">{{ f("rows." ~ i ~ ".payer", label="상호") }}</td>
+    <td class="c">{{ f("rows." ~ i ~ ".payer", label="법인명(상호)") }}</td>
     <td class="c">{{ f("rows." ~ i ~ ".payer_biz_no", label="사업자등록번호") }}</td>
-    <td class="num">{{ f("rows." ~ i ~ ".amount", label="소득금액") }}</td>
-    <td class="num">{{ f("rows." ~ i ~ ".tax", label="결정세액") }}</td>
+    <td class="num">{{ f("rows." ~ i ~ ".amount", label="소득금액(과세대상급여액)") }}</td>
+    <td class="num">{{ f("rows." ~ i ~ ".tax", label="총결정세액") }}</td>
   </tr>
   {% endfor %}
-  {% for _ in range(4 - d.rows|length) %}<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>{% endfor %}
+  {% for _ in range(3 - d.rows|length) %}<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>{% endfor %}
 </table>
 <table>
   <colgroup><col style="width:18%"><col style="width:32%"><col style="width:18%"><col></colgroup>
   <tr><th>용　　도</th><td>{{ f("purpose", label="용도") }}</td><th>제 출 처</th><td>{{ f("submit_to", label="제출처") }}</td></tr>
 </table>
 <ul class="note">
-  {% if d.kind == "근로소득자용" %}
-  <li>소득금액은 근로소득의 총급여액(비과세소득 제외)이며, 결정세액은 연말정산에 의한 결정세액입니다.</li>
-  {% else %}
-  <li>소득금액은 종합소득세 확정신고 또는 연말정산에 의한 소득금액(총수입금액에서 필요경비 또는 근로소득공제를 뺀 금액)입니다.</li>
-  {% endif %}
-  <li>위 소득금액은 증명서 발급일 현재 국세청에 신고(제출)된 자료를 기준으로 작성된 것입니다.</li>
-  <li>수정신고 또는 경정 등에 의하여 소득금액이 변경될 수 있습니다.</li>
+  <li>연말정산 현황의 소득금액은 비과세소득을 제외한 총급여액(과세대상급여액)입니다.</li>
+  <li>위 소득금액은 증명서 발급일 현재 국세청에 신고(제출)된 자료를 기준으로 작성된 것이며, 수정신고 또는 경정 등에 의하여 변경될 수 있습니다.</li>
 </ul>
 <p class="center mt" style="font-size:calc(var(--fs) + 2px)">위와 같이 소득금액을 증명합니다.</p>
 <div class="issuer" style="margin-top:14px">

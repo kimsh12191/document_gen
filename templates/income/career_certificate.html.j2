@@ -13,11 +13,11 @@ table.career td { font-size: calc(var(--fs) - 0.5px); }
 <h2 class="sec">경력사항</h2>
 <table class="career">
   <colgroup><col style="width:34%"><col style="width:17%"><col style="width:12%"><col></colgroup>
-  <tr><th>근무기간</th><th>부　서</th><th>직　위</th><th>담당업무</th></tr>
+  <tr><th>근 무 기 간</th><th>근무부서</th><th>직　위</th><th>담 당 업 무</th></tr>
   {% for r in d.careers %}{% set i = loop.index0 %}
   <tr>
     <td class="c">{{ f("careers." ~ i ~ ".period", label="근무기간") }}</td>
-    <td class="c">{{ f("careers." ~ i ~ ".department", label="부서") }}</td>
+    <td class="c">{{ f("careers." ~ i ~ ".department", label="근무부서") }}</td>
     <td class="c">{{ f("careers." ~ i ~ ".position", label="직위") }}</td>
     <td>{{ f("careers." ~ i ~ ".duty", label="담당업무") }}</td>
   </tr>
@@ -26,10 +26,10 @@ table.career td { font-size: calc(var(--fs) - 0.5px); }
   <tr><th>총 근무기간</th><td colspan="3" class="c bold">{{ f("total_period", label="총근무기간") }}</td></tr>
 </table>
 <table class="kv">
-  <colgroup><col style="width:110px"><col></colgroup>
-  <tr><th>용　　도</th><td>{{ f("purpose", label="용도") }}</td></tr>
+  <colgroup><col style="width:110px"><col><col style="width:110px"><col style="width:30%"></colgroup>
+  <tr><th>용　　도</th><td>{{ f("purpose", label="용도") }}</td><th style="width:110px">제 출 처</th><td>{{ f("submit_to", label="제출처") }}</td></tr>
 </table>
-<p class="center mt-l cert-text">위 사람은 당사에서 위와 같이 근무하였음(재직 중)을 증명합니다.</p>
+<p class="center mt-l cert-text">위의 기재사항이 사실과 다름없음을 증명합니다.</p>
 <div class="issuer">
   <div class="date">{{ f("issue_date", label="발급일") }}</div>
   <table class="plain" style="width:auto;margin:0 auto;font-size:calc(var(--fs) + 1px)">
