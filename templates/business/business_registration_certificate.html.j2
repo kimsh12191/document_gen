@@ -1,0 +1,46 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block style %}
+.brc-frame { border: 3px double var(--border); padding: 34px 40px 30px; height: 100%; position: relative; }
+.brc-title { text-align: center; font-size: calc(var(--title) + 4px); font-weight: 700; letter-spacing: .45em; margin: 40px 0 6px; }
+.brc-kind { text-align: center; font-size: calc(var(--fs) + 3px); margin-bottom: 18px; }
+.brc-no { text-align: center; font-size: calc(var(--fs) + 4px); font-weight: 700; margin-bottom: 34px; letter-spacing: .05em; }
+table.brc { border: 0; margin: 0; }
+table.brc th, table.brc td { border: 0; background: none; padding: 10px 4px; text-align: left; vertical-align: top; font-size: calc(var(--fs) + 1px); }
+table.brc th { font-weight: 400; white-space: nowrap; width: 1%; }
+table.brc th .lb { display: inline-block; width: 118px; text-align: justify; text-align-last: justify; }
+table.brc .sub { display: inline-block; margin-right: 10px; }
+.brc-gap { height: 26px; }
+.brc-issuer { text-align: center; margin-top: 110px; }
+.brc-issuer .date { font-size: calc(var(--fs) + 2px); margin-bottom: 26px; letter-spacing: .05em; }
+.brc-issuer .org { font-size: calc(var(--fs) + 12px); font-weight: 700; letter-spacing: .25em; position: relative; display: inline-block; padding-right: 26px; }
+.brc-foot { position: absolute; left: 0; right: 0; bottom: 22px; text-align: center; color: #444; font-size: calc(var(--fs) - 1px); letter-spacing: .3em; }
+{% endblock %}
+{% block content %}
+<div class="brc-frame">
+  <div class="brc-title">사업자등록증</div>
+  <div class="brc-kind">( {{ f("kind", label="과세유형") }} )</div>
+  <div class="brc-no">등록번호 : {{ f("biz_no", label="등록번호") }}</div>
+  <table class="brc">
+    <tr><th><span class="lb">상호</span> :</th><td colspan="3">{{ f("trade_name", label="상호") }}</td></tr>
+    <tr><th><span class="lb">성명</span> :</th><td>{{ f("name", label="성명") }}</td>
+        <th><span class="lb" style="width:84px">생년월일</span> :</th><td>{{ f("birth", label="생년월일") }}</td></tr>
+    <tr><th><span class="lb">개업연월일</span> :</th><td colspan="3">{{ f("opened", label="개업연월일") }}</td></tr>
+    <tr><th><span class="lb">사업장소재지</span> :</th><td colspan="3">{{ f("address", label="사업장소재지") }}</td></tr>
+    <tr><th><span class="lb">사업의종류</span> :</th><td colspan="3">
+      <span class="sub">업태</span>{{ f("biz_type", label="업태") }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <span class="sub">종목</span>{{ f("biz_item", label="종목") }}</td></tr>
+    <tr><td colspan="4" class="brc-gap"></td></tr>
+    <tr><th><span class="lb">발급사유</span> :</th><td colspan="3">{{ f("issue_reason", label="발급사유") }}</td></tr>
+    <tr><th><span class="lb">공동사업자</span> :</th><td colspan="3"></td></tr>
+    <tr><th colspan="4" style="width:auto">사업자 단위 과세 적용사업자 여부 :&nbsp;&nbsp;
+      {% for o in ["여", "부"] %}{% if o == val("unit_taxation") %}{{ f("unit_taxation", label="사업자단위과세적용사업자여부") }}( √ ){% else %}{{ o }}(&nbsp;&nbsp;&nbsp;){% endif %}&nbsp;&nbsp;&nbsp;{% endfor %}</th></tr>
+    <tr><th colspan="4" style="width:auto">전자세금계산서 전용 전자우편주소 :&nbsp;&nbsp;{% if d.einvoice_email is defined %}{{ f("einvoice_email", label="전자세금계산서전용전자우편주소") }}{% endif %}</th></tr>
+  </table>
+  <div class="brc-issuer">
+    <div class="date">{{ f("issue_date", label="발급일") }}</div>
+    <div class="org">{{ f("issuer", label="발급기관") }}{{ m.seal(val("issuer") ~ "인", square=True, size="lg", over=True) }}</div>
+  </div>
+  <div class="brc-foot">국 세 청</div>
+</div>
+{% endblock %}

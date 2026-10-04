@@ -35,9 +35,13 @@ def community_center(addr: Address) -> str:
 
 
 def tax_office(addr: Address) -> str:
-    """관할 세무서명. 예) '역삼세무서장'"""
+    """관할 세무서명. 예) '역삼세무서장'. 동 이름이 한 글자라 '달세무서장'처럼 되면 '울산남부세무서장' 식으로 바꾼다."""
     base = addr.dong[:-1] if addr.dong.endswith("동") else addr.sigungu.split()[-1][:-1]
-    return f"{base[:2]}세무서장"
+    name = f"{base[:2]}세무서장"
+    if len(name) >= 6:
+        return name
+    last = addr.sigungu.split()[-1] if addr.sigungu else addr.sido
+    return f"{K.sido_short(addr.sido)}{last[:-1]}{'부' if len(last) == 2 else ''}세무서장"
 
 
 def courthouse(addr: Address) -> str:
