@@ -1,0 +1,79 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block page_class %} dense{% endblock %}
+{% block style %}
+.page.a4.dense { padding: 28px 40px; font-size: calc(var(--fs) - 1px); line-height: 1.38; }
+.sc-title { text-align: center; font-size: 24px; font-weight: 700; letter-spacing: .15em; margin: 0 0 8px; }
+.sc-lead { margin: 4px 0 4px; }
+.sc-h { font-weight: 700; margin: 6px 0 2px; }
+table.sc { margin: 2px 0; border: 1.5px solid var(--border); }
+table.sc th { padding: 2px 4px; font-size: 11.5px; }
+table.sc td { padding: 2px 5px; }
+.cl { font-size: calc(var(--fs) - 2.5px); line-height: 1.32; margin: 3px 0; text-align: justify; }
+.cl p { margin: 1px 0; }
+.sp { border: 1.5px solid var(--border); padding: 4px 8px; min-height: 60px; }
+.sp .h { font-weight: 700; }
+.in { color: #333; }
+{% endblock %}
+{% block content %}
+{% set apt = '아파트' in d.property.usage %}
+<div class="sc-title">부동산({{ '아파트' if apt else '집합건물' }}) 매매 계약서</div>
+<div class="sc-lead">매도인과 매수인 쌍방은 아래 표시 부동산에 관하여 다음 계약 내용과 같이 매매계약을 체결한다.</div>
+<div class="sc-h">1. 부동산의 표시</div>
+<table class="sc">
+  <colgroup><col style="width:66px"><col style="width:54px"><col><col style="width:70px"><col style="width:200px"><col style="width:46px"><col style="width:90px"></colgroup>
+  <tr><th>소 재 지</th><td colspan="6">{{ f("property.location", label="소재지") }}</td></tr>
+  <tr><th>토 지</th><th>지 목</th><td class="c">{{ f("property.land_category", label="지목") }}</td><th>대지권</th>
+      <td class="c">{{ f("property.land_right", label="대지권") }}</td><th>면 적</th><td class="num">{{ f("property.land_area", label="면적") }}</td></tr>
+  <tr><th>건 물</th><th>구 조</th><td class="c">{{ f("property.structure", label="구조") }}</td><th>용 도</th>
+      <td class="c">{{ f("property.usage", label="용도") }}</td><th>면 적</th><td class="num">{{ f("property.building_area", label="면적") }}</td></tr>
+</table>
+<div class="sc-h">2. 계약내용</div>
+<div class="cl" style="font-size:inherit">제1조 (목적) 위 부동산의 매매에 대하여 매도인과 매수인은 합의에 의하여 매매대금을 아래와 같이 지불하기로 한다.</div>
+<table class="sc">
+  <colgroup><col style="width:80px"><col></colgroup>
+  <tr><th>매매대금</th><td><b>{{ f("payment.price", label="매매대금") }}</b></td></tr>
+  <tr><th>계 약 금</th><td>{{ f("payment.down", label="계약금") }} 은 계약시에 지불하고 영수함. <span style="float:right">영수자 (인)</span></td></tr>
+  <tr><th>융 자 금</th><td class="in">금 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 원정(은행)을 승계키로 한다. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b style="color:#111">임대보증금</b> &nbsp;총 금 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 원정을 승계키로 한다.</td></tr>
+  {% if d.payment.middle is defined %}
+  <tr><th>중 도 금</th><td>{{ f("payment.middle", label="중도금") }} 은 {{ f("payment.middle_date", label="중도금지급일") }}에 지불하며</td></tr>
+  {% else %}
+  <tr><th>중 도 금</th><td class="in">금 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 원정은 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 년 &nbsp;&nbsp;&nbsp; 월 &nbsp;&nbsp;&nbsp; 일에 지불하며</td></tr>
+  {% endif %}
+  <tr><th>잔 &nbsp;&nbsp;금</th><td>{{ f("payment.balance", label="잔금") }} 은 {{ f("payment.balance_date", label="잔금지급일") }}에 지불한다.</td></tr>
+</table>
+<div class="cl">
+<p>제2조 (소유권 이전 등) 매도인은 매매대금의 잔금 수령과 동시에 매수인에게 소유권이전등기에 필요한 모든 서류를 교부하고 등기절차에 협력하며, 위 부동산의 인도일은 잔금 지급일로 한다.</p>
+<p>제3조 (제한물권 등의 소멸) 매도인은 위 부동산에 설정된 저당권, 지상권, 임차권 등 소유권의 행사를 제한하는 사유가 있거나, 제세공과 기타 부담금의 미납 등이 있을 때에는 잔금 수수일까지 그 권리의 하자 및 부담 등을 제거하여 완전한 소유권을 매수인에게 이전한다. 다만, 승계하기로 합의하는 권리 및 금액은 그러하지 아니하다.</p>
+<p>제4조 (지방세 등) 위 부동산에 관하여 발생한 수익의 귀속과 제세공과금 등의 부담은 위 부동산의 인도일을 기준으로 하되, 지방세의 납부의무 및 납부책임은 지방세법의 규정에 의한다.</p>
+<p>제5조 (계약의 해제) 매수인이 매도인에게 중도금(중도금이 없을 때에는 잔금)을 지불하기 전까지 매도인은 계약금의 배액을 상환하고, 매수인은 계약금을 포기하고 본 계약을 해제할 수 있다.</p>
+<p>제6조 (채무불이행과 손해배상) 매도인 또는 매수인이 본 계약상의 내용에 대하여 불이행이 있을 경우 그 상대방은 불이행한 자에 대하여 서면으로 최고하고 계약을 해제할 수 있으며, 손해배상에 대하여 별도의 약정이 없는 한 계약금을 손해배상의 기준으로 본다.</p>
+<p>제7조 (중개보수) 개업공인중개사는 매도인 또는 매수인의 본 계약 불이행에 대하여 책임을 지지 않는다. 또한 중개보수는 본 계약 체결과 동시에 계약 당사자 쌍방이 각각 지불하며, 개업공인중개사의 고의나 과실 없이 본 계약이 무효·취소 또는 해제되어도 중개보수는 지급한다.</p>
+<p>제8조 (중개대상물확인·설명서 교부 등) 개업공인중개사는 중개대상물 확인·설명서를 작성하고 업무보증관계증서(공제증서 등) 사본을 첨부하여 계약 체결과 동시에 거래당사자 쌍방에게 교부한다.</p>
+</div>
+<div class="sp">
+  <div class="h">[특약사항]</div>
+  {% for s in d.specials %}<div>{{ f("specials." ~ loop.index0, label="특약사항") }}</div>{% endfor %}
+</div>
+<div style="margin:6px 0 4px">본 계약을 증명하기 위하여 계약 당사자가 이의 없음을 확인하고 각각 서명·날인 후 매도인, 매수인 및 개업공인중개사는 매장마다 간인하여야 하며, 각각 1통씩 보관한다.</div>
+<div class="right bold" style="margin-bottom:3px">{{ f("contract_date", label="계약일") }}</div>
+<table class="sc">
+  <colgroup><col style="width:52px"><col style="width:84px"><col style="width:132px"><col style="width:42px"><col style="width:112px"><col style="width:42px"><col></colgroup>
+  {% for role, key in [("매 도 인", "seller"), ("매 수 인", "buyer")] %}
+  <tr><th rowspan="3">{{ role }}</th><th>주 소</th><td colspan="5">{{ f(key ~ ".address", label="주소") }}</td></tr>
+  <tr><th>주민등록번호</th><td class="c">{{ f(key ~ ".rrn", label="주민등록번호") }}</td><th>전 화</th><td class="c">{{ f(key ~ ".phone", label="전화") }}</td>
+      <th>성 명</th><td>{{ f(key ~ ".name", label="성명") }} <span style="float:right" class="small">(인)</span></td></tr>
+  <tr><th>대 리 인</th><td colspan="2" class="in small">주소</td><td colspan="2" class="in small">주민등록번호</td><td class="in small">성명</td></tr>
+  {% endfor %}
+</table>
+<table class="sc">
+  <colgroup><col style="width:52px"><col style="width:84px"><col><col style="width:84px"><col></colgroup>
+  {% set bs = d.brokers %}
+  {% macro bcell(i, key, label, extra="") %}{% if i < bs|length %}{{ f("brokers." ~ i ~ "." ~ key, label=label) }}{{ extra }}{% endif %}{% endmacro %}
+  <tr><th rowspan="5">개업<br>공인<br>중개사</th><th>사무소소재지</th><td>{{ bcell(0, "office_address", "사무소소재지") }}</td><th>사무소소재지</th><td>{{ bcell(1, "office_address", "사무소소재지") }}</td></tr>
+  <tr><th>사무소명칭</th><td>{{ bcell(0, "office_name", "사무소명칭") }}</td><th>사무소명칭</th><td>{{ bcell(1, "office_name", "사무소명칭") }}</td></tr>
+  <tr><th>대 표</th><td>{{ bcell(0, "representative", "대표") }} <span class="small" style="float:right">서명 및 날인 (인)</span></td><th>대 표</th><td>{{ bcell(1, "representative", "대표") }} <span class="small" style="float:right">서명 및 날인 (인)</span></td></tr>
+  <tr><th>등록번호</th><td>{{ bcell(0, "reg_no", "등록번호") }} <span style="float:right">전화 {{ bcell(0, "phone", "전화") }}</span></td><th>등록번호</th><td>{{ bcell(1, "reg_no", "등록번호") }} <span style="float:right">전화 {{ bcell(1, "phone", "전화") }}</span></td></tr>
+  <tr><th>소속공인중개사</th><td>{% if bs[0].assistant is defined %}{{ f("brokers.0.assistant", label="소속공인중개사") }}{% endif %} <span class="small" style="float:right">서명 및 날인 (인)</span></td><th>소속공인중개사</th><td>{% if bs|length > 1 and bs[1].assistant is defined %}{{ f("brokers.1.assistant", label="소속공인중개사") }}{% endif %} <span class="small" style="float:right">서명 및 날인 (인)</span></td></tr>
+</table>
+{% endblock %}

@@ -1,0 +1,33 @@
+{
+ "document_type": "보증약정서",
+ "bank": "농협은행",
+ "creditor": "농협은행 주식회사",
+ "branch": "분당지점",
+ "debtor": {
+  "name": "주식회사 새한소프트",
+  "biz_no": "530-82-09978",
+  "ceo": "김소윤",
+  "address": "서울특별시 영등포구 국제금융로 22-7, 8층"
+ },
+ "guarantor": {
+  "name": "김소윤",
+  "rrn": "901121-2030821",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호",
+  "phone": "010-4372-6867",
+  "relation": "대표이사(실제경영자)"
+ },
+ "method": "특정채무보증",
+ "secured_debt": "2025년 12월 5일자 일반자금대출 금 1,500,000,000원",
+ "max_amount_korean": "금 십팔억원정",
+ "max_amount": "1,800,000,000",
+ "period": "2025년 12월 8일 ~ 2026년 12월 8일",
+ "handwritten": {
+  "method": "특정채무보증",
+  "name": "김소윤",
+  "max_amount": "금 십팔억원정",
+  "confirm": "확인함"
+ },
+ "explained": "예",
+ "contract_date": "2025년 12월 5일",
+ "signature": "김소윤"
+}

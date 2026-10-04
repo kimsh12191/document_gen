@@ -1,36 +1,52 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
+{# 지방세기본법 시행규칙 [별지 제49호서식] 지방세 세목별 과세증명서 (국·영문 병기 서식) #}
 {% block style %}
-.ht-title { text-align: center; margin: 6px 0 12px; }
-.ht-title h1 { margin: 0; font-size: calc(var(--title) - 2px); letter-spacing: .15em; }
-.cap { font-weight: 700; margin: 12px 0 2px; }
+table.hd { margin: 0; }
+table.hd td { border: 0; padding: 2px 4px; font-size: calc(var(--fs) - 1.5px); vertical-align: bottom; }
+.ttl { text-align: center; margin: 4px 0 8px; }
+.ttl h1 { margin: 0; font-size: calc(var(--title) - 2px); letter-spacing: .12em; }
+.ttl .en { font-size: calc(var(--fs) - 1px); color: #333; margin-top: 2px; }
+.en { display: block; font-weight: 400; font-size: calc(var(--fs) - 4px); color: #444; letter-spacing: 0; }
+table.tp { border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); border-left: 0; border-right: 0; }
+table.tp th, table.tp td { padding: 5px 6px; }
+table.tp tr > :first-child { border-left: 0; } table.tp tr > :last-child { border-right: 0; }
 table.items td { font-size: calc(var(--fs) - 2px); padding: 3px 4px; }
-table.items th { font-size: calc(var(--fs) - 1.5px); padding: 4px 4px; white-space: normal; }
+table.items th { font-size: calc(var(--fs) - 1.5px); padding: 3px 3px; white-space: normal; line-height: 1.2; }
 table.items td.obj { text-align: left; word-break: keep-all; }
 table.items tr.sum td { font-weight: 700; background: var(--label-bg); }
+.cap { font-weight: 700; margin: 10px 0 2px; }
 .unit { text-align: right; font-size: calc(var(--fs) - 2px); }
 .stmt { text-align: center; margin: 22px 0 0; font-size: calc(var(--fs) + 0.5px); }
-.foot { margin-top: 26px; border-top: 1px solid var(--border); padding-top: 6px; }
+.foot { margin-top: 24px; border-top: 1px solid var(--border); padding-top: 6px; }
 {% endblock %}
 {% block content %}
-<div class="gov-head"><span>■ 지방세기본법 시행규칙 [별지 제5호서식]</span><span>(앞쪽)</span></div>
-<table class="outer">
-  <colgroup><col style="width:120px"><col><col style="width:120px"><col style="width:120px"></colgroup>
-  <tr><th>발급번호</th><td>{{ f("issue_no", label="발급번호") }}</td><th>처리기간</th><td class="c">즉시</td></tr>
+<div class="gov-head"><span>■ 지방세기본법 시행규칙 [별지 제49호서식] &lt;개정 2024. 12. 31.&gt;</span><span></span></div>
+<table class="hd">
+  <tr><td>발급번호 <span class="tiny muted">Issuance Number</span> : {{ f("issue_no", label="발급번호") }}</td>
+    <td class="right">처리기간 <span class="tiny muted">Processing Period</span> : 즉시</td></tr>
 </table>
-<div class="ht-title"><h1>지방세 세목별 과세증명서</h1></div>
-<div class="cap">□ 납세자</div>
-{{ m.kv([["성　명", "taxpayer.name"], ["주민등록번호", "taxpayer.rrn"], ["주　소", "taxpayer.address", True],
-         ["증명기간", "period"], ["사용목적", "purpose"]], cols=2, label_w="110px") }}
-<div class="between"><div class="cap">□ 과세내역</div><div class="unit">(단위 : 원)</div></div>
-<table class="items outer">
-  <colgroup><col style="width:44px"><col style="width:92px"><col style="width:76px"><col><col style="width:92px"><col style="width:72px"><col style="width:66px"><col style="width:76px"></colgroup>
-  <tr><th>과세<br>연도</th><th>세목</th><th>납기</th><th>과세대상</th><th>과세표준</th><th>세액</th><th>지방교육세</th><th>합계</th></tr>
+<div class="ttl"><h1>지방세 세목별 과세증명서</h1><div class="en">Certificate of Local Tax Assessment by Tax Item</div></div>
+<table class="tp">
+  <colgroup><col style="width:74px"><col style="width:150px"><col><col style="width:170px"><col style="width:150px"></colgroup>
+  <tr><th rowspan="2">납세자<span class="en">Taxpayer</span></th>
+    <th>성명(법인명)<span class="en">Name</span></th><td>{{ f("taxpayer.name", label="성명(법인명)") }}</td>
+    <th>주민(법인, 외국인)등록번호<span class="en">Registration No.</span></th><td>{{ f("taxpayer.rrn", label="주민(법인,외국인)등록번호") }}</td></tr>
+  <tr><th>주소(영업소)<span class="en">Address</span></th><td colspan="3">{{ f("taxpayer.address", label="주소(영업소)") }}</td></tr>
+  <tr><th colspan="2">과세연도<span class="en">Tax Year</span></th><td>{{ f("period", label="과세연도") }}</td>
+    <th>사용목적<span class="en">Purpose</span></th><td>{{ f("purpose", label="사용목적") }}</td></tr>
+</table>
+<div class="between"><div class="cap">과세대상 <span class="small muted">Tax Objects</span></div><div class="unit">(단위 : 원)</div></div>
+<table class="items tp">
+  <colgroup><col style="width:86px"><col style="width:60px"><col style="width:72px"><col><col style="width:88px"><col style="width:70px"><col style="width:66px"><col style="width:74px"></colgroup>
+  <tr><th>세목<span class="en">Tax Item</span></th><th>부과연월<span class="en">Year/Month</span></th><th>구분<span class="en">Type</span></th>
+    <th>과세대상<span class="en">Tax Object</span></th><th>과세표준<span class="en">Tax Base</span></th><th>세액<span class="en">Tax Amount</span></th>
+    <th>지방교육세<span class="en">Education Tax</span></th><th>합계<span class="en">Total</span></th></tr>
   {% for it in d["items"] %}{% set i = loop.index0 %}
   <tr>
-    <td class="c">{{ f("items." ~ i ~ ".year", label="과세연도") }}</td>
     <td class="c">{{ f("items." ~ i ~ ".tax_item", label="세목") }}</td>
-    <td class="c">{{ f("items." ~ i ~ ".due", label="납기") }}</td>
+    <td class="c">{{ f("items." ~ i ~ ".levied", label="부과연월") }}</td>
+    <td class="c">{{ f("items." ~ i ~ ".kind", label="구분") }}</td>
     <td class="obj">{{ f("items." ~ i ~ ".object", label="과세대상") }}</td>
     <td class="num">{{ f("items." ~ i ~ ".base", label="과세표준") }}</td>
     <td class="num">{{ f("items." ~ i ~ ".tax", label="세액") }}</td>
@@ -43,11 +59,10 @@ table.items tr.sum td { font-weight: 700; background: var(--label-bg); }
     <td class="num">{{ f("sum.edu", label="지방교육세합계") }}</td>
     <td class="num">{{ f("sum.total", label="총합계") }}</td></tr>
 </table>
-<p class="stmt">위와 같이 지방세 과세 사실이 있음을 증명합니다.</p>
+<p class="stmt">위와 같이 지방세 과세 사실을 증명합니다.<br><span class="small muted">This is to certify that the above local taxes have been assessed.</span></p>
 {{ m.issuer("issue_date", org_path="issuer", seal_text=val("issuer").split()[-1] ~ "인") }}
 <div class="foot note">
-  <div>※ 이 증명서는 위 기간 중 해당 지방자치단체에 부과된 지방세 내역을 증명하는 것으로, 납부 여부를 증명하지는 않습니다.</div>
-  <div>※ 재산세 세액에는 재산세 도시지역분 및 지역자원시설세가 포함되지 않습니다.</div>
-  <div>※ 발급일로부터 90일까지 정부24(www.gov.kr) [문서확인] 메뉴에서 발급번호로 진위를 확인할 수 있습니다.</div>
+  <div>※ 이 증명서는 해당 지방자치단체에서 부과한 지방세 과세내역을 증명하는 것으로, 납부 여부를 증명하지 않습니다.</div>
+  <div>※ 정부24(www.gov.kr) [문서확인] 메뉴에서 발급번호를 입력하여 위ㆍ변조 여부를 확인할 수 있습니다.</div>
 </div>
 {% endblock %}

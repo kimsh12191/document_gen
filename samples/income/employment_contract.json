@@ -1,0 +1,39 @@
+{
+ "document_type": "근로계약서",
+ "employer": {
+  "name": "(주)새한소프트",
+  "phone": "061-681-3222",
+  "address": "전라남도 여수시 여수시민로 411, 2층",
+  "ceo": "박연윤"
+ },
+ "employee": {
+  "name": "김소윤",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호",
+  "phone": "010-4372-6867"
+ },
+ "start_date": "2014년 12월 01일",
+ "workplace": "(주)새한소프트 본사",
+ "job": "경영지원팀 총무 및 경영지원 업무",
+ "work_start": "09시 00분",
+ "work_end": "18시 00분",
+ "break_time": "12시 00분 ~ 13시 00분",
+ "work_days": "5",
+ "weekly_holiday": "일",
+ "monthly_salary": "3,825,000",
+ "bonus": "있음",
+ "bonus_amount": "3,425,000",
+ "other_pay": "있음",
+ "allowances": [
+  {
+   "name": "식대",
+   "amount": "200,000원"
+  },
+  {
+   "name": "자가운전보조금",
+   "amount": "200,000원"
+  }
+ ],
+ "pay_day": "15",
+ "pay_method": "근로자 명의 예금통장에 입금",
+ "contract_date": "2014년 11월 27일"
+}

@@ -1,0 +1,23 @@
+{
+ "document_type": "기본증명서",
+ "reg_base": "서울특별시 마포구 서교동 159",
+ "self": {
+  "relation": "본인",
+  "name": "김소윤",
+  "name_hanja": "金素允",
+  "birth": "1990년 11월 21일",
+  "rrn": "901121-2******",
+  "gender": "여",
+  "bon": "安東"
+ },
+ "birth": {
+  "place": "대전광역시 유성구 도룡동",
+  "reported": "1990년 12월 06일",
+  "reporter": "모"
+ },
+ "issue_date": "2025년 11월 29일",
+ "issuer": "법원행정처 전산정보중앙관리소 전산운영책임관",
+ "issue_time": "22시 15분",
+ "applicant": "김소윤",
+ "doc_check_no": "4920-2612-2171-1772"
+}

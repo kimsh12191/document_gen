@@ -24,7 +24,7 @@ table.aoa th.w2 { width: 86px; }
 <table class="bf aoa">
 <tr><th>예금 종류</th><td colspan="3">{{ m.choice("product.type", ["보통예금", "저축예금", "정기예금", "정기적금", "주택청약종합저축"], label="예금종류") }}</td></tr>
 <tr><th>상품명</th><td>{{ f("product.name", label="상품명") }}</td><th class="w2">신규금액</th><td>{{ f("product.amount", label="신규금액") }}</td></tr>
-<tr><th>계약기간</th><td>{% if d.product.term is defined %}{{ f("product.term", label="계약기간") }}{% endif %}</td>
+<tr><th>계약기간</th><td>{% if d.product.term is defined %}{{ f("product.term", label="계약기간") }}{% endif %}{% if d.product.interest_payment is defined %} &nbsp;<span class="small">(이자지급: {{ f("product.interest_payment", label="이자지급방법") }})</span>{% endif %}</td>
     <th class="w2">출금(이체)계좌</th><td>{% if d.product.linked_account is defined %}{{ f("product.linked_account", label="출금계좌") }}{% endif %}</td></tr>
 <tr><th>통장 발행</th><td>{{ m.choice("passbook", ["발행", "미발행"], label="통장발행") }}</td>
     <th class="w2">인감/서명</th><td>{{ m.choice("seal_type", ["인감", "서명", "인감+서명"], label="인감서명등록") }}</td></tr>
@@ -53,10 +53,14 @@ table.aoa th.w2 { width: 86px; }
 
 <div class="bf-box bf-note" style="margin-top:6px">
   <p>1. 본인은 「예금거래기본약관」, 「입출금이 자유로운 예금 약관」(또는 「거치식·적립식 예금 약관」) 및 해당 상품설명서를 교부받고 그 중요 내용을 충분히 설명 듣고 이해하였음을 확인합니다.</p>
-  <p>2. 본인은 「금융실명거래 및 비밀보장에 관한 법률」에 따라 실명으로 거래하며, 불법재산의 은닉, 자금세탁, 공중협박자금 조달 및 강제집행 면탈 등 탈법행위를 목적으로 타인 명의로 금융거래를 하는 경우 처벌받을 수 있음을 설명 들었습니다.</p>
-  <p>3. 예금자보호법에 따라 이 예금은 예금보험공사가 1인당 원금과 소정의 이자를 합하여 1억원까지 보호합니다.</p>
-  <p>4. 통장·카드 등 접근매체를 타인에게 양도·대여하는 행위는 「전자금융거래법」에 따라 처벌 대상이 됩니다.</p>
+  <p>2. {% if d.protection_limit is defined %}이 예금은 예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 &quot;{{ f("protection_limit", label="예금자보호한도") }}&quot;까지(본 은행의 여타 보호상품과 합산) 보호됩니다.{% else %}이 예금은 예금자보호법에 따라 보호되지 않습니다. (주택도시기금 조성 재원으로 정부가 관리){% endif %}</p>
+  <p>3. 통장·카드 등 접근매체를 타인에게 양도·대여하는 행위는 「전자금융거래법」에 따라 처벌 대상이 됩니다.</p>
 </div>
+<table class="bf" style="margin-top:3px">
+<tr><td class="q bf-note" style="margin:0">
+  <b>[차명거래 금지 설명 확인]</b> 「금융실명거래 및 비밀보장에 관한 법률」 제3조 제3항에 따라 누구든지 불법재산의 은닉, 자금세탁행위, 공중협박자금조달행위 및 강제집행의 면탈, 그 밖의 탈법행위를 목적으로 타인의 실명으로 금융거래를 하여서는 아니되며, 이를 위반 시 5년 이하의 징역 또는 5천만원 이하의 벌금에 처해질 수 있습니다. 본인은 위 안내에 대해 충분히 설명을 들었음을 확인합니다.</td>
+  <td style="width:150px" class="c small">확인자 <b>{{ f("signature", label="확인자") }}</b><br>(서명)</td></tr>
+</table>
 <div class="bf-sign">
   <span>{{ f("date", label="신청일") }}</span>
   <span>신청인 <span class="who">{{ f("signature", label="신청인") }}</span> (서명 또는 인)</span>

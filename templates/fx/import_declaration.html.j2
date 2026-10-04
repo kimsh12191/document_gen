@@ -1,0 +1,137 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block page_class %} dense{% endblock %}
+{% block style %}
+.page.a4.dense { padding: 30px 34px; font-size: calc(var(--fs) - 3px); line-height: 1.25; }
+.id-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4px; }
+.id-title { font-size: 22px; font-weight: 800; letter-spacing: .35em; }
+.id-sub { font-size: 10px; color: #333; }
+table.id { margin: 0; border: 1.5px solid var(--border); table-layout: fixed; }
+table.id + table.id { border-top: 0; }
+table.id td { padding: 1px 3px; vertical-align: top; overflow-wrap: anywhere; }
+table.id th { padding: 1px 2px; font-size: 9.5px; font-weight: 600; white-space: normal; }
+.n { font-size: 9px; color: #444; display: block; line-height: 1.15; }
+.ln { background: var(--label-bg); font-weight: 700; }
+.foot { font-size: 9.5px; margin-top: 4px; color: #222; }
+.uni { display: flex; justify-content: space-between; font-size: 10px; margin-top: 3px; }
+{% endblock %}
+{% block content %}
+<div class="id-top">
+  <div class="id-sub">UNI-PASS 전자통관시스템</div>
+  <div class="id-title">수 입 신 고 필 증</div>
+  <div class="id-sub">※ 처리기간 : 3일</div>
+</div>
+<table class="id">
+  <colgroup><col style="width:22%"><col style="width:13%"><col style="width:10%"><col style="width:13%"><col style="width:42%"></colgroup>
+  <tr>
+    <td><span class="n">(1)신고번호</span><b>{{ f("decl_no", label="신고번호") }}</b></td>
+    <td><span class="n">(2)신고일</span>{{ f("decl_date", label="신고일") }}</td>
+    <td><span class="n">(3)세관.과</span>{{ f("customs", label="세관.과") }}</td>
+    <td><span class="n">(4)입항일</span>{{ f("arrival_date", label="입항일") }}</td>
+    <td><span class="n">(5)전자인보이스 제출번호</span>&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="2"><span class="n">(6)B/L(AWB)번호</span>{{ f("bl_no", label="B/L번호") }}</td>
+    <td colspan="2"><span class="n">(7)화물관리번호</span>{{ f("cargo_no", label="화물관리번호") }}</td>
+    <td><span class="n">(8)반입일 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (9)징수형태</span>{{ f("warehouse_date", label="반입일") }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ f("collection_type", label="징수형태") }}</td>
+  </tr>
+</table>
+<table class="id">
+  <colgroup><col style="width:58%"><col style="width:21%"><col style="width:21%"></colgroup>
+  <tr>
+    <td rowspan="7">
+      <span class="n">(10)신 고 인</span>{{ f("declarant", label="신고인") }}<br>
+      <span class="n">(11)수 입 자</span>{{ f("importer.name", label="수입자") }} &nbsp;({{ f("importer.code", label="수입자통관고유부호") }})<br>
+      <span class="n">(12)납세의무자 (통관고유부호/주소/상호/전화번호/이메일주소/성명/사업자등록번호)</span>
+      {{ f("taxpayer.code", label="납세의무자통관고유부호") }}<br>
+      {{ f("taxpayer.address", label="납세의무자주소") }}<br>
+      {{ f("taxpayer.name", label="납세의무자상호") }} &nbsp; {{ f("taxpayer.ceo", label="납세의무자성명") }} &nbsp; {{ f("taxpayer.biz_no", label="사업자등록번호") }}<br>
+      <span class="n">(13)운송주선인</span>{{ f("forwarder", label="운송주선인") }}<br>
+      <span class="n">(14)해외거래처</span>{{ f("supplier", label="해외거래처") }}
+    </td>
+    <td colspan="2"><span class="n">(15)통관계획</span>{{ f("clearance_plan", label="통관계획") }}</td>
+  </tr>
+  <tr><td><span class="n">(16)원산지증명서 유무</span>{{ f("origin_cert", label="원산지증명서유무") }}</td><td><span class="n">(17)가격신고서 유무</span>Y</td></tr>
+  <tr><td><span class="n">(18)총중량</span>{{ f("total_weight", label="총중량") }}</td><td><span class="n">(19)총포장갯수</span>{{ f("total_packages", label="총포장갯수") }}</td></tr>
+  <tr><td><span class="n">(20)국내도착항</span>{{ f("arrival_port", label="국내도착항") }}</td><td><span class="n">(21)운송형태</span>{{ f("transport", label="운송형태") }}</td></tr>
+  <tr><td><span class="n">(22)적출국</span>{{ f("export_country", label="적출국") }}</td><td><span class="n">(23)선기명</span>{{ f("vessel", label="선기명") }}</td></tr>
+  <tr><td><span class="n">(24)MASTER B/L 번호</span>{{ f("master_bl", label="MASTER B/L 번호") }}</td><td><span class="n">(25)운수기관부호</span>{{ f("carrier_code", label="운수기관부호") }}</td></tr>
+  <tr><td colspan="2"><span class="n">(26)검사(반입)장소</span>{{ f("inspection_place", label="검사(반입)장소") }}</td></tr>
+</table>
+{% for it in d["items"] %}{% set pre = "items." ~ loop.index0 ~ "." %}
+<table class="id">
+  <colgroup><col style="width:9%"><col style="width:29%"><col style="width:16%"><col style="width:16%"><col style="width:12%"><col style="width:18%"></colgroup>
+  <tr>
+    <td class="ln c" rowspan="4">(란번호)<br>{{ f(pre ~ "line_no", label="란번호") }}<br>/{{ f("line_total", label="총란수") }}</td>
+    <td colspan="3"><span class="n">(27)품명</span>{{ f(pre ~ "std_name", label="품명") }}</td>
+    <td colspan="2"><span class="n">(28)거래품명</span>{{ f(pre ~ "trade_name", label="거래품명") }}</td>
+  </tr>
+  <tr>
+    <td><span class="n">(29)상표 &nbsp;NO<br>(30)모델·규격</span>{{ f(pre ~ "model", label="모델·규격") }}</td>
+    <td><span class="n">(32)수량</span>{{ f(pre ~ "quantity", label="수량") }}</td>
+    <td><span class="n">(33)단가({{ val("payment").split("-")[1] }})</span>{{ f(pre ~ "unit_price", label="단가") }}</td>
+    <td colspan="2"><span class="n">(34)금액({{ val("payment").split("-")[1] }})</span>{{ f(pre ~ "amount", label="금액") }}</td>
+  </tr>
+  <tr>
+    <td><span class="n">(35)세번부호</span><b>{{ f(pre ~ "hs_code", label="세번부호") }}</b></td>
+    <td><span class="n">(36)순중량</span>{{ f(pre ~ "net_weight", label="순중량") }}</td>
+    <td colspan="2"><span class="n">(39)과세가격(CIF)</span>{{ f(pre ~ "taxable_usd", label="과세가격(USD)") }} &nbsp; {{ f(pre ~ "taxable_krw", label="과세가격(원화)") }}</td>
+    <td><span class="n">(42)원산지표시</span>{{ f(pre ~ "origin", label="원산지") }}</td>
+  </tr>
+  <tr>
+    <td colspan="5" style="padding:0">
+      <table class="id" style="border:0">
+        <colgroup><col style="width:14%"><col style="width:20%"><col style="width:16%"><col style="width:22%"><col style="width:28%"></colgroup>
+        <tr><th>(45)세종</th><th>(46)세율(구분)</th><th>(47)감면율</th><th>(48)세액</th><th>(49)감면분납부호 / 감면액 / *내국세종부호</th></tr>
+        <tr><td class="c">{{ f(pre ~ "duty_type", label="세종") }}</td><td class="c">{{ f(pre ~ "duty_rate", label="관세율") }}</td><td class="c">0.00</td>
+          <td class="num">{{ f(pre ~ "duty_amount", label="관세액") }}</td><td></td></tr>
+        <tr><td class="c">부</td><td class="c">{{ f(pre ~ "vat_rate", label="부가세율") }}</td><td class="c">0.00</td>
+          <td class="num">{{ f(pre ~ "vat_amount", label="부가세액") }}</td><td></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+{% endfor %}
+<table class="id">
+  <colgroup><col style="width:34%"><col style="width:16%"><col style="width:22%"><col style="width:28%"></colgroup>
+  <tr>
+    <td><span class="n">(50)결제금액 (인도조건-통화종류-금액-결제방법)</span><b>{{ f("payment", label="결제금액") }}</b></td>
+    <td><span class="n">(51)환율</span>{{ f("exchange_rate", label="환율") }}</td>
+    <td colspan="2"><span class="n">(52)총과세가격</span><b>{{ f("total_taxable", label="총과세가격") }}</b></td>
+  </tr>
+  <tr>
+    <td><span class="n">(53)운임</span>{{ f("freight", label="운임") }}</td>
+    <td><span class="n">(54)가산금액</span>₩0</td>
+    <td><span class="n">(55)납부번호</span>&nbsp;</td>
+    <td><span class="n">(56)부가가치세과표</span>{{ f("vat_base", label="부가가치세과표") }}</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><span class="n">(57)보험료</span>{{ f("insurance", label="보험료") }}</td>
+    <td><span class="n">(58)공제금액</span>₩0</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<table class="id">
+  <colgroup><col style="width:16%"><col style="width:18%"><col style="width:66%"></colgroup>
+  <tr><th>(59)세종</th><th>(60)세액</th><th>※ 세관기재란</th></tr>
+  <tr><td class="c">관 세</td><td class="num">{{ f("tax.duty", label="관세") }}</td><td rowspan="10" style="vertical-align:top">
+    <div class="small">세관 : {{ f("customs_office", label="세관") }}</div>
+    <div class="small">(62)담당자 : {{ f("officer", label="담당자") }}</div>
+    <div class="small">(63)접수일시 : {{ f("receipt_datetime", label="접수일시") }}</div>
+    <div class="small">(64)수리일자 : {{ f("accept_date", label="수리일자") }}</div>
+    <div class="right" style="margin-top:6px">{{ m.seal("세관장인", square=True, size="sm") }}</div>
+  </td></tr>
+  <tr><td class="c">개별소비세</td><td class="num">0</td></tr>
+  <tr><td class="c">교 통 세</td><td class="num">0</td></tr>
+  <tr><td class="c">주 세</td><td class="num">0</td></tr>
+  <tr><td class="c">교 육 세</td><td class="num">0</td></tr>
+  <tr><td class="c">농 특 세</td><td class="num">0</td></tr>
+  <tr><td class="c">부 가 세</td><td class="num">{{ f("tax.vat", label="부가세") }}</td></tr>
+  <tr><td class="c">신고지연가산세</td><td class="num">0</td></tr>
+  <tr><td class="c">미신고가산세</td><td class="num">0</td></tr>
+  <tr><td class="c bold">(61)총세액합계</td><td class="num bold">{{ f("tax.total", label="총세액합계") }}</td></tr>
+</table>
+<div class="foot">※ 본 수입신고필증은 세관에서 형식적 요건만을 심사한 것이므로 신고내용이 사실과 다른 때에는 신고인 또는 수입화주가 책임을 져야 합니다. 또한 수입신고필증의 진위여부는 관세청 인터넷통관포탈(UNI-PASS)에서 조회하여 확인하시기 바랍니다.</div>
+<div class="uni"><span>발행번호 : {{ val("decl_no") }}</span><span>Page : 1/{{ 1 if val("line_total") | int <= 3 else 2 }}</span></div>
+{% endblock %}

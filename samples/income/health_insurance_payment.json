@@ -1,0 +1,135 @@
+{
+ "document_type": "건강보험료 납부확인서",
+ "issue_no": "62-851987-9266",
+ "person": {
+  "name": "김소윤",
+  "rrn": "901121-2******",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호"
+ },
+ "member_kind": "직장가입자",
+ "period": "2024.11 ~ 2025.10",
+ "workplace": {
+  "name": "(주)새한소프트",
+  "mgmt_no": "45886131970",
+  "address": "전라남도 여수시 여수시민로 411, 2층"
+ },
+ "rows": [
+  {
+   "month": "2024.11",
+   "notice_health": "184,130",
+   "notice_ltc": "23,840",
+   "health": "184,130",
+   "ltc": "23,840",
+   "total": "207,970",
+   "paid_date": "2024.12.10"
+  },
+  {
+   "month": "2024.12",
+   "notice_health": "184,130",
+   "notice_ltc": "23,840",
+   "health": "184,130",
+   "ltc": "23,840",
+   "total": "207,970",
+   "paid_date": "2025.01.10"
+  },
+  {
+   "month": "2025.01",
+   "notice_health": "190,830",
+   "notice_ltc": "24,710",
+   "health": "190,830",
+   "ltc": "24,710",
+   "total": "215,540",
+   "paid_date": "2025.02.10"
+  },
+  {
+   "month": "2025.02",
+   "notice_health": "190,830",
+   "notice_ltc": "24,710",
+   "health": "190,830",
+   "ltc": "24,710",
+   "total": "215,540",
+   "paid_date": "2025.03.10"
+  },
+  {
+   "month": "2025.03",
+   "notice_health": "190,830",
+   "notice_ltc": "24,710",
+   "health": "190,830",
+   "ltc": "24,710",
+   "total": "215,540",
+   "paid_date": "2025.04.10"
+  },
+  {
+   "month": "2025.04",
+   "notice_health": "190,830",
+   "notice_ltc": "24,710",
+   "health": "190,830",
+   "ltc": "24,710",
+   "total": "215,540",
+   "paid_date": "2025.05.12"
+  },
+  {
+   "month": "2025.05",
+   "notice_health": "190,830",
+   "notice_ltc": "24,710",
+   "health": "190,830",
+   "ltc": "24,710",
+   "total": "215,540",
+   "paid_date": "2025.06.10"
+  },
+  {
+   "month": "2025.06",
+   "notice_health": "190,830",
+   "notice_ltc": "24,710",
+   "health": "190,830",
+   "ltc": "24,710",
+   "total": "215,540",
+   "paid_date": "2025.07.10"
+  },
+  {
+   "month": "2025.07",
+   "notice_health": "190,830",
+   "notice_ltc": "24,710",
+   "health": "190,830",
+   "ltc": "24,710",
+   "total": "215,540",
+   "paid_date": "2025.08.11"
+  },
+  {
+   "month": "2025.08",
+   "notice_health": "190,830",
+   "notice_ltc": "24,710",
+   "health": "190,830",
+   "ltc": "24,710",
+   "total": "215,540",
+   "paid_date": "2025.09.10"
+  },
+  {
+   "month": "2025.09",
+   "notice_health": "190,830",
+   "notice_ltc": "24,710",
+   "health": "190,830",
+   "ltc": "24,710",
+   "total": "215,540",
+   "paid_date": "2025.10.10"
+  },
+  {
+   "month": "2025.10",
+   "notice_health": "190,830",
+   "notice_ltc": "24,710",
+   "health": "190,830",
+   "ltc": "24,710",
+   "total": "215,540",
+   "paid_date": "2025.11.10"
+  }
+ ],
+ "sum": {
+  "notice_health": "2,276,560",
+  "notice_ltc": "294,780",
+  "health": "2,276,560",
+  "ltc": "294,780",
+  "total": "2,571,340"
+ },
+ "purpose": "금융기관 제출용",
+ "issue_date": "2025년 11월 29일"
+}

@@ -56,6 +56,11 @@ def _name_core(name: str) -> str:
     return name.replace("주식회사", "").replace("(주)", "").strip()
 
 
+def _formal(name: str) -> str:
+    """등기부·인감증명서·정관에 적히는 정식 상호: '(주)한빛전자' → '주식회사 한빛전자'."""
+    return f"주식회사 {name[3:].strip()}" if name.startswith("(주)") else name
+
+
 def _side_person(seed: str):
     """프로필에 없는 인물(감사·직원·대리인)을 seed 문자열로 결정론적으로 만든다."""
     w = World(0)
@@ -119,7 +124,15 @@ def _facts(p: Profile) -> dict:
         "initial_shares": initial_shares, "purposes": purposes, "notice": notice, "city": city,
         "officers": officers, "auditor": auditor, "articles_dates": articles_dates,
         "seal_no": f"{r.randint(1, 9999):04d}",
+        # 증자(설립 시 주식수 < 현재 발행주식수)·본점이전 이력: 등기부 우측 '변경/등기 연월일' 칸에 쓰인다
+        "capital_increase": _later(r, est, p.issue_date) if initial_shares < issued else None,
+        "office_move": _later(r, est, p.issue_date) if r.random() < 0.3 else None,
     }
+
+
+def _later(r: random.Random, est: date, until: date) -> date | None:
+    lo, hi = est + timedelta(days=180), until - timedelta(days=60)
+    return rand_date(r, lo, hi) if lo < hi else None
 
 
 def _addr(a: Address) -> str:
@@ -148,10 +161,16 @@ def corporate_registry(p: Profile, rng: random.Random) -> dict:
             it["address"] = _addr(o["person"].address)
         officers.append(it)
     viewing = rng.random() < 0.4
+
+    def chg(dt: date | None, word: str) -> dict | None:
+        if dt is None:
+            return None
+        reg = dt + timedelta(days=rng.randint(2, 10))
+        return {"changed": f"{D(dt, 'dot')} {word}", "registered": f"{D(reg, 'dot')} 등기"}
     d = {
         "reg_no": fx["reg_no"],
         "corp_reg_no": c.corp_no,
-        "company_name": c.name,
+        "company_name": _formal(c.name),
         "head_office": _addr(c.address),
         "notice_method": fx["notice"],
         "par_value": f"금 {PAR_VALUE:,} 원",
@@ -165,8 +184,11 @@ def corporate_registry(p: Profile, rng: random.Random) -> dict:
         "opening_reason": "설립",
         "opening_date": _kd(c.established),
         "jurisdiction": courthouse(c.address),
+        "capital_change": chg(fx["capital_increase"], "변경"),
+        "head_office_change": chg(fx["office_move"], "이전"),
         "issue_no": "".join(str(rng.randint(0, 9)) for _ in range(rng.choice([16, 20]))),
     }
+    d = {k: v for k, v in d.items() if v is not None}
     if viewing:
         d["issue_type"] = "열람용"
         d["viewed_at"] = f"{issued_at.year}년{issued_at.month:02d}월{issued_at.day:02d}일 {hh:02d}시{mm:02d}분{ss:02d}초"
@@ -192,7 +214,7 @@ def articles_of_incorporation(p: Profile, rng: random.Random) -> dict:
     dates = fx["articles_dates"]
     hist = [f"제정 {D(dates[0], 'dot')}"] + [f"개정 {D(x, 'dot')}" for x in dates[1:]]
     return {
-        "company_name": c.name,
+        "company_name": _formal(c.name),
         "company_name_en": c.name_en,
         "purposes": [f"{i}. {x}" for i, x in enumerate(fx["purposes"], 1)],
         "head_office_city": fx["city"],
@@ -202,6 +224,7 @@ def articles_of_incorporation(p: Profile, rng: random.Random) -> dict:
         "initial_shares": f"{fx['initial_shares']:,}주",
         "effective_date": D(est, "kor_short"),
         "revision_history": hist,
+        "revision_effective": [D(x, "kor_short") for x in dates[1:]],
         "certify_date": D(p.issue_date - timedelta(days=rng.randint(0, 7)), rng.choice(["kor", "kor_short", "dot"])),
         "ceo_name": p.person.name,
     }
@@ -216,20 +239,26 @@ def shareholder_registry(p: Profile, rng: random.Random) -> dict:
     """법인 주주명부 (대표이사 확인 날인)."""
     c, fx = p.corporation, _facts(p)
     total = sum(n for _, n in p.shareholders)
-    # 지분율: 최대잔여법으로 소수점 둘째 자리 합계 100.00 유지
-    raw = [n * 10000 / total for _, n in p.shareholders]
+    # 지분율: 최대잔여법으로 합계 100 유지 (소수점 1자리 또는 2자리)
+    dec = rng.choice([1, 2, 2])
+    unit = 100 * 10 ** dec
+    raw = [n * unit / total for _, n in p.shareholders]
     bp = [int(x) for x in raw]
-    for i in sorted(range(len(raw)), key=lambda i: raw[i] - bp[i], reverse=True)[:10000 - sum(bp)]:
+    for i in sorted(range(len(raw)), key=lambda i: raw[i] - bp[i], reverse=True)[:unit - sum(bp)]:
         bp[i] += 1
+    pct = (lambda b: f"{b / 10 ** dec:.{dec}f}%")
+    directors = {d.name for d in p.directors}
     rows = []
     for i, ((sh, n), b) in enumerate(zip(p.shareholders, bp), 1):
         acq = c.established if (i == 1 or rng.random() < 0.5) else rand_date(rng, c.established, p.issue_date - timedelta(days=90))
-        if isinstance(sh, str):
-            name, idno, addr = sh, "-", "-"
+        if isinstance(sh, str):  # 법인주주: 사업자등록번호
+            name, idno, addr, note = sh, K.biz_no(random.Random(sh), corporate=True), "-", "법인주주"
         else:
             name, idno, addr = sh.name, _mask_any(sh.rrn, rng), sh.address.road_short
+            note = "대표이사" if sh is p.person else ("사내이사" if sh.name in directors else "")
         rows.append({"no": str(i), "name": name, "id_no": idno, "address": addr, "share_type": "보통주",
-                     "shares": f"{n:,}", "ratio": f"{b // 100}.{b % 100:02d}%", "acquired": D(acq, "dot")})
+                     "shares": f"{n:,}", "amount": f"{n * PAR_VALUE:,}", "ratio": pct(b), "acquired": D(acq, "dot"),
+                     "note": note})
     base = p.issue_date - timedelta(days=rng.randint(0, 20))
     return {
         "base_date": D(base, rng.choice(["kor", "dot"])),
@@ -242,7 +271,8 @@ def shareholder_registry(p: Profile, rng: random.Random) -> dict:
         "capital": won(c.capital),
         "shareholders": rows,
         "sum_shares": f"{total:,}",
-        "sum_ratio": "100.00%",
+        "sum_amount": f"{total * PAR_VALUE:,}",
+        "sum_ratio": pct(unit),
         "certify_date": D(p.issue_date, rng.choice(["kor", "kor_short"])),
         "ceo_name": p.person.name,
     }
@@ -268,42 +298,87 @@ def _income(rev: int, rng: random.Random) -> dict:
     noe = int(rev * rng.uniform(0.003, 0.02))
     pre = op + noi - noe
     tax = int(pre * rng.uniform(0.08, 0.19)) if pre > 0 else 0
+    int_inc = int(noi * rng.uniform(0.3, 0.9))
+    int_exp = int(noe * rng.uniform(0.5, 0.95))
     return {"rev": rev, "cogs": cogs, "gross": gross, "sga": sga, "op": op, "noi": noi, "noe": noe,
-            "pre": pre, "tax": tax, "net": pre - tax}
+            "pre": pre, "tax": tax, "net": pre - tax, "int_inc": int_inc, "int_exp": int_exp}
 
 
-def _balance(rev: int, capital: int, re: int, rng: random.Random) -> dict:
+_MFG = {"전자부품", "자동차부품", "화학제품", "식료품", "의료기기"}
+
+
+def _bs_layout(c, rng: random.Random) -> dict:
+    """재무상태표에 나올 세부 계정 구성(두 기 공통). 일반기업회계기준 과목 배열 순서."""
+    mfg = c.biz_item in _MFG
+    tang = ["기계장치", rng.choice(["차량운반구", "비품"])] if mfg else ["차량운반구", "비품"]
+    if rng.random() < 0.25:
+        tang = ["토지"] + tang
+    return {
+        "quick": ["현금및현금성자산"] + (["단기금융상품"] if rng.random() < 0.3 else []) + ["매출채권", "대손충당금"]
+                 + [x for x in ["미수금", "선급금"] if rng.random() < 0.4],
+        "inv": ["제품", "원재료"] if mfg else ["상품"],
+        "invest": ["장기금융상품"] if rng.random() < 0.5 else [],
+        "tang": tang,
+        "intang": [rng.choice(["소프트웨어", "개발비", "특허권"])] if rng.random() < 0.7 else [],
+        "onca": ["임차보증금"],
+        "cl": ["매입채무", "미지급금"] + (["예수금"] if rng.random() < 0.5 else []) + ["단기차입금"]
+              + (["미지급세금"] if rng.random() < 0.4 else []),
+        "ncl": ["장기차입금", "퇴직급여충당부채"],
+    }
+
+
+def _balance(rev: int, capital: int, re: int, lay: dict, rng: random.Random) -> list[tuple[str, int, int]]:
+    """(과목, 금액, 단계) 목록. 단계 0=Ⅰ·Ⅱ, 1=(1)(2), 2=세부계정, 9=총계. 자산총계 = 부채총계 + 자본총계."""
     equity = capital + re
     liab = max(int(equity * rng.uniform(0.4, 2.2)), int(rev * rng.uniform(0.12, 0.3)))
     assets = equity + liab
     ca, nca = _split(assets, [rng.uniform(0.4, 0.75), 1])
-    cash, ar, inv, oca = _split(ca, [rng.uniform(0.15, 0.35), rng.uniform(0.25, 0.45), rng.uniform(0.05, 0.3),
-                                     rng.uniform(0.03, 0.1)])
-    tang, intang, onca = _split(nca, [rng.uniform(0.6, 0.85), rng.uniform(0.01, 0.08), rng.uniform(0.07, 0.25)])
+    quick, inv = _split(ca, [rng.uniform(0.6, 0.9), rng.uniform(0.1, 0.4) if "제품" in lay["inv"] else rng.uniform(0.03, 0.15)])
+    groups = [g for g in ("invest", "tang", "intang", "onca") if lay[g]]
+    wts = {"invest": rng.uniform(0.05, 0.2), "tang": rng.uniform(0.5, 0.8), "intang": rng.uniform(0.01, 0.06),
+           "onca": rng.uniform(0.05, 0.2)}
+    nca_parts = dict(zip(groups, _split(nca, [wts[g] for g in groups])))
+
+    def detail(total: int, names: list[str]) -> list[tuple[str, int, int]]:
+        """세부 계정 배분. 대손충당금·감가상각누계액은 바로 위 계정의 차감 항목으로 넣는다."""
+        if not names:
+            return []
+        plus = [n for n in names if n != "대손충당금"]
+        vals = dict(zip(plus, _split(total, [rng.uniform(0.3, 1.0) * (2.5 if i == 0 else 1) for i, _ in enumerate(plus)])))
+        out = []
+        for n in names:
+            if n == "대손충당금":
+                ar = vals["매출채권"]
+                allow = int(ar * rng.uniform(0.005, 0.02))
+                out[-1] = ("매출채권", ar + allow, 2)
+                out.append(("대손충당금", -allow, 2))
+            elif n in ("기계장치", "차량운반구", "비품", "건물"):
+                net = vals[n]
+                dep = int(net * rng.uniform(0.2, 1.2))
+                out += [(n, net + dep, 2), ("감가상각누계액", -dep, 2)]
+            else:
+                out.append((n, vals[n], 2))
+        return out
+
+    rows = [("자　　산", None, -1), ("Ⅰ. 유동자산", ca, 0), ("(1) 당좌자산", quick, 1)] + detail(quick, lay["quick"])
+    rows += [("(2) 재고자산", inv, 1)] + detail(inv, lay["inv"]) + [("Ⅱ. 비유동자산", nca, 0)]
+    labels = {"invest": "투자자산", "tang": "유형자산", "intang": "무형자산", "onca": "기타비유동자산"}
+    for i, g in enumerate(groups, 1):
+        rows += [(f"({i}) {labels[g]}", nca_parts[g], 1)] + detail(nca_parts[g], lay[g])
+    rows.append(("자산총계", assets, 9))
     cl, ncl = _split(liab, [rng.uniform(0.5, 0.8), 1])
-    ap, stb, oap, ocl = _split(cl, [rng.uniform(0.25, 0.45), rng.uniform(0.2, 0.45), rng.uniform(0.05, 0.15),
-                                    rng.uniform(0.05, 0.15)])
-    ltb, sev = _split(ncl, [rng.uniform(0.6, 0.9), rng.uniform(0.1, 0.3)])
-    return {"ca": ca, "cash": cash, "ar": ar, "inv": inv, "oca": oca, "nca": nca, "tang": tang, "intang": intang,
-            "onca": onca, "assets": assets, "cl": cl, "ap": ap, "stb": stb, "oap": oap, "ocl": ocl, "ncl": ncl,
-            "ltb": ltb, "sev": sev, "liab": liab, "capital": capital, "re": re, "equity": equity}
-
-
-_BS_ASSETS = [("Ⅰ. 유동자산", "ca"), ("1. 현금및현금성자산", "cash"), ("2. 매출채권", "ar"), ("3. 재고자산", "inv"),
-              ("4. 기타유동자산", "oca"), ("Ⅱ. 비유동자산", "nca"), ("1. 유형자산", "tang"), ("2. 무형자산", "intang"),
-              ("3. 기타비유동자산", "onca"), ("자산총계", "assets")]
-_BS_LIAB = [("Ⅰ. 유동부채", "cl"), ("1. 매입채무", "ap"), ("2. 단기차입금", "stb"), ("3. 미지급금", "oap"),
-            ("4. 기타유동부채", "ocl"), ("Ⅱ. 비유동부채", "ncl"), ("1. 장기차입금", "ltb"), ("2. 퇴직급여충당부채", "sev"),
-            ("부채총계", "liab")]
-_BS_EQ = [("Ⅰ. 자본금", "capital"), ("Ⅱ. 이익잉여금", "re"), ("자본총계", "equity")]
-_IS = [("Ⅰ. 매출액", "rev"), ("Ⅱ. 매출원가", "cogs"), ("Ⅲ. 매출총이익", "gross"), ("Ⅳ. 판매비와관리비", "sga"),
-       ("Ⅴ. 영업이익(손실)", "op"), ("Ⅵ. 영업외수익", "noi"), ("Ⅶ. 영업외비용", "noe"),
-       ("Ⅷ. 법인세비용차감전순이익(손실)", "pre"), ("Ⅸ. 법인세비용", "tax"), ("Ⅹ. 당기순이익(손실)", "net")]
+    rows += [("부　　채", None, -1), ("Ⅰ. 유동부채", cl, 0)] + detail(cl, lay["cl"])
+    rows += [("Ⅱ. 비유동부채", ncl, 0)] + detail(ncl, lay["ncl"]) + [("부채총계", liab, 9)]
+    rows += [("자　　본", None, -1), ("Ⅰ. 자본금", capital, 0), ("보통주자본금", capital, 2),
+             ("Ⅱ. 이익잉여금" if re >= 0 else "Ⅱ. 결손금", re, 0),
+             ("미처분이익잉여금" if re >= 0 else "미처리결손금", re, 2),
+             ("자본총계", equity, 9), ("부채와자본총계", liab + equity, 9)]
+    return rows
 
 
 @doc("financial_statements", "재무제표(재무상태표·손익계산서)", "corporate")
 def financial_statements(p: Profile, rng: random.Random) -> dict:
-    """최근 결산 2개년 비교 재무상태표 + 손익계산서 (자산 = 부채 + 자본)."""
+    """최근 결산 2개년 비교 재무상태표 + 손익계산서 (일반기업회계기준 과목 배열, 자산 = 부채 + 자본)."""
     c = p.corporation
     unit_label, unit = rng.choice([("원", 1), ("원", 1), ("천원", 1000)])
     fy = p.issue_date.year - 1 if p.issue_date.month >= 4 else p.issue_date.year - 2
@@ -318,34 +393,44 @@ def financial_statements(p: Profile, rng: random.Random) -> dict:
         re0 += abs(min(inc_prev["net"], inc_prev["net"] + inc_cur["net"])) + cap // 2
     re_prev = re0 + inc_prev["net"]
     re_cur = re_prev + inc_cur["net"]
-    bs_prev, bs_cur = _balance(rev_prev, cap, re_prev, rng), _balance(rev_cur, cap, re_cur, rng)
+    lay = _bs_layout(c, rng)
+    bs_prev, bs_cur = _balance(rev_prev, cap, re_prev, lay, rng), _balance(rev_cur, cap, re_cur, lay, rng)
 
-    neg = rng.choice(["paren", "tri", "minus"])
+    neg = rng.choice(["paren", "paren", "tri", "minus"])
 
-    def fmt(n: int) -> str:
+    def fmt(n: int | None) -> str:
+        if n is None:
+            return ""
         if n >= 0:
             return f"{n:,}"
         return {"paren": f"({-n:,})", "tri": f"△{-n:,}", "minus": f"-{-n:,}"}[neg]
 
-    def rows(spec, cur, prev):
-        return [{"account": a, "current": fmt(cur[k]), "prior": fmt(prev[k])} for a, k in spec]
+    def bs_rows(lo: int, hi: int):
+        return [{"account": a, "current": fmt(v), "prior": fmt(pv)}
+                for (a, v, lv), (_, pv, _) in zip(bs_cur[lo:hi], bs_prev[lo:hi]) if lv >= 0]
 
+    idx = [i for i, (_, _, lv) in enumerate(bs_cur) if lv == -1] + [len(bs_cur) - 1]
+    sales = {True: "제품매출", False: "상품매출"}[c.biz_item in _MFG] if c.biz_item not in (
+        "응용소프트웨어 개발", "시스템 통합", "광고대행", "화물운송", "경영컨설팅") else "용역매출"
+    is_spec = [("Ⅰ. 매출액", "rev"), (sales, "rev"), ("Ⅱ. 매출원가", "cogs"), ("Ⅲ. 매출총이익", "gross"),
+               ("Ⅳ. 판매비와관리비", "sga"), ("Ⅴ. 영업이익(손실)", "op"), ("Ⅵ. 영업외수익", "noi"), ("이자수익", "int_inc"),
+               ("Ⅶ. 영업외비용", "noe"), ("이자비용", "int_exp"), ("Ⅷ. 법인세비용차감전순이익(손실)", "pre"),
+               ("Ⅸ. 법인세비용", "tax"), ("Ⅹ. 당기순이익(손실)", "net")]
     prev_start = max(date(fy - 1, 1, 1), c.established)
     return {
         "company_name": c.name,
         "unit": f"(단위 : {unit_label})",
-        "current_term": f"제 {term} 기",
-        "prior_term": f"제 {term - 1} 기",
+        "current_term": f"제 {term}(당)기",
+        "prior_term": f"제 {term - 1}(전)기",
         "bs_current_date": f"{fy}년 12월 31일 현재",
         "bs_prior_date": f"{fy - 1}년 12월 31일 현재",
         "is_current_period": f"{fy}년 01월 01일부터 {fy}년 12월 31일까지",
         "is_prior_period": f"{prev_start.year}년 {prev_start.month:02d}월 {prev_start.day:02d}일부터 {fy - 1}년 12월 31일까지",
-        "assets": rows(_BS_ASSETS, bs_cur, bs_prev),
-        "liabilities": rows(_BS_LIAB, bs_cur, bs_prev),
-        "equity": rows(_BS_EQ, bs_cur, bs_prev),
-        "total_liabilities_equity": {"current": fmt(bs_cur["liab"] + bs_cur["equity"]),
-                                     "prior": fmt(bs_prev["liab"] + bs_prev["equity"])},
-        "income_statement": rows(_IS, inc_cur, inc_prev),
+        "assets": bs_rows(idx[0] + 1, idx[1]),
+        "liabilities": bs_rows(idx[1] + 1, idx[2]),
+        "equity": bs_rows(idx[2] + 1, idx[3]),
+        "total_liabilities_equity": {"current": fmt(bs_cur[-1][1]), "prior": fmt(bs_prev[-1][1])},
+        "income_statement": [{"account": a, "current": fmt(inc_cur[k]), "prior": fmt(inc_prev[k])} for a, k in is_spec],
     }
 
 
@@ -363,7 +448,7 @@ def corporate_seal_certificate(p: Profile, rng: random.Random) -> dict:
         "issue_no": f"{rng.randint(1000, 9999)}-{rng.randint(1000, 9999)}-{rng.randint(1000, 9999)}-{rng.randint(1000, 9999)}",
         "reg_no": fx["reg_no"],
         "corp_reg_no": c.corp_no,
-        "company_name": c.name,
+        "company_name": _formal(c.name),
         "head_office": _addr(c.address),
         "rep_title": "대표이사",
         "rep_name": p.person.name,
@@ -468,13 +553,13 @@ def shareholders_meeting_minutes(p: Profile, rng: random.Random) -> dict:
             d = p.directors[0]
             agendas.append({"title": "이사 선임의 건",
                             "body": f"의장은 사내이사 {d.name}의 임기가 만료됨에 따라 이사를 선임할 필요가 있음을 설명하고 "
-                                    f"동인을 사내이사로 중임할 것을 물은 바, 출석주주 전원의 찬성으로 이를 승인 가결하다. "
+                                    f"동인을 사내이사로 중임할 것을 물은바, 출석주주 전원의 찬성으로 이를 승인 가결하다. "
                                     f"피선임자는 즉석에서 그 취임을 승낙하다.",
                             "detail": f"사내이사  {d.name} ({D(d.birth, 'kor_short')}생)  중임"})
         elif k == "auditor":
             a = fx["auditor"]
             agendas.append({"title": "감사 선임의 건",
-                            "body": f"의장은 감사 {a.name}의 임기 만료로 감사를 선임하여야 함을 설명하고 그 선임을 물은 바, "
+                            "body": f"의장은 감사 {a.name}의 임기 만료로 감사를 선임하여야 함을 설명하고 그 선임을 물은바, "
                                     f"출석주주 전원의 찬성으로 아래 사람을 감사로 선임하다. 피선임자는 즉석에서 취임을 승낙하다.",
                             "detail": f"감사  {a.name} ({D(a.birth, 'kor_short')}생)  중임"})
         elif k == "articles":
@@ -484,12 +569,12 @@ def shareholders_meeting_minutes(p: Profile, rng: random.Random) -> dict:
             n = len(fx["purposes"])
             agendas.append({"title": "정관 일부 변경의 건",
                             "body": "의장은 사업 다각화를 위하여 정관 제2조(목적)에 사업목적을 추가할 필요가 있음을 설명하고 "
-                                    "아래와 같이 정관을 변경할 것을 물은 바, 출석주주 전원의 찬성으로 원안대로 승인 가결하다.",
+                                    "아래와 같이 정관을 변경할 것을 물은바, 출석주주 전원의 찬성으로 원안대로 승인 가결하다.",
                             "detail": f"제2조(목적) 제{n}호 신설: \"{n}. {new}\" (종전 제{n}호는 제{n + 1}호로 이동)"})
         else:
             limit = K.round_to(min(2e9, max(1e8, c.revenue * rng.uniform(0.005, 0.02))), 50_000_000)
             agendas.append({"title": "이사 보수한도 승인의 건",
-                            "body": "의장은 당해 사업연도 이사 보수한도액을 아래와 같이 정하고자 함을 설명하고 그 승인을 물은 바, "
+                            "body": "의장은 당해 사업연도 이사 보수한도액을 아래와 같이 정하고자 함을 설명하고 그 승인을 물은바, "
                                     "출석주주 전원의 찬성으로 원안대로 승인 가결하다.",
                             "detail": f"이사 보수한도액: 금 {K.won_korean(limit)}원 (₩{limit:,})"})
     for i, a in enumerate(agendas, 1):
@@ -526,6 +611,7 @@ def power_of_attorney(p: Profile, rng: random.Random) -> dict:
     """은행 여신거래 관련 위임장 (법인 또는 개인 위임인)."""
     c = p.corporation
     corporate = rng.random() < 0.65
+    bfmt = rng.choice(["dot", "kor"])
     if corporate:
         agent = _side_person(f"agent:{p.seed}:{rng.random()}")
         relation = f"직원 ({rng.choice(_STAFF_POS)})"
@@ -538,7 +624,7 @@ def power_of_attorney(p: Profile, rng: random.Random) -> dict:
             agent, relation = rng.choice(fam)
         else:
             agent, relation = _side_person(f"agent:{p.seed}:{rng.random()}"), rng.choice(["지인", "친척", "법무사 사무원"])
-        grantor = {"type": "개인", "name": p.person.name, "rrn": _mask_any(p.person.rrn, rng),
+        grantor = {"type": "개인", "name": p.person.name, "birth": D(p.person.birth, bfmt),
                    "address": p.person.address.road_full, "phone": p.person.mobile}
     bank = f"{p.bank} {p.bank_branch}"
     tasks = rng.choice([
@@ -552,11 +638,11 @@ def power_of_attorney(p: Profile, rng: random.Random) -> dict:
     granted = p.issue_date - timedelta(days=rng.randint(0, 7))
     return {
         "grantor": grantor,
-        "agent": {"name": agent.name, "rrn": _mask_any(agent.rrn, rng), "address": agent.address.road_full,
+        "agent": {"name": agent.name, "birth": D(agent.birth, bfmt), "address": agent.address.road_full,
                   "phone": agent.mobile, "relation": relation},
         "tasks": [f"{i}. {t}" for i, t in enumerate(tasks, 1)],
         "period": f"{D(granted, 'dot')} ~ {D(granted + timedelta(days=rng.choice([30, 60, 90])), 'dot')}",
         "grant_date": D(granted, rng.choice(["kor", "kor_short"])),
-        "recipient": f"{p.bank} 귀중",
+        "recipient": rng.choice([f"{p.bank} 귀중", f"{p.bank} {p.bank_branch} 귀중", f"{p.bank} {p.bank_branch}장 앞"]),
         "attachment": "법인인감증명서 1부" if corporate else "인감증명서 1부",
     }

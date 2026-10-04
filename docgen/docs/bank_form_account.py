@@ -47,32 +47,55 @@ def _date(p: Profile, rng: random.Random) -> str:
 
 
 # ---------------------------------------------------------------------------
-# 고객확인서 (개인)
+# 고객확인서 (개인) — 은행 서식명: 고객거래확인서(개인·개인사업자용)
 # ---------------------------------------------------------------------------
+
+CDD_JOBS = ["급여소득자", "개인사업자", "전문직", "공무원", "연금소득자", "주부", "학생", "무직", "기타"]
+CDD_PURPOSES = ["급여 및 생활비", "저축 및 투자", "보험료 납부결제", "공과금 납부결제", "카드대금 결제",
+                "대출원리금 상환결제", "사업상 거래", "기타"]
+CDD_FUNDS = ["근로 및 연금소득", "퇴직소득", "사업소득", "부동산임대소득", "부동산양도소득",
+             "금융소득(이자 및 배당)", "상속·증여", "일시 재산양도로 인한 소득", "기타"]
+
 
 @doc("customer_due_diligence", "고객확인서(개인)", "bank_form", category="internal")
 def customer_due_diligence(p: Profile, rng: random.Random) -> dict:
-    """특정금융정보법에 따른 개인 고객확인(KYC/CDD) 서식."""
+    """특정금융정보법 제5조의2에 따른 개인 고객확인(CDD) — 은행 '고객거래확인서(개인·개인사업자용)'."""
     per = p.person
     job = _occupation(p, rng)
-    fund = {"급여소득자": "근로소득", "전문직": "근로소득", "개인사업자": "사업소득"}.get(
-        job["type"], rng.choice(["부동산임대", "상속·증여", "기타"]))
+    if job["type"] == "주부" and per.gender == "M":
+        job = {"type": "무직"}
+    if per.age >= 62 and job["type"] in ("무직", "기타") and rng.random() < 0.6:
+        job = {"type": "연금소득자"}
+    work = {"type": job["type"]}
+    if job["type"] in ("급여소득자", "전문직"):
+        emp = p.employment
+        work.update({"company": emp.company.name, "department": f"{emp.department} / {emp.position}",
+                     "industry": emp.company.biz_type, "work_phone": emp.company.phone})
+    elif job["type"] == "개인사업자":
+        b = p.business
+        work.update({"company": b.name, "biz_no": b.biz_no, "opened": D(b.established, "dot"),
+                     "industry": f"{b.biz_type} / {b.biz_item}", "work_phone": b.phone})
+    fund = {"급여소득자": "근로 및 연금소득", "전문직": "근로 및 연금소득", "연금소득자": "근로 및 연금소득",
+            "개인사업자": "사업소득"}.get(job["type"]) or rng.choice(
+        ["부동산임대소득", "금융소득(이자 및 배당)", "상속·증여", "기타"])
     if job["type"] == "개인사업자":
-        purpose = rng.choice(["사업상 거래", "사업상 거래", "급여 및 생활비", "대출"])
+        purpose = rng.choice(["사업상 거래", "사업상 거래", "급여 및 생활비", "대출원리금 상환결제"])
     else:
-        purpose = rng.choice(["급여 및 생활비", "급여 및 생활비", "저축 및 투자", "대출"])
-    return {
+        purpose = rng.choices(CDD_PURPOSES[:6], weights=[50, 20, 5, 8, 9, 8])[0]
+    data = {
         "bank": _bank(p),
         "customer": {
             "name": per.name,
             "name_en": per.name_en,
             "rrn": _rrn(p, rng),
+            "resident_type": "내국인",
+            "gender": "남" if per.gender == "M" else "여",
             "nationality": per.nationality,
             "address": per.address.road_full,
             "mobile": per.mobile,
             "email": per.email,
         },
-        "job": job,
+        "job": work,
         "transaction": {
             "purpose": purpose,
             "fund_source": fund,
@@ -81,7 +104,7 @@ def customer_due_diligence(p: Profile, rng: random.Random) -> dict:
             "frequency": rng.choices(["월 5회 미만", "월 5~10회", "월 10~20회", "월 20회 이상"],
                                      weights=[35, 35, 20, 10])[0],
         },
-        "beneficial_owner": "예(본인)",
+        "beneficial_owner": "예",
         "pep": "아니오",
         "date": _date(p, rng),
         "signature": per.name,
@@ -92,6 +115,7 @@ def customer_due_diligence(p: Profile, rng: random.Random) -> dict:
             **_staff(rng),
         },
     }
+    return data
 
 
 # ---------------------------------------------------------------------------
@@ -115,6 +139,7 @@ def corporate_customer_due_diligence(p: Profile, rng: random.Random) -> dict:
         else:
             owners.append({"name": str(holder), "birth": "-", "nationality": "대한민국",
                            "ratio": f"{ratio:.2f}%", "relation": "주주"})
+    owners.sort(key=lambda o: -float(o["ratio"].rstrip("%")))
     same = rng.random() < 0.6
     return {
         "bank": _bank(p),
@@ -129,7 +154,7 @@ def corporate_customer_due_diligence(p: Profile, rng: random.Random) -> dict:
             "biz_address": "본점과 동일" if same else c.address.road_short,
             "phone": c.phone,
             "email": c.email,
-            "corp_type": "영리법인",
+            "corp_type": rng.choices(["중소기업", "대기업"], weights=[95, 5])[0],
             "listed": rng.choices(["비상장", "코넥스", "코스닥"], weights=[92, 4, 4])[0],
         },
         "rep": {
@@ -169,12 +194,15 @@ def privacy_consent(p: Profile, rng: random.Random) -> dict:
     """여신 금융거래용 개인(신용)정보 동의서 (필수/선택 동의)."""
     guar = rng.sample(_GUARANTORS, rng.randint(2, 4))
     providers = [
-        {"name": "한국신용정보원(신용정보집중기관)", "purpose": "신용정보 집중관리 및 활용",
-         "items": "개인식별정보, 신용거래정보, 신용도판단정보", "period": "거래종료일로부터 최장 5년"},
-        {"name": rng.choice(["NICE평가정보, 코리아크레딧뷰로", "신용평가회사(NICE평가정보, KCB)"]),
-         "purpose": "개인신용평가, 실명확인", "items": "개인식별정보, 신용거래정보",
-         "period": "제공목적 달성 시까지"},
-        {"name": ", ".join(guar), "purpose": "보증심사 및 보증서 발급",
+        {"name": "신용정보집중기관(한국신용정보원)",
+         "purpose": "본인의 신용을 판단하기 위한 자료로 활용하거나 공공기관에서 정책자료로 활용",
+         "items": "개인식별정보, 신용거래정보, 신용도판단정보, 신용능력정보, 공공정보",
+         "period": "관련 법령 및 규약에서 정한 기간"},
+        {"name": rng.choice(["개인신용평가회사(NICE평가정보, 코리아크레딧뷰로)",
+                             "NICE평가정보㈜, 코리아크레딧뷰로㈜"]),
+         "purpose": "개인신용평가, 본인 실명 및 신용도 확인", "items": "개인식별정보, 신용거래정보, 신용도판단정보",
+         "period": "제공 목적 달성 시까지"},
+        {"name": ", ".join(guar), "purpose": "보증심사 및 보증서 발급·관리",
          "items": "개인식별정보, 신용거래정보, 신용능력정보", "period": "보증거래 종료일로부터 5년"},
     ]
     m_collect = rng.choice(["동의함", "동의하지 않음"])
@@ -223,6 +251,7 @@ def account_opening_application(p: Profile, rng: random.Random) -> dict:
     elif ptype == "정기예금":
         product["amount"] = won(rng.randint(5, 200) * 1_000_000)
         product["term"] = rng.choice(["6개월", "12개월", "12개월", "24개월", "36개월"])
+        product["interest_payment"] = rng.choices(["만기일시지급", "월이자지급"], weights=[75, 25])[0]
         product["linked_account"] = p.accounts[0].number
     else:
         product["amount"] = won(rng.choice([2, 3, 5, 10, 20, 30, 50, 100]) * 10_000 if ptype == "주택청약종합저축"
@@ -258,6 +287,9 @@ def account_opening_application(p: Profile, rng: random.Random) -> dict:
         "alert": rng.choice(["SMS", "앱 푸시", "앱 푸시", "미신청"]),
         "mail_to": rng.choice(["자택", "이메일", "이메일", "수령 안함"] + (["직장"] if "company" in job else [])),
         "salary_transfer": rng.choice(["지정", "미지정"]) if demand and job["type"] in ("급여소득자", "전문직") else "미지정",
+        # 예금자보호한도: 2025.9.1.부터 1억원 (이전 5천만원). 주택청약종합저축은 비보호(주택도시기금).
+        **({} if ptype == "주택청약종합저축" else
+           {"protection_limit": "1억원" if p.issue_date >= date(2025, 9, 1) else "5천만원"}),
         "date": _date(p, rng),
         "signature": per.name,
         "bank_use": {
@@ -279,11 +311,13 @@ def financial_transaction_purpose(p: Profile, rng: random.Random) -> dict:
     per = p.person
     job = _occupation(p, rng)
     if job["type"] in ("급여소득자", "전문직"):
-        purpose = rng.choice(["급여 및 아르바이트"] * 4 + ["공과금 납부", "모임 회비"])
+        purpose = rng.choice(["급여계좌"] * 5 + ["공과금 이체", "모임 회비"])
     elif job["type"] == "개인사업자":
-        purpose = rng.choice(["사업자 운영자금"] * 3 + ["공과금 납부"])
+        purpose = rng.choice(["사업자 거래"] * 3 + ["공과금 이체"])
+    elif job["type"] == "학생":
+        purpose = "아르바이트"
     else:
-        purpose = rng.choice(["공과금 납부", "모임 회비", "기타"])
+        purpose = rng.choice(["공과금 이체", "모임 회비", "기타"])
     data = {
         "bank": _bank(p),
         "customer": {
@@ -297,14 +331,13 @@ def financial_transaction_purpose(p: Profile, rng: random.Random) -> dict:
         data["customer"]["company"] = job["company"]
     if purpose == "기타":
         data["purpose_detail"] = rng.choice(["생활비 관리", "연금 수령", "자녀 용돈 관리"])
-    if purpose == "급여 및 아르바이트":
-        data["evidence"] = rng.choice(["재직증명서", "급여명세서"])
-    elif purpose == "사업자 운영자금":
-        data["evidence"] = "사업자등록증"
-    else:
-        data["evidence"] = "기타"
-        data["evidence_detail"] = {"모임 회비": "모임 회칙 및 회원명부", "공과금 납부": "공과금 납부고지서"}.get(
-            purpose, "연금 수급증명서" if data.get("purpose_detail") == "연금 수령" else "가족관계증명서")
+    data["evidence"] = {
+        "급여계좌": lambda: rng.choice(["재직증명서", "근로소득원천징수영수증", "급여명세서", "건강보험 자격득실확인서"]),
+        "사업자 거래": lambda: rng.choice(["사업자등록증명", "부가가치세 과세표준증명", "전자세금계산서(공급자용)"]),
+        "공과금 이체": lambda: rng.choice(["공과금 납입영수증", "아파트 관리비 고지서"]),
+        "모임 회비": lambda: "모임 회칙 및 구성원 명부",
+        "아르바이트": lambda: "근로계약서, 고용주 사업자등록증 사본",
+    }.get(purpose, lambda: "연금 수급증명서" if data.get("purpose_detail") == "연금 수령" else "가족관계증명서")()
     data["questions"] = {
         "q1": "아니오",
         "q2": "아니오",
@@ -337,7 +370,9 @@ _CCY = {"USD": (1340, 1480, 1), "JPY": (880, 990, 100), "EUR": (1450, 1620, 1), 
         "SGD": (1000, 1100, 1)}
 _COUNTRY_CCY = {"UNITED STATES": ["USD"], "JAPAN": ["JPY", "JPY", "USD"], "CHINA": ["USD", "USD", "CNY"],
                 "VIETNAM": ["USD"], "GERMANY": ["EUR", "EUR", "USD"], "SINGAPORE": ["USD", "SGD"]}
-_PURPOSE_CODE = {"수입대금": "10100", "유학생경비": "40310", "해외체재비": "40210", "증여": "50100", "기타": "49900"}
+# 한국은행 지급사유코드(5자리) — 검색으로 확인된 코드만 사용 (JPMorgan Korea payment purpose code list)
+#   10101 사전송금방식 통관수입대금, 10103 사후송금방식 통관수입대금, 30101 유학 및 연수
+_PURPOSE_CODE = {"유학생경비": "30101"}
 
 
 def _fx_fee(usd_equiv: float) -> int:
@@ -381,9 +416,23 @@ def overseas_remittance_application(p: Profile, rng: random.Random) -> dict:
     elif purpose == "수입대금":
         message = f"INVOICE NO. {fo.name.split()[0][:3].upper()}-{yy.year}-{rng.randint(1, 999):04d}"
         documents = rng.choice(["Commercial Invoice, 수입계약서", "Commercial Invoice, B/L 사본", "Proforma Invoice"])
+        code = "10101" if documents.startswith("Proforma") else "10103"
     else:
         message = f"SERVICE FEE CONTRACT {rng.randint(100, 999)}"
         documents = "용역계약서, Invoice"
+    remittance = {
+        "currency": ccy,
+        "amount": amt_str,
+        "purpose": purpose,
+        "charge": rng.choices(["SHA", "OUR", "BEN"], weights=[60, 30, 10])[0],
+        "method": "전신송금(T/T)",
+        "message": message,
+        "documents": documents,
+    }
+    if purpose == "수입대금":
+        remittance["purpose_code"] = code
+    elif purpose in _PURPOSE_CODE:
+        remittance["purpose_code"] = _PURPOSE_CODE[purpose]
     remitter = {"name": per.name, "name_en": per.name_en, "rrn": _rrn(p, rng),
                 "address": per.address.road_full, "phone": per.mobile}
     if purpose == "수입대금":
@@ -396,16 +445,7 @@ def overseas_remittance_application(p: Profile, rng: random.Random) -> dict:
             "relationship": "교육기관(학비 납부)" if school else "거래처",
             "bank_name": fo.bank, "swift": fo.swift, "bank_address": _BANK_ADDR.get(fo.swift, fo.country),
         },
-        "remittance": {
-            "currency": ccy,
-            "amount": amt_str,
-            "purpose": purpose,
-            "purpose_code": _PURPOSE_CODE[purpose],
-            "charge": rng.choices(["SHA", "OUR", "BEN"], weights=[60, 30, 10])[0],
-            "method": "전신송금(T/T)",
-            "message": message,
-            "documents": documents,
-        },
+        "remittance": remittance,
         "date": _date(p, rng),
         "signature": per.name,
         "bank_use": {
@@ -431,34 +471,43 @@ _OTHER_RES = [("일본 (JAPAN)", "JAPAN"), ("중국 (CHINA)", "CHINA"), ("싱가
 
 @doc("fatca_crs", "해외금융계좌 납세자 확인서(개인)", "bank_form", category="internal")
 def fatca_crs(p: Profile, rng: random.Random) -> dict:
-    """FATCA/CRS 개인 납세자 자기확인서 (국·영문 병기)."""
+    """FATCA/CRS 본인확인서(개인/개인사업자용) — 국제조세조정법·금융정보자동교환 이행규정에 따른 자기확인서."""
     per = p.person
     kind = rng.choices(["kr", "us", "other"], weights=[88, 6, 6])[0]
-    kr_tin = rng.choice(["실명번호와 동일", K.mask_rrn(per.rrn)])
-    res = [{"country": "대한민국 (KOREA)", "tin": kr_tin}]
+    res = []
     birth_place = "대한민국 (KOREA)"
     nationality = "대한민국 (KOREA)"
     if kind == "us":
+        category = rng.choice(["미국 시민권자(이중국적자 포함)", "미국 영주권자", "미국 세법상 미국 거주자"])
         res.append({"country": "미국 (U.S.A.)",
                     "tin": f"{rng.randint(100, 665)}-{rng.randint(10, 99)}-{rng.randint(1000, 9999)}"})
-        if rng.random() < 0.6:
-            birth_place = "미국 (U.S.A.)"
+        if category.startswith("미국 시민권자"):
             nationality = "대한민국, 미국"
+            if rng.random() < 0.6:
+                birth_place = "미국 (U.S.A.)"
     elif kind == "other":
+        category = "미국 이외의 해외 거주자"
         country = rng.choice(_OTHER_RES)[0]
-        res.append({"country": country, "no_tin_reason": "B",
-                    "reason_detail": rng.choice(["단기 체류로 납세자번호 미발급", "발급 신청 중", "현지 납세자번호 미발급"])})
+        reason = rng.choices(["A", "B", "C"], weights=[2, 6, 2])[0]
+        r = {"country": country, "no_tin_reason": reason}
+        if reason == "B":
+            r["reason_detail"] = rng.choice(["단기 체류로 납세자번호 발급 대상 아님", "납세자번호 발급 신청 중"])
+        res.append(r)
+    else:
+        category = "해당사항 없음"
     return {
         "bank": _bank(p),
         "holder": {
             "name": per.name,
-            "name_en": per.name_en,
+            "surname_en": per.surname_en,
+            "given_en": per.given_en,
             "birth": D(per.birth, rng.choice(["dot", "dash"])),
-            "address": per.address.road_full,
             "birth_place": birth_place,
             "nationality": nationality,
+            "mobile": per.mobile,
+            "address": per.address.road_full,
         },
-        "us_person": "예" if kind == "us" else "아니오",
+        "residence_category": category,
         "residences": res,
         "date": _date(p, rng),
         "signature": per.name,

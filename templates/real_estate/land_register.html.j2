@@ -1,0 +1,78 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block page_class %} dense{% endblock %}
+{% block style %}
+.page.a4.dense { padding: 40px 44px; }
+.ld-head { display: flex; justify-content: space-between; font-size: 11px; color: #222; }
+.ld-title { text-align: center; font-size: 26px; font-weight: 700; letter-spacing: .6em; margin: 8px 0 10px; }
+table.ld { border: 2px solid var(--border); margin: 0; }
+table.ld + table.ld { border-top: 0; }
+table.ld th { font-size: 11.5px; padding: 3px 4px; }
+table.ld td { font-size: 11.5px; padding: 3px 5px; vertical-align: top; }
+table.ld td.mid { vertical-align: middle; }
+tr.blank td { height: 52px; }
+table.ld td { height: 30px; }
+.ld-cap { text-align: center; font-weight: 700; background: var(--label-bg); letter-spacing: .3em; }
+.ld-cert { margin: 16px 0 4px; text-align: center; font-size: calc(var(--fs) + 1px); }
+{% endblock %}
+{% block content %}
+<div class="ld-head">
+  <div>■ 공간정보의 구축 및 관리 등에 관한 법률 시행규칙 [별지 제63호서식]</div>
+  <div>(1쪽 중 제1쪽)</div>
+</div>
+<div class="ld-title">토지대장</div>
+<table class="ld">
+  <colgroup><col style="width:70px"><col><col style="width:66px"><col style="width:90px"><col style="width:66px"><col style="width:150px"></colgroup>
+  <tr><th>고유번호</th><td class="mid">{{ f("unique_no", label="고유번호") }}</td>
+      <th>도면번호</th><td class="mid c">{{ f("drawing_no", label="도면번호") }}</td>
+      <th>발급번호</th><td class="mid">{{ f("issue_no", label="발급번호") }}</td></tr>
+  <tr><th>토지소재</th><td class="mid">{{ f("location", label="토지소재") }}</td>
+      <th>장번호</th><td class="mid c">{{ f("sheet_no", label="장번호") }}</td>
+      <th>처리시각</th><td class="mid">{{ f("processed_time", label="처리시각") }}</td></tr>
+  <tr><th>지 번</th><td class="mid">{{ f("jibun", label="지번") }}</td>
+      <th>축 척</th><td class="mid c">{{ f("scale", label="축척") }}</td>
+      <th>발급자</th><td class="mid">{{ f("issuer_name", label="발급자") }}</td></tr>
+</table>
+<table class="ld">
+  <colgroup><col style="width:58px"><col style="width:74px"><col style="width:150px"><col style="width:112px"><col><col style="width:116px"></colgroup>
+  <tr><td colspan="3" class="ld-cap">토 지 표 시</td><td colspan="3" class="ld-cap">소 유 자</td></tr>
+  <tr><th rowspan="2">지 목</th><th rowspan="2">면 적(㎡)</th><th rowspan="2">사 유</th>
+      <th>변 동 일 자</th><th rowspan="2">주 소</th><th>성명 또는 명칭</th></tr>
+  <tr><th>변 동 원 인</th><th>등 록 번 호</th></tr>
+  {% set n = [d.land|length, d.owners|length]|max %}
+  {% for i in range(n) %}
+  <tr>
+    {% if i < d.land|length %}{% set pre = "land." ~ i ~ "." %}
+    <td class="c">{{ f(pre ~ "category", label="지목") }}</td><td class="num">{{ f(pre ~ "area", label="면적") }}</td>
+    <td class="small">{{ f(pre ~ "reason", label="사유") }}</td>
+    {% else %}<td></td><td></td><td></td>{% endif %}
+    {% if i < d.owners|length %}{% set pre = "owners." ~ i ~ "." %}{% set o = d.owners[i] %}
+    <td class="c">{{ f(pre ~ "change_date", label="변동일자") }}<br>{{ f(pre ~ "change_cause", label="변동원인") }}</td>
+    <td class="small">{{ f(pre ~ "address", label="주소") }}</td>
+    <td class="c">{{ f(pre ~ "name", label="성명또는명칭") }}{% if o.co_owners is defined %} {{ f(pre ~ "co_owners", label="공유자") }}{% endif %}<br>{{ f(pre ~ "reg_no", label="등록번호") }}</td>
+    {% else %}<td></td><td></td><td></td>{% endif %}
+  </tr>
+  {% endfor %}
+  <tr><td colspan="3" class="c small">- 이하 여백 -</td><td colspan="3" class="c small">- 이하 여백 -</td></tr>
+  {% for _ in range(7 - n) %}<tr class="blank"><td></td><td></td><td></td><td></td><td></td><td></td></tr>{% endfor %}
+</table>
+<table class="ld">
+  <colgroup><col style="width:120px"><col><col><col></colgroup>
+  <tr><th>등 급 수 정<br>년 월 일</th>{% for g in d.grades %}<td class="c mid">{{ f("grades." ~ loop.index0 ~ ".date", label="등급수정년월일") }}</td>{% endfor %}</tr>
+  <tr><th>토 지 등 급<br><span class="tiny">(기준수확량등급)</span></th>{% for g in d.grades %}<td class="c mid">{{ f("grades." ~ loop.index0 ~ ".grade", label="토지등급") }}</td>{% endfor %}</tr>
+</table>
+<table class="ld">
+  <colgroup><col style="width:120px">{% for p in d.land_prices %}<col>{% endfor %}<col style="width:120px"></colgroup>
+  <tr><th>개별공시지가기준일</th>{% for p in d.land_prices %}<td class="c mid">{{ f("land_prices." ~ loop.index0 ~ ".base_date", label="개별공시지가기준일") }}</td>{% endfor %}<th rowspan="2">용도지역 등</th></tr>
+  <tr><th>개별공시지가(원/㎡)</th>{% for p in d.land_prices %}<td class="num mid">{{ f("land_prices." ~ loop.index0 ~ ".price", label="개별공시지가") }}</td>{% endfor %}</tr>
+  <tr><td colspan="{{ d.land_prices|length + 1 }}" class="small">※ 개별공시지가는 「부동산 가격공시에 관한 법률」에 따라 매년 결정·공시되는 지가입니다.</td>
+      <td class="c small mid">{{ f("zoning", label="용도지역") }}</td></tr>
+</table>
+<div class="ld-cert">토지대장에 의하여 작성한 등본입니다.</div>
+<div class="issuer" style="margin-top:10px">
+  <div class="date">{{ f("issue_date", label="발급일") }}</div>
+  <div class="org">{{ f("issuer", label="발급기관") }}{{ m.seal(val("issuer").split()[-1] ~ "인", square=True, over=True) }}</div>
+</div>
+<div class="note mt">※ 경계복원측량, 지적현황측량 등의 측량성과는 지적측량수행자가 작성한 측량성과도를 기준으로 합니다.<br>
+※ 토지대장에 등록된 소유자와 등기사항증명서의 소유자가 다른 경우 등기사항증명서를 기준으로 합니다.</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{
+ "document_type": "표준재무제표증명",
+ "issue_no": "7330-813-3124-266",
+ "taxpayer_type": "개인",
+ "taxpayer": {
+  "trade_name": "넥스트몰",
+  "biz_no": "129-20-96799",
+  "name": "김소윤",
+  "rrn": "901121-2******",
+  "biz_type": "소매업",
+  "biz_item": "전자상거래",
+  "address": "서울특별시 송파구 중대로 398, 12층 13호 (잠실동, 에이스지식산업센터)"
+ },
+ "period": "2024-01-01 ~ 2024-12-31",
+ "filing_kind": "정기신고",
+ "attachments": "표준재무상태표, 표준손익계산서",
+ "filed_date": "2025-05-02",
+ "issue_date": "2025년 11월 29일",
+ "issuer": "잠실세무서장",
+ "balance_sheet": {
+  "current": "93,332,473",
+  "quick": "57,345,138",
+  "inventory": "35,987,335",
+  "noncurrent": "53,155,220",
+  "investment": "863,009",
+  "tangible": "38,306,467",
+  "intangible": "2,544,302",
+  "other_noncurrent": "11,441,442",
+  "assets": "146,487,693",
+  "current_liab": "21,621,183",
+  "noncurrent_liab": "45,039,801",
+  "liabilities": "66,660,984",
+  "capital": "79,826,709",
+  "equity": "79,826,709",
+  "liab_equity": "146,487,693"
+ },
+ "income_statement": {
+  "revenue": "185,741,550",
+  "cogs": "125,927,073",
+  "gross": "59,814,477",
+  "sga": "42,160,386",
+  "salary": "21,155,090",
+  "welfare": "2,538,610",
+  "rent": "6,927,260",
+  "depreciation": "4,195,000",
+  "other_sga": "7,344,426",
+  "op": "17,654,091",
+  "non_op_income": "288,609",
+  "non_op_expense": "2,820,220",
+  "net": "15,122,480"
+ }
+}

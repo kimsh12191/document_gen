@@ -8,8 +8,8 @@ table.own th, table.own td { text-align: center; }
 .corp-sign-wrap { display: flex; justify-content: flex-end; align-items: center; gap: 10px; margin: 2px 0 4px; }
 {% endblock %}
 {% block content %}
-{{ bf.head("보존기간: 거래종료 후 5년<br>고객확인 · 법인/단체용") }}
-{{ m.title("고객확인서 (법인·단체)", sub="Customer Due Diligence Form for Corporation / Organization") }}
+{{ bf.head("고객확인 · 법인/단체용<br>(2-1) 고객용") }}
+{{ m.title("고객거래확인서", sub="(법인 · 단체용) — 실제소유자 확인 포함") }}
 <div class="bf-box bf-note">
   <p>「특정 금융거래정보의 보고 및 이용 등에 관한 법률」 제5조의2에 따라 법인 또는 단체 고객의 신원, 실제소유자, 거래목적 및 자금원천 등을 확인하고자 하오니 정확하게 기재하여 주시기 바랍니다.</p>
   <p>※ 정보 제공을 거부하거나 실제소유자 확인이 불가능한 경우 신규 거래가 거절되거나 기존 거래가 종료될 수 있습니다.</p>
@@ -23,8 +23,8 @@ table.own th, table.own td { text-align: center; }
 <tr><th>본점 주소</th><td colspan="3">{{ f("corp.hq_address", label="본점주소") }}</td></tr>
 <tr><th>사업장 주소</th><td colspan="3">{{ f("corp.biz_address", label="사업장주소") }}</td></tr>
 <tr><th>대표전화</th><td>{{ f("corp.phone", label="대표전화") }}</td><th>이메일</th><td>{{ f("corp.email", label="이메일") }}</td></tr>
-<tr><th>법인 구분</th><td colspan="3">{{ m.choice("corp.corp_type", ["영리법인", "비영리법인", "조합·단체", "국가·지자체", "기타"], label="법인구분") }}</td></tr>
-<tr><th>상장 여부</th><td colspan="3">{{ m.choice("corp.listed", ["유가증권시장", "코스닥", "코넥스", "비상장"], label="상장여부") }}</td></tr>
+<tr><th>법인 구분</th><td colspan="3">{{ m.choice("corp.corp_type", ["대기업", "중소기업", "국가·지자체·공공단체", "금융기관", "비영리법인(단체)", "외국법인(단체)"], label="법인구분") }}</td></tr>
+<tr><th>상장 여부</th><td>{{ m.choice("corp.listed", ["유가증권시장", "코스닥", "코넥스", "비상장"], label="상장여부") }}</td><th>설립목적</th><td><span class="tiny muted">(비영리법인·단체 필수)</span></td></tr>
 </table>
 
 {{ bf.sec("2", "대표자 정보", "Representative") }}
@@ -42,11 +42,12 @@ table.own th, table.own td { text-align: center; }
 {{ bf.sec("4", "실제소유자 확인", "Beneficial Owner") }}
 <table class="bf ccdd">
 <tr><th>확인 단계</th><td>{{ m.choice("owner_step", ["1단계", "2단계", "3단계"], label="실제소유자확인단계") }}
-<div class="tiny muted">1단계: 25% 이상 지분 소유자 / 2단계: 최대 지분 소유자 또는 대표자·임원 과반수 선임자 등 사실상 지배자 / 3단계: 법인 대표자</div></td></tr>
+<div class="tiny muted">1단계: 의결권 있는 발행주식총수의 25% 이상을 소유한 자 &nbsp;/&nbsp; 2단계: ① 최대 지분 소유자 ② 대표자·임원 등의 과반수를 선임한 주주 ③ 법인(단체)을 사실상 지배하는 자 &nbsp;/&nbsp; 3단계: 법인 또는 단체의 대표자</div>
+<div class="tiny muted">※ 앞 단계의 실제소유자를 확인할 수 없는 경우에만 다음 단계로 확인합니다. (특정금융정보법 시행령 제10조의5)</div></td></tr>
 </table>
 <table class="bf own">
 <colgroup><col style="width:30px"><col><col style="width:110px"><col style="width:100px"><col style="width:84px"><col style="width:110px"></colgroup>
-<tr><th>No</th><th>성명</th><th>생년월일</th><th>국적</th><th>지분율</th><th>법인과의 관계</th></tr>
+<tr><th>No</th><th>실제소유자 성명</th><th>생년월일</th><th>국적</th><th>지분율</th><th>법인과의 관계</th></tr>
 {% for o in d.owners %}{% set i = loop.index0 %}
 <tr><td>{{ loop.index }}</td><td>{{ f("owners." ~ i ~ ".name", label="성명") }}</td><td>{{ f("owners." ~ i ~ ".birth", label="생년월일") }}</td>
 <td>{{ f("owners." ~ i ~ ".nationality", label="국적") }}</td><td>{{ f("owners." ~ i ~ ".ratio", label="지분율") }}</td><td>{{ f("owners." ~ i ~ ".relation", label="법인과의관계") }}</td></tr>
@@ -63,10 +64,8 @@ table.own th, table.own td { text-align: center; }
 
 {{ bf.sec("6", "대리인(거래담당자) 정보", "Agent / Authorized Person") }}
 <table class="bf ccdd">
-<tr><th>성　명</th><td style="width:170px">&nbsp;</td><th>실명번호</th><td>&nbsp;</td></tr>
-<tr><th>직위·관계</th><td>&nbsp;</td><th>연락처</th><td>&nbsp;</td></tr>
+<tr><th>성　명</th><td>&nbsp;</td><th style="width:64px">실명번호</th><td>&nbsp;</td><th style="width:64px">직위·관계</th><td style="width:90px">&nbsp;</td></tr>
 </table>
-<div class="tiny muted">※ 대리인 거래 시 법인인감이 날인된 위임장, 법인인감증명서 및 대리인의 실명확인증표를 제출하여야 합니다.</div>
 
 <div class="bf-note" style="margin-top:6px">위 기재 내용이 사실과 다름없음을 확인하며, 변경사항 발생 시 지체 없이 은행에 통보하겠습니다.</div>
 <div class="bf-sign" style="margin-top:4px">
@@ -81,7 +80,7 @@ table.own th, table.own td { text-align: center; }
 </div>
 
 <div class="bf-use">
-  <div class="cap">은행 사용란 (For Bank Use Only)</div>
+  <div class="cap">은행 확인란 (For Bank Use Only)</div>
   <div class="body">
     <table class="bf" style="flex:1">
       <tr><th style="width:96px">고객위험등급</th><td>{{ m.choice("bank_use.risk_grade", ["저위험", "중위험", "고위험"], label="고객위험등급") }}</td></tr>
@@ -91,4 +90,5 @@ table.own th, table.own td { text-align: center; }
     {{ bf.stamps([["담당", "bank_use.clerk"], ["책임자", "bank_use.manager"]]) }}
   </div>
 </div>
+{{ bf.foot("※ 대리인 거래 시 법인인감 날인 위임장, 법인인감증명서, 대리인 실명확인증표 제출", "수신-공통-0235 (21.0×29.7) 보존기간: 거래종료 후 5년") }}
 {% endblock %}

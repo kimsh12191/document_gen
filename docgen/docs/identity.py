@@ -13,7 +13,8 @@ def resident_id_card(p: Profile, rng: random.Random) -> dict:
         "name_hanja": p.person.hanja,
         "rrn": p.person.rrn,
         "address": f"{a.road_short}\n({a.dong}{', ' + a.building_name if a.building_name else ''})",
-        "issue_date": D(issued, "dot"),
+        # 카드 인쇄 발행일은 '2015. 3. 20.' (0 채움 없음) 표기가 일반적
+        "issue_date": f"{issued.year}. {issued.month}. {issued.day}." if rng.random() < 0.75 else D(issued, "dot"),
         "issuer": district_office(a),
     }
 
@@ -78,9 +79,12 @@ _POLICE = {
 }
 
 
+_GG_NORTH = ("고양", "의정부", "남양주", "파주", "양주", "구리", "포천", "동두천", "가평", "연천")
+
+
 def _police_name(sido: str, sigungu: str, issued: date) -> str:
     _code, new, old = _POLICE[sido]
-    if sido == "경기도" and sigungu.startswith("고양"):
+    if sido == "경기도" and sigungu.startswith(_GG_NORTH):
         new, old = "경기도북부경찰청장", "경기북부지방경찰청장"
     if sido == "강원특별자치도" and issued < date(2023, 6, 11):
         new = "강원도경찰청장"
@@ -100,11 +104,19 @@ def driver_license(p: Profile, rng: random.Random) -> dict:
     while _add_years(issued, 10) < p.issue_date - timedelta(days=30):
         issued = _add_years(issued, 10)
     issued = rand_date(rng, issued, min(_add_years(issued, 1), p.issue_date - timedelta(days=30)))
-    code = _POLICE[a.sido][0] if rng.random() < 0.75 else rng.choice([v[0] for v in _POLICE.values()])
-    lic_no = f"{code}-{acquired.year % 100:02d}-{rng.randint(0, 999999):06d}-{rng.randint(10, 99)}"
+    code = _POLICE[a.sido][0] if rng.random() < 0.75 else rng.choice([v[0] for v in _POLICE.values()] + ["28"])
+    if a.sido == "경기도" and a.sigungu.startswith(_GG_NORTH) and code == "13":
+        code = "28"  # 경기북부
+    # AA-BB-CCCCCC-DE: 최초 발급지역·연도·일련번호·체크숫자(D)·발급회차(E)
+    lic_no = f"{code}-{acquired.year % 100:02d}-{rng.randint(0, 999999):06d}-{rng.randint(0, 9)}{rng.choice('1111223')}"
     kind = rng.choices(["1종보통", "2종보통", "1종대형", "2종소형"], [55, 38, 5, 2])[0]
-    renew_year = _add_years(issued, 10).year
-    period = f"{renew_year}.01.01~{renew_year}.12.31"
+    renew = _add_years(issued, 10)
+    if issued >= date(2026, 1, 1):  # 2026년 이후 발급분: 생일 전후 6개월
+        bday = _add_years(per.birth, renew.year - per.birth.year)
+        lo, hi = bday - timedelta(days=183), bday + timedelta(days=182)
+        period = f"{lo:%Y.%m.%d}~{hi:%Y.%m.%d}"
+    else:  # 종전: 10년이 되는 해 1.1.~12.31.
+        period = f"{renew.year}.01.01~{renew.year}.12.31"
     out = {
         "license_type": kind,
         "license_no": lic_no,
@@ -180,6 +192,12 @@ def passport(p: Profile, rng: random.Random) -> dict:
         if "".join(sylls) == given:
             given = " ".join(sylls)
     l1, l2 = passport_mrz("PM", per.surname_en, given, number, per.birth, per.gender, expiry)
+    nextgen = issued >= date(2021, 12, 21)
+
+    def pd(d: date) -> str:
+        # 차세대 전자여권: 월 한글/영문 병기 ('05 3월/MAR 2021'), 구형: '05 MAR 2021'
+        return f"{d.day:02d} {d.month}월/{D(d, 'en').split()[1]} {d.year}" if nextgen else D(d, "en")
+
     out = {
         "type": "PM",
         "country_code": "KOR",
@@ -188,11 +206,11 @@ def passport(p: Profile, rng: random.Random) -> dict:
         "given_names": given,
         "name_korean": per.name,
         "nationality": "REPUBLIC OF KOREA",
-        "date_of_birth": D(per.birth, "en"),
+        "date_of_birth": pd(per.birth),
         "sex": per.gender,
-        "date_of_issue": D(issued, "en"),
-        "date_of_expiry": D(expiry, "en"),
-        "authority": "MINISTRY OF FOREIGN AFFAIRS",
+        "date_of_issue": pd(issued),
+        "date_of_expiry": pd(expiry),
+        "authority": "외교부/MINISTRY OF FOREIGN AFFAIRS" if nextgen else "MINISTRY OF FOREIGN AFFAIRS",
     }
     if issued < date(2020, 12, 21):  # 구형 여권에는 주민등록번호 뒷자리가 인쇄됨
         out["personal_no"] = per.rrn.split("-")[1][0] + "******"
@@ -264,7 +282,7 @@ def alien_registration_card(p: Profile, rng: random.Random) -> dict:
         "name": f"{surname} {given}",
         "country": country,
         "sex": gender,
-        "visa_status": rng.choice([f"{visa_name}({visa})", f"{visa} ({visa_name})"]),
+        "visa_status": f"{visa_name}({visa})" if rng.random() < 0.75 else f"{visa} ({visa_name})",
         "issue_date": D(issued, "dot"),
         "issuer": rng.choice(_IMMIGRATION[a.sido]),
     }
@@ -276,18 +294,18 @@ def alien_registration_card(p: Profile, rng: random.Random) -> dict:
 
 @doc("seal_certificate", "인감증명서", "identity", sample_mark=True)
 def seal_certificate(p: Profile, rng: random.Random) -> dict:
-    """인감증명서 (일반용 / 부동산 매도용)."""
+    """인감증명서 (인감증명법 시행령 별지 제14호서식 / 전자발급 제14호의2서식). 일반용 / 부동산 매도용."""
     per = p.person
     a = per.address
-    kind = rng.choice(["일반용", "일반용", "부동산매도용"])
+    online = rng.random() < 0.25  # 2024.9.30.~ 정부24 전자발급(일반용만)
+    kind = "일반용" if online else rng.choice(["일반용", "일반용", "부동산 매도용"])
     out = {
-        "doc_no": rng.choice([f"제 {rng.randint(1, 9999):04d} 호", issue_no(rng, 12),
-                              f"{p.issue_date.year}-{rng.randint(1, 99999):05d}"]),
-        "applicant_type": "본인" if rng.random() < 0.85 else "대리인",
+        "doc_no": issue_no(rng, 16) if online else issue_no(rng, 12),
+        "applicant_type": "본인" if online or rng.random() < 0.85 else "대리인",
         "person": {
             "name": per.name,
             "name_hanja": per.hanja,
-            "rrn": per.rrn if rng.random() < 0.7 else K.mask_rrn(per.rrn),
+            "rrn": per.rrn,
             "nationality": per.nationality,
             "address": a.road_full,
         },
@@ -297,44 +315,48 @@ def seal_certificate(p: Profile, rng: random.Random) -> dict:
     if out["applicant_type"] == "대리인":
         name, rrn, _ = _rand_person_text(rng)
         out["agent"] = {"name": name, "rrn": K.mask_rrn(rrn)}
-    if kind == "부동산매도용":
+    if kind == "부동산 매도용":
         name, rrn, addr = _rand_person_text(rng)
         out["buyer"] = {"name": name, "rrn": rrn, "address": addr}
-    else:
-        out["purpose"] = rng.choice(["금융기관 제출용", "은행 대출용", "근저당권 설정용", "금융기관 대출 약정용",
-                                     f"{p.bank} 제출용"])
+        out["applicant_signature"] = per.name if out["applicant_type"] == "본인" else out["agent"]["name"]
     out["issue_date"] = D(p.issue_date, rng.choice(["kor", "kor_short"]))
     out["issuer"] = _local_issuer(rng, a)
     return out
 
 
+_SIG_RE_USAGES = ["소유권 이전(매매, 증여 등)", "제한물권 설정(근저당권 설정, 전세권 설정 등)", "그 밖의 용도(가등기 설정, 가등기 말소 등)"]
+
+
 @doc("signature_confirmation", "본인서명사실확인서", "identity", sample_mark=True)
 def signature_confirmation(p: Profile, rng: random.Random) -> dict:
-    """본인서명사실 확인서 (인감증명 대체)."""
+    """본인서명사실확인서 (본인서명사실 확인 등에 관한 법률 시행령 별지 제2호서식)."""
     per = p.person
     a = per.address
-    kind = rng.choice(["금융거래", "금융거래", "부동산 거래", "기타"])
     out = {
-        "doc_no": rng.choice([f"제 {rng.randint(1, 9999):04d} 호", issue_no(rng, 12)]),
-        "signer": {
-            "name": per.name,
-            "rrn": per.rrn if rng.random() < 0.7 else K.mask_rrn(per.rrn),
-            "address": a.road_full,
-        },
-        "usage_type": kind,
+        "doc_no": issue_no(rng, 16),
+        "signer": {"name": per.name, "rrn": per.rrn, "address": a.road_full},
     }
-    if kind == "부동산 거래":
-        out["usage_detail"] = rng.choice(["부동산 매도", "근저당권 설정"])
-        if out["usage_detail"] == "부동산 매도":
+    r = rng.random()
+    if r < 0.5:  # 부동산 관련 용도
+        usage = rng.choices(_SIG_RE_USAGES, [35, 55, 10])[0]
+        out["real_estate_usage"] = usage
+        if usage.startswith("소유권"):
             name, rrn, addr = _rand_person_text(rng)
             out["counterparty"] = {"name": name, "rrn": rrn, "address": addr}
-        out["submit_to"] = rng.choice([courthouse(p.property.address), f"{p.bank} {p.bank_branch}"])
-    elif kind == "금융거래":
-        out["usage_detail"] = rng.choice(["대출 약정", "근저당권 설정 대출", "여신 거래 약정", "담보 제공"])
-        out["submit_to"] = f"{p.bank} {p.bank_branch}"
-    else:
-        out["usage_detail"] = rng.choice(["보증 계약", "법인 등기 신청", "대출 연대보증"])
-        out["submit_to"] = rng.choice([f"{p.bank} {p.bank_branch}", courthouse(a)])
+        elif usage.startswith("제한물권"):  # 근저당권자 = 대출 은행(법인)
+            out["counterparty"] = {
+                "name": f"주식회사 {p.bank}",
+                "rrn": K.corp_reg_no(rng),
+                "address": f"서울특별시 중구 {rng.choice(['을지로', '세종대로', '남대문로', '소공로'])} {rng.randint(10, 120)}",
+            }
+    else:  # 그 외의 용도 (제출기관이 요청하는 내용)
+        out["other_usage"] = rng.choice([
+            f"대출보증용({p.bank} {p.bank_branch} 제출)", f"금융기관 대출 약정용({p.bank} 제출)",
+            "대출보증용", "법인등기용", "보증 계약용", f"여신거래 약정용({p.bank} {p.bank_branch})",
+        ])
+    if rng.random() < 0.12:
+        name, _rrn, addr = _rand_person_text(rng)
+        out["delegate"] = {"name": name, "address": addr}
     out["signature"] = per.name
     out["issue_date"] = D(p.issue_date, rng.choice(["kor", "kor_short"]))
     out["issuer"] = _local_issuer(rng, a)

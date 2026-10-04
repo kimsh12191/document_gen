@@ -1,0 +1,69 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% set lf = ["'Liberation Sans'", "'Liberation Serif'", "'DejaVu Sans'", "Arial", "'Times New Roman'", "'FreeSans'"][style.page_pad % 6] %}
+{% block style %}
+.page { font-family: {{ lf|safe }}, var(--font); font-size: calc(var(--fs) - 1.5px); padding: 44px 46px; }
+.pl-title { text-align: center; font-size: 24px; font-weight: 700; letter-spacing: .15em; margin: 0 0 10px; text-decoration: underline; }
+table.ci { border: 2px solid var(--border); margin: 0; table-layout: fixed; }
+table.ci td { vertical-align: top; padding: 3px 6px; }
+.lb { font-size: calc(var(--fs) - 4px); color: #333; display: block; margin-bottom: 1px; }
+.v { font-weight: 600; }
+table.gd { border: 2px solid var(--border); border-top: 0; margin: 0; table-layout: fixed; }
+table.gd th { font-size: calc(var(--fs) - 4px); padding: 3px 3px; background: var(--label-bg); white-space: normal; }
+table.gd td { border-top: 0; border-bottom: 0; vertical-align: top; padding: 3px 4px; font-size: calc(var(--fs) - 2.5px); }
+table.gd tr.tot td { border-top: 1.5px solid var(--border); border-bottom: 1.5px solid var(--border); font-weight: 700; }
+.marks { white-space: nowrap; font-size: calc(var(--fs) - 3.5px); }
+.sign { margin-top: 26px; margin-left: auto; width: 300px; }
+.sign .line { border-bottom: 1px solid #000; height: 40px; position: relative; }
+.sign .sig { position: absolute; left: 20px; bottom: 4px; font-style: italic; font-family: 'Liberation Serif', serif; font-size: 20px; color: #1a2c6b; }
+{% endblock %}
+{% block content %}
+<div class="pl-title">PACKING LIST</div>
+<table class="ci">
+  <colgroup><col style="width:28%"><col style="width:27%"><col style="width:45%"></colgroup>
+  <tr>
+    <td colspan="2"><span class="lb">① Shipper/Exporter</span><span class="v">{{ f("shipper.name", label="Shipper/Exporter") }}</span><br>{{ f("shipper.address", label="Shipper Address") }}</td>
+    <td><span class="lb">⑧ No. &amp; date of invoice</span><span class="v">{{ f("invoice_no", label="Invoice No") }}</span><br>{{ f("invoice_date", label="Invoice Date") }}</td>
+  </tr>
+  <tr>
+    <td colspan="2"><span class="lb">② For account &amp; risk of Messrs. (Consignee)</span><span class="v">{{ f("consignee.name", label="Consignee") }}</span><br>{{ f("consignee.address", label="Consignee Address") }}</td>
+    <td rowspan="4"><span class="lb">⑨ Remarks</span>&nbsp;</td>
+  </tr>
+  <tr><td colspan="2"><span class="lb">③ Notify party</span>{{ f("notify", label="Notify Party") }}</td></tr>
+  <tr>
+    <td><span class="lb">④ Port of loading</span>{{ f("port_of_loading", label="Port of Loading") }}</td>
+    <td><span class="lb">⑤ Final destination</span>{{ f("final_destination", label="Final Destination") }}</td>
+  </tr>
+  <tr>
+    <td><span class="lb">⑥ Carrier</span>{{ f("carrier", label="Carrier") }}</td>
+    <td><span class="lb">⑦ Sailing on or about</span>{{ f("sailing_date", label="Sailing on or about") }}</td>
+  </tr>
+</table>
+<table class="gd">
+  <colgroup><col style="width:17%"><col style="width:9%"><col style="width:24%"><col style="width:10%"><col style="width:11%"><col style="width:10%"><col style="width:10%"><col style="width:9%"></colgroup>
+  <tr><th>⑩ Marks and numbers of PKGS</th><th>C/T No.</th><th>⑪ Description of goods</th><th>Packages</th><th>⑫ Quantity</th><th>⑬ Net weight (KGS)</th><th>⑭ Gross weight (KGS)</th><th>⑮ Measurement (CBM)</th></tr>
+  {% for it in d["items"] %}{% set pre = "items." ~ loop.index0 ~ "." %}
+  <tr>
+    {% if loop.first %}<td class="marks" rowspan="13">{{ f("marks", label="Marks and Numbers") }}</td>{% endif %}
+    <td class="c">{{ f(pre ~ "ctn_no", label="C/T No") }}</td>
+    <td>{{ f(pre ~ "description", label="Description of Goods") }}</td>
+    <td class="num">{{ f(pre ~ "packages", label="Packages") }}</td>
+    <td class="num">{{ f(pre ~ "quantity", label="Quantity") }}</td>
+    <td class="num">{{ f(pre ~ "net_weight", label="Net Weight") }}</td>
+    <td class="num">{{ f(pre ~ "gross_weight", label="Gross Weight") }}</td>
+    <td class="num">{{ f(pre ~ "measurement", label="Measurement") }}</td>
+  </tr>
+  {% endfor %}
+  {% for _ in range(13 - d["items"]|length) %}<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>{% endfor %}
+  <tr class="tot"><td colspan="3" class="right">TOTAL</td><td class="num">{{ f("total.packages", label="Total Packages") }}</td><td></td>
+    <td class="num">{{ f("total.net_weight", label="Total Net Weight") }}</td>
+    <td class="num">{{ f("total.gross_weight", label="Total Gross Weight") }}</td>
+    <td class="num">{{ f("total.measurement", label="Total Measurement") }}</td></tr>
+</table>
+<div class="sign">
+  <div>Signed by</div>
+  <div class="bold">{{ f("signed_by", label="Signed by") }}</div>
+  <div class="line"><span class="sig">{{ val("signer") }}</span></div>
+  <div>{{ f("signer", label="Signer") }}</div>
+</div>
+{% endblock %}

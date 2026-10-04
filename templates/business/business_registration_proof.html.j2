@@ -1,31 +1,57 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
+{# 국세청 민원사무처리규정 [별지 제5호서식] 사업자등록증명 (홈택스 발급본) #}
 {% block style %}
-.ht-top { display: flex; justify-content: space-between; font-size: calc(var(--fs) - 1px); margin-bottom: 4px; }
-.ht-title { border: 2px solid var(--border); text-align: center; padding: 14px 0; margin-bottom: 10px; }
-.ht-title h1 { margin: 0; font-size: var(--title); letter-spacing: .3em; }
-.cap { font-weight: 700; margin: 14px 0 2px; }
-.stmt { text-align: center; margin: 34px 0 6px; font-size: calc(var(--fs) + 1px); }
-.foot { margin-top: 40px; border-top: 1px solid var(--border); padding-top: 8px; }
+table.hd { margin: 0; }
+table.hd td { border: 0; padding: 2px 4px; font-size: calc(var(--fs) - 1px); vertical-align: bottom; }
+table.hd h1 { margin: 0; font-size: calc(var(--title) + 1px); letter-spacing: .3em; text-align: center; white-space: nowrap; }
+table.tp { border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); border-left: 0; border-right: 0; }
+table.tp th, table.tp td { padding: 7px 8px; }
+table.tp tr > :first-child { border-left: 0; } table.tp tr > :last-child { border-right: 0; }
+table.tp th.v { writing-mode: vertical-rl; letter-spacing: .3em; padding: 6px 2px; }
+.cap { font-weight: 700; margin: 12px 0 2px; }
+.stmt { text-align: center; margin: 32px 0 6px; font-size: calc(var(--fs) + 1px); }
+.foot { margin-top: 34px; border-top: 1px solid var(--border); padding-top: 8px; }
 {% endblock %}
 {% block content %}
-<div class="ht-top"><span>발급번호 : {{ f("issue_no", label="발급번호") }}</span><span>처리기간 : 즉시</span></div>
-<div class="ht-title"><h1>사업자등록증명</h1></div>
-<div class="cap">□ 사업자 인적사항</div>
-{{ m.kv([["상호(법인명)", "trade_name"], ["사업자등록번호", "biz_no"],
-         ["성명(대표자)", "name"], ["주민등록번호", "rrn"],
-         ["사업장 소재지", "address", True],
-         ["개업일", "opened"], ["사업자등록일", "registered"],
-         ["과세유형", "kind"], ["공동사업자", "joint"]], cols=2, label_w="120px") }}
-<div class="cap">□ 사업의 종류</div>
-{{ m.grid(["업태", "종목", "업종코드", "구분"], "kinds", ["biz_type", "biz_item", "code", "main"], widths=["30%", "34%", "18%", "18%"]) }}
-<div class="cap">□ 발급 내용</div>
-{{ m.kv([["사용목적", "purpose"], ["제출처", "submit_to"]], cols=2, label_w="120px") }}
-<p class="stmt">위의 기재사항과 같이 사업자등록 사실이 있음을 증명합니다.</p>
+<div class="gov-head"><span>【국세청 민원사무처리규정 제5호 서식】</span><span></span></div>
+<table class="hd">
+  <colgroup><col style="width:27%"><col><col style="width:18%"></colgroup>
+  <tr><td>발급번호<br>{{ f("issue_no", label="발급번호") }}</td>
+    <td><h1>사업자등록증명</h1></td>
+    <td class="right">처리기간<br>즉시</td></tr>
+</table>
+<table class="tp">
+  <colgroup><col style="width:44px"><col style="width:128px"><col><col style="width:150px"><col style="width:170px"></colgroup>
+  <tr><th rowspan="3" class="v">납세자</th>
+    <th>상호(법인명)</th><td>{{ f("trade_name", label="상호(법인명)") }}</td>
+    <th>사업자등록번호</th><td>{{ f("biz_no", label="사업자등록번호") }}</td></tr>
+  <tr><th>성명(대표자)</th><td>{{ f("name", label="성명(대표자)") }}</td>
+    <th>주민(법인)등록번호</th><td>{{ f("rrn", label="주민(법인)등록번호") }}</td></tr>
+  <tr><th>사업장 소재지</th><td colspan="3">{{ f("address", label="사업장소재지") }}</td></tr>
+  <tr><th rowspan="2" class="v">등록사항</th>
+    <th>개 업 일</th><td>{{ f("opened", label="개업일") }}</td>
+    <th>사업자등록일</th><td>{{ f("registered", label="사업자등록일") }}</td></tr>
+  <tr><th>과세유형</th><td>{{ f("kind", label="과세유형") }}</td>
+    <th>공동사업자</th><td>{{ f("joint", label="공동사업자") }}</td></tr>
+</table>
+<div class="cap">사업의 종류</div>
+<table class="tp">
+  <colgroup><col style="width:28%"><col style="width:34%"><col style="width:20%"><col></colgroup>
+  <tr><th>업　태</th><th>종　목</th><th>업종코드</th><th>구　분</th></tr>
+  {% for it in d["kinds"] %}{% set i = loop.index0 %}
+  <tr><td class="c">{{ f("kinds." ~ i ~ ".biz_type", label="업태") }}</td><td class="c">{{ f("kinds." ~ i ~ ".biz_item", label="종목") }}</td>
+    <td class="c">{{ f("kinds." ~ i ~ ".code", label="업종코드") }}</td><td class="c">{{ f("kinds." ~ i ~ ".main", label="구분") }}</td></tr>
+  {% endfor %}
+</table>
+<table class="tp">
+  <colgroup><col style="width:172px"><col><col style="width:120px"><col style="width:200px"></colgroup>
+  <tr><th>사용목적</th><td>{{ f("purpose", label="사용목적") }}</td><th>제 출 처</th><td>{{ f("submit_to", label="제출처") }}</td></tr>
+</table>
+<p class="stmt">위와 같이 증명합니다.</p>
 {{ m.issuer("issue_date", org_path="issuer", seal_text=val("issuer") ~ "인") }}
 <div class="foot note">
-  <div>※ 이 증명서는 국세청 홈택스(www.hometax.go.kr)에서 인터넷으로 발급되었습니다.</div>
-  <div>※ 발급일로부터 90일 이내에 홈택스 [민원증명 &gt; 민원증명 원본확인] 메뉴에서 발급번호를 입력하여 진위 여부를 확인할 수 있습니다.</div>
-  <div>※ 이 증명은 발급일 현재의 사업자등록 사실을 증명하는 것으로, 발급일 이후의 휴업·폐업 등 변동사항은 반영되지 않습니다.</div>
+  <div>※ 이 증명은 발급일 현재의 사업자등록 사실을 증명하는 것으로, 발급일 이후의 휴업ㆍ폐업 등 변동사항은 반영되지 않습니다.</div>
+  <div>※ 이 증명서는 국세청 홈택스(www.hometax.go.kr)에서 인터넷으로 발급되었습니다. 발급번호를 이용하여 홈택스 [민원증명 원본확인] 메뉴에서 진위 여부를 확인할 수 있습니다.</div>
 </div>
 {% endblock %}

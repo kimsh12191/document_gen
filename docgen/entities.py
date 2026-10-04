@@ -173,7 +173,7 @@ class Profile:
 
 
 BANKS = ["국민은행", "신한은행", "우리은행", "하나은행", "농협은행", "기업은행", "SC제일은행",
-         "부산은행", "대구은행", "카카오뱅크", "토스뱅크", "케이뱅크", "수협은행", "경남은행"]
+         "부산은행", "iM뱅크", "카카오뱅크", "토스뱅크", "케이뱅크", "수협은행", "경남은행"]
 BANK_ACCT_FMT = {"국민은행": "######-##-######", "신한은행": "###-###-######", "우리은행": "####-###-######",
                  "하나은행": "###-######-#####", "농협은행": "###-####-####-##", "기업은행": "###-######-##-###",
                  "카카오뱅크": "3333-##-#######", "토스뱅크": "1000-####-####", "케이뱅크": "100-###-######"}
@@ -271,7 +271,9 @@ class World:
             capital = 0
             employees = r.randint(0, 8)
             revenue = K.round_to(r.uniform(4e7, 9e8), 100_000)
-        est = rand_date(r, date(2005, 1, 1), date(2023, 12, 31))
+        # 설립일은 대표자가 만 25세가 된 이후로 한다
+        earliest = max(date(2005, 1, 1), date(ceo.birth.year + 25, ceo.birth.month, 1))
+        est = rand_date(r, earliest, max(earliest + timedelta(days=200), date(2023, 12, 31)))
         return Company(
             name=name, name_en=name_en, biz_no=K.biz_no(r, corporate),
             corp_no=K.corp_reg_no(r) if corporate else None, ceo=ceo, address=addr,

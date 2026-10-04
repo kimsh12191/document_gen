@@ -34,7 +34,7 @@ table.idt th { width:80px; } table.idt td { min-width:150px; }
 </table>
 <table class="reg">
   <tr><th>상　　호</th><td>{{ f("company_name", label="상호") }}</td><td class="date"></td></tr>
-  <tr><th>본　　점</th><td>{{ f("head_office", label="본점") }}</td><td class="date"></td></tr>
+  <tr><th>본　　점</th><td>{{ f("head_office", label="본점") }}</td><td class="date">{% if d.head_office_change is defined %}{{ f("head_office_change.changed", label="변경연월일") }}<br>{{ f("head_office_change.registered", label="등기연월일") }}{% endif %}</td></tr>
   <tr><th>공고방법</th><td>{{ f("notice_method", label="공고방법") }}</td><td class="date"></td></tr>
   <tr><th>1주의 금액</th><td>{{ f("par_value", label="1주의금액") }}</td><td class="date"></td></tr>
   <tr><th>발행할 주식의 총수</th><td>{{ f("authorized_shares", label="발행할주식의총수") }}</td><td class="date"></td></tr>
@@ -45,17 +45,17 @@ table.idt th { width:80px; } table.idt td { min-width:150px; }
   </tr>
   <tr>
     <td>발행주식의 총수&nbsp;&nbsp;&nbsp;{{ f("issued_shares", label="발행주식의총수") }}<br>&nbsp;&nbsp;보통주식&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ f("common_shares", label="보통주식") }}</td>
-    <td class="c">{{ f("capital", label="자본금의액") }}</td><td class="date"></td>
+    <td class="c">{{ f("capital", label="자본금의액") }}</td><td class="date">{% if d.capital_change is defined %}{{ f("capital_change.changed", label="변경연월일") }}<br>{{ f("capital_change.registered", label="등기연월일") }}{% endif %}</td>
   </tr>
 </table>
 <table class="reg" style="border-top:0">
-  <tr><th colspan="2" style="text-align:left;padding-left:12px">목　　적</th></tr>
+  <tr><th colspan="2" style="letter-spacing:.6em">목　　적</th></tr>
   <tr><td colspan="2" class="purp">
     {% for x in d.purposes %}<div>{{ f("purposes." ~ loop.index0, label="목적") }}</div>{% endfor %}
   </td></tr>
 </table>
 <table class="reg" style="border-top:0">
-  <tr><th style="text-align:left;padding-left:12px">임원에 관한 사항</th></tr>
+  <tr><th style="letter-spacing:.3em">임원에 관한 사항</th></tr>
   <tr><td>
     {% for o in d.officers %}{% set i = loop.index0 %}
     <div class="off">
@@ -72,8 +72,7 @@ table.idt th { width:80px; } table.idt td { min-width:150px; }
 <div class="blank">-- 이 하 여 백 --</div>
 {% if d.issue_type == "열람용" %}
 <div class="foot between"><span>관할등기소 {{ f("jurisdiction", label="관할등기소") }}</span><span>열람번호 {{ f("issue_no", label="발행번호") }}</span></div>
-<div class="foot" style="margin-top:8px">* 본 등기사항증명서는 열람용이므로 출력하신 등기사항증명서는 법적인 효력이 없습니다.<br>
-* 실선으로 그어진 부분은 말소사항을 표시함.&nbsp;&nbsp;* 기록사항 없는 갑구, 을구는 '기록사항 없음'으로 표시함.</div>
+<div class="foot" style="margin-top:8px">* 본 등기사항증명서는 열람용이므로 출력하신 등기사항증명서는 법적인 효력이 없습니다.</div>
 {% else %}
 <div class="foot between"><span>수수료 {{ f("fee", label="수수료") }} 영수함</span><span>관할등기소 {{ f("jurisdiction", label="관할등기소") }} / 발행등기소 법원행정처 등기정보중앙관리소</span></div>
 <div class="cert">
@@ -81,7 +80,7 @@ table.idt th { width:80px; } table.idt td { min-width:150px; }
   <div style="margin:4px 0">{{ f("issue_date", label="발행일") }}</div>
   <div class="org">법원행정처 등기정보중앙관리소&nbsp;&nbsp;전산운영책임관{{ m.seal("전산운영책임관인", square=True, size="sm", over=True) }}</div>
 </div>
-<div class="foot" style="margin-top:8px">* 실선으로 그어진 부분은 말소사항을 표시함.&nbsp;&nbsp;* 기록사항 없는 갑구, 을구는 '기록사항 없음'으로 표시함.&nbsp;&nbsp;* 증명서는 컬러 또는 흑백으로 출력 가능함.</div>
+<div class="foot" style="margin-top:8px">* 증명서는 컬러 또는 흑백으로 출력 가능함.</div>
 <div class="foot" style="border-top:1px solid #888;margin-top:6px;padding-top:4px">
 [ 인터넷 발급 ] 문서 하단의 바코드를 스캐너로 확인하거나, 인터넷등기소(http://www.iros.go.kr)의 발급확인 메뉴에서 발급확인번호를 입력하여 위·변조 여부를 확인할 수 있습니다. 발급확인번호를 통한 확인은 발행일부터 3개월까지 5회에 한하여 가능합니다.
 </div>

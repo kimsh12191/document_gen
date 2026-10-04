@@ -1,0 +1,56 @@
+{
+ "document_type": "포장명세서(Packing List)",
+ "shipper": {
+  "name": "Tokyo Seimitsu Kogyo K.K.",
+  "address": "2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN"
+ },
+ "invoice_no": "TSK-2511-087",
+ "invoice_date": "06 NOV 2025",
+ "consignee": {
+  "name": "SAEHAN SOFT CO., LTD.",
+  "address": "8F, DONGBANG PLAZA, 22-7 GUKJEGEUMYUNG-RO, YEONGDEUNGPO-GU, SEOUL 07028, KOREA"
+ },
+ "notify": "SAME AS CONSIGNEE",
+ "port_of_loading": "TOKYO, JAPAN",
+ "final_destination": "BUSAN, KOREA",
+ "carrier": "CORAL VOYAGER V.016E",
+ "sailing_date": "09 NOV 2025",
+ "marks": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-192\nMADE IN JAPAN",
+ "items": [
+  {
+   "ctn_no": "1-129",
+   "description": "Multilayer Ceramic Capacitor 0402 100nF 16V",
+   "packages": "129 CTNS",
+   "quantity": "12,900,000 PCS",
+   "net_weight": "1,096.50",
+   "gross_weight": "1,184.22",
+   "measurement": "4.515"
+  },
+  {
+   "ctn_no": "130-170",
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "packages": "41 CTNS",
+   "quantity": "16,400 PCS",
+   "net_weight": "779.00",
+   "gross_weight": "841.32",
+   "measurement": "1.435"
+  },
+  {
+   "ctn_no": "171-192",
+   "description": "LED Driver IC, SOP-8",
+   "packages": "22 CTNS",
+   "quantity": "440,000 PCS",
+   "net_weight": "132.00",
+   "gross_weight": "142.56",
+   "measurement": "0.660"
+  }
+ ],
+ "total": {
+  "packages": "192 CTNS",
+  "net_weight": "2,007.50 KGS",
+  "gross_weight": "2,168.10 KGS",
+  "measurement": "6.610 CBM"
+ },
+ "signed_by": "Tokyo Seimitsu Kogyo K.K.",
+ "signer": "Kenji Sato"
+}

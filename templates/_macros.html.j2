@@ -65,7 +65,7 @@
 
 {# 인감/직인 (텍스트 기반 도장 모양) #}
 {% macro seal(text, square=False, size="", over=False) -%}
-<span class="seal{{ ' square' if square }}{{ ' ' ~ size if size }}{{ ' over' if over }}">{{ seal_lines(text)|join(BR) }}</span>
+<span class="seal{{ ' square' if square }}{{ ' ' ~ size if size }}{{ ' over' if over }}" style="{{ seal_font(text) }}">{{ seal_lines(text)|join(BR) }}</span>
 {%- endmacro %}
 
 {# 발급일/발급기관/직인 블록 #}

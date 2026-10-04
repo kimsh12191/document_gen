@@ -2,41 +2,81 @@
 {% import "_macros.html.j2" as m with context %}
 {% import "bank_form/_loan_parts.html.j2" as lp with context %}
 {% block page_class %} dense{% endblock %}
+{% block style %}
+.art { font-weight: 700; margin: 6px 0 2px; }
+table.bf th, table.bf td { padding: 4px 6px; }
+table.bf.t th { width: 104px; }
+.stamp { border: 1px dashed #777; width: 64px; height: 56px; display: flex; align-items: center; justify-content: center; font-size: calc(var(--fs) - 3px); color: #666; text-align: center; line-height: 1.2; }
+{% endblock %}
 {% block content %}
 {{ lp.css() }}
-{{ lp.head("서식번호 여신-1201 (2025.01 개정)", "은행여신거래기본약관(가계용) 적용") }}
-{{ lp.title_row("여신거래약정서", sub="(가계용)") }}
-<p style="margin:2px 0"><b>{{ f("creditor", label="채권자") }}</b> 앞 &nbsp;<span class="small muted">(취급점: {{ f("branch", label="취급점") }})</span></p>
-<p class="lead" style="margin:2px 0 4px">채무자는 「은행여신거래기본약관(가계용)」이 적용됨을 승인하고, 귀 행과 아래와 같이 여신거래를 약정합니다.</p>
+{{ lp.head(kind="agree") }}
+<div class="between" style="align-items:flex-start">
+  <div class="stamp">수 입<br>인 지</div>
+  <h1 class="title" style="flex:1;margin:8px 0 4px">대출거래약정서 <span class="bf-sub">(가계용)</span></h1>
+  {% set boxes = lp.appr_boxes().split("|") %}
+  <table class="appr"><tr>{% for b in boxes %}<th>{{ b }}</th>{% endfor %}</tr><tr>{% for b in boxes %}<td></td>{% endfor %}</tr></table>
+</div>
+<div style="margin:2px 0"><b>{{ f("creditor", label="채권자") }}</b> 앞 &nbsp;<span class="small muted">(취급점: {{ f("branch", label="취급점") }})</span></div>
+<div class="box" style="margin:3px 0;padding:3px 8px" ><div class="notice" style="margin:0"><p>■ 은행은 본인에게 이 약정서상의 중요한 내용을 설명하여야 하며, 은행여신거래기본약관(가계용)과 이 약정서 사본을 교부하여야 합니다.</p></div></div>
+<p class="lead" style="margin:3px 0">본인은 {{ lp.legal_name() }}(이하 "은행"이라 합니다)과 대출거래를 함에 있어 <b>은행여신거래기본약관(가계용)</b>이 적용됨을 승인하고 다음 각 조항을 확약합니다.</p>
 
-<div class="bf-sec">채무자</div>
 <table class="bf">
 <colgroup><col style="width:104px"><col><col style="width:96px"><col></colgroup>
-<tr><th>성　　명</th><td>{{ f("debtor.name", label="성명") }}</td><th>주민등록번호</th><td>{{ f("debtor.rrn", label="주민등록번호") }}</td></tr>
-<tr><th>주　　소</th><td colspan="3">{{ f("debtor.address", label="주소") }}</td></tr>
-<tr><th>연 락 처</th><td colspan="3">{{ f("debtor.phone", label="연락처") }}</td></tr>
+<tr><th>채무자 성명</th><td>{{ f("debtor.name", label="성명") }}</td><th>실명번호</th><td>{{ f("debtor.rrn", label="실명번호") }}</td></tr>
+<tr><th>주　　소</th><td colspan="3">{{ f("debtor.address", label="주소") }} <span class="small">(☎ {{ f("debtor.phone", label="연락처") }})</span></td></tr>
 </table>
 
-<div class="bf-sec">여신 조건</div>
-{{ lp.terms(["고정금리", "변동금리", "혼합금리"]) }}
+<div class="art">제1조(거래조건)</div>
+<table class="bf">
+<colgroup><col style="width:104px"><col><col style="width:96px"><col></colgroup>
+<tr><th>대출과목</th><td>{{ f("loan.subject", label="대출과목") }}</td><th>상 품 명</th><td>{{ f("loan.product", label="상품명") }}</td></tr>
+<tr><th>거래구분</th><td>{{ m.choice("loan.method", ["개별거래", "한도거래"], label="거래구분") }}</td><th>대출계좌번호</th><td>{{ f("loan.account_no", label="대출계좌번호") }}</td></tr>
+<tr><th>대출(한도)금액</th><td colspan="3"><b>{{ f("loan.amount_korean", label="대출(한도)금액(한글)") }}</b>&nbsp;&nbsp;({{ f("loan.amount", label="대출(한도)금액") }})</td></tr>
+<tr><th>대출개시일</th><td>{{ f("loan.start_date", label="대출개시일") }}</td><th>대출기간만료일</th><td>{{ f("loan.maturity", label="대출기간만료일") }}</td></tr>
+</table>
 
-<div class="bf-sec">주요 약정 내용</div>
-<ol class="clauses notice" style="list-style:none;padding-left:0;margin:2px 0">
-<li><b>제1조(적용범위)</b> 이 약정에서 정하지 않은 사항은 은행여신거래기본약관(가계용) 및 해당 상품설명서에 따릅니다.</li>
-<li><b>제2조(이자 등)</b> ① 이자율은 위 표에서 정한 바에 따르며, 변동금리는 금리변동주기마다 변경된 기준금리에 가산금리를 더하여 적용합니다. ② 채무자는 취업, 승진, 소득 증가 등 신용상태가 개선된 경우 금리인하를 요구할 수 있습니다.</li>
-<li><b>제3조(지연배상금)</b> 채무자가 이자, 분할상환금 등을 기일에 지급하지 아니한 때에는 지급하여야 할 금액에 대하여 위 지연배상금률에 따른 지연배상금을 지급합니다.</li>
-<li><b>제4조(중도상환)</b> 채무자는 만기 전 언제든지 여신의 전부 또는 일부를 상환할 수 있으며, 이 경우 위에서 정한 중도상환해약금을 지급합니다.</li>
-<li><b>제5조(기한의 이익 상실)</b> 이자 또는 분할상환금의 지급을 1개월(주택담보대출은 2개월) 이상 지체한 때에는 은행의 통지 후 기한의 이익을 상실하며 곧 채무 전액을 변제합니다.</li>
-<li><b>제6조(청약의 철회)</b> 채무자는 계약서류를 받은 날 또는 대출금 수령일 중 나중에 발생한 날로부터 14일 이내에 서면 등으로 청약을 철회할 수 있습니다.</li>
-</ol>
+<div class="art">제2조(이자 등)</div>
+<table class="bf">
+<colgroup><col style="width:104px"><col><col style="width:96px"><col></colgroup>
+<tr><th>금리종류</th><td colspan="3">{{ m.choice("loan.rate_type", ["고정금리", "변동금리", "혼합금리"], label="금리종류") }}&nbsp; 기준금리: {{ f("loan.base_rate_name", label="기준금리종류") }}</td></tr>
+<tr><td colspan="4" style="padding:0">
+  <table style="margin:0;border:0" class="compact"><tr><th style="border-top:0;border-left:0">기준금리</th><th style="border-top:0">가산금리</th><th style="border-top:0">우대금리(－)</th><th style="border-top:0;border-right:0">대출이자율</th></tr>
+  <tr><td class="c" style="border-left:0;border-bottom:0">연 {{ f("loan.base_rate", label="기준금리") }}</td><td class="c" style="border-bottom:0">＋ {{ f("loan.spread", label="가산금리") }}</td><td class="c" style="border-bottom:0">－ {{ f("loan.pref_rate", label="우대금리") }}</td><td class="c bold" style="border-right:0;border-bottom:0">＝ {{ f("loan.applied_rate", label="대출이자율") }}</td></tr></table>
+</td></tr>
+<tr><th>금리변동주기</th><td>{{ f("loan.rate_reset", label="금리변동주기") }}</td><th>이자지급시기</th><td>{{ f("loan.interest_pay", label="이자지급시기") }}</td></tr>
+<tr><th>이자계산방법</th><td colspan="3">{{ f("loan.interest_calc", label="이자계산방법") }}</td></tr>
+</table>
 
-<div class="box" style="margin:4px 0;padding:4px 8px">
-본인은 위 내용 및 약관의 중요 내용을 <b>충분히 설명 듣고 이해하였음</b>을 확인합니다. &nbsp;{{ m.agree("explained", "예", "아니오", label="설명이해확인") }}
-<div class="tiny muted">※ 은행은 약정서 및 약관의 사본을 채무자에게 교부합니다. 설명이 부족하거나 이해하지 못한 경우 확인란에 표시하지 마십시오.</div>
+<div class="art">제3조(상환방법)</div>
+<table class="bf">
+<colgroup><col style="width:104px"><col><col style="width:96px"><col></colgroup>
+<tr><th>상환방법</th><td colspan="3">{{ m.choice("loan.repayment", ["만기일시상환", "원금균등분할상환", "원리금균등분할상환"], label="상환방법") }}</td></tr>
+<tr><th>분할상환</th><td>{{ f("loan.installment", label="분할상환횟수") }}</td><th>자동이체계좌</th><td>{{ f("loan.debit_account", label="자동이체계좌") }}</td></tr>
+</table>
+
+<div class="art">제4조(중도상환해약금)</div>
+<div style="margin:0 0 0 8px">{{ f("loan.prepay_fee", label="중도상환해약금") }}</div>
+<div class="art">제5조(지연배상금)</div>
+<div class="small" style="margin:0 0 0 8px">이자, 분할상환원리금 등을 그 기일에 지급하지 아니한 때에는 지급하여야 할 금액에 대하여 그 다음 날부터 지연배상금률 <b>{{ f("loan.late_rate", label="지연배상금률") }}</b> 에 따른 지연배상금을 지급합니다.</div>
+<div class="art">제6조(인지세 부담)</div>
+<div class="small" style="margin:0 0 0 8px">이 약정서 작성에 따른 인지세는 각 50%씩 본인과 은행이 부담합니다. 인지세: <b>{{ f("stamp_tax", label="인지세") }}</b></div>
+<div class="art">제7조(자동이체)</div>
+<div class="small" style="margin:0 0 0 8px">본인은 이자, 분할상환원리금 등을 위 자동이체계좌에서 그 지급일에 자동이체하여 납부하기로 하며, 잔액 부족으로 미납된 금액은 이후 입금되는 즉시 출금하여도 이의를 제기하지 않습니다.</div>
+<div class="notice" style="margin:3px 0 0">
+<p>※ 금리인하요구권: 본인은 취업, 승진, 소득 증가, 신용평점 상승 등 신용상태가 개선된 경우 은행에 금리인하를 요구할 수 있습니다.</p>
+<p>※ 청약철회권: 계약체결일, 계약서류를 받은 날, 대출금 수령일 중 나중에 발생한 날부터 14일 이내에 대출계약을 철회할 수 있습니다(「금융소비자 보호에 관한 법률」 제46조).</p>
 </div>
 
-<div class="center" style="margin-top:4px">{{ f("contract_date", label="약정일") }}</div>
-<div class="sig">채무자&nbsp;<span class="who">{{ f("signature", label="채무자") }}</span>(서명 또는 인)</div>
+<div class="box" style="margin:4px 0;padding:3px 8px">
+<div class="small">본인은 이 약정서 및 은행여신거래기본약관(가계용)의 중요 내용에 대하여 충분히 설명을 듣고 이해하였으며, 그 사본을 수령하였습니다. &nbsp;{{ m.agree("explained", "예", "아니오", label="설명이해확인") }}</div>
+<div style="margin-top:1px">자필기재 : <span class="u" style="display:inline-block;min-width:220px"><span class="hand" style="font-size:calc(var(--fs) + 2px)">{{ f("handwritten", label="자필기재") }}</span></span></div>
+</div>
+
+<div class="between" style="margin-top:4px;align-items:center">
+  <div style="padding-left:12px">{{ f("contract_date", label="약정일") }}</div>
+  <div>본인(채무자)&nbsp;<span class="who" style="display:inline-block;min-width:90px;text-align:center">{{ f("signature", label="채무자") }}</span>(서명 또는 인)</div>
+</div>
 
 {{ lp.bank_use(["실명확인", "약정내용 설명", "인감·서명 대조", "담당자", "책임자"]) }}
 {% endblock %}

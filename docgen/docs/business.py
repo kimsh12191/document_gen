@@ -57,6 +57,18 @@ def _filed_year(p: Profile) -> int:
     return p.issue_date.year - 1 if p.issue_date >= date(p.issue_date.year, 6, 1) else p.issue_date.year - 2
 
 
+def _sincere_filer(p: Profile) -> bool:
+    """성실신고확인대상 여부 (복식부기 기준 수입금액의 5배 이상으로 근사)."""
+    return p.business.revenue >= _industry(p.business)[3] * 5
+
+
+def _itr_filed_date(p: Profile, y: int) -> date:
+    """y년 귀속 종합소득세 신고일. 신고서·표준재무제표증명이 같은 날짜를 쓰도록 프로필 고정 난수로 만든다."""
+    deadline = date(y + 1, 6, 30) if _bookkeeping_double(p) and _sincere_filer(p) else date(y + 1, 5, 31)
+    filed = rand_date(_prng(p, "itr_filed", y), date(y + 1, 5, 2), deadline)
+    return max(date(y + 1, 5, 2), min(filed, p.issue_date - timedelta(days=1)))  # 발급일 이후 신고는 불가
+
+
 def _revenue(p: Profile, y: int) -> int:
     """y년 매출액(공급가액). 기준연도(발급연도-1)는 p.business.revenue 에 맞춘다."""
     b = p.business
@@ -140,6 +152,14 @@ def _tax_office(addr: Address) -> str:
     return f"{K.sido_short(addr.sido)}{last[:-1]}{'부' if len(last) == 2 else ''}세무서장"
 
 
+def _cert_date(rng: random.Random):
+    """사업자등록증 날짜 표기. 실물은 '2020 년 01 월 05 일'처럼 단위 앞뒤를 띄운다."""
+    style = rng.choice(["spaced", "spaced", "kor"])
+    if style == "spaced":
+        return lambda d: f"{d.year} 년 {d.month:02d} 월 {d.day:02d} 일"
+    return lambda d: D(d, "kor")
+
+
 def _biz_kind_label(p: Profile) -> str:
     return "간이과세자" if _vat_simple(p) else "일반과세자"
 
@@ -161,20 +181,20 @@ def business_registration_certificate(p: Profile, rng: random.Random) -> dict:
         issued = b.established + timedelta(days=rng.randint(0, 12))
     else:
         issued = rand_date(rng, b.established + timedelta(days=200), p.issue_date - timedelta(days=3))
-    fmt = rng.choice(["kor", "kor_short"])
+    fd = _cert_date(rng)
     out = {
         "kind": _biz_kind_label(p),
         "biz_no": b.biz_no,
         "trade_name": b.name,
         "name": p.person.name,
-        "birth": D(p.person.birth, fmt),
-        "opened": D(b.established, fmt),
+        "birth": fd(p.person.birth),
+        "opened": fd(b.established),
         "address": b.address.road_full,
         "biz_type": b.biz_type,
         "biz_item": b.biz_item,
         "issue_reason": reason,
         "unit_taxation": "부",
-        "issue_date": D(issued, fmt),
+        "issue_date": fd(issued),
         "issuer": _tax_office(b.address),
     }
     if rng.random() < 0.4:
@@ -194,12 +214,12 @@ def business_registration_certificate_corp(p: Profile, rng: random.Random) -> di
         issued = c.established + timedelta(days=rng.randint(0, 12))
     else:
         issued = rand_date(rng, c.established + timedelta(days=200), p.issue_date - timedelta(days=3))
-    fmt = rng.choice(["kor", "kor_short"])
+    fd = _cert_date(rng)
     out = {
         "biz_no": c.biz_no,
         "corp_name": c.name,
         "ceo": p.person.name,
-        "opened": D(c.established, fmt),
+        "opened": fd(c.established),
         "corp_reg_no": c.corp_no,
         "address": c.address.road_full,
         "head_office": c.address.road_full,
@@ -207,7 +227,7 @@ def business_registration_certificate_corp(p: Profile, rng: random.Random) -> di
         "biz_item": c.biz_item,
         "issue_reason": reason,
         "unit_taxation": "부",
-        "issue_date": D(issued, fmt),
+        "issue_date": fd(issued),
         "issuer": _tax_office(c.address),
     }
     if rng.random() < 0.5:
@@ -262,24 +282,25 @@ def standard_financial_statement_proof(p: Profile, rng: random.Random) -> dict:
     pl, bs = _pl(p, y), _bs(p, y)
     start = max(date(y, 1, 1), b.established)
     w = lambda n: won(n, "")  # noqa: E731
-    purpose, submit_to = _purpose(rng, p)
+    fmt = rng.choice(["dash", "dot"])
     return {
         "issue_no": _hometax_no(rng),
+        "taxpayer_type": "개인",
         "taxpayer": {
             "trade_name": b.name,
             "biz_no": b.biz_no,
             "name": p.person.name,
             "rrn": K.mask_rrn(p.person.rrn),
-            "address": b.address.road_full,
             "biz_type": b.biz_type,
             "biz_item": b.biz_item,
+            "address": b.address.road_full,
         },
-        "year": f"{y}년",
-        "period": f"{D(start, 'dot')} ~ {D(date(y, 12, 31), 'dot')}",
+        "period": f"{D(start, fmt)} ~ {D(date(y, 12, 31), fmt)}",
+        "attachments": "표준재무상태표, 표준손익계산서",
+        "filing_kind": "정기신고",
+        "filed_date": D(_itr_filed_date(p, y), fmt),
         "balance_sheet": {k: w(v) for k, v in bs.items()},
         "income_statement": {k: w(v) for k, v in pl.items()},
-        "purpose": purpose,
-        "submit_to": submit_to,
         "issue_date": D(p.issue_date, "kor"),
         "issuer": _tax_office(b.address),
     }

@@ -4,10 +4,10 @@
 {% block page_class %} dense{% endblock %}
 {% block content %}
 {{ lp.css() }}
-{{ lp.head("서식번호 기업여신-2101 (2025.03 개정)", "보존기간: 여신 완제 후 10년") }}
+{{ lp.head(kind="loan_app_corp") }}
 {{ lp.title_row("기업여신 신청서", sub="(법인용)", boxes=("담 당", "심사역", "지점장")) }}
-<p class="lead">당사는 귀 행과 아래와 같이 여신거래를 하고자 관련 서류를 첨부하여 신청합니다.
-취급점: {{ f("branch", label="취급점") }}</p>
+<p class="lead" style="margin:2px 0">당사는 귀 행과 아래와 같이 여신거래를 하고자 관련 서류를 첨부하여 신청합니다.
+<span class="small muted">(취급점: {{ f("branch", label="취급점") }})</span></p>
 
 <div class="bf-sec">신청기업 현황</div>
 <table class="bf">
@@ -15,7 +15,8 @@
 <tr><th>기 업 명</th><td colspan="3"><b>{{ f("company.name", label="기업명") }}</b> <span class="small">({{ f("company.name_en", label="영문명") }})</span></td></tr>
 <tr><th>사업자등록번호</th><td>{{ f("company.biz_no", label="사업자등록번호") }}</td><th>법인등록번호</th><td>{{ f("company.corp_no", label="법인등록번호") }}</td></tr>
 <tr><th>대 표 자</th><td>{{ f("company.ceo", label="대표자") }}</td><th>설 립 일</th><td>{{ f("company.established", label="설립일") }}</td></tr>
-<tr><th>업태 / 종목</th><td>{{ f("company.industry", label="업종") }}</td><th>종업원수</th><td>{{ f("company.employees", label="종업원수") }}</td></tr>
+<tr><th>업태 / 종목</th><td>{{ f("company.industry", label="업태/종목") }}</td><th>종업원수</th><td>{{ f("company.employees", label="종업원수") }}</td></tr>
+<tr><th>기업규모</th><td colspan="3">{{ m.choice("company.size", ["대기업", "중견기업", "중소기업", "소상공인"], label="기업규모") }}</td></tr>
 <tr><th>자 본 금</th><td>{{ f("company.capital", label="자본금") }}</td><th>매 출 액</th><td>{{ f("company.revenue", label="매출액") }} <span class="small muted">({{ f("company.revenue_year", label="결산연도") }} 결산)</span></td></tr>
 <tr><th>본점 소재지</th><td colspan="3">{{ f("company.address", label="본점소재지") }}</td></tr>
 <tr><th>전화번호</th><td>{{ f("company.phone", label="전화번호") }}</td><th>팩스번호</th><td>{{ f("company.fax", label="팩스번호") }}</td></tr>
@@ -23,40 +24,45 @@
 
 <div class="bf-sec">업무 담당자</div>
 <table class="bf">
-<colgroup><col style="width:100px"><col><col style="width:100px"><col></colgroup>
-<tr><th>성　　명</th><td>{{ f("contact.name", label="담당자") }}</td><th>부서 / 직위</th><td>{{ f("contact.position", label="부서/직위") }}</td></tr>
-<tr><th>연 락 처</th><td>{{ f("contact.phone", label="연락처") }}</td><th>이 메 일</th><td>{{ f("contact.email", label="이메일") }}</td></tr>
+<colgroup><col style="width:100px"><col><col style="width:70px"><col style="width:130px"><col style="width:60px"><col></colgroup>
+<tr><th>성명(직위)</th><td>{{ f("contact.name", label="담당자") }} ({{ f("contact.position", label="부서/직위") }})</td><th>연락처</th><td>{{ f("contact.phone", label="연락처") }}</td><th>E-mail</th><td>{{ f("contact.email", label="E-mail") }}</td></tr>
 </table>
 
 <div class="bf-sec">여신 신청 내용</div>
 <table class="bf">
-<colgroup><col style="width:100px"><col><col style="width:100px"><col></colgroup>
+<colgroup><col style="width:100px"><col style="width:250px"><col style="width:100px"><col></colgroup>
 <tr><th>여신과목</th><td colspan="3">{{ m.choice("loan.subject", ["일반자금대출", "시설자금대출", "한도대출"], label="여신과목") }}</td></tr>
 <tr><th>상 품 명</th><td>{{ f("loan.product", label="상품명") }}</td><th>금리종류</th><td>{{ m.choice("loan.rate_type", ["고정금리", "변동금리"], label="금리종류") }}</td></tr>
 <tr><th>신청금액</th><td colspan="3"><b>{{ f("loan.amount_korean", label="신청금액(한글)") }}</b>&nbsp;&nbsp;({{ f("loan.amount", label="신청금액") }})</td></tr>
-<tr><th>여신기간</th><td>{{ f("loan.term", label="여신기간") }}</td><th>상환방법</th><td>{{ f("loan.repayment", label="상환방법") }}</td></tr>
-<tr><th>자금용도</th><td colspan="3">{{ f("loan.purpose", label="자금용도") }}</td></tr>
+<tr><th>여신기간</th><td>{{ f("loan.term", label="여신기간") }}</td><th>대출희망일</th><td>{{ f("loan.hope_date", label="대출희망일") }}</td></tr>
+<tr><th>상환방법</th><td colspan="3">{{ f("loan.repayment", label="상환방법") }}</td></tr>
+<tr><th>자금용도</th><td colspan="3">{{ m.choice("loan.fund_type", ["운전자금", "시설자금"], label="자금구분") }}&nbsp; 세부용도: {{ f("loan.purpose", label="자금용도") }}</td></tr>
+<tr><th>입금계좌</th><td colspan="3">{{ f("loan.deposit_account", label="대출금입금계좌") }} <span class="tiny muted">(이자 등 자동이체 출금계좌 겸용)</span></td></tr>
 <tr><th>담보구분</th><td colspan="3">{{ m.choice("loan.collateral", ["신용", "부동산", "보증서", "예·적금"], label="담보구분") }}</td></tr>
 <tr><th>담보/보증 내용</th><td colspan="3">{{ f("loan.collateral_detail", label="담보/보증내용") }}</td></tr>
 </table>
 
-<div class="bf-sec">제출서류 (해당란 표시는 은행이 기재)</div>
+<div class="bf-sec">타 금융기관 여신 현황 <span class="tiny muted" style="font-weight:400">(단위: 백만원)</span></div>
 <table class="bf compact">
-<tr><td class="c">□ 법인등기사항전부증명서</td><td class="c">□ 사업자등록증</td><td class="c">□ 재무제표(최근 3년)</td><td class="c">□ 법인인감증명서</td></tr>
-<tr><td class="c">□ 국세·지방세 완납증명</td><td class="c">□ 주주명부</td><td class="c">□ 정관 / 이사회의사록</td><td class="c">□ 부가세과세표준증명</td></tr>
+<colgroup><col style="width:26%"><col style="width:28%"><col style="width:20%"><col></colgroup>
+<tr><th style="text-align:center">금융기관</th><th style="text-align:center">여신종류</th><th style="text-align:center">잔액</th><th style="text-align:center">담보</th></tr>
+{% for x in d.other_loans %}{% set i = loop.index0 %}
+<tr><td class="c">{{ f("other_loans." ~ i ~ ".lender", label="금융기관") }}</td><td class="c">{{ f("other_loans." ~ i ~ ".kind", label="여신종류") }}</td><td class="num">{{ f("other_loans." ~ i ~ ".balance", label="잔액") }}</td><td class="c">{{ f("other_loans." ~ i ~ ".collateral", label="담보") }}</td></tr>
+{% endfor %}
+{% for _ in range(2 - d.other_loans|length) %}<tr><td>&nbsp;</td><td></td><td></td><td></td></tr>{% endfor %}
 </table>
 
+<div class="small" style="margin:3px 0"><b>제출서류</b> <span class="tiny muted">(은행 확인)</span> : □ 법인등기사항전부증명서 □ 사업자등록증 □ 재무제표(최근 3년) □ 법인인감증명서 □ 국세·지방세 완납증명 □ 주주명부 □ 정관·이사회의사록 □ 부가세과세표준증명</div>
 <div class="notice">
-<p>※ 신청 내용은 은행의 신용평가 및 여신심사 결과에 따라 승인금액, 금리, 기간, 담보조건이 달라질 수 있습니다.</p>
+<p>※ 신청 내용은 은행의 여신심사 결과에 따라 달라질 수 있으며, 기재 내용이 사실과 다를 경우 여신이 취소되거나 기한의 이익을 상실할 수 있습니다.</p>
 <p>※ 당사는 여신 심사를 위하여 귀 행이 당사 및 대표자의 신용정보를 신용정보집중기관 및 신용조회회사에 조회하는 것에 동의합니다.</p>
-<p>※ 제출한 서류 및 기재 내용이 사실과 다를 경우 여신이 취소되거나 기한의 이익을 상실할 수 있으며, 이에 따른 책임은 당사에 있습니다.</p>
+<p>※ 여신 이용 중 재무상태 개선, 신용등급 상승 등 신용상태가 개선된 경우 금리인하를 요구할 수 있습니다(「은행법」 제30조의2).</p>
 </div>
 
-<div class="center" style="margin-top:8px">{{ f("apply_date", label="신청일") }}</div>
-<div class="right mt" style="line-height:2.2">
+<div class="between" style="align-items:center;margin-top:4px"><div>{{ f("apply_date", label="신청일") }}<br><b>{{ lp.legal_name() }}</b> 앞</div><div class="right" style="line-height:2.1">
   신청인(법인) &nbsp;{{ f("company.name", label="기업명") }}<span class="inmark"></span><br>
   대표이사 &nbsp;<span style="font-size:calc(var(--fs) + 1px)">{{ f("signature", label="대표이사") }}</span> &nbsp;{{ lp.in_seal("대표이사", size="") }}
-</div>
+</div></div>
 
 {{ lp.bank_use(["접수일자", "접수번호", "CRS 등급", "담당자", "책임자"]) }}
 {% endblock %}

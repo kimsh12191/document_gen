@@ -1,0 +1,54 @@
+{
+ "document_type": "주민등록표 초본",
+ "doc_no": "제 8173 호",
+ "officer": "천경은",
+ "officer_phone": "062-597-2479",
+ "applicant": "김소윤",
+ "purpose": "대출신청",
+ "issue_date": "2025년 11월 29일",
+ "issuer": "광주광역시 서구 치평동장",
+ "person": {
+  "name": "김소윤",
+  "name_hanja": "金素允",
+  "rrn": "901121-2******"
+ },
+ "history_scope": "전체 포함",
+ "addresses": [
+  {
+   "no": "1",
+   "address": "서울특별시 영등포구 도림로 468, 404호 (여의도동, 하이츠)",
+   "moved_in": "2009-03-01",
+   "changed": "2009-03-01",
+   "head_relation": "김소윤의 본인",
+   "status": "거주자",
+   "reason": "전입"
+  },
+  {
+   "no": "2",
+   "address": "서울특별시 서초구 서초대로 69, 101호 (반포동, 빌라)",
+   "moved_in": "2015-05-21",
+   "changed": "2015-05-21",
+   "head_relation": "김소윤의 본인",
+   "status": "거주자",
+   "reason": "전입"
+  },
+  {
+   "no": "3",
+   "address": "인천광역시 연수구 청능대로 73, 116동 401호 (송도동, e편한세상리버뷰)",
+   "moved_in": "2017-11-25",
+   "changed": "2017-12-06",
+   "head_relation": "김소윤의 본인",
+   "status": "거주자",
+   "reason": "전입"
+  },
+  {
+   "no": "4",
+   "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+   "moved_in": "2024-02-09",
+   "changed": "2024-02-09",
+   "head_relation": "김소윤의 본인",
+   "status": "거주자",
+   "reason": "전입"
+  }
+ ]
+}

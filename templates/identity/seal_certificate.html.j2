@@ -1,54 +1,62 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
 {% block style %}
-.sc-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4px; }
+.sc-form { font-size: calc(var(--fs) - 3.5px); color: #444; }
+.sc-top { display: flex; justify-content: space-between; align-items: flex-end; margin: 4px 0 2px; font-size: calc(var(--fs) - 1px); }
+.sc-top .who .chk { margin-right: 4px; }
+h1.title.sc-t { margin: 10px 0 10px; letter-spacing: .5em; }
 table.sc { border: 2px solid var(--border); }
-td.sc-ink { text-align: center; vertical-align: middle; padding: 10px; }
-.sc-ink .lbl { font-weight: 700; letter-spacing: .6em; margin-bottom: 10px; }
-.sc-ink .frame { display: inline-flex; align-items: center; justify-content: center; width: 130px; height: 130px; border: 1px dashed #999; }
-.sc-ink .seal { width: 104px; height: 104px; font-size: 26px; border-width: 4px; transform: rotate(-3deg); line-height: 1.15; opacity: .88; }
-.sc-stmt { text-align: center; font-size: calc(var(--fs) + 3px); margin: 40px 0 10px; letter-spacing: .05em; }
-.sc-notes { position: absolute; left: var(--page-pad); right: var(--page-pad); bottom: calc(var(--page-pad) - 10px); border-top: 1px solid #999; padding-top: 8px; }
+table.sc th { font-weight: 600; }
+td.sc-ink { text-align: center; vertical-align: middle; padding: 8px; }
+.sc-ink .lbl { font-weight: 700; letter-spacing: .6em; margin-bottom: 8px; }
+.sc-ink .frame { display: inline-flex; align-items: center; justify-content: center; width: 124px; height: 124px; border: 1px solid #999; }
+.sc-ink .seal { width: 100px; height: 100px; font-size: 25px; border-width: 4px; transform: rotate(-3deg); line-height: 1.15; opacity: .88; }
+td.sc-cert { text-align: center; padding: 18px 10px 22px; }
+.sc-cert .stmt { font-size: calc(var(--fs) + 3px); letter-spacing: .05em; margin-bottom: 18px; }
+.sc-cert .date { letter-spacing: .1em; margin-bottom: 16px; }
+.sc-cert .org { font-size: calc(var(--fs) + 7px); font-weight: 700; letter-spacing: .15em; position: relative; display: inline-block; padding-right: 20px; }
+.sc-sig { font-family: 'Nanum Myeongjo', serif; font-style: italic; font-size: 22px; letter-spacing: .2em; color: #1a2a6c; }
+.sc-notes { position: absolute; left: var(--page-pad); right: var(--page-pad); bottom: calc(var(--page-pad) - 10px); border-top: 1px solid #999; padding-top: 6px; }
 {% endblock %}
 {% block content %}
-<div class="sc-top">
-  {{ m.doc_no("doc_no") }}
-  <div class="small">발급구분 : {{ m.choice("applicant_type", ["본인", "대리인"], label="발급구분") }}</div>
-</div>
-{{ m.title("인 감 증 명 서") }}
+{% set online = (val("doc_no")|length) > 14 %}
+{% if online %}
+<div class="sc-form">■ 인감증명법 시행령 [별지 제14호의2서식] &lt;신설 2024. 5. 7.&gt;</div>
+<div class="sc-top"><div>문서확인번호&nbsp;&nbsp;{{ f("doc_no", label="문서확인번호") }}</div><div class="who">{{ m.choice("applicant_type", ["본인", "대리인"], label="발급구분", on="◉", off="○") }}</div></div>
+{% else %}
+<div class="sc-form">■ 인감증명법 시행령 [별지 제14호서식] &lt;개정 2016. 7. 5.&gt;</div>
+<div class="sc-top"><div>인감증명서 발급사실 확인용 번호&nbsp;&nbsp;{{ f("doc_no", label="인감증명서발급사실확인용번호") }}</div><div class="who">{{ m.choice("applicant_type", ["본인", "대리인"], label="발급구분", on="◉", off="○") }}</div></div>
+{% endif %}
+<h1 class="title sc-t">인 감 증 명 서</h1>
 <table class="sc">
-  <colgroup><col style="width:170px"><col style="width:120px"><col><col style="width:120px"><col></colgroup>
+  <colgroup><col style="width:150px"><col style="width:120px"><col><col style="width:70px"><col style="width:120px"></colgroup>
   <tr>
-    <td class="sc-ink" rowspan="4"><div class="sc-ink"><div class="lbl">인감</div><div class="frame">{{ m.seal(val("seal_name"), square=(val("person.name")|length) % 2 == 1) }}</div><div class="tiny muted" style="margin-top:6px">{{ f("seal_name", label="인감") }}</div></div></td>
+    <td class="sc-ink" rowspan="3"><div class="sc-ink"><div class="lbl">인감</div><div class="frame">{{ m.seal(val("seal_name"), square=(val("person.name")|length) % 2 == 1) }}</div><div class="tiny muted" style="margin-top:4px">{{ f("seal_name", label="인감") }}</div></div></td>
     <th>성　　명<br><span class="tiny">(한　자)</span></th>
     <td colspan="3">{{ f("person.name", label="성명") }} ({{ f("person.name_hanja", label="한자") }})</td>
   </tr>
-  <tr><th>주민등록번호</th><td>{{ f("person.rrn", label="주민등록번호") }}</td><th>국　　적</th><td>{{ f("person.nationality", label="국적") }}</td></tr>
-  <tr><th>주　　소</th><td colspan="3" style="height:70px">{{ f("person.address", label="주소") }}</td></tr>
-  <tr><th>비　　고</th><td colspan="3" class="small muted">-</td></tr>
-  <tr><th colspan="2">용　　도</th><td colspan="3">{{ m.choice("usage_type", ["일반용", "부동산매도용"], label="용도") }}</td></tr>
-  {% if d.purpose is defined %}
-  <tr><th colspan="2">사 용 목 적</th><td colspan="3">{{ f("purpose", label="사용목적") }}</td></tr>
-  {% endif %}
-  {% if d.buyer is defined %}
-  <tr><th rowspan="2">부동산<br>매수자</th><th>성　　명</th><td>{{ f("buyer.name", label="성명") }}</td><th>주민등록번호</th><td>{{ f("buyer.rrn", label="주민등록번호") }}</td></tr>
-  <tr><th>주　　소</th><td colspan="3">{{ f("buyer.address", label="주소") }}</td></tr>
-  {% endif %}
+  <tr><th>주민등록번호</th><td>{{ f("person.rrn", label="주민등록번호") }}</td><th>국적</th><td>{{ f("person.nationality", label="국적") }}</td></tr>
+  <tr><th>주　　소</th><td colspan="3" style="height:64px">{{ f("person.address", label="주소") }}</td></tr>
+  <tr><th colspan="2">용　　도</th><td colspan="3">{{ m.choice("usage_type", ["일반용", "부동산 매도용"], label="용도") }}</td></tr>
+  <tr><th rowspan="2">부동산<br>매수자</th><th>성명(법인명)</th><td>{% if d.buyer is defined %}{{ f("buyer.name", label="성명(법인명)") }}{% endif %}</td><th class="small">주민등록번호<br>(법인등록번호)</th><td>{% if d.buyer is defined %}{{ f("buyer.rrn", label="주민등록번호(법인등록번호)") }}{% endif %}</td></tr>
+  <tr><th>주소<br><span class="tiny">(법인 소재지)</span></th><td colspan="3">{% if d.buyer is defined %}{{ f("buyer.address", label="주소(법인소재지)") }}{% else %}&nbsp;{% endif %}</td></tr>
+  <tr><th colspan="2">발급신청자 서명</th><td colspan="3" style="height:40px">{% if d.applicant_signature is defined %}<span class="sc-sig">{{ f("applicant_signature", label="발급신청자서명") }}</span>{% endif %}</td></tr>
   {% if d.agent is defined %}
-  <tr><th>대리인</th><th>성　　명</th><td>{{ f("agent.name", label="성명") }}</td><th>주민등록번호</th><td>{{ f("agent.rrn", label="주민등록번호") }}</td></tr>
+  <tr><th>대리인</th><th>성　　명</th><td>{{ f("agent.name", label="성명") }}</td><th class="small">주민등록번호</th><td>{{ f("agent.rrn", label="주민등록번호") }}</td></tr>
   {% endif %}
+  <tr><th colspan="2">비　　고</th><td colspan="3">&nbsp;</td></tr>
+  <tr><td colspan="5" class="sc-cert">
+    <div class="stmt">위 인감은 신고되어 있는 인감임을 증명합니다.</div>
+    <div class="date">{{ f("issue_date", label="발급일") }}</div>
+    <div class="org">{{ f("issuer", label="발급기관") }}{{ m.seal("직인", square=True, over=True) }}</div>
+  </td></tr>
 </table>
-<p class="sc-stmt">위 인감은 신고되어 있는 인감임을 증명합니다.</p>
-<div class="issuer">
-  <div class="date">{{ f("issue_date", label="발급일") }}</div>
-  <div class="org">{{ f("issuer", label="발급기관") }}{{ m.seal("직인", square=True, over=True) }}</div>
-</div>
 <div class="sc-notes note">
   <ol class="clauses">
-    <li>이 인감증명서는 「인감증명법」에 따라 발급되었으며, 용도란에 표시된 용도 외의 목적으로는 사용할 수 없습니다.</li>
-    <li>부동산 매도용 인감증명서는 매수자의 성명·주민등록번호 및 주소가 기재된 경우에만 유효합니다.</li>
-    <li>인감증명서의 발급사실은 정부24(www.gov.kr)의 「인감증명서 발급사실 확인」에서 확인할 수 있습니다.</li>
-    <li>인감증명서를 제출받은 기관은 날인된 인감과 이 증명서의 인감이 일치하는지 반드시 대조하시기 바랍니다.</li>
+    {% if not online %}<li>인감증명서의 발급사실은 전자민원창구를 통하여 「발급일, 인감증명서 발급사실 확인용 번호, 주민등록번호, 발급기관」으로 확인할 수 있습니다.</li>{% endif %}
+    <li>부동산 매도용 인감증명서는 부동산 매수자란에 매수자의 성명·주민등록번호 및 주소가 적혀 있고 발급신청자가 서명한 경우에만 효력이 있습니다.</li>
+    {% if online %}<li>이 증명서는 전자민원창구를 통하여 발급된 것으로 일반용지로 출력하여 사용할 수 있으며, 문서확인번호로 위·변조 여부를 확인할 수 있습니다.</li>
+    {% else %}<li>이 증명서는 복사방지를 위한 특수용지를 사용하였습니다.</li>{% endif %}
   </ol>
 </div>
 {% endblock %}

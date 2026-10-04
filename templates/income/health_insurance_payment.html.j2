@@ -1,0 +1,55 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block style %}
+table.hp td, table.hp th { padding-top: 3px; padding-bottom: 3px; }
+table.hp tr.sum td, table.hp tr.sum th { font-weight: 700; background: var(--label-bg); }
+{% endblock %}
+{% block content %}
+{{ m.doc_no("issue_no", "발급번호") }}
+{{ m.title("건강보험료 납부확인서") }}
+<h3 class="sec">□ 가입자 정보</h3>
+<table class="kv">
+  <colgroup><col style="width:110px"><col><col style="width:110px"><col></colgroup>
+  <tr><th>성　　명</th><td>{{ f("person.name", label="성명") }}</td>
+    {% if d.person.birth is defined %}<th>생년월일</th><td>{{ f("person.birth", label="생년월일") }}</td>
+    {% else %}<th>주민등록번호</th><td>{{ f("person.rrn", label="주민등록번호") }}</td>{% endif %}</tr>
+  <tr><th>주　　소</th><td colspan="3">{{ f("person.address", label="주소") }}</td></tr>
+  <tr><th>가입자구분</th><td>{{ f("member_kind", label="가입자구분") }}</td><th>대상기간</th><td>{{ f("period", label="대상기간") }}</td></tr>
+  <tr><th>사업장명칭</th><td>{{ f("workplace.name", label="사업장명칭") }}</td><th>사업장관리번호</th><td>{{ f("workplace.mgmt_no", label="사업장관리번호") }}</td></tr>
+  <tr><th>소 재 지</th><td colspan="3">{{ f("workplace.address", label="소재지") }}</td></tr>
+</table>
+<h3 class="sec between"><span>□ 납부내역</span><span class="small muted" style="font-weight:400">(단위 : 원, 가입자 본인부담분)</span></h3>
+<table class="hp compact">
+  <colgroup><col style="width:11%"><col style="width:13%"><col style="width:12%"><col style="width:13%"><col style="width:12%"><col style="width:14%"><col></colgroup>
+  <tr><th rowspan="2">년　월</th><th colspan="2">고지보험료</th><th colspan="3">납부보험료</th><th rowspan="2">납부일자</th></tr>
+  <tr><th>건강보험</th><th>장기요양</th><th>건강보험</th><th>장기요양</th><th>계</th></tr>
+  {% for r in d.rows %}{% set i = loop.index0 %}
+  <tr>
+    <td class="c">{{ f("rows." ~ i ~ ".month", label="년월") }}</td>
+    <td class="num">{{ f("rows." ~ i ~ ".notice_health", label="고지보험료(건강보험)") }}</td>
+    <td class="num">{{ f("rows." ~ i ~ ".notice_ltc", label="고지보험료(장기요양)") }}</td>
+    <td class="num">{{ f("rows." ~ i ~ ".health", label="납부보험료(건강보험)") }}</td>
+    <td class="num">{{ f("rows." ~ i ~ ".ltc", label="납부보험료(장기요양)") }}</td>
+    <td class="num">{{ f("rows." ~ i ~ ".total", label="납부보험료(계)") }}</td>
+    <td class="c">{{ f("rows." ~ i ~ ".paid_date", label="납부일자") }}</td>
+  </tr>
+  {% endfor %}
+  <tr class="sum"><th>합　계</th>
+    <td class="num">{{ f("sum.notice_health", label="고지보험료(건강보험)합계") }}</td><td class="num">{{ f("sum.notice_ltc", label="고지보험료(장기요양)합계") }}</td>
+    <td class="num">{{ f("sum.health", label="납부보험료(건강보험)합계") }}</td><td class="num">{{ f("sum.ltc", label="납부보험료(장기요양)합계") }}</td>
+    <td class="num">{{ f("sum.total", label="납부보험료(계)합계") }}</td><td></td></tr>
+</table>
+<table class="kv">
+  <colgroup><col style="width:110px"><col></colgroup>
+  <tr><th>용　　도</th><td>{{ f("purpose", label="용도") }}</td></tr>
+</table>
+<ul class="note">
+  <li>직장가입자의 보험료는 사업장에서 원천공제하여 납부한 금액이며, 연말정산 및 퇴직정산 금액은 포함되지 않습니다.</li>
+  <li>본 확인서는 국민건강보험공단 홈페이지(www.nhis.or.kr)에서 발급번호로 진위 여부를 확인할 수 있습니다.</li>
+</ul>
+<p class="center mt" style="font-size:calc(var(--fs) + 1px)">위와 같이 보험료를 납부하였음을 확인합니다.</p>
+<div class="issuer" style="margin-top:12px">
+  <div class="date">{{ f("issue_date", label="발급일") }}</div>
+  <div class="org">국민건강보험공단 이사장{{ m.seal("국민건강보험공단이사장인", square=True, size="lg", over=True) }}</div>
+</div>
+{% endblock %}

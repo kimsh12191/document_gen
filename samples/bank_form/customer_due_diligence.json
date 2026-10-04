@@ -1,0 +1,42 @@
+{
+ "document_type": "고객확인서(개인)",
+ "bank": {
+  "name": "농협은행"
+ },
+ "customer": {
+  "name": "김소윤",
+  "name_en": "KIM SOYUN",
+  "rrn": "901121-2030821",
+  "resident_type": "내국인",
+  "gender": "여",
+  "nationality": "대한민국",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+  "mobile": "010-4372-6867",
+  "email": "soyun407@hanmail.net"
+ },
+ "job": {
+  "type": "개인사업자",
+  "company": "넥스트몰",
+  "biz_no": "129-20-96799",
+  "industry": "소매업 / 전자상거래",
+  "opened": "2017.04.04",
+  "work_phone": "02-7824-2394"
+ },
+ "transaction": {
+  "purpose": "사업상 거래",
+  "fund_source": "사업소득",
+  "expected_amount": "1천만원 미만",
+  "frequency": "월 10~20회"
+ },
+ "beneficial_owner": "예",
+ "pep": "아니오",
+ "date": "2025년 11월 29일",
+ "signature": "김소윤",
+ "bank_use": {
+  "risk_grade": "저위험",
+  "id_type": "운전면허증",
+  "branch": "분당지점",
+  "clerk": "서숙린",
+  "manager": "방영은"
+ }
+}

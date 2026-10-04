@@ -1,40 +1,37 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
 {% import "family/_fam.html.j2" as fm with context %}
-{% block style %}{{ fm.fam_style() }}
-table.rr td { text-align: center; }
-table.rr td.l { text-align: left; }
-.rr-top { display: flex; justify-content: space-between; font-size: calc(var(--fs) - 2px); }
-.rr-forge { border: 1px solid #999; padding: 2px 8px; font-size: calc(var(--fs) - 3.5px); color: #555; }
+{% block style %}{{ fm.fam_style() }}{{ fm.resident_style() }}
+table.rr.mem td { padding-top: 3px; padding-bottom: 3px; }
 {% endblock %}
 {% block content %}
-<div class="rr-top">
-  <div>{% if d.officer is defined %}{{ m.doc_no("doc_no", "발급번호") }}{% else %}{{ m.doc_no("doc_no", "문서확인번호") }}{% endif %}</div>
-  <div class="rr-forge">이 용지는 위조식별 표시가 되어 있음</div>
-</div>
-{{ m.title("주 민 등 록 표", sub="( 등　　본 )") }}
+{{ fm.resident_head("등　　본", "제18호서식", "이 등본은 세대별 주민등록표의 원본내용과 틀림없음을 증명합니다.") }}
 <table class="rr">
-  <colgroup><col style="width:120px"><col><col style="width:130px"><col style="width:190px"></colgroup>
+  <colgroup><col style="width:130px"><col><col style="width:120px"><col style="width:170px"></colgroup>
   <tr><th>세대주 성명(한자)</th><td class="l">{{ f("household_head.name", label="세대주성명") }} ({{ f("household_head.name_hanja", label="세대주성명(한자)") }})</td>
-      <th>세대구성<br>사유 및 일자</th><td>{{ f("household_formed.reason", label="세대구성사유") }}<br>{{ f("household_formed.date", label="세대구성일자") }}</td></tr>
+      <th>세 대 구 성<br>사유 및 일자</th><td>{{ f("household_formed.reason", label="세대구성사유") }}<br>{{ f("household_formed.date", label="세대구성일자") }}</td></tr>
 </table>
-<table class="rr">
-  <colgroup><col style="width:70px"><col><col style="width:120px"><col style="width:90px"></colgroup>
-  <tr><th>번호</th><th>주　　　　소 (통/반)</th><th>전입일 / 변동일</th><th>변동사유</th></tr>
-  <tr><td>현주소</td><td class="l">{{ f("current_address.address", label="주소") }}</td><td>{{ f("current_address.moved_in", label="전입일") }}</td><td>{{ f("current_address.reason", label="변동사유") }}</td></tr>
+<table class="rr" style="margin-top:-7px">
+  <colgroup><col style="width:66px"><col><col style="width:150px"><col style="width:84px"></colgroup>
+  <tr><th>번호</th><th>주　　　　　　소&nbsp;&nbsp;(통/반)</th><th>전입일 / 변동일</th><th>변동사유</th></tr>
+  {% for it in d.past_addresses %}{% set i = loop.index0 %}
+  <tr><td>{{ f("past_addresses." ~ i ~ ".no", label="번호") }}</td><td class="l">{{ f("past_addresses." ~ i ~ ".address", label="주소") }}</td><td>{{ f("past_addresses." ~ i ~ ".moved_in", label="전입일/변동일") }}</td><td>{{ f("past_addresses." ~ i ~ ".reason", label="변동사유") }}</td></tr>
+  {% endfor %}
+  <tr><td class="nw">현주소</td><td class="l">{{ f("current_address.address", label="현주소") }}</td><td>{{ f("current_address.moved_in", label="전입일/변동일") }}</td><td>{{ f("current_address.reason", label="변동사유") }}</td></tr>
 </table>
-<table class="rr">
-  <colgroup><col style="width:50px"><col style="width:90px"><col><col style="width:150px"><col style="width:120px"><col style="width:90px"></colgroup>
-  <tr><th>번호</th><th>세대주<br>관계</th><th>성　명 (한자)</th><th>주민등록번호</th><th>전입일 / 변동일</th><th>변동사유</th></tr>
+<table class="rr mem">
+  <colgroup><col style="width:46px"><col style="width:80px"><col><col style="width:150px"><col style="width:84px"></colgroup>
+  <tr><th rowspan="2">번호</th><th rowspan="2">세대주<br>관　계</th><th>성　　명&nbsp;&nbsp;(한　자)</th><th rowspan="2">전입일 / 변동일</th><th rowspan="2">변동사유</th></tr>
+  <tr><th>주 민 등 록 번 호</th></tr>
   {% for it in d.members %}{% set i = loop.index0 %}
   <tr>
-    <td>{{ f("members." ~ i ~ ".no", label="번호") }}</td>
-    <td>{{ f("members." ~ i ~ ".relation", label="세대주관계") }}</td>
+    <td rowspan="2">{{ f("members." ~ i ~ ".no", label="번호") }}</td>
+    <td rowspan="2">{{ f("members." ~ i ~ ".relation", label="세대주관계") }}</td>
     <td>{{ f("members." ~ i ~ ".name", label="성명") }} ({{ f("members." ~ i ~ ".name_hanja", label="한자") }})</td>
-    <td>{{ f("members." ~ i ~ ".rrn", label="주민등록번호") }}</td>
-    <td>{{ f("members." ~ i ~ ".moved_in", label="전입일/변동일") }}</td>
-    <td>{{ f("members." ~ i ~ ".reason", label="변동사유") }}</td>
+    <td rowspan="2">{{ f("members." ~ i ~ ".moved_in", label="전입일/변동일") }}</td>
+    <td rowspan="2">{{ f("members." ~ i ~ ".reason", label="변동사유") }}</td>
   </tr>
+  <tr><td>{{ f("members." ~ i ~ ".rrn", label="주민등록번호") }}</td></tr>
   {% endfor %}
 </table>
 {{ fm.resident_footer() }}

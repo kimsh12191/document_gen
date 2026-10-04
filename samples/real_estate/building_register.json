@@ -1,0 +1,68 @@
+{
+ "document_type": "집합건축물대장(전유부)",
+ "confirm_no": "3074-1771-3052-4202",
+ "unique_no": "2931612000-3-01930004",
+ "building_name": "삼익센트럴아파트 제114동",
+ "unit_name": "114동 1401호",
+ "site_location": "광주광역시 서구 치평동",
+ "jibun": "193-4",
+ "road_address": "광주광역시 서구 내방로 75",
+ "exclusive": [
+  {
+   "kind": "주",
+   "floor": "14층",
+   "structure": "철골철근콘크리트구조",
+   "usage": "아파트",
+   "area": "84.99"
+  }
+ ],
+ "common": [
+  {
+   "kind": "주",
+   "floor": "각층",
+   "structure": "철골철근콘크리트구조",
+   "usage": "계단실,복도,승강기",
+   "area": "17.80"
+  },
+  {
+   "kind": "주",
+   "floor": "지1층",
+   "structure": "철골철근콘크리트구조",
+   "usage": "주차장",
+   "area": "33.02"
+  },
+  {
+   "kind": "주",
+   "floor": "지1층",
+   "structure": "철골철근콘크리트구조",
+   "usage": "기계실,전기실",
+   "area": "4.85"
+  }
+ ],
+ "owner": {
+  "name": "김소윤",
+  "rrn": "901121-2******",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+  "share": "1/1",
+  "change_date": "2025.10.02",
+  "change_cause": "소유권이전"
+ },
+ "house_prices": [
+  {
+   "base_date": "2025.01.01",
+   "price": "337,000,000"
+  },
+  {
+   "base_date": "2024.01.01",
+   "price": "326,000,000"
+  },
+  {
+   "base_date": "2023.01.01",
+   "price": "309,000,000"
+  }
+ ],
+ "officer": "건축행정과",
+ "officer_phone": "062-708-6377",
+ "issue_date": "2025년 11월 29일",
+ "issuer": "광주광역시 서구청장"
+}

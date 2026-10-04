@@ -38,6 +38,8 @@ table.stamp td { width: 64px; height: 48px; text-align: center; padding: 2px; }
 .seal.staff.long { font-size: 8px; letter-spacing: -.03em; }
 .pw { display: inline-block; width: 20px; height: 20px; border: 1px solid var(--border); margin-right: 2px; vertical-align: middle; }
 .chk { margin-right: 8px; }
+.bf-foot { display: flex; justify-content: space-between; font-size: calc(var(--fs) - 4px); color: #555; margin-top: 3px; }
+.bf-page { position: relative; }
 {%- endmacro %}
 
 {# 상단: 은행명 + 서식 메타 #}
@@ -65,4 +67,9 @@ table.stamp td { width: 64px; height: 48px; text-align: center; padding: 2px; }
 {% macro multi(path, options, label=None) -%}
 {% set cur = val(path) %}
 {% for o in options %}<span class="chk">{% if o in cur %}■ {{ f(path ~ '.' ~ cur.index(o), label=label) }}{% else %}□ {{ o }}{% endif %}</span>{% endfor %}
+{%- endmacro %}
+
+{# 하단 서식번호 줄: 서식코드(규격) / 보존기간 등 #}
+{% macro foot(left, right="") -%}
+<div class="bf-foot"><span>{{ left|safe }}</span><span>{{ right|safe }}</span></div>
 {%- endmacro %}

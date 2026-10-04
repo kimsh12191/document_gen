@@ -1,0 +1,68 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block style %}
+.page.a4 { padding: 40px 48px; }
+.mv-head { display: flex; justify-content: space-between; font-size: calc(var(--fs) - 2px); color: #222; }
+table.mv { border: 2px solid var(--border); }
+table.mv th { font-size: calc(var(--fs) - 1.5px); }
+.mv-cert { margin: 16px 0 4px; text-align: center; font-size: calc(var(--fs) + 1px); line-height: 1.7; }
+{% endblock %}
+{% block content %}
+<div class="mv-head">
+  <div>■ 주민등록법 시행규칙 [별지 제15호의2서식] &lt;개정 2023. 12. 22.&gt;</div>
+</div>
+<table class="mv" style="width:auto;margin:4px 0 0">
+  <tr><th style="width:80px">발급번호</th><td style="width:230px">{{ f("issue_no", label="발급번호") }}</td><th style="width:80px">발급일자</th><td style="width:140px" class="c">{{ f("issue_date", label="발급일자") }}</td></tr>
+</table>
+<h1 class="title">전입세대확인서<span class="sub">( {{ f("kind", label="열람·교부구분") }} )</span></h1>
+<table class="mv">
+  <colgroup><col style="width:150px"><col></colgroup>
+  <tr><th>건물 또는 시설 소재지</th><td>{{ f("address", label="건물또는시설소재지") }}<br><span class="small muted">(지번) {{ f("jibun_address", label="지번주소") }}</span></td></tr>
+</table>
+<h3 class="sec">세대주 및 최초 전입자 현황</h3>
+<table class="mv">
+  <colgroup><col style="width:44px"><col><col><col><col><col><col><col style="width:68px"></colgroup>
+  <tr><th rowspan="2">순번</th><th colspan="3">세 대 주</th><th colspan="3">최 초 전 입 자</th><th rowspan="2">동거인<br>수</th></tr>
+  <tr><th>성 명</th><th>전입일자</th><th>등록구분</th><th>성 명</th><th>전입일자</th><th>등록구분</th></tr>
+  {% for h in d.households %}{% set pre = "households." ~ loop.index0 ~ "." %}
+  <tr>
+    <td class="c">{{ f(pre ~ "no", label="순번") }}</td>
+    <td class="c">{{ f(pre ~ "head_name", label="세대주성명") }}</td>
+    <td class="c">{{ f(pre ~ "move_in_date", label="전입일자") }}</td>
+    <td class="c">{{ f(pre ~ "reg_type", label="등록구분") }}</td>
+    <td class="c">{{ f(pre ~ "first_name", label="최초전입자성명") }}</td>
+    <td class="c">{{ f(pre ~ "first_date", label="최초전입일자") }}</td>
+    <td class="c">{{ f(pre ~ "first_reg_type", label="최초전입자등록구분") }}</td>
+    <td class="c">{{ f(pre ~ "cohabitants", label="동거인수") }}</td>
+  </tr>
+  {% endfor %}
+  {% for _ in range(3 - d.households|length) %}<tr>{% for _ in range(8) %}<td>&nbsp;</td>{% endfor %}</tr>{% endfor %}
+</table>
+<h3 class="sec">동거인 사항</h3>
+<table class="mv">
+  <colgroup><col style="width:44px"><col><col><col></colgroup>
+  <tr><th>순번</th><th>성 명</th><th>전입일자</th><th>등록구분</th></tr>
+  {% set co = d.cohabitants if d.cohabitants is defined else [] %}
+  {% for c in co %}{% set pre = "cohabitants." ~ loop.index0 ~ "." %}
+  <tr><td class="c">{{ f(pre ~ "no", label="순번") }}</td><td class="c">{{ f(pre ~ "name", label="동거인성명") }}</td>
+      <td class="c">{{ f(pre ~ "move_in_date", label="전입일자") }}</td><td class="c">{{ f(pre ~ "reg_type", label="등록구분") }}</td></tr>
+  {% else %}
+  <tr><td colspan="4" class="c">해당 없음</td></tr>
+  {% endfor %}
+</table>
+<div class="note">- 이하 여백 -</div>
+<h3 class="sec">신청인</h3>
+{{ m.kv([["성　명", "applicant.name"], ["주민등록번호", "applicant.rrn"], ["주　소", "applicant.address", True],
+         ["열람·교부 목적", "applicant.purpose", True]], cols=2, label_w="110px", cls="mv") }}
+<div class="mv-cert">「주민등록법」 제29조의2 및 같은 법 시행규칙 제14조에 따라<br>위와 같이 전입세대를 확인합니다.</div>
+<div class="issuer" style="margin-top:14px">
+  <div class="date">{{ f("view_date", label="발급일") }}</div>
+  <div class="org">{{ f("issuer", label="발급기관") }}{{ m.seal("동장의인" if val("issuer").endswith("동장") else "읍면장인", square=True, over=True) }}</div>
+</div>
+<div class="note mt">
+  <div>※ 세대주 및 최초 전입자의 성명은 일부를 '*'로 표시합니다.</div>
+  <div>※ 동거인은 주민등록표상 세대주와 동거하는 사람(세대원이 아닌 사람)이며, 외국인 및 외국국적동포는 세대주 또는 동거인으로 표시되지 않습니다.</div>
+  <div>※ 등록구분: 거주자, 거주불명자, 재외국민(주민등록이 된 사람) 중 해당 사항을 표시합니다.</div>
+  <div>※ 이 확인서는 해당 건물에 주민등록이 된 세대만 표시되며 임대차 관계를 증명하지 않습니다.</div>
+</div>
+{% endblock %}

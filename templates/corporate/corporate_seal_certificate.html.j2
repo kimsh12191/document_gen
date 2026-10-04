@@ -21,7 +21,7 @@ table.ic td.seal-cell .lbl { font-weight:600; margin-bottom:8px; }
 <div class="subt">( 법　인 )</div>
 <table class="ic">
   <tr><th>등 기 번 호</th><td>{{ f("reg_no", label="등기번호") }}</td>
-      <td class="seal-cell" rowspan="7"><div class="lbl">인　　감</div>{{ cs.corp_seal(d.company_name.replace("(주)", "주식회사 "), "대표이사인", 128, "main") }}</td></tr>
+      <td class="seal-cell" rowspan="7"><div class="lbl">인　　감</div>{{ cs.corp_seal(d.company_name, "대표이사인", 128, "main") }}</td></tr>
   <tr><th>등 록 번 호</th><td>{{ f("corp_reg_no", label="등록번호") }}</td></tr>
   <tr><th>상　　　호</th><td>{{ f("company_name", label="상호") }}</td></tr>
   <tr><th>본　　　점</th><td>{{ f("head_office", label="본점") }}</td></tr>
@@ -29,14 +29,14 @@ table.ic td.seal-cell .lbl { font-weight:600; margin-bottom:8px; }
   <tr><th>주민등록번호</th><td>{{ f("rep_rrn", label="주민등록번호") }}</td></tr>
   <tr><th>용　　　도</th><td>{{ f("purpose", label="용도") }}</td></tr>
 </table>
-<div class="stmt">이 증명서는 신고된 인감과 틀림없음을 증명합니다.</div>
+<div class="stmt">이 인감은 제출되어 있는 인감과 틀림없음을 증명합니다.</div>
 <div class="iss">
   <div class="dt">{{ f("issue_date", label="발급일") }}</div>
   <div class="org">{{ f("issue_office", label="발급기관") }}&nbsp;&nbsp;등기관&nbsp;&nbsp;{{ f("registrar", label="등기관") }}{{ m.seal("등기관인", square=True, over=True) }}</div>
 </div>
 <div class="foot">
   <div>수수료 {{ f("fee", label="수수료") }} 영수함</div>
-  <div>* 이 증명서는 신고된 인감과 대조하여 발급한 것이며, 인감의 진위 여부는 발급확인 절차를 통하여 확인할 수 있습니다.</div>
+  <div>* 이 증명서는 등기소에 제출되어 있는 인감과 대조하여 발급한 것입니다.</div>
   <div>* 인감증명서는 발급일로부터 3개월 이내의 것을 제출하시기 바랍니다.</div>
 </div>
 {% endblock %}

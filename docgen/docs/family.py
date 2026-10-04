@@ -101,13 +101,16 @@ def _member(p: Profile, per: Person, who: str, label: str, masked: bool) -> dict
 
 def _family_issuer(rng: random.Random, p: Profile) -> dict:
     """가족관계등록부 증명서 발급 정보 (방문 / 인터넷)."""
-    if rng.random() < 0.4:
-        return {"issuer": "대법원 전자가족관계등록시스템", "doc_check_no": issue_no(rng, 16)}
+    time = f"{rng.randint(9, 17):02d}시 {rng.randint(0, 59):02d}분"
+    if rng.random() < 0.4:  # 전자가족관계등록시스템(인터넷) 발급본은 전산운영책임관 명의
+        return {"issuer": "법원행정처 전산정보중앙관리소 전산운영책임관",
+                "issue_time": f"{rng.randint(0, 23):02d}시 {rng.randint(0, 59):02d}분",
+                "applicant": p.person.name, "doc_check_no": issue_no(rng, 16)}
     a = p.person.address
     office = district_office(a) if rng.random() < 0.7 else " ".join(x for x in (a.sido, a.sigungu, a.dong + "장") if x)
     return {
         "issuer": office,
-        "issue_time": f"{rng.randint(9, 17):02d}시 {rng.randint(0, 59):02d}분",
+        "issue_time": time,
         "officer": K.make_name(rng, rng.choice("MF"))[0],
         "officer_phone": K.landline(rng, a.sido),
         "applicant": p.person.name,
@@ -150,7 +153,7 @@ def resident_registration_copy(p: Profile, rng: random.Random) -> dict:
     masked = rng.random() < 0.5
     head_key = _head(p)
     head = p.person if head_key == "person" else p.spouse
-    dfmt = rng.choice(["dash", "dot"])
+    dfmt = "dash" if rng.random() < 0.85 else "dot"  # 정부24·주민센터 발급본은 2015-03-02 표기
     members = []
 
     def add(per: Person, rel: str, d: date, reason: str):
@@ -175,10 +178,18 @@ def resident_registration_copy(p: Profile, rng: random.Random) -> dict:
             add(c, rel, c.birth + timedelta(days=rng.randint(3, 25)), "출생등록")
         else:
             add(c, rel, moved_in, "전입")
+    # 과거의 주소 변동 사항 포함 발급(선택): 세대주 본인의 이전 주소 최근 1~3건
+    past = []
+    if head_key == "person" and len(p.address_history) > 1 and rng.random() < 0.35:
+        prev = p.address_history[:-1][-rng.randint(1, 3):]
+        for i, (d, a) in enumerate(prev):
+            past.append({"no": str(i + 1), "address": a.road_full if d.year >= 2014 else f"{a.jibun_full} {a.detail}".strip(),
+                         "moved_in": D(d, dfmt), "reason": "전입"})
     out = {
         "household_head": {"name": head.name, "name_hanja": head.hanja},
         "household_formed": {"reason": rng.choice(["전입세대구성", "전입세대구성", "세대분리"] + (["세대합가"] if len(members) > 1 else [])),
                               "date": D(moved_in, dfmt)},
+        "past_addresses": past,
         "current_address": {"address": home.road_full, "moved_in": D(moved_in, dfmt), "reason": "전입"},
         "members": members,
     }
@@ -191,7 +202,7 @@ def resident_registration_abstract(p: Profile, rng: random.Random) -> dict:
     """주민등록표 초본 (개인 인적사항 + 주소 변동 이력)."""
     per = p.person
     masked = rng.random() < 0.4
-    dfmt = rng.choice(["dash", "dot"])
+    dfmt = "dash" if rng.random() < 0.85 else "dot"
     head_key = _head(p)
     married = _marriage_date(p) if p.spouse else None
     hist = p.address_history
@@ -210,8 +221,8 @@ def resident_registration_abstract(p: Profile, rng: random.Random) -> dict:
             "no": str(i + 1),
             "address": a.road_full if d.year >= 2014 or rng.random() < 0.5 else f"{a.jibun_full} {a.detail}".strip(),
             "moved_in": D(d, dfmt),
-            "changed": D(d + timedelta(days=rng.randint(0, 12)), dfmt),
-            "reason": "전입" if i else rng.choice(["전입", "최초 주소"]),
+            "changed": D(d + timedelta(days=rng.choice([0, 0, rng.randint(1, 13)])), dfmt),  # 변동일=신고일(14일 이내)
+            "reason": "전입",
             "head_relation": rel,
             "status": "거주자",
         })

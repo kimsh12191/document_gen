@@ -1,0 +1,35 @@
+{
+ "document_type": "자동이체 신청서",
+ "bank": "농협은행",
+ "biller": {
+  "name": "농협은행 주식회사",
+  "fee_type": "대출이자(전세자금대출)"
+ },
+ "branch": "분당지점",
+ "kind": "변경",
+ "target": "대출이자",
+ "loan_product": "HUG 전세보증금대출",
+ "loan_account": "715-4432-7750-59",
+ "applicant": {
+  "name": "김소윤",
+  "birth": "901121",
+  "phone": "010-4372-6867",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호"
+ },
+ "debit": {
+  "bank": "농협은행",
+  "account": "628-8975-1402-61",
+  "holder": "김소윤",
+  "holder_birth": "901121",
+  "holder_phone": "010-4372-6867"
+ },
+ "relation": "본인",
+ "transfer_day": "매월 10일",
+ "start_month": "2026년 1월분부터",
+ "amount": "청구금액 전액 (약 913,470원)",
+ "privacy_consent": "동의함",
+ "third_party_consent": "동의함",
+ "apply_date": "2025.12.07",
+ "signature": "김소윤",
+ "holder_signature": "김소윤"
+}

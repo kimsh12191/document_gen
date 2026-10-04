@@ -1,0 +1,47 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block style %}
+table.dc td, table.dc th { font-size: calc(var(--fs) - 1px); padding-left: 4px; padding-right: 4px; }
+table.dc tr.sum th, table.dc tr.sum td { font-weight: 700; background: var(--label-bg); }
+{% endblock %}
+{% block content %}
+{{ m.doc_no("cert_no", "증명서번호") }}
+{{ m.title("부 채 증 명 서") }}
+{{ m.kv([["차 주 명", "borrower.name"], ["주민등록번호", "borrower.rrn"], ["주　　소", "borrower.address", True],
+         ["기 준 일", "base_date", True]], cols=2, label_w="110px") }}
+<h3 class="sec">대출내역</h3>
+<table class="dc">
+  <colgroup><col style="width:17%"><col style="width:19%"><col style="width:12%"><col style="width:12%"><col style="width:14%"><col style="width:14%"><col></colgroup>
+  <tr><th>대출과목</th><th>계좌번호</th><th>대출일</th><th>만기일</th><th>대출금액</th><th>대출잔액</th><th>금리(연)</th></tr>
+  {% for r in d.loans %}{% set i = loop.index0 %}
+  <tr>
+    <td class="c">{{ f("loans." ~ i ~ ".subject", label="대출과목") }}</td>
+    <td class="c">{{ f("loans." ~ i ~ ".account_no", label="계좌번호") }}</td>
+    <td class="c">{{ f("loans." ~ i ~ ".loan_date", label="대출일") }}</td>
+    <td class="c">{{ f("loans." ~ i ~ ".maturity", label="만기일") }}</td>
+    <td class="num">{{ f("loans." ~ i ~ ".amount", label="대출금액") }}</td>
+    <td class="num">{{ f("loans." ~ i ~ ".balance", label="대출잔액") }}</td>
+    <td class="c">{{ f("loans." ~ i ~ ".rate", label="금리") }}</td>
+  </tr>
+  {% endfor %}
+  {% for _ in range(4 - d.loans|length) %}<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>{% endfor %}
+  <tr class="sum"><th colspan="4">합　　계</th><td class="num">{{ f("total_amount", label="대출금액합계") }}</td><td class="num">{{ f("total_balance", label="대출잔액합계") }}</td><td></td></tr>
+  <tr><th colspan="2">대출잔액(한글)</th><td colspan="5" class="bold">{{ f("total_korean", label="대출잔액합계(한글)") }}</td></tr>
+</table>
+<table>
+  <colgroup><col style="width:110px"><col style="width:22%"><col style="width:110px"><col></colgroup>
+  <tr><th>보증채무</th><td>{{ m.choice("guarantee", ["있음", "없음"], label="보증채무") }}</td><th>연체여부</th><td>{{ f("overdue", label="연체여부") }}</td></tr>
+  {% if d.guarantee_detail is defined %}<tr><th>보증내역</th><td colspan="3">{{ f("guarantee_detail", label="보증내역") }}</td></tr>{% endif %}
+  <tr><th>용　　도</th><td colspan="3">{{ f("purpose", label="용도") }}</td></tr>
+</table>
+<p class="center mt-l" style="font-size:calc(var(--fs) + 2px)">위와 같이 당행에 대한 부채가 있음을 증명합니다.</p>
+<div class="issuer">
+  <div class="date">{{ f("issue_date", label="발급일") }}</div>
+  <div class="org">{{ f("issuer", label="발급점") }}{{ m.seal(val("issuer").split()[-1] ~ "인", square=True, over=True) }}</div>
+</div>
+<ol class="note mt-l">
+  <li>이 증명서는 기준일 현재 당행 대출금 잔액을 증명하는 것으로, 이자 및 연체이자 등은 포함되지 않습니다.</li>
+  <li>대출금액은 최초 대출(약정)금액이며, 한도대출의 경우 약정한도를 표시합니다.</li>
+  <li>이 증명서는 위 용도 외의 목적으로 사용할 수 없습니다.</li>
+</ol>
+{% endblock %}

@@ -1,0 +1,42 @@
+{
+ "document_type": "종합소득세 과세표준확정신고 및 납부계산서",
+ "tax_year": "2024",
+ "residency": "거주자",
+ "nationality": "내국인",
+ "taxpayer": {
+  "name": "김소윤",
+  "rrn": "901121-2******",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+  "email": "soyun407@hanmail.net",
+  "biz_phone": "02-7824-2394",
+  "mobile": "010-4372-6867"
+ },
+ "filing_type": "추계-기준율",
+ "bookkeeping": "간편장부대상자",
+ "filing_kind": "정기신고",
+ "refund_account": {
+  "bank": "농협은행",
+  "number": "628-8975-1402-61"
+ },
+ "national": {
+  "total_income": "15,122,480",
+  "deduction": "10,961,010",
+  "base": "4,161,470",
+  "rate": "6%",
+  "computed": "249,688",
+  "reduction": "0",
+  "credit": "90,000",
+  "determined": "159,688",
+  "penalty": "0",
+  "additional": "0",
+  "total": "159,688",
+  "prepaid": "74,380",
+  "payable": "85,300",
+  "special_deduct": "0",
+  "special_add": "0",
+  "installment": "0",
+  "due_payable": "85,300"
+ },
+ "filed_date": "2025년 05월 02일",
+ "tax_office": "서광주세무서장"
+}

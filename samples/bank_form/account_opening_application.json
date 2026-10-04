@@ -1,0 +1,45 @@
+{
+ "document_type": "예금거래신청서",
+ "bank": {
+  "name": "농협은행"
+ },
+ "customer": {
+  "name": "김소윤",
+  "name_en": "KIM SOYUN",
+  "rrn": "901121-2030821",
+  "zipcode": "61092",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+  "mobile": "010-4372-6867",
+  "email": "soyun407@hanmail.net",
+  "job": "주부"
+ },
+ "product": {
+  "type": "정기예금",
+  "name": "정기예금(일반)",
+  "amount": "140,000,000원",
+  "term": "6개월",
+  "interest_payment": "월이자지급",
+  "linked_account": "628-8975-1402-61"
+ },
+ "passbook": "미발행",
+ "seal_type": "인감",
+ "check_card": "미신청",
+ "ebank": {
+  "internet": "미신청",
+  "mobile": "미신청",
+  "otp": "미신청"
+ },
+ "alert": "앱 푸시",
+ "mail_to": "이메일",
+ "salary_transfer": "미지정",
+ "protection_limit": "1억원",
+ "signature": "김소윤",
+ "date": "2025.11.29",
+ "bank_use": {
+  "account_no": "895-2113-2533-03",
+  "branch": "분당지점",
+  "id_type": "주민등록증",
+  "clerk": "명환성",
+  "manager": "김영재"
+ }
+}

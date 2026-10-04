@@ -1,0 +1,79 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block style %}
+.pb { display: flex; margin: 10px auto 0; width: 100%; height: 450px; border: 1px solid #9aa3ad; border-radius: 6px;
+      background: linear-gradient(180deg, #f4f6f2 0%, #eef1ec 100%); box-shadow: 2px 3px 0 #c8c8c8; position: relative; }
+.pb::after { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; border-left: 1px dashed #a9b0b6; }
+.pb-l, .pb-r { flex: 1; padding: 18px 20px; position: relative; overflow: hidden; }
+.pb-l::before { content: ""; position: absolute; inset: 0;
+      background: repeating-linear-gradient(45deg, rgba(0,0,0,.025) 0 6px, transparent 6px 12px); }
+.pb-bank { font-size: 22px; font-weight: 800; color: var(--accent); letter-spacing: .08em; }
+.pb-prod { font-size: 15px; font-weight: 700; margin: 4px 0 12px; }
+.pb-notice { font-size: 10.5px; line-height: 1.55; color: #333; }
+.pb-seal { position: absolute; left: 20px; bottom: 20px; width: 150px; height: 120px; border: 1px solid #555;
+      display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 4px; background: #fff; }
+.pb-seal .h { font-size: 11px; border-bottom: 1px solid #555; width: 100%; text-align: center; }
+.pb-r table.plain td { padding: 4px 4px; font-size: 13px; }
+.pb-r table.plain td:first-child { color: #444; width: 72px; white-space: nowrap; }
+.pb-acct { font-size: 18px; font-weight: 700; letter-spacing: .04em; }
+table.pbt { font-size: 10px; margin-top: 12px; }
+table.pbt th, table.pbt td { border: 0; border-bottom: 1px solid #b9c0c6; padding: 3px 2px; background: none; font-weight: 500; }
+table.pbt th { color: #555; border-bottom: 1px solid #555; }
+.copy-note { margin-top: 18px; font-size: 13px; color: #444; }
+.pr-head { border-bottom: 2px solid var(--accent); padding-bottom: 6px; margin-bottom: 18px; }
+.pr-bank { font-weight: 800; color: var(--accent); font-size: 18px; letter-spacing: .05em; }
+.pr-cover { border: 1px solid #9aa3ad; border-radius: 8px; padding: 26px 34px; background: linear-gradient(180deg, #f7f8f5, #eef1ec);
+      box-shadow: 2px 3px 0 #d0d0d0; }
+.pr-top { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #b9c0c6; padding-bottom: 8px; margin-bottom: 8px; }
+.pr-tag { border: 1px solid var(--accent); color: var(--accent); padding: 2px 10px; font-size: 13px; border-radius: 3px; }
+.pr-t td { padding: 7px 6px !important; font-size: 15px; }
+.pr-t td:first-child { color: #444; width: 110px; }
+{% endblock %}
+{% block content %}
+{% if d.first_tx is defined %}
+<div class="pb">
+  <div class="pb-l">
+    <div class="pb-bank">{{ f("bank", label="은행명") }}</div>
+    <div class="pb-prod">{{ f("product", label="상품명") }}</div>
+    <div class="pb-notice">
+      · 이 통장은 예금자보호법에 따라 예금보험공사가 보호하되, 보호한도는 본 은행에 있는 귀하의 모든 예금보호대상 금융상품의 원금과 소정의 이자를 합하여 1인당 "최고 1억원"이며, 1억원을 초과하는 나머지 금액은 보호하지 않습니다.<br>
+      · 통장과 도장(서명)은 분리하여 보관하시고, 분실하신 경우 즉시 거래점에 신고하여 주십시오.<br>
+      · 통장을 타인에게 양도·대여하는 행위는 관련 법률에 따라 처벌받을 수 있습니다.
+    </div>
+    <div class="pb-seal"><div class="h">신고인감(서명)</div>{{ m.seal(val("holder"), size="sm") }}<div></div></div>
+  </div>
+  <div class="pb-r">
+    <div class="right small muted">통장번호 {{ f("passbook_no", label="통장번호") }}</div>
+    <table class="plain">
+      <tr><td>계좌번호</td><td class="pb-acct">{{ f("account_no", label="계좌번호") }}</td></tr>
+      <tr><td>고 객 명</td><td style="font-size:16px;font-weight:700">{{ f("holder", label="예금주") }} 님</td></tr>
+      <tr><td>신 규 일</td><td>{{ f("opened", label="신규일") }}</td></tr>
+      <tr><td>취 급 점</td><td>{{ f("branch", label="지점명") }}</td></tr>
+      <tr><td>전화번호</td><td>{{ f("branch_phone", label="지점전화번호") }}</td></tr>
+    </table>
+    <table class="pbt">
+      <tr><th>거래일</th><th>적요</th><th>찾으신금액</th><th>맡기신금액</th><th>잔액</th></tr>
+      <tr><td class="c">{{ f("first_tx.date", label="거래일") }}</td><td class="c">{{ f("first_tx.memo", label="적요") }}</td><td class="num"></td>
+          <td class="num">{{ f("first_tx.amount", label="맡기신금액") }}</td><td class="num">{{ f("first_tx.balance", label="잔액") }}</td></tr>
+      {% for _ in range(4) %}<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>{% endfor %}
+    </table>
+  </div>
+</div>
+{% else %}
+<div class="pr-head between"><span class="pr-bank">{{ val("bank") }}</span><span class="small muted">출력일 : {{ f("issue_date", label="출력일") }}</span></div>
+<div class="pr-cover">
+  <div class="pr-top"><span class="pb-bank">{{ f("bank", label="은행명") }}</span><span class="pr-tag">통장사본</span></div>
+  <div class="pb-prod">{{ f("product", label="상품명") }}</div>
+  <table class="plain pr-t">
+    <tr><td>계좌번호</td><td class="pb-acct">{{ f("account_no", label="계좌번호") }}</td></tr>
+    <tr><td>예 금 주</td><td style="font-size:18px;font-weight:700">{{ f("holder", label="예금주") }} 님</td></tr>
+    <tr><td>신 규 일</td><td>{{ f("opened", label="신규일") }}</td></tr>
+    <tr><td>관 리 점</td><td>{{ f("branch", label="관리점") }} ({{ f("branch_phone", label="관리점전화번호") }})</td></tr>
+  </table>
+</div>
+<ul class="note mt">
+  <li>본 통장사본은 인터넷뱅킹에서 출력한 것으로, 출력 시점의 계좌 정보를 기준으로 합니다.</li>
+  <li>해지된 계좌 및 거래가 제한된 계좌는 출력되지 않습니다.</li>
+</ul>
+{% endif %}
+{% endblock %}

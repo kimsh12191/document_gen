@@ -1,48 +1,58 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
+{# 지방세징수법 시행규칙 [별지 제1호서식] 지방세 납세증명서 (정부24·위택스 발급본) #}
 {% block style %}
-.ht-title { text-align: center; margin: 4px 0 14px; }
-.ht-title h1 { margin: 0; font-size: var(--title); letter-spacing: .3em; }
-table.tp th { width: 1%; }
-.stmt { margin: 28px 6px 0; line-height: 1.7; font-size: calc(var(--fs) + 0.5px); }
-.foot { margin-top: 34px; border-top: 1px solid var(--border); padding-top: 8px; }
+table.hd { margin: 0; }
+table.hd td { border: 0; padding: 2px 4px; font-size: calc(var(--fs) - 1px); vertical-align: bottom; }
+table.hd h1 { margin: 0; font-size: var(--title); letter-spacing: .15em; text-align: center; white-space: nowrap; }
+table.tp { border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); border-left: 0; border-right: 0; }
+table.tp th, table.tp td { padding: 7px 8px; }
+table.tp tr > :first-child { border-left: 0; } table.tp tr > :last-child { border-right: 0; }
+table.tp th.v { writing-mode: vertical-rl; letter-spacing: .4em; padding: 6px 2px; }
+table.tp th.sec { text-align: left; padding-left: 10px; }
+table.tp td.nil { text-align: center; padding: 14px 6px; }
+.stmt { margin: 26px 6px 0; line-height: 1.8; font-size: calc(var(--fs) + 0.5px); text-indent: 1em; }
+.foot { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 8px; }
 {% endblock %}
 {% block content %}
 {% set gov24 = (val("issue_no")[-1]|int) % 2 == 0 %}
-<div class="gov-head"><span>■ 지방세징수법 시행규칙 [별지 제1호서식]</span><span>(앞쪽)</span></div>
-<table class="outer">
-  <colgroup><col style="width:120px"><col><col style="width:120px"><col style="width:120px"></colgroup>
-  <tr><th>발급번호</th><td>{{ f("issue_no", label="발급번호") }}</td><th>처리기간</th><td class="c">즉시</td></tr>
+{% set biz = d.taxpayer.biz_no is defined %}
+<div class="gov-head"><span>■ 지방세징수법 시행규칙 [별지 제1호서식]</span><span></span></div>
+<table class="hd">
+  <colgroup><col style="width:27%"><col><col style="width:18%"></colgroup>
+  <tr><td>발급번호<br>{{ f("issue_no", label="발급번호") }}</td>
+    <td><h1>지방세 납세증명서</h1></td>
+    <td class="right">처리기간<br>즉시</td></tr>
 </table>
-<div class="ht-title"><h1>지방세 납세증명서</h1></div>
-<table class="tp outer">
-  <colgroup><col style="width:70px"><col style="width:140px"><col><col style="width:130px"><col style="width:170px"></colgroup>
-  <tr><th rowspan="2">납세자</th>
-    <th>성명(법인명)</th><td>{{ f("taxpayer.name", label="성명") }}</td>
-    <th>주민등록번호<br>(법인등록번호)</th><td>{{ f("taxpayer.rrn", label="주민등록번호") }}</td></tr>
-  <tr><th>주소(영업소)</th><td colspan="3">{{ f("taxpayer.address", label="주소") }}</td></tr>
+<table class="tp">
+  <colgroup><col style="width:44px"><col style="width:132px"><col><col style="width:150px"><col style="width:170px"></colgroup>
+  <tr><th rowspan="3" class="v">납세자</th>
+    <th>성명(법인명)</th><td>{{ f("taxpayer.name", label="성명(법인명)") }}</td>
+    <th>주민등록번호<br>(법인등록번호)</th><td>{{ f("taxpayer.rrn", label="주민등록번호(법인등록번호)") }}</td></tr>
+  <tr><th>상　호</th><td>{% if biz %}{{ f("taxpayer.trade_name", label="상호") }}{% endif %}</td>
+    <th>사업자등록번호</th><td>{% if biz %}{{ f("taxpayer.biz_no", label="사업자등록번호") }}{% endif %}</td></tr>
+  <tr><th>주소(영업소)</th><td colspan="3">{{ f("taxpayer.address", label="주소(영업소)") }}</td></tr>
+  <tr><th colspan="2">증명서 사용목적</th><td colspan="3">{{ f("purpose", label="증명서사용목적") }}</td></tr>
   <tr><th colspan="2">증명서 유효기간</th><td colspan="3">{{ f("valid_period", label="증명서유효기간") }}</td></tr>
-  <tr><th colspan="2">사용목적</th><td colspan="3">{{ f("purpose", label="사용목적") }}</td></tr>
 </table>
-<table class="outer compact">
-  <tr><th colspan="6" style="text-align:left">징수유예등 또는 체납처분유예의 명세</th></tr>
-  <tr><th>과세연도</th><th>세목</th><th>납부기한</th><th>지방세</th><th>가산금</th><th>유예기간</th></tr>
-  <tr><td colspan="6" class="c" style="padding:12px">{{ f("deferral", label="징수유예등또는체납처분유예의명세") }}</td></tr>
+<table class="tp compact">
+  <colgroup><col style="width:16%"><col style="width:20%"><col style="width:18%"><col style="width:18%"><col></colgroup>
+  <tr><th colspan="5" class="sec">징수유예등 또는 체납처분유예의 내역</th></tr>
+  <tr><th>과세연도</th><th>세　목</th><th>납부기한</th><th>세　액</th><th>유예기간</th></tr>
+  <tr><td colspan="5" class="nil">{{ f("deferral", label="징수유예등또는체납처분유예의내역") }}</td></tr>
 </table>
-<table class="outer">
-  <colgroup><col style="width:210px"><col></colgroup>
+<table class="tp">
+  <colgroup><col style="width:176px"><col></colgroup>
   <tr><th>체납액</th><td>{{ f("arrears", label="체납액") }}</td></tr>
 </table>
-<p class="stmt">「지방세징수법」 제5조 및 같은 법 시행령 제6조에 따라 발급일 현재 위의 징수유예액 등을 제외하고는 다른 체납액이 없음을 증명합니다.</p>
+<p class="stmt">「지방세징수법」 제5조 및 같은 법 시행령 제6조에 따라 발급일 현재 위의 징수유예등 또는 체납처분유예액을 제외하고는 다른 체납액이 없음을 증명합니다.</p>
 {{ m.issuer("issue_date", org_path="issuer", seal_text=val("issuer").split()[-1] ~ "인") }}
 <div class="foot note">
+  <div>※ 이 증명서는 발급일 현재 전국 지방자치단체의 지방세 체납 여부를 확인하여 발급한 것이며, 유효기간 이내에 한하여 효력이 있습니다.</div>
   {% if gov24 %}
-  <div>※ 이 증명서는 정부24(www.gov.kr)에서 발급되었습니다.</div>
-  <div>※ 발급일로부터 90일까지 정부24 [문서확인] 메뉴에서 발급번호를 입력하여 위·변조 여부를 확인할 수 있습니다.</div>
+  <div>※ 이 증명서는 정부24(www.gov.kr)에서 발급되었으며, 정부24 [문서확인] 메뉴에서 발급번호를 입력하여 위ㆍ변조 여부를 확인할 수 있습니다.</div>
   {% else %}
-  <div>※ 이 증명서는 위택스(www.wetax.go.kr)에서 인터넷으로 발급되었습니다.</div>
-  <div>※ 위택스 [증명서 진위확인] 메뉴에서 발급번호를 입력하여 진위 여부를 확인할 수 있습니다.</div>
+  <div>※ 이 증명서는 위택스(www.wetax.go.kr)에서 발급되었으며, 위택스 [증명서 진위확인] 메뉴에서 발급번호를 입력하여 진위 여부를 확인할 수 있습니다.</div>
   {% endif %}
-  <div>※ 지방세 납세증명서는 전국 지방자치단체의 지방세 체납 여부를 확인하여 발급하며, 유효기간 이내에 한하여 효력이 있습니다.</div>
 </div>
 {% endblock %}

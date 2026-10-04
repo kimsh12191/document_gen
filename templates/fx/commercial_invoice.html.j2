@@ -1,0 +1,75 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% set lf = ["'Liberation Sans'", "'Liberation Serif'", "'DejaVu Sans'", "Arial", "'Times New Roman'", "'FreeSans'"][style.page_pad % 6] %}
+{% block style %}
+.page { font-family: {{ lf|safe }}, var(--font); font-size: calc(var(--fs) - 1.5px); padding: 44px 46px; }
+.ci-title { text-align: center; font-size: 24px; font-weight: 700; letter-spacing: .12em; margin: 0 0 10px; text-decoration: underline; }
+table.ci { border: 2px solid var(--border); margin: 0; table-layout: fixed; }
+table.ci td { vertical-align: top; padding: 3px 6px; height: 1px; }
+.lb { font-size: calc(var(--fs) - 4px); color: #333; display: block; margin-bottom: 1px; }
+.v { font-weight: 600; }
+table.gd { border: 2px solid var(--border); border-top: 0; margin: 0; table-layout: fixed; }
+table.gd th { font-size: calc(var(--fs) - 3.5px); padding: 3px 4px; background: var(--label-bg); }
+table.gd td { border-top: 0; border-bottom: 0; vertical-align: top; padding: 3px 5px; }
+table.gd tr.tot td { border-top: 1.5px solid var(--border); border-bottom: 1.5px solid var(--border); font-weight: 700; }
+table.gd tr.fill td { height: 100%; }
+.marks { white-space: nowrap; font-size: calc(var(--fs) - 3px); }
+.sign { margin-top: 26px; margin-left: auto; width: 300px; text-align: left; }
+.sign .line { border-bottom: 1px solid #000; height: 40px; position: relative; }
+.sign .sig { position: absolute; left: 20px; bottom: 4px; font-style: italic; font-family: 'Liberation Serif', serif; font-size: 20px; color: #1a2c6b; }
+{% endblock %}
+{% block content %}
+<div class="ci-title">COMMERCIAL INVOICE</div>
+<table class="ci">
+  <colgroup><col style="width:28%"><col style="width:27%"><col style="width:22.5%"><col style="width:22.5%"></colgroup>
+  <tr>
+    <td colspan="2"><span class="lb">① Shipper/Exporter</span><span class="v">{{ f("shipper.name", label="Shipper/Exporter") }}</span><br>{{ f("shipper.address", label="Shipper Address") }}</td>
+    <td colspan="2"><span class="lb">⑧ No. &amp; date of invoice</span><span class="v">{{ f("invoice_no", label="Invoice No") }}</span><br>{{ f("invoice_date", label="Invoice Date") }}</td>
+  </tr>
+  <tr>
+    <td colspan="2" rowspan="2"><span class="lb">② For account &amp; risk of Messrs. (Consignee)</span><span class="v">{{ f("consignee.name", label="Consignee") }}</span><br>{{ f("consignee.address", label="Consignee Address") }}</td>
+    <td colspan="2"><span class="lb">⑨ No. &amp; date of L/C</span>{% if d.lc is defined %}{{ f("lc.no", label="L/C No") }}<br>{{ f("lc.date", label="L/C Date") }}{% else %}&nbsp;{% endif %}</td>
+  </tr>
+  <tr>
+    <td colspan="2"><span class="lb">⑩ L/C issuing bank</span>{% if d.lc is defined %}{{ f("lc.bank", label="L/C Issuing Bank") }}{% else %}&nbsp;{% endif %}</td>
+  </tr>
+  <tr>
+    <td colspan="2"><span class="lb">③ Notify party</span>{{ f("notify", label="Notify Party") }}</td>
+    <td colspan="2" rowspan="3"><span class="lb">⑪ Remarks</span>
+      Terms of delivery: <b>{{ f("terms.delivery", label="Terms of Delivery") }}</b><br>
+      Terms of payment: <b>{{ f("terms.payment", label="Terms of Payment") }}</b><br>
+      Country of origin: {{ f("origin", label="Country of Origin") }}</td>
+  </tr>
+  <tr>
+    <td><span class="lb">④ Port of loading</span>{{ f("port_of_loading", label="Port of Loading") }}</td>
+    <td><span class="lb">⑤ Final destination</span>{{ f("final_destination", label="Final Destination") }}</td>
+  </tr>
+  <tr>
+    <td><span class="lb">⑥ Carrier</span>{{ f("carrier", label="Carrier") }}</td>
+    <td><span class="lb">⑦ Sailing on or about</span>{{ f("sailing_date", label="Sailing on or about") }}</td>
+  </tr>
+</table>
+<table class="gd">
+  <colgroup><col style="width:21%"><col style="width:33%"><col style="width:15%"><col style="width:13%"><col style="width:18%"></colgroup>
+  <tr><th>⑫ Marks and numbers of PKGS</th><th>⑬ Description of goods</th><th>⑭ Quantity/Unit</th><th>⑮ Unit-price</th><th>⑯ Amount</th></tr>
+  <tr><td></td><td></td><td></td><td colspan="2" class="c small bold">{{ val("terms.delivery").split(" (")[0] }}</td></tr>
+  {% for it in d["items"] %}{% set pre = "items." ~ loop.index0 ~ "." %}
+  <tr>
+    {% if loop.first %}<td class="marks" rowspan="{{ 13 }}">{{ f("marks", label="Marks and Numbers") }}</td>{% endif %}
+    <td>{{ f(pre ~ "description", label="Description of Goods") }}<br><span class="small">MODEL: {{ f(pre ~ "model", label="Model") }}</span></td>
+    <td class="num">{{ f(pre ~ "quantity", label="Quantity/Unit") }}</td>
+    <td class="num">{{ f(pre ~ "unit_price", label="Unit-price") }}</td>
+    <td class="num">{{ f(pre ~ "amount", label="Amount") }}</td>
+  </tr>
+  {% endfor %}
+  {% for _ in range(13 - d["items"]|length) %}<tr><td>&nbsp;</td><td></td><td></td><td></td></tr>{% endfor %}
+  <tr class="tot"><td colspan="2" class="right">TOTAL : &nbsp;{{ f("total_quantity", label="Total Packages") }}</td><td></td><td></td>
+    <td class="num">{{ f("total_amount", label="Total Amount") }}</td></tr>
+</table>
+<div class="sign">
+  <div>Signed by</div>
+  <div class="bold">{{ f("signed_by", label="Signed by") }}</div>
+  <div class="line"><span class="sig">{{ val("signer") }}</span></div>
+  <div>{{ f("signer", label="Signer") }}</div>
+</div>
+{% endblock %}

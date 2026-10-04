@@ -22,17 +22,17 @@ table.brc .sub { display: inline-block; margin-right: 10px; }
   <div class="brc-kind">( {{ f("kind", label="과세유형") }} )</div>
   <div class="brc-no">등록번호 : {{ f("biz_no", label="등록번호") }}</div>
   <table class="brc">
-    <tr><th><span class="lb">상호</span> :</th><td colspan="3">{{ f("trade_name", label="상호") }}</td></tr>
-    <tr><th><span class="lb">성명</span> :</th><td>{{ f("name", label="성명") }}</td>
-        <th><span class="lb" style="width:84px">생년월일</span> :</th><td>{{ f("birth", label="생년월일") }}</td></tr>
-    <tr><th><span class="lb">개업연월일</span> :</th><td colspan="3">{{ f("opened", label="개업연월일") }}</td></tr>
-    <tr><th><span class="lb">사업장소재지</span> :</th><td colspan="3">{{ f("address", label="사업장소재지") }}</td></tr>
-    <tr><th><span class="lb">사업의종류</span> :</th><td colspan="3">
+    <tr><th><span class="lb">상 호</span> :</th><td colspan="3">{{ f("trade_name", label="상호") }}</td></tr>
+    <tr><th><span class="lb">성 명</span> :</th><td>{{ f("name", label="성명") }}</td>
+        <th><span class="lb" style="width:84px">생 년 월 일</span> :</th><td>{{ f("birth", label="생년월일") }}</td></tr>
+    <tr><th><span class="lb">개 업 연 월 일</span> :</th><td colspan="3">{{ f("opened", label="개업연월일") }}</td></tr>
+    <tr><th><span class="lb">사 업 장 소 재 지</span> :</th><td colspan="3">{{ f("address", label="사업장소재지") }}</td></tr>
+    <tr><th><span class="lb">사 업 의 종 류</span> :</th><td colspan="3">
       <span class="sub">업태</span>{{ f("biz_type", label="업태") }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <span class="sub">종목</span>{{ f("biz_item", label="종목") }}</td></tr>
     <tr><td colspan="4" class="brc-gap"></td></tr>
-    <tr><th><span class="lb">발급사유</span> :</th><td colspan="3">{{ f("issue_reason", label="발급사유") }}</td></tr>
-    <tr><th><span class="lb">공동사업자</span> :</th><td colspan="3"></td></tr>
+    <tr><th><span class="lb">발 급 사 유</span> :</th><td colspan="3">{{ f("issue_reason", label="발급사유") }}</td></tr>
+    <tr><th><span class="lb">공 동 사 업 자</span> :</th><td colspan="3"></td></tr>
     <tr><th colspan="4" style="width:auto">사업자 단위 과세 적용사업자 여부 :&nbsp;&nbsp;
       {% for o in ["여", "부"] %}{% if o == val("unit_taxation") %}{{ f("unit_taxation", label="사업자단위과세적용사업자여부") }}( √ ){% else %}{{ o }}(&nbsp;&nbsp;&nbsp;){% endif %}&nbsp;&nbsp;&nbsp;{% endfor %}</th></tr>
     <tr><th colspan="4" style="width:auto">전자세금계산서 전용 전자우편주소 :&nbsp;&nbsp;{% if d.einvoice_email is defined %}{{ f("einvoice_email", label="전자세금계산서전용전자우편주소") }}{% endif %}</th></tr>

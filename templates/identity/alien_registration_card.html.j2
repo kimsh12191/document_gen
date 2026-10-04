@@ -20,7 +20,11 @@
 .arc-foot .o .seal { right: 0; top: -12px; }
 {% endblock %}
 {% block content %}
+{% if "F-5" in val("visa_status") %}{# 영주자격자에게 발급하는 외국인등록증 = 영주증 (출입국관리법 제33조②) #}
+<div class="arc-head"><div class="t">영주증</div><div class="e">PERMANENT RESIDENT CARD</div></div>
+{% else %}
 <div class="arc-head"><div class="t">외국인등록증</div><div class="e">RESIDENCE CARD</div></div>
+{% endif %}
 <div class="arc-body">
   <div class="photo arc-photo"></div>
   <div class="arc-fields">

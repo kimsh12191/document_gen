@@ -2,7 +2,7 @@
 
 {% macro fam_style() -%}
 .fm-form { font-size: calc(var(--fs) - 3px); color: #444; }
-h1.title.fm { letter-spacing: .12em; margin: 10px 0 18px; }
+h1.title.fm { letter-spacing: .12em; margin: 26px 0 20px; }
 table.fm th { background: var(--label-bg); }
 table.fm td { text-align: center; }
 table.fm td.l { text-align: left; }
@@ -38,16 +38,16 @@ table.fm td.l { text-align: left; }
 <p class="fm-stmt">위 {{ cert_name }}는 가족관계등록부의 기록사항과 틀림없음을 증명합니다.</p>
 <div class="issuer" style="margin-top:14px">
   <div class="date">{{ f("issue_date", label="발급일") }}</div>
-  <div class="org">{{ f("issuer", label="발급기관") }}{% if d.doc_check_no is not defined %}{{ m.seal("직인", square=True, over=True) }}{% endif %}</div>
+  <div class="org"{% if d.doc_check_no is defined %} style="font-size:calc(var(--fs) + 4px);letter-spacing:.06em"{% endif %}>{{ f("issuer", label="발급기관") }}{{ m.seal("전산운영책임관인" if d.doc_check_no is defined else "직인", square=True, over=True) }}</div>
 </div>
-{% if d.officer is defined %}
 <div class="fm-meta">
   <div><span class="l">발급시각 :</span>{{ f("issue_time", label="발급시각") }}</div>
+  {% if d.officer is defined %}
   <div><span class="l">발급담당자 :</span>{{ f("officer", label="발급담당자") }}</div>
   <div><span class="l">☎ :</span>{{ f("officer_phone", label="전화") }}</div>
+  {% endif %}
   <div><span class="l">신청인 :</span>{{ f("applicant", label="신청인") }}</div>
 </div>
-{% endif %}
 <div class="fm-foot">
   <p>※ 위 증명서는 「가족관계의 등록 등에 관한 법률」 제15조제2항에 따른 등록사항을 현출한 일반증명서입니다.</p>
   {% if d.doc_check_no is defined %}
@@ -59,25 +59,54 @@ table.fm td.l { text-align: left; }
 </div>
 {%- endmacro %}
 
-{# 주민등록표 등·초본 하단 #}
-{% macro resident_footer() -%}
-<p class="center" style="margin:10px 0 0;letter-spacing:.3em">= 이 하 여 백 =</p>
-<div class="fm-meta" style="margin-top:14px">
-  <div>신청인 : {{ f("applicant", label="신청인") }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;용도 및 목적 : {{ f("purpose", label="용도및목적") }}</div>
+{# 주민등록표 등·초본 상단: 서식 표시, 문서확인번호/발급번호, 제목, 증명문구·담당자·신청인·발급일·발급기관 (실제 발급본은 증명 블록이 표 위에 온다) #}
+{% macro resident_style() -%}
+.rr-form { font-size: calc(var(--fs) - 3.5px); color: #444; }
+.rr-top { display: flex; justify-content: space-between; font-size: calc(var(--fs) - 2px); margin-top: 2px; }
+h1.title.rr-t { letter-spacing: .4em; margin: 8px 0 0; }
+h1.title.rr-t .sub { letter-spacing: .4em; font-size: calc(var(--fs) + 1px); color: #111; margin-top: 2px; }
+.rr-cert { margin: 10px 0 4px; line-height: 1.55; }
+.rr-cert .stmt { padding-left: 26px; }
+.rr-cert .who { padding-left: 26px; }
+.rr-cert .who span.g { display: inline-block; width: 40px; }
+.rr-iss { text-align: right; margin: -2px 0 22px; }
+.rr-iss .date { letter-spacing: .05em; }
+.rr-iss .org { display: inline-block; position: relative; font-size: calc(var(--fs) + 5px); font-weight: 700; letter-spacing: .15em; padding-right: 58px; margin-top: 6px; }
+.rr-iss .org .seal { right: -34px; top: -6px; }
+table.rr { border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); margin-top: 10px; }
+table.rr td { text-align: center; }
+table.rr td.nw, table.rr th.nw { white-space: nowrap; }
+table.rr td.l { text-align: left; }
+table.rr th { font-weight: 600; }
+.rr-end { text-align: center; margin: 10px 0 0; letter-spacing: .3em; }
+{%- endmacro %}
+
+{% macro resident_head(kind, form_no, stmt) -%}
+<div class="rr-form">■ 주민등록법 시행규칙 [별지 {{ form_no }}] &lt;개정 2019. 11. 19.&gt;</div>
+<div class="rr-top">
+  <div>{% if d.officer is defined %}발급번호 : {{ f("doc_no", label="발급번호") }}{% else %}문서확인번호 : {{ f("doc_no", label="문서확인번호") }}{% endif %}</div>
+  <div>1 / 1</div>
 </div>
-<p class="fm-stmt" style="margin-top:20px">이 등(초)본은 주민등록표의 원본내용과 틀림없음을 증명합니다.</p>
-{% if d.officer is defined %}
-<p class="center small">담당자 : {{ f("officer", label="담당자") }}&nbsp;&nbsp;&nbsp;전화 : {{ f("officer_phone", label="전화") }}</p>
-{% endif %}
-<div class="issuer" style="margin-top:12px">
+<h1 class="title rr-t">주 민 등 록 표<span class="sub">( {{ kind }} )</span></h1>
+<div class="rr-cert">
+  <div class="stmt">{{ stmt }}</div>
+  {% if d.officer is defined %}<div class="who">담당자 : {{ f("officer", label="담당자") }}&nbsp;&nbsp;&nbsp;&nbsp;전화 : {{ f("officer_phone", label="전화") }}</div>{% endif %}
+  <div class="who">신 청 인 : {{ f("applicant", label="신청인") }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;용도 및 목적 : {{ f("purpose", label="용도및목적") }}</div>
+</div>
+<div class="rr-iss">
   <div class="date">{{ f("issue_date", label="발급일") }}</div>
   <div class="org">{{ f("issuer", label="발급기관") }}{{ m.seal("직인", square=True, over=True) }}</div>
 </div>
+{%- endmacro %}
+
+{# 주민등록표 등·초본 하단 #}
+{% macro resident_footer() -%}
+<p class="rr-end">= 이 하 여 백 =</p>
 <div class="fm-foot">
   {% if d.officer is defined %}
   <p>※ 수입증지가 첨부되지 아니한 증명은 그 효력을 보증할 수 없습니다.</p>
   {% else %}
-  <p>※ 이 증명서는 인터넷으로 발급되었으며, 정부24(gov.kr)의 인터넷발급문서진위확인 메뉴를 통해 위·변조 여부를 확인할 수 있습니다. (발급일로부터 90일까지)</p>
+  <p>※ 이 증명서는 인터넷으로 발급되었으며, 정부24(gov.kr)의 인터넷발급문서진위확인 메뉴를 통해 위·변조 여부를 확인할 수 있습니다.(발급일로부터 90일까지) 또한 문서하단의 바코드로 진위확인(정부24 앱 또는 스캐너용 문서확인프로그램)을 하실 수 있습니다.</p>
   {% endif %}
   <p>※ 개인정보 보호를 위하여 주민등록표 등·초본은 필요한 경우에 한하여 제출하시고, 목적 외로 사용하지 마십시오.</p>
 </div>

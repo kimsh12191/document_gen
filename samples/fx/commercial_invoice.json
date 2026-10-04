@@ -1,0 +1,51 @@
+{
+ "document_type": "상업송장(Commercial Invoice)",
+ "shipper": {
+  "name": "Tokyo Seimitsu Kogyo K.K.",
+  "address": "2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN"
+ },
+ "invoice_no": "TSK-2511-087",
+ "invoice_date": "November 06, 2025",
+ "consignee": {
+  "name": "SAEHAN SOFT CO., LTD.",
+  "address": "8F, DONGBANG PLAZA, 22-7 GUKJEGEUMYUNG-RO, YEONGDEUNGPO-GU, SEOUL 07028, KOREA"
+ },
+ "notify": "SAME AS ABOVE",
+ "terms": {
+  "delivery": "FOB TOKYO, JAPAN (INCOTERMS 2020)",
+  "payment": "D/P AT SIGHT"
+ },
+ "origin": "JAPAN",
+ "port_of_loading": "TOKYO, JAPAN",
+ "final_destination": "BUSAN, KOREA",
+ "carrier": "CORAL VOYAGER V.016E",
+ "sailing_date": "November 09, 2025",
+ "marks": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-192\nMADE IN JAPAN",
+ "items": [
+  {
+   "description": "Multilayer Ceramic Capacitor 0402 100nF 16V",
+   "model": "CL05-920S",
+   "quantity": "12,900,000 PCS",
+   "unit_price": "JPY 1.42",
+   "amount": "JPY 18,318,000"
+  },
+  {
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "model": "INR18650-797S",
+   "quantity": "16,400 PCS",
+   "unit_price": "JPY 474",
+   "amount": "JPY 7,769,500"
+  },
+  {
+   "description": "LED Driver IC, SOP-8",
+   "model": "LD-127A",
+   "quantity": "440,000 PCS",
+   "unit_price": "JPY 36.19",
+   "amount": "JPY 15,923,600"
+  }
+ ],
+ "total_quantity": "192 CTNS",
+ "total_amount": "JPY 42,011,100",
+ "signed_by": "Tokyo Seimitsu Kogyo K.K.",
+ "signer": "Kenji Sato"
+}
