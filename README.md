@@ -4,6 +4,8 @@
 
 - **외부 발급 서류 56종**: 신분증, 등·초본, 가족관계증명서, 소득금액증명원, 원천징수영수증, 등기부등본, 사업자등록증, 재무제표, 인보이스 등
 - **은행 자체 서식 14종**: 대출신청서, 여신거래약정서, 근저당권설정계약서, 고객확인서(KYC), 해외송금신청서 등
+  - 은행별 표기(은행명·법인명칭·서식번호 줄·결재란·인쇄색·계좌번호)가 다르게 나옵니다.
+  - **하나은행**과 옛 은행 **KEB하나은행(2015~2020)**, **외환은행(~2015.8)** 서식도 만듭니다. 옛 은행 서식은 그 시기 날짜와 제도로 만들어집니다. → [docs/realism/bank_brands.md](docs/realism/bank_brands.md)
 - 전체 목록: [docs/DOCUMENTS.md](docs/DOCUMENTS.md)
 - 서류별 샘플 이미지와 정답: [samples/](samples/)
 
@@ -51,6 +53,10 @@ python -m docgen generate --n 100 --out out --png --augment 2
 python -m docgen generate --types income_certificate,pay_stub --n 50 --out out --png
 python -m docgen generate --types corporate,fx --n 50 --out out --png
 
+# 은행 서식을 특정 은행으로 (하나은행, KEB하나은행, 외환은행, 국민은행, ...)
+python -m docgen generate --types bank_form --bank 하나은행 --n 50 --out out --png
+python -m docgen generate --bank 외환은행 --n 50 --out out --png   # 옛 은행: 은행 서식만 생성
+
 # 업무 시나리오 단위 (같은 고객의 제출 서류 묶음)
 python -m docgen generate --scenario mortgage --n 30 --out out --png
 
@@ -72,7 +78,9 @@ out/
   vlm.jsonl                        (--png) VLM 학습용 대화 형식
 ```
 
-같은 `seed`(파일명 숫자)를 가진 서류들은 같은 고객의 서류입니다.
+같은 `seed`(파일명 숫자)를 가진 서류들은 같은 고객의 서류입니다. 은행 서식의 label·manifest에는 서식을 낸 은행이 `bank`로 기록됩니다.
+
+`--bank`를 주지 않으면 고객의 약 10%는 외환은행, 6%는 KEB하나은행 서식으로 만들어집니다(시나리오 생성 제외). 이 서식들은 2011~2020년 날짜이므로 같은 고객의 외부 발급 서류와 날짜가 맞지 않습니다.
 
 ### labels/*.json
 
@@ -119,6 +127,7 @@ docgen/
   korean.py      이름(한글/한자/로마자), 주소, 주민·사업자·법인번호, 금액·날짜 포맷
   entities.py    고객 프로필 (본인·가족·직장·사업체·법인·부동산·계좌·해외거래처)
   registry.py    서류 등록(@doc), 그룹, 업무 시나리오
+  banks.py       은행별 서식 표기, 옛 은행(외환·KEB하나) 시기 이동
   render.py      Jinja2 렌더링 + GT 수집(f()), 랜덤 스타일
   image.py       Playwright 로 PNG + bbox
   augment.py     스캔/촬영/팩스 증강
@@ -127,7 +136,7 @@ docgen/
 templates/
   _base.html.j2, _macros.html.j2   공통 레이아웃·매크로
   <그룹>/<서류ID>.html.j2          서류별 템플릿
-scripts/make_samples.py            samples/ 갱신
+scripts/make_samples.py            samples/ 갱신 (은행별 샘플은 samples/bank_variants/)
 tests/                             pytest
 ```
 

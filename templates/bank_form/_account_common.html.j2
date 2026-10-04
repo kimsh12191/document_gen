@@ -7,6 +7,7 @@
 .page.a4 { padding: calc(var(--page-pad) * .55) calc(var(--page-pad) * .62); }
 .bf-head { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--accent); padding-bottom: 3px; margin-bottom: 6px; }
 .bf-bank { color: var(--accent); font-weight: 800; font-size: calc(var(--fs) + 5px); letter-spacing: .04em; }
+.bf-bank .en { font-size: calc(var(--fs) - 3.5px); font-weight: 600; letter-spacing: .02em; margin-left: 6px; }
 .bf-bank .mk { display: inline-block; width: 15px; height: 15px; border: 3px solid var(--accent); border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
 .bf-meta { font-size: calc(var(--fs) - 3.5px); color: #444; text-align: right; line-height: 1.3; }
 h1.title { margin: 2px 0 6px; font-size: calc(var(--title) - 5px); letter-spacing: .12em; }
@@ -45,7 +46,7 @@ table.stamp td { width: 64px; height: 48px; text-align: center; padding: 2px; }
 {# 상단: 은행명 + 서식 메타 #}
 {% macro head(meta) -%}
 <div class="bf-head">
-  <div class="bf-bank"><span class="mk"></span>{{ f("bank.name", label="은행명") }}</div>
+  <div class="bf-bank"><span class="mk"></span>{{ f("bank.name", label="은행명") }}{% if bk and bk.en %}<span class="en">{{ bk.en }}</span>{% endif %}</div>
   <div class="bf-meta">{{ meta|safe }}</div>
 </div>
 {%- endmacro %}

@@ -27,6 +27,7 @@ _BLDG_EN = {"지식산업센터": "Knowledge Industry Center", "오피스텔": "
             "센터": "Center", "프라자": "Plaza", "스퀘어": "Square"}
 _BANK_EN = {"국민은행": ("KOOKMIN BANK", "CZNBKRSE"), "신한은행": ("SHINHAN BANK", "SHBKKRSE"),
             "우리은행": ("WOORI BANK", "HVBKKRSE"), "하나은행": ("HANA BANK", "KOEXKRSE"),
+            "KEB하나은행": ("KEB HANA BANK", "KOEXKRSE"), "외환은행": ("KOREA EXCHANGE BANK", "KOEXKRSE"),
             "농협은행": ("NONGHYUP BANK", "NACFKRSE"), "기업은행": ("INDUSTRIAL BANK OF KOREA", "IBKOKRSE"),
             "SC제일은행": ("STANDARD CHARTERED BANK KOREA", "SCBLKRSE"), "부산은행": ("BUSAN BANK", "PUSBKR2P"),
             "iM뱅크": ("iM BANK", "DAEBKR22")}

@@ -29,6 +29,9 @@ def employment_certificate(p: Profile, rng: random.Random) -> dict:
   - 금융: `p.accounts`, `p.bank`, `p.bank_branch`
   - 해외 거래처: `p.foreign`
   - 기준일: `p.issue_date`
+- **은행 서식(`bank_form` 그룹)은 서식을 낸 은행 기준 프로필을 받는다.** `p.bank`가 외환은행·KEB하나은행 같은 옛 은행이면 `p.issue_date`를 포함한 모든 날짜가 그 시기로 옮겨져 있다(`docgen/banks.py`).
+  - 시기에 따라 달라지는 제도(예금자보호한도, 금소법 문구 등)는 `banks.since(p.issue_date, "fsca")`처럼 날짜로 판단한다.
+  - 템플릿에는 `bk`(은행명·법인명칭·영문명·`bk.rev()` 개정년월·시기 플래그)가 넘어온다. 표시 전용이며 GT가 아니다. 다른 그룹 템플릿에서는 `bk`가 `None`이다.
 - **같은 고객의 다른 서류와 값이 맞아야 한다.** 예를 들어 소득금액증명원의 소득은 `p.employment.annual_salary`를 기준으로 계산한다. 이름, 주소, 주민번호, 회사 정보는 프로필 값을 그대로 쓴다.
 - 서류에만 필요한 값(발급번호, 월별 내역, 세부 금액 등)은 `rng`로 만든다. 프로필의 `World.rng`는 쓰지 않는다.
 - **반환 dict의 모든 값은 화면에 표시될 문자열**이다. 날짜와 금액은 함수 안에서 포맷한다.

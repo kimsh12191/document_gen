@@ -80,7 +80,7 @@ table.cdd th.sub { width: 70px; font-weight: 500; }
   <div class="body">
     <table class="bf" style="flex:1">
       <tr><th style="width:96px">고객위험등급</th><td>{{ m.choice("bank_use.risk_grade", ["저위험", "중위험", "고위험"], label="고객위험등급") }}</td></tr>
-      <tr><th>실명확인증표</th><td>{{ m.choice("bank_use.id_type", ["주민등록증", "운전면허증", "여권", "모바일신분증"], label="실명확인증표") }}</td></tr>
+      <tr><th>실명확인증표</th><td>{{ m.choice("bank_use.id_type", ["주민등록증", "운전면허증", "여권"] + (["모바일신분증"] if bk.mobile_id else []), label="실명확인증표") }}</td></tr>
       <tr><th>확인 영업점</th><td>{{ f("bank_use.branch", label="확인영업점") }}</td></tr>
     </table>
     {{ bf.stamps([["담당", "bank_use.clerk"], ["책임자", "bank_use.manager"]]) }}

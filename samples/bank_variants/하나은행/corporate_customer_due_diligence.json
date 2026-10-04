@@ -1,0 +1,55 @@
+{
+ "document_type": "고객확인서(법인·단체)",
+ "bank": {
+  "name": "하나은행"
+ },
+ "corp": {
+  "name": "주식회사 새한소프트",
+  "name_en": "Saehan Soft Co., Ltd.",
+  "biz_no": "530-82-09978",
+  "corp_no": "135012-6946558",
+  "established": "2021년 12월 08일",
+  "industry": "정보통신업 / 응용소프트웨어 개발",
+  "hq_address": "서울특별시 영등포구 국제금융로 22-7, 8층 (당산동, 동방프라자)",
+  "biz_address": "서울특별시 영등포구 국제금융로 22-7, 8층",
+  "phone": "02-9757-8466",
+  "email": "contact@saehan.co.kr",
+  "corp_type": "중소기업",
+  "listed": "비상장"
+ },
+ "rep": {
+  "name": "김소윤",
+  "name_en": "KIM SOYUN",
+  "birth": "1990.11.21",
+  "nationality": "대한민국"
+ },
+ "transaction": {
+  "purpose": "대출",
+  "fund_source": "영업수익"
+ },
+ "owner_step": "1단계",
+ "owners": [
+  {
+   "name": "김소윤",
+   "birth": "1990.11.21",
+   "nationality": "대한민국",
+   "ratio": "78.70%",
+   "relation": "대표이사"
+  }
+ ],
+ "pep": "아니오",
+ "date": "2025년 11월 29일",
+ "bank_use": {
+  "risk_grade": "저위험",
+  "documents": [
+   "사업자등록증",
+   "법인등기사항전부증명서",
+   "주주명부",
+   "정관",
+   "법인인감증명서"
+  ],
+  "branch": "분당지점",
+  "clerk": "김환예",
+  "manager": "이환혜"
+ }
+}

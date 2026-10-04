@@ -4,6 +4,7 @@
 프로필 seed 에서 파생한 별도 난수(_plan_personal / _plan_corp)로 정한다.
 서류별 표기 차이(날짜 포맷, 문구 선택 등)만 각 함수의 rng 로 만든다.
 """
+from ..banks import brand, since
 from ..registry import doc
 from ._common import *  # noqa: F401,F403
 
@@ -13,7 +14,7 @@ from ._common import *  # noqa: F401,F403
 
 _LOAN_ACCT_FMT = {"국민은행": "###-##-####-###", "신한은행": "###-###-######", "우리은행": "####-###-######",
                   "하나은행": "###-######-#####", "농협은행": "###-####-####-##", "기업은행": "###-######-##-###",
-                  "SC제일은행": "###-##-######"}
+                  "SC제일은행": "###-##-######", "외환은행": "###-######-###", "KEB하나은행": "###-######-#####"}
 
 
 def _add_years(d: date, n: int) -> date:
@@ -117,6 +118,9 @@ def _plan_personal(p: Profile) -> dict:
                 "product": r.choice(["전세자금대출", "주택금융공사 전세자금보증대출", "HUG 전세보증금대출"]),
                 "purpose": "주택 임차보증금", "collateral": "보증",
                 "guarantor": r.choice(["한국주택금융공사", "주택도시보증공사(HUG)", "서울보증보험(SGI)"])}
+        if p.issue_date < date(2015, 7, 1):  # 주택도시보증공사 출범(2015.7) 전
+            plan["product"] = plan["product"].replace("HUG 전세보증금대출", "전세자금대출")
+            plan["guarantor"] = plan["guarantor"].replace("주택도시보증공사(HUG)", "대한주택보증")
     plan["kind"] = kind
     plan["mortgage"] = mortgage
 
@@ -151,13 +155,20 @@ def _plan_personal(p: Profile) -> dict:
     mortgage["loan_account"] = plan["loan_account"] if kind == "mortgage" else _loan_acct(r, p.bank)
     own = [a for a in p.accounts if a.bank == p.bank] or p.accounts
     plan["debit_account"] = own[0]
-    # 2025.1.13 중도상환수수료 개편 이후 수준 (주담대 0.56~0.74%, 변동 신용대출 0.1%대)
-    credit_fee = r.choice([0.1, 0.11, 0.14, 0.17]) if plan["rate_type"] == "변동금리" else r.choice([0.4, 0.5, 0.6, 0.7])
-    plan["prepay_fee"] = {"mortgage": r.choice([0.56, 0.58, 0.65, 0.66, 0.74]), "credit": credit_fee,
-                          "jeonse": r.choice([0.5, 0.6, 0.65])}[kind]
+    # 2025.1.13 중도상환수수료 개편 이후 수준 (주담대 0.56~0.74%, 변동 신용대출 0.1%대).
+    # 그 전(옛 은행 서식 시기)에는 담보 1.2~1.5%, 신용 0.7~1.0% 수준.
+    if p.issue_date >= date(2025, 1, 13):
+        m_fees = [0.56, 0.58, 0.65, 0.66, 0.74]
+        credit_fee = r.choice([0.1, 0.11, 0.14, 0.17]) if plan["rate_type"] == "변동금리" else r.choice([0.4, 0.5, 0.6, 0.7])
+        j_fees = [0.5, 0.6, 0.65]
+    else:
+        m_fees = [1.2, 1.4, 1.5, 1.5]
+        credit_fee = r.choice([0.7, 0.8, 1.0])
+        j_fees = [0.8, 1.0, 1.2]
+    plan["prepay_fee"] = {"mortgage": r.choice(m_fees), "credit": credit_fee, "jeonse": r.choice(j_fees)}[kind]
     if plan["subject"].endswith("(한도)"):
         plan["prepay_fee"] = 0.0
-    mortgage["prepay_fee"] = plan["prepay_fee"] if kind == "mortgage" else r.choice([0.56, 0.58, 0.65, 0.66, 0.74])
+    mortgage["prepay_fee"] = plan["prepay_fee"] if kind == "mortgage" else r.choice(m_fees)
     return plan
 
 
@@ -222,12 +233,9 @@ def _term_text(years: int, rng: random.Random) -> str:
     return f"{years}년" if rng.random() < 0.6 else f"{years * 12}개월"
 
 
-_LEGAL_BANK = {"iM뱅크": "주식회사 아이엠뱅크", "농협은행": "농협은행 주식회사", "기업은행": "중소기업은행", "SC제일은행": "주식회사 한국스탠다드차타드은행"}
-
-
 def _legal_bank(bank: str) -> str:
     """약정서 '○○은행 앞' 에 쓰는 법인 명칭."""
-    return _LEGAL_BANK.get(bank, f"주식회사 {bank}")
+    return brand(bank).legal
 
 
 def _bank_name(p: Profile, rng: random.Random) -> str:
@@ -243,18 +251,28 @@ _OTHER_LENDERS = ["국민은행", "신한은행", "우리은행", "하나은행"
                   "KB국민카드", "신한카드", "카카오뱅크", "토스뱅크", "OK저축은행", "새마을금고"]
 
 
+_LENDER_SINCE = {"카카오뱅크": date(2017, 7, 27), "토스뱅크": date(2021, 10, 5)}
+
+
+def _lenders(p: Profile) -> list[str]:
+    """작성일에 있던 타 금융기관 (옛 은행 서식이면 그 뒤 생긴 은행 제외, KEB하나은행 시기엔 하나은행=자행)."""
+    same = {p.bank, "하나은행"} if p.bank == "KEB하나은행" else {p.bank}
+    return [b for b in _OTHER_LENDERS if b not in same and p.issue_date >= _LENDER_SINCE.get(b, date.min)]
+
+
 def _debts(p: Profile, pl: dict, rng: random.Random, df: str) -> list[dict]:
     """부채현황 (타 금융기관 대출). 대환이면 상환 대상 대출을 반드시 넣는다."""
     out = []
+    lenders = _lenders(p)
     sal = p.employment.annual_salary
     if "대환" in pl["purpose"]:
-        lender = rng.choice([b for b in _OTHER_LENDERS[:5] if b != p.bank])
+        lender = rng.choice([b for b in _OTHER_LENDERS[:5] if b in lenders])
         kind = "주택담보대출" if pl["kind"] == "mortgage" else "신용대출"
         out.append({"lender": lender, "kind": kind,
                     "balance": won(K.round_to(pl["amount"] * rng.uniform(0.85, 1.0), 100_000), ""),
                     "maturity": D(_add_years(p.issue_date, rng.randint(1, 25)), df), "refinance": "상환예정"})
     for _ in range(rng.choice([0, 0, 1, 1, 2]) - len(out)):
-        lender = rng.choice([b for b in _OTHER_LENDERS if b != p.bank])
+        lender = rng.choice(lenders)
         kind = "카드론" if "카드" in lender else rng.choice(["신용대출", "마이너스통장", "자동차할부", "학자금대출"])
         bal = K.round_to(sal * rng.uniform(0.03, 0.4), 100_000)
         out.append({"lender": lender, "kind": kind, "balance": won(bal, ""),
@@ -365,7 +383,7 @@ def loan_application_corp(p: Profile, rng: random.Random) -> dict:
     other = []
     for _ in range(rng.choice([0, 1, 1, 2, 2])):
         lender = rng.choice([b for b in ["국민은행", "신한은행", "우리은행", "하나은행", "농협은행", "기업은행",
-                                         "산업은행", "수협은행"] if b != p.bank])
+                                         "산업은행", "수협은행"] if b != p.bank and not (b == "하나은행" and p.bank == "KEB하나은행")])
         if lender in (x["lender"] for x in other):
             continue
         other.append({"lender": lender,
@@ -425,7 +443,12 @@ def loan_application_corp(p: Profile, rng: random.Random) -> dict:
 
 def _agreement_terms(pl: dict, rng: random.Random, df: str) -> dict:
     rt = pl["rate"]
-    late = min(rt["applied"] + 3.0, 15.0)
+    if since(pl["apply_date"], "late_3pct"):
+        late = min(rt["applied"] + 3.0, 15.0)
+        late_rate = f"대출이자율 + 연체가산이자율 연 3% (현재 연 {late:.2f}%, 최고 연 15%)"
+    else:  # 2018.4.30 이전: 연체기간별 가산 (3개월 이하 연 6~7%, 초과 연 8%)
+        late = min(rt["applied"] + 6.0, 15.0)
+        late_rate = f"대출이자율 + 연체기간별 가산이자율 연 6~8% (현재 연 {late:.2f}%, 최고 연 15%)"
     pf = pl["prepay_fee"]
     return {
         "amount": won(pl["amount"]),
@@ -437,7 +460,7 @@ def _agreement_terms(pl: dict, rng: random.Random, df: str) -> dict:
         "spread": _rate(rt["spread"]),
         "pref_rate": _rate(rt["pref"]),
         "applied_rate": _pa(rt["applied"]),
-        "late_rate": f"대출이자율 + 연체가산이자율 연 3% (현재 연 {late:.2f}%, 최고 연 15%)",
+        "late_rate": late_rate,
         "prepay_fee": "면제" if pf == 0 else f"중도상환금액 × {pf:.2f}% × 잔존일수 ÷ 대출기간일수 (3년 경과 시 면제)",
         "interest_calc": rng.choice(["1년을 365일(윤년 366일)로 보고 1일 단위로 계산",
                                      "연 365일 일할 계산 (윤년은 366일)"]),

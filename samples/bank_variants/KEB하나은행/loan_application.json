@@ -1,0 +1,71 @@
+{
+ "document_type": "대출거래신청서",
+ "bank": "KEB하나은행",
+ "branch": "분당지점",
+ "applicant": {
+  "name": "김소윤",
+  "rrn": "821121-2******",
+  "zipcode": "61092",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+  "mobile": "010-4372-6867",
+  "home_phone": "062-543-1694",
+  "email": "soyun407@hanmail.net",
+  "work_phone": "061-681-3222"
+ },
+ "housing": "자가",
+ "dwelling": "아파트",
+ "workplace": {
+  "job_type": "급여소득자",
+  "name": "(주)새한소프트",
+  "department": "경영지원팀",
+  "position": "차장",
+  "hire_date": "2006년 12월 01일",
+  "annual_income": "6,700만원",
+  "address": "전라남도 여수시 여수시민로 411, 2층"
+ },
+ "debts": [
+  {
+   "lender": "신한카드",
+   "kind": "카드론",
+   "balance": "25,600,000",
+   "maturity": "2021.01.15",
+   "refinance": "유지"
+  },
+  {
+   "lender": "신한은행",
+   "kind": "학자금대출",
+   "balance": "15,800,000",
+   "maturity": "2020.01.15",
+   "refinance": "유지"
+  }
+ ],
+ "assets": [
+  {
+   "kind": "아파트",
+   "location": "광주광역시 서구 내방로 75",
+   "value": "450,000,000"
+  }
+ ],
+ "loan": {
+  "subject": "전세자금대출",
+  "product": "HUG 전세보증금대출",
+  "amount_korean": "일금 이억칠천이백만원정",
+  "amount": "272,000,000",
+  "term": "2년",
+  "hope_date": "2017년 01월 23일",
+  "repayment": "만기일시",
+  "rate_type": "고정",
+  "interest_day": "매월 10일",
+  "purpose_category": "주택임차",
+  "purpose": "주택 임차보증금",
+  "debit_bank": "KEB하나은행",
+  "debit_account": "172-278616-33931",
+  "debit_holder": "김소윤"
+ },
+ "collateral": "보증",
+ "collateral_detail": "서울보증보험(SGI) 보증서",
+ "manual_received": "예",
+ "consent": "동의함",
+ "apply_date": "2017년 01월 15일",
+ "signature": "김소윤"
+}

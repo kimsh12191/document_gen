@@ -1,0 +1,42 @@
+{
+ "document_type": "여신거래약정서(기업용)",
+ "bank": "외환은행",
+ "creditor": "주식회사 한국외환은행",
+ "branch": "분당지점",
+ "debtor": {
+  "name": "주식회사 새한소프트",
+  "biz_no": "530-82-09978",
+  "corp_no": "135012-6946558",
+  "ceo": "김소윤",
+  "phone": "02-9757-8466",
+  "address": "서울특별시 영등포구 국제금융로 22-7, 8층 (당산동, 동방프라자)"
+ },
+ "loan": {
+  "subject": "일반자금대출",
+  "product": "기업일반운전자금대출",
+  "method": "개별거래",
+  "account_no": "229-862796-736",
+  "amount_korean": "금 십오억원整",
+  "amount": "1,500,000,000원",
+  "start_date": "2014-08-30",
+  "maturity": "2015-08-30",
+  "purpose": "운전자금(인건비 등 경상비)",
+  "rate_type": "변동금리",
+  "base_rate_name": "금융채 3개월물(AAA)",
+  "base_rate": "2.68%",
+  "spread": "3.01%",
+  "pref_rate": "0.00%",
+  "applied_rate": "연 5.69%",
+  "rate_reset": "3개월",
+  "interest_pay": "매월 10일",
+  "interest_calc": "1년을 365일(윤년 366일)로 보고 1일 단위로 계산",
+  "repayment": "만기일시상환",
+  "debit_account": "외환은행 108-984036-274",
+  "prepay_fee": "중도상환금액 × 0.70% × 잔존일수 ÷ 대출기간일수 (3년 경과 시 면제)",
+  "late_rate": "대출이자율 + 연체기간별 가산이자율 연 6~8% (현재 연 11.69%, 최고 연 15%)"
+ },
+ "stamp_tax": "350,000원 (고객 175,000원 / 은행 175,000원)",
+ "explained": "예",
+ "contract_date": "2014년 08월 27일",
+ "signature": "김소윤"
+}

@@ -15,6 +15,7 @@ from typing import Any
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from markupsafe import Markup, escape
 
+from .banks import bank_view, brand_accent, form_bank, form_context
 from .entities import Profile
 from .registry import DocSpec
 
@@ -157,12 +158,20 @@ def env() -> Environment:
 def render(spec: DocSpec, profile: Profile, seed: int | str, sample_mark: bool | None = None,
            style: dict | None = None) -> tuple[str, list[dict], dict]:
     """서류 하나를 렌더링한다. (html, fields, data) 반환."""
+    bk = None
+    if spec.group == "bank_form":  # 은행 서식: 서식을 낸 은행(옛 은행 포함)에 맞춰 프로필·표기를 바꾼다
+        profile = bank_view(profile, form_bank(profile, spec.id))
+        bk = form_context(profile, spec.id)
     data_rng = random.Random(f"data:{seed}:{spec.id}")
     data = spec.generate(profile, data_rng)
-    style = style or random_style(random.Random(f"style:{seed}:{spec.id}"), spec)
+    if style is None:
+        style = random_style(random.Random(f"style:{seed}:{spec.id}"), spec)
+        if bk:
+            accent = brand_accent(profile.bank, random.Random(f"accent:{seed}:{spec.id}"))
+            style["accent"] = accent or style["accent"]
     rec = FieldRecorder(data)
     html = env().get_template(spec.template).render(
-        d=data, f=rec, val=lambda p: lookup(data, p), style=style, spec=spec,
+        d=data, f=rec, val=lambda p: lookup(data, p), style=style, spec=spec, bk=bk,
         sample_mark=spec.sample_mark if sample_mark is None else (sample_mark or spec.sample_mark),
     )
     return html, list(rec.fields.values()), data

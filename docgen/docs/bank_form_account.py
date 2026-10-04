@@ -1,4 +1,5 @@
 """은행 자체 서식 — 수신·고객확인·외환 (계좌개설, 고객확인, 동의서, 해외송금, FATCA/CRS)."""
+from ..banks import since
 from ..entities import BANK_ACCT_FMT
 from ..registry import doc
 from ._common import *  # noqa: F401,F403
@@ -40,6 +41,11 @@ def _occupation(p: Profile, rng: random.Random) -> dict:
     if kind == "개인사업자":
         return {"type": kind, "company": p.business.name, "position": "대표"}
     return {"type": kind}
+
+
+def _id_type(p: Profile, rng: random.Random) -> str:
+    ids = ["주민등록증", "운전면허증", "여권"] + (["모바일신분증"] if since(p.issue_date, "mobile_id") else [])
+    return rng.choices(ids, weights=[60, 28, 6, 6][:len(ids)])[0]
 
 
 def _date(p: Profile, rng: random.Random) -> str:
@@ -110,7 +116,7 @@ def customer_due_diligence(p: Profile, rng: random.Random) -> dict:
         "signature": per.name,
         "bank_use": {
             "risk_grade": rng.choices(["저위험", "중위험", "고위험"], weights=[70, 26, 4])[0],
-            "id_type": rng.choices(["주민등록증", "운전면허증", "여권", "모바일신분증"], weights=[60, 28, 6, 6])[0],
+            "id_type": _id_type(p, rng),
             "branch": p.bank_branch,
             **_staff(rng),
         },
@@ -263,7 +269,8 @@ def account_opening_application(p: Profile, rng: random.Random) -> dict:
     mobile = rng.choice(["신청", "신청", "신청", "미신청"])
     ebank = {"internet": internet, "mobile": mobile}
     if "신청" in (internet, mobile):
-        ebank["otp"] = rng.choice(["OTP 발급", "모바일OTP", "기존 OTP 사용", "보안카드"])
+        ebank["otp"] = rng.choice(["OTP 발급", "기존 OTP 사용", "보안카드"]
+                                  + (["모바일OTP"] if since(p.issue_date, "mobile_otp") else []))
         once = rng.choice([100, 500, 1000, 1000, 5000])
         ebank["limit_once"] = won(once * 10_000)
         ebank["limit_day"] = won(min(once * rng.choice([1, 2, 5]), 5000) * 10_000)
@@ -295,7 +302,7 @@ def account_opening_application(p: Profile, rng: random.Random) -> dict:
         "bank_use": {
             "account_no": _new_account_no(p.bank, rng),
             "branch": p.bank_branch,
-            "id_type": rng.choices(["주민등록증", "운전면허증", "여권", "모바일신분증"], weights=[60, 28, 6, 6])[0],
+            "id_type": _id_type(p, rng),
             **_staff(rng),
         },
     }
@@ -368,6 +375,14 @@ _BANK_ADDR = {
 # 통화별 (가능 통화, 원화 환율 범위, 환율 단위)
 _CCY = {"USD": (1340, 1480, 1), "JPY": (880, 990, 100), "EUR": (1450, 1620, 1), "CNY": (185, 205, 1),
         "SGD": (1000, 1100, 1)}
+# 옛 은행 서식(2011~2020)용 연평균 매매기준율 근사값 (원, JPY 는 100엔당)
+_CCY_YEAR = {
+    "USD": {2011: 1108, 2012: 1127, 2013: 1095, 2014: 1053, 2015: 1132, 2016: 1160, 2017: 1131, 2018: 1100, 2019: 1166, 2020: 1180},
+    "JPY": {2011: 1391, 2012: 1413, 2013: 1123, 2014: 996, 2015: 935, 2016: 1068, 2017: 1009, 2018: 997, 2019: 1070, 2020: 1106},
+    "EUR": {2011: 1541, 2012: 1448, 2013: 1454, 2014: 1398, 2015: 1256, 2016: 1284, 2017: 1276, 2018: 1299, 2019: 1305, 2020: 1345},
+    "CNY": {2011: 171, 2012: 179, 2013: 178, 2014: 171, 2015: 180, 2016: 175, 2017: 167, 2018: 166, 2019: 169, 2020: 171},
+    "SGD": {2011: 881, 2012: 902, 2013: 875, 2014: 831, 2015: 823, 2016: 840, 2017: 819, 2018: 816, 2019: 855, 2020: 855},
+}
 _COUNTRY_CCY = {"UNITED STATES": ["USD"], "JAPAN": ["JPY", "JPY", "USD"], "CHINA": ["USD", "USD", "CNY"],
                 "VIETNAM": ["USD"], "GERMANY": ["EUR", "EUR", "USD"], "SINGAPORE": ["USD", "SGD"]}
 # 한국은행 지급사유코드(5자리) — 검색으로 확인된 코드만 사용 (JPMorgan Korea payment purpose code list)
@@ -392,6 +407,9 @@ def overseas_remittance_application(p: Profile, rng: random.Random) -> dict:
     school = "University" in fo.name
     ccy = "USD" if school else rng.choice(_COUNTRY_CCY.get(fo.country, ["USD"]))
     lo, hi, unit = _CCY[ccy]
+    if p.issue_date.year in _CCY_YEAR[ccy]:
+        avg = _CCY_YEAR[ccy][p.issue_date.year]
+        lo, hi = avg * 0.97, avg * 1.03
     rate = round(rng.uniform(lo, hi), 2)
     if school:
         purpose = "유학생경비"

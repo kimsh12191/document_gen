@@ -1,0 +1,41 @@
+{
+ "document_type": "대출거래약정서(가계용)",
+ "bank": "KEB하나은행",
+ "creditor": "주식회사 하나은행",
+ "branch": "분당지점",
+ "debtor": {
+  "name": "김소윤",
+  "rrn": "821121-2411280",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+  "phone": "010-4372-6867"
+ },
+ "loan": {
+  "subject": "전세자금대출",
+  "product": "HUG 전세보증금대출",
+  "method": "개별거래",
+  "account_no": "715-443277-50592",
+  "amount_korean": "금 이억칠천이백만원整",
+  "amount": "272,000,000원",
+  "start_date": "2017.01.23",
+  "maturity": "2019.01.23",
+  "rate_type": "고정금리",
+  "base_rate_name": "금융채 5년물(AAA)",
+  "base_rate": "3.00%",
+  "spread": "1.23%",
+  "pref_rate": "0.20%",
+  "applied_rate": "연 4.03%",
+  "rate_reset": "해당없음(만기까지 고정)",
+  "interest_pay": "매월 10일 (후취)",
+  "interest_calc": "1년을 365일(윤년 366일)로 보고 1일 단위로 계산",
+  "repayment": "만기일시상환",
+  "installment": "해당없음",
+  "debit_account": "KEB하나은행 172-278616-33931",
+  "prepay_fee": "중도상환금액 × 1.20% × 잔존일수 ÷ 대출기간일수 (3년 경과 시 면제)",
+  "late_rate": "대출이자율 + 연체기간별 가산이자율 연 6~8% (현재 연 10.03%, 최고 연 15%)"
+ },
+ "stamp_tax": "150,000원 (고객 75,000원 / 은행 75,000원)",
+ "explained": "예",
+ "handwritten": "충분히 설명듣고 이해함",
+ "contract_date": "2017년 1월 22일",
+ "signature": "김소윤"
+}

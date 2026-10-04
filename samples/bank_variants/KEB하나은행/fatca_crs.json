@@ -1,0 +1,24 @@
+{
+ "document_type": "해외금융계좌 납세자 확인서(개인)",
+ "bank": {
+  "name": "KEB하나은행"
+ },
+ "holder": {
+  "name": "김소윤",
+  "surname_en": "KIM",
+  "given_en": "SOYUN",
+  "birth": "1982-11-21",
+  "mobile": "010-4372-6867",
+  "birth_place": "대한민국 (KOREA)",
+  "nationality": "대한민국 (KOREA)",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)"
+ },
+ "residence_category": "해당사항 없음",
+ "date": "2017.01.15",
+ "signature": "김소윤",
+ "bank_use": {
+  "branch": "분당지점",
+  "clerk": "배훈희",
+  "manager": "남나혜"
+ }
+}

@@ -1048,5 +1048,613 @@
    1191,
    1685
   ]
+ },
+ {
+  "id": "account_opening_application",
+  "name": "예금거래신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/account_opening_application.jpg",
+  "gt": "bank_variants/하나은행/account_opening_application.json",
+  "n_fields": 32,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "auto_transfer_application",
+  "name": "자동이체 신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/auto_transfer_application.jpg",
+  "gt": "bank_variants/하나은행/auto_transfer_application.json",
+  "n_fields": 26,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "collateral_agreement",
+  "name": "근저당권설정계약서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/collateral_agreement.jpg",
+  "gt": "bank_variants/하나은행/collateral_agreement.json",
+  "n_fields": 29,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "corporate_customer_due_diligence",
+  "name": "고객확인서(법인·단체)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/corporate_customer_due_diligence.jpg",
+  "gt": "bank_variants/하나은행/corporate_customer_due_diligence.json",
+  "n_fields": 36,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "credit_agreement",
+  "name": "대출거래약정서(가계용)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/credit_agreement.jpg",
+  "gt": "bank_variants/하나은행/credit_agreement.json",
+  "n_fields": 34,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "credit_agreement_corp",
+  "name": "여신거래약정서(기업용)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/credit_agreement_corp.jpg",
+  "gt": "bank_variants/하나은행/credit_agreement_corp.json",
+  "n_fields": 35,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "customer_due_diligence",
+  "name": "고객확인서(개인)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/customer_due_diligence.jpg",
+  "gt": "bank_variants/하나은행/customer_due_diligence.json",
+  "n_fields": 29,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "fatca_crs",
+  "name": "해외금융계좌 납세자 확인서(개인)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/fatca_crs.jpg",
+  "gt": "bank_variants/하나은행/fatca_crs.json",
+  "n_fields": 15,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "financial_transaction_purpose",
+  "name": "금융거래목적확인서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/financial_transaction_purpose.jpg",
+  "gt": "bank_variants/하나은행/financial_transaction_purpose.json",
+  "n_fields": 18,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "guarantee_agreement",
+  "name": "보증약정서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/guarantee_agreement.jpg",
+  "gt": "bank_variants/하나은행/guarantee_agreement.json",
+  "n_fields": 24,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "loan_application",
+  "name": "대출거래신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/loan_application.jpg",
+  "gt": "bank_variants/하나은행/loan_application.json",
+  "n_fields": 52,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "loan_application_corp",
+  "name": "기업여신 신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/loan_application_corp.jpg",
+  "gt": "bank_variants/하나은행/loan_application_corp.json",
+  "n_fields": 40,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "overseas_remittance_application",
+  "name": "해외송금신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/overseas_remittance_application.jpg",
+  "gt": "bank_variants/하나은행/overseas_remittance_application.json",
+  "n_fields": 34,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "privacy_consent",
+  "name": "개인(신용)정보 수집·이용·제공·조회 동의서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/privacy_consent.jpg",
+  "gt": "bank_variants/하나은행/privacy_consent.json",
+  "n_fields": 24,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "account_opening_application",
+  "name": "예금거래신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/account_opening_application.jpg",
+  "gt": "bank_variants/KEB하나은행/account_opening_application.json",
+  "n_fields": 32,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "auto_transfer_application",
+  "name": "자동이체 신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/auto_transfer_application.jpg",
+  "gt": "bank_variants/KEB하나은행/auto_transfer_application.json",
+  "n_fields": 26,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "collateral_agreement",
+  "name": "근저당권설정계약서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/collateral_agreement.jpg",
+  "gt": "bank_variants/KEB하나은행/collateral_agreement.json",
+  "n_fields": 29,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "corporate_customer_due_diligence",
+  "name": "고객확인서(법인·단체)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/corporate_customer_due_diligence.jpg",
+  "gt": "bank_variants/KEB하나은행/corporate_customer_due_diligence.json",
+  "n_fields": 36,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "credit_agreement",
+  "name": "대출거래약정서(가계용)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/credit_agreement.jpg",
+  "gt": "bank_variants/KEB하나은행/credit_agreement.json",
+  "n_fields": 34,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "credit_agreement_corp",
+  "name": "여신거래약정서(기업용)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/credit_agreement_corp.jpg",
+  "gt": "bank_variants/KEB하나은행/credit_agreement_corp.json",
+  "n_fields": 35,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "customer_due_diligence",
+  "name": "고객확인서(개인)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/customer_due_diligence.jpg",
+  "gt": "bank_variants/KEB하나은행/customer_due_diligence.json",
+  "n_fields": 29,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "fatca_crs",
+  "name": "해외금융계좌 납세자 확인서(개인)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/fatca_crs.jpg",
+  "gt": "bank_variants/KEB하나은행/fatca_crs.json",
+  "n_fields": 15,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "financial_transaction_purpose",
+  "name": "금융거래목적확인서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/financial_transaction_purpose.jpg",
+  "gt": "bank_variants/KEB하나은행/financial_transaction_purpose.json",
+  "n_fields": 18,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "guarantee_agreement",
+  "name": "보증약정서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/guarantee_agreement.jpg",
+  "gt": "bank_variants/KEB하나은행/guarantee_agreement.json",
+  "n_fields": 24,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "loan_application",
+  "name": "대출거래신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/loan_application.jpg",
+  "gt": "bank_variants/KEB하나은행/loan_application.json",
+  "n_fields": 52,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "loan_application_corp",
+  "name": "기업여신 신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/loan_application_corp.jpg",
+  "gt": "bank_variants/KEB하나은행/loan_application_corp.json",
+  "n_fields": 40,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "overseas_remittance_application",
+  "name": "해외송금신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/overseas_remittance_application.jpg",
+  "gt": "bank_variants/KEB하나은행/overseas_remittance_application.json",
+  "n_fields": 34,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "privacy_consent",
+  "name": "개인(신용)정보 수집·이용·제공·조회 동의서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/privacy_consent.jpg",
+  "gt": "bank_variants/KEB하나은행/privacy_consent.json",
+  "n_fields": 24,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "account_opening_application",
+  "name": "예금거래신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/account_opening_application.jpg",
+  "gt": "bank_variants/외환은행/account_opening_application.json",
+  "n_fields": 32,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "auto_transfer_application",
+  "name": "자동이체 신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/auto_transfer_application.jpg",
+  "gt": "bank_variants/외환은행/auto_transfer_application.json",
+  "n_fields": 26,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "collateral_agreement",
+  "name": "근저당권설정계약서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/collateral_agreement.jpg",
+  "gt": "bank_variants/외환은행/collateral_agreement.json",
+  "n_fields": 29,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "credit_agreement",
+  "name": "대출거래약정서(가계용)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/credit_agreement.jpg",
+  "gt": "bank_variants/외환은행/credit_agreement.json",
+  "n_fields": 34,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "credit_agreement_corp",
+  "name": "여신거래약정서(기업용)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/credit_agreement_corp.jpg",
+  "gt": "bank_variants/외환은행/credit_agreement_corp.json",
+  "n_fields": 35,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "guarantee_agreement",
+  "name": "보증약정서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/guarantee_agreement.jpg",
+  "gt": "bank_variants/외환은행/guarantee_agreement.json",
+  "n_fields": 24,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "loan_application",
+  "name": "대출거래신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/loan_application.jpg",
+  "gt": "bank_variants/외환은행/loan_application.json",
+  "n_fields": 52,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "loan_application_corp",
+  "name": "기업여신 신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/loan_application_corp.jpg",
+  "gt": "bank_variants/외환은행/loan_application_corp.json",
+  "n_fields": 40,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "overseas_remittance_application",
+  "name": "해외송금신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/overseas_remittance_application.jpg",
+  "gt": "bank_variants/외환은행/overseas_remittance_application.json",
+  "n_fields": 34,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
+ },
+ {
+  "id": "privacy_consent",
+  "name": "개인(신용)정보 수집·이용·제공·조회 동의서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/privacy_consent.jpg",
+  "gt": "bank_variants/외환은행/privacy_consent.json",
+  "n_fields": 24,
+  "overflow": false,
+  "size": [
+   1191,
+   1685
+  ]
  }
 ]

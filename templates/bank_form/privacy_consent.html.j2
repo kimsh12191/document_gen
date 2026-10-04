@@ -49,7 +49,7 @@ table.prov th, table.prov td { font-size: calc(var(--fs) - 3.5px); padding: 1px 
 <tr><th>조회 대상 기관</th><td class="q">신용정보집중기관 및 개인신용평가회사, 국세청·행정안전부·국민건강보험공단 등 공공기관 (공공정보 조회는 「전자정부법」 제36조에 따름)</td></tr>
 <tr><th>조회 목적</th><td class="q">신용정보주체와의 (금융)거래관계 설정 여부 판단 및 유지·관리, 대출 심사, 사후관리</td></tr>
 <tr><th>조회 항목</th><td class="q">개인식별정보, 신용거래정보, 신용도판단정보, 신용능력정보, 소득·재산·고용 관련 공공정보</td></tr>
-<tr><th>조회 동의의<br>효력기간</th><td class="q">조회 동의일로부터 해당 (금융)거래 종료일까지 (※ 본 조회 기록은 개인신용평점에 영향을 주지 않습니다)</td></tr>
+<tr><th>조회 동의의<br>효력기간</th><td class="q">조회 동의일로부터 해당 (금융)거래 종료일까지 (※ 본 조회 기록은 개인신용{{ "평점" if bk.credit_score else "등급" }}에 영향을 주지 않습니다)</td></tr>
 </table>
 <div class="bf-agree"><span class="lead">위 개인(신용)정보 조회에 동의하십니까?</span><span class="req">[필수]</span>{{ m.agree("consent.inquiry", label="조회동의") }}</div>
 
@@ -73,7 +73,7 @@ table.prov th, table.prov td { font-size: calc(var(--fs) - 3.5px); padding: 1px 
 <div class="row" style="margin-top:6px; align-items:stretch">
   <div class="bf-box bf-note" style="flex:1; margin:0">
     <b>[개인(신용)정보 주체의 권리 안내]</b>
-    <p>① 본인은 「신용정보법」 제36조의2, 제37조, 제38조에 따라 개인신용정보의 열람·정정·삭제, 동의 철회, 신용정보 이용·제공 사실의 통지를 요구할 수 있습니다.</p>
+    <p>① 본인은 「신용정보법」 {% if bk.credinfo_2020 %}제36조의2, {% endif %}제37조, 제38조에 따라 개인신용정보의 열람·정정·삭제, 동의 철회, 신용정보 이용·제공 사실의 통지를 요구할 수 있습니다.</p>
     <p>② 상품 소개 등 영업 목적의 연락을 원하지 않는 경우 「연락중지청구권」(Do-Not-Call)을 행사할 수 있습니다.</p>
   </div>
   {{ bf.stamps([["본인확인", "bank_use.clerk"]]) }}
