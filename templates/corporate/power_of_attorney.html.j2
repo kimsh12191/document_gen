@@ -1,56 +1,61 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
 {% import "corporate/_seal.html.j2" as cs with context %}
+{# 은행 제출용 위임장: 1. 대리인 정보 → 2. 위임내용 → 작성일 → 위임인(본인) 기명날인 → 은행 귀중 (은행 위임장 서식 구성) #}
 {% block style %}
-h1.title { letter-spacing:.8em; margin:10px 0 26px; }
-table.po th.side { width:70px; letter-spacing:.3em; writing-mode:vertical-rl; text-orientation:upright; padding:8px 4px; }
-table.po th.k { width:120px; }
-.lead { margin:22px 0 10px; text-align:center; font-size:calc(var(--fs) + 1px); }
-.tasks { border:var(--bw) solid var(--border); padding:12px 18px; line-height:1.9; }
-.tasks .h { text-align:center; font-weight:700; letter-spacing:.6em; margin-bottom:6px; }
-.dt { text-align:center; margin:30px 0 22px; font-size:calc(var(--fs) + 1px); letter-spacing:.05em; }
-.signer { margin-left:auto; width:430px; line-height:1.9; }
-.signer .row2 { display:flex; align-items:center; }
-.signer .k { width:96px; flex:none; }
-.to { margin-top:30px; font-size:calc(var(--fs) + 6px); font-weight:700; letter-spacing:.15em; }
-.att { margin-top:14px; font-size:calc(var(--fs) - 1px); }
+h1.title { letter-spacing:.8em; margin:10px 0 22px; }
+.sec { font-weight:700; margin:16px 0 4px; }
+table.po th { width:120px; letter-spacing:.05em; }
+.lead { margin:10px 0 6px; }
+.tasks { border:var(--bw) solid var(--border); padding:10px 18px; line-height:1.9; }
+.dt { text-align:center; margin:26px 0 16px; font-size:calc(var(--fs) + 1px); letter-spacing:.05em; }
+.grantor-wrap { display:flex; align-items:center; gap:10px; }
+.grantor-wrap table { flex:1; margin:0; }
+.sealbox { width:118px; text-align:center; flex:none; }
+.sealbox .lbl { font-size:calc(var(--fs) - 2px); color:#444; margin-bottom:4px; }
+.to { margin-top:26px; font-size:calc(var(--fs) + 6px); font-weight:700; letter-spacing:.15em; }
+.att { margin-top:10px; font-size:calc(var(--fs) - 1.5px); color:#333; }
 {% endblock %}
 {% block content %}
 {{ m.title("위 임 장") }}
-<div class="right small" style="margin-bottom:4px">위임인 구분 : {{ m.choice("grantor.type", ["법인", "개인"], label="위임인구분") }}</div>
+<div class="sec">1. 대리인(수임인) 정보</div>
 <table class="po">
-  {% if d.grantor.type == "법인" %}
-  <tr><th class="side" rowspan="4">위임인</th><th class="k">법 인 명</th><td>{{ f("grantor.name", label="법인명") }}</td><th class="k">대표이사</th><td>{{ f("grantor.ceo", label="대표이사") }}</td></tr>
-  <tr><th class="k">사업자등록번호</th><td>{{ f("grantor.biz_no", label="사업자등록번호") }}</td><th class="k">법인등록번호</th><td>{{ f("grantor.corp_reg_no", label="법인등록번호") }}</td></tr>
-  <tr><th class="k">본점소재지</th><td colspan="3">{{ f("grantor.address", label="본점소재지") }}</td></tr>
-  <tr><th class="k">전화번호</th><td colspan="3">{{ f("grantor.phone", label="전화번호") }}</td></tr>
-  {% else %}
-  <tr><th class="side" rowspan="3">위임인</th><th class="k">성　　명</th><td>{{ f("grantor.name", label="성명") }}</td><th class="k">주민등록번호</th><td>{{ f("grantor.rrn", label="주민등록번호") }}</td></tr>
-  <tr><th class="k">주　　소</th><td colspan="3">{{ f("grantor.address", label="주소") }}</td></tr>
-  <tr><th class="k">연 락 처</th><td colspan="3">{{ f("grantor.phone", label="연락처") }}</td></tr>
-  {% endif %}
+  <tr><th>성　　명</th><td>{{ f("agent.name", label="성명") }}</td><th>생년월일</th><td>{{ f("agent.birth", label="생년월일") }}</td></tr>
+  <tr><th>본인과의 관계</th><td>{{ f("agent.relation", label="본인과의관계") }}</td><th>연 락 처</th><td>{{ f("agent.phone", label="연락처") }}</td></tr>
+  <tr><th>주　　소</th><td colspan="3">{{ f("agent.address", label="주소") }}</td></tr>
 </table>
-<table class="po">
-  <tr><th class="side" rowspan="3">수임인</th><th class="k">성　　명</th><td>{{ f("agent.name", label="성명") }}</td><th class="k">주민등록번호</th><td>{{ f("agent.rrn", label="주민등록번호") }}</td></tr>
-  <tr><th class="k">주　　소</th><td colspan="3">{{ f("agent.address", label="주소") }}</td></tr>
-  <tr><th class="k">연 락 처</th><td>{{ f("agent.phone", label="연락처") }}</td><th class="k">{{ "직　　위" if d.grantor.type == "법인" else "관　　계" }}</th><td>{{ f("agent.relation", label="관계(직위)") }}</td></tr>
-</table>
-<div class="lead">위 위임인은 상기 수임인에게 아래의 권한을 위임합니다.</div>
+
+<div class="sec">2. 위임내용</div>
+<div class="lead">본인은 위 대리인에게 다음 사항에 관한 일체의 권한을 위임합니다.</div>
 <div class="tasks">
-  <div class="h">위임내용</div>
   {% for t in d.tasks %}<div>{{ f("tasks." ~ loop.index0, label="위임내용") }}</div>{% endfor %}
   <div class="mt">위임기간 : {{ f("period", label="위임기간") }}</div>
 </div>
-<div class="dt">{{ f("grant_date", label="위임일자") }}</div>
-<div class="signer">
+
+<div class="dt">{{ f("grant_date", label="작성일") }}</div>
+
+<div class="sec">3. 위임인(본인) &nbsp;<span class="small" style="font-weight:400">위임인 구분 : {{ m.choice("grantor.type", ["법인", "개인"], label="위임인구분") }}</span></div>
+<div class="grantor-wrap">
+<table class="po">
   {% if d.grantor.type == "법인" %}
-  <div class="row2"><span class="k">위 임 인 :</span><span>{{ f("grantor.name", label="법인명") }}</span></div>
-  <div class="row2"><span class="k"></span><span>대표이사&nbsp;&nbsp;{{ f("grantor.ceo", label="대표이사") }}</span>&nbsp;&nbsp;&nbsp;(법인인감)&nbsp;{{ cs.corp_seal(d.grantor.name.replace("(주)", "주식회사 "), "대표이사인", 92, "poa") }}</div>
+  <tr><th>상　　호</th><td>{{ f("grantor.name", label="상호") }}</td><th>대 표 자</th><td>대표이사 {{ f("grantor.ceo", label="대표자") }}</td></tr>
+  <tr><th>사업자등록번호</th><td>{{ f("grantor.biz_no", label="사업자등록번호") }}</td><th>법인등록번호</th><td>{{ f("grantor.corp_reg_no", label="법인등록번호") }}</td></tr>
+  <tr><th>본점소재지</th><td colspan="3">{{ f("grantor.address", label="본점소재지") }}</td></tr>
+  <tr><th>연 락 처</th><td colspan="3">{{ f("grantor.phone", label="연락처") }}</td></tr>
   {% else %}
-  <div class="row2"><span class="k">위 임 인 :</span><span>{{ f("grantor.name", label="성명") }}</span>&nbsp;&nbsp;&nbsp;(인감)&nbsp;{{ m.seal(d.grantor.name, size="lg") }}</div>
+  <tr><th>성　　명</th><td>{{ f("grantor.name", label="성명") }}</td><th>생년월일</th><td>{{ f("grantor.birth", label="생년월일") }}</td></tr>
+  <tr><th>연 락 처</th><td colspan="3">{{ f("grantor.phone", label="연락처") }}</td></tr>
+  <tr><th>주　　소</th><td colspan="3">{{ f("grantor.address", label="주소") }}</td></tr>
   {% endif %}
-  <div class="row2" style="margin-top:6px"><span class="k">수 임 인 :</span><span>{{ f("agent.name", label="성명") }}</span>&nbsp;&nbsp;&nbsp;(서명 또는 인)</div>
+</table>
+<div class="sealbox">
+  {% if d.grantor.type == "법인" %}
+  <div class="lbl">(법인인감)</div>{{ cs.corp_seal(d.grantor.name.replace("(주)", "주식회사 "), "대표이사인", 92, "poa") }}
+  {% else %}
+  <div class="lbl">(인감)</div>{{ m.seal(d.grantor.name, size="lg") }}
+  {% endif %}
 </div>
-<div class="att">※ 첨부 : {{ f("attachment", label="첨부서류") }}, 수임인 신분증 사본 1부</div>
+</div>
+<div class="att">{% if d.grantor.type == "법인" %}※ 위임인은 법인인감을 날인하고 법인인감증명서(최근 3개월 이내 발급분)를 첨부하여야 합니다.{% else %}※ 위임인은 인감증명서상의 인감을 날인하거나 본인서명사실확인서와 같은 서명을 하여야 합니다.{% endif %}<br>※ 첨부 : {{ f("attachment", label="첨부서류") }}, 대리인 신분증 사본 1부</div>
 <div class="to">{{ f("recipient", label="제출처") }}</div>
 {% endblock %}

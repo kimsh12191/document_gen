@@ -2,53 +2,59 @@
 {% import "_macros.html.j2" as m with context %}
 {% block page_class %} dense{% endblock %}
 {% block style %}
-.page.a4 { padding: min(var(--page-pad), 44px) min(var(--page-pad), 56px); }
+.page.a4 { padding: min(var(--page-pad), 34px) min(var(--page-pad), 56px); }
 .fs-title { text-align:center; font-size:calc(var(--fs) + 7px); font-weight:700; letter-spacing:.4em; margin:0 0 2px; }
 .fs-period { text-align:center; font-size:calc(var(--fs) - 1px); line-height:1.3; }
 .fs-meta { display:flex; justify-content:space-between; font-size:calc(var(--fs) - 1px); margin:4px 0 2px; }
 table.fs { margin:0; border-top:2px solid var(--border); border-bottom:2px solid var(--border); }
-table.fs th, table.fs td { padding:2px 8px; line-height:1.3; font-size:calc(var(--fs) - 1px); }
-table.fs th { border-bottom:1.5px solid var(--border); }
+table.fs th, table.fs td { padding:0 6px; line-height:1.2; font-size:calc(var(--fs) - 1.5px); }
+table.fs th { border-bottom:1px solid var(--border); }
 table.fs td { border-top:0; border-bottom:0; }
 table.fs td.acc { white-space:nowrap; }
-table.fs tr.sec td { font-weight:700; letter-spacing:.3em; }
-table.fs tr.l1 td { font-weight:600; }
-table.fs tr.l2 td.acc { padding-left:24px; }
+table.fs tr.sec td { font-weight:700; letter-spacing:.3em; text-align:center; }
+table.fs tr.l0 td { font-weight:600; }
+table.fs tr.l1 td.acc { padding-left:14px; }
+table.fs tr.l2 td.acc { padding-left:30px; }
+table.fs th.sub { font-weight:600; font-size:calc(var(--fs) - 2px); border-bottom:1.5px solid var(--border); }
 table.fs tr.tot td { font-weight:700; border-top:1px solid var(--border); background:var(--label-bg); }
-.gap { height:22px; }
+.gap { height:12px; }
 {% endblock %}
 {% macro fs_rows(path) %}
 {% for r in val(path) %}{% set i = loop.index0 %}{% set a = r.account %}
-{% set cls = 'tot' if ('총계' in a or (path == 'income_statement' and a[:1] in 'ⅢⅤⅧⅩ')) else ('l2' if a[:1] in '0123456789' else 'l1') %}
-<tr class="{{ cls }}">
+{% set lv = 0 if a[:1] in 'ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ' else (1 if a[:1] == '(' else (9 if '총계' in a else 2)) %}
+<tr class="{{ ['l0', 'l1', 'l2'][lv] if lv < 9 else 'tot' }}">
   <td class="acc">{{ f(path ~ "." ~ i ~ ".account", label="과목") }}</td>
-  <td class="num">{{ f(path ~ "." ~ i ~ ".current", label="당기") }}</td>
-  <td class="num">{{ f(path ~ "." ~ i ~ ".prior", label="전기") }}</td>
+  {% for col, lab in [("current", "당기"), ("prior", "전기")] %}
+  {% if lv == 2 %}<td class="num">{{ f(path ~ "." ~ i ~ "." ~ col, label=lab) }}</td><td class="num"></td>
+  {% else %}<td class="num"></td><td class="num">{{ f(path ~ "." ~ i ~ "." ~ col, label=lab) }}</td>{% endif %}
+  {% endfor %}
 </tr>
 {% endfor %}
 {% endmacro %}
 {% block content %}
 <div class="fs-title">재 무 상 태 표</div>
-<div class="fs-period">{{ f("current_term", label="당기") }}(당기) {{ f("bs_current_date", label="당기말") }}<br>{{ f("prior_term", label="전기") }}(전기) {{ f("bs_prior_date", label="전기말") }}</div>
+<div class="fs-period">{{ f("current_term", label="당기") }}&nbsp; {{ f("bs_current_date", label="당기말") }}<br>{{ f("prior_term", label="전기") }}&nbsp; {{ f("bs_prior_date", label="전기말") }}</div>
 <div class="fs-meta"><span>회사명 : {{ f("company_name", label="회사명") }}</span><span>{{ f("unit", label="단위") }}</span></div>
 <table class="fs">
-  <colgroup><col><col style="width:28%"><col style="width:28%"></colgroup>
-  <tr><th>과　　목</th><th>{{ f("current_term", label="당기") }} (당기)</th><th>{{ f("prior_term", label="전기") }} (전기)</th></tr>
-  <tr class="sec"><td>자　　산</td><td></td><td></td></tr>
+  <colgroup><col><col style="width:16%"><col style="width:16%"><col style="width:16%"><col style="width:16%"></colgroup>
+  <tr><th rowspan="2" style="border-bottom:1.5px solid var(--border)">과　　목</th><th colspan="2">{{ f("current_term", label="당기") }}</th><th colspan="2">{{ f("prior_term", label="전기") }}</th></tr>
+  <tr><th class="sub" colspan="2">금　　액</th><th class="sub" colspan="2">금　　액</th></tr>
+  <tr class="sec"><td>자　　산</td><td colspan="4"></td></tr>
   {{ fs_rows("assets") }}
-  <tr class="sec"><td>부　　채</td><td></td><td></td></tr>
+  <tr class="sec"><td>부　　채</td><td colspan="4"></td></tr>
   {{ fs_rows("liabilities") }}
-  <tr class="sec"><td>자　　본</td><td></td><td></td></tr>
+  <tr class="sec"><td>자　　본</td><td colspan="4"></td></tr>
   {{ fs_rows("equity") }}
-  <tr class="tot"><td class="acc">부채와자본총계</td><td class="num">{{ f("total_liabilities_equity.current", label="부채와자본총계(당기)") }}</td><td class="num">{{ f("total_liabilities_equity.prior", label="부채와자본총계(전기)") }}</td></tr>
+  <tr class="tot"><td class="acc">부채와자본총계</td><td></td><td class="num">{{ f("total_liabilities_equity.current", label="부채와자본총계(당기)") }}</td><td></td><td class="num">{{ f("total_liabilities_equity.prior", label="부채와자본총계(전기)") }}</td></tr>
 </table>
 <div class="gap"></div>
 <div class="fs-title">손 익 계 산 서</div>
-<div class="fs-period">{{ f("current_term", label="당기") }}(당기) {{ f("is_current_period", label="당기회계기간") }}<br>{{ f("prior_term", label="전기") }}(전기) {{ f("is_prior_period", label="전기회계기간") }}</div>
+<div class="fs-period">{{ f("current_term", label="당기") }}&nbsp; {{ f("is_current_period", label="당기회계기간") }}<br>{{ f("prior_term", label="전기") }}&nbsp; {{ f("is_prior_period", label="전기회계기간") }}</div>
 <div class="fs-meta"><span>회사명 : {{ f("company_name", label="회사명") }}</span><span>{{ f("unit", label="단위") }}</span></div>
 <table class="fs">
-  <colgroup><col><col style="width:28%"><col style="width:28%"></colgroup>
-  <tr><th>과　　목</th><th>{{ f("current_term", label="당기") }} (당기)</th><th>{{ f("prior_term", label="전기") }} (전기)</th></tr>
+  <colgroup><col><col style="width:16%"><col style="width:16%"><col style="width:16%"><col style="width:16%"></colgroup>
+  <tr><th rowspan="2" style="border-bottom:1.5px solid var(--border)">과　　목</th><th colspan="2">{{ f("current_term", label="당기") }}</th><th colspan="2">{{ f("prior_term", label="전기") }}</th></tr>
+  <tr><th class="sub" colspan="2">금　　액</th><th class="sub" colspan="2">금　　액</th></tr>
   {{ fs_rows("income_statement") }}
 </table>
 {% endblock %}
