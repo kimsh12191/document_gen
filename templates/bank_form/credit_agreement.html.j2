@@ -3,7 +3,8 @@
 {% import "bank_form/_loan_parts.html.j2" as lp with context %}
 {% block page_class %} dense{% endblock %}
 {% block style %}
-.art { font-weight: 700; margin: 5px 0 1px; }
+.art { font-weight: 700; margin: 6px 0 2px; }
+table.bf th, table.bf td { padding: 4px 6px; }
 table.bf.t th { width: 104px; }
 .stamp { border: 1px dashed #777; width: 64px; height: 56px; display: flex; align-items: center; justify-content: center; font-size: calc(var(--fs) - 3px); color: #666; text-align: center; line-height: 1.2; }
 {% endblock %}
@@ -60,6 +61,8 @@ table.bf.t th { width: 104px; }
 <div class="small" style="margin:0 0 0 8px">이자, 분할상환원리금 등을 그 기일에 지급하지 아니한 때에는 지급하여야 할 금액에 대하여 그 다음 날부터 지연배상금률 <b>{{ f("loan.late_rate", label="지연배상금률") }}</b> 에 따른 지연배상금을 지급합니다.</div>
 <div class="art">제6조(인지세 부담)</div>
 <div class="small" style="margin:0 0 0 8px">이 약정서 작성에 따른 인지세는 각 50%씩 본인과 은행이 부담합니다. 인지세: <b>{{ f("stamp_tax", label="인지세") }}</b></div>
+<div class="art">제7조(자동이체)</div>
+<div class="small" style="margin:0 0 0 8px">본인은 이자, 분할상환원리금 등을 위 자동이체계좌에서 그 지급일에 자동이체하여 납부하기로 하며, 잔액 부족으로 미납된 금액은 이후 입금되는 즉시 출금하여도 이의를 제기하지 않습니다.</div>
 <div class="notice" style="margin:3px 0 0">
 <p>※ 금리인하요구권: 본인은 취업, 승진, 소득 증가, 신용평점 상승 등 신용상태가 개선된 경우 은행에 금리인하를 요구할 수 있습니다.</p>
 <p>※ 청약철회권: 계약체결일, 계약서류를 받은 날, 대출금 수령일 중 나중에 발생한 날부터 14일 이내에 대출계약을 철회할 수 있습니다(「금융소비자 보호에 관한 법률」 제46조).</p>

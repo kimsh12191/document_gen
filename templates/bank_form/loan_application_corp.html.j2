@@ -54,14 +54,12 @@
 
 <div class="small" style="margin:3px 0"><b>제출서류</b> <span class="tiny muted">(은행 확인)</span> : □ 법인등기사항전부증명서 □ 사업자등록증 □ 재무제표(최근 3년) □ 법인인감증명서 □ 국세·지방세 완납증명 □ 주주명부 □ 정관·이사회의사록 □ 부가세과세표준증명</div>
 <div class="notice">
-<p>※ 신청 내용은 은행의 신용평가 및 여신심사 결과에 따라 승인금액, 금리, 기간, 담보조건이 달라질 수 있습니다.</p>
+<p>※ 신청 내용은 은행의 여신심사 결과에 따라 달라질 수 있으며, 기재 내용이 사실과 다를 경우 여신이 취소되거나 기한의 이익을 상실할 수 있습니다.</p>
 <p>※ 당사는 여신 심사를 위하여 귀 행이 당사 및 대표자의 신용정보를 신용정보집중기관 및 신용조회회사에 조회하는 것에 동의합니다.</p>
 <p>※ 여신 이용 중 재무상태 개선, 신용등급 상승 등 신용상태가 개선된 경우 금리인하를 요구할 수 있습니다(「은행법」 제30조의2).</p>
-<p>※ 제출서류 및 기재 내용이 사실과 다를 경우 여신이 취소되거나 기한의 이익을 상실할 수 있습니다.</p>
 </div>
 
-<div class="center" style="margin-top:4px">{{ f("apply_date", label="신청일") }}</div>
-<div class="between" style="align-items:center"><div><b>{{ lp.legal_name() }}</b> 앞</div><div class="right" style="line-height:2.1">
+<div class="between" style="align-items:center;margin-top:4px"><div>{{ f("apply_date", label="신청일") }}<br><b>{{ lp.legal_name() }}</b> 앞</div><div class="right" style="line-height:2.1">
   신청인(법인) &nbsp;{{ f("company.name", label="기업명") }}<span class="inmark"></span><br>
   대표이사 &nbsp;<span style="font-size:calc(var(--fs) + 1px)">{{ f("signature", label="대표이사") }}</span> &nbsp;{{ lp.in_seal("대표이사", size="") }}
 </div></div>

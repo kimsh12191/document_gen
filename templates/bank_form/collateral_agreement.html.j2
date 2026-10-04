@@ -2,34 +2,56 @@
 {% import "_macros.html.j2" as m with context %}
 {% import "bank_form/_loan_parts.html.j2" as lp with context %}
 {% block page_class %} dense{% endblock %}
+{% block style %}
+.art { font-weight: 700; margin: 5px 0 1px; }
+table.bf td.hw, td.hw { border-width: 2px; }
+.thick { border: 2px solid var(--border) !important; }
+table.scope td { vertical-align: top; }
+{% endblock %}
 {% block content %}
 {{ lp.css() }}
-{{ lp.head("서식번호 여신-1301 (2025.01 개정)", "등기신청용 원본 / 고객 교부용 사본") }}
-{{ lp.title_row("근저당권설정계약서", sub="(개인용)", boxes=("담 당", "검 인", "책임자")) }}
+{{ lp.head(kind="mortgage", sub="등기신청용 원본") }}
+{{ lp.title_row("근저당권설정계약서", sub="(근담보용)") }}
+<div style="margin:0 0 2px"><b>{{ f("creditor.name", label="채권자 겸 근저당권자") }}</b> 앞 &nbsp;<span class="small muted">(취급점: {{ f("creditor.branch", label="취급점") }})</span></div>
+<div class="box" style="margin:2px 0;padding:3px 8px"><div class="notice" style="margin:0"><p>■ 은행은 근저당권설정자에게 이 약정서상의 중요한 내용을 설명하여야 하며, 은행여신거래기본약관과 이 약정서의 사본을 교부하여야 합니다.</p>
+<p>■ 굵은 선으로 표시된 란(당사자란, 제1조 및 계약서 끝부분)은 근저당권설정자가 반드시 자필로 기재하여야 합니다.</p></div></div>
 
-<table class="bf">
-<colgroup><col style="width:112px"><col style="width:62px"><col><col style="width:92px"><col></colgroup>
-<tr><th>채권자 겸<br>근저당권자</th><th>명　칭</th><td>{{ f("creditor.name", label="채권자") }}</td><th>취급점</th><td>{{ f("creditor.branch", label="취급점") }}</td></tr>
-<tr><th>채 무 자</th><th>성　명</th><td>{{ f("debtor.name", label="채무자") }}</td><th>주　소</th><td>{{ f("debtor.address", label="채무자주소") }}</td></tr>
-<tr><th rowspan="2">근저당권<br>설 정 자</th><th>성　명</th><td>{{ f("mortgagor.name", label="근저당권설정자") }}</td><th>주민등록번호</th><td>{{ f("mortgagor.rrn", label="주민등록번호") }}</td></tr>
-<tr><th>주　소</th><td colspan="3">{{ f("mortgagor.address", label="설정자주소") }}</td></tr>
+<table class="bf thick">
+<colgroup><col style="width:100px"><col style="width:62px"><col><col style="width:84px"><col></colgroup>
+<tr><th rowspan="2">근저당권<br>설 정 자</th><th>성　명</th><td><span class="hand">{{ f("mortgagor.name", label="근저당권설정자") }}</span></td><th>실명번호</th><td>{{ f("mortgagor.rrn", label="실명번호") }}</td></tr>
+<tr><th>주　소</th><td colspan="3"><span class="hand">{{ f("mortgagor.address", label="설정자주소") }}</span></td></tr>
+<tr><th>채 무 자</th><th>성　명</th><td><span class="hand">{{ f("debtor.name", label="채무자") }}</span></td><th>주　소</th><td><span class="hand">{{ f("debtor.address", label="채무자주소") }}</span></td></tr>
 </table>
 
-<p class="lead" style="margin:5px 0">근저당권설정자는 채무자가 채권자에 대하여 아래 피담보채무의 범위에 속하는 거래로 인하여 현재 및 장래에 부담하는 채무를 담보하기 위하여, 아래 표시 부동산에 다음과 같이 근저당권을 설정합니다.</p>
+<p class="lead" style="margin:4px 0">근저당권설정자는 채무자가 제1조의 피담보채무를 담보하기 위하여 아래 표시 부동산에 순위 제 <b>{{ f("rank", label="순위") }}</b> 번의 근저당권을 설정하고 다음 각 조항을 확약합니다.</p>
 
-<table class="bf">
-<colgroup><col style="width:112px"><col></colgroup>
-<tr><th>채권최고액</th><td><b style="font-size:calc(var(--fs) + 1px)">{{ f("max_amount_korean", label="채권최고액(한글)") }}</b>&nbsp;&nbsp;(₩ {{ f("max_amount", label="채권최고액") }})</td></tr>
-<tr><th>피담보채무의<br>범위</th><td>{{ m.choice("scope", ["특정근담보", "한정근담보", "포괄근담보"], label="피담보채무범위") }}
-<div class="tiny muted">특정근담보: 특정 약정에 따른 채무 / 한정근담보: 특정 종류의 거래로 인한 채무 / 포괄근담보: 여신거래로 인한 모든 채무</div></td></tr>
-<tr><th>피담보채무 내용</th><td>{{ f("secured_debt", label="피담보채무") }}</td></tr>
-<tr><th>결 산 기</th><td>{{ f("settlement", label="결산기") }}&nbsp;<span class="tiny muted">(정하지 않은 경우 설정자는 언제든지 결산기를 지정할 수 있음)</span></td></tr>
-<tr><th>설정순위</th><td>{{ f("rank", label="설정순위") }}</td></tr>
+<div class="art">제1조(피담보채무의 범위 및 채권최고액)</div>
+<table class="bf thick scope">
+<colgroup><col style="width:110px"><col></colgroup>
+<tr><th>채권최고액</th><td><span class="hand" style="font-size:calc(var(--fs) + 3px)">{{ f("max_amount_korean", label="채권최고액(한글)") }}</span>&nbsp;&nbsp;(₩ {{ f("max_amount", label="채권최고액") }})</td></tr>
+<tr><th rowspan="1">피담보채무의<br>범위</th><td>
+{% set sc = val("scope") %}
+<div>{% if sc == "특정근담보" %}■ <b>{{ f("scope", label="피담보채무의범위") }}</b>{% else %}□ <b>특정근담보</b>{% endif %} : 채무자가 채권자(본·지점)에 대하여 다음 약정서에 의한 거래로 말미암아 현재 및 장래에 부담하는 모든 채무
+{% if sc == "특정근담보" %}<br>&nbsp;&nbsp;&nbsp;→ <span class="hand">{{ f("secured_debt", label="피담보채무") }}</span>{% endif %}</div>
+<div>{% if sc == "한정근담보" %}■ <b>{{ f("scope", label="피담보채무의범위") }}</b>{% else %}□ <b>한정근담보</b>{% endif %} : 채무자가 은행(본·지점)에 대하여 다음 종류의 거래로 말미암아 현재 및 장래에 부담하는 모든 채무
+{% if sc == "한정근담보" %}<br>&nbsp;&nbsp;&nbsp;→ <span class="hand">{{ f("secured_debt", label="피담보채무") }}</span>{% endif %}</div>
+<div>{% if sc == "포괄근담보" %}■ <b>{{ f("scope", label="피담보채무의범위") }}</b>{% else %}□ <b>포괄근담보</b>{% endif %} : 채무자가 은행(본·지점)에 대하여 {% if sc == "포괄근담보" %}<span class="hand">{{ f("secured_debt", label="피담보채무") }}</span>{% else %}현재 및 장래에 부담하는 모든 채무{% endif %}</div>
+<div class="tiny muted" style="margin-top:1px">※ 위 채무에는 이자, 지연배상금 기타 부대채무를 포함합니다.</div>
+</td></tr>
 </table>
 
-<div class="bf-sec">담보물건(부동산)의 표시</div>
+<div class="art">제2조(결산기)</div>
+<div class="small" style="margin:0 0 0 6px">
+{% set st = val("settlement_type") %}
+{% if st == "지정형" %}■ <b>{{ f("settlement_type", label="결산기유형") }}</b>{% else %}□ 지정형{% endif %} : 결산기 {% if st == "지정형" %}<b>{{ f("settlement", label="결산기") }}</b>{% else %}&nbsp;&nbsp;&nbsp;&nbsp;년&nbsp;&nbsp;&nbsp;월&nbsp;&nbsp;&nbsp;일{% endif %}<br>
+{% if st == "자동확정형" %}■ <b>{{ f("settlement_type", label="결산기유형") }}</b>{% else %}□ 자동확정형{% endif %} : 정하지 아니합니다. 계약일부터 3년이 지나면 설정자는 서면통지로 결산기를 지정할 수 있으며, 5년이 지날 때까지 별도 의사표시가 없으면 계약일부터 5년이 되는 날을 결산기로 합니다.<br>
+{% if st == "장래지정형" %}■ <b>{{ f("settlement_type", label="결산기유형") }}</b>{% else %}□ 장래지정형{% endif %} : 정하지 아니합니다. 계약일부터 3년이 지나면 설정자는 서면통지로 결산기를 지정할 수 있으며, 그 결산기는 통지 도달일부터 14일 이후가 되어야 합니다.
+{% if st != "지정형" %}<span class="muted">(결산기: {{ f("settlement", label="결산기") }})</span>{% endif %}
+</div>
+
+<div class="art">제3조(담보물건의 표시)</div>
 <table class="bf">
-<colgroup><col style="width:112px"><col style="width:92px"><col><col style="width:80px"><col></colgroup>
+<colgroup><col style="width:110px"><col style="width:92px"><col><col style="width:80px"><col></colgroup>
 <tr><th rowspan="3">1동의 건물의<br>표시</th><th>소 재 지</th><td colspan="3">{{ f("property.location", label="소재지") }}</td></tr>
 <tr><th>도로명주소</th><td colspan="3">{{ f("property.road_address", label="도로명주소") }}</td></tr>
 <tr><th>구　　조</th><td>{{ f("property.structure", label="구조") }}</td><th>층　수</th><td>{{ f("property.floors", label="층수") }}</td></tr>
@@ -38,22 +60,17 @@
 <tr><th>대지권의 표시</th><th>대지권</th><td colspan="3">{{ f("property.land_right", label="대지권") }}</td></tr>
 <tr><th>부동산 고유번호</th><td colspan="4">{{ f("property.unique_no", label="고유번호") }}</td></tr>
 </table>
+<div class="notice" style="margin:2px 0"><p>※ 설정자는 은행의 동의 없이 담보물의 현상을 변경하거나 제3자를 위한 권리를 설정하지 아니하며, 이 계약에서 정하지 않은 사항은 은행여신거래기본약관에 따릅니다.</p></div>
 
-<ol class="clauses notice" style="list-style:none;padding-left:0;margin:4px 0">
-<li><b>제1조(근저당권의 설정)</b> 설정자는 이 계약에 따라 근저당권 설정등기에 필요한 서류를 채권자에게 제공하며, 등기비용 부담은 별도 약정에 따릅니다.</li>
-<li><b>제2조(담보물의 보존)</b> 설정자는 채권자의 동의 없이 담보물의 현상을 변경하거나 제3자를 위한 권리를 설정하지 아니합니다.</li>
-<li><b>제3조(결산기의 지정)</b> 결산기를 정하지 않은 경우 설정자는 채권자에게 서면으로 결산기를 지정하여 통지할 수 있으며, 그 통지가 도달한 날로부터 14일이 지난 날을 결산기로 합니다.</li>
-<li><b>제4조(준용)</b> 이 계약에서 정하지 않은 사항은 은행여신거래기본약관에 따릅니다.</li>
-</ol>
-
-<div class="box" style="margin:4px 0;padding:4px 8px">
-<div class="small">설정자는 피담보채무의 범위 및 채권최고액에 관하여 충분히 설명을 듣고 이해하였으며, 피담보채무의 범위를 아래와 같이 자필로 기재합니다.</div>
-<div style="margin-top:2px">자필기재 (피담보채무의 범위) : <span class="u" style="display:inline-block;min-width:200px"><span class="hand" style="font-size:calc(var(--fs) + 3px)">{{ f("scope_handwritten", label="자필기재") }}</span></span></div>
+<div class="box thick" style="margin:4px 0;padding:3px 8px">
+<div class="small">근저당권설정자는 피담보채무의 범위, 채권최고액 및 결산기에 관하여 충분히 설명을 듣고 이해하였으며, 이 계약서 및 약관의 사본을 수령하였습니다.</div>
+<div style="margin-top:1px">자필기재 : 피담보채무의 범위 <span class="u" style="display:inline-block;min-width:110px"><span class="hand" style="font-size:calc(var(--fs) + 2px)">{{ f("scope_handwritten", label="자필기재(피담보채무범위)") }}</span></span>
+&nbsp; 확인 <span class="u" style="display:inline-block;min-width:150px"><span class="hand" style="font-size:calc(var(--fs) + 2px)">{{ f("handwritten_confirm", label="자필기재(확인)") }}</span></span></div>
 </div>
 
-<div class="between" style="margin-top:14px;align-items:center">
-  <div style="padding-left:20px">계약일 &nbsp;{{ f("contract_date", label="계약일") }}</div>
-  <div class="right" style="line-height:2.3">
+<div class="between" style="margin-top:6px;align-items:center">
+  <div style="padding-left:12px">{{ f("contract_date", label="계약일") }}</div>
+  <div class="right" style="line-height:2.2">
     채　무　자 &nbsp;<span class="who" style="display:inline-block;min-width:80px;text-align:center">{{ f("signature_debtor", label="채무자") }}</span> {{ lp.in_seal(None, mark="(인)") }}<br>
     근저당권설정자 &nbsp;<span class="who" style="display:inline-block;min-width:80px;text-align:center">{{ f("signature_mortgagor", label="근저당권설정자") }}</span> {{ lp.in_seal(val("signature_mortgagor") ~ "인", size="", mark="(인감)") }}
   </div>

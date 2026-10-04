@@ -269,13 +269,13 @@ def loan_application(p: Profile, rng: random.Random) -> dict:
     per, e, prop = p.person, p.employment, p.property
     df = rng.choice(["dot", "kor", "dash"])
     owns_home = prop.address.road_short == per.address.road_short
-    if pl["kind"] == "jeonse":
-        housing = "전세"
-    elif pl["kind"] == "mortgage" and pl["purpose"] != "주택구입자금" or owns_home:
+    if owns_home:
         housing = "자가"
+    elif pl["kind"] == "jeonse":
+        housing = "전세"
     else:
-        housing = rng.choices(["자가", "전세", "월세", "기타"], weights=[35, 35, 20, 10])[0]
-    if owns_home or (pl["kind"] == "mortgage" and pl["purpose"] != "주택구입자금"):
+        housing = rng.choices(["전세", "월세", "기타"], weights=[60, 30, 10])[0]
+    if owns_home:
         dwelling = _DWELLING.get(prop.kind, "아파트")
     else:
         dwelling = rng.choices(["아파트", "다세대", "연립·빌라", "오피스텔", "단독"], weights=[55, 15, 12, 12, 6])[0]
@@ -291,7 +291,7 @@ def loan_application(p: Profile, rng: random.Random) -> dict:
     purpose_cat = ("주택구입" if pl["purpose"] == "주택구입자금" else "주택임차" if pl["kind"] == "jeonse"
                    else "부채상환" if "대환" in pl["purpose"] else "생활비")
     assets = []
-    if housing == "자가" or pl["collateral"] == "부동산":
+    if owns_home or (pl["collateral"] == "부동산" and pl["purpose"] != "주택구입자금"):
         assets.append({"kind": prop.kind.replace("주택", ""), "location": prop.address.road_short.split(",")[0],
                        "value": won(K.round_to(prop.price, 10_000_000), "")})
     dep = sum(a.balance for a in p.accounts)
@@ -363,7 +363,7 @@ def loan_application_corp(p: Profile, rng: random.Random) -> dict:
     rev = c.revenue
     size = "중소기업" if rev < 150_000_000_000 else rng.choice(["중견기업", "중소기업"]) if rev < 300_000_000_000 else "중견기업"
     other = []
-    for _ in range(rng.choice([0, 1, 1, 2, 2, 3])):
+    for _ in range(rng.choice([0, 1, 1, 2, 2])):
         lender = rng.choice([b for b in ["국민은행", "신한은행", "우리은행", "하나은행", "농협은행", "기업은행",
                                          "산업은행", "수협은행"] if b != p.bank])
         if lender in (x["lender"] for x in other):
@@ -508,7 +508,7 @@ def credit_agreement_corp(p: Profile, rng: random.Random) -> dict:
     terms["interest_pay"] = f"매월 {pl['pay_day']}일" if pl["pay_day"] != 30 else "매월 말일"
     return {
         "bank": p.bank,
-        "creditor": _bank_name(p, rng),
+        "creditor": _legal_bank(p.bank),
         "branch": p.bank_branch,
         "debtor": {
             "name": c.name,
@@ -529,6 +529,7 @@ def credit_agreement_corp(p: Profile, rng: random.Random) -> dict:
             "purpose": pl["purpose"],
             **terms,
         },
+        "stamp_tax": _stamp_tax(pl["amount"]),
         "explained": "예",
         "contract_date": D(pl["contract_date"], rng.choice(["kor", "kor_short"])),
         "signature": c.ceo.name,
@@ -551,18 +552,20 @@ def collateral_agreement(p: Profile, rng: random.Random) -> dict:
     cdate = pl["contract_date"]
     df = rng.choice(["dot", "kor_short"])
     if scope == "특정근담보":
-        debt = f"{D(cdate, 'kor_short')}자 여신거래약정에 의한 {mg['subject']} 금 {won(mg['amount'])}"
+        debt = f"{D(cdate, 'kor_short')}자 대출거래약정서(가계용)"
     elif scope == "한정근담보":
-        debt = rng.choice(["가계자금대출(주택담보대출) 거래로 인한 채무", "주택자금대출 및 가계일반자금대출 거래로 인한 채무"])
+        debt = rng.choice(["가계자금대출(주택담보대출) 거래", "주택자금대출 거래", "가계일반자금대출 및 주택자금대출 거래"])
     else:
-        debt = "현재 및 장래에 부담하는 여신거래로 인한 모든 채무"
-    settle = rng.choice(["정하지 않음", "정하지 않음", D(mg["maturity"], df)])
+        debt = "현재 및 장래에 부담하는 모든 채무"
+    # 결산기: 지정형 / 자동확정형 / 장래지정형 (설정자가 선택)
+    settle_type = rng.choices(["지정형", "자동확정형", "장래지정형"], weights=[15, 50, 35])[0]
+    settle = D(mg["maturity"], df) if settle_type == "지정형" else "정하지 아니함"
     unit = a.detail or f"{prop.floor}층"
     ratio_den = round(prop.land_area * rng.uniform(80, 400), 1)
     return {
         "bank": p.bank,
         "creditor": {
-            "name": _bank_name(p, rng),
+            "name": _legal_bank(p.bank),
             "branch": p.bank_branch,
         },
         "debtor": {"name": per.name, "address": per.address.road_short},
@@ -576,6 +579,7 @@ def collateral_agreement(p: Profile, rng: random.Random) -> dict:
         "scope": scope,
         "scope_handwritten": scope,
         "secured_debt": debt,
+        "settlement_type": settle_type,
         "settlement": settle,
         "property": {
             "location": f"{a.jibun_full}" + (f" {a.building_name}" if a.building_name else ""),
@@ -588,7 +592,8 @@ def collateral_agreement(p: Profile, rng: random.Random) -> dict:
             "land_right": f"소유권대지권 {ratio_den:,}분의 {prop.land_area:.2f}",
             "unique_no": prop.unique_no,
         },
-        "rank": rng.choices(["1순위", "2순위"], weights=[85, 15])[0],
+        "rank": rng.choices(["1", "2"], weights=[85, 15])[0],
+        "handwritten_confirm": rng.choice(["설명을 듣고 이해함", "충분히 설명듣고 이해함", "확인함"]),
         "contract_date": D(cdate, rng.choice(["kor", "kor_short"])),
         "signature_debtor": per.name,
         "signature_mortgagor": per.name,
@@ -605,20 +610,23 @@ def guarantee_agreement(p: Profile, rng: random.Random) -> dict:
     c = p.corporation
     per = p.person
     pl = _plan_corp(p)
-    method = rng.choices(["특정채무보증", "한정근보증"], weights=[55, 45])[0]
+    method = rng.choices(["특정채무보증", "특정근보증", "한정근보증"], weights=[45, 20, 35])[0]
     max_amt = K.round_to(pl["amount"] * pl["guarantee_ratio"] / 100, 1_000_000)
     df = rng.choice(["dot", "kor_short"])
     if method == "특정채무보증":
-        debt = f"{D(pl['contract_date'], 'kor_short')}자 {pl['product']} 금 {won(pl['amount'])} (대출과목: {pl['kind']})"
-        period = f"{D(pl['start_date'], df)} ~ {D(pl['maturity'], df)} (주채무 만기일까지)"
+        debt = f"{D(pl['contract_date'], 'kor_short')}자 {pl['kind']} 금 {won(pl['amount'])}"
+        period = f"{D(pl['start_date'], df)} ~ {D(pl['maturity'], df)}"
+    elif method == "특정근보증":
+        debt = f"{D(pl['contract_date'], 'kor_short')}자 여신거래약정서(기업용)에 의한 {pl['kind']} 거래"
+        period = f"{D(pl['start_date'], df)} ~ {D(_add_years(pl['start_date'], max(3, pl['term_years'])), df)}"
     else:
-        debt = rng.choice(["기업일반자금대출 거래로 인한 채무", "기업자금대출 및 한도대출 거래로 인한 채무",
-                           f"{pl['kind']} 거래로 인한 채무"])
-        period = f"{D(pl['start_date'], df)} ~ {D(_add_years(pl['start_date'], rng.choice([1, 3, 5])), df)}"
+        debt = rng.choice(["기업일반자금대출 거래", "기업자금대출 거래", "운전자금대출 및 시설자금대출 거래",
+                           f"{pl['kind']} 거래"])
+        period = f"{D(pl['start_date'], df)} ~ {D(_add_years(pl['start_date'], 3), df)}"
     amt_kr = K.won_korean(max_amt)
     return {
         "bank": p.bank,
-        "creditor": _bank_name(p, rng),
+        "creditor": _legal_bank(p.bank),
         "branch": p.bank_branch,
         "debtor": {"name": c.name, "biz_no": c.biz_no, "ceo": c.ceo.name, "address": c.address.road_short},
         "guarantor": {
@@ -626,7 +634,7 @@ def guarantee_agreement(p: Profile, rng: random.Random) -> dict:
             "rrn": K.mask_rrn(per.rrn) if rng.random() < 0.6 else per.rrn,
             "address": per.address.road_short,
             "phone": per.mobile,
-            "relation": rng.choice(["대표이사", "대표이사(실제경영자)"]),
+            "relation": rng.choice(["대표이사(실제경영자)", "대표이사"]),
         },
         "method": method,
         "max_amount": won(max_amt, ""),
@@ -637,6 +645,7 @@ def guarantee_agreement(p: Profile, rng: random.Random) -> dict:
             "max_amount": f"금 {amt_kr}원정",
             "method": method,
             "name": per.name,
+            "confirm": rng.choice(["설명을 듣고 이해함", "충분히 설명듣고 이해함", "확인함"]),
         },
         "explained": "예",
         "contract_date": D(pl["contract_date"], rng.choice(["kor", "kor_short"])),
@@ -667,23 +676,29 @@ def auto_transfer_application(p: Profile, rng: random.Random) -> dict:
               else rng.choice(["청구금액 전액", "매월 청구금액"]) + f" / 예상 {won(est)}")
     df = rng.choice(["dot", "kor_short", "dash"])
     first = _add_months(pl["start_date"].replace(day=min(pl["pay_day"], 28)), 1)
+    birth = per.birth
     return {
         "bank": p.bank,
         "branch": p.bank_branch,
         "kind": rng.choice(["신규", "신규", "변경"]),
+        "biller": {"name": _legal_bank(p.bank), "fee_type": f"{target}({pl['subject']})"},
         "applicant": {
             "name": per.name,
-            "rrn": K.mask_rrn(per.rrn),
+            "birth": birth.strftime(rng.choice(["%Y.%m.%d", "%y%m%d", "%Y-%m-%d"])),
             "phone": per.mobile,
             "address": per.address.road_short,
         },
-        "debit": {"bank": a.bank, "account": a.number, "holder": a.holder},
+        "debit": {"bank": a.bank, "account": a.number, "holder": a.holder,
+                  "holder_birth": birth.strftime("%y%m%d"), "holder_phone": per.mobile},
+        "relation": "본인",
         "target": target,
         "loan_account": pl["loan_account"],
         "loan_product": pl["product"],
         "transfer_day": f"매월 {pl['pay_day']}일",
         "start_month": f"{first.year}년 {first.month}월분부터" if df != "dash" else D(first, "dash"),
         "amount": amount,
+        "privacy_consent": "동의함",
+        "third_party_consent": "동의함",
         "apply_date": D(pl["apply_date"] + timedelta(days=rng.randint(2, 12)), rng.choice(["kor", "kor_short", df])),
         "signature": per.name,
         "holder_signature": a.holder,

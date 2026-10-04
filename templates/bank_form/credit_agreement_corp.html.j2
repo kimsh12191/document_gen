@@ -2,47 +2,77 @@
 {% import "_macros.html.j2" as m with context %}
 {% import "bank_form/_loan_parts.html.j2" as lp with context %}
 {% block page_class %} dense{% endblock %}
+{% block style %}
+.art { font-weight: 700; margin: 5px 0 1px; }
+.stamp { border: 1px dashed #777; width: 64px; height: 56px; display: flex; align-items: center; justify-content: center; font-size: calc(var(--fs) - 3px); color: #666; text-align: center; line-height: 1.2; }
+{% endblock %}
 {% block content %}
 {{ lp.css() }}
-{{ lp.head("서식번호 기업여신-2201 (2025.03 개정)", "은행여신거래기본약관(기업용) 적용") }}
-{{ lp.title_row("여신거래약정서", sub="(기업용)") }}
-<p style="margin:2px 0"><b>{{ f("creditor", label="채권자") }}</b> 앞 &nbsp;<span class="small muted">(취급점: {{ f("branch", label="취급점") }})</span></p>
-<p class="lead" style="margin:2px 0 4px">채무자는 「은행여신거래기본약관(기업용)」이 적용됨을 승인하고, 귀 행과 아래와 같이 여신거래를 약정합니다.</p>
+{{ lp.head(kind="agree_corp", sub="은 행 용") }}
+<div class="between" style="align-items:flex-start">
+  <div class="stamp">수 입<br>인 지</div>
+  <h1 class="title" style="flex:1;margin:8px 0 4px">여신거래약정서 <span class="bf-sub">(기업용)</span></h1>
+  {% set boxes = lp.appr_boxes().split("|") %}
+  <table class="appr"><tr>{% for b in boxes %}<th>{{ b }}</th>{% endfor %}</tr><tr>{% for b in boxes %}<td></td>{% endfor %}</tr></table>
+</div>
+<div style="margin:2px 0"><b>{{ f("creditor", label="채권자") }}</b> 앞 &nbsp;<span class="small muted">(취급점: {{ f("branch", label="취급점") }})</span></div>
+<div class="box" style="margin:3px 0;padding:3px 8px"><div class="notice" style="margin:0"><p>■ 은행은 본인 및 담보제공자에게 이 약정서상의 중요한 내용을 설명하여야 하며, 은행여신거래기본약관(기업용)과 이 약정서의 사본을 교부하여야 합니다.</p></div></div>
+<p class="lead" style="margin:3px 0">본인은 {{ lp.legal_name() }}(이하 "은행"이라 합니다)과의 여신거래에 있어 <b>은행여신거래기본약관(기업용)</b>이 적용됨을 승인하고 다음 각 조항을 확약합니다.</p>
 
-<div class="bf-sec">채무자</div>
 <table class="bf">
 <colgroup><col style="width:104px"><col><col style="width:96px"><col></colgroup>
-<tr><th>상호(법인명)</th><td colspan="3"><b>{{ f("debtor.name", label="상호") }}</b></td></tr>
+<tr><th>상호(법인명)</th><td colspan="3"><b>{{ f("debtor.name", label="상호(법인명)") }}</b></td></tr>
 <tr><th>사업자등록번호</th><td>{{ f("debtor.biz_no", label="사업자등록번호") }}</td><th>법인등록번호</th><td>{{ f("debtor.corp_no", label="법인등록번호") }}</td></tr>
 <tr><th>대표이사</th><td>{{ f("debtor.ceo", label="대표이사") }}</td><th>전화번호</th><td>{{ f("debtor.phone", label="전화번호") }}</td></tr>
 <tr><th>본점 소재지</th><td colspan="3">{{ f("debtor.address", label="본점소재지") }}</td></tr>
 </table>
 
-<div class="bf-sec">여신 조건</div>
-{{ lp.terms(["고정금리", "변동금리"]) }}
+<div class="art">제1조(여신거래조건)</div>
+<table class="bf">
+<colgroup><col style="width:104px"><col><col style="width:96px"><col></colgroup>
+<tr><th>여신과목</th><td>{{ f("loan.subject", label="여신과목") }}</td><th>상 품 명</th><td>{{ f("loan.product", label="상품명") }}</td></tr>
+<tr><th>거래방법</th><td>{{ m.choice("loan.method", ["개별거래", "한도거래"], label="거래방법") }}</td><th>여신계좌번호</th><td>{{ f("loan.account_no", label="여신계좌번호") }}</td></tr>
+<tr><th>여신(한도)금액</th><td colspan="3"><b>{{ f("loan.amount_korean", label="여신(한도)금액(한글)") }}</b>&nbsp;&nbsp;({{ f("loan.amount", label="여신(한도)금액") }})</td></tr>
+<tr><th>여신개시일</th><td>{{ f("loan.start_date", label="여신개시일") }}</td><th>여신기간만료일</th><td>{{ f("loan.maturity", label="여신기간만료일") }}</td></tr>
+<tr><th>자금용도</th><td colspan="3">{{ f("loan.purpose", label="자금용도") }}</td></tr>
+</table>
 
-<div class="bf-sec">주요 약정 내용</div>
-<ol class="clauses notice" style="list-style:none;padding-left:0;margin:2px 0">
-<li><b>제1조(적용범위)</b> 이 약정에서 정하지 않은 사항은 은행여신거래기본약관(기업용) 및 해당 상품설명서에 따릅니다.</li>
-<li><b>제2조(이자 등)</b> ① 이자율은 위 표에서 정한 바에 따르며, 변동금리는 금리변동주기마다 변경된 기준금리에 가산금리를 더하여 적용합니다. ② 채무자는 재무상태 개선, 신용등급 상승 등 신용상태가 개선된 경우 금리인하를 요구할 수 있습니다.</li>
-<li><b>제3조(지연배상금)</b> 채무자가 이자, 분할상환금 등을 기일에 지급하지 아니한 때에는 지급하여야 할 금액에 대하여 위 지연배상금률에 따른 지연배상금을 지급합니다.</li>
-<li><b>제4조(중도상환)</b> 채무자는 만기 전 언제든지 여신의 전부 또는 일부를 상환할 수 있으며, 이 경우 위에서 정한 중도상환해약금을 지급합니다.</li>
-<li><b>제5조(기한의 이익 상실)</b> 채무자가 이자 등의 지급을 지체하거나, 어음교환소의 거래정지처분, 파산·회생절차 개시신청 등 기본약관에서 정한 사유가 발생한 때에는 기한의 이익을 상실하며 곧 채무 전액을 변제합니다.</li>
-<li><b>제6조(자료제출)</b> 채무자는 매 결산기 재무제표 등 은행이 여신관리에 필요하다고 인정하여 요구하는 자료를 지체 없이 제출합니다.</li>
-</ol>
+<div class="art">제2조(이자 등)</div>
+<table class="bf">
+<colgroup><col style="width:104px"><col><col style="width:96px"><col></colgroup>
+<tr><th>금리종류</th><td colspan="3">{{ m.choice("loan.rate_type", ["고정금리", "변동금리"], label="금리종류") }}&nbsp; 기준금리: {{ f("loan.base_rate_name", label="기준금리종류") }}</td></tr>
+<tr><td colspan="4" style="padding:0">
+  <table style="margin:0;border:0" class="compact"><tr><th style="border-top:0;border-left:0">기준금리</th><th style="border-top:0">가산금리</th><th style="border-top:0">우대금리(－)</th><th style="border-top:0;border-right:0">여신이자율</th></tr>
+  <tr><td class="c" style="border-left:0;border-bottom:0">연 {{ f("loan.base_rate", label="기준금리") }}</td><td class="c" style="border-bottom:0">＋ {{ f("loan.spread", label="가산금리") }}</td><td class="c" style="border-bottom:0">－ {{ f("loan.pref_rate", label="우대금리") }}</td><td class="c bold" style="border-right:0;border-bottom:0">＝ {{ f("loan.applied_rate", label="여신이자율") }}</td></tr></table>
+</td></tr>
+<tr><th>금리변동주기</th><td>{{ f("loan.rate_reset", label="금리변동주기") }}</td><th>이자지급시기</th><td>{{ f("loan.interest_pay", label="이자지급시기") }}</td></tr>
+<tr><th>이자계산방법</th><td colspan="3">{{ f("loan.interest_calc", label="이자계산방법") }}</td></tr>
+</table>
 
-<div class="box" style="margin:4px 0;padding:4px 8px">
-채무자(대표이사)는 위 내용 및 약관의 중요 내용을 <b>충분히 설명 듣고 이해하였음</b>을 확인합니다. &nbsp;{{ m.agree("explained", "예", "아니오", label="설명이해확인") }}
-<div class="tiny muted">※ 은행은 약정서 및 약관의 사본을 채무자에게 교부합니다. 설명이 부족하거나 이해하지 못한 경우 확인란에 표시하지 마십시오.</div>
+<div class="art">제3조(상환방법 및 자동이체)</div>
+<table class="bf">
+<colgroup><col style="width:104px"><col></colgroup>
+<tr><th>상환방법</th><td>{{ f("loan.repayment", label="상환방법") }}</td></tr>
+<tr><th>자동이체계좌</th><td>{{ f("loan.debit_account", label="자동이체계좌") }} <span class="tiny muted">(이자 및 분할상환금 자동이체 출금계좌)</span></td></tr>
+</table>
+<div class="art">제4조(중도상환해약금)</div>
+<div style="margin:0 0 0 8px">{{ f("loan.prepay_fee", label="중도상환해약금") }}</div>
+<div class="art">제5조(지연배상금)</div>
+<div class="small" style="margin:0 0 0 8px">이자 등을 그 기일에 지급하지 아니한 때에는 지급하여야 할 금액에 대하여, 이자를 지급하여야 할 때부터 계속하여 14일간 지체하여 기한의 이익을 상실한 때에는 여신금액 전액에 대하여 지연배상금률 <b>{{ f("loan.late_rate", label="지연배상금률") }}</b> 로 계산한 지연배상금을 지급합니다.</div>
+<div class="art">제6조(인지세 부담)</div>
+<div class="small" style="margin:0 0 0 8px">이 약정서 작성에 따른 인지세는 각 50%씩 본인과 은행이 부담하며, 본인이 부담할 인지세를 은행이 대신 지급한 경우에는 곧 갚기로 합니다. 인지세: <b>{{ f("stamp_tax", label="인지세") }}</b></div>
+
+<div class="box" style="margin:5px 0;padding:3px 8px">
+<div class="small">본인(대표이사)은 이 약정서 및 은행여신거래기본약관(기업용)의 중요 내용에 대하여 충분히 설명을 듣고 이해하였으며, 그 사본을 수령하였습니다. &nbsp;{{ m.agree("explained", "예", "아니오", label="설명이해확인") }}</div>
 </div>
 
 <div class="between" style="margin-top:6px;align-items:center">
-  <div style="padding-left:20px">약정일 &nbsp;{{ f("contract_date", label="약정일") }}</div>
+  <div style="padding-left:12px">{{ f("contract_date", label="약정일") }}</div>
   <div class="right" style="line-height:2.1">
-    채무자 &nbsp;{{ f("debtor.name", label="상호") }}<span class="inmark"></span><br>
-    대표이사 &nbsp;<span style="font-size:calc(var(--fs) + 1px)">{{ f("signature", label="대표이사") }}</span> &nbsp;{{ lp.in_seal("대표이사", size="") }}
+    본인(채무자) &nbsp;{{ f("debtor.name", label="상호(법인명)") }}<span class="inmark"></span><br>
+    대표이사 &nbsp;<span style="font-size:calc(var(--fs) + 1px)">{{ f("signature", label="대표이사") }}</span> &nbsp;{{ lp.in_seal("대표이사", size="", mark="(법인인감)") }}
   </div>
 </div>
 
-{{ lp.bank_use(["실명확인", "약정내용 설명", "인감·서명 대조", "담당자", "책임자"]) }}
+{{ lp.bank_use(["실명확인", "약정내용 설명", "인감 대조", "담당자", "책임자"]) }}
 {% endblock %}

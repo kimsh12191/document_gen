@@ -2,58 +2,61 @@
 {% import "_macros.html.j2" as m with context %}
 {% import "bank_form/_loan_parts.html.j2" as lp with context %}
 {% block style %}
-table.bf th, table.bf td { padding: 6px 8px; }
+table.bf th, table.bf td { padding: 5px 7px; }
+.num-h { font-weight: 700; margin: 8px 0 2px; }
 {% endblock %}
 {% block content %}
 {{ lp.css() }}
-{{ lp.head("서식번호 여신-1501 (2024.10 개정)", "대출이자 등 자동이체용") }}
-{{ lp.title_row("자동이체 신청서", sub="(대출이자·원리금)") }}
-<p class="lead">본인은 귀 행에서 받은 대출의 이자 및 원리금을 아래 출금계좌에서 자동이체하여 납부하고자 신청합니다.
-<span class="small muted">(취급점: {{ f("branch", label="취급점") }})</span></p>
+{{ lp.head(kind="cms", sub="대출이자 등 자동이체용") }}
+{% set same = d.debit.bank == d.bank %}
+{{ lp.title_row("자동이체 신청서" if same else "CMS 출금이체 신청서", sub="(대출이자·원리금)") }}
+<div style="margin:0 0 4px"><b>{{ f("biller.name", label="수납기관") }}</b> 앞 &nbsp;<span class="small muted">(취급점: {{ f("branch", label="취급점") }})</span>
+&nbsp;&nbsp; 신청구분 : {{ m.choice("kind", ["신규", "변경", "해지"], label="신청구분") }}</div>
 
+<div class="num-h">1. 수납기관 및 요금정보</div>
 <table class="bf">
-<colgroup><col style="width:110px"><col></colgroup>
-<tr><th>신청구분</th><td>{{ m.choice("kind", ["신규", "변경", "해지"], label="신청구분") }}</td></tr>
+<colgroup><col style="width:120px"><col><col style="width:120px"><col></colgroup>
+<tr><th>요금종류</th><td>{{ f("biller.fee_type", label="요금종류") }}</td><th>이체대상</th><td>{{ m.choice("target", ["대출이자", "대출원리금"], label="이체대상") }}</td></tr>
+<tr><th>대출상품명</th><td>{{ f("loan_product", label="대출상품명") }}</td><th>납부자번호<br><span class="tiny">(대출계좌번호)</span></th><td>{{ f("loan_account", label="납부자번호(대출계좌번호)") }}</td></tr>
 </table>
 
-<div class="bf-sec">신청인</div>
+<div class="num-h">2. 신청고객 기본사항</div>
 <table class="bf">
-<colgroup><col style="width:110px"><col><col style="width:110px"><col></colgroup>
-<tr><th>성　　명</th><td>{{ f("applicant.name", label="성명") }}</td><th>주민등록번호</th><td>{{ f("applicant.rrn", label="주민등록번호") }}</td></tr>
+<colgroup><col style="width:120px"><col><col style="width:120px"><col></colgroup>
+<tr><th>신청인(납부자)</th><td>{{ f("applicant.name", label="신청인") }}</td><th>생년월일</th><td>{{ f("applicant.birth", label="생년월일") }}</td></tr>
 <tr><th>연 락 처</th><td>{{ f("applicant.phone", label="연락처") }}</td><th>주　　소</th><td>{{ f("applicant.address", label="주소") }}</td></tr>
 </table>
 
-<div class="bf-sec">이체 내용</div>
+<div class="num-h">3. 출금이체 신청내용 <span class="tiny muted" style="font-weight:400">(신청고객 기재란)</span></div>
 <table class="bf">
-<colgroup><col style="width:110px"><col><col style="width:110px"><col></colgroup>
-<tr><th>대출계좌번호</th><td>{{ f("loan_account", label="대출계좌번호") }}</td><th>대출상품명</th><td>{{ f("loan_product", label="대출상품명") }}</td></tr>
-<tr><th>이체대상</th><td colspan="3">{{ m.choice("target", ["대출이자", "대출원리금"], label="이체대상") }}<span class="tiny muted">(분할상환 대출은 원리금, 만기일시상환 대출은 이자)</span></td></tr>
-<tr><th>이 체 일</th><td>{{ f("transfer_day", label="이체일") }}</td><th>이체개시</th><td>{{ f("start_month", label="이체개시") }}</td></tr>
-<tr><th>이체금액</th><td colspan="3">{{ f("amount", label="이체금액") }}</td></tr>
+<colgroup><col style="width:120px"><col><col style="width:120px"><col></colgroup>
+<tr><th>출금은행</th><td>{{ f("debit.bank", label="출금은행") }}</td><th>출금계좌번호</th><td>{{ f("debit.account", label="출금계좌번호") }}</td></tr>
+<tr><th>예 금 주</th><td>{{ f("debit.holder", label="예금주") }}</td><th>예금주 생년월일</th><td>{{ f("debit.holder_birth", label="예금주생년월일") }}</td></tr>
+<tr><th>예금주 휴대전화</th><td>{{ f("debit.holder_phone", label="예금주휴대전화") }}</td><th>신청인과 예금주<br>와의 관계</th><td>{{ m.choice("relation", ["본인", "가족", "기타"], label="신청인과예금주와의관계") }}</td></tr>
+<tr><th>출 금 일</th><td>{{ f("transfer_day", label="출금일") }}</td><th>이체개시</th><td>{{ f("start_month", label="이체개시") }}</td></tr>
+<tr><th>출금금액</th><td colspan="3">{{ f("amount", label="출금금액") }}</td></tr>
 </table>
 
-<div class="bf-sec">출금계좌</div>
-<table class="bf">
-<colgroup><col style="width:110px"><col><col style="width:80px"><col style="width:150px"></colgroup>
-<tr><th>은 행 명</th><td colspan="3">{{ f("debit.bank", label="출금은행") }}</td></tr>
-<tr><th>계좌번호</th><td>{{ f("debit.account", label="출금계좌번호") }}</td><th>예 금 주</th><td>{{ f("debit.holder", label="예금주") }}</td></tr>
+<div class="num-h">4. 개인정보 수집·이용 및 제3자 제공 동의</div>
+<table class="bf compact">
+<colgroup><col style="width:120px"><col></colgroup>
+<tr><th>수집·이용 목적</th><td class="small">자동이체(출금이체)를 통한 대출이자 등 납부, 출금동의 확인, 출금이체 신규등록 및 해지사실 통지</td></tr>
+<tr><th>수집 항목</th><td class="small">성명, 생년월일, 연락처, 출금은행명, 계좌번호, 예금주 정보</td></tr>
+<tr><th>보유·이용 기간</th><td class="small">수집·이용 동의일부터 출금이체 종료일(해지일) 후 5년까지</td></tr>
+<tr><th>제공받는 자</th><td class="small">{% if same %}해당 없음(당행 계좌 자동이체){% else %}(사)금융결제원, 출금이체 계좌의 금융기관{% endif %}</td></tr>
+<tr><th>동의 여부</th><td>개인정보 수집·이용 {{ m.agree("privacy_consent", label="개인정보수집이용동의") }} &nbsp; 제3자 제공 {{ m.agree("third_party_consent", label="제3자제공동의") }}</td></tr>
 </table>
-
-<div class="notice mt">
-<p>※ 이체일이 휴일인 경우 다음 영업일에 출금되며, 출금계좌의 잔액이 부족한 경우 이체되지 않아 연체이자(지연배상금)가 발생할 수 있습니다.</p>
-<p>※ 이체일에 잔액이 부족하여 미출금된 금액은 이후 입금되는 즉시 출금계좌에서 출금(재출금)될 수 있습니다.</p>
-<p>※ 출금계좌가 해지되거나 거래가 정지된 경우 자동이체가 해지될 수 있으며, 변경·해지는 영업점 또는 인터넷뱅킹에서 신청할 수 있습니다.</p>
-<p>※ 대출 상환일정 및 청구금액은 금리 변동 등에 따라 달라질 수 있습니다.</p>
+<div class="notice">
+<p>※ 동의를 거부할 권리가 있으나, 동의하지 않으시면 자동이체 신청이 불가합니다.</p>
+<p>※ 출금일이 휴일인 경우 다음 영업일에 출금되며, 잔액 부족으로 미출금된 금액은 이후 입금 즉시 출금될 수 있고 연체이자(지연배상금)가 발생할 수 있습니다.</p>
+<p>※ 변경·해지는 영업점 또는 인터넷뱅킹에서 신청할 수 있으며, 출금계좌가 해지되면 자동이체도 해지됩니다.</p>
 </div>
 
-<div class="box mt">
-<div class="bold">출금계좌 예금주 동의</div>
-<div class="small" style="margin:4px 0 6px">출금계좌 예금주는 위 대출의 이자 및 원리금 등 청구금액이 위 출금계좌에서 자동으로 출금되는 것에 동의합니다.</div>
-<div class="sig" style="margin-top:2px">예금주&nbsp;<span class="who">{{ f("holder_signature", label="예금주") }}</span>(서명 또는 인)</div>
-</div>
-
-<div class="center mt">{{ f("apply_date", label="신청일") }}</div>
+<p class="lead" style="margin:8px 0 4px">신청인은 「개인정보 보호법」 및 「신용정보의 이용 및 보호에 관한 법률」에 따라 위 금융거래정보의 제공, 개인정보의 수집·이용 및 제3자 제공에 동의하며 위와 같이 출금이체를 신청합니다.</p>
+<div class="center">{{ f("apply_date", label="신청일") }}</div>
 <div class="sig">신청인&nbsp;<span class="who">{{ f("signature", label="신청인") }}</span>(서명 또는 인)</div>
+<div class="sig">예금주&nbsp;<span class="who">{{ f("holder_signature", label="예금주") }}</span>(서명 또는 인)</div>
+<div class="tiny muted right">※ 신청인과 예금주가 다른 경우 예금주가 별도로 서명하여야 합니다.</div>
 
 {{ lp.bank_use(["접수일자", "실명확인", "등록처리", "담당자", "책임자"]) }}
 {% endblock %}

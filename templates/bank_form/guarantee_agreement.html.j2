@@ -3,57 +3,66 @@
 {% import "bank_form/_loan_parts.html.j2" as lp with context %}
 {% block page_class %} dense{% endblock %}
 {% block style %}
-table.hw td { height: 30px; }
+.art { font-weight: 700; margin: 5px 0 1px; }
+.thick { border: 2px solid var(--border) !important; }
+table.hw td { height: 28px; }
 table.hw .hand { font-size: calc(var(--fs) + 3px); }
+.opt { margin: 1px 0; }
 {% endblock %}
 {% block content %}
 {{ lp.css() }}
-{{ lp.head("서식번호 여신-1401 (2025.01 개정)", "개인보증인용") }}
-{{ lp.title_row("보증약정서", sub="(기업여신)", boxes=("담 당", "책임자")) }}
-<p style="margin:2px 0"><b>{{ f("creditor", label="채권자") }}</b> 앞 &nbsp;<span class="small muted">(취급점: {{ f("branch", label="취급점") }})</span></p>
-<p class="lead" style="margin:2px 0 4px">보증인은 아래 채무자가 귀 행에 대하여 부담하는 아래 피보증채무에 관하여 다음과 같이 보증하며, 「은행여신거래기본약관」 및 이 약정을 따를 것을 확약합니다.</p>
+{{ lp.head(kind="guarantee", sub="개인보증인용") }}
+{% set mt = val("method") %}
+{{ lp.title_row("보증약정서", sub="(특정채무보증용)" if mt == "특정채무보증" else "(근보증용)") }}
+<div style="margin:0 0 2px"><b>{{ f("creditor", label="채권자") }}</b> 앞 &nbsp;<span class="small muted">(취급점: {{ f("branch", label="취급점") }})</span></div>
+<div class="box" style="margin:2px 0;padding:3px 8px"><div class="notice" style="margin:0"><p>■ 은행은 보증인에게 이 약정서상의 중요한 내용을 설명하여야 하며, 은행여신거래기본약관과 이 약정서의 사본을 교부하여야 합니다.</p>
+<p>■ 굵은 선으로 표시된 란(당사자란, 제1조 및 약정서 끝부분)은 보증인이 반드시 자필로 기재하여야 합니다.</p></div></div>
 
-<div class="bf-sec">채무자 및 보증인</div>
-<table class="bf">
-<colgroup><col style="width:70px"><col style="width:96px"><col><col style="width:96px"><col></colgroup>
+<table class="bf thick">
+<colgroup><col style="width:66px"><col style="width:96px"><col><col style="width:96px"><col></colgroup>
 <tr><th rowspan="2">채무자</th><th>상호(법인명)</th><td>{{ f("debtor.name", label="채무자") }}</td><th>사업자등록번호</th><td>{{ f("debtor.biz_no", label="사업자등록번호") }}</td></tr>
 <tr><th>대표자</th><td>{{ f("debtor.ceo", label="대표자") }}</td><th>소재지</th><td>{{ f("debtor.address", label="소재지") }}</td></tr>
-<tr><th rowspan="3">보증인</th><th>성　명</th><td>{{ f("guarantor.name", label="보증인") }}</td><th>주민등록번호</th><td>{{ f("guarantor.rrn", label="주민등록번호") }}</td></tr>
-<tr><th>주　소</th><td colspan="3">{{ f("guarantor.address", label="보증인주소") }}</td></tr>
+<tr><th rowspan="3">보증인</th><th>성　명</th><td><span class="hand">{{ f("guarantor.name", label="보증인") }}</span></td><th>실명번호</th><td>{{ f("guarantor.rrn", label="실명번호") }}</td></tr>
+<tr><th>주　소</th><td colspan="3"><span class="hand">{{ f("guarantor.address", label="보증인주소") }}</span></td></tr>
 <tr><th>연락처</th><td>{{ f("guarantor.phone", label="연락처") }}</td><th>채무자와의 관계</th><td>{{ f("guarantor.relation", label="채무자와의관계") }}</td></tr>
 </table>
 
-<div class="bf-sec">보증 내용</div>
-<table class="bf">
+<p class="lead" style="margin:4px 0">보증인은 채무자가 {{ lp.legal_name() }}(이하 "은행"이라 합니다)에 대하여 부담하는 제1조의 채무에 관하여 「은행여신거래기본약관」 및 이 약정에 따라 채무자와 연대하여 보증채무를 부담하기로 하고 다음 각 조항을 확약합니다.</p>
+
+<div class="art">제1조(보증채무의 범위 및 최고액)</div>
+<table class="bf thick">
 <colgroup><col style="width:120px"><col></colgroup>
-<tr><th>보증방법</th><td>{{ m.choice("method", ["특정채무보증", "한정근보증"], label="보증방법") }}<span class="tiny muted">(포괄근보증은 취급하지 않음)</span></td></tr>
-<tr><th>피보증채무</th><td>{{ f("secured_debt", label="피보증채무") }}</td></tr>
-<tr><th>보증채무 최고액</th><td><b>{{ f("max_amount_korean", label="보증채무최고액(한글)") }}</b>&nbsp;&nbsp;(₩ {{ f("max_amount", label="보증채무최고액") }})</td></tr>
+<tr><th>보증방법 및<br>피보증채무</th><td class="small">
+<div class="opt">{% if mt == "특정채무보증" %}■ <b>{{ f("method", label="보증방법") }}</b>{% else %}□ <b>특정채무보증</b>{% endif %} : 채무자가 은행에 대하여 부담하는 다음 특정채무만을 보증하며, 그 채무가 기한연기·재취급 또는 다른 여신으로 대환된 때에는 보증책임을 지지 않습니다.</div>
+<div class="opt">{% if mt == "특정근보증" %}■ <b>{{ f("method", label="보증방법") }}</b>{% else %}□ <b>특정근보증</b>{% endif %} : 다음 거래계약으로부터 현재 및 장래에 계속적으로 발생하는 채무를 보증하며, 그 채무가 기한연기된 때에도 보증합니다.</div>
+<div class="opt">{% if mt == "한정근보증" %}■ <b>{{ f("method", label="보증방법") }}</b>{% else %}□ <b>한정근보증</b>{% endif %} : 다음 종류의 거래로부터 현재 발생되어 있거나 앞으로 발생할 채무를 모두 보증하며, 연기·재취급 및 같은 종류로 대환된 때에도 보증합니다.</div>
+<div style="margin-top:2px;font-size:var(--fs)">피보증채무 : <span class="hand">{{ f("secured_debt", label="피보증채무") }}</span></div>
+</td></tr>
+<tr><th>보증채무최고액</th><td><span class="hand" style="font-size:calc(var(--fs) + 2px)">{{ f("max_amount_korean", label="보증채무최고액(한글)") }}</span>&nbsp;&nbsp;(₩ {{ f("max_amount", label="보증채무최고액") }})</td></tr>
 <tr><th>보증기간</th><td>{{ f("period", label="보증기간") }}</td></tr>
 </table>
 
-<ol class="clauses notice" style="list-style:none;padding-left:0;margin:4px 0">
-<li><b>제1조(보증채무의 범위)</b> 보증인은 위 보증방법에 따른 피보증채무의 원금, 이자, 지연배상금 및 그 부대채무를 합하여 보증채무 최고액의 범위 안에서 보증책임을 집니다.</li>
-<li><b>제2조(보증기간)</b> 한정근보증의 경우 보증기간 중에 발생한 채무에 한하여 보증하며, 보증기간을 정하지 아니한 경우 그 기간은 3년으로 봅니다.</li>
-<li><b>제3조(통지의무)</b> 은행은 채무자가 원본, 이자 그 밖의 채무를 3개월 이상 이행하지 아니하거나 기한의 이익을 상실한 경우 지체 없이 보증인에게 그 사실을 알립니다.</li>
-<li><b>제4조(보증채무의 이행)</b> 보증인은 채무자가 채무를 이행하지 아니한 때에는 은행의 청구에 따라 곧 보증채무를 이행합니다.</li>
-<li><b>제5조(보증인의 권리)</b> 보증인은 은행에 대하여 주채무의 내용 및 그 이행 여부를 알려줄 것을 청구할 수 있습니다.</li>
-</ol>
-
-<div class="bf-sec">보증인 자필 기재란 <span class="tiny muted" style="font-weight:400">(반드시 보증인이 직접 기재하십시오)</span></div>
-<table class="bf hw">
-<colgroup><col style="width:120px"><col></colgroup>
-<tr><th>보증방법</th><td><span class="hand">{{ f("handwritten.method", label="자필보증방법") }}</span></td></tr>
-<tr><th>보증채무 최고액</th><td><span class="hand">{{ f("handwritten.max_amount", label="자필보증채무최고액") }}</span></td></tr>
-<tr><th>보증인 성명</th><td><span class="hand">{{ f("handwritten.name", label="자필성명") }}</span></td></tr>
-</table>
-
-<div class="box" style="margin:4px 0;padding:4px 8px">
-<div class="between" style="align-items:center"><span>보증인은 이 약정서 및 약관의 중요 내용을 <b>충분히 설명 듣고 이해하였으며</b> 사본을 수령하였음</span><span>{{ m.agree("explained", "예", "아니오", label="설명이해확인") }}</span></div>
+<div class="notice" style="margin:3px 0">
+<p><b>제2조(보증기간)</b> 근보증의 경우 보증기간 중에 발생한 채무에 한하여 보증하며, 보증기간의 약정이 없는 때에는 그 기간을 3년으로 봅니다(「보증인 보호를 위한 특별법」 제7조).</p>
+<p><b>제3조(통지의무)</b> 은행은 채무자가 원본, 이자 그 밖의 채무를 3개월 이상 이행하지 아니하거나 기한의 이익을 상실한 경우 지체 없이 보증인에게 그 사실을 알립니다.</p>
+<p><b>제4조(보증채무의 이행)</b> 보증인은 채무자가 채무를 이행하지 아니한 때에는 은행의 청구에 따라 곧 보증채무를 이행합니다.</p>
+<p><b>제5조(보증인의 권리)</b> 보증인은 은행에 대하여 주채무의 내용 및 그 이행 여부를 알려줄 것을 청구할 수 있습니다.</p>
 </div>
 
-<div class="between" style="margin-top:14px;align-items:center">
-  <div style="padding-left:20px">약정일 &nbsp;{{ f("contract_date", label="약정일") }}</div>
+<div class="bf-sec">보증인 자필 기재란 <span class="tiny muted" style="font-weight:400">(반드시 보증인이 직접 기재하십시오)</span></div>
+<table class="bf hw thick">
+<colgroup><col style="width:120px"><col><col style="width:110px"><col></colgroup>
+<tr><th>보증방법</th><td><span class="hand">{{ f("handwritten.method", label="자필보증방법") }}</span></td><th>보증인 성명</th><td><span class="hand">{{ f("handwritten.name", label="자필성명") }}</span></td></tr>
+<tr><th>보증채무최고액</th><td colspan="3"><span class="hand">{{ f("handwritten.max_amount", label="자필보증채무최고액") }}</span></td></tr>
+<tr><th>설명 확인</th><td colspan="3"><span class="hand">{{ f("handwritten.confirm", label="자필설명확인") }}</span></td></tr>
+</table>
+
+<div class="box" style="margin:4px 0;padding:3px 8px">
+<div class="between" style="align-items:center"><span class="small">보증인은 이 약정서 및 약관의 중요 내용을 <b>충분히 설명 듣고 이해하였으며</b> 사본을 수령하였습니다.</span><span>{{ m.agree("explained", "예", "아니오", label="설명이해확인") }}</span></div>
+</div>
+
+<div class="between" style="margin-top:8px;align-items:center">
+  <div style="padding-left:12px">{{ f("contract_date", label="약정일") }}</div>
   <div class="right" style="line-height:2.3">보증인 &nbsp;<span style="display:inline-block;min-width:80px;text-align:center;font-size:calc(var(--fs) + 1px)">{{ f("signature", label="보증인") }}</span> {{ lp.in_seal(val("signature") ~ "인", size="", mark="(인감)") }}</div>
 </div>
 

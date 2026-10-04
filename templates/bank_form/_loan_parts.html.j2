@@ -50,18 +50,18 @@ table.bf table.compact th { text-align: center; }
   "loan_app":      ["5-16-0178", "3-202-0032", "E009-101", "여신-1101", 2, 5,  "2025.01", "백상지100g/㎡"],
   "loan_app_corp": ["5-16-0152", "5-204-0351", "E011-102", "기업-2101", 2, 10, "2025.03", "백상지80g/㎡"],
   "agree":         ["3-06-1104", "4-202-0190", "E009-206", "여신-1201", 5, 10, "2025.04", "NCR용지74g/㎡"],
-  "agree_corp":    ["3-06-0152", "5-204-0102", "E011-204", "기업-2201", 4, 10, "2025.04", "NCR용지74g/㎡"],
+  "agree_corp":    ["3-06-0201", "4-201-0207", "E011-204", "기업-2201", 4, 10, "2025.04", "NCR용지74g/㎡"],
   "mortgage":      ["3-06-1040", "4-202-0230", "E010-310", "여신-1301", 4, 10, "2024.10", "NCR용지74g/㎡"],
   "guarantee":     ["3-06-1062", "4-202-0215", "E010-402", "여신-1401", 4, 10, "2024.10", "NCR용지74g/㎡"],
-  "cms":           ["5-11-0310", "1-202-0061", "E007-115", "수신-0715", 1, 5,  "2024.07", "백상지80g/㎡"],
+  "cms":           ["5-11-0310", "1-202-0061", "E007-115", "수신-0715", 1, 5,  "2024.07", "백상지80g/㎡", "해지"],
 } %}
 
 {% macro form_line(kind) -%}
-{% set F = FORMS[kind] %}{% set rev = F[6] %}{% set rev_sp = rev[:4] ~ ". " ~ rev[5:] %}
-{%- if d.bank == "하나은행" -%}{{ F[0] }}({{ F[4] }}-1) ({{ rev }} 개정) (보존년한 : 완제일로부터 {{ F[5] }}년)
+{% set F = FORMS[kind] %}{% set rev = F[6] %}{% set base = F[8] if F|length > 8 else "완제" %}{% set rev_sp = rev[:4] ~ ". " ~ rev[5:] %}
+{%- if d.bank == "하나은행" -%}{{ F[0] }}({{ F[4] }}-1) ({{ rev }} 개정) (보존년한 : {{ base }}일로부터 {{ F[5] }}년)
 {%- elif d.bank == "신한은행" -%}({{ rev_sp }} 개정) ({{ F[4] }}-1) {{ F[1] }}(21.0×29.7) {{ F[7] }}
 {%- elif d.bank == "국민은행" -%}{{ F[2] }}(210×297) {{ "NCR지" if "NCR" in F[7] else "백상지" }} ({{ rev_sp }} 개정) K11 ({{ F[4] }}-1)
-{%- else -%}{{ F[3] }} ({{ F[4] }}-1) ({{ rev }} 개정) (보존기한 : 완제 후 {{ F[5] }}년)
+{%- else -%}{{ F[3] }} ({{ F[4] }}-1) ({{ rev }} 개정) (보존기한 : {{ base }} 후 {{ F[5] }}년)
 {%- endif -%}
 {%- endmacro %}
 
@@ -100,29 +100,6 @@ table.bf table.compact th { text-align: center; }
 {# "(인)" 표시 위에 도장 #}
 {% macro in_seal(text=None, size="sm", square=False, mark="(인)") -%}
 <span class="inmark">{{ mark }}{% if text %}{{ m.seal(text, square=square, size=size) }}{% endif %}</span>
-{%- endmacro %}
-
-{# 여신거래약정서 여신조건 표 (가계용/기업용 공통). d.loan.* 사용 #}
-{% macro terms(rate_types) -%}
-<table class="bf">
-<colgroup><col style="width:108px"><col><col style="width:96px"><col></colgroup>
-<tr><th>여신과목</th><td>{{ f("loan.subject", label="여신과목") }}</td><th>상 품 명</th><td>{{ f("loan.product", label="상품명") }}</td></tr>
-<tr><th>거래방법</th><td>{{ m.choice("loan.method", ["개별거래", "한도거래"], label="거래방법") }}</td><th>대출계좌번호</th><td>{{ f("loan.account_no", label="대출계좌번호") }}</td></tr>
-<tr><th>여신금액(한도)</th><td colspan="3"><b>{{ f("loan.amount_korean", label="여신금액(한글)") }}</b>&nbsp;&nbsp;({{ f("loan.amount", label="여신금액") }})</td></tr>
-<tr><th>여신기간</th><td colspan="3">여신개시일 {{ f("loan.start_date", label="여신개시일") }}&nbsp; 부터 &nbsp;만기일 {{ f("loan.maturity", label="만기일") }}&nbsp; 까지</td></tr>
-{% if "purpose" in d.loan %}<tr><th>자금용도</th><td colspan="3">{{ f("loan.purpose", label="자금용도") }}</td></tr>{% endif %}
-<tr><th rowspan="3">이 자 율</th><td colspan="3">{{ m.choice("loan.rate_type", rate_types, label="금리종류") }}&nbsp; 기준금리: {{ f("loan.base_rate_name", label="기준금리종류") }}</td></tr>
-<tr><td colspan="3" style="padding:0">
-  <table style="margin:0;border:0" class="compact"><tr><th style="border-top:0;border-left:0">기준금리</th><th style="border-top:0">가산금리</th><th style="border-top:0">우대금리(－)</th><th style="border-top:0;border-right:0">적용금리</th></tr>
-  <tr><td class="c" style="border-left:0;border-bottom:0">{{ f("loan.base_rate", label="기준금리") }}</td><td class="c" style="border-bottom:0">＋ {{ f("loan.spread", label="가산금리") }}</td><td class="c" style="border-bottom:0">－ {{ f("loan.pref_rate", label="우대금리") }}</td><td class="c bold" style="border-right:0;border-bottom:0">＝ {{ f("loan.applied_rate", label="적용금리") }}</td></tr></table>
-</td></tr>
-<tr><td colspan="3">금리변동주기: {{ f("loan.rate_reset", label="금리변동주기") }}</td></tr>
-<tr><th>지연배상금률</th><td colspan="3">{{ f("loan.late_rate", label="지연배상금률") }}</td></tr>
-<tr><th>상환방법</th><td colspan="3">{{ f("loan.repayment", label="상환방법") }}</td></tr>
-<tr><th>중도상환해약금</th><td colspan="3">{{ f("loan.prepay_fee", label="중도상환해약금") }}</td></tr>
-<tr><th>이자계산방법</th><td>{{ f("loan.interest_calc", label="이자계산방법") }}</td><th>이자지급시기</th><td>{{ f("loan.interest_pay", label="이자지급시기") }}</td></tr>
-<tr><th>자동이체계좌</th><td colspan="3">{{ f("loan.debit_account", label="자동이체계좌") }}&nbsp;<span class="tiny muted">(이자 및 원금 자동이체 출금계좌)</span></td></tr>
-</table>
 {%- endmacro %}
 
 {# 하단 은행 사용란 #}
