@@ -5,8 +5,8 @@
 | 상태 | 건수 |
 |---|---|
 | 반영(검색근거) | 38 |
-| 조사중 | 1 |
-| 대기 | 31 |
+| 조사중 | 2 |
+| 대기 | 30 |
 | **합계** | **70 / 70** |
 
 ## 신원·신분
@@ -102,7 +102,7 @@
 
 | 서류 | ID | 근거 서식·출처 | 상태 | 주요 수정 |
 |---|---|---|---|---|
-| 상업송장(Commercial Invoice) | `commercial_invoice` |  | 대기 |  |
+| 상업송장(Commercial Invoice) | `commercial_invoice` |  | 조사중 |  |
 | 무역 매매계약서(Sales Contract) | `trade_contract` |  | 대기 |  |
 | 선하증권(B/L) | `bill_of_lading` |  | 대기 |  |
 | 포장명세서(Packing List) | `packing_list` |  | 대기 |  |

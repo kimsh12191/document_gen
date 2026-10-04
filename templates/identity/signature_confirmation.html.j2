@@ -1,43 +1,53 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
 {% block style %}
+.ss-form { font-size: calc(var(--fs) - 3.5px); color: #444; }
+.ss-no { font-size: calc(var(--fs) - 1px); margin: 4px 0 0; }
+h1.title.ss-t { margin: 10px 0 12px; letter-spacing: .3em; }
 table.ss { border: 2px solid var(--border); }
-table.ss th { width: 120px; }
-table.ss th.grp { width: 62px; letter-spacing: .1em; }
-.ss-sign { height: 92px; position: relative; }
-.ss-sign .sig { font-family: 'Nanum Myeongjo', 'Batang', serif; font-style: italic; font-size: 34px; letter-spacing: .25em; color: #1a2a6c; margin-left: 30px; transform: rotate(-4deg); display: inline-block; }
-.ss-sign .mark { position: absolute; right: 10px; bottom: 6px; font-size: 11px; color: #555; }
-.ss-stmt { text-align: center; font-size: calc(var(--fs) + 3px); margin: 40px 0 10px; letter-spacing: .05em; }
-.ss-notes { position: absolute; left: var(--page-pad); right: var(--page-pad); bottom: calc(var(--page-pad) - 10px); border-top: 1px solid #999; padding-top: 8px; }
+table.ss th { font-weight: 600; }
+table.ss td { word-break: keep-all; }
+table.ss th.grp { width: 64px; letter-spacing: .1em; }
+table.ss td.opt { line-height: 1.7; }
+table.ss td.opt .chk { display: block; }
+.ss-sign { height: 76px; position: relative; }
+.ss-sign .sig { font-family: 'Nanum Myeongjo', 'Batang', serif; font-style: italic; font-size: 32px; letter-spacing: .25em; color: #1a2a6c; margin-left: 30px; transform: rotate(-4deg); display: inline-block; }
+td.ss-cert { text-align: center; padding: 16px 10px 20px; }
+.ss-cert .stmt { font-size: calc(var(--fs) + 2px); letter-spacing: .05em; margin-bottom: 16px; }
+.ss-cert .date { letter-spacing: .1em; margin-bottom: 14px; }
+.ss-cert .org { font-size: calc(var(--fs) + 6px); font-weight: 700; letter-spacing: .15em; position: relative; display: inline-block; padding-right: 20px; }
+.ss-notes { position: absolute; left: var(--page-pad); right: var(--page-pad); bottom: calc(var(--page-pad) - 10px); border-top: 1px solid #999; padding-top: 6px; }
 {% endblock %}
 {% block content %}
-{{ m.doc_no("doc_no") }}
-{{ m.title("본인서명사실확인서") }}
+<div class="ss-form">■ 본인서명사실 확인 등에 관한 법률 시행령 [별지 제2호서식] &lt;개정 2016. 7. 26.&gt;</div>
+<div class="ss-no">문서확인번호&nbsp;&nbsp;{{ f("doc_no", label="문서확인번호") }}</div>
+<h1 class="title ss-t">본인서명사실확인서</h1>
 <table class="ss">
-  <tr><th class="grp" rowspan="3">서명자</th><th>성　　명</th><td>{{ f("signer.name", label="성명") }}</td></tr>
-  <tr><th>주민등록번호</th><td>{{ f("signer.rrn", label="주민등록번호") }}</td></tr>
-  <tr><th>주　　소</th><td style="height:52px">{{ f("signer.address", label="주소") }}</td></tr>
-  <tr><th class="grp" rowspan="2">용도</th><th>구　　분</th><td>{{ m.choice("usage_type", ["부동산 거래", "금융거래", "기타"], label="용도") }}</td></tr>
-  <tr><th>세부 용도</th><td>{{ f("usage_detail", label="세부용도") }}</td></tr>
-  {% if d.counterparty is defined %}
-  <tr><th class="grp" rowspan="3">거래<br>상대방</th><th>성　　명</th><td>{{ f("counterparty.name", label="성명") }}</td></tr>
-  <tr><th>주민등록번호</th><td>{{ f("counterparty.rrn", label="주민등록번호") }}</td></tr>
-  <tr><th>주　　소</th><td>{{ f("counterparty.address", label="주소") }}</td></tr>
-  {% endif %}
-  <tr><th colspan="2">제 출 기 관</th><td>{{ f("submit_to", label="제출기관") }}</td></tr>
-  <tr><th colspan="2">서　　명</th><td class="ss-sign"><span class="sig">{{ f("signature", label="서명") }}</span><span class="mark">(본인이 직접 정자로 서명)</span></td></tr>
+  <colgroup><col style="width:58px"><col style="width:112px"><col style="width:96px"><col><col style="width:116px"><col style="width:150px"></colgroup>
+  <tr><th colspan="2">성　　명</th><td colspan="2">{{ f("signer.name", label="성명") }}</td><th>주민등록번호</th><td>{{ f("signer.rrn", label="주민등록번호") }}</td></tr>
+  <tr><th colspan="2">주　　소</th><td colspan="4" style="height:46px">{{ f("signer.address", label="주소") }}</td></tr>
+  <tr>
+    <th class="grp" rowspan="4">용도</th>
+    <th>부동산 관련 용도<br>및 자동차<br>매도용도</th>
+    <td colspan="4" class="opt">{% if d.real_estate_usage is defined %}{{ m.choice("real_estate_usage", ["소유권 이전(매매, 증여 등)", "제한물권 설정(근저당권 설정, 전세권 설정 등)", "그 밖의 용도(가등기 설정, 가등기 말소 등)"], label="부동산관련용도및자동차매도용도") }}{% else %}<span class="chk">□ 소유권 이전(매매, 증여 등)</span><span class="chk">□ 제한물권 설정(근저당권 설정, 전세권 설정 등)</span><span class="chk">□ 그 밖의 용도(가등기 설정, 가등기 말소 등)</span>{% endif %}</td>
+  </tr>
+  <tr><th rowspan="2">거래상대방<br><span class="tiny">(매수자 등)</span></th><th class="small">성명(법인명)</th><td>{% if d.counterparty is defined %}{{ f("counterparty.name", label="성명(법인명)") }}{% endif %}&nbsp;</td><th class="small">주민등록번호<br>(법인등록번호)</th><td>{% if d.counterparty is defined %}{{ f("counterparty.rrn", label="주민등록번호(법인등록번호)") }}{% endif %}&nbsp;</td></tr>
+  <tr><th class="small">주　　소</th><td colspan="3">{% if d.counterparty is defined %}{{ f("counterparty.address", label="주소") }}{% endif %}&nbsp;</td></tr>
+  <tr><th>그 외의 용도</th><td colspan="4">{% if d.other_usage is defined %}{{ f("other_usage", label="그외의용도") }}{% endif %}&nbsp;</td></tr>
+  <tr><th class="grp" rowspan="2">위임<br>받은<br>사람</th><th>성　　명</th><td colspan="4">{% if d.delegate is defined %}{{ f("delegate.name", label="성명") }}{% endif %}&nbsp;</td></tr>
+  <tr><th>주　　소</th><td colspan="4">{% if d.delegate is defined %}{{ f("delegate.address", label="주소") }}{% endif %}&nbsp;</td></tr>
+  <tr><th colspan="2">서　　명</th><td colspan="4" class="ss-sign"><span class="sig">{{ f("signature", label="서명") }}</span></td></tr>
+  <tr><td colspan="6" class="ss-cert">
+    <div class="stmt">위 서명은 본인이 직접 하였음을 확인합니다.</div>
+    <div class="date">{{ f("issue_date", label="발급일") }}</div>
+    <div class="org">{{ f("issuer", label="발급기관") }}{{ m.seal("직인", square=True, over=True) }}</div>
+  </td></tr>
 </table>
-<p class="ss-stmt">위 서명은 본인이 직접 서명하였음을 확인합니다.</p>
-<div class="issuer">
-  <div class="date">{{ f("issue_date", label="발급일") }}</div>
-  <div class="org">{{ f("issuer", label="발급기관") }}{{ m.seal("직인", square=True, over=True) }}</div>
-</div>
 <div class="ss-notes note">
-  ※ 유의사항
   <ol class="clauses">
-    <li>이 확인서는 「본인서명사실 확인 등에 관한 법률」에 따라 발급된 것으로서 인감증명서와 같은 효력이 있습니다.</li>
-    <li>이 확인서는 용도란 및 제출기관란에 적힌 용도와 기관 외에는 사용할 수 없습니다.</li>
-    <li>발급사실은 정부24(www.gov.kr) 또는 민원서비스 「본인서명사실확인서 발급사실 확인」에서 조회할 수 있습니다.</li>
+    <li>용도란과 위임받은 사람란은 신청인이 구술이나 서면으로 제공한 정보를 관계 공무원이 입력하며, 신청인은 입력 내용을 확인한 후 직접 서명하여야 합니다.</li>
+    <li>위임받은 사람란은 다른 사람에게 위임하여 이 확인서를 제출하는 경우 제출기관의 요청에 따라 적습니다.</li>
+    <li>이 확인서의 발급사실은 문서확인번호로 전자민원창구에서 확인할 수 있습니다.</li>
   </ol>
 </div>
 {% endblock %}
