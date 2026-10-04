@@ -1,0 +1,43 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block page_class %} dense{% endblock %}
+{% block style %}
+h1.title { letter-spacing:.3em; margin-bottom:16px; }
+.it { display:flex; margin:3px 0; }
+.it .k { width:122px; flex:none; }
+.it .k2 { margin-left:36px; }
+.para { text-align:justify; margin:10px 0; line-height:1.6; text-indent:1em; }
+.agenda { font-weight:700; margin:14px 0 4px; }
+.detail { border:var(--bw) solid var(--border); padding:6px 14px; margin:6px 30px; }
+.signs { margin-top:10px; margin-left:auto; width:330px; }
+.signs .s { display:flex; align-items:center; height:46px; }
+.signs .t { width:120px; letter-spacing:.05em; }
+.signs .n { width:100px; letter-spacing:.2em; }
+.corp { text-align:right; margin-top:14px; line-height:1.6; }
+{% endblock %}
+{% block content %}
+{{ m.title("임시주주총회의사록") }}
+<div class="it"><span class="k">1. 일　　　시 :</span><span>{{ f("datetime", label="일시") }}</span></div>
+<div class="it"><span class="k">2. 장　　　소 :</span><span>{{ f("venue", label="장소") }}</span></div>
+<div class="it"><span class="k">3. 주주의 총수 :</span><span>{{ f("shareholders_total", label="주주총수") }}</span><span class="k2">발행주식의 총수 : {{ f("issued_shares", label="발행주식총수") }}</span></div>
+<div class="it"><span class="k">4. 출석주주의 수 :</span><span>{{ f("shareholders_present", label="출석주주수") }}</span><span class="k2">출석주주의 주식수 : {{ f("shares_present", label="출석주식수") }} ({{ f("present_ratio", label="출석비율") }})</span></div>
+
+<div class="para">대표이사 {{ f("chair", label="의장") }}은(는) 정관의 규정에 따라 의장석에 등단하여 위와 같이 주주가 출석하여 성원이 되었으므로 본 총회가 적법하게 성립되었음을 알리고 개회를 선언한 후, 다음의 의안을 부의하고 심의를 구하다.</div>
+
+{% for a in d.agendas %}{% set i = loop.index0 %}
+<div class="agenda">{{ f("agendas." ~ i ~ ".no", label="의안번호") }} : {{ f("agendas." ~ i ~ ".title", label="의안") }}</div>
+<div class="para">{{ f("agendas." ~ i ~ ".body", label="결의내용") }}</div>
+<div class="detail">{{ f("agendas." ~ i ~ ".detail", label="세부내용") }}</div>
+{% endfor %}
+
+<div class="para">의장은 이상으로서 회의 목적사항 전부의 심의를 종료하였으므로 폐회를 선언하다. (회의 종료시각 {{ f("end_time", label="종료시각") }})</div>
+<div class="para">위 의사의 경과요령과 결과를 명확히 하기 위하여 이 의사록을 작성하고 의장과 출석한 이사가 아래에 기명날인하다.</div>
+
+<div class="center bold" style="margin-top:12px">{{ f("minutes_date", label="작성일") }}</div>
+<div class="corp">{{ f("company_name", label="상호") }}<br><span class="small">{{ f("head_office", label="본점") }}</span></div>
+<div class="signs">
+  {% for s in d.signers %}{% set i = loop.index0 %}
+  <div class="s"><span class="t">{{ f("signers." ~ i ~ ".title", label="자격") }}</span><span class="n">{{ f("signers." ~ i ~ ".name", label="성명") }}</span>{{ m.seal(s.name, size="sm") }}</div>
+  {% endfor %}
+</div>
+{% endblock %}

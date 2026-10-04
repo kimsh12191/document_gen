@@ -1,0 +1,42 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "corporate/_seal.html.j2" as cs with context %}
+{% block style %}
+h1.title { letter-spacing:.5em; margin:14px 0 6px; }
+.subt { text-align:center; margin-bottom:22px; letter-spacing:.2em; }
+table.ic { border:2px solid var(--border); }
+table.ic th { width:130px; letter-spacing:.1em; }
+table.ic td { padding:9px 12px; }
+table.ic td.seal-cell { width:210px; text-align:center; vertical-align:middle; }
+table.ic td.seal-cell .lbl { font-weight:600; margin-bottom:8px; }
+.stmt { text-align:center; margin:36px 0 22px; font-size:calc(var(--fs) + 1px); }
+.iss { text-align:center; }
+.iss .dt { letter-spacing:.06em; margin-bottom:22px; }
+.iss .org { font-size:calc(var(--fs) + 5px); font-weight:700; letter-spacing:.1em; position:relative; display:inline-block; padding-right:56px; }
+.foot { font-size:calc(var(--fs) - 2.5px); color:#333; border-top:1px solid #999; padding-top:6px; margin-top:40px; }
+{% endblock %}
+{% block content %}
+{{ m.doc_no("issue_no", "발급번호") }}
+{{ m.title("인 감 증 명 서") }}
+<div class="subt">( 법　인 )</div>
+<table class="ic">
+  <tr><th>등 기 번 호</th><td>{{ f("reg_no", label="등기번호") }}</td>
+      <td class="seal-cell" rowspan="7"><div class="lbl">인　　감</div>{{ cs.corp_seal(d.company_name.replace("(주)", "주식회사 "), "대표이사인", 128, "main") }}</td></tr>
+  <tr><th>등 록 번 호</th><td>{{ f("corp_reg_no", label="등록번호") }}</td></tr>
+  <tr><th>상　　　호</th><td>{{ f("company_name", label="상호") }}</td></tr>
+  <tr><th>본　　　점</th><td>{{ f("head_office", label="본점") }}</td></tr>
+  <tr><th>자격 / 성명</th><td>{{ f("rep_title", label="자격") }}&nbsp;&nbsp;{{ f("rep_name", label="성명") }}</td></tr>
+  <tr><th>주민등록번호</th><td>{{ f("rep_rrn", label="주민등록번호") }}</td></tr>
+  <tr><th>용　　　도</th><td>{{ f("purpose", label="용도") }}</td></tr>
+</table>
+<div class="stmt">이 증명서는 신고된 인감과 틀림없음을 증명합니다.</div>
+<div class="iss">
+  <div class="dt">{{ f("issue_date", label="발급일") }}</div>
+  <div class="org">{{ f("issue_office", label="발급기관") }}&nbsp;&nbsp;등기관&nbsp;&nbsp;{{ f("registrar", label="등기관") }}{{ m.seal("등기관인", square=True, over=True) }}</div>
+</div>
+<div class="foot">
+  <div>수수료 {{ f("fee", label="수수료") }} 영수함</div>
+  <div>* 이 증명서는 신고된 인감과 대조하여 발급한 것이며, 인감의 진위 여부는 발급확인 절차를 통하여 확인할 수 있습니다.</div>
+  <div>* 인감증명서는 발급일로부터 3개월 이내의 것을 제출하시기 바랍니다.</div>
+</div>
+{% endblock %}
