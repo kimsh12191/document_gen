@@ -1,0 +1,87 @@
+{#
+  공통 매크로. 템플릿 상단에서 반드시 `with context` 로 임포트한다:
+    {% import "_macros.html.j2" as m with context %}
+  값 출력은 항상 f('경로') 를 거친다 (GT 기록 + data-field 태깅).
+#}
+
+{# 문서 제목 #}
+{% macro title(text, sub=None, boxed=False) -%}
+<h1 class="title{{ ' box' if boxed }}">{{ text }}{% if sub %}<span class="sub">{{ sub }}</span>{% endif %}</h1>
+{%- endmacro %}
+
+{#
+  라벨-값 표.
+  rows: [[라벨, 경로], [라벨, 경로], ...]  — cols 개씩 한 줄에 배치
+  [라벨, 경로, True] 로 주면 그 항목은 한 줄 전체를 차지한다 (주소 등 긴 값).
+  항목 자리에 None 을 주면 빈 칸.
+#}
+{% macro kv(rows, cols=1, label_w=None, cls="") -%}
+<table class="kv {{ cls }}">
+{% if label_w %}<colgroup>{% for _ in range(cols) %}<col style="width:{{ label_w }}"><col>{% endfor %}</colgroup>{% endif %}
+{% for line in kv_layout(rows, cols) %}
+<tr>
+{% for item in line %}
+{% if item is none %}<th></th><td></td>
+{% else %}<th>{{ item[0] }}</th><td{% if item[2] > 1 %} colspan="{{ item[2] }}"{% endif %}>{{ f(item[1], label=item[0]) }}</td>
+{% endif %}
+{% endfor %}
+</tr>
+{% endfor %}
+</table>
+{%- endmacro %}
+
+{#
+  목록형 표.
+  headers: 열 제목 리스트, list_path: d 안의 리스트 경로, keys: 각 열에 대응하는 항목 키
+  num_cols: 오른쪽 정렬할 열 인덱스 리스트, min_rows: 빈 줄로 채울 최소 행 수
+#}
+{% macro grid(headers, list_path, keys, num_cols=[], widths=None, min_rows=0, cls="") -%}
+{% set items = val(list_path) %}
+<table class="grid {{ cls }}">
+{% if widths %}<colgroup>{% for w in widths %}<col style="width:{{ w }}">{% endfor %}</colgroup>{% endif %}
+<tr>{% for h in headers %}<th>{{ h }}</th>{% endfor %}</tr>
+{% for it in items %}
+{% set i = loop.index0 %}
+<tr>
+{% for k in keys %}
+<td class="{{ 'num' if loop.index0 in num_cols else 'c' }}">{{ f(list_path ~ '.' ~ i ~ '.' ~ k, label=headers[loop.index0]) }}</td>
+{% endfor %}
+</tr>
+{% endfor %}
+{% for _ in range(min_rows - items|length) %}<tr>{% for h in headers %}<td>&nbsp;</td>{% endfor %}</tr>{% endfor %}
+</table>
+{%- endmacro %}
+
+{# 선택형 항목: 선택된 옵션만 f() 로 기록된다. 예) m.choice('loan.rate_type', ['고정금리','변동금리']) #}
+{% macro choice(path, options, label=None, on="■", off="□") -%}
+{% set cur = val(path) %}
+{% for o in options %}<span class="chk">{% if o == cur %}{{ on }} {{ f(path, label=label) }}{% else %}{{ off }} {{ o }}{% endif %}</span>{% endfor %}
+{%- endmacro %}
+
+{# 동의 여부 등 예/아니오 체크 #}
+{% macro agree(path, yes="동의함", no="동의하지 않음", label=None) -%}
+{{ choice(path, [yes, no], label=label) }}
+{%- endmacro %}
+
+{# 인감/직인 (텍스트 기반 도장 모양) #}
+{% macro seal(text, square=False, size="", over=False) -%}
+<span class="seal{{ ' square' if square }}{{ ' ' ~ size if size }}{{ ' over' if over }}">{{ seal_lines(text)|join(BR) }}</span>
+{%- endmacro %}
+
+{# 발급일/발급기관/직인 블록 #}
+{% macro issuer(date_path, org_path=None, org_text=None, seal_text=None, square=True) -%}
+<div class="issuer">
+  <div class="date">{{ f(date_path, label="발급일") }}</div>
+  <div class="org">{% if org_path %}{{ f(org_path, label="발급기관") }}{% else %}{{ org_text }}{% endif %}{% if seal_text %}{{ seal(seal_text, square=square, over=True) }}{% endif %}</div>
+</div>
+{%- endmacro %}
+
+{# 서명란: "신청인  홍길동  (서명 또는 인)" #}
+{% macro sign(label, path, mark="(서명 또는 인)", seal_text=None) -%}
+<div class="right mt">{{ label }}&nbsp;&nbsp;<span class="signline">{{ f(path, label=label) }}</span>&nbsp;&nbsp;{% if seal_text %}{{ seal(seal_text, size="sm") }}{% else %}{{ mark }}{% endif %}</div>
+{%- endmacro %}
+
+{# 증명서 상단 발급번호 줄 #}
+{% macro doc_no(path, label="발급번호") -%}
+<div class="docno">{{ label }} : {{ f(path, label=label) }}</div>
+{%- endmacro %}

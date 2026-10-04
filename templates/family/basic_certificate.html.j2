@@ -1,0 +1,18 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "family/_fam.html.j2" as fm with context %}
+{% block style %}{{ fm.fam_style() }}{% endblock %}
+{% block content %}
+<div class="fm-form">[별지 제1호서식] &lt;개정 2016. 11. 29.&gt;</div>
+<h1 class="title fm">기본증명서(일반)</h1>
+<table class="fm fm-base"><tr><th>등록기준지</th><td class="l">{{ f("reg_base", label="등록기준지") }}</td></tr></table>
+<div style="height:8px"></div>
+{{ fm.people(["self"]) }}
+<div class="fm-sec">일반등록사항</div>
+<table class="fm">
+  <colgroup><col style="width:90px"><col></colgroup>
+  <tr><th>구분</th><th>상세내용</th></tr>
+  <tr><td>출생</td><td class="l">【출생장소】{{ f("birth.place", label="출생장소") }}<br>【신고일】{{ f("birth.reported", label="신고일") }}<br>【신고인】{{ f("birth.reporter", label="신고인") }}</td></tr>
+</table>
+{{ fm.fam_footer("기본증명서(일반)") }}
+{% endblock %}

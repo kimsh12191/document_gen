@@ -1,0 +1,82 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block page_class %} dense{% endblock %}
+{% block style %}
+.itr-title { border: 2px solid var(--border); text-align: center; padding: 8px 0 6px; margin: 2px 0 8px; }
+.itr-title .yr { font-size: calc(var(--fs) + 1px); margin-bottom: 2px; }
+.itr-title h1 { margin: 0; font-size: calc(var(--title) - 8px); letter-spacing: .05em; }
+.cap { font-weight: 700; margin: 8px 0 1px; }
+table { margin: 3px 0; }
+th, td { padding: 3px 6px; }
+table.calc td.num { width: 34%; }
+table.calc th.l { text-align: left; padding-left: 10px; }
+table.calc tr.hl td, table.calc tr.hl th { font-weight: 700; }
+.unit { text-align: right; font-size: calc(var(--fs) - 2px); }
+.decl { margin: 10px 4px 4px; line-height: 1.55; }
+.sig { text-align: right; margin-top: 6px; }
+.to { margin-top: 8px; font-size: calc(var(--fs) + 2px); font-weight: 700; }
+{% endblock %}
+{% block content %}
+<div class="gov-head"><span>■ 소득세법 시행규칙 [별지 제40호서식(1)]</span><span>(4쪽 중 제1쪽)</span></div>
+<div class="itr-title">
+  <div class="yr">( {{ f("tax_year", label="귀속연도") }} 년 귀속 )</div>
+  <h1>종합소득세 과세표준확정신고 및 납부계산서</h1>
+</div>
+<div class="cap">1. 기본사항</div>
+<table class="outer">
+  <colgroup><col style="width:120px"><col><col style="width:120px"><col style="width:190px"></colgroup>
+  <tr><th>① 성　명</th><td>{{ f("taxpayer.name", label="성명") }}</td><th>② 주민등록번호</th><td>{{ f("taxpayer.rrn", label="주민등록번호") }}</td></tr>
+  <tr><th>③ 주　소</th><td colspan="3">{{ f("taxpayer.address", label="주소") }}</td></tr>
+  <tr><th>④ 휴대전화</th><td>{{ f("taxpayer.mobile", label="휴대전화") }}</td><th>⑤ 전자우편주소</th><td>{{ f("taxpayer.email", label="전자우편주소") }}</td></tr>
+  <tr><th>⑥ 상　호</th><td>{{ f("taxpayer.trade_name", label="상호") }}</td><th>⑦ 사업자등록번호</th><td>{{ f("taxpayer.biz_no", label="사업자등록번호") }}</td></tr>
+  <tr><th>⑧ 사업장 소재지</th><td colspan="3">{{ f("taxpayer.biz_address", label="사업장소재지") }}</td></tr>
+  <tr><th>⑨ 기장의무</th><td colspan="3">{{ m.choice("bookkeeping", ["복식부기의무자", "간편장부대상자", "비사업자"], label="기장의무") }}</td></tr>
+  <tr><th>⑩ 신고유형</th><td colspan="3">{{ m.choice("filing_type", ["자기조정", "외부조정", "성실신고확인", "간편장부", "추계-기준율", "추계-단순율"], label="신고유형") }}</td></tr>
+  <tr><th>⑪ 신고구분</th><td colspan="3">{{ m.choice("filing_kind", ["정기신고", "수정신고", "경정청구", "기한후신고"], label="신고구분") }}</td></tr>
+</table>
+<div class="between"><div class="cap">2. 종합소득금액</div><div class="unit">(단위 : 원)</div></div>
+{% set inc = [["이자소득", "interest"], ["배당소득", "dividend"], ["사업소득", "business"], ["근로소득", "wage"], ["연금소득", "pension"], ["기타소득", "other"], ["종합소득금액", "total"]] %}
+<table class="outer compact">
+  <tr>{% for h, k in inc %}<th>{{ h }}</th>{% endfor %}</tr>
+  <tr>{% for h, k in inc %}<td class="num">{{ f("income." ~ k, label=h) }}</td>{% endfor %}</tr>
+</table>
+<div class="cap">3. 소득공제</div>
+<table class="outer compact">
+  <tr><th>기본공제(인원)</th><th>인적공제액</th><th>연금보험료공제</th><th>소기업·소상공인 공제부금</th><th>소득공제 합계</th></tr>
+  <tr><td class="c">{{ f("deductions.persons", label="기본공제인원") }}</td>
+    <td class="num">{{ f("deductions.personal", label="인적공제액") }}</td>
+    <td class="num">{{ f("deductions.pension", label="연금보험료공제") }}</td>
+    <td class="num">{{ f("deductions.yellow_umbrella", label="소기업소상공인공제부금") }}</td>
+    <td class="num">{{ f("deductions.total", label="소득공제합계") }}</td></tr>
+</table>
+<div class="cap">4. 세액의 계산</div>
+{% set rows = [
+  ["⑲ 종합소득금액", "total_income", None, False],
+  ["⑳ 소득공제", "deduction", None, False],
+  ["㉑ 과세표준 (⑲-⑳)", "base", "base", True],
+  ["㉒ 세율", "rate", "rate", False],
+  ["㉓ 산출세액", "computed", "computed", True],
+  ["㉔ 세액감면", "reduction", "reduction", False],
+  ["㉕ 세액공제", "credit", "credit", False],
+  ["㉖ 결정세액 (㉓-㉔-㉕)", "determined", "determined", True],
+  ["㉗ 가산세", "penalty", "penalty", False],
+  ["㉘ 합계 (㉖+㉗)", "total", "total", False],
+  ["㉙ 기납부세액", "prepaid", "prepaid", False],
+  ["㉚ 납부(환급)할 총세액 (㉘-㉙)", "payable", "payable", True],
+  ["㉛ 분납할 세액", "installment", None, False],
+  ["㉜ 신고기한 이내 납부할 세액", "due_payable", "due_payable", True],
+] %}
+<table class="calc outer">
+  <tr><th>구　분</th><th>종합소득세</th><th>지방소득세</th></tr>
+  {% for label, nk, lk, hl in rows %}
+  {% set gl = label[2:].split(" (")[0] %}
+  <tr{% if hl %} class="hl"{% endif %}><th class="l">{{ label }}</th>
+    <td class="num">{{ f("national." ~ nk, label=gl) }}</td>
+    <td class="num">{% if lk %}{{ f("local." ~ lk, label="지방소득세" ~ gl) }}{% endif %}</td></tr>
+  {% endfor %}
+</table>
+<p class="decl">신고인은 「소득세법」 제70조, 「농어촌특별세법」 제7조 및 「지방세법」 제95조에 따라 위의 내용을 신고하며, 위 내용을 충분히 검토하였고 신고인이 알고 있는 사실 그대로를 정확하게 적었음을 확인합니다.</p>
+<div class="sig">{{ f("filed_date", label="신고일") }}</div>
+<div class="sig">신고인&nbsp;&nbsp;<span class="signline" style="min-width:90px">{{ f("taxpayer.name", label="성명") }}</span>&nbsp;&nbsp;(서명 또는 인)</div>
+<div class="to">{{ f("tax_office", label="세무서장") }}&nbsp;·&nbsp;{{ f("local_office", label="지방자치단체장") }}&nbsp;&nbsp;귀하</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "family/_fam.html.j2" as fm with context %}
+{% block style %}{{ fm.fam_style() }}
+table.rr td { text-align: center; }
+table.rr td.l { text-align: left; }
+.rr-top { display: flex; justify-content: space-between; font-size: calc(var(--fs) - 2px); }
+.rr-forge { border: 1px solid #999; padding: 2px 8px; font-size: calc(var(--fs) - 3.5px); color: #555; }
+{% endblock %}
+{% block page_class %} dense{% endblock %}
+{% block content %}
+<div class="rr-top">
+  <div>{% if d.officer is defined %}{{ m.doc_no("doc_no", "발급번호") }}{% else %}{{ m.doc_no("doc_no", "문서확인번호") }}{% endif %}</div>
+  <div class="rr-forge">이 용지는 위조식별 표시가 되어 있음</div>
+</div>
+{{ m.title("주 민 등 록 표", sub="( 초　　본 )") }}
+<div class="fm-sec">개인 인적사항</div>
+<table class="rr">
+  <colgroup><col style="width:120px"><col><col style="width:120px"><col style="width:200px"></colgroup>
+  <tr><th>성명(한자)</th><td class="l">{{ f("person.name", label="성명") }} ({{ f("person.name_hanja", label="한자") }})</td><th>주민등록번호</th><td>{{ f("person.rrn", label="주민등록번호") }}</td></tr>
+</table>
+<div class="fm-sec between"><span>주소 변동 사항</span><span class="small" style="font-weight:400;letter-spacing:0">({{ f("history_scope", label="주소변동사항") }})</span></div>
+<table class="rr">
+  <colgroup><col style="width:42px"><col><col style="width:104px"><col style="width:66px"><col style="width:128px"></colgroup>
+  <tr><th>번호</th><th>주　　　　소</th><th>전입일<br>변동일</th><th>변동<br>사유</th><th>세대주 및 관계<br><span class="tiny">(등록상태)</span></th></tr>
+  {% for it in d.addresses %}{% set i = loop.index0 %}
+  <tr>
+    <td>{{ f("addresses." ~ i ~ ".no", label="번호") }}</td>
+    <td class="l">{{ f("addresses." ~ i ~ ".address", label="주소") }}</td>
+    <td>{{ f("addresses." ~ i ~ ".moved_in", label="전입일") }}<br>{{ f("addresses." ~ i ~ ".changed", label="변동일") }}</td>
+    <td>{{ f("addresses." ~ i ~ ".reason", label="변동사유") }}</td>
+    <td>{{ f("addresses." ~ i ~ ".head_relation", label="세대주및관계") }}<br><span class="small">({{ f("addresses." ~ i ~ ".status", label="등록상태") }})</span></td>
+  </tr>
+  {% endfor %}
+</table>
+{{ fm.resident_footer() }}
+{% endblock %}

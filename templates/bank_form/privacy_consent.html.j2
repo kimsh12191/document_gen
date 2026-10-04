@@ -1,0 +1,83 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "bank_form/_account_common.html.j2" as bf with context %}
+{% block page_class %} dense{% endblock %}
+{% block style %}{{ bf.css() }}
+.page.a4.dense { font-size: calc(var(--fs) - 2.5px); line-height: 1.3; }
+table.pc th { width: 88px; font-size: calc(var(--fs) - 3px); }
+table.pc td { font-size: calc(var(--fs) - 3px); line-height: 1.3; }
+table.prov th, table.prov td { font-size: calc(var(--fs) - 3.5px); padding: 1px 4px; text-align: center; line-height: 1.25; }
+.bf-agree { font-size: calc(var(--fs) - 1px); }
+.bf-agree .lead { float: left; font-weight: 600; }
+.bf-sec { margin-top: 5px; }
+.intro { font-size: calc(var(--fs) - 3px); }
+{% endblock %}
+{% block content %}
+{{ bf.head("여신거래용 · 필수/선택 동의<br>보존기간: 거래종료 후 5년") }}
+{{ m.title("개인(신용)정보 수집·이용·제공·조회 동의서", sub="(여신 금융거래용)") }}
+<div class="bf-box intro">
+{{ f("bank.name", label="은행명") }} 귀중 — 귀 행과의 (금융)거래와 관련하여 귀 행이 본인의 개인(신용)정보를 수집·이용하거나 제3자에게 제공·조회하고자 하는 경우에는 「개인정보 보호법」 제15조 제1항 제1호, 제17조 제1항 제1호, 제22조, 제24조 제1항 제1호, 「신용정보의 이용 및 보호에 관한 법률」 제32조 제1항, 제33조 및 제34조에 따라 본인의 동의가 필요합니다.
+</div>
+
+{{ bf.sec("1", "수집·이용에 관한 사항", "[필수]") }}
+<table class="bf pc">
+<tr><th>수집·이용 목적</th><td class="q">(금융)거래관계의 설정 여부 판단, 거래관계의 설정·유지·이행·관리, 금융사고 조사, 분쟁 해결, 민원 처리, 법령상 의무 이행, 여신 사후관리 및 채권 회수</td></tr>
+<tr><th>수집·이용 항목</th><td class="q"><b>개인(신용)정보</b>: 일반 개인정보(성명, 주소, 전화번호, 이메일, 직업, 직장정보 등), 신용거래정보(본건 거래 및 기존 대출·보증·담보 등 거래내용), 신용능력정보(소득, 재산, 채무 등), 신용도판단정보(연체, 대위변제, 부도 등), 공공정보(국세·지방세 체납, 4대보험 납부내역 등)</td></tr>
+<tr><th>보유·이용 기간</th><td class="q">(금융)거래 종료일로부터 5년까지 보유·이용. 단, 법령에 따라 보존할 필요가 있는 경우 해당 법령에서 정한 기간까지 보유</td></tr>
+<tr><th>거부 권리 및<br>불이익</th><td class="q">귀하는 동의를 거부할 권리가 있습니다. 다만, 위 사항은 (금융)거래의 설정 및 유지를 위한 필수 사항이므로 동의하지 않으실 경우 거래 설정·유지가 불가능합니다.</td></tr>
+</table>
+<div class="bf-agree"><span class="lead">▶ 개인(신용)정보 수집·이용에</span><span class="req">[필수]</span>{{ m.agree("consent.collect", label="수집이용동의") }}</div>
+<table class="bf pc">
+<tr><th>고유식별정보</th><td class="q">주민등록번호, 여권번호, 운전면허번호, 외국인등록번호 — 위 수집·이용 목적을 위하여 「개인정보 보호법」 제24조 및 「신용정보법」 시행령에 따라 처리</td></tr>
+</table>
+<div class="bf-agree"><span class="lead">▶ 고유식별정보 처리에</span><span class="req">[필수]</span>{{ m.agree("consent.unique_id", label="고유식별정보처리동의") }}</div>
+
+{{ bf.sec("2", "제공에 관한 사항", "[필수]") }}
+<table class="bf prov">
+<colgroup><col style="width:26%"><col style="width:20%"><col><col style="width:20%"></colgroup>
+<tr><th>제공받는 자</th><th>이용 목적</th><th>제공 항목</th><th>보유·이용 기간</th></tr>
+{% for pv in d.providers %}{% set i = loop.index0 %}
+<tr><td>{{ f("providers." ~ i ~ ".name", label="제공받는자") }}</td><td>{{ f("providers." ~ i ~ ".purpose", label="이용목적") }}</td>
+<td>{{ f("providers." ~ i ~ ".items", label="제공항목") }}</td><td>{{ f("providers." ~ i ~ ".period", label="보유이용기간") }}</td></tr>
+{% endfor %}
+</table>
+<div class="bf-note">※ 위 정보는 제공된 날부터 동의 철회 시 또는 제공된 목적 달성 시까지 보유·이용됩니다. 신용정보집중기관에 제공된 정보는 「신용정보법」에 따라 다른 금융회사 등과 공유될 수 있습니다. 동의를 거부할 권리가 있으나, 거부 시 (금융)거래 설정·유지가 불가능합니다.</div>
+<div class="bf-agree"><span class="lead">▶ 개인(신용)정보 제공에</span><span class="req">[필수]</span>{{ m.agree("consent.provide", label="제공동의") }}</div>
+<div class="bf-agree"><span class="lead">▶ 고유식별정보 제공에</span><span class="req">[필수]</span>{{ m.agree("consent.provide_unique_id", label="고유식별정보제공동의") }}</div>
+
+{{ bf.sec("3", "조회에 관한 사항", "[필수]") }}
+<table class="bf pc">
+<tr><th>조회 대상 기관</th><td class="q">신용정보집중기관 및 신용조회회사, 국세청·행정안전부·국민건강보험공단 등 공공기관 (공공정보 조회는 「전자정부법」 제36조에 따름)</td></tr>
+<tr><th>조회 목적</th><td class="q">신용정보주체와의 (금융)거래관계 설정 여부 판단 및 유지·관리, 대출 심사, 사후관리</td></tr>
+<tr><th>조회 항목</th><td class="q">개인식별정보, 신용거래정보, 신용도판단정보, 신용능력정보, 소득·재산·고용 관련 공공정보</td></tr>
+<tr><th>조회 동의 효력</th><td class="q">조회 동의일로부터 해당 거래 종료일까지 (※ 신용조회 사실은 신용등급 산정에 영향을 주지 않습니다)</td></tr>
+</table>
+<div class="bf-agree"><span class="lead">▶ 개인(신용)정보 조회에</span><span class="req">[필수]</span>{{ m.agree("consent.inquiry", label="조회동의") }}</div>
+
+{{ bf.sec("4", "상품서비스 안내 등 마케팅 목적 수집·이용 및 제공", "[선택]") }}
+<table class="bf pc">
+<tr><th>목적 및 항목</th><td class="q">신상품·서비스 소개 및 권유, 사은·판촉행사 안내, 고객 만족도 조사 / 성명, 연락처, 주소, 거래정보 (보유기간: 동의 철회 시 또는 거래종료 후 1년까지)</td></tr>
+<tr><th>제공받는 자</th><td class="q">당행 계열 금융회사 및 업무제휴사 (카드·보험·증권) — 제휴 상품 안내 목적, 제공일로부터 1년</td></tr>
+</table>
+<div class="bf-note">※ 선택 항목에 동의하지 않으셔도 (금융)거래에는 영향이 없습니다. 동의 후에도 영업점·콜센터·인터넷뱅킹을 통해 언제든지 철회할 수 있습니다.</div>
+<div class="bf-agree"><span class="lead">▶ 마케팅 목적 수집·이용에</span><span class="req">[선택]</span>{{ m.agree("marketing.collect", label="마케팅수집이용동의") }}</div>
+<div class="bf-agree"><span class="lead">▶ 마케팅 목적 제3자 제공에</span><span class="req">[선택]</span>{{ m.agree("marketing.provide", label="마케팅제공동의") }}</div>
+<div class="bf-agree"><span class="lead">▶ 연락 방법</span>{{ bf.multi("marketing.channels", ["전화", "문자메시지", "이메일", "우편", "앱 푸시"], label="연락방법") }}</div>
+
+<div class="bf-box bf-note" style="margin-top:4px">본인은 위 내용을 충분히 이해하였으며, 귀 행이 위와 같이 본인의 개인(신용)정보를 수집·이용·제공·조회하는 것에 동의합니다. 본 동의서 사본은 본인의 요청 시 교부받을 수 있습니다.</div>
+<div class="bf-sign">
+  <span>{{ f("date", label="작성일") }}</span>
+  <span>생년월일 {{ f("applicant.birth", label="생년월일") }}</span>
+  <span>본인 성명 <span class="who">{{ f("applicant.name", label="본인성명") }}</span> (서명 또는 인)</span>
+</div>
+<div class="bf-sign" style="margin-top:2px"><span class="muted">법정대리인(미성년자 등의 경우) 성명 <span class="who">&nbsp;</span> (서명 또는 인)</span></div>
+<div class="row" style="margin-top:6px; align-items:stretch">
+  <div class="bf-box bf-note" style="flex:1; margin:0">
+    <b>[개인(신용)정보 주체의 권리 안내]</b>
+    <p>① 본인은 「신용정보법」 제36조의2, 제37조, 제38조에 따라 개인신용정보의 열람·정정·삭제, 동의 철회, 신용정보 이용·제공 사실의 통지를 요구할 수 있습니다.</p>
+    <p>② 상품 소개 등 영업 목적의 연락을 원하지 않는 경우 「연락중지청구권」(Do-Not-Call)을 행사할 수 있습니다.</p>
+    <p>③ 기타 문의는 영업점 또는 고객센터로 하여 주시기 바랍니다.</p>
+  </div>
+  {{ bf.stamps([["본인확인", "bank_use.clerk"]]) }}
+</div>
+{% endblock %}

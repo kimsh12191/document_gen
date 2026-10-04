@@ -1,0 +1,43 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block style %}
+table.ss { border: 2px solid var(--border); }
+table.ss th { width: 120px; }
+table.ss th.grp { width: 62px; letter-spacing: .1em; }
+.ss-sign { height: 92px; position: relative; }
+.ss-sign .sig { font-family: 'Nanum Myeongjo', 'Batang', serif; font-style: italic; font-size: 34px; letter-spacing: .25em; color: #1a2a6c; margin-left: 30px; transform: rotate(-4deg); display: inline-block; }
+.ss-sign .mark { position: absolute; right: 10px; bottom: 6px; font-size: 11px; color: #555; }
+.ss-stmt { text-align: center; font-size: calc(var(--fs) + 3px); margin: 40px 0 10px; letter-spacing: .05em; }
+.ss-notes { position: absolute; left: var(--page-pad); right: var(--page-pad); bottom: calc(var(--page-pad) - 10px); border-top: 1px solid #999; padding-top: 8px; }
+{% endblock %}
+{% block content %}
+{{ m.doc_no("doc_no") }}
+{{ m.title("본인서명사실확인서") }}
+<table class="ss">
+  <tr><th class="grp" rowspan="3">서명자</th><th>성　　명</th><td>{{ f("signer.name", label="성명") }}</td></tr>
+  <tr><th>주민등록번호</th><td>{{ f("signer.rrn", label="주민등록번호") }}</td></tr>
+  <tr><th>주　　소</th><td style="height:52px">{{ f("signer.address", label="주소") }}</td></tr>
+  <tr><th class="grp" rowspan="2">용도</th><th>구　　분</th><td>{{ m.choice("usage_type", ["부동산 거래", "금융거래", "기타"], label="용도") }}</td></tr>
+  <tr><th>세부 용도</th><td>{{ f("usage_detail", label="세부용도") }}</td></tr>
+  {% if d.counterparty is defined %}
+  <tr><th class="grp" rowspan="3">거래<br>상대방</th><th>성　　명</th><td>{{ f("counterparty.name", label="성명") }}</td></tr>
+  <tr><th>주민등록번호</th><td>{{ f("counterparty.rrn", label="주민등록번호") }}</td></tr>
+  <tr><th>주　　소</th><td>{{ f("counterparty.address", label="주소") }}</td></tr>
+  {% endif %}
+  <tr><th colspan="2">제 출 기 관</th><td>{{ f("submit_to", label="제출기관") }}</td></tr>
+  <tr><th colspan="2">서　　명</th><td class="ss-sign"><span class="sig">{{ f("signature", label="서명") }}</span><span class="mark">(본인이 직접 정자로 서명)</span></td></tr>
+</table>
+<p class="ss-stmt">위 서명은 본인이 직접 서명하였음을 확인합니다.</p>
+<div class="issuer">
+  <div class="date">{{ f("issue_date", label="발급일") }}</div>
+  <div class="org">{{ f("issuer", label="발급기관") }}{{ m.seal("직인", square=True, over=True) }}</div>
+</div>
+<div class="ss-notes note">
+  ※ 유의사항
+  <ol class="clauses">
+    <li>이 확인서는 「본인서명사실 확인 등에 관한 법률」에 따라 발급된 것으로서 인감증명서와 같은 효력이 있습니다.</li>
+    <li>이 확인서는 용도란 및 제출기관란에 적힌 용도와 기관 외에는 사용할 수 없습니다.</li>
+    <li>발급사실은 정부24(www.gov.kr) 또는 민원서비스 「본인서명사실확인서 발급사실 확인」에서 조회할 수 있습니다.</li>
+  </ol>
+</div>
+{% endblock %}

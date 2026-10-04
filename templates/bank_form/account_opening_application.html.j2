@@ -1,0 +1,77 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "bank_form/_account_common.html.j2" as bf with context %}
+{% block page_class %} dense{% endblock %}
+{% block style %}{{ bf.css() }}
+table.aoa th { width: 96px; }
+table.aoa th.w2 { width: 86px; }
+{% endblock %}
+{% block content %}
+{{ bf.head("수신-001 (개인용)<br>보존기간: 거래종료 후 10년") }}
+{{ m.title("예금거래신청서", sub="계좌개설 신청서 (개인)") }}
+<div class="bf-note">※ 굵은 선 안쪽만 고객께서 작성하여 주십시오. 해당란에 ■ 표시하여 주시기 바랍니다.</div>
+
+{{ bf.sec("1", "고객 정보") }}
+<table class="bf aoa">
+<tr><th>성명(한글)</th><td>{{ f("customer.name", label="성명") }}</td><th class="w2">영문명</th><td>{{ f("customer.name_en", label="영문명") }}</td></tr>
+<tr><th>실명번호</th><td colspan="3">{{ f("customer.rrn", label="실명번호") }}</td></tr>
+<tr><th>자택주소</th><td colspan="3">(우 {{ f("customer.zipcode", label="우편번호") }}) {{ f("customer.address", label="자택주소") }}</td></tr>
+<tr><th>휴대폰</th><td>{{ f("customer.mobile", label="휴대폰") }}</td><th class="w2">이메일</th><td>{{ f("customer.email", label="이메일") }}</td></tr>
+<tr><th>직업</th><td>{{ f("customer.job", label="직업") }}</td><th class="w2">직장명</th><td>{% if d.customer.company is defined %}{{ f("customer.company", label="직장명") }}{% endif %}</td></tr>
+</table>
+
+{{ bf.sec("2", "신규 상품") }}
+<table class="bf aoa">
+<tr><th>예금 종류</th><td colspan="3">{{ m.choice("product.type", ["보통예금", "저축예금", "정기예금", "정기적금", "주택청약종합저축"], label="예금종류") }}</td></tr>
+<tr><th>상품명</th><td>{{ f("product.name", label="상품명") }}</td><th class="w2">신규금액</th><td>{{ f("product.amount", label="신규금액") }}</td></tr>
+<tr><th>계약기간</th><td>{% if d.product.term is defined %}{{ f("product.term", label="계약기간") }}{% endif %}</td>
+    <th class="w2">출금(이체)계좌</th><td>{% if d.product.linked_account is defined %}{{ f("product.linked_account", label="출금계좌") }}{% endif %}</td></tr>
+<tr><th>통장 발행</th><td>{{ m.choice("passbook", ["발행", "미발행"], label="통장발행") }}</td>
+    <th class="w2">인감/서명</th><td>{{ m.choice("seal_type", ["인감", "서명", "인감+서명"], label="인감서명등록") }}</td></tr>
+<tr><th>비밀번호</th><td colspan="3"><span class="pw"></span><span class="pw"></span><span class="pw"></span><span class="pw"></span>
+    <span class="tiny muted">&nbsp;※ 비밀번호는 고객께서 비밀번호 입력기(PIN-PAD)에 직접 입력하여 주십시오.</span></td></tr>
+<tr><th>체크카드</th><td colspan="3">{{ m.choice("check_card", ["신청", "미신청"], label="체크카드") }}<span class="tiny muted">(신청 시 별도 체크카드 신청서 작성)</span></td></tr>
+</table>
+
+{{ bf.sec("3", "전자금융 · 부가서비스") }}
+<table class="bf aoa">
+<tr><th>인터넷뱅킹</th><td>{{ m.choice("ebank.internet", ["신청", "미신청"], label="인터넷뱅킹") }}</td>
+    <th class="w2">모바일뱅킹</th><td>{{ m.choice("ebank.mobile", ["신청", "미신청"], label="모바일뱅킹") }}</td></tr>
+<tr><th>보안매체</th><td colspan="3">{{ m.choice("ebank.otp", ["OTP 발급", "모바일OTP", "기존 OTP 사용", "보안카드", "미신청"], label="보안매체") }}</td></tr>
+<tr><th>이체한도</th><td colspan="3">1회 {% if d.ebank.limit_once is defined %}<span class="u">{{ f("ebank.limit_once", label="1회이체한도") }}</span>{% else %}<span class="u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{% endif %}
+    &nbsp;&nbsp;/&nbsp;&nbsp;1일 {% if d.ebank.limit_day is defined %}<span class="u">{{ f("ebank.limit_day", label="1일이체한도") }}</span>{% else %}<span class="u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{% endif %}
+    <span class="tiny muted">&nbsp;※ 보안매체에 따라 최고 한도가 다릅니다.</span></td></tr>
+<tr><th>입출금 알림</th><td colspan="3">{{ m.choice("alert", ["SMS", "앱 푸시", "미신청"], label="입출금알림") }}<span class="tiny muted">(SMS 알림은 월 이용료가 부과될 수 있습니다)</span></td></tr>
+</table>
+
+{{ bf.sec("4", "기타 신청") }}
+<table class="bf aoa">
+<tr><th>우편물 수령처</th><td>{{ m.choice("mail_to", ["자택", "직장", "이메일", "수령 안함"], label="우편물수령처") }}</td>
+    <th class="w2">급여이체 지정</th><td>{{ m.choice("salary_transfer", ["지정", "미지정"], label="급여이체지정") }}</td></tr>
+<tr><th>대리인 신규</th><td colspan="3">□ 해당 &nbsp;■ 해당 없음 <span class="tiny muted">&nbsp;(대리인 신규 시 위임장, 본인 인감증명서 및 대리인 실명확인증표 제출)</span></td></tr>
+</table>
+
+<div class="bf-box bf-note" style="margin-top:6px">
+  <p>1. 본인은 「예금거래기본약관」, 「입출금이 자유로운 예금 약관」(또는 「거치식·적립식 예금 약관」) 및 해당 상품설명서를 교부받고 그 중요 내용을 충분히 설명 듣고 이해하였음을 확인합니다.</p>
+  <p>2. 본인은 「금융실명거래 및 비밀보장에 관한 법률」에 따라 실명으로 거래하며, 불법재산의 은닉, 자금세탁, 공중협박자금 조달 및 강제집행 면탈 등 탈법행위를 목적으로 타인 명의로 금융거래를 하는 경우 처벌받을 수 있음을 설명 들었습니다.</p>
+  <p>3. 예금자보호법에 따라 이 예금은 예금보험공사가 1인당 원금과 소정의 이자를 합하여 1억원까지 보호합니다.</p>
+  <p>4. 통장·카드 등 접근매체를 타인에게 양도·대여하는 행위는 「전자금융거래법」에 따라 처벌 대상이 됩니다.</p>
+</div>
+<div class="bf-sign">
+  <span>{{ f("date", label="신청일") }}</span>
+  <span>신청인 <span class="who">{{ f("signature", label="신청인") }}</span> (서명 또는 인)</span>
+</div>
+<div class="right bold">{{ f("bank.name", label="은행명") }} 앞</div>
+
+<div class="bf-use">
+  <div class="cap">은행 사용란</div>
+  <div class="body">
+    <table class="bf" style="flex:1">
+      <tr><th style="width:96px">계좌번호</th><td class="bold">{{ f("bank_use.account_no", label="계좌번호") }}</td></tr>
+      <tr><th>개설 영업점</th><td>{{ f("bank_use.branch", label="개설영업점") }}</td></tr>
+      <tr><th>실명확인증표</th><td>{{ m.choice("bank_use.id_type", ["주민등록증", "운전면허증", "여권", "모바일신분증"], label="실명확인증표") }}</td></tr>
+    </table>
+    {{ bf.stamps([["실명확인", None], ["담당", "bank_use.clerk"], ["책임자", "bank_use.manager"]]) }}
+  </div>
+</div>
+{% endblock %}

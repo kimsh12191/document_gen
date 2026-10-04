@@ -1,0 +1,84 @@
+{# 가족관계등록부 증명서 / 주민등록표 공용 조각 (family 그룹 전용) #}
+
+{% macro fam_style() -%}
+.fm-form { font-size: calc(var(--fs) - 3px); color: #444; }
+h1.title.fm { letter-spacing: .12em; margin: 10px 0 18px; }
+table.fm th { background: var(--label-bg); }
+table.fm td { text-align: center; }
+table.fm td.l { text-align: left; }
+.fm-base th { width: 110px; }
+.fm-sec { font-weight: 700; margin: 16px 0 2px; letter-spacing: .1em; }
+.fm-stmt { text-align: center; margin: 34px 0 6px; font-size: calc(var(--fs) + 1px); }
+.fm-meta { font-size: calc(var(--fs) - 1px); margin-top: 26px; line-height: 1.7; }
+.fm-meta .l { display: inline-block; width: 90px; }
+.fm-foot { position: absolute; left: var(--page-pad); right: var(--page-pad); bottom: calc(var(--page-pad) - 16px); border-top: 1px solid #888; padding-top: 6px; font-size: calc(var(--fs) - 2.5px); color: #333; }
+.fm-foot p { margin: 2px 0; }
+{%- endmacro %}
+
+{# 구분/성명/출생연월일/주민등록번호/성별/본 표. paths: 각 행의 경로 리스트 #}
+{% macro people(paths) -%}
+<table class="fm">
+  <colgroup><col style="width:70px"><col style="width:170px"><col style="width:140px"><col><col style="width:50px"><col style="width:66px"></colgroup>
+  <tr><th>구분</th><th>성　명</th><th>출생연월일</th><th>주민등록번호</th><th>성별</th><th>본</th></tr>
+  {% for pth in paths %}
+  <tr>
+    <td>{{ f(pth ~ ".relation", label="구분") }}</td>
+    <td>{{ f(pth ~ ".name", label="성명") }}({{ f(pth ~ ".name_hanja", label="성명(한자)") }})</td>
+    <td>{{ f(pth ~ ".birth", label="출생연월일") }}</td>
+    <td>{{ f(pth ~ ".rrn", label="주민등록번호") }}</td>
+    <td>{{ f(pth ~ ".gender", label="성별") }}</td>
+    <td>{{ f(pth ~ ".bon", label="본") }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{%- endmacro %}
+
+{# 가족관계등록부 증명서 하단: 증명 문구, 발급일, 발급기관, 발급 정보, 안내문 #}
+{% macro fam_footer(cert_name) -%}
+<p class="fm-stmt">위 {{ cert_name }}는 가족관계등록부의 기록사항과 틀림없음을 증명합니다.</p>
+<div class="issuer" style="margin-top:14px">
+  <div class="date">{{ f("issue_date", label="발급일") }}</div>
+  <div class="org">{{ f("issuer", label="발급기관") }}{% if d.doc_check_no is not defined %}{{ m.seal("직인", square=True, over=True) }}{% endif %}</div>
+</div>
+{% if d.officer is defined %}
+<div class="fm-meta">
+  <div><span class="l">발급시각 :</span>{{ f("issue_time", label="발급시각") }}</div>
+  <div><span class="l">발급담당자 :</span>{{ f("officer", label="발급담당자") }}</div>
+  <div><span class="l">☎ :</span>{{ f("officer_phone", label="전화") }}</div>
+  <div><span class="l">신청인 :</span>{{ f("applicant", label="신청인") }}</div>
+</div>
+{% endif %}
+<div class="fm-foot">
+  <p>※ 위 증명서는 「가족관계의 등록 등에 관한 법률」 제15조제2항에 따른 등록사항을 현출한 일반증명서입니다.</p>
+  {% if d.doc_check_no is defined %}
+  <p>※ 이 증명서는 인터넷으로 발급되었으며, 대법원 전자가족관계등록시스템(efamily.scourt.go.kr)에서 문서확인번호로 위·변조 여부를 확인할 수 있습니다.</p>
+  <p>문서확인번호 : {{ f("doc_check_no", label="문서확인번호") }}</p>
+  {% else %}
+  <p>※ 이 증명서는 위·변조 방지를 위하여 특수용지를 사용하였습니다.</p>
+  {% endif %}
+</div>
+{%- endmacro %}
+
+{# 주민등록표 등·초본 하단 #}
+{% macro resident_footer() -%}
+<p class="center" style="margin:10px 0 0;letter-spacing:.3em">= 이 하 여 백 =</p>
+<div class="fm-meta" style="margin-top:14px">
+  <div>신청인 : {{ f("applicant", label="신청인") }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;용도 및 목적 : {{ f("purpose", label="용도및목적") }}</div>
+</div>
+<p class="fm-stmt" style="margin-top:20px">이 등(초)본은 주민등록표의 원본내용과 틀림없음을 증명합니다.</p>
+{% if d.officer is defined %}
+<p class="center small">담당자 : {{ f("officer", label="담당자") }}&nbsp;&nbsp;&nbsp;전화 : {{ f("officer_phone", label="전화") }}</p>
+{% endif %}
+<div class="issuer" style="margin-top:12px">
+  <div class="date">{{ f("issue_date", label="발급일") }}</div>
+  <div class="org">{{ f("issuer", label="발급기관") }}{{ m.seal("직인", square=True, over=True) }}</div>
+</div>
+<div class="fm-foot">
+  {% if d.officer is defined %}
+  <p>※ 수입증지가 첨부되지 아니한 증명은 그 효력을 보증할 수 없습니다.</p>
+  {% else %}
+  <p>※ 이 증명서는 인터넷으로 발급되었으며, 정부24(gov.kr)의 인터넷발급문서진위확인 메뉴를 통해 위·변조 여부를 확인할 수 있습니다. (발급일로부터 90일까지)</p>
+  {% endif %}
+  <p>※ 개인정보 보호를 위하여 주민등록표 등·초본은 필요한 경우에 한하여 제출하시고, 목적 외로 사용하지 마십시오.</p>
+</div>
+{%- endmacro %}

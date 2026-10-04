@@ -1,0 +1,86 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block page_class %} dense{% endblock %}
+
+{% block style %}
+.ht-top { display: flex; justify-content: space-between; font-size: calc(var(--fs) - 1px); margin-bottom: 4px; }
+.ht-title { border: 2px solid var(--border); text-align: center; padding: 10px 0; margin-bottom: 8px; }
+.ht-title h1 { margin: 0; font-size: calc(var(--title) - 2px); letter-spacing: .25em; }
+.cap { font-weight: 700; margin: 10px 0 2px; }
+.fs-wrap { display: flex; gap: 10px; align-items: flex-start; }
+.fs-wrap > div { flex: 1; }
+table.fs th, table.fs td { padding: 3px 6px; }
+table.fs td.acct { text-align: left; }
+table.fs td.acct.i1 { padding-left: 16px; }
+table.fs td.acct.i2 { padding-left: 28px; }
+table.fs tr.tot td { font-weight: 700; background: var(--label-bg); }
+.unit { text-align: right; font-size: calc(var(--fs) - 2px); }
+.stmt { text-align: center; margin: 12px 0 0; }
+.issuer { margin-top: 12px; }
+.issuer .date { margin-bottom: 10px; }
+.foot { margin-top: 10px; border-top: 1px solid var(--border); padding-top: 6px; }
+{% endblock %}
+{% macro row(label, key, sec, lv=0, tot=False) -%}
+<tr{% if tot %} class="tot"{% endif %}><td class="acct i{{ lv }}">{{ label }}</td><td class="num">{{ f(sec ~ "." ~ key, label=label.split(". ")[-1]) }}</td></tr>
+{%- endmacro %}
+{% block content %}
+<div class="ht-top"><span>발급번호 : {{ f("issue_no", label="발급번호") }}</span><span>처리기간 : 즉시</span></div>
+<div class="ht-title"><h1>표준재무제표증명</h1></div>
+<div class="cap">□ 납세자 인적사항</div>
+{{ m.kv([["상호", "taxpayer.trade_name"], ["사업자등록번호", "taxpayer.biz_no"],
+         ["성명", "taxpayer.name"], ["주민등록번호", "taxpayer.rrn"],
+         ["사업장 소재지", "taxpayer.address", True],
+         ["업태", "taxpayer.biz_type"], ["종목", "taxpayer.biz_item"],
+         ["귀속연도", "year"], ["사업연도", "period"]], cols=2, label_w="110px", cls="compact") }}
+<div class="between"><div class="cap">□ 표준재무제표</div><div class="unit">(단위 : 원)</div></div>
+<div class="fs-wrap">
+<div>
+<table class="fs compact">
+<tr><th colspan="2">표준재무상태표</th></tr>
+<tr><th>과　목</th><th>금　액</th></tr>
+{{ row("Ⅰ. 유동자산", "current", "balance_sheet") }}
+{{ row("1. 당좌자산", "quick", "balance_sheet", 1) }}
+{{ row("2. 재고자산", "inventory", "balance_sheet", 1) }}
+{{ row("Ⅱ. 비유동자산", "noncurrent", "balance_sheet") }}
+{{ row("1. 투자자산", "investment", "balance_sheet", 1) }}
+{{ row("2. 유형자산", "tangible", "balance_sheet", 1) }}
+{{ row("3. 무형자산", "intangible", "balance_sheet", 1) }}
+{{ row("4. 기타비유동자산", "other_noncurrent", "balance_sheet", 1) }}
+{{ row("자산총계", "assets", "balance_sheet", 0, True) }}
+{{ row("Ⅰ. 유동부채", "current_liab", "balance_sheet") }}
+{{ row("Ⅱ. 비유동부채", "noncurrent_liab", "balance_sheet") }}
+{{ row("부채총계", "liabilities", "balance_sheet", 0, True) }}
+{{ row("Ⅰ. 자본금", "capital", "balance_sheet") }}
+{{ row("자본총계", "equity", "balance_sheet", 0, True) }}
+{{ row("부채와자본총계", "liab_equity", "balance_sheet", 0, True) }}
+</table>
+</div>
+<div>
+<table class="fs compact">
+<tr><th colspan="2">표준손익계산서</th></tr>
+<tr><th>과　목</th><th>금　액</th></tr>
+{{ row("Ⅰ. 매출액", "revenue", "income_statement") }}
+{{ row("Ⅱ. 매출원가", "cogs", "income_statement") }}
+{{ row("Ⅲ. 매출총이익", "gross", "income_statement", 0, True) }}
+{{ row("Ⅳ. 판매비와관리비", "sga", "income_statement") }}
+{{ row("1. 급여", "salary", "income_statement", 1) }}
+{{ row("2. 복리후생비", "welfare", "income_statement", 1) }}
+{{ row("3. 임차료", "rent", "income_statement", 1) }}
+{{ row("4. 감가상각비", "depreciation", "income_statement", 1) }}
+{{ row("5. 기타 판매비와관리비", "other_sga", "income_statement", 1) }}
+{{ row("Ⅴ. 영업이익", "op", "income_statement", 0, True) }}
+{{ row("Ⅵ. 영업외수익", "non_op_income", "income_statement") }}
+{{ row("Ⅶ. 영업외비용", "non_op_expense", "income_statement") }}
+{{ row("Ⅷ. 당기순이익", "net", "income_statement", 0, True) }}
+</table>
+</div>
+</div>
+{{ m.kv([["사용목적", "purpose"], ["제출처", "submit_to"]], cols=2, label_w="110px", cls="compact") }}
+<p class="stmt">「소득세법」 제70조에 따라 신고한 위 사업자의 표준재무제표 내용을 위와 같이 증명합니다.</p>
+{{ m.issuer("issue_date", org_path="issuer", seal_text=val("issuer") ~ "인") }}
+<div class="foot note">
+  <div>※ 이 증명서는 국세청 홈택스(www.hometax.go.kr)에서 인터넷으로 발급되었습니다.</div>
+  <div>※ 위 내용은 종합소득세 확정신고 시 제출한 표준재무제표 기준이며, 수정신고 등에 따라 달라질 수 있습니다.</div>
+  <div>※ 진위 확인은 발급일로부터 90일 이내 홈택스 [민원증명 &gt; 민원증명 원본확인]에서 발급번호로 할 수 있습니다.</div>
+</div>
+{% endblock %}

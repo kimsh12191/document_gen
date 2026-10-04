@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>{{ spec.name }}</title>
+<style>
+:root {
+  --font: {{ style.font }};
+  --fs: {{ style.font_size }}px;
+  --title: {{ style.title_size }}px;
+  --lh: {{ style.line_height }};
+  --border: {{ style.border }};
+  --bw: {{ style.border_w }}px;
+  --label-bg: {{ style.label_bg }};
+  --accent: {{ style.accent }};
+  --pad: {{ style.cell_pad }}px;
+  --page-pad: {{ style.page_pad }}px;
+  --paper: {{ style.paper }};
+  --seal: {{ style.seal_color }};
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #fff; }
+.page {
+  position: relative; overflow: hidden; background: var(--paper); color: #111;
+  font-family: var(--font); font-size: var(--fs); line-height: var(--lh);
+  width: 794px; height: 1123px; padding: var(--page-pad);
+}
+.page.a4_landscape { width: 1123px; height: 794px; }
+.page.card { width: 540px; height: 340px; padding: 20px 24px; border-radius: 18px; }
+.page.passport { width: 720px; height: 500px; padding: 22px 28px; }
+.page.a4.dense { font-size: calc(var(--fs) - 1.5px); line-height: 1.35; }
+
+h1.title { text-align: center; font-size: var(--title); letter-spacing: .25em; margin: 6px 0 22px; font-weight: 700; }
+h1.title.box { border: 2px solid var(--border); padding: 8px; }
+h1.title .sub { display: block; font-size: 13px; letter-spacing: .05em; font-weight: 400; color: #444; margin-top: 4px; }
+h2.sec { font-size: calc(var(--fs) + 2px); margin: 16px 0 6px; padding-left: 8px; border-left: 4px solid var(--accent); }
+h3.sec { font-size: calc(var(--fs) + 1px); margin: 12px 0 4px; }
+
+table { width: 100%; border-collapse: collapse; margin: 6px 0; }
+th, td { border: var(--bw) solid var(--border); padding: var(--pad) calc(var(--pad) + 3px); vertical-align: middle; }
+th { background: var(--label-bg); font-weight: 600; text-align: center; white-space: nowrap; }
+td.num, .num { text-align: right; font-variant-numeric: tabular-nums; }
+td.c, .c { text-align: center; }
+table.plain th, table.plain td { border: 0; padding: 2px 4px; background: none; text-align: left; }
+table.outer { border: 2px solid var(--border); }
+table.compact th, table.compact td { padding: 3px 5px; font-size: calc(var(--fs) - 1px); }
+
+.row { display: flex; gap: 12px; align-items: flex-start; }
+.between { display: flex; justify-content: space-between; align-items: flex-end; }
+.right { text-align: right; } .center { text-align: center; } .bold { font-weight: 700; }
+.small { font-size: calc(var(--fs) - 2px); } .tiny { font-size: calc(var(--fs) - 3.5px); }
+.muted { color: #555; } .accent { color: var(--accent); }
+.box { border: var(--bw) solid var(--border); padding: 10px 12px; margin: 8px 0; }
+.note { font-size: calc(var(--fs) - 2px); color: #333; margin: 6px 0; }
+.note li { margin: 2px 0; }
+.mt { margin-top: 18px; } .mb { margin-bottom: 18px; } .mt-l { margin-top: 36px; }
+.spacer { flex: 1; }
+.u { border-bottom: 1px solid #333; padding: 0 6px; }
+ol.clauses { padding-left: 1.4em; margin: 6px 0; }
+ol.clauses li { margin: 3px 0; }
+
+.issuer { text-align: center; margin-top: 28px; }
+.issuer .date { margin-bottom: 18px; letter-spacing: .05em; }
+.issuer .org { font-size: calc(var(--fs) + 8px); font-weight: 700; letter-spacing: .2em; position: relative; display: inline-block; padding-right: 18px; }
+.seal {
+  display: inline-flex; align-items: center; justify-content: center; text-align: center;
+  width: 64px; height: 64px; border: 3px solid var(--seal); color: var(--seal);
+  border-radius: 50%; font-size: 13px; line-height: 1.1; font-weight: 700;
+  transform: rotate(-7deg); opacity: .82; vertical-align: middle; letter-spacing: 0;
+  font-family: 'Nanum Myeongjo', 'Noto Serif CJK KR', serif; word-break: keep-all;
+}
+.seal.square { border-radius: 4px; }
+.seal.sm { width: 40px; height: 40px; font-size: 10px; border-width: 2px; }
+.seal.lg { width: 84px; height: 84px; font-size: 15px; }
+.seal.over { position: absolute; right: -40px; top: -18px; }
+.signline { display: inline-block; min-width: 120px; }
+.chk { white-space: nowrap; margin-right: 10px; }
+.photo {
+  background: linear-gradient(#e8e8e8, #d0d0d0); border: 1px solid #aaa; position: relative; overflow: hidden;
+}
+.photo::after {
+  content: ""; position: absolute; left: 50%; top: 22%; width: 42%; height: 36%; transform: translateX(-50%);
+  background: #b8b8b8; border-radius: 50%; box-shadow: 0 60px 0 30px #b8b8b8;
+}
+.sample-mark {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-24deg);
+  font-size: 64px; font-weight: 900; color: rgba(220, 20, 20, .16); letter-spacing: .2em;
+  white-space: nowrap; pointer-events: none; font-family: sans-serif; z-index: 10;
+}
+.page.card .sample-mark { font-size: 44px; }
+.docno { font-size: calc(var(--fs) - 2px); color: #333; }
+.gov-head { display: flex; justify-content: space-between; font-size: calc(var(--fs) - 2px); color: #333; margin-bottom: 6px; }
+{% block style %}{% endblock %}
+</style>
+</head>
+<body>
+<div class="page {{ spec.page }}{% block page_class %}{% endblock %}">
+{% block content %}{% endblock %}
+{% if sample_mark %}<div class="sample-mark">견본 SAMPLE</div>{% endif %}
+</div>
+</body>
+</html>

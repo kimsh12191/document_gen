@@ -1,0 +1,41 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "family/_fam.html.j2" as fm with context %}
+{% block style %}{{ fm.fam_style() }}
+table.rr td { text-align: center; }
+table.rr td.l { text-align: left; }
+.rr-top { display: flex; justify-content: space-between; font-size: calc(var(--fs) - 2px); }
+.rr-forge { border: 1px solid #999; padding: 2px 8px; font-size: calc(var(--fs) - 3.5px); color: #555; }
+{% endblock %}
+{% block content %}
+<div class="rr-top">
+  <div>{% if d.officer is defined %}{{ m.doc_no("doc_no", "발급번호") }}{% else %}{{ m.doc_no("doc_no", "문서확인번호") }}{% endif %}</div>
+  <div class="rr-forge">이 용지는 위조식별 표시가 되어 있음</div>
+</div>
+{{ m.title("주 민 등 록 표", sub="( 등　　본 )") }}
+<table class="rr">
+  <colgroup><col style="width:120px"><col><col style="width:130px"><col style="width:190px"></colgroup>
+  <tr><th>세대주 성명(한자)</th><td class="l">{{ f("household_head.name", label="세대주성명") }} ({{ f("household_head.name_hanja", label="세대주성명(한자)") }})</td>
+      <th>세대구성<br>사유 및 일자</th><td>{{ f("household_formed.reason", label="세대구성사유") }}<br>{{ f("household_formed.date", label="세대구성일자") }}</td></tr>
+</table>
+<table class="rr">
+  <colgroup><col style="width:70px"><col><col style="width:120px"><col style="width:90px"></colgroup>
+  <tr><th>번호</th><th>주　　　　소 (통/반)</th><th>전입일 / 변동일</th><th>변동사유</th></tr>
+  <tr><td>현주소</td><td class="l">{{ f("current_address.address", label="주소") }}</td><td>{{ f("current_address.moved_in", label="전입일") }}</td><td>{{ f("current_address.reason", label="변동사유") }}</td></tr>
+</table>
+<table class="rr">
+  <colgroup><col style="width:50px"><col style="width:90px"><col><col style="width:150px"><col style="width:120px"><col style="width:90px"></colgroup>
+  <tr><th>번호</th><th>세대주<br>관계</th><th>성　명 (한자)</th><th>주민등록번호</th><th>전입일 / 변동일</th><th>변동사유</th></tr>
+  {% for it in d.members %}{% set i = loop.index0 %}
+  <tr>
+    <td>{{ f("members." ~ i ~ ".no", label="번호") }}</td>
+    <td>{{ f("members." ~ i ~ ".relation", label="세대주관계") }}</td>
+    <td>{{ f("members." ~ i ~ ".name", label="성명") }} ({{ f("members." ~ i ~ ".name_hanja", label="한자") }})</td>
+    <td>{{ f("members." ~ i ~ ".rrn", label="주민등록번호") }}</td>
+    <td>{{ f("members." ~ i ~ ".moved_in", label="전입일/변동일") }}</td>
+    <td>{{ f("members." ~ i ~ ".reason", label="변동사유") }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{{ fm.resident_footer() }}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block style %}
+.page.card { background: linear-gradient(135deg, #eaf3fb 0%, #f7f9f2 50%, #eef0fa 100%); border: 1px solid #a9bccf; padding: 16px 22px; }
+.arc-head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #2b4c7e; padding-bottom: 3px; color: #1b2b48; }
+.arc-head .t { font-size: 22px; font-weight: 800; letter-spacing: .2em; }
+.arc-head .e { font-size: 14px; font-weight: 700; letter-spacing: .12em; }
+.arc-body { display: flex; gap: 18px; margin-top: 10px; }
+.arc-photo { width: 104px; height: 134px; flex: none; }
+.arc-fields { flex: 1; }
+.arc-f { display: flex; align-items: baseline; margin-bottom: 5px; }
+.arc-f .l { width: 108px; flex: none; font-size: 10px; color: #4a5568; line-height: 1.1; }
+.arc-f .l b { display: block; font-size: 11.5px; color: #222; font-weight: 600; }
+.arc-f .v { font-size: 15px; font-weight: 700; letter-spacing: .03em; }
+.arc-f .v.big { font-size: 18px; letter-spacing: .06em; }
+.arc-foot { position: absolute; right: 22px; bottom: 14px; text-align: right; }
+.arc-foot .d { font-size: 12.5px; letter-spacing: .06em; padding-right: 46px; }
+.arc-foot .d .l { font-size: 10px; color: #555; margin-right: 6px; }
+.arc-foot .o { font-size: 15px; font-weight: 700; letter-spacing: .04em; position: relative; display: inline-block; padding-right: 46px; }
+.arc-foot .o .seal { right: 0; top: -12px; }
+{% endblock %}
+{% block content %}
+<div class="arc-head"><div class="t">외국인등록증</div><div class="e">RESIDENCE CARD</div></div>
+<div class="arc-body">
+  <div class="photo arc-photo"></div>
+  <div class="arc-fields">
+    <div class="arc-f"><span class="l"><b>외국인등록번호</b>Registration No.</span><span class="v big">{{ f("registration_no", label="외국인등록번호") }}</span></div>
+    <div class="arc-f"><span class="l"><b>성명</b>Name</span><span class="v">{{ f("name", label="성명") }}</span></div>
+    <div class="arc-f"><span class="l"><b>국가/지역</b>Country/Region</span><span class="v" style="font-size:13.5px">{{ f("country", label="국가/지역") }}</span></div>
+    <div class="arc-f"><span class="l"><b>성별</b>Sex</span><span class="v">{{ f("sex", label="성별") }}</span></div>
+    <div class="arc-f"><span class="l"><b>체류자격</b>Status</span><span class="v">{{ f("visa_status", label="체류자격") }}</span></div>
+  </div>
+</div>
+<div class="arc-foot">
+  <div class="d"><span class="l">발급일자 Issue Date</span>{{ f("issue_date", label="발급일자") }}</div>
+  <div class="o">{{ f("issuer", label="발급기관") }}{{ m.seal("출입국장인", square=True, size="sm", over=True) }}</div>
+</div>
+{% endblock %}

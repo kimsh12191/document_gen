@@ -1,0 +1,31 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block style %}
+.ht-top { display: flex; justify-content: space-between; font-size: calc(var(--fs) - 1px); margin-bottom: 4px; }
+.ht-title { border: 2px solid var(--border); text-align: center; padding: 14px 0; margin-bottom: 10px; }
+.ht-title h1 { margin: 0; font-size: var(--title); letter-spacing: .3em; }
+.cap { font-weight: 700; margin: 14px 0 2px; }
+.stmt { text-align: center; margin: 34px 0 6px; font-size: calc(var(--fs) + 1px); }
+.foot { margin-top: 40px; border-top: 1px solid var(--border); padding-top: 8px; }
+{% endblock %}
+{% block content %}
+<div class="ht-top"><span>발급번호 : {{ f("issue_no", label="발급번호") }}</span><span>처리기간 : 즉시</span></div>
+<div class="ht-title"><h1>사업자등록증명</h1></div>
+<div class="cap">□ 사업자 인적사항</div>
+{{ m.kv([["상호(법인명)", "trade_name"], ["사업자등록번호", "biz_no"],
+         ["성명(대표자)", "name"], ["주민등록번호", "rrn"],
+         ["사업장 소재지", "address", True],
+         ["개업일", "opened"], ["사업자등록일", "registered"],
+         ["과세유형", "kind"], ["공동사업자", "joint"]], cols=2, label_w="120px") }}
+<div class="cap">□ 사업의 종류</div>
+{{ m.grid(["업태", "종목", "업종코드", "구분"], "kinds", ["biz_type", "biz_item", "code", "main"], widths=["30%", "34%", "18%", "18%"]) }}
+<div class="cap">□ 발급 내용</div>
+{{ m.kv([["사용목적", "purpose"], ["제출처", "submit_to"]], cols=2, label_w="120px") }}
+<p class="stmt">위의 기재사항과 같이 사업자등록 사실이 있음을 증명합니다.</p>
+{{ m.issuer("issue_date", org_path="issuer", seal_text=val("issuer") ~ "인") }}
+<div class="foot note">
+  <div>※ 이 증명서는 국세청 홈택스(www.hometax.go.kr)에서 인터넷으로 발급되었습니다.</div>
+  <div>※ 발급일로부터 90일 이내에 홈택스 [민원증명 &gt; 민원증명 원본확인] 메뉴에서 발급번호를 입력하여 진위 여부를 확인할 수 있습니다.</div>
+  <div>※ 이 증명은 발급일 현재의 사업자등록 사실을 증명하는 것으로, 발급일 이후의 휴업·폐업 등 변동사항은 반영되지 않습니다.</div>
+</div>
+{% endblock %}

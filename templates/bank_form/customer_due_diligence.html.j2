@@ -1,0 +1,77 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "bank_form/_account_common.html.j2" as bf with context %}
+{% block page_class %} dense{% endblock %}
+{% block style %}{{ bf.css() }}
+table.cdd th { width: 104px; }
+{% endblock %}
+{% block content %}
+{{ bf.head("보존기간: 거래종료 후 5년<br>고객확인 · 수신공통") }}
+{{ m.title("고객확인서 (개인)", sub="Customer Due Diligence Form for Individual") }}
+<div class="bf-box bf-note">
+  <p>「특정 금융거래정보의 보고 및 이용 등에 관한 법률」 제5조의2 및 같은 법 시행령 제10조의4에 따라 금융회사는 고객의 신원, 실제소유자 여부, 금융거래의 목적 및 자금의 원천 등을 확인하여야 합니다.</p>
+  <p>※ 고객이 신원확인 등을 위한 정보 제공을 거부하여 고객확인을 할 수 없는 경우 신규 거래가 거절되거나 기존 거래가 종료될 수 있습니다.</p>
+</div>
+
+{{ bf.sec("1", "고객 기본정보", "Customer Information") }}
+<table class="bf cdd">
+<tr><th>성명(국문)</th><td>{{ f("customer.name", label="성명(국문)") }}</td><th>성명(영문)</th><td>{{ f("customer.name_en", label="성명(영문)") }}</td></tr>
+<tr><th>실명번호</th><td>{{ f("customer.rrn", label="실명번호") }}</td><th>국　적</th><td>{{ f("customer.nationality", label="국적") }}</td></tr>
+<tr><th>자택주소</th><td colspan="3">{{ f("customer.address", label="자택주소") }}</td></tr>
+<tr><th>휴대전화</th><td>{{ f("customer.mobile", label="휴대전화") }}</td><th>이메일</th><td>{{ f("customer.email", label="이메일") }}</td></tr>
+</table>
+
+{{ bf.sec("2", "직업 정보", "Occupation") }}
+<table class="bf cdd">
+<tr><th>직　업</th><td colspan="3">{{ m.choice("job.type", ["급여소득자", "개인사업자", "전문직", "주부", "학생", "무직", "기타"], label="직업") }}</td></tr>
+<tr><th>직장명(상호)</th><td>{% if d.job.company is defined %}{{ f("job.company", label="직장명") }}{% endif %}</td>
+    <th>직　위</th><td>{% if d.job.position is defined %}{{ f("job.position", label="직위") }}{% endif %}</td></tr>
+</table>
+
+{{ bf.sec("3", "거래 정보", "Transaction Information") }}
+<table class="bf cdd">
+<tr><th>거래목적</th><td>{{ m.choice("transaction.purpose", ["급여 및 생활비", "저축 및 투자", "사업상 거래", "대출", "기타"], label="거래목적") }}</td></tr>
+<tr><th>자금원천</th><td>{{ m.choice("transaction.fund_source", ["근로소득", "사업소득", "부동산임대", "상속·증여", "기타"], label="자금원천") }}</td></tr>
+<tr><th>예상 거래금액<br>(월 평균)</th><td>{{ m.choice("transaction.expected_amount", ["1천만원 미만", "1천만원~5천만원", "5천만원~1억원", "1억원 이상"], label="예상거래금액") }}</td></tr>
+<tr><th>예상 거래빈도</th><td>{{ m.choice("transaction.frequency", ["월 5회 미만", "월 5~10회", "월 10~20회", "월 20회 이상"], label="예상거래빈도") }}</td></tr>
+</table>
+
+{{ bf.sec("4", "실제소유자 확인", "Beneficial Owner") }}
+<table class="bf cdd">
+<tr><td class="q">본인이 이 거래(계좌)의 실제소유자입니까?<div class="tiny muted">※ 실제소유자: 고객을 최종적으로 지배하거나 통제하는 자연인으로서 해당 금융거래를 통해 궁극적으로 혜택을 보는 개인</div></td>
+<td style="width:230px">{{ m.choice("beneficial_owner", ["예(본인)", "아니오(별도 기재)"], label="실제소유자여부") }}</td></tr>
+</table>
+
+{{ bf.sec("5", "외국의 정치적 주요인물 여부", "Foreign PEPs") }}
+<table class="bf cdd">
+<tr><td class="q">본인 또는 본인의 가족·밀접한 관계자가 외국의 정치적 주요인물에 해당합니까?<div class="tiny muted">※ 외국의 전·현직 국가원수, 고위 정치인, 정부·사법·군 고위관리, 국영기업 고위임원, 주요 정당 간부 등</div></td>
+<td style="width:230px">{{ m.choice("pep", ["예", "아니오"], label="외국의정치적주요인물여부") }}</td></tr>
+</table>
+
+{{ bf.sec("6", "대리인 정보", "Agent (대리인에 의한 거래 시에만 작성)") }}
+<table class="bf cdd">
+<tr><th>대리인 성명</th><td style="width:170px">&nbsp;</td><th>실명번호</th><td>&nbsp;</td></tr>
+<tr><th>본인과의 관계</th><td>&nbsp;</td><th>연락처</th><td>&nbsp;</td></tr>
+</table>
+<div class="tiny muted">※ 대리인 거래 시 위임장, 본인의 인감증명서(또는 본인서명사실확인서) 및 대리인의 실명확인증표를 함께 제출하여야 합니다.</div>
+
+<div class="bf-note mt" style="margin-top:10px">본인은 위 기재 내용이 사실과 다름없음을 확인하며, 기재 내용에 변경이 있는 경우 지체 없이 은행에 통보하겠습니다. 허위 기재 또는 정보 제공 거부로 인한 거래 제한 등의 불이익은 본인이 부담합니다.</div>
+<div class="bf-sign">
+  <span>{{ f("date", label="작성일") }}</span>
+  <span>고객 성명 <span class="who">{{ f("signature", label="고객성명") }}</span> (서명 또는 인)</span>
+</div>
+<div class="right bold">{{ f("bank.name", label="은행명") }} 귀중</div>
+
+<div class="bf-use">
+  <div class="cap">은행 사용란 (For Bank Use Only)</div>
+  <div class="body">
+    <table class="bf" style="flex:1">
+      <tr><th style="width:96px">고객위험등급</th><td>{{ m.choice("bank_use.risk_grade", ["저위험", "중위험", "고위험"], label="고객위험등급") }}</td></tr>
+      <tr><th>실명확인증표</th><td>{{ m.choice("bank_use.id_type", ["주민등록증", "운전면허증", "여권", "모바일신분증"], label="실명확인증표") }}</td></tr>
+      <tr><th>확인 영업점</th><td>{{ f("bank_use.branch", label="확인영업점") }}</td></tr>
+    </table>
+    {{ bf.stamps([["담당", "bank_use.clerk"], ["책임자", "bank_use.manager"]]) }}
+  </div>
+</div>
+<div class="tiny muted" style="margin-top:3px">※ 고위험 고객은 강화된 고객확인(EDD) 절차에 따라 추가 정보 및 증빙서류를 징구합니다.</div>
+{% endblock %}

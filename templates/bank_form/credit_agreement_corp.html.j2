@@ -1,0 +1,48 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "bank_form/_loan_parts.html.j2" as lp with context %}
+{% block page_class %} dense{% endblock %}
+{% block content %}
+{{ lp.css() }}
+{{ lp.head("서식번호 기업여신-2201 (2025.03 개정)", "은행여신거래기본약관(기업용) 적용") }}
+{{ lp.title_row("여신거래약정서", sub="(기업용)") }}
+<p style="margin:2px 0"><b>{{ f("creditor", label="채권자") }}</b> 앞 &nbsp;<span class="small muted">(취급점: {{ f("branch", label="취급점") }})</span></p>
+<p class="lead" style="margin:2px 0 4px">채무자는 「은행여신거래기본약관(기업용)」이 적용됨을 승인하고, 귀 행과 아래와 같이 여신거래를 약정합니다.</p>
+
+<div class="bf-sec">채무자</div>
+<table class="bf">
+<colgroup><col style="width:104px"><col><col style="width:96px"><col></colgroup>
+<tr><th>상호(법인명)</th><td colspan="3"><b>{{ f("debtor.name", label="상호") }}</b></td></tr>
+<tr><th>사업자등록번호</th><td>{{ f("debtor.biz_no", label="사업자등록번호") }}</td><th>법인등록번호</th><td>{{ f("debtor.corp_no", label="법인등록번호") }}</td></tr>
+<tr><th>대표이사</th><td>{{ f("debtor.ceo", label="대표이사") }}</td><th>전화번호</th><td>{{ f("debtor.phone", label="전화번호") }}</td></tr>
+<tr><th>본점 소재지</th><td colspan="3">{{ f("debtor.address", label="본점소재지") }}</td></tr>
+</table>
+
+<div class="bf-sec">여신 조건</div>
+{{ lp.terms(["고정금리", "변동금리"]) }}
+
+<div class="bf-sec">주요 약정 내용</div>
+<ol class="clauses notice" style="list-style:none;padding-left:0;margin:2px 0">
+<li><b>제1조(적용범위)</b> 이 약정에서 정하지 않은 사항은 은행여신거래기본약관(기업용) 및 해당 상품설명서에 따릅니다.</li>
+<li><b>제2조(이자 등)</b> ① 이자율은 위 표에서 정한 바에 따르며, 변동금리는 금리변동주기마다 변경된 기준금리에 가산금리를 더하여 적용합니다. ② 채무자는 재무상태 개선, 신용등급 상승 등 신용상태가 개선된 경우 금리인하를 요구할 수 있습니다.</li>
+<li><b>제3조(지연배상금)</b> 채무자가 이자, 분할상환금 등을 기일에 지급하지 아니한 때에는 지급하여야 할 금액에 대하여 위 지연배상금률에 따른 지연배상금을 지급합니다.</li>
+<li><b>제4조(중도상환)</b> 채무자는 만기 전 언제든지 여신의 전부 또는 일부를 상환할 수 있으며, 이 경우 위에서 정한 중도상환해약금을 지급합니다.</li>
+<li><b>제5조(기한의 이익 상실)</b> 채무자가 이자 등의 지급을 지체하거나, 어음교환소의 거래정지처분, 파산·회생절차 개시신청 등 기본약관에서 정한 사유가 발생한 때에는 기한의 이익을 상실하며 곧 채무 전액을 변제합니다.</li>
+<li><b>제6조(자료제출)</b> 채무자는 매 결산기 재무제표 등 은행이 여신관리에 필요하다고 인정하여 요구하는 자료를 지체 없이 제출합니다.</li>
+</ol>
+
+<div class="box" style="margin:4px 0;padding:4px 8px">
+채무자(대표이사)는 위 내용 및 약관의 중요 내용을 <b>충분히 설명 듣고 이해하였음</b>을 확인합니다. &nbsp;{{ m.agree("explained", "예", "아니오", label="설명이해확인") }}
+<div class="tiny muted">※ 은행은 약정서 및 약관의 사본을 채무자에게 교부합니다. 설명이 부족하거나 이해하지 못한 경우 확인란에 표시하지 마십시오.</div>
+</div>
+
+<div class="between" style="margin-top:6px;align-items:center">
+  <div style="padding-left:20px">약정일 &nbsp;{{ f("contract_date", label="약정일") }}</div>
+  <div class="right" style="line-height:2.1">
+    채무자 &nbsp;{{ f("debtor.name", label="상호") }}<span class="inmark"></span><br>
+    대표이사 &nbsp;<span style="font-size:calc(var(--fs) + 1px)">{{ f("signature", label="대표이사") }}</span> &nbsp;{{ lp.in_seal("대표이사", size="") }}
+  </div>
+</div>
+
+{{ lp.bank_use(["실명확인", "약정내용 설명", "인감·서명 대조", "담당자", "책임자"]) }}
+{% endblock %}
