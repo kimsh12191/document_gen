@@ -370,7 +370,9 @@ _CCY = {"USD": (1340, 1480, 1), "JPY": (880, 990, 100), "EUR": (1450, 1620, 1), 
         "SGD": (1000, 1100, 1)}
 _COUNTRY_CCY = {"UNITED STATES": ["USD"], "JAPAN": ["JPY", "JPY", "USD"], "CHINA": ["USD", "USD", "CNY"],
                 "VIETNAM": ["USD"], "GERMANY": ["EUR", "EUR", "USD"], "SINGAPORE": ["USD", "SGD"]}
-_PURPOSE_CODE = {"수입대금": "10100", "유학생경비": "40310", "해외체재비": "40210", "증여": "50100", "기타": "49900"}
+# 한국은행 지급사유코드(5자리) — 검색으로 확인된 코드만 사용 (JPMorgan Korea payment purpose code list)
+#   10101 사전송금방식 통관수입대금, 10103 사후송금방식 통관수입대금, 30101 유학 및 연수
+_PURPOSE_CODE = {"유학생경비": "30101"}
 
 
 def _fx_fee(usd_equiv: float) -> int:
@@ -414,9 +416,23 @@ def overseas_remittance_application(p: Profile, rng: random.Random) -> dict:
     elif purpose == "수입대금":
         message = f"INVOICE NO. {fo.name.split()[0][:3].upper()}-{yy.year}-{rng.randint(1, 999):04d}"
         documents = rng.choice(["Commercial Invoice, 수입계약서", "Commercial Invoice, B/L 사본", "Proforma Invoice"])
+        code = "10101" if documents.startswith("Proforma") else "10103"
     else:
         message = f"SERVICE FEE CONTRACT {rng.randint(100, 999)}"
         documents = "용역계약서, Invoice"
+    remittance = {
+        "currency": ccy,
+        "amount": amt_str,
+        "purpose": purpose,
+        "charge": rng.choices(["SHA", "OUR", "BEN"], weights=[60, 30, 10])[0],
+        "method": "전신송금(T/T)",
+        "message": message,
+        "documents": documents,
+    }
+    if purpose == "수입대금":
+        remittance["purpose_code"] = code
+    elif purpose in _PURPOSE_CODE:
+        remittance["purpose_code"] = _PURPOSE_CODE[purpose]
     remitter = {"name": per.name, "name_en": per.name_en, "rrn": _rrn(p, rng),
                 "address": per.address.road_full, "phone": per.mobile}
     if purpose == "수입대금":
@@ -429,16 +445,7 @@ def overseas_remittance_application(p: Profile, rng: random.Random) -> dict:
             "relationship": "교육기관(학비 납부)" if school else "거래처",
             "bank_name": fo.bank, "swift": fo.swift, "bank_address": _BANK_ADDR.get(fo.swift, fo.country),
         },
-        "remittance": {
-            "currency": ccy,
-            "amount": amt_str,
-            "purpose": purpose,
-            "purpose_code": _PURPOSE_CODE[purpose],
-            "charge": rng.choices(["SHA", "OUR", "BEN"], weights=[60, 30, 10])[0],
-            "method": "전신송금(T/T)",
-            "message": message,
-            "documents": documents,
-        },
+        "remittance": remittance,
         "date": _date(p, rng),
         "signature": per.name,
         "bank_use": {
@@ -464,34 +471,43 @@ _OTHER_RES = [("일본 (JAPAN)", "JAPAN"), ("중국 (CHINA)", "CHINA"), ("싱가
 
 @doc("fatca_crs", "해외금융계좌 납세자 확인서(개인)", "bank_form", category="internal")
 def fatca_crs(p: Profile, rng: random.Random) -> dict:
-    """FATCA/CRS 개인 납세자 자기확인서 (국·영문 병기)."""
+    """FATCA/CRS 본인확인서(개인/개인사업자용) — 국제조세조정법·금융정보자동교환 이행규정에 따른 자기확인서."""
     per = p.person
     kind = rng.choices(["kr", "us", "other"], weights=[88, 6, 6])[0]
-    kr_tin = rng.choice(["실명번호와 동일", K.mask_rrn(per.rrn)])
-    res = [{"country": "대한민국 (KOREA)", "tin": kr_tin}]
+    res = []
     birth_place = "대한민국 (KOREA)"
     nationality = "대한민국 (KOREA)"
     if kind == "us":
+        category = rng.choice(["미국 시민권자(이중국적자 포함)", "미국 영주권자", "미국 세법상 미국 거주자"])
         res.append({"country": "미국 (U.S.A.)",
                     "tin": f"{rng.randint(100, 665)}-{rng.randint(10, 99)}-{rng.randint(1000, 9999)}"})
-        if rng.random() < 0.6:
-            birth_place = "미국 (U.S.A.)"
+        if category.startswith("미국 시민권자"):
             nationality = "대한민국, 미국"
+            if rng.random() < 0.6:
+                birth_place = "미국 (U.S.A.)"
     elif kind == "other":
+        category = "미국 이외의 해외 거주자"
         country = rng.choice(_OTHER_RES)[0]
-        res.append({"country": country, "no_tin_reason": "B",
-                    "reason_detail": rng.choice(["단기 체류로 납세자번호 미발급", "발급 신청 중", "현지 납세자번호 미발급"])})
+        reason = rng.choices(["A", "B", "C"], weights=[2, 6, 2])[0]
+        r = {"country": country, "no_tin_reason": reason}
+        if reason == "B":
+            r["reason_detail"] = rng.choice(["단기 체류로 납세자번호 발급 대상 아님", "납세자번호 발급 신청 중"])
+        res.append(r)
+    else:
+        category = "해당사항 없음"
     return {
         "bank": _bank(p),
         "holder": {
             "name": per.name,
-            "name_en": per.name_en,
+            "surname_en": per.surname_en,
+            "given_en": per.given_en,
             "birth": D(per.birth, rng.choice(["dot", "dash"])),
-            "address": per.address.road_full,
             "birth_place": birth_place,
             "nationality": nationality,
+            "mobile": per.mobile,
+            "address": per.address.road_full,
         },
-        "us_person": "예" if kind == "us" else "아니오",
+        "residence_category": category,
         "residences": res,
         "date": _date(p, rng),
         "signature": per.name,
