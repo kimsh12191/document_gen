@@ -1,0 +1,42 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "bank_form/_loan_parts.html.j2" as lp with context %}
+{% block page_class %} dense{% endblock %}
+{% block content %}
+{{ lp.css() }}
+{{ lp.head("서식번호 여신-1201 (2025.01 개정)", "은행여신거래기본약관(가계용) 적용") }}
+{{ lp.title_row("여신거래약정서", sub="(가계용)") }}
+<p style="margin:2px 0"><b>{{ f("creditor", label="채권자") }}</b> 앞 &nbsp;<span class="small muted">(취급점: {{ f("branch", label="취급점") }})</span></p>
+<p class="lead" style="margin:2px 0 4px">채무자는 「은행여신거래기본약관(가계용)」이 적용됨을 승인하고, 귀 행과 아래와 같이 여신거래를 약정합니다.</p>
+
+<div class="bf-sec">채무자</div>
+<table class="bf">
+<colgroup><col style="width:104px"><col><col style="width:96px"><col></colgroup>
+<tr><th>성　　명</th><td>{{ f("debtor.name", label="성명") }}</td><th>주민등록번호</th><td>{{ f("debtor.rrn", label="주민등록번호") }}</td></tr>
+<tr><th>주　　소</th><td colspan="3">{{ f("debtor.address", label="주소") }}</td></tr>
+<tr><th>연 락 처</th><td colspan="3">{{ f("debtor.phone", label="연락처") }}</td></tr>
+</table>
+
+<div class="bf-sec">여신 조건</div>
+{{ lp.terms(["고정금리", "변동금리", "혼합금리"]) }}
+
+<div class="bf-sec">주요 약정 내용</div>
+<ol class="clauses notice" style="list-style:none;padding-left:0;margin:2px 0">
+<li><b>제1조(적용범위)</b> 이 약정에서 정하지 않은 사항은 은행여신거래기본약관(가계용) 및 해당 상품설명서에 따릅니다.</li>
+<li><b>제2조(이자 등)</b> ① 이자율은 위 표에서 정한 바에 따르며, 변동금리는 금리변동주기마다 변경된 기준금리에 가산금리를 더하여 적용합니다. ② 채무자는 취업, 승진, 소득 증가 등 신용상태가 개선된 경우 금리인하를 요구할 수 있습니다.</li>
+<li><b>제3조(지연배상금)</b> 채무자가 이자, 분할상환금 등을 기일에 지급하지 아니한 때에는 지급하여야 할 금액에 대하여 위 지연배상금률에 따른 지연배상금을 지급합니다.</li>
+<li><b>제4조(중도상환)</b> 채무자는 만기 전 언제든지 여신의 전부 또는 일부를 상환할 수 있으며, 이 경우 위에서 정한 중도상환해약금을 지급합니다.</li>
+<li><b>제5조(기한의 이익 상실)</b> 이자 또는 분할상환금의 지급을 1개월(주택담보대출은 2개월) 이상 지체한 때에는 은행의 통지 후 기한의 이익을 상실하며 곧 채무 전액을 변제합니다.</li>
+<li><b>제6조(청약의 철회)</b> 채무자는 계약서류를 받은 날 또는 대출금 수령일 중 나중에 발생한 날로부터 14일 이내에 서면 등으로 청약을 철회할 수 있습니다.</li>
+</ol>
+
+<div class="box" style="margin:4px 0;padding:4px 8px">
+본인은 위 내용 및 약관의 중요 내용을 <b>충분히 설명 듣고 이해하였음</b>을 확인합니다. &nbsp;{{ m.agree("explained", "예", "아니오", label="설명이해확인") }}
+<div class="tiny muted">※ 은행은 약정서 및 약관의 사본을 채무자에게 교부합니다. 설명이 부족하거나 이해하지 못한 경우 확인란에 표시하지 마십시오.</div>
+</div>
+
+<div class="center" style="margin-top:4px">{{ f("contract_date", label="약정일") }}</div>
+<div class="sig">채무자&nbsp;<span class="who">{{ f("signature", label="채무자") }}</span>(서명 또는 인)</div>
+
+{{ lp.bank_use(["실명확인", "약정내용 설명", "인감·서명 대조", "담당자", "책임자"]) }}
+{% endblock %}
