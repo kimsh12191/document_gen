@@ -56,6 +56,11 @@ def _name_core(name: str) -> str:
     return name.replace("주식회사", "").replace("(주)", "").strip()
 
 
+def _formal(name: str) -> str:
+    """등기부·인감증명서·정관에 적히는 정식 상호: '(주)한빛전자' → '주식회사 한빛전자'."""
+    return f"주식회사 {name[3:].strip()}" if name.startswith("(주)") else name
+
+
 def _side_person(seed: str):
     """프로필에 없는 인물(감사·직원·대리인)을 seed 문자열로 결정론적으로 만든다."""
     w = World(0)
@@ -119,7 +124,15 @@ def _facts(p: Profile) -> dict:
         "initial_shares": initial_shares, "purposes": purposes, "notice": notice, "city": city,
         "officers": officers, "auditor": auditor, "articles_dates": articles_dates,
         "seal_no": f"{r.randint(1, 9999):04d}",
+        # 증자(설립 시 주식수 < 현재 발행주식수)·본점이전 이력: 등기부 우측 '변경/등기 연월일' 칸에 쓰인다
+        "capital_increase": _later(r, est, p.issue_date) if initial_shares < issued else None,
+        "office_move": _later(r, est, p.issue_date) if r.random() < 0.3 else None,
     }
+
+
+def _later(r: random.Random, est: date, until: date) -> date | None:
+    lo, hi = est + timedelta(days=180), until - timedelta(days=60)
+    return rand_date(r, lo, hi) if lo < hi else None
 
 
 def _addr(a: Address) -> str:
@@ -148,10 +161,16 @@ def corporate_registry(p: Profile, rng: random.Random) -> dict:
             it["address"] = _addr(o["person"].address)
         officers.append(it)
     viewing = rng.random() < 0.4
+
+    def chg(dt: date | None, word: str) -> dict | None:
+        if dt is None:
+            return None
+        reg = dt + timedelta(days=rng.randint(2, 10))
+        return {"changed": f"{D(dt, 'dot')} {word}", "registered": f"{D(reg, 'dot')} 등기"}
     d = {
         "reg_no": fx["reg_no"],
         "corp_reg_no": c.corp_no,
-        "company_name": c.name,
+        "company_name": _formal(c.name),
         "head_office": _addr(c.address),
         "notice_method": fx["notice"],
         "par_value": f"금 {PAR_VALUE:,} 원",
@@ -165,8 +184,11 @@ def corporate_registry(p: Profile, rng: random.Random) -> dict:
         "opening_reason": "설립",
         "opening_date": _kd(c.established),
         "jurisdiction": courthouse(c.address),
+        "capital_change": chg(fx["capital_increase"], "변경"),
+        "head_office_change": chg(fx["office_move"], "이전"),
         "issue_no": "".join(str(rng.randint(0, 9)) for _ in range(rng.choice([16, 20]))),
     }
+    d = {k: v for k, v in d.items() if v is not None}
     if viewing:
         d["issue_type"] = "열람용"
         d["viewed_at"] = f"{issued_at.year}년{issued_at.month:02d}월{issued_at.day:02d}일 {hh:02d}시{mm:02d}분{ss:02d}초"
@@ -192,7 +214,7 @@ def articles_of_incorporation(p: Profile, rng: random.Random) -> dict:
     dates = fx["articles_dates"]
     hist = [f"제정 {D(dates[0], 'dot')}"] + [f"개정 {D(x, 'dot')}" for x in dates[1:]]
     return {
-        "company_name": c.name,
+        "company_name": _formal(c.name),
         "company_name_en": c.name_en,
         "purposes": [f"{i}. {x}" for i, x in enumerate(fx["purposes"], 1)],
         "head_office_city": fx["city"],
@@ -202,6 +224,7 @@ def articles_of_incorporation(p: Profile, rng: random.Random) -> dict:
         "initial_shares": f"{fx['initial_shares']:,}주",
         "effective_date": D(est, "kor_short"),
         "revision_history": hist,
+        "revision_effective": [D(x, "kor_short") for x in dates[1:]],
         "certify_date": D(p.issue_date - timedelta(days=rng.randint(0, 7)), rng.choice(["kor", "kor_short", "dot"])),
         "ceo_name": p.person.name,
     }
@@ -216,20 +239,26 @@ def shareholder_registry(p: Profile, rng: random.Random) -> dict:
     """법인 주주명부 (대표이사 확인 날인)."""
     c, fx = p.corporation, _facts(p)
     total = sum(n for _, n in p.shareholders)
-    # 지분율: 최대잔여법으로 소수점 둘째 자리 합계 100.00 유지
-    raw = [n * 10000 / total for _, n in p.shareholders]
+    # 지분율: 최대잔여법으로 합계 100 유지 (소수점 1자리 또는 2자리)
+    dec = rng.choice([1, 2, 2])
+    unit = 100 * 10 ** dec
+    raw = [n * unit / total for _, n in p.shareholders]
     bp = [int(x) for x in raw]
-    for i in sorted(range(len(raw)), key=lambda i: raw[i] - bp[i], reverse=True)[:10000 - sum(bp)]:
+    for i in sorted(range(len(raw)), key=lambda i: raw[i] - bp[i], reverse=True)[:unit - sum(bp)]:
         bp[i] += 1
+    pct = (lambda b: f"{b / 10 ** dec:.{dec}f}%")
+    directors = {d.name for d in p.directors}
     rows = []
     for i, ((sh, n), b) in enumerate(zip(p.shareholders, bp), 1):
         acq = c.established if (i == 1 or rng.random() < 0.5) else rand_date(rng, c.established, p.issue_date - timedelta(days=90))
-        if isinstance(sh, str):
-            name, idno, addr = sh, "-", "-"
+        if isinstance(sh, str):  # 법인주주: 사업자등록번호
+            name, idno, addr, note = sh, K.biz_no(random.Random(sh), corporate=True), "-", "법인주주"
         else:
             name, idno, addr = sh.name, _mask_any(sh.rrn, rng), sh.address.road_short
+            note = "대표이사" if sh is p.person else ("사내이사" if sh.name in directors else "")
         rows.append({"no": str(i), "name": name, "id_no": idno, "address": addr, "share_type": "보통주",
-                     "shares": f"{n:,}", "ratio": f"{b // 100}.{b % 100:02d}%", "acquired": D(acq, "dot")})
+                     "shares": f"{n:,}", "amount": f"{n * PAR_VALUE:,}", "ratio": pct(b), "acquired": D(acq, "dot"),
+                     "note": note})
     base = p.issue_date - timedelta(days=rng.randint(0, 20))
     return {
         "base_date": D(base, rng.choice(["kor", "dot"])),
@@ -242,7 +271,8 @@ def shareholder_registry(p: Profile, rng: random.Random) -> dict:
         "capital": won(c.capital),
         "shareholders": rows,
         "sum_shares": f"{total:,}",
-        "sum_ratio": "100.00%",
+        "sum_amount": f"{total * PAR_VALUE:,}",
+        "sum_ratio": pct(unit),
         "certify_date": D(p.issue_date, rng.choice(["kor", "kor_short"])),
         "ceo_name": p.person.name,
     }
@@ -363,7 +393,7 @@ def corporate_seal_certificate(p: Profile, rng: random.Random) -> dict:
         "issue_no": f"{rng.randint(1000, 9999)}-{rng.randint(1000, 9999)}-{rng.randint(1000, 9999)}-{rng.randint(1000, 9999)}",
         "reg_no": fx["reg_no"],
         "corp_reg_no": c.corp_no,
-        "company_name": c.name,
+        "company_name": _formal(c.name),
         "head_office": _addr(c.address),
         "rep_title": "대표이사",
         "rep_name": p.person.name,

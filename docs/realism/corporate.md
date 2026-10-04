@@ -2,11 +2,11 @@
 
 | 서류 | ID | 근거 서식·출처 | 상태 | 주요 수정 |
 |---|---|---|---|---|
-| 법인 등기사항전부증명서(현재 유효사항) | `corporate_registry` |  | 대기 |  |
-| 정관 | `articles_of_incorporation` |  | 대기 |  |
-| 주주명부 | `shareholder_registry` |  | 대기 |  |
-| 재무제표(재무상태표·손익계산서) | `financial_statements` |  | 대기 |  |
-| 법인인감증명서 | `corporate_seal_certificate` |  | 대기 |  |
+| 법인 등기사항전부증명서(현재 유효사항) | `corporate_registry` | 상업등기규칙 등기사항증명서(현재 유효사항), 인터넷등기소 발급본 / [헬프미 읽는법](https://www.help-me.kr/blog/article/%EB%B2%95%EC%9D%B8%EB%93%B1%EA%B8%B0%EB%B6%80%EB%93%B1%EB%B3%B8%EB%B0%9C%EA%B8%89%EC%9D%BD%EB%8A%94%EB%B0%A9%EB%B2%95/), [정부24 안내](https://www.gov.kr/mw/AA020InfoCappView.do?CappBizCD=97400000001) | 반영(검색근거) | 상호를 정식 표기(주식회사 ○○)로 통일, 증자·본점이전 시 우측 변경/등기 연월일 칸 값 추가(GT capital_change·head_office_change), 목적·임원 머리줄 가운데 정렬, 법인등기에 없는 갑구·을구 각주 삭제 |
+| 정관 | `articles_of_incorporation` | 상법 제289조 절대적 기재사항, 법무부·상장회사협의회 표준정관 조문 체계 / [찾기쉬운생활법령 정관작성](https://easylaw.go.kr/CSP/CnpClsMain.laf?popMenu=ov&csmSeq=736&ccfNo=3&cciNo=1&cnpClsNo=1), [예스폼 주식회사 표준정관](https://www.yesform.com/forms/vform_151488.php) | 반영(검색근거) | 제1조 상호를 정식표기로, 제정·개정 이력을 제목 아래로 이동하고 개정마다 「부칙(개정 일자) 이 정관은 위 개정일부터 시행한다」 추가(GT revision_effective), 원본대조필 날인을 법인인감(원형)으로 교체, 여백 조정 |
+| 주주명부 | `shareholder_registry` | 상법 제352조(주주명부 기재사항) + 실무 양식(은행 제출용) / [헬프미 주주명부](https://www.help-me.kr/blog/article/%EC%A3%BC%EC%A3%BC%EB%AA%85%EB%B6%80/), [택스가이드 주주명부 양식](https://taxguide.im/blog/shareholder-list) | 반영(검색근거) | 실무 양식 항목에 맞춰 주식금액(원)·비고(대표이사·사내이사) 열과 합계금액 추가(GT amount·note·sum_amount), 주민등록번호(사업자번호) 열 제목, 지분율 소수 1·2자리 변형, 확인 날인을 법인인감(원형)으로 교체 |
+| 재무제표(재무상태표·손익계산서) | `financial_statements` |  | 조사중 |  |
+| 법인인감증명서 | `corporate_seal_certificate` | 상업등기규칙·등기예규「인감의 제출·관리와 인감증명서 발급 및 전자인감증명서에 관한 업무처리지침」 별지 양식 / [업무처리지침(LBOX)](https://lbox.kr/v2/statute-admin/%EC%9D%B8%EA%B0%90%EC%9D%98%EC%A0%9C%EC%B6%9C%E3%86%8D%EA%B4%80%EB%A6%AC%EC%99%80%EC%9D%B8%EA%B0%90%EC%A6%9D%EB%AA%85%EC%84%9C%EB%B0%9C%EA%B8%89%EB%B0%8F%EC%A0%84%EC%9E%90%EC%9D%B8%EA%B0%90%EC%A6%9D%EB%AA%85%EC%84%9C%EC%97%90%EA%B4%80%ED%95%9C%EC%97%85%EB%AC%B4%EC%B2%98%EB%A6%AC%EC%A7%80%EC%B9%A8), [헬프미 법인인감](https://www.help-me.kr/blog/article/%EB%B2%95%EC%9D%B8%EC%9D%B8%EA%B0%90%EB%93%B1%EB%A1%9D%EB%B0%8F%EC%9D%B8%EA%B0%90%EC%B9%B4%EB%93%9C%EC%8B%A0%EC%B2%AD%EC%A0%88%EC%B0%A8%EB%B3%84%ED%95%84%EC%88%98%EC%A4%80%EB%B9%84%EB%AC%BC/) | 반영(검색근거) | 증명문구를 「이 인감은 제출되어 있는 인감과 틀림없음을 증명합니다.」로 교체, 상호 정식표기(주식회사 ○○), 각주 문구 정리. 항목(등기번호·등록번호·상호·본점·자격/성명·주민등록번호) 순서는 검색결과와 일치 확인 |
 | 이사회의사록 | `board_minutes` |  | 대기 |  |
 | 임시주주총회의사록 | `shareholders_meeting_minutes` |  | 대기 |  |
 | 위임장 | `power_of_attorney` |  | 대기 |  |
