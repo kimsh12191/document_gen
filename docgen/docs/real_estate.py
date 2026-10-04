@@ -74,6 +74,8 @@ def _facts(p: Profile) -> dict:
     hi = max(lo + timedelta(days=30), p.issue_date - timedelta(days=900))
     seller_acq = rand_date(r, lo, hi)
     transferred = r.random() < 0.35
+    if p.extra.get("loan_kind") == "jeonse":  # 전세 시나리오: 고객은 세입자이므로 소유권이 넘어오지 않는다
+        transferred = False
     if transferred:
         contract = p.issue_date - timedelta(days=r.randint(95, 150))
         balance = contract + timedelta(days=r.randint(40, 75))
