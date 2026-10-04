@@ -1,0 +1,85 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% set lf = ["'Liberation Sans'", "'Liberation Serif'", "'DejaVu Sans'", "Arial", "'Times New Roman'", "'FreeSans'"][style.page_pad % 6] %}
+{% block style %}
+.page { font-family: {{ lf|safe }}, var(--font); font-size: calc(var(--fs) - 2.5px); line-height: 1.3; padding: 34px 38px; }
+table.bl { border: 2px solid var(--border); margin: 0; table-layout: fixed; }
+table.bl td { vertical-align: top; padding: 2px 5px; }
+table.bl + table.bl { border-top: 0; }
+.lb { font-size: calc(var(--fs) - 5px); color: #333; display: block; text-transform: none; }
+.v { font-weight: 600; }
+.bl-co { text-align: center; font-size: 17px; font-weight: 800; letter-spacing: .04em; color: var(--accent); margin-top: 4px; }
+.bl-title { text-align: center; font-size: 22px; font-weight: 800; letter-spacing: .2em; margin: 2px 0; }
+.bl-terms { font-size: calc(var(--fs) - 5.5px); line-height: 1.25; text-align: justify; color: #333; }
+table.bl th { font-size: calc(var(--fs) - 5px); padding: 2px 3px; background: var(--label-bg); white-space: normal; }
+table.pt td { border-top: 0; border-bottom: 0; height: 360px; }
+.pre { white-space: pre-line; }
+.sig { font-style: italic; font-family: 'Liberation Serif', serif; font-size: 18px; color: #1a2c6b; }
+.orig { text-align: center; font-size: 18px; font-weight: 800; letter-spacing: .4em; color: var(--accent); margin-top: 4px; }
+{% endblock %}
+{% block content %}
+<table class="bl">
+  <colgroup><col style="width:27%"><col style="width:27%"><col style="width:46%"></colgroup>
+  <tr>
+    <td colspan="2"><span class="lb">Shipper / Exporter</span><span class="v">{{ f("shipper.name", label="Shipper") }}</span><br>{{ f("shipper.address", label="Shipper Address") }}</td>
+    <td rowspan="3">
+      <div class="between"><span><span class="lb">Booking No.</span>{{ f("booking_no", label="Booking No") }}</span>
+        <span class="right"><span class="lb">B/L No.</span><b style="font-size:calc(var(--fs) + 1px)">{{ f("bl_no", label="B/L No") }}</b></span></div>
+      <div class="bl-co">{{ f("carrier", label="Carrier") }}</div>
+      <div class="bl-title">BILL OF LADING</div>
+      <div class="bl-terms">RECEIVED by the Carrier from the Shipper in apparent good order and condition unless otherwise indicated herein, the Goods, or the container(s) or package(s) said to contain the cargo herein mentioned, to be carried subject to all the terms and conditions provided for on the face and back of this Bill of Lading by the vessel named herein or any substitute at the Carrier's option, from the place of receipt or the port of loading to the port of discharge or the place of delivery shown herein and there to be delivered unto order or assigns. If required by the Carrier, this Bill of Lading duly endorsed must be surrendered in exchange for the Goods or delivery order. In witness whereof, the number of original Bills of Lading stated below have been signed, one of which being accomplished, the other(s) to be void.</div>
+      <div class="mt" style="margin-top:6px"><span class="lb">Forwarding Agent / Export References</span>{{ f("forwarder", label="Forwarding Agent") }}</div>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2"><span class="lb">Consignee</span><span class="v">{{ f("consignee.name", label="Consignee") }}</span>{% if d.consignee.address is defined %}<br>{{ f("consignee.address", label="Consignee Address") }}{% endif %}</td>
+  </tr>
+  <tr>
+    <td colspan="2"><span class="lb">Notify Party</span><span class="v">{{ f("notify.name", label="Notify Party") }}</span>{% if d.notify.address is defined %}<br>{{ f("notify.address", label="Notify Party Address") }}{% endif %}</td>
+  </tr>
+  <tr>
+    <td><span class="lb">Pre-carriage by</span>{{ f("pre_carriage", label="Pre-carriage by") }}</td>
+    <td><span class="lb">Place of Receipt</span>{{ f("place_of_receipt", label="Place of Receipt") }}</td>
+    <td rowspan="3"><span class="lb">Final Destination (for the Merchant's reference only)</span>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><span class="lb">Ocean Vessel / Voy. No.</span>{{ f("vessel_voyage", label="Ocean Vessel/Voy No") }}</td>
+    <td><span class="lb">Port of Loading</span>{{ f("port_of_loading", label="Port of Loading") }}</td>
+  </tr>
+  <tr>
+    <td><span class="lb">Port of Discharge</span>{{ f("port_of_discharge", label="Port of Discharge") }}</td>
+    <td><span class="lb">Place of Delivery</span>{{ f("place_of_delivery", label="Place of Delivery") }}</td>
+  </tr>
+</table>
+<table class="bl pt">
+  <colgroup><col style="width:24%"><col style="width:12%"><col style="width:40%"><col style="width:12%"><col style="width:12%"></colgroup>
+  <tr><th style="height:auto">Container No. / Seal No.<br>Marks &amp; Numbers</th><th style="height:auto">No. of Containers or Packages</th><th style="height:auto">Kind of Packages ; Description of Goods</th><th style="height:auto">Gross Weight</th><th style="height:auto">Measurement</th></tr>
+  <tr>
+    <td>{% for c in d.containers %}{% set pre = "containers." ~ loop.index0 ~ "." %}
+      {{ f(pre ~ "no", label="Container No") }} / {{ f(pre ~ "type", label="Container Type") }}<br>SEAL: {{ f(pre ~ "seal", label="Seal No") }}<br>{% endfor %}
+      <div class="mt" style="margin-top:8px">{{ f("marks", label="Marks and Numbers") }}</div></td>
+    <td class="c">{{ f("packages", label="No of Packages") }}</td>
+    <td><b>SHIPPER'S LOAD, COUNT &amp; SEAL<br>SAID TO CONTAIN :</b><br>{{ f("description", label="Description of Goods") }}
+      <div class="mt bold" style="margin-top:14px">{{ f("freight", label="Freight") }}</div></td>
+    <td class="num">{{ f("gross_weight", label="Gross Weight") }}</td>
+    <td class="num">{{ f("measurement", label="Measurement") }}</td>
+  </tr>
+</table>
+<table class="bl">
+  <colgroup><col style="width:36%"><col></colgroup>
+  <tr><td><span class="lb">Total Number of Containers or Packages (in words)</span></td><td class="bold">{{ f("total_words", label="Total Number in Words") }}</td></tr>
+</table>
+<table class="bl">
+  <colgroup><col style="width:30%"><col style="width:12%"><col style="width:12%"><col style="width:20%"><col style="width:26%"></colgroup>
+  <tr><th>Freight &amp; Charges</th><th>Prepaid</th><th>Collect</th><th>Freight Payable at</th><th>Place and Date of Issue</th></tr>
+  <tr><td>OCEAN FREIGHT<br>AS ARRANGED</td><td class="c">{{ 'X' if 'PREPAID' in val('freight') else '' }}</td><td class="c">{{ 'X' if 'COLLECT' in val('freight') else '' }}</td>
+    <td class="c">{{ f("freight_payable_at", label="Freight Payable at") }}</td>
+    <td class="c">{{ f("issue_place", label="Place of Issue") }}<br>{{ f("issue_date", label="Date of Issue") }}</td></tr>
+  <tr><td colspan="2"><span class="lb">Number of Original B(s)/L</span><b>{{ f("originals", label="Number of Original B/L") }}</b></td>
+    <td colspan="2"><span class="lb">Laden on Board the Vessel — Date</span><b>{{ f("on_board_date", label="On Board Date") }}</b><br>
+      <span class="small">{{ val("vessel_voyage") }}</span></td>
+    <td><span class="lb">Signed for the Carrier</span><span class="sig">{{ val("carrier").split()[0].title() }} Agency</span><br>
+      <span class="small">AS AGENT FOR THE CARRIER<br>{{ val("carrier") }}</span></td></tr>
+</table>
+<div class="orig">ORIGINAL</div>
+{% endblock %}

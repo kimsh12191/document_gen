@@ -1,0 +1,69 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% set lf = ["'Liberation Sans'", "'DejaVu Sans'", "Arial", "'Liberation Serif'", "'FreeSans'", "'Times New Roman'"][style.page_pad % 6] %}
+{% block style %}
+.page { font-family: {{ lf|safe }}, var(--font); font-size: calc(var(--fs) - 0.5px); line-height: 1.45; padding: 50px 60px; }
+.hd { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid var(--accent); padding-bottom: 10px; }
+.hd .nm { font-size: 22px; font-weight: 700; color: var(--accent); }
+.hd .ad { font-size: calc(var(--fs) - 2px); color: #333; }
+.hd .doc { text-align: right; }
+.hd .doc .t { font-size: 20px; font-weight: 700; letter-spacing: .05em; }
+.meta { display: flex; justify-content: space-between; gap: 24px; margin: 16px 0 8px; }
+.meta table { width: auto; margin: 0; }
+.meta th, .meta td { border: 0; background: none; padding: 1px 8px 1px 0; text-align: left; }
+.meta th { color: #444; font-weight: 600; }
+table.it th { text-align: left; }
+table.it td.num, table.it th.num { text-align: right; }
+table.it tr.tot td { font-weight: 700; border-top: 2px solid var(--border); background: var(--label-bg); }
+.pay { border: 1.5px solid var(--border); padding: 8px 12px; margin-top: 14px; }
+.pay h3 { margin: 0 0 6px; font-size: calc(var(--fs) + 1px); color: var(--accent); }
+.pay table { margin: 0; }
+.pay th, .pay td { border: 0; background: none; padding: 1px 8px 1px 0; text-align: left; }
+.pay th { width: 190px; color: #333; font-weight: 600; }
+.due { font-size: calc(var(--fs) + 2px); margin-top: 10px; }
+{% endblock %}
+{% block content %}
+<div class="hd">
+  <div><div class="nm">{{ f("university.name", label="University") }}</div>
+    <div class="ad">{{ f("university.office", label="Office") }}<br>{{ f("university.address", label="University Address") }}</div></div>
+  <div class="doc"><div class="t">TUITION INVOICE</div><div class="small">Statement of Fees</div></div>
+</div>
+<div class="meta">
+  <table>
+    <tr><th>Student Name</th><td><b>{{ f("student.name", label="Student Name") }}</b></td></tr>
+    <tr><th>Student ID</th><td>{{ f("student.id", label="Student ID") }}</td></tr>
+    <tr><th>Program</th><td>{{ f("student.program", label="Program") }}</td></tr>
+  </table>
+  <table>
+    <tr><th>Invoice No.</th><td>{{ f("invoice_no", label="Invoice No") }}</td></tr>
+    <tr><th>Invoice Date</th><td>{{ f("invoice_date", label="Invoice Date") }}</td></tr>
+    <tr><th>Term</th><td>{{ f("term", label="Term") }}</td></tr>
+  </table>
+</div>
+<table class="it">
+  <colgroup><col><col style="width:180px"></colgroup>
+  <tr><th>Description</th><th class="num">Amount</th></tr>
+  {% for it in d["items"] %}{% set pre = "items." ~ loop.index0 ~ "." %}
+  <tr><td>{{ f(pre ~ "description", label="Description") }}</td><td class="num">{{ f(pre ~ "amount", label="Amount") }}</td></tr>
+  {% endfor %}
+  <tr class="tot"><td>TOTAL AMOUNT DUE</td><td class="num">{{ f("total", label="Total Amount Due") }}</td></tr>
+</table>
+<div class="due">Payment Due Date: <b>{{ f("due_date", label="Due Date") }}</b></div>
+<div class="pay">
+  <h3>Payment Instructions — International Wire Transfer</h3>
+  <table>
+    <tr><th>Beneficiary Name</th><td>{{ f("bank.beneficiary", label="Beneficiary") }}</td></tr>
+    <tr><th>Bank Name</th><td>{{ f("bank.bank_name", label="Bank Name") }}</td></tr>
+    <tr><th>SWIFT / BIC</th><td>{{ f("bank.swift", label="SWIFT") }}</td></tr>
+    <tr><th>Account Number</th><td>{{ f("bank.account", label="Account Number") }}</td></tr>
+    <tr><th>{{ f("bank.routing_label", label="Routing Label") }}</th><td>{{ f("bank.routing", label="Routing Number") }}</td></tr>
+    <tr><th>Payment Reference</th><td><b>{{ f("bank.reference", label="Payment Reference") }}</b></td></tr>
+  </table>
+</div>
+<ul class="note">
+  <li>Please include the student ID and full name as the payment reference so that funds can be applied to the correct account.</li>
+  <li>All bank charges (sender and intermediary) are the responsibility of the payer. Payments received short of the amount due will remain as an outstanding balance.</li>
+  <li>A late payment fee may be assessed and registration holds placed on accounts with unpaid balances after the due date.</li>
+  <li>This statement reflects charges as of the invoice date and may be subject to change based on enrollment status.</li>
+</ul>
+{% endblock %}

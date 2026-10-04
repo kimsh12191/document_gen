@@ -1,0 +1,57 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% set lf = ["'Liberation Serif'", "'Liberation Sans'", "'Times New Roman'", "'DejaVu Serif'", "Arial", "'FreeSerif'"][style.page_pad % 6] %}
+{% block style %}
+.page { font-family: {{ lf|safe }}, var(--font); font-size: calc(var(--fs) - 1.5px); line-height: 1.38; padding: 46px 52px; }
+.tc-title { text-align: center; font-size: 25px; font-weight: 700; letter-spacing: .2em; margin: 0 0 4px; }
+.tc-no { display: flex; justify-content: space-between; margin: 8px 0 10px; }
+table.pt td, table.pt th { border: 0; padding: 1px 4px; vertical-align: top; text-align: left; background: none; }
+table.pt th { width: 80px; font-weight: 700; }
+table.gd th { font-size: calc(var(--fs) - 3px); padding: 3px 4px; }
+table.gd td { padding: 3px 5px; font-size: calc(var(--fs) - 2px); }
+ol.tc { padding-left: 1.4em; margin: 6px 0; font-size: calc(var(--fs) - 2.5px); }
+ol.tc li { margin: 2px 0; }
+.sg { display: flex; justify-content: space-between; margin-top: 16px; }
+.sg > div { width: 46%; }
+.sg .line { border-bottom: 1px solid #000; height: 34px; position: relative; margin: 4px 0 2px; }
+.sg .sig { position: absolute; left: 14px; bottom: 3px; font-style: italic; font-size: 19px; color: #1a2c6b; font-family: 'Liberation Serif', serif; }
+{% endblock %}
+{% block content %}
+<div class="tc-title">SALES CONTRACT</div>
+<div class="tc-no"><span>Contract No. : <b>{{ f("contract_no", label="Contract No") }}</b></span><span>Date : <b>{{ f("contract_date", label="Contract Date") }}</b></span></div>
+<table class="pt">
+  <tr><th>SELLER :</th><td><b>{{ f("seller.name", label="Seller") }}</b><br>{{ f("seller.address", label="Seller Address") }}</td></tr>
+  <tr><th>BUYER :</th><td><b>{{ f("buyer.name", label="Buyer") }}</b><br>{{ f("buyer.address", label="Buyer Address") }}</td></tr>
+</table>
+<p class="small" style="margin:8px 0 4px">This contract is made by and between the Seller and the Buyer, whereby the Seller agrees to sell and the Buyer agrees to buy the under-mentioned commodity according to the terms and conditions stipulated below.</p>
+<table class="gd">
+  <colgroup><col style="width:5%"><col style="width:36%"><col style="width:14%"><col style="width:15%"><col style="width:13%"><col style="width:17%"></colgroup>
+  <tr><th>No.</th><th>Commodity &amp; Specification</th><th>Model</th><th>Quantity</th><th>Unit Price</th><th>Amount</th></tr>
+  {% for it in d["items"] %}{% set pre = "items." ~ loop.index0 ~ "." %}
+  <tr><td class="c">{{ loop.index }}</td><td>{{ f(pre ~ "description", label="Commodity") }}</td><td class="c">{{ f(pre ~ "model", label="Model") }}</td>
+    <td class="num">{{ f(pre ~ "quantity", label="Quantity") }}</td><td class="num">{{ f(pre ~ "unit_price", label="Unit Price") }}</td><td class="num">{{ f(pre ~ "amount", label="Amount") }}</td></tr>
+  {% endfor %}
+  <tr><th colspan="5" class="right">TOTAL AMOUNT</th><td class="num bold">{{ f("total_amount", label="Total Amount") }}</td></tr>
+  <tr><td colspan="6" class="small">({{ f("total_words", label="Total Amount in Words") }})</td></tr>
+</table>
+<ol class="tc">
+  <li><b>Price Terms :</b> {{ f("clauses.price_terms", label="Price Terms") }}</li>
+  <li><b>Shipment :</b> {{ f("clauses.shipment", label="Shipment") }}</li>
+  <li><b>Payment :</b> {{ f("clauses.payment", label="Payment") }}</li>
+  <li><b>Packing :</b> {{ f("clauses.packing", label="Packing") }}</li>
+  {% if d.clauses.insurance is defined %}<li><b>Insurance :</b> {{ f("clauses.insurance", label="Insurance") }}</li>{% endif %}
+  <li><b>Inspection :</b> {{ f("clauses.inspection", label="Inspection") }}</li>
+  <li><b>Claims :</b> Any claim by the Buyer shall be made in writing within 30 days after arrival of the goods at the port of destination, supported by a surveyor's report.</li>
+  <li><b>Force Majeure :</b> Neither party shall be liable for failure or delay in performance caused by war, strikes, fire, flood, epidemic, governmental action or any other cause beyond its reasonable control.</li>
+  <li><b>Governing Law :</b> {{ f("clauses.governing_law", label="Governing Law") }}</li>
+  <li><b>Entire Agreement :</b> This contract constitutes the entire agreement between the parties and may be amended only in writing signed by both parties. Made in two originals, each party holding one.</li>
+</ol>
+<div class="sg">
+  <div><div class="bold">THE SELLER</div><div>{{ val("seller.name") }}</div>
+    <div class="line"><span class="sig">{{ val("seller.signer") }}</span></div>
+    <div>Name : {{ f("seller.signer", label="Seller Signatory") }}</div><div>Title : {{ f("seller.title", label="Seller Title") }}</div></div>
+  <div><div class="bold">THE BUYER</div><div>{{ val("buyer.name") }}</div>
+    <div class="line"><span class="sig">{{ val("buyer.signer") }}</span></div>
+    <div>Name : {{ f("buyer.signer", label="Buyer Signatory") }}</div><div>Title : {{ f("buyer.title", label="Buyer Title") }}</div></div>
+</div>
+{% endblock %}

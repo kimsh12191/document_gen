@@ -1,0 +1,52 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% set lf = ["'Liberation Serif'", "'Times New Roman'", "'DejaVu Serif'", "'Liberation Sans'", "'FreeSerif'", "Arial"][style.page_pad % 6] %}
+{% block style %}
+.page { font-family: {{ lf|safe }}, var(--font); font-size: calc(var(--fs) + 0.5px); line-height: 1.5; padding: 56px 70px; }
+.lh { border-bottom: 3px double var(--accent); padding-bottom: 10px; margin-bottom: 22px; display: flex; align-items: center; gap: 16px; }
+.crest { width: 58px; height: 66px; border: 3px solid var(--accent); border-radius: 0 0 30px 30px; color: var(--accent);
+  display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; font-family: 'Liberation Serif', serif; flex: none; }
+.lh .nm { font-size: 25px; font-weight: 700; color: var(--accent); letter-spacing: .02em; font-family: 'Liberation Serif', serif; }
+.lh .ad { font-size: calc(var(--fs) - 2px); color: #333; }
+.ttl { text-align: center; font-weight: 700; font-size: calc(var(--fs) + 5px); letter-spacing: .12em; margin: 18px 0 14px; }
+table.al { width: 88%; margin: 10px auto 14px; }
+table.al th { text-align: left; width: 34%; }
+p { margin: 8px 0; text-align: justify; }
+.sg { margin-top: 26px; }
+.sg .sig { font-style: italic; font-family: 'Liberation Serif', serif; font-size: 24px; color: #1a2c6b; margin: 4px 0 0; }
+.ft { position: absolute; left: 70px; right: 70px; bottom: 40px; border-top: 1px solid #999; padding-top: 6px; font-size: calc(var(--fs) - 3px); color: #555; text-align: center; }
+{% endblock %}
+{% block content %}
+{% set uname = val("university.name") %}
+<div class="lh">
+  <div class="crest">{% for w in uname.split() %}{% if w[0].isupper() %}{{ w[0] }}{% endif %}{% endfor %}</div>
+  <div><div class="nm">{{ f("university.name", label="University") }}</div>
+    <div class="ad">{{ f("university.office", label="Office") }} · {{ f("university.address", label="University Address") }}<br>{{ f("university.email", label="Email") }}</div></div>
+</div>
+<div class="right">{{ f("letter_date", label="Date") }}</div>
+<div class="mt">{{ f("student.name", label="Student Name") }}<br><span class="small">{{ f("student.address", label="Student Address") }}</span></div>
+<div class="ttl">LETTER OF ADMISSION</div>
+<p>Dear {{ val("student.name").split()[0] }},</p>
+<p>Congratulations! On behalf of the Admissions Committee, I am pleased to inform you that you have been admitted to {{ uname }} for the <b>{{ f("term", label="Term") }}</b> term. Your admission details are as follows:</p>
+<table class="al">
+  <tr><th>Student Name</th><td>{{ val("student.name") }}</td></tr>
+  <tr><th>Date of Birth</th><td>{{ f("student.dob", label="Date of Birth") }}</td></tr>
+  <tr><th>Citizenship</th><td>{{ f("student.nationality", label="Citizenship") }}</td></tr>
+  <tr><th>Student ID</th><td>{{ f("student.id", label="Student ID") }}</td></tr>
+  <tr><th>Program of Study</th><td>{{ f("program", label="Program") }}</td></tr>
+  <tr><th>Degree</th><td>{{ f("degree", label="Degree") }}</td></tr>
+  <tr><th>Program Start Date</th><td>{{ f("start_date", label="Start Date") }}</td></tr>
+  <tr><th>Expected Duration</th><td>{{ f("duration", label="Duration") }}</td></tr>
+</table>
+<p>To confirm your place, please submit your enrollment deposit and acceptance form no later than <b>{{ f("deposit_deadline", label="Deposit Deadline") }}</b>. As an international student, you will also need to provide evidence of sufficient financial resources to cover tuition and living expenses for the first year of study before your immigration documents (e.g., Form I-20, CAS or CoE) can be issued.</p>
+<p>A separate statement of fees will be sent by the student accounts office. Orientation for new international students is held during the week prior to the start of classes, and attendance is mandatory.</p>
+<p>We are delighted to welcome you to our academic community and look forward to seeing you on campus.</p>
+<div class="sg">
+  <div>Sincerely,</div>
+  <div class="sig">{{ val("signer") }}</div>
+  <div class="bold">{{ f("signer", label="Signed by") }}</div>
+  <div>{{ f("signer_title", label="Title") }}</div>
+  <div>{{ uname }}</div>
+</div>
+<div class="ft">This letter is an official document of {{ uname }}. Any alteration renders it void. Verification of admission may be requested from the {{ val("university.office") }}.</div>
+{% endblock %}
