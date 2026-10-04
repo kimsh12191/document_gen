@@ -128,12 +128,18 @@ def kv_layout(rows: list, cols: int) -> list[list]:
 
 
 def seal_lines(text: str) -> list[str]:
-    """도장 안 글자 배치: 4자 이하 1~2줄, 그 이상은 2~3줄로 나눈다."""
+    """도장 안 글자 배치: 3자 이하 1줄, 4자 2x2, 9자 이하 3자씩, 그보다 길면 4자씩."""
     n = len(text)
     if n <= 3:
         return [text]
-    per = 2 if n == 4 else 3
+    per = 2 if n == 4 else 3 if n <= 9 else 4
     return [text[i:i + per] for i in range(0, n, per)]
+
+
+def seal_font(text: str) -> str:
+    """긴 도장 글자는 글자 크기를 줄여 도장 밖으로 넘치지 않게 한다."""
+    n = len(text)
+    return "" if n <= 6 else "font-size:11px" if n <= 9 else "font-size:9.5px;line-height:1.05"
 
 
 _env: Environment | None = None
@@ -144,7 +150,7 @@ def env() -> Environment:
     if _env is None:
         _env = Environment(loader=FileSystemLoader(str(TEMPLATE_DIR)), undefined=StrictUndefined,
                            autoescape=True, trim_blocks=True, lstrip_blocks=True)
-        _env.globals.update(kv_layout=kv_layout, seal_lines=seal_lines, BR=Markup("<br>"))
+        _env.globals.update(kv_layout=kv_layout, seal_lines=seal_lines, seal_font=seal_font, BR=Markup("<br>"))
     return _env
 
 
