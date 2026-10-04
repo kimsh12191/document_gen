@@ -1,0 +1,55 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block style %}
+.cs-head { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid var(--accent); padding-bottom: 6px; }
+.cs-co { font-size: 24px; font-weight: 800; color: var(--accent); }
+.cs-title { font-size: calc(var(--title) - 6px); font-weight: 700; }
+.cs-sum { display: flex; gap: 10px; margin: 10px 0; }
+.cs-total { flex: 0 0 34%; border: 2px solid var(--accent); padding: 10px 12px; text-align: center; }
+.cs-total .v { font-size: 24px; font-weight: 800; color: var(--accent); }
+.cs-sum table { margin: 0; }
+table.ct th, table.ct td { padding: 3px 4px; font-size: calc(var(--fs) - 2px); }
+table.ct td.l { text-align: left; }
+table.ct tr.sum td, table.ct tr.sum th { background: var(--label-bg); font-weight: 700; }
+{% endblock %}
+{% block content %}
+<div class="cs-head">
+  <div><div class="cs-co">{{ f("company", label="카드사") }}</div><div class="cs-title">{{ f("statement_month", label="청구월") }} 이용대금명세서</div></div>
+  <div class="right small">{{ val("member") }} 회원님</div>
+</div>
+{{ m.kv([["회 원 명", "member"], ["카드번호", "card_no"], ["결 제 일", "pay_date"], ["결제계좌", "pay_account"],
+         ["이용기간", "usage_period", True]], cols=2, label_w="90px", cls="compact") }}
+<div class="cs-sum">
+  <div class="cs-total"><div class="small">이번 달 결제하실 금액</div><div class="v">{{ f("summary.total", label="청구금액") }}원</div>
+    <div class="tiny muted">결제일 {{ val("pay_date") }}</div></div>
+  <table class="compact" style="flex:1">
+    <tr><th>일시불</th><td class="num">{{ f("summary.lump", label="일시불") }}</td><th>할부</th><td class="num">{{ f("summary.installment", label="할부") }}</td></tr>
+    <tr><th>현금서비스</th><td class="num">{{ f("summary.cash", label="현금서비스") }}</td><th>수수료(이자)</th><td class="num">{{ f("summary.fee", label="수수료") }}</td></tr>
+    <tr><th>다음달 결제예정</th><td class="num">{{ f("summary.next_month", label="다음달결제예정금액") }}</td><th>이용한도</th><td class="num">{{ f("summary.limit", label="이용한도") }}</td></tr>
+  </table>
+</div>
+<h3 class="sec">이용내역 <span class="small muted">(단위: 원)</span></h3>
+<table class="ct">
+  <colgroup><col style="width:12%"><col style="width:20%"><col style="width:12%"><col style="width:9%"><col style="width:8%"><col style="width:13%"><col style="width:11%"><col></colgroup>
+  <tr><th>이용일</th><th>이용가맹점</th><th>이용금액</th><th>할부</th><th>회차</th><th>이번달 결제원금</th><th>수수료(이자)</th><th>결제후 잔액</th></tr>
+  {% for r in d.rows %}{% set i = loop.index0 %}
+  <tr>
+    <td class="c">{{ f("rows." ~ i ~ ".date", label="이용일") }}</td>
+    <td class="l">{{ f("rows." ~ i ~ ".merchant", label="이용가맹점") }}</td>
+    <td class="num">{{ f("rows." ~ i ~ ".amount", label="이용금액") }}</td>
+    <td class="c">{{ f("rows." ~ i ~ ".months", label="할부") }}</td>
+    <td class="c">{{ f("rows." ~ i ~ ".seq", label="회차") }}</td>
+    <td class="num">{{ f("rows." ~ i ~ ".principal", label="결제원금") }}</td>
+    <td class="num">{{ f("rows." ~ i ~ ".fee", label="수수료") }}</td>
+    <td class="num">{{ f("rows." ~ i ~ ".after", label="결제후잔액") }}</td>
+  </tr>
+  {% endfor %}
+  <tr class="sum"><th colspan="2">합　계</th><td class="num">{{ f("sum.amount", label="이용금액합계") }}</td><td></td><td></td>
+    <td class="num">{{ f("sum.principal", label="결제원금합계") }}</td><td class="num">{{ f("sum.fee", label="수수료합계") }}</td><td></td></tr>
+</table>
+<ul class="note">
+  <li>할부수수료율 : {{ f("fee_rate", label="할부수수료율") }} (무이자 할부 제외). 할부수수료는 할부잔액 × 수수료율 ÷ 12로 계산됩니다.</li>
+  <li>결제일에 결제계좌의 잔액이 부족한 경우 연체이자가 부과되며, 신용평점에 영향을 줄 수 있습니다.</li>
+  <li>이용내역에 대한 이의가 있으신 경우 고객센터로 문의하여 주시기 바랍니다.</li>
+</ul>
+{% endblock %}

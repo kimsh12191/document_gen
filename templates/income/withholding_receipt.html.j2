@@ -1,0 +1,94 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block page_class %} dense{% endblock %}
+{% block style %}
+.page.a4.dense { font-size: calc(var(--fs) - 2px); line-height: 1.3; }
+table.wr { margin: 0; border: 2px solid var(--border); }
+table.wr + table.wr { border-top: 0; }
+table.wr th, table.wr td { padding: 3px 5px; }
+table.wr th { font-weight: 500; }
+table.wr th.v { width: 26px; white-space: normal; line-height: 1.2; font-weight: 700; }
+.wr-title { font-size: calc(var(--title) - 8px); font-weight: 700; letter-spacing: .05em; line-height: 1.35; }
+.form-no { font-size: 10px; color: #333; margin-bottom: 2px; }
+.ck { white-space: nowrap; }
+.foot { margin-top: 6px; line-height: 1.45; }
+.foot p { margin: 4px 0; }
+{% endblock %}
+{% block content %}
+<div class="form-no">■ 소득세법 시행규칙 [별지 제24호서식(1)] &lt;개정 2025. 3. 21.&gt;</div>
+<table class="wr">
+  <colgroup><col style="width:13%"><col style="width:45%"><col style="width:22%"><col></colgroup>
+  <tr>
+    <td rowspan="5" class="c tiny">관리<br>번호</td>
+    <td rowspan="5" class="c">
+      <div class="wr-title">[✔] 근로소득 원천징수영수증<br>[&nbsp;&nbsp;] 근로소득 지급명세서</div>
+      <div class="small">( {{ m.choice("copy_type", ["소득자 보관용", "발행자 보관용", "발행자 보고용"], label="용도구분", on="[✔]", off="[ ]") }} )</div>
+      <div class="small mt">귀속연도 : {{ f("year", label="귀속연도") }}년</div>
+    </td>
+    <th>거주구분</th><td>{{ f("resident", label="거주구분") }} / 비거주자2</td>
+  </tr>
+  <tr><th>거주지국</th><td>대한민국 &nbsp; 코드 KR</td></tr>
+  <tr><th>내·외국인</th><td>내국인1 / 외국인9</td></tr>
+  <tr><th>세대주 여부</th><td>{{ m.choice("household_head", ["세대주", "세대원"], label="세대주여부") }}</td></tr>
+  <tr><th>연말정산 구분</th><td>{{ m.choice("settlement_type", ["계속근로", "중도퇴사"], label="연말정산구분") }}</td></tr>
+</table>
+<table class="wr">
+  <colgroup><col style="width:26px"><col style="width:17%"><col style="width:28%"><col style="width:17%"><col></colgroup>
+  <tr><th rowspan="3" class="v">징수<br>의무자</th>
+    <th>① 법인명(상 호)</th><td>{{ f("payer.name", label="법인명") }}</td><th>② 대 표 자(성 명)</th><td>{{ f("payer.ceo", label="대표자") }}</td></tr>
+  <tr><th>③ 사업자등록번호</th><td>{{ f("payer.biz_no", label="사업자등록번호") }}</td><th>④ 법인등록번호</th><td>{{ f("payer.corp_no", label="법인등록번호") }}</td></tr>
+  <tr><th>⑤ 소 재 지(주소)</th><td colspan="3">{{ f("payer.address", label="소재지") }}</td></tr>
+  <tr><th rowspan="2" class="v">소득자</th>
+    <th>⑥ 성　　명</th><td>{{ f("earner.name", label="성명") }}</td><th>⑦ 주민등록번호</th><td>{{ f("earner.rrn", label="주민등록번호") }}</td></tr>
+  <tr><th>⑧ 주　　소</th><td colspan="3">{{ f("earner.address", label="주소") }}</td></tr>
+</table>
+<table class="wr">
+  <colgroup><col style="width:26px"><col style="width:27%"><col style="width:20%"><col style="width:13%"><col style="width:13%"><col></colgroup>
+  <tr><th rowspan="9" class="v">Ⅰ<br>근<br>무<br>처<br>별<br>소<br>득<br>명<br>세</th>
+    <th>구　　분</th><th>주(현)</th><th>종(전)</th><th>⑯-1 납세조합</th><th>합　계</th></tr>
+  <tr><th>⑨ 근 무 처 명</th><td class="c">{{ f("work.company", label="근무처명") }}</td><td></td><td></td><td></td></tr>
+  <tr><th>⑩ 사업자등록번호</th><td class="c">{{ f("work.biz_no", label="사업자등록번호") }}</td><td></td><td></td><td></td></tr>
+  <tr><th>⑪ 근 무 기 간</th><td class="c tiny">{{ f("work.period", label="근무기간") }}</td><td>~</td><td>~</td><td></td></tr>
+  <tr><th>⑫ 감 면 기 간</th><td class="c">~</td><td>~</td><td>~</td><td></td></tr>
+  <tr><th>⑬ 급　　여</th><td class="num">{{ f("work.salary", label="급여") }}</td><td></td><td></td><td class="num">{{ val("work.salary") }}</td></tr>
+  <tr><th>⑭ 상　　여</th><td class="num">{{ f("work.bonus", label="상여") }}</td><td></td><td></td><td class="num">{{ val("work.bonus") }}</td></tr>
+  <tr><th>⑮ 인 정 상 여</th><td></td><td></td><td></td><td></td></tr>
+  <tr><th>⑯ 계</th><td class="num bold">{{ f("work.total", label="계") }}</td><td></td><td></td><td class="num bold">{{ val("work.total") }}</td></tr>
+  <tr><th rowspan="3" class="v">Ⅱ<br>비<br>과<br>세</th>
+    <th>⑱ 국외근로 M0X</th><td></td><td></td><td></td><td></td></tr>
+  <tr><th>식사대 등 P01</th><td class="num">{{ f("nontax.meal", label="식사대") }}</td><td></td><td></td><td class="num">{{ val("nontax.meal") }}</td></tr>
+  <tr><th>⑳ 비과세소득 계</th><td class="num">{{ f("nontax.total", label="비과세소득계") }}</td><td></td><td></td><td class="num">{{ val("nontax.total") }}</td></tr>
+</table>
+<table class="wr">
+  <colgroup><col style="width:26px"><col style="width:20%"><col style="width:13%"><col style="width:20%"><col style="width:13%"><col style="width:17%"><col></colgroup>
+  <tr><th rowspan="4" class="v">정<br>산<br>명<br>세</th>
+    <th>㉑ 총 급 여</th><td class="num">{{ f("calc.total_pay", label="총급여") }}</td>
+    <th>㉒ 근로소득공제</th><td class="num">{{ f("calc.earned_deduction", label="근로소득공제") }}</td>
+    <th>㉓ 근로소득금액</th><td class="num">{{ f("calc.earned_income", label="근로소득금액") }}</td></tr>
+  <tr><th>기본공제(인적)</th><td class="num">{{ f("calc.personal", label="기본공제") }}</td>
+    <th>㉛ 국민연금보험료</th><td class="num">{{ f("calc.pension", label="국민연금보험료공제") }}</td>
+    <th>㉝ 특별소득공제</th><td class="num">{{ f("calc.special", label="특별소득공제") }}</td></tr>
+  <tr><th>㊷ 신용카드등 사용액</th><td class="num">{{ f("calc.card", label="신용카드등소득공제") }}</td>
+    <th>㊾ 종합소득 과세표준</th><td class="num">{{ f("calc.tax_base", label="과세표준") }}</td>
+    <th>㊿ 산 출 세 액</th><td class="num">{{ f("calc.calc_tax", label="산출세액") }}</td></tr>
+  <tr><th>근로소득 세액공제</th><td class="num">{{ f("calc.earned_credit", label="근로소득세액공제") }}</td>
+    <th>자녀 세액공제</th><td class="num">{{ f("calc.child_credit", label="자녀세액공제") }}</td>
+    <th>특별세액공제</th><td class="num">{{ f("calc.special_credit", label="특별세액공제") }}</td></tr>
+</table>
+<table class="wr">
+  <colgroup><col style="width:26px"><col style="width:36%"><col style="width:20%"><col style="width:20%"><col></colgroup>
+  <tr><th rowspan="6" class="v">Ⅲ<br>세<br>액<br>명<br>세</th>
+    <th colspan="1">구　　분</th><th>소 득 세</th><th>지방소득세</th><th>농어촌특별세</th></tr>
+  <tr><th>(72) 결 정 세 액</th><td class="num">{{ f("tax.final_income", label="결정세액소득세") }}</td><td class="num">{{ f("tax.final_local", label="결정세액지방소득세") }}</td><td class="num">0</td></tr>
+  <tr><th>기납부 (73) 종(전)근무지</th><td class="num">0</td><td class="num">0</td><td class="num">0</td></tr>
+  <tr><th>세　액 (74) 주(현)근무지</th><td class="num">{{ f("tax.prepaid_income", label="기납부세액소득세") }}</td><td class="num">{{ f("tax.prepaid_local", label="기납부세액지방소득세") }}</td><td class="num">0</td></tr>
+  <tr><th>(75) 납부특례세액</th><td class="num">0</td><td class="num">0</td><td class="num">0</td></tr>
+  <tr><th class="bold">(76) 차감징수세액((72)-(73)-(74)-(75))</th><td class="num bold">{{ f("tax.diff_income", label="차감징수세액소득세") }}</td><td class="num bold">{{ f("tax.diff_local", label="차감징수세액지방소득세") }}</td><td class="num">0</td></tr>
+</table>
+<div class="foot">
+  <p class="center">위의 원천징수액(근로소득)을 정히 영수(지급)합니다.</p>
+  <p class="right">{{ f("issue_date", label="발급일") }}</p>
+  <p class="right" style="position:relative">징수(보고)의무자&nbsp;&nbsp;<b>{{ val("payer.name") }}</b>&nbsp;&nbsp;(서명 또는 인) {{ m.seal("대표이사인", square=True, size="sm") }}</p>
+  <p class="bold" style="font-size:calc(var(--fs) + 2px)">{{ f("tax_office", label="세무서장") }} 귀하</p>
+</div>
+{% endblock %}

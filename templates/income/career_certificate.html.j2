@@ -1,0 +1,43 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block style %}
+table.career td { font-size: calc(var(--fs) - 0.5px); }
+.cert-text { font-size: calc(var(--fs) + 2px); letter-spacing: .03em; }
+{% endblock %}
+{% block content %}
+{{ m.doc_no("doc_no", "문서번호") }}
+{{ m.title("경 력 증 명 서") }}
+<h2 class="sec">인적사항</h2>
+{{ m.kv([["성　　명", "person.name"], ["주민등록번호", "person.rrn"],
+         ["주　　소", "person.address", True], ["연 락 처", "person.phone"], ["입 사 일", "hire_date"]], cols=2, label_w="110px") }}
+<h2 class="sec">경력사항</h2>
+<table class="career">
+  <colgroup><col style="width:34%"><col style="width:17%"><col style="width:12%"><col></colgroup>
+  <tr><th>근무기간</th><th>부　서</th><th>직　위</th><th>담당업무</th></tr>
+  {% for r in d.careers %}{% set i = loop.index0 %}
+  <tr>
+    <td class="c">{{ f("careers." ~ i ~ ".period", label="근무기간") }}</td>
+    <td class="c">{{ f("careers." ~ i ~ ".department", label="부서") }}</td>
+    <td class="c">{{ f("careers." ~ i ~ ".position", label="직위") }}</td>
+    <td>{{ f("careers." ~ i ~ ".duty", label="담당업무") }}</td>
+  </tr>
+  {% endfor %}
+  {% for _ in range(4 - d.careers|length) %}<tr><td>&nbsp;</td><td></td><td></td><td></td></tr>{% endfor %}
+  <tr><th>총 근무기간</th><td colspan="3" class="c bold">{{ f("total_period", label="총근무기간") }}</td></tr>
+</table>
+<table class="kv">
+  <colgroup><col style="width:110px"><col></colgroup>
+  <tr><th>용　　도</th><td>{{ f("purpose", label="용도") }}</td></tr>
+</table>
+<p class="center mt-l cert-text">위 사람은 당사에서 위와 같이 근무하였음(재직 중)을 증명합니다.</p>
+<div class="issuer">
+  <div class="date">{{ f("issue_date", label="발급일") }}</div>
+  <table class="plain" style="width:auto;margin:0 auto;font-size:calc(var(--fs) + 1px)">
+    <tr><td>회 사 명 :</td><td class="bold">{{ f("company.name", label="회사명") }}</td></tr>
+    <tr><td>사업자등록번호 :</td><td>{{ f("company.biz_no", label="사업자등록번호") }}</td></tr>
+    <tr><td>소 재 지 :</td><td>{{ f("company.address", label="소재지") }}</td></tr>
+    <tr><td>전화번호 :</td><td>{{ f("company.phone", label="전화번호") }}</td></tr>
+  </table>
+  <div class="mt" style="position:relative;display:inline-block;padding-right:30px;font-size:calc(var(--fs) + 4px);font-weight:700;letter-spacing:.1em">대표이사&nbsp;&nbsp;{{ f("company.ceo", label="대표이사") }}{{ m.seal("대표이사인", square=True, over=True) }}</div>
+</div>
+{% endblock %}

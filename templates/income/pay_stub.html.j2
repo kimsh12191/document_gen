@@ -1,0 +1,44 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block style %}
+.ps-head { border-bottom: 2px solid var(--accent); padding-bottom: 8px; margin-bottom: 14px; }
+.ps-head h1.title { margin: 0 0 4px; }
+table.ps td.num { min-width: 110px; }
+table.ps tr.sum th, table.ps tr.sum td { background: var(--label-bg); font-weight: 700; }
+.netbox { border: 2px solid var(--border); display: flex; justify-content: space-between; padding: 10px 16px; font-size: calc(var(--fs) + 4px); font-weight: 700; margin: 10px 0; }
+{% endblock %}
+{% block content %}
+<div class="ps-head">
+  <h1 class="title" style="letter-spacing:.08em">{{ f("title_month", label="귀속월") }} 급여명세서</h1>
+  <div class="between"><span class="bold">{{ f("company", label="회사명") }}</span><span>지급일 : {{ f("pay_date", label="지급일") }}</span></div>
+</div>
+{{ m.kv([["성　명", "employee.name"], ["사　번", "employee.employee_no"], ["부　서", "employee.department"],
+         ["직　급", "employee.position"], ["입사일", "employee.hire_date"], ["급여계좌", "account"]], cols=3, label_w="72px") }}
+{{ m.kv([["근로일수", "work.days"], ["총근로시간", "work.hours"], ["연장근로시간", "work.overtime_hours"]], cols=3, label_w="96px") }}
+{% set np = d.payments|length %}{% set nd = d.deductions|length %}
+{% set n = [np, nd, 8]|max %}
+<table class="ps mt">
+  <colgroup><col style="width:25%"><col style="width:25%"><col style="width:25%"><col style="width:25%"></colgroup>
+  <tr><th colspan="2">지 급 내 역</th><th colspan="2">공 제 내 역</th></tr>
+  <tr><th>지급항목</th><th>지급액</th><th>공제항목</th><th>공제액</th></tr>
+  {% for i in range(n) %}
+  <tr>
+    {% if i < np %}<td class="c">{{ f("payments." ~ i ~ ".name", label="지급항목") }}</td><td class="num">{{ f("payments." ~ i ~ ".amount", label="지급액") }}</td>
+    {% else %}<td>&nbsp;</td><td></td>{% endif %}
+    {% if i < nd %}<td class="c">{{ f("deductions." ~ i ~ ".name", label="공제항목") }}</td><td class="num">{{ f("deductions." ~ i ~ ".amount", label="공제액") }}</td>
+    {% else %}<td></td><td></td>{% endif %}
+  </tr>
+  {% endfor %}
+  <tr class="sum"><th>지급합계</th><td class="num">{{ f("pay_total", label="지급합계") }}</td><th>공제합계</th><td class="num">{{ f("deduction_total", label="공제합계") }}</td></tr>
+</table>
+<div class="netbox"><span>실 지 급 액</span><span>{{ f("net_pay", label="실지급액") }} 원</span></div>
+<h3 class="sec">계산방법</h3>
+<table class="compact">
+  <colgroup><col style="width:28%"><col></colgroup>
+  <tr><th>구분</th><th>산출식</th></tr>
+  {% for c in d.calc_methods %}{% set i = loop.index0 %}
+  <tr><td class="c">{{ f("calc_methods." ~ i ~ ".item", label="구분") }}</td><td>{{ f("calc_methods." ~ i ~ ".method", label="산출식") }}</td></tr>
+  {% endfor %}
+</table>
+<p class="note">※ 「근로기준법」 제48조에 따라 임금의 구성항목·계산방법, 공제내역을 기재한 임금명세서를 교부합니다.<br>※ 식대 및 자가운전보조금은 월 20만원 한도 내 비과세 항목입니다. 귀하의 노고에 감사드립니다.</p>
+{% endblock %}

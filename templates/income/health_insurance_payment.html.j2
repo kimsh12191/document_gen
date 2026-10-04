@@ -1,0 +1,39 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block style %}
+table.hp td, table.hp th { padding-top: 3px; padding-bottom: 3px; font-size: var(--fs); }
+table.hp tr.sum td, table.hp tr.sum th { font-weight: 700; background: var(--label-bg); }
+{% endblock %}
+{% block content %}
+{{ m.doc_no("issue_no", "발급번호") }}
+{{ m.title("건강보험료 납부확인서") }}
+<h3 class="sec">가입자 정보</h3>
+{{ m.kv([["성　　명", "person.name"], ["주민등록번호", "person.rrn"], ["주　　소", "person.address", True],
+         ["가입자구분", "member_kind"], ["대상기간", "period"], ["용　　도", "purpose"]], cols=2, label_w="110px") }}
+<h3 class="sec">사업장 정보</h3>
+{{ m.kv([["사업장명칭", "workplace.name"], ["사업장관리번호", "workplace.mgmt_no"], ["소 재 지", "workplace.address", True]], cols=2, label_w="110px") }}
+<h3 class="sec">납부내역 <span class="small muted">(단위: 원, 가입자 본인부담분)</span></h3>
+<table class="hp compact">
+  <colgroup><col style="width:16%"><col style="width:22%"><col style="width:20%"><col style="width:22%"><col></colgroup>
+  <tr><th>납부연월</th><th>건강보험료</th><th>장기요양보험료</th><th>납부액 계</th><th>납부일자</th></tr>
+  {% for r in d.rows %}{% set i = loop.index0 %}
+  <tr>
+    <td class="c">{{ f("rows." ~ i ~ ".month", label="납부연월") }}</td>
+    <td class="num">{{ f("rows." ~ i ~ ".health", label="건강보험료") }}</td>
+    <td class="num">{{ f("rows." ~ i ~ ".ltc", label="장기요양보험료") }}</td>
+    <td class="num">{{ f("rows." ~ i ~ ".total", label="납부액") }}</td>
+    <td class="c">{{ f("rows." ~ i ~ ".paid_date", label="납부일자") }}</td>
+  </tr>
+  {% endfor %}
+  <tr class="sum"><th>합　계</th><td class="num">{{ f("sum.health", label="건강보험료합계") }}</td><td class="num">{{ f("sum.ltc", label="장기요양보험료합계") }}</td><td class="num">{{ f("sum.total", label="납부액합계") }}</td><td></td></tr>
+</table>
+<ul class="note">
+  <li>직장가입자의 보험료는 사업장에서 원천공제하여 납부한 금액이며, 연말정산 및 퇴직정산 금액은 포함되지 않습니다.</li>
+  <li>본 확인서는 국민건강보험공단 홈페이지(www.nhis.or.kr)에서 발급번호로 진위 여부를 확인할 수 있습니다.</li>
+</ul>
+<p class="center mt" style="font-size:calc(var(--fs) + 1px)">위와 같이 건강보험료를 납부하였음을 확인합니다.</p>
+<div class="issuer" style="margin-top:12px">
+  <div class="date">{{ f("issue_date", label="발급일") }}</div>
+  <div class="org">국민건강보험공단 이사장{{ m.seal("국민건강보험공단이사장인", square=True, size="lg", over=True) }}</div>
+</div>
+{% endblock %}
