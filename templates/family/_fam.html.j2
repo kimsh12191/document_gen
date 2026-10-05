@@ -13,6 +13,11 @@ table.fm td.l { text-align: left; }
 .fm-meta .l { display: inline-block; width: 90px; }
 .fm-foot { position: absolute; left: var(--page-pad); right: var(--page-pad); bottom: calc(var(--page-pad) - 16px); border-top: 1px solid #888; padding-top: 6px; font-size: calc(var(--fs) - 2.5px); color: #333; }
 .fm-foot p { margin: 2px 0; }
+.fm-close { display: flex; flex-direction: column; }
+.fm-foot.flow { position: static; margin-top: 22px; }
+.page.a4 { padding-bottom: calc(var(--page-pad) + 52px); }
+table.fm .st { margin-left: 6px; font-weight: 700; }
+table.fm .nat { display: block; font-size: calc(var(--fs) - 2px); }
 {%- endmacro %}
 
 {# 구분/성명/출생연월일/주민등록번호/성별/본 표. paths: 각 행의 경로 리스트 #}
@@ -23,19 +28,21 @@ table.fm td.l { text-align: left; }
   {% for pth in paths %}
   <tr>
     <td>{{ f(pth ~ ".relation", label="구분") }}</td>
-    <td>{{ f(pth ~ ".name", label="성명") }}({{ f(pth ~ ".name_hanja", label="성명(한자)") }})</td>
+    <td>{{ f(pth ~ ".name", label="성명") }}{% if f.has(pth ~ ".name_hanja") %}({{ f(pth ~ ".name_hanja", label="성명(한자)") }}){% endif %}{% if f.has(pth ~ ".status") %}<span class="st">{{ f(pth ~ ".status", label="사망") }}</span>{% endif %}{% if f.has(pth ~ ".nationality") %}<span class="nat">국적 : {{ f(pth ~ ".nationality", label="국적") }}</span>{% endif %}</td>
     <td>{{ f(pth ~ ".birth", label="출생연월일") }}</td>
-    <td>{{ f(pth ~ ".rrn", label="주민등록번호") }}</td>
+    <td>{% if f.has(pth ~ ".rrn") %}{{ f(pth ~ ".rrn", label="주민등록번호") }}{% endif %}</td>
     <td>{{ f(pth ~ ".gender", label="성별") }}</td>
-    <td>{{ f(pth ~ ".bon", label="본") }}</td>
+    <td>{% if f.has(pth ~ ".bon") %}{{ f(pth ~ ".bon", label="본") }}{% endif %}</td>
   </tr>
   {% endfor %}
 </table>
 {%- endmacro %}
 
 {# 가족관계등록부 증명서 하단: 증명 문구, 발급일, 발급기관, 발급 정보, 안내문 #}
-{% macro fam_footer(cert_name) -%}
-<p class="fm-stmt">위 {{ cert_name }}는 가족관계등록부의 기록사항과 틀림없음을 증명합니다.</p>
+{% macro fam_footer(cert_name, flow=False) -%}
+{# 증명문구·발급기관·발급정보는 한 덩어리로 넘긴다 (flex 는 paginate.js 가 쪼개지 않음) #}
+<div class="fm-close">
+<p class="fm-stmt">위 {{ cert_name }}({{ val("cert_type") }})는 가족관계등록부의 기록사항과 틀림없음을 증명합니다.</p>
 <div class="issuer" style="margin-top:14px">
   <div class="date">{{ f("issue_date", label="발급일") }}</div>
   <div class="org"{% if d.doc_check_no is defined %} style="font-size:calc(var(--fs) + 4px);letter-spacing:.06em"{% endif %}>{{ f("issuer", label="발급기관") }}{{ m.seal("전산운영책임관인" if d.doc_check_no is defined else "직인", square=True, over=True) }}</div>
@@ -48,8 +55,13 @@ table.fm td.l { text-align: left; }
   {% endif %}
   <div><span class="l">신청인 :</span>{{ f("applicant", label="신청인") }}</div>
 </div>
-<div class="fm-foot">
+</div>
+<div class="fm-foot{{ ' flow' if flow }}">
+  {% if val("cert_type") == "상세" %}
+  <p>※ 위 증명서는 「가족관계의 등록 등에 관한 법률」 제15조제3항에 따른 등록사항을 현출한 상세증명서입니다.</p>
+  {% else %}
   <p>※ 위 증명서는 「가족관계의 등록 등에 관한 법률」 제15조제2항에 따른 등록사항을 현출한 일반증명서입니다.</p>
+  {% endif %}
   {% if d.doc_check_no is defined %}
   <p>※ 이 증명서는 인터넷으로 발급되었으며, 대법원 전자가족관계등록시스템(efamily.scourt.go.kr)에서 문서확인번호로 위·변조 여부를 확인할 수 있습니다.</p>
   <p>문서확인번호 : {{ f("doc_check_no", label="문서확인번호") }}</p>
@@ -79,13 +91,16 @@ table.rr td.nw, table.rr th.nw { white-space: nowrap; }
 table.rr td.l { text-align: left; }
 table.rr th { font-weight: 600; }
 .rr-end { text-align: center; margin: 10px 0 0; letter-spacing: .3em; }
+.page.a4 { padding-bottom: calc(var(--page-pad) + 52px); }
+.rr-top.pg-repeated { margin-bottom: 8px; }
 {%- endmacro %}
 
-{% macro resident_head(kind, form_no, stmt) -%}
+{# long: 여러 쪽이 될 수 있는 경우 (쪽 번호는 paginate.js 가 아래에 넣으므로 위의 '1 / 1' 을 뺀다) #}
+{% macro resident_head(kind, form_no, stmt, long=False) -%}
 <div class="rr-form">■ 주민등록법 시행규칙 [별지 {{ form_no }}] &lt;개정 2019. 11. 19.&gt;</div>
-<div class="rr-top">
+<div class="rr-top pg-repeat">
   <div>{% if d.officer is defined %}발급번호 : {{ f("doc_no", label="발급번호") }}{% else %}문서확인번호 : {{ f("doc_no", label="문서확인번호") }}{% endif %}</div>
-  <div>1 / 1</div>
+  {% if not long %}<div>1 / 1</div>{% endif %}
 </div>
 <h1 class="title rr-t">주 민 등 록 표<span class="sub">( {{ kind }} )</span></h1>
 <div class="rr-cert">

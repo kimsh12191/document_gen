@@ -3,12 +3,12 @@
 {% import "family/_fam.html.j2" as fm with context %}
 {% block style %}{{ fm.fam_style() }}{% endblock %}
 {% block content %}
-<h1 class="title fm">가족관계증명서(일반)</h1>
+<h1 class="title fm">가족관계증명서({{ f("cert_type", label="증명서종류") }})</h1>
 <table class="fm fm-base"><tr><th>등록기준지</th><td class="l">{{ f("reg_base", label="등록기준지") }}</td></tr></table>
 <div style="height:8px"></div>
 {{ fm.people(["self"]) }}
 <div class="fm-sec">가족사항</div>
 {% set paths = [] %}{% for _ in d.family %}{% set _ = paths.append("family." ~ loop.index0) %}{% endfor %}
 {{ fm.people(paths) }}
-{{ fm.fam_footer("가족관계증명서(일반)") }}
+{{ fm.fam_footer("가족관계증명서", flow=d.family|length > 16) }}
 {% endblock %}
