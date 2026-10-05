@@ -26,6 +26,10 @@ table.calc tr.hl th, table.calc tr.hl td { font-weight: 700; }
 .unit { text-align: right; font-size: calc(var(--fs) - 2px); }
 .decl { margin: 5px 4px 1px; line-height: 1.45; }
 .sig { text-align: right; margin-top: 1px; }
+.hand { font-family: 'NanumSquareRound', 'Nanum Gothic', sans-serif; color: #1c2c86; font-weight: 700; letter-spacing: .03em; display: inline-block; transform: rotate(-0.5deg); }
+table.det th, table.det td { padding: 2px 5px; font-size: calc(var(--fs) - 1px); }
+table.det td.l { text-align: left; }
+.sec2 { font-weight: 700; margin: 8px 0 1px; }
 .to { margin-top: 4px; font-size: calc(var(--fs) + 2px); font-weight: 700; }
 {% endblock %}
 {% macro opts(path, items, label) -%}
@@ -33,6 +37,11 @@ table.calc tr.hl th, table.calc tr.hl td { font-weight: 700; }
 {% for code, o in items %}<span class="opt"><span class="cd">{{ code }}</span>{% if o == cur %}[√] {{ f(path, label=label) }}{% else %}[ ] {{ o }}{% endif %}</span>{% endfor %}
 {%- endmacro %}
 {% block content %}
+{# 서면 신고서(손글씨): 값이 파란 손글씨체이고 정정(두 줄 + 정정 도장)이 생길 수 있다. 홈택스 출력본은 정정 없음. #}
+{% set hand = d.paper %}
+{% set fx = 0.05 if hand else 0 %}
+{{ f.set_corr_name(val("taxpayer.name")) }}
+{% macro v(path, label) -%}{% if hand %}<span class="hand">{{ f(path, label=label, fix=fx) }}</span>{% else %}{{ f(path, label=label) }}{% endif %}{%- endmacro %}
 {% set rev = {"2023": "2023. 3. 20.", "2024": "2024. 3. 22.", "2025": "2025. 3. 21.", "2026": "2026. 3. 20."}.get(val("filed_date")[:4]) %}
 <div class="gov-head"><span>■ 소득세법 시행규칙 [별지 제40호서식(1)]{% if rev %} &lt;개정 {{ rev }}&gt;{% endif %}</span><span>(35쪽 중 제1쪽)</span></div>
 <div class="itr-title">
@@ -50,10 +59,10 @@ table.calc tr.hl th, table.calc tr.hl td { font-weight: 700; }
 <div class="cap">❶ 기본사항</div>
 <table class="outer">
   <colgroup><col style="width:124px"><col><col style="width:124px"><col style="width:200px"></colgroup>
-  <tr><th>① 성　　명</th><td>{{ f("taxpayer.name", label="성명") }}</td><th>② 주민등록번호</th><td>{{ f("taxpayer.rrn", label="주민등록번호") }}</td></tr>
-  <tr><th>③ 주　　소</th><td colspan="3">{{ f("taxpayer.address", label="주소") }}</td></tr>
-  <tr><th>④ 전자우편주소</th><td>{{ f("taxpayer.email", label="전자우편주소") }}</td><th>⑤ 주소지 전화번호</th><td>&nbsp;</td></tr>
-  <tr><th>⑥ 사업장 전화번호</th><td>{{ f("taxpayer.biz_phone", label="사업장전화번호") }}</td><th>⑦ 휴대전화번호</th><td>{{ f("taxpayer.mobile", label="휴대전화번호") }}</td></tr>
+  <tr><th>① 성　　명</th><td>{{ v("taxpayer.name", "성명") }}</td><th>② 주민등록번호</th><td>{{ v("taxpayer.rrn", "주민등록번호") }}</td></tr>
+  <tr><th>③ 주　　소</th><td colspan="3">{{ v("taxpayer.address", "주소") }}</td></tr>
+  <tr><th>④ 전자우편주소</th><td>{{ v("taxpayer.email", "전자우편주소") }}</td><th>⑤ 주소지 전화번호</th><td>&nbsp;</td></tr>
+  <tr><th>⑥ 사업장 전화번호</th><td>{{ v("taxpayer.biz_phone", "사업장전화번호") }}</td><th>⑦ 휴대전화번호</th><td>{{ v("taxpayer.mobile", "휴대전화번호") }}</td></tr>
   <tr><th>⑧ 신 고 유 형</th><td colspan="3" class="opts">{{ opts("filing_type", [["11", "자기조정"], ["12", "외부조정"], ["20", "성실신고확인"], ["31", "간편장부"], ["32", "추계-기준율"], ["33", "추계-단순율"], ["40", "비사업자"]], "신고유형") }}</td></tr>
   <tr><th>⑨ 기 장 의 무</th><td colspan="3" class="opts">{{ opts("bookkeeping", [["1", "복식부기의무자"], ["2", "간편장부대상자"], ["3", "비사업자"]], "기장의무") }}</td></tr>
   <tr><th>⑩ 신 고 구 분</th><td colspan="3" class="opts">{{ opts("filing_kind", [["10", "정기신고"], ["20", "수정신고"], ["30", "경정청구"], ["40", "기한후신고"], ["60", "추가신고(인정상여)"]], "신고구분") }}</td></tr>
@@ -61,8 +70,8 @@ table.calc tr.hl th, table.calc tr.hl td { font-weight: 700; }
 <div class="cap">❷ 환급금 계좌신고</div>
 <table class="outer">
   <colgroup><col style="width:124px"><col><col style="width:124px"><col style="width:200px"></colgroup>
-  <tr><th>⑪ 금융기관/<br>체신관서명</th><td>{% if d.refund_account is defined %}{{ f("refund_account.bank", label="금융기관/체신관서명") }}{% endif %}</td>
-    <th>⑫ 계좌번호</th><td>{% if d.refund_account is defined %}{{ f("refund_account.number", label="계좌번호") }}{% endif %}</td></tr>
+  <tr><th>⑪ 금융기관/<br>체신관서명</th><td>{% if d.refund_account is defined %}{{ v("refund_account.bank", "금융기관/체신관서명") }}{% endif %}</td>
+    <th>⑫ 계좌번호</th><td>{% if d.refund_account is defined %}{{ v("refund_account.number", "계좌번호") }}{% endif %}</td></tr>
 </table>
 <div class="between"><div class="cap">❸ 세액의 계산</div><div class="unit">(단위 : 원)</div></div>
 {% set rows = [
@@ -89,18 +98,98 @@ table.calc tr.hl th, table.calc tr.hl td { font-weight: 700; }
   <tr><th>구　　분</th><th></th><th>종합소득세</th><th>농어촌특별세</th></tr>
   {% for label, no, key, hl in rows %}
   <tr{% if hl %} class="hl"{% endif %}><th class="l">{{ label }}</th><td class="c">{{ no }}</td>
-    <td class="num">{{ f("national." ~ key, label=label.split(" (")[0]) }}</td><td></td></tr>
+    <td class="num">{{ v("national." ~ key, label.split(" (")[0]) }}</td><td></td></tr>
   {% endfor %}
 </table>
 <p class="decl">신고인은 「소득세법」 제70조, 「농어촌특별세법」 제7조, 「국세기본법」 제45조, 제45조의2, 제45조의3에 따라 위의 내용을 신고하며, 위 내용을 충분히 검토하였고 신고인이 알고 있는 사실 그대로를 정확하게 적었음을 확인합니다.</p>
-<div class="sig">{{ f("filed_date", label="신고일") }}</div>
+<div class="sig">{{ v("filed_date", "신고일") }}</div>
 <div class="sig">신고인&nbsp;&nbsp;<span class="signline" style="min-width:90px">{{ f("taxpayer.name", label="신고인") }}</span>&nbsp;&nbsp;{{ m.sigspot("taxpayer", val("taxpayer.name"), label="신고인", anchor="taxpayer.name", p_seal=0.3, p_sign=0.3) }}</div>
 <p class="decl" style="margin-top:4px">세무대리인은 조세전문자격자로서 위 신고서를 성실하고 공정하게 작성하였음을 확인합니다.</p>
-<div class="sig">세무대리인&nbsp;&nbsp;<span class="signline" style="min-width:90px">{% if d.tax_agent is defined %}{{ f("tax_agent.name", label="세무대리인") }}{% endif %}</span>&nbsp;&nbsp;(서명 또는 인)</div>
+<div class="sig">세무대리인&nbsp;&nbsp;<span class="signline" style="min-width:90px">{% if d.tax_agent is defined %}{{ f("tax_agent.name", label="세무대리인") }}{% endif %}</span>&nbsp;&nbsp;{% if d.tax_agent is defined %}{{ m.sigspot("tax_agent", val("tax_agent.name"), label="세무대리인", anchor="tax_agent.name", p_seal=0.35, p_sign=0.15) }}{% else %}(서명 또는 인){% endif %}</div>
 <table class="outer compact" style="margin-top:4px">
   <colgroup><col style="width:124px"><col><col style="width:124px"><col></colgroup>
   <tr><th>세무대리인 사업자등록번호</th><td>{% if d.tax_agent is defined %}{{ f("tax_agent.biz_no", label="세무대리인사업자등록번호") }}{% endif %}</td>
     <th>전화번호</th><td>{% if d.tax_agent is defined %}{{ f("tax_agent.phone", label="세무대리인전화번호") }}{% endif %}</td></tr>
 </table>
 <div class="to">{{ f("tax_office", label="세무서장") }}&nbsp;&nbsp;귀하</div>
+
+{% if d.incomes is defined %}
+{% macro newpage(n) -%}
+{% if sample_mark %}<div class="sample-mark">견본 SAMPLE</div>{% endif %}
+</div>
+<div class="page {{ spec.page }} dense" data-pg-format="{{ style.pg_format }}" data-pg-cont="{{ style.pg_cont }}">
+<div class="gov-head"><span>■ 소득세법 시행규칙 [별지 제40호서식(1)]</span><span>(35쪽 중 제{{ n }}쪽)</span></div>
+{%- endmacro %}
+{% macro amt_rows(path, label) -%}
+{% for it in d[path] %}{% set i = loop.index0 %}
+<tr><td class="l">{{ v(path ~ "." ~ i ~ ".item", label) }}</td><td class="num">{{ v(path ~ "." ~ i ~ ".amount", "금액") }}</td></tr>
+{% endfor %}
+{%- endmacro %}
+{{ newpage(2) }}
+<div class="between"><div class="cap">❹ 종합소득금액 명세</div><div class="unit">(단위 : 원)</div></div>
+<table class="outer det">
+  <colgroup><col style="width:15%"><col style="width:23%"><col><col><col><col></colgroup>
+  <tr><th>소득구분</th><th>소득의 지급자(사업장)</th><th>총수입금액</th><th>필요경비<br>(소득공제)</th><th>소득금액</th><th>원천징수세액</th></tr>
+  {% for it in d.incomes %}{% set i = loop.index0 %}
+  <tr><td class="c">{{ v("incomes." ~ i ~ ".type", "소득구분") }}</td><td class="l">{{ v("incomes." ~ i ~ ".payer", "소득의지급자") }}</td>
+    <td class="num">{{ v("incomes." ~ i ~ ".revenue", "총수입금액") }}</td><td class="num">{{ v("incomes." ~ i ~ ".expense", "필요경비") }}</td>
+    <td class="num">{{ v("incomes." ~ i ~ ".amount", "소득금액") }}</td><td class="num">{{ v("incomes." ~ i ~ ".withheld", "원천징수세액") }}</td></tr>
+  {% endfor %}
+  <tr><th colspan="4">합　　계 (⑲ 종합소득금액)</th><td class="num"><b>{{ val("national.total_income") }}</b></td><td></td></tr>
+</table>
+<div class="cap">❺ 사업소득명세</div>
+<table class="outer det">
+  <colgroup><col style="width:22%"><col><col style="width:22%"><col></colgroup>
+  <tr><th>사업장 소재지</th><td colspan="3">{{ v("business_income.address", "사업장소재지") }}</td></tr>
+  <tr><th>상　　호</th><td>{{ v("business_income.trade_name", "상호") }}</td><th>사업자등록번호</th><td>{{ v("business_income.biz_no", "사업자등록번호") }}</td></tr>
+  <tr><th>업종코드</th><td>{{ v("business_income.code", "업종코드") }}</td><th>총수입금액</th><td class="num">{{ v("business_income.revenue", "총수입금액") }}</td></tr>
+  <tr><th>필요경비</th><td class="num">{{ v("business_income.expense", "필요경비") }}</td><th>소득금액</th><td class="num">{{ v("business_income.income", "소득금액") }}</td></tr>
+  {% if d.business_income.share is defined %}
+  <tr><th>공동사업자</th><td>{{ v("business_income.partner", "공동사업자") }}</td><th>손익분배비율</th><td>{{ v("business_income.share", "손익분배비율") }}</td></tr>
+  {% endif %}
+</table>
+<div class="cap">❻ 인적공제 대상자 명세</div>
+<table class="outer det">
+  <colgroup><col style="width:14%"><col style="width:20%"><col style="width:28%"><col style="width:14%"><col></colgroup>
+  <tr><th>관　계</th><th>성　명</th><th>주민등록번호</th><th>기본공제</th><th>추가공제</th></tr>
+  {% for it in d.dependents %}{% set i = loop.index0 %}
+  <tr><td class="c">{{ v("dependents." ~ i ~ ".relation", "관계") }}</td><td class="c">{{ v("dependents." ~ i ~ ".name", "성명") }}</td>
+    <td class="c">{{ v("dependents." ~ i ~ ".rrn", "주민등록번호") }}</td><td class="c">{{ v("dependents." ~ i ~ ".basic", "기본공제") }}</td>
+    <td class="c">{{ v("dependents." ~ i ~ ".extra", "추가공제") }}</td></tr>
+  {% endfor %}
+</table>
+<div class="cap">❼ 소득공제 명세</div>
+<table class="outer det">
+  <colgroup><col><col style="width:34%"></colgroup>
+  <tr><th>구　　분</th><th>금　　액</th></tr>
+  {{ amt_rows("deduction_items", "소득공제항목") }}
+  <tr><th>합계 (⑳ 소득공제)</th><td class="num"><b>{{ val("national.deduction") }}</b></td></tr>
+</table>
+{{ newpage(3) }}
+<div class="between"><div class="cap">❽ 세액공제 명세</div><div class="unit">(단위 : 원)</div></div>
+<table class="outer det">
+  <colgroup><col><col style="width:34%"></colgroup>
+  <tr><th>구　　분</th><th>금　　액</th></tr>
+  {{ amt_rows("credit_items", "세액공제항목") }}
+  <tr><th>합계 (㉕ 세액공제)</th><td class="num"><b>{{ val("national.credit") }}</b></td></tr>
+</table>
+{% if d.penalty_items is defined %}
+<div class="cap">❾ 가산세 명세</div>
+<table class="outer det">
+  <colgroup><col><col style="width:34%"></colgroup>
+  <tr><th>구　　분</th><th>가산세액</th></tr>
+  {{ amt_rows("penalty_items", "가산세항목") }}
+  <tr><th>합계 (㉗ 가산세)</th><td class="num"><b>{{ val("national.penalty") }}</b></td></tr>
+</table>
+{% endif %}
+{% if d.prepaid_items is defined %}
+<div class="cap">❿ 기납부세액 명세</div>
+<table class="outer det">
+  <colgroup><col><col style="width:34%"></colgroup>
+  <tr><th>구　　분</th><th>세　　액</th></tr>
+  {{ amt_rows("prepaid_items", "기납부세액항목") }}
+  <tr><th>합계 (㉚ 기납부세액)</th><td class="num"><b>{{ val("national.prepaid") }}</b></td></tr>
+</table>
+{% endif %}
+{% endif %}
 {% endblock %}

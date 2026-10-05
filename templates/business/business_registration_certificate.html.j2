@@ -29,10 +29,12 @@ table.brc .sub { display: inline-block; margin-right: 10px; }
     <tr><th><span class="lb">사 업 장 소 재 지</span> :</th><td colspan="3">{{ f("address", label="사업장소재지") }}</td></tr>
     <tr><th><span class="lb">사 업 의 종 류</span> :</th><td colspan="3">
       <span class="sub">업태</span>{{ f("biz_type", label="업태") }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <span class="sub">종목</span>{{ f("biz_item", label="종목") }}</td></tr>
+      <span class="sub">종목</span>{{ f("biz_item", label="종목") }}
+      {% for k in (d.sub_kinds if d.sub_kinds is defined else []) %}<br><span class="sub">업태</span>{{ f("sub_kinds." ~ loop.index0 ~ ".biz_type", label="업태") }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <span class="sub">종목</span>{{ f("sub_kinds." ~ loop.index0 ~ ".biz_item", label="종목") }}{% endfor %}</td></tr>
     <tr><td colspan="4" class="brc-gap"></td></tr>
     <tr><th><span class="lb">발 급 사 유</span> :</th><td colspan="3">{{ f("issue_reason", label="발급사유") }}</td></tr>
-    <tr><th><span class="lb">공 동 사 업 자</span> :</th><td colspan="3"></td></tr>
+    <tr><th><span class="lb">공 동 사 업 자</span> :</th><td colspan="3">{{ f("co_owner", label="공동사업자") }}</td></tr>
     <tr><th colspan="4" style="width:auto">사업자 단위 과세 적용사업자 여부 :&nbsp;&nbsp;
       {% for o in ["여", "부"] %}{% if o == val("unit_taxation") %}{{ f("unit_taxation", label="사업자단위과세적용사업자여부") }}( √ ){% else %}{{ o }}(&nbsp;&nbsp;&nbsp;){% endif %}&nbsp;&nbsp;&nbsp;{% endfor %}</th></tr>
     <tr><th colspan="4" style="width:auto">전자세금계산서 전용 전자우편주소 :&nbsp;&nbsp;{% if d.einvoice_email is defined %}{{ f("einvoice_email", label="전자세금계산서전용전자우편주소") }}{% endif %}</th></tr>

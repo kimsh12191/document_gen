@@ -23,14 +23,16 @@ table.brc .sub { display: inline-block; margin-right: 10px; }
   <div class="brc-no">등록번호 : {{ f("biz_no", label="등록번호") }}</div>
   <table class="brc">
     <tr><th><span class="lb">법인명(단체명)</span> :</th><td>{{ f("corp_name", label="법인명(단체명)") }}</td></tr>
-    <tr><th><span class="lb">대 표 자</span> :</th><td>{{ f("ceo", label="대표자") }}</td></tr>
+    <tr><th><span class="lb">대 표 자</span> :</th><td>{{ f("ceo", label="대표자") }}{% if d.co_ceo is defined %}, {{ f("co_ceo", label="대표자") }}{% endif %}</td></tr>
     <tr><th><span class="lb">개 업 연 월 일</span> :</th><td>{{ f("opened", label="개업연월일") }}
         &nbsp;&nbsp;&nbsp;&nbsp;법인등록번호 : {{ f("corp_reg_no", label="법인등록번호") }}</td></tr>
     <tr><th><span class="lb">사 업 장 소 재 지</span> :</th><td>{{ f("address", label="사업장소재지") }}</td></tr>
     <tr><th><span class="lb">본 점 소 재 지</span> :</th><td>{{ f("head_office", label="본점소재지") }}</td></tr>
     <tr><th><span class="lb">사 업 의 종 류</span> :</th><td>
       <span class="sub">업태</span>{{ f("biz_type", label="업태") }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <span class="sub">종목</span>{{ f("biz_item", label="종목") }}</td></tr>
+      <span class="sub">종목</span>{{ f("biz_item", label="종목") }}
+      {% for k in (d.sub_kinds if d.sub_kinds is defined else []) %}<br><span class="sub">업태</span>{{ f("sub_kinds." ~ loop.index0 ~ ".biz_type", label="업태") }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <span class="sub">종목</span>{{ f("sub_kinds." ~ loop.index0 ~ ".biz_item", label="종목") }}{% endfor %}</td></tr>
     <tr><td colspan="2" class="brc-gap"></td></tr>
     <tr><th><span class="lb">발 급 사 유</span> :</th><td>{{ f("issue_reason", label="발급사유") }}</td></tr>
     <tr><th colspan="2" style="width:auto">사업자 단위 과세 적용사업자 여부 :&nbsp;&nbsp;

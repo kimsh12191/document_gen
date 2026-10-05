@@ -35,6 +35,17 @@ table.tp th.v { writing-mode: vertical-rl; letter-spacing: .3em; padding: 6px 2p
   <tr><th>과세유형</th><td>{{ f("kind", label="과세유형") }}</td>
     <th>공동사업자</th><td>{{ f("joint", label="공동사업자") }}</td></tr>
 </table>
+{% if d.co_owners is defined %}
+<div class="cap">공동사업자 명세</div>
+<table class="tp">
+  <colgroup><col style="width:28%"><col style="width:28%"><col style="width:18%"><col></colgroup>
+  <tr><th>성　명</th><th>주민등록번호</th><th>지분율</th><th>구　분</th></tr>
+  {% for it in d.co_owners %}{% set i = loop.index0 %}
+  <tr><td class="c">{{ f("co_owners." ~ i ~ ".name", label="성명") }}</td><td class="c">{{ f("co_owners." ~ i ~ ".rrn", label="주민등록번호") }}</td>
+    <td class="c">{{ f("co_owners." ~ i ~ ".share", label="지분율") }}</td><td class="c">{{ f("co_owners." ~ i ~ ".role", label="구분") }}</td></tr>
+  {% endfor %}
+</table>
+{% endif %}
 <div class="cap">사업의 종류</div>
 <table class="tp">
   <colgroup><col style="width:28%"><col style="width:34%"><col style="width:20%"><col></colgroup>
@@ -48,8 +59,10 @@ table.tp th.v { writing-mode: vertical-rl; letter-spacing: .3em; padding: 6px 2p
   <colgroup><col style="width:172px"><col><col style="width:120px"><col style="width:200px"></colgroup>
   <tr><th>사용목적</th><td>{{ f("purpose", label="사용목적") }}</td><th>제 출 처</th><td>{{ f("submit_to", label="제출처") }}</td></tr>
 </table>
+<div class="pg-keep">
 <p class="stmt">위와 같이 증명합니다.</p>
 {{ m.issuer("issue_date", org_path="issuer", seal_text=val("issuer") ~ "인") }}
+</div>
 <div class="foot note">
   <div>※ 이 증명은 발급일 현재의 사업자등록 사실을 증명하는 것으로, 발급일 이후의 휴업ㆍ폐업 등 변동사항은 반영되지 않습니다.</div>
   <div>※ 이 증명서는 국세청 홈택스(www.hometax.go.kr)에서 인터넷으로 발급되었습니다. 발급번호를 이용하여 홈택스 [민원증명 원본확인] 메뉴에서 진위 여부를 확인할 수 있습니다.</div>
