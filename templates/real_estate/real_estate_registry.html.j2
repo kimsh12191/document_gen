@@ -1,24 +1,30 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
-{% block page_class %} dense{% endblock %}
+{#- 등기부는 쪽 번호를 '1/3' 처럼 바닥글 가운데에 적고 '다음 쪽에 계속'은 쓰지 않는다.
+    (_base 의 data-pg-* 속성보다 앞에 같은 속성을 넣어 덮어쓴다: HTML 은 먼저 나온 속성을 쓴다) -#}
+{% block page_class %} dense" data-pg-format="{i}/{n}" data-pg-cont="" data-rg="1{% endblock %}
 {% block style %}
-.page.a4.dense { padding: 28px 40px 56px; font-size: 11.5px; line-height: 1.3; }
+.page.a4.dense { padding: 28px 40px 66px; font-size: 11.5px; line-height: 1.3; }
 .rg-top { font-size: 10px; line-height: 1.3; margin-bottom: 4px; color: #222; }
 .rg-title { text-align: center; font-size: 19px; font-weight: 700; letter-spacing: .04em; margin: 2px 0 6px; }
 .rg-title .s { font-size: 14px; font-weight: 700; }
 .rg-prop { display: flex; justify-content: space-between; border-bottom: 2px solid #000; padding-bottom: 2px; margin-bottom: 4px; font-size: 11.5px; font-weight: 600; }
 .rg-sec { font-weight: 700; margin: 4px 0 1px; font-size: 12px; white-space: pre; }
 .rg-sec span { font-weight: 400; }
-table.rg { margin: 0 0 2px; border-top: 2px solid #000; border-bottom: 1.5px solid #000; }
+table.rg { margin: 0 0 2px; border-bottom: 1.5px solid #000; }
+table.rg th.ttl { border: 0; background: none; text-align: left; font-size: 12px; font-weight: 700; padding: 4px 0 1px; white-space: pre; }
+table.rg th.ttl.sub { padding-left: 180px; }
+table.rg th.ttl span { font-weight: 400; }
+table.rg tr.hd th { border-top: 2px solid #000; }
+.strike { text-decoration: line-through; text-decoration-color: #d00; text-decoration-thickness: 1.2px; }
 table.rg th { background: none; border-color: #000; border-width: 1px; padding: 1px 3px; font-size: 11px; font-weight: 600; }
 table.rg td { border-color: #000; border-width: 1px; padding: 1px 4px; vertical-align: top; font-size: 10.8px; line-height: 1.22; }
-table.rg td.strike { text-decoration: line-through; text-decoration-color: #c00; }
 .rg-end { text-align: center; margin: 6px 0 4px; letter-spacing: .3em; font-size: 11px; }
 .rg-foot { font-size: 10.5px; border-top: 1px solid #000; padding-top: 4px; }
 .rg-cert { text-align: center; margin-top: 4px; font-size: 13px; }
 .rg-cert .o.mt { margin-top: 8px; }
 .rg-cert .o { font-weight: 700; letter-spacing: .05em; position: relative; display: inline-block; padding-right: 48px; }
-.rg-bottom { position: absolute; left: 40px; right: 40px; bottom: 18px; display: flex; justify-content: space-between; align-items: flex-end; font-size: 10px; color: #222; }
+.rg-bottom { position: absolute; left: 40px; right: 40px; bottom: 12px; display: flex; justify-content: space-between; align-items: flex-end; font-size: 10px; color: #222; }
 .rg-bottom .bc { width: 70px; height: 34px; background: repeating-linear-gradient(90deg, #222 0 1px, transparent 1px 3px, #222 3px 5px, transparent 5px 6px); opacity: .75; }
 .rg-mark { position: absolute; left: 50%; top: 52%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 90px; color: rgba(0,0,0,.05); font-weight: 900; letter-spacing: .3em; pointer-events: none; }
 .sm-title { text-align: center; font-size: 18px; font-weight: 700; margin: 8px 0 6px; }
@@ -27,8 +33,17 @@ table.rg td.strike { text-decoration: line-through; text-decoration-color: #c00;
 .sm-sec { font-weight: 700; margin: 12px 0 3px; font-size: 12px; }
 .sm-ref { font-size: 10.5px; margin-top: 14px; }
 .sm-ref div { margin: 1px 0; }
+.rg-bottom .pno { position: absolute; left: 0; right: 0; bottom: 2px; text-align: center; font-size: 11px; }
+.page[data-page-index] .rg-bottom .pno { display: none; }
+.rg-prop.pg-repeated { margin-top: 2px; }
 {% endblock %}
 {% block content %}
+{% macro prop_line() -%}
+<div class="rg-prop pg-repeat">
+  <div>[집합건물] {{ f("property", label="부동산의표시") }}</div>
+  <div style="white-space:nowrap">고유번호 {{ f("unique_no", label="고유번호") }}</div>
+</div>
+{%- endmacro %}
 {% set viewing = d.view_datetime is defined %}
 {% set summary = d.summary is defined %}
 {% if not viewing %}
@@ -40,10 +55,7 @@ table.rg td.strike { text-decoration: line-through; text-decoration-color: #c00;
 {% if summary %}
 <div class="sm-title">주요 등기사항 요약 (참고용)</div>
 <div class="sm-warn"><b>[ 주 의 사 항 ]</b>본 주요 등기사항 요약은 증명서상에 말소되지 않은 사항을 간략히 요약한 것으로 증명서로서의 기능을 제공하지 않습니다.<br>실제 권리사항 파악을 위해서는 발급된 증명서를 필히 확인하시기 바랍니다.</div>
-<div class="rg-prop">
-  <div>[집합건물] {{ f("property", label="부동산의표시") }}</div>
-  <div style="white-space:nowrap">고유번호 {{ f("unique_no", label="고유번호") }}</div>
-</div>
+{{ prop_line() }}
 <div class="sm-sec">1. 소유지분현황 ( 갑구 )</div>
 <table class="rg">
   <colgroup><col style="width:120px"><col style="width:110px"><col style="width:70px"><col><col style="width:60px"></colgroup>
@@ -57,7 +69,12 @@ table.rg td.strike { text-decoration: line-through; text-decoration-color: #c00;
 <table class="rg">
   <colgroup><col style="width:60px"><col style="width:120px"><col style="width:150px"><col><col style="width:90px"></colgroup>
   <tr><th>순위번호</th><th>등기목적</th><th>접수정보</th><th>주요등기사항</th><th>대상소유자</th></tr>
+  {% for r in d.summary.gapgu_rights %}{% set pre = "summary.gapgu_rights." ~ loop.index0 ~ "." %}
+  <tr><td class="c">{{ f(pre ~ "rank", label="순위번호") }}</td><td>{{ f(pre ~ "purpose", label="등기목적") }}</td>
+      <td>{{ f(pre ~ "receipt", label="접수정보") }}</td><td>{{ f(pre ~ "main", label="주요등기사항") }}</td><td class="c">{{ f(pre ~ "target_owner", label="대상소유자") }}</td></tr>
+  {% else %}
   <tr><td colspan="5" class="c">- 기록사항 없음</td></tr>
+  {% endfor %}
 </table>
 <div class="sm-sec">3. (근)저당권 및 전세권 등 ( 을구 )</div>
 <table class="rg">
@@ -80,29 +97,26 @@ table.rg td.strike { text-decoration: line-through; text-decoration-color: #c00;
 
 {% else %}
 <div class="rg-title">등기사항전부증명서(말소사항 포함) <span class="s">- 집합건물 -</span></div>
-<div class="rg-prop">
-  <div>[집합건물] {{ f("property", label="부동산의표시") }}</div>
-  <div style="white-space:nowrap">고유번호 {{ f("unique_no", label="고유번호") }}</div>
-</div>
+{{ prop_line() }}
 
-<div class="rg-sec">【  표  제  부  】  <span>( 1동의 건물의 표시 )</span></div>
 <table class="rg">
   <colgroup><col style="width:48px"><col style="width:96px"><col style="width:200px"><col><col style="width:130px"></colgroup>
-  <tr><th>표시번호</th><th>접 수</th><th>소재지번,건물명칭 및 번호</th><th>건 물 내 역</th><th>등기원인 및 기타사항</th></tr>
-  {% for r in d.buildings %}{% set pre = "buildings." ~ loop.index0 ~ "." %}{% set x = 'strike' if (loop.first and not loop.last) else '' %}
+  <tr><th colspan="5" class="ttl">【  표  제  부  】  <span>( 1동의 건물의 표시 )</span></th></tr>
+  <tr class="hd"><th>표시번호</th><th>접 수</th><th>소재지번,건물명칭 및 번호</th><th>건 물 내 역</th><th>등기원인 및 기타사항</th></tr>
+  {% for r in d.buildings %}{% set pre = "buildings." ~ loop.index0 ~ "." %}{% set x = 'strike' if r.struck else '' %}
   <tr>
-    <td class="c">{{ f(pre ~ "display_no", label="표시번호") }}</td>
-    <td>{% if r.receipt is defined %}{{ f(pre ~ "receipt", label="접수") }}{% endif %}</td>
+    <td class="c {{ x }}">{{ f(pre ~ "display_no", label="표시번호") }}</td>
+    <td class="{{ x }}">{% if r.receipt is defined %}{{ f(pre ~ "receipt", label="접수") }}{% endif %}</td>
     <td class="{{ x }}">{{ f(pre ~ "location", label="소재지번,건물명칭및번호") }}</td>
-    <td>{% if r.detail is defined %}{{ f(pre ~ "detail", label="건물내역") }}{% endif %}</td>
-    <td>{{ f(pre ~ "cause", label="등기원인및기타사항") }}</td>
+    <td class="{{ x }}">{% if r.detail is defined %}{{ f(pre ~ "detail", label="건물내역") }}{% endif %}</td>
+    <td class="{{ x }}">{{ f(pre ~ "cause", label="등기원인및기타사항") }}</td>
   </tr>
   {% endfor %}
 </table>
-<div class="rg-sec" style="margin-top:2px">                        <span>( 대지권의 목적인 토지의 표시 )</span></div>
 <table class="rg">
   <colgroup><col style="width:48px"><col><col style="width:60px"><col style="width:100px"><col style="width:130px"></colgroup>
-  <tr><th>표시번호</th><th>소 재 지 번</th><th>지 목</th><th>면 적</th><th>등기원인 및 기타사항</th></tr>
+  <tr><th colspan="5" class="ttl sub"><span>( 대지권의 목적인 토지의 표시 )</span></th></tr>
+  <tr class="hd"><th>표시번호</th><th>소 재 지 번</th><th>지 목</th><th>면 적</th><th>등기원인 및 기타사항</th></tr>
   <tr>
     <td class="c">{{ f("land.display_no", label="표시번호") }}</td>
     <td>{{ f("land.location", label="소재지번") }}</td>
@@ -112,10 +126,10 @@ table.rg td.strike { text-decoration: line-through; text-decoration-color: #c00;
   </tr>
 </table>
 
-<div class="rg-sec">【  표  제  부  】  <span>( 전유부분의 건물의 표시 )</span></div>
 <table class="rg">
   <colgroup><col style="width:48px"><col style="width:96px"><col style="width:150px"><col><col style="width:130px"></colgroup>
-  <tr><th>표시번호</th><th>접 수</th><th>건 물 번 호</th><th>건 물 내 역</th><th>등기원인 및 기타사항</th></tr>
+  <tr><th colspan="5" class="ttl">【  표  제  부  】  <span>( 전유부분의 건물의 표시 )</span></th></tr>
+  <tr class="hd"><th>표시번호</th><th>접 수</th><th>건 물 번 호</th><th>건 물 내 역</th><th>등기원인 및 기타사항</th></tr>
   <tr>
     <td class="c">{{ f("unit.display_no", label="표시번호") }}</td>
     <td>{{ f("unit.receipt", label="접수") }}</td>
@@ -124,10 +138,10 @@ table.rg td.strike { text-decoration: line-through; text-decoration-color: #c00;
     <td>{{ f("unit.cause", label="등기원인및기타사항") }}</td>
   </tr>
 </table>
-<div class="rg-sec" style="margin-top:2px">                        <span>( 대지권의 표시 )</span></div>
 <table class="rg">
   <colgroup><col style="width:48px"><col style="width:150px"><col><col style="width:160px"></colgroup>
-  <tr><th>표시번호</th><th>대지권종류</th><th>대지권비율</th><th>등기원인 및 기타사항</th></tr>
+  <tr><th colspan="4" class="ttl sub"><span>( 대지권의 표시 )</span></th></tr>
+  <tr class="hd"><th>표시번호</th><th>대지권종류</th><th>대지권비율</th><th>등기원인 및 기타사항</th></tr>
   <tr>
     <td class="c">{{ f("land_right.display_no", label="표시번호") }}</td>
     <td>{{ f("land_right.kind", label="대지권종류") }}</td>
@@ -136,38 +150,78 @@ table.rg td.strike { text-decoration: line-through; text-decoration-color: #c00;
   </tr>
 </table>
 
-<div class="rg-sec">【  갑      구  】  <span>( 소유권에 관한 사항 )</span></div>
 <table class="rg">
-  <colgroup><col style="width:48px"><col style="width:96px"><col style="width:100px"><col style="width:100px"><col></colgroup>
-  <tr><th>순위번호</th><th>등 기 목 적</th><th>접 수</th><th>등 기 원 인</th><th>권리자 및 기타사항</th></tr>
-  {% for r in d.gapgu %}{% set i = loop.index0 %}{% set pre = "gapgu." ~ i ~ "." %}
+  <colgroup><col style="width:44px"><col style="width:98px"><col style="width:122px"><col style="width:122px"><col></colgroup>
+  <tr><th colspan="5" class="ttl">【  갑      구  】  <span>( 소유권에 관한 사항 )</span></th></tr>
+  <tr class="hd"><th>순위번호</th><th>등 기 목 적</th><th>접 수</th><th>등 기 원 인</th><th>권리자 및 기타사항</th></tr>
+  {% for r in d.gapgu %}{% set pre = "gapgu." ~ loop.index0 ~ "." %}{% set x = 'strike' if r.struck else '' %}
   <tr>
-    <td class="c">{{ f(pre ~ "rank", label="순위번호") }}</td>
-    <td>{{ f(pre ~ "purpose", label="등기목적") }}</td>
-    <td>{{ f(pre ~ "receipt", label="접수") }}</td>
-    <td>{% if r.cause is defined %}{{ f(pre ~ "cause", label="등기원인") }}{% endif %}</td>
-    <td>{{ f(pre ~ "holder.role", label="권리자구분") }}&nbsp; {{ f(pre ~ "holder.name", label="소유자") }}&nbsp; {{ f(pre ~ "holder.reg_no", label="등록번호") }}<br>
-      &nbsp;{{ f(pre ~ "holder.address", label="주소") }}
-      {% if r.holder.note is defined %}<br>{{ f(pre ~ "holder.note", label="거래가액") }}{% endif %}</td>
+    <td class="c {{ x }}">{% if r.rank is defined %}{{ f(pre ~ "rank", label="순위번호") }}{% endif %}</td>
+    <td class="{{ x }}">{{ f(pre ~ "purpose", label="등기목적") }}</td>
+    <td class="{{ x }}">{% if r.receipt is defined %}{{ f(pre ~ "receipt", label="접수") }}{% endif %}</td>
+    <td class="{{ x }}">{% if r.cause is defined %}{{ f(pre ~ "cause", label="등기원인") }}{% endif %}</td>
+    <td class="{{ x }}">
+    {%- if r.holder is defined -%}
+      {{ f(pre ~ "holder.role", label="권리자구분") }}&nbsp; {{ f(pre ~ "holder.name", label="소유자") }}&nbsp; {{ f(pre ~ "holder.reg_no", label="등록번호") }}<br>
+      &nbsp;<span class="{{ 'strike' if r.addr_struck else '' }}">{{ f(pre ~ "holder.address", label="주소") }}</span>
+      {% if r.holder.note is defined %}<br>{{ f(pre ~ "holder.note", label="거래가액") }}{% endif %}
+    {%- elif r.holders is defined -%}
+      {% for h in r.holders %}{% set hp = pre ~ "holders." ~ loop.index0 ~ "." %}
+      {% if h.role is defined %}{{ f(hp ~ "role", label="권리자구분") }}<br>{% endif %}
+      &nbsp;{{ f(hp ~ "share", label="지분") }}<br>
+      &nbsp;{{ f(hp ~ "name", label="공유자") }}&nbsp; {{ f(hp ~ "reg_no", label="등록번호") }}<br>
+      &nbsp;{{ f(hp ~ "address", label="주소") }}{% if not loop.last %}<br>{% endif %}
+      {% endfor %}
+      {% if r.note is defined %}<br>{{ f(pre ~ "note", label="거래가액") }}{% endif %}
+    {%- elif r.claim_amount is defined -%}
+      청구금액 &nbsp;{{ f(pre ~ "claim_amount", label="청구금액") }}<br>채권자 &nbsp;{{ f(pre ~ "creditor", label="채권자") }}<br>&nbsp;{{ f(pre ~ "creditor_address", label="채권자주소") }}
+    {%- elif r.right_holder is defined -%}
+      권리자 &nbsp;{{ f(pre ~ "right_holder", label="권리자") }}{% if r.agency is defined %}<br>처분청 &nbsp;{{ f(pre ~ "agency", label="처분청") }}{% endif %}
+    {%- elif r.creditor is defined -%}
+      채권자 &nbsp;{{ f(pre ~ "creditor", label="채권자") }}<br>&nbsp;{{ f(pre ~ "creditor_address", label="채권자주소") }}
+    {%- elif r.trust_no is defined -%}
+      {{ f(pre ~ "trust_no", label="신탁원부") }}
+    {%- elif r.change is defined -%}
+      {{ f(pre ~ "change", label="변경사항") }}
+    {%- endif -%}
+    </td>
   </tr>
   {% endfor %}
 </table>
 
-<div class="rg-sec">【  을      구  】  <span>( 소유권 이외의 권리에 관한 사항 )</span></div>
-{% set ns = namespace(gone=[]) %}
-{% for r in d.eulgu %}{% if '번근저당권설정등기말소' in r.purpose %}{% set ns.gone = ns.gone + [r.purpose.split('번')[0]] %}{% endif %}{% endfor %}
 <table class="rg">
-  <colgroup><col style="width:48px"><col style="width:96px"><col style="width:100px"><col style="width:100px"><col></colgroup>
-  <tr><th>순위번호</th><th>등 기 목 적</th><th>접 수</th><th>등 기 원 인</th><th>권리자 및 기타사항</th></tr>
-  {% for r in d.eulgu %}{% set i = loop.index0 %}{% set pre = "eulgu." ~ i ~ "." %}{% set x = 'strike' if r.rank in ns.gone else '' %}
+  <colgroup><col style="width:44px"><col style="width:98px"><col style="width:122px"><col style="width:122px"><col></colgroup>
+  <tr><th colspan="5" class="ttl">【  을      구  】  <span>( 소유권 이외의 권리에 관한 사항 )</span></th></tr>
+  <tr class="hd"><th>순위번호</th><th>등 기 목 적</th><th>접 수</th><th>등 기 원 인</th><th>권리자 및 기타사항</th></tr>
+  {% for r in d.eulgu %}{% set pre = "eulgu." ~ loop.index0 ~ "." %}{% set x = 'strike' if r.struck else '' %}
   <tr>
     <td class="c {{ x }}">{{ f(pre ~ "rank", label="순위번호") }}</td>
     <td class="{{ x }}">{{ f(pre ~ "purpose", label="등기목적") }}</td>
     <td class="{{ x }}">{{ f(pre ~ "receipt", label="접수") }}</td>
     <td class="{{ x }}">{{ f(pre ~ "cause", label="등기원인") }}</td>
-    <td class="{{ x }}">{% if r.max_amount is defined %}채권최고액 {{ f(pre ~ "max_amount", label="채권최고액") }}<br>
+    <td class="{{ x }}">
+    {%- if r.max_amount is defined -%}
+      채권최고액 &nbsp;{{ f(pre ~ "max_amount", label="채권최고액") }}<br>
       채무자 &nbsp;{{ f(pre ~ "debtor", label="채무자") }}<br>&nbsp;{{ f(pre ~ "debtor_address", label="채무자주소") }}<br>
-      근저당권자 &nbsp;{{ f(pre ~ "mortgagee", label="근저당권자") }}<br>&nbsp;{{ f(pre ~ "mortgagee_address", label="근저당권자주소") }}{% endif %}</td>
+      근저당권자 &nbsp;{{ f(pre ~ "mortgagee", label="근저당권자") }}<br>&nbsp;{{ f(pre ~ "mortgagee_address", label="근저당권자주소") }}
+    {%- elif r.jeonse_holder is defined -%}
+      전세금 &nbsp;{{ f(pre ~ "deposit", label="전세금") }}<br>범 &nbsp;위 &nbsp;{{ f(pre ~ "scope", label="범위") }}<br>
+      존속기간 &nbsp;{{ f(pre ~ "period", label="존속기간") }}<br>
+      전세권자 &nbsp;{{ f(pre ~ "jeonse_holder", label="전세권자") }}<br>&nbsp;{{ f(pre ~ "jeonse_holder_address", label="전세권자주소") }}
+    {%- elif r.lessee is defined -%}
+      임차보증금 &nbsp;{{ f(pre ~ "deposit", label="임차보증금") }}<br>차 &nbsp;임 &nbsp;{{ f(pre ~ "rent", label="차임") }}<br>
+      범 &nbsp;위 &nbsp;{{ f(pre ~ "scope", label="범위") }}<br>
+      임대차계약일자 &nbsp;{{ f(pre ~ "contract_date", label="임대차계약일자") }}<br>
+      주민등록일자 &nbsp;{{ f(pre ~ "resident_date", label="주민등록일자") }}<br>
+      점유개시일자 &nbsp;{{ f(pre ~ "possession_date", label="점유개시일자") }}<br>
+      확정일자 &nbsp;{{ f(pre ~ "fixed_date", label="확정일자") }}<br>
+      임차권자 &nbsp;{{ f(pre ~ "lessee", label="임차권자") }}<br>&nbsp;{{ f(pre ~ "lessee_address", label="임차권자주소") }}
+    {%- elif r.change is defined -%}
+      {{ f(pre ~ "change", label="변경사항") }}
+    {%- elif r.mortgagee is defined -%}
+      근저당권자 &nbsp;{{ f(pre ~ "mortgagee", label="근저당권자") }}<br>&nbsp;{{ f(pre ~ "mortgagee_address", label="근저당권자주소") }}
+    {%- endif -%}
+    </td>
   </tr>
   {% else %}
   <tr><td colspan="5" class="c">기록사항 없음</td></tr>
@@ -187,15 +241,14 @@ table.rg td.strike { text-decoration: line-through; text-decoration-color: #c00;
 {% endif %}
 {% endif %}
 
-<div class="rg-bottom">
+<div class="rg-bottom pg-repeat">
   {% if viewing %}
   <div>열람일시 : {{ f("view_datetime", label="열람일시") }}</div>
-  <div>{{ '2/2' if summary else '1/2' }}</div>
   {% else %}
   <div class="row" style="align-items:flex-end;gap:10px"><div class="bc"></div><div>발행번호 {{ f("issue_no", label="발행번호") }}</div></div>
-  <div>{{ '2/2' if summary else '1/2' }}</div>
   <div>발급확인번호 {{ f("confirm_no", label="발급확인번호") }} &nbsp; 발행일 {{ f("issue_date_short", label="발행일") }}</div>
   {% endif %}
+  <div class="pno">{% if summary %}{{ f("page_label", label="쪽번호") }}{% else %}1/1{% endif %}</div>
 </div>
 {% if viewing %}<div class="rg-mark">열람용</div>{% endif %}
 {% endblock %}

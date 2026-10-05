@@ -13,12 +13,14 @@ table.ld td.mid { vertical-align: middle; }
 tr.blank td { height: 52px; }
 table.ld td { height: 30px; }
 .ld-cap { text-align: center; font-weight: 700; background: var(--label-bg); letter-spacing: .3em; }
+.page[data-page-index] .pgstatic { display: none; }
+table.ld th.ld-cap { font-size: 12px; }
 .ld-cert { margin: 16px 0 4px; text-align: center; font-size: calc(var(--fs) + 1px); }
 {% endblock %}
 {% block content %}
 <div class="ld-head">
   <div>■ 공간정보의 구축 및 관리 등에 관한 법률 시행규칙 [별지 제63호서식]</div>
-  <div>(1쪽 중 제1쪽)</div>
+  <div class="pgstatic">(1쪽 중 제1쪽)</div>
 </div>
 <div class="ld-title">토지대장</div>
 <table class="ld">
@@ -35,7 +37,7 @@ table.ld td { height: 30px; }
 </table>
 <table class="ld">
   <colgroup><col style="width:58px"><col style="width:74px"><col style="width:150px"><col style="width:112px"><col><col style="width:116px"></colgroup>
-  <tr><td colspan="3" class="ld-cap">토 지 표 시</td><td colspan="3" class="ld-cap">소 유 자</td></tr>
+  <tr><th colspan="3" class="ld-cap">토 지 표 시</th><th colspan="3" class="ld-cap">소 유 자</th></tr>
   <tr><th rowspan="2">지 목</th><th rowspan="2">면 적(㎡)</th><th rowspan="2">사 유</th>
       <th>변 동 일 자</th><th rowspan="2">주 소</th><th>성명 또는 명칭</th></tr>
   <tr><th>변 동 원 인</th><th>등 록 번 호</th></tr>

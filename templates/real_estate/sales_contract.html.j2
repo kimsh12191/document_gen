@@ -14,8 +14,11 @@ table.sc td { padding: 2px 5px; }
 .sp { border: 1.5px solid var(--border); padding: 4px 8px; min-height: 60px; }
 .sp .h { font-weight: 700; }
 .in { color: #333; }
+.hand { font-family: 'NanumSquareRound', 'Nanum Gothic', sans-serif; color: #1c2c86; font-weight: 700; display: inline-block; transform: rotate(-0.6deg); font-size: calc(var(--fs) + 0.5px); }
+.sp .it { margin: 1px 0; }
 {% endblock %}
 {% block content %}
+{{ f.set_corr_name(val("buyer.name")) }}
 {% set apt = '아파트' in d.property.usage %}
 <div class="sc-title">부동산({{ '아파트' if apt else '집합건물' }}) 매매 계약서</div>
 <div class="sc-lead">매도인과 매수인 쌍방은 아래 표시 부동산에 관하여 다음 계약 내용과 같이 매매계약을 체결한다.</div>
@@ -32,15 +35,15 @@ table.sc td { padding: 2px 5px; }
 <div class="cl" style="font-size:inherit">제1조 (목적) 위 부동산의 매매에 대하여 매도인과 매수인은 합의에 의하여 매매대금을 아래와 같이 지불하기로 한다.</div>
 <table class="sc">
   <colgroup><col style="width:80px"><col></colgroup>
-  <tr><th>매매대금</th><td><b>{{ f("payment.price", label="매매대금") }}</b></td></tr>
-  <tr><th>계 약 금</th><td>{{ f("payment.down", label="계약금") }} 은 계약시에 지불하고 영수함. <span style="float:right">영수자 (인)</span></td></tr>
+  <tr><th>매매대금</th><td><b>{{ f("payment.price", label="매매대금", fix=0.05) }}</b></td></tr>
+  <tr><th>계 약 금</th><td>{{ f("payment.down", label="계약금", fix=0.05) }} 은 계약시에 지불하고 영수함. <span style="float:right">영수자 (인)</span></td></tr>
   <tr><th>융 자 금</th><td class="in">금 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 원정(은행)을 승계키로 한다. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b style="color:#111">임대보증금</b> &nbsp;총 금 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 원정을 승계키로 한다.</td></tr>
   {% if d.payment.middle is defined %}
-  <tr><th>중 도 금</th><td>{{ f("payment.middle", label="중도금") }} 은 {{ f("payment.middle_date", label="중도금지급일") }}에 지불하며</td></tr>
+  <tr><th>중 도 금</th><td>{{ f("payment.middle", label="중도금", fix=0.05) }} 은 {{ f("payment.middle_date", label="중도금지급일", fix=0.05) }}에 지불하며</td></tr>
   {% else %}
   <tr><th>중 도 금</th><td class="in">금 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 원정은 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 년 &nbsp;&nbsp;&nbsp; 월 &nbsp;&nbsp;&nbsp; 일에 지불하며</td></tr>
   {% endif %}
-  <tr><th>잔 &nbsp;&nbsp;금</th><td>{{ f("payment.balance", label="잔금") }} 은 {{ f("payment.balance_date", label="잔금지급일") }}에 지불한다.</td></tr>
+  <tr><th>잔 &nbsp;&nbsp;금</th><td>{{ f("payment.balance", label="잔금", fix=0.05) }} 은 {{ f("payment.balance_date", label="잔금지급일", fix=0.05) }}에 지불한다.</td></tr>
 </table>
 <div class="cl">
 <p>제2조 (소유권 이전 등) 매도인은 매매대금의 잔금 수령과 동시에 매수인에게 소유권이전등기에 필요한 모든 서류를 교부하고 등기절차에 협력하며, 위 부동산의 인도일은 잔금 지급일로 한다.</p>
@@ -53,17 +56,25 @@ table.sc td { padding: 2px 5px; }
 </div>
 <div class="sp">
   <div class="h">[특약사항]</div>
-  {% for s in d.specials %}<div>{{ f("specials." ~ loop.index0, label="특약사항") }}</div>{% endfor %}
+  {% for s in d.specials %}<div class="it">{% if s.hand is defined %}<span class="hand">{{ f("specials." ~ loop.index0, label="특약사항") }}</span>{% else %}{{ f("specials." ~ loop.index0, label="특약사항") }}{% endif %}</div>{% endfor %}
 </div>
 <div style="margin:6px 0 4px">본 계약을 증명하기 위하여 계약 당사자가 이의 없음을 확인하고 각각 서명·날인 후 매도인, 매수인 및 개업공인중개사는 매장마다 간인하여야 하며, 각각 1통씩 보관한다.</div>
-<div class="right bold" style="margin-bottom:3px">{{ f("contract_date", label="계약일") }}</div>
+<div class="right bold" style="margin-bottom:3px">{{ f("contract_date", label="계약일", fix=0.04) }}</div>
 <table class="sc">
   <colgroup><col style="width:52px"><col style="width:84px"><col style="width:132px"><col style="width:42px"><col style="width:112px"><col style="width:42px"><col></colgroup>
-  {% for role, key in [("매 도 인", "seller"), ("매 수 인", "buyer")] %}
+  {% set parties = [("매 도 인", "seller", "seller_agent")] + ([("매 도 인", "co_seller", None)] if d.co_seller is defined else [])
+                 + [("매 수 인", "buyer", None)] + ([("매 수 인", "co_buyer", None)] if d.co_buyer is defined else []) %}
+  {% set sl = {"seller": "매도인", "co_seller": "공동매도인", "buyer": "매수인", "co_buyer": "공동매수인", "seller_agent": "매도인대리인"} %}
+  {% for role, key, ag in parties %}
   <tr><th rowspan="3">{{ role }}</th><th>주 소</th><td colspan="5">{{ f(key ~ ".address", label="주소") }}</td></tr>
-  <tr><th>주민등록번호</th><td class="c">{{ f(key ~ ".rrn", label="주민등록번호") }}</td><th>전 화</th><td class="c">{{ f(key ~ ".phone", label="전화") }}</td>
-      <th>성 명</th><td>{{ f(key ~ ".name", label="성명") }} <span style="float:right" class="small">(인)</span></td></tr>
+  <tr><th>주민등록번호</th><td class="c">{{ f(key ~ ".rrn", label="주민등록번호") }}</td><th>전 화</th><td class="c">{{ f(key ~ ".phone", label="전화", fix=0.03) }}</td>
+      <th>성 명</th><td>{{ f(key ~ ".name", label="성명") }} <span style="float:right" class="small">{{ m.sigspot(key, val(key ~ ".name"), label=sl[key], mark="(인)") }}</span></td></tr>
+  {% if ag and d[ag] is defined %}
+  <tr><th>대 리 인</th><td colspan="2" class="small">주소 {{ f(ag ~ ".address", label="대리인주소") }}</td><td colspan="2" class="small">주민등록번호 {{ f(ag ~ ".rrn", label="대리인주민등록번호") }}</td>
+      <td class="small">성명 {{ f(ag ~ ".name", label="대리인성명") }} <span style="float:right">{{ m.sigspot(ag, val(ag ~ ".name"), label=sl[ag], mark="(인)") }}</span></td></tr>
+  {% else %}
   <tr><th>대 리 인</th><td colspan="2" class="in small">주소</td><td colspan="2" class="in small">주민등록번호</td><td class="in small">성명</td></tr>
+  {% endif %}
   {% endfor %}
 </table>
 <table class="sc">

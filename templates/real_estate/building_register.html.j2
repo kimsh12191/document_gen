@@ -9,6 +9,7 @@
 table.br { border: 2px solid var(--border); margin: 0; }
 table.br th { font-size: 11.5px; padding: 4px 3px; font-weight: 600; line-height: 1.25; }
 table.br td { font-size: 12.5px; padding: 5px 5px; }
+table.br th.br-cap { font-size: 12.5px; }
 .br-cap { text-align: center; font-weight: 700; background: var(--label-bg); letter-spacing: .3em; }
 .br-cols { display: flex; height: 452px; }
 .br-cols > div { flex: 1; display: flex; flex-direction: column; border: 2px solid var(--border); border-top: 0; }
@@ -24,15 +25,70 @@ table.br td { font-size: 12.5px; padding: 5px 5px; }
 .br-foot .org { font-size: 18px; font-weight: 700; letter-spacing: .15em; position: relative; display: inline-block; padding-right: 22px; }
 .br-foot .seal.over { right: -36px; top: -20px; }
 .br-mini { font-size: 10px; color: #333; }
+.br-viol { display: inline-block; border: 2px solid #d00; color: #d00; background: #fff3c4; font-weight: 700; font-size: 15px; padding: 2px 8px; letter-spacing: .1em; }
+.page[data-page-index] .pgstatic { display: none; }
+.br-stack table.br { margin-top: 6px; }
+.br-stack .br-row { display: flex; gap: 10px; align-items: flex-start; }
+.br-stack .br-row > table { flex: 1; }
 {% endblock %}
 {% block content %}
+{% macro parts_tables(wide=False) -%}
+<table class="br">
+  {% if wide %}<colgroup><col style="width:60px"><col style="width:110px"><col style="width:300px"><col><col style="width:140px"></colgroup>{% else %}<colgroup><col style="width:40px"><col style="width:52px"><col><col style="width:132px"><col style="width:66px"></colgroup>{% endif %}
+  <tr><th colspan="5" class="br-cap">전유부분</th></tr>
+  <tr><th>구분</th><th>층별</th><th>※구조</th><th>용도</th><th>면적(㎡)</th></tr>
+  {% for it in d.exclusive %}{% set pre = "exclusive." ~ loop.index0 ~ "." %}
+  <tr><td class="c">{{ f(pre ~ "kind", label="구분") }}</td><td class="c">{{ f(pre ~ "floor", label="층별") }}</td>
+    <td class="c">{{ f(pre ~ "structure", label="구조") }}</td><td class="c">{{ f(pre ~ "usage", label="용도") }}</td>
+    <td class="num">{{ f(pre ~ "area", label="면적(㎡)") }}</td></tr>
+  {% endfor %}
+  <tr><td colspan="5" class="c small">- 이하여백 -</td></tr>
+</table>
+<table class="br">
+  {% if wide %}<colgroup><col style="width:60px"><col style="width:110px"><col style="width:300px"><col><col style="width:140px"></colgroup>{% else %}<colgroup><col style="width:40px"><col style="width:52px"><col><col style="width:132px"><col style="width:66px"></colgroup>{% endif %}
+  <tr><th colspan="5" class="br-cap">공용부분</th></tr>
+  <tr><th>구분</th><th>층별</th><th>구조</th><th>용도</th><th>면적(㎡)</th></tr>
+  {% for it in d.common %}{% set pre = "common." ~ loop.index0 ~ "." %}
+  <tr><td class="c">{{ f(pre ~ "kind", label="구분") }}</td><td class="c">{{ f(pre ~ "floor", label="층별") }}</td>
+    <td class="c">{{ f(pre ~ "structure", label="구조") }}</td><td class="c small">{{ f(pre ~ "usage", label="용도") }}</td>
+    <td class="num">{{ f(pre ~ "area", label="면적(㎡)") }}</td></tr>
+  {% endfor %}
+  <tr><td colspan="5" class="c small">- 이하여백 -</td></tr>
+</table>
+{%- endmacro %}
+{% macro owners_table() -%}
+<table class="br">
+  <colgroup><col style="width:130px"><col><col style="width:54px"><col style="width:92px"></colgroup>
+  <tr><th colspan="4" class="br-cap">소유자현황</th></tr>
+  <tr><th>성명(명칭)<br>주민(법인)등록번호<br><span class="tiny">(부동산등기용등록번호)</span></th><th>주소</th><th>소유권<br>지분</th><th>변동일<br>변동원인</th></tr>
+  {% for o in d.owners %}{% set pre = "owners." ~ loop.index0 ~ "." %}
+  <tr><td class="c">{{ f(pre ~ "name", label="성명(명칭)") }}<br>{{ f(pre ~ "rrn", label="주민(법인)등록번호") }}</td>
+    <td>{{ f(pre ~ "address", label="주소") }}</td><td class="c">{{ f(pre ~ "share", label="소유권지분") }}</td>
+    <td class="c">{{ f(pre ~ "change_date", label="변동일") }}<br>{{ f(pre ~ "change_cause", label="변동원인") }}</td></tr>
+  {% endfor %}
+  <tr><td colspan="4" class="c small">- 이하여백 -{% if d.owners_note is defined %}<br>{{ f("owners_note", label="비고") }}{% endif %}</td></tr>
+</table>
+{%- endmacro %}
+{% macro prices_table() -%}
+{% if d.house_prices is defined %}
+<table class="br">
+  <colgroup><col style="width:40%"><col></colgroup>
+  <tr><th colspan="2" class="br-cap">공동주택(아파트)가격 <span class="small" style="font-weight:400;letter-spacing:0">(단위 : 원)</span></th></tr>
+  <tr><th>기준일</th><th>공동주택(아파트)가격</th></tr>
+  {% for it in d.house_prices %}{% set pre = "house_prices." ~ loop.index0 ~ "." %}
+  <tr><td class="c">{{ f(pre ~ "base_date", label="기준일") }}</td><td class="num">{{ f(pre ~ "price", label="공동주택(아파트)가격") }}</td></tr>
+  {% endfor %}
+  <tr><td colspan="2" class="small">※ 「부동산 가격공시에 관한 법률」에 따른 공동주택가격만 표시됩니다.</td></tr>
+</table>
+{% endif %}
+{%- endmacro %}
 <div class="br-head">
   <div>■ 건축물대장의 기재 및 관리 등에 관한 규칙 [별지 제5호서식] &lt;개정 2021. 7. 12.&gt;</div>
-  <div>(3쪽 중 제1쪽)</div>
+  <div class="pgstatic">(3쪽 중 제1쪽)</div>
 </div>
 <div class="docno">문서확인번호 : {{ f("confirm_no", label="문서확인번호") }}</div>
 <div class="br-titlerow">
-  <div style="width:110px"></div>
+  <div style="width:110px">{% if d.violation is defined %}<span class="br-viol">{{ f("violation", label="위반건축물") }}</span>{% endif %}</div>
   <div class="br-title">집합건축물대장(전유부, 갑)</div>
   <div class="br-sheet">장번호 : 1 - 1</div>
 </div>
@@ -44,56 +100,25 @@ table.br td { font-size: 12.5px; padding: 5px 5px; }
   <colgroup><col style="width:68px"><col style="width:220px"><col style="width:64px"><col style="width:130px"><col style="width:80px"><col></colgroup>
   <tr><th>대지위치</th><td>{{ f("site_location", label="대지위치") }}</td><th>지번</th><td>{{ f("jibun", label="지번") }}</td><th>도로명주소</th><td>{{ f("road_address", label="도로명주소") }}</td></tr>
 </table>
+{% if d.common|length > 6 or d.owners|length > 3 %}
+<div class="br-stack">
+{{ parts_tables(True) }}
+{{ owners_table() }}
+{{ prices_table() }}
+</div>
+{% else %}
 <div class="br-cols" style="margin-top:0">
 <div>
-<table class="br">
-  <colgroup><col style="width:40px"><col style="width:52px"><col><col style="width:132px"><col style="width:66px"></colgroup>
-  <tr><td colspan="5" class="br-cap">전유부분</td></tr>
-  <tr><th>구분</th><th>층별</th><th>※구조</th><th>용도</th><th>면적(㎡)</th></tr>
-  {% for it in d.exclusive %}{% set pre = "exclusive." ~ loop.index0 ~ "." %}
-  <tr><td class="c">{{ f(pre ~ "kind", label="구분") }}</td><td class="c">{{ f(pre ~ "floor", label="층별") }}</td>
-    <td class="c">{{ f(pre ~ "structure", label="구조") }}</td><td class="c">{{ f(pre ~ "usage", label="용도") }}</td>
-    <td class="num">{{ f(pre ~ "area", label="면적(㎡)") }}</td></tr>
-  {% endfor %}
-  <tr><td colspan="5" class="c small">- 이하여백 -</td></tr>
-</table>
-<table class="br">
-  <colgroup><col style="width:40px"><col style="width:52px"><col><col style="width:132px"><col style="width:66px"></colgroup>
-  <tr><td colspan="5" class="br-cap">공용부분</td></tr>
-  <tr><th>구분</th><th>층별</th><th>구조</th><th>용도</th><th>면적(㎡)</th></tr>
-  {% for it in d.common %}{% set pre = "common." ~ loop.index0 ~ "." %}
-  <tr><td class="c">{{ f(pre ~ "kind", label="구분") }}</td><td class="c">{{ f(pre ~ "floor", label="층별") }}</td>
-    <td class="c">{{ f(pre ~ "structure", label="구조") }}</td><td class="c small">{{ f(pre ~ "usage", label="용도") }}</td>
-    <td class="num">{{ f(pre ~ "area", label="면적(㎡)") }}</td></tr>
-  {% endfor %}
-  <tr><td colspan="5" class="c small">- 이하여백 -</td></tr>
-</table>
+{{ parts_tables() }}
 <div class="fill"></div>
 </div>
 <div>
-<table class="br">
-  <colgroup><col style="width:130px"><col><col style="width:54px"><col style="width:84px"></colgroup>
-  <tr><td colspan="4" class="br-cap">소유자현황</td></tr>
-  <tr><th>성명(명칭)<br>주민(법인)등록번호<br><span class="tiny">(부동산등기용등록번호)</span></th><th>주소</th><th>소유권<br>지분</th><th>변동일<br>변동원인</th></tr>
-  <tr><td class="c">{{ f("owner.name", label="성명(명칭)") }}<br>{{ f("owner.rrn", label="주민(법인)등록번호") }}</td>
-    <td>{{ f("owner.address", label="주소") }}</td><td class="c">{{ f("owner.share", label="소유권지분") }}</td>
-    <td class="c">{{ f("owner.change_date", label="변동일") }}<br>{{ f("owner.change_cause", label="변동원인") }}</td></tr>
-  <tr><td colspan="4" class="c small">- 이하여백 -<br>※ 이 건축물대장은 현소유자만 표시한 것입니다.</td></tr>
-</table>
-{% if d.house_prices is defined %}
-<table class="br">
-  <colgroup><col style="width:40%"><col></colgroup>
-  <tr><td colspan="2" class="br-cap">공동주택(아파트)가격 <span class="small" style="font-weight:400;letter-spacing:0">(단위 : 원)</span></td></tr>
-  <tr><th>기준일</th><th>공동주택(아파트)가격</th></tr>
-  {% for it in d.house_prices %}{% set pre = "house_prices." ~ loop.index0 ~ "." %}
-  <tr><td class="c">{{ f(pre ~ "base_date", label="기준일") }}</td><td class="num">{{ f(pre ~ "price", label="공동주택(아파트)가격") }}</td></tr>
-  {% endfor %}
-  <tr><td colspan="2" class="small">※ 「부동산 가격공시에 관한 법률」에 따른 공동주택가격만 표시됩니다.</td></tr>
-</table>
-{% endif %}
+{{ owners_table() }}
+{{ prices_table() }}
 <div class="fill"></div>
 </div>
 </div>
+{% endif %}
 <div class="br-cert">이 등(초)본은 건축물대장의 원본내용과 틀림없음을 증명합니다.</div>
 <div class="br-foot">
   <div class="br-mini">담당자 : {{ f("officer", label="담당자") }} &nbsp;&nbsp; 전화 : {{ f("officer_phone", label="전화") }}</div>
