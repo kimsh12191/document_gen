@@ -7,6 +7,7 @@ from __future__ import annotations
 import argparse
 import collections
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -52,6 +53,7 @@ HEAD = """# 정답 키 스키마
 | seal / signature | `present` (bool) |
 
 "채움률"은 프로필 {n}개 중 그 키가 문서에 나온 비율입니다 (선택 항목·반복 항목은 100% 미만).
+채움률 0% 인 키는 드문 변형(내용이 많은 경우·특수 상황)에서만 나오는 키입니다 (변형을 모두 켠 생성에서 수집). 변형 목록은 [docs/variants/](variants/) 에 있습니다.
 """
 
 
@@ -63,14 +65,20 @@ def main() -> None:
     schema = {}
     for spec in reg.values():
         stats: dict[str, dict] = {}
-        for seed in range(args.n):
+        # 보통 분포로 n건 (fill_rate) + 긴 경우·특수 상황을 모두 켠 n/3건 (드문 변형 키 수집, fill_rate 에는 안 셈)
+        runs = [(seed, False) for seed in range(args.n)] + [(seed, True) for seed in range(max(1, args.n // 3))]
+        for seed, forced in runs:
+            for k in ("DOCGEN_HEAVY", "DOCGEN_SPECIAL"):
+                os.environ.pop(k, None)
+            if forced:
+                os.environ.update(DOCGEN_HEAVY="1", DOCGEN_SPECIAL="all")
             _, raw, _ = render(spec, make_profile(seed), seed)
             seen = set()
             for f in build_fields(raw):
                 k = re.sub(r"\.\d+(?=\.|$)", "[]", f["key"])
                 st = stats.setdefault(k, {"labels": collections.Counter(), "types": collections.Counter(),
                                           "n": 0, "example": None, "null": 0})
-                if k not in seen:
+                if k not in seen and not forced:
                     st["n"] += 1
                     seen.add(k)
                 st["labels"][f.get("label")] += 1
@@ -79,6 +87,8 @@ def main() -> None:
                     st["null"] += 1
                 if st["example"] is None and f["value"] is not None:
                     st["example"] = f["value"]
+        for k in ("DOCGEN_HEAVY", "DOCGEN_SPECIAL"):
+            os.environ.pop(k, None)
         schema[spec.id] = {
             "name": spec.name, "group": spec.group,
             "keys": [{"key": k, "label": st["labels"].most_common(1)[0][0], "type": st["types"].most_common(1)[0][0],
