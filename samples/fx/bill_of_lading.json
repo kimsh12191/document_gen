@@ -4,9 +4,9 @@
   "name": "Tokyo Seimitsu Kogyo K.K.",
   "address": "2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN"
  },
- "booking_no": "BKG6684627",
- "bl_no": "TPMLJP94954710",
- "carrier": "TRANS-PACIFIC MARINE LINES",
+ "booking_no": "HBSC8527401",
+ "bl_no": "HBSCJP55477018",
+ "carrier": "HANBADA SHIPPING CO., LTD.",
  "forwarder": "Daon Logistics Co., Ltd.",
  "consignee": {
   "name": "TO ORDER"
@@ -18,24 +18,24 @@
  "pre_carriage": "TRUCK",
  "place_of_receipt": "TOKYO CY",
  "origin": "JAPAN",
- "vessel_voyage": "CORAL VOYAGER 016E",
+ "vessel_voyage": "STAR PIONEER 079N",
  "port_of_loading": "TOKYO, JAPAN",
  "port_of_discharge": "BUSAN, KOREA",
  "place_of_delivery": "BUSAN CY",
  "containers": [
   {
-   "no": "TPMU3429999",
+   "no": "HBDU9432009",
    "type": "20'GP",
-   "seal": "H174450"
+   "seal": "KR780264"
   }
  ],
- "marks": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-192\nMADE IN JAPAN",
+ "marks": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-208\nMADE IN JAPAN",
  "container_count": "1 X 20'GP",
- "packages": "192 CTNS",
- "description": "Multilayer Ceramic Capacitor 0402 100nF 16V  12,900,000 PCS\nLi-ion Battery Cell 18650 3.6V 3000mAh  16,400 PCS\nLED Driver IC, SOP-8  440,000 PCS",
+ "packages": "208 CTNS",
+ "description": "Multilayer Ceramic Capacitor 0402 100nF 16V  8,300,000 PCS\nLi-ion Battery Cell 18650 3.6V 3000mAh  46,000 PCS\nLED Driver IC, SOP-8  200,000 PCS",
  "freight": "FREIGHT COLLECT",
- "gross_weight": "2,168.10 KGS",
- "measurement": "6.610 CBM",
+ "gross_weight": "3,186.54 KGS",
+ "measurement": "7.230 CBM",
  "total_words": "SAY: ONE (1) CONTAINER ONLY",
  "freight_payable_at": "BUSAN",
  "issue_place": "TOKYO",

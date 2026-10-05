@@ -3,7 +3,7 @@
 {% import "family/_fam.html.j2" as fm with context %}
 {% block style %}{{ fm.fam_style() }}{% endblock %}
 {% block content %}
-<h1 class="title fm">기본증명서(일반)</h1>
+<h1 class="title fm">기본증명서({{ f("cert_type", label="증명서종류") }})</h1>
 <table class="fm fm-base"><tr><th>등록기준지</th><td class="l">{{ f("reg_base", label="등록기준지") }}</td></tr></table>
 <div style="height:8px"></div>
 {{ fm.people(["self"]) }}
@@ -11,7 +11,21 @@
 <table class="fm">
   <colgroup><col style="width:90px"><col></colgroup>
   <tr><th>구분</th><th>상세내용</th></tr>
-  <tr><td>출생</td><td class="l">【출생장소】{{ f("birth.place", label="출생장소") }}<br>【신고일】{{ f("birth.reported", label="신고일") }}<br>【신고인】{{ f("birth.reporter", label="신고인") }}</td></tr>
+  <tr><td>출생</td><td class="l">【출생장소】{{ f("birth.place", label="출생장소") }}{% if f.has("birth.reported") %}<br>【신고일】{{ f("birth.reported", label="신고일") }}<br>【신고인】{{ f("birth.reporter", label="신고인") }}{% endif %}</td></tr>
+  {# 기록은 날짜순 (날짜 문자열 'YYYY년 MM월 DD일' 은 사전순 = 날짜순) #}
+  {% set recs = [] %}
+  {% if d.naturalization is defined %}{% set _ = recs.append((d.naturalization.acquired, "nat")) %}{% endif %}
+  {% if d.correction is defined %}{% set _ = recs.append((d.correction.permitted, "cor")) %}{% endif %}
+  {% if d.name_change is defined %}{% set _ = recs.append((d.name_change.permitted, "ren")) %}{% endif %}
+  {% for _d, kind in recs|sort %}
+  {% if kind == "nat" %}
+  <tr><td>국적취득</td><td class="l">【국적취득일】{{ f("naturalization.acquired", label="국적취득일") }}<br>【국적취득사유】{{ f("naturalization.reason", label="국적취득사유") }}<br>【종전국적】{{ f("naturalization.prev_nationality", label="종전국적") }}<br>【통보일】{{ f("naturalization.notified", label="통보일") }}<br>【통보자】{{ f("naturalization.notifier", label="통보자") }}</td></tr>
+  {% elif kind == "cor" %}
+  <tr><td>정정</td><td class="l">【정정허가일】{{ f("correction.permitted", label="정정허가일") }}<br>【허가법원】{{ f("correction.court", label="허가법원") }}<br>【정정내용】{{ f("correction.content", label="정정내용") }}<br>【신고일】{{ f("correction.reported", label="신고일") }}</td></tr>
+  {% else %}
+  <tr><td>개명</td><td class="l">【개명허가일】{{ f("name_change.permitted", label="개명허가일") }}<br>【허가법원】{{ f("name_change.court", label="허가법원") }}<br>【개명전이름】{{ f("name_change.old_name", label="개명전이름") }}<br>【신고일】{{ f("name_change.reported", label="신고일") }}</td></tr>
+  {% endif %}
+  {% endfor %}
 </table>
-{{ fm.fam_footer("기본증명서(일반)") }}
+{{ fm.fam_footer("기본증명서") }}
 {% endblock %}

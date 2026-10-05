@@ -2,19 +2,32 @@
 {% import "_macros.html.j2" as m with context %}
 {% import "family/_fam.html.j2" as fm with context %}
 {% block style %}{{ fm.fam_style() }}{% endblock %}
+{% block page_class %}{% if d.past_events is defined and d.spouse is defined %} dense{% endif %}{% endblock %}
 {% block content %}
-<h1 class="title fm">혼인관계증명서(일반)</h1>
+<h1 class="title fm">혼인관계증명서({{ f("cert_type", label="증명서종류") }})</h1>
 <table class="fm fm-base"><tr><th>등록기준지</th><td class="l">{{ f("reg_base", label="등록기준지") }}</td></tr></table>
 <div style="height:8px"></div>
 {{ fm.people(["self"]) }}
-{% if d.marriage is defined %}
+{% if d.marriage is defined or d.past_events is defined %}
 <div class="fm-sec">혼인사항</div>
-{{ fm.people(["spouse"]) }}
+{% if d.spouse is defined %}{{ fm.people(["spouse"]) }}{% endif %}
 <table class="fm">
   <colgroup><col style="width:90px"><col></colgroup>
   <tr><th>구분</th><th>상세내용</th></tr>
+  {% for ev in (d.past_events if d.past_events is defined else []) %}{% set q = "past_events." ~ loop.index0 %}
+  <tr><td>{{ f(q ~ ".kind", label="구분") }}</td><td class="l">
+    {%- if ev.judgment_date is defined %}【이혼판결확정일】{{ f(q ~ ".judgment_date", label="이혼판결확정일") }}<br>【법원】{{ f(q ~ ".court", label="법원") }}<br>{% endif -%}
+    {%- if ev.kind == "이혼" and ev.judgment_date is not defined %}【협의이혼신고일】{% else %}【신고일】{% endif %}{{ f(q ~ ".reported", label="신고일") }}
+    <br>【배우자】{{ f(q ~ ".spouse_name", label="배우자") }}
+    {%- if ev.spouse_nationality is defined %}<br>【배우자국적】{{ f(q ~ ".spouse_nationality", label="배우자국적") }}{% endif %}
+    {%- if ev.spouse_birth is defined %}<br>【배우자의 출생연월일】{{ f(q ~ ".spouse_birth", label="배우자의출생연월일") }}{% endif %}
+    {%- if ev.spouse_rrn is defined %}<br>【배우자의 주민등록번호】{{ f(q ~ ".spouse_rrn", label="배우자의주민등록번호") }}{% endif %}
+    <br>【처리관서】{{ f(q ~ ".office", label="처리관서") }}</td></tr>
+  {% endfor %}
+  {% if d.marriage is defined %}
   <tr><td>혼인</td><td class="l">【신고일】{{ f("marriage.reported", label="신고일") }}<br>【배우자】{{ f("marriage.spouse_name", label="배우자") }}<br>【배우자의 주민등록번호】{{ f("marriage.spouse_rrn", label="배우자의주민등록번호") }}<br>【처리관서】{{ f("marriage.office", label="처리관서") }}</td></tr>
+  {% endif %}
 </table>
 {% endif %}
-{{ fm.fam_footer("혼인관계증명서(일반)") }}
+{{ fm.fam_footer("혼인관계증명서") }}
 {% endblock %}

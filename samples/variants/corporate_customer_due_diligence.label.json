@@ -1,0 +1,3267 @@
+{
+ "images": [
+  "variants/corporate_customer_due_diligence_p1.jpg",
+  "variants/corporate_customer_due_diligence_p2.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "bank.name",
+   "label": "은행명",
+   "type": "text",
+   "value": "농협은행",
+   "norm": "농협은행",
+   "page": 0,
+   "bbox": [
+    93.8,
+    60.5,
+    211.7,
+    92.0
+   ]
+  },
+  {
+   "key": "corp.name",
+   "label": "법인명(국문)",
+   "type": "text",
+   "value": "주식회사 새한소프트",
+   "norm": "주식회사 새한소프트",
+   "page": 0,
+   "bbox": [
+    222.8,
+    332.5,
+    394.7,
+    353.5
+   ],
+   "label_bbox": [
+    63.0,
+    327.2,
+    213.0,
+    359.8
+   ]
+  },
+  {
+   "key": "corp.name_en",
+   "label": "법인명(영문)",
+   "type": "text",
+   "value": "Saehan Soft Co., Ltd.",
+   "norm": "Saehan Soft Co., Ltd.",
+   "page": 0,
+   "bbox": [
+    815.2,
+    332.5,
+    975.2,
+    353.5
+   ],
+   "label_bbox": [
+    655.4,
+    327.2,
+    805.4,
+    359.8
+   ]
+  },
+  {
+   "key": "corp.biz_no",
+   "label": "사업자등록번호",
+   "type": "biz_no",
+   "value": "530-82-09978",
+   "norm": "530-82-09978",
+   "page": 0,
+   "bbox": [
+    222.8,
+    365.1,
+    328.1,
+    386.1
+   ],
+   "label_bbox": [
+    63.0,
+    359.8,
+    213.0,
+    392.4
+   ]
+  },
+  {
+   "key": "corp.corp_reg_no",
+   "label": "법인등록번호",
+   "type": "corp_reg_no",
+   "value": "135012-6946558",
+   "norm": "135012-6946558",
+   "page": 0,
+   "bbox": [
+    815.2,
+    365.1,
+    942.2,
+    386.1
+   ],
+   "label_bbox": [
+    655.4,
+    359.8,
+    805.4,
+    392.4
+   ]
+  },
+  {
+   "key": "corp.established",
+   "label": "설립일",
+   "type": "date",
+   "value": "2021년 12월 08일",
+   "norm": "2021-12-08",
+   "page": 0,
+   "bbox": [
+    222.8,
+    397.7,
+    362.2,
+    418.7
+   ],
+   "label_bbox": [
+    63.0,
+    392.4,
+    213.0,
+    425.0
+   ]
+  },
+  {
+   "key": "corp.industry",
+   "label": "업종",
+   "type": "text",
+   "value": "정보통신업 / 응용소프트웨어 개발",
+   "norm": "정보통신업 / 응용소프트웨어 개발",
+   "page": 0,
+   "bbox": [
+    815.2,
+    397.7,
+    1094.5,
+    418.7
+   ],
+   "label_bbox": [
+    655.4,
+    392.4,
+    805.4,
+    425.0
+   ]
+  },
+  {
+   "key": "corp.hq_address",
+   "label": "본점주소",
+   "type": "text",
+   "value": "서울특별시 영등포구 국제금융로 22-7, 8층 (당산동, 동방프라자)",
+   "norm": "서울특별시 영등포구 국제금융로 22-7, 8층 (당산동, 동방프라자)",
+   "page": 0,
+   "bbox": [
+    222.8,
+    430.3,
+    743.2,
+    451.3
+   ],
+   "label_bbox": [
+    63.0,
+    425.0,
+    213.0,
+    457.6
+   ]
+  },
+  {
+   "key": "corp.biz_address",
+   "label": "사업장주소",
+   "type": "text",
+   "value": "서울특별시 영등포구 국제금융로 22-7, 8층",
+   "norm": "서울특별시 영등포구 국제금융로 22-7, 8층",
+   "page": 0,
+   "bbox": [
+    222.8,
+    462.9,
+    568.2,
+    483.9
+   ],
+   "label_bbox": [
+    63.0,
+    457.6,
+    213.0,
+    490.2
+   ]
+  },
+  {
+   "key": "corp.phone",
+   "label": "대표전화",
+   "type": "phone",
+   "value": "02-9757-8466",
+   "norm": "0297578466",
+   "page": 0,
+   "bbox": [
+    222.8,
+    495.5,
+    328.1,
+    516.5
+   ],
+   "label_bbox": [
+    63.0,
+    490.2,
+    213.0,
+    522.8
+   ]
+  },
+  {
+   "key": "corp.email",
+   "label": "이메일",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    655.4,
+    490.2,
+    805.4,
+    522.8
+   ],
+   "page": 0
+  },
+  {
+   "key": "corp.corp_type",
+   "label": "법인구분",
+   "type": "checkbox",
+   "value": "중소기업",
+   "norm": "중소기업",
+   "page": 0,
+   "bbox": [
+    322.3,
+    528.1,
+    396.7,
+    549.1
+   ],
+   "label_bbox": [
+    63.0,
+    522.8,
+    213.0,
+    555.4
+   ],
+   "options": [
+    {
+     "text": "대기업",
+     "checked": false,
+     "box_bbox": [
+      222.8,
+      528.1,
+      234.0,
+      549.1
+     ],
+     "bbox": [
+      222.8,
+      528.1,
+      294.4,
+      549.1
+     ]
+    },
+    {
+     "text": "중소기업",
+     "checked": true,
+     "box_bbox": [
+      306.4,
+      528.1,
+      317.7,
+      549.1
+     ],
+     "bbox": [
+      306.4,
+      528.1,
+      396.7,
+      549.1
+     ]
+    },
+    {
+     "text": "국가·지자체·공공단체",
+     "checked": false,
+     "box_bbox": [
+      408.7,
+      528.1,
+      419.9,
+      549.1
+     ],
+     "bbox": [
+      408.7,
+      528.1,
+      604.2,
+      549.1
+     ]
+    },
+    {
+     "text": "금융기관",
+     "checked": false,
+     "box_bbox": [
+      616.2,
+      528.1,
+      627.4,
+      549.1
+     ],
+     "bbox": [
+      616.2,
+      528.1,
+      706.5,
+      549.1
+     ]
+    },
+    {
+     "text": "비영리법인(단체)",
+     "checked": false,
+     "box_bbox": [
+      718.5,
+      528.1,
+      729.7,
+      549.1
+     ],
+     "bbox": [
+      718.5,
+      528.1,
+      876.8,
+      549.1
+     ]
+    },
+    {
+     "text": "외국법인(단체)",
+     "checked": false,
+     "box_bbox": [
+      888.8,
+      528.1,
+      900.0,
+      549.1
+     ],
+     "bbox": [
+      888.8,
+      528.1,
+      1028.6,
+      549.1
+     ]
+    }
+   ]
+  },
+  {
+   "key": "corp.listed",
+   "label": "상장여부",
+   "type": "checkbox",
+   "value": "비상장",
+   "norm": "비상장",
+   "page": 0,
+   "bbox": [
+    545.4,
+    560.9,
+    601.1,
+    581.9
+   ],
+   "label_bbox": [
+    63.0,
+    555.4,
+    213.0,
+    588.5
+   ],
+   "options": [
+    {
+     "text": "유가증권시장",
+     "checked": false,
+     "box_bbox": [
+      222.8,
+      560.9,
+      234.0,
+      581.9
+     ],
+     "bbox": [
+      222.8,
+      560.9,
+      350.2,
+      581.9
+     ]
+    },
+    {
+     "text": "코스닥",
+     "checked": false,
+     "box_bbox": [
+      362.2,
+      560.9,
+      373.4,
+      581.9
+     ],
+     "bbox": [
+      362.2,
+      560.9,
+      433.9,
+      581.9
+     ]
+    },
+    {
+     "text": "코넥스",
+     "checked": false,
+     "box_bbox": [
+      445.9,
+      560.9,
+      457.1,
+      581.9
+     ],
+     "bbox": [
+      445.9,
+      560.9,
+      517.5,
+      581.9
+     ]
+    },
+    {
+     "text": "비상장",
+     "checked": true,
+     "box_bbox": [
+      529.5,
+      560.9,
+      540.7,
+      581.9
+     ],
+     "bbox": [
+      529.5,
+      560.9,
+      601.1,
+      581.9
+     ]
+    }
+   ]
+  },
+  {
+   "key": "rep.name",
+   "label": "대표자성명",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    222.8,
+    636.4,
+    278.6,
+    657.4
+   ],
+   "label_bbox": [
+    63.0,
+    631.1,
+    213.0,
+    663.8
+   ]
+  },
+  {
+   "key": "rep.name_en",
+   "label": "대표자영문성명",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    612.3,
+    631.1,
+    762.3,
+    663.8
+   ],
+   "page": 0
+  },
+  {
+   "key": "rep.birth",
+   "label": "대표자생년월일",
+   "type": "date",
+   "value": "1990.11.21",
+   "norm": "1990-11-21",
+   "page": 0,
+   "bbox": [
+    222.8,
+    669.0,
+    305.8,
+    690.0
+   ],
+   "label_bbox": [
+    63.0,
+    663.8,
+    213.0,
+    696.4
+   ]
+  },
+  {
+   "key": "rep.nationality",
+   "label": "대표자국적",
+   "type": "text",
+   "value": "대한민국",
+   "norm": "대한민국",
+   "page": 0,
+   "bbox": [
+    772.0,
+    669.0,
+    846.4,
+    690.0
+   ],
+   "label_bbox": [
+    612.3,
+    663.8,
+    762.3,
+    696.4
+   ]
+  },
+  {
+   "key": "transaction.purpose",
+   "label": "거래목적",
+   "type": "checkbox",
+   "value": "대출",
+   "norm": "대출",
+   "page": 0,
+   "bbox": [
+    664.6,
+    744.3,
+    701.8,
+    765.3
+   ],
+   "label_bbox": [
+    63.0,
+    739.0,
+    213.0,
+    771.6
+   ],
+   "options": [
+    {
+     "text": "사업상 거래(결제)",
+     "checked": false,
+     "box_bbox": [
+      222.8,
+      744.3,
+      234.0,
+      765.3
+     ],
+     "bbox": [
+      222.8,
+      744.3,
+      385.8,
+      765.3
+     ]
+    },
+    {
+     "text": "운영자금 관리",
+     "checked": false,
+     "box_bbox": [
+      397.8,
+      744.3,
+      409.0,
+      765.3
+     ],
+     "bbox": [
+      397.8,
+      744.3,
+      529.9,
+      765.3
+     ]
+    },
+    {
+     "text": "급여 지급",
+     "checked": false,
+     "box_bbox": [
+      541.9,
+      744.3,
+      553.1,
+      765.3
+     ],
+     "bbox": [
+      541.9,
+      744.3,
+      636.7,
+      765.3
+     ]
+    },
+    {
+     "text": "대출",
+     "checked": true,
+     "box_bbox": [
+      648.7,
+      744.3,
+      660.0,
+      765.3
+     ],
+     "bbox": [
+      648.7,
+      744.3,
+      701.8,
+      765.3
+     ]
+    },
+    {
+     "text": "기타",
+     "checked": false,
+     "box_bbox": [
+      713.8,
+      744.3,
+      725.0,
+      765.3
+     ],
+     "bbox": [
+      713.8,
+      744.3,
+      766.9,
+      765.3
+     ]
+    }
+   ]
+  },
+  {
+   "key": "transaction.fund_source",
+   "label": "자금원천",
+   "type": "checkbox",
+   "value": null,
+   "norm": null,
+   "page": 0,
+   "bbox": [
+    222.8,
+    776.9,
+    659.6,
+    797.9
+   ],
+   "label_bbox": [
+    63.0,
+    771.6,
+    213.0,
+    804.2
+   ],
+   "options": [
+    {
+     "text": "영업수익",
+     "checked": false,
+     "box_bbox": [
+      222.8,
+      776.9,
+      234.0,
+      797.9
+     ],
+     "bbox": [
+      222.8,
+      776.9,
+      313.0,
+      797.9
+     ]
+    },
+    {
+     "text": "자본금",
+     "checked": false,
+     "box_bbox": [
+      325.0,
+      776.9,
+      336.3,
+      797.9
+     ],
+     "bbox": [
+      325.0,
+      776.9,
+      396.7,
+      797.9
+     ]
+    },
+    {
+     "text": "차입금",
+     "checked": false,
+     "box_bbox": [
+      408.7,
+      776.9,
+      419.9,
+      797.9
+     ],
+     "bbox": [
+      408.7,
+      776.9,
+      480.3,
+      797.9
+     ]
+    },
+    {
+     "text": "투자수익",
+     "checked": false,
+     "box_bbox": [
+      492.3,
+      776.9,
+      503.6,
+      797.9
+     ],
+     "bbox": [
+      492.3,
+      776.9,
+      582.6,
+      797.9
+     ]
+    },
+    {
+     "text": "기타",
+     "checked": false,
+     "box_bbox": [
+      594.6,
+      776.9,
+      605.8,
+      797.9
+     ],
+     "bbox": [
+      594.6,
+      776.9,
+      647.6,
+      797.9
+     ]
+    }
+   ]
+  },
+  {
+   "key": "owner_step",
+   "label": "실제소유자확인단계",
+   "type": "checkbox",
+   "value": "1단계",
+   "norm": "1단계",
+   "page": 0,
+   "bbox": [
+    238.7,
+    852.1,
+    285.2,
+    873.1
+   ],
+   "label_bbox": [
+    63.0,
+    846.9,
+    213.0,
+    942.7
+   ],
+   "options": [
+    {
+     "text": "1단계",
+     "checked": true,
+     "box_bbox": [
+      222.8,
+      852.1,
+      234.0,
+      873.1
+     ],
+     "bbox": [
+      222.8,
+      852.1,
+      285.2,
+      873.1
+     ]
+    },
+    {
+     "text": "2단계",
+     "checked": false,
+     "box_bbox": [
+      297.2,
+      852.1,
+      308.4,
+      873.1
+     ],
+     "bbox": [
+      297.2,
+      852.1,
+      359.5,
+      873.1
+     ]
+    },
+    {
+     "text": "3단계",
+     "checked": false,
+     "box_bbox": [
+      371.5,
+      852.1,
+      382.7,
+      873.1
+     ],
+     "bbox": [
+      371.5,
+      852.1,
+      433.9,
+      873.1
+     ]
+    }
+   ]
+  },
+  {
+   "key": "owners.0.name",
+   "label": "성명",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    287.1,
+    986.5,
+    342.9,
+    1007.5
+   ],
+   "label_bbox": [
+    108.0,
+    948.7,
+    522.0,
+    981.3
+   ]
+  },
+  {
+   "key": "owners.0.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1990.11.21",
+   "norm": "1990-11-21",
+   "page": 0,
+   "bbox": [
+    563.0,
+    986.5,
+    645.9,
+    1007.5
+   ],
+   "label_bbox": [
+    522.0,
+    948.7,
+    687.0,
+    981.3
+   ]
+  },
+  {
+   "key": "owners.0.nationality",
+   "label": "국적",
+   "type": "text",
+   "value": "대한민국",
+   "norm": "대한민국",
+   "page": 0,
+   "bbox": [
+    724.8,
+    986.5,
+    799.1,
+    1007.5
+   ],
+   "label_bbox": [
+    687.0,
+    948.7,
+    837.0,
+    981.3
+   ]
+  },
+  {
+   "key": "owners.0.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "30.16%",
+   "norm": 30.16,
+   "page": 0,
+   "bbox": [
+    871.3,
+    986.5,
+    928.6,
+    1007.5
+   ],
+   "label_bbox": [
+    837.0,
+    948.7,
+    963.0,
+    981.3
+   ]
+  },
+  {
+   "key": "owners.0.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "대표이사",
+   "norm": "대표이사",
+   "page": 0,
+   "bbox": [
+    1008.3,
+    986.5,
+    1082.6,
+    1007.5
+   ],
+   "label_bbox": [
+    963.0,
+    948.7,
+    1128.0,
+    981.3
+   ]
+  },
+  {
+   "key": "shareholders.0.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    279.6,
+    1148.0,
+    335.4,
+    1169.0
+   ],
+   "label_bbox": [
+    108.0,
+    1110.2,
+    507.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.0.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1990.11.21",
+   "norm": "1990-11-21",
+   "page": 0,
+   "bbox": [
+    548.0,
+    1148.0,
+    630.9,
+    1169.0
+   ],
+   "label_bbox": [
+    507.0,
+    1110.2,
+    672.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.0.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "6,029",
+   "norm": 6029,
+   "page": 0,
+   "bbox": [
+    733.5,
+    1148.0,
+    775.4,
+    1169.0
+   ],
+   "label_bbox": [
+    672.0,
+    1110.2,
+    837.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.0.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "30.16%",
+   "norm": 30.16,
+   "page": 0,
+   "bbox": [
+    871.3,
+    1148.0,
+    928.6,
+    1169.0
+   ],
+   "label_bbox": [
+    837.0,
+    1110.2,
+    963.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.0.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "대표이사",
+   "norm": "대표이사",
+   "page": 0,
+   "bbox": [
+    1008.3,
+    1148.0,
+    1082.6,
+    1169.0
+   ],
+   "label_bbox": [
+    963.0,
+    1110.2,
+    1128.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.1.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "백형우",
+   "norm": "백형우",
+   "page": 0,
+   "bbox": [
+    279.6,
+    1180.6,
+    335.4,
+    1201.6
+   ],
+   "label_bbox": [
+    108.0,
+    1110.2,
+    507.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.1.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1995.02.21",
+   "norm": "1995-02-21",
+   "page": 0,
+   "bbox": [
+    547.6,
+    1180.6,
+    631.3,
+    1201.6
+   ],
+   "label_bbox": [
+    507.0,
+    1110.2,
+    672.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.1.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "1,113",
+   "norm": 1113,
+   "page": 0,
+   "bbox": [
+    733.9,
+    1180.6,
+    775.0,
+    1201.6
+   ],
+   "label_bbox": [
+    672.0,
+    1110.2,
+    837.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.1.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "5.57%",
+   "norm": 5.57,
+   "page": 0,
+   "bbox": [
+    875.9,
+    1180.6,
+    924.0,
+    1201.6
+   ],
+   "label_bbox": [
+    837.0,
+    1110.2,
+    963.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.1.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "주주",
+   "norm": "주주",
+   "page": 0,
+   "bbox": [
+    1026.9,
+    1180.6,
+    1064.0,
+    1201.6
+   ],
+   "label_bbox": [
+    963.0,
+    1110.2,
+    1128.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.2.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "길은성",
+   "norm": "길은성",
+   "page": 0,
+   "bbox": [
+    279.6,
+    1213.2,
+    335.4,
+    1234.2
+   ],
+   "label_bbox": [
+    108.0,
+    1110.2,
+    507.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.2.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1965.10.01",
+   "norm": "1965-10-01",
+   "page": 0,
+   "bbox": [
+    547.6,
+    1213.2,
+    631.3,
+    1234.2
+   ],
+   "label_bbox": [
+    507.0,
+    1110.2,
+    672.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.2.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "1,110",
+   "norm": 1110,
+   "page": 0,
+   "bbox": [
+    733.9,
+    1213.2,
+    775.0,
+    1234.2
+   ],
+   "label_bbox": [
+    672.0,
+    1110.2,
+    837.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.2.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "5.55%",
+   "norm": 5.55,
+   "page": 0,
+   "bbox": [
+    875.9,
+    1213.2,
+    924.0,
+    1234.2
+   ],
+   "label_bbox": [
+    837.0,
+    1110.2,
+    963.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.2.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "주주",
+   "norm": "주주",
+   "page": 0,
+   "bbox": [
+    1026.9,
+    1213.2,
+    1064.0,
+    1234.2
+   ],
+   "label_bbox": [
+    963.0,
+    1110.2,
+    1128.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.3.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "마다혜",
+   "norm": "마다혜",
+   "page": 0,
+   "bbox": [
+    279.6,
+    1245.8,
+    335.4,
+    1266.8
+   ],
+   "label_bbox": [
+    108.0,
+    1110.2,
+    507.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.3.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1968.05.22",
+   "norm": "1968-05-22",
+   "page": 0,
+   "bbox": [
+    547.6,
+    1245.8,
+    631.3,
+    1266.8
+   ],
+   "label_bbox": [
+    507.0,
+    1110.2,
+    672.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.3.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "1,083",
+   "norm": 1083,
+   "page": 0,
+   "bbox": [
+    733.5,
+    1245.8,
+    775.4,
+    1266.8
+   ],
+   "label_bbox": [
+    672.0,
+    1110.2,
+    837.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.3.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "5.42%",
+   "norm": 5.42,
+   "page": 0,
+   "bbox": [
+    875.9,
+    1245.8,
+    924.0,
+    1266.8
+   ],
+   "label_bbox": [
+    837.0,
+    1110.2,
+    963.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.3.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "주주",
+   "norm": "주주",
+   "page": 0,
+   "bbox": [
+    1026.9,
+    1245.8,
+    1064.0,
+    1266.8
+   ],
+   "label_bbox": [
+    963.0,
+    1110.2,
+    1128.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.4.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "박도율",
+   "norm": "박도율",
+   "page": 0,
+   "bbox": [
+    279.6,
+    1278.4,
+    335.4,
+    1299.4
+   ],
+   "label_bbox": [
+    108.0,
+    1110.2,
+    507.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.4.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1970.01.26",
+   "norm": "1970-01-26",
+   "page": 0,
+   "bbox": [
+    547.6,
+    1278.4,
+    631.3,
+    1299.4
+   ],
+   "label_bbox": [
+    507.0,
+    1110.2,
+    672.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.4.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "1,018",
+   "norm": 1018,
+   "page": 0,
+   "bbox": [
+    733.5,
+    1278.4,
+    775.4,
+    1299.4
+   ],
+   "label_bbox": [
+    672.0,
+    1110.2,
+    837.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.4.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "5.09%",
+   "norm": 5.09,
+   "page": 0,
+   "bbox": [
+    875.9,
+    1278.4,
+    924.0,
+    1299.4
+   ],
+   "label_bbox": [
+    837.0,
+    1110.2,
+    963.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.4.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "주주",
+   "norm": "주주",
+   "page": 0,
+   "bbox": [
+    1026.9,
+    1278.4,
+    1064.0,
+    1299.4
+   ],
+   "label_bbox": [
+    963.0,
+    1110.2,
+    1128.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.5.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "최원은",
+   "norm": "최원은",
+   "page": 0,
+   "bbox": [
+    279.6,
+    1311.0,
+    335.4,
+    1332.0
+   ],
+   "label_bbox": [
+    108.0,
+    1110.2,
+    507.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.5.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1971.05.23",
+   "norm": "1971-05-23",
+   "page": 0,
+   "bbox": [
+    547.6,
+    1311.0,
+    631.3,
+    1332.0
+   ],
+   "label_bbox": [
+    507.0,
+    1110.2,
+    672.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.5.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "971",
+   "norm": 971,
+   "page": 0,
+   "bbox": [
+    740.5,
+    1311.0,
+    768.4,
+    1332.0
+   ],
+   "label_bbox": [
+    672.0,
+    1110.2,
+    837.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.5.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "4.86%",
+   "norm": 4.86,
+   "page": 0,
+   "bbox": [
+    875.9,
+    1311.0,
+    924.0,
+    1332.0
+   ],
+   "label_bbox": [
+    837.0,
+    1110.2,
+    963.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.5.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "주주(임직원)",
+   "norm": "주주(임직원)",
+   "page": 0,
+   "bbox": [
+    992.8,
+    1311.0,
+    1098.1,
+    1332.0
+   ],
+   "label_bbox": [
+    963.0,
+    1110.2,
+    1128.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.6.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "선호성",
+   "norm": "선호성",
+   "page": 0,
+   "bbox": [
+    279.6,
+    1343.6,
+    335.4,
+    1364.6
+   ],
+   "label_bbox": [
+    108.0,
+    1110.2,
+    507.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.6.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1967.09.24",
+   "norm": "1967-09-24",
+   "page": 0,
+   "bbox": [
+    547.6,
+    1343.6,
+    631.3,
+    1364.6
+   ],
+   "label_bbox": [
+    507.0,
+    1110.2,
+    672.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.6.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "931",
+   "norm": 931,
+   "page": 0,
+   "bbox": [
+    740.5,
+    1343.6,
+    768.4,
+    1364.6
+   ],
+   "label_bbox": [
+    672.0,
+    1110.2,
+    837.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.6.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "4.66%",
+   "norm": 4.66,
+   "page": 0,
+   "bbox": [
+    875.9,
+    1343.6,
+    924.0,
+    1364.6
+   ],
+   "label_bbox": [
+    837.0,
+    1110.2,
+    963.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.6.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "이사",
+   "norm": "이사",
+   "page": 0,
+   "bbox": [
+    1026.9,
+    1343.6,
+    1064.0,
+    1364.6
+   ],
+   "label_bbox": [
+    963.0,
+    1110.2,
+    1128.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.7.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "이수승",
+   "norm": "이수승",
+   "page": 0,
+   "bbox": [
+    279.6,
+    1376.2,
+    335.4,
+    1397.2
+   ],
+   "label_bbox": [
+    108.0,
+    1110.2,
+    507.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.7.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1971.12.15",
+   "norm": "1971-12-15",
+   "page": 0,
+   "bbox": [
+    547.6,
+    1376.2,
+    631.3,
+    1397.2
+   ],
+   "label_bbox": [
+    507.0,
+    1110.2,
+    672.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.7.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "931",
+   "norm": 931,
+   "page": 0,
+   "bbox": [
+    740.5,
+    1376.2,
+    768.4,
+    1397.2
+   ],
+   "label_bbox": [
+    672.0,
+    1110.2,
+    837.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.7.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "4.66%",
+   "norm": 4.66,
+   "page": 0,
+   "bbox": [
+    875.9,
+    1376.2,
+    924.0,
+    1397.2
+   ],
+   "label_bbox": [
+    837.0,
+    1110.2,
+    963.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.7.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "주주",
+   "norm": "주주",
+   "page": 0,
+   "bbox": [
+    1026.9,
+    1376.2,
+    1064.0,
+    1397.2
+   ],
+   "label_bbox": [
+    963.0,
+    1110.2,
+    1128.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.8.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "차철예",
+   "norm": "차철예",
+   "page": 0,
+   "bbox": [
+    279.6,
+    1408.8,
+    335.4,
+    1429.8
+   ],
+   "label_bbox": [
+    108.0,
+    1110.2,
+    507.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.8.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1982.10.11",
+   "norm": "1982-10-11",
+   "page": 0,
+   "bbox": [
+    548.0,
+    1408.8,
+    630.9,
+    1429.8
+   ],
+   "label_bbox": [
+    507.0,
+    1110.2,
+    672.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.8.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "911",
+   "norm": 911,
+   "page": 0,
+   "bbox": [
+    740.8,
+    1408.8,
+    768.0,
+    1429.8
+   ],
+   "label_bbox": [
+    672.0,
+    1110.2,
+    837.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.8.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "4.56%",
+   "norm": 4.56,
+   "page": 0,
+   "bbox": [
+    875.9,
+    1408.8,
+    924.0,
+    1429.8
+   ],
+   "label_bbox": [
+    837.0,
+    1110.2,
+    963.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.8.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "이사",
+   "norm": "이사",
+   "page": 0,
+   "bbox": [
+    1026.9,
+    1408.8,
+    1064.0,
+    1429.8
+   ],
+   "label_bbox": [
+    963.0,
+    1110.2,
+    1128.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.9.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "조혁린",
+   "norm": "조혁린",
+   "page": 0,
+   "bbox": [
+    279.6,
+    1441.4,
+    335.4,
+    1462.4
+   ],
+   "label_bbox": [
+    108.0,
+    1110.2,
+    507.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.9.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1970.10.16",
+   "norm": "1970-10-16",
+   "page": 0,
+   "bbox": [
+    547.6,
+    1441.4,
+    631.3,
+    1462.4
+   ],
+   "label_bbox": [
+    507.0,
+    1110.2,
+    672.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.9.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "815",
+   "norm": 815,
+   "page": 0,
+   "bbox": [
+    740.5,
+    1441.4,
+    768.4,
+    1462.4
+   ],
+   "label_bbox": [
+    672.0,
+    1110.2,
+    837.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.9.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "4.08%",
+   "norm": 4.08,
+   "page": 0,
+   "bbox": [
+    875.9,
+    1441.4,
+    924.0,
+    1462.4
+   ],
+   "label_bbox": [
+    837.0,
+    1110.2,
+    963.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.9.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "주주",
+   "norm": "주주",
+   "page": 0,
+   "bbox": [
+    1026.9,
+    1441.4,
+    1064.0,
+    1462.4
+   ],
+   "label_bbox": [
+    963.0,
+    1110.2,
+    1128.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.10.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "이서원",
+   "norm": "이서원",
+   "page": 0,
+   "bbox": [
+    279.6,
+    1474.0,
+    335.4,
+    1495.0
+   ],
+   "label_bbox": [
+    108.0,
+    1110.2,
+    507.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.10.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1992.08.08",
+   "norm": "1992-08-08",
+   "page": 0,
+   "bbox": [
+    547.6,
+    1474.0,
+    631.3,
+    1495.0
+   ],
+   "label_bbox": [
+    507.0,
+    1110.2,
+    672.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.10.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "757",
+   "norm": 757,
+   "page": 0,
+   "bbox": [
+    740.5,
+    1474.0,
+    768.4,
+    1495.0
+   ],
+   "label_bbox": [
+    672.0,
+    1110.2,
+    837.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.10.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "3.79%",
+   "norm": 3.79,
+   "page": 0,
+   "bbox": [
+    875.9,
+    1474.0,
+    924.0,
+    1495.0
+   ],
+   "label_bbox": [
+    837.0,
+    1110.2,
+    963.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.10.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "주주",
+   "norm": "주주",
+   "page": 0,
+   "bbox": [
+    1026.9,
+    1474.0,
+    1064.0,
+    1495.0
+   ],
+   "label_bbox": [
+    963.0,
+    1110.2,
+    1128.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.11.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "이철원",
+   "norm": "이철원",
+   "page": 0,
+   "bbox": [
+    279.6,
+    1506.6,
+    335.4,
+    1527.6
+   ],
+   "label_bbox": [
+    108.0,
+    1110.2,
+    507.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.11.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1996.07.26",
+   "norm": "1996-07-26",
+   "page": 0,
+   "bbox": [
+    547.6,
+    1506.6,
+    631.3,
+    1527.6
+   ],
+   "label_bbox": [
+    507.0,
+    1110.2,
+    672.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.11.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "679",
+   "norm": 679,
+   "page": 0,
+   "bbox": [
+    740.5,
+    1506.6,
+    768.4,
+    1527.6
+   ],
+   "label_bbox": [
+    672.0,
+    1110.2,
+    837.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.11.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "3.40%",
+   "norm": 3.4,
+   "page": 0,
+   "bbox": [
+    875.9,
+    1506.6,
+    924.0,
+    1527.6
+   ],
+   "label_bbox": [
+    837.0,
+    1110.2,
+    963.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.11.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "주주",
+   "norm": "주주",
+   "page": 0,
+   "bbox": [
+    1026.9,
+    1506.6,
+    1064.0,
+    1527.6
+   ],
+   "label_bbox": [
+    963.0,
+    1110.2,
+    1128.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.12.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "김기수",
+   "norm": "김기수",
+   "page": 0,
+   "bbox": [
+    279.6,
+    1539.2,
+    335.4,
+    1560.2
+   ],
+   "label_bbox": [
+    108.0,
+    1110.2,
+    507.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.12.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1966.05.14",
+   "norm": "1966-05-14",
+   "page": 0,
+   "bbox": [
+    547.6,
+    1539.2,
+    631.3,
+    1560.2
+   ],
+   "label_bbox": [
+    507.0,
+    1110.2,
+    672.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.12.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "651",
+   "norm": 651,
+   "page": 0,
+   "bbox": [
+    740.5,
+    1539.2,
+    768.4,
+    1560.2
+   ],
+   "label_bbox": [
+    672.0,
+    1110.2,
+    837.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.12.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "3.26%",
+   "norm": 3.26,
+   "page": 0,
+   "bbox": [
+    875.9,
+    1539.2,
+    924.0,
+    1560.2
+   ],
+   "label_bbox": [
+    837.0,
+    1110.2,
+    963.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.12.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "주주",
+   "norm": "주주",
+   "page": 0,
+   "bbox": [
+    1026.9,
+    1539.2,
+    1064.0,
+    1560.2
+   ],
+   "label_bbox": [
+    963.0,
+    1110.2,
+    1128.0,
+    1142.8
+   ]
+  },
+  {
+   "key": "shareholders.13.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "나기도",
+   "norm": "나기도",
+   "page": 1,
+   "bbox": [
+    246.4,
+    96.9,
+    302.1,
+    117.9
+   ],
+   "label_bbox": [
+    133.6,
+    59.0,
+    414.8,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.13.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1997.06.16",
+   "norm": "1997-06-16",
+   "page": 1,
+   "bbox": [
+    459.2,
+    96.9,
+    542.9,
+    117.9
+   ],
+   "label_bbox": [
+    414.8,
+    59.0,
+    587.3,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.13.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "585",
+   "norm": 585,
+   "page": 1,
+   "bbox": [
+    667.3,
+    96.9,
+    695.2,
+    117.9
+   ],
+   "label_bbox": [
+    587.3,
+    59.0,
+    775.2,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.13.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "2.93%",
+   "norm": 2.93,
+   "page": 1,
+   "bbox": [
+    814.1,
+    96.9,
+    862.1,
+    117.9
+   ],
+   "label_bbox": [
+    775.2,
+    59.0,
+    901.1,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.13.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "주주",
+   "norm": "주주",
+   "page": 1,
+   "bbox": [
+    995.9,
+    96.9,
+    1033.1,
+    117.9
+   ],
+   "label_bbox": [
+    901.1,
+    59.0,
+    1128.0,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.14.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "중소기업진흥공단",
+   "norm": "중소기업진흥공단",
+   "page": 1,
+   "bbox": [
+    199.9,
+    129.5,
+    348.6,
+    150.5
+   ],
+   "label_bbox": [
+    133.6,
+    59.0,
+    414.8,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.14.birth",
+   "label": "생년월일",
+   "type": "text",
+   "value": "-",
+   "norm": "-",
+   "page": 1,
+   "bbox": [
+    497.9,
+    129.5,
+    504.1,
+    150.5
+   ],
+   "label_bbox": [
+    414.8,
+    59.0,
+    587.3,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.14.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "555",
+   "norm": 555,
+   "page": 1,
+   "bbox": [
+    667.3,
+    129.5,
+    695.2,
+    150.5
+   ],
+   "label_bbox": [
+    587.3,
+    59.0,
+    775.2,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.14.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "2.78%",
+   "norm": 2.78,
+   "page": 1,
+   "bbox": [
+    814.1,
+    129.5,
+    862.1,
+    150.5
+   ],
+   "label_bbox": [
+    775.2,
+    59.0,
+    901.1,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.14.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "주주(법인)",
+   "norm": "주주(법인)",
+   "page": 1,
+   "bbox": [
+    971.1,
+    129.5,
+    1057.9,
+    150.5
+   ],
+   "label_bbox": [
+    901.1,
+    59.0,
+    1128.0,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.15.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "미래에셋벤처투자",
+   "norm": "미래에셋벤처투자",
+   "page": 1,
+   "bbox": [
+    199.9,
+    162.1,
+    348.6,
+    183.1
+   ],
+   "label_bbox": [
+    133.6,
+    59.0,
+    414.8,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.15.birth",
+   "label": "생년월일",
+   "type": "text",
+   "value": "-",
+   "norm": "-",
+   "page": 1,
+   "bbox": [
+    497.9,
+    162.1,
+    504.1,
+    183.1
+   ],
+   "label_bbox": [
+    414.8,
+    59.0,
+    587.3,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.15.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "548",
+   "norm": 548,
+   "page": 1,
+   "bbox": [
+    667.3,
+    162.1,
+    695.2,
+    183.1
+   ],
+   "label_bbox": [
+    587.3,
+    59.0,
+    775.2,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.15.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "2.74%",
+   "norm": 2.74,
+   "page": 1,
+   "bbox": [
+    814.1,
+    162.1,
+    862.1,
+    183.1
+   ],
+   "label_bbox": [
+    775.2,
+    59.0,
+    901.1,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.15.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "주주(법인)",
+   "norm": "주주(법인)",
+   "page": 1,
+   "bbox": [
+    971.1,
+    162.1,
+    1057.9,
+    183.1
+   ],
+   "label_bbox": [
+    901.1,
+    59.0,
+    1128.0,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.16.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "김건태",
+   "norm": "김건태",
+   "page": 1,
+   "bbox": [
+    246.4,
+    194.7,
+    302.1,
+    215.7
+   ],
+   "label_bbox": [
+    133.6,
+    59.0,
+    414.8,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.16.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1996.05.03",
+   "norm": "1996-05-03",
+   "page": 1,
+   "bbox": [
+    459.2,
+    194.7,
+    542.9,
+    215.7
+   ],
+   "label_bbox": [
+    414.8,
+    59.0,
+    587.3,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.16.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "485",
+   "norm": 485,
+   "page": 1,
+   "bbox": [
+    667.3,
+    194.7,
+    695.2,
+    215.7
+   ],
+   "label_bbox": [
+    587.3,
+    59.0,
+    775.2,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.16.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "2.43%",
+   "norm": 2.43,
+   "page": 1,
+   "bbox": [
+    814.1,
+    194.7,
+    862.1,
+    215.7
+   ],
+   "label_bbox": [
+    775.2,
+    59.0,
+    901.1,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.16.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "주주",
+   "norm": "주주",
+   "page": 1,
+   "bbox": [
+    995.9,
+    194.7,
+    1033.1,
+    215.7
+   ],
+   "label_bbox": [
+    901.1,
+    59.0,
+    1128.0,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.17.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "강민인",
+   "norm": "강민인",
+   "page": 1,
+   "bbox": [
+    246.4,
+    227.3,
+    302.1,
+    248.3
+   ],
+   "label_bbox": [
+    133.6,
+    59.0,
+    414.8,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.17.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1985.05.16",
+   "norm": "1985-05-16",
+   "page": 1,
+   "bbox": [
+    459.2,
+    227.3,
+    542.9,
+    248.3
+   ],
+   "label_bbox": [
+    414.8,
+    59.0,
+    587.3,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.17.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "459",
+   "norm": 459,
+   "page": 1,
+   "bbox": [
+    667.3,
+    227.3,
+    695.2,
+    248.3
+   ],
+   "label_bbox": [
+    587.3,
+    59.0,
+    775.2,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.17.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "2.30%",
+   "norm": 2.3,
+   "page": 1,
+   "bbox": [
+    814.1,
+    227.3,
+    862.1,
+    248.3
+   ],
+   "label_bbox": [
+    775.2,
+    59.0,
+    901.1,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.17.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "주주",
+   "norm": "주주",
+   "page": 1,
+   "bbox": [
+    995.9,
+    227.3,
+    1033.1,
+    248.3
+   ],
+   "label_bbox": [
+    901.1,
+    59.0,
+    1128.0,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.18.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "석주하",
+   "norm": "석주하",
+   "page": 1,
+   "bbox": [
+    246.4,
+    259.9,
+    302.1,
+    280.9
+   ],
+   "label_bbox": [
+    133.6,
+    59.0,
+    414.8,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.18.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1971.08.02",
+   "norm": "1971-08-02",
+   "page": 1,
+   "bbox": [
+    459.2,
+    259.9,
+    542.9,
+    280.9
+   ],
+   "label_bbox": [
+    414.8,
+    59.0,
+    587.3,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.18.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "358",
+   "norm": 358,
+   "page": 1,
+   "bbox": [
+    667.3,
+    259.9,
+    695.2,
+    280.9
+   ],
+   "label_bbox": [
+    587.3,
+    59.0,
+    775.2,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.18.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "1.79%",
+   "norm": 1.79,
+   "page": 1,
+   "bbox": [
+    814.1,
+    259.9,
+    862.1,
+    280.9
+   ],
+   "label_bbox": [
+    775.2,
+    59.0,
+    901.1,
+    91.6
+   ]
+  },
+  {
+   "key": "shareholders.18.relation",
+   "label": "법인과의관계",
+   "type": "text",
+   "value": "주주(임직원)",
+   "norm": "주주(임직원)",
+   "page": 1,
+   "bbox": [
+    961.8,
+    259.9,
+    1067.2,
+    280.9
+   ],
+   "label_bbox": [
+    901.1,
+    59.0,
+    1128.0,
+    91.6
+   ]
+  },
+  {
+   "key": "pep",
+   "label": "외국의정치적주요인물여부",
+   "type": "checkbox",
+   "value": "아니오",
+   "norm": "아니오",
+   "page": 1,
+   "bbox": [
+    975.1,
+    381.8,
+    1030.8,
+    402.8
+   ],
+   "options": [
+    {
+     "text": "예",
+     "checked": false,
+     "box_bbox": [
+      912.7,
+      381.8,
+      923.9,
+      402.8
+     ],
+     "bbox": [
+      912.7,
+      381.8,
+      947.2,
+      402.8
+     ]
+    },
+    {
+     "text": "아니오",
+     "checked": true,
+     "box_bbox": [
+      959.2,
+      381.8,
+      970.4,
+      402.8
+     ],
+     "bbox": [
+      959.2,
+      381.8,
+      1030.8,
+      402.8
+     ]
+    }
+   ]
+  },
+  {
+   "key": "agent.name",
+   "label": "거래담당자성명",
+   "type": "text",
+   "value": "옥숙영",
+   "norm": "옥숙영",
+   "page": 1,
+   "bbox": [
+    222.8,
+    457.0,
+    278.6,
+    478.0
+   ],
+   "label_bbox": [
+    63.0,
+    451.8,
+    213.0,
+    484.4
+   ]
+  },
+  {
+   "key": "agent.rrn",
+   "label": "거래담당자실명번호",
+   "type": "rrn",
+   "value": "880108-2******",
+   "norm": "880108-2******",
+   "page": 1,
+   "bbox": [
+    506.7,
+    457.0,
+    633.8,
+    478.0
+   ],
+   "label_bbox": [
+    401.0,
+    451.8,
+    497.0,
+    484.4
+   ]
+  },
+  {
+   "key": "agent.position",
+   "label": "직위관계",
+   "type": "text",
+   "value": "회계팀 주임",
+   "norm": "회계팀 주임",
+   "page": 1,
+   "bbox": [
+    972.7,
+    457.0,
+    1070.3,
+    478.0
+   ],
+   "label_bbox": [
+    862.9,
+    451.8,
+    963.0,
+    484.4
+   ]
+  },
+  {
+   "key": "date",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 1,
+   "bbox": [
+    990.0,
+    523.7,
+    1128.7,
+    544.7
+   ]
+  },
+  {
+   "key": "seal.corp",
+   "label": "법인인감",
+   "type": "seal",
+   "value": "새한소프트대표이사인",
+   "present": true,
+   "kind": "법인인감",
+   "page": 1,
+   "bbox": [
+    1027.2,
+    544.8,
+    1134.2,
+    651.8
+   ]
+  },
+  {
+   "key": "bank_use.risk_grade",
+   "label": "고객위험등급",
+   "type": "checkbox",
+   "value": "저위험",
+   "norm": "저위험",
+   "page": 1,
+   "bbox": [
+    244.7,
+    700.9,
+    300.4,
+    721.9
+   ],
+   "label_bbox": [
+    75.0,
+    695.7,
+    219.0,
+    728.3
+   ],
+   "options": [
+    {
+     "text": "저위험",
+     "checked": true,
+     "box_bbox": [
+      228.8,
+      700.9,
+      240.0,
+      721.9
+     ],
+     "bbox": [
+      228.8,
+      700.9,
+      300.4,
+      721.9
+     ]
+    },
+    {
+     "text": "중위험",
+     "checked": false,
+     "box_bbox": [
+      312.4,
+      700.9,
+      323.7,
+      721.9
+     ],
+     "bbox": [
+      312.4,
+      700.9,
+      384.1,
+      721.9
+     ]
+    },
+    {
+     "text": "고위험",
+     "checked": false,
+     "box_bbox": [
+      396.1,
+      700.9,
+      407.3,
+      721.9
+     ],
+     "bbox": [
+      396.1,
+      700.9,
+      467.7,
+      721.9
+     ]
+    }
+   ]
+  },
+  {
+   "key": "bank_use.documents.0",
+   "label": "징구서류",
+   "type": "text",
+   "value": "사업자등록증",
+   "norm": "사업자등록증",
+   "page": 1,
+   "bbox": [
+    244.7,
+    733.5,
+    356.2,
+    754.5
+   ],
+   "label_bbox": [
+    75.0,
+    728.3,
+    219.0,
+    786.0
+   ]
+  },
+  {
+   "key": "bank_use.documents.1",
+   "label": "징구서류",
+   "type": "text",
+   "value": "법인등기사항전부증명서",
+   "norm": "법인등기사항전부증명서",
+   "page": 1,
+   "bbox": [
+    384.1,
+    733.5,
+    588.5,
+    754.5
+   ],
+   "label_bbox": [
+    75.0,
+    728.3,
+    219.0,
+    786.0
+   ]
+  },
+  {
+   "key": "bank_use.documents.2",
+   "label": "징구서류",
+   "type": "text",
+   "value": "주주명부",
+   "norm": "주주명부",
+   "page": 1,
+   "bbox": [
+    616.4,
+    733.5,
+    690.8,
+    754.5
+   ],
+   "label_bbox": [
+    75.0,
+    728.3,
+    219.0,
+    786.0
+   ]
+  },
+  {
+   "key": "bank_use.documents.3",
+   "label": "징구서류",
+   "type": "text",
+   "value": "정관",
+   "norm": "정관",
+   "page": 1,
+   "bbox": [
+    718.7,
+    733.5,
+    755.8,
+    754.5
+   ],
+   "label_bbox": [
+    75.0,
+    728.3,
+    219.0,
+    786.0
+   ]
+  },
+  {
+   "key": "bank_use.documents.4",
+   "label": "징구서류",
+   "type": "text",
+   "value": "법인인감증명서",
+   "norm": "법인인감증명서",
+   "page": 1,
+   "bbox": [
+    244.7,
+    758.6,
+    374.8,
+    779.6
+   ],
+   "label_bbox": [
+    75.0,
+    728.3,
+    219.0,
+    786.0
+   ]
+  },
+  {
+   "key": "bank_use.branch",
+   "label": "확인영업점",
+   "type": "text",
+   "value": "분당지점",
+   "norm": "분당지점",
+   "page": 1,
+   "bbox": [
+    228.8,
+    791.2,
+    303.1,
+    812.2
+   ],
+   "label_bbox": [
+    75.0,
+    786.0,
+    219.0,
+    818.6
+   ]
+  },
+  {
+   "key": "seal.staff.clerk",
+   "label": "담당",
+   "type": "seal",
+   "value": "김환예",
+   "present": true,
+   "kind": "행원인",
+   "anchor": "bank_use.clerk",
+   "page": 1,
+   "bbox": [
+    939.5,
+    750.1,
+    1004.5,
+    815.1
+   ]
+  },
+  {
+   "key": "bank_use.clerk",
+   "label": "담당",
+   "type": "text",
+   "value": "김환예",
+   "norm": "김환예",
+   "page": 1,
+   "bbox": [
+    948.8,
+    772.4,
+    995.1,
+    792.8
+   ],
+   "label_bbox": [
+    924.0,
+    695.7,
+    1020.0,
+    746.6
+   ]
+  },
+  {
+   "key": "seal.staff.manager",
+   "label": "책임자",
+   "type": "seal",
+   "value": "이환혜",
+   "present": true,
+   "kind": "행원인",
+   "anchor": "bank_use.manager",
+   "page": 1,
+   "bbox": [
+    1035.5,
+    750.1,
+    1100.5,
+    815.1
+   ]
+  },
+  {
+   "key": "bank_use.manager",
+   "label": "책임자",
+   "type": "text",
+   "value": "이환혜",
+   "norm": "이환혜",
+   "page": 1,
+   "bbox": [
+    1044.8,
+    772.4,
+    1091.1,
+    792.8
+   ],
+   "label_bbox": [
+    1020.0,
+    695.7,
+    1116.0,
+    746.6
+   ]
+  },
+  {
+   "key": "bank_use.documents",
+   "label": "징구서류",
+   "type": "checkbox_multi",
+   "value": null,
+   "group": true,
+   "options": [
+    {
+     "text": "사업자등록증",
+     "checked": true,
+     "box_bbox": [
+      228.8,
+      733.5,
+      240.0,
+      754.5
+     ],
+     "bbox": [
+      228.8,
+      733.5,
+      356.2,
+      754.5
+     ]
+    },
+    {
+     "text": "법인등기사항전부증명서",
+     "checked": true,
+     "box_bbox": [
+      368.2,
+      733.5,
+      379.4,
+      754.5
+     ],
+     "bbox": [
+      368.2,
+      733.5,
+      588.5,
+      754.5
+     ]
+    },
+    {
+     "text": "주주명부",
+     "checked": true,
+     "box_bbox": [
+      600.5,
+      733.5,
+      611.8,
+      754.5
+     ],
+     "bbox": [
+      600.5,
+      733.5,
+      690.8,
+      754.5
+     ]
+    },
+    {
+     "text": "정관",
+     "checked": true,
+     "box_bbox": [
+      702.8,
+      733.5,
+      714.0,
+      754.5
+     ],
+     "bbox": [
+      702.8,
+      733.5,
+      755.8,
+      754.5
+     ]
+    },
+    {
+     "text": "법인인감증명서",
+     "checked": true,
+     "box_bbox": [
+      228.8,
+      758.6,
+      240.0,
+      779.6
+     ],
+     "bbox": [
+      228.8,
+      758.6,
+      374.8,
+      779.6
+     ]
+    }
+   ],
+   "page": 1
+  }
+ ]
+}

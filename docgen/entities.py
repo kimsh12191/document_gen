@@ -176,7 +176,8 @@ BANKS = ["국민은행", "신한은행", "우리은행", "하나은행", "농협
          "부산은행", "iM뱅크", "카카오뱅크", "토스뱅크", "케이뱅크", "수협은행", "경남은행"]
 BANK_ACCT_FMT = {"국민은행": "######-##-######", "신한은행": "###-###-######", "우리은행": "####-###-######",
                  "하나은행": "###-######-#####", "농협은행": "###-####-####-##", "기업은행": "###-######-##-###",
-                 "카카오뱅크": "3333-##-#######", "토스뱅크": "1000-####-####", "케이뱅크": "100-###-######"}
+                 "카카오뱅크": "3333-##-#######", "토스뱅크": "1000-####-####", "케이뱅크": "100-###-######",
+                 "외환은행": "###-######-###", "KEB하나은행": "###-######-#####"}
 BRANCH_SUFFIX = ["역삼", "삼성역", "여의도", "광화문", "명동", "판교", "서초", "잠실", "해운대", "센텀",
                  "수원", "분당", "일산", "송도", "둔산", "상무", "청주", "창원", "범어", "을지로"]
 
@@ -293,8 +294,9 @@ class World:
                            K.round_to(r.uniform(1e5, 8e7), 1))
 
     # -- 프로필 -------------------------------------------------------------
-    def profile(self) -> Profile:
+    def profile(self, bank: str | None = None) -> Profile:
         r = self.rng
+        _bank_override = bank
         issue = rand_date(r, date(2025, 1, 2), date(2026, 9, 30))
         home = self.address(r.choice(["apt", "apt", "villa"]))
         p = self.person(birth_range=(1965, 1998), address=home)
@@ -355,6 +357,7 @@ class World:
             lease_deposit=K.round_to(price * r.uniform(0.5, 0.8), 5_000_000),
         )
         bank = r.choice(BANKS[:9])
+        bank = _bank_override or bank
         accounts = [self.account(p.name, bank)] + [self.account(p.name) for _ in range(r.randint(0, 2))]
         fname, faddr, fcountry, fswift, fbank = r.choice(FOREIGN)
         foreign = ForeignParty(
@@ -386,5 +389,6 @@ def _roman_prefix(name: str) -> str:
     return "company"
 
 
-def make_profile(seed: int) -> Profile:
-    return World(seed).profile()
+def make_profile(seed: int, bank: str | None = None) -> Profile:
+    """bank: 주거래은행 고정 (None 이면 랜덤)."""
+    return World(seed).profile(bank)

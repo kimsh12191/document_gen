@@ -8,6 +8,8 @@
 {% endblock %}
 {% block content %}
 {{ lp.css() }}
+{{ f.set_corr_name(val("signature")) }}
+{{ lp.cont_head("agree_corp") }}
 {{ lp.head(kind="agree_corp", sub="은 행 용") }}
 <div class="between" style="align-items:flex-start">
   <div class="stamp">수 입<br>인 지</div>
@@ -40,7 +42,7 @@
 <div class="art">제2조(이자 등)</div>
 <table class="bf">
 <colgroup><col style="width:104px"><col><col style="width:96px"><col></colgroup>
-<tr><th>금리종류</th><td colspan="3">{{ m.choice("loan.rate_type", ["고정금리", "변동금리"], label="금리종류") }}&nbsp; 기준금리: {{ f("loan.base_rate_name", label="기준금리종류") }}</td></tr>
+<tr><th>금리종류</th><td colspan="3">{{ m.choice("loan.rate_type", ["고정금리", "변동금리"], label="금리종류") }}{{ lp.nochk("loan.rate_type") }}&nbsp; 기준금리: {{ f("loan.base_rate_name", label="기준금리종류") }}</td></tr>
 <tr><td colspan="4" style="padding:0">
   <table style="margin:0;border:0" class="compact"><tr><th style="border-top:0;border-left:0">기준금리</th><th style="border-top:0">가산금리</th><th style="border-top:0">우대금리(－)</th><th style="border-top:0;border-right:0">여신이자율</th></tr>
   <tr><td class="c" style="border-left:0;border-bottom:0">연 {{ f("loan.base_rate", label="기준금리") }}</td><td class="c" style="border-bottom:0">＋ {{ f("loan.spread", label="가산금리") }}</td><td class="c" style="border-bottom:0">－ {{ f("loan.pref_rate", label="우대금리") }}</td><td class="c bold" style="border-right:0;border-bottom:0">＝ {{ f("loan.applied_rate", label="여신이자율") }}</td></tr></table>
@@ -61,18 +63,33 @@
 <div class="small" style="margin:0 0 0 8px">이자 등을 그 기일에 지급하지 아니한 때에는 지급하여야 할 금액에 대하여, 이자를 지급하여야 할 때부터 계속하여 14일간 지체하여 기한의 이익을 상실한 때에는 여신금액 전액에 대하여 지연배상금률 <b>{{ f("loan.late_rate", label="지연배상금률") }}</b> 로 계산한 지연배상금을 지급합니다.</div>
 <div class="art">제6조(인지세 부담)</div>
 <div class="small" style="margin:0 0 0 8px">이 약정서 작성에 따른 인지세는 각 50%씩 본인과 은행이 부담하며, 본인이 부담할 인지세를 은행이 대신 지급한 경우에는 곧 갚기로 합니다. 인지세: <b>{{ f("stamp_tax", label="인지세") }}</b></div>
+{% if d.special_terms is defined %}
+{{ lp.articles("corp", 7) }}
+{{ lp.special_terms(17) }}
+{% endif %}
 
 <div class="box" style="margin:5px 0;padding:3px 8px">
-<div class="small">본인(대표이사)은 이 약정서 및 은행여신거래기본약관(기업용)의 중요 내용에 대하여 충분히 설명을 듣고 이해하였으며, 그 사본을 수령하였습니다. &nbsp;{{ m.agree("explained", "예", "아니오", label="설명이해확인") }}</div>
+<div class="small">본인(대표이사)은 이 약정서 및 은행여신거래기본약관(기업용)의 중요 내용에 대하여 충분히 설명을 듣고 이해하였으며, 그 사본을 수령하였습니다. &nbsp;{{ m.agree("explained", "예", "아니오", label="설명이해확인") }}{{ lp.nochk("explained") }}</div>
 </div>
 
 <div class="between" style="margin-top:6px;align-items:center">
   <div style="padding-left:12px">{{ f("contract_date", label="약정일") }}</div>
   <div class="right" style="line-height:2.1">
     본인(채무자) &nbsp;{{ f("debtor.name", label="상호(법인명)") }}<span class="inmark"></span><br>
-    대표이사 &nbsp;<span style="font-size:calc(var(--fs) + 1px)">{{ f("signature", label="대표이사") }}</span> &nbsp;{{ lp.in_seal("대표이사", size="", mark="(법인인감)") }}
+    대표이사 &nbsp;<span style="font-size:calc(var(--fs) + 1px)">{{ f("signature", label="대표이사") }}</span> &nbsp;{{ lp.in_seal("대표이사", size="", mark="(법인인감)", key="corp", kind="법인인감", anchor="signature") }}
   </div>
 </div>
+{% if d.guarantors is defined %}
+<div class="art" style="margin-top:8px">연대보증인</div>
+<div class="tiny muted" style="margin-left:8px">연대보증인은 위 채무자가 이 약정에 따라 부담하는 채무를 채무자와 연대하여 이행할 것을 확약합니다. (별도 보증약정서 징구)</div>
+<table class="bf">
+<colgroup><col style="width:96px"><col style="width:130px"><col><col style="width:150px"><col style="width:96px"></colgroup>
+<tr><th style="text-align:center">성　명</th><th style="text-align:center">실명번호</th><th style="text-align:center">주　소</th><th style="text-align:center">채무자와의 관계</th><th style="text-align:center">인감</th></tr>
+{% for g in d.guarantors %}{% set i = loop.index0 %}
+<tr style="height:44px"><td class="c">{{ f("guarantors." ~ i ~ ".name", label="연대보증인", fix=0.04) }}</td><td class="c">{{ f("guarantors." ~ i ~ ".rrn", label="실명번호") }}</td><td>{{ f("guarantors." ~ i ~ ".address", label="주소", fix=0.05) }}</td><td class="c">{{ f("guarantors." ~ i ~ ".relation", label="채무자와의관계") }}</td><td class="c">{{ lp.in_seal(g.name ~ "인", size="sm", mark="(인감)", key="guarantor", anchor="guarantors." ~ i ~ ".name", p=0.9) }}</td></tr>
+{% endfor %}
+</table>
+{% endif %}
 
 {{ lp.bank_use(["실명확인", "약정내용 설명", "인감 대조", "담당자", "책임자"]) }}
 {% endblock %}

@@ -4,6 +4,8 @@
 
 - **외부 발급 서류 56종**: 신분증, 등·초본, 가족관계증명서, 소득금액증명원, 원천징수영수증, 등기부등본, 사업자등록증, 재무제표, 인보이스 등
 - **은행 자체 서식 14종**: 대출신청서, 여신거래약정서, 근저당권설정계약서, 고객확인서(KYC), 해외송금신청서 등
+  - 은행별 표기(은행명·법인명칭·서식번호 줄·결재란·인쇄색·계좌번호)가 다르게 나옵니다.
+  - **하나은행**과 옛 은행 **KEB하나은행(2015~2020)**, **외환은행(~2015.8)** 서식도 만듭니다. 옛 은행 서식은 그 시기 날짜와 제도로 만들어집니다. → [docs/realism/bank_brands.md](docs/realism/bank_brands.md)
 - 전체 목록: [docs/DOCUMENTS.md](docs/DOCUMENTS.md)
 - 서류별 샘플 이미지와 정답: [samples/](samples/)
 
@@ -18,6 +20,7 @@
 | **숫자 정합성** | 합계, 세액(누진세율·4대보험), 잔액 흐름, 대차대조(자산=부채+자본), 환율 환산, 한글 금액(`금 이억일천사백만원정`)이 계산으로 맞춰집니다. |
 | **식별번호 형식** | 주민번호, 사업자번호, 법인등록번호는 체크섬까지 맞는 형식으로 생성됩니다(값은 랜덤). 여권 MRZ도 ICAO 체크디지트를 적용합니다. |
 | **시각 다양성** | 샘플마다 폰트(나눔·Noto·명조 계열), 글자 크기, 선 굵기, 배경색, 여백이 바뀝니다. 서류 안에서도 열람용/발급용, 마스킹 여부, 선택 항목 등이 랜덤입니다. |
+| **형식 변형·여러 쪽** | 사람마다 사정이 다른 경우가 랜덤으로 섞입니다. 이사가 잦은 초본, 근저당이 반복된 등기부, 임원 변경이 많은 법인등기부, 품목이 많은 인보이스처럼 내용이 길면 자동으로 여러 쪽이 됩니다. 말소·개명·이혼·특약·손글씨 정정 같은 특수 상황도 나옵니다. → [서식 변형](#서식-변형-여러-쪽특수-상황) |
 | **스캔·촬영 증강** | 기울기, 배경, 조명, 흐림, 노이즈, 팩스, JPEG 압축 효과를 줍니다. |
 | **위조 방지** | 신분증, 여권, 인감증명서 등 신원 서류는 항상 "견본 SAMPLE" 워터마크가 들어갑니다. 실제 기관 로고·관인·보안패턴은 넣지 않습니다. |
 
@@ -41,7 +44,7 @@ python -m docgen list
 # 전 서류 x 고객 100명 → HTML + 정답 JSON
 python -m docgen generate --n 100 --out out
 
-# 이미지(PNG) + bbox + VLM 학습용 jsonl 까지
+# 이미지(PNG) + 위치 + ms-swift 학습 jsonl 까지
 python -m docgen generate --n 100 --out out --png
 
 # 샘플마다 스캔/촬영 증강 이미지 2장 추가
@@ -50,6 +53,10 @@ python -m docgen generate --n 100 --out out --png --augment 2
 # 특정 서류나 그룹만
 python -m docgen generate --types income_certificate,pay_stub --n 50 --out out --png
 python -m docgen generate --types corporate,fx --n 50 --out out --png
+
+# 은행 서식을 특정 은행으로 (하나은행, KEB하나은행, 외환은행, 국민은행, ...)
+python -m docgen generate --types bank_form --bank 하나은행 --n 50 --out out --png
+python -m docgen generate --bank 외환은행 --n 50 --out out --png   # 옛 은행: 은행 서식만 생성
 
 # 업무 시나리오 단위 (같은 고객의 제출 서류 묶음)
 python -m docgen generate --scenario mortgage --n 30 --out out --png
@@ -64,53 +71,106 @@ python -m docgen check --png
 
 ```
 out/
-  html/<서류ID>_<seed>.html        렌더링된 HTML
-  images/<서류ID>_<seed>.png       (--png) 이미지
-  images/<서류ID>_<seed>_aug0.jpg  (--augment) 증강 이미지
-  labels/<서류ID>_<seed>.json      정답 + 필드별 라벨/bbox
-  manifest.jsonl                   샘플 목록
-  vlm.jsonl                        (--png) VLM 학습용 대화 형식
+  html/<서류ID>_<seed>.html              렌더링된 HTML
+  images/<서류ID>_<seed>.png             (--png) 이미지. 여러 쪽이면 _p1.png, _p2.png ...
+  images/<서류ID>_<seed>_aug0.jpg        (--augment) 스캔·촬영 증강 이미지
+  labels/<서류ID>_<seed>.json            정답 + 필드별 타입·정규화 값·위치
+  manifest.jsonl                         샘플 목록
+  swift/<과제>.jsonl, swift/all.jsonl    (--png) ms-swift 학습 데이터
 ```
 
-같은 `seed`(파일명 숫자)를 가진 서류들은 같은 고객의 서류입니다.
+같은 `seed`(파일명 숫자)를 가진 서류들은 같은 고객의 서류입니다. 은행 서식의 label·manifest에는 서식을 낸 은행이 `bank`로 기록됩니다.
+
+`--bank`를 주지 않으면 고객의 약 10%는 외환은행, 6%는 KEB하나은행 서식으로 만들어집니다(시나리오 생성 제외). 이 서식들은 2011~2020년 날짜이므로 같은 고객의 외부 발급 서류와 날짜가 맞지 않습니다.
 
 ### labels/*.json
 
 ```json
 {
- "id": "employment_certificate_000007", "doc_type": "employment_certificate", "doc_name": "재직증명서",
- "group": "income", "category": "external", "profile_seed": 7,
+ "id": "loan_application_000003", "doc_type": "loan_application", "doc_name": "대출거래신청서",
+ "images": ["images/loan_application_000003.png"], "pages": [{"width": 1588, "height": 2246}],
  "fields": [
-  {"key": "employee.name", "label": "성명", "value": "김소윤", "bbox": [262.5, 501.0, 310.4, 523.5]},
-  ...
+  {"key": "loan.amount", "label": "대출신청금액", "type": "amount", "value": "56,000,000",
+   "norm": 56000000, "page": 0, "bbox": [x0, y0, x1, y1], "label_bbox": [x0, y0, x1, y1]},
+  {"key": "loan.rate_type", "label": "금리방식", "type": "checkbox", "value": "변동", "page": 0,
+   "options": [{"text": "고정", "checked": false, "box_bbox": [...], "bbox": [...]},
+               {"text": "변동", "checked": true,  "box_bbox": [...], "bbox": [...]}]},
+  {"key": "seal.applicant", "label": "신청인", "type": "seal", "present": true, "kind": "인감",
+   "value": "김나우", "anchor": "signature", "page": 0, "bbox": [...]},
+  {"key": "sign.applicant", "label": "신청인", "type": "signature", "present": false, "page": 0, "bbox": [...]}
  ],
- "gt": {
-  "doc_no": "제 2025-171 호",
-  "employee": {"name": "김소윤", "rrn": "901121-2030821", "address": "광주광역시 서구 내방로 75, ..."},
-  "employment": {"department": "경영지원팀", "position": "차장", "period": "2014년 12월 01일 ~ 현재"},
-  "company": {"name": "(주)새한소프트", "biz_no": "458-86-13197", ...},
-  "issue_date": "2025년 11월 29일"
- }
+ "gt": {"loan": {"amount": "56,000,000", "rate_type": "변동"}, "seal": {"applicant": true}, "sign": {"applicant": false}}
 }
 ```
 
-- `gt`: 중첩 JSON 정답. 반복 항목(거래내역, 가족, 품목 등)은 리스트입니다.
-- `fields`: 평탄화된 필드 목록입니다.
-  - `label`: 문서에 적힌 한글 항목명
-  - `bbox`: 이미지 픽셀 좌표 `[x0, y0, x1, y1]`
-  - 한글 키 기반 정답을 만들거나 grounding 학습을 할 때 씁니다.
+- **좌표:** 이미지 픽셀 `[x0, y0, x1, y1]`, 해당 쪽(`page`, 0부터) 왼쪽 위 기준입니다.
+- **값(`value`)과 정규화 값(`norm`):** `value`는 문서에 찍힌 그대로, `norm`은 날짜 `YYYY-MM-DD`, 금액 정수, 전화번호 숫자 등입니다. 빈 칸은 `null`입니다.
+- **체크박스:** 보기마다 체크 여부와 □/■ 칸 위치(`box_bbox`)가 있습니다. 정답 값은 체크된 보기입니다.
+- **도장·서명:** `seal.<자리>`, `sign.<자리>`. 서명란은 랜덤으로 도장 / 서명 / 빈 칸이 되고, 없을 때도 그 자리 위치가 기록됩니다.
+- **키 목록과 규칙:** 서류별 전체 키·항목명·타입은 [docs/SCHEMA.md](docs/SCHEMA.md)(기계용 `schema/schema.json`)에 있습니다.
+- **좌표 확인:** `python scripts/visualize_labels.py out/labels/<파일>.json` 으로 위치를 그린 이미지를 만듭니다.
 
-### vlm.jsonl
+### swift/*.jsonl (ms-swift 학습용)
+
+Qwen-VL 계열을 ms-swift로 학습하는 형식입니다. 한 줄이 학습 샘플 하나입니다.
 
 ```json
-{"id": "...", "image": "images/....png", "doc_type": "...", "augment": "clean",
- "messages": [
-  {"role": "user", "content": [{"type": "image", "image": "images/....png"}, {"type": "text", "text": "이 문서의 종류를 판별하고, ... JSON으로 추출하세요."}]},
-  {"role": "assistant", "content": [{"type": "text", "text": "{\"document_type\": \"재직증명서\", ...}"}]}
- ]}
+{"id": "loan_application_000003:kie", "task": "kie", "augment": "clean",
+ "images": ["images/loan_application_000003.png"],
+ "messages": [{"role": "user", "content": "<image>이 문서의 종류를 판별하고, ... JSON으로 추출하세요."},
+              {"role": "assistant", "content": "{\"document_type\": \"대출거래신청서\", \"loan\": {...}}"}]}
 ```
 
-Qwen2-VL, InternVL 등 대화형 VLM 파인튜닝 포맷에 맞춰 바로 쓰거나 변환해서 쓸 수 있습니다.
+| 과제 | 질문 | 답 |
+|---|---|---|
+| `kie` | 전체 추출 | 서류 종류 + 전체 정답 JSON (빈 칸 null, 도장·서명 true/false) |
+| `kie_keys` | 지정한 키 목록 (문서에 없는 키도 가끔 섞음) | 그 키들만 평탄 JSON, 없으면 null |
+| `grounding` | 위치 포함 추출 | `[{"key", "label", "value", "bbox_2d"}]` |
+| `marks` | 체크박스·도장·서명 판별 | 체크 상태·날인·서명 여부와 위치 |
+| `qa` | 항목 하나 질문 | 값 또는 예/아니오 |
+
+- **좌표(`bbox_2d`):** 기본은 0~1000 상대 좌표 정수입니다(Qwen2-VL·Qwen3-VL 방식). `--coord pixel`이면 픽셀 좌표입니다. 학습할 모델 버전의 좌표 방식을 한 번 확인하세요.
+- **여러 쪽 서류:** `<image>`가 쪽 수만큼 들어가고, 위치 답에 `page`(1부터)가 붙습니다.
+- **증강 이미지:** 회전·이동·축소를 위치 정답에도 똑같이 적용하므로 `grounding`/`marks`에도 씁니다.
+- **경로:** `images`는 출력 폴더 기준 상대 경로입니다. 학습은 출력 폴더에서 실행하거나 경로를 바꿔 쓰세요.
+- 일부 과제만: `--tasks kie,kie_keys`
+
+```bash
+python -m docgen generate --n 500 --out out --png --augment 2
+cd out && swift sft --model <Qwen-VL 모델> --dataset swift/all.jsonl ...
+```
+
+## 서식 변형 (여러 쪽·특수 상황)
+
+서류마다 실제로 생기는 예외적인 경우가 정해진 확률로 섞여 나옵니다. 서류별 경우·확률·새 키는 [docs/variants/](docs/variants/)에 있습니다.
+
+- **내용이 많은 경우(heavy):** 서류마다 15~35% 확률입니다. 주소이력 20~40건, 거래 수백 줄, 품목 20~60개처럼 내용이 길어집니다.
+- **여러 쪽 나눔:** 브라우저에서 자동으로 합니다 ([docgen/paginate.js](docgen/paginate.js)).
+  - 표는 줄 단위로 자르고 머리글 줄을 다음 쪽에 반복합니다.
+  - 발급번호 줄은 쪽마다 다시 찍힙니다.
+  - 쪽 번호와 "다음 쪽에 계속"이 들어갑니다. 영문 서류는 "Page 1 of 3"입니다.
+  - 발급기관과 직인은 마지막 쪽에 옵니다.
+- **특수 상황(special):** 서류마다 2~5가지가 있고, 각각 5~30% 확률입니다.
+  - 예: 등기부 말소사항(빨간 밑줄·취소선), 초본 개명, 가족관계 이혼·재혼·사망, 법인 상호·본점 변경, 계약서 특약, 납세 유예, 신용장 거래.
+- **손글씨 정정:** 고객이 손으로 쓰는 서식(은행 서식, 계약서, 위임장, 서면 신고서)에서 4~8% 확률로 나옵니다.
+  - 틀린 값에 두 줄을 긋고, 옆에 바른 값과 작은 정정 도장을 찍습니다.
+  - 정답은 바른 값이고, 라벨의 `corrected_from`에 틀린 값이 남습니다.
+- **같은 고객의 서류는 같은 사정을 공유합니다.** 예를 들어 상호 변경일은 등기부, 정관, 사업자등록증에서 같습니다.
+
+확률을 바꾸려면 환경변수를 씁니다.
+
+```bash
+DOCGEN_HEAVY=1 python -m docgen generate ...          # 내용이 많은 경우를 항상 (0 이면 끔)
+DOCGEN_SPECIAL=all python -m docgen generate ...      # 특수 상황을 모두 켬 (none 이면 끔, 이름,이름 이면 그것만)
+```
+
+**학습 시 참고 (Qwen-VL):**
+- 여러 쪽 서류는 이미지 여러 장이 한 샘플에 들어갑니다.
+  - 쪽마다 이미지 토큰이 들고, 긴 서류는 3~4쪽까지 나옵니다.
+  - ms-swift의 `MAX_PIXELS`(이미지 한 장의 최대 픽셀)와 `--max_length`를 함께 정하세요.
+- 기본 `--scale 2.0`이면 A4 한 쪽이 약 1588×2246 픽셀(1.5면 1190×1684)입니다.
+  - `MAX_PIXELS=1003520`(약 1280개의 28×28 칸)이면 쪽당 약 1280 토큰입니다.
+  - 등기부·명세서처럼 글자가 작은 서류는 해상도를 너무 줄이면 읽기 어려우니 확인해 보세요.
 
 ## 구조
 
@@ -119,15 +179,21 @@ docgen/
   korean.py      이름(한글/한자/로마자), 주소, 주민·사업자·법인번호, 금액·날짜 포맷
   entities.py    고객 프로필 (본인·가족·직장·사업체·법인·부동산·계좌·해외거래처)
   registry.py    서류 등록(@doc), 그룹, 업무 시나리오
-  render.py      Jinja2 렌더링 + GT 수집(f()), 랜덤 스타일
-  image.py       Playwright 로 PNG + bbox
+  banks.py       은행별 서식 표기, 옛 은행(외환·KEB하나) 시기 이동
+  render.py      Jinja2 렌더링 + GT 수집(f(), 체크박스·도장·서명 기록), 랜덤 스타일
+  schema.py      타입 추론·정규화 값·키 통일, 위치 합치기
+  swift.py       ms-swift 학습 레코드 (과제별)
+  image.py       Playwright 로 PNG + 위치 (값·항목명·체크칸·도장)
+  paginate.js    넘친 쪽을 여러 쪽으로 나눔 (머리글 줄 반복, 쪽 번호)
   augment.py     스캔/촬영/팩스 증강
   cli.py         list / generate / check
   docs/*.py      서류별 데이터 생성 함수 (그룹별 파일)
 templates/
   _base.html.j2, _macros.html.j2   공통 레이아웃·매크로
   <그룹>/<서류ID>.html.j2          서류별 템플릿
-scripts/make_samples.py            samples/ 갱신
+scripts/make_samples.py            samples/ 갱신 (변형 샘플은 samples/variants/, 은행별은 samples/bank_variants/)
+scripts/build_schema.py            docs/SCHEMA.md, schema/schema.json 갱신
+scripts/visualize_labels.py        라벨 위치를 이미지에 그려 확인
 tests/                             pytest
 ```
 
@@ -146,7 +212,8 @@ tests/                             pytest
 ## 알려진 한계
 
 - **확인하지 못한 세부 항목:** 표의 칸 배치, 일부 안내 문구, 서식 번호의 최신 개정일 등은 검색으로 확인하지 못했습니다. 은행 서식의 서식번호 일부는 형식만 실제와 같은 임의값입니다.
-- **긴 서류와 신분증:** 긴 서류(정관, 약정서, 등기부 등)는 첫 페이지나 핵심 페이지만 표현합니다. 신분증은 앞면만 있습니다.
-- **필기 표현:** 손글씨 서명과 자필 기재란은 필기체 폰트가 아니라 일반 폰트를 기울여 흉내 냈습니다.
+- **긴 서류와 신분증:** 내용이 길면 여러 쪽으로 나오지만, 약정서 약관 전문처럼 매우 긴 고정 문구는 일부만 넣었습니다. 신분증은 앞면만 있습니다.
+- **필기 표현:** 서명은 선으로 그린 낙서 모양입니다. 자필 기재란은 필기체 폰트가 아니라 일반 폰트로 흉내 냈습니다.
+- **변형 문구:** 말소 표시 방식, 공증 문구, 감면 코드 등 일부 특수 상황의 문구는 실제 서식으로 확인하지 못한 추정입니다. 서류별 메모는 [docs/variants/](docs/variants/)에 있습니다.
 - **스캔·촬영 실제감:** 증강은 Pillow 기반의 단순한 효과입니다. 원근 왜곡이나 구겨짐은 없습니다.
 - **조합의 개연성:** 한 고객이 근로자이면서 개인사업자이자 법인 대표로 생성됩니다. 서류별로는 문제가 없지만 시나리오를 넘나들면 비현실적인 조합이 됩니다.

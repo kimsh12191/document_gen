@@ -1,0 +1,68 @@
+{
+ "document_type": "근로소득 원천징수영수증",
+ "copy_type": "소득자 보관용",
+ "year": "2024",
+ "resident": "거주자1",
+ "nationality": "내국인1",
+ "household_head": "세대원2",
+ "settlement_type": "계속근로1",
+ "payer": {
+  "name": "(주)새한소프트",
+  "ceo": "박연윤",
+  "biz_no": "458-86-13197",
+  "address": "전라남도 여수시 여수시민로 411, 2층"
+ },
+ "earner": {
+  "name": "김소윤",
+  "rrn": "901121-2030821",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)"
+ },
+ "work": {
+  "company": "(주)새한소프트",
+  "biz_no": "458-86-13197",
+  "period": "2024.01.01~2024.12.31",
+  "reduction_period": "2020.01.01~2024.12.31",
+  "salary": "62,330,000",
+  "bonus": "0",
+  "total": "62,330,000"
+ },
+ "work_prev": {
+  "company": "주식회사 대성메디칼",
+  "biz_no": "549-20-11336",
+  "period": "2024.08.01~2024.10.31",
+  "salary": "3,400,000",
+  "bonus": "0",
+  "total": "3,400,000"
+ },
+ "work_sum": {
+  "salary": "65,730,000",
+  "bonus": "0",
+  "total": "65,730,000",
+  "meal": "2,400,000"
+ },
+ "nontax": {
+  "childcare": "2,400,000",
+  "meal": "2,400,000",
+  "total": "4,800,000",
+  "reduction": "62,330,000"
+ },
+ "tax": {
+  "final_income": "1,713,740",
+  "final_local": "171,370",
+  "prepaid_income": "3,720,240",
+  "prepaid_local": "372,020",
+  "diff_income": "-2,006,500",
+  "diff_local": "-200,650",
+  "effective_rate": "2.6"
+ },
+ "tax_prev": {
+  "biz_no": "549-20-11336",
+  "income": "0",
+  "local": "0"
+ },
+ "issue_date": "2025년 3월 5일",
+ "seal": {
+  "payer": true
+ },
+ "tax_office": "여수세무서장"
+}

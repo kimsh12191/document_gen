@@ -1,20 +1,20 @@
 {
  "document_type": "수입신고필증",
- "decl_no": "46735-25-1601217U",
+ "decl_no": "48165-25-1347015X",
  "decl_date": "2025/11/12",
- "customs": "030-19",
+ "customs": "030-11",
  "arrival_date": "2025/11/11",
- "bl_no": "TPMLJP94954710",
- "cargo_no": "25TPML121688I-1392-016",
+ "bl_no": "HBSCJP55477018",
+ "cargo_no": "25HBSC620219I-7804-029",
  "warehouse_date": "2025/11/13",
  "collection_type": "11",
- "declarant": "세원관세법인 최현하",
+ "declarant": "미래관세법인 윤수영",
  "importer": {
   "name": "주식회사 새한소프트",
-  "code": "새한소프8738058"
+  "code": "새한소프5137576"
  },
  "taxpayer": {
-  "code": "새한소프8738058",
+  "code": "새한소프5137576",
   "address": "서울특별시 영등포구 국제금융로 22-7, 8층",
   "name": "주식회사 새한소프트",
   "ceo": "김소윤",
@@ -22,90 +22,108 @@
  },
  "forwarder": "DAON LOGISTICS CO., LTD.",
  "supplier": "TOKYO SEIMITSU KOGYO K.K. (JP)",
- "clearance_plan": "C 보세구역도착전",
+ "clearance_plan": "D 보세구역장치후",
  "origin_cert": "N",
- "total_weight": "2,168 KG",
- "total_packages": "192 CT",
+ "total_weight": "3,187 KG",
+ "total_packages": "208 CT",
  "arrival_port": "KRPUS 부산항",
  "transport": "10 FCL",
  "export_country": "JP JAPAN",
- "vessel": "CORAL VOYAGER",
- "master_bl": "TPMLJP94954710",
- "carrier_code": "TPML",
- "inspection_place": "03036774-85413653 부산신항국제터미널",
+ "vessel": "STAR PIONEER",
+ "master_bl": "HBSCJP55477018",
+ "carrier_code": "HBSC",
+ "inspection_place": "03087499-48748182 부산신항국제터미널",
  "items": [
   {
    "line_no": "001",
    "std_name": "CERAMIC DIELECTRIC, MULTILAYER",
    "trade_name": "MULTILAYER CERAMIC CAPACITOR 0402 100NF 16V",
-   "model": "CL05-920S",
-   "quantity": "12,900,000 PCS",
-   "unit_price": "1.42",
-   "amount": "18,318,000",
+   "specs": [
+    {
+     "no": "01",
+     "model": "CL05-569B",
+     "quantity": "8,300,000 PCS",
+     "unit_price": "1.68",
+     "amount": "13,944,000"
+    }
+   ],
    "hs_code": "8532.24-0000",
-   "net_weight": "1,096.5 KG",
-   "taxable_usd": "$126,452",
-   "taxable_krw": "₩163,892,212",
+   "net_weight": "705.5 KG",
+   "taxable_usd": "$96,213",
+   "taxable_krw": "₩124,700,102",
    "origin": "JP-G-N",
    "duty_type": "관",
    "duty_rate": "0.00(C)",
    "duty_amount": "0",
    "vat_rate": "10.00(A)",
-   "vat_amount": "16,389,220"
+   "vat_amount": "12,470,010"
   },
   {
    "line_no": "002",
    "std_name": "LITHIUM-ION ACCUMULATORS",
    "trade_name": "LI-ION BATTERY CELL 18650 3.6V 3000MAH",
-   "model": "INR18650-797S",
-   "quantity": "16,400 PCS",
-   "unit_price": "474",
-   "amount": "7,769,500",
+   "specs": [
+    {
+     "no": "01",
+     "model": "INR18650-186",
+     "quantity": "46,000 PCS",
+     "unit_price": "341",
+     "amount": "15,678,640"
+    }
+   ],
    "hs_code": "8507.60-0000",
-   "net_weight": "779.0 KG",
-   "taxable_usd": "$53,634",
-   "taxable_krw": "₩69,514,168",
+   "net_weight": "2,185.0 KG",
+   "taxable_usd": "$108,182",
+   "taxable_krw": "₩140,212,853",
    "origin": "JP-G-N",
    "duty_type": "관",
    "duty_rate": "8.00(A)",
-   "duty_amount": "5,561,130",
+   "duty_amount": "11,217,020",
    "vat_rate": "10.00(A)",
-   "vat_amount": "7,507,520"
+   "vat_amount": "15,142,980"
   },
   {
    "line_no": "003",
    "std_name": "ELECTRONIC INTEGRATED CIRCUITS",
    "trade_name": "LED DRIVER IC, SOP-8",
-   "model": "LD-127A",
-   "quantity": "440,000 PCS",
-   "unit_price": "36.19",
-   "amount": "15,923,600",
+   "specs": [
+    {
+     "no": "01",
+     "model": "LD-256",
+     "quantity": "200,000 PCS",
+     "unit_price": "82.34",
+     "amount": "16,468,000"
+    }
+   ],
    "hs_code": "8542.39-1000",
-   "net_weight": "132.0 KG",
-   "taxable_usd": "$109,923",
-   "taxable_krw": "₩142,469,375",
+   "net_weight": "60.0 KG",
+   "taxable_usd": "$113,628",
+   "taxable_krw": "₩147,272,038",
    "origin": "JP-G-N",
    "duty_type": "관",
    "duty_rate": "0.00(C)",
    "duty_amount": "0",
    "vat_rate": "10.00(A)",
-   "vat_amount": "14,246,930"
+   "vat_amount": "14,727,200"
   }
  ],
  "line_total": "003",
- "payment": "FOB-JPY-42,011,100-DP",
+ "payment": "FOB-JPY-46,090,640-DP",
  "exchange_rate": "8.8941",
- "total_taxable": "₩375,875,755",
+ "total_taxable": "₩412,184,993",
  "freight": "₩1,963,274",
- "vat_base": "₩381,436,885",
- "insurance": "₩261,557",
+ "vat_base": "₩423,402,013",
+ "insurance": "₩286,950",
  "tax": {
-  "duty": "5,561,130",
-  "vat": "38,143,670",
-  "total": "43,704,800"
+  "duty": "11,217,020",
+  "vat": "42,340,190",
+  "total": "53,557,210"
  },
  "customs_office": "부산세관",
  "officer": "박선경",
  "receipt_datetime": "2025/11/12 16:05",
- "accept_date": "2025/11/12"
+ "accept_date": "2025/11/13",
+ "seal": {
+  "issuer": true
+ }
 }

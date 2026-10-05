@@ -10,39 +10,66 @@ h1.title { letter-spacing:.3em; margin-bottom:16px; }
 .para { text-align:justify; margin:10px 0; line-height:1.6; text-indent:1em; }
 .agenda { font-weight:700; margin:14px 0 4px; }
 .detail { border:var(--bw) solid var(--border); padding:6px 14px; margin:6px 30px; }
-.signs { margin-top:10px; margin-left:auto; width:330px; }
+.signs { margin-top:10px; margin-left:auto; width:400px; }
 .signs .s { display:flex; align-items:center; height:48px; }
 table.att { width:92%; margin:2px auto 4px; } table.att th { width:22%; } table.att td { width:28%; }
 .signs .t { width:120px; letter-spacing:.05em; }
 .signs .n { width:100px; letter-spacing:.2em; }
+table.att2 { width:92%; margin:4px auto 8px; }
+.votes { margin:2px 30px 6px; font-weight:600; }
+.notary { border:2px solid #2a4fa0; color:#1d3a80; width:330px; margin:14px 0 0 auto; padding:8px 12px; line-height:1.5; transform:rotate(-1deg); position:relative; }
+.notary .h { text-align:center; font-weight:700; letter-spacing:.6em; font-size:calc(var(--fs) + 2px); }
 .corp { text-align:right; margin-top:14px; line-height:1.6; }
 {% endblock %}
 {% block content %}
-{{ m.title("임시주주총회의사록") }}
+<h1 class="title">{{ f("meeting_title", label="의사록종류") }}</h1>
 <div class="it"><span class="k">1. 일　　　시 :</span><span>{{ f("datetime", label="일시") }}</span></div>
 <div class="it"><span class="k">2. 장　　　소 :</span><span>{{ f("venue", label="장소") }}</span></div>
 <div class="it"><span class="k">3. 출 석 상 황 :</span></div>
 <table class="att compact">
   <tr><th>주주의 총수</th><td>{{ f("shareholders_total", label="주주의총수") }}</td><th>발행주식의 총수<br><span class="tiny">(의결권 있는 주식)</span></th><td>{{ f("issued_shares", label="발행주식의총수") }}</td></tr>
-  <tr><th>출석주주의 수</th><td>{{ f("shareholders_present", label="출석주주의수") }}</td><th>출석주주의 주식수</th><td>{{ f("shares_present", label="출석주주의주식수") }} ({{ f("present_ratio", label="출석비율") }})</td></tr>
+  <tr><th>출석주주의 수</th><td>{{ f("shareholders_present", label="출석주주의수") }}{% if d.proxy_count is defined %}<br><span class="tiny">({{ f("proxy_count", label="대리출석") }})</span>{% endif %}</td><th>출석주주의 주식수</th><td>{{ f("shares_present", label="출석주주의주식수") }} ({{ f("present_ratio", label="출석비율") }})</td></tr>
 </table>
+{% if d.treasury_shares is defined %}<div class="small" style="margin:0 4%">※ 회사가 보유한 자기주식 {{ f("treasury_shares", label="자기주식수") }}은 의결권이 없어 발행주식총수에서 제외함.</div>{% endif %}
+{% if d.attendees is defined %}
+<div class="it pg-keep-with-next"><span class="k">4. 출석주주 명단 :</span></div>
+<table class="att2 compact">
+  <tr><th style="width:8%">번호</th><th>주주명</th><th style="width:20%">소유주식수</th><th style="width:16%">출석구분</th><th style="width:28%">대리인</th></tr>
+  {% for r in d.attendees %}{% set pr = "attendees." ~ loop.index0 ~ "." %}
+  <tr><td class="c">{{ loop.index }}</td><td class="c">{{ f(pr ~ "name", label="주주명") }}</td><td class="num">{{ f(pr ~ "shares", label="소유주식수") }}</td><td class="c">{{ f(pr ~ "method", label="출석구분") }}</td><td class="c">{{ f(pr ~ "proxy", label="대리인") }}</td></tr>
+  {% endfor %}
+</table>
+{% endif %}
 
 <div class="para">의장인 대표이사 {{ f("chair", label="의장") }}은(는) 정관 규정에 따라 의장석에 등단하여 위와 같이 법정수에 달하는 주주가 출석하였으므로 본 총회가 적법하게 성립되었음을 알리고 개회를 선언한 후, 다음의 의안을 부의하고 심의를 구하다.</div>
 
 {% for a in d.agendas %}{% set i = loop.index0 %}
-<div class="agenda">{{ f("agendas." ~ i ~ ".no", label="의안번호") }} : {{ f("agendas." ~ i ~ ".title", label="의안") }}</div>
+<div class="agenda pg-keep-with-next">{{ f("agendas." ~ i ~ ".no", label="의안번호") }} : {{ f("agendas." ~ i ~ ".title", label="의안") }}</div>
 <div class="para">{{ f("agendas." ~ i ~ ".body", label="결의내용") }}</div>
-<div class="detail">{{ f("agendas." ~ i ~ ".detail", label="세부내용") }}</div>
+{% if a.detail is defined %}<div class="detail">{{ f("agendas." ~ i ~ ".detail", label="세부내용") }}</div>{% endif %}
+{% if a.votes is defined %}<div class="votes">표결 결과 : {{ f("agendas." ~ i ~ ".votes", label="표결결과") }}</div>{% endif %}
 {% endfor %}
 
 <div class="para">의장은 이상으로써 회의 목적인 의안 전부의 심의를 종료하였으므로 폐회한다고 선언하다. (회의 종료시각 {{ f("end_time", label="종료시각") }})</div>
 <div class="para">위 의사의 경과요령과 그 결과를 명백히 하기 위하여 이 의사록을 작성하고 의장과 출석한 이사가 아래와 같이 기명날인 또는 서명하다.</div>
 
+<div class="pg-keep">
 <div class="center bold" style="margin-top:12px">{{ f("minutes_date", label="작성일") }}</div>
 <div class="corp">{{ f("company_name", label="상호") }}<br><span class="small">{{ f("head_office", label="본점") }}</span></div>
 <div class="signs">
   {% for s in d.signers %}{% set i = loop.index0 %}
-  <div class="s"><span class="t">{{ f("signers." ~ i ~ ".title", label="자격") }}</span><span class="n">{{ f("signers." ~ i ~ ".name", label="성명") }}</span>{% if loop.first %}<span style="margin-left:-8px">{{ cs.corp_seal(d.company_name.replace("(주)", "주식회사 "), "대표이사인", 52, "sm") }}</span>{% else %}{{ m.seal(s.name, size="sm") }}{% endif %}</div>
+  <div class="s"><span class="t">{{ f("signers." ~ i ~ ".title", label="자격") }}</span><span class="n">{{ f("signers." ~ i ~ ".name", label="성명") }}</span>{% if loop.first %}<span style="margin-left:-8px">{{ cs.corp_seal(d.company_name.replace("(주)", "주식회사 "), "대표이사인", 52, "sm") }}</span>{% else %}{{ m.seal(s.name, size="sm", key="signer" ~ loop.index, kind="인감", anchor="signers." ~ i ~ ".name", p=d.seal_p) }}{% endif %}</div>
   {% endfor %}
 </div>
+</div>
+{% if d.notary is defined %}
+<div class="notary pg-keep">
+  <div>등부 {{ f("notary.reg_no", label="등부번호") }}</div>
+  <div class="h">인　증</div>
+  <div class="small">위 의사록은 주주총회의 결의절차 및 내용이 진실에 부합함을 인증한다.</div>
+  <div>{{ f("notary.date", label="인증일") }}&nbsp; 이 사무소에서</div>
+  <div>공증인 {{ f("notary.office", label="공증인") }}</div>
+  <div>공증담당변호사 {{ f("notary.lawyer", label="공증담당변호사") }} {{ m.seal("공증인", square=True, size="sm", key="notary", kind="공증인 직인") }}</div>
+</div>
+{% endif %}
 {% endblock %}

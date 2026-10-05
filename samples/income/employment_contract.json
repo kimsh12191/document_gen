@@ -35,5 +35,12 @@
  ],
  "pay_day": "15",
  "pay_method": "근로자 명의 예금통장에 입금",
- "contract_date": "2014년 11월 27일"
+ "contract_date": "2014년 11월 27일",
+ "seal": {
+  "employer": true,
+  "employee": false
+ },
+ "sign": {
+  "employee": true
+ }
 }

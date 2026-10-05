@@ -11,6 +11,8 @@ table.hw .hand { font-size: calc(var(--fs) + 3px); }
 {% endblock %}
 {% block content %}
 {{ lp.css() }}
+{{ f.set_corr_name(val("signature")) }}
+{{ lp.cont_head("guarantee") }}
 {{ lp.head(kind="guarantee", sub="개인보증인용") }}
 {% set mt = val("method") %}
 {{ lp.title_row("보증약정서", sub="(특정채무보증용)" if mt == "특정채무보증" else "(근보증용)") }}
@@ -22,9 +24,14 @@ table.hw .hand { font-size: calc(var(--fs) + 3px); }
 <colgroup><col style="width:66px"><col style="width:96px"><col><col style="width:96px"><col></colgroup>
 <tr><th rowspan="2">채무자</th><th>상호(법인명)</th><td>{{ f("debtor.name", label="채무자") }}</td><th>사업자등록번호</th><td>{{ f("debtor.biz_no", label="사업자등록번호") }}</td></tr>
 <tr><th>대표자</th><td>{{ f("debtor.ceo", label="대표자") }}</td><th>소재지</th><td>{{ f("debtor.address", label="소재지") }}</td></tr>
-<tr><th rowspan="3">보증인</th><th>성　명</th><td><span class="hand">{{ f("guarantor.name", label="보증인") }}</span></td><th>실명번호</th><td>{{ f("guarantor.rrn", label="실명번호") }}</td></tr>
-<tr><th>주　소</th><td colspan="3"><span class="hand">{{ f("guarantor.address", label="보증인주소") }}</span></td></tr>
-<tr><th>연락처</th><td>{{ f("guarantor.phone", label="연락처") }}</td><th>채무자와의 관계</th><td>{{ f("guarantor.relation", label="채무자와의관계") }}</td></tr>
+<tr><th rowspan="3">보증인{% if d.co_guarantors is defined %}<br><span class="tiny">(1)</span>{% endif %}</th><th>성　명</th><td><span class="hand">{{ f("guarantor.name", label="보증인", fix=0.04) }}</span></td><th>실명번호</th><td>{{ f("guarantor.rrn", label="실명번호", fix=0.04) }}</td></tr>
+<tr><th>주　소</th><td colspan="3"><span class="hand">{{ f("guarantor.address", label="보증인주소", fix=0.05) }}</span></td></tr>
+<tr><th>연락처</th><td>{{ f("guarantor.phone", label="연락처", fix=0.05) }}</td><th>채무자와의 관계</th><td>{{ f("guarantor.relation", label="채무자와의관계") }}</td></tr>
+{% for g in d.get("co_guarantors", []) %}{% set k = "co_guarantors." ~ loop.index0 %}
+<tr><th rowspan="3">보증인<br><span class="tiny">({{ loop.index + 1 }})</span></th><th>성　명</th><td><span class="hand">{{ f(k ~ ".name", label="보증인", fix=0.04) }}</span></td><th>실명번호</th><td>{{ f(k ~ ".rrn", label="실명번호", fix=0.04) }}</td></tr>
+<tr><th>주　소</th><td colspan="3"><span class="hand">{{ f(k ~ ".address", label="보증인주소", fix=0.05) }}</span></td></tr>
+<tr><th>연락처</th><td>{{ f(k ~ ".phone", label="연락처", fix=0.05) }}</td><th>채무자와의 관계</th><td>{{ f(k ~ ".relation", label="채무자와의관계") }}</td></tr>
+{% endfor %}
 </table>
 
 <p class="lead" style="margin:4px 0">보증인은 채무자가 {{ lp.legal_name() }}(이하 "은행"이라 합니다)에 대하여 부담하는 제1조의 채무에 관하여 「은행여신거래기본약관」 및 이 약정에 따라 채무자와 연대하여 보증채무를 부담하기로 하고 다음 각 조항을 확약합니다.</p>
@@ -38,7 +45,7 @@ table.hw .hand { font-size: calc(var(--fs) + 3px); }
 <div class="opt">{% if mt == "한정근보증" %}■ <b>{{ f("method", label="보증방법") }}</b>{% else %}□ <b>한정근보증</b>{% endif %} : 다음 종류의 거래로부터 현재 발생되어 있거나 앞으로 발생할 채무를 모두 보증하며, 연기·재취급 및 같은 종류로 대환된 때에도 보증합니다.</div>
 <div style="margin-top:2px;font-size:var(--fs)">피보증채무 : <span class="hand">{{ f("secured_debt", label="피보증채무") }}</span></div>
 </td></tr>
-<tr><th>보증채무최고액</th><td><span class="hand" style="font-size:calc(var(--fs) + 2px)">{{ f("max_amount_korean", label="보증채무최고액(한글)") }}</span>&nbsp;&nbsp;(₩ {{ f("max_amount", label="보증채무최고액") }})</td></tr>
+<tr><th>보증채무최고액</th><td><span class="hand" style="font-size:calc(var(--fs) + 2px)">{{ f("max_amount_korean", label="보증채무최고액(한글)", fix=0.06) }}</span>&nbsp;&nbsp;(₩ {{ f("max_amount", label="보증채무최고액", fix=0.06) }})</td></tr>
 <tr><th>보증기간</th><td>{{ f("period", label="보증기간") }}</td></tr>
 </table>
 
@@ -49,21 +56,26 @@ table.hw .hand { font-size: calc(var(--fs) + 3px); }
 <p><b>제5조(보증인의 권리)</b> 보증인은 은행에 대하여 주채무의 내용 및 그 이행 여부를 알려줄 것을 청구할 수 있습니다.</p>
 </div>
 
+{% if d.special_terms is defined %}
+{{ lp.articles("guarantee", 6) }}
+{{ lp.special_terms(13, who="보증인") }}
+{% endif %}
 <div class="bf-sec">보증인 자필 기재란 <span class="tiny muted" style="font-weight:400">(반드시 보증인이 직접 기재하십시오)</span></div>
 <table class="bf hw thick">
 <colgroup><col style="width:120px"><col><col style="width:110px"><col></colgroup>
-<tr><th>보증방법</th><td><span class="hand">{{ f("handwritten.method", label="자필보증방법") }}</span></td><th>보증인 성명</th><td><span class="hand">{{ f("handwritten.name", label="자필성명") }}</span></td></tr>
-<tr><th>보증채무최고액</th><td colspan="3"><span class="hand">{{ f("handwritten.max_amount", label="자필보증채무최고액") }}</span></td></tr>
+<tr><th>보증방법</th><td><span class="hand">{{ f("handwritten.method", label="자필보증방법", fix=0.05) }}</span></td><th>보증인 성명</th><td><span class="hand">{{ f("handwritten.name", label="자필성명", fix=0.04) }}</span></td></tr>
+<tr><th>보증채무최고액</th><td colspan="3"><span class="hand">{{ f("handwritten.max_amount", label="자필보증채무최고액", fix=0.07) }}</span></td></tr>
 <tr><th>설명 확인</th><td colspan="3"><span class="hand">{{ f("handwritten.confirm", label="자필설명확인") }}</span></td></tr>
 </table>
 
 <div class="box" style="margin:4px 0;padding:3px 8px">
-<div class="between" style="align-items:center"><span class="small">보증인은 이 약정서 및 약관의 중요 내용을 <b>충분히 설명 듣고 이해하였으며</b> 사본을 수령하였습니다.</span><span>{{ m.agree("explained", "예", "아니오", label="설명이해확인") }}</span></div>
+<div class="between" style="align-items:center"><span class="small">보증인은 이 약정서 및 약관의 중요 내용을 <b>충분히 설명 듣고 이해하였으며</b> 사본을 수령하였습니다.</span><span>{{ m.agree("explained", "예", "아니오", label="설명이해확인") }}{{ lp.nochk("explained") }}</span></div>
 </div>
 
 <div class="between" style="margin-top:8px;align-items:center">
   <div style="padding-left:12px">{{ f("contract_date", label="약정일") }}</div>
-  <div class="right" style="line-height:2.3">보증인 &nbsp;<span style="display:inline-block;min-width:80px;text-align:center;font-size:calc(var(--fs) + 1px)">{{ f("signature", label="보증인") }}</span> {{ lp.in_seal(val("signature") ~ "인", size="", mark="(인감)") }}</div>
+  <div class="right" style="line-height:2.3">보증인 &nbsp;<span style="display:inline-block;min-width:80px;text-align:center;font-size:calc(var(--fs) + 1px)">{{ f("signature", label="보증인") }}</span> {{ lp.in_seal(val("signature") ~ "인", size="", mark="(인감)", key="guarantor", anchor="signature") }}
+  {% for g in d.get("co_guarantors", []) %}<br>보증인 &nbsp;<span style="display:inline-block;min-width:80px;text-align:center;font-size:calc(var(--fs) + 1px)">{{ f("co_guarantors." ~ loop.index0 ~ ".name", label="보증인") }}</span> {{ lp.in_seal(g.name ~ "인", size="", mark="(인감)", key="co_guarantor", anchor="co_guarantors." ~ loop.index0 ~ ".name") }}{% endfor %}</div>
 </div>
 
 {{ lp.bank_use(["실명확인", "보증의사 확인", "인감대조", "담당자", "책임자"]) }}

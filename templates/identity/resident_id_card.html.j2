@@ -3,6 +3,7 @@
 {% block style %}
 .page.card { background: linear-gradient(135deg, #eef6fb 0%, #f9fbf4 45%, #f3eefa 100%); border: 1px solid #b9c6d3; }
 .idc-title { font-size: 26px; font-weight: 800; letter-spacing: .35em; margin: 4px 0 14px; color: #1b2b48; }
+.idc-type { font-size: 15px; font-weight: 700; letter-spacing: .2em; margin-left: 14px; color: #8a1c1c; border: 1.5px solid #8a1c1c; padding: 1px 2px 1px 6px; vertical-align: 4px; }
 .idc-name { font-size: 22px; font-weight: 700; letter-spacing: .15em; }
 .idc-name .hj { font-size: 15px; font-weight: 400; letter-spacing: .05em; margin-left: 4px; }
 .idc-rrn { font-size: 20px; letter-spacing: .08em; margin: 6px 0 10px; }
@@ -13,8 +14,8 @@
 .idc-foot .o { font-size: 18px; font-weight: 700; letter-spacing: .15em; position: relative; display: inline-block; padding-right: 28px; }
 {% endblock %}
 {% block content %}
-<div class="idc-title">주민등록증</div>
-<div class="idc-name">{{ f("name", label="성명") }}<span class="hj">({{ f("name_hanja", label="한자성명") }})</span></div>
+<div class="idc-title">주민등록증{% if d.resident_type is defined %}<span class="idc-type">{{ f("resident_type", label="재외국민") }}</span>{% endif %}</div>
+<div class="idc-name">{{ f("name", label="성명") }}{% if d.name_hanja is defined %}<span class="hj">({{ f("name_hanja", label="한자성명") }})</span>{% endif %}</div>
 <div class="idc-rrn">{{ f("rrn", label="주민등록번호") }}</div>
 <div class="idc-addr">{{ f("address", label="주소") }}</div>
 <div class="photo idc-photo"></div>

@@ -1,6 +1,6 @@
 {
  "document_type": "소득금액증명원",
- "issue_no": "4049-938-5670-460",
+ "issue_no": "5670-460-4926-147",
  "taxpayer": {
   "name": "김소윤",
   "rrn": "901121-2******",
@@ -36,5 +36,8 @@
  "purpose": "금융기관 제출용",
  "submit_to": "농협은행",
  "issue_date": "2025년 11월 29일",
- "issuer": "서광주세무서장"
+ "issuer": "서광주세무서장",
+ "seal": {
+  "issuer": true
+ }
 }

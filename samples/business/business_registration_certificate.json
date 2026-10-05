@@ -9,9 +9,13 @@
  "address": "서울특별시 송파구 중대로 398, 12층 13호 (잠실동, 에이스지식산업센터)",
  "biz_type": "소매업",
  "biz_item": "전자상거래",
- "issue_reason": "정정(사업장 소재지 변경)",
+ "issue_reason": "재발급",
+ "co_owner": null,
  "unit_taxation": "부",
  "einvoice_email": "soyun407@hanmail.net",
  "issue_date": "2020 년 12 월 05 일",
- "issuer": "잠실세무서장"
+ "issuer": "잠실세무서장",
+ "seal": {
+  "issuer": true
+ }
 }

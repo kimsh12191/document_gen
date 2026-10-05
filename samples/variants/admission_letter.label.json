@@ -1,0 +1,522 @@
+{
+ "images": [
+  "variants/admission_letter_p1.jpg",
+  "variants/admission_letter_p2.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "university.name",
+   "label": "University",
+   "type": "text",
+   "value": "Westlake State University",
+   "norm": "Westlake State University",
+   "page": 0,
+   "bbox": [
+    216.0,
+    91.5,
+    647.2,
+    132.0
+   ]
+  },
+  {
+   "key": "university.office",
+   "label": "Office",
+   "type": "text",
+   "value": "Office of Admissions",
+   "norm": "Office of Admissions",
+   "page": 0,
+   "bbox": [
+    216.0,
+    141.8,
+    367.1,
+    162.8
+   ]
+  },
+  {
+   "key": "university.address",
+   "label": "UniversityAddress",
+   "type": "text",
+   "value": "1800 Lakeview Dr, Seattle, WA 98105, USA",
+   "norm": "1800 Lakeview Dr, Seattle, WA 98105, USA",
+   "page": 0,
+   "bbox": [
+    381.8,
+    141.8,
+    698.8,
+    162.8
+   ]
+  },
+  {
+   "key": "university.email",
+   "label": "Email",
+   "type": "text",
+   "value": "admissions@westlakestate.edu",
+   "norm": "admissions@westlakestate.edu",
+   "page": 0,
+   "bbox": [
+    216.0,
+    168.3,
+    435.3,
+    189.3
+   ]
+  },
+  {
+   "key": "letter_date",
+   "label": "Date",
+   "type": "date",
+   "value": "September 19, 2025",
+   "norm": "2025-09-19",
+   "page": 0,
+   "bbox": [
+    913.9,
+    248.8,
+    1086.0,
+    272.8
+   ]
+  },
+  {
+   "key": "student.name",
+   "label": "StudentName",
+   "type": "text",
+   "value": "Soyun Kim",
+   "norm": "Soyun Kim",
+   "page": 0,
+   "bbox": [
+    105.0,
+    308.0,
+    203.3,
+    332.0
+   ]
+  },
+  {
+   "key": "student.address",
+   "label": "StudentAddress",
+   "type": "text",
+   "value": "Apt. 114-1401, 75 Naebang-ro, Seo-gu, Gwangju 61092, Korea",
+   "norm": "Apt. 114-1401, 75 Naebang-ro, Seo-gu, Gwangju 61092, Korea",
+   "page": 0,
+   "bbox": [
+    105.0,
+    341.6,
+    555.5,
+    362.6
+   ]
+  },
+  {
+   "key": "admission_type",
+   "label": "AdmissionType",
+   "type": "text",
+   "value": "CONDITIONAL ADMISSION",
+   "norm": "CONDITIONAL ADMISSION",
+   "page": 0,
+   "bbox": [
+    474.2,
+    400.8,
+    917.1,
+    432.3
+   ]
+  },
+  {
+   "key": "term",
+   "label": "TermofEntry",
+   "type": "text",
+   "value": "Spring 2026",
+   "norm": "Spring 2026",
+   "page": 0,
+   "bbox": [
+    105.0,
+    538.9,
+    1086.0,
+    595.0
+   ]
+  },
+  {
+   "key": "deferred_from",
+   "label": "DeferredFrom",
+   "type": "text",
+   "value": "Spring 2025",
+   "norm": "Spring 2025",
+   "page": 0,
+   "bbox": [
+    608.0,
+    571.0,
+    719.7,
+    595.0
+   ],
+   "label_bbox": [
+    105.0,
+    459.6,
+    1086.0,
+    491.7
+   ]
+  },
+  {
+   "key": "student.birth",
+   "label": "DateofBirth",
+   "type": "date",
+   "value": "21 NOV 1990",
+   "norm": "1990-11-21",
+   "page": 0,
+   "bbox": [
+    473.3,
+    717.0,
+    594.5,
+    741.0
+   ],
+   "label_bbox": [
+    164.6,
+    702.8,
+    457.6,
+    757.4
+   ]
+  },
+  {
+   "key": "student.nationality",
+   "label": "Citizenship",
+   "type": "text",
+   "value": "Republic of Korea",
+   "norm": "Republic of Korea",
+   "page": 0,
+   "bbox": [
+    473.3,
+    771.7,
+    631.8,
+    795.7
+   ],
+   "label_bbox": [
+    164.6,
+    757.4,
+    457.6,
+    812.1
+   ]
+  },
+  {
+   "key": "student.id",
+   "label": "StudentID",
+   "type": "text",
+   "value": "N42700432",
+   "norm": "N42700432",
+   "page": 0,
+   "bbox": [
+    473.3,
+    826.3,
+    574.6,
+    850.3
+   ],
+   "label_bbox": [
+    164.6,
+    812.1,
+    457.6,
+    866.7
+   ]
+  },
+  {
+   "key": "program",
+   "label": "Program",
+   "type": "text",
+   "value": "Data Science",
+   "norm": "Data Science",
+   "page": 0,
+   "bbox": [
+    473.3,
+    881.0,
+    585.9,
+    905.0
+   ],
+   "label_bbox": [
+    164.6,
+    866.7,
+    457.6,
+    921.4
+   ]
+  },
+  {
+   "key": "degree",
+   "label": "Degree",
+   "type": "text",
+   "value": "Master of Science (M.S.)",
+   "norm": "Master of Science (M.S.)",
+   "page": 0,
+   "bbox": [
+    473.3,
+    935.6,
+    689.5,
+    959.6
+   ],
+   "label_bbox": [
+    164.6,
+    921.4,
+    457.6,
+    976.0
+   ]
+  },
+  {
+   "key": "start_date",
+   "label": "ClassesBegin",
+   "type": "date",
+   "value": "January 13, 2026",
+   "norm": "2026-01-13",
+   "page": 0,
+   "bbox": [
+    473.3,
+    990.3,
+    620.5,
+    1014.3
+   ],
+   "label_bbox": [
+    164.6,
+    976.0,
+    457.6,
+    1030.7
+   ]
+  },
+  {
+   "key": "duration",
+   "label": "Duration",
+   "type": "text",
+   "value": "2 years (full-time)",
+   "norm": "2 years (full-time)",
+   "page": 0,
+   "bbox": [
+    473.3,
+    1044.9,
+    629.4,
+    1068.9
+   ],
+   "label_bbox": [
+    164.6,
+    1030.7,
+    457.6,
+    1085.3
+   ]
+  },
+  {
+   "key": "condition_deadline",
+   "label": "ConditionDeadline",
+   "type": "date",
+   "value": "December 05, 2025",
+   "norm": "2025-12-05",
+   "page": 0,
+   "bbox": [
+    879.4,
+    1152.8,
+    1052.3,
+    1176.8
+   ],
+   "label_bbox": [
+    124.5,
+    1117.6,
+    1066.5,
+    1149.8
+   ]
+  },
+  {
+   "key": "conditions.0",
+   "label": "Condition",
+   "type": "text",
+   "value": "Submission of an official IELTS Academic score of overall 6.5 with no band below 6.0, or TOEFL iBT 90 or above",
+   "norm": "Submission of an official IELTS Academic score of overall 6.5 with no band below 6.0, or TOEFL iBT 90 or above",
+   "page": 0,
+   "bbox": [
+    156.7,
+    1190.9,
+    1041.0,
+    1247.1
+   ]
+  },
+  {
+   "key": "conditions.1",
+   "label": "Condition",
+   "type": "text",
+   "value": "Receipt of your official final transcript showing conferral of your bachelor's degree",
+   "norm": "Receipt of your official final transcript showing conferral of your bachelor's degree",
+   "page": 0,
+   "bbox": [
+    156.7,
+    1255.2,
+    870.5,
+    1279.2
+   ]
+  },
+  {
+   "key": "scholarship.name",
+   "label": "Scholarship",
+   "type": "text",
+   "value": "Global Excellence Scholarship",
+   "norm": "Global Excellence Scholarship",
+   "page": 0,
+   "bbox": [
+    782.7,
+    1351.0,
+    1062.8,
+    1375.0
+   ]
+  },
+  {
+   "key": "scholarship.amount",
+   "label": "ScholarshipAmount",
+   "type": "text",
+   "value": "$12,820.00 per semester",
+   "norm": "$12,820.00 per semester",
+   "page": 0,
+   "bbox": [
+    236.4,
+    1383.2,
+    458.6,
+    1407.2
+   ]
+  },
+  {
+   "key": "cost.tuition",
+   "label": "EstimatedTuition",
+   "type": "number",
+   "value": "$51,300.00",
+   "norm": 51300.0,
+   "page": 1,
+   "bbox": [
+    825.8,
+    165.3,
+    922.3,
+    189.3
+   ],
+   "label_bbox": [
+    252.9,
+    151.0,
+    764.4,
+    205.7
+   ]
+  },
+  {
+   "key": "cost.living",
+   "label": "EstimatedLivingExpenses",
+   "type": "number",
+   "value": "$16,600.00",
+   "norm": 16600.0,
+   "page": 1,
+   "bbox": [
+    825.8,
+    219.9,
+    922.3,
+    243.9
+   ],
+   "label_bbox": [
+    252.9,
+    205.7,
+    764.4,
+    260.3
+   ]
+  },
+  {
+   "key": "cost.insurance",
+   "label": "EstimatedHealthInsurance",
+   "type": "number",
+   "value": "$2,990.00",
+   "norm": 2990.0,
+   "page": 1,
+   "bbox": [
+    836.6,
+    274.6,
+    922.3,
+    298.6
+   ],
+   "label_bbox": [
+    252.9,
+    260.3,
+    764.4,
+    315.0
+   ]
+  },
+  {
+   "key": "cost.books",
+   "label": "EstimatedBooksandSupplies",
+   "type": "number",
+   "value": "$1,280.00",
+   "norm": 1280.0,
+   "page": 1,
+   "bbox": [
+    836.6,
+    329.2,
+    922.3,
+    353.2
+   ],
+   "label_bbox": [
+    252.9,
+    315.0,
+    764.4,
+    370.4
+   ]
+  },
+  {
+   "key": "cost.total",
+   "label": "TotalEstimatedCost",
+   "type": "amount",
+   "value": "$72,170.00",
+   "norm": 72170.0,
+   "page": 1,
+   "bbox": [
+    825.8,
+    385.4,
+    922.3,
+    409.4
+   ],
+   "label_bbox": [
+    252.9,
+    370.4,
+    764.4,
+    425.8
+   ]
+  },
+  {
+   "key": "deposit_deadline",
+   "label": "DepositDeadline",
+   "type": "date",
+   "value": "October 26, 2025",
+   "norm": "2025-10-26",
+   "page": 1,
+   "bbox": [
+    276.9,
+    479.7,
+    434.0,
+    503.7
+   ]
+  },
+  {
+   "key": "signer",
+   "label": "Signedby",
+   "type": "text",
+   "value": "David L. Morgan",
+   "norm": "David L. Morgan",
+   "page": 1,
+   "bbox": [
+    105.0,
+    1402.6,
+    264.1,
+    1426.6
+   ]
+  },
+  {
+   "key": "signer_title",
+   "label": "Title",
+   "type": "text",
+   "value": "Director of Admissions",
+   "norm": "Director of Admissions",
+   "page": 1,
+   "bbox": [
+    105.0,
+    1434.8,
+    305.2,
+    1458.8
+   ]
+  }
+ ]
+}

@@ -1,6 +1,8 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
+{% import "fx/_fx.html.j2" as fx %}
 {% set lf = ["'Liberation Sans'", "'Liberation Serif'", "'DejaVu Sans'", "Arial", "'Times New Roman'", "'FreeSans'"][style.page_pad % 6] %}
+{% block page_attrs %}{{ fx.en_pg_attrs(style) }}{% endblock %}
 {% block style %}
 .page { font-family: {{ lf|safe }}, var(--font); font-size: calc(var(--fs) - 2.5px); line-height: 1.3; padding: 34px 38px; }
 table.bl { border: 2px solid var(--border); margin: 0; table-layout: fixed; }
@@ -16,9 +18,23 @@ table.pt td { border-top: 0; border-bottom: 0; height: 360px; }
 .pre { white-space: pre-line; }
 .sig { font-style: italic; font-family: 'Liberation Serif', serif; font-size: 18px; color: #1a2c6b; }
 .obs { display: inline-block; margin-top: 16px; border: 2px solid #2a4fa8; color: #2a4fa8; padding: 3px 10px; transform: rotate(-5deg); font-weight: 700; text-align: center; opacity: .85; }
+.bl-main { min-height: 1000px; }
+.surr { position: absolute; left: 14%; top: 52%; border: 4px double #c8102e; color: #c8102e; padding: 4px 16px; font-size: 30px; font-weight: 900;
+  letter-spacing: .12em; transform: rotate(-14deg); opacity: .82; text-align: center; line-height: 1.1; white-space: nowrap; }
+.surr .dt { display: block; font-size: 13px; letter-spacing: .05em; font-weight: 700; }
+td.gd-cell { position: relative; }
+table.chg td { text-align: right; } table.chg td:first-child { text-align: left; }
+.rider-t { text-align: center; font-size: 18px; font-weight: 800; letter-spacing: .15em; margin: 0 0 4px; }
+.rider-h { display: flex; justify-content: space-between; margin-bottom: 6px; font-weight: 600; }
+table.rd { border: 2px solid var(--border); table-layout: fixed; }
+table.rd th { font-size: calc(var(--fs) - 4px); padding: 3px; background: var(--label-bg); }
+table.rd td { padding: 2px 5px; }
+table.rd tr.tot td { font-weight: 700; border-top: 2px solid var(--border); }
 .orig { text-align: center; font-size: 18px; font-weight: 800; letter-spacing: .4em; color: var(--accent); margin-top: 4px; }
 {% endblock %}
 {% block content %}
+{% set rider = d.opt.get("rider") %}
+<div class="bl-main{{ ' with-rider' if rider }}"{% if not rider %} style="min-height:0"{% endif %}>
 <table class="bl">
   <colgroup><col style="width:27%"><col style="width:27%"><col style="width:46%"></colgroup>
   <tr>
@@ -27,7 +43,7 @@ table.pt td { border-top: 0; border-bottom: 0; height: 360px; }
       <div class="between"><span><span class="lb">Booking No.</span>{{ f("booking_no", label="Booking No") }}</span>
         <span class="right"><span class="lb">B/L No.</span><b style="font-size:calc(var(--fs) + 1px)">{{ f("bl_no", label="B/L No") }}</b></span></div>
       <div class="bl-co">{{ f("carrier", label="Carrier") }}</div>
-      <div class="bl-title">BILL OF LADING</div>
+      <div class="bl-title">{% if d.document_type is defined %}{{ f("document_type", label="Document Type") }}{% else %}BILL OF LADING{% endif %}</div>
       <div class="bl-terms">RECEIVED by the Carrier from the Shipper in apparent good order and condition unless otherwise indicated herein, the Goods, or the container(s) or package(s) said to contain the cargo herein mentioned, to be carried subject to all the terms and conditions provided for on the face and back of this Bill of Lading by the vessel named herein or any substitute at the Carrier's option, from the place of receipt or the port of loading to the port of discharge or the place of delivery shown herein and there to be delivered unto order or assigns. If required by the Carrier, this Bill of Lading duly endorsed must be surrendered in exchange for the Goods or delivery order. In witness whereof, the number of original Bills of Lading stated below have been signed, one of which being accomplished, the other(s) to be void.</div>
       <div class="mt" style="margin-top:6px"><span class="lb">Forwarding Agent / Export References</span>{{ f("forwarder", label="Forwarding Agent") }}</div>
     </td>
@@ -57,11 +73,14 @@ table.pt td { border-top: 0; border-bottom: 0; height: 360px; }
   <colgroup><col style="width:24%"><col style="width:12%"><col style="width:40%"><col style="width:12%"><col style="width:12%"></colgroup>
   <tr><th style="height:auto">Container No. / Seal No.<br>Marks &amp; Numbers</th><th style="height:auto">No. of Containers or Packages</th><th style="height:auto">Kind of Packages ; Description of Goods</th><th style="height:auto">Gross Weight</th><th style="height:auto">Measurement</th></tr>
   <tr>
-    <td>{% for c in d.containers %}{% set pre = "containers." ~ loop.index0 ~ "." %}
-      {{ f(pre ~ "no", label="Container No") }} / {{ f(pre ~ "type", label="Container Type") }}<br>SEAL: {{ f(pre ~ "seal", label="Seal No") }}<br>{% endfor %}
+    <td>{% if rider %}CONTAINER NO. / SEAL NO.<br><b>AS PER ATTACHED SHEET</b><br>{% else %}{% for c in d.containers %}{% set pre = "containers." ~ loop.index0 ~ "." %}
+      {{ f(pre ~ "no", label="Container No") }} / {{ f(pre ~ "type", label="Container Type") }}<br>SEAL: {{ f(pre ~ "seal", label="Seal No") }}<br>{% endfor %}{% endif %}
       <div class="mt" style="margin-top:8px">{{ f("marks", label="Marks and Numbers") }}</div></td>
     <td class="c">{{ f("container_count", label="No. of Containers") }}<br><br>{{ f("packages", label="No. of Packages") }}</td>
-    <td><b>SHIPPER'S LOAD, COUNT &amp; SEAL<br>SAID TO CONTAIN :</b><br>{{ f("description", label="Description of Goods") }}
+    <td class="gd-cell"><b>SHIPPER'S LOAD, COUNT &amp; SEAL<br>SAID TO CONTAIN :</b><br>{{ f("description", label="Description of Goods") }}
+      {% if d.lc_no is defined %}<div style="margin-top:6px">L/C NO. : {{ f("lc_no", label="L/C No") }}</div>{% endif %}
+      {% if rider %}<div style="margin-top:4px">** CONTAINER DETAILS AS PER ATTACHED SHEET **</div>{% endif %}
+      {% if d.surrender is defined %}<div class="surr">{{ f("surrender", label="Surrender") }}<span class="dt">{{ f("surrender_date", label="Surrender Date") }}</span></div>{% endif %}
       <div class="mt bold" style="margin-top:14px">{{ f("freight", label="Freight") }}</div>
       <div class="obs">SHIPPED ON BOARD<br>{{ val("on_board_date") }}</div></td>
     <td class="num">{{ f("gross_weight", label="Gross Weight") }}</td>
@@ -75,7 +94,7 @@ table.pt td { border-top: 0; border-bottom: 0; height: 360px; }
 <table class="bl">
   <colgroup><col style="width:30%"><col style="width:12%"><col style="width:12%"><col style="width:20%"><col style="width:26%"></colgroup>
   <tr><th>Freight &amp; Charges</th><th>Prepaid</th><th>Collect</th><th>Freight Payable at</th><th>Place and Date of Issue</th></tr>
-  <tr><td>OCEAN FREIGHT<br>AS ARRANGED</td><td class="c">{{ 'X' if 'PREPAID' in val('freight') else '' }}</td><td class="c">{{ 'X' if 'COLLECT' in val('freight') else '' }}</td>
+  <tr><td>{% if d.charges is defined %}AS PER BELOW{% else %}OCEAN FREIGHT<br>AS ARRANGED{% endif %}</td><td class="c">{{ 'X' if 'PREPAID' in val('freight') else '' }}</td><td class="c">{{ 'X' if 'COLLECT' in val('freight') else '' }}</td>
     <td class="c">{{ f("freight_payable_at", label="Freight Payable at") }}</td>
     <td class="c">{{ f("issue_place", label="Place of Issue") }}<br>{{ f("issue_date", label="Date of Issue") }}</td></tr>
   <tr><td colspan="2"><span class="lb">Number of Original B(s)/L</span><b>{{ f("originals", label="Number of Original B/L") }}</b></td>
@@ -84,5 +103,30 @@ table.pt td { border-top: 0; border-bottom: 0; height: 360px; }
     <td><span class="lb">Signed for the Carrier</span><span class="sig">{{ val("carrier").split()[0].title() }} Agency</span><br>
       <span class="small">AS AGENT FOR THE CARRIER<br>{{ val("carrier") }}</span></td></tr>
 </table>
-<div class="orig">ORIGINAL</div>
+{% if d.charges is defined %}
+<table class="bl chg">
+  <tr><th style="width:38%">Freight &amp; Charges</th><th style="width:11%">Revenue Tons</th><th style="width:11%">Rate</th><th style="width:8%">Per</th><th style="width:16%">Prepaid</th><th style="width:16%">Collect</th></tr>
+  {% for c in d.charges %}{% set pre = "charges." ~ loop.index0 ~ "." %}
+  <tr><td>{{ f(pre ~ "name", label="Charge") }}</td><td>{{ f(pre ~ "quantity", label="Revenue Tons") }}</td><td>{{ f(pre ~ "rate", label="Rate") }}</td><td class="c">{{ f(pre ~ "per", label="Per") }}</td>
+    <td>{% if c.prepaid is defined %}{{ f(pre ~ "prepaid", label="Prepaid") }}{% endif %}</td><td>{% if c.collect is defined %}{{ f(pre ~ "collect", label="Collect") }}{% endif %}</td></tr>
+  {% endfor %}
+</table>
+{% endif %}
+<div class="orig">{{ "NON-NEGOTIABLE" if d.document_type is defined else "ORIGINAL" }}</div>
+</div>
+{% if rider %}
+<div class="rider pg-keep">
+  <div class="rider-t">ATTACHED SHEET</div>
+  <div class="rider-h"><span>B/L No. {{ val("bl_no") }}</span><span>{{ val("vessel_voyage") }}</span><span>{{ val("port_of_loading") }} → {{ val("port_of_discharge") }}</span></div>
+  <table class="rd">
+    <tr><th style="width:6%">No.</th><th style="width:22%">Container No.</th><th style="width:16%">Seal No.</th><th style="width:10%">Type</th><th style="width:16%">No. of Packages</th><th style="width:16%">Gross Weight (KGS)</th><th style="width:14%">Measurement (CBM)</th></tr>
+    {% for c in d.containers %}{% set pre = "containers." ~ loop.index0 ~ "." %}
+    <tr><td class="c">{{ loop.index }}</td><td>{{ f(pre ~ "no", label="Container No") }}</td><td>{{ f(pre ~ "seal", label="Seal No") }}</td><td class="c">{{ f(pre ~ "type", label="Container Type") }}</td>
+      <td class="num">{{ f(pre ~ "packages", label="Container Packages") }}</td><td class="num">{{ f(pre ~ "gross_weight", label="Container Gross Weight") }}</td><td class="num">{{ f(pre ~ "measurement", label="Container Measurement") }}</td></tr>
+    {% endfor %}
+    <tr class="tot"><td colspan="4" class="right">TOTAL {{ val("container_count") }}</td><td class="num">{{ val("packages") }}</td><td class="num">{{ val("gross_weight") }}</td><td class="num">{{ val("measurement") }}</td></tr>
+  </table>
+  <div class="small" style="margin-top:6px">This attached sheet forms an integral part of Bill of Lading No. {{ val("bl_no") }}. SHIPPER'S LOAD, COUNT &amp; SEAL.</div>
+</div>
+{% endif %}
 {% endblock %}

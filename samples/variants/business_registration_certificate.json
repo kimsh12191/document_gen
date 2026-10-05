@@ -1,0 +1,27 @@
+{
+ "document_type": "사업자등록증",
+ "kind": "일반과세자",
+ "biz_no": "129-20-96799",
+ "trade_name": "넥스트몰",
+ "name": "김소윤",
+ "birth": "1990 년 11 월 21 일",
+ "opened": "2017 년 04 월 04 일",
+ "address": "서울특별시 송파구 중대로 398, 12층 13호 (잠실동, 에이스지식산업센터)",
+ "biz_type": "소매업",
+ "biz_item": "전자상거래",
+ "sub_kinds": [
+  {
+   "biz_type": "도매업",
+   "biz_item": "기타 도매"
+  }
+ ],
+ "issue_reason": "정정(과세유형 전환)",
+ "co_owner": "김승성",
+ "unit_taxation": "부",
+ "einvoice_email": "soyun407@hanmail.net",
+ "issue_date": "2023 년 07 월 05 일",
+ "issuer": "잠실세무서장",
+ "seal": {
+  "issuer": true
+ }
+}

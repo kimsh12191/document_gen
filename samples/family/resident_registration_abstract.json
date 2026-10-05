@@ -7,6 +7,9 @@
  "purpose": "대출신청",
  "issue_date": "2025년 11월 29일",
  "issuer": "광주광역시 서구 치평동장",
+ "seal": {
+  "issuer": true
+ },
  "person": {
   "name": "김소윤",
   "name_hanja": "金素允",
@@ -16,10 +19,10 @@
  "addresses": [
   {
    "no": "1",
-   "address": "서울특별시 영등포구 도림로 468, 404호 (여의도동, 하이츠)",
+   "address": "서울특별시 영등포구 여의도동 1394 404호",
    "moved_in": "2009-03-01",
    "changed": "2009-03-01",
-   "head_relation": "김소윤의 본인",
+   "head_relation": "김상승의 자",
    "status": "거주자",
    "reason": "전입"
   },

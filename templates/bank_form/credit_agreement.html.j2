@@ -10,6 +10,8 @@ table.bf.t th { width: 104px; }
 {% endblock %}
 {% block content %}
 {{ lp.css() }}
+{{ f.set_corr_name(val("debtor.name")) }}
+{{ lp.cont_head("agree") }}
 {{ lp.head(kind="agree") }}
 <div class="between" style="align-items:flex-start">
   <div class="stamp">수 입<br>인 지</div>
@@ -23,8 +25,13 @@ table.bf.t th { width: 104px; }
 
 <table class="bf">
 <colgroup><col style="width:104px"><col><col style="width:96px"><col></colgroup>
-<tr><th>채무자 성명</th><td>{{ f("debtor.name", label="성명") }}</td><th>실명번호</th><td>{{ f("debtor.rrn", label="실명번호") }}</td></tr>
-<tr><th>주　　소</th><td colspan="3">{{ f("debtor.address", label="주소") }} <span class="small">(☎ {{ f("debtor.phone", label="연락처") }})</span></td></tr>
+<tr><th>채무자 성명</th><td>{{ f("debtor.name", label="성명", fix=0.04) }}</td><th>실명번호</th><td>{{ f("debtor.rrn", label="실명번호", fix=0.04) }}</td></tr>
+<tr><th>주　　소</th><td colspan="3">{{ f("debtor.address", label="주소", fix=0.05) }} <span class="small">(☎ {{ f("debtor.phone", label="연락처", fix=0.05) }})</span></td></tr>
+{% if d.co_borrower is defined %}
+<tr><th>공동차주 성명</th><td>{{ f("co_borrower.name", label="공동차주성명", fix=0.04) }}</td><th>실명번호</th><td>{{ f("co_borrower.rrn", label="공동차주실명번호", fix=0.04) }}</td></tr>
+<tr><th>주　　소</th><td colspan="3">{{ f("co_borrower.address", label="공동차주주소", fix=0.05) }} <span class="small">(☎ {{ f("co_borrower.phone", label="공동차주연락처", fix=0.05) }})</span></td></tr>
+<tr><td colspan="4" class="tiny muted">※ 공동차주는 이 약정에 따른 채무를 채무자와 연대하여 부담합니다.</td></tr>
+{% endif %}
 </table>
 
 <div class="art">제1조(거래조건)</div>
@@ -39,7 +46,7 @@ table.bf.t th { width: 104px; }
 <div class="art">제2조(이자 등)</div>
 <table class="bf">
 <colgroup><col style="width:104px"><col><col style="width:96px"><col></colgroup>
-<tr><th>금리종류</th><td colspan="3">{{ m.choice("loan.rate_type", ["고정금리", "변동금리", "혼합금리"], label="금리종류") }}&nbsp; 기준금리: {{ f("loan.base_rate_name", label="기준금리종류") }}</td></tr>
+<tr><th>금리종류</th><td colspan="3">{{ m.choice("loan.rate_type", ["고정금리", "변동금리", "혼합금리"], label="금리종류") }}{{ lp.nochk("loan.rate_type") }}&nbsp; 기준금리: {{ f("loan.base_rate_name", label="기준금리종류") }}</td></tr>
 <tr><td colspan="4" style="padding:0">
   <table style="margin:0;border:0" class="compact"><tr><th style="border-top:0;border-left:0">기준금리</th><th style="border-top:0">가산금리</th><th style="border-top:0">우대금리(－)</th><th style="border-top:0;border-right:0">대출이자율</th></tr>
   <tr><td class="c" style="border-left:0;border-bottom:0">연 {{ f("loan.base_rate", label="기준금리") }}</td><td class="c" style="border-bottom:0">＋ {{ f("loan.spread", label="가산금리") }}</td><td class="c" style="border-bottom:0">－ {{ f("loan.pref_rate", label="우대금리") }}</td><td class="c bold" style="border-right:0;border-bottom:0">＝ {{ f("loan.applied_rate", label="대출이자율") }}</td></tr></table>
@@ -64,19 +71,26 @@ table.bf.t th { width: 104px; }
 <div class="art">제7조(자동이체)</div>
 <div class="small" style="margin:0 0 0 8px">본인은 이자, 분할상환원리금 등을 위 자동이체계좌에서 그 지급일에 자동이체하여 납부하기로 하며, 잔액 부족으로 미납된 금액은 이후 입금되는 즉시 출금하여도 이의를 제기하지 않습니다.</div>
 <div class="notice" style="margin:3px 0 0">
-<p>※ 금리인하요구권: 본인은 취업, 승진, 소득 증가, 신용평점 상승 등 신용상태가 개선된 경우 은행에 금리인하를 요구할 수 있습니다.</p>
-<p>※ 청약철회권: 계약체결일, 계약서류를 받은 날, 대출금 수령일 중 나중에 발생한 날부터 14일 이내에 대출계약을 철회할 수 있습니다(「금융소비자 보호에 관한 법률」 제46조).</p>
+<p>※ 금리인하요구권: 본인은 취업, 승진, 소득 증가, 신용{{ "평점" if bk.credit_score else "등급" }} 상승 등 신용상태가 개선된 경우 은행에 금리인하를 요구할 수 있습니다.</p>
+{% if bk.fsca %}<p>※ 청약철회권: 계약체결일, 계약서류를 받은 날, 대출금 수령일 중 나중에 발생한 날부터 14일 이내에 대출계약을 철회할 수 있습니다(「금융소비자 보호에 관한 법률」 제46조).</p>
+{% elif bk.withdraw %}<p>※ 대출계약 철회권: 대출계약서류를 받은 날 또는 대출금 수령일 중 나중에 발생한 날부터 14일 이내에 대출계약을 철회할 수 있습니다(은행여신거래기본약관(가계용)).</p>
+{% endif %}
 </div>
+{% if d.special_terms is defined %}
+{{ lp.articles("personal", 8) }}
+{{ lp.special_terms(19) }}
+{% endif %}
 
 <div class="box" style="margin:4px 0;padding:3px 8px">
-<div class="small">본인은 이 약정서 및 은행여신거래기본약관(가계용)의 중요 내용에 대하여 충분히 설명을 듣고 이해하였으며, 그 사본을 수령하였습니다. &nbsp;{{ m.agree("explained", "예", "아니오", label="설명이해확인") }}</div>
+<div class="small">본인은 이 약정서 및 은행여신거래기본약관(가계용)의 중요 내용에 대하여 충분히 설명을 듣고 이해하였으며, 그 사본을 수령하였습니다. &nbsp;{{ m.agree("explained", "예", "아니오", label="설명이해확인") }}{{ lp.nochk("explained") }}</div>
 <div style="margin-top:1px">자필기재 : <span class="u" style="display:inline-block;min-width:220px"><span class="hand" style="font-size:calc(var(--fs) + 2px)">{{ f("handwritten", label="자필기재") }}</span></span></div>
 </div>
 
 <div class="between" style="margin-top:4px;align-items:center">
   <div style="padding-left:12px">{{ f("contract_date", label="약정일") }}</div>
-  <div>본인(채무자)&nbsp;<span class="who" style="display:inline-block;min-width:90px;text-align:center">{{ f("signature", label="채무자") }}</span>(서명 또는 인)</div>
+  <div>본인(채무자)&nbsp;<span class="who" style="display:inline-block;min-width:90px;text-align:center">{{ f("signature", label="채무자") }}</span>{{ m.sigspot("debtor", val("signature"), label="채무자", anchor="signature") }}</div>
 </div>
+{% if d.co_borrower is defined %}<div class="right" style="margin-top:6px">공동차주&nbsp;<span class="who" style="display:inline-block;min-width:90px;text-align:center">{{ f("co_borrower.name", label="공동차주") }}</span>{{ m.sigspot("co_borrower", val("co_borrower.name"), label="공동차주", anchor="co_borrower.name") }}</div>{% endif %}
 
 {{ lp.bank_use(["실명확인", "약정내용 설명", "인감·서명 대조", "담당자", "책임자"]) }}
 {% endblock %}

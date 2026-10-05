@@ -1,6 +1,6 @@
 {
  "document_type": "건강보험료 납부확인서",
- "issue_no": "62-851987-9266",
+ "issue_no": "60-558629-6020",
  "person": {
   "name": "김소윤",
   "rrn": "901121-2******",
@@ -61,75 +61,85 @@
   },
   {
    "month": "2025.04",
-   "notice_health": "190,830",
-   "notice_ltc": "24,710",
-   "health": "190,830",
-   "ltc": "24,710",
-   "total": "215,540",
-   "paid_date": "2025.05.12"
+   "notice_health": "229,210",
+   "notice_ltc": "29,680",
+   "health": "229,210",
+   "ltc": "29,680",
+   "total": "258,890",
+   "paid_date": "2025.05.12",
+   "note": "정산 분할 1/10회"
   },
   {
    "month": "2025.05",
-   "notice_health": "190,830",
-   "notice_ltc": "24,710",
-   "health": "190,830",
-   "ltc": "24,710",
-   "total": "215,540",
-   "paid_date": "2025.06.10"
+   "notice_health": "229,210",
+   "notice_ltc": "29,680",
+   "health": "229,210",
+   "ltc": "29,680",
+   "total": "258,890",
+   "paid_date": "2025.06.10",
+   "note": "정산 분할 2/10회"
   },
   {
    "month": "2025.06",
-   "notice_health": "190,830",
-   "notice_ltc": "24,710",
-   "health": "190,830",
-   "ltc": "24,710",
-   "total": "215,540",
-   "paid_date": "2025.07.10"
+   "notice_health": "229,210",
+   "notice_ltc": "29,680",
+   "health": "229,210",
+   "ltc": "29,680",
+   "total": "258,890",
+   "paid_date": "2025.07.10",
+   "note": "정산 분할 3/10회"
   },
   {
    "month": "2025.07",
-   "notice_health": "190,830",
-   "notice_ltc": "24,710",
-   "health": "190,830",
-   "ltc": "24,710",
-   "total": "215,540",
-   "paid_date": "2025.08.11"
+   "notice_health": "229,210",
+   "notice_ltc": "29,680",
+   "health": "229,210",
+   "ltc": "29,680",
+   "total": "258,890",
+   "paid_date": "2025.08.11",
+   "note": "정산 분할 4/10회"
   },
   {
    "month": "2025.08",
-   "notice_health": "190,830",
-   "notice_ltc": "24,710",
-   "health": "190,830",
-   "ltc": "24,710",
-   "total": "215,540",
-   "paid_date": "2025.09.10"
+   "notice_health": "229,210",
+   "notice_ltc": "29,680",
+   "health": "229,210",
+   "ltc": "29,680",
+   "total": "258,890",
+   "paid_date": "2025.09.10",
+   "note": "정산 분할 5/10회"
   },
   {
    "month": "2025.09",
-   "notice_health": "190,830",
-   "notice_ltc": "24,710",
-   "health": "190,830",
-   "ltc": "24,710",
-   "total": "215,540",
-   "paid_date": "2025.10.10"
+   "notice_health": "229,210",
+   "notice_ltc": "29,680",
+   "health": "229,210",
+   "ltc": "29,680",
+   "total": "258,890",
+   "paid_date": "2025.10.10",
+   "note": "정산 분할 6/10회"
   },
   {
    "month": "2025.10",
-   "notice_health": "190,830",
-   "notice_ltc": "24,710",
-   "health": "190,830",
-   "ltc": "24,710",
-   "total": "215,540",
-   "paid_date": "2025.11.10"
+   "notice_health": "229,210",
+   "notice_ltc": "29,680",
+   "health": "229,210",
+   "ltc": "29,680",
+   "total": "258,890",
+   "paid_date": "2025.11.10",
+   "note": "정산 분할 7/10회"
   }
  ],
  "sum": {
-  "notice_health": "2,276,560",
-  "notice_ltc": "294,780",
-  "health": "2,276,560",
-  "ltc": "294,780",
-  "total": "2,571,340"
+  "notice_health": "2,545,220",
+  "notice_ltc": "329,570",
+  "health": "2,545,220",
+  "ltc": "329,570",
+  "total": "2,874,790"
  },
- "purpose": "금융기관 제출용",
- "issue_date": "2025년 11월 29일"
+ "purpose": "기타",
+ "issue_date": "2025년 11월 29일",
+ "seal": {
+  "issuer": true
+ }
 }

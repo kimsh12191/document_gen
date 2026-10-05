@@ -1,6 +1,8 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
+{% import "fx/_fx.html.j2" as fx %}
 {% set lf = ["'Liberation Serif'", "'Times New Roman'", "'DejaVu Serif'", "'Liberation Sans'", "'FreeSerif'", "Arial"][style.page_pad % 6] %}
+{% block page_attrs %}{{ fx.en_pg_attrs(style) }}{% endblock %}
 {% block style %}
 .page { font-family: {{ lf|safe }}, var(--font); font-size: calc(var(--fs) + 0.5px); line-height: 1.5; padding: 56px 70px; }
 .lh { border-bottom: 3px double var(--accent); padding-bottom: 10px; margin-bottom: 22px; display: flex; align-items: center; gap: 16px; }
@@ -14,6 +16,13 @@ table.al th { text-align: left; width: 34%; }
 p { margin: 8px 0; text-align: justify; }
 .sg { margin-top: 26px; }
 .sg .sig { font-style: italic; font-family: 'Liberation Serif', serif; font-size: 24px; color: #1a2c6b; margin: 4px 0 0; }
+.cond { border: 1.5px solid var(--accent); padding: 6px 12px; margin: 10px 0; }
+.cond .h { font-weight: 700; color: var(--accent); letter-spacing: .05em; }
+.cond ol, ol.ns { margin: 4px 0; padding-left: 1.5em; }
+table.cost { width: 70%; margin: 8px auto 12px; }
+table.cost th { text-align: left; } table.cost td { text-align: right; }
+table.cost tr.tot th, table.cost tr.tot td { font-weight: 700; border-top: 2px solid var(--border); }
+h3.sh { font-size: calc(var(--fs) + 1px); color: var(--accent); margin: 14px 0 4px; }
 .ft { position: absolute; left: 70px; right: 70px; bottom: 40px; border-top: 1px solid #999; padding-top: 6px; font-size: calc(var(--fs) - 3px); color: #555; text-align: center; }
 {% endblock %}
 {% block content %}
@@ -25,9 +34,9 @@ p { margin: 8px 0; text-align: justify; }
 </div>
 <div class="right">{{ f("letter_date", label="Date") }}</div>
 <div class="mt">{{ f("student.name", label="Student Name") }}<br><span class="small">{{ f("student.address", label="Student Address") }}</span></div>
-<div class="ttl">LETTER OF ADMISSION</div>
+<div class="ttl">{% if d.admission_type is defined %}LETTER OF {{ f("admission_type", label="Admission Type") }}{% else %}LETTER OF ADMISSION{% endif %}</div>
 <p>Dear {{ val("student.name").split()[0] }},</p>
-<p>Congratulations! On behalf of the Admissions Committee and the entire {{ uname }} community, I am delighted to inform you that you have been admitted to {{ uname }} for the <b>{{ f("term", label="Term of Entry") }}</b> term. Your admission details are as follows:</p>
+<p>Congratulations! On behalf of the Admissions Committee and the entire {{ uname }} community, I am delighted to inform you that you have been {{ "conditionally " if d.admission_type is defined }}admitted to {{ uname }} for the <b>{{ f("term", label="Term of Entry") }}</b> term.{% if d.deferred_from is defined %} As requested, your original admission for the <b>{{ f("deferred_from", label="Deferred From") }}</b> term has been deferred to the term stated above; all other conditions of your offer remain unchanged.{% endif %} Your admission details are as follows:</p>
 <table class="al">
   <tr><th>Student Name</th><td>{{ val("student.name") }}</td></tr>
   <tr><th>Date of Birth</th><td>{{ f("student.dob", label="Date of Birth") }}</td></tr>
@@ -38,10 +47,45 @@ p { margin: 8px 0; text-align: justify; }
   <tr><th>Classes Begin</th><td>{{ f("start_date", label="Classes Begin") }}</td></tr>
   <tr><th>Expected Duration</th><td>{{ f("duration", label="Duration") }}</td></tr>
 </table>
+{% if d.conditions is defined %}
+<div class="cond pg-keep"><div class="h">CONDITIONS OF ADMISSION</div>
+  Your admission is conditional upon the following, which must be satisfied no later than <b>{{ f("condition_deadline", label="Condition Deadline") }}</b>:
+  <ol>{% for c in d.conditions %}<li>{{ f("conditions." ~ loop.index0, label="Condition") }}</li>{% endfor %}</ol>
+  If these conditions are not met by the deadline, this offer of admission may be withdrawn.</div>
+{% endif %}
+{% if d.scholarship is defined %}
+<p>We are also pleased to inform you that you have been selected to receive the <b>{{ f("scholarship.name", label="Scholarship") }}</b> in the amount of <b>{{ f("scholarship.amount", label="Scholarship Amount") }}</b>, which will be credited directly to your student account. The award is renewable subject to maintaining a cumulative GPA of 3.0 or above and full-time enrollment.</p>
+{% endif %}
+{% if d.cost is defined %}
+<div class="pg-keep">
+<h3 class="sh">Estimated Cost of Attendance (one academic year)</h3>
+<table class="cost">
+  <tr><th>Tuition and Fees</th><td>{{ f("cost.tuition", label="Estimated Tuition") }}</td></tr>
+  <tr><th>Living Expenses (Housing and Meals)</th><td>{{ f("cost.living", label="Estimated Living Expenses") }}</td></tr>
+  <tr><th>Health Insurance</th><td>{{ f("cost.insurance", label="Estimated Health Insurance") }}</td></tr>
+  <tr><th>Books and Supplies</th><td>{{ f("cost.books", label="Estimated Books and Supplies") }}</td></tr>
+  <tr class="tot"><th>Total Estimated Cost</th><td>{{ f("cost.total", label="Total Estimated Cost") }}</td></tr>
+</table>
+</div>
+{% endif %}
 <p>To confirm your place, please accept your offer and submit your enrollment deposit through the admitted student portal no later than <b>{{ f("deposit_deadline", label="Deposit Deadline") }}</b>. As an international student, you will also need to submit the Statement of Financial Resources with supporting bank documents showing sufficient funds for tuition and living expenses for the first year of study before your immigration document (Form I-20, CAS or CoE) can be issued.</p>
 <p>A separate statement of fees will be sent by the student accounts office. Orientation for new international students is held during the week prior to the start of classes, and attendance is mandatory.</p>
+{% if d.opt.get("next_steps") %}
+<h3 class="sh">Next Steps for Admitted International Students</h3>
+<ol class="ns">
+  <li>Accept your offer of admission through the admitted student portal using your Student ID.</li>
+  <li>Pay the enrollment deposit by the deadline stated above. The deposit will be credited toward your first-term tuition.</li>
+  <li>Submit the Statement of Financial Resources together with official bank statements issued within the last six months.</li>
+  <li>Upload a copy of the biographical page of your valid passport and of any previous study permits or visas.</li>
+  <li>Once your immigration document has been issued, schedule your visa appointment and pay any applicable visa fees.</li>
+  <li>Apply for on-campus housing; first-year international students are given priority if applications are received before the deadline.</li>
+  <li>Complete the online health and immunization forms and enroll in, or request a waiver from, the student health insurance plan.</li>
+  <li>Register for the mandatory International Student Orientation and the placement tests required by your program.</li>
+  <li>Arrange your travel so that you arrive no later than the first day of orientation, and bring your original academic documents.</li>
+</ol>
+{% endif %}
 <p>We are delighted to welcome you to our academic community and look forward to seeing you on campus.</p>
-<div class="sg">
+<div class="sg pg-keep">
   <div>Sincerely,</div>
   <div class="sig">{{ val("signer") }}</div>
   <div class="bold">{{ f("signer", label="Signed by") }}</div>

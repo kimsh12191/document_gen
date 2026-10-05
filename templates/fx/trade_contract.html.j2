@@ -1,6 +1,8 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
+{% import "fx/_fx.html.j2" as fx %}
 {% set lf = ["'Liberation Serif'", "'Liberation Sans'", "'Times New Roman'", "'DejaVu Serif'", "Arial", "'FreeSerif'"][style.page_pad % 6] %}
+{% block page_attrs %}{{ fx.en_pg_attrs(style) }}{% endblock %}
 {% block style %}
 .page { font-family: {{ lf|safe }}, var(--font); font-size: calc(var(--fs) - 1.5px); line-height: 1.38; padding: 46px 52px; }
 .tc-title { text-align: center; font-size: 25px; font-weight: 700; letter-spacing: .2em; margin: 0 0 4px; }
@@ -8,39 +10,48 @@
 .lh { text-align: center; border-bottom: 2px solid var(--border); padding-bottom: 6px; margin-bottom: 14px; }
 .lh-n { font-size: calc(var(--fs) + 5px); font-weight: 700; letter-spacing: .05em; }
 table.pt.tm { margin-top: 8px; font-size: calc(var(--fs) - 2px); }
-table.pt.tm th { width: 120px; white-space: nowrap; }
 table.pt td, table.pt th { border: 0; padding: 1px 4px; vertical-align: top; text-align: left; background: none; }
-table.pt th { width: 80px; font-weight: 700; }
+table.pt th { width: 120px; font-weight: 700; white-space: nowrap; }
 table.gd th { font-size: calc(var(--fs) - 3px); padding: 3px 4px; }
-table.gd td { padding: 3px 5px; font-size: calc(var(--fs) - 2px); }
-ol.tc { padding-left: 1.4em; margin: 6px 0; font-size: calc(var(--fs) - 2.5px); }
-ol.tc li { margin: 2px 0; }
+table.gd td { padding: {{ 2 if d["items"]|length > 12 else 3 }}px 5px; font-size: calc(var(--fs) - 2px); }
+div.tc { margin-left: 0; margin: 4px 0; font-size: calc(var(--fs) - 3px); line-height: 1.32; }
+div.tc > div { margin: 2px 0; text-align: justify; padding-left: 1.6em; text-indent: -1.6em; }
+h3.gtc { text-align: center; font-size: calc(var(--fs) + 1px); letter-spacing: .1em; margin: 14px 0 4px; }
 .sg { display: flex; justify-content: space-between; margin-top: 16px; }
 .sg > div { width: 46%; }
-.sg .line { border-bottom: 1px solid #000; height: 34px; position: relative; margin: 4px 0 2px; }
-.sg .sig { position: absolute; left: 14px; bottom: 3px; font-style: italic; font-size: 19px; color: #1a2c6b; font-family: 'Liberation Serif', serif; }
+.sg .line { border-bottom: 1px solid #000; height: 40px; position: relative; margin: 4px 0 2px; }
+.sg .line .inmark { position: absolute; left: 42%; bottom: 16px; transform: scale(.55); transform-origin: center; }
+.hand { font-family: 'NanumSquareRound', 'Nanum Gothic', sans-serif; color: #1c2c86; font-weight: 700; font-style: italic; display: inline-block; transform: rotate(-0.8deg); }
+.amend .corr .fv { font-family: 'NanumSquareRound', 'Nanum Gothic', sans-serif; color: #1c2c86; font-weight: 700; font-style: italic; }
+{{ fx.cont_style() }}
 {% endblock %}
 {% block content %}
+{% set o = d.opt %}
+{% set ini = val("buyer.signer").split()|map("first")|join("") if o.get("hand") else "" %}
+{{ f.set_corr_name(ini or val("buyer.signer").split()|map("first")|join("")) }}
+{{ fx.cont_head("SALES CONTRACT", "Contract No. " ~ val("contract_no"), val("contract_date")) }}
 <div class="lh"><div class="lh-n">{{ f("seller.name", label="Seller") }}</div><div class="small">{{ f("seller.address", label="Seller Address") }}</div></div>
 <div class="tc-title">SALES CONTRACT</div>
 <div class="tc-no">
   <div>Messrs. <b>{{ f("buyer.name", label="Buyer") }}</b><br>{{ f("buyer.address", label="Buyer Address") }}</div>
   <div style="white-space:nowrap;padding-left:20px">Contract No. : <b>{{ f("contract_no", label="Contract No") }}</b><br>Date : <b>{{ f("contract_date", label="Date") }}</b></div>
 </div>
-<p class="small" style="margin:8px 0 4px">Dear Sirs,<br>We as Seller confirm having sold you as Buyer the following goods on the terms and conditions as stated below and on the back hereof.</p>
+<p class="small" style="margin:8px 0 4px">Dear Sirs,<br>We as Seller confirm having sold you as Buyer the following goods on the terms and conditions as stated below{{ " and in the General Terms and Conditions attached hereto" if d.gtc_terms is defined else " and on the back hereof" }}.</p>
 <table class="gd">
-  <colgroup><col style="width:5%"><col style="width:36%"><col style="width:14%"><col style="width:15%"><col style="width:13%"><col style="width:17%"></colgroup>
-  <tr><th>Item No.</th><th>Commodity &amp; Description</th><th>Model</th><th>Quantity</th><th>Unit Price</th><th>Amount</th></tr>
+  <tr><th style="width:5%">Item No.</th><th style="width:36%">Commodity &amp; Description</th><th style="width:14%">Model</th><th style="width:15%">Quantity</th><th style="width:13%">Unit Price</th><th style="width:17%">Amount</th></tr>
   {% for it in d["items"] %}{% set pre = "items." ~ loop.index0 ~ "." %}
   <tr><td class="c">{{ loop.index }}</td><td>{{ f(pre ~ "description", label="Commodity & Description") }}</td><td class="c">{{ f(pre ~ "model", label="Model") }}</td>
-    <td class="num">{{ f(pre ~ "quantity", label="Quantity") }}</td><td class="num">{{ f(pre ~ "unit_price", label="Unit Price") }}</td><td class="num">{{ f(pre ~ "amount", label="Amount") }}</td></tr>
+    <td class="num">{{ f(pre ~ "quantity", label="Quantity") }}</td>
+    <td class="num{{ ' amend' if o.get('amend_item') == loop.index0 }}">{% if o.get("amend_item") == loop.index0 %}{{ f(pre ~ "unit_price", label="Unit Price", fix=1.0) }}{% else %}{{ f(pre ~ "unit_price", label="Unit Price") }}{% endif %}</td>
+    <td class="num">{{ f(pre ~ "amount", label="Amount") }}</td></tr>
   {% endfor %}
-  <tr><th colspan="5" class="right">TOTAL AMOUNT</th><td class="num bold">{{ f("total_amount", label="Total Amount") }}</td></tr>
+  <tr><td colspan="5" class="right bold">TOTAL AMOUNT</td><td class="num bold">{{ f("total_amount", label="Total Amount") }}</td></tr>
   <tr><td colspan="6" class="small">({{ f("total_words", label="Total Amount in Words") }})</td></tr>
 </table>
 <table class="pt tm">
   <tr><th>Price Terms</th><td>: {{ f("clauses.price_terms", label="Price Terms") }}</td></tr>
   <tr><th>Origin</th><td>: {{ f("clauses.origin", label="Origin") }}</td></tr>
+  {% if d.clauses.manufacturer is defined %}<tr><th>Manufacturer</th><td>: {{ f("clauses.manufacturer", label="Manufacturer") }}</td></tr>{% endif %}
   <tr><th>Packing</th><td>: {{ f("clauses.packing", label="Packing") }}</td></tr>
   <tr><th>Shipping Mark</th><td style="white-space:pre-line">: {{ f("clauses.shipping_mark", label="Shipping Mark") }}</td></tr>
   <tr><th>Shipment</th><td>: {{ f("clauses.shipment", label="Shipment") }}</td></tr>
@@ -50,14 +61,31 @@ ol.tc li { margin: 2px 0; }
   {% if d.clauses.insurance is defined %}<tr><th>Insurance</th><td>: {{ f("clauses.insurance", label="Insurance") }}</td></tr>{% endif %}
   <tr><th>Inspection</th><td>: {{ f("clauses.inspection", label="Inspection") }}</td></tr>
   <tr><th>Arbitration</th><td>: {{ f("clauses.arbitration", label="Arbitration") }}</td></tr>
-  <tr><th>Remarks</th><td>: Other terms and conditions are as per the General Terms and Conditions on the back hereof. This contract is made in duplicate; please sign and return one copy to us.</td></tr>
+  <tr><th>Remarks</th><td>: {% if d.gtc_terms is defined %}Other terms and conditions are as per the General Terms and Conditions attached hereto, which form an integral part of this contract.{% else %}Other terms and conditions are as per the General Terms and Conditions on the back hereof.{% endif %} This contract is made in duplicate; please sign and return one copy to us.</td></tr>
 </table>
-<div class="sg">
+{% if d.gtc_terms is defined %}
+{% set gt = {"qty_tolerance": "Quantity Tolerance", "late_penalty": "Late Shipment Penalty", "inspection_days": "Inspection Period (days)",
+             "claim_days": "Claim Period (days)", "warranty": "Warranty Period", "late_interest": "Late Payment Interest", "governing_law": "Governing Law"} %}
+<h3 class="gtc">GENERAL TERMS AND CONDITIONS</h3>
+<div class="tc">
+  {% for c in o.gtc %}
+  <div>{{ loop.index }}. <b>{{ c[0] }}.</b> {% for part in c[1].split("{") %}{% if loop.first %}{{ part }}{% else %}{% set kv = part.split("}", 1) %}{{ f("gtc_terms." ~ kv[0], label=gt[kv[0]]) }}{{ kv[1] }}{% endif %}{% endfor %}</div>
+  {% endfor %}
+</div>
+{% endif %}
+<div class="sg pg-keep">
   <div><div class="bold">ACCEPTED BY :</div><div>(Buyer) {{ val("buyer.name") }}</div>
-    <div class="line"><span class="sig">{{ val("buyer.signer") }}</span></div>
-    <div>Name : {{ f("buyer.signer", label="Buyer Signatory") }}</div><div>Title : {{ f("buyer.title", label="Buyer Title") }}</div></div>
+    <div class="line">{{ m.sigspot("buyer", val("buyer.signer"), mark="", p_seal=0, p_sign=0.85, label="Buyer Signature") }}</div>
+    {% if o.get("hand") %}
+    <div>Name : <span class="hand">{{ f("buyer.signer", label="Buyer Signatory", fix=0.05) }}</span></div><div>Title : <span class="hand">{{ f("buyer.title", label="Buyer Title") }}</span></div>
+    <div>Date : <span class="hand">{{ f("buyer.sign_date", label="Buyer Signing Date", fix=0.08) }}</span></div>
+    {% else %}
+    <div>Name : {{ f("buyer.signer", label="Buyer Signatory") }}</div><div>Title : {{ f("buyer.title", label="Buyer Title") }}</div>
+    <div>Date : {{ f("buyer.sign_date", label="Buyer Signing Date") }}</div>
+    {% endif %}</div>
   <div><div class="bold">Very truly yours,</div><div>(Seller) {{ val("seller.name") }}</div>
-    <div class="line"><span class="sig">{{ val("seller.signer") }}</span></div>
-    <div>Name : {{ f("seller.signer", label="Seller Signatory") }}</div><div>Title : {{ f("seller.title", label="Seller Title") }}</div></div>
+    <div class="line">{{ m.sigspot("seller", val("seller.signer"), mark="", p_seal=0, p_sign=0.9, label="Seller Signature") }}</div>
+    <div>Name : {{ f("seller.signer", label="Seller Signatory") }}</div><div>Title : {{ f("seller.title", label="Seller Title") }}</div>
+    <div>Date : {{ f("seller.sign_date", label="Seller Signing Date") }}</div></div>
 </div>
 {% endblock %}

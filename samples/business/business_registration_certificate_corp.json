@@ -9,9 +9,12 @@
  "head_office": "서울특별시 영등포구 국제금융로 22-7, 8층 (당산동, 동방프라자)",
  "biz_type": "정보통신업",
  "biz_item": "응용소프트웨어 개발",
- "issue_reason": "재발급",
+ "issue_reason": "신규",
  "unit_taxation": "부",
  "einvoice_email": "contact@saehan.co.kr",
- "issue_date": "2023 년 03 월 12 일",
- "issuer": "영등포세무서장"
+ "issue_date": "2021 년 12 월 10 일",
+ "issuer": "영등포세무서장",
+ "seal": {
+  "issuer": true
+ }
 }

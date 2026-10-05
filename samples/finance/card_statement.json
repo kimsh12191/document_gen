@@ -3,18 +3,18 @@
  "company": "우리카드",
  "statement_month": "2025년 11월",
  "member": "김소윤",
- "card_no": "5101-47**-****-2226",
+ "card_no": "5520-47**-****-2226",
  "pay_date": "2025.11.14",
  "pay_account": "농협은행 628-89**-**02-61",
  "usage_period": "2025.10.01 ~ 2025.10.31",
  "summary": {
-  "total": "1,884,624",
-  "lump": "437,340",
-  "installment": "1,429,964",
+  "total": "1,968,877",
+  "lump": "251,110",
+  "installment": "1,700,447",
   "cash": "0",
   "fee": "17,320",
-  "next_month": "87,730",
-  "limit": "30,000,000"
+  "next_month": "358,213",
+  "limit": "20,000,000"
  },
  "rows": [
   {
@@ -38,6 +38,16 @@
    "after": "0"
   },
   {
+   "date": "2025.09.15",
+   "merchant": "대한항공",
+   "amount": "1,622,900",
+   "months": "6개월",
+   "seq": "2/6",
+   "principal": "270,483",
+   "fee": "0",
+   "after": "1,081,934"
+  },
+  {
    "date": "2025.09.19",
    "merchant": "아시아나항공",
    "amount": "1,994,600",
@@ -48,42 +58,12 @@
    "after": "0"
   },
   {
-   "date": "2025.10.02",
-   "merchant": "GS칼텍스",
-   "amount": "21,840",
-   "months": "일시불",
-   "seq": "-",
-   "principal": "21,840",
-   "fee": "0",
-   "after": "0"
-  },
-  {
-   "date": "2025.10.03",
-   "merchant": "카카오T",
-   "amount": "33,790",
-   "months": "일시불",
-   "seq": "-",
-   "principal": "33,790",
-   "fee": "0",
-   "after": "0"
-  },
-  {
    "date": "2025.10.05",
    "merchant": "스타벅스",
    "amount": "6,500",
    "months": "일시불",
    "seq": "-",
    "principal": "6,500",
-   "fee": "0",
-   "after": "0"
-  },
-  {
-   "date": "2025.10.06",
-   "merchant": "스타벅스",
-   "amount": "130,600",
-   "months": "일시불",
-   "seq": "-",
-   "principal": "130,600",
    "fee": "0",
    "after": "0"
   },
@@ -139,8 +119,8 @@
   }
  ],
  "sum": {
-  "amount": "4,344,040",
-  "principal": "1,867,304",
+  "amount": "5,780,710",
+  "principal": "1,951,557",
   "fee": "17,320"
  },
  "fee_rate": "연 16.5%",

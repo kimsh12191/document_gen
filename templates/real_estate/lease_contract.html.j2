@@ -17,9 +17,11 @@ table.lc th { padding-top: 1px; padding-bottom: 1px; }
 .fx-box { display: flex; align-items: center; gap: 8px; }
 .fx-stamp { border: 2px solid #2a4fa8; color: #2a4fa8; padding: 2px 6px; transform: rotate(-4deg); font-size: 10.5px; line-height: 1.25; text-align: center; opacity: .85; }
 .in { color: #333; }
+.hand { font-family: 'NanumSquareRound', 'Nanum Gothic', sans-serif; color: #1c2c86; font-weight: 700; display: inline-block; transform: rotate(-0.6deg); font-size: 11px; }
 table.lc.bk td { font-size: 9.8px; line-height: 1.2; }
 {% endblock %}
 {% block content %}
+{{ f.set_corr_name(val("tenant.name")) }}
 <div class="lc-title">주택임대차표준계약서</div>
 <div class="lc-kind">□ 보증금 있는 월세 &nbsp;■ 전세 &nbsp;□ 월세</div>
 <div>임대인({{ f("landlord_name", label="임대인") }})과 임차인({{ f("tenant_name", label="임차인") }})은 아래와 같이 임대차 계약을 체결한다</div>
@@ -47,15 +49,15 @@ table.lc.bk td { font-size: 9.8px; line-height: 1.2; }
 <div class="cl" style="font-size:10.2px">제1조(보증금과 차임) 위 부동산의 임대차에 관하여 임대인과 임차인은 합의에 의하여 보증금 및 차임을 아래와 같이 지불하기로 한다.</div>
 <table class="lc">
   <colgroup><col style="width:80px"><col></colgroup>
-  <tr><th>보증금</th><td><b>{{ f("deposit", label="보증금") }}</b></td></tr>
-  <tr><th>계약금</th><td>{{ f("down_payment", label="계약금") }} 은 계약시에 지불하고 영수함. <span style="float:right">영수자 (인)</span></td></tr>
+  <tr><th>보증금</th><td><b>{{ f("deposit", label="보증금", fix=0.05) }}</b></td></tr>
+  <tr><th>계약금</th><td>{{ f("down_payment", label="계약금", fix=0.05) }} 은 계약시에 지불하고 영수함. <span style="float:right">영수자 (인)</span></td></tr>
   <tr><th>중도금</th><td class="in">금 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 원정(₩ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)은 &nbsp;&nbsp;&nbsp;&nbsp; 년 &nbsp;&nbsp; 월 &nbsp;&nbsp; 일에 지불하며</td></tr>
-  <tr><th>잔 금</th><td>{{ f("balance", label="잔금") }} 은 {{ f("balance_date", label="잔금지급일") }}에 지불한다</td></tr>
+  <tr><th>잔 금</th><td>{{ f("balance", label="잔금", fix=0.05) }} 은 {{ f("balance_date", label="잔금지급일", fix=0.05) }}에 지불한다</td></tr>
   <tr><th>차임(월세)</th><td class="in">금 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 원정은 매월 &nbsp;&nbsp; 일에 지불한다(입금계좌: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</td></tr>
   <tr><th>관리비</th><td class="small"><span class="in">(정액인 경우) 총액 금 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 원정</span><br>(정액이 아닌 경우) 관리비의 항목 및 산정방식: {{ f("management_fee", label="관리비") }}</td></tr>
 </table>
 <div class="cl">
-<p style="font-size:10.2px">제2조(임대차기간) 임대인은 임차주택을 임대차 목적대로 사용·수익할 수 있는 상태로 <b>{{ f("handover_date", label="인도일") }}</b>까지 임차인에게 인도하고, 임대차기간은 인도일로부터 <b>{{ f("end_date", label="임대차종료일") }}</b>까지로 한다.</p>
+<p style="font-size:10.2px">제2조(임대차기간) 임대인은 임차주택을 임대차 목적대로 사용·수익할 수 있는 상태로 <b>{{ f("handover_date", label="인도일", fix=0.05) }}</b>까지 임차인에게 인도하고, 임대차기간은 인도일로부터 <b>{{ f("end_date", label="임대차종료일", fix=0.05) }}</b>까지로 한다.</p>
 <p>제3조(입주 전 수리) 임대인과 임차인은 임차주택의 수리가 필요한 시설물 및 비용부담에 관하여 다음과 같이 합의한다. (수리 필요 시설: ■ 없음)</p>
 <p>제4조(임차주택의 사용·관리·수선) ① 임차인은 임대인의 동의 없이 임차주택의 구조변경 및 전대나 임차권 양도를 할 수 없으며, 주거 이외의 용도로 사용할 수 없다. ② 임대인은 계약 존속 중 임차주택을 사용·수익에 필요한 상태로 유지하여야 한다.</p>
 <p>제5조(계약의 해제) 임차인이 임대인에게 중도금(중도금이 없을 때는 잔금)을 지급하기 전까지, 임대인은 계약금의 배액을 상환하고, 임차인은 계약금을 포기하고 이 계약을 해제할 수 있다.</p>
@@ -70,16 +72,24 @@ table.lc.bk td { font-size: 9.8px; line-height: 1.2; }
 </div>
 <div class="sp">
   <div class="h">[특약사항]</div>
-  {% for s in d.specials %}<div>{{ f("specials." ~ loop.index0, label="특약사항") }}</div>{% endfor %}
+  {% for s in d.specials %}<div>{% if s.hand is defined %}<span class="hand">{{ f("specials." ~ loop.index0, label="특약사항") }}</span>{% else %}{{ f("specials." ~ loop.index0, label="특약사항") }}{% endif %}</div>{% endfor %}
 </div>
 <div class="small" style="margin:4px 0 2px">본 계약을 증명하기 위하여 계약 당사자가 이의 없음을 확인하고 각각 서명·날인 후 임대인, 임차인, 개업공인중개사는 매 장마다 간인하여, 각각 1통씩 보관한다. <b style="float:right">{{ f("contract_date", label="계약일") }}</b></div>
 <table class="lc">
   <colgroup><col style="width:52px"><col style="width:84px"><col style="width:140px"><col style="width:40px"><col style="width:108px"><col style="width:40px"><col></colgroup>
-  {% for role, key in [("임 대 인", "landlord"), ("임 차 인", "tenant")] %}
+  {% set parties = [("임 대 인", "landlord", "landlord_agent")] + ([("임 대 인", "co_landlord", None)] if d.co_landlord is defined else [])
+                 + [("임 차 인", "tenant", None)] %}
+  {% set sl = {"landlord": "임대인", "co_landlord": "공동임대인", "tenant": "임차인", "landlord_agent": "임대인대리인"} %}
+  {% for role, key, ag in parties %}
   <tr><th rowspan="3">{{ role }}</th><th>주 소</th><td colspan="5">{{ f(key ~ ".address", label="주소") }}</td></tr>
-  <tr><th>주민등록번호</th><td class="c">{{ f(key ~ ".rrn", label="주민등록번호") }}</td><th>전 화</th><td class="c">{{ f(key ~ ".phone", label="전화") }}</td>
-      <th>성 명</th><td>{{ f(key ~ ".name", label="성명") }} <span style="float:right" class="small">서명 또는 날인 ㊞</span></td></tr>
+  <tr><th>주민등록번호</th><td class="c">{{ f(key ~ ".rrn", label="주민등록번호") }}</td><th>전 화</th><td class="c">{{ f(key ~ ".phone", label="전화", fix=0.03) }}</td>
+      <th>성 명</th><td>{{ f(key ~ ".name", label="성명") }} <span style="float:right" class="small">{{ m.sigspot(key, val(key ~ ".name"), label=sl[key], mark="서명 또는 날인 ㊞") }}</span></td></tr>
+  {% if ag and d[ag] is defined %}
+  <tr><th>대 리 인</th><td colspan="2" class="small">주소 {{ f(ag ~ ".address", label="대리인주소") }}</td><td colspan="2" class="small">주민등록번호 {{ f(ag ~ ".rrn", label="대리인주민등록번호") }}</td>
+      <td class="small">성명 {{ f(ag ~ ".name", label="대리인성명") }} <span style="float:right">{{ m.sigspot(ag, val(ag ~ ".name"), label=sl[ag], mark="㊞") }}</span></td></tr>
+  {% else %}
   <tr><th>대 리 인</th><td colspan="2" class="in small">주소</td><td colspan="2" class="in small">주민등록번호</td><td class="in small">성명</td></tr>
+  {% endif %}
   {% endfor %}
 </table>
 <table class="lc bk">

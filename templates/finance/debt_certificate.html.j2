@@ -1,6 +1,7 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
 {% block style %}
+.keep { display: flex; flex-direction: column; } /* 맺음말·발급기관·직인은 한 덩어리 (쪽 나눔에서 쪼개지 않음) */
 table.dc td, table.dc th { font-size: calc(var(--fs) - 1px); padding-left: 4px; padding-right: 4px; }
 table.dc tr.sum th, table.dc tr.sum td { font-weight: 700; background: var(--label-bg); }
 {% endblock %}
@@ -21,7 +22,7 @@ table.dc tr.sum th, table.dc tr.sum td { font-weight: 700; background: var(--lab
     <td class="c">{{ f("loans." ~ i ~ ".maturity", label="만기일") }}</td>
     <td class="num">{{ f("loans." ~ i ~ ".amount", label="대출금액") }}</td>
     <td class="num">{{ f("loans." ~ i ~ ".balance", label="대출잔액") }}</td>
-    <td class="c">{{ f("loans." ~ i ~ ".rate", label="금리") }}</td>
+    <td class="c" style="white-space:nowrap">{{ f("loans." ~ i ~ ".rate", label="금리") }}</td>
   </tr>
   {% endfor %}
   {% for _ in range(4 - d.loans|length) %}<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>{% endfor %}
@@ -31,13 +32,16 @@ table.dc tr.sum th, table.dc tr.sum td { font-weight: 700; background: var(--lab
 <table>
   <colgroup><col style="width:110px"><col style="width:22%"><col style="width:110px"><col></colgroup>
   <tr><th>보증채무</th><td>{{ m.choice("guarantee", ["있음", "없음"], label="보증채무") }}</td><th>연체여부</th><td>{{ f("overdue", label="연체여부") }}</td></tr>
+  {% if d.overdue_detail is defined %}<tr><th>연체내역</th><td colspan="3" class="bold">{{ f("overdue_detail", label="연체내역") }}</td></tr>{% endif %}
   {% if d.guarantee_detail is defined %}<tr><th>보증내역</th><td colspan="3">{{ f("guarantee_detail", label="보증내역") }}</td></tr>{% endif %}
   <tr><th>용　　도</th><td colspan="3">{{ f("purpose", label="용도") }}</td></tr>
 </table>
+<div class="keep">
 <p class="center mt-l" style="font-size:calc(var(--fs) + 2px)">위와 같이 당행에 대한 부채가 있음을 증명합니다.</p>
 <div class="issuer">
   <div class="date">{{ f("issue_date", label="발급일") }}</div>
   <div class="org">{{ f("issuer", label="발급점") }}{{ m.seal(val("issuer").split()[-1] ~ "인", square=True, over=True) }}</div>
+</div>
 </div>
 <ol class="note mt-l">
   <li>이 증명서는 기준일 현재 당행 대출금 잔액을 증명하는 것으로, 이자 및 연체이자 등은 포함되지 않습니다.</li>

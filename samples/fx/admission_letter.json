@@ -10,7 +10,7 @@
  "student": {
   "name": "Soyun Kim",
   "address": "Apt. 114-1401, 75 Naebang-ro, Seo-gu, Gwangju 61092, Korea",
-  "dob": "21 NOV 1990",
+  "birth": "21 NOV 1990",
   "nationality": "Republic of Korea",
   "id": "N42700432"
  },

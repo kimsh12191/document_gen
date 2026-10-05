@@ -10,22 +10,27 @@ h1.title { letter-spacing:.4em; margin-bottom:16px; }
 .agenda { font-weight:700; margin:14px 0 4px; }
 table.loan { width:88%; margin:6px auto; }
 table.loan th { width:110px; }
-.signs { margin-top:10px; margin-left:auto; width:330px; }
+.signs { margin-top:10px; margin-left:auto; width:400px; }
 .signs .s { display:flex; align-items:center; height:48px; }
 .signs .t { width:120px; letter-spacing:.05em; }
 .signs .n { width:100px; letter-spacing:.2em; }
+.detail { border:var(--bw) solid var(--border); padding:6px 14px; margin:6px 30px; }
+.votes { margin:2px 30px 6px; font-weight:600; }
+.notary { border:2px solid #2a4fa0; color:#1d3a80; width:330px; margin:14px 0 0 auto; padding:8px 12px; line-height:1.5; transform:rotate(-1deg); position:relative; }
+.notary .h { text-align:center; font-weight:700; letter-spacing:.6em; font-size:calc(var(--fs) + 2px); }
 .corp { text-align:right; margin-top:14px; line-height:1.6; }
 {% endblock %}
 {% block content %}
 {{ m.title("이 사 회 의 사 록") }}
 <div class="it"><span class="k">1. 일　　시 :</span><span>{{ f("datetime", label="일시") }}</span></div>
 <div class="it"><span class="k">2. 장　　소 :</span><span>{{ f("venue", label="장소") }}</span></div>
-<div class="it"><span class="k">3. 이사 총수 :</span><span>{{ f("directors_total", label="이사총수") }}</span><span style="margin-left:40px">출석 이사수 : {{ f("directors_present", label="출석이사수") }}</span></div>
+<div class="it"><span class="k">3. 이사 총수 :</span><span>{{ f("directors_total", label="이사총수") }}</span><span style="margin-left:40px">출석 이사수 : {{ f("directors_present", label="출석이사수") }}{% if d.remote_count is defined %} ({{ f("remote_count", label="원격참석") }}){% endif %}</span></div>
 <div class="it"><span class="k">4. 감사 총수 :</span><span>{{ f("auditor_total", label="감사총수") }}</span><span style="margin-left:40px">출석 감사수 : {{ f("auditor_present", label="출석감사수") }}</span></div>
 
+{% if d.remote_attendees is defined %}<div class="para">※ {{ f("remote_attendees", label="원격참석이사") }}는 정관 규정에 따라 모든 이사가 음성을 동시에 송·수신하는 원격통신수단({{ f("remote_method", label="원격참석방법") }})에 의하여 결의에 참가하였으며, 이는 이사회에 직접 출석한 것으로 본다.</div>{% endif %}
 <div class="para">정관 규정에 따라 대표이사 {{ f("chair", label="의장") }}이(가) 의장석에 등단하여 이사회가 적법하게 소집되었음을 확인하고, 위와 같이 법정수에 달하는 이사가 출석하였으므로 본 이사회가 적법하게 성립되었음을 알리고 개회를 선언한 후, 다음의 의안을 부의하고 심의를 구하다.</div>
 
-<div class="agenda">제1호 의안 : {{ f("loan.lender", label="차입은행") }} 자금 차입의 건</div>
+<div class="agenda pg-keep-with-next">제1호 의안 : {{ f("loan.lender", label="차입은행") }} 자금 차입의 건</div>
 <div class="para">의장은 회사의 원활한 사업 운영을 위한 자금 조달이 필요함을 설명하고, 아래와 같이 금융기관으로부터 자금을 차입하고자 함을 제안하여 그 가부를 물은바, 출석이사 전원이 이의 없이 찬성하여 원안대로 승인 가결하다.</div>
 <table class="loan compact">
   <tr><th>차 입 기 관</th><td>{{ f("loan.bank", label="차입기관") }}</td></tr>
@@ -37,17 +42,33 @@ table.loan th { width:110px; }
   <tr><th>담 보 내 용</th><td>{{ f("loan.collateral", label="담보") }}</td></tr>
 </table>
 
-<div class="agenda">제2호 의안 : 차입 관련 제반 권한 위임의 건</div>
-<div class="para">의장은 제1호 의안의 차입과 관련하여 여신거래약정서 등 제반 서류의 작성, 날인 및 제출 등 일체의 권한을 대표이사에게 위임할 것을 제안하고 그 가부를 물은바, 출석이사 전원이 이의 없이 찬성하여 원안대로 승인 가결하다.</div>
+{% for a in d.agendas %}{% set i = loop.index0 %}
+<div class="agenda pg-keep-with-next">{{ f("agendas." ~ i ~ ".no", label="의안번호") }} : {{ f("agendas." ~ i ~ ".title", label="의안") }}</div>
+<div class="para">{{ f("agendas." ~ i ~ ".body", label="결의내용") }}</div>
+{% if a.detail is defined %}<div class="detail">{{ f("agendas." ~ i ~ ".detail", label="세부내용") }}</div>{% endif %}
+{% if a.votes is defined %}<div class="votes">표결 결과 : {{ f("agendas." ~ i ~ ".votes", label="표결결과") }}</div>{% endif %}
+{% endfor %}
 
 <div class="para">의장은 이상으로써 회의 목적인 의안 전부의 심의를 종료하였으므로 폐회한다고 선언하다. (회의 종료시각 {{ f("end_time", label="종료시각") }})</div>
 <div class="para">위 의사의 경과요령과 그 결과를 명백히 하기 위하여 이 의사록을 작성하고 의장과 출석한 이사 및 감사가 아래와 같이 기명날인 또는 서명하다.</div>
 
+<div class="pg-keep">
 <div class="center bold" style="margin-top:14px">{{ f("minutes_date", label="작성일") }}</div>
 <div class="corp">{{ f("company_name", label="상호") }}<br><span class="small">{{ f("head_office", label="본점") }}</span></div>
 <div class="signs">
   {% for s in d.signers %}{% set i = loop.index0 %}
-  <div class="s"><span class="t">{{ f("signers." ~ i ~ ".title", label="자격") }}</span><span class="n">{{ f("signers." ~ i ~ ".name", label="성명") }}</span>{% if loop.first %}<span style="margin-left:-8px">{{ cs.corp_seal(d.company_name.replace("(주)", "주식회사 "), "대표이사인", 52, "bm") }}</span>{% else %}{{ m.seal(s.name, size="sm") }}{% endif %}</div>
+  <div class="s"><span class="t">{{ f("signers." ~ i ~ ".title", label="자격") }}</span><span class="n">{{ f("signers." ~ i ~ ".name", label="성명") }}</span>{% if loop.first %}<span style="margin-left:-8px">{{ cs.corp_seal(d.company_name.replace("(주)", "주식회사 "), "대표이사인", 52, "bm") }}</span>{% else %}{{ m.seal(s.name, size="sm", key="signer" ~ loop.index, kind="인감", anchor="signers." ~ i ~ ".name", p=(0.5 if s.remote is defined else d.seal_p)) }}{% if s.remote is defined %}<span class="small">{{ f("signers." ~ i ~ ".remote", label="비고") }}</span>{% endif %}{% endif %}</div>
   {% endfor %}
 </div>
+</div>
+{% if d.notary is defined %}
+<div class="notary pg-keep">
+  <div>등부 {{ f("notary.reg_no", label="등부번호") }}</div>
+  <div class="h">인　증</div>
+  <div class="small">위 의사록은 이사회의 결의절차 및 내용이 진실에 부합함을 인증한다.</div>
+  <div>{{ f("notary.date", label="인증일") }}&nbsp; 이 사무소에서</div>
+  <div>공증인 {{ f("notary.office", label="공증인") }}</div>
+  <div>공증담당변호사 {{ f("notary.lawyer", label="공증담당변호사") }} {{ m.seal("공증인", square=True, size="sm", key="notary", kind="공증인 직인") }}</div>
+</div>
+{% endif %}
 {% endblock %}

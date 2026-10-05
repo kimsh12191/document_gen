@@ -5,7 +5,7 @@
  "nationality": "내국인",
  "taxpayer": {
   "name": "김소윤",
-  "rrn": "901121-2******",
+  "rrn": "901121-2030821",
   "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
   "email": "soyun407@hanmail.net",
   "biz_phone": "02-7824-2394",
@@ -14,29 +14,110 @@
  "filing_type": "추계-기준율",
  "bookkeeping": "간편장부대상자",
  "filing_kind": "정기신고",
- "refund_account": {
-  "bank": "농협은행",
-  "number": "628-8975-1402-61"
- },
  "national": {
   "total_income": "15,122,480",
-  "deduction": "10,961,010",
-  "base": "4,161,470",
+  "deduction": "9,761,010",
+  "base": "5,361,470",
   "rate": "6%",
-  "computed": "249,688",
+  "computed": "321,688",
   "reduction": "0",
   "credit": "90,000",
-  "determined": "159,688",
+  "determined": "231,688",
   "penalty": "0",
   "additional": "0",
-  "total": "159,688",
-  "prepaid": "74,380",
-  "payable": "85,300",
+  "total": "231,688",
+  "prepaid": "69,690",
+  "payable": "161,990",
   "special_deduct": "0",
   "special_add": "0",
   "installment": "0",
-  "due_payable": "85,300"
+  "due_payable": "161,990"
  },
  "filed_date": "2025년 05월 02일",
- "tax_office": "서광주세무서장"
+ "seal": {
+  "taxpayer": false
+ },
+ "sign": {
+  "taxpayer": false
+ },
+ "tax_office": "서광주세무서장",
+ "incomes": [
+  {
+   "type": "사업소득",
+   "payer": "넥스트몰",
+   "revenue": "185,741,550",
+   "expense": "170,619,070",
+   "amount": "15,122,480",
+   "withheld": "0"
+  }
+ ],
+ "business_income": {
+  "address": "서울특별시 송파구 중대로 398, 12층 13호 (잠실동, 에이스지식산업센터)",
+  "trade_name": "넥스트몰",
+  "biz_no": "129-20-96799",
+  "code": "525101",
+  "revenue": "185,741,550",
+  "expense": "170,619,070",
+  "income": "15,122,480"
+ },
+ "dependents": [
+  {
+   "relation": "본인",
+   "name": "김소윤",
+   "rrn": "901121-2******",
+   "basic": "○",
+   "extra": null
+  },
+  {
+   "relation": "배우자",
+   "name": "김승성",
+   "rrn": "900306-1******",
+   "basic": "○",
+   "extra": null
+  },
+  {
+   "relation": "자녀",
+   "name": "김주지",
+   "rrn": "190107-4******",
+   "basic": "○",
+   "extra": null
+  },
+  {
+   "relation": "자녀",
+   "name": "김민윤",
+   "rrn": "201102-4******",
+   "basic": "○",
+   "extra": null
+  }
+ ],
+ "deduction_items": [
+  {
+   "item": "기본공제",
+   "amount": "6,000,000"
+  },
+  {
+   "item": "연금보험료공제",
+   "amount": "1,361,010"
+  },
+  {
+   "item": "소기업ㆍ소상공인 공제부금 소득공제",
+   "amount": "2,400,000"
+  }
+ ],
+ "credit_items": [
+  {
+   "item": "표준세액공제",
+   "amount": "70,000"
+  },
+  {
+   "item": "전자신고세액공제",
+   "amount": "20,000"
+  }
+ ],
+ "prepaid_items": [
+  {
+   "item": "중간예납세액",
+   "amount": "69,690"
+  }
+ ]
 }

@@ -11,8 +11,12 @@
 table.ct th, table.ct td { padding: 3px 4px; font-size: calc(var(--fs) - 2px); }
 table.ct td.l { text-align: left; }
 table.ct tr.sum td, table.ct tr.sum th { background: var(--label-bg); font-weight: 700; }
+table.ct td.neg { color: #c00; }
+.ct-head:not(.pg-repeated) { display: none; }
 {% endblock %}
 {% block content %}
+{# 둘째 쪽부터 맨 위에 반복되는 머리줄 (첫 쪽에서는 숨김) #}
+<div class="docno pg-repeat ct-head between"><span>{{ val("company") }} {{ val("statement_month") }} 이용대금명세서</span><span>{{ val("member") }} 회원님 · 카드번호 {{ val("card_no") }}</span></div>
 <div class="cs-head">
   <div><div class="cs-co">{{ f("company", label="카드사") }}</div><div class="cs-title">{{ f("statement_month", label="청구월") }} 이용대금명세서</div></div>
   <div class="right small">{{ val("member") }} 회원님</div>
@@ -26,6 +30,7 @@ table.ct tr.sum td, table.ct tr.sum th { background: var(--label-bg); font-weigh
     <tr><th>일시불</th><td class="num">{{ f("summary.lump", label="일시불") }}</td><th>할부</th><td class="num">{{ f("summary.installment", label="할부") }}</td></tr>
     <tr><th>현금서비스</th><td class="num">{{ f("summary.cash", label="현금서비스") }}</td><th>수수료(이자)</th><td class="num">{{ f("summary.fee", label="수수료(이자)") }}</td></tr>
     <tr><th>다음달 결제예정</th><td class="num">{{ f("summary.next_month", label="다음달결제예정금액") }}</td><th>이용한도</th><td class="num">{{ f("summary.limit", label="이용한도") }}</td></tr>
+    {% if d.summary.overdue is defined %}<tr><th class="accent">연체금액</th><td class="num bold">{{ f("summary.overdue", label="연체금액") }}</td><th class="accent">연체이자</th><td class="num bold">{{ f("summary.overdue_fee", label="연체이자") }}</td></tr>{% endif %}
   </table>
 </div>
 <h3 class="sec">이용내역 <span class="small muted">(단위: 원)</span></h3>
@@ -36,7 +41,7 @@ table.ct tr.sum td, table.ct tr.sum th { background: var(--label-bg); font-weigh
   <tr>
     <td class="c">{{ f("rows." ~ i ~ ".date", label="이용일자") }}</td>
     <td class="l">{{ f("rows." ~ i ~ ".merchant", label="이용하신가맹점") }}</td>
-    <td class="num">{{ f("rows." ~ i ~ ".amount", label="이용금액") }}</td>
+    <td class="num{{ ' neg' if r.amount.startswith('-') }}">{{ f("rows." ~ i ~ ".amount", label="이용금액") }}</td>
     <td class="c">{{ f("rows." ~ i ~ ".months", label="할부") }}</td>
     <td class="c">{{ f("rows." ~ i ~ ".seq", label="회차") }}</td>
     <td class="num">{{ f("rows." ~ i ~ ".principal", label="원금") }}</td>

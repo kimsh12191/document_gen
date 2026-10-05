@@ -1,6 +1,8 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
+{% import "fx/_fx.html.j2" as fx %}
 {% set lf = ["'Liberation Sans'", "'Liberation Serif'", "'DejaVu Sans'", "Arial", "'Times New Roman'", "'FreeSans'"][style.page_pad % 6] %}
+{% block page_attrs %}{{ fx.en_pg_attrs(style) }}{% endblock %}
 {% block style %}
 .page { font-family: {{ lf|safe }}, var(--font); font-size: calc(var(--fs) - 1.5px); padding: 44px 46px; }
 .ci-title { text-align: center; font-size: 24px; font-weight: 700; letter-spacing: .12em; margin: 0 0 10px; text-decoration: underline; }
@@ -8,17 +10,21 @@ table.ci { border: 2px solid var(--border); margin: 0; table-layout: fixed; }
 table.ci td { vertical-align: top; padding: 3px 6px; height: 1px; }
 .lb { font-size: calc(var(--fs) - 4px); color: #333; display: block; margin-bottom: 1px; }
 .v { font-weight: 600; }
+.rm { font-size: calc(var(--fs) - 2.5px); line-height: 1.3; }
 table.gd { border: 2px solid var(--border); border-top: 0; margin: 0; table-layout: fixed; }
 table.gd th { font-size: calc(var(--fs) - 3.5px); padding: 3px 4px; background: var(--label-bg); }
-table.gd td { border-top: 0; border-bottom: 0; vertical-align: top; padding: 3px 5px; }
+table.gd td { border-top: 0; border-bottom: 0; vertical-align: top; padding: {{ 2 if d["items"]|length > 12 else 3 }}px 5px; }
 table.gd tr.tot td { border-top: 1.5px solid var(--border); border-bottom: 1.5px solid var(--border); font-weight: 700; }
-table.gd tr.fill td { height: 100%; }
+table.gd tr.sub td { border-top: 1px dashed #777; }
 .marks { white-space: nowrap; font-size: calc(var(--fs) - 3px); }
+.mdl { font-size: calc(var(--fs) - 3px); color: #222; }
 .sign { margin-top: 26px; margin-left: auto; width: 300px; text-align: left; }
 .sign .line { border-bottom: 1px solid #000; height: 40px; position: relative; }
 .sign .sig { position: absolute; left: 20px; bottom: 4px; font-style: italic; font-family: 'Liberation Serif', serif; font-size: 20px; color: #1a2c6b; }
+{{ fx.cont_style() }}
 {% endblock %}
 {% block content %}
+{{ fx.cont_head("COMMERCIAL INVOICE", "Invoice No. " ~ val("invoice_no"), val("invoice_date")) }}
 <div class="ci-title">COMMERCIAL INVOICE</div>
 <table class="ci">
   <colgroup><col style="width:28%"><col style="width:27%"><col style="width:22.5%"><col style="width:22.5%"></colgroup>
@@ -38,7 +44,14 @@ table.gd tr.fill td { height: 100%; }
     <td colspan="2" rowspan="3"><span class="lb">⑪ Remarks</span>
       Terms of delivery: <b>{{ f("terms.delivery", label="Terms of Delivery") }}</b><br>
       Terms of payment: <b>{{ f("terms.payment", label="Terms of Payment") }}</b><br>
-      Country of origin: {{ f("origin", label="Country of Origin") }}</td>
+      Country of origin: {{ f("origin", label="Country of Origin") }}
+      <div class="rm">
+      {% if d.contract_no is defined %}Contract No.: {{ f("contract_no", label="Contract No") }}<br>{% endif %}
+      {% if d.partial_shipment is defined %}<b>PARTIAL SHIPMENT : {{ f("partial_shipment", label="Partial Shipment") }}</b><br>{% endif %}
+      {% if d.lc is defined %}DRAWN UNDER {{ val("lc.bank") }} L/C NO. {{ val("lc.no") }}<br>{% endif %}
+      {% if d.manufacturer is defined %}Manufacturer / Actual shipper: {{ f("manufacturer.name", label="Manufacturer") }}, {{ f("manufacturer.address", label="Manufacturer Address") }}<br>{% endif %}
+      {% if d.beneficiary_bank is defined %}Payment to: {{ f("beneficiary_bank.name", label="Beneficiary Bank") }} (SWIFT {{ f("beneficiary_bank.swift", label="Beneficiary Bank SWIFT") }}), A/C No. {{ f("beneficiary_bank.account", label="Beneficiary Account No") }}{% endif %}
+      </div></td>
   </tr>
   <tr>
     <td><span class="lb">④ Port of loading</span>{{ f("port_of_loading", label="Port of Loading") }}</td>
@@ -49,20 +62,25 @@ table.gd tr.fill td { height: 100%; }
     <td><span class="lb">⑦ Sailing on or about</span>{{ f("sailing_date", label="Sailing on or about") }}</td>
   </tr>
 </table>
+{% set n = d["items"]|length %}
 <table class="gd">
-  <colgroup><col style="width:21%"><col style="width:33%"><col style="width:15%"><col style="width:13%"><col style="width:18%"></colgroup>
-  <tr><th>⑫ Marks and numbers of PKGS</th><th>⑬ Description of goods</th><th>⑭ Quantity/Unit</th><th>⑮ Unit-price</th><th>⑯ Amount</th></tr>
+  <tr><th style="width:21%">⑫ Marks and numbers of PKGS</th><th style="width:33%">⑬ Description of goods</th><th style="width:15%">⑭ Quantity/Unit</th><th style="width:13%">⑮ Unit-price</th><th style="width:18%">⑯ Amount</th></tr>
   <tr><td></td><td></td><td></td><td colspan="2" class="c small bold">{{ val("terms.delivery").split(" (")[0] }}</td></tr>
   {% for it in d["items"] %}{% set pre = "items." ~ loop.index0 ~ "." %}
   <tr>
-    {% if loop.first %}<td class="marks" rowspan="{{ 13 }}">{{ f("marks", label="Marks and Numbers") }}</td>{% endif %}
-    <td>{{ f(pre ~ "description", label="Description of Goods") }}<br><span class="small">MODEL: {{ f(pre ~ "model", label="Model") }}</span></td>
+    <td class="marks">{% if loop.first %}{{ f("marks", label="Marks and Numbers") }}{% endif %}</td>
+    <td>{{ f(pre ~ "description", label="Description of Goods") }}{% if n > 12 %} <span class="mdl">({{ f(pre ~ "model", label="Model") }})</span>{% else %}<br><span class="small">MODEL: {{ f(pre ~ "model", label="Model") }}</span>{% endif %}</td>
     <td class="num">{{ f(pre ~ "quantity", label="Quantity/Unit") }}</td>
     <td class="num">{{ f(pre ~ "unit_price", label="Unit-price") }}</td>
     <td class="num">{{ f(pre ~ "amount", label="Amount") }}</td>
   </tr>
   {% endfor %}
-  {% for _ in range(13 - d["items"]|length) %}<tr><td>&nbsp;</td><td></td><td></td><td></td></tr>{% endfor %}
+  {% for _ in range(13 - n) %}<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>{% endfor %}
+  {% if d.price_breakdown is defined %}
+  <tr class="sub"><td></td><td colspan="3" class="right">FOB VALUE</td><td class="num">{{ f("price_breakdown.fob", label="FOB Value") }}</td></tr>
+  <tr><td></td><td colspan="3" class="right">OCEAN FREIGHT</td><td class="num">{{ f("price_breakdown.freight", label="Ocean Freight") }}</td></tr>
+  <tr><td></td><td colspan="3" class="right">INSURANCE PREMIUM</td><td class="num">{{ f("price_breakdown.insurance", label="Insurance Premium") }}</td></tr>
+  {% endif %}
   <tr class="tot"><td colspan="2" class="right">TOTAL : &nbsp;{{ f("total_quantity", label="Total Packages") }}</td><td></td><td></td>
     <td class="num">{{ f("total_amount", label="Total Amount") }}</td></tr>
 </table>

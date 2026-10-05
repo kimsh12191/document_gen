@@ -1,0 +1,89 @@
+{
+ "document_type": "소득금액증명원",
+ "issue_no": "5670-460-4926-147",
+ "taxpayer": {
+  "name": "김소윤",
+  "rrn": "901121-2******",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)"
+ },
+ "period": "2021년 ~ 2024년",
+ "filing_rows": [
+  {
+   "year": "2024",
+   "income_type": "근로",
+   "revenue": "62,330,000",
+   "income": "49,463,500"
+  },
+  {
+   "year": "2024",
+   "income_type": "기타",
+   "revenue": "6,326,330",
+   "income": "2,530,530"
+  },
+  {
+   "year": "2023",
+   "income_type": "근로",
+   "revenue": "60,150,000",
+   "income": "47,392,500"
+  },
+  {
+   "year": "2023",
+   "income_type": "기타",
+   "revenue": "5,956,280",
+   "income": "2,382,510"
+  },
+  {
+   "year": "2022",
+   "income_type": "근로",
+   "revenue": "58,030,000",
+   "income": "45,378,500"
+  },
+  {
+   "year": "2022",
+   "income_type": "사업",
+   "revenue": "15,843,510",
+   "income": "5,687,820"
+  }
+ ],
+ "rows": [
+  {
+   "year": "2024",
+   "income_type": "근로",
+   "payer": "(주)새한소프트",
+   "payer_biz_no": "458-86-13197",
+   "amount": "62,330,000",
+   "tax": "3,277,200"
+  },
+  {
+   "year": "2023",
+   "income_type": "근로",
+   "payer": "(주)새한소프트",
+   "payer_biz_no": "458-86-13197",
+   "amount": "60,150,000",
+   "tax": "2,568,780"
+  },
+  {
+   "year": "2022",
+   "income_type": "근로",
+   "payer": "(주)새한소프트",
+   "payer_biz_no": "458-86-13197",
+   "amount": "58,030,000",
+   "tax": "2,819,150"
+  },
+  {
+   "year": "2021",
+   "income_type": "근로",
+   "payer": "(주)새한소프트",
+   "payer_biz_no": "458-86-13197",
+   "amount": "55,990,000",
+   "tax": "2,651,870"
+  }
+ ],
+ "purpose": "금융기관 제출용",
+ "submit_to": "농협은행",
+ "issue_date": "2025년 11월 29일",
+ "issuer": "서광주세무서장",
+ "seal": {
+  "issuer": true
+ }
+}

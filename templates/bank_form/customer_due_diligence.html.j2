@@ -8,6 +8,7 @@ table.cdd td.opt { line-height: 1.55; }
 table.cdd th.sub { width: 70px; font-weight: 500; }
 {% endblock %}
 {% block content %}
+{{ f.set_corr_name(val("customer.name")) }}
 {{ bf.head("고객확인 · 수신공통<br>(2-1) 고객용") }}
 {{ m.title("고객거래확인서", sub="(개인 · 개인사업자용)") }}
 <div class="bf-box bf-note">
@@ -17,11 +18,11 @@ table.cdd th.sub { width: 70px; font-weight: 500; }
 
 {{ bf.sec("1", "신원확인 정보", "(필수기재사항)") }}
 <table class="bf cdd">
-<tr><th>성명(한글)</th><td>{{ f("customer.name", label="성명(한글)") }}</td><th>성명(영문)</th><td>{{ f("customer.name_en", label="성명(영문)") }}</td></tr>
-<tr><th>실명번호</th><td>{{ f("customer.rrn", label="실명번호") }}</td><th>구　분</th><td>{{ m.choice("customer.resident_type", ["내국인", "재외국민", "외국인"], label="구분") }}</td></tr>
+<tr><th>성명(한글)</th><td>{{ f("customer.name", label="성명(한글)", fix=0.04) }}</td><th>성명(영문)</th><td>{{ f("customer.name_en", label="성명(영문)", fix=0.04) }}</td></tr>
+<tr><th>실명번호</th><td>{{ f("customer.rrn", label="실명번호", fix=0.05) }}</td><th>구　분</th><td>{{ m.choice("customer.resident_type", ["내국인", "재외국민", "외국인"], label="구분") }}</td></tr>
 <tr><th>성　별</th><td>{{ m.choice("customer.gender", ["남", "여"], label="성별") }}</td><th>국　적</th><td>{{ f("customer.nationality", label="국적") }}</td></tr>
-<tr><th>주소(거소)</th><td colspan="3">{{ f("customer.address", label="주소(거소)") }}</td></tr>
-<tr><th>휴대전화</th><td>{{ f("customer.mobile", label="휴대전화") }}</td><th>E-mail</th><td>{{ f("customer.email", label="E-mail") }}</td></tr>
+<tr><th>주소(거소)</th><td colspan="3">{{ f("customer.address", label="주소(거소)", fix=0.05) }}</td></tr>
+<tr><th>휴대전화</th><td>{{ f("customer.mobile", label="휴대전화", fix=0.06) }}</td><th>E-mail</th><td>{{ f("customer.email", label="E-mail", fix=0.03) }}</td></tr>
 </table>
 
 {{ bf.sec("2", "직업 및 직장(사업장) 정보") }}
@@ -44,9 +45,9 @@ table.cdd th.sub { width: 70px; font-weight: 500; }
 {{ bf.sec("3", "금융거래 목적 및 자금의 원천") }}
 <table class="bf cdd">
 <tr><th>거래목적</th><td class="opt">{{ m.choice("transaction.purpose", ["급여 및 생활비", "저축 및 투자", "보험료 납부결제", "공과금 납부결제", "카드대금 결제", "대출원리금 상환결제", "사업상 거래", "기타"], label="거래목적") }}</td></tr>
-<tr><th>자금의 원천</th><td class="opt">{{ m.choice("transaction.fund_source", ["근로 및 연금소득", "퇴직소득", "사업소득", "부동산임대소득", "부동산양도소득", "금융소득(이자 및 배당)", "상속·증여", "일시 재산양도로 인한 소득", "기타"], label="자금의원천") }}</td></tr>
-<tr><th>예상 거래금액<br>(월평균)</th><td>{{ m.choice("transaction.expected_amount", ["1천만원 미만", "1천만원~5천만원", "5천만원~1억원", "1억원 이상"], label="예상거래금액") }}<br>
-  <span class="small">(예상 거래빈도)</span> {{ m.choice("transaction.frequency", ["월 5회 미만", "월 5~10회", "월 10~20회", "월 20회 이상"], label="예상거래빈도") }}</td></tr>
+<tr><th>자금의 원천</th><td class="opt">{{ m.choice("transaction.fund_source", ["근로 및 연금소득", "퇴직소득", "사업소득", "부동산임대소득", "부동산양도소득", "금융소득(이자 및 배당)", "상속·증여", "일시 재산양도로 인한 소득", "기타"], label="자금의원천") }}{{ bf.nochk("transaction.fund_source") }}</td></tr>
+<tr><th>예상 거래금액<br>(월평균)</th><td>{{ m.choice("transaction.expected_amount", ["1천만원 미만", "1천만원~5천만원", "5천만원~1억원", "1억원 이상"], label="예상거래금액") }}{{ bf.nochk("transaction.expected_amount") }}<br>
+  <span class="small">(예상 거래빈도)</span> {{ m.choice("transaction.frequency", ["월 5회 미만", "월 5~10회", "월 10~20회", "월 20회 이상"], label="예상거래빈도") }}{{ bf.nochk("transaction.frequency") }}</td></tr>
 </table>
 
 {{ bf.sec("4", "실제소유자 확인", "(Beneficial Owner)") }}
@@ -54,25 +55,44 @@ table.cdd th.sub { width: 70px; font-weight: 500; }
 <tr><td class="q" colspan="6">귀하는 본 거래(계좌)의 실제소유자입니까? (개인사업자: 대표자와 실제소유자가 동일합니까?)
   <span style="float:right">{{ m.choice("beneficial_owner", ["예", "아니오"], label="실제소유자여부") }}</span>
   <div class="tiny muted">※ 실제소유자: 고객을 최종적으로 지배하거나 통제하는 자연인. '아니오'인 경우 아래에 실제소유자 정보를 기재하여 주십시오.</div></td></tr>
-<tr><th>실제소유자 성명</th><td>&nbsp;</td><th style="width:70px">생년월일</th><td style="width:110px">&nbsp;</td><th style="width:52px">국　적</th><td style="width:110px">&nbsp;</td></tr>
+{% if d.owner is defined %}<tr><th>실제소유자 성명</th><td>{{ f("owner.name", label="실제소유자성명", fix=0.04) }}</td><th style="width:70px">생년월일</th><td style="width:110px">{{ f("owner.birth", label="실제소유자생년월일", fix=0.04) }}</td><th style="width:52px">국　적</th><td style="width:110px">{{ f("owner.nationality", label="실제소유자국적") }}</td></tr>
+{% else %}<tr><th>실제소유자 성명</th><td>&nbsp;</td><th style="width:70px">생년월일</th><td style="width:110px">&nbsp;</td><th style="width:52px">국　적</th><td style="width:110px">&nbsp;</td></tr>{% endif %}
 </table>
 
 {{ bf.sec("5", "외국의 정치적 주요인물 여부", "(Foreign PEPs)") }}
 <table class="bf cdd">
 <tr><td class="q">본인 또는 실제소유자가 외국의 정치적 주요인물(가족·밀접한 관계자 포함)에 해당합니까?<div class="tiny muted">※ 외국의 전·현직 국가원수, 고위 정치인·정부관리, 국영기업 고위임원, 주요 정당 간부 등. '예'인 경우 추가정보 확인서 작성</div></td>
-<td style="width:150px" class="c">{{ m.choice("pep", ["예", "아니오"], label="외국의정치적주요인물여부") }}</td></tr>
+<td style="width:150px" class="c">{{ m.choice("pep", ["예", "아니오"], label="외국의정치적주요인물여부") }}{{ bf.nochk("pep") }}</td></tr>
 </table>
 
 {{ bf.sec("6", "대리인 정보", "(대리인에 의한 거래 시에만 작성)") }}
 <table class="bf cdd">
-<tr><th>대리인 성명</th><td>&nbsp;</td><th style="width:70px">실명번호</th><td>&nbsp;</td><th style="width:84px">본인과의 관계</th><td style="width:90px">&nbsp;</td></tr>
+{% if d.agent is defined %}<tr><th>대리인 성명</th><td>{{ f("agent.name", label="대리인성명", fix=0.04) }}</td><th style="width:70px">실명번호</th><td>{{ f("agent.rrn", label="대리인실명번호", fix=0.04) }}</td><th style="width:84px">본인과의 관계</th><td style="width:90px">{{ f("agent.relation", label="본인과의관계") }}</td></tr>
+{% else %}<tr><th>대리인 성명</th><td>&nbsp;</td><th style="width:70px">실명번호</th><td>&nbsp;</td><th style="width:84px">본인과의 관계</th><td style="width:90px">&nbsp;</td></tr>{% endif %}
 </table>
 
+{% if d.edd is defined %}
+{{ bf.sec("7", "강화된 고객확인(EDD) 추가정보", "(고위험 고객 · 은행 요청 시 작성)") }}
+<table class="bf cdd">
+<tr><th>연간 소득</th><td>{{ f("edd.annual_income", label="연간소득", fix=0.05) }}</td><th style="width:98px">보유 자산 규모</th><td>{{ m.choice("edd.assets", ["5억원 미만", "5억원~10억원", "10억원~30억원", "30억원 이상"], label="보유자산규모") }}</td></tr>
+<tr><th>자금 원천<br>상세</th><td colspan="3">{{ f("edd.fund_detail", label="자금원천상세") }}</td></tr>
+<tr><th>거래 목적<br>상세</th><td colspan="3">{{ f("edd.purpose_detail", label="거래목적상세") }}</td></tr>
+<tr><th>고액 현금거래</th><td>{{ f("edd.cash_tx", label="고액현금거래") }}</td><th>해외 거래</th><td>{{ f("edd.overseas_tx", label="해외거래") }}</td></tr>
+</table>
+<div class="bf-note" style="margin:2px 0 0">■ 타 금융회사 거래 계좌 현황</div>
+<table class="bf cdd">
+<tr><th style="width:36px">No</th><th>금융회사</th><th>계좌 종류</th><th>주된 용도</th></tr>
+{% for a in d.edd.accounts %}{% set k = "edd.accounts." ~ loop.index0 %}
+<tr><td class="c">{{ loop.index }}</td><td class="c">{{ f(k ~ ".bank", label="금융회사") }}</td><td class="c">{{ f(k ~ ".kind", label="계좌종류") }}</td><td class="c">{{ f(k ~ ".purpose", label="주된용도") }}</td></tr>
+{% endfor %}
+</table>
+{% endif %}
 <div class="bf-note" style="margin-top:6px">본인은 위 기재 내용이 사실과 다름없음을 확인하며, 기재 내용에 변경이 있는 경우 지체 없이 은행에 통보하겠습니다. 허위 기재 또는 정보 제공 거부로 인한 거래 제한 등의 불이익은 본인이 부담합니다.</div>
 <div class="bf-sign">
   <span>{{ f("date", label="작성일") }}</span>
-  <span>고객(본인) <span class="who">{{ f("signature", label="고객성명") }}</span> (서명 또는 인)</span>
+  <span>고객(본인) <span class="who">{{ f("signature", label="고객성명") }}</span> {{ m.sigspot("customer", (val("signature")|replace(" ", ""))[:4], label="고객", anchor="signature") }}</span>
 </div>
+{% if d.agent is defined %}<div class="bf-sign" style="margin-top:2px"><span>대리인 <span class="who">{{ f("agent.name", label="대리인") }}</span> {{ m.sigspot("agent", val("agent.name"), label="대리인", anchor="agent.name") }}</span></div>{% endif %}
 <div class="right bold">{{ f("bank.name", label="은행명") }} 귀중</div>
 
 <div class="bf-use">
@@ -80,7 +100,7 @@ table.cdd th.sub { width: 70px; font-weight: 500; }
   <div class="body">
     <table class="bf" style="flex:1">
       <tr><th style="width:96px">고객위험등급</th><td>{{ m.choice("bank_use.risk_grade", ["저위험", "중위험", "고위험"], label="고객위험등급") }}</td></tr>
-      <tr><th>실명확인증표</th><td>{{ m.choice("bank_use.id_type", ["주민등록증", "운전면허증", "여권", "모바일신분증"], label="실명확인증표") }}</td></tr>
+      <tr><th>실명확인증표</th><td>{{ m.choice("bank_use.id_type", ["주민등록증", "운전면허증", "여권", "외국인등록증"] + (["모바일신분증"] if bk.mobile_id else []), label="실명확인증표") }}</td></tr>
       <tr><th>확인 영업점</th><td>{{ f("bank_use.branch", label="확인영업점") }}</td></tr>
     </table>
     {{ bf.stamps([["담당", "bank_use.clerk"], ["책임자", "bank_use.manager"]]) }}

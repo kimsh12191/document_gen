@@ -31,7 +31,7 @@ td.sc-cert { text-align: center; padding: 18px 10px 22px; }
 <table class="sc">
   <colgroup><col style="width:150px"><col style="width:120px"><col><col style="width:70px"><col style="width:120px"></colgroup>
   <tr>
-    <td class="sc-ink" rowspan="3"><div class="sc-ink"><div class="lbl">인감</div><div class="frame">{{ m.seal(val("seal_name"), square=(val("person.name")|length) % 2 == 1) }}</div><div class="tiny muted" style="margin-top:4px">{{ f("seal_name", label="인감") }}</div></div></td>
+    <td class="sc-ink" rowspan="3"><div class="sc-ink"><div class="lbl">인감</div><div class="frame">{{ m.seal(val("seal_name"), key="registered", kind="인감", square=(val("person.name")|length) % 2 == 1) }}</div><div class="tiny muted" style="margin-top:4px">{{ f("seal_name", label="인감") }}</div></div></td>
     <th>성　　명<br><span class="tiny">(한　자)</span></th>
     <td colspan="3">{{ f("person.name", label="성명") }} ({{ f("person.name_hanja", label="한자") }})</td>
   </tr>
@@ -44,7 +44,7 @@ td.sc-cert { text-align: center; padding: 18px 10px 22px; }
   {% if d.agent is defined %}
   <tr><th>대리인</th><th>성　　명</th><td>{{ f("agent.name", label="성명") }}</td><th class="small">주민등록번호</th><td>{{ f("agent.rrn", label="주민등록번호") }}</td></tr>
   {% endif %}
-  <tr><th colspan="2">비　　고</th><td colspan="3">&nbsp;</td></tr>
+  <tr><th colspan="2">비　　고</th><td colspan="3">{% if d.remark is defined %}{{ f("remark", label="비고") }}{% else %}&nbsp;{% endif %}</td></tr>
   <tr><td colspan="5" class="sc-cert">
     <div class="stmt">위 인감은 신고되어 있는 인감임을 증명합니다.</div>
     <div class="date">{{ f("issue_date", label="발급일") }}</div>

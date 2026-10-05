@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import io
+import math
 import random
 
 from PIL import Image, ImageChops, ImageEnhance, ImageFilter, ImageOps
@@ -26,13 +27,51 @@ def _noise(img: Image.Image, rng: random.Random, sigma: float) -> Image.Image:
     return ImageChops.add(img, n, scale=1.0, offset=-128)
 
 
-def augment(img: Image.Image, rng: random.Random, preset: str | None = None) -> tuple[Image.Image, str]:
+class Transform:
+    """증강의 기하 변환(회전·이동·확대)을 누적해 원본 좌표를 증강 이미지 좌표로 옮긴다."""
+
+    def __init__(self):
+        self.ops: list[tuple] = []
+
+    def rotate(self, angle: float, w: int, h: int, nw: int, nh: int):
+        self.ops.append(("rot", math.radians(angle), w / 2, h / 2, nw / 2, nh / 2))
+
+    def shift(self, dx: float, dy: float):
+        self.ops.append(("shift", dx, dy))
+
+    def scale(self, sx: float, sy: float):
+        self.ops.append(("scale", sx, sy))
+
+    def point(self, x: float, y: float) -> tuple[float, float]:
+        for op in self.ops:
+            if op[0] == "rot":  # PIL rotate: 반시계 방향, y 축이 아래
+                _, a, cx, cy, ncx, ncy = op
+                dx, dy = x - cx, y - cy
+                x, y = ncx + dx * math.cos(a) + dy * math.sin(a), ncy - dx * math.sin(a) + dy * math.cos(a)
+            elif op[0] == "shift":
+                x, y = x + op[1], y + op[2]
+            else:
+                x, y = x * op[1], y * op[2]
+        return x, y
+
+    def bbox(self, b: list[float]) -> list[float]:
+        pts = [self.point(x, y) for x in (b[0], b[2]) for y in (b[1], b[3])]
+        xs, ys = [p[0] for p in pts], [p[1] for p in pts]
+        return [round(min(xs), 1), round(min(ys), 1), round(max(xs), 1), round(max(ys), 1)]
+
+
+def augment(img: Image.Image, rng: random.Random, preset: str | None = None,
+            with_transform: bool = False):
+    """증강 이미지와 preset 이름. with_transform=True 면 좌표 변환(Transform)도 함께 돌려준다."""
     preset = preset or rng.choice(PRESETS)
     img = img.convert("RGB")
     w, h = img.size
+    tf = Transform()
 
     if preset == "scan":
-        img = img.rotate(rng.uniform(-1.5, 1.5), resample=Image.BICUBIC, expand=True, fillcolor=(255, 255, 255))
+        angle = rng.uniform(-1.5, 1.5)
+        img = img.rotate(angle, resample=Image.BICUBIC, expand=True, fillcolor=(255, 255, 255))
+        tf.rotate(angle, w, h, img.width, img.height)
         img = ImageEnhance.Brightness(img).enhance(rng.uniform(0.9, 1.05))
         img = ImageEnhance.Contrast(img).enhance(rng.uniform(0.85, 1.2))
         tint = Image.new("RGB", img.size, rng.choice([(255, 252, 240), (245, 245, 245), (250, 248, 235)]))
@@ -42,10 +81,13 @@ def augment(img: Image.Image, rng: random.Random, preset: str | None = None) -> 
     elif preset == "photo":
         angle = rng.uniform(-6, 6)
         doc = img.rotate(angle, resample=Image.BICUBIC, expand=True, fillcolor=(0, 0, 0))
+        tf.rotate(angle, w, h, doc.width, doc.height)
         mask = Image.new("L", img.size, 255).rotate(angle, expand=True, fillcolor=0)
         pad = int(max(w, h) * rng.uniform(0.04, 0.12))
         canvas = _background(rng, (doc.width + pad * 2, doc.height + pad * 2))
-        canvas.paste(doc, (pad + rng.randint(-pad // 2, pad // 2), pad + rng.randint(-pad // 2, pad // 2)), mask)
+        off = (pad + rng.randint(-pad // 2, pad // 2), pad + rng.randint(-pad // 2, pad // 2))
+        canvas.paste(doc, off, mask)
+        tf.shift(*off)
         img = canvas
         # 조명 그라데이션
         diag = int((img.width ** 2 + img.height ** 2) ** 0.5) + 2
@@ -58,7 +100,9 @@ def augment(img: Image.Image, rng: random.Random, preset: str | None = None) -> 
         img = img.filter(ImageFilter.GaussianBlur(rng.uniform(0.4, 1.2)))
         img = _noise(img, rng, rng.uniform(4, 10))
         scale = rng.uniform(0.55, 0.85)
-        img = img.resize((int(img.width * scale), int(img.height * scale)), Image.BILINEAR)
+        nw, nh = int(img.width * scale), int(img.height * scale)
+        tf.scale(nw / img.width, nh / img.height)
+        img = img.resize((nw, nh), Image.BILINEAR)
     elif preset == "fax":
         g = img.convert("L").filter(ImageFilter.GaussianBlur(rng.uniform(0.3, 0.7)))
         thr = rng.randint(150, 200)
@@ -70,4 +114,5 @@ def augment(img: Image.Image, rng: random.Random, preset: str | None = None) -> 
     buf = io.BytesIO()
     img.save(buf, "JPEG", quality=rng.randint(45, 85) if preset != "clean_jpeg" else rng.randint(70, 92))
     buf.seek(0)
-    return Image.open(buf).convert("RGB"), preset
+    out = Image.open(buf).convert("RGB")
+    return (out, preset, tf) if with_transform else (out, preset)

@@ -22,12 +22,17 @@ table.fs tr.tot td { font-weight: 700; background: var(--label-bg); }
 .stmt { text-align: center; margin: 12px 0 0; }
 .issuer { margin-top: 12px; margin-bottom: 24px; }
 .issuer .date { margin-bottom: 10px; }
+.rep-no:not(.pg-repeated) { display: none; }
+.rep-no.pg-repeated { margin-bottom: 6px; }
+table.fs.detail { margin-bottom: 10px; }
+.blank-end { text-align: center; letter-spacing: .3em; font-size: calc(var(--fs) - 1px); margin: 4px 0; }
 .foot { margin-top: 10px; border-top: 1px solid var(--border); padding-top: 6px; }
 {% endblock %}
 {% macro row(label, key, sec, lv=0, tot=False) -%}
 <tr{% if tot %} class="tot"{% endif %}><td class="acct i{{ lv }}">{{ label }}</td><td class="num">{{ f(sec ~ "." ~ key, label=label.split(". ")[-1]) }}</td></tr>
 {%- endmacro %}
 {% block content %}
+<div class="docno pg-repeat rep-no">발급번호 : {{ val("issue_no") }}</div>
 <div class="gov-head"><span>【국세청 민원사무처리규정 제13호 서식】(2024. 4. 17. 개정)</span><span></span></div>
 <table class="hd">
   <colgroup><col style="width:27%"><col><col style="width:18%"></colgroup>
@@ -52,6 +57,56 @@ table.fs tr.tot td { font-weight: 700; background: var(--label-bg); }
 </table>
 <p class="stmt">붙임의 표준재무제표는 과세표준 신고 시 세무서에 제출한 표준재무제표와 같음을 증명합니다.</p>
 {{ m.issuer("issue_date", org_path="issuer", seal_text=val("issuer") ~ "인") }}
+{% if d.bs_accounts is defined %}
+{# heavy: 세부 계정과목까지 (재무상태표 → 손익계산서 순서로 세로로 쌓아 쪽 나눔) #}
+<div class="between pg-keep-with-next"><div class="cap">붙임 : 표준재무제표</div><div class="unit">(단위 : 원)</div></div>
+{% macro det(sec, grp) -%}
+{% for a in d[sec].get(grp, []) %}{% set i = loop.index0 %}
+<tr><td class="acct i2">{{ f(sec ~ "." ~ grp ~ "." ~ i ~ ".account", label="계정과목") }}</td><td class="num">{{ f(sec ~ "." ~ grp ~ "." ~ i ~ ".amount", label="금액") }}</td></tr>
+{% endfor %}
+{%- endmacro %}
+<table class="fs compact detail">
+<colgroup><col><col style="width:34%"></colgroup>
+<tr><th colspan="2">표준재무상태표</th></tr>
+<tr><th>과　목</th><th>금　액</th></tr>
+{{ row("Ⅰ. 유동자산", "current", "balance_sheet") }}
+{{ row("1. 당좌자산", "quick", "balance_sheet", 1) }}{{ det("bs_accounts", "quick") }}
+{{ row("2. 재고자산", "inventory", "balance_sheet", 1) }}{{ det("bs_accounts", "inventory") }}
+{{ row("Ⅱ. 비유동자산", "noncurrent", "balance_sheet") }}
+{{ row("1. 투자자산", "investment", "balance_sheet", 1) }}{{ det("bs_accounts", "investment") }}
+{{ row("2. 유형자산", "tangible", "balance_sheet", 1) }}{{ det("bs_accounts", "tangible") }}
+{{ row("3. 무형자산", "intangible", "balance_sheet", 1) }}{{ det("bs_accounts", "intangible") }}
+{{ row("4. 기타비유동자산", "other_noncurrent", "balance_sheet", 1) }}{{ det("bs_accounts", "other_noncurrent") }}
+{{ row("자산총계", "assets", "balance_sheet", 0, True) }}
+{{ row("Ⅰ. 유동부채", "current_liab", "balance_sheet") }}{{ det("bs_accounts", "current_liab") }}
+{{ row("Ⅱ. 비유동부채", "noncurrent_liab", "balance_sheet") }}{{ det("bs_accounts", "noncurrent_liab") }}
+{{ row("부채총계", "liabilities", "balance_sheet", 0, True) }}
+{{ row("Ⅰ. 자본금", "capital", "balance_sheet") }}
+{{ row("자본총계", "equity", "balance_sheet", 0, True) }}
+{{ row("부채와자본총계", "liab_equity", "balance_sheet", 0, True) }}
+</table>
+<table class="fs compact detail">
+<colgroup><col><col style="width:34%"></colgroup>
+<tr><th colspan="2">표준손익계산서</th></tr>
+<tr><th>과　목</th><th>금　액</th></tr>
+{{ row("Ⅰ. 매출액", "revenue", "income_statement") }}{{ det("pl_accounts", "revenue") }}
+{{ row("Ⅱ. 매출원가", "cogs", "income_statement") }}{{ det("pl_accounts", "cogs") }}
+{{ row("Ⅲ. 매출총이익", "gross", "income_statement", 0, True) }}
+{{ row("Ⅳ. 판매비와관리비", "sga", "income_statement") }}
+{{ row("1. 급여", "salary", "income_statement", 1) }}
+{{ row("2. 복리후생비", "welfare", "income_statement", 1) }}
+{{ row("3. 지급임차료", "rent", "income_statement", 1) }}
+{{ row("4. 감가상각비", "depreciation", "income_statement", 1) }}
+{% for a in d.pl_accounts.get("sga", []) %}{% set i = loop.index0 %}
+<tr><td class="acct i1">{{ i + 5 }}. {{ f("pl_accounts.sga." ~ i ~ ".account", label="계정과목") }}</td><td class="num">{{ f("pl_accounts.sga." ~ i ~ ".amount", label="금액") }}</td></tr>
+{% endfor %}
+{{ row("Ⅴ. 영업이익", "op", "income_statement", 0, True) }}
+{{ row("Ⅵ. 영업외수익", "non_op_income", "income_statement") }}{{ det("pl_accounts", "non_op_income") }}
+{{ row("Ⅶ. 영업외비용", "non_op_expense", "income_statement") }}{{ det("pl_accounts", "non_op_expense") }}
+{{ row("Ⅷ. 당기순이익", "net", "income_statement", 0, True) }}
+</table>
+<div class="blank-end">- 이하 여백 -</div>
+{% else %}
 <div class="between"><div class="cap">붙임 : 표준재무제표</div><div class="unit">(단위 : 원)</div></div>
 <div class="fs-wrap">
 <div>
@@ -95,6 +150,7 @@ table.fs tr.tot td { font-weight: 700; background: var(--label-bg); }
 </table>
 </div>
 </div>
+{% endif %}
 <div class="foot note">
   <div>※ 위 내용은 과세표준 신고 시 제출한 표준재무제표 기준이며, 수정신고 등에 따라 달라질 수 있습니다.</div>
   <div>※ 이 증명서는 국세청 홈택스(www.hometax.go.kr)에서 인터넷으로 발급되었습니다. 발급번호를 이용하여 홈택스 [민원증명 원본확인] 메뉴에서 진위 여부를 확인할 수 있습니다.</div>

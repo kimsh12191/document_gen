@@ -12,10 +12,11 @@ table.wr th.v { width: 24px; white-space: normal; line-height: 1.15; font-weight
 table.wr td.opt { font-size: calc(var(--fs) - 4px); white-space: nowrap; }
 .wr-title { font-size: calc(var(--title) - 9px); font-weight: 700; letter-spacing: .03em; line-height: 1.4; text-align: left; display: inline-block; }
 .form-no { font-size: 10px; color: #333; margin-bottom: 2px; display: flex; justify-content: space-between; }
-.foot { margin-top: 0; line-height: 1.35; border: 2px solid var(--border); border-top: 0; padding: 4px 10px; }
+.foot { display: flex; flex-direction: column; margin-top: 0; line-height: 1.35; border: 2px solid var(--border); border-top: 0; padding: 4px 10px; }
 .foot p { margin: 3px 0; }
 {% endblock %}
 {% block content %}
+{% set pv = d.work_prev is defined %}
 {% set iy = d.issue_date[:4] %}
 {% set rev = {"2023": "2021. 3. 16.", "2024": "2023. 3. 20.", "2025": "2024. 3. 22."}.get(iy, "2025. 6. 30.") %}
 <div class="form-no"><span>■ 소득세법 시행규칙 [별지 제24호서식(1)] &lt;개정 {{ rev }}&gt;</span><span>({{ "9" if iy >= "2026" else "8" }}쪽 중 제1쪽)</span></div>
@@ -54,34 +55,35 @@ table.wr td.opt { font-size: calc(var(--fs) - 4px); white-space: nowrap; }
   <colgroup><col style="width:24px"><col style="width:27%"><col style="width:19%"><col style="width:11%"><col style="width:11%"><col style="width:11%"><col></colgroup>
   <tr><th rowspan="13" class="v">Ⅰ<br><br>근<br>무<br>처<br>별<br>소<br>득<br>명<br>세</th>
     <th class="c">구　　분</th><th class="c">주(현)</th><th class="c">종(전)</th><th class="c">종(전)</th><th class="c">⑯-1 납세조합</th><th class="c">합　계</th></tr>
-  <tr><th>⑨ 근 무 처 명</th><td class="c">{{ f("work.company", label="근무처명") }}</td><td></td><td></td><td></td><td></td></tr>
-  <tr><th>⑩ 사업자등록번호</th><td class="c">{{ f("work.biz_no", label="사업자등록번호") }}</td><td></td><td></td><td></td><td></td></tr>
-  <tr><th>⑪ 근 무 기 간</th><td class="c tiny">{{ f("work.period", label="근무기간") }}</td><td class="c">~</td><td class="c">~</td><td class="c">~</td><td></td></tr>
-  <tr><th>⑫ 감 면 기 간</th><td class="c">~</td><td class="c">~</td><td class="c">~</td><td class="c">~</td><td></td></tr>
-  <tr><th>⑬ 급　　여</th><td class="num">{{ f("work.salary", label="급여") }}</td><td></td><td></td><td></td><td class="num">{{ val("work.salary") }}</td></tr>
-  <tr><th>⑭ 상　　여</th><td class="num">{{ f("work.bonus", label="상여") }}</td><td></td><td></td><td></td><td class="num">{{ val("work.bonus") }}</td></tr>
+  <tr><th>⑨ 근 무 처 명</th><td class="c">{{ f("work.company", label="근무처명") }}</td><td class="c tiny">{% if pv %}{{ f("work_prev.company", label="종(전)근무처명") }}{% endif %}</td><td></td><td></td><td></td></tr>
+  <tr><th>⑩ 사업자등록번호</th><td class="c">{{ f("work.biz_no", label="사업자등록번호") }}</td><td class="c tiny">{% if pv %}{{ f("work_prev.biz_no", label="종(전)사업자등록번호") }}{% endif %}</td><td></td><td></td><td></td></tr>
+  <tr><th>⑪ 근 무 기 간</th><td class="c tiny">{{ f("work.period", label="근무기간") }}</td><td class="c tiny">{% if pv %}{{ f("work_prev.period", label="종(전)근무기간") }}{% else %}~{% endif %}</td><td class="c">~</td><td class="c">~</td><td></td></tr>
+  <tr><th>⑫ 감 면 기 간</th><td class="c tiny">{% if d.work.reduction_period is defined %}{{ f("work.reduction_period", label="감면기간") }}{% else %}~{% endif %}</td><td class="c">~</td><td class="c">~</td><td class="c">~</td><td></td></tr>
+  <tr><th>⑬ 급　　여</th><td class="num">{{ f("work.salary", label="급여") }}</td><td class="num">{% if pv %}{{ f("work_prev.salary", label="종(전)급여") }}{% endif %}</td><td></td><td></td><td class="num">{% if pv %}{{ f("work_sum.salary", label="급여합계") }}{% else %}{{ val("work.salary") }}{% endif %}</td></tr>
+  <tr><th>⑭ 상　　여</th><td class="num">{{ f("work.bonus", label="상여") }}</td><td class="num">{% if pv %}{{ f("work_prev.bonus", label="종(전)상여") }}{% endif %}</td><td></td><td></td><td class="num">{% if pv %}{{ f("work_sum.bonus", label="상여합계") }}{% else %}{{ val("work.bonus") }}{% endif %}</td></tr>
   <tr><th>⑮ 인 정 상 여</th><td></td><td></td><td></td><td></td><td></td></tr>
   <tr><th>⑮-1 주식매수선택권 행사이익</th><td></td><td></td><td></td><td></td><td></td></tr>
   <tr><th>⑮-2 우리사주조합인출금</th><td></td><td></td><td></td><td></td><td></td></tr>
   <tr><th>⑮-3 임원 퇴직소득금액 한도초과액</th><td></td><td></td><td></td><td></td><td></td></tr>
   <tr><th>⑮-4 직무발명보상금</th><td></td><td></td><td></td><td></td><td></td></tr>
-  <tr><th>⑯ 계</th><td class="num bold">{{ f("work.total", label="계") }}</td><td></td><td></td><td></td><td class="num bold">{{ val("work.total") }}</td></tr>
+  <tr><th>⑯ 계</th><td class="num bold">{{ f("work.total", label="계") }}</td><td class="num bold">{% if pv %}{{ f("work_prev.total", label="종(전)계") }}{% endif %}</td><td></td><td></td><td class="num bold">{% if pv %}{{ f("work_sum.total", label="계합계") }}{% else %}{{ val("work.total") }}{% endif %}</td></tr>
   <tr><th rowspan="8" class="v">Ⅱ<br><br>비<br>과<br>세<br>및<br>감<br>면<br>소<br>득<br>명<br>세</th>
     <th>⑱ 국외근로　　　　M0X</th><td></td><td></td><td></td><td></td><td></td></tr>
   <tr><th>⑱-1 야간근로수당　O0X</th><td></td><td></td><td></td><td></td><td></td></tr>
-  <tr><th>⑱-2 출산·보육수당　Q0X</th><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><th>⑱-2 출산·보육수당　Q0X</th><td class="num">{% if d.nontax.childcare is defined %}{{ f("nontax.childcare", label="출산·보육수당") }}{% endif %}</td><td></td><td></td><td></td><td class="num">{% if d.nontax.childcare is defined %}{{ val("nontax.childcare") }}{% endif %}</td></tr>
   <tr><th>⑱-4 연구보조비　　H0X</th><td></td><td></td><td></td><td></td><td></td></tr>
-  <tr><th>식사대 등　　　　P01</th><td class="num">{{ f("nontax.meal", label="식사대") }}</td><td></td><td></td><td></td><td class="num">{{ val("nontax.meal") }}</td></tr>
+  <tr><th>식사대 등　　　　P01</th><td class="num">{{ f("nontax.meal", label="식사대") }}</td><td class="num">{% if pv and d.work_prev.meal is defined %}{{ f("work_prev.meal", label="종(전)식사대") }}{% endif %}</td><td></td><td></td><td class="num">{% if pv %}{{ f("work_sum.meal", label="식사대합계") }}{% else %}{{ val("nontax.meal") }}{% endif %}</td></tr>
   <tr><th>⑲ 수련보조수당　　Y22</th><td></td><td></td><td></td><td></td><td></td></tr>
   <tr><th>⑳ 비과세소득 계</th><td class="num">{{ f("nontax.total", label="비과세소득계") }}</td><td></td><td></td><td></td><td class="num">{{ val("nontax.total") }}</td></tr>
-  <tr><th>⑳-1 감면소득 계</th><td></td><td></td><td></td><td></td><td></td></tr>
+  <tr><th>⑳-1 감면소득 계{% if d.nontax.reduction is defined %}　T11{% endif %}</th><td class="num">{% if d.nontax.reduction is defined %}{{ f("nontax.reduction", label="감면소득계") }}{% endif %}</td><td></td><td></td><td></td><td class="num">{% if d.nontax.reduction is defined %}{{ val("nontax.reduction") }}{% endif %}</td></tr>
 </table>
 <table class="wr">
   <colgroup><col style="width:24px"><col style="width:13%"><col style="width:20%"><col style="width:17%"><col style="width:20%"><col style="width:13%"><col></colgroup>
   <tr><th rowspan="7" class="v">Ⅲ<br><br>세<br>액<br>명<br>세</th>
     <th colspan="3" class="c">구　　　분</th><th class="c">소 득 세</th><th class="c">지방소득세</th><th class="c">농어촌특별세</th></tr>
   <tr><th colspan="3">(72) 결　정　세　액</th><td class="num">{{ f("tax.final_income", label="결정세액") }}</td><td class="num">{{ f("tax.final_local", label="결정세액") }}</td><td class="num">0</td></tr>
-  <tr><th rowspan="2" class="c">기납부<br>세　액</th><th>(73) 종(전)근무지<br><span class="tiny">(결정세액란의 세액을 적습니다)</span></th><th class="tiny">사업자<br>등록번호</th><td></td><td></td><td></td></tr>
+  <tr><th rowspan="2" class="c">기납부<br>세　액</th><th>(73) 종(전)근무지<br><span class="tiny">(결정세액란의 세액을 적습니다)</span></th><th class="tiny">사업자<br>등록번호{% if pv %}<br>{{ f("tax_prev.biz_no", label="종(전)근무지사업자등록번호") }}{% endif %}</th>
+    <td class="num">{% if pv %}{{ f("tax_prev.income", label="종(전)근무지기납부소득세") }}{% endif %}</td><td class="num">{% if pv %}{{ f("tax_prev.local", label="종(전)근무지기납부지방소득세") }}{% endif %}</td><td>{% if pv %}<span class="num" style="display:block">0</span>{% endif %}</td></tr>
   <tr><th colspan="2">(74) 주(현)근무지</th><td class="num">{{ f("tax.prepaid_income", label="주(현)근무지") }}</td><td class="num">{{ f("tax.prepaid_local", label="주(현)근무지") }}</td><td class="num">0</td></tr>
   <tr><th colspan="3">(75) 납부특례세액</th><td class="num">0</td><td class="num">0</td><td class="num">0</td></tr>
   <tr><th colspan="3" class="bold">(76) 차 감 징 수 세 액((72)-(73)-(74)-(75))</th><td class="num bold">{{ f("tax.diff_income", label="차감징수세액") }}</td><td class="num bold">{{ f("tax.diff_local", label="차감징수세액") }}</td><td class="num">0</td></tr>
@@ -90,7 +92,7 @@ table.wr td.opt { font-size: calc(var(--fs) - 4px); white-space: nowrap; }
 <div class="foot">
   <p>위의 원천징수액(근로소득)을 정히 영수(지급)합니다.</p>
   <p class="right">{{ f("issue_date", label="발급일") }}</p>
-  <p class="right" style="position:relative">징수(보고)의무자&nbsp;&nbsp;<b>{{ val("payer.name") }}</b>&nbsp;&nbsp;(서명 또는 인) {{ m.seal("대표이사인", square=True, size="sm") }}</p>
+  <p class="right" style="position:relative">징수(보고)의무자&nbsp;&nbsp;<b>{{ val("payer.name") }}</b>&nbsp;&nbsp;(서명 또는 인) {{ m.seal("대표이사인", square=True, size="sm", key="payer", kind="직인") }}</p>
   <p class="bold" style="font-size:calc(var(--fs) + 2px)">{{ f("tax_office", label="세무서장") }} 귀하</p>
 </div>
 {% endblock %}

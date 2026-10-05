@@ -1,6 +1,6 @@
 {
  "document_type": "부채증명서",
- "cert_no": "제 2025-48672 호",
+ "cert_no": "제 2025-40296 호",
  "borrower": {
   "name": "김소윤",
   "rrn": "901121-2******",
@@ -10,38 +10,41 @@
  "loans": [
   {
    "subject": "가계일반자금대출",
-   "account_no": "938-5277-6779-47",
-   "loan_date": "2023.08.29",
-   "maturity": "2028.08.28",
-   "amount": "10,000,000",
-   "balance": "5,919,467",
-   "rate": "6.85%"
+   "account_no": "385-2776-7794-78",
+   "loan_date": "2025.03.07",
+   "maturity": "2028.03.07",
+   "amount": "30,000,000",
+   "balance": "23,820,148",
+   "rate": "6.39%"
   },
   {
    "subject": "주택담보대출",
-   "account_no": "833-7392-3013-56",
-   "loan_date": "2020.08.07",
-   "maturity": "2055.08.07",
-   "amount": "227,000,000",
-   "balance": "211,727,151",
-   "rate": "4.68%"
+   "account_no": "739-2301-3567-43",
+   "loan_date": "2020.09.01",
+   "maturity": "2050.09.01",
+   "amount": "168,000,000",
+   "balance": "151,670,397",
+   "rate": "4.12%"
   },
   {
    "subject": "신용대출",
-   "account_no": "131-2707-7152-01",
-   "loan_date": "2025.04.26",
-   "maturity": "2026.04.26",
-   "amount": "47,000,000",
-   "balance": "47,000,000",
-   "rate": "7.46%"
+   "account_no": "127-0771-5201-68",
+   "loan_date": "2025.04.12",
+   "maturity": "2026.04.12",
+   "amount": "26,000,000",
+   "balance": "26,000,000",
+   "rate": "7.09%"
   }
  ],
- "total_amount": "284,000,000",
- "total_balance": "264,646,618",
- "total_korean": "금 이억육천사백육십사만육천육백십팔원정",
+ "total_amount": "224,000,000",
+ "total_balance": "201,490,545",
+ "total_korean": "금 이억일백사십구만오백사십오원정",
  "guarantee": "없음",
  "overdue": "없음",
  "purpose": "대출 신청용",
  "issue_date": "2025년 11월 29일",
- "issuer": "농협은행 분당지점장"
+ "issuer": "농협은행 분당지점장",
+ "seal": {
+  "issuer": true
+ }
 }

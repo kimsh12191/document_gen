@@ -39,14 +39,21 @@ table.tp td.nil { text-align: center; padding: 14px 6px; }
   <colgroup><col style="width:16%"><col style="width:20%"><col style="width:18%"><col style="width:18%"><col></colgroup>
   <tr><th colspan="5" class="sec">징수유예등 또는 체납처분유예의 내역</th></tr>
   <tr><th>과세연도</th><th>세　목</th><th>납부기한</th><th>세　액</th><th>유예기간</th></tr>
-  <tr><td colspan="5" class="nil">{{ f("deferral", label="징수유예등또는체납처분유예의내역") }}</td></tr>
+  {% if d.deferrals is defined %}{% for it in d.deferrals %}{% set i = loop.index0 %}
+  <tr><td class="c">{{ f("deferrals." ~ i ~ ".tax_year", label="과세연도") }}</td><td class="c">{{ f("deferrals." ~ i ~ ".tax_item", label="세목") }}</td>
+    <td class="c">{{ f("deferrals." ~ i ~ ".due", label="납부기한") }}</td><td class="num">{{ f("deferrals." ~ i ~ ".amount", label="세액") }}</td>
+    <td class="c">{{ f("deferrals." ~ i ~ ".period", label="유예기간") }}</td></tr>
+  {% endfor %}{% else %}
+  <tr><td colspan="5" class="nil">{{ f("deferral", label="징수유예등또는체납처분유예의내역") }}</td></tr>{% endif %}
 </table>
 <table class="tp">
   <colgroup><col style="width:176px"><col></colgroup>
   <tr><th>체납액</th><td>{{ f("arrears", label="체납액") }}</td></tr>
 </table>
+<div class="pg-keep">
 <p class="stmt">「지방세징수법」 제5조 및 같은 법 시행령 제6조에 따라 발급일 현재 위의 징수유예등 또는 체납처분유예액을 제외하고는 다른 체납액이 없음을 증명합니다.</p>
 {{ m.issuer("issue_date", org_path="issuer", seal_text=val("issuer").split()[-1] ~ "인") }}
+</div>
 <div class="foot note">
   <div>※ 이 증명서는 발급일 현재 전국 지방자치단체의 지방세 체납 여부를 확인하여 발급한 것이며, 유효기간 이내에 한하여 효력이 있습니다.</div>
   {% if gov24 %}

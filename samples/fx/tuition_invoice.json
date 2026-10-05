@@ -2,7 +2,7 @@
  "document_type": "학비 청구서(Tuition Invoice)",
  "university": {
   "name": "Westlake State University",
-  "office": "Office of Student Accounts",
+  "office": "Student Financial Services",
   "address": "1800 Lakeview Dr, Seattle, WA 98105, USA"
  },
  "student": {
@@ -10,8 +10,8 @@
   "id": "N42700432",
   "program": "Master of Science (M.S.) in Data Science"
  },
- "invoice_no": "INV-2026652006",
- "invoice_date": "October 26, 2025",
+ "invoice_no": "INV-2026219512",
+ "invoice_date": "October 25, 2025",
  "term": "Spring 2026",
  "items": [
   {
@@ -22,40 +22,35 @@
   {
    "date": "10/25/2025",
    "description": "Student Activity Fee",
-   "charge": "$430.00"
+   "charge": "$185.00"
   },
   {
    "date": "10/23/2025",
    "description": "Technology Fee",
-   "charge": "$359.00"
+   "charge": "$368.00"
   },
   {
-   "date": "10/26/2025",
+   "date": "10/24/2025",
    "description": "Student Health Insurance Plan",
-   "charge": "$1,697.00"
+   "charge": "$2,348.00"
   },
   {
-   "date": "10/26/2025",
+   "date": "10/22/2025",
    "description": "International Student Service Fee",
-   "charge": "$318.00"
+   "charge": "$142.00"
   },
   {
-   "date": "10/26/2025",
-   "description": "On-Campus Housing",
-   "charge": "$8,460.00"
-  },
-  {
-   "date": "10/26/2025",
-   "description": "Meal Plan",
-   "charge": "$2,830.00"
+   "date": "10/25/2025",
+   "description": "On-Campus Housing (Double Room)",
+   "charge": "$7,580.00"
   }
  ],
  "summary": {
   "previous_balance": "$0.00",
-  "charges": "$39,744.00",
+  "charges": "$36,273.00",
   "credits": "$0.00"
  },
- "total": "USD 39,744.00",
+ "total": "USD 36,273.00",
  "due_date": "January 01, 2026",
  "bank": {
   "beneficiary": "Westlake State University",

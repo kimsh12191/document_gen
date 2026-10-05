@@ -1,0 +1,1878 @@
+{
+ "images": [
+  "fx/import_declaration.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "decl_no",
+   "label": "신고번호",
+   "type": "text",
+   "value": "48165-25-1347015X",
+   "norm": "48165-25-1347015X",
+   "page": 0,
+   "bbox": [
+    57.0,
+    110.8,
+    175.0,
+    125.8
+   ],
+   "label_bbox": [
+    57.0,
+    95.2,
+    285.8,
+    110.8
+   ]
+  },
+  {
+   "key": "decl_date",
+   "label": "신고일",
+   "type": "date",
+   "value": "2025/11/12",
+   "norm": "2025-11-12",
+   "page": 0,
+   "bbox": [
+    296.2,
+    110.8,
+    359.8,
+    125.8
+   ],
+   "label_bbox": [
+    296.2,
+    95.2,
+    427.1,
+    110.8
+   ]
+  },
+  {
+   "key": "customs",
+   "label": "세관.과",
+   "type": "text",
+   "value": "030-11",
+   "norm": "030-11",
+   "page": 0,
+   "bbox": [
+    437.6,
+    110.8,
+    477.0,
+    125.8
+   ],
+   "label_bbox": [
+    437.6,
+    95.2,
+    535.9,
+    110.8
+   ]
+  },
+  {
+   "key": "arrival_date",
+   "label": "입항일",
+   "type": "date",
+   "value": "2025/11/11",
+   "norm": "2025-11-11",
+   "page": 0,
+   "bbox": [
+    546.4,
+    110.8,
+    609.4,
+    125.8
+   ],
+   "label_bbox": [
+    546.4,
+    95.2,
+    677.2,
+    110.8
+   ]
+  },
+  {
+   "key": "bl_no",
+   "label": "B/L번호",
+   "type": "text",
+   "value": "HBSCJP55477018",
+   "norm": "HBSCJP55477018",
+   "page": 0,
+   "bbox": [
+    57.0,
+    148.4,
+    163.3,
+    163.4
+   ],
+   "label_bbox": [
+    57.0,
+    132.9,
+    427.1,
+    148.4
+   ]
+  },
+  {
+   "key": "cargo_no",
+   "label": "화물관리번호",
+   "type": "text",
+   "value": "25HBSC620219I-7804-029",
+   "norm": "25HBSC620219I-7804-029",
+   "page": 0,
+   "bbox": [
+    437.6,
+    148.4,
+    593.9,
+    163.4
+   ],
+   "label_bbox": [
+    437.6,
+    132.9,
+    677.2,
+    148.4
+   ]
+  },
+  {
+   "key": "warehouse_date",
+   "label": "반입일",
+   "type": "date",
+   "value": "2025/11/13",
+   "norm": "2025-11-13",
+   "page": 0,
+   "bbox": [
+    687.8,
+    148.4,
+    751.3,
+    163.4
+   ],
+   "label_bbox": [
+    687.8,
+    132.9,
+    1134.0,
+    148.4
+   ]
+  },
+  {
+   "key": "collection_type",
+   "label": "징수형태",
+   "type": "number",
+   "value": "11",
+   "norm": 11,
+   "page": 0,
+   "bbox": [
+    775.9,
+    148.4,
+    789.5,
+    163.4
+   ]
+  },
+  {
+   "key": "declarant",
+   "label": "신고인",
+   "type": "text",
+   "value": "미래관세법인 윤수영",
+   "norm": "미래관세법인 윤수영",
+   "page": 0,
+   "bbox": [
+    57.0,
+    187.5,
+    187.1,
+    202.5
+   ],
+   "label_bbox": [
+    57.0,
+    172.0,
+    677.2,
+    187.5
+   ]
+  },
+  {
+   "key": "importer.name",
+   "label": "수입자",
+   "type": "text",
+   "value": "주식회사 새한소프트",
+   "norm": "주식회사 새한소프트",
+   "page": 0,
+   "bbox": [
+    57.0,
+    220.7,
+    187.1,
+    235.7
+   ],
+   "label_bbox": [
+    57.0,
+    205.2,
+    677.2,
+    220.7
+   ]
+  },
+  {
+   "key": "importer.code",
+   "label": "수입자통관고유부호",
+   "type": "text",
+   "value": "새한소프5137576",
+   "norm": "새한소프5137576",
+   "page": 0,
+   "bbox": [
+    198.8,
+    220.7,
+    304.3,
+    235.7
+   ]
+  },
+  {
+   "key": "taxpayer.code",
+   "label": "납세의무자통관고유부호",
+   "type": "text",
+   "value": "새한소프5137576",
+   "norm": "새한소프5137576",
+   "page": 0,
+   "bbox": [
+    57.0,
+    253.8,
+    162.5,
+    268.8
+   ]
+  },
+  {
+   "key": "taxpayer.address",
+   "label": "납세의무자주소",
+   "type": "text",
+   "value": "서울특별시 영등포구 국제금융로 22-7, 8층",
+   "norm": "서울특별시 영등포구 국제금융로 22-7, 8층",
+   "page": 0,
+   "bbox": [
+    57.0,
+    271.5,
+    318.3,
+    286.5
+   ]
+  },
+  {
+   "key": "taxpayer.name",
+   "label": "납세의무자상호",
+   "type": "text",
+   "value": "주식회사 새한소프트",
+   "norm": "주식회사 새한소프트",
+   "page": 0,
+   "bbox": [
+    57.0,
+    289.1,
+    187.1,
+    304.1
+   ]
+  },
+  {
+   "key": "taxpayer.ceo",
+   "label": "납세의무자성명",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    197.6,
+    289.1,
+    239.8,
+    304.1
+   ]
+  },
+  {
+   "key": "taxpayer.biz_no",
+   "label": "사업자등록번호",
+   "type": "biz_no",
+   "value": "530-82-09978",
+   "norm": "530-82-09978",
+   "page": 0,
+   "bbox": [
+    250.4,
+    289.1,
+    330.0,
+    304.1
+   ]
+  },
+  {
+   "key": "forwarder",
+   "label": "운송주선인",
+   "type": "text",
+   "value": "DAON LOGISTICS CO., LTD.",
+   "norm": "DAON LOGISTICS CO., LTD.",
+   "page": 0,
+   "bbox": [
+    57.0,
+    322.2,
+    236.2,
+    337.2
+   ],
+   "label_bbox": [
+    57.0,
+    306.7,
+    677.2,
+    322.2
+   ]
+  },
+  {
+   "key": "supplier",
+   "label": "해외거래처",
+   "type": "text",
+   "value": "TOKYO SEIMITSU KOGYO K.K. (JP)",
+   "norm": "TOKYO SEIMITSU KOGYO K.K. (JP)",
+   "page": 0,
+   "bbox": [
+    57.0,
+    355.4,
+    285.7,
+    370.4
+   ],
+   "label_bbox": [
+    57.0,
+    339.8,
+    677.2,
+    355.4
+   ]
+  },
+  {
+   "key": "clearance_plan",
+   "label": "통관계획",
+   "type": "text",
+   "value": "D 보세구역장치후",
+   "norm": "D 보세구역장치후",
+   "page": 0,
+   "bbox": [
+    687.8,
+    187.5,
+    799.9,
+    202.5
+   ],
+   "label_bbox": [
+    687.8,
+    172.0,
+    1134.0,
+    187.5
+   ]
+  },
+  {
+   "key": "origin_cert",
+   "label": "원산지증명서유무",
+   "type": "text",
+   "value": "N",
+   "norm": "N",
+   "page": 0,
+   "bbox": [
+    687.8,
+    225.2,
+    697.9,
+    240.2
+   ],
+   "label_bbox": [
+    687.8,
+    209.7,
+    905.6,
+    225.2
+   ]
+  },
+  {
+   "key": "total_weight",
+   "label": "총중량",
+   "type": "text",
+   "value": "3,187 KG",
+   "norm": "3,187 KG",
+   "page": 0,
+   "bbox": [
+    687.8,
+    262.8,
+    743.2,
+    277.8
+   ],
+   "label_bbox": [
+    687.8,
+    247.3,
+    905.6,
+    262.8
+   ]
+  },
+  {
+   "key": "total_packages",
+   "label": "총포장갯수",
+   "type": "text",
+   "value": "208 CT",
+   "norm": "208 CT",
+   "page": 0,
+   "bbox": [
+    916.1,
+    262.8,
+    958.7,
+    277.8
+   ],
+   "label_bbox": [
+    916.1,
+    247.3,
+    1134.0,
+    262.8
+   ]
+  },
+  {
+   "key": "arrival_port",
+   "label": "국내도착항",
+   "type": "text",
+   "value": "KRPUS 부산항",
+   "norm": "KRPUS 부산항",
+   "page": 0,
+   "bbox": [
+    687.8,
+    300.5,
+    778.8,
+    315.5
+   ],
+   "label_bbox": [
+    687.8,
+    285.0,
+    905.6,
+    300.5
+   ]
+  },
+  {
+   "key": "transport",
+   "label": "운송형태",
+   "type": "text",
+   "value": "10 FCL",
+   "norm": "10 FCL",
+   "page": 0,
+   "bbox": [
+    916.1,
+    300.5,
+    959.5,
+    315.5
+   ],
+   "label_bbox": [
+    916.1,
+    285.0,
+    1134.0,
+    300.5
+   ]
+  },
+  {
+   "key": "export_country",
+   "label": "적출국",
+   "type": "text",
+   "value": "JP JAPAN",
+   "norm": "JP JAPAN",
+   "page": 0,
+   "bbox": [
+    687.8,
+    338.1,
+    746.5,
+    353.1
+   ],
+   "label_bbox": [
+    687.8,
+    322.6,
+    905.6,
+    338.1
+   ]
+  },
+  {
+   "key": "vessel",
+   "label": "선기명",
+   "type": "text",
+   "value": "STAR PIONEER",
+   "norm": "STAR PIONEER",
+   "page": 0,
+   "bbox": [
+    916.1,
+    338.1,
+    1013.8,
+    353.1
+   ],
+   "label_bbox": [
+    916.1,
+    322.6,
+    1134.0,
+    338.1
+   ]
+  },
+  {
+   "key": "master_bl",
+   "label": "MASTERB/L번호",
+   "type": "text",
+   "value": "HBSCJP55477018",
+   "norm": "HBSCJP55477018",
+   "page": 0,
+   "bbox": [
+    687.8,
+    375.8,
+    794.0,
+    390.8
+   ],
+   "label_bbox": [
+    687.8,
+    360.2,
+    905.6,
+    375.8
+   ]
+  },
+  {
+   "key": "carrier_code",
+   "label": "운수기관부호",
+   "type": "text",
+   "value": "HBSC",
+   "norm": "HBSC",
+   "page": 0,
+   "bbox": [
+    916.1,
+    375.8,
+    952.9,
+    390.8
+   ],
+   "label_bbox": [
+    916.1,
+    360.2,
+    1134.0,
+    375.8
+   ]
+  },
+  {
+   "key": "inspection_place",
+   "label": "검사(반입)장소",
+   "type": "text",
+   "value": "03087499-48748182 부산신항국제터미널",
+   "norm": "03087499-48748182 부산신항국제터미널",
+   "page": 0,
+   "bbox": [
+    687.8,
+    413.4,
+    935.0,
+    428.4
+   ],
+   "label_bbox": [
+    687.8,
+    397.9,
+    1134.0,
+    413.4
+   ]
+  },
+  {
+   "key": "items.0.line_no",
+   "label": "란번호",
+   "type": "number",
+   "value": "001",
+   "norm": 1,
+   "page": 0,
+   "bbox": [
+    77.6,
+    454.6,
+    98.7,
+    469.6
+   ]
+  },
+  {
+   "key": "line_total",
+   "label": "총란수",
+   "type": "amount",
+   "value": "003",
+   "norm": 3,
+   "page": 0,
+   "bbox": [
+    102.6,
+    454.6,
+    123.7,
+    469.6
+   ]
+  },
+  {
+   "key": "items.0.std_name",
+   "label": "품명",
+   "type": "text",
+   "value": "CERAMIC DIELECTRIC, MULTILAYER",
+   "norm": "CERAMIC DIELECTRIC, MULTILAYER",
+   "page": 0,
+   "bbox": [
+    154.9,
+    452.5,
+    400.3,
+    467.5
+   ],
+   "label_bbox": [
+    154.9,
+    437.0,
+    807.8,
+    452.5
+   ]
+  },
+  {
+   "key": "items.0.trade_name",
+   "label": "거래품명",
+   "type": "text",
+   "value": "MULTILAYER CERAMIC CAPACITOR 0402 100NF 16V",
+   "norm": "MULTILAYER CERAMIC CAPACITOR 0402 100NF 16V",
+   "page": 0,
+   "bbox": [
+    818.2,
+    452.5,
+    1130.6,
+    485.2
+   ],
+   "label_bbox": [
+    818.2,
+    437.0,
+    1134.0,
+    452.5
+   ]
+  },
+  {
+   "key": "items.0.specs.0.no",
+   "label": "규격번호",
+   "type": "number",
+   "value": "01",
+   "norm": 1,
+   "page": 0,
+   "bbox": [
+    93.7,
+    553.7,
+    107.7,
+    568.7
+   ],
+   "label_bbox": [
+    51.8,
+    529.2,
+    149.6,
+    551.5
+   ]
+  },
+  {
+   "key": "items.0.specs.0.model",
+   "label": "모델·규격",
+   "type": "text",
+   "value": "CL05-569B",
+   "norm": "CL05-569B",
+   "page": 0,
+   "bbox": [
+    154.9,
+    553.7,
+    222.1,
+    568.7
+   ],
+   "label_bbox": [
+    149.6,
+    529.2,
+    541.1,
+    551.5
+   ]
+  },
+  {
+   "key": "items.0.specs.0.quantity",
+   "label": "수량",
+   "type": "text",
+   "value": "8,300,000 PCS",
+   "norm": "8,300,000 PCS",
+   "page": 0,
+   "bbox": [
+    723.0,
+    553.7,
+    807.8,
+    568.7
+   ],
+   "label_bbox": [
+    639.0,
+    529.2,
+    813.0,
+    551.5
+   ]
+  },
+  {
+   "key": "items.0.specs.0.unit_price",
+   "label": "단가",
+   "type": "amount",
+   "value": "1.68",
+   "norm": 1.68,
+   "page": 0,
+   "bbox": [
+    913.6,
+    553.7,
+    938.2,
+    568.7
+   ],
+   "label_bbox": [
+    813.0,
+    529.2,
+    943.5,
+    551.5
+   ]
+  },
+  {
+   "key": "items.0.specs.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "13,944,000",
+   "norm": 13944000,
+   "page": 0,
+   "bbox": [
+    1070.7,
+    553.7,
+    1134.0,
+    568.7
+   ],
+   "label_bbox": [
+    943.5,
+    529.2,
+    1139.2,
+    551.5
+   ]
+  },
+  {
+   "key": "items.0.hs_code",
+   "label": "세번부호",
+   "type": "text",
+   "value": "8532.24-0000",
+   "norm": "8532.24-0000",
+   "page": 0,
+   "bbox": [
+    57.0,
+    592.9,
+    135.5,
+    607.9
+   ],
+   "label_bbox": [
+    57.0,
+    577.4,
+    220.5,
+    592.9
+   ]
+  },
+  {
+   "key": "items.0.net_weight",
+   "label": "순중량",
+   "type": "text",
+   "value": "705.5 KG",
+   "norm": "705.5 KG",
+   "page": 0,
+   "bbox": [
+    231.0,
+    592.9,
+    286.5,
+    607.9
+   ],
+   "label_bbox": [
+    231.0,
+    577.4,
+    394.5,
+    592.9
+   ]
+  },
+  {
+   "key": "items.0.taxable_usd",
+   "label": "과세가격(USD)",
+   "type": "amount",
+   "value": "$96,213",
+   "norm": 96213,
+   "page": 0,
+   "bbox": [
+    405.0,
+    592.9,
+    450.7,
+    607.9
+   ],
+   "label_bbox": [
+    405.0,
+    577.4,
+    829.5,
+    592.9
+   ]
+  },
+  {
+   "key": "items.0.taxable_krw",
+   "label": "과세가격(원화)",
+   "type": "amount",
+   "value": "₩124,700,102",
+   "norm": 124700102,
+   "page": 0,
+   "bbox": [
+    461.2,
+    592.9,
+    544.9,
+    607.9
+   ]
+  },
+  {
+   "key": "items.0.origin",
+   "label": "원산지",
+   "type": "text",
+   "value": "JP-G-N",
+   "norm": "JP-G-N",
+   "page": 0,
+   "bbox": [
+    840.0,
+    592.9,
+    883.0,
+    607.9
+   ],
+   "label_bbox": [
+    840.0,
+    577.4,
+    1134.0,
+    592.9
+   ]
+  },
+  {
+   "key": "items.0.duty_type",
+   "label": "세종",
+   "type": "text",
+   "value": "관",
+   "norm": "관",
+   "page": 0,
+   "bbox": [
+    122.1,
+    638.8,
+    136.2,
+    653.8
+   ],
+   "label_bbox": [
+    53.2,
+    614.2,
+    205.1,
+    636.6
+   ]
+  },
+  {
+   "key": "items.0.duty_rate",
+   "label": "관세율",
+   "type": "text",
+   "value": "0.00(C)",
+   "norm": "0.00(C)",
+   "page": 0,
+   "bbox": [
+    291.8,
+    638.8,
+    335.2,
+    653.8
+   ],
+   "label_bbox": [
+    205.1,
+    614.2,
+    422.0,
+    636.6
+   ]
+  },
+  {
+   "key": "items.0.duty_amount",
+   "label": "관세액",
+   "type": "amount",
+   "value": "0",
+   "norm": 0,
+   "page": 0,
+   "bbox": [
+    821.8,
+    638.8,
+    828.8,
+    653.8
+   ],
+   "label_bbox": [
+    595.5,
+    614.2,
+    834.0,
+    636.6
+   ]
+  },
+  {
+   "key": "items.0.vat_rate",
+   "label": "부가세율",
+   "type": "text",
+   "value": "10.00(A)",
+   "norm": "10.00(A)",
+   "page": 0,
+   "bbox": [
+    287.9,
+    660.9,
+    339.1,
+    675.9
+   ],
+   "label_bbox": [
+    205.1,
+    614.2,
+    422.0,
+    636.6
+   ]
+  },
+  {
+   "key": "items.0.vat_amount",
+   "label": "부가세액",
+   "type": "amount",
+   "value": "12,470,010",
+   "norm": 12470010,
+   "page": 0,
+   "bbox": [
+    765.5,
+    660.9,
+    828.8,
+    675.9
+   ],
+   "label_bbox": [
+    595.5,
+    614.2,
+    834.0,
+    636.6
+   ]
+  },
+  {
+   "key": "items.1.line_no",
+   "label": "란번호",
+   "type": "number",
+   "value": "002",
+   "norm": 2,
+   "page": 0,
+   "bbox": [
+    77.6,
+    703.7,
+    98.7,
+    718.7
+   ]
+  },
+  {
+   "key": "items.1.std_name",
+   "label": "품명",
+   "type": "text",
+   "value": "LITHIUM-ION ACCUMULATORS",
+   "norm": "LITHIUM-ION ACCUMULATORS",
+   "page": 0,
+   "bbox": [
+    154.9,
+    701.6,
+    361.3,
+    716.6
+   ],
+   "label_bbox": [
+    154.9,
+    686.1,
+    807.8,
+    701.6
+   ]
+  },
+  {
+   "key": "items.1.trade_name",
+   "label": "거래품명",
+   "type": "text",
+   "value": "LI-ION BATTERY CELL 18650 3.6V 3000MAH",
+   "norm": "LI-ION BATTERY CELL 18650 3.6V 3000MAH",
+   "page": 0,
+   "bbox": [
+    818.2,
+    701.6,
+    1099.0,
+    716.6
+   ],
+   "label_bbox": [
+    818.2,
+    686.1,
+    1134.0,
+    701.6
+   ]
+  },
+  {
+   "key": "items.1.specs.0.no",
+   "label": "규격번호",
+   "type": "number",
+   "value": "01",
+   "norm": 1,
+   "page": 0,
+   "bbox": [
+    93.7,
+    785.2,
+    107.7,
+    800.2
+   ],
+   "label_bbox": [
+    51.8,
+    760.6,
+    149.6,
+    782.9
+   ]
+  },
+  {
+   "key": "items.1.specs.0.model",
+   "label": "모델·규격",
+   "type": "text",
+   "value": "INR18650-186",
+   "norm": "INR18650-186",
+   "page": 0,
+   "bbox": [
+    154.9,
+    785.2,
+    240.0,
+    800.2
+   ],
+   "label_bbox": [
+    149.6,
+    760.6,
+    541.1,
+    782.9
+   ]
+  },
+  {
+   "key": "items.1.specs.0.quantity",
+   "label": "수량",
+   "type": "text",
+   "value": "46,000 PCS",
+   "norm": "46,000 PCS",
+   "page": 0,
+   "bbox": [
+    740.5,
+    785.2,
+    807.8,
+    800.2
+   ],
+   "label_bbox": [
+    639.0,
+    760.6,
+    813.0,
+    782.9
+   ]
+  },
+  {
+   "key": "items.1.specs.0.unit_price",
+   "label": "단가",
+   "type": "amount",
+   "value": "341",
+   "norm": 341,
+   "page": 0,
+   "bbox": [
+    917.2,
+    785.2,
+    938.2,
+    800.2
+   ],
+   "label_bbox": [
+    813.0,
+    760.6,
+    943.5,
+    782.9
+   ]
+  },
+  {
+   "key": "items.1.specs.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "15,678,640",
+   "norm": 15678640,
+   "page": 0,
+   "bbox": [
+    1070.7,
+    785.2,
+    1134.0,
+    800.2
+   ],
+   "label_bbox": [
+    943.5,
+    760.6,
+    1139.2,
+    782.9
+   ]
+  },
+  {
+   "key": "items.1.hs_code",
+   "label": "세번부호",
+   "type": "text",
+   "value": "8507.60-0000",
+   "norm": "8507.60-0000",
+   "page": 0,
+   "bbox": [
+    57.0,
+    824.3,
+    135.5,
+    839.3
+   ],
+   "label_bbox": [
+    57.0,
+    808.8,
+    220.5,
+    824.3
+   ]
+  },
+  {
+   "key": "items.1.net_weight",
+   "label": "순중량",
+   "type": "text",
+   "value": "2,185.0 KG",
+   "norm": "2,185.0 KG",
+   "page": 0,
+   "bbox": [
+    231.0,
+    824.3,
+    297.0,
+    839.3
+   ],
+   "label_bbox": [
+    231.0,
+    808.8,
+    394.5,
+    824.3
+   ]
+  },
+  {
+   "key": "items.1.taxable_usd",
+   "label": "과세가격(USD)",
+   "type": "amount",
+   "value": "$108,182",
+   "norm": 108182,
+   "page": 0,
+   "bbox": [
+    405.0,
+    824.3,
+    457.7,
+    839.3
+   ],
+   "label_bbox": [
+    405.0,
+    808.8,
+    829.5,
+    824.3
+   ]
+  },
+  {
+   "key": "items.1.taxable_krw",
+   "label": "과세가격(원화)",
+   "type": "amount",
+   "value": "₩140,212,853",
+   "norm": 140212853,
+   "page": 0,
+   "bbox": [
+    468.3,
+    824.3,
+    551.9,
+    839.3
+   ]
+  },
+  {
+   "key": "items.1.origin",
+   "label": "원산지",
+   "type": "text",
+   "value": "JP-G-N",
+   "norm": "JP-G-N",
+   "page": 0,
+   "bbox": [
+    840.0,
+    824.3,
+    883.0,
+    839.3
+   ],
+   "label_bbox": [
+    840.0,
+    808.8,
+    1134.0,
+    824.3
+   ]
+  },
+  {
+   "key": "items.1.duty_type",
+   "label": "세종",
+   "type": "text",
+   "value": "관",
+   "norm": "관",
+   "page": 0,
+   "bbox": [
+    122.1,
+    870.2,
+    136.2,
+    885.2
+   ],
+   "label_bbox": [
+    53.2,
+    845.7,
+    205.1,
+    868.0
+   ]
+  },
+  {
+   "key": "items.1.duty_rate",
+   "label": "관세율",
+   "type": "text",
+   "value": "8.00(A)",
+   "norm": "8.00(A)",
+   "page": 0,
+   "bbox": [
+    291.4,
+    870.2,
+    335.6,
+    885.2
+   ],
+   "label_bbox": [
+    205.1,
+    845.7,
+    422.0,
+    868.0
+   ]
+  },
+  {
+   "key": "items.1.duty_amount",
+   "label": "관세액",
+   "type": "amount",
+   "value": "11,217,020",
+   "norm": 11217020,
+   "page": 0,
+   "bbox": [
+    766.0,
+    870.2,
+    828.8,
+    885.2
+   ],
+   "label_bbox": [
+    595.5,
+    845.7,
+    834.0,
+    868.0
+   ]
+  },
+  {
+   "key": "items.1.vat_rate",
+   "label": "부가세율",
+   "type": "text",
+   "value": "10.00(A)",
+   "norm": "10.00(A)",
+   "page": 0,
+   "bbox": [
+    287.9,
+    892.4,
+    339.1,
+    907.4
+   ],
+   "label_bbox": [
+    205.1,
+    845.7,
+    422.0,
+    868.0
+   ]
+  },
+  {
+   "key": "items.1.vat_amount",
+   "label": "부가세액",
+   "type": "amount",
+   "value": "15,142,980",
+   "norm": 15142980,
+   "page": 0,
+   "bbox": [
+    765.5,
+    892.4,
+    828.8,
+    907.4
+   ],
+   "label_bbox": [
+    595.5,
+    845.7,
+    834.0,
+    868.0
+   ]
+  },
+  {
+   "key": "items.2.line_no",
+   "label": "란번호",
+   "type": "number",
+   "value": "003",
+   "norm": 3,
+   "page": 0,
+   "bbox": [
+    77.6,
+    935.1,
+    98.7,
+    950.1
+   ]
+  },
+  {
+   "key": "items.2.std_name",
+   "label": "품명",
+   "type": "text",
+   "value": "ELECTRONIC INTEGRATED CIRCUITS",
+   "norm": "ELECTRONIC INTEGRATED CIRCUITS",
+   "page": 0,
+   "bbox": [
+    154.9,
+    933.0,
+    401.0,
+    948.0
+   ],
+   "label_bbox": [
+    154.9,
+    917.5,
+    807.8,
+    933.0
+   ]
+  },
+  {
+   "key": "items.2.trade_name",
+   "label": "거래품명",
+   "type": "text",
+   "value": "LED DRIVER IC, SOP-8",
+   "norm": "LED DRIVER IC, SOP-8",
+   "page": 0,
+   "bbox": [
+    818.2,
+    933.0,
+    963.6,
+    948.0
+   ],
+   "label_bbox": [
+    818.2,
+    917.5,
+    1134.0,
+    933.0
+   ]
+  },
+  {
+   "key": "items.2.specs.0.no",
+   "label": "규격번호",
+   "type": "number",
+   "value": "01",
+   "norm": 1,
+   "page": 0,
+   "bbox": [
+    93.7,
+    1016.6,
+    107.7,
+    1031.6
+   ],
+   "label_bbox": [
+    51.8,
+    992.0,
+    149.6,
+    1014.3
+   ]
+  },
+  {
+   "key": "items.2.specs.0.model",
+   "label": "모델·규격",
+   "type": "text",
+   "value": "LD-256",
+   "norm": "LD-256",
+   "page": 0,
+   "bbox": [
+    154.9,
+    1016.6,
+    199.4,
+    1031.6
+   ],
+   "label_bbox": [
+    149.6,
+    992.0,
+    541.1,
+    1014.3
+   ]
+  },
+  {
+   "key": "items.2.specs.0.quantity",
+   "label": "수량",
+   "type": "text",
+   "value": "200,000 PCS",
+   "norm": "200,000 PCS",
+   "page": 0,
+   "bbox": [
+    733.5,
+    1016.6,
+    807.8,
+    1031.6
+   ],
+   "label_bbox": [
+    639.0,
+    992.0,
+    813.0,
+    1014.3
+   ]
+  },
+  {
+   "key": "items.2.specs.0.unit_price",
+   "label": "단가",
+   "type": "amount",
+   "value": "82.34",
+   "norm": 82.34,
+   "page": 0,
+   "bbox": [
+    906.6,
+    1016.6,
+    938.2,
+    1031.6
+   ],
+   "label_bbox": [
+    813.0,
+    992.0,
+    943.5,
+    1014.3
+   ]
+  },
+  {
+   "key": "items.2.specs.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "16,468,000",
+   "norm": 16468000,
+   "page": 0,
+   "bbox": [
+    1070.7,
+    1016.6,
+    1134.0,
+    1031.6
+   ],
+   "label_bbox": [
+    943.5,
+    992.0,
+    1139.2,
+    1014.3
+   ]
+  },
+  {
+   "key": "items.2.hs_code",
+   "label": "세번부호",
+   "type": "text",
+   "value": "8542.39-1000",
+   "norm": "8542.39-1000",
+   "page": 0,
+   "bbox": [
+    57.0,
+    1055.7,
+    135.5,
+    1070.7
+   ],
+   "label_bbox": [
+    57.0,
+    1040.2,
+    220.5,
+    1055.7
+   ]
+  },
+  {
+   "key": "items.2.net_weight",
+   "label": "순중량",
+   "type": "text",
+   "value": "60.0 KG",
+   "norm": "60.0 KG",
+   "page": 0,
+   "bbox": [
+    231.0,
+    1055.7,
+    279.4,
+    1070.7
+   ],
+   "label_bbox": [
+    231.0,
+    1040.2,
+    394.5,
+    1055.7
+   ]
+  },
+  {
+   "key": "items.2.taxable_usd",
+   "label": "과세가격(USD)",
+   "type": "amount",
+   "value": "$113,628",
+   "norm": 113628,
+   "page": 0,
+   "bbox": [
+    405.0,
+    1055.7,
+    457.2,
+    1070.7
+   ],
+   "label_bbox": [
+    405.0,
+    1040.2,
+    829.5,
+    1055.7
+   ]
+  },
+  {
+   "key": "items.2.taxable_krw",
+   "label": "과세가격(원화)",
+   "type": "amount",
+   "value": "₩147,272,038",
+   "norm": 147272038,
+   "page": 0,
+   "bbox": [
+    467.8,
+    1055.7,
+    551.4,
+    1070.7
+   ]
+  },
+  {
+   "key": "items.2.origin",
+   "label": "원산지",
+   "type": "text",
+   "value": "JP-G-N",
+   "norm": "JP-G-N",
+   "page": 0,
+   "bbox": [
+    840.0,
+    1055.7,
+    883.0,
+    1070.7
+   ],
+   "label_bbox": [
+    840.0,
+    1040.2,
+    1134.0,
+    1055.7
+   ]
+  },
+  {
+   "key": "items.2.duty_type",
+   "label": "세종",
+   "type": "text",
+   "value": "관",
+   "norm": "관",
+   "page": 0,
+   "bbox": [
+    122.1,
+    1101.7,
+    136.2,
+    1116.7
+   ],
+   "label_bbox": [
+    53.2,
+    1077.1,
+    205.1,
+    1099.4
+   ]
+  },
+  {
+   "key": "items.2.duty_rate",
+   "label": "관세율",
+   "type": "text",
+   "value": "0.00(C)",
+   "norm": "0.00(C)",
+   "page": 0,
+   "bbox": [
+    291.8,
+    1101.7,
+    335.2,
+    1116.7
+   ],
+   "label_bbox": [
+    205.1,
+    1077.1,
+    422.0,
+    1099.4
+   ]
+  },
+  {
+   "key": "items.2.duty_amount",
+   "label": "관세액",
+   "type": "amount",
+   "value": "0",
+   "norm": 0,
+   "page": 0,
+   "bbox": [
+    821.8,
+    1101.7,
+    828.8,
+    1116.7
+   ],
+   "label_bbox": [
+    595.5,
+    1077.1,
+    834.0,
+    1099.4
+   ]
+  },
+  {
+   "key": "items.2.vat_rate",
+   "label": "부가세율",
+   "type": "text",
+   "value": "10.00(A)",
+   "norm": "10.00(A)",
+   "page": 0,
+   "bbox": [
+    287.9,
+    1123.8,
+    339.1,
+    1138.8
+   ],
+   "label_bbox": [
+    205.1,
+    1077.1,
+    422.0,
+    1099.4
+   ]
+  },
+  {
+   "key": "items.2.vat_amount",
+   "label": "부가세액",
+   "type": "amount",
+   "value": "14,727,200",
+   "norm": 14727200,
+   "page": 0,
+   "bbox": [
+    765.5,
+    1123.8,
+    828.8,
+    1138.8
+   ],
+   "label_bbox": [
+    595.5,
+    1077.1,
+    834.0,
+    1099.4
+   ]
+  },
+  {
+   "key": "payment",
+   "label": "결제금액",
+   "type": "text",
+   "value": "FOB-JPY-46,090,640-DP",
+   "norm": "FOB-JPY-46,090,640-DP",
+   "page": 0,
+   "bbox": [
+    57.0,
+    1164.4,
+    206.5,
+    1179.4
+   ]
+  },
+  {
+   "key": "exchange_rate",
+   "label": "환율",
+   "type": "number",
+   "value": "8.8941",
+   "norm": 8.8941,
+   "page": 0,
+   "bbox": [
+    426.8,
+    1164.4,
+    465.4,
+    1179.4
+   ],
+   "label_bbox": [
+    426.8,
+    1148.9,
+    590.2,
+    1164.4
+   ]
+  },
+  {
+   "key": "total_taxable",
+   "label": "총과세가격",
+   "type": "amount",
+   "value": "₩412,184,993",
+   "norm": 412184993,
+   "page": 0,
+   "bbox": [
+    600.8,
+    1164.4,
+    685.1,
+    1179.4
+   ],
+   "label_bbox": [
+    600.8,
+    1148.9,
+    1134.0,
+    1164.4
+   ]
+  },
+  {
+   "key": "freight",
+   "label": "운임",
+   "type": "amount",
+   "value": "₩1,963,274",
+   "norm": 1963274,
+   "page": 0,
+   "bbox": [
+    57.0,
+    1202.1,
+    126.5,
+    1217.1
+   ],
+   "label_bbox": [
+    57.0,
+    1186.5,
+    416.2,
+    1202.1
+   ]
+  },
+  {
+   "key": "vat_base",
+   "label": "부가가치세과표",
+   "type": "amount",
+   "value": "₩423,402,013",
+   "norm": 423402013,
+   "page": 0,
+   "bbox": [
+    840.0,
+    1202.1,
+    923.6,
+    1217.1
+   ],
+   "label_bbox": [
+    840.0,
+    1186.5,
+    1134.0,
+    1202.1
+   ]
+  },
+  {
+   "key": "insurance",
+   "label": "보험료",
+   "type": "amount",
+   "value": "₩286,950",
+   "norm": 286950,
+   "page": 0,
+   "bbox": [
+    426.8,
+    1239.7,
+    485.7,
+    1254.7
+   ],
+   "label_bbox": [
+    426.8,
+    1224.2,
+    590.2,
+    1239.7
+   ]
+  },
+  {
+   "key": "tax.duty",
+   "label": "관세",
+   "type": "amount",
+   "value": "11,217,020",
+   "norm": 11217020,
+   "page": 0,
+   "bbox": [
+    353.5,
+    1285.6,
+    416.2,
+    1300.6
+   ],
+   "label_bbox": [
+    225.8,
+    1261.1,
+    421.5,
+    1283.4
+   ]
+  },
+  {
+   "key": "customs_office",
+   "label": "세관",
+   "type": "text",
+   "value": "부산세관",
+   "norm": "부산세관",
+   "page": 0,
+   "bbox": [
+    470.1,
+    1287.1,
+    532.4,
+    1303.6
+   ],
+   "label_bbox": [
+    421.5,
+    1261.1,
+    1139.2,
+    1283.4
+   ]
+  },
+  {
+   "key": "officer",
+   "label": "담당자",
+   "type": "text",
+   "value": "박선경",
+   "norm": "박선경",
+   "page": 0,
+   "bbox": [
+    511.6,
+    1306.6,
+    558.4,
+    1323.1
+   ],
+   "label_bbox": [
+    421.5,
+    1261.1,
+    1139.2,
+    1283.4
+   ]
+  },
+  {
+   "key": "receipt_datetime",
+   "label": "접수일시",
+   "type": "datetime",
+   "value": "2025/11/12 16:05",
+   "norm": "2025-11-12T16:05",
+   "page": 0,
+   "bbox": [
+    527.2,
+    1326.1,
+    637.0,
+    1342.6
+   ],
+   "label_bbox": [
+    421.5,
+    1261.1,
+    1139.2,
+    1283.4
+   ]
+  },
+  {
+   "key": "accept_date",
+   "label": "수리일자",
+   "type": "date",
+   "value": "2025/11/13",
+   "norm": "2025-11-13",
+   "page": 0,
+   "bbox": [
+    527.2,
+    1345.6,
+    597.6,
+    1362.1
+   ],
+   "label_bbox": [
+    421.5,
+    1261.1,
+    1139.2,
+    1283.4
+   ]
+  },
+  {
+   "key": "seal.issuer",
+   "label": "발급기관직인",
+   "type": "seal",
+   "value": "세관장인",
+   "present": true,
+   "kind": "직인",
+   "page": 0,
+   "bbox": [
+    1070.6,
+    1369.2,
+    1137.4,
+    1436.1
+   ]
+  },
+  {
+   "key": "tax.vat",
+   "label": "부가세",
+   "type": "amount",
+   "value": "42,340,190",
+   "norm": 42340190,
+   "page": 0,
+   "bbox": [
+    353.0,
+    1418.4,
+    416.2,
+    1433.4
+   ],
+   "label_bbox": [
+    225.8,
+    1261.1,
+    421.5,
+    1283.4
+   ]
+  },
+  {
+   "key": "tax.total",
+   "label": "총세액합계",
+   "type": "amount",
+   "value": "53,557,210",
+   "norm": 53557210,
+   "page": 0,
+   "bbox": [
+    353.0,
+    1484.8,
+    416.2,
+    1499.8
+   ],
+   "label_bbox": [
+    225.8,
+    1261.1,
+    421.5,
+    1283.4
+   ]
+  }
+ ]
+}

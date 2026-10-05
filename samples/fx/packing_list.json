@@ -4,52 +4,53 @@
   "name": "Tokyo Seimitsu Kogyo K.K.",
   "address": "2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN"
  },
- "invoice_no": "TSK-2511-087",
+ "invoice_no": "TSK-2511-156",
  "invoice_date": "06 NOV 2025",
  "consignee": {
   "name": "SAEHAN SOFT CO., LTD.",
   "address": "8F, DONGBANG PLAZA, 22-7 GUKJEGEUMYUNG-RO, YEONGDEUNGPO-GU, SEOUL 07028, KOREA"
  },
+ "contract_no": "TSK-SC-25806",
  "notify": "SAME AS CONSIGNEE",
  "port_of_loading": "TOKYO, JAPAN",
  "final_destination": "BUSAN, KOREA",
- "carrier": "CORAL VOYAGER V.016E",
+ "carrier": "STAR PIONEER V.079N",
  "sailing_date": "09 NOV 2025",
- "marks": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-192\nMADE IN JAPAN",
+ "marks": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-208\nMADE IN JAPAN",
  "items": [
   {
-   "ctn_no": "1-129",
+   "ctn_no": "1-83",
    "description": "Multilayer Ceramic Capacitor 0402 100nF 16V",
-   "packages": "129 CTNS",
-   "quantity": "12,900,000 PCS",
-   "net_weight": "1,096.50",
-   "gross_weight": "1,184.22",
-   "measurement": "4.515"
+   "packages": "83 CTNS",
+   "quantity": "8,300,000 PCS",
+   "net_weight": "705.50",
+   "gross_weight": "761.94",
+   "measurement": "2.905"
   },
   {
-   "ctn_no": "130-170",
+   "ctn_no": "84-198",
    "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
-   "packages": "41 CTNS",
-   "quantity": "16,400 PCS",
-   "net_weight": "779.00",
-   "gross_weight": "841.32",
-   "measurement": "1.435"
+   "packages": "115 CTNS",
+   "quantity": "46,000 PCS",
+   "net_weight": "2,185.00",
+   "gross_weight": "2,359.80",
+   "measurement": "4.025"
   },
   {
-   "ctn_no": "171-192",
+   "ctn_no": "199-208",
    "description": "LED Driver IC, SOP-8",
-   "packages": "22 CTNS",
-   "quantity": "440,000 PCS",
-   "net_weight": "132.00",
-   "gross_weight": "142.56",
-   "measurement": "0.660"
+   "packages": "10 CTNS",
+   "quantity": "200,000 PCS",
+   "net_weight": "60.00",
+   "gross_weight": "64.80",
+   "measurement": "0.300"
   }
  ],
  "total": {
-  "packages": "192 CTNS",
-  "net_weight": "2,007.50 KGS",
-  "gross_weight": "2,168.10 KGS",
-  "measurement": "6.610 CBM"
+  "packages": "208 CTNS",
+  "net_weight": "2,950.50 KGS",
+  "gross_weight": "3,186.54 KGS",
+  "measurement": "7.230 CBM"
  },
  "signed_by": "Tokyo Seimitsu Kogyo K.K.",
  "signer": "Kenji Sato"

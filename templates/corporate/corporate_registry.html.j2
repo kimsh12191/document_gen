@@ -1,78 +1,126 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
-{% block page_class %} dense{% endblock %}
+{#- 법인 등기사항전부증명서. 현재 유효사항 / 말소사항 포함(지난 기록 + 말소 빨간 줄).
+    표는 줄 단위로 나뉘므로 기록 하나를 한 줄(tr)로 둔다. 쪽 번호는 등기부처럼 '1/3', '다음 쪽에 계속'은 쓰지 않는다. -#}
+{% block page_class %} dense {{ 'x-u' if f.chance(0.67) else 'x-t' }}{% endblock %}
+{% block page_attrs %}data-pg-format="{i}/{n}" data-pg-cont=""{% endblock %}
 {% block style %}
 .page.a4 { padding: min(var(--page-pad), 50px) min(var(--page-pad), 56px); }
 .reg-top { display:flex; justify-content:space-between; align-items:flex-start; font-size:calc(var(--fs) - 2px); }
 .reg-kind { border:1px solid #555; padding:1px 8px; font-size:calc(var(--fs) - 2px); }
 h1.title { font-size: calc(var(--title) - 6px); letter-spacing:.08em; margin:2px 0 8px; }
 table.reg { border:2px solid var(--border); margin:0; }
+table.reg + table.reg { border-top:0; }
 table.reg th { width:150px; text-align:center; letter-spacing:.1em; font-weight:600; }
 table.reg th, table.reg td { padding:3px 8px; }
-table.reg td.date { width:120px; font-size:calc(var(--fs) - 3px); color:#333; text-align:center; }
+table.reg th.blank { border-top-color:transparent; }
+table.reg td.date { width:122px; font-size:calc(var(--fs) - 3px); color:#333; text-align:center; line-height:1.3; }
 table.reg .sub { font-size:calc(var(--fs) - 3px); color:#333; }
+table.reg tr.cont td { border-top:1px dotted #bbb; }
 table.idt { width:auto; margin:0 0 6px; border:2px solid var(--border); }
 table.idt th { width:80px; } table.idt td { min-width:150px; }
 .purp div { margin:0; line-height:1.3; }
-.off { line-height:1.28; padding:1px 0; border-bottom:1px dotted #bbb; }
-.off:last-child { border-bottom:0; }
-.off .ln2 { padding-left:120px; font-size:calc(var(--fs) - 2px); }
+table.off td { line-height:1.28; padding:1px 8px; border-top:1px dotted #bbb; border-bottom:0; }
+table.off .ln2 { padding-left:120px; font-size:calc(var(--fs) - 2px); }
+table.off th.hd, table.brn th.hd { width:auto; letter-spacing:.3em; border-bottom:var(--bw) solid var(--border); }
+table.brn td { padding:1px 8px; border-top:1px dotted #bbb; border-bottom:0; line-height:1.28; }
+table.brn td.no { width:34px; text-align:center; }
+.x-u .x, .x-u .x * { text-decoration: underline; text-decoration-color: #d00; text-decoration-thickness: 1.3px; text-underline-offset: 2px; }
+.x-t .x, .x-t .x * { text-decoration: line-through; text-decoration-color: #d00; text-decoration-thickness: 1.2px; }
 .blank { text-align:center; letter-spacing:.6em; margin:6px 0 4px; }
 .foot { font-size:calc(var(--fs) - 2.5px); color:#333; }
 .cert { text-align:center; margin-top:4px; }
 .cert .org { font-size:calc(var(--fs) + 2px); font-weight:700; letter-spacing:.08em; position:relative; display:inline-block; padding-right:40px; }
+.page[data-page-index] .pno { display:none; }
 {% endblock %}
 {% block content %}
+{% set full = d.issue_scope == "말소사항 포함" %}
+{% macro chg(path) -%}
+{% if f.has(path ~ ".changed") %}{{ f(path ~ ".changed", label="변경연월일") }}<br>{{ f(path ~ ".registered", label="등기연월일") }}{% endif %}
+{%- endmacro %}
 <div class="reg-top">
   <div>{% if d.issue_type == "열람용" %}열람일시 : {{ f("viewed_at", label="열람일시") }}{% endif %}</div>
   <div class="reg-kind">[{{ f("issue_type", label="발급구분") }}]</div>
 </div>
-{{ m.title("등기사항전부증명서(현재 유효사항)") }}
+<h1 class="title">등기사항전부증명서({{ f("issue_scope", label="증명서구분") }})</h1>
 <table class="idt compact">
   <tr><th>등기번호</th><td>{{ f("reg_no", label="등기번호") }}</td></tr>
   <tr><th>등록번호</th><td>{{ f("corp_reg_no", label="등록번호") }}</td></tr>
 </table>
+
 <table class="reg">
-  <tr><th>상　　호</th><td>{{ f("company_name", label="상호") }}</td><td class="date"></td></tr>
-  <tr><th>본　　점</th><td>{{ f("head_office", label="본점") }}</td><td class="date">{% if d.head_office_change is defined %}{{ f("head_office_change.changed", label="변경연월일") }}<br>{{ f("head_office_change.registered", label="등기연월일") }}{% endif %}</td></tr>
+  {% set nh = d.name_history|length if full else 0 %}
+  {% for h in (d.name_history if full else []) %}{% set i = loop.index0 %}
+  <tr>{% if loop.first %}<th rowspan="{{ nh + 1 }}">상　　호</th>{% endif %}<td><span class="x">{{ f("name_history." ~ i ~ ".name", label="상호") }}</span></td><td class="date">{{ chg("name_history." ~ i) }}</td></tr>
+  {% endfor %}
+  <tr>{% if not nh %}<th>상　　호</th>{% endif %}<td>{{ f("company_name", label="상호") }}</td><td class="date">{{ chg("company_name_change") }}</td></tr>
+  {% set oh = d.office_history|length if full else 0 %}
+  {% for h in (d.office_history if full else []) %}{% set i = loop.index0 %}
+  <tr>{% if loop.first %}<th rowspan="{{ oh + 1 }}">본　　점</th>{% endif %}<td><span class="x">{{ f("office_history." ~ i ~ ".address", label="본점") }}</span></td><td class="date">{{ chg("office_history." ~ i) }}</td></tr>
+  {% endfor %}
+  <tr>{% if not oh %}<th>본　　점</th>{% endif %}<td>{{ f("head_office", label="본점") }}</td><td class="date">{{ chg("head_office_change") }}</td></tr>
   <tr><th>공고방법</th><td>{{ f("notice_method", label="공고방법") }}</td><td class="date"></td></tr>
   <tr><th>1주의 금액</th><td>{{ f("par_value", label="1주의금액") }}</td><td class="date"></td></tr>
   <tr><th>발행할 주식의 총수</th><td>{{ f("authorized_shares", label="발행할주식의총수") }}</td><td class="date"></td></tr>
 </table>
-<table class="reg" style="border-top:0">
-  <tr>
-    <th style="width:50%">발행주식의 총수와<br>그 종류 및 각각의 수</th><th>자본금의 액</th><th style="width:120px" class="sub">변경연월일<br>등기연월일</th>
-  </tr>
-  <tr>
-    <td>발행주식의 총수&nbsp;&nbsp;&nbsp;{{ f("issued_shares", label="발행주식의총수") }}<br>&nbsp;&nbsp;보통주식&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ f("common_shares", label="보통주식") }}</td>
-    <td class="c">{{ f("capital", label="자본금의액") }}</td><td class="date">{% if d.capital_change is defined %}{{ f("capital_change.changed", label="변경연월일") }}<br>{{ f("capital_change.registered", label="등기연월일") }}{% endif %}</td>
-  </tr>
+
+{% macro cap_row(pre, struck) -%}
+<tr{% if pre %} class="cont"{% endif %}>
+  <td><span class="{{ 'x' if struck }}">발행주식의 총수&nbsp;&nbsp;&nbsp;{{ f(pre ~ "issued_shares", label="발행주식의총수") }}<br>&nbsp;&nbsp;보통주식&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ f(pre ~ "common_shares", label="보통주식") }}{% if f.has(pre ~ "preferred_shares") %}<br>&nbsp;&nbsp;상환전환우선주식&nbsp;&nbsp;{{ f(pre ~ "preferred_shares", label="상환전환우선주식") }}{% endif %}</span></td>
+  <td class="c"><span class="{{ 'x' if struck }}">{{ f(pre ~ "capital", label="자본금의액") }}</span></td>
+  <td class="date">{% if pre %}{{ chg(pre[:-1]) }}{% else %}{{ chg("capital_change") }}{% endif %}</td>
+</tr>
+{%- endmacro %}
+<table class="reg">
+  <tr><th style="width:50%">발행주식의 총수와<br>그 종류 및 각각의 수</th><th>자본금의 액</th><th style="width:122px" class="sub">변경연월일<br>등기연월일</th></tr>
+  {% for h in (d.capital_history if full else []) %}{{ cap_row("capital_history." ~ loop.index0 ~ ".", True) }}{% endfor %}
+  {{ cap_row("", False) }}
 </table>
-<table class="reg" style="border-top:0">
+
+<table class="reg">
   <tr><th colspan="2" style="letter-spacing:.6em">목　　적</th></tr>
-  <tr><td colspan="2" class="purp">
-    {% for x in d.purposes %}<div>{{ f("purposes." ~ loop.index0, label="목적") }}</div>{% endfor %}
-  </td></tr>
+  {% for h in (d.purpose_history if full else []) %}{% set i = loop.index0 %}
+  <tr><td class="purp"><div class="x">{% for x in h.purposes %}<div>{{ f("purpose_history." ~ i ~ ".purposes." ~ loop.index0, label="목적") }}</div>{% endfor %}</div></td><td class="date">{{ chg("purpose_history." ~ i) }}</td></tr>
+  {% endfor %}
+  <tr><td class="purp">{% for x in d.purposes %}<div>{{ f("purposes." ~ loop.index0, label="목적") }}</div>{% endfor %}</td><td class="date">{{ chg("purpose_change") }}</td></tr>
 </table>
-<table class="reg" style="border-top:0">
-  <tr><th style="letter-spacing:.3em">임원에 관한 사항</th></tr>
-  <tr><td>
-    {% for o in d.officers %}{% set i = loop.index0 %}
-    <div class="off">
-      <div>{{ f("officers." ~ i ~ ".position", label="직위") }}&nbsp;&nbsp;{{ f("officers." ~ i ~ ".name", label="성명") }}&nbsp;&nbsp;{{ f("officers." ~ i ~ ".rrn", label="주민등록번호") }}{% if o.address is defined %}&nbsp;&nbsp;{{ f("officers." ~ i ~ ".address", label="주소") }}{% endif %}</div>
-      <div class="ln2">{{ f("officers." ~ i ~ ".appointed", label="취임일") }}&nbsp;{{ f("officers." ~ i ~ ".appointment_type", label="취임구분") }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ f("officers." ~ i ~ ".registered", label="등기일") }}&nbsp;등기</div>
-    </div>
-    {% endfor %}
-  </td></tr>
+
+<table class="reg off">
+  <tr><th class="hd">임원에 관한 사항</th></tr>
+  {% for o in d.officers %}{% set i = loop.index0 %}{% set pre = "officers." ~ i ~ "." %}
+  <tr><td><div class="{{ 'x' if o.struck }}">
+    <div>{{ f(pre ~ "position", label="직위") }}&nbsp;&nbsp;{{ f(pre ~ "name", label="성명") }}&nbsp;&nbsp;{{ f(pre ~ "rrn", label="주민등록번호") }}{% if o.address is defined %}&nbsp;&nbsp;{{ f(pre ~ "address", label="주소") }}{% endif %}</div>
+    <div class="ln2">{{ f(pre ~ "appointed", label="취임일") }}&nbsp;{{ f(pre ~ "appointment_type", label="취임구분") }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ f(pre ~ "registered", label="등기일") }}&nbsp;등기</div>
+    {% if o.ended is defined %}<div class="ln2">{{ f(pre ~ "ended", label="퇴임일") }}&nbsp;{{ f(pre ~ "end_type", label="퇴임구분") }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ f(pre ~ "end_registered", label="등기일") }}&nbsp;등기</div>{% endif %}
+  </div></td></tr>
+  {% endfor %}
+  {% if d.joint_representation is defined %}
+  <tr><td><div>{{ f("joint_representation", label="공동대표") }}</div>
+    <div class="ln2">{{ f("joint_registered", label="등기일") }}&nbsp;등기</div></td></tr>
+  {% endif %}
 </table>
-<table class="reg" style="border-top:0">
+
+{% if d.branches is defined %}
+<table class="reg brn">
+  <tr><th class="hd" colspan="2">지　　　점</th></tr>
+  {% for b in d.branches %}{% set pre = "branches." ~ loop.index0 ~ "." %}
+  <tr><td class="no">{{ f(pre ~ "no", label="지점번호") }}</td><td><div class="{{ 'x' if b.struck }}">
+    <div>{{ f(pre ~ "address", label="지점소재지") }}</div>
+    <div class="ln2" style="padding-left:80px;font-size:calc(var(--fs) - 2px)">{{ f(pre ~ "opened", label="설치일") }}&nbsp;설치&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ f(pre ~ "opened_registered", label="등기일") }}&nbsp;등기</div>
+    {% if b.closed is defined %}<div class="ln2" style="padding-left:80px;font-size:calc(var(--fs) - 2px)">{{ f(pre ~ "closed", label="폐지일") }}&nbsp;폐지&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ f(pre ~ "closed_registered", label="등기일") }}&nbsp;등기</div>{% endif %}
+  </div></td></tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<table class="reg">
   <tr><th>회사성립연월일</th><td>{{ f("established", label="회사성립연월일") }}</td></tr>
   <tr><th>등기기록의 개설<br>사유 및 연월일</th><td>{{ f("opening_reason", label="등기기록개설사유") }}&nbsp;&nbsp;&nbsp;&nbsp;{{ f("opening_date", label="등기기록개설일") }}&nbsp;등기</td></tr>
 </table>
 <div class="blank">-- 이 하 여 백 --</div>
 {% if d.issue_type == "열람용" %}
 <div class="foot between"><span>관할등기소 {{ f("jurisdiction", label="관할등기소") }}</span><span>열람번호 {{ f("issue_no", label="발행번호") }}</span></div>
-<div class="foot" style="margin-top:8px">* 본 등기사항증명서는 열람용이므로 출력하신 등기사항증명서는 법적인 효력이 없습니다.</div>
+<div class="foot" style="margin-top:8px">* 본 등기사항증명서는 열람용이므로 출력하신 등기사항증명서는 법적인 효력이 없습니다.{% if full %}<br>* 실선으로 그어진 부분은 말소사항을 표시함.{% endif %}</div>
 {% else %}
 <div class="foot between"><span>수수료 {{ f("fee", label="수수료") }} 영수함</span><span>관할등기소 {{ f("jurisdiction", label="관할등기소") }} / 발행등기소 법원행정처 등기정보중앙관리소</span></div>
 <div class="cert">
@@ -80,10 +128,10 @@ table.idt th { width:80px; } table.idt td { min-width:150px; }
   <div style="margin:4px 0">{{ f("issue_date", label="발행일") }}</div>
   <div class="org">법원행정처 등기정보중앙관리소&nbsp;&nbsp;전산운영책임관{{ m.seal("전산운영책임관인", square=True, size="sm", over=True) }}</div>
 </div>
-<div class="foot" style="margin-top:8px">* 증명서는 컬러 또는 흑백으로 출력 가능함.</div>
+<div class="foot" style="margin-top:8px">{% if full %}* 실선으로 그어진 부분은 말소사항을 표시함.&nbsp;&nbsp;{% endif %}* 증명서는 컬러 또는 흑백으로 출력 가능함.</div>
 <div class="foot" style="border-top:1px solid #888;margin-top:6px;padding-top:4px">
 [ 인터넷 발급 ] 문서 하단의 바코드를 스캐너로 확인하거나, 인터넷등기소(http://www.iros.go.kr)의 발급확인 메뉴에서 발급확인번호를 입력하여 위·변조 여부를 확인할 수 있습니다. 발급확인번호를 통한 확인은 발행일부터 3개월까지 5회에 한하여 가능합니다.
 </div>
-<div class="foot between"><span>발행번호 {{ f("issue_no", label="발행번호") }}</span><span>발급확인번호 {{ f("confirm_no", label="발급확인번호") }}</span><span>발행일 {{ f("issue_date_short", label="발행일") }}</span><span>1/1</span></div>
+<div class="foot between"><span>발행번호 {{ f("issue_no", label="발행번호") }}</span><span>발급확인번호 {{ f("confirm_no", label="발급확인번호") }}</span><span>발행일 {{ f("issue_date_short", label="발행일") }}</span><span class="pno">1/1</span></div>
 {% endif %}
 {% endblock %}

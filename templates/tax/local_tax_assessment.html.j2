@@ -11,6 +11,7 @@ table.hd td { border: 0; padding: 2px 4px; font-size: calc(var(--fs) - 1.5px); v
 table.tp { border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); border-left: 0; border-right: 0; }
 table.tp th, table.tp td { padding: 5px 6px; }
 table.tp tr > :first-child { border-left: 0; } table.tp tr > :last-child { border-right: 0; }
+table.items { table-layout: fixed; }
 table.items td { font-size: calc(var(--fs) - 2px); padding: 3px 4px; }
 table.items th { font-size: calc(var(--fs) - 1.5px); padding: 3px 3px; white-space: normal; line-height: 1.2; }
 table.items td.obj { text-align: left; word-break: keep-all; }
@@ -19,8 +20,12 @@ table.items tr.sum td { font-weight: 700; background: var(--label-bg); }
 .unit { text-align: right; font-size: calc(var(--fs) - 2px); }
 .stmt { text-align: center; margin: 22px 0 0; font-size: calc(var(--fs) + 0.5px); }
 .foot { margin-top: 24px; border-top: 1px solid var(--border); padding-top: 6px; }
+.rep-no:not(.pg-repeated) { display: none; }
+.rep-no.pg-repeated { margin-bottom: 6px; }
+.blank-end { text-align: center; letter-spacing: .3em; font-size: calc(var(--fs) - 1px); margin: 4px 0; }
 {% endblock %}
 {% block content %}
+<div class="docno pg-repeat rep-no">발급번호 : {{ val("issue_no") }}</div>
 <div class="gov-head"><span>■ 지방세기본법 시행규칙 [별지 제49호서식] &lt;개정 2024. 12. 31.&gt;</span><span></span></div>
 <table class="hd">
   <tr><td>발급번호 <span class="tiny muted">Issuance Number</span> : {{ f("issue_no", label="발급번호") }}</td>
@@ -36,9 +41,9 @@ table.items tr.sum td { font-weight: 700; background: var(--label-bg); }
   <tr><th colspan="2">과세연도<span class="en">Tax Year</span></th><td>{{ f("period", label="과세연도") }}</td>
     <th>사용목적<span class="en">Purpose</span></th><td>{{ f("purpose", label="사용목적") }}</td></tr>
 </table>
-<div class="between"><div class="cap">과세대상 <span class="small muted">Tax Objects</span></div><div class="unit">(단위 : 원)</div></div>
+<div class="between pg-keep-with-next"><div class="cap">과세대상 <span class="small muted">Tax Objects</span></div><div class="unit">(단위 : 원)</div></div>
 <table class="items tp">
-  <colgroup><col style="width:86px"><col style="width:60px"><col style="width:72px"><col><col style="width:88px"><col style="width:70px"><col style="width:66px"><col style="width:74px"></colgroup>
+  <colgroup><col style="width:94px"><col style="width:66px"><col style="width:74px"><col><col style="width:90px"><col style="width:74px"><col style="width:70px"><col style="width:78px"></colgroup>
   <tr><th>세목<span class="en">Tax Item</span></th><th>부과연월<span class="en">Year/Month</span></th><th>구분<span class="en">Type</span></th>
     <th>과세대상<span class="en">Tax Object</span></th><th>과세표준<span class="en">Tax Base</span></th><th>세액<span class="en">Tax Amount</span></th>
     <th>지방교육세<span class="en">Education Tax</span></th><th>합계<span class="en">Total</span></th></tr>
@@ -59,8 +64,11 @@ table.items tr.sum td { font-weight: 700; background: var(--label-bg); }
     <td class="num">{{ f("sum.edu", label="지방교육세합계") }}</td>
     <td class="num">{{ f("sum.total", label="총합계") }}</td></tr>
 </table>
+{% if d["items"]|length > 14 %}<div class="blank-end">- 이하 여백 -</div>{% endif %}
+<div class="pg-keep">
 <p class="stmt">위와 같이 지방세 과세 사실을 증명합니다.<br><span class="small muted">This is to certify that the above local taxes have been assessed.</span></p>
 {{ m.issuer("issue_date", org_path="issuer", seal_text=val("issuer").split()[-1] ~ "인") }}
+</div>
 <div class="foot note">
   <div>※ 이 증명서는 해당 지방자치단체에서 부과한 지방세 과세내역을 증명하는 것으로, 납부 여부를 증명하지 않습니다.</div>
   <div>※ 정부24(www.gov.kr) [문서확인] 메뉴에서 발급번호를 입력하여 위ㆍ변조 여부를 확인할 수 있습니다.</div>

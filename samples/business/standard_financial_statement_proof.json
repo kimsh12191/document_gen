@@ -17,6 +17,9 @@
  "filed_date": "2025-05-02",
  "issue_date": "2025년 11월 29일",
  "issuer": "잠실세무서장",
+ "seal": {
+  "issuer": true
+ },
  "balance_sheet": {
   "current": "93,332,473",
   "quick": "57,345,138",

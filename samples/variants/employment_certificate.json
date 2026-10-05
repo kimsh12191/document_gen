@@ -1,0 +1,32 @@
+{
+ "document_type": "재직증명서",
+ "doc_no": "제250346호",
+ "employee": {
+  "name": "김소윤",
+  "rrn": "901121-2******",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)"
+ },
+ "company": {
+  "name": "(주)새한소프트",
+  "biz_no": "458-86-13197",
+  "address": "전라남도 여수시 여수시민로 411, 2층",
+  "phone": "061-681-3222",
+  "ceo": "박연윤"
+ },
+ "employment": {
+  "department": "경영지원팀",
+  "position": "차장",
+  "period": "2014.12.01 ~ 현재",
+  "employment_type": "계약직(기간제)",
+  "contract_period": "2024.12.01 ~ 2025.11.30",
+  "leave": "2018.01.01 ~ 2018.06.30 (육아휴직)",
+  "duty": "총무 및 경영지원 업무",
+  "annual_salary": "연 67,000,000원"
+ },
+ "purpose": "은행 제출용",
+ "submit_to": "농협은행",
+ "issue_date": "2025년 11월 29일",
+ "seal": {
+  "company": true
+ }
+}

@@ -1,0 +1,777 @@
+{
+ "images": [
+  "fx/packing_list.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "shipper.name",
+   "label": "Shipper/Exporter",
+   "type": "text",
+   "value": "Tokyo Seimitsu Kogyo K.K.",
+   "norm": "Tokyo Seimitsu Kogyo K.K.",
+   "page": 0,
+   "bbox": [
+    81.0,
+    161.2,
+    289.3,
+    180.7
+   ],
+   "label_bbox": [
+    81.0,
+    138.9,
+    638.2,
+    158.2
+   ]
+  },
+  {
+   "key": "shipper.address",
+   "label": "ShipperAddress",
+   "type": "text",
+   "value": "2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN",
+   "norm": "2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN",
+   "page": 0,
+   "bbox": [
+    81.0,
+    185.8,
+    512.2,
+    205.3
+   ]
+  },
+  {
+   "key": "invoice_no",
+   "label": "InvoiceNo",
+   "type": "text",
+   "value": "TSK-2511-156",
+   "norm": "TSK-2511-156",
+   "page": 0,
+   "bbox": [
+    657.8,
+    161.2,
+    764.9,
+    180.7
+   ],
+   "label_bbox": [
+    657.8,
+    138.9,
+    1110.0,
+    158.2
+   ]
+  },
+  {
+   "key": "invoice_date",
+   "label": "InvoiceDate",
+   "type": "date",
+   "value": "06 NOV 2025",
+   "norm": "2025-11-06",
+   "page": 0,
+   "bbox": [
+    657.8,
+    185.8,
+    756.8,
+    205.3
+   ]
+  },
+  {
+   "key": "consignee.name",
+   "label": "Consignee",
+   "type": "text",
+   "value": "SAEHAN SOFT CO., LTD.",
+   "norm": "SAEHAN SOFT CO., LTD.",
+   "page": 0,
+   "bbox": [
+    81.0,
+    241.6,
+    286.6,
+    261.1
+   ]
+  },
+  {
+   "key": "consignee.address",
+   "label": "ConsigneeAddress",
+   "type": "text",
+   "value": "8F, DONGBANG PLAZA, 22-7 GUKJEGEUMYUNG-RO, YEONGDEUNGPO-GU, SEOUL 07028, KOREA",
+   "norm": "8F, DONGBANG PLAZA, 22-7 GUKJEGEUMYUNG-RO, YEONGDEUNGPO-GU, SEOUL 07028, KOREA",
+   "page": 0,
+   "bbox": [
+    81.0,
+    266.2,
+    505.7,
+    310.3
+   ]
+  },
+  {
+   "key": "contract_no",
+   "label": "ContractNo",
+   "type": "text",
+   "value": "TSK-SC-25806",
+   "norm": "TSK-SC-25806",
+   "page": 0,
+   "bbox": [
+    748.7,
+    241.6,
+    849.4,
+    259.6
+   ]
+  },
+  {
+   "key": "notify",
+   "label": "NotifyParty",
+   "type": "text",
+   "value": "SAME AS CONSIGNEE",
+   "norm": "SAME AS CONSIGNEE",
+   "page": 0,
+   "bbox": [
+    81.0,
+    346.6,
+    259.3,
+    366.1
+   ],
+   "label_bbox": [
+    81.0,
+    324.3,
+    638.2,
+    343.6
+   ]
+  },
+  {
+   "key": "port_of_loading",
+   "label": "PortofLoading",
+   "type": "text",
+   "value": "TOKYO, JAPAN",
+   "norm": "TOKYO, JAPAN",
+   "page": 0,
+   "bbox": [
+    81.0,
+    402.5,
+    203.8,
+    422.0
+   ],
+   "label_bbox": [
+    81.0,
+    380.2,
+    354.8,
+    399.5
+   ]
+  },
+  {
+   "key": "final_destination",
+   "label": "FinalDestination",
+   "type": "text",
+   "value": "BUSAN, KOREA",
+   "norm": "BUSAN, KOREA",
+   "page": 0,
+   "bbox": [
+    374.2,
+    402.5,
+    502.8,
+    422.0
+   ],
+   "label_bbox": [
+    374.2,
+    380.2,
+    638.2,
+    399.5
+   ]
+  },
+  {
+   "key": "carrier",
+   "label": "Carrier",
+   "type": "text",
+   "value": "STAR PIONEER V.079N",
+   "norm": "STAR PIONEER V.079N",
+   "page": 0,
+   "bbox": [
+    81.0,
+    458.4,
+    260.6,
+    477.9
+   ],
+   "label_bbox": [
+    81.0,
+    436.1,
+    354.8,
+    455.4
+   ]
+  },
+  {
+   "key": "sailing_date",
+   "label": "Sailingonorabout",
+   "type": "date",
+   "value": "09 NOV 2025",
+   "norm": "2025-11-09",
+   "page": 0,
+   "bbox": [
+    374.2,
+    458.4,
+    473.3,
+    477.9
+   ],
+   "label_bbox": [
+    374.2,
+    436.1,
+    638.2,
+    455.4
+   ]
+  },
+  {
+   "key": "marks",
+   "label": "MarksandNumbers",
+   "type": "text",
+   "value": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-208\nMADE IN JAPAN",
+   "norm": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-208\nMADE IN JAPAN",
+   "page": 0,
+   "bbox": [
+    78.0,
+    545.6,
+    198.6,
+    631.0
+   ],
+   "label_bbox": [
+    70.5,
+    489.7,
+    249.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.0.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "1-83",
+   "norm": "1-83",
+   "page": 0,
+   "bbox": [
+    281.6,
+    545.6,
+    310.9,
+    563.6
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.0.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Multilayer Ceramic Capacitor 0402 100nF 16V",
+   "norm": "Multilayer Ceramic Capacitor 0402 100nF 16V",
+   "page": 0,
+   "bbox": [
+    350.2,
+    545.6,
+    578.6,
+    586.1
+   ],
+   "label_bbox": [
+    343.5,
+    489.7,
+    595.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.0.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "83 CTNS",
+   "norm": "83 CTNS",
+   "page": 0,
+   "bbox": [
+    632.7,
+    545.6,
+    693.8,
+    563.6
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.0.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "8,300,000 PCS",
+   "norm": "8,300,000 PCS",
+   "page": 0,
+   "bbox": [
+    712.6,
+    545.6,
+    809.2,
+    563.6
+   ],
+   "label_bbox": [
+    700.5,
+    489.7,
+    816.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.0.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "705.50",
+   "norm": 705.5,
+   "page": 0,
+   "bbox": [
+    870.2,
+    545.6,
+    914.2,
+    563.6
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.0.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "761.94",
+   "norm": 761.94,
+   "page": 0,
+   "bbox": [
+    975.2,
+    545.6,
+    1019.2,
+    563.6
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.0.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "2.905",
+   "norm": 2.905,
+   "page": 0,
+   "bbox": [
+    1076.9,
+    545.6,
+    1113.0,
+    563.6
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.1.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "84-198",
+   "norm": "84-198",
+   "page": 0,
+   "bbox": [
+    273.5,
+    644.5,
+    319.0,
+    662.5
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.1.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 0,
+   "bbox": [
+    350.2,
+    644.5,
+    551.7,
+    685.0
+   ],
+   "label_bbox": [
+    343.5,
+    489.7,
+    595.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.1.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "115 CTNS",
+   "norm": "115 CTNS",
+   "page": 0,
+   "bbox": [
+    625.3,
+    644.5,
+    693.8,
+    662.5
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.1.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "46,000 PCS",
+   "norm": "46,000 PCS",
+   "page": 0,
+   "bbox": [
+    732.6,
+    644.5,
+    809.2,
+    662.5
+   ],
+   "label_bbox": [
+    700.5,
+    489.7,
+    816.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.1.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "2,185.00",
+   "norm": 2185.0,
+   "page": 0,
+   "bbox": [
+    858.1,
+    644.5,
+    914.2,
+    662.5
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.1.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "2,359.80",
+   "norm": 2359.8,
+   "page": 0,
+   "bbox": [
+    963.1,
+    644.5,
+    1019.2,
+    662.5
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.1.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "4.025",
+   "norm": 4.025,
+   "page": 0,
+   "bbox": [
+    1076.9,
+    644.5,
+    1113.0,
+    662.5
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.2.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "199-208",
+   "norm": "199-208",
+   "page": 0,
+   "bbox": [
+    269.5,
+    698.4,
+    323.0,
+    716.4
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.2.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "LED Driver IC, SOP-8",
+   "norm": "LED Driver IC, SOP-8",
+   "page": 0,
+   "bbox": [
+    350.2,
+    698.4,
+    498.1,
+    716.4
+   ],
+   "label_bbox": [
+    343.5,
+    489.7,
+    595.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.2.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "10 CTNS",
+   "norm": "10 CTNS",
+   "page": 0,
+   "bbox": [
+    632.7,
+    698.4,
+    693.8,
+    716.4
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.2.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "200,000 PCS",
+   "norm": "200,000 PCS",
+   "page": 0,
+   "bbox": [
+    724.6,
+    698.4,
+    809.2,
+    716.4
+   ],
+   "label_bbox": [
+    700.5,
+    489.7,
+    816.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.2.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "60.00",
+   "norm": 60.0,
+   "page": 0,
+   "bbox": [
+    878.2,
+    698.4,
+    914.2,
+    716.4
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.2.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "64.80",
+   "norm": 64.8,
+   "page": 0,
+   "bbox": [
+    983.2,
+    698.4,
+    1019.2,
+    716.4
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.2.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "0.300",
+   "norm": 0.3,
+   "page": 0,
+   "bbox": [
+    1076.9,
+    698.4,
+    1113.0,
+    716.4
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "total.packages",
+   "label": "TotalPackages",
+   "type": "text",
+   "value": "208 CTNS",
+   "norm": "208 CTNS",
+   "page": 0,
+   "bbox": [
+    622.9,
+    1046.2,
+    693.8,
+    1064.2
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "total.net_weight",
+   "label": "TotalNetWeight",
+   "type": "text",
+   "value": "2,950.50 KGS",
+   "norm": "2,950.50 KGS",
+   "page": 0,
+   "bbox": [
+    858.1,
+    1046.2,
+    914.2,
+    1086.7
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "total.gross_weight",
+   "label": "TotalGrossWeight",
+   "type": "text",
+   "value": "3,186.54 KGS",
+   "norm": "3,186.54 KGS",
+   "page": 0,
+   "bbox": [
+    963.1,
+    1046.2,
+    1019.2,
+    1086.7
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "total.measurement",
+   "label": "TotalMeasurement",
+   "type": "text",
+   "value": "7.230 CBM",
+   "norm": "7.230 CBM",
+   "page": 0,
+   "bbox": [
+    1035.5,
+    1046.2,
+    1113.0,
+    1064.2
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "signed_by",
+   "label": "Signedby",
+   "type": "text",
+   "value": "Tokyo Seimitsu Kogyo K.K.",
+   "norm": "Tokyo Seimitsu Kogyo K.K.",
+   "page": 0,
+   "bbox": [
+    672.0,
+    1162.2,
+    880.3,
+    1181.7
+   ],
+   "label_bbox": [
+    672.0,
+    1136.1,
+    1122.0,
+    1160.7
+   ]
+  },
+  {
+   "key": "signer",
+   "label": "Signer",
+   "type": "text",
+   "value": "Kenji Sato",
+   "norm": "Kenji Sato",
+   "page": 0,
+   "bbox": [
+    672.0,
+    1246.8,
+    746.5,
+    1266.3
+   ]
+  }
+ ]
+}

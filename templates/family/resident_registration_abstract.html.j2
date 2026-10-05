@@ -9,11 +9,21 @@ table.rr.hist tr.r2 td { border-top: 1px dotted #999; }
 {% endblock %}
 {% block page_class %} dense{% endblock %}
 {% block content %}
-{{ fm.resident_head("초　　본", "제19호서식", "이 초본은 개인별 주민등록표의 원본내용과 틀림없음을 증명합니다.") }}
+{{ fm.resident_head("초　　본", "제19호서식", "이 초본은 개인별 주민등록표의 원본내용과 틀림없음을 증명합니다.", long=d.addresses|length > 9) }}
 <table class="rr">
   <colgroup><col style="width:110px"><col><col style="width:110px"><col style="width:190px"></colgroup>
   <tr><th>성 명(한자)</th><td class="l">{{ f("person.name", label="성명") }} ({{ f("person.name_hanja", label="한자") }})</td><th>주민등록번호</th><td>{{ f("person.rrn", label="주민등록번호") }}</td></tr>
 </table>
+{% if d.person_changes is defined %}
+<div class="rr-sec"><span>개 인 인 적 사 항 변 경 내 용</span></div>
+<table class="rr" style="margin-top:2px">
+  <colgroup><col style="width:46px"><col><col style="width:110px"><col style="width:190px"></colgroup>
+  <tr><th>번호</th><th>변 경 내 용</th><th>변동일</th><th>변 동 사 유</th></tr>
+  {% for it in d.person_changes %}{% set q = "person_changes." ~ loop.index0 %}
+  <tr><td>{{ f(q ~ ".no", label="번호") }}</td><td class="l">{{ f(q ~ ".content", label="변경내용") }}</td><td>{{ f(q ~ ".changed", label="변동일") }}</td><td>{{ f(q ~ ".reason", label="변동사유") }}</td></tr>
+  {% endfor %}
+</table>
+{% endif %}
 <div class="rr-sec"><span>주 소 변 동 사 항</span><span class="s">( {{ f("history_scope", label="주소변동사항") }} )</span></div>
 <table class="rr hist" style="margin-top:2px">
   <colgroup><col style="width:46px"><col><col style="width:110px"><col style="width:150px"></colgroup>

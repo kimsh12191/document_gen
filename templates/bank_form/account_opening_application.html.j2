@@ -7,25 +7,26 @@ table.aoa th { width: 96px; }
 table.aoa th.w2 { width: 86px; }
 {% endblock %}
 {% block content %}
+{{ f.set_corr_name(val("legal_rep.name") if d.legal_rep is defined else val("signature")) }}
 {{ bf.head("수신-001 (개인용)<br>보존기간: 거래종료 후 10년") }}
 {{ m.title("예금거래신청서", sub="계좌개설 신청서 (개인)") }}
 <div class="bf-note">※ 굵은 선 안쪽만 고객께서 작성하여 주십시오. 해당란에 ■ 표시하여 주시기 바랍니다.</div>
 
 {{ bf.sec("1", "고객 정보") }}
 <table class="bf aoa">
-<tr><th>성명(한글)</th><td>{{ f("customer.name", label="성명") }}</td><th class="w2">영문명</th><td>{{ f("customer.name_en", label="영문명") }}</td></tr>
-<tr><th>실명번호</th><td colspan="3">{{ f("customer.rrn", label="실명번호") }}</td></tr>
-<tr><th>자택주소</th><td colspan="3">(우 {{ f("customer.zipcode", label="우편번호") }}) {{ f("customer.address", label="자택주소") }}</td></tr>
-<tr><th>휴대폰</th><td>{{ f("customer.mobile", label="휴대폰") }}</td><th class="w2">이메일</th><td>{{ f("customer.email", label="이메일") }}</td></tr>
+<tr><th>성명(한글)</th><td>{{ f("customer.name", label="성명", fix=0.04) }}</td><th class="w2">영문명</th><td>{{ f("customer.name_en", label="영문명", fix=0.04) }}</td></tr>
+<tr><th>실명번호</th><td{% if d.customer.nationality is not defined %} colspan="3"{% endif %}>{{ f("customer.rrn", label="실명번호", fix=0.05) }}</td>{% if d.customer.nationality is defined %}<th class="w2">국적</th><td>{{ f("customer.nationality", label="국적") }}</td>{% endif %}</tr>
+<tr><th>자택주소</th><td colspan="3">(우 {{ f("customer.zipcode", label="우편번호") }}) {{ f("customer.address", label="자택주소", fix=0.05) }}</td></tr>
+<tr><th>휴대폰</th><td>{{ f("customer.mobile", label="휴대폰", fix=0.06) }}</td><th class="w2">이메일</th><td>{{ f("customer.email", label="이메일", fix=0.03) }}</td></tr>
 <tr><th>직업</th><td>{{ f("customer.job", label="직업") }}</td><th class="w2">직장명</th><td>{% if d.customer.company is defined %}{{ f("customer.company", label="직장명") }}{% endif %}</td></tr>
 </table>
 
 {{ bf.sec("2", "신규 상품") }}
 <table class="bf aoa">
 <tr><th>예금 종류</th><td colspan="3">{{ m.choice("product.type", ["보통예금", "저축예금", "정기예금", "정기적금", "주택청약종합저축"], label="예금종류") }}</td></tr>
-<tr><th>상품명</th><td>{{ f("product.name", label="상품명") }}</td><th class="w2">신규금액</th><td>{{ f("product.amount", label="신규금액") }}</td></tr>
+<tr><th>상품명</th><td>{{ f("product.name", label="상품명") }}</td><th class="w2">신규금액</th><td>{{ f("product.amount", label="신규금액", fix=0.06) }}</td></tr>
 <tr><th>계약기간</th><td>{% if d.product.term is defined %}{{ f("product.term", label="계약기간") }}{% endif %}{% if d.product.interest_payment is defined %} &nbsp;<span class="small">(이자지급: {{ f("product.interest_payment", label="이자지급방법") }})</span>{% endif %}</td>
-    <th class="w2">출금(이체)계좌</th><td>{% if d.product.linked_account is defined %}{{ f("product.linked_account", label="출금계좌") }}{% endif %}</td></tr>
+    <th class="w2">출금(이체)계좌</th><td>{% if d.product.linked_account is defined %}{{ f("product.linked_account", label="출금계좌", fix=0.07) }}{% endif %}</td></tr>
 <tr><th>통장 발행</th><td>{{ m.choice("passbook", ["발행", "미발행"], label="통장발행") }}</td>
     <th class="w2">인감/서명</th><td>{{ m.choice("seal_type", ["인감", "서명", "인감+서명"], label="인감서명등록") }}</td></tr>
 <tr><th>비밀번호</th><td colspan="3"><span class="pw"></span><span class="pw"></span><span class="pw"></span><span class="pw"></span>
@@ -33,11 +34,20 @@ table.aoa th.w2 { width: 86px; }
 <tr><th>체크카드</th><td colspan="3">{{ m.choice("check_card", ["신청", "미신청"], label="체크카드") }}<span class="tiny muted">(신청 시 별도 체크카드 신청서 작성)</span></td></tr>
 </table>
 
+{% if d.extra_products is defined %}
+<div class="bf-note" style="margin:2px 0 0"><b>■ 추가 신규 상품</b> (같은 날 함께 신규하는 계좌)</div>
+<table class="bf aoa">
+<tr><th style="width:30px">No</th><th>예금 종류</th><th>상품명</th><th>신규금액</th><th>계약기간</th><th>계좌번호 <span class="tiny">(은행 기재)</span></th></tr>
+{% for x in d.extra_products %}{% set k = "extra_products." ~ loop.index0 %}
+<tr><td class="c">{{ loop.index + 1 }}</td><td class="c">{{ f(k ~ ".type", label="예금종류") }}</td><td class="c">{{ f(k ~ ".name", label="상품명") }}</td><td class="num">{{ f(k ~ ".amount", label="신규금액", fix=0.05) }}</td><td class="c">{{ f(k ~ ".term", label="계약기간") }}</td><td class="c">{{ f(k ~ ".account_no", label="계좌번호") }}</td></tr>
+{% endfor %}
+</table>
+{% endif %}
 {{ bf.sec("3", "전자금융 · 부가서비스") }}
 <table class="bf aoa">
 <tr><th>인터넷뱅킹</th><td>{{ m.choice("ebank.internet", ["신청", "미신청"], label="인터넷뱅킹") }}</td>
     <th class="w2">모바일뱅킹</th><td>{{ m.choice("ebank.mobile", ["신청", "미신청"], label="모바일뱅킹") }}</td></tr>
-<tr><th>보안매체</th><td colspan="3">{{ m.choice("ebank.otp", ["OTP 발급", "모바일OTP", "기존 OTP 사용", "보안카드", "미신청"], label="보안매체") }}</td></tr>
+<tr><th>보안매체</th><td colspan="3">{{ m.choice("ebank.otp", ["OTP 발급"] + (["모바일OTP"] if bk.mobile_otp else []) + ["기존 OTP 사용", "보안카드", "미신청"], label="보안매체") }}</td></tr>
 <tr><th>이체한도</th><td colspan="3">1회 {% if d.ebank.limit_once is defined %}<span class="u">{{ f("ebank.limit_once", label="1회이체한도") }}</span>{% else %}<span class="u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{% endif %}
     &nbsp;&nbsp;/&nbsp;&nbsp;1일 {% if d.ebank.limit_day is defined %}<span class="u">{{ f("ebank.limit_day", label="1일이체한도") }}</span>{% else %}<span class="u">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{% endif %}
     <span class="tiny muted">&nbsp;※ 보안매체에 따라 최고 한도가 다릅니다.</span></td></tr>
@@ -48,7 +58,17 @@ table.aoa th.w2 { width: 86px; }
 <table class="bf aoa">
 <tr><th>우편물 수령처</th><td>{{ m.choice("mail_to", ["자택", "직장", "이메일", "수령 안함"], label="우편물수령처") }}</td>
     <th class="w2">급여이체 지정</th><td>{{ m.choice("salary_transfer", ["지정", "미지정"], label="급여이체지정") }}</td></tr>
+{% if d.agent is defined %}
+<tr><th>대리인 신규</th><td colspan="3">■ 해당 &nbsp;□ 해당 없음 <span class="tiny muted">&nbsp;(위임장, 본인 인감증명서 및 대리인 실명확인증표 제출)</span></td></tr>
+<tr><th>대리인 성명</th><td>{{ f("agent.name", label="대리인성명", fix=0.04) }} <span class="small">({{ f("agent.relation", label="본인과의관계") }})</span></td><th class="w2">대리인 실명번호</th><td>{{ f("agent.rrn", label="대리인실명번호", fix=0.04) }}</td></tr>
+<tr><th>대리인 연락처</th><td colspan="3">{{ f("agent.phone", label="대리인연락처", fix=0.05) }}</td></tr>
+{% elif d.legal_rep is defined %}
+<tr><th>대리인 신규</th><td colspan="3">■ 해당 (법정대리인) &nbsp;□ 해당 없음 <span class="tiny muted">&nbsp;(미성년자: 법정대리인 신분증 및 관계 확인 서류 제출)</span></td></tr>
+<tr><th>법정대리인</th><td>{{ f("legal_rep.name", label="법정대리인성명", fix=0.04) }} <span class="small">(관계: {{ f("legal_rep.relation", label="본인과의관계") }})</span></td><th class="w2">실명번호</th><td>{{ f("legal_rep.rrn", label="법정대리인실명번호", fix=0.04) }}</td></tr>
+<tr><th>연락처</th><td>{{ f("legal_rep.phone", label="법정대리인연락처", fix=0.05) }}</td><th class="w2">제출서류</th><td class="small">{{ f("legal_rep.documents", label="제출서류") }}</td></tr>
+{% else %}
 <tr><th>대리인 신규</th><td colspan="3">□ 해당 &nbsp;■ 해당 없음 <span class="tiny muted">&nbsp;(대리인 신규 시 위임장, 본인 인감증명서 및 대리인 실명확인증표 제출)</span></td></tr>
+{% endif %}
 </table>
 
 <div class="bf-box bf-note" style="margin-top:6px">
@@ -56,15 +76,19 @@ table.aoa th.w2 { width: 86px; }
   <p>2. {% if d.protection_limit is defined %}이 예금은 예금자보호법에 따라 원금과 소정의 이자를 합하여 1인당 &quot;{{ f("protection_limit", label="예금자보호한도") }}&quot;까지(본 은행의 여타 보호상품과 합산) 보호됩니다.{% else %}이 예금은 예금자보호법에 따라 보호되지 않습니다. (주택도시기금 조성 재원으로 정부가 관리){% endif %}</p>
   <p>3. 통장·카드 등 접근매체를 타인에게 양도·대여하는 행위는 「전자금융거래법」에 따라 처벌 대상이 됩니다.</p>
 </div>
+{% if bk.borrowed_name %}
 <table class="bf" style="margin-top:3px">
 <tr><td class="q bf-note" style="margin:0">
   <b>[차명거래 금지 설명 확인]</b> 「금융실명거래 및 비밀보장에 관한 법률」 제3조 제3항에 따라 누구든지 불법재산의 은닉, 자금세탁행위, 공중협박자금조달행위 및 강제집행의 면탈, 그 밖의 탈법행위를 목적으로 타인의 실명으로 금융거래를 하여서는 아니되며, 이를 위반 시 5년 이하의 징역 또는 5천만원 이하의 벌금에 처해질 수 있습니다. 본인은 위 안내에 대해 충분히 설명을 들었음을 확인합니다.</td>
   <td style="width:150px" class="c small">확인자 <b>{{ f("signature", label="확인자") }}</b><br>(서명)</td></tr>
 </table>
+{% endif %}
 <div class="bf-sign">
   <span>{{ f("date", label="신청일") }}</span>
-  <span>신청인 <span class="who">{{ f("signature", label="신청인") }}</span> (서명 또는 인)</span>
+  <span>신청인 <span class="who">{{ f("signature", label="신청인") }}</span> {{ m.sigspot("applicant", (val("signature")|replace(" ", ""))[:4], label="신청인", anchor="signature") }}</span>
 </div>
+{% if d.legal_rep is defined %}<div class="bf-sign" style="margin-top:2px"><span>법정대리인 <span class="who">{{ f("legal_rep.name", label="법정대리인") }}</span> {{ m.sigspot("legal_rep", val("legal_rep.name"), label="법정대리인", anchor="legal_rep.name") }}</span></div>{% endif %}
+{% if d.agent is defined %}<div class="bf-sign" style="margin-top:2px"><span>대리인 <span class="who">{{ f("agent.name", label="대리인") }}</span> {{ m.sigspot("agent", val("agent.name"), label="대리인", anchor="agent.name") }}</span></div>{% endif %}
 <div class="right bold">{{ f("bank.name", label="은행명") }} 앞</div>
 
 <div class="bf-use">
@@ -73,7 +97,7 @@ table.aoa th.w2 { width: 86px; }
     <table class="bf" style="flex:1">
       <tr><th style="width:96px">계좌번호</th><td class="bold">{{ f("bank_use.account_no", label="계좌번호") }}</td></tr>
       <tr><th>개설 영업점</th><td>{{ f("bank_use.branch", label="개설영업점") }}</td></tr>
-      <tr><th>실명확인증표</th><td>{{ m.choice("bank_use.id_type", ["주민등록증", "운전면허증", "여권", "모바일신분증"], label="실명확인증표") }}</td></tr>
+      <tr><th>실명확인증표</th><td>{{ m.choice("bank_use.id_type", ["주민등록증", "운전면허증", "여권", "외국인등록증"] + (["모바일신분증"] if bk.mobile_id else []), label="실명확인증표") }}</td></tr>
     </table>
     {{ bf.stamps([["실명확인", None], ["담당", "bank_use.clerk"], ["책임자", "bank_use.manager"]]) }}
   </div>

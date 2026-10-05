@@ -5,7 +5,7 @@
 table.rr.mem td { padding-top: 3px; padding-bottom: 3px; }
 {% endblock %}
 {% block content %}
-{{ fm.resident_head("등　　본", "제18호서식", "이 등본은 세대별 주민등록표의 원본내용과 틀림없음을 증명합니다.") }}
+{{ fm.resident_head("등　　본", "제18호서식", "이 등본은 세대별 주민등록표의 원본내용과 틀림없음을 증명합니다.", long=(d.past_addresses|length + d.members|length * 2) > 16) }}
 <table class="rr">
   <colgroup><col style="width:130px"><col><col style="width:120px"><col style="width:170px"></colgroup>
   <tr><th>세대주 성명(한자)</th><td class="l">{{ f("household_head.name", label="세대주성명") }} ({{ f("household_head.name_hanja", label="세대주성명(한자)") }})</td>
@@ -27,7 +27,7 @@ table.rr.mem td { padding-top: 3px; padding-bottom: 3px; }
   <tr>
     <td rowspan="2">{{ f("members." ~ i ~ ".no", label="번호") }}</td>
     <td rowspan="2">{{ f("members." ~ i ~ ".relation", label="세대주관계") }}</td>
-    <td>{{ f("members." ~ i ~ ".name", label="성명") }} ({{ f("members." ~ i ~ ".name_hanja", label="한자") }})</td>
+    <td>{{ f("members." ~ i ~ ".name", label="성명") }}{% if it.name_hanja is defined %} ({{ f("members." ~ i ~ ".name_hanja", label="한자") }}){% endif %}</td>
     <td rowspan="2">{{ f("members." ~ i ~ ".moved_in", label="전입일/변동일") }}</td>
     <td rowspan="2">{{ f("members." ~ i ~ ".reason", label="변동사유") }}</td>
   </tr>

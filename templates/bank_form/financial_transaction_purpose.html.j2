@@ -12,6 +12,7 @@ table.qa td.a { width: 128px; text-align: center; }
 .warn p { margin: 1px 0; font-size: calc(var(--fs) - 2px); }
 {% endblock %}
 {% block content %}
+{{ f.set_corr_name(val("customer.name")) }}
 {{ bf.head("입출금이 자유로운 예금 신규용<br>보존기간: 거래종료 후 5년") }}
 {{ m.title("금융거래목적확인서") }}
 <div class="bf-box bf-note">
@@ -21,9 +22,9 @@ table.qa td.a { width: 128px; text-align: center; }
 
 {{ bf.sec("1", "고객 정보") }}
 <table class="bf ftp">
-<tr><th>성　명</th><td>{{ f("customer.name", label="성명") }}</td><th>실명번호</th><td>{{ f("customer.rrn", label="실명번호") }}</td></tr>
-<tr><th>주　소</th><td colspan="3">{{ f("customer.address", label="주소") }}</td></tr>
-<tr><th>연락처</th><td>{{ f("customer.mobile", label="연락처") }}</td><th>직　업</th><td>{{ f("customer.job", label="직업") }}{% if d.customer.company is defined %} / {{ f("customer.company", label="직장명") }}{% endif %}</td></tr>
+<tr><th>성　명</th><td>{{ f("customer.name", label="성명", fix=0.04) }}{% if d.customer.nationality is defined %} <span class="small">(국적: {{ f("customer.nationality", label="국적") }})</span>{% endif %}</td><th>실명번호</th><td>{{ f("customer.rrn", label="실명번호", fix=0.05) }}</td></tr>
+<tr><th>주　소</th><td colspan="3">{{ f("customer.address", label="주소", fix=0.05) }}</td></tr>
+<tr><th>연락처</th><td>{{ f("customer.mobile", label="연락처", fix=0.06) }}</td><th>직　업</th><td>{{ f("customer.job", label="직업") }}{% if d.customer.company is defined %} / {{ f("customer.company", label="직장명") }}{% endif %}</td></tr>
 <tr><th>신규 예금</th><td colspan="3">{{ m.choice("account_type", ["보통예금", "저축예금", "기타 입출금예금"], label="신규예금종류") }}</td></tr>
 </table>
 
@@ -49,11 +50,11 @@ table.qa td.a { width: 128px; text-align: center; }
 <table class="bf qa">
 <tr><th>확인 내용</th><th>답변</th></tr>
 <tr><td class="q">① 타인으로부터 통장 개설을 요청받거나, 통장(카드)을 양도·대여하는 대가로 금전 등을 받기로 하셨습니까?</td>
-    <td class="a">{{ m.choice("questions.q1", ["예", "아니오"], label="통장양도대여요청여부") }}</td></tr>
+    <td class="a">{{ m.choice("questions.q1", ["예", "아니오"], label="통장양도대여요청여부") }}{{ bf.nochk("questions.q1") }}</td></tr>
 <tr><td class="q">② 취업 또는 대출을 해주겠다며 통장·체크카드·비밀번호 등을 보내 달라는 요청을 받으셨습니까?</td>
-    <td class="a">{{ m.choice("questions.q2", ["예", "아니오"], label="취업대출빙자요청여부") }}</td></tr>
+    <td class="a">{{ m.choice("questions.q2", ["예", "아니오"], label="취업대출빙자요청여부") }}{{ bf.nochk("questions.q2") }}</td></tr>
 <tr><td class="q">③ 최근 20영업일 이내에 다른 금융회사에서 입출금계좌를 개설하신 사실이 있습니까?</td>
-    <td class="a">{{ m.choice("questions.q3", ["예", "아니오"], label="최근타행계좌개설여부") }}</td></tr>
+    <td class="a">{{ m.choice("questions.q3", ["예", "아니오"], label="최근타행계좌개설여부") }}{{ bf.nochk("questions.q3") }}</td></tr>
 </table>
 
 <div class="warn">
@@ -66,7 +67,7 @@ table.qa td.a { width: 128px; text-align: center; }
 <div class="bf-note">본인은 위 내용을 충분히 설명 듣고 이해하였으며, 기재한 금융거래 목적 및 확인 사항이 사실과 다름없음을 확인합니다.</div>
 <div class="bf-sign">
   <span>{{ f("date", label="작성일") }}</span>
-  <span>고객 성명 <span class="who">{{ f("signature", label="고객성명") }}</span> (서명 또는 인)</span>
+  <span>고객 성명 <span class="who">{{ f("signature", label="고객성명") }}</span> {{ m.sigspot("customer", (val("signature")|replace(" ", ""))[:4], label="고객", anchor="signature") }}</span>
 </div>
 <div class="right bold">{{ f("bank.name", label="은행명") }} 귀중</div>
 

@@ -5,9 +5,15 @@
   "group": "identity",
   "group_name": "신원·신분",
   "category": "external",
+  "kind": "basic",
   "image": "identity/alien_registration_card.jpg",
+  "images": [
+   "identity/alien_registration_card.jpg"
+  ],
+  "n_pages": 1,
   "gt": "identity/alien_registration_card.json",
-  "n_fields": 7,
+  "label": "identity/alien_registration_card.label.json",
+  "n_fields": 8,
   "overflow": false,
   "size": [
    810,
@@ -20,9 +26,15 @@
   "group": "identity",
   "group_name": "신원·신분",
   "category": "external",
+  "kind": "basic",
   "image": "identity/driver_license.jpg",
+  "images": [
+   "identity/driver_license.jpg"
+  ],
+  "n_pages": 1,
   "gt": "identity/driver_license.json",
-  "n_fields": 9,
+  "label": "identity/driver_license.label.json",
+  "n_fields": 10,
   "overflow": false,
   "size": [
    810,
@@ -35,8 +47,14 @@
   "group": "identity",
   "group_name": "신원·신분",
   "category": "external",
+  "kind": "basic",
   "image": "identity/passport.jpg",
+  "images": [
+   "identity/passport.jpg"
+  ],
+  "n_pages": 1,
   "gt": "identity/passport.json",
+  "label": "identity/passport.label.json",
   "n_fields": 15,
   "overflow": false,
   "size": [
@@ -50,9 +68,15 @@
   "group": "identity",
   "group_name": "신원·신분",
   "category": "external",
+  "kind": "basic",
   "image": "identity/resident_id_card.jpg",
+  "images": [
+   "identity/resident_id_card.jpg"
+  ],
+  "n_pages": 1,
   "gt": "identity/resident_id_card.json",
-  "n_fields": 6,
+  "label": "identity/resident_id_card.label.json",
+  "n_fields": 7,
   "overflow": false,
   "size": [
    810,
@@ -65,13 +89,19 @@
   "group": "identity",
   "group_name": "신원·신분",
   "category": "external",
+  "kind": "basic",
   "image": "identity/seal_certificate.jpg",
+  "images": [
+   "identity/seal_certificate.jpg"
+  ],
+  "n_pages": 1,
   "gt": "identity/seal_certificate.json",
-  "n_fields": 11,
+  "label": "identity/seal_certificate.label.json",
+  "n_fields": 13,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -80,13 +110,19 @@
   "group": "identity",
   "group_name": "신원·신분",
   "category": "external",
+  "kind": "basic",
   "image": "identity/signature_confirmation.jpg",
+  "images": [
+   "identity/signature_confirmation.jpg"
+  ],
+  "n_pages": 1,
   "gt": "identity/signature_confirmation.json",
-  "n_fields": 11,
+  "label": "identity/signature_confirmation.label.json",
+  "n_fields": 12,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -95,13 +131,19 @@
   "group": "family",
   "group_name": "가족관계",
   "category": "external",
+  "kind": "basic",
   "image": "family/basic_certificate.jpg",
+  "images": [
+   "family/basic_certificate.jpg"
+  ],
+  "n_pages": 1,
   "gt": "family/basic_certificate.json",
-  "n_fields": 16,
+  "label": "family/basic_certificate.label.json",
+  "n_fields": 19,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -110,13 +152,19 @@
   "group": "family",
   "group_name": "가족관계",
   "category": "external",
+  "kind": "basic",
   "image": "family/family_relation_certificate.jpg",
+  "images": [
+   "family/family_relation_certificate.jpg"
+  ],
+  "n_pages": 1,
   "gt": "family/family_relation_certificate.json",
-  "n_fields": 49,
+  "label": "family/family_relation_certificate.label.json",
+  "n_fields": 50,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -125,13 +173,19 @@
   "group": "family",
   "group_name": "가족관계",
   "category": "external",
+  "kind": "basic",
   "image": "family/marriage_relation_certificate.jpg",
+  "images": [
+   "family/marriage_relation_certificate.jpg"
+  ],
+  "n_pages": 1,
   "gt": "family/marriage_relation_certificate.json",
-  "n_fields": 25,
+  "label": "family/marriage_relation_certificate.label.json",
+  "n_fields": 27,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -140,13 +194,19 @@
   "group": "family",
   "group_name": "가족관계",
   "category": "external",
+  "kind": "basic",
   "image": "family/resident_registration_abstract.jpg",
+  "images": [
+   "family/resident_registration_abstract.jpg"
+  ],
+  "n_pages": 1,
   "gt": "family/resident_registration_abstract.json",
-  "n_fields": 39,
+  "label": "family/resident_registration_abstract.label.json",
+  "n_fields": 40,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -155,13 +215,19 @@
   "group": "family",
   "group_name": "가족관계",
   "category": "external",
+  "kind": "basic",
   "image": "family/resident_registration_copy.jpg",
+  "images": [
+   "family/resident_registration_copy.jpg"
+  ],
+  "n_pages": 1,
   "gt": "family/resident_registration_copy.json",
-  "n_fields": 52,
+  "label": "family/resident_registration_copy.label.json",
+  "n_fields": 47,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -170,13 +236,19 @@
   "group": "income",
   "group_name": "소득·재직",
   "category": "external",
+  "kind": "basic",
   "image": "income/career_certificate.jpg",
+  "images": [
+   "income/career_certificate.jpg"
+  ],
+  "n_pages": 1,
   "gt": "income/career_certificate.json",
-  "n_fields": 35,
+  "label": "income/career_certificate.label.json",
+  "n_fields": 36,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -185,13 +257,19 @@
   "group": "income",
   "group_name": "소득·재직",
   "category": "external",
+  "kind": "basic",
   "image": "income/employment_certificate.jpg",
+  "images": [
+   "income/employment_certificate.jpg"
+  ],
+  "n_pages": 1,
   "gt": "income/employment_certificate.json",
-  "n_fields": 16,
+  "label": "income/employment_certificate.label.json",
+  "n_fields": 17,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -200,13 +278,19 @@
   "group": "income",
   "group_name": "소득·재직",
   "category": "external",
+  "kind": "basic",
   "image": "income/employment_contract.jpg",
+  "images": [
+   "income/employment_contract.jpg"
+  ],
+  "n_pages": 1,
   "gt": "income/employment_contract.json",
-  "n_fields": 26,
+  "label": "income/employment_contract.label.json",
+  "n_fields": 29,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -215,13 +299,19 @@
   "group": "income",
   "group_name": "소득·재직",
   "category": "external",
+  "kind": "basic",
   "image": "income/health_insurance_payment.jpg",
+  "images": [
+   "income/health_insurance_payment.jpg"
+  ],
+  "n_pages": 1,
   "gt": "income/health_insurance_payment.json",
-  "n_fields": 100,
+  "label": "income/health_insurance_payment.label.json",
+  "n_fields": 108,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -230,13 +320,19 @@
   "group": "income",
   "group_name": "소득·재직",
   "category": "external",
+  "kind": "basic",
   "image": "income/health_insurance_qualification.jpg",
+  "images": [
+   "income/health_insurance_qualification.jpg"
+  ],
+  "n_pages": 1,
   "gt": "income/health_insurance_qualification.json",
-  "n_fields": 11,
+  "label": "income/health_insurance_qualification.label.json",
+  "n_fields": 12,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -245,13 +341,19 @@
   "group": "income",
   "group_name": "소득·재직",
   "category": "external",
+  "kind": "basic",
   "image": "income/income_certificate.jpg",
+  "images": [
+   "income/income_certificate.jpg"
+  ],
+  "n_pages": 1,
   "gt": "income/income_certificate.json",
-  "n_fields": 25,
+  "label": "income/income_certificate.label.json",
+  "n_fields": 26,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -260,13 +362,19 @@
   "group": "income",
   "group_name": "소득·재직",
   "category": "external",
+  "kind": "basic",
   "image": "income/pay_stub.jpg",
+  "images": [
+   "income/pay_stub.jpg"
+  ],
+  "n_pages": 1,
   "gt": "income/pay_stub.json",
+  "label": "income/pay_stub.label.json",
   "n_fields": 59,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -275,13 +383,19 @@
   "group": "income",
   "group_name": "소득·재직",
   "category": "external",
+  "kind": "basic",
   "image": "income/pension_enrollment_certificate.jpg",
+  "images": [
+   "income/pension_enrollment_certificate.jpg"
+  ],
+  "n_pages": 1,
   "gt": "income/pension_enrollment_certificate.json",
-  "n_fields": 12,
+  "label": "income/pension_enrollment_certificate.label.json",
+  "n_fields": 13,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -290,13 +404,19 @@
   "group": "income",
   "group_name": "소득·재직",
   "category": "external",
+  "kind": "basic",
   "image": "income/withholding_receipt.jpg",
+  "images": [
+   "income/withholding_receipt.jpg"
+  ],
+  "n_pages": 1,
   "gt": "income/withholding_receipt.json",
-  "n_fields": 30,
+  "label": "income/withholding_receipt.label.json",
+  "n_fields": 31,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -305,13 +425,21 @@
   "group": "tax",
   "group_name": "세금·보험",
   "category": "external",
-  "image": "tax/income_tax_return.jpg",
+  "kind": "basic",
+  "image": "tax/income_tax_return_p1.jpg",
+  "images": [
+   "tax/income_tax_return_p1.jpg",
+   "tax/income_tax_return_p2.jpg",
+   "tax/income_tax_return_p3.jpg"
+  ],
+  "n_pages": 3,
   "gt": "tax/income_tax_return.json",
-  "n_fields": 33,
+  "label": "tax/income_tax_return.label.json",
+  "n_fields": 78,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -320,13 +448,19 @@
   "group": "tax",
   "group_name": "세금·보험",
   "category": "external",
+  "kind": "basic",
   "image": "tax/local_tax_assessment.jpg",
+  "images": [
+   "tax/local_tax_assessment.jpg"
+  ],
+  "n_pages": 1,
   "gt": "tax/local_tax_assessment.json",
-  "n_fields": 67,
+  "label": "tax/local_tax_assessment.label.json",
+  "n_fields": 68,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -335,13 +469,19 @@
   "group": "tax",
   "group_name": "세금·보험",
   "category": "external",
+  "kind": "basic",
   "image": "tax/local_tax_payment_certificate.jpg",
+  "images": [
+   "tax/local_tax_payment_certificate.jpg"
+  ],
+  "n_pages": 1,
   "gt": "tax/local_tax_payment_certificate.json",
-  "n_fields": 10,
+  "label": "tax/local_tax_payment_certificate.label.json",
+  "n_fields": 11,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -350,13 +490,19 @@
   "group": "tax",
   "group_name": "세금·보험",
   "category": "external",
+  "kind": "basic",
   "image": "tax/tax_payment_certificate.jpg",
+  "images": [
+   "tax/tax_payment_certificate.jpg"
+  ],
+  "n_pages": 1,
   "gt": "tax/tax_payment_certificate.json",
-  "n_fields": 13,
+  "label": "tax/tax_payment_certificate.label.json",
+  "n_fields": 16,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -365,13 +511,19 @@
   "group": "tax",
   "group_name": "세금·보험",
   "category": "external",
+  "kind": "basic",
   "image": "tax/tax_payment_certificate_corp.jpg",
+  "images": [
+   "tax/tax_payment_certificate_corp.jpg"
+  ],
+  "n_pages": 1,
   "gt": "tax/tax_payment_certificate_corp.json",
-  "n_fields": 13,
+  "label": "tax/tax_payment_certificate_corp.label.json",
+  "n_fields": 16,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -380,13 +532,19 @@
   "group": "tax",
   "group_name": "세금·보험",
   "category": "external",
+  "kind": "basic",
   "image": "tax/vat_tax_base_certificate.jpg",
+  "images": [
+   "tax/vat_tax_base_certificate.jpg"
+  ],
+  "n_pages": 1,
   "gt": "tax/vat_tax_base_certificate.json",
-  "n_fields": 39,
+  "label": "tax/vat_tax_base_certificate.label.json",
+  "n_fields": 40,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -395,13 +553,19 @@
   "group": "finance",
   "group_name": "금융거래",
   "category": "external",
+  "kind": "basic",
   "image": "finance/balance_certificate.jpg",
+  "images": [
+   "finance/balance_certificate.jpg"
+  ],
+  "n_pages": 1,
   "gt": "finance/balance_certificate.json",
-  "n_fields": 34,
+  "label": "finance/balance_certificate.label.json",
+  "n_fields": 23,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -410,13 +574,19 @@
   "group": "finance",
   "group_name": "금융거래",
   "category": "external",
+  "kind": "basic",
   "image": "finance/bank_statement.jpg",
+  "images": [
+   "finance/bank_statement.jpg"
+  ],
+  "n_pages": 1,
   "gt": "finance/bank_statement.json",
-  "n_fields": 78,
+  "label": "finance/bank_statement.label.json",
+  "n_fields": 114,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -425,13 +595,19 @@
   "group": "finance",
   "group_name": "금융거래",
   "category": "external",
+  "kind": "basic",
   "image": "finance/bankbook_copy.jpg",
+  "images": [
+   "finance/bankbook_copy.jpg"
+  ],
+  "n_pages": 1,
   "gt": "finance/bankbook_copy.json",
-  "n_fields": 12,
+  "label": "finance/bankbook_copy.label.json",
+  "n_fields": 13,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -440,13 +616,19 @@
   "group": "finance",
   "group_name": "금융거래",
   "category": "external",
+  "kind": "basic",
   "image": "finance/card_statement.jpg",
+  "images": [
+   "finance/card_statement.jpg"
+  ],
+  "n_pages": 1,
   "gt": "finance/card_statement.json",
-  "n_fields": 124,
+  "label": "finance/card_statement.label.json",
+  "n_fields": 108,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -455,13 +637,19 @@
   "group": "finance",
   "group_name": "금융거래",
   "category": "external",
+  "kind": "basic",
   "image": "finance/debt_certificate.jpg",
+  "images": [
+   "finance/debt_certificate.jpg"
+  ],
+  "n_pages": 1,
   "gt": "finance/debt_certificate.json",
-  "n_fields": 34,
+  "label": "finance/debt_certificate.label.json",
+  "n_fields": 35,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -470,12 +658,18 @@
   "group": "real_estate",
   "group_name": "부동산",
   "category": "external",
+  "kind": "basic",
   "image": "real_estate/building_register.jpg",
+  "images": [
+   "real_estate/building_register.jpg"
+  ],
+  "n_pages": 1,
   "gt": "real_estate/building_register.json",
-  "n_fields": 43,
+  "label": "real_estate/building_register.label.json",
+  "n_fields": 52,
   "overflow": false,
   "size": [
-   1685,
+   1684,
    1191
   ]
  },
@@ -485,13 +679,19 @@
   "group": "real_estate",
   "group_name": "부동산",
   "category": "external",
+  "kind": "basic",
   "image": "real_estate/land_register.jpg",
+  "images": [
+   "real_estate/land_register.jpg"
+  ],
+  "n_pages": 1,
   "gt": "real_estate/land_register.json",
+  "label": "real_estate/land_register.label.json",
   "n_fields": 55,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -500,13 +700,19 @@
   "group": "real_estate",
   "group_name": "부동산",
   "category": "external",
+  "kind": "basic",
   "image": "real_estate/lease_contract.jpg",
+  "images": [
+   "real_estate/lease_contract.jpg"
+  ],
+  "n_pages": 1,
   "gt": "real_estate/lease_contract.json",
-  "n_fields": 39,
+  "label": "real_estate/lease_contract.label.json",
+  "n_fields": 44,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -515,13 +721,19 @@
   "group": "real_estate",
   "group_name": "부동산",
   "category": "external",
+  "kind": "basic",
   "image": "real_estate/move_in_household_list.jpg",
+  "images": [
+   "real_estate/move_in_household_list.jpg"
+  ],
+  "n_pages": 1,
   "gt": "real_estate/move_in_household_list.json",
-  "n_fields": 19,
+  "label": "real_estate/move_in_household_list.label.json",
+  "n_fields": 20,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -530,13 +742,20 @@
   "group": "real_estate",
   "group_name": "부동산",
   "category": "external",
-  "image": "real_estate/real_estate_registry.jpg",
+  "kind": "basic",
+  "image": "real_estate/real_estate_registry_p1.jpg",
+  "images": [
+   "real_estate/real_estate_registry_p1.jpg",
+   "real_estate/real_estate_registry_p2.jpg"
+  ],
+  "n_pages": 2,
   "gt": "real_estate/real_estate_registry.json",
-  "n_fields": 60,
+  "label": "real_estate/real_estate_registry.label.json",
+  "n_fields": 100,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -545,13 +764,19 @@
   "group": "real_estate",
   "group_name": "부동산",
   "category": "external",
+  "kind": "basic",
   "image": "real_estate/sales_contract.jpg",
+  "images": [
+   "real_estate/sales_contract.jpg"
+  ],
+  "n_pages": 1,
   "gt": "real_estate/sales_contract.json",
-  "n_fields": 30,
+  "label": "real_estate/sales_contract.label.json",
+  "n_fields": 37,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -560,13 +785,19 @@
   "group": "business",
   "group_name": "개인사업자",
   "category": "external",
+  "kind": "basic",
   "image": "business/business_registration_certificate.jpg",
+  "images": [
+   "business/business_registration_certificate.jpg"
+  ],
+  "n_pages": 1,
   "gt": "business/business_registration_certificate.json",
-  "n_fields": 14,
+  "label": "business/business_registration_certificate.label.json",
+  "n_fields": 16,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -575,13 +806,19 @@
   "group": "business",
   "group_name": "개인사업자",
   "category": "external",
+  "kind": "basic",
   "image": "business/business_registration_certificate_corp.jpg",
+  "images": [
+   "business/business_registration_certificate_corp.jpg"
+  ],
+  "n_pages": 1,
   "gt": "business/business_registration_certificate_corp.json",
-  "n_fields": 14,
+  "label": "business/business_registration_certificate_corp.label.json",
+  "n_fields": 15,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -590,13 +827,19 @@
   "group": "business",
   "group_name": "개인사업자",
   "category": "external",
+  "kind": "basic",
   "image": "business/business_registration_proof.jpg",
+  "images": [
+   "business/business_registration_proof.jpg"
+  ],
+  "n_pages": 1,
   "gt": "business/business_registration_proof.json",
-  "n_fields": 22,
+  "label": "business/business_registration_proof.label.json",
+  "n_fields": 19,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -605,13 +848,19 @@
   "group": "business",
   "group_name": "개인사업자",
   "category": "external",
+  "kind": "basic",
   "image": "business/standard_financial_statement_proof.jpg",
+  "images": [
+   "business/standard_financial_statement_proof.jpg"
+  ],
+  "n_pages": 1,
   "gt": "business/standard_financial_statement_proof.json",
-  "n_fields": 43,
+  "label": "business/standard_financial_statement_proof.label.json",
+  "n_fields": 44,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -620,13 +869,19 @@
   "group": "corporate",
   "group_name": "법인",
   "category": "external",
+  "kind": "basic",
   "image": "corporate/articles_of_incorporation.jpg",
+  "images": [
+   "corporate/articles_of_incorporation.jpg"
+  ],
+  "n_pages": 1,
   "gt": "corporate/articles_of_incorporation.json",
-  "n_fields": 21,
+  "label": "corporate/articles_of_incorporation.label.json",
+  "n_fields": 23,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -635,13 +890,19 @@
   "group": "corporate",
   "group_name": "법인",
   "category": "external",
+  "kind": "basic",
   "image": "corporate/board_minutes.jpg",
+  "images": [
+   "corporate/board_minutes.jpg"
+  ],
+  "n_pages": 1,
   "gt": "corporate/board_minutes.json",
-  "n_fields": 27,
+  "label": "corporate/board_minutes.label.json",
+  "n_fields": 34,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -650,13 +911,19 @@
   "group": "corporate",
   "group_name": "법인",
   "category": "external",
+  "kind": "basic",
   "image": "corporate/corporate_registry.jpg",
+  "images": [
+   "corporate/corporate_registry.jpg"
+  ],
+  "n_pages": 1,
   "gt": "corporate/corporate_registry.json",
-  "n_fields": 54,
+  "label": "corporate/corporate_registry.label.json",
+  "n_fields": 56,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -665,13 +932,19 @@
   "group": "corporate",
   "group_name": "법인",
   "category": "external",
+  "kind": "basic",
   "image": "corporate/corporate_seal_certificate.jpg",
+  "images": [
+   "corporate/corporate_seal_certificate.jpg"
+  ],
+  "n_pages": 1,
   "gt": "corporate/corporate_seal_certificate.json",
-  "n_fields": 13,
+  "label": "corporate/corporate_seal_certificate.label.json",
+  "n_fields": 15,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -680,13 +953,19 @@
   "group": "corporate",
   "group_name": "법인",
   "category": "external",
+  "kind": "basic",
   "image": "corporate/financial_statements.jpg",
+  "images": [
+   "corporate/financial_statements.jpg"
+  ],
+  "n_pages": 1,
   "gt": "corporate/financial_statements.json",
-  "n_fields": 151,
+  "label": "corporate/financial_statements.label.json",
+  "n_fields": 142,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -695,13 +974,19 @@
   "group": "corporate",
   "group_name": "법인",
   "category": "external",
+  "kind": "basic",
   "image": "corporate/power_of_attorney.jpg",
+  "images": [
+   "corporate/power_of_attorney.jpg"
+  ],
+  "n_pages": 1,
   "gt": "corporate/power_of_attorney.json",
-  "n_fields": 17,
+  "label": "corporate/power_of_attorney.label.json",
+  "n_fields": 18,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -710,13 +995,19 @@
   "group": "corporate",
   "group_name": "법인",
   "category": "external",
+  "kind": "basic",
   "image": "corporate/shareholder_registry.jpg",
+  "images": [
+   "corporate/shareholder_registry.jpg"
+  ],
+  "n_pages": 1,
   "gt": "corporate/shareholder_registry.json",
-  "n_fields": 43,
+  "label": "corporate/shareholder_registry.label.json",
+  "n_fields": 44,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -725,13 +1016,19 @@
   "group": "corporate",
   "group_name": "법인",
   "category": "external",
+  "kind": "basic",
   "image": "corporate/shareholders_meeting_minutes.jpg",
+  "images": [
+   "corporate/shareholders_meeting_minutes.jpg"
+  ],
+  "n_pages": 1,
   "gt": "corporate/shareholders_meeting_minutes.json",
+  "label": "corporate/shareholders_meeting_minutes.label.json",
   "n_fields": 26,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -740,13 +1037,19 @@
   "group": "fx",
   "group_name": "외환·무역",
   "category": "external",
+  "kind": "basic",
   "image": "fx/admission_letter.jpg",
+  "images": [
+   "fx/admission_letter.jpg"
+  ],
+  "n_pages": 1,
   "gt": "fx/admission_letter.json",
+  "label": "fx/admission_letter.label.json",
   "n_fields": 18,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -755,13 +1058,19 @@
   "group": "fx",
   "group_name": "외환·무역",
   "category": "external",
+  "kind": "basic",
   "image": "fx/bill_of_lading.jpg",
+  "images": [
+   "fx/bill_of_lading.jpg"
+  ],
+  "n_pages": 1,
   "gt": "fx/bill_of_lading.json",
+  "label": "fx/bill_of_lading.label.json",
   "n_fields": 32,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -770,13 +1079,19 @@
   "group": "fx",
   "group_name": "외환·무역",
   "category": "external",
+  "kind": "basic",
   "image": "fx/commercial_invoice.jpg",
+  "images": [
+   "fx/commercial_invoice.jpg"
+  ],
+  "n_pages": 1,
   "gt": "fx/commercial_invoice.json",
-  "n_fields": 34,
+  "label": "fx/commercial_invoice.label.json",
+  "n_fields": 35,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -785,13 +1100,19 @@
   "group": "fx",
   "group_name": "외환·무역",
   "category": "external",
+  "kind": "basic",
   "image": "fx/import_declaration.jpg",
+  "images": [
+   "fx/import_declaration.jpg"
+  ],
+  "n_pages": 1,
   "gt": "fx/import_declaration.json",
-  "n_fields": 94,
+  "label": "fx/import_declaration.label.json",
+  "n_fields": 98,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -800,13 +1121,19 @@
   "group": "fx",
   "group_name": "외환·무역",
   "category": "external",
+  "kind": "basic",
   "image": "fx/packing_list.jpg",
+  "images": [
+   "fx/packing_list.jpg"
+  ],
+  "n_pages": 1,
   "gt": "fx/packing_list.json",
-  "n_fields": 39,
+  "label": "fx/packing_list.label.json",
+  "n_fields": 40,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -815,13 +1142,19 @@
   "group": "fx",
   "group_name": "외환·무역",
   "category": "external",
+  "kind": "basic",
   "image": "fx/trade_contract.jpg",
+  "images": [
+   "fx/trade_contract.jpg"
+  ],
+  "n_pages": 1,
   "gt": "fx/trade_contract.json",
-  "n_fields": 37,
+  "label": "fx/trade_contract.label.json",
+  "n_fields": 43,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -830,13 +1163,19 @@
   "group": "fx",
   "group_name": "외환·무역",
   "category": "external",
+  "kind": "basic",
   "image": "fx/tuition_invoice.jpg",
+  "images": [
+   "fx/tuition_invoice.jpg"
+  ],
+  "n_pages": 1,
   "gt": "fx/tuition_invoice.json",
-  "n_fields": 42,
+  "label": "fx/tuition_invoice.label.json",
+  "n_fields": 39,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -845,13 +1184,19 @@
   "group": "bank_form",
   "group_name": "은행 서식",
   "category": "internal",
+  "kind": "basic",
   "image": "bank_form/account_opening_application.jpg",
+  "images": [
+   "bank_form/account_opening_application.jpg"
+  ],
+  "n_pages": 1,
   "gt": "bank_form/account_opening_application.json",
-  "n_fields": 32,
+  "label": "bank_form/account_opening_application.label.json",
+  "n_fields": 36,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -860,13 +1205,19 @@
   "group": "bank_form",
   "group_name": "은행 서식",
   "category": "internal",
+  "kind": "basic",
   "image": "bank_form/auto_transfer_application.jpg",
+  "images": [
+   "bank_form/auto_transfer_application.jpg"
+  ],
+  "n_pages": 1,
   "gt": "bank_form/auto_transfer_application.json",
-  "n_fields": 26,
+  "label": "bank_form/auto_transfer_application.label.json",
+  "n_fields": 30,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -875,13 +1226,19 @@
   "group": "bank_form",
   "group_name": "은행 서식",
   "category": "internal",
+  "kind": "basic",
   "image": "bank_form/collateral_agreement.jpg",
+  "images": [
+   "bank_form/collateral_agreement.jpg"
+  ],
+  "n_pages": 1,
   "gt": "bank_form/collateral_agreement.json",
-  "n_fields": 29,
+  "label": "bank_form/collateral_agreement.label.json",
+  "n_fields": 32,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -890,13 +1247,19 @@
   "group": "bank_form",
   "group_name": "은행 서식",
   "category": "internal",
+  "kind": "basic",
   "image": "bank_form/corporate_customer_due_diligence.jpg",
+  "images": [
+   "bank_form/corporate_customer_due_diligence.jpg"
+  ],
+  "n_pages": 1,
   "gt": "bank_form/corporate_customer_due_diligence.json",
-  "n_fields": 36,
+  "label": "bank_form/corporate_customer_due_diligence.label.json",
+  "n_fields": 39,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -905,13 +1268,19 @@
   "group": "bank_form",
   "group_name": "은행 서식",
   "category": "internal",
+  "kind": "basic",
   "image": "bank_form/credit_agreement.jpg",
+  "images": [
+   "bank_form/credit_agreement.jpg"
+  ],
+  "n_pages": 1,
   "gt": "bank_form/credit_agreement.json",
-  "n_fields": 34,
+  "label": "bank_form/credit_agreement.label.json",
+  "n_fields": 36,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -920,13 +1289,19 @@
   "group": "bank_form",
   "group_name": "은행 서식",
   "category": "internal",
+  "kind": "basic",
   "image": "bank_form/credit_agreement_corp.jpg",
+  "images": [
+   "bank_form/credit_agreement_corp.jpg"
+  ],
+  "n_pages": 1,
   "gt": "bank_form/credit_agreement_corp.json",
-  "n_fields": 35,
+  "label": "bank_form/credit_agreement_corp.label.json",
+  "n_fields": 36,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -935,13 +1310,19 @@
   "group": "bank_form",
   "group_name": "은행 서식",
   "category": "internal",
+  "kind": "basic",
   "image": "bank_form/customer_due_diligence.jpg",
+  "images": [
+   "bank_form/customer_due_diligence.jpg"
+  ],
+  "n_pages": 1,
   "gt": "bank_form/customer_due_diligence.json",
-  "n_fields": 29,
+  "label": "bank_form/customer_due_diligence.label.json",
+  "n_fields": 33,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -950,13 +1331,19 @@
   "group": "bank_form",
   "group_name": "은행 서식",
   "category": "internal",
+  "kind": "basic",
   "image": "bank_form/fatca_crs.jpg",
+  "images": [
+   "bank_form/fatca_crs.jpg"
+  ],
+  "n_pages": 1,
   "gt": "bank_form/fatca_crs.json",
-  "n_fields": 15,
+  "label": "bank_form/fatca_crs.label.json",
+  "n_fields": 19,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -965,13 +1352,19 @@
   "group": "bank_form",
   "group_name": "은행 서식",
   "category": "internal",
+  "kind": "basic",
   "image": "bank_form/financial_transaction_purpose.jpg",
+  "images": [
+   "bank_form/financial_transaction_purpose.jpg"
+  ],
+  "n_pages": 1,
   "gt": "bank_form/financial_transaction_purpose.json",
-  "n_fields": 18,
+  "label": "bank_form/financial_transaction_purpose.label.json",
+  "n_fields": 22,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -980,13 +1373,19 @@
   "group": "bank_form",
   "group_name": "은행 서식",
   "category": "internal",
+  "kind": "basic",
   "image": "bank_form/guarantee_agreement.jpg",
+  "images": [
+   "bank_form/guarantee_agreement.jpg"
+  ],
+  "n_pages": 1,
   "gt": "bank_form/guarantee_agreement.json",
-  "n_fields": 24,
+  "label": "bank_form/guarantee_agreement.label.json",
+  "n_fields": 25,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -995,13 +1394,19 @@
   "group": "bank_form",
   "group_name": "은행 서식",
   "category": "internal",
+  "kind": "basic",
   "image": "bank_form/loan_application.jpg",
+  "images": [
+   "bank_form/loan_application.jpg"
+  ],
+  "n_pages": 1,
   "gt": "bank_form/loan_application.json",
-  "n_fields": 52,
+  "label": "bank_form/loan_application.label.json",
+  "n_fields": 54,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -1010,13 +1415,19 @@
   "group": "bank_form",
   "group_name": "은행 서식",
   "category": "internal",
+  "kind": "basic",
   "image": "bank_form/loan_application_corp.jpg",
+  "images": [
+   "bank_form/loan_application_corp.jpg"
+  ],
+  "n_pages": 1,
   "gt": "bank_form/loan_application_corp.json",
-  "n_fields": 40,
+  "label": "bank_form/loan_application_corp.label.json",
+  "n_fields": 45,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -1025,13 +1436,19 @@
   "group": "bank_form",
   "group_name": "은행 서식",
   "category": "internal",
+  "kind": "basic",
   "image": "bank_form/overseas_remittance_application.jpg",
+  "images": [
+   "bank_form/overseas_remittance_application.jpg"
+  ],
+  "n_pages": 1,
   "gt": "bank_form/overseas_remittance_application.json",
-  "n_fields": 34,
+  "label": "bank_form/overseas_remittance_application.label.json",
+  "n_fields": 38,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
   ]
  },
  {
@@ -1040,13 +1457,2374 @@
   "group": "bank_form",
   "group_name": "은행 서식",
   "category": "internal",
+  "kind": "basic",
   "image": "bank_form/privacy_consent.jpg",
+  "images": [
+   "bank_form/privacy_consent.jpg"
+  ],
+  "n_pages": 1,
   "gt": "bank_form/privacy_consent.json",
-  "n_fields": 24,
+  "label": "bank_form/privacy_consent.label.json",
+  "n_fields": 27,
   "overflow": false,
   "size": [
    1191,
-   1685
+   1684
+  ]
+ },
+ {
+  "id": "alien_registration_card",
+  "name": "외국인등록증",
+  "group": "identity",
+  "group_name": "신원·신분",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/alien_registration_card.jpg",
+  "images": [
+   "variants/alien_registration_card.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/alien_registration_card.json",
+  "label": "variants/alien_registration_card.label.json",
+  "n_fields": 8,
+  "overflow": false,
+  "size": [
+   810,
+   510
+  ]
+ },
+ {
+  "id": "driver_license",
+  "name": "운전면허증",
+  "group": "identity",
+  "group_name": "신원·신분",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/driver_license.jpg",
+  "images": [
+   "variants/driver_license.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/driver_license.json",
+  "label": "variants/driver_license.label.json",
+  "n_fields": 11,
+  "overflow": false,
+  "size": [
+   810,
+   510
+  ]
+ },
+ {
+  "id": "passport",
+  "name": "여권",
+  "group": "identity",
+  "group_name": "신원·신분",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/passport.jpg",
+  "images": [
+   "variants/passport.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/passport.json",
+  "label": "variants/passport.label.json",
+  "n_fields": 14,
+  "overflow": false,
+  "size": [
+   1080,
+   750
+  ]
+ },
+ {
+  "id": "resident_id_card",
+  "name": "주민등록증",
+  "group": "identity",
+  "group_name": "신원·신분",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/resident_id_card.jpg",
+  "images": [
+   "variants/resident_id_card.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/resident_id_card.json",
+  "label": "variants/resident_id_card.label.json",
+  "n_fields": 7,
+  "overflow": false,
+  "size": [
+   810,
+   510
+  ]
+ },
+ {
+  "id": "seal_certificate",
+  "name": "인감증명서",
+  "group": "identity",
+  "group_name": "신원·신분",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/seal_certificate.jpg",
+  "images": [
+   "variants/seal_certificate.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/seal_certificate.json",
+  "label": "variants/seal_certificate.label.json",
+  "n_fields": 13,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "signature_confirmation",
+  "name": "본인서명사실확인서",
+  "group": "identity",
+  "group_name": "신원·신분",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/signature_confirmation.jpg",
+  "images": [
+   "variants/signature_confirmation.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/signature_confirmation.json",
+  "label": "variants/signature_confirmation.label.json",
+  "n_fields": 14,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "basic_certificate",
+  "name": "기본증명서",
+  "group": "family",
+  "group_name": "가족관계",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/basic_certificate.jpg",
+  "images": [
+   "variants/basic_certificate.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/basic_certificate.json",
+  "label": "variants/basic_certificate.label.json",
+  "n_fields": 30,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "family_relation_certificate",
+  "name": "가족관계증명서",
+  "group": "family",
+  "group_name": "가족관계",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/family_relation_certificate.jpg",
+  "images": [
+   "variants/family_relation_certificate.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/family_relation_certificate.json",
+  "label": "variants/family_relation_certificate.label.json",
+  "n_fields": 58,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "marriage_relation_certificate",
+  "name": "혼인관계증명서",
+  "group": "family",
+  "group_name": "가족관계",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/marriage_relation_certificate.jpg",
+  "images": [
+   "variants/marriage_relation_certificate.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/marriage_relation_certificate.json",
+  "label": "variants/marriage_relation_certificate.label.json",
+  "n_fields": 38,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "resident_registration_abstract",
+  "name": "주민등록표 초본",
+  "group": "family",
+  "group_name": "가족관계",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/resident_registration_abstract_p1.jpg",
+  "images": [
+   "variants/resident_registration_abstract_p1.jpg",
+   "variants/resident_registration_abstract_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/resident_registration_abstract.json",
+  "label": "variants/resident_registration_abstract.label.json",
+  "n_fields": 228,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "resident_registration_copy",
+  "name": "주민등록표 등본",
+  "group": "family",
+  "group_name": "가족관계",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/resident_registration_copy_p1.jpg",
+  "images": [
+   "variants/resident_registration_copy_p1.jpg",
+   "variants/resident_registration_copy_p2.jpg",
+   "variants/resident_registration_copy_p3.jpg"
+  ],
+  "n_pages": 3,
+  "gt": "variants/resident_registration_copy.json",
+  "label": "variants/resident_registration_copy.label.json",
+  "n_fields": 162,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "career_certificate",
+  "name": "경력증명서",
+  "group": "income",
+  "group_name": "소득·재직",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/career_certificate_p1.jpg",
+  "images": [
+   "variants/career_certificate_p1.jpg",
+   "variants/career_certificate_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/career_certificate.json",
+  "label": "variants/career_certificate.label.json",
+  "n_fields": 72,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "employment_certificate",
+  "name": "재직증명서",
+  "group": "income",
+  "group_name": "소득·재직",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/employment_certificate.jpg",
+  "images": [
+   "variants/employment_certificate.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/employment_certificate.json",
+  "label": "variants/employment_certificate.label.json",
+  "n_fields": 21,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "employment_contract",
+  "name": "근로계약서",
+  "group": "income",
+  "group_name": "소득·재직",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/employment_contract_p1.jpg",
+  "images": [
+   "variants/employment_contract_p1.jpg",
+   "variants/employment_contract_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/employment_contract.json",
+  "label": "variants/employment_contract.label.json",
+  "n_fields": 40,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "health_insurance_payment",
+  "name": "건강보험료 납부확인서",
+  "group": "income",
+  "group_name": "소득·재직",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/health_insurance_payment_p1.jpg",
+  "images": [
+   "variants/health_insurance_payment_p1.jpg",
+   "variants/health_insurance_payment_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/health_insurance_payment.json",
+  "label": "variants/health_insurance_payment.label.json",
+  "n_fields": 269,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "health_insurance_qualification",
+  "name": "건강보험 자격득실확인서",
+  "group": "income",
+  "group_name": "소득·재직",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/health_insurance_qualification.jpg",
+  "images": [
+   "variants/health_insurance_qualification.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/health_insurance_qualification.json",
+  "label": "variants/health_insurance_qualification.label.json",
+  "n_fields": 16,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "income_certificate",
+  "name": "소득금액증명원",
+  "group": "income",
+  "group_name": "소득·재직",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/income_certificate.jpg",
+  "images": [
+   "variants/income_certificate.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/income_certificate.json",
+  "label": "variants/income_certificate.label.json",
+  "n_fields": 58,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "pay_stub",
+  "name": "급여명세서",
+  "group": "income",
+  "group_name": "소득·재직",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/pay_stub_p1.jpg",
+  "images": [
+   "variants/pay_stub_p1.jpg",
+   "variants/pay_stub_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/pay_stub.json",
+  "label": "variants/pay_stub.label.json",
+  "n_fields": 139,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "pension_enrollment_certificate",
+  "name": "국민연금 가입자 가입증명",
+  "group": "income",
+  "group_name": "소득·재직",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/pension_enrollment_certificate.jpg",
+  "images": [
+   "variants/pension_enrollment_certificate.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/pension_enrollment_certificate.json",
+  "label": "variants/pension_enrollment_certificate.label.json",
+  "n_fields": 13,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "withholding_receipt",
+  "name": "근로소득 원천징수영수증",
+  "group": "income",
+  "group_name": "소득·재직",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/withholding_receipt.jpg",
+  "images": [
+   "variants/withholding_receipt.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/withholding_receipt.json",
+  "label": "variants/withholding_receipt.label.json",
+  "n_fields": 47,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "income_tax_return",
+  "name": "종합소득세 과세표준확정신고 및 납부계산서",
+  "group": "tax",
+  "group_name": "세금·보험",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/income_tax_return_p1.jpg",
+  "images": [
+   "variants/income_tax_return_p1.jpg",
+   "variants/income_tax_return_p2.jpg",
+   "variants/income_tax_return_p3.jpg"
+  ],
+  "n_pages": 3,
+  "gt": "variants/income_tax_return.json",
+  "label": "variants/income_tax_return.label.json",
+  "n_fields": 115,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "local_tax_assessment",
+  "name": "지방세 세목별 과세증명서",
+  "group": "tax",
+  "group_name": "세금·보험",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/local_tax_assessment_p1.jpg",
+  "images": [
+   "variants/local_tax_assessment_p1.jpg",
+   "variants/local_tax_assessment_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/local_tax_assessment.json",
+  "label": "variants/local_tax_assessment.label.json",
+  "n_fields": 300,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "local_tax_payment_certificate",
+  "name": "지방세 납세증명서",
+  "group": "tax",
+  "group_name": "세금·보험",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/local_tax_payment_certificate.jpg",
+  "images": [
+   "variants/local_tax_payment_certificate.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/local_tax_payment_certificate.json",
+  "label": "variants/local_tax_payment_certificate.label.json",
+  "n_fields": 20,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "tax_payment_certificate",
+  "name": "납세증명서(국세완납증명)",
+  "group": "tax",
+  "group_name": "세금·보험",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/tax_payment_certificate.jpg",
+  "images": [
+   "variants/tax_payment_certificate.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/tax_payment_certificate.json",
+  "label": "variants/tax_payment_certificate.label.json",
+  "n_fields": 27,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "tax_payment_certificate_corp",
+  "name": "납세증명서(법인)",
+  "group": "tax",
+  "group_name": "세금·보험",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/tax_payment_certificate_corp.jpg",
+  "images": [
+   "variants/tax_payment_certificate_corp.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/tax_payment_certificate_corp.json",
+  "label": "variants/tax_payment_certificate_corp.label.json",
+  "n_fields": 21,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "vat_tax_base_certificate",
+  "name": "부가가치세 과세표준증명",
+  "group": "tax",
+  "group_name": "세금·보험",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/vat_tax_base_certificate.jpg",
+  "images": [
+   "variants/vat_tax_base_certificate.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/vat_tax_base_certificate.json",
+  "label": "variants/vat_tax_base_certificate.label.json",
+  "n_fields": 75,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "balance_certificate",
+  "name": "잔액증명서",
+  "group": "finance",
+  "group_name": "금융거래",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/balance_certificate_p1.jpg",
+  "images": [
+   "variants/balance_certificate_p1.jpg",
+   "variants/balance_certificate_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/balance_certificate.json",
+  "label": "variants/balance_certificate.label.json",
+  "n_fields": 87,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "bank_statement",
+  "name": "거래내역확인서",
+  "group": "finance",
+  "group_name": "금융거래",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/bank_statement_p1.jpg",
+  "images": [
+   "variants/bank_statement_p1.jpg",
+   "variants/bank_statement_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/bank_statement.json",
+  "label": "variants/bank_statement.label.json",
+  "n_fields": 225,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "bankbook_copy",
+  "name": "통장사본",
+  "group": "finance",
+  "group_name": "금융거래",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/bankbook_copy.jpg",
+  "images": [
+   "variants/bankbook_copy.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/bankbook_copy.json",
+  "label": "variants/bankbook_copy.label.json",
+  "n_fields": 23,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "card_statement",
+  "name": "신용카드 이용대금명세서",
+  "group": "finance",
+  "group_name": "금융거래",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/card_statement_p1.jpg",
+  "images": [
+   "variants/card_statement_p1.jpg",
+   "variants/card_statement_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/card_statement.json",
+  "label": "variants/card_statement.label.json",
+  "n_fields": 454,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "debt_certificate",
+  "name": "부채증명서",
+  "group": "finance",
+  "group_name": "금융거래",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/debt_certificate.jpg",
+  "images": [
+   "variants/debt_certificate.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/debt_certificate.json",
+  "label": "variants/debt_certificate.label.json",
+  "n_fields": 72,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "building_register",
+  "name": "집합건축물대장(전유부)",
+  "group": "real_estate",
+  "group_name": "부동산",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/building_register_p1.jpg",
+  "images": [
+   "variants/building_register_p1.jpg",
+   "variants/building_register_p2.jpg",
+   "variants/building_register_p3.jpg"
+  ],
+  "n_pages": 3,
+  "gt": "variants/building_register.json",
+  "label": "variants/building_register.label.json",
+  "n_fields": 182,
+  "overflow": false,
+  "size": [
+   1684,
+   1191
+  ]
+ },
+ {
+  "id": "land_register",
+  "name": "토지대장",
+  "group": "real_estate",
+  "group_name": "부동산",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/land_register.jpg",
+  "images": [
+   "variants/land_register.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/land_register.json",
+  "label": "variants/land_register.label.json",
+  "n_fields": 113,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "lease_contract",
+  "name": "주택임대차표준계약서",
+  "group": "real_estate",
+  "group_name": "부동산",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/lease_contract_p1.jpg",
+  "images": [
+   "variants/lease_contract_p1.jpg",
+   "variants/lease_contract_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/lease_contract.json",
+  "label": "variants/lease_contract.label.json",
+  "n_fields": 64,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "move_in_household_list",
+  "name": "전입세대확인서",
+  "group": "real_estate",
+  "group_name": "부동산",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/move_in_household_list.jpg",
+  "images": [
+   "variants/move_in_household_list.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/move_in_household_list.json",
+  "label": "variants/move_in_household_list.label.json",
+  "n_fields": 28,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "real_estate_registry",
+  "name": "등기사항전부증명서(집합건물)",
+  "group": "real_estate",
+  "group_name": "부동산",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/real_estate_registry_p1.jpg",
+  "images": [
+   "variants/real_estate_registry_p1.jpg",
+   "variants/real_estate_registry_p2.jpg",
+   "variants/real_estate_registry_p3.jpg"
+  ],
+  "n_pages": 3,
+  "gt": "variants/real_estate_registry.json",
+  "label": "variants/real_estate_registry.label.json",
+  "n_fields": 226,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "sales_contract",
+  "name": "부동산 매매계약서",
+  "group": "real_estate",
+  "group_name": "부동산",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/sales_contract_p1.jpg",
+  "images": [
+   "variants/sales_contract_p1.jpg",
+   "variants/sales_contract_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/sales_contract.json",
+  "label": "variants/sales_contract.label.json",
+  "n_fields": 75,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "business_registration_certificate",
+  "name": "사업자등록증",
+  "group": "business",
+  "group_name": "개인사업자",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/business_registration_certificate.jpg",
+  "images": [
+   "variants/business_registration_certificate.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/business_registration_certificate.json",
+  "label": "variants/business_registration_certificate.label.json",
+  "n_fields": 18,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "business_registration_certificate_corp",
+  "name": "사업자등록증(법인사업자)",
+  "group": "business",
+  "group_name": "개인사업자",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/business_registration_certificate_corp.jpg",
+  "images": [
+   "variants/business_registration_certificate_corp.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/business_registration_certificate_corp.json",
+  "label": "variants/business_registration_certificate_corp.label.json",
+  "n_fields": 18,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "business_registration_proof",
+  "name": "사업자등록증명",
+  "group": "business",
+  "group_name": "개인사업자",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/business_registration_proof.jpg",
+  "images": [
+   "variants/business_registration_proof.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/business_registration_proof.json",
+  "label": "variants/business_registration_proof.label.json",
+  "n_fields": 31,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "standard_financial_statement_proof",
+  "name": "표준재무제표증명",
+  "group": "business",
+  "group_name": "개인사업자",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/standard_financial_statement_proof_p1.jpg",
+  "images": [
+   "variants/standard_financial_statement_proof_p1.jpg",
+   "variants/standard_financial_statement_proof_p2.jpg",
+   "variants/standard_financial_statement_proof_p3.jpg"
+  ],
+  "n_pages": 3,
+  "gt": "variants/standard_financial_statement_proof.json",
+  "label": "variants/standard_financial_statement_proof.label.json",
+  "n_fields": 127,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "articles_of_incorporation",
+  "name": "정관",
+  "group": "corporate",
+  "group_name": "법인",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/articles_of_incorporation_p1.jpg",
+  "images": [
+   "variants/articles_of_incorporation_p1.jpg",
+   "variants/articles_of_incorporation_p2.jpg",
+   "variants/articles_of_incorporation_p3.jpg"
+  ],
+  "n_pages": 3,
+  "gt": "variants/articles_of_incorporation.json",
+  "label": "variants/articles_of_incorporation.label.json",
+  "n_fields": 35,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "board_minutes",
+  "name": "이사회의사록",
+  "group": "corporate",
+  "group_name": "법인",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/board_minutes_p1.jpg",
+  "images": [
+   "variants/board_minutes_p1.jpg",
+   "variants/board_minutes_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/board_minutes.json",
+  "label": "variants/board_minutes.label.json",
+  "n_fields": 64,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "corporate_registry",
+  "name": "법인 등기사항전부증명서(현재 유효사항)",
+  "group": "corporate",
+  "group_name": "법인",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/corporate_registry_p1.jpg",
+  "images": [
+   "variants/corporate_registry_p1.jpg",
+   "variants/corporate_registry_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/corporate_registry.json",
+  "label": "variants/corporate_registry.label.json",
+  "n_fields": 206,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "corporate_seal_certificate",
+  "name": "법인인감증명서",
+  "group": "corporate",
+  "group_name": "법인",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/corporate_seal_certificate.jpg",
+  "images": [
+   "variants/corporate_seal_certificate.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/corporate_seal_certificate.json",
+  "label": "variants/corporate_seal_certificate.label.json",
+  "n_fields": 15,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "financial_statements",
+  "name": "재무제표(재무상태표·손익계산서)",
+  "group": "corporate",
+  "group_name": "법인",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/financial_statements_p1.jpg",
+  "images": [
+   "variants/financial_statements_p1.jpg",
+   "variants/financial_statements_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/financial_statements.json",
+  "label": "variants/financial_statements.label.json",
+  "n_fields": 216,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "power_of_attorney",
+  "name": "위임장",
+  "group": "corporate",
+  "group_name": "법인",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/power_of_attorney.jpg",
+  "images": [
+   "variants/power_of_attorney.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/power_of_attorney.json",
+  "label": "variants/power_of_attorney.label.json",
+  "n_fields": 20,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "shareholder_registry",
+  "name": "주주명부",
+  "group": "corporate",
+  "group_name": "법인",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/shareholder_registry_p1.jpg",
+  "images": [
+   "variants/shareholder_registry_p1.jpg",
+   "variants/shareholder_registry_p2.jpg",
+   "variants/shareholder_registry_p3.jpg"
+  ],
+  "n_pages": 3,
+  "gt": "variants/shareholder_registry.json",
+  "label": "variants/shareholder_registry.label.json",
+  "n_fields": 384,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "shareholders_meeting_minutes",
+  "name": "임시주주총회의사록",
+  "group": "corporate",
+  "group_name": "법인",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/shareholders_meeting_minutes_p1.jpg",
+  "images": [
+   "variants/shareholders_meeting_minutes_p1.jpg",
+   "variants/shareholders_meeting_minutes_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/shareholders_meeting_minutes.json",
+  "label": "variants/shareholders_meeting_minutes.label.json",
+  "n_fields": 157,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "admission_letter",
+  "name": "입학허가서(Letter of Admission)",
+  "group": "fx",
+  "group_name": "외환·무역",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/admission_letter_p1.jpg",
+  "images": [
+   "variants/admission_letter_p1.jpg",
+   "variants/admission_letter_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/admission_letter.json",
+  "label": "variants/admission_letter.label.json",
+  "n_fields": 30,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "bill_of_lading",
+  "name": "선하증권(B/L)",
+  "group": "fx",
+  "group_name": "외환·무역",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/bill_of_lading_p1.jpg",
+  "images": [
+   "variants/bill_of_lading_p1.jpg",
+   "variants/bill_of_lading_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/bill_of_lading.json",
+  "label": "variants/bill_of_lading.label.json",
+  "n_fields": 69,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "commercial_invoice",
+  "name": "상업송장(Commercial Invoice)",
+  "group": "fx",
+  "group_name": "외환·무역",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/commercial_invoice_p1.jpg",
+  "images": [
+   "variants/commercial_invoice_p1.jpg",
+   "variants/commercial_invoice_p2.jpg",
+   "variants/commercial_invoice_p3.jpg"
+  ],
+  "n_pages": 3,
+  "gt": "variants/commercial_invoice.json",
+  "label": "variants/commercial_invoice.label.json",
+  "n_fields": 264,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "import_declaration",
+  "name": "수입신고필증",
+  "group": "fx",
+  "group_name": "외환·무역",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/import_declaration_p1.jpg",
+  "images": [
+   "variants/import_declaration_p1.jpg",
+   "variants/import_declaration_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/import_declaration.json",
+  "label": "variants/import_declaration.label.json",
+  "n_fields": 323,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "packing_list",
+  "name": "포장명세서(Packing List)",
+  "group": "fx",
+  "group_name": "외환·무역",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/packing_list_p1.jpg",
+  "images": [
+   "variants/packing_list_p1.jpg",
+   "variants/packing_list_p2.jpg",
+   "variants/packing_list_p3.jpg"
+  ],
+  "n_pages": 3,
+  "gt": "variants/packing_list.json",
+  "label": "variants/packing_list.label.json",
+  "n_fields": 376,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "trade_contract",
+  "name": "무역 매매계약서(Sales Contract)",
+  "group": "fx",
+  "group_name": "외환·무역",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/trade_contract_p1.jpg",
+  "images": [
+   "variants/trade_contract_p1.jpg",
+   "variants/trade_contract_p2.jpg",
+   "variants/trade_contract_p3.jpg"
+  ],
+  "n_pages": 3,
+  "gt": "variants/trade_contract.json",
+  "label": "variants/trade_contract.label.json",
+  "n_fields": 270,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "tuition_invoice",
+  "name": "학비 청구서(Tuition Invoice)",
+  "group": "fx",
+  "group_name": "외환·무역",
+  "category": "external",
+  "kind": "variant",
+  "image": "variants/tuition_invoice_p1.jpg",
+  "images": [
+   "variants/tuition_invoice_p1.jpg",
+   "variants/tuition_invoice_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/tuition_invoice.json",
+  "label": "variants/tuition_invoice.label.json",
+  "n_fields": 91,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "account_opening_application",
+  "name": "예금거래신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "variant",
+  "image": "variants/account_opening_application_p1.jpg",
+  "images": [
+   "variants/account_opening_application_p1.jpg",
+   "variants/account_opening_application_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/account_opening_application.json",
+  "label": "variants/account_opening_application.label.json",
+  "n_fields": 78,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "auto_transfer_application",
+  "name": "자동이체 신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "variant",
+  "image": "variants/auto_transfer_application_p1.jpg",
+  "images": [
+   "variants/auto_transfer_application_p1.jpg",
+   "variants/auto_transfer_application_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/auto_transfer_application.json",
+  "label": "variants/auto_transfer_application.label.json",
+  "n_fields": 62,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "collateral_agreement",
+  "name": "근저당권설정계약서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "variant",
+  "image": "variants/collateral_agreement_p1.jpg",
+  "images": [
+   "variants/collateral_agreement_p1.jpg",
+   "variants/collateral_agreement_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/collateral_agreement.json",
+  "label": "variants/collateral_agreement.label.json",
+  "n_fields": 78,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "corporate_customer_due_diligence",
+  "name": "고객확인서(법인·단체)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "variant",
+  "image": "variants/corporate_customer_due_diligence_p1.jpg",
+  "images": [
+   "variants/corporate_customer_due_diligence_p1.jpg",
+   "variants/corporate_customer_due_diligence_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/corporate_customer_due_diligence.json",
+  "label": "variants/corporate_customer_due_diligence.label.json",
+  "n_fields": 137,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "credit_agreement",
+  "name": "대출거래약정서(가계용)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "variant",
+  "image": "variants/credit_agreement_p1.jpg",
+  "images": [
+   "variants/credit_agreement_p1.jpg",
+   "variants/credit_agreement_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/credit_agreement.json",
+  "label": "variants/credit_agreement.label.json",
+  "n_fields": 45,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "credit_agreement_corp",
+  "name": "여신거래약정서(기업용)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "variant",
+  "image": "variants/credit_agreement_corp_p1.jpg",
+  "images": [
+   "variants/credit_agreement_corp_p1.jpg",
+   "variants/credit_agreement_corp_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/credit_agreement_corp.json",
+  "label": "variants/credit_agreement_corp.label.json",
+  "n_fields": 50,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "customer_due_diligence",
+  "name": "고객확인서(개인)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "variant",
+  "image": "variants/customer_due_diligence_p1.jpg",
+  "images": [
+   "variants/customer_due_diligence_p1.jpg",
+   "variants/customer_due_diligence_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/customer_due_diligence.json",
+  "label": "variants/customer_due_diligence.label.json",
+  "n_fields": 56,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "fatca_crs",
+  "name": "해외금융계좌 납세자 확인서(개인)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "variant",
+  "image": "variants/fatca_crs.jpg",
+  "images": [
+   "variants/fatca_crs.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/fatca_crs.json",
+  "label": "variants/fatca_crs.label.json",
+  "n_fields": 19,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "financial_transaction_purpose",
+  "name": "금융거래목적확인서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "variant",
+  "image": "variants/financial_transaction_purpose.jpg",
+  "images": [
+   "variants/financial_transaction_purpose.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/financial_transaction_purpose.json",
+  "label": "variants/financial_transaction_purpose.label.json",
+  "n_fields": 23,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "guarantee_agreement",
+  "name": "보증약정서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "variant",
+  "image": "variants/guarantee_agreement_p1.jpg",
+  "images": [
+   "variants/guarantee_agreement_p1.jpg",
+   "variants/guarantee_agreement_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/guarantee_agreement.json",
+  "label": "variants/guarantee_agreement.label.json",
+  "n_fields": 35,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "loan_application",
+  "name": "대출거래신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "variant",
+  "image": "variants/loan_application_p1.jpg",
+  "images": [
+   "variants/loan_application_p1.jpg",
+   "variants/loan_application_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/loan_application.json",
+  "label": "variants/loan_application.label.json",
+  "n_fields": 104,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "loan_application_corp",
+  "name": "기업여신 신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "variant",
+  "image": "variants/loan_application_corp_p1.jpg",
+  "images": [
+   "variants/loan_application_corp_p1.jpg",
+   "variants/loan_application_corp_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "variants/loan_application_corp.json",
+  "label": "variants/loan_application_corp.label.json",
+  "n_fields": 92,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "overseas_remittance_application",
+  "name": "해외송금신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "variant",
+  "image": "variants/overseas_remittance_application.jpg",
+  "images": [
+   "variants/overseas_remittance_application.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/overseas_remittance_application.json",
+  "label": "variants/overseas_remittance_application.label.json",
+  "n_fields": 36,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "privacy_consent",
+  "name": "개인(신용)정보 수집·이용·제공·조회 동의서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "variant",
+  "image": "variants/privacy_consent.jpg",
+  "images": [
+   "variants/privacy_consent.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "variants/privacy_consent.json",
+  "label": "variants/privacy_consent.label.json",
+  "n_fields": 61,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "account_opening_application",
+  "name": "예금거래신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/account_opening_application.jpg",
+  "images": [
+   "bank_variants/하나은행/account_opening_application.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/하나은행/account_opening_application.json",
+  "label": "bank_variants/하나은행/account_opening_application.label.json",
+  "n_fields": 36,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "auto_transfer_application",
+  "name": "자동이체 신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/auto_transfer_application.jpg",
+  "images": [
+   "bank_variants/하나은행/auto_transfer_application.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/하나은행/auto_transfer_application.json",
+  "label": "bank_variants/하나은행/auto_transfer_application.label.json",
+  "n_fields": 30,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "collateral_agreement",
+  "name": "근저당권설정계약서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/collateral_agreement.jpg",
+  "images": [
+   "bank_variants/하나은행/collateral_agreement.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/하나은행/collateral_agreement.json",
+  "label": "bank_variants/하나은행/collateral_agreement.label.json",
+  "n_fields": 32,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "corporate_customer_due_diligence",
+  "name": "고객확인서(법인·단체)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/corporate_customer_due_diligence.jpg",
+  "images": [
+   "bank_variants/하나은행/corporate_customer_due_diligence.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/하나은행/corporate_customer_due_diligence.json",
+  "label": "bank_variants/하나은행/corporate_customer_due_diligence.label.json",
+  "n_fields": 39,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "credit_agreement",
+  "name": "대출거래약정서(가계용)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/credit_agreement.jpg",
+  "images": [
+   "bank_variants/하나은행/credit_agreement.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/하나은행/credit_agreement.json",
+  "label": "bank_variants/하나은행/credit_agreement.label.json",
+  "n_fields": 36,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "credit_agreement_corp",
+  "name": "여신거래약정서(기업용)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/credit_agreement_corp.jpg",
+  "images": [
+   "bank_variants/하나은행/credit_agreement_corp.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/하나은행/credit_agreement_corp.json",
+  "label": "bank_variants/하나은행/credit_agreement_corp.label.json",
+  "n_fields": 36,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "customer_due_diligence",
+  "name": "고객확인서(개인)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/customer_due_diligence.jpg",
+  "images": [
+   "bank_variants/하나은행/customer_due_diligence.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/하나은행/customer_due_diligence.json",
+  "label": "bank_variants/하나은행/customer_due_diligence.label.json",
+  "n_fields": 33,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "fatca_crs",
+  "name": "해외금융계좌 납세자 확인서(개인)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/fatca_crs.jpg",
+  "images": [
+   "bank_variants/하나은행/fatca_crs.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/하나은행/fatca_crs.json",
+  "label": "bank_variants/하나은행/fatca_crs.label.json",
+  "n_fields": 19,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "financial_transaction_purpose",
+  "name": "금융거래목적확인서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/financial_transaction_purpose.jpg",
+  "images": [
+   "bank_variants/하나은행/financial_transaction_purpose.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/하나은행/financial_transaction_purpose.json",
+  "label": "bank_variants/하나은행/financial_transaction_purpose.label.json",
+  "n_fields": 22,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "guarantee_agreement",
+  "name": "보증약정서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/guarantee_agreement.jpg",
+  "images": [
+   "bank_variants/하나은행/guarantee_agreement.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/하나은행/guarantee_agreement.json",
+  "label": "bank_variants/하나은행/guarantee_agreement.label.json",
+  "n_fields": 25,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "loan_application",
+  "name": "대출거래신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/loan_application.jpg",
+  "images": [
+   "bank_variants/하나은행/loan_application.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/하나은행/loan_application.json",
+  "label": "bank_variants/하나은행/loan_application.label.json",
+  "n_fields": 54,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "loan_application_corp",
+  "name": "기업여신 신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/loan_application_corp.jpg",
+  "images": [
+   "bank_variants/하나은행/loan_application_corp.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/하나은행/loan_application_corp.json",
+  "label": "bank_variants/하나은행/loan_application_corp.label.json",
+  "n_fields": 45,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "overseas_remittance_application",
+  "name": "해외송금신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/overseas_remittance_application.jpg",
+  "images": [
+   "bank_variants/하나은행/overseas_remittance_application.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/하나은행/overseas_remittance_application.json",
+  "label": "bank_variants/하나은행/overseas_remittance_application.label.json",
+  "n_fields": 38,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "privacy_consent",
+  "name": "개인(신용)정보 수집·이용·제공·조회 동의서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "하나은행",
+  "image": "bank_variants/하나은행/privacy_consent.jpg",
+  "images": [
+   "bank_variants/하나은행/privacy_consent.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/하나은행/privacy_consent.json",
+  "label": "bank_variants/하나은행/privacy_consent.label.json",
+  "n_fields": 27,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "account_opening_application",
+  "name": "예금거래신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/account_opening_application.jpg",
+  "images": [
+   "bank_variants/KEB하나은행/account_opening_application.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/KEB하나은행/account_opening_application.json",
+  "label": "bank_variants/KEB하나은행/account_opening_application.label.json",
+  "n_fields": 36,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "auto_transfer_application",
+  "name": "자동이체 신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/auto_transfer_application.jpg",
+  "images": [
+   "bank_variants/KEB하나은행/auto_transfer_application.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/KEB하나은행/auto_transfer_application.json",
+  "label": "bank_variants/KEB하나은행/auto_transfer_application.label.json",
+  "n_fields": 30,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "collateral_agreement",
+  "name": "근저당권설정계약서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/collateral_agreement.jpg",
+  "images": [
+   "bank_variants/KEB하나은행/collateral_agreement.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/KEB하나은행/collateral_agreement.json",
+  "label": "bank_variants/KEB하나은행/collateral_agreement.label.json",
+  "n_fields": 32,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "corporate_customer_due_diligence",
+  "name": "고객확인서(법인·단체)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/corporate_customer_due_diligence.jpg",
+  "images": [
+   "bank_variants/KEB하나은행/corporate_customer_due_diligence.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/KEB하나은행/corporate_customer_due_diligence.json",
+  "label": "bank_variants/KEB하나은행/corporate_customer_due_diligence.label.json",
+  "n_fields": 39,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "credit_agreement",
+  "name": "대출거래약정서(가계용)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/credit_agreement.jpg",
+  "images": [
+   "bank_variants/KEB하나은행/credit_agreement.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/KEB하나은행/credit_agreement.json",
+  "label": "bank_variants/KEB하나은행/credit_agreement.label.json",
+  "n_fields": 36,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "credit_agreement_corp",
+  "name": "여신거래약정서(기업용)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/credit_agreement_corp.jpg",
+  "images": [
+   "bank_variants/KEB하나은행/credit_agreement_corp.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/KEB하나은행/credit_agreement_corp.json",
+  "label": "bank_variants/KEB하나은행/credit_agreement_corp.label.json",
+  "n_fields": 36,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "customer_due_diligence",
+  "name": "고객확인서(개인)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/customer_due_diligence.jpg",
+  "images": [
+   "bank_variants/KEB하나은행/customer_due_diligence.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/KEB하나은행/customer_due_diligence.json",
+  "label": "bank_variants/KEB하나은행/customer_due_diligence.label.json",
+  "n_fields": 33,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "fatca_crs",
+  "name": "해외금융계좌 납세자 확인서(개인)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/fatca_crs.jpg",
+  "images": [
+   "bank_variants/KEB하나은행/fatca_crs.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/KEB하나은행/fatca_crs.json",
+  "label": "bank_variants/KEB하나은행/fatca_crs.label.json",
+  "n_fields": 19,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "financial_transaction_purpose",
+  "name": "금융거래목적확인서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/financial_transaction_purpose.jpg",
+  "images": [
+   "bank_variants/KEB하나은행/financial_transaction_purpose.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/KEB하나은행/financial_transaction_purpose.json",
+  "label": "bank_variants/KEB하나은행/financial_transaction_purpose.label.json",
+  "n_fields": 22,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "guarantee_agreement",
+  "name": "보증약정서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/guarantee_agreement.jpg",
+  "images": [
+   "bank_variants/KEB하나은행/guarantee_agreement.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/KEB하나은행/guarantee_agreement.json",
+  "label": "bank_variants/KEB하나은행/guarantee_agreement.label.json",
+  "n_fields": 25,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "loan_application",
+  "name": "대출거래신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/loan_application.jpg",
+  "images": [
+   "bank_variants/KEB하나은행/loan_application.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/KEB하나은행/loan_application.json",
+  "label": "bank_variants/KEB하나은행/loan_application.label.json",
+  "n_fields": 54,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "loan_application_corp",
+  "name": "기업여신 신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/loan_application_corp.jpg",
+  "images": [
+   "bank_variants/KEB하나은행/loan_application_corp.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/KEB하나은행/loan_application_corp.json",
+  "label": "bank_variants/KEB하나은행/loan_application_corp.label.json",
+  "n_fields": 45,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "overseas_remittance_application",
+  "name": "해외송금신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/overseas_remittance_application.jpg",
+  "images": [
+   "bank_variants/KEB하나은행/overseas_remittance_application.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/KEB하나은행/overseas_remittance_application.json",
+  "label": "bank_variants/KEB하나은행/overseas_remittance_application.label.json",
+  "n_fields": 38,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "privacy_consent",
+  "name": "개인(신용)정보 수집·이용·제공·조회 동의서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "KEB하나은행",
+  "image": "bank_variants/KEB하나은행/privacy_consent.jpg",
+  "images": [
+   "bank_variants/KEB하나은행/privacy_consent.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/KEB하나은행/privacy_consent.json",
+  "label": "bank_variants/KEB하나은행/privacy_consent.label.json",
+  "n_fields": 27,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "account_opening_application",
+  "name": "예금거래신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/account_opening_application.jpg",
+  "images": [
+   "bank_variants/외환은행/account_opening_application.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/외환은행/account_opening_application.json",
+  "label": "bank_variants/외환은행/account_opening_application.label.json",
+  "n_fields": 36,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "auto_transfer_application",
+  "name": "자동이체 신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/auto_transfer_application.jpg",
+  "images": [
+   "bank_variants/외환은행/auto_transfer_application.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/외환은행/auto_transfer_application.json",
+  "label": "bank_variants/외환은행/auto_transfer_application.label.json",
+  "n_fields": 30,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "collateral_agreement",
+  "name": "근저당권설정계약서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/collateral_agreement.jpg",
+  "images": [
+   "bank_variants/외환은행/collateral_agreement.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/외환은행/collateral_agreement.json",
+  "label": "bank_variants/외환은행/collateral_agreement.label.json",
+  "n_fields": 32,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "credit_agreement",
+  "name": "대출거래약정서(가계용)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/credit_agreement.jpg",
+  "images": [
+   "bank_variants/외환은행/credit_agreement.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/외환은행/credit_agreement.json",
+  "label": "bank_variants/외환은행/credit_agreement.label.json",
+  "n_fields": 36,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "credit_agreement_corp",
+  "name": "여신거래약정서(기업용)",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/credit_agreement_corp.jpg",
+  "images": [
+   "bank_variants/외환은행/credit_agreement_corp.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/외환은행/credit_agreement_corp.json",
+  "label": "bank_variants/외환은행/credit_agreement_corp.label.json",
+  "n_fields": 36,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "guarantee_agreement",
+  "name": "보증약정서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/guarantee_agreement.jpg",
+  "images": [
+   "bank_variants/외환은행/guarantee_agreement.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/외환은행/guarantee_agreement.json",
+  "label": "bank_variants/외환은행/guarantee_agreement.label.json",
+  "n_fields": 25,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "loan_application",
+  "name": "대출거래신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/loan_application.jpg",
+  "images": [
+   "bank_variants/외환은행/loan_application.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/외환은행/loan_application.json",
+  "label": "bank_variants/외환은행/loan_application.label.json",
+  "n_fields": 54,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "loan_application_corp",
+  "name": "기업여신 신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/loan_application_corp.jpg",
+  "images": [
+   "bank_variants/외환은행/loan_application_corp.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/외환은행/loan_application_corp.json",
+  "label": "bank_variants/외환은행/loan_application_corp.label.json",
+  "n_fields": 45,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "overseas_remittance_application",
+  "name": "해외송금신청서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/overseas_remittance_application.jpg",
+  "images": [
+   "bank_variants/외환은행/overseas_remittance_application.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/외환은행/overseas_remittance_application.json",
+  "label": "bank_variants/외환은행/overseas_remittance_application.label.json",
+  "n_fields": 38,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "privacy_consent",
+  "name": "개인(신용)정보 수집·이용·제공·조회 동의서",
+  "group": "bank_form",
+  "group_name": "은행 서식",
+  "category": "internal",
+  "kind": "bank",
+  "bank": "외환은행",
+  "image": "bank_variants/외환은행/privacy_consent.jpg",
+  "images": [
+   "bank_variants/외환은행/privacy_consent.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "bank_variants/외환은행/privacy_consent.json",
+  "label": "bank_variants/외환은행/privacy_consent.label.json",
+  "n_fields": 27,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
   ]
  }
 ]

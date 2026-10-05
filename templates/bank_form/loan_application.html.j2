@@ -8,6 +8,7 @@ table.bf.g td { padding: 1px 4px; height: 20px; font-size: calc(var(--fs) - 1.5p
 {% endblock %}
 {% block content %}
 {{ lp.css() }}
+{{ f.set_corr_name(val("applicant.name")) }}
 {{ lp.head(kind="loan_app") }}
 {{ lp.title_row("대출상담 및 신청서" if d.bank == "신한은행" else "대출신청서", sub="(가계용)") }}
 <p class="tiny" style="margin:1px 0">※ 이 신청서는 신용평가 및 여신심사에 중요한 근거자료가 되므로 해당사항은 빠짐없이 기재하여 주시기 바랍니다.
@@ -16,11 +17,11 @@ table.bf.g td { padding: 1px 4px; height: 20px; font-size: calc(var(--fs) - 1.5p
 <div class="bf-sec">신청인</div>
 <table class="bf">
 <colgroup><col style="width:92px"><col style="width:262px"><col style="width:92px"><col></colgroup>
-<tr><th>성　　명</th><td>{{ f("applicant.name", label="성명") }}</td><th>실명번호</th><td>{{ f("applicant.rrn", label="실명번호") }}</td></tr>
-<tr><th>자택주소</th><td colspan="3">(우 {{ f("applicant.zipcode", label="우편번호") }}) {{ f("applicant.address", label="자택주소") }}</td></tr>
-<tr><th>휴대전화</th><td>{{ f("applicant.mobile", label="휴대전화") }}</td><th>자택전화</th><td>{{ f("applicant.home_phone", label="자택전화") }}</td></tr>
+<tr><th>성　　명</th><td>{{ f("applicant.name", label="성명", fix=0.04) }}</td><th>실명번호</th><td>{{ f("applicant.rrn", label="실명번호") }}</td></tr>
+<tr><th>자택주소</th><td colspan="3">(우 {{ f("applicant.zipcode", label="우편번호") }}) {{ f("applicant.address", label="자택주소", fix=0.05) }}</td></tr>
+<tr><th>휴대전화</th><td>{{ f("applicant.mobile", label="휴대전화", fix=0.05) }}</td><th>자택전화</th><td>{{ f("applicant.home_phone", label="자택전화") }}</td></tr>
 <tr><th>E-mail</th><td>{{ f("applicant.email", label="E-mail") }}</td><th>직장전화</th><td>{{ f("applicant.work_phone", label="직장전화") }}</td></tr>
-<tr><th>주택소유구분</th><td>{{ m.choice("housing", ["자가", "전세", "월세", "기타"], label="주택소유구분") }}</td><th>주거형태</th><td>{{ m.choice("dwelling", ["아파트", "단독", "다세대", "연립·빌라", "오피스텔", "기타"], label="주거형태") }}</td></tr>
+<tr><th>주택소유구분</th><td>{{ m.choice("housing", ["자가", "전세", "월세", "기타"], label="주택소유구분") }}{{ lp.nochk("housing") }}</td><th>주거형태</th><td>{{ m.choice("dwelling", ["아파트", "단독", "다세대", "연립·빌라", "오피스텔", "기타"], label="주거형태") }}{{ lp.nochk("dwelling") }}</td></tr>
 </table>
 
 <div class="bf-sec">직장 및 소득</div>
@@ -29,12 +30,11 @@ table.bf.g td { padding: 1px 4px; height: 20px; font-size: calc(var(--fs) - 1.5p
 <tr><th>직업구분</th><td colspan="3">{{ m.choice("workplace.job_type", ["급여소득자", "공무원", "전문직", "자영업자", "기타"], label="직업구분") }}</td></tr>
 <tr><th>직 장 명</th><td>{{ f("workplace.name", label="직장명") }}</td><th>근무부서</th><td>{{ f("workplace.department", label="근무부서") }}</td></tr>
 <tr><th>직　　위</th><td>{{ f("workplace.position", label="직위") }}</td><th>입사년월일</th><td>{{ f("workplace.hire_date", label="입사년월일") }}</td></tr>
-<tr><th>연소득(본인)</th><td>{{ f("workplace.annual_income", label="연소득(본인)") }}</td><th>직장주소</th><td>{{ f("workplace.address", label="직장주소") }}</td></tr>
+<tr><th>연소득(본인)</th><td>{{ f("workplace.annual_income", label="연소득(본인)", fix=0.05) }}</td><th>직장주소</th><td>{{ f("workplace.address", label="직장주소") }}</td></tr>
 </table>
 
-<div class="row" style="gap:8px">
-<div style="flex:1.15">
-<div class="bf-sec">부채현황 <span class="tiny muted" style="font-weight:400">(타 금융기관 대출 포함)</span></div>
+{% set stacked = d.debts|length > 2 or d.assets|length > 2 %}
+{% macro debts_tbl() %}
 <table class="bf g">
 <colgroup><col style="width:23%"><col style="width:22%"><col style="width:19%"><col style="width:22%"><col></colgroup>
 <tr><th>금융기관</th><th>대출종류</th><th>잔액(원)</th><th>만기일</th><th>상환여부</th></tr>
@@ -43,9 +43,8 @@ table.bf.g td { padding: 1px 4px; height: 20px; font-size: calc(var(--fs) - 1.5p
 {% endfor %}
 {% for _ in range(2 - d.debts|length) %}<tr><td></td><td></td><td></td><td></td><td></td></tr>{% endfor %}
 </table>
-</div>
-<div style="flex:1">
-<div class="bf-sec">소유재산</div>
+{% endmacro %}
+{% macro assets_tbl() %}
 <table class="bf g">
 <colgroup><col style="width:17%"><col><col style="width:27%"></colgroup>
 <tr><th>종류</th><th>소재지(금융기관)</th><th>평가금액(원)</th></tr>
@@ -54,34 +53,72 @@ table.bf.g td { padding: 1px 4px; height: 20px; font-size: calc(var(--fs) - 1.5p
 {% endfor %}
 {% for _ in range(2 - d.assets|length) %}<tr><td></td><td></td><td></td></tr>{% endfor %}
 </table>
+{% endmacro %}
+{% if stacked %}
+<div class="bf-sec">부채현황 <span class="tiny muted" style="font-weight:400">(타 금융기관 대출 포함{% if d.debts|length > 4 %}, 기재란 부족 시 별지 사용{% endif %})</span></div>
+{{ debts_tbl() }}
+<div class="bf-sec">소유재산</div>
+{{ assets_tbl() }}
+{% else %}
+<div class="row" style="gap:8px">
+<div style="flex:1.15">
+<div class="bf-sec">부채현황 <span class="tiny muted" style="font-weight:400">(타 금융기관 대출 포함)</span></div>
+{{ debts_tbl() }}
+</div>
+<div style="flex:1">
+<div class="bf-sec">소유재산</div>
+{{ assets_tbl() }}
 </div>
 </div>
+{% endif %}
 
 <div class="bf-sec">신청내용</div>
 <table class="bf">
 <colgroup><col style="width:92px"><col style="width:262px"><col style="width:92px"><col></colgroup>
 <tr><th>대출과목</th><td>{{ f("loan.subject", label="대출과목") }}</td><th>상 품 명</th><td>{{ f("loan.product", label="상품명") }}</td></tr>
-<tr><th>대출신청금액</th><td colspan="3"><b>{{ f("loan.amount_korean", label="대출신청금액(한글)") }}</b>&nbsp;&nbsp;(₩ {{ f("loan.amount", label="대출신청금액") }})</td></tr>
+<tr><th>대출신청금액</th><td colspan="3"><b>{{ f("loan.amount_korean", label="대출신청금액(한글)", fix=0.05) }}</b>&nbsp;&nbsp;(₩ {{ f("loan.amount", label="대출신청금액", fix=0.06) }})</td></tr>
 <tr><th>대출기간</th><td>{{ f("loan.term", label="대출기간") }}</td><th>대출희망일</th><td>{{ f("loan.hope_date", label="대출희망일") }}</td></tr>
 <tr><th>상환방법</th><td colspan="3">{{ m.choice("loan.repayment", ["만기일시", "원금균등분할", "원리금균등분할", "혼합"], label="상환방법") }}</td></tr>
-<tr><th>금리방식</th><td>{{ m.choice("loan.rate_type", ["고정", "변동", "혼합"], label="금리방식") }}</td><th>이자납입일</th><td>{{ f("loan.interest_day", label="이자납입일") }}</td></tr>
+<tr><th>금리방식</th><td>{{ m.choice("loan.rate_type", ["고정", "변동", "혼합"], label="금리방식") }}{{ lp.nochk("loan.rate_type") }}</td><th>이자납입일</th><td>{{ f("loan.interest_day", label="이자납입일") }}</td></tr>
 <tr><th>자금용도</th><td colspan="3">{{ m.choice("loan.purpose_category", ["주택구입", "주택임차", "부채상환", "생활비", "교육비", "기타"], label="자금용도구분") }}<br><span class="small">세부용도:</span> {{ f("loan.purpose", label="세부용도") }}</td></tr>
 <tr><th>담보구분</th><td>{{ m.choice("collateral", ["신용", "부동산", "보증"], label="담보구분") }}</td><th>담보내용</th><td>{{ f("collateral_detail", label="담보내용") }}</td></tr>
-<tr><th>원리금<br>자동이체계좌</th><td colspan="3">은행 {{ f("loan.debit_bank", label="이체은행") }}&nbsp;&nbsp;&nbsp;계좌번호 {{ f("loan.debit_account", label="이체계좌번호") }}&nbsp;&nbsp;&nbsp;예금주 {{ f("loan.debit_holder", label="예금주") }}</td></tr>
+<tr><th>원리금<br>자동이체계좌</th><td colspan="3">은행 {{ f("loan.debit_bank", label="이체은행") }}&nbsp;&nbsp;&nbsp;계좌번호 {{ f("loan.debit_account", label="이체계좌번호", fix=0.06) }}&nbsp;&nbsp;&nbsp;예금주 {{ f("loan.debit_holder", label="예금주") }}</td></tr>
 </table>
 
+{% if d.co_borrower is defined %}
+<div class="bf-sec">공동차주(공동신청인)</div>
+<table class="bf">
+<colgroup><col style="width:92px"><col style="width:262px"><col style="width:92px"><col></colgroup>
+<tr><th>성　　명</th><td>{{ f("co_borrower.name", label="공동차주성명", fix=0.04) }}</td><th>실명번호</th><td>{{ f("co_borrower.rrn", label="공동차주실명번호") }}</td></tr>
+<tr><th>신청인과의 관계</th><td>{{ f("co_borrower.relation", label="신청인과의관계") }}</td><th>휴대전화</th><td>{{ f("co_borrower.mobile", label="공동차주휴대전화", fix=0.05) }}</td></tr>
+<tr><th>직장(직업)</th><td colspan="3">{{ f("co_borrower.workplace", label="공동차주직장") }}</td></tr>
+</table>
+{% endif %}
+{% if d.agent is defined %}
+<div class="bf-sec">대리인 <span class="tiny muted" style="font-weight:400">(대리인이 신청하는 경우 — 본인 인감증명서·위임장 첨부)</span></div>
+<table class="bf">
+<colgroup><col style="width:92px"><col style="width:262px"><col style="width:92px"><col></colgroup>
+<tr><th>대리인 성명</th><td>{{ f("agent.name", label="대리인성명", fix=0.04) }}</td><th>실명번호</th><td>{{ f("agent.rrn", label="대리인실명번호") }}</td></tr>
+<tr><th>본인과의 관계</th><td>{{ f("agent.relation", label="본인과의관계") }}</td><th>연 락 처</th><td>{{ f("agent.phone", label="대리인연락처", fix=0.05) }}</td></tr>
+<tr><th>위 임 장</th><td colspan="3">{{ m.choice("agent.poa", ["첨부", "미첨부"], label="위임장") }} <span class="tiny muted">(인감증명서 상 인감 날인)</span></td></tr>
+</table>
+{% endif %}
 <div class="box" style="margin:4px 0;padding:3px 8px">
 <div class="notice" style="margin:0">
-<p>■ <b>금리인하요구권</b> : 취업, 승진, 소득·재산 증가, 개인신용평점 상승 등 신용상태가 개선된 경우 금리인하를 요구할 수 있습니다(「은행법」 제30조의2).</p>
-<p>■ <b>청약철회권</b> : 일반금융소비자는 계약체결일, 계약서류를 받은 날, 대출금 수령일 중 나중에 발생한 날부터 14일 이내에 대출계약을 철회할 수 있습니다(「금융소비자 보호에 관한 법률」 제46조). 다만, 최근 1개월 내 2회 이상 철회 시 불이익이 있을 수 있습니다.</p>
+<p>■ <b>금리인하요구권</b> : 취업, 승진, 소득·재산 증가, 개인신용{{ "평점" if bk.credit_score else "등급" }} 상승 등 신용상태가 개선된 경우 금리인하를 요구할 수 있습니다{% if bk.rate_cut_law %}(「은행법」 제30조의2){% endif %}.</p>
+{% if bk.fsca %}<p>■ <b>청약철회권</b> : 일반금융소비자는 계약체결일, 계약서류를 받은 날, 대출금 수령일 중 나중에 발생한 날부터 14일 이내에 대출계약을 철회할 수 있습니다(「금융소비자 보호에 관한 법률」 제46조). 다만, 최근 1개월 내 2회 이상 철회 시 불이익이 있을 수 있습니다.</p>
+{% elif bk.withdraw %}<p>■ <b>대출계약 철회권</b> : 대출계약서류를 받은 날 또는 대출금 수령일 중 나중에 발생한 날부터 14일 이내에 대출계약을 철회할 수 있습니다(은행여신거래기본약관(가계용)).</p>
+{% endif %}
 </div>
 <div class="small" style="margin-top:1px">상품설명서 수령 및 중요사항 설명 확인 {{ m.agree("manual_received", "예", "아니오", label="설명서수령확인") }}&nbsp;&nbsp; 개인(신용)정보 수집·이용·조회 {{ m.agree("consent", label="개인(신용)정보동의") }}</div>
 </div>
 
 <div class="between" style="margin-top:4px;align-items:center">
 <div><b>{{ lp.legal_name() }}</b> 앞</div>
-<div>{{ f("apply_date", label="신청일") }}&nbsp;&nbsp;&nbsp; 신청인&nbsp;<span class="who" style="display:inline-block;min-width:80px;text-align:center">{{ f("signature", label="신청인") }}</span>(서명 또는 인)</div>
+<div>{{ f("apply_date", label="신청일") }}&nbsp;&nbsp;&nbsp; 신청인&nbsp;<span class="who" style="display:inline-block;min-width:80px;text-align:center">{{ f("signature", label="신청인") }}</span>{{ m.sigspot("applicant", val("signature"), label="신청인", anchor="signature") }}</div>
 </div>
+{% if d.co_borrower is defined %}<div class="right" style="margin-top:6px">공동차주&nbsp;<span class="who" style="display:inline-block;min-width:80px;text-align:center">{{ f("co_borrower.name", label="공동차주") }}</span>{{ m.sigspot("co_borrower", val("co_borrower.name"), label="공동차주", anchor="co_borrower.name") }}</div>{% endif %}
+{% if d.agent is defined %}<div class="right" style="margin-top:6px">위 대리인&nbsp;<span class="who" style="display:inline-block;min-width:80px;text-align:center">{{ f("agent.name", label="대리인") }}</span>{{ m.sigspot("agent", val("agent.name"), label="대리인", anchor="agent.name") }}</div>{% endif %}
 
 {{ lp.bank_use(["접수일자", "실명확인", "신용조회", "담당자", "책임자"]) }}
 {% endblock %}

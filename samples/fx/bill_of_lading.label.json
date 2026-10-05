@@ -1,0 +1,623 @@
+{
+ "images": [
+  "fx/bill_of_lading.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "shipper.name",
+   "label": "Shipper",
+   "type": "text",
+   "value": "Tokyo Seimitsu Kogyo K.K.",
+   "norm": "Tokyo Seimitsu Kogyo K.K.",
+   "page": 0,
+   "bbox": [
+    67.5,
+    71.4,
+    243.5,
+    87.9
+   ],
+   "label_bbox": [
+    67.5,
+    57.0,
+    630.2,
+    71.4
+   ]
+  },
+  {
+   "key": "shipper.address",
+   "label": "ShipperAddress",
+   "type": "text",
+   "value": "2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN",
+   "norm": "2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN",
+   "page": 0,
+   "bbox": [
+    67.5,
+    90.8,
+    431.9,
+    107.2
+   ]
+  },
+  {
+   "key": "booking_no",
+   "label": "BookingNo",
+   "type": "text",
+   "value": "HBSC8527401",
+   "norm": "HBSC8527401",
+   "page": 0,
+   "bbox": [
+    646.7,
+    78.9,
+    737.2,
+    95.4
+   ],
+   "label_bbox": [
+    646.7,
+    64.5,
+    737.2,
+    78.9
+   ]
+  },
+  {
+   "key": "bl_no",
+   "label": "B/LNo",
+   "type": "text",
+   "value": "HBSCJP55477018",
+   "norm": "HBSCJP55477018",
+   "page": 0,
+   "bbox": [
+    966.1,
+    72.9,
+    1123.5,
+    95.4
+   ],
+   "label_bbox": [
+    966.1,
+    57.0,
+    1123.5,
+    71.4
+   ]
+  },
+  {
+   "key": "carrier",
+   "label": "Carrier",
+   "type": "text",
+   "value": "HANBADA SHIPPING CO., LTD.",
+   "norm": "HANBADA SHIPPING CO., LTD.",
+   "page": 0,
+   "bbox": [
+    683.1,
+    105.8,
+    1087.0,
+    134.2
+   ]
+  },
+  {
+   "key": "forwarder",
+   "label": "ForwardingAgent",
+   "type": "text",
+   "value": "Daon Logistics Co., Ltd.",
+   "norm": "Daon Logistics Co., Ltd.",
+   "page": 0,
+   "bbox": [
+    646.7,
+    313.2,
+    793.2,
+    329.7
+   ]
+  },
+  {
+   "key": "consignee.name",
+   "label": "Consignee",
+   "type": "text",
+   "value": "TO ORDER",
+   "norm": "TO ORDER",
+   "page": 0,
+   "bbox": [
+    67.5,
+    166.1,
+    145.9,
+    182.6
+   ],
+   "label_bbox": [
+    67.5,
+    151.6,
+    630.2,
+    166.1
+   ]
+  },
+  {
+   "key": "notify.name",
+   "label": "NotifyParty",
+   "type": "text",
+   "value": "SAEHAN SOFT CO., LTD.",
+   "norm": "SAEHAN SOFT CO., LTD.",
+   "page": 0,
+   "bbox": [
+    67.5,
+    230.2,
+    241.2,
+    246.7
+   ],
+   "label_bbox": [
+    67.5,
+    215.8,
+    630.2,
+    230.2
+   ]
+  },
+  {
+   "key": "notify.address",
+   "label": "NotifyPartyAddress",
+   "type": "text",
+   "value": "8F, DONGBANG PLAZA, 22-7 GUKJEGEUMYUNG-RO, YEONGDEUNGPO-GU, SEOUL 07028, KOREA",
+   "norm": "8F, DONGBANG PLAZA, 22-7 GUKJEGEUMYUNG-RO, YEONGDEUNGPO-GU, SEOUL 07028, KOREA",
+   "page": 0,
+   "bbox": [
+    67.5,
+    249.5,
+    582.1,
+    285.3
+   ]
+  },
+  {
+   "key": "pre_carriage",
+   "label": "Pre-carriageby",
+   "type": "text",
+   "value": "TRUCK",
+   "norm": "TRUCK",
+   "page": 0,
+   "bbox": [
+    67.5,
+    354.5,
+    117.7,
+    371.0
+   ],
+   "label_bbox": [
+    67.5,
+    340.0,
+    340.2,
+    354.5
+   ]
+  },
+  {
+   "key": "place_of_receipt",
+   "label": "PlaceofReceipt",
+   "type": "text",
+   "value": "TOKYO CY",
+   "norm": "TOKYO CY",
+   "page": 0,
+   "bbox": [
+    356.7,
+    354.5,
+    432.6,
+    371.0
+   ],
+   "label_bbox": [
+    356.7,
+    340.0,
+    630.2,
+    354.5
+   ]
+  },
+  {
+   "key": "origin",
+   "label": "PointandCountryofOrigin",
+   "type": "text",
+   "value": "JAPAN",
+   "norm": "JAPAN",
+   "page": 0,
+   "bbox": [
+    646.7,
+    354.5,
+    691.4,
+    371.0
+   ],
+   "label_bbox": [
+    646.7,
+    340.0,
+    1123.5,
+    354.5
+   ]
+  },
+  {
+   "key": "vessel_voyage",
+   "label": "OceanVessel/VoyNo",
+   "type": "text",
+   "value": "STAR PIONEER 079N",
+   "norm": "STAR PIONEER 079N",
+   "page": 0,
+   "bbox": [
+    67.5,
+    395.7,
+    207.0,
+    412.2
+   ],
+   "label_bbox": [
+    67.5,
+    381.3,
+    340.2,
+    395.7
+   ]
+  },
+  {
+   "key": "port_of_loading",
+   "label": "PortofLoading",
+   "type": "text",
+   "value": "TOKYO, JAPAN",
+   "norm": "TOKYO, JAPAN",
+   "page": 0,
+   "bbox": [
+    356.7,
+    395.7,
+    460.4,
+    412.2
+   ],
+   "label_bbox": [
+    356.7,
+    381.3,
+    630.2,
+    395.7
+   ]
+  },
+  {
+   "key": "port_of_discharge",
+   "label": "PortofDischarge",
+   "type": "text",
+   "value": "BUSAN, KOREA",
+   "norm": "BUSAN, KOREA",
+   "page": 0,
+   "bbox": [
+    67.5,
+    437.0,
+    176.2,
+    453.5
+   ],
+   "label_bbox": [
+    67.5,
+    422.5,
+    340.2,
+    437.0
+   ]
+  },
+  {
+   "key": "place_of_delivery",
+   "label": "PlaceofDelivery",
+   "type": "text",
+   "value": "BUSAN CY",
+   "norm": "BUSAN CY",
+   "page": 0,
+   "bbox": [
+    356.7,
+    437.0,
+    431.2,
+    453.5
+   ],
+   "label_bbox": [
+    356.7,
+    422.5,
+    630.2,
+    437.0
+   ]
+  },
+  {
+   "key": "containers.0.no",
+   "label": "ContainerNo",
+   "type": "text",
+   "value": "HBDU9432009",
+   "norm": "HBDU9432009",
+   "page": 0,
+   "bbox": [
+    67.5,
+    503.2,
+    161.3,
+    519.7
+   ],
+   "label_bbox": [
+    58.5,
+    463.0,
+    316.2,
+    499.4
+   ]
+  },
+  {
+   "key": "containers.0.type",
+   "label": "ContainerType",
+   "type": "text",
+   "value": "20'GP",
+   "norm": "20'GP",
+   "page": 0,
+   "bbox": [
+    172.9,
+    503.2,
+    209.3,
+    519.7
+   ],
+   "label_bbox": [
+    58.5,
+    463.0,
+    316.2,
+    499.4
+   ]
+  },
+  {
+   "key": "containers.0.seal",
+   "label": "SealNo",
+   "type": "text",
+   "value": "KR780264",
+   "norm": "KR780264",
+   "page": 0,
+   "bbox": [
+    112.4,
+    522.5,
+    177.4,
+    539.0
+   ],
+   "label_bbox": [
+    58.5,
+    463.0,
+    316.2,
+    499.4
+   ]
+  },
+  {
+   "key": "marks",
+   "label": "MarksandNumbers",
+   "type": "text",
+   "value": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-208\nMADE IN JAPAN",
+   "norm": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-208\nMADE IN JAPAN",
+   "page": 0,
+   "bbox": [
+    67.5,
+    553.8,
+    178.9,
+    628.2
+   ],
+   "label_bbox": [
+    58.5,
+    463.0,
+    316.2,
+    499.4
+   ]
+  },
+  {
+   "key": "container_count",
+   "label": "No.ofContainers",
+   "type": "text",
+   "value": "1 X 20'GP",
+   "norm": "1 X 20'GP",
+   "page": 0,
+   "bbox": [
+    349.7,
+    503.2,
+    411.6,
+    519.7
+   ],
+   "label_bbox": [
+    316.2,
+    463.0,
+    445.1,
+    499.4
+   ]
+  },
+  {
+   "key": "packages",
+   "label": "No.ofPackages",
+   "type": "text",
+   "value": "208 CTNS",
+   "norm": "208 CTNS",
+   "page": 0,
+   "bbox": [
+    348.8,
+    541.8,
+    412.6,
+    558.3
+   ],
+   "label_bbox": [
+    316.2,
+    463.0,
+    445.1,
+    499.4
+   ]
+  },
+  {
+   "key": "description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Multilayer Ceramic Capacitor 0402 100nF 16V  8,300,000 PCS\nLi-ion Battery Cell 18650 3.6V 3000mAh  46,000 PCS\nLED Driver IC, SOP-8  200,000 PCS",
+   "norm": "Multilayer Ceramic Capacitor 0402 100nF 16V  8,300,000 PCS\nLi-ion Battery Cell 18650 3.6V 3000mAh  46,000 PCS\nLED Driver IC, SOP-8  200,000 PCS",
+   "page": 0,
+   "bbox": [
+    453.4,
+    541.8,
+    827.9,
+    596.9
+   ],
+   "label_bbox": [
+    445.1,
+    463.0,
+    874.7,
+    499.4
+   ]
+  },
+  {
+   "key": "freight",
+   "label": "Freight",
+   "type": "text",
+   "value": "FREIGHT COLLECT",
+   "norm": "FREIGHT COLLECT",
+   "page": 0,
+   "bbox": [
+    453.4,
+    620.7,
+    597.5,
+    637.2
+   ],
+   "label_bbox": [
+    445.1,
+    463.0,
+    874.7,
+    499.4
+   ]
+  },
+  {
+   "key": "gross_weight",
+   "label": "GrossWeight",
+   "type": "text",
+   "value": "3,186.54 KGS",
+   "norm": "3,186.54 KGS",
+   "page": 0,
+   "bbox": [
+    910.1,
+    503.2,
+    995.3,
+    519.7
+   ],
+   "label_bbox": [
+    874.7,
+    463.0,
+    1003.6,
+    499.4
+   ]
+  },
+  {
+   "key": "measurement",
+   "label": "Measurement",
+   "type": "text",
+   "value": "7.230 CBM",
+   "norm": "7.230 CBM",
+   "page": 0,
+   "bbox": [
+    1053.5,
+    503.2,
+    1123.5,
+    519.7
+   ],
+   "label_bbox": [
+    1003.6,
+    463.0,
+    1132.5,
+    499.4
+   ]
+  },
+  {
+   "key": "total_words",
+   "label": "TotalNumberinWords",
+   "type": "text",
+   "value": "SAY: ONE (1) CONTAINER ONLY",
+   "norm": "SAY: ONE (1) CONTAINER ONLY",
+   "page": 0,
+   "bbox": [
+    453.4,
+    1045.4,
+    680.3,
+    1061.9
+   ]
+  },
+  {
+   "key": "freight_payable_at",
+   "label": "FreightPayableat",
+   "type": "text",
+   "value": "BUSAN",
+   "norm": "BUSAN",
+   "page": 0,
+   "bbox": [
+    720.7,
+    1097.2,
+    770.9,
+    1113.7
+   ],
+   "label_bbox": [
+    638.4,
+    1071.5,
+    853.2,
+    1093.4
+   ]
+  },
+  {
+   "key": "issue_place",
+   "label": "PlaceofIssue",
+   "type": "text",
+   "value": "TOKYO",
+   "norm": "TOKYO",
+   "page": 0,
+   "bbox": [
+    966.7,
+    1097.2,
+    1018.3,
+    1113.7
+   ],
+   "label_bbox": [
+    853.2,
+    1071.5,
+    1132.5,
+    1093.4
+   ]
+  },
+  {
+   "key": "issue_date",
+   "label": "DateofIssue",
+   "type": "date",
+   "value": "09 NOV 2025",
+   "norm": "2025-11-09",
+   "page": 0,
+   "bbox": [
+    950.6,
+    1116.5,
+    1034.3,
+    1133.0
+   ],
+   "label_bbox": [
+    853.2,
+    1071.5,
+    1132.5,
+    1093.4
+   ]
+  },
+  {
+   "key": "originals",
+   "label": "NumberofOriginalB/L",
+   "type": "text",
+   "value": "THREE (3)",
+   "norm": "THREE (3)",
+   "page": 0,
+   "bbox": [
+    67.5,
+    1157.7,
+    140.3,
+    1174.2
+   ],
+   "label_bbox": [
+    58.5,
+    1071.5,
+    380.7,
+    1093.4
+   ]
+  },
+  {
+   "key": "on_board_date",
+   "label": "OnBoardDate",
+   "type": "date",
+   "value": "09 NOV 2025",
+   "norm": "2025-11-09",
+   "page": 0,
+   "bbox": [
+    517.8,
+    1157.7,
+    602.3,
+    1174.2
+   ],
+   "label_bbox": [
+    509.6,
+    1071.5,
+    638.4,
+    1093.4
+   ]
+  }
+ ]
+}

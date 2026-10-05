@@ -74,6 +74,17 @@ ol.clauses li { margin: 3px 0; }
 .seal.lg { width: 84px; height: 84px; font-size: 15px; }
 .seal.over { position: absolute; right: -40px; top: -18px; }
 .signline { display: inline-block; min-width: 120px; }
+.inmark { position: relative; display: inline-block; min-width: 34px; text-align: center; }
+.inmark .seal.onmark { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-8deg); margin: 0; }
+.inmark .scribble { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -55%); pointer-events: none; }
+.corr { white-space: normal; }
+.corr-old, .corr .fv { white-space: nowrap; }
+.corr-old { text-decoration: line-through double; text-decoration-color: #c00; color: inherit; }
+.seal.corr-seal { width: 22px; height: 22px; font-size: 7px; border-width: 1.5px; margin-left: 2px; vertical-align: -4px; }
+.seal-missing { display: inline-block; width: 64px; height: 64px; vertical-align: middle; }
+.seal-missing.sm { width: 40px; height: 40px; } .seal-missing.lg { width: 84px; height: 84px; }
+.pg-keep { break-inside: avoid; }
+.scribble svg { display: block; overflow: visible; }
 .chk { white-space: nowrap; margin-right: 10px; }
 .photo {
   background: linear-gradient(#e8e8e8, #d0d0d0); border: 1px solid #aaa; position: relative; overflow: hidden;
@@ -94,7 +105,7 @@ ol.clauses li { margin: 3px 0; }
 </style>
 </head>
 <body>
-<div class="page {{ spec.page }}{% block page_class %}{% endblock %}">
+<div class="page {{ spec.page }}{% block page_class %}{% endblock %}" {% block page_attrs %}data-pg-format="{{ style.pg_format }}" data-pg-cont="{{ style.pg_cont }}"{% endblock %}>
 {% block content %}{% endblock %}
 {% if sample_mark %}<div class="sample-mark">견본 SAMPLE</div>{% endif %}
 </div>

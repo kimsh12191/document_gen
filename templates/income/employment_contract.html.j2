@@ -12,32 +12,47 @@ ol.ec .sub2 { padding-left: 2.4em; }
 .u { display: inline-block; min-width: 40px; text-align: center; }
 .pc { display: inline-block; min-width: 26px; text-align: center; }
 .signs { margin-top: 16px; }
+.sign-block { display: flex; flex-direction: column; } /* 날짜·서명란은 한 덩어리로 (쪽 나눔 때 쪼개지 않음) */
 .signs table.plain td { padding: 2px 4px; vertical-align: top; }
 .signs td.who { width: 76px; font-weight: 700; }
 .signs td.lb { width: 82px; }
+.hand { font-family: 'NanumSquareRound', 'Nanum Gothic', sans-serif; color: #1c2c86; font-weight: 700; letter-spacing: .03em; display: inline-block; transform: rotate(-0.6deg); }
+ol.terms { margin: 2px 0 0; padding-left: 2.6em; }
+ol.terms li { margin: 1px 0; }
 {% endblock %}
 {% block content %}
-<h1 class="title">표준근로계약서<span class="sub">(기간의 정함이 없는 경우)</span></h1>
+{# 손으로 채운 계약서(파란 글씨)인지, 컴퓨터로 채운 계약서인지 #}
+{% set hand = f.chance(0.55) %}
+{% set fx = 0.05 if hand else 0.015 %}
+{% set H0 = '<span class="hand">' if hand else '' %}{% set H1 = '</span>' if hand else '' %}
+{% macro v(path, label) -%}{{ H0|safe }}{{ f(path, label=label, fix=fx) }}{{ H1|safe }}{%- endmacro %}
+{{ f.set_corr_name(val("employee.name")) }}
+{% set fixed = d.end_date is defined %}
+<h1 class="title">{{ "근로계약서" if fixed and f.chance(0.3) else "표준근로계약서" }}<span class="sub">({{ "기간의 정함이 있는 경우" if fixed else "기간의 정함이 없는 경우" }})</span></h1>
 <p class="intro">
   <span class="u">{{ f("employer.name", label="사업주") }}</span>(이하 "사업주"라 함)과(와)
-  <span class="u">{{ f("employee.name", label="근로자") }}</span>(이하 "근로자"라 함)은 다음과 같이 근로계약을 체결한다.
+  <span class="u">{{ v("employee.name", "근로자") }}</span>(이하 "근로자"라 함)은 다음과 같이 근로계약을 체결한다.
 </p>
 <ol class="ec">
-  <li>1. 근로개시일 : <span class="u">{{ f("start_date", label="근로개시일") }}</span>부터</li>
-  <li>2. 근 무 장 소 : <span class="u">{{ f("workplace", label="근무장소") }}</span></li>
-  <li>3. 업무의 내용 : <span class="u">{{ f("job", label="업무의내용") }}</span></li>
-  <li>4. 소정근로시간 : <span class="u">{{ f("work_start", label="소정근로시간") }}</span>부터 <span class="u">{{ f("work_end", label="소정근로시간") }}</span>까지 (휴게시간 : {{ f("break_time", label="휴게시간") }})</li>
-  <li>5. 근무일/휴일 : 매주 <span class="u">{{ f("work_days", label="근무일") }}</span>일(또는 매일단위)근무, 주휴일 매주 <span class="u">{{ f("weekly_holiday", label="주휴일") }}</span>요일</li>
+  {% if fixed %}
+  <li>1. 근로계약기간 : <span class="u">{{ v("start_date", "근로개시일") }}</span>부터 <span class="u">{{ v("end_date", "근로계약종료일") }}</span>까지</li>
+  {% else %}
+  <li>1. 근로개시일 : <span class="u">{{ v("start_date", "근로개시일") }}</span>부터</li>
+  {% endif %}
+  <li>2. 근 무 장 소 : <span class="u">{{ v("workplace", "근무장소") }}</span></li>
+  <li>3. 업무의 내용 : <span class="u">{{ v("job", "업무의내용") }}</span></li>
+  <li>4. 소정근로시간 : <span class="u">{{ v("work_start", "소정근로시간") }}</span>부터 <span class="u">{{ v("work_end", "소정근로시간") }}</span>까지 (휴게시간 : {{ v("break_time", "휴게시간") }})</li>
+  <li>5. 근무일/휴일 : 매주 <span class="u">{{ v("work_days", "근무일") }}</span>일(또는 매일단위)근무, 주휴일 매주 <span class="u">{{ v("weekly_holiday", "주휴일") }}</span>요일</li>
   <li>6. 임　금
-    <div class="sub">- 월(일, 시간)급 : <span class="u">{{ f("monthly_salary", label="월(일,시간)급") }}</span>원</div>
+    <div class="sub">- 월(일, 시간)급 : <span class="u">{{ v("monthly_salary", "월(일,시간)급") }}</span>원</div>
     <div class="sub">- 상여금 :
-      {% if d.bonus == "있음" %}{{ f("bonus", label="상여금") }} (<span class="pc">√</span>) <span class="u">{{ f("bonus_amount", label="상여금") }}</span>원,&nbsp;&nbsp;없음 (<span class="pc"></span>)
+      {% if d.bonus == "있음" %}{{ f("bonus", label="상여금") }} (<span class="pc">√</span>) <span class="u">{{ v("bonus_amount", "상여금") }}</span>원,&nbsp;&nbsp;없음 (<span class="pc"></span>)
       {% else %}있음 (<span class="pc"></span>) <span class="u">&nbsp;</span>원,&nbsp;&nbsp;{{ f("bonus", label="상여금") }} (<span class="pc">√</span>){% endif %}</div>
     <div class="sub">- 기타급여(제수당 등) : {{ f("other_pay", label="기타급여") }} (<span class="pc">√</span>),&nbsp;&nbsp;없음 (<span class="pc"></span>)</div>
     {% for a in d.allowances %}{% set i = loop.index0 %}
-    <div class="sub2">· {{ f("allowances." ~ i ~ ".name", label="기타급여(제수당등)") }} <span class="u">{{ f("allowances." ~ i ~ ".amount", label="기타급여(제수당등)") }}</span></div>
+    <div class="sub2">· {{ v("allowances." ~ i ~ ".name", "기타급여(제수당등)") }} <span class="u">{{ v("allowances." ~ i ~ ".amount", "기타급여(제수당등)") }}</span></div>
     {% endfor %}
-    <div class="sub">- 임금지급일 : 매월(매주 또는 매일) <span class="u">{{ f("pay_day", label="임금지급일") }}</span>일(휴일의 경우는 전일 지급)</div>
+    <div class="sub">- 임금지급일 : 매월(매주 또는 매일) <span class="u">{{ v("pay_day", "임금지급일") }}</span>일(휴일의 경우는 전일 지급)</div>
     <div class="sub">- 지급방법 : 근로자에게 직접지급(<span class="pc"></span>), {{ f("pay_method", label="지급방법") }}(<span class="pc">√</span>)</div>
   </li>
   <li>7. 연차유급휴가
@@ -49,17 +64,30 @@ ol.ec .sub2 { padding-left: 2.4em; }
   <li>10. 근로계약, 취업규칙 등의 성실한 이행의무
     <div class="sub">- 사업주와 근로자는 각자가 근로계약, 취업규칙, 단체협약을 지키고 성실하게 이행하여야 함</div></li>
   <li>11. 기　타
-    <div class="sub">- 이 계약에 정함이 없는 사항은 근로기준법령에 의함</div></li>
+    <div class="sub">- 이 계약에 정함이 없는 사항은 근로기준법령에 의함</div>
+    {% if d.probation is defined %}
+    <div class="sub">- 수습기간 : {{ v("probation.period", "수습기간") }}, 수습기간 중 임금은 월급여의 {{ v("probation.wage_rate", "수습기간임금지급률") }}를 지급함</div>
+    {% endif %}
+  </li>
+  {% if d.special_terms is defined %}
+  <li>12. 특약사항
+    <ol class="terms">
+    {% for t in d.special_terms %}<li>{{ H0|safe }}{{ f("special_terms." ~ loop.index0, label="특약사항") }}{{ H1|safe }}</li>{% endfor %}
+    </ol>
+  </li>
+  {% endif %}
 </ol>
-<p class="center mt" style="letter-spacing:.1em">{{ f("contract_date", label="계약일") }}</p>
+<div class="sign-block">
+<p class="center mt" style="letter-spacing:.1em">{{ v("contract_date", "계약일") }}</p>
 <div class="signs">
   <table class="plain">
     <tr><td class="who">(사업주)</td><td class="lb">사업체명 :</td><td>{{ f("employer.name", label="사업체명") }}&nbsp;&nbsp;(전화 : {{ f("employer.phone", label="전화") }})</td></tr>
     <tr><td></td><td class="lb">주　　소 :</td><td>{{ f("employer.address", label="주소") }}</td></tr>
-    <tr><td></td><td class="lb">대 표 자 :</td><td style="position:relative">{{ f("employer.ceo", label="대표자") }}&nbsp;&nbsp;&nbsp;&nbsp;(서명) {{ m.seal("대표이사인", square=True, size="sm") }}</td></tr>
-    <tr><td class="who" style="padding-top:12px">(근로자)</td><td class="lb" style="padding-top:12px">주　　소 :</td><td style="padding-top:12px">{{ f("employee.address", label="주소") }}</td></tr>
-    <tr><td></td><td class="lb">연 락 처 :</td><td>{{ f("employee.phone", label="연락처") }}</td></tr>
-    <tr><td></td><td class="lb">성　　명 :</td><td>{{ f("employee.name", label="성명") }}&nbsp;&nbsp;&nbsp;&nbsp;(서명) {{ m.seal(val("employee.name"), size="sm") }}</td></tr>
+    <tr><td></td><td class="lb">대 표 자 :</td><td style="position:relative">{{ f("employer.ceo", label="대표자") }}&nbsp;&nbsp;&nbsp;&nbsp;(서명) {{ m.seal("대표이사인", square=True, size="sm", key="employer", kind="직인", p=0.95) }}</td></tr>
+    <tr><td class="who" style="padding-top:12px">(근로자)</td><td class="lb" style="padding-top:12px">주　　소 :</td><td style="padding-top:12px">{{ v("employee.address", "주소") }}</td></tr>
+    <tr><td></td><td class="lb">연 락 처 :</td><td>{{ v("employee.phone", "연락처") }}</td></tr>
+    <tr><td></td><td class="lb">성　　명 :</td><td>{{ v("employee.name", "성명") }}&nbsp;&nbsp;&nbsp;&nbsp;{{ m.sigspot("employee", val("employee.name"), mark="(서명)", label="근로자", anchor="employee.name", p_seal=0.35, p_sign=0.6) }}</td></tr>
   </table>
+</div>
 </div>
 {% endblock %}

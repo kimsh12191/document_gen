@@ -1,12 +1,13 @@
 {
  "document_type": "혼인관계증명서",
+ "cert_type": "일반",
  "reg_base": "서울특별시 마포구 서교동 159",
  "self": {
   "relation": "본인",
   "name": "김소윤",
   "name_hanja": "金素允",
   "birth": "1990년 11월 21일",
-  "rrn": "901121-2******",
+  "rrn": "901121-2030821",
   "gender": "여",
   "bon": "安東"
  },
@@ -27,8 +28,11 @@
  },
  "issue_date": "2025년 11월 29일",
  "issuer": "광주광역시 서구청장",
- "issue_time": "17시 59분",
- "officer": "황동윤",
- "officer_phone": "062-363-9123",
+ "seal": {
+  "issuer": true
+ },
+ "issue_time": "12시 35분",
+ "officer": "김연성",
+ "officer_phone": "062-964-9069",
  "applicant": "김소윤"
 }

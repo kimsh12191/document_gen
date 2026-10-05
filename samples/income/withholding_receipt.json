@@ -39,5 +39,8 @@
   "effective_rate": "5.3"
  },
  "issue_date": "2025년 3월 5일",
+ "seal": {
+  "payer": true
+ },
  "tax_office": "여수세무서장"
 }

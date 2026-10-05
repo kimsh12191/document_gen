@@ -1,0 +1,57 @@
+{
+ "document_type": "해외송금신청서",
+ "bank": {
+  "name": "하나은행"
+ },
+ "remitter": {
+  "name": "김소윤",
+  "name_en": "KIM SOYUN",
+  "rrn": "901121-2030821",
+  "phone": "010-4372-6867",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+  "company": "넥스트몰 (129-20-96799)"
+ },
+ "beneficiary": {
+  "name": "Tokyo Seimitsu Kogyo K.K.",
+  "address": "2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001",
+  "country": "JAPAN",
+  "relationship": "거래처",
+  "swift": "MHCBJPJT",
+  "bank_name": "Mizuho Bank",
+  "bank_address": "1-5-5 Otemachi, Chiyoda-ku, Tokyo 100-8176, Japan",
+  "account_no": "023448347824"
+ },
+ "remittance": {
+  "currency": "JPY",
+  "amount": "22,131,000",
+  "purpose": "수입대금",
+  "purpose_code": "10103",
+  "charge": "SHA",
+  "method": "전신송금(T/T)",
+  "message": "INVOICE NO. TOK-2025-0043",
+  "documents": "Commercial Invoice, B/L 사본"
+ },
+ "date": "2025년 11월 29일",
+ "signature": "김소윤",
+ "seal": {
+  "applicant": false,
+  "staff": {
+   "clerk": true,
+   "manager": true
+  }
+ },
+ "sign": {
+  "applicant": false
+ },
+ "bank_use": {
+  "ref_no": "OR25112999512",
+  "branch": "분당지점",
+  "rate": "908.31",
+  "krw_amount": "201,018,086원",
+  "fee": "20,000원",
+  "cable_fee": "8,000원",
+  "total": "201,046,086원",
+  "clerk": "한정우",
+  "manager": "정소연"
+ }
+}

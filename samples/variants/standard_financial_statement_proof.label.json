@@ -1,0 +1,2568 @@
+{
+ "images": [
+  "variants/standard_financial_statement_proof_p1.jpg",
+  "variants/standard_financial_statement_proof_p2.jpg",
+  "variants/standard_financial_statement_proof_p3.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "issue_no",
+   "label": "발급번호",
+   "type": "text",
+   "value": "7330-813-3124-266",
+   "norm": "7330-813-3124-266",
+   "page": 0,
+   "bbox": [
+    106.5,
+    187.0,
+    248.1,
+    208.0
+   ]
+  },
+  {
+   "key": "taxpayer_type",
+   "label": "개인/법인",
+   "type": "checkbox",
+   "value": "개인",
+   "norm": "개인",
+   "page": 0,
+   "bbox": [
+    589.6,
+    187.0,
+    625.0,
+    208.0
+   ],
+   "options": [
+    {
+     "text": "개인",
+     "checked": true,
+     "box_bbox": [
+      574.5,
+      187.0,
+      585.2,
+      208.0
+     ],
+     "bbox": [
+      574.5,
+      187.0,
+      625.0,
+      208.0
+     ]
+    },
+    {
+     "text": "법인",
+     "checked": false,
+     "box_bbox": [
+      640.0,
+      187.0,
+      650.7,
+      208.0
+     ],
+     "bbox": [
+      640.0,
+      187.0,
+      690.6,
+      208.0
+     ]
+    }
+   ]
+  },
+  {
+   "key": "taxpayer.trade_name",
+   "label": "상호(법인명)",
+   "type": "text",
+   "value": "넥스트몰",
+   "norm": "넥스트몰",
+   "page": 0,
+   "bbox": [
+    357.8,
+    233.4,
+    425.5,
+    251.4
+   ],
+   "label_bbox": [
+    166.5,
+    224.4,
+    346.5,
+    261.5
+   ]
+  },
+  {
+   "key": "taxpayer.biz_no",
+   "label": "사업자등록번호",
+   "type": "biz_no",
+   "value": "129-20-96799",
+   "norm": "129-20-96799",
+   "page": 0,
+   "bbox": [
+    861.8,
+    233.4,
+    957.8,
+    251.4
+   ],
+   "label_bbox": [
+    640.5,
+    224.4,
+    850.5,
+    261.5
+   ]
+  },
+  {
+   "key": "taxpayer.name",
+   "label": "성명(대표자)",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    357.8,
+    269.7,
+    408.6,
+    287.7
+   ],
+   "label_bbox": [
+    166.5,
+    261.5,
+    346.5,
+    297.9
+   ]
+  },
+  {
+   "key": "taxpayer.rrn",
+   "label": "주민(법인)등록번호",
+   "type": "rrn",
+   "value": "901121-2******",
+   "norm": "901121-2******",
+   "page": 0,
+   "bbox": [
+    861.8,
+    269.7,
+    976.9,
+    287.7
+   ],
+   "label_bbox": [
+    640.5,
+    261.5,
+    850.5,
+    297.9
+   ]
+  },
+  {
+   "key": "taxpayer.biz_type",
+   "label": "업태",
+   "type": "text",
+   "value": "소매업",
+   "norm": "소매업",
+   "page": 0,
+   "bbox": [
+    357.8,
+    306.1,
+    408.6,
+    324.1
+   ],
+   "label_bbox": [
+    166.5,
+    297.9,
+    346.5,
+    334.2
+   ]
+  },
+  {
+   "key": "taxpayer.biz_item",
+   "label": "종목",
+   "type": "text",
+   "value": "전자상거래",
+   "norm": "전자상거래",
+   "page": 0,
+   "bbox": [
+    861.8,
+    306.1,
+    946.5,
+    324.1
+   ],
+   "label_bbox": [
+    640.5,
+    297.9,
+    850.5,
+    334.2
+   ]
+  },
+  {
+   "key": "taxpayer.address",
+   "label": "사업장",
+   "type": "text",
+   "value": "서울특별시 송파구 중대로 398, 12층 13호 (잠실동, 에이스지식산업센터)",
+   "norm": "서울특별시 송파구 중대로 398, 12층 13호 (잠실동, 에이스지식산업센터)",
+   "page": 0,
+   "bbox": [
+    357.8,
+    342.5,
+    890.1,
+    360.5
+   ],
+   "label_bbox": [
+    166.5,
+    334.2,
+    346.5,
+    370.6
+   ]
+  },
+  {
+   "key": "period",
+   "label": "사업연도",
+   "type": "text",
+   "value": "2024-01-01 ~ 2024-12-31",
+   "norm": "2024-01-01 ~ 2024-12-31",
+   "page": 0,
+   "bbox": [
+    357.8,
+    378.9,
+    533.5,
+    396.9
+   ],
+   "label_bbox": [
+    100.5,
+    370.6,
+    346.5,
+    407.0
+   ]
+  },
+  {
+   "key": "filing_kind",
+   "label": "신고구분",
+   "type": "text",
+   "value": "기한후신고",
+   "norm": "기한후신고",
+   "page": 0,
+   "bbox": [
+    861.8,
+    378.9,
+    946.5,
+    396.9
+   ],
+   "label_bbox": [
+    640.5,
+    370.6,
+    850.5,
+    407.0
+   ]
+  },
+  {
+   "key": "attachments",
+   "label": "첨부서류",
+   "type": "text",
+   "value": "표준재무상태표, 표준손익계산서",
+   "norm": "표준재무상태표, 표준손익계산서",
+   "page": 0,
+   "bbox": [
+    357.8,
+    415.2,
+    603.5,
+    433.2
+   ],
+   "label_bbox": [
+    100.5,
+    407.0,
+    346.5,
+    444.1
+   ]
+  },
+  {
+   "key": "filed_date",
+   "label": "신고일",
+   "type": "date",
+   "value": "2025-08-04",
+   "norm": "2025-08-04",
+   "page": 0,
+   "bbox": [
+    861.8,
+    415.2,
+    940.8,
+    433.2
+   ],
+   "label_bbox": [
+    640.5,
+    407.0,
+    850.5,
+    444.1
+   ]
+  },
+  {
+   "key": "issue_date",
+   "label": "발급일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 0,
+   "bbox": [
+    526.8,
+    506.0,
+    664.2,
+    524.0
+   ]
+  },
+  {
+   "key": "issuer",
+   "label": "발급기관",
+   "type": "text",
+   "value": "잠실세무서장",
+   "norm": "잠실세무서장",
+   "page": 0,
+   "bbox": [
+    469.7,
+    545.4,
+    694.3,
+    579.9
+   ]
+  },
+  {
+   "key": "seal.issuer",
+   "label": "발급기관직인",
+   "type": "seal",
+   "value": "잠실세무서장인",
+   "present": true,
+   "kind": "직인",
+   "page": 0,
+   "bbox": [
+    679.8,
+    509.9,
+    786.8,
+    616.9
+   ]
+  },
+  {
+   "key": "balance_sheet.current",
+   "label": "유동자산",
+   "type": "amount",
+   "value": "93,332,473",
+   "norm": 93332473,
+   "page": 0,
+   "bbox": [
+    1000.4,
+    745.1,
+    1080.0,
+    766.1
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "balance_sheet.quick",
+   "label": "당좌자산",
+   "type": "number",
+   "value": "57,345,138",
+   "norm": 57345138,
+   "page": 0,
+   "bbox": [
+    1000.4,
+    779.5,
+    1080.0,
+    800.5
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.quick.0.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "현금및현금성자산",
+   "norm": "현금및현금성자산",
+   "page": 0,
+   "bbox": [
+    144.0,
+    813.9,
+    285.6,
+    834.9
+   ],
+   "label_bbox": [
+    101.2,
+    705.5,
+    753.7,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.quick.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "3,921,168",
+   "norm": 3921168,
+   "page": 0,
+   "bbox": [
+    1009.2,
+    813.9,
+    1080.0,
+    834.9
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.quick.1.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "단기금융상품",
+   "norm": "단기금융상품",
+   "page": 0,
+   "bbox": [
+    144.0,
+    848.2,
+    250.2,
+    869.2
+   ],
+   "label_bbox": [
+    101.2,
+    705.5,
+    753.7,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.quick.1.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "12,412,150",
+   "norm": 12412150,
+   "page": 0,
+   "bbox": [
+    1000.4,
+    848.2,
+    1080.0,
+    869.2
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.quick.2.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "매출채권",
+   "norm": "매출채권",
+   "page": 0,
+   "bbox": [
+    144.0,
+    882.6,
+    214.8,
+    903.6
+   ],
+   "label_bbox": [
+    101.2,
+    705.5,
+    753.7,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.quick.2.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "14,084,170",
+   "norm": 14084170,
+   "page": 0,
+   "bbox": [
+    1000.4,
+    882.6,
+    1080.0,
+    903.6
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.quick.3.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "미수금",
+   "norm": "미수금",
+   "page": 0,
+   "bbox": [
+    144.0,
+    917.0,
+    197.1,
+    938.0
+   ],
+   "label_bbox": [
+    101.2,
+    705.5,
+    753.7,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.quick.3.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "11,747,510",
+   "norm": 11747510,
+   "page": 0,
+   "bbox": [
+    1001.0,
+    917.0,
+    1080.0,
+    938.0
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.quick.4.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "부가세대급금",
+   "norm": "부가세대급금",
+   "page": 0,
+   "bbox": [
+    144.0,
+    951.4,
+    250.2,
+    972.4
+   ],
+   "label_bbox": [
+    101.2,
+    705.5,
+    753.7,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.quick.4.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "15,180,140",
+   "norm": 15180140,
+   "page": 0,
+   "bbox": [
+    1000.4,
+    951.4,
+    1080.0,
+    972.4
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "balance_sheet.inventory",
+   "label": "재고자산",
+   "type": "number",
+   "value": "35,987,335",
+   "norm": 35987335,
+   "page": 0,
+   "bbox": [
+    1000.4,
+    985.8,
+    1080.0,
+    1006.8
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.inventory.0.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "상품",
+   "norm": "상품",
+   "page": 0,
+   "bbox": [
+    144.0,
+    1020.2,
+    179.4,
+    1041.2
+   ],
+   "label_bbox": [
+    101.2,
+    705.5,
+    753.7,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.inventory.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "28,909,025",
+   "norm": 28909025,
+   "page": 0,
+   "bbox": [
+    1000.4,
+    1020.2,
+    1080.0,
+    1041.2
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.inventory.1.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "저장품",
+   "norm": "저장품",
+   "page": 0,
+   "bbox": [
+    144.0,
+    1054.5,
+    197.1,
+    1075.5
+   ],
+   "label_bbox": [
+    101.2,
+    705.5,
+    753.7,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.inventory.1.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "7,078,310",
+   "norm": 7078310,
+   "page": 0,
+   "bbox": [
+    1009.2,
+    1054.5,
+    1080.0,
+    1075.5
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "balance_sheet.noncurrent",
+   "label": "비유동자산",
+   "type": "amount",
+   "value": "53,155,220",
+   "norm": 53155220,
+   "page": 0,
+   "bbox": [
+    1000.4,
+    1088.9,
+    1080.0,
+    1109.9
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "balance_sheet.investment",
+   "label": "투자자산",
+   "type": "number",
+   "value": "863,009",
+   "norm": 863009,
+   "page": 0,
+   "bbox": [
+    1022.5,
+    1123.3,
+    1080.0,
+    1144.3
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.investment.0.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "장기금융상품",
+   "norm": "장기금융상품",
+   "page": 0,
+   "bbox": [
+    144.0,
+    1157.7,
+    250.2,
+    1178.7
+   ],
+   "label_bbox": [
+    101.2,
+    705.5,
+    753.7,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.investment.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "335,599",
+   "norm": 335599,
+   "page": 0,
+   "bbox": [
+    1022.5,
+    1157.7,
+    1080.0,
+    1178.7
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.investment.1.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "장기대여금",
+   "norm": "장기대여금",
+   "page": 0,
+   "bbox": [
+    144.0,
+    1192.1,
+    232.5,
+    1213.1
+   ],
+   "label_bbox": [
+    101.2,
+    705.5,
+    753.7,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.investment.1.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "194,810",
+   "norm": 194810,
+   "page": 0,
+   "bbox": [
+    1022.5,
+    1192.1,
+    1080.0,
+    1213.1
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.investment.2.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "보험예치금",
+   "norm": "보험예치금",
+   "page": 0,
+   "bbox": [
+    144.0,
+    1226.5,
+    232.5,
+    1247.5
+   ],
+   "label_bbox": [
+    101.2,
+    705.5,
+    753.7,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.investment.2.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "332,600",
+   "norm": 332600,
+   "page": 0,
+   "bbox": [
+    1022.5,
+    1226.5,
+    1080.0,
+    1247.5
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "balance_sheet.tangible",
+   "label": "유형자산",
+   "type": "number",
+   "value": "38,306,467",
+   "norm": 38306467,
+   "page": 0,
+   "bbox": [
+    1000.4,
+    1260.8,
+    1080.0,
+    1281.8
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.tangible.0.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "비품",
+   "norm": "비품",
+   "page": 0,
+   "bbox": [
+    144.0,
+    1295.2,
+    179.4,
+    1316.2
+   ],
+   "label_bbox": [
+    101.2,
+    705.5,
+    753.7,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.tangible.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "21,139,377",
+   "norm": 21139377,
+   "page": 0,
+   "bbox": [
+    1000.4,
+    1295.2,
+    1080.0,
+    1316.2
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.tangible.1.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "감가상각누계액",
+   "norm": "감가상각누계액",
+   "page": 0,
+   "bbox": [
+    144.0,
+    1329.6,
+    267.9,
+    1350.6
+   ],
+   "label_bbox": [
+    101.2,
+    705.5,
+    753.7,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.tangible.1.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "-8,632,580",
+   "norm": -8632580,
+   "page": 0,
+   "bbox": [
+    1003.3,
+    1329.6,
+    1080.0,
+    1350.6
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.tangible.2.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "시설장치",
+   "norm": "시설장치",
+   "page": 0,
+   "bbox": [
+    144.0,
+    1364.0,
+    214.8,
+    1385.0
+   ],
+   "label_bbox": [
+    101.2,
+    705.5,
+    753.7,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.tangible.2.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "49,958,560",
+   "norm": 49958560,
+   "page": 0,
+   "bbox": [
+    1000.4,
+    1364.0,
+    1080.0,
+    1385.0
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.tangible.3.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "감가상각누계액",
+   "norm": "감가상각누계액",
+   "page": 0,
+   "bbox": [
+    144.0,
+    1398.4,
+    267.9,
+    1419.4
+   ],
+   "label_bbox": [
+    101.2,
+    705.5,
+    753.7,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.tangible.3.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "-24,158,890",
+   "norm": -24158890,
+   "page": 0,
+   "bbox": [
+    994.5,
+    1398.4,
+    1080.0,
+    1419.4
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "balance_sheet.intangible",
+   "label": "무형자산",
+   "type": "number",
+   "value": "2,544,302",
+   "norm": 2544302,
+   "page": 0,
+   "bbox": [
+    1009.2,
+    1432.8,
+    1080.0,
+    1453.8
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.intangible.0.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "소프트웨어",
+   "norm": "소프트웨어",
+   "page": 0,
+   "bbox": [
+    144.0,
+    1467.1,
+    232.5,
+    1488.1
+   ],
+   "label_bbox": [
+    101.2,
+    705.5,
+    753.7,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.intangible.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "1,320,192",
+   "norm": 1320192,
+   "page": 0,
+   "bbox": [
+    1009.2,
+    1467.1,
+    1080.0,
+    1488.1
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.intangible.1.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "상표권",
+   "norm": "상표권",
+   "page": 0,
+   "bbox": [
+    144.0,
+    1501.5,
+    197.1,
+    1522.5
+   ],
+   "label_bbox": [
+    101.2,
+    705.5,
+    753.7,
+    739.9
+   ]
+  },
+  {
+   "key": "bs_accounts.intangible.1.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "1,224,110",
+   "norm": 1224110,
+   "page": 0,
+   "bbox": [
+    1009.9,
+    1501.5,
+    1080.0,
+    1522.5
+   ],
+   "label_bbox": [
+    753.7,
+    705.5,
+    1089.8,
+    739.9
+   ]
+  },
+  {
+   "key": "balance_sheet.other_noncurrent",
+   "label": "기타비유동자산",
+   "type": "amount",
+   "value": "11,441,442",
+   "norm": 11441442,
+   "page": 1,
+   "bbox": [
+    1001.0,
+    206.1,
+    1080.0,
+    227.1
+   ],
+   "label_bbox": [
+    714.0,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "bs_accounts.other_noncurrent.0.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "임차보증금",
+   "norm": "임차보증금",
+   "page": 1,
+   "bbox": [
+    144.0,
+    240.5,
+    232.5,
+    261.5
+   ],
+   "label_bbox": [
+    101.2,
+    166.5,
+    714.0,
+    200.9
+   ]
+  },
+  {
+   "key": "bs_accounts.other_noncurrent.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "7,722,192",
+   "norm": 7722192,
+   "page": 1,
+   "bbox": [
+    1009.2,
+    240.5,
+    1080.0,
+    261.5
+   ],
+   "label_bbox": [
+    714.0,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "bs_accounts.other_noncurrent.1.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "기타보증금",
+   "norm": "기타보증금",
+   "page": 1,
+   "bbox": [
+    144.0,
+    274.9,
+    232.5,
+    295.9
+   ],
+   "label_bbox": [
+    101.2,
+    166.5,
+    714.0,
+    200.9
+   ]
+  },
+  {
+   "key": "bs_accounts.other_noncurrent.1.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "3,719,250",
+   "norm": 3719250,
+   "page": 1,
+   "bbox": [
+    1009.2,
+    274.9,
+    1080.0,
+    295.9
+   ],
+   "label_bbox": [
+    714.0,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "balance_sheet.assets",
+   "label": "자산총계",
+   "type": "amount",
+   "value": "146,487,693",
+   "norm": 146487693,
+   "page": 1,
+   "bbox": [
+    991.5,
+    309.3,
+    1080.0,
+    330.3
+   ],
+   "label_bbox": [
+    714.0,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "balance_sheet.current_liab",
+   "label": "유동부채",
+   "type": "amount",
+   "value": "21,621,183",
+   "norm": 21621183,
+   "page": 1,
+   "bbox": [
+    1000.4,
+    343.6,
+    1080.0,
+    364.6
+   ],
+   "label_bbox": [
+    714.0,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "bs_accounts.current_liab.0.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "매입채무",
+   "norm": "매입채무",
+   "page": 1,
+   "bbox": [
+    144.0,
+    378.0,
+    214.8,
+    399.0
+   ],
+   "label_bbox": [
+    101.2,
+    166.5,
+    714.0,
+    200.9
+   ]
+  },
+  {
+   "key": "bs_accounts.current_liab.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "3,188,963",
+   "norm": 3188963,
+   "page": 1,
+   "bbox": [
+    1009.2,
+    378.0,
+    1080.0,
+    399.0
+   ],
+   "label_bbox": [
+    714.0,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "bs_accounts.current_liab.1.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "미지급금",
+   "norm": "미지급금",
+   "page": 1,
+   "bbox": [
+    144.0,
+    412.4,
+    214.8,
+    433.4
+   ],
+   "label_bbox": [
+    101.2,
+    166.5,
+    714.0,
+    200.9
+   ]
+  },
+  {
+   "key": "bs_accounts.current_liab.1.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "2,714,800",
+   "norm": 2714800,
+   "page": 1,
+   "bbox": [
+    1009.2,
+    412.4,
+    1080.0,
+    433.4
+   ],
+   "label_bbox": [
+    714.0,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "bs_accounts.current_liab.2.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "예수금",
+   "norm": "예수금",
+   "page": 1,
+   "bbox": [
+    144.0,
+    446.8,
+    197.1,
+    467.8
+   ],
+   "label_bbox": [
+    101.2,
+    166.5,
+    714.0,
+    200.9
+   ]
+  },
+  {
+   "key": "bs_accounts.current_liab.2.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "2,883,590",
+   "norm": 2883590,
+   "page": 1,
+   "bbox": [
+    1009.2,
+    446.8,
+    1080.0,
+    467.8
+   ],
+   "label_bbox": [
+    714.0,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "bs_accounts.current_liab.3.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "부가세예수금",
+   "norm": "부가세예수금",
+   "page": 1,
+   "bbox": [
+    144.0,
+    481.2,
+    250.2,
+    502.2
+   ],
+   "label_bbox": [
+    101.2,
+    166.5,
+    714.0,
+    200.9
+   ]
+  },
+  {
+   "key": "bs_accounts.current_liab.3.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "2,378,020",
+   "norm": 2378020,
+   "page": 1,
+   "bbox": [
+    1009.2,
+    481.2,
+    1080.0,
+    502.2
+   ],
+   "label_bbox": [
+    714.0,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "bs_accounts.current_liab.4.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "선수금",
+   "norm": "선수금",
+   "page": 1,
+   "bbox": [
+    144.0,
+    515.6,
+    197.1,
+    536.6
+   ],
+   "label_bbox": [
+    101.2,
+    166.5,
+    714.0,
+    200.9
+   ]
+  },
+  {
+   "key": "bs_accounts.current_liab.4.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "6,075,820",
+   "norm": 6075820,
+   "page": 1,
+   "bbox": [
+    1009.2,
+    515.6,
+    1080.0,
+    536.6
+   ],
+   "label_bbox": [
+    714.0,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "bs_accounts.current_liab.5.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "단기차입금",
+   "norm": "단기차입금",
+   "page": 1,
+   "bbox": [
+    144.0,
+    549.9,
+    232.5,
+    570.9
+   ],
+   "label_bbox": [
+    101.2,
+    166.5,
+    714.0,
+    200.9
+   ]
+  },
+  {
+   "key": "bs_accounts.current_liab.5.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "4,379,990",
+   "norm": 4379990,
+   "page": 1,
+   "bbox": [
+    1009.2,
+    549.9,
+    1080.0,
+    570.9
+   ],
+   "label_bbox": [
+    714.0,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "balance_sheet.noncurrent_liab",
+   "label": "비유동부채",
+   "type": "amount",
+   "value": "45,039,801",
+   "norm": 45039801,
+   "page": 1,
+   "bbox": [
+    1000.4,
+    584.3,
+    1080.0,
+    605.3
+   ],
+   "label_bbox": [
+    714.0,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "bs_accounts.noncurrent_liab.0.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "장기차입금",
+   "norm": "장기차입금",
+   "page": 1,
+   "bbox": [
+    144.0,
+    618.7,
+    232.5,
+    639.7
+   ],
+   "label_bbox": [
+    101.2,
+    166.5,
+    714.0,
+    200.9
+   ]
+  },
+  {
+   "key": "bs_accounts.noncurrent_liab.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "45,039,801",
+   "norm": 45039801,
+   "page": 1,
+   "bbox": [
+    1000.4,
+    618.7,
+    1080.0,
+    639.7
+   ],
+   "label_bbox": [
+    714.0,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "balance_sheet.liabilities",
+   "label": "부채총계",
+   "type": "amount",
+   "value": "66,660,984",
+   "norm": 66660984,
+   "page": 1,
+   "bbox": [
+    1000.4,
+    653.1,
+    1080.0,
+    674.1
+   ],
+   "label_bbox": [
+    714.0,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "balance_sheet.capital",
+   "label": "자본금",
+   "type": "amount",
+   "value": "79,826,709",
+   "norm": 79826709,
+   "page": 1,
+   "bbox": [
+    1000.4,
+    687.5,
+    1080.0,
+    708.5
+   ],
+   "label_bbox": [
+    714.0,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "balance_sheet.equity",
+   "label": "자본총계",
+   "type": "amount",
+   "value": "79,826,709",
+   "norm": 79826709,
+   "page": 1,
+   "bbox": [
+    1000.4,
+    721.9,
+    1080.0,
+    742.9
+   ],
+   "label_bbox": [
+    714.0,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "balance_sheet.liab_equity",
+   "label": "부채와자본총계",
+   "type": "amount",
+   "value": "146,487,693",
+   "norm": 146487693,
+   "page": 1,
+   "bbox": [
+    991.5,
+    756.2,
+    1080.0,
+    777.2
+   ],
+   "label_bbox": [
+    714.0,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "income_statement.revenue",
+   "label": "매출액",
+   "type": "amount",
+   "value": "185,741,550",
+   "norm": 185741550,
+   "page": 1,
+   "bbox": [
+    991.5,
+    875.9,
+    1080.0,
+    896.9
+   ],
+   "label_bbox": [
+    753.7,
+    836.2,
+    1089.8,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.revenue.0.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "상품매출",
+   "norm": "상품매출",
+   "page": 1,
+   "bbox": [
+    144.0,
+    910.3,
+    214.8,
+    931.3
+   ],
+   "label_bbox": [
+    101.2,
+    836.2,
+    753.7,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.revenue.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "185,741,550",
+   "norm": 185741550,
+   "page": 1,
+   "bbox": [
+    991.5,
+    910.3,
+    1080.0,
+    931.3
+   ],
+   "label_bbox": [
+    753.7,
+    836.2,
+    1089.8,
+    870.6
+   ]
+  },
+  {
+   "key": "income_statement.cogs",
+   "label": "매출원가",
+   "type": "number",
+   "value": "125,927,073",
+   "norm": 125927073,
+   "page": 1,
+   "bbox": [
+    991.5,
+    944.6,
+    1080.0,
+    965.6
+   ],
+   "label_bbox": [
+    753.7,
+    836.2,
+    1089.8,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.cogs.0.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "기초재고액",
+   "norm": "기초재고액",
+   "page": 1,
+   "bbox": [
+    144.0,
+    979.0,
+    232.5,
+    1000.0
+   ],
+   "label_bbox": [
+    101.2,
+    836.2,
+    753.7,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.cogs.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "6,649,463",
+   "norm": 6649463,
+   "page": 1,
+   "bbox": [
+    1009.2,
+    979.0,
+    1080.0,
+    1000.0
+   ],
+   "label_bbox": [
+    753.7,
+    836.2,
+    1089.8,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.cogs.1.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "당기매입액",
+   "norm": "당기매입액",
+   "page": 1,
+   "bbox": [
+    144.0,
+    1013.4,
+    232.5,
+    1034.4
+   ],
+   "label_bbox": [
+    101.2,
+    836.2,
+    753.7,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.cogs.1.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "155,264,945",
+   "norm": 155264945,
+   "page": 1,
+   "bbox": [
+    991.5,
+    1013.4,
+    1080.0,
+    1034.4
+   ],
+   "label_bbox": [
+    753.7,
+    836.2,
+    1089.8,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.cogs.2.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "기말재고액",
+   "norm": "기말재고액",
+   "page": 1,
+   "bbox": [
+    144.0,
+    1047.8,
+    232.5,
+    1068.8
+   ],
+   "label_bbox": [
+    101.2,
+    836.2,
+    753.7,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.cogs.2.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "35,987,335",
+   "norm": 35987335,
+   "page": 1,
+   "bbox": [
+    1000.4,
+    1047.8,
+    1080.0,
+    1068.8
+   ],
+   "label_bbox": [
+    753.7,
+    836.2,
+    1089.8,
+    870.6
+   ]
+  },
+  {
+   "key": "income_statement.gross",
+   "label": "매출총이익",
+   "type": "number",
+   "value": "59,814,477",
+   "norm": 59814477,
+   "page": 1,
+   "bbox": [
+    1000.4,
+    1082.2,
+    1080.0,
+    1103.2
+   ],
+   "label_bbox": [
+    753.7,
+    836.2,
+    1089.8,
+    870.6
+   ]
+  },
+  {
+   "key": "income_statement.sga",
+   "label": "판매비와관리비",
+   "type": "number",
+   "value": "42,160,386",
+   "norm": 42160386,
+   "page": 1,
+   "bbox": [
+    1000.4,
+    1116.6,
+    1080.0,
+    1137.6
+   ],
+   "label_bbox": [
+    753.7,
+    836.2,
+    1089.8,
+    870.6
+   ]
+  },
+  {
+   "key": "income_statement.salary",
+   "label": "급여",
+   "type": "amount",
+   "value": "21,155,090",
+   "norm": 21155090,
+   "page": 1,
+   "bbox": [
+    1000.4,
+    1150.9,
+    1080.0,
+    1171.9
+   ],
+   "label_bbox": [
+    753.7,
+    836.2,
+    1089.8,
+    870.6
+   ]
+  },
+  {
+   "key": "income_statement.welfare",
+   "label": "복리후생비",
+   "type": "number",
+   "value": "2,538,610",
+   "norm": 2538610,
+   "page": 1,
+   "bbox": [
+    1009.2,
+    1185.3,
+    1080.0,
+    1206.3
+   ],
+   "label_bbox": [
+    753.7,
+    836.2,
+    1089.8,
+    870.6
+   ]
+  },
+  {
+   "key": "income_statement.rent",
+   "label": "지급임차료",
+   "type": "amount",
+   "value": "6,927,260",
+   "norm": 6927260,
+   "page": 1,
+   "bbox": [
+    1009.2,
+    1219.7,
+    1080.0,
+    1240.7
+   ],
+   "label_bbox": [
+    753.7,
+    836.2,
+    1089.8,
+    870.6
+   ]
+  },
+  {
+   "key": "income_statement.depreciation",
+   "label": "감가상각비",
+   "type": "number",
+   "value": "4,195,000",
+   "norm": 4195000,
+   "page": 1,
+   "bbox": [
+    1009.2,
+    1254.1,
+    1080.0,
+    1275.1
+   ],
+   "label_bbox": [
+    753.7,
+    836.2,
+    1089.8,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.sga.0.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "퇴직급여",
+   "norm": "퇴직급여",
+   "page": 1,
+   "bbox": [
+    143.7,
+    1288.5,
+    214.5,
+    1309.5
+   ],
+   "label_bbox": [
+    101.2,
+    836.2,
+    753.7,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.sga.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "412,926",
+   "norm": 412926,
+   "page": 1,
+   "bbox": [
+    1022.5,
+    1288.5,
+    1080.0,
+    1309.5
+   ],
+   "label_bbox": [
+    753.7,
+    836.2,
+    1089.8,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.sga.1.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "통신비",
+   "norm": "통신비",
+   "page": 1,
+   "bbox": [
+    143.7,
+    1322.9,
+    196.8,
+    1343.9
+   ],
+   "label_bbox": [
+    101.2,
+    836.2,
+    753.7,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.sga.1.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "1,144,220",
+   "norm": 1144220,
+   "page": 1,
+   "bbox": [
+    1009.2,
+    1322.9,
+    1080.0,
+    1343.9
+   ],
+   "label_bbox": [
+    753.7,
+    836.2,
+    1089.8,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.sga.2.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "수도광열비",
+   "norm": "수도광열비",
+   "page": 1,
+   "bbox": [
+    143.7,
+    1357.2,
+    232.2,
+    1378.2
+   ],
+   "label_bbox": [
+    101.2,
+    836.2,
+    753.7,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.sga.2.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "1,752,060",
+   "norm": 1752060,
+   "page": 1,
+   "bbox": [
+    1009.2,
+    1357.2,
+    1080.0,
+    1378.2
+   ],
+   "label_bbox": [
+    753.7,
+    836.2,
+    1089.8,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.sga.3.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "세금과공과",
+   "norm": "세금과공과",
+   "page": 1,
+   "bbox": [
+    143.7,
+    1391.6,
+    232.2,
+    1412.6
+   ],
+   "label_bbox": [
+    101.2,
+    836.2,
+    753.7,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.sga.3.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "352,920",
+   "norm": 352920,
+   "page": 1,
+   "bbox": [
+    1022.5,
+    1391.6,
+    1080.0,
+    1412.6
+   ],
+   "label_bbox": [
+    753.7,
+    836.2,
+    1089.8,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.sga.4.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "보험료",
+   "norm": "보험료",
+   "page": 1,
+   "bbox": [
+    143.7,
+    1426.0,
+    196.8,
+    1447.0
+   ],
+   "label_bbox": [
+    101.2,
+    836.2,
+    753.7,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.sga.4.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "710,910",
+   "norm": 710910,
+   "page": 1,
+   "bbox": [
+    1022.5,
+    1426.0,
+    1080.0,
+    1447.0
+   ],
+   "label_bbox": [
+    753.7,
+    836.2,
+    1089.8,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.sga.5.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "차량유지비",
+   "norm": "차량유지비",
+   "page": 1,
+   "bbox": [
+    152.6,
+    1460.4,
+    241.0,
+    1481.4
+   ],
+   "label_bbox": [
+    101.2,
+    836.2,
+    753.7,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.sga.5.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "697,850",
+   "norm": 697850,
+   "page": 1,
+   "bbox": [
+    1022.5,
+    1460.4,
+    1080.0,
+    1481.4
+   ],
+   "label_bbox": [
+    753.7,
+    836.2,
+    1089.8,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.sga.6.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "교육훈련비",
+   "norm": "교육훈련비",
+   "page": 1,
+   "bbox": [
+    151.9,
+    1494.8,
+    240.4,
+    1515.8
+   ],
+   "label_bbox": [
+    101.2,
+    836.2,
+    753.7,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.sga.6.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "747,250",
+   "norm": 747250,
+   "page": 1,
+   "bbox": [
+    1022.5,
+    1494.8,
+    1080.0,
+    1515.8
+   ],
+   "label_bbox": [
+    753.7,
+    836.2,
+    1089.8,
+    870.6
+   ]
+  },
+  {
+   "key": "pl_accounts.sga.7.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "소모품비",
+   "norm": "소모품비",
+   "page": 2,
+   "bbox": [
+    152.6,
+    206.1,
+    223.3,
+    227.1
+   ],
+   "label_bbox": [
+    101.2,
+    166.5,
+    695.6,
+    200.9
+   ]
+  },
+  {
+   "key": "pl_accounts.sga.7.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "487,610",
+   "norm": 487610,
+   "page": 2,
+   "bbox": [
+    1022.5,
+    206.1,
+    1080.0,
+    227.1
+   ],
+   "label_bbox": [
+    695.6,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "pl_accounts.sga.8.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "지급수수료",
+   "norm": "지급수수료",
+   "page": 2,
+   "bbox": [
+    152.6,
+    240.5,
+    241.0,
+    261.5
+   ],
+   "label_bbox": [
+    101.2,
+    166.5,
+    695.6,
+    200.9
+   ]
+  },
+  {
+   "key": "pl_accounts.sga.8.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "1,038,680",
+   "norm": 1038680,
+   "page": 2,
+   "bbox": [
+    1009.2,
+    240.5,
+    1080.0,
+    261.5
+   ],
+   "label_bbox": [
+    695.6,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "income_statement.op",
+   "label": "영업이익",
+   "type": "number",
+   "value": "17,654,091",
+   "norm": 17654091,
+   "page": 2,
+   "bbox": [
+    1000.4,
+    274.9,
+    1080.0,
+    295.9
+   ],
+   "label_bbox": [
+    695.6,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "income_statement.non_op_income",
+   "label": "영업외수익",
+   "type": "amount",
+   "value": "288,609",
+   "norm": 288609,
+   "page": 2,
+   "bbox": [
+    1022.5,
+    309.3,
+    1080.0,
+    330.3
+   ],
+   "label_bbox": [
+    695.6,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "pl_accounts.non_op_income.0.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "이자수익",
+   "norm": "이자수익",
+   "page": 2,
+   "bbox": [
+    144.0,
+    343.6,
+    214.8,
+    364.6
+   ],
+   "label_bbox": [
+    101.2,
+    166.5,
+    695.6,
+    200.9
+   ]
+  },
+  {
+   "key": "pl_accounts.non_op_income.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "184,319",
+   "norm": 184319,
+   "page": 2,
+   "bbox": [
+    1022.5,
+    343.6,
+    1080.0,
+    364.6
+   ],
+   "label_bbox": [
+    695.6,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "pl_accounts.non_op_income.1.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "잡이익",
+   "norm": "잡이익",
+   "page": 2,
+   "bbox": [
+    144.0,
+    378.0,
+    197.1,
+    399.0
+   ],
+   "label_bbox": [
+    101.2,
+    166.5,
+    695.6,
+    200.9
+   ]
+  },
+  {
+   "key": "pl_accounts.non_op_income.1.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "104,290",
+   "norm": 104290,
+   "page": 2,
+   "bbox": [
+    1022.5,
+    378.0,
+    1080.0,
+    399.0
+   ],
+   "label_bbox": [
+    695.6,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "income_statement.non_op_expense",
+   "label": "영업외비용",
+   "type": "amount",
+   "value": "2,820,220",
+   "norm": 2820220,
+   "page": 2,
+   "bbox": [
+    1009.2,
+    412.4,
+    1080.0,
+    433.4
+   ],
+   "label_bbox": [
+    695.6,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "pl_accounts.non_op_expense.0.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "이자비용",
+   "norm": "이자비용",
+   "page": 2,
+   "bbox": [
+    144.0,
+    446.8,
+    214.8,
+    467.8
+   ],
+   "label_bbox": [
+    101.2,
+    166.5,
+    695.6,
+    200.9
+   ]
+  },
+  {
+   "key": "pl_accounts.non_op_expense.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "415,470",
+   "norm": 415470,
+   "page": 2,
+   "bbox": [
+    1022.5,
+    446.8,
+    1080.0,
+    467.8
+   ],
+   "label_bbox": [
+    695.6,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "pl_accounts.non_op_expense.1.account",
+   "label": "계정과목",
+   "type": "text",
+   "value": "잡손실",
+   "norm": "잡손실",
+   "page": 2,
+   "bbox": [
+    144.0,
+    481.2,
+    197.1,
+    502.2
+   ],
+   "label_bbox": [
+    101.2,
+    166.5,
+    695.6,
+    200.9
+   ]
+  },
+  {
+   "key": "pl_accounts.non_op_expense.1.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "2,404,750",
+   "norm": 2404750,
+   "page": 2,
+   "bbox": [
+    1009.2,
+    481.2,
+    1080.0,
+    502.2
+   ],
+   "label_bbox": [
+    695.6,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  },
+  {
+   "key": "income_statement.net",
+   "label": "당기순이익",
+   "type": "number",
+   "value": "15,122,480",
+   "norm": 15122480,
+   "page": 2,
+   "bbox": [
+    1000.4,
+    515.6,
+    1080.0,
+    536.6
+   ],
+   "label_bbox": [
+    695.6,
+    166.5,
+    1089.8,
+    200.9
+   ]
+  }
+ ]
+}

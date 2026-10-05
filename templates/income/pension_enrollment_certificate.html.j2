@@ -1,6 +1,7 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
 {% block style %}
+.keep { display: flex; flex-direction: column; } /* 맺음말·발급기관·직인은 한 덩어리 (쪽 나눔에서 쪼개지 않음) */
 table.ph td { font-size: calc(var(--fs) - 0.5px); }
 h3.sec { margin: 16px 0 4px; }
 .form-no { font-size: 10px; color: #333; margin-bottom: 8px; }
@@ -19,9 +20,11 @@ h3.sec { margin: 16px 0 4px; }
   <colgroup><col style="width:160px"><col><col style="width:120px"><col></colgroup>
   <tr><th>최초 자격취득일</th><td>{{ f("first_acquired", label="최초자격취득일") }}</td><th>가입기간 합계</th><td>{{ f("total_months", label="가입기간합계") }}</td></tr>
 </table>
+{% set has_note = d.rows|selectattr("note", "defined")|list|length > 0 %}
 <table class="ph">
-  <colgroup><col style="width:6%"><col style="width:16%"><col style="width:30%"><col style="width:15%"><col style="width:15%"><col></colgroup>
-  <tr><th>순번</th><th>가입자 종류</th><th>사업장 명칭</th><th>자격취득일</th><th>자격상실일</th><th>기준소득월액(원)</th></tr>
+  {% if has_note %}<colgroup><col style="width:5%"><col style="width:13%"><col style="width:23%"><col style="width:12%"><col style="width:12%"><col style="width:14%"><col></colgroup>
+  {% else %}<colgroup><col style="width:6%"><col style="width:16%"><col style="width:30%"><col style="width:15%"><col style="width:15%"><col></colgroup>{% endif %}
+  <tr><th>순번</th><th>가입자 종류</th><th>사업장 명칭</th><th>자격취득일</th><th>자격상실일</th><th>기준소득월액(원)</th>{% if has_note %}<th>비　고</th>{% endif %}</tr>
   {% for r in d.rows %}{% set i = loop.index0 %}
   <tr>
     <td class="c">{{ loop.index }}</td>
@@ -30,10 +33,12 @@ h3.sec { margin: 16px 0 4px; }
     <td class="c">{{ f("rows." ~ i ~ ".start", label="자격취득일") }}</td>
     <td class="c">{% if r.end is defined %}{{ f("rows." ~ i ~ ".end", label="자격상실일") }}{% else %}-{% endif %}</td>
     <td class="num">{{ f("rows." ~ i ~ ".wage", label="기준소득월액") }}</td>
+    {% if has_note %}<td class="c small" style="white-space:nowrap">{% if r.note is defined %}{{ f("rows." ~ i ~ ".note", label="비고") }}{% endif %}</td>{% endif %}
   </tr>
   {% endfor %}
-  {% for _ in range(6 - d.rows|length) %}<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>{% endfor %}
+  {% for _ in range(6 - d.rows|length) %}<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td>{% if has_note %}<td></td>{% endif %}</tr>{% endfor %}
 </table>
+{% if d.rows|length > 6 %}<p class="center small" style="margin:2px 0 6px">- 이하 여백 -</p>{% endif %}
 <table class="kv">
   <colgroup><col style="width:120px"><col></colgroup>
   <tr><th>용　　도</th><td>{{ f("purpose", label="용도") }}</td></tr>
@@ -42,9 +47,11 @@ h3.sec { margin: 16px 0 4px; }
   <li>자격상실일은 자격을 상실한 날(퇴사일의 다음 날)이며, 자격상실일이 없는 경우 현재 가입 중임을 의미합니다.</li>
   <li>이 증명서는 국민연금공단 홈페이지(www.nps.or.kr)에서 발급번호로 진위 여부를 확인할 수 있습니다.</li>
 </ul>
+<div class="keep">
 <p class="center mt-l" style="font-size:calc(var(--fs) + 2px)">위의 사실을 증명합니다.</p>
 <div class="issuer">
   <div class="date">{{ f("issue_date", label="발급일") }}</div>
   <div class="org">국민연금공단 이사장{{ m.seal("국민연금공단이사장", square=True, over=True) }}</div>
+</div>
 </div>
 {% endblock %}

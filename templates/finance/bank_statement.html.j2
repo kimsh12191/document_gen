@@ -1,15 +1,24 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
 {% block style %}
+.keep { display: flex; flex-direction: column; } /* 맺음말·발급기관·직인은 한 덩어리 (쪽 나눔에서 쪼개지 않음) */
 table.tx th, table.tx td { padding: 3px 5px; font-size: calc(var(--fs) - 1.5px); }
 table.tx td.memo { text-align: left; }
 table.tx tr.sum td, table.tx tr.sum th { background: var(--label-bg); font-weight: 700; }
+.acct-line:not(.pg-repeated) { display: none; }
+.acct-line.pg-repeated { margin-bottom: 4px; }
+td.neg { color: #c00; }
 {% endblock %}
 {% block content %}
+{% set negred = d.overdraft_limit is defined and f.chance(0.5) %}{# 마이너스 잔액을 빨간 글씨로 찍는 은행 #}
 {{ m.doc_no("issue_no", "발급번호") }}
 {{ m.title("거 래 내 역 확 인 서") }}
-{{ m.kv([["예 금 주", "holder"], ["생년월일", "birth"], ["계좌번호", "account_no"], ["상 품 명", "product"],
-         ["조회기간", "period"], ["조회기간 전 잔액", "opening_balance"]], cols=2, label_w="120px") }}
+{% set kvrows = [["예 금 주", "holder"], ["생년월일", "birth"], ["계좌번호", "account_no"], ["상 품 명", "product"],
+         ["조회기간", "period"], ["조회기간 전 잔액", "opening_balance"]] %}
+{% if d.overdraft_limit is defined %}{% set kvrows = kvrows + [["대출한도", "overdraft_limit", True]] %}{% endif %}
+{{ m.kv(kvrows, cols=2, label_w="120px") }}
+{# 둘째 쪽부터 맨 위에 반복되는 계좌 정보 줄 (첫 쪽에서는 숨김) #}
+<div class="docno pg-repeat acct-line">계좌번호 : {{ val("account_no") }}&nbsp;&nbsp;&nbsp;예금주 : {{ val("holder") }}&nbsp;&nbsp;&nbsp;조회기간 : {{ val("period") }}</div>
 <table class="tx mt">
   <colgroup><col style="width:19%"><col style="width:11%"><col style="width:19%"><col style="width:13%"><col style="width:13%"><col></colgroup>
   <tr><th>거래일시</th><th>적요</th><th>기재내용</th><th>찾으신금액</th><th>맡기신금액</th><th>거래후잔액</th></tr>
@@ -20,17 +29,20 @@ table.tx tr.sum td, table.tx tr.sum th { background: var(--label-bg); font-weigh
     <td class="memo">{{ f("rows." ~ i ~ ".memo", label="기재내용") }}</td>
     <td class="num">{% if r.out is defined %}{{ f("rows." ~ i ~ ".out", label="찾으신금액") }}{% endif %}</td>
     <td class="num">{% if r["in"] is defined %}{{ f("rows." ~ i ~ ".in", label="맡기신금액") }}{% endif %}</td>
-    <td class="num">{{ f("rows." ~ i ~ ".balance", label="거래후잔액") }}</td>
+    <td class="num{{ ' neg' if negred and r.balance.startswith('-') }}">{{ f("rows." ~ i ~ ".balance", label="거래후잔액") }}</td>
   </tr>
   {% endfor %}
   <tr class="sum"><td class="c">합계</td><td class="c">{{ f("summary.count", label="거래건수") }}</td><td></td>
     <td class="num">{{ f("summary.out", label="찾으신금액합계") }}</td><td class="num">{{ f("summary.in", label="맡기신금액합계") }}</td>
     <td class="num">{{ f("summary.balance", label="최종잔액") }}</td></tr>
 </table>
+{% if d.rows|length > 25 and f.chance(0.6) %}<p class="center small" style="margin:2px 0">{{ ["- 이하 여백 -", "*** 이하 여백 ***", "-- 이 하 여 백 --"][(d.rows|length) % 3] }}</p>{% endif %}
 <p class="note">※ 본 확인서는 조회기간 중 위 계좌의 거래내역을 확인하기 위한 것으로 다른 용도로 사용할 수 없습니다.<br>※ 금액 단위 : 원</p>
+<div class="keep">
 <p class="center mt" style="font-size:calc(var(--fs) + 1px)">위와 같이 거래내역을 확인합니다.</p>
 <div class="issuer" style="margin-top:10px">
   <div class="date">{{ f("issue_date", label="발급일") }}</div>
   <div class="org">{{ f("issuer", label="발급점") }}{{ m.seal(val("issuer").split()[-1] ~ "장인", square=True, over=True) }}</div>
+</div>
 </div>
 {% endblock %}

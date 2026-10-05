@@ -16,6 +16,16 @@
  "residence_category": "해당사항 없음",
  "date": "2025.11.29",
  "signature": "김소윤",
+ "seal": {
+  "holder": false,
+  "staff": {
+   "clerk": true,
+   "manager": true
+  }
+ },
+ "sign": {
+  "holder": false
+ },
  "bank_use": {
   "branch": "분당지점",
   "clerk": "배훈희",

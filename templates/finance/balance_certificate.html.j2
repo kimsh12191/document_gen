@@ -1,6 +1,7 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
 {% block style %}
+.keep { display: flex; flex-direction: column; } /* 맺음말·발급기관·직인은 한 덩어리 (쪽 나눔에서 쪼개지 않음) */
 table.bc tr.sum th, table.bc tr.sum td { font-weight: 700; background: var(--label-bg); }
 {% endblock %}
 {% block content %}
@@ -8,16 +9,16 @@ table.bc tr.sum th, table.bc tr.sum td { font-weight: 700; background: var(--lab
 {{ m.title("예 금 잔 액 증 명 서", sub="Certificate of Deposit Balance") }}
 {{ m.kv([["예 금 주", "holder.name"], ["고객번호(주민등록번호)", "holder.rrn"], ["기 준 일", "base_date", True]], cols=2, label_w="150px") }}
 <table class="bc mt">
-  <colgroup><col style="width:20%"><col style="width:24%"><col style="width:18%"><col style="width:12%"><col style="width:7%"><col></colgroup>
-  <tr><th>과　목</th><th>계좌번호</th><th>예금잔액(원)</th><th>미결제타점권</th><th>질권</th><th>지급정지·압류·가압류</th></tr>
+  <colgroup><col style="width:21%"><col style="width:26%"><col style="width:18%"><col style="width:11%"><col style="width:8%"><col></colgroup>
+  <tr><th>과　목</th><th>계좌번호</th><th>예금잔액(원)</th><th style="white-space:normal">미결제<br>타점권</th><th>질권</th><th style="white-space:normal">지급정지·<br>압류·가압류</th></tr>
   {% for r in d.rows %}{% set i = loop.index0 %}
   <tr>
-    <td class="c" style="white-space:nowrap">{{ f("rows." ~ i ~ ".kind", label="과목") }}</td>
-    <td class="c">{{ f("rows." ~ i ~ ".account_no", label="계좌번호") }}</td>
+    <td class="c" style="white-space:nowrap">{{ f("rows." ~ i ~ ".kind", label="과목") }}{% if r.fx_amount is defined %}<br><span class="small">({{ f("rows." ~ i ~ ".fx_amount", label="외화잔액") }})</span>{% endif %}</td>
+    <td class="c" style="white-space:nowrap;font-size:calc(var(--fs) - 1px)">{{ f("rows." ~ i ~ ".account_no", label="계좌번호") }}</td>
     <td class="num">{{ f("rows." ~ i ~ ".balance", label="예금잔액") }}</td>
     <td class="num">{{ f("rows." ~ i ~ ".uncleared", label="미결제타점권") }}</td>
-    <td class="c">{{ f("rows." ~ i ~ ".pledge", label="질권") }}</td>
-    <td class="c">{{ f("rows." ~ i ~ ".restriction", label="지급정지·압류·가압류") }}</td>
+    <td class="c{{ ' bold' if r.pledge == '유' }}">{{ f("rows." ~ i ~ ".pledge", label="질권") }}</td>
+    <td class="c{{ ' bold' if r.restriction != '무' }}">{{ f("rows." ~ i ~ ".restriction", label="지급정지·압류·가압류") }}</td>
   </tr>
   {% endfor %}
   {% for _ in range(5 - d.rows|length) %}<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td></tr>{% endfor %}
@@ -26,12 +27,16 @@ table.bc tr.sum th, table.bc tr.sum td { font-weight: 700; background: var(--lab
 </table>
 <table>
   <colgroup><col style="width:110px"><col></colgroup>
+  {% if d.remarks is defined %}<tr><th>비　　고</th><td class="small">{% for x in d.remarks %}{{ f("remarks." ~ loop.index0, label="비고") }}{% if not loop.last %}<br>{% endif %}{% endfor %}</td></tr>{% endif %}
   <tr><th>용　　도</th><td>{{ f("purpose", label="용도") }}</td></tr>
 </table>
+{% if d.fx_rate is defined %}<p class="note">※ 외화예금은 기준일 최초 고시 매매기준율({{ f("fx_rate", label="매매기준율") }})로 원화 환산한 금액입니다.</p>{% endif %}
+<div class="keep">
 <p class="center mt-l" style="font-size:calc(var(--fs) + 2px)">위와 같이 예금잔액이 있음을 증명합니다.</p>
 <div class="issuer">
   <div class="date">{{ f("issue_date", label="발급일") }}</div>
   <div class="org">{{ f("issuer", label="발급점") }}{{ m.seal(val("issuer").split()[-1] ~ "인", square=True, over=True) }}</div>
+</div>
 </div>
 <ol class="note mt-l">
   <li>이 증명서는 기준일 현재의 예금잔액을 증명하는 것으로, 기준일 이후의 입출금에 대하여는 책임지지 않습니다.</li>

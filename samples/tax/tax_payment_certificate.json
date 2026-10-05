@@ -1,6 +1,6 @@
 {
  "document_type": "납세증명서(국세완납증명)",
- "issue_no": "1397-432-6566-114",
+ "issue_no": "5427-490-6083-585",
  "taxpayer": {
   "trade_name": "넥스트몰",
   "biz_no": "129-20-96799",
@@ -9,10 +9,15 @@
   "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)"
  },
  "valid_period": "2025년 11월 29일 ~ 2025년 12월 28일",
- "purpose_type": "기타",
- "purpose": "대출 신청",
+ "valid_reason": null,
+ "purpose_type": "대금 수령",
+ "purpose": "물품대금 수령",
+ "payer": "한국토지주택공사",
  "deferral": "해당없음",
  "arrears": "없음",
  "issue_date": "2025년 11월 29일",
- "issuer": "서광주세무서장"
+ "issuer": "서광주세무서장",
+ "seal": {
+  "issuer": true
+ }
 }
