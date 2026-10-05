@@ -77,11 +77,13 @@ ol.clauses li { margin: 3px 0; }
 .inmark { position: relative; display: inline-block; min-width: 34px; text-align: center; }
 .inmark .seal.onmark { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-8deg); margin: 0; }
 .inmark .scribble { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -55%); pointer-events: none; }
-.corr { white-space: nowrap; }
+.corr { white-space: normal; }
+.corr-old, .corr .fv { white-space: nowrap; }
 .corr-old { text-decoration: line-through double; text-decoration-color: #c00; color: inherit; }
 .seal.corr-seal { width: 22px; height: 22px; font-size: 7px; border-width: 1.5px; margin-left: 2px; vertical-align: -4px; }
 .seal-missing { display: inline-block; width: 64px; height: 64px; vertical-align: middle; }
 .seal-missing.sm { width: 40px; height: 40px; } .seal-missing.lg { width: 84px; height: 84px; }
+.pg-keep { break-inside: avoid; }
 .scribble svg { display: block; overflow: visible; }
 .chk { white-space: nowrap; margin-right: 10px; }
 .photo {

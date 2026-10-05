@@ -55,7 +55,8 @@
 {# 선택형 항목: 선택된 옵션만 f() 로 기록된다. 예) m.choice('loan.rate_type', ['고정금리','변동금리']) #}
 {% macro choice(path, options, label=None, on="■", off="□") -%}
 {% set cur = val(path) if f.has(path) else None %}
-{% for o in options %}<span class="chk" data-opt="{{ path }}#{{ loop.index0 }}"><span class="cb" data-box="{{ path }}#{{ loop.index0 }}">{{ on if o == cur else off }}</span> {% if o == cur %}{{ f(path, label=label) }}{% else %}{{ o }}{% endif %}</span>{% endfor %}{{ f.opts(path, options, cur, label) }}
+{% if cur is none %}<span class="fv" data-field="{{ path }}">{% endif %}{# 아무것도 체크 안 됨: 보기 묶음 전체가 위치 #}
+{% for o in options %}<span class="chk" data-opt="{{ path }}#{{ loop.index0 }}"><span class="cb" data-box="{{ path }}#{{ loop.index0 }}">{{ on if o == cur else off }}</span> {% if o == cur %}{{ f(path, label=label) }}{% else %}{{ o }}{% endif %}</span>{% endfor %}{% if cur is none %}</span>{% endif %}{{ f.opts(path, options, cur, label) }}
 {%- endmacro %}
 
 {# 동의 여부 등 예/아니오 체크 #}

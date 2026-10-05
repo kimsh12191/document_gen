@@ -31,6 +31,10 @@
     return out;
   };
 
+  // 쪼개지 않고 통째로 넘길 블록: .pg-keep, 또는 절대 위치 자식(발급기관 위 직인 등)이 있는 블록
+  const atomic = el => el.classList.contains('pg-keep')
+    || Array.from(el.querySelectorAll('*')).some(c => isAbs(c));
+
   // 표를 줄 단위로 자른다. 잘린 뒷부분(새 표)을 돌려주며, 자를 수 없으면 null.
   const splitTable = (table, limit) => {
     const rows = Array.from(table.rows);
@@ -72,7 +76,7 @@
       const rest = splitTable(k, limit);
       if (rest && rest !== 'whole') movedFirst = rest;
     } else if (depth < 4 && k.children.length && ['DIV', 'SECTION', 'OL', 'UL', 'TBODY'].includes(k.tagName)
-               && getComputedStyle(k).display !== 'flex') {
+               && getComputedStyle(k).display !== 'flex' && !atomic(k)) {
       const rest = splitContainer(k, limit, depth + 1);
       if (rest && rest.childNodes.length && k.children.length) movedFirst = rest;
     }
