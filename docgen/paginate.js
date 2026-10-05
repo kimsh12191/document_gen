@@ -76,6 +76,9 @@
       const rest = splitContainer(k, limit, depth + 1);
       if (rest && rest.childNodes.length && k.children.length) movedFirst = rest;
     }
+    // 제목(.pg-keep-with-next, h2/h3, .bf-sec 등)이 다음 블록과 떨어져 쪽 끝에 홀로 남지 않게 함께 넘긴다
+    const keep = el => el && (el.matches('.pg-keep-with-next, h2, h3, h4, .sec, .bf-sec, caption'));
+    if (!movedFirst) { while (idx > 1 && keep(kids[idx - 1])) idx--; }
     if (movedFirst) { out.appendChild(movedFirst); idx += 1; }
     else if (idx === 0 && depth === 0) {
       // 첫 블록부터 안 들어가면(한 덩어리가 너무 큼) 그대로 둔다

@@ -103,7 +103,7 @@ ol.clauses li { margin: 3px 0; }
 </style>
 </head>
 <body>
-<div class="page {{ spec.page }}{% block page_class %}{% endblock %}" data-pg-format="{{ style.pg_format }}" data-pg-cont="{{ style.pg_cont }}">
+<div class="page {{ spec.page }}{% block page_class %}{% endblock %}" {% block page_attrs %}data-pg-format="{{ style.pg_format }}" data-pg-cont="{{ style.pg_cont }}"{% endblock %}>
 {% block content %}{% endblock %}
 {% if sample_mark %}<div class="sample-mark">견본 SAMPLE</div>{% endif %}
 </div>
