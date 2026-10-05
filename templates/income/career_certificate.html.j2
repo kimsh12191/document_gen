@@ -1,6 +1,7 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
 {% block style %}
+.keep { display: flex; flex-direction: column; } /* 맺음말·발급기관·직인은 한 덩어리 (쪽 나눔에서 쪼개지 않음) */
 table.career td { font-size: calc(var(--fs) - 0.5px); }
 .cert-text { font-size: calc(var(--fs) + 2px); letter-spacing: .03em; }
 {% endblock %}
@@ -29,6 +30,7 @@ table.career td { font-size: calc(var(--fs) - 0.5px); }
   <colgroup><col style="width:110px"><col><col style="width:110px"><col style="width:30%"></colgroup>
   <tr><th>용　　도</th><td>{{ f("purpose", label="용도") }}</td><th style="width:110px">제 출 처</th><td>{{ f("submit_to", label="제출처") }}</td></tr>
 </table>
+<div class="keep">
 <p class="center mt-l cert-text">위의 기재사항이 사실과 다름없음을 증명합니다.</p>
 <div class="issuer">
   <div class="date">{{ f("issue_date", label="발급일") }}</div>
@@ -39,5 +41,6 @@ table.career td { font-size: calc(var(--fs) - 0.5px); }
     <tr><td>전화번호 :</td><td>{{ f("company.phone", label="전화번호") }}</td></tr>
   </table>
   <div class="mt" style="position:relative;display:inline-block;padding-right:30px;font-size:calc(var(--fs) + 4px);font-weight:700;letter-spacing:.1em">대표이사&nbsp;&nbsp;{{ f("company.ceo", label="대표이사") }}{{ m.seal("대표이사인", square=True, over=True, key="company", kind="직인") }}</div>
+</div>
 </div>
 {% endblock %}

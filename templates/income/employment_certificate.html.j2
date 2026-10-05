@@ -1,6 +1,7 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
 {% block style %}
+.keep { display: flex; flex-direction: column; } /* 맺음말·발급기관·직인은 한 덩어리 (쪽 나눔에서 쪼개지 않음) */
 table.cert { margin-top: 10px; }
 table.cert th, table.cert td { padding: 11px 10px; }
 table.cert th.vsec { width: 46px; letter-spacing: .1em; line-height: 1.25; white-space: normal; }
@@ -19,8 +20,10 @@ table.cert th.vsec { width: 46px; letter-spacing: .1em; line-height: 1.25; white
     {% else %}<th>주민등록번호</th><td>{{ f("employee.rrn", label="주민등록번호") }}</td>{% endif %}
   </tr>
   <tr><th>주　　소</th><td colspan="3">{{ f("employee.address", label="주소") }}</td></tr>
+  {% set em = d.employment %}
+  {% set extra = (1 if em.employment_type is defined else 0) + (1 if em.leave is defined else 0) + (1 if em.annual_salary is defined else 0) %}
   <tr>
-    <th rowspan="5" class="vsec">재<br>직<br>사<br>항</th>
+    <th rowspan="{{ 5 + extra }}" class="vsec">재<br>직<br>사<br>항</th>
     <th>회 사 명</th><td>{{ f("company.name", label="회사명") }}</td>
     <th>사업자등록번호</th><td>{{ f("company.biz_no", label="사업자등록번호") }}</td>
   </tr>
@@ -28,18 +31,26 @@ table.cert th.vsec { width: 46px; letter-spacing: .1em; line-height: 1.25; white
   <tr><th>소　　속</th><td>{{ f("employment.department", label="소속") }}</td>
       <th>직　　위</th><td>{{ f("employment.position", label="직위") }}</td></tr>
   <tr><th>재직기간</th><td colspan="3">{{ f("employment.period", label="재직기간") }}</td></tr>
+  {% if em.employment_type is defined %}
+  <tr><th>고용형태</th><td>{{ f("employment.employment_type", label="고용형태") }}</td>
+      <th>계약기간</th><td>{{ f("employment.contract_period", label="계약기간") }}</td></tr>
+  {% endif %}
+  {% if em.leave is defined %}<tr><th>휴직기간</th><td colspan="3">{{ f("employment.leave", label="휴직기간") }}</td></tr>{% endif %}
   <tr><th>담당업무</th><td colspan="3">{{ f("employment.duty", label="담당업무") }}</td></tr>
+  {% if em.annual_salary is defined %}<tr><th>급　　여</th><td colspan="3">{{ f("employment.annual_salary", label="급여(연봉)") }}</td></tr>{% endif %}
   <tr>
     <th rowspan="1" class="vsec">발급</th>
     <th>용　　도</th><td>{{ f("purpose", label="용도") }}</td>
     <th>제 출 처</th><td>{{ f("submit_to", label="제출처") }}</td>
   </tr>
 </table>
+<div class="keep">
 <p class="center cert-text">위 사람은 당사에 재직하고 있음을 증명합니다.</p>
 <div class="issuer" style="margin-top:44px">
   <div class="date">{{ f("issue_date", label="발급일") }}</div>
   <div class="mt" style="font-size:calc(var(--fs) + 4px);letter-spacing:.08em">{{ f("company.name", label="회사명") }}</div>
   <div class="small muted" style="margin-top:4px">TEL {{ f("company.phone", label="전화번호") }}</div>
   <div class="ceo mt">대표이사&nbsp;&nbsp;{{ f("company.ceo", label="대표이사") }}{{ m.seal("대표이사인", square=True, over=True, key="company", kind="직인") }}</div>
+</div>
 </div>
 {% endblock %}

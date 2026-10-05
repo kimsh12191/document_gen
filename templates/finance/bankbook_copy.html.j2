@@ -19,6 +19,10 @@
 table.pbt { font-size: 10px; margin-top: 12px; }
 table.pbt th, table.pbt td { border: 0; border-bottom: 1px solid #b9c0c6; padding: 3px 2px; background: none; font-weight: 500; }
 table.pbt th { color: #555; border-bottom: 1px solid #555; }
+.closed-stamp { position: absolute; right: 44px; top: 300px; border: 3px solid var(--seal); color: var(--seal); padding: 4px 16px;
+      text-align: center; transform: rotate(-12deg); opacity: .85; font-weight: 800; border-radius: 4px; background: rgba(255,255,255,.15); }
+.closed-stamp .t { font-size: 30px; letter-spacing: .3em; margin-right: -.3em; line-height: 1.1; }
+.closed-stamp .d { font-size: 11px; font-weight: 700; }
 .copy-note { margin-top: 18px; font-size: 13px; color: #444; }
 .pr-head { border-bottom: 2px solid var(--accent); padding-bottom: 6px; margin-bottom: 18px; }
 .pr-bank { font-weight: 800; color: var(--accent); font-size: 18px; letter-spacing: .05em; }
@@ -55,14 +59,25 @@ table.pbt th { color: #555; border-bottom: 1px solid #555; }
       <tr><th>거래일</th><th>적요</th><th>찾으신금액</th><th>맡기신금액</th><th>잔액</th></tr>
       <tr><td class="c">{{ f("first_tx.date", label="거래일") }}</td><td class="c">{{ f("first_tx.memo", label="적요") }}</td><td class="num"></td>
           <td class="num">{{ f("first_tx.amount", label="맡기신금액") }}</td><td class="num">{{ f("first_tx.balance", label="잔액") }}</td></tr>
-      {% for _ in range(4) %}<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>{% endfor %}
+      {% set txs = d.txs if d.txs is defined else [] %}
+      {% for t in txs %}{% set i = loop.index0 %}
+      <tr><td class="c">{{ f("txs." ~ i ~ ".date", label="거래일") }}</td><td class="c">{{ f("txs." ~ i ~ ".memo", label="적요") }}</td>
+          <td class="num">{% if t.out is defined %}{{ f("txs." ~ i ~ ".out", label="찾으신금액") }}{% endif %}</td>
+          <td class="num">{% if t["in"] is defined %}{{ f("txs." ~ i ~ ".in", label="맡기신금액") }}{% endif %}</td>
+          <td class="num">{{ f("txs." ~ i ~ ".balance", label="잔액") }}</td></tr>
+      {% endfor %}
+      {% for _ in range(4 - txs|length) %}<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>{% endfor %}
     </table>
+    {% if d.status is defined %}
+    <div class="closed-stamp"><div class="t">{{ f("status", label="계좌상태") }}</div><div class="d">{{ f("closed_date", label="해지일") }}</div><div class="d">{{ val("branch") }}</div></div>
+    {% endif %}
   </div>
 </div>
 {% else %}
 <div class="pr-head between"><span class="pr-bank">{{ val("bank") }}</span><span class="small muted">출력일 : {{ f("issue_date", label="출력일") }}</span></div>
 <div class="pr-cover">
   <div class="pr-top"><span class="pb-bank">{{ f("bank", label="은행명") }}</span><span class="pr-tag">통장사본</span></div>
+  {% if d.limit_note is defined %}<div class="right small" style="color:#b00;font-weight:700">[{{ f("limit_note", label="계좌제한구분") }}]</div>{% endif %}
   <div class="pb-prod">{{ f("product", label="상품명") }}</div>
   <table class="plain pr-t">
     <tr><td>계좌번호</td><td class="pb-acct">{{ f("account_no", label="계좌번호") }}</td></tr>
@@ -73,7 +88,8 @@ table.pbt th { color: #555; border-bottom: 1px solid #555; }
 </div>
 <ul class="note mt">
   <li>본 통장사본은 인터넷뱅킹에서 출력한 것으로, 출력 시점의 계좌 정보를 기준으로 합니다.</li>
-  <li>해지된 계좌 및 거래가 제한된 계좌는 출력되지 않습니다.</li>
+  {% if d.limit_note is defined %}<li>금융거래한도계좌는 금융거래 목적 확인 서류를 제출하면 한도가 상향(해제)될 수 있습니다.</li>
+  {% else %}<li>해지된 계좌 및 거래가 제한된 계좌는 출력되지 않습니다.</li>{% endif %}
 </ul>
 {% endif %}
 {% endblock %}
