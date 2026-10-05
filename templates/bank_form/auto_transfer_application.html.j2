@@ -7,6 +7,7 @@ table.bf th, table.bf td { padding: 5px 7px; }
 {% endblock %}
 {% block content %}
 {{ lp.css() }}
+{{ f.set_corr_name(val("applicant.name")) }}
 {{ lp.head(kind="cms", sub="대출이자 등 자동이체용") }}
 {% set same = d.debit.bank == d.bank %}
 {{ lp.title_row("자동이체 신청서" if same else "CMS 출금이체 신청서", sub="(대출이자·원리금)") }}
@@ -16,27 +17,37 @@ table.bf th, table.bf td { padding: 5px 7px; }
 <div class="num-h">1. 수납기관 및 요금정보</div>
 <table class="bf">
 <colgroup><col style="width:120px"><col><col style="width:120px"><col></colgroup>
-<tr><th>요금종류</th><td>{{ f("biller.fee_type", label="요금종류") }}</td><th>이체대상</th><td>{{ m.choice("target", ["대출이자", "대출원리금"], label="이체대상") }}</td></tr>
+<tr><th>요금종류</th><td>{{ f("biller.fee_type", label="요금종류") }}</td><th>이체대상</th><td>{{ m.choice("target", ["대출이자", "대출원리금"], label="이체대상") }}{{ lp.nochk("target") }}</td></tr>
 <tr><th>대출상품명</th><td>{{ f("loan_product", label="대출상품명") }}</td><th>납부자번호<br><span class="tiny">(대출계좌번호)</span></th><td>{{ f("loan_account", label="납부자번호(대출계좌번호)") }}</td></tr>
 </table>
 
 <div class="num-h">2. 신청고객 기본사항</div>
 <table class="bf">
 <colgroup><col style="width:120px"><col><col style="width:120px"><col></colgroup>
-<tr><th>신청인(납부자)</th><td>{{ f("applicant.name", label="신청인") }}</td><th>생년월일</th><td>{{ f("applicant.birth", label="생년월일") }}</td></tr>
-<tr><th>연 락 처</th><td>{{ f("applicant.phone", label="연락처") }}</td><th>주　　소</th><td>{{ f("applicant.address", label="주소") }}</td></tr>
+<tr><th>신청인(납부자)</th><td>{{ f("applicant.name", label="신청인", fix=0.04) }}</td><th>생년월일</th><td>{{ f("applicant.birth", label="생년월일", fix=0.05) }}</td></tr>
+<tr><th>연 락 처</th><td>{{ f("applicant.phone", label="연락처", fix=0.06) }}</td><th>주　　소</th><td>{{ f("applicant.address", label="주소", fix=0.05) }}</td></tr>
 </table>
 
 <div class="num-h">3. 출금이체 신청내용 <span class="tiny muted" style="font-weight:400">(신청고객 기재란)</span></div>
 <table class="bf">
 <colgroup><col style="width:120px"><col><col style="width:120px"><col></colgroup>
-<tr><th>출금은행</th><td>{{ f("debit.bank", label="출금은행") }}</td><th>출금계좌번호</th><td>{{ f("debit.account", label="출금계좌번호") }}</td></tr>
-<tr><th>예 금 주</th><td>{{ f("debit.holder", label="예금주") }}</td><th>예금주 생년월일</th><td>{{ f("debit.holder_birth", label="예금주생년월일") }}</td></tr>
-<tr><th>예금주 휴대전화</th><td>{{ f("debit.holder_phone", label="예금주휴대전화") }}</td><th>신청인과 예금주<br>와의 관계</th><td>{{ m.choice("relation", ["본인", "가족", "기타"], label="신청인과예금주와의관계") }}</td></tr>
+<tr><th>출금은행</th><td>{{ f("debit.bank", label="출금은행") }}</td><th>출금계좌번호</th><td>{{ f("debit.account", label="출금계좌번호", fix=0.08) }}</td></tr>
+<tr><th>예 금 주</th><td>{{ f("debit.holder", label="예금주", fix=0.04) }}</td><th>예금주 생년월일</th><td>{{ f("debit.holder_birth", label="예금주생년월일", fix=0.05) }}</td></tr>
+<tr><th>예금주 휴대전화</th><td>{{ f("debit.holder_phone", label="예금주휴대전화", fix=0.06) }}</td><th>신청인과 예금주<br>와의 관계</th><td>{{ m.choice("relation", ["본인", "가족", "기타"], label="신청인과예금주와의관계") }}{{ lp.nochk("relation") }}</td></tr>
 <tr><th>출 금 일</th><td>{{ f("transfer_day", label="출금일") }}</td><th>이체개시</th><td>{{ f("start_month", label="이체개시") }}</td></tr>
 <tr><th>출금금액</th><td colspan="3">{{ f("amount", label="출금금액") }}</td></tr>
 </table>
 
+{% if d.extra_loans is defined %}
+<div class="num-h">※ 추가 이체 대상 대출 <span class="tiny muted" style="font-weight:400">(같은 출금계좌에서 함께 출금)</span></div>
+<table class="bf compact">
+<colgroup><col style="width:40px"><col style="width:30%"><col><col style="width:18%"><col style="width:18%"></colgroup>
+<tr><th style="text-align:center">No</th><th style="text-align:center">납부자번호(대출계좌번호)</th><th style="text-align:center">대출상품</th><th style="text-align:center">이체대상</th><th style="text-align:center">출금일</th></tr>
+{% for x in d.extra_loans %}{% set k = "extra_loans." ~ loop.index0 %}
+<tr><td class="c">{{ loop.index + 1 }}</td><td class="c">{{ f(k ~ ".loan_account", label="납부자번호", fix=0.05) }}</td><td class="c">{{ f(k ~ ".loan_product", label="대출상품") }}</td><td class="c">{{ f(k ~ ".target", label="이체대상") }}</td><td class="c">{{ f(k ~ ".transfer_day", label="출금일") }}</td></tr>
+{% endfor %}
+</table>
+{% endif %}
 <div class="num-h">4. 개인정보 수집·이용 및 제3자 제공 동의</div>
 <table class="bf compact">
 <colgroup><col style="width:120px"><col></colgroup>
@@ -44,7 +55,7 @@ table.bf th, table.bf td { padding: 5px 7px; }
 <tr><th>수집 항목</th><td class="small">성명, 생년월일, 연락처, 출금은행명, 계좌번호, 예금주 정보</td></tr>
 <tr><th>보유·이용 기간</th><td class="small">수집·이용 동의일부터 출금이체 종료일(해지일) 후 5년까지</td></tr>
 <tr><th>제공받는 자</th><td class="small">{% if same %}해당 없음(당행 계좌 자동이체){% else %}(사)금융결제원, 출금이체 계좌의 금융기관{% endif %}</td></tr>
-<tr><th>동의 여부</th><td>개인정보 수집·이용 {{ m.agree("privacy_consent", label="개인정보수집이용동의") }} &nbsp; 제3자 제공 {{ m.agree("third_party_consent", label="제3자제공동의") }}</td></tr>
+<tr><th>동의 여부</th><td>개인정보 수집·이용 {{ m.agree("privacy_consent", label="개인정보수집이용동의") }} &nbsp; 제3자 제공 {{ m.agree("third_party_consent", label="제3자제공동의") }}{{ lp.nochk("third_party_consent") }}</td></tr>
 </table>
 <div class="notice">
 <p>※ 동의를 거부할 권리가 있으나, 동의하지 않으시면 자동이체 신청이 불가합니다.</p>

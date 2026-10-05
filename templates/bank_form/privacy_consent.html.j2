@@ -13,6 +13,7 @@ table.prov th, table.prov td { font-size: calc(var(--fs) - 3.5px); padding: 1px 
 .intro { font-size: calc(var(--fs) - 3px); }
 {% endblock %}
 {% block content %}
+{{ f.set_corr_name(val("legal_rep.name") if d.legal_rep is defined else val("applicant.name")) }}
 {{ bf.head("(1-1) 여신거래 필수 · 선택동의<br>(보존년한: 거래종료일로부터 5년)") }}
 {{ m.title("개인(신용)정보 수집·이용·제공·조회 동의서", sub="[필수] (여신 금융거래) · [선택] 상품서비스 안내 등") }}
 <div class="intro" style="margin:0 0 2px"><b>{{ f("bank.name", label="은행명") }} 귀중</b></div>
@@ -59,17 +60,21 @@ table.prov th, table.prov td { font-size: calc(var(--fs) - 3.5px); padding: 1px 
 <tr><th>제공받는 자</th><td class="q">당행 계열 금융회사 및 업무제휴사 (카드·보험·증권) — 제휴 상품 안내 목적, 제공일로부터 1년</td></tr>
 </table>
 <div class="bf-note">※ 선택 항목에 동의하지 않으셔도 (금융)거래에는 영향이 없습니다. 동의 후에도 영업점·콜센터·인터넷뱅킹을 통해 언제든지 철회할 수 있습니다.</div>
-<div class="bf-agree"><span class="lead">상품서비스 안내 목적 수집·이용에 동의하십니까?</span><span class="req">[선택]</span>{{ m.agree("marketing.collect", label="마케팅수집이용동의") }}</div>
-<div class="bf-agree"><span class="lead">상품서비스 안내 목적 제공에 동의하십니까?</span><span class="req">[선택]</span>{{ m.agree("marketing.provide", label="마케팅제공동의") }}</div>
+<div class="bf-agree"><span class="lead">상품서비스 안내 목적 수집·이용에 동의하십니까?</span><span class="req">[선택]</span>{{ m.agree("marketing.collect", label="마케팅수집이용동의") }}{{ bf.nochk("marketing.collect") }}</div>
+<div class="bf-agree"><span class="lead">상품서비스 안내 목적 제공에 동의하십니까?</span><span class="req">[선택]</span>{{ m.agree("marketing.provide", label="마케팅제공동의") }}{{ bf.nochk("marketing.provide") }}</div>
 <div class="bf-agree"><span class="lead">권유 방법</span>{{ bf.multi("marketing.channels", ["전화", "문자메시지", "이메일", "우편", "앱 푸시"], label="연락방법") }}</div>
 
 <div class="bf-note" style="margin-top:3px">본인은 위 내용을 충분히 이해하였으며, 위와 같이 본인의 개인(신용)정보를 수집·이용·제공·조회하는 것에 동의합니다.</div>
 <div class="bf-sign">
   <span>{{ f("date", label="작성일") }}</span>
-  <span>생년월일 {{ f("applicant.birth", label="생년월일") }}</span>
-  <span>본인 성명 <span class="who">{{ f("applicant.name", label="본인성명") }}</span> {{ m.sigspot("applicant", val("applicant.name"), label="본인", anchor="applicant.name") }}</span>
+  <span>생년월일 {{ f("applicant.birth", label="생년월일", fix=0.05) }}</span>
+  <span>본인 성명 <span class="who">{{ f("applicant.name", label="본인성명", fix=0.04) }}</span> {% if d.legal_rep is defined %}<span class="muted">(서명 또는 인)</span>{% else %}{{ m.sigspot("applicant", val("applicant.name"), label="본인", anchor="applicant.name") }}{% endif %}</span>
 </div>
+{% if d.legal_rep is defined %}
+<div class="bf-sign" style="margin-top:2px"><span>법정대리인(미성년자 등의 경우) 성명 <span class="who">{{ f("legal_rep.name", label="법정대리인", fix=0.04) }}</span> (관계: {{ f("legal_rep.relation", label="본인과의관계") }}) {{ m.sigspot("legal_rep", val("legal_rep.name"), label="법정대리인", anchor="legal_rep.name") }}</span></div>
+{% else %}
 <div class="bf-sign" style="margin-top:2px"><span class="muted">법정대리인(미성년자 등의 경우) 성명 <span class="who">&nbsp;</span> (서명 또는 인)</span></div>
+{% endif %}
 <div class="row" style="margin-top:6px; align-items:stretch">
   <div class="bf-box bf-note" style="flex:1; margin:0">
     <b>[개인(신용)정보 주체의 권리 안내]</b>

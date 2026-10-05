@@ -5,8 +5,100 @@
 서류별 표기 차이(날짜 포맷, 문구 선택 등)만 각 함수의 rng 로 만든다.
 """
 from ..banks import brand, since
+from ..entities import World
 from ..registry import doc
 from ._common import *  # noqa: F401,F403
+
+# ---------------------------------------------------------------------------
+# 변형(여러 쪽·특수 상황)용 공용 헬퍼 — bank_form_account.py 도 가져다 쓴다
+# ---------------------------------------------------------------------------
+
+
+def _age(p: Profile, x: Person) -> int:
+    """작성일 기준 만 나이 (옛 은행 서식은 날짜가 옮겨져 있으므로 Person.age 대신 쓴다)."""
+    d = p.issue_date
+    return d.year - x.birth.year - ((d.month, d.day) < (x.birth.month, x.birth.day))
+
+
+def _new_person(p: Profile, rng: random.Random, gender: str | None = None, age: tuple[int, int] = (30, 60),
+                same_address: bool = False, surname_of: Person | None = None) -> Person:
+    """프로필에 없는 사람(공동차주·보증인·대리인 등). 작성일 기준 나이 범위로 만든다."""
+    w = World(rng.randint(0, 10 ** 9))
+    y = p.issue_date.year
+    sur = None
+    if surname_of is not None:
+        n = len(surname_of.name) - 2
+        sur = (surname_of.name[:n], surname_of.hanja[:n], surname_of.surname_en)
+    return w.person(gender, (y - age[1], y - age[0]), p.person.address if same_address else None, surname=sur)
+
+
+def _solo(p: Profile) -> bool:
+    """시나리오(서류 묶음) 생성이 아닐 때만 고객 자체가 바뀌는 변형(외국인 고객 등)을 쓴다."""
+    return "scenario" not in p.extra
+
+
+def _spouse(p: Profile, rng: random.Random) -> Person:
+    if p.spouse:
+        return p.spouse
+    a = _age(p, p.person)
+    return _new_person(p, rng, "F" if p.person.gender == "M" else "M", (max(22, a - 5), a + 5), same_address=True)
+
+
+def _relative(p: Profile, rng: random.Random, rels=("배우자", "부", "모", "자녀", "형제자매")) -> tuple[Person, str]:
+    """대리인 등으로 올 가족 한 명과 관계."""
+    a = _age(p, p.person)
+    cands = []
+    if "배우자" in rels and p.spouse:
+        cands += [(p.spouse, "배우자")] * 3
+    if "부" in rels and a < 55:
+        cands.append((p.father, "부"))
+    if "모" in rels and a < 58:
+        cands.append((p.mother, "모"))
+    if "자녀" in rels:
+        cands += [(c, "자녀") for c in p.children if _age(p, c) >= 19]
+    if "형제자매" in rels or not cands:
+        sib = _new_person(p, rng, None, (max(19, a - 8), a + 8), surname_of=p.person)
+        cands.append((sib, "형제자매"))
+    return rng.choice(cands)
+
+
+def _minor(p: Profile, rng: random.Random) -> Person:
+    """프로필 고객의 미성년 자녀 (없으면 새로 만든다)."""
+    kids = [c for c in p.children if 0 <= _age(p, c) < 19]
+    if kids:
+        return rng.choice(kids)
+    father = p.person if p.person.gender == "M" else (p.spouse or p.person)
+    return _new_person(p, rng, None, (1, 17), same_address=True, surname_of=father)
+
+
+# 외국인 고객: (한글 표기, 영문 성, 영문 이름, 국적, 국적(영문), 성별)
+FOREIGN_NAMES = [
+    ("응우옌 반 안", "NGUYEN", "VAN AN", "베트남", "VIETNAM", "M"),
+    ("쩐 티 흐엉", "TRAN", "THI HUONG", "베트남", "VIETNAM", "F"),
+    ("왕웨이", "WANG", "WEI", "중국", "CHINA", "M"),
+    ("리나", "LI", "NA", "중국", "CHINA", "F"),
+    ("마리아 산토스", "SANTOS", "MARIA", "필리핀", "PHILIPPINES", "F"),
+    ("존 밀러", "MILLER", "JOHN", "미국", "UNITED STATES", "M"),
+    ("다나카 유키", "TANAKA", "YUKI", "일본", "JAPAN", "F"),
+    ("수레시 쿠마르", "KUMAR", "SURESH", "인도", "INDIA", "M"),
+    ("시티 누르하야티", "NURHAYATI", "SITI", "인도네시아", "INDONESIA", "F"),
+    ("솜차이 분마", "BOONMA", "SOMCHAI", "태국", "THAILAND", "M"),
+    ("알렉산드르 이바노프", "IVANOV", "ALEKSANDR", "러시아", "RUSSIA", "M"),
+    ("굴나라 사파로바", "SAFAROVA", "GULNARA", "우즈베키스탄", "UZBEKISTAN", "F"),
+    ("바트바야르 간바트", "GANBAT", "BATBAYAR", "몽골", "MONGOLIA", "M"),
+]
+
+
+def _foreigner(p: Profile, rng: random.Random, age: tuple[int, int] = (24, 50), nations=None) -> dict:
+    """외국인 고객 (외국인등록번호·국적). 이름·주소 외 값은 프로필과 별개로 만든다. nations: 국적(영문) 제한."""
+    ko, sur, given, nat, nat_en, g = rng.choice([x for x in FOREIGN_NAMES if not nations or x[4] in nations])
+    y = p.issue_date.year
+    birth = rand_date(rng, date(y - age[1], 1, 1), date(y - age[0], 12, 31))
+    return {"name": ko, "surname_en": sur, "given_en": given, "name_en": f"{sur} {given}", "nationality": nat,
+            "nationality_en": nat_en, "gender": g, "birth": birth, "arc_no": K.rrn(rng, birth, g, foreigner=True),
+            "mobile": K.mobile(rng),
+            "email": f"{given.split()[0].lower()}{rng.randint(1, 99)}@{rng.choice(['gmail.com', 'naver.com', 'yahoo.com'])}"}
+
 
 # ---------------------------------------------------------------------------
 # 내부 헬퍼
@@ -260,8 +352,8 @@ def _lenders(p: Profile) -> list[str]:
     return [b for b in _OTHER_LENDERS if b not in same and p.issue_date >= _LENDER_SINCE.get(b, date.min)]
 
 
-def _debts(p: Profile, pl: dict, rng: random.Random, df: str) -> list[dict]:
-    """부채현황 (타 금융기관 대출). 대환이면 상환 대상 대출을 반드시 넣는다."""
+def _debts(p: Profile, pl: dict, rng: random.Random, df: str, n: int | None = None) -> list[dict]:
+    """부채현황 (타 금융기관 대출). 대환이면 상환 대상 대출을 반드시 넣는다. n: 건수 (다중채무 고객)."""
     out = []
     lenders = _lenders(p)
     sal = p.employment.annual_salary
@@ -271,12 +363,14 @@ def _debts(p: Profile, pl: dict, rng: random.Random, df: str) -> list[dict]:
         out.append({"lender": lender, "kind": kind,
                     "balance": won(K.round_to(pl["amount"] * rng.uniform(0.85, 1.0), 100_000), ""),
                     "maturity": D(_add_years(p.issue_date, rng.randint(1, 25)), df), "refinance": "상환예정"})
-    for _ in range(rng.choice([0, 0, 1, 1, 2]) - len(out)):
+    for _ in range((rng.choice([0, 0, 1, 1, 2]) if n is None else n) - len(out)):
         lender = rng.choice(lenders)
-        kind = "카드론" if "카드" in lender else rng.choice(["신용대출", "마이너스통장", "자동차할부", "학자금대출"])
-        bal = K.round_to(sal * rng.uniform(0.03, 0.4), 100_000)
-        out.append({"lender": lender, "kind": kind, "balance": won(bal, ""),
-                    "maturity": D(_add_years(p.issue_date, rng.randint(1, 5)), df), "refinance": "유지"})
+        kind = "카드론" if "카드" in lender else rng.choice(["신용대출", "마이너스통장", "자동차할부", "학자금대출"]
+                                                         + (["현금서비스", "보험약관대출"] if n else []))
+        bal = K.round_to(sal * rng.uniform(0.03, 0.4 if n is None else 0.15), 100_000)
+        mat = _add_years(p.issue_date, rng.randint(1, 5)) + timedelta(days=rng.randint(-160, 160))
+        out.append({"lender": lender, "kind": kind, "balance": won(bal, ""), "maturity": D(mat, df),
+                    "refinance": "상환예정" if n and rng.random() < 0.15 else "유지"})
     return out
 
 
@@ -316,7 +410,7 @@ def loan_application(p: Profile, rng: random.Random) -> dict:
     if dep > 1_000_000 and rng.random() < 0.7:
         assets.append({"kind": "예금", "location": ", ".join(list(dict.fromkeys(a.bank for a in p.accounts))[:2]),
                        "value": won(K.round_to(dep, 100_000), "")})
-    return {
+    data = {
         "bank": p.bank,
         "branch": p.bank_branch,
         "applicant": {
@@ -366,6 +460,45 @@ def loan_application(p: Profile, rng: random.Random) -> dict:
         "apply_date": D(pl["apply_date"], rng.choice(["kor", "kor_short"])),
         "signature": per.name,
     }
+    _loan_app_variants(p, pl, rng, data)
+    return data
+
+
+def _loan_app_variants(p: Profile, pl: dict, rng: random.Random, data: dict) -> None:
+    """대출신청서 변형: 다중채무(여러 쪽), 공동차주, 대리인 신청, 공란 많은 서식, 체크 누락."""
+    if heavy(rng, 0.2):  # 타 금융기관 대출·재산이 많은 고객 → 부채현황 표가 길어진다
+        data["debts"] = _debts(p, pl, rng, rng.choice(["dot", "dash"]), n=rng.randint(6, 14))
+        assets = data["assets"]
+        for _ in range(rng.randint(2, 4)):
+            kind = rng.choice(["예금", "적금", "주식", "펀드", "자동차", "보험(해약환급금)"])
+            where = {"자동차": rng.choice(["그랜저 (2021년식)", "쏘렌토 (2020년식)", "K5 (2019년식)", "아반떼 (2022년식)"]),
+                     "주식": rng.choice(["미래에셋증권", "키움증권", "삼성증권", "한국투자증권"]),
+                     "펀드": rng.choice(["KB자산운용", "미래에셋자산운용", "삼성자산운용"]),
+                     "보험(해약환급금)": rng.choice(["삼성생명", "한화생명", "교보생명"])}.get(kind, rng.choice(_lenders(p)[:5]))
+            assets.append({"kind": kind, "location": where,
+                           "value": won(K.round_to(p.employment.annual_salary * rng.uniform(0.05, 0.6), 100_000), "")})
+    if special(rng, "co_borrower", 0.12):  # 부부 공동명의 등 공동차주(공동신청인)
+        sp = _spouse(p, rng)
+        data["co_borrower"] = {"name": sp.name, "rrn": K.mask_rrn(sp.rrn), "relation": "배우자", "mobile": sp.mobile,
+                               "workplace": rng.choice(["", "", "주부", "자영업", f"{p.employment.company.name[:2]}물산"]) or None}
+    if special(rng, "agent", 0.1):  # 대리인 신청 (위임장·인감증명서 첨부)
+        ag, rel = _relative(p, rng)
+        data["agent"] = {"name": ag.name, "rrn": K.mask_rrn(ag.rrn), "relation": rel, "phone": ag.mobile,
+                         "poa": "첨부"}
+    if special(rng, "sparse", 0.15):  # 선택 항목을 비워 둔 서식
+        ap, wp = data["applicant"], data["workplace"]
+        for k in rng.sample(["email", "home_phone", "work_phone", "zipcode"], rng.randint(2, 4)):
+            ap[k] = None
+        if rng.random() < 0.6:
+            wp["address"] = None
+        if rng.random() < 0.5:
+            wp["department"] = None
+    if special(rng, "no_check", 0.1):  # 체크 누락
+        for k in rng.sample(["housing", "dwelling", "loan.rate_type"], rng.randint(1, 2)):
+            if "." in k:
+                data["loan"][k.split(".")[1]] = None
+            else:
+                data[k] = None
 
 
 # ---------------------------------------------------------------------------
@@ -381,16 +514,24 @@ def loan_application_corp(p: Profile, rng: random.Random) -> dict:
     rev = c.revenue
     size = "중소기업" if rev < 150_000_000_000 else rng.choice(["중견기업", "중소기업"]) if rev < 300_000_000_000 else "중견기업"
     other = []
-    for _ in range(rng.choice([0, 1, 1, 2, 2])):
-        lender = rng.choice([b for b in ["국민은행", "신한은행", "우리은행", "하나은행", "농협은행", "기업은행",
-                                         "산업은행", "수협은행"] if b != p.bank and not (b == "하나은행" and p.bank == "KEB하나은행")])
-        if lender in (x["lender"] for x in other):
+    many = heavy(rng, 0.25)  # 거래 금융기관이 많은 기업 → 타 금융기관 여신 현황이 길어진다
+    pool = [b for b in ["국민은행", "신한은행", "우리은행", "하나은행", "농협은행", "기업은행", "산업은행", "수협은행"]
+            + (["수출입은행", "부산은행", "경남은행", "iM뱅크", "SC제일은행", "OK저축은행", "SBI저축은행",
+                "현대캐피탈", "KB캐피탈", "신한캐피탈"] if many else [])
+            if b != p.bank and not (b == "하나은행" and p.bank == "KEB하나은행")]
+    for _ in range(rng.randint(7, 16) if many else rng.choice([0, 1, 1, 2, 2])):
+        lender = rng.choice(pool)
+        kind = rng.choice(["운전자금대출", "시설자금대출", "무역금융", "할인어음", "당좌대출", "구매자금대출"]
+                          + (["외화대출", "수입신용장(L/C)", "리스", "팩토링"] if many else []))
+        if (lender, kind) in ((x["lender"], x["kind"]) for x in other) or (not many and lender in (x["lender"] for x in other)):
             continue
-        other.append({"lender": lender,
-                      "kind": rng.choice(["운전자금대출", "시설자금대출", "무역금융", "할인어음", "당좌대출", "구매자금대출"]),
-                      "balance": f"{K.round_to(rev * rng.uniform(0.005, 0.04), 10_000_000) // 1_000_000:,}",
+        other.append({"lender": lender, "kind": kind,
+                      "balance": K.round_to(rev * rng.uniform(0.002 if many else 0.005, 0.02 if many else 0.04), 10_000_000) // 1_000_000,
                       "collateral": rng.choice(["신용", "부동산", "신용보증기금", "기술보증기금", "예금"])})
-    return {
+    total = sum(x["balance"] for x in other)
+    for x in other:
+        x["balance"] = f"{x['balance']:,}"
+    data = {
         "bank": p.bank,
         "branch": p.bank_branch,
         "company": {
@@ -435,6 +576,21 @@ def loan_application_corp(p: Profile, rng: random.Random) -> dict:
         "apply_date": D(pl["apply_date"], rng.choice(["kor", "kor_short"])),
         "signature": c.ceo.name,
     }
+    if len(other) >= 3:
+        data["other_loans_total"] = f"{total:,}"
+    if special(rng, "agent", 0.15):  # 직원이 대리인으로 신청 (법인인감 날인 위임장 첨부)
+        data["agent"] = {"name": pl["contact"], "position": pl["contact_pos"], "phone": pl["contact_phone"],
+                         "rrn": K.mask_rrn(K.rrn(rng, rand_date(rng, date(p.issue_date.year - 50, 1, 1),
+                                                                 date(p.issue_date.year - 26, 12, 31)), rng.choice("MF")))}
+    if special(rng, "sparse", 0.15):  # 선택 항목 미기재
+        for k in rng.sample(["fax", "name_en", "employees"], rng.randint(1, 3)):
+            data["company"][k] = None
+        if rng.random() < 0.5:
+            data["contact"]["email"] = None
+    if special(rng, "no_check", 0.1):  # 체크 누락
+        k = rng.choice(["company.size", "loan.fund_type", "loan.rate_type"])
+        data[k.split(".")[0]][k.split(".")[1]] = None
+    return data
 
 
 # ---------------------------------------------------------------------------
@@ -477,6 +633,59 @@ def _stamp_tax(amount: int) -> str:
     return f"{won(tax)} (고객 {won(tax // 2)} / 은행 {won(tax // 2)})"
 
 
+# 약정서 특약사항 (여러 쪽 약정서). 은행이 입력해 출력하는 문구.
+_TERMS_PERSONAL = [
+    "급여이체 및 당행 신용카드 결제계좌를 대출기간 중 당행으로 유지하는 조건으로 우대금리 연 {p1:.1f}%p를 적용하며, 조건 미충족 시 그 다음 이자계산기간부터 우대금리를 적용하지 아니한다.",
+    "채무자는 대출 실행일로부터 {m}개월 이내에 담보물건에 전입하여 실거주하여야 하며, 이를 이행하지 아니하는 경우 은행은 기한의 이익을 상실시킬 수 있다.",
+    "채무자는 대출기간 중 담보주택 외 추가 주택을 취득하지 아니하기로 하며, 이를 위반한 경우 즉시 대출금을 상환한다.",
+    "이 대출금은 {purpose} 용도로만 사용하며, 은행이 요청하는 경우 자금 사용 증빙서류를 제출한다.",
+    "대환 대상 대출({lender})은 대출 실행일에 은행이 직접 상환하며, 채무자는 상환영수증을 은행에 제출한다.",
+    "기준금리 변동 시 대출이자율은 매 {reset} 단위로 변경되며, 변경된 이자율은 은행 홈페이지 및 문자메시지로 통지한다.",
+    "은행이 정한 중도상환해약금 면제 요건(대출 실행 후 3년 경과 등)에 해당하는 경우 중도상환해약금을 면제한다.",
+    "채무자가 은행의 동의 없이 담보물건에 임대차(전세권 설정 포함)를 하는 경우 은행은 추가 담보 제공 또는 대출금 일부 상환을 요구할 수 있다.",
+    "자동이체계좌 잔액 부족으로 이자를 납입하지 못한 경우 은행은 채무자의 당행 다른 예금 계좌에서 출금하여 충당할 수 있다.",
+    "채무자는 주소·연락처·직장 등 신용상태에 중요한 변동이 있는 경우 지체 없이 은행에 서면으로 신고한다.",
+    "본 대출의 우대금리 합계는 연 {p2:.1f}%p를 한도로 하며, 우대 항목별 충족 여부는 매월 말일 기준으로 판단한다.",
+]
+_TERMS_CORP = [
+    "채무자는 매 회계연도 종료 후 90일 이내에 외부감사인의 감사를 받은 재무제표를 은행에 제출한다.",
+    "채무자는 여신기간 중 부채비율을 {debt}% 이하로 유지하며, 이를 초과한 경우 은행은 가산금리 연 {p1:.1f}%p를 추가 적용할 수 있다.",
+    "채무자는 은행의 사전 서면 동의 없이 다른 금융기관으로부터 담보부 차입을 하거나 제3자를 위한 담보를 제공하지 아니한다.",
+    "채무자의 대표이사 변경, 최대주주 변경, 합병·분할 또는 영업양도가 있는 경우 지체 없이 은행에 통지한다.",
+    "이 여신은 {purpose} 용도로만 사용하며, 은행이 요구하는 경우 자금사용 증빙(세금계산서, 계약서 등)을 제출한다.",
+    "채무자는 여신기간 중 당행 결제성 계좌의 월평균 입금액이 {amt}백만원 이상 유지되도록 노력하며, 미달 시 우대금리를 적용하지 아니한다.",
+    "보증기관의 보증서 기한이 연장되지 아니하거나 보증이 해지된 경우 은행은 기한의 이익을 상실시킬 수 있다.",
+    "채무자는 매 반기 종료 후 60일 이내에 부가가치세 과세표준증명 및 국세·지방세 완납증명서를 제출한다.",
+    "채무자가 담보물건을 임대하는 경우 사전에 은행의 동의를 받아야 하며, 임대차계약서 사본을 은행에 제출한다.",
+    "이자보상배율이 2기 연속 1 미만인 경우 은행은 추가 담보 제공 또는 여신 일부 상환을 요구할 수 있다.",
+    "한도여신의 미사용 한도에 대하여는 연 {p3:.1f}%의 한도약정수수료를 매 분기 말 후취한다.",
+]
+
+
+def _special_terms(pool: list[str], rng: random.Random, n: int, **kw) -> list[str]:
+    return [t.format(**kw) for t in rng.sample(pool, min(n, len(pool)))]
+
+
+def _agreement_variants(p: Profile, rng: random.Random, data: dict, pool: list[str], fmt: dict,
+                        personal: bool) -> None:
+    """약정서 변형: 특약 추가로 본문이 여러 쪽(heavy), 공동차주·연대보증인, 자필 누락, 체크 누락."""
+    if heavy(rng, 0.3):  # 특약 조항이 붙어 본문이 2~3쪽으로 이어지는 약정서
+        data["special_terms"] = _special_terms(pool, rng, rng.randint(3, 7), **fmt)
+    if personal and special(rng, "co_borrower", 0.1):  # 부부 공동차주
+        sp = _spouse(p, rng)
+        data["co_borrower"] = {"name": sp.name, "rrn": K.mask_rrn(sp.rrn) if rng.random() < 0.5 else sp.rrn,
+                               "address": sp.address.road_full, "phone": sp.mobile}
+    if not personal and special(rng, "joint_guarantor", 0.15):  # 실제경영자·이사 연대보증
+        gs = [p.person] + ([rng.choice(p.directors)] if rng.random() < 0.5 else [])
+        data["guarantors"] = [{"name": g.name, "rrn": K.mask_rrn(g.rrn), "address": g.address.road_short,
+                               "relation": "대표이사(실제경영자)" if g is p.person else rng.choice(["이사", "공동대표", "최대주주"])}
+                              for g in gs]
+    if personal and special(rng, "handwriting_missing", 0.08):  # 자필기재란을 비워 둔 채 제출
+        data["handwritten"] = None
+    if special(rng, "no_check", 0.08):  # 설명 확인 체크 누락
+        data["explained"] = None
+
+
 @doc("credit_agreement", "대출거래약정서(가계용)", "bank_form", category="internal")
 def credit_agreement(p: Profile, rng: random.Random) -> dict:
     """대출거래약정서(가계용) 첫 장. 은행연합회 표준 구성(제1조 거래조건 ~ 인지세 부담) 기준."""
@@ -488,7 +697,7 @@ def credit_agreement(p: Profile, rng: random.Random) -> dict:
     reset = {"고정금리": "해당없음(만기까지 고정)", "혼합금리": "최초 5년 고정 후 6개월마다 변동",
              "변동금리": rng.choice(["6개월", "3개월", "12개월"])}[pl["rate_type"]]
     limit = pl["subject"].endswith("(한도)")
-    return {
+    data = {
         "bank": p.bank,
         "creditor": _legal_bank(p.bank),
         "branch": p.bank_branch,
@@ -515,6 +724,13 @@ def credit_agreement(p: Profile, rng: random.Random) -> dict:
         "contract_date": D(pl["contract_date"], rng.choice(["kor", "kor_short"])),
         "signature": per.name,
     }
+    fmt = {"p1": rng.choice([0.1, 0.2, 0.3]), "p2": rng.choice([0.5, 0.7, 1.0]), "m": rng.choice([1, 3, 6]),
+           "purpose": pl["purpose"], "lender": rng.choice(_lenders(p)[:5]),
+           "reset": reset if pl["rate_type"] == "변동금리" else "6개월"}
+    pool = [t for t in _TERMS_PERSONAL if ("{lender}" not in t or "대환" in pl["purpose"])
+            and (pl["kind"] == "mortgage" or not any(w in t for w in ("담보", "전입")))]
+    _agreement_variants(p, rng, data, pool, fmt, personal=True)
+    return data
 
 
 # ---------------------------------------------------------------------------
@@ -529,7 +745,7 @@ def credit_agreement_corp(p: Profile, rng: random.Random) -> dict:
     df = rng.choice(["dot", "kor_short", "dash"])
     terms = _agreement_terms({**pl, "debit_bank": p.bank, "debit_number": pl["debit_account"]}, rng, df)
     terms["interest_pay"] = f"매월 {pl['pay_day']}일" if pl["pay_day"] != 30 else "매월 말일"
-    return {
+    data = {
         "bank": p.bank,
         "creditor": _legal_bank(p.bank),
         "branch": p.bank_branch,
@@ -557,6 +773,13 @@ def credit_agreement_corp(p: Profile, rng: random.Random) -> dict:
         "contract_date": D(pl["contract_date"], rng.choice(["kor", "kor_short"])),
         "signature": c.ceo.name,
     }
+    fmt = {"p1": rng.choice([0.2, 0.3, 0.5]), "p3": rng.choice([0.2, 0.3, 0.5]), "debt": rng.choice([200, 250, 300, 400]),
+           "purpose": pl["purpose"], "amt": max(10, K.round_to(c.revenue / 12 / 1_000_000 * rng.uniform(0.1, 0.3), 10))}
+    pool = [t for t in _TERMS_CORP if ("한도약정" not in t or pl["kind"] == "한도대출")
+            and ("보증기관" not in t or pl["collateral"] == "보증서")
+            and ("담보물건" not in t or pl["collateral"] == "부동산")]
+    _agreement_variants(p, rng, data, pool, fmt, personal=False)
+    return data
 
 
 # ---------------------------------------------------------------------------
@@ -585,7 +808,7 @@ def collateral_agreement(p: Profile, rng: random.Random) -> dict:
     settle = D(mg["maturity"], df) if settle_type == "지정형" else "정하지 아니함"
     unit = a.detail or f"{prop.floor}층"
     ratio_den = round(prop.land_area * rng.uniform(80, 400), 1)
-    return {
+    data = {
         "bank": p.bank,
         "creditor": {
             "name": _legal_bank(p.bank),
@@ -621,6 +844,51 @@ def collateral_agreement(p: Profile, rng: random.Random) -> dict:
         "signature_debtor": per.name,
         "signature_mortgagor": per.name,
     }
+    if heavy(rng, 0.25):  # 공동담보(여러 필지·건물) + 본문 조항 → 여러 쪽
+        data["joint_collateral"] = _joint_collateral(p, rng)
+        data["special_terms"] = _special_terms(_TERMS_MORTGAGE, rng, rng.randint(2, 5))
+    if special(rng, "third_party", 0.1):  # 물상보증: 부모가 담보 제공 (채무자 ≠ 근저당권설정자)
+        owner = p.father if _age(p, p.person) < 55 else _spouse(p, rng)
+        rel = "부" if owner is p.father else "배우자"
+        data["mortgagor"] = {"name": owner.name, "rrn": owner.rrn if rng.random() < 0.5 else K.mask_rrn(owner.rrn),
+                             "address": owner.address.road_short}
+        data["mortgagor_relation"] = rel
+        data["signature_mortgagor"] = owner.name
+    elif special(rng, "co_mortgagor", 0.15):  # 부부 공동소유 → 공동 근저당권설정자
+        sp = _spouse(p, rng)
+        data["co_mortgagor"] = {"name": sp.name, "rrn": sp.rrn if rng.random() < 0.5 else K.mask_rrn(sp.rrn),
+                                "address": sp.address.road_short, "share": rng.choice(["2분의 1", "2분의 1", "3분의 1"])}
+    if special(rng, "handwriting_missing", 0.08):  # 자필기재란 일부 미기재
+        data[rng.choice(["scope_handwritten", "handwritten_confirm"])] = None
+    return data
+
+
+_TERMS_MORTGAGE = [
+    "설정자는 이 근저당권보다 선순위인 임대차보증금이 있는 경우 그 내역을 은행에 신고하며, 신고하지 아니한 임대차로 인하여 발생한 손해는 설정자가 부담한다.",
+    "담보물건에 대한 화재보험은 은행을 제1순위 질권자로 하여 가입하고 보험증권 사본을 은행에 제출한다.",
+    "설정자는 담보물건의 재건축·리모델링 등 사업계획이 확정된 경우 지체 없이 은행에 통지한다.",
+    "이 근저당권은 공동담보로서 각 담보물건은 피담보채무 전액을 담보하며, 일부 담보물건의 해지는 은행의 승낙을 받아야 한다.",
+    "채무자가 피담보채무 전액을 상환한 경우에도 결산기 전까지 근저당권은 존속하며, 설정자의 해지 요청 시 은행은 지체 없이 말소에 협조한다.",
+    "담보물건의 소유권을 이전하는 경우 설정자는 사전에 은행에 통지하여야 한다.",
+]
+
+
+def _joint_collateral(p: Profile, rng: random.Random) -> list[dict]:
+    """공동담보 목록 (토지 여러 필지 + 건물). 프로필 부동산과 같은 동네의 필지."""
+    a = p.property.address
+    base = f"{a.sido} {a.sigungu} {a.dong}".replace("  ", " ")
+    main = int(a.jibun.split("-")[0])
+    out = []
+    for i in range(rng.randint(5, 12)):
+        kind = rng.choices(["토지", "건물"], weights=[70, 30])[0]
+        jb = f"{main + rng.randint(-30, 30)}" + (f"-{rng.randint(1, 40)}" if rng.random() < 0.6 else "")
+        if kind == "토지":
+            desc = f"{rng.choice(['대', '대', '전', '답', '임야', '잡종지'])} {rng.uniform(80, 1200):,.1f}㎡"
+        else:
+            desc = f"{rng.choice(['철근콘크리트조', '조적조', '경량철골조'])} {rng.choice(['단독주택', '근린생활시설', '창고'])} {rng.uniform(40, 400):,.2f}㎡"
+        out.append({"kind": kind, "location": f"{base} {jb}", "detail": desc,
+                    "unique_no": f"{rng.randint(1101, 2843)}-{rng.randint(1990, 2023)}-{rng.randint(1, 99999):06d}"})
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -647,7 +915,7 @@ def guarantee_agreement(p: Profile, rng: random.Random) -> dict:
                            f"{pl['kind']} 거래"])
         period = f"{D(pl['start_date'], df)} ~ {D(_add_years(pl['start_date'], 3), df)}"
     amt_kr = K.won_korean(max_amt)
-    return {
+    data = {
         "bank": p.bank,
         "creditor": _legal_bank(p.bank),
         "branch": p.bank_branch,
@@ -674,6 +942,29 @@ def guarantee_agreement(p: Profile, rng: random.Random) -> dict:
         "contract_date": D(pl["contract_date"], rng.choice(["kor", "kor_short"])),
         "signature": per.name,
     }
+    if heavy(rng, 0.25):  # 본문 조항 + 특약 → 여러 쪽
+        data["special_terms"] = _special_terms(_TERMS_GUARANTEE, rng, rng.randint(2, 4),
+                                               debt=rng.choice([200, 300]), amt=won(max_amt))
+    if special(rng, "multi_guarantor", 0.2):  # 연대보증인 다수 (공동대표·최대주주 등)
+        others = rng.sample(p.directors, rng.randint(1, min(2, len(p.directors))))
+        data["co_guarantors"] = [{"name": g.name, "rrn": K.mask_rrn(g.rrn) if rng.random() < 0.6 else g.rrn,
+                                  "address": g.address.road_short, "phone": g.mobile,
+                                  "relation": rng.choice(["이사", "공동대표이사", "최대주주(이사)", "감사"])} for g in others]
+    if special(rng, "handwriting_missing", 0.1):  # 자필기재란 일부 미기재
+        for k in rng.sample(["confirm", "method", "name"], rng.randint(1, 2)):
+            data["handwritten"][k] = None
+    if special(rng, "no_check", 0.08):
+        data["explained"] = None
+    return data
+
+
+_TERMS_GUARANTEE = [
+    "보증인은 보증기간 중 보증인의 재산에 관한 중대한 변동이 있는 경우 지체 없이 은행에 통지한다.",
+    "공동보증인이 있는 경우 각 보증인은 보증채무최고액 {amt} 범위에서 채무 전액에 대하여 연대하여 책임을 진다.",
+    "보증인이 채무자의 대표이사직에서 퇴임한 경우 보증인은 은행에 서면으로 보증계약의 해지를 청구할 수 있으며, 은행은 새로운 보증인 또는 담보를 채무자에게 요구할 수 있다.",
+    "채무자의 부채비율이 {debt}%를 초과하는 경우 은행은 보증인에게 그 사실을 통지한다.",
+    "보증인은 은행의 동의 없이 보증인 소유 주요 재산을 처분하거나 담보로 제공하는 경우 은행에 사전 통지한다.",
+]
 
 
 # ---------------------------------------------------------------------------
@@ -700,7 +991,7 @@ def auto_transfer_application(p: Profile, rng: random.Random) -> dict:
     df = rng.choice(["dot", "kor_short", "dash"])
     first = _add_months(pl["start_date"].replace(day=min(pl["pay_day"], 28)), 1)
     birth = per.birth
-    return {
+    data = {
         "bank": p.bank,
         "branch": p.bank_branch,
         "kind": rng.choice(["신규", "신규", "변경"]),
@@ -726,3 +1017,22 @@ def auto_transfer_application(p: Profile, rng: random.Random) -> dict:
         "signature": per.name,
         "holder_signature": a.holder,
     }
+    if heavy(rng, 0.15):  # 여러 대출의 이자·원리금을 한 번에 자동이체 등록
+        extra = []
+        for _ in range(rng.randint(4, 9)):
+            kind = rng.choice(["가계일반자금대출", "주택담보대출", "마이너스통장", "전세자금대출", "예적금담보대출", "보금자리론"])
+            extra.append({"loan_account": _loan_acct(rng, p.bank), "loan_product": kind,
+                          "target": rng.choice(["대출이자", "대출원리금"]), "transfer_day": f"매월 {rng.choice([5, 10, 15, 20, 25])}일"})
+        data["extra_loans"] = extra
+    if special(rng, "other_holder", 0.15):  # 가족(배우자) 명의 계좌에서 출금 → 예금주 별도 서명
+        sp = _spouse(p, rng)
+        bank = rng.choice([b for b in ("국민은행", "신한은행", "우리은행", "농협은행", p.bank) if b])
+        data["debit"] = {"bank": bank, "account": _digits(rng, _LOAN_ACCT_FMT.get(bank, "###-##-######"), head="1"),
+                         "holder": sp.name, "holder_birth": sp.birth.strftime("%y%m%d"), "holder_phone": sp.mobile}
+        data["relation"] = "가족"
+        data["holder_signature"] = sp.name
+    if special(rng, "no_check", 0.08):  # 체크 누락
+        data[rng.choice(["relation", "target", "third_party_consent"])] = None
+    if special(rng, "sparse", 0.1):  # 선택 기재란 공란
+        data["applicant"]["address"] = None
+    return data

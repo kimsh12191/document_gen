@@ -10,6 +10,7 @@ ol.reason { margin: 2px 0; padding-left: 1.4em; font-size: calc(var(--fs) - 3px)
 ol.reason li { margin: 0; }
 {% endblock %}
 {% block content %}
+{{ f.set_corr_name(val("holder.name")) }}
 {{ bf.head("(1-1) FATCA · CRS<br>(보존년한: 최종보고기준일이 속하는 연도 말일로부터 6년)") }}
 {{ m.title("본 인 확 인 서", sub="(FATCA · CRS 개인/개인사업자용) Individual Self-Certification") }}
 <div class="bf-box bf-note">
@@ -19,19 +20,20 @@ ol.reason li { margin: 0; }
 
 {{ bf.sec("1", "고객 인적사항", "Personal Information") }}
 <table class="bf fc">
-<tr><th>성명(한글)<span class="en">Name</span></th><td colspan="3">{{ f("holder.name", label="성명(한글)") }}</td></tr>
-<tr><th>영문 성<span class="en">Last Name (Surname)</span></th><td>{{ f("holder.surname_en", label="영문성") }}</td>
-    <th>영문 이름<span class="en">First Name (Given Name)</span></th><td>{{ f("holder.given_en", label="영문이름") }}</td></tr>
-<tr><th>생년월일<span class="en">Date of Birth</span></th><td>{{ f("holder.birth", label="생년월일") }}</td>
-    <th>연락처<span class="en">Phone No.</span></th><td>{{ f("holder.mobile", label="연락처") }}</td></tr>
+<tr><th>성명(한글)<span class="en">Name</span></th><td colspan="3">{{ f("holder.name", label="성명(한글)", fix=0.04) }}</td></tr>
+<tr><th>영문 성<span class="en">Last Name (Surname)</span></th><td>{{ f("holder.surname_en", label="영문성", fix=0.03) }}</td>
+    <th>영문 이름<span class="en">First Name (Given Name)</span></th><td>{{ f("holder.given_en", label="영문이름", fix=0.03) }}</td></tr>
+<tr><th>생년월일<span class="en">Date of Birth</span></th><td>{{ f("holder.birth", label="생년월일", fix=0.05) }}</td>
+    <th>연락처<span class="en">Phone No.</span></th><td>{{ f("holder.mobile", label="연락처", fix=0.06) }}</td></tr>
 <tr><th>출생국가<span class="en">Country of Birth</span></th><td>{{ f("holder.birth_place", label="출생국가") }}</td>
     <th>국적<span class="en">Nationality</span></th><td>{{ f("holder.nationality", label="국적") }}</td></tr>
-<tr><th>현재 거주지 주소<span class="en">Current Residence Address</span></th><td colspan="3">{{ f("holder.address", label="현재거주지주소") }}</td></tr>
+<tr><th>현재 거주지 주소<span class="en">Current Residence Address</span></th><td colspan="3">{{ f("holder.address", label="현재거주지주소", fix=0.05) }}</td></tr>
 </table>
 
 {{ bf.sec("2", "해외 거주자 여부 확인", "Declaration of Tax Residency") }}
 {% set cur = val("residence_category") %}
 {% macro opt(o) %}<span class="chk">{% if o == cur %}■ {{ f("residence_category", label="해외거주자여부") }}{% else %}□ {{ o }}{% endif %}</span>{% endmacro %}
+{% if cur is none %}{{ f.opts("residence_category", ["미국 시민권자(이중국적자 포함)", "미국 영주권자", "미국 세법상 미국 거주자", "미국 이외의 해외 거주자", "해당사항 없음"], None, "해외거주자여부") }}{{ f("residence_category") }}{% endif %}
 <table class="bf cat">
 <tr><th style="width:90px">FATCA<span class="en">(미국)</span></th><td class="opt">{{ opt("미국 시민권자(이중국적자 포함)") }} {{ opt("미국 영주권자") }} {{ opt("미국 세법상 미국 거주자") }}</td></tr>
 <tr><th>CRS<span class="en">(미국 외)</span></th><td class="opt">{{ opt("미국 이외의 해외 거주자") }} <span class="tiny muted">(대한민국 외 국가의 세법상 거주자)</span></td></tr>
@@ -45,7 +47,7 @@ ol.reason li { margin: 0; }
 <tr><th>No</th><th>거주관할권<span class="en">Jurisdiction of Residence</span></th><th>납세자번호<span class="en">TIN</span></th><th>미기재 사유<span class="en">Reason A, B or C</span></th></tr>
 {% for r in d.residences %}{% set i = loop.index0 %}
 <tr><td>{{ loop.index }}</td><td>{{ f("residences." ~ i ~ ".country", label="거주관할권") }}</td>
-<td>{% if r.tin is defined %}{{ f("residences." ~ i ~ ".tin", label="납세자번호") }}{% endif %}</td>
+<td>{% if r.tin is defined %}{{ f("residences." ~ i ~ ".tin", label="납세자번호", fix=0.05) }}{% endif %}</td>
 <td>{% if r.no_tin_reason is defined %}{{ f("residences." ~ i ~ ".no_tin_reason", label="납세자번호미기재사유") }}{% endif %}
   {% if r.reason_detail is defined %}<div class="tiny">({{ f("residences." ~ i ~ ".reason_detail", label="사유B상세") }})</div>{% endif %}</td></tr>
 {% endfor %}
@@ -65,7 +67,7 @@ ol.reason li { margin: 0; }
 </div>
 <div class="bf-sign">
   <span>작성일 Date&nbsp; {{ f("date", label="작성일") }}</span>
-  <span>계좌보유자 Account Holder <span class="who">{{ f("signature", label="계좌보유자") }}</span> (서명 Signature)</span>
+  <span>계좌보유자 Account Holder <span class="who">{{ f("signature", label="계좌보유자") }}</span> {{ m.sigspot("holder", (val("signature")|replace(" ", ""))[:4], mark="(서명 Signature)", p_seal=0.15, p_sign=0.75, label="계좌보유자", anchor="signature") }}</span>
 </div>
 <div class="right bold">{{ f("bank.name", label="은행명") }} 앞</div>
 

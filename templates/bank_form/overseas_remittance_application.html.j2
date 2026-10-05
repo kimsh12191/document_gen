@@ -8,16 +8,18 @@ table.orm td { font-variant-numeric: tabular-nums; }
 .amt { font-weight: 700; font-size: calc(var(--fs) + 2px); letter-spacing: .02em; }
 {% endblock %}
 {% block content %}
+{{ f.set_corr_name(val("remitter.name")) }}
 {{ bf.head("(2-1) 외환 · 당발송금<br>(보존년한: 처리일로부터 5년)") }}
 {{ m.title("외화송금신청서", sub="APPLICATION FOR OUTWARD REMITTANCE") }}
 <div class="bf-note">※ 수취인·수취은행 정보는 영문 대문자로 정확히 작성하여 주십시오.</div>
 
 {{ bf.sec("1", "신청인(송금인)", "Applicant") }}
 <table class="bf orm">
-<tr><th>성명<span class="en">Name</span></th><td>{{ f("remitter.name", label="송금인성명") }}</td><th>영문명<span class="en">English Name</span></th><td>{{ f("remitter.name_en", label="송금인영문명") }}</td></tr>
-<tr><th>실명번호<span class="en">ID No.</span></th><td>{{ f("remitter.rrn", label="실명번호") }}</td><th>전화번호<span class="en">Tel No.</span></th><td>{{ f("remitter.phone", label="전화번호") }}</td></tr>
-<tr><th>주소<span class="en">Address</span></th><td colspan="3">{{ f("remitter.address", label="송금인주소") }}</td></tr>
+<tr><th>성명<span class="en">Name</span></th><td>{{ f("remitter.name", label="송금인성명", fix=0.04) }}</td><th>영문명<span class="en">English Name</span></th><td>{{ f("remitter.name_en", label="송금인영문명", fix=0.04) }}</td></tr>
+<tr><th>실명번호<span class="en">ID No.</span></th><td>{{ f("remitter.rrn", label="실명번호", fix=0.05) }}</td><th>전화번호<span class="en">Tel No.</span></th><td>{{ f("remitter.phone", label="전화번호", fix=0.06) }}</td></tr>
+<tr><th>주소<span class="en">Address</span></th><td colspan="3">{{ f("remitter.address", label="송금인주소", fix=0.05) }}</td></tr>
 {% if d.remitter.company is defined %}<tr><th>상호(사업자번호)<span class="en">Company</span></th><td colspan="3">{{ f("remitter.company", label="상호(사업자번호)") }}</td></tr>{% endif %}
+{% if d.agent is defined %}<tr><th>대리인<span class="en">Agent</span></th><td colspan="3">{{ f("agent.name", label="대리인성명", fix=0.04) }} ({{ f("agent.relation", label="신청인과의관계") }}) &nbsp; {{ f("agent.rrn", label="대리인실명번호") }} &nbsp; ☎ {{ f("agent.phone", label="대리인연락처", fix=0.05) }} &nbsp;<span class="tiny muted">■ 위임장 첨부</span></td></tr>{% endif %}
 </table>
 
 {{ bf.sec("2", "수취인", "Beneficiary") }}
@@ -32,13 +34,13 @@ table.orm td { font-variant-numeric: tabular-nums; }
 <tr><th>SWIFT BIC</th><td>{{ f("beneficiary.swift", label="SWIFTBIC") }}</td><th>은행코드<span class="en">ABA / Sort Code</span></th><td><span class="tiny muted">(해당 시 / If any)</span></td></tr>
 <tr><th>은행명<span class="en">Bank Name</span></th><td>{{ f("beneficiary.bank_name", label="수취은행명") }}</td><th>중계은행<span class="en">Intermediary Bank</span></th><td><span class="tiny muted">(해당 시 / If any)</span></td></tr>
 <tr><th>지점 및 주소<span class="en">Branch &amp; Address</span></th><td colspan="3">{{ f("beneficiary.bank_address", label="수취은행주소") }}</td></tr>
-<tr><th>수취인 계좌번호<span class="en">Account No. / IBAN</span></th><td colspan="3" class="bold">{{ f("beneficiary.account_no", label="수취인계좌번호") }}</td></tr>
+<tr><th>수취인 계좌번호<span class="en">Account No. / IBAN</span></th><td colspan="3" class="bold">{{ f("beneficiary.account_no", label="수취인계좌번호", fix=0.07) }}</td></tr>
 </table>
 
 {{ bf.sec("4", "송금 내용", "Remittance Details") }}
 <table class="bf orm">
-<tr><th>송금통화<span class="en">Currency</span></th><td class="amt">{{ f("remittance.currency", label="송금통화") }}</td><th>송금금액<span class="en">Amount</span></th><td class="amt">{{ f("remittance.amount", label="송금금액") }}</td></tr>
-<tr><th>송금사유<span class="en">Purpose of Payment</span></th><td colspan="3">{{ m.choice("remittance.purpose", ["수입대금", "유학생경비", "해외체재비", "증여성송금", "해외이주비", "기타"], label="송금사유") }}
+<tr><th>송금통화<span class="en">Currency</span></th><td class="amt">{{ f("remittance.currency", label="송금통화") }}</td><th>송금금액<span class="en">Amount</span></th><td class="amt">{{ f("remittance.amount", label="송금금액", fix=0.06) }}</td></tr>
+<tr><th>송금사유<span class="en">Purpose of Payment</span></th><td colspan="3">{{ m.choice("remittance.purpose", ["수입대금", "유학생경비", "해외체재비", "증여성송금", "해외이주비", "국내보수송금", "기타"], label="송금사유") }}
   &nbsp;&nbsp;지급사유코드 <span class="u">{% if d.remittance.purpose_code is defined %}{{ f("remittance.purpose_code", label="지급사유코드") }}{% else %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{% endif %}</span></td></tr>
 <tr><th>수수료 부담<span class="en">Charges</span></th><td>{{ m.choice("remittance.charge", ["OUR", "SHA", "BEN"], label="수수료부담") }}</td>
     <th>송금방법<span class="en">Method</span></th><td>{{ m.choice("remittance.method", ["전신송금(T/T)", "송금수표(D/D)"], label="송금방법") }}</td></tr>
@@ -46,6 +48,17 @@ table.orm td { font-variant-numeric: tabular-nums; }
 <tr><th>지급증빙서류<span class="en">Documents</span></th><td colspan="3">{{ f("remittance.documents", label="지급증빙서류") }}</td></tr>
 </table>
 
+{% if d.batch is defined %}
+<div class="bf-note" style="margin:4px 0 0"><b>■ 다건 송금 명세 (별지)</b> — 위 송금을 포함하여 총 {{ f("batch_count", label="송금건수") }}을 일괄 신청합니다. 송금사유·수수료 부담·송금방법은 위와 같습니다.</div>
+<table class="bf orm compact">
+<colgroup><col style="width:28px"><col><col style="width:88px"><col style="width:24%"><col style="width:100px"><col style="width:40px"><col style="width:84px"></colgroup>
+<tr><th>No</th><th>수취인 (Beneficiary)</th><th>국가</th><th>수취은행 (SWIFT)</th><th>계좌번호</th><th>통화</th><th>금액</th></tr>
+{% for x in d.batch %}{% set k = "batch." ~ loop.index0 %}
+<tr><td class="c">{{ loop.index + 1 }}</td><td class="small">{{ f(k ~ ".beneficiary", label="수취인") }}<div class="tiny muted">{{ f(k ~ ".message", label="송금메시지") }}</div></td><td class="c small">{{ f(k ~ ".country", label="국가") }}</td><td class="small">{{ f(k ~ ".bank", label="수취은행") }}</td><td class="c small">{{ f(k ~ ".account_no", label="계좌번호", fix=0.04) }}</td><td class="c">{{ f(k ~ ".currency", label="통화") }}</td><td class="num">{{ f(k ~ ".amount", label="금액", fix=0.04) }}</td></tr>
+{% endfor %}
+</table>
+<div class="tiny muted right">- 이하 여백 -</div>
+{% endif %}
 <div class="bf-box bf-note" style="margin-top:5px">
   <p>1. 본인은 「외국환거래법」 등 관계 법령을 준수하며, 위 송금이 자금세탁 등 불법거래와 무관함을 확인합니다.</p>
   <p>2. 기재 오류 또는 중계·수취은행 사정으로 송금이 지연·반환될 수 있으며, 이로 인한 수수료와 환차손은 신청인이 부담합니다.</p>
@@ -54,8 +67,9 @@ table.orm td { font-variant-numeric: tabular-nums; }
 </div>
 <div class="bf-sign">
   <span>신청일 {{ f("date", label="신청일") }}</span>
-  <span>신청인 <span class="who">{{ f("signature", label="신청인") }}</span> {{ m.sigspot("applicant", val("signature"), label="신청인", anchor="signature") }}</span>
+  <span>신청인 <span class="who">{{ f("signature", label="신청인") }}</span> {{ m.sigspot("applicant", (val("signature")|replace(" ", ""))[:4], label="신청인", anchor="signature") }}</span>
 </div>
+{% if d.agent is defined %}<div class="bf-sign" style="margin-top:2px"><span>대리인 <span class="who">{{ f("agent.name", label="대리인") }}</span> {{ m.sigspot("agent", val("agent.name"), label="대리인", anchor="agent.name") }}</span></div>{% endif %}
 <div class="right bold">{{ f("bank.name", label="은행명") }} 앞</div>
 
 <div class="bf-use">

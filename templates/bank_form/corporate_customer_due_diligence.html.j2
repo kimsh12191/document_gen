@@ -8,6 +8,7 @@ table.own th, table.own td { text-align: center; }
 .corp-sign-wrap { display: flex; justify-content: flex-end; align-items: center; gap: 10px; margin: 2px 0 4px; }
 {% endblock %}
 {% block content %}
+{{ f.set_corr_name(val("rep.name")) }}
 {{ bf.head("고객확인 · 법인/단체용<br>(2-1) 고객용") }}
 {{ m.title("고객거래확인서", sub="(법인 · 단체용) — 실제소유자 확인 포함") }}
 <div class="bf-box bf-note">
@@ -21,10 +22,10 @@ table.own th, table.own td { text-align: center; }
 <tr><th>사업자등록번호</th><td>{{ f("corp.biz_no", label="사업자등록번호") }}</td><th>법인등록번호</th><td>{{ f("corp.corp_no", label="법인등록번호") }}</td></tr>
 <tr><th>설립일</th><td>{{ f("corp.established", label="설립일") }}</td><th>업종(업태/종목)</th><td>{{ f("corp.industry", label="업종") }}</td></tr>
 <tr><th>본점 주소</th><td colspan="3">{{ f("corp.hq_address", label="본점주소") }}</td></tr>
-<tr><th>사업장 주소</th><td colspan="3">{{ f("corp.biz_address", label="사업장주소") }}</td></tr>
-<tr><th>대표전화</th><td>{{ f("corp.phone", label="대표전화") }}</td><th>이메일</th><td>{{ f("corp.email", label="이메일") }}</td></tr>
+<tr><th>사업장 주소</th><td colspan="3">{{ f("corp.biz_address", label="사업장주소", fix=0.04) }}</td></tr>
+<tr><th>대표전화</th><td>{{ f("corp.phone", label="대표전화", fix=0.05) }}</td><th>이메일</th><td>{{ f("corp.email", label="이메일", fix=0.03) }}</td></tr>
 <tr><th>법인 구분</th><td colspan="3">{{ m.choice("corp.corp_type", ["대기업", "중소기업", "국가·지자체·공공단체", "금융기관", "비영리법인(단체)", "외국법인(단체)"], label="법인구분") }}</td></tr>
-<tr><th>상장 여부</th><td>{{ m.choice("corp.listed", ["유가증권시장", "코스닥", "코넥스", "비상장"], label="상장여부") }}</td><th>설립목적</th><td><span class="tiny muted">(비영리법인·단체 필수)</span></td></tr>
+<tr><th>상장 여부</th><td>{{ m.choice("corp.listed", ["유가증권시장", "코스닥", "코넥스", "비상장"], label="상장여부") }}{{ bf.nochk("corp.listed") }}</td><th>설립목적</th><td><span class="tiny muted">(비영리법인·단체 필수)</span></td></tr>
 </table>
 
 {{ bf.sec("2", "대표자 정보", "Representative") }}
@@ -36,7 +37,7 @@ table.own th, table.own td { text-align: center; }
 {{ bf.sec("3", "거래 정보", "Transaction Information") }}
 <table class="bf ccdd">
 <tr><th>거래목적</th><td>{{ m.choice("transaction.purpose", ["사업상 거래(결제)", "운영자금 관리", "급여 지급", "대출", "기타"], label="거래목적") }}</td></tr>
-<tr><th>자금원천</th><td>{{ m.choice("transaction.fund_source", ["영업수익", "자본금", "차입금", "투자수익", "기타"], label="자금원천") }}</td></tr>
+<tr><th>자금원천</th><td>{{ m.choice("transaction.fund_source", ["영업수익", "자본금", "차입금", "투자수익", "기타"], label="자금원천") }}{{ bf.nochk("transaction.fund_source") }}</td></tr>
 </table>
 
 {{ bf.sec("4", "실제소유자 확인", "Beneficial Owner") }}
@@ -49,22 +50,34 @@ table.own th, table.own td { text-align: center; }
 <colgroup><col style="width:30px"><col><col style="width:110px"><col style="width:100px"><col style="width:84px"><col style="width:110px"></colgroup>
 <tr><th>No</th><th>실제소유자 성명</th><th>생년월일</th><th>국적</th><th>지분율</th><th>법인과의 관계</th></tr>
 {% for o in d.owners %}{% set i = loop.index0 %}
-<tr><td>{{ loop.index }}</td><td>{{ f("owners." ~ i ~ ".name", label="성명") }}</td><td>{{ f("owners." ~ i ~ ".birth", label="생년월일") }}</td>
+<tr><td>{{ loop.index }}</td><td>{{ f("owners." ~ i ~ ".name", label="성명", fix=0.04) }}</td><td>{{ f("owners." ~ i ~ ".birth", label="생년월일", fix=0.05) }}</td>
 <td>{{ f("owners." ~ i ~ ".nationality", label="국적") }}</td><td>{{ f("owners." ~ i ~ ".ratio", label="지분율") }}</td><td>{{ f("owners." ~ i ~ ".relation", label="법인과의관계") }}</td></tr>
 {% endfor %}
 {% for _ in range(3 - d.owners|length) %}<tr><td>{{ d.owners|length + loop.index }}</td><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>{% endfor %}
 </table>
+{% if d.shareholders is defined %}
+<div class="bf-note" style="margin:3px 0 0"><b>■ 주주 현황</b> (주주명부 기준, 지분율 순 · 총 {{ d.shareholders|length }}명)</div>
+<table class="bf own">
+<colgroup><col style="width:30px"><col><col style="width:110px"><col style="width:110px"><col style="width:84px"><col style="width:110px"></colgroup>
+<tr><th>No</th><th>주주명</th><th>생년월일</th><th>소유주식수</th><th>지분율</th><th>법인과의 관계</th></tr>
+{% for r in d.shareholders %}{% set k = "shareholders." ~ loop.index0 %}
+<tr><td>{{ loop.index }}</td><td>{{ f(k ~ ".name", label="주주명") }}</td><td>{{ f(k ~ ".birth", label="생년월일") }}</td><td class="num">{{ f(k ~ ".shares", label="소유주식수", fix=0.03) }}</td><td>{{ f(k ~ ".ratio", label="지분율") }}</td><td>{{ f(k ~ ".relation", label="법인과의관계") }}</td></tr>
+{% endfor %}
+</table>
+<div class="tiny muted right">- 이하 여백 -</div>
+{% endif %}
 <div class="tiny muted">※ 주주명부 등 실제소유자 확인 서류를 함께 제출하여 주십시오. 상장법인, 국가·지방자치단체 등은 실제소유자 확인이 면제될 수 있습니다.</div>
 
 {{ bf.sec("5", "외국의 정치적 주요인물 여부", "Foreign PEPs") }}
 <table class="bf ccdd">
 <tr><td class="q">대표자 또는 실제소유자가 외국의 정치적 주요인물(가족 및 밀접한 관계자 포함)에 해당합니까?</td>
-<td style="width:150px">{{ m.choice("pep", ["예", "아니오"], label="외국의정치적주요인물여부") }}</td></tr>
+<td style="width:150px">{{ m.choice("pep", ["예", "아니오"], label="외국의정치적주요인물여부") }}{{ bf.nochk("pep") }}</td></tr>
 </table>
 
 {{ bf.sec("6", "대리인(거래담당자) 정보", "Agent / Authorized Person") }}
 <table class="bf ccdd">
-<tr><th>성　명</th><td>&nbsp;</td><th style="width:64px">실명번호</th><td>&nbsp;</td><th style="width:64px">직위·관계</th><td style="width:90px">&nbsp;</td></tr>
+{% if d.agent is defined %}<tr><th>성　명</th><td>{{ f("agent.name", label="거래담당자성명", fix=0.04) }}</td><th style="width:64px">실명번호</th><td>{{ f("agent.rrn", label="거래담당자실명번호", fix=0.04) }}</td><th style="width:64px">직위·관계</th><td style="width:110px">{{ f("agent.position", label="직위관계") }}</td></tr>
+{% else %}<tr><th>성　명</th><td>&nbsp;</td><th style="width:64px">실명번호</th><td>&nbsp;</td><th style="width:64px">직위·관계</th><td style="width:90px">&nbsp;</td></tr>{% endif %}
 </table>
 
 <div class="bf-note" style="margin-top:6px">위 기재 내용이 사실과 다름없음을 확인하며, 변경사항 발생 시 지체 없이 은행에 통보하겠습니다.</div>
