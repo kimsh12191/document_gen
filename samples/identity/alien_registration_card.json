@@ -1,10 +1,13 @@
 {
  "document_type": "외국인등록증",
- "registration_no": "901003-5614269",
+ "registration_no": "901003-5269685",
  "name": "BATAA GANBOLD",
  "country": "MONGOLIA",
- "sex": "M",
- "visa_status": "E-9 (비전문취업)",
- "issue_date": "2024.03.08",
- "issuer": "광주출입국·외국인사무소장"
+ "gender": "M",
+ "visa_status": "유학(D-2)",
+ "issue_date": "2023.05.04",
+ "issuer": "광주출입국·외국인사무소장",
+ "seal": {
+  "issuer": true
+ }
 }

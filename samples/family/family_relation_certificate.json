@@ -1,12 +1,13 @@
 {
  "document_type": "가족관계증명서",
+ "cert_type": "일반",
  "reg_base": "서울특별시 마포구 서교동 159",
  "self": {
   "relation": "본인",
   "name": "김소윤",
   "name_hanja": "金素允",
   "birth": "1990년 11월 21일",
-  "rrn": "901121-2030821",
+  "rrn": "901121-2******",
   "gender": "여",
   "bon": "安東"
  },
@@ -58,9 +59,11 @@
   }
  ],
  "issue_date": "2025년 11월 29일",
- "issuer": "광주광역시 서구 치평동장",
- "issue_time": "15시 48분",
- "officer": "이석우",
- "officer_phone": "062-601-9895",
- "applicant": "김소윤"
+ "issuer": "법원행정처 전산정보중앙관리소 전산운영책임관",
+ "seal": {
+  "issuer": true
+ },
+ "issue_time": "12시 40분",
+ "applicant": "김소윤",
+ "doc_check_no": "0176-9836-4247-4124"
 }

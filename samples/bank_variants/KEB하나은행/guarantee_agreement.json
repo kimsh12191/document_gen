@@ -29,5 +29,8 @@
  },
  "explained": "예",
  "contract_date": "2017년 1월 21일",
- "signature": "김소윤"
+ "signature": "김소윤",
+ "seal": {
+  "guarantor": true
+ }
 }

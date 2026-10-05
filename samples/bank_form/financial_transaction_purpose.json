@@ -21,6 +21,16 @@
  },
  "date": "2025년 11월 29일",
  "signature": "김소윤",
+ "seal": {
+  "customer": true,
+  "staff": {
+   "clerk": true,
+   "manager": true
+  }
+ },
+ "sign": {
+  "customer": false
+ },
  "bank_use": {
   "result": "금융거래한도계좌 개설",
   "clerk": "제갈환도",

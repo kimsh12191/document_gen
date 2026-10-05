@@ -6,9 +6,9 @@
   "name": "주식회사 새한소프트",
   "name_en": "Saehan Soft Co., Ltd.",
   "biz_no": "530-82-09978",
-  "corp_no": "135012-6946558",
+  "corp_reg_no": "135012-6946558",
   "ceo": "김소윤",
-  "established": "2013.12.08",
+  "established": "2013년 12월 08일",
   "industry": "정보통신업 / 응용소프트웨어 개발",
   "employees": "308명",
   "size": "중소기업",
@@ -29,10 +29,10 @@
   "subject": "일반자금대출",
   "product": "기업일반운전자금대출",
   "rate_type": "변동금리",
-  "amount_korean": "일금 십오억원정",
+  "amount_korean": "금 십오억원整",
   "amount": "1,500,000,000원",
-  "term": "1년",
-  "hope_date": "2017-01-24",
+  "term": "12개월",
+  "hope_date": "2017.01.24",
   "repayment": "만기일시상환",
   "fund_type": "운전자금",
   "purpose": "운전자금(인건비 등 경상비)",
@@ -42,12 +42,21 @@
  },
  "other_loans": [
   {
-   "lender": "수협은행",
-   "kind": "구매자금대출",
-   "balance": "1,300",
+   "lender": "기업은행",
+   "kind": "당좌대출",
+   "balance": "1,820",
+   "collateral": "신용보증기금"
+  },
+  {
+   "lender": "산업은행",
+   "kind": "운전자금대출",
+   "balance": "1,880",
    "collateral": "예금"
   }
  ],
  "apply_date": "2017년 1월 15일",
- "signature": "김소윤"
+ "signature": "김소윤",
+ "seal": {
+  "corp": true
+ }
 }

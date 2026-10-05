@@ -33,6 +33,16 @@
  },
  "date": "2014년 08월 21일",
  "signature": "김소윤",
+ "seal": {
+  "applicant": false,
+  "staff": {
+   "clerk": true,
+   "manager": true
+  }
+ },
+ "sign": {
+  "applicant": false
+ },
  "bank_use": {
   "ref_no": "OR14082199512",
   "branch": "분당지점",

@@ -1,0 +1,884 @@
+{
+ "images": [
+  "variants/overseas_remittance_application.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "bank.name",
+   "label": "은행명",
+   "type": "text",
+   "value": "농협은행",
+   "norm": "농협은행",
+   "page": 0,
+   "bbox": [
+    84.5,
+    50.8,
+    197.4,
+    80.8
+   ]
+  },
+  {
+   "key": "remitter.name",
+   "label": "송금인성명",
+   "type": "text",
+   "value": "솜차이 분마",
+   "norm": "솜차이 분마",
+   "page": 0,
+   "bbox": [
+    231.5,
+    253.9,
+    322.8,
+    273.4
+   ],
+   "label_bbox": [
+    53.7,
+    241.1,
+    221.7,
+    287.1
+   ]
+  },
+  {
+   "key": "remitter.name_en",
+   "label": "송금인영문명",
+   "type": "text",
+   "value": "BOONMA SOMCHAI",
+   "norm": "BOONMA SOMCHAI",
+   "page": 0,
+   "bbox": [
+    723.9,
+    253.9,
+    884.8,
+    273.4
+   ],
+   "label_bbox": [
+    546.2,
+    241.1,
+    714.2,
+    287.1
+   ]
+  },
+  {
+   "key": "remitter.rrn",
+   "label": "실명번호",
+   "type": "rrn",
+   "value": "840503-5021016",
+   "norm": "840503-5021016",
+   "page": 0,
+   "bbox": [
+    231.5,
+    299.8,
+    350.3,
+    319.3
+   ],
+   "label_bbox": [
+    53.7,
+    287.1,
+    221.7,
+    333.0
+   ]
+  },
+  {
+   "key": "remitter.phone",
+   "label": "전화번호",
+   "type": "phone",
+   "value": "010-7368-7002",
+   "norm": "01073687002",
+   "page": 0,
+   "bbox": [
+    723.9,
+    299.8,
+    831.2,
+    319.3
+   ],
+   "label_bbox": [
+    546.2,
+    287.1,
+    714.2,
+    333.0
+   ]
+  },
+  {
+   "key": "remitter.address",
+   "label": "송금인주소",
+   "type": "text",
+   "value": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+   "norm": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+   "page": 0,
+   "bbox": [
+    231.5,
+    345.8,
+    759.8,
+    365.3
+   ],
+   "label_bbox": [
+    53.7,
+    333.0,
+    221.7,
+    379.0
+   ]
+  },
+  {
+   "key": "beneficiary.name",
+   "label": "수취인성명",
+   "type": "text",
+   "value": "BOONMA SOMSAK",
+   "norm": "BOONMA SOMSAK",
+   "page": 0,
+   "bbox": [
+    231.5,
+    432.8,
+    384.7,
+    452.3
+   ],
+   "label_bbox": [
+    53.7,
+    420.0,
+    221.7,
+    466.0
+   ]
+  },
+  {
+   "key": "beneficiary.address",
+   "label": "수취인주소",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    53.7,
+    466.0,
+    221.7,
+    511.9
+   ],
+   "page": 0
+  },
+  {
+   "key": "beneficiary.country",
+   "label": "수취인국가",
+   "type": "text",
+   "value": "THAILAND",
+   "norm": "THAILAND",
+   "page": 0,
+   "bbox": [
+    231.5,
+    524.7,
+    321.3,
+    544.2
+   ],
+   "label_bbox": [
+    53.7,
+    511.9,
+    221.7,
+    557.9
+   ]
+  },
+  {
+   "key": "beneficiary.relationship",
+   "label": "신청인과의관계",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    856.1,
+    511.9,
+    1024.1,
+    557.9
+   ],
+   "page": 0
+  },
+  {
+   "key": "beneficiary.swift",
+   "label": "SWIFTBIC",
+   "type": "text",
+   "value": "KASITHBK",
+   "norm": "KASITHBK",
+   "page": 0,
+   "bbox": [
+    231.5,
+    611.7,
+    319.4,
+    631.2
+   ],
+   "label_bbox": [
+    53.7,
+    598.9,
+    221.7,
+    644.9
+   ]
+  },
+  {
+   "key": "beneficiary.bank_name",
+   "label": "수취은행명",
+   "type": "text",
+   "value": "KASIKORNBANK PUBLIC COMPANY LIMITED",
+   "norm": "KASIKORNBANK PUBLIC COMPANY LIMITED",
+   "page": 0,
+   "bbox": [
+    231.5,
+    657.6,
+    601.7,
+    677.1
+   ],
+   "label_bbox": [
+    53.7,
+    644.9,
+    221.7,
+    690.8
+   ]
+  },
+  {
+   "key": "beneficiary.bank_address",
+   "label": "수취은행주소",
+   "type": "text",
+   "value": "BANGKOK, THAILAND",
+   "norm": "BANGKOK, THAILAND",
+   "page": 0,
+   "bbox": [
+    231.5,
+    703.6,
+    416.7,
+    723.1
+   ],
+   "label_bbox": [
+    53.7,
+    690.8,
+    221.7,
+    736.8
+   ]
+  },
+  {
+   "key": "beneficiary.account_no",
+   "label": "수취인계좌번호",
+   "type": "account_no",
+   "value": "083603567695",
+   "norm": "083603567695",
+   "page": 0,
+   "bbox": [
+    231.5,
+    749.6,
+    335.8,
+    769.1
+   ],
+   "label_bbox": [
+    53.7,
+    736.8,
+    221.7,
+    782.8
+   ]
+  },
+  {
+   "key": "remittance.currency",
+   "label": "송금통화",
+   "type": "text",
+   "value": "USD",
+   "norm": "USD",
+   "page": 0,
+   "bbox": [
+    231.5,
+    834.5,
+    278.2,
+    858.5
+   ],
+   "label_bbox": [
+    53.7,
+    823.8,
+    221.7,
+    869.7
+   ]
+  },
+  {
+   "key": "remittance.amount",
+   "label": "송금금액",
+   "type": "amount",
+   "value": "1,600.00",
+   "norm": 1600.0,
+   "page": 0,
+   "bbox": [
+    709.3,
+    834.5,
+    792.2,
+    858.5
+   ],
+   "label_bbox": [
+    531.6,
+    823.8,
+    699.6,
+    869.7
+   ]
+  },
+  {
+   "key": "remittance.purpose",
+   "label": "송금사유",
+   "type": "checkbox",
+   "value": "국내보수송금",
+   "norm": "국내보수송금",
+   "page": 0,
+   "bbox": [
+    798.2,
+    875.0,
+    902.5,
+    894.5
+   ],
+   "label_bbox": [
+    53.7,
+    869.7,
+    221.7,
+    924.2
+   ],
+   "options": [
+    {
+     "text": "수입대금",
+     "checked": false,
+     "box_bbox": [
+      231.5,
+      875.0,
+      242.0,
+      894.5
+     ],
+     "bbox": [
+      231.5,
+      875.0,
+      315.9,
+      894.5
+     ]
+    },
+    {
+     "text": "유학생경비",
+     "checked": false,
+     "box_bbox": [
+      327.9,
+      875.0,
+      338.5,
+      894.5
+     ],
+     "bbox": [
+      327.9,
+      875.0,
+      429.8,
+      894.5
+     ]
+    },
+    {
+     "text": "해외체재비",
+     "checked": false,
+     "box_bbox": [
+      441.8,
+      875.0,
+      452.3,
+      894.5
+     ],
+     "bbox": [
+      441.8,
+      875.0,
+      543.6,
+      894.5
+     ]
+    },
+    {
+     "text": "증여성송금",
+     "checked": false,
+     "box_bbox": [
+      555.6,
+      875.0,
+      566.1,
+      894.5
+     ],
+     "bbox": [
+      555.6,
+      875.0,
+      657.4,
+      894.5
+     ]
+    },
+    {
+     "text": "해외이주비",
+     "checked": false,
+     "box_bbox": [
+      669.4,
+      875.0,
+      680.0,
+      894.5
+     ],
+     "bbox": [
+      669.4,
+      875.0,
+      771.3,
+      894.5
+     ]
+    },
+    {
+     "text": "국내보수송금",
+     "checked": true,
+     "box_bbox": [
+      783.3,
+      875.0,
+      793.8,
+      894.5
+     ],
+     "bbox": [
+      783.3,
+      875.0,
+      902.5,
+      894.5
+     ]
+    },
+    {
+     "text": "기타",
+     "checked": false,
+     "box_bbox": [
+      914.5,
+      875.0,
+      925.0,
+      894.5
+     ],
+     "bbox": [
+      914.5,
+      875.0,
+      964.2,
+      894.5
+     ]
+    }
+   ]
+  },
+  {
+   "key": "remittance.charge",
+   "label": "수수료부담",
+   "type": "checkbox",
+   "value": "OUR",
+   "norm": "OUR",
+   "page": 0,
+   "bbox": [
+    246.4,
+    936.9,
+    283.1,
+    956.4
+   ],
+   "label_bbox": [
+    53.7,
+    924.2,
+    221.7,
+    970.1
+   ],
+   "options": [
+    {
+     "text": "OUR",
+     "checked": true,
+     "box_bbox": [
+      231.5,
+      936.9,
+      242.0,
+      956.4
+     ],
+     "bbox": [
+      231.5,
+      936.9,
+      283.1,
+      956.4
+     ]
+    },
+    {
+     "text": "SHA",
+     "checked": false,
+     "box_bbox": [
+      295.1,
+      936.9,
+      305.6,
+      956.4
+     ],
+     "bbox": [
+      295.1,
+      936.9,
+      344.8,
+      956.4
+     ]
+    },
+    {
+     "text": "BEN",
+     "checked": false,
+     "box_bbox": [
+      356.8,
+      936.9,
+      367.3,
+      956.4
+     ],
+     "bbox": [
+      356.8,
+      936.9,
+      406.4,
+      956.4
+     ]
+    }
+   ]
+  },
+  {
+   "key": "remittance.method",
+   "label": "송금방법",
+   "type": "checkbox",
+   "value": "전신송금(T/T)",
+   "norm": "전신송금(T/T)",
+   "page": 0,
+   "bbox": [
+    724.2,
+    936.9,
+    831.4,
+    956.4
+   ],
+   "label_bbox": [
+    531.6,
+    924.2,
+    699.6,
+    970.1
+   ],
+   "options": [
+    {
+     "text": "전신송금(T/T)",
+     "checked": true,
+     "box_bbox": [
+      709.3,
+      936.9,
+      719.9,
+      956.4
+     ],
+     "bbox": [
+      709.3,
+      936.9,
+      831.4,
+      956.4
+     ]
+    },
+    {
+     "text": "송금수표(D/D)",
+     "checked": false,
+     "box_bbox": [
+      843.4,
+      936.9,
+      854.0,
+      956.4
+     ],
+     "bbox": [
+      843.4,
+      936.9,
+      969.4,
+      956.4
+     ]
+    }
+   ]
+  },
+  {
+   "key": "remittance.message",
+   "label": "송금메시지",
+   "type": "text",
+   "value": "FAMILY SUPPORT",
+   "norm": "FAMILY SUPPORT",
+   "page": 0,
+   "bbox": [
+    231.5,
+    982.9,
+    374.2,
+    1002.4
+   ],
+   "label_bbox": [
+    53.7,
+    970.1,
+    221.7,
+    1016.1
+   ]
+  },
+  {
+   "key": "remittance.documents",
+   "label": "지급증빙서류",
+   "type": "text",
+   "value": "근로계약서, 급여명세서(소득증빙)",
+   "norm": "근로계약서, 급여명세서(소득증빙)",
+   "page": 0,
+   "bbox": [
+    231.5,
+    1028.8,
+    495.3,
+    1048.3
+   ],
+   "label_bbox": [
+    53.7,
+    1016.1,
+    221.7,
+    1062.0
+   ]
+  },
+  {
+   "key": "date",
+   "label": "신청일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 0,
+   "bbox": [
+    678.1,
+    1185.0,
+    807.9,
+    1204.5
+   ]
+  },
+  {
+   "key": "signature",
+   "label": "신청인",
+   "type": "text",
+   "value": "솜차이 분마",
+   "norm": "솜차이 분마",
+   "page": 0,
+   "bbox": [
+    913.2,
+    1185.0,
+    1004.6,
+    1204.5
+   ]
+  },
+  {
+   "key": "seal.applicant",
+   "label": "신청인",
+   "type": "seal",
+   "value": null,
+   "present": false,
+   "kind": "인감",
+   "anchor": "signature",
+   "page": 0,
+   "bbox": [
+    1030.8,
+    1183.5,
+    1138.0,
+    1207.0
+   ]
+  },
+  {
+   "key": "sign.applicant",
+   "label": "신청인",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "anchor": "signature",
+   "page": 0,
+   "bbox": [
+    1030.8,
+    1183.5,
+    1138.0,
+    1207.0
+   ]
+  },
+  {
+   "key": "bank_use.ref_no",
+   "label": "참조번호",
+   "type": "text",
+   "value": "OR25112999512",
+   "norm": "OR25112999512",
+   "page": 0,
+   "bbox": [
+    243.5,
+    1286.4,
+    362.7,
+    1305.9
+   ],
+   "label_bbox": [
+    65.7,
+    1281.2,
+    233.7,
+    1312.1
+   ]
+  },
+  {
+   "key": "bank_use.branch",
+   "label": "취급영업점",
+   "type": "text",
+   "value": "분당지점",
+   "norm": "분당지점",
+   "page": 0,
+   "bbox": [
+    647.9,
+    1286.4,
+    717.5,
+    1305.9
+   ],
+   "label_bbox": [
+    470.2,
+    1281.2,
+    638.2,
+    1312.1
+   ]
+  },
+  {
+   "key": "bank_use.rate",
+   "label": "적용환율",
+   "type": "number",
+   "value": "1,412.76",
+   "norm": 1412.76,
+   "page": 0,
+   "bbox": [
+    243.5,
+    1317.4,
+    304.4,
+    1336.9
+   ],
+   "label_bbox": [
+    65.7,
+    1312.1,
+    233.7,
+    1343.1
+   ]
+  },
+  {
+   "key": "bank_use.krw_amount",
+   "label": "원화환산액",
+   "type": "amount",
+   "value": "2,260,416원",
+   "norm": 2260416,
+   "page": 0,
+   "bbox": [
+    722.9,
+    1317.4,
+    809.9,
+    1336.9
+   ],
+   "label_bbox": [
+    470.2,
+    1312.1,
+    638.2,
+    1343.1
+   ]
+  },
+  {
+   "key": "bank_use.fee",
+   "label": "송금수수료",
+   "type": "amount",
+   "value": "10,000원",
+   "norm": 10000,
+   "page": 0,
+   "bbox": [
+    395.2,
+    1348.4,
+    460.4,
+    1367.9
+   ],
+   "label_bbox": [
+    65.7,
+    1343.1,
+    233.7,
+    1374.1
+   ]
+  },
+  {
+   "key": "bank_use.cable_fee",
+   "label": "전신료",
+   "type": "amount",
+   "value": "8,000원",
+   "norm": 8000,
+   "page": 0,
+   "bbox": [
+    753.4,
+    1348.4,
+    809.9,
+    1367.9
+   ],
+   "label_bbox": [
+    470.2,
+    1343.1,
+    638.2,
+    1374.1
+   ]
+  },
+  {
+   "key": "bank_use.total",
+   "label": "합계",
+   "type": "amount",
+   "value": "2,278,416원",
+   "norm": 2278416,
+   "page": 0,
+   "bbox": [
+    722.9,
+    1379.3,
+    809.9,
+    1398.8
+   ],
+   "label_bbox": [
+    65.7,
+    1374.1,
+    233.7,
+    1405.0
+   ]
+  },
+  {
+   "key": "seal.staff.clerk",
+   "label": "담당자",
+   "type": "seal",
+   "value": "한정우",
+   "present": true,
+   "kind": "행원인",
+   "anchor": "bank_use.clerk",
+   "page": 0,
+   "bbox": [
+    946.7,
+    1336.5,
+    1011.7,
+    1401.5
+   ]
+  },
+  {
+   "key": "bank_use.clerk",
+   "label": "담당자",
+   "type": "text",
+   "value": "한정우",
+   "norm": "한정우",
+   "page": 0,
+   "bbox": [
+    956.1,
+    1358.9,
+    1002.3,
+    1379.2
+   ],
+   "label_bbox": [
+    931.2,
+    1281.2,
+    1027.2,
+    1333.0
+   ]
+  },
+  {
+   "key": "seal.staff.manager",
+   "label": "결재권자",
+   "type": "seal",
+   "value": "정소연",
+   "present": true,
+   "kind": "행원인",
+   "anchor": "bank_use.manager",
+   "page": 0,
+   "bbox": [
+    1043.7,
+    1336.5,
+    1108.7,
+    1401.5
+   ]
+  },
+  {
+   "key": "bank_use.manager",
+   "label": "결재권자",
+   "type": "text",
+   "value": "정소연",
+   "norm": "정소연",
+   "page": 0,
+   "bbox": [
+    1053.1,
+    1358.9,
+    1099.4,
+    1379.2
+   ],
+   "label_bbox": [
+    1027.2,
+    1281.2,
+    1125.3,
+    1333.0
+   ]
+  }
+ ]
+}

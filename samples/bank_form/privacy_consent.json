@@ -36,10 +36,19 @@
  },
  "date": "2025년 11월 29일",
  "applicant": {
-  "birth": "1990.11.21",
+  "birth": "1990년 11월 21일",
   "name": "김소윤"
  },
+ "seal": {
+  "applicant": true,
+  "staff": {
+   "clerk": true
+  }
+ },
+ "sign": {
+  "applicant": false
+ },
  "bank_use": {
-  "clerk": "류호승"
+  "clerk": "천유승"
  }
 }

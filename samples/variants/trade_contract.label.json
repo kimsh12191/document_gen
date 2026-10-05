@@ -1,0 +1,5315 @@
+{
+ "images": [
+  "variants/trade_contract_p1.jpg",
+  "variants/trade_contract_p2.jpg",
+  "variants/trade_contract_p3.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "seller.name",
+   "label": "Seller",
+   "type": "text",
+   "value": "MERIDIAN GLOBAL SOURCING PTE. LTD.",
+   "norm": "MERIDIAN GLOBAL SOURCING PTE. LTD.",
+   "page": 0,
+   "bbox": [
+    300.3,
+    72.0,
+    890.7,
+    102.0
+   ]
+  },
+  {
+   "key": "seller.address",
+   "label": "SellerAddress",
+   "type": "text",
+   "value": "30 CECIL STREET, #19-08, SINGAPORE 049712",
+   "norm": "30 CECIL STREET, #19-08, SINGAPORE 049712",
+   "page": 0,
+   "bbox": [
+    426.9,
+    107.6,
+    764.1,
+    125.6
+   ]
+  },
+  {
+   "key": "buyer.name",
+   "label": "Buyer",
+   "type": "text",
+   "value": "SAEHAN SOFT CO., LTD.",
+   "norm": "SAEHAN SOFT CO., LTD.",
+   "page": 0,
+   "bbox": [
+    135.0,
+    226.9,
+    335.3,
+    244.9
+   ]
+  },
+  {
+   "key": "buyer.address",
+   "label": "BuyerAddress",
+   "type": "text",
+   "value": "8F, DONGBANG PLAZA, 22-7 GUKJEGEUMYUNG-RO, YEONGDEUNGPO-GU, SEOUL 07028, KOREA",
+   "norm": "8F, DONGBANG PLAZA, 22-7 GUKJEGEUMYUNG-RO, YEONGDEUNGPO-GU, SEOUL 07028, KOREA",
+   "page": 0,
+   "bbox": [
+    78.0,
+    250.5,
+    844.7,
+    268.5
+   ],
+   "label_bbox": [
+    78.0,
+    161.6,
+    1113.0,
+    213.4
+   ]
+  },
+  {
+   "key": "contract_no",
+   "label": "ContractNo",
+   "type": "text",
+   "value": "MGS-SC-25806",
+   "norm": "MGS-SC-25806",
+   "page": 0,
+   "bbox": [
+    998.1,
+    226.9,
+    1113.0,
+    244.9
+   ]
+  },
+  {
+   "key": "contract_date",
+   "label": "Date",
+   "type": "date",
+   "value": "14 OCT 2025",
+   "norm": "2025-10-14",
+   "page": 0,
+   "bbox": [
+    942.1,
+    250.5,
+    1038.7,
+    268.5
+   ]
+  },
+  {
+   "key": "items.0.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    155.6,
+    401.3,
+    459.2,
+    419.3
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.0.model",
+   "label": "Model",
+   "type": "text",
+   "value": "RC-917B",
+   "norm": "RC-917B",
+   "page": 0,
+   "bbox": [
+    552.0,
+    401.3,
+    614.7,
+    419.3
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.0.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "42,600,000 PCS",
+   "norm": "42,600,000 PCS",
+   "page": 0,
+   "bbox": [
+    692.6,
+    401.3,
+    799.2,
+    419.3
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.0.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 0.28",
+   "norm": 0.28,
+   "page": 0,
+   "bbox": [
+    872.2,
+    401.3,
+    931.6,
+    419.3
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.0.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 11,928,000",
+   "norm": 11928000,
+   "page": 0,
+   "bbox": [
+    1000.4,
+    401.3,
+    1104.0,
+    419.3
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.1.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    155.6,
+    431.3,
+    459.2,
+    449.3
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.1.model",
+   "label": "Model",
+   "type": "text",
+   "value": "RC-321A",
+   "norm": "RC-321A",
+   "page": 0,
+   "bbox": [
+    551.6,
+    431.3,
+    615.1,
+    449.3
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.1.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "31,400,000 PCS",
+   "norm": "31,400,000 PCS",
+   "page": 0,
+   "bbox": [
+    692.6,
+    431.3,
+    799.2,
+    449.3
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.1.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 0.17",
+   "norm": 0.17,
+   "page": 0,
+   "bbox": [
+    872.2,
+    431.3,
+    931.6,
+    449.3
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.1.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 5,338,000",
+   "norm": 5338000,
+   "page": 0,
+   "bbox": [
+    1007.9,
+    431.3,
+    1104.0,
+    449.3
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.2.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    155.6,
+    461.4,
+    459.2,
+    479.4
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.2.model",
+   "label": "Model",
+   "type": "text",
+   "value": "RC-220B",
+   "norm": "RC-220B",
+   "page": 0,
+   "bbox": [
+    552.0,
+    461.4,
+    614.7,
+    479.4
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.2.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "11,200,000 PCS",
+   "norm": "11,200,000 PCS",
+   "page": 0,
+   "bbox": [
+    693.1,
+    461.4,
+    799.2,
+    479.4
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.2.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 0.54",
+   "norm": 0.54,
+   "page": 0,
+   "bbox": [
+    872.2,
+    461.4,
+    931.6,
+    479.4
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.2.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 6,048,000",
+   "norm": 6048000,
+   "page": 0,
+   "bbox": [
+    1007.9,
+    461.4,
+    1104.0,
+    479.4
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.3.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    155.6,
+    491.5,
+    459.2,
+    509.5
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.3.model",
+   "label": "Model",
+   "type": "text",
+   "value": "RC-150B",
+   "norm": "RC-150B",
+   "page": 0,
+   "bbox": [
+    552.0,
+    491.5,
+    614.7,
+    509.5
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.3.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "20,400,000 PCS",
+   "norm": "20,400,000 PCS",
+   "page": 0,
+   "bbox": [
+    692.6,
+    491.5,
+    799.2,
+    509.5
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.3.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 0.60",
+   "norm": 0.6,
+   "page": 0,
+   "bbox": [
+    872.2,
+    491.5,
+    931.6,
+    509.5
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.3.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 12,240,000",
+   "norm": 12240000,
+   "page": 0,
+   "bbox": [
+    999.8,
+    491.5,
+    1104.0,
+    509.5
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.4.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    155.6,
+    521.6,
+    459.2,
+    539.6
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.4.model",
+   "label": "Model",
+   "type": "text",
+   "value": "RC-680A",
+   "norm": "RC-680A",
+   "page": 0,
+   "bbox": [
+    551.6,
+    521.6,
+    615.1,
+    539.6
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.4.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "74,000,000 PCS",
+   "norm": "74,000,000 PCS",
+   "page": 0,
+   "bbox": [
+    692.6,
+    521.6,
+    799.2,
+    539.6
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.4.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 0.23",
+   "norm": 0.23,
+   "page": 0,
+   "bbox": [
+    872.2,
+    521.6,
+    931.6,
+    539.6
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.4.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 17,020,000",
+   "norm": 17020000,
+   "page": 0,
+   "bbox": [
+    999.8,
+    521.6,
+    1104.0,
+    539.6
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.5.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    155.6,
+    551.6,
+    459.2,
+    569.6
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.5.model",
+   "label": "Model",
+   "type": "text",
+   "value": "RC-958A",
+   "norm": "RC-958A",
+   "page": 0,
+   "bbox": [
+    551.6,
+    551.6,
+    615.1,
+    569.6
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.5.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "65,600,000 PCS",
+   "norm": "65,600,000 PCS",
+   "page": 0,
+   "bbox": [
+    692.6,
+    551.6,
+    799.2,
+    569.6
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.5.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 0.26",
+   "norm": 0.26,
+   "page": 0,
+   "bbox": [
+    872.2,
+    551.6,
+    931.6,
+    569.6
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.5.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 17,056,000",
+   "norm": 17056000,
+   "page": 0,
+   "bbox": [
+    999.8,
+    551.6,
+    1104.0,
+    569.6
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.6.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    155.6,
+    581.7,
+    459.2,
+    599.7
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.6.model",
+   "label": "Model",
+   "type": "text",
+   "value": "RC-504S",
+   "norm": "RC-504S",
+   "page": 0,
+   "bbox": [
+    552.9,
+    581.7,
+    613.8,
+    599.7
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.6.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "55,200,000 PCS",
+   "norm": "55,200,000 PCS",
+   "page": 0,
+   "bbox": [
+    692.6,
+    581.7,
+    799.2,
+    599.7
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.6.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 0.16",
+   "norm": 0.16,
+   "page": 0,
+   "bbox": [
+    872.2,
+    581.7,
+    931.6,
+    599.7
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.6.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 8,832,000",
+   "norm": 8832000,
+   "page": 0,
+   "bbox": [
+    1007.9,
+    581.7,
+    1104.0,
+    599.7
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.7.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    155.6,
+    629.6,
+    459.2,
+    647.6
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.7.model",
+   "label": "Model",
+   "type": "text",
+   "value": "RC-619",
+   "norm": "RC-619",
+   "page": 0,
+   "bbox": [
+    557.5,
+    629.6,
+    609.2,
+    647.6
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.7.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "82,400,000 PCS",
+   "norm": "82,400,000 PCS",
+   "page": 0,
+   "bbox": [
+    692.6,
+    629.6,
+    799.2,
+    647.6
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.7.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 0.26",
+   "norm": 0.26,
+   "corrected_from": "JPY 0.21",
+   "page": 0,
+   "bbox": [
+    829.2,
+    634.3,
+    895.6,
+    652.3
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.7.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 21,424,000",
+   "norm": 21424000,
+   "page": 0,
+   "bbox": [
+    999.8,
+    629.6,
+    1104.0,
+    647.6
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.8.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    155.6,
+    677.6,
+    459.2,
+    695.6
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.8.model",
+   "label": "Model",
+   "type": "text",
+   "value": "RC-890S",
+   "norm": "RC-890S",
+   "page": 0,
+   "bbox": [
+    552.9,
+    677.6,
+    613.8,
+    695.6
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.8.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "129,200,000 PCS",
+   "norm": "129,200,000 PCS",
+   "page": 0,
+   "bbox": [
+    684.4,
+    677.6,
+    799.2,
+    695.6
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.8.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 0.17",
+   "norm": 0.17,
+   "page": 0,
+   "bbox": [
+    872.2,
+    677.6,
+    931.6,
+    695.6
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.8.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 21,964,000",
+   "norm": 21964000,
+   "page": 0,
+   "bbox": [
+    999.8,
+    677.6,
+    1104.0,
+    695.6
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.9.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    155.6,
+    707.7,
+    459.2,
+    725.7
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.9.model",
+   "label": "Model",
+   "type": "text",
+   "value": "RC-739",
+   "norm": "RC-739",
+   "page": 0,
+   "bbox": [
+    557.5,
+    707.7,
+    609.2,
+    725.7
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.9.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "30,200,000 PCS",
+   "norm": "30,200,000 PCS",
+   "page": 0,
+   "bbox": [
+    692.6,
+    707.7,
+    799.2,
+    725.7
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.9.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 0.59",
+   "norm": 0.59,
+   "page": 0,
+   "bbox": [
+    872.2,
+    707.7,
+    931.6,
+    725.7
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.9.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 17,818,000",
+   "norm": 17818000,
+   "page": 0,
+   "bbox": [
+    999.8,
+    707.7,
+    1104.0,
+    725.7
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.10.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    155.6,
+    737.7,
+    459.2,
+    755.7
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.10.model",
+   "label": "Model",
+   "type": "text",
+   "value": "RC-684S",
+   "norm": "RC-684S",
+   "page": 0,
+   "bbox": [
+    552.9,
+    737.7,
+    613.8,
+    755.7
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.10.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "12,200,000 PCS",
+   "norm": "12,200,000 PCS",
+   "page": 0,
+   "bbox": [
+    692.6,
+    737.7,
+    799.2,
+    755.7
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.10.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 0.55",
+   "norm": 0.55,
+   "page": 0,
+   "bbox": [
+    872.2,
+    737.7,
+    931.6,
+    755.7
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.10.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 6,710,000",
+   "norm": 6710000,
+   "page": 0,
+   "bbox": [
+    1007.9,
+    737.7,
+    1104.0,
+    755.7
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.11.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    155.6,
+    767.8,
+    459.2,
+    785.8
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.11.model",
+   "label": "Model",
+   "type": "text",
+   "value": "RC-791S",
+   "norm": "RC-791S",
+   "page": 0,
+   "bbox": [
+    552.9,
+    767.8,
+    613.8,
+    785.8
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.11.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "41,400,000 PCS",
+   "norm": "41,400,000 PCS",
+   "page": 0,
+   "bbox": [
+    692.6,
+    767.8,
+    799.2,
+    785.8
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.11.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 0.48",
+   "norm": 0.48,
+   "page": 0,
+   "bbox": [
+    872.2,
+    767.8,
+    931.6,
+    785.8
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.11.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 19,872,000",
+   "norm": 19872000,
+   "page": 0,
+   "bbox": [
+    999.8,
+    767.8,
+    1104.0,
+    785.8
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.12.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    155.6,
+    797.9,
+    459.2,
+    815.9
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.12.model",
+   "label": "Model",
+   "type": "text",
+   "value": "RC-869A",
+   "norm": "RC-869A",
+   "page": 0,
+   "bbox": [
+    551.6,
+    797.9,
+    615.1,
+    815.9
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.12.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "21,800,000 PCS",
+   "norm": "21,800,000 PCS",
+   "page": 0,
+   "bbox": [
+    692.6,
+    797.9,
+    799.2,
+    815.9
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.12.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 0.56",
+   "norm": 0.56,
+   "page": 0,
+   "bbox": [
+    872.2,
+    797.9,
+    931.6,
+    815.9
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.12.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 12,208,000",
+   "norm": 12208000,
+   "page": 0,
+   "bbox": [
+    999.8,
+    797.9,
+    1104.0,
+    815.9
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.13.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    155.6,
+    828.0,
+    459.2,
+    846.0
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.13.model",
+   "label": "Model",
+   "type": "text",
+   "value": "RC-231A",
+   "norm": "RC-231A",
+   "page": 0,
+   "bbox": [
+    551.6,
+    828.0,
+    615.1,
+    846.0
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.13.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "21,000,000 PCS",
+   "norm": "21,000,000 PCS",
+   "page": 0,
+   "bbox": [
+    692.6,
+    828.0,
+    799.2,
+    846.0
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.13.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 0.58",
+   "norm": 0.58,
+   "page": 0,
+   "bbox": [
+    872.2,
+    828.0,
+    931.6,
+    846.0
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.13.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 12,180,000",
+   "norm": 12180000,
+   "page": 0,
+   "bbox": [
+    999.8,
+    828.0,
+    1104.0,
+    846.0
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.14.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    155.6,
+    858.0,
+    459.2,
+    876.0
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.14.model",
+   "label": "Model",
+   "type": "text",
+   "value": "RC-835B",
+   "norm": "RC-835B",
+   "page": 0,
+   "bbox": [
+    552.0,
+    858.0,
+    614.7,
+    876.0
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.14.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "80,400,000 PCS",
+   "norm": "80,400,000 PCS",
+   "page": 0,
+   "bbox": [
+    692.6,
+    858.0,
+    799.2,
+    876.0
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.14.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 0.18",
+   "norm": 0.18,
+   "page": 0,
+   "bbox": [
+    872.2,
+    858.0,
+    931.6,
+    876.0
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.14.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 14,472,000",
+   "norm": 14472000,
+   "page": 0,
+   "bbox": [
+    999.8,
+    858.0,
+    1104.0,
+    876.0
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.15.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    155.6,
+    888.1,
+    459.2,
+    906.1
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.15.model",
+   "label": "Model",
+   "type": "text",
+   "value": "RC-858B",
+   "norm": "RC-858B",
+   "page": 0,
+   "bbox": [
+    552.0,
+    888.1,
+    614.7,
+    906.1
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.15.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "45,200,000 PCS",
+   "norm": "45,200,000 PCS",
+   "page": 0,
+   "bbox": [
+    692.6,
+    888.1,
+    799.2,
+    906.1
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.15.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 0.39",
+   "norm": 0.39,
+   "page": 0,
+   "bbox": [
+    872.2,
+    888.1,
+    931.6,
+    906.1
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.15.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 17,628,000",
+   "norm": 17628000,
+   "page": 0,
+   "bbox": [
+    999.8,
+    888.1,
+    1104.0,
+    906.1
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.16.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    155.6,
+    918.2,
+    459.2,
+    936.2
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.16.model",
+   "label": "Model",
+   "type": "text",
+   "value": "RC-464S",
+   "norm": "RC-464S",
+   "page": 0,
+   "bbox": [
+    552.9,
+    918.2,
+    613.8,
+    936.2
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.16.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "24,200,000 PCS",
+   "norm": "24,200,000 PCS",
+   "page": 0,
+   "bbox": [
+    692.6,
+    918.2,
+    799.2,
+    936.2
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.16.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 0.26",
+   "norm": 0.26,
+   "page": 0,
+   "bbox": [
+    872.2,
+    918.2,
+    931.6,
+    936.2
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.16.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 6,292,000",
+   "norm": 6292000,
+   "page": 0,
+   "bbox": [
+    1007.9,
+    918.2,
+    1104.0,
+    936.2
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.17.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    155.6,
+    948.2,
+    459.2,
+    966.2
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.17.model",
+   "label": "Model",
+   "type": "text",
+   "value": "RC-261",
+   "norm": "RC-261",
+   "page": 0,
+   "bbox": [
+    557.5,
+    948.2,
+    609.2,
+    966.2
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.17.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "17,200,000 PCS",
+   "norm": "17,200,000 PCS",
+   "page": 0,
+   "bbox": [
+    692.6,
+    948.2,
+    799.2,
+    966.2
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.17.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 0.51",
+   "norm": 0.51,
+   "page": 0,
+   "bbox": [
+    872.2,
+    948.2,
+    931.6,
+    966.2
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.17.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 8,772,000",
+   "norm": 8772000,
+   "page": 0,
+   "bbox": [
+    1007.9,
+    948.2,
+    1104.0,
+    966.2
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.18.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 0,
+   "bbox": [
+    155.6,
+    978.3,
+    448.3,
+    996.3
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.18.model",
+   "label": "Model",
+   "type": "text",
+   "value": "BB-877B",
+   "norm": "BB-877B",
+   "page": 0,
+   "bbox": [
+    552.0,
+    978.3,
+    614.7,
+    996.3
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.18.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "1,272,000 PCS",
+   "norm": "1,272,000 PCS",
+   "page": 0,
+   "bbox": [
+    700.7,
+    978.3,
+    799.2,
+    996.3
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.18.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 12.25",
+   "norm": 12.25,
+   "page": 0,
+   "bbox": [
+    864.1,
+    978.3,
+    931.6,
+    996.3
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.18.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 15,582,000",
+   "norm": 15582000,
+   "page": 0,
+   "bbox": [
+    999.8,
+    978.3,
+    1104.0,
+    996.3
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.19.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 0,
+   "bbox": [
+    155.6,
+    1008.4,
+    448.3,
+    1026.4
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.19.model",
+   "label": "Model",
+   "type": "text",
+   "value": "BB-666S",
+   "norm": "BB-666S",
+   "page": 0,
+   "bbox": [
+    552.9,
+    1008.4,
+    613.8,
+    1026.4
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.19.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "408,000 PCS",
+   "norm": "408,000 PCS",
+   "page": 0,
+   "bbox": [
+    713.0,
+    1008.4,
+    799.2,
+    1026.4
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.19.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 26.06",
+   "norm": 26.06,
+   "page": 0,
+   "bbox": [
+    864.1,
+    1008.4,
+    931.6,
+    1026.4
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.19.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 10,632,480",
+   "norm": 10632480,
+   "page": 0,
+   "bbox": [
+    999.8,
+    1008.4,
+    1104.0,
+    1026.4
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.20.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 0,
+   "bbox": [
+    155.6,
+    1038.4,
+    448.3,
+    1056.4
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.20.model",
+   "label": "Model",
+   "type": "text",
+   "value": "BB-261",
+   "norm": "BB-261",
+   "page": 0,
+   "bbox": [
+    557.5,
+    1038.4,
+    609.2,
+    1056.4
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.20.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "500,000 PCS",
+   "norm": "500,000 PCS",
+   "page": 0,
+   "bbox": [
+    713.0,
+    1038.4,
+    799.2,
+    1056.4
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.20.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 16.33",
+   "norm": 16.33,
+   "page": 0,
+   "bbox": [
+    864.1,
+    1038.4,
+    931.6,
+    1056.4
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.20.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 8,165,000",
+   "norm": 8165000,
+   "page": 0,
+   "bbox": [
+    1007.9,
+    1038.4,
+    1104.0,
+    1056.4
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.21.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 0,
+   "bbox": [
+    155.6,
+    1068.5,
+    448.3,
+    1086.5
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.21.model",
+   "label": "Model",
+   "type": "text",
+   "value": "BB-776A",
+   "norm": "BB-776A",
+   "page": 0,
+   "bbox": [
+    551.6,
+    1068.5,
+    615.1,
+    1086.5
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.21.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "376,000 PCS",
+   "norm": "376,000 PCS",
+   "page": 0,
+   "bbox": [
+    713.0,
+    1068.5,
+    799.2,
+    1086.5
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.21.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 54.89",
+   "norm": 54.89,
+   "page": 0,
+   "bbox": [
+    864.1,
+    1068.5,
+    931.6,
+    1086.5
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.21.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 20,638,640",
+   "norm": 20638640,
+   "page": 0,
+   "bbox": [
+    999.8,
+    1068.5,
+    1104.0,
+    1086.5
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.22.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 0,
+   "bbox": [
+    155.6,
+    1098.6,
+    448.3,
+    1116.6
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.22.model",
+   "label": "Model",
+   "type": "text",
+   "value": "BB-740S",
+   "norm": "BB-740S",
+   "page": 0,
+   "bbox": [
+    552.9,
+    1098.6,
+    613.8,
+    1116.6
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.22.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "192,000 PCS",
+   "norm": "192,000 PCS",
+   "page": 0,
+   "bbox": [
+    713.0,
+    1098.6,
+    799.2,
+    1116.6
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.22.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 54.88",
+   "norm": 54.88,
+   "page": 0,
+   "bbox": [
+    864.1,
+    1098.6,
+    931.6,
+    1116.6
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.22.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 10,536,960",
+   "norm": 10536960,
+   "page": 0,
+   "bbox": [
+    999.8,
+    1098.6,
+    1104.0,
+    1116.6
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.23.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 0,
+   "bbox": [
+    155.6,
+    1128.7,
+    448.3,
+    1146.7
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.23.model",
+   "label": "Model",
+   "type": "text",
+   "value": "BB-859B",
+   "norm": "BB-859B",
+   "page": 0,
+   "bbox": [
+    552.0,
+    1128.7,
+    614.7,
+    1146.7
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.23.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "484,000 PCS",
+   "norm": "484,000 PCS",
+   "page": 0,
+   "bbox": [
+    713.0,
+    1128.7,
+    799.2,
+    1146.7
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.23.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 43.90",
+   "norm": 43.9,
+   "page": 0,
+   "bbox": [
+    864.1,
+    1128.7,
+    931.6,
+    1146.7
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.23.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 21,247,600",
+   "norm": 21247600,
+   "page": 0,
+   "bbox": [
+    999.8,
+    1128.7,
+    1104.0,
+    1146.7
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.24.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 0,
+   "bbox": [
+    155.6,
+    1158.7,
+    448.3,
+    1176.7
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.24.model",
+   "label": "Model",
+   "type": "text",
+   "value": "BB-349B",
+   "norm": "BB-349B",
+   "page": 0,
+   "bbox": [
+    552.0,
+    1158.7,
+    614.7,
+    1176.7
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.24.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "160,000 PCS",
+   "norm": "160,000 PCS",
+   "page": 0,
+   "bbox": [
+    713.0,
+    1158.7,
+    799.2,
+    1176.7
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.24.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 65.75",
+   "norm": 65.75,
+   "page": 0,
+   "bbox": [
+    864.1,
+    1158.7,
+    931.6,
+    1176.7
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.24.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 10,520,000",
+   "norm": 10520000,
+   "page": 0,
+   "bbox": [
+    999.8,
+    1158.7,
+    1104.0,
+    1176.7
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.25.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 0,
+   "bbox": [
+    155.6,
+    1188.8,
+    448.3,
+    1206.8
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.25.model",
+   "label": "Model",
+   "type": "text",
+   "value": "BB-934B",
+   "norm": "BB-934B",
+   "page": 0,
+   "bbox": [
+    552.0,
+    1188.8,
+    614.7,
+    1206.8
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.25.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "1,288,000 PCS",
+   "norm": "1,288,000 PCS",
+   "page": 0,
+   "bbox": [
+    700.7,
+    1188.8,
+    799.2,
+    1206.8
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.25.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 16.05",
+   "norm": 16.05,
+   "page": 0,
+   "bbox": [
+    864.1,
+    1188.8,
+    931.6,
+    1206.8
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.25.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 20,672,400",
+   "norm": 20672400,
+   "page": 0,
+   "bbox": [
+    999.8,
+    1188.8,
+    1104.0,
+    1206.8
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.26.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 0,
+   "bbox": [
+    155.6,
+    1218.9,
+    448.3,
+    1236.9
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.26.model",
+   "label": "Model",
+   "type": "text",
+   "value": "BB-953B",
+   "norm": "BB-953B",
+   "page": 0,
+   "bbox": [
+    552.0,
+    1218.9,
+    614.7,
+    1236.9
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.26.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "1,504,000 PCS",
+   "norm": "1,504,000 PCS",
+   "page": 0,
+   "bbox": [
+    700.7,
+    1218.9,
+    799.2,
+    1236.9
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.26.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 15.30",
+   "norm": 15.3,
+   "page": 0,
+   "bbox": [
+    864.1,
+    1218.9,
+    931.6,
+    1236.9
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.26.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 23,011,200",
+   "norm": 23011200,
+   "page": 0,
+   "bbox": [
+    1000.4,
+    1218.9,
+    1104.0,
+    1236.9
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.27.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 0,
+   "bbox": [
+    155.6,
+    1248.9,
+    448.3,
+    1266.9
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.27.model",
+   "label": "Model",
+   "type": "text",
+   "value": "BB-278S",
+   "norm": "BB-278S",
+   "page": 0,
+   "bbox": [
+    552.9,
+    1248.9,
+    613.8,
+    1266.9
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.27.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "408,000 PCS",
+   "norm": "408,000 PCS",
+   "page": 0,
+   "bbox": [
+    713.0,
+    1248.9,
+    799.2,
+    1266.9
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.27.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 28.87",
+   "norm": 28.87,
+   "page": 0,
+   "bbox": [
+    864.1,
+    1248.9,
+    931.6,
+    1266.9
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.27.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 11,778,960",
+   "norm": 11778960,
+   "page": 0,
+   "bbox": [
+    1000.4,
+    1248.9,
+    1104.0,
+    1266.9
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.28.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 0,
+   "bbox": [
+    155.6,
+    1279.0,
+    448.3,
+    1297.0
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.28.model",
+   "label": "Model",
+   "type": "text",
+   "value": "BB-356B",
+   "norm": "BB-356B",
+   "page": 0,
+   "bbox": [
+    552.0,
+    1279.0,
+    614.7,
+    1297.0
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.28.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "460,000 PCS",
+   "norm": "460,000 PCS",
+   "page": 0,
+   "bbox": [
+    713.0,
+    1279.0,
+    799.2,
+    1297.0
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.28.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 17.36",
+   "norm": 17.36,
+   "page": 0,
+   "bbox": [
+    864.1,
+    1279.0,
+    931.6,
+    1297.0
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.28.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 7,985,600",
+   "norm": 7985600,
+   "page": 0,
+   "bbox": [
+    1007.9,
+    1279.0,
+    1104.0,
+    1297.0
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.29.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 0,
+   "bbox": [
+    155.6,
+    1309.1,
+    448.3,
+    1327.1
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.29.model",
+   "label": "Model",
+   "type": "text",
+   "value": "BB-529S",
+   "norm": "BB-529S",
+   "page": 0,
+   "bbox": [
+    552.9,
+    1309.1,
+    613.8,
+    1327.1
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.29.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "224,000 PCS",
+   "norm": "224,000 PCS",
+   "page": 0,
+   "bbox": [
+    713.0,
+    1309.1,
+    799.2,
+    1327.1
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.29.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 42.09",
+   "norm": 42.09,
+   "page": 0,
+   "bbox": [
+    864.1,
+    1309.1,
+    931.6,
+    1327.1
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.29.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 9,428,160",
+   "norm": 9428160,
+   "page": 0,
+   "bbox": [
+    1007.9,
+    1309.1,
+    1104.0,
+    1327.1
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.30.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 0,
+   "bbox": [
+    155.6,
+    1339.1,
+    448.3,
+    1357.1
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.30.model",
+   "label": "Model",
+   "type": "text",
+   "value": "BB-684",
+   "norm": "BB-684",
+   "page": 0,
+   "bbox": [
+    557.5,
+    1339.1,
+    609.2,
+    1357.1
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.30.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "152,000 PCS",
+   "norm": "152,000 PCS",
+   "page": 0,
+   "bbox": [
+    713.0,
+    1339.1,
+    799.2,
+    1357.1
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.30.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 64.86",
+   "norm": 64.86,
+   "page": 0,
+   "bbox": [
+    864.1,
+    1339.1,
+    931.6,
+    1357.1
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.30.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 9,858,720",
+   "norm": 9858720,
+   "page": 0,
+   "bbox": [
+    1007.9,
+    1339.1,
+    1104.0,
+    1357.1
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.31.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 0,
+   "bbox": [
+    155.6,
+    1369.2,
+    448.3,
+    1387.2
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.31.model",
+   "label": "Model",
+   "type": "text",
+   "value": "BB-812B",
+   "norm": "BB-812B",
+   "page": 0,
+   "bbox": [
+    552.0,
+    1369.2,
+    614.7,
+    1387.2
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.31.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "152,000 PCS",
+   "norm": "152,000 PCS",
+   "page": 0,
+   "bbox": [
+    713.0,
+    1369.2,
+    799.2,
+    1387.2
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.31.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 51.08",
+   "norm": 51.08,
+   "page": 0,
+   "bbox": [
+    864.1,
+    1369.2,
+    931.6,
+    1387.2
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.31.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 7,764,160",
+   "norm": 7764160,
+   "page": 0,
+   "bbox": [
+    1007.9,
+    1369.2,
+    1104.0,
+    1387.2
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.32.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 0,
+   "bbox": [
+    155.6,
+    1399.3,
+    448.3,
+    1417.3
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.32.model",
+   "label": "Model",
+   "type": "text",
+   "value": "BB-737S",
+   "norm": "BB-737S",
+   "page": 0,
+   "bbox": [
+    552.9,
+    1399.3,
+    613.8,
+    1417.3
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.32.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "880,000 PCS",
+   "norm": "880,000 PCS",
+   "page": 0,
+   "bbox": [
+    713.0,
+    1399.3,
+    799.2,
+    1417.3
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.32.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 13.05",
+   "norm": 13.05,
+   "page": 0,
+   "bbox": [
+    864.1,
+    1399.3,
+    931.6,
+    1417.3
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.32.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 11,484,000",
+   "norm": 11484000,
+   "page": 0,
+   "bbox": [
+    1000.4,
+    1399.3,
+    1104.0,
+    1417.3
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.33.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 0,
+   "bbox": [
+    155.6,
+    1429.4,
+    448.3,
+    1447.4
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.33.model",
+   "label": "Model",
+   "type": "text",
+   "value": "BB-876S",
+   "norm": "BB-876S",
+   "page": 0,
+   "bbox": [
+    552.9,
+    1429.4,
+    613.8,
+    1447.4
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.33.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "268,000 PCS",
+   "norm": "268,000 PCS",
+   "page": 0,
+   "bbox": [
+    713.0,
+    1429.4,
+    799.2,
+    1447.4
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.33.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 20.66",
+   "norm": 20.66,
+   "page": 0,
+   "bbox": [
+    864.1,
+    1429.4,
+    931.6,
+    1447.4
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.33.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 5,536,880",
+   "norm": 5536880,
+   "page": 0,
+   "bbox": [
+    1007.9,
+    1429.4,
+    1104.0,
+    1447.4
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.34.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 0,
+   "bbox": [
+    155.6,
+    1459.4,
+    448.3,
+    1477.4
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.34.model",
+   "label": "Model",
+   "type": "text",
+   "value": "BB-932A",
+   "norm": "BB-932A",
+   "page": 0,
+   "bbox": [
+    551.6,
+    1459.4,
+    615.1,
+    1477.4
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.34.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "124,000 PCS",
+   "norm": "124,000 PCS",
+   "page": 0,
+   "bbox": [
+    713.0,
+    1459.4,
+    799.2,
+    1477.4
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.34.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 44.86",
+   "norm": 44.86,
+   "page": 0,
+   "bbox": [
+    864.1,
+    1459.4,
+    931.6,
+    1477.4
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.34.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 5,562,640",
+   "norm": 5562640,
+   "page": 0,
+   "bbox": [
+    1007.9,
+    1459.4,
+    1104.0,
+    1477.4
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.35.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 0,
+   "bbox": [
+    155.6,
+    1489.5,
+    430.3,
+    1507.5
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.35.model",
+   "label": "Model",
+   "type": "text",
+   "value": "INR18650-245S",
+   "norm": "INR18650-245S",
+   "page": 0,
+   "bbox": [
+    529.3,
+    1489.5,
+    637.4,
+    1507.5
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.35.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "15,200 PCS",
+   "norm": "15,200 PCS",
+   "page": 0,
+   "bbox": [
+    721.1,
+    1489.5,
+    799.2,
+    1507.5
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.35.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 457",
+   "norm": 457,
+   "page": 0,
+   "bbox": [
+    876.3,
+    1489.5,
+    931.6,
+    1507.5
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.35.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 6,941,992",
+   "norm": 6941992,
+   "page": 0,
+   "bbox": [
+    1007.9,
+    1489.5,
+    1104.0,
+    1507.5
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.36.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 0,
+   "bbox": [
+    155.6,
+    1519.6,
+    430.3,
+    1537.6
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.36.model",
+   "label": "Model",
+   "type": "text",
+   "value": "INR18650-460A",
+   "norm": "INR18650-460A",
+   "page": 0,
+   "bbox": [
+    528.0,
+    1519.6,
+    638.7,
+    1537.6
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.36.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "58,400 PCS",
+   "norm": "58,400 PCS",
+   "page": 0,
+   "bbox": [
+    721.1,
+    1519.6,
+    799.2,
+    1537.6
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.36.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 343",
+   "norm": 343,
+   "page": 0,
+   "bbox": [
+    876.3,
+    1519.6,
+    931.6,
+    1537.6
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.36.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 20,011,928",
+   "norm": 20011928,
+   "page": 0,
+   "bbox": [
+    1000.4,
+    1519.6,
+    1104.0,
+    1537.6
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.37.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 0,
+   "bbox": [
+    155.6,
+    1549.6,
+    430.3,
+    1567.6
+   ],
+   "label_bbox": [
+    147.4,
+    365.0,
+    512.1,
+    396.0
+   ]
+  },
+  {
+   "key": "items.37.model",
+   "label": "Model",
+   "type": "text",
+   "value": "INR18650-880",
+   "norm": "INR18650-880",
+   "page": 0,
+   "bbox": [
+    533.9,
+    1549.6,
+    632.8,
+    1567.6
+   ],
+   "label_bbox": [
+    512.1,
+    365.0,
+    654.7,
+    396.0
+   ]
+  },
+  {
+   "key": "items.37.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "65,600 PCS",
+   "norm": "65,600 PCS",
+   "page": 0,
+   "bbox": [
+    721.1,
+    1549.6,
+    799.2,
+    1567.6
+   ],
+   "label_bbox": [
+    654.7,
+    365.0,
+    807.5,
+    396.0
+   ]
+  },
+  {
+   "key": "items.37.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 326",
+   "norm": 326,
+   "page": 0,
+   "bbox": [
+    876.3,
+    1549.6,
+    931.6,
+    1567.6
+   ],
+   "label_bbox": [
+    807.5,
+    365.0,
+    939.8,
+    396.0
+   ]
+  },
+  {
+   "key": "items.37.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 21,402,656",
+   "norm": 21402656,
+   "page": 0,
+   "bbox": [
+    999.8,
+    1549.6,
+    1104.0,
+    1567.6
+   ],
+   "label_bbox": [
+    939.8,
+    365.0,
+    1112.2,
+    396.0
+   ]
+  },
+  {
+   "key": "items.38.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 1,
+   "bbox": [
+    155.6,
+    152.8,
+    430.3,
+    170.8
+   ],
+   "label_bbox": [
+    147.4,
+    116.5,
+    512.4,
+    147.5
+   ]
+  },
+  {
+   "key": "items.38.model",
+   "label": "Model",
+   "type": "text",
+   "value": "INR18650-752B",
+   "norm": "INR18650-752B",
+   "page": 1,
+   "bbox": [
+    528.9,
+    152.8,
+    638.7,
+    170.8
+   ],
+   "label_bbox": [
+    512.4,
+    116.5,
+    655.1,
+    147.5
+   ]
+  },
+  {
+   "key": "items.38.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "50,400 PCS",
+   "norm": "50,400 PCS",
+   "page": 1,
+   "bbox": [
+    720.7,
+    152.8,
+    798.8,
+    170.8
+   ],
+   "label_bbox": [
+    655.1,
+    116.5,
+    807.1,
+    147.5
+   ]
+  },
+  {
+   "key": "items.38.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 461",
+   "norm": 461,
+   "page": 1,
+   "bbox": [
+    875.9,
+    152.8,
+    931.1,
+    170.8
+   ],
+   "label_bbox": [
+    807.1,
+    116.5,
+    939.4,
+    147.5
+   ]
+  },
+  {
+   "key": "items.38.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 23,259,096",
+   "norm": 23259096,
+   "page": 1,
+   "bbox": [
+    999.8,
+    152.8,
+    1104.0,
+    170.8
+   ],
+   "label_bbox": [
+    939.4,
+    116.5,
+    1112.2,
+    147.5
+   ]
+  },
+  {
+   "key": "items.39.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 1,
+   "bbox": [
+    155.6,
+    182.8,
+    430.3,
+    200.8
+   ],
+   "label_bbox": [
+    147.4,
+    116.5,
+    512.4,
+    147.5
+   ]
+  },
+  {
+   "key": "items.39.model",
+   "label": "Model",
+   "type": "text",
+   "value": "INR18650-139S",
+   "norm": "INR18650-139S",
+   "page": 1,
+   "bbox": [
+    529.8,
+    182.8,
+    637.8,
+    200.8
+   ],
+   "label_bbox": [
+    512.4,
+    116.5,
+    655.1,
+    147.5
+   ]
+  },
+  {
+   "key": "items.39.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "50,400 PCS",
+   "norm": "50,400 PCS",
+   "page": 1,
+   "bbox": [
+    720.7,
+    182.8,
+    798.8,
+    200.8
+   ],
+   "label_bbox": [
+    655.1,
+    116.5,
+    807.1,
+    147.5
+   ]
+  },
+  {
+   "key": "items.39.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 273",
+   "norm": 273,
+   "page": 1,
+   "bbox": [
+    875.9,
+    182.8,
+    931.1,
+    200.8
+   ],
+   "label_bbox": [
+    807.1,
+    116.5,
+    939.4,
+    147.5
+   ]
+  },
+  {
+   "key": "items.39.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 13,738,536",
+   "norm": 13738536,
+   "page": 1,
+   "bbox": [
+    999.8,
+    182.8,
+    1104.0,
+    200.8
+   ],
+   "label_bbox": [
+    939.4,
+    116.5,
+    1112.2,
+    147.5
+   ]
+  },
+  {
+   "key": "items.40.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 1,
+   "bbox": [
+    155.6,
+    212.9,
+    430.3,
+    230.9
+   ],
+   "label_bbox": [
+    147.4,
+    116.5,
+    512.4,
+    147.5
+   ]
+  },
+  {
+   "key": "items.40.model",
+   "label": "Model",
+   "type": "text",
+   "value": "INR18650-861S",
+   "norm": "INR18650-861S",
+   "page": 1,
+   "bbox": [
+    529.8,
+    212.9,
+    637.8,
+    230.9
+   ],
+   "label_bbox": [
+    512.4,
+    116.5,
+    655.1,
+    147.5
+   ]
+  },
+  {
+   "key": "items.40.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "28,800 PCS",
+   "norm": "28,800 PCS",
+   "page": 1,
+   "bbox": [
+    720.7,
+    212.9,
+    798.8,
+    230.9
+   ],
+   "label_bbox": [
+    655.1,
+    116.5,
+    807.1,
+    147.5
+   ]
+  },
+  {
+   "key": "items.40.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 448",
+   "norm": 448,
+   "page": 1,
+   "bbox": [
+    875.9,
+    212.9,
+    931.1,
+    230.9
+   ],
+   "label_bbox": [
+    807.1,
+    116.5,
+    939.4,
+    147.5
+   ]
+  },
+  {
+   "key": "items.40.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 12,898,656",
+   "norm": 12898656,
+   "page": 1,
+   "bbox": [
+    999.8,
+    212.9,
+    1104.0,
+    230.9
+   ],
+   "label_bbox": [
+    939.4,
+    116.5,
+    1112.2,
+    147.5
+   ]
+  },
+  {
+   "key": "items.41.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 1,
+   "bbox": [
+    155.6,
+    243.0,
+    430.3,
+    261.0
+   ],
+   "label_bbox": [
+    147.4,
+    116.5,
+    512.4,
+    147.5
+   ]
+  },
+  {
+   "key": "items.41.model",
+   "label": "Model",
+   "type": "text",
+   "value": "INR18650-301A",
+   "norm": "INR18650-301A",
+   "page": 1,
+   "bbox": [
+    528.4,
+    243.0,
+    639.1,
+    261.0
+   ],
+   "label_bbox": [
+    512.4,
+    116.5,
+    655.1,
+    147.5
+   ]
+  },
+  {
+   "key": "items.41.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "58,400 PCS",
+   "norm": "58,400 PCS",
+   "page": 1,
+   "bbox": [
+    720.7,
+    243.0,
+    798.8,
+    261.0
+   ],
+   "label_bbox": [
+    655.1,
+    116.5,
+    807.1,
+    147.5
+   ]
+  },
+  {
+   "key": "items.41.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 384",
+   "norm": 384,
+   "page": 1,
+   "bbox": [
+    875.9,
+    243.0,
+    931.1,
+    261.0
+   ],
+   "label_bbox": [
+    807.1,
+    116.5,
+    939.4,
+    147.5
+   ]
+  },
+  {
+   "key": "items.41.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 22,399,320",
+   "norm": 22399320,
+   "page": 1,
+   "bbox": [
+    999.8,
+    243.0,
+    1104.0,
+    261.0
+   ],
+   "label_bbox": [
+    939.4,
+    116.5,
+    1112.2,
+    147.5
+   ]
+  },
+  {
+   "key": "items.42.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 1,
+   "bbox": [
+    155.6,
+    273.0,
+    430.3,
+    291.0
+   ],
+   "label_bbox": [
+    147.4,
+    116.5,
+    512.4,
+    147.5
+   ]
+  },
+  {
+   "key": "items.42.model",
+   "label": "Model",
+   "type": "text",
+   "value": "INR18650-505B",
+   "norm": "INR18650-505B",
+   "page": 1,
+   "bbox": [
+    528.9,
+    273.0,
+    638.7,
+    291.0
+   ],
+   "label_bbox": [
+    512.4,
+    116.5,
+    655.1,
+    147.5
+   ]
+  },
+  {
+   "key": "items.42.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "23,200 PCS",
+   "norm": "23,200 PCS",
+   "page": 1,
+   "bbox": [
+    720.7,
+    273.0,
+    798.8,
+    291.0
+   ],
+   "label_bbox": [
+    655.1,
+    116.5,
+    807.1,
+    147.5
+   ]
+  },
+  {
+   "key": "items.42.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 417",
+   "norm": 417,
+   "page": 1,
+   "bbox": [
+    875.9,
+    273.0,
+    931.1,
+    291.0
+   ],
+   "label_bbox": [
+    807.1,
+    116.5,
+    939.4,
+    147.5
+   ]
+  },
+  {
+   "key": "items.42.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 9,665,816",
+   "norm": 9665816,
+   "page": 1,
+   "bbox": [
+    1007.9,
+    273.0,
+    1104.0,
+    291.0
+   ],
+   "label_bbox": [
+    939.4,
+    116.5,
+    1112.2,
+    147.5
+   ]
+  },
+  {
+   "key": "items.43.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 1,
+   "bbox": [
+    155.6,
+    303.1,
+    430.3,
+    321.1
+   ],
+   "label_bbox": [
+    147.4,
+    116.5,
+    512.4,
+    147.5
+   ]
+  },
+  {
+   "key": "items.43.model",
+   "label": "Model",
+   "type": "text",
+   "value": "INR18650-797B",
+   "norm": "INR18650-797B",
+   "page": 1,
+   "bbox": [
+    528.9,
+    303.1,
+    638.7,
+    321.1
+   ],
+   "label_bbox": [
+    512.4,
+    116.5,
+    655.1,
+    147.5
+   ]
+  },
+  {
+   "key": "items.43.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "26,400 PCS",
+   "norm": "26,400 PCS",
+   "page": 1,
+   "bbox": [
+    720.7,
+    303.1,
+    798.8,
+    321.1
+   ],
+   "label_bbox": [
+    655.1,
+    116.5,
+    807.1,
+    147.5
+   ]
+  },
+  {
+   "key": "items.43.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 268",
+   "norm": 268,
+   "page": 1,
+   "bbox": [
+    875.9,
+    303.1,
+    931.1,
+    321.1
+   ],
+   "label_bbox": [
+    807.1,
+    116.5,
+    939.4,
+    147.5
+   ]
+  },
+  {
+   "key": "items.43.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 7,084,968",
+   "norm": 7084968,
+   "page": 1,
+   "bbox": [
+    1007.9,
+    303.1,
+    1104.0,
+    321.1
+   ],
+   "label_bbox": [
+    939.4,
+    116.5,
+    1112.2,
+    147.5
+   ]
+  },
+  {
+   "key": "items.44.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 1,
+   "bbox": [
+    155.6,
+    333.2,
+    430.3,
+    351.2
+   ],
+   "label_bbox": [
+    147.4,
+    116.5,
+    512.4,
+    147.5
+   ]
+  },
+  {
+   "key": "items.44.model",
+   "label": "Model",
+   "type": "text",
+   "value": "INR18650-460B",
+   "norm": "INR18650-460B",
+   "page": 1,
+   "bbox": [
+    528.9,
+    333.2,
+    638.7,
+    351.2
+   ],
+   "label_bbox": [
+    512.4,
+    116.5,
+    655.1,
+    147.5
+   ]
+  },
+  {
+   "key": "items.44.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "32,000 PCS",
+   "norm": "32,000 PCS",
+   "page": 1,
+   "bbox": [
+    720.7,
+    333.2,
+    798.8,
+    351.2
+   ],
+   "label_bbox": [
+    655.1,
+    116.5,
+    807.1,
+    147.5
+   ]
+  },
+  {
+   "key": "items.44.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 276",
+   "norm": 276,
+   "page": 1,
+   "bbox": [
+    875.9,
+    333.2,
+    931.1,
+    351.2
+   ],
+   "label_bbox": [
+    807.1,
+    116.5,
+    939.4,
+    147.5
+   ]
+  },
+  {
+   "key": "items.44.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 8,821,120",
+   "norm": 8821120,
+   "page": 1,
+   "bbox": [
+    1007.9,
+    333.2,
+    1104.0,
+    351.2
+   ],
+   "label_bbox": [
+    939.4,
+    116.5,
+    1112.2,
+    147.5
+   ]
+  },
+  {
+   "key": "items.45.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 1,
+   "bbox": [
+    155.6,
+    363.3,
+    430.3,
+    381.3
+   ],
+   "label_bbox": [
+    147.4,
+    116.5,
+    512.4,
+    147.5
+   ]
+  },
+  {
+   "key": "items.45.model",
+   "label": "Model",
+   "type": "text",
+   "value": "INR18650-469S",
+   "norm": "INR18650-469S",
+   "page": 1,
+   "bbox": [
+    529.8,
+    363.3,
+    637.8,
+    381.3
+   ],
+   "label_bbox": [
+    512.4,
+    116.5,
+    655.1,
+    147.5
+   ]
+  },
+  {
+   "key": "items.45.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "26,400 PCS",
+   "norm": "26,400 PCS",
+   "page": 1,
+   "bbox": [
+    720.7,
+    363.3,
+    798.8,
+    381.3
+   ],
+   "label_bbox": [
+    655.1,
+    116.5,
+    807.1,
+    147.5
+   ]
+  },
+  {
+   "key": "items.45.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 402",
+   "norm": 402,
+   "page": 1,
+   "bbox": [
+    875.9,
+    363.3,
+    931.1,
+    381.3
+   ],
+   "label_bbox": [
+    807.1,
+    116.5,
+    939.4,
+    147.5
+   ]
+  },
+  {
+   "key": "items.45.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 10,601,448",
+   "norm": 10601448,
+   "page": 1,
+   "bbox": [
+    999.8,
+    363.3,
+    1104.0,
+    381.3
+   ],
+   "label_bbox": [
+    939.4,
+    116.5,
+    1112.2,
+    147.5
+   ]
+  },
+  {
+   "key": "items.46.description",
+   "label": "Commodity&Description",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 1,
+   "bbox": [
+    155.6,
+    393.3,
+    430.3,
+    411.3
+   ],
+   "label_bbox": [
+    147.4,
+    116.5,
+    512.4,
+    147.5
+   ]
+  },
+  {
+   "key": "items.46.model",
+   "label": "Model",
+   "type": "text",
+   "value": "INR18650-262A",
+   "norm": "INR18650-262A",
+   "page": 1,
+   "bbox": [
+    528.4,
+    393.3,
+    639.1,
+    411.3
+   ],
+   "label_bbox": [
+    512.4,
+    116.5,
+    655.1,
+    147.5
+   ]
+  },
+  {
+   "key": "items.46.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "47,200 PCS",
+   "norm": "47,200 PCS",
+   "page": 1,
+   "bbox": [
+    720.7,
+    393.3,
+    798.8,
+    411.3
+   ],
+   "label_bbox": [
+    655.1,
+    116.5,
+    807.1,
+    147.5
+   ]
+  },
+  {
+   "key": "items.46.unit_price",
+   "label": "UnitPrice",
+   "type": "amount",
+   "value": "JPY 380",
+   "norm": 380,
+   "page": 1,
+   "bbox": [
+    875.9,
+    393.3,
+    931.1,
+    411.3
+   ],
+   "label_bbox": [
+    807.1,
+    116.5,
+    939.4,
+    147.5
+   ]
+  },
+  {
+   "key": "items.46.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 17,928,448",
+   "norm": 17928448,
+   "page": 1,
+   "bbox": [
+    999.8,
+    393.3,
+    1104.0,
+    411.3
+   ],
+   "label_bbox": [
+    939.4,
+    116.5,
+    1112.2,
+    147.5
+   ]
+  },
+  {
+   "key": "total_amount",
+   "label": "TotalAmount",
+   "type": "amount",
+   "value": "JPY 622,961,384",
+   "norm": 622961384,
+   "page": 1,
+   "bbox": [
+    988.9,
+    423.4,
+    1104.0,
+    441.4
+   ],
+   "label_bbox": [
+    939.4,
+    116.5,
+    1112.2,
+    147.5
+   ]
+  },
+  {
+   "key": "total_words",
+   "label": "TotalAmountinWords",
+   "type": "text",
+   "value": "SAY JAPANESE YEN SIX HUNDRED TWENTY TWO MILLION NINE HUNDRED SIXTY ONE THOUSAND THREE HUNDRED EIGHTY FOUR ONLY",
+   "norm": "SAY JAPANESE YEN SIX HUNDRED TWENTY TWO MILLION NINE HUNDRED SIXTY ONE THOUSAND THREE HUNDRED EIGHTY FOUR ONLY",
+   "page": 1,
+   "bbox": [
+    87.0,
+    453.5,
+    1057.6,
+    494.0
+   ],
+   "label_bbox": [
+    78.8,
+    116.5,
+    147.4,
+    147.5
+   ]
+  },
+  {
+   "key": "clauses.price_terms",
+   "label": "PriceTerms",
+   "type": "text",
+   "value": "FOB TOKYO, JAPAN (INCOTERMS 2020), prices in JPY.",
+   "norm": "FOB TOKYO, JAPAN (INCOTERMS 2020), prices in JPY.",
+   "page": 1,
+   "bbox": [
+    272.6,
+    516.6,
+    666.0,
+    534.6
+   ],
+   "label_bbox": [
+    78.0,
+    513.6,
+    258.0,
+    539.2
+   ]
+  },
+  {
+   "key": "clauses.origin",
+   "label": "Origin",
+   "type": "text",
+   "value": "Japan",
+   "norm": "Japan",
+   "page": 1,
+   "bbox": [
+    272.6,
+    542.2,
+    309.8,
+    560.2
+   ],
+   "label_bbox": [
+    78.0,
+    539.2,
+    258.0,
+    564.8
+   ]
+  },
+  {
+   "key": "clauses.manufacturer",
+   "label": "Manufacturer",
+   "type": "text",
+   "value": "Tokyo Seimitsu Kogyo K.K., 2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN (goods to be shipped directly from the manufacturer)",
+   "norm": "Tokyo Seimitsu Kogyo K.K., 2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN (goods to be shipped directly from the manufacturer)",
+   "page": 1,
+   "bbox": [
+    264.0,
+    567.8,
+    1099.1,
+    608.3
+   ],
+   "label_bbox": [
+    78.0,
+    564.8,
+    258.0,
+    612.9
+   ]
+  },
+  {
+   "key": "clauses.packing",
+   "label": "Packing",
+   "type": "text",
+   "value": "Export standard packing in cartons, suitable for ocean transportation.",
+   "norm": "Export standard packing in cartons, suitable for ocean transportation.",
+   "page": 1,
+   "bbox": [
+    272.6,
+    615.9,
+    723.5,
+    633.9
+   ],
+   "label_bbox": [
+    78.0,
+    612.9,
+    258.0,
+    638.5
+   ]
+  },
+  {
+   "key": "clauses.shipping_mark",
+   "label": "ShippingMark",
+   "type": "text",
+   "value": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-UP\nMADE IN JAPAN",
+   "norm": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-UP\nMADE IN JAPAN",
+   "page": 1,
+   "bbox": [
+    264.0,
+    641.5,
+    386.9,
+    727.2
+   ],
+   "label_bbox": [
+    78.0,
+    638.5,
+    258.0,
+    731.7
+   ]
+  },
+  {
+   "key": "clauses.shipment",
+   "label": "Shipment",
+   "type": "text",
+   "value": "In two (2) lots of equal quantity: 1st lot not later than October 15, 2025; 2nd lot not later than November 14, 2025. Partial shipments allowed, transshipment allowed.",
+   "norm": "In two (2) lots of equal quantity: 1st lot not later than October 15, 2025; 2nd lot not later than November 14, 2025. Partial shipments allowed, transshipment allowed.",
+   "page": 1,
+   "bbox": [
+    264.0,
+    734.7,
+    1067.5,
+    775.3
+   ],
+   "label_bbox": [
+    78.0,
+    731.7,
+    258.0,
+    779.9
+   ]
+  },
+  {
+   "key": "clauses.port_of_shipment",
+   "label": "PortofShipment",
+   "type": "text",
+   "value": "TOKYO, JAPAN",
+   "norm": "TOKYO, JAPAN",
+   "page": 1,
+   "bbox": [
+    272.3,
+    782.9,
+    386.7,
+    800.9
+   ],
+   "label_bbox": [
+    78.0,
+    779.9,
+    258.0,
+    805.5
+   ]
+  },
+  {
+   "key": "clauses.destination",
+   "label": "Destination",
+   "type": "text",
+   "value": "BUSAN, KOREA",
+   "norm": "BUSAN, KOREA",
+   "page": 1,
+   "bbox": [
+    272.6,
+    808.5,
+    392.4,
+    826.5
+   ],
+   "label_bbox": [
+    78.0,
+    805.5,
+    258.0,
+    831.0
+   ]
+  },
+  {
+   "key": "clauses.payment",
+   "label": "Payment",
+   "type": "text",
+   "value": "By an irrevocable usance L/C 90 days after B/L date, to be opened within 15 days after contract date. Payment to be remitted to the Seller's account with Oversea-Chinese Banking Corporation Ltd. (SWIFT: OCBCSGSG).",
+   "norm": "By an irrevocable usance L/C 90 days after B/L date, to be opened within 15 days after contract date. Payment to be remitted to the Seller's account with Oversea-Chinese Banking Corporation Ltd. (SWIFT: OCBCSGSG).",
+   "page": 1,
+   "bbox": [
+    264.0,
+    834.0,
+    1106.2,
+    874.6
+   ],
+   "label_bbox": [
+    78.0,
+    831.0,
+    258.0,
+    879.2
+   ]
+  },
+  {
+   "key": "clauses.inspection",
+   "label": "Inspection",
+   "type": "text",
+   "value": "Inspection by an independent surveyor (SGS or equivalent) at the port of loading; cost borne by the Seller.",
+   "norm": "Inspection by an independent surveyor (SGS or equivalent) at the port of loading; cost borne by the Seller.",
+   "page": 1,
+   "bbox": [
+    272.6,
+    882.2,
+    967.7,
+    900.2
+   ],
+   "label_bbox": [
+    78.0,
+    879.2,
+    258.0,
+    904.7
+   ]
+  },
+  {
+   "key": "clauses.arbitration",
+   "label": "Arbitration",
+   "type": "text",
+   "value": "Any dispute shall be finally settled by arbitration in Seoul under the Arbitration Rules of the Korean Commercial Arbitration Board.",
+   "norm": "Any dispute shall be finally settled by arbitration in Seoul under the Arbitration Rules of the Korean Commercial Arbitration Board.",
+   "page": 1,
+   "bbox": [
+    264.0,
+    907.7,
+    1086.5,
+    948.3
+   ],
+   "label_bbox": [
+    78.0,
+    904.7,
+    258.0,
+    952.9
+   ]
+  },
+  {
+   "key": "gtc_terms.qty_tolerance",
+   "label": "QuantityTolerance",
+   "type": "percent",
+   "value": "3%",
+   "norm": 3,
+   "page": 1,
+   "bbox": [
+    452.0,
+    1100.5,
+    471.8,
+    1117.0
+   ],
+   "label_bbox": [
+    92.8,
+    1100.5,
+    152.5,
+    1117.0
+   ]
+  },
+  {
+   "key": "gtc_terms.late_penalty",
+   "label": "LateShipmentPenalty",
+   "type": "percent",
+   "value": "1%",
+   "norm": 1,
+   "page": 1,
+   "bbox": [
+    704.9,
+    1165.3,
+    724.7,
+    1181.8
+   ],
+   "label_bbox": [
+    92.9,
+    1165.3,
+    213.6,
+    1181.8
+   ]
+  },
+  {
+   "key": "gtc_terms.inspection_days",
+   "label": "InspectionPeriod(days)",
+   "type": "number",
+   "value": "14",
+   "norm": 14,
+   "page": 1,
+   "bbox": [
+    513.1,
+    1294.8,
+    527.9,
+    1311.3
+   ],
+   "label_bbox": [
+    92.9,
+    1294.8,
+    162.4,
+    1311.3
+   ]
+  },
+  {
+   "key": "gtc_terms.claim_days",
+   "label": "ClaimPeriod(days)",
+   "type": "number",
+   "value": "90",
+   "norm": 90,
+   "page": 1,
+   "bbox": [
+    666.4,
+    1337.0,
+    681.2,
+    1353.5
+   ],
+   "label_bbox": [
+    93.7,
+    1337.0,
+    141.8,
+    1353.5
+   ]
+  },
+  {
+   "key": "gtc_terms.warranty",
+   "label": "WarrantyPeriod",
+   "type": "text",
+   "value": "eighteen (18) months",
+   "norm": "eighteen (18) months",
+   "page": 1,
+   "bbox": [
+    706.7,
+    1379.2,
+    832.6,
+    1395.7
+   ],
+   "label_bbox": [
+    100.2,
+    1379.2,
+    165.7,
+    1395.7
+   ]
+  },
+  {
+   "key": "gtc_terms.governing_law",
+   "label": "GoverningLaw",
+   "type": "text",
+   "value": "England and Wales",
+   "norm": "England and Wales",
+   "page": 2,
+   "bbox": [
+    684.5,
+    139.9,
+    798.2,
+    156.4
+   ],
+   "label_bbox": [
+    100.2,
+    139.9,
+    202.3,
+    156.4
+   ]
+  },
+  {
+   "key": "seal.buyer",
+   "label": "BuyerSignature",
+   "type": "seal",
+   "value": null,
+   "present": false,
+   "kind": "인감"
+  },
+  {
+   "key": "sign.buyer",
+   "label": "BuyerSignature",
+   "type": "signature",
+   "value": null,
+   "present": false
+  },
+  {
+   "key": "buyer.signer",
+   "label": "BuyerSignatory",
+   "type": "text",
+   "value": "Kim Soyun",
+   "norm": "Kim Soyun",
+   "page": 2,
+   "bbox": [
+    132.0,
+    363.9,
+    218.6,
+    384.6
+   ]
+  },
+  {
+   "key": "buyer.title",
+   "label": "BuyerTitle",
+   "type": "text",
+   "value": "President & CEO",
+   "norm": "President & CEO",
+   "page": 2,
+   "bbox": [
+    122.8,
+    388.6,
+    255.1,
+    410.0
+   ]
+  },
+  {
+   "key": "buyer.sign_date",
+   "label": "BuyerSigningDate",
+   "type": "date",
+   "value": "14 OCT 2025",
+   "norm": "2025-10-14",
+   "page": 2,
+   "bbox": [
+    123.4,
+    413.9,
+    228.0,
+    434.9
+   ]
+  },
+  {
+   "key": "seal.seller",
+   "label": "SellerSignature",
+   "type": "seal",
+   "value": null,
+   "present": false,
+   "kind": "인감"
+  },
+  {
+   "key": "sign.seller",
+   "label": "SellerSignature",
+   "type": "signature",
+   "value": "David Wong",
+   "present": true,
+   "page": 2,
+   "bbox": [
+    748.5,
+    316.3,
+    976.2,
+    349.3
+   ]
+  },
+  {
+   "key": "seller.signer",
+   "label": "SellerSignatory",
+   "type": "text",
+   "value": "David Wong",
+   "norm": "David Wong",
+   "page": 2,
+   "bbox": [
+    691.0,
+    364.5,
+    777.1,
+    382.5
+   ]
+  },
+  {
+   "key": "seller.title",
+   "label": "SellerTitle",
+   "type": "text",
+   "value": "General Manager",
+   "norm": "General Manager",
+   "page": 2,
+   "bbox": [
+    681.9,
+    388.1,
+    800.9,
+    406.1
+   ]
+  },
+  {
+   "key": "seller.sign_date",
+   "label": "SellerSigningDate",
+   "type": "date",
+   "value": "14 OCT 2025",
+   "norm": "2025-10-14",
+   "page": 2,
+   "bbox": [
+    682.5,
+    411.7,
+    776.2,
+    429.7
+   ]
+  }
+ ]
+}

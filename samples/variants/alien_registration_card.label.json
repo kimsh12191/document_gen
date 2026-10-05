@@ -1,0 +1,162 @@
+{
+ "images": [
+  "variants/alien_registration_card.jpg"
+ ],
+ "pages": [
+  {
+   "width": 810,
+   "height": 510
+  }
+ ],
+ "fields": [
+  {
+   "key": "registration_no",
+   "label": "외국인등록번호",
+   "type": "rrn",
+   "value": "901003-5968173",
+   "norm": "901003-5968173",
+   "page": 0,
+   "bbox": [
+    379.5,
+    97.9,
+    586.7,
+    127.9
+   ],
+   "label_bbox": [
+    217.5,
+    108.4,
+    379.5,
+    143.8
+   ]
+  },
+  {
+   "key": "name",
+   "label": "성명",
+   "type": "text",
+   "value": "BATAA GANBOLD ELIZABETH OYUNCHIMEG",
+   "norm": "BATAA GANBOLD ELIZABETH OYUNCHIMEG",
+   "page": 0,
+   "bbox": [
+    379.5,
+    154.3,
+    726.8,
+    210.3
+   ],
+   "label_bbox": [
+    217.5,
+    158.8,
+    379.5,
+    194.3
+   ]
+  },
+  {
+   "key": "country",
+   "label": "국가/지역",
+   "type": "text",
+   "value": "MONGOLIA",
+   "norm": "MONGOLIA",
+   "page": 0,
+   "bbox": [
+    379.5,
+    225.7,
+    501.4,
+    248.2
+   ],
+   "label_bbox": [
+    217.5,
+    230.2,
+    379.5,
+    265.7
+   ]
+  },
+  {
+   "key": "gender",
+   "label": "성별",
+   "type": "text",
+   "value": "M",
+   "norm": "M",
+   "page": 0,
+   "bbox": [
+    379.5,
+    276.2,
+    401.4,
+    300.2
+   ],
+   "label_bbox": [
+    217.5,
+    280.7,
+    379.5,
+    316.1
+   ]
+  },
+  {
+   "key": "visa_status",
+   "label": "체류자격",
+   "type": "text",
+   "value": "영주(F-5)",
+   "norm": "영주(F-5)",
+   "page": 0,
+   "bbox": [
+    379.5,
+    326.6,
+    476.7,
+    350.6
+   ],
+   "label_bbox": [
+    217.5,
+    331.1,
+    379.5,
+    366.6
+   ]
+  },
+  {
+   "key": "issue_date",
+   "label": "발급일자",
+   "type": "date",
+   "value": "2024.04.07",
+   "norm": "2024-04-07",
+   "page": 0,
+   "bbox": [
+    610.9,
+    430.4,
+    706.5,
+    451.4
+   ],
+   "label_bbox": [
+    458.3,
+    434.9,
+    601.9,
+    451.4
+   ]
+  },
+  {
+   "key": "issuer",
+   "label": "발급기관",
+   "type": "text",
+   "value": "광주출입국·외국인사무소장",
+   "norm": "광주출입국·외국인사무소장",
+   "page": 0,
+   "bbox": [
+    417.3,
+    458.6,
+    706.5,
+    482.6
+   ]
+  },
+  {
+   "key": "seal.issuer",
+   "label": "발급기관직인",
+   "type": "seal",
+   "value": "출입국장인",
+   "present": true,
+   "kind": "직인",
+   "page": 0,
+   "bbox": [
+    712.1,
+    434.1,
+    778.9,
+    501.0
+   ]
+  }
+ ]
+}

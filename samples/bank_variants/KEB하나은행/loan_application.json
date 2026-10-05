@@ -28,14 +28,14 @@
    "lender": "신한카드",
    "kind": "카드론",
    "balance": "25,600,000",
-   "maturity": "2021.01.15",
+   "maturity": "2020.09.15",
    "refinance": "유지"
   },
   {
-   "lender": "신한은행",
+   "lender": "OK저축은행",
    "kind": "학자금대출",
    "balance": "15,800,000",
-   "maturity": "2020.01.15",
+   "maturity": "2020.04.26",
    "refinance": "유지"
   }
  ],
@@ -49,9 +49,9 @@
  "loan": {
   "subject": "전세자금대출",
   "product": "HUG 전세보증금대출",
-  "amount_korean": "일금 이억칠천이백만원정",
+  "amount_korean": "금 이억칠천이백만원정",
   "amount": "272,000,000",
-  "term": "2년",
+  "term": "24개월",
   "hope_date": "2017년 01월 23일",
   "repayment": "만기일시",
   "rate_type": "고정",
@@ -67,5 +67,11 @@
  "manual_received": "예",
  "consent": "동의함",
  "apply_date": "2017년 01월 15일",
- "signature": "김소윤"
+ "signature": "김소윤",
+ "seal": {
+  "applicant": true
+ },
+ "sign": {
+  "applicant": false
+ }
 }

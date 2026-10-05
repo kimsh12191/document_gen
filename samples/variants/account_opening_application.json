@@ -1,0 +1,115 @@
+{
+ "document_type": "예금거래신청서",
+ "bank": {
+  "name": "농협은행"
+ },
+ "customer": {
+  "name": "김주지",
+  "name_en": null,
+  "rrn": "190107-4******",
+  "zipcode": "61092",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+  "mobile": null,
+  "email": null,
+  "job": "기타"
+ },
+ "product": {
+  "type": "정기예금",
+  "name": "정기예금(일반)",
+  "amount": "140,000,000원",
+  "term": "6개월",
+  "interest_payment": "월이자지급",
+  "linked_account": "628-8975-1402-61"
+ },
+ "passbook": "미발행",
+ "seal_type": "인감",
+ "check_card": "미신청",
+ "extra_products": [
+  {
+   "type": "자유적립식 적금",
+   "name": "자유적립식 적금",
+   "amount": "100,000원",
+   "term": "12개월",
+   "account_no": "898-9863-4670-83"
+  },
+  {
+   "type": "자유적립식 적금",
+   "name": "자유적립식 적금",
+   "amount": "100,000원",
+   "term": "12개월",
+   "account_no": "992-1573-5627-20"
+  },
+  {
+   "type": "자유적립식 적금",
+   "name": "자유적립식 적금",
+   "amount": "500,000원",
+   "term": "12개월",
+   "account_no": "692-2102-9299-97"
+  },
+  {
+   "type": "저축예금",
+   "name": "저축예금",
+   "amount": "10,000,000원",
+   "term": "자유",
+   "account_no": "828-8251-2087-40"
+  },
+  {
+   "type": "저축예금",
+   "name": "자유저축예금",
+   "amount": "500,000원",
+   "term": "자유",
+   "account_no": "430-5384-8391-04"
+  },
+  {
+   "type": "정기적금",
+   "name": "자유적립식 적금",
+   "amount": "3,000,000원",
+   "term": "36개월",
+   "account_no": "361-3511-3052-62"
+  },
+  {
+   "type": "외화보통예금",
+   "name": "외화보통예금",
+   "amount": "USD 1,000",
+   "term": "자유",
+   "account_no": "188-1358-1681-87"
+  }
+ ],
+ "ebank": {
+  "internet": "미신청",
+  "mobile": "미신청",
+  "otp": "미신청"
+ },
+ "alert": "앱 푸시",
+ "mail_to": "자택",
+ "salary_transfer": "미지정",
+ "legal_rep": {
+  "name": "김소윤",
+  "relation": "모",
+  "rrn": "901121-2******",
+  "phone": "010-4372-6867",
+  "documents": "기본증명서(상세), 가족관계증명서, 법정대리인 신분증"
+ },
+ "protection_limit": "1억원",
+ "signature": "김주지",
+ "date": "2025.11.29",
+ "seal": {
+  "applicant": false,
+  "legal_rep": true,
+  "staff": {
+   "clerk": true,
+   "manager": true
+  }
+ },
+ "sign": {
+  "applicant": false,
+  "legal_rep": false
+ },
+ "bank_use": {
+  "account_no": "895-2113-2533-03",
+  "branch": "분당지점",
+  "id_type": "주민등록증",
+  "clerk": "명환성",
+  "manager": "김영재"
+ }
+}

@@ -36,5 +36,12 @@
  "handwritten_confirm": "설명을 듣고 이해함",
  "contract_date": "2025년 12월 06일",
  "signature_debtor": "김소윤",
+ "seal": {
+  "debtor": true,
+  "mortgagor": true
+ },
+ "sign": {
+  "debtor": false
+ },
  "signature_mortgagor": "김소윤"
 }

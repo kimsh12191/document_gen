@@ -1,0 +1,4273 @@
+{
+ "images": [
+  "variants/financial_statements_p1.jpg",
+  "variants/financial_statements_p2.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "current_term",
+   "label": "당기",
+   "type": "text",
+   "value": "제 4(당)기",
+   "norm": "제 4(당)기",
+   "page": 0,
+   "bbox": [
+    462.5,
+    94.7,
+    542.6,
+    115.7
+   ]
+  },
+  {
+   "key": "bs_current_date",
+   "label": "당기말",
+   "type": "text",
+   "value": "2024년 12월 31일 현재",
+   "norm": "2024년 12월 31일 현재",
+   "page": 0,
+   "bbox": [
+    551.6,
+    94.7,
+    728.5,
+    115.7
+   ]
+  },
+  {
+   "key": "prior_term",
+   "label": "전기",
+   "type": "text",
+   "value": "제 3(전)기",
+   "norm": "제 3(전)기",
+   "page": 0,
+   "bbox": [
+    462.5,
+    118.3,
+    542.6,
+    139.3
+   ]
+  },
+  {
+   "key": "bs_prior_date",
+   "label": "전기말",
+   "type": "text",
+   "value": "2023년 12월 31일 현재",
+   "norm": "2023년 12월 31일 현재",
+   "page": 0,
+   "bbox": [
+    551.6,
+    118.3,
+    728.5,
+    139.3
+   ]
+  },
+  {
+   "key": "company_name",
+   "label": "회사명",
+   "type": "text",
+   "value": "주식회사 새한소프트",
+   "norm": "주식회사 새한소프트",
+   "page": 0,
+   "bbox": [
+    152.6,
+    149.3,
+    320.4,
+    170.3
+   ]
+  },
+  {
+   "key": "unit",
+   "label": "단위",
+   "type": "text",
+   "value": "(단위 : 천원)",
+   "norm": "(단위 : 천원)",
+   "page": 0,
+   "bbox": [
+    1008.2,
+    149.3,
+    1107.0,
+    170.3
+   ]
+  },
+  {
+   "key": "assets.0.account",
+   "label": "과목",
+   "type": "text",
+   "value": "Ⅰ. 유동자산",
+   "norm": "Ⅰ. 유동자산",
+   "page": 0,
+   "bbox": [
+    94.5,
+    243.0,
+    190.1,
+    262.5
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.0.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "5,011,863",
+   "norm": 5011863,
+   "page": 0,
+   "bbox": [
+    701.0,
+    243.0,
+    769.6,
+    262.5
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.0.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "7,815,579",
+   "norm": 7815579,
+   "page": 0,
+   "bbox": [
+    1026.9,
+    243.0,
+    1096.5,
+    262.5
+   ],
+   "label_bbox": [
+    779.4,
+    176.8,
+    1106.2,
+    199.9
+   ]
+  },
+  {
+   "key": "assets.1.account",
+   "label": "과목",
+   "type": "text",
+   "value": "(1) 당좌자산",
+   "norm": "(1) 당좌자산",
+   "page": 0,
+   "bbox": [
+    106.5,
+    263.9,
+    200.7,
+    283.4
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.1.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "4,557,408",
+   "norm": 4557408,
+   "page": 0,
+   "bbox": [
+    700.1,
+    263.9,
+    769.6,
+    283.4
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.1.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "6,745,661",
+   "norm": 6745661,
+   "page": 0,
+   "bbox": [
+    1026.9,
+    263.9,
+    1096.5,
+    283.4
+   ],
+   "label_bbox": [
+    779.4,
+    176.8,
+    1106.2,
+    199.9
+   ]
+  },
+  {
+   "key": "assets.2.account",
+   "label": "과목",
+   "type": "text",
+   "value": "현금및현금성자산",
+   "norm": "현금및현금성자산",
+   "page": 0,
+   "bbox": [
+    130.5,
+    284.7,
+    269.6,
+    304.2
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.2.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "3,136,623",
+   "norm": 3136623,
+   "page": 0,
+   "bbox": [
+    536.6,
+    284.7,
+    606.2,
+    304.2
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.2.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "4,376,590",
+   "norm": 4376590,
+   "page": 0,
+   "bbox": [
+    863.5,
+    284.7,
+    933.1,
+    304.2
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.3.account",
+   "label": "과목",
+   "type": "text",
+   "value": "단기금융상품",
+   "norm": "단기금융상품",
+   "page": 0,
+   "bbox": [
+    130.5,
+    305.6,
+    234.8,
+    325.1
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.3.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "599,628",
+   "norm": 599628,
+   "page": 0,
+   "bbox": [
+    549.7,
+    305.6,
+    606.2,
+    325.1
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.3.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "1,303,546",
+   "norm": 1303546,
+   "page": 0,
+   "bbox": [
+    863.5,
+    305.6,
+    933.1,
+    325.1
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.4.account",
+   "label": "과목",
+   "type": "text",
+   "value": "매출채권",
+   "norm": "매출채권",
+   "page": 0,
+   "bbox": [
+    130.5,
+    326.4,
+    200.1,
+    345.9
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.4.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "831,178",
+   "norm": 831178,
+   "page": 0,
+   "bbox": [
+    549.7,
+    326.4,
+    606.2,
+    345.9
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.4.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "1,080,597",
+   "norm": 1080597,
+   "page": 0,
+   "bbox": [
+    863.5,
+    326.4,
+    933.1,
+    345.9
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.5.account",
+   "label": "과목",
+   "type": "text",
+   "value": "대손충당금",
+   "norm": "대손충당금",
+   "page": 0,
+   "bbox": [
+    130.5,
+    347.3,
+    217.5,
+    366.8
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.5.current",
+   "label": "당기",
+   "type": "text",
+   "value": "△10,021",
+   "norm": "△10,021",
+   "page": 0,
+   "bbox": [
+    541.0,
+    347.3,
+    606.2,
+    366.8
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.5.prior",
+   "label": "전기",
+   "type": "text",
+   "value": "△15,072",
+   "norm": "△15,072",
+   "page": 0,
+   "bbox": [
+    867.8,
+    347.3,
+    933.1,
+    366.8
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.6.account",
+   "label": "과목",
+   "type": "text",
+   "value": "(2) 재고자산",
+   "norm": "(2) 재고자산",
+   "page": 0,
+   "bbox": [
+    106.5,
+    368.2,
+    200.7,
+    387.7
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.6.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "454,455",
+   "norm": 454455,
+   "page": 0,
+   "bbox": [
+    713.1,
+    368.2,
+    769.6,
+    387.7
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.6.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "1,069,918",
+   "norm": 1069918,
+   "page": 0,
+   "bbox": [
+    1026.9,
+    368.2,
+    1096.5,
+    387.7
+   ],
+   "label_bbox": [
+    779.4,
+    176.8,
+    1106.2,
+    199.9
+   ]
+  },
+  {
+   "key": "assets.7.account",
+   "label": "과목",
+   "type": "text",
+   "value": "상품",
+   "norm": "상품",
+   "page": 0,
+   "bbox": [
+    130.5,
+    389.0,
+    165.3,
+    408.5
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.7.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "454,455",
+   "norm": 454455,
+   "page": 0,
+   "bbox": [
+    549.7,
+    389.0,
+    606.2,
+    408.5
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.7.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "1,069,918",
+   "norm": 1069918,
+   "page": 0,
+   "bbox": [
+    863.5,
+    389.0,
+    933.1,
+    408.5
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.8.account",
+   "label": "과목",
+   "type": "text",
+   "value": "Ⅱ. 비유동자산",
+   "norm": "Ⅱ. 비유동자산",
+   "page": 0,
+   "bbox": [
+    94.5,
+    409.9,
+    207.5,
+    429.4
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.8.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "8,430,865",
+   "norm": 8430865,
+   "page": 0,
+   "bbox": [
+    700.1,
+    409.9,
+    769.6,
+    429.4
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.8.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "14,861,803",
+   "norm": 14861803,
+   "page": 0,
+   "bbox": [
+    1018.2,
+    409.9,
+    1096.5,
+    429.4
+   ],
+   "label_bbox": [
+    779.4,
+    176.8,
+    1106.2,
+    199.9
+   ]
+  },
+  {
+   "key": "assets.9.account",
+   "label": "과목",
+   "type": "text",
+   "value": "(1) 유형자산",
+   "norm": "(1) 유형자산",
+   "page": 0,
+   "bbox": [
+    106.5,
+    430.7,
+    200.7,
+    450.2
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.9.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "6,499,082",
+   "norm": 6499082,
+   "page": 0,
+   "bbox": [
+    700.1,
+    430.7,
+    769.6,
+    450.2
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.9.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "12,223,456",
+   "norm": 12223456,
+   "page": 0,
+   "bbox": [
+    1018.2,
+    430.7,
+    1096.5,
+    450.2
+   ],
+   "label_bbox": [
+    779.4,
+    176.8,
+    1106.2,
+    199.9
+   ]
+  },
+  {
+   "key": "assets.10.account",
+   "label": "과목",
+   "type": "text",
+   "value": "토지",
+   "norm": "토지",
+   "page": 0,
+   "bbox": [
+    130.5,
+    451.6,
+    165.3,
+    471.1
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.10.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "3,361,386",
+   "norm": 3361386,
+   "page": 0,
+   "bbox": [
+    536.6,
+    451.6,
+    606.2,
+    471.1
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.10.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "8,091,575",
+   "norm": 8091575,
+   "page": 0,
+   "bbox": [
+    863.5,
+    451.6,
+    933.1,
+    471.1
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.11.account",
+   "label": "과목",
+   "type": "text",
+   "value": "차량운반구",
+   "norm": "차량운반구",
+   "page": 0,
+   "bbox": [
+    130.5,
+    472.5,
+    217.5,
+    492.0
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.11.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "2,595,934",
+   "norm": 2595934,
+   "page": 0,
+   "bbox": [
+    536.6,
+    472.5,
+    606.2,
+    492.0
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.11.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "3,530,865",
+   "norm": 3530865,
+   "page": 0,
+   "bbox": [
+    863.5,
+    472.5,
+    933.1,
+    492.0
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.12.account",
+   "label": "과목",
+   "type": "text",
+   "value": "감가상각누계액",
+   "norm": "감가상각누계액",
+   "page": 0,
+   "bbox": [
+    130.5,
+    493.3,
+    252.2,
+    512.8
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.12.current",
+   "label": "당기",
+   "type": "text",
+   "value": "△1,045,605",
+   "norm": "△1,045,605",
+   "page": 0,
+   "bbox": [
+    519.3,
+    493.3,
+    606.2,
+    512.8
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.12.prior",
+   "label": "전기",
+   "type": "text",
+   "value": "△1,678,614",
+   "norm": "△1,678,614",
+   "page": 0,
+   "bbox": [
+    846.1,
+    493.3,
+    933.1,
+    512.8
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.13.account",
+   "label": "과목",
+   "type": "text",
+   "value": "비품",
+   "norm": "비품",
+   "page": 0,
+   "bbox": [
+    130.5,
+    514.2,
+    165.3,
+    533.7
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.13.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "3,254,405",
+   "norm": 3254405,
+   "page": 0,
+   "bbox": [
+    536.6,
+    514.2,
+    606.2,
+    533.7
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.13.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "2,983,557",
+   "norm": 2983557,
+   "page": 0,
+   "bbox": [
+    863.5,
+    514.2,
+    933.1,
+    533.7
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.14.account",
+   "label": "과목",
+   "type": "text",
+   "value": "감가상각누계액",
+   "norm": "감가상각누계액",
+   "page": 0,
+   "bbox": [
+    130.5,
+    535.0,
+    252.2,
+    554.5
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.14.current",
+   "label": "당기",
+   "type": "text",
+   "value": "△1,667,038",
+   "norm": "△1,667,038",
+   "page": 0,
+   "bbox": [
+    519.3,
+    535.0,
+    606.2,
+    554.5
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.14.prior",
+   "label": "전기",
+   "type": "text",
+   "value": "△703,927",
+   "norm": "△703,927",
+   "page": 0,
+   "bbox": [
+    859.1,
+    535.0,
+    933.1,
+    554.5
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.15.account",
+   "label": "과목",
+   "type": "text",
+   "value": "(2) 기타비유동자산",
+   "norm": "(2) 기타비유동자산",
+   "page": 0,
+   "bbox": [
+    106.5,
+    555.9,
+    252.9,
+    575.4
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.15.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "1,931,783",
+   "norm": 1931783,
+   "page": 0,
+   "bbox": [
+    700.1,
+    555.9,
+    769.6,
+    575.4
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.15.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "2,638,347",
+   "norm": 2638347,
+   "page": 0,
+   "bbox": [
+    1026.9,
+    555.9,
+    1096.5,
+    575.4
+   ],
+   "label_bbox": [
+    779.4,
+    176.8,
+    1106.2,
+    199.9
+   ]
+  },
+  {
+   "key": "assets.16.account",
+   "label": "과목",
+   "type": "text",
+   "value": "임차보증금",
+   "norm": "임차보증금",
+   "page": 0,
+   "bbox": [
+    130.5,
+    576.8,
+    217.5,
+    596.2
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.16.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "1,931,783",
+   "norm": 1931783,
+   "page": 0,
+   "bbox": [
+    536.6,
+    576.8,
+    606.2,
+    596.2
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.16.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "2,638,347",
+   "norm": 2638347,
+   "page": 0,
+   "bbox": [
+    863.5,
+    576.8,
+    933.1,
+    596.2
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.17.account",
+   "label": "과목",
+   "type": "text",
+   "value": "자산총계",
+   "norm": "자산총계",
+   "page": 0,
+   "bbox": [
+    94.5,
+    599.1,
+    164.1,
+    618.6
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.17.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "13,442,728",
+   "norm": 13442728,
+   "page": 0,
+   "bbox": [
+    691.4,
+    599.1,
+    769.6,
+    618.6
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "assets.17.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "22,677,382",
+   "norm": 22677382,
+   "page": 0,
+   "bbox": [
+    1018.2,
+    599.1,
+    1096.5,
+    618.6
+   ],
+   "label_bbox": [
+    779.4,
+    176.8,
+    1106.2,
+    199.9
+   ]
+  },
+  {
+   "key": "liabilities.0.account",
+   "label": "과목",
+   "type": "text",
+   "value": "Ⅰ. 유동부채",
+   "norm": "Ⅰ. 유동부채",
+   "page": 0,
+   "bbox": [
+    94.5,
+    640.8,
+    190.1,
+    660.3
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.0.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "3,769,164",
+   "norm": 3769164,
+   "page": 0,
+   "bbox": [
+    700.1,
+    640.8,
+    769.6,
+    660.3
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.0.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "5,634,560",
+   "norm": 5634560,
+   "page": 0,
+   "bbox": [
+    1026.9,
+    640.8,
+    1096.5,
+    660.3
+   ],
+   "label_bbox": [
+    779.4,
+    176.8,
+    1106.2,
+    199.9
+   ]
+  },
+  {
+   "key": "liabilities.1.account",
+   "label": "과목",
+   "type": "text",
+   "value": "매입채무",
+   "norm": "매입채무",
+   "page": 0,
+   "bbox": [
+    130.5,
+    661.7,
+    200.1,
+    681.2
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.1.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "2,105,684",
+   "norm": 2105684,
+   "page": 0,
+   "bbox": [
+    536.6,
+    661.7,
+    606.2,
+    681.2
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.1.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "2,368,999",
+   "norm": 2368999,
+   "page": 0,
+   "bbox": [
+    863.5,
+    661.7,
+    933.1,
+    681.2
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.2.account",
+   "label": "과목",
+   "type": "text",
+   "value": "미지급금",
+   "norm": "미지급금",
+   "page": 0,
+   "bbox": [
+    130.5,
+    682.5,
+    200.1,
+    702.0
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.2.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "1,024,358",
+   "norm": 1024358,
+   "page": 0,
+   "bbox": [
+    536.6,
+    682.5,
+    606.2,
+    702.0
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.2.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "1,727,441",
+   "norm": 1727441,
+   "page": 0,
+   "bbox": [
+    863.5,
+    682.5,
+    933.1,
+    702.0
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.3.account",
+   "label": "과목",
+   "type": "text",
+   "value": "단기차입금",
+   "norm": "단기차입금",
+   "page": 0,
+   "bbox": [
+    130.5,
+    703.4,
+    217.5,
+    722.9
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.3.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "639,122",
+   "norm": 639122,
+   "page": 0,
+   "bbox": [
+    549.7,
+    703.4,
+    606.2,
+    722.9
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.3.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "1,538,120",
+   "norm": 1538120,
+   "page": 0,
+   "bbox": [
+    863.5,
+    703.4,
+    933.1,
+    722.9
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.4.account",
+   "label": "과목",
+   "type": "text",
+   "value": "Ⅱ. 비유동부채",
+   "norm": "Ⅱ. 비유동부채",
+   "page": 0,
+   "bbox": [
+    94.5,
+    724.3,
+    207.5,
+    743.8
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.4.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "6,605,941",
+   "norm": 6605941,
+   "page": 0,
+   "bbox": [
+    700.1,
+    724.3,
+    769.6,
+    743.8
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.4.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "8,801,934",
+   "norm": 8801934,
+   "page": 0,
+   "bbox": [
+    1026.9,
+    724.3,
+    1096.5,
+    743.8
+   ],
+   "label_bbox": [
+    779.4,
+    176.8,
+    1106.2,
+    199.9
+   ]
+  },
+  {
+   "key": "liabilities.5.account",
+   "label": "과목",
+   "type": "text",
+   "value": "장기차입금",
+   "norm": "장기차입금",
+   "page": 0,
+   "bbox": [
+    130.5,
+    745.1,
+    217.5,
+    764.6
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.5.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "4,588,395",
+   "norm": 4588395,
+   "page": 0,
+   "bbox": [
+    536.6,
+    745.1,
+    606.2,
+    764.6
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.5.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "6,605,695",
+   "norm": 6605695,
+   "page": 0,
+   "bbox": [
+    863.5,
+    745.1,
+    933.1,
+    764.6
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.6.account",
+   "label": "과목",
+   "type": "text",
+   "value": "퇴직급여충당부채",
+   "norm": "퇴직급여충당부채",
+   "page": 0,
+   "bbox": [
+    130.5,
+    766.0,
+    269.6,
+    785.5
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.6.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "2,017,546",
+   "norm": 2017546,
+   "page": 0,
+   "bbox": [
+    536.6,
+    766.0,
+    606.2,
+    785.5
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.6.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "2,196,239",
+   "norm": 2196239,
+   "page": 0,
+   "bbox": [
+    863.5,
+    766.0,
+    933.1,
+    785.5
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.7.account",
+   "label": "과목",
+   "type": "text",
+   "value": "부채총계",
+   "norm": "부채총계",
+   "page": 0,
+   "bbox": [
+    94.5,
+    788.3,
+    164.1,
+    807.8
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.7.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "10,375,105",
+   "norm": 10375105,
+   "page": 0,
+   "bbox": [
+    691.4,
+    788.3,
+    769.6,
+    807.8
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "liabilities.7.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "14,436,494",
+   "norm": 14436494,
+   "page": 0,
+   "bbox": [
+    1018.2,
+    788.3,
+    1096.5,
+    807.8
+   ],
+   "label_bbox": [
+    779.4,
+    176.8,
+    1106.2,
+    199.9
+   ]
+  },
+  {
+   "key": "equity.0.account",
+   "label": "과목",
+   "type": "text",
+   "value": "Ⅰ. 자본금",
+   "norm": "Ⅰ. 자본금",
+   "page": 0,
+   "bbox": [
+    94.5,
+    830.1,
+    172.8,
+    849.6
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "equity.0.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "100,000",
+   "norm": 100000,
+   "page": 0,
+   "bbox": [
+    713.1,
+    830.1,
+    769.6,
+    849.6
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "equity.0.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "100,000",
+   "norm": 100000,
+   "page": 0,
+   "bbox": [
+    1040.0,
+    830.1,
+    1096.5,
+    849.6
+   ],
+   "label_bbox": [
+    779.4,
+    176.8,
+    1106.2,
+    199.9
+   ]
+  },
+  {
+   "key": "equity.1.account",
+   "label": "과목",
+   "type": "text",
+   "value": "보통주자본금",
+   "norm": "보통주자본금",
+   "page": 0,
+   "bbox": [
+    130.5,
+    850.9,
+    234.8,
+    870.4
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "equity.1.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "94,780",
+   "norm": 94780,
+   "page": 0,
+   "bbox": [
+    558.4,
+    850.9,
+    606.2,
+    870.4
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "equity.1.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "94,780",
+   "norm": 94780,
+   "page": 0,
+   "bbox": [
+    885.2,
+    850.9,
+    933.1,
+    870.4
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "equity.2.account",
+   "label": "과목",
+   "type": "text",
+   "value": "우선주자본금",
+   "norm": "우선주자본금",
+   "page": 0,
+   "bbox": [
+    130.5,
+    871.8,
+    234.8,
+    891.3
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "equity.2.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "5,220",
+   "norm": 5220,
+   "page": 0,
+   "bbox": [
+    567.1,
+    871.8,
+    606.2,
+    891.3
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "equity.2.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "5,220",
+   "norm": 5220,
+   "page": 0,
+   "bbox": [
+    893.9,
+    871.8,
+    933.1,
+    891.3
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "equity.3.account",
+   "label": "과목",
+   "type": "text",
+   "value": "Ⅱ. 이익잉여금",
+   "norm": "Ⅱ. 이익잉여금",
+   "page": 0,
+   "bbox": [
+    94.5,
+    892.6,
+    207.5,
+    912.1
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "equity.3.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "2,967,623",
+   "norm": 2967623,
+   "page": 0,
+   "bbox": [
+    700.1,
+    892.6,
+    769.6,
+    912.1
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "equity.3.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "8,140,888",
+   "norm": 8140888,
+   "page": 0,
+   "bbox": [
+    1026.9,
+    892.6,
+    1096.5,
+    912.1
+   ],
+   "label_bbox": [
+    779.4,
+    176.8,
+    1106.2,
+    199.9
+   ]
+  },
+  {
+   "key": "equity.4.account",
+   "label": "과목",
+   "type": "text",
+   "value": "미처분이익잉여금",
+   "norm": "미처분이익잉여금",
+   "page": 0,
+   "bbox": [
+    130.5,
+    913.5,
+    269.6,
+    933.0
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "equity.4.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "2,967,623",
+   "norm": 2967623,
+   "page": 0,
+   "bbox": [
+    536.6,
+    913.5,
+    606.2,
+    933.0
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "equity.4.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "8,140,888",
+   "norm": 8140888,
+   "page": 0,
+   "bbox": [
+    863.5,
+    913.5,
+    933.1,
+    933.0
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "equity.5.account",
+   "label": "과목",
+   "type": "text",
+   "value": "자본총계",
+   "norm": "자본총계",
+   "page": 0,
+   "bbox": [
+    94.5,
+    935.9,
+    164.1,
+    955.4
+   ],
+   "label_bbox": [
+    452.5,
+    199.9,
+    779.4,
+    221.4
+   ]
+  },
+  {
+   "key": "equity.5.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "3,067,623",
+   "norm": 3067623,
+   "page": 0,
+   "bbox": [
+    700.1,
+    935.9,
+    769.6,
+    955.4
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "equity.5.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "8,240,888",
+   "norm": 8240888,
+   "page": 0,
+   "bbox": [
+    1026.9,
+    935.9,
+    1096.5,
+    955.4
+   ],
+   "label_bbox": [
+    779.4,
+    176.8,
+    1106.2,
+    199.9
+   ]
+  },
+  {
+   "key": "total_liabilities_equity.current",
+   "label": "부채와자본총계(당기)",
+   "type": "amount",
+   "value": "13,442,728",
+   "norm": 13442728,
+   "page": 0,
+   "bbox": [
+    691.4,
+    958.2,
+    769.6,
+    977.7
+   ],
+   "label_bbox": [
+    779.4,
+    199.9,
+    1106.2,
+    221.4
+   ]
+  },
+  {
+   "key": "total_liabilities_equity.prior",
+   "label": "부채와자본총계(전기)",
+   "type": "number",
+   "value": "22,677,382",
+   "norm": 22677382,
+   "page": 0,
+   "bbox": [
+    1018.2,
+    958.2,
+    1096.5,
+    977.7
+   ],
+   "label_bbox": [
+    779.4,
+    176.8,
+    1106.2,
+    199.9
+   ]
+  },
+  {
+   "key": "is_current_period",
+   "label": "당기회계기간",
+   "type": "text",
+   "value": "2024년 01월 01일부터 2024년 12월 31일까지",
+   "norm": "2024년 01월 01일부터 2024년 12월 31일까지",
+   "page": 0,
+   "bbox": [
+    465.5,
+    1043.8,
+    814.7,
+    1064.8
+   ]
+  },
+  {
+   "key": "is_prior_period",
+   "label": "전기회계기간",
+   "type": "text",
+   "value": "2023년 01월 01일부터 2023년 12월 31일까지",
+   "norm": "2023년 01월 01일부터 2023년 12월 31일까지",
+   "page": 0,
+   "bbox": [
+    465.5,
+    1067.3,
+    814.7,
+    1088.3
+   ]
+  },
+  {
+   "key": "income_statement.0.account",
+   "label": "과목",
+   "type": "text",
+   "value": "Ⅰ. 매출액",
+   "norm": "Ⅰ. 매출액",
+   "page": 0,
+   "bbox": [
+    94.5,
+    1171.2,
+    172.8,
+    1190.7
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.0.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "71,301,000",
+   "norm": 71301000,
+   "page": 0,
+   "bbox": [
+    691.4,
+    1171.2,
+    769.6,
+    1190.7
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.0.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "74,626,287",
+   "norm": 74626287,
+   "page": 0,
+   "bbox": [
+    1018.2,
+    1171.2,
+    1096.5,
+    1190.7
+   ],
+   "label_bbox": [
+    779.4,
+    1125.9,
+    1106.2,
+    1149.0
+   ]
+  },
+  {
+   "key": "income_statement.1.account",
+   "label": "과목",
+   "type": "text",
+   "value": "용역매출",
+   "norm": "용역매출",
+   "page": 0,
+   "bbox": [
+    130.5,
+    1192.1,
+    200.1,
+    1211.6
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.1.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "71,301,000",
+   "norm": 71301000,
+   "page": 0,
+   "bbox": [
+    528.0,
+    1192.1,
+    606.2,
+    1211.6
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.1.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "74,626,287",
+   "norm": 74626287,
+   "page": 0,
+   "bbox": [
+    854.8,
+    1192.1,
+    933.1,
+    1211.6
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.2.account",
+   "label": "과목",
+   "type": "text",
+   "value": "Ⅱ. 매출원가",
+   "norm": "Ⅱ. 매출원가",
+   "page": 0,
+   "bbox": [
+    94.5,
+    1212.9,
+    190.1,
+    1232.4
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.2.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "46,115,796",
+   "norm": 46115796,
+   "page": 0,
+   "bbox": [
+    692.3,
+    1212.9,
+    769.6,
+    1232.4
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.2.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "56,094,212",
+   "norm": 56094212,
+   "page": 0,
+   "bbox": [
+    1018.2,
+    1212.9,
+    1096.5,
+    1232.4
+   ],
+   "label_bbox": [
+    779.4,
+    1125.9,
+    1106.2,
+    1149.0
+   ]
+  },
+  {
+   "key": "income_statement.3.account",
+   "label": "과목",
+   "type": "text",
+   "value": "Ⅲ. 매출총이익",
+   "norm": "Ⅲ. 매출총이익",
+   "page": 0,
+   "bbox": [
+    94.5,
+    1233.8,
+    207.5,
+    1253.3
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.3.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "25,185,204",
+   "norm": 25185204,
+   "page": 0,
+   "bbox": [
+    691.4,
+    1233.8,
+    769.6,
+    1253.3
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.3.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "18,532,075",
+   "norm": 18532075,
+   "page": 0,
+   "bbox": [
+    1018.2,
+    1233.8,
+    1096.5,
+    1253.3
+   ],
+   "label_bbox": [
+    779.4,
+    1125.9,
+    1106.2,
+    1149.0
+   ]
+  },
+  {
+   "key": "income_statement.4.account",
+   "label": "과목",
+   "type": "text",
+   "value": "Ⅳ. 판매비와관리비",
+   "norm": "Ⅳ. 판매비와관리비",
+   "page": 0,
+   "bbox": [
+    94.5,
+    1254.7,
+    242.3,
+    1274.2
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.4.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "30,642,381",
+   "norm": 30642381,
+   "page": 0,
+   "bbox": [
+    691.4,
+    1254.7,
+    769.6,
+    1274.2
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.4.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "11,636,387",
+   "norm": 11636387,
+   "page": 0,
+   "bbox": [
+    1019.2,
+    1254.7,
+    1096.5,
+    1274.2
+   ],
+   "label_bbox": [
+    779.4,
+    1125.9,
+    1106.2,
+    1149.0
+   ]
+  },
+  {
+   "key": "income_statement.5.account",
+   "label": "과목",
+   "type": "text",
+   "value": "급여",
+   "norm": "급여",
+   "page": 0,
+   "bbox": [
+    130.5,
+    1275.5,
+    165.3,
+    1295.0
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.5.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "8,593,895",
+   "norm": 8593895,
+   "page": 0,
+   "bbox": [
+    536.6,
+    1275.5,
+    606.2,
+    1295.0
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.5.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "3,075,501",
+   "norm": 3075501,
+   "page": 0,
+   "bbox": [
+    863.5,
+    1275.5,
+    933.1,
+    1295.0
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.6.account",
+   "label": "과목",
+   "type": "text",
+   "value": "퇴직급여",
+   "norm": "퇴직급여",
+   "page": 0,
+   "bbox": [
+    130.5,
+    1296.4,
+    200.1,
+    1315.9
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.6.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "896,531",
+   "norm": 896531,
+   "page": 0,
+   "bbox": [
+    549.7,
+    1296.4,
+    606.2,
+    1315.9
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.6.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "398,715",
+   "norm": 398715,
+   "page": 0,
+   "bbox": [
+    876.5,
+    1296.4,
+    933.1,
+    1315.9
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.7.account",
+   "label": "과목",
+   "type": "text",
+   "value": "복리후생비",
+   "norm": "복리후생비",
+   "page": 0,
+   "bbox": [
+    130.5,
+    1317.2,
+    217.5,
+    1336.7
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.7.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "2,581,238",
+   "norm": 2581238,
+   "page": 0,
+   "bbox": [
+    536.6,
+    1317.2,
+    606.2,
+    1336.7
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.7.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "940,145",
+   "norm": 940145,
+   "page": 0,
+   "bbox": [
+    876.5,
+    1317.2,
+    933.1,
+    1336.7
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.8.account",
+   "label": "과목",
+   "type": "text",
+   "value": "여비교통비",
+   "norm": "여비교통비",
+   "page": 0,
+   "bbox": [
+    130.5,
+    1338.1,
+    217.5,
+    1357.6
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.8.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "1,885,080",
+   "norm": 1885080,
+   "page": 0,
+   "bbox": [
+    536.6,
+    1338.1,
+    606.2,
+    1357.6
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.8.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "843,070",
+   "norm": 843070,
+   "page": 0,
+   "bbox": [
+    876.5,
+    1338.1,
+    933.1,
+    1357.6
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.9.account",
+   "label": "과목",
+   "type": "text",
+   "value": "접대비",
+   "norm": "접대비",
+   "page": 0,
+   "bbox": [
+    130.5,
+    1359.0,
+    182.7,
+    1378.5
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.9.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "651,447",
+   "norm": 651447,
+   "page": 0,
+   "bbox": [
+    549.7,
+    1359.0,
+    606.2,
+    1378.5
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.9.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "222,247",
+   "norm": 222247,
+   "page": 0,
+   "bbox": [
+    876.5,
+    1359.0,
+    933.1,
+    1378.5
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.10.account",
+   "label": "과목",
+   "type": "text",
+   "value": "통신비",
+   "norm": "통신비",
+   "page": 0,
+   "bbox": [
+    130.5,
+    1379.8,
+    182.7,
+    1399.3
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.10.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "1,372,596",
+   "norm": 1372596,
+   "page": 0,
+   "bbox": [
+    536.6,
+    1379.8,
+    606.2,
+    1399.3
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.10.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "620,787",
+   "norm": 620787,
+   "page": 0,
+   "bbox": [
+    876.5,
+    1379.8,
+    933.1,
+    1399.3
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.11.account",
+   "label": "과목",
+   "type": "text",
+   "value": "지급임차료",
+   "norm": "지급임차료",
+   "page": 0,
+   "bbox": [
+    130.5,
+    1400.7,
+    217.5,
+    1420.2
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.11.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "543,554",
+   "norm": 543554,
+   "page": 0,
+   "bbox": [
+    549.7,
+    1400.7,
+    606.2,
+    1420.2
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.11.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "240,522",
+   "norm": 240522,
+   "page": 0,
+   "bbox": [
+    876.5,
+    1400.7,
+    933.1,
+    1420.2
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.12.account",
+   "label": "과목",
+   "type": "text",
+   "value": "보험료",
+   "norm": "보험료",
+   "page": 0,
+   "bbox": [
+    130.5,
+    1421.5,
+    182.7,
+    1441.0
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.12.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "1,570,234",
+   "norm": 1570234,
+   "page": 0,
+   "bbox": [
+    536.6,
+    1421.5,
+    606.2,
+    1441.0
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.12.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "591,802",
+   "norm": 591802,
+   "page": 0,
+   "bbox": [
+    876.5,
+    1421.5,
+    933.1,
+    1441.0
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.13.account",
+   "label": "과목",
+   "type": "text",
+   "value": "차량유지비",
+   "norm": "차량유지비",
+   "page": 0,
+   "bbox": [
+    130.5,
+    1442.4,
+    217.5,
+    1461.9
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.13.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "1,100,523",
+   "norm": 1100523,
+   "page": 0,
+   "bbox": [
+    536.6,
+    1442.4,
+    606.2,
+    1461.9
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.13.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "380,421",
+   "norm": 380421,
+   "page": 0,
+   "bbox": [
+    876.5,
+    1442.4,
+    933.1,
+    1461.9
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.14.account",
+   "label": "과목",
+   "type": "text",
+   "value": "운반비",
+   "norm": "운반비",
+   "page": 0,
+   "bbox": [
+    130.5,
+    1463.2,
+    182.7,
+    1482.8
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.14.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "721,812",
+   "norm": 721812,
+   "page": 0,
+   "bbox": [
+    549.7,
+    1463.2,
+    606.2,
+    1482.8
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.14.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "247,522",
+   "norm": 247522,
+   "page": 0,
+   "bbox": [
+    876.5,
+    1463.2,
+    933.1,
+    1482.8
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.15.account",
+   "label": "과목",
+   "type": "text",
+   "value": "교육훈련비",
+   "norm": "교육훈련비",
+   "page": 0,
+   "bbox": [
+    130.5,
+    1484.1,
+    217.5,
+    1503.6
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.15.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "2,359,114",
+   "norm": 2359114,
+   "page": 0,
+   "bbox": [
+    537.3,
+    1484.1,
+    606.2,
+    1503.6
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.15.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "943,739",
+   "norm": 943739,
+   "page": 0,
+   "bbox": [
+    876.5,
+    1484.1,
+    933.1,
+    1503.6
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.16.account",
+   "label": "과목",
+   "type": "text",
+   "value": "도서인쇄비",
+   "norm": "도서인쇄비",
+   "page": 0,
+   "bbox": [
+    130.5,
+    1505.0,
+    217.5,
+    1524.5
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.16.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "2,816,892",
+   "norm": 2816892,
+   "page": 0,
+   "bbox": [
+    536.6,
+    1505.0,
+    606.2,
+    1524.5
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.16.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "980,505",
+   "norm": 980505,
+   "page": 0,
+   "bbox": [
+    876.5,
+    1505.0,
+    933.1,
+    1524.5
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.17.account",
+   "label": "과목",
+   "type": "text",
+   "value": "지급수수료",
+   "norm": "지급수수료",
+   "page": 0,
+   "bbox": [
+    130.5,
+    1525.8,
+    217.5,
+    1545.3
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.17.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "1,555,096",
+   "norm": 1555096,
+   "page": 0,
+   "bbox": [
+    536.6,
+    1525.8,
+    606.2,
+    1545.3
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.17.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "621,482",
+   "norm": 621482,
+   "page": 0,
+   "bbox": [
+    876.5,
+    1525.8,
+    933.1,
+    1545.3
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.18.account",
+   "label": "과목",
+   "type": "text",
+   "value": "대손상각비",
+   "norm": "대손상각비",
+   "page": 0,
+   "bbox": [
+    130.5,
+    1546.7,
+    217.5,
+    1566.2
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.18.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "2,201,825",
+   "norm": 2201825,
+   "page": 0,
+   "bbox": [
+    536.6,
+    1546.7,
+    606.2,
+    1566.2
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.18.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "828,223",
+   "norm": 828223,
+   "page": 0,
+   "bbox": [
+    876.5,
+    1546.7,
+    933.1,
+    1566.2
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.19.account",
+   "label": "과목",
+   "type": "text",
+   "value": "잡비",
+   "norm": "잡비",
+   "page": 0,
+   "bbox": [
+    130.5,
+    1567.5,
+    165.3,
+    1587.0
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.19.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "1,792,544",
+   "norm": 1792544,
+   "page": 0,
+   "bbox": [
+    536.6,
+    1567.5,
+    606.2,
+    1587.0
+   ],
+   "label_bbox": [
+    452.5,
+    1149.0,
+    779.4,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.19.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "701,706",
+   "norm": 701706,
+   "page": 0,
+   "bbox": [
+    876.5,
+    1567.5,
+    933.1,
+    1587.0
+   ],
+   "label_bbox": [
+    779.4,
+    1149.0,
+    1106.2,
+    1170.5
+   ]
+  },
+  {
+   "key": "income_statement.20.account",
+   "label": "과목",
+   "type": "text",
+   "value": "Ⅴ. 영업이익(손실)",
+   "norm": "Ⅴ. 영업이익(손실)",
+   "page": 1,
+   "bbox": [
+    94.5,
+    97.8,
+    236.5,
+    117.3
+   ],
+   "label_bbox": [
+    543.4,
+    75.6,
+    838.9,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.20.current",
+   "label": "당기",
+   "type": "text",
+   "value": "△5,457,177",
+   "norm": "△5,457,177",
+   "page": 1,
+   "bbox": [
+    742.2,
+    97.8,
+    829.1,
+    117.3
+   ],
+   "label_bbox": [
+    838.9,
+    75.6,
+    1106.2,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.20.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "6,895,688",
+   "norm": 6895688,
+   "page": 1,
+   "bbox": [
+    1026.9,
+    97.8,
+    1096.5,
+    117.3
+   ],
+   "label_bbox": [
+    838.9,
+    52.5,
+    1106.2,
+    75.6
+   ]
+  },
+  {
+   "key": "income_statement.21.account",
+   "label": "과목",
+   "type": "text",
+   "value": "Ⅵ. 영업외수익",
+   "norm": "Ⅵ. 영업외수익",
+   "page": 1,
+   "bbox": [
+    94.5,
+    118.7,
+    207.5,
+    138.2
+   ],
+   "label_bbox": [
+    543.4,
+    75.6,
+    838.9,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.21.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "852,114",
+   "norm": 852114,
+   "page": 1,
+   "bbox": [
+    773.6,
+    118.7,
+    829.1,
+    138.2
+   ],
+   "label_bbox": [
+    838.9,
+    75.6,
+    1106.2,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.21.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "520,209",
+   "norm": 520209,
+   "page": 1,
+   "bbox": [
+    1040.0,
+    118.7,
+    1096.5,
+    138.2
+   ],
+   "label_bbox": [
+    838.9,
+    52.5,
+    1106.2,
+    75.6
+   ]
+  },
+  {
+   "key": "income_statement.22.account",
+   "label": "과목",
+   "type": "text",
+   "value": "이자수익",
+   "norm": "이자수익",
+   "page": 1,
+   "bbox": [
+    130.5,
+    139.5,
+    200.1,
+    159.0
+   ],
+   "label_bbox": [
+    543.4,
+    75.6,
+    838.9,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.22.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "344,797",
+   "norm": 344797,
+   "page": 1,
+   "bbox": [
+    600.2,
+    139.5,
+    656.8,
+    159.0
+   ],
+   "label_bbox": [
+    543.4,
+    75.6,
+    838.9,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.22.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "382,963",
+   "norm": 382963,
+   "page": 1,
+   "bbox": [
+    895.7,
+    139.5,
+    952.2,
+    159.0
+   ],
+   "label_bbox": [
+    838.9,
+    75.6,
+    1106.2,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.23.account",
+   "label": "과목",
+   "type": "text",
+   "value": "잡이익",
+   "norm": "잡이익",
+   "page": 1,
+   "bbox": [
+    130.5,
+    160.4,
+    182.7,
+    179.9
+   ],
+   "label_bbox": [
+    543.4,
+    75.6,
+    838.9,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.23.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "507,317",
+   "norm": 507317,
+   "page": 1,
+   "bbox": [
+    600.2,
+    160.4,
+    656.8,
+    179.9
+   ],
+   "label_bbox": [
+    543.4,
+    75.6,
+    838.9,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.23.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "137,246",
+   "norm": 137246,
+   "page": 1,
+   "bbox": [
+    895.7,
+    160.4,
+    952.2,
+    179.9
+   ],
+   "label_bbox": [
+    838.9,
+    75.6,
+    1106.2,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.24.account",
+   "label": "과목",
+   "type": "text",
+   "value": "Ⅶ. 영업외비용",
+   "norm": "Ⅶ. 영업외비용",
+   "page": 1,
+   "bbox": [
+    94.5,
+    181.3,
+    207.5,
+    200.8
+   ],
+   "label_bbox": [
+    543.4,
+    75.6,
+    838.9,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.24.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "568,202",
+   "norm": 568202,
+   "page": 1,
+   "bbox": [
+    772.6,
+    181.3,
+    829.1,
+    200.8
+   ],
+   "label_bbox": [
+    838.9,
+    75.6,
+    1106.2,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.24.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "414,542",
+   "norm": 414542,
+   "page": 1,
+   "bbox": [
+    1040.0,
+    181.3,
+    1096.5,
+    200.8
+   ],
+   "label_bbox": [
+    838.9,
+    52.5,
+    1106.2,
+    75.6
+   ]
+  },
+  {
+   "key": "income_statement.25.account",
+   "label": "과목",
+   "type": "text",
+   "value": "이자비용",
+   "norm": "이자비용",
+   "page": 1,
+   "bbox": [
+    130.5,
+    202.1,
+    200.1,
+    221.6
+   ],
+   "label_bbox": [
+    543.4,
+    75.6,
+    838.9,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.25.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "423,093",
+   "norm": 423093,
+   "page": 1,
+   "bbox": [
+    600.2,
+    202.1,
+    656.8,
+    221.6
+   ],
+   "label_bbox": [
+    543.4,
+    75.6,
+    838.9,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.25.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "285,585",
+   "norm": 285585,
+   "page": 1,
+   "bbox": [
+    895.7,
+    202.1,
+    952.2,
+    221.6
+   ],
+   "label_bbox": [
+    838.9,
+    75.6,
+    1106.2,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.26.account",
+   "label": "과목",
+   "type": "text",
+   "value": "잡손실",
+   "norm": "잡손실",
+   "page": 1,
+   "bbox": [
+    130.5,
+    223.0,
+    182.7,
+    242.5
+   ],
+   "label_bbox": [
+    543.4,
+    75.6,
+    838.9,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.26.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "145,109",
+   "norm": 145109,
+   "page": 1,
+   "bbox": [
+    600.2,
+    223.0,
+    656.8,
+    242.5
+   ],
+   "label_bbox": [
+    543.4,
+    75.6,
+    838.9,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.26.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "128,957",
+   "norm": 128957,
+   "page": 1,
+   "bbox": [
+    895.7,
+    223.0,
+    952.2,
+    242.5
+   ],
+   "label_bbox": [
+    838.9,
+    75.6,
+    1106.2,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.27.account",
+   "label": "과목",
+   "type": "text",
+   "value": "Ⅷ. 법인세비용차감전순이익(손실)",
+   "norm": "Ⅷ. 법인세비용차감전순이익(손실)",
+   "page": 1,
+   "bbox": [
+    94.5,
+    243.8,
+    358.3,
+    263.3
+   ],
+   "label_bbox": [
+    543.4,
+    75.6,
+    838.9,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.27.current",
+   "label": "당기",
+   "type": "text",
+   "value": "△5,173,265",
+   "norm": "△5,173,265",
+   "page": 1,
+   "bbox": [
+    742.2,
+    243.8,
+    829.1,
+    263.3
+   ],
+   "label_bbox": [
+    838.9,
+    75.6,
+    1106.2,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.27.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "7,001,355",
+   "norm": 7001355,
+   "page": 1,
+   "bbox": [
+    1026.9,
+    243.8,
+    1096.5,
+    263.3
+   ],
+   "label_bbox": [
+    838.9,
+    52.5,
+    1106.2,
+    75.6
+   ]
+  },
+  {
+   "key": "income_statement.28.account",
+   "label": "과목",
+   "type": "text",
+   "value": "Ⅸ. 법인세비용",
+   "norm": "Ⅸ. 법인세비용",
+   "page": 1,
+   "bbox": [
+    94.5,
+    264.7,
+    207.5,
+    284.2
+   ],
+   "label_bbox": [
+    543.4,
+    75.6,
+    838.9,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.28.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "0",
+   "norm": 0,
+   "page": 1,
+   "bbox": [
+    820.4,
+    264.7,
+    829.1,
+    284.2
+   ],
+   "label_bbox": [
+    838.9,
+    75.6,
+    1106.2,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.28.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "620,967",
+   "norm": 620967,
+   "page": 1,
+   "bbox": [
+    1040.0,
+    264.7,
+    1096.5,
+    284.2
+   ],
+   "label_bbox": [
+    838.9,
+    52.5,
+    1106.2,
+    75.6
+   ]
+  },
+  {
+   "key": "income_statement.29.account",
+   "label": "과목",
+   "type": "text",
+   "value": "Ⅹ. 당기순이익(손실)",
+   "norm": "Ⅹ. 당기순이익(손실)",
+   "page": 1,
+   "bbox": [
+    94.5,
+    285.6,
+    253.9,
+    305.1
+   ],
+   "label_bbox": [
+    543.4,
+    75.6,
+    838.9,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.29.current",
+   "label": "당기",
+   "type": "text",
+   "value": "△5,173,265",
+   "norm": "△5,173,265",
+   "page": 1,
+   "bbox": [
+    742.2,
+    285.6,
+    829.1,
+    305.1
+   ],
+   "label_bbox": [
+    838.9,
+    75.6,
+    1106.2,
+    97.1
+   ]
+  },
+  {
+   "key": "income_statement.29.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "6,380,388",
+   "norm": 6380388,
+   "page": 1,
+   "bbox": [
+    1026.9,
+    285.6,
+    1096.5,
+    305.1
+   ],
+   "label_bbox": [
+    838.9,
+    52.5,
+    1106.2,
+    75.6
+   ]
+  },
+  {
+   "key": "appropriation_date_current",
+   "label": "처분일",
+   "type": "text",
+   "value": "처분예정일 2025년 03월 21일",
+   "norm": "처분예정일 2025년 03월 21일",
+   "page": 1,
+   "bbox": [
+    703.6,
+    371.1,
+    934.9,
+    392.1
+   ],
+   "label_bbox": [
+    84.0,
+    327.4,
+    1107.0,
+    368.1
+   ]
+  },
+  {
+   "key": "appropriation_date_prior",
+   "label": "처분일",
+   "type": "text",
+   "value": "처분확정일 2024년 03월 29일",
+   "norm": "처분확정일 2024년 03월 29일",
+   "page": 1,
+   "bbox": [
+    703.6,
+    394.7,
+    934.9,
+    415.7
+   ],
+   "label_bbox": [
+    84.0,
+    327.4,
+    1107.0,
+    368.1
+   ]
+  },
+  {
+   "key": "appropriation.0.account",
+   "label": "과목",
+   "type": "text",
+   "value": "Ⅰ. 미처분이익잉여금",
+   "norm": "Ⅰ. 미처분이익잉여금",
+   "page": 1,
+   "bbox": [
+    94.5,
+    498.6,
+    259.7,
+    518.1
+   ],
+   "label_bbox": [
+    452.5,
+    476.3,
+    794.6,
+    497.8
+   ]
+  },
+  {
+   "key": "appropriation.0.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "2,967,623",
+   "norm": 2967623,
+   "page": 1,
+   "bbox": [
+    715.2,
+    498.6,
+    784.8,
+    518.1
+   ],
+   "label_bbox": [
+    794.6,
+    476.3,
+    1106.2,
+    497.8
+   ]
+  },
+  {
+   "key": "appropriation.0.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "8,140,888",
+   "norm": 8140888,
+   "page": 1,
+   "bbox": [
+    1026.9,
+    498.6,
+    1096.5,
+    518.1
+   ],
+   "label_bbox": [
+    794.6,
+    453.2,
+    1106.2,
+    476.3
+   ]
+  },
+  {
+   "key": "appropriation.1.account",
+   "label": "과목",
+   "type": "text",
+   "value": "전기이월미처분이익잉여금",
+   "norm": "전기이월미처분이익잉여금",
+   "page": 1,
+   "bbox": [
+    130.5,
+    519.4,
+    339.2,
+    538.9
+   ],
+   "label_bbox": [
+    452.5,
+    476.3,
+    794.6,
+    497.8
+   ]
+  },
+  {
+   "key": "appropriation.1.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "8,140,888",
+   "norm": 8140888,
+   "page": 1,
+   "bbox": [
+    559.4,
+    519.4,
+    629.0,
+    538.9
+   ],
+   "label_bbox": [
+    452.5,
+    476.3,
+    794.6,
+    497.8
+   ]
+  },
+  {
+   "key": "appropriation.1.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "1,760,500",
+   "norm": 1760500,
+   "page": 1,
+   "bbox": [
+    871.1,
+    519.4,
+    940.6,
+    538.9
+   ],
+   "label_bbox": [
+    794.6,
+    476.3,
+    1106.2,
+    497.8
+   ]
+  },
+  {
+   "key": "appropriation.2.account",
+   "label": "과목",
+   "type": "text",
+   "value": "당기순이익(손실)",
+   "norm": "당기순이익(손실)",
+   "page": 1,
+   "bbox": [
+    130.5,
+    540.3,
+    263.8,
+    559.8
+   ],
+   "label_bbox": [
+    452.5,
+    476.3,
+    794.6,
+    497.8
+   ]
+  },
+  {
+   "key": "appropriation.2.current",
+   "label": "당기",
+   "type": "text",
+   "value": "△5,173,265",
+   "norm": "△5,173,265",
+   "page": 1,
+   "bbox": [
+    542.0,
+    540.3,
+    629.0,
+    559.8
+   ],
+   "label_bbox": [
+    452.5,
+    476.3,
+    794.6,
+    497.8
+   ]
+  },
+  {
+   "key": "appropriation.2.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "6,380,388",
+   "norm": 6380388,
+   "page": 1,
+   "bbox": [
+    871.1,
+    540.3,
+    940.6,
+    559.8
+   ],
+   "label_bbox": [
+    794.6,
+    476.3,
+    1106.2,
+    497.8
+   ]
+  },
+  {
+   "key": "appropriation.3.account",
+   "label": "과목",
+   "type": "text",
+   "value": "Ⅱ. 이익잉여금처분액",
+   "norm": "Ⅱ. 이익잉여금처분액",
+   "page": 1,
+   "bbox": [
+    94.5,
+    561.1,
+    259.7,
+    580.6
+   ],
+   "label_bbox": [
+    452.5,
+    476.3,
+    794.6,
+    497.8
+   ]
+  },
+  {
+   "key": "appropriation.3.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "0",
+   "norm": 0,
+   "page": 1,
+   "bbox": [
+    776.1,
+    561.1,
+    784.8,
+    580.6
+   ],
+   "label_bbox": [
+    794.6,
+    476.3,
+    1106.2,
+    497.8
+   ]
+  },
+  {
+   "key": "appropriation.3.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "0",
+   "norm": 0,
+   "page": 1,
+   "bbox": [
+    1087.8,
+    561.1,
+    1096.5,
+    580.6
+   ],
+   "label_bbox": [
+    794.6,
+    453.2,
+    1106.2,
+    476.3
+   ]
+  },
+  {
+   "key": "appropriation.4.account",
+   "label": "과목",
+   "type": "text",
+   "value": "Ⅲ. 차기이월미처분이익잉여금",
+   "norm": "Ⅲ. 차기이월미처분이익잉여금",
+   "page": 1,
+   "bbox": [
+    94.5,
+    582.0,
+    329.3,
+    601.5
+   ],
+   "label_bbox": [
+    452.5,
+    476.3,
+    794.6,
+    497.8
+   ]
+  },
+  {
+   "key": "appropriation.4.current",
+   "label": "당기",
+   "type": "amount",
+   "value": "2,967,623",
+   "norm": 2967623,
+   "page": 1,
+   "bbox": [
+    715.2,
+    582.0,
+    784.8,
+    601.5
+   ],
+   "label_bbox": [
+    794.6,
+    476.3,
+    1106.2,
+    497.8
+   ]
+  },
+  {
+   "key": "appropriation.4.prior",
+   "label": "전기",
+   "type": "number",
+   "value": "8,140,888",
+   "norm": 8140888,
+   "page": 1,
+   "bbox": [
+    1026.9,
+    582.0,
+    1096.5,
+    601.5
+   ],
+   "label_bbox": [
+    794.6,
+    453.2,
+    1106.2,
+    476.3
+   ]
+  },
+  {
+   "key": "certify_date",
+   "label": "확인일",
+   "type": "date",
+   "value": "2025년 11월 28일",
+   "norm": "2025-11-28",
+   "page": 1,
+   "bbox": [
+    530.6,
+    670.9,
+    660.4,
+    690.4
+   ]
+  },
+  {
+   "key": "ceo",
+   "label": "대표이사",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 1,
+   "bbox": [
+    641.0,
+    740.0,
+    693.1,
+    759.5
+   ]
+  },
+  {
+   "key": "seal.corp",
+   "label": "법인인감",
+   "type": "seal",
+   "value": "주식회사 새한소프트 대표이사인",
+   "present": true,
+   "kind": "법인인감",
+   "page": 1,
+   "bbox": [
+    691.3,
+    696.8,
+    799.7,
+    805.2
+   ]
+  }
+ ]
+}

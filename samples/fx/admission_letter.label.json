@@ -1,0 +1,307 @@
+{
+ "images": [
+  "fx/admission_letter.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "university.name",
+   "label": "University",
+   "type": "text",
+   "value": "Westlake State University",
+   "norm": "Westlake State University",
+   "page": 0,
+   "bbox": [
+    216.0,
+    91.5,
+    647.2,
+    132.0
+   ]
+  },
+  {
+   "key": "university.office",
+   "label": "Office",
+   "type": "text",
+   "value": "Office of Admissions",
+   "norm": "Office of Admissions",
+   "page": 0,
+   "bbox": [
+    216.0,
+    141.8,
+    367.1,
+    162.8
+   ]
+  },
+  {
+   "key": "university.address",
+   "label": "UniversityAddress",
+   "type": "text",
+   "value": "1800 Lakeview Dr, Seattle, WA 98105, USA",
+   "norm": "1800 Lakeview Dr, Seattle, WA 98105, USA",
+   "page": 0,
+   "bbox": [
+    381.8,
+    141.8,
+    698.8,
+    162.8
+   ]
+  },
+  {
+   "key": "university.email",
+   "label": "Email",
+   "type": "text",
+   "value": "admissions@westlakestate.edu",
+   "norm": "admissions@westlakestate.edu",
+   "page": 0,
+   "bbox": [
+    216.0,
+    168.3,
+    435.3,
+    189.3
+   ]
+  },
+  {
+   "key": "letter_date",
+   "label": "Date",
+   "type": "date",
+   "value": "September 19, 2025",
+   "norm": "2025-09-19",
+   "page": 0,
+   "bbox": [
+    913.9,
+    248.8,
+    1086.0,
+    272.8
+   ]
+  },
+  {
+   "key": "student.name",
+   "label": "StudentName",
+   "type": "text",
+   "value": "Soyun Kim",
+   "norm": "Soyun Kim",
+   "page": 0,
+   "bbox": [
+    105.0,
+    308.0,
+    203.3,
+    332.0
+   ]
+  },
+  {
+   "key": "student.address",
+   "label": "StudentAddress",
+   "type": "text",
+   "value": "Apt. 114-1401, 75 Naebang-ro, Seo-gu, Gwangju 61092, Korea",
+   "norm": "Apt. 114-1401, 75 Naebang-ro, Seo-gu, Gwangju 61092, Korea",
+   "page": 0,
+   "bbox": [
+    105.0,
+    341.6,
+    555.5,
+    362.6
+   ]
+  },
+  {
+   "key": "term",
+   "label": "TermofEntry",
+   "type": "text",
+   "value": "Spring 2026",
+   "norm": "Spring 2026",
+   "page": 0,
+   "bbox": [
+    923.2,
+    538.9,
+    1034.7,
+    562.9
+   ]
+  },
+  {
+   "key": "student.birth",
+   "label": "DateofBirth",
+   "type": "date",
+   "value": "21 NOV 1990",
+   "norm": "1990-11-21",
+   "page": 0,
+   "bbox": [
+    473.3,
+    684.8,
+    594.5,
+    708.8
+   ],
+   "label_bbox": [
+    164.6,
+    670.6,
+    457.6,
+    725.2
+   ]
+  },
+  {
+   "key": "student.nationality",
+   "label": "Citizenship",
+   "type": "text",
+   "value": "Republic of Korea",
+   "norm": "Republic of Korea",
+   "page": 0,
+   "bbox": [
+    473.3,
+    739.5,
+    631.8,
+    763.5
+   ],
+   "label_bbox": [
+    164.6,
+    725.2,
+    457.6,
+    779.9
+   ]
+  },
+  {
+   "key": "student.id",
+   "label": "StudentID",
+   "type": "text",
+   "value": "N42700432",
+   "norm": "N42700432",
+   "page": 0,
+   "bbox": [
+    473.3,
+    794.2,
+    574.6,
+    818.2
+   ],
+   "label_bbox": [
+    164.6,
+    779.9,
+    457.6,
+    834.6
+   ]
+  },
+  {
+   "key": "program",
+   "label": "Program",
+   "type": "text",
+   "value": "Data Science",
+   "norm": "Data Science",
+   "page": 0,
+   "bbox": [
+    473.3,
+    848.8,
+    585.9,
+    872.8
+   ],
+   "label_bbox": [
+    164.6,
+    834.6,
+    457.6,
+    889.2
+   ]
+  },
+  {
+   "key": "degree",
+   "label": "Degree",
+   "type": "text",
+   "value": "Master of Science (M.S.)",
+   "norm": "Master of Science (M.S.)",
+   "page": 0,
+   "bbox": [
+    473.3,
+    903.5,
+    689.5,
+    927.5
+   ],
+   "label_bbox": [
+    164.6,
+    889.2,
+    457.6,
+    943.9
+   ]
+  },
+  {
+   "key": "start_date",
+   "label": "ClassesBegin",
+   "type": "date",
+   "value": "January 13, 2026",
+   "norm": "2026-01-13",
+   "page": 0,
+   "bbox": [
+    473.3,
+    958.1,
+    620.5,
+    982.1
+   ],
+   "label_bbox": [
+    164.6,
+    943.9,
+    457.6,
+    998.5
+   ]
+  },
+  {
+   "key": "duration",
+   "label": "Duration",
+   "type": "text",
+   "value": "2 years (full-time)",
+   "norm": "2 years (full-time)",
+   "page": 0,
+   "bbox": [
+    473.3,
+    1012.8,
+    629.4,
+    1036.8
+   ],
+   "label_bbox": [
+    164.6,
+    998.5,
+    457.6,
+    1053.2
+   ]
+  },
+  {
+   "key": "deposit_deadline",
+   "label": "DepositDeadline",
+   "type": "date",
+   "value": "October 26, 2025",
+   "norm": "2025-10-26",
+   "page": 0,
+   "bbox": [
+    276.9,
+    1110.1,
+    434.0,
+    1134.1
+   ]
+  },
+  {
+   "key": "signer",
+   "label": "Signedby",
+   "type": "text",
+   "value": "David L. Morgan",
+   "norm": "David L. Morgan",
+   "page": 0,
+   "bbox": [
+    105.0,
+    1458.2,
+    264.1,
+    1482.2
+   ]
+  },
+  {
+   "key": "signer_title",
+   "label": "Title",
+   "type": "text",
+   "value": "Director of Admissions",
+   "norm": "Director of Admissions",
+   "page": 0,
+   "bbox": [
+    105.0,
+    1490.3,
+    305.2,
+    1514.3
+   ]
+  }
+ ]
+}

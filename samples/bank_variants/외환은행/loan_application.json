@@ -28,14 +28,14 @@
    "lender": "KB국민카드",
    "kind": "카드론",
    "balance": "25,600,000",
-   "maturity": "2018.08.21",
+   "maturity": "2018.04.21",
    "refinance": "유지"
   },
   {
-   "lender": "신한은행",
-   "kind": "학자금대출",
-   "balance": "15,800,000",
-   "maturity": "2017.08.21",
+   "lender": "신한카드",
+   "kind": "카드론",
+   "balance": "21,900,000",
+   "maturity": "2018.12.24",
    "refinance": "유지"
   }
  ],
@@ -49,7 +49,7 @@
  "loan": {
   "subject": "전세자금대출",
   "product": "전세자금대출",
-  "amount_korean": "일금 이억칠천이백만원정",
+  "amount_korean": "금 이억칠천이백만원整",
   "amount": "272,000,000",
   "term": "2년",
   "hope_date": "2014년 08월 29일",
@@ -67,5 +67,11 @@
  "manual_received": "예",
  "consent": "동의함",
  "apply_date": "2014년 08월 21일",
- "signature": "김소윤"
+ "signature": "김소윤",
+ "seal": {
+  "applicant": true
+ },
+ "sign": {
+  "applicant": false
+ }
 }

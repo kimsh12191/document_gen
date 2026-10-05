@@ -1,6 +1,6 @@
 {
  "document_type": "재직증명서",
- "doc_no": "제250744호",
+ "doc_no": "제250684호",
  "employee": {
   "name": "김소윤",
   "rrn": "901121-2******",
@@ -21,5 +21,8 @@
  },
  "purpose": "금융기관 제출용",
  "submit_to": "농협은행",
- "issue_date": "2025년 11월 29일"
+ "issue_date": "2025년 11월 29일",
+ "seal": {
+  "company": true
+ }
 }

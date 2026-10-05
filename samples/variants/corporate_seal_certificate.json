@@ -1,0 +1,20 @@
+{
+ "document_type": "법인인감증명서",
+ "issue_no": "4289-4344-9676-5750",
+ "reg_no": "147900",
+ "seal": {
+  "registered": true,
+  "issuer": true
+ },
+ "corp_reg_no": "135012-6946558",
+ "company_name": "주식회사 새한소프트",
+ "head_office": "서울특별시 영등포구 국제금융로 22-7, 8층 (당산동, 동방프라자)",
+ "rep_title": "대표이사",
+ "rep_name": "김소윤",
+ "rep_rrn": "901121-2******",
+ "purpose": null,
+ "issue_date": "2025년 11월 24일",
+ "issue_office": "법원행정처 등기정보중앙관리소",
+ "fee": "500원",
+ "confirm_no": "4MQ1-G5EV-9ZC7"
+}

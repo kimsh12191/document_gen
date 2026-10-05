@@ -1,33 +1,26 @@
 {
  "document_type": "주민등록표 등본",
- "doc_no": "6096-5342-8546-9819",
+ "doc_no": "제 5177 호",
+ "officer": "이원연",
+ "officer_phone": "062-497-9313",
  "applicant": "김소윤",
- "purpose": "은행 제출",
+ "purpose": "금융기관제출",
  "issue_date": "2025년 11월 29일",
  "issuer": "광주광역시 서구청장",
+ "seal": {
+  "issuer": true
+ },
  "household_head": {
   "name": "김소윤",
   "name_hanja": "金素允"
  },
  "household_formed": {
-  "reason": "세대합가",
+  "reason": "전입세대구성",
   "date": "2024-02-09"
  },
  "past_addresses": [
   {
    "no": "1",
-   "address": "서울특별시 영등포구 여의도동 1394 404호",
-   "moved_in": "2009-03-01",
-   "reason": "전입"
-  },
-  {
-   "no": "2",
-   "address": "서울특별시 서초구 서초대로 69, 101호 (반포동, 빌라)",
-   "moved_in": "2015-05-21",
-   "reason": "전입"
-  },
-  {
-   "no": "3",
    "address": "인천광역시 연수구 청능대로 73, 116동 401호 (송도동, e편한세상리버뷰)",
    "moved_in": "2017-11-25",
    "reason": "전입"

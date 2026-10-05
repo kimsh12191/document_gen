@@ -37,5 +37,11 @@
  "explained": "예",
  "handwritten": "충분히 설명듣고 이해함",
  "contract_date": "2017년 1월 22일",
- "signature": "김소윤"
+ "signature": "김소윤",
+ "seal": {
+  "debtor": false
+ },
+ "sign": {
+  "debtor": true
+ }
 }

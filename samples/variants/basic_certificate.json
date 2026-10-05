@@ -1,0 +1,45 @@
+{
+ "document_type": "기본증명서",
+ "cert_type": "상세",
+ "reg_base": "서울특별시 마포구 서교동 159",
+ "self": {
+  "relation": "본인",
+  "name": "김소윤",
+  "name_hanja": "金素允",
+  "birth": "1990년 11월 21일",
+  "rrn": "901121-2******",
+  "gender": "여",
+  "bon": "安東"
+ },
+ "birth": {
+  "place": "중국 길림성 용정시"
+ },
+ "naturalization": {
+  "acquired": "2009년 01월 13일",
+  "reason": "귀화허가",
+  "prev_nationality": "중국",
+  "notified": "2009년 01월 28일",
+  "notifier": "법무부장관"
+ },
+ "name_change": {
+  "permitted": "2014년 07월 31일",
+  "court": "광주가정법원",
+  "old_name": "김영예",
+  "reported": "2014년 08월 10일"
+ },
+ "correction": {
+  "permitted": "2024년 02월 29일",
+  "court": "광주가정법원",
+  "content": "성별 남 → 여",
+  "reported": "2024년 03월 09일"
+ },
+ "issue_date": "2025년 11월 29일",
+ "issuer": "광주광역시 서구청장",
+ "seal": {
+  "issuer": true
+ },
+ "issue_time": "15시 21분",
+ "officer": "정민승",
+ "officer_phone": "062-483-9961",
+ "applicant": "김소윤"
+}

@@ -35,6 +35,16 @@
  "protection_limit": "1억원",
  "signature": "김소윤",
  "date": "2025.11.29",
+ "seal": {
+  "applicant": false,
+  "staff": {
+   "clerk": true,
+   "manager": true
+  }
+ },
+ "sign": {
+  "applicant": true
+ },
  "bank_use": {
   "account_no": "895-211325-33039",
   "branch": "분당지점",

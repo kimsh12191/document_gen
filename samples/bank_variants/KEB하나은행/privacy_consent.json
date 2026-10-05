@@ -34,12 +34,21 @@
   "collect": "동의하지 않음",
   "provide": "동의하지 않음"
  },
- "date": "2017년 1월 15일",
+ "date": "2017년 01월 15일",
  "applicant": {
-  "birth": "1982.11.21",
+  "birth": "1982년 11월 21일",
   "name": "김소윤"
  },
+ "seal": {
+  "applicant": true,
+  "staff": {
+   "clerk": true
+  }
+ },
+ "sign": {
+  "applicant": false
+ },
  "bank_use": {
-  "clerk": "류호승"
+  "clerk": "천유승"
  }
 }

@@ -6,9 +6,9 @@
   "name": "주식회사 새한소프트",
   "name_en": "Saehan Soft Co., Ltd.",
   "biz_no": "530-82-09978",
-  "corp_no": "135012-6946558",
+  "corp_reg_no": "135012-6946558",
   "ceo": "김소윤",
-  "established": "2010.12.08",
+  "established": "2010년 12월 08일",
   "industry": "정보통신업 / 응용소프트웨어 개발",
   "employees": "308명",
   "size": "중소기업",
@@ -42,12 +42,21 @@
  },
  "other_loans": [
   {
+   "lender": "국민은행",
+   "kind": "구매자금대출",
+   "balance": "1,000",
+   "collateral": "신용"
+  },
+  {
    "lender": "산업은행",
-   "kind": "당좌대출",
-   "balance": "2,350",
-   "collateral": "예금"
+   "kind": "구매자금대출",
+   "balance": "1,380",
+   "collateral": "신용"
   }
  ],
- "apply_date": "2014년 8월 21일",
- "signature": "김소윤"
+ "apply_date": "2014년 08월 21일",
+ "signature": "김소윤",
+ "seal": {
+  "corp": true
+ }
 }

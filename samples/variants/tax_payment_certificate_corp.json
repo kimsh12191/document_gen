@@ -1,0 +1,32 @@
+{
+ "document_type": "납세증명서(법인)",
+ "issue_no": "8255-539-8797-253",
+ "taxpayer": {
+  "corp_name": "주식회사 새한소프트",
+  "biz_no": "530-82-09978",
+  "ceo": "김소윤",
+  "corp_reg_no": "135012-6946558",
+  "address": "서울특별시 영등포구 국제금융로 22-7, 8층 (당산동, 동방프라자)"
+ },
+ "valid_period": "2025년 11월 29일 ~ 2025년 12월 28일",
+ "valid_reason": null,
+ "purpose_type": "기타",
+ "purpose": "금융기관 제출",
+ "payer": null,
+ "deferrals": [
+  {
+   "kind": "납부기한등 연장",
+   "period": "2025.09.11 ~ 2026.09.10",
+   "tax_period": "2025년 8월",
+   "tax_item": "원천세",
+   "due": "2025.09.10",
+   "amount": "4,599,610"
+  }
+ ],
+ "arrears": "없음",
+ "issue_date": "2025년 11월 29일",
+ "issuer": "영등포세무서장",
+ "seal": {
+  "issuer": true
+ }
+}

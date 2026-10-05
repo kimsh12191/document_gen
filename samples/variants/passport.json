@@ -1,0 +1,19 @@
+{
+ "document_type": "여권",
+ "type": "PS",
+ "country_code": "KOR",
+ "passport_no": "S068K6269",
+ "surname": "KIM",
+ "given_names": "SOYUN",
+ "name_korean": "김소윤",
+ "nationality": "REPUBLIC OF KOREA",
+ "birth": "21 11월/NOV 1990",
+ "gender": "F",
+ "date_of_issue": "09 2월/FEB 2025",
+ "date_of_expiry": "09 2월/FEB 2026",
+ "authority": "외교부/MINISTRY OF FOREIGN AFFAIRS",
+ "mrz": {
+  "line1": "PSKORKIM<<SOYUN<<<<<<<<<<<<<<<<<<<<<<<<<<<<<",
+  "line2": "S068K62695KOR9011218F2602095<<<<<<<<<<<<<<<8"
+ }
+}

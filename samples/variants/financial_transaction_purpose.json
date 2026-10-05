@@ -1,0 +1,40 @@
+{
+ "document_type": "금융거래목적확인서",
+ "bank": {
+  "name": "농협은행"
+ },
+ "customer": {
+  "name": "존 밀러",
+  "nationality": "미국",
+  "rrn": "911019-5509482",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+  "mobile": "010-9776-2504",
+  "job": "급여소득자",
+  "company": "(주)새한소프트"
+ },
+ "account_type": "보통예금",
+ "purpose": "급여계좌",
+ "evidence": null,
+ "questions": {
+  "q1": "아니오",
+  "q2": null,
+  "q3": "예"
+ },
+ "date": "2025년 11월 29일",
+ "signature": "존 밀러",
+ "seal": {
+  "customer": true,
+  "staff": {
+   "clerk": true,
+   "manager": true
+  }
+ },
+ "sign": {
+  "customer": false
+ },
+ "bank_use": {
+  "result": "금융거래한도계좌 개설",
+  "clerk": "제갈환도",
+  "manager": "도숙빈"
+ }
+}

@@ -1,0 +1,1368 @@
+{
+ "images": [
+  "variants/bill_of_lading_p1.jpg",
+  "variants/bill_of_lading_p2.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "shipper.name",
+   "label": "Shipper",
+   "type": "text",
+   "value": "Tokyo Seimitsu Kogyo K.K.",
+   "norm": "Tokyo Seimitsu Kogyo K.K.",
+   "page": 0,
+   "bbox": [
+    67.5,
+    71.4,
+    243.5,
+    87.9
+   ],
+   "label_bbox": [
+    67.5,
+    57.0,
+    630.2,
+    71.4
+   ]
+  },
+  {
+   "key": "shipper.address",
+   "label": "ShipperAddress",
+   "type": "text",
+   "value": "2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN",
+   "norm": "2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN",
+   "page": 0,
+   "bbox": [
+    67.5,
+    90.8,
+    431.9,
+    107.2
+   ]
+  },
+  {
+   "key": "booking_no",
+   "label": "BookingNo",
+   "type": "text",
+   "value": "BASL8527401",
+   "norm": "BASL8527401",
+   "page": 0,
+   "bbox": [
+    646.7,
+    78.9,
+    736.4,
+    95.4
+   ],
+   "label_bbox": [
+    646.7,
+    64.5,
+    736.4,
+    78.9
+   ]
+  },
+  {
+   "key": "bl_no",
+   "label": "B/LNo",
+   "type": "text",
+   "value": "BASLJP55477018",
+   "norm": "BASLJP55477018",
+   "page": 0,
+   "bbox": [
+    968.4,
+    72.9,
+    1123.5,
+    95.4
+   ],
+   "label_bbox": [
+    968.4,
+    57.0,
+    1123.5,
+    71.4
+   ]
+  },
+  {
+   "key": "carrier",
+   "label": "Carrier",
+   "type": "text",
+   "value": "BLUE ANCHOR SHIPPING LTD.",
+   "norm": "BLUE ANCHOR SHIPPING LTD.",
+   "page": 0,
+   "bbox": [
+    682.2,
+    105.8,
+    1087.9,
+    134.2
+   ]
+  },
+  {
+   "key": "forwarder",
+   "label": "ForwardingAgent",
+   "type": "text",
+   "value": "Daon Logistics Co., Ltd.",
+   "norm": "Daon Logistics Co., Ltd.",
+   "page": 0,
+   "bbox": [
+    646.7,
+    313.2,
+    793.2,
+    329.7
+   ]
+  },
+  {
+   "key": "consignee.name",
+   "label": "Consignee",
+   "type": "text",
+   "value": "TO ORDER OF NONGHYUP BANK",
+   "norm": "TO ORDER OF NONGHYUP BANK",
+   "page": 0,
+   "bbox": [
+    67.5,
+    166.1,
+    305.3,
+    182.6
+   ],
+   "label_bbox": [
+    67.5,
+    151.6,
+    630.2,
+    166.1
+   ]
+  },
+  {
+   "key": "notify.name",
+   "label": "NotifyParty",
+   "type": "text",
+   "value": "SAEHAN SOFT CO., LTD.",
+   "norm": "SAEHAN SOFT CO., LTD.",
+   "page": 0,
+   "bbox": [
+    67.5,
+    230.2,
+    241.2,
+    246.7
+   ],
+   "label_bbox": [
+    67.5,
+    215.8,
+    630.2,
+    230.2
+   ]
+  },
+  {
+   "key": "notify.address",
+   "label": "NotifyPartyAddress",
+   "type": "text",
+   "value": "8F, DONGBANG PLAZA, 22-7 GUKJEGEUMYUNG-RO, YEONGDEUNGPO-GU, SEOUL 07028, KOREA",
+   "norm": "8F, DONGBANG PLAZA, 22-7 GUKJEGEUMYUNG-RO, YEONGDEUNGPO-GU, SEOUL 07028, KOREA",
+   "page": 0,
+   "bbox": [
+    67.5,
+    249.5,
+    582.1,
+    285.3
+   ]
+  },
+  {
+   "key": "pre_carriage",
+   "label": "Pre-carriageby",
+   "type": "text",
+   "value": "TRUCK",
+   "norm": "TRUCK",
+   "page": 0,
+   "bbox": [
+    67.5,
+    354.5,
+    117.7,
+    371.0
+   ],
+   "label_bbox": [
+    67.5,
+    340.0,
+    340.2,
+    354.5
+   ]
+  },
+  {
+   "key": "place_of_receipt",
+   "label": "PlaceofReceipt",
+   "type": "text",
+   "value": "TOKYO CY",
+   "norm": "TOKYO CY",
+   "page": 0,
+   "bbox": [
+    356.7,
+    354.5,
+    432.6,
+    371.0
+   ],
+   "label_bbox": [
+    356.7,
+    340.0,
+    630.2,
+    354.5
+   ]
+  },
+  {
+   "key": "origin",
+   "label": "PointandCountryofOrigin",
+   "type": "text",
+   "value": "JAPAN",
+   "norm": "JAPAN",
+   "page": 0,
+   "bbox": [
+    646.7,
+    354.5,
+    691.4,
+    371.0
+   ],
+   "label_bbox": [
+    646.7,
+    340.0,
+    1123.5,
+    354.5
+   ]
+  },
+  {
+   "key": "vessel_voyage",
+   "label": "OceanVessel/VoyNo",
+   "type": "text",
+   "value": "STAR PIONEER 079N",
+   "norm": "STAR PIONEER 079N",
+   "page": 0,
+   "bbox": [
+    67.5,
+    395.7,
+    207.0,
+    412.2
+   ],
+   "label_bbox": [
+    67.5,
+    381.3,
+    340.2,
+    395.7
+   ]
+  },
+  {
+   "key": "port_of_loading",
+   "label": "PortofLoading",
+   "type": "text",
+   "value": "TOKYO, JAPAN",
+   "norm": "TOKYO, JAPAN",
+   "page": 0,
+   "bbox": [
+    356.7,
+    395.7,
+    460.4,
+    412.2
+   ],
+   "label_bbox": [
+    356.7,
+    381.3,
+    630.2,
+    395.7
+   ]
+  },
+  {
+   "key": "port_of_discharge",
+   "label": "PortofDischarge",
+   "type": "text",
+   "value": "BUSAN, KOREA",
+   "norm": "BUSAN, KOREA",
+   "page": 0,
+   "bbox": [
+    67.5,
+    437.0,
+    176.2,
+    453.5
+   ],
+   "label_bbox": [
+    67.5,
+    422.5,
+    340.2,
+    437.0
+   ]
+  },
+  {
+   "key": "place_of_delivery",
+   "label": "PlaceofDelivery",
+   "type": "text",
+   "value": "BUSAN CY",
+   "norm": "BUSAN CY",
+   "page": 0,
+   "bbox": [
+    356.7,
+    437.0,
+    431.2,
+    453.5
+   ],
+   "label_bbox": [
+    356.7,
+    422.5,
+    630.2,
+    437.0
+   ]
+  },
+  {
+   "key": "marks",
+   "label": "MarksandNumbers",
+   "type": "text",
+   "value": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-6844\nMADE IN JAPAN",
+   "norm": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-6844\nMADE IN JAPAN",
+   "page": 0,
+   "bbox": [
+    67.5,
+    553.8,
+    178.9,
+    628.2
+   ],
+   "label_bbox": [
+    58.5,
+    463.0,
+    316.2,
+    499.4
+   ]
+  },
+  {
+   "key": "container_count",
+   "label": "No.ofContainers",
+   "type": "text",
+   "value": "4 X 40'HC",
+   "norm": "4 X 40'HC",
+   "page": 0,
+   "bbox": [
+    348.9,
+    503.2,
+    412.5,
+    519.7
+   ],
+   "label_bbox": [
+    316.2,
+    463.0,
+    445.1,
+    499.4
+   ]
+  },
+  {
+   "key": "packages",
+   "label": "No.ofPackages",
+   "type": "text",
+   "value": "6,844 CTNS",
+   "norm": "6,844 CTNS",
+   "page": 0,
+   "bbox": [
+    343.2,
+    541.8,
+    418.1,
+    558.3
+   ],
+   "label_bbox": [
+    316.2,
+    463.0,
+    445.1,
+    499.4
+   ]
+  },
+  {
+   "key": "description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%  402,800,000 PCS\nBoard-to-Board Connector 0.5mm Pitch 40P  4,426,000 PCS\nLi-ion Battery Cell 18650 3.6V 3000mAh  241,200 PCS",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%  402,800,000 PCS\nBoard-to-Board Connector 0.5mm Pitch 40P  4,426,000 PCS\nLi-ion Battery Cell 18650 3.6V 3000mAh  241,200 PCS",
+   "page": 0,
+   "bbox": [
+    453.4,
+    541.8,
+    836.5,
+    596.9
+   ],
+   "label_bbox": [
+    445.1,
+    463.0,
+    874.7,
+    499.4
+   ]
+  },
+  {
+   "key": "lc_no",
+   "label": "L/CNo",
+   "type": "text",
+   "value": "M92342511NU19306",
+   "norm": "M92342511NU19306",
+   "page": 0,
+   "bbox": [
+    516.7,
+    608.7,
+    647.0,
+    625.2
+   ],
+   "label_bbox": [
+    445.1,
+    463.0,
+    874.7,
+    499.4
+   ]
+  },
+  {
+   "key": "freight",
+   "label": "Freight",
+   "type": "text",
+   "value": "FREIGHT COLLECT",
+   "norm": "FREIGHT COLLECT",
+   "page": 0,
+   "bbox": [
+    453.4,
+    674.3,
+    597.5,
+    690.8
+   ],
+   "label_bbox": [
+    445.1,
+    463.0,
+    874.7,
+    499.4
+   ]
+  },
+  {
+   "key": "gross_weight",
+   "label": "GrossWeight",
+   "type": "text",
+   "value": "64,335.60 KGS",
+   "norm": "64,335.60 KGS",
+   "page": 0,
+   "bbox": [
+    902.7,
+    503.2,
+    995.3,
+    519.7
+   ],
+   "label_bbox": [
+    874.7,
+    463.0,
+    1003.6,
+    499.4
+   ]
+  },
+  {
+   "key": "measurement",
+   "label": "Measurement",
+   "type": "text",
+   "value": "208.335 CBM",
+   "norm": "208.335 CBM",
+   "page": 0,
+   "bbox": [
+    1038.7,
+    503.2,
+    1123.5,
+    519.7
+   ],
+   "label_bbox": [
+    1003.6,
+    463.0,
+    1132.5,
+    499.4
+   ]
+  },
+  {
+   "key": "total_words",
+   "label": "TotalNumberinWords",
+   "type": "text",
+   "value": "SAY: FOUR (4) CONTAINERS ONLY",
+   "norm": "SAY: FOUR (4) CONTAINERS ONLY",
+   "page": 0,
+   "bbox": [
+    453.4,
+    1045.4,
+    698.4,
+    1061.9
+   ]
+  },
+  {
+   "key": "freight_payable_at",
+   "label": "FreightPayableat",
+   "type": "text",
+   "value": "BUSAN",
+   "norm": "BUSAN",
+   "page": 0,
+   "bbox": [
+    720.7,
+    1097.2,
+    770.9,
+    1113.7
+   ],
+   "label_bbox": [
+    638.4,
+    1071.5,
+    853.2,
+    1093.4
+   ]
+  },
+  {
+   "key": "issue_place",
+   "label": "PlaceofIssue",
+   "type": "text",
+   "value": "TOKYO",
+   "norm": "TOKYO",
+   "page": 0,
+   "bbox": [
+    966.7,
+    1097.2,
+    1018.3,
+    1113.7
+   ],
+   "label_bbox": [
+    853.2,
+    1071.5,
+    1132.5,
+    1093.4
+   ]
+  },
+  {
+   "key": "issue_date",
+   "label": "DateofIssue",
+   "type": "date",
+   "value": "09 NOV 2025",
+   "norm": "2025-11-09",
+   "page": 0,
+   "bbox": [
+    950.6,
+    1116.5,
+    1034.3,
+    1133.0
+   ],
+   "label_bbox": [
+    853.2,
+    1071.5,
+    1132.5,
+    1093.4
+   ]
+  },
+  {
+   "key": "originals",
+   "label": "NumberofOriginalB/L",
+   "type": "text",
+   "value": "THREE (3)",
+   "norm": "THREE (3)",
+   "page": 0,
+   "bbox": [
+    67.5,
+    1157.7,
+    140.3,
+    1174.2
+   ],
+   "label_bbox": [
+    58.5,
+    1071.5,
+    380.7,
+    1093.4
+   ]
+  },
+  {
+   "key": "on_board_date",
+   "label": "OnBoardDate",
+   "type": "date",
+   "value": "09 NOV 2025",
+   "norm": "2025-11-09",
+   "page": 0,
+   "bbox": [
+    517.8,
+    1157.7,
+    602.3,
+    1174.2
+   ],
+   "label_bbox": [
+    509.6,
+    1071.5,
+    638.4,
+    1093.4
+   ]
+  },
+  {
+   "key": "charges.0.name",
+   "label": "Charge",
+   "type": "text",
+   "value": "OCEAN FREIGHT",
+   "norm": "OCEAN FREIGHT",
+   "page": 0,
+   "bbox": [
+    67.5,
+    1266.9,
+    184.8,
+    1283.4
+   ],
+   "label_bbox": [
+    58.5,
+    1241.2,
+    466.6,
+    1263.1
+   ]
+  },
+  {
+   "key": "charges.0.quantity",
+   "label": "RevenueTons",
+   "type": "number",
+   "value": "4.00",
+   "norm": 4.0,
+   "page": 0,
+   "bbox": [
+    550.6,
+    1266.9,
+    576.5,
+    1283.4
+   ],
+   "label_bbox": [
+    466.6,
+    1241.2,
+    584.8,
+    1263.1
+   ]
+  },
+  {
+   "key": "charges.0.rate",
+   "label": "Rate",
+   "type": "number",
+   "value": "1,200.00",
+   "norm": 1200.0,
+   "page": 0,
+   "bbox": [
+    642.8,
+    1266.9,
+    694.6,
+    1283.4
+   ],
+   "label_bbox": [
+    584.8,
+    1241.2,
+    702.9,
+    1263.1
+   ]
+  },
+  {
+   "key": "charges.0.per",
+   "label": "Per",
+   "type": "text",
+   "value": "CNTR",
+   "norm": "CNTR",
+   "page": 0,
+   "bbox": [
+    741.0,
+    1266.9,
+    780.5,
+    1283.4
+   ],
+   "label_bbox": [
+    702.9,
+    1241.2,
+    788.8,
+    1263.1
+   ]
+  },
+  {
+   "key": "charges.0.collect",
+   "label": "Collect",
+   "type": "amount",
+   "value": "USD 4,800.00",
+   "norm": 4800.0,
+   "page": 0,
+   "bbox": [
+    1038.3,
+    1266.9,
+    1123.5,
+    1283.4
+   ],
+   "label_bbox": [
+    960.6,
+    1241.2,
+    1132.5,
+    1263.1
+   ]
+  },
+  {
+   "key": "charges.1.name",
+   "label": "Charge",
+   "type": "text",
+   "value": "BUNKER ADJUSTMENT FACTOR (BAF)",
+   "norm": "BUNKER ADJUSTMENT FACTOR (BAF)",
+   "page": 0,
+   "bbox": [
+    67.5,
+    1293.7,
+    331.3,
+    1310.2
+   ],
+   "label_bbox": [
+    58.5,
+    1241.2,
+    466.6,
+    1263.1
+   ]
+  },
+  {
+   "key": "charges.1.quantity",
+   "label": "RevenueTons",
+   "type": "number",
+   "value": "4.00",
+   "norm": 4.0,
+   "page": 0,
+   "bbox": [
+    550.6,
+    1293.7,
+    576.5,
+    1310.2
+   ],
+   "label_bbox": [
+    466.6,
+    1241.2,
+    584.8,
+    1263.1
+   ]
+  },
+  {
+   "key": "charges.1.rate",
+   "label": "Rate",
+   "type": "number",
+   "value": "350.00",
+   "norm": 350.0,
+   "page": 0,
+   "bbox": [
+    653.9,
+    1293.7,
+    694.6,
+    1310.2
+   ],
+   "label_bbox": [
+    584.8,
+    1241.2,
+    702.9,
+    1263.1
+   ]
+  },
+  {
+   "key": "charges.1.per",
+   "label": "Per",
+   "type": "text",
+   "value": "CNTR",
+   "norm": "CNTR",
+   "page": 0,
+   "bbox": [
+    741.0,
+    1293.7,
+    780.5,
+    1310.2
+   ],
+   "label_bbox": [
+    702.9,
+    1241.2,
+    788.8,
+    1263.1
+   ]
+  },
+  {
+   "key": "charges.1.collect",
+   "label": "Collect",
+   "type": "amount",
+   "value": "USD 1,400.00",
+   "norm": 1400.0,
+   "page": 0,
+   "bbox": [
+    1038.3,
+    1293.7,
+    1123.5,
+    1310.2
+   ],
+   "label_bbox": [
+    960.6,
+    1241.2,
+    1132.5,
+    1263.1
+   ]
+  },
+  {
+   "key": "charges.2.name",
+   "label": "Charge",
+   "type": "text",
+   "value": "TERMINAL HANDLING CHARGE (ORIGIN)",
+   "norm": "TERMINAL HANDLING CHARGE (ORIGIN)",
+   "page": 0,
+   "bbox": [
+    67.5,
+    1320.5,
+    355.4,
+    1337.0
+   ],
+   "label_bbox": [
+    58.5,
+    1241.2,
+    466.6,
+    1263.1
+   ]
+  },
+  {
+   "key": "charges.2.quantity",
+   "label": "RevenueTons",
+   "type": "number",
+   "value": "4.00",
+   "norm": 4.0,
+   "page": 0,
+   "bbox": [
+    550.6,
+    1320.5,
+    576.5,
+    1337.0
+   ],
+   "label_bbox": [
+    466.6,
+    1241.2,
+    584.8,
+    1263.1
+   ]
+  },
+  {
+   "key": "charges.2.rate",
+   "label": "Rate",
+   "type": "number",
+   "value": "220.00",
+   "norm": 220.0,
+   "page": 0,
+   "bbox": [
+    653.9,
+    1320.5,
+    694.6,
+    1337.0
+   ],
+   "label_bbox": [
+    584.8,
+    1241.2,
+    702.9,
+    1263.1
+   ]
+  },
+  {
+   "key": "charges.2.per",
+   "label": "Per",
+   "type": "text",
+   "value": "CNTR",
+   "norm": "CNTR",
+   "page": 0,
+   "bbox": [
+    741.0,
+    1320.5,
+    780.5,
+    1337.0
+   ],
+   "label_bbox": [
+    702.9,
+    1241.2,
+    788.8,
+    1263.1
+   ]
+  },
+  {
+   "key": "charges.2.prepaid",
+   "label": "Prepaid",
+   "type": "amount",
+   "value": "USD 880.00",
+   "norm": 880.0,
+   "page": 0,
+   "bbox": [
+    878.3,
+    1320.5,
+    952.4,
+    1337.0
+   ],
+   "label_bbox": [
+    788.8,
+    1241.2,
+    960.6,
+    1263.1
+   ]
+  },
+  {
+   "key": "containers.0.no",
+   "label": "ContainerNo",
+   "type": "text",
+   "value": "BAQU4582440",
+   "norm": "BAQU4582440",
+   "page": 1,
+   "bbox": [
+    131.2,
+    153.3,
+    225.0,
+    169.8
+   ],
+   "label_bbox": [
+    122.9,
+    121.9,
+    359.2,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.0.seal",
+   "label": "SealNo",
+   "type": "text",
+   "value": "H758805",
+   "norm": "H758805",
+   "page": 1,
+   "bbox": [
+    367.5,
+    153.3,
+    422.6,
+    169.8
+   ],
+   "label_bbox": [
+    359.2,
+    121.9,
+    531.0,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.0.type",
+   "label": "ContainerType",
+   "type": "text",
+   "value": "40'HC",
+   "norm": "40'HC",
+   "page": 1,
+   "bbox": [
+    565.7,
+    153.3,
+    603.8,
+    169.8
+   ],
+   "label_bbox": [
+    531.0,
+    121.9,
+    638.4,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.0.packages",
+   "label": "ContainerPackages",
+   "type": "text",
+   "value": "1,914 CTNS",
+   "norm": "1,914 CTNS",
+   "page": 1,
+   "bbox": [
+    727.1,
+    153.3,
+    802.0,
+    169.8
+   ],
+   "label_bbox": [
+    638.4,
+    121.9,
+    810.2,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.0.gross_weight",
+   "label": "ContainerGrossWeight",
+   "type": "number",
+   "value": "14,469.84",
+   "norm": 14469.84,
+   "page": 1,
+   "bbox": [
+    914.6,
+    153.3,
+    973.8,
+    169.8
+   ],
+   "label_bbox": [
+    810.2,
+    121.9,
+    982.1,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.0.measurement",
+   "label": "ContainerMeasurement",
+   "type": "number",
+   "value": "57.420",
+   "norm": 57.42,
+   "page": 1,
+   "bbox": [
+    1082.8,
+    153.3,
+    1123.5,
+    169.8
+   ],
+   "label_bbox": [
+    982.1,
+    121.9,
+    1132.5,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.1.no",
+   "label": "ContainerNo",
+   "type": "text",
+   "value": "BAQU8686271",
+   "norm": "BAQU8686271",
+   "page": 1,
+   "bbox": [
+    131.2,
+    180.1,
+    225.0,
+    196.6
+   ],
+   "label_bbox": [
+    122.9,
+    121.9,
+    359.2,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.1.seal",
+   "label": "SealNo",
+   "type": "text",
+   "value": "SL188089",
+   "norm": "SL188089",
+   "page": 1,
+   "bbox": [
+    367.5,
+    180.1,
+    429.2,
+    196.6
+   ],
+   "label_bbox": [
+    359.2,
+    121.9,
+    531.0,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.1.type",
+   "label": "ContainerType",
+   "type": "text",
+   "value": "40'HC",
+   "norm": "40'HC",
+   "page": 1,
+   "bbox": [
+    565.7,
+    180.1,
+    603.8,
+    196.6
+   ],
+   "label_bbox": [
+    531.0,
+    121.9,
+    638.4,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.1.packages",
+   "label": "ContainerPackages",
+   "type": "text",
+   "value": "1,681 CTNS",
+   "norm": "1,681 CTNS",
+   "page": 1,
+   "bbox": [
+    727.1,
+    180.1,
+    802.0,
+    196.6
+   ],
+   "label_bbox": [
+    638.4,
+    121.9,
+    810.2,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.1.gross_weight",
+   "label": "ContainerGrossWeight",
+   "type": "number",
+   "value": "12,708.36",
+   "norm": 12708.36,
+   "page": 1,
+   "bbox": [
+    914.6,
+    180.1,
+    973.8,
+    196.6
+   ],
+   "label_bbox": [
+    810.2,
+    121.9,
+    982.1,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.1.measurement",
+   "label": "ContainerMeasurement",
+   "type": "number",
+   "value": "50.430",
+   "norm": 50.43,
+   "page": 1,
+   "bbox": [
+    1082.8,
+    180.1,
+    1123.5,
+    196.6
+   ],
+   "label_bbox": [
+    982.1,
+    121.9,
+    1132.5,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.2.no",
+   "label": "ContainerNo",
+   "type": "text",
+   "value": "BAQU1451519",
+   "norm": "BAQU1451519",
+   "page": 1,
+   "bbox": [
+    131.2,
+    206.9,
+    225.0,
+    223.4
+   ],
+   "label_bbox": [
+    122.9,
+    121.9,
+    359.2,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.2.seal",
+   "label": "SealNo",
+   "type": "text",
+   "value": "KR970713",
+   "norm": "KR970713",
+   "page": 1,
+   "bbox": [
+    367.5,
+    206.9,
+    432.5,
+    223.4
+   ],
+   "label_bbox": [
+    359.2,
+    121.9,
+    531.0,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.2.type",
+   "label": "ContainerType",
+   "type": "text",
+   "value": "40'HC",
+   "norm": "40'HC",
+   "page": 1,
+   "bbox": [
+    565.7,
+    206.9,
+    603.8,
+    223.4
+   ],
+   "label_bbox": [
+    531.0,
+    121.9,
+    638.4,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.2.packages",
+   "label": "ContainerPackages",
+   "type": "text",
+   "value": "1,603 CTNS",
+   "norm": "1,603 CTNS",
+   "page": 1,
+   "bbox": [
+    727.1,
+    206.9,
+    802.0,
+    223.4
+   ],
+   "label_bbox": [
+    638.4,
+    121.9,
+    810.2,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.2.gross_weight",
+   "label": "ContainerGrossWeight",
+   "type": "number",
+   "value": "14,645.88",
+   "norm": 14645.88,
+   "page": 1,
+   "bbox": [
+    914.6,
+    206.9,
+    973.8,
+    223.4
+   ],
+   "label_bbox": [
+    810.2,
+    121.9,
+    982.1,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.2.measurement",
+   "label": "ContainerMeasurement",
+   "type": "number",
+   "value": "48.090",
+   "norm": 48.09,
+   "page": 1,
+   "bbox": [
+    1082.8,
+    206.9,
+    1123.5,
+    223.4
+   ],
+   "label_bbox": [
+    982.1,
+    121.9,
+    1132.5,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.3.no",
+   "label": "ContainerNo",
+   "type": "text",
+   "value": "BAQU2389609",
+   "norm": "BAQU2389609",
+   "page": 1,
+   "bbox": [
+    131.2,
+    233.7,
+    225.0,
+    250.2
+   ],
+   "label_bbox": [
+    122.9,
+    121.9,
+    359.2,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.3.seal",
+   "label": "SealNo",
+   "type": "text",
+   "value": "H251874",
+   "norm": "H251874",
+   "page": 1,
+   "bbox": [
+    367.5,
+    233.7,
+    422.6,
+    250.2
+   ],
+   "label_bbox": [
+    359.2,
+    121.9,
+    531.0,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.3.type",
+   "label": "ContainerType",
+   "type": "text",
+   "value": "40'HC",
+   "norm": "40'HC",
+   "page": 1,
+   "bbox": [
+    565.7,
+    233.7,
+    603.8,
+    250.2
+   ],
+   "label_bbox": [
+    531.0,
+    121.9,
+    638.4,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.3.packages",
+   "label": "ContainerPackages",
+   "type": "text",
+   "value": "1,646 CTNS",
+   "norm": "1,646 CTNS",
+   "page": 1,
+   "bbox": [
+    727.1,
+    233.7,
+    802.0,
+    250.2
+   ],
+   "label_bbox": [
+    638.4,
+    121.9,
+    810.2,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.3.gross_weight",
+   "label": "ContainerGrossWeight",
+   "type": "number",
+   "value": "22,511.52",
+   "norm": 22511.52,
+   "page": 1,
+   "bbox": [
+    915.1,
+    233.7,
+    973.8,
+    250.2
+   ],
+   "label_bbox": [
+    810.2,
+    121.9,
+    982.1,
+    149.5
+   ]
+  },
+  {
+   "key": "containers.3.measurement",
+   "label": "ContainerMeasurement",
+   "type": "number",
+   "value": "52.395",
+   "norm": 52.395,
+   "page": 1,
+   "bbox": [
+    1082.8,
+    233.7,
+    1123.5,
+    250.2
+   ],
+   "label_bbox": [
+    982.1,
+    121.9,
+    1132.5,
+    149.5
+   ]
+  }
+ ]
+}

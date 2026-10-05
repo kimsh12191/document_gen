@@ -7,7 +7,7 @@
   "name": "주식회사 새한소프트",
   "name_en": "Saehan Soft Co., Ltd.",
   "biz_no": "530-82-09978",
-  "corp_no": "135012-6946558",
+  "corp_reg_no": "135012-6946558",
   "established": "2013년 12월 08일",
   "industry": "정보통신업 / 응용소프트웨어 개발",
   "hq_address": "서울특별시 영등포구 국제금융로 22-7, 8층 (당산동, 동방프라자)",
@@ -39,6 +39,13 @@
  ],
  "pep": "아니오",
  "date": "2017년 01월 15일",
+ "seal": {
+  "corp": true,
+  "staff": {
+   "clerk": true,
+   "manager": true
+  }
+ },
  "bank_use": {
   "risk_grade": "저위험",
   "documents": [

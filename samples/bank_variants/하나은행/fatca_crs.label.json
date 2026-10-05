@@ -1,0 +1,358 @@
+{
+ "images": [
+  "bank_variants/하나은행/fatca_crs.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "bank.name",
+   "label": "은행명",
+   "type": "text",
+   "value": "하나은행",
+   "norm": "하나은행",
+   "page": 0,
+   "bbox": [
+    92.9,
+    58.6,
+    207.0,
+    88.6
+   ]
+  },
+  {
+   "key": "holder.name",
+   "label": "성명(한글)",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    257.9,
+    340.0,
+    310.9,
+    361.0
+   ],
+   "label_bbox": [
+    62.1,
+    328.6,
+    248.1,
+    375.3
+   ]
+  },
+  {
+   "key": "holder.surname_en",
+   "label": "영문성",
+   "type": "text",
+   "value": "KIM",
+   "norm": "KIM",
+   "page": 0,
+   "bbox": [
+    257.9,
+    386.7,
+    292.3,
+    407.7
+   ],
+   "label_bbox": [
+    62.1,
+    375.3,
+    248.1,
+    422.0
+   ]
+  },
+  {
+   "key": "holder.given_en",
+   "label": "영문이름",
+   "type": "text",
+   "value": "SOYUN",
+   "norm": "SOYUN",
+   "page": 0,
+   "bbox": [
+    791.2,
+    386.7,
+    852.2,
+    407.7
+   ],
+   "label_bbox": [
+    595.5,
+    375.3,
+    781.5,
+    422.0
+   ]
+  },
+  {
+   "key": "holder.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1990-11-21",
+   "norm": "1990-11-21",
+   "page": 0,
+   "bbox": [
+    257.9,
+    433.4,
+    339.8,
+    454.4
+   ],
+   "label_bbox": [
+    62.1,
+    422.0,
+    248.1,
+    468.7
+   ]
+  },
+  {
+   "key": "holder.mobile",
+   "label": "연락처",
+   "type": "phone",
+   "value": "010-4372-6867",
+   "norm": "01043726867",
+   "page": 0,
+   "bbox": [
+    791.2,
+    433.4,
+    900.4,
+    454.4
+   ],
+   "label_bbox": [
+    595.5,
+    422.0,
+    781.5,
+    468.7
+   ]
+  },
+  {
+   "key": "holder.birth_place",
+   "label": "출생국가",
+   "type": "text",
+   "value": "대한민국 (KOREA)",
+   "norm": "대한민국 (KOREA)",
+   "page": 0,
+   "bbox": [
+    257.9,
+    480.1,
+    405.8,
+    501.1
+   ],
+   "label_bbox": [
+    62.1,
+    468.7,
+    248.1,
+    515.4
+   ]
+  },
+  {
+   "key": "holder.nationality",
+   "label": "국적",
+   "type": "text",
+   "value": "대한민국 (KOREA)",
+   "norm": "대한민국 (KOREA)",
+   "page": 0,
+   "bbox": [
+    791.2,
+    480.1,
+    939.2,
+    501.1
+   ],
+   "label_bbox": [
+    595.5,
+    468.7,
+    781.5,
+    515.4
+   ]
+  },
+  {
+   "key": "holder.address",
+   "label": "현재거주지주소",
+   "type": "text",
+   "value": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+   "norm": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+   "page": 0,
+   "bbox": [
+    257.9,
+    526.8,
+    795.4,
+    547.8
+   ],
+   "label_bbox": [
+    62.1,
+    515.4,
+    248.1,
+    562.1
+   ]
+  },
+  {
+   "key": "residence_category",
+   "label": "해외거주자여부",
+   "type": "text",
+   "value": "해당사항 없음",
+   "norm": "해당사항 없음",
+   "page": 0,
+   "bbox": [
+    222.0,
+    705.2,
+    332.6,
+    726.2
+   ],
+   "label_bbox": [
+    62.1,
+    697.0,
+    197.1,
+    735.4
+   ]
+  },
+  {
+   "key": "date",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025.11.29",
+   "norm": "2025-11-29",
+   "page": 0,
+   "bbox": [
+    553.9,
+    1166.6,
+    632.9,
+    1187.6
+   ]
+  },
+  {
+   "key": "signature",
+   "label": "계좌보유자",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    911.7,
+    1166.6,
+    964.8,
+    1187.6
+   ]
+  },
+  {
+   "key": "seal.holder",
+   "label": "계좌보유자",
+   "type": "seal",
+   "value": null,
+   "present": false,
+   "kind": "인감",
+   "anchor": "signature",
+   "page": 0,
+   "bbox": [
+    1010.2,
+    1166.6,
+    1129.6,
+    1190.5
+   ]
+  },
+  {
+   "key": "sign.holder",
+   "label": "계좌보유자",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "anchor": "signature",
+   "page": 0,
+   "bbox": [
+    1010.2,
+    1166.6,
+    1129.6,
+    1190.5
+   ]
+  },
+  {
+   "key": "bank_use.branch",
+   "label": "접수영업점",
+   "type": "text",
+   "value": "분당지점",
+   "norm": "분당지점",
+   "page": 0,
+   "bbox": [
+    227.9,
+    1278.4,
+    298.6,
+    1299.4
+   ],
+   "label_bbox": [
+    74.1,
+    1265.5,
+    218.1,
+    1315.2
+   ]
+  },
+  {
+   "key": "seal.staff.clerk",
+   "label": "담당",
+   "type": "seal",
+   "value": "배훈희",
+   "present": true,
+   "kind": "행원인",
+   "anchor": "bank_use.clerk",
+   "page": 0,
+   "bbox": [
+    940.4,
+    1296.4,
+    1005.4,
+    1361.4
+   ]
+  },
+  {
+   "key": "bank_use.clerk",
+   "label": "담당",
+   "type": "text",
+   "value": "배훈희",
+   "norm": "배훈희",
+   "page": 0,
+   "bbox": [
+    949.8,
+    1318.7,
+    996.0,
+    1339.1
+   ],
+   "label_bbox": [
+    924.9,
+    1265.5,
+    1020.9,
+    1292.9
+   ]
+  },
+  {
+   "key": "seal.staff.manager",
+   "label": "책임자",
+   "type": "seal",
+   "value": "남나혜",
+   "present": true,
+   "kind": "행원인",
+   "anchor": "bank_use.manager",
+   "page": 0,
+   "bbox": [
+    1036.4,
+    1296.4,
+    1101.4,
+    1361.4
+   ]
+  },
+  {
+   "key": "bank_use.manager",
+   "label": "책임자",
+   "type": "text",
+   "value": "남나혜",
+   "norm": "남나혜",
+   "page": 0,
+   "bbox": [
+    1045.8,
+    1318.7,
+    1092.0,
+    1339.1
+   ],
+   "label_bbox": [
+    1020.9,
+    1265.5,
+    1116.9,
+    1292.9
+   ]
+  }
+ ]
+}

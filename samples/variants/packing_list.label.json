@@ -1,0 +1,7501 @@
+{
+ "images": [
+  "variants/packing_list_p1.jpg",
+  "variants/packing_list_p2.jpg",
+  "variants/packing_list_p3.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "shipper.name",
+   "label": "Shipper/Exporter",
+   "type": "text",
+   "value": "MERIDIAN GLOBAL SOURCING PTE. LTD.",
+   "norm": "MERIDIAN GLOBAL SOURCING PTE. LTD.",
+   "page": 0,
+   "bbox": [
+    81.0,
+    161.2,
+    436.9,
+    180.7
+   ],
+   "label_bbox": [
+    81.0,
+    138.9,
+    638.2,
+    158.2
+   ]
+  },
+  {
+   "key": "shipper.address",
+   "label": "ShipperAddress",
+   "type": "text",
+   "value": "30 CECIL STREET, #19-08, SINGAPORE 049712",
+   "norm": "30 CECIL STREET, #19-08, SINGAPORE 049712",
+   "page": 0,
+   "bbox": [
+    81.0,
+    185.8,
+    442.8,
+    205.3
+   ]
+  },
+  {
+   "key": "invoice_no",
+   "label": "InvoiceNo",
+   "type": "text",
+   "value": "MGS-2511-156",
+   "norm": "MGS-2511-156",
+   "page": 0,
+   "bbox": [
+    657.8,
+    161.2,
+    769.8,
+    180.7
+   ],
+   "label_bbox": [
+    657.8,
+    138.9,
+    1110.0,
+    158.2
+   ]
+  },
+  {
+   "key": "invoice_date",
+   "label": "InvoiceDate",
+   "type": "date",
+   "value": "06 NOV 2025",
+   "norm": "2025-11-06",
+   "page": 0,
+   "bbox": [
+    657.8,
+    185.8,
+    756.8,
+    205.3
+   ]
+  },
+  {
+   "key": "consignee.name",
+   "label": "Consignee",
+   "type": "text",
+   "value": "SAEHAN SOFT CO., LTD.",
+   "norm": "SAEHAN SOFT CO., LTD.",
+   "page": 0,
+   "bbox": [
+    81.0,
+    241.6,
+    286.6,
+    261.1
+   ]
+  },
+  {
+   "key": "consignee.address",
+   "label": "ConsigneeAddress",
+   "type": "text",
+   "value": "8F, DONGBANG PLAZA, 22-7 GUKJEGEUMYUNG-RO, YEONGDEUNGPO-GU, SEOUL 07028, KOREA",
+   "norm": "8F, DONGBANG PLAZA, 22-7 GUKJEGEUMYUNG-RO, YEONGDEUNGPO-GU, SEOUL 07028, KOREA",
+   "page": 0,
+   "bbox": [
+    81.0,
+    266.2,
+    505.7,
+    310.3
+   ]
+  },
+  {
+   "key": "contract_no",
+   "label": "ContractNo",
+   "type": "text",
+   "value": "MGS-SC-25806",
+   "norm": "MGS-SC-25806",
+   "page": 0,
+   "bbox": [
+    749.0,
+    241.6,
+    854.2,
+    259.6
+   ]
+  },
+  {
+   "key": "lc_no",
+   "label": "L/CNo",
+   "type": "text",
+   "value": "M92342511NU19306",
+   "norm": "M92342511NU19306",
+   "page": 0,
+   "bbox": [
+    718.8,
+    263.3,
+    859.8,
+    281.3
+   ]
+  },
+  {
+   "key": "partial_shipment",
+   "label": "PartialShipment",
+   "type": "text",
+   "value": "2ND LOT OF 2 LOTS",
+   "norm": "2ND LOT OF 2 LOTS",
+   "page": 0,
+   "bbox": [
+    829.9,
+    285.0,
+    983.1,
+    303.0
+   ],
+   "label_bbox": [
+    657.8,
+    219.3,
+    1110.0,
+    238.6
+   ]
+  },
+  {
+   "key": "manufacturer.name",
+   "label": "Manufacturer",
+   "type": "text",
+   "value": "Tokyo Seimitsu Kogyo K.K.",
+   "norm": "Tokyo Seimitsu Kogyo K.K.",
+   "page": 0,
+   "bbox": [
+    657.8,
+    328.3,
+    841.5,
+    346.3
+   ],
+   "label_bbox": [
+    657.8,
+    219.3,
+    1110.0,
+    238.6
+   ]
+  },
+  {
+   "key": "manufacturer.address",
+   "label": "ManufacturerAddress",
+   "type": "text",
+   "value": "2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN",
+   "norm": "2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN",
+   "page": 0,
+   "bbox": [
+    657.8,
+    328.3,
+    1077.5,
+    367.9
+   ],
+   "label_bbox": [
+    657.8,
+    219.3,
+    1110.0,
+    238.6
+   ]
+  },
+  {
+   "key": "notify",
+   "label": "NotifyParty",
+   "type": "text",
+   "value": "SAME AS CONSIGNEE",
+   "norm": "SAME AS CONSIGNEE",
+   "page": 0,
+   "bbox": [
+    81.0,
+    346.6,
+    259.3,
+    366.1
+   ],
+   "label_bbox": [
+    81.0,
+    324.3,
+    638.2,
+    343.6
+   ]
+  },
+  {
+   "key": "port_of_loading",
+   "label": "PortofLoading",
+   "type": "text",
+   "value": "TOKYO, JAPAN",
+   "norm": "TOKYO, JAPAN",
+   "page": 0,
+   "bbox": [
+    81.0,
+    402.5,
+    203.8,
+    422.0
+   ],
+   "label_bbox": [
+    81.0,
+    380.2,
+    354.8,
+    399.5
+   ]
+  },
+  {
+   "key": "final_destination",
+   "label": "FinalDestination",
+   "type": "text",
+   "value": "BUSAN, KOREA",
+   "norm": "BUSAN, KOREA",
+   "page": 0,
+   "bbox": [
+    374.2,
+    402.5,
+    502.8,
+    422.0
+   ],
+   "label_bbox": [
+    374.2,
+    380.2,
+    638.2,
+    399.5
+   ]
+  },
+  {
+   "key": "carrier",
+   "label": "Carrier",
+   "type": "text",
+   "value": "STAR PIONEER V.079N",
+   "norm": "STAR PIONEER V.079N",
+   "page": 0,
+   "bbox": [
+    81.0,
+    458.4,
+    260.6,
+    477.9
+   ],
+   "label_bbox": [
+    81.0,
+    436.1,
+    354.8,
+    455.4
+   ]
+  },
+  {
+   "key": "sailing_date",
+   "label": "Sailingonorabout",
+   "type": "date",
+   "value": "09 NOV 2025",
+   "norm": "2025-11-09",
+   "page": 0,
+   "bbox": [
+    374.2,
+    458.4,
+    473.3,
+    477.9
+   ],
+   "label_bbox": [
+    374.2,
+    436.1,
+    638.2,
+    455.4
+   ]
+  },
+  {
+   "key": "marks",
+   "label": "MarksandNumbers",
+   "type": "text",
+   "value": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-6844\nMADE IN JAPAN",
+   "norm": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-6844\nMADE IN JAPAN",
+   "page": 0,
+   "bbox": [
+    78.0,
+    547.1,
+    198.3,
+    627.8
+   ],
+   "label_bbox": [
+    70.5,
+    489.7,
+    249.0,
+    538.8
+   ]
+  },
+  {
+   "key": "containers.0.no",
+   "label": "ContainerNo",
+   "type": "text",
+   "value": "BAQU4582440",
+   "norm": "BAQU4582440",
+   "page": 0,
+   "bbox": [
+    382.4,
+    547.1,
+    480.0,
+    563.6
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "containers.0.seal",
+   "label": "SealNo",
+   "type": "text",
+   "value": "H758805",
+   "norm": "H758805",
+   "page": 0,
+   "bbox": [
+    573.0,
+    547.1,
+    630.8,
+    563.6
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.0.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "1-213",
+   "norm": "1-213",
+   "page": 0,
+   "bbox": [
+    277.5,
+    638.8,
+    315.0,
+    656.8
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.0.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    350.2,
+    638.8,
+    581.4,
+    679.2
+   ],
+   "label_bbox": [
+    343.5,
+    489.7,
+    595.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.0.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "213 CTNS",
+   "norm": "213 CTNS",
+   "page": 0,
+   "bbox": [
+    624.7,
+    638.8,
+    693.8,
+    656.8
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.0.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "21,300,000 PCS",
+   "norm": "21,300,000 PCS",
+   "page": 0,
+   "bbox": [
+    737.1,
+    638.8,
+    809.2,
+    679.2
+   ],
+   "label_bbox": [
+    700.5,
+    489.7,
+    816.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.0.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "1,491.00",
+   "norm": 1491.0,
+   "page": 0,
+   "bbox": [
+    858.1,
+    638.8,
+    914.2,
+    656.8
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.0.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "1,610.28",
+   "norm": 1610.28,
+   "page": 0,
+   "bbox": [
+    963.1,
+    638.8,
+    1019.2,
+    656.8
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.0.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "6.390",
+   "norm": 6.39,
+   "page": 0,
+   "bbox": [
+    1076.9,
+    638.8,
+    1113.0,
+    656.8
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.1.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "214-370",
+   "norm": "214-370",
+   "page": 0,
+   "bbox": [
+    269.5,
+    689.7,
+    323.0,
+    707.7
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.1.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    350.2,
+    689.7,
+    581.4,
+    730.2
+   ],
+   "label_bbox": [
+    343.5,
+    489.7,
+    595.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.1.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "157 CTNS",
+   "norm": "157 CTNS",
+   "page": 0,
+   "bbox": [
+    624.7,
+    689.7,
+    693.8,
+    707.7
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.1.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "15,700,000 PCS",
+   "norm": "15,700,000 PCS",
+   "page": 0,
+   "bbox": [
+    737.1,
+    689.7,
+    809.2,
+    730.2
+   ],
+   "label_bbox": [
+    700.5,
+    489.7,
+    816.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.1.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "1,099.00",
+   "norm": 1099.0,
+   "page": 0,
+   "bbox": [
+    858.1,
+    689.7,
+    914.2,
+    707.7
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.1.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "1,186.92",
+   "norm": 1186.92,
+   "page": 0,
+   "bbox": [
+    963.1,
+    689.7,
+    1019.2,
+    707.7
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.1.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "4.710",
+   "norm": 4.71,
+   "page": 0,
+   "bbox": [
+    1076.9,
+    689.7,
+    1113.0,
+    707.7
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.2.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "371-426",
+   "norm": "371-426",
+   "page": 0,
+   "bbox": [
+    269.5,
+    740.7,
+    323.0,
+    758.7
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.2.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    350.2,
+    740.7,
+    581.4,
+    781.1
+   ],
+   "label_bbox": [
+    343.5,
+    489.7,
+    595.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.2.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "56 CTNS",
+   "norm": "56 CTNS",
+   "page": 0,
+   "bbox": [
+    632.7,
+    740.7,
+    693.8,
+    758.7
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.2.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "5,600,000 PCS",
+   "norm": "5,600,000 PCS",
+   "page": 0,
+   "bbox": [
+    712.6,
+    740.7,
+    809.2,
+    758.7
+   ],
+   "label_bbox": [
+    700.5,
+    489.7,
+    816.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.2.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "392.00",
+   "norm": 392.0,
+   "page": 0,
+   "bbox": [
+    870.2,
+    740.7,
+    914.2,
+    758.7
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.2.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "423.36",
+   "norm": 423.36,
+   "page": 0,
+   "bbox": [
+    975.2,
+    740.7,
+    1019.2,
+    758.7
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.2.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "1.680",
+   "norm": 1.68,
+   "page": 0,
+   "bbox": [
+    1076.9,
+    740.7,
+    1113.0,
+    758.7
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.3.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "427-528",
+   "norm": "427-528",
+   "page": 0,
+   "bbox": [
+    269.5,
+    791.6,
+    323.0,
+    809.6
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.3.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    350.2,
+    791.6,
+    581.4,
+    832.1
+   ],
+   "label_bbox": [
+    343.5,
+    489.7,
+    595.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.3.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "102 CTNS",
+   "norm": "102 CTNS",
+   "page": 0,
+   "bbox": [
+    624.7,
+    791.6,
+    693.8,
+    809.6
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.3.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "10,200,000 PCS",
+   "norm": "10,200,000 PCS",
+   "page": 0,
+   "bbox": [
+    737.1,
+    791.6,
+    809.2,
+    832.1
+   ],
+   "label_bbox": [
+    700.5,
+    489.7,
+    816.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.3.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "714.00",
+   "norm": 714.0,
+   "page": 0,
+   "bbox": [
+    870.2,
+    791.6,
+    914.2,
+    809.6
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.3.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "771.12",
+   "norm": 771.12,
+   "page": 0,
+   "bbox": [
+    975.2,
+    791.6,
+    1019.2,
+    809.6
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.3.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "3.060",
+   "norm": 3.06,
+   "page": 0,
+   "bbox": [
+    1076.9,
+    791.6,
+    1113.0,
+    809.6
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.4.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "529-898",
+   "norm": "529-898",
+   "page": 0,
+   "bbox": [
+    269.5,
+    842.6,
+    323.0,
+    860.6
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.4.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    350.2,
+    842.6,
+    581.4,
+    883.1
+   ],
+   "label_bbox": [
+    343.5,
+    489.7,
+    595.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.4.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "370 CTNS",
+   "norm": "370 CTNS",
+   "page": 0,
+   "bbox": [
+    624.7,
+    842.6,
+    693.8,
+    860.6
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.4.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "37,000,000 PCS",
+   "norm": "37,000,000 PCS",
+   "page": 0,
+   "bbox": [
+    737.1,
+    842.6,
+    809.2,
+    883.1
+   ],
+   "label_bbox": [
+    700.5,
+    489.7,
+    816.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.4.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "2,590.00",
+   "norm": 2590.0,
+   "page": 0,
+   "bbox": [
+    858.1,
+    842.6,
+    914.2,
+    860.6
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.4.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "2,797.20",
+   "norm": 2797.2,
+   "page": 0,
+   "bbox": [
+    963.1,
+    842.6,
+    1019.2,
+    860.6
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.4.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "11.100",
+   "norm": 11.1,
+   "page": 0,
+   "bbox": [
+    1069.5,
+    842.6,
+    1113.0,
+    860.6
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.5.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "899-1226",
+   "norm": "899-1226",
+   "page": 0,
+   "bbox": [
+    265.5,
+    893.5,
+    327.0,
+    911.5
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.5.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    350.2,
+    893.5,
+    581.4,
+    934.0
+   ],
+   "label_bbox": [
+    343.5,
+    489.7,
+    595.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.5.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "328 CTNS",
+   "norm": "328 CTNS",
+   "page": 0,
+   "bbox": [
+    624.7,
+    893.5,
+    693.8,
+    911.5
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.5.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "32,800,000 PCS",
+   "norm": "32,800,000 PCS",
+   "page": 0,
+   "bbox": [
+    737.1,
+    893.5,
+    809.2,
+    934.0
+   ],
+   "label_bbox": [
+    700.5,
+    489.7,
+    816.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.5.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "2,296.00",
+   "norm": 2296.0,
+   "page": 0,
+   "bbox": [
+    858.1,
+    893.5,
+    914.2,
+    911.5
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.5.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "2,479.68",
+   "norm": 2479.68,
+   "page": 0,
+   "bbox": [
+    963.1,
+    893.5,
+    1019.2,
+    911.5
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.5.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "9.840",
+   "norm": 9.84,
+   "page": 0,
+   "bbox": [
+    1076.9,
+    893.5,
+    1113.0,
+    911.5
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.6.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "1227-1502",
+   "norm": "1227-1502",
+   "page": 0,
+   "bbox": [
+    261.5,
+    944.5,
+    331.0,
+    962.5
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.6.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    350.2,
+    944.5,
+    581.4,
+    985.0
+   ],
+   "label_bbox": [
+    343.5,
+    489.7,
+    595.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.6.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "276 CTNS",
+   "norm": "276 CTNS",
+   "page": 0,
+   "bbox": [
+    624.7,
+    944.5,
+    693.8,
+    962.5
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.6.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "27,600,000 PCS",
+   "norm": "27,600,000 PCS",
+   "page": 0,
+   "bbox": [
+    737.1,
+    944.5,
+    809.2,
+    985.0
+   ],
+   "label_bbox": [
+    700.5,
+    489.7,
+    816.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.6.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "1,932.00",
+   "norm": 1932.0,
+   "page": 0,
+   "bbox": [
+    858.1,
+    944.5,
+    914.2,
+    962.5
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.6.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "2,086.56",
+   "norm": 2086.56,
+   "page": 0,
+   "bbox": [
+    963.1,
+    944.5,
+    1019.2,
+    962.5
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.6.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "8.280",
+   "norm": 8.28,
+   "page": 0,
+   "bbox": [
+    1076.9,
+    944.5,
+    1113.0,
+    962.5
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.7.ctn_no",
+   "label": "C/TNo",
+   "type": "phone",
+   "value": "1503-1914",
+   "norm": "15031914",
+   "page": 0,
+   "bbox": [
+    261.5,
+    995.4,
+    331.0,
+    1013.4
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.7.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    350.2,
+    995.4,
+    581.4,
+    1035.9
+   ],
+   "label_bbox": [
+    343.5,
+    489.7,
+    595.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.7.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "412 CTNS",
+   "norm": "412 CTNS",
+   "page": 0,
+   "bbox": [
+    624.7,
+    995.4,
+    693.8,
+    1013.4
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.7.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "41,200,000 PCS",
+   "norm": "41,200,000 PCS",
+   "page": 0,
+   "bbox": [
+    737.1,
+    995.4,
+    809.2,
+    1035.9
+   ],
+   "label_bbox": [
+    700.5,
+    489.7,
+    816.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.7.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "2,884.00",
+   "norm": 2884.0,
+   "page": 0,
+   "bbox": [
+    858.1,
+    995.4,
+    914.2,
+    1013.4
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.7.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "3,114.72",
+   "norm": 3114.72,
+   "page": 0,
+   "bbox": [
+    963.7,
+    995.4,
+    1019.2,
+    1013.4
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.7.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "12.360",
+   "norm": 12.36,
+   "page": 0,
+   "bbox": [
+    1068.9,
+    995.4,
+    1113.0,
+    1013.4
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "containers.0.packages",
+   "label": "ContainerPackages",
+   "type": "text",
+   "value": "1,914 CTNS",
+   "norm": "1,914 CTNS",
+   "page": 0,
+   "bbox": [
+    615.4,
+    1047.9,
+    693.8,
+    1065.9
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "containers.0.net_weight",
+   "label": "ContainerNetWeight",
+   "type": "number",
+   "value": "13,398.00",
+   "norm": 13398.0,
+   "page": 0,
+   "bbox": [
+    850.1,
+    1047.9,
+    914.2,
+    1065.9
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "containers.0.gross_weight",
+   "label": "ContainerGrossWeight",
+   "type": "number",
+   "value": "14,469.84",
+   "norm": 14469.84,
+   "page": 0,
+   "bbox": [
+    955.1,
+    1047.9,
+    1019.2,
+    1065.9
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "containers.0.measurement",
+   "label": "ContainerMeasurement",
+   "type": "number",
+   "value": "57.420",
+   "norm": 57.42,
+   "page": 0,
+   "bbox": [
+    1068.9,
+    1047.9,
+    1113.0,
+    1065.9
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "containers.1.no",
+   "label": "ContainerNo",
+   "type": "text",
+   "value": "BAQU8686271",
+   "norm": "BAQU8686271",
+   "page": 0,
+   "bbox": [
+    382.4,
+    1080.9,
+    480.0,
+    1097.4
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "containers.1.seal",
+   "label": "SealNo",
+   "type": "text",
+   "value": "SL188089",
+   "norm": "SL188089",
+   "page": 0,
+   "bbox": [
+    573.0,
+    1080.9,
+    637.6,
+    1097.4
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.8.ctn_no",
+   "label": "C/TNo",
+   "type": "phone",
+   "value": "1915-2560",
+   "norm": "19152560",
+   "page": 0,
+   "bbox": [
+    261.5,
+    1108.3,
+    331.0,
+    1126.3
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.8.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    350.2,
+    1108.3,
+    581.4,
+    1148.8
+   ],
+   "label_bbox": [
+    343.5,
+    489.7,
+    595.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.8.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "646 CTNS",
+   "norm": "646 CTNS",
+   "page": 0,
+   "bbox": [
+    624.7,
+    1108.3,
+    693.8,
+    1126.3
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.8.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "64,600,000 PCS",
+   "norm": "64,600,000 PCS",
+   "page": 0,
+   "bbox": [
+    737.1,
+    1108.3,
+    809.2,
+    1148.8
+   ],
+   "label_bbox": [
+    700.5,
+    489.7,
+    816.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.8.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "4,522.00",
+   "norm": 4522.0,
+   "page": 0,
+   "bbox": [
+    858.1,
+    1108.3,
+    914.2,
+    1126.3
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.8.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "4,883.76",
+   "norm": 4883.76,
+   "page": 0,
+   "bbox": [
+    963.1,
+    1108.3,
+    1019.2,
+    1126.3
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.8.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "19.380",
+   "norm": 19.38,
+   "page": 0,
+   "bbox": [
+    1068.9,
+    1108.3,
+    1113.0,
+    1126.3
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.9.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "2561-2711",
+   "norm": "2561-2711",
+   "page": 0,
+   "bbox": [
+    261.8,
+    1159.2,
+    330.7,
+    1177.2
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.9.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    350.2,
+    1159.2,
+    581.4,
+    1199.7
+   ],
+   "label_bbox": [
+    343.5,
+    489.7,
+    595.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.9.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "151 CTNS",
+   "norm": "151 CTNS",
+   "page": 0,
+   "bbox": [
+    624.7,
+    1159.2,
+    693.8,
+    1177.2
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.9.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "15,100,000 PCS",
+   "norm": "15,100,000 PCS",
+   "page": 0,
+   "bbox": [
+    737.1,
+    1159.2,
+    809.2,
+    1199.7
+   ],
+   "label_bbox": [
+    700.5,
+    489.7,
+    816.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.9.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "1,057.00",
+   "norm": 1057.0,
+   "page": 0,
+   "bbox": [
+    858.1,
+    1159.2,
+    914.2,
+    1177.2
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.9.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "1,141.56",
+   "norm": 1141.56,
+   "page": 0,
+   "bbox": [
+    963.1,
+    1159.2,
+    1019.2,
+    1177.2
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.9.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "4.530",
+   "norm": 4.53,
+   "page": 0,
+   "bbox": [
+    1076.9,
+    1159.2,
+    1113.0,
+    1177.2
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.10.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "2712-2772",
+   "norm": "2712-2772",
+   "page": 0,
+   "bbox": [
+    261.5,
+    1210.2,
+    331.0,
+    1228.2
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.10.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    350.2,
+    1210.2,
+    581.4,
+    1250.7
+   ],
+   "label_bbox": [
+    343.5,
+    489.7,
+    595.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.10.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "61 CTNS",
+   "norm": "61 CTNS",
+   "page": 0,
+   "bbox": [
+    632.7,
+    1210.2,
+    693.8,
+    1228.2
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.10.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "6,100,000 PCS",
+   "norm": "6,100,000 PCS",
+   "page": 0,
+   "bbox": [
+    712.6,
+    1210.2,
+    809.2,
+    1228.2
+   ],
+   "label_bbox": [
+    700.5,
+    489.7,
+    816.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.10.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "427.00",
+   "norm": 427.0,
+   "page": 0,
+   "bbox": [
+    870.2,
+    1210.2,
+    914.2,
+    1228.2
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.10.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "461.16",
+   "norm": 461.16,
+   "page": 0,
+   "bbox": [
+    975.2,
+    1210.2,
+    1019.2,
+    1228.2
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.10.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "1.830",
+   "norm": 1.83,
+   "page": 0,
+   "bbox": [
+    1076.9,
+    1210.2,
+    1113.0,
+    1228.2
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.11.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "2773-2979",
+   "norm": "2773-2979",
+   "page": 0,
+   "bbox": [
+    261.5,
+    1261.1,
+    331.0,
+    1279.1
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.11.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    350.2,
+    1261.1,
+    581.4,
+    1301.6
+   ],
+   "label_bbox": [
+    343.5,
+    489.7,
+    595.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.11.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "207 CTNS",
+   "norm": "207 CTNS",
+   "page": 0,
+   "bbox": [
+    624.7,
+    1261.1,
+    693.8,
+    1279.1
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.11.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "20,700,000 PCS",
+   "norm": "20,700,000 PCS",
+   "page": 0,
+   "bbox": [
+    737.1,
+    1261.1,
+    809.2,
+    1301.6
+   ],
+   "label_bbox": [
+    700.5,
+    489.7,
+    816.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.11.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "1,449.00",
+   "norm": 1449.0,
+   "page": 0,
+   "bbox": [
+    858.1,
+    1261.1,
+    914.2,
+    1279.1
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.11.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "1,564.92",
+   "norm": 1564.92,
+   "page": 0,
+   "bbox": [
+    963.1,
+    1261.1,
+    1019.2,
+    1279.1
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.11.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "6.210",
+   "norm": 6.21,
+   "page": 0,
+   "bbox": [
+    1076.9,
+    1261.1,
+    1113.0,
+    1279.1
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.12.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "2980-3088",
+   "norm": "2980-3088",
+   "page": 0,
+   "bbox": [
+    261.5,
+    1312.1,
+    331.0,
+    1330.1
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.12.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    350.2,
+    1312.1,
+    581.4,
+    1352.6
+   ],
+   "label_bbox": [
+    343.5,
+    489.7,
+    595.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.12.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "109 CTNS",
+   "norm": "109 CTNS",
+   "page": 0,
+   "bbox": [
+    624.7,
+    1312.1,
+    693.8,
+    1330.1
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.12.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "10,900,000 PCS",
+   "norm": "10,900,000 PCS",
+   "page": 0,
+   "bbox": [
+    737.1,
+    1312.1,
+    809.2,
+    1352.6
+   ],
+   "label_bbox": [
+    700.5,
+    489.7,
+    816.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.12.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "763.00",
+   "norm": 763.0,
+   "page": 0,
+   "bbox": [
+    870.2,
+    1312.1,
+    914.2,
+    1330.1
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.12.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "824.04",
+   "norm": 824.04,
+   "page": 0,
+   "bbox": [
+    975.2,
+    1312.1,
+    1019.2,
+    1330.1
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.12.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "3.270",
+   "norm": 3.27,
+   "page": 0,
+   "bbox": [
+    1076.9,
+    1312.1,
+    1113.0,
+    1330.1
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.13.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "3089-3193",
+   "norm": "3089-3193",
+   "page": 0,
+   "bbox": [
+    261.5,
+    1363.1,
+    331.0,
+    1381.1
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.13.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    350.2,
+    1363.1,
+    581.4,
+    1403.5
+   ],
+   "label_bbox": [
+    343.5,
+    489.7,
+    595.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.13.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "105 CTNS",
+   "norm": "105 CTNS",
+   "page": 0,
+   "bbox": [
+    624.7,
+    1363.1,
+    693.8,
+    1381.1
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.13.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "10,500,000 PCS",
+   "norm": "10,500,000 PCS",
+   "page": 0,
+   "bbox": [
+    737.1,
+    1363.1,
+    809.2,
+    1403.5
+   ],
+   "label_bbox": [
+    700.5,
+    489.7,
+    816.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.13.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "735.00",
+   "norm": 735.0,
+   "page": 0,
+   "bbox": [
+    870.2,
+    1363.1,
+    914.2,
+    1381.1
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.13.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "793.80",
+   "norm": 793.8,
+   "page": 0,
+   "bbox": [
+    975.2,
+    1363.1,
+    1019.2,
+    1381.1
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.13.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "3.150",
+   "norm": 3.15,
+   "page": 0,
+   "bbox": [
+    1076.9,
+    1363.1,
+    1113.0,
+    1381.1
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.14.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "3194-3595",
+   "norm": "3194-3595",
+   "page": 0,
+   "bbox": [
+    261.5,
+    1414.0,
+    331.0,
+    1432.0
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.14.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    350.2,
+    1414.0,
+    581.4,
+    1454.5
+   ],
+   "label_bbox": [
+    343.5,
+    489.7,
+    595.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.14.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "402 CTNS",
+   "norm": "402 CTNS",
+   "page": 0,
+   "bbox": [
+    624.7,
+    1414.0,
+    693.8,
+    1432.0
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.14.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "40,200,000 PCS",
+   "norm": "40,200,000 PCS",
+   "page": 0,
+   "bbox": [
+    737.1,
+    1414.0,
+    809.2,
+    1454.5
+   ],
+   "label_bbox": [
+    700.5,
+    489.7,
+    816.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.14.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "2,814.00",
+   "norm": 2814.0,
+   "page": 0,
+   "bbox": [
+    858.1,
+    1414.0,
+    914.2,
+    1432.0
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.14.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "3,039.12",
+   "norm": 3039.12,
+   "page": 0,
+   "bbox": [
+    963.1,
+    1414.0,
+    1019.2,
+    1432.0
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.14.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "12.060",
+   "norm": 12.06,
+   "page": 0,
+   "bbox": [
+    1068.9,
+    1414.0,
+    1113.0,
+    1432.0
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "containers.1.packages",
+   "label": "ContainerPackages",
+   "type": "text",
+   "value": "1,681 CTNS",
+   "norm": "1,681 CTNS",
+   "page": 0,
+   "bbox": [
+    615.4,
+    1466.5,
+    693.8,
+    1484.5
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "containers.1.net_weight",
+   "label": "ContainerNetWeight",
+   "type": "number",
+   "value": "11,767.00",
+   "norm": 11767.0,
+   "page": 0,
+   "bbox": [
+    851.3,
+    1466.5,
+    914.2,
+    1484.5
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "containers.1.gross_weight",
+   "label": "ContainerGrossWeight",
+   "type": "number",
+   "value": "12,708.36",
+   "norm": 12708.36,
+   "page": 0,
+   "bbox": [
+    955.1,
+    1466.5,
+    1019.2,
+    1484.5
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "containers.1.measurement",
+   "label": "ContainerMeasurement",
+   "type": "number",
+   "value": "50.430",
+   "norm": 50.43,
+   "page": 0,
+   "bbox": [
+    1068.9,
+    1466.5,
+    1113.0,
+    1484.5
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "containers.2.no",
+   "label": "ContainerNo",
+   "type": "text",
+   "value": "BAQU1451519",
+   "norm": "BAQU1451519",
+   "page": 0,
+   "bbox": [
+    382.4,
+    1499.4,
+    480.0,
+    1515.9
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "containers.2.seal",
+   "label": "SealNo",
+   "type": "text",
+   "value": "KR970713",
+   "norm": "KR970713",
+   "page": 0,
+   "bbox": [
+    573.0,
+    1499.4,
+    641.8,
+    1515.9
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.15.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "3596-3821",
+   "norm": "3596-3821",
+   "page": 0,
+   "bbox": [
+    261.5,
+    1526.9,
+    331.0,
+    1544.9
+   ],
+   "label_bbox": [
+    249.0,
+    489.7,
+    343.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.15.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 0,
+   "bbox": [
+    350.2,
+    1526.9,
+    581.4,
+    1567.3
+   ],
+   "label_bbox": [
+    343.5,
+    489.7,
+    595.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.15.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "226 CTNS",
+   "norm": "226 CTNS",
+   "page": 0,
+   "bbox": [
+    624.7,
+    1526.9,
+    693.8,
+    1544.9
+   ],
+   "label_bbox": [
+    595.5,
+    489.7,
+    700.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.15.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "22,600,000 PCS",
+   "norm": "22,600,000 PCS",
+   "page": 0,
+   "bbox": [
+    737.1,
+    1526.9,
+    809.2,
+    1567.3
+   ],
+   "label_bbox": [
+    700.5,
+    489.7,
+    816.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.15.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "1,582.00",
+   "norm": 1582.0,
+   "page": 0,
+   "bbox": [
+    858.1,
+    1526.9,
+    914.2,
+    1544.9
+   ],
+   "label_bbox": [
+    816.0,
+    489.7,
+    921.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.15.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "1,708.56",
+   "norm": 1708.56,
+   "page": 0,
+   "bbox": [
+    963.1,
+    1526.9,
+    1019.2,
+    1544.9
+   ],
+   "label_bbox": [
+    921.0,
+    489.7,
+    1026.0,
+    538.8
+   ]
+  },
+  {
+   "key": "items.15.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "6.780",
+   "norm": 6.78,
+   "page": 0,
+   "bbox": [
+    1076.9,
+    1526.9,
+    1113.0,
+    1544.9
+   ],
+   "label_bbox": [
+    1026.0,
+    489.7,
+    1120.5,
+    538.8
+   ]
+  },
+  {
+   "key": "items.16.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "3822-3942",
+   "norm": "3822-3942",
+   "page": 1,
+   "bbox": [
+    261.5,
+    168.9,
+    331.0,
+    186.9
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.16.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 1,
+   "bbox": [
+    350.2,
+    168.9,
+    581.4,
+    209.4
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.16.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "121 CTNS",
+   "norm": "121 CTNS",
+   "page": 1,
+   "bbox": [
+    624.7,
+    168.9,
+    693.8,
+    186.9
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.16.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "12,100,000 PCS",
+   "norm": "12,100,000 PCS",
+   "page": 1,
+   "bbox": [
+    737.1,
+    168.9,
+    809.2,
+    209.4
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.16.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "847.00",
+   "norm": 847.0,
+   "page": 1,
+   "bbox": [
+    870.2,
+    168.9,
+    914.2,
+    186.9
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.16.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "914.76",
+   "norm": 914.76,
+   "page": 1,
+   "bbox": [
+    975.2,
+    168.9,
+    1019.2,
+    186.9
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.16.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "3.630",
+   "norm": 3.63,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    168.9,
+    1113.0,
+    186.9
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.17.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "3943-4028",
+   "norm": "3943-4028",
+   "page": 1,
+   "bbox": [
+    261.5,
+    219.9,
+    331.0,
+    237.9
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.17.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "norm": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "page": 1,
+   "bbox": [
+    350.2,
+    219.9,
+    581.4,
+    260.4
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.17.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "86 CTNS",
+   "norm": "86 CTNS",
+   "page": 1,
+   "bbox": [
+    632.7,
+    219.9,
+    693.8,
+    237.9
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.17.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "8,600,000 PCS",
+   "norm": "8,600,000 PCS",
+   "page": 1,
+   "bbox": [
+    712.6,
+    219.9,
+    809.2,
+    237.9
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.17.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "602.00",
+   "norm": 602.0,
+   "page": 1,
+   "bbox": [
+    870.2,
+    219.9,
+    914.2,
+    237.9
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.17.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "650.16",
+   "norm": 650.16,
+   "page": 1,
+   "bbox": [
+    975.2,
+    219.9,
+    1019.2,
+    237.9
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.17.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "2.580",
+   "norm": 2.58,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    219.9,
+    1113.0,
+    237.9
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.18.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "4029-4346",
+   "norm": "4029-4346",
+   "page": 1,
+   "bbox": [
+    261.5,
+    270.8,
+    331.0,
+    288.8
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.18.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 1,
+   "bbox": [
+    350.2,
+    270.8,
+    571.5,
+    311.3
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.18.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "318 CTNS",
+   "norm": "318 CTNS",
+   "page": 1,
+   "bbox": [
+    624.7,
+    270.8,
+    693.8,
+    288.8
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.18.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "636,000 PCS",
+   "norm": "636,000 PCS",
+   "page": 1,
+   "bbox": [
+    724.6,
+    270.8,
+    809.2,
+    288.8
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.18.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "2,862.00",
+   "norm": 2862.0,
+   "page": 1,
+   "bbox": [
+    858.1,
+    270.8,
+    914.2,
+    288.8
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.18.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "3,090.96",
+   "norm": 3090.96,
+   "page": 1,
+   "bbox": [
+    963.1,
+    270.8,
+    1019.2,
+    288.8
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.18.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "9.540",
+   "norm": 9.54,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    270.8,
+    1113.0,
+    288.8
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.19.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "4347-4448",
+   "norm": "4347-4448",
+   "page": 1,
+   "bbox": [
+    261.5,
+    321.8,
+    331.0,
+    339.8
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.19.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 1,
+   "bbox": [
+    350.2,
+    321.8,
+    571.5,
+    362.3
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.19.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "102 CTNS",
+   "norm": "102 CTNS",
+   "page": 1,
+   "bbox": [
+    624.7,
+    321.8,
+    693.8,
+    339.8
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.19.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "204,000 PCS",
+   "norm": "204,000 PCS",
+   "page": 1,
+   "bbox": [
+    724.6,
+    321.8,
+    809.2,
+    339.8
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.19.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "918.00",
+   "norm": 918.0,
+   "page": 1,
+   "bbox": [
+    870.2,
+    321.8,
+    914.2,
+    339.8
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.19.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "991.44",
+   "norm": 991.44,
+   "page": 1,
+   "bbox": [
+    975.2,
+    321.8,
+    1019.2,
+    339.8
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.19.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "3.060",
+   "norm": 3.06,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    321.8,
+    1113.0,
+    339.8
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.20.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "4449-4573",
+   "norm": "4449-4573",
+   "page": 1,
+   "bbox": [
+    261.5,
+    372.8,
+    331.0,
+    390.8
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.20.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 1,
+   "bbox": [
+    350.2,
+    372.8,
+    571.5,
+    413.2
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.20.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "125 CTNS",
+   "norm": "125 CTNS",
+   "page": 1,
+   "bbox": [
+    624.7,
+    372.8,
+    693.8,
+    390.8
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.20.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "250,000 PCS",
+   "norm": "250,000 PCS",
+   "page": 1,
+   "bbox": [
+    724.6,
+    372.8,
+    809.2,
+    390.8
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.20.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "1,125.00",
+   "norm": 1125.0,
+   "page": 1,
+   "bbox": [
+    858.1,
+    372.8,
+    914.2,
+    390.8
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.20.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "1,215.00",
+   "norm": 1215.0,
+   "page": 1,
+   "bbox": [
+    963.1,
+    372.8,
+    1019.2,
+    390.8
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.20.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "3.750",
+   "norm": 3.75,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    372.8,
+    1113.0,
+    390.8
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.21.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "4574-4667",
+   "norm": "4574-4667",
+   "page": 1,
+   "bbox": [
+    261.5,
+    423.7,
+    331.0,
+    441.7
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.21.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 1,
+   "bbox": [
+    350.2,
+    423.7,
+    571.5,
+    464.2
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.21.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "94 CTNS",
+   "norm": "94 CTNS",
+   "page": 1,
+   "bbox": [
+    632.7,
+    423.7,
+    693.8,
+    441.7
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.21.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "188,000 PCS",
+   "norm": "188,000 PCS",
+   "page": 1,
+   "bbox": [
+    724.6,
+    423.7,
+    809.2,
+    441.7
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.21.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "846.00",
+   "norm": 846.0,
+   "page": 1,
+   "bbox": [
+    870.2,
+    423.7,
+    914.2,
+    441.7
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.21.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "913.68",
+   "norm": 913.68,
+   "page": 1,
+   "bbox": [
+    975.2,
+    423.7,
+    1019.2,
+    441.7
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.21.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "2.820",
+   "norm": 2.82,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    423.7,
+    1113.0,
+    441.7
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.22.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "4668-4715",
+   "norm": "4668-4715",
+   "page": 1,
+   "bbox": [
+    261.5,
+    474.7,
+    331.0,
+    492.7
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.22.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 1,
+   "bbox": [
+    350.2,
+    474.7,
+    571.5,
+    515.1
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.22.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "48 CTNS",
+   "norm": "48 CTNS",
+   "page": 1,
+   "bbox": [
+    632.7,
+    474.7,
+    693.8,
+    492.7
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.22.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "96,000 PCS",
+   "norm": "96,000 PCS",
+   "page": 1,
+   "bbox": [
+    732.6,
+    474.7,
+    809.2,
+    492.7
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.22.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "432.00",
+   "norm": 432.0,
+   "page": 1,
+   "bbox": [
+    870.2,
+    474.7,
+    914.2,
+    492.7
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.22.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "466.56",
+   "norm": 466.56,
+   "page": 1,
+   "bbox": [
+    975.2,
+    474.7,
+    1019.2,
+    492.7
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.22.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "1.440",
+   "norm": 1.44,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    474.7,
+    1113.0,
+    492.7
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.23.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "4716-4836",
+   "norm": "4716-4836",
+   "page": 1,
+   "bbox": [
+    261.5,
+    525.6,
+    331.0,
+    543.6
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.23.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 1,
+   "bbox": [
+    350.2,
+    525.6,
+    571.5,
+    566.1
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.23.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "121 CTNS",
+   "norm": "121 CTNS",
+   "page": 1,
+   "bbox": [
+    624.7,
+    525.6,
+    693.8,
+    543.6
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.23.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "242,000 PCS",
+   "norm": "242,000 PCS",
+   "page": 1,
+   "bbox": [
+    724.6,
+    525.6,
+    809.2,
+    543.6
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.23.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "1,089.00",
+   "norm": 1089.0,
+   "page": 1,
+   "bbox": [
+    858.1,
+    525.6,
+    914.2,
+    543.6
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.23.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "1,176.12",
+   "norm": 1176.12,
+   "page": 1,
+   "bbox": [
+    963.1,
+    525.6,
+    1019.2,
+    543.6
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.23.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "3.630",
+   "norm": 3.63,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    525.6,
+    1113.0,
+    543.6
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.24.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "4837-4876",
+   "norm": "4837-4876",
+   "page": 1,
+   "bbox": [
+    261.5,
+    576.6,
+    331.0,
+    594.6
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.24.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 1,
+   "bbox": [
+    350.2,
+    576.6,
+    571.5,
+    617.0
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.24.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "40 CTNS",
+   "norm": "40 CTNS",
+   "page": 1,
+   "bbox": [
+    632.7,
+    576.6,
+    693.8,
+    594.6
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.24.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "80,000 PCS",
+   "norm": "80,000 PCS",
+   "page": 1,
+   "bbox": [
+    732.6,
+    576.6,
+    809.2,
+    594.6
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.24.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "360.00",
+   "norm": 360.0,
+   "page": 1,
+   "bbox": [
+    870.2,
+    576.6,
+    914.2,
+    594.6
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.24.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "388.80",
+   "norm": 388.8,
+   "page": 1,
+   "bbox": [
+    975.2,
+    576.6,
+    1019.2,
+    594.6
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.24.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "1.200",
+   "norm": 1.2,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    576.6,
+    1113.0,
+    594.6
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.25.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "4877-5198",
+   "norm": "4877-5198",
+   "page": 1,
+   "bbox": [
+    261.5,
+    627.5,
+    331.0,
+    645.5
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.25.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 1,
+   "bbox": [
+    350.2,
+    627.5,
+    571.5,
+    668.0
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.25.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "322 CTNS",
+   "norm": "322 CTNS",
+   "page": 1,
+   "bbox": [
+    624.7,
+    627.5,
+    693.8,
+    645.5
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.25.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "644,000 PCS",
+   "norm": "644,000 PCS",
+   "page": 1,
+   "bbox": [
+    724.6,
+    627.5,
+    809.2,
+    645.5
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.25.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "2,898.00",
+   "norm": 2898.0,
+   "page": 1,
+   "bbox": [
+    858.1,
+    627.5,
+    914.2,
+    645.5
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.25.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "3,129.84",
+   "norm": 3129.84,
+   "page": 1,
+   "bbox": [
+    963.1,
+    627.5,
+    1019.2,
+    645.5
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.25.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "9.660",
+   "norm": 9.66,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    627.5,
+    1113.0,
+    645.5
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "containers.2.packages",
+   "label": "ContainerPackages",
+   "type": "text",
+   "value": "1,603 CTNS",
+   "norm": "1,603 CTNS",
+   "page": 1,
+   "bbox": [
+    615.4,
+    680.0,
+    693.8,
+    698.0
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "containers.2.net_weight",
+   "label": "ContainerNetWeight",
+   "type": "number",
+   "value": "13,561.00",
+   "norm": 13561.0,
+   "page": 1,
+   "bbox": [
+    850.1,
+    680.0,
+    914.2,
+    698.0
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "containers.2.gross_weight",
+   "label": "ContainerGrossWeight",
+   "type": "number",
+   "value": "14,645.88",
+   "norm": 14645.88,
+   "page": 1,
+   "bbox": [
+    955.1,
+    680.0,
+    1019.2,
+    698.0
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "containers.2.measurement",
+   "label": "ContainerMeasurement",
+   "type": "number",
+   "value": "48.090",
+   "norm": 48.09,
+   "page": 1,
+   "bbox": [
+    1068.9,
+    680.0,
+    1113.0,
+    698.0
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "containers.3.no",
+   "label": "ContainerNo",
+   "type": "text",
+   "value": "BAQU2389609",
+   "norm": "BAQU2389609",
+   "page": 1,
+   "bbox": [
+    382.4,
+    712.9,
+    480.0,
+    729.4
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "containers.3.seal",
+   "label": "SealNo",
+   "type": "text",
+   "value": "H251874",
+   "norm": "H251874",
+   "page": 1,
+   "bbox": [
+    573.0,
+    712.9,
+    630.8,
+    729.4
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.26.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "5199-5574",
+   "norm": "5199-5574",
+   "page": 1,
+   "bbox": [
+    261.5,
+    740.4,
+    331.0,
+    758.4
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.26.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 1,
+   "bbox": [
+    350.2,
+    740.4,
+    571.5,
+    780.8
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.26.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "376 CTNS",
+   "norm": "376 CTNS",
+   "page": 1,
+   "bbox": [
+    624.7,
+    740.4,
+    693.8,
+    758.4
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.26.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "752,000 PCS",
+   "norm": "752,000 PCS",
+   "page": 1,
+   "bbox": [
+    724.6,
+    740.4,
+    809.2,
+    758.4
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.26.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "3,384.00",
+   "norm": 3384.0,
+   "page": 1,
+   "bbox": [
+    858.1,
+    740.4,
+    914.2,
+    758.4
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.26.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "3,654.72",
+   "norm": 3654.72,
+   "page": 1,
+   "bbox": [
+    963.1,
+    740.4,
+    1019.2,
+    758.4
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.26.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "11.280",
+   "norm": 11.28,
+   "page": 1,
+   "bbox": [
+    1069.5,
+    740.4,
+    1113.0,
+    758.4
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.27.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "5575-5676",
+   "norm": "5575-5676",
+   "page": 1,
+   "bbox": [
+    261.5,
+    791.3,
+    331.0,
+    809.3
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.27.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 1,
+   "bbox": [
+    350.2,
+    791.3,
+    571.5,
+    831.8
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.27.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "102 CTNS",
+   "norm": "102 CTNS",
+   "page": 1,
+   "bbox": [
+    624.7,
+    791.3,
+    693.8,
+    809.3
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.27.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "204,000 PCS",
+   "norm": "204,000 PCS",
+   "page": 1,
+   "bbox": [
+    724.6,
+    791.3,
+    809.2,
+    809.3
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.27.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "918.00",
+   "norm": 918.0,
+   "page": 1,
+   "bbox": [
+    870.2,
+    791.3,
+    914.2,
+    809.3
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.27.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "991.44",
+   "norm": 991.44,
+   "page": 1,
+   "bbox": [
+    975.2,
+    791.3,
+    1019.2,
+    809.3
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.27.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "3.060",
+   "norm": 3.06,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    791.3,
+    1113.0,
+    809.3
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.28.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "5677-5791",
+   "norm": "5677-5791",
+   "page": 1,
+   "bbox": [
+    261.5,
+    842.3,
+    331.0,
+    860.3
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.28.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 1,
+   "bbox": [
+    350.2,
+    842.3,
+    571.5,
+    882.8
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.28.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "115 CTNS",
+   "norm": "115 CTNS",
+   "page": 1,
+   "bbox": [
+    625.3,
+    842.3,
+    693.8,
+    860.3
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.28.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "230,000 PCS",
+   "norm": "230,000 PCS",
+   "page": 1,
+   "bbox": [
+    724.6,
+    842.3,
+    809.2,
+    860.3
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.28.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "1,035.00",
+   "norm": 1035.0,
+   "page": 1,
+   "bbox": [
+    858.1,
+    842.3,
+    914.2,
+    860.3
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.28.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "1,117.80",
+   "norm": 1117.8,
+   "page": 1,
+   "bbox": [
+    963.7,
+    842.3,
+    1019.2,
+    860.3
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.28.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "3.450",
+   "norm": 3.45,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    842.3,
+    1113.0,
+    860.3
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.29.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "5792-5847",
+   "norm": "5792-5847",
+   "page": 1,
+   "bbox": [
+    261.5,
+    893.2,
+    331.0,
+    911.2
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.29.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 1,
+   "bbox": [
+    350.2,
+    893.2,
+    571.5,
+    933.7
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.29.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "56 CTNS",
+   "norm": "56 CTNS",
+   "page": 1,
+   "bbox": [
+    632.7,
+    893.2,
+    693.8,
+    911.2
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.29.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "112,000 PCS",
+   "norm": "112,000 PCS",
+   "page": 1,
+   "bbox": [
+    725.2,
+    893.2,
+    809.2,
+    911.2
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.29.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "504.00",
+   "norm": 504.0,
+   "page": 1,
+   "bbox": [
+    870.2,
+    893.2,
+    914.2,
+    911.2
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.29.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "544.32",
+   "norm": 544.32,
+   "page": 1,
+   "bbox": [
+    975.2,
+    893.2,
+    1019.2,
+    911.2
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.29.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "1.680",
+   "norm": 1.68,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    893.2,
+    1113.0,
+    911.2
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.30.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "5848-5885",
+   "norm": "5848-5885",
+   "page": 1,
+   "bbox": [
+    261.5,
+    944.2,
+    331.0,
+    962.2
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.30.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 1,
+   "bbox": [
+    350.2,
+    944.2,
+    571.5,
+    984.7
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.30.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "38 CTNS",
+   "norm": "38 CTNS",
+   "page": 1,
+   "bbox": [
+    632.7,
+    944.2,
+    693.8,
+    962.2
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.30.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "76,000 PCS",
+   "norm": "76,000 PCS",
+   "page": 1,
+   "bbox": [
+    732.6,
+    944.2,
+    809.2,
+    962.2
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.30.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "342.00",
+   "norm": 342.0,
+   "page": 1,
+   "bbox": [
+    870.2,
+    944.2,
+    914.2,
+    962.2
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.30.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "369.36",
+   "norm": 369.36,
+   "page": 1,
+   "bbox": [
+    975.2,
+    944.2,
+    1019.2,
+    962.2
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.30.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "1.140",
+   "norm": 1.14,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    944.2,
+    1113.0,
+    962.2
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.31.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "5886-5923",
+   "norm": "5886-5923",
+   "page": 1,
+   "bbox": [
+    261.5,
+    995.1,
+    331.0,
+    1013.1
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.31.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 1,
+   "bbox": [
+    350.2,
+    995.1,
+    571.5,
+    1035.6
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.31.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "38 CTNS",
+   "norm": "38 CTNS",
+   "page": 1,
+   "bbox": [
+    632.7,
+    995.1,
+    693.8,
+    1013.1
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.31.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "76,000 PCS",
+   "norm": "76,000 PCS",
+   "page": 1,
+   "bbox": [
+    732.6,
+    995.1,
+    809.2,
+    1013.1
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.31.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "342.00",
+   "norm": 342.0,
+   "page": 1,
+   "bbox": [
+    870.2,
+    995.1,
+    914.2,
+    1013.1
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.31.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "369.36",
+   "norm": 369.36,
+   "page": 1,
+   "bbox": [
+    975.2,
+    995.1,
+    1019.2,
+    1013.1
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.31.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "1.140",
+   "norm": 1.14,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    995.1,
+    1113.0,
+    1013.1
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.32.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "5924-6143",
+   "norm": "5924-6143",
+   "page": 1,
+   "bbox": [
+    261.5,
+    1046.1,
+    331.0,
+    1064.1
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.32.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 1,
+   "bbox": [
+    350.2,
+    1046.1,
+    571.5,
+    1086.6
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.32.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "220 CTNS",
+   "norm": "220 CTNS",
+   "page": 1,
+   "bbox": [
+    624.7,
+    1046.1,
+    693.8,
+    1064.1
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.32.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "440,000 PCS",
+   "norm": "440,000 PCS",
+   "page": 1,
+   "bbox": [
+    724.6,
+    1046.1,
+    809.2,
+    1064.1
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.32.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "1,980.00",
+   "norm": 1980.0,
+   "page": 1,
+   "bbox": [
+    858.1,
+    1046.1,
+    914.2,
+    1064.1
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.32.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "2,138.40",
+   "norm": 2138.4,
+   "page": 1,
+   "bbox": [
+    963.1,
+    1046.1,
+    1019.2,
+    1064.1
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.32.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "6.600",
+   "norm": 6.6,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    1046.1,
+    1113.0,
+    1064.1
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.33.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "6144-6210",
+   "norm": "6144-6210",
+   "page": 1,
+   "bbox": [
+    261.5,
+    1097.0,
+    331.0,
+    1115.0
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.33.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 1,
+   "bbox": [
+    350.2,
+    1097.0,
+    571.5,
+    1137.5
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.33.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "67 CTNS",
+   "norm": "67 CTNS",
+   "page": 1,
+   "bbox": [
+    632.7,
+    1097.0,
+    693.8,
+    1115.0
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.33.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "134,000 PCS",
+   "norm": "134,000 PCS",
+   "page": 1,
+   "bbox": [
+    724.6,
+    1097.0,
+    809.2,
+    1115.0
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.33.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "603.00",
+   "norm": 603.0,
+   "page": 1,
+   "bbox": [
+    870.2,
+    1097.0,
+    914.2,
+    1115.0
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.33.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "651.24",
+   "norm": 651.24,
+   "page": 1,
+   "bbox": [
+    975.2,
+    1097.0,
+    1019.2,
+    1115.0
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.33.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "2.010",
+   "norm": 2.01,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    1097.0,
+    1113.0,
+    1115.0
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.34.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "6211-6241",
+   "norm": "6211-6241",
+   "page": 1,
+   "bbox": [
+    261.8,
+    1148.0,
+    330.7,
+    1166.0
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.34.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "norm": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "page": 1,
+   "bbox": [
+    350.2,
+    1148.0,
+    571.5,
+    1188.5
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.34.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "31 CTNS",
+   "norm": "31 CTNS",
+   "page": 1,
+   "bbox": [
+    632.7,
+    1148.0,
+    693.8,
+    1166.0
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.34.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "62,000 PCS",
+   "norm": "62,000 PCS",
+   "page": 1,
+   "bbox": [
+    732.6,
+    1148.0,
+    809.2,
+    1166.0
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.34.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "279.00",
+   "norm": 279.0,
+   "page": 1,
+   "bbox": [
+    870.2,
+    1148.0,
+    914.2,
+    1166.0
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.34.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "301.32",
+   "norm": 301.32,
+   "page": 1,
+   "bbox": [
+    975.2,
+    1148.0,
+    1019.2,
+    1166.0
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.34.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "0.930",
+   "norm": 0.93,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    1148.0,
+    1113.0,
+    1166.0
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.35.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "6242-6260",
+   "norm": "6242-6260",
+   "page": 1,
+   "bbox": [
+    261.5,
+    1198.9,
+    331.0,
+    1216.9
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.35.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 1,
+   "bbox": [
+    350.2,
+    1198.9,
+    551.7,
+    1239.4
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.35.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "19 CTNS",
+   "norm": "19 CTNS",
+   "page": 1,
+   "bbox": [
+    632.7,
+    1198.9,
+    693.8,
+    1216.9
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.35.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "7,600 PCS",
+   "norm": "7,600 PCS",
+   "page": 1,
+   "bbox": [
+    740.6,
+    1198.9,
+    809.2,
+    1216.9
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.35.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "361.00",
+   "norm": 361.0,
+   "page": 1,
+   "bbox": [
+    870.2,
+    1198.9,
+    914.2,
+    1216.9
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.35.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "389.88",
+   "norm": 389.88,
+   "page": 1,
+   "bbox": [
+    975.2,
+    1198.9,
+    1019.2,
+    1216.9
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.35.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "0.665",
+   "norm": 0.665,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    1198.9,
+    1113.0,
+    1216.9
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.36.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "6261-6333",
+   "norm": "6261-6333",
+   "page": 1,
+   "bbox": [
+    261.5,
+    1249.9,
+    331.0,
+    1267.9
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.36.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 1,
+   "bbox": [
+    350.2,
+    1249.9,
+    551.7,
+    1290.4
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.36.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "73 CTNS",
+   "norm": "73 CTNS",
+   "page": 1,
+   "bbox": [
+    632.7,
+    1249.9,
+    693.8,
+    1267.9
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.36.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "29,200 PCS",
+   "norm": "29,200 PCS",
+   "page": 1,
+   "bbox": [
+    732.6,
+    1249.9,
+    809.2,
+    1267.9
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.36.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "1,387.00",
+   "norm": 1387.0,
+   "page": 1,
+   "bbox": [
+    858.1,
+    1249.9,
+    914.2,
+    1267.9
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.36.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "1,497.96",
+   "norm": 1497.96,
+   "page": 1,
+   "bbox": [
+    963.1,
+    1249.9,
+    1019.2,
+    1267.9
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.36.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "2.555",
+   "norm": 2.555,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    1249.9,
+    1113.0,
+    1267.9
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.37.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "6334-6415",
+   "norm": "6334-6415",
+   "page": 1,
+   "bbox": [
+    261.5,
+    1300.9,
+    331.0,
+    1318.9
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.37.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 1,
+   "bbox": [
+    350.2,
+    1300.9,
+    551.7,
+    1341.3
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.37.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "82 CTNS",
+   "norm": "82 CTNS",
+   "page": 1,
+   "bbox": [
+    632.7,
+    1300.9,
+    693.8,
+    1318.9
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.37.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "32,800 PCS",
+   "norm": "32,800 PCS",
+   "page": 1,
+   "bbox": [
+    732.6,
+    1300.9,
+    809.2,
+    1318.9
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.37.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "1,558.00",
+   "norm": 1558.0,
+   "page": 1,
+   "bbox": [
+    858.1,
+    1300.9,
+    914.2,
+    1318.9
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.37.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "1,682.64",
+   "norm": 1682.64,
+   "page": 1,
+   "bbox": [
+    963.1,
+    1300.9,
+    1019.2,
+    1318.9
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.37.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "2.870",
+   "norm": 2.87,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    1300.9,
+    1113.0,
+    1318.9
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.38.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "6416-6478",
+   "norm": "6416-6478",
+   "page": 1,
+   "bbox": [
+    261.5,
+    1351.8,
+    331.0,
+    1369.8
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.38.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 1,
+   "bbox": [
+    350.2,
+    1351.8,
+    551.7,
+    1392.3
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.38.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "63 CTNS",
+   "norm": "63 CTNS",
+   "page": 1,
+   "bbox": [
+    632.7,
+    1351.8,
+    693.8,
+    1369.8
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.38.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "25,200 PCS",
+   "norm": "25,200 PCS",
+   "page": 1,
+   "bbox": [
+    732.6,
+    1351.8,
+    809.2,
+    1369.8
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.38.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "1,197.00",
+   "norm": 1197.0,
+   "page": 1,
+   "bbox": [
+    858.1,
+    1351.8,
+    914.2,
+    1369.8
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.38.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "1,292.76",
+   "norm": 1292.76,
+   "page": 1,
+   "bbox": [
+    963.1,
+    1351.8,
+    1019.2,
+    1369.8
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.38.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "2.205",
+   "norm": 2.205,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    1351.8,
+    1113.0,
+    1369.8
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.39.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "6479-6541",
+   "norm": "6479-6541",
+   "page": 1,
+   "bbox": [
+    261.5,
+    1402.8,
+    331.0,
+    1420.8
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.39.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 1,
+   "bbox": [
+    350.2,
+    1402.8,
+    551.7,
+    1443.2
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.39.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "63 CTNS",
+   "norm": "63 CTNS",
+   "page": 1,
+   "bbox": [
+    632.7,
+    1402.8,
+    693.8,
+    1420.8
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.39.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "25,200 PCS",
+   "norm": "25,200 PCS",
+   "page": 1,
+   "bbox": [
+    732.6,
+    1402.8,
+    809.2,
+    1420.8
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.39.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "1,197.00",
+   "norm": 1197.0,
+   "page": 1,
+   "bbox": [
+    858.1,
+    1402.8,
+    914.2,
+    1420.8
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.39.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "1,292.76",
+   "norm": 1292.76,
+   "page": 1,
+   "bbox": [
+    963.1,
+    1402.8,
+    1019.2,
+    1420.8
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.39.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "2.205",
+   "norm": 2.205,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    1402.8,
+    1113.0,
+    1420.8
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.40.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "6542-6577",
+   "norm": "6542-6577",
+   "page": 1,
+   "bbox": [
+    261.5,
+    1453.7,
+    331.0,
+    1471.7
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.40.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 1,
+   "bbox": [
+    350.2,
+    1453.7,
+    551.7,
+    1494.2
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.40.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "36 CTNS",
+   "norm": "36 CTNS",
+   "page": 1,
+   "bbox": [
+    632.7,
+    1453.7,
+    693.8,
+    1471.7
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.40.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "14,400 PCS",
+   "norm": "14,400 PCS",
+   "page": 1,
+   "bbox": [
+    732.6,
+    1453.7,
+    809.2,
+    1471.7
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.40.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "684.00",
+   "norm": 684.0,
+   "page": 1,
+   "bbox": [
+    870.2,
+    1453.7,
+    914.2,
+    1471.7
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.40.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "738.72",
+   "norm": 738.72,
+   "page": 1,
+   "bbox": [
+    975.2,
+    1453.7,
+    1019.2,
+    1471.7
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.40.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "1.260",
+   "norm": 1.26,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    1453.7,
+    1113.0,
+    1471.7
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.41.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "6578-6650",
+   "norm": "6578-6650",
+   "page": 1,
+   "bbox": [
+    261.5,
+    1504.7,
+    331.0,
+    1522.7
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.41.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 1,
+   "bbox": [
+    350.2,
+    1504.7,
+    551.7,
+    1545.1
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.41.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "73 CTNS",
+   "norm": "73 CTNS",
+   "page": 1,
+   "bbox": [
+    632.7,
+    1504.7,
+    693.8,
+    1522.7
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.41.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "29,200 PCS",
+   "norm": "29,200 PCS",
+   "page": 1,
+   "bbox": [
+    732.6,
+    1504.7,
+    809.2,
+    1522.7
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.41.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "1,387.00",
+   "norm": 1387.0,
+   "page": 1,
+   "bbox": [
+    858.1,
+    1504.7,
+    914.2,
+    1522.7
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.41.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "1,497.96",
+   "norm": 1497.96,
+   "page": 1,
+   "bbox": [
+    963.1,
+    1504.7,
+    1019.2,
+    1522.7
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.41.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "2.555",
+   "norm": 2.555,
+   "page": 1,
+   "bbox": [
+    1076.9,
+    1504.7,
+    1113.0,
+    1522.7
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.42.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "6651-6679",
+   "norm": "6651-6679",
+   "page": 2,
+   "bbox": [
+    261.5,
+    168.9,
+    331.0,
+    186.9
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.42.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 2,
+   "bbox": [
+    350.2,
+    168.9,
+    551.7,
+    209.4
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.42.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "29 CTNS",
+   "norm": "29 CTNS",
+   "page": 2,
+   "bbox": [
+    632.7,
+    168.9,
+    693.8,
+    186.9
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.42.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "11,600 PCS",
+   "norm": "11,600 PCS",
+   "page": 2,
+   "bbox": [
+    733.2,
+    168.9,
+    809.2,
+    186.9
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.42.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "551.00",
+   "norm": 551.0,
+   "page": 2,
+   "bbox": [
+    870.2,
+    168.9,
+    914.2,
+    186.9
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.42.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "595.08",
+   "norm": 595.08,
+   "page": 2,
+   "bbox": [
+    975.2,
+    168.9,
+    1019.2,
+    186.9
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.42.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "1.015",
+   "norm": 1.015,
+   "page": 2,
+   "bbox": [
+    1076.9,
+    168.9,
+    1113.0,
+    186.9
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.43.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "6680-6712",
+   "norm": "6680-6712",
+   "page": 2,
+   "bbox": [
+    261.5,
+    219.9,
+    331.0,
+    237.9
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.43.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 2,
+   "bbox": [
+    350.2,
+    219.9,
+    551.7,
+    260.4
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.43.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "33 CTNS",
+   "norm": "33 CTNS",
+   "page": 2,
+   "bbox": [
+    632.7,
+    219.9,
+    693.8,
+    237.9
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.43.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "13,200 PCS",
+   "norm": "13,200 PCS",
+   "page": 2,
+   "bbox": [
+    732.6,
+    219.9,
+    809.2,
+    237.9
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.43.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "627.00",
+   "norm": 627.0,
+   "page": 2,
+   "bbox": [
+    870.2,
+    219.9,
+    914.2,
+    237.9
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.43.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "677.16",
+   "norm": 677.16,
+   "page": 2,
+   "bbox": [
+    975.2,
+    219.9,
+    1019.2,
+    237.9
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.43.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "1.155",
+   "norm": 1.155,
+   "page": 2,
+   "bbox": [
+    1076.9,
+    219.9,
+    1113.0,
+    237.9
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.44.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "6713-6752",
+   "norm": "6713-6752",
+   "page": 2,
+   "bbox": [
+    261.5,
+    270.8,
+    331.0,
+    288.8
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.44.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 2,
+   "bbox": [
+    350.2,
+    270.8,
+    551.7,
+    311.3
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.44.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "40 CTNS",
+   "norm": "40 CTNS",
+   "page": 2,
+   "bbox": [
+    632.7,
+    270.8,
+    693.8,
+    288.8
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.44.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "16,000 PCS",
+   "norm": "16,000 PCS",
+   "page": 2,
+   "bbox": [
+    732.6,
+    270.8,
+    809.2,
+    288.8
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.44.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "760.00",
+   "norm": 760.0,
+   "page": 2,
+   "bbox": [
+    870.2,
+    270.8,
+    914.2,
+    288.8
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.44.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "820.80",
+   "norm": 820.8,
+   "page": 2,
+   "bbox": [
+    975.2,
+    270.8,
+    1019.2,
+    288.8
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.44.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "1.400",
+   "norm": 1.4,
+   "page": 2,
+   "bbox": [
+    1076.9,
+    270.8,
+    1113.0,
+    288.8
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.45.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "6753-6785",
+   "norm": "6753-6785",
+   "page": 2,
+   "bbox": [
+    261.5,
+    321.8,
+    331.0,
+    339.8
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.45.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 2,
+   "bbox": [
+    350.2,
+    321.8,
+    551.7,
+    362.3
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.45.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "33 CTNS",
+   "norm": "33 CTNS",
+   "page": 2,
+   "bbox": [
+    632.7,
+    321.8,
+    693.8,
+    339.8
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.45.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "13,200 PCS",
+   "norm": "13,200 PCS",
+   "page": 2,
+   "bbox": [
+    732.6,
+    321.8,
+    809.2,
+    339.8
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.45.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "627.00",
+   "norm": 627.0,
+   "page": 2,
+   "bbox": [
+    870.2,
+    321.8,
+    914.2,
+    339.8
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.45.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "677.16",
+   "norm": 677.16,
+   "page": 2,
+   "bbox": [
+    975.2,
+    321.8,
+    1019.2,
+    339.8
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.45.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "1.155",
+   "norm": 1.155,
+   "page": 2,
+   "bbox": [
+    1076.9,
+    321.8,
+    1113.0,
+    339.8
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.46.ctn_no",
+   "label": "C/TNo",
+   "type": "text",
+   "value": "6786-6844",
+   "norm": "6786-6844",
+   "page": 2,
+   "bbox": [
+    261.5,
+    372.8,
+    331.0,
+    390.8
+   ],
+   "label_bbox": [
+    249.0,
+    114.6,
+    343.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.46.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 2,
+   "bbox": [
+    350.2,
+    372.8,
+    551.7,
+    413.2
+   ],
+   "label_bbox": [
+    343.5,
+    114.6,
+    595.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.46.packages",
+   "label": "Packages",
+   "type": "text",
+   "value": "59 CTNS",
+   "norm": "59 CTNS",
+   "page": 2,
+   "bbox": [
+    632.7,
+    372.8,
+    693.8,
+    390.8
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "items.46.quantity",
+   "label": "Quantity",
+   "type": "text",
+   "value": "23,600 PCS",
+   "norm": "23,600 PCS",
+   "page": 2,
+   "bbox": [
+    732.6,
+    372.8,
+    809.2,
+    390.8
+   ],
+   "label_bbox": [
+    700.5,
+    114.6,
+    816.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.46.net_weight",
+   "label": "NetWeight",
+   "type": "number",
+   "value": "1,121.00",
+   "norm": 1121.0,
+   "page": 2,
+   "bbox": [
+    858.1,
+    372.8,
+    914.2,
+    390.8
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.46.gross_weight",
+   "label": "GrossWeight",
+   "type": "number",
+   "value": "1,210.68",
+   "norm": 1210.68,
+   "page": 2,
+   "bbox": [
+    963.1,
+    372.8,
+    1019.2,
+    390.8
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "items.46.measurement",
+   "label": "Measurement",
+   "type": "number",
+   "value": "2.065",
+   "norm": 2.065,
+   "page": 2,
+   "bbox": [
+    1076.9,
+    372.8,
+    1113.0,
+    390.8
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "containers.3.packages",
+   "label": "ContainerPackages",
+   "type": "text",
+   "value": "1,646 CTNS",
+   "norm": "1,646 CTNS",
+   "page": 2,
+   "bbox": [
+    615.4,
+    425.2,
+    693.8,
+    443.2
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "containers.3.net_weight",
+   "label": "ContainerNetWeight",
+   "type": "number",
+   "value": "20,844.00",
+   "norm": 20844.0,
+   "page": 2,
+   "bbox": [
+    850.1,
+    425.2,
+    914.2,
+    443.2
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "containers.3.gross_weight",
+   "label": "ContainerGrossWeight",
+   "type": "number",
+   "value": "22,511.52",
+   "norm": 22511.52,
+   "page": 2,
+   "bbox": [
+    956.3,
+    425.2,
+    1019.2,
+    443.2
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "containers.3.measurement",
+   "label": "ContainerMeasurement",
+   "type": "number",
+   "value": "52.395",
+   "norm": 52.395,
+   "page": 2,
+   "bbox": [
+    1068.9,
+    425.2,
+    1113.0,
+    443.2
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "total.packages",
+   "label": "TotalPackages",
+   "type": "text",
+   "value": "6,844 CTNS",
+   "norm": "6,844 CTNS",
+   "page": 2,
+   "bbox": [
+    610.9,
+    455.2,
+    693.8,
+    473.2
+   ],
+   "label_bbox": [
+    595.5,
+    114.6,
+    700.5,
+    163.7
+   ]
+  },
+  {
+   "key": "total.net_weight",
+   "label": "TotalNetWeight",
+   "type": "text",
+   "value": "59,570.00 KGS",
+   "norm": "59,570.00 KGS",
+   "page": 2,
+   "bbox": [
+    850.1,
+    455.2,
+    914.2,
+    495.7
+   ],
+   "label_bbox": [
+    816.0,
+    114.6,
+    921.0,
+    163.7
+   ]
+  },
+  {
+   "key": "total.gross_weight",
+   "label": "TotalGrossWeight",
+   "type": "text",
+   "value": "64,335.60 KGS",
+   "norm": "64,335.60 KGS",
+   "page": 2,
+   "bbox": [
+    955.1,
+    455.2,
+    1019.2,
+    495.7
+   ],
+   "label_bbox": [
+    921.0,
+    114.6,
+    1026.0,
+    163.7
+   ]
+  },
+  {
+   "key": "total.measurement",
+   "label": "TotalMeasurement",
+   "type": "text",
+   "value": "208.335 CBM",
+   "norm": "208.335 CBM",
+   "page": 2,
+   "bbox": [
+    1060.9,
+    455.2,
+    1113.0,
+    495.7
+   ],
+   "label_bbox": [
+    1026.0,
+    114.6,
+    1120.5,
+    163.7
+   ]
+  },
+  {
+   "key": "signed_by",
+   "label": "Signedby",
+   "type": "text",
+   "value": "MERIDIAN GLOBAL SOURCING PTE. LTD.",
+   "norm": "MERIDIAN GLOBAL SOURCING PTE. LTD.",
+   "page": 2,
+   "bbox": [
+    672.0,
+    569.7,
+    1027.9,
+    589.2
+   ],
+   "label_bbox": [
+    672.0,
+    543.6,
+    1122.0,
+    568.2
+   ]
+  },
+  {
+   "key": "signer",
+   "label": "Signer",
+   "type": "text",
+   "value": "David Wong",
+   "norm": "David Wong",
+   "page": 2,
+   "bbox": [
+    672.0,
+    654.3,
+    760.4,
+    673.8
+   ]
+  }
+ ]
+}

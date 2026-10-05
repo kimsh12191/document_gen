@@ -2,6 +2,9 @@
  "document_type": "통장사본",
  "bank": "농협은행",
  "product": "저축예금",
+ "seal": {
+  "registered": true
+ },
  "passbook_no": "03",
  "account_no": "628-8975-1402-61",
  "holder": "김소윤",

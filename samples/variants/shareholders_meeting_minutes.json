@@ -1,0 +1,240 @@
+{
+ "document_type": "임시주주총회의사록",
+ "meeting_title": "정기주주총회의사록",
+ "datetime": "2025년 3월 24일 오후 4시 00분",
+ "venue": "본점 대회의실 (서울특별시 영등포구 국제금융로 22-7, 8층)",
+ "shareholders_total": "36명",
+ "issued_shares": "19,323주",
+ "shareholders_present": "27명",
+ "proxy_count": "위임장에 의한 대리출석 4명 포함",
+ "shares_present": "19,093주",
+ "present_ratio": "98.81%",
+ "treasury_shares": "677주",
+ "attendees": [
+  {
+   "name": "김소윤",
+   "shares": "15,740",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "선호성",
+   "shares": "907",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "차철예",
+   "shares": "818",
+   "method": "대리출석",
+   "proxy": "김건예 (법무사 사무원)"
+  },
+  {
+   "name": "하나로벤처투자 주식회사",
+   "shares": "551",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "한결창업투자 신기술사업투자조합 제4호",
+   "shares": "493",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "최아현",
+   "shares": "59",
+   "method": "대리출석",
+   "proxy": "황석성 (배우자)"
+  },
+  {
+   "name": "고수율",
+   "shares": "42",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "강아찬",
+   "shares": "42",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "최준도",
+   "shares": "41",
+   "method": "대리출석",
+   "proxy": "배은하 (배우자)"
+  },
+  {
+   "name": "김혜준",
+   "shares": "41",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "옥도찬",
+   "shares": "38",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "차유주",
+   "shares": "31",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "윤영예",
+   "shares": "30",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "노태현",
+   "shares": "29",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "엄수인",
+   "shares": "29",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "김서유",
+   "shares": "26",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "김건혜",
+   "shares": "25",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "박정은",
+   "shares": "25",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "전혁주",
+   "shares": "17",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "장은유",
+   "shares": "17",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "명찬서",
+   "shares": "16",
+   "method": "대리출석",
+   "proxy": "이찬혜 (대리인)"
+  },
+  {
+   "name": "양욱주",
+   "shares": "15",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "강도진",
+   "shares": "13",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "옥아성",
+   "shares": "13",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "표용지",
+   "shares": "13",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "주민윤",
+   "shares": "12",
+   "method": "본인출석",
+   "proxy": null
+  },
+  {
+   "name": "홍영진",
+   "shares": "10",
+   "method": "본인출석",
+   "proxy": null
+  }
+ ],
+ "chair": "김소윤",
+ "agendas": [
+  {
+   "no": "제1호 의안",
+   "title": "제4기(2024년도) 재무제표 승인의 건",
+   "body": "의장은 제출된 재무상태표, 손익계산서 및 이익잉여금처분계산서(안)의 내용을 설명하고 그 승인을 물은바, 출석주주 전원의 찬성으로 원안대로 승인 가결하다."
+  },
+  {
+   "no": "제2호 의안",
+   "title": "이익배당의 건",
+   "body": "의장은 아래와 같이 현금배당을 실시할 것을 제안하고 그 가부를 물은바, 출석주주 의결권의 과반수인 19,064주의 찬성으로 원안대로 승인 가결하다. (주주 노태현 반대)",
+   "detail": "배당의 종류 : 현금배당 / 1주당 배당금 : 보통주 100원 / 배당기준일 : 2024.12.31",
+   "votes": "찬성 19,064주, 반대 29주"
+  },
+  {
+   "no": "제3호 의안",
+   "title": "감사 보수한도 승인의 건",
+   "body": "의장은 당해 사업연도 감사 보수한도액을 아래와 같이 정하고자 함을 설명하고 그 승인을 물은바, 출석주주 전원이 이의 없이 찬성하여 원안대로 승인 가결하다.",
+   "detail": "감사 보수한도액: 금 일억삼천만원 (₩130,000,000)"
+  },
+  {
+   "no": "제4호 의안",
+   "title": "감사 선임의 건",
+   "body": "의장은 감사 김채진의 임기 만료로 감사를 선임하여야 함을 설명하고 그 선임을 물은바, 출석주주 전원의 찬성으로 아래 사람을 감사로 선임하다. 피선임자는 즉석에서 취임을 승낙하다.",
+   "detail": "감사  김채진 (1975년 8월 18일생)  중임"
+  },
+  {
+   "no": "제5호 의안",
+   "title": "이사 보수한도 승인의 건",
+   "body": "의장은 당해 사업연도 이사 보수한도액을 아래와 같이 정하고자 함을 설명하고 그 승인을 물은바, 출석주주 전원의 찬성으로 원안대로 승인 가결하다.",
+   "detail": "이사 보수한도액: 금 구억원 (₩900,000,000)"
+  }
+ ],
+ "end_time": "오후 5시 16분",
+ "minutes_date": "2025년 3월 24일",
+ "company_name": "주식회사 새한소프트",
+ "head_office": "서울특별시 영등포구 국제금융로 22-7, 8층",
+ "signers": [
+  {
+   "title": "의장 대표이사",
+   "name": "김소윤"
+  },
+  {
+   "title": "사내이사",
+   "name": "선호성"
+  },
+  {
+   "title": "사내이사",
+   "name": "차철예"
+  }
+ ],
+ "seal": {
+  "corp": true,
+  "signer2": false,
+  "signer3": false,
+  "notary": true
+ },
+ "notary": {
+  "reg_no": "2025년 제3993호",
+  "date": "2025년 3월 31일",
+  "office": "법무법인 해송",
+  "lawyer": "김기민"
+ }
+}

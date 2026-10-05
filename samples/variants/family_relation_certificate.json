@@ -1,0 +1,79 @@
+{
+ "document_type": "가족관계증명서",
+ "cert_type": "상세",
+ "reg_base": "서울특별시 마포구 서교동 159",
+ "self": {
+  "relation": "본인",
+  "name": "김소윤",
+  "name_hanja": "金素允",
+  "birth": "1990년 11월 21일",
+  "rrn": "901121-2******",
+  "gender": "여",
+  "bon": "安東"
+ },
+ "family": [
+  {
+   "relation": "부",
+   "name": "김상승",
+   "name_hanja": "金祥丞",
+   "status": "사망",
+   "nationality": "중국",
+   "birth": "1955년 10월 09일",
+   "gender": "남"
+  },
+  {
+   "relation": "모",
+   "name": "정유은",
+   "name_hanja": "鄭裕殷",
+   "nationality": "중국",
+   "birth": "1961년 07월 04일",
+   "gender": "여"
+  },
+  {
+   "relation": "배우자",
+   "name": "김승성",
+   "name_hanja": "金承誠",
+   "birth": "1990년 03월 06일",
+   "rrn": "900306-1******",
+   "gender": "남",
+   "bon": "金海"
+  },
+  {
+   "relation": "자녀",
+   "name": "김주지",
+   "name_hanja": "金珠志",
+   "birth": "2019년 01월 07일",
+   "rrn": "190107-4******",
+   "gender": "여",
+   "bon": "金海"
+  },
+  {
+   "relation": "자녀",
+   "name": "김민윤",
+   "name_hanja": "金珉潤",
+   "birth": "2020년 11월 02일",
+   "rrn": "201102-4******",
+   "gender": "여",
+   "bon": "金海"
+  },
+  {
+   "relation": "자녀",
+   "name": "김형율",
+   "name_hanja": "金亨栗",
+   "status": "사망",
+   "birth": "2021년 03월 12일",
+   "rrn": "210312-3******",
+   "gender": "남",
+   "bon": "金海"
+  }
+ ],
+ "issue_date": "2025년 11월 29일",
+ "issuer": "광주광역시 서구청장",
+ "seal": {
+  "issuer": true
+ },
+ "issue_time": "16시 40분",
+ "officer": "백순우",
+ "officer_phone": "062-601-9895",
+ "applicant": "김소윤"
+}

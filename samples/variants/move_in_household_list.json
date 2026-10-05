@@ -1,0 +1,45 @@
+{
+ "document_type": "전입세대확인서",
+ "issue_no": "2930-9692-2313-3540",
+ "issue_date": "2025.11.29",
+ "kind": "교부",
+ "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+ "jibun_address": "광주광역시 서구 치평동 193-4 114동 1401호",
+ "households": [
+  {
+   "no": "1",
+   "head_name": "김*윤",
+   "move_in_date": "2025-10-15",
+   "reg_type": "거주자",
+   "first_name": "김*희",
+   "first_date": "2025-10-12",
+   "first_reg_type": "거주자",
+   "cohabitants": "2"
+  }
+ ],
+ "cohabitants": [
+  {
+   "no": "1",
+   "name": "김*영",
+   "move_in_date": "2025-11-29",
+   "reg_type": "거주자"
+  },
+  {
+   "no": "2",
+   "name": "여*지",
+   "move_in_date": "2025-11-29",
+   "reg_type": "거주자"
+  }
+ ],
+ "applicant": {
+  "name": "김소윤",
+  "rrn": "901121-2******",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+  "purpose": "금융기관 대출(주택담보대출)"
+ },
+ "view_date": "2025년 11월 29일",
+ "issuer": "서구 치평동장",
+ "seal": {
+  "issuer": true
+ }
+}

@@ -1,0 +1,381 @@
+{
+ "document_type": "무역 매매계약서(Sales Contract)",
+ "seller": {
+  "name": "MERIDIAN GLOBAL SOURCING PTE. LTD.",
+  "address": "30 CECIL STREET, #19-08, SINGAPORE 049712",
+  "signer": "David Wong",
+  "title": "General Manager",
+  "sign_date": "14 OCT 2025"
+ },
+ "buyer": {
+  "name": "SAEHAN SOFT CO., LTD.",
+  "address": "8F, DONGBANG PLAZA, 22-7 GUKJEGEUMYUNG-RO, YEONGDEUNGPO-GU, SEOUL 07028, KOREA",
+  "signer": "Kim Soyun",
+  "title": "President & CEO",
+  "sign_date": "14 OCT 2025"
+ },
+ "contract_no": "MGS-SC-25806",
+ "contract_date": "14 OCT 2025",
+ "items": [
+  {
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "model": "RC-917B",
+   "quantity": "42,600,000 PCS",
+   "unit_price": "JPY 0.28",
+   "amount": "JPY 11,928,000"
+  },
+  {
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "model": "RC-321A",
+   "quantity": "31,400,000 PCS",
+   "unit_price": "JPY 0.17",
+   "amount": "JPY 5,338,000"
+  },
+  {
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "model": "RC-220B",
+   "quantity": "11,200,000 PCS",
+   "unit_price": "JPY 0.54",
+   "amount": "JPY 6,048,000"
+  },
+  {
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "model": "RC-150B",
+   "quantity": "20,400,000 PCS",
+   "unit_price": "JPY 0.60",
+   "amount": "JPY 12,240,000"
+  },
+  {
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "model": "RC-680A",
+   "quantity": "74,000,000 PCS",
+   "unit_price": "JPY 0.23",
+   "amount": "JPY 17,020,000"
+  },
+  {
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "model": "RC-958A",
+   "quantity": "65,600,000 PCS",
+   "unit_price": "JPY 0.26",
+   "amount": "JPY 17,056,000"
+  },
+  {
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "model": "RC-504S",
+   "quantity": "55,200,000 PCS",
+   "unit_price": "JPY 0.16",
+   "amount": "JPY 8,832,000"
+  },
+  {
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "model": "RC-619",
+   "quantity": "82,400,000 PCS",
+   "unit_price": "JPY 0.26",
+   "amount": "JPY 21,424,000"
+  },
+  {
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "model": "RC-890S",
+   "quantity": "129,200,000 PCS",
+   "unit_price": "JPY 0.17",
+   "amount": "JPY 21,964,000"
+  },
+  {
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "model": "RC-739",
+   "quantity": "30,200,000 PCS",
+   "unit_price": "JPY 0.59",
+   "amount": "JPY 17,818,000"
+  },
+  {
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "model": "RC-684S",
+   "quantity": "12,200,000 PCS",
+   "unit_price": "JPY 0.55",
+   "amount": "JPY 6,710,000"
+  },
+  {
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "model": "RC-791S",
+   "quantity": "41,400,000 PCS",
+   "unit_price": "JPY 0.48",
+   "amount": "JPY 19,872,000"
+  },
+  {
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "model": "RC-869A",
+   "quantity": "21,800,000 PCS",
+   "unit_price": "JPY 0.56",
+   "amount": "JPY 12,208,000"
+  },
+  {
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "model": "RC-231A",
+   "quantity": "21,000,000 PCS",
+   "unit_price": "JPY 0.58",
+   "amount": "JPY 12,180,000"
+  },
+  {
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "model": "RC-835B",
+   "quantity": "80,400,000 PCS",
+   "unit_price": "JPY 0.18",
+   "amount": "JPY 14,472,000"
+  },
+  {
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "model": "RC-858B",
+   "quantity": "45,200,000 PCS",
+   "unit_price": "JPY 0.39",
+   "amount": "JPY 17,628,000"
+  },
+  {
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "model": "RC-464S",
+   "quantity": "24,200,000 PCS",
+   "unit_price": "JPY 0.26",
+   "amount": "JPY 6,292,000"
+  },
+  {
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "model": "RC-261",
+   "quantity": "17,200,000 PCS",
+   "unit_price": "JPY 0.51",
+   "amount": "JPY 8,772,000"
+  },
+  {
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "model": "BB-877B",
+   "quantity": "1,272,000 PCS",
+   "unit_price": "JPY 12.25",
+   "amount": "JPY 15,582,000"
+  },
+  {
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "model": "BB-666S",
+   "quantity": "408,000 PCS",
+   "unit_price": "JPY 26.06",
+   "amount": "JPY 10,632,480"
+  },
+  {
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "model": "BB-261",
+   "quantity": "500,000 PCS",
+   "unit_price": "JPY 16.33",
+   "amount": "JPY 8,165,000"
+  },
+  {
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "model": "BB-776A",
+   "quantity": "376,000 PCS",
+   "unit_price": "JPY 54.89",
+   "amount": "JPY 20,638,640"
+  },
+  {
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "model": "BB-740S",
+   "quantity": "192,000 PCS",
+   "unit_price": "JPY 54.88",
+   "amount": "JPY 10,536,960"
+  },
+  {
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "model": "BB-859B",
+   "quantity": "484,000 PCS",
+   "unit_price": "JPY 43.90",
+   "amount": "JPY 21,247,600"
+  },
+  {
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "model": "BB-349B",
+   "quantity": "160,000 PCS",
+   "unit_price": "JPY 65.75",
+   "amount": "JPY 10,520,000"
+  },
+  {
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "model": "BB-934B",
+   "quantity": "1,288,000 PCS",
+   "unit_price": "JPY 16.05",
+   "amount": "JPY 20,672,400"
+  },
+  {
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "model": "BB-953B",
+   "quantity": "1,504,000 PCS",
+   "unit_price": "JPY 15.30",
+   "amount": "JPY 23,011,200"
+  },
+  {
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "model": "BB-278S",
+   "quantity": "408,000 PCS",
+   "unit_price": "JPY 28.87",
+   "amount": "JPY 11,778,960"
+  },
+  {
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "model": "BB-356B",
+   "quantity": "460,000 PCS",
+   "unit_price": "JPY 17.36",
+   "amount": "JPY 7,985,600"
+  },
+  {
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "model": "BB-529S",
+   "quantity": "224,000 PCS",
+   "unit_price": "JPY 42.09",
+   "amount": "JPY 9,428,160"
+  },
+  {
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "model": "BB-684",
+   "quantity": "152,000 PCS",
+   "unit_price": "JPY 64.86",
+   "amount": "JPY 9,858,720"
+  },
+  {
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "model": "BB-812B",
+   "quantity": "152,000 PCS",
+   "unit_price": "JPY 51.08",
+   "amount": "JPY 7,764,160"
+  },
+  {
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "model": "BB-737S",
+   "quantity": "880,000 PCS",
+   "unit_price": "JPY 13.05",
+   "amount": "JPY 11,484,000"
+  },
+  {
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "model": "BB-876S",
+   "quantity": "268,000 PCS",
+   "unit_price": "JPY 20.66",
+   "amount": "JPY 5,536,880"
+  },
+  {
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "model": "BB-932A",
+   "quantity": "124,000 PCS",
+   "unit_price": "JPY 44.86",
+   "amount": "JPY 5,562,640"
+  },
+  {
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "model": "INR18650-245S",
+   "quantity": "15,200 PCS",
+   "unit_price": "JPY 457",
+   "amount": "JPY 6,941,992"
+  },
+  {
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "model": "INR18650-460A",
+   "quantity": "58,400 PCS",
+   "unit_price": "JPY 343",
+   "amount": "JPY 20,011,928"
+  },
+  {
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "model": "INR18650-880",
+   "quantity": "65,600 PCS",
+   "unit_price": "JPY 326",
+   "amount": "JPY 21,402,656"
+  },
+  {
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "model": "INR18650-752B",
+   "quantity": "50,400 PCS",
+   "unit_price": "JPY 461",
+   "amount": "JPY 23,259,096"
+  },
+  {
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "model": "INR18650-139S",
+   "quantity": "50,400 PCS",
+   "unit_price": "JPY 273",
+   "amount": "JPY 13,738,536"
+  },
+  {
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "model": "INR18650-861S",
+   "quantity": "28,800 PCS",
+   "unit_price": "JPY 448",
+   "amount": "JPY 12,898,656"
+  },
+  {
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "model": "INR18650-301A",
+   "quantity": "58,400 PCS",
+   "unit_price": "JPY 384",
+   "amount": "JPY 22,399,320"
+  },
+  {
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "model": "INR18650-505B",
+   "quantity": "23,200 PCS",
+   "unit_price": "JPY 417",
+   "amount": "JPY 9,665,816"
+  },
+  {
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "model": "INR18650-797B",
+   "quantity": "26,400 PCS",
+   "unit_price": "JPY 268",
+   "amount": "JPY 7,084,968"
+  },
+  {
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "model": "INR18650-460B",
+   "quantity": "32,000 PCS",
+   "unit_price": "JPY 276",
+   "amount": "JPY 8,821,120"
+  },
+  {
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "model": "INR18650-469S",
+   "quantity": "26,400 PCS",
+   "unit_price": "JPY 402",
+   "amount": "JPY 10,601,448"
+  },
+  {
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "model": "INR18650-262A",
+   "quantity": "47,200 PCS",
+   "unit_price": "JPY 380",
+   "amount": "JPY 17,928,448"
+  }
+ ],
+ "total_amount": "JPY 622,961,384",
+ "total_words": "SAY JAPANESE YEN SIX HUNDRED TWENTY TWO MILLION NINE HUNDRED SIXTY ONE THOUSAND THREE HUNDRED EIGHTY FOUR ONLY",
+ "clauses": {
+  "price_terms": "FOB TOKYO, JAPAN (INCOTERMS 2020), prices in JPY.",
+  "origin": "Japan",
+  "manufacturer": "Tokyo Seimitsu Kogyo K.K., 2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN (goods to be shipped directly from the manufacturer)",
+  "packing": "Export standard packing in cartons, suitable for ocean transportation.",
+  "shipping_mark": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-UP\nMADE IN JAPAN",
+  "shipment": "In two (2) lots of equal quantity: 1st lot not later than October 15, 2025; 2nd lot not later than November 14, 2025. Partial shipments allowed, transshipment allowed.",
+  "port_of_shipment": "TOKYO, JAPAN",
+  "destination": "BUSAN, KOREA",
+  "payment": "By an irrevocable usance L/C 90 days after B/L date, to be opened within 15 days after contract date. Payment to be remitted to the Seller's account with Oversea-Chinese Banking Corporation Ltd. (SWIFT: OCBCSGSG).",
+  "inspection": "Inspection by an independent surveyor (SGS or equivalent) at the port of loading; cost borne by the Seller.",
+  "arbitration": "Any dispute shall be finally settled by arbitration in Seoul under the Arbitration Rules of the Korean Commercial Arbitration Board."
+ },
+ "gtc_terms": {
+  "qty_tolerance": "3%",
+  "late_penalty": "1%",
+  "inspection_days": "14",
+  "claim_days": "90",
+  "warranty": "eighteen (18) months",
+  "governing_law": "England and Wales"
+ },
+ "seal": {
+  "buyer": false,
+  "seller": false
+ },
+ "sign": {
+  "buyer": false,
+  "seller": true
+ }
+}

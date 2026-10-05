@@ -1,0 +1,27 @@
+{
+ "document_type": "사업자등록증(법인사업자)",
+ "biz_no": "530-82-09978",
+ "corp_name": "주식회사 새한소프트",
+ "ceo": "김소윤",
+ "co_ceo": "선호성",
+ "opened": "2021 년 12 월 08 일",
+ "corp_reg_no": "135012-6946558",
+ "address": "서울특별시 영등포구 국제금융로 22-7, 8층 (당산동, 동방프라자)",
+ "head_office": "서울특별시 영등포구 국제금융로 22-7, 8층 (당산동, 동방프라자)",
+ "biz_type": "정보통신업",
+ "biz_item": "응용소프트웨어 개발",
+ "sub_kinds": [
+  {
+   "biz_type": "도매업",
+   "biz_item": "기타 도매"
+  }
+ ],
+ "issue_reason": "정정(업종 추가)",
+ "unit_taxation": "부",
+ "einvoice_email": "contact@saehan.co.kr",
+ "issue_date": "2024 년 10 월 22 일",
+ "issuer": "영등포세무서장",
+ "seal": {
+  "issuer": true
+ }
+}

@@ -1,0 +1,1395 @@
+{
+ "images": [
+  "variants/auto_transfer_application_p1.jpg",
+  "variants/auto_transfer_application_p2.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "bank",
+   "label": "은행명",
+   "type": "text",
+   "value": "농협은행",
+   "norm": "농협은행",
+   "page": 0,
+   "bbox": [
+    121.5,
+    67.2,
+    231.9,
+    103.8
+   ]
+  },
+  {
+   "key": "biller.name",
+   "label": "수납기관",
+   "type": "text",
+   "value": "농협은행 주식회사",
+   "norm": "농협은행 주식회사",
+   "page": 0,
+   "bbox": [
+    88.5,
+    221.4,
+    245.5,
+    242.4
+   ]
+  },
+  {
+   "key": "branch",
+   "label": "취급점",
+   "type": "text",
+   "value": "분당지점",
+   "norm": "분당지점",
+   "page": 0,
+   "bbox": [
+    340.7,
+    224.4,
+    404.8,
+    242.4
+   ]
+  },
+  {
+   "key": "kind",
+   "label": "신청구분",
+   "type": "checkbox",
+   "value": "변경",
+   "norm": "변경",
+   "page": 0,
+   "bbox": [
+    605.7,
+    221.4,
+    643.8,
+    242.4
+   ],
+   "options": [
+    {
+     "text": "신규",
+     "checked": false,
+     "box_bbox": [
+      520.1,
+      221.4,
+      531.7,
+      242.4
+     ],
+     "bbox": [
+      520.1,
+      221.4,
+      574.5,
+      242.4
+     ]
+    },
+    {
+     "text": "변경",
+     "checked": true,
+     "box_bbox": [
+      589.5,
+      221.4,
+      601.0,
+      242.4
+     ],
+     "bbox": [
+      589.5,
+      221.4,
+      643.8,
+      242.4
+     ]
+    },
+    {
+     "text": "해지",
+     "checked": false,
+     "box_bbox": [
+      658.8,
+      221.4,
+      670.3,
+      242.4
+     ],
+     "bbox": [
+      658.8,
+      221.4,
+      713.1,
+      242.4
+     ]
+    }
+   ]
+  },
+  {
+   "key": "biller.fee_type",
+   "label": "요금종류",
+   "type": "text",
+   "value": "대출이자(전세자금대출)",
+   "norm": "대출이자(전세자금대출)",
+   "page": 0,
+   "bbox": [
+    279.0,
+    296.4,
+    482.0,
+    317.4
+   ],
+   "label_bbox": [
+    89.2,
+    289.7,
+    269.2,
+    326.5
+   ]
+  },
+  {
+   "key": "target",
+   "label": "이체대상",
+   "type": "checkbox",
+   "value": "대출이자",
+   "norm": "대출이자",
+   "page": 0,
+   "bbox": [
+    780.4,
+    296.4,
+    856.5,
+    317.4
+   ],
+   "label_bbox": [
+    574.4,
+    289.7,
+    754.4,
+    326.5
+   ],
+   "options": [
+    {
+     "text": "대출이자",
+     "checked": true,
+     "box_bbox": [
+      764.1,
+      296.4,
+      775.6,
+      317.4
+     ],
+     "bbox": [
+      764.1,
+      296.4,
+      856.5,
+      317.4
+     ]
+    },
+    {
+     "text": "대출원리금",
+     "checked": false,
+     "box_bbox": [
+      871.5,
+      296.4,
+      883.0,
+      317.4
+     ],
+     "bbox": [
+      871.5,
+      296.4,
+      982.9,
+      317.4
+     ]
+    }
+   ]
+  },
+  {
+   "key": "loan_product",
+   "label": "대출상품명",
+   "type": "text",
+   "value": "HUG 전세보증금대출",
+   "norm": "HUG 전세보증금대출",
+   "page": 0,
+   "bbox": [
+    279.0,
+    346.3,
+    458.2,
+    367.3
+   ],
+   "label_bbox": [
+    89.2,
+    326.5,
+    269.2,
+    389.5
+   ]
+  },
+  {
+   "key": "loan_account",
+   "label": "납부자번호(대출계좌번호)",
+   "type": "account_no",
+   "value": "715-4432-7750-59",
+   "norm": "715-4432-7750-59",
+   "page": 0,
+   "bbox": [
+    764.1,
+    346.3,
+    906.8,
+    367.3
+   ],
+   "label_bbox": [
+    574.4,
+    326.5,
+    754.4,
+    389.5
+   ]
+  },
+  {
+   "key": "applicant.name",
+   "label": "신청인",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    279.0,
+    440.5,
+    336.1,
+    461.5
+   ],
+   "label_bbox": [
+    89.2,
+    433.8,
+    269.2,
+    470.6
+   ]
+  },
+  {
+   "key": "applicant.birth",
+   "label": "생년월일",
+   "type": "number",
+   "value": "901121",
+   "norm": 901121,
+   "page": 0,
+   "bbox": [
+    878.7,
+    440.5,
+    935.1,
+    461.5
+   ],
+   "label_bbox": [
+    689.0,
+    433.8,
+    869.0,
+    470.6
+   ]
+  },
+  {
+   "key": "applicant.phone",
+   "label": "연락처",
+   "type": "phone",
+   "value": "010-4372-6867",
+   "norm": "01043726867",
+   "page": 0,
+   "bbox": [
+    279.0,
+    477.3,
+    396.4,
+    498.3
+   ],
+   "label_bbox": [
+    89.2,
+    470.6,
+    269.2,
+    507.3
+   ]
+  },
+  {
+   "key": "applicant.address",
+   "label": "주소",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    689.0,
+    470.6,
+    869.0,
+    507.3
+   ],
+   "page": 0
+  },
+  {
+   "key": "debit.bank",
+   "label": "출금은행",
+   "type": "text",
+   "value": "신한은행",
+   "norm": "신한은행",
+   "page": 0,
+   "bbox": [
+    279.0,
+    558.4,
+    355.1,
+    579.4
+   ],
+   "label_bbox": [
+    89.2,
+    551.6,
+    269.2,
+    588.4
+   ]
+  },
+  {
+   "key": "debit.account",
+   "label": "출금계좌번호",
+   "type": "account_no",
+   "value": "169-677-474223",
+   "norm": "169-677-474223",
+   "page": 0,
+   "bbox": [
+    703.3,
+    558.4,
+    830.2,
+    579.4
+   ],
+   "label_bbox": [
+    513.5,
+    551.6,
+    693.5,
+    588.4
+   ]
+  },
+  {
+   "key": "debit.holder",
+   "label": "예금주",
+   "type": "text",
+   "value": "김승성",
+   "norm": "김승성",
+   "page": 0,
+   "bbox": [
+    279.0,
+    595.1,
+    336.1,
+    616.1
+   ],
+   "label_bbox": [
+    89.2,
+    588.4,
+    269.2,
+    625.1
+   ]
+  },
+  {
+   "key": "debit.holder_birth",
+   "label": "예금주생년월일",
+   "type": "number",
+   "value": "900306",
+   "norm": 900306,
+   "page": 0,
+   "bbox": [
+    703.3,
+    595.1,
+    760.4,
+    616.1
+   ],
+   "label_bbox": [
+    513.5,
+    588.4,
+    693.5,
+    625.1
+   ]
+  },
+  {
+   "key": "debit.holder_phone",
+   "label": "예금주휴대전화",
+   "type": "phone",
+   "value": "010-6066-8711",
+   "norm": "01060668711",
+   "page": 0,
+   "bbox": [
+    279.0,
+    645.0,
+    395.6,
+    666.0
+   ],
+   "label_bbox": [
+    89.2,
+    625.1,
+    269.2,
+    688.2
+   ]
+  },
+  {
+   "key": "relation",
+   "label": "신청인과예금주와의관계",
+   "type": "checkbox",
+   "value": "가족",
+   "norm": "가족",
+   "page": 0,
+   "bbox": [
+    788.9,
+    645.0,
+    826.9,
+    666.0
+   ],
+   "label_bbox": [
+    513.5,
+    625.1,
+    693.5,
+    688.2
+   ],
+   "options": [
+    {
+     "text": "본인",
+     "checked": false,
+     "box_bbox": [
+      703.3,
+      645.0,
+      714.8,
+      666.0
+     ],
+     "bbox": [
+      703.3,
+      645.0,
+      757.6,
+      666.0
+     ]
+    },
+    {
+     "text": "가족",
+     "checked": true,
+     "box_bbox": [
+      772.6,
+      645.0,
+      784.1,
+      666.0
+     ],
+     "bbox": [
+      772.6,
+      645.0,
+      826.9,
+      666.0
+     ]
+    },
+    {
+     "text": "기타",
+     "checked": false,
+     "box_bbox": [
+      841.9,
+      645.0,
+      853.5,
+      666.0
+     ],
+     "bbox": [
+      841.9,
+      645.0,
+      896.3,
+      666.0
+     ]
+    }
+   ]
+  },
+  {
+   "key": "transfer_day",
+   "label": "출금일",
+   "type": "text",
+   "value": "매월 10일",
+   "norm": "매월 10일",
+   "page": 0,
+   "bbox": [
+    279.0,
+    694.9,
+    359.9,
+    715.9
+   ],
+   "label_bbox": [
+    89.2,
+    688.2,
+    269.2,
+    725.0
+   ]
+  },
+  {
+   "key": "start_month",
+   "label": "이체개시",
+   "type": "text",
+   "value": "2026년 1월분부터",
+   "norm": "2026년 1월분부터",
+   "page": 0,
+   "bbox": [
+    703.3,
+    694.9,
+    850.8,
+    715.9
+   ],
+   "label_bbox": [
+    513.5,
+    688.2,
+    693.5,
+    725.0
+   ]
+  },
+  {
+   "key": "amount",
+   "label": "출금금액",
+   "type": "text",
+   "value": "청구금액 전액 (약 913,470원)",
+   "norm": "청구금액 전액 (약 913,470원)",
+   "page": 0,
+   "bbox": [
+    279.0,
+    731.7,
+    520.1,
+    752.7
+   ],
+   "label_bbox": [
+    89.2,
+    725.0,
+    269.2,
+    761.7
+   ]
+  },
+  {
+   "key": "extra_loans.0.loan_account",
+   "label": "납부자번호",
+   "type": "account_no",
+   "value": "509-2862-9223-42",
+   "norm": "509-2862-9223-42",
+   "page": 0,
+   "bbox": [
+    235.4,
+    847.5,
+    366.9,
+    867.0
+   ],
+   "label_bbox": [
+    149.2,
+    806.0,
+    453.0,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.0.loan_product",
+   "label": "대출상품",
+   "type": "text",
+   "value": "주택담보대출",
+   "norm": "주택담보대출",
+   "page": 0,
+   "bbox": [
+    542.5,
+    847.5,
+    647.7,
+    867.0
+   ],
+   "label_bbox": [
+    453.0,
+    806.0,
+    737.2,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.0.target",
+   "label": "이체대상",
+   "type": "text",
+   "value": "대출이자",
+   "norm": "대출이자",
+   "page": 0,
+   "bbox": [
+    793.3,
+    847.5,
+    863.4,
+    867.0
+   ],
+   "label_bbox": [
+    737.2,
+    806.0,
+    919.5,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.0.transfer_day",
+   "label": "출금일",
+   "type": "text",
+   "value": "매월 20일",
+   "norm": "매월 20일",
+   "page": 0,
+   "bbox": [
+    973.4,
+    847.5,
+    1047.9,
+    867.0
+   ],
+   "label_bbox": [
+    919.5,
+    806.0,
+    1101.8,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.1.loan_account",
+   "label": "납부자번호",
+   "type": "account_no",
+   "value": "541-0284-0284-32",
+   "norm": "541-0284-0284-32",
+   "page": 0,
+   "bbox": [
+    235.4,
+    882.2,
+    366.9,
+    901.7
+   ],
+   "label_bbox": [
+    149.2,
+    806.0,
+    453.0,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.1.loan_product",
+   "label": "대출상품",
+   "type": "text",
+   "value": "마이너스통장",
+   "norm": "마이너스통장",
+   "page": 0,
+   "bbox": [
+    542.5,
+    882.2,
+    647.7,
+    901.7
+   ],
+   "label_bbox": [
+    453.0,
+    806.0,
+    737.2,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.1.target",
+   "label": "이체대상",
+   "type": "text",
+   "value": "대출원리금",
+   "norm": "대출원리금",
+   "page": 0,
+   "bbox": [
+    784.5,
+    882.2,
+    872.2,
+    901.7
+   ],
+   "label_bbox": [
+    737.2,
+    806.0,
+    919.5,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.1.transfer_day",
+   "label": "출금일",
+   "type": "text",
+   "value": "매월 25일",
+   "norm": "매월 25일",
+   "page": 0,
+   "bbox": [
+    973.4,
+    882.2,
+    1047.9,
+    901.7
+   ],
+   "label_bbox": [
+    919.5,
+    806.0,
+    1101.8,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.2.loan_account",
+   "label": "납부자번호",
+   "type": "account_no",
+   "value": "777-0955-5829-98",
+   "norm": "777-0955-5829-98",
+   "corrected_from": "779-0955-5829-98",
+   "page": 0,
+   "bbox": [
+    303.3,
+    916.9,
+    434.8,
+    936.4
+   ],
+   "label_bbox": [
+    149.2,
+    806.0,
+    453.0,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.2.loan_product",
+   "label": "대출상품",
+   "type": "text",
+   "value": "가계일반자금대출",
+   "norm": "가계일반자금대출",
+   "page": 0,
+   "bbox": [
+    525.0,
+    935.5,
+    665.2,
+    955.0
+   ],
+   "label_bbox": [
+    453.0,
+    806.0,
+    737.2,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.2.target",
+   "label": "이체대상",
+   "type": "text",
+   "value": "대출원리금",
+   "norm": "대출원리금",
+   "page": 0,
+   "bbox": [
+    784.5,
+    935.5,
+    872.2,
+    955.0
+   ],
+   "label_bbox": [
+    737.2,
+    806.0,
+    919.5,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.2.transfer_day",
+   "label": "출금일",
+   "type": "text",
+   "value": "매월 15일",
+   "norm": "매월 15일",
+   "page": 0,
+   "bbox": [
+    973.4,
+    935.5,
+    1047.9,
+    955.0
+   ],
+   "label_bbox": [
+    919.5,
+    806.0,
+    1101.8,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.3.loan_account",
+   "label": "납부자번호",
+   "type": "account_no",
+   "value": "563-6525-6438-70",
+   "norm": "563-6525-6438-70",
+   "page": 0,
+   "bbox": [
+    235.4,
+    988.9,
+    366.9,
+    1008.4
+   ],
+   "label_bbox": [
+    149.2,
+    806.0,
+    453.0,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.3.loan_product",
+   "label": "대출상품",
+   "type": "text",
+   "value": "가계일반자금대출",
+   "norm": "가계일반자금대출",
+   "page": 0,
+   "bbox": [
+    525.0,
+    988.9,
+    665.2,
+    1008.4
+   ],
+   "label_bbox": [
+    453.0,
+    806.0,
+    737.2,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.3.target",
+   "label": "이체대상",
+   "type": "text",
+   "value": "대출이자",
+   "norm": "대출이자",
+   "page": 0,
+   "bbox": [
+    793.3,
+    988.9,
+    863.4,
+    1008.4
+   ],
+   "label_bbox": [
+    737.2,
+    806.0,
+    919.5,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.3.transfer_day",
+   "label": "출금일",
+   "type": "text",
+   "value": "매월 25일",
+   "norm": "매월 25일",
+   "page": 0,
+   "bbox": [
+    973.4,
+    988.9,
+    1047.9,
+    1008.4
+   ],
+   "label_bbox": [
+    919.5,
+    806.0,
+    1101.8,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.4.loan_account",
+   "label": "납부자번호",
+   "type": "account_no",
+   "value": "886-6917-6498-25",
+   "norm": "886-6917-6498-25",
+   "page": 0,
+   "bbox": [
+    235.4,
+    1023.6,
+    366.9,
+    1043.1
+   ],
+   "label_bbox": [
+    149.2,
+    806.0,
+    453.0,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.4.loan_product",
+   "label": "대출상품",
+   "type": "text",
+   "value": "전세자금대출",
+   "norm": "전세자금대출",
+   "page": 0,
+   "bbox": [
+    542.5,
+    1023.6,
+    647.7,
+    1043.1
+   ],
+   "label_bbox": [
+    453.0,
+    806.0,
+    737.2,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.4.target",
+   "label": "이체대상",
+   "type": "text",
+   "value": "대출원리금",
+   "norm": "대출원리금",
+   "page": 0,
+   "bbox": [
+    784.5,
+    1023.6,
+    872.2,
+    1043.1
+   ],
+   "label_bbox": [
+    737.2,
+    806.0,
+    919.5,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.4.transfer_day",
+   "label": "출금일",
+   "type": "text",
+   "value": "매월 20일",
+   "norm": "매월 20일",
+   "page": 0,
+   "bbox": [
+    973.4,
+    1023.6,
+    1047.9,
+    1043.1
+   ],
+   "label_bbox": [
+    919.5,
+    806.0,
+    1101.8,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.5.loan_account",
+   "label": "납부자번호",
+   "type": "account_no",
+   "value": "849-4598-5037-13",
+   "norm": "849-4598-5037-13",
+   "page": 0,
+   "bbox": [
+    235.4,
+    1058.3,
+    366.9,
+    1077.8
+   ],
+   "label_bbox": [
+    149.2,
+    806.0,
+    453.0,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.5.loan_product",
+   "label": "대출상품",
+   "type": "text",
+   "value": "주택담보대출",
+   "norm": "주택담보대출",
+   "page": 0,
+   "bbox": [
+    542.5,
+    1058.3,
+    647.7,
+    1077.8
+   ],
+   "label_bbox": [
+    453.0,
+    806.0,
+    737.2,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.5.target",
+   "label": "이체대상",
+   "type": "text",
+   "value": "대출이자",
+   "norm": "대출이자",
+   "page": 0,
+   "bbox": [
+    793.3,
+    1058.3,
+    863.4,
+    1077.8
+   ],
+   "label_bbox": [
+    737.2,
+    806.0,
+    919.5,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.5.transfer_day",
+   "label": "출금일",
+   "type": "text",
+   "value": "매월 15일",
+   "norm": "매월 15일",
+   "page": 0,
+   "bbox": [
+    973.4,
+    1058.3,
+    1047.9,
+    1077.8
+   ],
+   "label_bbox": [
+    919.5,
+    806.0,
+    1101.8,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.6.loan_account",
+   "label": "납부자번호",
+   "type": "account_no",
+   "value": "741-7738-3527-60",
+   "norm": "741-7738-3527-60",
+   "page": 0,
+   "bbox": [
+    235.4,
+    1093.0,
+    366.9,
+    1112.5
+   ],
+   "label_bbox": [
+    149.2,
+    806.0,
+    453.0,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.6.loan_product",
+   "label": "대출상품",
+   "type": "text",
+   "value": "보금자리론",
+   "norm": "보금자리론",
+   "page": 0,
+   "bbox": [
+    551.3,
+    1093.0,
+    639.0,
+    1112.5
+   ],
+   "label_bbox": [
+    453.0,
+    806.0,
+    737.2,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.6.target",
+   "label": "이체대상",
+   "type": "text",
+   "value": "대출원리금",
+   "norm": "대출원리금",
+   "page": 0,
+   "bbox": [
+    784.5,
+    1093.0,
+    872.2,
+    1112.5
+   ],
+   "label_bbox": [
+    737.2,
+    806.0,
+    919.5,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.6.transfer_day",
+   "label": "출금일",
+   "type": "text",
+   "value": "매월 20일",
+   "norm": "매월 20일",
+   "page": 0,
+   "bbox": [
+    973.4,
+    1093.0,
+    1047.9,
+    1112.5
+   ],
+   "label_bbox": [
+    919.5,
+    806.0,
+    1101.8,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.7.loan_account",
+   "label": "납부자번호",
+   "type": "account_no",
+   "value": "211-1442-1608-56",
+   "norm": "211-1442-1608-56",
+   "page": 0,
+   "bbox": [
+    235.7,
+    1127.7,
+    366.5,
+    1147.2
+   ],
+   "label_bbox": [
+    149.2,
+    806.0,
+    453.0,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.7.loan_product",
+   "label": "대출상품",
+   "type": "text",
+   "value": "예적금담보대출",
+   "norm": "예적금담보대출",
+   "page": 0,
+   "bbox": [
+    533.8,
+    1127.7,
+    656.5,
+    1147.2
+   ],
+   "label_bbox": [
+    453.0,
+    806.0,
+    737.2,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.7.target",
+   "label": "이체대상",
+   "type": "text",
+   "value": "대출이자",
+   "norm": "대출이자",
+   "page": 0,
+   "bbox": [
+    793.3,
+    1127.7,
+    863.4,
+    1147.2
+   ],
+   "label_bbox": [
+    737.2,
+    806.0,
+    919.5,
+    840.7
+   ]
+  },
+  {
+   "key": "extra_loans.7.transfer_day",
+   "label": "출금일",
+   "type": "text",
+   "value": "매월 5일",
+   "norm": "매월 5일",
+   "page": 0,
+   "bbox": [
+    977.7,
+    1127.7,
+    1043.5,
+    1147.2
+   ],
+   "label_bbox": [
+    919.5,
+    806.0,
+    1101.8,
+    840.7
+   ]
+  },
+  {
+   "key": "privacy_consent",
+   "label": "개인정보수집이용동의",
+   "type": "checkbox",
+   "value": "동의함",
+   "norm": "동의함",
+   "page": 0,
+   "bbox": [
+    448.9,
+    1345.5,
+    501.4,
+    1365.0
+   ],
+   "label_bbox": [
+    89.2,
+    1338.8,
+    269.2,
+    1373.5
+   ],
+   "options": [
+    {
+     "text": "동의함",
+     "checked": true,
+     "box_bbox": [
+      433.9,
+      1345.5,
+      444.5,
+      1365.0
+     ],
+     "bbox": [
+      433.9,
+      1345.5,
+      501.4,
+      1365.0
+     ]
+    },
+    {
+     "text": "동의하지 않음",
+     "checked": false,
+     "box_bbox": [
+      516.4,
+      1345.5,
+      527.0,
+      1365.0
+     ],
+     "bbox": [
+      516.4,
+      1345.5,
+      641.0,
+      1365.0
+     ]
+    }
+   ]
+  },
+  {
+   "key": "third_party_consent",
+   "label": "제3자제공동의",
+   "type": "checkbox",
+   "value": null,
+   "norm": null,
+   "page": 0,
+   "bbox": [
+    756.8,
+    1345.5,
+    978.9,
+    1365.0
+   ],
+   "label_bbox": [
+    89.2,
+    1338.8,
+    269.2,
+    1373.5
+   ],
+   "options": [
+    {
+     "text": "동의함",
+     "checked": false,
+     "box_bbox": [
+      756.8,
+      1345.5,
+      767.4,
+      1365.0
+     ],
+     "bbox": [
+      756.8,
+      1345.5,
+      824.4,
+      1365.0
+     ]
+    },
+    {
+     "text": "동의하지 않음",
+     "checked": false,
+     "box_bbox": [
+      839.4,
+      1345.5,
+      850.0,
+      1365.0
+     ],
+     "bbox": [
+      839.4,
+      1345.5,
+      963.9,
+      1365.0
+     ]
+    }
+   ]
+  },
+  {
+   "key": "apply_date",
+   "label": "신청일",
+   "type": "date",
+   "value": "2025.12.07",
+   "norm": "2025-12-07",
+   "page": 0,
+   "bbox": [
+    552.7,
+    1536.4,
+    638.3,
+    1557.4
+   ]
+  },
+  {
+   "key": "signature",
+   "label": "신청인",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 1,
+   "bbox": [
+    877.9,
+    76.5,
+    939.4,
+    99.0
+   ]
+  },
+  {
+   "key": "seal.applicant",
+   "label": "신청인",
+   "type": "seal",
+   "value": "김소윤",
+   "present": true,
+   "kind": "인감",
+   "anchor": "signature",
+   "page": 1,
+   "bbox": [
+    1009.9,
+    55.3,
+    1077.7,
+    123.0
+   ]
+  },
+  {
+   "key": "sign.applicant",
+   "label": "신청인",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "anchor": "signature",
+   "page": 1,
+   "bbox": [
+    985.1,
+    76.0,
+    1102.5,
+    102.3
+   ]
+  },
+  {
+   "key": "holder_signature",
+   "label": "예금주",
+   "type": "text",
+   "value": "김승성",
+   "norm": "김승성",
+   "page": 1,
+   "bbox": [
+    877.9,
+    113.9,
+    939.4,
+    136.4
+   ]
+  },
+  {
+   "key": "seal.holder",
+   "label": "예금주",
+   "type": "seal",
+   "value": null,
+   "present": false,
+   "kind": "인감",
+   "anchor": "holder_signature",
+   "page": 1,
+   "bbox": [
+    985.1,
+    113.4,
+    1102.5,
+    139.7
+   ]
+  },
+  {
+   "key": "sign.holder",
+   "label": "예금주",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "anchor": "holder_signature",
+   "page": 1,
+   "bbox": [
+    985.1,
+    113.4,
+    1102.5,
+    139.7
+   ]
+  }
+ ]
+}

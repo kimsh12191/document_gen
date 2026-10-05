@@ -31,5 +31,13 @@
  "third_party_consent": "동의함",
  "apply_date": "2014.08.29",
  "signature": "김소윤",
+ "seal": {
+  "applicant": false,
+  "holder": true
+ },
+ "sign": {
+  "applicant": true,
+  "holder": false
+ },
  "holder_signature": "김소윤"
 }
