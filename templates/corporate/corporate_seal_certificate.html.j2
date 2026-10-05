@@ -32,11 +32,16 @@ table.ic td.seal-cell .lbl { font-weight:600; margin-bottom:8px; }
 <div class="stmt">이 인감은 제출되어 있는 인감과 틀림없음을 증명합니다.</div>
 <div class="iss">
   <div class="dt">{{ f("issue_date", label="발급일") }}</div>
+  {% if d.registrar is defined %}
   <div class="org">{{ f("issue_office", label="발급기관") }}&nbsp;&nbsp;등기관&nbsp;&nbsp;{{ f("registrar", label="등기관") }}{{ m.seal("등기관인", square=True, over=True) }}</div>
+  {% else %}
+  <div class="org">{{ f("issue_office", label="발급기관") }}&nbsp;&nbsp;전산운영책임관{{ m.seal("전산운영책임관인", square=True, over=True) }}</div>
+  {% endif %}
 </div>
 <div class="foot">
   <div>수수료 {{ f("fee", label="수수료") }} 영수함</div>
   <div>* 이 증명서는 등기소에 제출되어 있는 인감과 대조하여 발급한 것입니다.</div>
   <div>* 인감증명서는 발급일로부터 3개월 이내의 것을 제출하시기 바랍니다.</div>
+  {% if d.confirm_no is defined %}<div style="margin-top:4px">[ 인터넷 발급 ] 인터넷등기소(http://www.iros.go.kr)의 발급확인 메뉴에서 발급확인번호를 입력하여 위·변조 여부를 확인할 수 있습니다.&nbsp;&nbsp;발급확인번호 {{ f("confirm_no", label="발급확인번호") }}</div>{% endif %}
 </div>
 {% endblock %}

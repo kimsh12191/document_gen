@@ -1,5 +1,6 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
+{% import "corporate/_seal.html.j2" as cs with context %}
 {% block page_class %} dense{% endblock %}
 {% block style %}
 .page.a4 { padding: min(var(--page-pad), 34px) min(var(--page-pad), 56px); }
@@ -18,6 +19,7 @@ table.fs tr.l2 td.acc { padding-left:30px; }
 table.fs th.sub { font-weight:600; font-size:calc(var(--fs) - 2px); border-bottom:1.5px solid var(--border); }
 table.fs tr.tot td { font-weight:700; border-top:1px solid var(--border); background:var(--label-bg); }
 .gap { height:12px; }
+.fs-cert { text-align:center; margin-top:18px; line-height:1.5; }
 {% endblock %}
 {% macro fs_rows(path) %}
 {% for r in val(path) %}{% set i = loop.index0 %}{% set a = r.account %}
@@ -32,9 +34,9 @@ table.fs tr.tot td { font-weight:700; border-top:1px solid var(--border); backgr
 {% endfor %}
 {% endmacro %}
 {% block content %}
-<div class="fs-title">재 무 상 태 표</div>
-<div class="fs-period">{{ f("current_term", label="당기") }}&nbsp; {{ f("bs_current_date", label="당기말") }}<br>{{ f("prior_term", label="전기") }}&nbsp; {{ f("bs_prior_date", label="전기말") }}</div>
-<div class="fs-meta"><span>회사명 : {{ f("company_name", label="회사명") }}</span><span>{{ f("unit", label="단위") }}</span></div>
+<div class="fs-title pg-keep-with-next">재 무 상 태 표</div>
+<div class="fs-period pg-keep-with-next">{{ f("current_term", label="당기") }}&nbsp; {{ f("bs_current_date", label="당기말") }}<br>{{ f("prior_term", label="전기") }}&nbsp; {{ f("bs_prior_date", label="전기말") }}</div>
+<div class="fs-meta pg-keep-with-next"><span>회사명 : {{ f("company_name", label="회사명") }}</span><span>{{ f("unit", label="단위") }}</span></div>
 <table class="fs">
   <colgroup><col><col style="width:16%"><col style="width:16%"><col style="width:16%"><col style="width:16%"></colgroup>
   <tr><th rowspan="2" style="border-bottom:1.5px solid var(--border)">과　　목</th><th colspan="2">{{ f("current_term", label="당기") }}</th><th colspan="2">{{ f("prior_term", label="전기") }}</th></tr>
@@ -48,13 +50,33 @@ table.fs tr.tot td { font-weight:700; border-top:1px solid var(--border); backgr
   <tr class="tot"><td class="acc">부채와자본총계</td><td></td><td class="num">{{ f("total_liabilities_equity.current", label="부채와자본총계(당기)") }}</td><td></td><td class="num">{{ f("total_liabilities_equity.prior", label="부채와자본총계(전기)") }}</td></tr>
 </table>
 <div class="gap"></div>
-<div class="fs-title">손 익 계 산 서</div>
-<div class="fs-period">{{ f("current_term", label="당기") }}&nbsp; {{ f("is_current_period", label="당기회계기간") }}<br>{{ f("prior_term", label="전기") }}&nbsp; {{ f("is_prior_period", label="전기회계기간") }}</div>
-<div class="fs-meta"><span>회사명 : {{ f("company_name", label="회사명") }}</span><span>{{ f("unit", label="단위") }}</span></div>
+<div class="fs-title pg-keep-with-next">손 익 계 산 서</div>
+<div class="fs-period pg-keep-with-next">{{ f("current_term", label="당기") }}&nbsp; {{ f("is_current_period", label="당기회계기간") }}<br>{{ f("prior_term", label="전기") }}&nbsp; {{ f("is_prior_period", label="전기회계기간") }}</div>
+<div class="fs-meta pg-keep-with-next"><span>회사명 : {{ f("company_name", label="회사명") }}</span><span>{{ f("unit", label="단위") }}</span></div>
 <table class="fs">
   <colgroup><col><col style="width:16%"><col style="width:16%"><col style="width:16%"><col style="width:16%"></colgroup>
   <tr><th rowspan="2" style="border-bottom:1.5px solid var(--border)">과　　목</th><th colspan="2">{{ f("current_term", label="당기") }}</th><th colspan="2">{{ f("prior_term", label="전기") }}</th></tr>
   <tr><th class="sub" colspan="2">금　　액</th><th class="sub" colspan="2">금　　액</th></tr>
   {{ fs_rows("income_statement") }}
 </table>
+{% macro section(title, path, p_cur, p_prior, label) -%}
+<div class="gap"></div>
+<div class="fs-title pg-keep-with-next">{{ title }}</div>
+<div class="fs-period pg-keep-with-next">{{ f("current_term", label="당기") }}&nbsp; {{ f("is_current_period", label="당기회계기간") }}{% if p_cur %}&nbsp; {{ f(p_cur, label=label) }}{% endif %}<br>{{ f("prior_term", label="전기") }}&nbsp; {{ f("is_prior_period", label="전기회계기간") }}{% if p_prior %}&nbsp; {{ f(p_prior, label=label) }}{% endif %}</div>
+<div class="fs-meta pg-keep-with-next"><span>회사명 : {{ f("company_name", label="회사명") }}</span><span>{{ f("unit", label="단위") }}</span></div>
+<table class="fs">
+  <tr><th rowspan="2" style="border-bottom:1.5px solid var(--border);width:36%">과　　목</th><th colspan="2">{{ f("current_term", label="당기") }}</th><th colspan="2">{{ f("prior_term", label="전기") }}</th></tr>
+  <tr><th class="sub" colspan="2">금　　액</th><th class="sub" colspan="2">금　　액</th></tr>
+  {{ fs_rows(path) }}
+</table>
+{%- endmacro %}
+{% if d.manufacturing_cost is defined %}{{ section("제 조 원 가 명 세 서", "manufacturing_cost", None, None, None) }}{% endif %}
+{% if d.appropriation is defined %}{{ section("이익잉여금처분계산서", "appropriation", "appropriation_date_current", "appropriation_date_prior", "처분일") }}{% endif %}
+{% if d.certify_date is defined %}
+<div class="fs-cert pg-keep">
+  <div>위 재무제표는 당사의 결산 재무제표와 틀림없음을 확인합니다.</div>
+  <div style="margin:6px 0">{{ f("certify_date", label="확인일") }}</div>
+  <div>{{ f("company_name", label="회사명") }}&nbsp;&nbsp;대표이사&nbsp;{{ f("ceo_name", label="대표이사") }}&nbsp;{{ cs.corp_seal(d.company_name.replace("(주)", "주식회사 "), "대표이사인", 64, "fs") }}</div>
+</div>
+{% endif %}
 {% endblock %}

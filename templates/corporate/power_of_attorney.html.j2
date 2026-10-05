@@ -14,25 +14,30 @@ table.po th { width:120px; letter-spacing:.05em; }
 .sealbox { width:118px; text-align:center; flex:none; }
 .sealbox .lbl { font-size:calc(var(--fs) - 2px); color:#444; margin-bottom:4px; }
 .to { margin-top:26px; font-size:calc(var(--fs) + 6px); font-weight:700; letter-spacing:.15em; }
+.hand { font-family: 'NanumSquareRound', 'Nanum Gothic', sans-serif; color:#1c2c86; font-weight:700; display:inline-block; transform:rotate(-0.6deg); }
 .att { margin-top:10px; font-size:calc(var(--fs) - 1.5px); color:#333; }
 {% endblock %}
 {% block content %}
+{{ f.set_corr_name(d.grantor.ceo if d.grantor.type == "법인" else d.grantor.name) }}
 {{ m.title("위 임 장") }}
 <div class="sec">1. 대리인(수임인) 정보</div>
 <table class="po">
-  <tr><th>성　　명</th><td>{{ f("agent.name", label="성명") }}</td><th>생년월일</th><td>{{ f("agent.birth", label="생년월일") }}</td></tr>
-  <tr><th>본인과의 관계</th><td>{{ f("agent.relation", label="본인과의관계") }}</td><th>연 락 처</th><td>{{ f("agent.phone", label="연락처") }}</td></tr>
-  <tr><th>주　　소</th><td colspan="3">{{ f("agent.address", label="주소") }}</td></tr>
+  <tr><th>성　　명</th><td><span class="hand">{{ f("agent.name", label="성명", fix=0.05) }}</span></td><th>생년월일</th><td><span class="hand">{{ f("agent.birth", label="생년월일", fix=0.06) }}</span></td></tr>
+  <tr><th>본인과의 관계</th><td><span class="hand">{{ f("agent.relation", label="본인과의관계", fix=0.04) }}</span></td><th>연 락 처</th><td><span class="hand">{{ f("agent.phone", label="연락처", fix=0.07) }}</span></td></tr>
+  <tr><th>주　　소</th><td colspan="3"><span class="hand">{{ f("agent.address", label="주소", fix=0.06) }}</span></td></tr>
 </table>
 
 <div class="sec">2. 위임내용</div>
 <div class="lead">본인은 위 대리인에게 다음 사항에 관한 일체의 권한을 위임합니다.</div>
 <div class="tasks">
   {% for t in d.tasks %}<div>{{ f("tasks." ~ loop.index0, label="위임내용") }}</div>{% endfor %}
-  <div class="mt">위임기간 : {{ f("period", label="위임기간") }}</div>
+  {% if d.tasks_extra is defined %}<div><span class="hand">{{ f("tasks_extra", label="위임내용") }}</span></div>{% endif %}
+  {% if d.period is defined %}<div class="mt">위임기간 : <span class="hand">{{ f("period", label="위임기간", fix=0.06) }}</span></div>
+  {% else %}<div class="mt">위임기간 : {{ f("use_limit", label="사용제한") }}</div>{% endif %}
+  {% if d.sub_delegation is defined %}<div>복대리인 선임 : {{ m.choice("sub_delegation", ["허용", "불허"], label="복대리인선임") }}{% if d.sub_delegation == "허용" %}<span class="small">&nbsp;(대리인은 위 사항의 처리를 위하여 복대리인을 선임할 수 있음)</span>{% endif %}</div>{% endif %}
 </div>
 
-<div class="dt">{{ f("grant_date", label="작성일") }}</div>
+<div class="dt"><span class="hand">{{ f("grant_date", label="작성일", fix=0.05) }}</span></div>
 
 <div class="sec">3. 위임인(본인) &nbsp;<span class="small" style="font-weight:400">위임인 구분 : {{ m.choice("grantor.type", ["법인", "개인"], label="위임인구분") }}</span></div>
 <div class="grantor-wrap">
@@ -40,19 +45,19 @@ table.po th { width:120px; letter-spacing:.05em; }
   {% if d.grantor.type == "법인" %}
   <tr><th>상　　호</th><td>{{ f("grantor.name", label="상호") }}</td><th>대 표 자</th><td>대표이사 {{ f("grantor.ceo", label="대표자") }}</td></tr>
   <tr><th>사업자등록번호</th><td>{{ f("grantor.biz_no", label="사업자등록번호") }}</td><th>법인등록번호</th><td>{{ f("grantor.corp_reg_no", label="법인등록번호") }}</td></tr>
-  <tr><th>본점소재지</th><td colspan="3">{{ f("grantor.address", label="본점소재지") }}</td></tr>
-  <tr><th>연 락 처</th><td colspan="3">{{ f("grantor.phone", label="연락처") }}</td></tr>
+  <tr><th>본점소재지</th><td colspan="3"><span class="hand">{{ f("grantor.address", label="본점소재지", fix=0.05) }}</span></td></tr>
+  <tr><th>연 락 처</th><td colspan="3"><span class="hand">{{ f("grantor.phone", label="연락처", fix=0.06) }}</span></td></tr>
   {% else %}
-  <tr><th>성　　명</th><td>{{ f("grantor.name", label="성명") }}</td><th>생년월일</th><td>{{ f("grantor.birth", label="생년월일") }}</td></tr>
-  <tr><th>연 락 처</th><td colspan="3">{{ f("grantor.phone", label="연락처") }}</td></tr>
-  <tr><th>주　　소</th><td colspan="3">{{ f("grantor.address", label="주소") }}</td></tr>
+  <tr><th>성　　명</th><td>{{ f("grantor.name", label="성명") }}</td><th>생년월일</th><td><span class="hand">{{ f("grantor.birth", label="생년월일", fix=0.06) }}</span></td></tr>
+  <tr><th>연 락 처</th><td colspan="3"><span class="hand">{{ f("grantor.phone", label="연락처", fix=0.06) }}</span></td></tr>
+  <tr><th>주　　소</th><td colspan="3"><span class="hand">{{ f("grantor.address", label="주소", fix=0.05) }}</span></td></tr>
   {% endif %}
 </table>
 <div class="sealbox">
   {% if d.grantor.type == "법인" %}
-  <div class="lbl">(법인인감)</div>{{ cs.corp_seal(d.grantor.name.replace("(주)", "주식회사 "), "대표이사인", 92, "poa") }}
+  <div class="lbl">(법인인감)</div>{{ cs.corp_seal(d.grantor.name.replace("(주)", "주식회사 "), "대표이사인", 92, "poa", present=(d.seal_p >= 1 or f.chance(d.seal_p))) }}
   {% else %}
-  <div class="lbl">(인감)</div>{{ m.seal(d.grantor.name, size="lg", key="grantor", kind="인감") }}
+  <div class="lbl">(인감)</div>{{ m.seal(d.grantor.name, size="lg", key="grantor", kind="인감", p=d.seal_p) }}
   {% endif %}
 </div>
 </div>
