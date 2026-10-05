@@ -1,0 +1,19 @@
+{#
+  외환·무역 영문 서류 공용 조각.
+  en_pg_attrs(): 여러 쪽일 때 쪽 번호·계속 표시를 영문으로 (paginate.js 의 data-pg-* 속성)
+  cont_head(...): 둘째 쪽부터 맨 위에 나오는 머리줄 (.pg-repeat 이지만 첫 쪽에서는 숨김)
+#}
+{% macro en_pg_attrs(style) -%}
+data-pg-format="{{ ['Page {i} of {n}', 'PAGE {i}/{n}', '- {i} -', '{i} / {n}', 'Page {i}/{n}'][style.page_pad % 5] }}" data-pg-cont="{{ ['Continued on next page', '(Continued)', '- CONTINUED -', 'Continued on next page ...', 'To be continued'][(style.page_pad // 5) % 5] }}"
+{%- endmacro %}
+
+{% macro cont_style() -%}
+.cont-hd { display: none; }
+.cont-hd.pg-repeated { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1.5px solid var(--border);
+  padding-bottom: 3px; margin-bottom: 8px; font-size: calc(var(--fs) - 2px); }
+.cont-hd .t { font-weight: 700; letter-spacing: .08em; font-size: calc(var(--fs) + 1px); }
+{%- endmacro %}
+
+{% macro cont_head(title, left, right) -%}
+<div class="cont-hd pg-repeat"><span class="t">{{ title }}</span><span>{{ left }}</span><span>{{ right }}</span></div>
+{%- endmacro %}

@@ -1,6 +1,7 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
 {% block page_class %} dense{% endblock %}
+{% block page_attrs %}data-pg-format="Page : {i}/{n}" data-pg-cont=""{% endblock %}
 {% block style %}
 .page.a4.dense { padding: 30px 34px; font-size: calc(var(--fs) - 3px); line-height: 1.25; }
 .id-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4px; }
@@ -13,9 +14,17 @@ table.id th { padding: 1px 2px; font-size: 9.5px; font-weight: 600; white-space:
 .n { font-size: 9px; color: #444; display: block; line-height: 1.15; }
 .ln { background: var(--label-bg); font-weight: 700; }
 .foot { font-size: 9.5px; margin-top: 4px; color: #222; }
+.cont-hd { display: none; }
+.cont-hd.pg-repeated { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1.5px solid var(--border); margin-bottom: 4px; padding-bottom: 2px; }
+.cont-hd .t { font-size: 16px; font-weight: 800; letter-spacing: .3em; }
+.ln-blk { margin-top: 0; }
+table.sp td { padding: 1px 3px; }
+table.sp th { background: var(--label-bg); }
+.amd { margin-top: 6px; color: #000; }
 .uni { display: flex; justify-content: space-between; font-size: 10px; margin-top: 3px; }
 {% endblock %}
 {% block content %}
+<div class="cont-hd pg-repeat"><span class="id-sub">UNI-PASS 전자통관시스템</span><span class="t">수 입 신 고 필 증</span><span class="id-sub">신고번호 : {{ val("decl_no") }}</span></div>
 <div class="id-top">
   <div class="id-sub">UNI-PASS 전자통관시스템</div>
   <div class="id-title">수 입 신 고 필 증</div>
@@ -59,38 +68,47 @@ table.id th { padding: 1px 2px; font-size: 9.5px; font-weight: 600; white-space:
   <tr><td colspan="2"><span class="n">(26)검사(반입)장소</span>{{ f("inspection_place", label="검사(반입)장소") }}</td></tr>
 </table>
 {% for it in d["items"] %}{% set pre = "items." ~ loop.index0 ~ "." %}
+<div class="ln-blk">
 <table class="id">
   <colgroup><col style="width:9%"><col style="width:29%"><col style="width:16%"><col style="width:16%"><col style="width:12%"><col style="width:18%"></colgroup>
   <tr>
-    <td class="ln c" rowspan="4">(란번호)<br>{{ f(pre ~ "line_no", label="란번호") }}<br>/{{ f("line_total", label="총란수") }}</td>
+    <td class="ln c" rowspan="2">(란번호)<br>{{ f(pre ~ "line_no", label="란번호") }}/{{ f("line_total", label="총란수") if loop.first else val("line_total") }}</td>
     <td colspan="3"><span class="n">(27)품명</span>{{ f(pre ~ "std_name", label="품명") }}</td>
     <td colspan="2"><span class="n">(28)거래품명</span>{{ f(pre ~ "trade_name", label="거래품명") }}</td>
   </tr>
-  <tr>
-    <td><span class="n">(29)상표 &nbsp;NO<br>(30)모델·규격</span>{{ f(pre ~ "model", label="모델·규격") }}</td>
-    <td><span class="n">(32)수량</span>{{ f(pre ~ "quantity", label="수량") }}</td>
-    <td><span class="n">(33)단가({{ val("payment").split("-")[1] }})</span>{{ f(pre ~ "unit_price", label="단가") }}</td>
-    <td colspan="2"><span class="n">(34)금액({{ val("payment").split("-")[1] }})</span>{{ f(pre ~ "amount", label="금액") }}</td>
-  </tr>
+  <tr><td colspan="5"><span class="n">(29)상표</span>NO</td></tr>
+</table>
+<table class="id sp">
+  <tr><th style="width:9%">번호</th><th style="width:36%">(30)모델·규격</th><th style="width:9%">(31)성분</th><th style="width:16%">(32)수량</th><th style="width:12%">(33)단가({{ val("payment").split("-")[1] }})</th><th style="width:18%">(34)금액({{ val("payment").split("-")[1] }})</th></tr>
+  {% for sp in it.specs %}{% set sq = pre ~ "specs." ~ loop.index0 ~ "." %}
+  <tr><td class="c">{{ f(sq ~ "no", label="규격번호") }}</td><td>{{ f(sq ~ "model", label="모델·규격") }}</td><td></td>
+    <td class="num">{{ f(sq ~ "quantity", label="수량") }}</td><td class="num">{{ f(sq ~ "unit_price", label="단가") }}</td><td class="num">{{ f(sq ~ "amount", label="금액") }}</td></tr>
+  {% endfor %}
+</table>
+<table class="id">
+  <colgroup><col style="width:16%"><col style="width:16%"><col style="width:40%"><col style="width:28%"></colgroup>
   <tr>
     <td><span class="n">(35)세번부호</span><b>{{ f(pre ~ "hs_code", label="세번부호") }}</b></td>
     <td><span class="n">(36)순중량</span>{{ f(pre ~ "net_weight", label="순중량") }}</td>
-    <td colspan="2"><span class="n">(39)과세가격(CIF)</span>{{ f(pre ~ "taxable_usd", label="과세가격(USD)") }} &nbsp; {{ f(pre ~ "taxable_krw", label="과세가격(원화)") }}</td>
+    <td><span class="n">(39)과세가격(CIF)</span>{{ f(pre ~ "taxable_usd", label="과세가격(USD)") }} &nbsp; {{ f(pre ~ "taxable_krw", label="과세가격(원화)") }}</td>
     <td><span class="n">(42)원산지표시</span>{{ f(pre ~ "origin", label="원산지") }}</td>
   </tr>
   <tr>
-    <td colspan="5" style="padding:0">
+    <td colspan="4" style="padding:0">
       <table class="id" style="border:0">
         <colgroup><col style="width:14%"><col style="width:20%"><col style="width:16%"><col style="width:22%"><col style="width:28%"></colgroup>
         <tr><th>(45)세종</th><th>(46)세율(구분)</th><th>(47)감면율</th><th>(48)세액</th><th>(49)감면분납부호 / 감면액 / *내국세종부호</th></tr>
-        <tr><td class="c">{{ f(pre ~ "duty_type", label="세종") }}</td><td class="c">{{ f(pre ~ "duty_rate", label="관세율") }}</td><td class="c">0.00</td>
-          <td class="num">{{ f(pre ~ "duty_amount", label="관세액") }}</td><td></td></tr>
+        <tr><td class="c">{{ f(pre ~ "duty_type", label="세종") }}</td><td class="c">{{ f(pre ~ "duty_rate", label="관세율") }}</td>
+          <td class="c">{% if it.reduction is defined %}{{ f(pre ~ "reduction.rate", label="감면율") }}{% else %}0.00{% endif %}</td>
+          <td class="num">{{ f(pre ~ "duty_amount", label="관세액") }}</td>
+          <td>{% if it.reduction is defined %}{{ f(pre ~ "reduction.code", label="감면분납부호") }} / {{ f(pre ~ "reduction.amount", label="감면액") }}{% endif %}</td></tr>
         <tr><td class="c">부</td><td class="c">{{ f(pre ~ "vat_rate", label="부가세율") }}</td><td class="c">0.00</td>
           <td class="num">{{ f(pre ~ "vat_amount", label="부가세액") }}</td><td></td></tr>
       </table>
     </td>
   </tr>
 </table>
+</div>
 {% endfor %}
 <table class="id">
   <colgroup><col style="width:34%"><col style="width:16%"><col style="width:22%"><col style="width:28%"></colgroup>
@@ -120,6 +138,7 @@ table.id th { padding: 1px 2px; font-size: 9.5px; font-weight: 600; white-space:
     <div class="small">(62)담당자 : {{ f("officer", label="담당자") }}</div>
     <div class="small">(63)접수일시 : {{ f("receipt_datetime", label="접수일시") }}</div>
     <div class="small">(64)수리일자 : {{ f("accept_date", label="수리일자") }}</div>
+    {% if d.amendment is defined %}<div class="small amd">정정승인일자 : {{ f("amendment.date", label="정정승인일자") }}<br>정정사유 : {{ f("amendment.reason", label="정정사유") }}</div>{% endif %}
     <div class="right" style="margin-top:6px">{{ m.seal("세관장인", square=True, size="sm", key="issuer") }}</div>
   </td></tr>
   <tr><td class="c">개별소비세</td><td class="num">0</td></tr>
@@ -133,5 +152,5 @@ table.id th { padding: 1px 2px; font-size: 9.5px; font-weight: 600; white-space:
   <tr><td class="c bold">(61)총세액합계</td><td class="num bold">{{ f("tax.total", label="총세액합계") }}</td></tr>
 </table>
 <div class="foot">※ 본 수입신고필증은 세관에서 형식적 요건만을 심사한 것이므로 신고내용이 사실과 다른 때에는 신고인 또는 수입화주가 책임을 져야 합니다. 또한 수입신고필증의 진위여부는 관세청 인터넷통관포탈(UNI-PASS)에서 조회하여 확인하시기 바랍니다.</div>
-<div class="uni"><span>발행번호 : {{ val("decl_no") }}</span><span>Page : 1/{{ 1 if val("line_total") | int <= 3 else 2 }}</span></div>
+<div class="uni"><span>발행번호 : {{ val("decl_no") }}</span><span></span></div>
 {% endblock %}

@@ -1,6 +1,8 @@
 {% extends "_base.html.j2" %}
 {% import "_macros.html.j2" as m with context %}
+{% import "fx/_fx.html.j2" as fx %}
 {% set lf = ["'Liberation Sans'", "'DejaVu Sans'", "Arial", "'Liberation Serif'", "'FreeSans'", "'Times New Roman'"][style.page_pad % 6] %}
+{% block page_attrs %}{{ fx.en_pg_attrs(style) }}{% endblock %}
 {% block style %}
 .page { font-family: {{ lf|safe }}, var(--font); font-size: calc(var(--fs) - 0.5px); line-height: 1.45; padding: 50px 60px; }
 .hd { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid var(--accent); padding-bottom: 10px; }
@@ -23,9 +25,16 @@ table.it tr.tot td { font-weight: 700; border-top: 2px solid var(--border); back
 .pay table { margin: 0; }
 .pay th, .pay td { border: 0; background: none; padding: 1px 8px 1px 0; text-align: left; }
 .pay th { width: 190px; color: #333; font-weight: 600; }
+table.it td { padding-top: {{ 2 if d["items"]|length > 14 else "var(--pad)" }}{{ "px" if d["items"]|length > 14 }}; padding-bottom: {{ 2 if d["items"]|length > 14 else "var(--pad)" }}{{ "px" if d["items"]|length > 14 }}; }
+.plan { margin-top: 10px; }
+.plan h3 { margin: 0 0 4px; font-size: calc(var(--fs) + 1px); color: var(--accent); }
+table.ins { width: 70%; margin: 0; }
+table.ins td.num { text-align: right; }
+{{ fx.cont_style() }}
 .due { font-size: calc(var(--fs) + 2px); margin-top: 10px; }
 {% endblock %}
 {% block content %}
+{{ fx.cont_head("STATEMENT OF FEES", val("student.name") ~ " (" ~ val("student.id") ~ ")", "Invoice No. " ~ val("invoice_no")) }}
 <div class="hd">
   <div><div class="nm">{{ f("university.name", label="University") }}</div>
     <div class="ad">{{ f("university.office", label="Office") }}<br>{{ f("university.address", label="University Address") }}</div></div>
@@ -44,14 +53,14 @@ table.it tr.tot td { font-weight: 700; border-top: 2px solid var(--border); back
   </table>
 </div>
 <table class="it">
-  <colgroup><col style="width:100px"><col><col style="width:130px"><col style="width:130px"></colgroup>
-  <tr><th>Date</th><th>Description</th><th class="num">Charges</th><th class="num">Payments/Credits</th></tr>
+  <tr><th style="width:100px">Date</th><th>Description</th><th class="num" style="width:130px">Charges</th><th class="num" style="width:130px">Payments/Credits</th></tr>
   {% for it in d["items"] %}{% set pre = "items." ~ loop.index0 ~ "." %}
   <tr><td>{{ f(pre ~ "date", label="Date") }}</td><td>{{ f(pre ~ "description", label="Description") }}</td>
     <td class="num">{% if it.charge is defined %}{{ f(pre ~ "charge", label="Charges") }}{% endif %}</td>
     <td class="num">{% if it.credit is defined %}{{ f(pre ~ "credit", label="Payments/Credits") }}{% endif %}</td></tr>
   {% endfor %}
 </table>
+<div class="pg-keep">
 <table class="sm">
   <tr><th>Previous Balance</th><td class="num">{{ f("summary.previous_balance", label="Previous Balance") }}</td></tr>
   <tr><th>New Charges</th><td class="num">{{ f("summary.charges", label="New Charges") }}</td></tr>
@@ -59,7 +68,20 @@ table.it tr.tot td { font-weight: 700; border-top: 2px solid var(--border); back
   <tr class="tot"><th>TOTAL AMOUNT DUE</th><td class="num">{{ f("total", label="Total Amount Due") }}</td></tr>
 </table>
 <div class="due">Payment Due Date: <b>{{ f("due_date", label="Due Date") }}</b></div>
-<div class="pay">
+</div>
+{% if d.installments is defined %}
+<div class="plan pg-keep">
+  <h3>Payment Plan — Installment Schedule</h3>
+  <div class="small">You are enrolled in the {{ d.installments|length }}-installment payment plan for this term. Amount due now (1st installment): <b>{{ f("amount_due_now", label="Amount Due Now") }}</b></div>
+  <table class="ins">
+    <tr><th>Installment</th><th>Due Date</th><th class="num">Amount</th></tr>
+    {% for x in d.installments %}{% set pre = "installments." ~ loop.index0 ~ "." %}
+    <tr><td class="c">{{ f(pre ~ "no", label="Installment No") }}</td><td>{{ f(pre ~ "due_date", label="Installment Due Date") }}</td><td class="num">{{ f(pre ~ "amount", label="Installment Amount") }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endif %}
+<div class="pay pg-keep">
   <h3>Payment Instructions — International Wire Transfer</h3>
   <table>
     <tr><th>Beneficiary Name</th><td>{{ f("bank.beneficiary", label="Beneficiary") }}</td></tr>
