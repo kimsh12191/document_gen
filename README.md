@@ -43,7 +43,7 @@ python -m docgen list
 # 전 서류 x 고객 100명 → HTML + 정답 JSON
 python -m docgen generate --n 100 --out out
 
-# 이미지(PNG) + bbox + VLM 학습용 jsonl 까지
+# 이미지(PNG) + 위치 + ms-swift 학습 jsonl 까지
 python -m docgen generate --n 100 --out out --png
 
 # 샘플마다 스캔/촬영 증강 이미지 2장 추가
@@ -70,12 +70,12 @@ python -m docgen check --png
 
 ```
 out/
-  html/<서류ID>_<seed>.html        렌더링된 HTML
-  images/<서류ID>_<seed>.png       (--png) 이미지
-  images/<서류ID>_<seed>_aug0.jpg  (--augment) 증강 이미지
-  labels/<서류ID>_<seed>.json      정답 + 필드별 라벨/bbox
-  manifest.jsonl                   샘플 목록
-  vlm.jsonl                        (--png) VLM 학습용 대화 형식
+  html/<서류ID>_<seed>.html              렌더링된 HTML
+  images/<서류ID>_<seed>.png             (--png) 이미지. 여러 쪽이면 _p1.png, _p2.png ...
+  images/<서류ID>_<seed>_aug0.jpg        (--augment) 스캔·촬영 증강 이미지
+  labels/<서류ID>_<seed>.json            정답 + 필드별 타입·정규화 값·위치
+  manifest.jsonl                         샘플 목록
+  swift/<과제>.jsonl, swift/all.jsonl    (--png) ms-swift 학습 데이터
 ```
 
 같은 `seed`(파일명 숫자)를 가진 서류들은 같은 고객의 서류입니다. 은행 서식의 label·manifest에는 서식을 낸 은행이 `bank`로 기록됩니다.
@@ -86,39 +86,58 @@ out/
 
 ```json
 {
- "id": "employment_certificate_000007", "doc_type": "employment_certificate", "doc_name": "재직증명서",
- "group": "income", "category": "external", "profile_seed": 7,
+ "id": "loan_application_000003", "doc_type": "loan_application", "doc_name": "대출거래신청서",
+ "images": ["images/loan_application_000003.png"], "pages": [{"width": 1588, "height": 2246}],
  "fields": [
-  {"key": "employee.name", "label": "성명", "value": "김소윤", "bbox": [262.5, 501.0, 310.4, 523.5]},
-  ...
+  {"key": "loan.amount", "label": "대출신청금액", "type": "amount", "value": "56,000,000",
+   "norm": 56000000, "page": 0, "bbox": [x0, y0, x1, y1], "label_bbox": [x0, y0, x1, y1]},
+  {"key": "loan.rate_type", "label": "금리방식", "type": "checkbox", "value": "변동", "page": 0,
+   "options": [{"text": "고정", "checked": false, "box_bbox": [...], "bbox": [...]},
+               {"text": "변동", "checked": true,  "box_bbox": [...], "bbox": [...]}]},
+  {"key": "seal.applicant", "label": "신청인", "type": "seal", "present": true, "kind": "인감",
+   "value": "김나우", "anchor": "signature", "page": 0, "bbox": [...]},
+  {"key": "sign.applicant", "label": "신청인", "type": "signature", "present": false, "page": 0, "bbox": [...]}
  ],
- "gt": {
-  "doc_no": "제 2025-171 호",
-  "employee": {"name": "김소윤", "rrn": "901121-2030821", "address": "광주광역시 서구 내방로 75, ..."},
-  "employment": {"department": "경영지원팀", "position": "차장", "period": "2014년 12월 01일 ~ 현재"},
-  "company": {"name": "(주)새한소프트", "biz_no": "458-86-13197", ...},
-  "issue_date": "2025년 11월 29일"
- }
+ "gt": {"loan": {"amount": "56,000,000", "rate_type": "변동"}, "seal": {"applicant": true}, "sign": {"applicant": false}}
 }
 ```
 
-- `gt`: 중첩 JSON 정답. 반복 항목(거래내역, 가족, 품목 등)은 리스트입니다.
-- `fields`: 평탄화된 필드 목록입니다.
-  - `label`: 문서에 적힌 한글 항목명
-  - `bbox`: 이미지 픽셀 좌표 `[x0, y0, x1, y1]`
-  - 한글 키 기반 정답을 만들거나 grounding 학습을 할 때 씁니다.
+- **좌표:** 이미지 픽셀 `[x0, y0, x1, y1]`, 해당 쪽(`page`, 0부터) 왼쪽 위 기준입니다.
+- **값(`value`)과 정규화 값(`norm`):** `value`는 문서에 찍힌 그대로, `norm`은 날짜 `YYYY-MM-DD`, 금액 정수, 전화번호 숫자 등입니다. 빈 칸은 `null`입니다.
+- **체크박스:** 보기마다 체크 여부와 □/■ 칸 위치(`box_bbox`)가 있습니다. 정답 값은 체크된 보기입니다.
+- **도장·서명:** `seal.<자리>`, `sign.<자리>`. 서명란은 랜덤으로 도장 / 서명 / 빈 칸이 되고, 없을 때도 그 자리 위치가 기록됩니다.
+- **키 목록과 규칙:** 서류별 전체 키·항목명·타입은 [docs/SCHEMA.md](docs/SCHEMA.md)(기계용 `schema/schema.json`)에 있습니다.
+- **좌표 확인:** `python scripts/visualize_labels.py out/labels/<파일>.json` 으로 위치를 그린 이미지를 만듭니다.
 
-### vlm.jsonl
+### swift/*.jsonl (ms-swift 학습용)
+
+Qwen-VL 계열을 ms-swift로 학습하는 형식입니다. 한 줄이 학습 샘플 하나입니다.
 
 ```json
-{"id": "...", "image": "images/....png", "doc_type": "...", "augment": "clean",
- "messages": [
-  {"role": "user", "content": [{"type": "image", "image": "images/....png"}, {"type": "text", "text": "이 문서의 종류를 판별하고, ... JSON으로 추출하세요."}]},
-  {"role": "assistant", "content": [{"type": "text", "text": "{\"document_type\": \"재직증명서\", ...}"}]}
- ]}
+{"id": "loan_application_000003:kie", "task": "kie", "augment": "clean",
+ "images": ["images/loan_application_000003.png"],
+ "messages": [{"role": "user", "content": "<image>이 문서의 종류를 판별하고, ... JSON으로 추출하세요."},
+              {"role": "assistant", "content": "{\"document_type\": \"대출거래신청서\", \"loan\": {...}}"}]}
 ```
 
-Qwen2-VL, InternVL 등 대화형 VLM 파인튜닝 포맷에 맞춰 바로 쓰거나 변환해서 쓸 수 있습니다.
+| 과제 | 질문 | 답 |
+|---|---|---|
+| `kie` | 전체 추출 | 서류 종류 + 전체 정답 JSON (빈 칸 null, 도장·서명 true/false) |
+| `kie_keys` | 지정한 키 목록 (문서에 없는 키도 가끔 섞음) | 그 키들만 평탄 JSON, 없으면 null |
+| `grounding` | 위치 포함 추출 | `[{"key", "label", "value", "bbox_2d"}]` |
+| `marks` | 체크박스·도장·서명 판별 | 체크 상태·날인·서명 여부와 위치 |
+| `qa` | 항목 하나 질문 | 값 또는 예/아니오 |
+
+- **좌표(`bbox_2d`):** 기본은 0~1000 상대 좌표 정수입니다(Qwen2-VL·Qwen3-VL 방식). `--coord pixel`이면 픽셀 좌표입니다. 학습할 모델 버전의 좌표 방식을 한 번 확인하세요.
+- **여러 쪽 서류:** `<image>`가 쪽 수만큼 들어가고, 위치 답에 `page`(1부터)가 붙습니다.
+- **증강 이미지:** 회전·이동·축소를 위치 정답에도 똑같이 적용하므로 `grounding`/`marks`에도 씁니다.
+- **경로:** `images`는 출력 폴더 기준 상대 경로입니다. 학습은 출력 폴더에서 실행하거나 경로를 바꿔 쓰세요.
+- 일부 과제만: `--tasks kie,kie_keys`
+
+```bash
+python -m docgen generate --n 500 --out out --png --augment 2
+cd out && swift sft --model <Qwen-VL 모델> --dataset swift/all.jsonl ...
+```
 
 ## 구조
 
@@ -128,8 +147,10 @@ docgen/
   entities.py    고객 프로필 (본인·가족·직장·사업체·법인·부동산·계좌·해외거래처)
   registry.py    서류 등록(@doc), 그룹, 업무 시나리오
   banks.py       은행별 서식 표기, 옛 은행(외환·KEB하나) 시기 이동
-  render.py      Jinja2 렌더링 + GT 수집(f()), 랜덤 스타일
-  image.py       Playwright 로 PNG + bbox
+  render.py      Jinja2 렌더링 + GT 수집(f(), 체크박스·도장·서명 기록), 랜덤 스타일
+  schema.py      타입 추론·정규화 값·키 통일, 위치 합치기
+  swift.py       ms-swift 학습 레코드 (과제별)
+  image.py       Playwright 로 PNG + 위치 (값·항목명·체크칸·도장)
   augment.py     스캔/촬영/팩스 증강
   cli.py         list / generate / check
   docs/*.py      서류별 데이터 생성 함수 (그룹별 파일)
@@ -137,6 +158,8 @@ templates/
   _base.html.j2, _macros.html.j2   공통 레이아웃·매크로
   <그룹>/<서류ID>.html.j2          서류별 템플릿
 scripts/make_samples.py            samples/ 갱신 (은행별 샘플은 samples/bank_variants/)
+scripts/build_schema.py            docs/SCHEMA.md, schema/schema.json 갱신
+scripts/visualize_labels.py        라벨 위치를 이미지에 그려 확인
 tests/                             pytest
 ```
 

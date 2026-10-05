@@ -61,7 +61,7 @@
 
 <div class="between" style="align-items:center;margin-top:4px"><div>{{ f("apply_date", label="신청일") }}<br><b>{{ lp.legal_name() }}</b> 앞</div><div class="right" style="line-height:2.1">
   신청인(법인) &nbsp;{{ f("company.name", label="기업명") }}<span class="inmark"></span><br>
-  대표이사 &nbsp;<span style="font-size:calc(var(--fs) + 1px)">{{ f("signature", label="대표이사") }}</span> &nbsp;{{ lp.in_seal("대표이사", size="") }}
+  대표이사 &nbsp;<span style="font-size:calc(var(--fs) + 1px)">{{ f("signature", label="대표이사") }}</span> &nbsp;{{ lp.in_seal("대표이사", size="", key="corp", kind="법인인감", anchor="signature") }}
 </div></div>
 
 {{ lp.bank_use(["접수일자", "접수번호", "CRS 등급", "담당자", "책임자"]) }}

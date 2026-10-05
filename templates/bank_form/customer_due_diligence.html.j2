@@ -71,7 +71,7 @@ table.cdd th.sub { width: 70px; font-weight: 500; }
 <div class="bf-note" style="margin-top:6px">본인은 위 기재 내용이 사실과 다름없음을 확인하며, 기재 내용에 변경이 있는 경우 지체 없이 은행에 통보하겠습니다. 허위 기재 또는 정보 제공 거부로 인한 거래 제한 등의 불이익은 본인이 부담합니다.</div>
 <div class="bf-sign">
   <span>{{ f("date", label="작성일") }}</span>
-  <span>고객(본인) <span class="who">{{ f("signature", label="고객성명") }}</span> (서명 또는 인)</span>
+  <span>고객(본인) <span class="who">{{ f("signature", label="고객성명") }}</span> {{ m.sigspot("customer", val("signature"), label="고객", anchor="signature") }}</span>
 </div>
 <div class="right bold">{{ f("bank.name", label="은행명") }} 귀중</div>
 

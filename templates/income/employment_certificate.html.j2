@@ -40,6 +40,6 @@ table.cert th.vsec { width: 46px; letter-spacing: .1em; line-height: 1.25; white
   <div class="date">{{ f("issue_date", label="발급일") }}</div>
   <div class="mt" style="font-size:calc(var(--fs) + 4px);letter-spacing:.08em">{{ f("company.name", label="회사명") }}</div>
   <div class="small muted" style="margin-top:4px">TEL {{ f("company.phone", label="전화번호") }}</div>
-  <div class="ceo mt">대표이사&nbsp;&nbsp;{{ f("company.ceo", label="대표이사") }}{{ m.seal("대표이사인", square=True, over=True) }}</div>
+  <div class="ceo mt">대표이사&nbsp;&nbsp;{{ f("company.ceo", label="대표이사") }}{{ m.seal("대표이사인", square=True, over=True, key="company", kind="직인") }}</div>
 </div>
 {% endblock %}

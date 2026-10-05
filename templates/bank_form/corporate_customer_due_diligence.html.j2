@@ -76,7 +76,7 @@ table.own th, table.own td { text-align: center; }
     <tr><td>법 인 명</td><td><b>{{ f("corp.name", label="법인명") }}</b></td></tr>
     <tr><td>대표이사</td><td><b>{{ f("rep.name", label="대표이사") }}</b>&nbsp;&nbsp;(법인인감 날인)</td></tr>
   </table>
-  {{ m.seal(val("corp.name").replace("주식회사 ", "").replace("(주)", "") ~ "대표이사인") }}
+  {{ m.seal(val("corp.name").replace("주식회사 ", "").replace("(주)", "") ~ "대표이사인", key="corp", kind="법인인감") }}
 </div>
 
 <div class="bf-use">

@@ -67,7 +67,7 @@ table.prov th, table.prov td { font-size: calc(var(--fs) - 3.5px); padding: 1px 
 <div class="bf-sign">
   <span>{{ f("date", label="작성일") }}</span>
   <span>생년월일 {{ f("applicant.birth", label="생년월일") }}</span>
-  <span>본인 성명 <span class="who">{{ f("applicant.name", label="본인성명") }}</span> (서명 또는 인)</span>
+  <span>본인 성명 <span class="who">{{ f("applicant.name", label="본인성명") }}</span> {{ m.sigspot("applicant", val("applicant.name"), label="본인", anchor="applicant.name") }}</span>
 </div>
 <div class="bf-sign" style="margin-top:2px"><span class="muted">법정대리인(미성년자 등의 경우) 성명 <span class="who">&nbsp;</span> (서명 또는 인)</span></div>
 <div class="row" style="margin-top:6px; align-items:stretch">

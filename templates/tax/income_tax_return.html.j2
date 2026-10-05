@@ -94,7 +94,7 @@ table.calc tr.hl th, table.calc tr.hl td { font-weight: 700; }
 </table>
 <p class="decl">신고인은 「소득세법」 제70조, 「농어촌특별세법」 제7조, 「국세기본법」 제45조, 제45조의2, 제45조의3에 따라 위의 내용을 신고하며, 위 내용을 충분히 검토하였고 신고인이 알고 있는 사실 그대로를 정확하게 적었음을 확인합니다.</p>
 <div class="sig">{{ f("filed_date", label="신고일") }}</div>
-<div class="sig">신고인&nbsp;&nbsp;<span class="signline" style="min-width:90px">{{ f("taxpayer.name", label="신고인") }}</span>&nbsp;&nbsp;(서명 또는 인)</div>
+<div class="sig">신고인&nbsp;&nbsp;<span class="signline" style="min-width:90px">{{ f("taxpayer.name", label="신고인") }}</span>&nbsp;&nbsp;{{ m.sigspot("taxpayer", val("taxpayer.name"), label="신고인", anchor="taxpayer.name", p_seal=0.3, p_sign=0.3) }}</div>
 <p class="decl" style="margin-top:4px">세무대리인은 조세전문자격자로서 위 신고서를 성실하고 공정하게 작성하였음을 확인합니다.</p>
 <div class="sig">세무대리인&nbsp;&nbsp;<span class="signline" style="min-width:90px">{% if d.tax_agent is defined %}{{ f("tax_agent.name", label="세무대리인") }}{% endif %}</span>&nbsp;&nbsp;(서명 또는 인)</div>
 <table class="outer compact" style="margin-top:4px">

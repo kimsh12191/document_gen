@@ -182,7 +182,7 @@ table.rg td.strike { text-decoration: line-through; text-decoration-color: #c00;
 {% if not viewing %}
 <div class="rg-cert">
   <div>서기 {{ f("issue_date", label="발행일") }}</div>
-  <div class="o mt">법원행정처 등기정보중앙관리소 &nbsp;&nbsp;전산운영책임관 <span class="seal square over">전산운영<br>책임관인</span></div>
+  <div class="o mt">법원행정처 등기정보중앙관리소 &nbsp;&nbsp;전산운영책임관 {{ m.seal("전산운영책임관인", square=True, over=True) }}</div>
 </div>
 {% endif %}
 {% endif %}

@@ -65,7 +65,7 @@ table.aoa th.w2 { width: 86px; }
 {% endif %}
 <div class="bf-sign">
   <span>{{ f("date", label="신청일") }}</span>
-  <span>신청인 <span class="who">{{ f("signature", label="신청인") }}</span> (서명 또는 인)</span>
+  <span>신청인 <span class="who">{{ f("signature", label="신청인") }}</span> {{ m.sigspot("applicant", val("signature"), label="신청인", anchor="signature") }}</span>
 </div>
 <div class="right bold">{{ f("bank.name", label="은행명") }} 앞</div>
 

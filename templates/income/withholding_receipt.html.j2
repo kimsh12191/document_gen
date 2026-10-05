@@ -90,7 +90,7 @@ table.wr td.opt { font-size: calc(var(--fs) - 4px); white-space: nowrap; }
 <div class="foot">
   <p>위의 원천징수액(근로소득)을 정히 영수(지급)합니다.</p>
   <p class="right">{{ f("issue_date", label="발급일") }}</p>
-  <p class="right" style="position:relative">징수(보고)의무자&nbsp;&nbsp;<b>{{ val("payer.name") }}</b>&nbsp;&nbsp;(서명 또는 인) {{ m.seal("대표이사인", square=True, size="sm") }}</p>
+  <p class="right" style="position:relative">징수(보고)의무자&nbsp;&nbsp;<b>{{ val("payer.name") }}</b>&nbsp;&nbsp;(서명 또는 인) {{ m.seal("대표이사인", square=True, size="sm", key="payer", kind="직인") }}</p>
   <p class="bold" style="font-size:calc(var(--fs) + 2px)">{{ f("tax_office", label="세무서장") }} 귀하</p>
 </div>
 {% endblock %}

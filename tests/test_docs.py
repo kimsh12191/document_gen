@@ -24,7 +24,12 @@ def test_renders_and_records_fields(doc_id):
         keys = [f["key"] for f in fields]
         assert len(keys) == len(set(keys))
         for f in fields:
-            assert f'data-field="{f["key"]}"' in html
+            if f.get("group_only"):
+                assert f'data-opt="{f["key"]}#' in html
+            elif f.get("type") in ("seal", "signature"):
+                assert f'="{f["key"]}"' in html  # data-mark / data-mark2
+            else:
+                assert f'data-field="{f["key"]}"' in html
         json.dumps(to_nested(fields), ensure_ascii=False)
         if spec.sample_mark:
             assert "sample-mark" in html
@@ -121,3 +126,80 @@ def test_default_mix_includes_legacy_banks_outside_scenarios():
         p = make_profile(seed)
         p.extra["scenario"] = "mortgage"
         assert form_bank(p, "credit_agreement") == p.bank
+
+
+# ---------------------------------------------------------------------------
+# 라벨 구조 (타입·정규화·체크박스·도장) 와 ms-swift 레코드
+# ---------------------------------------------------------------------------
+
+import random  # noqa: E402
+
+from docgen.schema import build_fields, infer, korean_number  # noqa: E402
+from docgen.swift import TASKS, build_records  # noqa: E402
+
+
+def test_korean_number_and_infer():
+    assert korean_number("금 이억일천사백만원정") == 214_000_000
+    assert korean_number("일금 오천육백만원정") == 56_000_000
+    assert korean_number("사원") is None
+    assert infer("issue_date", "2025년 03월 02일") == ("date", "2025-03-02")
+    assert infer("x.date", "March 3, 2025") == ("date", "2025-03-03")
+    assert infer("loan.amount", "56,000,000원") == ("amount", 56_000_000)
+    assert infer("deposit", "금 사억팔천만원정 (₩480,000,000)") == ("amount", 480_000_000)
+    assert infer("loan.spread", "1.23%") == ("percent", 1.23)
+    assert infer("mobile", "010-1234-5678") == ("phone", "01012345678")
+    assert infer("assets.1.account", "(1) 당좌자산")[0] == "text"
+
+
+@pytest.mark.parametrize("doc_id", ["loan_application", "credit_agreement_corp", "privacy_consent", "bank_statement"])
+def test_label_fields_and_swift_records(doc_id):
+    html, raw, _ = render(REG[doc_id], make_profile(3), 3)
+    fields = build_fields(raw)
+    gt = to_nested(fields)
+    label = {"id": doc_id, "doc_name": REG[doc_id].name, "fields": fields, "gt": gt}
+    recs = build_records(label, ["a.png"], [(794, 1123)], random.Random(0), TASKS, key_pool=["no.such_key"])
+    assert {r["task"] for r in recs} >= {"kie", "kie_keys", "qa"}
+    for r in recs:
+        assert r["messages"][0]["content"].startswith("<image>")
+        if r["task"] in ("kie", "kie_keys", "grounding", "marks"):
+            json.loads(r["messages"][1]["content"])
+    for f in fields:
+        if f["type"] == "checkbox":
+            assert f["options"] and sum(o["checked"] for o in f["options"]) <= 1
+        if f["type"] in ("seal", "signature"):
+            assert isinstance(f["present"], bool)
+            assert f["key"].startswith("seal." if f["type"] == "seal" else "sign.")
+
+
+def test_marks_vary_between_samples():
+    """서명란은 도장/서명/빈 칸이 섞여 나와야 한다."""
+    states = set()
+    for seed in range(40):
+        _, raw, _ = render(REG["loan_application"], make_profile(seed), seed)
+        f = {x["key"]: x for x in raw}
+        states.add((f["seal.applicant"]["present"], f["sign.applicant"]["present"]))
+    assert states == {(True, False), (False, True), (False, False)}
+
+
+def test_positions_from_browser(tmp_path):
+    pytest.importorskip("playwright")
+    from docgen.image import ImageRenderer
+
+    try:
+        r = ImageRenderer(scale=1.0).__enter__()
+    except Exception as e:  # noqa: BLE001
+        pytest.skip(f"Chromium 없음: {e}")
+    try:
+        html, raw, _ = render(REG["loan_application"], make_profile(3), 3)
+        info = r.render(html, tmp_path / "a.png")
+    finally:
+        r.__exit__(None, None, None)
+    fields = build_fields(raw, info)
+    vals = [f for f in fields if f["type"] not in ("seal", "signature")]
+    assert all(f.get("bbox") for f in vals if f["value"] is not None)
+    assert sum(1 for f in vals if f.get("label_bbox")) / len(vals) > 0.8
+    for f in fields:
+        if f["type"] == "checkbox":
+            assert all(o.get("box_bbox") for o in f["options"])
+        if f["type"] in ("seal", "signature"):
+            assert f.get("bbox"), f["key"]

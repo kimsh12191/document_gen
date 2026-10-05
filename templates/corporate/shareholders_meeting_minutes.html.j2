@@ -42,7 +42,7 @@ table.att { width:92%; margin:2px auto 4px; } table.att th { width:22%; } table.
 <div class="corp">{{ f("company_name", label="상호") }}<br><span class="small">{{ f("head_office", label="본점") }}</span></div>
 <div class="signs">
   {% for s in d.signers %}{% set i = loop.index0 %}
-  <div class="s"><span class="t">{{ f("signers." ~ i ~ ".title", label="자격") }}</span><span class="n">{{ f("signers." ~ i ~ ".name", label="성명") }}</span>{% if loop.first %}<span style="margin-left:-8px">{{ cs.corp_seal(d.company_name.replace("(주)", "주식회사 "), "대표이사인", 52, "sm") }}</span>{% else %}{{ m.seal(s.name, size="sm") }}{% endif %}</div>
+  <div class="s"><span class="t">{{ f("signers." ~ i ~ ".title", label="자격") }}</span><span class="n">{{ f("signers." ~ i ~ ".name", label="성명") }}</span>{% if loop.first %}<span style="margin-left:-8px">{{ cs.corp_seal(d.company_name.replace("(주)", "주식회사 "), "대표이사인", 52, "sm") }}</span>{% else %}{{ m.seal(s.name, size="sm", key="signer" ~ loop.index, kind="인감", anchor="signers." ~ i ~ ".name", p=0.95) }}{% endif %}</div>
   {% endfor %}
 </div>
 {% endblock %}

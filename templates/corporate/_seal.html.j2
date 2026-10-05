@@ -3,9 +3,11 @@
   사용: {% import "corporate/_seal.html.j2" as cs %} {{ cs.corp_seal("주식회사한빛전자", "대표이사인", 110, "a") }}
   텍스트만으로 그린 합성 도장이며 실제 인영 이미지가 아니다.
 #}
-{% macro corp_seal(name, inner="대표이사인", size=110, uid="s", rot=-8) -%}
+{% macro corp_seal(name, inner="대표이사인", size=110, uid="s", rot=-8, key="corp", present=True) -%}
 {% set lines = [inner[:2], inner[2:]] if inner|length > 3 else [inner] %}
-<svg class="cseal" width="{{ size }}" height="{{ size }}" viewBox="0 0 120 120"
+{% set k = f.mark(key, "seal", present, name ~ " " ~ inner if present else None, kind="법인인감") %}
+{% if not present %}<span class="seal-missing" data-mark="{{ k }}" style="display:inline-block;width:{{ size }}px;height:{{ size }}px"></span>{% else %}
+<svg class="cseal" data-mark="{{ k }}" width="{{ size }}" height="{{ size }}" viewBox="0 0 120 120"
      style="display:inline-block;vertical-align:middle;opacity:.84;transform:rotate({{ rot }}deg);overflow:visible">
   <defs><path id="csp-{{ uid }}" d="M 60,60 m -42,0 a 42,42 0 1,1 84,0 a 42,42 0 1,1 -84,0"/></defs>
   <circle cx="60" cy="60" r="57" style="fill:none;stroke:var(--seal);stroke-width:3.6"/>
@@ -16,5 +18,5 @@
   <text x="60" y="{{ 60 + (loop.index0 - (lines|length - 1) / 2) * 17 + 5 }}" text-anchor="middle"
         style="fill:var(--seal);font-size:{{ 16 if ln|length <= 2 else 14 }}px;font-weight:700;font-family:'Nanum Myeongjo','Noto Serif CJK KR',serif">{{ ln }}</text>
   {% endfor %}
-</svg>
+</svg>{% endif %}
 {%- endmacro %}

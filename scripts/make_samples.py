@@ -23,6 +23,7 @@ from docgen.entities import make_profile  # noqa: E402
 from docgen.image import ImageRenderer  # noqa: E402
 from docgen.registry import GROUPS, load_all  # noqa: E402
 from docgen.render import render, to_nested  # noqa: E402
+from docgen.schema import build_fields  # noqa: E402
 
 
 def main() -> None:
@@ -54,7 +55,7 @@ def main() -> None:
                 buf = io.BytesIO()
                 img.save(buf, "JPEG", quality=args.quality, optimize=True)
                 (out / spec.group / f"{name}.jpg").write_bytes(buf.getvalue())
-                gt = {"document_type": spec.name, **to_nested(fields)}
+                gt = {"document_type": spec.name, **to_nested(build_fields(fields, info))}
                 (out / spec.group / f"{name}.json").write_text(json.dumps(gt, ensure_ascii=False, indent=1), encoding="utf-8")
                 index.append({"id": spec.id, "name": spec.name, "group": spec.group, "group_name": GROUPS[spec.group],
                               "category": spec.category, "image": f"{spec.group}/{name}.jpg",
@@ -75,7 +76,7 @@ def main() -> None:
                 buf = io.BytesIO()
                 img.save(buf, "JPEG", quality=args.quality, optimize=True)
                 (d / f"{spec.id}.jpg").write_bytes(buf.getvalue())
-                gt = {"document_type": spec.name, **to_nested(fields)}
+                gt = {"document_type": spec.name, **to_nested(build_fields(fields, info))}
                 (d / f"{spec.id}.json").write_text(json.dumps(gt, ensure_ascii=False, indent=1), encoding="utf-8")
                 index.append({"id": spec.id, "name": spec.name, "group": spec.group, "group_name": GROUPS[spec.group],
                               "category": spec.category, "bank": bank,

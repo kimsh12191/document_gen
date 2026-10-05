@@ -71,8 +71,8 @@ table.scope td { vertical-align: top; }
 <div class="between" style="margin-top:6px;align-items:center">
   <div style="padding-left:12px">{{ f("contract_date", label="계약일") }}</div>
   <div class="right" style="line-height:2.2">
-    채　무　자 &nbsp;<span class="who" style="display:inline-block;min-width:80px;text-align:center">{{ f("signature_debtor", label="채무자") }}</span> {{ lp.in_seal(None, mark="(인)") }}<br>
-    근저당권설정자 &nbsp;<span class="who" style="display:inline-block;min-width:80px;text-align:center">{{ f("signature_mortgagor", label="근저당권설정자") }}</span> {{ lp.in_seal(val("signature_mortgagor") ~ "인", size="", mark="(인감)") }}
+    채　무　자 &nbsp;<span class="who" style="display:inline-block;min-width:80px;text-align:center">{{ f("signature_debtor", label="채무자") }}</span> {{ m.sigspot("debtor", val("signature_debtor"), mark="(인)", label="채무자", anchor="signature_debtor", p_seal=0.6, p_sign=0.3) }}<br>
+    근저당권설정자 &nbsp;<span class="who" style="display:inline-block;min-width:80px;text-align:center">{{ f("signature_mortgagor", label="근저당권설정자") }}</span> {{ lp.in_seal(val("signature_mortgagor") ~ "인", size="", mark="(인감)", key="mortgagor", anchor="signature_mortgagor") }}
   </div>
 </div>
 

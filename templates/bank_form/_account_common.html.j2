@@ -60,14 +60,14 @@ table.stamp td { width: 64px; height: 48px; text-align: center; padding: 2px; }
 {% macro stamps(items) -%}
 <table class="bf stamp">
 <tr>{% for it in items %}<th>{{ it[0] }}</th>{% endfor %}</tr>
-<tr>{% for it in items %}<td>{% if it[1] %}<span class="seal sm staff{{ ' long' if val(it[1])|length > 3 }}">{{ f(it[1], label=it[0]) }}</span>{% endif %}</td>{% endfor %}</tr>
+<tr>{% for it in items %}<td>{% if it[1] %}<span class="seal sm staff{{ ' long' if val(it[1])|length > 3 }}" data-mark="{{ f.mark('staff.' ~ it[1].split('.')[-1], 'seal', True, val(it[1]), label=it[0], kind='행원인', anchor=it[1]) }}">{{ f(it[1], label=it[0]) }}</span>{% endif %}</td>{% endfor %}</tr>
 </table>
 {%- endmacro %}
 
 {# 복수 선택 체크박스: path 는 선택된 값들의 리스트 #}
 {% macro multi(path, options, label=None) -%}
 {% set cur = val(path) %}
-{% for o in options %}<span class="chk">{% if o in cur %}■ {{ f(path ~ '.' ~ cur.index(o), label=label) }}{% else %}□ {{ o }}{% endif %}</span>{% endfor %}
+{% for o in options %}<span class="chk" data-opt="{{ path }}#{{ loop.index0 }}"><span class="cb" data-box="{{ path }}#{{ loop.index0 }}">{{ "■" if o in cur else "□" }}</span> {% if o in cur %}{{ f(path ~ '.' ~ cur.index(o), label=label) }}{% else %}{{ o }}{% endif %}</span>{% endfor %}{{ f.opts(path, options, cur, label) }}
 {%- endmacro %}
 
 {# 하단 서식번호 줄: 서식코드(규격) / 보존기간 등 #}

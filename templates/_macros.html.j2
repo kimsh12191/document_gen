@@ -22,7 +22,7 @@
 <tr>
 {% for item in line %}
 {% if item is none %}<th></th><td></td>
-{% else %}<th>{{ item[0] }}</th><td{% if item[2] > 1 %} colspan="{{ item[2] }}"{% endif %}>{{ f(item[1], label=item[0]) }}</td>
+{% else %}<th data-label="{{ item[1] }}">{{ item[0] }}</th><td{% if item[2] > 1 %} colspan="{{ item[2] }}"{% endif %}>{{ f(item[1], label=item[0]) }}</td>
 {% endif %}
 {% endfor %}
 </tr>
@@ -39,7 +39,7 @@
 {% set items = val(list_path) %}
 <table class="grid {{ cls }}">
 {% if widths %}<colgroup>{% for w in widths %}<col style="width:{{ w }}">{% endfor %}</colgroup>{% endif %}
-<tr>{% for h in headers %}<th>{{ h }}</th>{% endfor %}</tr>
+<tr>{% for h in headers %}<th data-label="{{ list_path }}.*.{{ keys[loop.index0] }}">{{ h }}</th>{% endfor %}</tr>
 {% for it in items %}
 {% set i = loop.index0 %}
 <tr>
@@ -54,8 +54,8 @@
 
 {# 선택형 항목: 선택된 옵션만 f() 로 기록된다. 예) m.choice('loan.rate_type', ['고정금리','변동금리']) #}
 {% macro choice(path, options, label=None, on="■", off="□") -%}
-{% set cur = val(path) %}
-{% for o in options %}<span class="chk">{% if o == cur %}{{ on }} {{ f(path, label=label) }}{% else %}{{ off }} {{ o }}{% endif %}</span>{% endfor %}
+{% set cur = val(path) if f.has(path) else None %}
+{% for o in options %}<span class="chk" data-opt="{{ path }}#{{ loop.index0 }}"><span class="cb" data-box="{{ path }}#{{ loop.index0 }}">{{ on if o == cur else off }}</span> {% if o == cur %}{{ f(path, label=label) }}{% else %}{{ o }}{% endif %}</span>{% endfor %}{{ f.opts(path, options, cur, label) }}
 {%- endmacro %}
 
 {# 동의 여부 등 예/아니오 체크 #}
@@ -64,8 +64,29 @@
 {%- endmacro %}
 
 {# 인감/직인 (텍스트 기반 도장 모양) #}
-{% macro seal(text, square=False, size="", over=False) -%}
-<span class="seal{{ ' square' if square }}{{ ' ' ~ size if size }}{{ ' over' if over }}" style="{{ seal_font(text) }}">{{ seal_lines(text)|join(BR) }}</span>
+{#
+  도장. key 를 주면 정답에 seal.<key> 로 날인 여부가 기록된다 (주지 않으면 seal.markN).
+  kind: 직인 / 인감 / 법인인감 / 사인 등, anchor: 이 도장이 확인하는 값의 경로
+#}
+{% macro seal(text, square=False, size="", over=False, key=None, kind=None, anchor=None, label=None, p=1.0) -%}
+{% set present = p >= 1 or f.chance(p) %}
+{% set k = f.mark(key or ("issuer" if over else None), "seal", present, text if present else None, label=label, kind=kind or ("직인" if square else "도장"), anchor=anchor) %}
+{% if not present %}<span class="seal-missing{{ ' ' ~ size if size }}" data-mark="{{ k }}"></span>{% else %}
+<span class="seal{{ ' square' if square }}{{ ' ' ~ size if size }}{{ ' over' if over }}" data-mark="{{ k }}" style="{{ seal_font(text) }}">{{ seal_lines(text)|join(BR) }}</span>{% endif %}
+{%- endmacro %}
+
+{#
+  고객이 서명하거나 도장을 찍는 자리 "(서명 또는 인)".
+  랜덤으로 도장 / 서명 / 빈 칸이 되며, 결과가 seal.<key>, signature.<key> 로 기록된다.
+  name: 도장 글자·서명할 이름, p_seal/p_sign: 확률 (나머지는 빈 칸)
+#}
+{% macro sigspot(key, name, mark="(서명 또는 인)", p_seal=0.45, p_sign=0.45, label=None, anchor=None, size="sm") -%}
+{% set x = f.rng.random() %}{% set has_seal = x < p_seal %}{% set has_sign = not has_seal and x < p_seal + p_sign %}
+{% set ks = f.mark(key, "seal", has_seal, name if has_seal else None, label=label, kind="인감", anchor=anchor) %}
+{% set kg = f.mark(key, "signature", has_sign, name if has_sign else None, label=label, anchor=anchor) %}
+<span class="inmark"{% if not has_seal %} data-mark="{{ ks }}"{% endif %}{% if not has_sign %} data-mark2="{{ kg }}"{% endif %}>{{ mark }}
+{%- if has_seal %}<span class="seal {{ size }} onmark" data-mark="{{ ks }}" style="{{ seal_font(name) }}">{{ seal_lines(name)|join(BR) }}</span>{% endif %}
+{%- if has_sign %}<span class="scribble" data-mark="{{ kg }}">{{ scribble(name, f.rng) }}</span>{% endif %}</span>
 {%- endmacro %}
 
 {# 발급일/발급기관/직인 블록 #}

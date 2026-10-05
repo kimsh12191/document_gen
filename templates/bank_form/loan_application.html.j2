@@ -82,7 +82,7 @@ table.bf.g td { padding: 1px 4px; height: 20px; font-size: calc(var(--fs) - 1.5p
 
 <div class="between" style="margin-top:4px;align-items:center">
 <div><b>{{ lp.legal_name() }}</b> 앞</div>
-<div>{{ f("apply_date", label="신청일") }}&nbsp;&nbsp;&nbsp; 신청인&nbsp;<span class="who" style="display:inline-block;min-width:80px;text-align:center">{{ f("signature", label="신청인") }}</span>(서명 또는 인)</div>
+<div>{{ f("apply_date", label="신청일") }}&nbsp;&nbsp;&nbsp; 신청인&nbsp;<span class="who" style="display:inline-block;min-width:80px;text-align:center">{{ f("signature", label="신청인") }}</span>{{ m.sigspot("applicant", val("signature"), label="신청인", anchor="signature") }}</div>
 </div>
 
 {{ lp.bank_use(["접수일자", "실명확인", "신용조회", "담당자", "책임자"]) }}

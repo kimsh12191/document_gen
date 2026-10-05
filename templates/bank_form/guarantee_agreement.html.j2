@@ -63,7 +63,7 @@ table.hw .hand { font-size: calc(var(--fs) + 3px); }
 
 <div class="between" style="margin-top:8px;align-items:center">
   <div style="padding-left:12px">{{ f("contract_date", label="약정일") }}</div>
-  <div class="right" style="line-height:2.3">보증인 &nbsp;<span style="display:inline-block;min-width:80px;text-align:center;font-size:calc(var(--fs) + 1px)">{{ f("signature", label="보증인") }}</span> {{ lp.in_seal(val("signature") ~ "인", size="", mark="(인감)") }}</div>
+  <div class="right" style="line-height:2.3">보증인 &nbsp;<span style="display:inline-block;min-width:80px;text-align:center;font-size:calc(var(--fs) + 1px)">{{ f("signature", label="보증인") }}</span> {{ lp.in_seal(val("signature") ~ "인", size="", mark="(인감)", key="guarantor", anchor="signature") }}</div>
 </div>
 
 {{ lp.bank_use(["실명확인", "보증의사 확인", "인감대조", "담당자", "책임자"]) }}

@@ -77,7 +77,7 @@ table.bf.t th { width: 104px; }
 
 <div class="between" style="margin-top:4px;align-items:center">
   <div style="padding-left:12px">{{ f("contract_date", label="약정일") }}</div>
-  <div>본인(채무자)&nbsp;<span class="who" style="display:inline-block;min-width:90px;text-align:center">{{ f("signature", label="채무자") }}</span>(서명 또는 인)</div>
+  <div>본인(채무자)&nbsp;<span class="who" style="display:inline-block;min-width:90px;text-align:center">{{ f("signature", label="채무자") }}</span>{{ m.sigspot("debtor", val("signature"), label="채무자", anchor="signature") }}</div>
 </div>
 
 {{ lp.bank_use(["실명확인", "약정내용 설명", "인감·서명 대조", "담당자", "책임자"]) }}

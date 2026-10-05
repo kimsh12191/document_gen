@@ -66,7 +66,7 @@ table.qa td.a { width: 128px; text-align: center; }
 <div class="bf-note">본인은 위 내용을 충분히 설명 듣고 이해하였으며, 기재한 금융거래 목적 및 확인 사항이 사실과 다름없음을 확인합니다.</div>
 <div class="bf-sign">
   <span>{{ f("date", label="작성일") }}</span>
-  <span>고객 성명 <span class="who">{{ f("signature", label="고객성명") }}</span> (서명 또는 인)</span>
+  <span>고객 성명 <span class="who">{{ f("signature", label="고객성명") }}</span> {{ m.sigspot("customer", val("signature"), label="고객", anchor="signature") }}</span>
 </div>
 <div class="right bold">{{ f("bank.name", label="은행명") }} 귀중</div>
 

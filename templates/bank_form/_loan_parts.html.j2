@@ -35,7 +35,7 @@ table.bf table.compact th { text-align: center; }
 .notice p { margin: 1px 0; padding-left: 1em; text-indent: -1em; }
 .sig { display: flex; justify-content: flex-end; align-items: center; gap: 6px; margin-top: 6px; }
 .inmark { position: relative; display: inline-block; min-width: 34px; text-align: center; }
-.inmark .seal { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-8deg); margin: 0; }
+.inmark > .seal { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-8deg); margin: 0; }
 .sig .who { min-width: 90px; text-align: center; font-size: calc(var(--fs) + 1px); }
 </style>
 {%- endmacro %}
@@ -102,8 +102,9 @@ table.bf table.compact th { text-align: center; }
 {%- endmacro %}
 
 {# "(인)" 표시 위에 도장 #}
-{% macro in_seal(text=None, size="sm", square=False, mark="(인)") -%}
-<span class="inmark">{{ mark }}{% if text %}{{ m.seal(text, square=square, size=size) }}{% endif %}</span>
+{% macro in_seal(text=None, size="sm", square=False, mark="(인)", key=None, kind="인감", anchor=None, p=0.93) -%}
+{% if text and f.chance(p) %}<span class="inmark">{{ mark }}{{ m.seal(text, square=square, size=size, key=key, kind=kind, anchor=anchor) }}</span>
+{%- else %}{% set k = f.mark(key, "seal", False, kind=kind, anchor=anchor) %}<span class="inmark" data-mark="{{ k }}">{{ mark }}</span>{% endif %}
 {%- endmacro %}
 
 {# 하단 은행 사용란 #}

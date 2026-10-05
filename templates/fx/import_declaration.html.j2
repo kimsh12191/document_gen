@@ -120,7 +120,7 @@ table.id th { padding: 1px 2px; font-size: 9.5px; font-weight: 600; white-space:
     <div class="small">(62)담당자 : {{ f("officer", label="담당자") }}</div>
     <div class="small">(63)접수일시 : {{ f("receipt_datetime", label="접수일시") }}</div>
     <div class="small">(64)수리일자 : {{ f("accept_date", label="수리일자") }}</div>
-    <div class="right" style="margin-top:6px">{{ m.seal("세관장인", square=True, size="sm") }}</div>
+    <div class="right" style="margin-top:6px">{{ m.seal("세관장인", square=True, size="sm", key="issuer") }}</div>
   </td></tr>
   <tr><td class="c">개별소비세</td><td class="num">0</td></tr>
   <tr><td class="c">교 통 세</td><td class="num">0</td></tr>

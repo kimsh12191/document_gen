@@ -54,8 +54,8 @@ table.bf th, table.bf td { padding: 5px 7px; }
 
 <p class="lead" style="margin:8px 0 4px">신청인은 「개인정보 보호법」 및 「신용정보의 이용 및 보호에 관한 법률」에 따라 위 금융거래정보의 제공, 개인정보의 수집·이용 및 제3자 제공에 동의하며 위와 같이 출금이체를 신청합니다.</p>
 <div class="center">{{ f("apply_date", label="신청일") }}</div>
-<div class="sig">신청인&nbsp;<span class="who">{{ f("signature", label="신청인") }}</span>(서명 또는 인)</div>
-<div class="sig">예금주&nbsp;<span class="who">{{ f("holder_signature", label="예금주") }}</span>(서명 또는 인)</div>
+<div class="sig">신청인&nbsp;<span class="who">{{ f("signature", label="신청인") }}</span>{{ m.sigspot("applicant", val("signature"), label="신청인", anchor="signature") }}</div>
+<div class="sig">예금주&nbsp;<span class="who">{{ f("holder_signature", label="예금주") }}</span>{{ m.sigspot("holder", val("holder_signature"), label="예금주", anchor="holder_signature") }}</div>
 <div class="tiny muted right">※ 신청인과 예금주가 다른 경우 예금주가 별도로 서명하여야 합니다.</div>
 
 {{ lp.bank_use(["접수일자", "실명확인", "등록처리", "담당자", "책임자"]) }}

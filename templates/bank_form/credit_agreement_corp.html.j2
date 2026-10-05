@@ -70,7 +70,7 @@
   <div style="padding-left:12px">{{ f("contract_date", label="약정일") }}</div>
   <div class="right" style="line-height:2.1">
     본인(채무자) &nbsp;{{ f("debtor.name", label="상호(법인명)") }}<span class="inmark"></span><br>
-    대표이사 &nbsp;<span style="font-size:calc(var(--fs) + 1px)">{{ f("signature", label="대표이사") }}</span> &nbsp;{{ lp.in_seal("대표이사", size="", mark="(법인인감)") }}
+    대표이사 &nbsp;<span style="font-size:calc(var(--fs) + 1px)">{{ f("signature", label="대표이사") }}</span> &nbsp;{{ lp.in_seal("대표이사", size="", mark="(법인인감)", key="corp", kind="법인인감", anchor="signature") }}
   </div>
 </div>
 

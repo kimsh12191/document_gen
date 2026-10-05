@@ -17,14 +17,6 @@ from .entities import BANKS, make_profile
 from .registry import GROUPS, SCENARIO_EXTRA, SCENARIOS, load_all
 from .render import render, to_nested
 
-PROMPTS = [
-    "이 문서의 종류를 판별하고, 문서에 기재된 모든 정보를 JSON으로 추출하세요.",
-    "이미지 속 서류에서 항목과 값을 빠짐없이 JSON 형식으로 뽑아주세요.",
-    "다음 은행 제출 서류를 읽고 문서 종류와 기재 내용을 구조화된 JSON으로 정리해 주세요.",
-    "Extract all fields from this Korean document as JSON, including the document type.",
-    "서류에 적힌 정보를 키-값 JSON으로 변환하세요. 문서 종류도 포함하세요.",
-]
-
 
 def cmd_list(args) -> None:
     reg = load_all()
@@ -95,7 +87,37 @@ def _profile(seed: int, args):
     return p
 
 
+def _key_pool(reg) -> dict[str, list[str]]:
+    """그룹별 키 목록 (지정 키 추출에서 '문서에 없는 키'로 섞는다)."""
+    from .schema import build_fields
+
+    pool: dict[str, set] = {}
+    for spec in reg.values():
+        _, fields, _ = render(spec, make_profile(0), 0)
+        pool.setdefault(spec.group, set()).update(f["key"] for f in build_fields(fields) if not f.get("group"))
+    return {g: sorted(v) for g, v in pool.items()}
+
+
+def _aug_fields(fields: list[dict], tfs: list) -> list[dict]:
+    """증강 변환을 각 필드 좌표에 적용한 사본."""
+    out = []
+    for f in fields:
+        g = dict(f)
+        tf = tfs[f.get("page", 0)] if f.get("page", 0) < len(tfs) else None
+        if tf:
+            for k in ("bbox", "label_bbox"):
+                if g.get(k):
+                    g[k] = tf.bbox(g[k])
+            if g.get("options"):
+                g["options"] = [{**o, **{k: tf.bbox(o[k]) for k in ("box_bbox", "bbox") if o.get(k)}} for o in g["options"]]
+        out.append(g)
+    return out
+
+
 def cmd_generate(args) -> None:
+    from .schema import build_fields
+    from .swift import TASKS, build_records
+
     reg = load_all()
     ids = _select(args, reg)
     out = Path(args.out)
@@ -103,8 +125,15 @@ def cmd_generate(args) -> None:
     (out / "labels").mkdir(parents=True, exist_ok=True)
     if args.augment and not args.png:
         sys.exit("--augment 는 --png 와 함께 사용하세요")
+    tasks = TASKS if args.tasks == "all" else tuple(t.strip() for t in args.tasks.split(","))
+    if set(tasks) - set(TASKS):
+        sys.exit(f"알 수 없는 과제: {set(tasks) - set(TASKS)} (가능: {', '.join(TASKS)})")
+    swift_files = {}
     if args.png:
         (out / "images").mkdir(parents=True, exist_ok=True)
+        (out / "swift").mkdir(parents=True, exist_ok=True)
+        swift_files = {t: open(out / "swift" / f"{t}.jsonl", "a", encoding="utf-8") for t in ("all", *tasks)}
+        pools = _key_pool(reg)
 
     renderer = None
     if args.png:
@@ -113,8 +142,7 @@ def cmd_generate(args) -> None:
         renderer = ImageRenderer(scale=args.scale).__enter__()
 
     manifest = open(out / "manifest.jsonl", "a", encoding="utf-8")
-    vlm = open(out / "vlm.jsonl", "a", encoding="utf-8") if args.png else None
-    n_done, overflow = 0, []
+    n_done, overflow, n_records = 0, [], 0
     try:
         for i in range(args.n):
             seed = args.seed + i
@@ -124,48 +152,54 @@ def cmd_generate(args) -> None:
             for doc_id in ids:
                 spec = reg[doc_id]
                 sid = f"{doc_id}_{seed:06d}"
-                html, fields, _ = render(spec, profile, seed, sample_mark=args.sample_mark)
-                gt = to_nested(fields)
+                html, raw, _ = render(spec, profile, seed, sample_mark=args.sample_mark)
                 (out / "html" / f"{sid}.html").write_text(html, encoding="utf-8")
+                info = renderer.render(html, out / "images" / f"{sid}.png") if renderer else None
+                fields = build_fields(raw, info)
                 label = {
                     "id": sid, "doc_type": doc_id, "doc_name": spec.name, "group": spec.group,
                     "category": spec.category, "profile_seed": seed, "scenario": args.scenario,
                     **({"bank": fields_bank(fields)} if spec.group == "bank_form" else {}),
-                    "html": f"html/{sid}.html", "fields": fields, "gt": gt,
+                    "html": f"html/{sid}.html",
                 }
-                if renderer:
-                    img = f"images/{sid}.png"
-                    info = renderer.render(html, out / img)
-                    boxes = {b["key"]: b["bbox"] for b in info["fields"]}
-                    for fld in fields:
-                        fld["bbox"] = boxes.get(fld["key"])
-                    label.update(image=img, width=info["width"], height=info["height"])
+                if info:
+                    images = [str(Path(p_).relative_to(out)) for p_ in info["images"]]
+                    sizes = [(pg["width"], pg["height"]) for pg in info["pages"]]
+                    label.update(image=images[0], images=images, pages=info["pages"], n_pages=len(images),
+                                 width=info["width"], height=info["height"])
                     if info["overflow"]:
                         overflow.append(sid)
-                    answer = json.dumps({"document_type": spec.name, **gt}, ensure_ascii=False)
-                    images = [(sid, img, "clean")]
+                label.update(fields=fields, gt=to_nested(fields))
+                if info:
+                    rng = random.Random(f"swift:{sid}")
+                    variants = [(images, sizes, fields, "clean")]
                     if args.augment:
                         from PIL import Image
 
                         from .augment import augment
 
                         arng = random.Random(f"aug:{sid}")
-                        base = Image.open(out / img)
+                        label["augmented"] = []
                         for k in range(args.augment):
-                            aug_img, preset = augment(base, arng)
-                            aug_path = f"images/{sid}_aug{k}.jpg"
-                            aug_img.save(out / aug_path, quality=95)
-                            images.append((f"{sid}_aug{k}", aug_path, preset))
-                        label["augmented"] = [{"image": p_, "preset": pr} for _, p_, pr in images[1:]]
-                    for vid, vimg, preset in images:
-                        prompt = random.Random(vid).choice(PROMPTS)
-                        vlm.write(json.dumps({
-                            "id": vid, "image": vimg, "doc_type": doc_id, "augment": preset,
-                            "messages": [
-                                {"role": "user", "content": [{"type": "image", "image": vimg}, {"type": "text", "text": prompt}]},
-                                {"role": "assistant", "content": [{"type": "text", "text": answer}]},
-                            ],
-                        }, ensure_ascii=False) + "\n")
+                            preset = arng.choice(["scan", "photo", "fax", "clean_jpeg"])
+                            a_imgs, a_sizes, tfs = [], [], []
+                            for pi, img_path in enumerate(images):
+                                aimg, _, tf = augment(Image.open(out / img_path), arng, preset, with_transform=True)
+                                ap = f"images/{Path(img_path).stem}_aug{k}.jpg"
+                                aimg.save(out / ap, quality=95)
+                                a_imgs.append(ap)
+                                a_sizes.append(aimg.size)
+                                tfs.append(tf)
+                            label["augmented"].append({"images": a_imgs, "preset": preset})
+                            variants.append((a_imgs, a_sizes, _aug_fields(fields, tfs), preset))
+                    for v_imgs, v_sizes, v_fields, preset in variants:
+                        for r_ in build_records(label, v_imgs, v_sizes, rng, tasks, args.coord,
+                                                pools.get(spec.group), v_fields):
+                            r_["augment"] = preset
+                            line = json.dumps(r_, ensure_ascii=False) + "\n"
+                            swift_files[r_["task"]].write(line)
+                            swift_files["all"].write(line)
+                            n_records += 1
                 (out / "labels" / f"{sid}.json").write_text(json.dumps(label, ensure_ascii=False, indent=1), encoding="utf-8")
                 manifest.write(json.dumps({k: label[k] for k in label if k not in ("fields", "gt")}, ensure_ascii=False) + "\n")
                 n_done += 1
@@ -173,11 +207,11 @@ def cmd_generate(args) -> None:
     finally:
         print(file=sys.stderr)
         manifest.close()
-        if vlm:
-            vlm.close()
+        for fh in swift_files.values():
+            fh.close()
         if renderer:
             renderer.__exit__(None, None, None)
-    print(f"{n_done}건 생성 → {out}")
+    print(f"{n_done}건 생성 → {out}" + (f" (ms-swift 학습 레코드 {n_records}개: {out / 'swift'})" if n_records else ""))
     if overflow:
         print(f"경고: 페이지 밖으로 넘친 샘플 {len(overflow)}건: {overflow[:10]}")
 
@@ -223,7 +257,7 @@ def cmd_check(args) -> None:
                 shown = {f["key"] for f in fields}
                 unused |= {k for k, _ in _leaves(data) if k not in shown}
                 n_fields.append(len(fields))
-                empty = [f["key"] for f in fields if not f["value"].strip()]
+                empty = [f["key"] for f in fields if f["value"] is None and "type" not in f]
                 if empty:
                     print(f"[WARN] {doc_id} seed={seed}: 빈 값 필드 {empty[:5]}")
                 no_label = [f["key"] for f in fields if not f["label"]]
@@ -257,7 +291,10 @@ def main(argv=None) -> None:
     g.add_argument("--n", type=int, default=10, help="고객 프로필 수 (서류별 샘플 수)")
     g.add_argument("--seed", type=int, default=0)
     g.add_argument("--out", default="out")
-    g.add_argument("--png", action="store_true", help="PNG 이미지 + bbox + vlm.jsonl 생성 (Playwright 필요)")
+    g.add_argument("--png", action="store_true", help="PNG 이미지 + bbox + ms-swift 학습 jsonl(swift/) 생성 (Playwright 필요)")
+    g.add_argument("--tasks", default="all", help="학습 과제: all 또는 kie,kie_keys,grounding,marks,qa 중 일부")
+    g.add_argument("--coord", choices=["norm1000", "pixel"], default="norm1000",
+                   help="학습 데이터 좌표: norm1000 = Qwen-VL 0~1000 상대좌표 (기본), pixel = 이미지 픽셀")
     g.add_argument("--scale", type=float, default=2.0, help="PNG 배율 (2.0 ≈ 192dpi)")
     g.add_argument("--augment", type=int, default=0, metavar="K",
                    help="--png 와 함께: 샘플마다 스캔/촬영/팩스 느낌의 증강 이미지 K장 추가 (GT 동일)")

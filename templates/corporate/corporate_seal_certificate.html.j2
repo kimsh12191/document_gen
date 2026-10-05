@@ -21,7 +21,7 @@ table.ic td.seal-cell .lbl { font-weight:600; margin-bottom:8px; }
 <div class="subt">( 법　인 )</div>
 <table class="ic">
   <tr><th>등 기 번 호</th><td>{{ f("reg_no", label="등기번호") }}</td>
-      <td class="seal-cell" rowspan="7"><div class="lbl">인　　감</div>{{ cs.corp_seal(d.company_name, "대표이사인", 128, "main") }}</td></tr>
+      <td class="seal-cell" rowspan="7"><div class="lbl">인　　감</div>{{ cs.corp_seal(d.company_name, "대표이사인", 128, "main", key="registered") }}</td></tr>
   <tr><th>등 록 번 호</th><td>{{ f("corp_reg_no", label="등록번호") }}</td></tr>
   <tr><th>상　　　호</th><td>{{ f("company_name", label="상호") }}</td></tr>
   <tr><th>본　　　점</th><td>{{ f("head_office", label="본점") }}</td></tr>

@@ -52,7 +52,7 @@ table.po th { width:120px; letter-spacing:.05em; }
   {% if d.grantor.type == "법인" %}
   <div class="lbl">(법인인감)</div>{{ cs.corp_seal(d.grantor.name.replace("(주)", "주식회사 "), "대표이사인", 92, "poa") }}
   {% else %}
-  <div class="lbl">(인감)</div>{{ m.seal(d.grantor.name, size="lg") }}
+  <div class="lbl">(인감)</div>{{ m.seal(d.grantor.name, size="lg", key="grantor", kind="인감") }}
   {% endif %}
 </div>
 </div>

@@ -56,10 +56,10 @@ ol.ec .sub2 { padding-left: 2.4em; }
   <table class="plain">
     <tr><td class="who">(사업주)</td><td class="lb">사업체명 :</td><td>{{ f("employer.name", label="사업체명") }}&nbsp;&nbsp;(전화 : {{ f("employer.phone", label="전화") }})</td></tr>
     <tr><td></td><td class="lb">주　　소 :</td><td>{{ f("employer.address", label="주소") }}</td></tr>
-    <tr><td></td><td class="lb">대 표 자 :</td><td style="position:relative">{{ f("employer.ceo", label="대표자") }}&nbsp;&nbsp;&nbsp;&nbsp;(서명) {{ m.seal("대표이사인", square=True, size="sm") }}</td></tr>
+    <tr><td></td><td class="lb">대 표 자 :</td><td style="position:relative">{{ f("employer.ceo", label="대표자") }}&nbsp;&nbsp;&nbsp;&nbsp;(서명) {{ m.seal("대표이사인", square=True, size="sm", key="employer", kind="직인", p=0.95) }}</td></tr>
     <tr><td class="who" style="padding-top:12px">(근로자)</td><td class="lb" style="padding-top:12px">주　　소 :</td><td style="padding-top:12px">{{ f("employee.address", label="주소") }}</td></tr>
     <tr><td></td><td class="lb">연 락 처 :</td><td>{{ f("employee.phone", label="연락처") }}</td></tr>
-    <tr><td></td><td class="lb">성　　명 :</td><td>{{ f("employee.name", label="성명") }}&nbsp;&nbsp;&nbsp;&nbsp;(서명) {{ m.seal(val("employee.name"), size="sm") }}</td></tr>
+    <tr><td></td><td class="lb">성　　명 :</td><td>{{ f("employee.name", label="성명") }}&nbsp;&nbsp;&nbsp;&nbsp;{{ m.sigspot("employee", val("employee.name"), mark="(서명)", label="근로자", anchor="employee.name", p_seal=0.35, p_sign=0.6) }}</td></tr>
   </table>
 </div>
 {% endblock %}
