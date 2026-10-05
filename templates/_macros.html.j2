@@ -104,5 +104,5 @@
 
 {# 증명서 상단 발급번호 줄 #}
 {% macro doc_no(path, label="발급번호") -%}
-<div class="docno">{{ label }} : {{ f(path, label=label) }}</div>
+<div class="docno pg-repeat">{{ label }} : {{ f(path, label=label) }}</div>
 {%- endmacro %}

@@ -98,7 +98,8 @@ def bank_statement(p: Profile, rng: random.Random) -> dict:
             add(date(m.year, m.month, 21), "예금결산이자", inn=rng.randint(30, 4000), br="결산")
         m = months_back(m, -1)
     fixed = len(ev)
-    target = rng.randint(max(12, fixed + 2), 20)
+    cap = rng.randint(30, 90) if heavy(rng) else 20  # 거래가 많은 통장은 여러 쪽
+    target = rng.randint(max(12, fixed + 2), cap)
     while len(ev) < target:
         d = start + timedelta(days=rng.randint(0, span))
         k = rng.random()
@@ -116,7 +117,7 @@ def bank_statement(p: Profile, rng: random.Random) -> dict:
             add(d, rng.choice(["적금이체", "청약저축", "주택청약"]), out=rng.choice([100_000, 200_000, 300_000, 500_000]), br="자동이체")
         else:
             add(d, rng.choice(["네이버페이", "카카오페이", "토스"]), out=K.round_to(rng.uniform(5_000, 200_000), 10))
-    ev = ev[:20]
+    ev = ev[:cap]
     for e_ in ev:
         e_.append(rng.randint(6 * 3600, 23 * 3600))
     ev.sort(key=lambda x: (x[0], x[5]))
@@ -136,7 +137,7 @@ def bank_statement(p: Profile, rng: random.Random) -> dict:
         fix = K.round_to(10_000 - low + rng.uniform(50_000, 1_500_000), 10_000)
         ev.append([end, rng.choice(["정기예금", "적금이체", "증권이체"]), fix, 0, "모바일", 23 * 3600 + rng.randint(0, 3000)])
         ev.sort(key=lambda x: (x[0], x[5]))
-        if len(ev) > 20:  # 가장 이른 거래 하나를 버리고 잔액을 다시 계산
+        if len(ev) > cap:  # 가장 이른 거래 하나를 버리고 잔액을 다시 계산
             ev = ev[1:]
         bals, opening = balances()
     zero = rng.choice(["0", ""])

@@ -65,8 +65,15 @@ class FieldRecorder:
         self.groups: dict[str, dict] = {}  # 복수 선택 체크박스 묶음 (정답이 아니라 라벨 정보)
         self.rng = rng or random.Random(0)
         self._auto = 0
+        self.corr_name: str | None = None  # 정정 도장에 찍을 이름
 
-    def __call__(self, path: str, value: Any = _MISSING, label: str | None = None, type: str | None = None) -> Markup:
+    def set_corr_name(self, name: str | None) -> str:
+        """템플릿용: 정정 도장 글자(보통 작성자 이름)를 정한다. {{ f.set_corr_name(val("applicant.name")) }}"""
+        self.corr_name = name
+        return ""
+
+    def __call__(self, path: str, value: Any = _MISSING, label: str | None = None, type: str | None = None,
+                 fix: float = 0.0) -> Markup:
         try:
             v = lookup(self.data, path) if value is _MISSING else value
         except (KeyError, IndexError, AttributeError):
@@ -82,7 +89,16 @@ class FieldRecorder:
         elif label and not rec["label"]:
             rec["label"] = label
         body = escape(text or "").replace("\n", Markup("<br>"))
-        return Markup(f'<span class="fv" data-field="{escape(path)}">{body}</span>')
+        span = Markup(f'<span class="fv" data-field="{escape(path)}">{body}</span>')
+        if fix and text and self.rng.random() < fix and "corrected" not in rec:
+            # 정정: 잘못 쓴 값에 두 줄을 긋고 옆에 바른 값 + 정정 도장. 정답은 바른 값.
+            wrong = _misspell(text, self.rng)
+            if wrong != text:
+                rec["corrected"] = wrong
+                who = self.corr_name or "정정"
+                return Markup(f'<span class="corr"><s class="corr-old">{escape(wrong)}</s> {span}'
+                              f'<span class="seal sm corr-seal">{escape(who[:3])}</span></span>')
+        return span
 
     def has(self, path: str) -> bool:
         try:
@@ -145,6 +161,19 @@ def _gt_value(fld: dict):
     return fld["present"] if fld.get("type") in ("seal", "signature") else fld["value"]
 
 
+def _misspell(text: str, rng: random.Random) -> str:
+    """정정 전 '잘못 쓴 값': 숫자 하나를 바꾸거나 글자 하나를 바꾼다."""
+    digits = [i for i, c in enumerate(text) if c.isdigit()]
+    if digits:
+        i = rng.choice(digits)
+        return text[:i] + str((int(text[i]) + rng.randint(1, 9)) % 10) + text[i + 1:]
+    chars = [i for i, c in enumerate(text) if "가" <= c <= "힣"]
+    if chars:
+        i = rng.choice(chars)
+        return text[:i] + rng.choice("가나다라마바사아자차카타파하") + text[i + 1:]
+    return text
+
+
 def to_nested(fields: list[dict]) -> dict:
     """['a.b', 'items.0.x'] 형태의 키를 중첩 dict/list 로 변환."""
     root: dict = {}
@@ -192,6 +221,9 @@ def random_style(rng: random.Random, spec: DocSpec) -> dict:
         "page_pad": rng.randint(48, 72),
         "paper": rng.choice(["#ffffff", "#ffffff", "#fffffb", "#fcfcfa"]),
         "seal_color": rng.choice(["#d11", "#c00", "#e0312b", "#b22222"]),
+        # 여러 쪽이 될 때 쪽 번호·계속 표시 방식
+        "pg_format": rng.choice(["- {i} / {n} -", "{i} / {n}", "{i}쪽 / 총 {n}쪽", "(  {i} / {n}  )", "Page {i} of {n}", "{i}/{n}"]),
+        "pg_cont": rng.choice(["다음 쪽에 계속", "(다음 장에 계속)", "- 계속 -", "", "이하 다음 쪽"]),
     }
 
 

@@ -73,7 +73,7 @@ _JS_COLLECT = """
     }
   }
   const untagged = [];
-  for (const el of document.querySelectorAll('.seal:not([data-mark])')) {
+  for (const el of document.querySelectorAll('.seal:not([data-mark]):not(.corr-seal)')) {
     const r = box(el);
     if (r) untagged.push({text: el.innerText.replace(/\\s+/g, ''), square: el.classList.contains('square'), ...r});
   }
@@ -138,7 +138,7 @@ class ImageRenderer:
         """
         self._page.set_content(html, wait_until="load")
         self._page.evaluate("document.fonts.ready")
-        self._page.evaluate(_PAGINATE_JS)
+        info_pages = self._page.evaluate("(" + _PAGINATE_JS + ")()")  # 넘친 쪽 나누기 (나눈 쪽 수)
         info = self._page.evaluate(_JS_COLLECT)
         s = self.scale
         paths = page_paths(png_path, len(info["pages"]))

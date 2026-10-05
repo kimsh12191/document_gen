@@ -246,7 +246,7 @@ def cmd_check(args) -> None:
         for doc_id in ids:
             spec = reg[doc_id]
             unused: set[str] = set()
-            n_fields = []
+            n_fields, n_pages = [], []
             for seed in range(args.seed, args.seed + args.n):
                 try:
                     html, fields, data = render(spec, _profile(seed, args), seed)
@@ -265,13 +265,15 @@ def cmd_check(args) -> None:
                     print(f"[INFO] {doc_id}: 라벨 없는 필드 {len(no_label)}개 (예: {no_label[:3]})")
                 if renderer and seed < args.seed + args.png_n:
                     info = renderer.render(html, Path(args.tmp) / f"{doc_id}_{seed}.png")
+                    n_pages.append(len(info["pages"]))
                     if info["overflow"]:
                         print(f"[FAIL] {doc_id} seed={seed}: 내용이 페이지 밖으로 넘침")
                         problems += 1
             if unused:
                 print(f"[WARN] {doc_id}: 생성했지만 문서에 표시하지 않은 값 {sorted(unused)[:8]}")
             if n_fields:
-                print(f"[ OK ] {doc_id:40s} {spec.name}  필드 {min(n_fields)}~{max(n_fields)}개")
+                pg = f"  쪽 {min(n_pages)}~{max(n_pages)}" if n_pages else ""
+                print(f"[ OK ] {doc_id:40s} {spec.name}  필드 {min(n_fields)}~{max(n_fields)}개{pg}")
     finally:
         if renderer:
             renderer.__exit__(None, None, None)

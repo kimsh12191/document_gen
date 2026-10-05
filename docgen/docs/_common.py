@@ -1,6 +1,7 @@
 """서류 생성 함수들이 공유하는 헬퍼."""
 from __future__ import annotations
 
+import os
 import random
 from datetime import date, timedelta
 
@@ -86,5 +87,25 @@ def months_back(d: date, n: int) -> date:
     return date(y, m + 1, 1)
 
 
-__all__ = ["D", "won", "K", "issue_no", "district_office", "community_center", "tax_office", "courthouse",
+__all__ = ["D", "heavy", "special", "won", "K", "issue_no", "district_office", "community_center", "tax_office", "courthouse",
            "recent", "months_back", "rand_date", "Person", "Profile", "Address", "date", "timedelta", "random"]
+
+
+def heavy(rng: random.Random, p: float = 0.3) -> bool:
+    """이 서류를 '내용이 많은' 경우로 만들지 (거래·이력이 많아 여러 쪽이 되는 고객).
+    환경변수 DOCGEN_HEAVY=1 이면 항상, 0 이면 never (검사용)."""
+    x = rng.random()
+    force = os.environ.get("DOCGEN_HEAVY")
+    return force == "1" if force in ("0", "1") else x < p
+
+
+def special(rng: random.Random, name: str, p: float) -> bool:
+    """서류별 특수 상황(말소, 정정, 개명 등)을 넣을지.
+    환경변수 DOCGEN_SPECIAL=all 또는 'name1,name2' 이면 해당 상황을 항상 넣는다 (검사용), none 이면 넣지 않는다."""
+    x = rng.random()
+    force = os.environ.get("DOCGEN_SPECIAL", "")
+    if force == "none":
+        return False
+    if force == "all" or name in force.split(","):
+        return True
+    return x < p
