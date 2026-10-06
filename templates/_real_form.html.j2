@@ -68,9 +68,10 @@ html, body { margin: 0; padding: 0; background: #fff; }
 {% elif it.t == "mark" %}
 {% set ks = f.mark(it.key, "seal", it.seal, it.name if it.seal else None, label=it.label, kind="인감") %}
 {% set kg = f.mark(it.key, "signature", it.sign, it.name if it.sign else None, label=it.label) %}
-<div class="mark" data-mark="{{ ks }}" data-mark2="{{ kg }}" style="left:{{ x0 }}px;top:{{ y0 }}px;width:{{ x1 - x0 }}px;height:{{ y1 - y0 }}px">
-{%- if it.seal %}<span class="seal" style="transform:rotate({{ it.rot }}deg)">{{ seal_lines(it.name)|join(BR) }}</span>
-{%- elif it.sign %}<span class="scribble">{{ scribble(it.name, f.rng) }}</span>{% endif %}</div>
+{# 찍힌 도장·서명은 그 모양 자체가 위치, 없는 쪽은 자리(div)가 위치 #}
+<div class="mark"{% if not it.seal %} data-mark="{{ ks }}"{% endif %}{% if not it.sign %} data-mark2="{{ kg }}"{% endif %} style="left:{{ x0 }}px;top:{{ y0 }}px;width:{{ x1 - x0 }}px;height:{{ y1 - y0 }}px">
+{%- if it.seal %}<span class="seal" data-mark="{{ ks }}" style="transform:rotate({{ it.rot }}deg)">{{ seal_lines(it.name)|join(BR) }}</span>
+{%- elif it.sign %}<span class="scribble" data-mark="{{ kg }}">{{ scribble(it.name, f.rng) }}</span>{% endif %}</div>
 {% endif %}
 {% endfor %}
 </div>
