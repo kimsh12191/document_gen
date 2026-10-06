@@ -23,9 +23,7 @@
  "seal": {
   "signer": false,
   "signer2": true,
-  "signer3": true,
-  "untagged1": true,
-  "untagged2": true
+  "signer3": true
  },
  "sign": {
   "signer": false,
