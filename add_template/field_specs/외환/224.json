@@ -1,0 +1,78 @@
+{
+ "no": 224,
+ "class": "외환",
+ "name": "Usance 송금 조건변경신청서",
+ "file": "add_template\\하나은행_서식자료\\외환\\224_Usance 송금 조건변경신청서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [],
+ "fields": [
+  {
+   "label": "♣ 신청인 정보",
+   "kind": "text"
+  },
+  {
+   "label": "성 명",
+   "kind": "text"
+  },
+  {
+   "label": "사업자번호 (I.D No.)",
+   "kind": "text"
+  },
+  {
+   "label": "주소",
+   "kind": "text"
+  },
+  {
+   "label": "Usance송금 번호",
+   "kind": "text"
+  },
+  {
+   "label": "송금액",
+   "kind": "text"
+  },
+  {
+   "label": "수취인명",
+   "kind": "text"
+  },
+  {
+   "label": "수취인 주소 및 전화번호",
+   "kind": "text"
+  },
+  {
+   "label": "수취인 계좌번호",
+   "kind": "text"
+  },
+  {
+   "label": "수취은행 BIC",
+   "kind": "text"
+  },
+  {
+   "label": "수취은행명",
+   "kind": "text"
+  },
+  {
+   "label": "만기(상환일)",
+   "kind": "text"
+  },
+  {
+   "label": "기타",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "Fixed due date ( 년 월 일)"
+   ]
+  },
+  {
+   "options": [
+    "( ) days after payment date"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 1047
+}

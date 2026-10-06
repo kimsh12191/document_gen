@@ -1,0 +1,92 @@
+{
+ "no": 387,
+ "class": "파생상품",
+ "name": "HANA FX TRADING SYSTEM 자동결제 이용신청서",
+ "file": "add_template\\하나은행_서식자료\\파생상품\\387_HANA FX TRADING SYSTEM 자동결제 이용신청서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-09-0514",
+  "pages_in_set": 1,
+  "revised": "2025.02",
+  "keep_from": "완제",
+  "keep_years": 10
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "확인(인감, 서명, 계좌번호)",
+   "kind": "text"
+  },
+  {
+   "label": "원화계좌",
+   "kind": "text"
+  },
+  {
+   "label": "외화계좌",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "신청",
+    "해지"
+   ]
+  },
+  {
+   "options": [
+    "신청",
+    "해지"
+   ]
+  },
+  {
+   "options": [
+    "신청",
+    "해지"
+   ]
+  },
+  {
+   "options": [
+    "신청",
+    "해지"
+   ]
+  },
+  {
+   "options": [
+    "신청",
+    "해지"
+   ]
+  },
+  {
+   "options": [
+    "신청",
+    "해지"
+   ]
+  },
+  {
+   "options": [
+    "신청",
+    "해지"
+   ]
+  },
+  {
+   "options": [
+    "신청",
+    "해지"
+   ]
+  },
+  {
+   "options": [
+    "HANA FX TRADING SYSTEM 일괄예약결제",
+    "신청",
+    "미신청"
+   ]
+  }
+ ],
+ "bank_only": [
+  "담당",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 1011
+}

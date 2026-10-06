@@ -1,0 +1,31 @@
+{
+ "no": 349,
+ "class": "전자금융",
+ "name": "펌뱅킹 출금전용계좌이용 동의서",
+ "file": "add_template\\하나은행_서식자료\\전자금융\\349_펌뱅킹 출금전용계좌이용 동의서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-08-0708",
+  "pages_in_set": 1,
+  "keep_from": "작성",
+  "keep_years": 10
+ },
+ "sections": [],
+ "fields": [],
+ "choices": [
+  {
+   "options": [
+    "유의 사항"
+   ]
+  },
+  {
+   "options": [
+    "동의",
+    "동의하지 않음"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 730
+}

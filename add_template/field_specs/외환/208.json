@@ -1,0 +1,38 @@
+{
+ "no": 208,
+ "class": "외환",
+ "name": "지급확인서",
+ "file": "add_template\\하나은행_서식자료\\외환\\208_지급확인서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-09-0365",
+  "pages_in_set": 1,
+  "revised": "2026.02"
+ },
+ "sections": [
+  "2. 납세증명서(관할 세무서장 발행)",
+  "3. 수취인의 실체를 확인할 수 있는 서류"
+ ],
+ "fields": [
+  {
+   "label": "지 급 금 액",
+   "kind": "text"
+  },
+  {
+   "label": "수 취 인",
+   "kind": "text"
+  },
+  {
+   "label": "수취인과의 관계",
+   "kind": "text"
+  },
+  {
+   "label": "※ 송금사유와 목적을 구체적으로 기재하실 것",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 1088
+}

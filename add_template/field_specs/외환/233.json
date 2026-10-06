@@ -1,0 +1,79 @@
+{
+ "no": 233,
+ "class": "외환",
+ "name": "금전의 대차계약 신고(보고)서",
+ "file": "add_template\\하나은행_서식자료\\외환\\233_금전의 대차계약 신고(보고)서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-09-0273",
+  "pages_in_set": 1,
+  "revised": "2023.08"
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "금전의 대차계약 신고(보고)서",
+   "kind": "text"
+  },
+  {
+   "label": "(인)",
+   "kind": "text"
+  },
+  {
+   "label": "(전화번호 : )",
+   "kind": "text"
+  },
+  {
+   "label": "업 종 ( 직 업 )",
+   "kind": "text"
+  },
+  {
+   "label": "차 주",
+   "kind": "text"
+  },
+  {
+   "label": "대 주",
+   "kind": "text"
+  },
+  {
+   "label": "통 화 및 금 액",
+   "kind": "text"
+  },
+  {
+   "label": "차 입 일 / 대 출 일",
+   "kind": "text"
+  },
+  {
+   "label": "(All-in Cost : )",
+   "kind": "text"
+  },
+  {
+   "label": "대 차 기 간",
+   "kind": "text"
+  },
+  {
+   "label": "사 용 용 도",
+   "kind": "text"
+  },
+  {
+   "label": "상 환 방 법",
+   "kind": "text"
+  },
+  {
+   "label": "신 고 번 호",
+   "kind": "text"
+  },
+  {
+   "label": "신 고 금 액",
+   "kind": "text"
+  },
+  {
+   "label": "유 효 기 간",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 502
+}

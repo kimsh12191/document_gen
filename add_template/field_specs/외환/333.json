@@ -1,0 +1,20 @@
+{
+ "no": 333,
+ "class": "외환",
+ "name": "송금(투자)보고서",
+ "file": "add_template\\하나은행_서식자료\\외환\\333_송금(투자)보고서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [
+  "1. 투자자명 : (담당자명 : 전화번호 : )",
+  "2. 투자내용",
+  "3. 송금상대방",
+  "4. 투자(송금)내용",
+  "5. 첨부서류"
+ ],
+ "fields": [],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 1045
+}

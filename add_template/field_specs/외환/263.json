@@ -1,0 +1,173 @@
+{
+ "no": 263,
+ "class": "외환",
+ "name": "지급등의 방법(변경)신고(보고)서",
+ "file": "add_template\\하나은행_서식자료\\외환\\263_지급등의 방법(변경)신고(보고)서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [
+  "2. 수출입계약서사본 1부",
+  "3. 지급등의 방법에 관한 입증서류 1부"
+ ],
+ "fields": [
+  {
+   "label": "지급등의 방법(변경)신고/보고서",
+   "kind": "text"
+  },
+  {
+   "label": "상 호",
+   "kind": "text"
+  },
+  {
+   "label": "대 표 자 성 명",
+   "kind": "text"
+  },
+  {
+   "label": "사업자등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "주 소",
+   "kind": "text"
+  },
+  {
+   "label": "거 래 종 류",
+   "kind": "choice",
+   "options": [
+    "수출거래",
+    "수입거래",
+    "용역거래",
+    "자본거래"
+   ]
+  },
+  {
+   "label": "상호 및 대표자 성명",
+   "kind": "text"
+  },
+  {
+   "label": "주 소, 전 화 번 호",
+   "kind": "text"
+  },
+  {
+   "label": "결 제 방 법",
+   "kind": "choice",
+   "options": [
+    "신용장(L/C)",
+    "추심(D/P, D/A)",
+    "송금",
+    "기타( )"
+   ]
+  },
+  {
+   "label": "계약금액",
+   "kind": "text"
+  },
+  {
+   "label": "신고금액",
+   "kind": "text"
+  },
+  {
+   "label": "당초기간",
+   "kind": "text"
+  },
+  {
+   "label": "변경",
+   "kind": "text"
+  },
+  {
+   "label": "당초시기",
+   "kind": "text"
+  },
+  {
+   "label": "결제방법",
+   "kind": "choice",
+   "options": [
+    "외국환은행을 통한 방법",
+    "기타( )"
+   ]
+  },
+  {
+   "label": "계정의 구분 및 대차기금액",
+   "kind": "text"
+  },
+  {
+   "label": "貸記",
+   "kind": "text"
+  },
+  {
+   "label": "잔액",
+   "kind": "text"
+  },
+  {
+   "label": "借記",
+   "kind": "text"
+  },
+  {
+   "label": "결제방법",
+   "kind": "text"
+  },
+  {
+   "label": "구 분",
+   "kind": "text"
+  },
+  {
+   "label": "결제시기",
+   "kind": "text"
+  },
+  {
+   "label": "변 경",
+   "kind": "text"
+  },
+  {
+   "label": "신고번호",
+   "kind": "text"
+  },
+  {
+   "label": "유효기간",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "수출거래",
+    "수입거래",
+    "용역거래",
+    "자본거래"
+   ]
+  },
+  {
+   "options": [
+    "신용장(L/C)",
+    "추심(D/P, D/A)",
+    "송금",
+    "기타( )"
+   ]
+  },
+  {
+   "options": [
+    "외국환은행을 통한 방법",
+    "기타( )"
+   ]
+  },
+  {
+   "options": [
+    "외국환은행을 통한 방법",
+    "기타( )"
+   ]
+  },
+  {
+   "options": [
+    "제3자 지급"
+   ]
+  },
+  {
+   "options": [
+    "외국환은행을 통하지 아니하는 지급"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 1065
+}

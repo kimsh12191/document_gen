@@ -1,0 +1,63 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "bank_form/_loan_parts.html.j2" as lp with context %}
+{% block style %}
+table.bf th, table.bf td { padding: 5px 7px; }
+{% endblock %}
+{% block content %}
+{{ lp.css() }}
+{{ f.set_corr_name(val("signature")) }}
+{{ lp.head(kind="balance_cert") }}
+{{ lp.title_row("예금(신탁) 잔액증명 의뢰서") }}
+<div style="margin:0 0 4px">{{ lp.legal_name() }} <b>{{ f("branch", label="취급점") }}</b> 앞
+&nbsp;&nbsp;신청구분 : {{ m.choice("kind", ["등록", "변경", "해제"], label="신청구분") }}{{ lp.nochk("kind") }}</div>
+
+<div class="bf-sec">1. 신청인</div>
+<table class="bf">
+<colgroup><col style="width:120px"><col><col style="width:120px"><col></colgroup>
+<tr><th>성명(사업자명)</th><td>{{ f("customer.name", label="성명(사업자명)", fix=0.04) }}</td><th>생년월일<br><span class="tiny">(사업자번호)</span></th><td>{{ f("customer.birth", label="생년월일(사업자번호)", fix=0.05) }}</td></tr>
+<tr><th>연 락 처</th><td>{{ f("customer.phone", label="연락처", fix=0.06) }}</td><th>발급기준일</th><td>{{ f("base_date", label="발급기준일", fix=0.05) }}</td></tr>
+<tr><th>주　　소</th><td colspan="3">{{ f("customer.address", label="주소", fix=0.04) }}</td></tr>
+</table>
+
+<div class="bf-sec">2. 발급 내용</div>
+<table class="bf">
+<colgroup><col style="width:120px"><col><col style="width:120px"><col></colgroup>
+<tr><th>대상계좌</th><td>{{ m.choice("target", ["지정계좌", "전체계좌"], label="대상계좌") }}{{ lp.nochk("target") }}</td><th>발급 매수</th><td>{{ f("copies", label="발급매수") }} 매</td></tr>
+<tr><th>통화코드</th><td>{{ f("currency", label="통화코드") }}</td><th>계좌 마스킹</th><td>{{ m.choice("masking", ["계좌마스킹(계좌번호 일부숨김)", "마스킹 않음"], label="계좌마스킹") }}</td></tr>
+<tr><th>발급 용도</th><td>{{ f("purpose", label="발급용도") }}</td><th>수수료 출금계좌</th><td>{{ f("fee_account", label="수수료출금계좌", fix=0.08) }}</td></tr>
+</table>
+
+{% if d.accounts %}
+<div class="bf-sec">3. 지정 계좌</div>
+{{ m.grid(["계좌번호", "예금(신탁) 종류", "잔액"], "accounts", ["number", "kind", "balance"],
+          num_cols=[2], widths=["38%", "28%", "34%"], min_rows=1, cls="compact") }}
+{% else %}
+<div class="bf-sec">3. 지정 계좌</div>
+<div class="small" style="margin:2px 0 6px">전체계좌를 선택하여 별도 지정하지 않습니다.</div>
+{% endif %}
+
+<div class="bf-sec">4. 수령 방법</div>
+<table class="bf">
+<colgroup><col style="width:120px"><col></colgroup>
+<tr><th>수령방법</th><td>{{ m.choice("receive", ["창구수령", "카카오톡(문자)", "E-mail"], label="수령방법") }}{{ lp.nochk("receive") }}</td></tr>
+<tr><th>E-mail</th><td>{{ f("email", label="E-mail", fix=0.05) }}</td></tr>
+</table>
+<div class="tiny muted">※ E-mail 선택 시 본인 E-mail 임을 확인합니다.</div>
+
+{% if d.agent is defined %}
+<div class="bf-sec">5. 창구수령 대리인</div>
+<table class="bf">
+<colgroup><col style="width:120px"><col><col style="width:120px"><col></colgroup>
+<tr><th>대리인 성명</th><td>{{ f("agent.name", label="대리인성명", fix=0.04) }}</td><th>생년월일</th><td>{{ f("agent.birth", label="대리인생년월일", fix=0.05) }}</td></tr>
+<tr><th>본인과의 관계</th><td colspan="3">{{ f("agent.relation", label="본인과의관계") }}</td></tr>
+</table>
+<div class="tiny muted">※ 대리인이 수령하는 경우 위임인(예금주)의 인감증명서 또는 본인서명사실확인서를 함께 제출하여야 합니다.</div>
+{% endif %}
+
+<p class="lead" style="margin:8px 0 4px">위와 같이 예금(신탁) 잔액증명서의 발급을 의뢰합니다.</p>
+<div class="center">{{ f("date", label="작성일") }}</div>
+<div class="sig">위임인(예금주)&nbsp;<span class="who">{{ f("signature", label="신청인") }}</span>{{ m.sigspot("applicant", val("signature"), label="신청인", anchor="signature") }}</div>
+
+{{ lp.bank_use(["접수일자", "실명확인", "수수료 징수", "담당자", "책임자"]) }}
+{% endblock %}

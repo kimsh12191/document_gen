@@ -17,7 +17,7 @@ from markupsafe import Markup, escape
 
 from .banks import bank_view, brand_accent, form_bank, form_context
 from .entities import Profile
-from .registry import DocSpec
+from .registry import BANK_FORM_GROUPS, DocSpec
 
 TEMPLATE_DIR = Path(__file__).resolve().parent.parent / "templates"
 
@@ -300,7 +300,7 @@ def render(spec: DocSpec, profile: Profile, seed: int | str, sample_mark: bool |
            style: dict | None = None) -> tuple[str, list[dict], dict]:
     """서류 하나를 렌더링한다. (html, fields, data) 반환."""
     bk = None
-    if spec.group == "bank_form":  # 은행 서식: 서식을 낸 은행(옛 은행 포함)에 맞춰 프로필·표기를 바꾼다
+    if spec.group in BANK_FORM_GROUPS:  # 은행 서식: 서식을 낸 은행(옛 은행 포함)에 맞춰 프로필·표기를 바꾼다
         profile = bank_view(profile, form_bank(profile, spec.id))
         bk = form_context(profile, spec.id)
     data_rng = random.Random(f"data:{seed}:{spec.id}")

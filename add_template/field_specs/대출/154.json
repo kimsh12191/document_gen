@@ -1,0 +1,315 @@
+{
+ "no": 154,
+ "class": "대출",
+ "name": "차입신청서(무역금융용)",
+ "file": "add_template\\하나은행_서식자료\\대출\\154_차입신청서(무역금융용).pdf",
+ "pages": 2,
+ "meta": {
+  "code": "3-09-0174",
+  "pages_in_set": 2,
+  "keep_from": "완제",
+  "keep_years": 5
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "주 소 상 호 대 표 자",
+   "kind": "text"
+  },
+  {
+   "label": "(전화번호: ) (인)",
+   "kind": "text"
+  },
+  {
+   "label": "은행여신거래기본약관 수령필 (인)",
+   "kind": "text"
+  },
+  {
+   "label": "금 액",
+   "kind": "text"
+  },
+  {
+   "label": "자금용도",
+   "kind": "text"
+  },
+  {
+   "label": "과 목",
+   "kind": "text"
+  },
+  {
+   "label": "기 한",
+   "kind": "text"
+  },
+  {
+   "label": "이 자 율",
+   "kind": "text"
+  },
+  {
+   "label": "지연배상금율",
+   "kind": "text"
+  },
+  {
+   "label": "이자지급시기",
+   "kind": "text"
+  },
+  {
+   "label": "상환자원및 방법",
+   "kind": "text"
+  },
+  {
+   "label": "성 명",
+   "kind": "text"
+  },
+  {
+   "label": "연령",
+   "kind": "text"
+  },
+  {
+   "label": "월평균수입",
+   "kind": "text"
+  },
+  {
+   "label": "실 자 산",
+   "kind": "text"
+  },
+  {
+   "label": "주 소(전화번호)",
+   "kind": "text"
+  },
+  {
+   "label": "L/C(계약서) No",
+   "kind": "text"
+  },
+  {
+   "label": "선적(납품)기일",
+   "kind": "text"
+  },
+  {
+   "label": "유효기일",
+   "kind": "text"
+  },
+  {
+   "label": "가 격 조 건",
+   "kind": "text"
+  },
+  {
+   "label": "품 목",
+   "kind": "text"
+  },
+  {
+   "label": "결 제 조 건",
+   "kind": "text"
+  },
+  {
+   "label": "수 량",
+   "kind": "text"
+  },
+  {
+   "label": "기타특수조건",
+   "kind": "text"
+  },
+  {
+   "label": "융 자 금 산 출 근 거",
+   "kind": "text"
+  },
+  {
+   "label": "무역금융승인한도",
+   "kind": "text"
+  },
+  {
+   "label": "₩ 천",
+   "kind": "text"
+  },
+  {
+   "label": "사용액(본건포함)",
+   "kind": "text"
+  },
+  {
+   "label": "여유액(본건취급후)",
+   "kind": "text"
+  },
+  {
+   "label": "승 인 일 자",
+   "kind": "text"
+  },
+  {
+   "label": "승 인 기 한",
+   "kind": "text"
+  },
+  {
+   "label": "결 정 의 견",
+   "kind": "text"
+  },
+  {
+   "label": "적정융자한도",
+   "kind": "text"
+  },
+  {
+   "label": "U$",
+   "kind": "text"
+  },
+  {
+   "label": "사용잔액 또는 미선적잔액(본건포함)",
+   "kind": "text"
+  },
+  {
+   "label": "한 도 여 유",
+   "kind": "text"
+  },
+  {
+   "label": "담보 비율 (한도기준)",
+   "kind": "text"
+  },
+  {
+   "label": "수 출 실 적",
+   "kind": "text"
+  },
+  {
+   "label": "생 산",
+   "kind": "text"
+  },
+  {
+   "label": "① 전년도 실적 : (당행Nego액 : )",
+   "kind": "text"
+  },
+  {
+   "label": "원자재수입",
+   "kind": "text"
+  },
+  {
+   "label": "원자재구매",
+   "kind": "text"
+  },
+  {
+   "label": "완제품구매",
+   "kind": "text"
+  },
+  {
+   "label": "포괄금융",
+   "kind": "text"
+  },
+  {
+   "label": "예 수 금",
+   "kind": "text"
+  },
+  {
+   "label": "농수산물수출준비",
+   "kind": "text"
+  },
+  {
+   "label": "월말잔액",
+   "kind": "text"
+  },
+  {
+   "label": "내국신용장발행",
+   "kind": "text"
+  },
+  {
+   "label": "보통예금",
+   "kind": "text"
+  },
+  {
+   "label": "수입신용장발행",
+   "kind": "text"
+  },
+  {
+   "label": "정기예금",
+   "kind": "text"
+  },
+  {
+   "label": "계",
+   "kind": "text"
+  },
+  {
+   "label": "※ 총 여 신",
+   "kind": "text"
+  },
+  {
+   "label": "※ 총 담 보",
+   "kind": "text"
+  },
+  {
+   "label": "무 역 금 융",
+   "kind": "text"
+  },
+  {
+   "label": "일반자금대출",
+   "kind": "text"
+  },
+  {
+   "label": "당 좌 대 출",
+   "kind": "text"
+  },
+  {
+   "label": "상 업 어 음",
+   "kind": "text"
+  },
+  {
+   "label": "부 동 산",
+   "kind": "text"
+  },
+  {
+   "label": "소 계",
+   "kind": "text"
+  },
+  {
+   "label": "외 화 대 출",
+   "kind": "text"
+  },
+  {
+   "label": "기 타",
+   "kind": "text"
+  },
+  {
+   "label": "무역금융관계",
+   "kind": "text"
+  },
+  {
+   "label": "기타원화표시",
+   "kind": "text"
+  },
+  {
+   "label": "기타외화표시",
+   "kind": "text"
+  },
+  {
+   "label": "합 계",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "생산자금",
+    "원자재구매자금"
+   ]
+  },
+  {
+   "options": [
+    "원자재수입자금",
+    "완제품구매자금"
+   ]
+  },
+  {
+   "options": [
+    "포괄금융"
+   ]
+  },
+  {
+   "options": [
+    "무역어음대",
+    "수입신용장 발행"
+   ]
+  },
+  {
+   "options": [
+    "내국신용장 발행"
+   ]
+  }
+ ],
+ "bank_only": [
+  "부점장"
+ ],
+ "has_signature": true,
+ "text_chars": 1959
+}

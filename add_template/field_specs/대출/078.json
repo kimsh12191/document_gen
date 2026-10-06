@@ -1,0 +1,45 @@
+{
+ "no": 78,
+ "class": "대출",
+ "name": "통화전환 옵션부 외화대출 원화대출 전환신청서",
+ "file": "add_template\\하나은행_서식자료\\대출\\078_통화전환 옵션부 외화대출 원화대출 전환신청서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-06-0147",
+  "pages_in_set": 1,
+  "revised": "2021.09",
+  "keep_from": "완제",
+  "keep_years": 10
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "원화대출전환 희망일",
+   "kind": "text"
+  },
+  {
+   "label": "신 청 사 유",
+   "kind": "text"
+  },
+  {
+   "label": "대 출 과 목",
+   "kind": "text"
+  },
+  {
+   "label": "대 출 금 액 (본건 전환후 외화대출잔액)",
+   "kind": "text"
+  },
+  {
+   "label": "년 월 일",
+   "kind": "text"
+  },
+  {
+   "label": "대 출 금 리",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 932
+}

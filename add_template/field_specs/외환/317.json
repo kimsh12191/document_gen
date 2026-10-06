@@ -1,0 +1,103 @@
+{
+ "no": 317,
+ "class": "외환",
+ "name": "증권발행 보고서",
+ "file": "add_template\\하나은행_서식자료\\외환\\317_증권발행 보고서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [
+  "2. 발행조건 및 비용명세서",
+  "3. 발행된 증권 견본 1매",
+  "4. 기타 기획재정부장관이 필요하다고 인정하는 서류"
+ ],
+ "fields": [
+  {
+   "label": "증 권 발 행 보 고 서",
+   "kind": "text"
+  },
+  {
+   "label": "명 칭",
+   "kind": "text"
+  },
+  {
+   "label": "(서명)",
+   "kind": "text"
+  },
+  {
+   "label": "(전화번호)",
+   "kind": "text"
+  },
+  {
+   "label": "(인)",
+   "kind": "text"
+  },
+  {
+   "label": "증 권 종 류",
+   "kind": "text"
+  },
+  {
+   "label": "액면금액 및 수량",
+   "kind": "text"
+  },
+  {
+   "label": "발 행 금 액",
+   "kind": "text"
+  },
+  {
+   "label": "계 약 체 결 시 및 장 소",
+   "kind": "text"
+  },
+  {
+   "label": "발행시기 및 장소",
+   "kind": "text"
+  },
+  {
+   "label": "(상장시 : 증권거래소)",
+   "kind": "text"
+  },
+  {
+   "label": "표 면 금 리",
+   "kind": "text"
+  },
+  {
+   "label": "발 행 가 격",
+   "kind": "text"
+  },
+  {
+   "label": "만 기",
+   "kind": "text"
+  },
+  {
+   "label": "해 외 판 매 여 부",
+   "kind": "text"
+  },
+  {
+   "label": "배당금지급시기 및 방 법",
+   "kind": "text"
+  },
+  {
+   "label": "원 리 금 상 환 방 법",
+   "kind": "text"
+  },
+  {
+   "label": "(All-in Cost : )",
+   "kind": "text"
+  },
+  {
+   "label": "자 금 용 도",
+   "kind": "text"
+  },
+  {
+   "label": "발 행 관 련 기 관",
+   "kind": "text"
+  },
+  {
+   "label": "기 타",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 1199
+}

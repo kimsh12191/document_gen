@@ -1,0 +1,107 @@
+{
+ "no": 186,
+ "class": "퇴직연금",
+ "name": "퇴직연금_거래신청서(DB)",
+ "file": "add_template\\하나은행_서식자료\\퇴직연금\\186_퇴직연금_거래신청서(DB).pdf",
+ "pages": 2,
+ "meta": {
+  "code": "5-20-0028",
+  "pages_in_set": 2,
+  "revised": "2024.04",
+  "keep_from": "해지",
+  "keep_years": 10
+ },
+ "sections": [
+  "1. 가입정보",
+  "2. 계약정보",
+  "3. 기업정보",
+  "4. 시산정보",
+  "5. 가입자정보 및 부담금입금 정보"
+ ],
+ "fields": [
+  {
+   "label": "기업명",
+   "kind": "text"
+  },
+  {
+   "label": "사업자등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "제도시행일",
+   "kind": "text"
+  },
+  {
+   "label": "제도가입대상",
+   "kind": "text"
+  },
+  {
+   "label": "임원포함 󠇧 임원제외",
+   "kind": "text"
+  },
+  {
+   "label": "부담금 납입 주기",
+   "kind": "text"
+  },
+  {
+   "label": "[혼합형 기재] 비율",
+   "kind": "text"
+  },
+  {
+   "label": "통지",
+   "kind": "text"
+  },
+  {
+   "label": "대체상품 자동매수*",
+   "kind": "text"
+  },
+  {
+   "label": "동의 󠇧 미동의(현금성자산으로 운용)",
+   "kind": "text"
+  },
+  {
+   "label": "기업반환계좌",
+   "kind": "text"
+  },
+  {
+   "label": "금융기관 : 계좌번호 : 예금주 :",
+   "kind": "text"
+  },
+  {
+   "label": "신탁관리인",
+   "kind": "text"
+  },
+  {
+   "label": "이름",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일",
+   "kind": "text"
+  },
+  {
+   "label": "휴대폰번호",
+   "kind": "text"
+  },
+  {
+   "label": "이메일주소",
+   "kind": "text"
+  },
+  {
+   "label": "퇴직연금 거래인감",
+   "kind": "text"
+  },
+  {
+   "label": "300명 미만 ( 명) 󠇧",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "담당",
+  "본인확인",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 6369
+}

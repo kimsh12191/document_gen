@@ -1,0 +1,51 @@
+{
+ "no": 252,
+ "class": "외환",
+ "name": "외국환 신고(확인)필증",
+ "file": "add_template\\하나은행_서식자료\\외환\\252_외국환 신고(확인)필증.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [],
+ "fields": [
+  {
+   "label": "반출입구분(Ex or Import)",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일 Date of Birth",
+   "kind": "text"
+  },
+  {
+   "label": "국 적 Nationality",
+   "kind": "text"
+  },
+  {
+   "label": "주민등록번호 : Passport No. :",
+   "kind": "text"
+  },
+  {
+   "label": "합계(미화상당) Sum (US$ equiv)",
+   "kind": "text"
+  },
+  {
+   "label": "비 고(Note) (수표번호 등)",
+   "kind": "text"
+  },
+  {
+   "label": "휴 대 (Carried)",
+   "kind": "text"
+  },
+  {
+   "label": "송 금 (Remitted)",
+   "kind": "text"
+  },
+  {
+   "label": "Official Use Only",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 1166
+}

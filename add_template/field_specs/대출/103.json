@@ -1,0 +1,155 @@
+{
+ "no": 103,
+ "class": "대출",
+ "name": "B2B 전자결제서비스 업무 이용신청서(MP용)",
+ "file": "add_template\\하나은행_서식자료\\대출\\103_B2B 전자결제서비스 업무 이용신청서(MP용).pdf",
+ "pages": 2,
+ "meta": {
+  "code": "5-06-0652",
+  "pages_in_set": 2
+ },
+ "sections": [
+  "1. 신청기업정보",
+  "2. 이용상품 및 지급승인방식",
+  "2. 법인인감증명서 원본 1부",
+  "3. 법인등기부등본 원본 1부",
+  "4. 대표이사 실명확인증표 사본 1부",
+  "5. 최근 3개년 제무제표 및 감사보고서",
+  "6. 수수료 입금계좌 사본 1부 (하나은행 계좌만 가능)",
+  "7. 기업현황서(B2B 전자결제서비스 업무, MP용)",
+  "8. B2B 전자결제서비스 업무지원 협약서(MP용)",
+  "9. B2B 전자결제서비스 이용수수료 합의서",
+  "10. 기업간 전자상거래서비스 이용약관",
+  "11. 기타 필요서류"
+ ],
+ "fields": [
+  {
+   "label": "서비스 신청구분",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 신규 \u0000 변경 \u0000 해지",
+   "kind": "text"
+  },
+  {
+   "label": "보증기관 사용구분",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 신용보증기금",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 기술보증기금",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 지역보증재단",
+   "kind": "text"
+  },
+  {
+   "label": "기업명 (MP상호명)",
+   "kind": "text"
+  },
+  {
+   "label": "사업자등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "MP URL",
+   "kind": "text"
+  },
+  {
+   "label": "신용보증",
+   "kind": "text"
+  },
+  {
+   "label": "기술보증",
+   "kind": "text"
+  },
+  {
+   "label": "업 태",
+   "kind": "text"
+  },
+  {
+   "label": "업 종",
+   "kind": "text"
+  },
+  {
+   "label": "지역보증",
+   "kind": "text"
+  },
+  {
+   "label": "대표자명",
+   "kind": "text"
+  },
+  {
+   "label": "대표자 생년월일",
+   "kind": "text"
+  },
+  {
+   "label": "전화번호",
+   "kind": "text"
+  },
+  {
+   "label": "FAX번호",
+   "kind": "text"
+  },
+  {
+   "label": "주 소",
+   "kind": "text"
+  },
+  {
+   "label": "인터넷뱅킹 가입구분",
+   "kind": "text"
+  },
+  {
+   "label": "수 수 료 입금계좌",
+   "kind": "text"
+  },
+  {
+   "label": "예금주명",
+   "kind": "text"
+  },
+  {
+   "label": "담당부서",
+   "kind": "text"
+  },
+  {
+   "label": "담당자명",
+   "kind": "text"
+  },
+  {
+   "label": "연락처",
+   "kind": "text"
+  },
+  {
+   "label": "전화 번호: Fax번호 : 모바일번호 :",
+   "kind": "text"
+  },
+  {
+   "label": "e-mail 주소",
+   "kind": "text"
+  },
+  {
+   "label": "지급승인방식 구분",
+   "kind": "text"
+  },
+  {
+   "label": "접수방식",
+   "kind": "text"
+  },
+  {
+   "label": "지급승인방식",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 1342
+}

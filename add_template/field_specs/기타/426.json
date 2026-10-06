@@ -1,0 +1,20 @@
+{
+ "no": 426,
+ "class": "기타",
+ "name": "이의제기 신청서",
+ "file": "add_template\\하나은행_서식자료\\기타\\426_이의제기 신청서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [
+  "1. 사기이용계좌가 아니라는 사실을 증빙하는 자료 1부",
+  "2. 사기이용계좌 명의인의신분증 사본 1부"
+ ],
+ "fields": [],
+ "choices": [],
+ "bank_only": [
+  "접수번호",
+  "접수일자"
+ ],
+ "has_signature": true,
+ "text_chars": 779
+}

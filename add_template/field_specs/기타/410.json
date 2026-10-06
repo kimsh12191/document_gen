@@ -1,0 +1,52 @@
+{
+ "no": 410,
+ "class": "기타",
+ "name": "본인확인서(FATCA CRS 법인,임의단체용)(영문)",
+ "file": "add_template\\하나은행_서식자료\\기타\\410_본인확인서(FATCA CRS 법인,임의단체용)(영문).pdf",
+ "pages": 2,
+ "meta": {},
+ "sections": [
+  "1. Customer Information",
+  "2. Matters Needing Confirmation",
+  "3. Country of Residence for Tax Purpose(not applicable to Korea)",
+  "4. Declaration"
+ ],
+ "fields": [
+  {
+   "label": "Name of Entity",
+   "kind": "text"
+  },
+  {
+   "label": "Phone No.",
+   "kind": "text"
+  },
+  {
+   "label": "GIIN /KIIN/ EIN NO",
+   "kind": "text"
+  },
+  {
+   "label": "Given Name",
+   "kind": "text"
+  },
+  {
+   "label": "Surname",
+   "kind": "text"
+  },
+  {
+   "label": "Date of Birth",
+   "kind": "text"
+  },
+  {
+   "label": "Oversea address",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "담당",
+  "본인확인",
+  "책임자"
+ ],
+ "has_signature": false,
+ "text_chars": 9503
+}

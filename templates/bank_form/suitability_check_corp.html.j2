@@ -1,0 +1,61 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "bank_form/_loan_parts.html.j2" as lp with context %}
+{% import "bank_form/_account_common.html.j2" as bf with context %}
+{% block style %}
+table.bf th, table.bf td { padding: 4px 7px; }
+{% endblock %}
+{% block content %}
+{{ lp.css() }}
+{{ f.set_corr_name(val("company.ceo")) }}
+{% set WAYS = ["사업소득", "임대소득", "금융소득", "기타소득", "담보의 처분(매매, 경매 등)"] %}
+{% set PRO = ["일반금융소비자", "주권을 국내외 증권시장에 상장한 법인",
+              "법률에 의해 공제사업을 영위하는 법인·조합·단체", "금융회사", "국가 및 지방자치단체"] %}
+{{ lp.head(kind="suitability_c") }}
+{{ lp.cont_head("suitability_c") }}
+{{ lp.title_row("적합성·적정성 고객정보 확인서", sub="법인용") }}
+<div style="margin:0 0 4px">{{ lp.legal_name() }} <b>{{ f("branch", label="취급점") }}</b> 앞</div>
+
+<div class="bf-sec">1. 업체 정보</div>
+<table class="bf">
+<colgroup><col style="width:130px"><col><col style="width:130px"><col></colgroup>
+<tr><th>업 체 명</th><td>{{ f("company.name", label="업체명", fix=0.03) }}</td><th>사업자등록번호</th><td>{{ f("company.biz_no", label="사업자등록번호", fix=0.06) }}</td></tr>
+<tr><th>대 표 자 명</th><td>{{ f("company.ceo", label="대표자명", fix=0.04) }}</td><th>상시근로자 수</th><td>{{ f("company.employees", label="상시근로자수") }}</td></tr>
+<tr><th>연 락 처</th><td>{{ f("company.phone", label="연락처", fix=0.06) }}</td><th>대표자 연락처</th><td>{{ f("company.ceo_phone", label="대표자연락처", fix=0.06) }}</td></tr>
+<tr><th>E-mail</th><td>{{ f("company.email", label="Email", fix=0.05) }}</td><th>소 재 지</th><td>{{ f("company.address", label="소재지", fix=0.04) }}</td></tr>
+<tr><th>전문금융소비자<br>여부</th><td colspan="3">{{ m.choice("consumer_type", PRO, label="전문금융소비자여부") }}{{ lp.nochk("consumer_type") }}</td></tr>
+</table>
+
+<div class="bf-sec">2. 적합성·적정성 판단 정보 (고객 기재)</div>
+<table class="bf">
+<colgroup><col style="width:130px"><col></colgroup>
+<tr><th>대출 용도</th><td>{{ m.choice("purpose", ["운전자금", "시설자금"], label="대출용도") }}{{ lp.nochk("purpose") }}</td></tr>
+<tr><th>총자산규모<br><span class="tiny">(순자산)</span></th><td>{{ m.choice("assets", ["5억원 미만", "5억원 이상 10억원 미만", "10억원 이상"], label="총자산규모") }}{{ lp.nochk("assets") }}</td></tr>
+<tr><th>담보제공 계획</th><td>{{ m.choice("collateral_plan", ["없음", "있음", "은행과 상담후 담보제공 여부 결정 예정"], label="담보제공계획") }}</td></tr>
+<tr><th>매 출 액</th><td>{{ m.choice("revenue", ["5억원 미만", "5억원 이상 10억원 미만", "10억원 이상"], label="매출액") }}{{ lp.nochk("revenue") }}</td></tr>
+<tr><th>순 이 익</th><td>{{ m.choice("profit", ["전년도 순이익 없음", "1억원 미만", "1억원 이상 5억원 미만", "5억원 이상"], label="순이익") }}{{ lp.nochk("profit") }}</td></tr>
+<tr><th>부　　채</th><td>{{ m.choice("debt", ["5억원 미만", "5억원 이상 10억원 미만", "10억원 이상"], label="부채") }}{{ lp.nochk("debt") }}</td></tr>
+<tr><th>연체 여부</th><td>{{ m.choice("overdue", ["연체정보 없음", "연체정보 있음"], label="연체여부") }}</td></tr>
+<tr><th>최근 3년간<br>연속 자본잠식</th><td>{{ m.choice("impairment", ["해당", "비해당"], label="연속자본잠식") }}</td></tr>
+<tr><th>변제 방법</th><td>{{ bf.multi("repay_ways", WAYS, label="변제방법") }}</td></tr>
+</table>
+
+<div class="bf-sec">3. 은행 기재란</div>
+<table class="bf">
+<colgroup><col style="width:130px"><col><col style="width:130px"><col></colgroup>
+<tr><th>기거래 건전성</th><td>{{ f("bank_use.soundness", label="기거래건전성") }}</td><th>신용 상태</th><td>{{ f("bank_use.credit_state", label="신용상태") }}</td></tr>
+<tr><th>상환능력 및<br>변제계획</th><td colspan="3">{{ f("bank_use.plan_review", label="상환능력및변제계획") }}</td></tr>
+</table>
+
+<div class="notice">
+<p>1. 귀 행에 제공한 적합성·적정성 관련 정보는 법인의 재산상황, 용도 등의 정보를 정확히 알려드린 것입니다.</p>
+<p>2. 전문금융소비자에 해당하는 경우 「금융소비자보호법」상 적합성 원칙·설명의무 등의 적용이 제한될 수 있습니다.</p>
+<p>3. 본인은 제공한 정보가 부정확할 경우, 대출심사 및 대출계약 이후 불이익을 받을 수 있음을 확인합니다.</p>
+<p>4. 위 적합성·적정성 판단을 위한 고객정보 수집·이용에 동의합니다.</p>
+</div>
+
+<div class="center">{{ f("date", label="작성일") }}</div>
+<div class="sig">법인(대표자)&nbsp;<span class="who">{{ f("signature", label="법인") }}</span>{{ m.sigspot("corp", val("company.ceo"), label="법인인감", anchor="signature") }}</div>
+
+{{ lp.bank_use(["작성일자", "적합성 판단", "적정성 판단", "담당자", "책임자"]) }}
+{% endblock %}

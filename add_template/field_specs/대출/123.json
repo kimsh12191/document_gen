@@ -1,0 +1,42 @@
+{
+ "no": 123,
+ "class": "대출",
+ "name": "[필수] 개인(신용)정보 수집·이용 동의서 [전세자금대출-주택금융보증서용]",
+ "file": "add_template\\하나은행_서식자료\\대출\\123_[필수] 개인(신용)정보 수집·이용 동의서 [전세자금대출-주택금융보증서용].pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-16-0180",
+  "pages_in_set": 1,
+  "revised": "2021.02",
+  "keep_from": "완제",
+  "keep_years": 5
+ },
+ "sections": [],
+ "fields": [],
+ "choices": [
+  {
+   "options": [
+    "개인(신용)정보"
+   ]
+  },
+  {
+   "options": [
+    "일반개인정보"
+   ]
+  },
+  {
+   "options": [
+    "신용능력정보"
+   ]
+  },
+  {
+   "options": [
+    "동의하지 않음",
+    "동의함"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 1057
+}

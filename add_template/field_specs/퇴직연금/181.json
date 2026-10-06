@@ -1,0 +1,42 @@
+{
+ "no": 181,
+ "class": "퇴직연금",
+ "name": "이전 가입자 명부(DC,기업형 IRP용)",
+ "file": "add_template\\하나은행_서식자료\\퇴직연금\\181_이전 가입자 명부(DC,기업형 IRP용).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-20-0012",
+  "pages_in_set": 1,
+  "revised": "2024.10",
+  "keep_from": "해지",
+  "keep_years": 10
+ },
+ "sections": [
+  "1. 현금",
+  "2. 실물"
+ ],
+ "fields": [
+  {
+   "label": "유 의 사 항",
+   "kind": "text"
+  },
+  {
+   "label": "이전받을 금융회사",
+   "kind": "text"
+  },
+  {
+   "label": "자산관리기관명",
+   "kind": "text"
+  },
+  {
+   "label": "1 또는 2 기재하세요",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "책임자"
+ ],
+ "has_signature": false,
+ "text_chars": 1210
+}

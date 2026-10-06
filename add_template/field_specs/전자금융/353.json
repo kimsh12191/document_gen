@@ -1,0 +1,170 @@
+{
+ "no": 353,
+ "class": "전자금융",
+ "name": "CMS Plus 이용신청서(지사)",
+ "file": "add_template\\하나은행_서식자료\\전자금융\\353_CMS Plus 이용신청서(지사).pdf",
+ "pages": 2,
+ "meta": {
+  "code": "5-08-0479",
+  "pages_in_set": 2,
+  "revised": "2024.06",
+  "keep_from": "해지",
+  "keep_years": 10
+ },
+ "sections": [
+  "1. 신청 구분 : □ 신규 □ 변경 □ 해지",
+  "2. 관리대상 지사",
+  "3. 관리대상 업무",
+  "4. 관리대상 이용자 (지사ID)",
+  "5. 관리대상 이용자 (지사ID)출금계좌등록"
+ ],
+ "fields": [
+  {
+   "label": "법인등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "사업자 등록 번호",
+   "kind": "text"
+  },
+  {
+   "label": "사업자명",
+   "kind": "text"
+  },
+  {
+   "label": "대표자",
+   "kind": "text"
+  },
+  {
+   "label": "주소",
+   "kind": "text"
+  },
+  {
+   "label": "대표 연락처 (선택 또는 전부 기재)",
+   "kind": "text"
+  },
+  {
+   "label": "지사 출금계좌 지정",
+   "kind": "text"
+  },
+  {
+   "label": "구 분",
+   "kind": "text"
+  },
+  {
+   "label": "아이디(ID)",
+   "kind": "text"
+  },
+  {
+   "label": "성 명",
+   "kind": "text"
+  },
+  {
+   "label": "개별 1회",
+   "kind": "text"
+  },
+  {
+   "label": "개별 1일",
+   "kind": "text"
+  },
+  {
+   "label": "대량 1회",
+   "kind": "text"
+  },
+  {
+   "label": "대량 1일",
+   "kind": "text"
+  },
+  {
+   "label": "보안(OTP)카드 No",
+   "kind": "text"
+  },
+  {
+   "label": "출금 계좌",
+   "kind": "text"
+  },
+  {
+   "label": "접수 일자",
+   "kind": "text"
+  },
+  {
+   "label": "등록일자",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일",
+   "kind": "text"
+  },
+  {
+   "label": "주 소",
+   "kind": "text"
+  },
+  {
+   "label": "관 계",
+   "kind": "text"
+  },
+  {
+   "label": "대표이사 (법인인감)",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "신규",
+    "변경",
+    "해지"
+   ]
+  },
+  {
+   "options": [
+    "예"
+   ]
+  },
+  {
+   "options": [
+    "아니오"
+   ]
+  },
+  {
+   "options": [
+    "전화번호"
+   ]
+  },
+  {
+   "options": [
+    "e-Mail"
+   ]
+  },
+  {
+   "options": [
+    "부분 (",
+    "예금,",
+    "외환,",
+    "수출입,",
+    "대출,",
+    "전자결제,",
+    "카드,",
+    "지로/공과금)"
+   ]
+  },
+  {
+   "options": [
+    "아래에서 지정한 계좌에 대해서만 조회 허용"
+   ]
+  },
+  {
+   "options": [
+    "실행자"
+   ]
+  },
+  {
+   "options": [
+    "실행자"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 1309
+}

@@ -1,12 +1,21 @@
 # document_gen — 은행 제출 서류 합성 데이터 생성기
 
-고객이 은행에 제출하는 서류 **70종**을 HTML 템플릿으로 재현했습니다. 가상 고객 데이터를 채워 넣어 **VLM 정보추출(Key Information Extraction) 학습 데이터**를 만듭니다.
+고객이 은행에 제출하는 서류 **391종**을 HTML 템플릿으로 재현했습니다. 가상 고객 데이터를 채워 넣어 **VLM 정보추출(Key Information Extraction) 학습 데이터**를 만듭니다.
 
 - **외부 발급 서류 56종**: 신분증, 등·초본, 가족관계증명서, 소득금액증명원, 원천징수영수증, 등기부등본, 사업자등록증, 재무제표, 인보이스 등
-- **은행 자체 서식 14종**: 대출신청서, 여신거래약정서, 근저당권설정계약서, 고객확인서(KYC), 해외송금신청서 등
+- **은행 자체 서식 335종**: 대출신청서, 여신거래약정서, 근저당권설정계약서, 고객확인서(KYC), 해외송금신청서, 퇴직연금 거래신청서, 전자금융 서비스 신청서, 외국환거래 신고서 등
   - 은행별 표기(은행명·법인명칭·서식번호 줄·결재란·인쇄색·계좌번호)가 다르게 나옵니다.
   - **하나은행**과 옛 은행 **KEB하나은행(2015~2020)**, **외환은행(~2015.8)** 서식도 만듭니다. 옛 은행 서식은 그 시기 날짜와 제도로 만들어집니다. → [docs/realism/bank_brands.md](docs/realism/bank_brands.md)
+
+만드는 방식은 둘로 나뉩니다.
+
+| | 종수 | 방식 |
+|---|---:|---|
+| **수제 템플릿** | 90 | 서식마다 Jinja2 템플릿과 전용 생성 함수를 둡니다. 실제 서식의 칸 배치까지 맞춥니다. |
+| **선언형 스펙** | 301 | 서식을 '수정 영역(기재란) 목록'으로만 적고 공용 템플릿 하나가 렌더링합니다. 값은 같은 프로필에서 끌어오므로 수제 서식과 사람·회사·계좌가 일치하지만, **화면 배치는 원본과 다릅니다.** → [선언형 스펙으로 서식 넣기](#선언형-스펙으로-서식-넣기) |
+
 - 전체 목록: [docs/DOCUMENTS.md](docs/DOCUMENTS.md)
+- 하나은행 공개 서식 441건 전수 분류 지도: [docs/FORM_MAP.md](docs/FORM_MAP.md)
 - 서류별 샘플 이미지와 정답: [samples/](samples/)
 
 모든 데이터는 학습용 **합성 데이터**이며 실존 인물·사업자와 무관합니다.
@@ -35,13 +44,15 @@ sudo apt-get install fonts-nanum fonts-noto-cjk
 
 Chromium을 이미 설치했다면 `CHROMIUM_PATH=/path/to/chrome`으로 지정할 수 있습니다.
 
+`pymupdf`는 서식 PDF에서 기재란을 뽑는 `scripts/extract_form_fields.py`에만 필요합니다. 생성된 서류를 만들어 쓰는 데에는 필요 없습니다.
+
 ## 사용법
 
 ```bash
 # 서류·시나리오 목록
 python -m docgen list
 
-# 전 서류 x 고객 100명 → HTML + 정답 JSON
+# 전 서류 x 고객 100명 → HTML + 정답 JSON (391종 x 100명이라 오래 걸립니다)
 python -m docgen generate --n 100 --out out
 
 # 이미지(PNG) + 위치 + ms-swift 학습 jsonl 까지
@@ -56,6 +67,7 @@ python -m docgen generate --types corporate,fx --n 50 --out out --png
 
 # 은행 서식을 특정 은행으로 (하나은행, KEB하나은행, 외환은행, 국민은행, ...)
 python -m docgen generate --types bank_form --bank 하나은행 --n 50 --out out --png
+python -m docgen generate --types retirement,efinance --n 30 --out out --png   # 퇴직연금·전자금융
 python -m docgen generate --bank 외환은행 --n 50 --out out --png   # 옛 은행: 은행 서식만 생성
 
 # 업무 시나리오 단위 (같은 고객의 제출 서류 묶음)
@@ -65,7 +77,7 @@ python -m docgen generate --scenario mortgage --n 30 --out out --png
 python -m docgen check --png
 ```
 
-시나리오는 8개입니다: `account_opening`, `personal_credit_loan`, `mortgage`, `jeonse_loan`, `sole_proprietor_loan`, `corporate_credit`, `fx_remittance`, `study_abroad_remittance`
+시나리오는 12개입니다: `account_opening`, `personal_credit_loan`, `mortgage`, `jeonse_loan`, `sole_proprietor_loan`, `corporate_credit`, `fx_remittance`, `study_abroad_remittance`, `irp_opening`, `retirement_payout`, `efinance_signup`, `inheritance`
 
 ## 출력 구조
 
@@ -172,6 +184,40 @@ DOCGEN_SPECIAL=all python -m docgen generate ...      # 특수 상황을 모두 
   - `MAX_PIXELS=1003520`(약 1280개의 28×28 칸)이면 쪽당 약 1280 토큰입니다.
   - 등기부·명세서처럼 글자가 작은 서류는 해상도를 너무 줄이면 읽기 어려우니 확인해 보세요.
 
+## 선언형 스펙으로 서식 넣기
+
+서식은 인쇄된 고정 레이아웃과 고객이 채우는 칸으로 나뉩니다. 칸 목록만 적으면 서식 하나가 등록되게 해 두었습니다.
+
+```python
+# docgen/docs/forms_fx.py
+FORM("hf214", "자본거래 사후보고 확인서", "fx", code="5-09-0132",
+     sections=[("신고인", [("customer.name", "성명", "text"),
+                         ("customer.rrn", "주민등록번호", "text"),
+                         ("account", "계좌번호", "number")]),
+               ("거래내역", [("foreign.name", "상대방", "text"),
+                           ("amount", "신고금액", "amount")])])
+```
+
+`customer.name`처럼 [docgen/formspec.py](docgen/formspec.py)의 `VALUE` 표에 있는 키는 고객 프로필에서 값을 끌어옵니다. 표에 없는 키는 종류(`date` / `amount` / `percent` / `number` / …)로 그럴듯한 값을 만듭니다. 렌더링은 [templates/\_generic_form.html.j2](templates/_generic_form.html.j2) 하나가 맡고, 수제 템플릿과 같은 `f()` 규약을 지키므로 GT·위치·라벨 파이프라인은 똑같이 동작합니다.
+
+### 서식 PDF에서 기재란 뽑기
+
+`docgen/docs/forms_*.py`는 손으로 쓴 것이 아니라 서식 PDF에서 생성했습니다.
+
+```bash
+python scripts/extract_form_fields.py     # PDF → add_template/field_specs/<분류>/<No>.json
+python scripts/form_map.py > docs/FORM_MAP.md   # 서식별 판정 (기존/수제/선언형/제외)
+python scripts/build_form_specs.py        # 판정이 '선언형'인 서식 → docgen/docs/forms_*.py
+```
+
+서식 PDF에 AcroForm 필드는 없어서, 텍스트 레이어와 표 구조에서 **라벨 셀 + 빈 셀** 쌍을 기재란으로 봅니다. 체크박스 보기(`□`), 섹션 제목, 서식번호 줄(코드·개정년월·보존년한), 결재란도 함께 뽑습니다.
+
+판정과 라벨→키 변환 규칙은 [scripts/form_map.py](scripts/form_map.py)와 [scripts/build_form_specs.py](scripts/build_form_specs.py) 상단의 표에 모여 있습니다. 서식이 늘거나 판정을 바꾸려면 그 표만 고치고 다시 생성하면 됩니다.
+
+### 수제 템플릿으로 승격
+
+선언형으로 넣은 서식 중 배치까지 맞출 가치가 있는 것은, `forms_*.py`에서 해당 `FORM(...)`을 지우고 보통의 서류처럼 `@doc` + 템플릿으로 다시 만들면 됩니다. 지웠는지 여부는 `build_form_specs.py`가 덮어쓰므로, 승격한 서식은 [scripts/form_map.py](scripts/form_map.py)의 `P1`/`P2` 표로 옮겨 주세요.
+
 ## 구조
 
 ```
@@ -187,21 +233,32 @@ docgen/
   paginate.js    넘친 쪽을 여러 쪽으로 나눔 (머리글 줄 반복, 쪽 번호)
   augment.py     스캔/촬영/팩스 증강
   cli.py         list / generate / check
+  formspec.py    선언형 폼 스펙 — 기재란 목록만으로 서식 등록 (FORM), 키 → 프로필 값 표
   docs/*.py      서류별 데이터 생성 함수 (그룹별 파일)
+  docs/forms_*.py  선언형 스펙 묶음 (생성 파일 — 직접 고치지 말 것)
 templates/
   _base.html.j2, _macros.html.j2   공통 레이아웃·매크로
-  <그룹>/<서류ID>.html.j2          서류별 템플릿
+  _generic_form.html.j2            선언형 스펙 공용 템플릿
+  <그룹>/<서류ID>.html.j2          서류별 수제 템플릿
+  bank_form/_loan_parts.html.j2    서식번호 줄(FORMS 표)·결재란·은행 사용란 — 은행 서식 전 그룹이 공유
+add_template/하나은행_서식자료/    원본 서식 PDF (공개 서식) 와 다운로드 결과
+add_template/field_specs/          PDF 에서 뽑은 기재란 명세 (생성 파일)
+scripts/extract_form_fields.py     서식 PDF → 기재란 명세
+scripts/form_map.py                서식별 판정 → docs/FORM_MAP.md
+scripts/build_form_specs.py        판정이 '선언형'인 서식 → docgen/docs/forms_*.py
 scripts/make_samples.py            samples/ 갱신 (변형 샘플은 samples/variants/, 은행별은 samples/bank_variants/)
 scripts/build_schema.py            docs/SCHEMA.md, schema/schema.json 갱신
 scripts/visualize_labels.py        라벨 위치를 이미지에 그려 확인
 tests/                             pytest
 ```
 
+은행이 직접 쓰는 서식 그룹(`bank_form`, `retirement`, `efinance`)은 `registry.BANK_FORM_GROUPS`로 묶여 있습니다. 이 그룹의 서류는 렌더링할 때 서식을 낸 은행(옛 은행 포함)에 맞춰 프로필이 바뀌고, 템플릿에 서식 문맥 `bk`가 들어갑니다. 그룹을 새로 만들 때 이 집합에 넣어 주면 같은 동작을 받습니다.
+
 서류를 추가하거나 수정하는 방법은 [docs/TEMPLATE_GUIDE.md](docs/TEMPLATE_GUIDE.md)를 보세요.
 
 ## 서식 현실화 현황
 
-70종을 실제 서식과 비교해 서식 번호, 항목 구성·순서, 라벨 문구, 고정 문구를 맞췄습니다. 비교 대상은 법령 별지 서식, 은행연합회 표준, 공공기관 발급본입니다. 서류별 근거, 출처, 수정 내용은 [docs/REALISM_STATUS.md](docs/REALISM_STATUS.md)에 있습니다. 담당 그룹별 원본과 메모는 `docs/realism/*.md`에 있습니다.
+수제 템플릿 중 초기 70종을 실제 서식과 비교해 서식 번호, 항목 구성·순서, 라벨 문구, 고정 문구를 맞췄습니다. 이후 추가한 수제 20종(수신 제신고·증명·위임 6종, 여신 부속 4종, 퇴직연금 6종, 전자금융 4종)은 하나은행 공개 서식 PDF에서 뽑은 기재란 명세를 근거로 만들었고, 서식번호·개정년월·보존년한은 원본 상단 줄의 값을 그대로 썼습니다. 비교 대상은 법령 별지 서식, 은행연합회 표준, 공공기관 발급본입니다. 서류별 근거, 출처, 수정 내용은 [docs/REALISM_STATUS.md](docs/REALISM_STATUS.md)에 있습니다. 담당 그룹별 원본과 메모는 `docs/realism/*.md`에 있습니다.
 
 - **반영(검색근거) 69종:** 웹 검색 결과를 두 곳 이상에서 교차 확인해 반영했습니다. 원본 서식 이미지·PDF를 직접 열어 대조하지는 못했습니다. 작업 환경의 네트워크 정책으로 law.go.kr, gov.kr, kfb.or.kr 등에 접속할 수 없었기 때문입니다.
 - **보류 1종(부채증명서):** 은행별 실제 표 구성을 확인하지 못해 기존 서식을 유지했습니다.
@@ -211,6 +268,9 @@ tests/                             pytest
 
 ## 알려진 한계
 
+- **선언형 스펙 301종의 배치:** 기재란 목록과 값은 원본 서식과 고객 프로필에서 왔지만, **화면 배치는 원본이 아니라 공용 레이아웃**입니다. 배치까지 맞추려면 수제 템플릿으로 승격해야 합니다.
+- **기재란 추출의 한계:** 표 인식이 되지 않은 서식은 기본 기재란(신청인 정보 + 신청 내용)으로 채웠고, 라벨 2,197종 중 표준 키로 이어진 것은 상위 일부입니다. 나머지는 라벨 끝말로 종류만 추론하므로 그 값은 프로필과 이어지지 않습니다.
+- **XLS·DOC 서식 11종:** 공개 서식 중 엑셀·워드 원본은 레이아웃 근거를 확인하지 못해 넣지 않았습니다. [docs/FORM_MAP.md](docs/FORM_MAP.md)에 표시돼 있습니다.
 - **확인하지 못한 세부 항목:** 표의 칸 배치, 일부 안내 문구, 서식 번호의 최신 개정일 등은 검색으로 확인하지 못했습니다. 은행 서식의 서식번호 일부는 형식만 실제와 같은 임의값입니다.
 - **긴 서류와 신분증:** 내용이 길면 여러 쪽으로 나오지만, 약정서 약관 전문처럼 매우 긴 고정 문구는 일부만 넣었습니다. 신분증은 앞면만 있습니다.
 - **필기 표현:** 서명은 선으로 그린 낙서 모양입니다. 자필 기재란은 필기체 폰트가 아니라 일반 폰트로 흉내 냈습니다.

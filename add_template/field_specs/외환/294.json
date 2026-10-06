@@ -1,0 +1,132 @@
+{
+ "no": 294,
+ "class": "외환",
+ "name": "「외국환서식관리프로그램」선적서류 (일부)매입(추심) 의뢰서(2D용)",
+ "file": "add_template\\하나은행_서식자료\\외환\\294_「외국환서식관리프로그램」선적서류 (일부)매입(추심) 의뢰서(2D용).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-09-0295",
+  "pages_in_set": 1
+ },
+ "sections": [
+  "1. 위와 같이 화환어음의 (일부)매입(추심)을 신청함에 있어서 따로",
+  "2. 국내에서 통관이 이루어진 경우로서 본인이 수출신고필증을"
+ ],
+ "fields": [
+  {
+   "label": "고객번호",
+   "kind": "text"
+  },
+  {
+   "label": "매입번호",
+   "kind": "text"
+  },
+  {
+   "label": "일부 매입금액",
+   "kind": "text"
+  },
+  {
+   "label": "일부 추심금액",
+   "kind": "text"
+  },
+  {
+   "label": "AMOUNT",
+   "kind": "text"
+  },
+  {
+   "label": "TENOR & MATURITY",
+   "kind": "text"
+  },
+  {
+   "label": "COMMODITY",
+   "kind": "text"
+  },
+  {
+   "label": "H.S. CODE",
+   "kind": "text"
+  },
+  {
+   "label": "ACCOUNTEE (drawee)",
+   "kind": "text"
+  },
+  {
+   "label": "BENEFICIARY (drawer)",
+   "kind": "text"
+  },
+  {
+   "label": "PRICE TERM",
+   "kind": "text"
+  },
+  {
+   "label": "수출신고번호",
+   "kind": "text"
+  },
+  {
+   "label": "FOB 금액",
+   "kind": "text"
+  },
+  {
+   "label": "수출 상대국",
+   "kind": "text"
+  },
+  {
+   "label": "DOCUMENTS ATTACHED",
+   "kind": "text"
+  },
+  {
+   "label": "DRAFT",
+   "kind": "text"
+  },
+  {
+   "label": "INVOICE",
+   "kind": "text"
+  },
+  {
+   "label": "BENE CERT",
+   "kind": "text"
+  },
+  {
+   "label": "CUST",
+   "kind": "text"
+  },
+  {
+   "label": "TO REIM. BANK",
+   "kind": "text"
+  },
+  {
+   "label": "NAME : (BANK CODE :",
+   "kind": "text"
+  },
+  {
+   "label": "명세",
+   "kind": "text"
+  },
+  {
+   "label": "외화계정 대체",
+   "kind": "text"
+  },
+  {
+   "label": "원화계정 대체",
+   "kind": "text"
+  },
+  {
+   "label": "A",
+   "kind": "text"
+  },
+  {
+   "label": "B",
+   "kind": "text"
+  },
+  {
+   "label": "수입보증금",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "담당",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 1431
+}

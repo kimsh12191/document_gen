@@ -1,0 +1,89 @@
+{
+ "no": 377,
+ "class": "전자금융",
+ "name": "해외영업점 계좌개설 신청서",
+ "file": "add_template\\하나은행_서식자료\\전자금융\\377_해외영업점 계좌개설 신청서.pdf",
+ "pages": 1,
+ "meta": {
+  "keep_from": "해지",
+  "keep_years": 10
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "한글 Korean",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일 Date of Birth",
+   "kind": "text"
+  },
+  {
+   "label": "국 적 Nationality",
+   "kind": "text"
+  },
+  {
+   "label": "여권번호 Passport No.",
+   "kind": "text"
+  },
+  {
+   "label": "여권유효기일 Date of Expiry",
+   "kind": "text"
+  },
+  {
+   "label": "영문 English",
+   "kind": "text"
+  },
+  {
+   "label": "선택Selective",
+   "kind": "choice",
+   "options": [
+    "Telephone No.",
+    "Mobile phone No."
+   ]
+  },
+  {
+   "label": "개설통화 Currency",
+   "kind": "text"
+  },
+  {
+   "label": "접수 은행/지점명 Bank/Branch",
+   "kind": "text"
+  },
+  {
+   "label": "고객명(Name)",
+   "kind": "text"
+  },
+  {
+   "label": "계좌번호(A/C No.)",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "신청(Application)",
+    "취소(Cancellation)"
+   ]
+  },
+  {
+   "options": [
+    "Telephone No.",
+    "Mobile phone No."
+   ]
+  },
+  {
+   "options": [
+    "e-Mail"
+   ]
+  },
+  {
+   "options": [
+    "본인은 위와 같이 예금계좌 개설/취소를 신청합니다."
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 2369
+}

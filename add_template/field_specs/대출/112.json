@@ -1,0 +1,42 @@
+{
+ "no": 112,
+ "class": "대출",
+ "name": "[필수]개인(신용)정보 제공동의서(서민맞춤대출용)",
+ "file": "add_template\\하나은행_서식자료\\대출\\112_[필수]개인(신용)정보 제공동의서(서민맞춤대출용).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-16-0156",
+  "pages_in_set": 1,
+  "revised": "2021.03",
+  "keep_from": "처리",
+  "keep_years": 10
+ },
+ "sections": [],
+ "fields": [],
+ "choices": [
+  {
+   "options": [
+    "개인(신용)정보"
+   ]
+  },
+  {
+   "options": [
+    "일반개인정보"
+   ]
+  },
+  {
+   "options": [
+    "신용거래정보"
+   ]
+  },
+  {
+   "options": [
+    "동의하지 않음",
+    "동의함"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 1153
+}

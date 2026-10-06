@@ -1,0 +1,95 @@
+{
+ "no": 236,
+ "class": "외환",
+ "name": "해외예금 및 신탁 잔액 보고서",
+ "file": "add_template\\하나은행_서식자료\\외환\\236_해외예금 및 신탁 잔액 보고서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-09-0212",
+  "pages_in_set": 1,
+  "revised": "2022.01"
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "개설인명",
+   "kind": "text"
+  },
+  {
+   "label": "주 소",
+   "kind": "text"
+  },
+  {
+   "label": "사업자(주민) 등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "직위 ‧ 성명",
+   "kind": "text"
+  },
+  {
+   "label": "전화번호",
+   "kind": "text"
+  },
+  {
+   "label": "은행 부(점)",
+   "kind": "text"
+  },
+  {
+   "label": "연중 입금액(B)",
+   "kind": "text"
+  },
+  {
+   "label": "연중 출금액 (C)",
+   "kind": "text"
+  },
+  {
+   "label": "( )",
+   "kind": "text"
+  },
+  {
+   "label": "금 액",
+   "kind": "text"
+  },
+  {
+   "label": "국내송금",
+   "kind": "text"
+  },
+  {
+   "label": "국내회수",
+   "kind": "text"
+  },
+  {
+   "label": "수출대금",
+   "kind": "text"
+  },
+  {
+   "label": "수입대금 지 급",
+   "kind": "text"
+  },
+  {
+   "label": "외화증권 처 분",
+   "kind": "text"
+  },
+  {
+   "label": "외화증권 취 득",
+   "kind": "text"
+  },
+  {
+   "label": "예금 ‧ 신탁 처 분",
+   "kind": "text"
+  },
+  {
+   "label": "예금 ‧ 신탁 예 치",
+   "kind": "text"
+  },
+  {
+   "label": "기 타",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 1052
+}

@@ -1,0 +1,189 @@
+{
+ "no": 340,
+ "class": "전자금융",
+ "name": "기업 전자금융서비스 신청서(은행용)",
+ "file": "add_template\\하나은행_서식자료\\전자금융\\340_기업 전자금융서비스 신청서(은행용).pdf",
+ "pages": 2,
+ "meta": {
+  "code": "3-08-0024",
+  "pages_in_set": 2,
+  "revised": "2026.02",
+  "keep_from": "해지",
+  "keep_years": 5
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "성명/업체명",
+   "kind": "text"
+  },
+  {
+   "label": "사업자등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일(법인등록번호)",
+   "kind": "text"
+  },
+  {
+   "label": "주소",
+   "kind": "text"
+  },
+  {
+   "label": "기업뱅킹 업체총이체한도(1일)",
+   "kind": "text"
+  },
+  {
+   "label": "한글로 기재 원",
+   "kind": "text"
+  },
+  {
+   "label": "해외 IP 차단",
+   "kind": "text"
+  },
+  {
+   "label": "신청 해지",
+   "kind": "text"
+  },
+  {
+   "label": "기업뱅킹 단독사용",
+   "kind": "text"
+  },
+  {
+   "label": "기업뱅킹 다단계결재사용",
+   "kind": "text"
+  },
+  {
+   "label": "CMSiNet",
+   "kind": "text"
+  },
+  {
+   "label": "단독사용자",
+   "kind": "text"
+  },
+  {
+   "label": "마스터+사용자 ( 마스터기능전용) 결재사용자",
+   "kind": "text"
+  },
+  {
+   "label": "총괄관리자 ( 실행권한) 실행자 일반이용자",
+   "kind": "text"
+  },
+  {
+   "label": "OTP",
+   "kind": "text"
+  },
+  {
+   "label": "인증서사전동의",
+   "kind": "text"
+  },
+  {
+   "label": "동의함 동의안함",
+   "kind": "text"
+  },
+  {
+   "label": "1일 한글로 기재 원,",
+   "kind": "text"
+  },
+  {
+   "label": "1회 한글로 기재 원",
+   "kind": "text"
+  },
+  {
+   "label": "계좌번호 ( )",
+   "kind": "text"
+  },
+  {
+   "label": "은행명",
+   "kind": "text"
+  },
+  {
+   "label": "통장인감",
+   "kind": "text"
+  },
+  {
+   "label": "본인인증전화번호",
+   "kind": "text"
+  },
+  {
+   "label": "신청(계좌 : ) 해지",
+   "kind": "text"
+  },
+  {
+   "label": "신청 미신청",
+   "kind": "text"
+  },
+  {
+   "label": "계좌번호",
+   "kind": "text"
+  },
+  {
+   "label": "지사명",
+   "kind": "text"
+  },
+  {
+   "label": "사업자번호",
+   "kind": "text"
+  },
+  {
+   "label": "지사대표자 신청확인",
+   "kind": "text"
+  },
+  {
+   "label": "대표자 (인) 확인자명 (인)",
+   "kind": "text"
+  },
+  {
+   "label": "OTP 일괄교부",
+   "kind": "text"
+  },
+  {
+   "label": "신청 (개수: 개)",
+   "kind": "text"
+  },
+  {
+   "label": "지정 미지정",
+   "kind": "text"
+  },
+  {
+   "label": "1: 2: 3: 4:",
+   "kind": "text"
+  },
+  {
+   "label": "사용자구분",
+   "kind": "text"
+  },
+  {
+   "label": "사용자 ID",
+   "kind": "text"
+  },
+  {
+   "label": "1일 한글로 기재 원",
+   "kind": "text"
+  },
+  {
+   "label": "대량이체한도 *CMSiNet 에 한함",
+   "kind": "text"
+  },
+  {
+   "label": "성명",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일",
+   "kind": "text"
+  },
+  {
+   "label": "관계",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "담당",
+  "지점장",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 2921
+}

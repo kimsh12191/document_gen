@@ -1,0 +1,74 @@
+{
+ "no": 321,
+ "class": "외환",
+ "name": "부동산취득신고(수리)서",
+ "file": "add_template\\하나은행_서식자료\\외환\\321_부동산취득신고(수리)서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [
+  "2. 부동산감정서",
+  "3. 기타 부동산 취득신고수리시 필요한 서류"
+ ],
+ "fields": [
+  {
+   "label": "부동산취득신고[수리]서",
+   "kind": "text"
+  },
+  {
+   "label": "(인)",
+   "kind": "text"
+  },
+  {
+   "label": "(전화번호)",
+   "kind": "text"
+  },
+  {
+   "label": "업 종( 직 업)",
+   "kind": "text"
+  },
+  {
+   "label": "(성명) (전화번호) (주소)",
+   "kind": "text"
+  },
+  {
+   "label": "부 동 산 의 종 류",
+   "kind": "text"
+  },
+  {
+   "label": "소 재 지",
+   "kind": "text"
+  },
+  {
+   "label": "면 적",
+   "kind": "text"
+  },
+  {
+   "label": "(취득단가)",
+   "kind": "text"
+  },
+  {
+   "label": "취 득 기 간",
+   "kind": "text"
+  },
+  {
+   "label": "취 득 사 유",
+   "kind": "text"
+  },
+  {
+   "label": "신고(수리)번호",
+   "kind": "text"
+  },
+  {
+   "label": "신고(수리)금액",
+   "kind": "text"
+  },
+  {
+   "label": "유 효 기 간",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 860
+}

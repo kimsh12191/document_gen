@@ -1,0 +1,35 @@
+{
+ "no": 19,
+ "class": "예금",
+ "name": "본인계좌 일괄지급정지(해제)신청서",
+ "file": "add_template\\하나은행_서식자료\\예금\\019_본인계좌 일괄지급정지(해제)신청서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [
+  "1. 고객확인사항",
+  "2. 신청정보",
+  "3. 신청인 정보"
+ ],
+ "fields": [
+  {
+   "label": "이름",
+   "kind": "text"
+  },
+  {
+   "label": "주민등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "연락처",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "담당",
+  "본인확인",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 1637
+}

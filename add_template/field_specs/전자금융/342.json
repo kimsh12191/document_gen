@@ -1,0 +1,88 @@
+{
+ "no": 342,
+ "class": "전자금융",
+ "name": "해외은행 계좌정보 수신서비스(SWIFT MT940) 이용신청서",
+ "file": "add_template\\하나은행_서식자료\\전자금융\\342_해외은행 계좌정보 수신서비스(SWIFT MT940) 이용신청서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-08-0488",
+  "pages_in_set": 1,
+  "keep_from": "해지",
+  "keep_years": 10
+ },
+ "sections": [
+  "1. 신청 종류 : □ 신규 □ 해지 □ 변경",
+  "2. 이용 채널 : □ 기업뱅킹(통합CMS) □ CMSiNet □ CMS Plus",
+  "3. 신청 고객",
+  "4. 신청 내용",
+  "5. 수 수 료"
+ ],
+ "fields": [
+  {
+   "label": "고객명",
+   "kind": "text"
+  },
+  {
+   "label": "사업자등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "이용자ID",
+   "kind": "text"
+  },
+  {
+   "label": "담당자(직위/성명)",
+   "kind": "text"
+  },
+  {
+   "label": "전화번호",
+   "kind": "text"
+  },
+  {
+   "label": "e-Mail주소",
+   "kind": "text"
+  },
+  {
+   "label": "회사주소",
+   "kind": "text"
+  },
+  {
+   "label": "(해외)통지은행 및 계좌 정보",
+   "kind": "text"
+  },
+  {
+   "label": "통지은행명",
+   "kind": "text"
+  },
+  {
+   "label": "Bank Code(BIC)",
+   "kind": "text"
+  },
+  {
+   "label": "거래 인감",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "신규",
+    "해지",
+    "변경"
+   ]
+  },
+  {
+   "options": [
+    "기업뱅킹(통합CMS)",
+    "CMSiNet",
+    "CMS Plus"
+   ]
+  }
+ ],
+ "bank_only": [
+  "담당",
+  "책임자"
+ ],
+ "has_signature": false,
+ "text_chars": 871
+}

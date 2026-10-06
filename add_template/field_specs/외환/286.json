@@ -1,0 +1,67 @@
+{
+ "no": 286,
+ "class": "외환",
+ "name": "신용장 확인 신청 및 확약서",
+ "file": "add_template\\하나은행_서식자료\\외환\\286_신용장 확인 신청 및 확약서.pdf",
+ "pages": 2,
+ "meta": {},
+ "sections": [
+  "1. 상기 신용장 관련 귀행의 확인(CONFIRMATION)을 신청합니다."
+ ],
+ "fields": [],
+ "choices": [
+  {
+   "options": [
+    "CREDIT NO. (신용장번호)"
+   ]
+  },
+  {
+   "options": [
+    "ADVICE NO.(신용장통지번호)"
+   ]
+  },
+  {
+   "options": [
+    "ISSUING BANK(개설은행)"
+   ]
+  },
+  {
+   "options": [
+    "ISSUING DATE(개설일)"
+   ]
+  },
+  {
+   "options": [
+    "AMOUNT(금액)"
+   ]
+  },
+  {
+   "options": [
+    "CREDIT NO. (신용장번호)"
+   ]
+  },
+  {
+   "options": [
+    "ADVICE NO.(신용장통지번호)"
+   ]
+  },
+  {
+   "options": [
+    "ISSUING BANK(개설은행)"
+   ]
+  },
+  {
+   "options": [
+    "ISSUING DATE(개설일)"
+   ]
+  },
+  {
+   "options": [
+    "AMOUNT(금액)"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 1173
+}

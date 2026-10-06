@@ -1,0 +1,68 @@
+{
+ "no": 433,
+ "class": "기타",
+ "name": "추심지급 신청서",
+ "file": "add_template\\하나은행_서식자료\\기타\\433_추심지급 신청서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-08-0205",
+  "pages_in_set": 1,
+  "revised": "2023.02",
+  "keep_from": "징구",
+  "keep_years": 10
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "접수점",
+   "kind": "text"
+  },
+  {
+   "label": "※ 예시 : 서울중앙지방법원등",
+   "kind": "text"
+  },
+  {
+   "label": "채권자",
+   "kind": "text"
+  },
+  {
+   "label": "연락처(필수)",
+   "kind": "text"
+  },
+  {
+   "label": "E-mail",
+   "kind": "text"
+  },
+  {
+   "label": "최소 추심 요청 금액",
+   "kind": "choice",
+   "options": [
+    "1만원",
+    "기타 (수수료 제외 후 원 이상일 때)"
+   ]
+  },
+  {
+   "label": "성명",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일",
+   "kind": "text"
+  },
+  {
+   "label": "본인과의 관계",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "1만원",
+    "기타 (수수료 제외 후 원 이상일 때)"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 1353
+}

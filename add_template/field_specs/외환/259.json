@@ -1,0 +1,73 @@
+{
+ "no": 259,
+ "class": "외환",
+ "name": "환전업무 등록내용 변경 신고서",
+ "file": "add_template\\하나은행_서식자료\\외환\\259_환전업무 등록내용 변경 신고서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [
+  "2. 신분증 사본",
+  "3. 변경사항을 증명하는 서류"
+ ],
+ "fields": [
+  {
+   "label": "① 상 호",
+   "kind": "text"
+  },
+  {
+   "label": "② 설 립 연 월 일",
+   "kind": "text"
+  },
+  {
+   "label": "년 월 일",
+   "kind": "text"
+  },
+  {
+   "label": "③ 대 표 자",
+   "kind": "text"
+  },
+  {
+   "label": "④ 주 소",
+   "kind": "text"
+  },
+  {
+   "label": "신 고 내 용",
+   "kind": "text"
+  },
+  {
+   "label": "⑤ 변 경 전",
+   "kind": "text"
+  },
+  {
+   "label": "⑥ 변 경 후",
+   "kind": "text"
+  },
+  {
+   "label": "⑦ 변 경 사 유",
+   "kind": "text"
+  },
+  {
+   "label": "공동이용 행정정보",
+   "kind": "text"
+  },
+  {
+   "label": "동의여부(√)",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "동의함"
+   ]
+  },
+  {
+   "options": [
+    "동의하지않음"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 983
+}

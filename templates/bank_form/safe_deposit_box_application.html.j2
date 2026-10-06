@@ -1,0 +1,57 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "bank_form/_loan_parts.html.j2" as lp with context %}
+{% block style %}
+table.bf th, table.bf td { padding: 5px 7px; }
+.art { font-weight: 700; margin-top: 5px; }
+{% endblock %}
+{% block content %}
+{{ lp.css() }}
+{{ f.set_corr_name(val("signature")) }}
+{{ lp.head(kind="safebox") }}
+{{ lp.cont_head("safebox") }}
+{{ lp.title_row("대여금고 (신규·변경·해지) 신청서") }}
+<div style="margin:0 0 4px">{{ lp.legal_name() }} <b>{{ f("branch", label="취급점") }}</b> 앞
+&nbsp;&nbsp;신청구분 : {{ m.choice("kind", ["신규", "변경", "해지"], label="신청구분") }}{{ lp.nochk("kind") }}</div>
+
+<div class="bf-sec">1. 임차인</div>
+<table class="bf">
+<colgroup><col style="width:120px"><col><col style="width:120px"><col></colgroup>
+<tr><th>성명(사업자명)</th><td>{{ f("customer.name", label="성명(사업자명)", fix=0.04) }}</td><th>생년월일<br><span class="tiny">(사업자번호)</span></th><td>{{ f("customer.birth", label="생년월일(사업자번호)", fix=0.05) }}</td></tr>
+<tr><th>연 락 처</th><td>{{ f("customer.phone", label="연락처", fix=0.06) }}</td><th>수수료 출금계좌</th><td>{{ f("fee_account", label="수수료출금계좌", fix=0.08) }}</td></tr>
+<tr><th>주　　소</th><td colspan="3">{{ f("customer.address", label="주소", fix=0.04) }}</td></tr>
+</table>
+
+<div class="bf-sec">2. 대여금고</div>
+<table class="bf">
+<colgroup><col style="width:120px"><col><col style="width:120px"><col></colgroup>
+<tr><th>금고번호</th><td>{{ f("box.no", label="금고번호", fix=0.06) }}</td><th>금고 규격</th><td>{{ m.choice("box.size", ["소형", "중형", "대형", "특대형"], label="금고규격") }}</td></tr>
+<tr><th>임 대 료</th><td class="num">{{ f("box.fee", label="임대료") }}</td><th>보 증 금</th><td class="num">{{ f("box.deposit", label="보증금") }}</td></tr>
+<tr><th>계약 기간</th><td>{{ m.choice("box.term", ["12개월", "만기일 지정"], label="계약기간") }}{{ lp.nochk("box.term") }}</td><th>만 기 일</th><td>{{ f("box.expires", label="만기일", fix=0.05) }}</td></tr>
+<tr><th>교부 열쇠 수</th><td colspan="3">{{ f("key_count", label="교부열쇠수") }} 개</td></tr>
+</table>
+
+{% if d.joint_user is defined %}
+<div class="bf-sec">3. 공동 이용자 (대리 개폐자)</div>
+<table class="bf">
+<colgroup><col style="width:120px"><col><col style="width:120px"><col></colgroup>
+<tr><th>성　　명</th><td>{{ f("joint_user.name", label="공동이용자", fix=0.04) }}</td><th>생년월일</th><td>{{ f("joint_user.birth", label="공동이용자생년월일", fix=0.05) }}</td></tr>
+<tr><th>본인과의 관계</th><td colspan="3">{{ f("joint_user.relation", label="본인과의관계") }}</td></tr>
+</table>
+{% endif %}
+
+<div class="bf-sec">4. 약정 사항</div>
+<div class="notice">
+<p>1. 임차인은 대여금고에 현금·위험물·부패성 물품 및 법령에 위반되는 물건을 보관하지 아니합니다.</p>
+<p>2. 은행은 금고 내용물의 종류·수량·가액을 알지 못하며, 은행의 고의 또는 중대한 과실이 없는 한 그 손해에 대하여 책임지지 아니합니다.</p>
+<p>3. 고객이 대여금고 이용열쇠를 분실·도난·손상하여 열쇠를 교체하였을 경우 그 비용은 고객이 부담합니다.</p>
+<p>4. 다음의 경우 은행은 계약을 해지할 수 있습니다 — 임차인이 해지를 신청한 때, 임차인이 사망한 때, 법인 또는 단체인 임차인이 해산·파산한 때, 계약기간이 끝난 후 3년이 지날 때까지 임차인이 금고를 개폐하지 아니한 때.</p>
+<p>5. 화재·천재지변 등 비상시, 법원의 제출명령·수색영장 또는 체납처분에 의한 경우 은행은 금고를 개방할 수 있습니다.</p>
+</div>
+
+<p class="lead" style="margin:8px 0 4px">위 약정사항에 동의하며, 위와 같이 대여금고 이용을 신청합니다.</p>
+<div class="center">{{ f("date", label="작성일") }}</div>
+<div class="sig">임차인&nbsp;<span class="who">{{ f("signature", label="임차인") }}</span>{{ m.sigspot("applicant", val("signature"), label="임차인", anchor="signature") }}</div>
+
+{{ lp.bank_use(["접수일자", "실명확인", "열쇠 교부", "담당자", "책임자"]) }}
+{% endblock %}

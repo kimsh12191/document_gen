@@ -1,0 +1,117 @@
+{
+ "no": 318,
+ "class": "외환",
+ "name": "대북투자(변경)신고서",
+ "file": "add_template\\하나은행_서식자료\\외환\\318_대북투자(변경)신고서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-09-0275",
+  "pages_in_set": 1
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "대북투자(변경)신고서",
+   "kind": "text"
+  },
+  {
+   "label": "상 호",
+   "kind": "text"
+  },
+  {
+   "label": "사업자등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "법인등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "주민등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "(주소) (전화번호) (e-mail)",
+   "kind": "text"
+  },
+  {
+   "label": "업 종",
+   "kind": "text"
+  },
+  {
+   "label": "투 자 구 분",
+   "kind": "choice",
+   "options": [
+    "신규투자",
+    "재투자(증액)",
+    "감액",
+    "폐지"
+   ]
+  },
+  {
+   "label": "투 자 방 식",
+   "kind": "choice",
+   "options": [
+    "증권취득",
+    "대부채권취득",
+    "기타"
+   ]
+  },
+  {
+   "label": "투 자 업 종",
+   "kind": "text"
+  },
+  {
+   "label": "주 요 제 품",
+   "kind": "text"
+  },
+  {
+   "label": "(자본금 : USD )",
+   "kind": "text"
+  },
+  {
+   "label": "신고수리번호",
+   "kind": "text"
+  },
+  {
+   "label": "(U$)",
+   "kind": "text"
+  },
+  {
+   "label": "년 월 일",
+   "kind": "text"
+  },
+  {
+   "label": "현금 (U$)",
+   "kind": "text"
+  },
+  {
+   "label": "현물 (U$)",
+   "kind": "text"
+  },
+  {
+   "label": "합계 (U$)",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "신규투자",
+    "재투자(증액)",
+    "감액",
+    "폐지"
+   ]
+  },
+  {
+   "options": [
+    "증권취득",
+    "대부채권취득",
+    "기타"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 1065
+}

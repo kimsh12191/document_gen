@@ -1,0 +1,130 @@
+{
+ "no": 48,
+ "class": "대출",
+ "name": "가계형소호 여신차입신청서",
+ "file": "add_template\\하나은행_서식자료\\대출\\048_가계형소호 여신차입신청서.pdf",
+ "pages": 2,
+ "meta": {
+  "code": "5-06-0519",
+  "pages_in_set": 2,
+  "revised": "2025.10",
+  "keep_from": "완제",
+  "keep_years": 10
+ },
+ "sections": [
+  "1. 취급통지",
+  "2. 정보통지",
+  "3. 만기통지",
+  "2. 연락처 및 서비스 변경 신청은 콜센터(1599-1111), 홈페이지 또는 가까운 영업점에 문의하시기 바랍니다.",
+  "3. 문자 매체에는 SMS, LMS, 카카오 알림톡 등이 포함됩니다."
+ ],
+ "fields": [
+  {
+   "label": "성명",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일",
+   "kind": "text"
+  },
+  {
+   "label": "자택주소",
+   "kind": "text"
+  },
+  {
+   "label": "자택전화번호",
+   "kind": "text"
+  },
+  {
+   "label": "사업장주소",
+   "kind": "text"
+  },
+  {
+   "label": "사업장전화번호",
+   "kind": "text"
+  },
+  {
+   "label": "통신사( )",
+   "kind": "text"
+  },
+  {
+   "label": "☐ 전문직 ☐ 자영업자 ☐ 기타( )",
+   "kind": "text"
+  },
+  {
+   "label": "☐ 대한민국 ☐ 기타( )",
+   "kind": "text"
+  },
+  {
+   "label": "업체명(상호)",
+   "kind": "text"
+  },
+  {
+   "label": "사업자등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "년 월( 년 월)",
+   "kind": "text"
+  },
+  {
+   "label": "( )",
+   "kind": "text"
+  },
+  {
+   "label": "☐ 세무서신고 ☐ 재무제표 ☐ 기타( )",
+   "kind": "text"
+  },
+  {
+   "label": "원( 원)",
+   "kind": "text"
+  },
+  {
+   "label": "☐ 예 ☐ 아니오 ☐ 기타( )",
+   "kind": "text"
+  },
+  {
+   "label": "원",
+   "kind": "text"
+  },
+  {
+   "label": "소재지",
+   "kind": "text"
+  },
+  {
+   "label": "시세 ( 백만원)",
+   "kind": "text"
+  },
+  {
+   "label": "소유자명",
+   "kind": "text"
+  },
+  {
+   "label": "대출과목",
+   "kind": "text"
+  },
+  {
+   "label": "대출금 입금 (실행)계좌",
+   "kind": "text"
+  },
+  {
+   "label": "원(리)금 및 이자 자동이체 결제계좌",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "공통 안내사항"
+   ]
+  }
+ ],
+ "bank_only": [
+  "관리자",
+  "담당",
+  "부점장",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 4764
+}

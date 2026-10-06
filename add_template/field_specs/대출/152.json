@@ -1,0 +1,14 @@
+{
+ "no": 152,
+ "class": "대출",
+ "name": "《기업》연대보증인(교체·면제)증서",
+ "file": "add_template\\하나은행_서식자료\\대출\\152_《기업》연대보증인(교체·면제)증서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [],
+ "fields": [],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 484
+}

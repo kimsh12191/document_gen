@@ -1,0 +1,102 @@
+{
+ "no": 143,
+ "class": "대출",
+ "name": "기업여신과목분류표",
+ "file": "add_template\\하나은행_서식자료\\대출\\143_기업여신과목분류표.pdf",
+ "pages": 1,
+ "meta": {
+  "keep_from": "완제",
+  "keep_years": 5
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "\u0000 시설자금대출",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 당좌대출",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 할인어음",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 무역금융",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 내국신용장",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 구매자금대출",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 구매론",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 외상매출채권담보대출",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 전자방식 외상매출채권담보대출",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 운전주택자금대출",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 시설주택자금대출",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 외화무역어음대출",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 외화운전자금대출",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 외화시설자금대출",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 매입어음",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 외상채권대출",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 외화팩토링",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 e-안심팩토링",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 원화사모사채",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 외화사모사채",
+   "kind": "text"
+  },
+  {
+   "label": "\u0000 신탁대출",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 940
+}

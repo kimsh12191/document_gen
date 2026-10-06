@@ -1,0 +1,66 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "bank_form/_loan_parts.html.j2" as lp with context %}
+{% block style %}
+table.bf th, table.bf td { padding: 4px 6px; }
+.art { font-weight: 700; margin-top: 4px; }
+{% endblock %}
+{% block content %}
+{{ lp.css() }}
+{{ f.set_corr_name(val("signature")) }}
+{{ lp.head(kind="inherit") }}
+{{ lp.cont_head("inherit") }}
+{{ lp.title_row("상속예금 명의변경(지급) 의뢰서", sub="손해담보 확약서 · 상속예금 지급 위임장 겸용") }}
+<div style="margin:0 0 4px">{{ lp.legal_name() }} <b>{{ f("branch", label="취급점") }}</b> 앞
+&nbsp;&nbsp;지급일자 : {{ f("payout.date", label="지급일자") }}</div>
+
+<div class="bf-sec">1. 피상속인 (사망자)</div>
+<table class="bf">
+<colgroup><col style="width:110px"><col><col style="width:110px"><col></colgroup>
+<tr><th>예금주</th><td>{{ f("deceased.name", label="예금주", fix=0.04) }}</td><th>생년월일</th><td>{{ f("deceased.birth", label="생년월일", fix=0.05) }}</td></tr>
+<tr><th>주민등록번호</th><td>{{ f("deceased.rrn", label="주민등록번호") }}</td><th>사망일자</th><td>{{ f("deceased.death_date", label="사망일자", fix=0.05) }}</td></tr>
+<tr><th>최종 주소</th><td colspan="3">{{ f("deceased.address", label="최종주소", fix=0.04) }}</td></tr>
+</table>
+
+<div class="bf-sec">2. 상속재산 (피상속인 명의 예금)</div>
+{{ m.grid(["계좌번호", "예금종류", "잔액"], "accounts", ["number", "kind", "balance"],
+          num_cols=[2], widths=["38%", "28%", "34%"], min_rows=2, cls="compact") }}
+<table class="bf compact">
+<colgroup><col style="width:110px"><col><col style="width:110px"><col></colgroup>
+<tr><th>합계</th><td class="num">{{ f("total", label="합계") }}</td><th>지급구분</th><td>{{ m.choice("payout.kind", ["지급", "분할지급", "소액지급"], label="지급구분") }}{{ lp.nochk("payout.kind") }}</td></tr>
+<tr><th>지급 금액</th><td class="num">{{ f("payout.amount", label="지급금액") }}</td><th>미지급 상속예금</th><td>{{ m.choice("unpaid_confirm", ["없음", "있음"], label="미지급상속예금") }}{{ lp.nochk("unpaid_confirm") }}</td></tr>
+</table>
+
+<div class="bf-sec">3. 주된 상속인 (소득귀속인)</div>
+<table class="bf">
+<colgroup><col style="width:110px"><col><col style="width:110px"><col></colgroup>
+<tr><th>성　　명</th><td>{{ f("main_heir.name", label="주된상속인", fix=0.04) }}</td><th>생년월일</th><td>{{ f("main_heir.birth", label="생년월일", fix=0.05) }}</td></tr>
+<tr><th>피상속인과의 관계</th><td>{{ f("main_heir.relation", label="피상속인과의관계") }}</td><th>연 락 처</th><td>{{ f("main_heir.phone", label="연락처", fix=0.06) }}</td></tr>
+<tr><th>주　　소</th><td colspan="3">{{ f("main_heir.address", label="주소", fix=0.04) }}</td></tr>
+<tr><th>입금 계좌</th><td>{{ f("main_heir.account", label="입금계좌", fix=0.08) }}</td><th>수령 방법</th><td>{{ m.choice("main_heir.delegate", ["본인", "위임(별도 위임장 작성)"], label="수령방법") }}</td></tr>
+</table>
+
+<div class="bf-sec">4. 공동상속인 (위임장 겸용)</div>
+{{ m.grid(["성명", "생년월일", "관계", "상속지분", "수령방법"], "heirs",
+          ["name", "birth", "relation", "share", "delegate"],
+          widths=["22%", "20%", "14%", "14%", "30%"], min_rows=1, cls="compact") }}
+<div class="tiny muted">※ 공동상속인은 주된 상속인에게 상속예금의 수령을 위임하며, 위 기재로 위임장에 갈음합니다.</div>
+
+<div class="bf-sec">5. 제출 서류</div>
+<div class="small" style="margin:2px 0 4px">
+{% for x in d.documents %}<span class="chk"><span class="cb">■</span> {{ f("documents." ~ loop.index0, label="제출서류") }}</span>{% endfor %}
+</div>
+
+<div class="bf-sec">6. 손해담보 확약 및 유의사항</div>
+<div class="notice">
+<p>1. 본인(상속인)들은 위 상속예금의 지급과 관련하여 다른 상속인·이해관계인으로부터 이의가 제기되거나 은행에 손해가 발생하는 경우, 그 책임을 지고 은행에 어떠한 손해도 끼치지 아니할 것을 확약합니다.</p>
+<p>2. 위 상속인 외에 다른 상속인이 있음이 밝혀지는 경우 본인들이 전적으로 책임지며, 은행은 이미 지급한 예금에 대하여 면책됩니다.</p>
+<p>3. 제출한 서류의 기재사항이 사실과 다름없음을 확인하며, 허위 기재로 인한 책임은 본인들이 부담합니다.</p>
+</div>
+
+<p class="lead" style="margin:8px 0 4px">위와 같이 상속예금의 지급(명의변경)을 의뢰하며, 위 손해담보 확약사항에 동의합니다.</p>
+<div class="center">{{ f("date", label="작성일") }}</div>
+<div class="sig">의뢰인(주된 상속인)&nbsp;<span class="who">{{ f("signature", label="의뢰인") }}</span>{{ m.sigspot("applicant", val("signature"), label="의뢰인", anchor="signature") }}</div>
+
+{{ lp.bank_use(["접수일자", "상속관계 확인", "서류 징구", "담당자", "책임자"]) }}
+{% endblock %}

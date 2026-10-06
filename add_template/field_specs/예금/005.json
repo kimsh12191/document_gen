@@ -1,0 +1,98 @@
+{
+ "no": 5,
+ "class": "예금",
+ "name": "보호예수 의뢰서",
+ "file": "add_template\\하나은행_서식자료\\예금\\005_보호예수 의뢰서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-08-0026",
+  "pages_in_set": 1,
+  "revised": "2026.03",
+  "keep_from": "반환",
+  "keep_years": 5
+ },
+ "sections": [
+  "1. 신청사항",
+  "2. 신청인현황(약관 수령확인 겸용)"
+ ],
+ "fields": [
+  {
+   "label": "감사통할책임자",
+   "kind": "text"
+  },
+  {
+   "label": "예수종류",
+   "kind": "choice",
+   "options": [
+    "봉함예수",
+    "개봉예수"
+   ]
+  },
+  {
+   "label": "예수수량",
+   "kind": "text"
+  },
+  {
+   "label": "만기일자",
+   "kind": "choice",
+   "options": [
+    "6개월( 년 월 일 )",
+    "예적금 만기일( 년 월 일 )"
+   ]
+  },
+  {
+   "label": "자 필 기 재",
+   "kind": "text"
+  },
+  {
+   "label": "보호예수증서 약관 수령확인",
+   "kind": "text"
+  },
+  {
+   "label": "수령 방법",
+   "kind": "choice",
+   "options": [
+    "영업점"
+   ]
+  },
+  {
+   "label": "생년월일 (사업자등록번호)",
+   "kind": "text"
+  },
+  {
+   "label": "주소",
+   "kind": "text"
+  },
+  {
+   "label": "연락처",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "봉함예수",
+    "개봉예수"
+   ]
+  },
+  {
+   "options": [
+    "6개월( 년 월 일 )",
+    "예적금 만기일( 년 월 일 )"
+   ]
+  },
+  {
+   "options": [
+    "영업점"
+   ]
+  }
+ ],
+ "bank_only": [
+  "담당",
+  "본인확인",
+  "부점장",
+  "책임자"
+ ],
+ "has_signature": false,
+ "text_chars": 684
+}

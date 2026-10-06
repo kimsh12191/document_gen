@@ -24,7 +24,14 @@ GROUPS = {
     "corporate": "법인",
     "fx": "외환·무역",
     "bank_form": "은행 서식",
+    "retirement": "퇴직연금",
+    "efinance": "전자금융",
 }
+
+# 은행이 직접 쓰는 서식 그룹. 이 그룹의 서류는 렌더링할 때
+#   - 서식을 낸 은행(옛 은행 포함)에 맞춰 프로필·표기를 바꾸고 (banks.bank_view)
+#   - 템플릿에 서식 문맥 bk 를 넘긴다 (banks.form_context)
+BANK_FORM_GROUPS = {"bank_form", "retirement", "efinance"}
 
 # 업무(시나리오)별 제출 서류 묶음 — 같은 고객 프로필로 생성된다.
 SCENARIOS = {
@@ -50,6 +57,18 @@ SCENARIOS = {
                                "trade_contract", "bill_of_lading"]),
     "study_abroad_remittance": ("유학생 송금", ["passport", "admission_letter", "tuition_invoice",
                                            "family_relation_certificate", "overseas_remittance_application"]),
+    "irp_opening": ("개인형IRP 개설", ["resident_id_card", "employment_certificate",
+                                   "irp_account_application", "investor_profile_retirement",
+                                   "default_option_designation", "privacy_consent"]),
+    "retirement_payout": ("퇴직급여 수령", ["resident_id_card", "employment_certificate",
+                                       "retirement_benefit_claim", "irp_account_application",
+                                       "bank_power_of_attorney"]),
+    "efinance_signup": ("전자금융 가입", ["resident_id_card", "account_opening_application",
+                                     "efinance_application_personal", "sms_notice_application",
+                                     "privacy_consent"]),
+    "inheritance": ("상속예금 지급", ["resident_id_card", "family_relation_certificate",
+                                 "basic_certificate", "seal_certificate",
+                                 "inheritance_deposit_claim", "balance_certificate_request"]),
 }
 
 # 시나리오별로 프로필에 주입하는 값 (Profile.extra). 서류 생성 함수가 참고한다.

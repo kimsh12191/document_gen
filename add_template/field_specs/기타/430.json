@@ -1,0 +1,132 @@
+{
+ "no": 430,
+ "class": "기타",
+ "name": "민원신청서",
+ "file": "add_template\\하나은행_서식자료\\기타\\430_민원신청서.pdf",
+ "pages": 4,
+ "meta": {
+  "code": "5-02-0001",
+  "pages_in_set": 4,
+  "revised": "2024.06"
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "*성 명",
+   "kind": "text"
+  },
+  {
+   "label": "*법 인 명",
+   "kind": "text"
+  },
+  {
+   "label": "*사업자등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "*주 소",
+   "kind": "text"
+  },
+  {
+   "label": "e-mail",
+   "kind": "text"
+  },
+  {
+   "label": "*전 화",
+   "kind": "text"
+  },
+  {
+   "label": "*휴대 전화번호",
+   "kind": "text"
+  },
+  {
+   "label": "기 타",
+   "kind": "text"
+  },
+  {
+   "label": "*생년월일(주민등록기준)",
+   "kind": "text"
+  },
+  {
+   "label": "*성 별",
+   "kind": "text"
+  },
+  {
+   "label": "*신 청 취 지 (요구사항)",
+   "kind": "text"
+  },
+  {
+   "label": "*신 청 사 유 (6하 원칙에 따라 기술)",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "고유식별정보"
+   ]
+  },
+  {
+   "options": [
+    "동의하지 않음",
+    "동의함"
+   ]
+  },
+  {
+   "options": [
+    "개인(신용)정보"
+   ]
+  },
+  {
+   "options": [
+    "일반개인정보"
+   ]
+  },
+  {
+   "options": [
+    "신용거래정보"
+   ]
+  },
+  {
+   "options": [
+    "동의하지 않음",
+    "동의함"
+   ]
+  },
+  {
+   "options": [
+    "고유식별정보"
+   ]
+  },
+  {
+   "options": [
+    "동의하지 않음",
+    "동의함"
+   ]
+  },
+  {
+   "options": [
+    "개인(신용)정보"
+   ]
+  },
+  {
+   "options": [
+    "일반개인정보"
+   ]
+  },
+  {
+   "options": [
+    "신용거래정보"
+   ]
+  },
+  {
+   "options": [
+    "동의하지 않음",
+    "동의함"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 2997
+}

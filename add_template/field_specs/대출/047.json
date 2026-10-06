@@ -1,0 +1,180 @@
+{
+ "no": 47,
+ "class": "대출",
+ "name": "대출상담 및 신청서(한국주택금융공사채권유동화목적 보금자리론용)",
+ "file": "add_template\\하나은행_서식자료\\대출\\047_대출상담 및 신청서(한국주택금융공사채권유동화목적 보금자리론용).pdf",
+ "pages": 2,
+ "meta": {
+  "code": "3-06-1104",
+  "pages_in_set": 2,
+  "revised": "2026.07",
+  "keep_from": "완제",
+  "keep_years": 10
+ },
+ "sections": [
+  "0. 2%p"
+ ],
+ "fields": [
+  {
+   "label": "성 명",
+   "kind": "text"
+  },
+  {
+   "label": "주민번호 앞 6자리",
+   "kind": "text"
+  },
+  {
+   "label": "주 소",
+   "kind": "text"
+  },
+  {
+   "label": "직 장 명",
+   "kind": "text"
+  },
+  {
+   "label": "부 서 / 직 위",
+   "kind": "text"
+  },
+  {
+   "label": "전 화 번 호",
+   "kind": "text"
+  },
+  {
+   "label": "금 원",
+   "kind": "text"
+  },
+  {
+   "label": "주민번호앞 6자리",
+   "kind": "text"
+  },
+  {
+   "label": "일반형( ) 주택연금 사전예약( ) ,",
+   "kind": "text"
+  },
+  {
+   "label": "가산금리",
+   "kind": "text"
+  },
+  {
+   "label": "성명",
+   "kind": "text"
+  },
+  {
+   "label": "( - )",
+   "kind": "text"
+  },
+  {
+   "label": "직장명",
+   "kind": "text"
+  },
+  {
+   "label": "☐ 휴대폰 ☐ 직장 또는 자택",
+   "kind": "text"
+  },
+  {
+   "label": "전화번호",
+   "kind": "text"
+  },
+  {
+   "label": "배우자 성명",
+   "kind": "text"
+  },
+  {
+   "label": "배우자 주민번호 앞 6자리",
+   "kind": "text"
+  },
+  {
+   "label": "백만원",
+   "kind": "text"
+  },
+  {
+   "label": "희망취급기관",
+   "kind": "text"
+  },
+  {
+   "label": "희망취급지점",
+   "kind": "text"
+  },
+  {
+   "label": "대출희망일",
+   "kind": "text"
+  },
+  {
+   "label": "거치기간",
+   "kind": "text"
+  },
+  {
+   "label": "변동금리기간",
+   "kind": "text"
+  },
+  {
+   "label": "소유권이전 등기일",
+   "kind": "text"
+  },
+  {
+   "label": "☐ 아파트 ☐ 연립ㆍ다세대ㆍ단독 ☐ 오피스텔",
+   "kind": "text"
+  },
+  {
+   "label": "☐ 본인 ☐ 배우자 ☐ 부부공동",
+   "kind": "text"
+  },
+  {
+   "label": "☐ 1순위 ☐ 2순위 ☐ 순위",
+   "kind": "text"
+  },
+  {
+   "label": "명(직계존비속 제외) (성명 : )",
+   "kind": "text"
+  },
+  {
+   "label": "건",
+   "kind": "text"
+  },
+  {
+   "label": "원",
+   "kind": "text"
+  },
+  {
+   "label": "☐ 85㎡이하 ☐ 85㎡초과",
+   "kind": "text"
+  },
+  {
+   "label": "☐ 예 ☐ 아니오",
+   "kind": "text"
+  },
+  {
+   "label": "☐ 본인 ☐ 배우자 ☐ 본인ㆍ배우자 합산",
+   "kind": "text"
+  },
+  {
+   "label": "원 (종류 )",
+   "kind": "text"
+  },
+  {
+   "label": "본인 부채",
+   "kind": "text"
+  },
+  {
+   "label": "배우자 부채",
+   "kind": "text"
+  },
+  {
+   "label": "제외 부채",
+   "kind": "text"
+  },
+  {
+   "label": "제외 대출",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "관리자",
+  "담당",
+  "부점장",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 5144
+}

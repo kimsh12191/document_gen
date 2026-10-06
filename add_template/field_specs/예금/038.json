@@ -1,0 +1,27 @@
+{
+ "no": 38,
+ "class": "예금",
+ "name": "수표(어음)발행사실 확인의뢰서",
+ "file": "add_template\\하나은행_서식자료\\예금\\038_수표(어음)발행사실 확인의뢰서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-08-0029",
+  "pages_in_set": 1
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "은행사용란",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "관리자",
+  "담당",
+  "부점장",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 367
+}

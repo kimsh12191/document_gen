@@ -1,0 +1,129 @@
+{
+ "no": 219,
+ "class": "외환",
+ "name": "해외사무소 설치(변경)신고서",
+ "file": "add_template\\하나은행_서식자료\\외환\\219_해외사무소 설치(변경)신고서.pdf",
+ "pages": 2,
+ "meta": {
+  "code": "5-09-0271",
+  "pages_in_set": 2,
+  "revised": "2025.04"
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "해외사무소 설치(변경) 신고서",
+   "kind": "text"
+  },
+  {
+   "label": "상 호",
+   "kind": "text"
+  },
+  {
+   "label": "대 표 자",
+   "kind": "text"
+  },
+  {
+   "label": "사업자(주민)번호",
+   "kind": "text"
+  },
+  {
+   "label": "법인등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "주소( 소재지)",
+   "kind": "text"
+  },
+  {
+   "label": "(주소) (전화번호) (e-mail)",
+   "kind": "text"
+  },
+  {
+   "label": "업 종",
+   "kind": "text"
+  },
+  {
+   "label": "담 당 자",
+   "kind": "text"
+  },
+  {
+   "label": "기 업 규 모",
+   "kind": "text"
+  },
+  {
+   "label": "구 분",
+   "kind": "text"
+  },
+  {
+   "label": "사 무 소 명",
+   "kind": "text"
+  },
+  {
+   "label": "(국문) (영문)",
+   "kind": "text"
+  },
+  {
+   "label": "소 재 지",
+   "kind": "text"
+  },
+  {
+   "label": "(국가명) (세부주소)",
+   "kind": "text"
+  },
+  {
+   "label": "업 종 코 드",
+   "kind": "text"
+  },
+  {
+   "label": "(표준산업분류코드 5자리)",
+   "kind": "text"
+  },
+  {
+   "label": "주 재 원 수",
+   "kind": "text"
+  },
+  {
+   "label": "본국파견 : 명, 현지채용 : 명",
+   "kind": "text"
+  },
+  {
+   "label": "설 치 사 유",
+   "kind": "text"
+  },
+  {
+   "label": "내 용",
+   "kind": "text"
+  },
+  {
+   "label": "사 유",
+   "kind": "text"
+  },
+  {
+   "label": "신 고 번 호",
+   "kind": "text"
+  },
+  {
+   "label": "유 효 기 간",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "대기업",
+    "중소기업",
+    "개인사업자"
+   ]
+  },
+  {
+   "options": [
+    "설치",
+    "변경"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 1158
+}

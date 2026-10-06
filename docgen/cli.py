@@ -14,7 +14,7 @@ from pathlib import Path
 
 from .banks import BRANDS, LEGACY, supports
 from .entities import BANKS, make_profile
-from .registry import GROUPS, SCENARIO_EXTRA, SCENARIOS, load_all
+from .registry import BANK_FORM_GROUPS, GROUPS, SCENARIO_EXTRA, SCENARIOS, load_all
 from .render import render, to_nested
 
 
@@ -69,7 +69,7 @@ def _select(args, reg) -> list[str]:
         sys.exit(f"알 수 없는 서류: {missing}")
     bank = getattr(args, "bank", None)
     if bank in LEGACY:  # 옛 은행은 은행 서식만 (외부 발급 서류는 그 시기 서식이 아니므로 제외)
-        keep = [i for i in ids if reg[i].group == "bank_form" and supports(bank, i)]
+        keep = [i for i in ids if reg[i].group in BANK_FORM_GROUPS and supports(bank, i)]
         if len(keep) < len(ids):
             print(f"참고: {bank}은 옛 은행이라 은행 서식 {len(keep)}종만 만듭니다 (제외 {len(ids) - len(keep)}종)", file=sys.stderr)
         if not keep:
@@ -159,7 +159,7 @@ def cmd_generate(args) -> None:
                 label = {
                     "id": sid, "doc_type": doc_id, "doc_name": spec.name, "group": spec.group,
                     "category": spec.category, "profile_seed": seed, "scenario": args.scenario,
-                    **({"bank": fields_bank(fields)} if spec.group == "bank_form" else {}),
+                    **({"bank": fields_bank(fields)} if spec.group in BANK_FORM_GROUPS else {}),
                     "html": f"html/{sid}.html",
                 }
                 if info:

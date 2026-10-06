@@ -1,0 +1,17 @@
+{
+ "no": 95,
+ "class": "대출",
+ "name": "벤더승인명세 등록 신청서",
+ "file": "add_template\\하나은행_서식자료\\대출\\095_벤더승인명세 등록 신청서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [],
+ "fields": [],
+ "choices": [],
+ "bank_only": [
+  "담당",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 1063
+}

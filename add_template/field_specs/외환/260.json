@@ -1,0 +1,87 @@
+{
+ "no": 260,
+ "class": "외환",
+ "name": "외국환업무 등록내용 변경 신고서",
+ "file": "add_template\\하나은행_서식자료\\외환\\260_외국환업무 등록내용 변경 신고서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [],
+ "fields": [
+  {
+   "label": "외국환업무등록내용변경신고서",
+   "kind": "text"
+  },
+  {
+   "label": "① 상 호(본 점)",
+   "kind": "text"
+  },
+  {
+   "label": "년 월 일",
+   "kind": "text"
+  },
+  {
+   "label": "③ 대 표 자(본점)",
+   "kind": "text"
+  },
+  {
+   "label": "④ 국 적(대표자)",
+   "kind": "text"
+  },
+  {
+   "label": "⑤ 본 점 소 재 지주)",
+   "kind": "text"
+  },
+  {
+   "label": "백만원",
+   "kind": "text"
+  },
+  {
+   "label": "⑦ 위험관리시스템명",
+   "kind": "text"
+  },
+  {
+   "label": "도입(개발)시기",
+   "kind": "text"
+  },
+  {
+   "label": "직원 명",
+   "kind": "text"
+  },
+  {
+   "label": "외국환전문요원 명",
+   "kind": "text"
+  },
+  {
+   "label": "신 고 내 용",
+   "kind": "text"
+  },
+  {
+   "label": "변 경 항 목",
+   "kind": "text"
+  },
+  {
+   "label": "변 경 전",
+   "kind": "text"
+  },
+  {
+   "label": "변 경 후",
+   "kind": "text"
+  },
+  {
+   "label": "명 칭",
+   "kind": "text"
+  },
+  {
+   "label": "본 점 소 재 지",
+   "kind": "text"
+  },
+  {
+   "label": "외 국 환 업 무 의 내 용",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 858
+}

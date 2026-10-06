@@ -1,0 +1,14 @@
+{
+ "no": 131,
+ "class": "대출",
+ "name": "전세자금대출 이용 확약서(서울보증보험증권 담보 전세자금대출용)",
+ "file": "add_template\\하나은행_서식자료\\대출\\131_전세자금대출 이용 확약서(서울보증보험증권 담보 전세자금대출용).pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [],
+ "fields": [],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 642
+}

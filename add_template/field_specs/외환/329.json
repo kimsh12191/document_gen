@@ -1,0 +1,85 @@
+{
+ "no": 329,
+ "class": "외환",
+ "name": "외국기업 국내지사 설치신고서",
+ "file": "add_template\\하나은행_서식자료\\외환\\329_외국기업 국내지사 설치신고서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [
+  "2. 다른 법령의 규정에 의하여 그 설치에 관한 허가·인가·특허·승인·신고·등록 등을 요하는 경우에는 그 사실을",
+  "3. 국내에서 영위하고자 하는 업무의 내용과 범위에 관한 명세서"
+ ],
+ "fields": [
+  {
+   "label": "① 상 호(본점)",
+   "kind": "text"
+  },
+  {
+   "label": "년 월 일",
+   "kind": "text"
+  },
+  {
+   "label": "③ 대 표 자(본점)",
+   "kind": "text"
+  },
+  {
+   "label": "④ 소 재 지(본점)",
+   "kind": "text"
+  },
+  {
+   "label": "⑤ 사 업 내 용",
+   "kind": "text"
+  },
+  {
+   "label": "⑥ 자 본 금",
+   "kind": "text"
+  },
+  {
+   "label": "⑦ 상 호",
+   "kind": "text"
+  },
+  {
+   "label": "⑧ 대 표 자",
+   "kind": "text"
+  },
+  {
+   "label": "주민등록번호 (또는 국적)",
+   "kind": "text"
+  },
+  {
+   "label": "⑨ 소 재 지",
+   "kind": "text"
+  },
+  {
+   "label": "⑩ 영 위 업 종",
+   "kind": "text"
+  },
+  {
+   "label": "⑪ 설 치 구 분",
+   "kind": "choice",
+   "options": [
+    "지점",
+    "사무소"
+   ]
+  },
+  {
+   "label": "신 고 번 호",
+   "kind": "text"
+  },
+  {
+   "label": "신 고 일 자",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "지점",
+    "사무소"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 1140
+}

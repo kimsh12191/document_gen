@@ -1,0 +1,33 @@
+{
+ "no": 136,
+ "class": "대출",
+ "name": "《기업》차입신청서(한도내 개별/분할실행용)",
+ "file": "add_template\\하나은행_서식자료\\대출\\136_《기업》차입신청서(한도내 개별_분할실행용).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-06-0330",
+  "pages_in_set": 1,
+  "revised": "2017.03"
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "비 고",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "신규",
+    "연장(계좌번호"
+   ]
+  }
+ ],
+ "bank_only": [
+  "관리자",
+  "책임자"
+ ],
+ "has_signature": false,
+ "text_chars": 521
+}

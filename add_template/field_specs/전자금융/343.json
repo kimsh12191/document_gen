@@ -1,0 +1,26 @@
+{
+ "no": 343,
+ "class": "전자금융",
+ "name": "금융거래정보 이용제공 동의서(기업관계사서비스용)(영문)",
+ "file": "add_template\\하나은행_서식자료\\전자금융\\343_금융거래정보 이용제공 동의서(기업관계사서비스용)(영문).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-08-0752",
+  "pages_in_set": 1,
+  "revised": "2025.05",
+  "keep_from": "해지",
+  "keep_years": 10
+ },
+ "sections": [
+  "1. Financial company",
+  "2. Details and scope of",
+  "3. Party receiving",
+  "4. Purpose of provision of",
+  "5. Valid period"
+ ],
+ "fields": [],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 2580
+}

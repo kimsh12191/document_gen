@@ -1,0 +1,122 @@
+{
+ "no": 228,
+ "class": "외환",
+ "name": "담보제공신고(보고)서",
+ "file": "add_template\\하나은행_서식자료\\외환\\228_담보제공신고(보고)서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-09-0274",
+  "pages_in_set": 1,
+  "revised": "2023.08"
+ },
+ "sections": [
+  "2. 담보물 입증서류"
+ ],
+ "fields": [
+  {
+   "label": "담보제공 신고(보고)서",
+   "kind": "text"
+  },
+  {
+   "label": "(인)",
+   "kind": "text"
+  },
+  {
+   "label": "(전화번호 : )",
+   "kind": "text"
+  },
+  {
+   "label": "업 종 ( 직 업 )",
+   "kind": "text"
+  },
+  {
+   "label": "담 보 제 공 자",
+   "kind": "text"
+  },
+  {
+   "label": "담 보 취 득 자",
+   "kind": "text"
+  },
+  {
+   "label": "담 보 제 공 수 혜 자",
+   "kind": "text"
+  },
+  {
+   "label": "담 보 물 종 류",
+   "kind": "choice",
+   "options": [
+    "예금",
+    "부동산",
+    "동산",
+    "증권",
+    "기타( )"
+   ]
+  },
+  {
+   "label": "담 보 소 재 지",
+   "kind": "text"
+  },
+  {
+   "label": "수 량",
+   "kind": "text"
+  },
+  {
+   "label": "담 보 가 액",
+   "kind": "text"
+  },
+  {
+   "label": "담 보 제 공 기 간",
+   "kind": "text"
+  },
+  {
+   "label": "담 보 제 공 용 도",
+   "kind": "choice",
+   "options": [
+    "해외교포등에 대한 여신과 관련한 원리금상환 담보제공",
+    "증권회사 현지법인의 현지차입에 대한 담보제공",
+    "기타( )"
+   ]
+  },
+  {
+   "label": "신 고 번 호",
+   "kind": "text"
+  },
+  {
+   "label": "신 고 금 액",
+   "kind": "text"
+  },
+  {
+   "label": "유 효 기 간",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "예금",
+    "부동산",
+    "동산",
+    "증권",
+    "기타( )"
+   ]
+  },
+  {
+   "options": [
+    "해외교포등에 대한 여신과 관련한 원리금상환 담보제공"
+   ]
+  },
+  {
+   "options": [
+    "증권회사 현지법인의 현지차입에 대한 담보제공"
+   ]
+  },
+  {
+   "options": [
+    "기타( )"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 871
+}

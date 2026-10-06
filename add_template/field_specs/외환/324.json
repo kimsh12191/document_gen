@@ -1,0 +1,71 @@
+{
+ "no": 324,
+ "class": "외환",
+ "name": "임대차계약신고서",
+ "file": "add_template\\하나은행_서식자료\\외환\\324_임대차계약신고서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [
+  "2. 임대차물 증빙서류",
+  "3. 임대차사유 증빙서류",
+  "4. 기타 신고기관의 장이 필요하다고 인정하는 서류"
+ ],
+ "fields": [
+  {
+   "label": "임 대 차 계 약 신 고 서",
+   "kind": "text"
+  },
+  {
+   "label": "(인)",
+   "kind": "text"
+  },
+  {
+   "label": "(전화번호)",
+   "kind": "text"
+  },
+  {
+   "label": "업 종 ( 직 업 )",
+   "kind": "text"
+  },
+  {
+   "label": "(성명) (전화번호) (주소)",
+   "kind": "text"
+  },
+  {
+   "label": "임 대 차 물 종 류",
+   "kind": "text"
+  },
+  {
+   "label": "소 재 지",
+   "kind": "text"
+  },
+  {
+   "label": "수 량",
+   "kind": "text"
+  },
+  {
+   "label": "(임대차료)",
+   "kind": "text"
+  },
+  {
+   "label": "임 대 차 기 간",
+   "kind": "text"
+  },
+  {
+   "label": "임 대 차 사 유",
+   "kind": "text"
+  },
+  {
+   "label": "신 고 번 호",
+   "kind": "text"
+  },
+  {
+   "label": "신 고 일 자",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 850
+}

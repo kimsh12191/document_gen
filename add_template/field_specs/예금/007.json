@@ -1,0 +1,40 @@
+{
+ "no": 7,
+ "class": "예금",
+ "name": "질권실행 의뢰서(수신_제3자 질권용)",
+ "file": "add_template\\하나은행_서식자료\\예금\\007_질권실행 의뢰서(수신_제3자 질권용).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-08-0765",
+  "pages_in_set": 1,
+  "keep_from": "해지",
+  "keep_years": 5
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "(인)",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일 (사업자등록번호)",
+   "kind": "text"
+  },
+  {
+   "label": "연락처",
+   "kind": "text"
+  },
+  {
+   "label": "주소",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "담당",
+  "지점장",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 493
+}

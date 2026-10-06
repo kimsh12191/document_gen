@@ -1,0 +1,60 @@
+{
+ "no": 393,
+ "class": "파생상품",
+ "name": "이자율스왑 연계 대출 분할상환 원금 및 이자율스왑 정산이자 출금서비스 특약",
+ "file": "add_template\\하나은행_서식자료\\파생상품\\393_이자율스왑 연계 대출 분할상환 원금 및 이자율스왑 정산이자 출금서비스 특약.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-09-0511",
+  "pages_in_set": 1,
+  "keep_from": "완제",
+  "keep_years": 10
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "대상여신",
+   "kind": "text"
+  },
+  {
+   "label": "여신과목",
+   "kind": "text"
+  },
+  {
+   "label": "여신개시일",
+   "kind": "text"
+  },
+  {
+   "label": "여신기간만료일",
+   "kind": "text"
+  },
+  {
+   "label": "대상이자율스왑",
+   "kind": "text"
+  },
+  {
+   "label": "거래일",
+   "kind": "text"
+  },
+  {
+   "label": "발효일",
+   "kind": "text"
+  },
+  {
+   "label": "종료일",
+   "kind": "text"
+  },
+  {
+   "label": "지급고정금리",
+   "kind": "text"
+  },
+  {
+   "label": "수취변동금리",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 683
+}

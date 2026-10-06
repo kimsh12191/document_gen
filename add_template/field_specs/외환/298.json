@@ -1,0 +1,220 @@
+{
+ "no": 298,
+ "class": "외환",
+ "name": "단기수출보험(수출채권유동화) 보상심사 제출서류 목록",
+ "file": "add_template\\하나은행_서식자료\\외환\\298_단기수출보험(수출채권유동화) 보상심사 제출서류 목록.pdf",
+ "pages": 9,
+ "meta": {
+  "code": "5-09-0354",
+  "pages_in_set": 9
+ },
+ "sections": [
+  "2. 단기수출보험(수출채권유동화) 사고발생통지시 제출자료",
+  "1. 사고건 수출환어음 매입신청서 및 매입계좌 조회표",
+  "2. OFFER SHEET, PURCHASE ORDER",
+  "3. 수출계약서(SALES CONTRACT, Proforma Invoice), 신용장",
+  "5. 수출신고필증",
+  "6. 은행간 SWIFT MESSAGE (CABLE)",
+  "7. A/A(ACCEPTANCE ADVICE)",
+  "8. 수입자의 fax 또는 e-mail",
+  "9. 물품전매시 전매관련 서류(전매계약서 포함)",
+  "10. 사고 수입자 앞 수출채권 매입내역(공사 보험 미부보건 포함, 별지참조)",
+  "11. 수입자 앞 채권양도 통지내역",
+  "12. 은행과 수출자간 체결한 금융계약서",
+  "13. 소구대상 건의 경우 수출자 앞 상환통지서 발송내역",
+  "1. 대상거래",
+  "2. 대상기간",
+  "2. ‌\u0007상기와 관련하여 귀 사와 당 행이 년 월 일자로 체결한 ( 금융계약서) 제( )조 제( )항에 따르"
+ ],
+ "fields": [
+  {
+   "label": "보험증권 번호",
+   "kind": "text"
+  },
+  {
+   "label": "보험증권 발급일",
+   "kind": "text"
+  },
+  {
+   "label": "보 상 한 도",
+   "kind": "text"
+  },
+  {
+   "label": "대상거래주)",
+   "kind": "text"
+  },
+  {
+   "label": "주 소",
+   "kind": "text"
+  },
+  {
+   "label": "상 호",
+   "kind": "text"
+  },
+  {
+   "label": "결 제 조 건",
+   "kind": "text"
+  },
+  {
+   "label": "매 입 금 액",
+   "kind": "text"
+  },
+  {
+   "label": "수 출 물 품",
+   "kind": "text"
+  },
+  {
+   "label": "매 입 월",
+   "kind": "text"
+  },
+  {
+   "label": "결 제 기 일",
+   "kind": "text"
+  },
+  {
+   "label": "사고 발생 사유",
+   "kind": "text"
+  },
+  {
+   "label": "손 실 액",
+   "kind": "text"
+  },
+  {
+   "label": "손실경감조치 내용",
+   "kind": "text"
+  },
+  {
+   "label": "보험금 청구액 산출내역",
+   "kind": "text"
+  },
+  {
+   "label": "①대금회수 불능금액",
+   "kind": "text"
+  },
+  {
+   "label": "②결제기일이후 회수금액",
+   "kind": "text"
+  },
+  {
+   "label": "③손실경감 소요비용",
+   "kind": "text"
+  },
+  {
+   "label": "④순손실액(①-②+③)",
+   "kind": "text"
+  },
+  {
+   "label": "보험금 청구액(④X보상율)",
+   "kind": "text"
+  },
+  {
+   "label": "결제금액",
+   "kind": "text"
+  },
+  {
+   "label": "결제일",
+   "kind": "text"
+  },
+  {
+   "label": "상호명",
+   "kind": "text"
+  },
+  {
+   "label": "대표자",
+   "kind": "text"
+  },
+  {
+   "label": "보험증권번호",
+   "kind": "text"
+  },
+  {
+   "label": "인수한도 (보상한도)",
+   "kind": "text"
+  },
+  {
+   "label": "보험금액",
+   "kind": "text"
+  },
+  {
+   "label": "단기수출보험 (수출채권유동화)",
+   "kind": "text"
+  },
+  {
+   "label": "은 행 명",
+   "kind": "text"
+  },
+  {
+   "label": "예 금 주",
+   "kind": "text"
+  },
+  {
+   "label": "계좌번호",
+   "kind": "text"
+  },
+  {
+   "label": "지급통화",
+   "kind": "text"
+  },
+  {
+   "label": "외화금액 원화(환산)금액",
+   "kind": "text"
+  },
+  {
+   "label": "업무담당자",
+   "kind": "text"
+  },
+  {
+   "label": "직위 성명",
+   "kind": "text"
+  },
+  {
+   "label": "전화 팩스",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "사고발생통지서 및 수출서류 일체"
+   ]
+  },
+  {
+   "options": [
+    "은행간 전문 및 수출입자간 교신 내역"
+   ]
+  },
+  {
+   "options": [
+    "무신용장 매입내역"
+   ]
+  },
+  {
+   "options": [
+    "기타 서류"
+   ]
+  },
+  {
+   "options": [
+    "수출서류 일체"
+   ]
+  },
+  {
+   "options": [
+    "은행간 전문 및 수출입자간 교신 내역"
+   ]
+  },
+  {
+   "options": [
+    "무신용장 거래내역"
+   ]
+  },
+  {
+   "options": [
+    "기타 서류"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 4784
+}

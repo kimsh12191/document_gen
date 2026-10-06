@@ -1,0 +1,137 @@
+{
+ "no": 428,
+ "class": "기타",
+ "name": "본인확인서(FATCA CRS 법인,임의단체용)(국문)",
+ "file": "add_template\\하나은행_서식자료\\기타\\428_본인확인서(FATCA CRS 법인,임의단체용)(국문).pdf",
+ "pages": 2,
+ "meta": {
+  "keep_from": "최종보고기준일이속하는연도말",
+  "keep_years": 6
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "가. 고객정보",
+   "kind": "text"
+  },
+  {
+   "label": "법인(단체)명",
+   "kind": "text"
+  },
+  {
+   "label": "사업자번호",
+   "kind": "text"
+  },
+  {
+   "label": "口 해외법인(단체)*",
+   "kind": "text"
+  },
+  {
+   "label": "연락처",
+   "kind": "text"
+  },
+  {
+   "label": "구분선택(☑)",
+   "kind": "text"
+  },
+  {
+   "label": "나. 확인사항",
+   "kind": "text"
+  },
+  {
+   "label": "보고대상국가",
+   "kind": "text"
+  },
+  {
+   "label": "거주관할권",
+   "kind": "text"
+  },
+  {
+   "label": "관할권(소재지) 주소 (본점,설립관할권)",
+   "kind": "text"
+  },
+  {
+   "label": "a",
+   "kind": "text"
+  },
+  {
+   "label": "b",
+   "kind": "text"
+  },
+  {
+   "label": "c",
+   "kind": "text"
+  },
+  {
+   "label": "d",
+   "kind": "text"
+  },
+  {
+   "label": "등록(식별)번호",
+   "kind": "text"
+  },
+  {
+   "label": "口 EIN 口 GIIN 口 기타",
+   "kind": "text"
+  },
+  {
+   "label": "e",
+   "kind": "text"
+  },
+  {
+   "label": "f",
+   "kind": "text"
+  },
+  {
+   "label": "⑦",
+   "kind": "text"
+  },
+  {
+   "label": "口 법인주주정보 口 대표자",
+   "kind": "text"
+  },
+  {
+   "label": "이름(Given Name)",
+   "kind": "text"
+  },
+  {
+   "label": "성(Surname)",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일",
+   "kind": "text"
+  },
+  {
+   "label": "납세자번호 (TIN)",
+   "kind": "text"
+  },
+  {
+   "label": "납세자번호 미기재사유 선택(☑)",
+   "kind": "text"
+  },
+  {
+   "label": "실질 지배자(1)",
+   "kind": "text"
+  },
+  {
+   "label": "거주관할권 주소(영문)",
+   "kind": "text"
+  },
+  {
+   "label": "실질 지배자(2)",
+   "kind": "text"
+  },
+  {
+   "label": "실질지배자(3)",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "본인확인",
+  "책임자"
+ ],
+ "has_signature": false,
+ "text_chars": 4892
+}

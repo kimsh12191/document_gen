@@ -1,0 +1,73 @@
+{
+ "no": 90,
+ "class": "대출",
+ "name": "납품대금 선입금(벤더입금) 신청서",
+ "file": "add_template\\하나은행_서식자료\\대출\\090_납품대금 선입금(벤더입금) 신청서.pdf",
+ "pages": 2,
+ "meta": {
+  "code": "5-06-0564",
+  "pages_in_set": 2,
+  "revised": "2021.09",
+  "keep_from": "완제",
+  "keep_years": 10
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "금 원(₩ )",
+   "kind": "text"
+  },
+  {
+   "label": "판매기업입금일 (또는 결제일)",
+   "kind": "text"
+  },
+  {
+   "label": "( )은행, 계좌번호( )",
+   "kind": "text"
+  },
+  {
+   "label": "벤더기업명",
+   "kind": "text"
+  },
+  {
+   "label": "벤더기업사업자등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "벤더입금이자 부담주체",
+   "kind": "choice",
+   "options": [
+    "판매기업",
+    "벤더기업"
+   ]
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "판매기업"
+   ]
+  },
+  {
+   "options": [
+    "벤더기업"
+   ]
+  },
+  {
+   "options": [
+    "판매기업"
+   ]
+  },
+  {
+   "options": [
+    "벤더기업"
+   ]
+  }
+ ],
+ "bank_only": [
+  "담당",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 1329
+}

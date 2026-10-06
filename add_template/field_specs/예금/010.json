@@ -1,0 +1,96 @@
+{
+ "no": 10,
+ "class": "예금",
+ "name": "주식(사채)납입금 수납대행의뢰서(보관증명서 발급의뢰서 겸용)",
+ "file": "add_template\\하나은행_서식자료\\예금\\010_주식(사채)납입금 수납대행의뢰서(보관증명서 발급의뢰서 겸용).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-08-0045",
+  "pages_in_set": 1,
+  "revised": "2025.05",
+  "keep_from": "지급",
+  "keep_years": 5
+ },
+ "sections": [
+  "1. 신청 사항",
+  "2. 기타 사항"
+ ],
+ "fields": [
+  {
+   "label": "주식납입금수납",
+   "kind": "choice",
+   "options": [
+    "설립",
+    "신주발행"
+   ]
+  },
+  {
+   "label": "증명서 종류",
+   "kind": "choice",
+   "options": [
+    "보관증명서"
+   ]
+  },
+  {
+   "label": "사채납입금수납",
+   "kind": "choice",
+   "options": [
+    "사채발행 (사채 종류"
+   ]
+  },
+  {
+   "label": "년 월 일부터 년 월 일까지",
+   "kind": "text"
+  },
+  {
+   "label": "년 월 일",
+   "kind": "text"
+  },
+  {
+   "label": "하나은행 (부)지점",
+   "kind": "text"
+  },
+  {
+   "label": "회 사 명",
+   "kind": "text"
+  },
+  {
+   "label": "위탁회사 주소",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "설립",
+    "신주발행"
+   ]
+  },
+  {
+   "options": [
+    "보관증명서"
+   ]
+  },
+  {
+   "options": [
+    "사채발행"
+   ]
+  },
+  {
+   "options": [
+    "보관증명서"
+   ]
+  },
+  {
+   "options": [
+    "납입완료사실증명서"
+   ]
+  }
+ ],
+ "bank_only": [
+  "담당",
+  "실명확인"
+ ],
+ "has_signature": true,
+ "text_chars": 1091
+}

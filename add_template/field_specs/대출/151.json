@@ -1,0 +1,41 @@
+{
+ "no": 151,
+ "class": "대출",
+ "name": "《기업》무역어음인수·할인신청서",
+ "file": "add_template\\하나은행_서식자료\\대출\\151_《기업》무역어음인수·할인신청서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [],
+ "fields": [
+  {
+   "label": "금 원(￦ )",
+   "kind": "text"
+  },
+  {
+   "label": "비 고",
+   "kind": "text"
+  },
+  {
+   "label": "승 인 한 도(A)",
+   "kind": "text"
+  },
+  {
+   "label": "여 신 잔 액(B)",
+   "kind": "text"
+  },
+  {
+   "label": "본 건 신 청 액(C)",
+   "kind": "text"
+  },
+  {
+   "label": "본건 취급 후 잔액(A+B+C)",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "부점장"
+ ],
+ "has_signature": true,
+ "text_chars": 382
+}

@@ -1,0 +1,58 @@
+{
+ "no": 437,
+ "class": "기타",
+ "name": "고객정보 활용 동의서(매출채권보험_모집대행업무용)",
+ "file": "add_template\\하나은행_서식자료\\기타\\437_고객정보 활용 동의서(매출채권보험_모집대행업무용).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-99-0039",
+  "pages_in_set": 1,
+  "revised": "2021.09",
+  "keep_from": "해지",
+  "keep_years": 10
+ },
+ "sections": [
+  "1. 기업(신용)정보의 수집 · 이용에 관한 사항",
+  "2. 기업(신용)정보의 제공 · 조회에 관한 사항"
+ ],
+ "fields": [
+  {
+   "label": "필 수 사 항",
+   "kind": "text"
+  },
+  {
+   "label": "▪매출채권보험 추천 등 모집대행업무 수행",
+   "kind": "text"
+  },
+  {
+   "label": "▪신용보증기금",
+   "kind": "text"
+  },
+  {
+   "label": "업 체 명",
+   "kind": "text"
+  },
+  {
+   "label": "(인)",
+   "kind": "text"
+  },
+  {
+   "label": "법인등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "사업자등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "연 락 처",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "본인확인"
+ ],
+ "has_signature": true,
+ "text_chars": 1692
+}

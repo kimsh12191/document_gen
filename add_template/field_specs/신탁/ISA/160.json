@@ -1,0 +1,41 @@
+{
+ "no": 160,
+ "class": "신탁/ISA",
+ "name": "계약대상자확인서(일임형ISA용)",
+ "file": "add_template\\하나은행_서식자료\\신탁_ISA\\160_계약대상자확인서(일임형ISA용).pdf",
+ "pages": 2,
+ "meta": {
+  "code": "3-14-0034",
+  "pages_in_set": 2,
+  "revised": "2024.08",
+  "keep_from": "해지",
+  "keep_years": 10
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "만 19세 이상 거주자",
+   "kind": "text"
+  },
+  {
+   "label": "만 15세 이상 ~ 만 19세 미만 거주자",
+   "kind": "text"
+  },
+  {
+   "label": "서민형",
+   "kind": "text"
+  },
+  {
+   "label": "3년",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "담당",
+  "본인확인",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 5385
+}

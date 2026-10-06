@@ -1,0 +1,16 @@
+{
+ "no": 150,
+ "class": "대출",
+ "name": "《기업》근저당권유용합의서",
+ "file": "add_template\\하나은행_서식자료\\대출\\150_《기업》근저당권유용합의서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [],
+ "fields": [],
+ "choices": [],
+ "bank_only": [
+  "본인확인"
+ ],
+ "has_signature": true,
+ "text_chars": 410
+}

@@ -1,0 +1,48 @@
+{
+ "no": 29,
+ "class": "예금",
+ "name": "사용인감계(금융계좌개설용)",
+ "file": "add_template\\하나은행_서식자료\\예금\\029_사용인감계(금융계좌개설용).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-08-0056",
+  "pages_in_set": 1,
+  "revised": "2016.04",
+  "keep_from": "해지",
+  "keep_years": 5
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "사 용 인 감",
+   "kind": "text"
+  },
+  {
+   "label": "성명",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일",
+   "kind": "text"
+  },
+  {
+   "label": "연락처(선택항목)",
+   "kind": "text"
+  },
+  {
+   "label": "본인과의 관계",
+   "kind": "text"
+  },
+  {
+   "label": "주소(선택항목)",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "담당",
+  "책임자"
+ ],
+ "has_signature": false,
+ "text_chars": 654
+}

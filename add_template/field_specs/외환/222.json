@@ -1,0 +1,25 @@
+{
+ "no": 222,
+ "class": "외환",
+ "name": "해외 부동산 취득 보고서",
+ "file": "add_template\\하나은행_서식자료\\외환\\222_해외 부동산 취득 보고서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-09-0211",
+  "pages_in_set": 1,
+  "revised": "2025.04"
+ },
+ "sections": [
+  "1. 부동산 취득 명의인 :",
+  "2. 부동산 취득 공동명의인",
+  "3. 취득의 상대방",
+  "4. 부동산 취득 내용",
+  "5. 기 타",
+  "6. 첨부서류"
+ ],
+ "fields": [],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 792
+}

@@ -1,0 +1,81 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "bank_form/_loan_parts.html.j2" as lp with context %}
+{% import "retirement/_parts.html.j2" as rp with context %}
+{% block content %}
+{{ rp.css() }}
+{{ f.set_corr_name(val("signature")) }}
+{% set WAYS = ["이메일", "알림톡(LMS)"] if bk.kakao_notice else ["이메일", "우편"] %}
+{{ lp.head(kind="irp") }}
+{{ lp.cont_head("irp") }}
+{{ rp.warn() }}
+{{ lp.title_row("퇴직연금 거래신청서", sub="개인형IRP") }}
+<div style="margin:0 0 4px">{{ lp.legal_name() }} <b>{{ f("branch", label="취급점") }}</b> 앞
+&nbsp;&nbsp;계좌번호 : {{ f("account", label="계좌번호", fix=0.06) }}</div>
+
+{{ rp.sec(1, "기본정보") }}
+{{ rp.participant() }}
+<table class="bf">
+<colgroup><col style="width:120px"><col></colgroup>
+<tr><th>해피콜 방식</th><td>{{ m.choice("happy_call", ["전화(휴대폰)", "온라인(모바일 웹)"], label="해피콜방식") }}
+<span class="tiny muted">※ 일정횟수 이상 응답하지 않으시는 경우, 손님이 선택하지 않은 방식으로도 실시됩니다.</span></td></tr>
+</table>
+
+{{ rp.sec(2, "신청구분") }}
+<table class="bf">
+<colgroup><col style="width:120px"><col></colgroup>
+<tr><th>신청 용도</th><td>{{ m.choice("use", ["퇴직금용", "퇴직금용+적립용"], label="신청용도") }}{{ lp.nochk("use") }}</td></tr>
+<tr><th>가입자격</th><td>{{ f("qualify", label="가입자격") }}
+<div class="tiny muted">[필수] 선택하신 가입자격 확인서류를 제출하셔야 합니다(당행 퇴직연금 가입자 제외).</div></td></tr>
+<tr><th>연간납입한도</th><td><span class="hand">{{ f("annual_limit", label="연간납입한도") }}</span>
+<span class="tiny muted">※ 전 금융기관 연금계좌 합산 연간 1,800만원까지 납입 가능</span></td></tr>
+<tr><th>할인 대상 정보<br><span class="tiny">(증빙첨부)</span></th><td>{{ f("discount", label="할인대상정보") }}</td></tr>
+</table>
+
+{{ rp.sec(3, "통지수신") }}
+{{ rp.notice(WAYS) }}
+<div class="tiny muted">※ 가입자 교육자료 발송, 운용현황보고서(분기별) 등 법적통지는 수령동의 여부에 관계없이 발송됩니다.</div>
+
+{{ rp.sec(4, "투자권유희망 여부") }}
+<table class="bf">
+<colgroup><col style="width:120px"><col></colgroup>
+<tr><th>투자권유</th><td>{{ m.choice("advice", ["투자권유를 희망함", "투자권유를 희망하지 않음"], label="투자권유희망여부") }}{{ lp.nochk("advice") }}</td></tr>
+</table>
+<div class="notice">
+<p>1) 투자권유를 희망하는 경우 "투자자정보확인서"를 함께 작성하여야 합니다.</p>
+<p>2) 투자권유를 희망하지 않는 경우 투자상품 가입이 제한되며, 사전지정운용방법 포트폴리오는 위험도 "초저위험"만 가능합니다.</p>
+{% if bk.fsca %}
+<p>3) 가입자가 투자권유를 희망하지 아니하는 경우, 가입자가 설명을 요청하지 않으면 금융회사는 「금융소비자보호법」 제19조에 따른 설명의무를 부담하지 않습니다.</p>
+{% endif %}
+</div>
+{{ rp.handwritten() }}
+
+{% if d.default_option is defined %}
+{{ rp.sec(5, "사전지정운용방법(디폴트옵션) 상품 지정") }}
+<div class="tiny muted">사전지정운용제도란 DC·IRP 가입자가 적립금을 별도로 운용하지 않을 경우 사전에 지정한 방법으로 운용하는 제도입니다. 아래 상품 중 1개만 선정할 수 있습니다.</div>
+{{ rp.default_options() }}
+{% endif %}
+
+{{ rp.sec(6, "[선택] 입금예정상품 운용지시") }}
+<div class="small" style="margin:2px 0">기업부담금(퇴직금)</div>
+{{ rp.buy_plan("corp_plan") }}
+<div class="small" style="margin:4px 0 2px">개인부담금
+&nbsp;{{ m.choice("personal_same", ["동일 운용지시", "별도 지정"], label="개인부담금운용지시") }}</div>
+{% if d.personal_plan is defined %}
+{{ rp.buy_plan("personal_plan") }}
+{% else %}
+<div class="tiny muted">※ 기업부담금(퇴직금)과 동일한 운용지시를 적용합니다.</div>
+{% endif %}
+
+{{ rp.sec(7, "금융소비자 구분 및 계약서류 수령") }}
+<table class="bf">
+<colgroup><col style="width:150px"><col></colgroup>
+<tr><th>투자성 상품<br>소비자 구분</th><td>{{ m.choice("consumer_type", ["일반투자자(투자자정보확인서에서 일반투자자 선택)", "전문투자자(투자자정보확인서에서 전문투자자 선택)"], label="금융소비자구분") }}</td></tr>
+<tr><th>약관 및 상품설명서<br>수령방법</th><td>{{ f("doc_receive", label="계약서류수령방법") }}</td></tr>
+</table>
+
+<div class="center" style="margin-top:6px">{{ f("date", label="작성일") }}</div>
+<div class="sig">가입자&nbsp;<span class="who">{{ f("signature", label="가입자") }}</span>{{ m.sigspot("participant", val("signature"), label="가입자", anchor="signature") }}</div>
+
+{{ lp.bank_use(["접수일자", "본인확인", "판매직원", "담당", "책임자"]) }}
+{% endblock %}

@@ -1,0 +1,230 @@
+{
+ "no": 199,
+ "class": "외환",
+ "name": "외화송금신청서",
+ "file": "add_template\\하나은행_서식자료\\외환\\199_외화송금신청서.pdf",
+ "pages": 2,
+ "meta": {
+  "code": "3-09-0131",
+  "pages_in_set": 2,
+  "revised": "2026.05",
+  "keep_from": "처리",
+  "keep_years": 5
+ },
+ "sections": [
+  "1. 대금 결제방식 및 대응수입예정일",
+  "2. 무역거래 형태"
+ ],
+ "fields": [
+  {
+   "label": "송금방법",
+   "kind": "text"
+  },
+  {
+   "label": "송금정보등록",
+   "kind": "text"
+  },
+  {
+   "label": "송금정보 등록건 송금결과 통지",
+   "kind": "text"
+  },
+  {
+   "label": "영문(English) :",
+   "kind": "text"
+  },
+  {
+   "label": "국문(Korean) :",
+   "kind": "text"
+  },
+  {
+   "label": "보내는분 계좌번호(A/C NO)",
+   "kind": "text"
+  },
+  {
+   "label": "☎",
+   "kind": "text"
+  },
+  {
+   "label": "수수료 납부 방법",
+   "kind": "text"
+  },
+  {
+   "label": "은행명 (BANK NAME)",
+   "kind": "text"
+  },
+  {
+   "label": "도시명(CITY) 국가명(COUNTRY)",
+   "kind": "text"
+  },
+  {
+   "label": "성명 (Name)",
+   "kind": "text"
+  },
+  {
+   "label": "주 소 (Address)",
+   "kind": "text"
+  },
+  {
+   "label": "송금항목",
+   "kind": "choice",
+   "options": [
+    "거주자의 무증빙 해외송금"
+   ]
+  },
+  {
+   "label": "인출계좌번호",
+   "kind": "text"
+  },
+  {
+   "label": "송금결과통보",
+   "kind": "choice",
+   "options": [
+    "SMS",
+    "E-MAIL"
+   ]
+  },
+  {
+   "label": "대금송금 후 물품(선적서류)수령 예정일",
+   "kind": "choice",
+   "options": [
+    "1년 이내"
+   ]
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "국외전신송금(OTT)",
+    "국내전신송금(ODT)",
+    "송금수표 (D/D)",
+    "금융결제원이체(국내)",
+    "금융결제원이체(국가간송금)"
+   ]
+  },
+  {
+   "options": [
+    "신규",
+    "변경 (NO. )"
+   ]
+  },
+  {
+   "options": [
+    "해지 (NO. )"
+   ]
+  },
+  {
+   "options": [
+    "SMS"
+   ]
+  },
+  {
+   "options": [
+    "E-MAIL"
+   ]
+  },
+  {
+   "options": [
+    "수수료 별도납부"
+   ]
+  },
+  {
+   "options": [
+    "수수료차감후 송금"
+   ]
+  },
+  {
+   "options": [
+    "송금인 (DEBT)",
+    "수취인 (SHAR)"
+   ]
+  },
+  {
+   "options": [
+    "HAPPY E-MAIL 서비스 신청 (무료)"
+   ]
+  },
+  {
+   "options": [
+    "해외체재비"
+   ]
+  },
+  {
+   "options": [
+    "신규",
+    "변경",
+    "해지 )"
+   ]
+  },
+  {
+   "options": [
+    "거주자의 무증빙 해외송금"
+   ]
+  },
+  {
+   "options": [
+    "유학생 송금"
+   ]
+  },
+  {
+   "options": [
+    "체재비 송금"
+   ]
+  },
+  {
+   "options": [
+    "외국인 근로자의 보수 송금"
+   ]
+  },
+  {
+   "options": [
+    "국내 전신 송금"
+   ]
+  },
+  {
+   "options": [
+    "SMS",
+    "E-MAIL"
+   ]
+  },
+  {
+   "options": [
+    "1년 이내"
+   ]
+  },
+  {
+   "options": [
+    "1년 초과 ("
+   ]
+  },
+  {
+   "options": [
+    "일반 수입"
+   ]
+  },
+  {
+   "options": [
+    "중계 무역"
+   ]
+  },
+  {
+   "options": [
+    "현재 수출계약 체결"
+   ]
+  },
+  {
+   "options": [
+    "현재 수출계약 미체결"
+   ]
+  },
+  {
+   "options": [
+    "외국인수 수입"
+   ]
+  }
+ ],
+ "bank_only": [
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 4533
+}

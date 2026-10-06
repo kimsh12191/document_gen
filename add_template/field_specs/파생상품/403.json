@@ -1,0 +1,22 @@
+{
+ "no": 403,
+ "class": "파생상품",
+ "name": "일반투자자 전환신청서",
+ "file": "add_template\\하나은행_서식자료\\파생상품\\403_일반투자자 전환신청서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-09-0096",
+  "pages_in_set": 1,
+  "keep_from": "완제",
+  "keep_years": 10
+ },
+ "sections": [
+  "1. 고객유형: 다음에 해당하는 하나에 표시하여 주시기 바랍니다.",
+  "2. 신청인은 다음 사항을 기재하여 주시기 바랍니다."
+ ],
+ "fields": [],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 1079
+}

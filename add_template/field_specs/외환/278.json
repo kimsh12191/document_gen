@@ -1,0 +1,29 @@
+{
+ "no": 278,
+ "class": "외환",
+ "name": "판매대금추심의뢰서 매입(취소) 등록 요청/확인서",
+ "file": "add_template\\하나은행_서식자료\\외환\\278_판매대금추심의뢰서 매입(취소) 등록 요청_확인서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [
+  "2. 금액에는 원화표시 부기외화의 경우 해당 부기외화의 통화코드와 금액을 기재함"
+ ],
+ "fields": [
+  {
+   "label": "내 국 신 용 장",
+   "kind": "text"
+  },
+  {
+   "label": "통화코드",
+   "kind": "text"
+  },
+  {
+   "label": "FAX( ) -",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 1043
+}

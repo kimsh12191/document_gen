@@ -1,0 +1,32 @@
+{
+ "no": 132,
+ "class": "대출",
+ "name": "다주택처분확약서(서울보증보험)",
+ "file": "add_template\\하나은행_서식자료\\대출\\132_다주택처분확약서(서울보증보험).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-06-0896",
+  "pages_in_set": 1,
+  "revised": "2018.10",
+  "keep_from": "완제",
+  "keep_years": 5
+ },
+ "sections": [
+  "1. 2년 이내 1주택 초과분을 처분하지 못한 경우",
+  "2. 1주택 초과분을 처분하기 전 본 대출을 전액 상환하는 경우"
+ ],
+ "fields": [
+  {
+   "label": "본 인",
+   "kind": "text"
+  },
+  {
+   "label": "대출계좌번호",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 669
+}

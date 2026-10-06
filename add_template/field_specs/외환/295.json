@@ -1,0 +1,38 @@
+{
+ "no": 295,
+ "class": "외환",
+ "name": "보증서(수출환어음등 재매입용)",
+ "file": "add_template\\하나은행_서식자료\\외환\\295_보증서(수출환어음등 재매입용).pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [],
+ "fields": [
+  {
+   "label": "신용장 (계약서)번호",
+   "kind": "text"
+  },
+  {
+   "label": "발 행 일 자",
+   "kind": "text"
+  },
+  {
+   "label": "신용장 (계약서)금액",
+   "kind": "text"
+  },
+  {
+   "label": "매 입 금 액",
+   "kind": "text"
+  },
+  {
+   "label": "발 행 은 행",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "담당",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 504
+}

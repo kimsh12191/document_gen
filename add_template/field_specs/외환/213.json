@@ -1,0 +1,77 @@
+{
+ "no": 213,
+ "class": "외환",
+ "name": "사전 송금방식 수입대금 지급시",
+ "file": "add_template\\하나은행_서식자료\\외환\\213_사전 송금방식 수입대금 지급시.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-09-0519",
+  "pages_in_set": 1,
+  "revised": "2025.04",
+  "keep_from": "작성",
+  "keep_years": 5
+ },
+ "sections": [
+  "1. 대금결제방식 및 대응수입예정일",
+  "2. 무역거래 형태"
+ ],
+ "fields": [
+  {
+   "label": "대금 송금 후 물품 (선적서류)수령 예정일",
+   "kind": "choice",
+   "options": [
+    "1년 이내"
+   ]
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "사전 송금방식"
+   ]
+  },
+  {
+   "options": [
+    "사후 송금방식"
+   ]
+  },
+  {
+   "options": [
+    "1년 이내"
+   ]
+  },
+  {
+   "options": [
+    "1년 초과"
+   ]
+  },
+  {
+   "options": [
+    "일반 수입"
+   ]
+  },
+  {
+   "options": [
+    "중계무역"
+   ]
+  },
+  {
+   "options": [
+    "현재 수출계약 체결"
+   ]
+  },
+  {
+   "options": [
+    "현재 수출계약 미체결"
+   ]
+  },
+  {
+   "options": [
+    "외국인수수입"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 833
+}

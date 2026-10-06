@@ -1,0 +1,39 @@
+{
+ "no": 215,
+ "class": "외환",
+ "name": "상호계산계정 결산대차기잔액처분(변경)신고서",
+ "file": "add_template\\하나은행_서식자료\\외환\\215_상호계산계정 결산대차기잔액처분(변경)신고서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [],
+ "fields": [
+  {
+   "label": "금 액",
+   "kind": "text"
+  },
+  {
+   "label": "송 금 처",
+   "kind": "text"
+  },
+  {
+   "label": "송 금 방 법",
+   "kind": "text"
+  },
+  {
+   "label": "송 금 은 행",
+   "kind": "text"
+  },
+  {
+   "label": "신고번호",
+   "kind": "text"
+  },
+  {
+   "label": "유효기간",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 551
+}

@@ -1,0 +1,45 @@
+{
+ "no": 9,
+ "class": "예금",
+ "name": "질권설정 승낙의뢰서(수신_제3자 질권용)",
+ "file": "add_template\\하나은행_서식자료\\예금\\009_질권설정 승낙의뢰서(수신_제3자 질권용).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-08-0075",
+  "pages_in_set": 1,
+  "revised": "2025.10",
+  "keep_from": "해지",
+  "keep_years": 5
+ },
+ "sections": [
+  "1. 질권설정 예금현황",
+  "2. 질권설정 관련인",
+  "3. [선택] 예금의 만기갱신 동의"
+ ],
+ "fields": [
+  {
+   "label": "(인)",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일 (사업자등록번호)",
+   "kind": "text"
+  },
+  {
+   "label": "연락처",
+   "kind": "text"
+  },
+  {
+   "label": "주소",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "담당",
+  "지점장",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 983
+}

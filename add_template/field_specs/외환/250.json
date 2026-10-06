@@ -1,0 +1,46 @@
+{
+ "no": 250,
+ "class": "외환",
+ "name": "[필수] 개인(신용)정보 수집 이용 동의서(외투용)_영문",
+ "file": "add_template\\하나은행_서식자료\\외환\\250_[필수] 개인(신용)정보 수집 이용 동의서(외투용)_영문.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-09-0163",
+  "pages_in_set": 1,
+  "revised": "2021.02"
+ },
+ "sections": [],
+ "fields": [],
+ "choices": [
+  {
+   "options": [
+    "Identity Verification"
+   ]
+  },
+  {
+   "options": [
+    "Do Not Agree",
+    "Agree"
+   ]
+  },
+  {
+   "options": [
+    "Personal (Credit)"
+   ]
+  },
+  {
+   "options": [
+    "General Personal"
+   ]
+  },
+  {
+   "options": [
+    "Do Not Agree",
+    "Agree"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 3220
+}

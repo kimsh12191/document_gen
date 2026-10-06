@@ -1,0 +1,17 @@
+{
+ "no": 302,
+ "class": "외환",
+ "name": "「외국환서식관리프로그램」BILL OF EXCHANGE (환어음 고객용)",
+ "file": "add_template\\하나은행_서식자료\\외환\\302_「외국환서식관리프로그램」BILL OF EXCHANGE (환어음 고객용).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-09-0047",
+  "pages_in_set": 1
+ },
+ "sections": [],
+ "fields": [],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 2968
+}

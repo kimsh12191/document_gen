@@ -1,0 +1,137 @@
+{
+ "no": 338,
+ "class": "전자금융",
+ "name": "기업 전자금융서비스 신청서(은행용)(영문)",
+ "file": "add_template\\하나은행_서식자료\\전자금융\\338_기업 전자금융서비스 신청서(은행용)(영문).pdf",
+ "pages": 2,
+ "meta": {
+  "code": "5-08-0556",
+  "pages_in_set": 2,
+  "revised": "2026.02",
+  "keep_from": "해지",
+  "keep_years": 5
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "Request",
+   "kind": "text"
+  },
+  {
+   "label": "Name/Company Name",
+   "kind": "text"
+  },
+  {
+   "label": "Address",
+   "kind": "text"
+  },
+  {
+   "label": "KRW Mark in English",
+   "kind": "text"
+  },
+  {
+   "label": "Request Cancel",
+   "kind": "text"
+  },
+  {
+   "label": "CMSiNet",
+   "kind": "text"
+  },
+  {
+   "label": "Single user",
+   "kind": "text"
+  },
+  {
+   "label": "OTP",
+   "kind": "text"
+  },
+  {
+   "label": "Agree Do NOT Agree",
+   "kind": "text"
+  },
+  {
+   "label": "ID request only OTP",
+   "kind": "text"
+  },
+  {
+   "label": "Account No. ( )",
+   "kind": "text"
+  },
+  {
+   "label": "Bank name",
+   "kind": "text"
+  },
+  {
+   "label": "Bankbook seal",
+   "kind": "text"
+  },
+  {
+   "label": "Post-paid Fee",
+   "kind": "text"
+  },
+  {
+   "label": "Request Not Request",
+   "kind": "text"
+  },
+  {
+   "label": "Account No.",
+   "kind": "text"
+  },
+  {
+   "label": "Cash Management Service",
+   "kind": "text"
+  },
+  {
+   "label": "Office Name",
+   "kind": "text"
+  },
+  {
+   "label": "Issuing a batch of OTPs",
+   "kind": "text"
+  },
+  {
+   "label": "Request (No. of OTPs: )",
+   "kind": "text"
+  },
+  {
+   "label": "Designated Phone No.",
+   "kind": "text"
+  },
+  {
+   "label": "Designate Not Designate",
+   "kind": "text"
+  },
+  {
+   "label": "1: 2: 3: 4:",
+   "kind": "text"
+  },
+  {
+   "label": "OTP Service",
+   "kind": "text"
+  },
+  {
+   "label": "User Category",
+   "kind": "text"
+  },
+  {
+   "label": "User ID",
+   "kind": "text"
+  },
+  {
+   "label": "Name",
+   "kind": "text"
+  },
+  {
+   "label": "Date of Birth",
+   "kind": "text"
+  },
+  {
+   "label": "Relationship",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 6121
+}

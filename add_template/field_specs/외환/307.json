@@ -1,0 +1,72 @@
+{
+ "no": 307,
+ "class": "외환",
+ "name": "지급수단등의 수출입(변경)신고서",
+ "file": "add_template\\하나은행_서식자료\\외환\\307_지급수단등의 수출입(변경)신고서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [
+  "2. 거래당사자의 실체확인서류",
+  "3. 원인거래 입증서류(계약서, 신고서 등) 4. 수출입 소요량 입증서류",
+  "5. 지급수단 사본(필요시)",
+  "6. 기타 신고기관의 장이 필요하다고 인정하는 서류"
+ ],
+ "fields": [
+  {
+   "label": "지급수단등의 수출입(변경) 신고서",
+   "kind": "text"
+  },
+  {
+   "label": "① 종 류",
+   "kind": "text"
+  },
+  {
+   "label": "② 수 량",
+   "kind": "text"
+  },
+  {
+   "label": "③ 수 출 입 금 액",
+   "kind": "text"
+  },
+  {
+   "label": "④ 대 가 결 제 방 법",
+   "kind": "text"
+  },
+  {
+   "label": "⑤상 호",
+   "kind": "text"
+  },
+  {
+   "label": "⑥대 표 자",
+   "kind": "text"
+  },
+  {
+   "label": "⑦소 재 지",
+   "kind": "text"
+  },
+  {
+   "label": "⑧ 기 타(또는 변 경 내 용)",
+   "kind": "text"
+  },
+  {
+   "label": "신 고 번 호",
+   "kind": "text"
+  },
+  {
+   "label": "신 고 금 액",
+   "kind": "text"
+  },
+  {
+   "label": "신 고 일 자",
+   "kind": "text"
+  },
+  {
+   "label": "유 효 기 간",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 1064
+}

@@ -1,0 +1,14 @@
+{
+ "no": 398,
+ "class": "파생상품",
+ "name": "금융거래정보이용제공동의서",
+ "file": "add_template\\하나은행_서식자료\\파생상품\\398_금융거래정보이용제공동의서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [],
+ "fields": [],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 1071
+}

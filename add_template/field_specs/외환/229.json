@@ -1,0 +1,69 @@
+{
+ "no": 229,
+ "class": "외환",
+ "name": "매매신고(보고)서",
+ "file": "add_template\\하나은행_서식자료\\외환\\229_매매신고(보고)서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-09-0276",
+  "pages_in_set": 1,
+  "revised": "2023.08"
+ },
+ "sections": [
+  "2. 매매대상물 취득 증빙서류"
+ ],
+ "fields": [
+  {
+   "label": "( )매매신고(보고)서",
+   "kind": "text"
+  },
+  {
+   "label": "(인)",
+   "kind": "text"
+  },
+  {
+   "label": "(전화번호)",
+   "kind": "text"
+  },
+  {
+   "label": "업 종 ( 직 업 )",
+   "kind": "text"
+  },
+  {
+   "label": "(성명) (전화번호) (주소)",
+   "kind": "text"
+  },
+  {
+   "label": "매 매 대 상 물 종 류",
+   "kind": "text"
+  },
+  {
+   "label": "(미불화 상당액)",
+   "kind": "text"
+  },
+  {
+   "label": "(원 화 환 율)",
+   "kind": "text"
+  },
+  {
+   "label": "매 매 사 유",
+   "kind": "text"
+  },
+  {
+   "label": "신 고 번 호",
+   "kind": "text"
+  },
+  {
+   "label": "신 고 금 액",
+   "kind": "text"
+  },
+  {
+   "label": "유 효 기 간",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 615
+}

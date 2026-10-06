@@ -1,0 +1,123 @@
+{
+ "no": 429,
+ "class": "기타",
+ "name": "본인확인서(FATCA CRS 개인,개인사업자용)(영문)",
+ "file": "add_template\\하나은행_서식자료\\기타\\429_본인확인서(FATCA CRS 개인,개인사업자용)(영문).pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [
+  "1. Customer Profile",
+  "2. Whether Overseas Resident or Not",
+  "3. Confirmation"
+ ],
+ "fields": [
+  {
+   "label": "1. Customer Profile",
+   "kind": "text"
+  },
+  {
+   "label": "Surname(성)",
+   "kind": "text"
+  },
+  {
+   "label": "Date of Birth",
+   "kind": "text"
+  },
+  {
+   "label": "Name",
+   "kind": "text"
+  },
+  {
+   "label": "(Capital Letter)*",
+   "kind": "text"
+  },
+  {
+   "label": "Given Name(이름)",
+   "kind": "text"
+  },
+  {
+   "label": "Phone No.",
+   "kind": "text"
+  },
+  {
+   "label": "FATCA",
+   "kind": "text"
+  },
+  {
+   "label": "CRS",
+   "kind": "text"
+  },
+  {
+   "label": "N/A",
+   "kind": "text"
+  },
+  {
+   "label": "Reporting country",
+   "kind": "text"
+  },
+  {
+   "label": "(TIN)",
+   "kind": "text"
+  },
+  {
+   "label": "Jurisdiction of",
+   "kind": "text"
+  },
+  {
+   "label": "Residence",
+   "kind": "text"
+  },
+  {
+   "label": "Country *(1)",
+   "kind": "text"
+  },
+  {
+   "label": "Oversea English address",
+   "kind": "text"
+  },
+  {
+   "label": "Country *(2)",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "U.S. permanent resident"
+   ]
+  },
+  {
+   "options": [
+    "All N/A"
+   ]
+  },
+  {
+   "options": [
+    "Non-issuing country",
+    "Not requested by tax authority"
+   ]
+  },
+  {
+   "options": [
+    "Not acquired"
+   ]
+  },
+  {
+   "options": [
+    "Non-issuing country",
+    "Not requested by tax authority"
+   ]
+  },
+  {
+   "options": [
+    "Not acquired"
+   ]
+  }
+ ],
+ "bank_only": [
+  "본인확인",
+  "책임자"
+ ],
+ "has_signature": false,
+ "text_chars": 3636
+}

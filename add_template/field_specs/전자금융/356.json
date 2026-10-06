@@ -1,0 +1,265 @@
+{
+ "no": 356,
+ "class": "전자금융",
+ "name": "CMS Plus 이용신청서",
+ "file": "add_template\\하나은행_서식자료\\전자금융\\356_CMS Plus 이용신청서.pdf",
+ "pages": 3,
+ "meta": {
+  "code": "5-08-0478",
+  "pages_in_set": 3,
+  "revised": "2024.06",
+  "keep_from": "해지",
+  "keep_years": 10
+ },
+ "sections": [
+  "1. 신청 구분 : □ 신규 □ 변경 □ 해지",
+  "2. 신청 고객",
+  "3. 이용 서비스",
+  "4. 서비스 이용 수수료",
+  "5. 이용수수료 출금계좌 (원화)",
+  "6. 총괄관리자/이용자 등록",
+  "7. 보안 카드 (OTP(One Time Password) Card만 발급 가능)",
+  "8. 계좌 등록"
+ ],
+ "fields": [
+  {
+   "label": "회사명(대표자)",
+   "kind": "text"
+  },
+  {
+   "label": "법인 등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "사업자 등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "주소",
+   "kind": "text"
+  },
+  {
+   "label": "연락처",
+   "kind": "text"
+  },
+  {
+   "label": "이용 Model",
+   "kind": "choice",
+   "options": [
+    "인터넷"
+   ]
+  },
+  {
+   "label": "(맞춤기능 또는 시스템 연계내용)",
+   "kind": "text"
+  },
+  {
+   "label": "주2) 고객 시스템 연계수수료 등",
+   "kind": "text"
+  },
+  {
+   "label": "계좌번호",
+   "kind": "text"
+  },
+  {
+   "label": "거래인감(서명)",
+   "kind": "text"
+  },
+  {
+   "label": "예금주",
+   "kind": "text"
+  },
+  {
+   "label": "관리점",
+   "kind": "text"
+  },
+  {
+   "label": "구분",
+   "kind": "text"
+  },
+  {
+   "label": "아이디(ID)",
+   "kind": "text"
+  },
+  {
+   "label": "성 명",
+   "kind": "text"
+  },
+  {
+   "label": "부서/직위",
+   "kind": "text"
+  },
+  {
+   "label": "개별 1회",
+   "kind": "text"
+  },
+  {
+   "label": "개별 1일",
+   "kind": "text"
+  },
+  {
+   "label": "대량 1회",
+   "kind": "text"
+  },
+  {
+   "label": "대량 1일",
+   "kind": "text"
+  },
+  {
+   "label": "보안(OTP)카드 No",
+   "kind": "text"
+  },
+  {
+   "label": "총괄 관리자용",
+   "kind": "text"
+  },
+  {
+   "label": "일반 이용자용",
+   "kind": "text"
+  },
+  {
+   "label": "출금 계좌",
+   "kind": "text"
+  },
+  {
+   "label": "접수 일자",
+   "kind": "text"
+  },
+  {
+   "label": "등록일자",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일",
+   "kind": "text"
+  },
+  {
+   "label": "주 소",
+   "kind": "text"
+  },
+  {
+   "label": "관 계",
+   "kind": "text"
+  },
+  {
+   "label": "대표이사 (법인인감)",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "신규",
+    "변경",
+    "해지"
+   ]
+  },
+  {
+   "options": [
+    "인터넷"
+   ]
+  },
+  {
+   "options": [
+    "전용선(VAN)"
+   ]
+  },
+  {
+   "options": [
+    "인터넷+전용선(VAN)"
+   ]
+  },
+  {
+   "options": [
+    "인터넷"
+   ]
+  },
+  {
+   "options": [
+    "₩300,000 (매월)"
+   ]
+  },
+  {
+   "options": [
+    "₩6,000,000"
+   ]
+  },
+  {
+   "options": [
+    "₩600,000"
+   ]
+  },
+  {
+   "options": [
+    "전용선(VAN)"
+   ]
+  },
+  {
+   "options": [
+    "₩300,000 (매월)"
+   ]
+  },
+  {
+   "options": [
+    "₩6,000,000"
+   ]
+  },
+  {
+   "options": [
+    "₩600,000"
+   ]
+  },
+  {
+   "options": [
+    "인터넷+전용선(VAN)"
+   ]
+  },
+  {
+   "options": [
+    "₩500,000 (매월)"
+   ]
+  },
+  {
+   "options": [
+    "₩10,000,000"
+   ]
+  },
+  {
+   "options": [
+    "₩1,000,000"
+   ]
+  },
+  {
+   "options": [
+    "총괄관리자"
+   ]
+  },
+  {
+   "options": [
+    "일반이용자",
+    "실행자"
+   ]
+  },
+  {
+   "options": [
+    "일반이용자",
+    "실행자"
+   ]
+  },
+  {
+   "options": [
+    "일반이용자",
+    "실행자"
+   ]
+  },
+  {
+   "options": [
+    "지정",
+    "미지정)"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 1953
+}

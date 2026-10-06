@@ -1,0 +1,60 @@
+{
+ "no": 357,
+ "class": "전자금융",
+ "name": "CMSiNet 지사정보 등록신청서",
+ "file": "add_template\\하나은행_서식자료\\전자금융\\357_CMSiNet 지사정보 등록신청서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-08-0481",
+  "pages_in_set": 1,
+  "revised": "2024.06",
+  "keep_from": "해지",
+  "keep_years": 10
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "사업자등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "사업자명",
+   "kind": "text"
+  },
+  {
+   "label": "사업자 대표",
+   "kind": "text"
+  },
+  {
+   "label": "주 소",
+   "kind": "text"
+  },
+  {
+   "label": "전화번호",
+   "kind": "text"
+  },
+  {
+   "label": "팩스번호",
+   "kind": "text"
+  },
+  {
+   "label": "e-mail",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "예 (아래내용 필수기입)"
+   ]
+  },
+  {
+   "options": [
+    "지사 출금계좌"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 529
+}

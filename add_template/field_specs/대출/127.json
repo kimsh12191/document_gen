@@ -1,0 +1,58 @@
+{
+ "no": 127,
+ "class": "대출",
+ "name": "상품별 필수 개인(신용)정보 제공동의서(하나V-Plus대출)",
+ "file": "add_template\\하나은행_서식자료\\대출\\127_상품별 필수 개인(신용)정보 제공동의서(하나V-Plus대출).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-06-0746",
+  "pages_in_set": 1,
+  "revised": "2021.02",
+  "keep_from": "완제",
+  "keep_years": 5
+ },
+ "sections": [],
+ "fields": [],
+ "choices": [
+  {
+   "options": [
+    "고유식별정보"
+   ]
+  },
+  {
+   "options": [
+    "동의하지 않음",
+    "동의함"
+   ]
+  },
+  {
+   "options": [
+    "개인(신용)정보"
+   ]
+  },
+  {
+   "options": [
+    "일반개인정보"
+   ]
+  },
+  {
+   "options": [
+    "신용거래정보"
+   ]
+  },
+  {
+   "options": [
+    "신용도판단정보"
+   ]
+  },
+  {
+   "options": [
+    "동의하지 않음",
+    "동의함"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 1318
+}

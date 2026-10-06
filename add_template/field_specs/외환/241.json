@@ -1,0 +1,39 @@
+{
+ "no": 241,
+ "class": "외환",
+ "name": "대외지급보증 조건변경 신청서(SWIFT 방식)(2D)",
+ "file": "add_template\\하나은행_서식자료\\외환\\241_대외지급보증 조건변경 신청서(SWIFT 방식)(2D).pdf",
+ "pages": 2,
+ "meta": {
+  "code": "5-09-0505",
+  "pages_in_set": 2,
+  "revised": "2021.12",
+  "keep_from": "완제",
+  "keep_years": 3
+ },
+ "sections": [
+  "1. 보증서번호 :",
+  "2. 보증방식 : 1. 직접보증 2. 간접보증(= 복보증, COUNTER GUARANTEE)",
+  "3. 취소 요청 : (1. All Cancel)",
+  "4. 보증서 증액 :",
+  "5. 보증서 감액 :",
+  "6. (변경후) 만기일자(년/월/일) :",
+  "7. 기타 조건변경 :",
+  "8. 기타 조건변경 : (Local Condition 관련)"
+ ],
+ "fields": [],
+ "choices": [
+  {
+   "options": [
+    "전문 사본 요청합니다."
+   ]
+  }
+ ],
+ "bank_only": [
+  "관리자",
+  "담당",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 1532
+}

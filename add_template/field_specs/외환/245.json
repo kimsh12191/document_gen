@@ -1,0 +1,72 @@
+{
+ "no": 245,
+ "class": "외환",
+ "name": "장기차관 방식의 외국인투자신고서, 변경신고서(영문)",
+ "file": "add_template\\하나은행_서식자료\\외환\\245_장기차관 방식의 외국인투자신고서, 변경신고서(영문).pdf",
+ "pages": 2,
+ "meta": {
+  "code": "5-09-0483",
+  "pages_in_set": 2,
+  "revised": "2021.05"
+ },
+ "sections": [
+  "3. A copy of the loan contract",
+  "3. A copy of the revised loan contract",
+  "3. A copy of the loan contract",
+  "3. A copy of the revised loan contract"
+ ],
+ "fields": [
+  {
+   "label": "Name",
+   "kind": "text"
+  },
+  {
+   "label": "Address",
+   "kind": "text"
+  },
+  {
+   "label": "Amount of the Loan",
+   "kind": "text"
+  },
+  {
+   "label": "won (USD )",
+   "kind": "text"
+  },
+  {
+   "label": "Average Loan Period",
+   "kind": "text"
+  },
+  {
+   "label": "Rate of Interest",
+   "kind": "text"
+  },
+  {
+   "label": "Other",
+   "kind": "text"
+  },
+  {
+   "label": "Cash",
+   "kind": "text"
+  },
+  {
+   "label": "Capital in kind",
+   "kind": "text"
+  },
+  {
+   "label": "Purpose of Loan",
+   "kind": "text"
+  },
+  {
+   "label": "Location of Investment",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "담당",
+  "부점장",
+  "책임자"
+ ],
+ "has_signature": false,
+ "text_chars": 6001
+}

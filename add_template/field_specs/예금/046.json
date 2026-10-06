@@ -1,0 +1,71 @@
+{
+ "no": 46,
+ "class": "예금",
+ "name": "목돈을 불리는 통장 거래신청서",
+ "file": "add_template\\하나은행_서식자료\\예금\\046_목돈을 불리는 통장 거래신청서.pdf",
+ "pages": 2,
+ "meta": {},
+ "sections": [],
+ "fields": [
+  {
+   "label": "확 인",
+   "kind": "text"
+  },
+  {
+   "label": "성명",
+   "kind": "text"
+  },
+  {
+   "label": "주민등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "자택",
+   "kind": "text"
+  },
+  {
+   "label": "근무처",
+   "kind": "text"
+  },
+  {
+   "label": "모계좌(이체지정계좌) 계좌번호",
+   "kind": "text"
+  },
+  {
+   "label": "일자",
+   "kind": "text"
+  },
+  {
+   "label": "변경인감",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "신청내용"
+   ]
+  },
+  {
+   "options": [
+    "유의사항"
+   ]
+  },
+  {
+   "options": [
+    "제신고사항"
+   ]
+  },
+  {
+   "options": [
+    "인감(서명) 변경"
+   ]
+  }
+ ],
+ "bank_only": [
+  "검인",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 1369
+}

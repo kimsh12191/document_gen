@@ -1,0 +1,67 @@
+{
+ "no": 16,
+ "class": "예금",
+ "name": "종합금융상품 ON-LINE 거래 약정서",
+ "file": "add_template\\하나은행_서식자료\\예금\\016_종합금융상품 ON-LINE 거래 약정서.pdf",
+ "pages": 2,
+ "meta": {
+  "code": "5-08-0702",
+  "pages_in_set": 2,
+  "keep_from": "해지",
+  "keep_years": 5
+ },
+ "sections": [
+  "1. (출금)",
+  "2. (사고, 변경사항 신고)",
+  "3. (유의사항)",
+  "4. 이 약관에서 정하지 아니한 사항은 예금거래기본약관, 전자금융거래기본약관, 관련 예금약관을 준용합니다."
+ ],
+ "fields": [
+  {
+   "label": "예 금 주",
+   "kind": "text"
+  },
+  {
+   "label": "사업자등록번호 (생년월일)",
+   "kind": "text"
+  },
+  {
+   "label": "통장인감",
+   "kind": "text"
+  },
+  {
+   "label": "주소",
+   "kind": "text"
+  },
+  {
+   "label": "전화번호",
+   "kind": "text"
+  },
+  {
+   "label": "계좌번호",
+   "kind": "text"
+  },
+  {
+   "label": "참고사항 (신청내용 등)",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "출금계좌"
+   ]
+  },
+  {
+   "options": [
+    "거래은행 입금계좌"
+   ]
+  }
+ ],
+ "bank_only": [
+  "부점장",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 2270
+}

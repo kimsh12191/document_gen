@@ -1,0 +1,58 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "bank_form/_loan_parts.html.j2" as lp with context %}
+{% import "retirement/_parts.html.j2" as rp with context %}
+{% block content %}
+{{ rp.css() }}
+{{ f.set_corr_name(val("signature")) }}
+{% set WAYS = ["이메일", "알림톡(LMS)"] if bk.kakao_notice else ["이메일", "우편"] %}
+{{ lp.head(kind="dc_join") }}
+{{ lp.cont_head("dc_join") }}
+{{ rp.warn() }}
+{{ lp.title_row("퇴직연금 가입자 거래신청서", sub="DC · 기업형IRP") }}
+<div style="margin:0 0 4px">{{ lp.legal_name() }} <b>{{ f("branch", label="취급점") }}</b> 앞
+&nbsp;&nbsp;제도구분 : {{ m.choice("plan_kind", ["DC", "기업형IRP"], label="제도구분") }}
+&nbsp;&nbsp;계좌번호 : {{ f("account", label="계좌번호", fix=0.06) }}</div>
+
+{{ rp.sec(1, "사용자(기업)") }}
+<table class="bf">
+<colgroup><col style="width:120px"><col><col style="width:120px"><col></colgroup>
+<tr><th>사 업 장 명</th><td>{{ f("employer.name", label="사업장명", fix=0.03) }}</td><th>사업자등록번호</th><td>{{ f("employer.biz_no", label="사업자등록번호", fix=0.06) }}</td></tr>
+<tr><th>퇴직연금 계약번호</th><td>{{ f("employer.contract_no", label="퇴직연금계약번호", fix=0.06) }}</td><th>연 락 처</th><td>{{ f("employer.phone", label="사업장연락처", fix=0.06) }}</td></tr>
+</table>
+
+{{ rp.sec(2, "가입자(근로자)") }}
+{{ rp.participant() }}
+<table class="bf">
+<colgroup><col style="width:120px"><col><col style="width:120px"><col></colgroup>
+<tr><th>사 번</th><td>{{ f("participant.employee_no", label="사번", fix=0.06) }}</td><th>부서 / 직위</th><td>{{ f("participant.department", label="부서") }} / {{ f("participant.position", label="직위") }}</td></tr>
+<tr><th>입 사 일</th><td>{{ f("participant.hire_date", label="입사일", fix=0.05) }}</td><th>제도 가입일</th><td>{{ f("participant.join_date", label="제도가입일", fix=0.05) }}</td></tr>
+</table>
+
+{{ rp.sec(3, "부담금") }}
+<table class="bf">
+<colgroup><col style="width:120px"><col><col style="width:120px"><col></colgroup>
+<tr><th>월 부담금</th><td class="num">{{ f("contribution.monthly", label="월부담금") }}</td><th>연간 부담금</th><td class="num">{{ f("contribution.annual", label="연간부담금") }}</td></tr>
+<tr><th>납입 예정일</th><td>{{ f("contribution.pay_day", label="납입예정일") }}</td><th>가입자 추가부담금</th><td class="num">{{ f("contribution.extra", label="가입자추가부담금") }}</td></tr>
+</table>
+<div class="tiny muted">※ 사용자 부담금은 가입자의 연간 임금총액의 1/12 이상이어야 합니다 (근로자퇴직급여 보장법 제20조).</div>
+
+{{ rp.sec(4, "통지수신") }}
+{{ rp.notice(WAYS) }}
+
+{{ rp.sec(5, "운용상품 지정") }}
+{{ rp.buy_plan("plan") }}
+{% if d.default_option is defined %}
+<table class="bf compact">
+<colgroup><col style="width:150px"><col><col style="width:18%"><col style="width:26%"></colgroup>
+<tr><th>사전지정운용방법<br>(디폴트옵션)</th><td>{{ f("default_option.name", label="디폴트옵션상품") }}</td>
+    <td class="c">{{ f("default_option.risk", label="디폴트옵션위험도") }}</td><td class="c">{{ f("default_option.mix", label="디폴트옵션상품구성") }}</td></tr>
+</table>
+<div class="tiny muted">※ 별도의 운용지시가 없으면 통지 후 2주가 지난 때부터 위 사전지정운용방법으로 운용됩니다.</div>
+{% endif %}
+
+<div class="center" style="margin-top:6px">{{ f("date", label="작성일") }}</div>
+<div class="sig">가입자&nbsp;<span class="who">{{ f("signature", label="가입자") }}</span>{{ m.sigspot("participant", val("signature"), label="가입자", anchor="signature") }}</div>
+
+{{ lp.bank_use(["접수일자", "본인확인", "가입자 등록", "담당", "책임자"]) }}
+{% endblock %}

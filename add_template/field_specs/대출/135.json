@@ -1,0 +1,34 @@
+{
+ "no": 135,
+ "class": "대출",
+ "name": "동의서(대출비용지급용)",
+ "file": "add_template\\하나은행_서식자료\\대출\\135_동의서(대출비용지급용).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-06-0738",
+  "pages_in_set": 1,
+  "revised": "2017.09",
+  "keep_from": "완제",
+  "keep_years": 5
+ },
+ "sections": [
+  "1. 출금계좌번호: 예금주: 금액: 원",
+  "2. 대출비용(은행 직원의 설명을 들으시고 해당 항목에 체크하시기 바랍니다.)"
+ ],
+ "fields": [],
+ "choices": [
+  {
+   "options": [
+    "국민주택채권 매입(할인) 비용"
+   ]
+  },
+  {
+   "options": [
+    "기타( )"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 843
+}

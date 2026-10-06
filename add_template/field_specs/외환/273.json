@@ -1,0 +1,46 @@
+{
+ "no": 273,
+ "class": "외환",
+ "name": "[서식관리프로그램] 수입신용장 취소 및 수입보증금 환급 신청서",
+ "file": "add_template\\하나은행_서식자료\\외환\\273_[서식관리프로그램] 수입신용장 취소 및 수입보증금 환급 신청서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [],
+ "fields": [
+  {
+   "label": "번 호",
+   "kind": "text"
+  },
+  {
+   "label": "금 액",
+   "kind": "text"
+  },
+  {
+   "label": "유효기일",
+   "kind": "text"
+  },
+  {
+   "label": "취소신청금액",
+   "kind": "text"
+  },
+  {
+   "label": "환급신청금액",
+   "kind": "text"
+  },
+  {
+   "label": "입금계좌",
+   "kind": "text"
+  },
+  {
+   "label": "기 타",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "담당",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 559
+}

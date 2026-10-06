@@ -1,0 +1,42 @@
+{
+ "no": 293,
+ "class": "외환",
+ "name": "「외국환서식관리프로그램」선적서류 수령증 및 수입화물 대도(T/R)신청서",
+ "file": "add_template\\하나은행_서식자료\\외환\\293_「외국환서식관리프로그램」선적서류 수령증 및 수입화물 대도(T_R)신청서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [],
+ "fields": [
+  {
+   "label": "신용장",
+   "kind": "text"
+  },
+  {
+   "label": "수령서류/통수",
+   "kind": "text"
+  },
+  {
+   "label": "대도(T/R)",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "선적서류 수령증"
+   ]
+  },
+  {
+   "options": [
+    "수입화물 대도(T/R) 신청서"
+   ]
+  }
+ ],
+ "bank_only": [
+  "담당",
+  "부점장",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 459
+}

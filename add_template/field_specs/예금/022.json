@@ -1,0 +1,75 @@
+{
+ "no": 22,
+ "class": "예금",
+ "name": "통합제신고서(영문)",
+ "file": "add_template\\하나은행_서식자료\\예금\\022_통합제신고서(영문).pdf",
+ "pages": 2,
+ "meta": {},
+ "sections": [],
+ "fields": [
+  {
+   "label": "Name (Name of Company)",
+   "kind": "text"
+  },
+  {
+   "label": "Cell Phone",
+   "kind": "text"
+  },
+  {
+   "label": "E-mail Address",
+   "kind": "text"
+  },
+  {
+   "label": "H o m e",
+   "kind": "text"
+  },
+  {
+   "label": "Home",
+   "kind": "text"
+  },
+  {
+   "label": "O ffice",
+   "kind": "text"
+  },
+  {
+   "label": "Office",
+   "kind": "text"
+  },
+  {
+   "label": "Beneficiary of Principal",
+   "kind": "text"
+  },
+  {
+   "label": "Beneficiary of Profit",
+   "kind": "text"
+  },
+  {
+   "label": "Account (Card) No.",
+   "kind": "text"
+  },
+  {
+   "label": "Power of Attorney",
+   "kind": "text"
+  },
+  {
+   "label": "1DPH\u0003RI 3UR[\\",
+   "kind": "text"
+  },
+  {
+   "label": "2SWLRQDO\u0003LWHP",
+   "kind": "text"
+  },
+  {
+   "label": "'HOHJDWRU $FFRXQW +ROGHU",
+   "kind": "text"
+  },
+  {
+   "label": "Transaction details",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 4645
+}

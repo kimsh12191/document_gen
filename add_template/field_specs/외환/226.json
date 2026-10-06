@@ -1,0 +1,39 @@
+{
+ "no": 226,
+ "class": "외환",
+ "name": "거주자의 외화자금 차입 및 상환 현황보고서",
+ "file": "add_template\\하나은행_서식자료\\외환\\226_거주자의 외화자금 차입 및 상환 현황보고서.pdf",
+ "pages": 2,
+ "meta": {},
+ "sections": [],
+ "fields": [
+  {
+   "label": "[차주정보]",
+   "kind": "text"
+  },
+  {
+   "label": "[대주정보]",
+   "kind": "text"
+  },
+  {
+   "label": "[차입내용]",
+   "kind": "text"
+  },
+  {
+   "label": "[해외외화 보유내역]",
+   "kind": "text"
+  },
+  {
+   "label": "[차입조건]",
+   "kind": "text"
+  },
+  {
+   "label": "[지급보증]",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 1313
+}

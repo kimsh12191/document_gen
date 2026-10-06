@@ -1,0 +1,161 @@
+{
+ "no": 179,
+ "class": "퇴직연금",
+ "name": "퇴직연금 퇴직급여 지급신청서(DB)",
+ "file": "add_template\\하나은행_서식자료\\퇴직연금\\179_퇴직연금 퇴직급여 지급신청서(DB).pdf",
+ "pages": 2,
+ "meta": {
+  "code": "5-14-0036",
+  "pages_in_set": 2,
+  "revised": "2025.05",
+  "keep_from": "해지",
+  "keep_years": 10
+ },
+ "sections": [
+  "1. 기본정보",
+  "2. 지급정보",
+  "3. 입금정보",
+  "4. 매도상품지정",
+  "5. 추가정보 [선택사항]",
+  "1. 필수서류",
+  "2. 타 금융기관으로 받는 경우",
+  "3. 사망 퇴직한 경우",
+  "4. 가입자 단독청구"
+ ],
+ "fields": [
+  {
+   "label": "기업명",
+   "kind": "text"
+  },
+  {
+   "label": "DB계좌번호",
+   "kind": "text"
+  },
+  {
+   "label": "가입자성명",
+   "kind": "text"
+  },
+  {
+   "label": "입사일자",
+   "kind": "text"
+  },
+  {
+   "label": "퇴직일자",
+   "kind": "text"
+  },
+  {
+   "label": "지급형태",
+   "kind": "choice",
+   "options": [
+    "IRP이전(의무)"
+   ]
+  },
+  {
+   "label": "예약지급일주1)",
+   "kind": "text"
+  },
+  {
+   "label": "퇴직급여총액",
+   "kind": "text"
+  },
+  {
+   "label": "지급방식",
+   "kind": "choice",
+   "options": [
+    "전액지급",
+    "적립비율지급"
+   ]
+  },
+  {
+   "label": "원",
+   "kind": "text"
+  },
+  {
+   "label": "금융기관명",
+   "kind": "text"
+  },
+  {
+   "label": "계좌번호",
+   "kind": "text"
+  },
+  {
+   "label": "가입자 단독청구",
+   "kind": "choice",
+   "options": [
+    "업체 폐업 영업점",
+    "기타 (사용자 지급 거절 등) 본인확인"
+   ]
+  },
+  {
+   "label": "영업점 본인확인",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "업체 폐업"
+   ]
+  },
+  {
+   "options": [
+    "기타 (사용자 지급 거절 등)"
+   ]
+  },
+  {
+   "options": [
+    "IRP이전(의무)"
+   ]
+  },
+  {
+   "options": [
+    "요구불계좌"
+   ]
+  },
+  {
+   "options": [
+    "만55세 이후 퇴직"
+   ]
+  },
+  {
+   "options": [
+    "300만원 이하 퇴직금 지급"
+   ]
+  },
+  {
+   "options": [
+    "가입자 사망"
+   ]
+  },
+  {
+   "options": [
+    "한시적 체류자격 외국인"
+   ]
+  },
+  {
+   "options": [
+    "전액지급"
+   ]
+  },
+  {
+   "options": [
+    "적립비율지급"
+   ]
+  },
+  {
+   "options": [
+    "\u0007퇴직소득세"
+   ]
+  },
+  {
+   "options": [
+    "국민연금전환금"
+   ]
+  }
+ ],
+ "bank_only": [
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 2448
+}

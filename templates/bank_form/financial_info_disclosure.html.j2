@@ -1,0 +1,55 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "bank_form/_loan_parts.html.j2" as lp with context %}
+{% import "bank_form/_account_common.html.j2" as bf with context %}
+{% block style %}
+table.bf th, table.bf td { padding: 5px 7px; }
+{% endblock %}
+{% block content %}
+{{ lp.css() }}
+{{ f.set_corr_name(val("signature")) }}
+{% set ITEMS = ["거래내역 조회", "잔액 조회", "계좌 개설 현황", "대출 거래내역", "외화 거래내역"] %}
+{{ lp.head(kind="info_open") }}
+{{ lp.title_row("금융거래정보 제공 (요구·동의) 서") }}
+<div style="margin:0 0 4px">{{ lp.legal_name() }} <b>{{ f("branch", label="취급점") }}</b> 앞
+&nbsp;&nbsp;구분 : {{ m.choice("kind", ["요구", "동의"], label="구분") }}{{ lp.nochk("kind") }}</div>
+
+<div class="bf-sec">1. 신청인 (명의인)</div>
+<table class="bf">
+<colgroup><col style="width:130px"><col><col style="width:130px"><col></colgroup>
+<tr><th>성명(사업자명)</th><td>{{ f("customer.name", label="성명(사업자명)", fix=0.04) }}</td><th>생년월일<br><span class="tiny">(사업자번호)</span></th><td>{{ f("customer.birth", label="생년월일(사업자번호)", fix=0.05) }}</td></tr>
+<tr><th>연 락 처</th><td>{{ f("customer.phone", label="연락처", fix=0.06) }}</td><th>수수료</th><td>{{ f("fee", label="수수료") }}</td></tr>
+<tr><th>주　　소</th><td colspan="3">{{ f("customer.address", label="주소", fix=0.04) }}</td></tr>
+</table>
+
+<div class="bf-sec">2. 금융거래 정보 제공 요청사항</div>
+<table class="bf">
+<colgroup><col style="width:130px"><col></colgroup>
+<tr><th>신청 항목</th><td>{{ bf.multi("items", ITEMS, label="신청항목") }}</td></tr>
+<tr><th>계좌번호</th><td>{{ m.choice("account_scope", ["전체", "지정"], label="계좌범위") }}{{ lp.nochk("account_scope") }}</td></tr>
+<tr><th>대상 기간</th><td>{{ m.choice("period", ["최근 3개월", "최근 6개월", "최근 1년", "기간 지정"], label="대상기간") }}{{ lp.nochk("period") }}
+&nbsp;&nbsp;<span class="small">({{ f("period_range", label="대상기간범위") }})</span></td></tr>
+</table>
+{{ m.grid(["계좌번호", "예금종류", "잔액"], "accounts", ["number", "kind", "balance"],
+          num_cols=[2], widths=["38%", "28%", "34%"], min_rows=1, cls="compact") }}
+
+<div class="bf-sec">3. 거래정보 등의 제공</div>
+<table class="bf">
+<colgroup><col style="width:130px"><col><col style="width:130px"><col></colgroup>
+<tr><th>제공받는 자</th><td>{{ f("receiver", label="제공받는자") }}</td><th>제공 목적</th><td>{{ f("purpose", label="제공목적") }}</td></tr>
+<tr><th>동의서 유효기간</th><td>{{ f("valid_until", label="동의서유효기간", fix=0.05) }}</td>
+    <th>정보제공사실<br>통보 여부</th><td>{{ m.choice("notify", ["통보 요청", "통보 생략"], label="통보여부") }}{{ lp.nochk("notify") }}</td></tr>
+</table>
+
+<div class="notice">
+<p>1. 본인은 「금융실명거래 및 비밀보장에 관한 법률」 제4조에 따라 위와 같이 본인의 금융거래정보 제공을 요구(동의)합니다.</p>
+<p>2. 금융거래정보 파일을 반출하는 경우 반출 이후 발생하는 보안 책임은 본인에게 있음을 확인합니다.</p>
+<p>3. 동의를 거부할 권리가 있으나, 동의하지 않으시면 해당 업무 처리가 제한될 수 있습니다.</p>
+</div>
+
+<p class="lead" style="margin:8px 0 4px">위와 같이 금융거래정보의 제공을 요구(동의)합니다.</p>
+<div class="center">{{ f("date", label="작성일") }}</div>
+<div class="sig">신청인(명의인)&nbsp;<span class="who">{{ f("signature", label="신청인") }}</span>{{ m.sigspot("applicant", val("signature"), label="신청인", anchor="signature") }}</div>
+
+{{ lp.bank_use(["접수일자", "실명확인", "제공일자", "담당자", "책임자"]) }}
+{% endblock %}

@@ -1,0 +1,54 @@
+{
+ "no": 332,
+ "class": "외환",
+ "name": "외국기업 국내 결산순이익금 송금신청서",
+ "file": "add_template\\하나은행_서식자료\\외환\\332_외국기업 국내 결산순이익금 송금신청서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [
+  "2. 납세증명",
+  "3. 당해 회계기간의 순이익금의 영업자금도입액에 대한 비율이 100분의 100 이상 이거나 순이익금이 1억원을"
+ ],
+ "fields": [
+  {
+   "label": "외국기업국내지사 결산순이익금 송금신청서",
+   "kind": "text"
+  },
+  {
+   "label": "① 상 호(본 점)",
+   "kind": "text"
+  },
+  {
+   "label": "② 대 표 자(본 점)",
+   "kind": "text"
+  },
+  {
+   "label": "③ 본 점 소 재 지",
+   "kind": "text"
+  },
+  {
+   "label": "신 청 내 용",
+   "kind": "text"
+  },
+  {
+   "label": "억원(U$ 상당)",
+   "kind": "text"
+  },
+  {
+   "label": "⑤ 송 금 예 정 일 자",
+   "kind": "text"
+  },
+  {
+   "label": "⑥ 송 금 액 산 출 근 거",
+   "kind": "text"
+  },
+  {
+   "label": "년 월 일 ~ 년 월 일",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 956
+}

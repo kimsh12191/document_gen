@@ -1,0 +1,58 @@
+{
+ "no": 287,
+ "class": "외환",
+ "name": "「외국환서식관리프로그램」신용장 양도 조건변경/취소 신청서 (Amendment / Cancellation)",
+ "file": "add_template\\하나은행_서식자료\\외환\\287_「외국환서식관리프로그램」신용장 양도 조건변경_취소 신청서 (Amendment _ Cancellation).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-09-0308",
+  "pages_in_set": 1
+ },
+ "sections": [],
+ "fields": [],
+ "choices": [
+  {
+   "options": [
+    "amend"
+   ]
+  },
+  {
+   "options": [
+    "cancel"
+   ]
+  },
+  {
+   "options": [
+    "increased by to"
+   ]
+  },
+  {
+   "options": [
+    "decreased by to"
+   ]
+  },
+  {
+   "options": [
+    "totally"
+   ]
+  },
+  {
+   "options": [
+    "partially"
+   ]
+  },
+  {
+   "options": [
+    "Amendment"
+   ]
+  },
+  {
+   "options": [
+    "Cancellation"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 1388
+}

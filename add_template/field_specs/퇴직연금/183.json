@@ -1,0 +1,211 @@
+{
+ "no": 183,
+ "class": "퇴직연금",
+ "name": "퇴직연금 통지서비스 신청서(가입자용)",
+ "file": "add_template\\하나은행_서식자료\\퇴직연금\\183_퇴직연금 통지서비스 신청서(가입자용).pdf",
+ "pages": 2,
+ "meta": {
+  "code": "5-14-0128",
+  "pages_in_set": 2,
+  "revised": "2024.09",
+  "keep_from": "해지",
+  "keep_years": 10
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "구분",
+   "kind": "text"
+  },
+  {
+   "label": "고객기재란주1)",
+   "kind": "text"
+  },
+  {
+   "label": "성명(업체명)",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일",
+   "kind": "text"
+  },
+  {
+   "label": "년 월 일",
+   "kind": "text"
+  },
+  {
+   "label": "사업자등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "휴대전화",
+   "kind": "text"
+  },
+  {
+   "label": "E-mail 주소",
+   "kind": "text"
+  },
+  {
+   "label": "@",
+   "kind": "text"
+  },
+  {
+   "label": "자택",
+   "kind": "text"
+  },
+  {
+   "label": "자택전화",
+   "kind": "text"
+  },
+  {
+   "label": "( ) -",
+   "kind": "text"
+  },
+  {
+   "label": "직장전화",
+   "kind": "text"
+  },
+  {
+   "label": "우편물수령처",
+   "kind": "text"
+  },
+  {
+   "label": "전화연락처",
+   "kind": "choice",
+   "options": [
+    "자택",
+    "직장",
+    "휴대폰"
+   ]
+  },
+  {
+   "label": "통지구분",
+   "kind": "text"
+  },
+  {
+   "label": "목표수익률에 도달하면 펀드 자동환매",
+   "kind": "choice",
+   "options": [
+    "신청안함",
+    "등록/변경",
+    "해지"
+   ]
+  },
+  {
+   "label": "목표수익률",
+   "kind": "text"
+  },
+  {
+   "label": "내용",
+   "kind": "text"
+  },
+  {
+   "label": "신청여부",
+   "kind": "choice",
+   "options": [
+    "신청안함",
+    "이메일",
+    "알림톡(LMS)"
+   ]
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "\u0007고객정보"
+   ]
+  },
+  {
+   "options": [
+    "\u0007SKT",
+    "\u0007KT",
+    "\u0007 LGU+"
+   ]
+  },
+  {
+   "options": [
+    "자택",
+    "직장"
+   ]
+  },
+  {
+   "options": [
+    "원치않음"
+   ]
+  },
+  {
+   "options": [
+    "자택",
+    "직장"
+   ]
+  },
+  {
+   "options": [
+    "휴대폰"
+   ]
+  },
+  {
+   "options": [
+    "월",
+    "분기"
+   ]
+  },
+  {
+   "options": [
+    "이메일",
+    "알림톡(LMS)"
+   ]
+  },
+  {
+   "options": [
+    "수신거부",
+    "이메일",
+    "알림톡(LMS)"
+   ]
+  },
+  {
+   "options": [
+    "e-mail",
+    "우편(직장→자택)"
+   ]
+  },
+  {
+   "options": [
+    "수령거절",
+    "영업점 수령/홈페이지 확인"
+   ]
+  },
+  {
+   "options": [
+    "신청안함",
+    "등록/변경",
+    "해지"
+   ]
+  },
+  {
+   "options": [
+    "신청(미발송)",
+    "신청안함(발송)"
+   ]
+  },
+  {
+   "options": [
+    "이메일",
+    "알림톡(LMS)"
+   ]
+  },
+  {
+   "options": [
+    "신청안함",
+    "이메일",
+    "알림톡(LMS)"
+   ]
+  }
+ ],
+ "bank_only": [
+  "본인확인",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 2611
+}

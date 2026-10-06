@@ -1,0 +1,90 @@
+{
+ "no": 359,
+ "class": "전자금융",
+ "name": "하나 sERP 이용신청서",
+ "file": "add_template\\하나은행_서식자료\\전자금융\\359_하나 sERP 이용신청서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-08-0313",
+  "pages_in_set": 1,
+  "revised": "2024.06",
+  "keep_from": "해지",
+  "keep_years": 5
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "신 청 구 분",
+   "kind": "choice",
+   "options": [
+    "신고",
+    "해지",
+    "변경"
+   ]
+  },
+  {
+   "label": "기업인터넷뱅킹 ID",
+   "kind": "text"
+  },
+  {
+   "label": "회 사 명",
+   "kind": "text"
+  },
+  {
+   "label": "사 업 자 등 록 번 호",
+   "kind": "text"
+  },
+  {
+   "label": "업 태 / 종 목",
+   "kind": "text"
+  },
+  {
+   "label": "대 표 자 명",
+   "kind": "text"
+  },
+  {
+   "label": "( - )",
+   "kind": "text"
+  },
+  {
+   "label": "담 당 자 명",
+   "kind": "text"
+  },
+  {
+   "label": "담 당 부 서",
+   "kind": "text"
+  },
+  {
+   "label": "담 당 부 서 연 락 처",
+   "kind": "text"
+  },
+  {
+   "label": "세금계산서 교부용e-Mail",
+   "kind": "text"
+  },
+  {
+   "label": "출금계좌(하나은행)",
+   "kind": "text"
+  },
+  {
+   "label": "예 금 주",
+   "kind": "text"
+  },
+  {
+   "label": "본인 및 인감 확인",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "신고",
+    "해지",
+    "변경"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 1387
+}

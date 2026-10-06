@@ -1,0 +1,35 @@
+{
+ "no": 231,
+ "class": "외환",
+ "name": "현지금융 차입·상환·보증등 한도 운영현황 보고서",
+ "file": "add_template\\하나은행_서식자료\\외환\\231_현지금융 차입·상환·보증등 한도 운영현황 보고서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [],
+ "fields": [
+  {
+   "label": "대 주3) 대주지역",
+   "kind": "text"
+  },
+  {
+   "label": "차입구분4) 외화증권5)",
+   "kind": "text"
+  },
+  {
+   "label": "대주지역",
+   "kind": "text"
+  },
+  {
+   "label": "외화증권5)",
+   "kind": "text"
+  },
+  {
+   "label": "계",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 1353
+}

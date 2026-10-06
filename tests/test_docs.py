@@ -77,7 +77,9 @@ def test_to_nested_lists():
 
 from docgen.banks import BRANDS, LEGACY, bank_view, form_bank, supports  # noqa: E402
 
-BANK_FORMS = [s.id for s in REG.values() if s.group == "bank_form"]
+from docgen.registry import BANK_FORM_GROUPS  # noqa: E402
+
+BANK_FORMS = [s.id for s in REG.values() if s.group in BANK_FORM_GROUPS]
 
 
 def _rrn_ok(v: str) -> bool:

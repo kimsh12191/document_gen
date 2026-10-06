@@ -1,0 +1,67 @@
+{
+ "no": 163,
+ "class": "신탁/ISA",
+ "name": "위임장(일임형 개인종합자산관리계좌(ISA)용)",
+ "file": "add_template\\하나은행_서식자료\\신탁_ISA\\163_위임장(일임형 개인종합자산관리계좌(ISA)용).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-21-0001",
+  "pages_in_set": 1,
+  "revised": "2021.08",
+  "keep_from": "해지",
+  "keep_years": 10
+ },
+ "sections": [
+  "1. 대리인 정보",
+  "2. 위임내용"
+ ],
+ "fields": [
+  {
+   "label": "본인확인 및 인감(서명)확인 인/서명",
+   "kind": "text"
+  },
+  {
+   "label": "성 명",
+   "kind": "text"
+  },
+  {
+   "label": "본인과의 관계",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일",
+   "kind": "text"
+  },
+  {
+   "label": "연 락 처",
+   "kind": "text"
+  },
+  {
+   "label": "주 소",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "투자자정보 확인서 작성 및 투자성향 분석 결과 확인"
+   ]
+  },
+  {
+   "options": [
+    "모델포트폴리오의 선택 및 변경"
+   ]
+  },
+  {
+   "options": [
+    "기타"
+   ]
+  }
+ ],
+ "bank_only": [
+  "담당",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 1787
+}

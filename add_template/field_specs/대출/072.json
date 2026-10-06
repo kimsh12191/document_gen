@@ -1,0 +1,170 @@
+{
+ "no": 72,
+ "class": "대출",
+ "name": "전자방식 외상매출채권 결제제도 이용신청서(외담대,동반성장론,e-안심팩토링대출용)",
+ "file": "add_template\\하나은행_서식자료\\대출\\072_전자방식 외상매출채권 결제제도 이용신청서(외담대,동반성장론,e-안심팩토링대출용).pdf",
+ "pages": 2,
+ "meta": {
+  "code": "5-06-0733",
+  "pages_in_set": 2,
+  "revised": "2021.09",
+  "keep_from": "완제",
+  "keep_years": 10
+ },
+ "sections": [
+  "1. 신청기업 정보",
+  "2. 신청내용",
+  "3. 담당자 정보",
+  "4. 첨부서류"
+ ],
+ "fields": [
+  {
+   "label": "법인명 (또는 상호명)",
+   "kind": "text"
+  },
+  {
+   "label": "사업자등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "대표이사 (또는 대표자명)",
+   "kind": "text"
+  },
+  {
+   "label": "대표이사(대표자) 생년월일",
+   "kind": "text"
+  },
+  {
+   "label": "업 태",
+   "kind": "text"
+  },
+  {
+   "label": "업 종",
+   "kind": "text"
+  },
+  {
+   "label": "주요취급품목",
+   "kind": "text"
+  },
+  {
+   "label": "(우편번호 : )",
+   "kind": "text"
+  },
+  {
+   "label": "전화번호",
+   "kind": "text"
+  },
+  {
+   "label": "팩스번호",
+   "kind": "text"
+  },
+  {
+   "label": "기업규모",
+   "kind": "choice",
+   "options": [
+    "대기업",
+    "중견기업",
+    "중기업",
+    "소기업",
+    "공공 및 기타"
+   ]
+  },
+  {
+   "label": "입점 Seller(판매기업)를 위한 채권발행",
+   "kind": "text"
+  },
+  {
+   "label": "동반협력기업간 상생매출채권 발행 및 수취약정",
+   "kind": "text"
+  },
+  {
+   "label": "*담당자명",
+   "kind": "text"
+  },
+  {
+   "label": "담당부서",
+   "kind": "text"
+  },
+  {
+   "label": "*담당자전화번호",
+   "kind": "text"
+  },
+  {
+   "label": "*담당자휴대전화번호",
+   "kind": "choice",
+   "options": [
+    "SKT",
+    "KT",
+    "LGU+"
+   ]
+  },
+  {
+   "label": "*담당자이메일",
+   "kind": "text"
+  },
+  {
+   "label": "담당자 팩스번호",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "대기업",
+    "중견기업",
+    "중기업",
+    "소기업",
+    "공공 및 기타"
+   ]
+  },
+  {
+   "options": [
+    "구매기업 (중심기업)"
+   ]
+  },
+  {
+   "options": [
+    "구매기업(온라인마켓)"
+   ]
+  },
+  {
+   "options": [
+    "판매기업(1차협력기업)"
+   ]
+  },
+  {
+   "options": [
+    "입점 Seller(판매기업)"
+   ]
+  },
+  {
+   "options": [
+    "동반협력기업"
+   ]
+  },
+  {
+   "options": [
+    "협력기업"
+   ]
+  },
+  {
+   "options": [
+    "”에 “V” 표시 합니다."
+   ]
+  },
+  {
+   "options": [
+    "SKT",
+    "KT",
+    "LGU+"
+   ]
+  }
+ ],
+ "bank_only": [
+  "관리자",
+  "담당",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 1728
+}

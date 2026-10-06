@@ -1,0 +1,32 @@
+{
+ "no": 99,
+ "class": "대출",
+ "name": "지급승인명세 등록 신청서",
+ "file": "add_template\\하나은행_서식자료\\대출\\099_지급승인명세 등록 신청서.pdf",
+ "pages": 2,
+ "meta": {
+  "code": "5-06-0565",
+  "pages_in_set": 2,
+  "revised": "2021.09",
+  "keep_from": "완제",
+  "keep_years": 10
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "중심기업명",
+   "kind": "text"
+  },
+  {
+   "label": "중심기업 사업자등록번호",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "담당",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 991
+}

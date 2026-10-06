@@ -1,0 +1,48 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "bank_form/_loan_parts.html.j2" as lp with context %}
+{% import "efinance/_parts.html.j2" as ep with context %}
+{% block content %}
+{{ ep.css() }}
+{{ f.set_corr_name(val("signature")) }}
+{% set WAYS = ["SMS(문자)", "알림톡"] if bk.kakao_notice else ["SMS(문자)"] %}
+{{ lp.head(kind="sms") }}
+{{ lp.title_row("입출금 거래내역 문자통지서비스 신청서") }}
+<div style="margin:0 0 4px">{{ lp.legal_name() }} <b>{{ f("branch", label="취급점") }}</b> 앞
+&nbsp;&nbsp;신청구분 : {{ m.choice("kind", ["신규", "변경", "해지"], label="신청구분") }}{{ lp.nochk("kind") }}</div>
+
+{{ ep.sec(1, "신청인") }}
+<table class="bf">
+<colgroup><col style="width:130px"><col><col style="width:130px"><col></colgroup>
+<tr><th>성　　명</th><td>{{ f("customer.name", label="성명", fix=0.04) }}</td><th>생년월일</th><td>{{ f("customer.birth", label="생년월일", fix=0.05) }}</td></tr>
+<tr><th>연 락 처</th><td>{{ f("customer.phone", label="연락처", fix=0.06) }}</td><th>통지 받을 번호</th><td>{{ f("notify_phone", label="통지받을번호", fix=0.06) }}</td></tr>
+<tr><th>주　　소</th><td colspan="3">{{ f("customer.address", label="주소", fix=0.04) }}</td></tr>
+</table>
+
+{{ ep.sec(2, "통지 대상 계좌") }}
+{{ m.grid(["계좌번호", "예금종류"], "accounts", ["number", "kind"],
+          widths=["55%", "45%"], min_rows=1, cls="compact") }}
+
+{{ ep.sec(3, "통지 조건") }}
+<table class="bf">
+<colgroup><col style="width:130px"><col><col style="width:130px"><col></colgroup>
+<tr><th>통지 방법</th><td>{{ m.choice("way", WAYS, label="통지방법") }}{{ lp.nochk("way") }}</td>
+    <th>통지 대상</th><td>{{ m.choice("target", ["입금·출금 모두", "출금만", "입금만"], label="통지대상") }}{{ lp.nochk("target") }}</td></tr>
+<tr><th>통지 기준금액</th><td class="num">{{ f("threshold", label="통지기준금액") }} 이상</td>
+    <th>수 수 료</th><td class="num">{{ f("fee", label="수수료") }} / 월</td></tr>
+<tr><th>수수료 출금계좌</th><td colspan="3">{{ f("fee_account", label="수수료출금계좌", fix=0.08) }}</td></tr>
+</table>
+
+<div class="notice">
+<p>※ 통지 기준금액 미만의 거래는 통지되지 않습니다.</p>
+<p>※ 통신 사정에 따라 통지가 지연되거나 도달하지 않을 수 있으며, 이 경우에도 거래의 효력에는 영향이 없습니다.</p>
+<p>※ 휴대전화 번호가 바뀐 때에는 즉시 변경 신고하여야 하며, 신고하지 않아 발생한 손해는 은행이 책임지지 않습니다.</p>
+<p>※ 수수료는 매월 지정 계좌에서 자동 출금되며, 잔액이 부족하면 서비스가 중지될 수 있습니다.</p>
+</div>
+
+<p class="lead" style="margin:8px 0 4px">위와 같이 입출금 거래내역 문자통지서비스를 신청하며, 개인정보의 수집·이용에 동의합니다.</p>
+<div class="center">{{ f("date", label="작성일") }}</div>
+<div class="sig">신청인&nbsp;<span class="who">{{ f("signature", label="신청인") }}</span>{{ m.sigspot("applicant", val("signature"), label="신청인", anchor="signature") }}</div>
+
+{{ lp.bank_use(["접수일자", "실명확인", "전산등록", "담당자", "책임자"]) }}
+{% endblock %}

@@ -1,0 +1,40 @@
+{#
+  전자금융 서식 공통 조각. 템플릿에서:
+    {% import "efinance/_parts.html.j2" as ep with context %}
+  서식번호 줄·결재란·은행 사용란은 은행 서식 공통(_loan_parts.html.j2)을 그대로 쓴다.
+#}
+{% import "_macros.html.j2" as m with context %}
+{% import "bank_form/_loan_parts.html.j2" as lp with context %}
+
+{% macro css() -%}
+{{ lp.css() }}
+<style>
+.num-h { font-weight: 700; margin: 7px 0 2px; color: var(--accent); }
+.num-h .n { display: inline-block; background: var(--accent); color: #fff; padding: 0 6px; margin-right: 5px;
+            font-size: calc(var(--fs) - 1px); }
+table.bf th, table.bf td { padding: 4px 7px; }
+</style>
+{%- endmacro %}
+
+{% macro sec(n, text) -%}
+<div class="num-h"><span class="n">{{ n }}</span>{{ text }}</div>
+{%- endmacro %}
+
+{# 이체한도 신고 표 #}
+{% macro limits() -%}
+<table class="bf">
+<colgroup><col style="width:130px"><col><col style="width:130px"><col></colgroup>
+<tr><th>1회 이체한도</th><td class="num">{{ f("limits.once", label="1회이체한도") }}</td>
+    <th>1일 이체한도</th><td class="num">{{ f("limits.daily", label="1일이체한도") }}</td></tr>
+</table>
+<div class="tiny muted">※ 이체한도는 전자금융거래법에 따라 신고한 범위에서만 적용되며, 보안매체 종류에 따라 상한이 다를 수 있습니다.</div>
+{%- endmacro %}
+
+{# 전자금융 공통 유의사항 #}
+{% macro notice() -%}
+<div class="notice">
+<p>※ 접근매체(보안카드·OTP·인증서)는 타인에게 양도·대여할 수 없으며, 이를 위반하여 발생한 손해는 이용자가 부담합니다.</p>
+<p>※ 보안매체의 분실·도난을 인지한 때에는 즉시 은행에 신고하여야 하며, 신고 이후 발생한 사고는 은행이 보상합니다.</p>
+<p>※ 전자금융사기(보이스피싱) 예방을 위해 지연이체·해외IP 차단 서비스 이용을 권장합니다.</p>
+</div>
+{%- endmacro %}

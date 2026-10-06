@@ -1,0 +1,126 @@
+{
+ "no": 177,
+ "class": "퇴직연금",
+ "name": "퇴직연금 운용상품지정 신청서(DC)",
+ "file": "add_template\\하나은행_서식자료\\퇴직연금\\177_퇴직연금 운용상품지정 신청서(DC).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-14-0120",
+  "pages_in_set": 1,
+  "revised": "2025.09",
+  "keep_from": "해지",
+  "keep_years": 5
+ },
+ "sections": [
+  "1. 기업정보",
+  "2. 운용상품지정"
+ ],
+ "fields": [
+  {
+   "label": "기업명",
+   "kind": "text"
+  },
+  {
+   "label": "사업자번호",
+   "kind": "text"
+  },
+  {
+   "label": "신청구분",
+   "kind": "choice",
+   "options": [
+    "선\u0007 택",
+    "\u0007 제외 요청합니다."
+   ]
+  },
+  {
+   "label": "상품선택",
+   "kind": "text"
+  },
+  {
+   "label": "상품명",
+   "kind": "text"
+  },
+  {
+   "label": "하나저축은행 정기예금",
+   "kind": "text"
+  },
+  {
+   "label": "신한저축은행 정기예금",
+   "kind": "text"
+  },
+  {
+   "label": "NH저축은행 정기예금",
+   "kind": "text"
+  },
+  {
+   "label": "KB저축은행 정기예금",
+   "kind": "text"
+  },
+  {
+   "label": "IBK저축은행 정기예금",
+   "kind": "text"
+  },
+  {
+   "label": "부산은행 정기예금",
+   "kind": "text"
+  },
+  {
+   "label": "한화저축은행 정기예금",
+   "kind": "text"
+  },
+  {
+   "label": "SBI저축은행 정기예금",
+   "kind": "text"
+  },
+  {
+   "label": "OK저축은행 정기예금",
+   "kind": "text"
+  },
+  {
+   "label": "(상품기재)",
+   "kind": "text"
+  },
+  {
+   "label": "키움저축은행 정기예금",
+   "kind": "text"
+  },
+  {
+   "label": "키움예스저축은행 정기예금",
+   "kind": "text"
+  },
+  {
+   "label": "페퍼저축은행 정기예금",
+   "kind": "text"
+  },
+  {
+   "label": "모아저축은행 정기예금",
+   "kind": "text"
+  },
+  {
+   "label": "유진저축은행 정기예금",
+   "kind": "text"
+  },
+  {
+   "label": "OSB저축은행 정기예금",
+   "kind": "text"
+  },
+  {
+   "label": "JT저축은행 정기예금",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "\u0007선택",
+    "\u0007 제외 요청합니다."
+   ]
+  }
+ ],
+ "bank_only": [
+  "담당",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 1535
+}

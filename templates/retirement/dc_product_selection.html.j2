@@ -1,0 +1,47 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "bank_form/_loan_parts.html.j2" as lp with context %}
+{% import "retirement/_parts.html.j2" as rp with context %}
+{% block content %}
+{{ rp.css() }}
+{{ f.set_corr_name(val("signature")) }}
+{{ lp.head(kind="dc_select") }}
+{{ rp.warn() }}
+{{ lp.title_row("퇴직연금 운용상품지정 신청서", sub="확정기여형(DC)") }}
+<div style="margin:0 0 4px">{{ lp.legal_name() }} <b>{{ f("branch", label="취급점") }}</b> 앞
+&nbsp;&nbsp;신청구분 : {{ m.choice("kind", ["신규 지정", "변경(상품 교체)", "비율 변경"], label="신청구분") }}{{ lp.nochk("kind") }}</div>
+
+{{ rp.sec(1, "가입자") }}
+{{ rp.participant() }}
+<table class="bf">
+<colgroup><col style="width:120px"><col><col style="width:120px"><col></colgroup>
+<tr><th>사 업 장 명</th><td>{{ f("employer.name", label="사업장명", fix=0.03) }}</td><th>사업자등록번호</th><td>{{ f("employer.biz_no", label="사업자등록번호", fix=0.06) }}</td></tr>
+<tr><th>사 번</th><td>{{ f("participant.employee_no", label="사번", fix=0.06) }}</td><th>계좌번호</th><td>{{ f("account", label="계좌번호", fix=0.06) }}</td></tr>
+<tr><th>현재 적립금</th><td class="num">{{ f("balance", label="현재적립금") }}</td><th>적용 대상</th><td>{{ m.choice("apply_to", ["기존 적립금 + 향후 부담금", "향후 부담금만", "기존 적립금만"], label="적용대상") }}{{ lp.nochk("apply_to") }}</td></tr>
+</table>
+
+{% if d.old_plan is defined %}
+{{ rp.sec(2, "변경 전 운용상품") }}
+{{ rp.buy_plan("old_plan") }}
+{{ rp.sec(3, "변경 후 운용상품") }}
+{% else %}
+{{ rp.sec(2, "지정 운용상품") }}
+{% endif %}
+{{ rp.buy_plan("new_plan") }}
+
+<table class="bf">
+<colgroup><col style="width:120px"><col></colgroup>
+<tr><th>적용 개시일</th><td>{{ f("effective", label="적용개시일", fix=0.05) }}</td></tr>
+</table>
+
+<div class="notice">
+<p>※ 운용지시는 접수일의 다음 영업일부터 처리되며, 상품별 매매 기준시점에 따라 실제 체결일이 달라질 수 있습니다.</p>
+<p>※ 원리금보장상품을 중도에 해지하여 다른 상품으로 바꾸는 경우 중도해지이율이 적용되어 손실이 발생할 수 있습니다.</p>
+<p>※ 실적배당상품은 운용결과에 따라 원금의 손실이 발생할 수 있으며, 그 손실은 가입자에게 귀속됩니다.</p>
+</div>
+
+<div class="center" style="margin-top:6px">{{ f("date", label="작성일") }}</div>
+<div class="sig">가입자&nbsp;<span class="who">{{ f("signature", label="가입자") }}</span>{{ m.sigspot("participant", val("signature"), label="가입자", anchor="signature") }}</div>
+
+{{ lp.bank_use(["접수일자", "본인확인", "운용지시 등록", "담당", "책임자"]) }}
+{% endblock %}

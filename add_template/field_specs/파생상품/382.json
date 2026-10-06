@@ -1,0 +1,55 @@
+{
+ "no": 382,
+ "class": "파생상품",
+ "name": "장외파생상품 일반투자자 투자자정보 분석결과표",
+ "file": "add_template\\하나은행_서식자료\\파생상품\\382_장외파생상품 일반투자자 투자자정보 분석결과표.pdf",
+ "pages": 2,
+ "meta": {},
+ "sections": [
+  "1. 고객유형",
+  "2. 투자자정보 확인서 응답결과",
+  "3. 투자자정보 분석결과"
+ ],
+ "fields": [
+  {
+   "label": "고객명",
+   "kind": "text"
+  },
+  {
+   "label": "고객유형",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일 및 나이",
+   "kind": "text"
+  },
+  {
+   "label": "미성년자/고령/초고령 구분",
+   "kind": "text"
+  },
+  {
+   "label": "투자자정보 확인서 응답결과",
+   "kind": "text"
+  },
+  {
+   "label": "고객등급",
+   "kind": "text"
+  },
+  {
+   "label": "대리인",
+   "kind": "text"
+  },
+  {
+   "label": "지점/부서명",
+   "kind": "text"
+  },
+  {
+   "label": "담당자 (파생상품투자권유 자문인력)",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 1736
+}

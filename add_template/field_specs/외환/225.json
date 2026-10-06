@@ -1,0 +1,197 @@
+{
+ "no": 225,
+ "class": "외환",
+ "name": "Usance 송금 신청서",
+ "file": "add_template\\하나은행_서식자료\\외환\\225_Usance 송금 신청서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [],
+ "fields": [
+  {
+   "label": "♣ 신청인 정보",
+   "kind": "text"
+  },
+  {
+   "label": "성 명 (Applicant)",
+   "kind": "text"
+  },
+  {
+   "label": "영문(English) :",
+   "kind": "text"
+  },
+  {
+   "label": "한글(Korean) :",
+   "kind": "text"
+  },
+  {
+   "label": "사업자번호 (I.D No.)",
+   "kind": "text"
+  },
+  {
+   "label": "송금인계좌번호(A/C)",
+   "kind": "text"
+  },
+  {
+   "label": "주 소 (Address)",
+   "kind": "text"
+  },
+  {
+   "label": "TEL No :",
+   "kind": "text"
+  },
+  {
+   "label": "♣ 신청 정보",
+   "kind": "text"
+  },
+  {
+   "label": "신청금액",
+   "kind": "text"
+  },
+  {
+   "label": "거래 방식 (선적 구분)",
+   "kind": "choice",
+   "options": [
+    "사전송금 방식 (선적 전)",
+    "사후송금 방식 (선적 후)"
+   ]
+  },
+  {
+   "label": "수입 형태 *사전송금 방식만작성",
+   "kind": "text"
+  },
+  {
+   "label": "송금 희망일",
+   "kind": "text"
+  },
+  {
+   "label": "인수은행",
+   "kind": "text"
+  },
+  {
+   "label": "인수은행명 SWIFT Code :",
+   "kind": "text"
+  },
+  {
+   "label": "만기(상환일)",
+   "kind": "text"
+  },
+  {
+   "label": "♣ 선적 정보",
+   "kind": "text"
+  },
+  {
+   "label": "계약서 번호",
+   "kind": "text"
+  },
+  {
+   "label": "상품명세",
+   "kind": "text"
+  },
+  {
+   "label": "가격조건",
+   "kind": "text"
+  },
+  {
+   "label": "HS코드",
+   "kind": "text"
+  },
+  {
+   "label": "원산지",
+   "kind": "text"
+  },
+  {
+   "label": "수출국",
+   "kind": "text"
+  },
+  {
+   "label": "(예정)선적항 (또는 공항)",
+   "kind": "text"
+  },
+  {
+   "label": "선적국가",
+   "kind": "text"
+  },
+  {
+   "label": "(예정)도착항 (또는 공항)",
+   "kind": "text"
+  },
+  {
+   "label": "도착국가",
+   "kind": "text"
+  },
+  {
+   "label": "♣ 송금 수취인 및 수취은행 정보",
+   "kind": "text"
+  },
+  {
+   "label": "수취인명",
+   "kind": "text"
+  },
+  {
+   "label": "수취인 주소 및 전화번호",
+   "kind": "text"
+  },
+  {
+   "label": "수취인 계좌번호",
+   "kind": "text"
+  },
+  {
+   "label": "송금수수료 부담자",
+   "kind": "choice",
+   "options": [
+    "SHA",
+    "OUR"
+   ]
+  },
+  {
+   "label": "수취은행 BIC",
+   "kind": "text"
+  },
+  {
+   "label": "수취은행명",
+   "kind": "text"
+  },
+  {
+   "label": "담당자명",
+   "kind": "text"
+  },
+  {
+   "label": "전화번호",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "사전송금 방식 (선적 전)"
+   ]
+  },
+  {
+   "options": [
+    "사후송금 방식 (선적 후)"
+   ]
+  },
+  {
+   "options": [
+    "사전 통관수입",
+    "사전 무통관수입(중계무역)",
+    "사전 무통관수입(외국인수수입)"
+   ]
+  },
+  {
+   "options": [
+    "Fixed due date ( 년 월 일)",
+    "( ) days after payment date"
+   ]
+  },
+  {
+   "options": [
+    "SHA",
+    "OUR"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 1775
+}

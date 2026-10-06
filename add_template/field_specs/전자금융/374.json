@@ -1,0 +1,173 @@
+{
+ "no": 374,
+ "class": "전자금융",
+ "name": "전자어음 이용(변경,해지) 신청서",
+ "file": "add_template\\하나은행_서식자료\\전자금융\\374_전자어음 이용(변경,해지) 신청서.pdf",
+ "pages": 1,
+ "meta": {
+  "keep_from": "완제",
+  "keep_years": 5
+ },
+ "sections": [
+  "3. 개인­1) 실명확인증표 2) 이용계좌통장 사본 3) 이용계좌통장 인감",
+  "1. 고객정보",
+  "2. 전자어음의발행및수취계좌정보",
+  "3. 개인사업자 자격인 경우에만 추가 작성",
+  "4. 등록 변경 신청"
+ ],
+ "fields": [
+  {
+   "label": "거래구분",
+   "kind": "choice",
+   "options": [
+    "신규가입",
+    "변경 해지(",
+    "발행해지",
+    "전체해지)"
+   ]
+  },
+  {
+   "label": "회원구분",
+   "kind": "choice",
+   "options": [
+    "발행인(수취,배서포함)",
+    "수취/배서인",
+    "보증인"
+   ]
+  },
+  {
+   "label": "법인명(성명)",
+   "kind": "text"
+  },
+  {
+   "label": "대표자",
+   "kind": "text"
+  },
+  {
+   "label": "사업자등록번호(법인)",
+   "kind": "text"
+  },
+  {
+   "label": "업종",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일(개인/개인사업자)",
+   "kind": "text"
+  },
+  {
+   "label": "규모",
+   "kind": "choice",
+   "options": [
+    "대기업",
+    "중소기업",
+    "개인사업자",
+    "개인"
+   ]
+  },
+  {
+   "label": "대표전화",
+   "kind": "text"
+  },
+  {
+   "label": "담당부서",
+   "kind": "text"
+  },
+  {
+   "label": "회사전화",
+   "kind": "text"
+  },
+  {
+   "label": "휴대폰",
+   "kind": "text"
+  },
+  {
+   "label": "FAX",
+   "kind": "text"
+  },
+  {
+   "label": "E-Mail",
+   "kind": "text"
+  },
+  {
+   "label": "발행(당좌)지정계좌",
+   "kind": "text"
+  },
+  {
+   "label": "거래인감",
+   "kind": "text"
+  },
+  {
+   "label": "수취(요구불)지정계좌",
+   "kind": "text"
+  },
+  {
+   "label": "변경 항목",
+   "kind": "text"
+  },
+  {
+   "label": "[변경전]",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "신규가입"
+   ]
+  },
+  {
+   "options": [
+    "변경"
+   ]
+  },
+  {
+   "options": [
+    "발행해지",
+    "전체해지)"
+   ]
+  },
+  {
+   "options": [
+    "발행인(수취,배서포함)"
+   ]
+  },
+  {
+   "options": [
+    "수취/배서인"
+   ]
+  },
+  {
+   "options": [
+    "보증인"
+   ]
+  },
+  {
+   "options": [
+    "대기업"
+   ]
+  },
+  {
+   "options": [
+    "중소기업"
+   ]
+  },
+  {
+   "options": [
+    "개인사업자"
+   ]
+  },
+  {
+   "options": [
+    "개인"
+   ]
+  }
+ ],
+ "bank_only": [
+  "담당",
+  "담당자",
+  "책임자"
+ ],
+ "has_signature": false,
+ "text_chars": 958
+}

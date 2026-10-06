@@ -1,0 +1,70 @@
+{
+ "no": 109,
+ "class": "대출",
+ "name": "전자채권사고신고(취하)서",
+ "file": "add_template\\하나은행_서식자료\\대출\\109_전자채권사고신고(취하)서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-06-0261",
+  "pages_in_set": 1,
+  "revised": "2021.09",
+  "keep_from": "완제",
+  "keep_years": 10
+ },
+ "sections": [
+  "2. 구매기업 요청에 의한 사고신고는 이미 전자채권담보대출이 실행된 경우에는 사고신고 접수 불가"
+ ],
+ "fields": [
+  {
+   "label": "전자채권번호",
+   "kind": "text"
+  },
+  {
+   "label": "금 액",
+   "kind": "text"
+  },
+  {
+   "label": "발 행 일",
+   "kind": "text"
+  },
+  {
+   "label": "만 기 일",
+   "kind": "text"
+  },
+  {
+   "label": "판매기업 기업명",
+   "kind": "text"
+  },
+  {
+   "label": "판매기업 사업자번호",
+   "kind": "text"
+  },
+  {
+   "label": "담보금 입금유무",
+   "kind": "text"
+  },
+  {
+   "label": "사고신고 구분",
+   "kind": "choice",
+   "options": [
+    "신고",
+    "취하"
+   ]
+  },
+  {
+   "label": "사고신고(취하) 사 유",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "신고",
+    "취하"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 627
+}

@@ -1,0 +1,363 @@
+{
+ "no": 3,
+ "class": "예금",
+ "name": "은행거래신청서",
+ "file": "add_template\\하나은행_서식자료\\예금\\003_은행거래신청서.pdf",
+ "pages": 2,
+ "meta": {},
+ "sections": [],
+ "fields": [
+  {
+   "label": "영문명",
+   "kind": "text"
+  },
+  {
+   "label": "여권상 영문명 필수",
+   "kind": "text"
+  },
+  {
+   "label": "생 년 월 일 (사업자번호)",
+   "kind": "text"
+  },
+  {
+   "label": "휴대폰",
+   "kind": "text"
+  },
+  {
+   "label": "마트폰",
+   "kind": "text"
+  },
+  {
+   "label": "일반폰",
+   "kind": "text"
+  },
+  {
+   "label": "고객정보 변경없음",
+   "kind": "text"
+  },
+  {
+   "label": "LGU+",
+   "kind": "text"
+  },
+  {
+   "label": "기타",
+   "kind": "text"
+  },
+  {
+   "label": "이메일",
+   "kind": "text"
+  },
+  {
+   "label": "@",
+   "kind": "text"
+  },
+  {
+   "label": "급여일",
+   "kind": "text"
+  },
+  {
+   "label": "인감",
+   "kind": "text"
+  },
+  {
+   "label": "주 소",
+   "kind": "text"
+  },
+  {
+   "label": "자택",
+   "kind": "text"
+  },
+  {
+   "label": "전 화",
+   "kind": "text"
+  },
+  {
+   "label": "( ) -",
+   "kind": "text"
+  },
+  {
+   "label": "우편물 수령처",
+   "kind": "text"
+  },
+  {
+   "label": "자택 직장 원치않음",
+   "kind": "text"
+  },
+  {
+   "label": "전 화 연락처",
+   "kind": "text"
+  },
+  {
+   "label": "자택 직장 휴대폰 원치않음",
+   "kind": "text"
+  },
+  {
+   "label": "직 업",
+   "kind": "text"
+  },
+  {
+   "label": "계약서류수령 : E-mail 또는 휴대폰번호",
+   "kind": "text"
+  },
+  {
+   "label": "상품명",
+   "kind": "text"
+  },
+  {
+   "label": "가입금액(월부금)",
+   "kind": "text"
+  },
+  {
+   "label": "계약기간",
+   "kind": "text"
+  },
+  {
+   "label": "적립",
+   "kind": "text"
+  },
+  {
+   "label": "이자(금리)적용",
+   "kind": "text"
+  },
+  {
+   "label": "이자(연금)수령",
+   "kind": "text"
+  },
+  {
+   "label": "비과세종합저축(연금) 이체기간",
+   "kind": "text"
+  },
+  {
+   "label": "고객확인",
+   "kind": "text"
+  },
+  {
+   "label": "월이자 입금, C/C해지 입금계좌",
+   "kind": "text"
+  },
+  {
+   "label": "월 불입금액 인출계좌",
+   "kind": "text"
+  },
+  {
+   "label": "이체일",
+   "kind": "text"
+  },
+  {
+   "label": "이체금액",
+   "kind": "text"
+  },
+  {
+   "label": "통장발행",
+   "kind": "text"
+  },
+  {
+   "label": "갋",
+   "kind": "text"
+  },
+  {
+   "label": "정기 자유",
+   "kind": "text"
+  },
+  {
+   "label": "확정형 연동형( 개월)",
+   "kind": "text"
+  },
+  {
+   "label": "만기 연원가식 월( 개월)",
+   "kind": "text"
+  },
+  {
+   "label": "한도 : ￦ . . ~ . .",
+   "kind": "text"
+  },
+  {
+   "label": "인(서명)",
+   "kind": "text"
+  },
+  {
+   "label": "(본인계좌에 한함)",
+   "kind": "text"
+  },
+  {
+   "label": "상품설명서",
+   "kind": "text"
+  },
+  {
+   "label": "약관",
+   "kind": "text"
+  },
+  {
+   "label": "계약서를 수령함",
+   "kind": "text"
+  },
+  {
+   "label": "수령방법",
+   "kind": "text"
+  },
+  {
+   "label": "E-mail",
+   "kind": "text"
+  },
+  {
+   "label": "하나1Q앱",
+   "kind": "text"
+  },
+  {
+   "label": "영업점",
+   "kind": "text"
+  },
+  {
+   "label": "문자/카카오톡(계약서 별도 교부)",
+   "kind": "text"
+  },
+  {
+   "label": "만기안내 문자통지 신청",
+   "kind": "text"
+  },
+  {
+   "label": "통보(은행 등록정보 기준) 미통보",
+   "kind": "text"
+  },
+  {
+   "label": "금리 변동통지(※연동형)",
+   "kind": "text"
+  },
+  {
+   "label": "SMS e-mail SMS+e-mail",
+   "kind": "text"
+  },
+  {
+   "label": "정액적립식상품 만기해지 자동이체",
+   "kind": "text"
+  },
+  {
+   "label": "신청면적 (㎡) <전용면적 기준>",
+   "kind": "text"
+  },
+  {
+   "label": "출금계좌 [ ] 출금금액 [ ① ② ③ ]",
+   "kind": "text"
+  },
+  {
+   "label": "조작일 신",
+   "kind": "text"
+  },
+  {
+   "label": "과목명",
+   "kind": "text"
+  },
+  {
+   "label": "계약(확인)금액",
+   "kind": "text"
+  },
+  {
+   "label": "처리시각 권",
+   "kind": "text"
+  },
+  {
+   "label": "구분",
+   "kind": "text"
+  },
+  {
+   "label": "이용자ID",
+   "kind": "text"
+  },
+  {
+   "label": "(영문 또는 영문/숫자로 6~15자리)",
+   "kind": "text"
+  },
+  {
+   "label": "보안매체",
+   "kind": "text"
+  },
+  {
+   "label": "사전동의",
+   "kind": "text"
+  },
+  {
+   "label": "재산현황",
+   "kind": "text"
+  },
+  {
+   "label": "실제소유자 여부",
+   "kind": "text"
+  },
+  {
+   "label": "거래목적",
+   "kind": "text"
+  },
+  {
+   "label": "거래 자금의 원천",
+   "kind": "text"
+  },
+  {
+   "label": "가상통화 취급업소 여부",
+   "kind": "text"
+  },
+  {
+   "label": "예 아니오",
+   "kind": "text"
+  },
+  {
+   "label": "개인사업자",
+   "kind": "text"
+  },
+  {
+   "label": "상호명",
+   "kind": "text"
+  },
+  {
+   "label": "사업자등록번호",
+   "kind": "text"
+  },
+  {
+   "label": "개업년월일",
+   "kind": "text"
+  },
+  {
+   "label": "업종(업태/종목)",
+   "kind": "text"
+  },
+  {
+   "label": "임의단체에 관한 비영리 확인",
+   "kind": "text"
+  },
+  {
+   "label": "입금계좌",
+   "kind": "text"
+  },
+  {
+   "label": "갱신횟수",
+   "kind": "text"
+  },
+  {
+   "label": "성 명",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일",
+   "kind": "text"
+  },
+  {
+   "label": "본인과의 관계",
+   "kind": "text"
+  },
+  {
+   "label": "선 택 항 목",
+   "kind": "text"
+  },
+  {
+   "label": "조작일",
+   "kind": "text"
+  },
+  {
+   "label": "처리시각",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 6329
+}

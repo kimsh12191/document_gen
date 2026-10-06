@@ -1,0 +1,56 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% import "bank_form/_loan_parts.html.j2" as lp with context %}
+{% import "retirement/_parts.html.j2" as rp with context %}
+{% block content %}
+{{ rp.css() }}
+{{ f.set_corr_name(val("signature")) }}
+{{ lp.head(kind="investor") }}
+{{ lp.cont_head("investor") }}
+{{ rp.warn() }}
+{{ lp.title_row("투자자확인서", sub="퇴직연금용") }}
+<div style="margin:0 0 4px">{{ lp.legal_name() }} <b>{{ f("branch", label="취급점") }}</b> 앞
+&nbsp;&nbsp;계좌번호 : {{ f("account", label="계좌번호", fix=0.06) }}</div>
+
+{{ rp.sec(1, "가입자") }}
+{{ rp.participant() }}
+<table class="bf">
+<colgroup><col style="width:130px"><col><col style="width:130px"><col></colgroup>
+<tr><th>투자자 구분</th><td>{{ m.choice("investor_type", ["일반투자자", "전문투자자"], label="투자자구분") }}</td>
+    <th>고령투자자 여부</th><td>{{ m.choice("elderly", ["비해당", "해당"], label="고령투자자여부") }}</td></tr>
+<tr><th>연령대</th><td colspan="3">{{ f("age_band", label="연령대") }}</td></tr>
+</table>
+
+{{ rp.sec(2, "투자자정보 확인 항목") }}
+<table class="bf">
+<colgroup><col style="width:150px"><col></colgroup>
+<tr><th>투자 목적</th><td>{{ m.choice("goal", ["원금 보존 위주", "안정적인 이자·배당 수익", "물가상승률 이상의 수익", "적극적인 자산 증식"], label="투자목적") }}{{ lp.nochk("goal") }}</td></tr>
+<tr><th>투자 경험</th><td>{{ m.choice("experience", ["없음", "1년 미만", "1년 이상 3년 미만", "3년 이상"], label="투자경험") }}{{ lp.nochk("experience") }}</td></tr>
+<tr><th>감내 가능 손실</th><td>{{ m.choice("loss_tolerance", ["원금 손실을 감수할 수 없음", "10% 미만", "10% 이상 20% 미만", "20% 이상"], label="감내가능손실") }}{{ lp.nochk("loss_tolerance") }}</td></tr>
+<tr><th>투자 예정 기간</th><td>{{ m.choice("horizon", ["1년 이내", "1년 이상 3년 미만", "3년 이상 5년 미만", "5년 이상"], label="투자예정기간") }}{{ lp.nochk("horizon") }}</td></tr>
+<tr><th>주 소득원</th><td>{{ m.choice("income_source", ["근로소득", "사업소득", "연금소득", "기타소득"], label="주소득원") }}{{ lp.nochk("income_source") }}</td></tr>
+<tr><th>금융자산 중<br>투자상품 비중</th><td>{{ m.choice("asset_ratio", ["10% 이하", "10~20%", "20~30%", "30% 초과"], label="투자상품비중") }}{{ lp.nochk("asset_ratio") }}</td></tr>
+</table>
+
+{{ rp.sec(3, "투자성향 판정 결과") }}
+<table class="bf">
+<colgroup><col style="width:150px"><col><col style="width:150px"><col></colgroup>
+<tr><th>합산 점수</th><td class="num">{{ f("score", label="합산점수") }} 점</td><th>투자성향 등급</th><td class="bold">{{ f("grade", label="투자성향등급") }}</td></tr>
+<tr><th>판정 결과 확인</th><td colspan="3">{{ m.choice("agreed", ["판정 결과에 동의함", "판정 결과보다 높은 위험등급 상품 거래를 희망함"], label="판정결과확인") }}</td></tr>
+</table>
+
+<div class="notice">
+<p>※ 투자성향보다 높은 위험등급의 상품에 투자하는 경우 부적합 거래에 해당하며, 그 위험을 이해하고 투자한다는 별도 확인이 필요합니다.</p>
+{% if bk.fsca %}
+<p>※ 금융회사는 「금융소비자보호법」 제17조에 따라 파악한 투자자정보에 비추어 부적합한 상품의 계약 체결을 권유할 수 없습니다.</p>
+{% endif %}
+<p>※ 투자자정보는 작성일부터 12~24개월간 유효하며, 그 후에는 다시 확인하여야 합니다.</p>
+<p>※ 본인이 제공한 정보가 부정확한 경우 적합한 상품 권유가 이루어지지 않을 수 있습니다.</p>
+</div>
+{{ rp.handwritten() }}
+
+<div class="center" style="margin-top:6px">{{ f("date", label="작성일") }}</div>
+<div class="sig">가입자&nbsp;<span class="who">{{ f("signature", label="가입자") }}</span>{{ m.sigspot("participant", val("signature"), label="가입자", anchor="signature") }}</div>
+
+{{ lp.bank_use(["작성일자", "본인확인", "판매직원", "담당", "책임자"]) }}
+{% endblock %}

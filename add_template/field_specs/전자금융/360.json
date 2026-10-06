@@ -1,0 +1,56 @@
+{
+ "no": 360,
+ "class": "전자금융",
+ "name": "개인(신용)정보 및 금융거래정보 제3자 제공동의서(모임통장서비스용)",
+ "file": "add_template\\하나은행_서식자료\\전자금융\\360_개인(신용)정보 및 금융거래정보 제3자 제공동의서(모임통장서비스용).pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [],
+ "fields": [
+  {
+   "label": "제공받는 자의 이용목적",
+   "kind": "text"
+  },
+  {
+   "label": "보유 및 이용기간",
+   "kind": "text"
+  },
+  {
+   "label": "거부 권리 및 불이익",
+   "kind": "text"
+  },
+  {
+   "label": "▶ 제공 항목",
+   "kind": "text"
+  },
+  {
+   "label": "금융거래정보",
+   "kind": "text"
+  },
+  {
+   "label": "개인(신용)정보",
+   "kind": "text"
+  },
+  {
+   "label": "└ 일반개인정보",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "동의하지 않음",
+    "동의함"
+   ]
+  },
+  {
+   "options": [
+    "동의하지 않음",
+    "동의함"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 1075
+}

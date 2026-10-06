@@ -1,0 +1,36 @@
+{
+ "no": 350,
+ "class": "전자금융",
+ "name": "아이부자 걷기챌린지 서비스 동의서",
+ "file": "add_template\\하나은행_서식자료\\전자금융\\350_아이부자 걷기챌린지 서비스 동의서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "7-99-0062",
+  "pages_in_set": 1,
+  "keep_from": "해지",
+  "keep_years": 1
+ },
+ "sections": [],
+ "fields": [],
+ "choices": [
+  {
+   "options": [
+    "개인(신용)정보"
+   ]
+  },
+  {
+   "options": [
+    "일반개인정보"
+   ]
+  },
+  {
+   "options": [
+    "동의하지 않음",
+    "동의함"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 754
+}

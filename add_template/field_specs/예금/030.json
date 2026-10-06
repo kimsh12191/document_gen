@@ -1,0 +1,64 @@
+{
+ "no": 30,
+ "class": "예금",
+ "name": "국내원천소득 제한세율 적용신청서(외국법인용-영문)",
+ "file": "add_template\\하나은행_서식자료\\예금\\030_국내원천소득 제한세율 적용신청서(외국법인용-영문).pdf",
+ "pages": 2,
+ "meta": {},
+ "sections": [
+  "2. Claim of Applicable Tax Treaty Provisions",
+  "3. Determination of Beneficial Owner",
+  "1. Applicant Information",
+  "3. Item ②. Enter the Applicant’s full name in English."
+ ],
+ "fields": [
+  {
+   "label": "Filing No.",
+   "kind": "text"
+  },
+  {
+   "label": "Filing Date",
+   "kind": "text"
+  },
+  {
+   "label": "1. Applicant Information",
+   "kind": "text"
+  },
+  {
+   "label": "② Name of Corporation",
+   "kind": "text"
+  },
+  {
+   "label": "⑥ Address",
+   "kind": "text"
+  },
+  {
+   "label": "③ Name of Representative",
+   "kind": "text"
+  },
+  {
+   "label": "⑦ Country of Residence",
+   "kind": "text"
+  },
+  {
+   "label": "⑧ Country Code",
+   "kind": "text"
+  },
+  {
+   "label": "⑤ Date of Incorporation",
+   "kind": "text"
+  },
+  {
+   "label": "⑨ Telephone Number",
+   "kind": "text"
+  },
+  {
+   "label": "⑬ Address or Location",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": false,
+ "text_chars": 8422
+}

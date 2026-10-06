@@ -1,0 +1,87 @@
+{
+ "no": 15,
+ "class": "예금",
+ "name": "통합제신고서",
+ "file": "add_template\\하나은행_서식자료\\예금\\015_통합제신고서.pdf",
+ "pages": 2,
+ "meta": {},
+ "sections": [],
+ "fields": [
+  {
+   "label": "계좌(카드)번호",
+   "kind": "text"
+  },
+  {
+   "label": "신청 내용",
+   "kind": "text"
+  },
+  {
+   "label": "수 령 방 법",
+   "kind": "text"
+  },
+  {
+   "label": "※ 별도 요청시 작성",
+   "kind": "text"
+  },
+  {
+   "label": "수 령 확 인",
+   "kind": "text"
+  },
+  {
+   "label": "변경내용",
+   "kind": "text"
+  },
+  {
+   "label": "변경 전",
+   "kind": "text"
+  },
+  {
+   "label": "인감(서명)",
+   "kind": "text"
+  },
+  {
+   "label": "연락처, E-mail, 기타",
+   "kind": "text"
+  },
+  {
+   "label": "변경 후",
+   "kind": "text"
+  },
+  {
+   "label": "대리인 성명",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일",
+   "kind": "text"
+  },
+  {
+   "label": "선택항목",
+   "kind": "text"
+  },
+  {
+   "label": "위임인 (예금주)",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "스마트폰",
+    "일반폰",
+    "알뜰폰"
+   ]
+  },
+  {
+   "options": [
+    "SKT",
+    "LGU+",
+    "KT",
+    "기타"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 2203
+}

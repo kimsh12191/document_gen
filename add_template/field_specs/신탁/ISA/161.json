@@ -1,0 +1,61 @@
+{
+ "no": 161,
+ "class": "신탁/ISA",
+ "name": "위임장 (특정금전신탁용)",
+ "file": "add_template\\하나은행_서식자료\\신탁_ISA\\161_위임장 (특정금전신탁용).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-14-0062",
+  "pages_in_set": 1,
+  "revised": "2023.12",
+  "keep_from": "해지",
+  "keep_years": 10
+ },
+ "sections": [
+  "1. 대리인 정보",
+  "2. 위임내용"
+ ],
+ "fields": [
+  {
+   "label": "인감 및 실명확인 (인)서명",
+   "kind": "text"
+  },
+  {
+   "label": "성 명",
+   "kind": "text"
+  },
+  {
+   "label": "본인과의 관계",
+   "kind": "text"
+  },
+  {
+   "label": "생년월일",
+   "kind": "text"
+  },
+  {
+   "label": "연 락 처",
+   "kind": "text"
+  },
+  {
+   "label": "주 소",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "특정금전신탁 상품 가입과 관련한 일체의 사항"
+   ]
+  },
+  {
+   "options": [
+    "기타"
+   ]
+  }
+ ],
+ "bank_only": [
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 1454
+}

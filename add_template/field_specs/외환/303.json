@@ -1,0 +1,27 @@
+{
+ "no": 303,
+ "class": "외환",
+ "name": "수입실적 확인 및 증명 발급신청서(별지 제11호 서식)",
+ "file": "add_template\\하나은행_서식자료\\외환\\303_수입실적 확인 및 증명 발급신청서(별지 제11호 서식).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-09-0129",
+  "pages_in_set": 1,
+  "revised": "2016.06"
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "② 발급용도 :",
+   "kind": "text"
+  },
+  {
+   "label": "⑧ 증명발급번호 :",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 354
+}

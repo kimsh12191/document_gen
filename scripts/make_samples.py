@@ -26,7 +26,7 @@ from PIL import Image  # noqa: E402
 from docgen.banks import LEGACY, supports  # noqa: E402
 from docgen.entities import make_profile  # noqa: E402
 from docgen.image import ImageRenderer  # noqa: E402
-from docgen.registry import GROUPS, load_all  # noqa: E402
+from docgen.registry import BANK_FORM_GROUPS, GROUPS, load_all  # noqa: E402
 from docgen.render import render, to_nested  # noqa: E402
 from docgen.schema import build_fields  # noqa: E402
 
@@ -117,7 +117,7 @@ def main() -> None:
                 d = out / "bank_variants" / bank
                 d.mkdir(parents=True, exist_ok=True)
                 for spec in specs:
-                    if spec.group != "bank_form" or not supports(bank, spec.id):
+                    if spec.group not in BANK_FORM_GROUPS or not supports(bank, spec.id):
                         continue
                     prof = make_profile(args.seed, None if bank in LEGACY else bank)
                     prof.extra["form_bank"] = bank

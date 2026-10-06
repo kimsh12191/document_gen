@@ -1,0 +1,64 @@
+{
+ "no": 328,
+ "class": "외환",
+ "name": "외국기업 국내지사 폐쇄신고서",
+ "file": "add_template\\하나은행_서식자료\\외환\\328_외국기업 국내지사 폐쇄신고서.pdf",
+ "pages": 1,
+ "meta": {},
+ "sections": [
+  "2. 폐쇄사유에 관한 증빙서류"
+ ],
+ "fields": [
+  {
+   "label": "① 상 호",
+   "kind": "text"
+  },
+  {
+   "label": "② 대 표 자",
+   "kind": "text"
+  },
+  {
+   "label": "③ 소 재 지",
+   "kind": "text"
+  },
+  {
+   "label": "④ 업 종",
+   "kind": "text"
+  },
+  {
+   "label": "⑤ 폐 쇄 구 분",
+   "kind": "choice",
+   "options": [
+    "지점",
+    "사무소"
+   ]
+  },
+  {
+   "label": "폐 쇄 일 자",
+   "kind": "text"
+  },
+  {
+   "label": "폐 쇄 사 유",
+   "kind": "text"
+  },
+  {
+   "label": "신 고 번 호",
+   "kind": "text"
+  },
+  {
+   "label": "신 고 일 자",
+   "kind": "text"
+  }
+ ],
+ "choices": [
+  {
+   "options": [
+    "지점",
+    "사무소"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 930
+}

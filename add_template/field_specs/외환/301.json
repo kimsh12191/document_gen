@@ -1,0 +1,41 @@
+{
+ "no": 301,
+ "class": "외환",
+ "name": "Cable Nego 신청서",
+ "file": "add_template\\하나은행_서식자료\\외환\\301_Cable Nego 신청서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-09-0316",
+  "pages_in_set": 1
+ },
+ "sections": [],
+ "fields": [
+  {
+   "label": "신 용 장 내 역",
+   "kind": "text"
+  },
+  {
+   "label": "신용장 번호",
+   "kind": "text"
+  },
+  {
+   "label": "개 설 은 행 (SWIFT CODE)",
+   "kind": "text"
+  },
+  {
+   "label": "신청통화 및 금액",
+   "kind": "text"
+  },
+  {
+   "label": "신용장 유효기일",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "담당",
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 430
+}

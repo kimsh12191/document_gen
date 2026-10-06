@@ -1,0 +1,29 @@
+{
+ "no": 80,
+ "class": "대출",
+ "name": "정보교환 기업구매자금어음 부도통보확인서",
+ "file": "add_template\\하나은행_서식자료\\대출\\080_정보교환 기업구매자금어음 부도통보확인서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-06-0428",
+  "pages_in_set": 1,
+  "revised": "2021.09",
+  "keep_from": "완제",
+  "keep_years": 10
+ },
+ "sections": [
+  "2. 부도확인번호는 제시은행에서 부여하는 관리번호이며 4자리 숫자로 부여함."
+ ],
+ "fields": [
+  {
+   "label": "Fax ( ) -",
+   "kind": "text"
+  }
+ ],
+ "choices": [],
+ "bank_only": [
+  "책임자"
+ ],
+ "has_signature": true,
+ "text_chars": 689
+}

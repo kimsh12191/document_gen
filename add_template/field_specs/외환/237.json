@@ -1,0 +1,18 @@
+{
+ "no": 237,
+ "class": "외환",
+ "name": "해외예금 입금보고서",
+ "file": "add_template\\하나은행_서식자료\\외환\\237_해외예금 입금보고서.pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-09-0363",
+  "pages_in_set": 1,
+  "revised": "2022.01"
+ },
+ "sections": [],
+ "fields": [],
+ "choices": [],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 822
+}

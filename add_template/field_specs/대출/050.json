@@ -1,0 +1,42 @@
+{
+ "no": 50,
+ "class": "대출",
+ "name": "[필수]개인(신용)정보 제3자 제공 동의서(토지분양대금 대출 약정_대구도시개발공사)",
+ "file": "add_template\\하나은행_서식자료\\대출\\050_[필수]개인(신용)정보 제3자 제공 동의서(토지분양대금 대출 약정_대구도시개발공사).pdf",
+ "pages": 1,
+ "meta": {
+  "code": "5-06-1053",
+  "pages_in_set": 1,
+  "revised": "2025.07",
+  "keep_from": "완제",
+  "keep_years": 10
+ },
+ "sections": [],
+ "fields": [],
+ "choices": [
+  {
+   "options": [
+    "개인(신용)정보"
+   ]
+  },
+  {
+   "options": [
+    "일반개인정보"
+   ]
+  },
+  {
+   "options": [
+    "신용거래정보"
+   ]
+  },
+  {
+   "options": [
+    "동의하지 않음",
+    "동의함"
+   ]
+  }
+ ],
+ "bank_only": [],
+ "has_signature": true,
+ "text_chars": 942
+}
