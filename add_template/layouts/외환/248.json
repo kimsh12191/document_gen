@@ -1,0 +1,305 @@
+{
+ "no": 248,
+ "class": "외환",
+ "name": "주식등의 취득 또는 출연방식에 의한 외국인투자 내용변경 신고서, 허가신청서(영문)",
+ "file": "add_template/하나은행_서식자료/외환/248_주식등의 취득 또는 출연방식에 의한 외국인투자 내용변경 신고서, 허가신청서(영문).pdf",
+ "pages": [
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": [
+    [
+     467.8,
+     12.2,
+     548.9,
+     63.1
+    ]
+   ]
+  },
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  }
+ ],
+ "items": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Receipt Number",
+   "rect": [
+    98.3,
+    96.0,
+    164.5,
+    112.7
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Date of Receipt",
+   "rect": [
+    220.8,
+    96.0,
+    289.5,
+    112.7
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Name",
+   "rect": [
+    228.8,
+    140.5,
+    545.9,
+    161.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Address",
+   "rect": [
+    236.2,
+    163.2,
+    545.9,
+    189.5
+   ],
+   "hint": "(Phone Number : )"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Name",
+   "rect": [
+    227.6,
+    191.5,
+    545.9,
+    217.8
+   ],
+   "hint": "(Phone Number : )"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Nationality",
+   "rect": [
+    244.8,
+    219.8,
+    545.9,
+    240.5
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Acquisition Price: Won (USD )",
+   "rect": [
+    474.3,
+    241.5,
+    535.7,
+    275.4
+   ],
+   "unit": "%"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Notification No",
+   "rect": [
+    109.6,
+    483.0,
+    472.5,
+    501.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Date of Completion",
+   "rect": [
+    357.9,
+    96.0,
+    414.5,
+    110.7
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Change in",
+   "rect": [
+    106.0,
+    314.9,
+    192.6,
+    342.4
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Information",
+   "rect": [
+    106.0,
+    328.9,
+    192.6,
+    356.4
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "changed",
+   "rect": [
+    465.4,
+    664.2,
+    493.7,
+    684.0
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Receipt Number",
+   "rect": [
+    98.3,
+    96.0,
+    164.5,
+    112.7
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Date of Receipt",
+   "rect": [
+    220.8,
+    96.0,
+    289.5,
+    112.7
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Name",
+   "rect": [
+    228.8,
+    140.5,
+    545.5,
+    161.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Address",
+   "rect": [
+    236.2,
+    163.2,
+    545.5,
+    189.5
+   ],
+   "hint": "(Phone Number : )"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Name",
+   "rect": [
+    227.6,
+    191.5,
+    545.5,
+    217.8
+   ],
+   "hint": "(Phone Number : )"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Nationality",
+   "rect": [
+    244.8,
+    219.8,
+    545.5,
+    240.5
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Acquisition Price: Won (USD )",
+   "rect": [
+    474.3,
+    241.5,
+    535.7,
+    275.4
+   ],
+   "unit": "%"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Notification No",
+   "rect": [
+    109.6,
+    483.0,
+    472.5,
+    501.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Date of Completion",
+   "rect": [
+    357.9,
+    96.0,
+    414.5,
+    110.7
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Change in",
+   "rect": [
+    106.0,
+    314.9,
+    192.6,
+    342.4
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Information",
+   "rect": [
+    106.0,
+    328.9,
+    192.6,
+    356.4
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "changed",
+   "rect": [
+    465.4,
+    664.2,
+    493.7,
+    684.0
+   ],
+   "free": true
+  }
+ ]
+}

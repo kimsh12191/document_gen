@@ -1,0 +1,211 @@
+{
+ "images": [
+  "hana/hf426.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "customer.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1990.11.21",
+   "norm": "1990-11-21",
+   "page": 0,
+   "bbox": [
+    792.2,
+    326.4,
+    878.7,
+    356.1
+   ]
+  },
+  {
+   "key": "customer.email",
+   "label": "전자우편주소",
+   "type": "text",
+   "value": "soyun407@hanmail.net",
+   "norm": "soyun407@hanmail.net",
+   "page": 0,
+   "bbox": [
+    833.1,
+    477.1,
+    1024.5,
+    501.7
+   ]
+  },
+  {
+   "key": "개설점포",
+   "label": "개설점포",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "예금종별",
+   "label": "예금종별",
+   "type": "text",
+   "value": "하나 MMF",
+   "norm": "하나 MMF",
+   "page": 0,
+   "bbox": [
+    887.9,
+    574.7,
+    984.2,
+    603.5
+   ]
+  },
+  {
+   "key": "customer.name",
+   "label": "명의인",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    870.5,
+    647.8,
+    936.9,
+    675.8
+   ]
+  },
+  {
+   "key": "date",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 0,
+   "bbox": [
+    837.6,
+    1217.4,
+    1083.6,
+    1245.6
+   ]
+  },
+  {
+   "key": "signer.name",
+   "label": "신청인성명",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    804.0,
+    1302.3,
+    868.2,
+    1329.9
+   ]
+  },
+  {
+   "key": "seal.signer",
+   "label": "신청인성명",
+   "type": "seal",
+   "value": "김소윤",
+   "present": true,
+   "kind": "인감",
+   "page": 0,
+   "bbox": [
+    981.6,
+    1306.6,
+    1085.5,
+    1328.5
+   ]
+  },
+  {
+   "key": "sign.signer",
+   "label": "신청인성명",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "page": 0,
+   "bbox": [
+    981.6,
+    1306.6,
+    1085.5,
+    1328.5
+   ]
+  },
+  {
+   "key": "customer.phone",
+   "label": "전화번호",
+   "type": "phone",
+   "value": "010-4372-6867",
+   "norm": "01043726867",
+   "page": 0,
+   "bbox": [
+    294.4,
+    472.9,
+    398.3,
+    492.5
+   ]
+  },
+  {
+   "key": "customer.phone2",
+   "label": "휴대전화번호",
+   "type": "phone",
+   "value": "010-4372-6867",
+   "norm": "01043726867",
+   "page": 0,
+   "bbox": [
+    588.5,
+    474.2,
+    665.3,
+    489.7
+   ]
+  },
+  {
+   "key": "금융회사",
+   "label": "금융회사",
+   "type": "text",
+   "value": "농협은행",
+   "norm": "농협은행",
+   "page": 0,
+   "bbox": [
+    293.2,
+    561.9,
+    381.9,
+    590.7
+   ]
+  },
+  {
+   "key": "지급정지",
+   "label": "지급정지",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "account",
+   "label": "계좌번호",
+   "type": "account_no",
+   "value": "256-738138-77664",
+   "norm": "256-738138-77664",
+   "page": 0,
+   "bbox": [
+    293.0,
+    641.1,
+    476.6,
+    671.5
+   ]
+  },
+  {
+   "key": "seal.untagged1",
+   "label": null,
+   "type": "seal",
+   "value": "김소윤",
+   "present": true,
+   "kind": "도장",
+   "page": 0,
+   "bbox": [
+    998.0,
+    1282.0,
+    1069.1,
+    1353.1
+   ]
+  }
+ ]
+}

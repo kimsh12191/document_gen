@@ -1,0 +1,671 @@
+{
+ "no": 294,
+ "class": "외환",
+ "name": "「외국환서식관리프로그램」선적서류 (일부)매입(추심) 의뢰서(2D용)",
+ "file": "add_template/하나은행_서식자료/외환/294_「외국환서식관리프로그램」선적서류 (일부)매입(추심) 의뢰서(2D용).pdf",
+ "pages": [
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  }
+ ],
+ "items": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "RM",
+   "rect": [
+    472.9,
+    33.5,
+    513.0,
+    70.7
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "영업점장",
+   "rect": [
+    513.0,
+    33.5,
+    549.0,
+    70.7
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "고객번호",
+   "rect": [
+    451.9,
+    137.2,
+    549.0,
+    157.0
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "매입번호",
+   "rect": [
+    451.9,
+    157.0,
+    549.0,
+    176.9
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "일부 매입금액",
+   "rect": [
+    244.1,
+    183.3,
+    346.2,
+    203.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "일부 추심금액",
+   "rect": [
+    451.9,
+    183.3,
+    549.0,
+    203.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "AMOUNT",
+   "rect": [
+    133.6,
+    209.5,
+    297.9,
+    237.8
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "COMMODITY",
+   "rect": [
+    133.6,
+    257.7,
+    297.9,
+    277.5
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "ACCOUNTEE (drawee)",
+   "rect": [
+    133.6,
+    277.5,
+    297.9,
+    301.4
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "PRICE TERM",
+   "rect": [
+    133.6,
+    321.2,
+    215.8,
+    341.0
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "수출 상대국",
+   "rect": [
+    133.6,
+    341.0,
+    215.8,
+    360.9
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "수출신고번호",
+   "rect": [
+    297.9,
+    321.2,
+    388.7,
+    360.9
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "TENOR & MATURITY",
+   "rect": [
+    388.7,
+    209.5,
+    549.0,
+    237.8
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "H.S. CODE",
+   "rect": [
+    388.7,
+    257.7,
+    549.0,
+    277.5
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "BENEFICIARY (drawer)",
+   "rect": [
+    388.7,
+    277.5,
+    549.0,
+    301.4
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "FOB 금액",
+   "rect": [
+    472.9,
+    321.2,
+    549.0,
+    360.9
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "BENE",
+   "rect": [
+    133.6,
+    395.6,
+    163.5,
+    415.4
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "BENE",
+   "rect": [
+    133.6,
+    415.4,
+    163.5,
+    435.3
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "TO REIM. BANK",
+   "rect": [
+    133.6,
+    435.3,
+    163.5,
+    455.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "BANK",
+   "rect": [
+    163.5,
+    395.6,
+    193.3,
+    415.4
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "BANK",
+   "rect": [
+    163.5,
+    415.4,
+    193.3,
+    435.3
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "BANK",
+   "rect": [
+    163.5,
+    435.3,
+    193.3,
+    455.1
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "COMM",
+   "rect": [
+    193.3,
+    395.6,
+    223.2,
+    415.4
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "COMM",
+   "rect": [
+    193.3,
+    415.4,
+    223.2,
+    435.3
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "CUST",
+   "rect": [
+    223.2,
+    395.6,
+    253.1,
+    415.4
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "CUST",
+   "rect": [
+    223.2,
+    415.4,
+    253.1,
+    435.3
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "B/L",
+   "rect": [
+    253.1,
+    395.6,
+    283.0,
+    415.4
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "B/L",
+   "rect": [
+    253.1,
+    415.4,
+    283.0,
+    435.3
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "AWB",
+   "rect": [
+    283.0,
+    395.6,
+    312.9,
+    415.4
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "AWB",
+   "rect": [
+    283.0,
+    415.4,
+    312.9,
+    435.3
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "P/L",
+   "rect": [
+    312.9,
+    395.6,
+    342.7,
+    415.4
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "P/L",
+   "rect": [
+    312.9,
+    415.4,
+    342.7,
+    435.3
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "I/P",
+   "rect": [
+    342.7,
+    395.6,
+    372.6,
+    415.4
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "I/P",
+   "rect": [
+    342.7,
+    415.4,
+    372.6,
+    435.3
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "C/O",
+   "rect": [
+    372.6,
+    395.6,
+    402.5,
+    415.4
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "C/O",
+   "rect": [
+    372.6,
+    415.4,
+    402.5,
+    435.3
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "I/C",
+   "rect": [
+    402.5,
+    395.6,
+    433.0,
+    415.4
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "I/C",
+   "rect": [
+    402.5,
+    415.4,
+    433.0,
+    435.3
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "BENE CERT",
+   "rect": [
+    433.0,
+    395.6,
+    463.6,
+    415.4
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "BENE CERT",
+   "rect": [
+    433.0,
+    415.4,
+    463.6,
+    435.3
+   ],
+   "group": "TO ISSUING BANK",
+   "row": true,
+   "section": "TO ISSUING BANK"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "BENE CERT",
+   "rect": [
+    463.6,
+    367.3,
+    492.6,
+    395.6
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "외화계정 대체",
+   "rect": [
+    133.6,
+    494.2,
+    297.9,
+    514.0
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "원화계정 대체",
+   "rect": [
+    133.6,
+    514.0,
+    297.9,
+    533.9
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "A",
+   "rect": [
+    133.6,
+    533.9,
+    297.9,
+    562.2
+   ],
+   "section": "원화 계정 대체 내용 무역 어음 대출"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "B",
+   "rect": [
+    133.6,
+    562.2,
+    297.9,
+    590.6
+   ],
+   "section": "원화 계정 대체 내용 무역 어음 대출"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "수입보증금",
+   "rect": [
+    133.6,
+    590.6,
+    297.9,
+    610.4
+   ],
+   "section": "원화 계정 대체 내용"
+  },
+  {
+   "t": "date",
+   "page": 0,
+   "label": "작성일",
+   "parts": {
+    "y": [
+     347.1,
+     632.5,
+     386.1,
+     646.6
+    ],
+    "m": [
+     397.1,
+     632.5,
+     419.1,
+     646.6
+    ],
+    "d": [
+     430.1,
+     632.5,
+     452.1,
+     646.6
+    ]
+   }
+  },
+  {
+   "t": "sign",
+   "page": 0,
+   "label": "본인",
+   "name": [
+    323.8,
+    649.1,
+    468.8,
+    667.3
+   ],
+   "mark": [
+    472.8,
+    652.1,
+    488.6,
+    664.3
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "MAIL TO",
+   "rect": [
+    95.9,
+    138.2,
+    181.6,
+    162.9
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "NO",
+   "rect": [
+    160.8,
+    238.8,
+    222.8,
+    256.7
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "FROM",
+   "rect": [
+    172.1,
+    302.4,
+    225.1,
+    320.2
+   ],
+   "free": true
+  }
+ ]
+}

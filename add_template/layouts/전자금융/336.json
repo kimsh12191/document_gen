@@ -1,0 +1,621 @@
+{
+ "no": 336,
+ "class": "전자금융",
+ "name": "개인 전자금융 서비스 신청서(영문)",
+ "file": "add_template/하나은행_서식자료/전자금융/336_개인 전자금융 서비스 신청서(영문).pdf",
+ "pages": [
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  },
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  },
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  }
+ ],
+ "items": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Name",
+   "rect": [
+    114.2,
+    156.5,
+    304.7,
+    174.0
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Address",
+   "rect": [
+    114.2,
+    174.0,
+    304.7,
+    191.6
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "E-Mail",
+   "at": [
+    184.2,
+    195.0,
+    190.7,
+    205.2
+   ],
+   "rect": [
+    114.2,
+    191.6,
+    304.7,
+    206.8
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "User ID",
+   "rect": [
+    114.2,
+    206.8,
+    131.7,
+    224.6
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Date of Birth",
+   "rect": [
+    382.7,
+    156.5,
+    550.4,
+    174.0
+   ],
+   "hint": "“Date of Birth”"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Home Phone",
+   "rect": [
+    465.5,
+    174.0,
+    542.6,
+    191.6
+   ],
+   "unit": ")"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "G Mgr",
+   "rect": [
+    508.2,
+    103.4,
+    550.4,
+    126.3
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Manager",
+   "rect": [
+    474.1,
+    103.4,
+    508.2,
+    126.3
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Clerk",
+   "rect": [
+    436.7,
+    103.4,
+    474.1,
+    126.3
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Bank Name",
+   "rect": [
+    348.0,
+    375.4,
+    378.5,
+    402.1
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Bank Name",
+   "rect": [
+    348.0,
+    402.1,
+    378.5,
+    427.9
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Account No.",
+   "rect": [
+    378.5,
+    375.4,
+    443.1,
+    402.1
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Account No.",
+   "rect": [
+    378.5,
+    402.1,
+    443.1,
+    427.9
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Speed Dial Number for Phone Banking",
+   "rect": [
+    443.1,
+    375.4,
+    493.9,
+    402.1
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Speed Dial Number for Phone Banking",
+   "rect": [
+    443.1,
+    402.1,
+    493.9,
+    427.9
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Name",
+   "rect": [
+    124.1,
+    640.7,
+    135.7,
+    657.2
+   ],
+   "section": "Proxy Details"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Date of Birth",
+   "rect": [
+    135.7,
+    657.2,
+    550.4,
+    672.9
+   ],
+   "group": "Proxy Details",
+   "row": true,
+   "section": "Proxy Details"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Delegator",
+   "rect": [
+    373.5,
+    672.9,
+    550.4,
+    688.1
+   ],
+   "hint": "Registered seal/Sign"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "To : Hana Bank",
+   "rect": [
+    94.4,
+    112.3,
+    153.3,
+    126.2
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Branch General Manager",
+   "rect": [
+    242.5,
+    112.3,
+    433.7,
+    126.2
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": ") \u0000 OTP (Manufacturer",
+   "rect": [
+    372.4,
+    230.9,
+    436.5,
+    251.5
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Applicant",
+   "rect": [
+    468.0,
+    259.3,
+    550.4,
+    274.2
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "KRW),",
+   "rect": [
+    435.2,
+    308.5,
+    550.4,
+    326.4
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Category",
+   "rect": [
+    111.9,
+    349.0,
+    191.9,
+    373.6
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "\u0000 Designate \u0000 Change",
+   "rect": [
+    258.9,
+    455.2,
+    314.2,
+    472.1
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "■ Other Requests",
+   "rect": [
+    115.2,
+    494.9,
+    552.3,
+    515.1
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "■ Power of Attorney",
+   "rect": [
+    332.0,
+    614.6,
+    550.3,
+    635.4
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Name",
+   "rect": [
+    114.2,
+    156.5,
+    304.7,
+    174.0
+   ]
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Address",
+   "rect": [
+    114.2,
+    174.0,
+    304.7,
+    191.6
+   ]
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "E-Mail",
+   "at": [
+    184.2,
+    195.0,
+    190.7,
+    205.2
+   ],
+   "rect": [
+    114.2,
+    191.6,
+    304.7,
+    206.8
+   ]
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "User ID",
+   "rect": [
+    114.2,
+    206.8,
+    131.7,
+    224.6
+   ]
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Date of Birth",
+   "rect": [
+    382.7,
+    156.5,
+    550.3,
+    174.0
+   ],
+   "hint": "“Date of Birth”"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Home Phone",
+   "rect": [
+    465.5,
+    174.0,
+    542.6,
+    191.6
+   ],
+   "unit": ")"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Bank Name",
+   "rect": [
+    348.0,
+    375.4,
+    378.5,
+    402.1
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Bank Name",
+   "rect": [
+    348.0,
+    402.1,
+    378.5,
+    427.9
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Account No.",
+   "rect": [
+    378.5,
+    375.4,
+    443.1,
+    402.1
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Account No.",
+   "rect": [
+    378.5,
+    402.1,
+    443.1,
+    427.9
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Speed Dial Number for Phone Banking",
+   "rect": [
+    443.1,
+    375.4,
+    493.9,
+    402.1
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Speed Dial Number for Phone Banking",
+   "rect": [
+    443.1,
+    402.1,
+    493.9,
+    427.9
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Name",
+   "rect": [
+    124.1,
+    640.7,
+    135.7,
+    657.2
+   ],
+   "section": "Proxy Details"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Date of Birth",
+   "rect": [
+    135.7,
+    657.2,
+    550.3,
+    672.9
+   ],
+   "group": "Proxy Details",
+   "row": true,
+   "section": "Proxy Details"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Delegator",
+   "rect": [
+    373.5,
+    672.9,
+    550.3,
+    688.1
+   ],
+   "hint": "Registered seal/Sign"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": ") \u0000 OTP (Manufacturer",
+   "rect": [
+    372.4,
+    230.9,
+    436.5,
+    251.5
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Applicant",
+   "rect": [
+    468.0,
+    259.3,
+    550.4,
+    274.2
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "KRW),",
+   "rect": [
+    435.2,
+    308.5,
+    550.4,
+    326.4
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Category",
+   "rect": [
+    111.9,
+    349.0,
+    191.9,
+    373.6
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "\u0000 Designate \u0000 Change",
+   "rect": [
+    258.9,
+    455.2,
+    314.2,
+    472.1
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "■ Other Requests",
+   "rect": [
+    115.2,
+    494.9,
+    552.3,
+    515.1
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "■ Power of Attorney",
+   "rect": [
+    332.0,
+    614.6,
+    550.3,
+    635.4
+   ],
+   "free": true
+  }
+ ]
+}

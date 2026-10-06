@@ -1,0 +1,228 @@
+{
+ "no": 288,
+ "class": "외환",
+ "name": "「외국환서식관리프로그램」신용장 양도 신청서(Application for Total/Partial transfer)",
+ "file": "add_template/하나은행_서식자료/외환/288_「외국환서식관리프로그램」신용장 양도 신청서(Application for Total_Partial transfer).pdf",
+ "pages": [
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  }
+ ],
+ "items": [
+  {
+   "t": "check",
+   "page": 0,
+   "label": "",
+   "options": [
+    {
+     "text": "Total",
+     "box": [
+      283.6,
+      90.9,
+      299.6,
+      107.4
+     ],
+     "rect": [
+      283.6,
+      87.8,
+      342.6,
+      107.5
+     ],
+     "line": 24
+    }
+   ]
+  },
+  {
+   "t": "check",
+   "page": 0,
+   "label": "",
+   "options": [
+    {
+     "text": "Partial",
+     "box": [
+      283.6,
+      110.9,
+      299.6,
+      127.4
+     ],
+     "rect": [
+      283.6,
+      107.8,
+      351.5,
+      127.5
+     ],
+     "line": 29
+    }
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Date",
+   "rect": [
+    403.3,
+    150.4,
+    547.3,
+    168.5
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "L/C No.",
+   "rect": [
+    147.1,
+    174.9,
+    535.1,
+    193.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Dated",
+   "rect": [
+    147.1,
+    189.9,
+    539.2,
+    208.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Issuing Bank",
+   "rect": [
+    147.1,
+    204.9,
+    511.8,
+    223.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Amount",
+   "rect": [
+    147.1,
+    219.9,
+    530.6,
+    238.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Beneficiary",
+   "rect": [
+    147.1,
+    234.9,
+    517.0,
+    253.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Accountee",
+   "rect": [
+    147.1,
+    249.9,
+    519.2,
+    268.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Gentlemen",
+   "rect": [
+    102.1,
+    283.8,
+    473.9,
+    301.9
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Amount to be transferred",
+   "rect": [
+    166.1,
+    358.8,
+    473.9,
+    376.9
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Latest shipping date",
+   "rect": [
+    166.3,
+    373.8,
+    497.9,
+    391.9
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Expiry date",
+   "rect": [
+    166.4,
+    388.8,
+    536.9,
+    406.9
+   ]
+  },
+  {
+   "t": "check",
+   "page": 0,
+   "label": "",
+   "options": [
+    {
+     "text": "the first beneficiary.",
+     "box": [
+      347.9,
+      461.0,
+      357.9,
+      471.3
+     ],
+     "rect": [
+      347.9,
+      459.2,
+      448.5,
+      471.3
+     ],
+     "line": 116
+    }
+   ]
+  },
+  {
+   "t": "check",
+   "page": 0,
+   "label": "",
+   "options": [
+    {
+     "text": "the second beneficiary.",
+     "box": [
+      347.9,
+      476.0,
+      357.9,
+      486.3
+     ],
+     "rect": [
+      347.9,
+      474.2,
+      461.9,
+      486.3
+     ],
+     "line": 120
+    }
+   ]
+  }
+ ]
+}

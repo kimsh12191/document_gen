@@ -1,0 +1,44 @@
+{
+ "document_type": "대여금고(신규·변경·해지)신청서",
+ "금고번호": "238479-8974812",
+ "보증금": "139,850,000",
+ "원": null,
+ "signer": {
+  "name": null
+ },
+ "seal": {
+  "signer": false,
+  "signer2": false,
+  "signer3": true,
+  "untagged1": true
+ },
+ "sign": {
+  "signer": false,
+  "signer2": false,
+  "signer3": false
+ },
+ "agent": {
+  "birth": "1990년 3월 6일",
+  "phone": "010-6066-8711",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호",
+  "relation": "배우자",
+  "birth2": "1990년 3월 6일",
+  "phone2": null,
+  "address2": "광주광역시 서구 내방로 75, 114동 1401호",
+  "relation2": "배우자"
+ },
+ "signer2": {
+  "name": null
+ },
+ "customer": {
+  "name": "김소윤",
+  "phone": "010-4372-6867",
+  "address": null,
+  "birth": "901121",
+  "email": "soyun407@hanmail.net"
+ },
+ "signer3": {
+  "name": "김소윤"
+ },
+ "date": "2025년 11월 29일"
+}

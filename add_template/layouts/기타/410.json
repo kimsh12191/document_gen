@@ -1,0 +1,554 @@
+{
+ "no": 410,
+ "class": "기타",
+ "name": "본인확인서(FATCA CRS 법인,임의단체용)(영문)",
+ "file": "add_template/하나은행_서식자료/기타/410_본인확인서(FATCA CRS 법인,임의단체용)(영문).pdf",
+ "pages": [
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": [
+    [
+     424.9,
+     14.4,
+     549.9,
+     65.4
+    ]
+   ]
+  },
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  }
+ ],
+ "items": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Name of Entity",
+   "rect": [
+    127.8,
+    151.8,
+    324.3,
+    168.8
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Business Registration No.",
+   "rect": [
+    417.8,
+    151.8,
+    549.9,
+    168.8
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Phone No.",
+   "rect": [
+    417.8,
+    168.8,
+    549.9,
+    185.8
+   ],
+   "section": "v Establish Region (☑)"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Taxpayer Identification No",
+   "rect": [
+    218.3,
+    615.7,
+    342.4,
+    636.8
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Address(Head Office's Address)",
+   "rect": [
+    218.3,
+    636.8,
+    549.9,
+    658.0
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Name of Entity",
+   "rect": [
+    424.2,
+    775.6,
+    547.3,
+    793.8
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "GIIN /KIIN/ EIN NO",
+   "rect": [
+    175.0,
+    307.3,
+    550.8,
+    322.9
+   ],
+   "section": "d"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Jurisdiction of Residence",
+   "rect": [
+    111.1,
+    574.3,
+    196.2,
+    597.0
+   ],
+   "group": "Controlling person(1)",
+   "row": true,
+   "section": "Controlling person(1)"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Jurisdiction of Residence",
+   "rect": [
+    111.1,
+    666.4,
+    196.2,
+    689.1
+   ],
+   "group": "Controlling person(2)",
+   "row": true,
+   "section": "Controlling person(2)"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Jurisdiction of Residence",
+   "rect": [
+    111.1,
+    758.5,
+    196.2,
+    781.2
+   ],
+   "group": "Controlling person(3)",
+   "row": true,
+   "section": "Controlling person(3)"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Given Name",
+   "rect": [
+    196.2,
+    543.1,
+    297.6,
+    558.7
+   ],
+   "section": "Controlling person(1)"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Taxpayer Identification NO",
+   "rect": [
+    196.2,
+    574.3,
+    297.6,
+    597.0
+   ],
+   "group": "Controlling person(1)",
+   "row": true,
+   "section": "Controlling person(1)"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Oversea address",
+   "rect": [
+    196.2,
+    597.0,
+    550.8,
+    612.5
+   ],
+   "section": "Controlling person(1)"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Given Name",
+   "rect": [
+    196.2,
+    635.2,
+    297.6,
+    650.8
+   ],
+   "section": "Controlling person(2)"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Taxpayer Identification NO",
+   "rect": [
+    196.2,
+    666.4,
+    297.6,
+    689.1
+   ],
+   "group": "Controlling person(2)",
+   "row": true,
+   "section": "Controlling person(2)"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Oversea address",
+   "rect": [
+    196.2,
+    689.1,
+    550.8,
+    704.7
+   ],
+   "section": "Controlling person(2)"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Given Name",
+   "rect": [
+    196.2,
+    727.4,
+    297.6,
+    742.9
+   ],
+   "section": "Controlling person(3)"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Taxpayer Identification NO",
+   "rect": [
+    196.2,
+    758.5,
+    297.6,
+    781.2
+   ],
+   "group": "Controlling person(3)",
+   "row": true,
+   "section": "Controlling person(3)"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Oversea address",
+   "rect": [
+    196.2,
+    781.2,
+    550.8,
+    796.8
+   ],
+   "section": "Controlling person(3)"
+  },
+  {
+   "t": "check",
+   "page": 1,
+   "label": "",
+   "options": [
+    {
+     "text": "Non-issuing country",
+     "box": [
+      300.6,
+      575.2,
+      307.5,
+      584.9
+     ],
+     "rect": [
+      300.6,
+      575.2,
+      369.4,
+      584.9
+     ],
+     "line": 145
+    },
+    {
+     "text": "Not required by tax authority",
+     "box": [
+      412.8,
+      575.2,
+      419.6,
+      584.9
+     ],
+     "rect": [
+      412.8,
+      575.2,
+      508.1,
+      584.9
+     ],
+     "line": 145
+    },
+    {
+     "text": "Not aqucired (write the reason",
+     "box": [
+      300.6,
+      585.2,
+      307.5,
+      594.9
+     ],
+     "rect": [
+      300.6,
+      585.2,
+      403.7,
+      594.9
+     ],
+     "line": 148
+    }
+   ],
+   "cell": [
+    297.6,
+    574.3,
+    550.8,
+    597.0
+   ]
+  },
+  {
+   "t": "check",
+   "page": 1,
+   "label": "",
+   "options": [
+    {
+     "text": "Non-issuing country",
+     "box": [
+      300.6,
+      667.3,
+      307.5,
+      677.0
+     ],
+     "rect": [
+      300.6,
+      667.3,
+      369.4,
+      677.0
+     ],
+     "line": 168
+    },
+    {
+     "text": "Not required by tax authority",
+     "box": [
+      412.8,
+      667.3,
+      419.6,
+      677.0
+     ],
+     "rect": [
+      412.8,
+      667.3,
+      508.1,
+      677.0
+     ],
+     "line": 168
+    },
+    {
+     "text": "Not aqucired (write the reason",
+     "box": [
+      300.6,
+      677.3,
+      307.5,
+      687.0
+     ],
+     "rect": [
+      300.6,
+      677.3,
+      403.7,
+      687.0
+     ],
+     "line": 171
+    }
+   ],
+   "cell": [
+    297.6,
+    666.4,
+    550.8,
+    689.1
+   ]
+  },
+  {
+   "t": "check",
+   "page": 1,
+   "label": "",
+   "options": [
+    {
+     "text": "Non-issuing country",
+     "box": [
+      300.6,
+      759.4,
+      307.5,
+      769.1
+     ],
+     "rect": [
+      300.6,
+      759.4,
+      369.4,
+      769.1
+     ],
+     "line": 191
+    },
+    {
+     "text": "Not required by tax authority",
+     "box": [
+      412.8,
+      759.4,
+      419.6,
+      769.1
+     ],
+     "rect": [
+      412.8,
+      759.4,
+      508.1,
+      769.1
+     ],
+     "line": 191
+    },
+    {
+     "text": "Not aqucired (write the reason",
+     "box": [
+      300.6,
+      769.4,
+      307.5,
+      779.1
+     ],
+     "rect": [
+      300.6,
+      769.4,
+      403.7,
+      779.1
+     ],
+     "line": 194
+    }
+   ],
+   "cell": [
+    297.6,
+    758.5,
+    550.8,
+    781.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Sare Ratio(%)*",
+   "rect": [
+    344.7,
+    520.4,
+    408.2,
+    543.1
+   ],
+   "section": "Controlling person(1)"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Surname",
+   "rect": [
+    344.7,
+    543.1,
+    408.2,
+    558.7
+   ],
+   "section": "Controlling person(1)"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Sare Ratio(%)*",
+   "rect": [
+    344.7,
+    612.5,
+    408.2,
+    635.2
+   ],
+   "section": "Controlling person(2)"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Surname",
+   "rect": [
+    344.7,
+    635.2,
+    408.2,
+    650.8
+   ],
+   "section": "Controlling person(2)"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Sare Ratio(%)*",
+   "rect": [
+    344.7,
+    704.7,
+    408.2,
+    727.4
+   ],
+   "section": "Controlling person(3)"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Surname",
+   "rect": [
+    344.7,
+    727.4,
+    408.2,
+    742.9
+   ],
+   "section": "Controlling person(3)"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Date of Birth",
+   "rect": [
+    477.2,
+    543.1,
+    550.8,
+    558.7
+   ],
+   "section": "Controlling person(1)"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Date of Birth",
+   "rect": [
+    477.2,
+    635.2,
+    550.8,
+    650.8
+   ],
+   "section": "Controlling person(2)"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Date of Birth",
+   "rect": [
+    477.2,
+    727.4,
+    550.8,
+    742.9
+   ],
+   "section": "Controlling person(3)"
+  }
+ ]
+}

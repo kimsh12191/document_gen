@@ -1,0 +1,197 @@
+{
+ "images": [
+  "hana/hf373.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "company.name",
+   "label": "법인명(성명)",
+   "type": "text",
+   "value": "주식회사 새한소프트",
+   "norm": "주식회사 새한소프트",
+   "page": 0,
+   "bbox": [
+    322.9,
+    432.4,
+    515.0,
+    453.1
+   ]
+  },
+  {
+   "key": "company.biz_no",
+   "label": "사업자등록번호(법인)",
+   "type": "biz_no",
+   "value": "530-82-09978",
+   "norm": "530-82-09978",
+   "page": 0,
+   "bbox": [
+    317.2,
+    489.7,
+    446.1,
+    510.4
+   ]
+  },
+  {
+   "key": "당좌계좌번호",
+   "label": "당좌계좌번호",
+   "type": "text",
+   "value": "420-303112-16000",
+   "norm": "420-303112-16000",
+   "page": 0,
+   "bbox": [
+    319.9,
+    547.0,
+    493.3,
+    567.7
+   ]
+  },
+  {
+   "key": "교부신청매수",
+   "label": "교부신청매수",
+   "type": "number",
+   "value": "1",
+   "norm": 1,
+   "page": 0,
+   "bbox": [
+    449.0,
+    604.3,
+    460.5,
+    625.0
+   ]
+  },
+  {
+   "key": "company.ceo",
+   "label": "대표자명",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    827.5,
+    432.4,
+    889.6,
+    453.1
+   ]
+  },
+  {
+   "key": "customer.birth",
+   "label": "생년월일(개인/개인사업자)",
+   "type": "date",
+   "value": "1990년 11월 21일",
+   "norm": "1990-11-21",
+   "page": 0,
+   "bbox": [
+    828.4,
+    489.7,
+    992.6,
+    510.4
+   ]
+  },
+  {
+   "key": "회수신청매수",
+   "label": "회수신청매수",
+   "type": "number",
+   "value": "12",
+   "norm": 12,
+   "page": 0,
+   "bbox": [
+    949.1,
+    604.3,
+    972.1,
+    625.0
+   ]
+  },
+  {
+   "key": "취급점",
+   "label": "취급점",
+   "type": "text",
+   "value": "분당지점",
+   "norm": "분당지점",
+   "page": 0,
+   "bbox": [
+    260.2,
+    287.4,
+    343.0,
+    308.1
+   ]
+  },
+  {
+   "key": "date",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 0,
+   "bbox": [
+    446.4,
+    903.1,
+    664.9,
+    929.2
+   ]
+  },
+  {
+   "key": "signer.name",
+   "label": "신청인",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    575.6,
+    983.8,
+    637.7,
+    1004.5
+   ]
+  },
+  {
+   "key": "seal.signer",
+   "label": "신청인",
+   "type": "seal",
+   "value": "김소윤",
+   "present": true,
+   "kind": "인감",
+   "page": 0,
+   "bbox": [
+    736.6,
+    983.2,
+    763.2,
+    1005.1
+   ]
+  },
+  {
+   "key": "sign.signer",
+   "label": "신청인",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "page": 0,
+   "bbox": [
+    736.6,
+    983.2,
+    763.2,
+    1005.1
+   ]
+  },
+  {
+   "key": "seal.untagged1",
+   "label": null,
+   "type": "seal",
+   "value": "김소윤",
+   "present": true,
+   "kind": "도장",
+   "page": 0,
+   "bbox": [
+    723.7,
+    963.0,
+    776.1,
+    1025.4
+   ]
+  }
+ ]
+}

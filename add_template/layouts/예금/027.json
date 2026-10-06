@@ -1,0 +1,373 @@
+{
+ "no": 27,
+ "class": "예금",
+ "name": "위임장(영문)",
+ "file": "add_template/하나은행_서식자료/예금/027_위임장(영문).pdf",
+ "pages": [
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  }
+ ],
+ "items": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Verification of identity & signature",
+   "rect": [
+    403.5,
+    35.1,
+    471.6,
+    71.7
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Clerk",
+   "rect": [
+    471.6,
+    35.1,
+    506.3,
+    71.7
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Manager",
+   "rect": [
+    506.3,
+    35.1,
+    548.9,
+    71.7
+   ],
+   "row": true
+  },
+  {
+   "t": "check",
+   "page": 0,
+   "label": "Please tick √ in the relevant box",
+   "options": [
+    {
+     "text": ".",
+     "box": [
+      265.1,
+      250.5,
+      275.4,
+      261.5
+     ],
+     "rect": [
+      265.1,
+      248.5,
+      278.6,
+      261.9
+     ],
+     "line": 64
+    }
+   ],
+   "cell": [
+    86.7,
+    244.5,
+    548.9,
+    281.4
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Name",
+   "rect": [
+    200.2,
+    134.0,
+    350.3,
+    170.8
+   ],
+   "section": "Proxy"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Relationship to Principal",
+   "rect": [
+    200.2,
+    170.8,
+    350.3,
+    207.7
+   ],
+   "section": "Proxy"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Address",
+   "rect": [
+    200.2,
+    207.7,
+    548.9,
+    244.5
+   ],
+   "hint": "Optional",
+   "section": "Proxy"
+  },
+  {
+   "t": "check",
+   "page": 0,
+   "label": "Account Opening",
+   "options": [
+    {
+     "text": "Savings Deposit",
+     "box": [
+      210.1,
+      287.3,
+      220.4,
+      298.3
+     ],
+     "rect": [
+      210.1,
+      285.4,
+      298.6,
+      298.7
+     ],
+     "line": 73
+    },
+    {
+     "text": "Time Deposit",
+     "box": [
+      344.8,
+      287.3,
+      355.2,
+      298.3
+     ],
+     "rect": [
+      344.8,
+      285.4,
+      421.8,
+      298.7
+     ],
+     "line": 73
+    },
+    {
+     "text": "Installment Deposit",
+     "box": [
+      210.1,
+      301.3,
+      220.4,
+      312.3
+     ],
+     "rect": [
+      210.1,
+      299.4,
+      314.4,
+      312.7
+     ],
+     "line": 77
+    },
+    {
+     "text": "Others (",
+     "box": [
+      344.7,
+      301.3,
+      355.1,
+      312.3
+     ],
+     "rect": [
+      344.7,
+      299.4,
+      397.2,
+      312.7
+     ],
+     "line": 77
+    }
+   ],
+   "cell": [
+    200.2,
+    281.4,
+    548.9,
+    318.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Account No.",
+   "rect": [
+    200.2,
+    318.2,
+    548.9,
+    355.1
+   ],
+   "hint": "Describe in your own hand-written writing",
+   "section": "Powers given Changes (Report)"
+  },
+  {
+   "t": "check",
+   "page": 0,
+   "label": "Details",
+   "options": [
+    {
+     "text": "Change of password",
+     "box": [
+      210.1,
+      361.0,
+      220.5,
+      372.0
+     ],
+     "rect": [
+      210.1,
+      359.1,
+      321.2,
+      372.4
+     ],
+     "line": 91
+    },
+    {
+     "text": "Bankbook / Seal loss",
+     "box": [
+      344.3,
+      361.0,
+      354.6,
+      372.0
+     ],
+     "rect": [
+      344.3,
+      359.1,
+      454.0,
+      372.4
+     ],
+     "line": 91
+    },
+    {
+     "text": "Account closing",
+     "box": [
+      210.1,
+      375.0,
+      220.5,
+      386.0
+     ],
+     "rect": [
+      210.1,
+      373.1,
+      298.1,
+      386.4
+     ],
+     "line": 95
+    },
+    {
+     "text": "Others (",
+     "box": [
+      344.3,
+      375.0,
+      354.6,
+      386.0
+     ],
+     "rect": [
+      344.3,
+      373.1,
+      396.7,
+      386.4
+     ],
+     "line": 95
+    }
+   ],
+   "cell": [
+    200.2,
+    355.1,
+    548.9,
+    391.9
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Others",
+   "rect": [
+    200.2,
+    391.9,
+    548.9,
+    482.7
+   ],
+   "hint": "※ Please provide powers given in detail: Describe in your own hand-written writing",
+   "section": "Powers given"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Date of Birth",
+   "rect": [
+    435.4,
+    134.0,
+    548.9,
+    170.8
+   ],
+   "section": "Proxy"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Contact Information",
+   "rect": [
+    435.4,
+    170.8,
+    548.9,
+    207.7
+   ],
+   "hint": "Optional",
+   "section": "Proxy"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Date of Confirming Powers Given",
+   "rect": [
+    414.9,
+    581.5,
+    548.9,
+    621.1
+   ],
+   "hint": "For staff only"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Name",
+   "rect": [
+    211.2,
+    640.9,
+    548.9,
+    677.7
+   ],
+   "hint": "(Sign)",
+   "section": "Principal"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Address",
+   "rect": [
+    211.2,
+    711.7,
+    548.9,
+    745.7
+   ],
+   "hint": "Optional",
+   "section": "Principal"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Contact Information",
+   "rect": [
+    435.4,
+    677.7,
+    548.9,
+    711.7
+   ],
+   "hint": "Optional",
+   "section": "Principal"
+  }
+ ]
+}

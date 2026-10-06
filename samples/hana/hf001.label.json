@@ -1,0 +1,1343 @@
+{
+ "images": [
+  "hana/hf001_p1.jpg",
+  "hana/hf001_p2.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "customer.name",
+   "label": "예금주",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    231.0,
+    518.0,
+    295.8,
+    557.8
+   ]
+  },
+  {
+   "key": "check.지급구분",
+   "label": "지급구분",
+   "type": "checkbox",
+   "value": "소액지급 (",
+   "norm": "소액지급 (",
+   "page": 0,
+   "bbox": [
+    426.1,
+    571.3,
+    527.8,
+    597.4
+   ],
+   "options": [
+    {
+     "text": "지급",
+     "checked": false,
+     "box_bbox": [
+      238.8,
+      573.1,
+      257.8,
+      594.4
+     ],
+     "bbox": [
+      238.8,
+      571.3,
+      295.9,
+      597.4
+     ]
+    },
+    {
+     "text": "분할지급",
+     "checked": false,
+     "box_bbox": [
+      316.0,
+      573.1,
+      334.9,
+      594.4
+     ],
+     "bbox": [
+      316.0,
+      571.3,
+      406.2,
+      597.4
+     ]
+    },
+    {
+     "text": "소액지급 (",
+     "checked": true,
+     "box_bbox": [
+      426.1,
+      573.1,
+      445.2,
+      594.4
+     ],
+     "bbox": [
+      426.1,
+      571.3,
+      527.8,
+      597.4
+     ]
+    }
+   ]
+  },
+  {
+   "key": "customer.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1990-11-21",
+   "norm": "1990-11-21",
+   "page": 0,
+   "bbox": [
+    547.8,
+    517.5,
+    688.5,
+    560.7
+   ]
+  },
+  {
+   "key": "사망일자",
+   "label": "사망일자",
+   "type": "date",
+   "value": "2025.09.12",
+   "norm": "2025-09-12",
+   "page": 0,
+   "bbox": [
+    891.6,
+    516.7,
+    1022.9,
+    560.5
+   ]
+  },
+  {
+   "key": "목록.0.상품명",
+   "label": "상품명",
+   "type": "text",
+   "value": "하나 정기예금",
+   "norm": "하나 정기예금",
+   "page": 0,
+   "bbox": [
+    151.5,
+    729.7,
+    250.7,
+    756.8
+   ]
+  },
+  {
+   "key": "목록.1.상품명",
+   "label": "상품명",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "page": 1,
+   "bbox": [
+    144.2,
+    1015.1,
+    251.8,
+    1058.0
+   ]
+  },
+  {
+   "key": "목록.2.상품명",
+   "label": "상품명",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.3.상품명",
+   "label": "상품명",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.4.상품명",
+   "label": "상품명",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.0.계좌번호",
+   "label": "계좌번호",
+   "type": "text",
+   "value": "666-806002-58350",
+   "norm": "666-806002-58350",
+   "page": 0,
+   "bbox": [
+    272.8,
+    726.2,
+    458.1,
+    756.7
+   ]
+  },
+  {
+   "key": "목록.1.계좌번호",
+   "label": "계좌번호",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "page": 1,
+   "bbox": [
+    311.1,
+    1016.6,
+    518.9,
+    1055.6
+   ]
+  },
+  {
+   "key": "목록.2.계좌번호",
+   "label": "계좌번호",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.3.계좌번호",
+   "label": "계좌번호",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.4.계좌번호",
+   "label": "계좌번호",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.0.금액",
+   "label": "금액",
+   "type": "number",
+   "value": "8,870,000",
+   "norm": 8870000,
+   "page": 0,
+   "bbox": [
+    501.1,
+    729.4,
+    584.9,
+    758.3
+   ]
+  },
+  {
+   "key": "목록.1.금액",
+   "label": "금액",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.2.금액",
+   "label": "금액",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.3.금액",
+   "label": "금액",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.4.금액",
+   "label": "금액",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "check.보기1",
+   "label": "보기1",
+   "type": "checkbox",
+   "value": null,
+   "norm": null,
+   "page": 0,
+   "bbox": [
+    608.2,
+    732.6,
+    625.3,
+    751.6
+   ],
+   "options": [
+    {
+     "text": "보기1",
+     "checked": false,
+     "box_bbox": [
+      608.2,
+      732.6,
+      625.3,
+      751.6
+     ],
+     "bbox": [
+      608.2,
+      732.6,
+      625.3,
+      751.6
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.보기12",
+   "label": "보기1",
+   "type": "checkbox",
+   "value": null,
+   "norm": null,
+   "page": 0,
+   "bbox": [
+    608.2,
+    778.0,
+    625.3,
+    796.9
+   ],
+   "options": [
+    {
+     "text": "보기1",
+     "checked": false,
+     "box_bbox": [
+      608.2,
+      778.0,
+      625.3,
+      796.9
+     ],
+     "bbox": [
+      608.2,
+      778.0,
+      625.3,
+      796.9
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.보기13",
+   "label": "보기1",
+   "type": "checkbox",
+   "value": "보기1",
+   "norm": "보기1",
+   "page": 0,
+   "bbox": [
+    608.2,
+    823.3,
+    625.3,
+    842.4
+   ],
+   "options": [
+    {
+     "text": "보기1",
+     "checked": true,
+     "box_bbox": [
+      608.2,
+      823.3,
+      625.3,
+      842.4
+     ],
+     "bbox": [
+      608.2,
+      823.3,
+      625.3,
+      842.4
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.보기14",
+   "label": "보기1",
+   "type": "checkbox",
+   "value": null,
+   "norm": null,
+   "page": 0,
+   "bbox": [
+    608.2,
+    868.8,
+    625.3,
+    887.8
+   ],
+   "options": [
+    {
+     "text": "보기1",
+     "checked": false,
+     "box_bbox": [
+      608.2,
+      868.8,
+      625.3,
+      887.8
+     ],
+     "bbox": [
+      608.2,
+      868.8,
+      625.3,
+      887.8
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.보기15",
+   "label": "보기1",
+   "type": "checkbox",
+   "value": "보기1",
+   "norm": "보기1",
+   "page": 0,
+   "bbox": [
+    608.2,
+    914.2,
+    625.3,
+    933.0
+   ],
+   "options": [
+    {
+     "text": "보기1",
+     "checked": true,
+     "box_bbox": [
+      608.2,
+      914.2,
+      625.3,
+      933.0
+     ],
+     "bbox": [
+      608.2,
+      914.2,
+      625.3,
+      933.0
+     ]
+    }
+   ]
+  },
+  {
+   "key": "목록.5.상품명",
+   "label": "상품명",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.6.상품명",
+   "label": "상품명",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.7.상품명",
+   "label": "상품명",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.8.상품명",
+   "label": "상품명",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.9.상품명",
+   "label": "상품명",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.5.계좌번호",
+   "label": "계좌번호",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.6.계좌번호",
+   "label": "계좌번호",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.7.계좌번호",
+   "label": "계좌번호",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.8.계좌번호",
+   "label": "계좌번호",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.9.계좌번호",
+   "label": "계좌번호",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.5.금액",
+   "label": "금액",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.6.금액",
+   "label": "금액",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.7.금액",
+   "label": "금액",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.8.금액",
+   "label": "금액",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.9.금액",
+   "label": "금액",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "check.명의변경",
+   "label": "명의변경",
+   "type": "checkbox",
+   "value": "□",
+   "norm": "□",
+   "page": 0,
+   "bbox": [
+    103.6,
+    823.3,
+    121.0,
+    842.4
+   ],
+   "options": [
+    {
+     "text": "□",
+     "checked": true,
+     "box_bbox": [
+      103.6,
+      732.6,
+      121.0,
+      751.6
+     ],
+     "bbox": [
+      103.6,
+      732.6,
+      121.0,
+      751.6
+     ]
+    },
+    {
+     "text": "□",
+     "checked": true,
+     "box_bbox": [
+      103.6,
+      778.0,
+      121.0,
+      796.9
+     ],
+     "bbox": [
+      103.6,
+      778.0,
+      121.0,
+      796.9
+     ]
+    },
+    {
+     "text": "□",
+     "checked": true,
+     "box_bbox": [
+      103.6,
+      823.3,
+      121.0,
+      842.4
+     ],
+     "bbox": [
+      103.6,
+      823.3,
+      121.0,
+      842.4
+     ]
+    },
+    {
+     "text": "□",
+     "checked": true,
+     "box_bbox": [
+      103.6,
+      868.8,
+      121.0,
+      887.8
+     ],
+     "bbox": [
+      103.6,
+      868.8,
+      121.0,
+      887.8
+     ]
+    },
+    {
+     "text": "□",
+     "checked": true,
+     "box_bbox": [
+      103.6,
+      914.2,
+      121.0,
+      933.0
+     ],
+     "bbox": [
+      103.6,
+      914.2,
+      121.0,
+      933.0
+     ]
+    }
+   ]
+  },
+  {
+   "key": "취급점",
+   "label": "취급점",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "date",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 0,
+   "bbox": [
+    900.8,
+    482.2,
+    1099.0,
+    514.6
+   ]
+  },
+  {
+   "key": "기타특약사항",
+   "label": "기타특약사항",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "check.주된상속인",
+   "label": "주된상속인(소득귀속인)",
+   "type": "checkbox",
+   "value": "본인",
+   "norm": "본인",
+   "page": 1,
+   "bbox": [
+    282.0,
+    395.4,
+    331.9,
+    418.8
+   ],
+   "options": [
+    {
+     "text": "본인",
+     "checked": true,
+     "box_bbox": [
+      282.0,
+      396.1,
+      297.1,
+      417.6
+     ],
+     "bbox": [
+      282.0,
+      395.4,
+      331.9,
+      418.8
+     ]
+    },
+    {
+     "text": "위임(별도 위임장 작성)",
+     "checked": false,
+     "box_bbox": [
+      282.0,
+      424.2,
+      297.1,
+      445.8
+     ],
+     "bbox": [
+      282.0,
+      423.4,
+      458.2,
+      446.8
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.상속인",
+   "label": "상속인",
+   "type": "checkbox",
+   "value": "위임(주된 상속인 앞)",
+   "norm": "위임(주된 상속인 앞)",
+   "page": 1,
+   "bbox": [
+    282.0,
+    485.8,
+    443.2,
+    509.2
+   ],
+   "options": [
+    {
+     "text": "본인",
+     "checked": false,
+     "box_bbox": [
+      282.0,
+      458.5,
+      297.1,
+      480.0
+     ],
+     "bbox": [
+      282.0,
+      457.8,
+      331.9,
+      481.2
+     ]
+    },
+    {
+     "text": "위임(주된 상속인 앞)",
+     "checked": true,
+     "box_bbox": [
+      282.0,
+      486.6,
+      297.1,
+      508.0
+     ],
+     "bbox": [
+      282.0,
+      485.8,
+      443.2,
+      509.2
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.상속인2",
+   "label": "상속인",
+   "type": "checkbox",
+   "value": "위임(주된 상속인 앞)",
+   "norm": "위임(주된 상속인 앞)",
+   "page": 1,
+   "bbox": [
+    282.0,
+    548.2,
+    443.2,
+    571.6
+   ],
+   "options": [
+    {
+     "text": "본인",
+     "checked": false,
+     "box_bbox": [
+      282.0,
+      520.8,
+      297.1,
+      542.4
+     ],
+     "bbox": [
+      282.0,
+      520.2,
+      331.9,
+      543.4
+     ]
+    },
+    {
+     "text": "위임(주된 상속인 앞)",
+     "checked": true,
+     "box_bbox": [
+      282.0,
+      548.8,
+      297.1,
+      570.4
+     ],
+     "bbox": [
+      282.0,
+      548.2,
+      443.2,
+      571.6
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.상속인3",
+   "label": "상속인",
+   "type": "checkbox",
+   "value": "위임(주된 상속인 앞)",
+   "norm": "위임(주된 상속인 앞)",
+   "page": 1,
+   "bbox": [
+    282.0,
+    610.6,
+    443.2,
+    633.7
+   ],
+   "options": [
+    {
+     "text": "본인",
+     "checked": false,
+     "box_bbox": [
+      282.0,
+      583.2,
+      297.1,
+      604.8
+     ],
+     "bbox": [
+      282.0,
+      582.6,
+      331.9,
+      605.8
+     ]
+    },
+    {
+     "text": "위임(주된 상속인 앞)",
+     "checked": true,
+     "box_bbox": [
+      282.0,
+      611.2,
+      297.1,
+      632.8
+     ],
+     "bbox": [
+      282.0,
+      610.6,
+      443.2,
+      633.7
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.상속인4",
+   "label": "상속인",
+   "type": "checkbox",
+   "value": null,
+   "norm": null,
+   "page": 1,
+   "bbox": [
+    282.0,
+    645.0,
+    443.2,
+    696.1
+   ],
+   "options": [
+    {
+     "text": "본인",
+     "checked": false,
+     "box_bbox": [
+      282.0,
+      645.6,
+      297.1,
+      667.2
+     ],
+     "bbox": [
+      282.0,
+      645.0,
+      331.9,
+      668.2
+     ]
+    },
+    {
+     "text": "위임(주된 상속인 앞)",
+     "checked": false,
+     "box_bbox": [
+      282.0,
+      673.6,
+      297.1,
+      695.2
+     ],
+     "bbox": [
+      282.0,
+      673.0,
+      443.2,
+      696.1
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.상속인5",
+   "label": "상속인",
+   "type": "checkbox",
+   "value": "위임(주된 상속인 앞)",
+   "norm": "위임(주된 상속인 앞)",
+   "page": 1,
+   "bbox": [
+    282.0,
+    735.1,
+    443.2,
+    758.5
+   ],
+   "options": [
+    {
+     "text": "본인",
+     "checked": false,
+     "box_bbox": [
+      282.0,
+      708.0,
+      297.1,
+      729.6
+     ],
+     "bbox": [
+      282.0,
+      707.2,
+      331.9,
+      730.6
+     ]
+    },
+    {
+     "text": "위임(주된 상속인 앞)",
+     "checked": true,
+     "box_bbox": [
+      282.0,
+      736.0,
+      297.1,
+      757.6
+     ],
+     "bbox": [
+      282.0,
+      735.1,
+      443.2,
+      758.5
+     ]
+    }
+   ]
+  },
+  {
+   "key": "목록.0.성명",
+   "label": "성명",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 1,
+   "bbox": [
+    473.4,
+    401.2,
+    538.8,
+    442.0
+   ]
+  },
+  {
+   "key": "목록.1.성명",
+   "label": "성명",
+   "type": "text",
+   "value": "선우철서",
+   "norm": "선우철서",
+   "page": 1,
+   "bbox": [
+    471.7,
+    460.8,
+    566.4,
+    502.7
+   ]
+  },
+  {
+   "key": "목록.2.성명",
+   "label": "성명",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.3.성명",
+   "label": "성명",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.4.성명",
+   "label": "성명",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.5.성명",
+   "label": "성명",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.0.생년월일",
+   "label": "생년월일",
+   "type": "date",
+   "value": "2024.11.07",
+   "norm": "2024-11-07",
+   "page": 1,
+   "bbox": [
+    750.3,
+    400.7,
+    868.6,
+    436.9
+   ]
+  },
+  {
+   "key": "목록.1.생년월일",
+   "label": "생년월일",
+   "type": "date",
+   "value": "2025-05-19",
+   "norm": "2025-05-19",
+   "page": 1,
+   "bbox": [
+    753.0,
+    463.3,
+    891.0,
+    500.6
+   ]
+  },
+  {
+   "key": "목록.2.생년월일",
+   "label": "생년월일",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.3.생년월일",
+   "label": "생년월일",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.4.생년월일",
+   "label": "생년월일",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.5.생년월일",
+   "label": "생년월일",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.0.연락처",
+   "label": "연락처",
+   "type": "phone",
+   "value": "010-4372-6867",
+   "norm": "01043726867",
+   "page": 1,
+   "bbox": [
+    910.2,
+    400.8,
+    1085.7,
+    437.1
+   ]
+  },
+  {
+   "key": "목록.1.연락처",
+   "label": "연락처",
+   "type": "phone",
+   "value": "010-4372-6867",
+   "norm": "01043726867",
+   "page": 1,
+   "bbox": [
+    909.2,
+    465.7,
+    1084.9,
+    503.0
+   ]
+  },
+  {
+   "key": "목록.2.연락처",
+   "label": "연락처",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.3.연락처",
+   "label": "연락처",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.4.연락처",
+   "label": "연락처",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.5.연락처",
+   "label": "연락처",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.0.예금잔액",
+   "label": "예금잔액",
+   "type": "number",
+   "value": "77,600,000",
+   "norm": 77600000,
+   "page": 1,
+   "bbox": [
+    566.5,
+    971.9,
+    702.0,
+    1012.1
+   ]
+  },
+  {
+   "key": "목록.1.예금잔액",
+   "label": "예금잔액",
+   "type": "number",
+   "value": "68,360,000",
+   "norm": 68360000,
+   "page": 1,
+   "bbox": [
+    575.9,
+    1015.7,
+    701.8,
+    1055.3
+   ]
+  },
+  {
+   "key": "목록.2.예금잔액",
+   "label": "예금잔액",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.3.예금잔액",
+   "label": "예금잔액",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.4.예금잔액",
+   "label": "예금잔액",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.0.미지급사유주1",
+   "label": "미지급사유주1",
+   "type": "text",
+   "value": "청년도약계좌",
+   "norm": "청년도약계좌",
+   "page": 1,
+   "bbox": [
+    708.1,
+    973.7,
+    862.6,
+    1012.7
+   ]
+  },
+  {
+   "key": "목록.1.미지급사유주1",
+   "label": "미지급사유주1",
+   "type": "text",
+   "value": "청년도약계좌",
+   "norm": "청년도약계좌",
+   "page": 1,
+   "bbox": [
+    705.1,
+    1015.4,
+    860.2,
+    1057.3
+   ]
+  },
+  {
+   "key": "목록.2.미지급사유주1",
+   "label": "미지급사유주1",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.3.미지급사유주1",
+   "label": "미지급사유주1",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.4.미지급사유주1",
+   "label": "미지급사유주1",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.0.상속인확인",
+   "label": "상속인확인",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.1.상속인확인",
+   "label": "상속인확인",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.2.상속인확인",
+   "label": "상속인확인",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.3.상속인확인",
+   "label": "상속인확인",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.4.상속인확인",
+   "label": "상속인확인",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "signer.name",
+   "label": "확인담당자",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 1,
+   "bbox": [
+    438.1,
+    1293.9,
+    503.8,
+    1335.1
+   ]
+  },
+  {
+   "key": "seal.signer",
+   "label": "확인담당자",
+   "type": "seal",
+   "value": null,
+   "present": false,
+   "kind": "인감",
+   "page": 1,
+   "bbox": [
+    581.4,
+    1303.3,
+    646.2,
+    1326.6
+   ]
+  },
+  {
+   "key": "sign.signer",
+   "label": "확인담당자",
+   "type": "signature",
+   "value": "김소윤",
+   "present": true,
+   "page": 1,
+   "bbox": [
+    581.4,
+    1303.3,
+    646.2,
+    1326.6
+   ]
+  },
+  {
+   "key": "signer2.name",
+   "label": "확인책임자",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 1,
+   "bbox": [
+    880.0,
+    1294.9,
+    945.2,
+    1335.3
+   ]
+  },
+  {
+   "key": "seal.signer2",
+   "label": "확인책임자",
+   "type": "seal",
+   "value": "김소윤",
+   "present": true,
+   "kind": "인감",
+   "page": 1,
+   "bbox": [
+    1023.6,
+    1303.3,
+    1088.4,
+    1326.6
+   ]
+  },
+  {
+   "key": "sign.signer2",
+   "label": "확인책임자",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "page": 1,
+   "bbox": [
+    1023.6,
+    1303.3,
+    1088.4,
+    1326.6
+   ]
+  },
+  {
+   "key": "seal.untagged1",
+   "label": null,
+   "type": "seal",
+   "value": "김소윤",
+   "present": true,
+   "kind": "도장",
+   "page": 1,
+   "bbox": [
+    1023.7,
+    1282.7,
+    1088.3,
+    1347.3
+   ]
+  }
+ ]
+}

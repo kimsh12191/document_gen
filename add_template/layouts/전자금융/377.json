@@ -1,0 +1,454 @@
+{
+ "no": 377,
+ "class": "전자금융",
+ "name": "해외영업점 계좌개설 신청서",
+ "file": "add_template/하나은행_서식자료/전자금융/377_해외영업점 계좌개설 신청서.pdf",
+ "pages": [
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  }
+ ],
+ "items": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "담당 Prepare",
+   "rect": [
+    469.8,
+    48.1,
+    517.7,
+    85.0
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "책임자 Approval",
+   "rect": [
+    517.7,
+    48.1,
+    549.7,
+    85.0
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "성 명 Name",
+   "rect": [
+    238.7,
+    126.8,
+    549.7,
+    146.6
+   ],
+   "hint": "한글 Korean",
+   "section": "신청인 Applicant 성 명 Name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "성 명 Name",
+   "rect": [
+    238.7,
+    146.6,
+    549.7,
+    166.5
+   ],
+   "hint": "영문 여권과 일치하여야 함 English Name on your Passport",
+   "section": "신청인 Applicant 성 명 Name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "생년월일 Date of Birth",
+   "rect": [
+    238.7,
+    166.5,
+    366.3,
+    193.3
+   ],
+   "section": "신청인 Applicant"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "여권번호 Passport No.",
+   "rect": [
+    238.7,
+    193.3,
+    366.3,
+    220.1
+   ],
+   "section": "신청인 Applicant"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "여권유효기일 Date of Expiry",
+   "rect": [
+    238.7,
+    220.1,
+    549.7,
+    240.0
+   ],
+   "hint": "한글 Korean",
+   "group": "국내주소 Domestic Address",
+   "row": true,
+   "section": "신청인 Applicant 국내주소 Domestic Address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "여권유효기일 Date of Expiry",
+   "rect": [
+    238.7,
+    240.0,
+    549.7,
+    259.8
+   ],
+   "hint": "영문 English",
+   "group": "국내주소 Domestic Address",
+   "row": true,
+   "section": "신청인 Applicant 국내주소 Domestic Address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "국내주소 Domestic Address",
+   "rect": [
+    238.7,
+    259.8,
+    301.1,
+    288.2
+   ],
+   "hint": "선택Selective",
+   "section": "신청인 Applicant 국내주소 Domestic Address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "여권유효기일 Date of Expiry",
+   "rect": [
+    238.7,
+    288.2,
+    549.7,
+    308.0
+   ],
+   "hint": "한글 Korean",
+   "group": "해외주소 Overseas Address",
+   "row": true,
+   "section": "신청인 Applicant 해외주소 Overseas Address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "여권유효기일 Date of Expiry",
+   "rect": [
+    238.7,
+    308.0,
+    549.7,
+    327.9
+   ],
+   "hint": "영문 English",
+   "group": "해외주소 Overseas Address",
+   "row": true,
+   "section": "신청인 Applicant 해외주소 Overseas Address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "여권유효기일 Date of Expiry",
+   "rect": [
+    238.7,
+    327.9,
+    549.7,
+    347.7
+   ],
+   "hint": "(국가/지역번호 포함) 전화번호 Telephone No.",
+   "group": "해외주소 Overseas Address",
+   "row": true,
+   "section": "신청인 Applicant 해외주소 Overseas Address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "여권유효기일 Date of Expiry",
+   "rect": [
+    238.7,
+    347.7,
+    549.7,
+    367.5
+   ],
+   "hint": "입학 예정 교육기관명 또는 직장명 Institution",
+   "group": "해외주소 Overseas Address",
+   "row": true,
+   "section": "신청인 Applicant 해외주소 Overseas Address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "여권유효기일 Date of Expiry",
+   "rect": [
+    301.1,
+    259.8,
+    549.7,
+    274.0
+   ],
+   "hint": "Telephone No. Mobile phone No. □ □",
+   "group": "국내주소 Domestic Address",
+   "row": true,
+   "section": "신청인 Applicant 국내주소 Domestic Address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "여권유효기일 Date of Expiry",
+   "rect": [
+    301.1,
+    274.0,
+    549.7,
+    288.2
+   ],
+   "hint": "□ e-Mail",
+   "group": "국내주소 Domestic Address",
+   "row": true,
+   "section": "신청인 Applicant 국내주소 Domestic Address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "국 적 Nationality",
+   "rect": [
+    450.0,
+    166.5,
+    549.7,
+    193.3
+   ],
+   "section": "신청인 Applicant"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "여권유효기일 Date of Expiry",
+   "rect": [
+    450.0,
+    193.3,
+    549.7,
+    220.1
+   ],
+   "section": "신청인 Applicant"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "개설 신청 은행/지점명 Opening Bank/Branch",
+   "rect": [
+    238.7,
+    376.8,
+    382.3,
+    403.6
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "개설통화 Currency",
+   "rect": [
+    469.8,
+    376.8,
+    549.7,
+    403.6
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "접수 은행/지점명 Bank/Branch",
+   "rect": [
+    138.5,
+    520.3,
+    246.3,
+    568.5
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "고객명(Name)",
+   "rect": [
+    170.3,
+    705.3,
+    297.6,
+    722.3
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "제출 서류(Document)",
+   "rect": [
+    170.3,
+    722.3,
+    549.7,
+    739.3
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "계좌번호(A/C No.)",
+   "rect": [
+    425.0,
+    705.3,
+    549.7,
+    722.3
+   ]
+  },
+  {
+   "t": "check",
+   "page": 0,
+   "label": "",
+   "options": [
+    {
+     "text": "신청(Application)",
+     "box": [
+      50.3,
+      102.9,
+      61.3,
+      114.2
+     ],
+     "rect": [
+      50.3,
+      100.8,
+      147.4,
+      114.3
+     ],
+     "line": 27
+    },
+    {
+     "text": "취소(Cancellation)",
+     "box": [
+      167.2,
+      102.9,
+      178.2,
+      114.2
+     ],
+     "rect": [
+      167.2,
+      100.8,
+      269.0,
+      114.3
+     ],
+     "line": 27
+    }
+   ]
+  },
+  {
+   "t": "check",
+   "page": 0,
+   "label": "",
+   "options": [
+    {
+     "text": "본인은 위와 같이 예금계좌 개설/취소를 신청합니다.",
+     "box": [
+      41.8,
+      412.5,
+      52.8,
+      423.8
+     ],
+     "rect": [
+      41.8,
+      410.5,
+      288.4,
+      423.8
+     ],
+     "line": 104
+    }
+   ]
+  },
+  {
+   "t": "check",
+   "page": 0,
+   "label": "",
+   "options": [
+    {
+     "text": "현지국의 법규 및 규제사항, 거래약관에 따라 신청자 앞 예금계좌가 개설되",
+     "box": [
+      41.8,
+      441.8,
+      52.8,
+      453.1
+     ],
+     "rect": [
+      41.8,
+      439.8,
+      478.3,
+      453.1
+     ],
+     "line": 112
+    }
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청일자(Date)",
+   "rect": [
+    137.8,
+    474.8,
+    486.8,
+    494.1
+   ]
+  },
+  {
+   "t": "sign",
+   "page": 0,
+   "label": "담당자(직, 성명)",
+   "name": [
+    407.3,
+    520.9,
+    524.7,
+    540.3
+   ],
+   "mark": [
+    528.7,
+    523.9,
+    546.1,
+    537.3
+   ]
+  },
+  {
+   "t": "sign",
+   "page": 0,
+   "label": "지점장",
+   "name": null,
+   "mark": [
+    523.2,
+    648.2,
+    541.0,
+    661.7
+   ]
+  },
+  {
+   "t": "sign",
+   "page": 0,
+   "label": "담당자(직, 성명)",
+   "name": [
+    126.4,
+    737.5,
+    243.8,
+    756.8
+   ],
+   "mark": [
+    247.8,
+    740.5,
+    265.2,
+    753.8
+   ]
+  }
+ ]
+}

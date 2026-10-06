@@ -58,17 +58,10 @@ LEGACY = [k for k, b in BRANDS.items() if b.era]
 
 # 옛 은행 서식으로 만들지 않는 서류 (그 시기에 없던 제도)
 #   실제소유자 확인(2016.1~), 금융거래목적확인서(2016~ 전 은행 확대), FATCA(2015.6 협정 발효)·CRS(2017~)
-#   적합성·적정성 확인서, 대출상품설명서(권유용): 금융소비자보호법 시행(2021.3.25) 이후 서식
-#   대출계약 철회신청서: 은행여신거래기본약관 개정(2016.10.19) 이후 서식
-#   사전지정운용방법(디폴트옵션) 지정 신청서: 제도 시행(2022.7.12) 이후 서식 — 두 옛 은행 모두 없다
-_FSCA_FORMS = {"suitability_check", "suitability_check_corp", "loan_product_description",
-               "investor_profile_retirement"}
-_NEW_FORMS = {"default_option_designation"}
 LEGACY_EXCLUDE = {
     "외환은행": {"customer_due_diligence", "corporate_customer_due_diligence",
-                 "financial_transaction_purpose", "fatca_crs",
-                 "loan_withdrawal_request", *_FSCA_FORMS, *_NEW_FORMS},
-    "KEB하나은행": {*_FSCA_FORMS, *_NEW_FORMS},
+                 "financial_transaction_purpose", "fatca_crs"},
+    "KEB하나은행": set(),
 }
 
 

@@ -1,0 +1,455 @@
+{
+ "no": 245,
+ "class": "외환",
+ "name": "장기차관 방식의 외국인투자신고서, 변경신고서(영문)",
+ "file": "add_template/하나은행_서식자료/외환/245_장기차관 방식의 외국인투자신고서, 변경신고서(영문).pdf",
+ "pages": [
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": [
+    [
+     425.0,
+     14.3,
+     548.5,
+     65.2
+    ]
+   ]
+  },
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  }
+ ],
+ "items": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Name",
+   "rect": [
+    158.9,
+    114.5,
+    545.5,
+    138.0
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Address",
+   "rect": [
+    166.2,
+    140.0,
+    545.5,
+    163.6
+   ],
+   "hint": "(Phone number : )"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Name",
+   "rect": [
+    158.9,
+    165.6,
+    407.7,
+    189.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Address",
+   "rect": [
+    166.2,
+    191.1,
+    545.5,
+    214.6
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Cash",
+   "rect": [
+    127.3,
+    309.1,
+    269.0,
+    334.6
+   ],
+   "group": "Type of Loan",
+   "row": true,
+   "section": "Type of Loan"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Purpose of Loan",
+   "rect": [
+    127.3,
+    334.6,
+    269.0,
+    357.3
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Rate of Interest",
+   "rect": [
+    248.7,
+    269.4,
+    339.5,
+    292.1
+   ],
+   "section": "Details of Loan Loan conditions"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Capital in kind",
+   "rect": [
+    269.0,
+    309.1,
+    410.7,
+    334.6
+   ],
+   "group": "Type of Loan",
+   "row": true,
+   "section": "Type of Loan"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Nationality",
+   "rect": [
+    461.4,
+    165.6,
+    545.5,
+    189.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Average Loan Period",
+   "rect": [
+    410.7,
+    238.3,
+    548.5,
+    269.4
+   ],
+   "section": "Details of Loan Loan conditions"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Other",
+   "rect": [
+    410.7,
+    269.4,
+    548.5,
+    292.1
+   ],
+   "section": "Details of Loan Loan conditions"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Other",
+   "rect": [
+    410.7,
+    309.1,
+    548.5,
+    334.6
+   ],
+   "group": "Type of Loan",
+   "row": true,
+   "section": "Type of Loan"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Location of Investment",
+   "rect": [
+    410.7,
+    334.6,
+    548.5,
+    357.3
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Change in Information",
+   "rect": [
+    127.3,
+    377.5,
+    339.5,
+    414.3
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Information After Change",
+   "rect": [
+    339.5,
+    377.5,
+    548.5,
+    414.3
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Notification No",
+   "rect": [
+    112.0,
+    533.0,
+    472.2,
+    549.9
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Receipt Number",
+   "rect": [
+    104.4,
+    92.8,
+    155.4,
+    108.5
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Date of Receipt",
+   "rect": [
+    217.8,
+    92.8,
+    271.6,
+    108.5
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Name",
+   "rect": [
+    158.9,
+    114.5,
+    545.1,
+    138.0
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Address",
+   "rect": [
+    166.2,
+    140.0,
+    545.1,
+    163.6
+   ],
+   "hint": "(Phone number : )"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Name",
+   "rect": [
+    158.9,
+    165.6,
+    407.7,
+    189.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Address",
+   "rect": [
+    166.2,
+    191.1,
+    545.1,
+    214.6
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Cash",
+   "rect": [
+    127.3,
+    309.1,
+    269.0,
+    334.6
+   ],
+   "group": "Type of Loan",
+   "row": true,
+   "section": "Type of Loan"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Purpose of Loan",
+   "rect": [
+    127.3,
+    334.6,
+    269.0,
+    357.3
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Rate of Interest",
+   "rect": [
+    248.7,
+    269.4,
+    339.5,
+    292.1
+   ],
+   "section": "Details of Loan Loan conditions"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Capital in kind",
+   "rect": [
+    269.0,
+    309.1,
+    410.7,
+    334.6
+   ],
+   "group": "Type of Loan",
+   "row": true,
+   "section": "Type of Loan"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Nationality",
+   "rect": [
+    461.4,
+    165.6,
+    545.1,
+    189.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Average Loan Period",
+   "rect": [
+    410.7,
+    238.3,
+    548.1,
+    269.4
+   ],
+   "section": "Details of Loan Loan conditions"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Other",
+   "rect": [
+    410.7,
+    269.4,
+    548.1,
+    292.1
+   ],
+   "section": "Details of Loan Loan conditions"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Other",
+   "rect": [
+    410.7,
+    309.1,
+    548.1,
+    334.6
+   ],
+   "group": "Type of Loan",
+   "row": true,
+   "section": "Type of Loan"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Location of Investment",
+   "rect": [
+    410.7,
+    334.6,
+    548.1,
+    357.3
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Change in Information",
+   "rect": [
+    127.3,
+    377.5,
+    339.5,
+    414.3
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Information After Change",
+   "rect": [
+    339.5,
+    377.5,
+    548.1,
+    414.3
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Notification No",
+   "rect": [
+    112.0,
+    533.0,
+    472.2,
+    549.9
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Receipt Number",
+   "rect": [
+    104.4,
+    92.8,
+    155.4,
+    108.5
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Date of Receipt",
+   "rect": [
+    217.8,
+    92.8,
+    271.6,
+    108.5
+   ],
+   "free": true
+  }
+ ]
+}

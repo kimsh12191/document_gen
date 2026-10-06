@@ -1,0 +1,210 @@
+{
+ "no": 30,
+ "class": "예금",
+ "name": "국내원천소득 제한세율 적용신청서(외국법인용-영문)",
+ "file": "add_template/하나은행_서식자료/예금/030_국내원천소득 제한세율 적용신청서(외국법인용-영문).pdf",
+ "pages": [
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  },
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  }
+ ],
+ "items": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Filing No.",
+   "rect": [
+    89.3,
+    156.9,
+    295.2,
+    174.7
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Applicant Information",
+   "rect": [
+    147.8,
+    176.7,
+    545.9,
+    192.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Name of Corporation",
+   "rect": [
+    156.4,
+    250.2,
+    298.2,
+    273.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Name of Representative",
+   "rect": [
+    156.4,
+    273.2,
+    298.2,
+    296.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Taxpayer Identification No.",
+   "rect": [
+    156.4,
+    296.2,
+    298.2,
+    319.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Date of Incorporation",
+   "rect": [
+    156.4,
+    319.1,
+    298.2,
+    342.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Filing Date",
+   "rect": [
+    348.7,
+    156.9,
+    545.9,
+    174.7
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Address",
+   "rect": [
+    348.4,
+    251.2,
+    407.7,
+    272.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Address",
+   "rect": [
+    410.7,
+    250.2,
+    548.9,
+    273.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Country of Residence",
+   "rect": [
+    410.7,
+    273.2,
+    548.9,
+    296.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Country Code",
+   "rect": [
+    410.7,
+    296.2,
+    548.9,
+    319.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Telephone Number",
+   "rect": [
+    410.7,
+    319.1,
+    548.9,
+    342.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Address or Location",
+   "rect": [
+    190.5,
+    767.8,
+    545.9,
+    786.8
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "To",
+   "rect": [
+    61.9,
+    695.3,
+    473.5,
+    711.4
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Type",
+   "rect": [
+    209.5,
+    730.3,
+    264.4,
+    748.8
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "[ ] Tax Administrator",
+   "rect": [
+    211.5,
+    736.7,
+    266.4,
+    759.8
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "[ ] Other",
+   "rect": [
+    209.5,
+    747.7,
+    264.4,
+    766.2
+   ],
+   "free": true
+  }
+ ]
+}

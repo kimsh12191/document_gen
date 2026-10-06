@@ -1,0 +1,48 @@
+{
+ "no": 320,
+ "class": "외환",
+ "name": "재환전 신청서",
+ "file": "add_template/하나은행_서식자료/외환/320_재환전 신청서.pdf",
+ "pages": [
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  }
+ ],
+ "items": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "성 명(NAME)",
+   "rect": [
+    143.1,
+    456.7,
+    482.8,
+    476.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "여권번호(PASSPORT NUMBER)",
+   "rect": [
+    206.0,
+    540.7,
+    482.8,
+    560.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "입국일자(ENTRANCE DATE INTO KOREA)",
+   "rect": [
+    254.2,
+    582.7,
+    482.8,
+    602.1
+   ]
+  }
+ ]
+}

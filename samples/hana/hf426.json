@@ -1,0 +1,26 @@
+{
+ "document_type": "이의제기 신청서",
+ "customer": {
+  "birth": "1990.11.21",
+  "email": "soyun407@hanmail.net",
+  "name": "김소윤",
+  "phone": "010-4372-6867",
+  "phone2": "010-4372-6867"
+ },
+ "개설점포": null,
+ "예금종별": "하나 MMF",
+ "date": "2025년 11월 29일",
+ "signer": {
+  "name": "김소윤"
+ },
+ "seal": {
+  "signer": true,
+  "untagged1": true
+ },
+ "sign": {
+  "signer": false
+ },
+ "금융회사": "농협은행",
+ "지급정지": null,
+ "account": "256-738138-77664"
+}

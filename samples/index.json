@@ -1473,6 +1473,530 @@
   ]
  },
  {
+  "id": "hf001",
+  "name": "상속예금 명의변경(지급) 의뢰서 및 손해담보 확약서(상속예금 지급 위임장 겸용)",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf001_p1.jpg",
+  "images": [
+   "hana/hf001_p1.jpg",
+   "hana/hf001_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "hana/hf001.json",
+  "label": "hana/hf001.label.json",
+  "n_fields": 89,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf003",
+  "name": "은행거래신청서",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf003_p1.jpg",
+  "images": [
+   "hana/hf003_p1.jpg",
+   "hana/hf003_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "hana/hf003.json",
+  "label": "hana/hf003.label.json",
+  "n_fields": 94,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf011",
+  "name": "예금(신탁)잔액증명 의뢰서",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf011.jpg",
+  "images": [
+   "hana/hf011.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "hana/hf011.json",
+  "label": "hana/hf011.label.json",
+  "n_fields": 36,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf015",
+  "name": "통합제신고서",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf015_p1.jpg",
+  "images": [
+   "hana/hf015_p1.jpg",
+   "hana/hf015_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "hana/hf015.json",
+  "label": "hana/hf015.label.json",
+  "n_fields": 32,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf025",
+  "name": "대여금고(신규·변경·해지)신청서",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf025_p1.jpg",
+  "images": [
+   "hana/hf025_p1.jpg",
+   "hana/hf025_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "hana/hf025.json",
+  "label": "hana/hf025.label.json",
+  "n_fields": 27,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf028",
+  "name": "위임장",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf028.jpg",
+  "images": [
+   "hana/hf028.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "hana/hf028.json",
+  "label": "hana/hf028.label.json",
+  "n_fields": 22,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf047",
+  "name": "대출상담 및 신청서(한국주택금융공사채권유동화목적 보금자리론용)",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf047_p1.jpg",
+  "images": [
+   "hana/hf047_p1.jpg",
+   "hana/hf047_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "hana/hf047.json",
+  "label": "hana/hf047.label.json",
+  "n_fields": 100,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf049",
+  "name": "《개인》대출신청서(가계용)",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf049_p1.jpg",
+  "images": [
+   "hana/hf049_p1.jpg",
+   "hana/hf049_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "hana/hf049.json",
+  "label": "hana/hf049.label.json",
+  "n_fields": 67,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf061",
+  "name": "적합성, 적정성 고객정보 확인서(개인 및 개인사업자용)",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf061.jpg",
+  "images": [
+   "hana/hf061.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "hana/hf061.json",
+  "label": "hana/hf061.label.json",
+  "n_fields": 23,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf136",
+  "name": "《기업》차입신청서(한도내 개별/분할실행용)",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf136.jpg",
+  "images": [
+   "hana/hf136.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "hana/hf136.json",
+  "label": "hana/hf136.label.json",
+  "n_fields": 13,
+  "overflow": false,
+  "size": [
+   1190,
+   1682
+  ]
+ },
+ {
+  "id": "hf164",
+  "name": "퇴직연금 퇴직급여 지급신청서(DC,기업형IRP)",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf164_p1.jpg",
+  "images": [
+   "hana/hf164_p1.jpg",
+   "hana/hf164_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "hana/hf164.json",
+  "label": "hana/hf164.label.json",
+  "n_fields": 54,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf168",
+  "name": "퇴직연금 사전지정운용방법 지정 신청서(디폴트옵션 지정)",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf168_p1.jpg",
+  "images": [
+   "hana/hf168_p1.jpg",
+   "hana/hf168_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "hana/hf168.json",
+  "label": "hana/hf168.label.json",
+  "n_fields": 23,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf169",
+  "name": "퇴직연금 가입자 거래신청서(DC/기업형IRP)",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf169_p1.jpg",
+  "images": [
+   "hana/hf169_p1.jpg",
+   "hana/hf169_p2.jpg",
+   "hana/hf169_p3.jpg"
+  ],
+  "n_pages": 3,
+  "gt": "hana/hf169.json",
+  "label": "hana/hf169.label.json",
+  "n_fields": 62,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf171",
+  "name": "퇴직연금 거래신청서(개인형IRP)",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf171_p1.jpg",
+  "images": [
+   "hana/hf171_p1.jpg",
+   "hana/hf171_p2.jpg",
+   "hana/hf171_p3.jpg"
+  ],
+  "n_pages": 3,
+  "gt": "hana/hf171.json",
+  "label": "hana/hf171.label.json",
+  "n_fields": 55,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf199",
+  "name": "외화송금신청서",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf199_p1.jpg",
+  "images": [
+   "hana/hf199_p1.jpg",
+   "hana/hf199_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "hana/hf199.json",
+  "label": "hana/hf199.label.json",
+  "n_fields": 61,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf225",
+  "name": "Usance 송금 신청서",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf225.jpg",
+  "images": [
+   "hana/hf225.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "hana/hf225.json",
+  "label": "hana/hf225.label.json",
+  "n_fields": 43,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf244",
+  "name": "자본재 등 도입물품명세 검토ㆍ확인신청서",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf244_p1.jpg",
+  "images": [
+   "hana/hf244_p1.jpg",
+   "hana/hf244_p2.jpg",
+   "hana/hf244_p3.jpg"
+  ],
+  "n_pages": 3,
+  "gt": "hana/hf244.json",
+  "label": "hana/hf244.label.json",
+  "n_fields": 65,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf320",
+  "name": "재환전 신청서",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf320.jpg",
+  "images": [
+   "hana/hf320.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "hana/hf320.json",
+  "label": "hana/hf320.label.json",
+  "n_fields": 3,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf337",
+  "name": "개인 전자금융 서비스 신청서",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf337_p1.jpg",
+  "images": [
+   "hana/hf337_p1.jpg",
+   "hana/hf337_p2.jpg",
+   "hana/hf337_p3.jpg"
+  ],
+  "n_pages": 3,
+  "gt": "hana/hf337.json",
+  "label": "hana/hf337.label.json",
+  "n_fields": 52,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf373",
+  "name": "전자어음 교부 신청서",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf373.jpg",
+  "images": [
+   "hana/hf373.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "hana/hf373.json",
+  "label": "hana/hf373.label.json",
+  "n_fields": 13,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf393",
+  "name": "이자율스왑 연계 대출 분할상환 원금 및 이자율스왑 정산이자 출금서비스 특약",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf393.jpg",
+  "images": [
+   "hana/hf393.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "hana/hf393.json",
+  "label": "hana/hf393.label.json",
+  "n_fields": 16,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf413",
+  "name": "고객확인서(법인,고유번호나 납세번호가 있는 임의 단체용)",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf413_p1.jpg",
+  "images": [
+   "hana/hf413_p1.jpg",
+   "hana/hf413_p2.jpg"
+  ],
+  "n_pages": 2,
+  "gt": "hana/hf413.json",
+  "label": "hana/hf413.label.json",
+  "n_fields": 104,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf426",
+  "name": "이의제기 신청서",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf426.jpg",
+  "images": [
+   "hana/hf426.jpg"
+  ],
+  "n_pages": 1,
+  "gt": "hana/hf426.json",
+  "label": "hana/hf426.label.json",
+  "n_fields": 15,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
+  "id": "hf441",
+  "name": "법원보관금 납부서(은행제출용)",
+  "group": "hana",
+  "group_name": "하나은행 서식(원본)",
+  "category": "internal",
+  "kind": "basic",
+  "image": "hana/hf441_p1.jpg",
+  "images": [
+   "hana/hf441_p1.jpg",
+   "hana/hf441_p2.jpg",
+   "hana/hf441_p3.jpg"
+  ],
+  "n_pages": 3,
+  "gt": "hana/hf441.json",
+  "label": "hana/hf441.label.json",
+  "n_fields": 42,
+  "overflow": false,
+  "size": [
+   1191,
+   1684
+  ]
+ },
+ {
   "id": "alien_registration_card",
   "name": "외국인등록증",
   "group": "identity",

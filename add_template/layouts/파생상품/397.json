@@ -1,0 +1,119 @@
+{
+ "no": 397,
+ "class": "파생상품",
+ "name": "금융거래정보이용제공동의서(영문)",
+ "file": "add_template/하나은행_서식자료/파생상품/397_금융거래정보이용제공동의서(영문).pdf",
+ "pages": [
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  }
+ ],
+ "items": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "KEB Hana Bank",
+   "rect": [
+    241.1,
+    201.1,
+    542.1,
+    223.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Name/Name of the Corporation",
+   "rect": [
+    314.4,
+    127.4,
+    547.3,
+    145.5
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Address",
+   "rect": [
+    214.6,
+    159.4,
+    547.3,
+    177.5
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Consented by",
+   "rect": [
+    116.6,
+    693.2,
+    482.3,
+    711.3
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Customer Who Consents",
+   "rect": [
+    343.1,
+    132.4,
+    539.6,
+    158.6
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Financial Companies,",
+   "rect": [
+    172.0,
+    181.9,
+    541.6,
+    203.3
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "etc. Which Will Provide",
+   "rect": [
+    239.1,
+    191.1,
+    539.6,
+    217.3
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "to Which Transaction",
+   "rect": [
+    339.3,
+    306.6,
+    539.6,
+    332.8
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Signed on",
+   "rect": [
+    102.2,
+    749.2,
+    242.8,
+    767.1
+   ],
+   "free": true
+  }
+ ]
+}

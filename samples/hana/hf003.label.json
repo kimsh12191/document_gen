@@ -1,0 +1,1066 @@
+{
+ "images": [
+  "hana/hf003_p1.jpg",
+  "hana/hf003_p2.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "목록.0.통장발행",
+   "label": "통장발행",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.1.통장발행",
+   "label": "통장발행",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.2.통장발행",
+   "label": "통장발행",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "만기안내문자통지신청",
+   "label": "만기안내문자통지신청",
+   "type": "date",
+   "value": "2029년 1월 3일",
+   "norm": "2029-01-03",
+   "page": 0,
+   "bbox": [
+    230.4,
+    822.1,
+    279.2,
+    832.8
+   ]
+  },
+  {
+   "key": "목록.0.갋",
+   "label": "갋",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.1.갋",
+   "label": "갋",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.2.갋",
+   "label": "갋",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "갋",
+   "label": "갋",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "갋2",
+   "label": "갋",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "갋3",
+   "label": "갋",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "갋_목록.0.전화",
+   "label": "전화",
+   "type": "phone",
+   "value": "010-4372-6867",
+   "norm": "01043726867",
+   "page": 0,
+   "bbox": [
+    487.2,
+    722.1,
+    536.7,
+    731.5
+   ]
+  },
+  {
+   "key": "갋_목록.1.전화",
+   "label": "전화",
+   "type": "phone",
+   "value": "010-4372-6867",
+   "norm": "01043726867",
+   "page": 0,
+   "bbox": [
+    487.0,
+    739.7,
+    536.5,
+    749.1
+   ]
+  },
+  {
+   "key": "갋_목록.2.전화",
+   "label": "전화",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "갋_목록.3.전화",
+   "label": "전화",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "갋_목록.4.전화",
+   "label": "전화",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "갋_목록.5.전화",
+   "label": "전화",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "정기자유",
+   "label": "정기자유",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "정기자유2",
+   "label": "정기자유",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.0.확정형연동형",
+   "label": "확정형연동형(개월)",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "정기자유3",
+   "label": "정기자유",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "정기자유4",
+   "label": "정기자유",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.1.확정형연동형",
+   "label": "확정형연동형(개월)",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "정기자유5",
+   "label": "정기자유",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "정기자유6",
+   "label": "정기자유",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "목록.2.확정형연동형",
+   "label": "확정형연동형(개월)",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "customer.email",
+   "label": "E-mail",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "customer.email2",
+   "label": "E-mail",
+   "type": "text",
+   "value": "soyun407@hanmail.net",
+   "norm": "soyun407@hanmail.net",
+   "page": 0,
+   "bbox": [
+    723.2,
+    913.8,
+    798.3,
+    923.8
+   ]
+  },
+  {
+   "key": "customer.email3",
+   "label": "E-mail",
+   "type": "text",
+   "value": "soyun407@hanmail.net",
+   "norm": "soyun407@hanmail.net",
+   "page": 0,
+   "bbox": [
+    722.5,
+    1038.2,
+    797.6,
+    1048.9
+   ]
+  },
+  {
+   "key": "한도",
+   "label": "한도:₩..~..",
+   "type": "number",
+   "value": "41,260,000",
+   "norm": 41260000,
+   "page": 0,
+   "bbox": [
+    1031.2,
+    741.5,
+    1127.3,
+    769.0
+   ]
+  },
+  {
+   "key": "한도2",
+   "label": "한도:₩..~..",
+   "type": "number",
+   "value": "60,290,000",
+   "norm": 60290000,
+   "page": 0,
+   "bbox": [
+    1027.6,
+    858.5,
+    1127.1,
+    885.5
+   ]
+  },
+  {
+   "key": "한도3",
+   "label": "한도:₩..~..",
+   "type": "number",
+   "value": "4,840,000",
+   "norm": 4840000,
+   "page": 0,
+   "bbox": [
+    1027.3,
+    984.6,
+    1128.4,
+    1012.9
+   ]
+  },
+  {
+   "key": "customer.name_en",
+   "label": "영문명",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "customer.email4",
+   "label": "이메일",
+   "type": "text",
+   "value": "soyun407@hanmail.net",
+   "norm": "soyun407@hanmail.net",
+   "page": 0,
+   "bbox": [
+    563.8,
+    322.0,
+    874.6,
+    369.0
+   ]
+  },
+  {
+   "key": "자택",
+   "label": "자택",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "employer.name",
+   "label": "직장",
+   "type": "text",
+   "value": "(주)새한소프트",
+   "norm": "(주)새한소프트",
+   "page": 0,
+   "bbox": [
+    567.4,
+    417.4,
+    734.2,
+    454.2
+   ]
+  },
+  {
+   "key": "자택2",
+   "label": "자택",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "employer.name2",
+   "label": "직장",
+   "type": "text",
+   "value": "(주)새한소프트",
+   "norm": "(주)새한소프트",
+   "page": 0,
+   "bbox": [
+    817.3,
+    514.7,
+    953.6,
+    540.5
+   ]
+  },
+  {
+   "key": "급여일",
+   "label": "급여일",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "고객정보변경없음",
+   "label": "고객정보변경없음",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "자동이체계좌번호",
+   "label": "자동이체계좌번호",
+   "type": "text",
+   "value": "907-839397-95144",
+   "norm": "907-839397-95144",
+   "page": 0,
+   "bbox": [
+    163.9,
+    1555.7,
+    292.6,
+    1575.9
+   ]
+  },
+  {
+   "key": "과목명",
+   "label": "과목명",
+   "type": "text",
+   "value": "무역금융",
+   "norm": "무역금융",
+   "page": 0,
+   "bbox": [
+    397.7,
+    1554.7,
+    459.5,
+    1575.6
+   ]
+  },
+  {
+   "key": "계약금액",
+   "label": "계약(확인)금액",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "지급기일",
+   "label": "지급기일",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "check.비과세종합저축재형저축",
+   "label": "비과세종합저축/재형저축/주택청약상품의계약금액/한도/중복",
+   "type": "checkbox",
+   "value": "비과세종합저축 / 재형저축 / 주택청약상품의 계약금액 / 한도 / 중복 ",
+   "norm": "비과세종합저축 / 재형저축 / 주택청약상품의 계약금액 / 한도 / 중복 ",
+   "page": 0,
+   "bbox": [
+    70.3,
+    1167.6,
+    656.5,
+    1181.4
+   ],
+   "options": [
+    {
+     "text": "비과세종합저축 / 재형저축 / 주택청약상품의 계약금액 / 한도 / 중복 ",
+     "checked": true,
+     "box_bbox": [
+      70.3,
+      1168.0,
+      81.6,
+      1180.3
+     ],
+     "bbox": [
+      70.3,
+      1167.6,
+      656.5,
+      1181.4
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.귀행에대한제대출금보증채",
+   "label": "귀행에대한제대출금,보증채무,신용카드채무에대하여변제기가도래하",
+   "type": "checkbox",
+   "value": "귀행에 대한 제 대출금, 보증채무, 신용카드채무에 대하여 변제기가 도래하",
+   "norm": "귀행에 대한 제 대출금, 보증채무, 신용카드채무에 대하여 변제기가 도래하",
+   "page": 0,
+   "bbox": [
+    70.3,
+    1179.6,
+    744.0,
+    1193.4
+   ],
+   "options": [
+    {
+     "text": "귀행에 대한 제 대출금, 보증채무, 신용카드채무에 대하여 변제기가 도래하",
+     "checked": true,
+     "box_bbox": [
+      70.3,
+      1180.0,
+      81.6,
+      1192.3
+     ],
+     "bbox": [
+      70.3,
+      1179.6,
+      744.0,
+      1193.4
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.본인은금융지주회사법제4",
+   "label": "본인은금융지주회사법제48조의2에근거하여하나금융그룹내지주사및자",
+   "type": "checkbox",
+   "value": null,
+   "norm": null,
+   "page": 0,
+   "bbox": [
+    70.3,
+    1191.6,
+    780.7,
+    1205.5
+   ],
+   "options": [
+    {
+     "text": "본인은 금융지주회사법 제48조의2에 근거하여 하나금융그룹내 지주사 및 자",
+     "checked": false,
+     "box_bbox": [
+      70.3,
+      1192.0,
+      81.6,
+      1204.3
+     ],
+     "bbox": [
+      70.3,
+      1191.6,
+      780.7,
+      1205.5
+     ]
+    }
+   ]
+  },
+  {
+   "key": "date",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 0,
+   "bbox": [
+    526.0,
+    1202.5,
+    759.0,
+    1222.3
+   ]
+  },
+  {
+   "key": "연원가식",
+   "label": "연원가식",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "연원가식2",
+   "label": "연원가식",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "연원가식3",
+   "label": "연원가식",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "출금계좌",
+   "label": "출금계좌[",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "customer.name",
+   "label": "신청인",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    953.4,
+    1177.7,
+    1028.8,
+    1210.5
+   ]
+  },
+  {
+   "key": "account",
+   "label": "계좌번호",
+   "type": "account_no",
+   "value": "256-738138-77664",
+   "norm": "256-738138-77664",
+   "page": 0,
+   "bbox": [
+    128.9,
+    1528.2,
+    262.2,
+    1548.8
+   ]
+  },
+  {
+   "key": "최초거래일",
+   "label": "최초거래일",
+   "type": "date",
+   "value": "2025-03-23",
+   "norm": "2025-03-23",
+   "page": 0,
+   "bbox": [
+    670.5,
+    1527.7,
+    746.2,
+    1544.9
+   ]
+  },
+  {
+   "key": "신규일",
+   "label": "신규일",
+   "type": "date",
+   "value": "2025년 4월 15일",
+   "norm": "2025-04-15",
+   "page": 0,
+   "bbox": [
+    967.5,
+    1525.6,
+    1085.4,
+    1546.0
+   ]
+  },
+  {
+   "key": "입금액",
+   "label": "입금(수탁)액",
+   "type": "number",
+   "value": "21,690,000",
+   "norm": 21690000,
+   "page": 0,
+   "bbox": [
+    695.6,
+    1559.8,
+    756.6,
+    1576.2
+   ]
+  },
+  {
+   "key": "종별",
+   "label": "종별",
+   "type": "text",
+   "value": "하나 적금",
+   "norm": "하나 적금",
+   "page": 0,
+   "bbox": [
+    106.6,
+    1586.0,
+    174.1,
+    1606.4
+   ]
+  },
+  {
+   "key": "권유직원번호",
+   "label": "권유직원번호",
+   "type": "rrn",
+   "value": "549360-6057830",
+   "norm": "549360-6057830",
+   "page": 0,
+   "bbox": [
+    994.0,
+    1588.3,
+    1098.1,
+    1605.9
+   ]
+  },
+  {
+   "key": "이용자ID",
+   "label": "이용자ID",
+   "type": "text",
+   "value": "128-799061-12689",
+   "norm": "128-799061-12689",
+   "page": 1,
+   "bbox": [
+    144.0,
+    150.5,
+    330.0,
+    184.6
+   ]
+  },
+  {
+   "key": "인터넷스마트폰뱅킹",
+   "label": "인터넷/스마트폰뱅킹(1일:원)(1회:원)",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "예아니오",
+   "label": "예아니오",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "company.name",
+   "label": "상호명",
+   "type": "text",
+   "value": "주식회사 새한소프트",
+   "norm": "주식회사 새한소프트",
+   "page": 1,
+   "bbox": [
+    277.9,
+    747.0,
+    445.0,
+    775.3
+   ]
+  },
+  {
+   "key": "company.biz_no",
+   "label": "사업자등록번호",
+   "type": "biz_no",
+   "value": "530-82-09978",
+   "norm": "530-82-09978",
+   "page": 1,
+   "bbox": [
+    650.2,
+    746.8,
+    786.7,
+    777.0
+   ]
+  },
+  {
+   "key": "개업년월일",
+   "label": "개업년월일",
+   "type": "date",
+   "value": "2025-07-29",
+   "norm": "2025-07-29",
+   "page": 1,
+   "bbox": [
+    956.3,
+    747.7,
+    1072.3,
+    776.1
+   ]
+  },
+  {
+   "key": "account2",
+   "label": "입금계좌",
+   "type": "account_no",
+   "value": "256-738138-77664",
+   "norm": "256-738138-77664",
+   "page": 1,
+   "bbox": [
+    654.4,
+    879.9,
+    842.9,
+    910.3
+   ]
+  },
+  {
+   "key": "agent.name",
+   "label": "성명",
+   "type": "text",
+   "value": "김승성",
+   "norm": "김승성",
+   "page": 1,
+   "bbox": [
+    239.8,
+    1285.0,
+    313.3,
+    1315.7
+   ]
+  },
+  {
+   "key": "agent.relation",
+   "label": "본인과의관계",
+   "type": "text",
+   "value": "배우자",
+   "norm": "배우자",
+   "page": 1,
+   "bbox": [
+    240.9,
+    1319.2,
+    310.6,
+    1349.8
+   ]
+  },
+  {
+   "key": "agent.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "agent.address",
+   "label": "주소",
+   "type": "text",
+   "value": "광주광역시 서구 내방로 75, 114동 1401호",
+   "norm": "광주광역시 서구 내방로 75, 114동 1401호",
+   "page": 1,
+   "bbox": [
+    578.2,
+    1319.5,
+    988.3,
+    1355.8
+   ]
+  },
+  {
+   "key": "agent.phone",
+   "label": "전화번호",
+   "type": "phone",
+   "value": "010-6066-8711",
+   "norm": "01060668711",
+   "page": 1,
+   "bbox": [
+    882.7,
+    1281.1,
+    1036.4,
+    1317.4
+   ]
+  },
+  {
+   "key": "자동이체계좌번호2",
+   "label": "자동이체계좌번호",
+   "type": "text",
+   "value": "669-151084-64963",
+   "norm": "669-151084-64963",
+   "page": 1,
+   "bbox": [
+    161.1,
+    1556.2,
+    286.9,
+    1579.6
+   ]
+  },
+  {
+   "key": "과목명2",
+   "label": "과목명",
+   "type": "text",
+   "value": "주택담보대출",
+   "norm": "주택담보대출",
+   "page": 1,
+   "bbox": [
+    399.6,
+    1555.9,
+    491.5,
+    1575.1
+   ]
+  },
+  {
+   "key": "계약금액2",
+   "label": "계약(확인)금액",
+   "type": "number",
+   "value": "1,800,000",
+   "norm": 1800000,
+   "page": 1,
+   "bbox": [
+    685.7,
+    1586.3,
+    752.2,
+    1606.4
+   ]
+  },
+  {
+   "key": "지급기일2",
+   "label": "지급기일",
+   "type": "date",
+   "value": "2029.04.13",
+   "norm": "2029-04-13",
+   "page": 1,
+   "bbox": [
+    966.0,
+    1558.6,
+    1040.5,
+    1578.6
+   ]
+  },
+  {
+   "key": "원1회",
+   "label": "원)(1회",
+   "type": "amount",
+   "value": "49,760,000원",
+   "norm": 49760000,
+   "page": 1,
+   "bbox": [
+    969.2,
+    208.9,
+    1087.1,
+    235.7
+   ]
+  },
+  {
+   "key": "customer.name2",
+   "label": "신청인",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 1,
+   "bbox": [
+    931.0,
+    275.6,
+    988.6,
+    299.7
+   ]
+  },
+  {
+   "key": "customer.name3",
+   "label": "신청인",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 1,
+   "bbox": [
+    934.3,
+    412.2,
+    992.0,
+    436.4
+   ]
+  },
+  {
+   "key": "재산현황",
+   "label": "재산현황",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "1000억원이상",
+   "label": "1,000억원이상",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "아니오실제소유자성명",
+   "label": "아니오(실제소유자성명",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "카드대금결제",
+   "label": "카드대금결제",
+   "type": "number",
+   "value": "14,020,000",
+   "norm": 14020000,
+   "page": 1,
+   "bbox": [
+    1017.5,
+    614.2,
+    1120.8,
+    643.5
+   ]
+  },
+  {
+   "key": "부동산양도소득",
+   "label": "부동산양도소득",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "귀금속판매상",
+   "label": "귀금속판매상",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "1",
+   "label": "[신청상품]1",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "customer.name4",
+   "label": "신청인",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 1,
+   "bbox": [
+    930.8,
+    923.8,
+    989.1,
+    949.6
+   ]
+  },
+  {
+   "key": "customer.name5",
+   "label": "예금주",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 1,
+   "bbox": [
+    647.8,
+    1202.5,
+    706.1,
+    1228.1
+   ]
+  },
+  {
+   "key": "agent.name2",
+   "label": "대리인",
+   "type": "text",
+   "value": "김승성",
+   "norm": "김승성",
+   "page": 1,
+   "bbox": [
+    931.2,
+    1202.6,
+    989.3,
+    1228.0
+   ]
+  },
+  {
+   "key": "customer.name6",
+   "label": "위임인(예금주)",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 1,
+   "bbox": [
+    893.5,
+    1362.5,
+    951.1,
+    1386.4
+   ]
+  },
+  {
+   "key": "account3",
+   "label": "계좌번호",
+   "type": "account_no",
+   "value": "256-738138-77664",
+   "norm": "256-738138-77664",
+   "page": 1,
+   "bbox": [
+    122.2,
+    1527.9,
+    255.8,
+    1550.4
+   ]
+  },
+  {
+   "key": "최초거래일2",
+   "label": "최초거래일",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "신규일2",
+   "label": "신규일",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "입금액2",
+   "label": "입금(수탁)액",
+   "type": "number",
+   "value": "840,000",
+   "norm": 840000,
+   "page": 1,
+   "bbox": [
+    694.6,
+    1554.6,
+    752.6,
+    1575.1
+   ]
+  },
+  {
+   "key": "종별2",
+   "label": "종별",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "권유직원번호2",
+   "label": "권유직원번호",
+   "type": "rrn",
+   "value": "377013-5412786",
+   "norm": "377013-5412786",
+   "page": 1,
+   "bbox": [
+    985.3,
+    1586.0,
+    1083.9,
+    1607.0
+   ]
+  }
+ ]
+}

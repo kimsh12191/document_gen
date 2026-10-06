@@ -1,0 +1,245 @@
+{
+ "no": 272,
+ "class": "외환",
+ "name": "REDEMPTION OF OUR LETTERS OF GUARANTEE",
+ "file": "add_template/하나은행_서식자료/외환/272_REDEMPTION OF OUR LETTERS OF GUARANTEE.pdf",
+ "pages": [
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  },
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": [
+    [
+     472.9,
+     14.5,
+     546.5,
+     66.7
+    ]
+   ]
+  },
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  }
+ ],
+ "items": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Number of L/G",
+   "rect": [
+    44.1,
+    416.5,
+    145.6,
+    538.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Number of Credit",
+   "rect": [
+    145.6,
+    416.5,
+    247.0,
+    538.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "L/G Amount",
+   "rect": [
+    247.0,
+    416.5,
+    348.3,
+    538.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Number of B/L",
+   "rect": [
+    348.3,
+    416.5,
+    451.9,
+    538.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Vessel Name",
+   "rect": [
+    451.9,
+    416.5,
+    545.5,
+    538.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Gentlemen",
+   "rect": [
+    111.5,
+    335.0,
+    473.9,
+    355.6
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Number of L/G",
+   "rect": [
+    44.1,
+    416.5,
+    145.6,
+    538.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Number of Credit",
+   "rect": [
+    145.6,
+    416.5,
+    247.0,
+    538.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "L/G Amount",
+   "rect": [
+    247.0,
+    416.5,
+    348.3,
+    538.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Number of B/L",
+   "rect": [
+    348.3,
+    416.5,
+    451.9,
+    538.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Vessel Name",
+   "rect": [
+    451.9,
+    416.5,
+    546.5,
+    538.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Gentlemen",
+   "rect": [
+    111.5,
+    335.0,
+    473.9,
+    355.6
+   ]
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Number of L/G",
+   "rect": [
+    44.2,
+    416.5,
+    145.6,
+    538.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Number of Credit",
+   "rect": [
+    145.6,
+    416.5,
+    247.0,
+    538.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "L/G Amount",
+   "rect": [
+    247.0,
+    416.5,
+    348.3,
+    538.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Number of B/L",
+   "rect": [
+    348.3,
+    416.5,
+    451.9,
+    538.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Vessel Name",
+   "rect": [
+    451.9,
+    416.5,
+    545.5,
+    538.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "Gentlemen",
+   "rect": [
+    111.5,
+    335.0,
+    473.9,
+    355.6
+   ]
+  }
+ ]
+}

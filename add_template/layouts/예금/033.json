@@ -1,0 +1,301 @@
+{
+ "no": 33,
+ "class": "예금",
+ "name": "국내원천소득 제한세율 적용신청서(비거주자용-영문)",
+ "file": "add_template/하나은행_서식자료/예금/033_국내원천소득 제한세율 적용신청서(비거주자용-영문).pdf",
+ "pages": [
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  },
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  }
+ ],
+ "items": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Filing No.",
+   "rect": [
+    135.0,
+    106.7,
+    298.0,
+    126.5
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Filing Date",
+   "rect": [
+    391.5,
+    106.7,
+    551.6,
+    126.5
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Taxpayer Identification No .",
+   "rect": [
+    152.0,
+    208.8,
+    310.7,
+    229.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Country of Residence",
+   "rect": [
+    152.0,
+    229.1,
+    310.7,
+    249.0
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Date of Birth",
+   "rect": [
+    395.8,
+    208.8,
+    551.6,
+    229.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Country Code",
+   "rect": [
+    395.8,
+    229.1,
+    551.6,
+    249.0
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Yes",
+   "rect": [
+    469.5,
+    412.6,
+    508.5,
+    432.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Yes",
+   "rect": [
+    469.5,
+    432.4,
+    508.5,
+    452.3
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Yes",
+   "rect": [
+    469.5,
+    452.3,
+    508.5,
+    472.1
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Yes",
+   "rect": [
+    469.5,
+    472.1,
+    508.5,
+    492.0
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Yes",
+   "rect": [
+    469.5,
+    492.0,
+    508.5,
+    511.8
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Yes",
+   "rect": [
+    469.5,
+    511.8,
+    508.5,
+    531.6
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Yes",
+   "rect": [
+    469.5,
+    531.6,
+    508.5,
+    551.5
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Yes",
+   "rect": [
+    469.5,
+    551.5,
+    551.6,
+    571.3
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "No",
+   "rect": [
+    508.5,
+    412.6,
+    551.6,
+    432.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "No",
+   "rect": [
+    508.5,
+    432.4,
+    551.6,
+    452.3
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "No",
+   "rect": [
+    508.5,
+    452.3,
+    551.6,
+    472.1
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "No",
+   "rect": [
+    508.5,
+    472.1,
+    551.6,
+    492.0
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "No",
+   "rect": [
+    508.5,
+    492.0,
+    551.6,
+    511.8
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "No",
+   "rect": [
+    508.5,
+    511.8,
+    551.6,
+    531.6
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "No",
+   "rect": [
+    508.5,
+    531.6,
+    551.6,
+    551.5
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Address or Location",
+   "rect": [
+    144.0,
+    731.4,
+    551.6,
+    759.8
+   ],
+   "section": "Attachment"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Name of Individual or Corporation",
+   "rect": [
+    314.1,
+    703.1,
+    387.3,
+    731.4
+   ],
+   "section": "Attachment"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Applicant",
+   "rect": [
+    395.7,
+    774.8,
+    547.3,
+    790.5
+   ]
+  }
+ ]
+}

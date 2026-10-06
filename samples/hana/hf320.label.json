@@ -1,0 +1,55 @@
+{
+ "images": [
+  "hana/hf320.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "customer.name",
+   "label": "성명(NAME)",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    292.1,
+    913.9,
+    369.6,
+    947.4
+   ]
+  },
+  {
+   "key": "여권번호",
+   "label": "여권번호(PASSPORTNUMBER)",
+   "type": "text",
+   "value": "M23097053",
+   "norm": "M23097053",
+   "page": 0,
+   "bbox": [
+    416.9,
+    1082.4,
+    525.8,
+    1114.6
+   ]
+  },
+  {
+   "key": "입국일자",
+   "label": "입국일자(ENTRANCEDATEINTOKOREA)",
+   "type": "date",
+   "value": "2025년 2월 19일",
+   "norm": "2025-02-19",
+   "page": 0,
+   "bbox": [
+    512.6,
+    1166.5,
+    681.0,
+    1199.4
+   ]
+  }
+ ]
+}

@@ -31,6 +31,12 @@ from docgen.render import render, to_nested  # noqa: E402
 from docgen.schema import build_fields  # noqa: E402
 
 
+# 하나은행 원본 서식(hana)은 종수가 많아 분류별 대표만 저장한다 (전부는 python -m docgen generate --types hana)
+HANA_SAMPLES = {"hf001", "hf003", "hf011", "hf015", "hf025", "hf028", "hf047", "hf049", "hf061", "hf136", "hf164",
+                "hf168", "hf169", "hf171", "hf199", "hf225", "hf244", "hf320", "hf337", "hf373", "hf393", "hf413",
+                "hf426", "hf441"}
+
+
 @contextlib.contextmanager
 def forced(heavy: bool):
     """DOCGEN_HEAVY / DOCGEN_SPECIAL 을 잠시 켠다."""
@@ -94,7 +100,8 @@ def main() -> None:
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     index = []
-    specs = sorted(reg.values(), key=lambda s: (list(GROUPS).index(s.group), s.id))
+    specs = sorted((s for s in reg.values() if s.group != "hana" or s.id in HANA_SAMPLES),
+                   key=lambda s: (list(GROUPS).index(s.group), s.id))
     with ImageRenderer(scale=args.scale) as r:
         with forced(False):  # 대표 샘플: 보통 경우
             for spec in specs:
@@ -109,6 +116,8 @@ def main() -> None:
             (out / "variants").mkdir(exist_ok=True)
             with forced(True):
                 for spec in specs:
+                    if spec.group == "hana":   # 원본 서식은 여러 쪽·특수 상황 변형이 없다
+                        continue
                     prof = make_profile(args.seed)
                     prof.extra["form_bank"] = prof.bank
                     index.append(save(r, args, spec, prof, args.seed, out / "variants", spec.id, out, {"kind": "variant"}))

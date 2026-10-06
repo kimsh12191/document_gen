@@ -1,0 +1,486 @@
+{
+ "images": [
+  "hana/hf015_p1.jpg",
+  "hana/hf015_p2.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "check.성명휴대폰번호자택주소직장원본수익자수익수익자",
+   "label": "성명(업체명)휴대폰번호자택주소직장원본수익자수익수익자",
+   "type": "checkbox",
+   "value": "알뜰폰",
+   "norm": "알뜰폰",
+   "page": 0,
+   "bbox": [
+    645.8,
+    241.2,
+    691.8,
+    258.6
+   ],
+   "options": [
+    {
+     "text": "스마트폰",
+     "checked": false,
+     "box_bbox": [
+      537.4,
+      241.8,
+      548.2,
+      258.6
+     ],
+     "bbox": [
+      537.4,
+      241.2,
+      594.1,
+      258.6
+     ]
+    },
+    {
+     "text": "일반폰",
+     "checked": false,
+     "box_bbox": [
+      597.0,
+      241.8,
+      607.8,
+      258.6
+     ],
+     "bbox": [
+      597.0,
+      241.2,
+      643.0,
+      258.6
+     ]
+    },
+    {
+     "text": "알뜰폰",
+     "checked": true,
+     "box_bbox": [
+      645.8,
+      241.8,
+      656.5,
+      258.6
+     ],
+     "bbox": [
+      645.8,
+      241.2,
+      691.8,
+      258.6
+     ]
+    },
+    {
+     "text": "SKT",
+     "checked": false,
+     "box_bbox": [
+      537.4,
+      263.8,
+      548.2,
+      280.6
+     ],
+     "bbox": [
+      537.4,
+      263.2,
+      569.4,
+      280.6
+     ]
+    },
+    {
+     "text": "LGU+",
+     "checked": false,
+     "box_bbox": [
+      575.5,
+      263.8,
+      586.2,
+      280.6
+     ],
+     "bbox": [
+      575.5,
+      263.2,
+      616.6,
+      280.6
+     ]
+    },
+    {
+     "text": "KT",
+     "checked": false,
+     "box_bbox": [
+      622.6,
+      263.8,
+      633.4,
+      280.6
+     ],
+     "bbox": [
+      622.6,
+      263.2,
+      649.2,
+      280.6
+     ]
+    },
+    {
+     "text": "기타",
+     "checked": false,
+     "box_bbox": [
+      655.2,
+      263.8,
+      666.0,
+      280.6
+     ],
+     "bbox": [
+      655.2,
+      263.2,
+      690.6,
+      280.6
+     ]
+    }
+   ]
+  },
+  {
+   "key": "신청내용",
+   "label": "신청내용",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "변경내용",
+   "label": "변경내용",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "변경전",
+   "label": "변경전",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "seal.signer",
+   "label": "인감(서명)",
+   "type": "seal",
+   "value": "김소윤",
+   "present": true,
+   "kind": "인감",
+   "page": 0,
+   "bbox": [
+    490.8,
+    936.6,
+    566.5,
+    975.0
+   ]
+  },
+  {
+   "key": "sign.signer",
+   "label": "인감(서명)",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "page": 0,
+   "bbox": [
+    490.8,
+    936.6,
+    566.5,
+    975.0
+   ]
+  },
+  {
+   "key": "변경후",
+   "label": "변경후",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "Email또는휴대폰번호",
+   "label": "E-mail또는휴대폰번호",
+   "type": "phone",
+   "value": "010-4372-6867",
+   "norm": "01043726867",
+   "page": 0,
+   "bbox": [
+    666.1,
+    888.0,
+    799.4,
+    907.6
+   ]
+  },
+  {
+   "key": "연락처Email기타",
+   "label": "연락처,E-mail,기타",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "수령확인",
+   "label": "수령확인",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "account",
+   "label": "출금계좌번호",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "customer.name",
+   "label": "성명(업체명)",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    362.2,
+    1518.7,
+    421.2,
+    1538.3
+   ]
+  },
+  {
+   "key": "신고인",
+   "label": "⇁신고인",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "본인과의관계",
+   "label": "⇁본인과의관계",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "연락처",
+   "label": ")⇁연락처",
+   "type": "phone",
+   "value": "010-4372-6867",
+   "norm": "01043726867",
+   "page": 0,
+   "bbox": [
+    900.6,
+    742.3,
+    1033.8,
+    762.0
+   ]
+  },
+  {
+   "key": "상품명",
+   "label": "⇁상품명",
+   "type": "text",
+   "value": "하나 정기예금",
+   "norm": "하나 정기예금",
+   "page": 0,
+   "bbox": [
+    784.2,
+    828.7,
+    853.9,
+    839.8
+   ]
+  },
+  {
+   "key": "date",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 0,
+   "bbox": [
+    505.0,
+    1419.8,
+    677.4,
+    1447.9
+   ]
+  },
+  {
+   "key": "signer2.name",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "seal.signer2",
+   "label": "대리인",
+   "type": "seal",
+   "value": null,
+   "present": false,
+   "kind": "인감",
+   "page": 0,
+   "bbox": [
+    1050.0,
+    1519.9,
+    1106.2,
+    1539.6
+   ]
+  },
+  {
+   "key": "sign.signer2",
+   "label": "대리인",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "page": 0,
+   "bbox": [
+    1050.0,
+    1519.9,
+    1106.2,
+    1539.6
+   ]
+  },
+  {
+   "key": "제신고내용",
+   "label": "⇁제신고(내용",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "value",
+   "label": "[유선신고사항]",
+   "type": "amount",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "agent.name",
+   "label": "대리인성명",
+   "type": "text",
+   "value": "김승성",
+   "norm": "김승성",
+   "page": 1,
+   "bbox": [
+    255.0,
+    262.8,
+    313.9,
+    282.4
+   ]
+  },
+  {
+   "key": "agent.phone",
+   "label": "연락처",
+   "type": "phone",
+   "value": "010-6066-8711",
+   "norm": "01060668711",
+   "page": 1,
+   "bbox": [
+    258.3,
+    319.0,
+    390.1,
+    338.7
+   ]
+  },
+  {
+   "key": "위임내용",
+   "label": "위임내용",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "customer.birth",
+   "label": "생년월일",
+   "type": "number",
+   "value": "901121",
+   "norm": 901121,
+   "page": 1,
+   "bbox": [
+    565.2,
+    262.8,
+    629.3,
+    282.4
+   ]
+  },
+  {
+   "key": "agent.address",
+   "label": "주소",
+   "type": "text",
+   "value": "광주광역시 서구 내방로 75, 114동 1401호",
+   "norm": "광주광역시 서구 내방로 75, 114동 1401호",
+   "page": 1,
+   "bbox": [
+    560.4,
+    319.0,
+    925.7,
+    338.7
+   ]
+  },
+  {
+   "key": "signer3.name",
+   "label": "위임인",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 1,
+   "bbox": [
+    539.5,
+    437.2,
+    598.5,
+    456.9
+   ]
+  },
+  {
+   "key": "seal.signer3",
+   "label": "위임인",
+   "type": "seal",
+   "value": null,
+   "present": false,
+   "kind": "인감",
+   "page": 1,
+   "bbox": [
+    925.9,
+    436.2,
+    1003.2,
+    457.9
+   ]
+  },
+  {
+   "key": "sign.signer3",
+   "label": "위임인",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "page": 1,
+   "bbox": [
+    925.9,
+    436.2,
+    1003.2,
+    457.9
+   ]
+  },
+  {
+   "key": "위임장",
+   "label": "위임장",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "seal.untagged1",
+   "label": null,
+   "type": "seal",
+   "value": "김소윤",
+   "present": true,
+   "kind": "도장",
+   "page": 0,
+   "bbox": [
+    498.3,
+    925.5,
+    559.0,
+    986.1
+   ]
+  }
+ ]
+}

@@ -1,0 +1,109 @@
+{
+ "no": 302,
+ "class": "외환",
+ "name": "「외국환서식관리프로그램」BILL OF EXCHANGE (환어음 고객용)",
+ "file": "add_template/하나은행_서식자료/외환/302_「외국환서식관리프로그램」BILL OF EXCHANGE (환어음 고객용).pdf",
+ "pages": [
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  }
+ ],
+ "items": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "TO",
+   "rect": [
+    64.3,
+    288.9,
+    472.7,
+    305.8
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "TO",
+   "rect": [
+    64.3,
+    657.0,
+    472.7,
+    673.9
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "FOR",
+   "rect": [
+    63.5,
+    141.8,
+    206.8,
+    157.7
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "AT",
+   "rect": [
+    58.7,
+    170.1,
+    164.5,
+    186.8
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "DATED",
+   "rect": [
+    414.2,
+    271.6,
+    578.2,
+    285.6
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "FOR",
+   "rect": [
+    63.5,
+    509.9,
+    206.8,
+    525.8
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "AT",
+   "rect": [
+    58.7,
+    538.1,
+    164.5,
+    554.8
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "DATED",
+   "rect": [
+    414.2,
+    639.7,
+    578.2,
+    653.7
+   ],
+   "free": true
+  }
+ ]
+}

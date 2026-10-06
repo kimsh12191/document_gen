@@ -1,0 +1,60 @@
+{
+ "no": 343,
+ "class": "전자금융",
+ "name": "금융거래정보 이용제공 동의서(기업관계사서비스용)(영문)",
+ "file": "add_template/하나은행_서식자료/전자금융/343_금융거래정보 이용제공 동의서(기업관계사서비스용)(영문).pdf",
+ "pages": [
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  }
+ ],
+ "items": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Hana Bank",
+   "rect": [
+    208.4,
+    208.1,
+    544.4,
+    230.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Hana Bank",
+   "rect": [
+    156.3,
+    291.5,
+    547.4,
+    349.2
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "E-mail address to be notified",
+   "rect": [
+    279.5,
+    512.8,
+    547.3,
+    530.9
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Business Registration No.",
+   "rect": [
+    416.0,
+    697.3,
+    547.3,
+    715.4
+   ]
+  }
+ ]
+}

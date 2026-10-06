@@ -283,6 +283,19 @@ def scribble(name: str, rng: random.Random) -> Markup:
                   f'stroke="{color}" stroke-width="{sw:.2f}" stroke-linecap="round" stroke-linejoin="round"/></svg>')
 
 
+def checkmark(size: float, color: str, rng: random.Random) -> Markup:
+    """□ 위에 손으로 그은 체크(V) 표시 (SVG). size = □ 높이(px)."""
+    s = size * rng.uniform(1.0, 1.35)
+    x0, y0 = rng.uniform(-0.15, 0.1) * size, size * rng.uniform(0.25, 0.45)
+    xm, ym = x0 + s * rng.uniform(0.3, 0.42), y0 + s * rng.uniform(0.45, 0.6)
+    x1, y1 = x0 + s * rng.uniform(0.85, 1.1), y0 - s * rng.uniform(0.45, 0.75)
+    sw = max(1.2, size * rng.uniform(0.12, 0.2))
+    return Markup(f'<svg class="ck" style="left:0;top:0" width="{size:.1f}" height="{size:.1f}"><path d="M{x0:.1f},{y0:.1f} '
+                  f'Q{(x0 + xm) / 2:.1f},{ym - s * 0.05:.1f} {xm:.1f},{ym:.1f} Q{(xm + x1) / 2 + s * 0.05:.1f},{(ym + y1) / 2:.1f} '
+                  f'{x1:.1f},{y1:.1f}" fill="none" stroke="{color}" stroke-width="{sw:.2f}" stroke-linecap="round" '
+                  f'stroke-linejoin="round"/></svg>')
+
+
 _env: Environment | None = None
 
 
@@ -291,7 +304,7 @@ def env() -> Environment:
     if _env is None:
         _env = Environment(loader=FileSystemLoader(str(TEMPLATE_DIR)), undefined=StrictUndefined,
                            autoescape=True, trim_blocks=True, lstrip_blocks=True)
-        _env.globals.update(kv_layout=kv_layout, seal_lines=seal_lines, seal_font=seal_font, scribble=scribble,
+        _env.globals.update(kv_layout=kv_layout, checkmark=checkmark, seal_lines=seal_lines, seal_font=seal_font, scribble=scribble,
                            BR=Markup("<br>"))
     return _env
 

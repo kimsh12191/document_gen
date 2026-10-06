@@ -1,0 +1,354 @@
+{
+ "no": 378,
+ "class": "전자금융",
+ "name": "글로벌뱅킹서비스 이용,변경,해지 신청서",
+ "file": "add_template/하나은행_서식자료/전자금융/378_글로벌뱅킹서비스 이용,변경,해지 신청서.pdf",
+ "pages": [
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  },
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  }
+ ],
+ "items": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "담당 Prepare",
+   "rect": [
+    469.7,
+    59.7,
+    504.5,
+    97.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "책임자 Approval",
+   "rect": [
+    504.5,
+    59.7,
+    549.8,
+    97.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "성 명 Name",
+   "rect": [
+    218.5,
+    159.2,
+    549.8,
+    181.9
+   ],
+   "hint": "한글 Korean",
+   "section": "신청인 Application 성 명 Name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "성 명 Name",
+   "rect": [
+    218.5,
+    181.9,
+    549.8,
+    204.6
+   ],
+   "hint": "영문 여권과 일치하여야 함 English Name on your Passport",
+   "section": "신청인 Application 성 명 Name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "생년월일 Date of Birth",
+   "rect": [
+    218.5,
+    204.6,
+    345.3,
+    227.3
+   ],
+   "section": "신청인 Application"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "직장 Company",
+   "rect": [
+    218.5,
+    363.3,
+    549.8,
+    386.0
+   ],
+   "hint": "한글 Korean",
+   "group": "해외주소 Overseas Address",
+   "row": true,
+   "section": "신청인 Application 해외주소 Overseas Address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "직장 Company",
+   "rect": [
+    218.5,
+    386.0,
+    549.8,
+    408.7
+   ],
+   "hint": "영문 English",
+   "group": "해외주소 Overseas Address",
+   "row": true,
+   "section": "신청인 Application 해외주소 Overseas Address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "직장 Company",
+   "rect": [
+    218.5,
+    408.7,
+    549.8,
+    431.4
+   ],
+   "hint": "(국가/지역번호 포함) 전화번호 Telephone No.",
+   "group": "해외주소 Overseas Address",
+   "row": true,
+   "section": "신청인 Application 해외주소 Overseas Address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "여권번호 Passport No.",
+   "rect": [
+    271.0,
+    227.3,
+    549.8,
+    249.9
+   ],
+   "hint": "한글 Korean",
+   "group": "자택 House",
+   "row": true,
+   "section": "신청인 Application 국내주소 Domestic Address 선택 또는 전부 기재 Enter Selective or all items 자택 House"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "여권번호 Passport No.",
+   "rect": [
+    271.0,
+    249.9,
+    549.8,
+    272.6
+   ],
+   "hint": "영문 English",
+   "group": "자택 House",
+   "row": true,
+   "section": "신청인 Application 국내주소 Domestic Address 선택 또는 전부 기재 Enter Selective or all items 자택 House"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "여권번호 Passport No.",
+   "rect": [
+    271.0,
+    272.6,
+    549.8,
+    295.3
+   ],
+   "hint": "한글 Korean",
+   "group": "직장 Company",
+   "row": true,
+   "section": "신청인 Application 국내주소 Domestic Address 선택 또는 전부 기재 Enter Selective or all items 직장 Company"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "여권번호 Passport No.",
+   "rect": [
+    271.0,
+    295.3,
+    549.8,
+    318.0
+   ],
+   "hint": "영문 English",
+   "group": "직장 Company",
+   "row": true,
+   "section": "신청인 Application 국내주소 Domestic Address 선택 또는 전부 기재 Enter Selective or all items 직장 Company"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "여권번호 Passport No.",
+   "rect": [
+    409.5,
+    204.6,
+    549.8,
+    227.3
+   ],
+   "section": "신청인 Application"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "인터넷뱅킹 이용자 ID Internet Banking User ID",
+   "rect": [
+    255.6,
+    440.4,
+    549.8,
+    464.5
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "서비스이용 계좌번호 A/C No.",
+   "rect": [
+    241.2,
+    473.5,
+    345.3,
+    496.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "개설은행/지점명 Bank/Branch",
+   "rect": [
+    241.2,
+    496.1,
+    345.3,
+    518.5
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "서명/인감 Signature",
+   "rect": [
+    241.2,
+    568.6,
+    345.3,
+    591.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "직장 Company",
+   "rect": [
+    481.4,
+    324.5,
+    543.6,
+    343.9
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "e-Mail",
+   "rect": [
+    457.9,
+    336.0,
+    541.8,
+    355.4
+   ]
+  },
+  {
+   "t": "sign",
+   "page": 0,
+   "label": "실명확인자",
+   "name": [
+    438.3,
+    721.0,
+    520.7,
+    739.8
+   ],
+   "mark": [
+    524.7,
+    724.0,
+    539.9,
+    736.8
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "‌\u0007조회",
+   "rect": [
+    286.1,
+    519.8,
+    340.0,
+    539.0
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "‌\u0007조회",
+   "rect": [
+    389.8,
+    519.8,
+    443.7,
+    539.0
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "‌\u0007조회",
+   "rect": [
+    493.6,
+    519.8,
+    547.5,
+    539.0
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Inquiry",
+   "rect": [
+    295.4,
+    525.1,
+    340.0,
+    550.0
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Inquiry",
+   "rect": [
+    399.2,
+    525.1,
+    443.7,
+    550.0
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Inquiry",
+   "rect": [
+    502.9,
+    525.1,
+    547.5,
+    550.0
+   ],
+   "free": true
+  }
+ ]
+}

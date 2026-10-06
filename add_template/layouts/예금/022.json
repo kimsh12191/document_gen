@@ -1,0 +1,886 @@
+{
+ "no": 22,
+ "class": "예금",
+ "name": "통합제신고서(영문)",
+ "file": "add_template/하나은행_서식자료/예금/022_통합제신고서(영문).pdf",
+ "pages": [
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  },
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  }
+ ],
+ "items": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Name (Name of Company)",
+   "rect": [
+    149.3,
+    96.6,
+    346.0,
+    119.1
+   ],
+   "hint": "Required item"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Cell Phone",
+   "rect": [
+    149.3,
+    119.1,
+    346.0,
+    141.8
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Home",
+   "rect": [
+    149.3,
+    141.8,
+    346.0,
+    164.0
+   ],
+   "section": "Address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Office",
+   "rect": [
+    149.3,
+    164.0,
+    346.0,
+    186.7
+   ],
+   "section": "Address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Beneficiary of Principal",
+   "rect": [
+    149.3,
+    186.7,
+    346.0,
+    209.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Beneficiary of Profit",
+   "rect": [
+    149.3,
+    209.2,
+    346.0,
+    231.3
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "E-mail Address",
+   "at": [
+    481.2,
+    125.6,
+    487.2,
+    133.7
+   ],
+   "rect": [
+    415.2,
+    119.1,
+    567.2,
+    141.8
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Home",
+   "rect": [
+    415.2,
+    141.8,
+    567.2,
+    164.0
+   ],
+   "section": "Address Phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Office",
+   "rect": [
+    415.2,
+    164.0,
+    567.2,
+    186.7
+   ],
+   "section": "Address Phone"
+  },
+  {
+   "t": "check",
+   "page": 0,
+   "label": "Request",
+   "options": [
+    {
+     "text": "Bankbook/Deed",
+     "box": [
+      105.9,
+      245.7,
+      114.2,
+      255.6
+     ],
+     "rect": [
+      105.9,
+      245.7,
+      162.6,
+      255.6
+     ],
+     "line": 63
+    },
+    {
+     "text": "­ Cash/IC",
+     "box": [
+      167.7,
+      245.7,
+      176.0,
+      255.6
+     ],
+     "rect": [
+      167.7,
+      245.7,
+      199.4,
+      255.6
+     ],
+     "line": 63
+    },
+    {
+     "text": "­ Digital banknote",
+     "box": [
+      204.4,
+      245.7,
+      212.8,
+      255.6
+     ],
+     "rect": [
+      204.4,
+      245.7,
+      261.4,
+      255.6
+     ],
+     "line": 63
+    },
+    {
+     "text": "­ Debit card",
+     "box": [
+      266.4,
+      245.7,
+      274.7,
+      255.6
+     ],
+     "rect": [
+      266.4,
+      245.7,
+      306.4,
+      255.6
+     ],
+     "line": 63
+    },
+    {
+     "text": "­ Overseas debit card",
+     "box": [
+      311.4,
+      245.7,
+      319.8,
+      255.6
+     ],
+     "rect": [
+      311.4,
+      245.7,
+      378.2,
+      255.6
+     ],
+     "line": 63
+    },
+    {
+     "text": "­ Alcohol payment card",
+     "box": [
+      383.2,
+      245.7,
+      391.6,
+      255.6
+     ],
+     "rect": [
+      383.2,
+      245.7,
+      455.6,
+      255.6
+     ],
+     "line": 63
+    },
+    {
+     "text": "­ Electronic bankbook",
+     "box": [
+      460.6,
+      245.7,
+      469.0,
+      255.6
+     ],
+     "rect": [
+      460.6,
+      245.7,
+      528.0,
+      255.6
+     ],
+     "line": 63
+    }
+   ],
+   "cell": [
+    96.4,
+    237.0,
+    567.2,
+    262.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Account (Card) No.",
+   "rect": [
+    96.4,
+    262.2,
+    330.1,
+    284.9
+   ],
+   "hint": "Account (Card) No."
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Account (Card) No.",
+   "rect": [
+    96.4,
+    284.9,
+    330.1,
+    307.6
+   ],
+   "hint": "Account (Card) No."
+  },
+  {
+   "t": "check",
+   "page": 0,
+   "label": "Request Details",
+   "options": [
+    {
+     "text": "Reports((Details",
+     "box": [
+      105.9,
+      308.8,
+      114.2,
+      318.6
+     ],
+     "rect": [
+      105.9,
+      308.8,
+      164.1,
+      318.6
+     ],
+     "line": 78
+    },
+    {
+     "text": "Re-issuance / Receipt",
+     "box": [
+      105.9,
+      323.8,
+      114.2,
+      333.6
+     ],
+     "rect": [
+      105.9,
+      323.8,
+      177.4,
+      333.6
+     ],
+     "line": 82
+    },
+    {
+     "text": "Issuance / Receipt",
+     "box": [
+      209.8,
+      323.8,
+      218.1,
+      333.6
+     ],
+     "rect": [
+      209.8,
+      323.8,
+      270.5,
+      333.6
+     ],
+     "line": 82
+    },
+    {
+     "text": "Termination",
+     "box": [
+      299.2,
+      323.8,
+      307.6,
+      333.6
+     ],
+     "rect": [
+      299.2,
+      323.8,
+      344.4,
+      333.6
+     ],
+     "line": 82
+    },
+    {
+     "text": "Change of information(Contact informatio",
+     "box": [
+      105.9,
+      338.8,
+      114.2,
+      348.6
+     ],
+     "rect": [
+      105.9,
+      338.8,
+      385.3,
+      348.6
+     ],
+     "line": 86
+    },
+    {
+     "text": "Account addition",
+     "box": [
+      105.9,
+      362.8,
+      114.2,
+      372.6
+     ],
+     "rect": [
+      105.9,
+      362.8,
+      164.9,
+      372.6
+     ],
+     "line": 92
+    },
+    {
+     "text": "Account deletion",
+     "box": [
+      186.3,
+      362.8,
+      194.7,
+      372.6
+     ],
+     "rect": [
+      186.3,
+      362.8,
+      244.7,
+      372.6
+     ],
+     "line": 92
+    },
+    {
+     "text": "Cancellation of accident report",
+     "box": [
+      105.9,
+      377.8,
+      114.2,
+      387.6
+     ],
+     "rect": [
+      105.9,
+      377.8,
+      205.2,
+      387.6
+     ],
+     "line": 96
+    },
+    {
+     "text": "Cancellation of transaction suspension",
+     "box": [
+      105.9,
+      392.8,
+      114.2,
+      402.6
+     ],
+     "rect": [
+      105.9,
+      392.8,
+      224.0,
+      402.6
+     ],
+     "line": 99
+    },
+    {
+     "text": "Cancellation of transaction-limit accoun",
+     "box": [
+      245.4,
+      392.8,
+      253.8,
+      402.6
+     ],
+     "rect": [
+      245.4,
+      392.8,
+      370.8,
+      402.6
+     ],
+     "line": 99
+    }
+   ],
+   "cell": [
+    96.4,
+    307.6,
+    393.7,
+    406.3
+   ]
+  },
+  {
+   "t": "check",
+   "page": 0,
+   "label": "",
+   "options": [
+    {
+     "text": "Product name",
+     "box": [
+      105.9,
+      411.4,
+      114.2,
+      421.2
+     ],
+     "rect": [
+      105.9,
+      411.4,
+      160.3,
+      421.2
+     ],
+     "line": 104
+    },
+    {
+     "text": "Product name",
+     "box": [
+      267.2,
+      411.3,
+      275.6,
+      421.1
+     ],
+     "rect": [
+      267.2,
+      411.3,
+      321.6,
+      421.1
+     ],
+     "line": 104
+    }
+   ],
+   "cell": [
+    96.4,
+    406.3,
+    431.3,
+    429.4
+   ]
+  },
+  {
+   "t": "check",
+   "page": 0,
+   "label": "Method of Receipt",
+   "options": [
+    {
+     "text": "E-mail",
+     "box": [
+      139.9,
+      431.8,
+      148.2,
+      441.6
+     ],
+     "rect": [
+      139.9,
+      431.8,
+      168.4,
+      441.6
+     ],
+     "line": 109
+    },
+    {
+     "text": "Hana1Q app.",
+     "box": [
+      173.4,
+      431.8,
+      181.8,
+      441.6
+     ],
+     "rect": [
+      173.4,
+      431.8,
+      221.4,
+      441.6
+     ],
+     "line": 109
+    },
+    {
+     "text": "Branch",
+     "box": [
+      226.4,
+      431.8,
+      234.7,
+      441.6
+     ],
+     "rect": [
+      226.4,
+      431.8,
+      256.2,
+      441.6
+     ],
+     "line": 109
+    },
+    {
+     "text": "Text message / Kakao Talk",
+     "box": [
+      139.9,
+      442.8,
+      148.2,
+      452.6
+     ],
+     "rect": [
+      139.9,
+      442.8,
+      226.0,
+      452.6
+     ],
+     "line": 112
+    }
+   ],
+   "cell": [
+    134.4,
+    429.4,
+    282.8,
+    467.1
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Before Change",
+   "rect": [
+    134.4,
+    487.8,
+    245.1,
+    558.5
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "After Change",
+   "rect": [
+    282.8,
+    487.8,
+    393.7,
+    558.5
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "E-mail or Cell Phone",
+   "rect": [
+    330.1,
+    429.4,
+    431.3,
+    467.1
+   ],
+   "hint": "*Describe when requested separately"
+  },
+  {
+   "t": "check",
+   "page": 0,
+   "label": "[Report by phone]",
+   "options": [
+    {
+     "text": "Reported by",
+     "box": [
+      401.5,
+      334.3,
+      409.8,
+      344.1
+     ],
+     "rect": [
+      401.5,
+      334.3,
+      450.7,
+      344.1
+     ],
+     "line": 85
+    },
+    {
+     "text": "Details of report",
+     "box": [
+      401.5,
+      349.3,
+      409.8,
+      359.1
+     ],
+     "rect": [
+      401.5,
+      349.3,
+      461.2,
+      359.1
+     ],
+     "line": 89
+    },
+    {
+     "text": "Relationship with the principal",
+     "box": [
+      401.5,
+      364.3,
+      409.8,
+      374.1
+     ],
+     "rect": [
+      401.5,
+      364.3,
+      500.6,
+      374.1
+     ],
+     "line": 92
+    },
+    {
+     "text": "Contact information",
+     "box": [
+      401.5,
+      379.3,
+      409.8,
+      389.1
+     ],
+     "rect": [
+      401.5,
+      379.3,
+      476.5,
+      389.1
+     ],
+     "line": 96
+    }
+   ],
+   "cell": [
+    393.7,
+    307.6,
+    567.2,
+    406.3
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Contact Information, E-mail or Other",
+   "rect": [
+    393.7,
+    487.8,
+    567.2,
+    558.5
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Confirmat ion of Receipt",
+   "rect": [
+    469.1,
+    429.4,
+    567.2,
+    467.1
+   ],
+   "hint": "Write in one ’ s own handwriting (sign)"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Withdrawal Account No.",
+   "rect": [
+    261.6,
+    667.6,
+    389.5,
+    690.9
+   ],
+   "hint": "Limited to the principal’s account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Fee amount",
+   "rect": [
+    439.6,
+    667.6,
+    544.9,
+    690.9
+   ],
+   "hint": "Write in one’s own handwriting"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Name (Company Name)",
+   "rect": [
+    177.4,
+    747.6,
+    346.0,
+    780.7
+   ],
+   "hint": "Write in one’s own handwriting (sign)"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Proxy",
+   "rect": [
+    415.2,
+    747.6,
+    567.2,
+    780.7
+   ],
+   "hint": "Write in one’s own handwriting (sign)"
+  },
+  {
+   "t": "check",
+   "page": 0,
+   "label": "",
+   "options": [
+    {
+     "text": "Report(Termination, Change, etc.) and Ap",
+     "box": [
+      29.3,
+      15.5,
+      44.0,
+      32.7
+     ],
+     "rect": [
+      29.3,
+      15.5,
+      392.2,
+      32.7
+     ],
+     "line": 6
+    }
+   ]
+  },
+  {
+   "t": "check",
+   "page": 0,
+   "label": "",
+   "options": [
+    {
+     "text": "Application for Issuance of Cash IC Card",
+     "box": [
+      29.3,
+      33.1,
+      44.0,
+      50.2
+     ],
+     "rect": [
+      29.3,
+      33.1,
+      399.5,
+      50.2
+     ],
+     "line": 10
+    }
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Power of Attorney",
+   "rect": [
+    116.7,
+    113.4,
+    133.5,
+    122.4
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "DPH\u0003RI 3UR[\\",
+   "rect": [
+    126.7,
+    122.4,
+    231.9,
+    150.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "&RQWDFW ,QIRUPDWLRQ",
+   "rect": [
+    126.7,
+    150.2,
+    231.9,
+    178.5
+   ],
+   "hint": "2SWLRQDO\u0003LWHP",
+   "section": "RZHU\u0003RI $WWRUQH\\"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "RZHUV JLYHQ",
+   "rect": [
+    126.7,
+    178.5,
+    567.4,
+    206.9
+   ],
+   "hint": "Ѐ\u00033URYLGH\u0003GHWDLOV VFRSH\u0003 \u0003RI\u0003SRZHUV\u0003JLYHQ\u0011",
+   "section": "RZHU\u0003RI $WWRUQH\\"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "'DWH\u0003RI 'DWH\u0003RI %LUWK %LUWK",
+   "rect": [
+    277.6,
+    122.4,
+    388.7,
+    150.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "$GGUHVV\u0003 $GGUHVV\u0003",
+   "rect": [
+    277.6,
+    150.2,
+    567.4,
+    178.5
+   ],
+   "hint": "2SWLRQDO\u0003LWHP",
+   "section": "RZHU\u0003RI $WWRUQH\\"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Transaction details",
+   "rect": [
+    116.7,
+    290.2,
+    133.5,
+    298.8
+   ]
+  }
+ ]
+}

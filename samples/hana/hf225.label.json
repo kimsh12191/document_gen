@@ -1,0 +1,679 @@
+{
+ "images": [
+  "hana/hf225.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "신청정보",
+   "label": "♣신청정보",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "신청인정보",
+   "label": "♣신청인정보",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "영문",
+   "label": "영문(English)",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "한글",
+   "label": "한글(Korean)",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "check.수입형태사전송금방식만작성",
+   "label": "수입형태*사전송금방식만작성",
+   "type": "checkbox",
+   "value": "사전 무통관수입(중계무역)",
+   "norm": "사전 무통관수입(중계무역)",
+   "page": 0,
+   "bbox": [
+    530.2,
+    646.2,
+    739.2,
+    670.6
+   ],
+   "options": [
+    {
+     "text": "사전 통관수입",
+     "checked": false,
+     "box_bbox": [
+      355.3,
+      649.8,
+      374.5,
+      670.0
+     ],
+     "bbox": [
+      355.3,
+      646.2,
+      476.5,
+      670.6
+     ]
+    },
+    {
+     "text": "사전 무통관수입(중계무역)",
+     "checked": true,
+     "box_bbox": [
+      530.2,
+      649.8,
+      549.4,
+      670.0
+     ],
+     "bbox": [
+      530.2,
+      646.2,
+      739.2,
+      670.6
+     ]
+    },
+    {
+     "text": "사전 무통관수입(외국인수수입)",
+     "checked": false,
+     "box_bbox": [
+      774.8,
+      649.8,
+      793.9,
+      670.0
+     ],
+     "bbox": [
+      774.8,
+      646.2,
+      1014.8,
+      670.6
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.만기",
+   "label": "만기(상환일)",
+   "type": "checkbox",
+   "value": "(",
+   "norm": "(",
+   "page": 0,
+   "bbox": [
+    764.8,
+    765.6,
+    794.4,
+    789.7
+   ],
+   "options": [
+    {
+     "text": "Fixed due date (",
+     "checked": false,
+     "box_bbox": [
+      355.3,
+      769.2,
+      374.5,
+      789.1
+     ],
+     "bbox": [
+      355.3,
+      765.6,
+      499.9,
+      789.7
+     ]
+    },
+    {
+     "text": "(",
+     "checked": true,
+     "box_bbox": [
+      764.8,
+      769.2,
+      784.0,
+      789.1
+     ],
+     "bbox": [
+      764.8,
+      765.6,
+      794.4,
+      789.7
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.거래방식",
+   "label": "거래방식(선적구분)",
+   "type": "checkbox",
+   "value": "사전송금 방식 (선적 전)",
+   "norm": "사전송금 방식 (선적 전)",
+   "page": 0,
+   "bbox": [
+    828.4,
+    586.0,
+    1093.9,
+    610.3
+   ],
+   "options": [
+    {
+     "text": "사전송금 방식 (선적 전)",
+     "checked": true,
+     "box_bbox": [
+      828.4,
+      589.6,
+      846.6,
+      609.7
+     ],
+     "bbox": [
+      828.4,
+      586.0,
+      1093.9,
+      610.3
+     ]
+    },
+    {
+     "text": "사후송금 방식 (선적 후)",
+     "checked": false,
+     "box_bbox": [
+      828.4,
+      613.6,
+      846.6,
+      633.7
+     ],
+     "bbox": [
+      828.4,
+      610.0,
+      1014.6,
+      634.3
+     ]
+    }
+   ]
+  },
+  {
+   "key": "선적정보",
+   "label": "♣선적정보",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "계약서번호",
+   "label": "계약서번호",
+   "type": "text",
+   "value": "5338-6005",
+   "norm": "5338-6005",
+   "page": 0,
+   "bbox": [
+    350.2,
+    854.8,
+    440.0,
+    874.8
+   ]
+  },
+  {
+   "key": "상품명세",
+   "label": "상품명세",
+   "type": "text",
+   "value": "하나 단기채 펀드",
+   "norm": "하나 단기채 펀드",
+   "page": 0,
+   "bbox": [
+    351.0,
+    894.9,
+    510.6,
+    914.8
+   ]
+  },
+  {
+   "key": "가격조건",
+   "label": "가격조건",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "원산지",
+   "label": "원산지",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "운송서류번호사후송금방식인경우작성",
+   "label": "운송서류번호(B/LNo등)*사후송금방식인경우작성",
+   "type": "text",
+   "value": "4109-8285",
+   "norm": "4109-8285",
+   "page": 0,
+   "bbox": [
+    349.0,
+    1016.8,
+    438.8,
+    1036.8
+   ]
+  },
+  {
+   "key": "선적항",
+   "label": "(예정)선적항(또는공항)",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "도착항",
+   "label": "(예정)도착항(또는공항)",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "HS코드",
+   "label": "HS코드",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "수출국",
+   "label": "수출국",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "date",
+   "label": "선적(예정)일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 0,
+   "bbox": [
+    868.6,
+    1011.1,
+    1087.3,
+    1039.3
+   ]
+  },
+  {
+   "key": "선적국가",
+   "label": "선적국가",
+   "type": "text",
+   "value": "베트남",
+   "norm": "베트남",
+   "page": 0,
+   "bbox": [
+    859.3,
+    1059.3,
+    919.2,
+    1079.2
+   ]
+  },
+  {
+   "key": "도착국가",
+   "label": "도착국가",
+   "type": "text",
+   "value": "필리핀",
+   "norm": "필리핀",
+   "page": 0,
+   "bbox": [
+    865.0,
+    1099.0,
+    924.9,
+    1118.9
+   ]
+  },
+  {
+   "key": "수취인명",
+   "label": "수취인명",
+   "type": "text",
+   "value": "주식회사 새한소프트",
+   "norm": "주식회사 새한소프트",
+   "page": 0,
+   "bbox": [
+    347.7,
+    1184.7,
+    537.2,
+    1204.6
+   ]
+  },
+  {
+   "key": "수취인주소및전화번호",
+   "label": "수취인주소및전화번호",
+   "type": "phone",
+   "value": "010-4372-6867",
+   "norm": "01043726867",
+   "page": 0,
+   "bbox": [
+    346.0,
+    1224.8,
+    475.7,
+    1244.8
+   ]
+  },
+  {
+   "key": "수취인주소및전화번호2",
+   "label": "수취인주소및전화번호",
+   "type": "phone",
+   "value": "010-4372-6867",
+   "norm": "01043726867",
+   "page": 0,
+   "bbox": [
+    351.6,
+    1264.5,
+    481.2,
+    1284.4
+   ]
+  },
+  {
+   "key": "수취인계좌번호",
+   "label": "수취인계좌번호",
+   "type": "text",
+   "value": "808-418291-50150",
+   "norm": "808-418291-50150",
+   "page": 0,
+   "bbox": [
+    349.9,
+    1304.2,
+    509.5,
+    1324.1
+   ]
+  },
+  {
+   "key": "수취은행BIC",
+   "label": "수취은행BIC",
+   "type": "text",
+   "value": "신한은행",
+   "norm": "신한은행",
+   "page": 0,
+   "bbox": [
+    345.9,
+    1343.9,
+    425.7,
+    1363.9
+   ]
+  },
+  {
+   "key": "송금수취인및수취은행정보",
+   "label": "♣송금수취인및수취은행정보",
+   "type": "text",
+   "value": "신한은행",
+   "norm": "신한은행",
+   "page": 0,
+   "bbox": [
+    354.8,
+    1146.7,
+    434.5,
+    1166.6
+   ]
+  },
+  {
+   "key": "check.송금수수료부담자",
+   "label": "송금수수료부담자",
+   "type": "checkbox",
+   "value": "SHA",
+   "norm": "SHA",
+   "page": 0,
+   "bbox": [
+    899.4,
+    1300.6,
+    950.2,
+    1324.8
+   ],
+   "options": [
+    {
+     "text": "SHA",
+     "checked": true,
+     "box_bbox": [
+      899.4,
+      1304.2,
+      917.5,
+      1324.2
+     ],
+     "bbox": [
+      899.4,
+      1300.6,
+      950.2,
+      1324.8
+     ]
+    },
+    {
+     "text": "OUR",
+     "checked": false,
+     "box_bbox": [
+      1003.8,
+      1304.2,
+      1021.9,
+      1324.2
+     ],
+     "bbox": [
+      1003.8,
+      1300.6,
+      1058.5,
+      1324.8
+     ]
+    }
+   ]
+  },
+  {
+   "key": "수취은행명",
+   "label": "수취은행명",
+   "type": "text",
+   "value": "농협은행",
+   "norm": "농협은행",
+   "page": 0,
+   "bbox": [
+    865.0,
+    1343.9,
+    944.8,
+    1363.9
+   ]
+  },
+  {
+   "key": "담당자명",
+   "label": "담당자명",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "customer.phone",
+   "label": "전화번호",
+   "type": "phone",
+   "value": "010-4372-6867",
+   "norm": "01043726867",
+   "page": 0,
+   "bbox": [
+    348.0,
+    1469.6,
+    477.7,
+    1489.5
+   ]
+  },
+  {
+   "key": "TELNo",
+   "label": "TELNo",
+   "type": "rrn",
+   "value": "271344-2501640",
+   "norm": "271344-2501640",
+   "page": 0,
+   "bbox": [
+    800.5,
+    479.9,
+    940.1,
+    499.9
+   ]
+  },
+  {
+   "key": "customer.email",
+   "label": "E-mail",
+   "type": "text",
+   "value": "soyun407@hanmail.net",
+   "norm": "soyun407@hanmail.net",
+   "page": 0,
+   "bbox": [
+    802.0,
+    511.3,
+    1001.5,
+    531.3
+   ]
+  },
+  {
+   "key": "통화금액",
+   "label": "통화(),금액",
+   "type": "amount",
+   "value": "2,050,000원",
+   "norm": 2050000,
+   "page": 0,
+   "bbox": [
+    570.5,
+    600.4,
+    680.2,
+    620.3
+   ]
+  },
+  {
+   "key": "date2",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 0,
+   "bbox": [
+    315.6,
+    684.0,
+    516.1,
+    712.2
+   ]
+  },
+  {
+   "key": "SWIFTCode",
+   "label": "SWIFTCode",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "date3",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 0,
+   "bbox": [
+    403.6,
+    1558.6,
+    658.0,
+    1586.8
+   ]
+  },
+  {
+   "key": "signer.name",
+   "label": "신청인",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    831.2,
+    1562.7,
+    891.0,
+    1582.6
+   ]
+  },
+  {
+   "key": "seal.signer",
+   "label": "신청인",
+   "type": "seal",
+   "value": null,
+   "present": false,
+   "kind": "인감",
+   "page": 0,
+   "bbox": [
+    967.6,
+    1560.6,
+    994.8,
+    1584.7
+   ]
+  },
+  {
+   "key": "sign.signer",
+   "label": "신청인",
+   "type": "signature",
+   "value": "김소윤",
+   "present": true,
+   "page": 0,
+   "bbox": [
+    967.6,
+    1560.6,
+    994.8,
+    1584.7
+   ]
+  },
+  {
+   "key": "signer2.name",
+   "label": "신청인",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    846.7,
+    1562.7,
+    906.5,
+    1582.6
+   ]
+  },
+  {
+   "key": "seal.signer2",
+   "label": "신청인",
+   "type": "seal",
+   "value": "김소윤",
+   "present": true,
+   "kind": "인감",
+   "page": 0,
+   "bbox": [
+    998.4,
+    1560.6,
+    1076.4,
+    1584.7
+   ]
+  },
+  {
+   "key": "sign.signer2",
+   "label": "신청인",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "page": 0,
+   "bbox": [
+    998.4,
+    1560.6,
+    1076.4,
+    1584.7
+   ]
+  },
+  {
+   "key": "seal.untagged1",
+   "label": null,
+   "type": "seal",
+   "value": "김소윤",
+   "present": true,
+   "kind": "도장",
+   "page": 0,
+   "bbox": [
+    1007.3,
+    1542.6,
+    1067.5,
+    1602.8
+   ]
+  }
+ ]
+}

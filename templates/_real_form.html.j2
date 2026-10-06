@@ -1,0 +1,79 @@
+{#
+  원본 서식 오버레이 (docgen/realform.py). 서식 PDF 의 각 쪽을 배경으로 깔고 값만 얹는다.
+  d.pages = [{w, h, bg}], d.items = 렌더링 지시 (text / hidden / check / mark)
+  f() 규약은 수제 템플릿과 같아서 GT·bbox 파이프라인을 그대로 쓴다.
+#}
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>{{ spec.name }}</title>
+<style>
+{% for fn in ["NanumPen", "NanumBrush", "HiMelody", "GamjaFlower"] %}
+@font-face { font-family: '{{ fn }}'; src: url('https://docgen.local/fonts/{{ fn }}.woff2') format('woff2'); }
+{% endfor %}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #fff; }
+.page { position: relative; overflow: hidden; background: #fff; margin: 0 0 8px; }
+.page > img.bg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+.ov { position: absolute; display: flex; align-items: center; white-space: nowrap; overflow: visible;
+      font-family: {{ d.style.font|safe }}, 'Nanum Gothic', sans-serif; color: {{ d.style.ink }}; line-height: 1; }
+.ov.left { justify-content: flex-start; } .ov.right { justify-content: flex-end; } .ov.center { justify-content: center; }
+.ov .fv, .ov .tx { display: inline-block; }
+.hid .fv { display: block; width: 100%; height: 100%; color: transparent; font-size: 1px; overflow: hidden; }
+.box, .opt { position: absolute; }
+.box .mk { position: absolute; left: 50%; top: 50%; }
+.box svg.ck { position: absolute; overflow: visible; }
+.box .mk.fill { width: 70%; height: 70%; background: {{ d.style.ink }}; transform: translate(-50%, -50%); }
+.box .mk.ring { width: 160%; height: 160%; border: 1.6px solid {{ d.style.ink }}; border-radius: 50%; transform: translate(-50%, -50%); }
+.opt .fv { display: block; width: 100%; height: 100%; color: transparent; font-size: 1px; overflow: hidden; }
+.mark { position: absolute; display: flex; align-items: center; justify-content: center; }
+.seal { display: inline-flex; align-items: center; justify-content: center; text-align: center;
+        width: 40px; height: 40px; border: 2px solid {{ d.style.seal }}; color: {{ d.style.seal }}; border-radius: 50%;
+        font-size: 10px; line-height: 1.1; font-weight: 700; opacity: .82;
+        font-family: 'Nanum Myeongjo', 'Noto Serif CJK KR', serif; word-break: keep-all; }
+.scribble svg { display: block; overflow: visible; }
+</style>
+</head>
+<body>
+{{ f.set_corr_name(None) }}
+{% for pg in d.pages %}
+{% set pno = loop.index0 %}
+<div class="page" style="width:{{ pg.w }}px;height:{{ pg.h }}px">
+<img class="bg" src="{{ pg.bg }}" alt="">
+{% for it in d["items"] if it.page == pno %}
+{% set x0, y0, x1, y1 = it.get("rect") or (0, 0, 0, 0) %}
+{% if it.t == "text" %}
+<div class="ov {{ it.align }}" style="left:{{ x0 + (it.pad if it.align == 'left' else 0) }}px;top:{{ y0 }}px;width:{{ x1 - x0 - (it.pad if it.align == 'left' else 0) - (3 if it.align == 'right' else 0) }}px;height:{{ y1 - y0 }}px;font-size:{{ it.size }}px">
+{%- if it.key %}<span style="{{ it.css|safe }}">{{ f(it.key, value=it.value, label=it.label) }}</span>
+{%- else %}<span class="tx" style="{{ it.css|safe }}">{{ it.value or "" }}</span>{% endif %}</div>
+{% elif it.t == "hidden" %}
+<div class="ov hid" style="left:{{ x0 }}px;top:{{ y0 }}px;width:{{ x1 - x0 }}px;height:{{ y1 - y0 }}px">{{ f(it.key, value=it.value, label=it.label) }}</div>
+{% elif it.t == "check" %}
+{% for o in it.options %}
+{% set b = o.box %}{% set q = o.rect %}
+<div class="box" data-box="{{ it.key }}#{{ loop.index0 }}" style="left:{{ b[0] }}px;top:{{ b[1] }}px;width:{{ b[2] - b[0] }}px;height:{{ b[3] - b[1] }}px">
+{%- if o.on %}{% set s = (b[3] - b[1]) %}
+{%- if d.style.mark == "■" %}<span class="mk fill"></span>
+{%- elif d.style.mark == "O" %}<span class="mk ring"></span>
+{%- else %}{{ checkmark(s, d.style.ink, f.rng) }}{% endif %}
+{%- endif %}</div>
+<div class="opt" data-opt="{{ it.key }}#{{ loop.index0 }}" style="left:{{ q[0] }}px;top:{{ q[1] }}px;width:{{ q[2] - q[0] }}px;height:{{ q[3] - q[1] }}px">
+{%- if o.on %}{{ f(it.key, value=o.text, label=it.label) }}{% endif %}</div>
+{% endfor %}
+{% if it.selected is none %}{% set u = it.union %}{# 아무것도 체크 안 됨: 보기 묶음 전체가 위치 #}
+<div class="ov hid" style="left:{{ u[0] }}px;top:{{ u[1] }}px;width:{{ u[2] - u[0] }}px;height:{{ u[3] - u[1] }}px">{{ f(it.key, value=None, label=it.label) }}</div>
+{% endif %}
+{{ f.opts(it.key, it.options|map(attribute="text")|list, it.selected, it.label) }}
+{% elif it.t == "mark" %}
+{% set ks = f.mark(it.key, "seal", it.seal, it.name if it.seal else None, label=it.label, kind="인감") %}
+{% set kg = f.mark(it.key, "signature", it.sign, it.name if it.sign else None, label=it.label) %}
+<div class="mark" data-mark="{{ ks }}" data-mark2="{{ kg }}" style="left:{{ x0 }}px;top:{{ y0 }}px;width:{{ x1 - x0 }}px;height:{{ y1 - y0 }}px">
+{%- if it.seal %}<span class="seal" style="transform:rotate({{ it.rot }}deg)">{{ seal_lines(it.name)|join(BR) }}</span>
+{%- elif it.sign %}<span class="scribble">{{ scribble(it.name, f.rng) }}</span>{% endif %}</div>
+{% endif %}
+{% endfor %}
+</div>
+{% endfor %}
+</body>
+</html>

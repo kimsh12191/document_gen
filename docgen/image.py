@@ -106,6 +106,17 @@ def page_paths(png_path: str | Path, n: int) -> list[Path]:
     return [p] if n == 1 else [p.with_name(f"{p.stem}_p{i + 1}{p.suffix}") for i in range(n)]
 
 
+def _serve_local(route) -> None:
+    """원본 서식 배경·손글씨 글꼴 (docgen/realform.py) 을 브라우저에 넘긴다."""
+    from .realform import serve
+
+    hit = serve(route.request.url)
+    if hit is None:
+        route.fulfill(status=404, body="")
+    else:
+        route.fulfill(status=200, body=hit[0], content_type=hit[1])
+
+
 class ImageRenderer:
     """with ImageRenderer(scale=2) as r: r.render(html_str, "out.png")"""
 
@@ -124,6 +135,7 @@ class ImageRenderer:
                 raise
             self._browser = self._pw.chromium.launch(executable_path=exe)
         self._page = self._browser.new_page(device_scale_factor=self.scale, viewport={"width": 1200, "height": 1200})
+        self._page.route("https://docgen.local/**", _serve_local)
         return self
 
     def __exit__(self, *exc):

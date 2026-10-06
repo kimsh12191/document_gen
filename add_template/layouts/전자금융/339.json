@@ -1,0 +1,31 @@
+{
+ "no": 339,
+ "class": "전자금융",
+ "name": "기업 전자금융서비스 신청확인서(고객용)(영문)",
+ "file": "add_template/하나은행_서식자료/전자금융/339_기업 전자금융서비스 신청확인서(고객용)(영문).pdf",
+ "pages": [
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  },
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  }
+ ],
+ "items": [
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Corporate Internet Banking",
+   "rect": [
+    163.7,
+    397.4,
+    308.8,
+    411.9
+   ]
+  }
+ ]
+}

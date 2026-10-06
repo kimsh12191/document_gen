@@ -1,0 +1,49 @@
+{
+ "document_type": "통합제신고서",
+ "check": {
+  "성명휴대폰번호자택주소직장원본수익자수익수익자": "알뜰폰"
+ },
+ "신청내용": null,
+ "변경내용": null,
+ "변경전": null,
+ "seal": {
+  "signer": true,
+  "signer2": false,
+  "signer3": false,
+  "untagged1": true
+ },
+ "sign": {
+  "signer": false,
+  "signer2": false,
+  "signer3": false
+ },
+ "변경후": null,
+ "Email또는휴대폰번호": "010-4372-6867",
+ "연락처Email기타": null,
+ "수령확인": null,
+ "account": null,
+ "customer": {
+  "name": "김소윤",
+  "birth": "901121"
+ },
+ "신고인": null,
+ "본인과의관계": null,
+ "연락처": "010-4372-6867",
+ "상품명": "하나 정기예금",
+ "date": "2025년 11월 29일",
+ "signer2": {
+  "name": null
+ },
+ "제신고내용": null,
+ "value": null,
+ "agent": {
+  "name": "김승성",
+  "phone": "010-6066-8711",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호"
+ },
+ "위임내용": null,
+ "signer3": {
+  "name": "김소윤"
+ },
+ "위임장": null
+}

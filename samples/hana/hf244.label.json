@@ -1,0 +1,791 @@
+{
+ "images": [
+  "hana/hf244_p1.jpg",
+  "hana/hf244_p2.jpg",
+  "hana/hf244_p3.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "접수일",
+   "label": "접수일",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "처리일",
+   "label": "처리일",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "신고된사업명",
+   "label": "신고된사업명",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "상호또는명칭",
+   "label": "상호또는명칭(영문)",
+   "type": "text",
+   "value": "(주)삼정테크",
+   "norm": "(주)삼정테크",
+   "page": 0,
+   "bbox": [
+    475.4,
+    483.8,
+    621.9,
+    526.3
+   ]
+  },
+  {
+   "key": "customer.nationality",
+   "label": "국적",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "HSK분류번호",
+   "label": "HSK분류번호",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "품명",
+   "label": "품명",
+   "type": "text",
+   "value": "화장품",
+   "norm": "화장품",
+   "page": 0,
+   "bbox": [
+    437.8,
+    689.8,
+    509.4,
+    731.1
+   ]
+  },
+  {
+   "key": "수량",
+   "label": "수량",
+   "type": "number",
+   "value": "1",
+   "norm": 1,
+   "page": 0,
+   "bbox": [
+    565.9,
+    690.6,
+    573.7,
+    730.3
+   ]
+  },
+  {
+   "key": "규격",
+   "label": "규격",
+   "type": "text",
+   "value": "플라스틱 원료",
+   "norm": "플라스틱 원료",
+   "page": 0,
+   "bbox": [
+    633.7,
+    699.7,
+    704.5,
+    719.7
+   ]
+  },
+  {
+   "key": "제작자",
+   "label": "제작자",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "금액",
+   "label": "금액(기준통화ᆞ도입통화)",
+   "type": "number",
+   "value": "51,720,000",
+   "norm": 51720000,
+   "page": 0,
+   "bbox": [
+    961.4,
+    687.9,
+    1090.1,
+    731.8
+   ]
+  },
+  {
+   "key": "date",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 0,
+   "bbox": [
+    452.5,
+    364.8,
+    662.4,
+    393.0
+   ]
+  },
+  {
+   "key": "date2",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 0,
+   "bbox": [
+    861.0,
+    806.5,
+    1100.5,
+    834.7
+   ]
+  },
+  {
+   "key": "signer.name",
+   "label": "신고인(또는대리인)",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    789.5,
+    831.4,
+    846.7,
+    870.0
+   ]
+  },
+  {
+   "key": "seal.signer",
+   "label": "신고인(또는대리인)",
+   "type": "seal",
+   "value": null,
+   "present": false,
+   "kind": "인감",
+   "page": 0,
+   "bbox": [
+    989.4,
+    840.6,
+    1102.6,
+    864.7
+   ]
+  },
+  {
+   "key": "sign.signer",
+   "label": "신고인(또는대리인)",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "page": 0,
+   "bbox": [
+    989.4,
+    840.6,
+    1102.6,
+    864.7
+   ]
+  },
+  {
+   "key": "date3",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 0,
+   "bbox": [
+    861.0,
+    1015.9,
+    1100.5,
+    1044.1
+   ]
+  },
+  {
+   "key": "접수번호",
+   "label": "접수번호",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "상호또는명칭2",
+   "label": "상호또는명칭(영문)",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "company.biz_no",
+   "label": "사업자등록번호",
+   "type": "biz_no",
+   "value": "530-82-09978",
+   "norm": "530-82-09978",
+   "page": 0,
+   "bbox": [
+    868.7,
+    235.9,
+    1037.3,
+    276.6
+   ]
+  },
+  {
+   "key": "외국인투자금액및비율",
+   "label": "외국인투자금액및비율",
+   "type": "number",
+   "value": "10",
+   "norm": 10,
+   "page": 0,
+   "bbox": [
+    620.7,
+    420.3,
+    643.1,
+    460.4
+   ]
+  },
+  {
+   "key": "접수일2",
+   "label": "접수일",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "처리일2",
+   "label": "처리일",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "신고된사업명2",
+   "label": "신고된사업명",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "상호또는명칭3",
+   "label": "상호또는명칭(영문)",
+   "type": "text",
+   "value": "우진전자",
+   "norm": "우진전자",
+   "page": 1,
+   "bbox": [
+    473.6,
+    484.4,
+    565.2,
+    526.2
+   ]
+  },
+  {
+   "key": "customer.nationality2",
+   "label": "국적",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "HSK분류번호2",
+   "label": "HSK분류번호",
+   "type": "rrn",
+   "value": "482265-2600493",
+   "norm": "482265-2600493",
+   "page": 1,
+   "bbox": [
+    265.1,
+    698.4,
+    402.4,
+    725.8
+   ]
+  },
+  {
+   "key": "품명2",
+   "label": "품명",
+   "type": "text",
+   "value": "식품 원재료",
+   "norm": "식품 원재료",
+   "page": 1,
+   "bbox": [
+    440.2,
+    697.4,
+    509.4,
+    720.2
+   ]
+  },
+  {
+   "key": "수량2",
+   "label": "수량",
+   "type": "number",
+   "value": "2",
+   "norm": 2,
+   "page": 1,
+   "bbox": [
+    562.2,
+    690.5,
+    579.1,
+    730.7
+   ]
+  },
+  {
+   "key": "규격2",
+   "label": "규격",
+   "type": "text",
+   "value": "포장재",
+   "norm": "포장재",
+   "page": 1,
+   "bbox": [
+    634.9,
+    689.5,
+    706.4,
+    729.3
+   ]
+  },
+  {
+   "key": "제작자2",
+   "label": "제작자",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "금액2",
+   "label": "금액(기준통화ᆞ도입통화)",
+   "type": "number",
+   "value": "23,810,000",
+   "norm": 23810000,
+   "page": 1,
+   "bbox": [
+    965.4,
+    688.0,
+    1089.4,
+    729.3
+   ]
+  },
+  {
+   "key": "date4",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 1,
+   "bbox": [
+    452.5,
+    364.8,
+    662.4,
+    393.0
+   ]
+  },
+  {
+   "key": "date5",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 1,
+   "bbox": [
+    861.0,
+    806.5,
+    1100.5,
+    834.7
+   ]
+  },
+  {
+   "key": "signer2.name",
+   "label": "신고인(또는대리인)",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 1,
+   "bbox": [
+    792.6,
+    833.5,
+    848.7,
+    870.3
+   ]
+  },
+  {
+   "key": "seal.signer2",
+   "label": "신고인(또는대리인)",
+   "type": "seal",
+   "value": "김소윤",
+   "present": true,
+   "kind": "인감",
+   "page": 1,
+   "bbox": [
+    989.4,
+    840.6,
+    1102.6,
+    864.7
+   ]
+  },
+  {
+   "key": "sign.signer2",
+   "label": "신고인(또는대리인)",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "page": 1,
+   "bbox": [
+    989.4,
+    840.6,
+    1102.6,
+    864.7
+   ]
+  },
+  {
+   "key": "date6",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 1,
+   "bbox": [
+    861.0,
+    1015.9,
+    1100.5,
+    1044.1
+   ]
+  },
+  {
+   "key": "접수번호2",
+   "label": "접수번호",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "상호또는명칭4",
+   "label": "상호또는명칭(영문)",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "company.biz_no2",
+   "label": "사업자등록번호",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "외국인투자금액및비율2",
+   "label": "외국인투자금액및비율",
+   "type": "number",
+   "value": "10",
+   "norm": 10,
+   "page": 1,
+   "bbox": [
+    617.9,
+    417.4,
+    640.9,
+    457.7
+   ]
+  },
+  {
+   "key": "접수일3",
+   "label": "접수일",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "처리일3",
+   "label": "처리일",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "신고된사업명3",
+   "label": "신고된사업명",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "상호또는명칭5",
+   "label": "상호또는명칭(영문)",
+   "type": "text",
+   "value": "주식회사 새한소프트",
+   "norm": "주식회사 새한소프트",
+   "page": 2,
+   "bbox": [
+    482.8,
+    485.4,
+    697.1,
+    528.9
+   ]
+  },
+  {
+   "key": "customer.nationality3",
+   "label": "국적",
+   "type": "text",
+   "value": "대한민국",
+   "norm": "대한민국",
+   "page": 2,
+   "bbox": [
+    347.9,
+    544.5,
+    445.3,
+    586.1
+   ]
+  },
+  {
+   "key": "HSK분류번호3",
+   "label": "HSK분류번호",
+   "type": "rrn",
+   "value": "347144-8343641",
+   "norm": "347144-8343641",
+   "page": 2,
+   "bbox": [
+    264.8,
+    698.1,
+    396.4,
+    725.5
+   ]
+  },
+  {
+   "key": "품명3",
+   "label": "품명",
+   "type": "text",
+   "value": "자동차 부품",
+   "norm": "자동차 부품",
+   "page": 2,
+   "bbox": [
+    442.1,
+    700.4,
+    505.4,
+    723.2
+   ]
+  },
+  {
+   "key": "수량3",
+   "label": "수량",
+   "type": "number",
+   "value": "12",
+   "norm": 12,
+   "page": 2,
+   "bbox": [
+    559.2,
+    691.1,
+    583.3,
+    731.4
+   ]
+  },
+  {
+   "key": "규격3",
+   "label": "규격",
+   "type": "text",
+   "value": "산업용 펌프",
+   "norm": "산업용 펌프",
+   "page": 2,
+   "bbox": [
+    631.8,
+    699.3,
+    703.7,
+    723.4
+   ]
+  },
+  {
+   "key": "제작자3",
+   "label": "제작자",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "금액3",
+   "label": "금액(기준통화ᆞ도입통화)",
+   "type": "number",
+   "value": "8,190,000",
+   "norm": 8190000,
+   "page": 2,
+   "bbox": [
+    977.2,
+    691.6,
+    1087.7,
+    731.7
+   ]
+  },
+  {
+   "key": "date7",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 2,
+   "bbox": [
+    452.5,
+    364.8,
+    662.4,
+    393.0
+   ]
+  },
+  {
+   "key": "date8",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 2,
+   "bbox": [
+    861.0,
+    806.5,
+    1100.5,
+    834.7
+   ]
+  },
+  {
+   "key": "signer3.name",
+   "label": "신고인(또는대리인)",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 2,
+   "bbox": [
+    789.7,
+    831.5,
+    846.5,
+    869.3
+   ]
+  },
+  {
+   "key": "seal.signer3",
+   "label": "신고인(또는대리인)",
+   "type": "seal",
+   "value": "김소윤",
+   "present": true,
+   "kind": "인감",
+   "page": 2,
+   "bbox": [
+    989.4,
+    840.6,
+    1102.6,
+    864.7
+   ]
+  },
+  {
+   "key": "sign.signer3",
+   "label": "신고인(또는대리인)",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "page": 2,
+   "bbox": [
+    989.4,
+    840.6,
+    1102.6,
+    864.7
+   ]
+  },
+  {
+   "key": "date9",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 2,
+   "bbox": [
+    861.0,
+    1015.9,
+    1100.5,
+    1044.1
+   ]
+  },
+  {
+   "key": "접수번호3",
+   "label": "접수번호",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "상호또는명칭6",
+   "label": "상호또는명칭(영문)",
+   "type": "text",
+   "value": "주식회사 한빛물산",
+   "norm": "주식회사 한빛물산",
+   "page": 2,
+   "bbox": [
+    480.6,
+    238.2,
+    648.6,
+    276.4
+   ]
+  },
+  {
+   "key": "company.biz_no3",
+   "label": "사업자등록번호",
+   "type": "biz_no",
+   "value": "530-82-09978",
+   "norm": "530-82-09978",
+   "page": 2,
+   "bbox": [
+    863.9,
+    235.5,
+    1032.8,
+    277.3
+   ]
+  },
+  {
+   "key": "외국인투자금액및비율3",
+   "label": "외국인투자금액및비율",
+   "type": "number",
+   "value": "100",
+   "norm": 100,
+   "page": 2,
+   "bbox": [
+    614.3,
+    421.1,
+    650.5,
+    460.9
+   ]
+  },
+  {
+   "key": "seal.untagged1",
+   "label": null,
+   "type": "seal",
+   "value": "김소윤",
+   "present": true,
+   "kind": "도장",
+   "page": 1,
+   "bbox": [
+    1015.2,
+    821.8,
+    1076.8,
+    883.5
+   ]
+  },
+  {
+   "key": "seal.untagged2",
+   "label": null,
+   "type": "seal",
+   "value": "김소윤",
+   "present": true,
+   "kind": "도장",
+   "page": 2,
+   "bbox": [
+    1011.1,
+    817.8,
+    1080.9,
+    887.5
+   ]
+  }
+ ]
+}

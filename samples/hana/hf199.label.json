@@ -1,0 +1,1433 @@
+{
+ "images": [
+  "hana/hf199_p1.jpg",
+  "hana/hf199_p2.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "담당",
+   "label": "담당(실명확인)",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "check.송금방법",
+   "label": "송금방법",
+   "type": "checkbox",
+   "value": "송금수표 (D/D)",
+   "norm": "송금수표 (D/D)",
+   "page": 0,
+   "bbox": [
+    612.4,
+    215.4,
+    739.3,
+    236.2
+   ],
+   "options": [
+    {
+     "text": "국외전신송금(OTT)",
+     "checked": false,
+     "box_bbox": [
+      292.6,
+      217.6,
+      308.5,
+      234.1
+     ],
+     "bbox": [
+      292.6,
+      215.4,
+      444.0,
+      236.2
+     ]
+    },
+    {
+     "text": "국내전신송금(ODT)",
+     "checked": false,
+     "box_bbox": [
+      448.8,
+      217.6,
+      464.8,
+      234.1
+     ],
+     "bbox": [
+      448.8,
+      215.4,
+      602.8,
+      236.2
+     ]
+    },
+    {
+     "text": "송금수표 (D/D)",
+     "checked": true,
+     "box_bbox": [
+      612.4,
+      217.6,
+      628.3,
+      234.1
+     ],
+     "bbox": [
+      612.4,
+      215.4,
+      739.3,
+      236.2
+     ]
+    },
+    {
+     "text": "금융결제원이체(국내)",
+     "checked": false,
+     "box_bbox": [
+      753.8,
+      217.6,
+      769.8,
+      234.1
+     ],
+     "bbox": [
+      753.8,
+      215.4,
+      915.8,
+      236.2
+     ]
+    },
+    {
+     "text": "금융결제원이체(국가간송금)",
+     "checked": false,
+     "box_bbox": [
+      930.1,
+      217.6,
+      946.2,
+      234.1
+     ],
+     "bbox": [
+      930.1,
+      215.4,
+      1135.3,
+      236.2
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.송금정보등록",
+   "label": "송금정보등록",
+   "type": "checkbox",
+   "value": null,
+   "norm": null,
+   "page": 0,
+   "bbox": [
+    292.6,
+    249.0,
+    438.0,
+    289.8
+   ],
+   "options": [
+    {
+     "text": "신규",
+     "checked": false,
+     "box_bbox": [
+      292.6,
+      251.2,
+      308.5,
+      267.6
+     ],
+     "bbox": [
+      292.6,
+      249.0,
+      342.1,
+      269.8
+     ]
+    },
+    {
+     "text": "변경 (NO.",
+     "checked": false,
+     "box_bbox": [
+      346.9,
+      251.2,
+      363.0,
+      267.6
+     ],
+     "bbox": [
+      346.9,
+      249.0,
+      438.0,
+      269.8
+     ]
+    },
+    {
+     "text": "해지 (NO.",
+     "checked": false,
+     "box_bbox": [
+      346.0,
+      271.2,
+      361.9,
+      287.5
+     ],
+     "bbox": [
+      346.0,
+      268.9,
+      436.9,
+      289.8
+     ]
+    }
+   ]
+  },
+  {
+   "key": "영문",
+   "label": "영문(English)",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "국문",
+   "label": "국문(Korean)",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "customer.rrn",
+   "label": "주민(사업자)번호(I.DNo./PassportNo.)",
+   "type": "rrn",
+   "value": "901121-2******",
+   "norm": "901121-2******",
+   "page": 0,
+   "bbox": [
+    289.7,
+    373.9,
+    460.5,
+    409.2
+   ]
+  },
+  {
+   "key": "과거송금번호",
+   "label": "과거송금번호(EXISTINGREF.NO)",
+   "type": "text",
+   "value": "7636-7698",
+   "norm": "7636-7698",
+   "page": 0,
+   "bbox": [
+    288.4,
+    459.6,
+    392.5,
+    493.7
+   ]
+  },
+  {
+   "key": "check.결제은행수수료부담",
+   "label": "결제은행수수료부담(REIMBURSINGBANKCHG.)",
+   "type": "checkbox",
+   "value": "송금인 (DEBT)",
+   "norm": "송금인 (DEBT)",
+   "page": 0,
+   "bbox": [
+    348.8,
+    570.1,
+    468.6,
+    591.0
+   ],
+   "options": [
+    {
+     "text": "송금인 (DEBT)",
+     "checked": true,
+     "box_bbox": [
+      348.8,
+      572.4,
+      364.8,
+      588.7
+     ],
+     "bbox": [
+      348.8,
+      570.1,
+      468.6,
+      591.0
+     ]
+    },
+    {
+     "text": "수취인 (SHAR)",
+     "checked": false,
+     "box_bbox": [
+      489.8,
+      572.4,
+      505.8,
+      588.7
+     ],
+     "bbox": [
+      489.8,
+      570.1,
+      604.8,
+      591.0
+     ]
+    },
+    {
+     "text": "수취인 (CRED - 수취인이 송금과 관련한 국내 , 국외 수수료 모두 ",
+     "checked": false,
+     "box_bbox": [
+      625.9,
+      572.4,
+      642.0,
+      588.7
+     ],
+     "bbox": [
+      625.9,
+      570.1,
+      1090.8,
+      591.0
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.받으실분",
+   "label": "받으실분(Beneficiary)",
+   "type": "checkbox",
+   "value": "HAPPY E-MAIL 서비스 신청 (무료)",
+   "norm": "HAPPY E-MAIL 서비스 신청 (무료)",
+   "page": 0,
+   "bbox": [
+    285.6,
+    1012.9,
+    540.6,
+    1033.6
+   ],
+   "options": [
+    {
+     "text": "HAPPY E-MAIL 서비스 신청 (무료)",
+     "checked": true,
+     "box_bbox": [
+      285.6,
+      1015.0,
+      301.6,
+      1031.5
+     ],
+     "bbox": [
+      285.6,
+      1012.9,
+      540.6,
+      1033.6
+     ]
+    }
+   ]
+  },
+  {
+   "key": "송금목적",
+   "label": "송금목적(송금사유)(PURPOSEOFPAYMENT)",
+   "type": "text",
+   "value": "계좌 정리",
+   "norm": "계좌 정리",
+   "page": 0,
+   "bbox": [
+    292.1,
+    1046.7,
+    406.5,
+    1082.6
+   ]
+  },
+  {
+   "key": "적요",
+   "label": "적요(DETAILSOFPAYMENT)",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "은행코드",
+   "label": "은행코드(SWIFTBIC)",
+   "type": "number",
+   "value": "43363",
+   "norm": 43363,
+   "page": 0,
+   "bbox": [
+    465.6,
+    602.2,
+    528.2,
+    636.6
+   ]
+  },
+  {
+   "key": "은행명",
+   "label": "은행명(BANKNAME)",
+   "type": "text",
+   "value": "국민은행",
+   "norm": "국민은행",
+   "page": 0,
+   "bbox": [
+    468.7,
+    643.9,
+    573.6,
+    678.5
+   ]
+  },
+  {
+   "key": "은행명2",
+   "label": "은행명(BANKNAME)",
+   "type": "text",
+   "value": "기업은행",
+   "norm": "기업은행",
+   "page": 0,
+   "bbox": [
+    461.4,
+    684.9,
+    566.9,
+    718.5
+   ]
+  },
+  {
+   "key": "통화금액",
+   "label": "통화(CURRENCY):금액(AMOUNT)",
+   "type": "number",
+   "value": "720,000",
+   "norm": 720000,
+   "page": 0,
+   "bbox": [
+    1070.9,
+    722.9,
+    1154.1,
+    756.0
+   ]
+  },
+  {
+   "key": "은행코드2",
+   "label": "은행코드(BANKCODE)",
+   "type": "number",
+   "value": "5616",
+   "norm": 5616,
+   "page": 0,
+   "bbox": [
+    460.9,
+    804.5,
+    502.5,
+    837.7
+   ]
+  },
+  {
+   "key": "수취인계좌번호",
+   "label": "수취인계좌번호(BNF'sA/CNo.)",
+   "type": "text",
+   "value": "026-773302-06658",
+   "norm": "026-773302-06658",
+   "page": 0,
+   "bbox": [
+    464.7,
+    844.6,
+    661.8,
+    883.1
+   ]
+  },
+  {
+   "key": "foreign.name",
+   "label": "성명(Name)",
+   "type": "text",
+   "value": "Tokyo Seimitsu Kogyo K.K.",
+   "norm": "Tokyo Seimitsu Kogyo K.K.",
+   "page": 0,
+   "bbox": [
+    458.1,
+    884.6,
+    700.2,
+    921.5
+   ]
+  },
+  {
+   "key": "신청인과의관계",
+   "label": "신청인과의관계(RELATIONTOAPPLICANT)",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "check.송금정보등록건송금결과통지",
+   "label": "송금정보등록건송금결과통지",
+   "type": "checkbox",
+   "value": "E-MAIL",
+   "norm": "E-MAIL",
+   "page": 0,
+   "bbox": [
+    784.2,
+    268.9,
+    868.6,
+    289.8
+   ],
+   "options": [
+    {
+     "text": "SMS",
+     "checked": false,
+     "box_bbox": [
+      784.2,
+      251.2,
+      800.2,
+      267.6
+     ],
+     "bbox": [
+      784.2,
+      249.0,
+      846.7,
+      269.8
+     ]
+    },
+    {
+     "text": "E-MAIL",
+     "checked": true,
+     "box_bbox": [
+      784.2,
+      271.2,
+      800.2,
+      287.5
+     ],
+     "bbox": [
+      784.2,
+      268.9,
+      868.6,
+      289.8
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.통화금액",
+   "label": "통화(CURRENCY):금액(AMOUNT)",
+   "type": "checkbox",
+   "value": null,
+   "norm": null,
+   "page": 0,
+   "bbox": [
+    821.2,
+    532.3,
+    947.5,
+    553.2
+   ],
+   "options": [
+    {
+     "text": "수수료 별도납부",
+     "checked": false,
+     "box_bbox": [
+      821.2,
+      534.6,
+      837.1,
+      550.9
+     ],
+     "bbox": [
+      821.2,
+      532.3,
+      947.5,
+      553.2
+     ]
+    }
+   ]
+  },
+  {
+   "key": "보내는분계좌번호",
+   "label": "보내는분계좌번호(A/CNO)",
+   "type": "text",
+   "value": "657-963880-93354",
+   "norm": "657-963880-93354",
+   "page": 0,
+   "bbox": [
+    871.9,
+    376.2,
+    1066.1,
+    409.6
+   ]
+  },
+  {
+   "key": "check.수수료차감후송금",
+   "label": "수수료차감후송금",
+   "type": "checkbox",
+   "value": "수수료차감후 송금",
+   "norm": "수수료차감후 송금",
+   "page": 0,
+   "bbox": [
+    994.2,
+    532.3,
+    1139.8,
+    553.2
+   ],
+   "options": [
+    {
+     "text": "수수료차감후 송금",
+     "checked": true,
+     "box_bbox": [
+      994.2,
+      534.6,
+      1010.2,
+      550.9
+     ],
+     "bbox": [
+      994.2,
+      532.3,
+      1139.8,
+      553.2
+     ]
+    }
+   ]
+  },
+  {
+   "key": "신청인과의관계2",
+   "label": "신청인과의관계(RELATIONTOAPPLICANT)",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "check.귀행을",
+   "label": "●귀행을",
+   "type": "checkbox",
+   "value": "외국인 또는 비거주자의 국내보수 등을 위한 거래 외국환 은행으로 지정하고",
+   "norm": "외국인 또는 비거주자의 국내보수 등을 위한 거래 외국환 은행으로 지정하고",
+   "page": 0,
+   "bbox": [
+    195.4,
+    1219.8,
+    724.8,
+    1239.4
+   ],
+   "options": [
+    {
+     "text": "해외체재비",
+     "checked": false,
+     "box_bbox": [
+      106.0,
+      1221.8,
+      121.0,
+      1237.3
+     ],
+     "bbox": [
+      106.0,
+      1219.8,
+      191.4,
+      1239.4
+     ]
+    },
+    {
+     "text": "외국인 또는 비거주자의 국내보수 등을 위한 거래 외국환 은행으로 지정하고",
+     "checked": true,
+     "box_bbox": [
+      195.4,
+      1221.8,
+      210.4,
+      1237.3
+     ],
+     "bbox": [
+      195.4,
+      1219.8,
+      724.8,
+      1239.4
+     ]
+    }
+   ]
+  },
+  {
+   "key": "signer.name",
+   "label": "예금주명(A/CHOLDERNAME)",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    814.1,
+    1291.0,
+    876.4,
+    1317.6
+   ]
+  },
+  {
+   "key": "seal.signer",
+   "label": "예금주명(A/CHOLDERNAME)",
+   "type": "seal",
+   "value": "김소윤",
+   "present": true,
+   "kind": "인감",
+   "page": 0,
+   "bbox": [
+    957.6,
+    1293.6,
+    981.7,
+    1312.9
+   ]
+  },
+  {
+   "key": "sign.signer",
+   "label": "예금주명(A/CHOLDERNAME)",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "page": 0,
+   "bbox": [
+    957.6,
+    1293.6,
+    981.7,
+    1312.9
+   ]
+  },
+  {
+   "key": "date",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 0,
+   "bbox": [
+    867.1,
+    1330.0,
+    1082.5,
+    1353.4
+   ]
+  },
+  {
+   "key": "signer2.name",
+   "label": "신청인(Applicant)",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    836.7,
+    1364.3,
+    899.4,
+    1391.2
+   ]
+  },
+  {
+   "key": "seal.signer2",
+   "label": "신청인(Applicant)",
+   "type": "seal",
+   "value": null,
+   "present": false,
+   "kind": "인감",
+   "page": 0,
+   "bbox": [
+    955.8,
+    1369.3,
+    979.8,
+    1388.8
+   ]
+  },
+  {
+   "key": "sign.signer2",
+   "label": "신청인(Applicant)",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "page": 0,
+   "bbox": [
+    955.8,
+    1369.3,
+    979.8,
+    1388.8
+   ]
+  },
+  {
+   "key": "signer3.name",
+   "label": "대리인(Agent)",
+   "type": "text",
+   "value": null,
+   "norm": null
+  },
+  {
+   "key": "seal.signer3",
+   "label": "대리인(Agent)",
+   "type": "seal",
+   "value": null,
+   "present": false,
+   "kind": "인감",
+   "page": 0,
+   "bbox": [
+    955.8,
+    1408.8,
+    979.8,
+    1428.1
+   ]
+  },
+  {
+   "key": "sign.signer3",
+   "label": "대리인(Agent)",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "page": 0,
+   "bbox": [
+    955.8,
+    1408.8,
+    979.8,
+    1428.1
+   ]
+  },
+  {
+   "key": "date2",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 0,
+   "bbox": [
+    370.8,
+    1490.8,
+    577.6,
+    1515.4
+   ]
+  },
+  {
+   "key": "seal.signer4",
+   "label": "지점장",
+   "type": "seal",
+   "value": null,
+   "present": false,
+   "kind": "인감",
+   "page": 0,
+   "bbox": [
+    1003.2,
+    1492.8,
+    1029.1,
+    1513.3
+   ]
+  },
+  {
+   "key": "sign.signer4",
+   "label": "지점장",
+   "type": "signature",
+   "value": "김소윤",
+   "present": true,
+   "page": 0,
+   "bbox": [
+    1003.2,
+    1492.8,
+    1029.1,
+    1513.3
+   ]
+  },
+  {
+   "key": "대리인실명번호",
+   "label": "대리인실명번호(AGENTID.NO)",
+   "type": "text",
+   "value": "795-785500-25685",
+   "norm": "795-785500-25685",
+   "page": 0,
+   "bbox": [
+    790.6,
+    1436.9,
+    945.1,
+    1465.1
+   ]
+  },
+  {
+   "key": "check.자동화기기를이용한외화송금서비스신청",
+   "label": "◈자동화기기를이용한외화송금서비스신청(",
+   "type": "checkbox",
+   "value": "변경",
+   "norm": "변경",
+   "page": 1,
+   "bbox": [
+    532.9,
+    200.2,
+    588.1,
+    231.6
+   ],
+   "options": [
+    {
+     "text": "신규",
+     "checked": false,
+     "box_bbox": [
+      462.1,
+      200.4,
+      480.1,
+      231.6
+     ],
+     "bbox": [
+      462.1,
+      200.2,
+      517.6,
+      231.6
+     ]
+    },
+    {
+     "text": "변경",
+     "checked": true,
+     "box_bbox": [
+      532.9,
+      200.4,
+      550.9,
+      231.6
+     ],
+     "bbox": [
+      532.9,
+      200.2,
+      588.1,
+      231.6
+     ]
+    },
+    {
+     "text": "해지",
+     "checked": false,
+     "box_bbox": [
+      598.6,
+      200.4,
+      616.6,
+      231.6
+     ],
+     "bbox": [
+      598.6,
+      200.2,
+      675.7,
+      231.6
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.송금항목",
+   "label": "송금항목",
+   "type": "checkbox",
+   "value": "거주자의 무증빙 해외송금",
+   "norm": "거주자의 무증빙 해외송금",
+   "page": 1,
+   "bbox": [
+    336.6,
+    241.8,
+    530.2,
+    262.3
+   ],
+   "options": [
+    {
+     "text": "거주자의 무증빙 해외송금",
+     "checked": true,
+     "box_bbox": [
+      336.6,
+      243.8,
+      352.6,
+      260.4
+     ],
+     "bbox": [
+      336.6,
+      241.8,
+      530.2,
+      262.3
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.송금항목2",
+   "label": "송금항목",
+   "type": "checkbox",
+   "value": null,
+   "norm": null,
+   "page": 1,
+   "bbox": [
+    382.2,
+    281.4,
+    484.6,
+    302.2
+   ],
+   "options": [
+    {
+     "text": "체재비 송금",
+     "checked": false,
+     "box_bbox": [
+      382.2,
+      283.6,
+      398.2,
+      300.0
+     ],
+     "bbox": [
+      382.2,
+      281.4,
+      484.6,
+      302.2
+     ]
+    }
+   ]
+  },
+  {
+   "key": "인출계좌번호",
+   "label": "인출계좌번호",
+   "type": "text",
+   "value": "831-684141-82469",
+   "norm": "831-684141-82469",
+   "page": 1,
+   "bbox": [
+    283.1,
+    311.8,
+    468.8,
+    350.4
+   ]
+  },
+  {
+   "key": "check.송금결과통보",
+   "label": "송금결과통보",
+   "type": "checkbox",
+   "value": "SMS",
+   "norm": "SMS",
+   "page": 1,
+   "bbox": [
+    294.4,
+    359.5,
+    360.7,
+    380.4
+   ],
+   "options": [
+    {
+     "text": "SMS",
+     "checked": true,
+     "box_bbox": [
+      294.4,
+      361.8,
+      310.3,
+      378.4
+     ],
+     "bbox": [
+      294.4,
+      359.5,
+      360.7,
+      380.4
+     ]
+    },
+    {
+     "text": "E-MAIL",
+     "checked": false,
+     "box_bbox": [
+      680.8,
+      361.8,
+      696.7,
+      378.4
+     ],
+     "bbox": [
+      680.8,
+      359.5,
+      763.9,
+      380.4
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.유학생송금",
+   "label": "유학생송금",
+   "type": "checkbox",
+   "value": null,
+   "norm": null,
+   "page": 1,
+   "bbox": [
+    795.4,
+    241.8,
+    897.7,
+    262.3
+   ],
+   "options": [
+    {
+     "text": "유학생 송금",
+     "checked": false,
+     "box_bbox": [
+      795.4,
+      243.8,
+      811.3,
+      260.4
+     ],
+     "bbox": [
+      795.4,
+      241.8,
+      897.7,
+      262.3
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.외국인근로자의보수송금",
+   "label": "외국인근로자의보수송금",
+   "type": "checkbox",
+   "value": "외국인 근로자의 보수 송금",
+   "norm": "외국인 근로자의 보수 송금",
+   "page": 1,
+   "bbox": [
+    620.5,
+    281.4,
+    814.2,
+    302.2
+   ],
+   "options": [
+    {
+     "text": "외국인 근로자의 보수 송금",
+     "checked": true,
+     "box_bbox": [
+      620.5,
+      283.6,
+      636.6,
+      300.0
+     ],
+     "bbox": [
+      620.5,
+      281.4,
+      814.2,
+      302.2
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.국내전신송금",
+   "label": "국내전신송금",
+   "type": "checkbox",
+   "value": null,
+   "norm": null,
+   "page": 1,
+   "bbox": [
+    917.4,
+    281.4,
+    1034.2,
+    302.2
+   ],
+   "options": [
+    {
+     "text": "국내 전신 송금",
+     "checked": false,
+     "box_bbox": [
+      917.4,
+      283.6,
+      933.4,
+      300.0
+     ],
+     "bbox": [
+      917.4,
+      281.4,
+      1034.2,
+      302.2
+     ]
+    }
+   ]
+  },
+  {
+   "key": "사전송금방식국내통관전수입대금을지급",
+   "label": "사전송금방식:국내통관(물품인수)전수입대금을지급",
+   "type": "number",
+   "value": "14,600,000",
+   "norm": 14600000,
+   "page": 1,
+   "bbox": [
+    987.9,
+    699.5,
+    1087.3,
+    728.6
+   ]
+  },
+  {
+   "key": "check.대금송금후물품수령예정일",
+   "label": "대금송금후물품(선적서류)수령예정일",
+   "type": "checkbox",
+   "value": null,
+   "norm": null,
+   "page": 1,
+   "bbox": [
+    690.1,
+    743.8,
+    770.5,
+    766.9
+   ],
+   "options": [
+    {
+     "text": "년 이내",
+     "checked": false,
+     "box_bbox": [
+      690.1,
+      747.1,
+      706.2,
+      763.6
+     ],
+     "bbox": [
+      690.1,
+      743.8,
+      770.5,
+      766.9
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.대금송금후물품수령예정일2",
+   "label": "대금송금후물품(선적서류)수령예정일",
+   "type": "checkbox",
+   "value": null,
+   "norm": null,
+   "page": 1,
+   "bbox": [
+    690.1,
+    787.0,
+    934.3,
+    810.1
+   ],
+   "options": [
+    {
+     "text": "년 초과 (",
+     "checked": false,
+     "box_bbox": [
+      690.1,
+      790.3,
+      706.2,
+      806.8
+     ],
+     "bbox": [
+      690.1,
+      787.0,
+      934.3,
+      810.1
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.일반수입",
+   "label": "일반수입",
+   "type": "checkbox",
+   "value": "일반 수입",
+   "norm": "일반 수입",
+   "page": 1,
+   "bbox": [
+    120.4,
+    954.8,
+    217.0,
+    978.0
+   ],
+   "options": [
+    {
+     "text": "일반 수입",
+     "checked": true,
+     "box_bbox": [
+      120.4,
+      958.2,
+      136.3,
+      974.5
+     ],
+     "bbox": [
+      120.4,
+      954.8,
+      217.0,
+      978.0
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.중계무역",
+   "label": "중계무역",
+   "type": "checkbox",
+   "value": "중계 무역",
+   "norm": "중계 무역",
+   "page": 1,
+   "bbox": [
+    120.4,
+    1014.1,
+    217.0,
+    1037.5
+   ],
+   "options": [
+    {
+     "text": "중계 무역",
+     "checked": true,
+     "box_bbox": [
+      120.4,
+      1017.8,
+      136.3,
+      1034.2
+     ],
+     "bbox": [
+      120.4,
+      1014.1,
+      217.0,
+      1037.5
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.외국인수수입",
+   "label": "외국인수수입",
+   "type": "checkbox",
+   "value": null,
+   "norm": null,
+   "page": 1,
+   "bbox": [
+    120.4,
+    1073.8,
+    247.0,
+    1097.2
+   ],
+   "options": [
+    {
+     "text": "외국인수 수입",
+     "checked": false,
+     "box_bbox": [
+      120.4,
+      1077.1,
+      136.3,
+      1093.8
+     ],
+     "bbox": [
+      120.4,
+      1073.8,
+      247.0,
+      1097.2
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.현재수출계약체결",
+   "label": "현재수출계약체결",
+   "type": "checkbox",
+   "value": "현재 수출계약 체결",
+   "norm": "현재 수출계약 체결",
+   "page": 1,
+   "bbox": [
+    684.1,
+    997.2,
+    835.9,
+    1020.6
+   ],
+   "options": [
+    {
+     "text": "현재 수출계약 체결",
+     "checked": true,
+     "box_bbox": [
+      684.1,
+      1000.8,
+      700.2,
+      1017.1
+     ],
+     "bbox": [
+      684.1,
+      997.2,
+      835.9,
+      1020.6
+     ]
+    }
+   ]
+  },
+  {
+   "key": "check.현재수출계약미체결",
+   "label": "현재수출계약미체결",
+   "type": "checkbox",
+   "value": "현재 수출계약 미체결",
+   "norm": "현재 수출계약 미체결",
+   "page": 1,
+   "bbox": [
+    684.1,
+    1031.4,
+    850.9,
+    1054.6
+   ],
+   "options": [
+    {
+     "text": "현재 수출계약 미체결",
+     "checked": true,
+     "box_bbox": [
+      684.1,
+      1034.8,
+      700.2,
+      1051.2
+     ],
+     "bbox": [
+      684.1,
+      1031.4,
+      850.9,
+      1054.6
+     ]
+    }
+   ]
+  },
+  {
+   "key": "date3",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 1,
+   "bbox": [
+    825.8,
+    456.8,
+    1060.9,
+    481.3
+   ]
+  },
+  {
+   "key": "signer5.name",
+   "label": "신청인",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 1,
+   "bbox": [
+    893.7,
+    1259.5,
+    964.2,
+    1290.9
+   ]
+  },
+  {
+   "key": "seal.signer5",
+   "label": "신청인",
+   "type": "seal",
+   "value": null,
+   "present": false,
+   "kind": "인감",
+   "page": 1,
+   "bbox": [
+    1031.4,
+    1264.8,
+    1096.3,
+    1288.0
+   ]
+  },
+  {
+   "key": "sign.signer5",
+   "label": "신청인",
+   "type": "signature",
+   "value": "김소윤",
+   "present": true,
+   "page": 1,
+   "bbox": [
+    1031.4,
+    1264.8,
+    1096.3,
+    1288.0
+   ]
+  },
+  {
+   "key": "대금송금후물품수령예정일",
+   "label": "대금송금후물품(선적서류)수령예정일",
+   "type": "date",
+   "value": "2024.11.08",
+   "norm": "2024-11-08",
+   "page": 1,
+   "bbox": [
+    407.9,
+    757.7,
+    515.6,
+    793.2
+   ]
+  },
+  {
+   "key": "seal.untagged1",
+   "label": null,
+   "type": "seal",
+   "value": "김소윤",
+   "present": true,
+   "kind": "도장",
+   "page": 0,
+   "bbox": [
+    941.2,
+    1270.3,
+    998.1,
+    1336.2
+   ]
+  }
+ ]
+}

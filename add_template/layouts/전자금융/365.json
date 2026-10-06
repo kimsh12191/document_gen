@@ -1,0 +1,646 @@
+{
+ "no": 365,
+ "class": "전자금융",
+ "name": "Hana 1Q bank CMS iNet 서비스 이용 추가신청서(iSBS)(영문)",
+ "file": "add_template/하나은행_서식자료/전자금융/365_Hana 1Q bank CMS iNet 서비스 이용 추가신청서(iSBS)(영문).pdf",
+ "pages": [
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  },
+  {
+   "width": 595.28,
+   "height": 841.89,
+   "bank": []
+  }
+ ],
+ "items": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Postal Code *",
+   "rect": [
+    105.9,
+    437.8,
+    191.5,
+    458.5
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Address *",
+   "rect": [
+    91.4,
+    459.6,
+    191.5,
+    480.5
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Corporate Identification No. *",
+   "rect": [
+    194.5,
+    261.1,
+    551.7,
+    283.7
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Business Registration No. *",
+   "rect": [
+    194.5,
+    283.7,
+    551.7,
+    306.4
+   ],
+   "hint": "Enter educational institution’s Business Registration No."
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "(Korean) *",
+   "rect": [
+    194.5,
+    306.4,
+    551.7,
+    329.1
+   ],
+   "section": "Educational Institution Name *"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "(English) *",
+   "rect": [
+    194.5,
+    329.1,
+    551.7,
+    394.3
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Postal Code *",
+   "rect": [
+    194.5,
+    436.8,
+    551.7,
+    459.5
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Address *",
+   "rect": [
+    194.5,
+    459.5,
+    551.7,
+    482.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Phone No.*",
+   "rect": [
+    194.5,
+    504.8,
+    551.7,
+    527.5
+   ],
+   "section": "Contact Info"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Fax No.*",
+   "rect": [
+    194.5,
+    527.5,
+    551.7,
+    550.2
+   ],
+   "section": "Contact Info"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Currency",
+   "rect": [
+    44.3,
+    628.7,
+    123.7,
+    651.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Currency",
+   "rect": [
+    44.3,
+    651.4,
+    123.7,
+    674.1
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Currency",
+   "rect": [
+    44.3,
+    674.1,
+    123.7,
+    696.8
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Currency",
+   "rect": [
+    44.3,
+    696.8,
+    123.7,
+    719.5
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Currency",
+   "rect": [
+    44.3,
+    719.5,
+    123.7,
+    742.1
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Currency",
+   "rect": [
+    44.3,
+    742.1,
+    123.7,
+    764.8
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Account No. (Account Type)",
+   "rect": [
+    123.7,
+    628.7,
+    293.7,
+    651.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Account No. (Account Type)",
+   "rect": [
+    123.7,
+    651.4,
+    293.7,
+    674.1
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Account No. (Account Type)",
+   "rect": [
+    123.7,
+    674.1,
+    293.7,
+    696.8
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Account No. (Account Type)",
+   "rect": [
+    123.7,
+    696.8,
+    293.7,
+    719.5
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Account No. (Account Type)",
+   "rect": [
+    123.7,
+    719.5,
+    293.7,
+    742.1
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Account No. (Account Type)",
+   "rect": [
+    123.7,
+    742.1,
+    293.7,
+    764.8
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Account Holder Name",
+   "rect": [
+    293.7,
+    628.7,
+    422.7,
+    651.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Account Holder Name",
+   "rect": [
+    293.7,
+    651.4,
+    422.7,
+    674.1
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Account Holder Name",
+   "rect": [
+    293.7,
+    674.1,
+    422.7,
+    696.8
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Account Holder Name",
+   "rect": [
+    293.7,
+    696.8,
+    422.7,
+    719.5
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Account Holder Name",
+   "rect": [
+    293.7,
+    719.5,
+    422.7,
+    742.1
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Account Holder Name",
+   "rect": [
+    293.7,
+    742.1,
+    422.7,
+    764.8
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Seal / Signature",
+   "rect": [
+    422.7,
+    628.7,
+    551.7,
+    651.4
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Seal / Signature",
+   "rect": [
+    422.7,
+    651.4,
+    551.7,
+    674.1
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Seal / Signature",
+   "rect": [
+    422.7,
+    674.1,
+    551.7,
+    696.8
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Seal / Signature",
+   "rect": [
+    422.7,
+    696.8,
+    551.7,
+    719.5
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Seal / Signature",
+   "rect": [
+    422.7,
+    719.5,
+    551.7,
+    742.1
+   ],
+   "row": true
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Seal / Signature",
+   "rect": [
+    422.7,
+    742.1,
+    551.7,
+    764.8
+   ],
+   "row": true
+  },
+  {
+   "t": "check",
+   "page": 0,
+   "label": "I hereby wish to",
+   "options": [
+    {
+     "text": "Subscribe to",
+     "box": [
+      113.3,
+      152.0,
+      123.1,
+      163.0
+     ],
+     "rect": [
+      113.3,
+      150.2,
+      177.2,
+      163.0
+     ],
+     "line": 39
+    },
+    {
+     "text": "Change/Add",
+     "box": [
+      182.8,
+      152.0,
+      192.6,
+      163.0
+     ],
+     "rect": [
+      182.8,
+      150.2,
+      247.7,
+      163.0
+     ],
+     "line": 39
+    },
+    {
+     "text": "Terminate the service",
+     "box": [
+      253.3,
+      152.0,
+      263.1,
+      163.0
+     ],
+     "rect": [
+      253.3,
+      150.2,
+      360.4,
+      163.0
+     ],
+     "line": 39
+    }
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Representative *",
+   "rect": [
+    117.2,
+    410.9,
+    191.5,
+    435.8
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Name *",
+   "rect": [
+    166.2,
+    120.5,
+    551.2,
+    143.2
+   ],
+   "hint": "Enter name of proxy who visited the branch",
+   "section": "PROXY"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Address *",
+   "rect": [
+    166.2,
+    143.2,
+    551.2,
+    165.8
+   ],
+   "hint": "Enter address of proxy who visited the branch",
+   "section": "PROXY Address *"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Address *",
+   "rect": [
+    166.2,
+    165.8,
+    551.2,
+    188.5
+   ],
+   "section": "PROXY Address *"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Resident Registration No.",
+   "rect": [
+    166.2,
+    188.5,
+    551.2,
+    233.9
+   ],
+   "hint": "Enter if proxy who visited the branch is a Korean national",
+   "section": "PROXY"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Relation (Dept. / Position)",
+   "rect": [
+    166.2,
+    233.9,
+    551.2,
+    256.5
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Signature/Seal *",
+   "rect": [
+    166.2,
+    256.5,
+    551.2,
+    313.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Signature/Seal",
+   "rect": [
+    214.4,
+    444.8,
+    551.2,
+    501.5
+   ],
+   "hint": "Signature identical to seal acknowledged and registered by Bank or registered seal recognized by the Korean government",
+   "section": "“Customer”"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Bank Verifier’s Name/Signature *",
+   "rect": [
+    137.8,
+    553.6,
+    551.2,
+    598.9
+   ],
+   "hint": "Enter name of Hana Bank staff person handling this transaction"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Date Submitted *",
+   "rect": [
+    137.8,
+    598.9,
+    551.2,
+    621.6
+   ],
+   "hint": "Enter date application is submitted"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Date Registered *",
+   "rect": [
+    137.8,
+    621.6,
+    551.2,
+    644.3
+   ],
+   "hint": "Enter date information is registered"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Address",
+   "rect": [
+    166.7,
+    377.8,
+    547.3,
+    396.0
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "PROXY",
+   "rect": [
+    76.6,
+    156.7,
+    163.2,
+    199.5
+   ],
+   "free": true
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Date",
+   "rect": [
+    478.0,
+    314.2,
+    552.3,
+    337.4
+   ],
+   "free": true
+  }
+ ]
+}
