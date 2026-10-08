@@ -25,6 +25,7 @@ def test_value_match_normalizes_by_type():
     assert not value_match("2025-09-21", "2025년 9월 20일", "date", "2025-09-20")
     assert not value_match("", "김나우", "text", "김나우")
     assert not value_match("김나우", None)
+    assert value_match("해당없음", "해당없음") and value_match("-", "-") and not value_match(None, "없음")
 
 
 def test_numbers_and_distances():

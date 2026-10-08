@@ -162,6 +162,8 @@ def value_match(pred, gt_value, gt_type: str | None = None, gt_norm=None, key: s
     """예측값이 정답값과 같은 뜻인지. 정답이 빈 칸(None)이면 예측도 비어 있어야 한다."""
     if gt_value is None:
         return is_null(pred)
+    if isinstance(pred, str) and norm_text(pred) == norm_text(gt_value):  # 문서에 실제로 '없음'·'-' 이라고 적힌 칸
+        return True
     if is_null(pred):
         return False
     if isinstance(pred, (list, dict)):
