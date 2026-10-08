@@ -82,6 +82,8 @@ python -m docgen check --png
 
 같은 생성기로 **고정된 평가 세트**를 만들어 모델을 잽니다. 과제는 OCR(값 칸 인식, 전체 받아쓰기), 문서 이해(분류, 정보 추출, 체크·도장·서명), 은행 업무(서류 구비 확인, 서류 간 대조, 심사 질의)입니다. 서류 간 대조는 실제 심사 사례를 바탕으로 한 불일치 14종(오기, 타인 서류, 소득 부풀리기, 임대인≠등기부 소유자, 업계약 등)을 일부러 섞어 만듭니다. 자세한 내용은 [docs/BENCHMARK.md](docs/BENCHMARK.md)에 있습니다.
 
+내부망 서버에서 Docker 로 돌리고 윈도우에서 SSH 로 접속해 쓰는 방법은 [docs/DOCKER.md](docs/DOCKER.md)에 있습니다.
+
 ```bash
 python -m docgen.bench build --out bench_out                                   # 평가 세트
 python -m docgen.bench run --bench bench_out --pred preds/my_model \
