@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bank-ocr-pipeline"
+version = "0.1.0"
+description = "Internal OCR pseudo-label preparation, evaluation and SFT/GRPO utilities"
+requires-python = ">=3.10"
+dependencies = ["Pillow>=10,<13"]
+
+[project.optional-dependencies]
+ocr = ["requests>=2.32,<3", "matplotlib>=3.8,<4"]
+
+[project.scripts]
+bank-ocr = "bank_ocr.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["bank_ocr*"]

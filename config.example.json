@@ -1,0 +1,27 @@
+{
+  "manifest": "data/manifest.jsonl",
+  "output_dir": "data/prepared-v1",
+  "cache_dir": "data/ocr-cache",
+  "ocr_callable": "internal_ocr_adapter:ocr_from_file",
+  "ocr_revision": "replace-with-internal-ocr-version-v1",
+  "mapping": {
+    "items_path": "data.basicData",
+    "success_key": "success",
+    "success_value": "Y",
+    "text_key": "text",
+    "confidence_key": "confidence",
+    "box_key": "bounding",
+    "box_format": "polygon",
+    "points_key": "vertices"
+  },
+  "seed": 42,
+  "val_fraction": 0.05,
+  "sft_max_examples": 30000,
+  "train_regions_per_page": 0,
+  "benchmark_regions_per_page": 5,
+  "filters": {
+    "train": {"min_confidence": 0.95, "min_length": 1, "max_length": 100},
+    "benchmark": {"min_confidence": 0.0, "min_length": 1, "max_length": 100}
+  },
+  "grpo_tasks": ["bbox_ocr", "grounding"]
+}
