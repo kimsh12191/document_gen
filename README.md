@@ -78,6 +78,19 @@ python -m docgen check --png
 
 시나리오는 12개입니다: `account_opening`, `personal_credit_loan`, `mortgage`, `jeonse_loan`, `sole_proprietor_loan`, `corporate_credit`, `fx_remittance`, `study_abroad_remittance`, `irp_opening`, `retirement_payout`, `efinance_signup`, `inheritance`
 
+## 벤치마크 (OCR·은행업무)
+
+같은 생성기로 **고정된 평가 세트**를 만들어 모델을 잽니다. 과제는 OCR(값 칸 인식, 전체 받아쓰기), 문서 이해(분류, 정보 추출, 체크·도장·서명), 은행 업무(서류 구비 확인, 서류 간 대조, 심사 질의)입니다. 자세한 내용은 [docs/BENCHMARK.md](docs/BENCHMARK.md)에 있습니다.
+
+```bash
+python -m docgen.bench build --out bench_out                                   # 평가 세트
+python -m docgen.bench run --bench bench_out --pred preds/my_model \
+    --base-url http://localhost:8000/v1 --model <모델>                          # OpenAI 호환 API 로 예측
+python -m docgen.bench eval --bench bench_out --pred preds/my_model            # 채점 → report.md
+```
+
+평가 세트는 고객 seed 1,000,000 이상을 씁니다. 학습 데이터는 그보다 작은 seed로 만드세요.
+
 ## 출력 구조
 
 ```
@@ -226,6 +239,7 @@ docgen/
   paginate.js    넘친 쪽을 여러 쪽으로 나눔 (머리글 줄 반복, 쪽 번호)
   augment.py     스캔/촬영/팩스 증강
   cli.py         list / generate / check
+  bench/         벤치마크: 평가 세트 만들기(build), 모델 실행(run), 채점(eval) — docs/BENCHMARK.md
   realform.py    하나은행 원본 서식 오버레이 — 레이아웃 → 값 → 렌더링 지시, 배경·글꼴 제공
   docs/*.py      서류별 데이터 생성 함수 (그룹별 파일, docs/real_forms.py 가 원본 서식 전부를 등록)
 templates/
