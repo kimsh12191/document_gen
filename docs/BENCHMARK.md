@@ -29,6 +29,26 @@ python -m docgen.bench eval --bench bench_out --pred preds/model_a --pred preds/
 - **예측 없음·파싱 실패:** 0점으로 셉니다(CER은 1). 빈 답이 빈 칸(null)이나 "도장 없음"을 우연히 맞히지 않게 하려는 것입니다. 보고서에 건수가 따로 나옵니다.
 - **채점기 점검:** `run --oracle`은 정답을 그대로 출력으로 씁니다. 이때 모든 과제가 100점이어야 합니다.
 
+## 실행 환경
+
+데이터 생성기(`python -m docgen generate --png`)가 돌아가는 환경(같은 도커 이미지)이면 그대로 됩니다. 따로 설치할 것은 없습니다.
+
+| 단계 | 필요한 것 |
+|---|---|
+| `build` | 생성기 `--png --augment`와 같음: `requirements.txt`, Playwright Chromium, 한글 폰트(`fonts-nanum`, `fonts-noto-cjk`) |
+| `run` | Pillow, 그리고 컨테이너에서 모델 서버(vLLM 등) 주소로 나가는 네트워크 |
+| `eval` | 파이썬 표준 라이브러리만 (생성기 코드 import) |
+
+```bash
+# 예: 생성기 이미지로 평가 세트 만들기 (출력은 볼륨으로)
+docker run --rm -v $PWD/bench_out:/app/bench_out <생성기 이미지> python -m docgen.bench build --out bench_out
+# 같은 호스트의 vLLM 서버로 예측 (--network host 또는 서버 주소)
+docker run --rm --network host -v $PWD/bench_out:/app/bench_out -v $PWD/preds:/app/preds <생성기 이미지> \
+    python -m docgen.bench run --bench bench_out --pred preds/my_model --base-url http://localhost:8000/v1 --model <모델>
+```
+
+평가 세트는 약 600MB이고, `build`는 CPU 코어 하나로 약 16분 걸립니다. 원본 서식 배경 이미지는 처음 렌더링할 때 `~/.cache/docgen/bg/`에 만들어지므로, 컨테이너를 여러 번 띄울 거면 이 경로도 볼륨으로 두면 빨라집니다.
+
 ## 과제
 
 | 영역 | 과제 | 입력 → 출력 | 주 지표 |
