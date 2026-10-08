@@ -28,11 +28,12 @@ METRIC_TITLE = {"exact": "완전 일치", "cer": "CER(낮을수록 좋음)", "re
                 "acc": "정확도", "acc_lenient": "정확도(포함 허용)", "field_acc": "항목 정확도", "f1": "F1",
                 "precision": "정밀도", "recall_f": "재현율", "doc_exact": "서류 전체 일치", "set_f1": "F1",
                 "score": "종합 점수", "detect": "탐지 정확도", "localize": "위치 정확도(변조 문항)",
-                "false_alarm": "오탐률(정상 문항)", "parse_fail": "출력 파싱 실패"}
+                "false_alarm": "오탐률(정상 문항)", "parse_fail": "출력 파싱 실패", "missing_exact": "빠진 서류 일치",
+                "not_required_exact": "불필요 서류 일치", "not_customer_exact": "타인 서류 일치"}
 SLICES = {"ocr_field": ["writing", "condition", "kind", "corrected"], "ocr_page": ["condition", "writing", "group"],
           "classify": ["group", "condition"], "kie": ["group", "condition", "writing", "@kind"],
-          "marks": ["group", "condition", "@type"], "doc_check": ["n_missing", "scenario"],
-          "cross_check": ["perturbed", "kind", "scenario"], "review": ["rule", "skill"]}
+          "marks": ["group", "condition", "@type"], "doc_check": ["n_missing", "not_customer", "not_required", "scenario"],
+          "cross_check": ["category", "case", "perturbed", "scenario"], "review": ["skill", "rule"]}
 
 
 # ---------------------------------------------------------------------------
@@ -154,17 +155,31 @@ def s_marks(item, out):
     return {"metrics": {"acc": sum(oks) / len(oks)}, "parse_fail": fail, "sub": sub}
 
 
+DOC_CHECK_KEYS = ("missing", "not_required", "not_customer")
+
+
 def s_doc_check(item, out):
     pred = parse_json(out)
     fail = not isinstance(pred, (dict, list))
-    lst = pred.get("missing", []) if isinstance(pred, dict) else (pred if isinstance(pred, list) else [])
-    req = item["eval"]["required"]
-    got = {m for m in (_name_match(str(x), req) for x in lst if not is_null(x)) if m}
-    unmatched = sum(1 for x in lst if not is_null(x) and _name_match(str(x), req) is None)
-    gt = set(item["answer"]["missing"])
-    tp, fp, fn = len(got & gt), len(got - gt) + unmatched, len(gt - got)
+    if isinstance(pred, list):  # 목록만 답하면 missing 으로 본다
+        pred = {"missing": pred}
+    pred = pred if isinstance(pred, dict) else {}
+    names = item["eval"].get("names") or item["eval"]["required"]
+    tp = fp = fn = 0
+    exact = {}
+    for k in DOC_CHECK_KEYS:
+        gt = set(item["answer"].get(k, []))
+        lst = [x for x in (pred.get(k) or []) if not is_null(x)] if isinstance(pred.get(k) or [], list) else [pred.get(k)]
+        got = {m for m in (_name_match(str(x), names) for x in lst) if m}
+        unmatched = sum(1 for x in lst if _name_match(str(x), names) is None)
+        tp += len(got & gt)
+        fp += len(got - gt) + unmatched
+        fn += len(gt - got)
+        exact[k] = got == gt and not unmatched
     f1 = 1.0 if not (tp + fp + fn) else 2 * tp / (2 * tp + fp + fn)
-    return {"metrics": {"exact": float(got == gt and not unmatched), "set_f1": f1}, "parse_fail": fail}
+    return {"metrics": {"exact": float(all(exact.values())), "set_f1": f1, "missing_exact": float(exact["missing"]),
+                        "not_required_exact": float(exact["not_required"]),
+                        "not_customer_exact": float(exact["not_customer"])}, "parse_fail": fail}
 
 
 def s_cross_check(item, out):
@@ -182,12 +197,15 @@ def s_cross_check(item, out):
         m["score"] = detect
     else:
         want = gt["issues"][0]
+        ok_docs = {want["document"], *want.get("alt_documents", [])}
         hit = False
         for x in issues:
             doc = _name_match(str(x.get("document") or ""), item["eval"]["documents"])
-            if doc != want["document"]:
+            if doc not in ok_docs:
                 continue
-            if value_match(x.get("value"), want["value"]) or similar_label(want["field"], str(x.get("field") or "")):
+            if (value_match(x.get("value"), want["value"]) or value_match(x.get("expected"), want["value"])
+                    or value_match(x.get("value"), want["expected"])
+                    or similar_label(want["field"], str(x.get("field") or ""))):
                 hit = True
                 break
         m["localize"] = float(hit and cons is False)

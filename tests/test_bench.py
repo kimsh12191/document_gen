@@ -58,9 +58,13 @@ def test_scorers_right_wrong_and_empty():
     assert E.s_marks(marks, '{"rate": "변동", "seal.a": "예", "multi": ["C", "A"]}')["metrics"]["acc"] == 1
     assert E.s_marks(marks, '{"rate": "고정", "seal.a": false, "multi": ["A"]}')["metrics"]["acc"] == 0
 
-    dc = _item("doc_check", {"missing": ["주민등록증"]}, eval={"required": ["주민등록증", "재직증명서", "소득금액증명원"]})
-    assert E.s_doc_check(dc, '{"missing": ["주민등록증"]}')["metrics"]["exact"] == 1
-    assert E.s_doc_check(dc, '{"missing": []}')["metrics"]["exact"] == 0
+    dc = _item("doc_check", {"missing": ["주민등록증", "재직증명서"], "not_required": ["여권"], "not_customer": ["재직증명서"]},
+               eval={"required": ["주민등록증", "재직증명서", "소득금액증명원"],
+                     "names": ["주민등록증", "재직증명서", "소득금액증명원", "여권"]})
+    full = '{"missing": ["주민등록증", "재직증명서"], "not_required": ["여권"], "not_customer": ["재직증명서"]}'
+    assert E.s_doc_check(dc, full)["metrics"]["exact"] == 1
+    r = E.s_doc_check(dc, '{"missing": ["주민등록증"], "not_required": ["여권"], "not_customer": []}')["metrics"]
+    assert r["exact"] == 0 and r["not_required_exact"] == 1 and r["not_customer_exact"] == 0
     assert E.s_doc_check(dc, '{"missing": ["주민등록증", "재직증명서"]}')["metrics"]["exact"] == 0
 
     cc = _item("cross_check", {"consistent": False, "issues": [{"document": "대출거래신청서", "field": "성명",
@@ -71,6 +75,13 @@ def test_scorers_right_wrong_and_empty():
     assert E.s_cross_check(cc, hit)["metrics"]["score"] == 1
     assert E.s_cross_check(cc, wrong_doc)["metrics"]["score"] == 0
     assert E.s_cross_check(cc, '{"consistent": true, "issues": []}')["metrics"]["detect"] == 0
+    # 관계 불일치는 짝 서류(alt_documents)를 짚거나 원래 값(expected)을 말해도 맞다
+    rel = _item("cross_check", {"consistent": False, "issues": [{"document": "등기사항전부증명서", "field": "소유자",
+                                                                "value": "추규태", "expected": "신수유",
+                                                                "alt_documents": ["주택임대차표준계약서"]}]},
+                eval={"documents": ["주택임대차표준계약서", "등기사항전부증명서"]})
+    alt = '{"consistent": false, "issues": [{"document": "주택임대차표준계약서", "field": "임대인", "value": "신수유"}]}'
+    assert E.s_cross_check(rel, alt)["metrics"]["score"] == 1
     clean = _item("cross_check", {"consistent": True, "issues": []}, eval={"documents": ["주민등록증"]})
     assert E.s_cross_check(clean, '{"consistent": true, "issues": []}')["metrics"]["score"] == 1
     assert E.s_cross_check(clean, hit)["metrics"]["false_alarm"] == 1
@@ -139,3 +150,17 @@ def test_missing_or_unparseable_prediction_scores_zero():
             assert r["metrics"][r["main"]] == 0, (it["task"], preds)
     r = E.score_task("ocr_field", [_item("ocr_field", "가나")], {})
     assert r["metrics"]["cer"] == 1
+
+
+def test_case_helpers():
+    from docgen.bench.cases import amount_like, equivalent, shift_first_date
+
+    assert amount_like("금 오억이천만원정 (₩520,000,000)", 600000000) == "금 육억원정 (₩600,000,000)"
+    assert amount_like("327,000,000원", 300000000) == "300,000,000원"
+    assert amount_like("일금 사억원정", 450000000) == "일금 사억오천만원정"
+    assert shift_first_date("2020.08.19 ~ 현재", -366) == "2019.08.19 ~ 현재"
+    rng = random.Random(0)
+    assert equivalent({"value": "830424-1621292", "type": "rrn", "label": "주민등록번호"}, rng) == "830424-1******"
+    assert equivalent({"value": "010-1234-5678", "type": "phone", "label": "연락처"}, rng) == "01012345678"
+    d = equivalent({"value": "2025.09.20", "type": "date", "norm": "2025-09-20", "label": "생년월일"}, rng)
+    assert d and d != "2025.09.20" and value_match(d, "2025.09.20", "date", "2025-09-20")

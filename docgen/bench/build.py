@@ -27,6 +27,7 @@ from ..render import render
 from ..schema import build_fields
 from . import perturb
 from .metrics import norm_text
+from .cases import CASES, OTHER_OK, Ctx
 from .rules import Bundle, questions, r_doc_valid, valid_candidates
 
 VERSION = "1.0"
@@ -48,14 +49,20 @@ P_MARKS = ("이 문서의 체크박스·도장·서명 상태를 확인해 JSON 
            "- 체크박스: 체크된 보기의 글자 (체크된 것이 없으면 null)\n"
            "- 복수 선택: 체크된 보기 글자의 목록 (없으면 [])\n"
            "- 도장·서명: 찍혀 있거나 서명되어 있으면 true, 비어 있으면 false\n항목\n{items}")
-P_DOC_CHECK = ("고객이 '{task}' 업무를 위해 서류를 제출했습니다. 첨부 이미지는 제출된 서류의 첫 쪽입니다 (순서 무관).\n"
-               "필수 제출 서류:\n{required}\n\n필수 서류 중 제출되지 않은 서류를 찾아 "
-               '{{"missing": ["서류명", ...]}} 형식의 JSON 으로 답하세요. 모두 제출되었으면 {{"missing": []}} 입니다. '
-               "서류명은 위 목록에 적힌 그대로 쓰세요.")
-P_CROSS = ("고객이 '{task}' 업무를 위해 제출한 서류 {n}건입니다 (이미지 {pages}장). 서류들 사이에 서로 맞지 않는 정보"
-           "(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액 등)가 있는지 대조하세요.\n"
-           '{{"consistent": true 또는 false, "issues": [{{"document": "서류명", "field": "항목명", "value": "그 서류에 적힌 값", '
-           '"expected": "다른 서류에 적힌 값"}}]}} 형식의 JSON 으로 답하세요. 모두 일치하면 {{"consistent": true, "issues": []}} 입니다.')
+P_DOC_CHECK = ("고객 '{customer}' 님이 '{task}' 업무를 위해 서류를 제출했습니다. 첨부 이미지는 제출된 서류의 첫 쪽입니다 "
+               "(순서 무관).\n필수 제출 서류:\n{required}\n\n제출 서류를 확인해 다음을 JSON 으로 답하세요.\n"
+               "- missing: 필수 서류 중 제출되지 않은 서류. 고객 본인 명의가 아닌 서류만 낸 경우도 제출되지 않은 것으로 봅니다.\n"
+               "- not_required: 제출됐지만 필수 서류 목록에 없는 서류\n"
+               "- not_customer: 고객 본인 명의가 아닌 서류\n"
+               '{{"missing": ["서류명", ...], "not_required": [...], "not_customer": [...]}} 형식으로 답하고, 해당 없으면 빈 목록 [] 으로 '
+               "두세요. 서류명은 목록에 있으면 목록 그대로, 없으면 서류에 적힌 제목대로 쓰세요.")
+P_CROSS = ("고객 '{customer}' 님이 '{task}' 업무를 위해 제출한 서류 {n}건입니다 (이미지 {pages}장). 서류들을 서로 대조해 "
+           "맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계"
+           "(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. "
+           "표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n"
+           '{{"consistent": true 또는 false, "issues": [{{"document": "문제가 있는 서류명", "field": "항목명", '
+           '"value": "그 서류에 적힌 값", "expected": "다른 서류에 적힌 값"}}]}} 형식의 JSON 으로 답하세요. '
+           '문제가 없으면 {{"consistent": true, "issues": []}} 입니다.')
 P_REVIEW = "고객이 '{task}' 업무를 위해 제출한 서류입니다 (이미지 {pages}장).\n{question}"
 
 
@@ -148,7 +155,7 @@ class Builder:
                 tfs.append(tf)
             paths, sizes, fields = new_paths, new_sizes, _aug_fields(fields, tfs)
         hand = spec.group == "hana" and bool((data or {}).get("style", {}).get("hand"))
-        return {"doc_id": doc_id, "name": spec.name, "group": spec.group, "seed": seed, "condition": cond,
+        return {"doc_id": doc_id, "name": spec.name, "group": spec.group, "seed": seed, "condition": cond, "stem": stem,
                 "images": [str(p.relative_to(self.out)) for p in paths], "sizes": sizes, "fields": fields,
                 "raw": raw, "raw_keys": [r["key"] for r in raw], "visible": perturb.visible_keys(html),
                 "html": html, "data": data, "writing": "hand" if hand else "print",
@@ -243,33 +250,25 @@ class Builder:
     # ------------------------------------------------------------------
     # 업무 묶음 과제
     # ------------------------------------------------------------------
-    def bundle(self, scenario: str, seed: int, b: int):
-        task_name, ids = SCENARIOS[scenario]
+    @staticmethod
+    def bundle_profile(scenario: str, seed: int):
         p = make_profile(seed)
         p.extra.update(scenario=scenario, **SCENARIO_EXTRA.get(scenario, {}))
         p.extra["form_bank"] = "하나은행"  # 옛 은행 서식(과거 날짜)이 섞이지 않게
+        return p
+
+    def bundle(self, scenario: str, seed: int, b: int):
+        task_name, ids = SCENARIOS[scenario]
+        p = self.bundle_profile(scenario, seed)
         bid = f"{scenario}_{seed}"
         docs = []
         for doc_id in ids:
             stem = f"images/bundles/{bid}/{doc_id}"
             docs.append(self.render_doc(doc_id, p, seed, stem, pick_condition(f"{bid}:{doc_id}")))
-        meta = {"scenario": scenario, "task_name": task_name, "bundle": bid}
+        meta = {"scenario": scenario, "task_name": task_name, "bundle": bid, "customer": p.person.name}
 
-        # doc_check
-        rng = random.Random(f"bench:doc_check:{bid}")
-        n_missing = rng.choices([0, 1, 2], [0.3, 0.5, 0.2])[0]
-        missing = rng.sample(docs, n_missing)
-        present = [d for d in docs if d not in missing]
-        rng.shuffle(present)
-        required = "\n".join(f"{i + 1}. {d['name']}" for i, d in enumerate(docs))
-        self.emit({"id": f"doc_check/{bid}", "task": "doc_check", "images": [d["images"][0] for d in present],
-                   "prompt": P_DOC_CHECK.format(task=task_name, required=required),
-                   "answer": {"missing": [d["name"] for d in missing]},
-                   "eval": {"required": [d["name"] for d in docs]},
-                   "meta": {**meta, "n_missing": n_missing, "n_docs": len(present)}})
-
-        # cross_check
-        self.cross_check(docs, p, seed, bid, meta, perturbed=(b % 2 == 0))
+        self.doc_check(docs, p, seed, bid, meta)
+        self.cross_checks(docs, p, seed, bid, meta)
 
         # review
         B = Bundle(scenario, {d["doc_id"]: {"name": d["name"], "fields": d["fields"]} for d in docs})
@@ -317,52 +316,117 @@ class Builder:
         q["rule"] = "doc_valid"
         return q, aged
 
-    def cross_check(self, docs: list[dict], profile, seed: int, bid: str, meta: dict, perturbed: bool,
-                    max_pages: int = 10):
-        rng = random.Random(f"bench:cross:{bid}")
-        groups = perturb.candidates(docs)
-        if not groups:
-            return
-        rng.shuffle(groups)
-        for g in groups[:20]:
-            di, fi = rng.choice(g)
-            others = sorted({d for d, _ in g} - {di})
-            pick = [di] + rng.sample(others, min(len(others), rng.randint(1, 2)))
-            rest = [i for i in range(len(docs)) if i not in pick]
-            if rest and rng.random() < 0.5:  # 대조와 상관없는 서류 한 건
-                pick.append(rng.choice(rest))
-            while len(pick) > 2 and sum(len(docs[i]["images"]) for i in pick) > max_pages:
-                pick.pop()
-            if sum(len(docs[i]["images"]) for i in pick) > max_pages:
-                continue
-            sub = {i: docs[i] for i in pick}
-            answer = {"consistent": True, "issues": []}
-            kind = None
-            if perturbed:
-                d, f = docs[di], docs[di]["fields"][fi]
-                new = perturb.mutate(f, rng)
-                if not new or norm_text(new) == norm_text(f["value"]):
+    def edited(self, d: dict, edits: dict[str, str], stem: str, all_same: bool) -> dict | None:
+        """서류 d 의 값 몇 개를 바꿔 다시 렌더링한다 (같은 촬영 조건·증강). all_same 이면 같은 서류 안에서
+        같은 값이 찍힌 다른 칸도 함께 바꾼다."""
+        html, raw = d["html"], [dict(x) for x in d["raw"]]
+        keys = {f["key"]: i for i, f in enumerate(d["fields"])}
+        done: set[int] = set()
+        for key, new in edits.items():
+            if key not in keys or not new:
+                return None
+            old = d["fields"][keys[key]]["value"]
+            idxs = [keys[key]]
+            if all_same:
+                idxs += [i for i, f in enumerate(d["fields"]) if i != keys[key] and f.get("value") == old
+                         and f["type"] not in MARK_TYPES and i < len(d["raw_keys"]) and d["raw_keys"][i] in d["visible"]]
+            for i in idxs:
+                if i in done:
                     continue
-                html = perturb.apply(d["html"], d["raw_keys"][fi], f["value"], new)
+                done.add(i)
+                html = perturb.apply(html, d["raw_keys"][i], old, new)
                 if html is None:
-                    continue
-                raw = [dict(x) for x in d["raw"]]
-                raw[fi]["value"] = new
-                stem = f"images/bundles/{bid}/{d['doc_id']}_x"
-                sub[di] = self.render_doc(d["doc_id"], profile, seed, stem, d["condition"],
-                                          aug_key=f"images/bundles/{bid}/{d['doc_id']}", html=html, raw=raw, data=d["data"])
-                kind = field_kind(f)
-                answer = {"consistent": False,
-                          "issues": [{"document": d["name"], "field": f.get("label"), "value": new, "expected": f["value"]}]}
-            order = list(sub)
-            rng.shuffle(order)
-            imgs = [im for i in order for im in sub[i]["images"]]
-            self.emit({"id": f"cross_check/{bid}", "task": "cross_check", "images": imgs,
-                       "prompt": P_CROSS.format(task=meta["task_name"], n=len(order), pages=len(imgs)),
-                       "answer": answer, "eval": {"documents": [sub[i]["name"] for i in order]},
-                       "meta": {**meta, "perturbed": perturbed, "kind": kind or "-", "n_docs": len(order)}})
-            return
+                    return None
+                raw[i]["value"] = new
+        return self.render_doc(d["doc_id"], None, d["seed"], stem, d["condition"], aug_key=d["stem"],
+                               html=html, raw=raw, data=d["data"])
 
+    def other_customer(self, scenario: str, seed: int):
+        return self.bundle_profile(scenario, seed + 500_000)
+
+    def doc_check(self, docs: list[dict], p, seed: int, bid: str, meta: dict):
+        """빠진 서류 0~2건, 업무와 상관없는 서류 끼워 넣기, 필수 서류 하나를 다른 고객 것으로 바꾸기."""
+        rng = random.Random(f"bench:doc_check:{bid}")
+        n_missing = rng.choices([0, 1, 2], [0.3, 0.5, 0.2])[0]
+        missing = rng.sample(docs, n_missing)
+        present = [d for d in docs if d not in missing]
+        not_customer, not_required = [], []
+        swap = [d for d in present if d["doc_id"] in OTHER_OK]
+        if swap and rng.random() < 0.3:
+            d = rng.choice(swap)
+            other = self.other_customer(meta["scenario"], seed)
+            o = self.render_doc(d["doc_id"], other, other.seed, f"{d['stem']}_other", d["condition"])
+            present[present.index(d)] = o
+            not_customer.append(o)
+        if rng.random() < 0.35:
+            ids = {d["doc_id"] for d in docs}
+            pool = sorted({x for _, (_, lst) in SCENARIOS.items() for x in lst} - ids)
+            if pool:
+                xid = rng.choice(pool)
+                stem = f"images/bundles/{bid}/{xid}_extra"
+                x = self.render_doc(xid, p, seed, stem, pick_condition(f"{bid}:{xid}"))
+                present.append(x)
+                not_required.append(x)
+        rng.shuffle(present)
+        required = "\n".join(f"{i + 1}. {d['name']}" for i, d in enumerate(docs))
+        answer = {"missing": [d["name"] for d in docs if d in missing or d["doc_id"] in {o["doc_id"] for o in not_customer}],
+                  "not_required": [d["name"] for d in not_required], "not_customer": [d["name"] for d in not_customer]}
+        self.emit({"id": f"doc_check/{bid}", "task": "doc_check", "images": [d["images"][0] for d in present],
+                   "prompt": P_DOC_CHECK.format(customer=meta["customer"], task=meta["task_name"], required=required),
+                   "answer": answer,
+                   "eval": {"required": [d["name"] for d in docs], "names": [d["name"] for d in docs + not_required]},
+                   "meta": {**meta, "n_missing": n_missing, "not_customer": bool(not_customer),
+                            "not_required": bool(not_required), "n_docs": len(present)}})
+
+    def cross_checks(self, docs: list[dict], p, seed: int, bid: str, meta: dict, max_pages: int = 10):
+        """불일치 사례(cases.py)마다 문항 하나: 절반은 변조, 절반은 정상. 사례에 예/아니오 질문이 있으면 review 문항도."""
+        by_id = {d["doc_id"]: d for d in docs}
+        ctx = Ctx(by_id, p.person.name)
+        other = None
+        for case in CASES:
+            rng = random.Random(f"bench:case:{bid}:{case.id}")
+            tamper = case.category != "format" and rng.random() < 0.5
+            plan = case.fn(ctx, tamper, rng)
+            if not plan or sum(len(by_id[x]["images"]) for x in plan["docs"]) > max_pages:
+                continue
+            shown = {}
+            for did in plan["docs"]:
+                d = by_id[did]
+                stem = f"{d['stem']}_{case.id}"
+                if plan["swap"] == did:
+                    other = other or self.other_customer(meta["scenario"], seed)
+                    shown[did] = self.render_doc(did, other, other.seed, stem, d["condition"])
+                elif did in plan["edits"]:
+                    shown[did] = self.edited(d, plan["edits"][did], stem, all_same=case.category in ("amount", "logic"))
+                else:
+                    shown[did] = d
+            if any(v is None for v in shown.values()):
+                continue
+            issues = []
+            if plan["issue"]:
+                it = plan["issue"]
+                new_f = next((f for f in shown[it["doc"]]["fields"] if f["key"] == it["key"]), None)
+                old_f = next((f for f in by_id[it["doc"]]["fields"] if f["key"] == it["key"]), None)
+                if not new_f or not old_f or norm_text(new_f["value"]) == norm_text(old_f["value"]):
+                    continue
+                issues.append({"document": by_id[it["doc"]]["name"], "field": old_f.get("label"),
+                               "value": new_f["value"], "expected": old_f["value"],
+                               "alt_documents": [by_id[a]["name"] for a in it.get("alt", [])]})
+            order = list(plan["docs"])
+            rng.shuffle(order)
+            imgs = [im for x in order for im in shown[x]["images"]]
+            m = {**meta, "case": case.id, "category": case.category, "perturbed": bool(issues), "n_docs": len(order)}
+            self.emit({"id": f"cross_check/{bid}/{case.id}", "task": "cross_check", "images": imgs,
+                       "prompt": P_CROSS.format(customer=meta["customer"], task=meta["task_name"], n=len(order),
+                                                pages=len(imgs)),
+                       "answer": {"consistent": not issues, "issues": issues},
+                       "eval": {"documents": [shown[x]["name"] for x in order]}, "meta": m})
+            if plan.get("question"):
+                self.emit({"id": f"review/{bid}/case_{case.id}", "task": "review", "images": imgs,
+                           "prompt": P_REVIEW.format(task=meta["task_name"], pages=len(imgs),
+                                                     question=plan["question"] + " ('예' 또는 '아니오'로만 답하세요)"),
+                           "answer": "예" if plan["yes"] else "아니오", "eval": {"answer_type": "yesno", "tol": 0},
+                           "meta": {**m, "rule": f"case:{case.id}", "skill": "서류 대조"}})
 
 def build(args) -> None:
     out = Path(args.out)
