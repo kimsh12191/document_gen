@@ -5,6 +5,14 @@ import re
 import unicodedata
 
 
+# add_non_thinking_prefix trains the model to emit an empty think block before the answer.
+EMPTY_THINK = re.compile(r"^\s*<think>\s*</think>\s*")
+
+
+def answer(text):
+    return EMPTY_THINK.sub("", text, count=1)
+
+
 def norm(text):
     return unicodedata.normalize("NFC", text.replace("\r\n", "\n")).strip()
 
@@ -65,6 +73,7 @@ def recover_text(box, items):
 
 
 def reward(completion, task, target_text, target_bbox=None, ocr_items=None):
+    completion = answer(completion)
     if task == "grounding":
         box = parse_box(completion)
         if box is None:
@@ -82,6 +91,7 @@ def evaluate(rows, predictions):
     expected = {r["id"] for r in rows}
     if set(predictions) != expected:
         raise ValueError(f"Prediction IDs differ: missing={len(expected - set(predictions))}, extra={len(set(predictions) - expected)}")
+    predictions = {k: answer(v) for k, v in predictions.items()}
     output = {"reference_type": "ocr_pseudo_unreviewed", "interpretation": "agreement_with_internal_ocr_not_verified_accuracy", "tasks": {}}
     for task in ("crop_ocr", "bbox_ocr", "grounding"):
         subset = [r for r in rows if r["task"] == task]
