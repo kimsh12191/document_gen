@@ -137,7 +137,7 @@ nohup python run_pipeline.py --config configs/pipeline.json > pipeline.log 2>&1 
 
 **저장된 OCR 사용 조건:** JSON은 내부 OCR 응답 그대로(`success`, `data.basicData`, `bounding.vertices`)여야 하고, OCR을 돌린 이미지와 같은 파일이어야 합니다. 이미지에 EXIF 회전 정보가 있으면 좌표 기준이 모호하므로 중단합니다(그 페이지는 OCR을 다시 돌려야 합니다). JSON이 없는 이미지가 있으면 scan이 중단됩니다. manifest에 `ocr_json`이 없는 행만 `ocr_callable`로 OCR을 호출합니다.
 
-**빠른 평가 구성:** GPU마다 추론 서버(vLLM)를 하나씩 띄우고 요청을 나눠 보냅니다. 같은 이미지에 대한 질문은 같은 서버로 보내고 연달아 처리해서, 이미지 처리 결과(prefix cache)를 다시 씁니다. 서버당 동시 요청은 `concurrency_per_server`(기본 16)입니다. SFT·GRPO 체크포인트는 평가 전에 `swift export --merge_lora`로 한 번 병합해 두 서버가 같은 병합 모델을 씁니다. SFT 평가 때 띄운 서버로 GRPO 후보 문제도 함께 풀어 둬서, 어려운 문제 선정에 서버를 다시 띄우지 않습니다.
+**빠른 평가 구성:** GPU마다 추론 서버(vLLM)를 하나씩 띄우고 요청을 나눠 보냅니다. 같은 이미지에 대한 질문은 같은 서버로 보내고 연달아 처리해서, 이미지 처리 결과(prefix cache)를 다시 씁니다. 서버당 동시 요청은 `concurrency_per_server`(기본 32, vLLM `--vllm_max_num_seqs` 64)입니다. SFT·GRPO 체크포인트는 평가 전에 `swift export --merge_lora`로 한 번 병합해 두 서버가 같은 병합 모델을 씁니다. SFT 평가 때 띄운 서버로 GRPO 후보 문제도 함께 풀어 둬서, 어려운 문제 선정에 서버를 다시 띄우지 않습니다.
 
 **GRPO 데이터 선정:** `grpo.select`가 `mine`(기본)이면 `train_grpo.jsonl`에서 후보 6000개를 뽑아 SFT 모델로 풀고, 보상이 0.9 미만인 문제를 절반 섞어 2000개를 고릅니다. `random`은 무작위 2000개, `all`은 전체입니다. 2장 구성용 `configs/grpo_a100x2.yaml`은 GPU당 4개 × 2장 = 8 = `num_generations`가 되도록 batch를 맞추고, 누적 4로 optimizer step마다 4문제를 씁니다. 메모리가 부족하면 파일 머리 주석대로 GPU당 2개·누적 2·`num_generations` 4로 되돌리세요.
 
@@ -396,7 +396,7 @@ python train.py sft --config configs/sft.yaml --gpus 0,1,2,3 --model /share/cv_s
   --data data/prepared-v2 --output runs/sft --execute
 ```
 
-`--execute`를 빼면 실행할 명령만 표시합니다. 제공한 설정 파일의 기본값은 BF16, LoRA rank 32·alpha 64, ViT·aligner·LLM 학습, microbatch 1, 누적 4, ZeRO-2, gradient checkpointing, 이미지 토큰은 `image_max_size`에 맞춰 자동 계산(2300×1600, 32px 기준 3600)입니다. SFT는 learning rate 1e-4, max_length 10240(묶음 학습 샘플이 이미지 3600토큰 + 질문·답 최대 4000자), GRPO는 learning rate 5e-6(LoRA 기준), beta 0.04, temperature 1.0입니다. GRPO의 `max_completion_length`는 spotting 출력을 담기 위해 1536입니다. 인터넷 모델 다운로드와 외부 실험 추적은 기본으로 비활성화합니다.
+`--execute`를 빼면 실행할 명령만 표시합니다. 제공한 설정 파일의 기본값은 BF16, LoRA rank 32·alpha 64, ViT·aligner·LLM 학습, A100 80GB 2장 기준 SFT는 GPU당 2 × 누적 2(업데이트당 8샘플), GRPO는 GPU당 4 × 누적 4, ZeRO-2, gradient checkpointing, 이미지 토큰은 `image_max_size`에 맞춰 자동 계산(2300×1600, 32px 기준 3600)입니다. SFT는 learning rate 1e-4, max_length 10240(묶음 학습 샘플이 이미지 3600토큰 + 질문·답 최대 4000자), GRPO는 learning rate 5e-6(LoRA 기준), beta 0.04, temperature 1.0입니다. GRPO의 `max_completion_length`는 spotting 출력을 담기 위해 1536입니다. 인터넷 모델 다운로드와 외부 실험 추적은 기본으로 비활성화합니다.
 
 40GB에서의 실제 메모리 적합성은 내부망에서 확인해야 합니다. 이미지 3600토큰 + 출력으로 시퀀스가 길어져 이전 설정(2048/4096)보다 메모리를 더 씁니다. OOM이면 먼저 `--deepspeed zero3`를 쓰고, 그래도 안 되면 `image_max_size`를 줄여 prepare를 새 `output_dir`로 다시 실행하세요. `--image-tokens`만 낮추면 모델이 이미지를 다시 축소해 작은 글씨를 잃습니다. 이미지 토큰 수를 바꿨다면 Base/SFT/GRPO 평가에도 같은 값을 적용하고 실험 조건을 기록해야 합니다.
 

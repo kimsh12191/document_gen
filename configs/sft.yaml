@@ -1,4 +1,7 @@
 # Native MS-SWIFT 4.x options. Paths and GPU IDs are launcher arguments.
+# Batch layout for 2 x A100 80GB: 2 packed samples per GPU x 2 GPUs x 2 accumulation = 8 per update
+# (each packed sample is one image with up to 8 questions).
+# If it runs out of memory: per_device_train_batch_size 1, gradient_accumulation_steps 4 (same 8).
 model_type: qwen3_5
 tuner_type: lora
 torch_dtype: bfloat16
@@ -8,8 +11,8 @@ freeze_vit: false
 freeze_aligner: false
 lora_rank: 32
 lora_alpha: 64
-per_device_train_batch_size: 1
-gradient_accumulation_steps: 4
+per_device_train_batch_size: 2
+gradient_accumulation_steps: 2
 gradient_checkpointing: true
 num_train_epochs: 1
 # Packed multi-turn samples: ~3600 image tokens + up to 4000 chars of Q/A text.
@@ -18,7 +21,7 @@ warmup_ratio: 0.05
 logging_steps: 1
 save_steps: 100
 save_total_limit: 3
-dataloader_num_workers: 2
+dataloader_num_workers: 4
 dataset_num_proc: 4
 split_dataset_ratio: 0
 report_to: none
