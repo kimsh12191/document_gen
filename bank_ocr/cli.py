@@ -8,7 +8,7 @@ from pathlib import Path
 from .data import digest, dumps, read_json, read_jsonl, scan, write_json, write_jsonl
 from .inference import index_predictions, predict, validate_tasks
 from .metrics import REPORT_METRICS, evaluate, reward
-from .pipeline import prepare
+from .pipeline import group_turns, prepare
 from .settings import load_settings
 
 
@@ -99,6 +99,11 @@ def main():
     h.add_argument("--seed", type=int, default=42)
     h.add_argument("--hard-fraction", type=float, default=0.7)
     h.add_argument("--hard-threshold", type=float, default=0.9, help="Rows whose reward is below this are hard")
+    g = commands.add_parser("group-sft", help="Pack an existing prepared train/val SFT file into multi-turn samples per image")
+    g.add_argument("--data", required=True, help="Prepared dataset directory with DONE.json")
+    g.add_argument("--max-turns", type=int, default=8)
+    g.add_argument("--max-chars", type=int, default=4000)
+    g.add_argument("--seed", type=int, default=42)
     t = commands.add_parser("image-tokens", help="IMAGE_MAX_TOKEN_NUM that keeps prepared images at full size")
     t.add_argument("--model", required=True, help="Local model directory with config.json")
     t.add_argument("--data", required=True, help="Prepared dataset directory with DONE.json")
@@ -183,6 +188,18 @@ def main():
         result = {"models": len(reports), "output": a.out}
     elif a.command == "mine":
         result = mine(a.tasks, a.predictions, a.out, a.count, a.seed, a.hard_fraction, a.hard_threshold)
+    elif a.command == "group-sft":
+        result = {}
+        for name in ("train_sft", "val_sft"):
+            path, single = Path(a.data) / f"{name}.jsonl", Path(a.data) / f"{name}.single.jsonl"
+            if not path.exists():
+                continue
+            if not single.exists():
+                path.replace(single)  # keep the one-question-per-sample original; re-runs start from it
+            rows = read_jsonl(single)
+            samples = group_turns(rows, a.max_turns, a.max_chars, a.seed)
+            write_jsonl(path, samples)
+            result[name] = {"questions": len(rows), "samples": len(samples)}
     elif a.command == "image-tokens":
         size = read_json(Path(a.data) / "DONE.json")["image_max_size"]
         tokens, factor = image_tokens(a.model, size)

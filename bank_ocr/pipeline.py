@@ -85,6 +85,38 @@ def prepare(config_path):
     return result
 
 
+def group_turns(rows, max_turns=8, max_chars=4000, seed=42):
+    """Pack single-question SFT rows that share one image into multi-turn conversations.
+    The image is encoded once per conversation instead of once per question; the image tag
+    stays on the first question only. A conversation ends at `max_turns` questions or when
+    its question+answer text would exceed `max_chars` (keeps long spotting answers within
+    max_length next to the image tokens)."""
+    if max_turns < 1 or max_chars < 1:
+        raise ValueError("max_turns and max_chars must be positive")
+    groups = {}
+    for row in rows:
+        groups.setdefault(tuple(row["images"]), []).append(row)
+    samples = []
+    for images, group in groups.items():
+        turns, chars = [], 0
+        for row in group:
+            if len(row["messages"]) != 2:
+                samples.append(row)  # already multi-turn; leave as is
+                continue
+            size = sum(len(m["content"]) for m in row["messages"])
+            if turns and (len(turns) // 2 >= max_turns or chars + size > max_chars):
+                samples.append({"messages": turns, "images": list(images)})
+                turns, chars = [], 0
+            question, answer = row["messages"]
+            if turns:
+                question = {**question, "content": question["content"].replace("<image>\n", "", 1).replace("<image>", "", 1)}
+            turns, chars = turns + [question, answer], chars + size
+        if turns:
+            samples.append({"messages": turns, "images": list(images)})
+    random.Random(seed).shuffle(samples)
+    return samples
+
+
 OBSOLETE_KEYS = {"train_regions_per_page": "tasks_per_view", "benchmark_regions_per_page": "tasks_per_view"}
 DEFAULT_VIEWS = {"train": {"clean": 1, "augmented": 2}, "val": {"clean": 1, "augmented": 1},
                  "benchmark": {"clean": 1, "augmented": 1}}
@@ -196,13 +228,15 @@ def build_datasets(pages, out, cfg):
             yield {"messages": r["messages"] + [{"role": "assistant", "content": answer_for(r["task"], r["target"])}], "images": r["images"]}
     val = list(pools["val"])
     rng.shuffle(val)
-    write_jsonl(out / "train_sft.jsonl", sft(chosen))
-    write_jsonl(out / "val_sft.jsonl", sft(val[:cfg.get("val_max_examples", 2000)]))
+    turns, chars = cfg.get("sft_turns_per_sample", 8), cfg.get("sft_max_chars_per_sample", 4000)
+    sft_samples = group_turns(list(sft(chosen)), turns, chars, cfg.get("seed", 42))
+    write_jsonl(out / "train_sft.jsonl", sft_samples)
+    write_jsonl(out / "val_sft.jsonl", group_turns(list(sft(val[:cfg.get("val_max_examples", 2000)])), turns, chars, cfg.get("seed", 42)))
     grpo_tasks = cfg.get("grpo_tasks", ["grounding", "spotting", "relation"])
     grpo = [{k: r[k] for k in ("id", "task", "split", "messages", "images", "target")} for r in train if r["task"] in grpo_tasks]
     write_jsonl(out / "train_grpo.jsonl", grpo)
     count = lambda rows: dict(sorted(Counter(r["task"] for r in rows).items()))
-    return {"sft_examples": len(chosen), "sft_task_counts": count(chosen),
+    return {"sft_examples": len(chosen), "sft_samples": len(sft_samples), "sft_task_counts": count(chosen),
             "grpo_examples": len(grpo), "benchmark_examples": len(pools["benchmark"]),
             "benchmark_task_counts": count(pools["benchmark"]),
             "benchmark_view_counts": dict(Counter(r["view"] for r in pools["benchmark"])),

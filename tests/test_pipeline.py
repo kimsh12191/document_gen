@@ -24,7 +24,7 @@ from bank_ocr.cli import mine
 from bank_ocr.data import assign_splits, canonical_image, dumps, parse_ocr, read_json, read_jsonl, scan, write_json, write_jsonl
 from bank_ocr.inference import index_predictions, predict
 from bank_ocr.metrics import answer_for, evaluate, iou, numbers, parse_boxes, reward
-from bank_ocr.pipeline import prepare
+from bank_ocr.pipeline import group_turns, prepare
 from bank_ocr.tasks import MARKERS, build_view, grounding_tasks, marked_tasks, region_tasks, relation_tasks, spotting_tasks
 from demo import create_demo, ocr_from_file
 
@@ -148,6 +148,23 @@ class MetricTests(unittest.TestCase):
         self.assertEqual(ground["precision_iou50"], 0.5)
         self.assertEqual(ground["recall_iou50"], 1)
         self.assertEqual(set(result["breakdown"]["view"]), {"clean", "aug"})
+
+    def test_group_turns_packs_questions_per_image(self):
+        def row(image, q, a):
+            return {"messages": [{"role": "user", "content": "<image>\n" + q}, {"role": "assistant", "content": a}], "images": [image]}
+        rows = [row("a.png", f"q{i}", f"a{i}") for i in range(10)] + [row("b.png", "qb", "ab"), row("c.png", "x" * 50, "y" * 50)]
+        samples = group_turns(rows + [row("c.png", "x" * 50, "y" * 50)], max_turns=4, max_chars=150)
+        by_image = {}
+        for sample in samples:
+            by_image.setdefault(sample["images"][0], []).append(sample)
+            users = [m for m in sample["messages"] if m["role"] == "user"]
+            self.assertTrue(users[0]["content"].startswith("<image>\n"))
+            self.assertFalse(any("<image>" in m["content"] for m in users[1:]))  # image tag once
+            self.assertEqual([m["role"] for m in sample["messages"]], ["user", "assistant"] * len(users))
+        self.assertEqual([len(s["messages"]) // 2 for s in sorted(by_image["a.png"], key=lambda s: s["messages"][0]["content"])], [4, 4, 2])
+        self.assertEqual(len(by_image["c.png"]), 2)  # character budget splits long questions
+        questions = [m["content"].replace("<image>\n", "") for s in samples for m in s["messages"] if m["role"] == "user"]
+        self.assertEqual(sorted(questions), sorted(r["messages"][0]["content"].replace("<image>\n", "") for r in rows + [rows[-1]]))
 
     def test_swift_plugin_batch_contract(self):
         # Only the public registry is stubbed; actual GPU/SWIFT integration remains untested.
@@ -310,8 +327,11 @@ class IntegrationTests(unittest.TestCase):
             self.assertEqual(len(r["messages"]), 1)
             self.assertEqual(r["split"], "train")
             self.assertIn(r["task"], ("grounding", "spotting", "relation"))
-        for r in read_jsonl(out / "train_sft.jsonl"):
+        sft_rows = read_jsonl(out / "train_sft.jsonl")
+        for r in sft_rows:
             self.assertEqual(r["messages"][-1]["role"], "assistant")
+        self.assertEqual(sum(len(r["messages"]) // 2 for r in sft_rows), summary["sft_examples"])
+        self.assertLess(summary["sft_samples"], summary["sft_examples"])
         oracle = {r["id"]: answer_for(r["task"], r["target"]) for r in rows}
         metrics = evaluate(rows, oracle)
         self.assertEqual(metrics["tasks"]["crop_ocr"]["cer"], 0)

@@ -75,6 +75,8 @@ view 수는 `views`(기본 train: clean 1 + aug 2, benchmark: clean 1 + aug 1), 
 
 정답이 불완전해지는 영역은 쓰지 않습니다. 영역·타일은 단어를 자르지 않도록 넓히고, 그 안에 confidence가 낮거나 잘린 단어가 하나라도 있으면 버립니다. 단, spotting 타일은 낮은 confidence 단어를 주변 배경색으로 지우고 정답에서 뺍니다(`masked_words`에 개수 기록). 불확실한 단어가 페이지에 흩어져 있으면 여러 줄짜리 타일이 거의 모두 버려지기 때문입니다. `grounding`은 같은 글자가 모두 믿을 만할 때만, `relation`은 가장 가까운 이웃이 분명할 때만 만듭니다. 읽는 순서는 OCR 출력 순서가 아니라 박스 위치로 정합니다. 세로로 겹치는 단어를 한 줄로 묶고, 줄은 위→아래, 줄 안은 왼→오른쪽입니다.
 
+**SFT 묶음 학습:** SFT 파일은 같은 이미지에 대한 질문을 최대 8개까지 대화 하나로 묶습니다(`sft_turns_per_sample`, 글자 수 상한 `sft_max_chars_per_sample` 4000). 이미지는 첫 질문에만 붙어 한 번만 처리되고, 답은 모두 학습합니다. 질문마다 이미지(약 3600토큰)를 다시 처리하지 않으므로 같은 문항 수를 훨씬 짧은 시간에 학습합니다. 1로 두면 예전처럼 질문 하나씩입니다. 잘라낸 단어·타일처럼 질문이 하나뿐인 이미지는 원래 단일 질문입니다.
+
 SFT 비율은 `task_mix`(기본 crop 10 / bbox 15 / grounding 20 / region 15 / spotting 15 / relation 15 / marked_ocr 5 / marked_box 5%), view당 과제 수는 `tasks_per_view`로 바꿉니다. `grounding`의 약 10%는 페이지에 없는 글자를 묻는 부정 예시입니다(`negative_grounding_fraction`). 타일 하나의 글자 수는 `spotting_max_items`(기본 40) 이하라서 출력 길이가 제한됩니다.
 
 **알려진 한계:** OCR이 아예 놓친 글자는 정답에도 없으므로, spotting은 그런 글자를 빠뜨리도록 배울 수 있습니다. 낮은 confidence 단어가 섞인 영역은 버리지만, 검출 자체가 안 된 글자는 걸러낼 방법이 없습니다.
@@ -613,6 +615,9 @@ keep = ("manifest", "cache_dir", "ocr_callable", "ocr_revision", "mapping", "see
 cfg = {**new, **{k: old[k] for k in keep if k in old}, "output_dir": "data/prepared-v2"}
 json.dump(cfg, open("config.json", "w"), ensure_ascii=False, indent=2)
 PY
+
+# 2-1) 이미 만든 prepared-v2가 예전 코드로 만들어졌다면: SFT 파일만 묶음 형식으로 변환 (몇 초, 원본은 *.single.jsonl로 보관)
+python -m bank_ocr group-sft --data data/prepared-v2
 
 # 3) 실행 (위의 "한 번에 실행" 참고)
 cp configs/pipeline.example.json configs/pipeline.json
