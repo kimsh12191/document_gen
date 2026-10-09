@@ -1,0 +1,15 @@
+{
+  "workdir": "../runs/exp1",
+  "data_config": "../config.json",
+  "model": "/share/cv_share/qwen3.5/9b",
+  "model_type": "qwen3_5",
+  "gpus": [0, 1],
+  "sft": {"config": "sft.yaml"},
+  "grpo": {"config": "grpo_a100x2.yaml", "select": "mine", "candidates": 6000, "count": 2000, "hard_fraction": 0.5, "seed": 42},
+  "eval": {
+    "inference_config": "inference.json",
+    "concurrency_per_server": 16,
+    "port_base": 8000,
+    "server_start_timeout_minutes": 40
+  }
+}

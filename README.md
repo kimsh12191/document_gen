@@ -103,6 +103,59 @@ SFT 비율은 `task_mix`(기본 crop 10 / bbox 15 / grounding 20 / region 15 / s
 
 GRPO 기본 과제는 출력이 여러 개라 점수 차이가 잘 생기는 `grounding`·`spotting`·`relation`입니다(`grpo_tasks`). 단어 하나짜리 글자 과제는 SFT 뒤 생성한 답이 대부분 같아져 학습 신호가 거의 없습니다.
 
+## 한 번에 실행: run_pipeline.py (A100 80GB × 2 기준)
+
+OCR을 이미 돌려 둔 JSON이 있으면 거기서 시작해 데이터 준비 → Base 평가 → SFT → SFT 평가 → GRPO 데이터 선정 → GRPO → GRPO 평가 → 비교표까지 한 명령으로 실행합니다. 각 단계는 끝나면 `<workdir>/state.json`에 기록되고, 중간에 멈추면 같은 명령으로 다시 실행해 이어 갑니다. 추론 중 멈춘 경우도 이미 받은 응답은 다시 요청하지 않습니다.
+
+```bash
+# 1) 이미지 목록. --ocr-dir: 이미 돌린 OCR JSON 폴더 (이미지와 같은 상대경로 또는 같은 파일명, 확장자만 .json)
+python -m bank_ocr scan --root /share/data/images --split train \
+  --document-regex '(?P<document_id>[^/]+)_p[0-9]+\.[^.]+$' \
+  --ocr-dir /share/data/ocr_json --out data/manifest.jsonl
+
+# 2) 설정
+cp config.example.json config.json                 # benchmark_fraction 0.1 → 문서 10%를 벤치마크로 자동 분리
+cp configs/pipeline.example.json configs/pipeline.json   # model 경로, gpus 확인
+
+# 3) 리허설: 학습 5 step, 평가 60문항. 명령·메모리·서버 기동을 먼저 확인 (runs/exp1/smoke)
+python run_pipeline.py --config configs/pipeline.json --smoke
+
+# 4) 본 실행
+nohup python run_pipeline.py --config configs/pipeline.json > pipeline.log 2>&1 &
+```
+
+결과는 `runs/exp1/reports/benchmark.html`입니다. 단계별 소요 시간은 `state.json`의 `timings`에 시간 단위로 남습니다.
+
+| 옵션 | 의미 |
+|---|---|
+| `--smoke` | 학습 5 step, 벤치마크 60문항, GRPO 후보 40개. 별도 폴더(`workdir/smoke`) |
+| `--from sft` | 그 단계부터 다시 실행 (예: SFT 설정을 바꿔 재학습) |
+| `--only eval_base` | 한 단계만 실행 |
+| `--dry-run` | 실행할 명령만 출력 |
+
+**저장된 OCR 사용 조건:** JSON은 내부 OCR 응답 그대로(`success`, `data.basicData`, `bounding.vertices`)여야 하고, OCR을 돌린 이미지와 같은 파일이어야 합니다. 이미지에 EXIF 회전 정보가 있으면 좌표 기준이 모호하므로 중단합니다(그 페이지는 OCR을 다시 돌려야 합니다). JSON이 없는 이미지가 있으면 scan이 중단됩니다. manifest에 `ocr_json`이 없는 행만 `ocr_callable`로 OCR을 호출합니다.
+
+**빠른 평가 구성:** GPU마다 추론 서버(vLLM)를 하나씩 띄우고 요청을 나눠 보냅니다. 같은 이미지에 대한 질문은 같은 서버로 보내고 연달아 처리해서, 이미지 처리 결과(prefix cache)를 다시 씁니다. 서버당 동시 요청은 `concurrency_per_server`(기본 16)입니다. SFT·GRPO 체크포인트는 평가 전에 `swift export --merge_lora`로 한 번 병합해 두 서버가 같은 병합 모델을 씁니다. SFT 평가 때 띄운 서버로 GRPO 후보 문제도 함께 풀어 둬서, 어려운 문제 선정에 서버를 다시 띄우지 않습니다.
+
+**GRPO 데이터 선정:** `grpo.select`가 `mine`(기본)이면 `train_grpo.jsonl`에서 후보 6000개를 뽑아 SFT 모델로 풀고, 보상이 0.9 미만인 문제를 절반 섞어 2000개를 고릅니다. `random`은 무작위 2000개, `all`은 전체입니다. 2장 구성용 `configs/grpo_a100x2.yaml`은 GPU당 2개 × 2장 = 4 = `num_generations`가 되도록 batch를 맞춘 설정입니다.
+
+**서버·병합 명령 바꾸기:** `eval.deploy_command`, `eval.merge_command`에 명령 목록을 넣으면 기본값을 대체합니다. `{model}`, `{model_type}`, `{port}`, `{adapter}`, `{output}`은 실행 시 채워집니다. 설치된 MS-SWIFT 버전에서 옵션 이름이 다르면 여기서 맞춥니다. 리허설(`--smoke`)이 이 명령들을 모두 한 번씩 실행해 봅니다.
+
+### 2일 예상 (이미지 1000장, 문서 10% 벤치마크)
+
+아래는 추정치입니다. 실제 값은 리허설과 첫 단계의 `timings`로 확인하세요.
+
+| 단계 | 규모 | 예상 |
+|---|---|---|
+| 데이터 준비 | 1000장 × view 3장 (OCR 재호출 없음) | 0.5~1시간 |
+| Base / SFT / GRPO 평가 | 각 약 4~5천 문항, 서버 2대 | 각 20~40분 (+서버 기동·병합 10~20분) |
+| SFT | 최대 3만 문항, 문항당 약 3~4천 토큰 | 7~10시간 |
+| GRPO 후보 풀이 | 6000문항 | 20~40분 |
+| GRPO | 2000문제 × 생성 4개 | 5~8시간 |
+| 합계 | | 약 16~23시간 |
+
+시간이 부족하면 `config.json`의 `sft_max_examples`(예: 20000)와 `pipeline.json`의 `grpo.count`(예: 1000)를 먼저 줄이세요. 둘 다 학습 시간에 거의 비례합니다.
+
 ## 1. 내부망 환경 준비 및 설치
 
 압축을 내부망 Linux 서버에 풀고 프로젝트 디렉터리로 이동합니다. 데이터 준비에는 Python 3.10+와 Pillow만 필요하며, 학습 환경은 Python 3.12를 권합니다.

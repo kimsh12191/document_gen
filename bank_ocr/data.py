@@ -164,8 +164,22 @@ def parse_ocr(raw, width, height, mapping):
     return result
 
 
-def scan(root, split, document_regex=None, single_page=False):
+def find_saved_ocr(ocr_dir, relative):
+    """Saved OCR JSON for an image: same relative path or same file name, with .json
+    replacing (or appended to) the image extension."""
+    rel = Path(relative)
+    for candidate in (rel.with_suffix(".json"), Path(str(rel) + ".json"),
+                      Path(rel.name).with_suffix(".json"), Path(rel.name + ".json")):
+        path = Path(ocr_dir) / candidate
+        if path.is_file():
+            return path.resolve()
+    return None
+
+
+def scan(root, split, document_regex=None, single_page=False, ocr_dir=None):
     root = Path(root).resolve()
+    if ocr_dir is not None and not Path(ocr_dir).is_dir():
+        raise ValueError(f"OCR result directory not found: {ocr_dir}")
     if not root.is_dir():
         raise ValueError(f"Image directory not found: {root}")
     pattern = re.compile(document_regex) if document_regex else None
@@ -180,15 +194,21 @@ def scan(root, split, document_regex=None, single_page=False):
         if not pattern and not single_page:
             raise ValueError("Specify document_regex or explicitly declare one image per document")
         doc_id = match.group("document_id") if match else relative
-        rows.append({"document_id": doc_id, "page_id": relative, "image": str(path), "split": split})
+        row = {"document_id": doc_id, "page_id": relative, "image": str(path), "split": split}
+        if ocr_dir is not None:
+            saved = find_saved_ocr(ocr_dir, relative)
+            if saved is None:
+                raise ValueError(f"No saved OCR JSON for {relative} under {ocr_dir} (expected e.g. {Path(relative).with_suffix('.json')})")
+            row["ocr_json"] = str(saved)
+        rows.append(row)
     if not rows:
         raise ValueError("No supported page images found; render PDFs/multipage TIFFs before scanning")
     return rows
 
 
-def assign_splits(rows, seed, val_fraction):
-    if not 0 <= val_fraction < 1:
-        raise ValueError("val_fraction must be in [0,1)")
+def assign_splits(rows, seed, val_fraction, benchmark_fraction=0.0):
+    if not 0 <= val_fraction < 1 or not 0 <= benchmark_fraction < 1:
+        raise ValueError("val_fraction and benchmark_fraction must be in [0,1)")
     docs, identities = {}, set()
     for r in rows:
         if not all(isinstance(r.get(k), str) and r[k] for k in ("document_id", "page_id", "image", "split")):
@@ -202,7 +222,14 @@ def assign_splits(rows, seed, val_fraction):
         if identity in identities:
             raise ValueError(f"Duplicate page identity: {identity}")
         identities.add(identity)
-    # Stable document-level validation split, independent of manifest ordering.
+    # Stable document-level held-out splits, independent of manifest ordering.
+    if "benchmark" not in docs.values() and benchmark_fraction:
+        train_docs = sorted(k for k, v in docs.items() if v == "train")
+        if len(train_docs) < 2:
+            raise ValueError("Need at least two training documents to hold out a benchmark")
+        ranked = sorted(train_docs, key=lambda d: digest(f"{seed}:benchmark:{d}".encode()))
+        for d in ranked[:max(1, min(len(ranked) - 1, round(len(ranked) * benchmark_fraction)))]:
+            docs[d] = "benchmark"
     if "val" not in docs.values() and val_fraction:
         train_docs = sorted(k for k, v in docs.items() if v == "train")
         if len(train_docs) < 2:
@@ -212,6 +239,11 @@ def assign_splits(rows, seed, val_fraction):
         for d in ranked[:n]:
             docs[d] = "val"
     return [{**r, "split": docs[r["document_id"]]} for r in rows]
+
+
+def exif_orientation(path):
+    with Image.open(path) as im:
+        return im.getexif().get(274)
 
 
 def canonical_image(path):

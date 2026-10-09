@@ -3,7 +3,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 from .augment import make_view
-from .data import (assign_splits, canonical_image, digest, dumps, load_callable,
+from .data import (assign_splits, canonical_image, digest, dumps, exif_orientation, load_callable,
                    parse_ocr, read_json, read_jsonl, write_json, write_jsonl)
 from .metrics import TASKS, answer_for
 from .tasks import (bbox_tasks, build_view, crop_tasks, grounding_tasks, marked_tasks, region_tasks,
@@ -19,11 +19,12 @@ def prepare(config_path):
         raise ValueError(f"Output already exists: {out}. Use a new output_dir; OCR cache is reusable.")
     seed = cfg.get("seed", 42)
     manifest = resolve(cfg["manifest"])
-    rows = assign_splits(read_jsonl(manifest), seed, cfg.get("val_fraction", 0.05))
+    rows = assign_splits(read_jsonl(manifest), seed, cfg.get("val_fraction", 0.05), cfg.get("benchmark_fraction", 0.0))
     if not any(r["split"] == "train" for r in rows) or not any(r["split"] == "benchmark" for r in rows):
         raise ValueError("Manifest must include train and benchmark documents")
     mapping = cfg.get("mapping", {})
-    adapter = load_callable(cfg["ocr_callable"])
+    # Rows with "ocr_json" reuse OCR that was already run; only the rest call the adapter.
+    adapter = load_callable(cfg["ocr_callable"]) if any("ocr_json" not in r for r in rows) else None
     revision = cfg["ocr_revision"]
     if not revision:
         raise ValueError("Set ocr_revision to the internal OCR model/config version for cache invalidation")
@@ -45,6 +46,19 @@ def prepare(config_path):
                       "id": digest(dumps([row["document_id"], row["page_id"]]).encode())[:24]})
         im.close()
     for n, page in enumerate(pages, 1):
+        if "ocr_json" in page:
+            saved = (manifest.parent / page["ocr_json"]).resolve()
+            if exif_orientation(page["source_image"]) not in (None, 1):
+                # Saved OCR ran on the stored pixels; the rotated page would not match its boxes.
+                raise ValueError(f"{page['source_image']} has an EXIF rotation; saved OCR coordinates are ambiguous. "
+                                 "Re-run OCR through ocr_callable for this page.")
+            try:
+                page["ocr"] = parse_ocr(read_json(saved), page["width"], page["height"], mapping)
+            except ValueError as exc:
+                raise ValueError(f"Saved OCR {saved} for {page['source_image']}: {exc}") from exc
+            page["ocr_cache"] = str(saved)
+            page["reference_type"] = "ocr_pseudo_unreviewed"
+            continue
         key = digest(dumps([page["pixel_sha256"], cfg["ocr_callable"], revision]).encode())
         cached = cache / "ocr" / f"{key}.json"
         if not cached.exists():

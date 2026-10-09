@@ -16,6 +16,7 @@
   },
   "seed": 42,
   "val_fraction": 0.05,
+  "benchmark_fraction": 0.1,
   "image_max_size": [2300, 1600],
   "views": {
     "train": {"clean": 1, "augmented": 2},

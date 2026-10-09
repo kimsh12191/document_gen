@@ -1,0 +1,38 @@
+# GRPO for 2 x A100 80GB. Same as grpo.yaml except the batch layout:
+# 2 prompts' completions per GPU step x 2 GPUs = 4 = num_generations, so each step holds
+# whole groups (TRL requires the generation batch to be a multiple of num_generations).
+# Native MS-SWIFT 4.x options. Paths and GPU IDs are launcher arguments.
+model_type: qwen3_5
+tuner_type: lora
+torch_dtype: bfloat16
+target_modules: all-linear
+freeze_llm: false
+freeze_vit: false
+freeze_aligner: false
+lora_rank: 16
+lora_alpha: 32
+per_device_train_batch_size: 2
+gradient_accumulation_steps: 2
+gradient_checkpointing: true
+num_train_epochs: 1
+max_length: 8192
+warmup_ratio: 0.05
+logging_steps: 1
+save_steps: 100
+save_total_limit: 3
+dataloader_num_workers: 2
+dataset_num_proc: 4
+split_dataset_ratio: 0
+report_to: none
+deepspeed: zero2
+learning_rate: 1.0e-6
+rlhf_type: grpo
+reward_funcs: ["bank_ocr"]
+remove_unused_columns: false
+num_generations: 4
+temperature: 0.8
+top_p: 0.95
+max_completion_length: 1536
+use_vllm: false
+enable_thinking: false
+log_completions: true

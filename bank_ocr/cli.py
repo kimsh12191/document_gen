@@ -63,6 +63,7 @@ def main():
     grouping = s.add_mutually_exclusive_group(required=True)
     grouping.add_argument("--document-regex", help="Regex on relative path with (?P<document_id>...) group")
     grouping.add_argument("--single-page-documents", action="store_true")
+    s.add_argument("--ocr-dir", help="Directory of OCR JSON already run on these images (same relative path or file name, .json)")
     s.add_argument("--out", required=True)
     m = commands.add_parser("merge", help="Combine manifests; validate leakage during prepare")
     m.add_argument("inputs", nargs="+")
@@ -73,7 +74,7 @@ def main():
     r.add_argument("--config", help="Inference JSON config; explicit CLI options override it")
     r.add_argument("--tasks", required=True)
     r.add_argument("--out", required=True)
-    r.add_argument("--endpoint")
+    r.add_argument("--endpoint", help="Model server URL; comma-separate several to spread requests across servers")
     r.add_argument("--model")
     r.add_argument("--run-id", required=True, help="Unique checkpoint identity; change when switching model")
     r.add_argument("--with-ocr", action="store_true")
@@ -109,7 +110,7 @@ def main():
     if a.command == "scan":
         if Path(a.out).exists():
             p.error("Manifest output already exists; choose a new path")
-        rows = scan(a.root, a.split, a.document_regex, a.single_page_documents)
+        rows = scan(a.root, a.split, a.document_regex, a.single_page_documents, a.ocr_dir)
         write_jsonl(a.out, rows)
         result = {"pages": len(rows), "output": a.out}
     elif a.command == "merge":
@@ -118,7 +119,9 @@ def main():
         rows = []
         for path in a.inputs:
             for row in read_jsonl(path):
-                row["image"] = str((Path(path).resolve().parent / row["image"]).resolve())
+                for key in ("image", "ocr_json"):
+                    if key in row:
+                        row[key] = str((Path(path).resolve().parent / row[key]).resolve())
                 rows.append(row)
         write_jsonl(a.out, rows)
         result = {"pages": len(rows)}

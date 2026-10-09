@@ -54,8 +54,10 @@ def predict(tasks_path, output, endpoint, model, run_id, with_ocr=False, timeout
     path, output = Path(tasks_path), Path(output)
     rows = read_jsonl(path)
     validate_tasks(rows)
-    if not endpoint.startswith(("http://", "https://")):
-        raise ValueError("Provide the internal HTTP(S) model endpoint")
+    endpoints = [e.strip().rstrip("/") for e in (endpoint.split(",") if isinstance(endpoint, str) else endpoint) if e.strip()]
+    if not endpoints or not all(e.startswith(("http://", "https://")) for e in endpoints):
+        raise ValueError("Provide the internal HTTP(S) model endpoint(s)")
+    endpoint = endpoints[0] if len(endpoints) == 1 else endpoints
     meta_path = output.with_suffix(output.suffix + ".meta.json")
     settings = {"tasks_sha256": digest(path.read_bytes()), "endpoint": endpoint, "model": model,
                 "run_id": run_id, "with_ocr": with_ocr, "temperature": temperature, "max_tokens": max_tokens,
@@ -96,7 +98,9 @@ def predict(tasks_path, output, endpoint, model, run_id, with_ocr=False, timeout
             # Explicit teacher-assisted baseline, never passed in vision-only runs.
             # Coordinates are those of the full view (`context_image`), not of a crop/tile input.
             prompt += "\nInternal OCR context (may contain errors):\n" + dumps(context[row["context_image"]])
-        content = [{"type": "text", "text": prompt}]
+        # Image(s) first, then the question: the same order as training ("<image>\n...") and a
+        # shared prefix across questions on one image, which the server's prefix cache reuses.
+        content = []
         for image in row["images"]:
             image_path = Path(image)
             if image_path.suffix.lower() != ".png":
@@ -104,10 +108,14 @@ def predict(tasks_path, output, endpoint, model, run_id, with_ocr=False, timeout
             with image_lock:
                 encoded = encode_image(str(image_path))
             content.append({"type": "image_url", "image_url": {"url": "data:image/png;base64," + encoded}})
+        content.append({"type": "text", "text": prompt})
         payload = {"model": model, "messages": [{"role": "user", "content": content}],
                    "temperature": temperature, "max_tokens": max_tokens, "stream": False,
                    "chat_template_kwargs": {"enable_thinking": enable_thinking}, **request_options}
-        req = Request(endpoint.rstrip("/") + "/chat/completions", data=dumps(payload).encode(), headers=headers)
+        # Same image -> same server, so its prefix (image) cache is reused across questions.
+        # Routed by content, so identical pixels in different files also share one server.
+        server = endpoints[int(image_hashes[row["images"][0]][:8], 16) % len(endpoints)]
+        req = Request(server + "/chat/completions", data=dumps(payload).encode(), headers=headers)
         with urlopen(req, timeout=timeout) as response:
             response = json.load(response)
         choice = response["choices"][0]
@@ -116,10 +124,11 @@ def predict(tasks_path, output, endpoint, model, run_id, with_ocr=False, timeout
             raise ValueError(f"Non-text response for {row['id']}")
         return {"id": row["id"], "prediction": text, "finish_reason": choice.get("finish_reason")}
 
-    remaining = iter(row for row in rows if row["id"] not in done)
+    # Questions about one image run back to back while its cache entries are warm.
+    remaining = iter(sorted((row for row in rows if row["id"] not in done), key=lambda r: (image_hashes[r["images"][0]], r["id"])))
     completed = len(done)
     started = time.monotonic()
-    print(f"Inference {completed}/{len(rows)}; concurrency={concurrency}", flush=True)
+    print(f"Inference {completed}/{len(rows)}; concurrency={concurrency}; servers={len(endpoints)}", flush=True)
     with output.open("a", encoding="utf-8", newline="\n") as f:
         with ThreadPoolExecutor(max_workers=concurrency) as executor:
             pending = set()
@@ -140,8 +149,9 @@ def predict(tasks_path, output, endpoint, model, run_id, with_ocr=False, timeout
                         f.write(dumps(result) + "\n")
                         f.flush()
                         completed += 1
-                        elapsed = time.monotonic() - started
-                        print(f"Inference {completed}/{len(rows)}; elapsed={elapsed:.1f}s", flush=True)
+                        if completed % 100 == 0 or completed == len(rows):
+                            elapsed = time.monotonic() - started
+                            print(f"Inference {completed}/{len(rows)}; elapsed={elapsed:.1f}s", flush=True)
                     if errors:
                         raise errors[0]
                     for _ in finished:

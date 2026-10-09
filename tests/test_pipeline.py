@@ -329,6 +329,22 @@ class IntegrationTests(unittest.TestCase):
         key = lambda r: (r["id"], r["target"], r["messages"][0]["content"], r["view_ops"])
         self.assertEqual([key(r) for r in read_jsonl(self.root / "prepared2" / "benchmark_tasks.jsonl")], [key(r) for r in rows])
 
+    def test_saved_ocr_json_skips_the_adapter(self):
+        ocr_dir = self.root / "ocr"
+        ocr_dir.mkdir()
+        for idx in range(4):
+            write_json(ocr_dir / f"document_{idx}.json", ocr_from_file(f"document_{idx}.png"))
+        rows = scan(self.root, "train", single_page=True, ocr_dir=ocr_dir)
+        self.assertTrue(all(r["ocr_json"].endswith(".json") for r in rows))
+        write_jsonl(self.root / "manifest.jsonl", rows)
+        cfg = read_json(self.config)
+        cfg.update(benchmark_fraction=0.25, ocr_callable="no_such_module:never_called")
+        write_json(self.config, cfg)
+        summary = prepare(self.config)
+        self.assertEqual(summary["page_counts"], {"train": 2, "val": 1, "benchmark": 1})
+        with self.assertRaisesRegex(ValueError, "No saved OCR JSON"):
+            scan(self.root, "train", single_page=True, ocr_dir=self.root / "prepared")
+
     def test_obsolete_config_key_rejected(self):
         cfg = read_json(self.config)
         cfg["train_regions_per_page"] = 0
@@ -388,6 +404,64 @@ class IntegrationTests(unittest.TestCase):
                 self.assertIn("--use_vllm false", capture.getvalue())
                 self.assertIn("--remove_unused_columns false", capture.getvalue())
 
+    def test_inference_spreads_images_over_servers(self):
+        prepare(self.config)
+        tasks = self.root / "prepared" / "benchmark_tasks.jsonl"
+        seen = []
+        def make_handler(port_index):
+            class Handler(BaseHTTPRequestHandler):
+                def do_POST(self):
+                    payload = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+                    seen.append((port_index, payload["messages"][0]["content"][0]["image_url"]["url"]))
+                    body = dumps({"choices": [{"message": {"content": "x"}, "finish_reason": "stop"}]}).encode()
+                    self.send_response(200)
+                    self.send_header("Content-Length", str(len(body)))
+                    self.end_headers()
+                    self.wfile.write(body)
+                def log_message(self, *args):
+                    pass
+            return Handler
+        servers = [HTTPServer(("127.0.0.1", 0), make_handler(i)) for i in range(2)]
+        threads = [threading.Thread(target=s.serve_forever, daemon=True) for s in servers]
+        for t in threads:
+            t.start()
+        try:
+            endpoints = ",".join(f"http://127.0.0.1:{s.server_port}/v1" for s in servers)
+            predict(tasks, self.root / "multi.jsonl", endpoints, "bank-ocr", "multi", concurrency=4)
+        finally:
+            for server, thread in zip(servers, threads):
+                server.shutdown()
+                thread.join()
+                server.server_close()
+        self.assertEqual(len(seen), len(read_jsonl(tasks)))
+        by_image = {}
+        for index, image in seen:
+            by_image.setdefault(image, set()).add(index)
+        self.assertTrue(all(len(v) == 1 for v in by_image.values()))  # one image -> one server
+        self.assertEqual({i for i, _ in seen}, {0, 1})
+
+    def test_pipeline_dry_run_lists_every_stage(self):
+        prepare(self.config)
+        model = self.root / "model"
+        model.mkdir()
+        write_json(model / "config.json", {"vision_config": {"patch_size": 16, "spatial_merge_size": 2}})
+        repo = Path(__file__).parents[1]
+        config = self.root / "pipeline.json"
+        write_json(config, {"workdir": "runs", "data_config": "config.json", "model": str(model),
+                            "sft": {"config": str(repo / "configs/sft.yaml")},
+                            "grpo": {"config": str(repo / "configs/grpo_a100x2.yaml")},
+                            "eval": {"inference_config": str(repo / "configs/inference.json")}})
+        capture = io.StringIO()
+        with patch.object(sys, "argv", ["run_pipeline.py", "--config", str(config), "--dry-run"]), contextlib.redirect_stdout(capture):
+            runpy.run_path(str(repo / "run_pipeline.py"), run_name="__main__")
+        text = capture.getvalue()
+        for stage in ["prepare", "eval_base", "sft", "eval_sft", "select", "grpo", "eval_grpo", "report"]:
+            self.assertIn(f"=== {stage} done", text)
+        self.assertIn("IMAGE_MAX_TOKEN_NUM=3600", text)
+        self.assertIn("CUDA_VISIBLE_DEVICES", text.replace("GPU 0", "CUDA_VISIBLE_DEVICES"))
+        self.assertIn("--gpus 0,1", text)
+        self.assertFalse((self.root / "runs" / "state.json").exists())
+
     def test_inference_no_target_leak_and_resume(self):
         prepare(self.config)
         tasks = self.root / "prepared" / "benchmark_tasks.jsonl"
@@ -418,9 +492,14 @@ class IntegrationTests(unittest.TestCase):
                 self.assertNotIn("target_text", request)
                 self.assertNotIn("ocr_items", request)
                 self.assertEqual(len(request["messages"]), 1)
-            for request, row in zip(seen, read_jsonl(tasks)):
-                if row["task"] in ("crop_ocr", "bbox_ocr", "region_ocr", "spotting"):
-                    self.assertNotIn("USD 123.45", request["messages"][0]["content"][0]["text"])
+            sent = [request["messages"][0]["content"] for request in seen[:n]]
+            self.assertTrue(all(c[0]["type"] == "image_url" and c[-1]["type"] == "text" for c in sent))  # image first, as trained
+            prompts = {c[-1]["text"] for c in sent}
+            for row in read_jsonl(tasks):
+                prompt = row["messages"][0]["content"].replace("<image>", "").strip()
+                self.assertIn(prompt, prompts)
+                if row["task"] in ("crop_ocr", "bbox_ocr", "region_ocr", "spotting", "marked_ocr", "marked_box"):
+                    self.assertNotIn(json.loads(row["target"]).get("text", "USD 123.45"), prompt)
             with self.assertRaisesRegex(ValueError, "changed"):
                 predict(tasks, output, endpoint, "bank-ocr", "sft-v1")
             with self.assertRaisesRegex(ValueError, "changed"):
