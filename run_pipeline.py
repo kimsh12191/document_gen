@@ -43,7 +43,7 @@ DEFAULTS = {
     "gpus": [0, 1],
     "sft": {"config": "configs/sft.yaml"},
     "grpo": {"config": "configs/grpo_a100x2.yaml", "select": "mine", "candidates": 6000, "count": 2000,
-             "hard_fraction": 0.5, "seed": 42},
+             "hard_fraction": 0.5, "seed": 42, "tasks": None},
     "eval": {
         "inference_config": "configs/inference.json",
         "concurrency_per_server": 32,
@@ -250,6 +250,9 @@ class Runner:
         path = self.workdir / "grpo_candidates.jsonl"
         if not path.exists() and not self.dry:
             rows = read_jsonl(self.data / "train_grpo.jsonl")
+            if g.get("tasks"):
+                # Narrow the GRPO pool without rebuilding the prepared data (e.g. drop long spotting).
+                rows = [r for r in rows if r["task"] in g["tasks"]]
             random.Random(g["seed"]).shuffle(rows)
             write_jsonl(path, rows[:n])
         return path
