@@ -6,13 +6,14 @@ target_modules: all-linear
 freeze_llm: false
 freeze_vit: false
 freeze_aligner: false
-lora_rank: 16
-lora_alpha: 32
+lora_rank: 32
+lora_alpha: 64
 per_device_train_batch_size: 1
 gradient_accumulation_steps: 4
 gradient_checkpointing: true
 num_train_epochs: 1
-max_length: 8192
+# Packed multi-turn samples: ~3600 image tokens + up to 4000 chars of Q/A text.
+max_length: 10240
 warmup_ratio: 0.05
 logging_steps: 1
 save_steps: 100
@@ -22,7 +23,11 @@ dataset_num_proc: 4
 split_dataset_ratio: 0
 report_to: none
 deepspeed: zero2
-learning_rate: 5.0e-5
+learning_rate: 1.0e-4
+# Optional, check the option names against the installed ms-swift before enabling:
+# vit_lr: 2.0e-5
+# aligner_lr: 5.0e-5
+# attn_impl: flash_attn
 eval_steps: 100
 per_device_eval_batch_size: 1
 add_non_thinking_prefix: true

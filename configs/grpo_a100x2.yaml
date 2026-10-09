@@ -1,6 +1,9 @@
 # GRPO for 2 x A100 80GB. Same as grpo.yaml except the batch layout:
-# 2 prompts' completions per GPU step x 2 GPUs = 4 = num_generations, so each step holds
-# whole groups (TRL requires the generation batch to be a multiple of num_generations).
+# 4 completions per GPU step x 2 GPUs = 8 = num_generations, so each step holds a whole
+# group (TRL requires the generation batch to be a multiple of num_generations).
+# x 4 accumulation = 4 prompts per optimizer step.
+# If it runs out of memory: per_device_train_batch_size 2, gradient_accumulation_steps 2,
+# num_generations 4.
 # Native MS-SWIFT 4.x options. Paths and GPU IDs are launcher arguments.
 model_type: qwen3_5
 tuner_type: lora
@@ -9,10 +12,10 @@ target_modules: all-linear
 freeze_llm: false
 freeze_vit: false
 freeze_aligner: false
-lora_rank: 16
-lora_alpha: 32
-per_device_train_batch_size: 2
-gradient_accumulation_steps: 2
+lora_rank: 32
+lora_alpha: 64
+per_device_train_batch_size: 4
+gradient_accumulation_steps: 4
 gradient_checkpointing: true
 num_train_epochs: 1
 max_length: 8192
@@ -25,12 +28,14 @@ dataset_num_proc: 4
 split_dataset_ratio: 0
 report_to: none
 deepspeed: zero2
-learning_rate: 1.0e-6
+# LoRA (continues the SFT adapter); 1e-6 is a full-parameter rate and barely moves LoRA.
+learning_rate: 5.0e-6
+beta: 0.04
 rlhf_type: grpo
 reward_funcs: ["bank_ocr"]
 remove_unused_columns: false
-num_generations: 4
-temperature: 0.8
+num_generations: 8
+temperature: 1.0
 top_p: 0.95
 max_completion_length: 1536
 use_vllm: false
