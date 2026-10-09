@@ -6,7 +6,7 @@ from .augment import make_view
 from .data import (assign_splits, canonical_image, digest, dumps, load_callable,
                    parse_ocr, read_json, read_jsonl, write_json, write_jsonl)
 from .metrics import TASKS, answer_for
-from .tasks import (bbox_tasks, build_view, crop_tasks, grounding_tasks, region_tasks,
+from .tasks import (bbox_tasks, build_view, crop_tasks, grounding_tasks, marked_tasks, region_tasks,
                     relation_tasks, spotting_tasks)
 
 
@@ -75,11 +75,15 @@ OBSOLETE_KEYS = {"train_regions_per_page": "tasks_per_view", "benchmark_regions_
 DEFAULT_VIEWS = {"train": {"clean": 1, "augmented": 2}, "val": {"clean": 1, "augmented": 1},
                  "benchmark": {"clean": 1, "augmented": 1}}
 DEFAULT_TASKS_PER_VIEW = {
-    "train": {"crop_ocr": 4, "bbox_ocr": 8, "grounding": 8, "region_ocr": 4, "spotting": 2, "relation": 6},
-    "val": {"crop_ocr": 1, "bbox_ocr": 2, "grounding": 2, "region_ocr": 1, "spotting": 1, "relation": 2},
-    "benchmark": {"crop_ocr": 2, "bbox_ocr": 4, "grounding": 4, "region_ocr": 2, "spotting": 1, "relation": 3},
+    "train": {"crop_ocr": 4, "bbox_ocr": 8, "grounding": 8, "region_ocr": 4, "spotting": 2, "relation": 6,
+              "marked_ocr": 3, "marked_box": 3},
+    "val": {"crop_ocr": 1, "bbox_ocr": 2, "grounding": 2, "region_ocr": 1, "spotting": 1, "relation": 2,
+            "marked_ocr": 1, "marked_box": 1},
+    "benchmark": {"crop_ocr": 2, "bbox_ocr": 4, "grounding": 4, "region_ocr": 2, "spotting": 1, "relation": 3,
+                  "marked_ocr": 2, "marked_box": 2},
 }
-DEFAULT_TASK_MIX = {"crop_ocr": 0.1, "bbox_ocr": 0.2, "grounding": 0.2, "region_ocr": 0.15, "spotting": 0.2, "relation": 0.15}
+DEFAULT_TASK_MIX = {"crop_ocr": 0.1, "bbox_ocr": 0.15, "grounding": 0.2, "region_ocr": 0.15, "spotting": 0.15,
+                    "relation": 0.15, "marked_ocr": 0.05, "marked_box": 0.05}
 
 
 def build_datasets(pages, out, cfg):
@@ -97,7 +101,7 @@ def build_datasets(pages, out, cfg):
     max_items = cfg.get("spotting_max_items", 40)
     if not 0 <= negative_fraction < 1 or max_items < 1:
         raise ValueError("Invalid negative_grounding_fraction/spotting_max_items")
-    for directory in ("views", "crops", "tiles"):
+    for directory in ("views", "crops", "tiles", "marked"):
         (out / directory).mkdir(parents=True, exist_ok=True)
     # Negative grounding queries come from other pages of the same split.
     vocabulary = defaultdict(set)
@@ -140,6 +144,8 @@ def build_datasets(pages, out, cfg):
                         + region_tasks(view, page, view_rng, counts.get("region_ocr", 0))
                         + spotting_tasks(view, page, view_rng, counts.get("spotting", 0), im, out / "tiles", max_items))
                 rows += relation_tasks(view, page, view_rng, counts.get("relation", 0))
+                rows += marked_tasks(view, page, view_rng, counts.get("marked_ocr", 0), counts.get("marked_box", 0),
+                                     im, out / "marked")
                 numbering = Counter()
                 for row in rows:
                     row["id"] = f"{view_id}_{row['task']}_{numbering[row['task']]}"

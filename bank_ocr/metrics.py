@@ -10,11 +10,11 @@ import re
 import unicodedata
 
 
-TEXT_TASKS = ("crop_ocr", "bbox_ocr", "region_ocr")
-BOX_TASKS = ("grounding", "spotting", "relation")
+TEXT_TASKS = ("crop_ocr", "bbox_ocr", "region_ocr", "marked_ocr")
+BOX_TASKS = ("grounding", "spotting", "relation", "marked_box")
 TASKS = TEXT_TASKS + BOX_TASKS
 # Box-list tasks whose predicted labels are scored (grounding's label is the query itself).
-LABELLED_TASKS = ("spotting", "relation")
+LABELLED_TASKS = ("spotting", "relation", "marked_box")
 HIGH_CONFIDENCE = 0.95
 SIZE_BUCKETS = ((12, "small"), (25, "medium"), (math.inf, "large"))  # target box height, 0..1000 units
 
@@ -33,6 +33,9 @@ REPORT_METRICS = [
     ("spotting_det_f1", "Spotting 위치 F1@0.5 ↑", "spotting", "f1_iou50"),
     ("spotting_e2e_f1", "Spotting 위치+글자 F1 ↑", "spotting", "e2e_f1"),
     ("relation_e2e_f1", "Relation 위치+글자 F1 ↑", "relation", "e2e_f1"),
+    ("marked_text_em", "그린 박스→글자 EM ↑", "marked_ocr", "em"),
+    # The drawn rectangle is an exact label, so the stricter IoU 0.75 is meaningful here.
+    ("marked_box_f1", "그린 박스→좌표 F1@0.75 ↑", "marked_box", "f1_iou75"),
 ]
 LOWER_IS_BETTER = {"crop_cer", "region_cer"}
 

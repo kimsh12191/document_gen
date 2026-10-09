@@ -25,7 +25,7 @@ from bank_ocr.data import assign_splits, canonical_image, dumps, parse_ocr, read
 from bank_ocr.inference import index_predictions, predict
 from bank_ocr.metrics import answer_for, evaluate, iou, numbers, parse_boxes, reward
 from bank_ocr.pipeline import prepare
-from bank_ocr.tasks import build_view, grounding_tasks, region_tasks, relation_tasks, spotting_tasks
+from bank_ocr.tasks import MARKERS, build_view, grounding_tasks, marked_tasks, region_tasks, relation_tasks, spotting_tasks
 from demo import create_demo, ocr_from_file
 
 
@@ -249,6 +249,32 @@ class TaskTests(unittest.TestCase):
             self.assertEqual(rows[0]["masked_words"], 1)
             with Image.open(rows[0]["images"][0]) as tile:
                 self.assertEqual(tile.convert("L").getextrema(), (255, 255))  # the untrusted word is gone
+
+    def test_marked_boxes_are_drawn_where_the_answer_says(self):
+        words = [("성명", [100, 100, 200, 130], 0.99, 0), ("홍길동", [400, 100, 520, 130], 0.99, 0),
+                 ("주소", [100, 400, 200, 430], 0.99, 1), ("LOW", [400, 400, 500, 430], 0.3, 1),
+                 ("붙은", [600, 100, 700, 130], 0.99, 0), ("단어", [702, 100, 800, 130], 0.99, 0)]
+        view = self.view(words)
+        im = Image.new("RGB", (1000, 1000), "white")
+        with tempfile.TemporaryDirectory() as d:
+            rows = marked_tasks(view, self.PAGE, random.Random(0), 3, 3, im, Path(d))
+            self.assertEqual(sorted(r["task"] for r in rows), ["marked_box"] * 3 + ["marked_ocr"] * 3)
+            with Image.open(rows[0]["images"][0]) as marked:
+                marked = marked.convert("RGB")
+            colours = {c: rgb for c, _, rgb in MARKERS}
+            for r in rows:
+                self.assertNotIn("{", r["messages"][0]["content"].replace("[{", "").replace('{"bbox_2d"', ""))
+                if r["task"] != "marked_box":
+                    continue
+                entry = json.loads(r["target"])["boxes"][0]
+                # LOW (untrusted) and words whose box would touch a neighbour are never marked.
+                self.assertIn(entry["label"], {"성명", "홍길동", "주소"})
+                prompt = r["messages"][0]["content"]
+                colour = next(en for en, ko, _ in MARKERS if f" {en} box" in prompt or f"{ko} 박스" in prompt)
+                x1, y1, x2, y2 = entry["bbox_2d"]
+                self.assertEqual(marked.getpixel((x1, (y1 + y2) // 2)), colours[colour])
+                self.assertEqual(marked.getpixel(((x1 + x2) // 2, y2 - 1)), colours[colour])
+                self.assertEqual(marked.getpixel(((x1 + x2) // 2, (y1 + y2) // 2)), (255, 255, 255))  # word not covered
 
     def test_relation_requires_unambiguous_trusted_neighbour(self):
         view = self.view([("성명", [10, 10, 60, 30], 0.99, 0), ("홍길동", [80, 10, 160, 30], 0.99, 0)])

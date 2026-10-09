@@ -68,10 +68,14 @@ view 수는 `views`(기본 train: clean 1 + aug 2, benchmark: clean 1 + aug 1), 
 | `region_ocr` | 페이지 + 여러 단어를 덮는 영역 박스 | 영역 안 글자 전부(줄마다 줄바꿈) | 영역과 읽는 순서 |
 | `spotting` | 페이지 또는 페이지에서 잘라낸 타일 | 모든 글자 + 박스 리스트 | 문서 전체 배치 |
 | `relation` | 페이지 + 기준 글자(글자 또는 박스로 지정) + 방향 | 바로 오른쪽·왼쪽·위·아래 글자와 박스 | 좌표 사이 관계 |
+| `marked_ocr` | 단어에 빨강·파랑·초록 박스를 그린 페이지 + 색 (30%는 좌표도 함께) | 그 박스 안 글자 | 그림으로 표시한 위치 → 내용 |
+| `marked_box` | 같은 이미지 + 색 | 그린 박스의 좌표와 글자 | 그림으로 표시한 위치 → 좌표 숫자 |
+
+`marked_*`는 좌표 숫자와 이미지 위치를 이어 주는 보조 과제입니다. `marked_box`의 좌표 정답은 OCR 박스가 아니라 직접 그린 사각형의 바깥 테두리라서 OCR 박스 오차가 없는 정확한 정답입니다. 그린 박스는 그 단어만 감싸야 하므로, 다른 단어나 다른 표시와 겹치는 단어는 고르지 않습니다. view 하나에 색이 다른 박스 최대 3개를 그린 이미지 1장(`marked/`)을 만들고 문항들이 함께 씁니다.
 
 정답이 불완전해지는 영역은 쓰지 않습니다. 영역·타일은 단어를 자르지 않도록 넓히고, 그 안에 confidence가 낮거나 잘린 단어가 하나라도 있으면 버립니다. 단, spotting 타일은 낮은 confidence 단어를 주변 배경색으로 지우고 정답에서 뺍니다(`masked_words`에 개수 기록). 불확실한 단어가 페이지에 흩어져 있으면 여러 줄짜리 타일이 거의 모두 버려지기 때문입니다. `grounding`은 같은 글자가 모두 믿을 만할 때만, `relation`은 가장 가까운 이웃이 분명할 때만 만듭니다. 읽는 순서는 OCR 출력 순서가 아니라 박스 위치로 정합니다. 세로로 겹치는 단어를 한 줄로 묶고, 줄은 위→아래, 줄 안은 왼→오른쪽입니다.
 
-SFT 비율은 `task_mix`(기본 crop 10 / bbox 20 / grounding 20 / region 15 / spotting 20 / relation 15%), view당 과제 수는 `tasks_per_view`로 바꿉니다. `grounding`의 약 10%는 페이지에 없는 글자를 묻는 부정 예시입니다(`negative_grounding_fraction`). 타일 하나의 글자 수는 `spotting_max_items`(기본 40) 이하라서 출력 길이가 제한됩니다.
+SFT 비율은 `task_mix`(기본 crop 10 / bbox 15 / grounding 20 / region 15 / spotting 15 / relation 15 / marked_ocr 5 / marked_box 5%), view당 과제 수는 `tasks_per_view`로 바꿉니다. `grounding`의 약 10%는 페이지에 없는 글자를 묻는 부정 예시입니다(`negative_grounding_fraction`). 타일 하나의 글자 수는 `spotting_max_items`(기본 40) 이하라서 출력 길이가 제한됩니다.
 
 **알려진 한계:** OCR이 아예 놓친 글자는 정답에도 없으므로, spotting은 그런 글자를 빠뜨리도록 배울 수 있습니다. 낮은 confidence 단어가 섞인 영역은 버리지만, 검출 자체가 안 된 글자는 걸러낼 방법이 없습니다.
 
@@ -81,7 +85,7 @@ SFT 비율은 `task_mix`(기본 crop 10 / bbox 20 / grounding 20 / region 15 / s
 
 - 글자 과제: CER, EM, 숫자 EM. `region_ocr`은 순서와 무관한 단어 F1도 함께 봅니다(순서 오류와 인식 오류 구분).
 - 박스 과제: IoU 0.5로 박스를 1:1로 짝지은 precision·recall·F1, IoU 0.75 F1, 두 박스가 서로의 중심을 포함하면 맞은 것으로 보는 F1(교사 박스가 얼마나 꽉 맞는지에 덜 민감), 짝지은 박스의 평균 IoU, 개수 정확도, 부정 예시 정확도, JSON 형식 정상 비율.
-- `spotting`·`relation`은 박스와 글자가 모두 맞아야 맞은 것으로 보는 위치+글자 F1과, 짝지은 박스의 글자 CER도 봅니다.
+- `spotting`·`relation`·`marked_box`는 박스와 글자가 모두 맞아야 맞은 것으로 보는 위치+글자 F1과, 짝지은 박스의 글자 CER도 봅니다. `marked_box`는 정답 좌표가 정확하므로 비교표에 IoU 0.75 F1을 씁니다.
 
 벤치마크 정답도 OCR 의사정답이라 OCR이 틀린 곳에서는 정답이 틀립니다. 노이즈 대응을 제대로 재려면 노이즈가 많은 페이지에서 사람이 검수한 소규모 정답셋을 따로 두는 것을 권합니다.
 
@@ -90,8 +94,8 @@ SFT 비율은 `task_mix`(기본 crop 10 / bbox 20 / grounding 20 / region 15 / s
 ```text
 글자 과제 = 0.7 × 문자유사도 + 0.3 × 숫자유사도   (숫자가 없으면 문자유사도)
 박스 과제 = 2 × Σ(짝별 점수) / (예측 박스 수 + 정답 박스 수)
-  짝별 점수: grounding         = min(1, IoU / 0.8)
-             spotting·relation = 0.5 × min(1, IoU / 0.8) + 0.5 × 글자 유사도
+  짝별 점수: grounding                    = min(1, IoU / 0.8)
+             spotting·relation·marked_box = 0.5 × min(1, IoU / 0.8) + 0.5 × 글자 유사도
   정답이 []인 경우: 예측도 []이면 1, 아니면 0. JSON 형식 오류는 0.
 ```
 
@@ -257,7 +261,7 @@ python -m bank_ocr prepare --config config.json
 | `train_grpo.jsonl` | `grpo_tasks` 과제와 reward용 `task`·`target` 필드 |
 | `train_tasks.jsonl`, `val_tasks.jsonl`, `benchmark_tasks.jsonl` | 추론·평가 및 분석 입력. `view`(clean/aug)·`view_ops`·`confidence`·`size` 포함 |
 | `views/` | 모델 입력 페이지 이미지(clean·aug) |
-| `crops/`, `tiles/` | Crop OCR 단어 이미지, spotting 타일 |
+| `crops/`, `tiles/`, `marked/` | Crop OCR 단어 이미지, spotting 타일, 박스를 그린 이미지 |
 | `image_items.jsonl` | 이미지별 교사 OCR 박스(view 좌표). `--with-ocr` 비교군과 점검용 |
 | `DONE.json` | 완료 여부, 분리별 개수, 필터 통계, manifest 해시 |
 | `config.snapshot.json` | 실행 시 설정 |
@@ -567,7 +571,7 @@ demo는 합성 이미지와 가짜 OCR을 사용하는 연결 검사입니다. �
 - EXIF 방향 보정 후 원본으로 OCR, 모델 입력은 `image_max_size`로 축소한 clean view와 노이즈·기하 증강 view. 박스는 모든 기하 변환을 따라갑니다.
 - OCR 원본 캐시, 재실행 시 성공한 호출 재사용, OCR 버전 변경 시 캐시 분리.
 - 문서 단위 train/val/benchmark 분리, 분리 사이 동일 디코딩 이미지 검사.
-- crop_ocr / bbox_ocr / grounding(반복·부정 포함) / region_ocr / spotting / relation 생성. 정답이 불완전한 영역은 제외.
+- crop_ocr / bbox_ocr / grounding(반복·부정 포함) / region_ocr / spotting / relation / marked_ocr·marked_box(그린 박스) 생성. 정답이 불완전한 영역은 제외.
 - `task_mix` SFT 비율, GRPO의 문자·숫자 유사도와 박스 soft F1 보상.
 - 내부 모델 API 추론, 평가 보고서, train 실패 샘플 추출.
 - Base / SFT / GRPO 비교표와 Base 대비 변화량: 독립 스크립트로 CSV·Markdown·HTML 생성.

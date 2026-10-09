@@ -30,15 +30,16 @@
     "photometric_ops": [1, 3]
   },
   "tasks_per_view": {
-    "train": {"crop_ocr": 4, "bbox_ocr": 8, "grounding": 8, "region_ocr": 4, "spotting": 2, "relation": 6},
-    "val": {"crop_ocr": 1, "bbox_ocr": 2, "grounding": 2, "region_ocr": 1, "spotting": 1, "relation": 2},
-    "benchmark": {"crop_ocr": 2, "bbox_ocr": 4, "grounding": 4, "region_ocr": 2, "spotting": 1, "relation": 3}
+    "train": {"crop_ocr": 4, "bbox_ocr": 8, "grounding": 8, "region_ocr": 4, "spotting": 2, "relation": 6, "marked_ocr": 3, "marked_box": 3},
+    "val": {"crop_ocr": 1, "bbox_ocr": 2, "grounding": 2, "region_ocr": 1, "spotting": 1, "relation": 2, "marked_ocr": 1, "marked_box": 1},
+    "benchmark": {"crop_ocr": 2, "bbox_ocr": 4, "grounding": 4, "region_ocr": 2, "spotting": 1, "relation": 3, "marked_ocr": 2, "marked_box": 2}
   },
   "negative_grounding_fraction": 0.1,
   "spotting_max_items": 40,
   "sft_max_examples": 30000,
   "val_max_examples": 2000,
-  "task_mix": {"crop_ocr": 0.1, "bbox_ocr": 0.2, "grounding": 0.2, "region_ocr": 0.15, "spotting": 0.2, "relation": 0.15},
+  "task_mix": {"crop_ocr": 0.1, "bbox_ocr": 0.15, "grounding": 0.2, "region_ocr": 0.15, "spotting": 0.15, "relation": 0.15,
+               "marked_ocr": 0.05, "marked_box": 0.05},
   "filters": {
     "train": {"min_confidence": 0.95, "min_length": 1, "max_length": 100},
     "benchmark": {"min_confidence": 0.0, "min_length": 1, "max_length": 100}

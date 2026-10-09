@@ -43,7 +43,19 @@ PROMPTS = {
         '{anchor} 바로 {direction_ko}에 있는 글자를 찾으세요. 좌표는 0~1000입니다. '
         '[{{"bbox_2d": [x1, y1, x2, y2], "label": "글자"}}] 형식으로 하나만 답하세요.',
     ],
+    "marked_ocr": [
+        "Read the text inside the {color} box drawn on the image{coords}. Return only the text.",
+        "이미지에 그려진 {color_ko} 박스{coords_ko} 안의 글자를 그대로 읽으세요. 글자만 답하세요.",
+    ],
+    "marked_box": [
+        'Give the position of the {color} box drawn on the image and the text inside it. Coordinates are 0-1000 '
+        'relative to the image. Return only a JSON list with one entry like [{{"bbox_2d": [x1, y1, x2, y2], "label": "text"}}].',
+        '이미지에 그려진 {color_ko} 박스의 위치와 그 안의 글자를 답하세요. 좌표는 이미지 기준 0~1000입니다. '
+        '[{{"bbox_2d": [x1, y1, x2, y2], "label": "글자"}}] 형식으로 하나만 답하세요.',
+    ],
 }
+# Marker colours for the drawn-box tasks: (English, Korean, RGB).
+MARKERS = [("red", "빨간", (225, 25, 25)), ("blue", "파란", (25, 75, 235)), ("green", "초록", (15, 165, 55))]
 DIRECTIONS = {"right": ("to the right of", "오른쪽"), "left": ("to the left of", "왼쪽"),
               "below": ("below", "아래"), "above": ("above", "위")}
 
@@ -336,4 +348,57 @@ def relation_tasks(view, page, rng, count):
                                                       anchor=ref if template == 0 else ref_ko)
         rows.append(_row(view, page, "relation", prompt, view["image"], {"boxes": _entries([target])},
                          [anchor, target], _height_bucket(target["box"])))
+    return rows
+
+
+def marked_tasks(view, page, rng, ocr_count, box_count, im, marked_dir):
+    """Boxes drawn on a copy of the view in up to three colours. marked_ocr reads the text
+    inside a coloured box (sometimes also given its coordinates); marked_box answers the
+    drawn rectangle's coordinates, an exact label free of OCR box noise, and its text."""
+    wanted = min(len(MARKERS), max(ocr_count, box_count))
+    if not wanted:
+        return []
+    marks, drawn = [], []
+    for item in rng.sample([i for i in view["items"] if i["usable"]], len([i for i in view["items"] if i["usable"]])):
+        if len(marks) >= wanted:
+            break
+        x1, y1, x2, y2 = item["px"]
+        h = y2 - y1
+        width = max(2, round(h * 0.08))
+        pad = max(3, h * 0.15) + width
+        # Integer pixels so the answer coordinates are exactly the drawn line's outer edge.
+        rect = [math.floor(x1 - pad), math.floor(y1 - pad), math.ceil(x2 + pad), math.ceil(y2 + pad)]
+        # The drawn box must hold only this word, stay on the image and not touch another mark.
+        if rect[0] < 0 or rect[1] < 0 or rect[2] > view["width"] or rect[3] > view["height"]:
+            continue
+        if any(overlap(o["px"], rect) > 0 for o in view["items"] if o is not item):
+            continue
+        if any(overlap(d, rect) > 0 for d in drawn):
+            continue
+        drawn.append(rect)
+        marks.append((item, rect, width))
+    if not marks:
+        return []
+    marked = im.copy()
+    draw = ImageDraw.Draw(marked)
+    for (item, rect, width), (_, _, colour) in zip(marks, MARKERS):
+        draw.rectangle(rect, outline=colour, width=width)
+    path = marked_dir / f"{view['id']}.png"
+    marked.save(path)
+    rows = []
+    for n, ((item, rect, _), (colour, colour_ko, _)) in enumerate(zip(marks, MARKERS)):
+        box = normalize_box(rect, view["width"], view["height"])
+        size = _height_bucket(item["box"])
+        if n < ocr_count:
+            # Sometimes give the coordinates too, linking the drawing to the numbers.
+            coords = rng.random() < 0.3
+            template = rng.randrange(2)
+            prompt = PROMPTS["marked_ocr"][template].format(
+                color=colour, color_ko=colour_ko,
+                coords=f" at bbox_2d={dumps(box)}" if coords else "", coords_ko=f"(bbox_2d={dumps(box)})" if coords else "")
+            rows.append(_row(view, page, "marked_ocr", prompt, str(path), {"text": item["text"]}, [item], size))
+        if n < box_count:
+            prompt = rng.choice(PROMPTS["marked_box"]).format(color=colour, color_ko=colour_ko)
+            rows.append(_row(view, page, "marked_box", prompt, str(path),
+                             {"boxes": [{"bbox_2d": box, "label": item["text"]}]}, [item], size))
     return rows
