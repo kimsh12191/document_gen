@@ -236,7 +236,7 @@ python -m bank_ocr merge data/train-manifest.jsonl data/benchmark-manifest.jsonl
 
 문서 ID는 전체 데이터에서 일관되고 고유해야 합니다. 서로 다른 문서에 같은 ID를 주거나 같은 문서를 서로 다른 ID로 주면 안 됩니다. 근사 복제·스캔 노이즈·동일 템플릿까지 자동 판별하지는 않습니다.
 
-기본으로 학습 문서의 5%를 문서 단위로 validation에 배정합니다. 이미 `val` manifest가 있으면 그 구분을 사용합니다. 벤치마크 문서는 사용자가 지정한 것을 모두 유지하며, 페이지당 최대 5개 region을 고정 seed로 뽑습니다. 별도 hard benchmark 선정이나 1,000페이지 강제 추출은 하지 않습니다.
+기본으로 학습 문서의 5%를 문서 단위로 validation에 배정합니다. 이미 `val` manifest가 있으면 그 구분을 사용합니다. 벤치마크 문서는 사용자가 지정한 것을 모두 유지하며, view당 과제 수(`tasks_per_view.benchmark`)만큼 고정 seed로 뽑습니다. 별도 hard benchmark 선정이나 1,000페이지 강제 추출은 하지 않습니다.
 
 **완료 기준:** `data/manifest.jsonl`이 생성되어 있습니다.
 
@@ -469,11 +469,13 @@ python benchmark_report.py \
 
 출력 표는 다음 구조입니다. 아래는 형식 안내이며 실제 성능 수치는 평가 결과에서 채웁니다.
 
-| Model | Crop CER ↓ | Crop EM ↑ | BBox→Text EM ↑ | Numeric EM ↑ | Grounding IoU@0.5 ↑ | Cycle EM ↑ |
-|---|---|---|---|---|---|---|
-| Base model | 평가 결과 | 평가 결과 | 평가 결과 | 평가 결과 | 평가 결과 | 평가 결과 |
-| SFT model | 평가 결과 | 평가 결과 | 평가 결과 | 평가 결과 | 평가 결과 | 평가 결과 |
-| GRPO model | 평가 결과 | 평가 결과 | 평가 결과 | 평가 결과 | 평가 결과 | 평가 결과 |
+| Model | Crop CER ↓ | BBox→Text EM ↑ | Numeric EM ↑ | Region CER ↓ | Grounding F1@0.5 ↑ | Grounding 없음 정확도 ↑ | Spotting 위치 F1@0.5 ↑ | Spotting 위치+글자 F1 ↑ | Relation 위치+글자 F1 ↑ | 그린 박스→글자 EM ↑ | 그린 박스→좌표 F1@0.75 ↑ |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Base model | 평가 결과 | … | | | | | | | | | |
+| SFT model | 평가 결과 | … | | | | | | | | | |
+| GRPO model | 평가 결과 | … | | | | | | | | | |
+
+같은 표가 전체, Base 대비 변화량, clean 이미지, aug(노이즈·기하 증강) 이미지 기준으로 네 번 나옵니다.
 
 | 결과 파일 | 내용 |
 |---|---|
