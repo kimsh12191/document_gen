@@ -29,7 +29,7 @@ Qwen3.5-9B 멀티모달 모델을 학습하는 파이프라인입니다. 서버�
 
 평가 서버는 한 번에 하나만 실행합니다. 서버 터미널을 유지한 채 별도 터미널에서 추론·평가하고, 학습 전에는 서버 터미널에서 `Ctrl+C`로 종료하여 GPU를 확보합니다.
 
-이미 세 모델의 평가 JSON이 있다면 11단계로 이동하세요. 보고 기능만 업데이트하는 경우는 부록 C를 확인하세요.
+**처음이면 [한 번에 실행](#한-번에-실행-run_pipelinepy-a100-80gb--2-기준)을 쓰세요.** 아래 1~11단계는 같은 과정을 한 단계씩 수동으로 실행하는 방법입니다. 기존 v1 프로젝트를 업데이트한다면 부록 C를 먼저 보세요.
 
 ## 학습 과제와 데이터 설계
 
@@ -593,18 +593,37 @@ python -m bank_ocr rollout-stats --tasks data/prepared-v2/train_grpo.jsonl \
   --rollouts data/rollouts.jsonl --out reports/rollout-stats.json
 ```
 
-## 부록 C. 이미 반입한 프로젝트의 보고 기능 업데이트
+## 부록 C. 이미 반입한 프로젝트 업데이트 (prepared-v1 → v2)
 
-**이번 설정 구조·OCR 어댑터 변경은 두 파일짜리 보고 패치와 다릅니다.** `internal_ocr_adapter.py`, `pyproject.toml`, `train.py`, `configs/` 전체, `bank_ocr/settings.py`, `bank_ocr/cli.py`, `bank_ocr/inference.py`, `benchmark_report.py`, `requirements-train.in`, `README.md`를 함께 반영하고 PyYAML과 OCR용 requests·matplotlib을 준비해야 합니다. 기존 사용자 수정 어댑터는 백업하고, 데이터 설정·이미지·캐시·체크포인트는 보관합니다.
+기존 `bank-ocr-pipeline` 폴더에 새 코드를 덮어쓰고, 이미 돌린 OCR 캐시(`data/ocr-cache`)를 그대로 재사용합니다. OCR은 다시 호출하지 않습니다.
 
-보고 기능만 추가하는 이전 패치는 아래 **두 파일만** 기존 프로젝트 최상위 폴더(`train.py`가 있는 곳)에 넣으면 됩니다.
+```bash
+# 1) 백업 후 덮어쓰기. 업데이트 zip에는 internal_ocr_adapter.py·config.json·data/·predictions/·reports/·runs/가 없어 기존 것이 유지됩니다.
+cp -r bank-ocr-pipeline bank-ocr-pipeline.bak
+cd bank-ocr-pipeline
+unzip -o /반입경로/bank-ocr-pipeline-update.zip
+pip install --no-index --no-build-isolation -e .
 
-- `benchmark_report.py`: 비교 보고서 스크립트. 지표 정의를 `bank_ocr` 패키지와 공유하므로 이 프로젝트를 설치한 환경에서 실행합니다.
-- `README.md`: 이 안내서로 교체합니다.
+# 2) config.json을 새 형식으로 (OCR 관련 값은 유지, 새 항목 추가, 결과는 data/prepared-v2)
+cp config.json config.json.bak
+python - <<'PY'
+import json
+old = json.load(open("config.json")); new = json.load(open("config.example.json"))
+keep = ("manifest", "cache_dir", "ocr_callable", "ocr_revision", "mapping", "seed", "val_fraction", "filters", "sft_max_examples")
+cfg = {**new, **{k: old[k] for k in keep if k in old}, "output_dir": "data/prepared-v2"}
+json.dump(cfg, open("config.json", "w"), ensure_ascii=False, indent=2)
+PY
 
-`benchmark-report-update.zip`에는 위 두 파일만 포함됩니다. 기존 `bank_ocr/`, `train.py`, OCR 연결 함수, `config.json`, 이미지·캐시·체크포인트를 변경할 필요가 없습니다.
+# 3) 실행 (위의 "한 번에 실행" 참고)
+cp configs/pipeline.example.json configs/pipeline.json
+python run_pipeline.py --config configs/pipeline.json --smoke
+nohup python run_pipeline.py --config configs/pipeline.json > pipeline.log 2>&1 &
+```
 
-기존 평가 JSON과 호환됩니다. 세 모델 평가가 끝났다면 11단계만 실행하세요. 평가가 끝나지 않았다면 본문 순서대로 진행합니다. 보고 스크립트는 학습·추론을 자동 실행하지 않습니다.
+- 캐시는 `이미지 픽셀 + ocr_callable + ocr_revision`으로 찾습니다. `cache_dir`·`ocr_callable`·`ocr_revision`을 바꾸면 OCR을 다시 호출합니다.
+- 기존 `prepared-v1`, `predictions/`, `reports/`는 지우지 않아도 됩니다. 새 결과는 `runs/exp1/`에 따로 쌓입니다.
+- v1 벤치마크(region 기반) 점수는 v2 벤치마크와 비교할 수 없습니다. run_pipeline이 Base부터 다시 평가합니다.
+- benchmark manifest가 이미 있으면 `benchmark_fraction`은 적용되지 않고 기존 벤치마크 문서를 그대로 씁니다.
 
 ## 부록 D. 로컬 검사·검증 범위·제약
 
