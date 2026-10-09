@@ -1,34 +1,30 @@
 import argparse
 import csv
+import math
 import random
 import statistics
 from pathlib import Path
 
 from .data import digest, dumps, read_json, read_jsonl, scan, write_json, write_jsonl
 from .inference import index_predictions, predict, validate_tasks
-from .metrics import evaluate, iou, norm, parse_box, recover_text, reward
+from .metrics import REPORT_METRICS, evaluate, reward
 from .pipeline import prepare
 from .settings import load_settings
 
 
-def mine(tasks, predictions, output, count, seed, hard_fraction):
+def mine(tasks, predictions, output, count, seed, hard_fraction, hard_threshold=0.9):
     rows = read_jsonl(tasks)
     validate_tasks(rows)
     if any(r["split"] != "train" for r in rows):
         raise ValueError("Hard-case mining accepts TRAIN only, never validation/benchmark")
-    if count < 1 or not 0 <= hard_fraction <= 1:
-        raise ValueError("Invalid count/hard_fraction")
+    if count < 1 or not 0 <= hard_fraction <= 1 or not 0 < hard_threshold <= 1:
+        raise ValueError("Invalid count/hard_fraction/hard_threshold")
     preds = index_predictions(predictions)
     evaluate(rows, preds)  # Require complete ID coverage; missing output isn't a hard case.
     hard, easy = [], []
     for row in rows:
-        pred = preds[row["id"]]
-        if row["task"] == "grounding":
-            box = parse_box(pred)
-            fail = box is None or iou(box, row["target_bbox"]) < 0.5 or norm(recover_text(box, row["ocr_items"])) != norm(row["target_text"])
-        else:
-            fail = norm(pred) != norm(row["target_text"])
-        (hard if fail else easy).append(row)
+        # Same function as the GRPO reward, so "hard" means "room for reward to improve".
+        (hard if reward(preds[row["id"]], row["task"], row["target"]) < hard_threshold else easy).append(row)
     rng = random.Random(seed)
     rng.shuffle(hard)
     rng.shuffle(easy)
@@ -39,7 +35,23 @@ def mine(tasks, predictions, output, count, seed, hard_fraction):
     rng.shuffle(chosen)
     write_jsonl(output, chosen)
     hard_ids = {r["id"] for r in hard}
-    return {"selected": len(chosen), "hard_available": len(hard), "hard_selected": sum(r["id"] in hard_ids for r in chosen)}
+    return {"selected": len(chosen), "hard_available": len(hard), "hard_selected": sum(r["id"] in hard_ids for r in chosen),
+            "hard_threshold": hard_threshold}
+
+
+def image_tokens(model_dir, max_size):
+    """Visual tokens needed for an image of max_size, from the model's vision config."""
+    config = read_json(Path(model_dir) / "config.json")
+    vision = config.get("vision_config", {})
+    patch, merge = vision.get("patch_size"), vision.get("spatial_merge_size")
+    if not patch or not merge:
+        raise ValueError("config.json has no vision_config.patch_size/spatial_merge_size")
+    factor = patch * merge
+    return image_tokens_for(max_size, factor), factor
+
+
+def image_tokens_for(max_size, factor):
+    return math.ceil(max(max_size) / factor) * math.ceil(min(max_size) / factor)
 
 
 def main():
@@ -85,6 +97,10 @@ def main():
     h.add_argument("--count", type=int, default=10000)
     h.add_argument("--seed", type=int, default=42)
     h.add_argument("--hard-fraction", type=float, default=0.7)
+    h.add_argument("--hard-threshold", type=float, default=0.9, help="Rows whose reward is below this are hard")
+    t = commands.add_parser("image-tokens", help="IMAGE_MAX_TOKEN_NUM that keeps prepared images at full size")
+    t.add_argument("--model", required=True, help="Local model directory with config.json")
+    t.add_argument("--data", required=True, help="Prepared dataset directory with DONE.json")
     d = commands.add_parser("rollout-stats", help="Input JSONL: id, completions (list of strings)")
     d.add_argument("--tasks", required=True)
     d.add_argument("--rollouts", required=True)
@@ -110,7 +126,7 @@ def main():
         result = prepare(a.config)
     elif a.command == "predict":
         settings = {"endpoint": "http://127.0.0.1:8000/v1", "model": "bank-ocr", "timeout": 180,
-                    "max_tokens": 256, "temperature": 0, "enable_thinking": False, "request_options": {}, "concurrency": 1}
+                    "max_tokens": 2048, "temperature": 0, "enable_thinking": False, "request_options": {}, "concurrency": 1}
         if a.config:
             configured = load_settings(a.config)
             unknown = configured.keys() - settings.keys()
@@ -151,22 +167,23 @@ def main():
             values = [i.get(key, {}) if key == "request_options" else i[key] for i in infos if key == "request_options" or key in i]
             if values and any(v != values[0] for v in values):
                 raise ValueError(f"Reports use different inference {key}")
-        fields = ["model", "teacher_context", "reference_type", "crop_cer", "crop_em", "bbox_text_em", "bbox_numeric_em", "grounding_iou_at_0_5", "cycle_em"]
+        fields = ["model", "teacher_context", "reference_type"] + [m[0] for m in REPORT_METRICS]
         output = Path(a.out)
         output.parent.mkdir(parents=True, exist_ok=True)
         with output.open("w", encoding="utf-8-sig", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=fields)
             writer.writeheader()
             for r in reports:
-                tasks = r["tasks"]
                 writer.writerow({"model": r["model_label"], "teacher_context": (r.get("inference") or {}).get("with_ocr", "unknown"),
-                                 "reference_type": r["reference_type"], "crop_cer": tasks.get("crop_ocr", {}).get("cer"),
-                                 "crop_em": tasks.get("crop_ocr", {}).get("em"), "bbox_text_em": tasks.get("bbox_ocr", {}).get("em"),
-                                 "bbox_numeric_em": tasks.get("bbox_ocr", {}).get("numeric_em"),
-                                 "grounding_iou_at_0_5": tasks.get("grounding", {}).get("iou_at_0_5"), "cycle_em": tasks.get("grounding", {}).get("cycle_em")})
+                                 "reference_type": r["reference_type"],
+                                 **{key: r["tasks"].get(task, {}).get(metric) for key, _, task, metric in REPORT_METRICS}})
         result = {"models": len(reports), "output": a.out}
     elif a.command == "mine":
-        result = mine(a.tasks, a.predictions, a.out, a.count, a.seed, a.hard_fraction)
+        result = mine(a.tasks, a.predictions, a.out, a.count, a.seed, a.hard_fraction, a.hard_threshold)
+    elif a.command == "image-tokens":
+        size = read_json(Path(a.data) / "DONE.json")["image_max_size"]
+        tokens, factor = image_tokens(a.model, size)
+        result = {"image_max_token_num": tokens, "image_max_size": size, "pixels_per_token_side": factor}
     else:
         rows = read_jsonl(a.tasks)
         validate_tasks(rows)
@@ -176,7 +193,7 @@ def main():
             r = targets[group["id"]]
             if len(group["completions"]) < 2:
                 raise ValueError("Need >=2 completions per rollout group")
-            scores = [reward(c, r["task"], r["target_text"], r["target_bbox"], r["ocr_items"]) for c in group["completions"]]
+            scores = [reward(c, r["task"], r["target"]) for c in group["completions"]]
             values.append({"id": r["id"], "task": r["task"], "reward_std": statistics.pstdev(scores),
                            "unique_completions": len(set(group["completions"])), "rewards": scores})
         result = {"groups": len(values), "zero_variance_fraction": sum(v["reward_std"] < 1e-8 for v in values) / len(values) if values else None, "details": values}

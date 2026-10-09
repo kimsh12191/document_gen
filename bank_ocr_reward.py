@@ -5,11 +5,10 @@ from bank_ocr.metrics import reward
 
 
 class BankOCRReward(ORM):
-    def __call__(self, completions, task, target_text, target_bbox, ocr_items, **kwargs):
-        columns = (task, target_text, target_bbox, ocr_items)
-        if any(len(column) != len(completions) for column in columns):
+    def __call__(self, completions, task, target, **kwargs):
+        if len(task) != len(completions) or len(target) != len(completions):
             raise ValueError("Reward column batch lengths do not match completions")
-        return [reward(c, t, text, box, items) for c, t, text, box, items in zip(completions, *columns)]
+        return [reward(c, t, gold) for c, t, gold in zip(completions, task, target)]
 
 
-orms["bank_ocr_cycle"] = BankOCRReward
+orms["bank_ocr"] = BankOCRReward

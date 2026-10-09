@@ -7,6 +7,7 @@ from pathlib import Path
 import shlex
 import subprocess
 
+from bank_ocr.cli import image_tokens, image_tokens_for
 from bank_ocr.settings import load_settings
 
 ROOT = Path(__file__).resolve().parent
@@ -45,7 +46,8 @@ def main():
     p.add_argument("--adapter", help="SFT adapter checkpoint, required for GRPO")
     p.add_argument("--grpo-dataset", help="Optional mined TRAIN dataset")
     p.add_argument("--max-steps", type=int, default=None, help="Use 5 for first GPU smoke test")
-    p.add_argument("--image-tokens", type=int, default=None)
+    p.add_argument("--image-tokens", type=int, default=None,
+                   help="Default: IMAGE_MAX_TOKEN_NUM, else computed from image_max_size and the model's vision config")
     p.add_argument("--deepspeed", help="zero2, zero3, or custom DeepSpeed config path")
     p.add_argument("--execute", action="store_true")
     a = p.parse_args()
@@ -56,7 +58,6 @@ def main():
         if reserved & options.keys():
             raise ValueError("Use launcher CLI for paths/environment: " + ", ".join(sorted(reserved & options.keys())))
         gpus, processes = gpu_selection(a.gpus if a.gpus is not None else os.getenv("CUDA_VISIBLE_DEVICES", "0,1,2,3"))
-        a.image_tokens = a.image_tokens if a.image_tokens is not None else int(os.getenv("IMAGE_MAX_TOKEN_NUM", "2048"))
     except (ValueError, OSError) as exc:
         p.error(str(exc))
     data = Path(a.data).resolve()
@@ -64,6 +65,17 @@ def main():
         p.error("Dataset preparation must complete (DONE.json missing)")
     if not Path(a.model).is_dir():
         p.error("--model must be a local model directory")
+    if a.image_tokens is None and os.getenv("IMAGE_MAX_TOKEN_NUM"):
+        a.image_tokens = int(os.environ["IMAGE_MAX_TOKEN_NUM"])
+    elif a.image_tokens is None:
+        # Enough tokens that prepared images (image_max_size) are never downscaled again.
+        size = json.loads((data / "DONE.json").read_text(encoding="utf-8")).get("image_max_size", [2300, 1600])
+        try:
+            a.image_tokens, factor = image_tokens(a.model, size)
+        except (OSError, ValueError) as exc:
+            a.image_tokens, factor = image_tokens_for(size, 32), 32
+            print(f"WARNING: {exc}; assuming 32x32 pixels per visual token")
+        print(f"image_max_size={size} pixels_per_token_side={factor} -> IMAGE_MAX_TOKEN_NUM={a.image_tokens}")
     if a.stage == "grpo" and (not a.adapter or not Path(a.adapter).is_dir()):
         p.error("GRPO needs --adapter pointing to an SFT checkpoint")
     if a.image_tokens < 1:
@@ -97,7 +109,7 @@ def main():
         options.update(rlhf_type="grpo", remove_unused_columns=False,
                        adapters=[str(Path(a.adapter).resolve())], ref_adapters=[str(Path(a.adapter).resolve())])
         options.setdefault("external_plugins", [str(ROOT / "bank_ocr_reward.py")])
-        options.setdefault("reward_funcs", ["bank_ocr_cycle"])
+        options.setdefault("reward_funcs", ["bank_ocr"])
     try:
         cmd = ["swift", "sft" if a.stage == "sft" else "rlhf"] + swift_args(options)
     except ValueError as exc:

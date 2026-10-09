@@ -15,11 +15,17 @@ from unittest.mock import patch
 
 from PIL import Image
 
+import random
+
+from PIL import ImageDraw
+
+from bank_ocr.augment import make_view
 from bank_ocr.cli import mine
 from bank_ocr.data import assign_splits, canonical_image, dumps, parse_ocr, read_json, read_jsonl, scan, write_json, write_jsonl
 from bank_ocr.inference import index_predictions, predict
-from bank_ocr.metrics import evaluate, numbers, parse_box, reward
+from bank_ocr.metrics import answer_for, evaluate, iou, numbers, parse_boxes, reward
 from bank_ocr.pipeline import prepare
+from bank_ocr.tasks import build_view, grounding_tasks, region_tasks, relation_tasks, spotting_tasks
 from demo import create_demo, ocr_from_file
 
 
@@ -91,25 +97,57 @@ class DataTests(unittest.TestCase):
                 scan(d, "train")
 
 
+def box(x1, y1, x2, y2, label=""):
+    return {"bbox_2d": [x1, y1, x2, y2], "label": label}
+
+
 class MetricTests(unittest.TestCase):
-    def test_strict_box_format(self):
-        for bad in ['{"bbox":[true,0,20,20]}', '{"bbox":[0,0,NaN,20]}', '{"bbox":[0,0,1001,20]}',
-                    '```json\n{"bbox":[0,0,20,20]}\n```', '{"bbox":[1,1,1,4]}']:
-            self.assertIsNone(parse_box(bad))
+    def test_box_list_format(self):
+        self.assertEqual(parse_boxes('[{"bbox_2d":[0,0,20,20],"label":"A"}]'), [box(0, 0, 20, 20, "A")])
+        self.assertEqual(parse_boxes('```json\n[{"bbox_2d":[0,0,20,20]}]\n```'), [box(0, 0, 20, 20)])
+        self.assertEqual(parse_boxes("[]"), [])
+        for bad in ['[{"bbox_2d":[true,0,20,20]}]', '[{"bbox_2d":[0,0,NaN,20]}]', '[{"bbox_2d":[0,0,1001,20]}]',
+                    '[{"bbox_2d":[1,1,1,4]}]', '[{"bbox":[0,0,20,20]}]', 'not json', '[{"bbox_2d":[0,0,20,20],"label":3}]']:
+            self.assertIsNone(parse_boxes(bad))
 
     def test_numeric_tokens_do_not_collapse(self):
         self.assertNotEqual(numbers("12 34"), numbers("1234"))
         self.assertNotEqual(numbers("123.45"), numbers("123,45"))
-        self.assertLess(reward("USD 123.4O", "ocr", "USD 123.40"), 1)
-        self.assertEqual(reward("한글", "ocr", "한글"), 1)
+        self.assertLess(reward("USD 123.4O", "bbox_ocr", {"text": "USD 123.40"}), 1)
+        self.assertEqual(reward("한글", "crop_ocr", {"text": "한글"}), 1)
 
-    def test_cycle_reward_and_full_page_penalty(self):
-        items = [{"text": "USD 12", "bbox": [100, 100, 300, 130]}, {"text": "EXTRA", "bbox": [600, 100, 800, 130]}]
-        exact = reward('{"bbox":[100,100,300,130]}', "grounding", "USD 12", items[0]["bbox"], items)
-        full = reward('{"bbox":[0,0,1000,1000]}', "grounding", "USD 12", items[0]["bbox"], items)
+    def test_box_reward_soft_f1(self):
+        gold = {"boxes": [box(100, 100, 300, 130, "USD 12"), box(600, 100, 800, 130, "USD 12")]}
+        exact = reward(answer_for("grounding", gold), "grounding", gold)
         self.assertEqual(exact, 1)
-        self.assertLess(full, exact)
-        self.assertEqual(reward("not json", "grounding", "USD 12", items[0]["bbox"], items), 0)
+        one = reward(dumps([box(100, 100, 300, 130)]), "grounding", gold)
+        extra = reward(dumps([box(100, 100, 300, 130), box(600, 100, 800, 130), box(0, 0, 50, 50)]), "grounding", gold)
+        self.assertAlmostEqual(one, 2 / 3)
+        self.assertAlmostEqual(extra, 0.8)
+        # IoU above 0.8 is not pushed further toward the teacher's exact box edges.
+        loose = reward(dumps([box(100, 100, 300, 136), box(600, 100, 800, 130)]), "grounding", gold)
+        self.assertEqual(loose, 1)
+        self.assertEqual(reward(dumps([box(0, 0, 1000, 1000)]), "grounding", {"boxes": [box(100, 100, 300, 130)]}) < 0.1, True)
+        self.assertEqual(reward("not json", "grounding", gold), 0)
+        self.assertEqual(reward("[]", "grounding", {"boxes": []}), 1)
+        self.assertEqual(reward(dumps([box(1, 1, 5, 5)]), "grounding", {"boxes": []}), 0)
+        spot = {"boxes": [box(10, 10, 100, 40, "성명")]}
+        self.assertEqual(reward(dumps([box(10, 10, 100, 40, "성명")]), "spotting", spot), 1)
+        self.assertAlmostEqual(reward(dumps([box(10, 10, 100, 40, "성멍")]), "spotting", spot), 0.75)
+
+    def test_box_metrics(self):
+        rows = [{"id": "a", "task": "spotting", "view": "clean", "target": dumps({"boxes": [box(0, 0, 100, 100, "A"), box(200, 0, 300, 100, "B")]})},
+                {"id": "b", "task": "grounding", "view": "aug", "target": dumps({"boxes": []})},
+                {"id": "c", "task": "grounding", "view": "aug", "target": dumps({"boxes": [box(0, 0, 100, 100, "A")]})}]
+        preds = {"a": dumps([box(0, 0, 100, 100, "A"), box(200, 0, 300, 100, "X")]), "b": "[]", "c": dumps([box(0, 0, 100, 100, "A"), box(500, 500, 600, 600, "A")])}
+        result = evaluate(rows, preds)
+        spot, ground = result["tasks"]["spotting"], result["tasks"]["grounding"]
+        self.assertEqual(spot["f1_iou50"], 1)
+        self.assertEqual(spot["e2e_f1"], 0.5)
+        self.assertEqual(ground["negative_accuracy"], 1)
+        self.assertEqual(ground["precision_iou50"], 0.5)
+        self.assertEqual(ground["recall_iou50"], 1)
+        self.assertEqual(set(result["breakdown"]["view"]), {"clean", "aug"})
 
     def test_swift_plugin_batch_contract(self):
         # Only the public registry is stubbed; actual GPU/SWIFT integration remains untested.
@@ -118,12 +156,107 @@ class MetricTests(unittest.TestCase):
         registry.ORM, registry.orms = object, {}
         with patch.dict(sys.modules, {"swift": swift, "swift.rewards": registry}):
             runpy.run_path(str(Path(__file__).parents[1] / "bank_ocr_reward.py"))
-        plugin = registry.orms["bank_ocr_cycle"]()
-        scores = plugin(["ABC", '{"bbox":[10,20,30,40]}'], ["bbox_ocr", "grounding"], ["ABC", "42"],
-                        [[0, 0, 10, 10], [10, 20, 30, 40]], [[], [{"text": "42", "bbox": [10, 20, 30, 40]}]])
+        plugin = registry.orms["bank_ocr"]()
+        target = dumps({"boxes": [box(10, 20, 30, 40, "42")]})
+        scores = plugin(["ABC", dumps([box(10, 20, 30, 40, "42")])], ["bbox_ocr", "grounding"], [dumps({"text": "ABC"}), target])
         self.assertEqual(scores, [1, 1])
         with self.assertRaises(ValueError):
-            plugin(["ABC"], [], [], [], [])
+            plugin(["ABC"], [], [])
+
+
+class AugmentTests(unittest.TestCase):
+    def test_boxes_follow_geometric_augmentation(self):
+        boxes = [[40 + gx * 300, 40 + gy * 140, 240 + gx * 300, 90 + gy * 140] for gx in range(6) for gy in range(18)]
+        page = Image.new("RGB", (1900, 2600), "white")
+        draw = ImageDraw.Draw(page)
+        for b in boxes:
+            draw.rectangle(b, fill="black")
+        items = [{"text": str(i), "confidence": 1, "order": i, "line_num": None, "usable": True} for i in range(len(boxes))]
+        aug = {"crop_probability": 1, "rotate_probability": 1, "pad_probability": 1, "photometric_ops": [0, 0]}
+        checked = 0
+        for seed in range(6):
+            im, envelopes, fractions, ops = make_view(page, boxes, random.Random(seed), [1150, 800], aug)
+            self.assertLessEqual(max(im.size), 1150)
+            self.assertLessEqual(min(im.size), 800)
+            view = build_view("v.png", im.size, items, envelopes, fractions, "aug", ops, "v")
+            dark = im.convert("L").point(lambda v: 255 if v < 40 else 0)
+            for item in view["items"]:
+                if item["cut"]:
+                    self.assertFalse(item["usable"])
+                    continue
+                x1, y1, x2, y2 = item["px"]
+                area = (max(0, int(x1) - 8), max(0, int(y1) - 8), min(im.width, int(x2) + 8), min(im.height, int(y2) + 8))
+                found = dark.crop(area).getbbox()
+                self.assertIsNotNone(found, ops)
+                actual = [found[0] + area[0], found[1] + area[1], found[2] + area[0], found[3] + area[1]]
+                self.assertGreater(iou(actual, item["px"]), 0.85, ops)
+                checked += 1
+        self.assertGreater(checked, 100)
+
+    def test_clean_view_fits_input_size(self):
+        im, envelopes, fractions, ops = make_view(Image.new("RGB", (2480, 3508)), [[0, 0, 2480, 3508]], random.Random(0), [2300, 1600])
+        self.assertEqual(im.size, (1600, 2263))
+        self.assertEqual(fractions, [1.0])
+        self.assertEqual([round(v) for v in envelopes[0]], [0, 0, 1600, 2263])
+
+
+class TaskTests(unittest.TestCase):
+    PAGE = {"document_id": "d", "page_id": "p", "split": "train"}
+
+    def view(self, words):
+        items = [{"text": t, "confidence": c, "order": n, "line_num": line, "usable": c >= 0.95}
+                 for n, (t, _, c, line) in enumerate(words)]
+        envelopes = [b for _, b, _, _ in words]
+        return build_view("v.png", (1000, 1000), items, envelopes, [1.0] * len(words), "clean", [], "v")
+
+    def test_grounding_lists_all_occurrences_and_negatives(self):
+        view = self.view([("DATE", [10, 10, 60, 30], 0.99, 0), ("DATE", [500, 10, 560, 30], 0.99, 0), ("LOW", [10, 100, 60, 120], 0.5, 1)])
+        rows = grounding_tasks(view, self.PAGE, random.Random(0), 5, 0.5, ["ABSENT"])
+        targets = {json.loads(r["target"])["boxes"].__len__() for r in rows}
+        self.assertEqual(targets, {2, 0})  # DATE twice, a negative; LOW is never a query
+        self.assertFalse(any('"LOW"' in r["messages"][0]["content"] for r in rows))
+
+    def test_region_rejects_untrusted_words(self):
+        clean = self.view([("A", [10, 10, 60, 30], 0.99, 0), ("B", [70, 10, 120, 30], 0.99, 0), ("C", [10, 40, 60, 60], 0.99, 1)])
+        rows = region_tasks(clean, self.PAGE, random.Random(0), 3)
+        self.assertTrue(rows)
+        texts = {json.loads(r["target"])["text"] for r in rows}
+        self.assertIn("A B\nC", texts)
+        # Reading order follows geometry, not the OCR's output order.
+        shuffled = self.view([("C", [10, 40, 60, 60], 0.99, 1), ("B", [70, 10, 120, 30], 0.99, 0), ("A", [10, 12, 60, 31], 0.99, 0)])
+        self.assertIn("A B\nC", {json.loads(r["target"])["text"] for r in region_tasks(shuffled, self.PAGE, random.Random(0), 3)})
+        noisy = self.view([("A", [10, 10, 60, 30], 0.99, 0), ("B", [70, 10, 120, 30], 0.3, 0)])
+        self.assertEqual(region_tasks(noisy, self.PAGE, random.Random(0), 3), [])
+
+    def test_prompts_are_fully_formatted(self):
+        view = self.view([("A", [10, 10, 60, 30], 0.99, 0), ("B", [70, 10, 120, 30], 0.99, 0)])
+        im = Image.new("RGB", (1000, 1000), "white")
+        with tempfile.TemporaryDirectory() as d:
+            rows = spotting_tasks(view, self.PAGE, random.Random(0), 2, im, Path(d), 40)
+        self.assertTrue(rows)
+        for r in rows:
+            self.assertNotIn("{{", r["messages"][0]["content"])
+
+    def test_spotting_masks_untrusted_words(self):
+        view = self.view([("A", [10, 10, 60, 30], 0.99, 0), ("LOW", [70, 10, 120, 30], 0.3, 0)])
+        im = Image.new("RGB", (1000, 1000), "white")
+        for x in range(74, 118, 8):  # stroke-like marks, a minority of the word box like real text
+            ImageDraw.Draw(im).line([x, 13, x + 3, 27], fill="black", width=2)
+        with tempfile.TemporaryDirectory() as d:
+            rows = spotting_tasks(view, self.PAGE, random.Random(0), 1, im, Path(d), 40)
+            self.assertEqual(len(rows), 1)
+            self.assertEqual([b["label"] for b in json.loads(rows[0]["target"])["boxes"]], ["A"])
+            self.assertEqual(rows[0]["masked_words"], 1)
+            with Image.open(rows[0]["images"][0]) as tile:
+                self.assertEqual(tile.convert("L").getextrema(), (255, 255))  # the untrusted word is gone
+
+    def test_relation_requires_unambiguous_trusted_neighbour(self):
+        view = self.view([("성명", [10, 10, 60, 30], 0.99, 0), ("홍길동", [80, 10, 160, 30], 0.99, 0)])
+        rows = relation_tasks(view, self.PAGE, random.Random(0), 20)
+        answers = {(r["messages"][0]["content"], json.loads(r["target"])["boxes"][0]["label"]) for r in rows}
+        self.assertTrue(any(label == "홍길동" for _, label in answers))
+        low = self.view([("성명", [10, 10, 60, 30], 0.99, 0), ("홍길동", [80, 10, 160, 30], 0.4, 0)])
+        self.assertEqual(relation_tasks(low, self.PAGE, random.Random(0), 20), [])
 
 
 class IntegrationTests(unittest.TestCase):
@@ -139,18 +272,25 @@ class IntegrationTests(unittest.TestCase):
         summary = prepare(self.config)
         out = self.root / "prepared"
         self.assertEqual(summary["page_counts"], {"train": 2, "val": 1, "benchmark": 1})
-        self.assertEqual(summary["benchmark_examples"], 7)  # 3 crop + 3 bbox + 1 unique grounding
+        self.assertEqual(summary["benchmark_view_counts"].keys(), {"clean", "aug"})
         rows = read_jsonl(out / "benchmark_tasks.jsonl")
-        self.assertEqual([r["target_text"] for r in rows if r["task"] == "grounding"], ["USD 123.45"])
+        self.assertEqual(len({r["id"] for r in rows}), len(rows))
+        clean_grounding = [json.loads(r["target"]) for r in rows if r["task"] == "grounding" and r["view"] == "clean"]
+        self.assertIn(2, [len(t["boxes"]) for t in clean_grounding])  # "DATE" appears twice
+        for image in {i for r in rows for i in r["images"]}:
+            with Image.open(image) as im:
+                self.assertLessEqual(max(im.size), 2300)
         for r in read_jsonl(out / "train_grpo.jsonl"):
             self.assertEqual(len(r["messages"]), 1)
             self.assertEqual(r["split"], "train")
+            self.assertIn(r["task"], ("grounding", "spotting", "relation"))
         for r in read_jsonl(out / "train_sft.jsonl"):
             self.assertEqual(r["messages"][-1]["role"], "assistant")
-        oracle = {r["id"]: dumps({"bbox": r["target_bbox"]}) if r["task"] == "grounding" else r["target_text"] for r in rows}
+        oracle = {r["id"]: answer_for(r["task"], r["target"]) for r in rows}
         metrics = evaluate(rows, oracle)
         self.assertEqual(metrics["tasks"]["crop_ocr"]["cer"], 0)
-        self.assertEqual(metrics["tasks"]["grounding"]["cycle_em"], 1)
+        self.assertEqual(metrics["tasks"]["grounding"]["f1_iou50"], 1)
+        self.assertEqual(metrics["tasks"]["spotting"]["e2e_f1"], 1)
         with self.assertRaises(ValueError):
             evaluate(rows, {})
         with self.assertRaisesRegex(ValueError, "Output already exists"):
@@ -159,6 +299,15 @@ class IntegrationTests(unittest.TestCase):
         cfg["output_dir"] = "prepared2"
         write_json(self.config, cfg)
         with patch("demo.ocr_from_file", side_effect=AssertionError("Cache should be reused")):
+            prepare(self.config)
+        key = lambda r: (r["id"], r["target"], r["messages"][0]["content"], r["view_ops"])
+        self.assertEqual([key(r) for r in read_jsonl(self.root / "prepared2" / "benchmark_tasks.jsonl")], [key(r) for r in rows])
+
+    def test_obsolete_config_key_rejected(self):
+        cfg = read_json(self.config)
+        cfg["train_regions_per_page"] = 0
+        write_json(self.config, cfg)
+        with self.assertRaisesRegex(ValueError, "tasks_per_view"):
             prepare(self.config)
 
     def test_duplicate_pixels_fail_before_ocr(self):
@@ -207,6 +356,7 @@ class IntegrationTests(unittest.TestCase):
             with patch.object(sys, "argv", argv), contextlib.redirect_stdout(capture):
                 runpy.run_path(launcher, run_name="__main__")
             self.assertIn("NPROC_PER_NODE=4", capture.getvalue())
+            self.assertIn("IMAGE_MAX_TOKEN_NUM=3600", capture.getvalue())
             self.assertIn("--freeze_vit false", capture.getvalue())
             if stage == "grpo":
                 self.assertIn("--use_vllm false", capture.getvalue())
@@ -242,7 +392,9 @@ class IntegrationTests(unittest.TestCase):
                 self.assertNotIn("target_text", request)
                 self.assertNotIn("ocr_items", request)
                 self.assertEqual(len(request["messages"]), 1)
-            self.assertNotIn("USD 123.45", seen[0]["messages"][0]["content"][0]["text"])
+            for request, row in zip(seen, read_jsonl(tasks)):
+                if row["task"] in ("crop_ocr", "bbox_ocr", "region_ocr", "spotting"):
+                    self.assertNotIn("USD 123.45", request["messages"][0]["content"][0]["text"])
             with self.assertRaisesRegex(ValueError, "changed"):
                 predict(tasks, output, endpoint, "bank-ocr", "sft-v1")
             with self.assertRaisesRegex(ValueError, "changed"):

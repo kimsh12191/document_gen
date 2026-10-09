@@ -110,6 +110,24 @@ def pixel_box(value, mapping):
     return [min(xs), min(ys), max(xs), max(ys)]
 
 
+def normalize_box(box, width, height):
+    """Pixel [x1,y1,x2,y2] -> 0..1000 integers relative to the image (Qwen-VL bbox_2d)."""
+    scaled = [v / (width if i % 2 == 0 else height) * 1000 for i, v in enumerate(box)]
+    normalized = [round(v) for v in scaled]
+    # Preserve positive area for sub-unit boxes after integer rounding.
+    for axis in (0, 1):
+        if normalized[axis] == normalized[axis + 2]:
+            normalized[axis] = math.floor(scaled[axis])
+            normalized[axis + 2] = math.ceil(scaled[axis + 2])
+            if normalized[axis] == normalized[axis + 2]:
+                normalized[axis + 2] += 1
+            if normalized[axis + 2] > 1000:
+                normalized[axis], normalized[axis + 2] = 999, 1000
+    if not valid_box(normalized):
+        raise ValueError("bbox collapsed during normalization")
+    return normalized
+
+
 def parse_ocr(raw, width, height, mapping):
     if any(type(v) not in (int, float) or not math.isfinite(v) or v <= 0 for v in (width, height)):
         raise ValueError(f"Invalid decoded image dimensions: width={width}, height={height}")
@@ -134,15 +152,7 @@ def parse_ocr(raw, width, height, mapping):
                 continue
             if not valid_box(box, width, height):
                 raise ValueError(f"invalid/out-of-image bbox: {box}; image width={width}, height={height}")
-            scaled = [v / (width if i % 2 == 0 else height) * 1000 for i, v in enumerate(box)]
-            normalized = [round(v) for v in scaled]
-            # Preserve positive area for sub-unit boxes after integer rounding.
-            for axis in (0, 1):
-                if normalized[axis] == normalized[axis + 2]:
-                    normalized[axis] = math.floor(scaled[axis])
-                    normalized[axis + 2] = math.ceil(scaled[axis + 2])
-            if not valid_box(normalized):
-                raise ValueError("bbox collapsed during normalization")
+            normalized = normalize_box(box, width, height)
             result.append({"text": norm(text), "bbox": box, "bbox_norm": normalized, "confidence": confidence, "order": idx, "line_num": item.get("line_num")})
         except (KeyError, IndexError, TypeError, ValueError) as e:
             raise ValueError(f"OCR item {idx}: {e}. Check mapping configuration.") from e

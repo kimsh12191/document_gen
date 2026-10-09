@@ -1,10 +1,13 @@
-import math
 import random
 from collections import Counter, defaultdict
 from pathlib import Path
 
+from .augment import make_view
 from .data import (assign_splits, canonical_image, digest, dumps, load_callable,
                    parse_ocr, read_json, read_jsonl, write_json, write_jsonl)
+from .metrics import TASKS, answer_for
+from .tasks import (bbox_tasks, build_view, crop_tasks, grounding_tasks, region_tasks,
+                    relation_tasks, spotting_tasks)
 
 
 def prepare(config_path):
@@ -61,17 +64,47 @@ def prepare(config_path):
     result.update({"reference_type": "ocr_pseudo_unreviewed", "human_reviewed": False,
                    "page_counts": dict(Counter(p["split"] for p in pages)),
                    "ocr_revision": revision, "manifest_sha256": digest(manifest.read_bytes()),
-                   "image_policy": "EXIF transpose, RGB PNG, original dimensions; OCR and VLM share pixels"})
+                   "image_policy": "OCR reads the EXIF-transposed original; model views are resized to image_max_size "
+                                   "(clean) or degraded copies (aug) whose boxes follow every geometric step"})
     # DONE is written last; incomplete builds must never be used for training.
     write_json(out / "DONE.json", result)
     return result
 
 
+OBSOLETE_KEYS = {"train_regions_per_page": "tasks_per_view", "benchmark_regions_per_page": "tasks_per_view"}
+DEFAULT_VIEWS = {"train": {"clean": 1, "augmented": 2}, "val": {"clean": 1, "augmented": 1},
+                 "benchmark": {"clean": 1, "augmented": 1}}
+DEFAULT_TASKS_PER_VIEW = {
+    "train": {"crop_ocr": 4, "bbox_ocr": 8, "grounding": 8, "region_ocr": 4, "spotting": 2, "relation": 6},
+    "val": {"crop_ocr": 1, "bbox_ocr": 2, "grounding": 2, "region_ocr": 1, "spotting": 1, "relation": 2},
+    "benchmark": {"crop_ocr": 2, "bbox_ocr": 4, "grounding": 4, "region_ocr": 2, "spotting": 1, "relation": 3},
+}
+DEFAULT_TASK_MIX = {"crop_ocr": 0.1, "bbox_ocr": 0.2, "grounding": 0.2, "region_ocr": 0.15, "spotting": 0.2, "relation": 0.15}
+
+
 def build_datasets(pages, out, cfg):
+    for key, replacement in OBSOLETE_KEYS.items():
+        if key in cfg:
+            raise ValueError(f"Config key {key} is no longer used; configure {replacement}")
     rng = random.Random(cfg.get("seed", 42))
-    pools = defaultdict(list)
-    audit = Counter()
-    candidates = Counter()
+    max_size = cfg.get("image_max_size", [2300, 1600])
+    if len(max_size) != 2 or min(max_size) < 32:
+        raise ValueError("image_max_size must be [long_side, short_side]")
+    views_cfg = {**DEFAULT_VIEWS, **cfg.get("views", {})}
+    per_view_cfg = {**DEFAULT_TASKS_PER_VIEW, **cfg.get("tasks_per_view", {})}
+    augment = cfg.get("augment", {})
+    negative_fraction = cfg.get("negative_grounding_fraction", 0.1)
+    max_items = cfg.get("spotting_max_items", 40)
+    if not 0 <= negative_fraction < 1 or max_items < 1:
+        raise ValueError("Invalid negative_grounding_fraction/spotting_max_items")
+    for directory in ("views", "crops", "tiles"):
+        (out / directory).mkdir(parents=True, exist_ok=True)
+    # Negative grounding queries come from other pages of the same split.
+    vocabulary = defaultdict(set)
+    for page in pages:
+        vocabulary[page["split"]].update(x["text"] for x in page["ocr"] if 2 <= len(x["text"]) <= 20)
+    vocabulary = {k: sorted(v) for k, v in vocabulary.items()}
+    pools, audit, candidates, image_items = defaultdict(list), Counter(), Counter(), []
     for page in pages:
         split = page["split"]
         thresholds = cfg.get("filters", {}).get("benchmark" if split == "benchmark" else "train", {})
@@ -79,44 +112,42 @@ def build_datasets(pages, out, cfg):
         minimum, maximum = thresholds.get("min_length", 1), thresholds.get("max_length", 100)
         if not 0 <= confidence <= 1 or not 1 <= minimum <= maximum:
             raise ValueError("Invalid filter thresholds")
-        counts = Counter(x["text"] for x in page["ocr"] if x["text"])
-        all_items = [{"text": x["text"], "bbox": x["bbox_norm"]} for x in page["ocr"] if x["text"]]
-        usable = []
-        for item in page["ocr"]:
-            candidates[split] += 1
-            if item["confidence"] < confidence or not minimum <= len(item["text"]) <= maximum or "\ufffd" in item["text"]:
-                audit[f"{split}:filtered"] += 1
+        items = []
+        for x in page["ocr"]:
+            if not x["text"]:
                 continue
-            usable.append(item)
-        cap = cfg.get("benchmark_regions_per_page", 5) if split == "benchmark" else cfg.get("train_regions_per_page", 0)
-        if cap and len(usable) > cap:
-            usable = sorted(rng.sample(usable, cap), key=lambda r: r["order"])
-        with canonical_image(page["image"]) as im:
-            for item in usable:
-                box, text = item["bbox_norm"], item["text"]
-                region_id = f"{page['id']}_{item['order']}"
-                crop = (out / "crops" / f"{region_id}.png").resolve()
-                crop.parent.mkdir(exist_ok=True)
-                x1, y1, x2, y2 = item["bbox"]
-                im.crop((math.floor(x1), math.floor(y1), math.ceil(x2), math.ceil(y2))).save(crop)
-                for task in ("crop_ocr", "bbox_ocr", "grounding"):
-                    if task == "grounding" and counts[text] != 1:
-                        audit[f"{split}:ambiguous_grounding"] += 1
-                        continue
-                    if task == "crop_ocr":
-                        prompt = "Read all text exactly as written. Do not correct or infer characters. Return only the text."
-                    elif task == "bbox_ocr":
-                        prompt = f"Read the exact text inside bbox={dumps(box)}. Coordinates range from 0 to 1000. Return only the text."
-                    else:
-                        prompt = f"Locate this exact text: {dumps(text)}. Coordinates range from 0 to 1000. Return only JSON: {{\"bbox\":[x1,y1,x2,y2]}}"
-                    pools[split].append({
-                        "id": f"{region_id}_{task}", "document_id": page["document_id"], "page_id": page["page_id"],
-                        "split": split, "reference_type": "ocr_pseudo_unreviewed", "task": task,
-                        "messages": [{"role": "user", "content": "<image>\n" + prompt}],
-                        "images": [str(crop) if task == "crop_ocr" else page["image"]],
-                        "target_text": text, "target_bbox": box, "ocr_items": all_items,
-                        "confidence": item["confidence"],
-                    })
+            candidates[split] += 1
+            usable = x["confidence"] >= confidence and minimum <= len(x["text"]) <= maximum and "\ufffd" not in x["text"]
+            audit[f"{split}:{'usable' if usable else 'filtered'}"] += 1
+            items.append({"text": x["text"], "confidence": x["confidence"], "order": x["order"],
+                          "line_num": x.get("line_num"), "usable": usable})
+        boxes = [x["bbox"] for x in page["ocr"] if x["text"]]
+        counts = per_view_cfg[split]
+        specs = views_cfg[split]
+        kinds = ["clean"] * specs.get("clean", 1) + ["aug"] * specs.get("augmented", 0)
+        with canonical_image(page["image"]) as original:
+            for n, kind in enumerate(kinds):
+                view_rng = random.Random(f"{cfg.get('seed', 42)}:{page['id']}:{n}")
+                im, envelopes, fractions, ops = make_view(original, boxes, view_rng, max_size, augment if kind == "aug" else None)
+                view_id = f"{page['id']}_v{n}"
+                path = (out / "views" / f"{view_id}.png").resolve()
+                im.save(path)
+                view = build_view(str(path), im.size, items, envelopes, fractions, kind, ops, view_id)
+                audit[f"{split}:{kind}:cut_items"] += sum(i["cut"] for i in view["items"])
+                rows = (crop_tasks(view, page, view_rng, counts.get("crop_ocr", 0), im, out / "crops")
+                        + bbox_tasks(view, page, view_rng, counts.get("bbox_ocr", 0))
+                        + grounding_tasks(view, page, view_rng, counts.get("grounding", 0), negative_fraction, vocabulary[split])
+                        + region_tasks(view, page, view_rng, counts.get("region_ocr", 0))
+                        + spotting_tasks(view, page, view_rng, counts.get("spotting", 0), im, out / "tiles", max_items))
+                rows += relation_tasks(view, page, view_rng, counts.get("relation", 0))
+                numbering = Counter()
+                for row in rows:
+                    row["id"] = f"{view_id}_{row['task']}_{numbering[row['task']]}"
+                    numbering[row["task"]] += 1
+                    pools[split].append(row)
+                image_items.append({"image": str(path), "width": im.width, "height": im.height, "kind": kind, "ops": ops,
+                                    "items": [{"text": i["text"], "bbox_2d": i["box"], "confidence": i["confidence"]} for i in view["items"]]})
+                im.close()
     if not pools["train"] or not pools["benchmark"]:
         raise ValueError("Empty train/benchmark dataset after filtering; inspect OCR and thresholds")
     train = pools["train"]
@@ -124,12 +155,14 @@ def build_datasets(pages, out, cfg):
     limit = cfg.get("sft_max_examples", 30000)
     if limit <= 0:
         raise ValueError("sft_max_examples must be positive")
-    groups = {t: [r for r in train if r["task"] == t] for t in ("crop_ocr", "bbox_ocr", "grounding")}
+    mix = cfg.get("task_mix", DEFAULT_TASK_MIX)
+    if any(task not in TASKS for task in mix) or abs(sum(mix.values()) - 1) > 1e-6:
+        raise ValueError("task_mix must use known tasks and sum to 1")
     chosen, remaining = [], []
-    for i, (task, proportion) in enumerate(zip(groups, (0.4, 0.3, 0.3))):
-        group = groups[task]
+    for task in TASKS:
+        group = [r for r in train if r["task"] == task]
         rng.shuffle(group)
-        quota = int(limit * proportion)
+        quota = int(limit * mix.get(task, 0))
         chosen.extend(group[:quota])
         remaining.extend(group[quota:])
     rng.shuffle(remaining)
@@ -137,14 +170,20 @@ def build_datasets(pages, out, cfg):
     rng.shuffle(chosen)
     for split in ("train", "val", "benchmark"):
         write_jsonl(out / f"{split}_tasks.jsonl", pools[split])
+    write_jsonl(out / "image_items.jsonl", image_items)
     def sft(rows):
         for r in rows:
-            answer = dumps({"bbox": r["target_bbox"]}) if r["task"] == "grounding" else r["target_text"]
-            yield {"messages": r["messages"] + [{"role": "assistant", "content": answer}], "images": r["images"]}
+            yield {"messages": r["messages"] + [{"role": "assistant", "content": answer_for(r["task"], r["target"])}], "images": r["images"]}
+    val = list(pools["val"])
+    rng.shuffle(val)
     write_jsonl(out / "train_sft.jsonl", sft(chosen))
-    write_jsonl(out / "val_sft.jsonl", sft(pools["val"]))
-    grpo = [r for r in train if r["task"] in cfg.get("grpo_tasks", ["bbox_ocr", "grounding"])]
+    write_jsonl(out / "val_sft.jsonl", sft(val[:cfg.get("val_max_examples", 2000)]))
+    grpo_tasks = cfg.get("grpo_tasks", ["grounding", "spotting", "relation"])
+    grpo = [{k: r[k] for k in ("id", "task", "split", "messages", "images", "target")} for r in train if r["task"] in grpo_tasks]
     write_jsonl(out / "train_grpo.jsonl", grpo)
-    return {"sft_examples": len(chosen), "sft_task_counts": dict(Counter(r["task"] for r in chosen)),
+    count = lambda rows: dict(sorted(Counter(r["task"] for r in rows).items()))
+    return {"sft_examples": len(chosen), "sft_task_counts": count(chosen),
             "grpo_examples": len(grpo), "benchmark_examples": len(pools["benchmark"]),
-            "ocr_region_counts": dict(candidates), "filter_audit": dict(audit)}
+            "benchmark_task_counts": count(pools["benchmark"]),
+            "benchmark_view_counts": dict(Counter(r["view"] for r in pools["benchmark"])),
+            "image_max_size": max_size, "ocr_region_counts": dict(candidates), "filter_audit": dict(sorted(audit.items()))}

@@ -12,7 +12,7 @@ per_device_train_batch_size: 1
 gradient_accumulation_steps: 4
 gradient_checkpointing: true
 num_train_epochs: 1
-max_length: 4096
+max_length: 8192
 warmup_ratio: 0.05
 logging_steps: 1
 save_steps: 100

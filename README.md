@@ -4,7 +4,9 @@ Qwen3.5-9B 멀티모달 모델을 학습하는 파이프라인입니다. 서버�
 학습·검증·벤치마크 모두 내부 OCR의 **사람 검수 없는 의사정답**을 사용합니다.
 벤치마크 결과는 실제 문서 정답률이 아니라 **내부 OCR과의 일치도**입니다. `GOLD`로 표시하지 않습니다.
 
-현재 검증 범위: 로컬 데이터 처리, JSON 파싱, 평가, 보상, 캐시, 분리 검사, 모의 HTTP 추론입니다.
+이번 단계의 목표는 **글자 내용과 위치(박스 좌표) 이해**와 **현실적인 노이즈 대응**입니다. 정보추출·은행 업무 과제는 다음 단계입니다. 과제·좌표·증강·평가 설계는 [학습 과제와 데이터 설계](#학습-과제와-데이터-설계)를 먼저 읽으세요.
+
+현재 검증 범위: 로컬 데이터 처리, 증강 후 박스 정렬, JSON 파싱, 평가, 보상, 캐시, 분리 검사, 모의 HTTP 추론입니다.
 실제 내부 OCR 호출, Qwen 모델 추론, A100 학습은 아직 실행하지 않았습니다.
 
 ## 전체 수행 순서
@@ -23,11 +25,79 @@ Qwen3.5-9B 멀티모달 모델을 학습하는 파이프라인입니다. 서버�
 11. 최종 비교표 생성
 ```
 
-모든 명령은 내부망 Linux 서버의 프로젝트 최상위 폴더에서 실행합니다. `/share/...`와 `/실제/.../checkpoint-xxx`는 실제 경로로 바꿉니다. 준비 데이터는 `data/prepared-v1`을 기준으로 안내합니다.
+모든 명령은 내부망 Linux 서버의 프로젝트 최상위 폴더에서 실행합니다. `/share/...`와 `/실제/.../checkpoint-xxx`는 실제 경로로 바꿉니다. 준비 데이터는 `data/prepared-v2`을 기준으로 안내합니다.
 
 평가 서버는 한 번에 하나만 실행합니다. 서버 터미널을 유지한 채 별도 터미널에서 추론·평가하고, 학습 전에는 서버 터미널에서 `Ctrl+C`로 종료하여 GPU를 확보합니다.
 
 이미 세 모델의 평가 JSON이 있다면 11단계로 이동하세요. 보고 기능만 업데이트하는 경우는 부록 C를 확인하세요.
+
+## 학습 과제와 데이터 설계
+
+### 좌표 형식
+
+모든 위치는 Qwen-VL grounding 형식을 따릅니다. 좌표는 **모델에 들어가는 그 이미지 기준 0~1000 정수** `[x1, y1, x2, y2]`이고, 박스 출력은 `[{"bbox_2d": [...], "label": "글자"}]` JSON 리스트입니다. 없으면 `[]`입니다. 평가·보상은 ` ```json ` 코드 블록 하나로 감싼 출력도 받아들이고, 그 밖의 형식 오류는 오답으로 셉니다.
+
+학습 전에 5단계 Base 평가의 `grounding` 예측 몇 건을 직접 열어 보세요. 좌표가 0~1000 범위인지(픽셀 좌표가 아닌지), 키가 `bbox_2d`인지 확인합니다. Base 결과의 `valid_json_rate`가 낮거나 박스가 일정 배율로 어긋나 있다면, 모델이 사전학습 때 익힌 형식과 다른 것이므로 학습 전에 형식을 맞춰야 합니다.
+
+### 입력 이미지
+
+OCR은 EXIF 방향만 보정한 원본에서 한 번 실행합니다. 모델 입력 이미지는 `image_max_size`(기본 `[2300, 1600]`, 긴 변 2300·짧은 변 1600 이하)로 줄여 `views/`에 저장합니다. A4 세로 원본(2480×3508)은 1600×2263이 됩니다. 좌표는 비율 좌표라 크기를 바꿔도 그대로 유효합니다.
+
+`IMAGE_MAX_TOKEN_NUM`은 이 크기가 다시 줄어들지 않을 만큼 잡아야 합니다. `train.py`는 모델 `config.json`의 `vision_config.patch_size × spatial_merge_size`로 필요한 수를 계산합니다(32px 기준 2300×1600 → 3600). 평가 서버에도 같은 값을 쓰도록 아래 명령으로 확인합니다.
+
+```bash
+python -m bank_ocr image-tokens --model /share/cv_share/qwen3.5/9b --data data/prepared-v2
+```
+
+### 노이즈·기하 증강
+
+같은 페이지에서 깨끗한 view(`clean`)와 망가뜨린 view(`aug`)를 함께 만듭니다. 정답은 깨끗한 원본의 OCR이고, 증강의 모든 기하 변환(자르기·±1.5° 회전·여백·축소)은 박스 좌표에도 똑같이 적용됩니다. 자르기로 잘린 글자는 `cut`으로 표시되어 어떤 과제에도 쓰이지 않습니다.
+
+- 기하: 자르기(각 변 70% 이상 유지), 회전, 여백(종이·책상 색), 무작위 축소
+- 화질: 흐림, 흔들림, JPEG 압축, 노이즈, 저해상도 후 확대, 대비·밝기, 그림자, 팩스형 이진화, 흑백 중 1~3개
+
+view 수는 `views`(기본 train: clean 1 + aug 2, benchmark: clean 1 + aug 1), 증강 강도는 `augment`로 바꿉니다.
+
+### 과제
+
+| 과제 | 입력 | 출력 | 배우는 것 |
+|---|---|---|---|
+| `crop_ocr` | 단어를 잘라낸 이미지 | 글자 | 노이즈 속 글자 인식 |
+| `bbox_ocr` | 페이지 + 단어 박스 | 글자 | 좌표 → 내용 |
+| `grounding` | 페이지 + 글자 | 그 글자의 **모든** 박스 리스트, 없으면 `[]` | 내용 → 좌표, 반복 글자, 없는 글자 |
+| `region_ocr` | 페이지 + 여러 단어를 덮는 영역 박스 | 영역 안 글자 전부(줄마다 줄바꿈) | 영역과 읽는 순서 |
+| `spotting` | 페이지 또는 페이지에서 잘라낸 타일 | 모든 글자 + 박스 리스트 | 문서 전체 배치 |
+| `relation` | 페이지 + 기준 글자(글자 또는 박스로 지정) + 방향 | 바로 오른쪽·왼쪽·위·아래 글자와 박스 | 좌표 사이 관계 |
+
+정답이 불완전해지는 영역은 쓰지 않습니다. 영역·타일은 단어를 자르지 않도록 넓히고, 그 안에 confidence가 낮거나 잘린 단어가 하나라도 있으면 버립니다. 단, spotting 타일은 낮은 confidence 단어를 주변 배경색으로 지우고 정답에서 뺍니다(`masked_words`에 개수 기록). 불확실한 단어가 페이지에 흩어져 있으면 여러 줄짜리 타일이 거의 모두 버려지기 때문입니다. `grounding`은 같은 글자가 모두 믿을 만할 때만, `relation`은 가장 가까운 이웃이 분명할 때만 만듭니다. 읽는 순서는 OCR 출력 순서가 아니라 박스 위치로 정합니다. 세로로 겹치는 단어를 한 줄로 묶고, 줄은 위→아래, 줄 안은 왼→오른쪽입니다.
+
+SFT 비율은 `task_mix`(기본 crop 10 / bbox 20 / grounding 20 / region 15 / spotting 20 / relation 15%), view당 과제 수는 `tasks_per_view`로 바꿉니다. `grounding`의 약 10%는 페이지에 없는 글자를 묻는 부정 예시입니다(`negative_grounding_fraction`). 타일 하나의 글자 수는 `spotting_max_items`(기본 40) 이하라서 출력 길이가 제한됩니다.
+
+**알려진 한계:** OCR이 아예 놓친 글자는 정답에도 없으므로, spotting은 그런 글자를 빠뜨리도록 배울 수 있습니다. 낮은 confidence 단어가 섞인 영역은 버리지만, 검출 자체가 안 된 글자는 걸러낼 방법이 없습니다.
+
+### 평가
+
+평가는 과제마다 다음을 계산하고, 전체·`view`(clean/aug)·`confidence`(교사 confidence ≥0.95 / 미만)·`size`(목표 박스 높이 small <12 / medium <25 / large) 별로 나눠 보고합니다. clean과 aug의 차이가 노이즈에 얼마나 견디는지를 보여 줍니다.
+
+- 글자 과제: CER, EM, 숫자 EM. `region_ocr`은 순서와 무관한 단어 F1도 함께 봅니다(순서 오류와 인식 오류 구분).
+- 박스 과제: IoU 0.5로 박스를 1:1로 짝지은 precision·recall·F1, IoU 0.75 F1, 두 박스가 서로의 중심을 포함하면 맞은 것으로 보는 F1(교사 박스가 얼마나 꽉 맞는지에 덜 민감), 짝지은 박스의 평균 IoU, 개수 정확도, 부정 예시 정확도, JSON 형식 정상 비율.
+- `spotting`·`relation`은 박스와 글자가 모두 맞아야 맞은 것으로 보는 위치+글자 F1과, 짝지은 박스의 글자 CER도 봅니다.
+
+벤치마크 정답도 OCR 의사정답이라 OCR이 틀린 곳에서는 정답이 틀립니다. 노이즈 대응을 제대로 재려면 노이즈가 많은 페이지에서 사람이 검수한 소규모 정답셋을 따로 두는 것을 권합니다.
+
+### GRPO 보상
+
+```text
+글자 과제 = 0.7 × 문자유사도 + 0.3 × 숫자유사도   (숫자가 없으면 문자유사도)
+박스 과제 = 2 × Σ(짝별 점수) / (예측 박스 수 + 정답 박스 수)
+  짝별 점수: grounding         = min(1, IoU / 0.8)
+             spotting·relation = 0.5 × min(1, IoU / 0.8) + 0.5 × 글자 유사도
+  정답이 []인 경우: 예측도 []이면 1, 아니면 0. JSON 형식 오류는 0.
+```
+
+박스는 IoU가 0보다 큰 쌍을 IoU 순으로 1:1로 짝짓습니다. 빠진 박스와 남는 박스는 분모에서 점수를 깎으므로, 박스를 많이 내거나 하나로 크게 덮는 식의 보상 꼼수가 통하지 않습니다. IoU 0.8 이상은 만점으로 둡니다. OCR 박스가 꽉 맞는 정도가 일정하지 않아서, 그 이상을 맞추라고 밀면 교사의 박스 잡음을 학습하게 되기 때문입니다.
+
+GRPO 기본 과제는 출력이 여러 개라 점수 차이가 잘 생기는 `grounding`·`spotting`·`relation`입니다(`grpo_tasks`). 단어 하나짜리 글자 과제는 SFT 뒤 생성한 답이 대부분 같아져 학습 신호가 거의 없습니다.
 
 ## 1. 내부망 환경 준비 및 설치
 
@@ -88,12 +158,12 @@ gradient_checkpointing_kwargs:
 
 ```bash
 python train.py sft --config configs/sft.yaml --gpus 4,5,6,7 \
-  --model /share/cv_share/qwen3.5/9b --data data/prepared-v1 --output runs/sft --execute
+  --model /share/cv_share/qwen3.5/9b --data data/prepared-v2 --output runs/sft --execute
 ```
 
 선택 우선순위는 **`--gpus` → `CUDA_VISIBLE_DEVICES` 환경변수 → 기본 0,1,2,3**입니다. `NPROC_PER_NODE`는 선택한 GPU 수로 자동 설정합니다. 서버에 8장이 있어도 예제의 명시적인 `--gpus`로 선택한 4장만 학습에 사용합니다. 다른 작업과 동시에 학습할 때는 `MASTER_PORT`도 겹치지 않게 지정하세요.
 
-이미지 토큰 예산은 **`--image-tokens` → `IMAGE_MAX_TOKEN_NUM` 환경변수 → 기본 2048** 순서입니다. 평가 서버에는 동일한 `IMAGE_MAX_TOKEN_NUM`을 별도로 지정합니다. 평가 서버의 `CUDA_VISIBLE_DEVICES=0`도 원하는 GPU 번호로 바꿀 수 있습니다. 학습용 `NPROC_PER_NODE=4`를 export해 두었다면 평가 서버 실행 전 해제합니다.
+이미지 토큰 예산은 **`--image-tokens` → `IMAGE_MAX_TOKEN_NUM` 환경변수 → 모델 설정과 `image_max_size`로 계산한 값** 순서입니다. 평가 서버에는 `python -m bank_ocr image-tokens`가 알려 주는 같은 값을 `IMAGE_MAX_TOKEN_NUM`으로 지정합니다. 평가 서버의 `CUDA_VISIBLE_DEVICES=0`도 원하는 GPU 번호로 바꿀 수 있습니다. 학습용 `NPROC_PER_NODE=4`를 export해 두었다면 평가 서버 실행 전 해제합니다.
 
 **완료 기준:** 프로젝트 설치, 학습 의존성, 로컬 모델 파일이 준비되어 있습니다.
 
@@ -168,7 +238,7 @@ python -m bank_ocr merge data/train-manifest.jsonl data/benchmark-manifest.jsonl
 
 ## 4. 설정 파일 작성 및 데이터 준비
 
-예제 설정은 `manifest=data/manifest.jsonl`, `output_dir=data/prepared-v1`, `cache_dir=data/ocr-cache`, `ocr_callable=internal_ocr_adapter:ocr_from_file`입니다. `ocr_revision`은 실제 OCR 버전으로 변경합니다. 소량 확인과 전체 준비는 서로 다른 `output_dir`를 사용하고, 이후 명령은 전체 준비 결과 경로에 맞춥니다.
+예제 설정은 `manifest=data/manifest.jsonl`, `output_dir=data/prepared-v2`, `cache_dir=data/ocr-cache`, `ocr_callable=internal_ocr_adapter:ocr_from_file`입니다. `ocr_revision`은 실제 OCR 버전으로 변경합니다. 소량 확인과 전체 준비는 서로 다른 `output_dir`를 사용하고, 이후 명령은 전체 준비 결과 경로에 맞춥니다.
 
 ```bash
 cp config.example.json config.json
@@ -184,19 +254,21 @@ python -m bank_ocr prepare --config config.json
 |---|---|
 | `pages.jsonl` | 원본 OCR, 좌표, confidence, split, 원본 이미지 경로 |
 | `train_sft.jsonl`, `val_sft.jsonl` | MS-SWIFT SFT 입력 |
-| `train_grpo.jsonl` | BBox→Text·Text→BBox 및 reward용 추가 필드 |
-| `train_tasks.jsonl`, `val_tasks.jsonl`, `benchmark_tasks.jsonl` | 추론·평가 및 분석 입력 |
-| `crops/` | Crop OCR 이미지 |
+| `train_grpo.jsonl` | `grpo_tasks` 과제와 reward용 `task`·`target` 필드 |
+| `train_tasks.jsonl`, `val_tasks.jsonl`, `benchmark_tasks.jsonl` | 추론·평가 및 분석 입력. `view`(clean/aug)·`view_ops`·`confidence`·`size` 포함 |
+| `views/` | 모델 입력 페이지 이미지(clean·aug) |
+| `crops/`, `tiles/` | Crop OCR 단어 이미지, spotting 타일 |
+| `image_items.jsonl` | 이미지별 교사 OCR 박스(view 좌표). `--with-ocr` 비교군과 점검용 |
 | `DONE.json` | 완료 여부, 분리별 개수, 필터 통계, manifest 해시 |
 | `config.snapshot.json` | 실행 시 설정 |
 
 OCR 원본과 방향 보정 페이지는 `cache_dir`에 있으므로 **준비가 끝나도 캐시를 지우지 마세요**. 학습·추론이 해당 페이지를 참조합니다.
 
-학습 confidence 기본값은 0.95, 벤치마크는 0.0입니다. 벤치마크에서 낮은 confidence를 숨기지 않습니다. 두 쪽 모두 공백, 길이 범위 밖, 대체문자 `�`를 제외하며, 제외 개수를 기록합니다. benchmark_regions_per_page=0이면 모든 적격 region을 사용합니다.
+학습 confidence 기본값은 0.95, 벤치마크는 0.0입니다. 벤치마크에서 낮은 confidence를 숨기지 않습니다. 두 쪽 모두 공백, 길이 범위 밖, 대체문자 `�`를 제외하며, 제외 개수를 기록합니다. 낮은 confidence 단어는 질문 대상이 되지 않고, 그 단어가 걸친 영역·타일·grounding 질문은 만들지 않습니다. 이전 설정 키 `train_regions_per_page`·`benchmark_regions_per_page`는 `tasks_per_view`로 바뀌었고, 남아 있으면 prepare가 중단됩니다.
 
 `output_dir`가 이미 있으면 덮어쓰지 않습니다. 실패한 준비 작업은 새 `output_dir`로 다시 실행하면 성공 OCR 캐시를 재사용합니다. `ocr_revision`은 OCR 모델·전처리·함수 동작이 바뀔 때 변경해야 합니다. 서버를 변경하여 OCR 동작이 달라질 때도 버전을 변경하세요. 어댑터의 서버 주소는 캐시 키에 자동 포함되지 않습니다. 최초 실행은 소량의 train/benchmark 문서로 매핑과 출력량을 확인하는 편이 좋습니다.
 
-**완료 기준:** `data/prepared-v1/DONE.json`과 학습·벤치마크 JSONL이 생성되어 있습니다. 분리별 개수와 필터 통계를 확인합니다.
+**완료 기준:** `data/prepared-v2/DONE.json`과 학습·벤치마크 JSONL이 생성되어 있습니다. 분리별 개수와 필터 통계를 확인합니다.
 
 ## 5. Base 모델 평가
 
@@ -207,23 +279,27 @@ OCR 원본과 방향 보정 페이지는 `cache_dir`에 있으므로 **준비가
 **세 모델은 같은 벤치마크·이미지·이미지 토큰 예산으로 평가하며 `--with-ocr`를 사용하지 않습니다.** 체크포인트 변경 시 새 `run-id`와 예측 파일을 사용하고 `.meta.json`도 보관합니다. 인증과 자세한 조건은 부록 A를 확인하세요.
 
 ```bash
+# 학습과 같은 이미지 토큰 예산 (7·10단계 서버에도 같은 값을 씁니다)
+IMG_TOKENS=$(python -m bank_ocr image-tokens --model /share/cv_share/qwen3.5/9b --data data/prepared-v2 \
+  | python -c "import json,sys; print(json.load(sys.stdin)['image_max_token_num'])")
+
 # 학습 전 Base 서버: adapter를 지정하지 않습니다.
-HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 IMAGE_MAX_TOKEN_NUM=8192 CUDA_VISIBLE_DEVICES=0 \
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 IMAGE_MAX_TOKEN_NUM=$IMG_TOKENS CUDA_VISIBLE_DEVICES=0 \
 swift deploy --model /share/cv_share/qwen3.5/9b --model_type qwen3_5 --infer_backend vllm \
   --vllm_max_model_len 10240 --vllm_max_num_seqs 4 \
   --vllm_gpu_memory_utilization 0.85 \
   --host 127.0.0.1 --port 8000 --served_model_name bank-ocr \
-  --enable_thinking false --max_new_tokens 256
+  --enable_thinking false --max_new_tokens 2048
 ```
 
 별도 터미널에서:
 
 ```bash
-python -m bank_ocr predict --config configs/inference.json --tasks data/prepared-v1/benchmark_tasks.jsonl \
+python -m bank_ocr predict --config configs/inference.json --tasks data/prepared-v2/benchmark_tasks.jsonl \
   --endpoint http://127.0.0.1:8000/v1 --model bank-ocr --run-id base-vllm-v1 --concurrency 4 \
   --out predictions/base.jsonl
 
-python -m bank_ocr evaluate --tasks data/prepared-v1/benchmark_tasks.jsonl \
+python -m bank_ocr evaluate --tasks data/prepared-v2/benchmark_tasks.jsonl \
   --predictions predictions/base.jsonl --label Base --out reports/base.json
 ```
 
@@ -231,7 +307,7 @@ python -m bank_ocr evaluate --tasks data/prepared-v1/benchmark_tasks.jsonl \
 
 ### 벤치마크 추론 속도 조절
 
-아래 배포 예시는 vLLM 서버와 동시 요청 4개를 사용합니다. 원본 약 2400×3600 문서를 위해 평가 이미지 예산을 8192로 지정하고, 입력+출력 컨텍스트 상한은 10240으로 제한합니다. Base/SFT/GRPO 평가에 동일한 예산을 사용하세요. 학습 이미지 예산 기본값은 별도이며 `--image-tokens`로 지정합니다.
+아래 배포 예시는 vLLM 서버와 동시 요청 4개를 사용합니다. 이미지는 prepare에서 이미 `image_max_size`로 줄여 두었으므로 평가 이미지 예산은 학습과 같은 `$IMG_TOKENS`입니다. 입력+출력 컨텍스트 상한 10240은 이미지 토큰(2300×1600 기준 3600)과 spotting 출력(최대 2048)을 담을 수 있는 크기입니다. Base/SFT/GRPO 평가에 동일한 예산을 사용하세요.
 
 vLLM은 Linux/CUDA 추론 환경에 `requirements-inference.in`으로 별도 준비합니다. 공식 Qwen3.5 문서는 `vllm>=0.17.0`을 안내하지만 학습용 Transformers 5.2와의 호환성 문제도 명시합니다. 학습 환경에 그대로 덮어 설치하지 말고 호환되는 PyTorch/Transformers/vLLM 조합을 별도 환경에서 확인하세요. 폐쇄망 설치 예시는 다음과 같습니다.
 
@@ -254,16 +330,16 @@ SFT/GRPO는 vision LoRA까지 적용하기 위해 `--merge_lora true`로 병합�
 ```bash
 # 먼저 5 step 실제 GPU 동작 확인
 python train.py sft --config configs/sft.yaml --gpus 0,1,2,3 --model /share/cv_share/qwen3.5/9b \
-  --data data/prepared-v1 --output runs/sft-smoke --max-steps 5 --execute
+  --data data/prepared-v2 --output runs/sft-smoke --max-steps 5 --execute
 
 # 이후 본 학습
 python train.py sft --config configs/sft.yaml --gpus 0,1,2,3 --model /share/cv_share/qwen3.5/9b \
-  --data data/prepared-v1 --output runs/sft --execute
+  --data data/prepared-v2 --output runs/sft --execute
 ```
 
-`--execute`를 빼면 실행할 명령만 표시합니다. 제공한 설정 파일의 기본값은 BF16, LoRA rank 16, ViT·aligner·LLM 학습, microbatch 1, 누적 4, ZeRO-2, gradient checkpointing, image token 2048, max_length 4096입니다. 인터넷 모델 다운로드와 외부 실험 추적은 기본으로 비활성화합니다.
+`--execute`를 빼면 실행할 명령만 표시합니다. 제공한 설정 파일의 기본값은 BF16, LoRA rank 16, ViT·aligner·LLM 학습, microbatch 1, 누적 4, ZeRO-2, gradient checkpointing, 이미지 토큰은 `image_max_size`에 맞춰 자동 계산(2300×1600, 32px 기준 3600), max_length 8192입니다. GRPO의 `max_completion_length`는 spotting 출력을 담기 위해 1536입니다. 인터넷 모델 다운로드와 외부 실험 추적은 기본으로 비활성화합니다.
 
-40GB에서의 실제 메모리 적합성은 내부망에서 확인해야 합니다. OOM이면 `--image-tokens 1024` 또는 `--deepspeed zero3`를 검토하세요. 이미지 토큰 수를 바꿨다면 Base/SFT/GRPO 평가에도 같은 값을 적용하고 실험 조건을 기록해야 합니다.
+40GB에서의 실제 메모리 적합성은 내부망에서 확인해야 합니다. 이미지 3600토큰 + 출력으로 시퀀스가 길어져 이전 설정(2048/4096)보다 메모리를 더 씁니다. OOM이면 먼저 `--deepspeed zero3`를 쓰고, 그래도 안 되면 `image_max_size`를 줄여 prepare를 새 `output_dir`로 다시 실행하세요. `--image-tokens`만 낮추면 모델이 이미지를 다시 축소해 작은 글씨를 잃습니다. 이미지 토큰 수를 바꿨다면 Base/SFT/GRPO 평가에도 같은 값을 적용하고 실험 조건을 기록해야 합니다.
 
 **완료 기준:** SFT adapter 체크포인트가 생성되어 있습니다. 다음 단계에 사용할 실제 `checkpoint-xxx` 경로를 기록합니다.
 
@@ -272,23 +348,23 @@ python train.py sft --config configs/sft.yaml --gpus 0,1,2,3 --model /share/cv_s
 6단계의 SFT 학습을 마친 뒤, 실제 SFT 체크포인트 경로로 서버를 시작합니다. `runs/sft` 최상위 폴더가 아니라 생성된 adapter 체크포인트 폴더를 지정합니다.
 
 ```bash
-HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 IMAGE_MAX_TOKEN_NUM=8192 CUDA_VISIBLE_DEVICES=0 \
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 IMAGE_MAX_TOKEN_NUM=$IMG_TOKENS CUDA_VISIBLE_DEVICES=0 \
 swift deploy --model /share/cv_share/qwen3.5/9b --model_type qwen3_5 \
   --adapters /실제/SFT/checkpoint-xxx --merge_lora true --infer_backend vllm \
   --vllm_max_model_len 10240 --vllm_max_num_seqs 4 \
   --vllm_gpu_memory_utilization 0.85 \
   --host 127.0.0.1 --port 8000 --served_model_name bank-ocr \
-  --enable_thinking false --max_new_tokens 256
+  --enable_thinking false --max_new_tokens 2048
 ```
 
 별도 터미널에서:
 
 ```bash
-python -m bank_ocr predict --config configs/inference.json --tasks data/prepared-v1/benchmark_tasks.jsonl \
+python -m bank_ocr predict --config configs/inference.json --tasks data/prepared-v2/benchmark_tasks.jsonl \
   --endpoint http://127.0.0.1:8000/v1 --model bank-ocr --run-id sft-vllm-v1 --concurrency 4 \
   --out predictions/sft.jsonl
 
-python -m bank_ocr evaluate --tasks data/prepared-v1/benchmark_tasks.jsonl \
+python -m bank_ocr evaluate --tasks data/prepared-v2/benchmark_tasks.jsonl \
   --predictions predictions/sft.jsonl --label SFT --out reports/sft.json
 ```
 
@@ -296,7 +372,7 @@ python -m bank_ocr evaluate --tasks data/prepared-v1/benchmark_tasks.jsonl \
 
 ## 8. (선택) GRPO 학습 데이터 선정
 
-**기본은 이 단계를 생략하고 9단계로 바로 진행합니다.** 9단계에서 `--grpo-dataset`을 생략하면 `data/prepared-v1/train_grpo.jsonl` 전체로 학습합니다.
+**기본은 이 단계를 생략하고 9단계로 바로 진행합니다.** 9단계에서 `--grpo-dataset`을 생략하면 `data/prepared-v2/train_grpo.jsonl` 전체로 학습합니다.
 
 mining은 다음 경우에만 고려합니다.
 
@@ -308,10 +384,10 @@ reference label은 검수되지 않은 OCR이므로 SFT 실패 샘플에는 labe
 SFT adapter를 적용한 내부 서버로 **train_grpo.jsonl**을 먼저 추론한 뒤 mining합니다.
 
 ```bash
-python -m bank_ocr predict --config configs/inference.json --tasks data/prepared-v1/train_grpo.jsonl \
+python -m bank_ocr predict --config configs/inference.json --tasks data/prepared-v2/train_grpo.jsonl \
   --endpoint http://127.0.0.1:8000/v1 --model bank-ocr --run-id sft-train-vllm-v1 --concurrency 4 --out predictions/sft-train.jsonl
 
-python -m bank_ocr mine --tasks data/prepared-v1/train_grpo.jsonl \
+python -m bank_ocr mine --tasks data/prepared-v2/train_grpo.jsonl \
   --predictions predictions/sft-train.jsonl --count 10000 --hard-fraction 0.5 \
   --out data/train_grpo_hard.jsonl
 ```
@@ -326,7 +402,7 @@ SFT 추론 서버를 종료하여 GPU를 확보한 다음 smoke test를 실행�
 
 ```bash
 python train.py grpo --config configs/grpo.yaml --gpus 0,1,2,3 --model /share/cv_share/qwen3.5/9b \
-  --adapter /실제/SFT/checkpoint-xxx --data data/prepared-v1 \
+  --adapter /실제/SFT/checkpoint-xxx --data data/prepared-v2 \
   --output runs/grpo-smoke --max-steps 5 --execute
 ```
 
@@ -334,7 +410,7 @@ GPU 확인 후 아래 명령으로 본 학습을 실행합니다.
 
 ```bash
 python train.py grpo --config configs/grpo.yaml --gpus 0,1,2,3 --model /share/cv_share/qwen3.5/9b \
-  --adapter /실제/SFT/checkpoint-xxx --data data/prepared-v1 \
+  --adapter /실제/SFT/checkpoint-xxx --data data/prepared-v2 \
   --output runs/grpo --execute
 ```
 
@@ -351,23 +427,23 @@ GRPO는 SFT adapter와 ref_adapter에서 시작합니다. `configs/grpo.yaml`의
 GRPO 학습이 끝나면 실제 GRPO adapter 체크포인트로 서버를 시작합니다. **GRPO model은 SFT에서 GRPO를 이어 학습한 모델**입니다. 아래 경로에 SFT 체크포인트를 다시 지정하지 않도록 확인하세요.
 
 ```bash
-HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 IMAGE_MAX_TOKEN_NUM=8192 CUDA_VISIBLE_DEVICES=0 \
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 IMAGE_MAX_TOKEN_NUM=$IMG_TOKENS CUDA_VISIBLE_DEVICES=0 \
 swift deploy --model /share/cv_share/qwen3.5/9b --model_type qwen3_5 \
   --adapters /실제/GRPO/checkpoint-xxx --merge_lora true --infer_backend vllm \
   --vllm_max_model_len 10240 --vllm_max_num_seqs 4 \
   --vllm_gpu_memory_utilization 0.85 \
   --host 127.0.0.1 --port 8000 --served_model_name bank-ocr \
-  --enable_thinking false --max_new_tokens 256
+  --enable_thinking false --max_new_tokens 2048
 ```
 
 별도 터미널에서:
 
 ```bash
-python -m bank_ocr predict --config configs/inference.json --tasks data/prepared-v1/benchmark_tasks.jsonl \
+python -m bank_ocr predict --config configs/inference.json --tasks data/prepared-v2/benchmark_tasks.jsonl \
   --endpoint http://127.0.0.1:8000/v1 --model bank-ocr --run-id grpo-vllm-v1 --concurrency 4 \
   --out predictions/grpo.jsonl
 
-python -m bank_ocr evaluate --tasks data/prepared-v1/benchmark_tasks.jsonl \
+python -m bank_ocr evaluate --tasks data/prepared-v2/benchmark_tasks.jsonl \
   --predictions predictions/grpo.jsonl --label GRPO --out reports/grpo.json
 ```
 
@@ -414,7 +490,7 @@ python benchmark_report.py \
   "endpoint": "http://127.0.0.1:8000/v1",
   "model": "bank-ocr",
   "timeout": 180,
-  "max_tokens": 512,
+  "max_tokens": 2048,
   "temperature": 0,
   "enable_thinking": false,
   "request_options": {"top_p": 0.95}
@@ -431,9 +507,11 @@ python benchmark_report.py \
 
 `predict --with-ocr`는 Base+Bank OCR 별도 비교군용입니다. 이 모드는 내부 OCR 텍스트·좌표를 입력에도 제공하므로 **교사 정보를 제공한 비교군**입니다. 여기서 만드는 Base / SFT / GRPO 비교표에는 세 모델 모두 `--with-ocr`를 사용하지 않습니다. 기본 추론에는 target/정답/OCR context를 보내지 않습니다. 필요한 인증 토큰은 `INTERNAL_MODEL_API_KEY` 환경변수로 받습니다.
 
-비교할 보고서는 같은 tasks SHA256을 사용해야 합니다. CER은 전체 문자 편집거리/전체 정답 문자 수이며 삽입 오류가 많으면 1보다 클 수 있습니다. EM은 NFC·양끝 공백 정규화 후 비교하고 숫자는 기호와 토큰 경계를 보존합니다. grounding은 JSON 좌표 형식을 엄격히 검사합니다. 잘못된 형식도 분모에 포함합니다. 좌표 center hit는 예측 박스 중심이 교사 박스 안에 있는지 측정합니다. cycle은 예측 박스 안에 중심이 들어오는 교사 OCR 항목을 원래 순서로 연결해 비교합니다.
+비교할 보고서는 같은 tasks SHA256을 사용해야 합니다. CER은 전체 문자 편집거리/전체 정답 문자 수이며 삽입 오류가 많으면 1보다 클 수 있습니다. EM은 NFC·양끝 공백 정규화 후 비교하고 숫자는 기호와 토큰 경계를 보존합니다. 박스 과제는 JSON 형식을 엄격히 검사하며, 형식이 틀린 응답은 예측 박스 0개로 셉니다. 박스 지표의 정의는 [평가](#평가)를 확인하세요. 평가 JSON의 `breakdown`에 view·confidence·size별 결과가 있고, 비교 보고서는 clean·aug 표를 따로 보여 줍니다.
 
 HTML·Markdown 점수는 % 단위로 표시합니다. CSV 점수는 원래 비율값이며, 예를 들어 `0.8`은 80%입니다. CER은 오류가 많으면 100%를 넘을 수 있습니다. 변화량 컬럼(`*_delta_pp`)은 세 형식 모두 **해당 모델 − Base의 퍼센트포인트(pp)**입니다. CER은 음수 변화가 개선, 나머지 지표는 양수 변화가 개선입니다. Numeric EM은 BBox→Text에서 숫자가 있는 대상의 숫자 토큰 일치율입니다.
+
+박스 지표의 F1@0.5는 IoU 0.5 이상으로 짝지은 박스 기준이고, 위치+글자 F1은 글자까지 같아야 맞은 것으로 셉니다.
 
 계산 대상이 없는 지표는 HTML·Markdown에서 `—`, CSV에서 빈 값으로 표시합니다. 미측정 점수를 0으로 채우지 않습니다. 보고서에는 사람 검수 없는 OCR 의사정답 기준이라는 설명과 평가 건수도 들어갑니다.
 
@@ -443,15 +521,7 @@ HTML·Markdown 점수는 % 단위로 표시합니다. CSV 점수는 원래 비�
 
 ## 부록 B. GRPO 보상과 rollout 진단
 
-보상:
-
-```text
-grounding = 0.55 × cycle 문자유사도 + 0.35 × bbox IoU + 0.10 × 유효 JSON
-OCR       = 0.70 × 문자유사도 + 0.30 × 숫자유사도
-숫자가 없는 OCR = 문자유사도
-```
-
-학습 중 내부 OCR을 다시 호출하지 않습니다. 저장된 전체 페이지 OCR로 cycle을 계산합니다. 보상은 교사 오류도 따라갈 수 있으며 cycle은 독립 검증기가 아닙니다.
+보상 정의는 [GRPO 보상](#grpo-보상)에 있습니다. 학습 중 내부 OCR을 다시 호출하지 않으며, 보상은 교사 OCR 오류도 따라갈 수 있습니다. 8단계 `mine`은 같은 보상이 `--hard-threshold`(기본 0.9)보다 낮은 train 행을 어려운 문제로 고릅니다.
 
 동일 응답으로 GRPO 신호가 사라지는지 확인하려면 rollout 로그를 아래 형식으로 정리해 사용합니다. SWIFT 버전별 원본 로그 자동 변환은 포함하지 않습니다.
 
@@ -460,7 +530,7 @@ OCR       = 0.70 × 문자유사도 + 0.30 × 숫자유사도
 ```
 
 ```bash
-python -m bank_ocr rollout-stats --tasks data/prepared-v1/train_grpo.jsonl \
+python -m bank_ocr rollout-stats --tasks data/prepared-v2/train_grpo.jsonl \
   --rollouts data/rollouts.jsonl --out reports/rollout-stats.json
 ```
 
@@ -470,7 +540,7 @@ python -m bank_ocr rollout-stats --tasks data/prepared-v1/train_grpo.jsonl \
 
 보고 기능만 추가하는 이전 패치는 아래 **두 파일만** 기존 프로젝트 최상위 폴더(`train.py`가 있는 곳)에 넣으면 됩니다.
 
-- `benchmark_report.py`: 새로 추가하는 독립 실행 파일. Python 표준 라이브러리만 사용하며 추가 설치가 없습니다.
+- `benchmark_report.py`: 비교 보고서 스크립트. 지표 정의를 `bank_ocr` 패키지와 공유하므로 이 프로젝트를 설치한 환경에서 실행합니다.
 - `README.md`: 이 안내서로 교체합니다.
 
 `benchmark-report-update.zip`에는 위 두 파일만 포함됩니다. 기존 `bank_ocr/`, `train.py`, OCR 연결 함수, `config.json`, 이미지·캐시·체크포인트를 변경할 필요가 없습니다.
@@ -488,17 +558,17 @@ demo는 합성 이미지와 가짜 OCR을 사용하는 연결 검사입니다. �
 
 독립 보고 스크립트는 합성 평가 JSON으로 7개 검사를 통과했습니다: 3개 모델 행·변화량 계산, 벤치마크 불일치, 교사 정보 제공 모드, 평가 건수 불일치, 생성 조건 불일치, 프로젝트 외부 독립 실행, 메타데이터 누락·HTML 문자 처리. 실제 모델 성능을 검증한 것은 아닙니다.
 
-이 버전은 OCR 순서를 보존하고 다각형의 축 정렬 외접 사각형을 사용합니다. 기울어진 개별 글상자 정방향 복원, 템플릿 기반 분리, 병렬 OCR 호출·자동 재시도, 정밀 레이아웃 검증은 포함하지 않습니다. 자동 좌표 검사·통계는 사람 검수와 별개이며 요청대로 사람 검수 단계는 없습니다.
+이 버전은 다각형의 축 정렬 외접 사각형을 사용하고, 읽는 순서는 박스 위치로 정합니다. 기울어진 개별 글상자 정방향 복원, 템플릿 기반 분리, 병렬 OCR 호출·자동 재시도, 정밀 레이아웃 검증은 포함하지 않습니다. 자동 좌표 검사·통계는 사람 검수와 별개이며 요청대로 사람 검수 단계는 없습니다.
 
 ### 포함된 기능
 
 - 기존 `ocr_from_file(image_path)` 함수 연결. 서버 주소나 인증 방식을 임의로 만들지 않습니다.
 - 실제 화면의 `success → data.basicData → bounding.vertices` 구조 및 중첩 배열 처리.
-- EXIF 방향 보정 후 RGB PNG로 통일. OCR과 VLM이 같은 이미지를 보고, 해상도·종횡비는 보존.
+- EXIF 방향 보정 후 원본으로 OCR, 모델 입력은 `image_max_size`로 축소한 clean view와 노이즈·기하 증강 view. 박스는 모든 기하 변환을 따라갑니다.
 - OCR 원본 캐시, 재실행 시 성공한 호출 재사용, OCR 버전 변경 시 캐시 분리.
 - 문서 단위 train/val/benchmark 분리, 분리 사이 동일 디코딩 이미지 검사.
-- Crop OCR / BBox→Text / Text→BBox 생성. 반복 문구는 grounding에서 제외.
-- SFT 40/30/30 목표 비율, GRPO의 문자·숫자·IoU·cycle 보상.
+- crop_ocr / bbox_ocr / grounding(반복·부정 포함) / region_ocr / spotting / relation 생성. 정답이 불완전한 영역은 제외.
+- `task_mix` SFT 비율, GRPO의 문자·숫자 유사도와 박스 soft F1 보상.
 - 내부 모델 API 추론, 평가 보고서, train 실패 샘플 추출.
 - Base / SFT / GRPO 비교표와 Base 대비 변화량: 독립 스크립트로 CSV·Markdown·HTML 생성.
 - GRPO rollout별 보상 표준편차와 동일 응답 비율을 확인하는 도구.

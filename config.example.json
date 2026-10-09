@@ -1,6 +1,6 @@
 {
   "manifest": "data/manifest.jsonl",
-  "output_dir": "data/prepared-v1",
+  "output_dir": "data/prepared-v2",
   "cache_dir": "data/ocr-cache",
   "ocr_callable": "internal_ocr_adapter:ocr_from_file",
   "ocr_revision": "replace-with-internal-ocr-version-v1",
@@ -16,12 +16,32 @@
   },
   "seed": 42,
   "val_fraction": 0.05,
+  "image_max_size": [2300, 1600],
+  "views": {
+    "train": {"clean": 1, "augmented": 2},
+    "val": {"clean": 1, "augmented": 1},
+    "benchmark": {"clean": 1, "augmented": 1}
+  },
+  "augment": {
+    "crop_probability": 0.5, "crop_min_fraction": 0.7,
+    "rotate_probability": 0.4, "max_rotation_degrees": 1.5,
+    "pad_probability": 0.4, "max_pad_fraction": 0.06,
+    "scale_range": [0.75, 1.0],
+    "photometric_ops": [1, 3]
+  },
+  "tasks_per_view": {
+    "train": {"crop_ocr": 4, "bbox_ocr": 8, "grounding": 8, "region_ocr": 4, "spotting": 2, "relation": 6},
+    "val": {"crop_ocr": 1, "bbox_ocr": 2, "grounding": 2, "region_ocr": 1, "spotting": 1, "relation": 2},
+    "benchmark": {"crop_ocr": 2, "bbox_ocr": 4, "grounding": 4, "region_ocr": 2, "spotting": 1, "relation": 3}
+  },
+  "negative_grounding_fraction": 0.1,
+  "spotting_max_items": 40,
   "sft_max_examples": 30000,
-  "train_regions_per_page": 0,
-  "benchmark_regions_per_page": 5,
+  "val_max_examples": 2000,
+  "task_mix": {"crop_ocr": 0.1, "bbox_ocr": 0.2, "grounding": 0.2, "region_ocr": 0.15, "spotting": 0.2, "relation": 0.15},
   "filters": {
     "train": {"min_confidence": 0.95, "min_length": 1, "max_length": 100},
     "benchmark": {"min_confidence": 0.0, "min_length": 1, "max_length": 100}
   },
-  "grpo_tasks": ["bbox_ocr", "grounding"]
+  "grpo_tasks": ["grounding", "spotting", "relation"]
 }

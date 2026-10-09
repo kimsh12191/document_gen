@@ -5,7 +5,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 from bank_ocr.data import dumps, read_jsonl, write_json, write_jsonl
-from bank_ocr.metrics import evaluate
+from bank_ocr.metrics import answer_for, evaluate
 from bank_ocr.pipeline import prepare
 
 
@@ -50,7 +50,7 @@ if __name__ == "__main__":
     config = create_demo(args.out)
     summary = prepare(config)
     tasks = read_jsonl(config.parent / "prepared" / "benchmark_tasks.jsonl")
-    oracle = {r["id"]: dumps({"bbox": r["target_bbox"]}) if r["task"] == "grounding" else r["target_text"] for r in tasks}
+    oracle = {r["id"]: answer_for(r["task"], r["target"]) for r in tasks}
     report = {"synthetic_oracle_self_test_only": True, **evaluate(tasks, oracle)}
     write_json(config.parent / "synthetic-self-test.json", report)
     print(dumps({"SYNTHETIC_ONLY_NO_MODEL_WAS_RUN": True, "preparation": summary, "self_test": report}))

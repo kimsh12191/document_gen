@@ -1,4 +1,5 @@
-"""Side-by-side benchmark report; no model invocation and no invented scores."""
+"""Side-by-side benchmark report; no model invocation and no invented scores.
+Needs the installed bank_ocr package (metric definitions are shared with evaluation)."""
 import csv
 import html
 import math
@@ -6,19 +7,14 @@ from pathlib import Path
 
 import json
 
+from bank_ocr.metrics import LOWER_IS_BETTER, REPORT_METRICS
+
 
 def read_json(path):
     return json.loads(Path(path).read_text(encoding="utf-8-sig"))
 
 
-METRICS = [
-    ("crop_cer", "Crop CER ↓", "crop_ocr", "cer"),
-    ("crop_em", "Crop EM ↑", "crop_ocr", "em"),
-    ("bbox_text_em", "BBox→Text EM ↑", "bbox_ocr", "em"),
-    ("bbox_numeric_em", "Numeric EM ↑", "bbox_ocr", "numeric_em"),
-    ("grounding_iou_at_0_5", "Grounding IoU@0.5 ↑", "grounding", "iou_at_0_5"),
-    ("cycle_em", "Cycle EM ↑", "grounding", "cycle_em"),
-]
+METRICS = REPORT_METRICS
 
 
 def build_report(paths, output, labels=None):
@@ -76,7 +72,8 @@ def build_report(paths, output, labels=None):
     notes = [
         "기준: 사람 검수 없는 내부 OCR 의사정답과의 일치도. 실제 문서 정답률이 아닙니다.",
         "GRPO model은 SFT 체크포인트에서 GRPO를 이어 학습한 모델입니다." if strict else "첫 번째 행을 변화량의 기준으로 사용합니다.",
-        "점수는 %, 변화량은 해당 모델 − 기준 모델의 퍼센트포인트(pp)입니다. CER은 음수 변화가 개선이고 나머지는 양수가 개선입니다.",
+        "점수는 %, 변화량은 해당 모델 − 기준 모델의 퍼센트포인트(pp)입니다. " + ", ".join(sorted(LOWER_IS_BETTER)) + "는 음수 변화가 개선이고 나머지는 양수가 개선입니다.",
+        "F1@0.5는 IoU 0.5 이상으로 짝지은 박스 기준이며, 위치+글자 F1은 글자까지 정확히 같아야 맞은 것으로 셉니다.",
         "—는 해당 평가 항목이 없거나 숫자 대상이 없어 계산하지 못한 값입니다.",
         "OCR context 제공 여부: " + "; ".join(context),
         "추론 메타데이터가 없는 보고서는 동일 추론 조건을 검증할 수 없습니다." if any(not i for i in infos) else "기록된 이미지 해시·temperature·max_tokens·thinking·추가 요청 옵션 조건의 일치를 확인했습니다.",
@@ -87,7 +84,16 @@ def build_report(paths, output, labels=None):
     def md_table(data):
         escape = lambda s: str(s).replace("|", "\\|").replace("\n", " ")
         return "\n".join(["| " + " | ".join(map(escape, headings)) + " |", "| " + " | ".join(["---"] * len(headings)) + " |"] + ["| " + " | ".join(map(escape, row)) + " |" for row in data])
-    markdown = "# Benchmark comparison\n\n" + md_table(scores) + "\n\n## " + names[0] + " 대비 변화\n\n" + md_table(changes) + "\n\n" + "\n\n".join(notes) + "\n"
+    def view_rows(view):
+        rows = []
+        for name, report in zip(names, reports):
+            tasks = report.get("breakdown", {}).get("view", {}).get(view, {})
+            rows.append([name] + [fmt(tasks.get(task, {}).get(metric)) for _, _, task, metric in METRICS])
+        return rows
+    views = [("clean", "원본 크기 조정 이미지(clean)"), ("aug", "노이즈·기하 증강 이미지(aug)")]
+    markdown = "# Benchmark comparison\n\n" + md_table(scores) + "\n\n## " + names[0] + " 대비 변화\n\n" + md_table(changes)
+    markdown += "".join("\n\n## " + title + "\n\n" + md_table(view_rows(view)) for view, title in views)
+    markdown += "\n\n" + "\n\n".join(notes) + "\n"
     output.with_suffix(".md").write_text(markdown, encoding="utf-8")
     esc = lambda s: html.escape(str(s), quote=True)
     def html_table(data):
@@ -95,6 +101,7 @@ def build_report(paths, output, labels=None):
     document = """<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Benchmark comparison</title>
 <style>body{font-family:system-ui,sans-serif;background:#f4f6fa;color:#18243a;margin:0;padding:36px}main{max-width:1300px;margin:auto}h1{margin-bottom:8px}h2{margin-top:36px;font-size:20px}.scroll{overflow:auto;border:1px solid #dbe1eb;border-radius:12px;background:white}table{width:100%;border-collapse:collapse;white-space:nowrap}th,td{padding:18px 14px;text-align:right;border-bottom:1px solid #e8edf4}th{background:#edf2fb;font-size:13px}th:first-child,td:first-child{text-align:left;font-weight:700}tbody tr:last-child td{border-bottom:0}p{font-size:14px;line-height:1.7;overflow-wrap:anywhere}.subtitle{color:#53627c;margin-bottom:24px}</style><main><h1>Benchmark comparison</h1><p class="subtitle">동일 벤치마크 · 내부 OCR 의사정답 기준</p>"""
     document += html_table(scores) + "<h2>" + esc(names[0]) + " 대비 변화</h2>" + html_table(changes)
+    document += "".join("<h2>" + esc(title) + "</h2>" + html_table(view_rows(view)) for view, title in views)
     document += "<h2>평가 조건</h2>" + "".join("<p>" + esc(n) + "</p>" for n in notes) + "</main></html>"
     output.with_suffix(".html").write_text(document, encoding="utf-8")
     return {"models": len(records), "csv": str(output), "markdown": str(output.with_suffix('.md')), "html": str(output.with_suffix('.html'))}
@@ -102,7 +109,7 @@ def build_report(paths, output, labels=None):
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="Base / SFT / GRPO benchmark comparison; Python standard library only")
+    parser = argparse.ArgumentParser(description="Base / SFT / GRPO benchmark comparison (no model is run)")
     parser.add_argument("--base", required=True, help="Existing Base evaluation JSON")
     parser.add_argument("--sft", required=True, help="Existing SFT evaluation JSON")
     parser.add_argument("--grpo", required=True, help="Existing SFT+GRPO evaluation JSON")

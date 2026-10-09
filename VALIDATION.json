@@ -1,7 +1,7 @@
 {
-  "tested_on": "2026-10-06",
-  "python": "3.12.14",
-  "unit_and_integration_tests_passed": 18,
+  "tested_on": "2026-10-09",
+  "python": "3.13",
+  "unit_and_integration_tests_passed": 33,
   "synthetic_cli_demo": "passed",
   "evaluation_and_comparison_cli": "passed",
   "python_syntax": "passed",
@@ -9,5 +9,7 @@
   "real_model_inference": "not_run",
   "a100_gpu_training": "not_run",
   "swift_plugin_contract": "tested_with_mock_registry_only",
-  "reference_type": "ocr_pseudo_unreviewed"
+  "reference_type": "ocr_pseudo_unreviewed",
+  "augmentation_box_alignment": "passed: pixel IoU >= 0.93 on 30 crop+rotate+pad+scale views",
+  "realistic_form_preview": "passed: synthetic bank forms with fake OCR from form labels"
 }

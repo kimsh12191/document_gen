@@ -29,7 +29,15 @@ def validate_tasks(rows):
         raise ValueError("Tasks must be nonempty and have unique IDs")
 
 
-def predict(tasks_path, output, endpoint, model, run_id, with_ocr=False, timeout=180, max_tokens=256,
+def load_image_items(tasks_path):
+    """Teacher OCR per prepared image (views/tiles), written next to the task files."""
+    path = Path(tasks_path).with_name("image_items.jsonl")
+    if not path.exists():
+        raise ValueError(f"--with-ocr needs {path} from the same prepared dataset")
+    return {r["image"]: r["items"] for r in read_jsonl(path)}
+
+
+def predict(tasks_path, output, endpoint, model, run_id, with_ocr=False, timeout=180, max_tokens=2048,
             temperature=0, enable_thinking=False, request_options=None, concurrency=1):
     if type(concurrency) is not int or concurrency < 1:
         raise ValueError("concurrency must be a positive integer")
@@ -55,6 +63,7 @@ def predict(tasks_path, output, endpoint, model, run_id, with_ocr=False, timeout
     if request_options:
         settings["request_options"] = request_options
     # A cache must never combine base/SFT/RL generations; use a unique checkpoint run_id.
+    context = load_image_items(path) if with_ocr else {}
     image_hashes = {}
     for row in rows:
         for image in row["images"]:
@@ -85,7 +94,8 @@ def predict(tasks_path, output, endpoint, model, run_id, with_ocr=False, timeout
         prompt = row["messages"][0]["content"].replace("<image>", "").strip()
         if with_ocr:
             # Explicit teacher-assisted baseline, never passed in vision-only runs.
-            prompt += "\nInternal OCR context (may contain errors):\n" + dumps(row["ocr_items"])
+            # Coordinates are those of the full view (`context_image`), not of a crop/tile input.
+            prompt += "\nInternal OCR context (may contain errors):\n" + dumps(context[row["context_image"]])
         content = [{"type": "text", "text": prompt}]
         for image in row["images"]:
             image_path = Path(image)
