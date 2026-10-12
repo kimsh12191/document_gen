@@ -16,4 +16,4 @@ ocr = ["requests>=2.32,<3", "matplotlib>=3.8,<4"]
 bank-ocr = "bank_ocr.cli:main"
 
 [tool.setuptools.packages.find]
-include = ["bank_ocr*"]
+include = ["bank_ocr*", "bank_task*"]
