@@ -22,7 +22,8 @@ canvas{display:block;cursor:crosshair}
 .legend{display:flex;gap:14px;font-size:12px;margin:6px 0;flex-wrap:wrap;align-items:center}.legend b{display:inline-block;width:12px;height:12px;border-radius:2px;vertical-align:-2px;margin-right:4px}
 pre{white-space:pre-wrap;word-break:break-all;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px;max-height:260px;overflow:auto;font-size:12px}
 table{border-collapse:collapse;width:100%;font-size:12px}td,th{border-bottom:1px solid var(--line);padding:3px 6px;text-align:left;vertical-align:top}
-tr:hover{background:rgba(37,99,235,.12)}.err{color:var(--pred)}.kv{font-size:12px;color:var(--muted)}
+tr[data-i]{cursor:pointer}tr:hover{background:rgba(37,99,235,.12)}.err{color:var(--pred)}.kv{font-size:12px;color:var(--muted)}
+button.small{margin:0;padding:3px 8px;font-size:12px;background:var(--bg);color:var(--ink);border:1px solid var(--line)}
 .answer{font-size:15px;white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px;margin-top:8px}
 </style></head><body>
 <header><h1>OCR Viewer</h1><span id="status"></span></header>
@@ -68,11 +69,11 @@ tr:hover{background:rgba(37,99,235,.12)}.err{color:var(--pred)}.kv{font-size:12p
 <section>
 <div class="legend"><span><b style="background:var(--gold)"></b>정답(OCR 기준)</span><span><b style="background:var(--pred)"></b>모델 답</span><span><b style="background:var(--query)"></b>질문 영역</span>
 <label style="display:inline;margin:0"><input type="checkbox" id="showlabels" checked style="width:auto"> 글자 표시</label>
-<label style="display:inline;margin:0">확대 <input type="range" id="zoom" min="0.2" max="1.5" step="0.05" value="0.5" style="width:120px;vertical-align:middle"></label></div>
+<label style="display:inline;margin:0">확대 <input type="range" id="zoom" min="0.1" max="1.5" step="0.05" value="0.5" style="width:120px;vertical-align:middle"></label><button type="button" class="small" id="fitpage">전체 보기</button><button type="button" class="small" id="fitwidth">폭 맞춤</button></div>
 <div id="meta" class="kv"></div>
 <div id="stage"><canvas id="cv"></canvas></div>
 <div id="texts"></div>
-<h2 style="margin-top:12px">찾은 위치</h2><div id="table"></div>
+<h2 style="margin-top:12px">찾은 위치 <span id="count" class="kv"></span></h2><div id="table"></div>
 <h2 style="margin-top:12px">모델 원문</h2><pre id="raw"></pre>
 </section>
 </main>
@@ -110,7 +111,10 @@ function draw(){const cv=$('cv'),z=+$('zoom').value;if(!last)return;cv.width=las
  (last.pred||[]).forEach((b,i)=>{box(b.px,css('--pred'),2,i===hover);label(b.px,b.label,css('--pred'),false)});
  if(picked&&last.free)box(picked,css('--query'),2)}
 function esc(s){return String(s??'').replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]))}
-function show(j){last=j;img=new Image();img.onload=draw;img.src=j.image;
+// Whole page on a new image so every box is in view; the same image keeps the current zoom.
+function fit(mode){if(!last)return;const st=$('stage'),w=st.clientWidth-4,h=window.innerHeight*.78-4;const z=mode==='page'?Math.min(w/last.width,h/last.height):w/last.width;$('zoom').value=Math.max(.1,Math.min(1.5,z));draw()}
+$('fitpage').onclick=()=>fit('page');$('fitwidth').onclick=()=>fit('width');
+function show(j){const same=last&&last.width===j.width&&last.height===j.height&&last.free&&j.free;last=j;img=new Image();img.onload=()=>same?draw():fit('page');img.src=j.image;
  let meta=[];if(j.id)meta.push('ID '+j.id,'과제 '+j.task,'화면 '+j.view+(j.view_ops&&j.view_ops.length?' ('+j.view_ops.join(', ')+')':''),'보상 '+j.reward);
  if(j.pages>1)meta.push('페이지 '+$('page').value+' / '+j.pages);
  if(j.free)meta.push(j.width+'×'+j.height+' px로 보냄');
@@ -122,7 +126,10 @@ function show(j){last=j;img=new Image();img.onload=draw;img.src=j.image;
  else $('texts').innerHTML=j.pred_text!=null&&!(j.pred||[]).length?'<div class="answer">'+esc(j.pred_text)+'</div>':'';
  const rows=(j.pred||[]).map((b,i)=>'<tr data-i="'+i+'"><td>'+(i+1)+'</td><td>'+esc(b.label)+'</td><td>'+b.px.map(v=>Math.round(v)).join(', ')+'</td></tr>').join('');
  $('table').innerHTML=(j.pred||[]).length?'<table><tr><th>#</th><th>모델 글자</th><th>픽셀 박스</th></tr>'+rows+'</table>':'<div class="kv">박스 없음</div>';
- $('table').querySelectorAll('tr[data-i]').forEach(tr=>{tr.onmouseenter=()=>{hover=+tr.dataset.i;draw()};tr.onmouseleave=()=>{hover=-1;draw()}});
+ $('count').textContent=(j.pred||[]).length?'('+j.pred.length+'개, 줄을 누르면 그 위치로 이동)':'';
+ $('table').querySelectorAll('tr[data-i]').forEach(tr=>{tr.onmouseenter=()=>{hover=+tr.dataset.i;draw()};tr.onmouseleave=()=>{hover=-1;draw()};
+  tr.onclick=()=>{const b=last.pred[+tr.dataset.i].px,st=$('stage');if(+$('zoom').value<.6){$('zoom').value=.6}hover=+tr.dataset.i;draw();const z=+$('zoom').value;
+   st.scrollTo({left:(b[0]+b[2])/2*z-st.clientWidth/2,top:(b[1]+b[3])/2*z-st.clientHeight/2,behavior:'smooth'});st.scrollIntoView({block:'nearest',behavior:'smooth'})}});
  $('raw').textContent=j.raw!=null?j.raw:(j.parts||[]).map(p=>(j.parts.length>1?'# tile '+p.tile.join(',')+'\n':'')+p.raw).join('\n\n')}
 $('run').onclick=async()=>{const m=$('mode').value;const usesBox=m==='read_box'||(m==='custom'&&$('prompt').value.includes('{box}'));
  if(usesBox&&!picked){setStatus('먼저 그림을 띄우고(다른 질문으로 한 번 실행) 그림 위에서 영역을 드래그하세요',1);return}
