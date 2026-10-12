@@ -22,8 +22,17 @@ ENV LANG=C.UTF-8 \
 # playwright install-deps 는 쓰지 않는다: 중·일 글꼴, 가상 화면(Xvfb) 등 렌더링에 안 쓰는 것까지 깔린다.
 # 나눔 글꼴은 서식이 쓰는 것만 남긴다 (Barunpen·옛한글·Eco·NanumSquare·Light 류는 안 씀).
 # libgbm1 이 끌고 오는 Mesa GPU 드라이버(LLVM, ~180MB)는 지운다: Chromium 은 내장 SwiftShader 로 그린다.
-RUN apt-get update \
- && apt-get install -y --no-install-recommends \
+#
+# 사내 프록시가 HTTPS 를 검사하면 그 인증서를 빌드 비밀로 넘긴다:  --secret id=ca,src=회사CA.crt
+# 패키지 저장소를 바꾸려면 (사내 미러 등):                     --build-arg APT_MIRROR=https://미러/ubuntu
+# 둘 다 빌드 중에만 쓰고 이미지에는 남지 않는다.
+ARG APT_MIRROR=
+RUN --mount=type=secret,id=ca,mode=0444 \
+    set -e; src=/etc/apt/sources.list.d/ubuntu.sources; cp $src /tmp/sources.bak; \
+    if [ -n "$APT_MIRROR" ]; then sed -i -E "s#https?://[^ ]*(archive|security)\.ubuntu\.com/ubuntu/?#$APT_MIRROR#g" $src; fi; \
+    ca=; [ -s /run/secrets/ca ] && ca="-o Acquire::https::CAInfo=/run/secrets/ca"; \
+    apt-get $ca update \
+ && apt-get $ca install -y --no-install-recommends \
       python3 python3-venv \
       fontconfig fonts-nanum fonts-nanum-extra fonts-nanum-coding fonts-noto-cjk fonts-liberation \
       libasound2t64 libatk-bridge2.0-0t64 libatk1.0-0t64 libatspi2.0-0t64 libcairo2 libcups2t64 libdbus-1-3 \
@@ -31,6 +40,7 @@ RUN apt-get update \
       libxdamage1 libxext6 libxfixes3 libxkbcommon0 libxrandr2 \
       openssh-server \
       ca-certificates less nano vim-tiny procps tini \
+ && mv /tmp/sources.bak $src \
  && cd /usr/share/fonts/truetype/nanum \
  && rm -f NanumBarunpen* *YetHangul* *Eco* NanumSquare_* NanumSquare[A-Z]* NanumPen.ttf NanumBrush.ttf *Light*.ttf \
  && fc-cache -f \
@@ -39,7 +49,9 @@ RUN apt-get update \
 
 # 파이썬 패키지 (판 번호는 검증한 판으로 고정)
 COPY docker/requirements.lock /tmp/requirements.lock
-RUN python3 -m venv /opt/venv \
+RUN --mount=type=secret,id=ca,mode=0444 \
+    python3 -m venv /opt/venv \
+ && if [ -s /run/secrets/ca ]; then export PIP_CERT=/run/secrets/ca; fi \
  && pip install -r /tmp/requirements.lock \
  && rm -rf /tmp/requirements.lock /root/.cache
 COPY --from=browsers /ms-playwright /opt/ms-playwright

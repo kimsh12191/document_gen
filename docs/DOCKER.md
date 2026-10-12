@@ -11,6 +11,8 @@ sh docker/build.sh 1.1
 #  docgen-code-1.1.tar.gz   코드·서식 (약 60MB)
 ```
 
+사내 프록시가 HTTPS 를 검사하는 망이면 `docker build` 에 `--secret id=ca,src=회사CA.crt` 를, 사내 Ubuntu 미러를 쓰려면
+`--build-arg APT_MIRROR=https://미러/ubuntu` 를 붙이세요 (둘 다 빌드 중에만 쓰이고 이미지에는 남지 않습니다).
 빌드 후 네트워크를 끊은 컨테이너에서 테스트까지 돌립니다. Chromium 은 Microsoft 공식 Playwright 이미지
 (`mcr.microsoft.com/playwright/python`)에서 가져오므로 Playwright 다운로드 서버가 막힌 망에서도 빌드됩니다.
 
