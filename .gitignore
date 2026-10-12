@@ -8,3 +8,4 @@ runs/
 reports/
 predictions/
 .test-tools/
+viewer/model-server.log
