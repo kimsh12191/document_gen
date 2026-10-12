@@ -58,6 +58,8 @@ python -m docgen.bench eval --bench /out/bench --pred /out/preds/m1
 
 모델 서버가 같은 서버에 있으면 `<모델서버>` 에 서버의 내부망 IP 를 쓰세요 (컨테이너 안의 `localhost` 는 컨테이너 자신입니다).
 
+은행 업무 학습(SFT → GRPO → 벤치마크 비교)에 쓸 학습 데이터·평가 세트를 만드는 방법은 [training/BANK_TASKS.md](../training/BANK_TASKS.md)의 1단계에 있습니다. SSH 없이 서버에서 `docker exec`로 바로 만들 수도 있습니다.
+
 ## 참고
 
 - VS Code Remote-SSH 는 처음 접속할 때 인터넷에서 서버 프로그램을 내려받으므로 내부망에서는 따로 준비해야 합니다.

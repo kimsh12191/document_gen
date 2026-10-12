@@ -15,7 +15,7 @@ OCR 단계(`run_pipeline.py`)에서 학습한 모델을 출발점으로 **은행
 ## 전체 흐름
 
 ```text
-[docgen 컨테이너, 한 번만]  학습 데이터 생성 (--split train) + 평가 세트 생성
+[docgen 도커, 한 번만]      학습 데이터 생성 (--split train) + 평가 세트 생성       ← 1단계, 파이프라인 밖
 [GPU 서버, 한 명령]         prepare → 출발 모델 평가 → SFT → SFT 평가 → GRPO 문제 선정 → GRPO → GRPO 평가 → 비교표
 ```
 
@@ -24,26 +24,62 @@ OCR 단계(`run_pipeline.py`)에서 학습한 모델을 출발점으로 **은행
 - 학습 폴더에 평가 세트를 넣었거나, 평가 세트와 같은 고객이 섞여 있으면 멈춥니다.
 - 정답을 모델 출력 형식으로 쓴 답이 만점이 나오는지 확인합니다. docgen 코드와 데이터 버전이 어긋나면 여기서 걸립니다.
 
-## 1. 데이터 만들기 (docgen 컨테이너, 한 번)
+## 1. 데이터 만들기 (docgen 도커, 한 번)
 
-docgen 코드 1.2 이상이 필요합니다(`--split train`).
+데이터 생성은 이 파이프라인에 들어 있지 않습니다. Chromium·한글 글꼴이 든 docgen 도커 이미지에서 따로 한 번 만들어 둡니다(설치는 [docs/DOCKER.md](../docs/DOCKER.md)). 만들어 두면 학습을 몇 번 다시 하든 다시 만들 필요가 없습니다.
 
-```bash
-# 학습: 서류 476종 × 2건 + 업무 12종 × 고객 100명. 약 30분(--workers 8), 약 9GB
-nohup python -m docgen.bench build --split train --out /out/bank_train \
-    --per-doc 2 --bundles 100 --workers 8 > /out/bank_train.log 2>&1 &
+docgen 코드 1.2 이상이 필요합니다(`--split train`). 평가 세트를 1.2 이전 코드로 만들었다면 다시 만드세요(증강 노이즈가 이미지마다 고정되도록 바뀜).
 
-# 평가: 서류 476종 × 1건 + 업무 12종 × 고객 20명. 약 10분, 약 2GB
-nohup python -m docgen.bench build --out /out/bench --bundles 20 --workers 8 > /out/bench.log 2>&1 &
-```
+### 만들 데이터
+
+| 폴더 | 내용 | 시간·용량 (`--workers 8`) |
+|---|---|---|
+| `bank_train` | 학습: 서류 476종 × 2건 + 업무 12종 × 고객 100명 | 약 30분, 약 9GB |
+| `bench` | 평가: 서류 476종 × 1건 + 업무 12종 × 고객 20명 | 약 10분, 약 2GB |
 
 - **`--per-doc 2`:** 서류 한 장짜리 과제(분류, 추출, 체크·도장·서명, OCR)도 학습합니다. OCR 단계에서는 추출을 배우지 않았으므로 넣는 것을 권합니다.
 - **`--bundles 20`:** 평가 세트의 은행 업무 문항을 늘립니다. 기본값 4로는 일부 불일치 사례가 1~4문항뿐이라 점수 오차가 큽니다.
+- **학습과 평가는 겹치지 않습니다.** `--split train`은 평가 세트와 다른 고객으로 만들고, prepare가 한 번 더 검사합니다.
+
+### 방법 A: 서버에서 바로 (`docker exec`)
+
+[docs/DOCKER.md](../docs/DOCKER.md)대로 `docgen` 컨테이너를 띄워 두었다면, 서버 터미널에서 SSH 접속 없이 실행할 수 있습니다. `-d`라서 바로 돌아오고, 생성은 컨테이너 안에서 계속됩니다.
+
+```bash
+docker exec -d -u docgen docgen bash -lc 'python -m docgen.bench build --split train --out /out/bank_train --per-doc 2 --bundles 100 --workers 8 > /out/bank_train.log 2>&1'
+docker exec -d -u docgen docgen bash -lc 'python -m docgen.bench build --out /out/bench --bundles 20 --workers 8 > /out/bench.log 2>&1'
+
+tail -f ~/docgen/data/bank_train.log      # 진행 보기 (Ctrl+C 로 보기만 종료)
+ls ~/docgen/data/bank_train/meta.json     # 이 파일이 생기면 완료
+```
+
+두 명령을 동시에 돌리면 CPU를 나눠 씁니다. 코어가 적으면 하나씩 돌리세요.
+
+### 방법 B: 컨테이너에 SSH로 접속해서
+
+```bash
+ssh -p 2222 docgen@<서버IP>
+nohup python -m docgen.bench build --split train --out /out/bank_train --per-doc 2 --bundles 100 --workers 8 > /out/bank_train.log 2>&1 &
+nohup python -m docgen.bench build --out /out/bench --bundles 20 --workers 8 > /out/bench.log 2>&1 &
+```
+
+### 경로: 컨테이너 안 ↔ 서버
+
+컨테이너의 `/out`은 서버의 `~/docgen/data`입니다(`docker run -v ~/docgen/data:/out`). **파이프라인 설정에는 서버 경로를 씁니다.**
+
+| 컨테이너 안 | 서버 (파이프라인 설정) |
+|---|---|
+| `/out/bank_train` | `~/docgen/data/bank_train` → `data.train` |
+| `/out/bench` | `~/docgen/data/bench` → `data.benchmark` |
+| `/home/docgen/document_gen` | `~/docgen/document_gen` → `data.docgen_root` |
+
+설정 파일에는 `~` 대신 절대 경로(`/home/<계정>/docgen/data/bank_train`)를 쓰세요.
 
 ## 2. GPU 서버 준비
 
-- **docgen 코드:** 이 폴더(`training/`)의 상위 폴더가 docgen 코드입니다. 채점과 GRPO 보상에 쓰며, 파이썬 표준 라이브러리만 씁니다(설치 불필요). 설정의 `data.docgen_root`는 기본값 `../..`(configs 기준 저장소 최상위) 그대로 두면 됩니다.
-- **데이터:** 1단계에서 만든 `bank_train`, `bench` 폴더를 GPU 서버에서 읽을 수 있어야 합니다. 같은 서버라면 `~/docgen/data/...`를 그대로 씁니다.
+- **docgen 코드:** 채점과 GRPO 보상에 docgen 코드를 씁니다(파이썬 표준 라이브러리만, 설치 불필요). 이 폴더(`training/`)를 저장소째(`document_gen/training/`) 쓰면 설정의 `data.docgen_root` 기본값 `../..`(configs 기준 저장소 최상위) 그대로 됩니다. 예전 `bank-ocr-pipeline` 폴더에서 돌린다면 `data.docgen_root`를 docgen 코드 폴더(예: `/home/<계정>/docgen/document_gen`)로 지정하세요.
+- **학습 폴더 위치:** docgen 컨테이너에 마운트한 코드 폴더(`~/docgen/document_gen`)는 컨테이너가 시작할 때 컨테이너의 `docgen` 계정(UID 1000)이 쓸 수 없으면 그 계정 소유로 바뀝니다. 서버 계정이 UID 1000이 아니면, 학습은 그 폴더가 아니라 따로 둔 폴더(기존 `bank-ocr-pipeline` 폴더, 또는 코드 묶음을 따로 푼 곳)에서 돌리세요. 학습 결과(`runs/`, `data/`)를 그 폴더에 쓰기 때문입니다.
+- **데이터:** 1단계에서 만든 `bank_train`, `bench` 폴더를 GPU 서버에서 읽을 수 있어야 합니다. 도커와 같은 서버라면 위 경로 표의 서버 경로를 그대로 씁니다.
 - **이 프로젝트 업데이트:** 새 파일을 덮어쓴 뒤 `pip install --no-index --no-build-isolation -e .`를 한 번 실행합니다(`bank_task` 패키지 등록).
 - **출발 모델:** OCR 단계 결과의 병합 모델 폴더입니다. 예: `runs/exp1/merged/grpo-v1-…-checkpoint-500`. 폴더 안에 `config.json`이 있어야 합니다.
 
