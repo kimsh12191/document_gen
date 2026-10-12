@@ -42,7 +42,7 @@ nohup python -m docgen.bench build --out /out/bench --bundles 20 --workers 8 > /
 
 ## 2. GPU 서버 준비
 
-- **docgen 코드:** `tar -xzf docgen-code-1.2.tar.gz`로 푼 `document_gen` 폴더가 필요합니다. 채점과 GRPO 보상에 쓰며, 파이썬 표준 라이브러리만 씁니다(설치 불필요).
+- **docgen 코드:** 이 폴더(`training/`)의 상위 폴더가 docgen 코드입니다. 채점과 GRPO 보상에 쓰며, 파이썬 표준 라이브러리만 씁니다(설치 불필요). 설정의 `data.docgen_root`는 기본값 `../..`(configs 기준 저장소 최상위) 그대로 두면 됩니다.
 - **데이터:** 1단계에서 만든 `bank_train`, `bench` 폴더를 GPU 서버에서 읽을 수 있어야 합니다. 같은 서버라면 `~/docgen/data/...`를 그대로 씁니다.
 - **이 프로젝트 업데이트:** 새 파일을 덮어쓴 뒤 `pip install --no-index --no-build-isolation -e .`를 한 번 실행합니다(`bank_task` 패키지 등록).
 - **출발 모델:** OCR 단계 결과의 병합 모델 폴더입니다. 예: `runs/exp1/merged/grpo-v1-…-checkpoint-500`. 폴더 안에 `config.json`이 있어야 합니다.
@@ -57,7 +57,7 @@ cp configs/bank_pipeline.example.json configs/bank_pipeline.json
 |---|---|
 | `model` | 출발 모델 (OCR 단계의 병합 모델 폴더) |
 | `gpus` | 사용할 GPU. 평가 때는 GPU마다 서버 하나, 학습 때는 전부 사용 |
-| `data.docgen_root` | `docgen/`이 들어 있는 폴더 |
+| `data.docgen_root` | `docgen/`이 들어 있는 폴더. 기본 `../..` = 이 저장소 최상위 |
 | `data.train` | docgen 학습 폴더 목록 (`--split train` 결과). `docgen generate --png` 결과 폴더도 넣을 수 있습니다(과제 이름 앞에 `gen_`) |
 | `data.benchmark` | docgen 평가 세트 폴더 |
 | `data.replay` | 앞 단계 OCR 학습 데이터 일부를 섞어 OCR 능력이 떨어지지 않게 함. `{"path": ".../prepared-v2/train_sft.jsonl", "count": 3000}` |

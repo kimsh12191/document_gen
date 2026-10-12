@@ -4,7 +4,7 @@
   "model_type": "qwen3_5",
   "gpus": [0, 1],
   "data": {
-    "docgen_root": "/home/사용자/docgen/document_gen",
+    "docgen_root": "../..",
     "train": ["/home/사용자/docgen/data/bank_train"],
     "benchmark": "/home/사용자/docgen/data/bench",
     "replay": {"path": "../data/prepared-v2/train_sft.jsonl", "count": 3000},

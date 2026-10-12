@@ -27,7 +27,7 @@ Qwen3.5-9B 멀티모달 모델을 학습하는 파이프라인입니다. 서버�
 11. 최종 비교표 생성
 ```
 
-모든 명령은 내부망 Linux 서버의 프로젝트 최상위 폴더에서 실행합니다. `/share/...`와 `/실제/.../checkpoint-xxx`는 실제 경로로 바꿉니다. 준비 데이터는 `data/prepared-v2`을 기준으로 안내합니다.
+모든 명령은 내부망 Linux 서버의 이 폴더(저장소의 `training/`, 예전 `bank-ocr-pipeline` 폴더와 같은 내용)에서 실행합니다. `/share/...`와 `/실제/.../checkpoint-xxx`는 실제 경로로 바꿉니다. 준비 데이터는 `data/prepared-v2`을 기준으로 안내합니다.
 
 평가 서버는 한 번에 하나만 실행합니다. 서버 터미널을 유지한 채 별도 터미널에서 추론·평가하고, 학습 전에는 서버 터미널에서 `Ctrl+C`로 종료하여 GPU를 확보합니다.
 
@@ -535,7 +535,7 @@ python -m bank_ocr evaluate --tasks data/prepared-v2/benchmark_tasks.jsonl \
 
 ## 11. 최종 비교표 생성
 
-프로젝트 최상위 폴더에 `benchmark_report.py`가 있는지 확인하고 실행합니다.
+`training/` 폴더에 `benchmark_report.py`가 있는지 확인하고 실행합니다.
 
 ```bash
 python benchmark_report.py \
