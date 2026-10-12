@@ -139,7 +139,7 @@ nohup python run_pipeline.py --config configs/pipeline.json > pipeline.log 2>&1 
 
 **빠른 평가 구성:** GPU마다 추론 서버(vLLM)를 하나씩 띄우고 요청을 나눠 보냅니다. 같은 이미지에 대한 질문은 같은 서버로 보내고 연달아 처리해서, 이미지 처리 결과(prefix cache)를 다시 씁니다. 서버당 동시 요청은 `concurrency_per_server`(기본 32, vLLM `--vllm_max_num_seqs` 64)입니다. SFT·GRPO 체크포인트는 평가 전에 `swift export --merge_lora`로 한 번 병합해 두 서버가 같은 병합 모델을 씁니다. SFT 평가 때 띄운 서버로 GRPO 후보 문제도 함께 풀어 둬서, 어려운 문제 선정에 서버를 다시 띄우지 않습니다.
 
-**GRPO 데이터 선정:** `grpo.select`가 `mine`(기본)이면 `train_grpo.jsonl`에서 후보 6000개를 뽑아 SFT 모델로 풀고, 보상이 0.9 미만인 문제를 절반 섞어 2000개를 고릅니다. `random`은 무작위 2000개, `all`은 전체입니다. `grpo.tasks`(예: `["grounding","relation"]`)를 주면 데이터를 다시 만들지 않고 GRPO 후보를 그 과제로만 좁힙니다. 답이 긴 spotting을 빼면 GRPO가 크게 빨라집니다(`select: all`에는 적용되지 않음). 2장 구성용 `configs/grpo_a100x2.yaml`은 GPU당 4개 × 2장 = 8 = `num_generations`가 되도록 batch를 맞추고, 누적 4로 optimizer step마다 4문제를 씁니다. 메모리가 부족하면 파일 머리 주석대로 GPU당 2개·누적 2·`num_generations` 4로 되돌리세요.
+**GRPO 데이터 선정:** `grpo.select`가 `mine`(기본)이면 `train_grpo.jsonl`에서 후보 6000개를 뽑아 SFT 모델로 풀고, 보상이 0.9 미만인 문제를 절반 섞어 2000개를 고릅니다. `random`은 무작위 2000개, `all`은 전체입니다. `grpo.tasks`(예: `["grounding","relation"]`)를 주면 데이터를 다시 만들지 않고 GRPO 후보를 그 과제로만 좁힙니다. 답이 긴 spotting을 빼면 GRPO가 크게 빨라집니다(`select: all`에는 적용되지 않음). 2장 구성용 `configs/grpo_a100x2.yaml`은 GPU당 4개 × 2장 = 8 = `num_generations`가 되도록 batch를 맞추고, 누적 4로 optimizer step마다 4문제를 씁니다. 메모리가 부족하면 파일 머리 주석대로 GPU당 2개·누적 2·`num_generations` 4로 되돌리세요. A100 40GB 2장이면 `grpo.config`를 `grpo_a100_40g_x2.yaml`(GPU당 2개 × 누적 4, `num_generations` 4)로 바꿉니다. step당 문제 수(4)와 step 수는 같고, 문제당 답이 4개라 학습 신호가 조금 약한 대신 step은 덜 무겁습니다.
 
 **GRPO만 다시 돌리기:** SFT 결과는 그대로 두고 GRPO 설정만 바꿔 다시 학습·평가할 수 있습니다. 새 GRPO는 이전 GRPO가 아니라 SFT 체크포인트에서 다시 시작합니다. 비교표에는 GRPO 실행마다 한 줄씩(`GRPO v1-…-checkpoint-500` 형식) 쌓입니다.
 
