@@ -153,7 +153,7 @@ nohup python run_pipeline.py --config configs/pipeline.json > pipeline.log 2>&1 
 | Base / SFT / GRPO 평가 | 각 약 4~5천 문항, 서버 2대 | 각 20~40분 (+서버 기동·병합 10~20분) |
 | SFT | 최대 3만 문항, 문항당 약 3~4천 토큰 | 7~10시간 |
 | GRPO 후보 풀이 | 6000문항 | 20~40분 |
-| GRPO | 2000문제 × 생성 4개 | 5~8시간 |
+| GRPO | 2000문제 × 생성 8개 = 500 step (step당 4문제) | step 시간 × 500 (step 45~90초면 6~12시간) |
 | 합계 | | 약 16~23시간 |
 
 시간이 부족하면 `config.json`의 `sft_max_examples`(예: 20000)와 `pipeline.json`의 `grpo.count`(예: 1000)를 먼저 줄이세요. 둘 다 학습 시간에 거의 비례합니다.
