@@ -6,12 +6,14 @@
 #
 # Settings (environment variables): MODEL_PORT=8010 VIEW_PORT=7860 SWIFT=swift
 #   IMAGE_MAX_TOKEN_NUM=3600 TASKS=data/prepared-v2/benchmark_tasks.jsonl GPU_MEMORY=0.85
+#   VIEW_HOST=0.0.0.0 opens the page to other PCs as http://<server IP>:VIEW_PORT (default: this machine only)
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 MODEL="${1:-/share/cv_share/qwen3.5/9b}"
 GPU="${2:-0}"
 MODEL_PORT="${MODEL_PORT:-8010}"
 VIEW_PORT="${VIEW_PORT:-7860}"
+VIEW_HOST="${VIEW_HOST:-127.0.0.1}"
 SWIFT="${SWIFT:-swift}"
 TASKS="${TASKS:-$ROOT/data/prepared-v2/benchmark_tasks.jsonl}"
 LOG="$ROOT/viewer/model-server.log"
@@ -38,7 +40,11 @@ else
   echo " ready"
 fi
 
-ARGS=(--endpoint "http://127.0.0.1:$MODEL_PORT/v1" --port "$VIEW_PORT")
+ARGS=(--endpoint "http://127.0.0.1:$MODEL_PORT/v1" --host "$VIEW_HOST" --port "$VIEW_PORT")
 [ -f "$TASKS" ] && ARGS+=(--tasks "$TASKS")
-echo "Open http://127.0.0.1:$VIEW_PORT in the browser (VS Code: PORTS tab -> Forward a Port -> $VIEW_PORT)"
+if [ "$VIEW_HOST" = "127.0.0.1" ]; then
+  echo "Open http://127.0.0.1:$VIEW_PORT in the browser (VS Code: PORTS tab -> Forward a Port -> $VIEW_PORT)"
+else
+  echo "Open http://$(hostname -I 2>/dev/null | awk '{print $1}'):$VIEW_PORT from another PC (server IP; a Docker container needs this port published)"
+fi
 python "$ROOT/viewer/ocr_viewer.py" "${ARGS[@]}"
