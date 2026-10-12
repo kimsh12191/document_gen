@@ -17,27 +17,32 @@
 학습 데이터와 평가 세트를 한 번 만들어 둡니다. 학습을 몇 번 다시 하든 다시 만들 필요가 없습니다. 도커 설치는 [docs/DOCKER.md](docs/DOCKER.md)에 있습니다.
 
 ```bash
-# 서버 터미널에서 (docgen 컨테이너가 떠 있을 때). 컨테이너의 /out = 서버의 ~/docgen/data
-docker exec -d -u docgen docgen bash -lc 'python -m docgen.bench build --split train --out /out/bank_train --per-doc 2 --bundles 100 --workers 8 > /out/bank_train.log 2>&1'
-docker exec -d -u docgen docgen bash -lc 'python -m docgen.bench build --out /out/bench --bundles 20 --workers 8 > /out/bench.log 2>&1'
-
-ls ~/docgen/data/bank_train/meta.json ~/docgen/data/bench/meta.json   # 둘 다 있으면 완료
+ssh -p 2222 docgen@<서버IP>              # docgen 컨테이너에 접속 (접속하면 코드 폴더에서 시작)
+bash scripts/make_bank_data.sh           # 백그라운드로 시작. SSH 를 끊어도 계속됩니다
+tail -f /out/logs/make_bank_data.log     # 진행 보기. "전부 완료" 가 나오면 끝
 ```
 
-| 폴더 | 내용 | 시간·용량 |
+| 폴더 (컨테이너 `/out` = 서버 `~/docgen/data`) | 내용 | 시간·용량 (8코어) |
 |---|---|---|
-| `bank_train` | 학습: 서류 476종 × 2건 + 업무 12종 × 고객 100명 | 약 30분, 약 9GB |
 | `bench` | 평가: 서류 476종 × 1건 + 업무 12종 × 고객 20명 | 약 10분, 약 2GB |
+| `bank_train` | 학습: 서류 476종 × 5건 + 업무 12종 × 고객 200명 | 약 1시간, 약 16GB |
 
-- 학습 데이터와 평가 세트는 서로 다른 고객으로 만들어져 겹치지 않습니다.
-- SSH로 컨테이너에 들어가서 돌리는 방법, 경로 대응표: [training/BANK_TASKS.md](training/BANK_TASKS.md) 1단계
-- 과제와 채점 방식: [docs/BENCHMARK.md](docs/BENCHMARK.md)
+- **양 바꾸기:** `TRAIN_PER_DOC=5 TRAIN_BUNDLES=200 BENCH_BUNDLES=40 bash scripts/make_bank_data.sh`처럼 앞에 붙입니다.
+- **다시 실행하면:** 다 만든 폴더는 건너뛰고, 중간에 멈춘 폴더만 다시 만듭니다.
+- **시작 전 검사:** 디스크가 모자라거나 docgen 코드가 옛 버전이면 시작하지 않고 알려 줍니다.
+- **겹침 없음:** 학습 데이터와 평가 세트는 서로 다른 고객으로 만들어집니다.
+
+**양은 이 정도면 됩니다**
+- **학습(고객 200명, 서류당 5건):** SFT는 최대 2만 문항을 과제 비율대로 뽑습니다. 고객 100명·서류당 2건이면 서류 구비 확인(약 960)과 정보 추출(약 760, 서식 1종당 1.6건)이 비율에 모자랍니다. 데이터 생성이 학습보다 훨씬 싸니 넉넉히 만들어 두는 편이 낫습니다.
+- **평가(고객 20명):** 서류 구비 확인 240, 서류 대조 약 990(변조 약 365), 심사 질의 약 1200문항입니다. 모델끼리 전체 점수를 비교하기에 충분합니다. 불일치 사례별 점수까지 보려면 드문 사례가 5문항 안팎이라 `BENCH_BUNDLES=40`을 권합니다. 대신 평가 시간이 늘어납니다.
+
+SSH 대신 서버에서 바로 돌리려면 `docker exec -u docgen docgen bash -lc 'bash ~/document_gen/scripts/make_bank_data.sh'`를 씁니다. 자세한 내용은 [training/BANK_TASKS.md](training/BANK_TASKS.md) 1단계에 있습니다.
 
 ## 2. 파이프라인 실행 (GPU 서버)
 
 **준비물**
 - OCR 학습 단계 결과의 병합 모델 폴더 (예: `runs/exp1/merged/grpo-…-checkpoint-500`)
-- 1에서 만든 `bank_train`, `bench` 폴더
+- 1에서 만든 `bank_train`, `bench` 폴더 (서버 경로 `~/docgen/data/...`)
 - `training/` 코드: 학습 환경에서 `pip install --no-index --no-build-isolation -e .` 한 번
 
 ```bash

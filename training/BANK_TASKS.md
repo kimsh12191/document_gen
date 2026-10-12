@@ -30,38 +30,59 @@ OCR 단계(`run_pipeline.py`)에서 학습한 모델을 출발점으로 **은행
 
 docgen 코드 1.2 이상이 필요합니다(`--split train`). 평가 세트를 1.2 이전 코드로 만들었다면 다시 만드세요(증강 노이즈가 이미지마다 고정되도록 바뀜).
 
-### 만들 데이터
+### 실행: `scripts/make_bank_data.sh`
 
-| 폴더 | 내용 | 시간·용량 (`--workers 8`) |
-|---|---|---|
-| `bank_train` | 학습: 서류 476종 × 2건 + 업무 12종 × 고객 100명 | 약 30분, 약 9GB |
-| `bench` | 평가: 서류 476종 × 1건 + 업무 12종 × 고객 20명 | 약 10분, 약 2GB |
-
-- **`--per-doc 2`:** 서류 한 장짜리 과제(분류, 추출, 체크·도장·서명, OCR)도 학습합니다. OCR 단계에서는 추출을 배우지 않았으므로 넣는 것을 권합니다.
-- **`--bundles 20`:** 평가 세트의 은행 업무 문항을 늘립니다. 기본값 4로는 일부 불일치 사례가 1~4문항뿐이라 점수 오차가 큽니다.
-- **학습과 평가는 겹치지 않습니다.** `--split train`은 평가 세트와 다른 고객으로 만들고, prepare가 한 번 더 검사합니다.
-
-### 방법 A: 서버에서 바로 (`docker exec`)
-
-[docs/DOCKER.md](../docs/DOCKER.md)대로 `docgen` 컨테이너를 띄워 두었다면, 서버 터미널에서 SSH 접속 없이 실행할 수 있습니다. `-d`라서 바로 돌아오고, 생성은 컨테이너 안에서 계속됩니다.
-
-```bash
-docker exec -d -u docgen docgen bash -lc 'python -m docgen.bench build --split train --out /out/bank_train --per-doc 2 --bundles 100 --workers 8 > /out/bank_train.log 2>&1'
-docker exec -d -u docgen docgen bash -lc 'python -m docgen.bench build --out /out/bench --bundles 20 --workers 8 > /out/bench.log 2>&1'
-
-tail -f ~/docgen/data/bank_train.log      # 진행 보기 (Ctrl+C 로 보기만 종료)
-ls ~/docgen/data/bank_train/meta.json     # 이 파일이 생기면 완료
-```
-
-두 명령을 동시에 돌리면 CPU를 나눠 씁니다. 코어가 적으면 하나씩 돌리세요.
-
-### 방법 B: 컨테이너에 SSH로 접속해서
+docgen 컨테이너에 SSH로 접속해 한 줄로 실행합니다. 평가 세트(`bench`)를 먼저, 학습 데이터(`bank_train`)를 다음에 만듭니다.
 
 ```bash
 ssh -p 2222 docgen@<서버IP>
-nohup python -m docgen.bench build --split train --out /out/bank_train --per-doc 2 --bundles 100 --workers 8 > /out/bank_train.log 2>&1 &
-nohup python -m docgen.bench build --out /out/bench --bundles 20 --workers 8 > /out/bench.log 2>&1 &
+bash scripts/make_bank_data.sh           # 백그라운드로 시작, SSH 를 끊어도 계속
+tail -f /out/logs/make_bank_data.log     # 진행 보기. "전부 완료" 와 과제별 문항 수가 나오면 끝
 ```
+
+| 폴더 | 내용 | 시간·용량 (8코어) |
+|---|---|---|
+| `bench` | 평가: 서류 476종 × 1건 + 업무 12종 × 고객 20명 | 약 10분, 약 2GB |
+| `bank_train` | 학습: 서류 476종 × 5건 + 업무 12종 × 고객 200명 (`--split train`) | 약 1시간, 약 16GB |
+
+**스크립트가 하는 일**
+- 다 만든 폴더(`meta.json` 있음)는 건너뛰고, 중간에 멈춘 폴더는 다시 만듭니다.
+- 디스크가 모자라거나 docgen 코드에 `--split train`이 없으면 시작하지 않습니다.
+- 평가 세트가 1.0 버전이면 다시 만들라고 알려 줍니다.
+- 단계별 로그를 `/out/logs/`에 남깁니다.
+
+**설정(환경변수, 명령 앞에 붙임)**
+
+| 변수 | 기본 | 뜻 |
+|---|---|---|
+| `TRAIN_BUNDLES` | 200 | 학습: 업무 12종마다 고객 수 |
+| `TRAIN_PER_DOC` | 5 | 학습: 서류 476종마다 건수 (분류·추출·체크·OCR 과제) |
+| `BENCH_BUNDLES` | 20 | 평가: 업무 12종마다 고객 수 |
+| `WORKERS` | 코어 수 (최대 8) | 동시 렌더링 프로세스 |
+| `OUT` | `/out` | 만들 위치 |
+| `TYPES`, `SCENARIOS` | all | 시험용으로 서류·업무 줄이기 |
+
+```bash
+TRAIN_BUNDLES=100 BENCH_BUNDLES=40 bash scripts/make_bank_data.sh          # 양 바꾸기
+OUT=/out/try TYPES=resident_id_card,loan_application SCENARIOS=mortgage \
+  TRAIN_PER_DOC=1 TRAIN_BUNDLES=2 BENCH_BUNDLES=1 bash scripts/make_bank_data.sh --fg   # 1분짜리 시험
+```
+
+SSH 없이 서버 터미널에서 바로 돌리려면 다음 명령을 씁니다. 컨테이너 쪽 작업 폴더가 코드 폴더가 아니어서 전체 경로를 씁니다.
+
+```bash
+docker exec -u docgen docgen bash -lc 'bash ~/document_gen/scripts/make_bank_data.sh'
+```
+
+### 양은 얼마나
+
+- **학습 (고객 200명, 서류당 5건 권장):** SFT는 최대 2만 문항(`data.sft_max_examples`)을 과제 비율(`data.task_mix`)대로 뽑습니다. 학습 데이터는 그보다 넉넉해야 비율대로 뽑힙니다.
+  - 고객 100명·서류당 2건이면, GRPO용 20%를 빼고 서류 구비 확인 약 960, 정보 추출 약 760(서식 1종당 1.6건), 서류 대조 약 3900문항이라 비율에 모자랍니다.
+  - 생성은 학습보다 훨씬 싸니 넉넉히 만드세요.
+- **평가 (고객 20명):** 서류 구비 확인 240, 서류 대조 약 990(변조 약 365), 심사 질의 약 1200문항입니다.
+  - 모델끼리 전체 점수를 비교하기에 충분합니다. 240문항이면 95% 신뢰구간이 약 ±6%p입니다.
+  - 불일치 사례별 점수까지 보려면 드문 사례가 5문항 안팎이라 `BENCH_BUNDLES=40`을 권합니다. 대신 모델마다 평가 시간이 늘어납니다.
+- **학습과 평가는 겹치지 않습니다.** `--split train`은 평가 세트와 다른 고객으로 만들고, prepare가 한 번 더 검사합니다.
 
 ### 경로: 컨테이너 안 ↔ 서버
 
