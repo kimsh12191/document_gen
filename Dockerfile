@@ -19,8 +19,10 @@ ENV LANG=C.UTF-8 \
     PATH=/opt/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # 파이썬, 글꼴, Chromium(headless) 실행 라이브러리, SSH 서버, 터미널 도구.
-# playwright install-deps 는 쓰지 않는다: 중·일 글꼴, 가상 화면(Xvfb) 등 렌더링에 안 쓰는 것까지 깔린다.
-# 나눔 글꼴은 서식이 쓰는 것만 남긴다 (Barunpen·옛한글·Eco·NanumSquare·Light 류는 안 씀).
+# playwright install-deps 는 쓰지 않는다: 가상 화면(Xvfb), 일본어·태국어 글꼴 등 렌더링에 안 쓰는 것까지 깔린다.
+# 글꼴은 지우지 않는다: install-deps 환경과 같은 이미지가 나오는지 픽셀 비교로 확인했다.
+#   fonts-wqy-zenhei 는 서식의 기본(sans-serif·serif) 글꼴로 잡혀 숫자·영문 모양을 정하고,
+#   나눔 글꼴 변형(Light 등)도 일부 서식이 쓴다. 하나라도 빠지면 글자 모양·줄바꿈이 달라진다.
 # libgbm1 이 끌고 오는 Mesa GPU 드라이버(LLVM, ~180MB)는 지운다: Chromium 은 내장 SwiftShader 로 그린다.
 #
 # 사내 프록시가 HTTPS 를 검사하면 그 인증서를 빌드 비밀로 넘긴다:  --secret id=ca,src=회사CA.crt
@@ -34,16 +36,13 @@ RUN --mount=type=secret,id=ca,mode=0444 \
     apt-get $ca update \
  && apt-get $ca install -y --no-install-recommends \
       python3 python3-venv \
-      fontconfig fonts-nanum fonts-nanum-extra fonts-nanum-coding fonts-noto-cjk fonts-liberation \
+      fontconfig fonts-nanum fonts-nanum-extra fonts-nanum-coding fonts-noto-cjk fonts-liberation fonts-wqy-zenhei \
       libasound2t64 libatk-bridge2.0-0t64 libatk1.0-0t64 libatspi2.0-0t64 libcairo2 libcups2t64 libdbus-1-3 \
       libdrm2 libgbm1 libglib2.0-0t64 libnspr4 libnss3 libpango-1.0-0 libx11-6 libxcb1 libxcomposite1 \
       libxdamage1 libxext6 libxfixes3 libxkbcommon0 libxrandr2 \
       openssh-server \
       ca-certificates less nano vim-tiny procps tini \
  && mv /tmp/sources.bak $src \
- && cd /usr/share/fonts/truetype/nanum \
- && rm -f NanumBarunpen* *YetHangul* *Eco* NanumSquare_* NanumSquare[A-Z]* NanumPen.ttf NanumBrush.ttf *Light*.ttf \
- && fc-cache -f \
  && rm -rf /usr/lib/x86_64-linux-gnu/libLLVM* /usr/lib/x86_64-linux-gnu/libgallium* /usr/lib/x86_64-linux-gnu/dri \
  && rm -rf /var/lib/apt/lists/*
 

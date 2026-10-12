@@ -64,4 +64,4 @@ python -m docgen.bench eval --bench /out/bench --pred /out/preds/m1
   터미널 `ssh` 와 WinSCP 는 그대로 됩니다.
 - 원본 서식 배경은 처음 그릴 때 `~/.cache/docgen/bg` 에 만들어집니다 (약 165MB). 컨테이너를 새로 만들 때마다
   다시 만들어지는 게 싫으면 `-v docgen-cache:/home/docgen/.cache` 를 추가하세요.
-- 이미지 안의 글꼴은 서식이 쓰는 것만 남겼습니다 (Playwright 기본 중·일 글꼴, 나눔 글꼴 변형 등 제외).
+- 글꼴은 Playwright 기본 환경(`playwright install --with-deps`)과 같은 이미지가 나오도록 맞췄습니다 (픽셀 비교로 확인).
