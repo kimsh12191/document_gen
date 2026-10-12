@@ -158,6 +158,23 @@ nohup python run_pipeline.py --config configs/pipeline.json > pipeline.log 2>&1 
 
 시간이 부족하면 `config.json`의 `sft_max_examples`(예: 20000)와 `pipeline.json`의 `grpo.count`(예: 1000)를 먼저 줄이세요. 둘 다 학습 시간에 거의 비례합니다.
 
+### 눈으로 확인: ocr_viewer.py
+
+서버에 붙는 작은 웹 화면입니다. 이미지 위에 모델이 찾은 박스(빨강)와 OCR 기준 정답(초록)을 그려 줍니다. 추가 설치는 없습니다.
+
+```bash
+# 1) 서버를 띄운 상태에서 (run_pipeline 평가 중이면 그 서버를 써도 됨; 따로 띄우려면 아래 5장의 swift deploy 예시)
+python ocr_viewer.py --endpoint http://127.0.0.1:8000/v1 --tasks data/prepared-v2/benchmark_tasks.jsonl
+# 2) 서버 없이 이미 받은 평가 답만 보기
+python ocr_viewer.py --tasks data/prepared-v2/benchmark_tasks.jsonl --predictions runs/exp1/predictions/base.jsonl
+```
+
+브라우저에서 `http://127.0.0.1:7860`을 엽니다. VS Code Remote는 포트를 자동으로 전달합니다. 다른 포트는 `--port`입니다.
+
+- **자유 테스트**: 서버의 이미지 경로나 업로드한 이미지에 질문합니다. 이미지는 prepare와 같은 방식(2300×1600 안으로 축소)으로 줄여서 보냅니다. 전체 글자+위치(spotting, 페이지를 타일로 나눠 질문), 글자 찾기, 드래그한 영역 읽기, 기준 글자 옆 찾기, 직접 입력을 고를 수 있습니다. spotting은 학습 때 페이지 일부(타일)로 배웠으므로 전체 페이지는 3x2 정도로 나누는 것이 맞습니다.
+- **벤치마크 문제**: 준비된 문제를 무작위로 골라 정답과 모델 답, GRPO 보상을 같이 보여 줍니다. 과제·원본/변형 화면으로 거를 수 있고, 저장된 답을 볼 때는 보상이 낮은 문제만 고를 수 있습니다.
+- 서버는 `--served_model_name`이 `bank-ocr`라고 가정합니다. 다르면 `--model`로 지정합니다.
+
 ## 1. 내부망 환경 준비 및 설치
 
 압축을 내부망 Linux 서버에 풀고 프로젝트 디렉터리로 이동합니다. 데이터 준비에는 Python 3.10+와 Pillow만 필요하며, 학습 환경은 Python 3.12를 권합니다.
