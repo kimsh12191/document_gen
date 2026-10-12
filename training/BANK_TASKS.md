@@ -152,6 +152,16 @@ nohup python run_bank_pipeline.py --config configs/bank_pipeline.json > bank_pip
 | `reports/ocr_retention.html` | `ocr_check`를 켰을 때: OCR 벤치마크 일부에서 출발 모델 대비 OCR 점수 변화 |
 | `state.json` | 단계별 완료 여부와 소요 시간 |
 
+### 눈으로 확인: viewer
+
+모델들의 답을 문항별로 정답과 나란히 보고, 내 서류 파일을 올려 직접 물어볼 수 있습니다. 사용법은 [viewer/README.md](viewer/README.md) 6번에 있습니다.
+
+```bash
+bash viewer/bank_start.sh                                              # 저장된 답 보기 (GPU 불필요)
+bash viewer/bank_start.sh runs/bank1/merged/sft-<버전>-checkpoint-<번호> 1   # + 다시 풀기·직접 테스트
+# 브라우저: http://localhost:7861 (VS Code PORTS 탭에서 7861 포워딩)
+```
+
 ## 단계별 내용
 
 ### prepare

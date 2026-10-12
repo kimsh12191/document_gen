@@ -70,6 +70,7 @@ nohup python run_bank_pipeline.py --config configs/bank_pipeline.json > bank_pip
 | `report` | 비교표 |
 
 - **결과:** `training/runs/bank1/reports/benchmark.html`에 모델별 점수와 출발 모델 대비 변화가 나옵니다. OCR 능력 유지 여부는 `ocr_retention.html`에 나옵니다.
+- **눈으로 확인:** `bash viewer/bank_start.sh`(training 폴더에서)로 모델들의 답을 문항별로 정답과 나란히 봅니다. 모델 폴더를 주고 띄우면 내 서류 파일을 올려 직접 물어볼 수도 있습니다. → [training/viewer/README.md](training/viewer/README.md) 6번
 - **멈췄을 때:** 같은 명령으로 다시 실행하면 끝난 단계는 건너뜁니다.
 - **실행 옵션:** `--from grpo`는 그 단계부터 다시, `--only report`는 한 단계만, `--dry-run`은 명령만 출력합니다.
 - **자세한 내용:** 설정 키, GPU별 설정(80GB/40GB), 예상 시간(약 1~1.5일), 결과 해석은 [training/BANK_TASKS.md](training/BANK_TASKS.md)에 있습니다.

@@ -88,6 +88,23 @@ def _write(job):
         tmp.replace(dst)
 
 
+def fit_size(w: int, h: int, cap: int, factor: int) -> tuple[int, int]:
+    """Largest size (same aspect) whose visual tokens, ceil(w/factor) x ceil(h/factor), fit `cap`."""
+    def tokens(a, b):
+        return math.ceil(a / factor) * math.ceil(b / factor)
+    if tokens(w, h) <= cap:
+        return w, h
+    s = min(1.0, math.sqrt(cap * factor ** 2 / (w * h)))
+    while tokens(max(1, int(w * s)), max(1, int(h * s))) > cap:
+        s *= 0.98
+    return max(1, int(w * s)), max(1, int(h * s))
+
+
+def sample_caps(n_images: int, per_image: int, per_sample: int) -> int:
+    """Token cap of each image when a question has n_images: same share for every page."""
+    return max(1, min(per_image, per_sample // max(1, n_images)))
+
+
 class Fitter:
     """Image path under a token cap: the original if it already fits, else a resized copy
     (PNG for inference, which sends PNG; JPEG quality 95 for training). Paths are planned first and
@@ -109,10 +126,7 @@ class Fitter:
         if self.tokens(w, h) <= cap and (not png or src.suffix.lower() == ".png"):
             path, size = str(src), (w, h)
         else:
-            s = min(1.0, math.sqrt(cap * self.factor ** 2 / (w * h)))
-            while self.tokens(max(1, int(w * s)), max(1, int(h * s))) > cap:
-                s *= 0.98
-            size = (max(1, int(w * s)), max(1, int(h * s)))
+            size = fit_size(w, h, cap, self.factor)
             dst = self.out / "images" / (hashlib.sha1(f"{src}|{cap}".encode()).hexdigest()[:20] + (".png" if png else ".jpg"))
             path = str(dst)
             if not dst.exists():
@@ -207,7 +221,7 @@ def prepare(data_cfg: dict, model_dir: str | None) -> dict:
     fit = Fitter(out, factor)
 
     def cap(n):
-        return max(1, min(per_image, budget // max(1, n)))
+        return sample_caps(n, per_image, budget)
 
     # -- sources ---------------------------------------------------------------------------
     bench_dir = Path(cfg["benchmark"])
@@ -319,7 +333,7 @@ def prepare(data_cfg: dict, model_dir: str | None) -> dict:
         imgs = [fit(bench_dir / p, cap(len(it["images"])), png=True) for p in it["images"]]
         bench_rows.append({"id": it["id"], "split": "benchmark", "task": it["task"],
                            "messages": [{"role": "user", "content": "<image>" * len(imgs) + it["prompt"]}],
-                           "images": imgs})
+                           "images": imgs, "source_images": it["images"]})  # docgen paths: page labels in the viewer
     resized = fit.run(cfg["workers"])
     write_jsonl(out / "benchmark_tasks.jsonl", bench_rows)
     write_jsonl(out / "benchmark_items.jsonl", [{k: it[k] for k in BENCH_ITEM_KEYS if k in it} for it in bench_items])
