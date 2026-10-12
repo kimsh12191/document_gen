@@ -1,0 +1,12 @@
+{
+  "filename": "synthetic-example.png",
+  "success": "Y",
+  "data": {
+    "basicData": [
+      [
+        {"text": "2024", "confidence": 0.9999, "bounding": {"shape": "rectangle", "vertices": [{"x": 140, "y": 46}, {"x": 224, "y": 46}, {"x": 224, "y": 76}, {"x": 140, "y": 76}]}, "line_num": 0},
+        {"text": "01/30", "confidence": 0.9992, "bounding": {"shape": "rectangle", "vertices": [{"x": 251, "y": 50}, {"x": 358, "y": 50}, {"x": 358, "y": 80}, {"x": 251, "y": 80}]}, "line_num": 0}
+      ]
+    ]
+  }
+}
