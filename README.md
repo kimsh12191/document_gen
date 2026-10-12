@@ -21,7 +21,10 @@
 
 ## 저장소 구성
 
-서류 생성기와, 그걸로 학습·평가하는 GPU 학습 프로젝트가 한 저장소에 있습니다. 학습은 **1. OCR → 2. 은행 업무** 순서입니다.
+서류 생성기와, 그걸로 학습·평가하는 GPU 학습 프로젝트가 함께 있습니다. 학습은 **1. OCR → 2. 은행 업무** 순서입니다.
+
+- **이 브랜치(`claude/ocr-banking-benchmark`, 은행 업무):** 생성기·벤치마크·도커와, OCR 학습 프로젝트를 담은 `training/`에 은행 업무 단계를 더한 것.
+- **OCR 브랜치(`claude/bank-ocr-pipeline`):** OCR 학습 프로젝트만. 이력이 이어져 있어서 OCR 쪽 변경은 `git merge -X subtree=training origin/claude/bank-ocr-pipeline`으로 `training/`에 가져옵니다.
 
 | 부분 | 위치 | 돌리는 곳 | 문서 |
 |---|---|---|---|
