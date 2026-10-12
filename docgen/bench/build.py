@@ -1,6 +1,7 @@
-"""평가 세트 만들기.
+"""평가 세트 (또는 같은 과제의 학습 데이터) 만들기.
 
   python -m docgen.bench build --out bench_out [--types all] [--per-doc 1] [--bundles 4]
+  python -m docgen.bench build --split train --out bank_train --per-doc 0 --bundles 100 --workers 8
 
 출력:
   bench_out/
@@ -9,8 +10,10 @@
     images/bundles/           업무 묶음 서류 이미지
     crops/                    ocr_field 용 값 칸 이미지
     tasks/<과제>.jsonl         문항: {"id", "task", "images", "prompt", "answer", "eval"?, "meta"}
+    swift/<과제>.jsonl, all.jsonl   (--split train 만) ms-swift 학습 레코드: 같은 문항을 질문·정답 대화로
 
-같은 설정이면 언제 만들어도 같은 세트가 나온다 (seed 고정, 학습용 seed 와 겹치지 않는 범위).
+같은 설정이면 언제 만들어도 같은 세트가 나온다 (seed 고정). 평가 세트(test)와 학습 데이터(train)는 서로,
+그리고 `python -m docgen generate` 의 seed(0부터)와도 겹치지 않는 seed 범위를 쓴다.
 """
 from __future__ import annotations
 
@@ -30,9 +33,13 @@ from .metrics import norm_text
 from .cases import CASES, OTHER_OK, Ctx
 from .rules import Bundle, questions, r_doc_valid, valid_candidates
 
-VERSION = "1.0"
+VERSION = "1.1"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관)
 SEED_SINGLE = 1_000_000   # 단일 서류 과제 고객 seed 시작
 SEED_BUNDLE = 2_000_000   # 업무 묶음 고객 seed 시작
+# split → (단일 서류 seed 시작, 묶음 seed 시작, 시나리오 간 간격). 묶음 i 의 고객 seed = 시작 + 시나리오 번호 × 간격 + i,
+# 다른 고객(타인 서류)은 그 seed + 500,000. 학습용은 묶음 수가 많아도 시나리오끼리 겹치지 않게 간격을 넓힌다.
+SPLITS = {"test": (SEED_SINGLE, SEED_BUNDLE, 1000), "train": (10_000_000, 20_000_000, 1_000_000)}
+OTHER_OFFSET = 500_000
 
 # 촬영 조건 비율: 절반은 깨끗한 원본, 나머지는 스캔·촬영·팩스 증강 (docgen/augment.py)
 CONDITIONS = (("clean", 0.5), ("scan", 0.2), ("photo", 0.15), ("fax", 0.15))
@@ -107,22 +114,19 @@ class Builder:
         self.out = out
         self.reg = load_all()
         self.renderer = ImageRenderer(scale=scale).__enter__()
-        self.files: dict[str, object] = {}
-        self.counts: dict[str, int] = {}
+        self.buf: list[dict] = []
         for d in ("images/bundles", "crops", "tasks"):
             (out / d).mkdir(parents=True, exist_ok=True)
 
     def close(self):
         self.renderer.__exit__(None, None, None)
-        for fh in self.files.values():
-            fh.close()
 
     def emit(self, rec: dict):
-        t = rec["task"]
-        if t not in self.files:
-            self.files[t] = open(self.out / "tasks" / f"{t}.jsonl", "w", encoding="utf-8")
-        self.files[t].write(json.dumps(rec, ensure_ascii=False) + "\n")
-        self.counts[t] = self.counts.get(t, 0) + 1
+        self.buf.append(rec)
+
+    def take(self) -> list[dict]:
+        out, self.buf = self.buf, []
+        return out
 
     # ------------------------------------------------------------------
     def render_doc(self, doc_id: str, profile, seed: int, stem: str, cond: str, aug_key: str | None = None,
@@ -257,7 +261,7 @@ class Builder:
         p.extra["form_bank"] = "하나은행"  # 옛 은행 서식(과거 날짜)이 섞이지 않게
         return p
 
-    def bundle(self, scenario: str, seed: int, b: int):
+    def bundle(self, scenario: str, seed: int):
         task_name, ids = SCENARIOS[scenario]
         p = self.bundle_profile(scenario, seed)
         bid = f"{scenario}_{seed}"
@@ -342,7 +346,7 @@ class Builder:
                                html=html, raw=raw, data=d["data"])
 
     def other_customer(self, scenario: str, seed: int):
-        return self.bundle_profile(scenario, seed + 500_000)
+        return self.bundle_profile(scenario, seed + OTHER_OFFSET)
 
     def doc_check(self, docs: list[dict], p, seed: int, bid: str, meta: dict):
         """빠진 서류 0~2건, 업무와 상관없는 서류 끼워 넣기, 필수 서류 하나를 다른 고객 것으로 바꾸기."""
@@ -428,7 +432,45 @@ class Builder:
                            "answer": "예" if plan["yes"] else "아니오", "eval": {"answer_type": "yesno", "tol": 0},
                            "meta": {**m, "rule": f"case:{case.id}", "skill": "서류 대조"}})
 
+
+def swift_record(rec: dict) -> dict:
+    """문항 하나 → ms-swift 학습 레코드 (질문 = 평가 프롬프트, 답 = 정답을 모델 출력 형식으로)."""
+    from .runner import oracle_output
+
+    if rec["task"] == "cross_check":  # alt_documents 는 채점용 (짝 서류도 정답으로 인정)
+        rec = {**rec, "answer": {**rec["answer"], "issues": [
+            {k: v for k, v in it.items() if k != "alt_documents"} for it in rec["answer"]["issues"]]}}
+    return {"id": rec["id"], "task": rec["task"], "images": rec["images"],
+            "messages": [{"role": "user", "content": "<image>" * len(rec["images"]) + rec["prompt"]},
+                         {"role": "assistant", "content": oracle_output(rec)}]}
+
+
+_BD: Builder | None = None
+
+
+def _init_worker(out: str, scale: float):
+    from multiprocessing.util import Finalize
+
+    global _BD
+    _BD = Builder(Path(out), scale)
+    Finalize(_BD, _BD.close, exitpriority=10)  # pool.close() 후 작업 프로세스가 끝날 때 브라우저 닫기
+
+
+def _job(job: tuple) -> list[dict]:
+    """작업 하나(서류 한 건 또는 고객 묶음 하나)를 만들고 그 문항들을 돌려준다."""
+    if job[0] == "single":
+        _, doc_id, seed, fields_per_doc, max_keys = job
+        stem = f"images/{doc_id}_{seed}"
+        r = _BD.render_doc(doc_id, make_profile(seed), seed, stem, pick_condition(f"{doc_id}:{seed}"))
+        _BD.single(r, stem, fields_per_doc, max_keys)
+    else:
+        _, sc, seed = job
+        _BD.bundle(sc, seed)
+    return _BD.take()
+
+
 def build(args) -> None:
+    global _BD
     out = Path(args.out)
     if out.exists() and any(out.iterdir()) and not args.force:
         sys.exit(f"{out} 가 비어 있지 않습니다. 다시 만들려면 --force")
@@ -444,38 +486,76 @@ def build(args) -> None:
     bad = [i for i in ids if i not in reg] + [s for s in scenarios if s not in SCENARIOS]
     if bad:
         sys.exit(f"알 수 없는 서류/시나리오: {bad}")
+    split = getattr(args, "split", "test")
+    start = getattr(args, "start", 0)
+    workers = max(1, getattr(args, "workers", 1))
+    seed_single, seed_bundle, stride = SPLITS[split]
+    if start + args.bundles > min(stride, OTHER_OFFSET):
+        sys.exit(f"--start + --bundles 는 {min(stride, OTHER_OFFSET)} 이하여야 합니다 (seed 범위)")
     out.mkdir(parents=True, exist_ok=True)
-    for t in (out / "tasks").glob("*.jsonl") if (out / "tasks").exists() else []:
-        t.unlink()
+    for d in ("tasks", "swift"):
+        for t in (out / d).glob("*.jsonl") if (out / d).exists() else []:
+            t.unlink()
+
+    jobs = [("single", doc_id, seed_single + start + k, args.fields_per_doc, args.max_keys)
+            for k in range(args.per_doc) for doc_id in ids]
+    jobs += [("bundle", sc, seed_bundle + list(SCENARIOS).index(sc) * stride + start + b)
+             for sc in scenarios for b in range(args.bundles)]
+    n_single = len(ids) * args.per_doc
 
     t0 = time.time()
-    bd = Builder(out, args.scale)
+    counts: dict[str, int] = {}
+    files: dict[tuple[str, str], object] = {}
+
+    def write(d: str, t: str, rec: dict):
+        if (d, t) not in files:
+            (out / d).mkdir(parents=True, exist_ok=True)
+            files[d, t] = open(out / d / f"{t}.jsonl", "w", encoding="utf-8")
+        files[d, t].write(json.dumps(rec, ensure_ascii=False) + "\n")
+
+    pool = None
+    if workers > 1:
+        import multiprocessing as mp
+
+        pool = mp.get_context("spawn").Pool(workers, _init_worker, (str(out), args.scale))
+        results = pool.imap(_job, jobs)  # 순서 유지: 작업 수와 상관없이 같은 파일이 나온다
+    else:
+        _BD = Builder(out, args.scale)
+        results = map(_job, jobs)
     try:
-        n = len(ids) * args.per_doc
-        for k in range(args.per_doc):
-            seed = SEED_SINGLE + k
-            profile = make_profile(seed)
-            for j, doc_id in enumerate(ids):
-                stem = f"images/{doc_id}_{seed}"
-                r = bd.render_doc(doc_id, profile, seed, stem, pick_condition(f"{doc_id}:{seed}"))
-                bd.single(r, stem, args.fields_per_doc, args.max_keys)
-                print(f"\r서류 {k * len(ids) + j + 1}/{n}", end="", file=sys.stderr)
+        for i, recs in enumerate(results):
+            for rec in recs:
+                write("tasks", rec["task"], rec)
+                if split == "train":
+                    sr = swift_record(rec)
+                    write("swift", rec["task"], sr)
+                    write("swift", "all", sr)
+                counts[rec["task"]] = counts.get(rec["task"], 0) + 1
+            if i < n_single:
+                print(f"\r서류 {i + 1}/{n_single}", end="", file=sys.stderr)
+            else:
+                print(f"\r업무 묶음 {i - n_single + 1}/{len(jobs) - n_single}", end="", file=sys.stderr)
         print(file=sys.stderr)
-        for si, sc in enumerate(scenarios):
-            for b in range(args.bundles):
-                bd.bundle(sc, SEED_BUNDLE + list(SCENARIOS).index(sc) * 1000 + b, b)
-                print(f"\r업무 묶음 {si * args.bundles + b + 1}/{len(scenarios) * args.bundles}", end="", file=sys.stderr)
-        print(file=sys.stderr)
+        if pool:
+            pool.close()
+            pool.join()
     finally:
-        bd.close()
-    meta = {"version": VERSION, "generator_commit": _git_rev(), "created": time.strftime("%Y-%m-%d %H:%M:%S"),
+        if pool:
+            pool.terminate()
+        elif _BD:
+            _BD.close()
+            _BD = None
+        for fh in files.values():
+            fh.close()
+    meta = {"version": VERSION, "split": split, "generator_commit": _git_rev(), "created": time.strftime("%Y-%m-%d %H:%M:%S"),
             "settings": {"types": args.types, "n_doc_types": len(ids), "per_doc": args.per_doc, "scenarios": scenarios,
-                         "bundles": args.bundles, "fields_per_doc": args.fields_per_doc, "max_keys": args.max_keys,
-                         "scale": args.scale, "seed_single": SEED_SINGLE, "seed_bundle": SEED_BUNDLE,
-                         "conditions": dict(CONDITIONS)},
-            "counts": dict(sorted(bd.counts.items())),
+                         "bundles": args.bundles, "start": start, "fields_per_doc": args.fields_per_doc,
+                         "max_keys": args.max_keys, "scale": args.scale, "seed_single": seed_single,
+                         "seed_bundle": seed_bundle, "conditions": dict(CONDITIONS)},
+            "counts": dict(sorted(counts.items())),
             "doc_names": {i: reg[i].name for i in ids}}
     (out / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"평가 세트 → {out} ({time.time() - t0:.0f}초)")
+    what = "학습 데이터" if split == "train" else "평가 세트"
+    print(f"{what} → {out} ({time.time() - t0:.0f}초)" + (f", ms-swift 학습 파일: {out / 'swift'}" if split == "train" else ""))
     for t, c in meta["counts"].items():
         print(f"  {t:12s} {c}")

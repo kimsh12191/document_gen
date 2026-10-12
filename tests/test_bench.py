@@ -164,3 +164,42 @@ def test_case_helpers():
     assert equivalent({"value": "010-1234-5678", "type": "phone", "label": "연락처"}, rng) == "01012345678"
     d = equivalent({"value": "2025.09.20", "type": "date", "norm": "2025-09-20", "label": "생년월일"}, rng)
     assert d and d != "2025.09.20" and value_match(d, "2025.09.20", "date", "2025-09-20")
+
+
+def test_swift_record_matches_model_output_format():
+    from docgen.bench.build import swift_record
+
+    cc = {"id": "cross_check/b/x", "task": "cross_check", "images": ["a.png", "b.jpg"], "prompt": "대조하세요",
+          "answer": {"consistent": False, "issues": [{"document": "주민등록증", "field": "성명", "value": "김나무",
+                                                      "expected": "김나우", "alt_documents": ["대출거래신청서"]}]}}
+    r = swift_record(cc)
+    assert r["images"] == ["a.png", "b.jpg"] and r["messages"][0]["content"] == "<image><image>대조하세요"
+    ans = json.loads(r["messages"][1]["content"])
+    assert ans == {"consistent": False, "issues": [{"document": "주민등록증", "field": "성명", "value": "김나무",
+                                                    "expected": "김나우"}]}
+    assert "alt_documents" in cc["answer"]["issues"][0]  # 원본 문항은 그대로
+    # 학습 정답을 그대로 출력하면 채점에서 만점
+    cc["eval"] = {"documents": ["주민등록증", "대출거래신청서"]}
+    assert E.s_cross_check(cc, r["messages"][1]["content"])["metrics"]["score"] == 1
+    page = swift_record({"id": "ocr_page/x", "task": "ocr_page", "images": ["p.png"], "prompt": "읽으세요",
+                         "answer": ["가나", "다라"]})
+    assert page["messages"][1]["content"] == "가나\n다라"
+    assert swift_record({"id": "review/x", "task": "review", "images": ["p.png"], "prompt": "q",
+                         "answer": "예"})["messages"][1]["content"] == "예"
+
+
+def test_train_and_test_seeds_do_not_overlap():
+    from docgen.bench.build import OTHER_OFFSET, SPLITS
+    from docgen.registry import SCENARIOS
+
+    def seeds(split, n_single, n_bundles):
+        s1, s2, stride = SPLITS[split]
+        out = set(range(s1, s1 + n_single))
+        for i in range(len(SCENARIOS)):
+            b = {s2 + i * stride + k for k in range(n_bundles)}
+            out |= b | {x + OTHER_OFFSET for x in b}
+        return out
+
+    test, train = seeds("test", 10, 50), seeds("train", 100, 5000)
+    assert not test & train
+    assert min(test | train) > 100_000  # docgen generate 의 seed(0부터)와도 떨어져 있음

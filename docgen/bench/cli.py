@@ -8,15 +8,20 @@ def main(argv=None) -> None:
     ap = argparse.ArgumentParser(prog="docgen.bench", description="OCR·은행업무 벤치마크")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
-    b = sub.add_parser("build", help="평가 세트 만들기")
+    b = sub.add_parser("build", help="평가 세트 (또는 같은 과제의 학습 데이터) 만들기")
     b.add_argument("--out", default="bench_out")
+    b.add_argument("--split", choices=("test", "train"), default="test",
+                   help="test: 평가 세트 (기본) | train: 평가 세트와 겹치지 않는 seed 로 학습 데이터 + ms-swift jsonl(swift/)")
     b.add_argument("--types", default="all", help="단일 서류 과제에 쓸 서류: all | 서류ID,... | 그룹명")
     b.add_argument("--per-doc", type=int, default=1, help="서류 종류마다 샘플 수")
     b.add_argument("--scenarios", default="all", help="업무 묶음 과제에 쓸 시나리오: all | 이름,...")
-    b.add_argument("--bundles", type=int, default=4, help="시나리오마다 고객 묶음 수 (짝수 번째는 cross_check 변조)")
+    b.add_argument("--bundles", type=int, default=4, help="시나리오마다 고객 묶음 수")
     b.add_argument("--fields-per-doc", type=int, default=6, help="서류마다 ocr_field 문항 수")
     b.add_argument("--max-keys", type=int, default=40, help="kie·marks 문항 하나에 묻는 최대 항목 수")
     b.add_argument("--scale", type=float, default=2.0, help="이미지 배율 (2.0 ≈ 192dpi)")
+    b.add_argument("--start", type=int, default=0,
+                   help="seed 시작 번호 (학습 데이터를 나중에 더 만들 때 앞에서 만든 --bundles 만큼 올려 겹치지 않게)")
+    b.add_argument("--workers", type=int, default=1, help="동시에 렌더링할 프로세스 수 (결과는 작업 수와 상관없이 같음)")
     b.add_argument("--force", action="store_true", help="이미 있는 출력 폴더에 다시 만들기")
 
     r = sub.add_parser("run", help="모델 예측 (OpenAI 호환 API)")

@@ -86,12 +86,14 @@ python -m docgen check --png
 
 ```bash
 python -m docgen.bench build --out bench_out                                   # 평가 세트
+python -m docgen.bench build --split train --out bank_train --per-doc 0 \
+    --bundles 100 --workers 8                                                   # 은행 업무 학습 데이터 (swift/)
 python -m docgen.bench run --bench bench_out --pred preds/my_model \
     --base-url http://localhost:8000/v1 --model <모델>                          # OpenAI 호환 API 로 예측
 python -m docgen.bench eval --bench bench_out --pred preds/my_model            # 채점 → report.md
 ```
 
-평가 세트는 고객 seed 1,000,000 이상을 씁니다. 학습 데이터는 그보다 작은 seed로 만드세요.
+평가 세트는 고객 seed 1,000,000 이상을 씁니다. `generate` 학습 데이터는 그보다 작은 seed로 만드세요 (`--split train`은 평가 세트와 겹치지 않는 seed를 따로 씁니다).
 
 ## 출력 구조
 
