@@ -1,0 +1,11 @@
+# docgen 컨테이너용 sshd 설정 (기본 설정보다 먼저 읽혀 우선한다)
+HostKey /etc/ssh/keys/ssh_host_ed25519_key
+HostKey /etc/ssh/keys/ssh_host_rsa_key
+PermitRootLogin no
+AllowUsers docgen
+PasswordAuthentication yes
+KbdInteractiveAuthentication no
+PubkeyAuthentication yes
+UsePAM yes
+X11Forwarding no
+PrintMotd no

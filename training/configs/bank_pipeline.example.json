@@ -1,0 +1,29 @@
+{
+  "workdir": "../runs/bank1",
+  "model": "/실제/runs/exp1/merged/grpo-v1-xxxx-checkpoint-500",
+  "model_type": "qwen3_5",
+  "gpus": [0, 1],
+  "data": {
+    "docgen_root": "../..",
+    "train": ["/home/사용자/docgen/data/bank_train"],
+    "benchmark": "/home/사용자/docgen/data/bench",
+    "replay": {"path": "../data/prepared-v2/train_sft.jsonl", "count": 3000},
+    "output_dir": "../data/prepared-bank",
+    "sft_max_examples": 20000,
+    "task_mix": {"cross_check": 0.25, "review": 0.2, "doc_check": 0.1, "kie": 0.15, "marks": 0.08,
+                 "classify": 0.07, "ocr_page": 0.05, "ocr_field": 0.1},
+    "max_image_tokens_per_sample": 12000,
+    "sft_max_length": 16384
+  },
+  "sft": {"config": "bank_sft.yaml"},
+  "grpo": {"config": "bank_grpo_a100x2.yaml", "select": "mine", "candidates": 3000, "count": 1000,
+           "hard_fraction": 0.5, "seed": 42, "tasks": ["cross_check", "review", "doc_check", "kie"], "max_images": 4},
+  "eval": {
+    "inference_config": "bank_inference.json",
+    "concurrency_per_server": 16,
+    "port_base": 8000,
+    "server_start_timeout_minutes": 40,
+    "compare_models": []
+  },
+  "ocr_check": {"tasks": "../data/prepared-v2/benchmark_tasks.jsonl", "rows": 1000}
+}

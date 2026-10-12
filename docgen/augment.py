@@ -9,21 +9,35 @@ from __future__ import annotations
 import io
 import math
 import random
+from statistics import NormalDist
 
 from PIL import Image, ImageChops, ImageEnhance, ImageFilter, ImageOps
 
 PRESETS = ("scan", "photo", "fax", "clean_jpeg")
 
 
+_Z = [NormalDist().inv_cdf((v + 0.5) / 256) for v in range(256)]
+
+
+def _gauss(size: tuple[int, int], sigma: float, rng: random.Random) -> Image.Image:
+    """평균 128, 표준편차 sigma 인 회색 노이즈 (Image.effect_noise 와 같은 분포).
+
+    effect_noise 는 C 라이브러리의 전역 난수를 써서 같은 프로세스에서 앞서 만든 이미지 수에 따라 결과가 달라진다.
+    rng 상태에서 따로 seed 를 뽑아(rng 는 소비하지 않음) 이미지마다 항상 같은 노이즈가 나오게 한다."""
+    r = random.Random(hash(rng.getstate()))
+    lut = [max(0, min(255, round(128 + sigma * z))) for z in _Z]
+    return Image.frombytes("L", size, r.randbytes(size[0] * size[1])).point(lut)
+
+
 def _background(rng: random.Random, size: tuple[int, int]) -> Image.Image:
     base = rng.choice([(60, 60, 60), (120, 100, 80), (200, 200, 195), (35, 45, 60), (150, 140, 120)])
     bg = Image.new("RGB", size, base)
-    noise = Image.effect_noise(size, rng.uniform(8, 25)).convert("RGB")
+    noise = _gauss(size, rng.uniform(8, 25), rng).convert("RGB")
     return ImageChops.add(bg, noise, scale=2.0, offset=-64)
 
 
 def _noise(img: Image.Image, rng: random.Random, sigma: float) -> Image.Image:
-    n = Image.effect_noise(img.size, sigma).convert("RGB")
+    n = _gauss(img.size, sigma, rng).convert("RGB")
     return ImageChops.add(img, n, scale=1.0, offset=-128)
 
 

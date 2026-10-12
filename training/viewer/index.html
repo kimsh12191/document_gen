@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OCR Viewer</title>
+<style>
+:root{--bg:#f6f7f9;--panel:#fff;--ink:#1d2330;--muted:#677084;--line:#dfe3ea;--gold:#12a150;--pred:#e5383b;--query:#2563eb;--accent:#2563eb}
+@media (prefers-color-scheme:dark){:root{--bg:#14171c;--panel:#1d2128;--ink:#e6e9ef;--muted:#9aa3b2;--line:#2e3440}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,"Malgun Gothic",sans-serif}
+header{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;gap:16px;align-items:baseline;flex-wrap:wrap}
+header h1{font-size:16px;margin:0}header span{color:var(--muted);font-size:12px}
+main{display:grid;grid-template-columns:360px 1fr;gap:12px;padding:12px 16px}
+@media (max-width:900px){main{grid-template-columns:1fr}}
+section{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px}
+h2{font-size:13px;margin:0 0 8px;color:var(--muted);letter-spacing:.04em}
+label{display:block;margin:8px 0 3px;color:var(--muted);font-size:12px}
+input,select,textarea{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit}
+textarea{min-height:110px;font-size:13px}
+button{margin-top:10px;padding:7px 12px;border:0;border-radius:6px;background:var(--accent);color:#fff;font:inherit;cursor:pointer}
+button:disabled{opacity:.5}.row{display:flex;gap:8px}.row>*{flex:1}
+.hint{color:var(--muted);font-size:12px;margin-top:6px}
+#stage{position:relative;overflow:auto;max-height:78vh;border:1px solid var(--line);border-radius:6px;background:var(--bg)}
+canvas{display:block;cursor:crosshair}
+.legend{display:flex;gap:14px;font-size:12px;margin:6px 0;flex-wrap:wrap;align-items:center}.legend b{display:inline-block;width:12px;height:12px;border-radius:2px;vertical-align:-2px;margin-right:4px}
+pre{white-space:pre-wrap;word-break:break-all;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px;max-height:260px;overflow:auto;font-size:12px}
+table{border-collapse:collapse;width:100%;font-size:12px}td,th{border-bottom:1px solid var(--line);padding:3px 6px;text-align:left;vertical-align:top}
+tr[data-i]{cursor:pointer}tr:hover{background:rgba(37,99,235,.12)}.err{color:var(--pred)}.kv{font-size:12px;color:var(--muted)}
+button.small{margin:0;padding:3px 8px;font-size:12px;background:var(--bg);color:var(--ink);border:1px solid var(--line)}
+.answer{font-size:15px;white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px;margin-top:8px}
+</style></head><body>
+<header><h1>OCR Viewer</h1><span id="status"></span></header>
+<main>
+<div>
+<section>
+<h2>자유 테스트 (새 이미지·PDF)</h2>
+<label>파일 업로드 (PNG·JPG·TIF·PDF)</label><input id="file" type="file" accept="image/*,.pdf,application/pdf">
+<label>또는 서버의 파일 경로</label><input id="path" placeholder="/share/.../sample.pdf">
+<div class="row"><div><label>페이지 (PDF·여러 장 TIF)</label><input id="page" type="number" min="1" value="1"></div>
+<div><label>언어</label><select id="lang"><option value="ko">한국어</option><option value="en">English</option></select></div></div>
+<label>질문</label>
+<select id="mode">
+<option value="spotting">전체 글자 + 위치 (spotting)</option>
+<option value="find">글자 찾기 (grounding)</option>
+<option value="read_box">드래그한 영역 읽기 (region_ocr)</option>
+<option value="relation">기준 글자 옆 찾기 (relation)</option>
+<option value="custom">직접 입력 질문</option>
+</select>
+<div id="opt-grid"><label>타일 분할 (페이지 전체는 나눠서 물어야 답이 안 잘림)</label>
+<select id="grid"><option>1x1</option><option>2x1</option><option>2x2</option><option selected>3x2</option><option>3x3</option><option>4x3</option></select></div>
+<div id="opt-text" hidden><label>글자</label><input id="text"></div>
+<div id="opt-dir" hidden><label>방향</label><select id="direction"><option value="right">오른쪽</option><option value="left">왼쪽</option><option value="below">아래</option><option value="above">위</option></select></div>
+<div id="opt-box" hidden class="hint">먼저 아무 질문으로 한 번 실행해 그림을 띄운 뒤, 그림 위에서 드래그해 영역을 고르세요. <b id="boxinfo"></b></div>
+<div id="opt-prompt" hidden>
+<label>예시 질문 (고르면 아래에 채워짐, 고쳐서 써도 됨)</label>
+<select id="preset"></select>
+<label>질문</label><textarea id="prompt"></textarea>
+<div class="hint">질문에 <code>{box}</code>를 넣으면 드래그한 영역의 좌표(0~1000)로 바뀝니다. 답에 <code>bbox_2d</code>나 <code>[x1, y1, x2, y2]</code>가 있으면 그림에 빨간 박스로 그립니다.</div>
+<label>답의 좌표 기준</label><select id="coords"><option value="1000">0~1000 (Qwen3.5 기본)</option><option value="pixel">픽셀</option></select>
+</div>
+<button id="run">실행</button>
+</section>
+<section style="margin-top:12px" id="bench">
+<h2>벤치마크 문제 (정답과 비교)</h2>
+<div class="row"><div><label>과제</label><select id="task"><option value="">전체</option></select></div>
+<div><label>화면</label><select id="view"><option value="">전체</option></select></div></div>
+<div id="opt-maxr"><label>보상 이하만 (예: 0.5, 저장된 답일 때)</label><input id="maxr" placeholder="비우면 전체"></div>
+<label>문제 ID (선택)</label><input id="qid">
+<button id="sample">무작위 문제</button>
+</section>
+</div>
+<section>
+<div class="legend"><span><b style="background:var(--gold)"></b>정답(OCR 기준)</span><span><b style="background:var(--pred)"></b>모델 답</span><span><b style="background:var(--query)"></b>질문 영역</span>
+<label style="display:inline;margin:0"><input type="checkbox" id="showlabels" checked style="width:auto"> 글자 표시</label>
+<label style="display:inline;margin:0">확대 <input type="range" id="zoom" min="0.1" max="1.5" step="0.05" value="0.5" style="width:120px;vertical-align:middle"></label><button type="button" class="small" id="fitpage">전체 보기</button><button type="button" class="small" id="fitwidth">폭 맞춤</button></div>
+<div id="meta" class="kv"></div>
+<div id="stage"><canvas id="cv"></canvas></div>
+<div id="texts"></div>
+<h2 style="margin-top:12px">찾은 위치 <span id="count" class="kv"></span></h2><div id="table"></div>
+<h2 style="margin-top:12px">모델 원문</h2><pre id="raw"></pre>
+</section>
+</main>
+<script>
+const FMT_KO=' 좌표는 이미지 기준 0~1000입니다. [{"bbox_2d": [x1, y1, x2, y2], "label": "글자"}] 형식의 JSON 리스트만 답하고, 없으면 []로 답하세요.';
+const PRESETS=[
+ ['위치 요청: 계좌번호','이 문서에서 계좌번호를 모두 찾아 위치와 함께 답하세요.'+FMT_KO],
+ ['위치 요청: 금액','이 문서에서 금액이 적힌 곳을 모두 찾아 위치와 함께 답하세요.'+FMT_KO],
+ ['위치 요청: 날짜','이 문서에서 날짜를 모두 찾아 위치와 함께 답하세요.'+FMT_KO],
+ ['위치 요청: 이름·성명','이 문서에서 사람 이름(성명)을 모두 찾아 위치와 함께 답하세요.'+FMT_KO],
+ ['위치 요청: 도장·서명','이 문서에서 도장이나 서명이 있는 곳을 모두 찾으세요. label에는 "도장" 또는 "서명"을 적으세요.'+FMT_KO],
+ ['위치 요청: 표 제목 행','이 문서의 표에서 제목(머리글) 칸을 모두 찾아 위치와 글자를 답하세요.'+FMT_KO],
+ ['위치 요청: 드래그 영역의 글자들','bbox_2d={box} 영역 안의 글자를 모두 찾아 위치와 함께 답하세요.'+FMT_KO],
+ ['글자만: 드래그 영역 읽기','bbox_2d={box} 영역 안의 글자를 읽는 순서대로 그대로 적으세요. 좌표는 0~1000입니다. 글자만 답하세요.'],
+ ['글자만: 서류 종류','이 문서는 어떤 종류의 서류인가요? 한 줄로 답하세요.'],
+ ['글자만: 전체 읽기','이 문서의 글자를 위에서 아래로, 왼쪽에서 오른쪽으로 모두 그대로 적으세요.'],
+ ['English: find amounts','Find every monetary amount in this document. Coordinates are 0-1000 relative to the image. Return only a JSON list like [{"bbox_2d": [x1, y1, x2, y2], "label": "text"}]; return [] if none.'],
+];
+const $=id=>document.getElementById(id);let last=null,img=new Image(),drag=null,picked=null,hover=-1;
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+PRESETS.forEach(([n,p],i)=>$('preset').add(new Option(n,i)));$('preset').onchange=()=>{$('prompt').value=PRESETS[+$('preset').value][1]};$('prompt').value=PRESETS[0][1];
+function setStatus(t,err){$('status').textContent=t;$('status').className=err?'err':''}
+async function post(url,body){const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const j=await r.json();if(!r.ok)throw new Error(j.error||r.statusText);return j}
+function modeUI(){const m=$('mode').value;$('opt-grid').hidden=m!=='spotting';$('opt-text').hidden=!(m==='find'||m==='relation');$('opt-dir').hidden=m!=='relation';$('opt-box').hidden=!(m==='read_box'||m==='custom');$('opt-prompt').hidden=m!=='custom'}
+$('mode').onchange=modeUI;
+function readFile(){return new Promise(res=>{const f=$('file').files[0];if(!f)return res(null);const r=new FileReader();r.onload=()=>res({data:r.result,name:f.name});r.readAsDataURL(f)})}
+$('file').onchange=()=>{$('path').value='';picked=null;$('boxinfo').textContent=''};
+$('path').oninput=()=>{picked=null;$('boxinfo').textContent=''};$('page').onchange=()=>{picked=null;$('boxinfo').textContent=''};
+function draw(){const cv=$('cv'),z=+$('zoom').value;if(!last)return;cv.width=last.width*z;cv.height=last.height*z;const c=cv.getContext('2d');c.drawImage(img,0,0,cv.width,cv.height);
+ const box=(b,col,w,hi)=>{c.lineWidth=hi?w+2:w;c.strokeStyle=col;c.strokeRect(b[0]*z,b[1]*z,(b[2]-b[0])*z,(b[3]-b[1])*z)};
+ const label=(b,t,col,below)=>{if(!$('showlabels').checked||!t)return;const fs=Math.max(10,Math.min(18,(b[3]-b[1])*z*.8));c.font=fs+'px "Malgun Gothic",sans-serif';const w=c.measureText(t).width+4;const y=below?b[3]*z:b[1]*z-fs-2;c.fillStyle=col;c.globalAlpha=.85;c.fillRect(b[0]*z,y,w,fs+2);c.globalAlpha=1;c.fillStyle='#fff';c.fillText(t,b[0]*z+2,y+fs-1)};
+ if((last.parts||[]).length>1){c.setLineDash([6,4]);last.parts.forEach(p=>box(p.tile,'#999',1));c.setLineDash([])}
+ (last.query||[]).forEach(b=>box(b,css('--query'),2));
+ (last.gold||[]).forEach(b=>{box(b.px,css('--gold'),2);label(b.px,b.label,css('--gold'),true)});
+ (last.pred||[]).forEach((b,i)=>{box(b.px,css('--pred'),2,i===hover);label(b.px,b.label,css('--pred'),false)});
+ if(picked&&last.free)box(picked,css('--query'),2)}
+function esc(s){return String(s??'').replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]))}
+// Whole page on a new image so every box is in view; the same image keeps the current zoom.
+function fit(mode){if(!last)return;const st=$('stage'),w=st.clientWidth-4,h=window.innerHeight*.78-4;const z=mode==='page'?Math.min(w/last.width,h/last.height):w/last.width;$('zoom').value=Math.max(.1,Math.min(1.5,z));draw()}
+$('fitpage').onclick=()=>fit('page');$('fitwidth').onclick=()=>fit('width');
+function show(j){const same=last&&last.width===j.width&&last.height===j.height&&last.free&&j.free;last=j;img=new Image();img.onload=()=>same?draw():fit('page');img.src=j.image;
+ let meta=[];if(j.id)meta.push('ID '+j.id,'과제 '+j.task,'화면 '+j.view+(j.view_ops&&j.view_ops.length?' ('+j.view_ops.join(', ')+')':''),'보상 '+j.reward);
+ if(j.pages>1)meta.push('페이지 '+$('page').value+' / '+j.pages);
+ if(j.free)meta.push(j.width+'×'+j.height+' px로 보냄');
+ const cut=(j.parts||[]).filter(p=>p.finish_reason==='length').length+(j.finish_reason==='length'?1:0);
+ if(cut)meta.push('⚠ 답이 길이 제한에서 잘림 '+cut+'건 (spotting이면 타일을 더 잘게)');
+ if(j.parsed===false)meta.push('⚠ 답이 JSON 형식이 아님');
+ $('meta').innerHTML=esc(meta.join(' · '))+(j.prompt?'<div>질문: '+esc(j.prompt)+'</div>':(j.parts&&j.parts.length===1?'<div>질문: '+esc(j.parts[0].prompt)+'</div>':''));
+ if(j.gold_text!=null)$('texts').innerHTML='<table><tr><th style="width:90px">정답(OCR)</th><td>'+esc(j.gold_text).replace(/\n/g,'<br>')+'</td></tr><tr><th>모델</th><td>'+esc(j.pred_text).replace(/\n/g,'<br>')+'</td></tr></table>';
+ else $('texts').innerHTML=j.pred_text!=null&&!(j.pred||[]).length?'<div class="answer">'+esc(j.pred_text)+'</div>':'';
+ const rows=(j.pred||[]).map((b,i)=>'<tr data-i="'+i+'"><td>'+(i+1)+'</td><td>'+esc(b.label)+'</td><td>'+b.px.map(v=>Math.round(v)).join(', ')+'</td></tr>').join('');
+ $('table').innerHTML=(j.pred||[]).length?'<table><tr><th>#</th><th>모델 글자</th><th>픽셀 박스</th></tr>'+rows+'</table>':'<div class="kv">박스 없음</div>';
+ $('count').textContent=(j.pred||[]).length?'('+j.pred.length+'개, 줄을 누르면 그 위치로 이동)':'';
+ $('table').querySelectorAll('tr[data-i]').forEach(tr=>{tr.onmouseenter=()=>{hover=+tr.dataset.i;draw()};tr.onmouseleave=()=>{hover=-1;draw()};
+  tr.onclick=()=>{const b=last.pred[+tr.dataset.i].px,st=$('stage');if(+$('zoom').value<.6){$('zoom').value=.6}hover=+tr.dataset.i;draw();const z=+$('zoom').value;
+   st.scrollTo({left:(b[0]+b[2])/2*z-st.clientWidth/2,top:(b[1]+b[3])/2*z-st.clientHeight/2,behavior:'smooth'});st.scrollIntoView({block:'nearest',behavior:'smooth'})}});
+ $('raw').textContent=j.raw!=null?j.raw:(j.parts||[]).map(p=>(j.parts.length>1?'# tile '+p.tile.join(',')+'\n':'')+p.raw).join('\n\n')}
+$('run').onclick=async()=>{const m=$('mode').value;const usesBox=m==='read_box'||(m==='custom'&&$('prompt').value.includes('{box}'));
+ if(usesBox&&!picked){setStatus('먼저 그림을 띄우고(다른 질문으로 한 번 실행) 그림 위에서 영역을 드래그하세요',1);return}
+ const body={mode:m,lang:$('lang').value,path:$('path').value.trim(),page:+$('page').value||1,grid:$('grid').value,text:$('text').value,
+  direction:$('direction').value,prompt:$('prompt').value,box:usesBox?picked:null,coords:$('coords').value==='pixel'?'pixel':'1000'};
+ if(!body.path){const f=await readFile();if(!f){setStatus('파일을 올리거나 서버 경로를 넣으세요',1);return}body.upload=f.data;body.name=f.name}
+ $('run').disabled=true;setStatus('모델 실행 중...');const t=performance.now();
+ try{const j=await post('/api/run',body);show(j);setStatus('완료 '+((performance.now()-t)/1000).toFixed(1)+'s')}catch(e){setStatus(e.message,1)}finally{$('run').disabled=false}};
+$('sample').onclick=async()=>{$('sample').disabled=true;setStatus('불러오는 중...');picked=null;$('boxinfo').textContent='';
+ try{show(await post('/api/sample',{task:$('task').value,view:$('view').value,max_reward:$('maxr').value,id:$('qid').value}));setStatus('')}catch(e){setStatus(e.message,1)}finally{$('sample').disabled=false}};
+$('zoom').oninput=draw;$('showlabels').onchange=draw;
+const cv=$('cv');const pos=e=>{const r=cv.getBoundingClientRect(),z=+$('zoom').value;return[Math.max(0,Math.min(last.width,(e.clientX-r.left)/z)),Math.max(0,Math.min(last.height,(e.clientY-r.top)/z))]};
+cv.onmousedown=e=>{const m=$('mode').value;if(!(m==='read_box'||m==='custom')||!last||!last.free)return;drag=pos(e)};
+cv.onmousemove=e=>{if(!drag)return;const p=pos(e);picked=[Math.min(drag[0],p[0]),Math.min(drag[1],p[1]),Math.max(drag[0],p[0]),Math.max(drag[1],p[1])];draw()};
+cv.onmouseup=()=>{if(!drag)return;drag=null;if(picked&&(picked[2]-picked[0]<3||picked[3]-picked[1]<3))picked=null;$('boxinfo').textContent=picked?'선택: '+picked.map(Math.round).join(', '):'';draw()};
+fetch('/api/info').then(r=>r.json()).then(i=>{setStatus((i.endpoint?'모델 서버 '+i.endpoint:'모델 서버 없음 (저장된 답만 보기)')+(i.rows?' · 벤치마크 '+i.rows+'문항'+(i.stored_predictions?' (저장된 답)':''):''));
+ i.tasks.forEach(t=>$('task').add(new Option(t,t)));i.views.forEach(v=>v&&$('view').add(new Option(v,v)));
+ if(!i.rows)$('bench').hidden=true;if(!i.stored_predictions)$('opt-maxr').hidden=true;if(!i.endpoint)$('run').disabled=true});
+modeUI();
+</script></body></html>

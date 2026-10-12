@@ -1,3 +1,4 @@
 jinja2>=3.1
 playwright>=1.40   # PNG 렌더링(--png) 시에만 필요
 pymupdf>=1.24      # scripts/extract_form_fields.py (서식 PDF 에서 기재란 뽑기) 에서만 필요
+pillow>=10.0      # 스캔·촬영 증강(--augment), 벤치마크(docgen.bench) 이미지 처리

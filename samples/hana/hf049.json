@@ -63,8 +63,7 @@
  "seal": {
   "signer": true,
   "signer2": false,
-  "signer3": false,
-  "untagged1": true
+  "signer3": false
  },
  "sign": {
   "signer": false,

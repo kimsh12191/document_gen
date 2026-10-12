@@ -1,0 +1,7 @@
+# Candidate Linux/CUDA inference environment, not a GPU-tested lockfile.
+# Use a separate inference environment; resolve compatible torch/transformers
+# versions with vLLM rather than inheriting requirements-train.in pins.
+ms-swift==4.0.4
+vllm>=0.17.0
+qwen-vl-utils>=0.0.14
+peft

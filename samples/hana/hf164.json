@@ -46,10 +46,7 @@
   "signer3": false,
   "signer4": false,
   "signer5": false,
-  "signer6": true,
-  "untagged1": true,
-  "untagged2": true,
-  "untagged3": true
+  "signer6": true
  },
  "sign": {
   "signer": false,

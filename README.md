@@ -1,4 +1,92 @@
-# document_gen — 은행 제출 서류 합성 데이터 생성기
+# document_gen — 은행 서류 합성 데이터 + 은행 업무 학습
+
+은행 제출 서류 476종을 합성하는 생성기(docgen)와, 그 데이터로 VLM에 은행 업무를 학습·평가하는 파이프라인입니다.
+
+## 한눈에 보기
+
+```text
+1. 데이터 생성   docgen 도커 (CPU, 한 번만)   →  bank_train/ (학습)   bench/ (평가)
+                                                      │                   │
+2. 파이프라인    GPU 서버 (한 명령)           →  prepare → 베이스 평가 → SFT → 평가 → GRPO 문제 선정 → GRPO → 평가 → 비교표
+```
+
+출발 모델은 OCR 학습 단계([`training/README.md`](training/README.md))의 결과입니다.
+
+## 1. 데이터 생성 (docgen 도커)
+
+학습 데이터와 평가 세트를 한 번 만들어 둡니다. 학습을 몇 번 다시 하든 다시 만들 필요가 없습니다. 도커 설치는 [docs/DOCKER.md](docs/DOCKER.md)에 있습니다.
+
+```bash
+# 서버 터미널에서 (docgen 컨테이너가 떠 있을 때). 컨테이너의 /out = 서버의 ~/docgen/data
+docker exec -d -u docgen docgen bash -lc 'python -m docgen.bench build --split train --out /out/bank_train --per-doc 2 --bundles 100 --workers 8 > /out/bank_train.log 2>&1'
+docker exec -d -u docgen docgen bash -lc 'python -m docgen.bench build --out /out/bench --bundles 20 --workers 8 > /out/bench.log 2>&1'
+
+ls ~/docgen/data/bank_train/meta.json ~/docgen/data/bench/meta.json   # 둘 다 있으면 완료
+```
+
+| 폴더 | 내용 | 시간·용량 |
+|---|---|---|
+| `bank_train` | 학습: 서류 476종 × 2건 + 업무 12종 × 고객 100명 | 약 30분, 약 9GB |
+| `bench` | 평가: 서류 476종 × 1건 + 업무 12종 × 고객 20명 | 약 10분, 약 2GB |
+
+- 학습 데이터와 평가 세트는 서로 다른 고객으로 만들어져 겹치지 않습니다.
+- SSH로 컨테이너에 들어가서 돌리는 방법, 경로 대응표: [training/BANK_TASKS.md](training/BANK_TASKS.md) 1단계
+- 과제와 채점 방식: [docs/BENCHMARK.md](docs/BENCHMARK.md)
+
+## 2. 파이프라인 실행 (GPU 서버)
+
+**준비물**
+- OCR 학습 단계 결과의 병합 모델 폴더 (예: `runs/exp1/merged/grpo-…-checkpoint-500`)
+- 1에서 만든 `bank_train`, `bench` 폴더
+- `training/` 코드: 학습 환경에서 `pip install --no-index --no-build-isolation -e .` 한 번
+
+```bash
+cd training
+cp configs/bank_pipeline.example.json configs/bank_pipeline.json
+#   model           OCR 단계 병합 모델 폴더
+#   gpus            사용할 GPU (예: [0, 1])
+#   data.train      ["/home/<계정>/docgen/data/bank_train"]
+#   data.benchmark  "/home/<계정>/docgen/data/bench"
+#   data.replay.path, ocr_check.tasks   OCR 단계 데이터(prepared-v2) 경로. 안 쓰면 data.replay, ocr_check 를 null 로
+
+python run_bank_pipeline.py --config configs/bank_pipeline.json --smoke    # 리허설 (학습 5 step, 소량 평가)
+nohup python run_bank_pipeline.py --config configs/bank_pipeline.json > bank_pipeline.log 2>&1 &
+```
+
+| 단계 | 하는 일 |
+|---|---|
+| `prepare` | 데이터를 학습 형식으로 변환 (이미지 크기 맞추기, 과제 비율, GRPO용 고객 따로 두기), 겹침·정답 검사 |
+| `eval_base` | 출발(OCR) 모델로 평가 세트 풀기 → 채점 |
+| `sft` | 출발 모델 + LoRA 학습 |
+| `eval_sft` | SFT 모델 평가 + GRPO 후보 문제 풀기 |
+| `select` | SFT가 틀린 문제 위주로 GRPO 문제 1000개 고르기 |
+| `grpo` | SFT에서 이어 GRPO (보상 = 평가 채점기) |
+| `eval_grpo` | GRPO 모델 평가 |
+| `report` | 비교표 |
+
+- **결과:** `training/runs/bank1/reports/benchmark.html`에 모델별 점수와 출발 모델 대비 변화가 나옵니다. OCR 능력 유지 여부는 `ocr_retention.html`에 나옵니다.
+- **멈췄을 때:** 같은 명령으로 다시 실행하면 끝난 단계는 건너뜁니다.
+- **실행 옵션:** `--from grpo`는 그 단계부터 다시, `--only report`는 한 단계만, `--dry-run`은 명령만 출력합니다.
+- **자세한 내용:** 설정 키, GPU별 설정(80GB/40GB), 예상 시간(약 1~1.5일), 결과 해석은 [training/BANK_TASKS.md](training/BANK_TASKS.md)에 있습니다.
+
+## 저장소 구성
+
+서류 생성기와 GPU 학습 프로젝트(`training/`)가 함께 있습니다. 학습은 **OCR 학습 → 은행 업무 학습** 순서입니다.
+
+- **이 브랜치(`claude/ocr-banking-benchmark`, 은행 업무):** 생성기·벤치마크·도커와, OCR 학습 프로젝트를 담은 `training/`에 은행 업무 단계를 더한 것.
+- **OCR 브랜치(`claude/bank-ocr-pipeline`):** OCR 학습 프로젝트만. 이력이 이어져 있어서 OCR 쪽 변경은 `git merge -X subtree=training origin/claude/bank-ocr-pipeline`으로 `training/`에 가져옵니다.
+
+| 부분 | 위치 | 돌리는 곳 | 문서 |
+|---|---|---|---|
+| 서류 생성기·벤치마크 | 최상위 (`docgen/`) | docgen 도커 컨테이너 (CPU) | 이 문서, [docs/BENCHMARK.md](docs/BENCHMARK.md), [docs/DOCKER.md](docs/DOCKER.md) |
+| OCR 학습 | [`training/`](training/) `run_pipeline.py` | GPU 서버 | [training/README.md](training/README.md) |
+| 은행 업무 학습 | [`training/`](training/) `run_bank_pipeline.py` | GPU 서버 | [training/BANK_TASKS.md](training/BANK_TASKS.md) |
+
+- **OCR 학습:** 실제 서류 이미지와 내부 OCR 결과로 글자·위치 읽기를 학습합니다(SFT → GRPO).
+- **은행 업무 학습:** OCR 학습 모델에서 출발합니다. 이 생성기로 만든 학습 데이터(`python -m docgen.bench build --split train`)로 서류 구비 확인, 서류 간 대조, 심사 질의, 정보 추출을 학습하고(SFT → GRPO), 벤치마크로 비교합니다.
+- **채점 코드:** GPU 서버에서는 이 저장소 최상위의 `docgen/`을 채점에 씁니다(표준 라이브러리만 사용, 설치 불필요).
+
+## 서류 생성기 (docgen)
 
 고객이 은행에 제출하는 서류 **476종**을 재현했습니다. 가상 고객 데이터를 채워 넣어 **VLM 정보추출(Key Information Extraction) 학습 데이터**를 만듭니다.
 
@@ -19,7 +107,7 @@
 
 모든 데이터는 학습용 **합성 데이터**이며 실존 인물·사업자와 무관합니다.
 
-## 특징
+### 특징
 
 | | |
 |---|---|
@@ -77,6 +165,23 @@ python -m docgen check --png
 ```
 
 시나리오는 12개입니다: `account_opening`, `personal_credit_loan`, `mortgage`, `jeonse_loan`, `sole_proprietor_loan`, `corporate_credit`, `fx_remittance`, `study_abroad_remittance`, `irp_opening`, `retirement_payout`, `efinance_signup`, `inheritance`
+
+## 벤치마크 (OCR·은행업무)
+
+같은 생성기로 **고정된 평가 세트**를 만들어 모델을 잽니다. 과제는 OCR(값 칸 인식, 전체 받아쓰기), 문서 이해(분류, 정보 추출, 체크·도장·서명), 은행 업무(서류 구비 확인, 서류 간 대조, 심사 질의)입니다. 서류 간 대조는 실제 심사 사례를 바탕으로 한 불일치 14종(오기, 타인 서류, 소득 부풀리기, 임대인≠등기부 소유자, 업계약 등)을 일부러 섞어 만듭니다. 자세한 내용은 [docs/BENCHMARK.md](docs/BENCHMARK.md)에 있습니다.
+
+내부망 서버에서 Docker 로 돌리고 윈도우에서 SSH 로 접속해 쓰는 방법은 [docs/DOCKER.md](docs/DOCKER.md)에 있습니다.
+
+```bash
+python -m docgen.bench build --out bench_out                                   # 평가 세트
+python -m docgen.bench build --split train --out bank_train --per-doc 0 \
+    --bundles 100 --workers 8                                                   # 은행 업무 학습 데이터 (swift/)
+python -m docgen.bench run --bench bench_out --pred preds/my_model \
+    --base-url http://localhost:8000/v1 --model <모델>                          # OpenAI 호환 API 로 예측
+python -m docgen.bench eval --bench bench_out --pred preds/my_model            # 채점 → report.md
+```
+
+평가 세트는 고객 seed 1,000,000 이상을 씁니다. `generate` 학습 데이터는 그보다 작은 seed로 만드세요 (`--split train`은 평가 세트와 겹치지 않는 seed를 따로 씁니다).
 
 ## 출력 구조
 
@@ -226,6 +331,7 @@ docgen/
   paginate.js    넘친 쪽을 여러 쪽으로 나눔 (머리글 줄 반복, 쪽 번호)
   augment.py     스캔/촬영/팩스 증강
   cli.py         list / generate / check
+  bench/         벤치마크: 평가 세트 만들기(build), 모델 실행(run), 채점(eval) — docs/BENCHMARK.md
   realform.py    하나은행 원본 서식 오버레이 — 레이아웃 → 값 → 렌더링 지시, 배경·글꼴 제공
   docs/*.py      서류별 데이터 생성 함수 (그룹별 파일, docs/real_forms.py 가 원본 서식 전부를 등록)
 templates/
@@ -241,7 +347,8 @@ scripts/form_map.py                서식별 등록 여부 → docs/FORM_MAP.md
 scripts/make_samples.py            samples/ 갱신 (변형 샘플은 samples/variants/, 은행별은 samples/bank_variants/)
 scripts/build_schema.py            docs/SCHEMA.md, schema/schema.json 갱신
 scripts/visualize_labels.py        라벨 위치를 이미지에 그려 확인
-tests/                             pytest
+tests/                             pytest (생성기·벤치마크)
+training/                          GPU 학습 프로젝트: OCR 단계(run_pipeline.py, bank_ocr/), 은행 업무 단계(run_bank_pipeline.py, bank_task/) — 따로 설치(training/README.md)
 ```
 
 은행이 직접 쓰는 서식 그룹(`bank_form`)은 `registry.BANK_FORM_GROUPS`로 묶여 있습니다. 이 그룹의 서류는 렌더링할 때 서식을 낸 은행(옛 은행 포함)에 맞춰 프로필이 바뀌고, 템플릿에 서식 문맥 `bk`가 들어갑니다. 그룹을 새로 만들 때 이 집합에 넣어 주면 같은 동작을 받습니다.
