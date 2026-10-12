@@ -112,14 +112,17 @@ def main():
     parser = argparse.ArgumentParser(description="Base / SFT / GRPO benchmark comparison (no model is run)")
     parser.add_argument("--base", required=True, help="Existing Base evaluation JSON")
     parser.add_argument("--sft", required=True, help="Existing SFT evaluation JSON")
-    parser.add_argument("--grpo", required=True, help="Existing SFT+GRPO evaluation JSON")
+    parser.add_argument("--grpo", required=True, nargs="+",
+                        help="Existing SFT+GRPO evaluation JSON; several GRPO runs (grpo-<run>.json) become one row each")
     parser.add_argument("--out", default="reports/benchmark.csv", help="CSV path; Markdown and HTML are also created")
     args = parser.parse_args()
-    inputs = [Path(p).resolve() for p in (args.base, args.sft, args.grpo)]
-    if len(set(inputs)) != 3:
-        parser.error("Provide three different evaluation report files")
+    inputs = [Path(p).resolve() for p in [args.base, args.sft, *args.grpo]]
+    if len(set(inputs)) != len(inputs):
+        parser.error("Provide different evaluation report files")
+    grpo_labels = ["GRPO model"] if len(args.grpo) == 1 else [
+        "GRPO " + Path(p).stem.removeprefix("grpo-") for p in args.grpo]
     try:
-        result = build_report(inputs, args.out, ["Base model", "SFT model", "GRPO model"])
+        result = build_report(inputs, args.out, ["Base model", "SFT model"] + grpo_labels)
     except (ValueError, KeyError, OSError) as error:
         parser.exit(2, "Report error: " + str(error) + "\n")
     print(json.dumps(result, ensure_ascii=False, indent=2))

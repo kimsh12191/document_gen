@@ -482,6 +482,42 @@ class IntegrationTests(unittest.TestCase):
         self.assertIn("--gpus 0,1", text)
         self.assertFalse((self.root / "runs" / "state.json").exists())
 
+    def test_grpo_rerun_keeps_previous_report_and_compares_both(self):
+        repo = Path(__file__).parents[1]
+        mod = runpy.run_path(str(repo / "run_pipeline.py"))
+        config = self.root / "pipeline.json"
+        write_json(config, {"workdir": "runs", "data_config": "config.json", "model": "model"})
+        runner = mod["Runner"](mod["merged"](mod["DEFAULTS"], read_json(config)), config, False, False)
+        reports = runner.workdir / "reports"
+        report = {"tasks_sha256": "same", "reference_type": "ocr_pseudo_unreviewed",
+                  "tasks": {"crop_ocr": {"count": 1, "cer": 0.1, "em": 0.5}},
+                  "inference": {"temperature": 0, "max_tokens": 256, "enable_thinking": False}}
+        for name in ("base", "sft", "grpo"):
+            write_json(reports / f"{name}.json", {**report, "model_label": name})
+        old = runner.workdir / "grpo" / "v0-1" / "checkpoint-500"
+        new = runner.workdir / "grpo" / "v1-2" / "checkpoint-500"
+        runner.state.update(sft_checkpoint="sft-ckpt", grpo_checkpoint=str(old))
+
+        def train(stage, extra):
+            self.assertEqual(extra[:2], ["--adapter", "sft-ckpt"])  # a re-run starts from SFT again
+            runner.state["grpo_checkpoint"] = str(new)
+        with patch.object(runner, "train", train):
+            runner.stage_grpo()
+        self.assertTrue((reports / "grpo-v0-1-checkpoint-500.json").is_file())
+        write_json(reports / "grpo-v1-2-checkpoint-500.json", {**report, "model_label": "GRPO"})
+
+        commands = []
+        with patch.object(runner, "run", lambda cmd, log_name, env=None: commands.append(cmd)):
+            runner.stage_report()
+        cmd = commands[0]
+        grpo = cmd[cmd.index("--grpo") + 1:cmd.index("--out")]
+        self.assertEqual([Path(p).name for p in grpo], ["grpo-v0-1-checkpoint-500.json", "grpo-v1-2-checkpoint-500.json"])
+        import subprocess
+        subprocess.run(cmd, check=True, capture_output=True, cwd=repo)
+        rows = (reports / "benchmark.csv").read_text(encoding="utf-8-sig").splitlines()
+        self.assertEqual([r.split(",")[0] for r in rows[1:]],
+                         ["Base model", "SFT model", "GRPO v0-1-checkpoint-500", "GRPO v1-2-checkpoint-500"])
+
     def test_inference_no_target_leak_and_resume(self):
         prepare(self.config)
         tasks = self.root / "prepared" / "benchmark_tasks.jsonl"

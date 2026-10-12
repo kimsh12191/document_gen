@@ -16,12 +16,14 @@ about the same image go to the same server so its image prefix cache is reused.
   python run_pipeline.py --config configs/pipeline.json            # everything
   python run_pipeline.py --config configs/pipeline.json --smoke    # 5-step / small-eval rehearsal
   python run_pipeline.py --config configs/pipeline.json --from sft # redo sft and later stages
+  python run_pipeline.py --config configs/pipeline.json --from grpo # another GRPO run; the report keeps both
   python run_pipeline.py --config configs/pipeline.json --dry-run  # print commands only
 """
 import argparse
 import json
 import os
 import random
+import shutil
 import signal
 import socket
 import subprocess
@@ -219,6 +221,9 @@ class Runner:
         self.run([sys.executable, "-m", "bank_ocr", "evaluate", "--tasks", str(tasks), "--predictions", str(preds),
                   "--label", label, "--out", str(report)], f"evaluate-{label.lower()}.log")
         self.state[f"report_{label.lower()}"] = str(report)
+        if label == "GRPO" and not self.dry:
+            # Keep every GRPO run's scores so a re-run (--from grpo) is compared, not overwritten.
+            shutil.copy2(report, self.workdir / "reports" / f"grpo-{run_id.removeprefix('grpo-')}.json")
 
     def train(self, stage, extra):
         output = self.workdir / stage
@@ -289,6 +294,12 @@ class Runner:
         self.state["grpo_dataset"] = str(out)
 
     def stage_grpo(self):
+        # A run evaluated before per-run copies existed: keep its report under its checkpoint name.
+        old, report = self.state.get("grpo_checkpoint"), self.workdir / "reports" / "grpo.json"
+        if old and report.exists() and not self.dry:
+            kept = self.workdir / "reports" / f"grpo-{self.tag(old)}.json"
+            if not kept.exists():
+                shutil.copy2(report, kept)
         extra = ["--adapter", self.state["sft_checkpoint"]]
         if self.state.get("grpo_dataset"):
             extra += ["--grpo-dataset", self.state["grpo_dataset"]]
@@ -300,8 +311,10 @@ class Runner:
 
     def stage_report(self):
         reports = self.workdir / "reports"
+        # Every GRPO run evaluated in this workdir, oldest first; the latest one is reports/grpo.json.
+        runs = sorted(reports.glob("grpo-*.json"), key=lambda p: p.stat().st_mtime) or [reports / "grpo.json"]
         self.run([sys.executable, str(ROOT / "benchmark_report.py"), "--base", str(reports / "base.json"),
-                  "--sft", str(reports / "sft.json"), "--grpo", str(reports / "grpo.json"),
+                  "--sft", str(reports / "sft.json"), "--grpo", *map(str, runs),
                   "--out", str(reports / "benchmark.csv")], "report.log")
         log(f"open {reports / 'benchmark.html'}")
 
