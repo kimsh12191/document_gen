@@ -3,7 +3,7 @@
 #
 #   bash scripts/make_bank_data.sh                 기본값으로 만들기 (백그라운드, SSH 끊어도 계속)
 #   bash scripts/make_bank_data.sh --fg            이 터미널에서 실행
-#   TRAIN_BUNDLES=100 BENCH_BUNDLES=40 bash scripts/make_bank_data.sh    양 바꾸기
+#   TRAIN_BUNDLES=300 BENCH_BUNDLES=60 bash scripts/make_bank_data.sh    양 바꾸기
 #   OUT=/out/try TYPES=resident_id_card,loan_application SCENARIOS=mortgage TRAIN_BUNDLES=2 BENCH_BUNDLES=1 \
 #       bash scripts/make_bank_data.sh --fg                                 몇 분짜리 시험
 #
@@ -17,7 +17,7 @@ set -euo pipefail
 OUT=${OUT:-/out}
 TRAIN_PER_DOC=${TRAIN_PER_DOC:-5}
 TRAIN_BUNDLES=${TRAIN_BUNDLES:-200}
-BENCH_BUNDLES=${BENCH_BUNDLES:-20}
+BENCH_BUNDLES=${BENCH_BUNDLES:-40}
 TYPES=${TYPES:-all}
 SCENARIOS=${SCENARIOS:-all}
 WORKERS=${WORKERS:-$(( $(nproc) < 8 ? $(nproc) : 8 ))}
