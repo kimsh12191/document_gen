@@ -2,6 +2,9 @@
 
 `run_pipeline.py`가 한 번에 하는 일을 한 단계씩 직접 실행하는 방법입니다. 보통은 [README](../README.md)의 한 번에 실행을 쓰면 됩니다. 아래 번호는 설치·준비([SETUP.md](SETUP.md) 1~4) 다음 단계입니다.
 
+- 모든 명령은 프로젝트 폴더에서 실행합니다. `/share/...`와 `/실제/.../checkpoint-xxx`는 실제 경로로 바꿉니다. 준비 데이터는 `data/prepared-v2` 기준입니다.
+- 평가 서버는 한 번에 하나만 실행합니다. 서버 터미널을 유지한 채 별도 터미널에서 추론·평가하고, 학습 전에는 서버 터미널에서 `Ctrl+C`로 종료하여 GPU를 확보합니다.
+
 ## 5. Base 모델 평가
 
 로컬 Qwen3.5-9B를 배포할 때는 `--model_type qwen3_5`를 명시합니다. 자동 판별 시 `qwen3_5`와 `ovis_ocr2`가 함께 후보로 잡혀 `Multiple possible model types found` 오류가 발생할 수 있습니다. 아래 Base/SFT/GRPO 배포 명령에 동일하게 적용합니다.
@@ -183,7 +186,7 @@ python -m bank_ocr evaluate --tasks data/prepared-v2/benchmark_tasks.jsonl \
 
 ## 11. 최종 비교표 생성
 
-프로젝트 최상위 폴더에 `benchmark_report.py`가 있는지 확인하고 실행합니다.
+프로젝트 폴더에 `benchmark_report.py`가 있는지 확인하고 실행합니다.
 
 ```bash
 python benchmark_report.py \
