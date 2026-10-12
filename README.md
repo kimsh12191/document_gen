@@ -19,6 +19,21 @@
 
 모든 데이터는 학습용 **합성 데이터**이며 실존 인물·사업자와 무관합니다.
 
+## 저장소 구성
+
+서류 생성기와, 그걸로 학습·평가하는 GPU 학습 프로젝트가 한 저장소에 있습니다. 학습은 **1. OCR → 2. 은행 업무** 순서입니다.
+
+| 부분 | 위치 | 돌리는 곳 | 문서 |
+|---|---|---|---|
+| 서류 생성기·벤치마크 | 최상위 (`docgen/`) | docgen 도커 컨테이너 (CPU) | 이 문서, [docs/BENCHMARK.md](docs/BENCHMARK.md), [docs/DOCKER.md](docs/DOCKER.md) |
+| **1. OCR 학습** | [`training/`](training/) `run_pipeline.py` | GPU 서버 | [training/README.md](training/README.md) |
+| **2. 은행 업무 학습** | [`training/`](training/) `run_bank_pipeline.py` | GPU 서버 | [training/BANK_TASKS.md](training/BANK_TASKS.md) |
+
+- **1. OCR 학습:** 실제 서류 이미지와 내부 OCR 결과로 글자·위치 읽기를 학습합니다(SFT → GRPO).
+- **2. 은행 업무 학습:** 1의 모델에서 출발합니다. 이 생성기로 만든 학습 데이터(`python -m docgen.bench build --split train`)로 서류 구비 확인, 서류 간 대조, 심사 질의, 정보 추출을 학습하고(SFT → GRPO), 벤치마크로 비교합니다.
+- **데이터 생성은 따로 합니다:** 도커 컨테이너에서 한 번 만들어 두면, GPU 서버의 파이프라인은 그 폴더를 읽기만 합니다.
+- **채점 코드:** GPU 서버에서는 이 저장소 최상위의 `docgen/`을 채점에 씁니다(표준 라이브러리만 사용, 설치 불필요).
+
 ## 특징
 
 | | |
@@ -259,7 +274,8 @@ scripts/form_map.py                서식별 등록 여부 → docs/FORM_MAP.md
 scripts/make_samples.py            samples/ 갱신 (변형 샘플은 samples/variants/, 은행별은 samples/bank_variants/)
 scripts/build_schema.py            docs/SCHEMA.md, schema/schema.json 갱신
 scripts/visualize_labels.py        라벨 위치를 이미지에 그려 확인
-tests/                             pytest
+tests/                             pytest (생성기·벤치마크)
+training/                          GPU 학습 프로젝트: OCR 단계(run_pipeline.py, bank_ocr/), 은행 업무 단계(run_bank_pipeline.py, bank_task/) — 따로 설치(training/README.md)
 ```
 
 은행이 직접 쓰는 서식 그룹(`bank_form`)은 `registry.BANK_FORM_GROUPS`로 묶여 있습니다. 이 그룹의 서류는 렌더링할 때 서식을 낸 은행(옛 은행 포함)에 맞춰 프로필이 바뀌고, 템플릿에 서식 문맥 `bk`가 들어갑니다. 그룹을 새로 만들 때 이 집합에 넣어 주면 같은 동작을 받습니다.
