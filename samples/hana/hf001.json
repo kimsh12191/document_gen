@@ -113,8 +113,7 @@
  },
  "seal": {
   "signer": false,
-  "signer2": true,
-  "untagged1": true
+  "signer2": true
  },
  "sign": {
   "signer": true,

@@ -172,10 +172,10 @@
    "kind": "인감",
    "page": 0,
    "bbox": [
-    490.8,
-    936.6,
-    566.5,
-    975.0
+    498.3,
+    925.5,
+    559.0,
+    986.1
    ]
   },
   {
@@ -466,21 +466,6 @@
    "type": "text",
    "value": null,
    "norm": null
-  },
-  {
-   "key": "seal.untagged1",
-   "label": null,
-   "type": "seal",
-   "value": "김소윤",
-   "present": true,
-   "kind": "도장",
-   "page": 0,
-   "bbox": [
-    498.3,
-    925.5,
-    559.0,
-    986.1
-   ]
   }
  ]
 }

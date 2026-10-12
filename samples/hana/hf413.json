@@ -128,8 +128,7 @@
   "name": "주식회사 새한소프트"
  },
  "seal": {
-  "signer": true,
-  "untagged1": true
+  "signer": true
  },
  "sign": {
   "signer": false
