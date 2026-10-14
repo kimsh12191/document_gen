@@ -67,6 +67,7 @@ tail -f pipeline.log
 
 | 문서 | 내용 |
 |---|---|
+| [docs/PROMPTS.md](docs/PROMPTS.md) | **모델에게 묻는 법:** 과제별 질문 문장, 답 형식, 좌표 규칙 |
 | [docs/SETUP.md](docs/SETUP.md) | 설치, 내부 OCR 연결, 이미지 목록 규칙, `config.json` 항목, 기존 프로젝트 업데이트 |
 | [docs/PIPELINE.md](docs/PIPELINE.md) | 파이프라인 옵션, GRPO 문제 선정, GRPO만 다시 돌리기 |
 | [docs/DESIGN.md](docs/DESIGN.md) | 학습 과제 8종, 좌표 형식, 노이즈 증강, 평가 지표, GRPO 보상 |
