@@ -10,7 +10,7 @@ OCR 단계(`run_pipeline.py`)에서 학습한 모델을 출발점으로 **은행
 | 은행 업무 | `cross_check` | 서류 2~3건을 대조해 불일치 찾기 (오기, 타인 서류, 금액·날짜 관계, 임대인≠소유자 등 14종) |
 | 은행 업무 | `review` | 심사 질문 (LTV, 소득 대비 배수, 서류 유효기간, 만 나이 등)에 숫자·예/아니오로 답하기 |
 
-과제와 채점 방식은 docgen의 `docs/BENCHMARK.md`에 있습니다.
+과제와 채점 방식은 docgen의 `docs/BENCHMARK.md`에 있습니다. 학습한 모델에게 묻는 질문 문장과 답 형식은 [docs/BANK_PROMPTS.md](docs/BANK_PROMPTS.md)에 있습니다.
 
 ## 전체 흐름
 

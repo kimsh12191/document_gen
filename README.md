@@ -112,6 +112,7 @@ tail -f bank_pipeline.log
 
 | 문서 | 내용 |
 |---|---|
+| [training/docs/BANK_PROMPTS.md](training/docs/BANK_PROMPTS.md) | **모델에게 묻는 법:** 과제별 질문 문장, 넣을 이미지, 답 형식 (OCR 과제는 [PROMPTS.md](training/docs/PROMPTS.md)) |
 | [training/BANK_TASKS.md](training/BANK_TASKS.md) | 은행 업무 파이프라인: 설정 항목 전체, GRPO 보상, 경로 표, 결과 해석 |
 | [training/viewer/README.md](training/viewer/README.md) | viewer 사용법 |
 | [training/README.md](training/README.md) | OCR 학습 단계 (출발 모델을 만드는 앞 단계) |
