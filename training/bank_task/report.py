@@ -17,10 +17,12 @@ COLUMNS = [
     ("doc_check", "set_f1", "서류 구비 F1", False),
     ("cross_check", "score", "서류 대조 종합", False),
     ("cross_check", "detect", "서류 대조 탐지", False),
+    ("cross_check", "localize", "서류 대조 위치(변조 문항)", False),
     ("cross_check", "false_alarm", "서류 대조 오탐률", True),
     ("review", "acc", "심사 질의 정확도", False),
 ]
 SLICES = [("cross_check", "category", "서류 대조 — 불일치 분류별 종합 점수"),
+          ("cross_check", "case", "서류 대조 — 사례별 종합 점수"),
           ("review", "skill", "심사 질의 — 능력별 정확도"),
           ("doc_check", "n_missing", "서류 구비 — 빠진 서류 수별 완전 일치"),
           ("kie", "group", "정보 추출 — 서식 그룹별 F1"),
@@ -81,6 +83,10 @@ def build(paths, output):
     delta_t = table(lambda v, b, is_base: "기준" if is_base else
                     ("—" if _delta(v, b) is None else f"{_delta(v, b):+.1f}"))
     counts = {t: base["tasks"][t]["n"] for t in base["tasks"]}
+    tasks = [t for t in counts]
+    # Answers the scorer could not read count as wrong; a high rate means the model does not know the format yet.
+    fail_t = (["모델"] + tasks, [[r["label"]] + [_pct(r["tasks"].get(t, {}).get("parse_fail")) for t in tasks]
+                               for r in reports])
     slices = []
     for task, key, title in SLICES:
         groups = []
@@ -100,13 +106,15 @@ def build(paths, output):
         slices.append((title, head, body))
     notes = [f"기준(Δ의 0): {base['label']}. 점수는 %, Δ는 기준 대비 %p. ↓ 표시는 낮을수록 좋음.",
              "문항 수: " + ", ".join(f"{t} {n}" for t, n in counts.items()),
-             "합성 서류(docgen) 평가 세트입니다. 학습 데이터와 같은 생성기라 실제 서류 성능보다 높게 나옵니다."]
+             "합성 서류(docgen) 평가 세트입니다. 학습 데이터와 같은 생성기라 실제 서류 성능보다 높게 나옵니다.",
+             "읽는 법: guide/results.md"]
 
     def md(head, body):
         return "\n".join(["| " + " | ".join(head) + " |", "|" + "---|" * len(head)] +
                          ["| " + " | ".join(row) + " |" for row in body])
 
-    parts = ["# 은행 업무 벤치마크 비교\n", md(*score_t), "\n## 기준 대비 변화 (%p)\n", md(*delta_t)]
+    parts = ["# 은행 업무 벤치마크 비교\n", md(*score_t), "\n## 기준 대비 변화 (%p)\n", md(*delta_t),
+             "\n## 답 형식 오류 (%, 낮을수록 좋음)\n", md(*fail_t)]
     for title, head, body in slices:
         parts += [f"\n## {title}\n", md(head, body)]
     parts += ["\n" + "\n".join(f"- {n}" for n in notes)]
@@ -117,7 +125,8 @@ def build(paths, output):
         b = "".join("<tr>" + "".join(f"<td>{html.escape(x)}</td>" for x in row) + "</tr>" for row in body)
         return f"<table><thead><tr>{h}</tr></thead><tbody>{b}</tbody></table>"
 
-    sections = [f"<h2>점수</h2>{ht(*score_t)}", f"<h2>기준 대비 변화 (%p)</h2>{ht(*delta_t)}"]
+    sections = [f"<h2>점수</h2>{ht(*score_t)}", f"<h2>기준 대비 변화 (%p)</h2>{ht(*delta_t)}",
+                f"<h2>답 형식 오류 (%, 낮을수록 좋음)</h2>{ht(*fail_t)}"]
     sections += [f"<h2>{html.escape(t)}</h2>{ht(h, b)}" for t, h, b in slices]
     page = ("<!doctype html><html lang=ko><meta charset=utf-8><title>은행 업무 벤치마크</title><style>"
             "body{font-family:sans-serif;margin:24px;color:#222}table{border-collapse:collapse;margin:8px 0 24px}"

@@ -106,6 +106,7 @@ tail -f bank_pipeline.log
   - 문항마다 모델들의 답을 정답과 나란히 봅니다.
   - "SFT는 맞히고 출발 모델은 틀린 문제"처럼 좋아진 문제나 나빠진 문제만 골라 볼 수 있습니다.
   - 사용법은 [training/viewer/README.md](training/viewer/README.md) 6번에 있습니다.
+- **읽는 법:** 지표 뜻, 찍어도 나오는 점수, 이상 신호는 [guide/results.md](guide/results.md)에 있습니다.
 - **해석할 때 주의:** 학습 데이터와 평가 세트는 같은 생성기로 만들어서 고객만 다릅니다. 그래서 점수가 크게 오르는 것은 당연합니다. 실제 서류로는 viewer에서 따로 확인하세요.
 
 ## 자세한 문서
