@@ -6,6 +6,23 @@
 - OCR 단계 과제(박스 찾기, 영역 읽기 등)는 [PROMPTS.md](PROMPTS.md)에 있습니다. 은행 업무 모델도 OCR 데이터를 섞어 학습했으므로 그 질문도 됩니다.
 - `{customer}`처럼 중괄호로 쓴 곳은 실제 값으로 바꿔 넣는 자리입니다.
 
+## 질문에 넣을 목록은 어디서 찾나
+
+질문 문장 외에, 질문에 채워 넣는 **목록**은 생성기 문서에 자동 생성되어 있습니다. 학습 때 모델이 본 이름·키가 이 목록 그대로입니다.
+
+| 목록 | 쓰는 과제 | 위치 |
+|---|---|---|
+| 서류별 항목 키·항목명·타입 (476종) | `kie`의 `{items}` | [docs/SCHEMA.md](../../docs/SCHEMA.md), 기계용 [schema/schema.json](../../schema/schema.json) |
+| 체크박스 보기, 도장·서명 자리 | `marks`의 `{items}` | 같은 SCHEMA.md (타입 `checkbox`는 예시 칸에 보기 전체, `seal`·`signature`는 `seal.<자리>`·`sign.<자리>`) |
+| 서류 정식 명칭 (476종) | `classify`의 답, `doc_check`·`cross_check`·`review`의 서류명 | [docs/DOCUMENTS.md](../../docs/DOCUMENTS.md) |
+| 업무 12종과 업무별 필수 서류 | `doc_check`의 `{task}`·`{required}`, 나머지 과제의 `{task}` | [docs/DOCUMENTS.md#업무-시나리오](../../docs/DOCUMENTS.md#업무-시나리오) |
+
+- **표의 행:** SCHEMA.md에는 `rows[].amount`처럼 적혀 있습니다. 질문할 때는 `rows.0.amount`, `rows.1.amount`처럼 번호를 넣습니다.
+- **목록을 다시 만들 때:** 생성기 코드가 바뀌면 다시 만듭니다.
+  - `python scripts/build_schema.py`: SCHEMA.md, schema.json
+  - `python -m docgen list --markdown > docs/DOCUMENTS.md`: DOCUMENTS.md
+- **실제 서류:** 학습 목록에 없는 서류는 키를 직접 정해 물어도 됩니다. 다만 학습한 키와 이름을 쓸수록 정확합니다.
+
 ## 공통 규칙
 
 | 항목 | 규칙 |

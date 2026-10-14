@@ -49,7 +49,7 @@ HEAD = """# 정답 키 스키마
 | rrn / biz_no / corp_reg_no | 표시값 그대로 (마스킹 `*` 포함) |
 | phone | 숫자만 |
 | account_no | 표시값 그대로 |
-| checkbox / checkbox_multi | 체크된 보기 |
+| checkbox / checkbox_multi | 체크된 보기 (예시 칸에 보기 전체) |
 | seal / signature | `present` (bool) |
 
 "채움률"은 프로필 {n}개 중 그 키가 문서에 나온 비율입니다 (선택 항목·반복 항목은 100% 미만).
@@ -77,7 +77,7 @@ def main() -> None:
             for f in build_fields(raw):
                 k = re.sub(r"\.\d+(?=\.|$)", "[]", f["key"])
                 st = stats.setdefault(k, {"labels": collections.Counter(), "types": collections.Counter(),
-                                          "n": 0, "example": None, "null": 0})
+                                          "n": 0, "example": None, "null": 0, "options": []})
                 if k not in seen and not forced:
                     st["n"] += 1
                     seen.add(k)
@@ -87,12 +87,16 @@ def main() -> None:
                     st["null"] += 1
                 if st["example"] is None and f["value"] is not None:
                     st["example"] = f["value"]
+                for o in f.get("options") or []:  # 체크박스 보기 (marks 질문에 그대로 쓴다)
+                    if o["text"] not in st["options"]:
+                        st["options"].append(o["text"])
         for k in ("DOCGEN_HEAVY", "DOCGEN_SPECIAL"):
             os.environ.pop(k, None)
         schema[spec.id] = {
             "name": spec.name, "group": spec.group,
             "keys": [{"key": k, "label": st["labels"].most_common(1)[0][0], "type": st["types"].most_common(1)[0][0],
-                      "fill_rate": round(st["n"] / args.n, 2), "example": st["example"]} for k, st in stats.items()],
+                      "fill_rate": round(st["n"] / args.n, 2), "example": st["example"],
+                      **({"options": st["options"]} if st["options"] else {})} for k, st in stats.items()],
         }
     (ROOT / "schema").mkdir(exist_ok=True)
     (ROOT / "schema" / "schema.json").write_text(json.dumps(schema, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -112,6 +116,8 @@ def main() -> None:
             for k in s["keys"]:
                 ex = str(k["example"] or "").replace("\n", " ").replace("|", "\\|")
                 ex = ex[:40] + "…" if len(ex) > 40 else ex
+                if k.get("options"):
+                    ex = "보기: " + " / ".join(o.replace("|", "\\|") for o in k["options"])
                 lines.append(f"| `{k['key']}` | {k['label'] or ''} | {k['type']} | {k['fill_rate']:.0%} | {ex} |")
     (ROOT / "docs" / "SCHEMA.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"{len(schema)}종 → docs/SCHEMA.md, schema/schema.json")

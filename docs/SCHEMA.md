@@ -27,7 +27,7 @@
 | rrn / biz_no / corp_reg_no | 표시값 그대로 (마스킹 `*` 포함) |
 | phone | 숫자만 |
 | account_no | 표시값 그대로 |
-| checkbox / checkbox_multi | 체크된 보기 |
+| checkbox / checkbox_multi | 체크된 보기 (예시 칸에 보기 전체) |
 | seal / signature | `present` (bool) |
 
 "채움률"은 프로필 30개 중 그 키가 문서에 나온 비율입니다 (선택 항목·반복 항목은 100% 미만).
@@ -105,7 +105,7 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `doc_no` | 인감증명서발급사실확인용번호 | text | 100% | 7043-3278-9148 |
-| `applicant_type` | 발급구분 | checkbox | 100% | 본인 |
+| `applicant_type` | 발급구분 | checkbox | 100% | 보기: 본인 / 대리인 |
 | `seal.registered` | 등록인감 | seal | 100% | 박찬연인 |
 | `seal_name` | 인감 | text | 100% | 박찬연인 |
 | `person.name` | 성명 | text | 100% | 박찬연 |
@@ -113,7 +113,7 @@
 | `person.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
 | `person.nationality` | 국적 | text | 100% | 대한민국 |
 | `person.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 (방배동, 롯데캐슬센… |
-| `usage_type` | 용도 | checkbox | 100% | 일반용 |
+| `usage_type` | 용도 | checkbox | 100% | 보기: 일반용 / 부동산 매도용 |
 | `issue_date` | 발급일 | date | 100% | 2026년 1월 31일 |
 | `issuer` | 발급기관 | text | 100% | 서울특별시 서초구 방배동장 |
 | `seal.issuer` | 발급기관직인 | seal | 100% | 직인 |
@@ -138,7 +138,7 @@
 | `issue_date` | 발급일 | date | 100% | 2026년 01월 31일 |
 | `issuer` | 발급기관 | text | 100% | 서울특별시 서초구 방배동장 |
 | `seal.issuer` | 발급기관직인 | seal | 100% | 직인 |
-| `real_estate_usage` | 부동산관련용도및자동차매도용도 | checkbox | 60% | 소유권 이전(매매, 증여 등) |
+| `real_estate_usage` | 부동산관련용도및자동차매도용도 | checkbox | 60% | 보기: 소유권 이전(매매, 증여 등) / 제한물권 설정(근저당권 설정, 전세권 설정 등) / 그 밖의 용도(가등기 설정, 가등기 말소 등) |
 | `counterparty.name` | 성명(법인명) | text | 57% | 이서우 |
 | `counterparty.rrn` | 주민등록번호(법인등록번호) | rrn | 57% | 930301-2699865 |
 | `counterparty.address` | 주소 | text | 57% | 전라남도 여수시 시청로 126, 115동 1503호 |
@@ -445,12 +445,12 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `copy_type` | 보관용구분 | checkbox | 100% | 소득자 보관용 |
+| `copy_type` | 보관용구분 | checkbox | 100% | 보기: 소득자 보관용 / 발행자 보관용 / 발행자 보고용 |
 | `year` | 귀속연도 | number | 100% | 2024 |
-| `resident` | 거주구분 | checkbox | 100% | 거주자1 |
-| `nationality` | 내·외국인 | checkbox | 100% | 내국인1 |
-| `household_head` | 세대주여부 | checkbox | 100% | 세대주1 |
-| `settlement_type` | 연말정산구분 | checkbox | 100% | 계속근로1 |
+| `resident` | 거주구분 | checkbox | 100% | 보기: 거주자1 / 비거주자2 |
+| `nationality` | 내·외국인 | checkbox | 100% | 보기: 내국인1 / 외국인9 |
+| `household_head` | 세대주여부 | checkbox | 100% | 보기: 세대주1 / 세대원2 |
+| `settlement_type` | 연말정산구분 | checkbox | 100% | 보기: 계속근로1 / 중도퇴사2 |
 | `payer.name` | 법인명(상호) | text | 100% | 주식회사 태평양무역 |
 | `payer.ceo` | 대표자(성명) | text | 100% | 공정태 |
 | `payer.biz_no` | 사업자등록번호 | biz_no | 100% | 501-82-42625 |
@@ -600,7 +600,7 @@
 | `taxpayer.address` | 주소(본점) | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 (방배동, 롯데캐슬센… |
 | `valid_period` | 증명서유효기간 | text | 100% | 2026년 01월 31일 ~ 2026년 03월 01일 |
 | `valid_reason` | 유효기간을정한사유 | text | 100% | 2024년 귀속 종합소득세 납부기한(2025년 5월 31일) 도래 |
-| `purpose_type` | 사용목적 | checkbox | 100% | 기타 |
+| `purpose_type` | 사용목적 | checkbox | 100% | 보기: 대금 수령 / 해외이주 / 기타 |
 | `purpose` | 사용목적 | text | 100% | 금융기관 제출용 |
 | `payer` | 대금지급자 | amount | 100% | 서울특별시 |
 | `deferral` | 연장ㆍ유예명세 | text | 90% | 해당없음 |
@@ -627,7 +627,7 @@
 | `taxpayer.address` | 주소(본점) | text | 100% | 서울특별시 중구 다산로 361, 6층 (신당동, 그린지식산업센터) |
 | `valid_period` | 증명서유효기간 | text | 100% | 2026년 01월 31일 ~ 2026년 03월 01일 |
 | `valid_reason` | 유효기간을정한사유 | text | 100% | 2026사업연도 법인세 중간예납 납부기한(2026년 8월 31일) 도래 |
-| `purpose_type` | 사용목적 | checkbox | 100% | 기타 |
+| `purpose_type` | 사용목적 | checkbox | 100% | 보기: 대금 수령 / 해외이주 / 기타 |
 | `purpose` | 사용목적 | text | 100% | 금융기관 제출용 |
 | `payer` | 대금지급자 | amount | 100% | 한국전력공사 |
 | `deferral` | 연장ㆍ유예명세 | text | 100% | 해당없음 |
@@ -719,8 +719,8 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `tax_year` | 귀속연도 | number | 100% | 2024 |
-| `residency` | 거주구분 | checkbox | 100% | 거주자 |
-| `nationality` | 내ㆍ외국인 | checkbox | 100% | 내국인 |
+| `residency` | 거주구분 | checkbox | 100% | 보기: 거주자 / 비거주자 |
+| `nationality` | 내ㆍ외국인 | checkbox | 100% | 보기: 내국인 / 외국인 |
 | `taxpayer.name` | 성명 | text | 100% | 박찬연 |
 | `taxpayer.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
 | `taxpayer.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 (방배동, 롯데캐슬센… |
@@ -887,7 +887,7 @@
 | `total_amount` | 대출금액합계 | amount | 100% | 320,000,000 |
 | `total_balance` | 대출잔액합계 | amount | 100% | 303,430,084 |
 | `total_korean` | 대출잔액합계(한글) | amount_korean | 100% | 금 삼억삼백사십삼만팔십사원정 |
-| `guarantee` | 보증채무 | checkbox | 100% | 없음 |
+| `guarantee` | 보증채무 | checkbox | 100% | 보기: 있음 / 없음 |
 | `overdue` | 연체여부 | text | 100% | 없음 |
 | `purpose` | 용도 | text | 100% | 법원 제출용 |
 | `issue_date` | 발급일 | date | 100% | 2026년 1월 31일 |
@@ -1158,7 +1158,7 @@
 | `house.structure_usage` | 구조·용도 | text | 100% | 철근콘크리트구조 / 공동주택(아파트) |
 | `house.building_area` | 건물면적 | text | 100% | 101.84㎡ |
 | `house.lease_part` | 임차할부분 | text | 100% | 전부 (101.84㎡) |
-| `contract_type` | 계약의종류 | checkbox | 100% | 신규 계약 |
+| `contract_type` | 계약의종류 | checkbox | 100% | 보기: 신규 계약 / 합의에 의한 재계약 / 「주택임대차보호법」 제6조의3의 계약갱신요구권 행사에 의한 갱신계약 |
 | `tax_arrears` | 미납국세·지방세 | text | 100% | 없음 |
 | `prior_fixed_date` | 선순위확정일자현황 | text | 100% | 해당 없음 |
 | `fixed_date.date` | 확정일자 | date | 100% | 2026.01.27 |
@@ -1315,7 +1315,7 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `issue_no` | 발급번호 | text | 100% | 6888-572-1183-223 |
-| `taxpayer_type` | 개인/법인 | checkbox | 100% | 개인 |
+| `taxpayer_type` | 개인/법인 | checkbox | 100% | 보기: 개인 / 법인 |
 | `taxpayer.trade_name` | 상호(법인명) | text | 100% | 동방학원 |
 | `taxpayer.biz_no` | 사업자등록번호 | biz_no | 100% | 860-11-55034 |
 | `taxpayer.name` | 성명(대표자) | text | 100% | 박찬연 |
@@ -1666,7 +1666,7 @@
 | `tasks[]` | 위임내용 | text | 100% | 1. 기업은행 범어지점 여신(대출) 기한연장 신청 및 관련 서류 제출 일… |
 | `period` | 위임기간 | text | 90% | 2026.01.31 ~ 2026.03.02 |
 | `grant_date` | 작성일 | date | 100% | 2026년 01월 31일 |
-| `grantor.type` | 위임인구분 | checkbox | 100% | 법인 |
+| `grantor.type` | 위임인구분 | checkbox | 100% | 보기: 법인 / 개인 |
 | `grantor.name` | 상호 | text | 100% | (주)유니온무역 |
 | `grantor.ceo` | 대표자 | text | 70% | 박찬연 |
 | `grantor.biz_no` | 사업자등록번호 | biz_no | 70% | 264-82-36559 |
@@ -1676,7 +1676,7 @@
 | `seal.corp` | 법인인감 | seal | 70% | 주식회사 유니온무역 대표이사인 |
 | `attachment` | 첨부서류 | text | 100% | 법인인감증명서 1부 |
 | `recipient` | 제출처 | text | 100% | 기업은행 범어지점 귀중 |
-| `sub_delegation` | 복대리인선임 | checkbox | 23% | 불허 |
+| `sub_delegation` | 복대리인선임 | checkbox | 23% | 보기: 허용 / 불허 |
 | `grantor.birth` | 생년월일 | date | 30% | 1966년 08월 12일 |
 | `seal.grantor` | 위임인 | seal | 30% | 현예지 |
 | `tasks_extra` | 위임내용 | text | 20% | 4. 통장 및 OTP 재발급 신청·수령 |
@@ -2023,9 +2023,9 @@
 | `applicant.home_phone` | 자택전화 | phone | 100% | 02-5105-8357 |
 | `applicant.email` | E-mail | text | 100% | chanyeon363@naver.com |
 | `applicant.work_phone` | 직장전화 | phone | 100% | 043-783-2775 |
-| `housing` | 주택소유구분 | checkbox | 100% | 월세 |
-| `dwelling` | 주거형태 | checkbox | 100% | 아파트 |
-| `workplace.job_type` | 직업구분 | checkbox | 100% | 급여소득자 |
+| `housing` | 주택소유구분 | checkbox | 100% | 보기: 자가 / 전세 / 월세 / 기타 |
+| `dwelling` | 주거형태 | checkbox | 100% | 보기: 아파트 / 단독 / 다세대 / 연립·빌라 / 오피스텔 / 기타 |
+| `workplace.job_type` | 직업구분 | checkbox | 100% | 보기: 급여소득자 / 공무원 / 전문직 / 자영업자 / 기타 |
 | `workplace.name` | 직장명 | text | 100% | 주식회사 태평양무역 |
 | `workplace.department` | 근무부서 | text | 100% | 구매팀 |
 | `workplace.position` | 직위 | text | 100% | 대리 |
@@ -2046,12 +2046,12 @@
 | `loan.amount` | 대출신청금액 | amount | 100% | 292,000,000 |
 | `loan.term` | 대출기간 | text | 100% | 40년 |
 | `loan.hope_date` | 대출희망일 | date | 100% | 2026-02-16 |
-| `loan.repayment` | 상환방법 | checkbox | 100% | 원리금균등분할 |
-| `loan.rate_type` | 금리방식 | checkbox | 100% | 변동 |
+| `loan.repayment` | 상환방법 | checkbox | 100% | 보기: 만기일시 / 원금균등분할 / 원리금균등분할 / 혼합 |
+| `loan.rate_type` | 금리방식 | checkbox | 100% | 보기: 고정 / 변동 / 혼합 |
 | `loan.interest_day` | 이자납입일 | text | 100% | 매월 15일 |
-| `loan.purpose_category` | 자금용도구분 | checkbox | 100% | 주택구입 |
+| `loan.purpose_category` | 자금용도구분 | checkbox | 100% | 보기: 주택구입 / 주택임차 / 부채상환 / 생활비 / 교육비 / 기타 |
 | `loan.purpose` | 세부용도 | text | 100% | 주택구입자금 |
-| `collateral` | 담보구분 | checkbox | 100% | 부동산 |
+| `collateral` | 담보구분 | checkbox | 100% | 보기: 신용 / 부동산 / 보증 |
 | `collateral_detail` | 담보내용 | text | 100% | 경기도 수원시 영통구 매탄로 376, 115동 2104호 (아파트, 전용… |
 | `loan.debit_bank` | 이체은행 | text | 100% | 기업은행 |
 | `loan.debit_account` | 이체계좌번호 | account_no | 100% | 171-760452-29-611 |
@@ -2060,9 +2060,9 @@
 | `agent.rrn` | 대리인실명번호 | rrn | 13% | 671023-2****** |
 | `agent.relation` | 본인과의관계 | text | 13% | 모 |
 | `agent.phone` | 대리인연락처 | phone | 13% | 010-7560-2133 |
-| `agent.poa` | 위임장 | checkbox | 13% | 첨부 |
-| `manual_received` | 설명서수령확인 | checkbox | 100% | 예 |
-| `consent` | 개인(신용)정보동의 | checkbox | 100% | 동의함 |
+| `agent.poa` | 위임장 | checkbox | 13% | 보기: 첨부 / 미첨부 |
+| `manual_received` | 설명서수령확인 | checkbox | 100% | 보기: 예 / 아니오 |
+| `consent` | 개인(신용)정보동의 | checkbox | 100% | 보기: 동의함 / 동의하지 않음 |
 | `apply_date` | 신청일 | date | 100% | 2026년 1월 31일 |
 | `signature` | 신청인 | text | 100% | 박찬연 |
 | `seal.applicant` | 신청인 | seal | 100% | 김소윤 |
@@ -2091,7 +2091,7 @@
 | `company.established` | 설립일 | date | 100% | 2018.11.01 |
 | `company.industry` | 업태/종목 | text | 100% | 도매 및 소매업 / 무역 |
 | `company.employees` | 종업원수 | text | 100% | 312명 |
-| `company.size` | 기업규모 | checkbox | 100% | 중소기업 |
+| `company.size` | 기업규모 | checkbox | 100% | 보기: 대기업 / 중견기업 / 중소기업 / 소상공인 |
 | `company.capital` | 자본금 | amount | 100% | 50,000,000원 |
 | `company.revenue` | 매출액 | amount | 100% | 61,800,000,000원 |
 | `company.revenue_year` | 결산연도 | text | 100% | 2025년 |
@@ -2102,18 +2102,18 @@
 | `contact.position` | 부서/직위 | text | 100% | 회계팀 과장 |
 | `contact.phone` | 연락처 | phone | 100% | 010-5228-8790 |
 | `contact.email` | E-mail | text | 100% | biz@union.co.kr |
-| `loan.subject` | 여신과목 | checkbox | 100% | 일반자금대출 |
+| `loan.subject` | 여신과목 | checkbox | 100% | 보기: 일반자금대출 / 시설자금대출 / 한도대출 |
 | `loan.product` | 상품명 | text | 100% | 중소기업 운전자금대출 |
-| `loan.rate_type` | 금리종류 | checkbox | 100% | 고정금리 |
+| `loan.rate_type` | 금리종류 | checkbox | 100% | 보기: 고정금리 / 변동금리 |
 | `loan.amount_korean` | 신청금액(한글) | amount_korean | 100% | 일금 삼십억원정 |
 | `loan.amount` | 신청금액 | amount | 100% | 3,000,000,000원 |
 | `loan.term` | 여신기간 | text | 100% | 1년 |
 | `loan.hope_date` | 대출희망일 | date | 100% | 2026-02-03 |
 | `loan.repayment` | 상환방법 | text | 100% | 만기일시상환 |
-| `loan.fund_type` | 자금구분 | checkbox | 100% | 운전자금 |
+| `loan.fund_type` | 자금구분 | checkbox | 100% | 보기: 운전자금 / 시설자금 |
 | `loan.purpose` | 자금용도 | text | 100% | 매출채권 회수 지연에 따른 운전자금 |
 | `loan.deposit_account` | 대출금입금계좌 | account_no | 100% | 기업은행 198-866024-83-977 |
-| `loan.collateral` | 담보구분 | checkbox | 100% | 보증서 |
+| `loan.collateral` | 담보구분 | checkbox | 100% | 보기: 신용 / 부동산 / 보증서 / 예·적금 |
 | `loan.collateral_detail` | 담보/보증내용 | text | 100% | 기술보증기금 보증서 (보증비율 85%) |
 | `other_loans[].lender` | 금융기관 | text | 90% | 신한캐피탈 |
 | `other_loans[].kind` | 여신종류 | text | 90% | 시설자금대출 |
@@ -2143,13 +2143,13 @@
 | `debtor.phone` | 연락처 | phone | 100% | 010-5907-7253 |
 | `loan.subject` | 대출과목 | text | 100% | 주택담보대출 |
 | `loan.product` | 상품명 | text | 100% | 아파트 담보대출 |
-| `loan.method` | 거래구분 | checkbox | 100% | 개별거래 |
+| `loan.method` | 거래구분 | checkbox | 100% | 보기: 개별거래 / 한도거래 |
 | `loan.account_no` | 대출계좌번호 | account_no | 100% | 740-757492-44-140 |
 | `loan.amount_korean` | 대출(한도)금액(한글) | amount_korean | 100% | 금 이억구천이백만원整 |
 | `loan.amount` | 대출(한도)금액 | amount | 100% | 292,000,000원 |
 | `loan.start_date` | 대출개시일 | date | 100% | 2026.02.16 |
 | `loan.maturity` | 대출기간만료일 | date | 100% | 2066.02.16 |
-| `loan.rate_type` | 금리종류 | checkbox | 100% | 변동금리 |
+| `loan.rate_type` | 금리종류 | checkbox | 100% | 보기: 고정금리 / 변동금리 / 혼합금리 |
 | `loan.base_rate_name` | 기준금리종류 | text | 100% | CD 91일물 |
 | `loan.base_rate` | 기준금리 | percent | 100% | 2.87% |
 | `loan.spread` | 가산금리 | percent | 100% | 1.58% |
@@ -2158,13 +2158,13 @@
 | `loan.rate_reset` | 금리변동주기 | text | 100% | 3개월 |
 | `loan.interest_pay` | 이자지급시기 | text | 100% | 매월 15일 (후취) |
 | `loan.interest_calc` | 이자계산방법 | text | 100% | 1년을 365일(윤년 366일)로 보고 1일 단위로 계산 |
-| `loan.repayment` | 상환방법 | checkbox | 100% | 원리금균등분할상환 |
+| `loan.repayment` | 상환방법 | checkbox | 100% | 보기: 만기일시상환 / 원금균등분할상환 / 원리금균등분할상환 |
 | `loan.installment` | 분할상환횟수 | text | 100% | 480회 (매월) |
 | `loan.debit_account` | 자동이체계좌 | account_no | 100% | 기업은행 171-760452-29-611 |
 | `loan.prepay_fee` | 중도상환해약금 | text | 100% | 중도상환금액 × 0.74% × 잔존일수 ÷ 대출기간일수 (3년 경과 시 … |
 | `loan.late_rate` | 지연배상금률 | text | 100% | 대출이자율 + 연체가산이자율 연 3% (현재 연 6.95%, 최고 연 1… |
 | `stamp_tax` | 인지세 | text | 100% | 150,000원 (고객 75,000원 / 은행 75,000원) |
-| `explained` | 설명이해확인 | checkbox | 100% | 예 |
+| `explained` | 설명이해확인 | checkbox | 100% | 보기: 예 / 아니오 |
 | `handwritten` | 자필기재 | text | 100% | 설명들었음 |
 | `contract_date` | 약정일 | date | 100% | 2026년 2월 9일 |
 | `signature` | 채무자 | text | 100% | 박찬연 |
@@ -2193,14 +2193,14 @@
 | `debtor.address` | 본점소재지 | text | 100% | 서울특별시 중구 다산로 361, 6층 (신당동, 그린지식산업센터) |
 | `loan.subject` | 여신과목 | text | 100% | 일반자금대출 |
 | `loan.product` | 상품명 | text | 100% | 중소기업 운전자금대출 |
-| `loan.method` | 거래방법 | checkbox | 100% | 개별거래 |
+| `loan.method` | 거래방법 | checkbox | 100% | 보기: 개별거래 / 한도거래 |
 | `loan.account_no` | 여신계좌번호 | account_no | 100% | 203-617585-91-545 |
 | `loan.amount_korean` | 여신(한도)금액(한글) | amount_korean | 100% | 금 삼십억원정 |
 | `loan.amount` | 여신(한도)금액 | amount | 100% | 3,000,000,000원 |
 | `loan.start_date` | 여신개시일 | date | 100% | 2026년 2월 3일 |
 | `loan.maturity` | 여신기간만료일 | date | 100% | 2027년 2월 3일 |
 | `loan.purpose` | 자금용도 | text | 100% | 매출채권 회수 지연에 따른 운전자금 |
-| `loan.rate_type` | 금리종류 | checkbox | 100% | 고정금리 |
+| `loan.rate_type` | 금리종류 | checkbox | 100% | 보기: 고정금리 / 변동금리 |
 | `loan.base_rate_name` | 기준금리종류 | text | 100% | 금융채 1년물(AAA) |
 | `loan.base_rate` | 기준금리 | percent | 100% | 3.23% |
 | `loan.spread` | 가산금리 | percent | 100% | 1.75% |
@@ -2214,7 +2214,7 @@
 | `loan.prepay_fee` | 중도상환해약금 | text | 100% | 중도상환금액 × 0.50% × 잔존일수 ÷ 대출기간일수 (3년 경과 시 … |
 | `loan.late_rate` | 지연배상금률 | text | 100% | 대출이자율 + 연체가산이자율 연 3% (현재 연 7.98%, 최고 연 1… |
 | `stamp_tax` | 인지세 | text | 100% | 350,000원 (고객 175,000원 / 은행 175,000원) |
-| `explained` | 설명이해확인 | checkbox | 100% | 예 |
+| `explained` | 설명이해확인 | checkbox | 100% | 보기: 예 / 아니오 |
 | `contract_date` | 약정일 | date | 100% | 2026년 2월 3일 |
 | `signature` | 대표이사 | text | 100% | 박찬연 |
 | `seal.corp` | 법인인감 | seal | 100% | 대표이사 |
@@ -2299,7 +2299,7 @@
 | `handwritten.name` | 자필성명 | text | 100% | 박찬연 |
 | `handwritten.max_amount` | 자필보증채무최고액 | amount_korean | 100% | 금 삼십구억원정 |
 | `handwritten.confirm` | 자필설명확인 | text | 100% | 충분히 설명듣고 이해함 |
-| `explained` | 설명이해확인 | checkbox | 100% | 예 |
+| `explained` | 설명이해확인 | checkbox | 100% | 보기: 예 / 아니오 |
 | `contract_date` | 약정일 | date | 100% | 2026년 02월 03일 |
 | `signature` | 보증인 | text | 100% | 박찬연 |
 | `seal.guarantor` | 보증인 | seal | 100% | 강순준인 |
@@ -2319,9 +2319,9 @@
 | `bank` | 은행명 | text | 100% | 기업은행 |
 | `biller.name` | 수납기관 | text | 100% | 중소기업은행 |
 | `branch` | 취급점 | text | 100% | 범어지점 |
-| `kind` | 신청구분 | checkbox | 100% | 신규 |
+| `kind` | 신청구분 | checkbox | 100% | 보기: 신규 / 변경 / 해지 |
 | `biller.fee_type` | 요금종류 | text | 100% | 대출원리금(주택담보대출) |
-| `target` | 이체대상 | checkbox | 100% | 대출원리금 |
+| `target` | 이체대상 | checkbox | 100% | 보기: 대출이자 / 대출원리금 |
 | `loan_product` | 대출상품명 | text | 100% | 아파트 담보대출 |
 | `loan_account` | 납부자번호(대출계좌번호) | account_no | 100% | 740-757492-44-140 |
 | `applicant.name` | 신청인 | text | 100% | 박찬연 |
@@ -2333,12 +2333,12 @@
 | `debit.holder` | 예금주 | text | 100% | 박찬연 |
 | `debit.holder_birth` | 예금주생년월일 | number | 100% | 900210 |
 | `debit.holder_phone` | 예금주휴대전화 | phone | 100% | 010-5907-7253 |
-| `relation` | 신청인과예금주와의관계 | checkbox | 100% | 본인 |
+| `relation` | 신청인과예금주와의관계 | checkbox | 100% | 보기: 본인 / 가족 / 기타 |
 | `transfer_day` | 출금일 | text | 100% | 매월 15일 |
 | `start_month` | 이체개시 | text | 100% | 2026년 3월분부터 |
 | `amount` | 출금금액 | text | 100% | 청구금액 전액 (약 1,211,320원) |
-| `privacy_consent` | 개인정보수집이용동의 | checkbox | 100% | 동의함 |
-| `third_party_consent` | 제3자제공동의 | checkbox | 100% | 동의함 |
+| `privacy_consent` | 개인정보수집이용동의 | checkbox | 100% | 보기: 동의함 / 동의하지 않음 |
+| `third_party_consent` | 제3자제공동의 | checkbox | 100% | 보기: 동의함 / 동의하지 않음 |
 | `apply_date` | 신청일 | date | 100% | 2026년 2월 3일 |
 | `signature` | 신청인 | text | 100% | 박찬연 |
 | `seal.applicant` | 신청인 | seal | 100% | 강순준 |
@@ -2359,29 +2359,29 @@
 | `customer.name` | 성명(한글) | text | 100% | 존 밀러 |
 | `customer.name_en` | 성명(영문) | text | 100% | KANG SOONJUN |
 | `customer.rrn` | 실명번호 | rrn | 100% | 950627-5955869 |
-| `customer.resident_type` | 구분 | checkbox | 100% | 외국인 |
-| `customer.gender` | 성별 | checkbox | 100% | 남 |
+| `customer.resident_type` | 구분 | checkbox | 100% | 보기: 내국인 / 재외국민 / 외국인 |
+| `customer.gender` | 성별 | checkbox | 100% | 보기: 남 / 여 |
 | `customer.nationality` | 국적 | text | 100% | 미국 |
 | `customer.address` | 주소(거소) | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 (방배동, 롯데캐슬센… |
 | `customer.mobile` | 휴대전화 | phone | 100% | 010-3055-5155 |
 | `customer.email` | E-mail | text | 100% | john89@yahoo.com |
-| `job.type` | 직업 | checkbox | 100% | 급여소득자 |
+| `job.type` | 직업 | checkbox | 100% | 보기: 급여소득자 / 개인사업자 / 전문직 / 공무원 / 연금소득자 / 주부 / 학생 / 무직 / 기타 |
 | `job.company` | 직장명 | text | 83% | 주식회사 태평양무역 |
 | `job.department` | 부서/직위 | text | 70% | 구매팀 / 대리 |
 | `job.industry` | 업종 | text | 83% | 도매 및 소매업 |
 | `job.work_phone` | 직장전화 | phone | 83% | 043-783-2775 |
-| `transaction.purpose` | 거래목적 | checkbox | 100% | 공과금 납부결제 |
-| `transaction.fund_source` | 자금의원천 | checkbox | 100% | 근로 및 연금소득 |
-| `transaction.expected_amount` | 예상거래금액 | checkbox | 100% | 1천만원 미만 |
-| `transaction.frequency` | 예상거래빈도 | checkbox | 100% | 월 5회 미만 |
-| `beneficial_owner` | 실제소유자여부 | checkbox | 100% | 예 |
-| `pep` | 외국의정치적주요인물여부 | checkbox | 100% | 아니오 |
+| `transaction.purpose` | 거래목적 | checkbox | 100% | 보기: 급여 및 생활비 / 저축 및 투자 / 보험료 납부결제 / 공과금 납부결제 / 카드대금 결제 / 대출원리금 상환결제 / 사업상 거래 / 기타 |
+| `transaction.fund_source` | 자금의원천 | checkbox | 100% | 보기: 근로 및 연금소득 / 퇴직소득 / 사업소득 / 부동산임대소득 / 부동산양도소득 / 금융소득(이자 및 배당) / 상속·증여 / 일시 재산양도로 인한 소득 / 기타 |
+| `transaction.expected_amount` | 예상거래금액 | checkbox | 100% | 보기: 1천만원 미만 / 1천만원~5천만원 / 5천만원~1억원 / 1억원 이상 |
+| `transaction.frequency` | 예상거래빈도 | checkbox | 100% | 보기: 월 5회 미만 / 월 5~10회 / 월 10~20회 / 월 20회 이상 |
+| `beneficial_owner` | 실제소유자여부 | checkbox | 100% | 보기: 예 / 아니오 |
+| `pep` | 외국의정치적주요인물여부 | checkbox | 100% | 보기: 예 / 아니오 |
 | `date` | 작성일 | date | 100% | 2026년 01월 31일 |
 | `signature` | 고객성명 | text | 100% | MILLER JOHN |
 | `seal.customer` | 고객 | seal | 100% | MILL |
 | `sign.customer` | 고객 | signature | 100% | 강순준 |
-| `bank_use.risk_grade` | 고객위험등급 | checkbox | 100% | 저위험 |
-| `bank_use.id_type` | 실명확인증표 | checkbox | 100% | 외국인등록증 |
+| `bank_use.risk_grade` | 고객위험등급 | checkbox | 100% | 보기: 저위험 / 중위험 / 고위험 |
+| `bank_use.id_type` | 실명확인증표 | checkbox | 100% | 보기: 주민등록증 / 운전면허증 / 여권 / 외국인등록증 / 모바일신분증 |
 | `bank_use.branch` | 확인영업점 | text | 100% | 범어지점 |
 | `seal.staff.clerk` | 담당 | seal | 100% | 김도서 |
 | `bank_use.clerk` | 담당 | text | 100% | 김도서 |
@@ -2395,7 +2395,7 @@
 | `job.biz_no` | 사업자등록번호 | biz_no | 13% | 696-24-15367 |
 | `job.opened` | 개업년월일 | date | 13% | 2016.10.11 |
 | `edd.annual_income` | 연간소득 | text | 17% | 5,920만원 |
-| `edd.assets` | 보유자산규모 | checkbox | 17% | 10억원~30억원 |
+| `edd.assets` | 보유자산규모 | checkbox | 17% | 보기: 5억원 미만 / 5억원~10억원 / 10억원~30억원 / 30억원 이상 |
 | `edd.fund_detail` | 자금원천상세 | text | 17% | 부모로부터 증여받은 자금 (증여세 신고서 제출) |
 | `edd.purpose_detail` | 거래목적상세 | text | 17% | 주식·가상자산 투자자금 이체 |
 | `edd.cash_tx` | 고액현금거래 | text | 17% | 월 1~2회 (1천만원 이상) |
@@ -2422,31 +2422,31 @@
 | `corp.biz_address` | 사업장주소 | text | 100% | 본점과 동일 |
 | `corp.phone` | 대표전화 | phone | 100% | 02-9508-6789 |
 | `corp.email` | 이메일 | text | 100% | admin@hanbit.co.kr |
-| `corp.corp_type` | 법인구분 | checkbox | 100% | 중소기업 |
-| `corp.listed` | 상장여부 | checkbox | 100% | 비상장 |
+| `corp.corp_type` | 법인구분 | checkbox | 100% | 보기: 대기업 / 중소기업 / 국가·지자체·공공단체 / 금융기관 / 비영리법인(단체) / 외국법인(단체) |
+| `corp.listed` | 상장여부 | checkbox | 100% | 보기: 유가증권시장 / 코스닥 / 코넥스 / 비상장 |
 | `rep.name` | 대표자성명 | text | 100% | 박찬연 |
 | `rep.name_en` | 대표자영문성명 | text | 100% | KANG SOONJUN |
 | `rep.birth` | 대표자생년월일 | date | 100% | 1990.02.10 |
 | `rep.nationality` | 대표자국적 | text | 100% | 대한민국 |
-| `transaction.purpose` | 거래목적 | checkbox | 100% | 대출 |
-| `transaction.fund_source` | 자금원천 | checkbox | 100% | 영업수익 |
-| `owner_step` | 실제소유자확인단계 | checkbox | 100% | 1단계 |
+| `transaction.purpose` | 거래목적 | checkbox | 100% | 보기: 사업상 거래(결제) / 운영자금 관리 / 급여 지급 / 대출 / 기타 |
+| `transaction.fund_source` | 자금원천 | checkbox | 100% | 보기: 영업수익 / 자본금 / 차입금 / 투자수익 / 기타 |
+| `owner_step` | 실제소유자확인단계 | checkbox | 100% | 보기: 1단계 / 2단계 / 3단계 |
 | `owners[].name` | 성명 | text | 100% | 박찬연 |
 | `owners[].birth` | 생년월일 | date | 100% | 1990.02.10 |
 | `owners[].nationality` | 국적 | text | 100% | 대한민국 |
 | `owners[].ratio` | 지분율 | percent | 100% | 74.04% |
 | `owners[].relation` | 법인과의관계 | text | 100% | 대표이사 |
-| `pep` | 외국의정치적주요인물여부 | checkbox | 100% | 아니오 |
+| `pep` | 외국의정치적주요인물여부 | checkbox | 100% | 보기: 예 / 아니오 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `seal.corp` | 법인인감 | seal | 100% | 유니온무역대표이사인 |
-| `bank_use.risk_grade` | 고객위험등급 | checkbox | 100% | 저위험 |
+| `bank_use.risk_grade` | 고객위험등급 | checkbox | 100% | 보기: 저위험 / 중위험 / 고위험 |
 | `bank_use.documents[]` | 징구서류 | text | 100% | 사업자등록증 |
 | `bank_use.branch` | 확인영업점 | text | 100% | 범어지점 |
 | `seal.staff.clerk` | 담당 | seal | 100% | 변찬하 |
 | `bank_use.clerk` | 담당 | text | 100% | 변찬하 |
 | `seal.staff.manager` | 책임자 | seal | 100% | 이민재 |
 | `bank_use.manager` | 책임자 | text | 100% | 이민재 |
-| `bank_use.documents` | 징구서류 | checkbox_multi | 100% |  |
+| `bank_use.documents` | 징구서류 | checkbox_multi | 100% | 보기: 사업자등록증 / 법인등기사항전부증명서 / 주주명부 / 정관 / 법인인감증명서 |
 | `shareholders[].name` | 주주명 | text | 33% | 현예지 |
 | `shareholders[].birth` | 생년월일 | date | 33% | 1966.08.12 |
 | `shareholders[].shares` | 소유주식수 | number | 33% | 22,821 |
@@ -2461,17 +2461,17 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `bank.name` | 은행명 | text | 100% | 기업은행 |
-| `consent.collect` | 수집이용동의 | checkbox | 100% | 동의함 |
-| `consent.unique_id` | 고유식별정보처리동의 | checkbox | 100% | 동의함 |
+| `consent.collect` | 수집이용동의 | checkbox | 100% | 보기: 동의함 / 동의하지 않음 |
+| `consent.unique_id` | 고유식별정보처리동의 | checkbox | 100% | 보기: 동의함 / 동의하지 않음 |
 | `providers[].name` | 제공받는자 | text | 100% | 신용정보집중기관(한국신용정보원) |
 | `providers[].purpose` | 제공받는자의이용목적 | text | 100% | 본인의 신용을 판단하기 위한 자료로 활용하거나 공공기관에서 정책자료로 활… |
 | `providers[].items` | 제공하는항목 | text | 100% | 개인식별정보, 신용거래정보, 신용도판단정보, 신용능력정보, 공공정보 |
 | `providers[].period` | 제공받는자의보유이용기간 | text | 100% | 관련 법령 및 규약에서 정한 기간 |
-| `consent.provide` | 제공동의 | checkbox | 100% | 동의함 |
-| `consent.provide_unique_id` | 고유식별정보제공동의 | checkbox | 100% | 동의함 |
-| `consent.inquiry` | 조회동의 | checkbox | 100% | 동의함 |
-| `marketing.collect` | 마케팅수집이용동의 | checkbox | 100% | 동의함 |
-| `marketing.provide` | 마케팅제공동의 | checkbox | 100% | 동의하지 않음 |
+| `consent.provide` | 제공동의 | checkbox | 100% | 보기: 동의함 / 동의하지 않음 |
+| `consent.provide_unique_id` | 고유식별정보제공동의 | checkbox | 100% | 보기: 동의함 / 동의하지 않음 |
+| `consent.inquiry` | 조회동의 | checkbox | 100% | 보기: 동의함 / 동의하지 않음 |
+| `marketing.collect` | 마케팅수집이용동의 | checkbox | 100% | 보기: 동의함 / 동의하지 않음 |
+| `marketing.provide` | 마케팅제공동의 | checkbox | 100% | 보기: 동의함 / 동의하지 않음 |
 | `marketing.channels[]` | 연락방법 | text | 47% | 전화 |
 | `date` | 작성일 | date | 100% | 2026.01.31 |
 | `applicant.birth` | 생년월일 | date | 100% | 1990년 02월 10일 |
@@ -2480,7 +2480,7 @@
 | `sign.applicant` | 본인 | signature | 90% | 강순준 |
 | `seal.staff.clerk` | 본인확인 | seal | 100% | 이태경 |
 | `bank_use.clerk` | 본인확인 | text | 100% | 이태경 |
-| `marketing.channels` | 연락방법 | checkbox_multi | 100% |  |
+| `marketing.channels` | 연락방법 | checkbox_multi | 100% | 보기: 전화 / 문자메시지 / 이메일 / 우편 / 앱 푸시 |
 | `legal_rep.name` | 법정대리인 | text | 10% | 정수린 |
 | `legal_rep.relation` | 본인과의관계 | text | 10% | 모 |
 | `seal.legal_rep` | 법정대리인 | seal | 10% | 정수린 |
@@ -2500,23 +2500,23 @@
 | `customer.email` | 이메일 | text | 100% | chanyeon363@naver.com |
 | `customer.job` | 직업 | text | 100% | 급여소득자 |
 | `customer.company` | 직장명 | text | 77% | 주식회사 태평양무역 |
-| `product.type` | 예금종류 | checkbox | 100% | 정기예금 |
+| `product.type` | 예금종류 | checkbox | 100% | 보기: 보통예금 / 저축예금 / 정기예금 / 정기적금 / 주택청약종합저축 |
 | `product.name` | 상품명 | text | 100% | 정기예금(일반) |
 | `product.amount` | 신규금액 | amount | 100% | 119,000,000원 |
 | `product.term` | 계약기간 | text | 47% | 36개월 |
 | `product.interest_payment` | 이자지급방법 | text | 10% | 만기일시지급 |
 | `product.linked_account` | 출금계좌 | account_no | 47% | 171-760452-29-611 |
-| `passbook` | 통장발행 | checkbox | 100% | 미발행 |
-| `seal_type` | 인감서명등록 | checkbox | 100% | 인감 |
-| `check_card` | 체크카드 | checkbox | 100% | 미신청 |
-| `ebank.internet` | 인터넷뱅킹 | checkbox | 100% | 신청 |
-| `ebank.mobile` | 모바일뱅킹 | checkbox | 100% | 미신청 |
-| `ebank.otp` | 보안매체 | checkbox | 100% | 모바일OTP |
+| `passbook` | 통장발행 | checkbox | 100% | 보기: 발행 / 미발행 |
+| `seal_type` | 인감서명등록 | checkbox | 100% | 보기: 인감 / 서명 / 인감+서명 |
+| `check_card` | 체크카드 | checkbox | 100% | 보기: 신청 / 미신청 |
+| `ebank.internet` | 인터넷뱅킹 | checkbox | 100% | 보기: 신청 / 미신청 |
+| `ebank.mobile` | 모바일뱅킹 | checkbox | 100% | 보기: 신청 / 미신청 |
+| `ebank.otp` | 보안매체 | checkbox | 100% | 보기: OTP 발급 / 모바일OTP / 기존 OTP 사용 / 보안카드 / 미신청 |
 | `ebank.limit_once` | 1회이체한도 | amount | 87% | 5,000,000원 |
 | `ebank.limit_day` | 1일이체한도 | amount | 87% | 5,000,000원 |
-| `alert` | 입출금알림 | checkbox | 100% | 앱 푸시 |
-| `mail_to` | 우편물수령처 | checkbox | 100% | 자택 |
-| `salary_transfer` | 급여이체지정 | checkbox | 100% | 미지정 |
+| `alert` | 입출금알림 | checkbox | 100% | 보기: SMS / 앱 푸시 / 미신청 |
+| `mail_to` | 우편물수령처 | checkbox | 100% | 보기: 자택 / 직장 / 이메일 / 수령 안함 |
+| `salary_transfer` | 급여이체지정 | checkbox | 100% | 보기: 지정 / 미지정 |
 | `protection_limit` | 예금자보호한도 | text | 93% | 1억원 |
 | `signature` | 확인자 | text | 100% | 박찬연 |
 | `date` | 신청일 | date | 100% | 2026년 1월 31일 |
@@ -2524,7 +2524,7 @@
 | `sign.applicant` | 신청인 | signature | 100% | 박찬연 |
 | `bank_use.account_no` | 계좌번호 | account_no | 100% | 956-619004-07-320 |
 | `bank_use.branch` | 개설영업점 | text | 100% | 범어지점 |
-| `bank_use.id_type` | 실명확인증표 | checkbox | 100% | 주민등록증 |
+| `bank_use.id_type` | 실명확인증표 | checkbox | 100% | 보기: 주민등록증 / 운전면허증 / 여권 / 외국인등록증 / 모바일신분증 |
 | `seal.staff.clerk` | 담당 | seal | 100% | 위성준 |
 | `bank_use.clerk` | 담당 | text | 100% | 위성준 |
 | `seal.staff.manager` | 책임자 | seal | 100% | 반찬우 |
@@ -2560,17 +2560,17 @@
 | `customer.mobile` | 연락처 | phone | 100% | 010-5907-7253 |
 | `customer.job` | 직업 | text | 100% | 개인사업자 |
 | `customer.company` | 직장명 | text | 93% | 동방학원 |
-| `account_type` | 신규예금종류 | checkbox | 100% | 저축예금 |
-| `purpose` | 금융거래목적 | checkbox | 100% | 사업자 거래 |
+| `account_type` | 신규예금종류 | checkbox | 100% | 보기: 보통예금 / 저축예금 / 기타 입출금예금 |
+| `purpose` | 금융거래목적 | checkbox | 100% | 보기: 급여계좌 / 사업자 거래 / 공과금 이체 / 모임 회비 / 아르바이트 / 기타 |
 | `evidence` | 제출증빙서류 | text | 100% | 사업자등록증명 |
-| `questions.q1` | 통장양도대여요청여부 | checkbox | 100% | 아니오 |
-| `questions.q2` | 취업대출빙자요청여부 | checkbox | 100% | 아니오 |
-| `questions.q3` | 최근타행계좌개설여부 | checkbox | 100% | 아니오 |
+| `questions.q1` | 통장양도대여요청여부 | checkbox | 100% | 보기: 예 / 아니오 |
+| `questions.q2` | 취업대출빙자요청여부 | checkbox | 100% | 보기: 예 / 아니오 |
+| `questions.q3` | 최근타행계좌개설여부 | checkbox | 100% | 보기: 예 / 아니오 |
 | `date` | 작성일 | date | 100% | 2026년 01월 31일 |
 | `signature` | 고객성명 | text | 100% | 박찬연 |
 | `seal.customer` | 고객 | seal | 100% | 박찬연 |
 | `sign.customer` | 고객 | signature | 100% | 현예지 |
-| `bank_use.result` | 처리결과 | checkbox | 100% | 일반계좌 개설 |
+| `bank_use.result` | 처리결과 | checkbox | 100% | 보기: 일반계좌 개설 / 금융거래한도계좌 개설 / 개설 거절 |
 | `seal.staff.clerk` | 담당 | seal | 100% | 구호재 |
 | `bank_use.clerk` | 담당 | text | 100% | 구호재 |
 | `seal.staff.manager` | 책임자 | seal | 100% | 정연경 |
@@ -2598,10 +2598,10 @@
 | `beneficiary.account_no` | 수취인계좌번호 | account_no | 100% | 884779361534 |
 | `remittance.currency` | 송금통화 | text | 100% | USD |
 | `remittance.amount` | 송금금액 | amount | 100% | 73,190.66 |
-| `remittance.purpose` | 송금사유 | checkbox | 100% | 수입대금 |
+| `remittance.purpose` | 송금사유 | checkbox | 100% | 보기: 수입대금 / 유학생경비 / 해외체재비 / 증여성송금 / 해외이주비 / 국내보수송금 / 기타 |
 | `remittance.purpose_code` | 지급사유코드 | number | 77% | 10103 |
-| `remittance.charge` | 수수료부담 | checkbox | 100% | SHA |
-| `remittance.method` | 송금방법 | checkbox | 100% | 전신송금(T/T) |
+| `remittance.charge` | 수수료부담 | checkbox | 100% | 보기: OUR / SHA / BEN |
+| `remittance.method` | 송금방법 | checkbox | 100% | 보기: 전신송금(T/T) / 송금수표(D/D) |
 | `remittance.message` | 송금메시지 | text | 100% | INVOICE NO. MEK-2026-0068 |
 | `remittance.documents` | 지급증빙서류 | text | 100% | Commercial Invoice, B/L 사본 |
 | `date` | 신청일 | date | 100% | 2026.01.31 |
@@ -2647,7 +2647,7 @@
 | `holder.birth_place` | 출생국가 | text | 100% | 대한민국 (KOREA) |
 | `holder.nationality` | 국적 | text | 100% | 대한민국 (KOREA) |
 | `holder.address` | 현재거주지주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 (방배동, 롯데캐슬센… |
-| `residence_category` | 해외거주자여부 | text | 100% | 미국 세법상 미국 거주자 |
+| `residence_category` | 해외거주자여부 | text | 100% | 보기: 미국 시민권자(이중국적자 포함) / 미국 영주권자 / 미국 세법상 미국 거주자 / 미국 이외의 해외 거주자 / 해당사항 없음 |
 | `residences[].country` | 거주관할권 | text | 17% | 미국 (U.S.A.) |
 | `residences[].tin` | 납세자번호 | number | 10% | 387-79-8629 |
 | `date` | 작성일 | date | 100% | 2026.01.31 |
@@ -2700,15 +2700,15 @@
 | `customer.name` | 이름(GivenName) | text | 100% | 박찬연 |
 | `customer.birth` | 생년월일 | date | 100% | 1990년 2월 10일 |
 | `customer.phone` | 연락처 | phone | 100% | 010-5907-7253 |
-| `check.FATCA` | FATCA | checkbox | 100% | 미국세법상 미국거주자 |
-| `check.CRS` | CRS | checkbox | 100% | 미국이외의 해외거주자 |
-| `check.해당없음` | 해당없음 | checkbox | 100% | 모두 해당사항없음 |
+| `check.FATCA` | FATCA | checkbox | 100% | 보기: 미국시민권자(이중국적자포함) / 미국영주권자 / 미국세법상 미국거주자 |
+| `check.CRS` | CRS | checkbox | 100% | 보기: 미국이외의 해외거주자 |
+| `check.해당없음` | 해당없음 | checkbox | 100% | 보기: 모두 해당사항없음 |
 | `거주관할권` | 거주관할권*(1) | text | 100% |  |
 | `거주관할권2` | 거주관할권*(2) | text | 100% |  |
 | `목록[].납세자번호` | 납세자번호(TIN) | text | 100% | 801-860243-72961 |
 | `해외영문주소` | 해외영문주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
-| `check.미발급국가` | 미발급국가 | checkbox | 100% | 미취득 |
-| `check.미발급국가2` | 미발급국가 | checkbox | 100% | 미취득 |
+| `check.미발급국가` | 미발급국가 | checkbox | 100% | 보기: 미발급국가 / 조세당국이 요구하지 않음 / 미취득 |
+| `check.미발급국가2` | 미발급국가 | checkbox | 100% | 보기: 미발급국가 / 조세당국이 요구하지 않음 / 미취득 |
 | `내국인또는거주자증명서또는반증증표을제출한경우` | 내국인또는거주자증명서*또는반증증표*을제출한경우 | text | 100% |  |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 인성명 | text | 100% | 박찬연 |
@@ -2798,9 +2798,9 @@
 | `GivenName3` | GivenName | text | 100% |  |
 | `TaxpayerIdentificationNO3` | TaxpayerIdentificationNO | amount | 100% |  |
 | `Overseaaddress3` | Overseaaddress | text | 100% |  |
-| `check.Nonissuingc` | Non-issuingcountry | checkbox | 100% | Not required by tax authority |
-| `check.Nonissuingc2` | Non-issuingcountry | checkbox | 100% | Not aqucired (write the reason |
-| `check.Nonissuingc3` | Non-issuingcountry | checkbox | 100% | Non-issuing country |
+| `check.Nonissuingc` | Non-issuingcountry | checkbox | 100% | 보기: Non-issuing country / Not required by tax authority / Not aqucired (write the reason |
+| `check.Nonissuingc2` | Non-issuingcountry | checkbox | 100% | 보기: Non-issuing country / Not required by tax authority / Not aqucired (write the reason |
+| `check.Nonissuingc3` | Non-issuingcountry | checkbox | 100% | 보기: Non-issuing country / Not required by tax authority / Not aqucired (write the reason |
 | `SareRatio` | SareRatio(%)* | text | 100% |  |
 | `Surname` | Surname | text | 100% |  |
 | `SareRatio2` | SareRatio(%)* | text | 100% |  |
@@ -2826,9 +2826,9 @@
 | `하나은행` | (주)하나은행 | text | 100% | 국민은행 |
 | `수신` | 수신 | text | 100% |  |
 | `일회성제공` | 일회성제공 | text | 100% |  |
-| `check.보기1` | 보기1 | checkbox | 100% | 보기1 |
-| `check.제공요구하지않습니다` | 제공요구하지않습니다(아니오) | checkbox | 100% | 제공 요구하지 않습니다 (아니오) |
-| `check.에는해당되는곳에표를합` | 에는해당되는곳에√표를합니다. | checkbox | 100% | 에는 해당되는 곳에 √ 표를 합니다. |
+| `check.보기1` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.제공요구하지않습니다` | 제공요구하지않습니다(아니오) | checkbox | 100% | 보기: 제공 요구하지 않습니다 (아니오) |
+| `check.에는해당되는곳에표를합` | 에는해당되는곳에√표를합니다. | checkbox | 100% | 보기: 에는 해당되는 곳에 √ 표를 합니다. |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 박찬연 |
@@ -2852,9 +2852,9 @@
 | `하나은행` | (주)하나은행 | text | 100% | 농협은행 |
 | `수신` | 수신 | text | 100% |  |
 | `일회성제공` | 일회성제공 | text | 100% |  |
-| `check.보기1` | 보기1 | checkbox | 100% | 보기1 |
-| `check.제공요구하지않습니다` | 제공요구하지않습니다(아니오) | checkbox | 100% | 제공 요구하지 않습니다 (아니오) |
-| `check.에는해당되는곳에표를합` | 에는해당되는곳에√표를합니다. | checkbox | 100% | 에는 해당되는 곳에 √ 표를 합니다. |
+| `check.보기1` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.제공요구하지않습니다` | 제공요구하지않습니다(아니오) | checkbox | 100% | 보기: 제공 요구하지 않습니다 (아니오) |
+| `check.에는해당되는곳에표를합` | 에는해당되는곳에√표를합니다. | checkbox | 100% | 보기: 에는 해당되는 곳에 √ 표를 합니다. |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 이민빈 |
@@ -2881,8 +2881,8 @@
 | `customer.address2` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `전화3` | 전화 | phone | 100% | 010-5907-7253 |
 | `company.established` | 설립일 | date | 100% | 2018.11.01 |
-| `check.기업규모` | 기업규모 | checkbox | 100% | 중소기업 |
-| `check.상장여부` | 상장여부 | checkbox | 100% | 상장 |
+| `check.기업규모` | 기업규모 | checkbox | 100% | 보기: 대기업 / 중소기업 |
+| `check.상장여부` | 상장여부 | checkbox | 100% | 보기: 상장 / 비상장 |
 | `목록[].영문명` | 영문명 | text | 100% |  |
 | `FAX` | FAX | phone | 100% | 043-783-2775 |
 | `company.biz_no` | 사업자등록번호(고유번호및납세번호등포함) | biz_no | 100% | 264-82-36559 |
@@ -2890,22 +2890,22 @@
 | `FAX2` | FAX | phone | 100% | 043-783-2775 |
 | `FAX3` | FAX | phone | 100% | 043-783-2775 |
 | `홈페이지` | 홈페이지 | text | 100% |  |
-| `check.국내` | 국내 | checkbox | 100% | 코스닥시장 |
+| `check.국내` | 국내 | checkbox | 100% | 보기: 유가증권시장 / 코스닥시장 |
 | `목록[].생년월일` | 생년월일(사업자번호) | text | 100% | 2025년 10월 18일 |
 | `company.corp_reg_no` | 법인등록번호 | corp_reg_no | 100% | 200112-7448551 |
 | `목록[].국적` | 국적(본점소재지) | text | 100% |  |
-| `check.일회성거래` | 일회성거래(무통장입금,수표발행☞지급등) | checkbox | 100% | 상속 / 증여성거래 |
-| `check.대표자정보` | 대표자정보 | checkbox | 100% | 단독대표 |
-| `check.뉴욕증권거래소` | 뉴욕증권거래소 | checkbox | 100% | 뉴욕증권거래소 |
-| `check.홍콩증권거래소` | 홍콩증권거래소 | checkbox | 100% | 홍콩증권거래소 |
-| `check.예` | 예(비영리단체) | checkbox | 100% | 아니오(비영리단체 해당안됨) |
-| `check.계좌개설` | 계좌개설 | checkbox | 100% | 공과금 납부결제 |
-| `check.대출원리금상환결제` | (예금,대출등) | checkbox | 100% | 대출원리금 상환 결제 |
-| `check.사업소득` | 사업소득 | checkbox | 100% | 사업소득 |
-| `check.상속증여` | 상속/증여 | checkbox | 100% | 상속 / 증여 |
-| `check.추가확인` | 추가확인 | checkbox | 100% | 대부업자 |
-| `check.필요업종` | 필요업종 | checkbox | 100% | 공인회계사업 |
-| `check.대표자` | 대표자 | checkbox | 100% | 대리인 성명 |
+| `check.일회성거래` | 일회성거래(무통장입금,수표발행☞지급등) | checkbox | 100% | 보기: 물품 등 사업상 대금결제 / 차입 / 부채상환 / 상속 / 증여성거래 / 기타 ( |
+| `check.대표자정보` | 대표자정보 | checkbox | 100% | 보기: 단독대표 / 공동대표 / 각자대표 |
+| `check.뉴욕증권거래소` | 뉴욕증권거래소 | checkbox | 100% | 보기: 뉴욕증권거래소 / 나스닥 / 런던증권거래소 |
+| `check.홍콩증권거래소` | 홍콩증권거래소 | checkbox | 100% | 보기: 홍콩증권거래소 / 기타 ( |
+| `check.예` | 예(비영리단체) | checkbox | 100% | 보기: 예(비영리단체) / 아니오(비영리단체 해당안됨) |
+| `check.계좌개설` | 계좌개설 | checkbox | 100% | 보기: 급여 및 운영비 / 저축 및 투자 / 보험료 납부결제 / 공과금 납부결제 / 카드대금 결제 |
+| `check.대출원리금상환결제` | (예금,대출등) | checkbox | 100% | 보기: 대출원리금 상환 결제 / 사업상 거래 / 기타 ( |
+| `check.사업소득` | 사업소득 | checkbox | 100% | 보기: 사업소득 / 부동산 임대소득 / 부동산 양도소득 / 금융소득(이자 및 배당) |
+| `check.상속증여` | 상속/증여 | checkbox | 100% | 보기: 상속 / 증여 / 일시 재산 양도로 인한 소득 / 기타 ( |
+| `check.추가확인` | 추가확인 | checkbox | 100% | 보기: 상품권매매업자 / 가상자산사업자 / 환전영업자 / 대부업자 / 귀금속판매상 / 카지노사업자 / 신탁업자 / 변호사업 / 변리사업 |
+| `check.필요업종` | 필요업종 | checkbox | 100% | 보기: 법무사업 / 공인회계사업 / 세무사업 / 경영컨설팅업 |
+| `check.대표자` | 대표자 | checkbox | 100% | 보기: 대표자 / 대리인 성명 |
 | `거래목적` | 거래목적 | text | 100% | 자녀 교육비 |
 | `25이상의결권이있는주식출자지분을보유한사람` | 25%이상의결권이있는주식/출자지분을보유한사람 | text | 100% |  |
 | `의결권있는주식및출자지분의최대소유자` | 의결권있는주식및출자지분의최대소유자 | text | 100% |  |
@@ -2913,11 +2913,11 @@
 | `법인단체를사실상지배하는자` | 법인•단체를사실상지배하는자 | text | 100% |  |
 | `법인단체의대표자중1인` | 법인•단체의대표자중1인 | text | 100% |  |
 | `목록[].한글명` | 한글명(상호명) | text | 100% | 박찬연 |
-| `check.25이상의결권이있는주식출자지분을보유한사람` | 25%이상의결권이있는주식/출자지분을보유한사람 | checkbox | 100% | 보기1 |
-| `check.의결권있는주식및출자지분의최대소유자` | 의결권있는주식및출자지분의최대소유자 | checkbox | 100% | 보기1 |
-| `check.대표자또는임원등의과반수를선임한주주` | 대표자또는임원등의과반수를선임한주주 | checkbox | 100% | 보기1 |
-| `check.법인단체를사실상지배하는자` | 법인•단체를사실상지배하는자 | checkbox | 100% | 보기1 |
-| `check.법인단체의대표자중1인` | 법인•단체의대표자중1인 | checkbox | 100% | 보기1 |
+| `check.25이상의결권이있는주식출자지분을보유한사람` | 25%이상의결권이있는주식/출자지분을보유한사람 | checkbox | 100% | 보기: 보기1 |
+| `check.의결권있는주식및출자지분의최대소유자` | 의결권있는주식및출자지분의최대소유자 | checkbox | 100% | 보기: 보기1 |
+| `check.대표자또는임원등의과반수를선임한주주` | 대표자또는임원등의과반수를선임한주주 | checkbox | 100% | 보기: 보기1 |
+| `check.법인단체를사실상지배하는자` | 법인•단체를사실상지배하는자 | checkbox | 100% | 보기: 보기1 |
+| `check.법인단체의대표자중1인` | 법인•단체의대표자중1인 | checkbox | 100% | 보기: 보기1 |
 | `목록[].지분율` | 지분율 | number | 100% | 35 |
 | `항목` | 항목 | text | 100% |  |
 | `목록[].Y` | Y | text | 100% |  |
@@ -2929,13 +2929,13 @@
 | `agent.birth` | 생년월일 | date | 100% | 1962년 12월 19일 |
 | `agent.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `agent.phone` | 전화번호 | phone | 100% | 010-6515-4769 |
-| `check.국가또는지방자치단체1` | 국가또는지방자치단체1 | checkbox | 100% | 사업보고서 제출대상 법인 (상장법인 1) 등) |
-| `check.실제소유자와사실상지배자` | 실제소유자와사실상지배자가동일합니다 | checkbox | 100% | 실제소유자와 사실상지배자가 동일합니다 |
+| `check.국가또는지방자치단체1` | 국가또는지방자치단체1 | checkbox | 100% | 보기: 국가 또는 지방자치단체 1 / 공공단체 1 / 금융회사 2 / 사업보고서 제출대상 법인 (상장법인 1) 등) |
+| `check.실제소유자와사실상지배자` | 실제소유자와사실상지배자가동일합니다 | checkbox | 100% | 보기: 실제소유자와 사실상지배자가 동일합니다 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 법인/단체명 | text | 100% | (주)유니온무역 |
 | `seal.signer` | 법인/단체명 | seal | 100% | (주)유니온무역 |
 | `sign.signer` | 법인/단체명 | signature | 100% | 주식회사 한빛패션 |
-| `check.작성자` | 작성자( | checkbox | 100% | 대리인) 성명 |
+| `check.작성자` | 작성자( | checkbox | 100% | 보기: 대표자 / 대리인) 성명 |
 | `customer.name` | 위임인(법인/단체명) | text | 100% | 박찬연 |
 
 ### [필수] 개인(신용)정보 수집·이용·제공 동의서 [공공마이데이터 주민등록 등·초본 조회용] (`hf414`) — 키 15개
@@ -2943,13 +2943,13 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `일반개인정보` | ■일반개인정보 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `수집이용목적` | 수집·이용목적 | text | 100% | 생활자금 |
 | `제공일로부터5년이내보유이용` | -제공일로부터5년이내보유·이용 | text | 100% |  |
 | `일반개인정보2` | ■일반개인정보 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 박찬연 |
@@ -2965,8 +2965,8 @@
 | `하나은행` | -(주)하나은행 | text | 100% |  |
 | `고유식별정보` | ■고유식별정보 | text | 100% |  |
 | `공공정보등` | ■공공정보등 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 이욱유 |
@@ -2984,14 +2984,14 @@
 |---|---|---|---|---|
 | `고유식별정보` | ■고유식별정보 | text | 100% |  |
 | `일반개인정보` | ■일반개인정보 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집☞이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집☞이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집☞이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집☞이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `수집이용목적` | 수집·이용목적 | text | 100% | 결혼자금 |
 | `제공일로부터5년이내보유이용` | -제공일로부터5년이내보유·이용 | text | 100% |  |
 | `고유식별정보2` | ■고유식별정보 | text | 100% |  |
 | `일반개인정보2` | ■일반개인정보 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 강순준 |
@@ -3007,8 +3007,8 @@
 | `하나은행` | -(주)하나은행 | text | 100% |  |
 | `고유식별정보` | ■고유식별정보 | text | 100% |  |
 | `공공정보등` | ■공공정보등 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 강순준 |
@@ -3026,9 +3026,9 @@
 |---|---|---|---|---|
 | `고유식별정보` | ■고유식별정보 | text | 100% |  |
 | `일반개인정보` | ■■일반개인정보 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `성명휴대전화번호자녀성명` | 성명,휴대전화번호,자녀성명 | phone | 100% | 010-7321-8870 |
-| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 현예지 |
 | `sign.signer` | 본인성명 | signature | 100% | 강순준 |
@@ -3042,8 +3042,8 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `신용거래정보` | ■신용거래정보 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 김소윤 |
 | `sign.signer` | 본인성명 | signature | 100% | 박찬연 |
@@ -3061,14 +3061,14 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.구분` | 구분 | checkbox | 100% | 신청 |
-| `check.대리인정보` | 대리인정보 | checkbox | 100% | 임의대리인 신청시에도 신청내역에 대한 안내는 신청인(본인)에게 통지됩니다 |
+| `check.구분` | 구분 | checkbox | 100% | 보기: 신청 |
+| `check.대리인정보` | 대리인정보 | checkbox | 100% | 보기: 임의대리인 신청시에도 신청내역에 대한 안내는 신청인(본인)에게 통지됩니다 |
 | `customer.name` | 성명 | text | 100% | 박찬연 |
 | `customer.rrn` | 주민등록번호 | rrn | 100% | 900210-1****** |
 | `agent.name` | 성명 | text | 100% | 박영준 |
 | `agent.birth` | 생년월일 | date | 100% | 1962년 12월 19일 |
-| `check.해제` | 해제 | checkbox | 100% | 해제 |
-| `check.휴대전화번호` | 휴대전화번호 | checkbox | 100% | 신청내역 통지 동의 |
+| `check.해제` | 해제 | checkbox | 100% | 보기: 해제 |
+| `check.휴대전화번호` | 휴대전화번호 | checkbox | 100% | 보기: 신청내역 통지 동의 |
 | `신청인과의관계` | 신청인과의관계 | text | 100% |  |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 신청인 | text | 100% | 박찬연 |
@@ -3084,17 +3084,17 @@
 |---|---|---|---|---|
 | `고유식별정보` | ■고유식별정보 | text | 100% |  |
 | `공공정보등` | ■공공정보등 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `수집이용목적` | 수집·이용목적 | text | 100% | 주택구입 |
 | `금융사고조사분쟁해결민원처리` | -금융사고조사,분쟁해결,민원처리 | text | 100% |  |
 | `거부권리및불이익` | 거부권리및불이익 | text | 100% |  |
 | `목록[].고유식별정보` | ■고유식별정보 | text | 100% |  |
 | `목록[].공공정보등` | ■공공정보등 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위고유식별정보조회에동의하십니까` | 위고유식별정보조회에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보조회에동의하십니까` | 위개인(신용)정보조회에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위고유식별정보조회에동의하십니까` | 위고유식별정보조회에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보조회에동의하십니까` | 위개인(신용)정보조회에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 최우빈 |
 | `sign.signer` | 본인성명 | signature | 100% | 박찬연 |
@@ -3109,17 +3109,17 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `목록[].고유식별정보` | ■고유식별정보 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `비대면계좌개설안심차단신청여부조회` | -비대면계좌개설안심차단신청여부조회 | text | 100% |  |
 | `수집이용목적` | 수집·이용목적 | text | 100% | 해외 이주 |
 | `금융사고조사분쟁해결민원처리` | -금융사고조사,분쟁해결,민원처리 | text | 100% |  |
 | `보유및이용기간` | 보유및이용기간 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까2` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보제공에동의하십니까2` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `공공정보등` | ■공공정보등 | text | 100% |  |
-| `check.위고유식별정보조회에동의하십니까` | 위고유식별정보조회에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보조회에동의하십니까` | 위개인(신용)정보조회에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보조회에동의하십니까` | 위고유식별정보조회에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보조회에동의하십니까` | 위개인(신용)정보조회에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 강순준 |
 | `sign.signer` | 본인성명 | signature | 100% | 박찬연 |
@@ -3133,15 +3133,15 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `신용거래정보` | ■신용거래정보 | text | 100% |  |
-| `check.위개인정보수집이용에동의하십니까안심` | 위개인(신용)정보수집·이용에동의하십니까?안심 | checkbox | 100% | 동의함 |
-| `check.광고성정보의수신을동의하시겠습니까` | 광고성정보의수신을동의하시겠습니까? | checkbox | 100% | 동의하지 않음 |
-| `check.14전체` | 1~4전체 | checkbox | 100% | 보기1 |
-| `check.문자메시지` | 문자메시지(SMS,LMS,모바일메시지등) | checkbox | 100% | 보기1 |
-| `check.전자우편` | 전자우편(이메일) | checkbox | 100% | 보기1 |
+| `check.위개인정보수집이용에동의하십니까안심` | 위개인(신용)정보수집·이용에동의하십니까?안심 | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.광고성정보의수신을동의하시겠습니까` | 광고성정보의수신을동의하시겠습니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.14전체` | 1~4전체 | checkbox | 100% | 보기: 보기1 |
+| `check.문자메시지` | 문자메시지(SMS,LMS,모바일메시지등) | checkbox | 100% | 보기: 보기1 / 보기2 |
+| `check.전자우편` | 전자우편(이메일) | checkbox | 100% | 보기: 보기1 / 보기2 |
 | `수집이용목적` | 수집·이용목적 | text | 100% | 결혼자금 |
 | `일반개인정보` | ■일반개인정보 | text | 100% |  |
 | `성명생년월일` | 성명,생년월일 | date | 100% | 2026.01.03 |
-| `check.위개인정보제공에동의하십니까안심` | 위개인(신용)정보제공에동의하십니까?안심 | checkbox | 100% | 동의함 |
+| `check.위개인정보제공에동의하십니까안심` | 위개인(신용)정보제공에동의하십니까?안심 | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `하나금융그룹계열사` | -하나금융그룹계열사 | text | 100% |  |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 성명 | text | 100% | 박찬연 |
@@ -3158,8 +3158,8 @@
 | `하나카드` | 하나카드 | text | 100% |  |
 | `고유식별정보` | ■고유식별정보 | text | 100% |  |
 | `신용거래정보` | ■신용거래정보 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 김소윤 |
 | `sign.signer` | 본인성명 | signature | 100% | 박찬연 |
@@ -3178,8 +3178,8 @@
 | `제공일로부터5년까지보유이용` | -제공일로부터5년까지보유·이용 | text | 100% |  |
 | `고유식별정보` | ■고유식별정보 | text | 100% |  |
 | `일반개인정보` | ■일반개인정보 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 박찬연 |
 | `sign.signer` | 본인성명 | signature | 100% | 강순준 |
@@ -3196,7 +3196,7 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `customer.birth` | 생년월일 | date | 100% | 1990.02.10 |
-| `전자우편주소` | 전자우편주소 | text | 100% | 경상남도 창원시 성산구 원이대로 262-29, 104호 |
+| `customer.email` | 전자우편주소 | text | 100% | soonjun606@gmail.com |
 | `개설점포` | 개설점포 | text | 100% | 범어지점 |
 | `예금종별` | 예금종별 | text | 100% | 하나 MMF |
 | `customer.name` | 명의인 | text | 100% | 박찬연 |
@@ -3221,15 +3221,15 @@
 | `customer.birth2` | 생년월일 | date | 100% | 900210 |
 | `customer.phone2` | 연락처 | phone | 100% | 010-5907-7253 |
 | `account` | 계좌번호 | account_no | 100% | 774-646914-96117 |
-| `check.상속인` | 상속인 | checkbox | 100% | 본인 |
-| `check.상속인2` | 상속인 | checkbox | 100% | 본인 |
-| `check.상속인3` | 상속인 | checkbox | 100% | 위임(별도위임장 작성) |
-| `check.상속인4` | 상속인 | checkbox | 100% | 본인 |
-| `check.상속인5` | 상속인 | checkbox | 100% | 본인 |
-| `check.상속인6` | 상속인 | checkbox | 100% | 본인 |
-| `check.상속인7` | 상속인 | checkbox | 100% | 본인 |
-| `check.상속인8` | 상속인 | checkbox | 100% | 본인 |
-| `check.상속인9` | 상속인 | checkbox | 100% | 위임(별도위임장 작성) |
+| `check.상속인` | 상속인 | checkbox | 100% | 보기: 본인 / 위임(별도위임장 작성) |
+| `check.상속인2` | 상속인 | checkbox | 100% | 보기: 본인 / 위임(별도위임장 작성) |
+| `check.상속인3` | 상속인 | checkbox | 100% | 보기: 본인 / 위임(별도위임장 작성) |
+| `check.상속인4` | 상속인 | checkbox | 100% | 보기: 본인 / 위임(별도위임장 작성) |
+| `check.상속인5` | 상속인 | checkbox | 100% | 보기: 본인 / 위임(별도위임장 작성) |
+| `check.상속인6` | 상속인 | checkbox | 100% | 보기: 본인 / 위임(별도위임장 작성) |
+| `check.상속인7` | 상속인 | checkbox | 100% | 보기: 본인 / 위임(별도위임장 작성) |
+| `check.상속인8` | 상속인 | checkbox | 100% | 보기: 본인 / 위임(별도위임장 작성) |
+| `check.상속인9` | 상속인 | checkbox | 100% | 보기: 본인 / 위임(별도위임장 작성) |
 | `목록[].성명` | 성명 | text | 100% | 여형지 |
 | `목록[].생년월일` | 생년월일 | text | 100% | 2025.08.25 |
 | `목록[].연락처` | 연락처 | text | 100% | 010-5907-7253 |
@@ -3266,9 +3266,9 @@
 | `거주관할권주소` | 거주관할권주소(영문) | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `거주관할권주소2` | 거주관할권주소(영문) | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `거주관할권주소3` | 거주관할권주소(영문) | text | 100% | 서울특별시 송파구 중대로 174, 119동 2202호 |
-| `check.미발급국가` | 미발급국가 | checkbox | 100% | 미취득 (사유기재 |
-| `check.미발급국가2` | 미발급국가 | checkbox | 100% | 미발급국가 |
-| `check.미발급국가3` | 미발급국가 | checkbox | 100% | 미취득 (사유기재 |
+| `check.미발급국가` | 미발급국가 | checkbox | 100% | 보기: 미발급국가 / 미취득 (사유기재 |
+| `check.미발급국가2` | 미발급국가 | checkbox | 100% | 보기: 미발급국가 / 미취득 (사유기재 |
+| `check.미발급국가3` | 미발급국가 | checkbox | 100% | 보기: 미발급국가 / 미취득 (사유기재 |
 | `지분율` | 지분율(%) | number | 100% | 50 |
 | `성` | 성(Surname) | text | 100% |  |
 | `지분율2` | 지분율(%) | number | 100% | 70 |
@@ -3297,9 +3297,9 @@
 | `Surname` | Surname(성) | text | 100% |  |
 | `Surname2` | Surname(성) | text | 100% |  |
 | `GivenName` | GivenName(이름) | text | 100% |  |
-| `check.UScitizen` | U.S.citizen(includingdualcitizenship) | checkbox | 100% | U.S. permanent resident |
-| `check.Residentinac` | ResidentinacountryotherthanU.S | checkbox | 100% | Resident in a country other than U.S |
-| `check.AllNA` | AllN/A | checkbox | 100% | All N/A |
+| `check.UScitizen` | U.S.citizen(includingdualcitizenship) | checkbox | 100% | 보기: U.S. citizen(including dual citizenship) / U.S. permanent resident / U.S. resident under U.S. tax law |
+| `check.Residentinac` | ResidentinacountryotherthanU.S | checkbox | 100% | 보기: Resident in a country other than U.S |
+| `check.AllNA` | AllN/A | checkbox | 100% | 보기: All N/A |
 | `Jurisdictionof` | Jurisdictionof | text | 100% |  |
 | `Country` | Country*(2) | text | 100% | 필리핀 |
 | `OverseaEnglishaddress` | OverseaEnglishaddress | text | 100% |  |
@@ -3308,8 +3308,8 @@
 | `customer.birth` | DateofBirth | date | 100% | 1997.05.14 |
 | `customer.birth2` | DateofBirth | date | 100% | 1990.02.10 |
 | `목록[].PhoneNo` | PhoneNo. | phone | 100% | 010-5907-7253 |
-| `check.Nonissuingc` | Non-issuingcountry | checkbox | 100% | Non-issuing country |
-| `check.Nonissuingc2` | Non-issuingcountry | checkbox | 100% | Non-issuing country |
+| `check.Nonissuingc` | Non-issuingcountry | checkbox | 100% | 보기: Non-issuing country / Not requested by tax authority / Not acquired |
+| `check.Nonissuingc2` | Non-issuingcountry | checkbox | 100% | 보기: Non-issuing country / Not requested by tax authority / Not acquired |
 | `customer.birth3` | DateofBirth | date | 100% | 1990.02.10 |
 | `PhoneNo` | PhoneNo. | phone | 100% | 010-5907-7253 |
 
@@ -3329,11 +3329,11 @@
 | `customer.name` | 신청인 | text | 100% | 박찬연 |
 | `본인확인` | 본인확인(직원기재) | text | 100% |  |
 | `신용거래정보` | ■신용거래정보 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `신용거래정보2` | ■신용거래정보 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까2` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보수집이용에동의하십니까2` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `date2` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer2.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer2` | 본인성명 | seal | 100% | 강순준 |
@@ -3361,21 +3361,21 @@
 | `customer.name` | 성명 | text | 100% | 박찬연 |
 | `company.name` | 법인명 | text | 100% | (주)유니온무역 |
 | `customer.phone` | 전화번호 | phone | 100% | 010-5907-7253 |
-| `check.진행관련SMS수신동의여부` | 진행관련SMS수신동의여부】 | checkbox | 100% | 동의함 |
-| `check.이용자본인이직접지급지시` | 이용자본인이직접지급지시한금융거래(가족사칭,협박,대출사기등 | checkbox | 100% | 이용자 본인이 직접 지급지시한 금융거래(가족 사칭, 협박, 대출사기 등  |
-| `check.동거가족또는지인에의한거` | 동거가족또는지인에의한거래 | checkbox | 100% | 동거가족 또는 지인에 의한 거래 |
-| `check.이용자가접근매체를양도양` | 이용자가접근매체를양도·양수하거나질권을설정하는등전자금융거래법제 | checkbox | 100% | 이용자가 접근매체를 양도·양수하거나 질권을 설정하는 등 전자금융거래법 제 |
-| `check.법인인이용자의기관내지는` | 법인인이용자의기관내지는피용자로서법인을위한금융거래 | checkbox | 100% | 법인인 이용자의 기관 내지는 피용자로서 법인을 위한 금융거래 |
-| `check.재화의공급을가장한상거래` | 재화의공급을가장한상거래로서이용자본인의의지로신청·계약한금융거 | checkbox | 100% | 재화의 공급을 가장한 상거래로서 이용자 본인의 의지로 신청·계약한 금융거 |
-| `check.용역의제공을가장한거래로` | 용역의제공을가장한거래로서이용자본인의의지로신청·계약한금융거래 | checkbox | 100% | 용역의 제공을 가장한 거래로서 이용자 본인의 의지로 신청·계약한 금융거래 |
-| `check.불법적이거나비정상적인재` | 불법적이거나비정상적인재화의공급또는용역의제공등과관련된금융거 | checkbox | 100% | 불법적이거나 비정상적인 재화의 공급 또는 용역의 제공 등과 관련된 금융거 |
-| `check.간편송금업체를통한금융거` | 간편송금업체(OO페이)를통한금융거래 | checkbox | 100% | 간편송금업체(OO페이)를 통한 금융거래 |
-| `check.영업점창구를통한거래등대` | 영업점창구를통한거래등대면금융거래 | checkbox | 100% | 영업점 창구를 통한 거래 등 대면 금융거래 |
-| `check.은행의보이스피싱의심거래` | 은행의보이스피싱의심거래감지등에따른피해예방안내에도불구하고 | checkbox | 100% | 은행의 보이스피싱 의심거래 감지 등에 따른 피해 예방 안내에도 불구하고  |
-| `check.본사고발생이전에사고발` | 본사고발생이전에사고발생은행에서「전기통신금융사기피해방지및 | checkbox | 100% | 본 사고 발생 이전에 사고발생 은행에서 「전기통신금융사기 피해 방지 및 |
-| `check.신용체크카드물품구입단` | 신용/체크카드물품구입,단기카드대출(현금서비스)및장기카드대출(카드 | checkbox | 100% | 신용/체크카드 물품 구입, 단기카드대출(현금서비스) 및 장기카드대출(카드 |
-| `check.사실관계확인결과전자금융` | 사실관계확인결과전자금융사고로보기어려운경우 | checkbox | 100% | 사실관계 확인 결과 전자금융사고로 보기 어려운 경우 |
-| `check.소송등법적분쟁이진행중이` | 소송등법적분쟁이진행중이거나판결이확정된경우 | checkbox | 100% | 소송 등 법적 분쟁이 진행중이거나 판결이 확정된 경우 |
+| `check.진행관련SMS수신동의여부` | 진행관련SMS수신동의여부】 | checkbox | 100% | 보기: 동의함 / 동의하지 않음 |
+| `check.이용자본인이직접지급지시` | 이용자본인이직접지급지시한금융거래(가족사칭,협박,대출사기등 | checkbox | 100% | 보기: 이용자 본인이 직접 지급지시한 금융거래(가족 사칭, 협박, 대출사기 등  |
+| `check.동거가족또는지인에의한거` | 동거가족또는지인에의한거래 | checkbox | 100% | 보기: 동거가족 또는 지인에 의한 거래 |
+| `check.이용자가접근매체를양도양` | 이용자가접근매체를양도·양수하거나질권을설정하는등전자금융거래법제 | checkbox | 100% | 보기: 이용자가 접근매체를 양도·양수하거나 질권을 설정하는 등 전자금융거래법 제 |
+| `check.법인인이용자의기관내지는` | 법인인이용자의기관내지는피용자로서법인을위한금융거래 | checkbox | 100% | 보기: 법인인 이용자의 기관 내지는 피용자로서 법인을 위한 금융거래 |
+| `check.재화의공급을가장한상거래` | 재화의공급을가장한상거래로서이용자본인의의지로신청·계약한금융거 | checkbox | 100% | 보기: 재화의 공급을 가장한 상거래로서 이용자 본인의 의지로 신청·계약한 금융거 |
+| `check.용역의제공을가장한거래로` | 용역의제공을가장한거래로서이용자본인의의지로신청·계약한금융거래 | checkbox | 100% | 보기: 용역의 제공을 가장한 거래로서 이용자 본인의 의지로 신청·계약한 금융거래 |
+| `check.불법적이거나비정상적인재` | 불법적이거나비정상적인재화의공급또는용역의제공등과관련된금융거 | checkbox | 100% | 보기: 불법적이거나 비정상적인 재화의 공급 또는 용역의 제공 등과 관련된 금융거 |
+| `check.간편송금업체를통한금융거` | 간편송금업체(OO페이)를통한금융거래 | checkbox | 100% | 보기: 간편송금업체(OO페이)를 통한 금융거래 |
+| `check.영업점창구를통한거래등대` | 영업점창구를통한거래등대면금융거래 | checkbox | 100% | 보기: 영업점 창구를 통한 거래 등 대면 금융거래 |
+| `check.은행의보이스피싱의심거래` | 은행의보이스피싱의심거래감지등에따른피해예방안내에도불구하고 | checkbox | 100% | 보기: 은행의 보이스피싱 의심거래 감지 등에 따른 피해 예방 안내에도 불구하고  |
+| `check.본사고발생이전에사고발` | 본사고발생이전에사고발생은행에서「전기통신금융사기피해방지및 | checkbox | 100% | 보기: 본 사고 발생 이전에 사고발생 은행에서 「전기통신금융사기 피해 방지 및 |
+| `check.신용체크카드물품구입단` | 신용/체크카드물품구입,단기카드대출(현금서비스)및장기카드대출(카드 | checkbox | 100% | 보기: 신용/체크카드 물품 구입, 단기카드대출(현금서비스) 및 장기카드대출(카드 |
+| `check.사실관계확인결과전자금융` | 사실관계확인결과전자금융사고로보기어려운경우 | checkbox | 100% | 보기: 사실관계 확인 결과 전자금융사고로 보기 어려운 경우 |
+| `check.소송등법적분쟁이진행중이` | 소송등법적분쟁이진행중이거나판결이확정된경우 | checkbox | 100% | 보기: 소송 등 법적 분쟁이 진행중이거나 판결이 확정된 경우 |
 | `피해신고제외대상확인` | 피해신고제외대상확인 | text | 100% |  |
 | `출금은행` | 출금은행 | text | 100% | 농협은행 |
 | `입금은행` | 입금은행(상대은행) | text | 100% | 국민은행 |
@@ -3385,44 +3385,44 @@
 | `입금은행3` | 입금은행(상대은행) | text | 100% | 신한은행 |
 | `사고발생총피해금액` | 사고발생총피해금액 | number | 100% | 5,180,000 |
 | `account` | 출금계좌번호 | account_no | 100% | 000-287736-52424 |
-| `check.입금계좌예금주` | 입금(상대)계좌예금주 | checkbox | 100% | 타인( |
+| `check.입금계좌예금주` | 입금(상대)계좌예금주 | checkbox | 100% | 보기: 본인 / 타인( |
 | `account2` | 출금계좌번호 | account_no | 100% | 000-287736-52424 |
-| `check.입금계좌예금주2` | 입금(상대)계좌예금주 | checkbox | 100% | 본인 |
+| `check.입금계좌예금주2` | 입금(상대)계좌예금주 | checkbox | 100% | 보기: 본인 / 타인( |
 | `account3` | 출금계좌번호 | account_no | 100% | 000-287736-52424 |
-| `check.입금계좌예금주3` | 입금(상대)계좌예금주 | checkbox | 100% | 타인( |
-| `check.신분증분실신고` | 신분증분실신고(해당기관앞) | checkbox | 100% | 아니오 |
-| `check.명의도용휴대전화개설신고` | 명의도용휴대전화개설신고(통신사앞) | checkbox | 100% | 예 (신고일 |
-| `check.휴대전화분실신고` | 휴대전화분실신고(통신사앞) | checkbox | 100% | 아니오 |
+| `check.입금계좌예금주3` | 입금(상대)계좌예금주 | checkbox | 100% | 보기: 본인 / 타인( |
+| `check.신분증분실신고` | 신분증분실신고(해당기관앞) | checkbox | 100% | 보기: 예 (신고일 / 아니오 |
+| `check.명의도용휴대전화개설신고` | 명의도용휴대전화개설신고(통신사앞) | checkbox | 100% | 보기: 예 (신고일 / 아니오 |
+| `check.휴대전화분실신고` | 휴대전화분실신고(통신사앞) | checkbox | 100% | 보기: 예 (신고일 / 아니오 |
 | `기타` | 기타 | text | 100% | 계좌 정리 |
-| `check.피해구제환급신청` | 피해구제환급신청 | checkbox | 100% | 기타( |
+| `check.피해구제환급신청` | 피해구제환급신청 | checkbox | 100% | 보기: 신청예정 / 신청 후 진행중 / 피해구제 종결(환급금 수령 또는 완료 통지) / 기타( / 미신고 / 신고(고소, 고발 등) / 신고 후 수사 개시하여 진행중 / 수사 종결 |
 | `수사기관` | 수사기관 | text | 100% |  |
-| `check.이용자와은행사이에민법제` | 이용자와은행사이에민법제731조소정의화해(합의)가이미성립된 | checkbox | 100% | 이용자와 은행 사이에 민법 제731조 소정의 화해(합의)가 이미 성립된  |
-| `check.수사기관등의수사를통해전` | 수사기관등의수사를통해전자금융사고가아닌경우로판명된경우 | checkbox | 100% | 수사기관 등의 수사를 통해 전자금융사고가 아닌 경우로 판명된 경우 |
-| `check.기타비대면금융사고책임` | 기타(비대면금융사고책임분담협약참여은행외금융회사를통한비대면 | checkbox | 100% | 기타(비대면 금융사고 책임분담 협약 참여은행 외 금융회사를 통한 비대면  |
-| `check.사고유형중한가지이상이라도` | 사고유형중한가지이상이라도【 | checkbox | 100% | ( |
+| `check.이용자와은행사이에민법제` | 이용자와은행사이에민법제731조소정의화해(합의)가이미성립된 | checkbox | 100% | 보기: 이용자와 은행 사이에 민법 제731조 소정의 화해(합의)가 이미 성립된  |
+| `check.수사기관등의수사를통해전` | 수사기관등의수사를통해전자금융사고가아닌경우로판명된경우 | checkbox | 100% | 보기: 수사기관 등의 수사를 통해 전자금융사고가 아닌 경우로 판명된 경우 |
+| `check.기타비대면금융사고책임` | 기타(비대면금융사고책임분담협약참여은행외금융회사를통한비대면 | checkbox | 100% | 보기: 기타(비대면 금융사고 책임분담 협약 참여은행 외 금융회사를 통한 비대면  |
+| `check.사고유형중한가지이상이라도` | 사고유형중한가지이상이라도【 | checkbox | 100% | 보기: ( |
 | `signer.name` | 신청인 | text | 100% | 박찬연 |
 | `seal.signer` | 신청인 | seal | 100% | 박찬연 |
 | `sign.signer` | 신청인 | signature | 100% | 이욱유 |
-| `check.손님본인` | 손님본인 | checkbox | 100% | 지인 |
-| `check.예` | 예 | checkbox | 100% | 기타( |
-| `check.예2` | 예 | checkbox | 100% | 예 |
-| `check.신분증SMS문자메시지` | 신분증(SMS문자메시지또는카톡등을통한신분증사본사진,파일 | checkbox | 100% | 신분증 (SMS 문자메시지 또는 카톡 등을 통한 신분증 사본 사진, 파일 |
-| `check.개인정보` | 개인정보(이름,휴대전화번호,주민등록번호등) | checkbox | 100% | 개인정보(이름, 휴대전화번호, 주민등록번호 등) |
-| `check.전자적장치` | 전자적장치(휴대전화등,휴대전화를빌려준경우포함) | checkbox | 100% | 전자적 장치(휴대전화 등, 휴대전화를 빌려준 경우 포함) |
-| `check.계좌번호및계좌용비밀번호` | 계좌번호및계좌용비밀번호 | checkbox | 100% | 계좌번호 및 계좌용 비밀번호 |
-| `check.보안매체제공또는보안매체` | 보안매체(OTP,보안카드,인증서등)제공또는보안매체용비밀번호 | checkbox | 100% | 보안매체(OTP, 보안카드, 인증서 등) 제공 또는 보안매체용 비밀번호  |
-| `check.기타전자금융관련정보` | 기타전자금융관련정보( | checkbox | 100% | 기타 전자금융 관련정보( |
-| `check.예3` | 예 | checkbox | 100% | 아니오 |
-| `check.보관방식` | 보관방식 | checkbox | 100% | 아니오 |
-| `check.예4` | 예 | checkbox | 100% | 예 |
-| `check.경우해당기관앞신분증분실신고를` | 경우,해당기관앞신분증분실신고를 | checkbox | 100% | 예 |
-| `check.해당없음` | 해당없음 | checkbox | 100% | 해당없음 |
-| `check.사본을휴대전화PC클라우드` | 사본(사진,파일등)을휴대전화,PC,클라우드 | checkbox | 100% | 예 |
-| `check.있었습니까` | 있었습니까? | checkbox | 100% | 기타( |
-| `check.계좌용비밀번호를휴대전화PC클라우드` | 계좌용비밀번호를휴대전화,PC,클라우드 | checkbox | 100% | 아니오 |
-| `check.있었습니까2` | 있었습니까? | checkbox | 100% | 기타( |
-| `check.방식이설정되어있었습니까` | 방식*이설정되어있었습니까? | checkbox | 100% | 예 |
-| `check.지문얼굴인식등` | 지문/얼굴인식등 | checkbox | 100% | 기타( |
+| `check.손님본인` | 손님본인 | checkbox | 100% | 보기: 손님 본인 / 가족 / 지인 / 불상의 제3자 |
+| `check.예` | 예 | checkbox | 100% | 보기: 예 / 아니오 / 기타( |
+| `check.예2` | 예 | checkbox | 100% | 보기: 예 / 아니오 / 기타( |
+| `check.신분증SMS문자메시지` | 신분증(SMS문자메시지또는카톡등을통한신분증사본사진,파일 | checkbox | 100% | 보기: 신분증 (SMS 문자메시지 또는 카톡 등을 통한 신분증 사본 사진, 파일 |
+| `check.개인정보` | 개인정보(이름,휴대전화번호,주민등록번호등) | checkbox | 100% | 보기: 개인정보(이름, 휴대전화번호, 주민등록번호 등) |
+| `check.전자적장치` | 전자적장치(휴대전화등,휴대전화를빌려준경우포함) | checkbox | 100% | 보기: 전자적 장치(휴대전화 등, 휴대전화를 빌려준 경우 포함) |
+| `check.계좌번호및계좌용비밀번호` | 계좌번호및계좌용비밀번호 | checkbox | 100% | 보기: 계좌번호 및 계좌용 비밀번호 |
+| `check.보안매체제공또는보안매체` | 보안매체(OTP,보안카드,인증서등)제공또는보안매체용비밀번호 | checkbox | 100% | 보기: 보안매체(OTP, 보안카드, 인증서 등) 제공 또는 보안매체용 비밀번호  |
+| `check.기타전자금융관련정보` | 기타전자금융관련정보( | checkbox | 100% | 보기: 기타 전자금융 관련정보( |
+| `check.예3` | 예 | checkbox | 100% | 보기: 예 / 아니오 |
+| `check.보관방식` | 보관방식 | checkbox | 100% | 보기: 예 / 아니오 |
+| `check.예4` | 예 | checkbox | 100% | 보기: 예 / 아니오 |
+| `check.경우해당기관앞신분증분실신고를` | 경우,해당기관앞신분증분실신고를 | checkbox | 100% | 보기: 예 / 아니오 |
+| `check.해당없음` | 해당없음 | checkbox | 100% | 보기: 해당없음 |
+| `check.사본을휴대전화PC클라우드` | 사본(사진,파일등)을휴대전화,PC,클라우드 | checkbox | 100% | 보기: 예 / 아니오 |
+| `check.있었습니까` | 있었습니까? | checkbox | 100% | 보기: 기타( |
+| `check.계좌용비밀번호를휴대전화PC클라우드` | 계좌용비밀번호를휴대전화,PC,클라우드 | checkbox | 100% | 보기: 예 / 아니오 |
+| `check.있었습니까2` | 있었습니까? | checkbox | 100% | 보기: 기타( |
+| `check.방식이설정되어있었습니까` | 방식*이설정되어있었습니까? | checkbox | 100% | 보기: 예 / 아니오 |
+| `check.지문얼굴인식등` | 지문/얼굴인식등 | checkbox | 100% | 보기: 기타( |
 | `등에저장하여보관하고있었습니까` | 등에저장하여보관하고있었습니까? | text | 100% |  |
 | `등에저장하고있었습니까` | 등에저장(메모)하고있었습니까? | text | 100% |  |
 | `행번` | 행번 | text | 100% |  |
@@ -3435,11 +3435,11 @@
 | `sign.signer3` | 직원명 | signature | 100% | 이욱유 |
 | `전자금융거래사고발생경위및사유` | 전자금융거래사고발생경위및사유 | text | 100% | 결혼자금 |
 | `신용거래정보` | ■신용거래정보 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `신용거래정보2` | ■신용거래정보 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `date2` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer4.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer4` | 본인성명 | seal | 100% | 박찬연 |
@@ -3478,7 +3478,7 @@
 | `엠엘투자자문` | -엠엘투자자문(주) | text | 100% |  |
 | `회원탈회시까지보유이용` | -회원탈회시까지보유·이용 | text | 100% |  |
 | `일반개인정보` | ■일반개인정보 | text | 100% |  |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 현예지 |
 | `sign.signer` | 본인성명 | signature | 100% | 박찬연 |
@@ -3497,7 +3497,7 @@
 | `sign.signer` | 본인및서류확인 | signature | 100% | 강순준 |
 | `법원명` | 법원명 | text | 100% |  |
 | `채권자` | 채권자 | text | 100% |  |
-| `check.최소추심요청금액` | 최소추심요청금액 | checkbox | 100% | 기타 (수수료 제외 후 |
+| `check.최소추심요청금액` | 최소추심요청금액 | checkbox | 100% | 보기: 만원 / 기타 (수수료 제외 후 |
 | `사건번호` | 사건번호 | text | 100% | 406-026825-33318 |
 | `customer.phone` | 연락처 | phone | 100% | 010-5907-7253 |
 | `customer.email` | E-mail | text | 100% | chanyeon363@naver.com |
@@ -3524,11 +3524,11 @@
 | `customer.phone` | 연락처 | phone | 100% | 010-5907-7253 |
 | `징구기관` | 징구기관 | text | 100% |  |
 | `customer.phone2` | 연락처 | phone | 100% | 010-5907-7253 |
-| `check.즉시매도시` | 즉시매도시 | checkbox | 100% | 보기1 |
-| `check.만기시하나은행본인계좌로원리금자동상환` | 만기시하나은행본인계좌로원리금자동상환 | checkbox | 100% | 하나은행 계좌번호 ( |
-| `check.만기시증권회사본인계좌로원리금자동상환` | 만기시증권회사본인계좌로원리금자동상환 | checkbox | 100% | 하나금융투자 계좌번호 ( |
-| `check.만기시직접내점하여원리금상환` | 만기시직접내점하여원리금상환 | checkbox | 100% | 보기1 |
-| `check.자동차신규등록` | 자동차신규등록(1) | checkbox | 100% | 각종 계약체결(7) |
+| `check.즉시매도시` | 즉시매도시 | checkbox | 100% | 보기: 보기1 |
+| `check.만기시하나은행본인계좌로원리금자동상환` | 만기시하나은행본인계좌로원리금자동상환 | checkbox | 100% | 보기: 하나은행 계좌번호 ( |
+| `check.만기시증권회사본인계좌로원리금자동상환` | 만기시증권회사본인계좌로원리금자동상환 | checkbox | 100% | 보기: 하나금융투자 계좌번호 ( |
+| `check.만기시직접내점하여원리금상환` | 만기시직접내점하여원리금상환 | checkbox | 100% | 보기: 보기1 |
+| `check.자동차신규등록` | 자동차신규등록(1) | checkbox | 100% | 보기: 자동차신규등록(1) / 자동차이전등록(2) / 건설기계등록(3) / 기타허가☞신고(6) / 각종 계약체결(7) |
 | `증서번호` | 증서번호 | text | 100% | 마바83135935 |
 | `매출일자` | 매출일자 | date | 100% | 2025년 1월 2일 |
 | `매출점` | 매출점 | number | 100% | 2,990,000 |
@@ -3546,10 +3546,10 @@
 | `seal.signer2` | (대리인 | seal | 100% | 김나우 |
 | `sign.signer2` | (대리인 | signature | 100% |  |
 | `위탁` | 위탁 | text | 100% |  |
-| `check.개인정보수집및이용내역` | 개인정보수집및이용내역 | checkbox | 100% | 개인정보 수집 및 이용 내역 |
-| `check.동의함` | 동의함 | checkbox | 100% | 동의하지 않음 |
-| `check.개인정보3자제공내역` | 개인정보3자제공내역 | checkbox | 100% | 개인정보 3자 제공 내역 |
-| `check.동의함2` | 동의함 | checkbox | 100% | 동의하지 않음 |
+| `check.개인정보수집및이용내역` | 개인정보수집및이용내역 | checkbox | 100% | 보기: 개인정보 수집 및 이용 내역 |
+| `check.동의함` | 동의함 | checkbox | 100% | 보기: 동의함 / 동의하지 않음 |
+| `check.개인정보3자제공내역` | 개인정보3자제공내역 | checkbox | 100% | 보기: 개인정보 3자 제공 내역 |
+| `check.동의함2` | 동의함 | checkbox | 100% | 보기: 동의함 / 동의하지 않음 |
 | `date2` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer3.name` | 성명 | text | 100% | 박찬연 |
 | `seal.signer3` | 성명 | seal | 100% | 최우빈 |
@@ -3568,11 +3568,11 @@
 | `customer.phone` | 연락처 | phone | 100% | 010-5907-7253 |
 | `징구기관` | 징구기관 | text | 100% |  |
 | `customer.phone2` | 연락처 | phone | 100% | 010-7321-8870 |
-| `check.즉시매도시` | 즉시매도시 | checkbox | 100% | 보기1 |
-| `check.만기시하나은행본인계좌로원리금자동상환` | 만기시하나은행본인계좌로원리금자동상환 | checkbox | 100% | 하나은행 계좌번호 ( |
-| `check.만기시증권회사본인계좌로원리금자동상환` | 만기시증권회사본인계좌로원리금자동상환 | checkbox | 100% | 하나금융투자 계좌번호 ( |
-| `check.만기시직접내점하여원리금상환` | 만기시직접내점하여원리금상환 | checkbox | 100% | 보기1 |
-| `check.자동차신규등록` | 자동차신규등록(1) | checkbox | 100% | 각종 계약체결(7) |
+| `check.즉시매도시` | 즉시매도시 | checkbox | 100% | 보기: 보기1 |
+| `check.만기시하나은행본인계좌로원리금자동상환` | 만기시하나은행본인계좌로원리금자동상환 | checkbox | 100% | 보기: 하나은행 계좌번호 ( |
+| `check.만기시증권회사본인계좌로원리금자동상환` | 만기시증권회사본인계좌로원리금자동상환 | checkbox | 100% | 보기: 하나금융투자 계좌번호 ( |
+| `check.만기시직접내점하여원리금상환` | 만기시직접내점하여원리금상환 | checkbox | 100% | 보기: 보기1 |
+| `check.자동차신규등록` | 자동차신규등록(1) | checkbox | 100% | 보기: 자동차신규등록(1) / 자동차이전등록(2) / 건설기계등록(3) / 기타허가☞신고(6) / 각종 계약체결(7) |
 | `증서번호` | 증서번호 | text | 100% | 아마13516284 |
 | `매출일자` | 매출일자 | date | 100% | 2025년 4월 30일 |
 | `매출점` | 매출점 | number | 100% | 7,470,000원 |
@@ -3590,10 +3590,10 @@
 | `seal.signer2` | (대리인 | seal | 100% | 현예지 |
 | `sign.signer2` | (대리인 | signature | 100% | 김나우 |
 | `위탁` | 위탁 | text | 100% |  |
-| `check.개인정보수집및이용내역` | 개인정보수집및이용내역 | checkbox | 100% | 개인정보 수집 및 이용 내역 |
-| `check.동의함` | 동의함 | checkbox | 100% | 동의하지 않음 |
-| `check.개인정보3자제공내역` | 개인정보3자제공내역 | checkbox | 100% | 개인정보 3자 제공 내역 |
-| `check.동의함2` | 동의함 | checkbox | 100% | 동의함 |
+| `check.개인정보수집및이용내역` | 개인정보수집및이용내역 | checkbox | 100% | 보기: 개인정보 수집 및 이용 내역 |
+| `check.동의함` | 동의함 | checkbox | 100% | 보기: 동의함 / 동의하지 않음 |
+| `check.개인정보3자제공내역` | 개인정보3자제공내역 | checkbox | 100% | 보기: 개인정보 3자 제공 내역 |
+| `check.동의함2` | 동의함 | checkbox | 100% | 보기: 동의함 / 동의하지 않음 |
 | `date2` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer3.name` | 성명 | text | 100% | 박찬연 |
 | `seal.signer3` | 성명 | seal | 100% | 강순준 |
@@ -3753,16 +3753,16 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `신청금액` | 신청금액 | number | 100% | 710,000 |
-| `check.자금용도` | 자금용도 | checkbox | 100% | 구입 |
-| `check.주택보유수` | 주택보유수(본건담보주택제외) | checkbox | 100% | 주택(처분 예정) |
-| `check.담보제공자` | 담보제공자 | checkbox | 100% | 본인 |
+| `check.자금용도` | 자금용도 | checkbox | 100% | 보기: 구입 / 보전 / 상환 |
+| `check.주택보유수` | 주택보유수(본건담보주택제외) | checkbox | 100% | 보기: 무주택 / 주택(처분 예정) |
+| `check.담보제공자` | 담보제공자 | checkbox | 100% | 보기: 본인 / 배우자 / 부부공동 |
 | `customer.name` | 성명 | text | 100% | 박찬연 |
 | `customer.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `customer.rrn` | 주민번호앞6자리 | number | 100% | 900210 |
-| `check.결혼여부` | 결혼여부 | checkbox | 100% | 기혼 |
+| `check.결혼여부` | 결혼여부 | checkbox | 100% | 보기: 미혼 / 기혼 |
 | `employer.name` | 직장명 | text | 100% | 주식회사 태평양무역 |
 | `부서직위` | 부서/직위 | text | 100% |  |
-| `check.직업구분` | 직업구분 | checkbox | 100% | 기타( |
+| `check.직업구분` | 직업구분 | checkbox | 100% | 보기: 급여소득자 / 사업소득자 / 연금생활자 / 주부 / 기타( |
 | `근무기간` | 근무기간(업력) | number | 100% | 6 |
 | `customer.phone` | 전화번호 | phone | 100% | 010-5907-7253 |
 | `소득` | 소득(합계) | number | 100% | 81,390,000 |
@@ -3774,15 +3774,15 @@
 | `customer.rrn2` | 주민번호앞6자리 | number | 100% | 900210 |
 | `employer.name2` | 직장명 | text | 100% | 주식회사 태평양무역 |
 | `부서직위2` | 부서/직위 | text | 100% |  |
-| `check.직업구분2` | 직업구분 | checkbox | 100% | 사업소득자 |
+| `check.직업구분2` | 직업구분 | checkbox | 100% | 보기: 급여소득자 / 사업소득자 / 연금생활자 / 주부 / 기타( |
 | `근무기간2` | 근무기간(업력) | number | 100% | 36 |
 | `customer.phone2` | 전화번호 | phone | 100% | 010-5907-7253 |
 | `소득2` | 소득(합계) | number | 100% | 530,000 |
 | `부채2` | 부채(합계) | number | 100% | 2,350,000원 |
 | `금융기관3` | 금융기관 | text | 100% | 국민은행 |
 | `금융기관4` | 금융기관 | text | 100% | 농협은행 |
-| `check.대출신청이거절되는경우거절사유에대해안내를받으시겠습니까` | 대출신청이거절되는경우,거절사유에대해안내를받으시겠습니까? | checkbox | 100% | 안내 받음 (구두, 우편, 이메일, 팩스, 직접 수령) |
-| `check.대출신청이거절되는경우거절사유에대해안내를받으시겠습니까2` | 대출신청이거절되는경우,거절사유에대해안내를받으시겠습니까? | checkbox | 100% | 원하지 않음 |
+| `check.대출신청이거절되는경우거절사유에대해안내를받으시겠습니까` | 대출신청이거절되는경우,거절사유에대해안내를받으시겠습니까? | checkbox | 100% | 보기: 안내 받음 (구두, 우편, 이메일, 팩스, 직접 수령) |
+| `check.대출신청이거절되는경우거절사유에대해안내를받으시겠습니까2` | 대출신청이거절되는경우,거절사유에대해안내를받으시겠습니까? | checkbox | 100% | 보기: 원하지 않음 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 신청인(본인) | text | 100% | 박찬연 |
 | `seal.signer` | 신청인(본인) | seal | 100% | 박찬연 |
@@ -3802,44 +3802,44 @@
 | `customer.name3` | 성명 | text | 100% | 박찬연 |
 | `customer.address3` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `employer.name3` | 직장명 | text | 100% | 주식회사 태평양무역 |
-| `check.상담희망전화` | 상담희망전화 | checkbox | 100% | 휴대폰 |
+| `check.상담희망전화` | 상담희망전화 | checkbox | 100% | 보기: 휴대폰 / 직장 또는 자택 |
 | `customer.phone5` | 전화번호 | phone | 100% | 010-5907-7253 |
-| `check.주택보유수2` | 주택보유수(본건담보주택제외) | checkbox | 100% | 무주택 |
+| `check.주택보유수2` | 주택보유수(본건담보주택제외) | checkbox | 100% | 보기: 무주택 / 주택(처분 예정) |
 | `대출신청금액` | 대출신청금액 | number | 100% | 8,800,000 |
-| `check.대출만기` | 대출만기 | checkbox | 100% | 년 / |
+| `check.대출만기` | 대출만기 | checkbox | 100% | 보기: 년 / / 년 |
 | `희망취급기관` | 희망취급기관 | text | 100% |  |
 | `대출희망일` | 대출희망일 | date | 100% | 2025년 1월 28일 |
 | `거치기간` | 거치기간 | text | 100% |  |
 | `소유권이전등기일` | 소유권이전등기일 | date | 100% | 2027.11.14 |
 | `담보주택소재지` | 담보주택소재지 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
-| `check.주택유형` | 주택유형 | checkbox | 100% | 오피스텔 |
-| `check.소유자` | 소유(예정)자 | checkbox | 100% | 본인 |
-| `check.담보제공자2` | 담보제공자 | checkbox | 100% | 배우자 |
-| `check.본건설정순위` | 본건설정순위 | checkbox | 100% | 순위 |
+| `check.주택유형` | 주택유형 | checkbox | 100% | 보기: 아파트 / 연립ᆞ다세대ᆞ단독 / 오피스텔 |
+| `check.소유자` | 소유(예정)자 | checkbox | 100% | 보기: 본인 / 배우자 / 부부공동 |
+| `check.담보제공자2` | 담보제공자 | checkbox | 100% | 보기: 본인 / 배우자 / 부부공동 (담보제공자 성함 |
+| `check.본건설정순위` | 본건설정순위 | checkbox | 100% | 보기: 순위 |
 | `임대계약건수` | 임대계약건수 | number | 100% | 60 |
 | `임대보증금합계액` | 임대보증금합계액 | number | 100% | 460,000 |
-| `check.전용면적` | 전용면적 | checkbox | 100% | m2초과 |
-| `check.규제지역해당` | 규제지역해당 | checkbox | 100% | 예 |
-| `check.소득증명` | 소득증명 | checkbox | 100% | 배우자 |
+| `check.전용면적` | 전용면적 | checkbox | 100% | 보기: m2이하 / m2초과 |
+| `check.규제지역해당` | 규제지역해당 | checkbox | 100% | 보기: 예 / 아니오 |
+| `check.소득증명` | 소득증명 | checkbox | 100% | 보기: 본인 / 배우자 / 본인ᆞ배우자 합산 |
 | `본인부채` | 본인부채 | text | 100% |  |
 | `제외부채` | 제외부채 | text | 100% |  |
 | `02p` | 0.2%p | text | 100% |  |
 | `customer.rrn3` | 주민번호앞6자리 | number | 100% | 900210 |
-| `check.결혼여부2` | 결혼여부 | checkbox | 100% | 미혼 |
-| `check.배우자세대분리` | 배우자세대분리 | checkbox | 100% | 아니오 |
+| `check.결혼여부2` | 결혼여부 | checkbox | 100% | 보기: 미혼 / 기혼 / 결혼예정(3개월이내) |
+| `check.배우자세대분리` | 배우자세대분리 | checkbox | 100% | 보기: 예 / 아니오 |
 | `배우자성명` | 배우자성명 | text | 100% | 박찬연 |
 | `배우자주민번호앞6자리` | 배우자주민번호앞6자리 | text | 100% | 072-043732-82816 |
-| `check.상환방식` | 상환방식 | checkbox | 100% | 원금균등 |
+| `check.상환방식` | 상환방식 | checkbox | 100% | 보기: 원금균등 / 원리금균등 / 체증식 |
 | `희망취급지점` | 희망취급지점 | text | 100% | 범어지점 |
 | `변동금리기간` | 변동금리기간 | number | 100% | 6.16 |
-| `check.자금용도2` | 자금용도 | checkbox | 100% | 상환 |
-| `check.최저층여부` | 최저층여부 | checkbox | 100% | 예 |
-| `check.선순위종류` | 선순위종류 | checkbox | 100% | 나라사랑대출 |
+| `check.자금용도2` | 자금용도 | checkbox | 100% | 보기: 구입 / 보전 / 상환 |
+| `check.최저층여부` | 최저층여부 | checkbox | 100% | 보기: 예 / 아니오 |
+| `check.선순위종류` | 선순위종류 | checkbox | 100% | 보기: 전세권 / 주택도시기금 / 보금자리론 / 나라사랑대출 |
 | `선순위설정금액` | 선순위설정금액 | number | 100% | 7,500,000 |
 | `총방수` | 총방수 | text | 100% |  |
 | `임대방수` | 임대방수 | text | 100% |  |
-| `check.건물등기부등본` | 건물등기부등본 | checkbox | 100% | 있음 |
-| `check.녹색건축물여부` | 녹색건축물여부 | checkbox | 100% | 아니오 |
+| `check.건물등기부등본` | 건물등기부등본 | checkbox | 100% | 보기: 있음 / 없음(아파트 후취담보) |
+| `check.녹색건축물여부` | 녹색건축물여부 | checkbox | 100% | 보기: 예 / 아니오 |
 | `배우자부채` | 배우자부채 | text | 100% |  |
 | `제외대출` | 제외대출 | text | 100% |  |
 | `종류` | 종류 | text | 100% | 하나 TDF 2040 |
@@ -3857,23 +3857,23 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.신청구분` | 신청구분 | checkbox | 100% | 대환(재약정) |
-| `check.신청인구분` | 신청인구분 | checkbox | 100% | 담보제공자 |
-| `check.여신신청인의` | 여신신청인()의 | checkbox | 100% | 동료 |
+| `check.신청구분` | 신청구분 | checkbox | 100% | 보기: 신규 / 대환(재약정) / 채무인수 / 한도증액 / 기타( |
+| `check.신청인구분` | 신청인구분 | checkbox | 100% | 보기: 여신신청인 / 담보제공자 / 연대보증인 / 공동사업자 |
+| `check.여신신청인의` | 여신신청인()의 | checkbox | 100% | 보기: 공동사업자 / 가족 / 친인척 / 동료 / 지인 / 기타( |
 | `고객번호` | 고객번호 | text | 100% | 296-021235-19158 |
-| `check.우편물수령처` | 우편물수령처 | checkbox | 100% | 사업장 |
+| `check.우편물수령처` | 우편물수령처 | checkbox | 100% | 보기: 자택 / 사업장 |
 | `customer.name` | 성명 | text | 100% | 박찬연 |
 | `customer.address` | 자택주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `company.address` | 사업장주소 | text | 100% | 서울특별시 중구 다산로 361, 6층 |
 | `customer.email` | E-mail | text | 100% | soonjun606@gmail.com |
-| `check.직업군` | 직업군 | checkbox | 100% | 전문직 |
+| `check.직업군` | 직업군 | checkbox | 100% | 보기: 전문직 / 자영업자 / 기타( |
 | `company.name` | 업체명(상호) | text | 100% | (주)유니온무역 |
-| `check.매출정보` | 매출(소득)정보 | checkbox | 100% | 세무서신고 |
-| `check.사업장소유여부` | 사업장소유여부 | checkbox | 100% | 아니오 |
+| `check.매출정보` | 매출(소득)정보 | checkbox | 100% | 보기: 세무서신고 / 재무제표 / 기타( |
+| `check.사업장소유여부` | 사업장소유여부 | checkbox | 100% | 보기: 예 / 아니오 / 기타( |
 | `월임차료` | 월임차료 | number | 100% | 26,480,000 |
-| `check.자가` | 자가( | checkbox | 100% | 본인 |
-| `check.주거형태코드` | 주거형태코드 | checkbox | 100% | 아파트 |
-| `check.부채현황취급예정포함` | 부채현황(단위:백만원)【취급예정포함】 | checkbox | 100% | 자금용도( |
+| `check.자가` | 자가( | checkbox | 100% | 보기: 본인 / 배우자 / 공동 / 가족 / 전세 / 월세 / 기타( |
+| `check.주거형태코드` | 주거형태코드 | checkbox | 100% | 보기: 아파트 / 단독 / 다가구 / 다세대 / 연립/빌라 / 오피스텔 / 기타( |
+| `check.부채현황취급예정포함` | 부채현황(단위:백만원)【취급예정포함】 | checkbox | 100% | 보기: 금융기관명( / 금액( / 상환 / 미상환 / 담보( / 자금용도( |
 | `종류` | 종류 | text | 100% | 하나 적금 |
 | `평가금액` | 평가금액 | number | 100% | 6,480,000 |
 | `company.biz_no` | 사업자등록번호 | biz_no | 100% | 264-82-36559 |
@@ -3882,22 +3882,22 @@
 | `customer.birth` | 생년월일 | date | 100% | 900210 |
 | `customer.home_phone` | 자택전화번호 | phone | 100% | 02-8556-8366 |
 | `사업장전화번호` | 사업장전화번호 | phone | 100% | 010-5907-7253 |
-| `check.국적` | 국적 | checkbox | 100% | 기타 ( |
+| `check.국적` | 국적 | checkbox | 100% | 보기: 대한민국 / 기타 ( |
 | `company.biz_item` | 업종(주요제품) | text | 100% | 무역 |
 | `연매출` | 연매출(연소득) | number | 100% | 8,780,000 |
 | `임차보증금` | 임차보증금 | number | 100% | 8,570,000 |
 | `company.address2` | 소재지 | text | 100% | 서울특별시 노원구 한글비석로 388-7, 8층 13호 |
-| `check.공동대표여부` | 공동대표여부 | checkbox | 100% | 예 |
+| `check.공동대표여부` | 공동대표여부 | checkbox | 100% | 보기: 예 / 아니오 |
 | `종업원수` | 종업원수 | number | 100% | 1 |
-| `check.담보종류` | 담보종류 | checkbox | 100% | 대지 |
-| `check.임대차확인` | 임대차확인 | checkbox | 100% | 있음(임대보증금 백만원) |
+| `check.담보종류` | 담보종류 | checkbox | 100% | 보기: 아파트 / 단독 / 다가구 / 다세대/연립 / 오피스텔 / 상가 / 대지 / 기타( |
+| `check.임대차확인` | 임대차확인 | checkbox | 100% | 보기: 있음(임대보증금 백만원) / 예정(임대보증금 백만원) / 없음 |
 | `소유자명` | 소유자명 | text | 100% |  |
 | `신청금액` | 신청금액 | number | 100% | 34,210,000 |
-| `check.상환방법` | 상환방법 | checkbox | 100% | 만기일시 |
-| `check.자금용도` | 자금용도 | checkbox | 100% | 기타( |
+| `check.상환방법` | 상환방법 | checkbox | 100% | 보기: 만기일시 / 원금균등분할 / 원리금균등분할 / 기타( |
+| `check.자금용도` | 자금용도 | checkbox | 100% | 보기: 운전자금 / 시설자금 / 부채상환(당행 부채상환, 타행 부채상환) / 기타( |
 | `date` | 대출희망일 | date | 100% | 2026년 1월 31일 |
 | `대출과목` | 대출과목 | text | 100% | 일반자금대출 |
-| `check.거래구분` | 거래구분 | checkbox | 100% | 건별 |
+| `check.거래구분` | 거래구분 | checkbox | 100% | 보기: 건별 / 한도 |
 | `date2` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 여신신청인(본인) | text | 100% | 박찬연 |
 | `seal.signer` | 여신신청인(본인) | seal | 100% | 현예지 |
@@ -3905,14 +3905,14 @@
 | `signer2.name` | 담보제공자(또는연대보증인또는공동사업자) | text | 100% | 박찬연 |
 | `seal.signer2` | 담보제공자(또는연대보증인또는공동사업자) | seal | 100% | 박찬연 |
 | `sign.signer2` | 담보제공자(또는연대보증인또는공동사업자) | signature | 100% | 김소윤 |
-| `check.신규증액처리시안내` | 신규,증액처리시안내 | checkbox | 100% | 원치않음 |
-| `check.동의함` | 동의함( | checkbox | 100% | 이메일 |
-| `check.중도상환해약금면제시점도래안내문자통지` | 중도상환해약금면제시점도래안내문자통지 | checkbox | 100% | 원치않음 |
-| `check.우편` | 우편 | checkbox | 100% | 직장 |
-| `check.문자` | 문자 | checkbox | 100% | 원치않음 |
-| `check.이메일` | 이메일 | checkbox | 100% | 동의함 |
+| `check.신규증액처리시안내` | 신규,증액처리시안내 | checkbox | 100% | 보기: 문자 / 이메일 / 원치않음 |
+| `check.동의함` | 동의함( | checkbox | 100% | 보기: 동의함( / 문자 / 이메일 / 원치않음 |
+| `check.중도상환해약금면제시점도래안내문자통지` | 중도상환해약금면제시점도래안내문자통지 | checkbox | 100% | 보기: 동의함 / 원치않음 |
+| `check.우편` | 우편 | checkbox | 100% | 보기: 자택 / 직장 / 원치않음 |
+| `check.문자` | 문자 | checkbox | 100% | 보기: 동의함 / 원치않음 |
+| `check.이메일` | 이메일 | checkbox | 100% | 보기: 동의함 / 원치않음 |
 | `대출금입금계좌` | 대출금입금(실행)계좌 | text | 100% | 426-738031-21264 |
-| `check.예금담보등상계후잔액반환계좌번호` | 예금담보등상계후잔액반환계좌번호(담보제공자기준) | checkbox | 100% | 자동이체 결제 계좌 |
+| `check.예금담보등상계후잔액반환계좌번호` | 예금담보등상계후잔액반환계좌번호(담보제공자기준) | checkbox | 100% | 보기: 대출금 입금 계좌 / 자동이체 결제 계좌 / 별도 지정(은행명 |
 | `원금및이자자동이체결제계좌` | 원(리)금및이자자동이체결제계좌 | number | 100% | 50,980,000원 |
 | `seal.signer3` | 신청인:____________________________ | seal | 100% | 박찬연 |
 | `sign.signer3` | 신청인:____________________________ | signature | 100% | 현예지 |
@@ -3927,43 +3927,43 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.신청구분` | 신청구분 | checkbox | 100% | 채무인수 |
-| `check.신청인구분` | 신청인구분 | checkbox | 100% | 연대보증인 |
-| `check.대출신청인의` | 대출신청인()의 | checkbox | 100% | 친인척 |
+| `check.신청구분` | 신청구분 | checkbox | 100% | 보기: 신규 / 대환(재약정) / 채무인수 / 한도증액 / 기타( |
+| `check.신청인구분` | 신청인구분 | checkbox | 100% | 보기: 대출신청인(본인) / 담보제공자 / 연대보증인 |
+| `check.대출신청인의` | 대출신청인()의 | checkbox | 100% | 보기: 가족 / 친인척 / 동료 / 지인 / 기타 ( |
 | `고객번호` | 고객번호 | text | 100% | 362-609810-15116 |
-| `check.우편물수령처` | 우편물수령처 | checkbox | 100% | 직장 |
+| `check.우편물수령처` | 우편물수령처 | checkbox | 100% | 보기: 자택 / 직장 |
 | `customer.name` | 성명 | text | 100% | 박찬연 |
 | `customer.address` | 자택주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `employer.address` | 직장주소 | text | 100% | 충청북도 청주시 흥덕구 오송생명로 491-4, 10층 03호 주식회사 태… |
 | `customer.email` | E-mail | text | 100% | chanyeon363@naver.com |
-| `check.직업군` | 직업군 | checkbox | 100% | 급여소득자 |
+| `check.직업군` | 직업군 | checkbox | 100% | 보기: 급여소득자 / 전문직 / 자영업자 / 기타( |
 | `employer.name` | 직장명 | text | 100% | 주식회사 태평양무역 |
 | `근무부서` | 근무부서 | text | 100% |  |
 | `입사년월` | 입사년월 | text | 100% |  |
-| `check.자가` | 자가( | checkbox | 100% | 가족 |
-| `check.주거형태코드` | 주거형태코드 | checkbox | 100% | 기타( |
-| `check.부채현황취급예정포함` | 부채현황(단위:백만원)【취급예정포함】 | checkbox | 100% | 미상환 |
+| `check.자가` | 자가( | checkbox | 100% | 보기: 본인 / 배우자 / 공동 / 가족 / 전세 / 월세 / 기타( |
+| `check.주거형태코드` | 주거형태코드 | checkbox | 100% | 보기: 아파트 / 단독 / 다가구 / 다세대 / 연립/빌라 / 오피스텔 / 기타( |
+| `check.부채현황취급예정포함` | 부채현황(단위:백만원)【취급예정포함】 | checkbox | 100% | 보기: 금융기관명( / 금액( / 상환 / 미상환 / 담보( / 자금용도( |
 | `종류` | 종류 | text | 100% | 하나 적금 |
 | `평가금액` | 평가금액 | number | 100% | 31,040,000 |
-| `check.고용형태` | 고용형태 | checkbox | 100% | 정규직 |
+| `check.고용형태` | 고용형태 | checkbox | 100% | 보기: 정규직 / 계약직 ( / 전문 / 단순 / 용역 / 기타 |
 | `employer.position` | 직위 | text | 100% | 대리 |
-| `check.직무구분` | 직무구분 | checkbox | 100% | 자영업자 |
+| `check.직무구분` | 직무구분 | checkbox | 100% | 보기: 관리/사무 / 전문직 / 자영업자 / 기타( |
 | `면적` | 면적 | text | 100% |  |
 | `company.address` | 소재지 | text | 100% | 서울특별시 중구 다산로 361, 6층 |
-| `check.연소득` | 연소득 | checkbox | 100% | 배우자( |
+| `check.연소득` | 연소득 | checkbox | 100% | 보기: 본인( / 배우자( |
 | `customer.birth` | 생년월일 | date | 100% | 1990.02.10 |
 | `customer.home_phone` | 자택전화번호 | phone | 100% | 02-5426-0645 |
 | `employer.phone` | 직장전화번호 | phone | 100% | 033-364-7301 |
-| `check.국적` | 국적 | checkbox | 100% | 대한민국 |
-| `check.담보종류` | 담보종류 | checkbox | 100% | 상가 |
-| `check.임대차확인` | 임대차확인 | checkbox | 100% | 없 |
+| `check.국적` | 국적 | checkbox | 100% | 보기: 대한민국 / 기타( |
+| `check.담보종류` | 담보종류 | checkbox | 100% | 보기: 아파트 / 단독 / 다가구 / 다세대/연립 / 오피스텔 / 상가 / 대지 / 기타( |
+| `check.임대차확인` | 임대차확인 | checkbox | 100% | 보기: 있음(임대보증금 / 예정(임대보증금 / 없 |
 | `소유자명` | 소유자명 | text | 100% |  |
-| `check.결혼여부` | 결혼여부 | checkbox | 100% | 기혼 |
+| `check.결혼여부` | 결혼여부 | checkbox | 100% | 보기: 미혼 / 기혼 |
 | `date` | 대출희망일 | date | 100% | 2026년 1월 31일 |
-| `check.상환방법` | 상환방법 | checkbox | 100% | 기타( |
-| `check.주택` | 주택( | checkbox | 100% | 구입 |
-| `check.기타부동산` | 기타부동산( | checkbox | 100% | 임차 |
-| `check.거래구분` | 거래구분 | checkbox | 100% | 한도 |
+| `check.상환방법` | 상환방법 | checkbox | 100% | 보기: 만기일시 / 원금균등분할 / 원리금균등분할 / 기타( |
+| `check.주택` | 주택( | checkbox | 100% | 보기: 구입 / 임차 / 신축/개량 ) 부채상환( / 부채상환(구입자금) / 당행 부채상환 / 타행 부채상환 |
+| `check.기타부동산` | 기타부동산( | checkbox | 100% | 보기: 구입 / 임차 / 전세금반환 / 사업/부업 / 학자금 / 결혼 / 생활비 / 우리사주매입 / 공과금(세금)납부 / 기타( |
+| `check.거래구분` | 거래구분 | checkbox | 100% | 보기: 건별 / 한도 |
 | `date2` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 대출신청인(본인) | text | 100% | 박찬연 |
 | `seal.signer` | 대출신청인(본인) | seal | 100% | 박찬연 |
@@ -3971,17 +3971,17 @@
 | `signer2.name` | 담보제공자(또는연대보증인) | text | 100% | 박찬연 |
 | `seal.signer2` | 담보제공자(또는연대보증인) | seal | 100% | 하숙인 |
 | `sign.signer2` | 담보제공자(또는연대보증인) | signature | 100% | 박찬연 |
-| `check.신규증액채무인수한도감액한도완제처리시안내` | 신규,증액,채무인수,한도감액,한도완제처리시안내 | checkbox | 100% | 문자 |
-| `check.신청대출승인완료시안내문자통지` | 신청대출승인완료시안내문자통지 | checkbox | 100% | 원치않음 |
-| `check.동의함` | 동의함( | checkbox | 100% | 문자 |
-| `check.중도상환해약금면제시점도래안내문자통지` | 중도상환해약금면제시점도래안내문자통지 | checkbox | 100% | 동의함 |
-| `check.우편` | 우편 | checkbox | 100% | 원치않음 |
-| `check.문자` | 문자 | checkbox | 100% | 원치않음 |
-| `check.이메일` | 이메일 | checkbox | 100% | 원치않음 |
+| `check.신규증액채무인수한도감액한도완제처리시안내` | 신규,증액,채무인수,한도감액,한도완제처리시안내 | checkbox | 100% | 보기: 문자 / 이메일 / 원치않음 |
+| `check.신청대출승인완료시안내문자통지` | 신청대출승인완료시안내문자통지 | checkbox | 100% | 보기: 동의함 / 원치않음 |
+| `check.동의함` | 동의함( | checkbox | 100% | 보기: 동의함( / 문자 / 이메일 / 원치않음 |
+| `check.중도상환해약금면제시점도래안내문자통지` | 중도상환해약금면제시점도래안내문자통지 | checkbox | 100% | 보기: 동의함 / 원치않음 |
+| `check.우편` | 우편 | checkbox | 100% | 보기: 자택 / 직장 / 원치않음 |
+| `check.문자` | 문자 | checkbox | 100% | 보기: 동의함 / 원치않음 |
+| `check.이메일` | 이메일 | checkbox | 100% | 보기: 동의함 / 원치않음 |
 | `account` | 계좌번호 | account_no | 100% | 000-287736-52424 |
 | `customer.name2` | 예금주 | text | 100% | 박찬연 |
-| `check.대출신청이거절되는경우거절사유에대해안내를받으시겠습니까` | 대출신청이거절되는경우,거절사유에대해안내를받으시겠습니까? | checkbox | 100% | 원치않음 |
-| `check.대출신청이거절되는경우거절사유에대해안내를받으시겠습니까2` | 대출신청이거절되는경우,거절사유에대해안내를받으시겠습니까? | checkbox | 100% | 이메일 |
+| `check.대출신청이거절되는경우거절사유에대해안내를받으시겠습니까` | 대출신청이거절되는경우,거절사유에대해안내를받으시겠습니까? | checkbox | 100% | 보기: 원치않음 |
+| `check.대출신청이거절되는경우거절사유에대해안내를받으시겠습니까2` | 대출신청이거절되는경우,거절사유에대해안내를받으시겠습니까? | checkbox | 100% | 보기: 구두 / 이메일 / 팩스 / 직접 수령 |
 | `이관희망점` | 이관희망점 | text | 100% |  |
 | `설정순위` | •설정순위(설정일자) | text | 100% |  |
 | `접수번호` | •접수번호(등기부등본을구기준) | text | 100% | 860-824245-06741 |
@@ -4001,7 +4001,7 @@
 | `대구도시개발공사` | -대구도시개발공사 | text | 100% |  |
 | `제공일로부터5년까지보유이용` | -제공일로부터5년까지보유·이용 | text | 100% |  |
 | `신용거래정보` | ■신용거래정보 | text | 100% |  |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 이민빈 |
 | `sign.signer` | 본인성명 | signature | 100% | 박찬연 |
@@ -4015,7 +4015,7 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `customer.name` | 차주 | text | 100% | 박찬연 |
-| `상품명` | 상품명 | text | 100% | 전자부품 |
+| `상품명` | 상품명 | text | 100% | 하나 정기예금 |
 | `실행일` | 실행일 | date | 100% | 2025년 12월 13일 |
 | `account` | 계좌번호 | account_no | 100% | 000-287736-52424 |
 | `금액` | 금액 | number | 100% | 5,690,000원 |
@@ -4023,8 +4023,8 @@
 | `signer.name` | 신청인 | text | 100% | 박찬연 |
 | `seal.signer` | 신청인 | seal | 100% | 강순준 |
 | `sign.signer` | 신청인 | signature | 100% | 박찬연 |
-| `check.중도상환이나철회하지않고` | 중도상환이나철회하지않고대출유지함 | checkbox | 100% | 중도상환이나 철회하지 않고 대출 유지함 |
-| `check.기타` | 기타( | checkbox | 100% | 기타 ( |
+| `check.중도상환이나철회하지않고` | 중도상환이나철회하지않고대출유지함 | checkbox | 100% | 보기: 중도상환이나 철회하지 않고 대출 유지함 |
+| `check.기타` | 기타( | checkbox | 100% | 보기: 기타 ( |
 | `date2` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer2.name` | 신청인 | text | 100% | 박찬연 |
 | `seal.signer2` | 신청인 | seal | 100% | 현예지 |
@@ -4034,21 +4034,21 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `목록[].공공정보등` | ■공공정보등 | text | 100% |  |
-| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `부채금액` | ¶부채금액 | number | 100% | 260,310,000 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인정보제공에동의하십니까2` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까2` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `보유현황공공임대주택계약정보` | 보유현황,공공임대주택계약정보 | text | 100% |  |
 | `업권등의공시가액` | 업권등의공시가액 | number | 100% | 31,180,000 |
 | `제공받는자와동일` | -제공받는자와동일 | text | 100% |  |
-| `check.위고유식별정보조회에동의하십니까` | 위고유식별정보조회에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보조회에동의하십니까` | 위고유식별정보조회에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `정보전월세거래정보` | 정보,전·월세거래정보 | text | 100% |  |
-| `check.위개인정보조회에동의하십니까` | 위개인(신용)정보조회에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인정보조회에동의하십니까2` | 위개인(신용)정보조회에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.이용동의여부` | 이용동의여부 | checkbox | 100% | 보기1 |
+| `check.위개인정보조회에동의하십니까` | 위개인(신용)정보조회에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보조회에동의하십니까2` | 위개인(신용)정보조회에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.이용동의여부` | 이용동의여부 | checkbox | 100% | 보기: 보기1 / 보기2 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 이욱유 |
@@ -4061,21 +4061,21 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `재지및면적유형가격임대차현황등` | 재지및면적,유형,가격,임대차현황등 | text | 100% |  |
 | `목록[].공공정보등` | ■공공정보등 | text | 100% |  |
-| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `부채금액` | ¶부채금액 | number | 100% | 820,000원 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인정보제공에동의하십니까2` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까2` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `보유현황공공주택계약정보` | 보유현황,공공주택계약(입주)정보 | text | 100% |  |
 | `권등의공시가액` | 권등의공시가액 | number | 100% | 1,820,000 |
 | `제공받는자와동일` | -제공받는자와동일 | text | 100% |  |
-| `check.위고유식별정보조회에동의하십니까` | 위고유식별정보조회에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보조회에동의하십니까` | 위개인(신용)정보조회에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보조회에동의하십니까2` | 위개인(신용)정보조회에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.이용동의여부` | 이용동의여부 | checkbox | 100% | 동의함 |
+| `check.위고유식별정보조회에동의하십니까` | 위고유식별정보조회에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보조회에동의하십니까` | 위개인(신용)정보조회에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보조회에동의하십니까2` | 위개인(신용)정보조회에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.이용동의여부` | 이용동의여부 | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 박찬연 |
@@ -4092,9 +4092,9 @@
 | `순담보가액` | 순담보가액 | number | 100% | 33,100,000원 |
 | `선순위설정액` | 선순위설정액 | text | 100% |  |
 | `대출가능액` | 대출가능액 | text | 100% |  |
-| `check.신청구분` | 신청구분 | checkbox | 100% | 대환(재약정) |
-| `check.신청인구분` | 신청인구분 | checkbox | 100% | 연대보증인 |
-| `check.대출신청인의` | 대출신청인()의 | checkbox | 100% | 가족 |
+| `check.신청구분` | 신청구분 | checkbox | 100% | 보기: 신규 / 대환(재약정) / 채무인수 / 한도증액 / 기타( |
+| `check.신청인구분` | 신청인구분 | checkbox | 100% | 보기: 대출신청인(본인) / 담보제공자 / 연대보증인 |
+| `check.대출신청인의` | 대출신청인()의 | checkbox | 100% | 보기: 가족 / 친인척 / 동료 / 지인 / 기타 ( |
 | `customer.name` | 성명 | text | 100% | 박찬연 |
 | `주민등록지` | 주민등록지 | text | 100% |  |
 | `현거주지` | 현거주지 | text | 100% |  |
@@ -4132,7 +4132,7 @@
 | `employer.position` | 직위 | text | 100% | 대리 |
 | `목록[].자금용도` | 자금용도 | text | 100% | 하나 TDF 2040 |
 | `고객번호` | 고객번호 | text | 100% | 7210-5778 |
-| `check.우편물수령처` | 우편물수령처 | checkbox | 100% | 자택 |
+| `check.우편물수령처` | 우편물수령처 | checkbox | 100% | 보기: 자택 / 직장 |
 | `월임대료` | 월임대료 | number | 100% | 920,000 |
 | `주거방수` | 주거방수 | number | 100% | 3 |
 | `월임대료2` | 월임대료 | number | 100% | 89,490,000원 |
@@ -4148,17 +4148,17 @@
 | `customer.name4` | 차주 | text | 100% | 박찬연 |
 | `의담보제공자` | 의담보제공자(또는연대보증인) | text | 100% |  |
 | `신청대출승인완료시안내문자통지` | 신청대출승인완료시안내문자통지 | text | 100% |  |
-| `check.신규증액채무인수한도감액한도완제처리시안내` | 신규,증액,채무인수,한도감액,한도완제처리시안내 | checkbox | 100% | 원치않음 |
-| `check.신청대출승인완료시안내문자통지` | 신청대출승인완료시안내문자통지 | checkbox | 100% | 원치않음 |
-| `check.동의함` | 동의함( | checkbox | 100% | 동의함( |
-| `check.중도상환해약금면제시점도래안내문자통지` | 중도상환해약금면제시점도래안내문자통지 | checkbox | 100% | 원치않음 |
-| `check.우편` | 우편 | checkbox | 100% | 원치않음 |
-| `check.문자` | 문자 | checkbox | 100% | 원치않음 |
-| `check.이메일` | 이메일 | checkbox | 100% | 원치않음 |
+| `check.신규증액채무인수한도감액한도완제처리시안내` | 신규,증액,채무인수,한도감액,한도완제처리시안내 | checkbox | 100% | 보기: 문자 / 이메일 / 원치않음 |
+| `check.신청대출승인완료시안내문자통지` | 신청대출승인완료시안내문자통지 | checkbox | 100% | 보기: 동의함 / 원치않음 |
+| `check.동의함` | 동의함( | checkbox | 100% | 보기: 동의함( / 문자 / 이메일 / 원치않음 |
+| `check.중도상환해약금면제시점도래안내문자통지` | 중도상환해약금면제시점도래안내문자통지 | checkbox | 100% | 보기: 동의함 / 원치않음 |
+| `check.우편` | 우편 | checkbox | 100% | 보기: 자택 / 직장 / 원치않음 |
+| `check.문자` | 문자 | checkbox | 100% | 보기: 동의함 / 원치않음 |
+| `check.이메일` | 이메일 | checkbox | 100% | 보기: 동의함 / 원치않음 |
 | `대출금입금계좌` | 대출금입금(실행)계좌 | text | 100% | 411-449461-07296 |
-| `check.예금담보등상계후잔액반환계좌번호` | 예금담보등상계후잔액반환계좌번호(담보제공자기준) | checkbox | 100% | 별도 지정(은행명 |
-| `check.대출신청이거절되는경우거절사유에대해안내를받으시겠습니까` | 대출신청이거절되는경우,거절사유에대해안내를받으시겠습니까? | checkbox | 100% | 원치않음 |
-| `check.대출신청이거절되는경우거절사유에대해안내를받으시겠습니까2` | 대출신청이거절되는경우,거절사유에대해안내를받으시겠습니까? | checkbox | 100% | 이메일 |
+| `check.예금담보등상계후잔액반환계좌번호` | 예금담보등상계후잔액반환계좌번호(담보제공자기준) | checkbox | 100% | 보기: 대출금 입금 계좌 / 자동이체 결제 계좌 / 별도 지정(은행명 |
+| `check.대출신청이거절되는경우거절사유에대해안내를받으시겠습니까` | 대출신청이거절되는경우,거절사유에대해안내를받으시겠습니까? | checkbox | 100% | 보기: 원치않음 |
+| `check.대출신청이거절되는경우거절사유에대해안내를받으시겠습니까2` | 대출신청이거절되는경우,거절사유에대해안내를받으시겠습니까? | checkbox | 100% | 보기: 구두 / 이메일 / 팩스 / 직접 수령 |
 | `설정순위` | •설정순위(설정일자) | text | 100% |  |
 | `접수번호` | •접수번호(등기부등본을구기준) | text | 100% | 022-981909-35670 |
 | `signer.name` | (담보제공자기준) | text | 100% | 박찬연 |
@@ -4174,34 +4174,34 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.근저당권과관련된모든대출` | 근저당권과관련된모든대출금을상환하고말소를원하는경우영업점에방 | checkbox | 100% | 근저당권과 관련된 모든 대출금을 상환하고 말소를 원하는 경우 영업점에 방 |
+| `check.근저당권과관련된모든대출` | 근저당권과관련된모든대출금을상환하고말소를원하는경우영업점에방 | checkbox | 100% | 보기: 근저당권과 관련된 모든 대출금을 상환하고 말소를 원하는 경우 영업점에 방 / 본인은 위 기재사항에 허위가 있을 경우 여신회수 및 제재조치에 이의가 없 |
 | `customer.name` | 성명 | text | 100% | 박찬연 |
 | `주민등록지` | 주민등록지 | text | 100% |  |
 | `현거주지` | 현거주지 | text | 100% |  |
-| `check.주택유형` | 주택유형 | checkbox | 100% | 연립주택 |
+| `check.주택유형` | 주택유형 | checkbox | 100% | 보기: 아파트 / 단독주택(다가구 포함) / 다세대주택 / 연립주택 / 기타 |
 | `전세보증금` | 전세보증금 | number | 100% | 570,000 |
 | `customer.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
-| `check.소유자` | 소유자 | checkbox | 100% | 부부공동 |
-| `check.주택유형2` | 주택유형 | checkbox | 100% | 단독주택(다가구 포함) |
+| `check.소유자` | 소유자 | checkbox | 100% | 보기: 본인 / 부부공동 |
+| `check.주택유형2` | 주택유형 | checkbox | 100% | 보기: 아파트 / 단독주택(다가구 포함) / 다세대주택 / 연립주택 |
 | `임대방수` | 임대방수 | number | 100% | 1 |
 | `employer.name` | 직장명 | text | 100% | 주식회사 태평양무역 |
-| `check.직업` | 직업 | checkbox | 100% | 관리/사무 |
+| `check.직업` | 직업 | checkbox | 100% | 보기: 관리/사무 / 생산/기술 / 판매/영업 / 연구/개발 / 자영업 / 전문/자유직 / 서비스 / 무직 |
 | `employer.address` | 직장주소 | text | 100% | 충청북도 청주시 흥덕구 오송생명로 491-4, 10층 03호 주식회사 태… |
 | `배우자성명` | 배우자성명 | text | 100% | 강순준 |
-| `check.우편물배달장소` | 우편물배달장소 | checkbox | 100% | 직장 |
+| `check.우편물배달장소` | 우편물배달장소 | checkbox | 100% | 보기: 직장 / 자택 |
 | `원리금자동이체계좌번호` | 원리금자동이체계좌번호 | text | 100% | 762-939327-57078 |
 | `대출신청금액` | 대출신청금액 | number | 100% | 4,700,000 |
 | `대출과목` | 대출과목 | text | 100% | 주택담보대출 |
-| `check.대출기간` | 대출기간 | checkbox | 100% | 년 |
-| `check.거치기간` | 거치기간 | checkbox | 100% | 비거치 |
-| `check.상환방법` | 상환방법 | checkbox | 100% | 원리금균등분할 |
-| `check.대출금리` | 대출금리 | checkbox | 100% | 년 단위 변동금리 연 |
-| `check.우대금리` | 우대금리 | checkbox | 100% | 없음 |
-| `check.대출가부` | 대출가부 | checkbox | 100% | 가 |
+| `check.대출기간` | 대출기간 | checkbox | 100% | 보기: 년 |
+| `check.거치기간` | 거치기간 | checkbox | 100% | 보기: 비거치 / 년 / ( |
+| `check.상환방법` | 상환방법 | checkbox | 100% | 보기: 원리금균등분할 / 원금균등분할 / 체증식분할상환 |
+| `check.대출금리` | 대출금리 | checkbox | 100% | 보기: 고정금리 연 / 년 고정 후 변동금리 연 / 변동금리 연 / 년 단위 변동금리 연 |
+| `check.우대금리` | 우대금리 | checkbox | 100% | 보기: 없음 / 생애최초주택구입자 / 신혼가구 / 전자계약 체결 / 지방준공후 미분양주택 가구 / 다자녀(3자녀이상)가구 / 자녀가구 / 다문화가구 / 한부모가구 / 장애인가구 / 청약저축( %p) |
+| `check.대출가부` | 대출가부 | checkbox | 100% | 보기: 가 / 부 (통지일 |
 | `customer.name2` | 본인 | text | 100% | 박찬연 |
 | `customer.name3` | 본인 | text | 100% | 박찬연 |
 | `자기자금` | 자기자금 | number | 100% | 9,760,000 |
-| `check.배우자` | 배우자 | checkbox | 100% | 무 |
+| `check.배우자` | 배우자 | checkbox | 100% | 보기: 유 / 무 |
 | `방수` | 방수 | number | 100% | 2 |
 | `월세보증금` | 월세보증금 | number | 100% | 7,610,000 |
 | `방수2` | 방수 | number | 100% | 1 |
@@ -4215,15 +4215,15 @@
 | `customer.rrn` | 주민등록번호앞6자리 | number | 100% | 900210 |
 | `customer.phone` | 휴대폰번호 | phone | 100% | 010-7321-8870 |
 | `customer.phone2` | 전화번호 | phone | 100% | 010-5907-7253 |
-| `check.주거형태` | 주거형태 | checkbox | 100% | 기타 |
+| `check.주거형태` | 주거형태 | checkbox | 100% | 보기: 전세 / 보증부월세 / 월세 / 기타 |
 | `월임대료` | 월임대료 | number | 100% | 430,000원 |
-| `check.주택보유수` | 주택보유수 | checkbox | 100% | 본건 담보주택을 제외하고는 없음 |
+| `check.주택보유수` | 주택보유수 | checkbox | 100% | 보기: 본건 담보주택을 제외하고는 없음 |
 | `선순위설정금액` | 선순위설정금액 | number | 100% | 450,000원 |
-| `check.무상거주` | 무상거주 | checkbox | 100% | 무 |
+| `check.무상거주` | 무상거주 | checkbox | 100% | 보기: 유 / 무 |
 | `employer.position` | 직위 | text | 100% | 대리 |
 | `배우자주민등록번호앞6자리` | 배우자주민등록번호앞6자리 | text | 100% | 668-748827-23091 |
 | `대출희망일` | 대출희망일 | date | 100% | 2025.02.06 |
-| `check.본대출과관련된비용및수수료를무통장무인감으로인출함에동의` | 본대출과관련된비용및수수료를무통장,무인감으로인출함에동의 | checkbox | 100% | 동의함 |
+| `check.본대출과관련된비용및수수료를무통장무인감으로인출함에동의` | 본대출과관련된비용및수수료를무통장,무인감으로인출함에동의 | checkbox | 100% | 보기: 동의함 / 동의안함 |
 | `상담자` | 상담자(직위/성명) | text | 100% |  |
 | `목록[].자금용도` | 자금용도 | text | 100% | 하나 정기예금 |
 | `employer.phone` | 직장전화번호 | phone | 100% | 043-783-2775 |
@@ -4233,13 +4233,13 @@
 | `목록[].담보종류` | 담보종류 | text | 100% |  |
 | `employer.hire_date` | 입사일자 | date | 100% | 2021.09.26 |
 | `신청대출승인완료시안내문자통지` | 신청대출승인완료시안내문자통지 | text | 100% |  |
-| `check.신규증액채무인수한도감액한도완제처리시안내` | 신규,증액,채무인수,한도감액,한도완제처리시안내 | checkbox | 100% | 원치않음 |
-| `check.신청대출승인완료시안내문자통지` | 신청대출승인완료시안내문자통지 | checkbox | 100% | 원치않음 |
-| `check.동의함` | 동의함( | checkbox | 100% | 이메일 |
-| `check.중도상환해약금면제시점도래안내문자통지` | 중도상환해약금면제시점도래안내문자통지 | checkbox | 100% | 동의함 |
-| `check.우편` | 우편 | checkbox | 100% | 자택 |
-| `check.문자` | 문자 | checkbox | 100% | 동의함 |
-| `check.이메일` | 이메일 | checkbox | 100% | 원치않음 |
+| `check.신규증액채무인수한도감액한도완제처리시안내` | 신규,증액,채무인수,한도감액,한도완제처리시안내 | checkbox | 100% | 보기: 문자 / 이메일 / 원치않음 |
+| `check.신청대출승인완료시안내문자통지` | 신청대출승인완료시안내문자통지 | checkbox | 100% | 보기: 동의함 / 원치않음 |
+| `check.동의함` | 동의함( | checkbox | 100% | 보기: 동의함( / 문자 / 이메일 / 원치않음 |
+| `check.중도상환해약금면제시점도래안내문자통지` | 중도상환해약금면제시점도래안내문자통지 | checkbox | 100% | 보기: 동의함 / 원치않음 |
+| `check.우편` | 우편 | checkbox | 100% | 보기: 자택 / 직장 / 원치않음 |
+| `check.문자` | 문자 | checkbox | 100% | 보기: 동의함 / 원치않음 |
+| `check.이메일` | 이메일 | checkbox | 100% | 보기: 동의함 / 원치않음 |
 | `대출부수거래충족여부안내통지` | 대출부수거래충족여부안내통지(문자만) | text | 100% |  |
 | `중도상환해약금면제시점도래안내문자통지` | 중도상환해약금면제시점도래안내문자통지 | text | 100% |  |
 
@@ -4249,7 +4249,7 @@
 |---|---|---|---|---|
 | `제공항목` | 제공항목 | text | 100% |  |
 | `하나생명` | 하나생명 | text | 100% |  |
-| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `신용거래정보` | ■신용거래정보 | text | 100% |  |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 
@@ -4257,7 +4257,7 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.신청구분` | 신청구분 | checkbox | 100% | 채무인수 |
+| `check.신청구분` | 신청구분 | checkbox | 100% | 보기: 신규 / 대환(재약정) / 채무인수 / 기타( |
 | `signer.name` | 신청인 | text | 100% | 박찬연 |
 | `seal.signer` | 신청인 | seal | 100% | 강순준 |
 | `sign.signer` | 신청인 | signature | 100% | 박찬연 |
@@ -4266,12 +4266,12 @@
 | `사업장전화번호` | 사업장전화번호 | phone | 100% | 010-5907-7253 |
 | `대출과목` | 대출과목 | text | 100% | 시설자금대출 |
 | `신청금액` | 신청금액 | number | 100% | 52,520,000원 |
-| `check.대출기간만료일` | 대출기간만료일 | checkbox | 100% | 대출실행(한도약정)일로부터 |
+| `check.대출기간만료일` | 대출기간만료일 | checkbox | 100% | 보기: 대출승인일로부터 / 대출실행(한도약정)일로부터 / 보기3 |
 | `거치기간` | 거치기간 | number | 100% | 2 |
-| `check.상환방법` | 상환방법 | checkbox | 100% | 기타( |
-| `check.자금용도` | 자금용도 | checkbox | 100% | 운영자금(급여, 원자재매입 등) |
-| `check.거래구분` | 거래구분 | checkbox | 100% | 한도 |
-| `check.금리적용방식` | 금리적용방식 | checkbox | 100% | 변동 |
+| `check.상환방법` | 상환방법 | checkbox | 100% | 보기: 만기일시 / 원금균등분할 / 원리금균등분할 / 기타( |
+| `check.자금용도` | 자금용도 | checkbox | 100% | 보기: 운영자금(급여, 원자재매입 등) / 시설자금(사업장구입, 설비구입 등) / 주택관련자금(구입, 임차) / 부채상환(당행, 타행) / 기타( |
+| `check.거래구분` | 거래구분 | checkbox | 100% | 보기: 건별 / 한도 |
+| `check.금리적용방식` | 금리적용방식 | checkbox | 100% | 보기: 변동 / 고정 |
 | `부채현황_목록[].금융기관명` | 금융기관명 | text | 100% | 농협은행 |
 | `company.address2` | 소재지 | text | 100% | 서울특별시 중구 다산로 361, 6층 |
 | `customer.name` | 성명 | text | 100% | 박찬연 |
@@ -4289,14 +4289,14 @@
 | `신청인과의관계` | 신청인과의관계 | text | 100% |  |
 | `보증종류` | 보증종류 | text | 100% |  |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
-| `check.신규처리시안내` | 신규처리시안내 | checkbox | 100% | 문자 |
+| `check.신규처리시안내` | 신규처리시안내 | checkbox | 100% | 보기: 문자 / 이메일 / 원치않음 |
 | `customer.phone` | 휴대폰번호 | phone | 100% | 010-7321-8870 |
 | `customer.email` | E-mail | text | 100% | chanyeon363@naver.com |
-| `check.동의함` | 동의함( | checkbox | 100% | 동의함 ( |
+| `check.동의함` | 동의함( | checkbox | 100% | 보기: 동의함 ( / 문자 / 이메일 / 원치않음 |
 | `customer.phone2` | 휴대폰번호 | phone | 100% | 010-5907-7253 |
 | `customer.email2` | E-mail | text | 100% | chanyeon363@naver.com |
-| `check.확인서` | 확인서(담보제공자용) | checkbox | 100% | 해당 |
-| `check.확인서2` | 확인서(담보제공자용) | checkbox | 100% | 미해당 |
+| `check.확인서` | 확인서(담보제공자용) | checkbox | 100% | 보기: 해당 / 미해당 |
+| `check.확인서2` | 확인서(담보제공자용) | checkbox | 100% | 보기: 해당 / 미해당 |
 | `대출금입금계좌` | 대출금입금(실행)계좌 | text | 100% | 295-702848-88938 |
 | `원금및이자자동이체결제계좌` | 원(리)금및이자자동이체결제계좌 | number | 100% | 42,900,000 |
 | `설정순위` | ●설정순위(설정일자) | text | 100% |  |
@@ -4308,18 +4308,18 @@
 |---|---|---|---|---|
 | `거래와관련한개인정보조회` | (금융)거래와관련한개인(신용)정보조회 | text | 100% |  |
 | `일반개인정보` | ■일반개인정보 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `국내거소신고번호성명주소전화번호` | 국내거소신고번호,성명,주소,전화번호 | phone | 100% | 010-5907-7253 |
-| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `이용목적` | 이용목적 | text | 100% | 전세자금 |
 | `일반개인정보2` | ■일반개인정보 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `국내거소신고번호성명` | 국내거소신고번호,성명 | text | 100% | 482-617944-55681 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `제공받는자와동일` | 제공받는자와동일 | date | 100% | 2025.12.07 |
 | `공공정보등` | ■공공정보등 | text | 100% |  |
-| `check.위고유식별정보조회에동의하십니까` | 위고유식별정보조회에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보조회에동의하십니까` | 위개인(신용)정보조회에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보조회에동의하십니까` | 위고유식별정보조회에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보조회에동의하십니까` | 위개인(신용)정보조회에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 현예지 |
 | `sign.signer` | 본인성명 | signature | 100% | 박찬연 |
@@ -4335,8 +4335,8 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `공공정보등` | ■공공정보등 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 박찬연 |
 | `sign.signer` | 본인성명 | signature | 100% | 강순준 |
@@ -4351,16 +4351,16 @@
 |---|---|---|---|---|
 | `customer.name` | 성명 | text | 100% | 박찬연 |
 | `customer.email` | Email | text | 100% | soonjun606@gmail.com |
-| `check.후견인여부` | 후견인여부 | checkbox | 100% | 피한정후견인 |
-| `check.대출용도` | 대출용도 | checkbox | 100% | 경조자금 |
-| `check.총자산규모` | 총자산규모(순자산) | checkbox | 100% | 자산없음 |
-| `check.담보제공계획` | 담보제공계획 | checkbox | 100% | 없음 |
-| `check.담보제공계획2` | 담보제공계획 | checkbox | 100% | 있음 |
-| `check.소득없음` | 소득없음 | checkbox | 100% | 천만원 미만 |
-| `check.부채` | 부채 | checkbox | 100% | 천만원 미만 |
-| `check.연체여부` | 연체여부 | checkbox | 100% | 연체정보 없음 |
-| `check.신용점수` | 신용점수 | checkbox | 100% | KCB |
-| `check.근로소득` | 근로소득 | checkbox | 100% | 담보의 처분(매매, 경매등) |
+| `check.후견인여부` | 후견인여부 | checkbox | 100% | 보기: 해당사항 없음 / 피성년후견인 / 피한정후견인 |
+| `check.대출용도` | 대출용도 | checkbox | 100% | 보기: 가계자금 / 사업자금 / 주택자금 / 경조자금 / 교육비 / 의료비 / 타 기관 대출금 상환 / 기타 |
+| `check.총자산규모` | 총자산규모(순자산) | checkbox | 100% | 보기: 자산없음 / 억원 미만 / 억원 ~ 5억원 / 억원 이상 |
+| `check.담보제공계획` | 담보제공계획 | checkbox | 100% | 보기: 없음 |
+| `check.담보제공계획2` | 담보제공계획 | checkbox | 100% | 보기: 있음 |
+| `check.소득없음` | 소득없음 | checkbox | 100% | 보기: 소득없음 / 천만원 미만 / 천만원 이상 1억원 미만 / 억원 이상 |
+| `check.부채` | 부채 | checkbox | 100% | 보기: 부채없음 (잘 모름 포함) / 천만원 미만 / 천만원 이상 1억원 미만 / 억원 이상 |
+| `check.연체여부` | 연체여부 | checkbox | 100% | 보기: 연체정보 없음 / 연체정보 있음 |
+| `check.신용점수` | 신용점수 | checkbox | 100% | 보기: 잘 모름 / 보기2 / KCB / NICE |
+| `check.근로소득` | 근로소득 | checkbox | 100% | 보기: 근로소득 / 사업소득 / 임대소득 / 연금소득 / 기타소득 / 담보의 처분(매매, 경매등) |
 | `customer.birth` | 생년월일 | date | 100% | 900210 |
 | `기거래건전성` | 기거래건전성 | text | 100% |  |
 | `신용상태` | 신용상태 | text | 100% |  |
@@ -4384,19 +4384,19 @@
 | `company.biz_no` | 사업자등록번호 | biz_no | 100% | 264-82-36559 |
 | `상시근로자수` | 상시근로자수 | text | 100% |  |
 | `customer.email` | E-mail | text | 100% | soonjun606@gmail.com |
-| `check.전문금융소비자여부` | 전문금융소비자여부 | checkbox | 100% | 주권을 국내외 증권시장에 상장한 법인 |
-| `check.전문금융소비자여부2` | 전문금융소비자여부 | checkbox | 100% | 일반금융소비자 |
+| `check.전문금융소비자여부` | 전문금융소비자여부 | checkbox | 100% | 보기: 상시근로자 5인이상의 비상장 일반법인 (4대 사회보험 사업장 가입자 명부 / 보기2 / 주권을 국내외 증권시장에 상장한 법인 / 법률에 의해 공제사업을 영위하는 법인 • 조합 • 단체 / 자산의 취득 또는 자금 조달 등 특정목적을 위해 설립된 법인 / 금융회사 / 국가 및 지방자치단체 |
+| `check.전문금융소비자여부2` | 전문금융소비자여부 | checkbox | 100% | 보기: 일반금융소비자 |
 | `업력` | 업력 | number | 100% | 1 |
-| `check.총자산규모` | 총자산규모(순자산) | checkbox | 100% | 억원 이상 |
-| `check.주택증권지식재산권등의담보제공예정` | 주택,증권(주식,채권등),지식재산권등의담보제공예정 | checkbox | 100% | 있음 |
-| `check.담보제공계획` | 담보제공계획 | checkbox | 100% | 없음 |
-| `check.매출액` | 매출액 | checkbox | 100% | 억원 이상 |
-| `check.순이익` | 순이익 | checkbox | 100% | 억원 이상 5억원 미만 |
-| `check.부채` | 부채 | checkbox | 100% | 억원 이상 10억원 미만 |
-| `check.연체여부` | 연체여부 | checkbox | 100% | 연체정보 있음 |
-| `check.변제방법` | 변제방법 | checkbox | 100% | 사업소득 |
-| `check.대출용도` | 대출용도 | checkbox | 100% | 시설자금 |
-| `check.최근3년간연속자본잠식` | 최근3년간연속자본잠식 | checkbox | 100% | 비해당 |
+| `check.총자산규모` | 총자산규모(순자산) | checkbox | 100% | 보기: 억원 미만 / 억원 이상 10억원 미만 / 억원 이상 |
+| `check.주택증권지식재산권등의담보제공예정` | 주택,증권(주식,채권등),지식재산권등의담보제공예정 | checkbox | 100% | 보기: 있음 |
+| `check.담보제공계획` | 담보제공계획 | checkbox | 100% | 보기: 없음 |
+| `check.매출액` | 매출액 | checkbox | 100% | 보기: 억원 미만 / 억원~ 10억원 미만 / 억원 이상 |
+| `check.순이익` | 순이익 | checkbox | 100% | 보기: 전년도 순이익 없음 / 억원 미만 / 억원 이상 5억원 미만 / 억원 이상 |
+| `check.부채` | 부채 | checkbox | 100% | 보기: 억원 미만 / 억원 이상 10억원 미만 / 억원 이상 |
+| `check.연체여부` | 연체여부 | checkbox | 100% | 보기: 연체정보 없음 / 연체정보 있음 |
+| `check.변제방법` | 변제방법 | checkbox | 100% | 보기: 사업소득 / 임대소득 / 금융소득 / 기타소득 / 담보의 처분(매매, 경매 등) |
+| `check.대출용도` | 대출용도 | checkbox | 100% | 보기: 운전자금 / 시설자금 |
+| `check.최근3년간연속자본잠식` | 최근3년간연속자본잠식 | checkbox | 100% | 보기: 해당 / 비해당 |
 | `기거래건전성` | 기거래건전성 | text | 100% |  |
 | `신용상태` | 신용상태 | text | 100% |  |
 | `상환능력및변제계획` | 상환능력및변제계획 | text | 100% |  |
@@ -4426,11 +4426,11 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `일반개인정보` | ■일반개인정보 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `일반개인정보2` | ■일반개인정보 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 박찬연 |
 | `sign.signer` | 본인성명 | signature | 100% | 최우빈 |
@@ -4470,8 +4470,8 @@
 |---|---|---|---|---|
 | `신용거래정보` | ■신용거래정보 | text | 100% |  |
 | `customer.rrn` | 주민등록번호 | rrn | 100% | 970514-2150000 |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 현예지 |
@@ -4484,16 +4484,16 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `공공정보등` | ■공공정보등 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `대위변제시대위권행사` | -대위변제시대위권행사 | text | 100% |  |
 | `인의관계등기타개인신용정보분리보관정보` | 인의관계등기타개인신용정보,분리보관정보 | text | 100% |  |
 | `신용도판단정보` | ■신용도판단정보 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공*에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공*에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `공공정보등2` | ■공공정보등 | text | 100% |  |
-| `check.위고유식별정보조회에동의하십니까` | 위고유식별정보조회에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인신용정보조회에동의하십니까` | 위개인신용정보조회에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보조회에동의하십니까` | 위고유식별정보조회에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보조회에동의하십니까` | 위개인신용정보조회에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인 | text | 100% | 박찬연 |
 | `seal.signer` | 본인 | seal | 100% | 현예지 |
 | `sign.signer` | 본인 | signature | 100% | 박찬연 |
@@ -4511,9 +4511,9 @@
 | `company.biz_no` | 사업자등록번호 | biz_no | 100% | 261-82-53694 |
 | `대표자생년월일` | 대표자/생년월일 | date | 100% | 2025년 8월 18일 |
 | `customer.address` | 주소(선택) | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
-| `check.신청내용` | 신청내용 | checkbox | 100% | 세금계산서 본지사정보 등록/해제 |
+| `check.신청내용` | 신청내용 | checkbox | 100% | 보기: 결제성상품 약정계좌 변경 / 결제성상품 약정 해지 / 약정채권관계 해제 / 사업자번호 변경 / 세금계산서 본지사정보 등록/해제 / 담당자 정보 변경(담당자명, 전화번호, 팩스번호, 휴대전화번호, e-ma / 발주서 취소 / 기타 ( |
 | `변경내용` | 변경내용 | text | 100% | 학자금 |
-| `약정상품명` | 약정상품명 | text | 100% | 의류 원단 |
+| `약정상품명` | 약정상품명 | text | 100% | 하나 적금 |
 | `약정번호` | 약정번호 | text | 100% | 472435-8232120 |
 | `변경후` | 변경후 | text | 100% | 생활자금 |
 | `customer.name` | 위임인 | text | 100% | 박찬연 |
@@ -4537,26 +4537,26 @@
 | `주요취급품목` | 주요취급품목 | text | 100% | 반도체 소자 |
 | `value` | (우편번호:) | amount | 100% |  |
 | `customer.phone` | 전화번호 | phone | 100% | 010-5907-7253 |
-| `check.기업규모` | 기업규모 | checkbox | 100% | 중기업 |
+| `check.기업규모` | 기업규모 | checkbox | 100% | 보기: 대기업 / 중견기업 / 중기업 / 소기업 / 공공 및 기타 |
 | `company.biz_no` | 사업자등록번호 | biz_no | 100% | 264-82-36559 |
 | `company.corp_reg_no` | 법인등록번호(법인의경우) | corp_reg_no | 100% | 200112-7448551 |
 | `대표이사생년월일` | 대표이사(대표자)생년월일 | date | 100% | 2026-01-18 |
 | `company.biz_item` | 업종 | text | 100% | 무역 |
 | `팩스번호` | 팩스번호 | phone | 100% | 033-364-7301 |
-| `check.구매기업` | 구매기업(중심기업) | checkbox | 100% | 구매기업 (중심기업) |
-| `check.구매기업2` | 구매기업(온라인마켓) | checkbox | 100% | 구매기업(온라인마켓) |
-| `check.판매기업` | 판매기업(1차협력기업) | checkbox | 100% | 판매기업(1차협력기업) |
-| `check.입점Seller` | 입점Seller(판매기업) | checkbox | 100% | 입점 Seller(판매기업) |
-| `check.동반협력기업` | 동반협력기업 | checkbox | 100% | 동반협력기업 |
-| `check.협력기업` | 협력기업 | checkbox | 100% | 협력기업 |
+| `check.구매기업` | 구매기업(중심기업) | checkbox | 100% | 보기: 구매기업 (중심기업) |
+| `check.구매기업2` | 구매기업(온라인마켓) | checkbox | 100% | 보기: 구매기업(온라인마켓) |
+| `check.판매기업` | 판매기업(1차협력기업) | checkbox | 100% | 보기: 판매기업(1차협력기업) |
+| `check.입점Seller` | 입점Seller(판매기업) | checkbox | 100% | 보기: 입점 Seller(판매기업) |
+| `check.동반협력기업` | 동반협력기업 | checkbox | 100% | 보기: 동반협력기업 |
+| `check.협력기업` | 협력기업 | checkbox | 100% | 보기: 협력기업 |
 | `협력기업을위한채권발행및Exposure약정` | 협력기업(판매기업)을위한채권발행및Exposure약정 | text | 100% | (주)세진시스템즈 |
 | `입점Seller를위한채권발행` | 입점Seller(판매기업)를위한채권발행 | text | 100% |  |
 | `목록[].비고` | 비고 | text | 100% | 본인 요청 |
 | `동반협력기업간상생매출채권발행및수취약정` | 동반협력기업간상생매출채권발행및수취약정 | number | 100% | 283,300,000 |
 | `공급망상생결제협력기업간상생매출채권발행및수취약정` | 공급망상생결제협력기업간상생매출채권발행및수취약정 | number | 100% | 93,120,000 |
 | `담당부서` | 담당부서 | text | 100% |  |
-| `check.SKT` | SKT | checkbox | 100% | SKT |
-| `check.해당되는` | 해당되는“ | checkbox | 100% | ”에 “V” 표시 합니다. |
+| `check.SKT` | SKT | checkbox | 100% | 보기: SKT / KT / LGU+ |
+| `check.해당되는` | 해당되는“ | checkbox | 100% | 보기: ”에 “V” 표시 합니다. |
 | `담당자팩스번호` | 담당자팩스번호 | phone | 100% | 033-364-7301 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 신청인 | text | 100% | 박찬연 |
@@ -4570,8 +4570,8 @@
 | `안전망대출II보증업무수행` | 안전망대출II보증업무수행 | text | 100% |  |
 | `신용도판단정보` | ■신용도판단정보 | text | 100% |  |
 | `customer.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 
 ### [필수] 개인(신용)정보 제3자 제공 동의서(햇살론17) (`hf074`) — 키 12개
@@ -4581,8 +4581,8 @@
 | `햇살론17보증업무수행` | -햇살론17보증업무수행 | text | 100% |  |
 | `신용능력정보` | ■신용능력정보 | text | 100% |  |
 | `customer.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 위나아 |
@@ -4598,7 +4598,7 @@
 | `대전광역시대전도시공사` | -대전광역시,대전도시공사 | text | 100% |  |
 | `제공일로부터5년까지보유이용` | -제공일로부터5년까지보유·이용 | text | 100% |  |
 | `신용거래정보` | ■■신용거래정보 | text | 100% |  |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 현예지 |
 | `sign.signer` | 본인성명 | signature | 100% | 박찬연 |
@@ -4725,17 +4725,17 @@
 | `주요취급품목` | 주요취급품목 | text | 100% | 철강 코일 |
 | `value` | (우편번호:) | amount | 100% |  |
 | `customer.phone` | 전화번호 | phone | 100% | 010-5907-7253 |
-| `check.기업규모` | 기업규모 | checkbox | 100% | 공공 및 기타 |
+| `check.기업규모` | 기업규모 | checkbox | 100% | 보기: 대기업 / 중견기업 / 중기업 / 소기업 / 공공 및 기타 |
 | `company.biz_no` | 사업자등록번호 | biz_no | 100% | 264-82-36559 |
 | `company.corp_reg_no` | 법인등록번호(법인인경우) | corp_reg_no | 100% | 200112-7448551 |
 | `대표이사생년월일` | 대표이사(대표자)생년월일 | date | 100% | 2025.12.29 |
 | `company.biz_item` | 업종 | text | 100% | 무역 |
 | `팩스번호` | 팩스번호 | phone | 100% | 043-783-2775 |
-| `check.외상매출채권의` | 외상매출채권의 | checkbox | 100% | 외상매출채권의 |
-| `check.판매기업` | 판매기업 | checkbox | 100% | 판매기업 |
+| `check.외상매출채권의` | 외상매출채권의 | checkbox | 100% | 보기: 외상매출채권의 |
+| `check.판매기업` | 판매기업 | checkbox | 100% | 보기: 판매기업 |
 | `목록[].비고` | 비고 | text | 100% | 본인 요청 |
 | `담당부서` | 담당부서 | text | 100% |  |
-| `check.SKT` | SKT | checkbox | 100% | LGU+ |
+| `check.SKT` | SKT | checkbox | 100% | 보기: SKT / KT / LGU+ |
 | `담당자팩스번호` | 담당자팩스번호 | phone | 100% | 043-783-2775 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 신청인 | text | 100% | 박찬연 |
@@ -4763,19 +4763,19 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `목록[].상품명` | 상품명 | text | 100% | PCB 기판 |
-| `목록[].중심업체코드` | 중심업체코드 | number | 100% | 803603 |
-| `목록[].한도승인번호` | 한도승인번호 | number | 100% | 196,620,000 |
+| `목록[].상품명` | 상품명 | text | 100% | 하나 적금 |
+| `목록[].중심업체코드` | 중심업체코드 | number | 100% | 036032 |
+| `목록[].한도승인번호` | 한도승인번호 | text | 100% | 1,860,000 |
 | `목록[].정보제공내용` | 정보제공내용 | text | 100% | 만기 해지 |
-| `취급점` | 취급점 | text | 100% | 범어지점 |
+| `취급점` | 취급점 | text | 100% | 둔산지점 |
 | `신용거래정보의제공목적` | ■신용거래정보의제공목적 | text | 100% |  |
 | `신용거래정보의제공받을자` | ■신용거래정보의제공받을자 | text | 100% |  |
 | `제공할신용거래정보등의내용및범위` | ■제공할신용거래정보등의내용및범위 | text | 100% |  |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 동의자본인회사명 | text | 100% | (주)유니온무역 |
-| `seal.signer` | 동의자본인회사명 | seal | 100% | 주식회사 대성패션 |
-| `sign.signer` | 동의자본인회사명 | signature | 100% | (주)유니온무역 |
-| `company.biz_no` | 사업자등록번호 | biz_no | 100% | 264-82-36559 |
+| `seal.signer` | 동의자본인회사명 | seal | 100% | (주)유니온무역 |
+| `sign.signer` | 동의자본인회사명 | signature | 100% | 주식회사 한빛패션 |
+| `company.biz_no` | 사업자등록번호 | biz_no | 100% | 729-81-00871 |
 | `customer.phone` | 전화번호(선택항목) | phone | 100% | 010-5907-7253 |
 
 ### 미래채권담보대출 협력기업 일괄추천서 (`hf086`) — 키 14개
@@ -4831,7 +4831,7 @@
 | `목록[].대표품명` | 대표품명 | text | 100% | 포장재 |
 | `목록[].공급가액` | 공급가액 | text | 100% | 156,220,000 |
 | `목록[].반환사유` | 반환사유 | text | 100% | 하나 단기채 펀드 |
-| `check.아래의기업구매자금어음을` | 아래의기업구매자금어음을( | checkbox | 100% | 반환) 하여 주시기 바랍니다. |
+| `check.아래의기업구매자금어음을` | 아래의기업구매자금어음을( | checkbox | 100% | 보기: 추심취소 / 반환) 하여 주시기 바랍니다. |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `customer.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 
@@ -4853,10 +4853,10 @@
 | `선입금신청금액` | 선입금(벤더입금)신청금액 | number | 100% | 17,600,000 |
 | `판매기업입금일` | 판매기업입금일(또는결제일) | date | 100% | 2025년 3월 20일 |
 | `벤더기업명` | 벤더기업명 | text | 100% | 주식회사 제일화학 |
-| `check.벤더취급수수료부담주체` | 벤더취급수수료부담주체(벤더입금건별₩1,000) | checkbox | 100% | 벤더기업 |
+| `check.벤더취급수수료부담주체` | 벤더취급수수료부담주체(벤더입금건별₩1,000) | checkbox | 100% | 보기: 판매기업 / 벤더기업 |
 | `지급승인금액` | 지급승인금액 | number | 100% | 720,000 |
 | `벤더기업사업자등록번호` | 벤더기업사업자등록번호 | biz_no | 100% | 264-82-36559 |
-| `check.벤더입금이자부담주체` | 벤더입금이자부담주체 | checkbox | 100% | 판매기업 |
+| `check.벤더입금이자부담주체` | 벤더입금이자부담주체 | checkbox | 100% | 보기: 판매기업 / 벤더기업 |
 | `취급점` | 취급점 | text | 100% | 범어지점 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `company.name` | 상호 | text | 100% | (주)유니온무역 |
@@ -5318,7 +5318,7 @@
 | `금액` | 금액 | number | 100% | 187,170,000 |
 | `만기일` | 만기일 | date | 100% | 2025-08-15 |
 | `판매기업사업자번호` | 판매기업사업자번호 | biz_no | 100% | 264-82-36559 |
-| `check.사고신고구분` | 사고신고구분 | checkbox | 100% | 신고 |
+| `check.사고신고구분` | 사고신고구분 | checkbox | 100% | 보기: 신고 / 취하 |
 | `취급점` | 취급점 | text | 100% | 범어지점 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 발행인 | text | 100% | 박찬연 |
@@ -5379,7 +5379,7 @@
 |---|---|---|---|---|
 | `신청일로부터10년까지보유이용` | -신청일로부터10년까지보유·이용 | text | 100% |  |
 | `신용거래정보` | ■신용거래정보 | text | 100% |  |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 박찬연 |
 | `sign.signer` | 본인성명 | signature | 100% | 강순준 |
@@ -5393,16 +5393,16 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `금융사고조사분쟁해결민원처리` | ■금융사고조사,분쟁해결,민원처리 | text | 100% |  |
 | `일반개인정보` | ■일반개인정보 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `제공받는자와동일` | -제공받는자와동일 | text | 100% |  |
 | `공공정보등` | ■공공정보등 | text | 100% |  |
-| `check.위고유식별정보조회에동의하십니까` | 위고유식별정보조회에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인신용정보조회에동의하십니까` | 위개인신용정보조회에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보조회에동의하십니까` | 위고유식별정보조회에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보조회에동의하십니까` | 위개인신용정보조회에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `공사및하나은행` | 공사및(주)하나은행 | text | 100% | 카카오뱅크 |
 | `미수채권소멸시까지` | 미수채권소멸시까지 | text | 100% |  |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
@@ -5415,12 +5415,12 @@
 | `재산채무소득의총액납세실적` | 재산·채무·소득의총액,납세실적 | number | 100% | 60,000 |
 | `신용등급및평점정보` | 신용등급및평점정보 | text | 100% |  |
 | `일반개인정보2` | ■일반개인정보 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까2` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인신용정보제공에동의하십니까2` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보제공에동의하십니까2` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보제공에동의하십니까2` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `공사및하나은행2` | 공사및(주)하나은행 | text | 100% | 신한은행 |
 | `공공정보등2` | ■공공정보등 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까3` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인신용정보제공에동의하십니까3` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보제공에동의하십니까3` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보제공에동의하십니까3` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer3.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer3` | 본인성명 | seal | 100% | 박찬연 |
 | `sign.signer3` | 본인성명 | signature | 100% | 강순준 |
@@ -5437,11 +5437,11 @@
 |---|---|---|---|---|
 | `본인과배우자의주택보유수확인` | -본인과배우자의주택보유수확인 | text | 100% |  |
 | `일반개인정보` | ■일반개인정보 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `일반개인정보2` | ■■일반개인정보 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 박찬연 |
 | `sign.signer` | 본인성명 | signature | 100% | 강순준 |
@@ -5455,12 +5455,12 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `일반개인정보` | ■일반개인정보 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `금융사고조사분쟁해결민원처리` | ■금융사고조사,분쟁해결,민원처리 | text | 100% |  |
 | `핀크` | (주)핀크[WWW.FINNQ.COM] | text | 100% |  |
 | `신용거래정보` | ■신용거래정보 | text | 100% |  |
-| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 강순준 |
 | `sign.signer` | 본인성명 | signature | 100% | 박찬연 |
@@ -5475,15 +5475,15 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `신용거래정보` | ■신용거래정보 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `금융거래관계의설정유지이행관리` | ■금융거래관계의설정·유지·이행·관리 | text | 100% |  |
 | `금융사고조사분쟁해결민원처리` | ■금융사고조사,분쟁해결,민원처리 | text | 100% |  |
 | `공무원연금공단이제공하는대출정보` | 공무원연금공단이제공하는대출정보 | text | 100% |  |
 | `공무원연금공단` | 공무원연금공단 | text | 100% |  |
 | `신용거래정보2` | ■신용거래정보 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 박찬연 |
 | `sign.signer` | 본인성명 | signature | 100% | 강순준 |
@@ -5499,12 +5499,12 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `신용거래정보` | ■신용거래정보 | text | 100% |  |
-| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `금융거래관계의설정여부판단` | ■금융거래관계의설정여부판단 | text | 100% |  |
 | `금융거래관계의설정유지이행관리` | ■금융거래관계의설정·유지·이행·관리 | text | 100% |  |
 | `국군재정관리단` | 국군재정관리단 | text | 100% |  |
 | `신용거래정보2` | ■신용거래정보 | text | 100% |  |
-| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 현예지 |
 | `sign.signer` | 본인성명 | signature | 100% | 박찬연 |
@@ -5518,12 +5518,12 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `공공정보등` | ■공공정보등 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `금융사고조사분쟁해결민원처리` | -금융사고조사,분쟁해결,민원처리 | text | 100% |  |
 | `공공정보등2` | ■공공정보등 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 박찬연 |
 | `sign.signer` | 본인성명 | signature | 100% | 강순준 |
@@ -5539,13 +5539,13 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `신용거래정보` | ■신용거래정보 | text | 100% |  |
-| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `금융사고조사분쟁해결민원처리` | -금융사고조사,분쟁해결,민원처리 | text | 100% |  |
 | `성명주소전화번호직장정보` | 성명,주소,전화번호,직장정보 | phone | 100% | 043-783-2775 |
 | `고유식별정보` | ■고유식별정보 | text | 100% |  |
 | `신용거래정보2` | ■신용거래정보 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 박찬연 |
 | `sign.signer` | 본인성명 | signature | 100% | 이욱유 |
@@ -5559,11 +5559,11 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `공공정보등` | ■공공정보등 | text | 100% |  |
-| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `금융사고조사분쟁해결민원처리` | -금융사고조사,분쟁해결,민원처리 | text | 100% |  |
 | `성명생년월일주소전화번호` | 성명,생년월일,주소,전화번호 | date | 100% | 2025.10.22 |
 | `공공정보등2` | ■공공정보등 | text | 100% |  |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 현예지 |
 | `sign.signer` | 본인성명 | signature | 100% | 강순준 |
@@ -5573,10 +5573,10 @@
 | `sign.signer2` | 대리인성명 | signature | 100% | 이하지 |
 | `성명생년월일주소전화번호2` | 성명,생년월일,주소,전화번호 | date | 100% | 2025.07.31 |
 | `공공정보등3` | ■공공정보등 | text | 100% |  |
-| `check.위개인정보수집이용에동의하십니까2` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위개인정보수집이용에동의하십니까2` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `성명생년월일주소전화번호3` | 성명,생년월일,주소,전화번호 | date | 100% | 2025년 2월 19일 |
 | `공공정보등4` | ■공공정보등 | text | 100% |  |
-| `check.위개인정보제공에동의하십니까2` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위개인정보제공에동의하십니까2` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer3.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer3` | 본인성명 | seal | 100% | 현예지 |
 | `sign.signer3` | 본인성명 | signature | 100% | 박찬연 |
@@ -5592,7 +5592,7 @@
 |---|---|---|---|---|
 | `서울보증보험` | 서울보증보험(주)(www.sgic.co.kr) | text | 100% |  |
 | `신용거래정보` | ■신용거래정보 | text | 100% |  |
-| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 강순준 |
 | `sign.signer` | 본인성명 | signature | 100% | 박찬연 |
@@ -5607,12 +5607,12 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `신용거래정보` | ■신용거래정보 | text | 100% |  |
-| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `금융사고조사분쟁해결민원처리` | ■금융사고조사,분쟁해결,민원처리 | text | 100% |  |
 | `정보질권통지업무상필요한정보` | 정보,질권통지업무상필요한정보 | text | 100% |  |
 | `개인대출현황대출한도금액` | 개인대출현황(본건),대출한도금액 | number | 100% | 9,780,000 |
 | `신용거래정보2` | ■신용거래정보 | text | 100% |  |
-| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 이욱유 |
 | `sign.signer` | 본인성명 | signature | 100% | 박찬연 |
@@ -5628,7 +5628,7 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `신용능력정보` | ■신용능력정보 | text | 100% |  |
-| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 박찬연 |
 | `sign.signer` | 본인성명 | signature | 100% | 현예지 |
@@ -5643,13 +5643,13 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `신용거래정보` | ■신용거래정보 | text | 100% |  |
-| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `체결유지관리목적` | 체결·유지·관리목적 | text | 100% | 만기 해지 |
 | `보험계약관련분쟁대응민원처리` | 보험계약관련분쟁대응,민원처리 | text | 100% |  |
 | `질권통지업무수행` | 질권통지업무수행 | text | 100% |  |
 | `정보등기타보험계약운영상필요정보` | 정보등기타보험계약운영상필요정보 | text | 100% |  |
 | `신용거래정보2` | ■신용거래정보 | text | 100% |  |
-| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 박찬연 |
 | `sign.signer` | 본인성명 | signature | 100% | 현예지 |
@@ -5661,15 +5661,15 @@
 |---|---|---|---|---|
 | `신용거래정보` | ■신용거래정보 | text | 100% |  |
 | `customer.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `금융거래관계의설정여부판단` | ■금융거래관계의설정여부판단 | text | 100% |  |
 | `금융거래관계의설정유지이행관리` | ■금융거래관계의설정·유지·이행·관리 | text | 100% |  |
 | `제공하는재직정보` | 제공하는재직정보 | text | 100% |  |
 | `대출정보퇴직정보` | 대출정보,퇴직정보 | text | 100% |  |
 | `국방부` | 국방부 | text | 100% |  |
 | `신용거래정보2` | ■신용거래정보 | text | 100% |  |
-| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 강순준 |
 | `sign.signer` | 본인성명 | signature | 100% | 현예지 |
@@ -5684,15 +5684,15 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `일반개인정보` | ■일반개인정보 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `금융사고조사분쟁해결민원처리` | ■금융사고조사,분쟁해결,민원처리 | text | 100% |  |
 | `성명` | ■성명 | text | 100% |  |
 | `개인식별정보외에고객이제공한정보` | ■개인식별정보외에고객이제공한정보 | text | 100% |  |
 | `국토교통부` | 국토교통부 | text | 100% |  |
 | `일반개인정보2` | ■일반개인정보 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 강순준 |
 | `sign.signer` | 본인성명 | signature | 100% | 박찬연 |
@@ -5716,8 +5716,8 @@
 |---|---|---|---|---|
 | `신용보증기금` | 신용보증기금 | text | 100% |  |
 | `신용도판단정보` | ■신용도판단정보 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 박찬연 |
 | `sign.signer` | 본인성명 | signature | 100% | 강순준 |
@@ -5732,12 +5732,12 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `공공정보등` | ■공공정보등 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `금융사고조사분쟁해결민원처리` | -금융사고조사,분쟁해결,민원처리 | text | 100% |  |
 | `공공정보등2` | ■공공정보등 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 위나아 |
 | `sign.signer` | 본인성명 | signature | 100% | 박찬연 |
@@ -5752,12 +5752,12 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `공공정보등` | ■공공정보등 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `금융사고조사분쟁해결민원처리` | -금융사고조사,분쟁해결,민원처리 | text | 100% |  |
 | `공공정보등2` | ■공공정보등 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 강순준 |
 | `sign.signer` | 본인성명 | signature | 100% | 박찬연 |
@@ -5802,9 +5802,9 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.제공받는자` | 제공받는자 | checkbox | 100% | 지역신용보증재단 |
+| `check.제공받는자` | 제공받는자 | checkbox | 100% | 보기: 신용보증기금 / 기술보증기금 / 지역신용보증재단 |
 | `보증서담보대출입금전용계좌번호` | ▦보증서담보대출입금전용계좌번호 | text | 100% | 라가85871764 |
-| `check.금융거래정보제공동의여부` | 금융거래정보제공동의여부 | checkbox | 100% | 보기2 |
+| `check.금융거래정보제공동의여부` | 금융거래정보제공동의여부 | checkbox | 100% | 보기: 동의함 / 보기2 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 법인명(채무자) | text | 100% | (주)유니온무역 |
 | `seal.signer` | 법인명(채무자) | seal | 100% | (주)유니온무역 |
@@ -5815,9 +5815,9 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.해당되는` | ■해당되는 | checkbox | 100% | 세대원 |
-| `check.수집ᆞ이용동의여부` | 수집ᆞ이용동의여부 | checkbox | 100% | 보기2 |
-| `check.고유식별정보동의여부` | 고유식별정보동의여부 | checkbox | 100% | 보기2 |
+| `check.해당되는` | ■해당되는 | checkbox | 100% | 보기: 에 반드시 체크 / 매도인 / 임차인 / 세대원 / 무상거주인 / 공사상품 이용자 |
+| `check.수집ᆞ이용동의여부` | 수집ᆞ이용동의여부 | checkbox | 100% | 보기: 동의함 / 보기2 |
+| `check.고유식별정보동의여부` | 고유식별정보동의여부 | checkbox | 100% | 보기: 동의함 / 보기2 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 본인 | text | 100% | 박찬연 |
 | `seal.signer` | 본인 | seal | 100% | 박찬연 |
@@ -5838,18 +5838,18 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
-| `check.한국주택금융공사보증료` | 한국주택금융공사보증료【출금된보증료는한국주택금융공사로납부됩니다.】 | checkbox | 100% | 한국주택금융공사 보증료【출금된 보증료는 한국주택금융공사로 납부됩니다.】 |
-| `check.주택도시보증공사보증료` | 주택도시보증공사보증료【출금된보증료는주택도시보증공사로납부됩니다.】 | checkbox | 100% | 주택도시보증공사 보증료【출금된 보증료는 주택도시보증공사로 납부됩니다.】 |
-| `check.수입인지대금출금된수입` | 수입인지대금【출금된수입인지대금은수입인지세금으로납부됩니다.】 | checkbox | 100% | 수입인지대금【출금된 수입인지대금은 수입인지세금으로 납부됩니다.】 |
-| `check.국민주택채권매입비용` | 국민주택채권매입(할인)비용 | checkbox | 100% | 국민주택채권 매입(할인) 비용 |
-| `check.기타` | 기타( | checkbox | 100% | 기타( |
+| `check.한국주택금융공사보증료` | 한국주택금융공사보증료【출금된보증료는한국주택금융공사로납부됩니다.】 | checkbox | 100% | 보기: 한국주택금융공사 보증료【출금된 보증료는 한국주택금융공사로 납부됩니다.】 |
+| `check.주택도시보증공사보증료` | 주택도시보증공사보증료【출금된보증료는주택도시보증공사로납부됩니다.】 | checkbox | 100% | 보기: 주택도시보증공사 보증료【출금된 보증료는 주택도시보증공사로 납부됩니다.】 |
+| `check.수입인지대금출금된수입` | 수입인지대금【출금된수입인지대금은수입인지세금으로납부됩니다.】 | checkbox | 100% | 보기: 수입인지대금【출금된 수입인지대금은 수입인지세금으로 납부됩니다.】 |
+| `check.국민주택채권매입비용` | 국민주택채권매입(할인)비용 | checkbox | 100% | 보기: 국민주택채권 매입(할인) 비용 |
+| `check.기타` | 기타( | checkbox | 100% | 보기: 기타( |
 | `date2` | 작성일 | date | 100% | 2026년 1월 31일 |
 
 ### 《기업》차입신청서(한도내 개별/분할실행용) (`hf136`) — 키 13개
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.신청구분` | 신청구분 | checkbox | 100% | 연장(계좌번호 |
+| `check.신청구분` | 신청구분 | checkbox | 100% | 보기: 신규 / 연장(계좌번호 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `date2` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `여신과목` | 여신과목 | text | 100% | 무역금융 |
@@ -5885,7 +5885,7 @@
 | `용도` | 용도 | text | 100% | 계좌 정리 |
 | `수령금액` | 수령금액 | number | 100% | 28,390,000 |
 | `customer.name` | 예금주 | text | 100% | 박찬연 |
-| `check.차주와의관계` | 차주와의관계 | checkbox | 100% | 차주를 대신하여 당타행 대출의 상환을 위임받은 자 |
+| `check.차주와의관계` | 차주와의관계 | checkbox | 100% | 보기: 부동산담보대출의 경우 매도인 / 전세자금대출의 경우 임대인 / 차주를 대신하여 당타행 대출의 상환을 위임받은 자 / 공사대금 수령업체 / 상기 외 제3자 (관계기재) |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 수령위임인 | text | 100% | 박찬연 |
 | `seal.signer` | 수령위임인 | seal | 100% | 이욱유 |
@@ -6138,11 +6138,11 @@
 | `목록[].매수` | 매수 | text | 100% | 12 |
 | `목록[].총액` | 총액 | text | 100% | 32,610,000원 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
-| `check.주권` | 주권 | checkbox | 100% | 주 권 |
-| `check.사채권` | 사채권 | checkbox | 100% | 사채권 |
+| `check.주권` | 주권 | checkbox | 100% | 보기: 주 권 |
+| `check.사채권` | 사채권 | checkbox | 100% | 보기: 사채권 |
 | `date2` | 작성일 | date | 100% | 2026년 1월 31일 |
-| `check.증권` | 증권 | checkbox | 100% | 증 권 |
-| `check.예금` | 예금 | checkbox | 100% | 예 금 |
+| `check.증권` | 증권 | checkbox | 100% | 보기: 증 권 |
+| `check.예금` | 예금 | checkbox | 100% | 보기: 예 금 |
 | `signer.name` | 명 | text | 100% | 박찬연 |
 | `seal.signer` | 명 | seal | 100% | 박찬연 |
 | `sign.signer` | 명 | signature | 100% | 강순준 |
@@ -6155,7 +6155,7 @@
 | `융자금산출근거_목록[].수량` | 수량 | text | 100% | 36 |
 | `결정의견_목록[].수량` | 수량 | text | 100% | 24 |
 | `금액` | 금액 | number | 100% | 129,380,000 |
-| `check.과목` | 과목 | checkbox | 100% | 보기4 |
+| `check.과목` | 과목 | checkbox | 100% | 보기: 무역어음대 / 수입신용장 발행 / 내국신용장 발행 / 보기4 |
 | `이자지급시기` | 이자지급시기 | number | 100% | 4,840,000원 |
 | `보증인_목록[].연령` | 연령 | text | 100% |  |
 | `LCNo` | L/C(계약서)No | text | 100% | 2279-1799 |
@@ -6170,7 +6170,7 @@
 | `가격조건` | 가격조건 | text | 100% |  |
 | `결제조건` | 결제조건 | text | 100% |  |
 | `기타특수조건` | 기타특수조건 | text | 100% | 타행 이체 |
-| `check.자금용도` | 자금용도 | checkbox | 100% | 원자재수입자금 |
+| `check.자금용도` | 자금용도 | checkbox | 100% | 보기: 생산자금 / 원자재구매자금 / 원자재수입자금 / 완제품구매자금 / 포괄금융 |
 | `기한` | 기한 | date | 100% | 2025.09.13 |
 | `상환자원및방법` | 상환자원및방법 | text | 100% |  |
 | `보증인_목록[].주소` | 주소(전화번호) | text | 100% | 경상남도 창원시 성산구 원이대로 262-29, 104호 |
@@ -6286,7 +6286,7 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `신용능력정보` | ■신용능력정보 | text | 100% |  |
-| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `금융사고조사분쟁해결민원처리` | -금융사고조사,분쟁해결,민원처리 | text | 100% |  |
 | `직업에관한정보` | 직업에관한정보 | text | 100% |  |
@@ -6376,27 +6376,27 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `customer.name` | 예금주 | text | 100% | 박찬연 |
-| `check.지급구분` | 지급구분 | checkbox | 100% | 소액지급 ( |
+| `check.지급구분` | 지급구분 | checkbox | 100% | 보기: 지급 / 분할지급 / 소액지급 ( |
 | `customer.birth` | 생년월일 | date | 100% | 1990.02.10 |
 | `사망일자` | 사망일자 | date | 100% | 2025년 4월 7일 |
-| `목록[].상품명` | 상품명 | text | 100% | 플라스틱 원료 |
+| `목록[].상품명` | 상품명 | text | 100% | 하나의정기예금 |
 | `목록[].계좌번호` | 계좌번호 | text | 100% | 885-942883-70337 |
 | `목록[].금액` | 금액 | text | 100% | 850,000 |
-| `check.보기1` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기12` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기13` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기14` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기15` | 보기1 | checkbox | 100% | 보기1 |
-| `check.명의변경` | 명의변경 | checkbox | 100% | □ |
+| `check.보기1` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기12` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기13` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기14` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기15` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.명의변경` | 명의변경 | checkbox | 100% | 보기: □ |
 | `취급점` | 취급점 | text | 100% | 둔산지점 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `기타특약사항` | 기타특약사항 | text | 100% | 본인 요청 |
-| `check.주된상속인` | 주된상속인(소득귀속인) | checkbox | 100% | 위임(별도 위임장 작성) |
-| `check.상속인` | 상속인 | checkbox | 100% | 본인 |
-| `check.상속인2` | 상속인 | checkbox | 100% | 위임(주된 상속인 앞) |
-| `check.상속인3` | 상속인 | checkbox | 100% | 본인 |
-| `check.상속인4` | 상속인 | checkbox | 100% | 위임(주된 상속인 앞) |
-| `check.상속인5` | 상속인 | checkbox | 100% | 위임(주된 상속인 앞) |
+| `check.주된상속인` | 주된상속인(소득귀속인) | checkbox | 100% | 보기: 본인 / 위임(별도 위임장 작성) |
+| `check.상속인` | 상속인 | checkbox | 100% | 보기: 본인 / 위임(주된 상속인 앞) |
+| `check.상속인2` | 상속인 | checkbox | 100% | 보기: 본인 / 위임(주된 상속인 앞) |
+| `check.상속인3` | 상속인 | checkbox | 100% | 보기: 본인 / 위임(주된 상속인 앞) |
+| `check.상속인4` | 상속인 | checkbox | 100% | 보기: 본인 / 위임(주된 상속인 앞) |
+| `check.상속인5` | 상속인 | checkbox | 100% | 보기: 본인 / 위임(주된 상속인 앞) |
 | `목록[].성명` | 성명 | text | 100% | 박찬연 |
 | `목록[].생년월일` | 생년월일 | text | 100% | 2026.01.28 |
 | `목록[].연락처` | 연락처 | text | 100% | 010-5907-7253 |
@@ -6433,9 +6433,9 @@
 | `mthcapitalizationLimit` | ()mthcapitalizationLimit | amount | 100% | 6,060,000 |
 | `mthcapitalizationLimit2` | ()mthcapitalizationLimit | amount | 100% | 21,570,000 |
 | `mthcapitalizationLimit3` | ()mthcapitalizationLimit | amount | 100% | 70,210,000 |
-| `check.Irequestagr` | Irequest/agreetoaninquiryofmyfina | checkbox | 100% | I request/agree to an inquiry of my fina |
-| `check.Ishallraisen` | Ishallraisenoobjectiontoaset-off | checkbox | 100% | I shall raise no objection to a set-off  |
-| `check.Ihavereceive` | Ihavereceivedanexplanationthatcust | checkbox | 100% | I have received an explanation that cust |
+| `check.Irequestagr` | Irequest/agreetoaninquiryofmyfina | checkbox | 100% | 보기: I request/agree to an inquiry of my fina |
+| `check.Ishallraisen` | Ishallraisenoobjectiontoaset-off | checkbox | 100% | 보기: I shall raise no objection to a set-off  |
+| `check.Ihavereceive` | Ihavereceivedanexplanationthatcust | checkbox | 100% | 보기: I have received an explanation that cust |
 | `Bankbook` | Bankbook | text | 100% |  |
 | `Annual` | Annual | text | 100% |  |
 | `Bankbook2` | Bankbook | text | 100% |  |
@@ -6519,9 +6519,9 @@
 | `과목명` | 과목명 | text | 100% | 시설자금대출 |
 | `계약금액` | 계약(확인)금액 | number | 100% | 5,950,000 |
 | `지급기일` | 지급기일 | date | 100% | 2027.02.05 |
-| `check.비과세종합저축재형저축` | 비과세종합저축/재형저축/주택청약상품의계약금액/한도/중복 | checkbox | 100% | 비과세종합저축 / 재형저축 / 주택청약상품의 계약금액 / 한도 / 중복  |
-| `check.귀행에대한제대출금보증채` | 귀행에대한제대출금,보증채무,신용카드채무에대하여변제기가도래하 | checkbox | 100% | 귀행에 대한 제 대출금, 보증채무, 신용카드채무에 대하여 변제기가 도래하 |
-| `check.본인은금융지주회사법제4` | 본인은금융지주회사법제48조의2에근거하여하나금융그룹내지주사및자 | checkbox | 100% | 본인은 금융지주회사법 제48조의2에 근거하여 하나금융그룹내 지주사 및 자 |
+| `check.비과세종합저축재형저축` | 비과세종합저축/재형저축/주택청약상품의계약금액/한도/중복 | checkbox | 100% | 보기: 비과세종합저축 / 재형저축 / 주택청약상품의 계약금액 / 한도 / 중복  |
+| `check.귀행에대한제대출금보증채` | 귀행에대한제대출금,보증채무,신용카드채무에대하여변제기가도래하 | checkbox | 100% | 보기: 귀행에 대한 제 대출금, 보증채무, 신용카드채무에 대하여 변제기가 도래하 |
+| `check.본인은금융지주회사법제4` | 본인은금융지주회사법제48조의2에근거하여하나금융그룹내지주사및자 | checkbox | 100% | 보기: 본인은 금융지주회사법 제48조의2에 근거하여 하나금융그룹내 지주사 및 자 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `연원가식` | 연원가식 | text | 100% |  |
 | `연원가식2` | 연원가식 | text | 100% |  |
@@ -6576,7 +6576,7 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `일련번호` | 일련번호 | text | 100% | 964-747488-99943 |
-| `check.예수방법` | 예수방법 | checkbox | 100% | 봉함예수 |
+| `check.예수방법` | 예수방법 | checkbox | 100% | 보기: 봉함예수 / 개봉예수 |
 | `예수품명` | 예수품명 | text | 100% | PCB 기판 |
 | `예수금액` | 예수금액 | number | 100% | 154,470,000 |
 | `증권번호` | 증권번호 | text | 100% | 884681-2926582 |
@@ -6594,13 +6594,13 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.예수종류` | 예수종류 | checkbox | 100% | 봉함예수 |
+| `check.예수종류` | 예수종류 | checkbox | 100% | 보기: 봉함예수 / 개봉예수 |
 | `예수수량` | 예수수량 | number | 100% | 3 |
-| `check.만기일자` | 만기일자 | checkbox | 100% | 예적금 만기일( |
+| `check.만기일자` | 만기일자 | checkbox | 100% | 보기: 개월( / 예적금 만기일( |
 | `예수품명` | 예수품명 | text | 100% | 철강 코일 |
 | `예수금액` | 예수금액 | number | 100% | 99,200,000 |
 | `증권번호` | 증권번호 | text | 100% | 803-587953-68618 |
-| `check.수령방법` | 수령방법 | checkbox | 100% | 영업점 |
+| `check.수령방법` | 수령방법 | checkbox | 100% | 보기: 영업점 |
 | `signer.name` | 성명(상호명) | text | 100% | 박찬연 |
 | `seal.signer` | 성명(상호명) | seal | 100% | 이욱유 |
 | `sign.signer` | 성명(상호명) | signature | 100% | 박찬연 |
@@ -6620,34 +6620,34 @@
 | `account` | 출금계좌번호 | account_no | 100% | 000-287736-52424 |
 | `customer.phone` | 연락처 | phone | 100% | 010-5907-7253 |
 | `변경후출금계좌번호` | 변경후출금계좌번호 | text | 100% | 투자 목적 |
-| `check.신청구분` | 신청구분( | checkbox | 100% | 해지 |
-| `check.이체일이휴일인경우` | [당행요구불계좌이체,타행자동이체]이체일이휴일인경우 | checkbox | 100% | 전 영업일 |
-| `check.신청구분2` | 신청구분( | checkbox | 100% | 변경 |
-| `check.이체일이휴일인경우2` | [당행요구불계좌이체,타행자동이체]이체일이휴일인경우 | checkbox | 100% | 익 영업일 이체를 신청합니다. |
+| `check.신청구분` | 신청구분( | checkbox | 100% | 보기: 신규 / 변경 / 해지 |
+| `check.이체일이휴일인경우` | [당행요구불계좌이체,타행자동이체]이체일이휴일인경우 | checkbox | 100% | 보기: 전 영업일 / 익 영업일 이체를 신청합니다. |
+| `check.신청구분2` | 신청구분( | checkbox | 100% | 보기: 신규 / 변경 / 해지 |
+| `check.이체일이휴일인경우2` | [당행요구불계좌이체,타행자동이체]이체일이휴일인경우 | checkbox | 100% | 보기: 전 영업일 / 익 영업일 이체를 신청합니다. |
 | `은행` | 은행 | text | 100% | 우리은행 |
 | `지급인자내용` | 지급인자내용 | text | 100% | 투자 목적 |
 | `은행2` | 은행 | text | 100% | 하나은행 |
 | `지급인자내용2` | 지급인자내용 | text | 100% | 타행 이체 |
-| `check.자동이체기간만료SMS통지` | 자동이체기간만료SMS통지( | checkbox | 100% | 미신청 |
+| `check.자동이체기간만료SMS통지` | 자동이체기간만료SMS통지( | checkbox | 100% | 보기: 신청 / 미신청 |
 | `목록[].예금주명` | 예금주명 | text | 100% |  |
-| `check.자동이체기간만료SMS통지2` | 자동이체기간만료SMS통지( | checkbox | 100% | 미신청 |
+| `check.자동이체기간만료SMS통지2` | 자동이체기간만료SMS통지( | checkbox | 100% | 보기: 신청 / 미신청 |
 | `목록[].이체일` | 이체일 | date | 100% | 2024.11.01 |
 | `목록[].이체주기` | 이체주기(일☞주☞월☞년) | text | 100% |  |
 | `목록[].이체금액` | 이체금액 | number | 100% | 14,250,000 |
 | `입금인자내용` | 입금인자내용 | text | 100% | 주택구입 |
 | `입금인자내용2` | 입금인자내용 | text | 100% | 계좌 정리 |
-| `check.수수료포함출금` | 수수료포함출금( | checkbox | 100% | 신청 |
+| `check.수수료포함출금` | 수수료포함출금( | checkbox | 100% | 보기: 신청 / 미신청 |
 | `date` | 일자 | date | 100% | 2026년 1월 31일 |
-| `check.수수료포함출금2` | 수수료포함출금( | checkbox | 100% | 미신청 |
+| `check.수수료포함출금2` | 수수료포함출금( | checkbox | 100% | 보기: 신청 / 미신청 |
 | `date2` | 일자 | date | 100% | 2026년 1월 31일 |
 | `date3` | 년월일 | date | 100% | 2026년 1월 31일 |
 | `date4` | 년월일 | date | 100% | 2026년 1월 31일 |
 | `account2` | 입금계좌번호 | account_no | 100% | 000-287736-52424 |
-| `check.만기이연시선택` | [정액적립식]만기이연시선택 | checkbox | 100% | 만기일 |
-| `check.갱신구분` | 갱신구분 | checkbox | 100% | 원리금지급 |
-| `check.계약서류수령방법` | 계약서류*수령방법 | checkbox | 100% | 별도 연락처로 수령( |
+| `check.만기이연시선택` | [정액적립식]만기이연시선택 | checkbox | 100% | 보기: 만기일 / 이연만기일 이체 신청함 |
+| `check.갱신구분` | 갱신구분 | checkbox | 100% | 보기: 이자제외 / 이자포함 / 원리금지급 |
+| `check.계약서류수령방법` | 계약서류*수령방법 | checkbox | 100% | 보기: E-mail / 하나1Q앱 / 별도 연락처로 수령( |
 | `account3` | 입금계좌 | account_no | 100% | 000-287736-52424 |
-| `check.자동이체정지` | 자동이체정지 | checkbox | 100% | 해제 |
+| `check.자동이체정지` | 자동이체정지 | checkbox | 100% | 보기: 등록 / 해제 |
 | `구분` | 구분 | text | 100% |  |
 | `관리비지로공과금기타_목록[].수납기관` | 수납기관(아파트,상가) | text | 100% |  |
 | `수납기관` | 수납기관(아파트,상가) | text | 100% |  |
@@ -6657,13 +6657,13 @@
 | `지로번호기관코드` | 지로번호/기관코드 | number | 100% | 0603 |
 | `관리비지로공과금기타_목록[].납부희망일` | 납부희망일 | text | 100% | 2025.02.06 |
 | `date5` | 작성일 | date | 100% | 2026년 1월 31일 |
-| `check.계좌간자동이체` | 계좌간자동이체( | checkbox | 100% | 납부자 자동이체 |
-| `check.만기해지자동이체` | 만기해지자동이체( | checkbox | 100% | 변경 |
-| `check.자동갱신자동이체` | 자동갱신(재예치)자동이체( | checkbox | 100% | 해지 |
-| `check.기타자동이체` | 기타자동이체( | checkbox | 100% | 변경 |
-| `check.계좌번호` | 계좌번호 | checkbox | 100% | 미적용 |
-| `check.조회` | 조회 | checkbox | 100% | 일괄해지 1 |
-| `check.고객명` | 고객명 | checkbox | 100% | 미적용 |
+| `check.계좌간자동이체` | 계좌간자동이체( | checkbox | 100% | 보기: 당행 자동이체 / 타행 자동이체 / 납부자 자동이체 / 여신 자동이체 |
+| `check.만기해지자동이체` | 만기해지자동이체( | checkbox | 100% | 보기: 신규 / 변경 / 해지 |
+| `check.자동갱신자동이체` | 자동갱신(재예치)자동이체( | checkbox | 100% | 보기: 신규 / 변경 / 해지 |
+| `check.기타자동이체` | 기타자동이체( | checkbox | 100% | 보기: 신규 / 변경 / 해지 |
+| `check.계좌번호` | 계좌번호 | checkbox | 100% | 보기: 적용 / 미적용 |
+| `check.조회` | 조회 | checkbox | 100% | 보기: 조회 / 일괄해지 1 |
+| `check.고객명` | 고객명 | checkbox | 100% | 보기: 적용 / 미적용 |
 
 ### 질권실행 의뢰서(수신_제3자 질권용) (`hf007`) — 키 15개
 
@@ -6743,14 +6743,14 @@
 | `책임자` | 책임자(관리자) | text | 100% |  |
 | `영업점장` | 영업점장 | text | 100% |  |
 | `date` | 납입기일 | date | 100% | 2026년 1월 31일 |
-| `check.주식납입금수납` | 주식납입금수납 | checkbox | 100% | 신주발행 |
-| `check.사채납입금수납` | 사채납입금수납 | checkbox | 100% | 사채발행 |
+| `check.주식납입금수납` | 주식납입금수납 | checkbox | 100% | 보기: 설립 / 신주발행 |
+| `check.사채납입금수납` | 사채납입금수납 | checkbox | 100% | 보기: 사채발행 |
 | `주식수` | 주식수 | number | 100% | 1 |
 | `발행가액` | 발행가액(1주당) | number | 100% | 83,040,000 |
 | `발행주식총수` | 발행주식총수 | number | 100% | 36 |
 | `주주배정` | 주주배정 | number | 100% | 3 |
-| `check.증명서종류` | 증명서종류 | checkbox | 100% | 보관증명서 |
-| `check.증명서종류2` | 증명서종류 | checkbox | 100% | 납입완료사실증명서 |
+| `check.증명서종류` | 증명서종류 | checkbox | 100% | 보기: 보관증명서 |
+| `check.증명서종류2` | 증명서종류 | checkbox | 100% | 보기: 보관증명서 / 납입완료사실증명서 |
 | `금액` | 금액 | number | 100% | 9,310,000 |
 | `액면가액` | 액면가액(1주당) | number | 100% | 191,340,000 |
 | `기발행주식총수` | 기발행주식총수 | number | 100% | 24 |
@@ -6768,22 +6768,22 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.신청구분` | 신청구분 | checkbox | 100% | 해제 |
-| `check.대상계좌` | 대상계좌(발급세부) | checkbox | 100% | 지정계좌 |
-| `check.대상계좌2` | 대상계좌(발급세부) | checkbox | 100% | 계좌마스킹(계좌번호 일부숨김) |
-| `check.수령방법` | 수령방법 | checkbox | 100% | 카카오톡(문자) |
+| `check.신청구분` | 신청구분 | checkbox | 100% | 보기: 등록 / 변경 / 해제 |
+| `check.대상계좌` | 대상계좌(발급세부) | checkbox | 100% | 보기: 지정계좌 / 전체계좌 |
+| `check.대상계좌2` | 대상계좌(발급세부) | checkbox | 100% | 보기: 계좌마스킹(계좌번호 일부숨김) / 발급용도 / 수수료 출금계좌 |
+| `check.수령방법` | 수령방법 | checkbox | 100% | 보기: 창구수령 / 카카오톡(문자) / E-mail |
 | `account` | 계좌번호 | account_no | 100% | 000-287736-52424 |
 | `account2` | 계좌번호 | account_no | 100% | 000-287736-52424 |
 | `account3` | 계좌번호 | account_no | 100% | 000-287736-52424 |
-| `check.기준일자` | 기준일자 | checkbox | 100% | 매월 |
-| `check.유효기간` | 유효기간 | checkbox | 100% | 보기1 |
-| `check.창구수령대리인` | 창구수령대리인 | checkbox | 100% | 성명 |
-| `check.우편수령대리인` | 우편수령대리인 | checkbox | 100% | 성명 |
+| `check.기준일자` | 기준일자 | checkbox | 100% | 보기: 매월 |
+| `check.유효기간` | 유효기간 | checkbox | 100% | 보기: 보기1 |
+| `check.창구수령대리인` | 창구수령대리인 | checkbox | 100% | 보기: 성명 / 생년월일 / 관계 |
+| `check.우편수령대리인` | 우편수령대리인 | checkbox | 100% | 보기: 성명 / 주소 |
 | `발급기준일` | 발급기준일 | date | 100% | 2025-01-29 |
 | `국문` | 국문 | number | 100% | 6 |
 | `매` | 매 | number | 100% | 3 |
 | `계좌번호_목록[].value` | (통화코드:) | amount | 100% |  |
-| `check.수령방법2` | 수령방법 | checkbox | 100% | E-mail |
+| `check.수령방법2` | 수령방법 | checkbox | 100% | 보기: 우편수령 ᄆ 창구수령 / E-mail |
 | `발급부수` | 발급부수 | text | 100% |  |
 | `발급부수2` | 발급부수 | text | 100% |  |
 | `signer.name` | 성명(상호명) | text | 100% | 박찬연 |
@@ -6796,7 +6796,7 @@
 | `agent.name` | 대리인성명 | text | 100% | 박영준 |
 | `agent.relation` | 본인과의관계 | text | 100% | 부 |
 | `agent.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
-| `check.본인은상기계좌의` | 본인은상기계좌의( | checkbox | 100% | 잔액증명서 발급 |
+| `check.본인은상기계좌의` | 본인은상기계좌의( | checkbox | 100% | 보기: 잔액증명서 발급 / 정기발급 신청) 과 관련한 일체의 행위를 상기 대리인에게 |
 | `agent.birth` | 생년월일 | date | 100% | 1962.12.19 |
 | `agent.phone` | 연락처 | phone | 100% | 010-6515-4769 |
 | `취급점` | 취급점 | text | 100% | 범어지점 |
@@ -6806,7 +6806,7 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.성명휴대폰번호자택주소직장원본수익자수익수익자` | 성명(업체명)휴대폰번호자택주소직장원본수익자수익수익자 | checkbox | 100% | KT |
+| `check.성명휴대폰번호자택주소직장원본수익자수익수익자` | 성명(업체명)휴대폰번호자택주소직장원본수익자수익수익자 | checkbox | 100% | 보기: 스마트폰 / 일반폰 / 알뜰폰 / SKT / LGU+ / KT / 기타 |
 | `신청내용` | 신청내용 | text | 100% | 투자 목적 |
 | `변경내용` | 변경내용 | text | 100% | 투자 목적 |
 | `변경전` | 변경전 | text | 100% | 계좌 정리 |
@@ -6821,12 +6821,12 @@
 | `신고인` | ⇁신고인 | text | 100% |  |
 | `본인과의관계` | ⇁본인과의관계 | text | 100% |  |
 | `연락처` | )⇁연락처 | phone | 100% | 010-5907-7253 |
-| `상품명` | ⇁상품명 | text | 100% | 산업용 펌프 |
+| `상품명` | ⇁상품명 | text | 100% | 급여하나 통장 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer2.name` | 대리인 | text | 100% | 김나우 |
 | `seal.signer2` | 대리인 | seal | 100% | 제갈용희 |
 | `sign.signer2` | 대리인 | signature | 100% | 김나우 |
-| `제신고내용` | ⇁제신고(내용 | text | 100% | 주택구입 |
+| `제신고내용` | ⇁제신고(내용 | text | 100% | 본인 요청 |
 | `value` | [유선신고사항] | amount | 100% |  |
 | `agent.name` | 대리인성명 | text | 100% | 박영준 |
 | `agent.phone` | 연락처 | phone | 100% | 010-6515-4769 |
@@ -6868,24 +6868,24 @@
 | `customer.name` | 성명(회사명) | text | 100% | 박찬연 |
 | `customer.phone` | 전화번호 | phone | 100% | 010-5907-7253 |
 | `Fax번호` | Fax번호 | text | 100% | 9456-8903 |
-| `check.입금` | 입금 | checkbox | 100% | 입 금 |
-| `check.예금종류` | 예금종류 | checkbox | 100% | CMA |
+| `check.입금` | 입금 | checkbox | 100% | 보기: 입 금 |
+| `check.예금종류` | 예금종류 | checkbox | 100% | 보기: 발행어음 / CMA |
 | `account` | 계좌번호 | account_no | 100% | 000-287736-52424 |
 | `입금금액` | 입금금액 | number | 100% | 6,080,000 |
 | `기간` | 기간(만기일) | text | 100% |  |
 | `이율` | 이율 | number | 100% | 6.70 |
-| `check.입금방법` | 입금방법 | checkbox | 100% | 지준 |
+| `check.입금방법` | 입금방법 | checkbox | 100% | 보기: 지준 / 전금 / 계좌 |
 | `지준입금액` | 지준입금액 | number | 100% | 880,000 |
 | `전금입금액` | 전금입금액 | number | 100% | 15,750,000 |
 | `계좌입금액` | 계좌입금액 | number | 100% | 2,580,000원 |
-| `check.당일출금` | 당일출금 | checkbox | 100% | 당일 출금 |
+| `check.당일출금` | 당일출금 | checkbox | 100% | 보기: 당일 출금 / 익일 출금 |
 | `목록[].계좌번호` | 계좌번호 | text | 100% | 864-994425-43118 |
-| `check.예금종류2` | 예금종류 | checkbox | 100% | CMA |
+| `check.예금종류2` | 예금종류 | checkbox | 100% | 보기: 발행어음 / CMA |
 | `account2` | 계좌번호 | account_no | 100% | 000-287736-52424 |
 | `인출금액` | 인출금액 | number | 100% | 24,220,000원 |
-| `check.이체방법` | 이체방법 | checkbox | 100% | 전금 |
+| `check.이체방법` | 이체방법 | checkbox | 100% | 보기: 지준 / 전금 / 계좌 |
 | `목록[].은행명` | 은행명 | text | 100% | 농협은행 |
-| `check.인출방법` | 인출방법 | checkbox | 100% | 부리식 |
+| `check.인출방법` | 인출방법 | checkbox | 100% | 보기: 부리식 / 할인식 |
 | `목록[].금액` | 금액 | number | 100% | 1,310,000 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 신청인(예금주) | text | 100% | 박찬연 |
@@ -6901,14 +6901,14 @@
 | `customer.address` | 주소 | text | 100% | 경상남도 창원시 성산구 원이대로 262-29, 104호 |
 | `customer.birth` | 생년월일 | date | 100% | 1990년 2월 10일 |
 | `customer.email` | E-mail | text | 100% | chanyeon363@naver.com |
-| `check.금융기관별조회` | ■금융기관별조회(※요청기관V체크) | checkbox | 100% | 전북 |
-| `check.수령함` | 수령함 | checkbox | 100% | 수령거절 |
+| `check.금융기관별조회` | ■금융기관별조회(※요청기관V체크) | checkbox | 100% | 보기: 전체 금융기관 / 전체 은행 / 하나 / 신한 / 국민 / 우리 / 기업 / 농협 / 수협 / SC제일 / 시티 / 산업 / 대구 / 부산 / 광주 / 제주 / 전북 / 경남 / 케이 / 카카오 / 기타 ( |
+| `check.수령함` | 수령함 | checkbox | 100% | 보기: 수령함 / 수령거절 |
 | `customer.name2` | 신청인성명 | text | 100% | 박찬연 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `서비스신청일로부터5년까지` | -서비스신청일로부터5년까지 | text | 100% |  |
 | `신용거래정보` | ■신용거래정보 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인(신용)정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `date2` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 현예지 |
@@ -6955,18 +6955,18 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.현금` | 현금 | checkbox | 100% | 이체 (수수료차감 후 입금) |
-| `check.현금2` | 현금 | checkbox | 100% | 이체 |
-| `check.현금3` | 현금 | checkbox | 100% | 이체 |
-| `check.현금4` | 현금 | checkbox | 100% | 현금 |
-| `check.현금5` | 현금 | checkbox | 100% | 대체 |
-| `check.현금6` | 현금 | checkbox | 100% | 현금 |
-| `check.현금7` | 현금 | checkbox | 100% | 이체 |
-| `check.현금8` | 현금 | checkbox | 100% | 대체 |
-| `check.현금9` | 현금 | checkbox | 100% | 이체 |
-| `check.현금10` | 현금 | checkbox | 100% | 대체 |
+| `check.현금` | 현금 | checkbox | 100% | 보기: 현금 / 대체 / 이체 / 이체 (수수료차감 후 입금) |
+| `check.현금2` | 현금 | checkbox | 100% | 보기: 현금 / 대체 / 이체 / 이체 (수수료차감 후 입금) |
+| `check.현금3` | 현금 | checkbox | 100% | 보기: 현금 / 대체 / 이체 / 이체 (수수료차감 후 입금) |
+| `check.현금4` | 현금 | checkbox | 100% | 보기: 현금 / 대체 / 이체 / 이체 (수수료차감 후 입금) |
+| `check.현금5` | 현금 | checkbox | 100% | 보기: 현금 / 대체 / 이체 / 이체 (수수료차감 후 입금) |
+| `check.현금6` | 현금 | checkbox | 100% | 보기: 현금 / 대체 / 이체 / 이체 (수수료차감 후 입금) |
+| `check.현금7` | 현금 | checkbox | 100% | 보기: 현금 / 대체 / 이체 / 이체 (수수료차감 후 입금) |
+| `check.현금8` | 현금 | checkbox | 100% | 보기: 현금 / 대체 / 이체 / 이체 (수수료차감 후 입금) |
+| `check.현금9` | 현금 | checkbox | 100% | 보기: 현금 / 대체 / 이체 / 이체 (수수료차감 후 입금) |
+| `check.현금10` | 현금 | checkbox | 100% | 보기: 현금 / 대체 / 이체 / 이체 (수수료차감 후 입금) |
 | `목록[].거래금액` | 거래금액(원) | text | 100% | 70,000 |
-| `check.수수료` | 수수료 | checkbox | 100% | 대체(계좌출금) |
+| `check.수수료` | 수수료 | checkbox | 100% | 보기: 대체(계좌출금) / 대체 / 현금 |
 | `목록[].지급적요` | 지급적요 | text | 100% |  |
 | `목록[].입금은행` | 입금은행 | text | 100% | 하나은행 |
 | `목록[].입금계좌번호` | 입금계좌번호 | text | 100% | 319-359450-84249 |
@@ -7000,23 +7000,23 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.구분` | 구분 | checkbox | 100% | 요구 |
-| `check.신청항목` | 신청항목 | checkbox | 100% | 거래내역 조회 |
-| `check.신청항목2` | 신청항목 | checkbox | 100% | 한도조회 및 |
-| `check.신청항목3` | 신청항목 | checkbox | 100% | 기타 조회 |
-| `check.전금융기관한도및중복가입` | 전금융기관한도및중복가입제한상품 | checkbox | 100% | 기타 ( |
-| `check.금융거래종합보고서` | 금융거래종합보고서 | checkbox | 100% | 공직자잔액조회서 |
-| `check.계좌번호` | 계좌번호 | checkbox | 100% | 전체 |
-| `check.대상기간` | 대상기간 | checkbox | 100% | 최근 3개월 |
-| `check.대상기간2` | 대상기간 | checkbox | 100% | 출금내역 |
-| `check.신청추가` | 신청추가 | checkbox | 100% | 추가요청사항 |
-| `check.신청추가2` | 신청추가 | checkbox | 100% | 수수료 출금동의 |
-| `check.계좌번호마스킹제외` | 계좌번호마스킹제외 | checkbox | 100% | 영문주소 표시 |
+| `check.구분` | 구분 | checkbox | 100% | 보기: 요구 / 동의 |
+| `check.신청항목` | 신청항목 | checkbox | 100% | 보기: 거래내역 조회 |
+| `check.신청항목2` | 신청항목 | checkbox | 100% | 보기: 한도조회 및 |
+| `check.신청항목3` | 신청항목 | checkbox | 100% | 보기: 기타 조회 |
+| `check.전금융기관한도및중복가입` | 전금융기관한도및중복가입제한상품 | checkbox | 100% | 보기: 전 금융기관 한도 및 중복가입 제한 상품 / 기타 ( |
+| `check.금융거래종합보고서` | 금융거래종합보고서 | checkbox | 100% | 보기: 금융거래종합보고서 / 공직자잔액조회서 / 기타 ( |
+| `check.계좌번호` | 계좌번호 | checkbox | 100% | 보기: 전체 |
+| `check.대상기간` | 대상기간 | checkbox | 100% | 보기: 보기1 / 최근 3개월 / 최근 6개월 / 최근 1년 |
+| `check.대상기간2` | 대상기간 | checkbox | 100% | 보기: 전체 / 입금내역 / 출금내역 / 대출이자 / 예금이자 / 기타 ( |
+| `check.신청추가` | 신청추가 | checkbox | 100% | 보기: 추가요청사항 |
+| `check.신청추가2` | 신청추가 | checkbox | 100% | 보기: 수수료 출금동의 |
+| `check.계좌번호마스킹제외` | 계좌번호마스킹제외 | checkbox | 100% | 보기: 계좌번호 마스킹 제외 / 영문주소 표시 / 부기명 표시 / 계좌거래내역 파일반출 요청 (USB,이메일 등) |
 | `account` | 계좌번호 | account_no | 100% | 000-287736-52424 |
 | `출금금액` | 출금금액 | number | 100% | 33,700,000 |
 | `거래정보등의제공목적` | 거래정보등의제공목적 | text | 100% | 해외 이주 |
-| `check.동의서유효기간` | 동의서유효기간 | checkbox | 100% | 보기1 |
-| `check.정보제공사실의통보여부` | 정보제공사실의통보여부 | checkbox | 100% | 통보 요청 |
+| `check.동의서유효기간` | 동의서유효기간 | checkbox | 100% | 보기: 보기1 / 작성일로부터 ( |
+| `check.정보제공사실의통보여부` | 정보제공사실의통보여부 | checkbox | 100% | 보기: 통보 요청 / 통보 생략 |
 | `customer.name` | 성명(사업자명) | text | 100% | 박찬연 |
 | `customer.birth` | 생년월일(사업자번호) | date | 100% | 1990년 2월 10일 |
 | `customer.phone` | 연락처 | phone | 100% | 010-5907-7253 |
@@ -7030,8 +7030,8 @@
 | `signer2.name` | 예금주 | text | 100% | 박찬연 |
 | `seal.signer2` | 예금주 | seal | 100% | 이욱유 |
 | `sign.signer2` | 예금주 | signature | 100% | 박찬연 |
-| `check.대리인을통하여금융거래정보제공을요청하는경우` | 대리인을통하여금융거래정보제공을요청하는경우 | checkbox | 100% | 요구에 체크 표시한 후 금융거래자 본인란을 기재한다. |
-| `check.본인이제3자앞정보제공에동의하는경우` | 본인이제3자앞정보제공에동의하는경우 | checkbox | 100% | 동의에 체크 표시한 후 금융거래정보 등의 제공 동의시 기재사항을 기재하고 |
+| `check.대리인을통하여금융거래정보제공을요청하는경우` | 대리인을통하여금융거래정보제공을요청하는경우 | checkbox | 100% | 보기: 요구에 체크 표시한 후 금융거래자 본인란을 기재한다. |
+| `check.본인이제3자앞정보제공에동의하는경우` | 본인이제3자앞정보제공에동의하는경우 | checkbox | 100% | 보기: 동의에 체크 표시한 후 금융거래정보 등의 제공 동의시 기재사항을 기재하고 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 
 ### 대여금고(신규·변경·해지)신청서 (`hf025`) — 키 26개
@@ -7070,8 +7070,8 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `신용거래정보` | ■신용거래정보 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 박찬연 |
 | `sign.signer` | 본인성명 | signature | 100% | 이민빈 |
@@ -7089,13 +7089,13 @@
 | `Verificationofidentitysignature` | Verificationofidentity&signature | text | 100% |  |
 | `Clerk` | Clerk | text | 100% |  |
 | `Manager` | Manager | text | 100% |  |
-| `check.Pleasetickintherelevantbox` | Pleasetick√intherelevantbox | checkbox | 100% | . |
+| `check.Pleasetickintherelevantbox` | Pleasetick√intherelevantbox | checkbox | 100% | 보기: . |
 | `customer.name` | Name | text | 100% | 박찬연 |
 | `RelationshiptoPrincipal` | RelationshiptoPrincipal | text | 100% |  |
 | `customer.address` | Address | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
-| `check.AccountOpening` | AccountOpening | checkbox | 100% | Savings Deposit |
+| `check.AccountOpening` | AccountOpening | checkbox | 100% | 보기: Savings Deposit / Time Deposit / Installment Deposit / Others ( |
 | `account` | AccountNo. | account_no | 100% | 000-287736-52424 |
-| `check.Details` | Details | checkbox | 100% | Change of password |
+| `check.Details` | Details | checkbox | 100% | 보기: Change of password / Bankbook / Seal loss / Account closing / Others ( |
 | `Others` | Others | text | 100% |  |
 | `customer.birth` | DateofBirth | date | 100% | 1990년 2월 10일 |
 | `ContactInformation` | ContactInformation | text | 100% |  |
@@ -7108,14 +7108,14 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.해당` | 해당 | checkbox | 100% | 에 √ 표시하며 기타의 경우 구체적인 위임내용을 기재합니다 |
+| `check.해당` | 해당 | checkbox | 100% | 보기: 에 √ 표시하며 기타의 경우 구체적인 위임내용을 기재합니다 |
 | `agent.name` | 성명 | text | 100% | 박영준 |
 | `agent.relation` | 본인과의관계 | text | 100% | 부 |
 | `agent.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
-| `check.신규계좌개설` | 신규계좌개설 | checkbox | 100% | 입출금이자유로운예금 |
-| `check.신규계좌개설2` | 신규계좌개설 | checkbox | 100% | 개인(신용)정보 수집 이용 및 제공 동의서(상품서비스 안내 등) 작성 |
+| `check.신규계좌개설` | 신규계좌개설 | checkbox | 100% | 보기: 입출금이자유로운예금 / 정기예금 / 적금 / 기타 ( |
+| `check.신규계좌개설2` | 신규계좌개설 | checkbox | 100% | 보기: 개인(신용)정보 수집 이용 및 제공 동의서(상품서비스 안내 등) 작성 |
 | `account` | 계좌번호 | account_no | 100% | 000-287736-52424 |
-| `check.세부내용` | 세부내용 | checkbox | 100% | 비밀번호 변경 |
+| `check.세부내용` | 세부내용 | checkbox | 100% | 보기: 비밀번호 변경 / 통장/인감 분실 / 계좌해지 / 기타 ( |
 | `기타사항` | 기타사항 | text | 100% | 결혼자금 |
 | `agent.birth` | 생년월일 | date | 100% | 1962.12.19 |
 | `agent.phone` | 연락처 | phone | 100% | 010-6515-4769 |
@@ -7346,12 +7346,12 @@
 |---|---|---|---|---|
 | `customer.name` | 신청인성명(예금주) | text | 100% | 박찬연 |
 | `추심대전입금계좌번호` | 추심대전입금계좌번호 | text | 100% | 859-407547-07284 |
-| `check.주소` | 주소(선택또는전부기재) | checkbox | 100% | 직장 |
-| `check.연락처` | 연락처(선택또는전부기재) | checkbox | 100% | 자택 |
+| `check.주소` | 주소(선택또는전부기재) | checkbox | 100% | 보기: 자택 / 직장 |
+| `check.연락처` | 연락처(선택또는전부기재) | checkbox | 100% | 보기: 자택 / 직장 / 휴대폰 / 이메일 |
 | `seal.signer` | 거래인감(또는서명) | seal | 100% | 현예지 |
 | `sign.signer` | 거래인감(또는서명) | signature | 100% | 박찬연 |
 | `customer.birth` | 생년월일(사업자등록번호) | date | 100% | 1990.02.10 |
-| `check.보관어음월별잔고현황통지여부` | 보관어음월별잔고현황통지여부 | checkbox | 100% | E-MAIL |
+| `check.보관어음월별잔고현황통지여부` | 보관어음월별잔고현황통지여부 | checkbox | 100% | 보기: 미신청 / E-MAIL / FAX |
 | `취급점` | 취급점 | text | 100% | 범어지점 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 
@@ -7401,7 +7401,7 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `예금신탁종류` | 예금/신탁종류 | text | 100% |  |
-| `check.신청구분` | 신청구분 | checkbox | 100% | 장애인 해제 |
+| `check.신청구분` | 신청구분 | checkbox | 100% | 보기: 한도설정 / 한도증액 / 한도감액 / 장애인 등록 / 장애인 해제 / 상속인 등록 / 기 타 |
 | `한도설정` | 한도설정 | number | 100% | 214,480,000 |
 | `한도증액` | 한도증액 | number | 100% | 28,210,000원 |
 | `한도감액` | 한도감액 | number | 100% | 46,810,000 |
@@ -7419,7 +7419,7 @@
 | `목록[].변경후` | 변경후 | text | 100% | 학자금 |
 | `customer.birth` | 생년월일 | date | 100% | 1990.02.10 |
 | `customer.birth2` | 생년월일 | date | 100% | 1990.02.10 |
-| `check.한도설정` | 한도설정 | checkbox | 100% | 한도증액 |
+| `check.한도설정` | 한도설정 | checkbox | 100% | 보기: 한도설정 / 한도증액 / 감액 / 기타 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `customer.phone` | 연락처 | phone | 100% | 010-5907-7253 |
 
@@ -7523,14 +7523,14 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `담당` | 담당(실명확인) | text | 100% |  |
-| `check.송금방법` | 송금방법 | checkbox | 100% | 금융결제원이체(국가간송금) |
-| `check.송금정보등록` | 송금정보등록 | checkbox | 100% | 신규 |
+| `check.송금방법` | 송금방법 | checkbox | 100% | 보기: 국외전신송금(OTT) / 국내전신송금(ODT) / 송금수표 (D/D) / 금융결제원이체(국내) / 금융결제원이체(국가간송금) |
+| `check.송금정보등록` | 송금정보등록 | checkbox | 100% | 보기: 신규 / 변경 (NO. / 해지 (NO. |
 | `영문` | 영문(English) | text | 100% |  |
 | `국문` | 국문(Korean) | text | 100% |  |
 | `customer.rrn` | 주민(사업자)번호(I.DNo./PassportNo.) | rrn | 100% | 900210-1659382 |
 | `과거송금번호` | 과거송금번호(EXISTINGREF.NO) | text | 100% | 8437-6676 |
-| `check.결제은행수수료부담` | 결제은행수수료부담(REIMBURSINGBANKCHG.) | checkbox | 100% | 송금인 (DEBT) |
-| `check.받으실분` | 받으실분(Beneficiary) | checkbox | 100% | HAPPY E-MAIL 서비스 신청 (무료) |
+| `check.결제은행수수료부담` | 결제은행수수료부담(REIMBURSINGBANKCHG.) | checkbox | 100% | 보기: 송금인 (DEBT) / 수취인 (SHAR) / 수취인 (CRED - 수취인이 송금과 관련한 국내 , 국외 수수료 모두  |
+| `check.받으실분` | 받으실분(Beneficiary) | checkbox | 100% | 보기: HAPPY E-MAIL 서비스 신청 (무료) |
 | `송금목적` | 송금목적(송금사유)(PURPOSEOFPAYMENT) | text | 100% | 계좌 정리 |
 | `적요` | 적요(DETAILSOFPAYMENT) | text | 100% |  |
 | `은행코드` | 은행코드(SWIFTBIC) | number | 100% | 02686 |
@@ -7541,12 +7541,12 @@
 | `수취인계좌번호` | 수취인계좌번호(BNF'sA/CNo.) | text | 100% | 350-152554-47311 |
 | `foreign.name` | 성명(Name) | text | 100% | Mekong Garment JSC |
 | `신청인과의관계` | 신청인과의관계(RELATIONTOAPPLICANT) | text | 100% |  |
-| `check.송금정보등록건송금결과통지` | 송금정보등록건송금결과통지 | checkbox | 100% | SMS |
-| `check.통화금액` | 통화(CURRENCY):금액(AMOUNT) | checkbox | 100% | 수수료 별도납부 |
+| `check.송금정보등록건송금결과통지` | 송금정보등록건송금결과통지 | checkbox | 100% | 보기: SMS / E-MAIL |
+| `check.통화금액` | 통화(CURRENCY):금액(AMOUNT) | checkbox | 100% | 보기: 수수료 별도납부 |
 | `보내는분계좌번호` | 보내는분계좌번호(A/CNO) | text | 100% | 947-036642-25863 |
-| `check.수수료차감후송금` | 수수료차감후송금 | checkbox | 100% | 수수료차감후 송금 |
+| `check.수수료차감후송금` | 수수료차감후송금 | checkbox | 100% | 보기: 수수료차감후 송금 |
 | `신청인과의관계2` | 신청인과의관계(RELATIONTOAPPLICANT) | text | 100% |  |
-| `check.귀행을` | ●귀행을 | checkbox | 100% | 해외체재비 |
+| `check.귀행을` | ●귀행을 | checkbox | 100% | 보기: 해외체재비 / 외국인 또는 비거주자의 국내보수 등을 위한 거래 외국환 은행으로 지정하고 |
 | `signer.name` | 예금주명(A/CHOLDERNAME) | text | 100% | 박찬연 |
 | `seal.signer` | 예금주명(A/CHOLDERNAME) | seal | 100% | 이민빈 |
 | `sign.signer` | 예금주명(A/CHOLDERNAME) | signature | 100% | 박찬연 |
@@ -7561,22 +7561,22 @@
 | `seal.signer4` | 지점장 | seal | 100% | 강순준 |
 | `sign.signer4` | 지점장 | signature | 100% | 박찬연 |
 | `대리인실명번호` | 대리인실명번호(AGENTID.NO) | text | 100% | 5655-7694 |
-| `check.자동화기기를이용한외화송금서비스신청` | ◈자동화기기를이용한외화송금서비스신청( | checkbox | 100% | 신규 |
-| `check.송금항목` | 송금항목 | checkbox | 100% | 거주자의 무증빙 해외송금 |
-| `check.송금항목2` | 송금항목 | checkbox | 100% | 체재비 송금 |
+| `check.자동화기기를이용한외화송금서비스신청` | ◈자동화기기를이용한외화송금서비스신청( | checkbox | 100% | 보기: 신규 / 변경 / 해지 |
+| `check.송금항목` | 송금항목 | checkbox | 100% | 보기: 거주자의 무증빙 해외송금 |
+| `check.송금항목2` | 송금항목 | checkbox | 100% | 보기: 체재비 송금 |
 | `인출계좌번호` | 인출계좌번호 | text | 100% | 936-061429-50847 |
-| `check.송금결과통보` | 송금결과통보 | checkbox | 100% | E-MAIL |
-| `check.유학생송금` | 유학생송금 | checkbox | 100% | 유학생 송금 |
-| `check.외국인근로자의보수송금` | 외국인근로자의보수송금 | checkbox | 100% | 외국인 근로자의 보수 송금 |
-| `check.국내전신송금` | 국내전신송금 | checkbox | 100% | 국내 전신 송금 |
+| `check.송금결과통보` | 송금결과통보 | checkbox | 100% | 보기: SMS / E-MAIL |
+| `check.유학생송금` | 유학생송금 | checkbox | 100% | 보기: 유학생 송금 |
+| `check.외국인근로자의보수송금` | 외국인근로자의보수송금 | checkbox | 100% | 보기: 외국인 근로자의 보수 송금 |
+| `check.국내전신송금` | 국내전신송금 | checkbox | 100% | 보기: 국내 전신 송금 |
 | `사전송금방식국내통관전수입대금을지급` | 사전송금방식:국내통관(물품인수)전수입대금을지급 | number | 100% | 174,780,000원 |
-| `check.대금송금후물품수령예정일` | 대금송금후물품(선적서류)수령예정일 | checkbox | 100% | 년 이내 |
-| `check.대금송금후물품수령예정일2` | 대금송금후물품(선적서류)수령예정일 | checkbox | 100% | 년 초과 ( |
-| `check.일반수입` | 일반수입 | checkbox | 100% | 일반 수입 |
-| `check.중계무역` | 중계무역 | checkbox | 100% | 중계 무역 |
-| `check.외국인수수입` | 외국인수수입 | checkbox | 100% | 외국인수 수입 |
-| `check.현재수출계약체결` | 현재수출계약체결 | checkbox | 100% | 현재 수출계약 체결 |
-| `check.현재수출계약미체결` | 현재수출계약미체결 | checkbox | 100% | 현재 수출계약 미체결 |
+| `check.대금송금후물품수령예정일` | 대금송금후물품(선적서류)수령예정일 | checkbox | 100% | 보기: 년 이내 |
+| `check.대금송금후물품수령예정일2` | 대금송금후물품(선적서류)수령예정일 | checkbox | 100% | 보기: 년 초과 ( |
+| `check.일반수입` | 일반수입 | checkbox | 100% | 보기: 일반 수입 |
+| `check.중계무역` | 중계무역 | checkbox | 100% | 보기: 중계 무역 |
+| `check.외국인수수입` | 외국인수수입 | checkbox | 100% | 보기: 외국인수 수입 |
+| `check.현재수출계약체결` | 현재수출계약체결 | checkbox | 100% | 보기: 현재 수출계약 체결 |
+| `check.현재수출계약미체결` | 현재수출계약미체결 | checkbox | 100% | 보기: 현재 수출계약 미체결 |
 | `date3` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer5.name` | 신청인 | text | 100% | 박찬연 |
 | `seal.signer5` | 신청인 | seal | 100% | 강순준 |
@@ -7602,12 +7602,12 @@
 | `seal.signer` | 지정인성명(상호) | seal | 100% | 박찬연 |
 | `sign.signer` | 지정인성명(상호) | signature | 100% | 현예지 |
 | `소` | 소 | text | 100% |  |
-| `EMail주소` | E-Mail주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `customer.email` | E-Mail주소 | text | 100% | chanyeon363@naver.com |
 | `signer2.name` | 대리인성명(상호) | text | 100% | 최우빈 |
 | `seal.signer2` | 대리인성명(상호) | seal | 100% | 김소윤 |
 | `sign.signer2` | 대리인성명(상호) | signature | 100% | 최우빈 |
 | `소2` | 소 | text | 100% |  |
-| `EMail주소2` | E-Mail주소 | text | 100% | 경상남도 창원시 성산구 원이대로 262-29, 104호 |
+| `customer.email2` | E-Mail주소 | text | 100% | soonjun606@gmail.com |
 | `seal.signer3` | 장 | seal | 100% | 현예지 |
 | `sign.signer3` | 장 | signature | 100% | 박찬연 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
@@ -7619,8 +7619,8 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `DateofReceipt` | DateofReceipt | date | 100% | 2025년 5월 19일 |
-| `check.Individual` | Individual | checkbox | 100% | 보기2 |
-| `check.ForeignInvestor` | ForeignInvestor | checkbox | 100% | 보기1 |
+| `check.Individual` | Individual | checkbox | 100% | 보기: Foreign company / 보기2 |
+| `check.ForeignInvestor` | ForeignInvestor | checkbox | 100% | 보기: 보기1 |
 | `customer.address` | Address | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `value` | (Korean) | amount | 100% |  |
 | `value2` | (English) | amount | 100% |  |
@@ -7628,10 +7628,10 @@
 | `Mainfactory` | Mainfactory(Mainplaceofbusiness) | text | 100% |  |
 | `customer.nationality` | Nationality | text | 100% | 대한민국 |
 | `AcquisitionPricewon` | AcquisitionPrice:won(USD) | number | 100% | 70 |
-| `check.보기1` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기12` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기13` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기14` | 보기1 | checkbox | 100% | 보기1 |
+| `check.보기1` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기12` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기13` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기14` | 보기1 | checkbox | 100% | 보기: 보기1 |
 | `NotificationNo` | NotificationNo | text | 100% | 280920-6972638 |
 | `NumberofReceipt` | NumberofReceipt | text | 100% |  |
 | `DateofCompletion` | DateofCompletion | date | 100% | 2025.06.30 |
@@ -7639,8 +7639,8 @@
 | `Capital` | Capital | text | 100% |  |
 | `wonUSD` | won(USD | amount | 100% | JPY 140,000 |
 | `DateofReceipt2` | DateofReceipt | date | 100% | 2026.01.03 |
-| `check.Individual2` | Individual | checkbox | 100% | 보기2 |
-| `check.ForeignInvestor2` | ForeignInvestor | checkbox | 100% | 보기1 |
+| `check.Individual2` | Individual | checkbox | 100% | 보기: Foreign company / 보기2 |
+| `check.ForeignInvestor2` | ForeignInvestor | checkbox | 100% | 보기: 보기1 |
 | `customer.address2` | Address | text | 100% | 경상남도 창원시 성산구 원이대로 262-29, 104호 |
 | `value3` | (Korean) | amount | 100% |  |
 | `value4` | (English) | amount | 100% |  |
@@ -7648,10 +7648,10 @@
 | `Mainfactory2` | Mainfactory(Mainplaceofbusiness) | text | 100% |  |
 | `customer.nationality2` | Nationality | text | 100% | 대한민국 |
 | `AcquisitionPricewon2` | AcquisitionPrice:won(USD) | number | 100% | 70 |
-| `check.보기15` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기16` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기17` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기18` | 보기1 | checkbox | 100% | 보기1 |
+| `check.보기15` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기16` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기17` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기18` | 보기1 | checkbox | 100% | 보기: 보기1 |
 | `NotificationNo2` | NotificationNo | text | 100% | 204422-6569354 |
 | `NumberofReceipt2` | NumberofReceipt | text | 100% |  |
 | `DateofCompletion2` | DateofCompletion | date | 100% | 2025.04.04 |
@@ -7668,7 +7668,7 @@
 |---|---|---|---|---|
 | `접수일` | 접수일 | text | 100% |  |
 | `처리일` | 처리일 | text | 100% |  |
-| `check.개인` | 개인 | checkbox | 100% | 외국법인 |
+| `check.개인` | 개인 | checkbox | 100% | 보기: 외국법인 / 국제경제협력기구 / 보기3 |
 | `customer.address` | 주소(영문) | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `하려는사업` | 하려는(하고있는)사업 | text | 100% |  |
 | `value` | (국문) | amount | 100% |  |
@@ -7681,10 +7681,10 @@
 | `취득총액` | 취득총액(A×C) | number | 100% | 6,380,000원 |
 | `customer.nationality` | 국적 | text | 100% | 대한민국 |
 | `취득총액원` | 취득총액:원(USD상당) | number | 100% | 70 |
-| `check.방위사업법제3조제7호에따른방위산업물자를생산하는기업` | 「방위사업법」제3조제7호에따른방위산업물자를생산하는기업 | checkbox | 100% | 보기1 |
-| `check.보기1` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기12` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기13` | 보기1 | checkbox | 100% | 보기1 |
+| `check.방위사업법제3조제7호에따른방위산업물자를생산하는기업` | 「방위사업법」제3조제7호에따른방위산업물자를생산하는기업 | checkbox | 100% | 보기: 보기1 |
+| `check.보기1` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기12` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기13` | 보기1 | checkbox | 100% | 보기: 보기1 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 신고인또는신청인 | text | 100% | 박찬연 |
 | `seal.signer` | 신고인또는신청인 | seal | 100% | 박찬연 |
@@ -7698,7 +7698,7 @@
 | `의내용` | 의내용 | text | 100% | 생활자금 |
 | `접수일2` | 접수일 | text | 100% |  |
 | `처리일2` | 처리일 | text | 100% |  |
-| `check.개인2` | 개인 | checkbox | 100% | 국제경제협력기구 |
+| `check.개인2` | 개인 | checkbox | 100% | 보기: 외국법인 / 국제경제협력기구 / 보기3 |
 | `customer.address2` | 주소(영문) | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `하려는사업2` | 하려는(하고있는)사업 | text | 100% |  |
 | `value3` | (국문) | amount | 100% |  |
@@ -7711,10 +7711,10 @@
 | `취득총액2` | 취득총액(A×C) | number | 100% | 297,340,000 |
 | `customer.nationality2` | 국적 | text | 100% | 대한민국 |
 | `취득총액원2` | 취득총액:원(USD상당) | number | 100% | 60 |
-| `check.방위사업법제3조제7호에따른방위산업물자를생산하는기업2` | 「방위사업법」제3조제7호에따른방위산업물자를생산하는기업 | checkbox | 100% | 보기1 |
-| `check.보기14` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기15` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기16` | 보기1 | checkbox | 100% | 보기1 |
+| `check.방위사업법제3조제7호에따른방위산업물자를생산하는기업2` | 「방위사업법」제3조제7호에따른방위산업물자를생산하는기업 | checkbox | 100% | 보기: 보기1 |
+| `check.보기14` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기15` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기16` | 보기1 | checkbox | 100% | 보기: 보기1 |
 | `date3` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer2.name` | 신고인또는신청인 | text | 100% | 박찬연 |
 | `seal.signer2` | 신고인또는신청인 | seal | 100% | 박찬연 |
@@ -7745,14 +7745,14 @@
 | `국민_목록[].아니오` | 아니오(NO) | text | 100% |  |
 | `외국인_목록[].아니오` | 아니오(NO) | text | 100% |  |
 | `아니오` | 아니오(NO) | text | 100% |  |
-| `check.판정방법` | 판정방법 | checkbox | 100% | 판정방법 |
+| `check.판정방법` | 판정방법 | checkbox | 100% | 보기: 판정방법 |
 | `항목` | 항목 | text | 100% |  |
 | `외국인` | 외국인 | text | 100% |  |
 | `예4` | 예(YES) | text | 100% |  |
 | `나비거주자이었던자로서입국하여국내에3개월이상체재중입니까` | 나비거주자이었던자로서입국하여국내에3개월이상체재중입니까? | text | 100% |  |
 | `다국내에서영업활동에종사하고있습니까` | 다국내에서영업활동에종사하고있습니까? | text | 100% |  |
 | `라6개월이상국내에서체재하고있습니까` | 라6개월이상국내에서체재하고있습니까? | text | 100% |  |
-| `check.판정방법2` | 판정방법 | checkbox | 100% | 판정방법 |
+| `check.판정방법2` | 판정방법 | checkbox | 100% | 보기: 판정방법 |
 | `거주성판정결과` | 거주성판정결과 | text | 100% |  |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 신청인 | text | 100% | 박찬연 |
@@ -7772,9 +7772,9 @@
 |---|---|---|---|---|
 | `투자자명담당자` | 투자자명담당자 | text | 100% | 안기은 |
 | `company.biz_item` | 업종(중분류) | text | 100% | 무역 |
-| `check.투자자법인성격` | 투자자법인성격 | checkbox | 100% | 실제영업법인 |
-| `check.외국인투자기업2여부` | 외국인투자기업2)여부 | checkbox | 100% | 아니오 |
-| `check.예` | 예 | checkbox | 100% | 예 |
+| `check.투자자법인성격` | 투자자법인성격 | checkbox | 100% | 보기: 실제영업법인 / 특수목적회사(SPC) |
+| `check.외국인투자기업2여부` | 외국인투자기업2)여부 | checkbox | 100% | 보기: 아니오 |
+| `check.예` | 예 | checkbox | 100% | 보기: 예 |
 | `자기자본` | 자기자본 | number | 100% | 3,940,000 |
 | `계열명` | 계열명 | text | 100% |  |
 | `사후관리은행` | 사후관리은행 | text | 100% | 하나은행 |
@@ -7782,13 +7782,13 @@
 | `소재지2` | 소재지(국가,주,성)2) | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `투자업종3` | 투자업종3 | text | 100% |  |
 | `설립등기일` | 설립등기일 | date | 100% | 2027년 7월 29일 |
-| `check.법인성격` | 법인성격 | checkbox | 100% | 실제영업법인 |
-| `check.투자형태6` | 투자형태6 | checkbox | 100% | 공동투자 |
-| `check.지배구조` | 지배구조 | checkbox | 100% | 지주회사 |
+| `check.법인성격` | 법인성격 | checkbox | 100% | 보기: 실제영업법인 / 특수목적회사(SPC) |
+| `check.투자형태6` | 투자형태6 | checkbox | 100% | 보기: 단독투자 / 공동투자 / 합작투자(한국측 투자비율 |
+| `check.지배구조` | 지배구조 | checkbox | 100% | 보기: 비지주회사 / 지주회사 |
 | `company.ceo` | 대표자 | text | 100% | 박찬연 |
 | `주요취급품목4` | 주요취급품목4 | text | 100% | 기계 부품 |
 | `영업개시일` | 영업개시일 | date | 100% | 2025.10.16 |
-| `check.설립형태` | 설립형태 | checkbox | 100% | 기존법인 지분인수 |
+| `check.설립형태` | 설립형태 | checkbox | 100% | 보기: 신설법인 설립 / 기존법인 지분인수 |
 | `전화` | 전화 | phone | 100% | 010-5907-7253 |
 | `임원` | 임원 | text | 100% |  |
 | `주주현황7_목록[].국가` | 국가 | text | 100% | 미국 |
@@ -7850,7 +7850,7 @@
 | `부채총계` | 부채총계 | text | 100% |  |
 | `자본총계` | 자본총계 | text | 100% |  |
 | `부채및자본총계` | 부채및자본총계 | text | 100% |  |
-| `check.현지법인운영상애로사항` | 현지법인운영상애로사항(복수선택가능) | checkbox | 100% | 분쟁해결 절차 |
+| `check.현지법인운영상애로사항` | 현지법인운영상애로사항(복수선택가능) | checkbox | 100% | 보기: 인사/노무관련 요인(고용/현지종업원 또는 노동조합과의 불화 등) / 생산관련 요인(노동생산성/부품·원자재 조달) / 마케팅관련 요인(홍보/판매) / 재무관련 요인(현지금융 조달/과실 송금 등) / 사회간접자본관련 요인(도로/항만/전력/용수 등) / 현지국 정부의 간섭(과도한 준조세/현지기업과의 차별 등) / 기타 / 노동관련 분야 / 공장부지 확보 등 토지관련 분야 / 분쟁해결 절차 / 세제 / 금융 / 회계 |
 | `대정부건의사항` | 대정부건의사항 | text | 100% |  |
 | `철수` | 철수 | text | 100% |  |
 | `투자축소` | 투자축소 | text | 100% |  |
@@ -7863,15 +7863,15 @@
 |---|---|---|---|---|
 | `투자자명담당자` | 투자자명담당자 | text | 100% | 선민인 |
 | `업종1` | 업종(중분류)1) | text | 100% |  |
-| `check.투자자법인성격` | 투자자법인성격 | checkbox | 100% | 특수목적회사(SPC) |
-| `check.외국인투자기업2여부` | 외국인투자기업2)여부 | checkbox | 100% | 아니오 |
-| `check.예` | 예 | checkbox | 100% | 예 |
+| `check.투자자법인성격` | 투자자법인성격 | checkbox | 100% | 보기: 실제영업법인 / 특수목적회사(SPC) |
+| `check.외국인투자기업2여부` | 외국인투자기업2)여부 | checkbox | 100% | 보기: 아니오 |
+| `check.예` | 예 | checkbox | 100% | 보기: 예 |
 | `자기자본` | 자기자본 | number | 100% | 31,050,000원 |
 | `계열명` | 계열명 | text | 100% |  |
 | `사후관리은행` | 사후관리은행 | text | 100% | 신한은행 |
-| `check.법인성격` | 법인성격 | checkbox | 100% | 특수목적회사(SPC) |
-| `check.투자형태7` | 투자형태7 | checkbox | 100% | 단독투자 |
-| `check.지배구조` | 지배구조 | checkbox | 100% | 비지주회사 |
+| `check.법인성격` | 법인성격 | checkbox | 100% | 보기: 실제영업법인 / 특수목적회사(SPC) |
+| `check.투자형태7` | 투자형태7 | checkbox | 100% | 보기: 단독투자 / 공동투자 / 합작투자(한국측 투자비율 |
+| `check.지배구조` | 지배구조 | checkbox | 100% | 보기: 비지주회사 / 지주회사 |
 | `법인명1` | 법인명1 | text | 100% | 우진정밀 |
 | `소재지2` | 소재지(국가,주,성)2) | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `투자업종3` | 투자업종3 | text | 100% |  |
@@ -7879,7 +7879,7 @@
 | `주주구성_목록[].상호또는성명` | 상호또는성명 | text | 100% | 주식회사 한빛패션 |
 | `주주구성_목록[].국가` | 국가 | text | 100% | 캐나다 |
 | `주주구성_목록[].지분율` | 지분율(%) | number | 100% | 70 |
-| `check.설립형태` | 설립형태 | checkbox | 100% | 기존법인 지분인수 |
+| `check.설립형태` | 설립형태 | checkbox | 100% | 보기: 신설법인 설립 / 기존법인 지분인수 |
 | `company.ceo` | 대표자 | text | 100% | 강순준 |
 | `주요취급품목4` | 주요취급품목4 | text | 100% | 산업용 펌프 |
 | `영업개시일` | 영업개시일 | date | 100% | 2025.05.24 |
@@ -7922,7 +7922,7 @@
 | `부채총계` | 부채총계 | text | 100% |  |
 | `자본총계` | 자본총계 | text | 100% |  |
 | `부채및자본총계` | 부채및자본총계 | text | 100% |  |
-| `check.현지법인운영상애로사항` | 현지법인운영상애로사항(복수선택가능) | checkbox | 100% | 금융 |
+| `check.현지법인운영상애로사항` | 현지법인운영상애로사항(복수선택가능) | checkbox | 100% | 보기: 인사/노무관련 요인(고용/현지종업원 또는 노동조합과의 불화 등) / 생산관련 요인(노동생산성/부품·원자재 조달) / 마케팅관련 요인(홍보/판매) / 재무관련 요인(현지금융 조달/과실 송금 등) / 사회간접자본관련 요인(도로/항만/전력/용수 등) / 현지국 정부의 간섭(과도한 준조세/현지기업과의 차별 등) / 기타 / 노동관련 분야 / 공장부지 확보 등 토지관련 분야 / 분쟁해결 절차 / 세제 / 금융 / 회계 |
 | `대정부건의사항` | 대정부건의사항 | text | 100% |  |
 | `철수` | 철수 | text | 100% |  |
 | `투자축소` | 투자축소 | text | 100% |  |
@@ -8014,32 +8014,32 @@
 |---|---|---|---|---|
 | `상호또는성명` | 상호또는성명 | text | 100% | (주)유니온무역 |
 | `company.address` | 소재지(주소) | text | 100% | 서울특별시 중구 다산로 361, 6층 |
-| `check.투자자규모` | 투자자규모 | checkbox | 100% | 개인사업자 |
-| `check.투자자법인성격` | 투자자법인성격 | checkbox | 100% | 특수목적회사(SPC)1) |
-| `check.외국인투자기업2여부` | 외국인투자기업2)여부 | checkbox | 100% | 아니오 |
+| `check.투자자규모` | 투자자규모 | checkbox | 100% | 보기: 대기업 / 중소기업 / 개인사업자 / 개인 / 기타(비영리단체 등) |
+| `check.투자자법인성격` | 투자자법인성격 | checkbox | 100% | 보기: 실제영업법인 / 특수목적회사(SPC)1) |
+| `check.외국인투자기업2여부` | 외국인투자기업2)여부 | checkbox | 100% | 보기: 아니오 |
 | `총자산` | 총자산 | number | 100% | 98,520,000 |
 | `company.biz_item` | 업종(제품) | text | 100% | 무역 |
-| `check.예` | 예 | checkbox | 100% | 예 |
+| `check.예` | 예 | checkbox | 100% | 보기: 예 |
 | `설립년월일` | 설립년월일 | date | 100% | 2025.03.05 |
 | `자기자본` | 자기자본(자본금) | text | 100% |  |
 | `담당자및연락처` | 담당자및연락처 | phone | 100% | 010-5907-7253 |
 | `company.name` | 법인명 | text | 100% | (주)유니온무역 |
-| `check.법인형태` | 법인형태 | checkbox | 100% | 법인 |
-| `check.법인형태2` | 법인형태 | checkbox | 100% | 법인설립 |
+| `check.법인형태` | 법인형태 | checkbox | 100% | 보기: 법인 / 개인기업 / 기타 / 해외자원개발사업 |
+| `check.법인형태2` | 법인형태 | checkbox | 100% | 보기: 법인설립 / 법인미설립 |
 | `총자본금` | 총자본금 | text | 100% |  |
-| `check.투자형태1` | 투자형태1 | checkbox | 100% | 단독투자 |
-| `check.투자유형2` | 투자유형2 | checkbox | 100% | M&A |
-| `check.법인성격` | 법인성격 | checkbox | 100% | 실제 영업법인 |
-| `check.지배구조` | 지배구조 | checkbox | 100% | 지주회사 |
-| `check.투자목적` | 투자목적(택일) | checkbox | 100% | 수출촉진 |
+| `check.투자형태1` | 투자형태1 | checkbox | 100% | 보기: 단독투자 / 공동투자 / 합작투자(지분율 |
+| `check.투자유형2` | 투자유형2 | checkbox | 100% | 보기: M&A / 그린필드 / 기존사업 규모확장 / 기업 및 금융 구조조정 |
+| `check.법인성격` | 법인성격 | checkbox | 100% | 보기: 실제 영업법인 / 특수목적회사(SPC) |
+| `check.지배구조` | 지배구조 | checkbox | 100% | 보기: 비지주회사 / 지주회사 |
+| `check.투자목적` | 투자목적(택일) | checkbox | 100% | 보기: 자원개발 / 수출촉진 / 보호무역타개 / 저임활용 / 선진기술 도입 / 현지시장 진출 / 제3국 진출 |
 | `company.name2` | 상호 | text | 100% | (주)유니온무역 |
 | `company.ceo` | 대표자명 | text | 100% | 박찬연 |
 | `company.ceo2` | 대표자 | text | 100% | 박찬연 |
-| `check.년월일` | 년월일 | checkbox | 100% | 자본금 미납입 |
+| `check.년월일` | 년월일 | checkbox | 100% | 보기: 자본금 미납입 |
 | `company.biz_no` | 사업자번호 | biz_no | 100% | 264-82-36559 |
 | `company.corp_reg_no` | 법인등록번호 | corp_reg_no | 100% | 120111-4500915 |
-| `check.설립형태` | 설립형태 | checkbox | 100% | 신설법인 설립 |
-| `check.증권투자` | 증권투자(1.신규투자2.증액투자) | checkbox | 100% | 제재기관 보고후 사후신고 |
+| `check.설립형태` | 설립형태 | checkbox | 100% | 보기: 신설법인 설립 / 기존법인 지분인수 |
+| `check.증권투자` | 증권투자(1.신규투자2.증액투자) | checkbox | 100% | 보기: 증권투자(1.신규투자 2.증액투자) / 대부투자 / 제재기관 보고후 사후신고 |
 | `지분율이50를초과할경우최대주주의최대주주소속국가` | 지분율이50%를초과할경우최대주주의최대주주소속국가 | number | 100% | 60 |
 | `취득증권_목록[].증권종류` | 증권종류 | text | 100% |  |
 | `취득증권_목록[].주수` | 주수 | text | 100% |  |
@@ -8109,15 +8109,15 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.사전송금방식` | 사전송금방식 | checkbox | 100% | 사전 송금방식 |
-| `check.대금송금후물품수령예정일` | 대금송금후물품(선적서류)수령예정일 | checkbox | 100% | 년 이내 |
-| `check.대금송금후물품수령예정일2` | 대금송금후물품(선적서류)수령예정일 | checkbox | 100% | 년 초과 |
-| `check.중계무역` | 중계무역 | checkbox | 100% | 중계무역 |
-| `check.현재수출계약체결` | 현재수출계약체결 | checkbox | 100% | 현재 수출계약 체결 |
-| `check.현재수출계약미체결` | 현재수출계약미체결 | checkbox | 100% | 현재 수출계약 미체결 |
-| `check.사후송금방식` | 사후송금방식 | checkbox | 100% | 사후 송금방식 |
-| `check.일반수입` | 일반수입 | checkbox | 100% | 일반 수입 |
-| `check.외국인수수입` | 외국인수수입 | checkbox | 100% | 외국인수수입 |
+| `check.사전송금방식` | 사전송금방식 | checkbox | 100% | 보기: 사전 송금방식 |
+| `check.대금송금후물품수령예정일` | 대금송금후물품(선적서류)수령예정일 | checkbox | 100% | 보기: 년 이내 |
+| `check.대금송금후물품수령예정일2` | 대금송금후물품(선적서류)수령예정일 | checkbox | 100% | 보기: 년 초과 |
+| `check.중계무역` | 중계무역 | checkbox | 100% | 보기: 중계무역 |
+| `check.현재수출계약체결` | 현재수출계약체결 | checkbox | 100% | 보기: 현재 수출계약 체결 |
+| `check.현재수출계약미체결` | 현재수출계약미체결 | checkbox | 100% | 보기: 현재 수출계약 미체결 |
+| `check.사후송금방식` | 사후송금방식 | checkbox | 100% | 보기: 사후 송금방식 |
+| `check.일반수입` | 일반수입 | checkbox | 100% | 보기: 일반 수입 |
+| `check.외국인수수입` | 외국인수수입 | checkbox | 100% | 보기: 외국인수수입 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 고객명 | text | 100% | 박찬연 |
 | `seal.signer` | 고객명 | seal | 100% | 최우빈 |
@@ -8134,12 +8134,12 @@
 | `customer.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `customer.rrn` | 주민(사업자)번호 | rrn | 100% | 900210-1659382 |
 | `customer.email` | 이메일주소 | text | 100% | chanyeon363@naver.com |
-| `check.거주자의미화5천만불이하` | 거주자의미화5천만불이하외화자금차입(증권발행포함)(규정제7- | checkbox | 100% | 거주자의 미화 5천만불 이하 외화자금 차입(증권발행 포함) (규정 제7- |
-| `check.현지법인등의외화자금차입` | 현지법인등의외화자금차입(규정제7-14조의2,제7-18조) | checkbox | 100% | 현지법인등의 외화자금 차입 (규정 제7-14조의2, 제7-18조) |
-| `check.현지법인에대한1년미만의` | 현지법인에대한1년미만의금전대여(규정제7-16조) | checkbox | 100% | 현지법인에 대한 1년 미만의 금전대여 (규정 제7-16조) |
-| `check.거주자와비거주자간채무의` | 거주자와비거주자간채무의보증계약에따른자본거래(규정제7-18조) | checkbox | 100% | 거주자와 비거주자간 채무의 보증계약에 따른 자본거래 (규정 제7-18조) |
-| `check.거주자의외국부동산시설물` | 거주자의외국부동산·시설물이용에관한권리취득(규정제7-21조 | checkbox | 100% | 거주자의 외국부동산 · 시설물 이용에 관한 권리 취득 (규정 제7-21조 |
-| `check.거자와비거주자간임대차계` | 거자와비거주자간임대차계약(규정제7-46조) | checkbox | 100% | 거자와 비거주자간 임대차 계약 (규정 제7-46조) |
+| `check.거주자의미화5천만불이하` | 거주자의미화5천만불이하외화자금차입(증권발행포함)(규정제7- | checkbox | 100% | 보기: 거주자의 미화 5천만불 이하 외화자금 차입(증권발행 포함) (규정 제7- |
+| `check.현지법인등의외화자금차입` | 현지법인등의외화자금차입(규정제7-14조의2,제7-18조) | checkbox | 100% | 보기: 현지법인등의 외화자금 차입 (규정 제7-14조의2, 제7-18조) |
+| `check.현지법인에대한1년미만의` | 현지법인에대한1년미만의금전대여(규정제7-16조) | checkbox | 100% | 보기: 현지법인에 대한 1년 미만의 금전대여 (규정 제7-16조) |
+| `check.거주자와비거주자간채무의` | 거주자와비거주자간채무의보증계약에따른자본거래(규정제7-18조) | checkbox | 100% | 보기: 거주자와 비거주자간 채무의 보증계약에 따른 자본거래 (규정 제7-18조) |
+| `check.거주자의외국부동산시설물` | 거주자의외국부동산·시설물이용에관한권리취득(규정제7-21조 | checkbox | 100% | 보기: 거주자의 외국부동산 · 시설물 이용에 관한 권리 취득 (규정 제7-21조 |
+| `check.거자와비거주자간임대차계` | 거자와비거주자간임대차계약(규정제7-46조) | checkbox | 100% | 보기: 거자와 비거주자간 임대차 계약 (규정 제7-46조) |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 신청인 | text | 100% | 박찬연 |
 | `seal.signer` | 신청인 | seal | 100% | 이욱유 |
@@ -8167,15 +8167,15 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.본신고` | 본신고 | checkbox | 100% | 내신고 |
+| `check.본신고` | 본신고 | checkbox | 100% | 보기: 본신고 / 내신고 |
 | `취득가액` | 취득가액 | number | 100% | 330,000 |
 | `총취득금액` | 총취득금액(A=B+C) | number | 100% | 53,190,000 |
 | `signer.name` | 성명(법인명) | text | 100% | 박찬연 |
 | `seal.signer` | 성명(법인명) | seal | 100% | 최우빈 |
 | `sign.signer` | 성명(법인명) | signature | 100% | 박찬연 |
 | `company.biz_item` | 업종(직업) | text | 100% | 무역 |
-| `check.부동산의종류` | 부동산의종류 | checkbox | 100% | 상가 |
-| `check.취득목적` | 취득목적 | checkbox | 100% | 주거이외(투자등) |
+| `check.부동산의종류` | 부동산의종류 | checkbox | 100% | 보기: 주택 / 토지 / 상가 / 기타( |
+| `check.취득목적` | 취득목적 | checkbox | 100% | 보기: 주거 / 주거이외(투자등) / 임차(임차기간 |
 | `company.address` | 소재지 | text | 100% | 서울특별시 중구 다산로 361, 6층 |
 | `면적` | 면적 | text | 100% |  |
 | `수취인명` | 수취인명 | text | 100% | 우진테크(주) |
@@ -8186,7 +8186,7 @@
 | `모기지론2` | 모기지론(원리금상환현지조달금액) | text | 100% |  |
 | `기타` | 기타:() | text | 100% | 계좌 정리 |
 | `수취인명2` | 수취인명 | text | 100% | (주)제일상사 |
-| `check.신고인과의관계` | 신고인과의관계 | checkbox | 100% | 본인 |
+| `check.신고인과의관계` | 신고인과의관계 | checkbox | 100% | 보기: 중개인 / 본인 / 배우자 / 기타 |
 | `customer.rrn` | 주민(사업자)등록번호 | rrn | 100% | 900210-1****** |
 | `신고번호` | 신고(수리)번호 | text | 100% | 8096-6616 |
 | `신고금액` | 신고(수리)금액 | number | 100% | 7,580,000 |
@@ -8212,7 +8212,7 @@
 | `변경사유` | 변경사유(요약) | text | 100% | 학자금 |
 | `목록[].변경후` | 변경후 | text | 100% | 투자 목적 |
 | `신고번호` | 신고번호 | text | 100% | 3081-1770 |
-| `check.현지법인내용변경` | 현지법인내용변경 | checkbox | 100% | 기타 |
+| `check.현지법인내용변경` | 현지법인내용변경 | checkbox | 100% | 보기: 현지법인 내용변경 / 기타 |
 | `signer.name` | 상호또는성명 | text | 100% | (주)유니온무역 |
 | `seal.signer` | 상호또는성명 | seal | 100% | 주식회사 대성패션 |
 | `sign.signer` | 상호또는성명 | signature | 100% | 주식회사 한빛패션 |
@@ -8237,8 +8237,8 @@
 | `signer2.name` | 배우자성명* | text | 100% | 박찬연 |
 | `seal.signer2` | 배우자성명* | seal | 100% | 박찬연 |
 | `sign.signer2` | 배우자성명* | signature | 100% | 강순준 |
-| `check.지정거래외국환은행의장으` | 지정거래외국환은행의장으로부터신고수리를받아외국주택을취득한자는외 | checkbox | 100% | 지정거래외국환은행의 장으로부터 신고수리를 받아 외국주택을 취득한 자는 외 |
-| `check.사후보고서의제출등추가적` | 사후보고서의제출등추가적인문의사항이있거나,신고인의주소(해외체 | checkbox | 100% | 사후 보고서의 제출 등 추가적인 문의사항이 있거나, 신고인의 주소(해외체 |
+| `check.지정거래외국환은행의장으` | 지정거래외국환은행의장으로부터신고수리를받아외국주택을취득한자는외 | checkbox | 100% | 보기: 지정거래외국환은행의 장으로부터 신고수리를 받아 외국주택을 취득한 자는 외 |
+| `check.사후보고서의제출등추가적` | 사후보고서의제출등추가적인문의사항이있거나,신고인의주소(해외체 | checkbox | 100% | 보기: 사후 보고서의 제출 등 추가적인 문의사항이 있거나, 신고인의 주소(해외체 |
 | `부동산취득자금송금후3개월이내` | 부동산취득자금송금후3개월이내 | text | 100% |  |
 | `부동산처분후3개월이내` | 부동산처분(변경)후3개월이내 | text | 100% |  |
 | `수시보고서` | 수시보고서* | text | 100% |  |
@@ -8253,8 +8253,8 @@
 | `sign.signer` | 상호 | signature | 100% | (주)유니온무역 |
 | `company.biz_no` | 사업자(주민)번호 | biz_no | 100% | 264-82-36559 |
 | `company.biz_item` | 업종 | text | 100% | 무역 |
-| `check.기업규모` | 기업규모 | checkbox | 100% | 중소기업 |
-| `check.구분` | 구분 | checkbox | 100% | 변경 |
+| `check.기업규모` | 기업규모 | checkbox | 100% | 보기: 대기업 / 중소기업 / 개인사업자 |
+| `check.구분` | 구분 | checkbox | 100% | 보기: 설치 / 변경 |
 | `value` | (표준산업분류코드5자리) | amount | 100% |  |
 | `설치사유` | 설치사유 | text | 100% | 의료비 |
 | `내용` | 내용 | text | 100% | 전세자금 |
@@ -8281,8 +8281,8 @@
 | `sign.signer` | 상호 | signature | 100% | (주)유니온무역 |
 | `company.biz_no` | 사업자(주민)번호 | biz_no | 100% | 264-82-36559 |
 | `company.biz_item` | 업종 | text | 100% | 무역 |
-| `check.기업규모` | 기업규모 | checkbox | 100% | 대기업 |
-| `check.구분` | 구분 | checkbox | 100% | 설치 |
+| `check.기업규모` | 기업규모 | checkbox | 100% | 보기: 대기업 / 중소기업 / 개인사업자 |
+| `check.구분` | 구분 | checkbox | 100% | 보기: 설치 / 변경 |
 | `value` | (표준산업분류코드5자리) | amount | 100% |  |
 | `설치사유` | 설치사유 | text | 100% | 의료비 |
 | `내용` | 내용 | text | 100% | 해외 이주 |
@@ -8358,15 +8358,15 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.이용신청` | 이용신청 | checkbox | 100% | 지급지시업무 ( |
-| `check.이용신청2` | 이용신청 | checkbox | 100% | goGlobal 전용 지급지시업무 |
+| `check.이용신청` | 이용신청 | checkbox | 100% | 보기: 지급지시업무 ( / 무서류무역송금) (지급지시용 비밀번호 |
+| `check.이용신청2` | 이용신청 | checkbox | 100% | 보기: goGlobal 전용 지급지시업무 |
 | `변경신청_목록[].변경항목` | 변경항목 | text | 100% |  |
-| `check.지정사업자` | 지정사업자 | checkbox | 100% | KTNet |
-| `check.EDI` | EDI | checkbox | 100% | 일반응답 |
-| `check.계산서발신업무` | 계산서발신업무 | checkbox | 100% | 신용장개설 |
-| `check.기반사업자` | 기반사업자 | checkbox | 100% | uTradeHub |
-| `check.eNego` | e-Nego | checkbox | 100% | e-Nego 업무 |
-| `check.자동승인` | 자동승인 | checkbox | 100% | 내국신용장개설승인 |
+| `check.지정사업자` | 지정사업자 | checkbox | 100% | 보기: KTNet |
+| `check.EDI` | EDI | checkbox | 100% | 보기: 승인업무 / 수입업무 / 신용장통지 / 내국신용장업무 / 계산서 및 입출금 통지업무 / 수출업무 / 상호대사 / 일반응답 / TSU 업무 / 단독e-L/C 통지업무 / 외화지급보증업무 |
+| `check.계산서발신업무` | 계산서발신업무 | checkbox | 100% | 보기: 수출환어음매입 / 신용장개설 / 내국신용장개설 / 수출입금통지 / 타발송금입금통지 / 계좌입금통지 / 출금통지 / 당발송금출금통지 |
+| `check.기반사업자` | 기반사업자 | checkbox | 100% | 보기: uTradeHub |
+| `check.eNego` | e-Nego | checkbox | 100% | 보기: e-Nego 업무 / e-L/C 통지업무 |
+| `check.자동승인` | 자동승인 | checkbox | 100% | 보기: 구매확인서승인 / 내국신용장개설승인 |
 | `지급지시업무관련출금계좌_목록[].예금과목` | 예금과목 | text | 100% | 하나 TDF 2040 |
 | `신청인_목록[].수발신인식별자` | 수발신인식별자 | text | 100% |  |
 | `지급지시업무관련출금계좌_목록[].계좌번호` | 계좌번호 | text | 100% | 373-577804-90189 |
@@ -8384,7 +8384,7 @@
 | `signer2.name` | 전자무역업무기본약관수령필 | text | 100% | 박찬연 |
 | `seal.signer2` | 전자무역업무기본약관수령필 | seal | 100% | 강순준 |
 | `sign.signer2` | 전자무역업무기본약관수령필 | signature | 100% | 박찬연 |
-| `check.전자무역업무기본약관에따라아래와같이` | 『전자무역업무기본약관』에따라아래와같이( | checkbox | 100% | 변경, |
+| `check.전자무역업무기본약관에따라아래와같이` | 『전자무역업무기본약관』에따라아래와같이( | checkbox | 100% | 보기: 신규, / 변경, / 해지)신청합니다. |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer3.name` | 신청인 | text | 100% | 박찬연 |
 | `seal.signer3` | 신청인 | seal | 100% | 박찬연 |
@@ -8394,22 +8394,22 @@
 | `계산서` | 계산서 | text | 100% |  |
 | `발신업무` | 발신업무 | text | 100% |  |
 | `eNego` | e-Nego | text | 100% |  |
-| `check.승인업무` | 승인업무 | checkbox | 100% | 승인업무 |
-| `check.수입업무` | 수입업무 | checkbox | 100% | 수입업무 |
-| `check.LC통지업무` | L/C통지업무(EDI) | checkbox | 100% | L/C 통지업무(EDI) |
-| `check.내국신용장업무` | 내국신용장업무 | checkbox | 100% | 내국신용장업무 |
-| `check.계산서및입출금통지업무` | 계산서및입출금통지업무 | checkbox | 100% | 계산서 및 입출금 통지업무 |
-| `check.지급지시업무` | 지급지시업무 | checkbox | 100% | 지급지시업무 |
-| `check.수출업무` | 수출업무 | checkbox | 100% | 수출업무 |
-| `check.외화지급보증업무` | 외화지급보증업무 | checkbox | 100% | 외화지급보증업무 |
-| `check.상호대사` | 상호대사 | checkbox | 100% | 일반응답 |
-| `check.계산서발신업무2` | 계산서발신업무 | checkbox | 100% | 계산서발신업무 |
-| `check.자동승인업무` | 자동승인업무 | checkbox | 100% | 자동승인업무 |
-| `check.eLC통지업무` | e-L/C통지업무 | checkbox | 100% | e-L/C 통지업무 |
-| `check.eNego업무` | e-Nego업무 | checkbox | 100% | e-Nego 업무 |
+| `check.승인업무` | 승인업무 | checkbox | 100% | 보기: 승인업무 |
+| `check.수입업무` | 수입업무 | checkbox | 100% | 보기: 수입업무 |
+| `check.LC통지업무` | L/C통지업무(EDI) | checkbox | 100% | 보기: L/C 통지업무(EDI) |
+| `check.내국신용장업무` | 내국신용장업무 | checkbox | 100% | 보기: 내국신용장업무 |
+| `check.계산서및입출금통지업무` | 계산서및입출금통지업무 | checkbox | 100% | 보기: 계산서 및 입출금 통지업무 |
+| `check.지급지시업무` | 지급지시업무 | checkbox | 100% | 보기: 지급지시업무 |
+| `check.수출업무` | 수출업무 | checkbox | 100% | 보기: 수출업무 |
+| `check.외화지급보증업무` | 외화지급보증업무 | checkbox | 100% | 보기: 외화지급보증업무 |
+| `check.상호대사` | 상호대사 | checkbox | 100% | 보기: 상호대사 / 일반응답 |
+| `check.계산서발신업무2` | 계산서발신업무 | checkbox | 100% | 보기: 계산서발신업무 |
+| `check.자동승인업무` | 자동승인업무 | checkbox | 100% | 보기: 자동승인업무 |
+| `check.eLC통지업무` | e-L/C통지업무 | checkbox | 100% | 보기: e-L/C 통지업무 |
+| `check.eNego업무` | e-Nego업무 | checkbox | 100% | 보기: e-Nego 업무 |
 | `외화지급보증조건변경신청업무` | 외화지급보증/조건변경신청업무 | amount | 100% | AUD 169,500 |
 | `상호대사일반응답` | 상호대사,일반응답 | text | 100% | 주식회사 대성정밀 |
-| `check.Ο처리하실업무의` | Ο처리하실업무의 | checkbox | 100% | 에 V 표시를 하십시오 |
+| `check.Ο처리하실업무의` | Ο처리하실업무의 | checkbox | 100% | 보기: 에 V 표시를 하십시오 |
 | `계산서업무입금통지업무출금통지업무` | 계산서업무,입금통지업무,출금통지업무 | text | 100% |  |
 | `계좌입금통지출금통지당발송금출금통지` | 계좌입금통지,출금통지,당발송금출금통지 | text | 100% | 503-327712-82976 |
 | `전자적매입신청업무` | 전자적매입신청업무 | text | 100% |  |
@@ -8450,8 +8450,8 @@
 | `수취인주소및전화번호2` | 수취인주소및전화번호 | phone | 100% | 010-5907-7253 |
 | `수취인계좌번호` | 수취인계좌번호 | text | 100% | 389-373464-81713 |
 | `수취은행BIC` | 수취은행BIC | text | 100% | 국민은행 |
-| `check.만기` | 만기(상환일) | checkbox | 100% | Fixed due date ( |
-| `check.만기2` | 만기(상환일) | checkbox | 100% | ( |
+| `check.만기` | 만기(상환일) | checkbox | 100% | 보기: Fixed due date ( |
+| `check.만기2` | 만기(상환일) | checkbox | 100% | 보기: ( |
 | `기타` | 기타 | text | 100% | 자녀 교육비 |
 | `수취은행명` | 수취은행명 | text | 100% | 신한은행 |
 | `영문` | 영문(English) | text | 100% |  |
@@ -8471,12 +8471,12 @@
 | `신청인정보` | ♣신청인정보 | text | 100% |  |
 | `영문` | 영문(English) | text | 100% |  |
 | `한글` | 한글(Korean) | text | 100% |  |
-| `check.수입형태사전송금방식만작성` | 수입형태*사전송금방식만작성 | checkbox | 100% | 사전 무통관수입(중계무역) |
-| `check.만기` | 만기(상환일) | checkbox | 100% | Fixed due date ( |
-| `check.거래방식` | 거래방식(선적구분) | checkbox | 100% | 사전송금 방식 (선적 전) |
+| `check.수입형태사전송금방식만작성` | 수입형태*사전송금방식만작성 | checkbox | 100% | 보기: 사전 통관수입 / 사전 무통관수입(중계무역) / 사전 무통관수입(외국인수수입) |
+| `check.만기` | 만기(상환일) | checkbox | 100% | 보기: Fixed due date ( / ( |
+| `check.거래방식` | 거래방식(선적구분) | checkbox | 100% | 보기: 사전송금 방식 (선적 전) / 사후송금 방식 (선적 후) |
 | `선적정보` | ♣선적정보 | text | 100% |  |
 | `계약서번호` | 계약서번호 | text | 100% | 930-181939-33410 |
-| `상품명세` | 상품명세 | text | 100% | 전자부품 |
+| `상품명세` | 상품명세 | text | 100% | 하나 정기예금 |
 | `가격조건` | 가격조건 | text | 100% |  |
 | `원산지` | 원산지 | text | 100% |  |
 | `운송서류번호사후송금방식인경우작성` | 운송서류번호(B/LNo등)*사후송금방식인경우작성 | text | 100% | 231521-7711964 |
@@ -8493,7 +8493,7 @@
 | `수취인계좌번호` | 수취인계좌번호 | text | 100% | 714-595903-00985 |
 | `수취은행BIC` | 수취은행BIC | text | 100% | 기업은행 |
 | `송금수취인및수취은행정보` | ♣송금수취인및수취은행정보 | text | 100% | 농협은행 |
-| `check.송금수수료부담자` | 송금수수료부담자 | checkbox | 100% | OUR |
+| `check.송금수수료부담자` | 송금수수료부담자 | checkbox | 100% | 보기: SHA / OUR |
 | `수취은행명` | 수취은행명 | text | 100% | 국민은행 |
 | `담당자명` | 담당자명 | text | 100% | 양승주 |
 | `customer.phone` | 전화번호 | phone | 100% | 010-5907-7253 |
@@ -8508,7 +8508,7 @@
 | `sign.signer` | 신청인 | signature | 100% | 현예지 |
 | `signer2.name` | 신청인 | text | 100% | 박찬연 |
 | `seal.signer2` | 신청인 | seal | 100% | 현예지 |
-| `sign.signer2` | 신청인 | signature | 100% | 이욱유 |
+| `sign.signer2` | 신청인 | signature | 100% | 강순준 |
 
 ### 거주자의 외화자금 차입 및 상환 현황보고서 (`hf226`) — 키 47개
 
@@ -8629,11 +8629,11 @@
 | `담보제공자` | 담보제공자 | text | 100% |  |
 | `담보취득자` | 담보취득자 | text | 100% |  |
 | `담보제공수혜자` | 담보제공수혜자 | text | 100% |  |
-| `check.담보물종류` | 담보물종류 | checkbox | 100% | 기타( |
+| `check.담보물종류` | 담보물종류 | checkbox | 100% | 보기: 예금 / 부동산 / 동산 / 증권 / 기타( |
 | `담보소재지` | 담보소재지 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `수량` | 수량 | number | 100% | 3 |
 | `담보제공기간` | 담보제공기간 | text | 100% |  |
-| `check.담보제공용도` | 담보제공용도 | checkbox | 100% | 증권회사 현지법인의 현지차입에 대한 담보제공 |
+| `check.담보제공용도` | 담보제공용도 | checkbox | 100% | 보기: 해외교포등에 대한 여신과 관련한 원리금상환 담보제공 / 거주자 또는 거주자의 현지법인등의 현지금융에 대한 담보제공 / 증권회사 현지법인의 현지차입에 대한 담보제공 / 거주자의 현지법인의 해외리스에 대한 국내본사등의 담보제공 / 국내 시설대여회사 현지법인의 현지차입에 대한 본사의 담보제공 / 주채무계열 소속 30대계열기업체의 장기차입에 대한 담보제공 / 기타( |
 | `담보가액` | 담보가액 | number | 100% | 277,720,000 |
 | `신고번호` | 신고번호 | text | 100% | 3910-1810 |
 | `신고금액` | 신고금액 | number | 100% | 2,460,000 |
@@ -8679,7 +8679,7 @@
 | `보증수혜자` | 보증수혜자 | text | 100% |  |
 | `보증금액` | 보증금액 | number | 100% | 8,570,000원 |
 | `보증기간` | 보증기간 | text | 100% |  |
-| `check.보증용도` | 보증용도 | checkbox | 100% | 기타( |
+| `check.보증용도` | 보증용도 | checkbox | 100% | 보기: 해외교포등에 대한 여신과 관련한 원리금상환 보증 / 거주자 및 거주자의 현지법인등의 현지금융에 대한 보증 / 증권회사 현지법인의 현지차입에 대한 보증 / 거주자의 현지법인의 해외리스에 대한 국내본사등의 보증 / 국내 시설대여회사 현지법인의 현지차입에 대한 본사의 보증 / 주채무계열 소속 30대계열기업체의 장기차입에 대한 보증 / 기타( |
 | `상환방법` | 상환방법 | text | 100% | 만기일시상환 |
 | `신고번호` | 신고번호 | text | 100% | 6828-8711 |
 | `신고금액` | 신고금액 | number | 100% | 8,150,000 |
@@ -8776,13 +8776,13 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.송금방법` | 송금방법 | checkbox | 100% | 송금수표(D/D) |
+| `check.송금방법` | 송금방법 | checkbox | 100% | 보기: 전신송금(T/T) / 송금수표(D/D) |
 | `송금일자` | 송금일자 | date | 100% | 2025년 4월 3일 |
 | `송금번호` | 송금번호(수표번호) | text | 100% | 427-131116-01217 |
 | `수취인` | 수취인 | text | 100% | 신영정밀 |
 | `value` | [전신송금내용변경기재란] | amount | 100% |  |
-| `check.전신송금` | 전신송금 | checkbox | 100% | 전신송금 지급여부조회 |
-| `check.송금수표` | 송금수표 | checkbox | 100% | 송금수표 분실신고 |
+| `check.전신송금` | 전신송금 | checkbox | 100% | 보기: 전신송금 지급여부조회 / 전신송금 내용변경 / 전신송금 취소 |
+| `check.송금수표` | 송금수표 | checkbox | 100% | 보기: 송금수표 분실신고 |
 | `거래은행` | 거래은행 | text | 100% | 카카오뱅크 |
 | `foreign.account` | 계좌번호 | account_no | 100% | 884779361534 |
 | `foreign.name` | 성명 | text | 100% | Tokyo Seimitsu Kogyo K.K. |
@@ -8795,7 +8795,7 @@
 | `customer.birth` | 생년월일/사업자번호 | date | 100% | 1990년 2월 10일 |
 | `customer.address` | 주소 | text | 100% | 경상남도 창원시 성산구 원이대로 262-29, 104호 |
 | `customer.phone` | 전화번호 | phone | 100% | 010-7321-8870 |
-| `Email주소` | E-mail주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `customer.email` | E-mail주소 | text | 100% | chanyeon363@naver.com |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 
 ### 외국인투자기업등록(변경등록)신청서(국문) (`hf235`) — 키 33개
@@ -8817,7 +8817,7 @@
 | `액면총액` | 액면총액 | number | 100% | 44,830,000 |
 | `상호또는명칭2` | 상호또는명칭(영문) | text | 100% | (주)누리상사 |
 | `상호또는명칭3` | 상호또는명칭(영문) | text | 100% | 주식회사 신영화학 |
-| `대표Email` | 대표E-mail | text | 100% |  |
+| `대표Email` | 대표E-mail | text | 100% | chanyeon363@naver.com |
 | `customer.nationality` | 국적 | text | 100% | 대한민국 |
 | `customer.nationality2` | 국적 | text | 100% | 대한민국 |
 | `customer.nationality3` | 국적 | text | 100% | 대한민국 |
@@ -8833,7 +8833,7 @@
 | `투자기업2` | 투자기업 | text | 100% |  |
 | `양도또는감소할` | 양도또는감소할 | text | 100% |  |
 | `액면총액3` | 액면총액(A×B) | number | 100% | 4,650,000 |
-| `check.송달받는것에대하여` | 송달받는것에대하여 | checkbox | 100% | 동의하지 않습니다. |
+| `check.송달받는것에대하여` | 송달받는것에대하여 | checkbox | 100% | 보기: 동의합니다. / 동의하지 않습니다. |
 | `신규등록인경우` | <신규등록인경우> | text | 100% |  |
 
 ### 해외예금 및 신탁 잔액 보고서 (`hf236`) — 키 29개
@@ -8900,8 +8900,8 @@
 | `company.biz_no` | 사업자(주민)등록번호 | biz_no | 100% | 261-82-53694 |
 | `현지법인명` | 현지법인명 | text | 100% | (주)유니온무역 |
 | `company.address2` | 소재지(주소) | text | 100% | 서울특별시 중구 다산로 361, 6층 |
-| `check.법인형태` | 법인형태 | checkbox | 100% | 개인기업 |
-| `check.투자형태주1` | 투자형태주1 | checkbox | 100% | 공동투자 |
+| `check.법인형태` | 법인형태 | checkbox | 100% | 보기: 법인 / 개인기업 / 기타 / 해외자원개발사업 |
+| `check.투자형태주1` | 투자형태주1 | checkbox | 100% | 보기: 단독투자 / 공동투자 / 합작투자(한국측 투자비율 |
 | `납입자본금` | 납입자본금 | text | 100% |  |
 | `대부금액` | 대부금액 | number | 100% | 68,500,000원 |
 | `기회수금액` | 기회수금액 | number | 100% | 4,460,000 |
@@ -8912,7 +8912,7 @@
 | `회수금액_목록[].원금` | 원금 | number | 100% | 1,540,000 |
 | `유동자산투자및기타자산고정자산이연자산` | 유동자산투자및기타자산고정자산이연자산 | text | 100% |  |
 | `유동부채고정부채이연부채자본금잉여금` | 유동부채고정부채이연부채자본금잉여금 | text | 100% |  |
-| `check.청산` | 청산 | checkbox | 100% | 청산 |
+| `check.청산` | 청산 | checkbox | 100% | 보기: 청산 / 대부채권 회수 |
 | `청산종료일` | 청산종료일 | date | 100% | 2027.03.18 |
 | `목록[].구분회수일자` | 구분회수일자 | date | 100% | 2025.12.11 |
 | `목록[].회수재산의종류` | 회수재산의종류 | text | 100% |  |
@@ -8949,35 +8949,35 @@
 |---|---|---|---|---|
 | `상호또는성명` | 상호또는성명 | text | 100% | 세진테크(주) |
 | `company.address` | 소재지(주소) | text | 100% | 서울특별시 중구 다산로 361, 6층 |
-| `check.투자자규모` | 투자자규모 | checkbox | 100% | 중소기업 |
+| `check.투자자규모` | 투자자규모 | checkbox | 100% | 보기: 대기업 / 중소기업 / 개인사업자 / 개인 |
 | `date` | 신고일자 | date | 100% | 2026.01.31 |
 | `설립년월일` | 설립년월일 | date | 100% | 2024-12-30 |
 | `신고번호` | 신고번호 | text | 100% | 925515-2779752 |
 | `company.name` | 법인명 | text | 100% | (주)유니온무역 |
 | `company.address2` | 소재지(주소) | text | 100% | 서울특별시 중구 다산로 361, 6층 |
-| `check.법인형태` | 법인형태 | checkbox | 100% | 해외자원개발사업 |
-| `check.투자형태주1` | 투자형태주1 | checkbox | 100% | 단독투자 |
+| `check.법인형태` | 법인형태 | checkbox | 100% | 보기: 법인 / 개인기업 / 기타 / 해외자원개발사업 |
+| `check.투자형태주1` | 투자형태주1 | checkbox | 100% | 보기: 단독투자 / 공동투자 / 합작투자(한국측 투자비율 |
 | `설립등기일` | 설립등기일 | date | 100% | 2024.07.29 |
 | `납입자본금` | 납입자본금 | text | 100% |  |
 | `영업개시일` | 영업개시(예정)일 | date | 100% | 2025.04.23 |
 | `결산일` | 결산일 | date | 100% | 2025.10.14 |
 | `증권취득일` | 증권취득일(자본금출자일) | date | 100% | 2025-10-03 |
 | `액면가액합계` | 액면가액합계 | number | 100% | 15,250,000 |
-| `check.증권발행여부` | 증권발행여부 | checkbox | 100% | 증권발행 |
+| `check.증권발행여부` | 증권발행여부 | checkbox | 100% | 보기: 증권발행 / 증권미발행 |
 | `증권종류` | 증권종류 | text | 100% |  |
 | `취득가액합계` | 취득가액합계 | number | 100% | 294,400,000원 |
 | `채권취득일` | 채권취득일 | date | 100% | 2025.06.11 |
 | `이자율` | 이자율 | number | 100% | 10 |
-| `check.원금회수방법` | 원금회수방법 | checkbox | 100% | 분할회수( |
+| `check.원금회수방법` | 원금회수방법 | checkbox | 100% | 보기: 만기일시회수 / 분할회수( / 기타 |
 | `대부원금` | 대부원금 | number | 100% | 110,440,000 |
 | `대부기간` | 대부기간 | text | 100% |  |
-| `check.외화증권` | 외화증권 | checkbox | 100% | 외화증권 |
+| `check.외화증권` | 외화증권 | checkbox | 100% | 보기: 외화증권 / 외화채권 |
 
 ### 대외지급보증 조건변경 신청서(SWIFT 방식)(2D) (`hf241`) — 키 11개
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.전문사본요청합니다` | 전문사본요청합니다. | checkbox | 100% | 전문 사본 요청합니다. |
+| `check.전문사본요청합니다` | 전문사본요청합니다. | checkbox | 100% | 보기: 전문 사본 요청합니다. |
 | `FAXorEMAIL` | FAXorE-MAIL | phone | 100% | 043-783-2775 |
 | `보증서번호` | 보증서번호 | text | 100% | 가마17634470 |
 | `보증서증액` | 보증서증액 | text | 100% |  |
@@ -8993,7 +8993,7 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.전문사본요청합니다` | 전문사본요청합니다. | checkbox | 100% | 전문 사본 요청합니다. |
+| `check.전문사본요청합니다` | 전문사본요청합니다. | checkbox | 100% | 보기: 전문 사본 요청합니다. |
 | `FAXorEMAIL` | FAXorE-MAIL | phone | 100% | 043-783-2775 |
 | `ExpiryDate` | ExpiryDate(년/월/일) | date | 100% | 2025.07.02 |
 | `Applicant` | Applicant | text | 100% | 주식회사 세진산업 |
@@ -9017,25 +9017,25 @@
 | `타발송금입금통지` | 타발송금입금통지 | text | 100% |  |
 | `외화수표추심` | 외화수표추심 | amount | 100% | CNY 101,400 |
 | `로칼서류접수` | 로칼서류접수 | text | 100% |  |
-| `check.수입선적서류접수` | 수입선적서류접수( | checkbox | 100% | 건별 / |
+| `check.수입선적서류접수` | 수입선적서류접수( | checkbox | 100% | 보기: 건별 / / 고객별 |
 | `수출네고특사번호통지` | 수출네고특사번호통지 | text | 100% | 436109-0476538 |
 | `customer.name` | 고객명 | text | 100% | 박찬연 |
 | `customer.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
-| `check.당발송금` | 당발송금 | checkbox | 100% | E-MAIL |
-| `check.타발송금내도통지` | 타발송금내도통지 | checkbox | 100% | E-MAIL |
-| `check.타발송금입금통지` | 타발송금입금통지 | checkbox | 100% | FAX |
-| `check.외화수표추심` | 외화수표추심 | checkbox | 100% | E-MAIL |
-| `check.로칼서류접수` | 로칼서류접수 | checkbox | 100% | E-MAIL |
-| `check.FAX` | FAX | checkbox | 100% | E-MAIL |
-| `check.수출네고특사번호통지` | 수출네고특사번호통지 | checkbox | 100% | E-MAIL |
-| `check.수출입금통지` | 수출입금통지(매입/추심포함) | checkbox | 100% | FAX |
-| `check.수출인수통지` | 수출인수통지(매입/추심포함) | checkbox | 100% | E-MAIL |
+| `check.당발송금` | 당발송금 | checkbox | 100% | 보기: FAX / E-MAIL / SMS |
+| `check.타발송금내도통지` | 타발송금내도통지 | checkbox | 100% | 보기: E-MAIL / SMS |
+| `check.타발송금입금통지` | 타발송금입금통지 | checkbox | 100% | 보기: FAX |
+| `check.외화수표추심` | 외화수표추심 | checkbox | 100% | 보기: FAX / E-MAIL |
+| `check.로칼서류접수` | 로칼서류접수 | checkbox | 100% | 보기: FAX / E-MAIL |
+| `check.FAX` | FAX | checkbox | 100% | 보기: FAX / E-MAIL |
+| `check.수출네고특사번호통지` | 수출네고특사번호통지 | checkbox | 100% | 보기: FAX / E-MAIL |
+| `check.수출입금통지` | 수출입금통지(매입/추심포함) | checkbox | 100% | 보기: FAX |
+| `check.수출인수통지` | 수출인수통지(매입/추심포함) | checkbox | 100% | 보기: FAX / E-MAIL |
 | `company.biz_no` | 사업자등록번호(생년월일) | biz_no | 100% | 261-82-53694 |
 | `SMS수신전화번호` | SMS수신전화번호 | phone | 100% | 010-5907-7253 |
 | `FAX번호` | FAX번호 | phone | 100% | 043-783-2775 |
-| `EMAIL주소` | E-MAIL주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `customer.email` | E-MAIL주소 | text | 100% | chanyeon363@naver.com |
 | `취급점` | 취급점 | text | 100% | 범어지점 |
-| `check.외국환업무에대한UMS통지서비스` | 외국환업무에대한UMS통지서비스( | checkbox | 100% | 변경) 를 신청합니다. |
+| `check.외국환업무에대한UMS통지서비스` | 외국환업무에대한UMS통지서비스( | checkbox | 100% | 보기: 신규, / 변경) 를 신청합니다. |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 신청인 | text | 100% | 박찬연 |
 | `seal.signer` | 신청인 | seal | 100% | 박찬연 |
@@ -9235,7 +9235,7 @@
 | `Foreign` | Foreign- | text | 100% |  |
 | `Invested` | Invested | text | 100% |  |
 | `Changeof` | Changeof | text | 100% |  |
-| `check.agrees` | agrees | checkbox | 100% | doesn’t agree to receive a |
+| `check.agrees` | agrees | checkbox | 100% | 보기: agrees / doesn’t agree to receive a |
 
 ### 주식등의 취득 또는 출연방식에 의한 외국인투자 내용변경 신고서, 허가신청서(영문) (`hf248`) — 키 24개
 
@@ -9318,16 +9318,16 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `GeneralPersonalInformation` | ■■GeneralPersonalInformation | text | 100% |  |
-| `check.identityverificationinformation` | identityverificationinformation? | checkbox | 100% | Agree |
-| `check.personalcreditinformation` | personalcreditinformation? | checkbox | 100% | Agree |
+| `check.identityverificationinformation` | identityverificationinformation? | checkbox | 100% | 보기: Do Not Agree / Agree |
+| `check.personalcreditinformation` | personalcreditinformation? | checkbox | 100% | 보기: Do Not Agree / Agree |
 
 ### [필수] 개인(신용)정보 수집 이용 동의서(외투용)_국문 (`hf251`) — 키 11개
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `일반개인정보` | ■■일반개인정보 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 강순준 |
 | `sign.signer` | 본인성명 | signature | 100% | 박찬연 |
@@ -9402,15 +9402,15 @@
 | `seal.signer` | 상호및대표자성명 | seal | 100% | (주)유니온무역 |
 | `sign.signer` | 상호및대표자성명 | signature | 100% | 주식회사 한빛패션 |
 | `company.biz_item` | 업종(직업) | text | 100% | 무역 |
-| `check.차주` | 차주 | checkbox | 100% | 기관투자가 |
-| `check.대주` | 대주 | checkbox | 100% | 기관투자가 |
-| `check.통화및금액` | 통화및금액 | checkbox | 100% | 외화(1미화 1천만달러 이하 2미화 1천만달러 초과) |
+| `check.차주` | 차주 | checkbox | 100% | 보기: 기관투자가 / 일반법인 / 개인 / 기타( |
+| `check.대주` | 대주 | checkbox | 100% | 보기: 기관투자가 / 일반법인 / 개인 / 기타( |
+| `check.통화및금액` | 통화및금액 | checkbox | 100% | 보기: 표시통화( 1USD 2EUR 3JPY 4기타통화( / 금 / 외화(1미화 1천만달러 이하 2미화 1천만달러 초과) / 원화(110억원 이하 210억원 초과) |
 | `차입대출일` | 차입/대출일 | date | 100% | 2024-12-31 |
 | `적용금리` | 적용금리 | number | 100% | 50 |
 | `대차기간` | 대차기간 | text | 100% |  |
 | `사용용도` | 사용용도 | text | 100% | 사업자금 |
 | `상환방법` | 상환방법 | text | 100% | 원금균등분할상환 |
-| `check.거주자의보증또는담보유무` | 거주자의보증또는담보유무 | checkbox | 100% | 보증제공 |
+| `check.거주자의보증또는담보유무` | 거주자의보증또는담보유무 | checkbox | 100% | 보기: 보증·담보 없음 / 보증제공 / 담보제공 |
 | `신고번호` | 신고번호 | text | 100% | 0847-0320 |
 | `신고금액` | 신고금액 | number | 100% | 3,000,000원 |
 | `date` | 신고일자 | date | 100% | 2026.01.31 |
@@ -9434,18 +9434,18 @@
 | `자회사명` | 자(손자)회사명 | text | 100% | 주식회사 대성패션 |
 | `company.address2` | 소재지(주소) | text | 100% | 서울특별시 중구 다산로 361, 6층 |
 | `자본금2` | 자본금 | text | 100% |  |
-| `check.투자형태` | 투자형태 | checkbox | 100% | 단독투자 |
-| `check.법인성격` | 법인성격 | checkbox | 100% | 특수목적회사(SPC) |
+| `check.투자형태` | 투자형태 | checkbox | 100% | 보기: 단독투자 / 합작투자(지분율 |
+| `check.법인성격` | 법인성격 | checkbox | 100% | 보기: 실제 영업법인 / 특수목적회사(SPC) |
 | `company.ceo2` | 대표자 | text | 100% | 강순준 |
 | `company.established` | 설립(예정)일 | date | 100% | 2022.05.19 |
 | `company.biz_item2` | 업종(제품) | text | 100% | 무역 |
-| `check.설립형태` | 설립형태 | checkbox | 100% | 신설법인 설립 |
+| `check.설립형태` | 설립형태 | checkbox | 100% | 보기: 신설법인 설립 / 기존법인 지분인수 |
 | `증권종류` | 증권종류 | text | 100% |  |
 | `주수` | 주수 | text | 100% |  |
 | `주당액면` | 주당액면 | text | 100% |  |
 | `취득가액이액면과상이할경우그산출근거` | 취득가액이액면과상이할경우그산출근거 | number | 100% | 7,120,000 |
 | `주당가액` | 주당가액 | number | 100% | 4,050,000원 |
-| `check.자회사설립` | 자회사설립 | checkbox | 100% | 손자회사 설립 |
+| `check.자회사설립` | 자회사설립 | checkbox | 100% | 보기: 자회사 설립 / 손자회사 설립 / 기타 |
 | `투자형태` | 투자형태 | text | 100% |  |
 | `법인성격` | 법인성격 | text | 100% |  |
 | `현금` | 현금 | text | 100% |  |
@@ -9492,9 +9492,9 @@
 |---|---|---|---|---|
 | `company.name` | 상호 | text | 100% | (주)유니온무역 |
 | `customer.address` | 주소 | text | 100% | 경상남도 창원시 성산구 원이대로 262-29, 104호 |
-| `check.등록구분` | 등록구분 | checkbox | 100% | 무인환전기기 |
+| `check.등록구분` | 등록구분 | checkbox | 100% | 보기: 일반 / 무인환전기기 / 온라인 |
 | `기타` | 기타 | text | 100% | 해외 이주 |
-| `check.동의함` | 동의함 | checkbox | 100% | 동의함 |
+| `check.동의함` | 동의함 | checkbox | 100% | 보기: 동의함 / 동의하지않음 |
 | `환전업시작일` | 환전업시작일 | date | 100% | 2025-01-23 |
 | `근거법령` | 근거법령 | text | 100% |  |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
@@ -9510,7 +9510,7 @@
 | `customer.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `변경사유` | 변경사유 | text | 100% | 생활자금 |
 | `변경후` | 변경후 | text | 100% | 사업자금 |
-| `check.동의함` | 동의함 | checkbox | 100% | 동의하지않음 |
+| `check.동의함` | 동의함 | checkbox | 100% | 보기: 동의함 / 동의하지않음 |
 | `company.established` | 설립연월일 | date | 100% | 2026년 1월 31일 |
 | `근거법령` | 근거법령 | text | 100% |  |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
@@ -9576,12 +9576,12 @@
 | `company.ceo` | 대표자성명 | text | 100% | 박찬연 |
 | `company.biz_no` | 사업자등록번호 | biz_no | 100% | 729-81-00871 |
 | `customer.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
-| `check.거래종류` | 거래종류 | checkbox | 100% | 자본거래 |
-| `check.결제방법` | 결제방법 | checkbox | 100% | 기타( |
+| `check.거래종류` | 거래종류 | checkbox | 100% | 보기: 수출거래 / 수입거래 / 용역거래 / 자본거래 |
+| `check.결제방법` | 결제방법 | checkbox | 100% | 보기: 신용장(L/C) / 추심(D/P, D/A) / 송금 / 기타( |
 | `계약금액` | 계약금액 | number | 100% | 298,970,000 |
-| `check.결제방법2` | 결제방법 | checkbox | 100% | 기타( |
-| `check.결제방법3` | 결제방법 | checkbox | 100% | 외국환은행을 통한 방법 |
-| `check.구분` | 구분 | checkbox | 100% | 외국환은행을 통하지 아니하는 지급 |
+| `check.결제방법2` | 결제방법 | checkbox | 100% | 보기: 외국환은행을 통한 방법 / 기타( |
+| `check.결제방법3` | 결제방법 | checkbox | 100% | 보기: 외국환은행을 통한 방법 / 기타( |
+| `check.구분` | 구분 | checkbox | 100% | 보기: 제3자 지급 / 외국환은행을 통하지 아니하는 지급 |
 | `결제시기` | 결제시기 | text | 100% |  |
 | `상호및대표자성명` | 상호및대표자성명 | text | 100% | (주)유니온무역 |
 | `주소전화번호` | 주소,전화번호 | phone | 100% | 010-5907-7253 |
@@ -9610,28 +9610,28 @@
 | `seal.signer` | 상호또는성명 | seal | 100% | (주)스마트에프앤비 |
 | `sign.signer` | 상호또는성명 | signature | 100% | (주)유니온무역 |
 | `company.address` | 소재지(주소) | text | 100% | 서울특별시 노원구 한글비석로 388-7, 8층 13호 |
-| `check.투자자규모` | 투자자규모 | checkbox | 100% | 개인사업자 |
+| `check.투자자규모` | 투자자규모 | checkbox | 100% | 보기: 대기업 / 중소기업 / 개인사업자 / 개인 |
 | `company.biz_no` | 사업자(주민등록)번호 | biz_no | 100% | 264-82-36559 |
 | `signer2.name` | 상호또는성명 | text | 100% | (주)유니온무역 |
 | `seal.signer2` | 상호또는성명 | seal | 100% | (주)유니온무역 |
 | `sign.signer2` | 상호또는성명 | signature | 100% | 주식회사 대성패션 |
 | `company.biz_no2` | 사업자(주민등록)번호 | biz_no | 100% | 264-82-36559 |
 | `company.address2` | 소재지(주소) | text | 100% | 서울특별시 중구 다산로 361, 6층 |
-| `check.투자자규모2` | 투자자규모 | checkbox | 100% | 개인 |
+| `check.투자자규모2` | 투자자규모 | checkbox | 100% | 보기: 대기업 / 중소기업 / 개인사업자 / 개인 |
 | `company.ceo` | 대표자명 | text | 100% | 박찬연 |
 | `company.corp_reg_no` | 법인등록번호 | corp_reg_no | 100% | 200112-7448551 |
 | `company.name` | 법인명 | text | 100% | (주)유니온무역 |
 | `company.address3` | 소재지(주소) | text | 100% | 서울특별시 중구 다산로 361, 6층 |
 | `date` | 신고일자 | date | 100% | 2026년 01월 31일 |
-| `check.투자내역` | 투자내역 | checkbox | 100% | 투자비율 |
+| `check.투자내역` | 투자내역 | checkbox | 100% | 보기: 투자금액 / 투자비율 |
 | `설립등기일` | 설립등기일 | date | 100% | 2029-09-06 |
 | `신고번호` | 신고번호 | text | 100% | 962306-6681312 |
-| `check.투자지분양도내역` | 투자지분양도내역 | checkbox | 100% | 투자비율 |
+| `check.투자지분양도내역` | 투자지분양도내역 | checkbox | 100% | 보기: 투자금액 / 투자비율 |
 | `양수도일자` | 양수도일자 | date | 100% | 2025-08-16 |
 | `양수도가액` | 양수도가액 | number | 100% | 4,090,000원 |
 | `신고번호2` | 신고번호 | text | 100% | 789233-1294575 |
 | `date2` | 신고일자 | date | 100% | 2026년 01월 31일 |
-| `check.양수도내역` | 양수도내역( | checkbox | 100% | 전액양수도 |
+| `check.양수도내역` | 양수도내역( | checkbox | 100% | 보기: 전액양수도 / 부분양수도 |
 | `date3` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer3.name` | 신고기관 | text | 100% | 박찬연 |
 | `seal.signer3` | 신고기관 | seal | 100% | 박찬연 |
@@ -9665,12 +9665,12 @@
 | `영업점장` | 영업점장 | text | 100% |  |
 | `고객번호` | 고객번호 | text | 100% | 8414-4358 |
 | `매입번호` | 매입번호 | text | 100% | 349-108495-23052 |
-| `상품명` | 상품명 | text | 100% | PCB 기판 |
-| `수출신고번호` | 수출신고번호 | text | 100% | 7014-7040 |
+| `상품명` | 상품명 | text | 100% | 하나 MMF |
+| `수출신고번호` | 수출신고번호 | text | 100% | 3831-9186 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 본인 | text | 100% | 박찬연 |
-| `seal.signer` | 본인 | seal | 100% | 강순준 |
-| `sign.signer` | 본인 | signature | 100% | 박찬연 |
+| `seal.signer` | 본인 | seal | 100% | 박찬연 |
+| `sign.signer` | 본인 | signature | 100% | 이민빈 |
 | `customer.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `OATNET기타` | OAT()/NET()/기타() | text | 100% | 학자금 |
 
@@ -9807,7 +9807,7 @@
 |---|---|---|---|---|
 | `고객번호` | 고객번호 | text | 100% | 6756-0270 |
 | `거래번호` | 거래번호 | text | 100% | 505-927028-62208 |
-| `check.Forfaiting종류` | Forfaiting종류(해당항목선택) | checkbox | 100% | 인수후 비소구조건 매입 |
+| `check.Forfaiting종류` | Forfaiting종류(해당항목선택) | checkbox | 100% | 보기: 인수후 비소구조건 매입 / 소구조건 매입후 인수시 비소구조건 전환 / 하이브리드 포페이팅 서비스 / Sight 비소구조건 매입 |
 | `ForfaitingAmount` | ForfaitingAmount | text | 100% |  |
 | `LCNO` | L/CNO. | text | 100% |  |
 | `LCIssuingBank` | L/CIssuingBank | text | 100% |  |
@@ -9895,15 +9895,15 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.전문사본요청합니다` | 전문사본요청합니다. | checkbox | 100% | 전문사본 요청합니다. |
+| `check.전문사본요청합니다` | 전문사본요청합니다. | checkbox | 100% | 보기: 전문사본 요청합니다. |
 | `FAX` | FAX | phone | 100% | 043-783-2775 |
 | `유효기일` | 유효기일 | date | 100% | 2026.03.27 |
 | `제시기일` | 제시기일 | date | 100% | 2030년 1월 17일 |
 | `선적기일` | 선적기일 | date | 100% | 2028-06-13 |
 | `부보비율` | 부보비율 | number | 100% | 10 |
 | `목록[].변경후` | 변경후 | text | 100% | 결혼자금 |
-| `check.신용장양도` | 신용장양도(SKYT/S) | checkbox | 100% | 조건변경 신청서 |
-| `check.취소` | 취소 | checkbox | 100% | 취소 |
+| `check.신용장양도` | 신용장양도(SKYT/S) | checkbox | 100% | 보기: 조건변경 신청서 |
+| `check.취소` | 취소 | checkbox | 100% | 보기: 취소 |
 | `기발행SKYTS번호` | 기발행SKYT/S번호 | text | 100% | 8826-1228 |
 | `본건양도후신용장잔액` | 본건양도후신용장잔액 | number | 100% | 18,610,000 |
 | `signer.name` | 신청인 | text | 100% | 박찬연 |
@@ -9914,7 +9914,7 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.전문사본요청합니다` | 전문사본요청합니다. | checkbox | 100% | 전문사본 요청합니다. |
+| `check.전문사본요청합니다` | 전문사본요청합니다. | checkbox | 100% | 보기: 전문사본 요청합니다. |
 | `FAX` | FAX | phone | 100% | 043-783-2775 |
 | `유효기일` | 유효기일 | date | 100% | 2028-08-06 |
 | `제시기일` | 제시기일 | date | 100% | 2028.03.20 |
@@ -9969,26 +9969,26 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `취급점` | 취급점 | text | 100% | 범어지점 |
-| `check.CREDITNO` | CREDITNO.(신용장번호) | checkbox | 100% | CREDIT NO. (신용장번호) |
-| `check.ADVICENO` | ADVICENO.(신용장통지번호) | checkbox | 100% | ADVICE NO.(신용장통지번호) |
-| `check.ISSUINGBANK` | ISSUINGBANK(개설은행) | checkbox | 100% | ISSUING BANK(개설은행) |
-| `check.ISSUINGDATE` | ISSUINGDATE(개설일) | checkbox | 100% | ISSUING DATE(개설일) |
-| `check.AMOUNT` | AMOUNT(금액) | checkbox | 100% | AMOUNT(금액) |
+| `check.CREDITNO` | CREDITNO.(신용장번호) | checkbox | 100% | 보기: CREDIT NO. (신용장번호) |
+| `check.ADVICENO` | ADVICENO.(신용장통지번호) | checkbox | 100% | 보기: ADVICE NO.(신용장통지번호) |
+| `check.ISSUINGBANK` | ISSUINGBANK(개설은행) | checkbox | 100% | 보기: ISSUING BANK(개설은행) |
+| `check.ISSUINGDATE` | ISSUINGDATE(개설일) | checkbox | 100% | 보기: ISSUING DATE(개설일) |
+| `check.AMOUNT` | AMOUNT(금액) | checkbox | 100% | 보기: AMOUNT(금액) |
 | `signer.name` | (본인) | text | 100% | 박찬연 |
 | `seal.signer` | (본인) | seal | 100% | 박찬연 |
 | `sign.signer` | (본인) | signature | 100% | 강순준 |
-| `check.CREDITNO2` | CREDITNO.(신용장번호) | checkbox | 100% | CREDIT NO. (신용장번호) |
-| `check.ADVICENO2` | ADVICENO.(신용장통지번호) | checkbox | 100% | ADVICE NO.(신용장통지번호) |
-| `check.ISSUINGBANK2` | ISSUINGBANK(개설은행) | checkbox | 100% | ISSUING BANK(개설은행) |
-| `check.ISSUINGDATE2` | ISSUINGDATE(개설일) | checkbox | 100% | ISSUING DATE(개설일) |
-| `check.AMOUNT2` | AMOUNT(금액) | checkbox | 100% | AMOUNT(금액) |
+| `check.CREDITNO2` | CREDITNO.(신용장번호) | checkbox | 100% | 보기: CREDIT NO. (신용장번호) |
+| `check.ADVICENO2` | ADVICENO.(신용장통지번호) | checkbox | 100% | 보기: ADVICE NO.(신용장통지번호) |
+| `check.ISSUINGBANK2` | ISSUINGBANK(개설은행) | checkbox | 100% | 보기: ISSUING BANK(개설은행) |
+| `check.ISSUINGDATE2` | ISSUINGDATE(개설일) | checkbox | 100% | 보기: ISSUING DATE(개설일) |
+| `check.AMOUNT2` | AMOUNT(금액) | checkbox | 100% | 보기: AMOUNT(금액) |
 
 ### 「외국환서식관리프로그램」신용장 양도 조건변경/취소 신청서 (Amendment / Cancellation) (`hf287`) — 키 16개
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.Amendment` | Amendment | checkbox | 100% | Amendment |
-| `check.Cancellation` | Cancellation | checkbox | 100% | Cancellation |
+| `check.Amendment` | Amendment | checkbox | 100% | 보기: Amendment |
+| `check.Cancellation` | Cancellation | checkbox | 100% | 보기: Cancellation |
 | `date` | Date | date | 100% | 2026년 01월 31일 |
 | `LCNo` | L/CNo. | text | 100% | 2474-7930 |
 | `LCAmount` | L/CAmount | text | 100% |  |
@@ -9996,11 +9996,11 @@
 | `TSNo` | T/SNo | text | 100% | 7833-2441 |
 | `TSAmount` | T/SAmount | text | 100% |  |
 | `Gentlemen` | Gentlemen | text | 100% |  |
-| `check.amend` | amend | checkbox | 100% | amend |
-| `check.cancel` | cancel | checkbox | 100% | partially |
-| `check.increasedby` | increasedby | checkbox | 100% | increased by |
+| `check.amend` | amend | checkbox | 100% | 보기: amend / totally |
+| `check.cancel` | cancel | checkbox | 100% | 보기: cancel / partially |
+| `check.increasedby` | increasedby | checkbox | 100% | 보기: increased by |
 | `Amount` | Amount | amount | 100% | USD 129,000 |
-| `check.decreasedby` | decreasedby | checkbox | 100% | decreased by |
+| `check.decreasedby` | decreasedby | checkbox | 100% | 보기: decreased by |
 | `Latestshippingdate` | Latestshippingdate | date | 100% |  |
 | `Expirydate` | Expirydate | date | 100% |  |
 
@@ -10008,8 +10008,8 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.Total` | Total | checkbox | 100% | Total |
-| `check.Partial` | Partial | checkbox | 100% | Partial |
+| `check.Total` | Total | checkbox | 100% | 보기: Total |
+| `check.Partial` | Partial | checkbox | 100% | 보기: Partial |
 | `date` | Date | date | 100% | 2026.01.31 |
 | `LCNo` | L/CNo. | text | 100% | 4185-2150 |
 | `Dated` | Dated | date | 100% | 2025.11.08 |
@@ -10021,8 +10021,8 @@
 | `Amounttobetransferred` | Amounttobetransferred | text | 100% |  |
 | `Latestshippingdate` | Latestshippingdate | date | 100% |  |
 | `Expirydate` | Expirydate | date | 100% |  |
-| `check.thefirstbene` | thefirstbeneficiary. | checkbox | 100% | the first beneficiary. |
-| `check.thesecondben` | thesecondbeneficiary. | checkbox | 100% | the second beneficiary. |
+| `check.thefirstbene` | thefirstbeneficiary. | checkbox | 100% | 보기: the first beneficiary. |
+| `check.thesecondben` | thesecondbeneficiary. | checkbox | 100% | 보기: the second beneficiary. |
 
 ### 수출환어음등의 재매입을 위한 약정서 (`hf289`) — 키 6개
 
@@ -10105,10 +10105,10 @@
 | `목록[].상업송장보험서류` | 상업송장보험서류 | text | 100% |  |
 | `목록[].선하증권번호항공화물운송장번호` | 선하증권번호/항공화물운송장번호 | text | 100% | 955-079500-39388 |
 | `목록[].대도금액` | 대도금액 | text | 100% | 154,120,000 |
-| `check.선적서류수령증` | 선적서류수령증 | checkbox | 100% | 선적서류 수령증 |
-| `check.수입화물대도신청서` | 수입화물대도(T/R)신청서 | checkbox | 100% | 수입화물 대도(T/R) 신청서 |
-| `check.본인은아래신용장에의한선` | 본인은아래신용장에의한선적서류를정히수령하였습니다. | checkbox | 100% | 본인은 아래 신용장에 의한 선적서류를 정히 수령하였습니다. |
-| `check.본인은아래신용장등에의하` | 본인은아래신용장등에의하여도착된수입화물을대도(T/R)신청함에 | checkbox | 100% | 본인은 아래 신용장 등에 의하여 도착된 수입화물을 대도(T/R) 신청함에 |
+| `check.선적서류수령증` | 선적서류수령증 | checkbox | 100% | 보기: 선적서류 수령증 |
+| `check.수입화물대도신청서` | 수입화물대도(T/R)신청서 | checkbox | 100% | 보기: 수입화물 대도(T/R) 신청서 |
+| `check.본인은아래신용장에의한선` | 본인은아래신용장에의한선적서류를정히수령하였습니다. | checkbox | 100% | 보기: 본인은 아래 신용장에 의한 선적서류를 정히 수령하였습니다. |
+| `check.본인은아래신용장등에의하` | 본인은아래신용장등에의하여도착된수입화물을대도(T/R)신청함에 | checkbox | 100% | 보기: 본인은 아래 신용장 등에 의하여 도착된 수입화물을 대도(T/R) 신청함에 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 신청인 | text | 100% | 박찬연 |
 | `seal.signer` | 신청인 | seal | 100% | 강순준 |
@@ -10195,9 +10195,9 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.청약종류` | 청약종류 | checkbox | 100% | 신규 |
+| `check.청약종류` | 청약종류 | checkbox | 100% | 보기: 신규 / 갱신 |
 | `한도신청액` | 한도신청액 | number | 100% | 450,000 |
-| `check.일반구분1` | 일반구분1 | checkbox | 100% | 일반수출 |
+| `check.일반구분1` | 일반구분1 | checkbox | 100% | 보기: 일반수출 / 위탁가공무역 |
 | `company.name` | 상호 | text | 100% | (주)유니온무역 |
 | `customer.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `company.ceo` | 대표자 | text | 100% | 박찬연 |
@@ -10206,7 +10206,7 @@
 | `주소_목록[].대표자` | 대표자 | text | 100% |  |
 | `company.ceo2` | 대표자 | text | 100% | 박찬연 |
 | `소재국` | 소재국 | text | 100% |  |
-| `check.수출자와수입자관계의본지사해당하는지여부` | 수출자와수입자관계의본지사해당하는지여부 | checkbox | 100% | 여 |
+| `check.수출자와수입자관계의본지사해당하는지여부` | 수출자와수입자관계의본지사해당하는지여부 | checkbox | 100% | 보기: 여 / 부 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `수출자명` | 수출자명 | text | 100% |  |
 | `customer.address2` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
@@ -10214,7 +10214,7 @@
 | `seal.signer` | 대표 | seal | 100% | 현예지 |
 | `sign.signer` | 대표 | signature | 100% | 박찬연 |
 | `담당자성명` | 담당자성명 | text | 100% | 여다희 |
-| `check.종류` | 종류 | checkbox | 100% | CONFIRMED L/C |
+| `check.종류` | 종류 | checkbox | 100% | 보기: L/C / CONFIRMED L/C / 기타 ( |
 | `company.name3` | 상호 | text | 100% | 주식회사 한빛패션 |
 | `customer.address3` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `company.name4` | 상호 | text | 100% | (주)유니온무역 |
@@ -10222,8 +10222,8 @@
 | `소재국2` | 소재국 | text | 100% |  |
 | `소재국3` | 소재국 | text | 100% |  |
 | `결제조건` | 결제조건 | text | 100% |  |
-| `check.이면계약또는대응구매계약존재여부` | 이면계약또는대응구매계약존재여부 | checkbox | 100% | 있음 |
-| `수출상품명` | 수출상품명 | text | 100% | 의류 원단 |
+| `check.이면계약또는대응구매계약존재여부` | 이면계약또는대응구매계약존재여부 | checkbox | 100% | 보기: 있음 / 없음 |
+| `수출상품명` | 수출상품명 | text | 100% | 하나 적금 |
 | `건수` | 건수 | number | 100% | 36 |
 | `CLAIM사유및결과` | CLAIM사유및결과 | text | 100% | 사업자금 |
 | `신용장방식` | 신용장방식 | text | 100% |  |
@@ -10238,10 +10238,10 @@
 | `계약서상수입자와의관계` | 계약서상수입자와의관계 | text | 100% |  |
 | `계약서상대금지급책임인` | 계약서상대금지급책임인 | number | 100% | 17,360,000 |
 | `대행수입사유` | 대행수입사유 | text | 100% | 투자 목적 |
-| `check.대행수입여부` | 대행수입여부 | checkbox | 100% | 여 |
+| `check.대행수입여부` | 대행수입여부 | checkbox | 100% | 보기: 여 / 부 |
 | `company.ceo4` | 대표자 | text | 100% | 박찬연 |
 | `소재국4` | 소재국 | text | 100% |  |
-| `check.이자보상특약가입여부` | 이자보상특약가입여부 | checkbox | 100% | 미가입 |
+| `check.이자보상특약가입여부` | 이자보상특약가입여부 | checkbox | 100% | 보기: 가입 / 미가입 |
 | `이자보상특약가입여부` | 이자보상특약가입여부 | number | 100% | 1,090,000 |
 
 ### LG 보증금 환급 신청 및 확약서 (`hf300`) — 키 14개
@@ -10352,7 +10352,7 @@
 | `대차대상증권종류` | 대차대상증권종류 | text | 100% |  |
 | `차입금액` | 차입(한도)금액 | number | 100% | 770,000 |
 | `차입수량` | 차입수량 | number | 100% | 2 |
-| `check.차입목적` | 차입목적 | checkbox | 100% | 위험회피거래 |
+| `check.차입목적` | 차입목적 | checkbox | 100% | 보기: 위험회피거래 / 차익거래 / 투기거래 / 기타( |
 | `차입기간` | 차입기간 | text | 100% |  |
 | `신고번호` | 신고번호 | text | 100% | 221-202046-02486 |
 | `신고금액` | 신고금액 | number | 100% | 20,180,000 |
@@ -10390,16 +10390,16 @@
 |---|---|---|---|---|
 | `상호또는성명` | 상호또는성명 | text | 100% | (주)가온푸드 |
 | `company.address` | 소재지(주소) | text | 100% | 서울특별시 중구 다산로 361, 6층 |
-| `check.투자자규모` | 투자자규모 | checkbox | 100% | 개인사업자 |
+| `check.투자자규모` | 투자자규모 | checkbox | 100% | 보기: 대기업 / 중소기업 / 개인사업자 / 개인 |
 | `총자산` | 총자산 | number | 100% | 810,000 |
 | `company.biz_item` | 업종 | text | 100% | 무역 |
 | `설립년월일` | 설립년월일 | date | 100% | 2025.08.31 |
 | `자기자본` | 자기자본(자본금) | text | 100% |  |
 | `담당자및연락처` | 담당자및연락처 | phone | 100% | 010-5907-7253 |
 | `company.name` | 법인명 | text | 100% | (주)유니온무역 |
-| `check.법인형태` | 법인형태 | checkbox | 100% | 법인 |
+| `check.법인형태` | 법인형태 | checkbox | 100% | 보기: 법인 / 개인기업 / 기타 |
 | `총자본금` | 총자본금 | text | 100% |  |
-| `check.투자형태주` | 투자형태주 | checkbox | 100% | 합작투자(지분율 ; |
+| `check.투자형태주` | 투자형태주 | checkbox | 100% | 보기: 단독투자 / 공동투자 / 합작투자(지분율 ; / 합영투자(지분율 ; |
 | `company.ceo` | 대표자 | text | 100% | 박찬연 |
 | `company.established` | 설립(예정)일 | date | 100% | 2018.11.01 |
 | `현금` | 현금 | text | 100% |  |
@@ -10439,12 +10439,12 @@
 | `company.biz_item` | 업종(직업) | text | 100% | 의류 도매 |
 | `상호및대표자성명` | 상호및대표자성명 | text | 100% | (주)유니온무역 |
 | `company.biz_item2` | 업종(직업) | text | 100% | 무역 |
-| `check.거래기초자산` | 거래기초자산 | checkbox | 100% | 신용 |
-| `check.거래종류` | 거래종류 | checkbox | 100% | 보장매입 |
+| `check.거래기초자산` | 거래기초자산 | checkbox | 100% | 보기: 신용 / 통화 / 이자율 / 주식 / 상품 / 기타( |
+| `check.거래종류` | 거래종류 | checkbox | 100% | 보기: 선도거래 / 선물거래 / 스왑거래 / 옵션거래 / 신용파생상품거래( / 보장매입 / 보장매도 |
 | `계약금액` | 계약(명목)금액 | number | 100% | 48,730,000 |
 | `만기` | 만기 | date | 100% | 2025-11-10 |
 | `세부내용` | 세부내용 | text | 100% | 만기 해지 |
-| `check.거래특이사항` | 거래특이사항 | checkbox | 100% | 자본거래시 해당자본거래와 직접 관련되는 파생상품거래를 해당자본거래의 |
+| `check.거래특이사항` | 거래특이사항 | checkbox | 100% | 보기: 자본거래시 해당자본거래와 직접 관련되는 파생상품거래를 해당자본거래의 / 액면금액의 100분의 20이상을 선급수수료로 지급하는 거래 / 기 체결된 파생상품거래의 변경·취소·종료시 발생한 손실을 새로운 파생상품 / 자금유출입·거주자와 비거주자간 금전대차 거래 관련 신고등의 절차를 회피 |
 | `신고번호` | 신고번호 | text | 100% | 899-075839-26450 |
 | `신고금액` | 신고금액 | number | 100% | 22,000,000 |
 | `date` | 신고일자 | date | 100% | 2026.01.31 |
@@ -10462,8 +10462,8 @@
 | `company.biz_no` | 사업자(주민)등록번호 | biz_no | 100% | 264-82-36559 |
 | `현지법인명` | 현지법인명 | text | 100% | (주)유니온무역 |
 | `customer.address` | 주소(소재지) | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
-| `check.법인형태` | 법인형태 | checkbox | 100% | 기타 |
-| `check.투자형태주` | 투자형태주 | checkbox | 100% | 단독투자 |
+| `check.법인형태` | 법인형태 | checkbox | 100% | 보기: 법인 / 개인기업 / 기타 |
+| `check.투자형태주` | 투자형태주 | checkbox | 100% | 보기: 단독투자 / 공동투자 / 합작투자(지분율 ; / 합영투자(지분율 ; |
 | `납입자본금` | 납입자본금 | text | 100% |  |
 | `대부금액` | 대부금액 | number | 100% | 3,610,000 |
 | `기회수금액` | 기회수금액 | number | 100% | 67,680,000 |
@@ -10472,7 +10472,7 @@
 | `date` | 일자 | date | 100% | 2026.01.31 |
 | `목록[].원금` | 원금 | number | 100% | 9,540,000 |
 | `회수금액_목록[].원금` | 원금 | number | 100% | 200,000 |
-| `check.청산` | 청산 | checkbox | 100% | 대부채권 회수 |
+| `check.청산` | 청산 | checkbox | 100% | 보기: 청산 / 대부채권 회수 |
 | `법인형태` | 법인형태 | text | 100% |  |
 | `유동자산투자및기타자산고정자산이연자산` | 유동자산투자및기타자산고정자산이연자산 | text | 100% |  |
 | `계` | 계 | text | 100% |  |
@@ -10566,13 +10566,13 @@
 | `seal.signer` | 상호 | seal | 100% | (주)다온커뮤니케이션 |
 | `sign.signer` | 상호 | signature | 100% | (주)유니온무역 |
 | `company.ceo` | 대표자 | text | 100% | 박찬연 |
-| `check.신고구분` | 신고구분 | checkbox | 100% | 설 치 |
-| `check.지사구분` | 지사구분 | checkbox | 100% | 사 무 소 |
+| `check.신고구분` | 신고구분 | checkbox | 100% | 보기: 설 치 / 변 경 / 폐 지 |
+| `check.지사구분` | 지사구분 | checkbox | 100% | 보기: 독립채산지점 / 비독립채산지점 / 사 무 소 |
 | `지사명` | 지사명 | text | 100% | (주)한빛전자 |
 | `company.address` | 소재지 | text | 100% | 서울특별시 중구 다산로 361, 6층 |
 | `company.biz_item` | 업종 | text | 100% | 무역 |
 | `회계기간` | 회계기간 | text | 100% |  |
-| `check.설치사유` | 설치사유 | checkbox | 100% | 저임활용 |
+| `check.설치사유` | 설치사유 | checkbox | 100% | 보기: 저임활용 / 수출촉진 / 북한시장진출 / 기타( |
 | `내용` | 내용 | text | 100% | 생활자금 |
 | `사유` | 사유 | text | 100% | 결혼자금 |
 | `신고번호` | 신고번호 | text | 100% | 1269-1131 |
@@ -10594,7 +10594,7 @@
 | `signer.name` | 상호또는성명 | text | 100% | (주)유니온무역 |
 | `seal.signer` | 상호또는성명 | seal | 100% | (주)유니온무역 |
 | `sign.signer` | 상호또는성명 | signature | 100% | 주식회사 한빛패션 |
-| `check.투자자규모` | 투자자규모 | checkbox | 100% | 개인사업자 |
+| `check.투자자규모` | 투자자규모 | checkbox | 100% | 보기: 대기업 / 중소기업 / 개인사업자 / 개인 |
 | `신고수리일자` | 신고수리일자 | date | 100% | 2025년 5월 24일 |
 | `설립년월일` | 설립년월일 | date | 100% | 2025.05.13 |
 | `신고수리번호` | 신고수리번호 | text | 100% | 513-801972-85269 |
@@ -10604,15 +10604,15 @@
 | `결산일` | 결산일 | date | 100% | 2025.05.07 |
 | `증권취득일` | 증권취득일(자본금출자일) | date | 100% | 2025년 4월 16일 |
 | `액면가액합계` | 액면가액합계 | number | 100% | 9,710,000 |
-| `check.증권발행여부` | 증권발행여부 | checkbox | 100% | 증권미발행 |
+| `check.증권발행여부` | 증권발행여부 | checkbox | 100% | 보기: 증권발행 / 증권미발행 |
 | `증권종류` | 증권종류 | text | 100% |  |
 | `취득가액합계` | 취득가액합계 | number | 100% | 68,720,000 |
 | `채권취득일` | 채권취득일 | date | 100% | 2024.08.25 |
 | `이자율` | 이자율 | number | 100% | 10 |
-| `check.원금회수방법` | 원금회수방법 | checkbox | 100% | 분할회수(총 |
+| `check.원금회수방법` | 원금회수방법 | checkbox | 100% | 보기: 만기일시회수 / 분할회수(총 |
 | `대부원금` | 대부원금 | number | 100% | 2,700,000원 |
 | `대부기간` | 대부기간 | text | 100% |  |
-| `check.증권` | 증권 | checkbox | 100% | 증권 |
+| `check.증권` | 증권 | checkbox | 100% | 보기: 증권 / 채권 |
 | `상호또는성명` | 상호또는성명 | text | 100% | (주)대성물산 |
 
 ### 북한지사 등의 영업활동 보고서 (`hf316`) — 키 19개
@@ -10625,7 +10625,7 @@
 | `company.address` | 소재지(주소) | text | 100% | 서울특별시 중구 다산로 361, 6층 |
 | `설치일` | 설치일 | date | 100% | 2025-09-16 |
 | `설치지역` | 설치지역 | text | 100% |  |
-| `check.구분` | 구분 | checkbox | 100% | 사무소 |
+| `check.구분` | 구분 | checkbox | 100% | 보기: 지점 / 사무소 |
 | `company.biz_item` | 업종 | text | 100% | 무역 |
 | `총자산` | 총자산 | text | 100% |  |
 | `매출액` | 매출액 | number | 100% | 4,970,000 |
@@ -10677,8 +10677,8 @@
 | `seal.signer` | 대표자 | seal | 100% | 박찬연 |
 | `sign.signer` | 대표자 | signature | 100% | 강순준 |
 | `company.biz_item` | 업종 | text | 100% | 무역 |
-| `check.투자구분` | 투자구분 | checkbox | 100% | 감액 |
-| `check.투자방식` | 투자방식 | checkbox | 100% | 대부채권취득 |
+| `check.투자구분` | 투자구분 | checkbox | 100% | 보기: 신규투자 / 재투자(증액) / 감액 / 폐지 |
+| `check.투자방식` | 투자방식 | checkbox | 100% | 보기: 증권취득 / 대부채권취득 / 기타 |
 | `투자업종` | 투자업종 | text | 100% |  |
 | `company.biz_no` | 사업자등록번호 | biz_no | 100% | 264-82-36559 |
 | `company.corp_reg_no` | 법인등록번호 | corp_reg_no | 100% | 200112-7448551 |
@@ -10713,8 +10713,8 @@
 | `company.biz_item` | 업종(직업) | text | 100% | 무역 |
 | `증권취득자` | 증권취득자 | text | 100% |  |
 | `증권취득상대방` | 증권취득상대방 | text | 100% |  |
-| `check.증권취득방법` | 증권취득방법 | checkbox | 100% | 현금 매수방식 |
-| `check.증권종류` | 증권종류 | checkbox | 100% | 비거주자발행 1년미만 원화 또는 원화연계외화증권 |
+| `check.증권취득방법` | 증권취득방법 | checkbox | 100% | 보기: 보유증권대가 교환방식 ( / 상장등록증권간 교환/ / 기타 교환 / 현금 매수방식 / 기타( |
+| `check.증권종류` | 증권종류 | checkbox | 100% | 보기: 직접기재( / 비거주자발행 1년미만 원화 또는 원화연계외화증권 |
 | `액면가액` | 액면가액 | number | 100% | 87,400,000 |
 | `수량` | 수량 | number | 100% | 6 |
 | `취득단가` | 취득단가 | number | 100% | 42,370,000원 |
@@ -10767,8 +10767,8 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.신청내역` | 신청내역 | checkbox | 100% | 설 치 비 |
-| `check.신청내역2` | 신청내역 | checkbox | 100% | 유지활동비 |
+| `check.신청내역` | 신청내역 | checkbox | 100% | 보기: 설 치 비 |
+| `check.신청내역2` | 신청내역 | checkbox | 100% | 보기: 유지활동비 |
 | `signer.name` | 성명(법인명) | text | 100% | 박찬연 |
 | `seal.signer` | 성명(법인명) | seal | 100% | 박찬연 |
 | `sign.signer` | 성명(법인명) | signature | 100% | 현예지 |
@@ -10798,12 +10798,12 @@
 | `seal.signer` | 성명(법인명) | seal | 100% | 강순준 |
 | `sign.signer` | 성명(법인명) | signature | 100% | 박찬연 |
 | `영업내용` | 영업내용 | text | 100% | 만기 해지 |
-| `check.지점구분` | 지점구분 | checkbox | 100% | 비독립채산지점 |
+| `check.지점구분` | 지점구분 | checkbox | 100% | 보기: 독립채산지점 / 비독립채산지점 |
 | `지점명` | 지점명 | text | 100% | 범어지점 |
 | `customer.address` | 주소(소재지) | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `company.biz_item` | 업종 | text | 100% | 무역 |
-| `check.비독립채산지점` | 비독립채산지점 | checkbox | 100% | 설 치 비 |
-| `check.비독립채산지점2` | 비독립채산지점 | checkbox | 100% | 유지활동비 |
+| `check.비독립채산지점` | 비독립채산지점 | checkbox | 100% | 보기: 설 치 비 |
+| `check.비독립채산지점2` | 비독립채산지점 | checkbox | 100% | 보기: 유지활동비 |
 | `영업기금` | 영업기금 | text | 100% |  |
 | `비독립채산지점_목록[].value` | (주소)(전화번호)(e-mail) | amount | 100% |  |
 | `value` | (기본경비) | amount | 100% |  |
@@ -10887,15 +10887,15 @@
 | `seal.signer` | 상호및대표자성명 | seal | 100% | (주)유니온무역 |
 | `sign.signer` | 상호및대표자성명 | signature | 100% | (주)스마트에프앤비 |
 | `company.biz_item` | 업종(직업) | text | 100% | 의류 도매 |
-| `check.담보제공자` | 담보제공자 | checkbox | 100% | 거주자/ |
-| `check.담보취득자` | 담보취득자 | checkbox | 100% | 거주자/ |
-| `check.담보제공수혜자` | 담보제공수혜자 | checkbox | 100% | 거주자/ |
-| `check.담보물종류` | 담보물종류 | checkbox | 100% | 기타( |
+| `check.담보제공자` | 담보제공자 | checkbox | 100% | 보기: 거주자/ / 비거주자 |
+| `check.담보취득자` | 담보취득자 | checkbox | 100% | 보기: 거주자/ / 비거주자 |
+| `check.담보제공수혜자` | 담보제공수혜자 | checkbox | 100% | 보기: 거주자/ / 비거주자 |
+| `check.담보물종류` | 담보물종류 | checkbox | 100% | 보기: 부동산 / 동산 / 증권 / 예금(현금) / 기타( |
 | `담보소재지` | 담보소재지 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `수량` | 수량 | number | 100% | 3 |
 | `담보가액` | 담보가액 | number | 100% | 640,000 |
 | `담보제공기간` | 담보제공기간 | text | 100% |  |
-| `check.담보제공용도` | 담보제공용도 | checkbox | 100% | 주채무계열소속 30대 계열기업체의 단기외화차입에 대한 담보제공 |
+| `check.담보제공용도` | 담보제공용도 | checkbox | 100% | 보기: 주채무계열소속 30대 계열기업체의 단기외화차입에 대한 담보제공 / 비거주자간 거래에 대한 담보제공 / 역외금융회사의 거래 및 채무이행에 관한 직·간접적 담보제공 / 기타( |
 | `신고번호` | 신고번호 | text | 100% | 006352-1615394 |
 | `신고금액` | 신고금액 | number | 100% | 760,000 |
 | `date` | 신고일자 | date | 100% | 2026.01.31 |
@@ -10913,7 +10913,7 @@
 | `company.ceo` | 대표자 | text | 100% | 박찬연 |
 | `company.address` | 소재지 | text | 100% | 서울특별시 중구 다산로 361, 6층 |
 | `company.biz_item` | 업종 | text | 100% | 무역 |
-| `check.폐쇄구분` | 폐쇄구분 | checkbox | 100% | 사무소 |
+| `check.폐쇄구분` | 폐쇄구분 | checkbox | 100% | 보기: 지점 / 사무소 |
 | `폐쇄일자` | 폐쇄일자 | date | 100% | 2025년 8월 23일 |
 | `폐쇄사유` | 폐쇄사유 | text | 100% | 생활자금 |
 | `신고번호` | 신고번호 | text | 100% | 125-702414-61662 |
@@ -10939,7 +10939,7 @@
 | `company.ceo2` | 대표자 | text | 100% | 박찬연 |
 | `company.address2` | 소재지 | text | 100% | 서울특별시 중구 다산로 361, 6층 |
 | `영위업종` | 영위업종 | text | 100% |  |
-| `check.설치구분` | 설치구분 | checkbox | 100% | 지점 |
+| `check.설치구분` | 설치구분 | checkbox | 100% | 보기: 지점 / 사무소 |
 | `date` | 설치년월일 | date | 100% | 2026년 1월 31일 |
 | `customer.rrn` | 주민등록번호(또는국적) | rrn | 100% | 900210-1****** |
 | `신고번호` | 신고번호 | text | 100% | 431585-1963822 |
@@ -11071,39 +11071,39 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `customer.name` | 성명(업체명) | text | 100% | 박찬연 |
-| `check.신청구분` | 신청구분 | checkbox | 100% | 등록 |
+| `check.신청구분` | 신청구분 | checkbox | 100% | 보기: 등록 / 해지 / 변경 |
 | `customer.birth` | 생년월일(사업자등록번호) | date | 100% | 1990.02.10 |
-| `check.이용료미납시문자통지` | 이용료미납시문자통지 | checkbox | 100% | 신청 |
+| `check.이용료미납시문자통지` | 이용료미납시문자통지 | checkbox | 100% | 보기: 신청 / 신청안함 |
 | `통지대상계좌` | 통지대상계좌 | text | 100% | 982-904171-30859 |
 | `이용료출금계좌` | 이용료출금계좌 | text | 100% | 522-910644-08875 |
-| `check.요금제` | 요금제 | checkbox | 100% | 종량제(건당 20원 부과) |
-| `check.통지대상거래유형` | 통지대상거래유형 | checkbox | 100% | 출금 |
-| `check.통지대상거래금액` | 통지대상거래금액 | checkbox | 100% | 입금 ( |
-| `check.통지범위` | 통지범위 | checkbox | 100% | 모든거래 |
-| `check.통지시간` | 통지시간 | checkbox | 100% | 실시간 (즉시) |
-| `check.심야자동이체통지시작시간` | 심야자동이체(C/C)통지시작시간 | checkbox | 100% | 실시간 (00시) |
-| `check.계좌잔액` | 계좌잔액 | checkbox | 100% | 표시 |
-| `check.통지언어` | 통지언어 | checkbox | 100% | 한글 |
+| `check.요금제` | 요금제 | checkbox | 100% | 보기: 정액제(월 800원) / 종량제(건당 20원 부과) |
+| `check.통지대상거래유형` | 통지대상거래유형 | checkbox | 100% | 보기: 입금 / 출금 / 입금/출금 |
+| `check.통지대상거래금액` | 통지대상거래금액 | checkbox | 100% | 보기: 입금 ( / 출금 ( |
+| `check.통지범위` | 통지범위 | checkbox | 100% | 보기: 모든거래 / 체크카드제외 / 자동이체(C/C)제외 |
+| `check.통지시간` | 통지시간 | checkbox | 100% | 보기: 08:00~24:00 (심야시간 지연통지) / 실시간 (즉시) |
+| `check.심야자동이체통지시작시간` | 심야자동이체(C/C)통지시작시간 | checkbox | 100% | 보기: 지정시간 ( / 실시간 (00시) |
+| `check.계좌잔액` | 계좌잔액 | checkbox | 100% | 보기: 표시 / 미표시 |
+| `check.통지언어` | 통지언어 | checkbox | 100% | 보기: 한글 / 영어 |
 | `문자통지대상휴대폰번호` | 문자통지대상휴대폰번호 | phone | 100% | 010-5907-7253 |
 | `문자통지대상휴대폰번호2` | 문자통지대상휴대폰번호 | phone | 100% | 010-5907-7253 |
 | `문자통지대상휴대폰번호3` | 문자통지대상휴대폰번호 | phone | 100% | 010-5907-7253 |
 | `목록[].문자통지신청계좌2` | 문자통지신청계좌2 | text | 100% | 569-325353-61810 |
-| `check.정액제` | 정액제(월800원) | checkbox | 100% | 정액제(월 800원) |
-| `check.입금` | 입금 | checkbox | 100% | 출금 |
-| `check.입금2` | 입금( | checkbox | 100% | 출금 ( |
-| `check.모든거래` | 모든거래 | checkbox | 100% | 자동이체(C/C)제외 |
-| `check[]` | 08:00~24:00(심야시간지연통지) | checkbox | 100% | 실시간 (즉시) |
-| `check.지정시간` | 지정시간( | checkbox | 100% | 실시간 (00시) |
-| `check.표시` | 표시 | checkbox | 100% | 미표시 |
-| `check.한글` | 한글 | checkbox | 100% | 영어 |
+| `check.정액제` | 정액제(월800원) | checkbox | 100% | 보기: 정액제(월 800원) / 종량제(건당 20원 부과) |
+| `check.입금` | 입금 | checkbox | 100% | 보기: 입금 / 출금 / 입금/출금 |
+| `check.입금2` | 입금( | checkbox | 100% | 보기: 입금 ( / 출금 ( |
+| `check.모든거래` | 모든거래 | checkbox | 100% | 보기: 모든거래 / 체크카드제외 / 자동이체(C/C)제외 |
+| `check[]` | 08:00~24:00(심야시간지연통지) | checkbox | 100% | 보기: 08:00~24:00 (심야시간 지연통지) / 실시간 (즉시) |
+| `check.지정시간` | 지정시간( | checkbox | 100% | 보기: 지정시간 ( / 실시간 (00시) |
+| `check.표시` | 표시 | checkbox | 100% | 보기: 표시 / 미표시 |
+| `check.한글` | 한글 | checkbox | 100% | 보기: 한글 / 영어 |
 | `목록[].문자통지신청계좌3` | 문자통지신청계좌3 | text | 100% | 866-401568-69437 |
-| `check.정액제2` | 정액제(월800원) | checkbox | 100% | 종량제(건당 20원 부과) |
-| `check.입금3` | 입금 | checkbox | 100% | 출금 |
-| `check.입금4` | 입금( | checkbox | 100% | 출금 ( |
-| `check.모든거래2` | 모든거래 | checkbox | 100% | 자동이체(C/C)제외 |
-| `check.지정시간2` | 지정시간( | checkbox | 100% | 지정시간 ( |
-| `check.표시2` | 표시 | checkbox | 100% | 미표시 |
-| `check.한글2` | 한글 | checkbox | 100% | 한글 |
+| `check.정액제2` | 정액제(월800원) | checkbox | 100% | 보기: 정액제(월 800원) / 종량제(건당 20원 부과) |
+| `check.입금3` | 입금 | checkbox | 100% | 보기: 입금 / 출금 / 입금/출금 |
+| `check.입금4` | 입금( | checkbox | 100% | 보기: 입금 ( / 출금 ( |
+| `check.모든거래2` | 모든거래 | checkbox | 100% | 보기: 모든거래 / 체크카드제외 / 자동이체(C/C)제외 |
+| `check.지정시간2` | 지정시간( | checkbox | 100% | 보기: 지정시간 ( / 실시간 (00시) |
+| `check.표시2` | 표시 | checkbox | 100% | 보기: 표시 / 미표시 |
+| `check.한글2` | 한글 | checkbox | 100% | 보기: 한글 / 영어 |
 | `agent.relation` | 관계 | text | 100% | 부 |
 | `agent.name` | 성명 | text | 100% | 박영준 |
 | `agent.phone` | 연락처 | phone | 100% | 010-6515-4769 |
@@ -11120,23 +11120,23 @@
 |---|---|---|---|---|
 | `customer.name` | Name | text | 100% | 박찬연 |
 | `customer.address` | Address | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
-| `EMail` | E-Mail | text | 100% |  |
-| `UserID` | UserID | text | 100% | 750-938350-35687 |
-| `customer.birth` | DateofBirth | date | 100% | 900210 |
+| `customer.email` | E-Mail | text | 100% | chanyeon363@naver.com |
+| `UserID` | UserID | text | 100% | 350356-8718676 |
+| `customer.birth` | DateofBirth | date | 100% | 1990.02.10 |
 | `HomePhone` | HomePhone | text | 100% |  |
 | `GMgr` | GMgr | text | 100% |  |
 | `Manager` | Manager | text | 100% |  |
 | `Clerk` | Clerk | text | 100% |  |
 | `목록[].BankName` | BankName | text | 100% |  |
-| `목록[].AccountNo` | AccountNo. | text | 100% | 502-508432-80229 |
+| `목록[].AccountNo` | AccountNo. | text | 100% | 8432-8022 |
 | `목록[].SpeedDialNumberforPhoneBanking` | SpeedDialNumberforPhoneBanking | text | 100% |  |
 | `customer.name2` | Name | text | 100% | 박찬연 |
-| `customer.birth2` | DateofBirth | date | 100% | 900210 |
+| `customer.birth2` | DateofBirth | date | 100% | 1990.02.10 |
 | `Delegator` | Delegator | text | 100% |  |
 | `ToHanaBank` | To:HanaBank | text | 100% |  |
 | `BranchGeneralManager` | BranchGeneralManager | text | 100% |  |
 | `OTPManufacturer` | ) OTP(Manufacturer | text | 100% |  |
-| `Applicant` | Applicant | text | 100% | 가온푸드(주) |
+| `Applicant` | Applicant | text | 100% | 누리푸드(주) |
 | `KRW` | KRW), | text | 100% |  |
 | `Category` | Category | text | 100% |  |
 | `DesignateChange` |  Designate Change | text | 100% |  |
@@ -11144,12 +11144,12 @@
 | `PowerofAttorney` | ■PowerofAttorney | text | 100% |  |
 | `customer.name3` | Name | text | 100% | 박찬연 |
 | `customer.address2` | Address | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
-| `EMail2` | E-Mail | text | 100% |  |
+| `customer.email2` | E-Mail | text | 100% | soonjun606@gmail.com |
 | `UserID2` | UserID | text | 100% | 5181-4021 |
-| `customer.birth3` | DateofBirth | date | 100% | 900210 |
+| `customer.birth3` | DateofBirth | date | 100% | 1990.02.10 |
 | `HomePhone2` | HomePhone | text | 100% |  |
 | `customer.name4` | Name | text | 100% | 박찬연 |
-| `customer.birth4` | DateofBirth | date | 100% | 970514 |
+| `customer.birth4` | DateofBirth | date | 100% | 1997.05.14 |
 | `Delegator2` | Delegator | text | 100% |  |
 | `OTPManufacturer2` | ) OTP(Manufacturer | text | 100% |  |
 | `Applicant2` | Applicant | text | 100% | (주)한빛테크 |
@@ -11165,7 +11165,7 @@
 |---|---|---|---|---|
 | `customer.name` | 성명 | text | 100% | 박찬연 |
 | `customer.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
-| `EMail주소` | E-Mail주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `customer.email` | E-Mail주소 | text | 100% | chanyeon363@naver.com |
 | `이용자ID` | 이용자ID | text | 100% | 367453-9750781 |
 | `customer.birth` | 생년월일 | date | 100% | 900210 |
 | `customer.home_phone` | 자택전화(직장전화) | phone | 100% | 02-2611-9326 |
@@ -11180,7 +11180,7 @@
 | `소` | 소 | text | 100% |  |
 | `customer.name2` | 위임인 | text | 100% | 박찬연 |
 | `seal.signer` | 실명증표진위여부확인필 | seal | 100% | 박찬연 |
-| `sign.signer` | 실명증표진위여부확인필 | signature | 100% | 현예지 |
+| `sign.signer` | 실명증표진위여부확인필 | signature | 100% | 이민빈 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `지점장` | 지점장 | text | 100% | 범어지점 |
 | `자물쇠카드일련번호` |  자물쇠카드(일련번호 | text | 100% | 600981-8157456 |
@@ -11193,7 +11193,7 @@
 | `실명확인증표사본` | 실명확인증표사본 | text | 100% |  |
 | `customer.name4` | 성명 | text | 100% | 박찬연 |
 | `customer.address2` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
-| `EMail주소2` | E-Mail주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `customer.email2` | E-Mail주소 | text | 100% | chanyeon363@naver.com |
 | `이용자ID2` | 이용자ID | text | 100% | 160-203162-40366 |
 | `customer.birth2` | 생년월일 | date | 100% | 900210 |
 | `customer.home_phone2` | 자택전화(직장전화) | phone | 100% | 02-2611-9326 |
@@ -11348,8 +11348,8 @@
 | `account` | 계좌번호 | account_no | 100% | 000-287736-52424 |
 | `seal.signer` | 거래인감 | seal | 100% | 현예지 |
 | `sign.signer` | 거래인감 | signature | 100% | 이민빈 |
-| `check.신청종류` | 신청종류 | checkbox | 100% | 해지 |
-| `check.이용채널` | 이용채널 | checkbox | 100% | 기업뱅킹(통합CMS) |
+| `check.신청종류` | 신청종류 | checkbox | 100% | 보기: 신규 / 해지 / 변경 |
+| `check.이용채널` | 이용채널 | checkbox | 100% | 보기: 기업뱅킹(통합CMS) / CMSiNet / CMS Plus |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 
 ### 금융거래정보 이용제공 동의서(기업관계사서비스용)(영문) (`hf343`) — 키 4개
@@ -11358,8 +11358,8 @@
 |---|---|---|---|---|
 | `HanaBank` | HanaBank | text | 100% |  |
 | `HanaBank2` | HanaBank | text | 100% |  |
-| `Emailaddresstobenotified` | E-mailaddresstobenotified | text | 100% |  |
-| `BusinessRegistrationNo` | BusinessRegistrationNo. | biz_no | 100% | 533-50-23527 |
+| `Emailaddresstobenotified` | E-mailaddresstobenotified | text | 100% | chanyeon363@naver.com |
+| `BusinessRegistrationNo` | BusinessRegistrationNo. | biz_no | 100% | 264-82-36559 |
 
 ### 기업관계사 서비스 이용계약서(영문) (`hf344`) — 키 13개
 
@@ -11385,7 +11385,7 @@
 |---|---|---|---|---|
 | `주식회사하나은행` | 주식회사하나은행 | text | 100% | 하나은행 |
 | `거래정보등을제공받을자` | 거래정보등을제공받을자(주계약사명) | text | 100% |  |
-| `통지받을이메일주소` | 통지받을이메일주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `통지받을이메일주소` | 통지받을이메일주소 | text | 100% | chanyeon363@naver.com |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 동의자(관계사)성명(사업자명) | text | 100% | 박찬연 |
 | `seal.signer` | 동의자(관계사)성명(사업자명) | seal | 100% | 이욱유 |
@@ -11399,7 +11399,7 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.신청구분` | 신청구분 | checkbox | 100% | 변경 |
+| `check.신청구분` | 신청구분 | checkbox | 100% | 보기: 신규 / 변경 / 해지 |
 | `company.corp_reg_no` | 법인등록번호 | corp_reg_no | 100% | 200112-7448551 |
 | `employer.name` | 회사명 | text | 100% | 주식회사 태평양무역 |
 | `customer.address` | 주소 | text | 100% | 서울특별시 송파구 중대로 174, 119동 2202호 |
@@ -11409,30 +11409,30 @@
 | `customer.address2` | 주소 | text | 100% | 경상남도 창원시 성산구 원이대로 262-29, 104호 |
 | `customer.phone` | 전화번호 | phone | 100% | 010-5907-7253 |
 | `customer.email` | e-mail | text | 100% | chanyeon363@naver.com |
-| `check.서비스종류` | 서비스종류 | checkbox | 100% | 국외관계사 |
+| `check.서비스종류` | 서비스종류 | checkbox | 100% | 보기: 국내관계사 / 국외관계사 |
 | `company.biz_no` | 사업자등록번호 | biz_no | 100% | 264-82-36559 |
 | `company.ceo` | 대표자 | text | 100% | 박찬연 |
 | `company.biz_no2` | 사업자등록번호 | biz_no | 100% | 264-82-36559 |
 | `글로벌고객번호` | 글로벌고객번호 | text | 100% | 241786-1027388 |
 | `company.ceo2` | 대표자 | text | 100% | 박찬연 |
 | `Fax` | Fax | text | 100% |  |
-| `check.조회서비스` | 조회서비스(위임범위) | checkbox | 100% | 카드, |
-| `check.아이디` | 아이디(ID) | checkbox | 100% | OTP |
-| `check.아이디2` | 아이디(ID) | checkbox | 100% | 실행자 |
+| `check.조회서비스` | 조회서비스(위임범위) | checkbox | 100% | 보기: 전체 / 부분 / 예금( / 전체 계좌, / 아래에서 지정한 계좌만 조회), / 외환, / 수출입, / 대출, / 전자결제, / 카드, / 지로/공과금 |
+| `check.아이디` | 아이디(ID) | checkbox | 100% | 보기: 실행자 / OTP |
+| `check.아이디2` | 아이디(ID) | checkbox | 100% | 보기: 실행자 / OTP |
 | `목록[].실행자ID` | 실행자ID* | text | 100% | 230-391859-29422 |
 | `목록[].통화` | 통화 | text | 100% | AUD |
 | `목록[].계좌번호` | 계좌번호 | text | 100% | 790-526616-62979 |
 | `목록[].인감서명` | 인감/서명 | text | 100% |  |
-| `check.기업뱅킹` | 기업뱅킹(통합CMS) | checkbox | 100% | CMS Plus |
-| `check.주계약사` | 주계약사 | checkbox | 100% | 관계사ID에 대한 동의 |
-| `check.관계사` | 관계사 | checkbox | 100% | 관리대상 이용자에 대한 동의 |
+| `check.기업뱅킹` | 기업뱅킹(통합CMS) | checkbox | 100% | 보기: 기업뱅킹(통합CMS) / CMS Plus / CMSiNet |
+| `check.주계약사` | 주계약사 | checkbox | 100% | 보기: 관계사ID에 대한 동의 |
+| `check.관계사` | 관계사 | checkbox | 100% | 보기: 계좌 사용에 대한 동의 / 관리대상 이용자에 대한 동의 |
 | `agent.name` | 성명 | text | 100% | 박영준 |
 | `agent.relation` | 관계 | text | 100% | 부 |
 | `employer.name3` | 회사명 | text | 100% | 주식회사 태평양무역 |
 | `agent.birth` | 생년월일 | date | 100% | 1967.09.21 |
 | `agent.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `company.ceo3` | 대표자 | text | 100% | 강순준 |
-| `check.본인은` | 본인은 | checkbox | 100% | OTP를 수령하고 “전자금융거래에 필요한 접근매체(OTP, 인증서 암호, |
+| `check.본인은` | 본인은 | checkbox | 100% | 보기: OTP를 수령하고 “전자금융거래에 필요한 접근매체(OTP, 인증서 암호, |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `관계사업무위임및관계사ID에대한동의` | ■관계사업무위임및관계사ID에대한동의 | text | 100% |  |
 
@@ -11459,7 +11459,7 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.ApplicationType` | ApplicationType | checkbox | 100% | New |
+| `check.ApplicationType` | ApplicationType | checkbox | 100% | 보기: New / Change / Terminate |
 | `CorporateRegistrationNo` | CorporateRegistrationNo. | text | 100% | 6236-1901 |
 | `company.name` | CompanyName | text | 100% | (주)유니온무역 |
 | `customer.address` | Address | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
@@ -11469,23 +11469,23 @@
 | `customer.address2` | Address | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `PhoneNo` | PhoneNo. | phone | 100% | 010-5907-7253 |
 | `customer.email` | e-mail | text | 100% | chanyeon363@naver.com |
-| `check.LocationofAffiliate` | LocationofAffiliate | checkbox | 100% | Outside Korea |
+| `check.LocationofAffiliate` | LocationofAffiliate | checkbox | 100% | 보기: In Korea / Outside Korea |
 | `BusinessRegistrationNo` | BusinessRegistrationNo. | biz_no | 100% | 555-26-47276 |
 | `Representative` | Representative | text | 100% |  |
 | `BusinessRegistrationNo2` | BusinessRegistrationNo. | biz_no | 100% | 781-64-28453 |
 | `GlobalClientNo` | GlobalClientNo. | text | 100% | 145454-9725355 |
 | `Representative2` | Representative | text | 100% |  |
 | `Fax` | Fax | text | 100% |  |
-| `check.Entire` | Entire | checkbox | 100% | Entire |
-| `check.ID` | ID | checkbox | 100% | Executor |
-| `check.ID2` | ID | checkbox | 100% | OTP |
+| `check.Entire` | Entire | checkbox | 100% | 보기: Entire / Specific / Deposit (Inquiry of / All accounts, / Accounts designated below only), / Foreign exchange, / Export/import, / Loan, / Digital payment, / Cards, / Giro/utility |
+| `check.ID` | ID | checkbox | 100% | 보기: Executor / OTP |
+| `check.ID2` | ID | checkbox | 100% | 보기: Executor / OTP |
 | `목록[].ExecutorID` | ExecutorID* | text | 100% | 375-802441-18876 |
 | `목록[].Currency` | Currency | text | 100% | CNY |
 | `목록[].AccountNo` | AccountNo. | text | 100% | 968262-6488276 |
 | `목록[].RegisteredSealSign` | RegisteredSeal/Sign | text | 100% |  |
-| `check.CorporateBan` | CorporateBanking(IntegratedCMS) | checkbox | 100% | CMSiNet |
-| `check.PrincipalContractor` | PrincipalContractor | checkbox | 100% | Consent to the Affiliate’s Use of ID |
-| `check.Affiliate` | Affiliate | checkbox | 100% | Consent to the Use of Accounts |
+| `check.CorporateBan` | CorporateBanking(IntegratedCMS) | checkbox | 100% | 보기: Corporate Banking(Integrated CMS) / CMS Plus / CMSiNet |
+| `check.PrincipalContractor` | PrincipalContractor | checkbox | 100% | 보기: Consent to the Affiliate’s Use of ID |
+| `check.Affiliate` | Affiliate | checkbox | 100% | 보기: Consent to the Use of Accounts / Consent to the Users under Control |
 | `customer.name` | Name | text | 100% | 박찬연 |
 | `customer.address3` | Address | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `Relationship` | Relationship | text | 100% |  |
@@ -11498,7 +11498,7 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.동의` | 동의 | checkbox | 100% | 동의 |
+| `check.동의` | 동의 | checkbox | 100% | 보기: 동의 / 동의하지 않음 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 
 ### 아이부자 걷기챌린지 서비스 동의서 (`hf350`) — 키 10개
@@ -11507,7 +11507,7 @@
 |---|---|---|---|---|
 | `일반개인정보` | ■일반개인정보 | text | 100% |  |
 | `걸음정보` | 걸음정보(걸음수) | text | 100% |  |
-| `check.위개인정보수집이용에동의하십니까` | 위개인정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위개인정보수집이용에동의하십니까` | 위개인정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 박찬연 |
 | `sign.signer` | 본인성명 | signature | 100% | 강순준 |
@@ -11535,12 +11535,12 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.해외고객여부` | 해외고객여부 | checkbox | 100% | 아니오 |
+| `check.해외고객여부` | 해외고객여부 | checkbox | 100% | 보기: 예 / 아니오 |
 | `company.corp_reg_no` | 법인등록번호 | corp_reg_no | 100% | 200112-7448551 |
 | `사업자명` | 사업자명 | text | 100% | 다온무역(주) |
 | `주소_목록[].대표자` | 대표자 | text | 100% |  |
-| `check.대표연락처` | 대표연락처(선택또는전부기재) | checkbox | 100% | 전화번호 |
-| `check.대표연락처2` | 대표연락처(선택또는전부기재) | checkbox | 100% | e-Mail |
+| `check.대표연락처` | 대표연락처(선택또는전부기재) | checkbox | 100% | 보기: 전화번호 |
+| `check.대표연락처2` | 대표연락처(선택또는전부기재) | checkbox | 100% | 보기: e-Mail |
 | `company.biz_no` | 사업자등록번호 | biz_no | 100% | 264-82-36559 |
 | `company.ceo` | 대표자 | text | 100% | 박찬연 |
 | `거래은행영업점` | 거래은행/영업점 | text | 100% | 농협은행 |
@@ -11551,19 +11551,19 @@
 | `목록[].인감서명` | 인감/서명 | text | 100% |  |
 | `목록[].실행자아이디` | 실행자아이디(ID) | text | 100% |  |
 | `목록[].개설점` | 개설점 | text | 100% | 범어지점 |
-| `check.신청구분` | 신청구분 | checkbox | 100% | 변경 |
-| `check.전체예금외환수출입대출` | 전체(예금,외환,수출입,대출,전자결제,카드,지로/공과금등 | checkbox | 100% | 전체 (예금, 외환, 수출입, 대출, 전자결제, 카드, 지로/공과금 등  |
-| `check.부분` | 부분( | checkbox | 100% | 부분 ( |
-| `check.신청일현재및미래에보유한` | 신청일현재및미래에보유한모든계좌에대하여조회허용 | checkbox | 100% | 신청일 현재 및 미래에 보유한 모든 계좌에 대하여 조회 허용 |
-| `check.아래에서지정한계좌에대해` | 아래에서지정한계좌에대해서만조회허용 | checkbox | 100% | 아래에서 지정한 계좌에 대해서만 조회 허용 |
-| `check.구분` | 구분 | checkbox | 100% | 실행자 |
+| `check.신청구분` | 신청구분 | checkbox | 100% | 보기: 신규 / 변경 / 해지 |
+| `check.전체예금외환수출입대출` | 전체(예금,외환,수출입,대출,전자결제,카드,지로/공과금등 | checkbox | 100% | 보기: 전체 (예금, 외환, 수출입, 대출, 전자결제, 카드, 지로/공과금 등  |
+| `check.부분` | 부분( | checkbox | 100% | 보기: 부분 ( / 예금, / 외환, / 수출입, / 대출, / 전자결제, / 카드, / 지로/공과금 |
+| `check.신청일현재및미래에보유한` | 신청일현재및미래에보유한모든계좌에대하여조회허용 | checkbox | 100% | 보기: 신청일 현재 및 미래에 보유한 모든 계좌에 대하여 조회 허용 |
+| `check.아래에서지정한계좌에대해` | 아래에서지정한계좌에대해서만조회허용 | checkbox | 100% | 보기: 아래에서 지정한 계좌에 대해서만 조회 허용 |
+| `check.구분` | 구분 | checkbox | 100% | 보기: 실행자 |
 | `customer.name` | 성명 | text | 100% | 박찬연 |
 | `개별1회` | 개별1회 | text | 100% |  |
 | `개별1일` | 개별1일 | date | 100% | 2025년 8월 1일 |
 | `대량1회` | 대량1회 | text | 100% |  |
 | `대량1일` | 대량1일 | date | 100% | 2025-07-08 |
 | `보안카드No` | 보안(OTP)카드No | text | 100% | 2154-7754 |
-| `check.실행자` | 실행자 | checkbox | 100% | 실행자 |
+| `check.실행자` | 실행자 | checkbox | 100% | 보기: 실행자 |
 | `목록[].value` | (영문+숫자혼합6~10자리) | amount | 100% |  |
 | `이체한도_목록[].value` | (영문+숫자혼합6~10자리) | amount | 100% |  |
 | `목록[].지사의실행자아이디` | 지사의실행자아이디(ID) | text | 100% |  |
@@ -11624,21 +11624,21 @@
 | `주소_목록[].사업자등록번호` | 사업자등록번호 | biz_no | 100% | 264-82-36559 |
 | `customer.phone` | 연락처 | phone | 100% | 010-5907-7253 |
 | `company.biz_no` | 사업자등록번호 | biz_no | 100% | 261-82-53694 |
-| `check.이용Model` | 이용Model | checkbox | 100% | 인터넷 |
+| `check.이용Model` | 이용Model | checkbox | 100% | 보기: 인터넷 |
 | `맞춤서비스_목록[].value` | (맞춤기능또는시스템연계내용) | amount | 100% |  |
-| `check.전용선` | 전용선(VAN) | checkbox | 100% | 전용선(VAN) |
-| `check.인터넷전용선` | 인터넷+전용선(VAN) | checkbox | 100% | 인터넷+전용선(VAN) |
-| `check.인터넷` | 인터넷 | checkbox | 100% | 인터넷 |
-| `check.전용선2` | 전용선(VAN) | checkbox | 100% | 전용선(VAN) |
-| `check.인터넷전용선2` | 인터넷+전용선(VAN) | checkbox | 100% | 인터넷+전용선(VAN) |
-| `check[]` | ₩300,000(매월) | checkbox | 100% | ₩300,000 (매월) |
+| `check.전용선` | 전용선(VAN) | checkbox | 100% | 보기: 전용선(VAN) |
+| `check.인터넷전용선` | 인터넷+전용선(VAN) | checkbox | 100% | 보기: 인터넷+전용선(VAN) |
+| `check.인터넷` | 인터넷 | checkbox | 100% | 보기: 인터넷 |
+| `check.전용선2` | 전용선(VAN) | checkbox | 100% | 보기: 전용선(VAN) |
+| `check.인터넷전용선2` | 인터넷+전용선(VAN) | checkbox | 100% | 보기: 인터넷+전용선(VAN) |
+| `check[]` | ₩300,000(매월) | checkbox | 100% | 보기: ₩300,000 (매월) / ₩500,000 (매월) / ₩6,000,000 / ₩10,000,000 / ₩600,000 / ₩1,000,000 |
 | `account` | 계좌번호 | account_no | 100% | 000-287736-52424 |
 | `customer.name` | 예금주 | text | 100% | 박찬연 |
 | `seal.signer` | 거래인감(서명) | seal | 100% | 박찬연 |
 | `sign.signer` | 거래인감(서명) | signature | 100% | 이민빈 |
 | `관리점` | 관리점 | text | 100% |  |
-| `check.신청구분` | 신청구분 | checkbox | 100% | 신규 |
-| `check.구분` | 구분 | checkbox | 100% | 총괄관리자 |
+| `check.신청구분` | 신청구분 | checkbox | 100% | 보기: 신규 / 변경 / 해지 |
+| `check.구분` | 구분 | checkbox | 100% | 보기: 총괄관리자 |
 | `customer.name2` | 성명 | text | 100% | 박찬연 |
 | `부서직위` | 부서/직위 | text | 100% |  |
 | `customer.phone2` | 연락처 | phone | 100% | 010-5907-7253 |
@@ -11647,11 +11647,11 @@
 | `대량1회` | 대량1회 | text | 100% |  |
 | `대량1일` | 대량1일 | date | 100% | 2025.11.10 |
 | `보안카드No` | 보안(OTP)카드No | text | 100% | 016-000399-57855 |
-| `check.일반이용자` | 일반이용자 | checkbox | 100% | 실행자 |
+| `check.일반이용자` | 일반이용자 | checkbox | 100% | 보기: 일반이용자 / 실행자 |
 | `목록[].value` | (영문+숫자혼합6~10자리) | amount | 100% |  |
 | `이체한도_목록[].value` | (영문+숫자혼합6~10자리) | amount | 100% |  |
-| `check.일반이용자2` | 일반이용자 | checkbox | 100% | 일반이용자 |
-| `check.일반이용자3` | 일반이용자 | checkbox | 100% | 실행자 |
+| `check.일반이용자2` | 일반이용자 | checkbox | 100% | 보기: 일반이용자 / 실행자 |
+| `check.일반이용자3` | 일반이용자 | checkbox | 100% | 보기: 일반이용자 / 실행자 |
 | `총괄관리자용` | 총괄관리자용 | text | 100% |  |
 | `일반이용자용` | 일반이용자용 | text | 100% |  |
 | `목록[].일련번호` | 일련번호(은행영업점직원이기입) | text | 100% | 5075-3361 |
@@ -11659,7 +11659,7 @@
 | `목록[].계좌번호` | 계좌번호 | text | 100% | 444-172654-37394 |
 | `목록[].통장인감` | 통장인감 | text | 100% |  |
 | `목록[].개설점` | 개설점 | text | 100% | 범어지점 |
-| `check.입금계좌` | 입금계좌( | checkbox | 100% | 지정 |
+| `check.입금계좌` | 입금계좌( | checkbox | 100% | 보기: 지정 / 미지정 |
 | `목록[].은행` | 은행 | text | 100% | 카카오뱅크 |
 | `목록[].예금주` | 예금주 | text | 100% |  |
 | `등록일자` | 등록일자 | date | 100% | 2024.10.10 |
@@ -11676,7 +11676,7 @@
 |---|---|---|---|---|
 | `company.corp_reg_no` | 법인등록번호 | corp_reg_no | 100% | 160111-3910167 |
 | `company.biz_no` | 사업자등록번호 | biz_no | 100% | 261-82-53694 |
-| `check.하나해외지점법인주1고객` | 하나해외지점/법인주1)고객 | checkbox | 100% | 예 (아래내용 필수기입) |
+| `check.하나해외지점법인주1고객` | 하나해외지점/법인주1)고객 | checkbox | 100% | 보기: 예 (아래내용 필수기입) |
 | `사업자명` | 사업자명 | text | 100% | 주식회사 가온정밀 |
 | `사업자대표` | 사업자대표 | text | 100% |  |
 | `customer.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
@@ -11690,8 +11690,8 @@
 | `목록[].예금주명` | 예금주명 | text | 100% |  |
 | `목록[].인감서명` | 인감/서명 | text | 100% |  |
 | `목록[].개설점` | 개설점 | text | 100% | 상무지점 |
-| `check.아래의사업장을CMSiN` | 아래의사업장을CMSiNet지사로등록하여주시기바랍니다. | checkbox | 100% | 아래의 사업장을 CMS iNet 지사로 등록하여 주시기 바랍니다. |
-| `check.지사출금계좌` | 지사출금계좌 | checkbox | 100% | 지사 출금계좌 |
+| `check.아래의사업장을CMSiN` | 아래의사업장을CMSiNet지사로등록하여주시기바랍니다. | checkbox | 100% | 보기: 아래의 사업장을 CMS iNet 지사로 등록하여 주시기 바랍니다. |
+| `check.지사출금계좌` | 지사출금계좌 | checkbox | 100% | 보기: 지사 출금계좌 |
 
 ### CMS Global 이용신청서 (`hf358`) — 키 21개
 
@@ -11723,7 +11723,7 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.신청구분` | 신청구분 | checkbox | 100% | 변경 |
+| `check.신청구분` | 신청구분 | checkbox | 100% | 보기: 신고 / 해지 / 변경 |
 | `기업인터넷뱅킹ID` | 기업인터넷뱅킹ID | text | 100% | 4567-6991 |
 | `company.biz_no` | 사업자등록번호 | biz_no | 100% | 261-82-53694 |
 | `company.ceo` | 대표자명 | text | 100% | 강순준 |
@@ -11748,8 +11748,8 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `일반개인정보` | └일반개인정보 | text | 100% |  |
-| `check.위금융거래정보제공에동의하십니까` | 위금융거래정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위금융거래정보제공에동의하십니까` | 위금융거래정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인정보제공에동의하십니까` | 위개인(신용)정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 강순준 |
@@ -11791,8 +11791,8 @@
 | `목록[].고유식별정보` | 고유식별정보 | text | 100% |  |
 | `목록[].개인정보` | 개인(신용)정보 | text | 100% |  |
 | `목록[].일반개인정보` | 일반개인정보 | text | 100% |  |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 현예지 |
 | `sign.signer` | 본인성명 | signature | 100% | 박찬연 |
@@ -11814,8 +11814,8 @@
 | `고유식별정보` | 고유식별정보 | text | 100% |  |
 | `일반개인정보` | 일반개인정보 | text | 100% |  |
 | `개인정보` | 개인(신용)정보 | text | 100% |  |
-| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 동의함 |
-| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 동의함 |
+| `check.위고유식별정보제공에동의하십니까` | 위고유식별정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `signer.name` | 본인성명 | text | 100% | 박찬연 |
 | `seal.signer` | 본인성명 | seal | 100% | 이욱유 |
 | `sign.signer` | 본인성명 | signature | 100% | 현예지 |
@@ -11843,7 +11843,7 @@
 | `목록[].AccountNo` | AccountNo.(AccountType) | text | 100% | 758176-2931373 |
 | `목록[].AccountHolderName` | AccountHolderName | text | 100% |  |
 | `목록[].SealSignature` | Seal/Signature | text | 100% |  |
-| `check.Iherebywishto` | Iherebywishto | checkbox | 100% | Change/Add |
+| `check.Iherebywishto` | Iherebywishto | checkbox | 100% | 보기: Subscribe to / Change/Add / Terminate the service |
 | `Representative` | Representative* | text | 100% |  |
 | `customer.name` | Name* | text | 100% | 박찬연 |
 | `customer.address3` | Address* | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
@@ -11879,7 +11879,7 @@
 | `목록[].계좌번호` | 계좌번호(계좌종류) | text | 100% | 639-806561-60946 |
 | `목록[].예금주명` | 예금주명 | text | 100% |  |
 | `목록[].인감서명` | 인감/서명 | text | 100% |  |
-| `check.다음과같이` | 다음과같이 | checkbox | 100% | 해지 신청합니다. |
+| `check.다음과같이` | 다음과같이 | checkbox | 100% | 보기: 신규 / 변경/추가 / 해지 신청합니다. |
 | `seal.signer` | 서명/인감* | seal | 100% | 강순준 |
 | `sign.signer` | 서명/인감* | signature | 100% | 박찬연 |
 | `customer.name` | 성명* | text | 100% | 박찬연 |
@@ -11931,12 +11931,12 @@
 | `seal.signer` | 대표이사 | seal | 100% | 박찬연 |
 | `sign.signer` | 대표이사 | signature | 100% | 강순준 |
 | `만원이상` | 만원이상 | number | 100% | 40,650,000 |
-| `check.정산일` | 정산일 | checkbox | 100% | 입금후 |
-| `check.정산방식` | 정산방식 | checkbox | 100% | 실시간 입금 |
+| `check.정산일` | 정산일 | checkbox | 100% | 보기: 입금당일정산 / 입금후 |
+| `check.정산방식` | 정산방식 | checkbox | 100% | 보기: 실시간 입금 / 일괄정산 |
 | `영업일기준` | 영업일기준 | text | 100% |  |
-| `check.예금주명표기방식` | 예금주명표기방식 | checkbox | 100% | 예금주명 +부기명 |
-| `check.가상계좌재사용여부` | 가상계좌재사용여부 | checkbox | 100% | 재사용 |
-| `check.가상계좌별입금횟수제한` | 가상계좌별입금횟수제한 | checkbox | 100% | 제한없음 |
+| `check.예금주명표기방식` | 예금주명표기방식 | checkbox | 100% | 보기: 예금주명만 표기 / 예금주명 +부기명 |
+| `check.가상계좌재사용여부` | 가상계좌재사용여부 | checkbox | 100% | 보기: 재사용 / 회만 사용 |
+| `check.가상계좌별입금횟수제한` | 가상계좌별입금횟수제한 | checkbox | 100% | 보기: 제한없음 / 매월 |
 | `사유` | 사유 | text | 100% | 만기 해지 |
 | `부기명표기사유및부기명내용` | 부기명표기사유및부기명내용 | text | 100% | 본인 요청 |
 | `가상계좌개설후최초입금시1회징구` | 가상계좌개설후최초입금시1회징구 | text | 100% | 420-346418-25580 |
@@ -11957,12 +11957,12 @@
 | `seal.signer` | 대표이사 | seal | 100% | 박찬연 |
 | `sign.signer` | 대표이사 | signature | 100% | 강순준 |
 | `만원이상` | 만원이상 | number | 100% | 40,130,000 |
-| `check.정산일` | 정산일 | checkbox | 100% | 입금당일정산 |
-| `check.정산방식` | 정산방식 | checkbox | 100% | 실시간 입금 |
+| `check.정산일` | 정산일 | checkbox | 100% | 보기: 입금당일정산 / 입금후 |
+| `check.정산방식` | 정산방식 | checkbox | 100% | 보기: 일괄정산 / 실시간 입금 |
 | `영업일기준` | 영업일기준 | text | 100% |  |
-| `check.예금주명표기방식` | 예금주명표기방식 | checkbox | 100% | 예금주명 +부기명 |
-| `check.가상계좌재사용여부` | 가상계좌재사용여부 | checkbox | 100% | 회만 사용 |
-| `check.가상계좌별입금횟수제한` | 가상계좌별입금횟수제한 | checkbox | 100% | 제한없음 |
+| `check.예금주명표기방식` | 예금주명표기방식 | checkbox | 100% | 보기: 예금주명만 표기 / 예금주명 +부기명 |
+| `check.가상계좌재사용여부` | 가상계좌재사용여부 | checkbox | 100% | 보기: 재사용 / 회만 사용 |
+| `check.가상계좌별입금횟수제한` | 가상계좌별입금횟수제한 | checkbox | 100% | 보기: 제한없음 / 매월 |
 | `사유` | 사유 | text | 100% | 사업자금 |
 | `부기명표기사유및부기명내용` | 부기명표기사유및부기명내용 | text | 100% |  |
 | `가상계좌개설후최초입금시1회징구` | 가상계좌개설후최초입금시1회징구 | text | 100% | 845-961652-88507 |
@@ -12014,11 +12014,11 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.거래구분` | 거래구분 | checkbox | 100% | 발행해지 |
-| `check.회원구분` | 회원구분 | checkbox | 100% | 발행인(수취,배서포함) |
+| `check.거래구분` | 거래구분 | checkbox | 100% | 보기: 신규가입 / 변경 / 발행해지 / 전체해지 |
+| `check.회원구분` | 회원구분 | checkbox | 100% | 보기: 발행인(수취,배서포함) / 수취/배서인 / 보증인 |
 | `company.name` | 법인명(성명) | text | 100% | (주)유니온무역 |
 | `company.biz_no` | 사업자등록번호(법인) | biz_no | 100% | 264-82-36559 |
-| `check.규모` | 규모 | checkbox | 100% | 중소기업 |
+| `check.규모` | 규모 | checkbox | 100% | 보기: 대기업 / 중소기업 / 개인사업자 / 개인 |
 | `담당부서` | 담당부서 | text | 100% |  |
 | `employer.phone` | 회사전화 | phone | 100% | 043-783-2775 |
 | `FAX` | FAX | phone | 100% | 043-783-2775 |
@@ -12026,8 +12026,8 @@
 | `company.biz_item` | 업종 | text | 100% | 무역 |
 | `대표전화` | 대표전화 | phone | 100% | 010-5907-7253 |
 | `customer.phone` | 휴대폰 | phone | 100% | 010-5907-7253 |
-| `EMail` | E-Mail | text | 100% |  |
-| `발행지정계좌` | 발행(당좌)지정계좌 | text | 100% | 103-165676-74864 |
+| `customer.email` | E-Mail | text | 100% | chanyeon363@naver.com |
+| `발행지정계좌` | 발행(당좌)지정계좌 | text | 100% | 031-656767-48641 |
 | `수취지정계좌` | 수취(요구불)지정계좌 | text | 100% | 095-020779-84508 |
 | `seal.signer` | 거래인감 | seal | 100% | 박찬연 |
 | `sign.signer` | 거래인감 | signature | 100% | 위나아 |
@@ -12039,7 +12039,7 @@
 | `취급점` | 취급점 | text | 100% | 범어지점 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer3.name` | 신청인(대리인) | text | 100% | 박찬연 |
-| `seal.signer3` | 신청인(대리인) | seal | 100% | 최우빈 |
+| `seal.signer3` | 신청인(대리인) | seal | 100% | 현예지 |
 | `sign.signer3` | 신청인(대리인) | signature | 100% | 박찬연 |
 | `징구서류` | •징구서류 | text | 100% |  |
 | `자택` | 자택()- | text | 100% |  |
@@ -12100,9 +12100,9 @@
 | `customer.name` | 고객명(Name) | text | 100% | 박찬연 |
 | `제출서류` | 제출서류(Document) | text | 100% |  |
 | `account` | 계좌번호(A/CNo.) | account_no | 100% | 000-287736-52424 |
-| `check.신청` | 신청(Application) | checkbox | 100% | 신청(Application) |
-| `check.본인은위와같이예금계좌개` | 본인은위와같이예금계좌개설/취소를신청합니다. | checkbox | 100% | 본인은 위와 같이 예금계좌 개설/취소를 신청합니다. |
-| `check.현지국의법규및규제사항거` | 현지국의법규및규제사항,거래약관에따라신청자앞예금계좌가개설되 | checkbox | 100% | 현지국의 법규 및 규제사항, 거래약관에 따라 신청자 앞 예금계좌가 개설되 |
+| `check.신청` | 신청(Application) | checkbox | 100% | 보기: 신청(Application) / 취소(Cancellation) |
+| `check.본인은위와같이예금계좌개` | 본인은위와같이예금계좌개설/취소를신청합니다. | checkbox | 100% | 보기: 본인은 위와 같이 예금계좌 개설/취소를 신청합니다. |
+| `check.현지국의법규및규제사항거` | 현지국의법규및규제사항,거래약관에따라신청자앞예금계좌가개설되 | checkbox | 100% | 보기: 현지국의 법규 및 규제사항, 거래약관에 따라 신청자 앞 예금계좌가 개설되 |
 | `date` | 신청일자(Date) | date | 100% | 2026.01.31 |
 | `signer.name` | 담당자(직,성명) | text | 100% | 박찬연 |
 | `seal.signer` | 담당자(직,성명) | seal | 100% | 박찬연 |
@@ -12149,7 +12149,7 @@
 |---|---|---|---|---|
 | `company.name` | 상호 | text | 100% | (주)유니온무역 |
 | `company.biz_no` | 사업자등록번호 | biz_no | 100% | 261-82-53694 |
-| `check.주소` | 주소 | checkbox | 100% | 보기2 |
+| `check.주소` | 주소 | checkbox | 100% | 보기: 보기1 / 보기2 / - / 보기4 / 보기5 / 보기6 |
 | `account` | 계좌번호 | account_no | 100% | 000-287736-52424 |
 | `customer.name` | 성명 | text | 100% | 박찬연 |
 | `customer.name2` | 예금주 | text | 100% | 박찬연 |
@@ -12159,12 +12159,12 @@
 | `매출액` | 매출액 | number | 100% | 6,540,000 |
 | `취급품목` | 취급품목 | text | 100% | 커피 원두 |
 | `종업원수` | 종업원수 | text | 100% |  |
-| `check.사업체구분` | 사업체구분 | checkbox | 100% | 수입 |
+| `check.사업체구분` | 사업체구분 | checkbox | 100% | 보기: 종합 / 수입 / 특정 |
 | `employer.name` | 소속 | text | 100% | 주식회사 태평양무역 |
 | `employer.name2` | 소속 | text | 100% | 주식회사 태평양무역 |
 | `customer.name3` | 성명 | text | 100% | 박찬연 |
 | `customer.name4` | 성명 | text | 100% | 박찬연 |
-| `check.주류구매전용카드가맹점가입신청서` | 주류구매전용카드가맹점가입신청서( | checkbox | 100% | (주)엔젤넷) |
+| `check.주류구매전용카드가맹점가입신청서` | 주류구매전용카드가맹점가입신청서( | checkbox | 100% | 보기: 보나뱅크(주) / (주)엔젤넷) |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 신청인(상호) | text | 100% | 박찬연 |
 | `seal.signer` | 신청인(상호) | seal | 100% | 박찬연 |
@@ -12207,28 +12207,28 @@
 | `account` | 퇴직연금계좌번호 | account_no | 100% | 000-287736-52424 |
 | `customer.birth` | 생년월일 | date | 100% | 900210 |
 | `중간정산일자` | 중간정산일자 | date | 100% | 2026-01-17 |
-| `check.제도구분` | 제도구분 | checkbox | 100% | 기업형IRP |
-| `check.임원여부` | 임원여부 | checkbox | 100% | 근로자 |
+| `check.제도구분` | 제도구분 | checkbox | 100% | 보기: DC / 기업형IRP |
+| `check.임원여부` | 임원여부 | checkbox | 100% | 보기: 근로자 / 임원 |
 | `퇴직급여입금총액` | 퇴직급여입금총액* | number | 100% | 9,310,000원 |
 | `퇴직일자` | 퇴직일자 | date | 100% | 2025.10.19 |
-| `check.지급형태` | 지급형태 | checkbox | 100% | 개인형IRP(의무) |
-| `check.지급형태2` | 지급형태 | checkbox | 100% | 입출금계좌 |
-| `check.잔여부담금` | 잔여부담금*** | checkbox | 100% | 없음 |
-| `check.잔여부담금2` | 잔여부담금*** | checkbox | 100% | 있음 (금액 |
-| `check.기업반환신청` | 기업반환신청***** | checkbox | 100% | 국민연금 전환금 |
-| `check.현물이전` | 현물이전** | checkbox | 100% | 미신청 (보유상품 ‘해지 후’ IRP로 이전 (특별중도해지이율 적용)) |
-| `check.예외사유` | 예외사유 | checkbox | 100% | 만원이하 퇴직금 지급 |
-| `check.연동출금신청` | 연동출금신청(사전에약정된경우) | checkbox | 100% | 미신청(기업별도입금) |
+| `check.지급형태` | 지급형태 | checkbox | 100% | 보기: 개인형IRP(의무) |
+| `check.지급형태2` | 지급형태 | checkbox | 100% | 보기: 입출금계좌 |
+| `check.잔여부담금` | 잔여부담금*** | checkbox | 100% | 보기: 없음 |
+| `check.잔여부담금2` | 잔여부담금*** | checkbox | 100% | 보기: 있음 (금액 |
+| `check.기업반환신청` | 기업반환신청***** | checkbox | 100% | 보기: 계속근로기간 1년 미만 퇴직 / 국민연금 전환금 / 단시간근로자 1년 미만 퇴직(4주간을 평균하여 주당 15시간 미만) 제외 / 임원 퇴직급여 한도금액 |
+| `check.현물이전` | 현물이전** | checkbox | 100% | 보기: 신청 (보유상품 ‘해지 없이’ IRP로 이전) / 미신청 (보유상품 ‘해지 후’ IRP로 이전 (특별중도해지이율 적용)) |
+| `check.예외사유` | 예외사유 | checkbox | 100% | 보기: 만 55세이후 퇴직 / 만원이하 퇴직금 지급 / 가입자 사망 / 한시적 체류자격외국인의 출국 |
+| `check.연동출금신청` | 연동출금신청(사전에약정된경우) | checkbox | 100% | 보기: 연동출금 신청(사전에 약정된 경우) / 미신청(기업별도입금) |
 | `예약지급일` | 예약지급일* | date | 100% | 2025.03.05 |
-| `check.당해연도이전에중간정산한금액이있는경우` | 당해연도이전에중간정산(중도인출)한금액이있는경우 | checkbox | 100% | 해당사항 없음 |
-| `check.해당사항없음` | 해당사항없음 | checkbox | 100% | 해당사항 없음 |
+| `check.당해연도이전에중간정산한금액이있는경우` | 당해연도이전에중간정산(중도인출)한금액이있는경우 | checkbox | 100% | 보기: 해당사항 없음 / 합산과세 적용 / 합산과세 미적용 |
+| `check.해당사항없음` | 해당사항없음 | checkbox | 100% | 보기: 해당사항 없음 / 해당사항 있음(합산과세 적용 필수) |
 | `금융기관명` | 금융기관명 | text | 100% | 우리은행 |
 | `금융기관명2` | 금융기관명 | text | 100% | 기업은행 |
 | `account2` | 계좌번호 | account_no | 100% | 000-287736-52424 |
 | `account3` | 계좌번호 | account_no | 100% | 000-287736-52424 |
-| `check.퇴직소득세계산을위한근속연수산정시제외가산월수있는경우기재` | 퇴직소득세계산을위한근속연수산정시제외·가산월수있는경우기재 | checkbox | 100% | 제외월수( |
-| `check.개인적립금과세제외신청` | 개인적립금과세제외신청 | checkbox | 100% | 과세제외 미신청 |
-| `check.가입자단독청구` | 가입자단독청구 | checkbox | 100% | 기타 (사용자 지급거절 등) |
+| `check.퇴직소득세계산을위한근속연수산정시제외가산월수있는경우기재` | 퇴직소득세계산을위한근속연수산정시제외·가산월수있는경우기재 | checkbox | 100% | 보기: 제외월수( / 가산월수( |
+| `check.개인적립금과세제외신청` | 개인적립금과세제외신청 | checkbox | 100% | 보기: 과세제외 신청(『연금보험료 등 소득☞세액공제확인서』 필수 제출) / 과세제외 미신청 |
+| `check.가입자단독청구` | 가입자단독청구 | checkbox | 100% | 보기: 업체 폐업 / 기타 (사용자 지급거절 등) |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 가입자 | text | 100% | 박찬연 |
 | `seal.signer` | 가입자 | seal | 100% | 현예지 |
@@ -12260,25 +12260,25 @@
 | `company.name` | 기업명 | text | 100% | (주)유니온무역 |
 | `예약지급일` | 예약지급일 | date | 100% | 2024-10-14 |
 | `account` | 퇴직연금계좌번호 | account_no | 100% | 000-287736-52424 |
-| `check.전부이전` | 전부이전 | checkbox | 100% | 전부이전 |
+| `check.전부이전` | 전부이전 | checkbox | 100% | 보기: 전부이전 |
 | `이전구분` | 이전구분 | text | 100% |  |
-| `check.일부이전` | 일부이전 | checkbox | 100% | 일부이전 |
-| `check.금액이전` | 금액이전 | checkbox | 100% | 금액이전 |
-| `check.퇴직연금사업자변경` | 퇴직연금사업자변경 | checkbox | 100% | 퇴직연금 사업자 변경 |
-| `check.계열사이전` | 계열사이전(과거입사일인정) | checkbox | 100% | 계열사이전(과거입사일 인정) |
+| `check.일부이전` | 일부이전 | checkbox | 100% | 보기: 일부이전 |
+| `check.금액이전` | 금액이전 | checkbox | 100% | 보기: 금액이전 |
+| `check.퇴직연금사업자변경` | 퇴직연금사업자변경 | checkbox | 100% | 보기: 퇴직연금 사업자 변경 / 제도전환 |
+| `check.계열사이전` | 계열사이전(과거입사일인정) | checkbox | 100% | 보기: 계열사이전(과거입사일 인정) / 합병/영업양수도 |
 | `이전사유` | 이전사유 | text | 100% | 해외 이주 |
-| `check.퇴직연금사업자변경2` | 퇴직연금사업자변경 | checkbox | 100% | 계열사이전(과거입사일 인정) |
-| `check.퇴직연금사업자변경3` | 퇴직연금사업자변경 | checkbox | 100% | 퇴직연금 사업자 변경 |
+| `check.퇴직연금사업자변경2` | 퇴직연금사업자변경 | checkbox | 100% | 보기: 퇴직연금 사업자 변경 / 제도전환 / 계열사이전(과거입사일 인정) / 분할/영업양수도 |
+| `check.퇴직연금사업자변경3` | 퇴직연금사업자변경 | checkbox | 100% | 보기: 퇴직연금 사업자 변경 |
 | `이전받는금융기관` | 이전받는금융기관 | text | 100% | 신한은행 |
 | `자산관리기관` | 자산관리기관 | text | 100% | 농협은행 |
 | `이전방식` | 이전방식 | text | 100% |  |
 | `현물이전` | 현물이전* | text | 100% |  |
-| `check.금액지정방식` | 금액지정방식 | checkbox | 100% | 상품지정방식(뒷장 필수 기재) |
+| `check.금액지정방식` | 금액지정방식 | checkbox | 100% | 보기: 금액지정방식 / 상품지정방식(뒷장 필수 기재) |
 | `금융기관명` | 금융기관명 | text | 100% | 카카오뱅크 |
 | `foreign.account` | 계좌번호 | account_no | 100% | 884779361534 |
 | `foreign.name` | 예금주 | text | 100% | Tokyo Seimitsu Kogyo K.K. |
-| `check.현물이전` | 현물이전* | checkbox | 100% | 신청(보유상품 ‘해지 없이’ 이전) |
-| `check.현물이전2` | 현물이전* | checkbox | 100% | 미신청(보유상품 ‘해지 후’ 이전) |
+| `check.현물이전` | 현물이전* | checkbox | 100% | 보기: 신청(보유상품 ‘해지 없이’ 이전) |
+| `check.현물이전2` | 현물이전* | checkbox | 100% | 보기: 미신청(보유상품 ‘해지 후’ 이전) |
 | `목록[].가입자명` | 가입자명* | text | 100% |  |
 | `목록[].생년월일` | 생년월일(주민번호) | text | 100% | 2024.10.29 |
 | `목록[].제도전환전출일자` | 제도전환/전출일자 | text | 100% | 2024.11.11 |
@@ -12288,11 +12288,11 @@
 | `목록[].서명또는` | 서명또는(인) | text | 100% |  |
 | `목록[].지급요청금액` | 지급요청금액 | text | 100% | 49,220,000 |
 | `목록[].매도순위` | 매도순위 | text | 100% |  |
-| `목록[].상품명` | 상품명 | text | 100% | 플라스틱 원료 |
+| `목록[].상품명` | 상품명 | text | 100% | MMF 증권투자신탁 |
 | `목록[].상품계좌번호` | 상품계좌번호 | text | 100% | 971-723674-58860 |
 | `목록[].매도금액` | 매도금액(원/좌) | text | 100% | 8,720,000 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
-| `매도상품_목록[].상품명` | 상품명 | text | 100% | 자동차 부품 |
+| `매도상품_목록[].상품명` | 상품명 | text | 100% | 이율보증형 보험(GIC) 1년 |
 | `입금비율` | 입금비율* | number | 100% | 100 |
 | `금융기관명2` | 금융기관명 | text | 100% | 농협은행 |
 | `foreign.account2` | 계좌번호 | account_no | 100% | 870195264202 |
@@ -12320,17 +12320,17 @@
 | `company.name` | 기업명 | text | 100% | (주)유니온무역 |
 | `예약지급일` | 예약지급일* | date | 100% | 2025-01-13 |
 | `account` | 퇴직연금계좌번호 | account_no | 100% | 000-287736-52424 |
-| `check.수수료연동출금` | 수수료연동출금 | checkbox | 100% | 동의 (사전에 약정된 경우) |
-| `check.퇴직연금사업자변경` | 퇴직연금사업자변경 | checkbox | 100% | 계열사이전(과거입사일 인정) |
+| `check.수수료연동출금` | 수수료연동출금 | checkbox | 100% | 보기: 동의 (사전에 약정된 경우) / 미동의(기업별도 입금) |
+| `check.퇴직연금사업자변경` | 퇴직연금사업자변경 | checkbox | 100% | 보기: 퇴직연금 사업자 변경 / 제도전환 / 계열사이전(과거입사일 인정) / 합병/영업양수도 |
 | `이전받는금융기관` | 이전받는금융기관 | text | 100% | 카카오뱅크 |
 | `자산관리기관` | 자산관리기관 | text | 100% | 우리은행 |
-| `check.일부이전` | 일부이전(현물이전은3번항목에서개별신청) | checkbox | 100% | 일부이전(현물이전은 3번 항목에서 개별 신청) |
-| `check.전부이전` | 전부이전 | checkbox | 100% | 전부이전 |
+| `check.일부이전` | 일부이전(현물이전은3번항목에서개별신청) | checkbox | 100% | 보기: 일부이전(현물이전은 3번 항목에서 개별 신청) |
+| `check.전부이전` | 전부이전 | checkbox | 100% | 보기: 전부이전 |
 | `금융기관` | 금융기관 | text | 100% | 국민은행 |
 | `foreign.account` | 계좌번호 | account_no | 100% | 884779361534 |
 | `foreign.name` | 예금주 | text | 100% | Mekong Garment JSC |
-| `check.현물이전` | 현물이전** | checkbox | 100% | 신청(보유상품 ‘해지 없이’ 이전) |
-| `check.현물이전2` | 현물이전** | checkbox | 100% | 미신청(보유상품 ‘해지 후’ 이전) |
+| `check.현물이전` | 현물이전** | checkbox | 100% | 보기: 신청(보유상품 ‘해지 없이’ 이전) |
+| `check.현물이전2` | 현물이전** | checkbox | 100% | 보기: 미신청(보유상품 ‘해지 후’ 이전) |
 | `목록[].가입자성명` | 가입자성명 | text | 100% | 박찬연 |
 | `signer.name` | 가입자성명 | text | 100% | 박찬연 |
 | `seal.signer` | 가입자성명 | seal | 100% | 박찬연 |
@@ -12338,13 +12338,13 @@
 | `목록[].서명또는` | 서명또는(인) | text | 100% |  |
 | `목록[].생년월일` | 생년월일(주민번호) | text | 100% | 2026.01.31 |
 | `목록[].제도전환전출일자` | 제도전환/전출일자 | text | 100% | 2025.07.12 |
-| `check.미신청` | 미신청 | checkbox | 100% | 미신청 |
-| `check.미신청2` | 미신청 | checkbox | 100% | 신청 |
-| `check.미신청3` | 미신청 | checkbox | 100% | 신청 |
-| `check.미신청4` | 미신청 | checkbox | 100% | 신청 |
-| `check.미신청5` | 미신청 | checkbox | 100% | 신청 |
-| `check.미신청6` | 미신청 | checkbox | 100% | 미신청 |
-| `check.미신청7` | 미신청 | checkbox | 100% | 신청 |
+| `check.미신청` | 미신청 | checkbox | 100% | 보기: 미신청 / 신청 |
+| `check.미신청2` | 미신청 | checkbox | 100% | 보기: 미신청 / 신청 |
+| `check.미신청3` | 미신청 | checkbox | 100% | 보기: 미신청 / 신청 |
+| `check.미신청4` | 미신청 | checkbox | 100% | 보기: 미신청 / 신청 |
+| `check.미신청5` | 미신청 | checkbox | 100% | 보기: 미신청 / 신청 |
+| `check.미신청6` | 미신청 | checkbox | 100% | 보기: 미신청 / 신청 |
+| `check.미신청7` | 미신청 | checkbox | 100% | 보기: 미신청 / 신청 |
 | `목록[].현물이전유의사항확인` | 현물이전유의사항확인 | text | 100% |  |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer2.name` | 기업명 | text | 100% | 박찬연 |
@@ -12361,10 +12361,10 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `company.name` | 기업명 | text | 100% | (주)유니온무역 |
-| `check.등록구분` | 등록구분 | checkbox | 100% | 변경 |
+| `check.등록구분` | 등록구분 | checkbox | 100% | 보기: 신청 / 변경 |
 | `company.biz_no` | 사업자번호 | biz_no | 100% | 264-82-36559 |
-| `check.일괄선택` | 일괄선택 | checkbox | 100% | 전체 상품 일괄 선택 |
-| `check.체크` | 체크 | checkbox | 100% | 하나은행 디폴트옵션 안정형 포트폴리오 |
+| `check.일괄선택` | 일괄선택 | checkbox | 100% | 보기: 전체 상품 일괄 선택 |
+| `check.체크` | 체크 | checkbox | 100% | 보기: 하나은행 디폴트옵션 적극투자형 포트폴리오 1 / 하나은행 디폴트옵션 적극투자형 포트폴리오 2 / 하나은행 디폴트옵션 적극투자형 BF 3 / 하나은행 디폴트옵션 중립투자형 포트폴리오 1 / 하나은행 디폴트옵션 중립투자형 포트폴리오 2 / 하나은행 디폴트옵션 중립투자형 포트폴리오 3 / 하나은행 디폴트옵션 안정투자형 포트폴리오 1 / 하나은행 디폴트옵션 안정투자형 포트폴리오 2 / 하나은행 디폴트옵션 안정투자형 포트폴리오 3 / 하나은행 디폴트옵션 안정형 포트폴리오 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 기업명 | text | 100% | 박찬연 |
 | `seal.signer` | 기업명 | seal | 100% | 위나아 |
@@ -12375,19 +12375,19 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `customer.name` | 성명 | text | 100% | 박찬연 |
-| `check.제도` | 제도 | checkbox | 100% | DC/기업형IRP(회사명 또는 계좌번호 |
+| `check.제도` | 제도 | checkbox | 100% | 보기: DC/기업형IRP(회사명 또는 계좌번호 / 개인형IRP(고객 단위로 사전운용지정방법 지정(계좌 복수일 경우 1개만  |
 | `customer.birth` | 생년월일 | date | 100% | 1990-02-10 |
-| `check.택1` | 택1 | checkbox | 100% | 전화 |
-| `check.선택` | 선택(1개) | checkbox | 100% | 하나은행 디폴트옵션 중립투자형 포트폴리오 1 |
+| `check.택1` | 택1 | checkbox | 100% | 보기: 전화 / 온라인 |
+| `check.선택` | 선택(1개) | checkbox | 100% | 보기: 하나은행 디폴트옵션 적극투자형 포트폴리오 1 / 하나은행 디폴트옵션 적극투자형 포트폴리오 2 / 하나은행 디폴트옵션 적극투자형 BF 3 / 하나은행 디폴트옵션 중립투자형 포트폴리오 1 / 하나은행 디폴트옵션 중립투자형 포트폴리오 2 / 하나은행 디폴트옵션 중립투자형 포트폴리오 3 / 하나은행 디폴트옵션 안정투자형 포트폴리오 1 / 하나은행 디폴트옵션 안정투자형 포트폴리오 2 / 하나은행 디폴트옵션 안정투자형 포트폴리오 3 / 하나은행 디폴트옵션 안정형 포트폴리오 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
-| `check.투자권유를희망함` | 투자권유를희망함 | checkbox | 100% | 투자권유를 희망함 |
-| `check.투자권유를희망하지않음` | 투자권유를희망하지않음 | checkbox | 100% | 투자권유를 희망하지 않음 |
+| `check.투자권유를희망함` | 투자권유를희망함 | checkbox | 100% | 보기: 투자권유를 희망함 |
+| `check.투자권유를희망하지않음` | 투자권유를희망하지않음 | checkbox | 100% | 보기: 투자권유를 희망하지 않음 |
 | `handwritten` | 아래내용에대해 | text | 100% | 설명을듣고이해하였음 |
-| `check.일반금융소비자` | 일반금융소비자 | checkbox | 100% | 만 65세 이상 고령자 |
-| `check.전문금융소비자` | 전문금융소비자 | checkbox | 100% | 만 19세 이상 ~ 만 65세 미만 성년자 |
-| `check.일반금융소비자2` | 일반금융소비자 | checkbox | 100% | 일반투자자(투자자정보확인서에서 일반투자자 선택) |
-| `check.전문금융소비자2` | 전문금융소비자 | checkbox | 100% | 전문투자자(투자자정보확인서에서 전문투자자 선택) |
-| `check.약관및상품설명서` | 약관및상품설명서 | checkbox | 100% | 서면 수령 |
+| `check.일반금융소비자` | 일반금융소비자 | checkbox | 100% | 보기: 미성년자 / 피성년후견인 / 피한정후견인 / 만 65세 이상 고령자 |
+| `check.전문금융소비자` | 전문금융소비자 | checkbox | 100% | 보기: 만 19세 이상 ~ 만 65세 미만 성년자 / 전문금융소비자이나 상품설명을 희망 |
+| `check.일반금융소비자2` | 일반금융소비자 | checkbox | 100% | 보기: 일반투자자(투자자정보확인서에서 일반투자자 선택) |
+| `check.전문금융소비자2` | 전문금융소비자 | checkbox | 100% | 보기: 전문투자자(투자자정보확인서에서 전문투자자 선택) |
+| `check.약관및상품설명서` | 약관및상품설명서 | checkbox | 100% | 보기: 서면 수령 / 이메일 / 알림톡(발송실패시 LMS 발송) |
 | `signer.name` | 가입자 | text | 100% | 박찬연 |
 | `seal.signer` | 가입자 | seal | 100% | 박찬연 |
 | `sign.signer` | 가입자 | signature | 100% | 이욱유 |
@@ -12405,45 +12405,45 @@
 | `customer.name` | 성명 | text | 100% | 박찬연 |
 | `employer.name` | 회사명 | text | 100% | 주식회사 태평양무역 |
 | `customer.birth` | 생년월일 | date | 100% | 1990년 2월 10일 |
-| `check.휴대전화` | 휴대전화 | checkbox | 100% | LG U+ |
+| `check.휴대전화` | 휴대전화 | checkbox | 100% | 보기: SKT / LG U+ / KT / 기타 |
 | `customer.address` | 자택주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `employer.address` | 직장주소 | text | 100% | 충청북도 청주시 흥덕구 오송생명로 491-4, 10층 03호 주식회사 태… |
 | `customer.home_phone` | 자택전화 | phone | 100% | 02-6588-1442 |
-| `check.우편물수령처` | 우편물수령처 | checkbox | 100% | 자택 |
+| `check.우편물수령처` | 우편물수령처 | checkbox | 100% | 보기: 자택 / 직장 / 원치않음 |
 | `customer.email` | 이메일주소 | text | 100% | chanyeon363@naver.com |
 | `employer.phone` | 직장전화 | phone | 100% | 043-783-2775 |
-| `check.전화연락처` | 전화연락처 | checkbox | 100% | 자택 |
-| `check.원리금보장상품만기도래시전월통지발송` | 원리금보장상품(정기예금등)만기도래시전월통지발송 | checkbox | 100% | 이메일 |
-| `check.신청` | 신청(미발송) | checkbox | 100% | 신청(미발송) |
-| `check.퇴직연금운용및자산관리약관이변경되는경우통지` | 퇴직연금운용및자산관리약관이변경되는경우통지 | checkbox | 100% | 알림톡(LMS) |
-| `check.전화` | 전화(휴대폰) | checkbox | 100% | 온라인(모바일 웹) |
-| `기업부담금_목록[].상품명` | 상품명 | text | 100% | 산업용 펌프 |
-| `check.개인부담금` | 개인부담금 | checkbox | 100% | 개인부담금에 대하여 기업부담금(퇴직금)과 동일한 운용지시(체크 후 아래  |
-| `개인부담금_목록[].상품명` | 상품명 | text | 100% | 기계 부품 |
+| `check.전화연락처` | 전화연락처 | checkbox | 100% | 보기: 휴대폰 / 자택 / 직장 / 원치않음 |
+| `check.원리금보장상품만기도래시전월통지발송` | 원리금보장상품(정기예금등)만기도래시전월통지발송 | checkbox | 100% | 보기: 이메일 / 알림톡(LMS) |
+| `check.신청` | 신청(미발송) | checkbox | 100% | 보기: 신청(미발송) / 신청안함(발송) |
+| `check.퇴직연금운용및자산관리약관이변경되는경우통지` | 퇴직연금운용및자산관리약관이변경되는경우통지 | checkbox | 100% | 보기: 알림톡(LMS) / 이메일 / 수신거부 |
+| `check.전화` | 전화(휴대폰) | checkbox | 100% | 보기: 전화(휴대폰) / 온라인(모바일 웹) |
+| `기업부담금_목록[].상품명` | 상품명 | text | 100% | 국내채권형 증권자투자신탁 |
+| `check.개인부담금` | 개인부담금 | checkbox | 100% | 보기: 개인부담금에 대하여 기업부담금(퇴직금)과 동일한 운용지시(체크 후 아래  |
+| `개인부담금_목록[].상품명` | 상품명 | text | 100% | 하나 단기채 증권투자신탁 |
 | `기업부담금_목록[].매수비율` | 매수비율(%) | text | 100% | 30 |
-| `개인부담금_목록[].매수비율` | 매수비율(%) | text | 100% | 25 |
+| `개인부담금_목록[].매수비율` | 매수비율(%) | text | 100% | 100 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
-| `목록[].상품명` | 상품명 | text | 100% | 플라스틱 원료 |
-| `check.부담금구분` | 부담금구분 | checkbox | 100% | 개인부담금 |
-| `목록[].매수비율` | 매수비율(%) | number | 100% | 95 |
-| `check.선택` | 선택(1개) | checkbox | 100% | 하나은행 디폴트옵션 안정투자형 포트폴리오 3 |
-| `check.보험성상품` | 보험성상품(GIC) | checkbox | 100% | 일반금융소비자 |
-| `check.일반금융소비자` | 일반금융소비자 | checkbox | 100% | 피한정후견인 |
-| `check.전문금융소비자` | 전문금융소비자 | checkbox | 100% | 전문금융소비자이나 상품설명을 희망 |
-| `check.일반금융소비자2` | 일반금융소비자 | checkbox | 100% | 일반투자자(투자자정보확인서에서 일반투자자 선택) |
-| `check.전문금융소비자2` | 전문금융소비자 | checkbox | 100% | 전문투자자(투자자정보확인서에서 전문투자자 선택) |
-| `check.약관및상품설명서` | 약관및상품설명서 | checkbox | 100% | 알림톡(발송실패시 LMS 발송) |
-| `check.투자권유를희망함` | 투자권유를희망함 | checkbox | 100% | 투자권유를 희망함 |
-| `check.투자권유를희망하지않음` | 투자권유를희망하지않음 | checkbox | 100% | 투자권유를 희망하지 않음 |
+| `목록[].상품명` | 상품명 | text | 100% | 정기예금 (3년) |
+| `check.부담금구분` | 부담금구분 | checkbox | 100% | 보기: 기업부담금(퇴직금) / 개인부담금 |
+| `목록[].매수비율` | 매수비율(%) | number | 100% | 45 |
+| `check.선택` | 선택(1개) | checkbox | 100% | 보기: 하나은행 디폴트옵션 적극투자형 포트폴리오 1 / 하나은행 디폴트옵션 적극투자형 포트폴리오 2 / 하나은행 디폴트옵션 적극투자형 BF 3 / 하나은행 디폴트옵션 중립투자형 포트폴리오 1 / 하나은행 디폴트옵션 중립투자형 포트폴리오 2 / 하나은행 디폴트옵션 중립투자형 포트폴리오 3 / 하나은행 디폴트옵션 안정투자형 포트폴리오 1 / 하나은행 디폴트옵션 안정투자형 포트폴리오 2 / 하나은행 디폴트옵션 안정투자형 포트폴리오 3 / 하나은행 디폴트옵션 안정형 포트폴리오 |
+| `check.보험성상품` | 보험성상품(GIC) | checkbox | 100% | 보기: 일반금융소비자 |
+| `check.일반금융소비자` | 일반금융소비자 | checkbox | 100% | 보기: 미성년자 / 피성년후견인 / 피한정후견인 / 만 65세 이상 고령자 |
+| `check.전문금융소비자` | 전문금융소비자 | checkbox | 100% | 보기: 만 19세 이상~만 65세 미만 성년자 / 전문금융소비자이나 상품설명을 희망 |
+| `check.일반금융소비자2` | 일반금융소비자 | checkbox | 100% | 보기: 일반투자자(투자자정보확인서에서 일반투자자 선택) |
+| `check.전문금융소비자2` | 전문금융소비자 | checkbox | 100% | 보기: 전문투자자(투자자정보확인서에서 전문투자자 선택) |
+| `check.약관및상품설명서` | 약관및상품설명서 | checkbox | 100% | 보기: 서면 수령 / 이메일 / 알림톡(발송실패시 LMS 발송) |
+| `check.투자권유를희망함` | 투자권유를희망함 | checkbox | 100% | 보기: 투자권유를 희망함 |
+| `check.투자권유를희망하지않음` | 투자권유를희망하지않음 | checkbox | 100% | 보기: 투자권유를 희망하지 않음 |
 | `handwritten` | 아래내용에대해 | text | 100% | 설명을듣고이해하였음 |
 | `handwritten2` | 가입자자필기재 | text | 100% | 설명듣고이해함 |
 | `handwritten3` | 가입자자필기재 | text | 100% | 계약서,약관,상품설명서를수령함 |
 | `signer.name` | 가입자 | text | 100% | 박찬연 |
 | `seal.signer` | 가입자 | seal | 100% | 박찬연 |
 | `sign.signer` | 가입자 | signature | 100% | 현예지 |
-| `signer2.name` | 대리인 | text | 100% | 박찬연 |
-| `seal.signer2` | 대리인 | seal | 100% | 위나아 |
-| `sign.signer2` | 대리인 | signature | 100% | 박찬연 |
+| `signer2.name` | 대리인 | text | 100% | 전영경 |
+| `seal.signer2` | 대리인 | seal | 100% | 제갈용희 |
+| `sign.signer2` | 대리인 | signature | 100% | 전영경 |
 | `handwritten4` | 가입자자필기재 | text | 100% | 설명을듣고이해 |
 
 ### 퇴직연금 계약이전 신청서(기업형IRP) (`hf170`) — 키 31개
@@ -12454,17 +12454,17 @@
 | `customer.name` | 가입자명 | text | 100% | 박찬연 |
 | `account` | 퇴직연금계좌번호 | account_no | 100% | 000-287736-52424 |
 | `customer.birth` | 생년월일 | date | 100% | 1990.02.10 |
-| `check.전부이전` | 전부이전 | checkbox | 100% | 전부이전 |
-| `check.일부이전` | 일부이전 | checkbox | 100% | 일부이전 |
-| `check.제도전환` | 제도전환(기업형IRP→DC) | checkbox | 100% | 제도전환(기업형IRP → DC) |
-| `check.계열사이전` | 계열사이전(과거입사일인정) | checkbox | 100% | 계열사 이전(과거입사일 인정) |
+| `check.전부이전` | 전부이전 | checkbox | 100% | 보기: 전부이전 |
+| `check.일부이전` | 일부이전 | checkbox | 100% | 보기: 일부이전 |
+| `check.제도전환` | 제도전환(기업형IRP→DC) | checkbox | 100% | 보기: 제도전환(기업형IRP → DC) / 계열사 이전(과거입사일 인정) / 합병, 분할, 양수도 / 퇴직연금사업자 변경 |
+| `check.계열사이전` | 계열사이전(과거입사일인정) | checkbox | 100% | 보기: 계열사 이전(과거입사일 인정) / 합병, 분할, 양수도 |
 | `예약지급일` | 예약지급일** | date | 100% | 2025년 3월 2일 |
 | `운용관리기관` | 운용관리기관 | text | 100% | 하나은행 |
 | `자산관리기관` | 자산관리기관 | text | 100% | 기업은행 |
 | `현물이전` | 현물이전* | text | 100% |  |
-| `check.수수료연동출금동의` | 수수료연동출금동의 | checkbox | 100% | 미동의 (기업별도 입금) |
-| `check.현물이전` | 현물이전* | checkbox | 100% | 신청(보유상품 ‘해지 없이’ 이전) |
-| `check.현물이전2` | 현물이전* | checkbox | 100% | 미신청(보유상품 ‘해지 후’ 이전) |
+| `check.수수료연동출금동의` | 수수료연동출금동의 | checkbox | 100% | 보기: 동의(사전에 약정된 경우) / 미동의 (기업별도 입금) |
+| `check.현물이전` | 현물이전* | checkbox | 100% | 보기: 신청(보유상품 ‘해지 없이’ 이전) |
+| `check.현물이전2` | 현물이전* | checkbox | 100% | 보기: 미신청(보유상품 ‘해지 후’ 이전) |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `금융기관` | 금융기관 | text | 100% | 카카오뱅크 |
 | `account2` | 계좌번호 | account_no | 100% | 000-287736-52424 |
@@ -12488,40 +12488,40 @@
 |---|---|---|---|---|
 | `customer.name` | 성명 | text | 100% | 박찬연 |
 | `customer.phone` | 휴대전화 | phone | 100% | 010-5907-7253 |
-| `check.해피콜방식` | 해피콜방식 | checkbox | 100% | 온라인(모바일 웹) |
+| `check.해피콜방식` | 해피콜방식 | checkbox | 100% | 보기: 전화(휴대폰) / 온라인(모바일 웹) |
 | `customer.birth` | 생년월일 | date | 100% | 1990-02-10 |
 | `customer.email` | 이메일주소 | text | 100% | chanyeon363@naver.com |
-| `check.신청용도` | 신청용도 | checkbox | 100% | 퇴직금용 |
-| `check.신청용도2` | 신청용도 | checkbox | 100% | 퇴직금용+ |
+| `check.신청용도` | 신청용도 | checkbox | 100% | 보기: 퇴직금용 |
+| `check.신청용도2` | 신청용도 | checkbox | 100% | 보기: 퇴직금용+ |
 | `퇴직급여수령을위한계좌개설` | 퇴직급여수령을위한계좌개설 | text | 100% | 542-054528-31217 |
-| `check.할인대상정보` | 할인대상정보(증빙첨부) | checkbox | 100% | 장기할인(타사IRP이전시, 타사IRP가입일 |
-| `check.가입자격` | 가입자격 | checkbox | 100% | 퇴직금제도 적용 근로자 |
-| `check.원리금보장상품만기도래시전월통지발송` | 원리금보장상품(정기예금등)만기도래시전월통지발송 | checkbox | 100% | 이메일 |
-| `check.서비스통지발송제외신청` | 서비스통지발송제외신청 | checkbox | 100% | 신청안함(발송) |
-| `check.퇴직연금운용및자산관리약관이변경되는경우통지` | 퇴직연금운용및자산관리약관이변경되는경우통지 | checkbox | 100% | 이메일 |
+| `check.할인대상정보` | 할인대상정보(증빙첨부) | checkbox | 100% | 보기: 장애인 등록증 소지 고객 / 장기할인(타사IRP이전시, 타사IRP가입일 |
+| `check.가입자격` | 가입자격 | checkbox | 100% | 보기: 당행 퇴직연금 가입자 / 타금융기관 퇴직연금 가입자 / 직역연금가입자(공무원,사학,군인,별정우체국) / 근로기간 1년미만 근로자 / 주 15시간 미만 근로자 / 퇴직금제도 적용 근로자 / 자영업자 |
+| `check.원리금보장상품만기도래시전월통지발송` | 원리금보장상품(정기예금등)만기도래시전월통지발송 | checkbox | 100% | 보기: 이메일 / 알림톡(LMS) |
+| `check.서비스통지발송제외신청` | 서비스통지발송제외신청 | checkbox | 100% | 보기: 신청(미발송) / 신청안함(발송) |
+| `check.퇴직연금운용및자산관리약관이변경되는경우통지` | 퇴직연금운용및자산관리약관이변경되는경우통지 | checkbox | 100% | 보기: 알림톡(LMS) / 이메일 / 수신거부 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
-| `check.투자권유를희망함` | 투자권유를희망함 | checkbox | 100% | 투자권유를 희망함 |
-| `check.투자권유를희망하지않음` | 투자권유를희망하지않음 | checkbox | 100% | 투자권유를 희망하지 않음 |
+| `check.투자권유를희망함` | 투자권유를희망함 | checkbox | 100% | 보기: 투자권유를 희망함 |
+| `check.투자권유를희망하지않음` | 투자권유를희망하지않음 | checkbox | 100% | 보기: 투자권유를 희망하지 않음 |
 | `handwritten` | 아래내용에대해 | text | 100% | 설명을듣고이해하였음 |
-| `check.선택` | 선택(1개) | checkbox | 100% | 하나은행 디폴트옵션 중립투자형 포트폴리오 1 |
-| `기업부담금_목록[].상품명` | 상품명 | text | 100% | 커피 원두 |
-| `check.개인부담금` | 개인부담금 | checkbox | 100% | 개인부담금에 대하여 기업부담금(퇴직금)과 동일한 운용지시(체크 후 아래  |
-| `개인부담금_목록[].상품명` | 상품명 | text | 100% | 전자부품 |
-| `기업부담금_목록[].매수비율` | 매수비율(%) | text | 100% | 25 |
-| `개인부담금_목록[].매수비율` | 매수비율(%) | text | 100% | 100 |
-| `check.보험성상품` | 보험성상품(GIC) | checkbox | 100% | 일반금융소비자 |
-| `check.일반금융소비자` | 일반금융소비자 | checkbox | 100% | 만 65세 이상 고령자 |
-| `check.전문금융소비자` | 전문금융소비자 | checkbox | 100% | 전문금융소비자이나 상품설명을 희망 |
-| `check.일반금융소비자2` | 일반금융소비자 | checkbox | 100% | 일반투자자(투자자정보확인서에서 일반투자자 선택) |
-| `check.전문금융소비자2` | 전문금융소비자 | checkbox | 100% | 전문투자자(투자자정보확인서에서 전문투자자 선택) |
+| `check.선택` | 선택(1개) | checkbox | 100% | 보기: 하나은행 디폴트옵션 적극투자형 포트폴리오 1 / 하나은행 디폴트옵션 적극투자형 포트폴리오 2 / 하나은행 디폴트옵션 적극투자형 BF 3 / 하나은행 디폴트옵션 중립투자형 포트폴리오 1 / 하나은행 디폴트옵션 중립투자형 포트폴리오 2 / 하나은행 디폴트옵션 중립투자형 포트폴리오 3 / 하나은행 디폴트옵션 안정투자형 포트폴리오 1 / 하나은행 디폴트옵션 안정투자형 포트폴리오 2 / 하나은행 디폴트옵션 안정투자형 포트폴리오 3 / 하나은행 디폴트옵션 안정형 포트폴리오 |
+| `기업부담금_목록[].상품명` | 상품명 | text | 100% | 하나 단기채 증권투자신탁 |
+| `check.개인부담금` | 개인부담금 | checkbox | 100% | 보기: 개인부담금에 대하여 기업부담금(퇴직금)과 동일한 운용지시(체크 후 아래  |
+| `개인부담금_목록[].상품명` | 상품명 | text | 100% | MMF 증권투자신탁 |
+| `기업부담금_목록[].매수비율` | 매수비율(%) | text | 100% | 35 |
+| `개인부담금_목록[].매수비율` | 매수비율(%) | text | 100% | 35 |
+| `check.보험성상품` | 보험성상품(GIC) | checkbox | 100% | 보기: 일반금융소비자 |
+| `check.일반금융소비자` | 일반금융소비자 | checkbox | 100% | 보기: 미성년자 / 피성년후견인 / 피한정후견인 / 만 65세 이상 고령자 |
+| `check.전문금융소비자` | 전문금융소비자 | checkbox | 100% | 보기: 만 19세 이상 ~ 만 65세 미만 성년자 / 전문금융소비자이나 상품설명을 희망 |
+| `check.일반금융소비자2` | 일반금융소비자 | checkbox | 100% | 보기: 일반투자자(투자자정보확인서에서 일반투자자 선택) |
+| `check.전문금융소비자2` | 전문금융소비자 | checkbox | 100% | 보기: 전문투자자(투자자정보확인서에서 전문투자자 선택) |
 | `handwritten2` | 가입자자필기재 | text | 100% | 설명듣고이해함 |
-| `check.약관및상품설명서` | 약관및상품설명서 | checkbox | 100% | 알림톡(발송실패시 LMS 발송) |
+| `check.약관및상품설명서` | 약관및상품설명서 | checkbox | 100% | 보기: 서면 수령 / 이메일 / 알림톡(발송실패시 LMS 발송) |
 | `signer.name` | 가입자 | text | 100% | 박찬연 |
-| `seal.signer` | 가입자 | seal | 100% | 박찬연 |
-| `sign.signer` | 가입자 | signature | 100% | 현예지 |
-| `signer2.name` | 대리인 | text | 100% | 강순준 |
-| `seal.signer2` | 대리인 | seal | 100% | 김소윤 |
-| `sign.signer2` | 대리인 | signature | 100% | 강순준 |
+| `seal.signer` | 가입자 | seal | 100% | 이욱유 |
+| `sign.signer` | 가입자 | signature | 100% | 강순준 |
+| `signer2.name` | 대리인 | text | 100% | 이욱유 |
+| `seal.signer2` | 대리인 | seal | 100% | 이주원 |
+| `sign.signer2` | 대리인 | signature | 100% | 이욱유 |
 | `handwritten3` | 가입자자필기재 | text | 100% | 계약서,약관,상품설명서를수령함 |
 | `handwritten4` | 가입자자필기재 | text | 100% | 설명을듣고이해수령 |
 
@@ -12530,49 +12530,49 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `company.name` | 기업명 | text | 100% | (주)유니온무역 |
-| `check.제도구분` | 제도구분 | checkbox | 100% | DC |
+| `check.제도구분` | 제도구분 | checkbox | 100% | 보기: DC / 기업형IRP / 혼합형 |
 | `company.biz_no` | 사업자등록번호 | biz_no | 100% | 264-82-36559 |
-| `check.기업구분` | 기업구분 | checkbox | 100% | 개인사업자 |
+| `check.기업구분` | 기업구분 | checkbox | 100% | 보기: 법인 / 개인사업자 |
 | `회계결산월` | 회계결산월 | text | 100% |  |
-| `check.근로자대표` | 근로자대표 | checkbox | 100% | 근로자과반수 |
-| `check.제도가입대상` | 제도가입대상 | checkbox | 100% | 입사후 1년 경과가입 |
-| `check.제도가입대상2` | 제도가입대상 | checkbox | 100% | 임원제외 |
-| `check.부담금납입주기` | 부담금납입주기 | checkbox | 100% | 반기납 |
-| `check.표준형DC대상여부` | 표준형DC대상여부 | checkbox | 100% |  대상 |
-| `check.장기할인수수료대상여부` | 장기할인수수료대상여부* | checkbox | 100% |  대상 (타사 가일입자 |
+| `check.근로자대표` | 근로자대표 | checkbox | 100% | 보기: 노동조합 / 근로자과반수 |
+| `check.제도가입대상` | 제도가입대상 | checkbox | 100% | 보기: 입사즉시가입 / 입사후 1년 경과가입 |
+| `check.제도가입대상2` | 제도가입대상 | checkbox | 100% | 보기: 임원포함 / 임원제외 |
+| `check.부담금납입주기` | 부담금납입주기 | checkbox | 100% | 보기: 월납 / 분기납 / 반기납 / 연납 |
+| `check.표준형DC대상여부` | 표준형DC대상여부 | checkbox | 100% | 보기:  대상 /  비대상 |
+| `check.장기할인수수료대상여부` | 장기할인수수료대상여부* | checkbox | 100% | 보기:  비대상 /  대상 (타사 가일입자 |
 | `date` | 제도시행일 | date | 100% | 2026년 1월 31일 |
-| `check.퇴직연금가입기간` | 퇴직연금가입기간 | checkbox | 100% | 제도가입 이전 근무분 포함 |
+| `check.퇴직연금가입기간` | 퇴직연금가입기간 | checkbox | 100% | 보기: 제도가입 이후 근무분만 / 제도가입 이전 근무분 포함 / 제도가입 이전 특정시점 이후 근무분 포함 |
 | `date2` | 규약수리통보일 | date | 100% | 2026년 1월 31일 |
-| `check.약관변경통지방법` | 약관변경통지방법 | checkbox | 100% |  알림톡(LMS) |
-| `check.중소기업수수료할인대상여부` | 중소기업수수료할인대상여부 | checkbox | 100% | 대상(중소기업확인서 |
+| `check.약관변경통지방법` | 약관변경통지방법 | checkbox | 100% | 보기:  수령거절 /  이메일 /  알림톡(LMS) |
+| `check.중소기업수수료할인대상여부` | 중소기업수수료할인대상여부 | checkbox | 100% | 보기:  비대상 / 대상(중소기업확인서 |
 | `customer.name` | 이름 | text | 100% | 박찬연 |
 | `customer.name2` | 이름 | text | 100% | 박찬연 |
 | `customer.phone` | 휴대폰번호 | phone | 100% | 010-5907-7253 |
 | `customer.birth` | 생년월일 | date | 100% | 1990.02.10 |
 | `customer.birth2` | 생년월일 | date | 100% | 1990.02.10 |
 | `customer.email` | 이메일주소 | text | 100% | chanyeon363@naver.com |
-| `check.일괄선택` | 일괄선택 | checkbox | 100% | 전체 상품 일괄 선택 |
-| `check.체크` | 체크 | checkbox | 100% | 하나은행 디폴트옵션 적극투자형 BF 3 |
+| `check.일괄선택` | 일괄선택 | checkbox | 100% | 보기: 전체 상품 일괄 선택 |
+| `check.체크` | 체크 | checkbox | 100% | 보기: 하나은행 디폴트옵션 적극투자형 포트폴리오 1 / 하나은행 디폴트옵션 적극투자형 포트폴리오 2 / 하나은행 디폴트옵션 적극투자형 BF 3 / 하나은행 디폴트옵션 중립투자형 포트폴리오 1 / 하나은행 디폴트옵션 중립투자형 포트폴리오 2 / 하나은행 디폴트옵션 중립투자형 포트폴리오 3 / 하나은행 디폴트옵션 안정투자형 포트폴리오 1 / 하나은행 디폴트옵션 안정투자형 포트폴리오 2 / 하나은행 디폴트옵션 안정투자형 포트폴리오 3 / 하나은행 디폴트옵션 안정형 포트폴리오 |
 | `date3` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `customer.name3` | 성명 | text | 100% | 박찬연 |
 | `customer.birth3` | 생년월일 | date | 100% | 1990.02.10 |
 | `금융기관` | 금융기관 | text | 100% | 우리은행 |
 | `customer.name4` | 예금주 | text | 100% | 박찬연 |
-| `check.사원번호임직원구분` | -사원번호:-임직원구분 | checkbox | 100% | 직원 |
-| `check.사원번호임직원구분2` | -사원번호:-임직원구분 | checkbox | 100% | 직원 |
-| `check.사원번호임직원구분3` | -사원번호:-임직원구분 | checkbox | 100% | 직원 |
-| `check.사원번호임직원구분4` | -사원번호:-임직원구분 | checkbox | 100% | 직원 |
+| `check.사원번호임직원구분` | -사원번호:-임직원구분 | checkbox | 100% | 보기: 직원 / 임원 4) 20 |
+| `check.사원번호임직원구분2` | -사원번호:-임직원구분 | checkbox | 100% | 보기: 직원 / 임원 4) 20 |
+| `check.사원번호임직원구분3` | -사원번호:-임직원구분 | checkbox | 100% | 보기: 직원 / 임원 4) 20 |
+| `check.사원번호임직원구분4` | -사원번호:-임직원구분 | checkbox | 100% | 보기: 직원 / 임원 4) 20 |
 | `가입자수` | 가입자수 | number | 100% | 12 |
-| `check.등록정보` | 등록정보 | checkbox | 100% | 개별등록(아래표 작성) |
+| `check.등록정보` | 등록정보 | checkbox | 100% | 보기: 일괄등록(가입자명부 파일 및 부담금명부 파일 작성) / 개별등록(아래표 작성) |
 | `기업부담금합계` | 기업부담금합계 | number | 100% | 4,320,000 |
-| `check.신청` | 신청 | checkbox | 100% | 신청 |
-| `check.신청2` | 신청 | checkbox | 100% | 신청 |
+| `check.신청` | 신청 | checkbox | 100% | 보기: 신청 |
+| `check.신청2` | 신청 | checkbox | 100% | 보기: 신청 |
 | `account` | 출금계좌번호 | account_no | 100% | 000-287736-52424 |
 | `account2` | 출금계좌번호 | account_no | 100% | 996-316834-99379 |
 | `이체개시일` | 이체개시일 | date | 100% | 2025년 4월 15일 |
 | `이체종료일` | 이체종료일 | date | 100% | 2028년 8월 23일 |
-| `check.신청3` | 신청 | checkbox | 100% | 신청 |
-| `check.신청4` | 신청 | checkbox | 100% | 신청 |
+| `check.신청3` | 신청 | checkbox | 100% | 보기: 신청 |
+| `check.신청4` | 신청 | checkbox | 100% | 보기: 신청 |
 | `account3` | 출금계좌번호 | account_no | 100% | 000-287736-52424 |
 | `account4` | 출금계좌번호 | account_no | 100% | 774-646914-96117 |
 | `signer.name` | 기업명 | text | 100% | 박찬연 |
@@ -12590,12 +12590,12 @@
 | `signer2.name` | 대리인 | text | 100% | 위나아 |
 | `seal.signer2` | 대리인 | seal | 100% | 위나아 |
 | `sign.signer2` | 대리인 | signature | 100% | 전영경 |
-| `check.원금손실위험이거의없거나` | 원금손실위험이거의없거나경미한수준이다. | checkbox | 100% | 원금손실위험이 거의 없거나 경미한 수준이다. |
-| `check.원금손실위험이있지만높은` | 원금손실위험이있지만높은수익률을위해감수할수있다. | checkbox | 100% | 원금손실위험이 있지만 높은 수익률을 위해 감수할 수 있다. |
-| `check.경미한수준일것이다` | 경미한수준일것이다. | checkbox | 100% | 경미한 수준일 것이다. |
-| `check.원금의최대100손실이` | 원금의최대100%(원금전액)손실이발생할수있다. | checkbox | 100% | 원금의 최대 100%(원금 전액) 손실이 발생할 수 있다. |
-| `check.예` | 예 | checkbox | 100% | 아니오 |
-| `check.email` | e-mail | checkbox | 100% | e-mail |
+| `check.원금손실위험이거의없거나` | 원금손실위험이거의없거나경미한수준이다. | checkbox | 100% | 보기: 원금손실위험이 거의 없거나 경미한 수준이다. |
+| `check.원금손실위험이있지만높은` | 원금손실위험이있지만높은수익률을위해감수할수있다. | checkbox | 100% | 보기: 원금손실위험이 있지만 높은 수익률을 위해 감수할 수 있다. |
+| `check.경미한수준일것이다` | 경미한수준일것이다. | checkbox | 100% | 보기: 경미한 수준일 것이다. |
+| `check.원금의최대100손실이` | 원금의최대100%(원금전액)손실이발생할수있다. | checkbox | 100% | 보기: 원금의 최대 100%(원금 전액) 손실이 발생할 수 있다. |
+| `check.예` | 예 | checkbox | 100% | 보기: 예 / 아니오 |
+| `check.email` | e-mail | checkbox | 100% | 보기: e-mail / 우편 / 영업점 수령/홈페이지 확인 / 수령거절 |
 | `signer3.name` | 판매직원 | text | 100% | 박찬연 |
 | `seal.signer3` | 판매직원 | seal | 100% | 이민빈 |
 | `sign.signer3` | 판매직원 | signature | 100% | 강순준 |
@@ -12606,12 +12606,12 @@
 | `signer5.name` | 대리인 | text | 100% | 강순준 |
 | `seal.signer5` | 대리인 | seal | 100% | 강순준 |
 | `sign.signer5` | 대리인 | signature | 100% | 위나아 |
-| `check.원금손실위험이거의없거나2` | 원금손실위험이거의없거나경미한수준이다. | checkbox | 100% | 원금손실위험이 거의 없거나 경미한 수준이다. |
-| `check.원금손실위험이있지만높은2` | 원금손실위험이있지만높은수익률을위해감수할수있다. | checkbox | 100% | 원금손실위험이 있지만 높은 수익률을 위해 감수할 수 있다. |
-| `check.경미한수준일것이다2` | 경미한수준일것이다. | checkbox | 100% | 경미한 수준일 것이다. |
-| `check.원금의최대100손실이2` | 원금의최대100%(원금전액)손실이발생할수있다. | checkbox | 100% | 원금의 최대 100%(원금 전액) 손실이 발생할 수 있다. |
-| `check.예2` | 예 | checkbox | 100% | 아니오 |
-| `check.email2` | e-mail | checkbox | 100% | 수령거절 |
+| `check.원금손실위험이거의없거나2` | 원금손실위험이거의없거나경미한수준이다. | checkbox | 100% | 보기: 원금손실위험이 거의 없거나 경미한 수준이다. |
+| `check.원금손실위험이있지만높은2` | 원금손실위험이있지만높은수익률을위해감수할수있다. | checkbox | 100% | 보기: 원금손실위험이 있지만 높은 수익률을 위해 감수할 수 있다. |
+| `check.경미한수준일것이다2` | 경미한수준일것이다. | checkbox | 100% | 보기: 경미한 수준일 것이다. |
+| `check.원금의최대100손실이2` | 원금의최대100%(원금전액)손실이발생할수있다. | checkbox | 100% | 보기: 원금의 최대 100%(원금 전액) 손실이 발생할 수 있다. |
+| `check.예2` | 예 | checkbox | 100% | 보기: 예 / 아니오 |
+| `check.email2` | e-mail | checkbox | 100% | 보기: e-mail / 우편 / 영업점 수령/홈페이지 확인 / 수령거절 |
 | `signer6.name` | 판매직원 | text | 100% | 박찬연 |
 | `seal.signer6` | 판매직원 | seal | 100% | 강순준 |
 | `sign.signer6` | 판매직원 | signature | 100% | 박찬연 |
@@ -12621,54 +12621,54 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `company.name` | 기업명 | text | 100% | 주식회사 한빛패션 |
-| `check.동의주체` | 동의주체 | checkbox | 100% | 노동조합(근로자 과반수로 조직된 노동조합이 있는 경우) |
-| `check.제도구분` | 제도구분 | checkbox | 100% | DC |
-| `check.동의` | 동의 | checkbox | 100% | 동의 |
-| `check.동의2` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의3` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의4` | 동의 | checkbox | 100% | 동의 |
-| `check.동의5` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의6` | 동의 | checkbox | 100% | 동의 |
-| `check.동의7` | 동의 | checkbox | 100% | 동의 |
-| `check.동의8` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의9` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의10` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의11` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의12` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의13` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의14` | 동의 | checkbox | 100% | 동의 |
-| `check.동의15` | 동의 | checkbox | 100% | 동의 |
-| `check.동의16` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의17` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의18` | 동의 | checkbox | 100% | 동의 |
-| `check.동의19` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의20` | 동의 | checkbox | 100% | 동의 |
+| `check.동의주체` | 동의주체 | checkbox | 100% | 보기: 근로자 과반수 이상 / 노동조합(근로자 과반수로 조직된 노동조합이 있는 경우) |
+| `check.제도구분` | 제도구분 | checkbox | 100% | 보기: DB / DC |
+| `check.동의` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의2` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의3` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의4` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의5` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의6` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의7` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의8` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의9` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의10` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의11` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의12` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의13` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의14` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의15` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의16` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의17` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의18` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의19` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의20` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
 | `목록[].성명` | 성명 | text | 100% | 이민예 |
 | `목록[].생년월일` | 생년월일 | text | 100% | 2025-08-28 |
 | `signer.name` | 생년월일 | text | 100% | 박찬연 |
 | `seal.signer` | 생년월일 | seal | 100% | 강순준 |
 | `sign.signer` | 생년월일 | signature | 100% | 박찬연 |
 | `목록[].인서명` | 인/서명 | text | 100% |  |
-| `check.동의21` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의22` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의23` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의24` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의25` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의26` | 동의 | checkbox | 100% | 동의 |
-| `check.동의27` | 동의 | checkbox | 100% | 동의 |
-| `check.동의28` | 동의 | checkbox | 100% | 동의 |
-| `check.동의29` | 동의 | checkbox | 100% | 동의 |
-| `check.동의30` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의31` | 동의 | checkbox | 100% | 동의 |
-| `check.동의32` | 동의 | checkbox | 100% | 동의 |
-| `check.동의33` | 동의 | checkbox | 100% | 동의 |
-| `check.동의34` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의35` | 동의 | checkbox | 100% | 동의 |
-| `check.동의36` | 동의 | checkbox | 100% | 미동의 |
-| `check.동의37` | 동의 | checkbox | 100% | 동의 |
-| `check.동의38` | 동의 | checkbox | 100% | 동의 |
-| `check.동의39` | 동의 | checkbox | 100% | 동의 |
-| `check.동의40` | 동의 | checkbox | 100% | 미동의 |
+| `check.동의21` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의22` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의23` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의24` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의25` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의26` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의27` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의28` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의29` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의30` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의31` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의32` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의33` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의34` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의35` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의36` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의37` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의38` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의39` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
+| `check.동의40` | 동의 | checkbox | 100% | 보기: 동의 / 미동의 |
 | `signer2.name` | 생년월일 | text | 100% | 박찬연 |
 | `seal.signer2` | 생년월일 | seal | 100% | 박찬연 |
 | `sign.signer2` | 생년월일 | signature | 100% | 강순준 |
@@ -12676,8 +12676,8 @@
 | `seal.signer3` | 대표자 | seal | 100% | 강순준 |
 | `sign.signer3` | 대표자 | signature | 100% | 현예지 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
-| `check.근로자동의` | 근로자동의 | checkbox | 100% | 근로자 동의 |
-| `check.노동조합동의` | 노동조합동의 | checkbox | 100% | 노동조합 동의 |
+| `check.근로자동의` | 근로자동의 | checkbox | 100% | 보기: 근로자 동의 |
+| `check.노동조합동의` | 노동조합동의 | checkbox | 100% | 보기: 노동조합 동의 |
 | `signer4.name` | 기업명 | text | 100% | 박찬연 |
 | `seal.signer4` | 기업명 | seal | 100% | 박찬연 |
 | `sign.signer4` | 기업명 | signature | 100% | 이욱유 |
@@ -12688,12 +12688,12 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `customer.name` | 성명 | text | 100% | 박찬연 |
-| `check.제도구분` | 제도구분 | checkbox | 100% | 기업형IRP |
+| `check.제도구분` | 제도구분 | checkbox | 100% | 보기: DC / 기업형IRP / 개인형IRP |
 | `customer.birth` | 생년월일 | date | 100% | 1990년 2월 10일 |
 | `계좌번호또는회사명` | 계좌번호또는회사명 | text | 100% | 243-274729-33607 |
 | `하나연금닥터AI연금투자솔루션` | 하나연금닥터AI연금투자솔루션 | text | 100% |  |
-| `check.포트폴리오매수또는리밸런싱후6개월마다리밸런싱안내` | 포트폴리오매수또는리밸런싱후6개월마다리밸런싱안내 | checkbox | 100% | 이메일 |
-| `check.신청여부` | 신청여부 | checkbox | 100% | 알림톡(LMS) |
+| `check.포트폴리오매수또는리밸런싱후6개월마다리밸런싱안내` | 포트폴리오매수또는리밸런싱후6개월마다리밸런싱안내 | checkbox | 100% | 보기: 이메일 / 알림톡(LMS) |
+| `check.신청여부` | 신청여부 | checkbox | 100% | 보기: 신청안함 / 이메일 / 알림톡(LMS) |
 | `상승` | 상승+( | text | 100% |  |
 | `하락` | )%하락–( | text | 100% |  |
 | `handwritten` | 설계신청을동의합니다. | text | 100% | (동의함) |
@@ -12713,28 +12713,28 @@
 | `account` | 퇴직연금계좌번호 | account_no | 100% | 000-287736-52424 |
 | `customer.birth` | 생년월일 | date | 100% | 1990-02-10 |
 | `중간정산일자` | 중간정산일자 | date | 100% | 2025-12-09 |
-| `check.제도구분` | 제도구분 | checkbox | 100% | 기업형IRP |
-| `check.임원여부` | 임원여부 | checkbox | 100% | 임원 |
+| `check.제도구분` | 제도구분 | checkbox | 100% | 보기: DC / 기업형IRP |
+| `check.임원여부` | 임원여부 | checkbox | 100% | 보기: 근로자 / 임원 |
 | `퇴직급여입금총액` | 퇴직급여입금총액* | number | 100% | 3,560,000 |
 | `퇴직일자` | 퇴직일자 | date | 100% | 2025.02.04 |
-| `check.지급형태` | 지급형태 | checkbox | 100% | 개인형IRP(의무) |
-| `check.지급형태2` | 지급형태 | checkbox | 100% | 입출금계좌 |
-| `check.잔여부담금` | 잔여부담금*** | checkbox | 100% | 없음 |
-| `check.잔여부담금2` | 잔여부담금*** | checkbox | 100% | 있음 (금액 |
-| `check.기업반환신청` | 기업반환신청***** | checkbox | 100% | 계속근로기간 1년 미만 퇴직 |
-| `check.현물이전` | 현물이전** | checkbox | 100% | 미신청 (보유상품 ‘해지 후’ IRP로 이전 (특별중도해지이율 적용)) |
-| `check.예외사유` | 예외사유 | checkbox | 100% | 한시적 체류자격외국인의 출국 |
-| `check.연동출금신청` | 연동출금신청(사전에약정된경우) | checkbox | 100% | 미신청(기업별도입금) |
+| `check.지급형태` | 지급형태 | checkbox | 100% | 보기: 개인형IRP(의무) |
+| `check.지급형태2` | 지급형태 | checkbox | 100% | 보기: 입출금계좌 |
+| `check.잔여부담금` | 잔여부담금*** | checkbox | 100% | 보기: 없음 |
+| `check.잔여부담금2` | 잔여부담금*** | checkbox | 100% | 보기: 있음 (금액 |
+| `check.기업반환신청` | 기업반환신청***** | checkbox | 100% | 보기: 계속근로기간 1년 미만 퇴직 / 국민연금 전환금 / 단시간근로자 1년 미만 퇴직(4주간을 평균하여 주당 15시간 미만) 제외 / 임원 퇴직급여 한도금액 |
+| `check.현물이전` | 현물이전** | checkbox | 100% | 보기: 신청 (보유상품 ‘해지 없이’ IRP로 이전) / 미신청 (보유상품 ‘해지 후’ IRP로 이전 (특별중도해지이율 적용)) |
+| `check.예외사유` | 예외사유 | checkbox | 100% | 보기: 만 55세이후 퇴직 / 만원이하 퇴직금 지급 / 가입자 사망 / 한시적 체류자격외국인의 출국 |
+| `check.연동출금신청` | 연동출금신청(사전에약정된경우) | checkbox | 100% | 보기: 연동출금 신청(사전에 약정된 경우) / 미신청(기업별도입금) |
 | `예약지급일` | 예약지급일* | date | 100% | 2025.05.01 |
-| `check.당해연도이전에중간정산한금액이있는경우` | 당해연도이전에중간정산(중도인출)한금액이있는경우 | checkbox | 100% | 합산과세 미적용 |
-| `check.해당사항없음` | 해당사항없음 | checkbox | 100% | 해당사항 없음 |
+| `check.당해연도이전에중간정산한금액이있는경우` | 당해연도이전에중간정산(중도인출)한금액이있는경우 | checkbox | 100% | 보기: 해당사항 없음 / 합산과세 적용 / 합산과세 미적용 |
+| `check.해당사항없음` | 해당사항없음 | checkbox | 100% | 보기: 해당사항 없음 / 해당사항 있음(합산과세 적용 필수) |
 | `금융기관명` | 금융기관명 | text | 100% | 우리은행 |
 | `금융기관명2` | 금융기관명 | text | 100% | 국민은행 |
 | `account2` | 계좌번호 | account_no | 100% | 000-287736-52424 |
 | `account3` | 계좌번호 | account_no | 100% | 000-287736-52424 |
-| `check.퇴직소득세계산을위한근속연수산정시제외가산월수있는경우기재` | 퇴직소득세계산을위한근속연수산정시제외·가산월수있는경우기재 | checkbox | 100% | 가산월수( |
-| `check.개인적립금과세제외신청` | 개인적립금과세제외신청 | checkbox | 100% | 과세제외 미신청 |
-| `check.가입자단독청구` | 가입자단독청구 | checkbox | 100% | 업체 폐업 |
+| `check.퇴직소득세계산을위한근속연수산정시제외가산월수있는경우기재` | 퇴직소득세계산을위한근속연수산정시제외·가산월수있는경우기재 | checkbox | 100% | 보기: 제외월수( / 가산월수( |
+| `check.개인적립금과세제외신청` | 개인적립금과세제외신청 | checkbox | 100% | 보기: 과세제외 신청(『연금보험료 등 소득☞세액공제확인서』 필수 제출) / 과세제외 미신청 |
+| `check.가입자단독청구` | 가입자단독청구 | checkbox | 100% | 보기: 업체 폐업 / 기타 (사용자 지급거절 등) |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 가입자 | text | 100% | 박찬연 |
 | `seal.signer` | 가입자 | seal | 100% | 강순준 |
@@ -12761,17 +12761,17 @@
 |---|---|---|---|---|
 | `company.name` | 기업명 | text | 100% | (주)유니온무역 |
 | `company.biz_no` | 사업자번호 | biz_no | 100% | 264-82-36559 |
-| `check.아래의상품을퇴직연금운용상품으로` | 아래의상품을퇴직연금운용상품으로 | checkbox | 100% |  제외 요청합니다. |
+| `check.아래의상품을퇴직연금운용상품으로` | 아래의상품을퇴직연금운용상품으로 | checkbox | 100% | 보기: 선택  /  제외 요청합니다. |
 | `상품선택` | 상품선택 | text | 100% | 하나 IRP 정기예금 3년 |
-| `상품명` | 상품명 | text | 100% | 자동차 부품 |
+| `상품명` | 상품명 | text | 100% | 이율보증형 보험(GIC) 1년 |
 | `경남은행정기예금` | 경남은행정기예금 | text | 100% | 기업은행 |
 | `수익증권_목록[].경남은행정기예금` | 경남은행정기예금 | text | 100% | 기업은행 |
 | `부산은행정기예금` | 부산은행정기예금 | text | 100% | 하나은행 |
 | `정기예금_목록[].년` | 년 | text | 100% |  |
-| `상품명2` | 상품명 | text | 100% | 플라스틱 원료 |
+| `상품명2` | 상품명 | text | 100% | MMF 증권투자신탁 |
 | `저축은행정기예금_목록[].JT저축은행정기예금` | JT저축은행정기예금 | text | 100% | 국민은행 |
 | `하나저축은행정기예금` | 하나저축은행정기예금 | text | 100% | 농협은행 |
-| `신한저축은행정기예금` | 신한저축은행정기예금 | text | 100% | 농협은행 |
+| `신한저축은행정기예금` | 신한저축은행정기예금 | text | 100% | 카카오뱅크 |
 | `NH저축은행정기예금` | NH저축은행정기예금 | text | 100% | 국민은행 |
 | `KB저축은행정기예금` | KB저축은행정기예금 | text | 100% | 우리은행 |
 | `IBK저축은행정기예금` | IBK저축은행정기예금 | text | 100% | 농협은행 |
@@ -12781,37 +12781,37 @@
 | `키움저축은행정기예금` | 키움저축은행정기예금 | text | 100% | 하나은행 |
 | `키움예스저축은행정기예금` | 키움예스저축은행정기예금 | text | 100% | 국민은행 |
 | `페퍼저축은행정기예금` | 페퍼저축은행정기예금 | text | 100% | 카카오뱅크 |
-| `모아저축은행정기예금` | 모아저축은행정기예금 | text | 100% | 기업은행 |
-| `유진저축은행정기예금` | 유진저축은행정기예금 | text | 100% | 국민은행 |
+| `모아저축은행정기예금` | 모아저축은행정기예금 | text | 100% | 우리은행 |
+| `유진저축은행정기예금` | 유진저축은행정기예금 | text | 100% | 기업은행 |
 | `OSB저축은행정기예금` | OSB저축은행정기예금 | text | 100% | 카카오뱅크 |
 | `JT저축은행정기예금` | JT저축은행정기예금 | text | 100% | 기업은행 |
-| `check.보기1` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기12` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기13` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기14` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기15` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기16` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기17` | 보기1 | checkbox | 100% | 보기1 |
+| `check.보기1` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기12` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기13` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기14` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기15` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기16` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기17` | 보기1 | checkbox | 100% | 보기: 보기1 |
 | `저축은행정기예금_목록[].년` | 년 | text | 100% |  |
-| `check.보기18` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기19` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기110` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기111` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기112` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기113` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기114` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기115` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기116` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기117` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기118` | 보기1 | checkbox | 100% | 보기1 |
-| `check.개월` | 개월 | checkbox | 100% | □ |
-| `check.년` | 년 | checkbox | 100% | □ |
-| `check.년2` | 년 | checkbox | 100% | □ |
-| `check.년3` | 년 | checkbox | 100% | □ |
-| `check.년4` | 년 | checkbox | 100% | 저 축 은 행 정 기 예 금 |
-| `check.개월2` | 개월 | checkbox | 100% | □ |
-| `check.년5` | 년 | checkbox | 100% | □ |
-| `check.년6` | 년 | checkbox | 100% | □ |
+| `check.보기18` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기19` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기110` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기111` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기112` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기113` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기114` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기115` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기116` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기117` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기118` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.개월` | 개월 | checkbox | 100% | 보기: □ |
+| `check.년` | 년 | checkbox | 100% | 보기: □ |
+| `check.년2` | 년 | checkbox | 100% | 보기: □ |
+| `check.년3` | 년 | checkbox | 100% | 보기: □ / 저 축 은 행 정 기 예 금 |
+| `check.년4` | 년 | checkbox | 100% | 보기: 저 축 은 행 정 기 예 금 |
+| `check.개월2` | 개월 | checkbox | 100% | 보기: □ |
+| `check.년5` | 년 | checkbox | 100% | 보기: □ |
+| `check.년6` | 년 | checkbox | 100% | 보기: □ |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 기업명 | text | 100% | 박찬연 |
 | `seal.signer` | 기업명 | seal | 100% | 박찬연 |
@@ -12822,35 +12822,35 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `customer.name` | 성명(기업명) | text | 100% | 박찬연 |
-| `check.제도구분` | 제도구분 | checkbox | 100% | DC |
+| `check.제도구분` | 제도구분 | checkbox | 100% | 보기: DB / DC / 기업형IRP / 개인형IRP |
 | `customer.birth` | 생년월일(사업자등록번호) | date | 100% | 1990년 2월 10일 |
 | `계좌번호또는회사명` | 계좌번호또는회사명 | text | 100% | 640-301927-71029 |
-| `check.상품구분` | 상품구분 | checkbox | 100% | 일반상품 |
-| `기업부담금_목록[].상품명` | 상품명 | text | 100% | PCB 기판 |
-| `check.개인부담금` | 개인부담금 | checkbox | 100% | 개인부담금에 대하여 기업부담금(퇴직금)과 동일한 운용지시(√체크 후 아래 |
-| `개인부담금_목록[].상품명` | 상품명 | text | 100% | 포장재 |
+| `check.상품구분` | 상품구분 | checkbox | 100% | 보기: 일반상품 / AI포트폴리오 |
+| `기업부담금_목록[].상품명` | 상품명 | text | 100% | 원리금보장 ELB 1년 |
+| `check.개인부담금` | 개인부담금 | checkbox | 100% | 보기: 개인부담금에 대하여 기업부담금(퇴직금)과 동일한 운용지시(√체크 후 아래 |
+| `개인부담금_목록[].상품명` | 상품명 | text | 100% | 인덱스(KOSPI200) 증권자투자신탁 |
 | `기업부담금_목록[].매수비율` | 매수비율(%) | number | 100% | 45 |
-| `개인부담금_목록[].매수비율` | 매수비율(%) | text | 100% | 95 |
-| `목록[].상품명` | 상품명 | text | 100% | 철강 코일 |
-| `check.등록구분` | 등록구분 | checkbox | 100% | 기업부담금(퇴직금) |
-| `목록[].매수비율` | 매수비율(%) | number | 100% | 30 |
-| `check.일반금융소비자` | 일반금융소비자 | checkbox | 100% | 피성년후견인 |
-| `check.전문금융소비자` | 전문금융소비자 | checkbox | 100% | 만 19세 이상 ~ 만 65세 미만 성년자 |
-| `check.일반금융소비자2` | 일반금융소비자 | checkbox | 100% | 전문금융소비자 외 금융소비자 |
-| `check.전문금융소비자2` | 전문금융소비자 | checkbox | 100% | 국가, 금융회사, 보험 관계 단체, 보험요율산출 기관, 공공기관 등 |
-| `check.일반금융소비자3` | 일반금융소비자 | checkbox | 100% | 일반투자자(투자자정보확인서에서 일반투자자 선택) |
-| `check.전문금융소비자3` | 전문금융소비자 | checkbox | 100% | 전문투자자(투자자정보확인서에서 전문투자자 선택) |
+| `개인부담금_목록[].매수비율` | 매수비율(%) | text | 100% | 85 |
+| `목록[].상품명` | 상품명 | text | 100% | 하나 TDF 2045 증권투자신탁 |
+| `check.등록구분` | 등록구분 | checkbox | 100% | 보기: 기업부담금(퇴직금) / 개인부담금 |
+| `목록[].매수비율` | 매수비율(%) | number | 100% | 35 |
+| `check.일반금융소비자` | 일반금융소비자 | checkbox | 100% | 보기: 미성년자 / 피성년후견인 / 피한정후견인 / 만 65세 이상 고령자 |
+| `check.전문금융소비자` | 전문금융소비자 | checkbox | 100% | 보기: 만 19세 이상 ~ 만 65세 미만 성년자 / 법인, 조합 등 단체 / 전문금융소비자이나 상품설명을 희망 |
+| `check.일반금융소비자2` | 일반금융소비자 | checkbox | 100% | 보기: 전문금융소비자 외 금융소비자 |
+| `check.전문금융소비자2` | 전문금융소비자 | checkbox | 100% | 보기: 국가, 금융회사, 보험 관계 단체, 보험요율산출 기관, 공공기관 등 / 전문금융소비자이나 상품설명 희망 |
+| `check.일반금융소비자3` | 일반금융소비자 | checkbox | 100% | 보기: 일반투자자(투자자정보확인서에서 일반투자자 선택) |
+| `check.전문금융소비자3` | 전문금융소비자 | checkbox | 100% | 보기: 전문투자자(투자자정보확인서에서 전문투자자 선택) |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
-| `check.약관및상품설명서` | 약관및상품설명서 | checkbox | 100% | 서면 수령 |
+| `check.약관및상품설명서` | 약관및상품설명서 | checkbox | 100% | 보기: 서면 수령 / 이메일 / 알림톡(발송실패시 LMS 발송) |
 | `handwritten` | 가입자자필기재 | text | 100% | 설명듣고이해함 |
 | `handwritten2` | 가입자자필기재 | text | 100% | 계약서,약관,상품설명서를수령함 |
-| `check.전화해피콜` | 전화(휴대폰)해피콜 | checkbox | 100% | 전화(휴대폰) 해피콜 |
+| `check.전화해피콜` | 전화(휴대폰)해피콜 | checkbox | 100% | 보기: 전화(휴대폰) 해피콜 / 온라인(모바일 웹) 해피콜 |
 | `handwritten3` | 가입자자필기재 | text | 100% | 설명을듣고이해 |
 | `signer.name` | 가입자(기업명) | text | 100% | 박찬연 |
 | `seal.signer` | 가입자(기업명) | seal | 100% | 강순준 |
 | `sign.signer` | 가입자(기업명) | signature | 100% | 박찬연 |
-| `signer2.name` | 대리인 | text | 100% | 이주원 |
-| `seal.signer2` | 대리인 | seal | 100% | 김나우 |
+| `signer2.name` | 대리인 | text | 100% | 박찬연 |
+| `seal.signer2` | 대리인 | seal | 100% | 박찬연 |
 | `sign.signer2` | 대리인 | signature | 100% | 이주원 |
 
 ### 퇴직연금 퇴직급여 지급신청서(DB) (`hf179`) — 키 37개
@@ -12863,28 +12863,28 @@
 | `DB계좌번호` | DB계좌번호 | text | 100% | 326-668155-97230 |
 | `customer.birth` | 생년월일 | date | 100% | 1990년 2월 10일 |
 | `퇴직일자` | 퇴직일자 | date | 100% | 2025-07-30 |
-| `check.지급형태` | 지급형태 | checkbox | 100% | IRP이전(의무) |
-| `check.지급형태2` | 지급형태 | checkbox | 100% | 요구불계좌 |
+| `check.지급형태` | 지급형태 | checkbox | 100% | 보기: IRP이전(의무) |
+| `check.지급형태2` | 지급형태 | checkbox | 100% | 보기: 요구불계좌 |
 | `예약지급일주1` | 예약지급일주1 | text | 100% |  |
-| `check.만55세이후퇴직` | 만55세이후퇴직 | checkbox | 100% | 한시적 체류자격 외국인 |
+| `check.만55세이후퇴직` | 만55세이후퇴직 | checkbox | 100% | 보기: 만55세 이후 퇴직 / 만원 이하 퇴직금 지급 / 가입자 사망 / 한시적 체류자격 외국인 |
 | `퇴직급여총액` | 퇴직급여총액 | number | 100% | 4,250,000 |
 | `지급신청금액` | 지급신청금액 | number | 100% | 9,410,000 |
-| `check.기업으로반환신청` | (필요시기재)기업으로반환신청 | checkbox | 100% | 퇴직소득세  |
-| `check.지급방식` | 지급방식 | checkbox | 100% | 적립비율지급 |
+| `check.기업으로반환신청` | (필요시기재)기업으로반환신청 | checkbox | 100% | 보기: 퇴직소득세  / 국민연금전환금 |
+| `check.지급방식` | 지급방식 | checkbox | 100% | 보기: 전액지급 / 적립비율지급 |
 | `금융기관명` | 금융기관명 | text | 100% | 농협은행 |
 | `금융기관명2` | 금융기관명 | text | 100% | 하나은행 |
 | `account` | 계좌번호 | account_no | 100% | 774-646914-96117 |
 | `account2` | 계좌번호 | account_no | 100% | 000-287736-52424 |
 | `목록[].매도순위` | 매도순위 | text | 100% |  |
-| `목록[].상품명` | 상품명 | text | 100% | 커피 원두 |
-| `목록[].계좌번호` | 계좌번호 | text | 100% | 789-760323-44291 |
-| `목록[].매도금액` | 매도금액(원/좌) | number | 100% | 29,750,000 |
-| `check.가입자단독청구` | 가입자단독청구 | checkbox | 100% | 기타 (사용자 지급 거절 등) |
+| `목록[].상품명` | 상품명 | text | 100% | 하나 단기채 증권투자신탁 |
+| `목록[].계좌번호` | 계좌번호 | text | 100% | 976-032344-29141 |
+| `목록[].매도금액` | 매도금액(원/좌) | number | 100% | 28,810,000원 |
+| `check.가입자단독청구` | 가입자단독청구 | checkbox | 100% | 보기: 업체 폐업 / 기타 (사용자 지급 거절 등) |
 | `영업점본인확인` | 영업점본인확인 | text | 100% | 범어지점 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 가입자 | text | 100% | 박찬연 |
 | `seal.signer` | 가입자 | seal | 100% | 박찬연 |
-| `sign.signer` | 가입자 | signature | 100% | 이욱유 |
+| `sign.signer` | 가입자 | signature | 100% | 이민빈 |
 | `signer2.name` | 기업명 | text | 100% | 박찬연 |
 | `seal.signer2` | 기업명 | seal | 100% | 강순준 |
 | `sign.signer2` | 기업명 | signature | 100% | 박찬연 |
@@ -12921,17 +12921,17 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.신청내용` | 신청내용 | checkbox | 100% | 이전 신청 취소( |
-| `check.이전의사확인` | 이전의사확인* | checkbox | 100% | 이전하는 금융회사 방문 |
-| `check.신청서제출처` | 신청서제출처 | checkbox | 100% | 이전하는 금융회사 |
+| `check.신청내용` | 신청내용 | checkbox | 100% | 보기: 이전 신청 / 이전 신청 취소( / 에 하나만 √표시합니다. |
+| `check.이전의사확인` | 이전의사확인* | checkbox | 100% | 보기: 전화통화 등 / 이전하는 금융회사 방문 |
+| `check.신청서제출처` | 신청서제출처 | checkbox | 100% | 보기: 이전하는 금융회사 / 이전받을 금융회사 |
 | `company.name` | 기업명 | text | 100% | (주)유니온무역 |
 | `company.biz_no` | 사업자번호 | biz_no | 100% | 261-82-53694 |
 | `담당자성명` | 담당자성명 | text | 100% | 이유희 |
 | `customer.phone` | 전화번호 | phone | 100% | 010-5907-7253 |
-| `check.제도유형` | 제도유형 | checkbox | 100% | 기업형IRP |
-| `check.이전계약` | 이전계약 | checkbox | 100% | 운용관리계약+자산관리계약 |
-| `check.이전유형` | 이전유형 | checkbox | 100% | 일부(적립금, 가입자)이전 |
-| `check.이전대상` | 이전대상** | checkbox | 100% | 실물 |
+| `check.제도유형` | 제도유형 | checkbox | 100% | 보기: DB / DC / 기업형IRP |
+| `check.이전계약` | 이전계약 | checkbox | 100% | 보기: 운용관리계약+자산관리계약 / 운용관리계약 |
+| `check.이전유형` | 이전유형 | checkbox | 100% | 보기: 전부(계약)이전 / 일부(적립금, 가입자)이전 |
+| `check.이전대상` | 이전대상** | checkbox | 100% | 보기: 전액 현금 / 실물 |
 | `이전금액` | 이전금액***(DB일부이전) | number | 100% | 238,390,000 |
 | `금융회사명` | 금융회사명 | text | 100% | 국민은행 |
 | `signer.name` | 금융기관명:지점명 | text | 100% | 박찬연 |
@@ -12959,32 +12959,32 @@
 | `목록[].은행사용란` | 은행사용란 | text | 100% |  |
 | `customer.name` | 성명(업체명) | text | 100% | 박찬연 |
 | `customer.birth` | 생년월일 | date | 100% | 2026년 1월 31일 |
-| `check.휴대전화` | 휴대전화 | checkbox | 100% | SKT  |
-| `Email주소` | E-mail주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `check.휴대전화` | 휴대전화 | checkbox | 100% | 보기: SKT  / KT  /  LGU+ |
+| `customer.email` | E-mail주소 | text | 100% | chanyeon363@naver.com |
 | `자택` | 자택 | text | 100% |  |
 | `employer.name` | 직장 | text | 100% | 주식회사 태평양무역 |
 | `customer.home_phone` | 자택전화 | phone | 100% | 02-1244-9090 |
 | `employer.phone` | 직장전화 | phone | 100% | 043-783-2775 |
-| `check.우편물수령처` | 우편물수령처 | checkbox | 100% | 자택 |
-| `check.전화연락처` | 전화연락처 | checkbox | 100% | 휴대폰 |
-| `check.년월일` | 년월일 | checkbox | 100% | 고객정보  |
+| `check.우편물수령처` | 우편물수령처 | checkbox | 100% | 보기: 자택 / 직장 / 원치않음 |
+| `check.전화연락처` | 전화연락처 | checkbox | 100% | 보기: 자택 / 직장 / 휴대폰 |
+| `check.년월일` | 년월일 | checkbox | 100% | 보기: 고객정보  |
 | `필수통지` | 필수(법적)통지 | text | 100% |  |
 | `목표수익률에도달하면펀드자동환매` | 목표수익률에도달하면펀드자동환매 | text | 100% |  |
-| `check.상승자동환매` | 상승+%자동환매 | checkbox | 100% | 하락 - % 자동환매 |
-| `check.상승자동환매2` | 상승+%자동환매 | checkbox | 100% | 보기2 |
-| `check.상승자동환매3` | 상승+%자동환매 | checkbox | 100% | 하락 - % 자동환매 |
-| `check.운용현황보고서발송주기` | 운용현황보고서발송주기(기본값:분기발송) | checkbox | 100% | 분기 |
-| `check.원리금보장상품만기도래시전월통지발송` | 원리금보장상품(정기예금등)만기도래시전월통지발송 | checkbox | 100% | 이메일 |
-| `check.퇴직연금운용및자산관리약관이변경되는경우통지` | 퇴직연금운용및자산관리약관이변경되는경우통지 | checkbox | 100% | 수신거부 |
-| `check.집합투자증권매수시예탁결제원의자산운용보고서수령방법` | 집합투자증권매수시예탁결제원의자산운용보고서수령방법 | checkbox | 100% | 영업점 수령/홈페이지 확인 |
-| `check.목표수익률에도달하면펀드자동환매` | 목표수익률에도달하면펀드자동환매 | checkbox | 100% | 신청안함 |
-| `check.신청` | 신청(미발송) | checkbox | 100% | 신청(미발송) |
+| `check.상승자동환매` | 상승+%자동환매 | checkbox | 100% | 보기: 하락 - % 자동환매 / 보기2 |
+| `check.상승자동환매2` | 상승+%자동환매 | checkbox | 100% | 보기: 하락 - % 자동환매 / 보기2 |
+| `check.상승자동환매3` | 상승+%자동환매 | checkbox | 100% | 보기: 하락 - % 자동환매 / 보기2 |
+| `check.운용현황보고서발송주기` | 운용현황보고서발송주기(기본값:분기발송) | checkbox | 100% | 보기: 월 / 분기 |
+| `check.원리금보장상품만기도래시전월통지발송` | 원리금보장상품(정기예금등)만기도래시전월통지발송 | checkbox | 100% | 보기: 이메일 / 알림톡(LMS) |
+| `check.퇴직연금운용및자산관리약관이변경되는경우통지` | 퇴직연금운용및자산관리약관이변경되는경우통지 | checkbox | 100% | 보기: 수신거부 / 이메일 / 알림톡(LMS) |
+| `check.집합투자증권매수시예탁결제원의자산운용보고서수령방법` | 집합투자증권매수시예탁결제원의자산운용보고서수령방법 | checkbox | 100% | 보기: e-mail / 우편(직장→자택) / 수령거절 / 영업점 수령/홈페이지 확인 |
+| `check.목표수익률에도달하면펀드자동환매` | 목표수익률에도달하면펀드자동환매 | checkbox | 100% | 보기: 신청안함 / 등록/변경 / 해지 |
+| `check.신청` | 신청(미발송) | checkbox | 100% | 보기: 신청(미발송) / 신청안함(발송) |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
-| `check.AI포트폴리오가입후매1년마다정기적으로리밸런싱을안내` | AI포트폴리오가입후매1년마다정기적으로리밸런싱을안내 | checkbox | 100% | 알림톡(LMS) |
-| `check.신청여부` | 신청여부 | checkbox | 100% | 알림톡(LMS) |
+| `check.AI포트폴리오가입후매1년마다정기적으로리밸런싱을안내` | AI포트폴리오가입후매1년마다정기적으로리밸런싱을안내 | checkbox | 100% | 보기: 이메일 / 알림톡(LMS) |
+| `check.신청여부` | 신청여부 | checkbox | 100% | 보기: 신청안함 / 이메일 / 알림톡(LMS) |
 | `signer.name` | 가입자 | text | 100% | 박찬연 |
-| `seal.signer` | 가입자 | seal | 100% | 박찬연 |
-| `sign.signer` | 가입자 | signature | 100% | 현예지 |
+| `seal.signer` | 가입자 | seal | 100% | 강순준 |
+| `sign.signer` | 가입자 | signature | 100% | 박찬연 |
 
 ### 퇴직연금 계약해지 신청서(개인형IRP) (`hf184`) — 키 16개
 
@@ -12994,8 +12994,8 @@
 | `account` | 퇴직연금계좌번호 | account_no | 100% | 000-287736-52424 |
 | `customer.birth` | 생년월일 | date | 100% | 1997.05.14 |
 | `customer.phone` | 연락처 | phone | 100% | 010-5907-7253 |
-| `check.일반사유` | 일반사유 | checkbox | 100% | 일반 중도해지 |
-| `check.부득이한사유` | 부득이한사유 | checkbox | 100% | 가입자의 사망 |
+| `check.일반사유` | 일반사유 | checkbox | 100% | 보기: 일반 중도해지 |
+| `check.부득이한사유` | 부득이한사유 | checkbox | 100% | 보기: 가입자의 사망 / 해외이주 / 개월 이상 요양 / 개인회생 및 파산 / 천재지변 |
 | `금융기관명` | 금융기관명 | text | 100% | 하나은행 |
 | `account2` | 계좌번호 | account_no | 100% | 000-287736-52424 |
 | `당해년도납입액` | 당해년도납입액 | text | 100% |  |
@@ -13013,7 +13013,7 @@
 |---|---|---|---|---|
 | `company.name` | 기업명 | text | 100% | (주)유니온무역 |
 | `company.biz_no` | 사업자등록번호 | biz_no | 100% | 264-82-36559 |
-| `check.신청구분` | 신청구분 | checkbox | 100% | 변경 |
+| `check.신청구분` | 신청구분 | checkbox | 100% | 보기: 신청 / 변경 / 해지 |
 | `date` | 이체개시일 | date | 100% | 2026년 1월 31일 |
 | `date2` | 이체종료일 | date | 100% | 2026년 1월 31일 |
 | `account` | 출금계좌번호 | account_no | 100% | 000-287736-52424 |
@@ -13117,19 +13117,19 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `customer.name` | 성명 | text | 100% | 박찬연 |
-| `check.제도` | 제도 | checkbox | 100% | 기업형IRP |
+| `check.제도` | 제도 | checkbox | 100% | 보기: DC / 기업형IRP / 개인형IRP |
 | `employer.hire_date` | 입사일 | date | 100% | 2020.05.08 |
 | `customer.birth` | 생년월일 | date | 100% | 1990.02.10 |
 | `계좌번호또는회사명` | 계좌번호또는회사명 | text | 100% | 344-697682-34689 |
 | `중간정산일` | 중간정산일 | date | 100% | 2025-08-31 |
 | `customer.phone` | 휴대전화 | phone | 100% | 010-5907-7253 |
-| `check.신청금액` | 신청금액 | checkbox | 100% | 전부 |
-| `check.임원여부` | 임원여부 | checkbox | 100% | 임원 |
-| `check.가입자부담금여부` | 가입자부담금여부 | checkbox | 100% | 가입자부담금(적립금) 없음 |
-| `check.추가부담금입금여부` | 추가부담금입금여부 | checkbox | 100% | 해당사항 없음 |
-| `check.해당사항있음금액` | 해당사항있음(금액 | checkbox | 100% | 해당사항 있음 ( 금액 |
-| `check.당해연도이전에중간정산한금액이있는경우` | 당해연도이전에중간정산(중도인출)한금액이있는경우 | checkbox | 100% | 합산과세 미적용 |
-| `check.해당사항없음` | 해당사항없음 | checkbox | 100% | 해당사항 없음 |
+| `check.신청금액` | 신청금액 | checkbox | 100% | 보기: 전부 / 일부 |
+| `check.임원여부` | 임원여부 | checkbox | 100% | 보기: 근로자 / 임원 |
+| `check.가입자부담금여부` | 가입자부담금여부 | checkbox | 100% | 보기: 가입자부담금(적립금) 없음 / 가입자부담금(적립금) 있음 |
+| `check.추가부담금입금여부` | 추가부담금입금여부 | checkbox | 100% | 보기: 해당사항 없음 |
+| `check.해당사항있음금액` | 해당사항있음(금액 | checkbox | 100% | 보기: 해당사항 있음 ( 금액 / 연동출금 동의 / 연동출금 미동의 |
+| `check.당해연도이전에중간정산한금액이있는경우` | 당해연도이전에중간정산(중도인출)한금액이있는경우 | checkbox | 100% | 보기: 해당사항 없음 / 합산과세 적용 / 합산과세 미적용 |
+| `check.해당사항없음` | 해당사항없음 | checkbox | 100% | 보기: 해당사항 없음 / 해당사항 있음 (합산과세 적용 필수) |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `value` | [일부신청시유의사항] | amount | 100% |  |
 | `value2` | [가입자부담금이있는경우유의사항] | amount | 100% |  |
@@ -13137,49 +13137,49 @@
 | `금융기관명` | 금융기관명 | text | 100% | 우리은행 |
 | `customer.name2` | 예금주 | text | 100% | 박찬연 |
 | `목록[].매도순위` | 매도순위 | text | 100% |  |
-| `목록[].상품명` | 상품명 | text | 100% | 철강 코일 |
+| `목록[].상품명` | 상품명 | text | 100% | 정기예금 (1년) |
 | `목록[].계좌번호` | 계좌번호 | text | 100% | 748-445122-14066 |
 | `목록[].매도금액` | 매도금액(원/좌) | text | 100% | 9,060,000 |
-| `check.무주택자인가입자가본인명` | 무주택자인가입자가본인명의로주택구입하는경우 | checkbox | 100% | 무주택자인 가입자가 본인 명의로 주택 구입하는 경우 |
-| `check.무주택자인가입자의주거목` | 무주택자인가입자의주거목적의전세금(임차보증금)부담하는경우 | checkbox | 100% | 무주택자인 가입자의 주거 목적의 전세금(임차보증금) 부담하는 경우 |
-| `check.개월이상요양을필요로하는` | 개월이상요양을필요로하는본인또는부양가족(배우자의부양가족포함 | checkbox | 100% | 개월 이상 요양을 필요로 하는 본인 또는 부양가족(배우자의 부양가족 포함 |
-| `check.년이내에채무자회생및파` | 년이내에「채무자회생및파산에관한법률」에따라파산선고를받은 | checkbox | 100% | 년 이내에 「채무자 회생 및 파산에 관한 법률」에 따라 파산선고를 받은  |
-| `check.년이내에채무자회생및파2` | 년이내에「채무자회생및파산에관한법률」에따라개인회생절차개시 | checkbox | 100% | 년 이내에 「채무자 회생 및 파산에 관한 법률」에 따라 개인회생절차 개시 |
-| `check.가입자가입자의배우자또는` | 가입자,가입자의배우자또는부양가족이「재난및안전관리기본법」에따 | checkbox | 100% | 가입자, 가입자의 배우자 또는 부양가족이 「재난 및 안전관리기본법」에 따 |
-| `check.퇴직급여를담보로제공하여` | 퇴직급여를담보로제공하여대출을받은가입자가그대출상환을하기위한 | checkbox | 100% | 퇴직급여를 담보로 제공하여 대출을 받은 가입자가 그 대출상환을 하기 위한 |
+| `check.무주택자인가입자가본인명` | 무주택자인가입자가본인명의로주택구입하는경우 | checkbox | 100% | 보기: 무주택자인 가입자가 본인 명의로 주택 구입하는 경우 |
+| `check.무주택자인가입자의주거목` | 무주택자인가입자의주거목적의전세금(임차보증금)부담하는경우 | checkbox | 100% | 보기: 무주택자인 가입자의 주거 목적의 전세금(임차보증금) 부담하는 경우 |
+| `check.개월이상요양을필요로하는` | 개월이상요양을필요로하는본인또는부양가족(배우자의부양가족포함 | checkbox | 100% | 보기: 개월 이상 요양을 필요로 하는 본인 또는 부양가족(배우자의 부양가족 포함 |
+| `check.년이내에채무자회생및파` | 년이내에「채무자회생및파산에관한법률」에따라파산선고를받은 | checkbox | 100% | 보기: 년 이내에 「채무자 회생 및 파산에 관한 법률」에 따라 파산선고를 받은  |
+| `check.년이내에채무자회생및파2` | 년이내에「채무자회생및파산에관한법률」에따라개인회생절차개시 | checkbox | 100% | 보기: 년 이내에 「채무자 회생 및 파산에 관한 법률」에 따라 개인회생절차 개시 |
+| `check.가입자가입자의배우자또는` | 가입자,가입자의배우자또는부양가족이「재난및안전관리기본법」에따 | checkbox | 100% | 보기: 가입자, 가입자의 배우자 또는 부양가족이 「재난 및 안전관리기본법」에 따 |
+| `check.퇴직급여를담보로제공하여` | 퇴직급여를담보로제공하여대출을받은가입자가그대출상환을하기위한 | checkbox | 100% | 보기: 퇴직급여를 담보로 제공하여 대출을 받은 가입자가 그 대출상환을 하기 위한 |
 | `value3` | [무주택서약서] | amount | 100% |  |
 | `customer.name3` | 가입자 | text | 100% | 박찬연 |
 | `customer.name4` | 가입자 | text | 100% | 박찬연 |
 | `customer.name5` | 가입자 | text | 100% | 박찬연 |
 | `customer.name6` | 가입자 | text | 100% | 박찬연 |
 | `customer.name7` | 가입자 | text | 100% | 박찬연 |
-| `company.name` | 기업명 | text | 100% | (주)삼정전자 |
+| `company.name` | 기업명 | text | 100% | 주식회사 대성패션 |
 | `customer.name8` | 가입자 | text | 100% | 박찬연 |
 | `년이내에채무자회생및파산에관한법률에따라파산선고를받은경우` | 년이내에“채무자회생및파산에관한법률”에따라파산선고를받은경우 | text | 100% |  |
-| `check.신청시기` | 신청시기 | checkbox | 100% | 계약 체결일로부터 소유권 이전 등기 후 1개월 이내 |
-| `check.공통서류` | 공통서류 | checkbox | 100% | 지방세 세목별 과세증명서 (지역 |
-| `check.주택매매` | 주택매매 | checkbox | 100% | 매수할 부동산의 등기사항전부증명서-건물 또는 건축물관리대장 (1개월 이내 |
-| `check.분양분양전환` | 분양/분양전환 | checkbox | 100% | 분양(공급) 계약서 (동/호수 배정, 권리의무 승계 내역 포함한 계약서  |
-| `check.분양권매수` | 분양권매수 | checkbox | 100% | 주택분양(공급)계약서 및 분양권 매매계약서 (동/호수 배정, 권리의무 승 |
-| `check.주택청약당첨` | 주택청약당첨 | checkbox | 100% | 계약금 납부일정 확인서류 |
-| `check.주택신축` | 주택신축 | checkbox | 100% | 공사계약서 |
-| `check.경매취득` | 경매취득 | checkbox | 100% | 대금지급기한통지서 |
-| `check.오피스텔` | 오피스텔 | checkbox | 100% | 건축물관리대장 –건물 용도 |
-| `check.소유권이전후` | 소유권이전후 | checkbox | 100% | 소유권 이전 완료 된 등기사항전부증명서-건물 또는 건축물관리대장 (1개월 |
-| `check.신청시기2` | 신청시기 | checkbox | 100% | 주택임대차계약 체결일로부터 잔금 지급일 이후 1개월 이내 |
-| `check.공통서류2` | 공통서류 | checkbox | 100% | 전(월)세 계약서 (부동산 중개인을 통한 거래) |
-| `check.연장` | 연장 | checkbox | 100% | 연장 전/후 전(월)세 임대차 계약서 (부동산 중개인을 통한 거래 ) |
-| `check.주택이외` | 주택이외 | checkbox | 100% | 전입 후 주민등록등본 ( 임차부동산 전입신고 후 신청 가능) |
-| `check.잔금지급후` | 잔금지급후 | checkbox | 100% | 전입 후 주민등록등본 |
-| `check.신청시기3` | 신청시기 | checkbox | 100% | 요양 중이거나 요양 종료일로부터 1개월 이내 |
-| `check.요양필요확인서류` | 요양필요확인서류 | checkbox | 100% | 중도인출신청서 (회사 명판 및 거래인감 날인, 가입자 날인) , 가입자  |
-| `check.의료비지출확인서류` | 의료비지출확인서류 | checkbox | 100% | 의료기관 등에서 발급한 영수증, 진료비 청구서, 진료비 납입확인서, 진료 |
-| `check.연간임금총액확인서류` | 연간임금총액확인서류 | checkbox | 100% | 가입자의 직전연도 근로소득원천징수영수증 또는 급여명세서 |
-| `check.배우자또는부양가족요양비용의경우확인서류` | 배우자또는부양가족요양비용의경우확인서류 | checkbox | 100% | 주민등록등본 또는 가족관계증명서 (1개월 이내) |
-| `check.신청시기4` | 신청시기 | checkbox | 100% | 신청일 기준 개인회생 개시결정일로부터 5년 이내 |
-| `check.필요서류` | 필요서류 | checkbox | 100% | 개인회생절차 개시결정문 또는 개인회생절차변제인가 확정증명원(변제계획서 포 |
-| `check.신청시기5` | 신청시기 | checkbox | 100% | 신청일 기준 파산 선고일로부터 5년 이내 |
-| `check.필요서류2` | 필요서류 | checkbox | 100% | 중도인출신청서 (회사 명판 및 거래인감 날인, 가입자 날인) , 가입자  |
+| `check.신청시기` | 신청시기 | checkbox | 100% | 보기: 계약 체결일로부터 소유권 이전 등기 후 1개월 이내 |
+| `check.공통서류` | 공통서류 | checkbox | 100% | 보기: 중도인출신청서 (회사 명판 및 거래인감 날인, 가입자 날인) , 가입자  / 현거주지의 주민등록등본 또는 초본 (1개월 이내) / 현거주지의 등기사항전부증명서-건물 또는 건축물관리대장 또는 무허가건물확인 / 지방세 세목별 과세증명서 (지역 |
+| `check.주택매매` | 주택매매 | checkbox | 100% | 보기: 부동산 매매계약서 (부동산 중개인을 통한 거래) / 매수할 부동산의 등기사항전부증명서-건물 또는 건축물관리대장 (1개월 이내 |
+| `check.분양분양전환` | 분양/분양전환 | checkbox | 100% | 보기: 분양(공급) 계약서 (동/호수 배정, 권리의무 승계 내역 포함한 계약서  |
+| `check.분양권매수` | 분양권매수 | checkbox | 100% | 보기: 주택분양(공급)계약서 및 분양권 매매계약서 (동/호수 배정, 권리의무 승 |
+| `check.주택청약당첨` | 주택청약당첨 | checkbox | 100% | 보기: 당첨자 확인서류 / 계약금 납부일정 확인서류 |
+| `check.주택신축` | 주택신축 | checkbox | 100% | 보기: 공사계약서 / 건축설계서 / 건축허가서 또는 착공신고필증 |
+| `check.경매취득` | 경매취득 | checkbox | 100% | 보기: 매각허가결정문 (부동산의 표시 포함) / 대금지급기한통지서 |
+| `check.오피스텔` | 오피스텔 | checkbox | 100% | 보기: 건축물관리대장 –건물 용도 |
+| `check.소유권이전후` | 소유권이전후 | checkbox | 100% | 보기: 소유권 이전 완료 된 등기사항전부증명서-건물 또는 건축물관리대장 (1개월 |
+| `check.신청시기2` | 신청시기 | checkbox | 100% | 보기: 주택임대차계약 체결일로부터 잔금 지급일 이후 1개월 이내 |
+| `check.공통서류2` | 공통서류 | checkbox | 100% | 보기: 중도인출신청서 (회사 명판 및 거래인감 날인, 가입자 날인) , 가입자  / 현거주지의 주민등록등본 또는 초본 (1개월이내) / 현거주지의 등기사항전부증명서-건물 또는 건축물관리대장 또는 무주택확인원  / 지방세 세목별 과세증명서 (지역 / 전(월)세 계약서 (부동산 중개인을 통한 거래) / 임차하고자 하는 부동산의 등기사항전부증명서-건물 또는 건축물관리대장 (1 / 계약금 입금증 (수기영수증 제외) |
+| `check.연장` | 연장 | checkbox | 100% | 보기: 연장 전/후 전(월)세 임대차 계약서 (부동산 중개인을 통한 거래 ) / 잔금 입금증 (수기 영수증 제외) |
+| `check.주택이외` | 주택이외 | checkbox | 100% | 보기: 전입 후 주민등록등본 ( 임차부동산 전입신고 후 신청 가능) |
+| `check.잔금지급후` | 잔금지급후 | checkbox | 100% | 보기: 잔금 입금증 (수기 영수증 제외) / 전입 후 주민등록등본 |
+| `check.신청시기3` | 신청시기 | checkbox | 100% | 보기: 요양 중이거나 요양 종료일로부터 1개월 이내 |
+| `check.요양필요확인서류` | 요양필요확인서류 | checkbox | 100% | 보기: 의사의 진단서, 소견서 또는 건강보험공단의 장기요양인정서 / 중도인출신청서 (회사 명판 및 거래인감 날인, 가입자 날인) , 가입자  |
+| `check.의료비지출확인서류` | 의료비지출확인서류 | checkbox | 100% | 보기: 의료기관 등에서 발급한 영수증, 진료비 청구서, 진료비 납입확인서, 진료 |
+| `check.연간임금총액확인서류` | 연간임금총액확인서류 | checkbox | 100% | 보기: 가입자의 직전연도 근로소득원천징수영수증 또는 급여명세서 |
+| `check.배우자또는부양가족요양비용의경우확인서류` | 배우자또는부양가족요양비용의경우확인서류 | checkbox | 100% | 보기: 주민등록등본 또는 가족관계증명서 (1개월 이내) |
+| `check.신청시기4` | 신청시기 | checkbox | 100% | 보기: 신청일 기준 개인회생 개시결정일로부터 5년 이내 |
+| `check.필요서류` | 필요서류 | checkbox | 100% | 보기: 개인회생절차 개시결정문 또는 개인회생절차변제인가 확정증명원(변제계획서 포 / 중도인출신청서 (회사 명판 및 거래인감 날인, 가입자 날인) , 가입자  |
+| `check.신청시기5` | 신청시기 | checkbox | 100% | 보기: 신청일 기준 파산 선고일로부터 5년 이내 |
+| `check.필요서류2` | 필요서류 | checkbox | 100% | 보기: 법원의 파산선고문 / 중도인출신청서 (회사 명판 및 거래인감 날인, 가입자 날인) , 가입자  |
 | `주택신축` | 주택신축 | text | 100% |  |
 | `연장` | 연장 | text | 100% |  |
 | `요양필요` | 요양필요 | text | 100% |  |
@@ -13187,11 +13187,11 @@
 | `배우자또는` | 배우자또는 | text | 100% |  |
 | `부양가족` | 부양가족 | text | 100% |  |
 | `요양비용의경우` | 요양비용의경우 | text | 100% |  |
-| `check.과세제외및환급신청서` | 과세제외및환급신청서 | checkbox | 100% | 연금보험료 등 소득 · 세액공제 확인서 |
-| `check.신청시기6` | 신청시기 | checkbox | 100% | 피해발생일로부터 3개월 이내 |
-| `check.물적피해` | 물적피해 | checkbox | 100% | 중도인출신청서 (회사 명판 및 거래인감 날인, 가입자 날인) , 가입자  |
-| `check.인적피해` | 인적피해 | checkbox | 100% | 사망/실종 된 경우 |
-| `check.배우자또는부양가족재난의경우확인서류` | 배우자또는부양가족재난의경우확인서류 | checkbox | 100% | 주민등록등본 또는 가족관계증명서 (1개월 이내) |
+| `check.과세제외및환급신청서` | 과세제외및환급신청서 | checkbox | 100% | 보기: 과세제외 및 환급신청서 / 연금보험료 등 소득 · 세액공제 확인서 / 금융거래정보제공서 (연합회한도 조회용) / 연금납입확인서 |
+| `check.신청시기6` | 신청시기 | checkbox | 100% | 보기: 피해발생일로부터 3개월 이내 |
+| `check.물적피해` | 물적피해 | checkbox | 100% | 보기: 중도인출신청서 (회사 명판 및 거래인감 날인, 가입자 날인) , 가입자  / 피해사실확인서 또는 자연재난 피해신고서에 따른 관련행정기관의 피해조사(확 / 등기사항전부증명서-건물 (임차의 경우 임대차계약서 포함) |
+| `check.인적피해` | 인적피해 | checkbox | 100% | 보기: 중도인출신청서 (회사 명판 및 거래인감 날인, 가입자 날인) , 가입자  / 자연재난 피해신고서 에 따른 관련행정기관의 피해조사(확인)자료 / 사망/실종 된 경우 / 입원치료의 경우 |
+| `check.배우자또는부양가족재난의경우확인서류` | 배우자또는부양가족재난의경우확인서류 | checkbox | 100% | 보기: 주민등록등본 또는 가족관계증명서 (1개월 이내) |
 | `발급기준` | 발급기준 | text | 100% |  |
 | `물적피해` | 물적피해 | text | 100% |  |
 | `배우자또는2` | 배우자또는 | text | 100% |  |
@@ -13204,11 +13204,11 @@
 |---|---|---|---|---|
 | `company.name` | 기업명 | text | 100% | (주)유니온무역 |
 | `account` | 퇴직연금계좌번호 | account_no | 100% | 000-287736-52424 |
-| `check.신청구분` | 신청구분 | checkbox | 100% | 취소 |
-| `check.부담금종류` | 부담금종류 | checkbox | 100% | 지연이자 |
+| `check.신청구분` | 신청구분 | checkbox | 100% | 보기: 등록 / 취소 |
+| `check.부담금종류` | 부담금종류 | checkbox | 100% | 보기: 정기부담금 / 잔여부담금(퇴직정산 후 부족액) / 경영성과급 부담금 / 계약이전부담금 / 개인부담금 / 지연이자 |
 | `부담금등록가입자수` | 부담금등록가입자수 | number | 100% | 3 |
-| `check.납부방법` | 납부방법 | checkbox | 100% | 예약연동납부 [예약일 |
-| `check.부담금등록구분` | 부담금등록구분 | checkbox | 100% | 일괄(파일) 신청 |
+| `check.납부방법` | 납부방법 | checkbox | 100% | 보기: 별도계좌입금 / 즉시연동납부 / 예약연동납부 [예약일 |
+| `check.부담금등록구분` | 부담금등록구분 | checkbox | 100% | 보기: 일괄(파일) 신청 / 개별 신청 |
 | `목록[].성명` | 성명 | text | 100% | 김혁예 |
 | `목록[].생년월일주1` | 생년월일주1 | text | 100% | 2025-05-02 |
 | `목록[].기업부담금` | 기업부담금 | text | 100% | 190,000 |
@@ -13224,15 +13224,15 @@
 |---|---|---|---|---|
 | `company.name` | 기업명 | text | 100% | (주)유니온무역 |
 | `account` | 퇴직연금계좌번호 | account_no | 100% | 000-287736-52424 |
-| `check.제도` | 제도 | checkbox | 100% | DB |
+| `check.제도` | 제도 | checkbox | 100% | 보기: DB / DC |
 | `해지사유` | 해지사유 | text | 100% | 만기 해지 |
-| `check.해지사유` | 해지사유 | checkbox | 100% | 사업장의 인수합병 |
-| `check.수수료연동출금` | 수수료연동출금**(DC형만해당) | checkbox | 100% | 연동출금 미동의(기업별도입금) |
+| `check.해지사유` | 해지사유 | checkbox | 100% | 보기: 제도폐지 / 사업장 파산/폐업 / 사업장의 인수합병 / 법령변경 |
+| `check.수수료연동출금` | 수수료연동출금**(DC형만해당) | checkbox | 100% | 보기: 연동출금 동의 (사전에 약정된 경우) / 연동출금 미동의(기업별도입금) |
 | `목록[].성명` | 성명 | text | 100% | 김재희 |
-| `check.개인형IRP` | 개인형IRP | checkbox | 100% | 요구불계좌 |
+| `check.개인형IRP` | 개인형IRP | checkbox | 100% | 보기: 개인형IRP / 요구불계좌 |
 | `금융기관명` | 금융기관명 | text | 100% | 카카오뱅크 |
 | `account2` | 계좌번호 | account_no | 100% | 000-287736-52424 |
-| `check.개인형IRP2` | 개인형IRP | checkbox | 100% | 개인형IRP |
+| `check.개인형IRP2` | 개인형IRP | checkbox | 100% | 보기: 개인형IRP / 요구불계좌 |
 | `금융기관명2` | 금융기관명 | text | 100% | 신한은행 |
 | `account3` | 계좌번호 | account_no | 100% | 000-287736-52424 |
 | `signer.name` | 성명 | text | 100% | 박찬연 |
@@ -13242,16 +13242,16 @@
 | `signer2.name` | 성명 | text | 100% | 박찬연 |
 | `seal.signer2` | 성명 | seal | 100% | 이민빈 |
 | `sign.signer2` | 성명 | signature | 100% | 박찬연 |
-| `check.만55세이후퇴직` | 만55세이후퇴직 | checkbox | 100% | 만55세이후 퇴직 |
-| `check.만55세이후퇴직2` | 만55세이후퇴직 | checkbox | 100% | 만원 이하 퇴직금 지급 |
+| `check.만55세이후퇴직` | 만55세이후퇴직 | checkbox | 100% | 보기: 만55세이후 퇴직 / 만원 이하 퇴직금 지급 |
+| `check.만55세이후퇴직2` | 만55세이후퇴직 | checkbox | 100% | 보기: 만55세이후 퇴직 / 만원 이하 퇴직금 지급 |
 | `목록[].생년월일` | 생년월일 | date | 100% | 2026년 1월 30일 |
 | `목록[].입사일자` | 입사일자 | date | 100% | 2025년 12월 2일 |
 | `목록[].잔여부담금` | 잔여부담금(DC형만기재) | number | 100% | 4,760,000 |
-| `check.기업반환` | 기업반환(기업반환계좌로반환) | checkbox | 100% | 퇴직소득세 |
-| `check.기업반환2` | 기업반환(기업반환계좌로반환) | checkbox | 100% | 계속근로기간 1년 미만 |
+| `check.기업반환` | 기업반환(기업반환계좌로반환) | checkbox | 100% | 보기: 퇴직소득세 / 국민연금전환금 / 계속근로기간 1년 미만 |
+| `check.기업반환2` | 기업반환(기업반환계좌로반환) | checkbox | 100% | 보기: 퇴직소득세 / 국민연금전환금 / 계속근로기간 1년 미만 |
 | `목록[].중간정산일자` | 중간정산일자 | date | 100% | 2025년 8월 12일 |
-| `check.적용` | 적용 | checkbox | 100% | 적용 |
-| `check.적용2` | 적용 | checkbox | 100% | 적용 |
+| `check.적용` | 적용 | checkbox | 100% | 보기: 적용 / 미적용 |
+| `check.적용2` | 적용 | checkbox | 100% | 보기: 적용 / 미적용 |
 | `목록[].퇴직일자` | 퇴직일자 | date | 100% | 2025년 11월 27일 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer3.name` | 기업명 | text | 100% | 박찬연 |
@@ -13263,24 +13263,24 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `company.name` | 기업명 | text | 100% | (주)유니온무역 |
-| `check.제도구분` | 제도구분 | checkbox | 100% | DC |
+| `check.제도구분` | 제도구분 | checkbox | 100% | 보기: DB / DC / 기업형IRP |
 | `주담당자` | 주담당자 | text | 100% | 구승연 |
 | `부담당자` | 부담당자 | text | 100% | 정우찬 |
 | `목록[].휴대폰번호` | 휴대폰번호 | phone | 100% | 010-5907-7253 |
 | `company.biz_no` | 사업자등록번호 | biz_no | 100% | 264-82-36559 |
 | `account` | 퇴직연금계좌번호 | account_no | 100% | 000-287736-52424 |
-| `목록[].이메일주소` | 이메일주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
-| `check.상승자동환매` | 상승+%자동환매 | checkbox | 100% | 하락 - % 자동환매 |
-| `check.상승자동환매2` | 상승+%자동환매 | checkbox | 100% | 보기2 |
-| `check.상승자동환매3` | 상승+%자동환매 | checkbox | 100% | 보기2 |
-| `check.운용현황보고서발송주기` | 운용현황보고서발송주기(기본값:분기발송) | checkbox | 100% | 월 |
-| `check.원리금보장상품만기도래시전월통지발송` | 원리금보장상품(정기예금등)만기도래시전월통지발송 | checkbox | 100% | 알림톡(LMS) |
-| `check.퇴직연금운용및자산관리약관이변경되는경우통지` | 퇴직연금운용및자산관리약관이변경되는경우통지 | checkbox | 100% | 이메일 |
-| `check.집합투자증권매수시예탁결제원의자산운용보고서수령방법` | 집합투자증권매수시예탁결제원의자산운용보고서수령방법 | checkbox | 100% | 수령거절 |
-| `check.신청안함` | 신청안함 | checkbox | 100% | 알림톡(LMS) |
-| `check.매월말전체적립금에대한운용내역을익월초통지` | 매월말전체적립금에대한운용내역을익월초통지 | checkbox | 100% | 신청안함 |
-| `check.목표수익률에도달하면펀드자동환매` | 목표수익률에도달하면펀드자동환매 | checkbox | 100% | 등록/변경 |
-| `check.신청` | 신청(미발송) | checkbox | 100% | 신청안함(발송) |
+| `목록[].이메일주소` | 이메일주소 | text | 100% | chanyeon363@naver.com |
+| `check.상승자동환매` | 상승+%자동환매 | checkbox | 100% | 보기: 하락 - % 자동환매 / 보기2 |
+| `check.상승자동환매2` | 상승+%자동환매 | checkbox | 100% | 보기: 하락 - % 자동환매 / 보기2 |
+| `check.상승자동환매3` | 상승+%자동환매 | checkbox | 100% | 보기: 하락 - % 자동환매 / 보기2 |
+| `check.운용현황보고서발송주기` | 운용현황보고서발송주기(기본값:분기발송) | checkbox | 100% | 보기: 월 / 분기 / 반기 |
+| `check.원리금보장상품만기도래시전월통지발송` | 원리금보장상품(정기예금등)만기도래시전월통지발송 | checkbox | 100% | 보기: 이메일 / 알림톡(LMS) |
+| `check.퇴직연금운용및자산관리약관이변경되는경우통지` | 퇴직연금운용및자산관리약관이변경되는경우통지 | checkbox | 100% | 보기: 수신거부 / 이메일 / 알림톡(LMS) |
+| `check.집합투자증권매수시예탁결제원의자산운용보고서수령방법` | 집합투자증권매수시예탁결제원의자산운용보고서수령방법 | checkbox | 100% | 보기: e-mail / 우편 / 수령거절 / 영업점 수령/홈페이지 확인 |
+| `check.신청안함` | 신청안함 | checkbox | 100% | 보기: 신청안함 / 이메일 / 알림톡(LMS) |
+| `check.매월말전체적립금에대한운용내역을익월초통지` | 매월말전체적립금에대한운용내역을익월초통지 | checkbox | 100% | 보기: 신청안함 / 알림톡(LMS) |
+| `check.목표수익률에도달하면펀드자동환매` | 목표수익률에도달하면펀드자동환매 | checkbox | 100% | 보기: 신청안함 / 등록/변경 / 해지 |
+| `check.신청` | 신청(미발송) | checkbox | 100% | 보기: 신청(미발송) / 신청안함(발송) |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 기업명 | text | 100% | 박찬연 |
 | `seal.signer` | 기업명 | seal | 100% | 이욱유 |
@@ -13295,20 +13295,20 @@
 | `서류확인및접수확인자` | 서류확인및접수확인자 | text | 100% |  |
 | `company.name` | 기업명 | text | 100% | (주)유니온무역 |
 | `account` | 퇴직연금계좌번호 | account_no | 100% | 000-287736-52424 |
-| `check.해지사유` | 해지사유 | checkbox | 100% | 제도폐지 |
-| `check.수수료연동출금` | 수수료연동출금** | checkbox | 100% | 연동출금 동의 (사전에 약정된 경우) |
+| `check.해지사유` | 해지사유 | checkbox | 100% | 보기: 제도폐지 / 사업장 파산/폐업 / 사업장의 인수합병 / 법령 변경 |
+| `check.수수료연동출금` | 수수료연동출금** | checkbox | 100% | 보기: 연동출금 동의 (사전에 약정된 경우) / 연동출금 미동의(기업별도입금) |
 | `customer.name` | 성명 | text | 100% | 박찬연 |
-| `check.개인형IRP` | 개인형IRP | checkbox | 100% | 개인형 IRP |
+| `check.개인형IRP` | 개인형IRP | checkbox | 100% | 보기: 개인형 IRP / 요구불계좌 |
 | `금융기관명` | 금융기관명 | text | 100% | 우리은행 |
 | `account2` | 계좌번호 | account_no | 100% | 000-287736-52424 |
 | `customer.birth` | 생년월일 | date | 100% | 1966년 8월 12일 |
-| `check.만55세이후퇴직` | 만55세이후퇴직 | checkbox | 100% | 만원 이하 퇴직금 지급 |
+| `check.만55세이후퇴직` | 만55세이후퇴직 | checkbox | 100% | 보기: 만55세이후 퇴직 / 만원 이하 퇴직금 지급 |
 | `employer.hire_date` | 입사일자 | date | 100% | 2020.05.08 |
 | `중간정산일자` | 중간정산일자 | date | 100% | 2025.07.31 |
 | `잔여부담금` | 잔여부담금 | number | 100% | 5,130,000 |
-| `check.계좌번호` | 계좌번호 | checkbox | 100% | 계속근로기관 1년 미만 |
+| `check.계좌번호` | 계좌번호 | checkbox | 100% | 보기: 국민연금전환금 / 계속근로기관 1년 미만 |
 | `퇴직일자` | 퇴직일자 | date | 100% | 2025-01-26 |
-| `check.적용` | 적용 | checkbox | 100% | 적용 |
+| `check.적용` | 적용 | checkbox | 100% | 보기: 적용 / 미적용 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | 기업명 | text | 100% | 박찬연 |
 | `seal.signer` | 기업명 | seal | 100% | 강순준 |
@@ -13324,22 +13324,22 @@
 | `customer.name` | 성명(업체명) | text | 100% | 박찬연 |
 | `account` | 계좌번호 | account_no | 100% | 000-287736-52424 |
 | `customer.birth` | 생년월일(사업자번호) | date | 100% | 970514 |
-| `check.제도구분` | 제도구분 | checkbox | 100% | 개인형IRP |
+| `check.제도구분` | 제도구분 | checkbox | 100% | 보기: DB / DC / 기업형IRP / 개인형IRP |
 | `변경전` | 변경전 | text | 100% | 학자금 |
-| `check.구분` | 구분 | checkbox | 100% | 등록 |
-| `check.공통사항` | 공통사항 | checkbox | 100% | 신탁관리인 변경(추가항목 필수 기재) |
-| `check.DB` | DB | checkbox | 100% | 대체상품 매수 동의 |
-| `check.DC기업형IRP` | DC/기업형IRP | checkbox | 100% | 운용상품군(자동라인업)등록 |
-| `check.공통사항2` | 공통사항 | checkbox | 100% | 기타 ( |
-| `check.개인형IRP` | 개인형IRP | checkbox | 100% | 개인형IRP 속성 변경 |
+| `check.구분` | 구분 | checkbox | 100% | 보기: 등록 / 변경 / 해제 |
+| `check.공통사항` | 공통사항 | checkbox | 100% | 보기: 사업자번호 변경 / 기업반환계좌 변경 / 부담금 납입주기 변경 / 기업담당자 변경(추가항목 필수 기재) / 신탁관리인 변경(추가항목 필수 기재) / 거래인감 변경(거래인감통보서 필수 징구) / 장기할인수수료 적용 / 수수료 감면대상 등록 / 비대면 규약 동의 신청 / 기타 ( |
+| `check.DB` | DB | checkbox | 100% | 보기: 대체상품 매수 동의 |
+| `check.DC기업형IRP` | DC/기업형IRP | checkbox | 100% | 보기: 임금총액 등록 / 운용상품군(자동라인업)등록 / 표준형DC 등록 / 비대면 DC가입신청 명부 등록 |
+| `check.공통사항2` | 공통사항 | checkbox | 100% | 보기: 고객정보 통합관리 동의 / 퇴직연금정보 제3수령처 등록 / 연간납입한도 주1 / 만기 안내 수신여부(택 1) ○이메일 ○알림톡(LMS) ○수신거부 / 기타 ( |
+| `check.개인형IRP` | 개인형IRP | checkbox | 100% | 보기: 개인형IRP 속성 변경 / 가입자격등록(인터넷) |
 | `변경후` | 변경후 | text | 100% | 전세자금 |
-| `check.구분2` | 구분 | checkbox | 100% | 등록 |
+| `check.구분2` | 구분 | checkbox | 100% | 보기: 등록 / 변경 |
 | `customer.name2` | 성명 | text | 100% | 박찬연 |
 | `customer.birth2` | 생년월일 | date | 100% | 1990년 2월 10일 |
-| `check.신청구분` | 신청구분 | checkbox | 100% | 등록 |
+| `check.신청구분` | 신청구분 | checkbox | 100% | 보기: 등록 / 변경 / 해제 |
 | `customer.name3` | 성명 | text | 100% | 박찬연 |
 | `customer.phone` | 휴대폰번호 | phone | 100% | 010-5907-7253 |
-| `check.담당자구분` | 담당자구분 | checkbox | 100% | 주담당자 |
+| `check.담당자구분` | 담당자구분 | checkbox | 100% | 보기: 주담당자 / 부담당자 / 보고서담당자 |
 | `customer.birth3` | 생년월일 | date | 100% | 1990년 2월 10일 |
 | `customer.email` | 이메일주소 | text | 100% | chanyeon363@naver.com |
 | `기업담당자성명` | 기업담당자성명 | text | 100% | 손상인 |
@@ -13355,29 +13355,29 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `company.name` | 기업명 | text | 100% | (주)유니온무역 |
-| `check.퇴직연금가입제도` | 퇴직연금가입제도 | checkbox | 100% | 기업형IRP |
+| `check.퇴직연금가입제도` | 퇴직연금가입제도 | checkbox | 100% | 보기: DB / DC / 기업형IRP |
 | `account` | 퇴직연금계좌번호 | account_no | 100% | 000-287736-52424 |
-| `check.신청구분` | 신청구분 | checkbox | 100% | 등록 |
-| `check.신청구분2` | 신청구분 | checkbox | 100% | 변경 |
+| `check.신청구분` | 신청구분 | checkbox | 100% | 보기: 등록 |
+| `check.신청구분2` | 신청구분 | checkbox | 100% | 보기: 변경 / 삭제 |
 | `가입자수` | 가입자수 | text | 100% |  |
-| `check.가입자` | 가입자 | checkbox | 100% | 가입자 |
-| `check.가입자등록구분` | 가입자등록구분 | checkbox | 100% | 개별 신청 |
+| `check.가입자` | 가입자 | checkbox | 100% | 보기: 가입자 / 퇴직자(DB) 주1) |
+| `check.가입자등록구분` | 가입자등록구분 | checkbox | 100% | 보기: 일괄(파일) 신청 / 개별 신청 |
 | `가입자명부산정기준일자` | 가입자명부산정기준일자 | date | 100% | 2024년 11월 2일 |
-| `check.기준급여원` | 기준급여:원 | checkbox | 100% | 촉탁 |
-| `check.기준급여원2` | 기준급여:원 | checkbox | 100% | 임원 |
-| `check.기준급여원3` | 기준급여:원 | checkbox | 100% | 촉탁 |
-| `check.기준급여원4` | 기준급여:원 | checkbox | 100% | 임원 |
-| `check.기준급여원5` | 기준급여:원 | checkbox | 100% | 정년초과 |
-| `check.직원` | 직원 | checkbox | 100% | 직원 |
-| `check.직원2` | 직원 | checkbox | 100% | 임원 |
-| `check.직원3` | 직원 | checkbox | 100% | 임원 |
-| `check.직원4` | 직원 | checkbox | 100% | 임원 |
-| `check.직원5` | 직원 | checkbox | 100% | 직원 |
-| `check.퇴직일전환일사유` | 퇴직일/전환일:사유 | checkbox | 100% | 선지급(회사지급) |
-| `check.퇴직일전환일사유2` | 퇴직일/전환일:사유 | checkbox | 100% | 근속기간1년미만(DB) |
-| `check.퇴직일전환일사유3` | 퇴직일/전환일:사유 | checkbox | 100% | 무급부(대표지급)(DB) |
-| `check.퇴직일전환일사유4` | 퇴직일/전환일:사유 | checkbox | 100% | 선지급(회사지급) |
-| `check.퇴직일전환일사유5` | 퇴직일/전환일:사유 | checkbox | 100% | 기타( |
+| `check.기준급여원` | 기준급여:원 | checkbox | 100% | 보기: 직원 / 임원 / 촉탁 / 정년초과 |
+| `check.기준급여원2` | 기준급여:원 | checkbox | 100% | 보기: 직원 / 임원 / 촉탁 / 정년초과 |
+| `check.기준급여원3` | 기준급여:원 | checkbox | 100% | 보기: 직원 / 임원 / 촉탁 / 정년초과 |
+| `check.기준급여원4` | 기준급여:원 | checkbox | 100% | 보기: 직원 / 임원 / 촉탁 / 정년초과 |
+| `check.기준급여원5` | 기준급여:원 | checkbox | 100% | 보기: 직원 / 임원 / 촉탁 / 정년초과 |
+| `check.직원` | 직원 | checkbox | 100% | 보기: 직원 / 임원 |
+| `check.직원2` | 직원 | checkbox | 100% | 보기: 직원 / 임원 |
+| `check.직원3` | 직원 | checkbox | 100% | 보기: 직원 / 임원 |
+| `check.직원4` | 직원 | checkbox | 100% | 보기: 직원 / 임원 |
+| `check.직원5` | 직원 | checkbox | 100% | 보기: 직원 / 임원 |
+| `check.퇴직일전환일사유` | 퇴직일/전환일:사유 | checkbox | 100% | 보기: 무급부(대표지급)(DB) / 근속기간1년미만(DB) / 제도전환, 계열사이전 / 선지급(회사지급) / 기타( |
+| `check.퇴직일전환일사유2` | 퇴직일/전환일:사유 | checkbox | 100% | 보기: 무급부(대표지급)(DB) / 근속기간1년미만(DB) / 제도전환, 계열사이전 / 선지급(회사지급) / 기타( |
+| `check.퇴직일전환일사유3` | 퇴직일/전환일:사유 | checkbox | 100% | 보기: 무급부(대표지급)(DB) / 근속기간1년미만(DB) / 제도전환, 계열사이전 / 선지급(회사지급) / 기타( |
+| `check.퇴직일전환일사유4` | 퇴직일/전환일:사유 | checkbox | 100% | 보기: 무급부(대표지급)(DB) / 근속기간1년미만(DB) / 제도전환, 계열사이전 / 선지급(회사지급) / 기타( |
+| `check.퇴직일전환일사유5` | 퇴직일/전환일:사유 | checkbox | 100% | 보기: 무급부(대표지급)(DB) / 근속기간1년미만(DB) / 제도전환, 계열사이전 / 선지급(회사지급) / 기타( |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `customer.name` | 성명 | text | 100% | 박찬연 |
 | `customer.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
@@ -13420,41 +13420,41 @@
 | `customer.birth` | 생년월일및나이 | date | 100% | 1990.02.10 |
 | `고객유형` | 고객유형 | text | 100% |  |
 | `미성년자고령초고령구분` | 미성년자/고령/초고령구분 | text | 100% |  |
-| `check.예` | 예 | checkbox | 100% | 보기1 |
-| `check.예2` | 예 | checkbox | 100% | 보기1 |
-| `check.예3` | 예 | checkbox | 100% | 보기1 |
-| `check.예4` | 예 | checkbox | 100% | 보기1 |
-| `check.하` | 하 | checkbox | 100% | 보기1 |
-| `check.5미만` | 5%미만 | checkbox | 100% | 보기1 |
-| `check.년미만` | 년미만 | checkbox | 100% | 보기1 |
-| `check.아니오` | 아니오 | checkbox | 100% | 보기1 |
-| `check.아니오2` | 아니오 | checkbox | 100% | 보기1 |
-| `check.아니오3` | 아니오 | checkbox | 100% | 보기1 |
-| `check.아니오4` | 아니오 | checkbox | 100% | 보기1 |
-| `check.중` | 중 | checkbox | 100% | 보기1 |
-| `check.10미만` | 10%미만 | checkbox | 100% | 보기1 |
-| `check.년미만2` | 년미만 | checkbox | 100% | 보기1 |
-| `check.상` | 상 | checkbox | 100% | 보기1 |
-| `check.10이상` | 10%이상 | checkbox | 100% | 보기1 |
-| `check.년이상` | 년이상 | checkbox | 100% | 보기1 |
+| `check.예` | 예 | checkbox | 100% | 보기: 보기1 |
+| `check.예2` | 예 | checkbox | 100% | 보기: 보기1 |
+| `check.예3` | 예 | checkbox | 100% | 보기: 보기1 |
+| `check.예4` | 예 | checkbox | 100% | 보기: 보기1 |
+| `check.하` | 하 | checkbox | 100% | 보기: 보기1 |
+| `check.5미만` | 5%미만 | checkbox | 100% | 보기: 보기1 |
+| `check.년미만` | 년미만 | checkbox | 100% | 보기: 보기1 |
+| `check.아니오` | 아니오 | checkbox | 100% | 보기: 보기1 |
+| `check.아니오2` | 아니오 | checkbox | 100% | 보기: 보기1 |
+| `check.아니오3` | 아니오 | checkbox | 100% | 보기: 보기1 |
+| `check.아니오4` | 아니오 | checkbox | 100% | 보기: 보기1 |
+| `check.중` | 중 | checkbox | 100% | 보기: 보기1 |
+| `check.10미만` | 10%미만 | checkbox | 100% | 보기: 보기1 |
+| `check.년미만2` | 년미만 | checkbox | 100% | 보기: 보기1 |
+| `check.상` | 상 | checkbox | 100% | 보기: 보기1 |
+| `check.10이상` | 10%이상 | checkbox | 100% | 보기: 보기1 |
+| `check.년이상` | 년이상 | checkbox | 100% | 보기: 보기1 |
 | `고객등급` | 고객등급 | text | 100% |  |
 | `거래가능상품의위험등급` | 거래가능상품의위험등급 | text | 100% | 하나 적금 |
 | `거래목적위험회피목적여부` | 거래목적-위험회피목적여부 | text | 100% | 학자금 |
 | `위험의속성및규모에따른적합여부` | 위험의속성및규모에따른적합여부 | text | 100% |  |
 | `장외파생상품에대한지식보유정도` | 장외파생상품에대한지식보유정도 | text | 100% | 하나 적금 |
 | `장외파생상품을취득처분한경험` | 장외파생상품을취득·처분한경험 | text | 100% | 하나 TDF 2040 |
-| `check.적정` | 적정 | checkbox | 100% | 보기1 |
-| `check.부적정` | 부적정 | checkbox | 100% | 보기1 |
-| `check.미충족항목존재` | 미충족항목존재 | checkbox | 100% | 보기1 |
-| `check.상품위험등급대비고객등급미달` | 상품위험등급대비고객등급미달 | checkbox | 100% | 보기1 |
-| `check.충족` | 충족 | checkbox | 100% | 보기1 |
-| `check.충족2` | 충족 | checkbox | 100% | 보기1 |
-| `check.충족3` | 충족 | checkbox | 100% | 보기1 |
-| `check.충족4` | 충족 | checkbox | 100% | 보기1 |
-| `check.미충족` | 미충족 | checkbox | 100% | 보기1 |
-| `check.미충족2` | 미충족 | checkbox | 100% | 보기1 |
-| `check.미충족3` | 미충족 | checkbox | 100% | 보기1 |
-| `check.미충족4` | 미충족 | checkbox | 100% | 보기1 |
+| `check.적정` | 적정 | checkbox | 100% | 보기: 보기1 |
+| `check.부적정` | 부적정 | checkbox | 100% | 보기: 보기1 |
+| `check.미충족항목존재` | 미충족항목존재 | checkbox | 100% | 보기: 보기1 |
+| `check.상품위험등급대비고객등급미달` | 상품위험등급대비고객등급미달 | checkbox | 100% | 보기: 보기1 |
+| `check.충족` | 충족 | checkbox | 100% | 보기: 보기1 |
+| `check.충족2` | 충족 | checkbox | 100% | 보기: 보기1 |
+| `check.충족3` | 충족 | checkbox | 100% | 보기: 보기1 |
+| `check.충족4` | 충족 | checkbox | 100% | 보기: 보기1 |
+| `check.미충족` | 미충족 | checkbox | 100% | 보기: 보기1 |
+| `check.미충족2` | 미충족 | checkbox | 100% | 보기: 보기1 |
+| `check.미충족3` | 미충족 | checkbox | 100% | 보기: 보기1 |
+| `check.미충족4` | 미충족 | checkbox | 100% | 보기: 보기1 |
 | `항목점수` | 항목점수 | text | 100% |  |
 | `거래목적위험회피목적여부2` | 거래목적-위험회피목적여부 | text | 100% | 학자금 |
 | `customer.name2` | 고객명 | text | 100% | 박찬연 |
@@ -13471,23 +13471,23 @@
 | `customer.birth` | 생년월일및나이 | date | 100% | 1990-02-10 |
 | `고객유형` | 고객유형 | text | 100% |  |
 | `미성년자고령초고령구분` | 미성년자/고령/초고령구분 | text | 100% |  |
-| `check.예` | 예 | checkbox | 100% | 보기1 |
-| `check.예2` | 예 | checkbox | 100% | 보기1 |
-| `check.예3` | 예 | checkbox | 100% | 보기1 |
-| `check.예4` | 예 | checkbox | 100% | 보기1 |
-| `check.하` | 하 | checkbox | 100% | 보기1 |
-| `check.5미만` | 5%미만 | checkbox | 100% | 보기1 |
-| `check.년미만` | 년미만 | checkbox | 100% | 보기1 |
-| `check.아니오` | 아니오 | checkbox | 100% | 보기1 |
-| `check.아니오2` | 아니오 | checkbox | 100% | 보기1 |
-| `check.아니오3` | 아니오 | checkbox | 100% | 보기1 |
-| `check.아니오4` | 아니오 | checkbox | 100% | 보기1 |
-| `check.중` | 중 | checkbox | 100% | 보기1 |
-| `check.10미만` | 10%미만 | checkbox | 100% | 보기1 |
-| `check.년미만2` | 년미만 | checkbox | 100% | 보기1 |
-| `check.상` | 상 | checkbox | 100% | 보기1 |
-| `check.10이상` | 10%이상 | checkbox | 100% | 보기1 |
-| `check.년이상` | 년이상 | checkbox | 100% | 보기1 |
+| `check.예` | 예 | checkbox | 100% | 보기: 보기1 |
+| `check.예2` | 예 | checkbox | 100% | 보기: 보기1 |
+| `check.예3` | 예 | checkbox | 100% | 보기: 보기1 |
+| `check.예4` | 예 | checkbox | 100% | 보기: 보기1 |
+| `check.하` | 하 | checkbox | 100% | 보기: 보기1 |
+| `check.5미만` | 5%미만 | checkbox | 100% | 보기: 보기1 |
+| `check.년미만` | 년미만 | checkbox | 100% | 보기: 보기1 |
+| `check.아니오` | 아니오 | checkbox | 100% | 보기: 보기1 |
+| `check.아니오2` | 아니오 | checkbox | 100% | 보기: 보기1 |
+| `check.아니오3` | 아니오 | checkbox | 100% | 보기: 보기1 |
+| `check.아니오4` | 아니오 | checkbox | 100% | 보기: 보기1 |
+| `check.중` | 중 | checkbox | 100% | 보기: 보기1 |
+| `check.10미만` | 10%미만 | checkbox | 100% | 보기: 보기1 |
+| `check.년미만2` | 년미만 | checkbox | 100% | 보기: 보기1 |
+| `check.상` | 상 | checkbox | 100% | 보기: 보기1 |
+| `check.10이상` | 10%이상 | checkbox | 100% | 보기: 보기1 |
+| `check.년이상` | 년이상 | checkbox | 100% | 보기: 보기1 |
 | `고객등급` | 고객등급 | text | 100% |  |
 | `거래가능상품의위험등급` | 거래가능상품의위험등급 | text | 100% | 하나 단기채 펀드 |
 | `거래목적위험회피목적여부` | 거래목적-위험회피목적여부 | text | 100% | 학자금 |
@@ -13506,7 +13506,7 @@
 |---|---|---|---|---|
 | `고객등급` | 고객등급 | text | 100% |  |
 | `거래가능상품의위험등급` | 거래가능상품의위험등급 | text | 100% | 하나 적금 |
-| `거래희망상품명` | 거래희망상품명 | text | 100% | 플라스틱 원료 |
+| `거래희망상품명` | 거래희망상품명 | text | 100% | 하나 단기채 펀드 |
 | `거래희망상품의위험등급` | 거래희망상품의위험등급 | text | 100% | 하나 TDF 2040 |
 | `customer.name` | 본인 | text | 100% | 박찬연 |
 | `customer.name2` | 고객명 | text | 100% | 박찬연 |
@@ -13520,60 +13520,60 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.비상장기업` | 비상장기업 | checkbox | 100% | 보기1 |
+| `check.비상장기업` | 비상장기업 | checkbox | 100% | 보기: 보기1 |
 | `상장거래소명` | 상장거래소명 | text | 100% |  |
 | `상장거래소명2` | 상장거래소명 | text | 100% |  |
 | `종목코드` | 종목코드 | number | 100% | 747546 |
-| `check.선택` | 선택 | checkbox | 100% | 상장거래소명 |
+| `check.선택` | 선택 | checkbox | 100% | 보기: 생년월일 및 나이 / 상장거래소명 |
 | `자산총계` | 자산총계 | text | 100% |  |
 | `부채총계` | 부채총계 | text | 100% |  |
-| `check.보기1` | 보기1 | checkbox | 100% | 보기1 |
-| `check.` | □ | checkbox | 100% | □ |
-| `check[]` | □ | checkbox | 100% | □ |
-| `check.보기12` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기13` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기14` | 보기1 | checkbox | 100% | 보기1 |
-| `check.선택2` | 선택 | checkbox | 100% | □ |
-| `check.개월이하` | 개월이하 | checkbox | 100% | □ |
-| `check.개월이하2` | 개월이하 | checkbox | 100% | □ |
-| `check.년이하` | 년이하 | checkbox | 100% | □ |
-| `check.보기15` | 보기1 | checkbox | 100% | 보기1 |
+| `check.보기1` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.` | □ | checkbox | 100% | 보기: □ |
+| `check[]` | □ | checkbox | 100% | 보기: □ |
+| `check.보기12` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기13` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기14` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.선택2` | 선택 | checkbox | 100% | 보기: □ |
+| `check.개월이하` | 개월이하 | checkbox | 100% | 보기: □ |
+| `check.개월이하2` | 개월이하 | checkbox | 100% | 보기: □ |
+| `check.년이하` | 년이하 | checkbox | 100% | 보기: □ |
+| `check.보기15` | 보기1 | checkbox | 100% | 보기: 보기1 |
 | `하금융투자상품에투자해본경험이없음` | 하:금융투자상품에투자해본경험이없음 | text | 100% | 하나 TDF 2040 |
 | `employer.department` | 소속부서 | text | 100% | 법무팀 |
 | `관련경력` | 관련경력 | text | 100% |  |
 | `employer.position` | 직급 | text | 100% | 대리 |
 | `관련자격` | 관련자격 | text | 100% |  |
 | `customer.name` | 성명 | text | 100% | 박찬연 |
-| `check.보기16` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기17` | 보기1 | checkbox | 100% | 보기1 |
-| `check.하금융투자상품에투자해본경험이없음` | 하:금융투자상품에투자해본경험이없음 | checkbox | 100% | 보기1 |
+| `check.보기16` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기17` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.하금융투자상품에투자해본경험이없음` | 하:금융투자상품에투자해본경험이없음 | checkbox | 100% | 보기: 보기1 |
 | `하금융투자상품에투자해본경험이없음2` | 하:금융투자상품에투자해본경험이없음 | text | 100% | 하나 정기예금 |
 | `employer.department2` | 소속부서 | text | 100% | 구매팀 |
 | `관련경력2` | 관련경력 | text | 100% |  |
 | `employer.position2` | 직급 | text | 100% | 대리 |
 | `관련자격2` | 관련자격 | text | 100% |  |
 | `customer.name2` | 성명 | text | 100% | 박찬연 |
-| `check.보기18` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기19` | 보기1 | checkbox | 100% | 보기1 |
-| `check.하금융투자상품에투자해본경험이없음2` | 하:금융투자상품에투자해본경험이없음 | checkbox | 100% | 보기1 |
-| `check.보기110` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기111` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기112` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기113` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기114` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기115` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기116` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기117` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기118` | 보기1 | checkbox | 100% | 보기1 |
-| `check.거래경험있음` | 거래경험있음 | checkbox | 100% | □ |
-| `check.년미만` | 년미만 | checkbox | 100% | □ |
-| `check.년이상3년미만` | 년이상~3년미만 | checkbox | 100% | □ |
-| `check.예` | 예 | checkbox | 100% | □ |
-| `check.아니오` | 아니오 | checkbox | 100% | 규정명 |
+| `check.보기18` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기19` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.하금융투자상품에투자해본경험이없음2` | 하:금융투자상품에투자해본경험이없음 | checkbox | 100% | 보기: 보기1 |
+| `check.보기110` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기111` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기112` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기113` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기114` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기115` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기116` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기117` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기118` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.거래경험있음` | 거래경험있음 | checkbox | 100% | 보기: □ |
+| `check.년미만` | 년미만 | checkbox | 100% | 보기: □ |
+| `check.년이상3년미만` | 년이상~3년미만 | checkbox | 100% | 보기: □ |
+| `check.예` | 예 | checkbox | 100% | 보기: □ |
+| `check.아니오` | 아니오 | checkbox | 100% | 보기: 조직명 : 인원수 / 규정명 / 전산시스템명 |
 | `구조화통화옵션` | 구조화통화옵션(ExoticFXOption) | text | 100% | CNY |
 | `규모에비추어적합합니까` | 규모에비추어적합합니까? | text | 100% |  |
 | `업무절차보유여부` | 업무절차보유여부 | text | 100% |  |
-| `check.보기119` | 보기1 | checkbox | 100% | 보기1 |
+| `check.보기119` | 보기1 | checkbox | 100% | 보기: 보기1 |
 | `customer.name3` | 고객명 | text | 100% | 박찬연 |
 | `agent.name` | 대리인 | text | 100% | 박영준 |
 | `담당자` | 담당자(파생상품투자권유자문인력) | text | 100% | 진경희 |
@@ -13586,33 +13586,33 @@
 |---|---|---|---|---|
 | `자산총계` | 자산총계 | text | 100% |  |
 | `부채총계` | 부채총계 | text | 100% |  |
-| `check.보기1` | 보기1 | checkbox | 100% | 보기1 |
-| `check.` | □ | checkbox | 100% | □ |
-| `check[]` | □ | checkbox | 100% | □ |
-| `check.보기12` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기13` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기14` | 보기1 | checkbox | 100% | 보기1 |
-| `check.선택` | 선택 | checkbox | 100% | □ |
-| `check.개월이하` | 개월이하 | checkbox | 100% | □ |
-| `check.개월이하2` | 개월이하 | checkbox | 100% | □ |
-| `check.년이하` | 년이하 | checkbox | 100% | □ |
-| `check.보기15` | 보기1 | checkbox | 100% | 보기1 |
+| `check.보기1` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.` | □ | checkbox | 100% | 보기: □ |
+| `check[]` | □ | checkbox | 100% | 보기: □ |
+| `check.보기12` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기13` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기14` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.선택` | 선택 | checkbox | 100% | 보기: □ |
+| `check.개월이하` | 개월이하 | checkbox | 100% | 보기: □ |
+| `check.개월이하2` | 개월이하 | checkbox | 100% | 보기: □ |
+| `check.년이하` | 년이하 | checkbox | 100% | 보기: □ |
+| `check.보기15` | 보기1 | checkbox | 100% | 보기: 보기1 |
 | `하금융투자상품에투자해본경험이없음` | 하:금융투자상품에투자해본경험이없음 | text | 100% | 하나 TDF 2040 |
-| `check.보기16` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기17` | 보기1 | checkbox | 100% | 보기1 |
-| `check.하금융투자상품에투자해본경험이없음` | 하:금융투자상품에투자해본경험이없음 | checkbox | 100% | 보기1 |
-| `check.보기18` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기19` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기110` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기111` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기112` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기113` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기114` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기115` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기116` | 보기1 | checkbox | 100% | 보기1 |
-| `check.거래경험있음` | 거래경험있음 | checkbox | 100% | □ |
-| `check.년미만` | 년미만 | checkbox | 100% | □ |
-| `check.년이상3년미만` | 년이상~3년미만 | checkbox | 100% | □ |
+| `check.보기16` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기17` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.하금융투자상품에투자해본경험이없음` | 하:금융투자상품에투자해본경험이없음 | checkbox | 100% | 보기: 보기1 |
+| `check.보기18` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기19` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기110` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기111` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기112` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기113` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기114` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기115` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기116` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.거래경험있음` | 거래경험있음 | checkbox | 100% | 보기: □ |
+| `check.년미만` | 년미만 | checkbox | 100% | 보기: □ |
+| `check.년이상3년미만` | 년이상~3년미만 | checkbox | 100% | 보기: □ |
 | `구조화통화옵션` | 구조화통화옵션(ExoticFXOption) | text | 100% | USD |
 | `규모에비추어적합합니까` | 규모에비추어적합합니까? | text | 100% |  |
 | `customer.name` | 고객명 | text | 100% | 박찬연 |
@@ -13624,10 +13624,10 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.해당` | (해당 | checkbox | 100% | 란에 체크 |
-| `check.기타` | 기타(향후예상경상/재무거래등) | checkbox | 100% | 기타 (향후 예상 경상/재무거래 등) |
-| `check.택일` | 택일 | checkbox | 100% | 과거 수출입 실적기준 |
-| `check.택일2` | 택일 | checkbox | 100% | 개별 계약건별 기준 |
+| `check.해당` | (해당 | checkbox | 100% | 보기: 란에 체크 |
+| `check.기타` | 기타(향후예상경상/재무거래등) | checkbox | 100% | 보기: 기타 (향후 예상 경상/재무거래 등) |
+| `check.택일` | 택일 | checkbox | 100% | 보기: 과거 수출입 실적기준 |
+| `check.택일2` | 택일 | checkbox | 100% | 보기: 개별 계약건별 기준 |
 | `택일_목록[].수출` | 수출(투자포함) | text | 100% |  |
 | `수출` | 수출(투자포함) | text | 100% |  |
 | `헤지대상금액합계` | 헤지대상금액합계(헤지비율분모에해당) | number | 100% | 8,620,000 |
@@ -13655,18 +13655,18 @@
 | `외화계좌_목록[].계좌번호` | 계좌번호 | text | 100% | 027-377289-13112 |
 | `원화계좌_목록[].통장용인감` | 통장용인감(서명) | text | 100% |  |
 | `외화계좌_목록[].통장용인감` | 통장용인감(서명) | text | 100% |  |
-| `check.신청` | 신청 | checkbox | 100% | 해지 |
-| `check.신청2` | 신청 | checkbox | 100% | 해지 |
-| `check.신청3` | 신청 | checkbox | 100% | 신청 |
-| `check.신청4` | 신청 | checkbox | 100% | 해지 |
-| `check.신청5` | 신청 | checkbox | 100% | 해지 |
-| `check.신청6` | 신청 | checkbox | 100% | 해지 |
-| `check.신청7` | 신청 | checkbox | 100% | 신청 |
-| `check.신청8` | 신청 | checkbox | 100% | 신청 |
+| `check.신청` | 신청 | checkbox | 100% | 보기: 신청 / 해지 |
+| `check.신청2` | 신청 | checkbox | 100% | 보기: 신청 / 해지 |
+| `check.신청3` | 신청 | checkbox | 100% | 보기: 신청 / 해지 |
+| `check.신청4` | 신청 | checkbox | 100% | 보기: 신청 / 해지 |
+| `check.신청5` | 신청 | checkbox | 100% | 보기: 신청 / 해지 |
+| `check.신청6` | 신청 | checkbox | 100% | 보기: 신청 / 해지 |
+| `check.신청7` | 신청 | checkbox | 100% | 보기: 신청 / 해지 |
+| `check.신청8` | 신청 | checkbox | 100% | 보기: 신청 / 해지 |
 | `취급점` | 취급점 | text | 100% | 범어지점 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `customer.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
-| `check.HANAFXTRADINGSYSTEM일괄예약결제` | ■HANAFXTRADINGSYSTEM일괄예약결제 | checkbox | 100% | 미신청 |
+| `check.HANAFXTRADINGSYSTEM일괄예약결제` | ■HANAFXTRADINGSYSTEM일괄예약결제 | checkbox | 100% | 보기: 신청 / 미신청 |
 
 ### HANA FX TRADING SYSTEM 이용신청서 (`hf388`) — 키 18개
 
@@ -13678,16 +13678,16 @@
 | `company.ceo` | 대표자 | text | 100% | 박찬연 |
 | `대표전화번호` | 대표전화번호 | phone | 100% | 010-5907-7253 |
 | `현물환거래한도` | 현물환거래한도 | number | 100% | 5,360,000 |
-| `check.신청구분` | 신청구분 | checkbox | 100% | 해지 |
+| `check.신청구분` | 신청구분 | checkbox | 100% | 보기: 신청 / 변경 / 해지 |
 | `아이디` | 아이디(ID) | text | 100% |  |
 | `customer.name` | 성명 | text | 100% | 박찬연 |
 | `부서직위` | 부서/직위 | text | 100% |  |
 | `customer.phone` | 연락처 | phone | 100% | 010-5907-7253 |
-| `check.신청` | 신청 | checkbox | 100% | 해지 |
-| `check.신청2` | 신청 | checkbox | 100% | 해지 |
-| `check.신청3` | 신청 | checkbox | 100% | 신청 |
+| `check.신청` | 신청 | checkbox | 100% | 보기: 신청 / 변경 / 해지 |
+| `check.신청2` | 신청 | checkbox | 100% | 보기: 신청 / 변경 / 해지 |
+| `check.신청3` | 신청 | checkbox | 100% | 보기: 신청 / 변경 / 해지 |
 | `취급점` | 취급점 | text | 100% | 범어지점 |
-| `check.동의하십니까` | 동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.동의하십니까` | 동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `개인정보` | ■개인(신용)정보 | text | 100% |  |
 
@@ -13712,15 +13712,15 @@
 | `목록[].담당자명` | 담당자명 | text | 100% | 도준찬 |
 | `목록[].부서및직급` | 부서및직급 | text | 100% |  |
 | `목록[].전화번호` | 전화번호 | text | 100% | 010-5907-7253 |
-| `check.전화번호` | 전화번호 | checkbox | 100% | 팩스 |
-| `check.이메일` | 이메일 | checkbox | 100% | 이메일 |
-| `check.기타` | 기타 | checkbox | 100% | 기타 |
-| `check.V원하는항목의박스에체크` | V원하는항목의박스에체크 | checkbox | 100% | V 원하는 항목의 박스에 체크 |
-| `check.수령` | 수령 | checkbox | 100% | 수령 |
+| `check.전화번호` | 전화번호 | checkbox | 100% | 보기: 팩스 |
+| `check.이메일` | 이메일 | checkbox | 100% | 보기: 이메일 |
+| `check.기타` | 기타 | checkbox | 100% | 보기: 기타 |
+| `check.V원하는항목의박스에체크` | V원하는항목의박스에체크 | checkbox | 100% | 보기: V 원하는 항목의 박스에 체크 |
+| `check.수령` | 수령 | checkbox | 100% | 보기: 수령 |
 | `customer.address` | 주소(필수,상세주소명기) | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
 | `팩스` | 팩스(선택) | phone | 100% | 010-5907-7253 |
 | `customer.email` | 이메일(선택) | text | 100% | chanyeon363@naver.com |
-| `check.수령거부` | 수령거부 | checkbox | 100% | 수령거부 |
+| `check.수령거부` | 수령거부 | checkbox | 100% | 보기: 수령거부 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `signer.name` | (고객명) | text | 100% | 박찬연 |
 | `seal.signer` | (고객명) | seal | 100% | 박찬연 |
@@ -13732,8 +13732,8 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `일반개인정보` | ■일반개인정보 | text | 100% |  |
-| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
-| `check.조력자연락처제공` | [조력자방문]조력자연락처제공 | checkbox | 100% | [조력자 방문] 조력자 연락처 제공 |
+| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
+| `check.조력자연락처제공` | [조력자방문]조력자연락처제공 | checkbox | 100% | 보기: [조력자 방문] 조력자 연락처 제공 / [조력자 미방문] |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `조력자연락처작성` | ■[조력자방문]조력자연락처작성 | text | 100% |  |
 | `장외파생상품만기일까지보유이용` | -장외파생상품만기일까지보유·이용 | text | 100% |  |
@@ -13743,8 +13743,8 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
-| `check.조력자연락처제공` | [조력자방문]조력자연락처제공 | checkbox | 100% | [조력자 방문] 조력자 연락처 제공 |
-| `check.수집이용에동의하십니까` | 수집·이용에동의하십니까? | checkbox | 100% | 동의하지 않음 |
+| `check.조력자연락처제공` | [조력자방문]조력자연락처제공 | checkbox | 100% | 보기: [조력자 방문] 조력자 연락처 제공 / [조력자 미방문] 장외파생상품거래 불가 |
+| `check.수집이용에동의하십니까` | 수집·이용에동의하십니까? | checkbox | 100% | 보기: 동의하지 않음 / 동의함 |
 | `조력자연락처` | 조력자연락처 | phone | 100% | 010-5907-7253 |
 | `date` | 작성일 | date | 100% | 2026년 1월 31일 |
 | `조력자연락처작성` | ■[조력자방문]조력자연락처작성 | text | 100% |  |
@@ -13930,8 +13930,8 @@
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
 | `customer.name` | 성명 | text | 100% | 박찬연 |
-| `check.보기1` | 보기1 | checkbox | 100% | 보기1 |
-| `check.보기12` | 보기1 | checkbox | 100% | 보기1 |
+| `check.보기1` | 보기1 | checkbox | 100% | 보기: 보기1 |
+| `check.보기12` | 보기1 | checkbox | 100% | 보기: 보기1 |
 | `금융기관펀드계좌번호` | 금융기관펀드계좌번호 | text | 100% | 869-918596-51054 |
 | `투자대상` | 투자대상(펀드명) | text | 100% |  |
 | `투자금액` | 투자금액(투자한도금액) | number | 100% | 150,000 |
