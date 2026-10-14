@@ -52,7 +52,7 @@ cp configs/bank_pipeline.example.json configs/bank_pipeline.json
 #   gpus            사용할 GPU (예: [0, 1])
 #   data.train      ["/home/<계정>/docgen/data/bank_train"]
 #   data.benchmark  "/home/<계정>/docgen/data/bench"
-#   data.replay.path, ocr_check.tasks   OCR 단계 데이터(prepared-v2) 경로. 없으면 data.replay, ocr_check 를 null 로
+#   data.replay.path, ocr_check.tasks   OCR 단계를 돌린 폴더의 data/prepared-v2/ 안 파일 (안 쓰면 null)
 
 python run_bank_pipeline.py --config configs/bank_pipeline.json --smoke                          # 리허설
 nohup python run_bank_pipeline.py --config configs/bank_pipeline.json > bank_pipeline.log 2>&1 &   # 본 실행

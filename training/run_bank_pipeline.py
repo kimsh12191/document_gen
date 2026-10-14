@@ -84,6 +84,34 @@ class BankRunner(Runner):
         for d in ("logs", "predictions", "reports", "merged"):
             (self.workdir / d).mkdir(parents=True, exist_ok=True)
 
+    def check_inputs(self):
+        """Every input path in the config, checked before any stage runs; all problems at once."""
+        d, problems = self.data_cfg, []
+
+        def need(ok, key, path, hint):
+            if not ok:
+                problems.append(f"  {key}: {path}\n      {hint}")
+
+        need(Path(self.model, "config.json").is_file(), "model", self.model,
+             "OCR 단계 병합 모델 폴더 (config.json 이 있는 폴더, 예: runs/exp1/merged/grpo-…-checkpoint-500)")
+        root = d.get("docgen_root")
+        need(bool(root) and Path(root, "docgen", "bench").is_dir(), "data.docgen_root", root,
+             "docgen/ 폴더가 들어 있는 저장소 최상위")
+        if not Path(d["output_dir"], "DONE.json").is_file():  # prepare still has to read the docgen output
+            for p in d["train"]:
+                need(Path(p, "meta.json").is_file(), "data.train", p, "docgen 학습 데이터 폴더 (make_bank_data.sh 의 bank_train)")
+            need(Path(d["benchmark"] or "", "meta.json").is_file(), "data.benchmark", d["benchmark"],
+                 "docgen 평가 세트 폴더 (make_bank_data.sh 의 bench)")
+            if d.get("replay"):
+                need(Path(d["replay"]["path"]).is_file(), "data.replay.path", d["replay"]["path"],
+                     "OCR 단계 prepare 결과의 train_sft.jsonl. OCR 데이터를 섞지 않으려면 \"replay\": null")
+        if self.cfg.get("ocr_check"):
+            need(Path(self.cfg["ocr_check"]["tasks"]).is_file(), "ocr_check.tasks", self.cfg["ocr_check"]["tasks"],
+                 "OCR 단계 prepare 결과의 benchmark_tasks.jsonl. OCR 유지 확인을 안 하려면 \"ocr_check\": null")
+        if problems:
+            sys.exit(f"설정({self.config_path})의 경로를 확인하세요. 상대 경로는 설정 파일이 있는 폴더 기준입니다.\n"
+                     + "\n".join(problems))
+
     # -- benchmark ---------------------------------------------------------------------------
     def benchmark_tasks(self):
         tasks = self.data / "benchmark_tasks.jsonl"
@@ -238,6 +266,8 @@ def main():
     stages = [a.only] if a.only else STAGES[STAGES.index(a.start):] if a.start else STAGES
     if a.start or a.only:
         runner.state["done"] = [s for s in runner.state["done"] if s not in stages]
+    if not a.dry_run:
+        runner.check_inputs()
     for stage in stages:
         if stage in runner.state["done"]:
             log(f"skip {stage} (done)")
