@@ -228,10 +228,10 @@ if __name__ == "__main__":
 @unittest.skipUnless(DOCGEN, "needs DOCGEN_ROOT")
 class BankPromptsDocTests(unittest.TestCase):
     def test_guide_quotes_every_benchmark_prompt(self):
-        """docs/BANK_PROMPTS.md is what users copy; it must match the prompts the model was trained on."""
+        """guide/questions.md is what users copy; it must match the prompts the model was trained on."""
         from docgen.bench import prompts
 
-        guide = (Path(__file__).resolve().parents[1] / "docs" / "BANK_PROMPTS.md").read_text(encoding="utf-8")
+        guide = (Path(__file__).resolve().parents[2] / "guide" / "questions.md").read_text(encoding="utf-8")
         for name in [n for n in dir(prompts) if n.startswith("P_")]:
             with self.subTest(prompt=name):
                 self.assertIn(getattr(prompts, name).replace("{{", "{").replace("}}", "}"), guide)

@@ -1,4 +1,4 @@
-"""서류별 정답 키 목록(스키마)을 만든다 → docs/SCHEMA.md, schema/schema.json
+"""서류별 정답 키 목록(스키마)을 만든다 → guide/fields/ (README.md 규칙·목차, <그룹>.md 서류별 표, fields.json)
 
   python scripts/build_schema.py            # 서류당 프로필 30개로 집계
 """
@@ -20,10 +20,12 @@ from docgen.registry import GROUPS, load_all  # noqa: E402
 from docgen.render import render  # noqa: E402
 from docgen.schema import LEAF_SYNONYMS, build_fields  # noqa: E402
 
-HEAD = """# 정답 키 스키마
+HEAD = """# 서류별 항목 목록
+
+서류마다 모델이 학습한 항목(정답 키)·항목명·타입입니다. 정보 추출(`kie`)과 체크·도장·서명(`marks`) 질문의 `{{items}}`를 이 목록에서 고릅니다([질문 가이드](../questions.md)).
 
 `python scripts/build_schema.py` 로 자동 생성된 문서입니다. 서류별로 프로필 {n}개를 렌더링해 집계했습니다.
-기계용 목록은 [schema/schema.json](../schema/schema.json) 에 있습니다.
+기계용 목록은 [fields.json](fields.json) 에 있습니다.
 
 ## 키 규칙
 
@@ -53,7 +55,7 @@ HEAD = """# 정답 키 스키마
 | seal / signature | `present` (bool) |
 
 "채움률"은 프로필 {n}개 중 그 키가 문서에 나온 비율입니다 (선택 항목·반복 항목은 100% 미만).
-채움률 0% 인 키는 드문 변형(내용이 많은 경우·특수 상황)에서만 나오는 키입니다 (변형을 모두 켠 생성에서 수집). 변형 목록은 [docs/variants/](variants/) 에 있습니다.
+채움률 0% 인 키는 드문 변형(내용이 많은 경우·특수 상황)에서만 나오는 키입니다 (변형을 모두 켠 생성에서 수집). 변형 목록은 [docs/variants/](../../docs/variants/) 에 있습니다.
 """
 
 
@@ -98,20 +100,26 @@ def main() -> None:
                       "fill_rate": round(st["n"] / args.n, 2), "example": st["example"],
                       **({"options": st["options"]} if st["options"] else {})} for k, st in stats.items()],
         }
-    (ROOT / "schema").mkdir(exist_ok=True)
-    (ROOT / "schema" / "schema.json").write_text(json.dumps(schema, ensure_ascii=False, indent=1), encoding="utf-8")
+    out = ROOT / "guide" / "fields"
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "fields.json").write_text(json.dumps(schema, ensure_ascii=False, indent=1), encoding="utf-8")
 
     syn = ", ".join(f"`{a}`→`{b}`" for a, b in LEAF_SYNONYMS.items())
-    lines = [HEAD.format(n=args.n, syn=syn)]
     by_group = collections.defaultdict(list)
     for sid, s in schema.items():
         by_group[s["group"]].append((sid, s))
+    index = [HEAD.format(n=args.n, syn=syn), "\n## 서류 찾기\n",
+             "그룹 파일에서 서류명으로 찾으세요 (Ctrl+F). 서류 정식 명칭과 업무별 서류는 [documents.md](../documents.md)에 있습니다.\n",
+             "| 그룹 | 서류 수 | 서류 |\n|---|---:|---|"]
     for g, title in GROUPS.items():
         if g not in by_group:
             continue
-        lines.append(f"\n## {title}\n")
-        for sid, s in by_group[g]:
-            lines.append(f"\n### {s['name']} (`{sid}`) — 키 {len(s['keys'])}개\n")
+        docs = by_group[g]
+        names = ", ".join(s["name"] for _, s in docs[:8]) + (f" 외 {len(docs) - 8}종" if len(docs) > 8 else "")
+        index.append(f"| [{title}]({g}.md) | {len(docs)} | {names} |")
+        lines = [f"# {title} — 서류별 항목\n", "키 규칙과 타입은 [README.md](README.md)에 있습니다.\n"]
+        for sid, s in docs:
+            lines.append(f"\n## {s['name']} (`{sid}`) — 키 {len(s['keys'])}개\n")
             lines.append("| 키 | 항목명 | 타입 | 채움률 | 예시 |\n|---|---|---|---|---|")
             for k in s["keys"]:
                 ex = str(k["example"] or "").replace("\n", " ").replace("|", "\\|")
@@ -119,8 +127,9 @@ def main() -> None:
                 if k.get("options"):
                     ex = "보기: " + " / ".join(o.replace("|", "\\|") for o in k["options"])
                 lines.append(f"| `{k['key']}` | {k['label'] or ''} | {k['type']} | {k['fill_rate']:.0%} | {ex} |")
-    (ROOT / "docs" / "SCHEMA.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"{len(schema)}종 → docs/SCHEMA.md, schema/schema.json")
+        (out / f"{g}.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (out / "README.md").write_text("\n".join(index) + "\n", encoding="utf-8")
+    print(f"{len(schema)}종 → guide/fields/")
 
 
 if __name__ == "__main__":

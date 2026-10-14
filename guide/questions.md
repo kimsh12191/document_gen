@@ -2,8 +2,8 @@
 
 은행 업무 단계에서 학습한 모델에게 **어떻게 물으면 어떤 형식으로 답하는지** 정리한 문서입니다. 모델은 아래 질문 문장으로 학습했으므로 같은 문장으로 물을 때 가장 정확합니다. 문장을 바꾸면 답 형식이 흐트러질 수 있습니다.
 
-- 질문 문장은 `docgen/bench/prompts.py`와 같습니다(평가 세트, 학습 데이터, viewer가 모두 이 파일을 씁니다). 테스트(`tests/test_bank_task.py`)가 이 문서와 코드가 같은지 확인합니다.
-- OCR 단계 과제(박스 찾기, 영역 읽기 등)는 [PROMPTS.md](PROMPTS.md)에 있습니다. 은행 업무 모델도 OCR 데이터를 섞어 학습했으므로 그 질문도 됩니다.
+- 질문 문장은 `docgen/bench/prompts.py`와 같습니다(평가 세트, 학습 데이터, viewer가 모두 이 파일을 씁니다). 테스트(`training/tests/test_bank_task.py`)가 이 문서와 코드가 같은지 확인합니다.
+- OCR 단계 과제(박스 찾기, 영역 읽기 등)는 [OCR 질문 가이드](../training/docs/PROMPTS.md)에 있습니다. 은행 업무 모델도 OCR 데이터를 섞어 학습했으므로 그 질문도 됩니다.
 - `{customer}`처럼 중괄호로 쓴 곳은 실제 값으로 바꿔 넣는 자리입니다.
 
 ## 질문에 넣을 목록은 어디서 찾나
@@ -12,15 +12,15 @@
 
 | 목록 | 쓰는 과제 | 위치 |
 |---|---|---|
-| 서류별 항목 키·항목명·타입 (476종) | `kie`의 `{items}` | [docs/SCHEMA.md](../../docs/SCHEMA.md), 기계용 [schema/schema.json](../../schema/schema.json) |
-| 체크박스 보기, 도장·서명 자리 | `marks`의 `{items}` | 같은 SCHEMA.md (타입 `checkbox`는 예시 칸에 보기 전체, `seal`·`signature`는 `seal.<자리>`·`sign.<자리>`) |
-| 서류 정식 명칭 (476종) | `classify`의 답, `doc_check`·`cross_check`·`review`의 서류명 | [docs/DOCUMENTS.md](../../docs/DOCUMENTS.md) |
-| 업무 12종과 업무별 필수 서류 | `doc_check`의 `{task}`·`{required}`, 나머지 과제의 `{task}` | [docs/DOCUMENTS.md#업무-시나리오](../../docs/DOCUMENTS.md#업무-시나리오) |
+| 서류별 항목 키·항목명·타입 (476종) | `kie`의 `{items}` | [fields/](fields/README.md) (그룹별 파일), 기계용 [fields/fields.json](fields/fields.json) |
+| 체크박스 보기, 도장·서명 자리 | `marks`의 `{items}` | 같은 [fields/](fields/README.md) (타입 `checkbox`는 예시 칸에 보기 전체, `seal`·`signature`는 `seal.<자리>`·`sign.<자리>`) |
+| 서류 정식 명칭 (476종) | `classify`의 답, `doc_check`·`cross_check`·`review`의 서류명 | [documents.md](documents.md) |
+| 업무 12종과 업무별 필수 서류 | `doc_check`의 `{task}`·`{required}`, 나머지 과제의 `{task}` | [documents.md#업무-시나리오](documents.md#업무-시나리오) |
 
-- **표의 행:** SCHEMA.md에는 `rows[].amount`처럼 적혀 있습니다. 질문할 때는 `rows.0.amount`, `rows.1.amount`처럼 번호를 넣습니다.
+- **표의 행:** 항목 목록에는 `rows[].amount`처럼 적혀 있습니다. 질문할 때는 `rows.0.amount`, `rows.1.amount`처럼 번호를 넣습니다.
 - **목록을 다시 만들 때:** 생성기 코드가 바뀌면 다시 만듭니다.
-  - `python scripts/build_schema.py`: SCHEMA.md, schema.json
-  - `python -m docgen list --markdown > docs/DOCUMENTS.md`: DOCUMENTS.md
+  - `python scripts/build_schema.py`: `fields/`
+  - `python -m docgen list --markdown > guide/documents.md`: `documents.md`
 - **실제 서류:** 학습 목록에 없는 서류는 키를 직접 정해 물어도 됩니다. 다만 학습한 키와 이름을 쓸수록 정확합니다.
 
 ## 공통 규칙
@@ -30,9 +30,9 @@
 | 이미지 순서 | 이미지를 모두 먼저 넣고 질문 글을 마지막에 넣습니다. 여러 서류면 서류 순서대로, 한 서류의 쪽은 1쪽부터 |
 | 이미지 크기 | 한 장은 긴 변 2300·짧은 변 1600 이하. 한 질문의 이미지 합이 약 12,000 토큰(32px 한 칸 기준) 이하가 되도록 장마다 같은 비율로 줄입니다. 예: 13장이면 장당 약 920토큰. viewer의 직접 테스트와 파이프라인 평가가 이 규칙을 그대로 씁니다 |
 | 이미지 수 | 한 질문에 최대 16장 (서버 `--vllm_limit_mm_per_prompt {"image": 16}`). 학습은 최대 13장까지 봤습니다 |
-| 생성 설정 | `temperature 0`, `enable_thinking false`, `max_tokens 4096` (`configs/bank_inference.json`) |
+| 생성 설정 | `temperature 0`, `enable_thinking false`, `max_tokens 4096` (`training/configs/bank_inference.json`) |
 | JSON 답 | 한 줄 JSON으로 답합니다. ```` ```json ```` 코드 블록으로 감싸 올 수 있으니 받는 쪽에서 벗겨 냅니다 |
-| 서류명 | 학습한 서류명은 docgen 서류 목록의 정식 명칭입니다(`docs/DOCUMENTS.md`). 실제 서류에 다른 이름을 쓰면 그 이름을 질문에 그대로 적으세요 |
+| 서류명 | 학습한 서류명은 docgen 서류 목록의 정식 명칭입니다([documents.md](documents.md)). 실제 서류에 다른 이름을 쓰면 그 이름을 질문에 그대로 적으세요 |
 
 ## 한눈에 보기
 
@@ -73,7 +73,7 @@
 - 다른 사람의 주민등록증만 냈으면 `not_customer`와 `missing`에 모두 들어갑니다.
 - `missing`·`not_customer`는 필수 서류 목록의 이름 그대로, `not_required`는 서류에 적힌 제목대로 씁니다.
 
-**학습한 범위:** 업무 12종의 필수 서류 목록(5~12건), 빠진 서류 0~2건, 다른 고객 서류 0~1건, 상관없는 서류 0~1건. 업무별 필수 서류는 [docs/BENCHMARK.md](../../docs/BENCHMARK.md)와 docgen 시나리오 정의에 있습니다.
+**학습한 범위:** 업무 12종의 필수 서류 목록(5~12건), 빠진 서류 0~2건, 다른 고객 서류 0~1건, 상관없는 서류 0~1건. 업무별 필수 서류는 [benchmark.md](benchmark.md)와 docgen 시나리오 정의에 있습니다.
 
 ## cross_check — 서류 대조
 
@@ -93,7 +93,7 @@
 **학습한 범위**
 - **서류 수:** 한 질문에 서류 2~3건, 이미지 10장 이하입니다.
 - **불일치:** 학습에서는 한 질문에 불일치가 **최대 1개**였습니다. 그래서 `issues`도 보통 하나만 답합니다. 실제 서류에 불일치가 여럿일 수 있으면 서류 쌍을 나눠 여러 번 물으세요.
-- **사례:** 오기, 타인 서류, 금액(신청↔약정, 소득 부풀리기), 관계(임대인·매도인≠소유자, 입사일≠건보 취득일, 법인 대표자, 약정일<신청일, 채권최고액 부족, 전세대출>보증금, 업계약, 송금 수취인≠송장 수출자), 표기만 다른 정상 문항. 자세한 내용은 [docs/BENCHMARK.md](../../docs/BENCHMARK.md#불일치-사례)에 있습니다.
+- **사례:** 오기, 타인 서류, 금액(신청↔약정, 소득 부풀리기), 관계(임대인·매도인≠소유자, 입사일≠건보 취득일, 법인 대표자, 약정일<신청일, 채권최고액 부족, 전세대출>보증금, 업계약, 송금 수취인≠송장 수출자), 표기만 다른 정상 문항. 자세한 내용은 [benchmark.md](benchmark.md#불일치-사례)에 있습니다.
 
 ## review — 심사 질의
 
@@ -185,7 +185,7 @@
 ```
 **답:** 줄바꿈한 글자
 - 학습 정답은 서류에 **채워 넣은 값들**을 줄마다 쓴 것입니다. 그래서 항목명이나 안내문 같은 서식 고정 문구는 빠질 수 있습니다.
-- 서식 문구까지 위치와 함께 필요하면 OCR 단계의 `spotting`([PROMPTS.md](PROMPTS.md))을 쓰세요.
+- 서식 문구까지 위치와 함께 필요하면 OCR 단계의 `spotting`([OCR 질문 가이드](../training/docs/PROMPTS.md))을 쓰세요.
 
 ## ocr_field — 값 칸 읽기
 
@@ -209,6 +209,6 @@
 | 동의 체크, 도장, 서명 여부 | `marks` |
 | 무슨 서류인지 | `classify` |
 
-viewer(`viewer/README.md` 6번)의 **직접 테스트**가 위 질문 문장과 이미지 크기 규칙을 그대로 씁니다. 패턴을 시험해 볼 때 쓰면 됩니다.
+viewer([training/viewer/README.md](../training/viewer/README.md) 6번)의 **직접 테스트**가 위 질문 문장과 이미지 크기 규칙을 그대로 씁니다. 패턴을 시험해 볼 때 쓰면 됩니다.
 - 정보 추출 칸에는 `applicant.name: 성명`처럼 키와 항목명을 쓰거나, `성명`만 써도 됩니다(항목명이 키가 됨).
 - marks, ocr_field, 그리고 OCR 단계 과제는 **직접 질문**에 이 문서의 질문 문장을 붙여 넣어 시험합니다.

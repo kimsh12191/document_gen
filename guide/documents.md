@@ -1,6 +1,6 @@
 # 서류 목록 (총 476종)
 
-`python -m docgen list --markdown > docs/DOCUMENTS.md` 로 자동 생성된 문서입니다.
+`python -m docgen list --markdown > guide/documents.md` 로 자동 생성된 문서입니다. 서류별 항목은 [fields/](fields/README.md)에 있습니다.
 
 ## 신원·신분 (6종)
 

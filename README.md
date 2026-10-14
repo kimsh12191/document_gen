@@ -112,11 +112,10 @@ tail -f bank_pipeline.log
 
 | 문서 | 내용 |
 |---|---|
-| [training/docs/BANK_PROMPTS.md](training/docs/BANK_PROMPTS.md) | **모델에게 묻는 법:** 과제별 질문 문장, 넣을 이미지, 답 형식 (OCR 과제는 [PROMPTS.md](training/docs/PROMPTS.md)) |
+| [guide/](guide/README.md) | **모델 사용 가이드:** 질문 방법과 답 형식, 서류별 항목 목록, 서류·업무 목록, 벤치마크 설명 |
 | [training/BANK_TASKS.md](training/BANK_TASKS.md) | 은행 업무 파이프라인: 설정 항목 전체, GRPO 보상, 경로 표, 결과 해석 |
 | [training/viewer/README.md](training/viewer/README.md) | viewer 사용법 |
 | [training/README.md](training/README.md) | OCR 학습 단계 (출발 모델을 만드는 앞 단계) |
-| [docs/BENCHMARK.md](docs/BENCHMARK.md) | 벤치마크 과제와 채점 방식 |
 | [docs/DOCGEN.md](docs/DOCGEN.md) | 서류 생성기: 설치, 명령, 출력 형식, 서식 |
 | [docs/DOCKER.md](docs/DOCKER.md) | docgen 도커 설치와 SSH 접속 |
 

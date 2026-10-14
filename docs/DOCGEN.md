@@ -13,7 +13,7 @@
 | **HTML 템플릿** | 70 | 서식마다 Jinja2 템플릿과 전용 생성 함수를 둡니다. 글꼴·선·여백이 샘플마다 바뀝니다. |
 | **원본 PDF 오버레이** | 406 | 원본 PDF가 배경이고, PDF에서 찾은 기재 자리에 손글씨/인쇄체로 값을 씁니다. |
 
-- 전체 목록: [docs/DOCUMENTS.md](DOCUMENTS.md)
+- 전체 목록: [guide/documents.md](../guide/documents.md)
 - 하나은행 공개 서식 441건 대응표: [docs/FORM_MAP.md](FORM_MAP.md)
 - 서류별 샘플 이미지와 정답: [samples/](../samples/)
 
@@ -80,7 +80,7 @@ python -m docgen check --png
 
 ## 벤치마크 (OCR·은행업무)
 
-같은 생성기로 **고정된 평가 세트**를 만들어 모델을 잽니다. 과제는 OCR(값 칸 인식, 전체 받아쓰기), 문서 이해(분류, 정보 추출, 체크·도장·서명), 은행 업무(서류 구비 확인, 서류 간 대조, 심사 질의)입니다. 서류 간 대조는 실제 심사 사례를 바탕으로 한 불일치 14종(오기, 타인 서류, 소득 부풀리기, 임대인≠등기부 소유자, 업계약 등)을 일부러 섞어 만듭니다. 자세한 내용은 [docs/BENCHMARK.md](BENCHMARK.md)에 있습니다.
+같은 생성기로 **고정된 평가 세트**를 만들어 모델을 잽니다. 과제는 OCR(값 칸 인식, 전체 받아쓰기), 문서 이해(분류, 정보 추출, 체크·도장·서명), 은행 업무(서류 구비 확인, 서류 간 대조, 심사 질의)입니다. 서류 간 대조는 실제 심사 사례를 바탕으로 한 불일치 14종(오기, 타인 서류, 소득 부풀리기, 임대인≠등기부 소유자, 업계약 등)을 일부러 섞어 만듭니다. 자세한 내용은 [guide/benchmark.md](../guide/benchmark.md)에 있습니다.
 
 내부망 서버에서 Docker 로 돌리고 윈도우에서 SSH 로 접속해 쓰는 방법은 [docs/DOCKER.md](DOCKER.md)에 있습니다.
 
@@ -135,7 +135,7 @@ out/
 - **값(`value`)과 정규화 값(`norm`):** `value`는 문서에 찍힌 그대로, `norm`은 날짜 `YYYY-MM-DD`, 금액 정수, 전화번호 숫자 등입니다. 빈 칸은 `null`입니다.
 - **체크박스:** 보기마다 체크 여부와 □/■ 칸 위치(`box_bbox`)가 있습니다. 정답 값은 체크된 보기입니다.
 - **도장·서명:** `seal.<자리>`, `sign.<자리>`. 서명란은 랜덤으로 도장 / 서명 / 빈 칸이 되고, 없을 때도 그 자리 위치가 기록됩니다.
-- **키 목록과 규칙:** 서류별 전체 키·항목명·타입은 [docs/SCHEMA.md](SCHEMA.md)(기계용 `schema/schema.json`)에 있습니다.
+- **키 목록과 규칙:** 서류별 전체 키·항목명·타입은 [guide/fields/](../guide/fields/README.md)(기계용 `guide/fields/fields.json`)에 있습니다.
 - **좌표 확인:** `python scripts/visualize_labels.py out/labels/<파일>.json` 으로 위치를 그린 이미지를 만듭니다.
 
 ### swift/*.jsonl (ms-swift 학습용)
@@ -243,7 +243,7 @@ docgen/
   paginate.js    넘친 쪽을 여러 쪽으로 나눔 (머리글 줄 반복, 쪽 번호)
   augment.py     스캔/촬영/팩스 증강
   cli.py         list / generate / check
-  bench/         벤치마크: 평가 세트 만들기(build), 모델 실행(run), 채점(eval) — docs/BENCHMARK.md
+  bench/         벤치마크: 평가 세트 만들기(build), 모델 실행(run), 채점(eval) — guide/benchmark.md
   realform.py    하나은행 원본 서식 오버레이 — 레이아웃 → 값 → 렌더링 지시, 배경·글꼴 제공
   docs/*.py      서류별 데이터 생성 함수 (그룹별 파일, docs/real_forms.py 가 원본 서식 전부를 등록)
 templates/
@@ -257,7 +257,7 @@ fonts/                             손글씨 글꼴 (woff2, SIL OFL)
 scripts/extract_form_layout.py     서식 PDF → 기재 자리 레이아웃
 scripts/form_map.py                서식별 등록 여부 → docs/FORM_MAP.md
 scripts/make_samples.py            samples/ 갱신 (변형 샘플은 samples/variants/, 은행별은 samples/bank_variants/)
-scripts/build_schema.py            docs/SCHEMA.md, schema/schema.json 갱신
+scripts/build_schema.py            guide/fields/ (서류별 항목 목록) 갱신
 scripts/visualize_labels.py        라벨 위치를 이미지에 그려 확인
 tests/                             pytest (생성기·벤치마크)
 training/                          GPU 학습 프로젝트: OCR 단계(run_pipeline.py, bank_ocr/), 은행 업무 단계(run_bank_pipeline.py, bank_task/) — 따로 설치(training/README.md)

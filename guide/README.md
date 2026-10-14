@@ -1,0 +1,65 @@
+# 모델 사용 가이드
+
+학습한 모델을 쓰거나 결과를 해석할 때 필요한 정보를 모은 폴더입니다. 질문 방법, 서류별로 뽑을 수 있는 항목, 서류 목록, 벤치마크 설명이 들어 있습니다.
+
+## 이럴 땐 이 파일
+
+| 궁금한 것 | 파일 |
+|---|---|
+| 은행 업무를 모델에게 **어떻게 묻고**, 답이 **어떤 형식으로** 오나 | [questions.md](questions.md) |
+| 글자·박스 읽기(OCR 과제)는 어떻게 묻나 | [training/docs/PROMPTS.md](../training/docs/PROMPTS.md) — OCR 브랜치와 같이 쓰는 파일이라 그 자리에 둡니다 |
+| 이 서류에서 **어떤 항목**을 뽑을 수 있나 (키·항목명·체크박스 보기) | [fields/](fields/README.md) — 서류 그룹별 파일 |
+| 학습한 **서류 이름** 476종, **업무별 필수 서류** | [documents.md](documents.md) |
+| **벤치마크**는 무엇을 묻고 어떻게 채점하나 | [benchmark.md](benchmark.md) |
+
+## 과제 한눈에
+
+| 과제 | 넣는 것 | 답 |
+|---|---|---|
+| 서류 구비 확인 `doc_check` | 제출 서류 첫 쪽들 + 업무·필수 서류 목록 | 빠진·불필요·타인 서류 JSON |
+| 서류 대조 `cross_check` | 서류 2~3건 | 불일치 여부와 문제 서류·항목·값 JSON |
+| 심사 질의 `review` | 관련 서류 + 질문 | 숫자 또는 예/아니오 |
+| 정보 추출 `kie` | 서류 한 건 + 항목 목록 | 항목별 값 JSON |
+| 체크·도장·서명 `marks` | 서류 한 건 + 항목·보기 | 체크된 보기, 도장·서명 true/false |
+| 서류 분류 `classify` | 서류 한 건 | 서류명 |
+| 전체 받아쓰기 `ocr_page` | 서류 한 건 | 글자 |
+| 값 칸 읽기 `ocr_field` | 잘라낸 값 칸 | 글자 |
+| OCR 과제 8종 | 페이지·잘라낸 이미지 + 좌표나 글자 | 글자 또는 `[{"bbox_2d": …, "label": …}]` |
+
+## 자주 찾는 서류
+
+| 서류 | 항목 목록 | 자주 쓰는 키 |
+|---|---|---|
+| 사업자등록증 (개인 / 법인) | [business.md](fields/business.md) | 개인: `biz_no`, `trade_name`, `name`, `address`, `opened`<br>법인: `biz_no`, `corp_name`, `ceo`, `address`, `opened` |
+| 법인 등기사항전부증명서 | [corporate.md](fields/corporate.md) | `company_name`, `corp_reg_no`, `head_office`, `officers.0.name`, 발급일 `issue_date`(발급용) / `viewed_at`(열람용) |
+| 법인인감증명서 | [corporate.md](fields/corporate.md) | `company_name`, `rep_name`, `issue_date` |
+| 인감증명서 (개인) | [identity.md](fields/identity.md) | `person.name`, `person.address`, `issue_date` |
+| 주민등록증 | [identity.md](fields/identity.md) | `name`, `rrn`, `address`, `issue_date` |
+| 대출거래신청서 | [bank_form.md](fields/bank_form.md) | `applicant.name`, `loan.amount`, `apply_date` |
+
+## 알아 둘 점
+
+- **같은 질문 문장으로 물으세요.**
+  - 모델은 [questions.md](questions.md)의 문장으로 학습했습니다.
+  - 문장을 바꾸면 답 형식이 흐트러질 수 있습니다.
+  - viewer의 직접 테스트가 같은 문장을 씁니다.
+- **법인등기부 발급일:**
+  - 발급용에만 발행일(`issue_date`)이 있고, 열람용은 열람일시(`viewed_at`)만 있습니다.
+  - 발행일은 `서기 2025년 05월 19일` 꼴 그대로 채점합니다. 날짜 형식으로 비교하려면 `issue_date_short`를 쓰세요.
+- **하나은행 원본 서식은 빈 칸이 많습니다.** 정보 추출 정답의 약 절반이 `null`입니다.
+- **아무렇게나 답해도 나오는 점수가 있습니다.**
+  - 서류 대조: 항상 "문제없음"이라고 하면 약 63%
+  - 심사 질의 예/아니오: 항상 "아니오"라고 하면 약 57%
+  - 체크·도장·서명: 전부 비었다고 하면 약 40%
+  - 그래서 점수는 [benchmark.md](benchmark.md)의 세부 지표와 함께 보세요.
+
+## 다시 만들기
+
+생성기 코드를 바꾸면 자동 생성 파일을 다시 만듭니다.
+
+```bash
+python scripts/build_schema.py                          # fields/ (약 1분)
+python -m docgen list --markdown > guide/documents.md   # documents.md
+```
+
+`questions.md`의 질문 문장은 테스트(`training/tests/test_bank_task.py`)가 `docgen/bench/prompts.py`와 같은지 확인합니다.
