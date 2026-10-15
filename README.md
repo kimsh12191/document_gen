@@ -42,7 +42,7 @@ tail -f /out/logs/make_bank_data.log     # "전부 완료" 가 나오면 끝
 **준비물**
 - OCR 단계 결과 모델 폴더 (`runs/exp1/merged/grpo-…`)
 - 1에서 만든 두 폴더
-- A100 2장 (80GB 기준. 40GB면 `grpo.config`를 `bank_grpo_a100_40g_x2.yaml`로 바꿉니다)
+- A100 2장 (80GB 기준. 40GB면 `sft.config`를 `bank_sft_a100_40g_x2.yaml`, `grpo.config`를 `bank_grpo_a100_40g_x2.yaml`로 바꿉니다)
 
 ```bash
 cd training

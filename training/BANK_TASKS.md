@@ -190,9 +190,20 @@ SFT 체크포인트에서 이어 학습합니다. **보상은 평가 세트 채�
 
 **문제 선정:** SFT 평가 때 띄운 서버로 후보 3000개를 먼저 풀고, 보상 0.9 미만인 문제를 절반 섞어 1000개를 고릅니다(`grpo.select: mine`). 이미지가 많은 문항은 GRPO 메모리를 크게 쓰므로 `grpo.max_images`(기본 4) 이하만 씁니다. 그래서 `doc_check`(4~13장)는 일부만 들어갑니다.
 
-**GPU별 설정:**
-- 80GB 2장: `configs/bank_grpo_a100x2.yaml` (GPU당 4개 × 2장 = 생성 8개)
-- 40GB 2장: `pipeline.json`의 `grpo.config`를 `bank_grpo_a100_40g_x2.yaml`(생성 4개)로 바꾸세요.
+**GPU별 설정:** `bank_pipeline.json`의 `sft.config`, `grpo.config`를 GPU에 맞게 고릅니다.
+
+| GPU | `sft.config` | `grpo.config` |
+|---|---|---|
+| A100 80GB × 2 | `bank_sft.yaml` | `bank_grpo_a100x2.yaml` (한 문제에 답 8개) |
+| A100 40GB × 2 | `bank_sft_a100_40g_x2.yaml` | `bank_grpo_a100_40g_x2.yaml` (답 4개) |
+
+40GB 설정은 메모리를 줄이려고 두 가지를 바꿉니다.
+- **비전 인코더를 학습하지 않습니다(`freeze_vit`).** 비전 인코더는 OCR 단계에서 이미 학습했습니다.
+- **SFT는 `deepspeed zero3`를 씁니다.** 모델 가중치를 두 GPU에 나눠 올립니다. 대신 조금 느립니다.
+
+그래도 메모리가 부족하면 아래 순서로 줄입니다.
+1. **SFT:** `data.max_image_tokens_per_sample`을 8000으로, `data.sft_max_length`와 yaml의 `max_length`를 12288로 낮춥니다. `data.output_dir`을 새 이름으로 바꿔 처음부터 다시 실행합니다(prepare가 이미지를 다시 줄임). 이미지가 작아지는 만큼 평가도 같은 크기로 다시 합니다.
+2. **GRPO:** `grpo.max_images`를 2로 낮추고 `--from select`로 다시 실행합니다.
 
 ### 평가
 
