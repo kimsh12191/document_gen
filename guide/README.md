@@ -6,6 +6,7 @@
 
 | 궁금한 것 | 파일 |
 |---|---|
+| 이 프로젝트가 **무엇을 했는지** (팀 공유용 소개, 생성기·벤치마크 상세 부록) | [overview.md](overview.md) |
 | 은행 업무를 모델에게 **어떻게 묻고**, 답이 **어떤 형식으로** 오나 | [questions.md](questions.md) |
 | 글자·박스 읽기(OCR 과제)는 어떻게 묻나 | [training/docs/PROMPTS.md](../training/docs/PROMPTS.md) — OCR 브랜치와 같이 쓰는 파일이라 그 자리에 둡니다 |
 | 이 서류에서 **어떤 항목**을 뽑을 수 있나 (키·항목명·체크박스 보기) | [fields/](fields/README.md) — 서류 그룹별 파일 |

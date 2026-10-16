@@ -1,6 +1,6 @@
 # document_gen: 은행 서류 합성 데이터 + 은행 업무 학습
 
-합성 은행 서류(476종)로 VLM에 은행 업무를 학습시키고, 학습 전후를 벤치마크로 비교합니다. 출발 모델은 OCR 학습 단계([training/README.md](training/README.md))의 결과입니다.
+합성 은행 서류(476종)로 VLM에 은행 업무를 학습시키고, 학습 전후를 벤치마크로 비교합니다. 무엇을 어떻게 만들었는지는 [guide/overview.md](guide/overview.md)(팀 공유용 소개)에 있습니다. 출발 모델은 OCR 학습 단계([training/README.md](training/README.md))의 결과입니다.
 
 배우는 은행 업무는 네 가지입니다.
 
