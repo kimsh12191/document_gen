@@ -74,6 +74,24 @@ python train.py sft --config configs/sft.yaml --gpus 4,5,6,7 \
 
 `internal_ocr_adapter.py`는 첨부 이미지의 코드를 그대로 사용합니다. `BASE_URL`은 환경변수 `INTERNAL_OCR_BASE_URL`에서 읽으며(기본값 `http://localhost:30107`) `OCR_URL`(`/ocr`)에 multipart `file` 필드로 이미지를 전송합니다. 실행 전에 내부 OCR 서버 주소를 설정합니다(예: `export INTERNAL_OCR_BASE_URL=http://<내부-OCR-호스트>:<포트>`).
 
+**사내 OCR 서버 띄우기** (OCR JSON을 미리 만들어 두지 않았을 때만 필요합니다)
+
+사내 OCR API 서버 폴더에서 GPU 번호와 포트를 정해 띄우고, 같은 포트를 `INTERNAL_OCR_BASE_URL`로 알려 줍니다. 학습·평가에 쓸 GPU와 겹치지 않는 GPU를 고릅니다.
+
+```bash
+# 터미널 1: 사내 OCR 서버 (켜 둔 채로)
+cd <사내 OCR API 폴더>
+GPU_ID=7 SERVER_PORT=30107 python server.py
+
+# 터미널 2: 파이프라인 (prepare가 이 서버에 페이지를 보냄)
+export INTERNAL_OCR_BASE_URL=http://localhost:30107
+curl -s $INTERNAL_OCR_BASE_URL/health        # 서버가 health를 지원하면 응답이 옴
+python run_pipeline.py --config configs/pipeline.json --smoke
+```
+
+- OCR 결과는 `cache_dir`에 이미지 픽셀·OCR 함수·`ocr_revision` 기준으로 저장됩니다. 다시 실행하면 서버를 다시 부르지 않으므로, prepare가 끝나면 OCR 서버를 꺼도 됩니다.
+- OCR 서버 버전이나 설정을 바꿨다면 `config.json`의 `ocr_revision`도 바꿉니다. 그래야 예전 캐시를 쓰지 않습니다.
+
 첨부 코드에서 import하는 requests와 matplotlib은 OCR 의존성에 포함되어 있습니다.
 
 ```bash
