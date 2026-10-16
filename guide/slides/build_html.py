@@ -1,5 +1,7 @@
 """project/ (deck.json + slides/*.html, the web deck's own files) -> index.html, one page that opens offline.
 
+Appendix images live in the web deck as /_blob/<id>; asset_map.json maps them back to ../examples/img/.
+
   python guide/slides/build_html.py
 """
 import html
@@ -37,12 +39,16 @@ def main():
     deck = json.loads((HERE / "project" / "deck.json").read_text(encoding="utf-8"))
     links = "".join(f'<link rel="stylesheet" href="{html.escape(f["href"])}">' for f in deck.get("faces", {}).values()
                     if f.get("href"))
+    blobs = {}
+    if (HERE / "asset_map.json").exists():
+        blobs = {b: "../" + f for f, b in json.loads((HERE / "asset_map.json").read_text(encoding="utf-8")).items()}
     parts = []
     for n, sid in enumerate(deck["order"], 1):
         path = HERE / "project" / "slides" / f"{sid}.html"
         if not path.exists():
             continue
-        section = path.read_text(encoding="utf-8").strip()
+        section = re.sub(r"/_blob/[0-9a-f]+", lambda m: blobs.get(m.group(0), m.group(0)),
+                         path.read_text(encoding="utf-8").strip())
         notes = re.search(r"<aside>(.*?)</aside>", section, re.S)
         parts.append(f'<div class="frame">{section}</div><p class="num">{n} / {len(deck["order"])}</p>'
                      + (f'<p class="notes">{notes.group(1)}</p>' if notes else ""))

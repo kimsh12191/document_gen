@@ -7,8 +7,9 @@
 | 궁금한 것 | 파일 |
 |---|---|
 | **처음부터 직접 돌려 보기** (설치, OCR 서버, 설정 파일, 실행, 확인, 에러 해결) | [tutorial.md](tutorial.md) |
-| 발표 자료 (웹 슬라이드 27장) | [slides/](slides/README.md) |
+| 발표 자료 (웹 슬라이드, 뒤쪽 부록에 모든 과제의 데이터 예시) | [slides/](slides/README.md) |
 | 이 프로젝트가 **무엇을 했는지** (팀 공유용 소개: OCR 학습과 은행 업무 학습 각각의 컨셉·데이터 구조·학습·평가·viewer, 생성기·벤치마크 상세 부록) | [overview.md](overview.md) |
+| **모든 과제의 실제 데이터** (이미지·질문 전문·정답·채점 정보·meta·학습 레코드, 서류 대조 사례 14종, 심사 질의 규칙 전부) | [tasks.md](tasks.md) |
 | 은행 업무를 모델에게 **어떻게 묻고**, 답이 **어떤 형식으로** 오나 | [questions.md](questions.md) |
 | 글자·박스 읽기(OCR 과제)는 어떻게 묻나 | [training/docs/PROMPTS.md](../training/docs/PROMPTS.md) — OCR 브랜치와 같이 쓰는 파일이라 그 자리에 둡니다 |
 | 이 서류에서 **어떤 항목**을 뽑을 수 있나 (키·항목명·체크박스 보기) | [fields/](fields/README.md) — 서류 그룹별 파일 |
@@ -64,6 +65,9 @@
 ```bash
 python scripts/build_schema.py                          # fields/ (약 1분)
 python -m docgen list --markdown > guide/documents.md   # documents.md
+bash guide/examples/make_examples.sh <작업 폴더> --docs   # tasks.md, examples/img/, 발표 부록 (약 10분)
 ```
+
+`make_examples.sh`는 합성 서류 생성 → 사내 OCR 형식 JSON(`examples/labels_to_ocr.py`) → `bank_ocr scan`·`prepare` → `docgen.bench build` → 과제별 예시 고르기(`examples/make_catalog.py`) → 부록 슬라이드(`slides/make_appendix.py`) 순서로 돌립니다. 명령과 바꾼 설정값이 스크립트 안에 그대로 있습니다.
 
 `questions.md`의 질문 문장은 테스트(`training/tests/test_bank_task.py`)가 `docgen/bench/prompts.py`와 같은지 확인합니다.

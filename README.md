@@ -1,141 +1,48 @@
-# document_gen: 은행 서류 합성 데이터 + 은행 업무 학습
+# document_gen: 은행 서류 VLM (OCR 학습 → 은행 업무 학습)
 
-실제 서류 이미지로 VLM(Qwen3.5-9B)에 **글자·위치 읽기(OCR)**를 학습시키고, 그 모델에서 출발해 합성 은행 서류로 **은행 업무**를 학습시킨 뒤 벤치마크로 비교합니다.
+실제 서류 이미지와 사내 OCR 결과로 VLM(Qwen3.5-9B)에 **글자·위치 읽기(OCR)**를 학습시키고(1부), 그 모델에서 출발해 합성 은행 서류로 **은행 업무**(서류 구비 확인, 서류 대조, 심사 질의, 정보 추출)를 학습시킨 뒤 벤치마크로 비교합니다(2부).
 
-## 어디서부터 보나
+**처음이면 [guide/tutorial.md](guide/tutorial.md)부터 따라 하세요.** 아래는 어느 문서에 무엇이 있는지입니다.
 
-| 하고 싶은 것 | 문서 |
+## 문서 지도
+
+**시작하기**
+
+| 문서 | 들어 있는 것 |
 |---|---|
-| **처음부터 직접 돌려 보기** (설치 → OCR 학습 → 은행 업무 학습 → 결과) | **[guide/tutorial.md](guide/tutorial.md)** |
-| 무엇을 왜 만들었는지 이해하기 | [guide/overview.md](guide/overview.md), 발표 자료 [guide/slides/](guide/slides/README.md) |
-| 학습한 모델에게 질문하기 | [guide/questions.md](guide/questions.md) |
-| 결과 점수 읽기 | [guide/results.md](guide/results.md) |
-| 에러가 났을 때 | [guide/tutorial.md#자주-나는-에러](guide/tutorial.md#자주-나는-에러) |
+| [guide/tutorial.md](guide/tutorial.md) | **처음부터 따라하기.** 코드 받기 → 설치 → 사내 OCR 서버 띄우기(`/share/mond/ocr_api/server.py`) → OCR 학습 → 합성 데이터 만들기 → 은행 업무 학습 → 결과 확인. 단계마다 확인 방법, 맨 끝에 자주 나는 에러 표 |
+| [guide/overview.md](guide/overview.md) | 프로젝트 소개 (팀 공유용 문서판). 1부·2부 각각 컨셉 → 데이터 구조 → 학습 방법 → 평가 방법 → viewer, 부록에 생성기·벤치마크 상세 |
+| [guide/slides/](guide/slides/README.md) | 발표 자료. 웹 슬라이드 원본 파일과, 브라우저로 바로 열리는 `guide/slides/index.html` (발표자 노트 포함) |
 
-아래는 이미 한 번 돌려 본 사람을 위한 요약입니다.
+**데이터와 과제 정의**
 
-배우는 은행 업무는 네 가지입니다.
-
-| 업무 | 내용 |
+| 문서 | 들어 있는 것 |
 |---|---|
-| 서류 구비 확인 | 제출된 서류 묶음에서 빠진 서류, 불필요한 서류, 다른 사람 서류 찾기 |
-| 서류 대조 | 서류 2~3건을 맞대어 불일치 찾기 (오기, 금액·날짜 안 맞음, 임대인≠소유자 등 14종) |
-| 심사 질의 | LTV, 소득 대비 배수, 서류 유효기간 같은 질문에 숫자나 예/아니오로 답하기 |
-| 정보 추출 | 서류에서 항목 값 뽑기 |
+| [guide/tasks.md](guide/tasks.md) | **모든 과제의 실제 데이터 예시.** OCR 8과제, 은행 업무 8과제, 서류 대조 사례 14종, 심사 질의 규칙별로 이미지·질문 전문·정답·채점 정보·meta·학습 레코드를 줄이지 않고 전부. 비슷한 문제를 새로 만들 때 고칠 곳 |
+| [guide/questions.md](guide/questions.md) | 학습한 모델에게 묻는 법 (은행 업무 과제별 질문 문장, 넣을 이미지, 답 형식). OCR 과제는 [training/docs/PROMPTS.md](training/docs/PROMPTS.md) |
+| [guide/fields/](guide/fields/README.md) | 서류 476종의 항목 키·항목명·타입·체크박스 보기 (정보 추출·체크 질문에 넣을 항목) |
+| [guide/documents.md](guide/documents.md) | 서류 정식 명칭 476종, 업무 12종별 필수 서류 |
+| [guide/benchmark.md](guide/benchmark.md) | 은행 업무 벤치마크: 과제, 문항 만드는 방법, 불일치 14종과 근거, 채점 규칙 |
 
-여기에 분류, 체크·도장·서명, 글자 읽기도 함께 배웁니다.
+**실행과 결과**
 
-```text
-1. 데이터 만들기  docgen 도커 (CPU, 한 번만)  →  bank_train/ (학습)   bench/ (평가)
-2. 파이프라인     GPU 서버 (한 명령)          →  prepare → eval_base → sft → eval_sft → select → grpo → eval_grpo → report
-3. 결과 보기      비교표 + viewer
-```
-
-## 1. 데이터 만들기 (docgen 도커, 한 번만)
-
-한 번 만들어 두면 학습을 몇 번 다시 하든 다시 만들 필요가 없어서 파이프라인에서 뺐습니다.
-
-```bash
-ssh -p 2222 docgen@<서버IP>              # docgen 컨테이너 접속
-bash scripts/make_bank_data.sh           # 백그라운드 실행. SSH 를 끊어도 계속됩니다
-tail -f /out/logs/make_bank_data.log     # "전부 완료" 가 나오면 끝
-```
-
-| 만드는 것 (서버 `~/docgen/data/`) | 내용 | 시간 (8코어) |
-|---|---|---|
-| `bench/` | 평가 세트: 서류 476종 × 1건 + 업무 12종 × 고객 40명의 서류 묶음 | 약 15분 |
-| `bank_train/` | 학습 데이터: 서류 476종 × 5건 + 업무 12종 × 고객 200명 | 약 1시간 |
-
-- 두 폴더는 서로 다른 고객으로 만들어서 겹치지 않습니다.
-- 양을 바꾸려면 `TRAIN_BUNDLES=300 BENCH_BUNDLES=60 bash scripts/make_bank_data.sh`처럼 앞에 붙입니다.
-
-## 2. 파이프라인 돌리기 (GPU 서버)
-
-**준비물**
-- OCR 단계 결과 모델 폴더 (`runs/exp1/merged/grpo-…`)
-- 1에서 만든 두 폴더
-- A100 2장 (80GB 기준. 40GB면 `sft.config`를 `bank_sft_a100_40g_x2.yaml`, `grpo.config`를 `bank_grpo_a100_40g_x2.yaml`로 바꿉니다)
-
-```bash
-cd training
-pip install --no-index --no-build-isolation -e .                    # 한 번
-cp configs/bank_pipeline.example.json configs/bank_pipeline.json
-#   model           OCR 단계 결과 모델 폴더
-#   gpus            사용할 GPU (예: [0, 1])
-#   data.train      ["/home/<계정>/docgen/data/bank_train"]
-#   data.benchmark  "/home/<계정>/docgen/data/bench"
-#   data.replay.path, ocr_check.tasks   OCR 단계를 돌린 폴더의 data/prepared-v2/ 안 파일 (안 쓰면 null)
-
-python run_bank_pipeline.py --config configs/bank_pipeline.json --smoke                          # 리허설
-nohup python run_bank_pipeline.py --config configs/bank_pipeline.json > bank_pipeline.log 2>&1 &   # 본 실행
-tail -f bank_pipeline.log
-```
-
-- **리허설(`--smoke`):** 학습 5 step, 과제마다 8문항 평가, GRPO 8문제로 명령·메모리·서버 기동을 먼저 확인합니다.
-- **멈췄을 때:** 같은 명령을 다시 실행하면 끝난 단계는 건너뜁니다. 진행 상태는 `runs/bank1/state.json`에 남습니다.
-- **일부만 다시:**
-  - `--from grpo`: 그 단계부터 다시 실행합니다.
-  - `--only report`: 그 단계 하나만 실행합니다.
-  - `--dry-run`: 실행할 명령만 보여 줍니다.
-
-## 3. 단계별로 하는 일
-
-| 단계 | 하는 일 | 만드는 것 | 시간 (추정) |
-|---|---|---|---|
-| `prepare` | docgen 데이터를 학습 형식으로 바꿉니다. 아래 표에 자세히 적었습니다. | `data/prepared-bank/` | 10~30분 |
-| `eval_base` | 출발(OCR) 모델을 GPU마다 서버로 띄워 평가 세트 약 9천 문항을 풀고 채점합니다. OCR 벤치마크 1000문항도 같이 풉니다. 학습 전 기준점입니다. | `reports/start.json` | 1~1.5시간 |
-| `sft` | 출발 모델에 LoRA를 붙여 약 2만 문항을 1 epoch 학습합니다. | `sft/…/checkpoint-*` | 10~15시간 |
-| `eval_sft` | SFT 모델을 병합해 채점합니다. 같은 서버로 GRPO 후보 3000문제도 미리 풉니다. | `merged/sft-*`, `reports/sft.json` | 1~1.5시간 |
-| `select` | 후보 중 SFT가 틀린 문제를 절반 섞어 GRPO 문제 1000개를 고릅니다. 고르는 과제는 서류 대조, 심사 질의, 서류 구비 확인, 정보 추출이고, 문항당 이미지 4장 이하만 씁니다. | `grpo_train.jsonl` | 몇 초 |
-| `grpo` | SFT에서 이어 GRPO를 합니다. 한 문제에 답을 8개(40GB 설정은 4개) 만들고, 평가 채점기 점수가 높은 답 쪽으로 학습합니다. | `grpo/…/checkpoint-*` | 4~12시간 |
-| `eval_grpo` | GRPO 모델을 병합해 채점합니다. | `merged/grpo-*`, `reports/grpo.json` | 1~1.5시간 |
-| `report` | 세 모델을 한 표로 비교합니다. | `reports/benchmark.html`, `reports/ocr_retention.html` | 몇 초 |
-
-`prepare`가 하는 일은 다음과 같습니다.
-
-| 작업 | 내용 |
+| 문서 | 들어 있는 것 |
 |---|---|
-| 이미지 줄이기 | 한 문항의 이미지 합이 정해진 크기(12000토큰)를 넘지 않게 줄입니다. |
-| 문항 뽑기 | 과제 비율에 맞춰 SFT 문항 약 2만 개를 뽑습니다. |
-| GRPO 몫 떼기 | 고객 20%는 SFT에서 빼서 GRPO용으로 둡니다. |
-| OCR 데이터 섞기 | OCR 학습 데이터 3000개를 섞어 OCR 능력이 떨어지지 않게 합니다. |
-| 검사 | 평가 세트와 학습 데이터가 겹치지 않는지, 채점기가 정답에 만점을 주는지 확인합니다. |
+| [training/README.md](training/README.md) | 1부 OCR 학습 파이프라인 요약 (`run_pipeline.py`). 상세는 [training/docs/](training/docs/): `SETUP.md` 설치·사내 OCR 서버 연결, `PIPELINE.md` 옵션, `DESIGN.md` 과제·지표·보상 설계, `MANUAL.md` 단계별 수동 실행 |
+| [training/BANK_TASKS.md](training/BANK_TASKS.md) | 2부 은행 업무 파이프라인 (`run_bank_pipeline.py`): 설정 항목 전체, GPU별(80GB/40GB) 설정, 단계별 내용, 시간 |
+| [guide/results.md](guide/results.md) | 결과 점수표 읽는 법: 지표 뜻, 찍어도 나오는 점수, 오차 범위, 학습 로그, 이상 신호와 대처 |
+| [training/viewer/README.md](training/viewer/README.md) | viewer 두 개: OCR viewer(`start.sh`, 포트 7860), 은행 업무 viewer(`bank_start.sh`, 포트 7861) |
+| [docs/DOCKER.md](docs/DOCKER.md) | 합성 데이터를 만드는 docgen 도커 설치와 SSH 접속 |
+| [docs/DOCGEN.md](docs/DOCGEN.md) | 합성 서류 생성기 자체 (설치, 명령, 출력 형식, 서식) |
 
-- 만드는 것은 모두 `training/runs/bank1/` 아래에 생깁니다. `prepare`의 결과만 `training/data/` 아래에 생깁니다.
-- 합계는 약 1~1.5일입니다. 시간이 부족하면 `data.sft_max_examples`와 `grpo.count`를 줄입니다.
+## 코드 위치와 브랜치
 
-## 4. 결과 보기
-
-- **비교표:** `runs/bank1/reports/benchmark.html`
-  - 과제별 점수와 출발 모델 대비 변화를 보여 줍니다.
-  - 불일치 종류별, 심사 질의 능력별로도 나눠 보여 줍니다.
-- **OCR 유지:** `ocr_retention.html`에서 은행 업무를 배우는 동안 OCR 능력이 떨어지지 않았는지 봅니다.
-- **viewer:** `training` 폴더에서 띄우고 브라우저에서 `http://localhost:7861`을 엽니다.
-  ```bash
-  bash viewer/bank_start.sh                                  # 저장된 답만 보기 (GPU 불필요, 학습 중에도 가능)
-  bash viewer/bank_start.sh runs/bank1/merged/<모델폴더> 1     # + 내 서류 올려서 물어보기 (GPU 1번)
-  ```
-  - 문항마다 모델들의 답을 정답과 나란히 봅니다.
-  - "SFT는 맞히고 출발 모델은 틀린 문제"처럼 좋아진 문제나 나빠진 문제만 골라 볼 수 있습니다.
-  - 사용법은 [training/viewer/README.md](training/viewer/README.md) 6번에 있습니다.
-- **읽는 법:** 지표 뜻, 찍어도 나오는 점수, 이상 신호는 [guide/results.md](guide/results.md)에 있습니다.
-- **해석할 때 주의:** 학습 데이터와 평가 세트는 같은 생성기로 만들어서 고객만 다릅니다. 그래서 점수가 크게 오르는 것은 당연합니다. 실제 서류로는 viewer에서 따로 확인하세요.
-
-## 자세한 문서
-
-| 문서 | 내용 |
+| 폴더 | 내용 |
 |---|---|
-| [guide/](guide/README.md) | **모델 사용 가이드:** 질문 방법과 답 형식, 서류별 항목 목록, 서류·업무 목록, 벤치마크 설명 |
-| [training/BANK_TASKS.md](training/BANK_TASKS.md) | 은행 업무 파이프라인: 설정 항목 전체, GRPO 보상, 경로 표, 결과 해석 |
-| [training/viewer/README.md](training/viewer/README.md) | viewer 사용법 |
-| [training/README.md](training/README.md) | OCR 학습 단계 (출발 모델을 만드는 앞 단계) |
-| [docs/DOCGEN.md](docs/DOCGEN.md) | 서류 생성기: 설치, 명령, 출력 형식, 서식 |
-| [docs/DOCKER.md](docs/DOCKER.md) | docgen 도커 설치와 SSH 접속 |
+| `docgen/`, `scripts/make_bank_data.sh` | 합성 서류 생성기, 2부 데이터 만들기 (도커에서 실행) |
+| `training/` | GPU 학습 프로젝트. 1부 `run_pipeline.py`, 2부 `run_bank_pipeline.py`, `viewer/` |
+| `guide/` | 위 사용 가이드 |
 
-**브랜치:** 이 브랜치(`claude/ocr-banking-benchmark`)에 전부 들어 있습니다. `training/`의 OCR 코드는 OCR 브랜치(`claude/bank-ocr-pipeline`)와 같습니다. OCR 쪽을 고치면 아래 명령으로 가져옵니다.
-
-```bash
-git merge -X subtree=training origin/claude/bank-ocr-pipeline
-```
-
-모든 데이터는 학습용 합성 데이터이며 실존 인물·사업자와 무관합니다.
+- **이 브랜치(`claude/ocr-banking-benchmark`)에 전부 들어 있습니다.**
+- `training/`의 OCR 코드는 OCR 브랜치(`claude/bank-ocr-pipeline`)와 같습니다. OCR 쪽을 고치면 `git merge -X subtree=training origin/claude/bank-ocr-pipeline`으로 가져옵니다.
+- 모든 합성 데이터는 실존 인물·사업자와 무관합니다.

@@ -4,6 +4,7 @@
 
 - 프로젝트가 무엇인지 먼저 보려면: [overview.md](overview.md)
 - 이미 OCR 학습을 끝냈다면: [3. 은행 업무 학습](#3-은행-업무-학습)부터
+- 각 과제의 실제 데이터(질문·정답·필드)를 보려면: [tasks.md](tasks.md)
 
 ## 0. 전체 그림: 어디서 무엇을 하나
 
@@ -87,9 +88,11 @@ nvidia-smi                                                          # 쓸 GPU가
 
 OCR 결과 JSON을 이미 갖고 있으면 이 단계는 건너뜁니다(2-3에서 `--ocr-dir`를 씁니다).
 
+이번 학습에 쓴 사내 OCR은 **`/share/mond/ocr_api/server.py`**입니다. GPU 번호(`GPU_ID`)와 포트(`SERVER_PORT`)를 정해서 띄웁니다.
+
 ```bash
-# 터미널 1: 사내 OCR API 폴더에서. 학습에 안 쓸 GPU를 고릅니다. 켜 둔 채로 둡니다.
-cd <사내 OCR API 폴더>
+# 터미널 1: 사내 OCR 서버. 학습에 안 쓸 GPU를 고릅니다. 켜 둔 채로 둡니다.
+cd /share/mond/ocr_api
 GPU_ID=7 SERVER_PORT=30107 python server.py
 ```
 
@@ -282,7 +285,7 @@ tail -f bank_pipeline.log
 | `training rows share a customer with the benchmark` | 학습 데이터를 `--split train` 없이 만듦 | `make_bank_data.sh`로 다시 만들기 |
 | `Server on port … exited` / `not ready in time` | 평가 서버(vLLM)가 안 뜸: GPU가 다른 작업에 쓰이는 중, 또는 vLLM 옵션 | 에러에 나온 로그 파일(`logs/<단계>-server0.log`) 마지막 줄 확인, `nvidia-smi` |
 | `Port … is already in use` | 예전 평가 서버나 viewer가 그 포트를 쓰는 중 | 그 프로세스를 끄거나 설정의 `eval.port_base`를 바꿈 |
-| prepare에서 OCR `Error: 500`, 연결 실패 | 사내 OCR 서버가 꺼졌거나 주소가 다름 | 2-2의 서버가 떠 있는지, `INTERNAL_OCR_BASE_URL` 포트 확인 |
+| prepare에서 OCR `Error: 500`, 연결 실패 | 사내 OCR 서버가 꺼졌거나 주소가 다름 | 2-2의 서버(`/share/mond/ocr_api/server.py`)가 떠 있는지, `INTERNAL_OCR_BASE_URL`의 포트가 `SERVER_PORT`와 같은지 확인 |
 | `has an EXIF rotation; saved OCR coordinates are ambiguous` | 회전 정보가 있는 이미지에 미리 만든 OCR JSON | 그 이미지는 `--ocr-dir` 없이 OCR 서버로 다시 |
 | `이 docgen 코드에는 --split train 이 없습니다` | 도커에 옛 코드 | 최신 코드로 바꾸기 |
 | 로그를 더 보고 싶음 | — | `runs/<workdir>/logs/` 에 단계별 로그 |
