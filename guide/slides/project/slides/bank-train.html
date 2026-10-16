@@ -1,0 +1,25 @@
+<section id="bank-train" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:26px;font-weight:600;color:#B54A12">2부 은행 업무 · 학습 방법</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">평가 채점기가 곧 GRPO 보상</h2>
+<div style="display:flex;flex-direction:row;gap:28px">
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:32px;font-weight:600;color:#B54A12">prepare</h3>
+<ul style="font-size:24px;line-height:1.5;color:#44505C"><li>이미지 토큰: 문항당 합계 12,000 이하 (평가도 동일)</li><li>SFT 2만 문항, 과제 비율대로</li><li>고객 20%는 GRPO용으로 분리</li><li>1부 OCR 데이터 3000개 섞기</li><li>검사: 고객 겹침, 정답 = 만점</li></ul>
+</div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:32px;font-weight:600;color:#B54A12">SFT</h3>
+<ul style="font-size:24px;line-height:1.5;color:#44505C"><li>1부 결과 모델(병합본)에 새 LoRA rank 32</li><li>1 epoch, lr 1e-4, 길이 16,384토큰</li><li>같은 이미지 질문은 한 대화로 묶음</li><li>40GB: 비전 인코더 고정 + zero3</li></ul>
+</div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:32px;font-weight:600;color:#B54A12">GRPO</h3>
+<ul style="font-size:24px;line-height:1.5;color:#44505C"><li>후보 3000을 SFT로 풀고 보상 0.9 미만 절반 섞어 1000문제</li><li>대조·질의·구비·추출, 이미지 4장 이하</li><li>lr 5e-6, 답 8개 (40GB는 4개)</li></ul>
+</div>
+</div>
+<div style="background:#16202A;border-radius:16px;padding:24px 32px;display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;font-weight:600;color:#F2A06B">보상 = docgen 벤치마크 채점기 그대로 + 부분 점수</p>
+<p style="font-size:26px;line-height:1.45;color:#E6E9EC">서류 구비: 0.5 × 완전 일치 + 0.5 × F1 · 서류 대조 변조: 0.5 × (불일치라고 함) + 0.5 × (서류·값까지 짚음) · 그 외: 주 지표</p>
+<p style="font-size:24px;color:#C9D1D9">0 아니면 1이면 답 8개가 같은 점수 → 배울 게 없음. 정답이 분명해서 1부 의사정답보다 신호가 깨끗함</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">2부 은행 업무 학습 · 실행: python run_bank_pipeline.py --config configs/bank_pipeline.json</p>
+<aside>GRPO 보상을 평가 채점기와 똑같이 쓴 것이 2부 설계의 핵심입니다. 학습 목표와 평가 지표가 어긋나지 않습니다. 다만 완전히 맞거나 완전히 틀리기 쉬운 과제는 부분 점수를 줘서, 한 문제에 만든 답 여러 개 사이에 점수 차이가 생기게 했습니다.</aside>
+</section>

@@ -1,0 +1,71 @@
+{
+  "v": 4,
+  "attachments": {},
+  "createdOnFiles": {
+    "at": "2026-10-16T09:00:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "faces": {
+    "ibm-plex-sans-kr": {
+      "family": "IBM Plex Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap"
+    }
+  },
+  "lists": "css",
+  "order": [
+    "cover",
+    "map",
+    "pipeline",
+    "ocr-div",
+    "ocr-concept",
+    "ocr-tasks",
+    "ocr-input",
+    "ocr-prepare",
+    "ocr-output",
+    "ocr-train",
+    "ocr-eval",
+    "ocr-viewer",
+    "ocr-real",
+    "bank-div",
+    "bank-concept",
+    "bank-docgen",
+    "bank-data",
+    "bank-bench",
+    "bank-train",
+    "bank-viewer",
+    "real-structure",
+    "real-formats",
+    "real-steps",
+    "status",
+    "limits",
+    "docs"
+  ],
+  "sections": {
+    "s1": {
+      "description": "전체 그림: 목표, 두 단계 구성, 공통 파이프라인",
+      "start": "cover"
+    },
+    "s2": {
+      "description": "1부 OCR 학습: 사내 OCR 결과로 글자·위치 읽기를 학습",
+      "start": "ocr-div"
+    },
+    "s3": {
+      "description": "2부 은행 업무 학습: 합성 서류로 서류 업무 판단을 학습",
+      "start": "bank-div"
+    },
+    "s4": {
+      "description": "실제 은행 서류로 벤치마크·학습 데이터를 만드는 구조",
+      "start": "real-structure"
+    },
+    "s5": {
+      "description": "검증 범위, 현재 상태, 한계와 다음 단계",
+      "start": "status"
+    }
+  },
+  "title": "은행 서류 VLM 프로젝트 소개"
+}

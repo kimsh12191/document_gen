@@ -1,0 +1,471 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>은행 서류 VLM 프로젝트 소개</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;display=swap"><style>
+body{margin:0;background:#2b333b;font-family:'IBM Plex Sans KR',Arial,sans-serif}
+.wrap{max-width:1280px;margin:0 auto;padding:24px 16px 64px}
+h1.title{color:#F6F5F1;font-size:24px;font-weight:600;margin:8px 0 20px}
+.frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.35);margin-top:24px}
+.frame>section{position:absolute;left:0;top:0;width:1920px;height:1080px;box-sizing:border-box;transform-origin:0 0;overflow:hidden}
+.frame section *{box-sizing:border-box;margin:0}
+.frame section ul{padding-left:1.2em}
+.frame section table{border-collapse:collapse;width:100%}
+.frame section th,.frame section td{border:1px solid #D5DBE1;padding:.35em .6em;text-align:left;vertical-align:top}
+.frame section aside{display:none}
+x-shape{display:block;flex:none}
+x-shape[kind=arrow-right]{clip-path:polygon(0 30%,60% 30%,60% 0,100% 50%,60% 100%,60% 70%,0 70%)}
+x-icon{display:inline-flex;align-items:center;justify-content:center;font-weight:700}
+x-icon[name=CheckCircle]::before{content:"✔";font-size:32px}
+x-icon[name=Clock]::before{content:"◷";font-size:36px}
+.notes{color:#C9D1D9;font-size:15px;line-height:1.6;margin:10px 4px 0}
+.num{color:#8A96A3;font-size:13px;margin:6px 4px 0}
+</style></head><body><div class="wrap"><h1 class="title">은행 서류 VLM 프로젝트 소개</h1><div class="frame"><section id="cover" data-transition="fade" style="background:#16202A;color:#F6F5F1;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<p style="font-size:30px;font-weight:600;color:#F2A06B;letter-spacing:2px">팀 공유 · 내부 개발자용</p>
+<h1 style="font-size:96px;font-weight:700;line-height:1.15;color:#F6F5F1">은행 서류 VLM 프로젝트</h1>
+<p style="font-size:44px;line-height:1.35;color:#C9D1D9">OCR 학습 → 은행 업무 학습<br>무엇을 만들었고, 왜 그렇게 설계했는지</p>
+<div style="display:flex;flex-direction:row;gap:24px">
+<p style="font-size:26px;color:#16202A;background:#8DB4E8;padding:10px 24px;border-radius:999px">1부 OCR 학습</p>
+<p style="font-size:26px;color:#16202A;background:#F2A06B;padding:10px 24px;border-radius:999px">2부 은행 업무 학습</p>
+<p style="font-size:26px;color:#16202A;background:#C9D1D9;padding:10px 24px;border-radius:999px">실제 데이터로 확장하기</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8A96A3">Qwen3.5-9B · ms-swift · SFT → GRPO</p>
+<aside>오늘은 두 단계로 나눠 진행한 학습을 같은 순서로 소개합니다. 각 단계마다 컨셉, 데이터 구조, 학습 방법, 평가 방법, viewer 순서로 보고, 마지막에 실제 은행 서류로 데이터를 만들려면 어떤 구조가 필요한지 정리합니다.</aside>
+</section></div><p class="num">1 / 26</p><p class="notes">오늘은 두 단계로 나눠 진행한 학습을 같은 순서로 소개합니다. 각 단계마다 컨셉, 데이터 구조, 학습 방법, 평가 방법, viewer 순서로 보고, 마지막에 실제 은행 서류로 데이터를 만들려면 어떤 구조가 필요한지 정리합니다.</p><div class="frame"><section id="map" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:36px">
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">전체 그림: 읽기를 먼저, 업무 판단은 그 위에</h2>
+<div style="display:flex;flex-direction:row;align-items:center;gap:24px">
+<div style="width:200px"><p style="font-size:30px;font-weight:700;color:#1E5AA8">1부</p><p style="font-size:26px;color:#44505C">OCR 학습</p></div>
+<div style="flex:1;background:#FFFFFF;border:2px solid #1E5AA8;border-radius:16px;padding:28px"><p style="font-size:28px;font-weight:600">실제 서류 이미지</p><p style="font-size:24px;color:#44505C">내부망 사내 OCR 결과 = 정답</p></div>
+<x-shape kind="arrow-right" style="width:56px;height:28px;background:#1E5AA8"></x-shape>
+<div style="flex:1;background:#FFFFFF;border:2px solid #1E5AA8;border-radius:16px;padding:28px"><p style="font-size:28px;font-weight:600">SFT → GRPO</p><p style="font-size:24px;color:#44505C">글자 8가지 과제</p></div>
+<x-shape kind="arrow-right" style="width:56px;height:28px;background:#1E5AA8"></x-shape>
+<div style="flex:1;background:#1E5AA8;border-radius:16px;padding:28px"><p style="font-size:28px;font-weight:600;color:#F6F5F1">글자·위치를 읽는 모델</p><p style="font-size:24px;color:#DCE7F6">2부의 출발 모델</p></div>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:24px">
+<div style="width:200px"><p style="font-size:30px;font-weight:700;color:#B54A12">2부</p><p style="font-size:26px;color:#44505C">은행 업무 학습</p></div>
+<div style="flex:1;background:#FFFFFF;border:2px solid #B54A12;border-radius:16px;padding:28px"><p style="font-size:28px;font-weight:600">합성 서류 생성기</p><p style="font-size:24px;color:#44505C">476종, 고객 단위 묶음</p></div>
+<x-shape kind="arrow-right" style="width:56px;height:28px;background:#B54A12"></x-shape>
+<div style="flex:1;background:#FFFFFF;border:2px solid #B54A12;border-radius:16px;padding:28px"><p style="font-size:28px;font-weight:600">SFT → GRPO</p><p style="font-size:24px;color:#44505C">1부 모델에서 출발</p></div>
+<x-shape kind="arrow-right" style="width:56px;height:28px;background:#B54A12"></x-shape>
+<div style="flex:1;background:#B54A12;border-radius:16px;padding:28px"><p style="font-size:28px;font-weight:600;color:#F6F5F1">서류 업무를 하는 모델</p><p style="font-size:24px;color:#F8E1D3">+ 벤치마크 비교표</p></div>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px">
+<div style="flex:1;background:#ECEEF0;border-radius:16px;padding:28px"><h3 style="font-size:30px;font-weight:600">왜 두 단계인가</h3><p style="font-size:26px;line-height:1.45;color:#44505C">업무 판단은 결국 서류를 정확히 읽는 것 위에서 돈다. 읽기는 실제 서류로, 판단은 정답을 마음대로 만들 수 있는 합성 서류로.</p></div>
+<div style="flex:1;background:#ECEEF0;border-radius:16px;padding:28px"><h3 style="font-size:30px;font-weight:600">모델과 도구</h3><p style="font-size:26px;line-height:1.45;color:#44505C">Qwen3.5-9B + LoRA, ms-swift 4.x 학습, vLLM 평가 서버. A100 2장(80GB / 40GB 설정 각각).</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">전체 그림</p>
+<aside>1부는 내부망에서 실제 서류 이미지를 사내 OCR로 돌린 결과를 정답 삼아 읽기 능력을 학습했습니다. 2부는 그 모델에서 출발해서, 합성 서류로 업무 판단을 학습합니다. 합성 서류는 정답과 불일치를 우리가 직접 만들 수 있다는 게 핵심입니다.</aside>
+</section></div><p class="num">2 / 26</p><p class="notes">1부는 내부망에서 실제 서류 이미지를 사내 OCR로 돌린 결과를 정답 삼아 읽기 능력을 학습했습니다. 2부는 그 모델에서 출발해서, 합성 서류로 업무 판단을 학습합니다. 합성 서류는 정답과 불일치를 우리가 직접 만들 수 있다는 게 핵심입니다.</p><div class="frame"><section id="pipeline" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">두 단계 모두 같은 파이프라인, 한 명령</h2>
+<div style="display:flex;flex-direction:row;gap:12px;align-items:stretch">
+<div style="flex:1;background:#16202A;border-radius:12px;padding:20px"><p style="font-size:26px;font-weight:600;color:#F6F5F1">prepare</p><p style="font-size:24px;color:#C9D1D9">학습 형식으로 변환·검사</p></div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #C9D1D9;border-radius:12px;padding:20px"><p style="font-size:26px;font-weight:600">eval_base</p><p style="font-size:24px;color:#44505C">출발 모델 평가</p></div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #C9D1D9;border-radius:12px;padding:20px"><p style="font-size:26px;font-weight:600">sft</p><p style="font-size:24px;color:#44505C">LoRA 학습</p></div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #C9D1D9;border-radius:12px;padding:20px"><p style="font-size:26px;font-weight:600">eval_sft</p><p style="font-size:24px;color:#44505C">평가 + GRPO 후보 풀기</p></div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #C9D1D9;border-radius:12px;padding:20px"><p style="font-size:26px;font-weight:600">select</p><p style="font-size:24px;color:#44505C">틀린 문제 위주 선정</p></div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #C9D1D9;border-radius:12px;padding:20px"><p style="font-size:26px;font-weight:600">grpo</p><p style="font-size:24px;color:#44505C">SFT에서 이어 학습</p></div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #C9D1D9;border-radius:12px;padding:20px"><p style="font-size:26px;font-weight:600">eval_grpo</p><p style="font-size:24px;color:#44505C">GRPO 평가</p></div>
+<div style="flex:1;background:#16202A;border-radius:12px;padding:20px"><p style="font-size:26px;font-weight:600;color:#F6F5F1">report</p><p style="font-size:24px;color:#C9D1D9">비교표</p></div>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600">실행</h3>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.6;color:#E6E9EC;background:#16202A;padding:24px;border-radius:12px">python run_pipeline.py --config configs/pipeline.json<br>python run_bank_pipeline.py --config configs/bank_pipeline.json<br># --smoke 리허설 · --from grpo · --only report</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600">공통 설계</h3>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>단계마다 state.json에 기록, 멈추면 같은 명령으로 이어서</li><li>평가: GPU마다 vLLM 서버 1개, LoRA는 병합해서 서빙</li><li>Base·SFT·GRPO가 같은 문항·이미지·설정으로 풀어야 비교표 생성</li><li>2부는 1부 코드를 상속, 데이터·채점·보고서만 교체</li></ul>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">전체 그림</p>
+<aside>두 파이프라인 모두 prepare부터 report까지 여덟 단계를 한 명령으로 돕니다. 각 단계가 끝나면 state.json에 기록하므로 중간에 멈춰도 같은 명령으로 이어집니다. eval_sft에서 SFT 모델 서버를 띄운 김에 GRPO 후보 문제도 같이 풀어 두고, select에서 SFT가 틀린 문제를 골라 GRPO를 합니다.</aside>
+</section></div><p class="num">3 / 26</p><p class="notes">두 파이프라인 모두 prepare부터 report까지 여덟 단계를 한 명령으로 돕니다. 각 단계가 끝나면 state.json에 기록하므로 중간에 멈춰도 같은 명령으로 이어집니다. eval_sft에서 SFT 모델 서버를 띄운 김에 GRPO 후보 문제도 같이 풀어 두고, select에서 SFT가 틀린 문제를 골라 GRPO를 합니다.</p><div class="frame"><section id="ocr-div" data-transition="fade" style="background:#1E5AA8;color:#F6F5F1;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:32px">
+<p style="font-size:32px;font-weight:600;color:#DCE7F6;letter-spacing:2px">1부</p>
+<h1 style="font-size:96px;font-weight:700;line-height:1.15;color:#F6F5F1">OCR 학습</h1>
+<p style="font-size:40px;line-height:1.4;color:#EAF1FB">내부망의 실제 서류 이미지를 사내 OCR로 돌린 결과로<br>글자 내용과 위치(박스)를 읽는 법을 학습</p>
+<p style="font-size:28px;color:#DCE7F6">컨셉 · 데이터 구조 · prepare · 학습 · 평가 · viewer · 실제 데이터 연결</p>
+<aside>1부는 실제 데이터를 쓴 단계입니다. 사람이 정답을 단 게 아니라 사내 OCR 결과를 그대로 정답으로 썼다는 점을 기억해 주세요.</aside>
+</section></div><p class="num">4 / 26</p><p class="notes">1부는 실제 데이터를 쓴 단계입니다. 사람이 정답을 단 게 아니라 사내 OCR 결과를 그대로 정답으로 썼다는 점을 기억해 주세요.</p><div class="frame"><section id="ocr-concept" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<p style="font-size:26px;font-weight:600;color:#1E5AA8">1부 OCR · 컨셉</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">사람 검수 없이, 사내 OCR을 선생님으로</h2>
+<div style="display:flex;flex-direction:row;gap:32px">
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:36px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:34px;font-weight:600;color:#1E5AA8">무엇을 배우나</h3>
+<ul style="font-size:28px;line-height:1.5;color:#44505C"><li>글자 내용 ↔ 위치(박스 좌표) 양방향</li><li>스캔·촬영 노이즈에 강하게</li><li>좌표: 이미지 기준 0~1000 정수 [x1, y1, x2, y2]</li></ul>
+</div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:36px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:34px;font-weight:600;color:#1E5AA8">정답은 어디서</h3>
+<ul style="font-size:28px;line-height:1.5;color:#44505C"><li>내부망 실제 서류 이미지를 사내 OCR에 돌린 결과</li><li>사람이 검수하지 않은 의사정답</li><li>점수 = 사내 OCR과 얼마나 같은지</li></ul>
+</div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:36px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:34px;font-weight:600;color:#1E5AA8">지키는 원칙</h3>
+<ul style="font-size:28px;line-height:1.5;color:#44505C"><li>정답이 불완전한 영역은 버림</li><li>신뢰도 낮은 단어·잘린 단어가 걸친 영역은 문항으로 안 만듦</li><li>읽는 순서는 박스 위치로 정함</li></ul>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.45;color:#16202A;background:#DCE7F6;padding:24px 32px;border-radius:12px">한계: 사내 OCR이 틀린 곳은 정답도 틀리고, OCR이 놓친 글자는 빠뜨리도록 배울 수 있다 → 노이즈 많은 페이지로 사람 검수 정답셋이 있으면 좋다</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">1부 OCR 학습</p>
+<aside>사람 검수 없이 대량의 실제 이미지를 쓰기 위해 사내 OCR 결과를 정답으로 썼습니다. 대신 정답이 불완전해질 수 있는 영역은 아예 문항으로 만들지 않습니다. 예를 들어 영역 읽기 문항은 그 안에 신뢰도가 낮은 단어가 하나라도 있으면 버립니다.</aside>
+</section></div><p class="num">5 / 26</p><p class="notes">사람 검수 없이 대량의 실제 이미지를 쓰기 위해 사내 OCR 결과를 정답으로 썼습니다. 대신 정답이 불완전해질 수 있는 영역은 아예 문항으로 만들지 않습니다. 예를 들어 영역 읽기 문항은 그 안에 신뢰도가 낮은 단어가 하나라도 있으면 버립니다.</p><div class="frame"><section id="ocr-tasks" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<p style="font-size:26px;font-weight:600;color:#1E5AA8">1부 OCR · 컨셉</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">과제 8종: 글자 → 위치, 위치 → 글자</h2>
+<table style="font-size:25px;color:#16202A;background:#FFFFFF;border-radius:12px">
+<tr><th style="width:17%">과제</th><th style="width:33%">입력</th><th style="width:28%">출력</th><th style="width:22%">배우는 것</th></tr>
+<tr><td>crop_ocr</td><td>단어를 잘라낸 이미지</td><td>글자</td><td>노이즈 속 인식</td></tr>
+<tr><td>bbox_ocr</td><td>페이지 + 단어 박스</td><td>글자</td><td>좌표 → 내용</td></tr>
+<tr><td>grounding</td><td>페이지 + 글자</td><td>그 글자의 모든 박스 (없으면 [])</td><td>내용 → 좌표</td></tr>
+<tr><td>region_ocr</td><td>페이지 + 여러 단어 영역</td><td>영역 안 글자 (줄 단위)</td><td>영역과 읽는 순서</td></tr>
+<tr><td>spotting</td><td>페이지 타일 (단어 40개 이하)</td><td>모든 글자 + 박스</td><td>문서 전체 배치</td></tr>
+<tr><td>relation</td><td>페이지 + 기준 글자 + 방향</td><td>바로 옆 글자와 박스</td><td>항목명 → 값 위치</td></tr>
+<tr><td>marked_ocr</td><td>색 박스를 그린 페이지 + 색</td><td>박스 안 글자</td><td>표시한 곳 → 내용</td></tr>
+<tr><td>marked_box</td><td>같은 이미지 + 색</td><td>그린 박스 좌표 + 글자</td><td>표시한 곳 → 좌표</td></tr>
+</table>
+<p style="font-size:26px;color:#44505C">박스 답 형식: [{"bbox_2d": [x1, y1, x2, y2], "label": "글자"}] · grounding의 약 10%는 없는 글자를 묻는 문항 · 질문은 한국어·영어 두 문장</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">1부 OCR 학습 · 질문 문장 전체: training/docs/PROMPTS.md</p>
+<aside>marked 과제는 이미지에 직접 색 박스를 그려 넣어 만듭니다. 그린 박스의 좌표는 OCR 박스가 아니라 우리가 그린 사각형이라 정답이 정확합니다. 좌표 숫자와 이미지 위치를 연결해 주는 보조 과제입니다.</aside>
+</section></div><p class="num">6 / 26</p><p class="notes">marked 과제는 이미지에 직접 색 박스를 그려 넣어 만듭니다. 그린 박스의 좌표는 OCR 박스가 아니라 우리가 그린 사각형이라 정답이 정확합니다. 좌표 숫자와 이미지 위치를 연결해 주는 보조 과제입니다.</p><div class="frame"><section id="ocr-input" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<p style="font-size:26px;font-weight:600;color:#1E5AA8">1부 OCR · 데이터 구조</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">입력: 이미지 + OCR JSON → manifest 한 장</h2>
+<div style="display:flex;flex-direction:row;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<h3 style="font-size:32px;font-weight:600">① 사내 OCR 결과 (페이지마다 JSON)</h3>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E6E9EC;background:#16202A;padding:24px;border-radius:12px">{"success": "Y",<br> "data": {"basicData": [[<br>  {"text": "2024", "confidence": 0.9999,<br>   "bounding": {"vertices": [<br>     {"x":140,"y":46}, … 4점]}}<br> ]]}}</p>
+<p style="font-size:26px;line-height:1.45;color:#44505C">미리 돌려 둔 JSON을 그대로 씀. 없으면 prepare가 사내 OCR 호출 후 캐시</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<h3 style="font-size:32px;font-weight:600">② manifest.jsonl (페이지마다 한 줄)</h3>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E6E9EC;background:#16202A;padding:24px;border-radius:12px">{"document_id": "doc123",<br> "page_id": "p001",<br> "image": "/data/doc123_p001.png",<br> "ocr_json": "/ocr/doc123_p001.json",<br> "split": "train"}</p>
+<p style="font-size:26px;line-height:1.45;color:#44505C">bank_ocr scan이 폴더를 훑어 만듦. 파일명 정규식으로 문서 ID 추출</p>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.45;color:#16202A;background:#DCE7F6;padding:20px 32px;border-radius:12px">문서 ID가 핵심: 분리를 문서 단위로 해서 같은 문서의 쪽들이 학습과 평가에 갈라지지 않게</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">1부 OCR 학습</p>
+<aside>실제 데이터는 이 두 가지만 있으면 됩니다. 페이지 이미지와, 그 이미지를 사내 OCR에 돌린 JSON입니다. scan 명령이 이 둘을 짝지어 manifest를 만들고, prepare가 manifest를 읽습니다.</aside>
+</section></div><p class="num">7 / 26</p><p class="notes">실제 데이터는 이 두 가지만 있으면 됩니다. 페이지 이미지와, 그 이미지를 사내 OCR에 돌린 JSON입니다. scan 명령이 이 둘을 짝지어 manifest를 만들고, prepare가 manifest를 읽습니다.</p><div class="frame"><section id="ocr-prepare" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<p style="font-size:26px;font-weight:600;color:#1E5AA8">1부 OCR · 데이터 구조 · prepare</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">prepare: manifest 한 장 → 학습 데이터 전부</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+<div style="background:#FFFFFF;border:1px solid #D5DBE1;border-radius:14px;padding:18px"><p style="font-size:28px;font-weight:700;color:#1E5AA8">1 문서 단위 분리</p><p style="font-size:24px;line-height:1.4;color:#44505C">학습 문서 5% → 검증, 10% → 벤치마크 (split 있으면 유지)</p></div>
+<div style="background:#FFFFFF;border:1px solid #D5DBE1;border-radius:14px;padding:18px"><p style="font-size:28px;font-weight:700;color:#1E5AA8">2 이미지 점검</p><p style="font-size:24px;line-height:1.4;color:#44505C">EXIF 회전 보정, 같은 이미지가 분리를 넘으면 중단</p></div>
+<div style="background:#FFFFFF;border:1px solid #D5DBE1;border-radius:14px;padding:18px"><p style="font-size:28px;font-weight:700;color:#1E5AA8">3 OCR 읽기</p><p style="font-size:24px;line-height:1.4;color:#44505C">저장된 JSON 매핑, 없으면 사내 OCR 호출 + 캐시</p></div>
+<div style="background:#FFFFFF;border:1px solid #D5DBE1;border-radius:14px;padding:18px"><p style="font-size:28px;font-weight:700;color:#1E5AA8">4 단어 거르기</p><p style="font-size:24px;line-height:1.4;color:#44505C">학습은 신뢰도 0.95 미만·깨진 글자 제외 (벤치마크는 유지)</p></div>
+<div style="background:#FFFFFF;border:1px solid #D5DBE1;border-radius:14px;padding:18px"><p style="font-size:28px;font-weight:700;color:#1E5AA8">5 사본 만들기</p><p style="font-size:24px;line-height:1.4;color:#44505C">2300×1600 이하 clean 1장 + 노이즈 2장, 박스도 같이 변환</p></div>
+<div style="background:#FFFFFF;border:1px solid #D5DBE1;border-radius:14px;padding:18px"><p style="font-size:28px;font-weight:700;color:#1E5AA8">6 문항 만들기</p><p style="font-size:24px;line-height:1.4;color:#44505C">사본마다 과제 8종 (grounding 8, bbox 8, relation 6 …)</p></div>
+<div style="background:#FFFFFF;border:1px solid #D5DBE1;border-radius:14px;padding:18px"><p style="font-size:28px;font-weight:700;color:#1E5AA8">7 SFT 뽑기</p><p style="font-size:24px;line-height:1.4;color:#44505C">과제 비율로 최대 3만, 같은 이미지 질문 8개를 한 대화로</p></div>
+<div style="background:#FFFFFF;border:1px solid #D5DBE1;border-radius:14px;padding:18px"><p style="font-size:28px;font-weight:700;color:#1E5AA8">8 GRPO 문제 풀</p><p style="font-size:24px;line-height:1.4;color:#44505C">grounding · spotting · relation 학습 문항 + 보상용 target</p></div>
+<div style="background:#16202A;border-radius:14px;padding:18px"><p style="font-size:28px;font-weight:700;color:#8DB4E8">9 DONE.json</p><p style="font-size:24px;line-height:1.4;color:#C9D1D9">맨 마지막에 기록, 실패한 폴더는 학습에 안 쓰임</p></div>
+</div>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#E6E9EC;background:#16202A;padding:16px 24px;border-radius:12px">python -m bank_ocr prepare --config config.json   # run_pipeline 첫 단계 · 1000장 약 0.5~1시간</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">1부 OCR 학습</p>
+<aside>prepare가 1부 데이터 준비의 전부입니다. 사내 OCR 결과 JSON을 이미 갖고 있으면 OCR을 다시 부르지 않고 그 JSON을 매핑만 합니다. 원본 이미지에서 OCR한 박스를, 학습용으로 줄이고 노이즈를 넣은 사본에도 같은 기하 변환으로 옮기는 게 핵심입니다. 자르기에 걸려 잘린 단어는 cut으로 표시해서 어떤 문항에도 쓰지 않습니다. output_dir이 이미 있으면 덮어쓰지 않으니 설정을 바꾸면 새 이름으로 만듭니다.</aside>
+</section></div><p class="num">8 / 26</p><p class="notes">prepare가 1부 데이터 준비의 전부입니다. 사내 OCR 결과 JSON을 이미 갖고 있으면 OCR을 다시 부르지 않고 그 JSON을 매핑만 합니다. 원본 이미지에서 OCR한 박스를, 학습용으로 줄이고 노이즈를 넣은 사본에도 같은 기하 변환으로 옮기는 게 핵심입니다. 자르기에 걸려 잘린 단어는 cut으로 표시해서 어떤 문항에도 쓰지 않습니다. output_dir이 이미 있으면 덮어쓰지 않으니 설정을 바꾸면 새 이름으로 만듭니다.</p><div class="frame"><section id="ocr-output" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:26px;font-weight:600;color:#1E5AA8">1부 OCR · 데이터 구조 · prepare 결과</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">결과 폴더와 문항 한 줄</h2>
+<div style="display:flex;flex-direction:row;gap:32px">
+<table style="flex:1;font-size:24px;color:#16202A;background:#FFFFFF">
+<tr><th style="width:42%">data/prepared-v2/</th><th style="width:58%">내용</th></tr>
+<tr><td>pages.jsonl</td><td>페이지별 OCR 원본 (글자·박스·신뢰도)</td></tr>
+<tr><td>views/</td><td>모델 입력 이미지 clean / aug</td></tr>
+<tr><td>crops/ tiles/ marked/</td><td>잘라낸 단어, 타일, 색 박스 그림</td></tr>
+<tr><td>train_sft.jsonl</td><td>SFT 입력 (묶음 대화)</td></tr>
+<tr><td>train_grpo.jsonl</td><td>GRPO 문제 (target 포함)</td></tr>
+<tr><td>*_tasks.jsonl</td><td>평가·분석용 문항</td></tr>
+<tr><td>DONE.json</td><td>완료 표시, 개수, 필터 통계</td></tr>
+</table>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<p style="font-size:26px;font-weight:600">benchmark_tasks.jsonl 한 줄</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E6E9EC;background:#16202A;padding:24px;border-radius:12px">{"task": "grounding",<br> "document_id": "doc_3",<br> "view": "aug",<br> "view_ops": ["scale0.760", "blur"],<br> "images": ["views/…_v0.png"],<br> "messages": [{"role": "user", "content":<br>  "&lt;image&gt;\n\"DATE\" 와 정확히 같은 …"}],<br> "target": "{\"boxes\": [{\"bbox_2d\":<br>   [50, 500, 200, 600], \"label\": \"DATE\"}]}",<br> "confidence": 0.99, "size": "medium"}</p>
+</div>
+</div>
+<p style="font-size:26px;color:#44505C">view·confidence·size는 평가 때 결과를 나눠 보는 기준 · OCR 원본 캐시(data/ocr-cache)는 지우지 않는다 (학습이 참조)</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">1부 OCR 학습</p>
+<aside>문항 한 줄에는 질문, 이미지, 정답(target)과 함께 어떤 사본에서 나왔는지, 사내 OCR 신뢰도, 글자 크기가 붙습니다. 평가에서 깨끗한 사본과 노이즈 사본을 나눠 보거나, 신뢰도가 낮은 글자에서 성능을 따로 보는 데 씁니다.</aside>
+</section></div><p class="num">9 / 26</p><p class="notes">문항 한 줄에는 질문, 이미지, 정답(target)과 함께 어떤 사본에서 나왔는지, 사내 OCR 신뢰도, 글자 크기가 붙습니다. 평가에서 깨끗한 사본과 노이즈 사본을 나눠 보거나, 신뢰도가 낮은 글자에서 성능을 따로 보는 데 씁니다.</p><div class="frame"><section id="ocr-train" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:26px;font-weight:600;color:#1E5AA8">1부 OCR · 학습 방법</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">SFT로 형식과 읽기, GRPO로 박스 정밀도</h2>
+<div style="display:flex;flex-direction:row;gap:32px">
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:14px">
+<h3 style="font-size:34px;font-weight:600;color:#1E5AA8">SFT</h3>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>LoRA rank 32 · 비전 인코더까지 전부 학습</li><li>최대 3만 문항 · lr 1e-4 · 길이 10,240토큰</li><li>같은 이미지 질문 8개를 한 대화로 묶어 이미지는 한 번만 처리</li></ul>
+</div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:14px">
+<h3 style="font-size:34px;font-weight:600;color:#1E5AA8">GRPO</h3>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>대상: grounding · spotting · relation (답이 여러 개라 점수 차이가 생김)</li><li>후보 6000을 SFT로 풀고 보상 0.9 미만을 절반 섞어 2000문제</li><li>lr 5e-6, beta 0.04, 한 문제에 답 8개 (40GB는 4개)</li></ul>
+</div>
+</div>
+<div style="background:#16202A;border-radius:16px;padding:28px 32px;display:flex;flex-direction:column;gap:10px">
+<p style="font-size:26px;font-weight:600;color:#8DB4E8">GRPO 보상</p>
+<p style="font-size:26px;line-height:1.45;color:#E6E9EC">박스 = 2 × Σ 짝별 점수 / (예측 박스 수 + 정답 박스 수),  짝별 = min(1, IoU / 0.8)<br>글자 = 0.7 × 문자 유사도 + 0.3 × 숫자 유사도 · 정답 []에는 [] 일 때 1 · 형식 오류 0</p>
+<p style="font-size:24px;color:#C9D1D9">박스 남발 꼼수 차단 · IoU 0.8 이상 만점 (정답 박스 잡음까지 배우지 않게)</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">1부 OCR 학습 · 설계 상세: training/docs/DESIGN.md</p>
+<aside>단어 하나짜리 과제는 SFT 뒤 답이 거의 같아져서 GRPO 신호가 없습니다. 그래서 GRPO는 답이 여러 개인 과제만 씁니다. IoU 0.8에서 만점을 주는 이유는 사내 OCR 박스가 꽉 맞는 정도가 일정하지 않아서입니다.</aside>
+</section></div><p class="num">10 / 26</p><p class="notes">단어 하나짜리 과제는 SFT 뒤 답이 거의 같아져서 GRPO 신호가 없습니다. 그래서 GRPO는 답이 여러 개인 과제만 씁니다. IoU 0.8에서 만점을 주는 이유는 사내 OCR 박스가 꽉 맞는 정도가 일정하지 않아서입니다.</p><div class="frame"><section id="ocr-eval" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:26px;font-weight:600;color:#1E5AA8">1부 OCR · 평가 방법</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">떼어 둔 10% 문서로, 같은 조건에서 세 모델 비교</h2>
+<div style="display:flex;flex-direction:row;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600">지표</h3>
+<table style="font-size:24px;color:#16202A;background:#FFFFFF">
+<tr><th style="width:30%">과제</th><th style="width:70%">지표</th></tr>
+<tr><td>글자 과제</td><td>CER, 완전 일치, 숫자 일치 (region은 단어 F1도)</td></tr>
+<tr><td>박스 과제</td><td>IoU 0.5 F1, IoU 0.75 F1, 평균 IoU, 개수 정확도, 없는 글자 맞힘, JSON 정상 비율</td></tr>
+<tr><td>spotting · relation · marked_box</td><td>박스와 글자가 모두 맞아야 맞는 위치+글자 F1</td></tr>
+</table>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600">나눠 보기</h3>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li><b>clean vs aug</b>: 깨끗한 사본과 노이즈 사본의 점수 차이 = 노이즈에 대한 강인함</li><li>사내 OCR 신뢰도 0.95 이상 / 미만</li><li>글자 크기 소·중·대</li></ul>
+<h3 style="font-size:32px;font-weight:600">같은 조건 강제</h3>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>Base · SFT · GRPO가 같은 문항·이미지·이미지 토큰 예산</li><li>문항 해시나 생성 설정이 다르면 비교표 거부</li></ul>
+</div>
+</div>
+<p style="font-size:26px;line-height:1.45;color:#16202A;background:#DCE7F6;padding:20px 32px;border-radius:12px">결과: runs/exp1/reports/benchmark.html — Base·SFT·GRPO 점수, Base 대비 변화, clean·aug 표</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">1부 OCR 학습</p>
+<aside>점수는 사내 OCR과 얼마나 같은지라는 점을 다시 강조합니다. 노이즈 대응을 제대로 재려면, 노이즈가 많은 페이지로 사람이 검수한 소규모 정답셋이 따로 있는 게 좋습니다.</aside>
+</section></div><p class="num">11 / 26</p><p class="notes">점수는 사내 OCR과 얼마나 같은지라는 점을 다시 강조합니다. 노이즈 대응을 제대로 재려면, 노이즈가 많은 페이지로 사람이 검수한 소규모 정답셋이 따로 있는 게 좋습니다.</p><div class="frame"><section id="ocr-viewer" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:26px;font-weight:600;color:#1E5AA8">1부 OCR · viewer</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">답의 박스를 이미지 위에 그려 본다</h2>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#E6E9EC;background:#16202A;padding:16px 24px;border-radius:12px">bash viewer/start.sh runs/exp1/merged/&lt;모델폴더&gt; 1     # 브라우저 http://localhost:7860</p>
+<div style="display:flex;flex-direction:row;gap:28px">
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:14px">
+<h3 style="font-size:32px;font-weight:600;color:#1E5AA8">직접 테스트</h3>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>이미지·PDF 업로드</li><li>전체 글자+위치 (타일로 나눠 질문)</li><li>글자 찾기 · 드래그한 영역 읽기 · 기준 글자 옆 찾기</li><li>학습과 같은 크기로 줄여 보냄</li></ul>
+</div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:14px">
+<h3 style="font-size:32px;font-weight:600;color:#1E5AA8">벤치마크 문제</h3>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>무작위 문항을 풀게 함</li><li>정답(초록)과 모델 답(빨강) 박스 겹쳐 보기</li><li>GRPO 보상 점수 표시</li><li>과제, clean/aug로 거르기</li></ul>
+</div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:14px">
+<h3 style="font-size:32px;font-weight:600;color:#1E5AA8">저장된 답 보기</h3>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>파이프라인이 저장한 평가 답을 GPU 없이</li><li>보상 기준으로 틀린 문제만</li><li>학습 중에도 사용 가능</li></ul>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">1부 OCR 학습 · 사용법: training/viewer/README.md 1~5</p>
+<aside>OCR viewer는 모델이 실제로 어디를 보고 답했는지를 눈으로 확인하는 도구입니다. 점수표만으로는 박스가 조금씩 밀리는지, 특정 글씨체에서 틀리는지 알기 어렵습니다.</aside>
+</section></div><p class="num">12 / 26</p><p class="notes">OCR viewer는 모델이 실제로 어디를 보고 답했는지를 눈으로 확인하는 도구입니다. 점수표만으로는 박스가 조금씩 밀리는지, 특정 글씨체에서 틀리는지 알기 어렵습니다.</p><div class="frame"><section id="ocr-real" data-transition="fade" style="background:#ECEEF0;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:26px;font-weight:600;color:#1E5AA8">1부 OCR · 새 실제 데이터를 학습에 연결하려면</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">이미지 + OCR JSON만 있으면 바로 연결된다</h2>
+<div style="display:flex;flex-direction:row;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:30px;font-weight:600">이런 폴더 구조면 됩니다</h3>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;color:#E6E9EC;background:#16202A;padding:24px;border-radius:12px">/data/images/<br>  doc123_p001.png<br>  doc123_p002.png<br>/data/ocr_json/<br>  doc123_p001.json  ← 같은 이름<br>  doc123_p002.json</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;color:#E6E9EC;background:#16202A;padding:24px;border-radius:12px">python -m bank_ocr scan \<br>  --root /data/images --split train \<br>  --ocr-dir /data/ocr_json \<br>  --document-regex '(?P&lt;document_id&gt;[^/]+)_p[0-9]+\.' \<br>  --out data/manifest.jsonl</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:30px;font-weight:600">지켜야 할 것</h3>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li><b>문서 ID</b>: 같은 문서의 쪽은 같은 ID. 파일명 규칙이 없으면 manifest를 직접 작성</li><li><b>OCR JSON</b>: 사내 OCR 응답 그대로 (success · basicData · vertices). 다른 형식은 config의 mapping으로 키 지정</li><li><b>같은 픽셀</b>: OCR을 돌린 이미지 파일 그대로 (PDF는 쪽별 이미지로)</li><li><b>OCR JSON이 없으면</b>: 사내 OCR 서버를 띄우고 (GPU_ID=7 SERVER_PORT=30107 python server.py) INTERNAL_OCR_BASE_URL로 연결 → prepare가 호출</li><li><b>OCR 버전</b>: ocr_revision을 바꾸면 캐시도 새로</li><li><b>벤치마크</b>: benchmark_fraction 10%로 자동 분리, 또는 split: benchmark 지정</li></ul>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">1부 OCR 학습 · 설치와 준비 상세: training/docs/SETUP.md</p>
+<aside>1부는 이미 실제 데이터로 돌아가는 구조입니다. 새 데이터를 추가할 때는 이미지와 OCR JSON을 같은 이름으로 두고 scan을 돌리면 manifest가 만들어지고, 그다음은 파이프라인이 알아서 prepare부터 진행합니다. 문서 ID 규칙만 신경 쓰면 됩니다.</aside>
+</section></div><p class="num">13 / 26</p><p class="notes">1부는 이미 실제 데이터로 돌아가는 구조입니다. 새 데이터를 추가할 때는 이미지와 OCR JSON을 같은 이름으로 두고 scan을 돌리면 manifest가 만들어지고, 그다음은 파이프라인이 알아서 prepare부터 진행합니다. 문서 ID 규칙만 신경 쓰면 됩니다.</p><div class="frame"><section id="bank-div" data-transition="fade" style="background:#B54A12;color:#F6F5F1;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:32px">
+<p style="font-size:32px;font-weight:600;color:#F8E1D3;letter-spacing:2px">2부</p>
+<h1 style="font-size:96px;font-weight:700;line-height:1.15;color:#F6F5F1">은행 업무 학습</h1>
+<p style="font-size:40px;line-height:1.4;color:#FCEFE6">1부 모델에서 출발해, 합성 서류로<br>서류 묶음을 보고 판단하는 업무를 학습</p>
+<p style="font-size:28px;color:#F8E1D3">컨셉 · 생성기 · 데이터 구조 · 벤치마크 · 학습 · 평가 · viewer</p>
+<aside>2부의 핵심은 정답을 공짜로 얻는다는 점입니다. 서류를 우리가 생성하니까 어느 칸에 무슨 값이 있는지, 어디가 틀렸는지를 이미 알고 있습니다.</aside>
+</section></div><p class="num">14 / 26</p><p class="notes">2부의 핵심은 정답을 공짜로 얻는다는 점입니다. 서류를 우리가 생성하니까 어느 칸에 무슨 값이 있는지, 어디가 틀렸는지를 이미 알고 있습니다.</p><div class="frame"><section id="bank-concept" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:26px;font-weight:600;color:#B54A12">2부 은행 업무 · 컨셉</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">창구·심사 담당자가 하는 서류 업무 네 가지</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+<div style="background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:28px"><h3 style="font-size:32px;font-weight:600;color:#B54A12">서류 구비 확인</h3><p style="font-size:26px;line-height:1.45;color:#44505C">제출한 서류 묶음에서 빠진 서류, 필요 없는 서류, 다른 사람 서류 찾기</p></div>
+<div style="background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:28px"><h3 style="font-size:32px;font-weight:600;color:#B54A12">서류 대조</h3><p style="font-size:26px;line-height:1.45;color:#44505C">서류 2~3건을 맞대어 불일치 찾기 — 오기, 타인 서류, 소득 부풀리기, 임대인≠등기부 소유자 등 14종</p></div>
+<div style="background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:28px"><h3 style="font-size:32px;font-weight:600;color:#B54A12">심사 질의</h3><p style="font-size:26px;line-height:1.45;color:#44505C">LTV, 소득 대비 배수, 만 나이, 서류 유효기간 같은 질문에 숫자나 예/아니오로</p></div>
+<div style="background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:28px"><h3 style="font-size:32px;font-weight:600;color:#B54A12">정보 추출 외</h3><p style="font-size:26px;line-height:1.45;color:#44505C">항목 값 추출, 체크박스·도장·서명, 서류 분류, 글자 읽기</p></div>
+</div>
+<div style="background:#16202A;border-radius:16px;padding:28px 32px;display:flex;flex-direction:row;gap:40px">
+<div style="flex:1"><p style="font-size:28px;font-weight:600;color:#F2A06B">왜 합성 데이터인가</p><p style="font-size:26px;line-height:1.45;color:#E6E9EC">실제 고객 서류는 학습에 쓸 수 없고, “어느 서류의 어느 값이 틀렸다” 같은 정답을 사람이 다는 비용이 크다</p></div>
+<div style="flex:1"><p style="font-size:28px;font-weight:600;color:#F2A06B">그래서</p><p style="font-size:26px;line-height:1.45;color:#E6E9EC">서류를 직접 생성해 정답을 공짜로 얻고, 불일치도 일부러 만들어 넣는다</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">2부 은행 업무 학습</p>
+<aside>업무 네 가지 중 앞의 세 가지는 여러 서류를 함께 봐야 하는 과제입니다. 그래서 서류 한 장씩이 아니라 한 고객이 낸 서류 묶음 단위로 데이터를 만들었습니다.</aside>
+</section></div><p class="num">15 / 26</p><p class="notes">업무 네 가지 중 앞의 세 가지는 여러 서류를 함께 봐야 하는 과제입니다. 그래서 서류 한 장씩이 아니라 한 고객이 낸 서류 묶음 단위로 데이터를 만들었습니다.</p><div class="frame"><section id="bank-docgen" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:26px;font-weight:600;color:#B54A12">2부 은행 업무 · 합성 데이터 생성기 docgen</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">서류 476종, 고객 한 명의 서류끼리 값이 맞는다</h2>
+<div style="display:flex;flex-direction:row;gap:24px">
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:8px"><p style="font-size:64px;font-weight:700;color:#B54A12;line-height:1.1">70</p><p style="font-size:26px;font-weight:600">HTML 템플릿 서류</p><p style="font-size:24px;line-height:1.4;color:#44505C">신분증, 등본, 소득·세금, 등기부, 계약서, 은행 서식</p></div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:8px"><p style="font-size:64px;font-weight:700;color:#B54A12;line-height:1.1">406</p><p style="font-size:26px;font-weight:600">하나은행 원본 서식</p><p style="font-size:24px;line-height:1.4;color:#44505C">공개 서식 PDF 위에 손글씨·인쇄체로 값을 얹음</p></div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:8px"><p style="font-size:64px;font-weight:700;color:#B54A12;line-height:1.1">12</p><p style="font-size:26px;font-weight:600">업무 묶음</p><p style="font-size:24px;line-height:1.4;color:#44505C">계좌개설, 신용대출, 주담대, 전세, 법인 여신, 해외송금 …</p></div>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px">
+<ul style="flex:1;font-size:26px;line-height:1.5;color:#44505C"><li><b>정답 = 화면에 찍힌 문자열</b>: 템플릿이 값을 찍을 때 정답과 위치를 함께 기록 → 어긋날 수 없음</li><li><b>고객 단위 일관성</b>: 급여명세서 실수령액 = 통장 입금액, 등기부 근저당 = 대출 약정</li><li><b>숫자 정합성</b>: 세액, 잔액, 대차대조, 한글 금액이 계산으로 맞음</li></ul>
+<ul style="flex:1;font-size:26px;line-height:1.5;color:#44505C"><li><b>다양성</b>: 여러 쪽, 말소·개명·정정 같은 특수 상황, 글꼴·여백 무작위</li><li><b>촬영 조건</b>: 원본 50%, 스캔 20%, 촬영 15%, 팩스 15%</li><li><b>재현성</b>: 같은 seed면 언제·몇 프로세스로 만들어도 같은 데이터</li></ul>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">2부 은행 업무 학습 · 상세: guide/overview.md 부록 A</p>
+<aside>생성기는 이미 있던 것을 은행 업무용으로 확장했습니다. 가장 중요한 성질은 고객 단위 일관성입니다. 한 고객의 서류끼리 값이 맞아야, 그중 하나를 일부러 틀리게 만들어서 서류 대조 문제를 만들 수 있습니다.</aside>
+</section></div><p class="num">16 / 26</p><p class="notes">생성기는 이미 있던 것을 은행 업무용으로 확장했습니다. 가장 중요한 성질은 고객 단위 일관성입니다. 한 고객의 서류끼리 값이 맞아야, 그중 하나를 일부러 틀리게 만들어서 서류 대조 문제를 만들 수 있습니다.</p><div class="frame"><section id="bank-data" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<p style="font-size:26px;font-weight:600;color:#B54A12">2부 은행 업무 · 데이터 구조</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">도커에서 한 번 생성 → prepare → 학습·평가</h2>
+<div style="display:flex;flex-direction:row;gap:28px">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E6E9EC;background:#16202A;padding:22px;border-radius:12px"># docgen 도커 (CPU, 한 번)<br>bash scripts/make_bank_data.sh<br>bench/       고객 40명 · 약 9천 문항<br>bank_train/  고객 200명 · 서류당 5건<br>  meta.json          설정·버전·개수<br>  images/            서류 쪽 이미지<br>  tasks/&lt;과제&gt;.jsonl  문항 (아래)<br>  swift/all.jsonl    학습용 대화 (학습만)</p>
+<table style="font-size:24px;color:#16202A;background:#FFFFFF">
+<tr><th style="width:44%">prepared-bank/</th><th style="width:56%">내용</th></tr>
+<tr><td>train_sft.jsonl</td><td>SFT (+ OCR 데이터 3000)</td></tr>
+<tr><td>train_grpo.jsonl</td><td>GRPO 풀 + 채점용 문항</td></tr>
+<tr><td>benchmark_*.jsonl</td><td>평가 질문 / 정답</td></tr>
+</table>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:26px;font-weight:600">tasks/cross_check.jsonl 한 줄 (전세사기 사례)</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E6E9EC;background:#16202A;padding:22px;border-radius:12px">{"id": "cross_check/jeonse_loan_2003000/<br>       lease_owner",<br> "task": "cross_check",<br> "images": ["…/lease_contract.png",<br>   "…/real_estate_registry_lease_owner.png"],<br> "prompt": "고객 '방하주' 님이 … 대조해 …",<br> "answer": {"consistent": false, "issues": [<br>   {"document": "등기사항전부증명서(집합건물)",<br>    "field": "소유자", "value": "추규태",<br>    "expected": "신수유"}]},<br> "eval": {"documents": [ … 보여 준 서류명 ]},<br> "meta": {"case": "lease_owner", …}}</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">2부 은행 업무 학습 · id의 두 번째 칸(묶음 ID) = 고객 단위 · answer = 정답 · eval = 채점 정보 · meta = 세부 표 기준</p>
+<aside>평가 세트와 학습 데이터는 같은 형식입니다. 학습 데이터에는 같은 문항을 질문과 정답 답변의 대화 형식으로 바꾼 swift/all.jsonl이 더 있습니다. id의 두 번째 칸은 고객 묶음 ID인데, prepare가 이걸로 학습과 평가의 고객이 겹치는지 검사하고 GRPO용 고객을 떼어 둡니다. 이 구조가 뒤에서 실제 데이터를 넣을 때의 기준이 됩니다.</aside>
+</section></div><p class="num">17 / 26</p><p class="notes">평가 세트와 학습 데이터는 같은 형식입니다. 학습 데이터에는 같은 문항을 질문과 정답 답변의 대화 형식으로 바꾼 swift/all.jsonl이 더 있습니다. id의 두 번째 칸은 고객 묶음 ID인데, prepare가 이걸로 학습과 평가의 고객이 겹치는지 검사하고 GRPO용 고객을 떼어 둡니다. 이 구조가 뒤에서 실제 데이터를 넣을 때의 기준이 됩니다.</p><div class="frame"><section id="bank-bench" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<p style="font-size:26px;font-weight:600;color:#B54A12">2부 은행 업무 · 벤치마크 설계</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">과제 8종, 약 9천 문항, 규칙 기반 채점</h2>
+<table style="font-size:24px;color:#16202A;background:#FFFFFF">
+<tr><th style="width:18%">과제</th><th style="width:50%">입력 → 출력</th><th style="width:22%">주 지표</th><th style="width:10%;text-align:right">문항</th></tr>
+<tr><td>서류 구비 확인</td><td>필수 목록 + 제출 서류 첫 쪽들 → 빠진·불필요·타인 서류</td><td>완전 일치</td><td style="text-align:right">480</td></tr>
+<tr><td>서류 대조</td><td>서류 2~3건 → 불일치 여부 + 서류·항목·값</td><td>종합 (+위치, 오탐)</td><td style="text-align:right">~2,000</td></tr>
+<tr><td>심사 질의</td><td>질문 + 관련 서류 → 숫자 / 예·아니오</td><td>정확도</td><td style="text-align:right">~2,400</td></tr>
+<tr><td>정보 추출</td><td>서류 + 항목 목록 → 값 JSON</td><td>F1</td><td style="text-align:right">476</td></tr>
+<tr><td>체크·도장·서명</td><td>서류 + 항목·보기 → 상태 JSON</td><td>항목 정확도</td><td style="text-align:right">~410</td></tr>
+<tr><td>분류 · 받아쓰기 · 값 칸</td><td>서류 / 잘라낸 칸 → 서류명 / 글자</td><td>정확도 / 재현율 / 일치</td><td style="text-align:right">~3,300</td></tr>
+</table>
+<div style="background:#FFFFFF;border:1px solid #D5DBE1;border-radius:14px;padding:22px 28px;display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;font-weight:600;color:#B54A12">서류 대조 불일치 14종 — 실제 사고 사례 기반</p>
+<p style="font-size:24px;line-height:1.5;color:#44505C">오기 · 타인 서류 · 신청↔약정 금액 · 소득 부풀리기 · 임대인≠소유자 · 매도인≠소유자 · 입사일≠건보 취득일 · 법인 대표자 · 약정일&lt;신청일 · 채권최고액 부족 · 전세대출&gt;보증금 · 업계약 · 송금 수취인≠수출자 · 표기만 다름(정상)</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">2부 은행 업무 학습 · 상세: guide/overview.md 부록 B, guide/benchmark.md</p>
+<aside>서류 대조는 실제 심사·금융사고에서 반복되는 유형을 골랐습니다. 변조는 HTML에서 그 값 칸 글자만 바꿔 다시 렌더링하기 때문에, 바뀐 서류는 그 값 말고는 원본과 똑같습니다. 정상 문항을 같은 서류 조합으로 짝지어 내서, 서류 조합만 보고 답을 맞히는 지름길을 막았습니다. 채점은 날짜·금액·번호의 표기를 맞춘 뒤 비교하는 규칙 기반이라 결과가 늘 같습니다.</aside>
+</section></div><p class="num">18 / 26</p><p class="notes">서류 대조는 실제 심사·금융사고에서 반복되는 유형을 골랐습니다. 변조는 HTML에서 그 값 칸 글자만 바꿔 다시 렌더링하기 때문에, 바뀐 서류는 그 값 말고는 원본과 똑같습니다. 정상 문항을 같은 서류 조합으로 짝지어 내서, 서류 조합만 보고 답을 맞히는 지름길을 막았습니다. 채점은 날짜·금액·번호의 표기를 맞춘 뒤 비교하는 규칙 기반이라 결과가 늘 같습니다.</p><div class="frame"><section id="bank-train" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:26px;font-weight:600;color:#B54A12">2부 은행 업무 · 학습 방법</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">평가 채점기가 곧 GRPO 보상</h2>
+<div style="display:flex;flex-direction:row;gap:28px">
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:32px;font-weight:600;color:#B54A12">prepare</h3>
+<ul style="font-size:24px;line-height:1.5;color:#44505C"><li>이미지 토큰: 문항당 합계 12,000 이하 (평가도 동일)</li><li>SFT 2만 문항, 과제 비율대로</li><li>고객 20%는 GRPO용으로 분리</li><li>1부 OCR 데이터 3000개 섞기</li><li>검사: 고객 겹침, 정답 = 만점</li></ul>
+</div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:32px;font-weight:600;color:#B54A12">SFT</h3>
+<ul style="font-size:24px;line-height:1.5;color:#44505C"><li>1부 결과 모델(병합본)에 새 LoRA rank 32</li><li>1 epoch, lr 1e-4, 길이 16,384토큰</li><li>같은 이미지 질문은 한 대화로 묶음</li><li>40GB: 비전 인코더 고정 + zero3</li></ul>
+</div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:32px;font-weight:600;color:#B54A12">GRPO</h3>
+<ul style="font-size:24px;line-height:1.5;color:#44505C"><li>후보 3000을 SFT로 풀고 보상 0.9 미만 절반 섞어 1000문제</li><li>대조·질의·구비·추출, 이미지 4장 이하</li><li>lr 5e-6, 답 8개 (40GB는 4개)</li></ul>
+</div>
+</div>
+<div style="background:#16202A;border-radius:16px;padding:24px 32px;display:flex;flex-direction:column;gap:8px">
+<p style="font-size:26px;font-weight:600;color:#F2A06B">보상 = docgen 벤치마크 채점기 그대로 + 부분 점수</p>
+<p style="font-size:26px;line-height:1.45;color:#E6E9EC">서류 구비: 0.5 × 완전 일치 + 0.5 × F1 · 서류 대조 변조: 0.5 × (불일치라고 함) + 0.5 × (서류·값까지 짚음) · 그 외: 주 지표</p>
+<p style="font-size:24px;color:#C9D1D9">0 아니면 1이면 답 8개가 같은 점수 → 배울 게 없음. 정답이 분명해서 1부 의사정답보다 신호가 깨끗함</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">2부 은행 업무 학습 · 실행: python run_bank_pipeline.py --config configs/bank_pipeline.json</p>
+<aside>GRPO 보상을 평가 채점기와 똑같이 쓴 것이 2부 설계의 핵심입니다. 학습 목표와 평가 지표가 어긋나지 않습니다. 다만 완전히 맞거나 완전히 틀리기 쉬운 과제는 부분 점수를 줘서, 한 문제에 만든 답 여러 개 사이에 점수 차이가 생기게 했습니다.</aside>
+</section></div><p class="num">19 / 26</p><p class="notes">GRPO 보상을 평가 채점기와 똑같이 쓴 것이 2부 설계의 핵심입니다. 학습 목표와 평가 지표가 어긋나지 않습니다. 다만 완전히 맞거나 완전히 틀리기 쉬운 과제는 부분 점수를 줘서, 한 문제에 만든 답 여러 개 사이에 점수 차이가 생기게 했습니다.</p><div class="frame"><section id="bank-viewer" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:26px;font-weight:600;color:#B54A12">2부 은행 업무 · viewer</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">학습으로 좋아진 문제만 골라 본다</h2>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;color:#E6E9EC;background:#16202A;padding:16px 24px;border-radius:12px">bash viewer/bank_start.sh                              # 저장된 답만 (GPU 불필요)<br>bash viewer/bank_start.sh runs/bank1/merged/&lt;모델&gt; 1   # + 직접 테스트 · http://localhost:7861</p>
+<div style="display:flex;flex-direction:row;gap:28px">
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:30px;display:flex;flex-direction:column;gap:14px">
+<h3 style="font-size:32px;font-weight:600;color:#B54A12">벤치마크 보기</h3>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>모델별 답을 정답과 나란히, 항목별 초록(맞음)·빨강(틀림)</li><li>서류 이미지는 모델이 본 크기 그대로, 서류 이름·쪽·변조 사본 표시</li><li>과제·업무·불일치 사례·심사 능력으로 거르기</li><li><b>“SFT는 맞히고 출발 모델은 틀린 문제”</b>처럼 좋아진·나빠진 문제만</li><li>지금 모델로 다시 풀어 보기</li></ul>
+</div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:30px;display:flex;flex-direction:column;gap:14px">
+<h3 style="font-size:32px;font-weight:600;color:#B54A12">직접 테스트</h3>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>내 서류(이미지·PDF)를 올려서</li><li>서류 구비 확인 · 서류 대조 · 심사 질의 · 정보 추출 · 분류 · 받아쓰기</li><li>학습한 질문 문장과 이미지 크기 규칙 그대로 → 학습 형식대로 답이 나옴</li><li>업무를 고르면 필수 서류 목록 자동 입력</li></ul>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">2부 은행 업무 학습 · 질문 문장과 답 형식: guide/questions.md</p>
+<aside>저장된 답만 보는 모드는 GPU가 필요 없어서 학습 중에도 띄울 수 있습니다. 실제 서류로 감을 보고 싶을 때는 모델을 함께 띄우고 직접 테스트 탭에서 서류를 올리면 됩니다.</aside>
+</section></div><p class="num">20 / 26</p><p class="notes">저장된 답만 보는 모드는 GPU가 필요 없어서 학습 중에도 띄울 수 있습니다. 실제 서류로 감을 보고 싶을 때는 모델을 함께 띄우고 직접 테스트 탭에서 서류를 올리면 됩니다.</p><div class="frame"><section id="real-structure" data-transition="fade" style="background:#ECEEF0;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
+<p style="font-size:26px;font-weight:600;color:#B54A12">실제 데이터로 확장 · 은행 업무</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">실제 서류도 같은 폴더 구조로 만들면 된다</h2>
+<div style="display:flex;flex-direction:row;gap:28px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;color:#E6E9EC;background:#16202A;padding:24px;border-radius:12px">real_bench/          ← 평가 세트<br>  meta.json          {"split": "test", …}<br>  images/<br>    C0001/loan_application_p1.png<br>    C0001/withholding_receipt_p1.png<br>  tasks/<br>    doc_check.jsonl<br>    cross_check.jsonl<br>    review.jsonl  kie.jsonl  …<br><br>real_train/          ← 학습 데이터<br>  meta.json          {"split": "train", …}<br>  images/  tasks/      (같은 구조)<br>  swift/all.jsonl    질문 + 정답 답변 대화</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:30px;font-weight:600">파이프라인에 연결</h3>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;color:#E6E9EC;background:#16202A;padding:20px;border-radius:12px">"data": {<br>  "benchmark": "/data/real_bench",<br>  "train": ["/data/bank_train",<br>            "/data/real_train"]}</p>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li><b>meta.json의 split</b>으로 평가(test)·학습(train)을 구분</li><li><b>tasks/</b>는 과제별 문항 파일, 한 줄 = 한 문항</li><li><b>학습 폴더</b>는 합성 데이터와 함께 여러 개 나열 가능</li><li><b>평가만</b> 실제로 바꾸고 학습은 합성 그대로도 가능</li></ul>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">실제 데이터로 확장 · 지금 파이프라인 코드를 바꾸지 않고 연결되는 구조</p>
+<aside>2부는 아직 합성 데이터만 썼지만, prepare는 폴더 구조만 맞으면 어디서 온 데이터인지 상관하지 않습니다. 가장 현실적인 첫 단계는 실제 서류 묶음 수십 개로 평가 세트만 만드는 것입니다. 학습은 합성 데이터 그대로 두고, 실제 평가 세트로 진짜 성능을 재는 겁니다.</aside>
+</section></div><p class="num">21 / 26</p><p class="notes">2부는 아직 합성 데이터만 썼지만, prepare는 폴더 구조만 맞으면 어디서 온 데이터인지 상관하지 않습니다. 가장 현실적인 첫 단계는 실제 서류 묶음 수십 개로 평가 세트만 만드는 것입니다. 학습은 합성 데이터 그대로 두고, 실제 평가 세트로 진짜 성능을 재는 겁니다.</p><div class="frame"><section id="real-formats" data-transition="fade" style="background:#ECEEF0;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:26px;font-weight:600;color:#B54A12">실제 데이터로 확장 · 문항 한 줄에 필요한 것</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">정답(answer)과 채점 정보(eval)</h2>
+<p style="font-size:26px;color:#44505C">공통 칸: id = 과제/고객 묶음 ID/구분 · task · images · prompt · answer · eval · meta(선택)</p>
+<table style="font-size:24px;color:#16202A;background:#FFFFFF">
+<tr><th style="width:15%">과제</th><th style="width:47%">answer (정답)</th><th style="width:38%">eval (채점 정보)</th></tr>
+<tr><td>서류 구비</td><td>{"missing": […], "not_required": […], "not_customer": […]}</td><td>required: 필수 서류명, names: 후보 서류명</td></tr>
+<tr><td>서류 대조</td><td>{"consistent": false, "issues": [{"document", "field", "value", "expected"}]}</td><td>documents: 보여 준 서류명</td></tr>
+<tr><td>심사 질의</td><td>"예" / "아니오" 또는 숫자 문자열</td><td>answer_type: yesno | number, tol: 허용 오차</td></tr>
+<tr><td>정보 추출</td><td>{"키": "문서에 적힌 값" 또는 null}</td><td>fields: 키마다 type (date, amount …)</td></tr>
+<tr><td>체크·도장</td><td>{"키": "체크된 보기" / true / false}</td><td>types: checkbox | seal | signature</td></tr>
+</table>
+<p style="font-size:24px;line-height:1.5;color:#16202A;background:#F8E1D3;padding:16px 24px;border-radius:12px">prompt = 학습한 질문 문장에 고객명·업무명·서류 목록만 채워 넣기 · 분류·값 칸은 answer만</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">실제 데이터로 확장 · 문항 예시: guide/benchmark.md, 질문 문장: guide/questions.md</p>
+<aside>정답을 사람이 다는 건 answer와 eval 두 칸입니다. 서류 대조라면 어느 서류의 어느 항목 값이 다른 서류와 다른지 적고, 정보 추출이라면 항목별 값과 타입을 적습니다. 타입이 있으면 채점기가 날짜나 금액 표기 차이를 알아서 맞춰 줍니다. 질문 문장은 학습한 문장을 그대로 써야 학습 효과를 제대로 잴 수 있습니다.</aside>
+</section></div><p class="num">22 / 26</p><p class="notes">정답을 사람이 다는 건 answer와 eval 두 칸입니다. 서류 대조라면 어느 서류의 어느 항목 값이 다른 서류와 다른지 적고, 정보 추출이라면 항목별 값과 타입을 적습니다. 타입이 있으면 채점기가 날짜나 금액 표기 차이를 알아서 맞춰 줍니다. 질문 문장은 학습한 문장을 그대로 써야 학습 효과를 제대로 잴 수 있습니다.</p><div class="frame"><section id="real-steps" data-transition="fade" style="background:#ECEEF0;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:26px;font-weight:600;color:#B54A12">실제 데이터로 확장 · 진행 순서</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">작은 실제 평가 세트부터</h2>
+<div style="display:flex;flex-direction:row;gap:20px">
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:10px"><p style="font-size:44px;font-weight:700;color:#B54A12;line-height:1.1">1</p><h3 style="font-size:28px;font-weight:600">서류 묶음 모으기</h3><p style="font-size:24px;line-height:1.45;color:#44505C">고객 단위로 업무 서류 묶음 수십 개, 쪽별 이미지로</p></div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:10px"><p style="font-size:44px;font-weight:700;color:#B54A12;line-height:1.1">2</p><h3 style="font-size:28px;font-weight:600">정답 달기</h3><p style="font-size:24px;line-height:1.45;color:#44505C">과제별 answer·eval. 정보 추출부터 시작하면 쉬움</p></div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:10px"><p style="font-size:44px;font-weight:700;color:#B54A12;line-height:1.1">3</p><h3 style="font-size:28px;font-weight:600">평가에 연결</h3><p style="font-size:24px;line-height:1.45;color:#44505C">data.benchmark를 실제 세트로. 학습은 합성 그대로</p></div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:10px"><p style="font-size:44px;font-weight:700;color:#B54A12;line-height:1.1">4</p><h3 style="font-size:28px;font-weight:600">학습에 추가</h3><p style="font-size:24px;line-height:1.45;color:#44505C">충분히 모이면 split: train 폴더를 data.train에 추가</p></div>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:30px;font-weight:600">prepare가 대신 확인하는 것</h3>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>학습·평가에 같은 고객 묶음 ID가 있으면 중단</li><li>answer를 그대로 넣으면 만점인지 (정답·eval 오류 탐지)</li><li>이미지 크기는 학습과 같은 규칙으로 자동 축소</li></ul>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:30px;font-weight:600">주의</h3>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>고객 개인정보: 내부망 안에서만, 반출 금지</li><li>학습용 swift/all.jsonl은 tasks에서 변환 (질문 + 정답 답변)</li><li>서류 대조 정답은 한 문항에 불일치 1개 기준</li></ul>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">실제 데이터로 확장</p>
+<aside>처음부터 학습 데이터를 실제로 바꾸려 하기보다, 실제 서류 묶음 수십 개로 평가 세트를 먼저 만드는 걸 권합니다. 합성으로 학습한 모델이 실제 서류에서 얼마나 되는지가 지금 가장 궁금한 숫자이기 때문입니다. prepare가 정답을 넣었을 때 만점이 나오는지 검사하므로, 정답이나 eval을 잘못 적으면 여기서 걸립니다.</aside>
+</section></div><p class="num">23 / 26</p><p class="notes">처음부터 학습 데이터를 실제로 바꾸려 하기보다, 실제 서류 묶음 수십 개로 평가 세트를 먼저 만드는 걸 권합니다. 합성으로 학습한 모델이 실제 서류에서 얼마나 되는지가 지금 가장 궁금한 숫자이기 때문입니다. prepare가 정답을 넣었을 때 만점이 나오는지 검사하므로, 정답이나 eval을 잘못 적으면 여기서 걸립니다.</p><div class="frame"><section id="status" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:26px;font-weight:600;color:#44505C">현재 상태</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">검증한 것과 아직인 것</h2>
+<div style="display:flex;flex-direction:row;gap:32px">
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:30px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;flex-direction:row;gap:14px;align-items:center"><x-icon name="CheckCircle" style="color:#1E5AA8;width:40px;height:40px"></x-icon><h3 style="font-size:32px;font-weight:600">검증함</h3></div>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>1부 OCR: 서버에서 학습 완료 (2부의 출발 모델)</li><li>생성기·벤치마크 테스트 540개, 학습 쪽 48개 통과</li><li>2부 파이프라인: 가짜 학습 도구로 전체 실행</li><li>채점기에 정답을 넣으면 모든 과제 100점</li><li>viewer 두 개: 브라우저로 동작 확인</li></ul>
+</div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:30px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;flex-direction:row;gap:14px;align-items:center"><x-icon name="Clock" style="color:#B54A12;width:40px;height:40px"></x-icon><h3 style="font-size:32px;font-weight:600">아직</h3></div>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>2부 실제 GPU 학습 결과 (진행 중)</li><li>실제 서류 묶음으로 한 은행 업무 평가</li><li>1부 사람 검수 정답셋</li></ul>
+<h3 style="font-size:28px;font-weight:600;color:#16202A">서버에서 겪은 이슈</h3>
+<ul style="font-size:24px;line-height:1.5;color:#44505C"><li>OCR 데이터 경로 오류 → 실행 전 경로 일괄 검사 추가</li><li>A100 40GB 메모리 부족 → 비전 인코더 고정 + zero3 설정 추가</li></ul>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">현재 상태 · 2부 결과가 나오면 점수표 슬라이드를 추가</p>
+<aside>2부는 지금 서버에서 실제로 학습을 돌리고 있습니다. 처음 돌리면서 경로 문제와 40GB GPU 메모리 문제를 만나 고쳤고, 결과가 나오면 이 다음에 점수표 슬라이드를 넣겠습니다.</aside>
+</section></div><p class="num">24 / 26</p><p class="notes">2부는 지금 서버에서 실제로 학습을 돌리고 있습니다. 처음 돌리면서 경로 문제와 40GB GPU 메모리 문제를 만나 고쳤고, 결과가 나오면 이 다음에 점수표 슬라이드를 넣겠습니다.</p><div class="frame"><section id="limits" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:26px;font-weight:600;color:#44505C">한계와 다음 단계</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">가장 중요한 다음 단계는 실제 서류 평가</h2>
+<div style="display:flex;flex-direction:row;gap:32px">
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-top:6px solid #1E5AA8;border-radius:16px;padding:30px;display:flex;flex-direction:column;gap:14px">
+<h3 style="font-size:32px;font-weight:600;color:#1E5AA8">1부 OCR</h3>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>정답이 사내 OCR → OCR이 틀린 곳은 정답도 틀림</li><li>OCR이 놓친 글자는 빠뜨리도록 배울 수 있음</li><li>다음: 노이즈 많은 페이지로 사람 검수 정답셋</li></ul>
+</div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-top:6px solid #B54A12;border-radius:16px;padding:30px;display:flex;flex-direction:column;gap:14px">
+<h3 style="font-size:32px;font-weight:600;color:#B54A12">2부 은행 업무</h3>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>합성 서류라 점수가 높게 나옴 (고객만 다르고 서식·질문·변조 방식이 같음)</li><li>서류 대조는 한 문항에 불일치 1개까지만</li><li>증강이 단순 (원근·구김 없음), 손글씨 글꼴 4종</li><li>다음: 실제 서류 묶음 평가 세트 → 필요하면 학습에도 추가</li></ul>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.45;color:#16202A;background:#ECEEF0;padding:22px 32px;border-radius:12px">출발 → SFT 상승폭에는 “답 형식을 배운 몫”이 크다. 실력 변화는 SFT → GRPO와 세부 표, 그리고 실제 서류 평가에서 본다</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">한계와 다음 단계</p>
+<aside>합성 데이터로 학습하고 합성 데이터로 평가하면 점수가 높게 나오는 건 당연합니다. 이 점수는 생성기의 업무 형식을 익혔다는 뜻이지, 실제 서류에서 같은 성능이 나온다는 뜻은 아닙니다. 그래서 앞에서 본 실제 데이터 구조로 작은 평가 세트를 만드는 게 다음 단계로 가장 중요합니다.</aside>
+</section></div><p class="num">25 / 26</p><p class="notes">합성 데이터로 학습하고 합성 데이터로 평가하면 점수가 높게 나오는 건 당연합니다. 이 점수는 생성기의 업무 형식을 익혔다는 뜻이지, 실제 서류에서 같은 성능이 나온다는 뜻은 아닙니다. 그래서 앞에서 본 실제 데이터 구조로 작은 평가 세트를 만드는 게 다음 단계로 가장 중요합니다.</p><div class="frame"><section id="docs" data-transition="fade" style="background:#16202A;color:#F6F5F1;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:36px">
+<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#F6F5F1">어디서 더 보나</h2>
+<table style="font-size:26px;color:#E6E9EC">
+<tr><th style="width:36%">무엇</th><th style="width:64%">위치 (브랜치 claude/ocr-banking-benchmark)</th></tr>
+<tr><td>이 발표의 문서판</td><td>guide/overview.md (생성기·벤치마크 상세 부록)</td></tr>
+<tr><td>모델에게 묻는 법</td><td>guide/questions.md · training/docs/PROMPTS.md</td></tr>
+<tr><td>서류별 항목 목록</td><td>guide/fields/ · guide/documents.md</td></tr>
+<tr><td>결과 읽는 법</td><td>guide/results.md</td></tr>
+<tr><td>1부 OCR 실행·설계</td><td>training/README.md · training/docs/</td></tr>
+<tr><td>2부 은행 업무 실행</td><td>README.md · training/BANK_TASKS.md</td></tr>
+<tr><td>viewer</td><td>training/viewer/README.md</td></tr>
+</table>
+<p style="font-size:28px;color:#F2A06B">질문 · 실제 서류 평가 세트 함께 만들 분 환영</p>
+<aside>문서는 모두 브랜치 claude/ocr-banking-benchmark에 있습니다. 1부 OCR 코드는 claude/bank-ocr-pipeline 브랜치와 같고, training 폴더에 들어 있습니다.</aside>
+</section></div><p class="num">26 / 26</p><p class="notes">문서는 모두 브랜치 claude/ocr-banking-benchmark에 있습니다. 1부 OCR 코드는 claude/bank-ocr-pipeline 브랜치와 같고, training 폴더에 들어 있습니다.</p></div><script>
+function fit(){document.querySelectorAll('.frame').forEach(f=>{const s=f.firstElementChild;s.style.transform='scale('+(f.clientWidth/1920)+')';});}
+addEventListener('resize',fit);addEventListener('load',fit);fit();
+</script></body></html>

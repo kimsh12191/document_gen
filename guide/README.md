@@ -6,6 +6,8 @@
 
 | 궁금한 것 | 파일 |
 |---|---|
+| **처음부터 직접 돌려 보기** (설치, OCR 서버, 설정 파일, 실행, 확인, 에러 해결) | [tutorial.md](tutorial.md) |
+| 발표 자료 (웹 슬라이드 27장) | [slides/](slides/README.md) |
 | 이 프로젝트가 **무엇을 했는지** (팀 공유용 소개: OCR 학습과 은행 업무 학습 각각의 컨셉·데이터 구조·학습·평가·viewer, 생성기·벤치마크 상세 부록) | [overview.md](overview.md) |
 | 은행 업무를 모델에게 **어떻게 묻고**, 답이 **어떤 형식으로** 오나 | [questions.md](questions.md) |
 | 글자·박스 읽기(OCR 과제)는 어떻게 묻나 | [training/docs/PROMPTS.md](../training/docs/PROMPTS.md) — OCR 브랜치와 같이 쓰는 파일이라 그 자리에 둡니다 |
