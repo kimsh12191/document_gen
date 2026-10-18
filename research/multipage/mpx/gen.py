@@ -11,10 +11,12 @@
   heavy            대상 서류를 '내용이 많은 경우'(목록이 길어 여러 쪽)로 만들 확률 (docgen 의 DOCGEN_HEAVY)
   no_repeat_header 이어지는 쪽에 표 머리글을 다시 찍지 않을 확률 (앞 쪽 정보가 있어야 읽히는 쪽이 생긴다)
   augment          random 구성에서 스캔·촬영·팩스 증강 확률 (scenario 구성은 벤치마크 조건을 따른다)
+  twins            머리글을 뺀 여러 쪽 서류마다 머리글을 반복한 쌍둥이 판도 렌더링 (통제 실험 D, 묶음에는 넣지 않음)
 
 출력 (<out>/):
   images/<서류ID>_<seed>[_pN].png  (증강이면 .jpg)
-  labels/<서류ID>_<seed>.json      docgen 정답(fields: 키·값·타입·쪽·박스) + heavy, no_repeat_header, augment
+  labels/<서류ID>_<seed>.json      docgen 정답(fields: 키·값·타입·쪽·박스) + heavy, no_repeat_header, augment, twin
+  labels/<서류ID>_<seed>_twin.json 쌍둥이 판 정답 (twins 일 때)
   bundles.jsonl                     묶음 한 줄: {id, split, seed, scenario, docs: [서류ID], pages: [{image, doc, page}]}
 """
 from __future__ import annotations
@@ -39,24 +41,12 @@ SEED_BASE = {"train": 500_000, "test": 1_500_000}
 _WORKER: dict = {}
 
 
-def _render_doc(renderer, spec, profile, seed, out: Path, rng: random.Random, opts: dict, preset: str | None) -> dict:
-    """서류 한 건 렌더링 → 이미지·정답 저장. preset 이 있으면 모든 쪽에 같은 증강."""
+def _save(renderer, html: str, raw, sid: str, out: Path, preset: str | None) -> tuple[list, list, list, bool]:
+    """html 하나 렌더링 → (이미지 경로들, 쪽 크기들, 정답 fields, overflow). preset 이 있으면 모든 쪽에 같은 증강.
+    증강 난수는 sid 의 앞부분(쌍둥이 판이면 원본 sid)으로 정해 쌍둥이 판도 같은 증강을 받는다."""
     from docgen.cli import _aug_fields
-    from docgen.render import render
     from docgen.schema import build_fields
 
-    target = spec.id in opts["targets"]
-    heavy = target and rng.random() < opts["heavy"]
-    if heavy:
-        os.environ["DOCGEN_HEAVY"] = "1"
-    try:
-        html, raw, _ = render(spec, profile, seed)
-    finally:
-        os.environ.pop("DOCGEN_HEAVY", None)
-    no_head = target and rng.random() < opts["no_repeat_header"]
-    if no_head:  # docgen/paginate.js 가 읽는 연구용 스위치
-        html = html.replace("<head>", "<head><script>window.__noRepeatHeader = true;</script>", 1)
-    sid = f"{spec.id}_{seed:07d}"
     info = renderer.render(html, out / "images" / f"{sid}.png")
     fields = build_fields(raw, info)
     images = [str(Path(p).relative_to(out)) for p in info["images"]]
@@ -66,7 +56,7 @@ def _render_doc(renderer, spec, profile, seed, out: Path, rng: random.Random, op
 
         from docgen.augment import augment
 
-        arng = random.Random(f"mpx-aug:{sid}")
+        arng = random.Random(f"mpx-aug:{sid.removesuffix('_twin')}")
         a_imgs, a_pages, tfs = [], [], []
         for img_path in images:
             aimg, _, tf = augment(Image.open(out / img_path), arng, preset, with_transform=True)
@@ -77,9 +67,37 @@ def _render_doc(renderer, spec, profile, seed, out: Path, rng: random.Random, op
             a_pages.append({"width": aimg.width, "height": aimg.height})
             tfs.append(tf)
         images, pages, fields = a_imgs, a_pages, _aug_fields(fields, tfs)
-    label = {"id": sid, "doc_type": spec.id, "doc_name": spec.name, "group": spec.group, "seed": seed,
-             "target": target, "heavy": heavy, "no_repeat_header": no_head, "augment": preset,
-             "images": images, "pages": pages, "n_pages": len(images), "overflow": info["overflow"], "fields": fields}
+    return images, pages, fields, info["overflow"]
+
+
+def _render_doc(renderer, spec, profile, seed, out: Path, rng: random.Random, opts: dict, preset: str | None) -> dict:
+    """서류 한 건 렌더링 → 이미지·정답 저장. opts['twins'] 이고 머리글을 뺀 서류면 머리글을 반복한 쌍둥이 판도
+    (<sid>_twin, 같은 내용·같은 증강) 만들어 label 의 'twin' 에 적는다 (통제 실험 D)."""
+    from docgen.render import render
+
+    target = spec.id in opts["targets"]
+    heavy = target and rng.random() < opts["heavy"]
+    if heavy:
+        os.environ["DOCGEN_HEAVY"] = "1"
+    try:
+        html, raw, _ = render(spec, profile, seed)
+    finally:
+        os.environ.pop("DOCGEN_HEAVY", None)
+    no_head = target and rng.random() < opts["no_repeat_header"]
+    sid = f"{spec.id}_{seed:07d}"
+    page_html = html.replace("<head>", "<head><script>window.__noRepeatHeader = true;</script>", 1) if no_head else html
+    images, pages, fields, overflow = _save(renderer, page_html, raw, sid, out, preset)  # 스위치는 docgen/paginate.js 가 읽는다
+    base = {"doc_type": spec.id, "doc_name": spec.name, "group": spec.group, "seed": seed, "target": target, "heavy": heavy,
+            "augment": preset}
+    twin = None
+    if no_head and opts.get("twins") and len(images) > 1:
+        twin = f"{sid}_twin"
+        t_images, t_pages, t_fields, t_overflow = _save(renderer, html, raw, twin, out, preset)
+        t_label = {"id": twin, **base, "no_repeat_header": False, "twin_of": sid, "images": t_images, "pages": t_pages,
+                   "n_pages": len(t_images), "overflow": t_overflow, "fields": t_fields}
+        (out / "labels" / f"{twin}.json").write_text(json.dumps(t_label, ensure_ascii=False, indent=1), encoding="utf-8")
+    label = {"id": sid, **base, "no_repeat_header": no_head, "twin": twin,
+             "images": images, "pages": pages, "n_pages": len(images), "overflow": overflow, "fields": fields}
     (out / "labels" / f"{sid}.json").write_text(json.dumps(label, ensure_ascii=False, indent=1), encoding="utf-8")
     return label
 
@@ -128,7 +146,7 @@ def _bundle_worker(job):
 
 def generate(out, n: int, split: str = "test", compose: str = "scenario", targets=TARGETS, distractors=DISTRACTORS,
              n_targets=(2, 4), n_distractors=(1, 3), heavy: float = 0.7, no_repeat_header: float = 0.3,
-             augment: float = 0.3, scale: float = 2.0, start: int = 0, workers: int = 1) -> Path:
+             augment: float = 0.3, scale: float = 2.0, start: int = 0, workers: int = 1, twins: bool = False) -> Path:
     """묶음 n 개를 <out>/bundles.jsonl 에 이어 쓴다 (이미 있는 seed 는 건너뜀)."""
     from docgen.registry import load_all
 
@@ -139,7 +157,8 @@ def generate(out, n: int, split: str = "test", compose: str = "scenario", target
     unknown = [t for t in (*targets, *distractors) if t not in reg]
     if unknown:
         sys.exit(f"알 수 없는 서류: {unknown}")
-    opts = {"targets": set(targets), "heavy": heavy, "no_repeat_header": no_repeat_header, "augment": augment}
+    opts = {"targets": set(targets), "heavy": heavy, "no_repeat_header": no_repeat_header, "augment": augment,
+            "twins": twins}
     bundles_path = out / "bundles.jsonl"
     done = set()
     if bundles_path.exists():

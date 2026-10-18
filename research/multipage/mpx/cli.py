@@ -6,8 +6,11 @@
   python -m mpx run   --data data/test --method pagewise --state context --base-url http://127.0.0.1:8000/v1 --model bank-ocr --out preds/pw_context.jsonl
   python -m mpx run   --data data/test --method pagewise --oracle --out preds/oracle.jsonl
   python -m mpx score --data data/test --pred preds/*.jsonl --out reports/compare
+  python -m mpx rows    --data data/test --pred preds/*.jsonl --out rows.jsonl      # 1단계: 행 결과 분류·특징
+  python -m mpx analyze --rows rows.jsonl --out analysis.md                         # 1단계: 누락 분석
+  python -m mpx probe   --data data/test --out probes --base-url ... --model ...     # 2단계: 통제 실험
   python -m mpx viewer --data data/test --pred preds/*.jsonl --serve 7862
-  python -m mpx pipeline --out runs/local --n-train 8 --n-test 6            # 한 번에 (모델 없으면 정답으로 점검)
+  python -m mpx pipeline --out runs/check --n-test 6            # 한 번에 (모델 없으면 정답·오류 주입으로 점검)
 """
 from __future__ import annotations
 
@@ -25,7 +28,7 @@ def cmd_gen(a):
     targets = a.targets.split(",") if a.targets else TARGETS
     distractors = a.distractors.split(",") if a.distractors else DISTRACTORS
     generate(a.out, a.n, a.split, a.compose, targets, distractors, heavy=a.heavy, no_repeat_header=a.no_repeat_header,
-             augment=a.augment, start=a.start, workers=a.workers)
+             augment=a.augment, start=a.start, workers=a.workers, twins=a.twins)
     print(f"→ {a.out}/bundles.jsonl")
 
 
@@ -47,7 +50,7 @@ def cmd_run(a):
     if not a.oracle and not (a.base_url and a.model):
         sys.exit("--base-url 과 --model 이 필요합니다 (또는 --oracle)")
     client = None if a.oracle else Client(a.base_url, a.model, a.max_tokens, a.timeout)
-    out = run(a.data, a.out, a.method, a.state, client, a.workers, a.budget, a.limit, a.simulate)
+    out = run(a.data, a.out, a.method, a.state, client, a.workers, a.budget, a.limit, a.simulate, hint=not a.no_hint)
     print(f"→ {out}")
 
 
@@ -73,12 +76,35 @@ def cmd_viewer(a):
         http.server.ThreadingHTTPServer((a.host, a.serve), handler).serve_forever()
 
 
+def cmd_rows(a):
+    from .rows import collect
+
+    print(f"→ {collect(a.data, a.pred, a.out)}")
+
+
+def cmd_analyze(a):
+    from .analyze import run_analysis
+
+    print(run_analysis(a.rows, a.out))
+
+
+def cmd_probe(a):
+    from .probe import KINDS, run_all
+    from .run import Client
+
+    if not a.oracle and not (a.base_url and a.model):
+        sys.exit("--base-url 과 --model 이 필요합니다 (또는 --oracle)")
+    client = None if a.oracle else Client(a.base_url, a.model, a.max_tokens, a.timeout)
+    kinds = a.kinds.split(",") if a.kinds else KINDS
+    print(run_all(a.data, a.out, client, kinds, a.max_items, a.workers, a.simulate))
+
+
 def cmd_pipeline(a):
     from .pipeline import run_all
 
-    s = run_all(a.out, a.n_train, a.n_test, a.workers, a.base_url, a.model, a.states.split(","), a.budget,
-                a.train_compose, a.test_compose, a.simulate, a.max_tokens)
-    print(json.dumps({k: s[k] for k in ("seconds", "checks", "report", "viewer")}, ensure_ascii=False, indent=1))
+    s = run_all(a.out, a.n_test, a.n_train, a.workers, a.base_url, a.model, a.states.split(","), a.budget,
+                a.test_compose, a.simulate, a.max_tokens, a.probe_items, not a.no_hint)
+    print(json.dumps({k: s[k] for k in ("seconds", "checks", "outputs")}, ensure_ascii=False, indent=1))
 
 
 def cmd_check(a):
@@ -118,6 +144,7 @@ def main(argv=None):
     g.add_argument("--heavy", type=float, default=0.7, help="대상 서류를 목록이 긴 경우로 만들 확률")
     g.add_argument("--no-repeat-header", type=float, default=0.3, help="이어지는 쪽에 표 머리글을 반복하지 않을 확률")
     g.add_argument("--augment", type=float, default=0.3, help="random 구성의 스캔·촬영·팩스 증강 확률 (scenario 는 벤치마크 조건)")
+    g.add_argument("--twins", action="store_true", help="머리글을 뺀 서류마다 머리글을 반복한 쌍둥이 판도 (통제 실험 D)")
     g.set_defaults(fn=cmd_gen)
 
     s = sub.add_parser("stats", help="묶음·서류 쪽 수, 목록 행 수 분포")
@@ -148,6 +175,7 @@ def main(argv=None):
     r.add_argument("--workers", type=int, default=8, help="동시에 처리할 묶음 수")
     r.add_argument("--limit", type=int, default=0)
     r.add_argument("--simulate", type=float, default=0.0, help="--oracle 에 일부러 오류를 넣을 확률 (채점·viewer 시험용)")
+    r.add_argument("--no-hint", action="store_true", help="질문에 목록·칸 이름을 알려 주지 않음")
     r.set_defaults(fn=cmd_run)
 
     c = sub.add_parser("score", help="채점과 비교 보고서")
@@ -164,19 +192,45 @@ def main(argv=None):
     v.add_argument("--host", default="127.0.0.1", help="다른 PC 에서 열려면 0.0.0.0")
     v.set_defaults(fn=cmd_viewer)
 
-    q = sub.add_parser("pipeline", help="생성→학습 데이터→실행→채점→viewer 를 한 번에")
+    w = sub.add_parser("rows", help="1단계: 정답 행마다 결과 분류와 특징 → rows.jsonl")
+    w.add_argument("--data", required=True)
+    w.add_argument("--pred", nargs="+", required=True)
+    w.add_argument("--out", required=True)
+    w.set_defaults(fn=cmd_rows)
+
+    z = sub.add_parser("analyze", help="1단계: 결과 분포, 특징별 누락률, 회귀 → analysis.md")
+    z.add_argument("--rows", required=True)
+    z.add_argument("--out", required=True)
+    z.set_defaults(fn=cmd_analyze)
+
+    o = sub.add_parser("probe", help="2단계: 통제 실험 (해상도, 출력 길이, 이미지 수, 머리글)")
+    o.add_argument("--data", required=True)
+    o.add_argument("--out", required=True)
+    o.add_argument("--kinds", help="쉼표로 (기본: resolution,scope,images,header)")
+    o.add_argument("--max-items", type=int, default=40, help="실험마다 기준 쪽 수")
+    o.add_argument("--base-url")
+    o.add_argument("--model")
+    o.add_argument("--oracle", action="store_true")
+    o.add_argument("--simulate", type=float, default=0.0)
+    o.add_argument("--max-tokens", type=int, default=16384)
+    o.add_argument("--timeout", type=float, default=900)
+    o.add_argument("--workers", type=int, default=8)
+    o.set_defaults(fn=cmd_probe)
+
+    q = sub.add_parser("pipeline", help="생성→관찰 실행→행 기록→분석→통제 실험→종합·viewer 를 한 번에")
     q.add_argument("--out", required=True)
-    q.add_argument("--n-train", type=int, default=8)
     q.add_argument("--n-test", type=int, default=6)
+    q.add_argument("--n-train", type=int, default=0, help="주면 3단계용 학습 묶음과 학습 데이터도")
     q.add_argument("--workers", type=int, default=4)
-    q.add_argument("--base-url", help="없으면 정답으로 점검 실행")
+    q.add_argument("--base-url", help="없으면 정답·오류 주입으로 점검 실행")
     q.add_argument("--model")
-    q.add_argument("--states", default="none,doc,tail,context")
+    q.add_argument("--states", default="none", help="관찰에 넣을 쪽 단위 상태 (쉼표)")
     q.add_argument("--budget", type=int, default=12000)
-    q.add_argument("--max-tokens", type=int, default=8192)
-    q.add_argument("--train-compose", choices=["scenario", "random"], default="random")
+    q.add_argument("--max-tokens", type=int, default=16384)
     q.add_argument("--test-compose", choices=["scenario", "random"], default="scenario")
-    q.add_argument("--simulate", type=float, default=0.1, help="모델 없을 때 오류 넣은 시험 실행의 확률 (0 이면 안 함)")
+    q.add_argument("--simulate", type=float, default=0.1, help="모델 없을 때 오류 주입 확률")
+    q.add_argument("--probe-items", type=int, default=40, help="통제 실험마다 기준 쪽 수")
+    q.add_argument("--no-hint", action="store_true")
     q.set_defaults(fn=cmd_pipeline)
 
     k = sub.add_parser("check", help="정답 없는 실제 서류 묶음 검사 (OCR에 있는 값 비율, 잔액·합계)")

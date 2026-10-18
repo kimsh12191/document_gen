@@ -26,15 +26,43 @@ P_PAGE = (
     "이 쪽이 어떤 서류의 몇 쪽인지, 앞 쪽 서류에서 이어지는 쪽인지 판단하고, 이 쪽에 적힌 내용만 JSON 으로 답하세요.\n"
     '형식: {{"document": {{"type": "서류ID", "name": "서류명", "page": 서류 안 쪽 번호, "continues": 앞 쪽에서 이어지면 true}}, '
     '"fields": {{"항목": "값"}}, "lists": {{"목록 이름": [이 쪽의 행을 위에서부터]}}}}\n'
-    "값은 적힌 그대로 옮기고, 이 쪽에 없는 항목과 행은 쓰지 마세요."
+    "값은 적힌 그대로 옮기고, 이 쪽에 없는 항목과 행은 쓰지 마세요.{hint}"
 )
 P_ALL = (
     "서류 묶음입니다 (이미지 {n}장, 순서대로 1~{n}쪽). 묶음에 든 서류를 모두 찾아, 서류마다 종류, 묶음 안 쪽 번호, 내용을 JSON 으로 답하세요.\n"
     '형식: {{"documents": [{{"type": "서류ID", "name": "서류명", "pages": [쪽 번호, ...], '
     '"fields": {{"항목": "값"}}, "lists": {{"목록 이름": [행, ...]}}}}]}}\n'
-    "값은 적힌 그대로 옮기세요."
+    "값은 적힌 그대로 옮기고, 목록은 행을 하나도 빠뜨리지 마세요.{hint}"
 )
 NO_STATE = "없음"
+HINT = "\n\n목록이 있는 서류의 서류ID, 목록 이름과 칸 이름 (칸 이름은 이대로 쓰세요):\n{lines}"
+
+
+def list_schema(label: dict) -> dict[str, list[str]]:
+    """정답 label → {목록 이름: [칸 이름, 처음 나온 순서]}."""
+    out: dict[str, dict] = {}
+    for f in label["fields"]:
+        if f.get("group") or f.get("group_only"):
+            continue
+        path, _, rest = split_key(f["key"])
+        if path is not None and rest:
+            out.setdefault(path, {}).setdefault(rest, None)
+    return {p: list(cols) for p, cols in out.items()}
+
+
+def schema_hint(labels, only_target: bool = True) -> str:
+    """질문에 붙일 목록·칸 안내. 서류 종류별로 모든 label 의 칸을 합친다 (묶음에 무엇이 들었는지는 알려 주지 않는다)."""
+    by_type: dict[str, tuple[str, dict]] = {}
+    for lb in labels:
+        if only_target and not lb.get("target"):
+            continue
+        name, lists = by_type.setdefault(lb["doc_type"], (lb["doc_name"], {}))
+        for path, cols in list_schema(lb).items():
+            for c in cols:
+                lists.setdefault(path, {}).setdefault(c, None)
+    lines = [f"- {t} ({name}): " + "; ".join(f"{p}[{', '.join(cols)}]" for p, cols in lists.items())
+             for t, (name, lists) in sorted(by_type.items()) if lists]
+    return HINT.format(lines="\n".join(lines)) if lines else ""
 
 
 def split_key(key: str):
@@ -143,6 +171,7 @@ def merge_pages(outputs: list) -> list[dict]:
     """쪽 단위 답(파싱된 dict, 실패면 None)을 순서대로 합쳐 문서 목록으로. 쪽 번호는 1부터.
 
     'continues' 가 참이고 앞 문서와 종류가 같으면 이어 붙이고, 아니면 새 문서를 연다.
+    row_pages 는 목록 행마다 그 행을 낸 쪽 번호 (잘린 쪽 답을 행 결과 분류에서 가려내는 데 쓴다).
     """
     docs: list[dict] = []
     for i, o in enumerate(outputs, 1):
@@ -150,7 +179,7 @@ def merge_pages(outputs: list) -> list[dict]:
         d = o.get("document") if isinstance(o.get("document"), dict) else {}
         typ = d.get("type")
         if not (d.get("continues") is True and docs and docs[-1]["type"] == typ):
-            docs.append({"type": typ, "name": d.get("name"), "pages": [], "_flat": {}, "lists": {}})
+            docs.append({"type": typ, "name": d.get("name"), "pages": [], "_flat": {}, "lists": {}, "row_pages": {}})
         cur = docs[-1]
         cur["pages"].append(i)
         for k, v in flatten(o.get("fields") or {}).items():
@@ -158,7 +187,9 @@ def merge_pages(outputs: list) -> list[dict]:
         lists = o.get("lists") if isinstance(o.get("lists"), dict) else {}
         for path, rows in lists.items():
             if isinstance(rows, list):
-                cur["lists"].setdefault(path, []).extend(r for r in rows if isinstance(r, dict))
+                kept = [r for r in rows if isinstance(r, dict)]
+                cur["lists"].setdefault(path, []).extend(kept)
+                cur["row_pages"].setdefault(path, []).extend([i] * len(kept))  # 행마다 어느 쪽 답에서 왔는지
     for d in docs:
         d["fields"] = nest(d.pop("_flat"))
     return docs
@@ -181,15 +212,15 @@ def build_state(doc: dict | None, kind: str) -> dict | None:
     return state
 
 
-def page_prompt(state: dict | None) -> str:
-    return P_PAGE.format(state=NO_STATE if state is None else json.dumps(state, ensure_ascii=False))
+def page_prompt(state: dict | None, hint: str = "") -> str:
+    return P_PAGE.format(state=NO_STATE if state is None else json.dumps(state, ensure_ascii=False), hint=hint)
 
 
-def all_prompt(n_pages: int) -> str:
-    return P_ALL.format(n=n_pages)
+def all_prompt(n_pages: int, hint: str = "") -> str:
+    return P_ALL.format(n=n_pages, hint=hint)
 
 
-def run_pagewise(answer_fn, n_pages: int, state_kind: str):
+def run_pagewise(answer_fn, n_pages: int, state_kind: str, hint: str = ""):
     """answer_fn(page_index, prompt) → (원문, 파싱된 dict 또는 None). 앞 쪽 답으로 상태를 만들며 차례로 읽는다.
 
     돌려주는 것: (쪽별 원문, 합친 문서 목록, 쪽별로 넘긴 상태). 상태는 viewer 에서 보여 준다.
@@ -198,7 +229,7 @@ def run_pagewise(answer_fn, n_pages: int, state_kind: str):
     for i in range(n_pages):
         docs = merge_pages(parsed) if parsed else []
         state = build_state(docs[-1] if docs else None, state_kind)
-        raw, obj = answer_fn(i, page_prompt(state))
+        raw, obj = answer_fn(i, page_prompt(state, hint))
         raws.append(raw)
         parsed.append(obj)
         states.append(state)

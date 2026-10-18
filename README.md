@@ -42,7 +42,7 @@
 | `docgen/`, `scripts/make_bank_data.sh` | 합성 서류 생성기, 2부 데이터 만들기 (도커에서 실행) |
 | `training/` | GPU 학습 프로젝트. 1부 `run_pipeline.py`, 2부 `run_bank_pipeline.py`, `viewer/` |
 | `guide/` | 위 사용 가이드 |
-| `research/multipage/` | 연구: 서류 묶음 속 여러 쪽 문서 추출 (등기부·등본·거래내역·인보이스·패킹리스트·재무제표, 쪽 단위 + 앞 쪽 상태, 브랜치 `claude/multipage-bundle-extraction`) |
+| `research/multipage/` | 연구: 여러 쪽 문서 추출에서 행이 빠지는 원인 (관찰 → 해상도·출력 길이·이미지 수·머리글 통제 실험 → 처방, 브랜치 `claude/multipage-bundle-extraction`) |
 | `research/inference-speed/`, `research/vision-efficiency/` | 이전 탐색 (추론 속도, 토큰 줄이기). 보류 |
 
 - **이 브랜치(`claude/ocr-banking-benchmark`)에 전부 들어 있습니다.**

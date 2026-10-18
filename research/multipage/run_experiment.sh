@@ -1,18 +1,16 @@
 #!/usr/bin/env bash
-# 여러 쪽 문서 추출 연구 한 바퀴 (내부망 GPU 서버). research/multipage 에서 실행.
+# 행 누락 원인 연구 (내부망 GPU 서버). research/multipage 에서 실행.
 #
-#   START_MODEL=/models/bank_sft_merged GPUS=0,1 ./run_experiment.sh                 # 전부
-#   START_MODEL=... ./run_experiment.sh gen sft                                       # 단계만
-#   START_MODEL=... N_TRAIN=20 N_TEST=10 MAX_STEPS=5 ./run_experiment.sh              # 리허설
+#   START_MODEL=/models/bank_sft_merged GPUS=0 ./run_experiment.sh                   # 1·2단계 (기본)
+#   START_MODEL=... N_TEST=10 PROBE_ITEMS=5 ./run_experiment.sh                       # 리허설
+#   START_MODEL=... ./run_experiment.sh gen sft train merge eval score                # 3단계 처방(학습)까지
 #
-# 단계: gen sft zeroshot train merge eval score  (기본: 전부. 이미 끝난 결과는 이어서/건너뜀)
-#   gen      생성 묶음 (학습 N_TRAIN, 평가 N_TEST)
-#   sft      학습 데이터 (data/train/swift_page, data/train/swift_all)
-#   zeroshot 출발 모델 그대로: 한 번에 넣기 + 쪽 단위(상태 none/doc/tail/context). 프롬프트만으로 상태를 주는 기준선
-#   train    쪽 단위+상태 모델, 한 번에 넣기 모델을 같은 묶음으로 각각 학습 (training/train.py)
-#   merge    LoRA 병합 (swift export)
-#   eval     학습한 두 모델로 같은 평가
-#   score    채점 → runs/report/report.md
+# 단계 (기본: gen observe probe score. 이미 끝난 결과는 이어서/건너뜀)
+#   gen      평가 묶음 N_TEST (머리글 쌍둥이 판 포함). 3단계를 하면 학습 묶음 N_TRAIN 도
+#   observe  1단계 관찰: 출발 모델로 한 번에 넣기 + 쪽 단위(STATES) → rows.jsonl → analysis.md
+#   probe    2단계 통제 실험: 해상도·출력 길이·이미지 수·머리글 → runs/probes/probes.md, viewer.html
+#   score    종합표 runs/report/report.md, 묶음 viewer data/test/viewer/index.html
+#   (3단계 처방) sft 학습 데이터, train 쪽 단위+상태 / 한 번에 넣기 학습, merge LoRA 병합, eval 학습 모델 평가
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -22,13 +20,14 @@ RUNS=${RUNS:-runs}
 GPUS=${GPUS:-0,1}
 N_TRAIN=${N_TRAIN:-2000}
 N_TEST=${N_TEST:-200}
+PROBE_ITEMS=${PROBE_ITEMS:-40}
 WORKERS=${WORKERS:-16}
 BUDGET=${BUDGET:-12000}
 PORT=${PORT:-8100}
 MAX_STEPS=${MAX_STEPS:-}
-STATES=${STATES:-"none doc tail context"}
+STATES=${STATES:-"none"}
 PY=${PY:-python}
-STAGES=${*:-gen sft zeroshot train merge eval score}
+STAGES=${*:-gen observe probe score}
 
 has() { [[ " $STAGES " == *" $1 "* ]]; }
 log() { echo "[$(date '+%F %T')] $*"; }
@@ -65,21 +64,37 @@ evaluate() {  # evaluate <이름 접두어> : 띄운 서버로 평가 세트를 
 last_ckpt() { ls -d "$1"/*/checkpoint-* 2>/dev/null | sort -V | tail -1; }
 
 if has gen; then
-  log "생성: 학습 $N_TRAIN, 평가 $N_TEST 묶음"
-  $PY -m mpx gen --out "$DATA/train" --n "$N_TRAIN" --split train --workers "$WORKERS"
-  $PY -m mpx gen --out "$DATA/test" --n "$N_TEST" --split test --workers "$WORKERS"
+  log "생성: 평가 $N_TEST 묶음 (쌍둥이 판 포함)"
+  $PY -m mpx gen --out "$DATA/test" --n "$N_TEST" --split test --twins --workers "$WORKERS"
   $PY -m mpx stats --data "$DATA/test" > "$RUNS/test_stats.json"
+  if has sft || has train; then
+    log "생성: 학습 $N_TRAIN 묶음"
+    $PY -m mpx gen --out "$DATA/train" --n "$N_TRAIN" --split train --compose random --workers "$WORKERS"
+  fi
+fi
+
+URL="http://127.0.0.1:$PORT/v1"
+if has observe || has probe; then
+  serve "$START_MODEL" 40960; trap stop EXIT
+  if has observe; then
+    log "1단계 관찰"
+    evaluate zeroshot
+    $PY -m mpx rows --data "$DATA/test" --pred "$RUNS"/preds/zeroshot_*.jsonl --out "$RUNS/rows.jsonl"
+    $PY -m mpx analyze --rows "$RUNS/rows.jsonl" --out "$RUNS/analysis.md" > /dev/null
+    log "→ $RUNS/analysis.md"
+  fi
+  if has probe; then
+    log "2단계 통제 실험"
+    $PY -m mpx probe --data "$DATA/test" --out "$RUNS/probes" --max-items "$PROBE_ITEMS" --base-url "$URL" --model mpx \
+      --workers "$WORKERS" > /dev/null
+    log "→ $RUNS/probes/probes.md"
+  fi
+  stop; trap - EXIT
 fi
 
 if has sft; then
   log "학습 데이터"
   $PY -m mpx sft --data "$DATA/train" --budget "$BUDGET" | tee "$RUNS/sft_stats.json"
-fi
-
-if has zeroshot; then
-  serve "$START_MODEL" 40960; trap stop EXIT
-  evaluate zeroshot
-  stop; trap - EXIT
 fi
 
 steps=()
@@ -118,5 +133,6 @@ fi
 if has score; then
   log "채점"
   $PY -m mpx score --data "$DATA/test" --pred "$RUNS"/preds/*.jsonl --out "$RUNS/report" > /dev/null
-  log "→ $RUNS/report/report.md"
+  $PY -m mpx viewer --data "$DATA/test" --pred "$RUNS"/preds/*.jsonl > /dev/null
+  log "→ $RUNS/report/report.md, $DATA/test/viewer/index.html"
 fi
