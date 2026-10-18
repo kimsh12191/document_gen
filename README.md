@@ -42,8 +42,8 @@
 | `docgen/`, `scripts/make_bank_data.sh` | 합성 서류 생성기, 2부 데이터 만들기 (도커에서 실행) |
 | `training/` | GPU 학습 프로젝트. 1부 `run_pipeline.py`, 2부 `run_bank_pipeline.py`, `viewer/` |
 | `guide/` | 위 사용 가이드 |
-| `research/inference-speed/` | 연구: 추론 속도 (캐시 확인 → MTP 추측 디코딩 → 입력 줄이기 → 양자화, 브랜치 `claude/vision-token-efficiency`) |
-| `research/vision-efficiency/` | 위 연구의 입력 줄이기: 빈 곳은 안 본다 (흰 여백 토큰을 빼도 성능이 그대로인가) |
+| `research/multipage/` | 연구: 서류 묶음 속 여러 쪽 문서 추출 (등기부·등본·거래내역·인보이스·패킹리스트·재무제표, 쪽 단위 + 앞 쪽 상태, 브랜치 `claude/multipage-bundle-extraction`) |
+| `research/inference-speed/`, `research/vision-efficiency/` | 이전 탐색 (추론 속도, 토큰 줄이기). 보류 |
 
 - **이 브랜치(`claude/ocr-banking-benchmark`)에 전부 들어 있습니다.**
 - `training/`의 OCR 코드는 OCR 브랜치(`claude/bank-ocr-pipeline`)와 같습니다. OCR 쪽을 고치면 `git merge -X subtree=training origin/claude/bank-ocr-pipeline`으로 가져옵니다.
