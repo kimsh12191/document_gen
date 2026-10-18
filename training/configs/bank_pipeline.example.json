@@ -7,7 +7,7 @@
     "docgen_root": "../..",
     "train": ["/home/사용자/docgen/data/bank_train"],
     "benchmark": "/home/사용자/docgen/data/bench",
-    "replay": {"path": "../data/prepared-v2/train_sft.jsonl", "count": 3000},
+    "replay": {"path": "/실제/OCR단계폴더/data/prepared-v2/train_sft.jsonl", "count": 3000},
     "output_dir": "../data/prepared-bank",
     "sft_max_examples": 20000,
     "task_mix": {"cross_check": 0.25, "review": 0.2, "doc_check": 0.1, "kie": 0.15, "marks": 0.08,
@@ -25,5 +25,5 @@
     "server_start_timeout_minutes": 40,
     "compare_models": []
   },
-  "ocr_check": {"tasks": "../data/prepared-v2/benchmark_tasks.jsonl", "rows": 1000}
+  "ocr_check": {"tasks": "/실제/OCR단계폴더/data/prepared-v2/benchmark_tasks.jsonl", "rows": 1000}
 }

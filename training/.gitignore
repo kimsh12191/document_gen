@@ -9,3 +9,4 @@ reports/
 predictions/
 .test-tools/
 viewer/model-server.log
+viewer/bank-model-server.log

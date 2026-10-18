@@ -1,5 +1,6 @@
 // 페이지 나눔: A4 서류(.page.a4)의 내용이 한 장을 넘치면 다음 쪽(.page)으로 나눈다.
-//  - 블록(문단, 표, 섹션) 단위로 넘기고, 표는 줄(tr) 단위로 자른다. 표 머리글 줄은 다음 쪽에 반복한다.
+//  - 블록(문단, 표, 섹션) 단위로 넘기고, 표는 줄(tr) 단위로 자른다. 표 머리글 줄은 다음 쪽에 반복한다
+//    (window.__noRepeatHeader 가 참이면 반복하지 않는다. research/multipage 의 연구용 서식 변형).
 //  - rowspan 이 걸친 줄 사이에서는 자르지 않는다.
 //  - 절대 위치 장식(견본 워터마크 등)은 쪽마다 복사한다.
 //  - .pg-repeat 요소(발급번호 줄 등)는 다음 쪽 맨 위에 복사한다.
@@ -54,9 +55,10 @@
     const firstBody = rows.indexOf(body[0]);
     if (cut <= firstBody) return 'whole';
     const clone = table.cloneNode(false);
-    if (table.tHead) clone.appendChild(table.tHead.cloneNode(true));
+    const repeatHead = !window.__noRepeatHeader;  // 연구용: 이어지는 쪽에 머리글 줄을 다시 찍지 않는 서식 (기본은 반복)
+    if (table.tHead && repeatHead) clone.appendChild(table.tHead.cloneNode(true));
     const tb = document.createElement('tbody');
-    if (!table.tHead) heads.forEach(h => tb.appendChild(h.cloneNode(true)));
+    if (!table.tHead && repeatHead) heads.forEach(h => tb.appendChild(h.cloneNode(true)));
     rows.slice(cut).forEach(r => tb.appendChild(r));
     clone.appendChild(tb);
     // 원래 표에서 빈 tbody 정리

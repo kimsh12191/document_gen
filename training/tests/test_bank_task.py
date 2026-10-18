@@ -179,6 +179,59 @@ class BankTaskTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "different benchmark"):
             build(reports + [self.root / "other.json"], self.root / "out" / "x.csv")
 
+    def test_viewer_lists_and_shows_stored_answers(self):
+        import argparse
+        import importlib.util
+        from bank_task.prepare import prepare
+        from bank_task.score import oracle, score
+        _docgen_folder(self.root / "train", "train", [f"mortgage_{20000000 + i}" for i in range(4)], n_images=2)
+        items = _docgen_folder(self.root / "bench", None, ["mortgage_2000000", "mortgage_2000001"], n_images=2)
+        write_json(self.root / "bench" / "meta.json", {"version": "1.1", "counts": {}, "doc_names": {"mortgage": "담보 서류"}})
+        prepare(self.data_cfg(), self.model)
+        bench = [it for rows in items.values() for it in rows]
+        runs = self.root / "runs"
+        for role, good in (("start", 0), ("sft", 99)):
+            preds = runs / "predictions" / f"{role}.jsonl"
+            preds.parent.mkdir(parents=True, exist_ok=True)
+            out = {it["id"]: oracle(it) if i < good else "모름" for i, it in enumerate(bench)}
+            preds.write_text("".join(json.dumps({"id": k, "prediction": v}, ensure_ascii=False) + "\n"
+                                     for k, v in out.items()), encoding="utf-8")
+            write_json(runs / "reports" / f"{role}.json", {"label": role.upper(), "role": role,
+                                                             "predictions": str(preds), **score(bench, {})})
+        spec = importlib.util.spec_from_file_location("bank_viewer", Path(__file__).resolve().parents[1] / "viewer" / "bank_viewer.py")
+        bv = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(bv)
+        a = argparse.Namespace(endpoint=None, model="m", max_tokens=10, timeout=1, pdf_dpi=100, config=None, smoke=False,
+                               data=str(self.root / "prep"), workdir=str(runs), docgen_root=None, predictions=None)
+        v = bv.Viewer(a)
+        self.assertEqual([m["label"] for m in v.models], ["START", "SFT"])
+        all_ = v.list({})
+        self.assertEqual(all_["n"], len(bench))
+        self.assertEqual([m["right"] for m in all_["means"]], [0.0, 1.0])
+        better = v.list({"better": "1", "worse": "0", "task": "cross_check"})
+        self.assertEqual(better["n"], 2)
+        item = v.item({"id": better["rows"][0]["id"]})
+        self.assertEqual([a["reward"] for a in item["answers"]], [0.0, 1.0])
+        self.assertEqual(item["detail"]["kind"], "json")
+        self.assertEqual(item["images"][0]["name"], "담보 서류")  # page label from the docgen file name
+        kie = v.item({"id": next(it["id"] for it in bench if it["task"] == "kie")})
+        self.assertEqual(kie["detail"]["rows"][0]["ok"], [False, True])
+        self.assertEqual(v.page_label("images/bundles/b/mortgage_other_person_p2.png", 0, 3)["tag"], "다른 고객 서류")
+        with self.assertRaisesRegex(ValueError, "모델 서버"):
+            v.ask({"id": bench[0]["id"]})
+
 
 if __name__ == "__main__":
     unittest.main()
+
+
+@unittest.skipUnless(DOCGEN, "needs DOCGEN_ROOT")
+class BankPromptsDocTests(unittest.TestCase):
+    def test_guide_quotes_every_benchmark_prompt(self):
+        """guide/questions.md is what users copy; it must match the prompts the model was trained on."""
+        from docgen.bench import prompts
+
+        guide = (Path(__file__).resolve().parents[2] / "guide" / "questions.md").read_text(encoding="utf-8")
+        for name in [n for n in dir(prompts) if n.startswith("P_")]:
+            with self.subTest(prompt=name):
+                self.assertIn(getattr(prompts, name).replace("{{", "{").replace("}}", "}"), guide)

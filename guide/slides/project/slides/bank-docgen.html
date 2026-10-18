@@ -1,0 +1,15 @@
+<section id="bank-docgen" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:26px;font-weight:600;color:#B54A12">2부 은행 업무 · 합성 데이터 생성기 docgen</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">서류 476종, 고객 한 명의 서류끼리 값이 맞는다</h2>
+<div style="display:flex;flex-direction:row;gap:24px">
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:8px"><p style="font-size:64px;font-weight:700;color:#B54A12;line-height:1.1">70</p><p style="font-size:26px;font-weight:600">HTML 템플릿 서류</p><p style="font-size:24px;line-height:1.4;color:#44505C">신분증, 등본, 소득·세금, 등기부, 계약서, 은행 서식</p></div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:8px"><p style="font-size:64px;font-weight:700;color:#B54A12;line-height:1.1">406</p><p style="font-size:26px;font-weight:600">하나은행 원본 서식</p><p style="font-size:24px;line-height:1.4;color:#44505C">공개 서식 PDF 위에 손글씨·인쇄체로 값을 얹음</p></div>
+<div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:8px"><p style="font-size:64px;font-weight:700;color:#B54A12;line-height:1.1">12</p><p style="font-size:26px;font-weight:600">업무 묶음</p><p style="font-size:24px;line-height:1.4;color:#44505C">계좌개설, 신용대출, 주담대, 전세, 법인 여신, 해외송금 …</p></div>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px">
+<ul style="flex:1;font-size:26px;line-height:1.5;color:#44505C"><li><b>정답 = 화면에 찍힌 문자열</b>: 템플릿이 값을 찍을 때 정답과 위치를 함께 기록 → 어긋날 수 없음</li><li><b>고객 단위 일관성</b>: 급여명세서 실수령액 = 통장 입금액, 등기부 근저당 = 대출 약정</li><li><b>숫자 정합성</b>: 세액, 잔액, 대차대조, 한글 금액이 계산으로 맞음</li></ul>
+<ul style="flex:1;font-size:26px;line-height:1.5;color:#44505C"><li><b>다양성</b>: 여러 쪽, 말소·개명·정정 같은 특수 상황, 글꼴·여백 무작위</li><li><b>촬영 조건</b>: 원본 50%, 스캔 20%, 촬영 15%, 팩스 15%</li><li><b>재현성</b>: 같은 seed면 언제·몇 프로세스로 만들어도 같은 데이터</li></ul>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">2부 은행 업무 학습 · 상세: guide/overview.md 부록 A</p>
+<aside>생성기는 이미 있던 것을 은행 업무용으로 확장했습니다. 가장 중요한 성질은 고객 단위 일관성입니다. 한 고객의 서류끼리 값이 맞아야, 그중 하나를 일부러 틀리게 만들어서 서류 대조 문제를 만들 수 있습니다.</aside>
+</section>

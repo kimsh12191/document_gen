@@ -10,7 +10,7 @@ OCR 단계(`run_pipeline.py`)에서 학습한 모델을 출발점으로 **은행
 | 은행 업무 | `cross_check` | 서류 2~3건을 대조해 불일치 찾기 (오기, 타인 서류, 금액·날짜 관계, 임대인≠소유자 등 14종) |
 | 은행 업무 | `review` | 심사 질문 (LTV, 소득 대비 배수, 서류 유효기간, 만 나이 등)에 숫자·예/아니오로 답하기 |
 
-과제와 채점 방식은 docgen의 `docs/BENCHMARK.md`에 있습니다.
+과제와 채점 방식은 [guide/benchmark.md](../guide/benchmark.md), 학습한 모델에게 묻는 질문 문장과 답 형식은 [guide/questions.md](../guide/questions.md)에 있습니다.
 
 ## 전체 흐름
 
@@ -30,38 +30,60 @@ OCR 단계(`run_pipeline.py`)에서 학습한 모델을 출발점으로 **은행
 
 docgen 코드 1.2 이상이 필요합니다(`--split train`). 평가 세트를 1.2 이전 코드로 만들었다면 다시 만드세요(증강 노이즈가 이미지마다 고정되도록 바뀜).
 
-### 만들 데이터
+### 실행: `scripts/make_bank_data.sh`
 
-| 폴더 | 내용 | 시간·용량 (`--workers 8`) |
-|---|---|---|
-| `bank_train` | 학습: 서류 476종 × 2건 + 업무 12종 × 고객 100명 | 약 30분, 약 9GB |
-| `bench` | 평가: 서류 476종 × 1건 + 업무 12종 × 고객 20명 | 약 10분, 약 2GB |
-
-- **`--per-doc 2`:** 서류 한 장짜리 과제(분류, 추출, 체크·도장·서명, OCR)도 학습합니다. OCR 단계에서는 추출을 배우지 않았으므로 넣는 것을 권합니다.
-- **`--bundles 20`:** 평가 세트의 은행 업무 문항을 늘립니다. 기본값 4로는 일부 불일치 사례가 1~4문항뿐이라 점수 오차가 큽니다.
-- **학습과 평가는 겹치지 않습니다.** `--split train`은 평가 세트와 다른 고객으로 만들고, prepare가 한 번 더 검사합니다.
-
-### 방법 A: 서버에서 바로 (`docker exec`)
-
-[docs/DOCKER.md](../docs/DOCKER.md)대로 `docgen` 컨테이너를 띄워 두었다면, 서버 터미널에서 SSH 접속 없이 실행할 수 있습니다. `-d`라서 바로 돌아오고, 생성은 컨테이너 안에서 계속됩니다.
-
-```bash
-docker exec -d -u docgen docgen bash -lc 'python -m docgen.bench build --split train --out /out/bank_train --per-doc 2 --bundles 100 --workers 8 > /out/bank_train.log 2>&1'
-docker exec -d -u docgen docgen bash -lc 'python -m docgen.bench build --out /out/bench --bundles 20 --workers 8 > /out/bench.log 2>&1'
-
-tail -f ~/docgen/data/bank_train.log      # 진행 보기 (Ctrl+C 로 보기만 종료)
-ls ~/docgen/data/bank_train/meta.json     # 이 파일이 생기면 완료
-```
-
-두 명령을 동시에 돌리면 CPU를 나눠 씁니다. 코어가 적으면 하나씩 돌리세요.
-
-### 방법 B: 컨테이너에 SSH로 접속해서
+docgen 컨테이너에 SSH로 접속해 한 줄로 실행합니다. 평가 세트(`bench`)를 먼저, 학습 데이터(`bank_train`)를 다음에 만듭니다.
 
 ```bash
 ssh -p 2222 docgen@<서버IP>
-nohup python -m docgen.bench build --split train --out /out/bank_train --per-doc 2 --bundles 100 --workers 8 > /out/bank_train.log 2>&1 &
-nohup python -m docgen.bench build --out /out/bench --bundles 20 --workers 8 > /out/bench.log 2>&1 &
+bash scripts/make_bank_data.sh           # 백그라운드로 시작, SSH 를 끊어도 계속
+tail -f /out/logs/make_bank_data.log     # 진행 보기. "전부 완료" 와 과제별 문항 수가 나오면 끝
 ```
+
+| 폴더 | 내용 | 시간·용량 (8코어) |
+|---|---|---|
+| `bench` | 평가: 서류 476종 × 1건 + 업무 12종 × 고객 40명 | 약 15분, 약 3GB |
+| `bank_train` | 학습: 서류 476종 × 5건 + 업무 12종 × 고객 200명 (`--split train`) | 약 1시간, 약 16GB |
+
+**스크립트가 하는 일**
+- 다 만든 폴더(`meta.json` 있음)는 건너뛰고, 중간에 멈춘 폴더는 다시 만듭니다.
+- 디스크가 모자라거나 docgen 코드에 `--split train`이 없으면 시작하지 않습니다.
+- 평가 세트가 1.0 버전이면 다시 만들라고 알려 줍니다.
+- 단계별 로그를 `/out/logs/`에 남깁니다.
+
+**설정(환경변수, 명령 앞에 붙임)**
+
+| 변수 | 기본 | 뜻 |
+|---|---|---|
+| `TRAIN_BUNDLES` | 200 | 학습: 업무 12종마다 고객 수 |
+| `TRAIN_PER_DOC` | 5 | 학습: 서류 476종마다 건수 (분류·추출·체크·OCR 과제) |
+| `BENCH_BUNDLES` | 40 | 평가: 업무 12종마다 고객 수 |
+| `WORKERS` | 코어 수 (최대 8) | 동시 렌더링 프로세스 |
+| `OUT` | `/out` | 만들 위치 |
+| `TYPES`, `SCENARIOS` | all | 시험용으로 서류·업무 줄이기 |
+
+```bash
+TRAIN_BUNDLES=300 BENCH_BUNDLES=60 bash scripts/make_bank_data.sh          # 양 바꾸기
+OUT=/out/try TYPES=resident_id_card,loan_application SCENARIOS=mortgage \
+  TRAIN_PER_DOC=1 TRAIN_BUNDLES=2 BENCH_BUNDLES=1 bash scripts/make_bank_data.sh --fg   # 1분짜리 시험
+```
+
+SSH 없이 서버 터미널에서 바로 돌리려면 다음 명령을 씁니다. 컨테이너 쪽 작업 폴더가 코드 폴더가 아니어서 전체 경로를 씁니다.
+
+```bash
+docker exec -u docgen docgen bash -lc 'bash ~/document_gen/scripts/make_bank_data.sh'
+```
+
+### 양은 얼마나
+
+- **학습 (고객 200명, 서류당 5건 권장):** SFT는 최대 2만 문항(`data.sft_max_examples`)을 과제 비율(`data.task_mix`)대로 뽑습니다. 학습 데이터는 그보다 넉넉해야 비율대로 뽑힙니다.
+  - 고객 100명·서류당 2건이면, GRPO용 20%를 빼고 서류 구비 확인 약 960, 정보 추출 약 760(서식 1종당 1.6건), 서류 대조 약 3900문항이라 비율에 모자랍니다.
+  - 생성은 학습보다 훨씬 싸니 넉넉히 만드세요.
+- **평가 (고객 40명):** 서류 구비 확인 480, 서류 대조 약 2000(변조 약 730), 심사 질의 약 2400문항입니다.
+  - 480문항이면 95% 신뢰구간이 약 ±4.5%p, 2000문항이면 약 ±2%p입니다.
+  - 불일치 사례별로 나눠 봐도 드문 사례(임대인≠소유자, 송금 수취인 등)가 10문항 안팎은 됩니다.
+  - 20명으로 줄이면 평가가 빨라지지만, 드문 사례가 5문항 안팎이라 사례별 점수가 많이 흔들립니다.
+- **학습과 평가는 겹치지 않습니다.** `--split train`은 평가 세트와 다른 고객으로 만들고, prepare가 한 번 더 검사합니다.
 
 ### 경로: 컨테이너 안 ↔ 서버
 
@@ -130,6 +152,16 @@ nohup python run_bank_pipeline.py --config configs/bank_pipeline.json > bank_pip
 | `reports/ocr_retention.html` | `ocr_check`를 켰을 때: OCR 벤치마크 일부에서 출발 모델 대비 OCR 점수 변화 |
 | `state.json` | 단계별 완료 여부와 소요 시간 |
 
+### 눈으로 확인: viewer
+
+모델들의 답을 문항별로 정답과 나란히 보고, 내 서류 파일을 올려 직접 물어볼 수 있습니다. 사용법은 [viewer/README.md](viewer/README.md) 6번에 있습니다.
+
+```bash
+bash viewer/bank_start.sh                                              # 저장된 답 보기 (GPU 불필요)
+bash viewer/bank_start.sh runs/bank1/merged/sft-<버전>-checkpoint-<번호> 1   # + 다시 풀기·직접 테스트
+# 브라우저: http://localhost:7861 (VS Code PORTS 탭에서 7861 포워딩)
+```
+
 ## 단계별 내용
 
 ### prepare
@@ -158,9 +190,20 @@ SFT 체크포인트에서 이어 학습합니다. **보상은 평가 세트 채�
 
 **문제 선정:** SFT 평가 때 띄운 서버로 후보 3000개를 먼저 풀고, 보상 0.9 미만인 문제를 절반 섞어 1000개를 고릅니다(`grpo.select: mine`). 이미지가 많은 문항은 GRPO 메모리를 크게 쓰므로 `grpo.max_images`(기본 4) 이하만 씁니다. 그래서 `doc_check`(4~13장)는 일부만 들어갑니다.
 
-**GPU별 설정:**
-- 80GB 2장: `configs/bank_grpo_a100x2.yaml` (GPU당 4개 × 2장 = 생성 8개)
-- 40GB 2장: `pipeline.json`의 `grpo.config`를 `bank_grpo_a100_40g_x2.yaml`(생성 4개)로 바꾸세요.
+**GPU별 설정:** `bank_pipeline.json`의 `sft.config`, `grpo.config`를 GPU에 맞게 고릅니다.
+
+| GPU | `sft.config` | `grpo.config` |
+|---|---|---|
+| A100 80GB × 2 | `bank_sft.yaml` | `bank_grpo_a100x2.yaml` (한 문제에 답 8개) |
+| A100 40GB × 2 | `bank_sft_a100_40g_x2.yaml` | `bank_grpo_a100_40g_x2.yaml` (답 4개) |
+
+40GB 설정은 메모리를 줄이려고 두 가지를 바꿉니다.
+- **비전 인코더를 학습하지 않습니다(`freeze_vit`).** 비전 인코더는 OCR 단계에서 이미 학습했습니다.
+- **SFT는 `deepspeed zero3`를 씁니다.** 모델 가중치를 두 GPU에 나눠 올립니다. 대신 조금 느립니다.
+
+그래도 메모리가 부족하면 아래 순서로 줄입니다.
+1. **SFT:** `data.max_image_tokens_per_sample`을 8000으로, `data.sft_max_length`와 yaml의 `max_length`를 12288로 낮춥니다. `data.output_dir`을 새 이름으로 바꿔 처음부터 다시 실행합니다(prepare가 이미지를 다시 줄임). 이미지가 작아지는 만큼 평가도 같은 크기로 다시 합니다.
+2. **GRPO:** `grpo.max_images`를 2로 낮추고 `--from select`로 다시 실행합니다.
 
 ### 평가
 
@@ -173,7 +216,7 @@ GPU마다 vLLM 서버를 띄우고 나눠 보냅니다. 한 문항에 이미지�
 | 단계 | 규모 | 예상 |
 |---|---|---|
 | prepare | 이미지 줄이기 (CPU 병렬) | 10~30분 |
-| 평가 (모델마다) | 약 6~7천 문항 (짧은 OCR 문항이 절반) + OCR 1000문항, 서버 2대 | 30~60분 (+ 병합·서버 기동 10~20분) |
+| 평가 (모델마다) | 약 9천 문항 (짧은 값 칸 OCR 문항 약 2400 포함) + OCR 1000문항, 서버 2대 | 40~80분 (+ 병합·서버 기동 10~20분) |
 | SFT | 2만 문항 (+ OCR 3000), 문항당 이미지 3600~12000토큰 | 10~15시간 |
 | GRPO | 1000문제 × 생성 8개 = 250 step | step 1~3분이면 4~12시간 |
 | 합계 | | 약 1~1.5일 |
@@ -182,7 +225,10 @@ GPU마다 vLLM 서버를 띄우고 나눠 보냅니다. 한 문항에 이미지�
 
 ## 해석할 때 주의
 
+점수표·학습 로그 읽는 법 전체는 [guide/results.md](../guide/results.md)에 있습니다.
+
+
 - **합성 서류입니다.** 학습 데이터와 평가 세트는 고객만 다르고, 질문 문장·서식·변조 방식이 같습니다. 은행 업무 점수가 크게 오르는 것은 당연하며, 그 점수는 "이 생성기의 업무 형식을 익혔다"는 뜻입니다. 실제 서류 묶음으로 따로 확인하세요.
 - **출발 모델은 이 과제를 배운 적이 없습니다.** 출발 모델의 낮은 점수에는 답 형식(JSON 키 등)을 모르는 몫도 들어 있습니다. 보고서의 "파싱 실패" 비율을 함께 보세요.
 - **OCR 능력 유지:** `ocr_retention` 표에서 OCR 점수가 많이 떨어졌다면 `data.replay.count`를 늘리세요.
-- **`cross_check`:** "문제없음"만 답해도 정상 문항(절반 이상)은 맞습니다. 종합 점수와 함께 탐지·오탐률을 보세요.
+- **`cross_check`:** "문제없음"만 답해도 정상 문항(절반 이상)은 맞습니다. 종합 점수와 함께 **위치(변조 문항)**와 오탐률을 보세요.

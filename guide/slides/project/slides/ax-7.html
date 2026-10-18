@@ -1,0 +1,7 @@
+<section id="ax-7" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:24px;font-weight:600;color:#1E5AA8">부록 A · OCR 문항 필드</p>
+<h2 style="font-size:44px;font-weight:700;line-height:1.2">문항 한 줄의 필드 (*_tasks.jsonl) (2/2)</h2>
+<table style="font-size:24px;color:#16202A;background:#FFFFFF"><tr><th style="width:30%">키</th><th style="width:70%">뜻</th></tr><tr><td style="font-family:'JetBrains Mono', 'Courier New', monospace">images</td><td>모델 입력 이미지 경로 1개 (사본, 잘라낸 단어, 타일, 색 박스 그림 중 하나)</td></tr><tr><td style="font-family:'JetBrains Mono', 'Courier New', monospace">context_image</td><td>이 문항을 만든 사본 페이지 이미지 (잘라낸 이미지·타일의 원래 페이지)</td></tr><tr><td style="font-family:'JetBrains Mono', 'Courier New', monospace">target</td><td>정답 JSON 문자열. 글자 과제는 `{"text"}`, 박스 과제는 `{"boxes": [{"bbox_2d", "label"}]}`</td></tr><tr><td style="font-family:'JetBrains Mono', 'Courier New', monospace">confidence</td><td>정답 단어들의 사내 OCR 신뢰도 중 최솟값 (평가에서 0.95 이상/미만으로 나눠 봄)</td></tr><tr><td style="font-family:'JetBrains Mono', 'Courier New', monospace">masked_words</td><td>(spotting만) 신뢰도가 낮아 타일에서 배경색으로 지우고 정답에서 뺀 단어 수</td></tr><tr><td style="font-family:'JetBrains Mono', 'Courier New', monospace">size</td><td>정답 박스 높이 구간 `small`(&lt;12) / `medium`(&lt;25) / `large` (0~1000 좌표 기준, 평가에서 나눠 봄)</td></tr></table>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">부록 A · OCR 문항 필드 · 전체 데이터: guide/tasks.md</p>
+
+</section>

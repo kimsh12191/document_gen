@@ -1,0 +1,18 @@
+<section id="ocr-tasks" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:32px">
+<p style="font-size:26px;font-weight:600;color:#1E5AA8">1부 OCR · 컨셉</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15">과제 8종: 글자 → 위치, 위치 → 글자</h2>
+<table style="font-size:25px;color:#16202A;background:#FFFFFF;border-radius:12px">
+<tr><th style="width:17%">과제</th><th style="width:33%">입력</th><th style="width:28%">출력</th><th style="width:22%">배우는 것</th></tr>
+<tr><td>crop_ocr</td><td>단어를 잘라낸 이미지</td><td>글자</td><td>노이즈 속 인식</td></tr>
+<tr><td>bbox_ocr</td><td>페이지 + 단어 박스</td><td>글자</td><td>좌표 → 내용</td></tr>
+<tr><td>grounding</td><td>페이지 + 글자</td><td>그 글자의 모든 박스 (없으면 [])</td><td>내용 → 좌표</td></tr>
+<tr><td>region_ocr</td><td>페이지 + 여러 단어 영역</td><td>영역 안 글자 (줄 단위)</td><td>영역과 읽는 순서</td></tr>
+<tr><td>spotting</td><td>페이지 타일 (단어 40개 이하)</td><td>모든 글자 + 박스</td><td>문서 전체 배치</td></tr>
+<tr><td>relation</td><td>페이지 + 기준 글자 + 방향</td><td>바로 옆 글자와 박스</td><td>항목명 → 값 위치</td></tr>
+<tr><td>marked_ocr</td><td>색 박스를 그린 페이지 + 색</td><td>박스 안 글자</td><td>표시한 곳 → 내용</td></tr>
+<tr><td>marked_box</td><td>같은 이미지 + 색</td><td>그린 박스 좌표 + 글자</td><td>표시한 곳 → 좌표</td></tr>
+</table>
+<p style="font-size:26px;color:#44505C">박스 답 형식: [{"bbox_2d": [x1, y1, x2, y2], "label": "글자"}] · grounding의 약 10%는 없는 글자를 묻는 문항 · 질문은 한국어·영어 두 문장</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">1부 OCR 학습 · 질문 문장 전체: training/docs/PROMPTS.md</p>
+<aside>marked 과제는 이미지에 직접 색 박스를 그려 넣어 만듭니다. 그린 박스의 좌표는 OCR 박스가 아니라 우리가 그린 사각형이라 정답이 정확합니다. 좌표 숫자와 이미지 위치를 연결해 주는 보조 과제입니다.</aside>
+</section>

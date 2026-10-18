@@ -5,6 +5,7 @@ reward used in GRPO is exactly the benchmark's grading. The docgen folder is fou
 DOCGEN_ROOT (set by run_bank_pipeline.py from the pipeline config) or PYTHONPATH.
 """
 import hashlib
+import importlib
 import json
 import os
 import random
@@ -13,15 +14,12 @@ from pathlib import Path
 
 
 def docgen(module="evaluate"):
-    """Import docgen.bench.<module> (evaluate or runner)."""
+    """Import docgen.bench.<module> (evaluate, runner, prompts: standard library only)."""
     root = os.environ.get("DOCGEN_ROOT")
     if root and str(Path(root).resolve()) not in sys.path:
         sys.path.insert(0, str(Path(root).resolve()))
     try:
-        if module == "runner":
-            from docgen.bench import runner as mod
-        else:
-            from docgen.bench import evaluate as mod
+        mod = importlib.import_module(f"docgen.bench.{module}")
     except ImportError as exc:
         raise ImportError("docgen code not found: set data.docgen_root in the pipeline config "
                           "(the folder that contains docgen/) or DOCGEN_ROOT") from exc

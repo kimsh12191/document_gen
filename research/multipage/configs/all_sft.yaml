@@ -1,0 +1,29 @@
+# 한 번에 넣기 비교 방법 SFT. 같은 학습 묶음을 모든 쪽 한 문항으로 (이미지 합 12000토큰 이하로 줄인 사본).
+# 문항 하나 = 이미지 최대 12000토큰 + 답 최대 약 14000토큰 (생성 데이터 실측) → max_length 28672.
+# 문항이 길어 GPU당 1문항. A100 80GB 2장에서 메모리가 모자라면 deepspeed: zero3.
+model_type: qwen3_5
+tuner_type: lora
+torch_dtype: bfloat16
+target_modules: all-linear
+freeze_llm: false
+freeze_vit: false
+freeze_aligner: false
+lora_rank: 32
+lora_alpha: 64
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 8
+gradient_checkpointing: true
+num_train_epochs: 1
+max_length: 28672
+warmup_ratio: 0.05
+logging_steps: 1
+save_steps: 100
+save_total_limit: 3
+dataloader_num_workers: 4
+dataset_num_proc: 4
+split_dataset_ratio: 0
+report_to: none
+deepspeed: zero3
+learning_rate: 1.0e-4
+add_non_thinking_prefix: true
+loss_scale: ignore_empty_think
