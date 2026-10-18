@@ -190,12 +190,16 @@ def all_prompt(n_pages: int) -> str:
 
 
 def run_pagewise(answer_fn, n_pages: int, state_kind: str):
-    """answer_fn(page_index, prompt) → (원문, 파싱된 dict 또는 None). 앞 쪽 답으로 상태를 만들며 차례로 읽는다."""
-    raws, parsed = [], []
+    """answer_fn(page_index, prompt) → (원문, 파싱된 dict 또는 None). 앞 쪽 답으로 상태를 만들며 차례로 읽는다.
+
+    돌려주는 것: (쪽별 원문, 합친 문서 목록, 쪽별로 넘긴 상태). 상태는 viewer 에서 보여 준다.
+    """
+    raws, parsed, states = [], [], []
     for i in range(n_pages):
         docs = merge_pages(parsed) if parsed else []
         state = build_state(docs[-1] if docs else None, state_kind)
         raw, obj = answer_fn(i, page_prompt(state))
         raws.append(raw)
         parsed.append(obj)
-    return raws, merge_pages(parsed)
+        states.append(state)
+    return raws, merge_pages(parsed), states

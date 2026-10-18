@@ -90,7 +90,8 @@ def test_run_pagewise_passes_state_from_previous_answers():
         prompts.append(prompt)
         return "", page_answer(st, views, i)
 
-    _, docs = run_pagewise(answer, 2, "tail")
+    _, docs, states = run_pagewise(answer, 2, "tail")
+    assert states[0] is None and states[1]["lists"]["rows"]["count"] == 3
     assert '"count": 3' in prompts[1] and "없음" in prompts[0]
     assert len(docs) == 1 and len(docs[0]["lists"]["rows"]) == 6
 

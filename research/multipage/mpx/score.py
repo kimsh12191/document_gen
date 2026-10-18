@@ -39,7 +39,7 @@ def gt_doc(label: dict, bundle_pages: list[int]) -> dict:
                 row_page.setdefault(path, []).append(k)
     return {"id": label["id"], "type": label["doc_type"], "name": label["doc_name"], "pages": bundle_pages,
             "fields": fields, "lists": lists, "row_page": row_page, "no_repeat_header": label.get("no_repeat_header"),
-            "augment": label.get("augment"), "n_pages": len(views)}
+            "augment": label.get("augment"), "n_pages": len(views), "target": bool(label.get("target"))}
 
 
 def gt_docs(bundle: dict, labels: dict) -> list[dict]:
@@ -231,7 +231,7 @@ def score_bundle(bundle: dict, labels: dict, pred_docs: list[dict]) -> dict:
     for gi, g in enumerate(gts):
         p = pred_docs[m[gi]] if gi in m else None
         s = score_doc(g, p)
-        s.update(doc=g["id"], type=g["type"], n_pages=g["n_pages"], no_repeat_header=bool(g["no_repeat_header"]),
+        s.update(doc=g["id"], type=g["type"], n_pages=g["n_pages"], target=g["target"], no_repeat_header=bool(g["no_repeat_header"]),
                  augment=g["augment"], found=p is not None, type_ok=bool(p) and _same_type(p, g),
                  pages_exact=bool(p) and sorted(p.get("pages") or []) == sorted(g["pages"]))
         docs.append(s)
