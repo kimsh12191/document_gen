@@ -42,7 +42,7 @@
 | `docgen/`, `scripts/make_bank_data.sh` | 합성 서류 생성기, 2부 데이터 만들기 (도커에서 실행) |
 | `training/` | GPU 학습 프로젝트. 1부 `run_pipeline.py`, 2부 `run_bank_pipeline.py`, `viewer/` |
 | `guide/` | 위 사용 가이드 |
-| `research/vision-efficiency/` | 연구: 은행 서류 VLM의 페이지 토큰 효율화 (브랜치 `claude/vision-token-efficiency`) |
+| `research/vision-efficiency/` | 연구: 빈 곳은 안 본다 (흰 여백 토큰을 빼도 성능이 그대로인가, 브랜치 `claude/vision-token-efficiency`) |
 
 - **이 브랜치(`claude/ocr-banking-benchmark`)에 전부 들어 있습니다.**
 - `training/`의 OCR 코드는 OCR 브랜치(`claude/bank-ocr-pipeline`)와 같습니다. OCR 쪽을 고치면 `git merge -X subtree=training origin/claude/bank-ocr-pipeline`으로 가져옵니다.
