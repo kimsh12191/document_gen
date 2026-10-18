@@ -2,7 +2,7 @@
 
 > **가설:** 서류 페이지의 빈 곳(흰 여백) 토큰은 빼도 성능이 그대로이고, 그만큼 빨라진다.
 
-브랜치 `claude/vision-token-efficiency`
+브랜치 `claude/vision-token-efficiency`. [추론 속도 연구](../inference-speed/README.md)의 4단계(입력 줄이기)입니다.
 
 ## 아이디어
 
