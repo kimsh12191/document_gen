@@ -13,7 +13,8 @@
 #   1. 평가 묶음 N_TEST 개 생성 (머리글·같은 글자 반복 쌍둥이 판 포함) → $DATA/test   (이미 있으면 이어서)
 #   2. 모델마다 서버를 동시에 띄움 (포트 PORT, PORT+1, ...; 모델 폴더의 generation_config.json 을 $RUNS/<이름>/ 에 복사)
 #   3. mpx pipeline --models : 모델마다 관찰 실행 → 행 기록 → 분석 → 통제 실험 A~F → 종합·viewer 를 동시에 → $RUNS/<이름>/
-#      이어서 모델 비교 → $RUNS/compare/ (analysis.md, probes_compare.md, viewer/index.html)
+#      이어서 모델 비교 → $RUNS/compare/ (report.md, paired.md, probes_compare.md, analysis.md, viewer/index.html)
+#   4. 결과 첫 화면 $RUNS/index.html. 보기: python -m mpx serve $RUNS --host 0.0.0.0
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -76,4 +77,4 @@ log "3. pipeline: ${model_args[*]}"
 $PY -m mpx pipeline --out "$RUNS" --data "$DATA/test" --models "${model_args[@]}" \
   --max-tokens "$MAX_TOKENS" --budget "$BUDGET" --probe-items "$PROBE_ITEMS" --workers "$WORKERS" \
   | tee "$RUNS/logs/pipeline.log"
-log "→ $RUNS/compare/analysis.md, $RUNS/compare/probes_compare.md, $RUNS/compare/viewer/index.html"
+log "→ 결과 첫 화면 $RUNS/index.html  (띄우기: $PY -m mpx serve $RUNS --host 0.0.0.0)"

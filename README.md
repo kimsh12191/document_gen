@@ -169,6 +169,25 @@ python -m mpx pipeline --out runs/exp1 --data data/test \
 
 ### 2.3 결과 보기
 
+```bash
+python -m mpx serve runs --host 0.0.0.0     # → http://<서버IP>:7862/runs/index.html
+```
+
+결과 첫 화면(`<out>/index.html`) 하나에서 모든 표와 viewer로 들어간다. pipeline이 끝날 때 만들어 두고, `serve`는 표(.md)를
+HTML로 바꿔 다시 만든 뒤 결과 폴더와 묶음 폴더를 함께 담는 상위 폴더를 웹 서버로 띄운다(viewer가 쪽 이미지를 상대 경로로 부름).
+첫 화면에는 실행 정보(모델, 서버 주소, 모델 폴더의 기본 `repetition_penalty`. 모델마다 다르면 경고), 모델 비교, 모델별 결과가
+차례로 나온다. 모델 비교에서 볼 순서는 다음과 같다.
+
+| 파일 (`<out>/compare/`) | 내용 |
+|---|---|
+| `report.md` | 종합 점수표: 모델×방법(`base_allatonce`, `bank_allatonce`, ...)마다 문서 나누기, 항목·행 F1, 비용 |
+| `paired.md` | 짝 비교: 같은 정답 행을 두 모델에서 짝지어 둘 다 빠뜨림 / 한 모델만 빠뜨림을 센다. 특징 구간(위 행과 글자 같음, 쪽 경계, 행 간격, 출력 위치, 서류 종류 등)마다, 부호 검정 p, 한 모델만 빠뜨린 행의 예시(묶음 viewer 링크). 통제 실험도 문항·행 단위로 같은 표 |
+| `probes_compare.md` | 통제 실험 A~F 조건별 모델별 누락률 (E·F는 반복 묶음 안 행의 누락률도) |
+| `analysis.md` | 관찰 분석: 결과 분포, 특징 구간별 누락률, 회귀를 모델×방법별로 |
+| `viewer/index.html` | 묶음 viewer: 모든 모델의 답을 나란히 |
+
+모델 하나의 결과(`<out>/<이름>/`, 모델 하나만 돌렸으면 `<out>/`):
+
 | 파일 (`<out>/`) | 내용 |
 |---|---|
 | `analysis.md` | 1단계: 결과 분포, 특징 구간별 누락률, 회귀 순위 |
@@ -179,11 +198,10 @@ python -m mpx pipeline --out runs/exp1 --data data/test \
 | `rows.jsonl` | 정답 행마다 결과와 특징 (직접 분석할 때) |
 | `summary.json` | 단계별 시간, 점검 결과, 답 상한·디코딩 설정 |
 
-모델 비교(`<out>/compare/`, `--models`로 돌렸을 때. 따로 돌린 결과는 `mpx compare --runs base=runs/base bank=runs/bank --data data/test --out runs/compare`): `analysis.md`(실행 이름 앞에 모델 이름, 예: `base_allatonce`,
-`bank_allatonce`), `probes_compare.md`(실험·조건마다 모델별 누락률, E·F는 같은 글자 행 누락률), `viewer/index.html`(모든 모델의 답).
+따로 돌린 결과를 비교하려면 `mpx compare --runs base=runs/base bank=runs/bank --data data/test --out runs/compare`.
 
 viewer 기호: ✓ 정확 · △ 일부 틀림 · ≠ 잘못 읽음 · ↷ 다른 곳에 · ✗ 건너뜀 · ✂ 길이에 잘림 · ■ 스스로 끝냄 · ∅ 문서 못 찾음.
-다른 PC에서 보려면 `python -m mpx viewer --data <out>/data/test --pred <out>/preds/*.jsonl --serve 7862 --host 0.0.0.0`.
+`runs/`와 묶음 폴더를 같은 구조로 PC에 복사하면 서버 없이 `index.html`을 파일로 열어도 된다.
 
 ### 2.4 단계별로 돌릴 때
 
@@ -223,8 +241,10 @@ mpx/                 연구 코드
   rows.py            1단계: 행 결과 분류와 특징
   analyze.py         1단계: 누락 분석
   probe.py           2단계: 통제 실험
+  paired.py          모델 짝 비교 (같은 행이 두 모델에서 어떻게 됐나)
   report.py          종합 점수표
   viewer.py          묶음 viewer
+  results.py         결과 첫 화면과 serve
   pipeline.py        한 번에 실행
   cli.py             명령줄
   common.py          파일 입출력, 이미지 크기·토큰 계산
@@ -336,18 +356,38 @@ tests/               test_docs.py, test_bench.py (생성기), test_mpx.py (연�
   - 묶음 화면: 쪽 이미지, 방법별 문서 배정, 대상 서류의 항목 표, 행 표(행마다 결과 기호, 틀린 칸)
 - 서버 없이 파일로도 열린다.
 
+### `mpx/paired.py` — 모델 짝 비교
+
+- 누락률을 나란히 놓으면 어느 모델이 더 빠뜨리는지만 보인다. 같은 정답 행을 짝지으면 행마다 둘 다 냄 / A만 빠뜨림 /
+  B만 빠뜨림 / 둘 다 빠뜨림으로 나뉜다. 둘 다 빠뜨린 행은 두 모델이 공유하는 원인(입력·구조·디코딩), 한 모델만 빠뜨린
+  행은 그 모델에만 있는 원인(예: 학습)의 후보다.
+- `observe(rows)`: 관찰 실행. 행 = (방법, 묶음, 문서, 목록, 행 번호). 방법마다 전체와 특징 구간(analyze의 참/거짓 특징,
+  행 간격·글자 높이·출력에서 앞선 행 수·목록 안 위치의 4분위, 서류 종류)별로 네 칸, 한 모델만 빠뜨린 행 예시 10개.
+- `probes({모델: probes 폴더})`: 통제 실험. 행 = (문항, 목록, 행 번호). 실험·조건마다 네 칸, E·F는 반복 묶음 안 행만 한 줄 더.
+- `sign_test(b, c)`: 한 모델만 빠뜨린 수 b, c 가 같다는 가정의 두 쪽 정확 부호 검정(McNemar). n > 2000 이면 정규 근사.
+- `run_paired(rows, probe_dirs, out)` → `paired.md`, `paired.json`. `pipeline.compare`가 부른다.
+
+### `mpx/results.py` — 결과 첫 화면
+
+- `build(out)` → `<out>/index.html`: 실행 정보, 모델 비교(`compare/`), 모델별 결과의 표와 viewer 링크. 표(.md)는 같은
+  자리에 .html로 바꿔 둔다(`md_to_html`: 제목, 표, 목록, 굵게, 코드, 링크만). `generation_config.json`이 있으면 모델별 기본
+  `repetition_penalty`를 보여 주고 모델마다 다르면 경고한다(관찰 실행의 모델 차이에 디코딩 설정 차이가 섞임).
+- `serve(out, port, host)`: `build` 후 결과 폴더와 묶음 폴더의 공통 상위 폴더를 뿌리로 웹 서버를 띄운다.
+
 ### `mpx/pipeline.py`, `mpx/cli.py`
 
 - `pipeline.run_all(out, n_test, workers, base_url, model, budget, ..., probe_items, data, sampling)`: 2.2의 한 번에 실행이다.
   `data`를 주면 생성을 건너뛰고 그 묶음을 쓴다(모델 여러 개를 같은 묶음으로).
 - `pipeline.run_models(out, {이름: 서버 주소}, n_test, workers, data, ...)`: 묶음을 한 번 만들고 모델마다 `run_all`을
   동시에(스레드 하나씩) `<out>/<이름>/`에 돌린 뒤 `compare`로 `<out>/compare/`를 낸다.
-- `pipeline.compare({이름: pipeline 출력 폴더}, data, out)`: 모델별 결과를 합친다. 행 기록을 모아 다시 분석하고(실행 이름 앞에 모델 이름), 통제 실험 비교표와 모든 모델의 답을 담은 viewer를 만든다.
+- `pipeline.compare({이름: pipeline 출력 폴더}, data, out)`: 모델별 결과를 합친다. 모델×방법 종합 점수표(`report.md`),
+  행 기록을 모은 분석(실행 이름 앞에 모델 이름), 짝 비교(`paired.md`), 통제 실험 비교표, 모든 모델의 답을 담은 viewer.
+- `run_all`, `run_models`는 끝에 `results.build`로 결과 첫 화면을 만든다.
 - 모델 없이 돌리면 다음을 점검해 `summary.json`의 `checks`에 남긴다.
   - 정답 답은 모든 행이 정확하고 종합 지표 100%
   - 오류 주입 답은 넣은 오류 다섯 종류를 분류가 모두 찾음
   - 통제 실험: 정답 답은 누락 0, 오류 주입 답은 누락 > 0
-- `cli.py`: 명령 `gen, stats, run, score, viewer, rows, analyze, probe, pipeline, compare, check`. `python -m mpx <명령> -h`로 옵션을 본다.
+- `cli.py`: 명령 `gen, stats, run, score, viewer, rows, analyze, probe, pipeline, compare, paired, serve, check`. `python -m mpx <명령> -h`로 옵션을 본다.
 
 ### `docgen/` 에서 쓰는 것
 

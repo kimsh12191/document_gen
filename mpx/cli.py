@@ -13,6 +13,7 @@
   python -m mpx pipeline --out runs/exp1 --data data/test --models base=http://127.0.0.1:8100/v1 bank=http://127.0.0.1:8101/v1
                                                                 # 모델 둘을 동시에 → runs/exp1/{base,bank,compare}
   python -m mpx compare --runs base=runs/base bank=runs/bank --data data/test --out runs/compare   # 따로 돌린 결과 비교
+  python -m mpx serve runs --host 0.0.0.0                       # 결과 페이지 (모든 표·viewer 를 한곳에서)
 """
 from __future__ import annotations
 
@@ -121,6 +122,22 @@ def cmd_compare(a):
 
     runs = dict(x.split("=", 1) for x in a.runs)
     print(json.dumps(compare(runs, a.data, a.out), ensure_ascii=False, indent=1))
+
+
+def cmd_paired(a):
+    from .paired import run_paired
+
+    probes = dict(x.split("=", 1) for x in a.probes) if a.probes else {}
+    print(run_paired(a.rows, probes, a.out, a.viewer))
+
+
+def cmd_serve(a):
+    from .results import build, serve
+
+    if a.no_serve:
+        print(f"→ {build(a.out)}")
+        return
+    serve(a.out, a.port, a.host)
 
 
 def cmd_check(a):
@@ -247,6 +264,20 @@ def main(argv=None):
     m.add_argument("--data", required=True, help="모델들이 함께 쓴 묶음 폴더")
     m.add_argument("--out", required=True)
     m.set_defaults(fn=cmd_compare)
+
+    y = sub.add_parser("paired", help="모델 짝 비교: 같은 행이 두 모델에서 각각 어떻게 됐나 (compare 가 함께 만듦)")
+    y.add_argument("--rows", required=True, help="compare 의 rows.jsonl (실행 이름 '<모델>_<방법>')")
+    y.add_argument("--probes", nargs="*", help="모델=probes 폴더 (통제 실험도 짝지을 때)")
+    y.add_argument("--out", required=True)
+    y.add_argument("--viewer", default="viewer", help="예시 행을 연결할 묶음 viewer 폴더 (out 기준 상대 경로)")
+    y.set_defaults(fn=cmd_paired)
+
+    e = sub.add_parser("serve", help="결과 페이지: 표를 HTML 로 바꾸고 첫 화면에 모든 표·viewer 링크를 모아 띄움")
+    e.add_argument("out", help="pipeline 출력 폴더 (예: runs)")
+    e.add_argument("--port", type=int, default=7862)
+    e.add_argument("--host", default="127.0.0.1", help="다른 PC 에서 열려면 0.0.0.0")
+    e.add_argument("--no-serve", action="store_true", help="index.html 만 만들고 띄우지 않음")
+    e.set_defaults(fn=cmd_serve)
 
     k = sub.add_parser("check", help="정답 없는 실제 서류 묶음 검사 (OCR에 있는 값 비율, 잔액·합계)")
     k.add_argument("--data", required=True, help="bundles.jsonl 이 있는 폴더 (pages[].image, pages[].ocr)")

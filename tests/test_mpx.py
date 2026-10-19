@@ -296,3 +296,46 @@ def test_run_models_runs_each_model_on_same_data(tmp_path, monkeypatch):
     assert sorted(calls) == sorted((n, f"served-{srv.server_port}", str(tmp_path / "d"), 20480)
                                    for n, srv in zip(("base", "bank"), servers))
     assert seen["runs"] == {"base": tmp_path / "base", "bank": tmp_path / "bank"} and s["outputs"] == {"out": str(tmp_path / "compare")}
+
+
+def test_paired_counts_rows_dropped_by_one_model_only(tmp_path):
+    from mpx import paired
+
+    def row(model, i, dropped, same=False):
+        return {"run": f"{model}_allatonce", "method": "allatonce", "bundle": "b1", "doc": "d1", "doc_type": "bank_statement",
+                "list": "tx", "row": i, "outcome": "skipped" if dropped else "exact", "dropped": dropped,
+                "same_text_prev": same, "pitch_tok": 1.0, "glyph_tok": 0.5, "rows_before": i, "row_frac": i / 10}
+    # 행 0~9: 0,1 은 둘 다 빠뜨림, 2~5 는 bank 만 (모두 위 행과 글자 같음), 6 은 base 만
+    rows = [row("base", i, i in (0, 1, 6), same=2 <= i <= 5) for i in range(10)]
+    rows += [row("bank", i, i in (0, 1, 2, 3, 4, 5), same=2 <= i <= 5) for i in range(10)]
+    obs = paired.observe(rows)
+    d = obs["base vs bank"]["allatonce"]
+    assert (d["all"]["both"], d["all"]["only_a"], d["all"]["only_b"]) == (2, 1, 4)
+    assert d["groups"]["same_text_prev"][True]["only_b"] == 4 and d["groups"]["same_text_prev"][False]["only_b"] == 0
+    assert [e["row"] for e in d["examples"]["only_b"]] == [2, 3, 4, 5]
+    assert paired.sign_test(0, 6) == 2 / 64 and paired.sign_test(0, 0) is None
+    md = paired.report_md(obs, {})
+    assert "bank만" in md and "viewer/b_b1.html" in md
+
+
+def test_results_page_renders_tables_and_links(tmp_path):
+    import json as _j
+
+    from mpx import results
+
+    html = results.md_to_html("# 제목\n\n| 조건 | base |\n|---|---:|\n| 920 | 12.5 (40) |\n\n- **굵게** `코드` [링크](a.html)\n")
+    assert "<h1>제목</h1>" in html and "<th>조건</th>" in html and "text-align:right" in html
+    assert "<b>굵게</b>" in html and "<code>코드</code>" in html and "href='a.html'" in html
+    (tmp_path / "compare").mkdir()
+    (tmp_path / "compare" / "paired.md").write_text("# 짝\n", encoding="utf-8")
+    (tmp_path / "base").mkdir()
+    (tmp_path / "base" / "analysis.md").write_text("# 분석\n", encoding="utf-8")
+    (tmp_path / "base" / "generation_config.json").write_text('{"repetition_penalty": 1.05}', encoding="utf-8")
+    (tmp_path / "bank").mkdir()
+    (tmp_path / "bank" / "generation_config.json").write_text('{"temperature": 0.7}', encoding="utf-8")
+    (tmp_path / "summary.json").write_text(_j.dumps({"data": "d", "models": {"base": {"url": "u", "served": "base"},
+                                                                           "bank": {"url": "v", "served": "bank"}}}))
+    index = results.build(tmp_path).read_text(encoding="utf-8")
+    assert "compare/paired.html" in index and "base/analysis.html" in index and "1.05" in index
+    assert "class='bad'" in index  # base 1.05, bank 값 없음(1.0) → 기본값이 다르다는 경고
+    assert (tmp_path / "compare" / "paired.html").exists()

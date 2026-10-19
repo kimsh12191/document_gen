@@ -5,7 +5,8 @@
       --models base=http://127.0.0.1:8100/v1 bank=http://127.0.0.1:8101/v1                    # 모델 둘을 동시에
 
 모델이 여럿이면 묶음은 한 번만 만들고, 모델마다 ②~⑥ 을 동시에(모델마다 스레드 하나, 서버는 각자) 돌려 <out>/<이름>/ 에
-쓴 뒤, ⑦ 에서 합쳐 <out>/compare/ 에 낸다. 모든 모델이 같은 묶음·같은 질문·같은 통제 실험 문항을 받으므로 비교는
+쓴 뒤, ⑦ 에서 합쳐 <out>/compare/ 에 낸다(종합 점수표, 행 단위 짝 비교, 통제 실험 비교, 관찰 분석, viewer). 끝에 결과
+첫 화면 <out>/index.html 을 만든다 (python -m mpx serve <out> 로 띄움). 모든 모델이 같은 묶음·같은 질문·같은 통제 실험 문항을 받으므로 비교는
 문항 단위로 짝지어진다.
 
 ① 생성       평가 묶음(벤치마크 시나리오 구성 + 긴 목록, 머리글 쌍둥이 판 포함)
@@ -30,7 +31,7 @@ from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from . import analyze, gen, probe, report, rows, viewer
+from . import analyze, gen, paired, probe, report, results, rows, viewer
 from .common import read_jsonl
 from .run import Client, run, served_model
 
@@ -93,6 +94,7 @@ def run_all(out, n_test: int = 6, workers: int = 4, base_url: str | None = None,
                           "probe_viewer": [str(out / n / "viewer.html") for n in probe_runs],
                           "report": str(out / "report" / "report.md"), "viewer": summary["viewer"]}
     (out / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
+    summary["results"] = str(results.build(out))
     return summary
 
 
@@ -117,6 +119,7 @@ def run_models(out, models: dict, n_test: int = 6, workers: int = 4, data: str |
                "seconds": {"모델별 ①~⑥ (동시)": round(t - t0, 1), "⑦ 비교": round(time.monotonic() - t, 1)},
                "runs": {n: s["outputs"] for n, s in runs.items()}, "outputs": cmp}
     (out / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
+    summary["results"] = str(results.build(out))
     return summary
 
 
@@ -150,9 +153,20 @@ def _checks(out: Path, paths: list[Path], probe_runs: dict) -> dict:
 
 
 def compare(runs: dict, data, out) -> dict:
-    """모델별 pipeline 결과({이름: 폴더})를 합친다: 행 기록·분석(실행 이름 앞에 모델 이름), 통제 실험 비교, 묶음 viewer."""
+    """모델별 pipeline 결과({이름: 폴더})를 합친다: 종합 점수표(report.md), 행 기록·분석(실행 이름 앞에 모델 이름),
+    행 단위 짝 비교(paired.md), 통제 실험 비교(probes_compare.md), 묶음 viewer."""
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
+    pred_paths, names = [], []
+    for name, d in runs.items():
+        for p in sorted((Path(d) / "preds").glob("*.jsonl")):
+            pred_paths.append(p)
+            names.append(f"{name}_{p.stem}")
+    table = {}
+    for p, n in zip(pred_paths, names):
+        scored = p.parent.parent / "report" / f"{p.stem}.json"
+        table[n] = json.loads(scored.read_text(encoding="utf-8")) if scored.exists() else report.score_run(data, p)[0]
+    (out / "report.md").write_text(report.report_md(table), encoding="utf-8")
     with (out / "rows.jsonl").open("w", encoding="utf-8") as f:
         for name, d in runs.items():
             for r in read_jsonl(Path(d) / "rows.jsonl"):
@@ -161,10 +175,7 @@ def compare(runs: dict, data, out) -> dict:
     probe_dirs = {name: Path(d) / "probes" for name, d in runs.items() if (Path(d) / "probes" / "rows.jsonl").exists()}
     if probe_dirs:
         probe.compare(probe_dirs, out)
-    pred_paths, names = [], []
-    for name, d in runs.items():
-        for p in sorted((Path(d) / "preds").glob("*.jsonl")):
-            pred_paths.append(p)
-            names.append(f"{name}_{p.stem}")
+    paired.run_paired(out / "rows.jsonl", probe_dirs, out / "paired.md")
     index = viewer.build(data, pred_paths, out / "viewer", names=names)
-    return {"analysis": str(out / "analysis.md"), "probes": str(out / "probes_compare.md"), "viewer": str(index)}
+    return {"report": str(out / "report.md"), "paired": str(out / "paired.md"), "analysis": str(out / "analysis.md"),
+            "probes": str(out / "probes_compare.md"), "viewer": str(index)}
