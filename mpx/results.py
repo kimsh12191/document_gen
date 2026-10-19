@@ -137,6 +137,20 @@ def build(out) -> Path:
         if len(pens) > 1:
             L.append("<p class='bad'>모델마다 기본 repetition_penalty 가 다르다: 관찰 실행의 모델 차이에 디코딩 설정 차이가 섞여 있다. "
                      "같은 설정 비교는 통제 실험 F 를 본다.</p>")
+    failed = summary.get("failed") or {}
+    per_model = failed if models else ({"": failed} if failed else {})
+    bad = {n: {k: v for k, v in f.items() if v} for n, f in per_model.items() if any(f.values())}
+    if bad:
+        L.append("<p class='bad'>서버 요청이 실패해 결과에서 뺀 것이 있다 (같은 명령을 다시 돌리면 실패한 것만 다시 묻는다): "
+                 + _e("; ".join(f"{n} {f}" if n else str(f) for n, f in bad.items())) + "</p>")
+    smoke = summary.get("smoke") or {}
+    smokes = smoke if models else ({"": smoke} if smoke else {})
+    if smokes:
+        L.append("<table><tr><th>시험 요청</th><th>초</th><th>입력 토큰</th><th>출력 토큰</th><th>JSON</th><th>답 앞부분</th></tr>"
+                 + "".join(f"<tr><td>{_e(n or s.get('model'))}</td><td>{_e(s.get('latency'))}</td><td>{_e(s.get('prompt_tokens'))}</td>"
+                           f"<td>{_e(s.get('completion_tokens'))}</td><td>{'예' if s.get('parsed') else '<b>아니오</b>'}</td>"
+                           f"<td class='muted'>{_e(s.get('raw', '')[:120])}</td></tr>" for n, s in smokes.items() if s)
+                 + "</table>")
     if (out / "compare").exists():
         L += _section(out, out / "compare", "모델 비교")
     for n in models:

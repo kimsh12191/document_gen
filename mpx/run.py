@@ -27,9 +27,9 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-from .common import data_url, dumps, load_resized, page_budget, tokens_of
+from .common import data_url, dumps, load_resized, page_budget, read_jsonl, tokens_of, write_jsonl
 from .gen import load
-from .pages import all_prompt, doc_content, flatten, page_answer, page_views, run_pagewise, schema_hint
+from .pages import all_prompt, doc_content, flatten, page_answer, page_prompt, page_views, run_pagewise, schema_hint
 from .parse import parse_output
 
 
@@ -86,6 +86,41 @@ def served_model(base_url: str, prefer: str | None = None, timeout: float = 30) 
     if not ids:
         raise RuntimeError(f"{base_url} 가 모델을 내놓지 않습니다")
     return prefer if prefer in ids else ids[0]
+
+
+def failed(record: dict) -> bool:
+    """서버 요청이 실패한 기록 (답이 없어 모든 행이 누락으로 잡히므로 모델 결과로 세면 안 됨)."""
+    us = record.get("usage")
+    return any("error" in u for u in (us if isinstance(us, list) else [us or {}]))
+
+
+def drop_failed(path, key: str) -> set:
+    """이어서 돌릴 때: 실패한 기록은 지우고(다시 묻게) 성공한 것의 key 집합을 돌려준다."""
+    path = Path(path)
+    if not path.exists():
+        return set()
+    recs = read_jsonl(path)
+    ok = [r for r in recs if not failed(r)]
+    if len(ok) < len(recs):
+        write_jsonl(path, ok)
+        print(f"{path.name}: 요청이 실패했던 {len(recs) - len(ok)}건을 다시 묻습니다", file=sys.stderr)
+    return {r[key] for r in ok}
+
+
+def smoke(client: Client, data_dir) -> dict:
+    """본 실행 전에 한 번 물어 본다: 첫 묶음의 첫 쪽, 쪽 단위 질문. 요청이 실패하면 멈춘다(설정 문제를 결과로 착각하지 않게)."""
+    data_dir = Path(data_dir)
+    bundles, labels = load(data_dir)
+    img = load_resized(data_dir / bundles[0]["pages"][0]["image"])
+    raw, u = client.ask([img], page_prompt(schema_hint(labels.values())))
+    if "error" in u:
+        raise SystemExit(f"{client.model} ({client.url}): 시험 요청 실패 — {u['error']}")
+    obj, _ = parse_output(raw)
+    info = {"model": client.model, "latency": round(u.get("latency") or 0, 1), "prompt_tokens": u.get("prompt_tokens"),
+            "completion_tokens": u.get("completion_tokens"), "parsed": obj is not None, "raw": (raw or "")[:300]}
+    if obj is None:
+        print(f"경고: {client.model} 의 시험 답에서 JSON 을 못 꺼냈습니다: {info['raw']!r}", file=sys.stderr)
+    return info
 
 
 def oracle_documents(bundle: dict, labels: dict) -> list[dict]:
@@ -245,9 +280,7 @@ def run(data_dir, out, method: str, client: Client | None = None, workers: int =
     hint_text = schema_hint(labels.values()) if hint else ""
     if limit:
         bundles = bundles[:limit]
-    done = set()
-    if out.exists():
-        done = {json.loads(ln)["bundle"] for ln in out.open(encoding="utf-8") if ln.strip()}
+    done = drop_failed(out, "bundle")
     todo = [b for b in bundles if b["id"] not in done]
     out.parent.mkdir(parents=True, exist_ok=True)
     meta = out.with_suffix(".meta.json")

@@ -35,6 +35,7 @@ from pathlib import Path
 
 from .common import PATCH, dumps, fit, load_resized, read_jsonl, tokens_of, write_jsonl
 from .gen import load
+from .run import drop_failed, failed
 from .pages import doc_content, list_schema, page_answer, page_views
 from .parse import parse_output
 from .rows import DROPPED, NAME, OUTCOMES, classify_lists, row_geometry, same_text_prev
@@ -198,7 +199,7 @@ def run_probes(data_dir, out, client=None, workers: int = 8, simulate: float = 0
     data_dir, out = Path(data_dir), Path(out)
     items = read_jsonl(out / "items.jsonl")
     path = out / "answers.jsonl"
-    done = {r["id"] for r in read_jsonl(path)} if path.exists() else set()
+    done = drop_failed(path, "id")
     todo = [it for it in items if it["id"] not in done]
     cache: dict = {}
     with path.open("a", encoding="utf-8") as f, ThreadPoolExecutor(max(1, workers)) as ex:
@@ -228,7 +229,7 @@ def score_probes(data_dir, out) -> Path:
     """답 → 대상 쪽 정답 행마다 결과 (<out>/rows.jsonl)."""
     data_dir, out = Path(data_dir), Path(out)
     items = {it["id"]: it for it in read_jsonl(out / "items.jsonl")}
-    answers = {a["id"]: a for a in read_jsonl(out / "answers.jsonl")}
+    answers = {a["id"]: a for a in read_jsonl(out / "answers.jsonl") if not failed(a)}  # 요청 실패는 빼고
     cache: dict = {}
     recs = []
     for iid, it in items.items():

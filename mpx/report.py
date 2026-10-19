@@ -9,6 +9,7 @@ from pathlib import Path
 
 from .common import read_jsonl
 from .gen import load
+from .run import failed
 from .score import cost, score_bundle, summarize
 
 KEY_METRICS = [
@@ -38,7 +39,7 @@ def score_run(data_dir, pred_path) -> tuple[dict, list[dict]]:
     """예측 파일 하나 → (요약, 묶음별 채점 결과)."""
     bundles, labels = load(data_dir)
     by_id = {b["id"]: b for b in bundles}
-    preds = [p for p in read_jsonl(pred_path) if p["bundle"] in by_id]
+    preds = [p for p in read_jsonl(pred_path) if p["bundle"] in by_id and not failed(p)]
     results = [score_bundle(by_id[p["bundle"]], labels, p["docs"]) for p in preds]
     target_only = [{**r, "docs": [d for d in r["docs"] if d["target"]]} for r in results]
     overall = summarize(target_only)["all"]

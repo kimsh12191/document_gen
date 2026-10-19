@@ -285,9 +285,11 @@ def test_run_models_runs_each_model_on_same_data(tmp_path, monkeypatch):
     def fake_run_all(out, **kw):
         started.wait()
         calls.append((Path(out).name, kw["model"], kw["data"], kw["max_tokens"]))
-        return {"outputs": {"out": str(out)}}
+        return {"outputs": {"out": str(out)}, "failed": {}}
 
     monkeypatch.setattr(pipeline, "run_all", fake_run_all)
+    smoked = []
+    monkeypatch.setattr(pipeline, "smoke", lambda client, data: smoked.append(client.model))
     monkeypatch.setattr(pipeline, "compare", lambda runs, data, out: seen.update(runs=runs, data=data) or {"out": str(out)})
     urls = {name: f"http://127.0.0.1:{s.server_port}/v1" for name, s in zip(("base", "bank"), servers)}
     s = pipeline.run_models(tmp_path, urls, data=str(tmp_path / "d"), max_tokens=20480)
@@ -295,6 +297,7 @@ def test_run_models_runs_each_model_on_same_data(tmp_path, monkeypatch):
         srv.shutdown()
     assert sorted(calls) == sorted((n, f"served-{srv.server_port}", str(tmp_path / "d"), 20480)
                                    for n, srv in zip(("base", "bank"), servers))
+    assert sorted(smoked) == sorted(f"served-{srv.server_port}" for srv in servers)  # 시작 전에 모델마다 시험 요청
     assert seen["runs"] == {"base": tmp_path / "base", "bank": tmp_path / "bank"} and s["outputs"] == {"out": str(tmp_path / "compare")}
 
 
@@ -339,3 +342,17 @@ def test_results_page_renders_tables_and_links(tmp_path):
     assert "compare/paired.html" in index and "base/analysis.html" in index and "1.05" in index
     assert "class='bad'" in index  # base 1.05, bank 값 없음(1.0) → 기본값이 다르다는 경고
     assert (tmp_path / "compare" / "paired.html").exists()
+
+
+def test_failed_requests_are_retried_and_not_counted(tmp_path):
+    from mpx.common import write_jsonl
+    from mpx.run import drop_failed, failed
+
+    ok = {"bundle": "a", "usage": [{"finish_reason": "stop"}]}
+    bad = {"bundle": "b", "usage": [{"finish_reason": "stop"}, {"error": "HTTP 400"}]}
+    probe_bad = {"id": "p", "usage": {"error": "timeout"}}
+    assert not failed(ok) and failed(bad) and failed(probe_bad)
+    path = tmp_path / "preds.jsonl"
+    write_jsonl(path, [ok, bad])
+    assert drop_failed(path, "bundle") == {"a"}  # b 는 지워져 다시 묻게 됨
+    assert [r["bundle"] for r in __import__("mpx.common").common.read_jsonl(path)] == ["a"]

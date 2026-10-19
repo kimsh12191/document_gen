@@ -33,7 +33,7 @@ from pathlib import Path
 
 from . import analyze, gen, paired, probe, report, results, rows, viewer
 from .common import read_jsonl
-from .run import Client, run, served_model
+from .run import Client, failed, run, served_model, smoke
 
 CHECK_KEYS = ("page_assign_acc", "doc_pages_exact", "field_f1", "row_f1", "boundary_row_recall", "cont_row_recall")
 SIM_EXPECT = ("partial", "misread", "misplaced", "skipped", "cut_length")
@@ -63,10 +63,16 @@ def run_all(out, n_test: int = 6, workers: int = 4, base_url: str | None = None,
     t = _step(summary, "1 생성", t)
 
     client = Client(base_url, model, max_tokens, sampling=sampling) if base_url else None
+    if client:
+        summary["smoke"] = smoke(client, test)
     paths = []
     for method in ("allatonce", "pagewise"):
         if client:
-            paths.append(run(test, preds / f"{method}.jsonl", method, client, workers, budget, hint=hint))
+            path = preds / f"{method}.jsonl"
+            run(test, path, method, client, workers, budget, hint=hint)
+            if _n_failed(path):  # 한 번 더 (실패한 묶음만 다시 묻는다)
+                run(test, path, method, client, workers, budget, hint=hint)
+            paths.append(path)
             continue
         paths.append(run(test, preds / f"oracle_{method}.jsonl", method, None, workers, budget, hint=hint))
         if simulate:
@@ -83,6 +89,8 @@ def run_all(out, n_test: int = 6, workers: int = 4, base_url: str | None = None,
     probe_runs = {"probes": (client, 0.0)} if client else {"probes_oracle": (None, 0.0), "probes_simulated": (None, max(simulate, 0.1))}
     for name, (c, sim) in probe_runs.items():
         probe.run_all(test, out / name, c, max_items=probe_items, workers=workers, simulate=sim)
+        if c and _n_failed(out / name / "answers.jsonl"):
+            probe.run_all(test, out / name, c, max_items=probe_items, workers=workers, simulate=sim)
     t = _step(summary, "5 통제 실험", t)
 
     report.compare(test, paths, out / "report")
@@ -90,12 +98,21 @@ def run_all(out, n_test: int = 6, workers: int = 4, base_url: str | None = None,
     t = _step(summary, "6 종합·viewer", t)
 
     summary["checks"] = _checks(out, paths, probe_runs) if client is None else {}
+    summary["failed"] = {p.stem: _n_failed(p) for p in paths}
+    summary["failed"].update({name: _n_failed(out / name / "answers.jsonl") for name in probe_runs})
+    if any(summary["failed"].values()):
+        print(f"경고: 요청이 실패해 결과에서 뺀 건수 {summary['failed']} — 같은 명령을 다시 돌리면 실패한 것만 다시 묻는다",
+              file=sys.stderr)
     summary["outputs"] = {"analysis": str(out / "analysis.md"), "probes": [str(out / n / "probes.md") for n in probe_runs],
                           "probe_viewer": [str(out / n / "viewer.html") for n in probe_runs],
                           "report": str(out / "report" / "report.md"), "viewer": summary["viewer"]}
     (out / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
     summary["results"] = str(results.build(out))
     return summary
+
+
+def _n_failed(path) -> int:
+    return sum(failed(r) for r in read_jsonl(path)) if Path(path).exists() else 0
 
 
 def run_models(out, models: dict, n_test: int = 6, workers: int = 4, data: str | None = None,
@@ -108,6 +125,8 @@ def run_models(out, models: dict, n_test: int = 6, workers: int = 4, data: str |
     if not data:
         gen.generate(test, n_test, "test", test_compose, workers=workers, twins=True)
     served = {name: served_model(url, name) for name, url in models.items()}
+    for name, url in models.items():  # 하나라도 설정이 틀렸으면 아무것도 돌리기 전에 멈춘다
+        smoke(Client(url, served[name], kw.get("max_tokens", 20480), sampling=kw.get("sampling")), test)
     with ThreadPoolExecutor(len(models)) as ex:
         futs = {name: ex.submit(run_all, out / name, workers=workers, base_url=url, model=served[name],
                                 data=str(test), **kw)
@@ -117,7 +136,8 @@ def run_models(out, models: dict, n_test: int = 6, workers: int = 4, data: str |
     cmp = compare({name: out / name for name in models}, test, out / "compare")
     summary = {"out": str(out), "data": str(test), "models": {n: {"url": u, "served": served[n]} for n, u in models.items()},
                "seconds": {"모델별 ①~⑥ (동시)": round(t - t0, 1), "⑦ 비교": round(time.monotonic() - t, 1)},
-               "runs": {n: s["outputs"] for n, s in runs.items()}, "outputs": cmp}
+               "runs": {n: s["outputs"] for n, s in runs.items()}, "outputs": cmp,
+               "smoke": {n: s.get("smoke") for n, s in runs.items()}, "failed": {n: s["failed"] for n, s in runs.items()}}
     (out / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
     summary["results"] = str(results.build(out))
     return summary

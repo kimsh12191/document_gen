@@ -139,8 +139,14 @@ F에서 1.0일 때 그 차이가 사라지면 디코딩 설정 탓(설정만 바
 - **생성(Chromium 필요).** 내부망에서는 docgen 도커 이미지를 쓴다([docs/DOCKER.md](docs/DOCKER.md)). 직접 설치하면
   `pip install -r requirements.txt`, 그리고 Chromium 경로를 `CHROMIUM_PATH`에 준다.
 - **모델 실행.** OpenAI 호환 서버면 된다(vLLM 등). `run_experiment.sh`는 ms-swift(`swift deploy`)로 vLLM 서버를 띄운다.
-  API 키가 필요하면 환경 변수 `INTERNAL_MODEL_API_KEY`.
+  API 키가 필요하면 환경 변수 `INTERNAL_MODEL_API_KEY`. 생성이 끝난 묶음으로 `pipeline`만 돌릴 때는 Pillow만 있으면 된다
+  (Chromium, jinja2 불필요). 그래서 GPU 환경에 Chromium이 없으면 docgen 도커에서 `mpx gen`으로 묶음을 만들어 `data/test`에
+  두고 `run_experiment.sh`를 돌리면 된다(묶음이 `N_TEST`개 이상 있으면 생성을 건너뜀).
 - 모든 명령은 저장소 루트에서 `python -m mpx <명령>`.
+- **요청 실패 처리.** 서버 요청이 실패하면 답이 없어 모든 행이 누락으로 잡히므로 모델 결과로 세지 않는다.
+  - 시작 전에 모델마다 시험 요청을 한 번 보낸다. 실패하면 아무것도 돌리지 않고 멈춘다(요청 형식·주소·서버 설정 문제).
+  - 실행 중 실패한 묶음·문항은 결과(행 기록, 채점, 통제 실험)에서 빼고, 단계가 끝나면 한 번 더 묻는다.
+  - 그래도 남은 실패 건수는 `summary.json`의 `failed`와 결과 첫 화면에 빨간 경고로 나온다. 같은 명령을 다시 돌리면 실패한 것만 다시 묻는다.
 
 ### 2.2 한 번에 실행
 

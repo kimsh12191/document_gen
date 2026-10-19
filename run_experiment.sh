@@ -43,8 +43,18 @@ SERVERS=()
 stop() { for pid in "${SERVERS[@]}"; do kill "$pid" 2>/dev/null || true; done; wait 2>/dev/null || true; }
 trap stop EXIT
 
-log "1. 생성: 평가 $N_TEST 묶음"
-$PY -m mpx gen --out "$DATA/test" --n "$N_TEST" --split test --twins --workers "$WORKERS"
+command -v swift >/dev/null || { log "swift(ms-swift) 가 PATH 에 없습니다"; exit 1; }
+have=$(cat "$DATA/test/bundles.jsonl" 2>/dev/null | grep -c . || true)
+if [ "$have" -ge "$N_TEST" ]; then
+  log "1. 생성 건너뜀: $DATA/test 에 이미 $have 묶음"
+else
+  log "1. 생성: 평가 $N_TEST 묶음 (Chromium 필요. GPU 환경에 없으면 docgen 도커에서 먼저 만들어 $DATA/test 에 두기)"
+  $PY -m mpx gen --out "$DATA/test" --n "$N_TEST" --split test --twins --workers "$WORKERS"
+fi
+# 한 번에 넣기는 묶음의 모든 쪽을 한 요청에 넣으므로, 서버의 요청당 이미지 수 상한을 가장 큰 묶음 이상으로
+MAX_PAGES=$($PY -c "import json; print(max(len(json.loads(l)['pages']) for l in open('$DATA/test/bundles.jsonl') if l.strip()))")
+MM_LIMIT=$(( MAX_PAGES > 32 ? MAX_PAGES : 32 ))
+log "가장 큰 묶음 $MAX_PAGES 쪽 → 요청당 이미지 상한 $MM_LIMIT"
 
 model_args=()
 for i in "${!specs[@]}"; do
@@ -56,7 +66,7 @@ for i in "${!specs[@]}"; do
   log "2. 서버 시작: $name ($path) GPU $gpu, 포트 $port, 메모리 $util"
   CUDA_VISIBLE_DEVICES=$gpu IMAGE_MAX_TOKEN_NUM=3600 swift deploy --model "$path" --model_type qwen3_5 \
     --infer_backend vllm --vllm_max_model_len "$MAX_MODEL_LEN" --vllm_max_num_seqs 16 \
-    --vllm_limit_mm_per_prompt '{"image": 32}' --vllm_gpu_memory_utilization "$util" \
+    --vllm_limit_mm_per_prompt "{\"image\": $MM_LIMIT}" --vllm_gpu_memory_utilization "$util" \
     --host 127.0.0.1 --port "$port" --served_model_name "$name" --enable_thinking false --max_new_tokens "$MAX_TOKENS" \
     > "$RUNS/logs/serve_$name.log" 2>&1 &
   SERVERS+=($!)

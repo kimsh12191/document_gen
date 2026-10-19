@@ -40,6 +40,7 @@ from docgen.bench.metrics import norm_text
 from .common import PATCH, fit, page_budget, read_jsonl, tokens_of
 from .gen import load
 from .pages import flatten, page_views, split_key
+from .run import failed
 from .score import MATCH_MIN, _filled, align, gt_docs, match_docs, row_sim
 
 OUTCOMES = ("exact", "partial", "misread", "misplaced", "skipped", "cut_length", "cut_stop", "doc_missing")
@@ -321,7 +322,7 @@ def collect(data_dir, pred_paths, out) -> Path:
     with out.open("w", encoding="utf-8") as f:
         for p in pred_paths:
             for pred in read_jsonl(p):
-                if pred["bundle"] in by_id:
+                if pred["bundle"] in by_id and not failed(pred):  # 요청 실패는 모델 결과가 아님
                     for r in row_records(by_id[pred["bundle"]], labels, pred, Path(p).stem):
                         f.write(json.dumps(r, ensure_ascii=False) + "\n")
     return out
