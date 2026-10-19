@@ -1,14 +1,13 @@
-"""research/multipage/mpx: 쪽 나누기·상태·병합·채점이 맞는지 (렌더링 없이 손으로 만든 정답으로)."""
+"""mpx: 쪽 나누기·병합·채점·행 결과 분류·통제 실험이 맞는지 (렌더링 없이 손으로 만든 정답으로)."""
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "research" / "multipage"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from mpx.pages import (build_state, doc_content, flatten, merge_pages, nest, page_answer, page_prompt,  # noqa: E402
-                       page_views, run_pagewise, split_key)
+from mpx.pages import (doc_content, flatten, merge_pages, nest, page_answer, page_prompt, page_views,  # noqa: E402
+                       run_pagewise, schema_hint, split_key)
 from mpx.run import normalize_documents, oracle_documents  # noqa: E402
 from mpx.score import balance_chain, score_bundle, summarize  # noqa: E402
-from mpx.sft import corrupt  # noqa: E402
 
 
 def _f(key, value, page, typ="text"):
@@ -67,33 +66,24 @@ def test_merge_pages_rebuilds_documents():
     assert docs[1]["lists"] == doc_content(page_views(st))["lists"]
 
 
-def test_state_kinds_and_prompt():
-    views = page_views(statement())
-    doc = merge_pages([page_answer(statement(), views, 0)])[0]
-    assert build_state(doc, "none") is None
-    assert build_state(doc, "doc") == {"document": {"type": "bank_statement", "name": "거래내역확인서", "pages_read": 1}}
-    tail = build_state(doc, "tail")
-    assert tail["lists"]["rows"]["count"] == 3 and tail["lists"]["rows"]["last"]["balance"] == "930,000"
-    ctx = build_state(doc, "context")
-    assert ctx["context"] == {"holder": "홍길동", "account_no": "123-45-678901", "opening_balance": "1,000,000"}
-    assert "앞 쪽까지 정리한 내용: 없음" in page_prompt(None)
-    noisy = corrupt(tail, __import__("random").Random(0))
-    assert noisy != tail and tail["lists"]["rows"]["count"] == 3  # 원본은 그대로
+def test_prompt_hint_lists_columns_of_target_types():
+    st = {**statement(), "target": True}
+    hint = schema_hint([st, idcard()])
+    assert "bank_statement" in hint and "rows[datetime, out, in, balance]" in hint
+    assert "resident_id_card" not in hint  # 목록 없는 서류·대상 아닌 서류는 빼고
+    assert page_prompt(hint).endswith(hint)
 
 
-def test_run_pagewise_passes_state_from_previous_answers():
+def test_run_pagewise_merges_pages_and_records_row_pages():
     st = statement()
     views = page_views(st)
-    prompts = []
 
     def answer(i, prompt):
-        prompts.append(prompt)
         return "", page_answer(st, views, i)
 
-    _, docs, states = run_pagewise(answer, 2, "tail")
-    assert states[0] is None and states[1]["lists"]["rows"]["count"] == 3
-    assert '"count": 3' in prompts[1] and "없음" in prompts[0]
-    assert len(docs) == 1 and len(docs[0]["lists"]["rows"]) == 6
+    raws, docs = run_pagewise(answer, 2)
+    assert len(raws) == 2 and len(docs) == 1 and len(docs[0]["lists"]["rows"]) == 6
+    assert docs[0]["row_pages"]["rows"] == [1, 1, 1, 2, 2, 2]
 
 
 def _score(labels_bundle, docs):

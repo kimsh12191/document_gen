@@ -58,7 +58,7 @@ python -m docgen.bench eval --bench /out/bench --pred /out/preds/m1
 
 모델 서버가 같은 서버에 있으면 `<모델서버>` 에 서버의 내부망 IP 를 쓰세요 (컨테이너 안의 `localhost` 는 컨테이너 자신입니다).
 
-은행 업무 학습(SFT → GRPO → 벤치마크 비교)에 쓸 학습 데이터·평가 세트를 만드는 방법은 [training/BANK_TASKS.md](../training/BANK_TASKS.md)의 1단계에 있습니다. SSH 없이 서버에서 `docker exec`로 바로 만들 수도 있습니다.
+이 연구의 묶음 생성(`python -m mpx gen ...`, `python -m mpx pipeline ...`)도 컨테이너 안 저장소 루트에서 같은 방식으로 실행합니다([README](../README.md)). SSH 없이 서버에서 `docker exec`로 바로 실행할 수도 있습니다.
 
 ## 참고
 
