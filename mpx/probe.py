@@ -8,13 +8,19 @@
   scope       B  출력 길이          문서 전체 행을 묻기(doc) / 그 쪽 행만(page)  입력: 문서 전 쪽, 쪽당 920토큰
   images      C  이미지 수          대상 쪽 + 같은 묶음 다른 쪽 0 / 2 / 4 / 8장  쪽당 920토큰, 대상 쪽 행만 묻기
   header      D  머리글             머리글 없는 판(no_header) / 반복한 쌍둥이 판(header)의 이어지는 쪽  한 장, 원래 해상도
+  repeat      E  같은 글자 반복     원본(original) / 연속 행의 적요·기재내용을 같게 만든 판(repeated)
+                                    거래내역서 전체를 묻기, 쪽당 920토큰
+  penalty     F  반복 억제 설정     repetition_penalty 1.0 / 1.05 / 1.1 (같은 글자 반복 판)   E 와 같음
 모든 질문에 그 서류의 목록 이름과 칸 이름을 알려 준다(키 이름 맞히기가 아니라 누락을 재기 위해).
-header 실험은 gen --twins 로 만든 데이터에서만 문항이 생긴다.
+header·repeat·penalty 실험은 gen --twins 로 만든 데이터에서만 문항이 생긴다. E·F 는 서류 한 건 전체가 문항 하나다.
+E 는 모델이 같은 글자가 이어지는 행을 건너뛰는지, F 는 그것이 디코딩의 반복 억제 때문인지를 가른다.
 
 파일 (<out>/)
-  items.jsonl    문항 {id, kind, cond, bundle, doc, label, page, scope, images:[{image, budget}], prompt}
+  items.jsonl    문항 {id, kind, cond, bundle, doc, label, page(서류 전체면 None), scope, images:[{image, budget}], prompt,
+                 sampling(F 만)}
   answers.jsonl  답 {id, raw, truncated, usage, lists}   (있으면 남은 문항만 이어서)
-  rows.jsonl     대상 쪽 정답 행마다 {kind, cond, doc, list, key, outcome, dropped, glyph_tok, page_tokens, out_pos}
+  rows.jsonl     대상 쪽 정답 행마다 {kind, cond, doc, list, key, outcome, dropped, in_run, glyph_tok, page_tokens, out_pos}
+                 in_run: 글자 칸이 바로 위 행과 같은 행
   probes.md      실험·조건별 결과 분포와 누락률, 기준 조건과의 짝지은 비교
 짝지은 비교: 같은 행(서류, 목록, 행 번호)이 기준 조건에서는 나왔는데 이 조건에서 빠진 수(+)와 그 반대(−).
 """
@@ -31,16 +37,20 @@ from .common import PATCH, dumps, fit, load_resized, read_jsonl, tokens_of, writ
 from .gen import load
 from .pages import doc_content, list_schema, page_answer, page_views
 from .parse import parse_output
-from .rows import DROPPED, NAME, OUTCOMES, classify_lists, row_geometry
+from .rows import DROPPED, NAME, OUTCOMES, classify_lists, row_geometry, same_text_prev
 from .score import gt_doc
 
-KINDS = ("resolution", "scope", "images", "header")
+KINDS = ("resolution", "scope", "images", "header", "repeat", "penalty")
 RES_BUDGETS = {"460": 460, "920": 920, "1800": 1800, "full": None}
 CTX = (0, 2, 4, 8)
+PENALTIES = ("1.0", "1.05", "1.1")
 PER_PAGE = 920
 MIN_ROWS = 3
-REF = {"resolution": "full", "scope": "page", "images": "0", "header": "header"}
-TITLE = {"resolution": "A 해상도", "scope": "B 출력 길이 (묻는 범위)", "images": "C 이미지 수", "header": "D 머리글"}
+REF = {"resolution": "full", "scope": "page", "images": "0", "header": "header", "repeat": "original", "penalty": "1.0"}
+TITLE = {"resolution": "A 해상도", "scope": "B 출력 길이 (묻는 범위)", "images": "C 이미지 수", "header": "D 머리글",
+         "repeat": "E 같은 글자 반복", "penalty": "F 반복 억제 설정 (repetition_penalty, 같은 글자 반복 판)"}
+ORDER = {"resolution": list(RES_BUDGETS), "images": [str(m) for m in CTX], "penalty": list(PENALTIES),
+         "scope": ["page", "doc"], "header": ["header", "no_header"], "repeat": ["original", "repeated"]}
 
 FORMAT = ('형식: {{"lists": {{"목록 이름": [{{"칸 이름": "값"}}, ...]}}}}\n'
           "값은 적힌 그대로 옮기세요. 목록 이름과 칸 이름 (이대로 쓰세요): {cols}")
@@ -84,18 +94,37 @@ def build(data_dir, out, kinds=KINDS, max_items: int = 40, seed: int = 0) -> Pat
     rng.shuffle(bases)
     items = []
 
-    def add(kind, cond, b, doc, label_id, k, scope, images, prompt):
-        items.append({"id": f"{kind}:{doc}:p{k + 1}:{cond}", "kind": kind, "cond": cond, "bundle": b["id"], "doc": doc,
-                      "label": label_id, "page": k, "scope": scope, "images": images, "prompt": prompt})
+    def add(kind, cond, b, doc, label_id, k, scope, images, prompt, sampling=None):
+        where = "all" if k is None else f"p{k + 1}"
+        items.append({"id": f"{kind}:{doc}:{where}:{cond}", "kind": kind, "cond": cond, "bundle": b["id"], "doc": doc,
+                      "label": label_id, "page": k, "scope": scope, "images": images, "prompt": prompt,
+                      **({"sampling": sampling} if sampling else {})})
 
     for kind in kinds:
-        picked = 0
+        picked, seen = 0, set()
         for b, t, doc, k in bases:
             if picked >= max_items:
                 break
             lb = labels[doc]
             name, cols = lb["doc_name"], _cols(lb)
-            if kind == "resolution":
+            if kind in ("repeat", "penalty"):  # 서류 한 건 전체가 문항 하나
+                if not lb.get("rep") or doc in seen:
+                    continue
+                seen.add(doc)
+                rl = _label(data_dir, lb["rep"], cache)
+                prompt = P_DOC.format(n=rl["n_pages"], name=name, cols=cols)
+
+                def imgs_of(label):
+                    return [{"image": im, "budget": PER_PAGE} for im in label["images"]]
+                if kind == "repeat":
+                    add(kind, "original", b, doc, doc, None, "doc", imgs_of(lb),
+                        P_DOC.format(n=lb["n_pages"], name=name, cols=cols))
+                    add(kind, "repeated", b, doc, lb["rep"], None, "doc", imgs_of(rl), prompt)
+                else:
+                    for pen in PENALTIES:
+                        add(kind, pen, b, doc, lb["rep"], None, "doc", imgs_of(rl), prompt,
+                            {"repetition_penalty": float(pen)})
+            elif kind == "resolution":
                 for cond, budget in RES_BUDGETS.items():
                     add(kind, cond, b, doc, doc, k, "page", [{"image": lb["images"][k], "budget": budget}],
                         P_ONE.format(name=name, cols=cols))
@@ -158,7 +187,7 @@ def answer_item(item: dict, data_dir: Path, client, cache: dict, simulate: float
         return {"id": item["id"], "raw": raw, "truncated": cut, "usage": {"finish_reason": finish},
                 "lists": (obj or {}).get("lists") if isinstance(obj, dict) else {}}
     imgs = [load_resized(data_dir / im["image"], im["budget"]) for im in item["images"]]
-    raw, u = client.ask(imgs, item["prompt"])
+    raw, u = client.ask(imgs, item["prompt"], item.get("sampling"))
     obj, repaired = parse_output(raw)
     lists = obj.get("lists") if isinstance(obj, dict) and isinstance(obj.get("lists"), dict) else {}
     return {"id": item["id"], "raw": raw, "truncated": repaired or u.get("finish_reason") == "length", "usage": u,
@@ -217,21 +246,23 @@ def score_probes(data_dir, out) -> Path:
             gt_lists = {p: [g["lists"][p][i] for i in ix] for p, ix in sel.items() if ix}
             sel = {p: ix for p, ix in sel.items() if ix}
         res = classify_lists(gt_lists, a.get("lists") or {}, bool(a.get("truncated")))
-        im = next((x for x in it["images"] if x["image"] == lb["images"][k]), it["images"][0])
-        pw = lb["pages"][k]
-        w, h = fit(pw["width"], pw["height"], im["budget"])
-        scale = w / pw["width"]
+        budget = {x["image"]: x["budget"] for x in it["images"]}
         pos = 0
         for p, ix in sel.items():
             for local, i in enumerate(ix):
                 e = res[p][local]
                 pos += 1
-                if g["row_page"][p][i] != k:
+                pg = g["row_page"][p][i]
+                if k is not None and pg != k:
                     continue
+                pw = lb["pages"][pg]
+                w, h = fit(pw["width"], pw["height"], budget.get(lb["images"][pg], PER_PAGE))
+                scale = w / pw["width"]
                 gm = geo[p][i] if len(geo.get(p, [])) == len(g["lists"][p]) else {}
                 recs.append({"id": iid, "kind": it["kind"], "cond": it["cond"], "doc": it["doc"], "doc_type": lb["doc_type"],
-                             "page": k, "list": p, "key": keys[p][i], "outcome": e["outcome"],
+                             "page": pg, "list": p, "key": keys[p][i], "outcome": e["outcome"],
                              "dropped": e["outcome"] in DROPPED, "truncated": bool(a.get("truncated")),
+                             "in_run": same_text_prev(g["lists"][p], i),
                              "glyph_tok": gm["glyph_px"] * scale / PATCH if gm.get("glyph_px") else None,
                              "page_tokens": tokens_of(w, h), "n_images": len(it["images"]), "out_pos": pos - 1})
     write_jsonl(out / "rows.jsonl", recs)
@@ -251,8 +282,7 @@ def summarize(rows: list[dict]) -> dict:
     for kind, conds in by.items():
         ref = {(r["doc"], r["list"], r["key"]): r["dropped"] for r in conds.get(REF[kind], [])}
         res[kind] = {}
-        order = list(RES_BUDGETS) if kind == "resolution" else sorted(conds, key=lambda c: (c != REF[kind], int(c) if c.isdigit() else c))
-        for cond in order:
+        for cond in ORDER.get(kind, sorted(conds)):
             rs = conds.get(cond, [])
             if not rs:
                 continue
@@ -269,7 +299,9 @@ def summarize(rows: list[dict]) -> dict:
                                "dropped": sum(r["dropped"] for r in rs), "truncated": sum(r["truncated"] for r in rs),
                                "glyph_tok": sum(g) / len(g) if g else None,
                                "page_tokens": sum(r["page_tokens"] for r in rs) / len(rs),
-                               "paired": paired, "worse": worse, "better": better}
+                               "paired": paired, "worse": worse, "better": better,
+                               "run_rows": sum(1 for r in rs if r.get("in_run")),
+                               "run_dropped": sum(1 for r in rs if r.get("in_run") and r["dropped"])}
     return res
 
 
@@ -281,16 +313,19 @@ def report_md(res: dict) -> str:
         if kind not in res:
             continue
         L += [f"## {TITLE[kind]} (기준: {REF[kind]})", "",
-              "| 조건 | 문항 | 행 | 글자 높이(토큰) | 쪽 토큰 | " + " | ".join(NAME[o] for o in OUTCOMES[:7]) + " | **누락** | 짝지은 비교 |",
-              "|---|---:|---:|---:|---:|" + "---:|" * 8 + "---|"]
+              "| 조건 | 문항 | 행 | 글자 높이(토큰) | 쪽 토큰 | " + " | ".join(NAME[o] for o in OUTCOMES[:7])
+              + " | **누락** | 같은 글자 행 누락 | 짝지은 비교 |",
+              "|---|---:|---:|---:|---:|" + "---:|" * 9 + "---|"]
         for cond, s in res[kind].items():
             pair = "기준" if cond == REF[kind] else (f"+{s['worse']} / −{s['better']} (짝 {s['paired']})" if s["paired"] else "—")
             gt = f"{s['glyph_tok']:.2f}" if s["glyph_tok"] else "—"
             L.append(f"| {cond} | {s['items']} | {s['rows']:,} | {gt} | {s['page_tokens']:,.0f} | "
-                     + " | ".join(_pct(s[o], s["rows"]) for o in OUTCOMES[:7]) + f" | **{_pct(s['dropped'], s['rows'])}** | {pair} |")
+                     + " | ".join(_pct(s[o], s["rows"]) for o in OUTCOMES[:7]) + f" | **{_pct(s['dropped'], s['rows'])}** | "
+                     + (f"{_pct(s['run_dropped'], s['run_rows'])} ({s['run_rows']}행)" if s["run_rows"] else "—") + f" | {pair} |")
         L.append("")
     if not res:
-        L.append("문항이 없습니다 (header 실험은 gen --twins 데이터가 필요).")
+        L.append("문항이 없습니다 (header·repeat·penalty 실험은 gen --twins 데이터가 필요).")
+    L += ["같은 글자 행 = 글자 칸(적요·기재내용)이 바로 위 행과 같은 행."]
     return "\n".join(L) + "\n"
 
 
@@ -330,9 +365,9 @@ def viewer(data_dir, out) -> Path:
             conds = by[base]
             ref = conds.get(REF[kind]) or next(iter(conds.values()))
             it = items[ref[0]["id"]]
-            img = _label(data_dir, it["label"], cache)["images"][it["page"]]
+            img = _label(data_dir, it["label"], cache)["images"][base[2]]
             first = True
-            for cond in (list(RES_BUDGETS) if kind == "resolution" else sorted(conds, key=lambda c: (c != REF[kind], c))):
+            for cond in ORDER.get(kind, sorted(conds)):
                 rs = sorted(conds.get(cond, []), key=lambda r: (r["list"], r["key"]))
                 if not rs:
                     continue
@@ -348,6 +383,36 @@ def viewer(data_dir, out) -> Path:
     path.write_text(f"<!doctype html><html lang='ko'><head><meta charset='utf-8'><title>통제 실험</title><style>{CSS}</style>"
                     f"</head><body>{''.join(parts)}</body></html>", encoding="utf-8")
     return path
+
+
+def compare(runs: dict, out) -> str:
+    """모델 여러 개의 통제 실험 결과({이름: probes 폴더})를 한 표로: 실험·조건마다 모델별 누락률(같은 글자 행 누락률)."""
+    out = Path(out)
+    res = {name: summarize(read_jsonl(Path(d) / "rows.jsonl")) for name, d in runs.items()}
+    names = list(res)
+    L = ["# 통제 실험 모델 비교", "", "칸: 누락 % (행 수). E·F 는 괄호 안에 같은 글자 행의 누락 %.", ""]
+    for kind in KINDS:
+        conds = [c for c in ORDER.get(kind, []) if any(c in res[n].get(kind, {}) for n in names)]
+        if not conds:
+            continue
+        L += [f"## {TITLE[kind]}", "", "| 조건 | " + " | ".join(names) + " |", "|---|" + "---:|" * len(names)]
+        for c in conds:
+            cells = []
+            for n in names:
+                s = res[n].get(kind, {}).get(c)
+                if not s:
+                    cells.append("—")
+                    continue
+                cell = f"{_pct(s['dropped'], s['rows'])} ({s['rows']:,})"
+                if kind in ("repeat", "penalty") and s["run_rows"]:
+                    cell += f" [{_pct(s['run_dropped'], s['run_rows'])}]"
+                cells.append(cell)
+            L.append(f"| {c} | " + " | ".join(cells) + " |")
+        L.append("")
+    md = "\n".join(L) + "\n"
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "probes_compare.md").write_text(md, encoding="utf-8")
+    return md
 
 
 def run_all(data_dir, out, client=None, kinds=KINDS, max_items: int = 40, workers: int = 8, simulate: float = 0.0) -> str:

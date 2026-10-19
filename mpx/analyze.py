@@ -25,7 +25,7 @@ NUMERIC = [("glyph_tok", "글자 높이(토큰)"), ("pitch_tok", "행 간격(토
            ("y_top", "쪽 안 세로 위치"), ("n_images", "요청 이미지 수"), ("rows_before", "출력에서 앞선 행 수"),
            ("row_frac", "목록 안 위치"), ("list_len", "목록 길이"), ("sim_neighbor", "이웃 행과 같은 칸 비율"),
            ("n_cells", "칸 수"), ("chars", "글자 수")]
-BINARY = [("boundary", "쪽 경계 행"), ("cont", "이어지는 쪽의 행"), ("no_header", "머리글 없는 쪽의 행"),
+BINARY = [("same_text_prev", "글자 칸이 위 행과 같음"), ("boundary", "쪽 경계 행"), ("cont", "이어지는 쪽의 행"), ("no_header", "머리글 없는 쪽의 행"),
           ("augmented", "증강(스캔·촬영·팩스)"), ("heavy", "긴 목록 서류")]
 LABEL = dict(NUMERIC + BINARY)
 CUT = ("cut_length", "cut_stop", "doc_missing")

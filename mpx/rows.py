@@ -25,6 +25,7 @@
   rows_before 출력에서 이 행 앞에 나올 정답 행 수 (묶음 서류 순서 기준 추정; 쪽 단위는 그 쪽 안에서)
   row_frac, list_len  목록 안 위치(0~1)와 목록 길이
   sim_neighbor 위·아래 행과 같은 값인 칸의 비율 (큰 쪽)
+  same_text_prev 글자 칸(적요·기재내용 같은 text 타입)이 모두 바로 위 행과 같음 ('같은 글자 반복' 행)
   n_cells, chars      채워진 칸 수, 글자 수
   boundary, cont, no_header, augmented, heavy   쪽 경계 행, 이어지는 쪽의 행, 머리글 없는 쪽의 행, 증강, 긴 목록 서류
 """
@@ -239,6 +240,15 @@ def _same_ratio(a: dict, b: dict | None) -> float:
     return sum(1 for k in keys if k in b and norm_text(a[k][0]) == norm_text(b[k][0])) / len(keys)
 
 
+def same_text_prev(rows: list[dict], i: int) -> bool:
+    """정답 행 i 의 글자(text 타입) 칸이 하나 이상 있고, 모두 바로 위 행과 같은가."""
+    if i == 0:
+        return False
+    cur = {k: v[0] for k, v in rows[i].items() if v[1] == "text" and _filled(v[0])}
+    prev = rows[i - 1]
+    return bool(cur) and all(k in prev and norm_text(prev[k][0]) == norm_text(c) for k, c in cur.items())
+
+
 def input_scale(label: dict, page: int, method: str, n_images: int, budget: int, per_page: int | None = None) -> float:
     """원래 쪽 이미지 → 모델 입력 크기의 비율 (run.py 가 줄이는 방식과 같게)."""
     p = (label.get("pages") or [{}])[page]
@@ -293,6 +303,7 @@ def row_records(bundle: dict, labels: dict, pred: dict, run_name: str, budget: i
                     "rows_before": same_page_before if method == "pagewise" else before_bundle + i,
                     "sim_neighbor": max(_same_ratio(grow, grows[i - 1] if i else None),
                                         _same_ratio(grow, grows[i + 1] if i + 1 < len(grows) else None)),
+                    "same_text_prev": same_text_prev(grows, i),
                     "n_cells": len(cells), "chars": sum(len(str(c)) for c in cells),
                     "boundary": i in boundary, "cont": k > first,
                     "no_header": bool(g["no_repeat_header"]) and k > 0, "augmented": bool(g["augment"]),

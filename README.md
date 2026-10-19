@@ -22,7 +22,7 @@
 | | 2부 설정 | 여러 쪽 서류 전체를 뽑으려면 |
 |---|---|---|
 | 입력 | 한 문항에 이미지 최대 13장, 이미지 토큰 합 12,000 이하 (13장이면 장당 약 920토큰, 원래 해상도의 1/4) | 쪽이 늘수록 장당 해상도가 더 떨어짐 |
-| 출력 | 답 상한 4,096토큰 | 묶음 전체 답이 중앙값 약 8,600토큰, 최대 약 13,500토큰 (생성 데이터에서 정답을 그대로 쓴 길이) |
+| 출력 | 답 상한: 저장소의 2부 평가 설정은 4,096토큰, 실무에서는 보통 20,480토큰 | 묶음 전체 답이 중앙값 약 8,600토큰, 최대 약 13,500토큰 (생성 데이터에서 정답을 그대로 쓴 길이) |
 | 문항 | 묻는 항목만 답하는 질의형(대조, 심사 질문, 항목 추출) | 목록 전체를 옮겨야 함 |
 
 여러 쪽 문서에서 VLM의 추출 점수가 무너지고 행이 빠진다는 보고는 있다(ExtractBench, 50쪽 넘으면 87.9 → 27.9).
@@ -38,9 +38,9 @@
 
 | 단계 | 후보 | 예상 | 근거 |
 |---|---|---|---|
-| 출력 | **출력 길이** (상한에 잘림, 긴 출력 중간에 건너뜀) | 가장 유력 | 전체 답 중앙값 8,600토큰 > 2부 상한 4,096 |
+| 출력 | **출력 길이** (긴 출력 중간에 건너뜀, 상한에 잘림) | 가장 유력 | 전체 답 중앙값 8,600토큰. 상한 20,480이면 잘림은 드물고 건너뜀·스스로 끝냄으로 나타날 것. 상한 4,096이면 대부분 잘림 |
 | 읽기 | **행 간격 < 이미지 토큰 하나** (해상도) | 유력. 누락보다 값 틀림·행 합쳐짐으로 나타날 것 | 토큰 하나 = 32×32px. 한 번에 넣기에서 행 간격 중앙값 0.74토큰, **82%의 행이 1토큰보다 좁음** (원래 해상도는 1.60토큰, 14%) |
-| 출력 | 비슷한 행 반복 | 중간. 실제 거래내역에서 더 클 것 | "체크카드 / 자동이체" 같은 행이 연달아 나오면 반복으로 보고 건너뜀 |
+| 출력 | **같은 글자 반복** | 유력 (실무에서 같은 단어가 반복되면 누락한다는 관찰이 있음) | 두 경로가 있다. ① 디코딩의 반복 억제(`repetition_penalty`)가 이미 낸 토큰의 확률을 깎아, "체크카드 / 같은 가맹점"이 연달아 나오면 그 행을 건너뛰거나 바꿔 씀. vLLM 은 따로 주지 않으면 모델 폴더 `generation_config.json`의 값을 기본으로 쓴다. ② 모델 자체가 같은 모양의 행이 이어지면 어디까지 썼는지 놓침. 생성 데이터는 기재내용이 대부분 달라 이런 행이 드물어서, 따로 만든 쌍둥이 판으로 잰다(실험 E·F) |
 | 출력 | 스스로 일찍 끝냄 | 중간 | 학습 때 본 목록 길이 근처에서 멈춤 |
 | 여러 쪽 | 쪽 경계 | 중간 | 경계 앞뒤 행이 빠지거나 겹침 |
 | 여러 쪽 | 이미지 수 | 낮음 (문서 나누기 실수로는 나타날 수 있음) | |
@@ -48,6 +48,10 @@
 | 채점 착시 | 잘못 읽음, 다른 곳에 넣음 | 따로 셈 | 행은 냈지만 값이 틀려 짝이 안 지어지는 경우를 누락과 구분 |
 
 ### 1.4 방법 (3단계)
+
+**비교하는 모델.** Qwen3.5-9B 기본 모델(base)과 2부 은행 업무로 학습한 9B 모델을 **같은 묶음, 같은 질문**으로 잰다.
+원인이 학습으로 생긴 것인지(학습 모델에서만 큼), 모델 구조·디코딩에서 오는 것인지(둘 다 큼)를 가른다.
+결과는 모델마다 따로 낸 뒤 `mpx compare`로 한 표에 모은다.
 
 **1단계 — 관찰: 실제로 어디서, 어떻게 빠지는가.**
 묶음을 두 방식으로 돌린다. 하나는 2부처럼 모든 쪽을 한 질문에 넣는 `allatonce`, 다른 하나는 원래 해상도로 한 쪽씩 묻는 `pagewise`다.
@@ -77,6 +81,12 @@
 | B 출력 길이 | 문서 전체 행을 묻기 / 그 쪽 행만 묻기 | 입력 이미지(문서 전 쪽, 쪽당 920토큰) |
 | C 이미지 수 | 대상 쪽 + 같은 묶음의 다른 쪽 0 / 2 / 4 / 8장 | 쪽당 920토큰, 대상 쪽 행만 묻기 |
 | D 머리글 | 같은 내용을 머리글 반복 없게 / 있게 렌더링한 쌍둥이 판 | 그 쪽 한 장, 원래 해상도 |
+| E 같은 글자 반복 | 원본 거래내역 / 연속 3~8행의 적요·기재내용을 같게 만든 쌍둥이 판 (금액·잔액은 그대로라 행은 모두 다름) | 거래내역 전체를 묻기, 쪽당 920토큰 |
+| F 반복 억제 설정 | `repetition_penalty` 1.0 / 1.05 / 1.1 | E 의 같은 글자 반복 판 |
+
+E에서 반복 판의 누락이 늘고, 특히 "글자 칸이 바로 위 행과 같은 행"에서 늘면 같은 글자 반복이 원인이다.
+F에서 1.0일 때 그 차이가 사라지면 디코딩 설정 탓(설정만 바꾸면 해결), 남아 있으면 모델 자체의 문제다.
+1단계 관찰에도 같은 특징(`same_text_prev`)이 들어가 실제 분포에서의 영향을 함께 본다.
 
 **3단계 — 처방.** 원인에 맞는 처방을 고르고 비용과 함께 검증한다.
 
@@ -85,6 +95,7 @@
 | 출력 길이 | 쪽·구간 단위로 끊어 출력 (해상도는 그대로 둬도 됨) |
 | 해상도 | 원래 해상도로 한 장씩 |
 | 이미지 수 | 문서를 먼저 나누고 문서마다 따로 |
+| 같은 글자 반복 | 디코딩 탓이면 `repetition_penalty` 1.0, 모델 탓이면 반복 행이 많은 학습 데이터 |
 | 쪽 사이 의존 | 앞 쪽에서 얻은 것(서류 종류, 마지막 행, 머리글)을 다음 쪽에 넘김 |
 
 실제 서류는 정답이 없으므로 잔액 흐름(앞 잔액 − 출금 + 입금 = 잔액), 품목 합계, 예측 값이 사내 OCR 글자에 있는 비율로
@@ -97,7 +108,8 @@
   - 대상 서류 70%를 긴 목록으로 (`--heavy`): 거래 30~90줄, 등기 사항 다수 등. 기본 길이면 대상 서류가 거의 1쪽이라 이 연구의 재료가 없다.
   - 시나리오에 없는 거래내역서·패킹리스트를 실무에서 함께 내는 서류로 덧붙임
   - 30%는 이어지는 쪽에 표 머리글을 다시 찍지 않음 (`--no-repeat-header`)
-  - 머리글을 뺀 서류마다 머리글을 반복한 쌍둥이 판 (`--twins`, 실험 D)
+  - 쌍둥이 판 (`--twins`, 묶음에는 넣지 않고 통제 실험에만): 머리글을 뺀 서류의 머리글 반복 판(실험 D),
+    거래내역서의 같은 글자 반복 판(실험 E·F, 행의 약 절반이 바로 위 행과 같은 적요·기재내용)
 - 이미 만들어 둔 벤치마크 출력은 그대로 쓰지 않는다. 대상 서류가 대부분 1쪽이고, 행마다의 쪽·위치 정답이 저장돼 있지 않다.
 - 평가 고객 seed는 1,500,000부터 쓴다. docgen 기본 생성, 벤치마크와 겹치지 않는다.
 
@@ -106,6 +118,7 @@
 - 관찰: 진짜 누락(●)이 정답 행의 몇 %이고, 그중 건너뜀 / 길이에 잘림 / 스스로 끝냄이 각각 얼마인가.
 - 통제: 한 가지만 바꿨을 때 누락률 변화가 크고, 짝지은 비교에서 방향이 일관되면 원인으로 본다.
   예) 해상도를 1/4로 줄여도 그 쪽만 물으면 누락이 거의 없고, 같은 입력에서 문서 전체를 물을 때만 늘면 → 출력 길이가 원인.
+- 모델: base 9B와 학습 9B에서 같은 방향이면 구조·디코딩의 문제, 학습 모델에서만 크면 학습이 만든 문제.
 - 일반성: 다른 계열 모델 하나 이상에서도 같은 방향이어야 한다.
 - 처방: 누락을 줄이면서 비용(요청 수, 가장 긴 입력, 출력 토큰, 시간)이 어떤지 같이 보고한다.
 
@@ -134,16 +147,22 @@
 # 모델 없이 점검 (약 1분): 정답 답·오류 주입 답으로 분류·분석·통제 실험·viewer 가 맞는지
 python -m mpx pipeline --out runs/check --n-test 6
 
-# 띄워 둔 모델로
-python -m mpx pipeline --out runs/obs1 --n-test 100 --base-url http://127.0.0.1:8000/v1 --model bank-ocr
+# GPU 서버에서 base 9B 와 학습 9B 를 같은 묶음으로 재고 비교까지 (모델마다 vLLM 서버를 띄움)
+MODELS="base=/models/Qwen3.5-9B bank=/models/bank_sft_merged" GPUS=0 ./run_experiment.sh
+MODELS="..." N_TEST=10 PROBE_ITEMS=5 ./run_experiment.sh                    # 리허설 (작게)
+MODELS="..." MAX_TOKENS=4096 RUNS=runs_4096 ./run_experiment.sh             # 답 상한을 바꿔 한 번 더
 
-# GPU 서버에서 vLLM 서버까지 띄워 전부 (gen → observe → probe → score)
-START_MODEL=/models/bank_sft_merged GPUS=0 ./run_experiment.sh
-START_MODEL=... N_TEST=10 PROBE_ITEMS=5 ./run_experiment.sh                 # 리허설
-START_MODEL=... MAX_TOKENS=4096 RUNS=runs_4096 ./run_experiment.sh observe  # 2부 답 상한(4096)에서는?
+# 서버를 직접 띄워 둔 경우: 모델마다 pipeline, 그다음 비교
+python -m mpx gen      --out data/test --n 100 --split test --twins --workers 8
+python -m mpx pipeline --out runs/base --data data/test --base-url http://127.0.0.1:8000/v1 --model base9b
+python -m mpx pipeline --out runs/bank --data data/test --base-url http://127.0.0.1:8001/v1 --model bank9b
+python -m mpx compare  --runs base=runs/base bank=runs/bank --data data/test --out runs/compare
 ```
 
-`pipeline`은 ① 생성 → ② 관찰 실행 → ③ 행 기록·분류 → ④ 분석 → ⑤ 통제 실험 → ⑥ 종합·viewer를 차례로 한다.
+`pipeline`은 ① 생성(`--data`를 주면 건너뜀) → ② 관찰 실행 → ③ 행 기록·분류 → ④ 분석 → ⑤ 통제 실험 A~F → ⑥ 종합·viewer를
+차례로 한다. 답 상한 기본값은 20,480토큰(`--max-tokens`)이고, `repetition_penalty`는 주지 않으면 서버 기본값을 쓴다
+(`--repetition-penalty 1.0`으로 고정할 수 있음. 실험 F는 문항마다 직접 준다). `run_experiment.sh`는 모델 폴더의
+`generation_config.json`을 결과 폴더에 복사해 서버 기본값을 확인할 수 있게 한다.
 모델 없이 돌리면 각 실행을 정답 답(`oracle_*`)과 오류 주입 답(`simulated_*`)으로 두 번 하고, `summary.json`의
 `checks`가 모두 "통과"여야 한다.
 
@@ -154,10 +173,13 @@ START_MODEL=... MAX_TOKENS=4096 RUNS=runs_4096 ./run_experiment.sh observe  # 2�
 | `analysis.md` | 1단계: 결과 분포, 특징 구간별 누락률, 회귀 순위 |
 | `probes/probes.md` | 2단계: 실험·조건별 결과 분포, 누락률, 짝지은 비교 (모델 없이면 `probes_oracle/`, `probes_simulated/`) |
 | `probes/viewer.html` | 통제 실험 viewer: 기준 쪽마다 조건별 행 결과를 기호 줄로 |
-| `data/test/viewer/index.html` | 묶음 viewer: 쪽 이미지, 정답, 방법별 답, 행마다 결과 기호 |
+| `viewer/index.html` | 묶음 viewer: 쪽 이미지, 정답, 방법별 답, 행마다 결과 기호 |
 | `report/report.md` | 방법별 종합 점수(문서 나누기, 항목, 행, 경계 행)와 비용 |
 | `rows.jsonl` | 정답 행마다 결과와 특징 (직접 분석할 때) |
-| `summary.json` | 단계별 시간, 점검 결과 |
+| `summary.json` | 단계별 시간, 점검 결과, 답 상한·디코딩 설정 |
+
+모델 비교(`mpx compare`, `run_experiment.sh`의 `runs/compare/`): `analysis.md`(실행 이름 앞에 모델 이름, 예: `base_allatonce`,
+`bank_allatonce`), `probes_compare.md`(실험·조건마다 모델별 누락률, E·F는 같은 글자 행 누락률), `viewer/index.html`(모든 모델의 답).
 
 viewer 기호: ✓ 정확 · △ 일부 틀림 · ≠ 잘못 읽음 · ↷ 다른 곳에 · ✗ 건너뜀 · ✂ 길이에 잘림 · ■ 스스로 끝냄 · ∅ 문서 못 찾음.
 다른 PC에서 보려면 `python -m mpx viewer --data <out>/data/test --pred <out>/preds/*.jsonl --serve 7862 --host 0.0.0.0`.
@@ -171,7 +193,7 @@ python -m mpx run     --data data/test --method allatonce --base-url $URL --mode
 python -m mpx run     --data data/test --method pagewise  --base-url $URL --model $M --out preds/pagewise.jsonl
 python -m mpx rows    --data data/test --pred preds/*.jsonl --out rows.jsonl
 python -m mpx analyze --rows rows.jsonl --out analysis.md
-python -m mpx probe   --data data/test --out probes --base-url $URL --model $M        # --kinds resolution,scope 로 일부만
+python -m mpx probe   --data data/test --out probes --base-url $URL --model $M        # --kinds repeat,penalty 로 일부만
 python -m mpx score   --data data/test --pred preds/*.jsonl --out report
 python -m mpx viewer  --data data/test --pred preds/*.jsonl
 python -m mpx check   --data real_bundles --pred preds/real.jsonl                      # 정답 없는 실제 서류
@@ -222,11 +244,13 @@ tests/               test_docs.py, test_bench.py (생성기), test_mpx.py (연�
   - 확률적으로 긴 목록(`DOCGEN_HEAVY`)으로 만든다.
   - 머리글 반복을 끈다(`window.__noRepeatHeader`).
   - 촬영 조건대로 증강한다.
-  - `twins`면 머리글을 반복한 쌍둥이 판을 만든다. 같은 내용에 같은 증강 난수를 쓴다.
+  - `twins`면 쌍둥이 판을 만든다. 원본과 같은 증강 난수를 쓰고, 원본의 난수 흐름은 건드리지 않는다.
+    - `<서류ID>_twin`: 머리글을 뺀 여러 쪽 서류의 머리글 반복 판 (실험 D)
+    - `<서류ID>_rep`: 거래내역서의 같은 글자 반복 판 (실험 E·F). `_repeat_rows`가 연속 3~8행의 적요·기재내용(`REPEAT_COLS`)을 묶음 첫 행 값으로 바꿔 HTML을 고치고(`docgen.bench.perturb.apply`) 다시 렌더링한다
 - 출력 형식:
   - `bundles.jsonl` 한 줄: `{id, split, seed, scenario, task_name, docs: [서류ID], pages: [{image, doc, page}]}`
-  - `labels/<서류ID>.json`: docgen 정답 `fields`(키, 값, 타입, 쪽, 박스)에 `target, heavy, no_repeat_header, augment, twin`를 더한 것
-  - `labels/<서류ID>_twin.json`: 쌍둥이 판 정답
+  - `labels/<서류ID>.json`: docgen 정답 `fields`(키, 값, 타입, 쪽, 박스)에 `target, heavy, no_repeat_header, augment, twin, rep`를 더한 것
+  - `labels/<서류ID>_twin.json`, `_rep.json`: 쌍둥이 판 정답
 - `load(data)` → (묶음 목록, 서류ID → 정답). `stats(data)` → 묶음 쪽 수, 서류별 쪽 수·행 수.
 
 ### `mpx/pages.py` — 쪽별 정답, 질문, 병합
@@ -249,7 +273,8 @@ tests/               test_docs.py, test_bench.py (생성기), test_mpx.py (연�
 
 ### `mpx/run.py` — 모델 실행
 
-- `Client(base_url, model, max_tokens)`: OpenAI 호환 `chat/completions`. 생각 모드는 끄고 temperature 0으로 묻고, 일시 오류는 재시도한다.
+- `Client(base_url, model, max_tokens, sampling=None)`: OpenAI 호환 `chat/completions`. 생각 모드는 끄고 temperature 0으로 묻고, 일시 오류는 재시도한다.
+  `sampling`(예: `{"repetition_penalty": 1.0}`)을 주면 요청에 넣고, 없으면 서버 기본값을 쓴다. `ask(images, prompt, sampling)`으로 문항마다 덮어쓸 수 있다.
 - `run(data, out, method, client, workers, budget, limit, simulate, hint)`:
   - 묶음마다 실행해 jsonl로 쓴다. 결과 파일이 있으면 남은 묶음만 이어서 한다.
   - `allatonce`: 모든 쪽을 같은 비율로 줄여 이미지 토큰 합이 `budget`(12,000) 이하가 되게 한다.
@@ -276,7 +301,7 @@ tests/               test_docs.py, test_bench.py (생성기), test_mpx.py (연�
   - 그 외 → 건너뜀 또는 문서 못 찾음
 - `classify_lists(정답 목록들, 답 목록들, 잘림)`: 답 하나를 같은 규칙으로 나눈다(통제 실험용).
 - `row_records`: 대상 서류의 정답 행마다 결과와 특징을 기록한다.
-  - 특징: `glyph_tok`, `pitch_tok`, `page_tokens`, `y_top`, `n_images`, `rows_before`, `row_frac`, `list_len`, `sim_neighbor`, `n_cells`, `chars`, `boundary`, `cont`, `no_header`, `augmented`, `heavy`
+  - 특징: `glyph_tok`, `pitch_tok`, `page_tokens`, `y_top`, `n_images`, `rows_before`, `row_frac`, `list_len`, `sim_neighbor`, `same_text_prev`(글자 칸이 바로 위 행과 같음), `n_cells`, `chars`, `boundary`, `cont`, `no_header`, `augmented`, `heavy`
   - 글자 높이·행 간격은 정답 박스를 모델 입력 크기로 줄여 토큰(32px) 단위로 낸다.
 - `collect(data, preds, out)` → `rows.jsonl`.
 
@@ -293,13 +318,14 @@ tests/               test_docs.py, test_bench.py (생성기), test_mpx.py (연�
 ### `mpx/probe.py` — 통제 실험 (2단계)
 
 - `build(data, out, kinds, max_items)`: 대상 서류에서 행이 3개 이상인 쪽을 실험마다 최대 `max_items`개 고르고, 조건별 문항을 만든다.
-  - 문항 형식: `{id, kind, cond, doc, label, page, scope, images: [{image, budget}], prompt}`
+  E·F(`repeat`, `penalty`)는 같은 글자 반복 판이 있는 거래내역서 한 건 전체가 문항 하나다.
+  - 문항 형식: `{id, kind, cond, doc, label, page(서류 전체면 None), scope, images: [{image, budget}], prompt, sampling(F만)}`
   - 질문에는 그 서류의 목록·칸 이름을 넣는다.
 - `run_probes`: 모델(또는 정답 답·오류 주입)로 답한다. 결과 파일이 있으면 이어서 한다.
-- `score_probes`: 대상 쪽 정답 행마다 결과를 `rows.jsonl`에 쓴다. 기록 형식은 `{kind, cond, doc, list, key, outcome, dropped, glyph_tok, page_tokens, out_pos}`.
+- `score_probes`: 대상 쪽 정답 행마다 결과를 `rows.jsonl`에 쓴다. 기록 형식은 `{kind, cond, doc, list, key, outcome, dropped, in_run, glyph_tok, page_tokens, out_pos}`. `in_run`은 글자 칸이 바로 위 행과 같은 행.
 - `summarize`, `report`: 조건별 결과 분포와 누락률을 낸다. 짝지은 비교는 같은 서류·목록·행 번호끼리 기준 조건과 견준다. 출력은 `probes.md`, `probes.json`.
 - `viewer`: `viewer.html`.
-- `run_all`: 위 전부를 차례로.
+- `run_all`: 위 전부를 차례로. `compare({이름: probes 폴더}, out)`: 모델별 결과를 한 표로(`probes_compare.md`).
 
 ### `mpx/report.py`, `mpx/viewer.py` — 종합표와 viewer
 
@@ -311,12 +337,14 @@ tests/               test_docs.py, test_bench.py (생성기), test_mpx.py (연�
 
 ### `mpx/pipeline.py`, `mpx/cli.py`
 
-- `pipeline.run_all(out, n_test, workers, base_url, model, budget, ..., probe_items)`: 2.2의 한 번에 실행이다.
+- `pipeline.run_all(out, n_test, workers, base_url, model, budget, ..., probe_items, data, sampling)`: 2.2의 한 번에 실행이다.
+  `data`를 주면 생성을 건너뛰고 그 묶음을 쓴다(모델 여러 개를 같은 묶음으로).
+- `pipeline.compare({이름: pipeline 출력 폴더}, data, out)`: 모델별 결과를 합친다. 행 기록을 모아 다시 분석하고(실행 이름 앞에 모델 이름), 통제 실험 비교표와 모든 모델의 답을 담은 viewer를 만든다.
 - 모델 없이 돌리면 다음을 점검해 `summary.json`의 `checks`에 남긴다.
   - 정답 답은 모든 행이 정확하고 종합 지표 100%
   - 오류 주입 답은 넣은 오류 다섯 종류를 분류가 모두 찾음
   - 통제 실험: 정답 답은 누락 0, 오류 주입 답은 누락 > 0
-- `cli.py`: 명령 `gen, stats, run, score, viewer, rows, analyze, probe, pipeline, check`. `python -m mpx <명령> -h`로 옵션을 본다.
+- `cli.py`: 명령 `gen, stats, run, score, viewer, rows, analyze, probe, pipeline, compare, check`. `python -m mpx <명령> -h`로 옵션을 본다.
 
 ### `docgen/` 에서 쓰는 것
 

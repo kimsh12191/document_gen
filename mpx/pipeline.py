@@ -8,8 +8,8 @@
              넣은 실행(oracle_*)과 일부러 오류를 넣은 실행(simulated_*) 두 가지.
 ③ 행 기록    정답 행마다 결과 분류와 특징 → rows.jsonl
 ④ 분석       결과 분포, 특징별 누락률, 회귀 → analysis.md
-⑤ 통제 실험  해상도·출력 길이·이미지 수·머리글 → probes/probes.md, probes/viewer.html (모델 없으면 probes_oracle, probes_simulated)
-⑥ 종합       방법별 점수표 report/report.md, 묶음 viewer data/test/viewer/index.html
+⑤ 통제 실험  해상도·출력 길이·이미지 수·머리글·같은 글자 반복·반복 억제 설정 → probes/probes.md, probes/viewer.html (모델 없으면 probes_oracle, probes_simulated)
+⑥ 종합       방법별 점수표 report/report.md, 묶음 viewer viewer/index.html
 
 모델 없이 돌릴 때의 점검 (summary.json 의 checks, 모두 '통과'여야 함)
   oracle 실행은 모든 정답 행이 exact 이고 종합 지표가 100%
@@ -41,17 +41,21 @@ def _step(summary: dict, name: str, t0: float) -> float:
 
 def run_all(out, n_test: int = 6, workers: int = 4, base_url: str | None = None,
             model: str | None = None, budget: int = 12000, test_compose: str = "scenario",
-            simulate: float = 0.1, max_tokens: int = 16384, probe_items: int = 40, hint: bool = True) -> dict:
+            simulate: float = 0.1, max_tokens: int = 20480, probe_items: int = 40, hint: bool = True,
+            data: str | None = None, sampling: dict | None = None) -> dict:
+    """data 를 주면 생성을 건너뛰고 그 묶음을 쓴다 (모델 여러 개를 같은 묶음으로 잴 때)."""
     out = Path(out)
-    test, preds = out / "data" / "test", out / "preds"
-    summary: dict = {"out": str(out), "model": model or "oracle", "seconds": {}}
+    test, preds = (Path(data) if data else out / "data" / "test"), out / "preds"
+    summary: dict = {"out": str(out), "data": str(test), "model": model or "oracle", "max_tokens": max_tokens,
+                     "sampling": sampling, "seconds": {}}
     t = time.monotonic()
 
-    gen.generate(test, n_test, "test", test_compose, workers=workers, twins=True)
+    if not data:
+        gen.generate(test, n_test, "test", test_compose, workers=workers, twins=True)
     summary["stats"] = {"test": gen.stats(test)}
     t = _step(summary, "1 생성", t)
 
-    client = Client(base_url, model, max_tokens) if base_url else None
+    client = Client(base_url, model, max_tokens, sampling=sampling) if base_url else None
     paths = []
     for method in ("allatonce", "pagewise"):
         if client:
@@ -75,7 +79,7 @@ def run_all(out, n_test: int = 6, workers: int = 4, base_url: str | None = None,
     t = _step(summary, "5 통제 실험", t)
 
     report.compare(test, paths, out / "report")
-    summary["viewer"] = str(viewer.build(test, paths))
+    summary["viewer"] = str(viewer.build(test, paths, out / "viewer"))
     t = _step(summary, "6 종합·viewer", t)
 
     summary["checks"] = _checks(out, paths, probe_runs) if client is None else {}
@@ -113,3 +117,24 @@ def _checks(out: Path, paths: list[Path], probe_runs: dict) -> dict:
         if "header" not in kinds:
             checks[name] += " (머리글 실험 문항 없음: 머리글 없는 여러 쪽 서류가 생성되지 않았음)"
     return checks
+
+
+def compare(runs: dict, data, out) -> dict:
+    """모델별 pipeline 결과({이름: 폴더})를 합친다: 행 기록·분석(실행 이름 앞에 모델 이름), 통제 실험 비교, 묶음 viewer."""
+    out = Path(out)
+    out.mkdir(parents=True, exist_ok=True)
+    with (out / "rows.jsonl").open("w", encoding="utf-8") as f:
+        for name, d in runs.items():
+            for r in read_jsonl(Path(d) / "rows.jsonl"):
+                f.write(json.dumps({**r, "run": f"{name}_{r['run']}"}, ensure_ascii=False) + "\n")
+    analyze.run_analysis(out / "rows.jsonl", out / "analysis.md")
+    probe_dirs = {name: Path(d) / "probes" for name, d in runs.items() if (Path(d) / "probes" / "rows.jsonl").exists()}
+    if probe_dirs:
+        probe.compare(probe_dirs, out)
+    pred_paths, names = [], []
+    for name, d in runs.items():
+        for p in sorted((Path(d) / "preds").glob("*.jsonl")):
+            pred_paths.append(p)
+            names.append(f"{name}_{p.stem}")
+    index = viewer.build(data, pred_paths, out / "viewer", names=names)
+    return {"analysis": str(out / "analysis.md"), "probes": str(out / "probes_compare.md"), "viewer": str(index)}

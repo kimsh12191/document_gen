@@ -11,12 +11,15 @@
   heavy            대상 서류를 '내용이 많은 경우'(목록이 길어 여러 쪽)로 만들 확률 (docgen 의 DOCGEN_HEAVY)
   no_repeat_header 이어지는 쪽에 표 머리글을 다시 찍지 않을 확률 (앞 쪽 정보가 있어야 읽히는 쪽이 생긴다)
   augment          random 구성에서 스캔·촬영·팩스 증강 확률 (scenario 구성은 벤치마크 조건을 따른다)
-  twins            머리글을 뺀 여러 쪽 서류마다 머리글을 반복한 쌍둥이 판도 렌더링 (통제 실험 D, 묶음에는 넣지 않음)
+  twins            쌍둥이 판도 렌더링 (묶음에는 넣지 않고 통제 실험에만 쓴다)
+                     <sid>_twin  머리글을 뺀 여러 쪽 서류의 머리글 반복 판 (실험 D)
+                     <sid>_rep   거래내역서의 '같은 글자 반복' 판: 연속한 3~8행이 같은 적요·기재내용 (실험 E·F).
+                                 금액·잔액은 그대로라 행은 모두 다르다
 
 출력 (<out>/):
   images/<서류ID>_<seed>[_pN].png  (증강이면 .jpg)
   labels/<서류ID>_<seed>.json      docgen 정답(fields: 키·값·타입·쪽·박스) + heavy, no_repeat_header, augment, twin
-  labels/<서류ID>_<seed>_twin.json 쌍둥이 판 정답 (twins 일 때)
+  labels/<서류ID>_<seed>_twin.json, _rep.json  쌍둥이 판 정답 (twins 일 때)
   bundles.jsonl                     묶음 한 줄: {id, split, seed, scenario, docs: [서류ID], pages: [{image, doc, page}]}
 """
 from __future__ import annotations
@@ -35,15 +38,17 @@ DISTRACTORS = ("resident_id_card", "employment_certificate", "income_certificate
 SCENARIO_ADDONS = {"mortgage": ["bank_statement"], "jeonse_loan": ["bank_statement"],
                    "corporate_credit": ["bank_statement"], "fx_remittance": ["packing_list"]}
 ADDON_PROB = 0.8
+# 같은 글자 반복 판에서 같게 만드는 칸 (실무 거래내역처럼 '체크카드 / 같은 가맹점'이 연달아 나오게)
+REPEAT_COLS = {"bank_statement": ("type", "memo")}
 # 학습(500,000~)과 평가(1,500,000~) 고객이 겹치지 않게. docgen 기본 생성(0~)·벤치마크(1,000,000~, 10,000,000~)와도 다르다.
 SEED_BASE = {"train": 500_000, "test": 1_500_000}
 
 _WORKER: dict = {}
 
 
-def _save(renderer, html: str, raw, sid: str, out: Path, preset: str | None) -> tuple[list, list, list, bool]:
+def _save(renderer, html: str, raw, sid: str, out: Path, preset: str | None, aug_key: str | None = None):
     """html 하나 렌더링 → (이미지 경로들, 쪽 크기들, 정답 fields, overflow). preset 이 있으면 모든 쪽에 같은 증강.
-    증강 난수는 sid 의 앞부분(쌍둥이 판이면 원본 sid)으로 정해 쌍둥이 판도 같은 증강을 받는다."""
+    증강 난수는 aug_key(쌍둥이 판이면 원본 sid)로 정해 쌍둥이 판도 같은 증강을 받는다."""
     from docgen.cli import _aug_fields
     from docgen.schema import build_fields
 
@@ -56,7 +61,7 @@ def _save(renderer, html: str, raw, sid: str, out: Path, preset: str | None) -> 
 
         from docgen.augment import augment
 
-        arng = random.Random(f"mpx-aug:{sid.removesuffix('_twin')}")
+        arng = random.Random(f"mpx-aug:{aug_key or sid}")
         a_imgs, a_pages, tfs = [], [], []
         for img_path in images:
             aimg, _, tf = augment(Image.open(out / img_path), arng, preset, with_transform=True)
@@ -70,9 +75,37 @@ def _save(renderer, html: str, raw, sid: str, out: Path, preset: str | None) -> 
     return images, pages, fields, info["overflow"]
 
 
+def _repeat_rows(html: str, raw: list[dict], cols, rng: random.Random):
+    """연속한 3~8행 묶음에서 cols 칸을 묶음 첫 행 값으로 맞춘다 (행의 약 절반이 바로 위 행과 같은 글자가 됨)
+    → (html, raw), 칸을 못 찾으면 None."""
+    from docgen.bench import perturb
+
+    raw = [dict(x) for x in raw]
+    at = {x["key"]: i for i, x in enumerate(raw)}
+    n = 1 + max((int(k.split(".")[1]) for k in at if k.startswith("rows.") and k.split(".")[1].isdigit()), default=-1)
+    i = 0
+    while i < n:
+        if rng.random() >= 0.2:
+            i += 1
+            continue
+        length = rng.randint(3, 8)
+        for j in range(i + 1, min(n, i + length)):
+            for c in cols:
+                src, dst = at.get(f"rows.{i}.{c}"), at.get(f"rows.{j}.{c}")
+                if src is None or dst is None or raw[dst]["value"] == raw[src]["value"]:
+                    continue
+                html = perturb.apply(html, raw[dst]["key"], raw[dst]["value"], raw[src]["value"])
+                if html is None:
+                    return None
+                raw[dst]["value"] = raw[src]["value"]
+        i += length
+    return html, raw
+
+
 def _render_doc(renderer, spec, profile, seed, out: Path, rng: random.Random, opts: dict, preset: str | None) -> dict:
-    """서류 한 건 렌더링 → 이미지·정답 저장. opts['twins'] 이고 머리글을 뺀 서류면 머리글을 반복한 쌍둥이 판도
-    (<sid>_twin, 같은 내용·같은 증강) 만들어 label 의 'twin' 에 적는다 (통제 실험 D)."""
+    """서류 한 건 렌더링 → 이미지·정답 저장. opts['twins'] 면 쌍둥이 판도 만들어 label 의 'twin', 'rep' 에 적는다:
+    머리글을 뺀 여러 쪽 서류는 머리글 반복 판(<sid>_twin, 실험 D), 거래내역서는 같은 글자 반복 판(<sid>_rep, 실험 E·F).
+    쌍둥이 판은 원본과 같은 증강을 받고, 원본의 난수 흐름은 건드리지 않는다."""
     from docgen.render import render
 
     target = spec.id in opts["targets"]
@@ -86,20 +119,30 @@ def _render_doc(renderer, spec, profile, seed, out: Path, rng: random.Random, op
     no_head = target and rng.random() < opts["no_repeat_header"]
     sid = f"{spec.id}_{seed:07d}"
     page_html = html.replace("<head>", "<head><script>window.__noRepeatHeader = true;</script>", 1) if no_head else html
-    images, pages, fields, overflow = _save(renderer, page_html, raw, sid, out, preset)  # 스위치는 docgen/paginate.js 가 읽는다
+    images, pages, fields, overflow = _save(renderer, page_html, raw, sid, out, preset, aug_key=sid)  # 스위치는 paginate.js 가 읽음
     base = {"doc_type": spec.id, "doc_name": spec.name, "group": spec.group, "seed": seed, "target": target, "heavy": heavy,
             "augment": preset}
-    twin = None
+    twin = rep = None
     if no_head and opts.get("twins") and len(images) > 1:
         twin = f"{sid}_twin"
-        t_images, t_pages, t_fields, t_overflow = _save(renderer, html, raw, twin, out, preset)
-        t_label = {"id": twin, **base, "no_repeat_header": False, "twin_of": sid, "images": t_images, "pages": t_pages,
-                   "n_pages": len(t_images), "overflow": t_overflow, "fields": t_fields}
-        (out / "labels" / f"{twin}.json").write_text(json.dumps(t_label, ensure_ascii=False, indent=1), encoding="utf-8")
-    label = {"id": sid, **base, "no_repeat_header": no_head, "twin": twin,
+        _twin_label(renderer, html, raw, twin, out, preset, sid, {**base, "no_repeat_header": False, "twin_of": sid})
+    if target and opts.get("twins") and spec.id in REPEAT_COLS:
+        edited = _repeat_rows(page_html, raw, REPEAT_COLS[spec.id], random.Random(f"mpx-rep:{sid}"))
+        if edited and edited[0] != page_html:  # 행이 적어 묶음이 하나도 안 생기면 만들지 않음
+            rep = f"{sid}_rep"
+            _twin_label(renderer, edited[0], edited[1], rep, out, preset, sid,
+                        {**base, "no_repeat_header": no_head, "rep_of": sid})
+    label = {"id": sid, **base, "no_repeat_header": no_head, "twin": twin, "rep": rep,
              "images": images, "pages": pages, "n_pages": len(images), "overflow": overflow, "fields": fields}
     (out / "labels" / f"{sid}.json").write_text(json.dumps(label, ensure_ascii=False, indent=1), encoding="utf-8")
     return label
+
+
+def _twin_label(renderer, html, raw, tid: str, out: Path, preset, sid: str, base: dict) -> None:
+    images, pages, fields, overflow = _save(renderer, html, raw, tid, out, preset, aug_key=sid)
+    label = {"id": tid, **base, "images": images, "pages": pages, "n_pages": len(images), "overflow": overflow,
+             "fields": fields}
+    (out / "labels" / f"{tid}.json").write_text(json.dumps(label, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
 def _compose(seed: int, i: int, compose: str, targets, distractors, n_targets, n_distractors, rng, augment: float):

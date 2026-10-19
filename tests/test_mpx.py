@@ -218,7 +218,9 @@ def test_probe_oracle_and_simulated(tmp_path):
     from mpx import probe
 
     st, card = statement(), idcard()
-    for lb in (st, card):
+    st["rep"] = f"{st['id']}_rep"
+    rep = {**statement(), "id": st["rep"]}
+    for lb in (st, card, rep):
         lb.update(target=lb is st, images=[f"images/{lb['id']}_p{k + 1}.png" for k in range(len(lb["pages"]))],
                   pages=[{"width": 1000, "height": 1400}] * len(lb["pages"]), n_pages=len(lb["pages"]))
         (tmp_path / "labels").mkdir(exist_ok=True)
@@ -227,8 +229,30 @@ def test_probe_oracle_and_simulated(tmp_path):
     (tmp_path / "bundles.jsonl").write_text(_j.dumps(b) + "\n", encoding="utf-8")
     md = probe.run_all(tmp_path, tmp_path / "oracle", None, max_items=2, workers=1)
     rows = [_j.loads(x) for x in (tmp_path / "oracle" / "rows.jsonl").read_text().splitlines()]
-    assert {r["kind"] for r in rows} == {"resolution", "scope", "images"}
+    assert {r["kind"] for r in rows} == {"resolution", "scope", "images", "repeat", "penalty"}
+    items = [_j.loads(x) for x in (tmp_path / "oracle" / "items.jsonl").read_text().splitlines()]
+    assert {i["sampling"]["repetition_penalty"] for i in items if i["kind"] == "penalty"} == {1.0, 1.05, 1.1}
     assert all(r["outcome"] == "exact" for r in rows) and "A 해상도" in md
     probe.run_all(tmp_path, tmp_path / "sim", None, max_items=2, workers=1, simulate=0.5)
     rows = [_j.loads(x) for x in (tmp_path / "sim" / "rows.jsonl").read_text().splitlines()]
     assert any(r["outcome"] != "exact" for r in rows)
+
+
+def test_repeat_twin_makes_runs_of_same_text():
+    import random as _r
+
+    from docgen.entities import make_profile
+    from docgen.registry import load_all
+    from docgen.render import render
+    from mpx.gen import _repeat_rows
+    from mpx.rows import same_text_prev
+
+    html, raw, _ = render(load_all()["bank_statement"], make_profile(5), 5)
+    new_html, new_raw = _repeat_rows(html, raw, ("type", "memo"), _r.Random(2))
+    val = {x["key"]: x["value"] for x in new_raw}
+    n = 1 + max(int(k.split(".")[1]) for k in val if k.startswith("rows."))
+    rows = [{c: (val[f"rows.{i}.{c}"], "text", None) for c in ("type", "memo")} |
+            {"out": (val[f"rows.{i}.out"], "amount", None)} for i in range(n)]
+    same = sum(same_text_prev(rows, i) for i in range(n))
+    assert 0 < same < n and new_html != html
+    assert [x["value"] for x in new_raw if x["key"].endswith(".out")] == [x["value"] for x in raw if x["key"].endswith(".out")]

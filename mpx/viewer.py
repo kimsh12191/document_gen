@@ -44,15 +44,16 @@ def _page(title: str, body: str) -> str:
     return f"<!doctype html><html lang='ko'><head><meta charset='utf-8'><title>{_e(title)}</title><style>{CSS}</style></head><body>{body}</body></html>"
 
 
-def build(data_dir, pred_paths, out=None) -> Path:
+def build(data_dir, pred_paths, out=None, names=None) -> Path:
+    """names 를 주면 방법 이름으로 쓴다 (기본: 파일 이름). 모델 여러 개를 함께 볼 때."""
     data_dir = Path(data_dir)
     out = Path(out) if out else data_dir / "viewer"
     out.mkdir(parents=True, exist_ok=True)
     bundles, labels = load(data_dir)
     img_root = os.path.relpath(data_dir, out)
     methods, scores = {}, {}
-    for p in pred_paths:
-        name = Path(p).stem
+    for i, p in enumerate(pred_paths):
+        name = names[i] if names else Path(p).stem
         methods[name] = {r["bundle"]: r for r in read_jsonl(p)}
         scores[name] = {r["bundle"]: r for r in score_run(data_dir, p)[1]}
     names = list(methods)

@@ -10,6 +10,7 @@
   python -m mpx probe   --data data/test --out probes --base-url ... --model ...     # 2단계: 통제 실험
   python -m mpx viewer --data data/test --pred preds/*.jsonl --serve 7862
   python -m mpx pipeline --out runs/check --n-test 6            # 한 번에 (모델 없으면 정답·오류 주입으로 점검)
+  python -m mpx compare --runs base=runs/base bank=runs/bank --data data/test --out runs/compare   # 모델 비교
 """
 from __future__ import annotations
 
@@ -38,12 +39,16 @@ def cmd_stats(a):
     print(json.dumps(stats(a.data), ensure_ascii=False, indent=1))
 
 
+def _sampling(a) -> dict | None:
+    return {"repetition_penalty": a.repetition_penalty} if a.repetition_penalty is not None else None
+
+
 def cmd_run(a):
     from .run import Client, run
 
     if not a.oracle and not (a.base_url and a.model):
         sys.exit("--base-url 과 --model 이 필요합니다 (또는 --oracle)")
-    client = None if a.oracle else Client(a.base_url, a.model, a.max_tokens, a.timeout)
+    client = None if a.oracle else Client(a.base_url, a.model, a.max_tokens, a.timeout, sampling=_sampling(a))
     out = run(a.data, a.out, a.method, client, a.workers, a.budget, a.limit, a.simulate, hint=not a.no_hint)
     print(f"→ {out}")
 
@@ -88,7 +93,7 @@ def cmd_probe(a):
 
     if not a.oracle and not (a.base_url and a.model):
         sys.exit("--base-url 과 --model 이 필요합니다 (또는 --oracle)")
-    client = None if a.oracle else Client(a.base_url, a.model, a.max_tokens, a.timeout)
+    client = None if a.oracle else Client(a.base_url, a.model, a.max_tokens, a.timeout, sampling=_sampling(a))
     kinds = a.kinds.split(",") if a.kinds else KINDS
     print(run_all(a.data, a.out, client, kinds, a.max_items, a.workers, a.simulate))
 
@@ -97,8 +102,15 @@ def cmd_pipeline(a):
     from .pipeline import run_all
 
     s = run_all(a.out, a.n_test, a.workers, a.base_url, a.model, a.budget, a.test_compose, a.simulate, a.max_tokens,
-                a.probe_items, not a.no_hint)
+                a.probe_items, not a.no_hint, a.data, _sampling(a))
     print(json.dumps({k: s[k] for k in ("seconds", "checks", "outputs")}, ensure_ascii=False, indent=1))
+
+
+def cmd_compare(a):
+    from .pipeline import compare
+
+    runs = dict(x.split("=", 1) for x in a.runs)
+    print(json.dumps(compare(runs, a.data, a.out), ensure_ascii=False, indent=1))
 
 
 def cmd_check(a):
@@ -153,7 +165,8 @@ def main(argv=None):
     r.add_argument("--model")
     r.add_argument("--oracle", action="store_true", help="정답을 답으로 (파이프라인 확인용)")
     r.add_argument("--budget", type=int, default=12000)
-    r.add_argument("--max-tokens", type=int, default=8192)
+    r.add_argument("--max-tokens", type=int, default=20480)
+    r.add_argument("--repetition-penalty", type=float, help="주지 않으면 서버 기본값 (모델의 generation_config.json)")
     r.add_argument("--timeout", type=float, default=900)
     r.add_argument("--workers", type=int, default=8, help="동시에 처리할 묶음 수")
     r.add_argument("--limit", type=int, default=0)
@@ -195,7 +208,8 @@ def main(argv=None):
     o.add_argument("--model")
     o.add_argument("--oracle", action="store_true")
     o.add_argument("--simulate", type=float, default=0.0)
-    o.add_argument("--max-tokens", type=int, default=16384)
+    o.add_argument("--max-tokens", type=int, default=20480)
+    o.add_argument("--repetition-penalty", type=float, help="F 실험 외 문항에 줄 값. 주지 않으면 서버 기본값")
     o.add_argument("--timeout", type=float, default=900)
     o.add_argument("--workers", type=int, default=8)
     o.set_defaults(fn=cmd_probe)
@@ -207,12 +221,20 @@ def main(argv=None):
     q.add_argument("--base-url", help="없으면 정답·오류 주입으로 점검 실행")
     q.add_argument("--model")
     q.add_argument("--budget", type=int, default=12000)
-    q.add_argument("--max-tokens", type=int, default=16384)
+    q.add_argument("--max-tokens", type=int, default=20480)
+    q.add_argument("--repetition-penalty", type=float, help="주지 않으면 서버 기본값 (모델의 generation_config.json)")
+    q.add_argument("--data", help="이미 만든 묶음 폴더를 쓴다 (생성 건너뜀; 모델 여러 개를 같은 묶음으로)")
     q.add_argument("--test-compose", choices=["scenario", "random"], default="scenario")
     q.add_argument("--simulate", type=float, default=0.1, help="모델 없을 때 오류 주입 확률")
     q.add_argument("--probe-items", type=int, default=40, help="통제 실험마다 기준 쪽 수")
     q.add_argument("--no-hint", action="store_true")
     q.set_defaults(fn=cmd_pipeline)
+
+    m = sub.add_parser("compare", help="모델별 pipeline 결과를 합쳐 분석·통제 실험·viewer 비교")
+    m.add_argument("--runs", nargs="+", required=True, help="이름=pipeline 출력 폴더 (예: base=runs/base bank=runs/bank)")
+    m.add_argument("--data", required=True, help="모델들이 함께 쓴 묶음 폴더")
+    m.add_argument("--out", required=True)
+    m.set_defaults(fn=cmd_compare)
 
     k = sub.add_parser("check", help="정답 없는 실제 서류 묶음 검사 (OCR에 있는 값 비율, 잔액·합계)")
     k.add_argument("--data", required=True, help="bundles.jsonl 이 있는 폴더 (pages[].image, pages[].ocr)")

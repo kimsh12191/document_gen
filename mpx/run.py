@@ -34,18 +34,24 @@ from .parse import parse_output
 
 
 class Client:
-    def __init__(self, base_url: str, model: str, max_tokens: int, timeout: float = 900, api_key_env: str = "INTERNAL_MODEL_API_KEY"):
+    """OpenAI 호환 서버. sampling 으로 repetition_penalty 등을 직접 줄 수 있다. 주지 않으면 서버 기본값
+    (vLLM 은 모델 폴더의 generation_config.json 값을 기본으로 쓴다)."""
+
+    def __init__(self, base_url: str, model: str, max_tokens: int, timeout: float = 900,
+                 api_key_env: str = "INTERNAL_MODEL_API_KEY", sampling: dict | None = None):
         self.url = base_url.rstrip("/") + "/chat/completions"
         self.model, self.max_tokens, self.timeout = model, max_tokens, timeout
+        self.sampling = dict(sampling or {})
         self.headers = {"Content-Type": "application/json"}
         if os.environ.get(api_key_env):
             self.headers["Authorization"] = "Bearer " + os.environ[api_key_env]
 
-    def ask(self, images, prompt: str) -> tuple[str | None, dict]:
+    def ask(self, images, prompt: str, sampling: dict | None = None) -> tuple[str | None, dict]:
         content = [{"type": "image_url", "image_url": {"url": data_url(img)}} for img in images]
         content.append({"type": "text", "text": prompt})
         body = {"model": self.model, "messages": [{"role": "user", "content": content}], "temperature": 0,
-                "max_tokens": self.max_tokens, "chat_template_kwargs": {"enable_thinking": False}}
+                "max_tokens": self.max_tokens, "chat_template_kwargs": {"enable_thinking": False},
+                **self.sampling, **(sampling or {})}
         req = urllib.request.Request(self.url, data=json.dumps(body).encode(), headers=self.headers)
         delay = 2.0
         for attempt in range(4):
@@ -234,6 +240,7 @@ def run(data_dir, out, method: str, client: Client | None = None, workers: int =
     meta = out.with_suffix(".meta.json")
     meta.write_text(json.dumps({"data": str(data_dir), "method": method, "budget": budget,
                                 "model": client.model if client else "oracle", "simulate": simulate,
+                                "sampling": client.sampling if client else None,
                                 "hint": hint_text},
                                ensure_ascii=False, indent=1),
                     encoding="utf-8")
