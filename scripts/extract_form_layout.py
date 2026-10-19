@@ -13,7 +13,12 @@
   copy   자필 기재란 [가입자 자필기재 : 설명을 듣고 이해하였음] {label, rect, text}
 
 좌표는 PDF 포인트 [x0, y0, x1, y1] (쪽 왼쪽 위 기준). 결과는 add_template/layouts/<분류>/<No>.json.
-은행 전용칸(결재란·전산인자란·은행 사용란)은 고객이 쓰는 자리가 아니므로 뺀다.
+은행 전용칸(결재란·전산인자란·은행 사용란)은 고객이 쓰는 자리가 아니므로 items 에서 뺀다.
+대신 결재란의 도장 칸은 쪽마다 staff 로 따로 남긴다 (접수·처리 뒤 직원 도장·서명을 찍을 자리).
+
+  staff  결재란 칸 이름(담당·책임자·본인확인 …) 아래(또는 오른쪽)의 빈 칸  {role, rect}
+
+  python scripts/extract_form_layout.py --staff-only   # 기존 레이아웃에 staff 만 추가 (items 는 그대로)
 """
 from __future__ import annotations
 
@@ -38,6 +43,11 @@ BANK_ONLY = re.compile(r"^(담당자?|책임자|관리자|부점장|지점장|�
                        r"처리일자|처리자|영업점|조회자|확인|대조|합계)$")
 BANK_AREA = re.compile(r"(은행\s*(사용|기재|확인)란|영업점\s*(사용|기재|확인)|은행\s*기재\s*사항|"
                        r"고객은\s*기재하지|직원\s*(기재|확인)란|은행사용란|For\s*Bank\s*Use|당행\s*(사용|기재)란)", re.I)
+# 결재란 칸 이름 (여러 줄 머리글은 붙여서 본다: '본인확인 인감대조' → 본인확인인감대조)
+_STAFF_WORDS = (r"담당자?|책임자|관리자|부점장|지점장|검인|판매직원|본인확인|실명확인|인감대조|인감확인|서명확인|신분증확인|"
+                r"확인자|취급자|승인|검토자?|결재|팀장|과장|대리|심사역|부서장|센터장|접수자|입력자|처리자|조회자|확인|대조|"
+                r"차장|부장|점장|감사|주임|행원|출납|창구")
+STAFF_ROLE = re.compile(rf"^(?:(?:{_STAFF_WORDS})[/,·]?)+$|^계$")
 SENTENCE = re.compile(r"(합니다|바랍니다|하였|합은|입니다|습니다|십시오|하며|되며|않|경우에|드립니다|주시기|니다|[다요]\.$)")
 SIGN_MARK = re.compile(r"^\(?(서명\s*또는\s*\(?인\)?|서명\s*/\s*인|인\s*/\s*서명|서명|인|날인|서명\s*또는\s*날인|"
                        r"인감날인|Signature|사인)\)?$")
@@ -644,7 +654,27 @@ def analyze_page(page, pno: int) -> dict:
     items = kept
 
     return {"width": round(W, 2), "height": round(H, 2), "items": items,
-            "bank": [[round(v, 1) for v in b] for b in bank_rects]}
+            "bank": [[round(v, 1) for v in b] for b in bank_rects], "staff": staff_cells(toks, tables, bank_rects)}
+
+
+def staff_cells(toks: list[dict], tables, bank_rects) -> list[dict]:
+    """은행 전용 영역 안 결재란: 칸 이름 바로 아래(없으면 오른쪽)의 빈 칸 = 직원 도장·서명 자리."""
+    out = []
+    for t in tables:
+        cells = [list(c) for c in t.cells if c]
+        txt = [squash(join_text([x for x in toks if inside(x, c)])) for c in cells]
+        for c, head in zip(cells, txt):
+            if not STAFF_ROLE.match(head):
+                continue
+            cx, cy = (c[0] + c[2]) / 2, (c[1] + c[3]) / 2
+            if not any(b[0] - 1 <= cx <= b[2] + 1 and b[1] - 1 <= cy <= b[3] + 1 for b in bank_rects):
+                continue
+            below = [d for d, h in zip(cells, txt) if not h and abs(d[1] - c[3]) < 2 and hover(d, c) > 0.6 * (c[2] - c[0])]
+            right = [d for d, h in zip(cells, txt) if not h and abs(d[0] - c[2]) < 2 and vover(d, c) > 0.6 * (c[3] - c[1])]
+            cell = (below or right or [None])[0]
+            if cell and cell[2] - cell[0] > 14 and cell[3] - cell[1] > 10:
+                out.append({"role": head, "rect": [round(v, 1) for v in cell]})
+    return out
 
 
 def segments(page) -> tuple[list[tuple], list[tuple]]:
@@ -726,15 +756,40 @@ def extract(pdf: Path) -> dict:
     doc = pymupdf.open(pdf)
     pages = [analyze_page(p, i) for i, p in enumerate(doc)]
     doc.close()
-    return {"pages": [{"width": p["width"], "height": p["height"], "bank": p["bank"]} for p in pages],
+    return {"pages": [{"width": p["width"], "height": p["height"], "bank": p["bank"], "staff": p["staff"]} for p in pages],
             "items": [it for p in pages for it in p["items"]]}
+
+
+def add_staff(out: Path, only: list[int] | None) -> None:
+    """저장된 bank 영역은 그대로 두고, 쪽마다 결재란 도장 칸(staff)만 다시 뽑아 넣는다."""
+    n = cells = 0
+    for path in sorted(out.glob("*/*.json")):
+        lay = json.loads(path.read_text(encoding="utf-8"))
+        if only and lay["no"] not in only:
+            continue
+        doc = pymupdf.open(ROOT / lay["file"])
+        for pg, page in zip(lay["pages"], doc):
+            try:
+                tables = page.find_tables().tables if pg["bank"] else []
+            except Exception:  # noqa: BLE001
+                tables = []
+            pg["staff"] = staff_cells(tokens(page), tables, pg["bank"]) if tables else []
+            cells += len(pg["staff"])
+        doc.close()
+        path.write_text(json.dumps(lay, ensure_ascii=False, indent=1), encoding="utf-8")
+        n += 1
+    print(f"staff 추가 {n}건, 결재란 칸 {cells}개")
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--no", type=int, nargs="*", help="이 번호의 서식만 처리")
     ap.add_argument("--out", default=str(OUT))
+    ap.add_argument("--staff-only", action="store_true", help="기존 레이아웃 파일에 결재란 staff 만 추가 (나머지는 그대로)")
     args = ap.parse_args()
+    if args.staff_only:
+        add_staff(Path(args.out), args.no)
+        return
 
     rows = list(csv.DictReader((SRC / "다운로드_결과.csv").read_text(encoding="utf-8-sig").splitlines(True)))
     out = Path(args.out)

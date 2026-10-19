@@ -8,6 +8,7 @@ scripts/extract_form_layout.py 가 PDF 에서 뽑은 add_template/layouts/<분�
   date   "  년  월  일" 빈칸    → 숫자만 채우고 정답은 "2026년 1월 31일"
   sign   "(서명 또는 인)" 자리  → 이름 + 도장/서명/빈칸
   copy   자필 기재란            → 회색 안내 문구를 손글씨로 따라 쓴다
+  staff  결재란 (담당·책임자 …)  → 은행이 접수·처리한 서류처럼 직원 이름 도장·확인 도장·서명 (일부는 빈칸)
 
 글씨체는 서류마다 손글씨(나눔손글씨 펜·붓, 하이멜로디, 감자꽃) 또는 인쇄체(전산 입력)에서 고른다.
 배경 이미지와 손글씨 글꼴은 렌더러(image.py)가 https://docgen.local/ 주소로 넘겨준다.
@@ -33,6 +34,9 @@ HOST = "https://docgen.local/"
 PX = 96 / 72          # PDF pt → CSS px
 BG_ZOOM = 2 * PX      # 배경 해상도 = 렌더러 device_scale_factor(2) 에 맞춘다
 BANK = "하나은행"
+# 결재란: 접수·처리를 마친 서류의 비율, 처리된 서류에서 칸마다 찍혀 있을 확률
+STAFF_PROCESSED = 0.85
+STAFF_FILLED = 0.85
 
 HAND_FONTS = ["NanumPen", "NanumBrush", "HiMelody", "GamjaFlower"]
 # 손글씨 글꼴마다 글자 몸집이 달라 같은 칸 높이에서 키우는 비율
@@ -529,6 +533,23 @@ def build(no: int, p: Profile, rng: random.Random) -> dict:
             out.append(_visible(uniq("handwritten"), it["text"] if filled else None, it["rect"], page,
                                 {**style, "hand": True, "font": f"'{hf}'", "scale": HAND_SCALE[hf]}, rng,
                                 label=label or "자필기재", align="center"))
+    # 결재란: 은행이 접수·처리한 서류에는 직원 도장·서명이 있다. 같은 칸 이름은 서류 안에서 같은 직원.
+    cells = [(i, c) for i, pg in enumerate(lay["pages"]) for c in pg.get("staff", [])]
+    if cells:
+        processed = rng.random() < STAFF_PROCESSED
+        staff: dict[str, str] = {}
+        for page, c in cells:
+            role = c["role"]
+            name = staff.setdefault(role, K.make_name(rng, rng.choice("MF"))[0])
+            on = processed and rng.random() < STAFF_FILLED
+            x = rng.random()
+            square = x < 0.2                              # 사각 도장: 직원 이름 또는 '확인'·'검인'
+            text = rng.choice(["확인", "검인"]) if square and rng.random() < 0.4 else name
+            rect = _px(c["rect"])
+            size = max(22.0, min(44.0, min(rect[2] - rect[0], rect[3] - rect[1]) * rng.uniform(0.62, 0.85)))
+            out.append({"t": "mark", "page": page, "key": uniq("staff." + (norm(role) or "결재")), "label": role,
+                        "name": text, "seal": on and x < 0.7, "sign": on and x >= 0.7, "rect": rect,
+                        "rot": round(rng.uniform(-12, 8), 1), "staff": True, "square": square, "size": round(size, 1)})
     pages = [{"w": round(pg["width"] * PX, 1), "h": round(pg["height"] * PX, 1),
               "bg": f"{HOST}bg/{no}/{i}.png"} for i, pg in enumerate(lay["pages"])]
     return {"no": no, "pages": pages, "items": out, "style": style, "class": lay["class"], "name": lay["name"]}

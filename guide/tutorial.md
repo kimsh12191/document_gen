@@ -269,6 +269,7 @@ tail -f bank_pipeline.log
 | 실행할 명령만 보기 | `--dry-run` |
 | 완전히 새 실험 | 설정의 `workdir`을 새 이름으로 (예: `../runs/bank2`) |
 | 데이터 준비 설정을 바꿈 | `output_dir`(1부는 `config.json`, 2부는 `data.output_dir`)을 새 이름으로 |
+| 생성기(docgen) 코드가 바뀜 | 코드를 받은 뒤 2부 데이터를 **새 폴더**에 다시 만들기 (`OUT=/out/v1.2 bash scripts/make_bank_data.sh` — 이미 만든 폴더는 건너뛰므로 같은 폴더면 안 바뀜). 그다음 `data.train`·`data.benchmark`·`data.output_dir`·`workdir`를 새 경로로 바꿔 처음부터 |
 
 ---
 

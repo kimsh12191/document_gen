@@ -34,7 +34,7 @@ from .cases import CASES, OTHER_OK, Ctx
 from .prompts import P_CLASSIFY, P_CROSS, P_DOC_CHECK, P_KIE, P_MARKS, P_OCR_FIELD, P_OCR_PAGE, P_REVIEW
 from .rules import Bundle, questions, r_doc_valid, valid_candidates
 
-VERSION = "1.1"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관)
+VERSION = "1.2"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명
 SEED_SINGLE = 1_000_000   # 단일 서류 과제 고객 seed 시작
 SEED_BUNDLE = 2_000_000   # 업무 묶음 고객 seed 시작
 # split → (단일 서류 seed 시작, 묶음 seed 시작, 시나리오 간 간격). 묶음 i 의 고객 seed = 시작 + 시나리오 번호 × 간격 + i,

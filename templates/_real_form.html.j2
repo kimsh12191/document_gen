@@ -32,7 +32,10 @@ html, body { margin: 0; padding: 0; background: #fff; }
         width: 40px; height: 40px; border: 2px solid {{ d.style.seal }}; color: {{ d.style.seal }}; border-radius: 50%;
         font-size: 10px; line-height: 1.1; font-weight: 700; opacity: .82;
         font-family: 'Nanum Myeongjo', 'Noto Serif CJK KR', serif; word-break: keep-all; }
+.seal.sq { border-radius: 4px; }
 .scribble svg { display: block; overflow: visible; }
+.scribble.fit { display: flex; width: 100%; height: 100%; }
+.scribble.fit svg { max-width: 86%; max-height: 80%; width: auto; height: auto; margin: auto; }
 </style>
 </head>
 <body>
@@ -66,12 +69,13 @@ html, body { margin: 0; padding: 0; background: #fff; }
 {% endif %}
 {{ f.opts(it.key, it.options|map(attribute="text")|list, it.selected, it.label) }}
 {% elif it.t == "mark" %}
-{% set ks = f.mark(it.key, "seal", it.seal, it.name if it.seal else None, label=it.label, kind="인감") %}
-{% set kg = f.mark(it.key, "signature", it.sign, it.name if it.sign else None, label=it.label) %}
+{% set ks = f.mark(it.key, "seal", it.seal, it.name if it.seal else None, label=it.label, kind="행원인" if it.get("staff") else "인감") %}
+{% set kg = f.mark(it.key, "signature", it.sign, it.name if it.sign else None, label=it.label, kind="행원인" if it.get("staff") else None) %}
 {# 찍힌 도장·서명은 그 모양 자체가 위치, 없는 쪽은 자리(div)가 위치 #}
 <div class="mark"{% if not it.seal %} data-mark="{{ ks }}"{% endif %}{% if not it.sign %} data-mark2="{{ kg }}"{% endif %} style="left:{{ x0 }}px;top:{{ y0 }}px;width:{{ x1 - x0 }}px;height:{{ y1 - y0 }}px">
-{%- if it.seal %}<span class="seal" data-mark="{{ ks }}" style="transform:rotate({{ it.rot }}deg)">{{ seal_lines(it.name)|join(BR) }}</span>
-{%- elif it.sign %}<span class="scribble" data-mark="{{ kg }}">{{ scribble(it.name, f.rng) }}</span>{% endif %}</div>
+{%- if it.seal %}<span class="seal{{ ' sq' if it.get("square") }}" data-mark="{{ ks }}" style="transform:rotate({{ it.rot }}deg)
+{%- if it.get("size") %};width:{{ it.size }}px;height:{{ it.size }}px;font-size:{{ (it.size * 0.26)|round(1) }}px{% endif %}">{{ seal_lines(it.name)|join(BR) }}</span>
+{%- elif it.sign %}<span class="scribble{{ ' fit' if it.get("staff") }}" data-mark="{{ kg }}">{{ scribble(it.name, f.rng) }}</span>{% endif %}</div>
 {% endif %}
 {% endfor %}
 </div>

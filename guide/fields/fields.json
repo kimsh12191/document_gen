@@ -15735,6 +15735,48 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "이주원"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "남궁용현"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "강정도"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이정서"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이욱도"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "제갈경원"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "황영수"
    }
   ]
  },
@@ -16153,6 +16195,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "오윤우"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김서준"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김환아"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이도우"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이희예"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "장민인"
    },
    {
     "key": "GIINKIINEINNO",
@@ -17994,6 +18078,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김영주"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "조경린"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "장아린"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박현태"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "안옥준"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "엄혁재"
    }
   ]
  },
@@ -18124,6 +18250,48 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "오예아"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "강은지"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "조원찬"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박경민"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "주수아"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이찬현"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박희성"
    }
   ]
  },
@@ -18187,6 +18355,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "검인"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "권경승"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "명순우"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이선현"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "나경지"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "공현윤"
    },
    {
     "key": "목록[].고유식별정보",
@@ -18366,6 +18576,48 @@
     "example": null
    },
    {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이순정"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최철도"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "여은경"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김서재"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "윤미율"
+   },
+   {
     "key": "check.위고유식별정보제공에동의하십니까2",
     "label": "위고유식별정보제공에동의하십니까?",
     "type": "checkbox",
@@ -18538,6 +18790,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "결혼자금"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이하성"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "명희민"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이민린"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "조규예"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "검인"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이용정"
    },
    {
     "key": "일반개인정보",
@@ -19256,6 +19550,48 @@
     "example": null
    },
    {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김경진"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최승린"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김하진"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "왕우은"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "공채예"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "홍혁유"
+   },
+   {
     "key": "c",
     "label": "c",
     "type": "text",
@@ -19664,6 +20000,48 @@
     "type": "phone",
     "fill_rate": 1.0,
     "example": "010-5907-7253"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박호우"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김우혜"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "문민성"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "강동혜"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "옥훈수"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "진건우"
    }
   ]
  },
@@ -22333,6 +22711,34 @@
     "type": "phone",
     "fill_rate": 1.0,
     "example": "010-5907-7253"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "류동영"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이민도"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "반우현"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "조유호"
    }
   ]
  },
@@ -23006,6 +23412,62 @@
     "type": "number",
     "fill_rate": 1.0,
     "example": "270,000"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정옥우"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "현진주"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정진재"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "강호원"
+   },
+   {
+    "key": "seal.staff.관리자",
+    "label": "관리자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.관리자",
+    "label": "관리자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "염승영"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김현서"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김영예"
    },
    {
     "key": "customer.name3",
@@ -23906,6 +24368,62 @@
     "example": "김소윤"
    },
    {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김민도"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "강진희"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "우서진"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최영태"
+   },
+   {
+    "key": "seal.staff.관리자",
+    "label": "관리자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "채지영"
+   },
+   {
+    "key": "sign.staff.관리자",
+    "label": "관리자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "차찬빈"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박호영"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김정빈"
+   },
+   {
     "key": "check.신규증액처리시안내",
     "label": "신규,증액처리시안내",
     "type": "checkbox",
@@ -24498,6 +25016,62 @@
     "example": "박찬연"
    },
    {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "서성진"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "배철린"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "조성우"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이승연"
+   },
+   {
+    "key": "seal.staff.관리자",
+    "label": "관리자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "조주원"
+   },
+   {
+    "key": "sign.staff.관리자",
+    "label": "관리자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "왕민은"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김혁혜"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김규경"
+   },
+   {
     "key": "check.신규증액채무인수한도감액한도완제처리시안내",
     "label": "신규,증액,채무인수,한도감액,한도완제처리시안내",
     "type": "checkbox",
@@ -24895,6 +25469,48 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "강순준"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "노선인"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김호태"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김채지"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "고순정"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "강다민"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "지원연"
    }
   ]
  },
@@ -25731,6 +26347,48 @@
     "example": null
    },
    {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "오호진"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "류미재"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "허숙성"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최윤린"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김정은"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "정수준"
+   },
+   {
     "key": "신청대출승인완료시안내문자통지",
     "label": "신청대출승인완료시안내문자통지",
     "type": "text",
@@ -26435,6 +27093,48 @@
     "example": "2021.09.26"
    },
    {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "조원태"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "곽은린"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "성규호"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "진윤혜"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정영린"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "조욱준"
+   },
+   {
     "key": "신청대출승인완료시안내문자통지",
     "label": "신청대출승인완료시안내문자통지",
     "type": "text",
@@ -26844,6 +27544,62 @@
     "example": "2026년 1월 31일"
    },
    {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "송현하"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "문형율"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "여민빈"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "변석원"
+   },
+   {
+    "key": "seal.staff.관리자",
+    "label": "관리자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "염나연"
+   },
+   {
+    "key": "sign.staff.관리자",
+    "label": "관리자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "황보환혜"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이서혜"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "권동민"
+   },
+   {
     "key": "check.신규처리시안내",
     "label": "신규처리시안내",
     "type": "checkbox",
@@ -27001,6 +27757,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "전세자금"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "명연윤"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "기혁정"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "전예서"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박경정"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "석규태"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "추지영"
    },
    {
     "key": "일반개인정보2",
@@ -27220,6 +28018,48 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "옥영아"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "강희수"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "정은인"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정하인"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "황보동빈"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "차태도"
    }
   ]
  },
@@ -27444,6 +28284,48 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이욱서"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "선우선호"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "류소린"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김기윤"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "장순준"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "길혁정"
    }
   ]
  },
@@ -27713,6 +28595,48 @@
     "example": "박찬연"
    },
    {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "송아준"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김민현"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "표옥예"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "성채진"
+   },
+   {
     "key": "customer.name",
     "label": "성명",
     "type": "text",
@@ -27815,6 +28739,48 @@
      "동의하지 않음",
      "동의함"
     ]
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김수성"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이성아"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "서용준"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "최순연"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이선율"
    },
    {
     "key": "일반개인정보2",
@@ -28123,6 +29089,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이혁재"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "현소빈"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "배정주"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "연욱진"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "왕옥현"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "전혁인"
    }
   ]
  },
@@ -28435,6 +29443,48 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이철빈"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최혜인"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "구혁승"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "고훈희"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "남민성"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박훈준"
    }
   ]
  },
@@ -28656,6 +29706,48 @@
     "options": [
      "”에 “V” 표시 합니다."
     ]
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김영유"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이영빈"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이동태"
+   },
+   {
+    "key": "seal.staff.관리자",
+    "label": "관리자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "임혁린"
+   },
+   {
+    "key": "sign.staff.관리자",
+    "label": "관리자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김재유"
    },
    {
     "key": "담당자팩스번호",
@@ -29161,6 +30253,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "지진태"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박아주"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "한우유"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박욱현"
    }
   ]
  },
@@ -29265,6 +30385,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정선현"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "진은도"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김형연"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이용현"
    }
   ]
  },
@@ -29369,6 +30517,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "현예지"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "신희민"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "윤승연"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "설혁윤"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박채도"
    }
   ]
  },
@@ -29487,6 +30663,34 @@
     "type": "phone",
     "fill_rate": 1.0,
     "example": "010-5907-7253"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "전채윤"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "방재수"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "임혜희"
    },
    {
     "key": "목록[].중심업체코드",
@@ -29721,6 +30925,48 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "강순준"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이나인"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "추나현"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "왕연정"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "석성경"
+   },
+   {
+    "key": "seal.staff.관리자",
+    "label": "관리자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박환연"
+   },
+   {
+    "key": "sign.staff.관리자",
+    "label": "관리자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김철민"
    }
   ]
  },
@@ -29915,6 +31161,48 @@
     "type": "phone",
     "fill_rate": 1.0,
     "example": "010-5907-7253"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박성주"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김호태"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "원건연"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김태경"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "제갈철주"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이혜빈"
    }
   ]
  },
@@ -30231,6 +31519,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "서울특별시 서초구 방배로 524, 110동 501호"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "하윤영"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이서지"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이도린"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "길은혜"
    }
   ]
  },
@@ -30419,6 +31735,48 @@
     "type": "phone",
     "fill_rate": 1.0,
     "example": "010-5907-7253"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "서용성"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "정우주"
+   },
+   {
+    "key": "seal.staff.대리",
+    "label": "대리",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "최순민"
+   },
+   {
+    "key": "sign.staff.대리",
+    "label": "대리",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이지호"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김환영"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김동윤"
    },
    {
     "key": "목록[].선입금신청금액",
@@ -30614,6 +31972,62 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2026년 1월 31일"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "성영아"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "심현태"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이은아"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김영빈"
+   },
+   {
+    "key": "seal.staff.관리자",
+    "label": "관리자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김재은"
+   },
+   {
+    "key": "sign.staff.관리자",
+    "label": "관리자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "방형은"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "송혁빈"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김은정"
    }
   ]
  },
@@ -30928,6 +32342,34 @@
     "example": "010-5907-7253"
    },
    {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "강준서"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최훈찬"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "강옥서"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "송순준"
+   },
+   {
     "key": "목록[].원청채권종류",
     "label": "원청채권종류",
     "type": "text",
@@ -31170,6 +32612,34 @@
     "type": "phone",
     "fill_rate": 1.0,
     "example": "010-5907-7253"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "곽다율"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이호주"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "진소태"
    }
   ]
  },
@@ -31288,6 +32758,34 @@
     "type": "phone",
     "fill_rate": 1.0,
     "example": "010-5907-7253"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박훈도"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "엄미린"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "왕태성"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "지우희"
    },
    {
     "key": "목록[].차협력기업명",
@@ -31455,6 +32953,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "검인"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "문석서"
+   },
+   {
+    "key": "seal.staff.대리",
+    "label": "대리",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "검인"
+   },
+   {
+    "key": "sign.staff.대리",
+    "label": "대리",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "안영수"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김나린"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김유연"
    }
   ]
  },
@@ -31628,6 +33168,34 @@
     "type": "phone",
     "fill_rate": 1.0,
     "example": "010-5907-7253"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "손영빈"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "장철유"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "공채지"
    },
    {
     "key": "목록[].판매기업사업자번호",
@@ -32853,6 +34421,62 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "서울특별시 서초구 방배로 524, 110동 501호"
+   },
+   {
+    "key": "seal.staff.계",
+    "label": "계",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김지도"
+   },
+   {
+    "key": "sign.staff.계",
+    "label": "계",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이기아"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "장철현"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "임승유"
+   },
+   {
+    "key": "seal.staff.관리자",
+    "label": "관리자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김주진"
+   },
+   {
+    "key": "sign.staff.관리자",
+    "label": "관리자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "허훈서"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "곽혁혜"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "문영윤"
    }
   ]
  },
@@ -33239,6 +34863,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "강순준"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이다혜"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "정승아"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "엄주율"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최미유"
    }
   ]
  },
@@ -34315,6 +35967,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "전영우"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "홍진아"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "구민재"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "석현윤"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김태윤"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "신채준"
    },
    {
     "key": "공공정보등2",
@@ -35629,6 +37323,48 @@
     "example": null
    },
    {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "주현호"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "심채원"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이옥인"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "진연호"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "검인"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박영태"
+   },
+   {
     "key": "공공정보등2",
     "label": "■공공정보등",
     "type": "text",
@@ -35754,6 +37490,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "황보환희"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이영수"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "손정태"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "윤욱진"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김지재"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김준아"
    },
    {
     "key": "공공정보등2",
@@ -36040,6 +37818,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최희준"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "최선율"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "선우훈서"
    }
   ]
  },
@@ -36352,6 +38158,48 @@
     "type": "number",
     "fill_rate": 1.0,
     "example": "170,880,000"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "송석은"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김민희"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이아예"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박기윤"
+   },
+   {
+    "key": "seal.staff.관리자",
+    "label": "관리자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정다수"
+   },
+   {
+    "key": "sign.staff.관리자",
+    "label": "관리자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "석성원"
    }
   ]
  },
@@ -37721,6 +39569,76 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "경상남도 창원시 성산구 원이대로 262-29, 104호"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박희승"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최형경"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김연경"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "도형인"
+   },
+   {
+    "key": "seal.staff.대리",
+    "label": "대리",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "차다수"
+   },
+   {
+    "key": "sign.staff.대리",
+    "label": "대리",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "오예준"
+   },
+   {
+    "key": "seal.staff.차장",
+    "label": "차장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "황은서"
+   },
+   {
+    "key": "sign.staff.차장",
+    "label": "차장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이선윤"
+   },
+   {
+    "key": "seal.staff.점장",
+    "label": "점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "명건윤"
+   },
+   {
+    "key": "sign.staff.점장",
+    "label": "점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이호수"
    }
   ]
  },
@@ -37859,6 +39777,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "계좌 정리"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박순원"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박준윤"
+   },
+   {
+    "key": "seal.staff.대리",
+    "label": "대리",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박찬정"
+   },
+   {
+    "key": "sign.staff.대리",
+    "label": "대리",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "우하유"
+   },
+   {
+    "key": "seal.staff.차장",
+    "label": "차장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "송성우"
+   },
+   {
+    "key": "sign.staff.차장",
+    "label": "차장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "강승재"
    }
   ]
  },
@@ -38204,6 +40164,48 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2029년 9월 22일"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "위도경"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "손원성"
+   },
+   {
+    "key": "seal.staff.팀장",
+    "label": "팀장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "명동현"
+   },
+   {
+    "key": "sign.staff.팀장",
+    "label": "팀장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "조찬승"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이정재"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박다인"
    },
    {
     "key": "무역금융신청건포함명세_목록[].수입신용장발행",
@@ -38685,6 +40687,62 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "현선예"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "선우용수"
+   },
+   {
+    "key": "seal.staff.대리",
+    "label": "대리",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박희경"
+   },
+   {
+    "key": "sign.staff.대리",
+    "label": "대리",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김선승"
+   },
+   {
+    "key": "seal.staff.차장",
+    "label": "차장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "백소지"
+   },
+   {
+    "key": "sign.staff.차장",
+    "label": "차장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "방규민"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "남궁상정"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "정은예"
    }
   ]
  },
@@ -38817,6 +40875,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이욱우"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이욱율"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "장철인"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "송예주"
    }
   ]
  },
@@ -38883,6 +40969,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "박영준"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "배태은"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "문채민"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "차우은"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "석영연"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김민찬"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "공석태"
    }
   ]
  },
@@ -38917,6 +41045,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "박영준"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "염원도"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "연훈은"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "문도민"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "여성정"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정훈서"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "권원연"
    },
    {
     "key": "가입대상2",
@@ -39070,6 +41240,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이건인"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김은연"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김준인"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "장숙린"
    }
   ]
  },
@@ -39118,6 +41316,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김혜서"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "민수인"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "조연빈"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박지수"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "채욱현"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "여훈도"
    },
    {
     "key": "customer.name2",
@@ -39306,6 +41546,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "강순준"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김영호"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "왕주성"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "허상유"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "주찬은"
    }
   ]
  },
@@ -39447,6 +41715,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "본인 요청"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김다지"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이순정"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "석혁혜"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김미재"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이숙성"
    },
    {
     "key": "check.주된상속인",
@@ -40792,6 +43102,62 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2026년 1월 31일"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김원인"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이환성"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "도형민"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "조민정"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김하윤"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "허도인"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "황보호준"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박우정"
    }
   ]
  },
@@ -40914,6 +43280,62 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2026년 1월 31일"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김수지"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박나도"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "염나연"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이태우"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "심다유"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "석철혜"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김형주"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "황보유혜"
    }
   ]
  },
@@ -41466,6 +43888,62 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2026년 1월 31일"
+   },
+   {
+    "key": "seal.staff.본인확인인감대조",
+    "label": "본인확인인감대조",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김용원"
+   },
+   {
+    "key": "sign.staff.본인확인인감대조",
+    "label": "본인확인인감대조",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "장미민"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김현율"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최원빈"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박유혜"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김윤린"
+   },
+   {
+    "key": "seal.staff.지점장",
+    "label": "지점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "추서은"
+   },
+   {
+    "key": "sign.staff.지점장",
+    "label": "지점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "한준아"
    }
   ]
  },
@@ -41577,6 +44055,62 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2026년 1월 31일"
+   },
+   {
+    "key": "seal.staff.본인확인인감대조",
+    "label": "본인확인인감대조",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박환도"
+   },
+   {
+    "key": "sign.staff.본인확인인감대조",
+    "label": "본인확인인감대조",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박태영"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "권숙정"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "천찬민"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김민도"
+   },
+   {
+    "key": "seal.staff.지점장",
+    "label": "지점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김정예"
+   },
+   {
+    "key": "sign.staff.지점장",
+    "label": "지점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최찬주"
    }
   ]
  },
@@ -41765,6 +44299,62 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2026년 1월 31일"
+   },
+   {
+    "key": "seal.staff.본인확인인감대조",
+    "label": "본인확인인감대조",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "심혜찬"
+   },
+   {
+    "key": "sign.staff.본인확인인감대조",
+    "label": "본인확인인감대조",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "우원서"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "신재진"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이숙예"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "최연혜"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "백희태"
+   },
+   {
+    "key": "seal.staff.지점장",
+    "label": "지점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "선우건지"
+   },
+   {
+    "key": "sign.staff.지점장",
+    "label": "지점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "공숙재"
    }
   ]
  },
@@ -42225,6 +44815,62 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2026년 1월 31일"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "황숙은"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "지원혜"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이민빈"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "주환정"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "나형린"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "류혜빈"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "엄민준"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최아빈"
    }
   ]
  },
@@ -42589,6 +45235,48 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "문도예"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "양하준"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김옥우"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "연용경"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "강은인"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "고기진"
    }
   ]
  },
@@ -42806,6 +45494,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "설철서"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김재연"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "검인"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "오성은"
    }
   ]
  },
@@ -42902,6 +45618,48 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2026년 1월 31일"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김은아"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "추철윤"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김민율"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김규빈"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이민성"
    },
    {
     "key": "서비스신청일로부터5년까지",
@@ -43035,6 +45793,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "손성태"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "배우연"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "장나승"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "성환인"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이석태"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "구훈혜"
    }
   ]
  },
@@ -43385,6 +46185,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박정태"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박도영"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "최준혜"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "변훈현"
    }
   ]
  },
@@ -43791,6 +46619,48 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2026년 1월 31일"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "여성진"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이미주"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "고다인"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "곽진희"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "제갈소찬"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이현지"
    }
   ]
  },
@@ -43979,6 +46849,62 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2026년 1월 31일"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "신수태"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "허규하"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "제갈철서"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "안용아"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "엄진빈"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "손아경"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정민율"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "명연승"
    }
   ]
  },
@@ -44395,6 +47321,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "강찬도"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이하연"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김동정"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최영정"
    }
   ]
  },
@@ -44492,6 +47446,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "검인"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박선지"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "반재윤"
    }
   ]
  },
@@ -45186,6 +48168,62 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2026년 1월 31일"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "신재원"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김환준"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "설훈빈"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "안건유"
+   },
+   {
+    "key": "seal.staff.관리자",
+    "label": "관리자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "진기우"
+   },
+   {
+    "key": "sign.staff.관리자",
+    "label": "관리자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "진규도"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "임옥호"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김상진"
    }
   ]
  },
@@ -45318,6 +48356,118 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박호예"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "안은하"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박경아"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "배민주"
+   },
+   {
+    "key": "seal.staff.관리자",
+    "label": "관리자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "기훈하"
+   },
+   {
+    "key": "sign.staff.관리자",
+    "label": "관리자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "함아민"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정주진"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "조환예"
+   },
+   {
+    "key": "seal.staff.담당2",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "서수호"
+   },
+   {
+    "key": "sign.staff.담당2",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박호예"
+   },
+   {
+    "key": "seal.staff.책임자2",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "배민주"
+   },
+   {
+    "key": "sign.staff.책임자2",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김선민"
+   },
+   {
+    "key": "seal.staff.관리자2",
+    "label": "관리자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "기훈하"
+   },
+   {
+    "key": "sign.staff.관리자2",
+    "label": "관리자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "함아민"
+   },
+   {
+    "key": "seal.staff.부점장2",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박연지"
+   },
+   {
+    "key": "sign.staff.부점장2",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "남궁민승"
    }
   ]
  },
@@ -45471,6 +48621,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "이욱유"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "황보선태"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "도욱예"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "권경준"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "옥욱연"
    }
   ]
  },
@@ -45568,6 +48746,62 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "(주)삼정전자"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "장은수"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "길환율"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김형도"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "기영수"
+   },
+   {
+    "key": "seal.staff.관리자",
+    "label": "관리자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "양미유"
+   },
+   {
+    "key": "sign.staff.관리자",
+    "label": "관리자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "강아현"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "왕철정"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김윤희"
    }
   ]
  },
@@ -45659,6 +48893,76 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2026년 1월 31일"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "왕수준"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김혜은"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "조동아"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김상진"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박진경"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김도원"
+   },
+   {
+    "key": "seal.staff.관리자",
+    "label": "관리자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "조정우"
+   },
+   {
+    "key": "sign.staff.관리자",
+    "label": "관리자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최진하"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "길태도"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최채성"
    }
   ]
  },
@@ -46063,6 +49367,34 @@
     "type": "phone",
     "fill_rate": 1.0,
     "example": "010-5907-7253"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김은서"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "한소인"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박선호"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이진태"
    }
   ]
  },
@@ -46155,6 +49487,62 @@
     "example": "강순준"
    },
    {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "임영우"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "윤상하"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정채호"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "신승아"
+   },
+   {
+    "key": "seal.staff.관리자",
+    "label": "관리자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "원다아"
+   },
+   {
+    "key": "sign.staff.관리자",
+    "label": "관리자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이유승"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이찬준"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이미지"
+   },
+   {
     "key": "예금종별2",
     "label": "예금(신탁)종별",
     "type": "text",
@@ -46216,6 +49604,62 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "1997.05.14"
+   },
+   {
+    "key": "seal.staff.담당2",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이연승"
+   },
+   {
+    "key": "sign.staff.담당2",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "문욱윤"
+   },
+   {
+    "key": "seal.staff.책임자2",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김규경"
+   },
+   {
+    "key": "sign.staff.책임자2",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "정채호"
+   },
+   {
+    "key": "seal.staff.관리자2",
+    "label": "관리자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "검인"
+   },
+   {
+    "key": "sign.staff.관리자2",
+    "label": "관리자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김석하"
+   },
+   {
+    "key": "seal.staff.부점장2",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이미지"
+   },
+   {
+    "key": "sign.staff.부점장2",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "심도성"
    }
   ]
  },
@@ -46504,6 +49948,34 @@
     "example": null
    },
    {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "검인"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박선율"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박서우"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "노민우"
+   },
+   {
     "key": "목록[].수표종류",
     "label": "수표종류",
     "type": "text",
@@ -46606,6 +50078,34 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2026년 1월 31일"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "홍경찬"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이영희"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "함유도"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "금건지"
    },
    {
     "key": "목록[].일자",
@@ -47305,6 +50805,20 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정원은"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김연승"
    }
   ]
  },
@@ -47470,6 +50984,34 @@
     "type": "amount",
     "fill_rate": 1.0,
     "example": "JPY 140,000"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박하재"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이찬경"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "기아수"
    },
    {
     "key": "DateofReceipt2",
@@ -47883,6 +51425,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "생활자금"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "남철호"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이은빈"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "염옥빈"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "서찬재"
    },
    {
     "key": "접수일2",
@@ -52537,6 +56107,34 @@
     "example": null
    },
    {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "임규찬"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "문연성"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "반유연"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이혁예"
+   },
+   {
     "key": "check.승인업무",
     "label": "승인업무",
     "type": "checkbox",
@@ -53031,6 +56629,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "최영찬"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최건원"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정승도"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "현은서"
    }
   ]
  },
@@ -53348,6 +56974,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "강순준"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "최민성"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "추은준"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "신영진"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "진예린"
    }
   ]
  },
@@ -55140,6 +58794,34 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2026년 1월 31일"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "정연태"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박환원"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "엄진정"
    }
   ]
  },
@@ -55363,6 +59045,34 @@
     "type": "number",
     "fill_rate": 1.0,
     "example": "4,650,000"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "임재수"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "강욱민"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "마환도"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "백도서"
    },
    {
     "key": "check.송달받는것에대하여",
@@ -56300,6 +60010,48 @@
     "example": "자녀 교육비"
    },
    {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이옥호"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정수성"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "안선빈"
+   },
+   {
+    "key": "seal.staff.관리자",
+    "label": "관리자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김승원"
+   },
+   {
+    "key": "sign.staff.관리자",
+    "label": "관리자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "노용찬"
+   },
+   {
     "key": "date",
     "label": "작성일",
     "type": "date",
@@ -56398,6 +60150,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "오희수"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최석찬"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "조미율"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최서연"
+   },
+   {
+    "key": "seal.staff.관리자",
+    "label": "관리자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "추준진"
+   },
+   {
+    "key": "sign.staff.관리자",
+    "label": "관리자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "임욱진"
    },
    {
     "key": "UndertakingtermsandConditions",
@@ -56692,6 +60486,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "표훈빈"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "심우성"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "신훈지"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이승현"
    }
   ]
  },
@@ -56845,6 +60667,48 @@
     "type": "number",
     "fill_rate": 1.0,
     "example": "50"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이영빈"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김아희"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김윤현"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김순민"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "명도원"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최예윤"
    },
    {
     "key": "접수일2",
@@ -57273,6 +61137,34 @@
     "example": "2025년 1월 13일"
    },
    {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정욱우"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김성지"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김진연"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김다지"
+   },
+   {
     "key": "customer.name3",
     "label": "Name",
     "type": "text",
@@ -57578,6 +61470,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "명현재"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "성성재"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "공유빈"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "공우아"
    },
    {
     "key": "접수일2",
@@ -57929,6 +61849,34 @@
     "example": null
    },
    {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "손우승"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "양승혜"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "윤상서"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이준경"
+   },
+   {
     "key": "check.agrees",
     "label": "agrees",
     "type": "checkbox",
@@ -58028,6 +61976,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김다성"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "허승주"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박동태"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "신은재"
    },
    {
     "key": "ReceiptNumber2",
@@ -58265,6 +62241,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "타행 이체"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김소호"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "왕예혜"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "기옥경"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "남주하"
    },
    {
     "key": "접수일2",
@@ -60689,6 +64693,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "서울특별시 서초구 방배로 524, 110동 501호"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김찬빈"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이혜서"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "남선윤"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "남혁린"
    }
   ]
  },
@@ -60850,6 +64882,34 @@
     "example": null
    },
    {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박민정"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이순우"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "허미승"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최동인"
+   },
+   {
     "key": "NumberofLG3",
     "label": "NumberofL/G",
     "type": "text",
@@ -60980,6 +65040,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "서울특별시 서초구 방배로 524, 110동 501호"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "구건경"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최윤율"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "차채린"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김철진"
    }
   ]
  },
@@ -61091,6 +65179,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "서울특별시 서초구 방배로 524, 110동 501호"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "민주경"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이유찬"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "변석재"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "정예준"
    }
   ]
  },
@@ -61402,6 +65518,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "서울특별시 서초구 방배로 524, 110동 501호"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "류기경"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이욱연"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "한경준"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "장지태"
    }
   ]
  },
@@ -61716,6 +65860,34 @@
     "example": "010-5907-7253"
    },
    {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "여철빈"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김우민"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "남우호"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김원찬"
+   },
+   {
     "key": "거래번호2",
     "label": "거래번호",
     "type": "text",
@@ -61798,6 +65970,34 @@
     "type": "phone",
     "fill_rate": 1.0,
     "example": "010-7321-8870"
+   },
+   {
+    "key": "seal.staff.담당2",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "민영승"
+   },
+   {
+    "key": "sign.staff.담당2",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김우민"
+   },
+   {
+    "key": "seal.staff.책임자2",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김승린"
+   },
+   {
+    "key": "sign.staff.책임자2",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "석형정"
    }
   ]
  },
@@ -61911,6 +66111,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "검인"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "우민재"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "추호지"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이승서"
    }
   ]
  },
@@ -62011,6 +66239,48 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "강순준"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "노혜연"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이유윤"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "선건승"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "도욱인"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "하서아"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김상호"
    }
   ]
  },
@@ -62114,6 +66384,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "강아정"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "명예수"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "엄용승"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "여영예"
    }
   ]
  },
@@ -62176,6 +66474,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "강순준"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이재주"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "안용빈"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "검인"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "반유혜"
    }
   ]
  },
@@ -62938,6 +67264,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박소수"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "구나원"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "문경은"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "황보하승"
    }
   ]
  },
@@ -63082,6 +67436,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "문희서"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "염지준"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "마동정"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "검인"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김석희"
    }
   ]
  },
@@ -63458,6 +67854,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "서울특별시 서초구 방배로 524, 110동 501호"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김미은"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "황보재유"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이현예"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "백순하"
    }
   ]
  },
@@ -63520,6 +67944,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이소아"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "장영원"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "마원승"
    }
   ]
  },
@@ -68800,6 +73252,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "주식회사 한빛패션"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김숙아"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "제갈현은"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "마준승"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김준민"
    }
   ]
  },
@@ -69214,6 +73694,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "강순준"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "성원지"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "길은영"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "위경우"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "정상서"
    }
   ]
  },
@@ -70444,6 +74952,48 @@
     "example": null
    },
    {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박예경"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김나유"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "마승린"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김아린"
+   },
+   {
+    "key": "seal.staff.지점장",
+    "label": "지점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김희연"
+   },
+   {
+    "key": "sign.staff.지점장",
+    "label": "지점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "엄규혜"
+   },
+   {
     "key": "사용자구분",
     "label": "사용자구분",
     "type": "text",
@@ -70716,6 +75266,34 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2026년 1월 31일"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "최수성"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "류은서"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박소찬"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김태인"
    }
   ]
  },
@@ -70930,6 +75508,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.담당자",
+    "label": "담당자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "함형율"
+   },
+   {
+    "key": "sign.staff.담당자",
+    "label": "담당자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김훈경"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "우진정"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "양환유"
    }
   ]
  },
@@ -71146,6 +75752,48 @@
      "CMS Plus",
      "CMSiNet"
     ]
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박진수"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박옥인"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박연하"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "곽주태"
+   },
+   {
+    "key": "seal.staff.지점장",
+    "label": "지점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이경정"
+   },
+   {
+    "key": "sign.staff.지점장",
+    "label": "지점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이규혜"
    },
    {
     "key": "check.주계약사",
@@ -73044,6 +77692,62 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김원경"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "천훈연"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "선우소서"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "정소준"
+   },
+   {
+    "key": "seal.staff.팀장",
+    "label": "팀장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김용율"
+   },
+   {
+    "key": "sign.staff.팀장",
+    "label": "팀장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이선민"
+   },
+   {
+    "key": "seal.staff.부서장",
+    "label": "부서장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "하호유"
+   },
+   {
+    "key": "sign.staff.부서장",
+    "label": "부서장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "양영예"
    }
   ]
  },
@@ -73334,6 +78038,48 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "이욱유"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이선도"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "설영주"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "나아영"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "류소예"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김현하"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "양소유"
    },
    {
     "key": "customer.name2",
@@ -74812,6 +79558,62 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "현예지"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "표경도"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김준은"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김원정"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "원연원"
+   },
+   {
+    "key": "seal.staff.관리자",
+    "label": "관리자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박혁지"
+   },
+   {
+    "key": "sign.staff.관리자",
+    "label": "관리자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "방원현"
+   },
+   {
+    "key": "seal.staff.부점장",
+    "label": "부점장",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "염도주"
+   },
+   {
+    "key": "sign.staff.부점장",
+    "label": "부점장",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "길환정"
    }
   ]
  },
@@ -75045,6 +79847,34 @@
     "type": "phone",
     "fill_rate": 1.0,
     "example": "010-7321-8870"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김건연"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "장환은"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "최은승"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "마태성"
    }
   ]
  },
@@ -75225,6 +80055,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "대리"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이혜태"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "금철혜"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "안석율"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "민숙희"
    }
   ]
  },
@@ -76318,6 +81176,34 @@
     "example": "박찬연"
    },
    {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김우예"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이숙원"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "전준진"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김영태"
+   },
+   {
     "key": "타금융기관IRP통장사본",
     "label": "타금융기관IRP통장사본(가입확인서)",
     "type": "text",
@@ -76673,6 +81559,34 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2026년 1월 31일"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박상율"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김성율"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김서희"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "송용승"
    },
    {
     "key": "매도상품_목록[].상품명",
@@ -77223,6 +82137,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이태율"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "함선승"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이옥승"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이준은"
    }
   ]
  },
@@ -77318,6 +82260,62 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "설명을듣고이해하였음"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "심은수"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김호정"
+   },
+   {
+    "key": "seal.staff.판매직원",
+    "label": "판매직원",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "석수예"
+   },
+   {
+    "key": "sign.staff.판매직원",
+    "label": "판매직원",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "여민정"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김영유"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "위재하"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "권하은"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "임찬승"
    },
    {
     "key": "check.일반금융소비자",
@@ -77627,6 +82625,62 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2026년 1월 31일"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "민선율"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "길순윤"
+   },
+   {
+    "key": "seal.staff.판매직원",
+    "label": "판매직원",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "구정서"
+   },
+   {
+    "key": "sign.staff.판매직원",
+    "label": "판매직원",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "강승빈"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "송훈은"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "장은우"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "제갈채윤"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "우서주"
    },
    {
     "key": "목록[].상품명",
@@ -78076,6 +83130,34 @@
     "type": "amount",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "현규태"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "나채유"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "추미율"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이예율"
    }
   ]
  },
@@ -78243,6 +83325,62 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "설명을듣고이해하였음"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정예인"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김숙윤"
+   },
+   {
+    "key": "seal.staff.판매직원",
+    "label": "판매직원",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "제갈다하"
+   },
+   {
+    "key": "sign.staff.판매직원",
+    "label": "판매직원",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "오현민"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "백상승"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "지희율"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김도우"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "변승현"
    },
    {
     "key": "check.선택",
@@ -78702,6 +83840,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김예은"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이원희"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "석숙도"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박민호"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이원현"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "엄상정"
    },
    {
     "key": "check.사원번호임직원구분",
@@ -79762,6 +84942,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김영정"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "공숙찬"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "최혜준"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김수하"
    }
   ]
  },
@@ -79887,6 +85095,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "구순율"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "현석재"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김수빈"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김경찬"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "강아민"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김은원"
    }
   ]
  },
@@ -80241,6 +85491,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "강순준"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이영정"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이호찬"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "손원진"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "심준주"
    },
    {
     "key": "타금융기관IRP통장사본",
@@ -80771,6 +86049,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "현예지"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김정혜"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "변옥민"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "임미예"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "명다윤"
    }
   ]
  },
@@ -80958,6 +86264,62 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2026년 1월 31일"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "최숙지"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김환주"
+   },
+   {
+    "key": "seal.staff.판매직원",
+    "label": "판매직원",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "확인"
+   },
+   {
+    "key": "sign.staff.판매직원",
+    "label": "판매직원",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "석도태"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정정하"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "남재찬"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정지재"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이환재"
    },
    {
     "key": "check.약관및상품설명서",
@@ -81314,6 +86676,34 @@
     "example": "강순준"
    },
    {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박욱영"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "하은도"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "검인"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "지준지"
+   },
+   {
     "key": "필수서류",
     "label": "필수서류",
     "type": "text",
@@ -81374,6 +86764,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "마건찬"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "금은연"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김수희"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "반나혜"
    }
   ]
  },
@@ -81429,6 +86847,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "추옥빈"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "임지린"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이예하"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "서건아"
    }
   ]
  },
@@ -81675,6 +87121,34 @@
     "type": "phone",
     "fill_rate": 1.0,
     "example": "043-783-2775"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "배영하"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이찬서"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이서호"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "임승우"
    }
   ]
  },
@@ -81909,6 +87383,48 @@
     "example": "2026년 1월 31일"
    },
    {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "차유현"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "남욱원"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김현인"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "조성서"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "검인"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "백순찬"
+   },
+   {
     "key": "check.AI포트폴리오가입후매1년마다정기적으로리밸런싱을안내",
     "label": "AI포트폴리오가입후매1년마다정기적으로리밸런싱을안내",
     "type": "checkbox",
@@ -82079,6 +87595,48 @@
     "type": "number",
     "fill_rate": 1.0,
     "example": "600,000"
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "연철찬"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "표용수"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박나성"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김욱태"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김숙윤"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박원혜"
    }
   ]
  },
@@ -82209,6 +87767,48 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.인감대조",
+    "label": "인감대조",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김순민"
+   },
+   {
+    "key": "sign.staff.인감대조",
+    "label": "인감대조",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "오재승"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "기욱찬"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "추상윤"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정용준"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이소윤"
    }
   ]
  },
@@ -82383,6 +87983,48 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.본인확인",
+    "label": "본인확인",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "양옥원"
+   },
+   {
+    "key": "sign.staff.본인확인",
+    "label": "본인확인",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "임우승"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "류태아"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이영승"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "황보수인"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "송숙영"
    },
    {
     "key": "가입자수",
@@ -82941,6 +88583,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김순민"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "황혜아"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김유예"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김영재"
    },
    {
     "key": "목록[].매도순위",
@@ -83635,6 +89305,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "차성유"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이준율"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이영수"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "노경윤"
    }
   ]
  },
@@ -83934,6 +89632,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "강재준"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "박훈성"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "박주린"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "최채빈"
    }
   ]
  },
@@ -84163,6 +89889,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "우윤연"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "임채재"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "지형진"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "표건승"
    },
    {
     "key": "거래내용",
@@ -84629,6 +90383,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "현예지"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "김수희"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "현성린"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "전채우"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "이유혜"
    }
   ]
  },
@@ -85041,6 +90823,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "이민빈"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "주성승"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김규하"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "문수현"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "원영은"
    }
   ]
  },
@@ -85110,6 +90920,34 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정수희"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김우성"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "이건윤"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "한우하"
    }
   ]
  },
@@ -87068,6 +92906,34 @@
      "신청",
      "미신청"
     ]
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "홍민린"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "오아원"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "석혜린"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "석현도"
    }
   ]
  },
@@ -88461,6 +94327,34 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": null
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "성나서"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "김형은"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "천채재"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "추원정"
    }
   ]
  },
@@ -88578,6 +94472,34 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "1990-02-10"
+   },
+   {
+    "key": "seal.staff.담당",
+    "label": "담당",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "심민지"
+   },
+   {
+    "key": "sign.staff.담당",
+    "label": "담당",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "고지경"
+   },
+   {
+    "key": "seal.staff.책임자",
+    "label": "책임자",
+    "type": "seal",
+    "fill_rate": 1.0,
+    "example": "정주진"
+   },
+   {
+    "key": "sign.staff.책임자",
+    "label": "책임자",
+    "type": "signature",
+    "fill_rate": 1.0,
+    "example": "표용우"
    }
   ]
  },

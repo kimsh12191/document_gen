@@ -205,3 +205,24 @@ def test_positions_from_browser(tmp_path):
             assert all(o.get("box_bbox") for o in f["options"])
         if f["type"] in ("seal", "signature"):
             assert f.get("bbox"), f["key"]
+
+
+def test_real_form_approval_boxes_get_staff_marks():
+    """원본 서식의 결재란(담당·책임자 …)에 직원 도장·서명이 찍히고, 찍힌 것과 빈칸이 섞인다."""
+    from docgen.realform import load_layout
+    roles = [c["role"] for pg in load_layout(408)["pages"] for c in pg.get("staff", [])]
+    assert roles[:3] == ["본인확인", "담당", "책임자"]
+    present = set()
+    for seed in range(12):
+        _, fields, _ = render(REG["hf408"], make_profile(seed), seed)
+        staff = [f for f in fields if ".staff." in f["key"]]
+        assert {f["label"] for f in staff} == set(roles)
+        assert all(f.get("kind") == "행원인" for f in staff)
+        for role in roles:   # 한 칸에는 도장과 서명 중 하나만
+            assert sum(f["present"] for f in staff if f["label"] == role) <= 1
+        present |= {f["present"] for f in staff}
+    assert present == {True, False}
+    no_box = next(i for i in sorted(REG) if i.startswith("hf") and not any(
+        pg.get("staff") for pg in load_layout(int(i[2:]))["pages"]))
+    _, fields, _ = render(REG[no_box], make_profile(0), 0)
+    assert not any(".staff." in f["key"] for f in fields)
