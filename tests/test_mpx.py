@@ -256,3 +256,43 @@ def test_repeat_twin_makes_runs_of_same_text():
     same = sum(same_text_prev(rows, i) for i in range(n))
     assert 0 < same < n and new_html != html
     assert [x["value"] for x in new_raw if x["key"].endswith(".out")] == [x["value"] for x in raw if x["key"].endswith(".out")]
+
+
+def test_run_models_runs_each_model_on_same_data(tmp_path, monkeypatch):
+    import json as _j
+    import threading
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+    from mpx import pipeline
+
+    class Models(BaseHTTPRequestHandler):
+        def log_message(self, *a):
+            pass
+
+        def do_GET(self):
+            body = _j.dumps({"data": [{"id": "served-" + str(self.server.server_port)}]}).encode()
+            self.send_response(200)
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+
+    servers = [ThreadingHTTPServer(("127.0.0.1", 0), Models) for _ in range(2)]
+    for s in servers:
+        threading.Thread(target=s.serve_forever, daemon=True).start()
+    calls, seen = [], {}
+    started = threading.Barrier(2, timeout=10)  # 두 모델이 동시에 돌지 않으면 여기서 멈춤
+
+    def fake_run_all(out, **kw):
+        started.wait()
+        calls.append((Path(out).name, kw["model"], kw["data"], kw["max_tokens"]))
+        return {"outputs": {"out": str(out)}}
+
+    monkeypatch.setattr(pipeline, "run_all", fake_run_all)
+    monkeypatch.setattr(pipeline, "compare", lambda runs, data, out: seen.update(runs=runs, data=data) or {"out": str(out)})
+    urls = {name: f"http://127.0.0.1:{s.server_port}/v1" for name, s in zip(("base", "bank"), servers)}
+    s = pipeline.run_models(tmp_path, urls, data=str(tmp_path / "d"), max_tokens=20480)
+    for srv in servers:
+        srv.shutdown()
+    assert sorted(calls) == sorted((n, f"served-{srv.server_port}", str(tmp_path / "d"), 20480)
+                                   for n, srv in zip(("base", "bank"), servers))
+    assert seen["runs"] == {"base": tmp_path / "base", "bank": tmp_path / "bank"} and s["outputs"] == {"out": str(tmp_path / "compare")}

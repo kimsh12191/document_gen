@@ -10,7 +10,9 @@
   python -m mpx probe   --data data/test --out probes --base-url ... --model ...     # 2단계: 통제 실험
   python -m mpx viewer --data data/test --pred preds/*.jsonl --serve 7862
   python -m mpx pipeline --out runs/check --n-test 6            # 한 번에 (모델 없으면 정답·오류 주입으로 점검)
-  python -m mpx compare --runs base=runs/base bank=runs/bank --data data/test --out runs/compare   # 모델 비교
+  python -m mpx pipeline --out runs/exp1 --data data/test --models base=http://127.0.0.1:8100/v1 bank=http://127.0.0.1:8101/v1
+                                                                # 모델 둘을 동시에 → runs/exp1/{base,bank,compare}
+  python -m mpx compare --runs base=runs/base bank=runs/bank --data data/test --out runs/compare   # 따로 돌린 결과 비교
 """
 from __future__ import annotations
 
@@ -99,8 +101,16 @@ def cmd_probe(a):
 
 
 def cmd_pipeline(a):
-    from .pipeline import run_all
+    from .pipeline import run_all, run_models
 
+    if a.models:
+        if a.base_url:
+            sys.exit("--models 와 --base-url 은 함께 쓰지 않습니다")
+        models = dict(x.split("=", 1) for x in a.models)
+        s = run_models(a.out, models, a.n_test, a.workers, a.data, a.test_compose, budget=a.budget,
+                       max_tokens=a.max_tokens, probe_items=a.probe_items, hint=not a.no_hint, sampling=_sampling(a))
+        print(json.dumps({k: s[k] for k in ("seconds", "outputs")}, ensure_ascii=False, indent=1))
+        return
     s = run_all(a.out, a.n_test, a.workers, a.base_url, a.model, a.budget, a.test_compose, a.simulate, a.max_tokens,
                 a.probe_items, not a.no_hint, a.data, _sampling(a))
     print(json.dumps({k: s[k] for k in ("seconds", "checks", "outputs")}, ensure_ascii=False, indent=1))
@@ -218,7 +228,9 @@ def main(argv=None):
     q.add_argument("--out", required=True)
     q.add_argument("--n-test", type=int, default=6)
     q.add_argument("--workers", type=int, default=4)
-    q.add_argument("--base-url", help="없으면 정답·오류 주입으로 점검 실행")
+    q.add_argument("--models", nargs="+", help="이름=서버 주소 여럿 (예: base=http://127.0.0.1:8100/v1 bank=http://127.0.0.1:8101/v1). "
+                   "같은 묶음으로 동시에 돌리고 <out>/compare 에 비교")
+    q.add_argument("--base-url", help="모델 하나만 (--models 대신). 둘 다 없으면 정답·오류 주입으로 점검 실행")
     q.add_argument("--model")
     q.add_argument("--budget", type=int, default=12000)
     q.add_argument("--max-tokens", type=int, default=20480)

@@ -75,6 +75,19 @@ class Client:
         return None, {"error": "retries exhausted"}
 
 
+def served_model(base_url: str, prefer: str | None = None, timeout: float = 30) -> str:
+    """서버가 내놓은 모델 이름 (GET /models). prefer 가 그중에 있으면 그것, 아니면 첫 번째."""
+    req = urllib.request.Request(base_url.rstrip("/") + "/models")
+    key = os.environ.get("INTERNAL_MODEL_API_KEY")
+    if key:
+        req.add_header("Authorization", "Bearer " + key)
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        ids = [m["id"] for m in json.load(resp).get("data", [])]
+    if not ids:
+        raise RuntimeError(f"{base_url} 가 모델을 내놓지 않습니다")
+    return prefer if prefer in ids else ids[0]
+
+
 def oracle_documents(bundle: dict, labels: dict) -> list[dict]:
     pages: dict[str, list[int]] = {}
     for i, p in enumerate(bundle["pages"], 1):
@@ -250,6 +263,6 @@ def run(data_dir, out, method: str, client: Client | None = None, workers: int =
         for k, fu in enumerate(as_completed(futs), 1):
             f.write(json.dumps(fu.result(), ensure_ascii=False) + "\n")
             f.flush()
-            print(f"\r{method}: {k}/{len(todo)}", end="", file=sys.stderr)
+            print(f"\r{client.model if client else 'oracle'} {method}: {k}/{len(todo)}", end="", file=sys.stderr)
     print(file=sys.stderr)
     return out

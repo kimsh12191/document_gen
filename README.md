@@ -51,7 +51,8 @@
 
 **비교하는 모델.** Qwen3.5-9B 기본 모델(base)과 2부 은행 업무로 학습한 9B 모델을 **같은 묶음, 같은 질문**으로 잰다.
 원인이 학습으로 생긴 것인지(학습 모델에서만 큼), 모델 구조·디코딩에서 오는 것인지(둘 다 큼)를 가른다.
-결과는 모델마다 따로 낸 뒤 `mpx compare`로 한 표에 모은다.
+한 번의 `pipeline` 실행이 두 모델을 동시에 돌린다(모델마다 서버 하나). 모든 모델이 같은 묶음, 같은 질문, 같은 통제 실험
+문항을 받으므로 비교는 문항 단위로 짝지어지고, 비교표(`compare/`)까지 한 번에 나온다.
 
 **1단계 — 관찰: 실제로 어디서, 어떻게 빠지는가.**
 묶음을 두 방식으로 돌린다. 하나는 2부처럼 모든 쪽을 한 질문에 넣는 `allatonce`, 다른 하나는 원래 해상도로 한 쪽씩 묻는 `pagewise`다.
@@ -147,20 +148,20 @@ F에서 1.0일 때 그 차이가 사라지면 디코딩 설정 탓(설정만 바
 # 모델 없이 점검 (약 1분): 정답 답·오류 주입 답으로 분류·분석·통제 실험·viewer 가 맞는지
 python -m mpx pipeline --out runs/check --n-test 6
 
-# GPU 서버에서 base 9B 와 학습 9B 를 같은 묶음으로 재고 비교까지 (모델마다 vLLM 서버를 띄움)
-MODELS="base=/models/Qwen3.5-9B bank=/models/bank_sft_merged" GPUS=0 ./run_experiment.sh
+# GPU 서버에서 base 9B 와 학습 9B 를 같은 묶음으로 동시에 재고 비교까지 (모델마다 vLLM 서버를 동시에 띄움)
+MODELS="base=/models/Qwen3.5-9B bank=/models/bank_sft_merged" GPUS=0,1 ./run_experiment.sh   # GPU 하나면 GPUS=0 (메모리를 나눠 씀)
 MODELS="..." N_TEST=10 PROBE_ITEMS=5 ./run_experiment.sh                    # 리허설 (작게)
 MODELS="..." MAX_TOKENS=4096 RUNS=runs_4096 ./run_experiment.sh             # 답 상한을 바꿔 한 번 더
 
-# 서버를 직접 띄워 둔 경우: 모델마다 pipeline, 그다음 비교
+# 서버를 직접 띄워 둔 경우: 서버 주소만 주면 같은 일 (→ runs/exp1/base, runs/exp1/bank, runs/exp1/compare)
 python -m mpx gen      --out data/test --n 100 --split test --twins --workers 8
-python -m mpx pipeline --out runs/base --data data/test --base-url http://127.0.0.1:8000/v1 --model base9b
-python -m mpx pipeline --out runs/bank --data data/test --base-url http://127.0.0.1:8001/v1 --model bank9b
-python -m mpx compare  --runs base=runs/base bank=runs/bank --data data/test --out runs/compare
+python -m mpx pipeline --out runs/exp1 --data data/test \
+    --models base=http://127.0.0.1:8000/v1 bank=http://127.0.0.1:8001/v1
 ```
 
 `pipeline`은 ① 생성(`--data`를 주면 건너뜀) → ② 관찰 실행 → ③ 행 기록·분류 → ④ 분석 → ⑤ 통제 실험 A~F → ⑥ 종합·viewer를
-차례로 한다. 답 상한 기본값은 20,480토큰(`--max-tokens`)이고, `repetition_penalty`는 주지 않으면 서버 기본값을 쓴다
+차례로 한다. `--models`로 여럿을 주면 ①은 한 번, ②~⑥은 모델마다 동시에 `<out>/<이름>/`에 하고, ⑦ 모델 비교를 `<out>/compare/`에
+낸다. 서버의 모델 이름은 `/models`에서 찾는다(이름과 같은 것이 있으면 그것). 모델 하나만 잴 때는 `--base-url`, `--model`. 답 상한 기본값은 20,480토큰(`--max-tokens`)이고, `repetition_penalty`는 주지 않으면 서버 기본값을 쓴다
 (`--repetition-penalty 1.0`으로 고정할 수 있음. 실험 F는 문항마다 직접 준다). `run_experiment.sh`는 모델 폴더의
 `generation_config.json`을 결과 폴더에 복사해 서버 기본값을 확인할 수 있게 한다.
 모델 없이 돌리면 각 실행을 정답 답(`oracle_*`)과 오류 주입 답(`simulated_*`)으로 두 번 하고, `summary.json`의
@@ -178,7 +179,7 @@ python -m mpx compare  --runs base=runs/base bank=runs/bank --data data/test --o
 | `rows.jsonl` | 정답 행마다 결과와 특징 (직접 분석할 때) |
 | `summary.json` | 단계별 시간, 점검 결과, 답 상한·디코딩 설정 |
 
-모델 비교(`mpx compare`, `run_experiment.sh`의 `runs/compare/`): `analysis.md`(실행 이름 앞에 모델 이름, 예: `base_allatonce`,
+모델 비교(`<out>/compare/`, `--models`로 돌렸을 때. 따로 돌린 결과는 `mpx compare --runs base=runs/base bank=runs/bank --data data/test --out runs/compare`): `analysis.md`(실행 이름 앞에 모델 이름, 예: `base_allatonce`,
 `bank_allatonce`), `probes_compare.md`(실험·조건마다 모델별 누락률, E·F는 같은 글자 행 누락률), `viewer/index.html`(모든 모델의 답).
 
 viewer 기호: ✓ 정확 · △ 일부 틀림 · ≠ 잘못 읽음 · ↷ 다른 곳에 · ✗ 건너뜀 · ✂ 길이에 잘림 · ■ 스스로 끝냄 · ∅ 문서 못 찾음.
@@ -227,7 +228,7 @@ mpx/                 연구 코드
   pipeline.py        한 번에 실행
   cli.py             명령줄
   common.py          파일 입출력, 이미지 크기·토큰 계산
-run_experiment.sh    GPU 서버 한 바퀴
+run_experiment.sh    GPU 서버 한 바퀴 (모델마다 서버를 동시에 띄우고 pipeline --models)
 docgen/              합성 서류 생성기 (의존 코드). paginate.js 에 머리글 반복 끄기 스위치를 더함
 templates/ fonts/ add_template/   생성기 서식·글꼴·실제 은행 서식
 Dockerfile docker/ docs/DOCKER.md  생성기 실행 환경 (내부망 도커)
@@ -339,6 +340,8 @@ tests/               test_docs.py, test_bench.py (생성기), test_mpx.py (연�
 
 - `pipeline.run_all(out, n_test, workers, base_url, model, budget, ..., probe_items, data, sampling)`: 2.2의 한 번에 실행이다.
   `data`를 주면 생성을 건너뛰고 그 묶음을 쓴다(모델 여러 개를 같은 묶음으로).
+- `pipeline.run_models(out, {이름: 서버 주소}, n_test, workers, data, ...)`: 묶음을 한 번 만들고 모델마다 `run_all`을
+  동시에(스레드 하나씩) `<out>/<이름>/`에 돌린 뒤 `compare`로 `<out>/compare/`를 낸다.
 - `pipeline.compare({이름: pipeline 출력 폴더}, data, out)`: 모델별 결과를 합친다. 행 기록을 모아 다시 분석하고(실행 이름 앞에 모델 이름), 통제 실험 비교표와 모든 모델의 답을 담은 viewer를 만든다.
 - 모델 없이 돌리면 다음을 점검해 `summary.json`의 `checks`에 남긴다.
   - 정답 답은 모든 행이 정확하고 종합 지표 100%

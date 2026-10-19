@@ -1,7 +1,12 @@
-"""한 번에 실행: ① 생성 → ② 관찰 실행 → ③ 행 기록·분류 → ④ 분석 → ⑤ 통제 실험 → ⑥ 종합표·viewer.
+"""한 번에 실행: ① 생성 → ② 관찰 실행 → ③ 행 기록·분류 → ④ 분석 → ⑤ 통제 실험 → ⑥ 종합표·viewer → ⑦ 모델 비교.
 
   python -m mpx pipeline --out runs/check --n-test 6                                            # 모델 없이 점검
-  python -m mpx pipeline --out runs/obs1 --n-test 100 --base-url http://127.0.0.1:8000/v1 --model bank-ocr
+  python -m mpx pipeline --out runs/exp1 --n-test 200 \
+      --models base=http://127.0.0.1:8100/v1 bank=http://127.0.0.1:8101/v1                    # 모델 둘을 동시에
+
+모델이 여럿이면 묶음은 한 번만 만들고, 모델마다 ②~⑥ 을 동시에(모델마다 스레드 하나, 서버는 각자) 돌려 <out>/<이름>/ 에
+쓴 뒤, ⑦ 에서 합쳐 <out>/compare/ 에 낸다. 모든 모델이 같은 묶음·같은 질문·같은 통제 실험 문항을 받으므로 비교는
+문항 단위로 짝지어진다.
 
 ① 생성       평가 묶음(벤치마크 시나리오 구성 + 긴 목록, 머리글 쌍둥이 판 포함)
 ② 관찰 실행  한 번에 넣기(allatonce, 2부 방식)와 쪽 단위(pagewise, 원래 해상도). 모델이 없으면 정답을 답으로
@@ -22,11 +27,12 @@ import json
 import sys
 import time
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from . import analyze, gen, probe, report, rows, viewer
 from .common import read_jsonl
-from .run import Client, run
+from .run import Client, run, served_model
 
 CHECK_KEYS = ("page_assign_acc", "doc_pages_exact", "field_f1", "row_f1", "boundary_row_recall", "cont_row_recall")
 SIM_EXPECT = ("partial", "misread", "misplaced", "skipped", "cut_length")
@@ -35,7 +41,7 @@ SIM_EXPECT = ("partial", "misread", "misplaced", "skipped", "cut_length")
 def _step(summary: dict, name: str, t0: float) -> float:
     t = time.monotonic()
     summary["seconds"][name] = round(t - t0, 1)
-    print(f"[{name}] {t - t0:.1f}s", file=sys.stderr)
+    print(f"[{Path(summary['out']).name} {name}] {t - t0:.1f}s", file=sys.stderr)
     return t
 
 
@@ -86,6 +92,30 @@ def run_all(out, n_test: int = 6, workers: int = 4, base_url: str | None = None,
     summary["outputs"] = {"analysis": str(out / "analysis.md"), "probes": [str(out / n / "probes.md") for n in probe_runs],
                           "probe_viewer": [str(out / n / "viewer.html") for n in probe_runs],
                           "report": str(out / "report" / "report.md"), "viewer": summary["viewer"]}
+    (out / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
+    return summary
+
+
+def run_models(out, models: dict, n_test: int = 6, workers: int = 4, data: str | None = None,
+               test_compose: str = "scenario", **kw) -> dict:
+    """models = {이름: 서버 주소}. 묶음을 한 번 만들고(data 를 주면 그것), 모델마다 run_all 을 동시에 돌린 뒤 compare.
+    서버의 모델 이름은 /models 에서 찾는다(이름과 같은 것이 있으면 그것). kw 는 run_all 로 그대로."""
+    out = Path(out)
+    test = Path(data) if data else out / "data" / "test"
+    t0 = time.monotonic()
+    if not data:
+        gen.generate(test, n_test, "test", test_compose, workers=workers, twins=True)
+    served = {name: served_model(url, name) for name, url in models.items()}
+    with ThreadPoolExecutor(len(models)) as ex:
+        futs = {name: ex.submit(run_all, out / name, workers=workers, base_url=url, model=served[name],
+                                data=str(test), **kw)
+                for name, url in models.items()}
+        runs = {name: f.result() for name, f in futs.items()}
+    t = time.monotonic()
+    cmp = compare({name: out / name for name in models}, test, out / "compare")
+    summary = {"out": str(out), "data": str(test), "models": {n: {"url": u, "served": served[n]} for n, u in models.items()},
+               "seconds": {"모델별 ①~⑥ (동시)": round(t - t0, 1), "⑦ 비교": round(time.monotonic() - t, 1)},
+               "runs": {n: s["outputs"] for n, s in runs.items()}, "outputs": cmp}
     (out / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
     return summary
 

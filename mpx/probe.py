@@ -206,7 +206,7 @@ def run_probes(data_dir, out, client=None, workers: int = 8, simulate: float = 0
         for k, fu in enumerate(as_completed(futs), 1):
             f.write(json.dumps(fu.result(), ensure_ascii=False) + "\n")
             f.flush()
-            print(f"\r통제 실험: {k}/{len(todo)}", end="", file=sys.stderr)
+            print(f"\r{client.model if client else 'oracle'} 통제 실험: {k}/{len(todo)}", end="", file=sys.stderr)
     print(file=sys.stderr)
     return path
 
