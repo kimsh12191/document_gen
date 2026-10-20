@@ -23,7 +23,13 @@ async function view_review() {
       ["cer", "사내 OCR 글자 오류율", b => b.review.done ? `${pct(b.review.ocr_cer)}%` : "-", true],
       ["f1", "박스 F1", b => b.review.done ? pct(b.review.box_f1) : "-", true],
       ["chg", "고친·더한·뺀 단어", b => b.review.done ? `${b.review.changed} · ${b.review.added} · ${b.review.deleted}` : "-"]])
-      : `<p class="muted">가져온 묶음이 없습니다. <a href="#/import">④ 가져오기</a>에서 만듭니다.</p>`}`;
+      : `<p class="muted">가져온 묶음이 없습니다. <a href="#/import">④ 가져오기</a>에서 만듭니다.</p>`}
+    <h2>라벨 검수</h2>
+    <div class="sub">추론 결과(결과 폴더의 pred, 또는 autolabel)를 문서마다 고쳐 실서류 정답을 만듭니다. 확인한 문서는 표준 라벨 v1 폴더가 되어
+      ④ 라벨 있는 데이터로 데이터셋을 만듭니다. 검수 전후를 비교해 그 모델의 실서류 점수가 나옵니다.</div>
+    ${r.imports.length ? table(r.imports, [["name", "묶음", b => `<a href="#/labels/${q(b.name)}">${esc(b.name)}</a>`],
+      ["source", "출처", b => esc(b.source.kind === "results" ? "결과 폴더" : b.source.kind)],
+      ["n_formats", "포맷", null, true], ["go", "", b => `<a href="#/labels/${q(b.name)}"><button>라벨 검수</button></a>`]]) : ""}`;
 }
 
 async function viewReviewBatch(name) {

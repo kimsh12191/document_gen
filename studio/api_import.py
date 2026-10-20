@@ -1,7 +1,7 @@
 """④ 가져오기 · ⑤ 검수(OCR 검수) API.
 
   GET  /api/imports                         묶음 목록
-  POST /api/imports                         묶음 만들기 {name, kind: folder|docgen, path?, recipe?, real_data, public} → OCR 작업
+  POST /api/imports                         묶음 만들기 {name, kind: folder|results|docgen, path?, recipe?, real_data, public} → OCR 작업
   POST /api/imports/upload                  파일 올려 묶음 만들기 (multipart: name, files…)
   GET  /api/imports/{묶음}                  묶음 정보, 포맷·양식, 쪽 목록(지문 없이)
   POST /api/imports/{묶음}/regroup          다시 묶기 · POST /api/imports/{묶음}/merge {src, dst} · /split {pages, name}
@@ -65,6 +65,12 @@ def make_router(reg, jobs, guard, cfg: dict, real_root: Path) -> APIRouter:
     def create(req: CreateReq):
         if req.kind == "docgen":
             return guard(_from_docgen, req)
+        if req.kind == "results":   # 결과 폴더: 저장된 OCR·추론 결과 (studio/RESULTS_FORMAT.md)
+            from . import results as RS
+
+            b = guard(RS.create_batch, reg.ws, req.name, req.path, cfg.get("ocr"), cfg.get("import_dir"))
+            job = start_ocr(imports / b["name"])
+            return {**b, "job": job["id"]}
         b = guard(IM.create_batch, reg.ws, req.name, req.path, req.real_data, req.public, cfg.get("ocr"), cfg.get("import_dir"))
         job = start_ocr(imports / b["name"])
         return {**b, "job": job["id"]}

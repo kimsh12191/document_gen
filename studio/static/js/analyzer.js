@@ -4,7 +4,7 @@
 
 addRoute(/^#\/jobs\/analyzer\/([^/]+)$/, id => viewAnalyzerJob(decodeURIComponent(id)), "jobs");
 
-const AZ_KIND = { html: "이미지 → html 서식", layout: "값 영역 초안 (overlay)" };
+const AZ_KIND = { html: "이미지 → html 서식", layout: "값 영역 초안 (overlay)", autolabel: "실서류 먼저 채우기 (autolabel)" };
 
 async function analyzerPanel(el) {
   const r = await api("/api/analyzer");
@@ -109,13 +109,16 @@ async function viewAnalyzerJob(id) {
           ${info.checks.length ? `<ul class="checks">${info.checks.map(c => `<li class="warn">${esc(c.text)}</li>`).join("")}</ul>` : ""}
           <div class="ds-imgs">${info.images.map(p => `<div class="stage"><img src="${f(p)}" alt=""></div>`).join("")}</div>`).join("")}
         ${a.kind === "layout" && res ? `<div class="muted">값 영역 ${res.items ?? 0}개</div>` : ""}
+        ${a.kind === "autolabel" && res && res.autolabel ? `<div>채움 ${res.autolabel.done} · 건너뜀 ${res.autolabel.skipped} · 실패 ${res.autolabel.failed}
+          · <a href="#/labels/${q(a.target.batch)}/format/${q(a.target.format)}">라벨 검수로</a></div>` : ""}
       </div>
     </div>
     ${Object.entries(a.output).map(([n, t]) => `<details class="panel"><summary class="mono">output/${esc(n)}</summary><pre class="ans mono">${esc(t)}</pre></details>`).join("")}
     <div class="rc-grid" style="margin-top:10px">
       <div class="panel">
         <b>승인</b>
-        ${a.review.approved ? `<div><span class="tag ok">승인함</span> ${esc(a.review.approved.as)} · ${esc(a.review.approved.by)} ${esc(a.review.approved.at)}
+        ${a.kind === "autolabel" ? `<div class="muted">autolabel 은 승인이 없습니다. 채운 값은 라벨 검수에서 사람이 확인해야 정답이 됩니다.</div>`
+          : a.review.approved ? `<div><span class="tag ok">승인함</span> ${esc(a.review.approved.as)} · ${esc(a.review.approved.by)} ${esc(a.review.approved.at)}
             ${a.kind === "html" ? ` · <a href="#/forms/${q(a.review.approved.as)}/html">html 편집기로</a>` : ` · <a href="#/forms/${q(a.review.approved.as)}/edit">영역 편집기로</a>`}</div>`
           : a.kind === "html" && !a.target.update ? `<div class="bar"><label>서식 ID <input type="text" id="ap-id" value="${esc(a.target.form_id || "")}" style="width:180px"></label>
               <label>이름 <input type="text" id="ap-name" value="${esc(a.target.name || "")}"></label>

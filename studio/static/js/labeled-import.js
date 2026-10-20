@@ -13,6 +13,8 @@ function labeledImportHTML() {
 }
 
 function bindLabeledImport() {
+  const pre = store.get("li.path", "");   // ⑤ 라벨 검수의 "데이터셋으로" 가 넘긴 폴더
+  if (pre && $("#li-path")) { $("#li-path").value = pre; store.set("li.path", ""); setTimeout(() => $("#li-check") && $("#li-check").click(), 0); }
   const root = $("#li-panel"), input = $("#li-path"), report = $("#li-report"), checkButton = $("#li-check");
   input.oninput = () => { report.innerHTML = ""; };
   checkButton.onclick = async () => {

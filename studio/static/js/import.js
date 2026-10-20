@@ -52,7 +52,7 @@ async function view_import() {
       사내 OCR 없이 흐름을 보려면 아래 "생성 데이터로 시험"을 쓰세요.</div>`}
     ${r.imports.length ? table(r.imports, [
       ["name", "묶음", b => `<a href="#/import/${q(b.name)}">${esc(b.name)}</a>`],
-      ["source", "출처", b => `${esc({ folder: "폴더", upload: "올린 파일", docgen: "생성 데이터(시험)" }[b.source.kind] || b.source.kind)}
+      ["source", "출처", b => `${esc({ folder: "폴더", upload: "올린 파일", docgen: "생성 데이터(시험)", results: "결과 폴더" }[b.source.kind] || b.source.kind)}
         <div class="muted mono">${esc(b.source.path || "")}</div>`],
       ["real_data", "실서류", b => b.real_data ? `<span class="tag warn">실서류</span>` : `<span class="tag">아님</span>`],
       ["n_pages", "쪽", b => `${b.n_ocr}/${b.n_pages}`, true], ["n_formats", "포맷", null, true],
@@ -70,6 +70,13 @@ async function view_import() {
         <label class="fld"><input type="checkbox" id="im-public"> 공개 서식 (빈 서식·견본이라 저장소에 서식으로 넣어도 됨)</label>
         <button class="primary" id="im-go">만들고 OCR·묶기</button>
         <div class="muted" style="margin-top:6px">폴더 안의 이미지 한 장 = 문서 하나, PDF 하나 = 문서 하나(쪽마다 그림).</div>
+        <b style="margin-top:14px">결과 폴더에서 (저장된 OCR·추론 결과)</b>
+        <div class="muted">이미 OCR·모델 추론을 돌려 저장해 둔 폴더 (<span class="mono">meta.json · images/ · ocr/ · pred/</span>, studio/RESULTS_FORMAT.md).
+          저장된 OCR 로 묶고, 추론 결과는 ⑤ 라벨 검수의 출발점이 됩니다. 폴더에는 쓰지 않습니다.</div>
+        <label class="fld">묶음 이름 <input type="text" id="rs-name"></label>
+        <label class="fld">결과 폴더 경로 <input type="text" id="rs-path"></label>
+        <div class="bar"><button id="rs-check">검사</button><button class="primary" id="rs-go" disabled>만들고 묶기</button></div>
+        <div id="rs-report"></div>
       </div>
       <div class="panel">
         <b>파일 올리기</b>
@@ -87,6 +94,20 @@ async function view_import() {
     </div>`;
   bindLabeledImport();
   const started = res => { toast(`작업을 시작했습니다: ${res.name}`); location.hash = `#/import/${q(res.name)}`; };
+  $("#rs-check").onclick = async () => {
+    try {
+      const c = await api("/api/results/check", { path: $("#rs-path").value.trim() });
+      $("#rs-report").innerHTML = `<div class="${c.ok ? "" : "err"}">${c.ok ? "✔ 검사 통과" : "✘ 문제가 있습니다"}
+        ${c.summary ? ` · 문서 ${c.summary.documents} · 쪽 ${c.summary.pages} · 추론 ${c.summary.with_pred} · 묶음 ${c.summary.bundles}` : ""}</div>
+        <ul class="checks">${c.errors.map(e => `<li class="warn">✘ ${esc(e)}</li>`).join("")}${c.warnings.map(w => `<li>⚠ ${esc(w)}</li>`).join("")}</ul>`;
+      $("#rs-go").disabled = !c.ok;
+      if (c.ok && !$("#rs-name").value && c.meta) $("#rs-name").value = c.meta.name || "";
+    } catch (e) { toast(e.message, true); }
+  };
+  $("#rs-go").onclick = async () => {
+    try { started(await api("/api/imports", { name: $("#rs-name").value.trim(), kind: "results", path: $("#rs-path").value.trim() })); }
+    catch (e) { toast(e.message, true); }
+  };
   $("#im-go").onclick = async () => {
     try {
       started(await api("/api/imports", { name: $("#im-name").value.trim(), kind: "folder", path: $("#im-path").value.trim(),

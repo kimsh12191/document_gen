@@ -1,6 +1,6 @@
 # 결과 폴더 형식 (OCR·추론 결과가 이미 있을 때)
 
-> 구현 상태 (2026-10-20): 이 문서의 **임의 모델 결과 가져오기·라벨 편집은 예정 기능**이며 `studio.results` 모듈도 없다. 생성기 공통 형식으로 준비한 정답 라벨은 현재 [LABEL_FORMAT.md](LABEL_FORMAT.md)의 **④ 라벨 있는 데이터 → 폴더 검사·확인 → 생성·자동 등록** 경로로 가져올 수 있다. 아래 임의 형식 매핑·편집 UI·명령 예시는 해당 기능 구현 후의 사용 방법이다.
+> 구현 상태 (2026-10-20, studio 9단계): **④ 가져오기 › 결과 폴더에서**(검사 → 만들고 묶기) → **⑤ 검수 › 라벨 검수**(포맷의 서식 정하기, 키 대응, 문서마다 고쳐 확인, 같은 자리 모아 보기, 의심 먼저, 검수 전 점수, 업무 묶음) → 확인한 문서가 [LABEL_FORMAT.md](LABEL_FORMAT.md)의 표준 라벨 v1 폴더가 되어 **④ 라벨 있는 데이터**로 데이터셋을 만든다. 명령줄 검사는 `python -m studio.results check <폴더>`. 코드: `studio/results.py`, `studio/label_review.py`.
 
 **이미 정답 라벨이 있는 데이터는 [LABEL_FORMAT.md](LABEL_FORMAT.md)의 생성기 공통 표준 v1을 사용한다.** 이 문서의 `pred/*.json`·임의 키 매핑은 기존 모델 추론 결과를 보존하는 보조 경로다. 정답 라벨의 `fields`·픽셀 `bbox`·0부터 시작하는 `page`와 추론/모델 답의 `items`·`bbox_2d`·1부터 시작하는 `page`를 구분한다.
 
@@ -123,8 +123,14 @@ studio는 결과 폴더에 쓰지 않는다. 검수 결과는 설정의 `real_da
 
 ```
 <real_data_dir>/
-  labels/<결과 폴더 이름>/<문서ID>.json        라벨 검수 결과 (항목마다 자동/수정/확인/추가/삭제, 원래 추론 값 포함)
-  ocr_reviewed/<결과 폴더 이름>/<이미지 상대 경로>.json   OCR 검수 결과. 사내 OCR 응답 형식 그대로 (1부 scan --ocr-dir 로 바로 읽힘)
-  ocr_reviewed/<결과 폴더 이름>/review.jsonl  쪽마다 검수 상태
-  bundles/<결과 폴더 이름>.jsonl              업무 묶음 검수 결과 (묶음, 시나리오, 계산·확인한 구비·대조·심사 답)
+  labels/<묶음 이름>/                  표준 라벨 v1 폴더 그대로 (④ 라벨 있는 데이터의 입력)
+    meta.json                          {"format": "docgen-labels/1", "gt": "reviewed", "real_data", "from_batch", "model"}
+    labels/<문서>.json                 확인한 문서의 v1 라벨 (doc_type = 포맷의 서식, 픽셀 bbox, page 0부터)
+    images/<문서>_p<쪽>.png            쪽 그림
+    review/<문서>.json                 검수 상태: 항목마다 자동/수정/확인/추가/삭제, 원래 추론 값(original) 포함
+    keymap.json                        포맷마다 모델 키 → 표준 키
+    bundles.jsonl                      업무 묶음 (v1 형식: bundle_id, scenario, documents, customer?, not_customer?)
+  ocr_reviewed/<묶음 이름>/<쪽>.json     OCR 검수 결과. 사내 OCR 응답 형식 그대로 (1부 scan --ocr-dir 로 바로 읽힘)
+  ocr_reviewed/<묶음 이름>/review.jsonl  쪽마다 검수 상태
 ```
+- 확인을 푼 문서는 `labels/` 에서 빠진다 (v1 폴더에는 확인한 문서만). 구비·대조·심사 답은 v1 폴더로 데이터셋을 만들 때 규칙 코드가 계산한다.

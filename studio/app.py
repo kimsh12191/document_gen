@@ -37,7 +37,7 @@ from pydantic import BaseModel, Field
 from docgen import marks as M
 from docgen.preview import CONDITIONS, MODES, Previewer
 
-from . import api_bank, api_datasets, api_html, api_import, api_labels, catalog, editor, marks_admin
+from . import api_bank, api_datasets, api_html, api_import, api_labels, api_review, catalog, editor, marks_admin
 from . import datasets as DS
 from .jobs import Jobs
 from .config import ROOT, load, resolve_path, setup_browser
@@ -89,6 +89,7 @@ REAL_ROOT = resolve_path(CFG.get("real_data_dir")) or REGISTRY.ws / "real_data"
 app.include_router(api_import.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT / "ocr_reviewed"))
 app.include_router(api_labels.make_router(REGISTRY, JOBS, guard, CFG))
 app.include_router(api_html.make_router(REGISTRY, JOBS, guard, CFG, previewer, lambda p: f"/preview/{p}"))   # html 편집·복제·분석기
+app.include_router(api_review.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT))   # 결과 폴더 검사, 라벨 검수
 app.mount("/fonts", StaticFiles(directory=ROOT / "docgen" / "fonts"), name="fonts")   # 손글씨 글꼴 (화면의 글꼴 미리보기)
 
 

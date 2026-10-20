@@ -413,17 +413,94 @@ def approve(ws: Path, job_id: str, by: str, form_id: str | None = None, name: st
     return rv["approved"]
 
 
+# ---------------------------------------------------------------------------
+# autolabel: 실서류를 내부 모델로 먼저 채운다 (⑤ 라벨 검수의 출발점)
+# ---------------------------------------------------------------------------
+
+def create_autolabel(ws: Path, cfg: dict, provider: str, bdir: Path, fid: str, docs: list[dict], keys: list[dict],
+                     overwrite: bool = False) -> Path:
+    """docs: [{doc, pages: [그림 경로]}], keys: 그 서식의 표준 키 [{key, label}]. openai 방식·내부(external: false) 분석기만.
+    결과는 묶음 폴더의 pred/<문서>.json (결과 폴더의 pred 와 같은 꼴) — 이미 있으면 overwrite 가 아니면 건너뛴다."""
+    p = _provider(cfg, provider)
+    if p["kind"] != "openai":
+        raise ValueError("autolabel 은 openai 방식 분석기로만 돌립니다 (문서마다 질문을 보낸다)")
+    if p.get("external", True):
+        raise ValueError("autolabel 은 실서류를 보내므로 내부 분석기(external: false)만 쓸 수 있습니다")
+    if not keys:
+        raise ValueError("서식의 표준 키가 없습니다 (포맷의 서식을 먼저 정하세요)")
+    job_id = time.strftime("%Y%m%d-%H%M%S-") + uuid.uuid4().hex[:4]
+    d = _root(ws) / job_id
+    (d / "output").mkdir(parents=True)
+    from docgen.bench.prompts import P_KIE
+
+    prompt = P_KIE.format(items="\n".join(f"- {k['key']}: {k.get('label') or '-'}" for k in keys))
+    (d / "TASK.md").write_text(prompt, encoding="utf-8")
+    (d / "input").mkdir()
+    _write(d / "job.json", {"id": job_id, "kind": "autolabel", "provider": provider, "provider_kind": "openai", "external": False,
+                            "target": {"batch": bdir.name, "format": fid, "batch_dir": str(bdir), "overwrite": overwrite},
+                            "docs": docs, "source": {"real_data": True, "label": f"묶음 {bdir.name}"},
+                            "created": time.strftime("%Y-%m-%d %H:%M:%S"), "sent": [f"{len(docs)}개 문서의 쪽 그림 (작업 폴더에 복사하지 않음)"]})
+    return d
+
+
+def run_autolabel(d: Path, cfg: dict) -> None:
+    from urllib.request import Request, urlopen
+
+    from .label_review import safe
+
+    job = _read(d / "job.json")
+    p = _provider(cfg, job["provider"])
+    bdir = Path(job["target"]["batch_dir"])
+    (bdir / "pred").mkdir(exist_ok=True)
+    prompt = (d / "TASK.md").read_text(encoding="utf-8")
+    done = skipped = failed = 0
+    for n, doc in enumerate(job["docs"], 1):
+        out = bdir / "pred" / f"{safe(doc['doc'])}.json"
+        if out.exists() and not job["target"].get("overwrite"):
+            skipped += 1
+            continue
+        content = [{"type": "image_url", "image_url": {"url": "data:image/png;base64," + base64.b64encode(Path(im).read_bytes()).decode()}}
+                   for im in doc["pages"]] + [{"type": "text", "text": prompt}]
+        body = {"model": p.get("model"), "messages": [{"role": "user", "content": content}], "temperature": 0,
+                "max_tokens": int(p.get("max_tokens", 4096))}
+        req = Request(p["base_url"].rstrip("/") + "/chat/completions", data=json.dumps(body).encode("utf-8"),
+                      headers={"Content-Type": "application/json", **_auth(p)})
+        try:
+            with urlopen(req, timeout=int(p.get("timeout", 300))) as resp:
+                text = json.loads(resp.read().decode("utf-8"))["choices"][0]["message"]["content"]
+            m = re.search(r"\[.*\]", text, re.S)
+            items = [x for x in json.loads(m.group(0)) if isinstance(x, dict) and "key" in x] if m else []
+            _write(out, {"items": items, "model": p.get("model"), "provider": job["provider"], "raw": text, "autolabel": job["id"]})
+            done += 1
+        except Exception as e:  # noqa: BLE001  문서 하나가 실패해도 나머지는 계속
+            failed += 1
+            print(f"{doc['doc']}: {type(e).__name__}: {e}", flush=True)
+        print(f"문서 {n}/{len(job['docs'])}", flush=True)
+    _write(d / "output" / "summary.json", {"done": done, "skipped": skipped, "failed": failed})
+    print(f"채움 {done}, 건너뜀 {skipped}, 실패 {failed}", flush=True)
+
+
+def validate_autolabel(d: Path) -> dict:
+    s = _read(d / "output" / "summary.json", {}) or {}
+    res = {"ok": bool(s.get("done")) or bool(s.get("skipped")), "errors": [] if s.get("done") or s.get("skipped") else ["채운 문서가 없습니다"],
+           "renders": {}, "autolabel": s}
+    if s.get("failed"):
+        res["errors"].append(f"실패한 문서 {s['failed']}개 (실행 로그)")
+    return _save_result(d, res)
+
+
 def main(argv=None) -> None:
     import argparse
 
     ap = argparse.ArgumentParser(prog="studio.analyzers")
     sub = ap.add_subparsers(dest="cmd", required=True)
-    o = sub.add_parser("openai")
-    o.add_argument("job_dir")
+    for name in ("openai", "autolabel"):
+        o = sub.add_parser(name)
+        o.add_argument("job_dir")
     a = ap.parse_args(argv)
     from .config import load
 
-    run_openai(Path(a.job_dir), load())
+    (run_openai if a.cmd == "openai" else run_autolabel)(Path(a.job_dir), load())
 
 
 if __name__ == "__main__":
