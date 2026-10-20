@@ -1,7 +1,7 @@
 """HTML → PNG 렌더링 (Playwright/Chromium). 필드·항목명·체크박스·도장 위치(bbox)도 함께 추출한다.
 
 서류 한 건이 여러 쪽(.page 여러 개)이면 쪽마다 이미지를 따로 저장한다.
-페이지 나눔은 paginate.js 가 브라우저에서 처리한다 (.page[data-paginate] 인 서류만).
+페이지 나눔은 paginate.js 가 브라우저에서 처리한다 (A4 서류 .page.a4 · .page.a4_landscape 가 넘치면 다음 쪽으로).
 """
 from __future__ import annotations
 
@@ -150,7 +150,7 @@ class ImageRenderer:
         """
         self._page.set_content(html, wait_until="load")
         self._page.evaluate("document.fonts.ready")
-        info_pages = self._page.evaluate("(" + _PAGINATE_JS + ")()")  # 넘친 쪽 나누기 (나눈 쪽 수)
+        self._page.evaluate("(" + _PAGINATE_JS + ")()")  # 넘친 쪽 나누기
         info = self._page.evaluate(_JS_COLLECT)
         s = self.scale
         paths = page_paths(png_path, len(info["pages"]))

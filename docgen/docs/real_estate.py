@@ -227,7 +227,7 @@ def _history(p: Profile, f: dict, r: random.Random) -> dict:
     """소유권 변동과 갑구·을구 등기 사항을 시간 순으로 만든다.
 
     사건(ev)을 먼저 모은 뒤 날짜 순으로 정렬해 순위번호·접수번호를 매기고, 말소 사건이 가리키는 줄에 말소 표시를 한다."""
-    a, pr, seller = f["a"], f["pr"], f["pr"].seller
+    a, seller = f["a"], f["pr"].seller
     issue = p.issue_date
     H = heavy(r, 0.3)
     sp = {k: special(r, k, q) for k, q in (

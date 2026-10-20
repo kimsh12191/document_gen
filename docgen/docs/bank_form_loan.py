@@ -330,10 +330,6 @@ def _legal_bank(bank: str) -> str:
     return brand(bank).legal
 
 
-def _bank_name(p: Profile, rng: random.Random) -> str:
-    return p.bank if rng.random() < 0.3 else _legal_bank(p.bank)
-
-
 # ---------------------------------------------------------------------------
 # 1. 대출거래신청서 (개인)
 # ---------------------------------------------------------------------------

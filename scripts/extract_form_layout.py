@@ -403,7 +403,7 @@ def analyze_page(page, pno: int) -> dict:
                     for x in c["toks"]:
                         used.add(id(x))
                 continue  # 이미 글자가 인쇄된 칸 (라벨·안내문)
-            label, row, group = None, None, None
+            label, group = None, None
             hdr = col_header(c)
             # 구역 이름: 같은 행 맨 왼쪽의 세로로 합쳐진 라벨 칸 (대리인 / 위임인 / 기업부담금 …)
             rowl = [o for o in cells if o["rect"][2] <= r[0] + 1 and o["dark"] and label_like(o["dtext"])

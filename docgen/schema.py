@@ -261,9 +261,3 @@ def build_fields(fields: list[dict], info: dict | None = None) -> list[dict]:
                         "present": True, "kind": "직인" if s["square"] else "도장", "page": s["page"], "bbox": s["bbox"]})
     return out
 
-
-def gt_from_fields(fields: list[dict]) -> dict:
-    """라벨 필드 → 중첩 정답 JSON (통일 키 기준). 도장·서명은 bool, 빈 칸은 null."""
-    from .render import to_nested
-
-    return to_nested([{**f, "type": f["type"]} for f in fields])

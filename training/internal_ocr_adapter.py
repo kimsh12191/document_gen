@@ -1,10 +1,5 @@
 # 필요한 라이브러리 임포트
 import requests
-import base64
-import json
-from PIL import Image
-import matplotlib.pyplot as plt
-import io
 import os
 # OCR API 서버 엔드포인트 설정
 BASE_URL = os.getenv("INTERNAL_OCR_BASE_URL", "http://localhost:30107")

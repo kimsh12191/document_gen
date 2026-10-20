@@ -153,7 +153,7 @@ def example_slides(e: dict, amap: dict, color: str, eyebrow: str, start: int) ->
 
 def table_slides(rows: list[tuple[str, str]], color: str, eyebrow: str, title: str, start: int) -> list[tuple[str, str]]:
     """A key/meaning dictionary, as many slides as it needs."""
-    out, cur, used, n = [], [], 54, 0
+    out, cur, used = [], [], 54
     for k, v in rows:
         h = max(len(wrap(v, 1664 * 0.7 - 30, mono=False)), len(wrap(k, 1664 * 0.3 - 30))) * 34 + 18
         if cur and used + h > H_AVAIL:

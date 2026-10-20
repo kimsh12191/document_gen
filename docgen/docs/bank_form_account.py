@@ -57,11 +57,8 @@ def _date(p: Profile, rng: random.Random) -> str:
 # 고객확인서 (개인) — 은행 서식명: 고객거래확인서(개인·개인사업자용)
 # ---------------------------------------------------------------------------
 
-CDD_JOBS = ["급여소득자", "개인사업자", "전문직", "공무원", "연금소득자", "주부", "학생", "무직", "기타"]
 CDD_PURPOSES = ["급여 및 생활비", "저축 및 투자", "보험료 납부결제", "공과금 납부결제", "카드대금 결제",
                 "대출원리금 상환결제", "사업상 거래", "기타"]
-CDD_FUNDS = ["근로 및 연금소득", "퇴직소득", "사업소득", "부동산임대소득", "부동산양도소득",
-             "금융소득(이자 및 배당)", "상속·증여", "일시 재산양도로 인한 소득", "기타"]
 
 
 @doc("customer_due_diligence", "고객확인서(개인)", "bank_form", category="internal")
@@ -131,7 +128,6 @@ _EDD_ASSETS = ["5억원 미만", "5억원~10억원", "10억원~30억원", "30억
 
 def _cdd_variants(p: Profile, rng: random.Random, data: dict) -> None:
     """고객확인서(개인) 변형: 강화된 고객확인(EDD) 추가정보(여러 쪽), 외국인, 대리인, 실제소유자 별도, 공란, 체크 누락."""
-    per = p.person
     cu = data["customer"]
     if _solo(p) and special(rng, "foreigner", 0.1):  # 외국인 고객 (외국인등록증으로 실명확인)
         fo = _foreigner(p, rng)
@@ -705,7 +701,6 @@ _BATCH_PARTIES = [
 
 def _remit_variants(p: Profile, rng: random.Random, data: dict, school: bool) -> None:
     """해외송금신청서 변형: 여러 건 일괄 송금(별지, 여러 쪽), 외국인 근로자 본국 송금, 대리인, 공란."""
-    rem, ben = data["remittance"], data["beneficiary"]
     if not school and heavy(rng, 0.2):  # 거래처 여러 곳에 한 번에 송금 → 별지 송금명세
         rows = []
         for name, country, bank, swift in rng.sample(_BATCH_PARTIES, rng.randint(6, 11)):
