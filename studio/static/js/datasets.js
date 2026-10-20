@@ -356,12 +356,12 @@ async function viewBundle(id, bid) {
       <div class="viewer" style="grid-template-columns:minmax(0,1fr) 420px">
         <div>${base.map(docCard).join("")}${extra.length ? `<h2>바꿔 넣은 서류</h2>${extra.map(docCard).join("")}` : ""}</div>
         <div class="side panel">
-          <b>고객 프로필</b> <span class="muted" style="font-size:12px">값을 누르면 서류에서 그 값이 있는 자리를 초록 박스로</span>
+          ${b.source === "labels" ? `<b>가져온 문서의 처리 결과</b><p class="muted">입력 라벨과 문서 연결을 사용합니다.</p>` : `<b>고객 프로필</b> <span class="muted" style="font-size:12px">값을 누르면 서류에서 그 값이 있는 자리를 초록 박스로</span>`}
           ${table(b.profile, [["what", "항목", p => `<a href="#" data-what="${esc(p.what)}" class="${sel.what === p.what ? "kr" : ""}">${esc(p.what)}</a>`],
             ["value", "값"], ["where", "나온 서류", p => p.where.length ? `${p.where.length}곳` : `<span class="muted">-</span>`]])}
           <b>고객 일관성 검사</b> ${b.source === "labels" ? `<span class="muted">합성 프로필 검사 미적용</span>` : warn.length ? `<span class="tag warn">${warn.length}건</span>` : `<span class="tag ok">이상 없음</span>`}
           ${warn.length ? `<ul class="checks">${warn.map(w => `<li class="warn">${esc(w.doc)} · ${esc(w.label || w.key)}: ${esc(w.value)} (프로필 ${esc(w.expected)})</li>`).join("")}</ul>` : ""}
-          <div class="muted" style="font-size:12px">고객 본인 역할 칸의 성명·주민번호·주소만 봅니다 (경고만).</div>
+          ${b.source === "labels" ? "" : `<div class="muted" style="font-size:12px">고객 본인 역할 칸의 성명·주민번호·주소만 봅니다 (경고만).</div>`}
           <b>대조 문항 (변조판)</b>
           ${(b.variants || []).map(v => `<div class="bd-var"><span class="tag ${v.perturbed ? "warn" : "ok"}">${v.perturbed ? "변조" : "정상"}</span>
             <span class="mono">${esc(v.case)}</span> <span class="muted">${esc(v.category)}</span>

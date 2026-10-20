@@ -13,6 +13,7 @@
 | [guide/tutorial.md](guide/tutorial.md) | **처음부터 따라하기.** 코드 받기 → 설치 → 사내 OCR 서버 띄우기(`/share/mond/ocr_api/server.py`) → OCR 학습 → 합성 데이터 만들기 → 은행 업무 학습 → 결과 확인. 단계마다 확인 방법, 맨 끝에 자주 나는 에러 표 |
 | [guide/overview.md](guide/overview.md) | 프로젝트 소개 (팀 공유용 문서판). 1부·2부 각각 컨셉 → 데이터 구조 → 학습 방법 → 평가 방법 → viewer, 부록에 생성기·벤치마크 상세 |
 | [guide/slides/](guide/slides/README.md) | 발표 자료. 웹 슬라이드 원본 파일과, 브라우저로 바로 열리는 `guide/slides/index.html` (발표자 노트 포함) |
+| [studio/README.md](studio/README.md) | Studio UI 사용법. 합성 데이터 생성, 이미지 OCR 검수, [공통 라벨 규격](studio/LABEL_FORMAT.md)의 폴더 경로 검사·정답 확인·문항 생성·자동 등록 |
 
 **데이터와 과제 정의**
 

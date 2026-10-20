@@ -1,5 +1,6 @@
 """실제 라벨 묶음의 구비·직접 추출/비교·계산 문항. 이미지 변조와 합성 고객 생성은 하지 않는다."""
 import random
+import re
 
 from docgen.bench import processing as P
 from docgen.bench.prompts import P_DOC_CHECK, P_REVIEW
@@ -58,10 +59,14 @@ def build_bundles(check, documents, tasks):
                     super().__init__(sid, docs)
                     self.missing_numbers = False
                 def num(self, doc, key):
-                    value = super().num(doc, key)
+                    f = self.f(doc, key)
+                    value = super().num(doc, key) if f and f.get('value') not in (None, '') and not re.search(r'[*●•]', f['value']) else None
                     if value is None:
                         self.missing_numbers = True
                     return value
+                def date(self, doc, key):
+                    f = self.f(doc, key)
+                    return super().date(doc, key) if f and f.get('value') and not re.search(r'[*●•]', f['value']) else None
             for rid, fn in {**RULES, 'doc_valid': r_doc_valid}.items():
                 if not P.selected(conf, 'rule_ids', rid):
                     continue

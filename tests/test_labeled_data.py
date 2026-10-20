@@ -196,6 +196,20 @@ def test_bundle_uses_saved_custom_extract_and_compare_with_real_values(source, t
     assert compare['images'] == ['input/images/id.png']
 
 
+def test_review_does_not_use_hidden_numeric_gold():
+    from studio.labeled_bundles import build_bundles
+
+    check = {'meta': {'gt': 'reviewed'}, 'scenarios': {'s': {'name': '전세', 'docs': ['loan_application', 'lease_contract'],
+        'processing': {'doc_check': False, 'cross_check': False, 'rule_ids': ['jeonse_ratio']}}},
+        'bundles': [{'bundle_id': 'b', 'scenario': 's', 'documents': ['a', 'b']}]}
+    def doc(kind, key, value, norm):
+        return {'doc_id': kind, 'document_id': kind, 'name': kind, 'images': ['img.png'], 'condition': 'original',
+                'fields': [{'key': key, 'value': value, 'type': 'amount', 'norm': norm}]}
+    ds = {'a': doc('loan_application', 'loan.amount', '5*,000', 50000), 'b': doc('lease_contract', 'deposit', '100,000', 100000)}
+    items, records = build_bundles(check, ds, ['review'])
+    assert items == [] and records[0]['processing_results'][0]['status'] == 'skipped'
+
+
 def post(app, path, body):
     async def call():
         messages = []
