@@ -23,7 +23,7 @@ def main(argv=None) -> None:
                    help="seed 시작 번호 (학습 데이터를 나중에 더 만들 때 앞에서 만든 --bundles 만큼 올려 겹치지 않게)")
     b.add_argument("--workers", type=int, default=1, help="동시에 렌더링할 프로세스 수 (결과는 작업 수와 상관없이 같음)")
     b.add_argument("--force", action="store_true", help="이미 있는 출력 폴더에 다시 만들기")
-    b.add_argument("--recipe", help="레시피 JSON (studio datasets/recipes/*.json): 위 설정과 묶음 구성 규칙·직접 만든 묶음")
+    b.add_argument("--recipe", help="레시피 JSON (docgen/recipes/*.json): 위 설정과 묶음 구성 규칙·직접 만든 묶음")
 
     r = sub.add_parser("run", help="모델 예측 (OpenAI 호환 API)")
     r.add_argument("--bench", default="bench_out")

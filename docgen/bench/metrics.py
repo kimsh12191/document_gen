@@ -201,8 +201,8 @@ def yes_no(v) -> bool | None:
     return None
 
 # ---------------------------------------------------------------------------
-# 좌표 (1부 OCR 학습 training/bank_ocr 와 같은 규칙 — 그쪽은 따로 설치하는 프로젝트라 옮겨 둔다)
-#   normalize_box: training/bank_ocr/data.py,  valid_box·iou·match: training/bank_ocr/metrics.py
+# 좌표 (1부 OCR 학습 ocr/bank_ocr 와 같은 규칙 — 그쪽은 따로 설치하는 프로젝트라 옮겨 둔다)
+#   normalize_box: ocr/bank_ocr/data.py,  valid_box·iou·match: ocr/bank_ocr/metrics.py
 #   두 쪽이 같은 값을 내는지는 tests/test_bench_coords.py 가 확인한다.
 # ---------------------------------------------------------------------------
 

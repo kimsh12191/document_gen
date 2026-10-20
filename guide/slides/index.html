@@ -116,7 +116,7 @@ x-icon[name=Clock]::before{content:"◷";font-size:36px}
 <tr><td>marked_box</td><td>같은 이미지 + 색</td><td>그린 박스 좌표 + 글자</td><td>표시한 곳 → 좌표</td></tr>
 </table>
 <p style="font-size:26px;color:#44505C">박스 답 형식: [{"bbox_2d": [x1, y1, x2, y2], "label": "글자"}] · grounding의 약 10%는 없는 글자를 묻는 문항 · 질문은 한국어·영어 두 문장</p>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">1부 OCR 학습 · 질문 문장 전체: training/docs/PROMPTS.md</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">1부 OCR 학습 · 질문 문장 전체: ocr/docs/PROMPTS.md</p>
 <aside>marked 과제는 이미지에 직접 색 박스를 그려 넣어 만듭니다. 그린 박스의 좌표는 OCR 박스가 아니라 우리가 그린 사각형이라 정답이 정확합니다. 좌표 숫자와 이미지 위치를 연결해 주는 보조 과제입니다.</aside>
 </section></div><p class="num">6 / 181</p><p class="notes">marked 과제는 이미지에 직접 색 박스를 그려 넣어 만듭니다. 그린 박스의 좌표는 OCR 박스가 아니라 우리가 그린 사각형이라 정답이 정확합니다. 좌표 숫자와 이미지 위치를 연결해 주는 보조 과제입니다.</p><div class="frame"><section id="ocr-input" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
 <p style="font-size:26px;font-weight:600;color:#1E5AA8">1부 OCR · 데이터 구조</p>
@@ -193,7 +193,7 @@ x-icon[name=Clock]::before{content:"◷";font-size:36px}
 <p style="font-size:26px;line-height:1.45;color:#E6E9EC">박스 = 2 × Σ 짝별 점수 / (예측 박스 수 + 정답 박스 수),  짝별 = min(1, IoU / 0.8)<br>글자 = 0.7 × 문자 유사도 + 0.3 × 숫자 유사도 · 정답 []에는 [] 일 때 1 · 형식 오류 0</p>
 <p style="font-size:24px;color:#C9D1D9">박스 남발 꼼수 차단 · IoU 0.8 이상 만점 (정답 박스 잡음까지 배우지 않게)</p>
 </div>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">1부 OCR 학습 · 설계 상세: training/docs/DESIGN.md</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">1부 OCR 학습 · 설계 상세: ocr/docs/DESIGN.md</p>
 <aside>단어 하나짜리 과제는 SFT 뒤 답이 거의 같아져서 GRPO 신호가 없습니다. 그래서 GRPO는 답이 여러 개인 과제만 씁니다. IoU 0.8에서 만점을 주는 이유는 사내 OCR 박스가 꽉 맞는 정도가 일정하지 않아서입니다.</aside>
 </section></div><p class="num">10 / 181</p><p class="notes">단어 하나짜리 과제는 SFT 뒤 답이 거의 같아져서 GRPO 신호가 없습니다. 그래서 GRPO는 답이 여러 개인 과제만 씁니다. IoU 0.8에서 만점을 주는 이유는 사내 OCR 박스가 꽉 맞는 정도가 일정하지 않아서입니다.</p><div class="frame"><section id="ocr-eval" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
 <p style="font-size:26px;font-weight:600;color:#1E5AA8">1부 OCR · 평가 방법</p>
@@ -236,7 +236,7 @@ x-icon[name=Clock]::before{content:"◷";font-size:36px}
 <ul style="font-size:26px;line-height:1.5;color:#44505C"><li>파이프라인이 저장한 평가 답을 GPU 없이</li><li>보상 기준으로 틀린 문제만</li><li>학습 중에도 사용 가능</li></ul>
 </div>
 </div>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">1부 OCR 학습 · 사용법: training/viewer/README.md 1~5</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">1부 OCR 학습 · 사용법: ocr/viewer/README.md 1~5</p>
 <aside>OCR viewer는 모델이 실제로 어디를 보고 답했는지를 눈으로 확인하는 도구입니다. 점수표만으로는 박스가 조금씩 밀리는지, 특정 글씨체에서 틀리는지 알기 어렵습니다.</aside>
 </section></div><p class="num">12 / 181</p><p class="notes">OCR viewer는 모델이 실제로 어디를 보고 답했는지를 눈으로 확인하는 도구입니다. 점수표만으로는 박스가 조금씩 밀리는지, 특정 글씨체에서 틀리는지 알기 어렵습니다.</p><div class="frame"><section id="ocr-real" data-transition="fade" style="background:#ECEEF0;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
 <p style="font-size:26px;font-weight:600;color:#1E5AA8">1부 OCR · 새 실제 데이터를 학습에 연결하려면</p>
@@ -252,7 +252,7 @@ x-icon[name=Clock]::before{content:"◷";font-size:36px}
 <ul style="font-size:26px;line-height:1.5;color:#44505C"><li><b>문서 ID</b>: 같은 문서의 쪽은 같은 ID. 파일명 규칙이 없으면 manifest를 직접 작성</li><li><b>OCR JSON</b>: 사내 OCR 응답 그대로 (success · basicData · vertices). 다른 형식은 config의 mapping으로 키 지정</li><li><b>같은 픽셀</b>: OCR을 돌린 이미지 파일 그대로 (PDF는 쪽별 이미지로)</li><li><b>OCR JSON이 없으면</b>: 사내 OCR 서버를 띄우고 (GPU_ID=7 SERVER_PORT=30107 python server.py) INTERNAL_OCR_BASE_URL로 연결 → prepare가 호출</li><li><b>OCR 버전</b>: ocr_revision을 바꾸면 캐시도 새로</li><li><b>벤치마크</b>: benchmark_fraction 10%로 자동 분리, 또는 split: benchmark 지정</li></ul>
 </div>
 </div>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">1부 OCR 학습 · 설치와 준비 상세: training/docs/SETUP.md</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">1부 OCR 학습 · 설치와 준비 상세: ocr/docs/SETUP.md</p>
 <aside>1부는 이미 실제 데이터로 돌아가는 구조입니다. 새 데이터를 추가할 때는 이미지와 OCR JSON을 같은 이름으로 두고 scan을 돌리면 manifest가 만들어지고, 그다음은 파이프라인이 알아서 prepare부터 진행합니다. 문서 ID 규칙만 신경 쓰면 됩니다.</aside>
 </section></div><p class="num">13 / 181</p><p class="notes">1부는 이미 실제 데이터로 돌아가는 구조입니다. 새 데이터를 추가할 때는 이미지와 OCR JSON을 같은 이름으로 두고 scan을 돌리면 manifest가 만들어지고, 그다음은 파이프라인이 알아서 prepare부터 진행합니다. 문서 ID 규칙만 신경 쓰면 됩니다.</p><div class="frame"><section id="bank-div" data-transition="fade" style="background:#B54A12;color:#F6F5F1;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:32px">
 <p style="font-size:32px;font-weight:600;color:#F8E1D3;letter-spacing:2px">2부</p>
@@ -294,7 +294,7 @@ x-icon[name=Clock]::before{content:"◷";font-size:36px}
 <h2 style="font-size:64px;font-weight:700;line-height:1.15">도커에서 한 번 생성 → prepare → 학습·평가</h2>
 <div style="display:flex;flex-direction:row;gap:28px">
 <div style="flex:1;display:flex;flex-direction:column;gap:16px">
-<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E6E9EC;background:#16202A;padding:22px;border-radius:12px"># docgen 도커 (CPU, 한 번)<br>bash scripts/make_bank_data.sh<br>bench/       고객 40명 · 약 9천 문항<br>bank_train/  고객 200명 · 서류당 5건<br>  meta.json          설정·버전·개수<br>  images/            서류 쪽 이미지<br>  tasks/&lt;과제&gt;.jsonl  문항 (아래)<br>  swift/all.jsonl    학습용 대화 (학습만)</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E6E9EC;background:#16202A;padding:22px;border-radius:12px"># docgen 도커 (CPU, 한 번)<br>bash docgen/scripts/make_bank_data.sh<br>bench/       고객 40명 · 약 9천 문항<br>bank_train/  고객 200명 · 서류당 5건<br>  meta.json          설정·버전·개수<br>  images/            서류 쪽 이미지<br>  tasks/&lt;과제&gt;.jsonl  문항 (아래)<br>  swift/all.jsonl    학습용 대화 (학습만)</p>
 <table style="font-size:24px;color:#16202A;background:#FFFFFF">
 <tr><th style="width:44%">prepared-bank/</th><th style="width:56%">내용</th></tr>
 <tr><td>train_sft.jsonl</td><td>SFT (+ OCR 데이터 3000)</td></tr>
@@ -456,12 +456,12 @@ x-icon[name=Clock]::before{content:"◷";font-size:36px}
 <table style="font-size:26px;color:#E6E9EC">
 <tr><th style="width:36%">무엇</th><th style="width:64%">위치 (브랜치 claude/ocr-banking-benchmark)</th></tr>
 <tr><td>이 발표의 문서판</td><td>guide/overview.md (생성기·벤치마크 상세 부록)</td></tr>
-<tr><td>모델에게 묻는 법</td><td>guide/questions.md · training/docs/PROMPTS.md</td></tr>
+<tr><td>모델에게 묻는 법</td><td>guide/questions.md · ocr/docs/PROMPTS.md</td></tr>
 <tr><td>서류별 항목 목록</td><td>guide/fields/ · guide/documents.md</td></tr>
 <tr><td>결과 읽는 법</td><td>guide/results.md</td></tr>
-<tr><td>1부 OCR 실행·설계</td><td>training/README.md · training/docs/</td></tr>
-<tr><td>2부 은행 업무 실행</td><td>README.md · training/BANK_TASKS.md</td></tr>
-<tr><td>viewer</td><td>training/viewer/README.md</td></tr>
+<tr><td>1부 OCR 실행·설계</td><td>ocr/README.md · ocr/docs/</td></tr>
+<tr><td>2부 은행 업무 실행</td><td>README.md · bank/README.md</td></tr>
+<tr><td>viewer</td><td>ocr/viewer/README.md</td></tr>
 </table>
 <p style="font-size:28px;color:#F2A06B">질문 · 실제 서류 평가 세트 함께 만들 분 환영</p>
 <aside>문서는 모두 브랜치 claude/ocr-banking-benchmark에 있습니다. 1부 OCR 코드는 claude/bank-ocr-pipeline 브랜치와 같고, training 폴더에 들어 있습니다.</aside>

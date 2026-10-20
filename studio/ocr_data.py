@@ -1,6 +1,6 @@
 """⑥ 데이터셋의 OCR 쪽: 합성 OCR 레시피·빌드(docgen.ocr_set → 1부 prepare), 1부 학습 설정 내보내기(run_pipeline.py).
 
-OCR 레시피는 은행 업무 레시피와 같은 datasets/recipes/ 에 track: "ocr" 로 둔다. 형식은 docgen/ocr_set.py 머리말.
+OCR 레시피는 은행 업무 레시피와 같은 docgen/recipes/ 에 track: "ocr" 로 둔다. 형식은 docgen/ocr_set.py 머리말.
 """
 from __future__ import annotations
 
@@ -94,7 +94,7 @@ def ocr_training_config(registry, train_ids: list[str], bench_id: str, name: str
         warn.append("1부 파이프라인은 학습 데이터셋 안의 benchmark 로 평가합니다. 고른 평가 세트에는 결과를 붙이기만 합니다")
     snap = root / "config.snapshot.json"
     data_cfg = json.loads(snap.read_text(encoding="utf-8")) if snap.exists() else \
-        json.loads((ROOT / "training" / "config.example.json").read_text(encoding="utf-8"))
+        json.loads((ROOT / "ocr" / "config.example.json").read_text(encoding="utf-8"))
     data_cfg = {k: v for k, v in data_cfg.items() if k != "studio"}
     data_cfg["output_dir"] = to_train_path(str(root), registry.path_map)
     n = _slug(name)
@@ -102,6 +102,6 @@ def ocr_training_config(registry, train_ids: list[str], bench_id: str, name: str
     cfg = {"workdir": f"../runs/{n}", "data_config": f"studio-{n}-data.json"}
     return {"pipeline": "1부 run_pipeline.py", "file": f"configs/studio-{n}.json", "config": cfg, "warnings": warn,
             "extra_files": {data_file: data_cfg},
-            "command": f"cd training && python run_pipeline.py --config configs/studio-{n}.json",
+            "dir": "ocr", "command": f"cd ocr && python run_pipeline.py --config configs/studio-{n}.json",
             "note": "model·gpus·sft·grpo·eval 칸은 configs/pipeline.example.json 값을 쓴다. 데이터 설정은 "
                     f"{data_file} (output_dir 에 DONE.json 이 있어 준비 단계를 건너뜀)."}

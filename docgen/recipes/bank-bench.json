@@ -1,0 +1,29 @@
+{
+ "about": "은행 업무 평가 세트: 서류 476종 × 1건 + 업무 12종 × 고객 1명",
+ "track": "bank",
+ "split": "test",
+ "types": "all",
+ "per_doc": 1,
+ "fields_per_doc": 6,
+ "max_keys": 40,
+ "start": 0,
+ "conditions": {
+  "clean": 0.5,
+  "scan": 0.2,
+  "photo": 0.15,
+  "fax": 0.15
+ },
+ "bundle": {
+  "missing": [
+   0.3,
+   0.5,
+   0.2
+  ],
+  "other_customer": 0.3,
+  "extra_doc": 0.35,
+  "tamper": 0.5
+ },
+ "scenarios": "all",
+ "bundles": 1,
+ "name": "bank-bench"
+}

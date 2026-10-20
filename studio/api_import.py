@@ -194,7 +194,7 @@ def make_router(reg, jobs, guard, cfg: dict, real_root: Path) -> APIRouter:
         spec = {"path": str(out / "prepared"), "name": IM._slug(req.name), "meta": {"dataset_json": "../import_set.json",
                 "purpose": f"가져온 묶음 {d.name} 의 OCR ({'사람 검수' if req.gt == 'reviewed' else '사내 OCR 그대로'})"}}
         job = jobs.start("build_ocr", f"OCR 벤치마크로: {req.name} (묶음 {d.name}, 쪽 {info['pages']})", cmd, done,
-                         {"batch": d.name, "dataset": spec}, cwd=IM.ROOT / "training")
+                         {"batch": d.name, "dataset": spec}, cwd=IM.OCR_DIR)
         return {"job": job["id"], **info}
 
     @r.get("/api/imports/{name}/page")

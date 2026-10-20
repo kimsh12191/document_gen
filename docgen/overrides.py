@@ -1,6 +1,6 @@
 """overlay 서식의 사람 수정층: 자동 추출 레이아웃 위에 사람이 고친 것을 덧씌운다 (studio 영역 편집기가 쓴다).
 
-  add_template/overrides/<서식ID>.json        (가져온 이미지 서식 img_* 는 그 서식 폴더의 overrides.json:
+  docgen/forms/overrides/<서식ID>.json        (가져온 이미지 서식 img_* 는 그 서식 폴더의 overrides.json:
                                               실서류에서 만든 서식은 수정도 private_forms_dir 밖으로 나가지 않는다)
   {
     "items": [ {"match": {"page": 0, "t": "text", "label": "직장주소", "n": 0},   자동 추출 영역 고르기
@@ -29,8 +29,8 @@ import unicodedata
 from contextlib import contextmanager
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
-OVERRIDES = ROOT / "add_template" / "overrides"
+ROOT = Path(__file__).resolve().parent   # docgen/
+OVERRIDES = ROOT / "forms" / "overrides"
 _local = threading.local()
 
 

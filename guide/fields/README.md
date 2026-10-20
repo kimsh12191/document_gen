@@ -2,7 +2,7 @@
 
 서류마다 모델이 학습한 항목(정답 키)·항목명·타입입니다. 정보 추출(`kie`)과 체크·도장·서명(`marks`) 질문의 `{items}`를 이 목록에서 고릅니다([질문 가이드](../questions.md)).
 
-`python scripts/build_schema.py` 로 자동 생성된 문서입니다. 서류별로 프로필 30개를 렌더링해 집계했습니다.
+`python docgen/scripts/build_schema.py` 로 자동 생성된 문서입니다. 서류별로 프로필 30개를 렌더링해 집계했습니다.
 기계용 목록은 [fields.json](fields.json) 에 있습니다.
 
 ## 키 규칙
@@ -33,7 +33,7 @@
 | seal / signature | `present` (bool) |
 
 "채움률"은 프로필 30개 중 그 키가 문서에 나온 비율입니다 (선택 항목·반복 항목은 100% 미만).
-채움률 0% 인 키는 드문 변형(내용이 많은 경우·특수 상황)에서만 나오는 키입니다 (변형을 모두 켠 생성에서 수집). 변형 목록은 [docs/variants/](../../docs/variants/) 에 있습니다.
+채움률 0% 인 키는 드문 변형(내용이 많은 경우·특수 상황)에서만 나오는 키입니다 (변형을 모두 켠 생성에서 수집). 변형 목록은 [docgen/manual/variants/](../../docgen/manual/variants/) 에 있습니다.
 
 
 ## 서류 찾기

@@ -428,7 +428,7 @@ function tabKeys(d) {
       <tbody>${rows.map(k => `<tr><td class="mono ${/[^\x00-\x7f]/.test(k.key) ? "kr" : ""}">${esc(k.key)}</td>
         <td>${esc(k.label ?? "")}</td><td>${esc(k.type)}</td><td class="num">${Math.round((k.fill_rate ?? 0) * 100)}%</td>
         <td>${k.example ? esc(k.example) : `<span class="muted">(값 없음)</span>`}</td></tr>`).join("")}</tbody></table>`
-      : `<p class="muted">키 목록이 없습니다. <span class="mono">python scripts/build_schema.py</span>로 만듭니다.</p>`;
+      : `<p class="muted">키 목록이 없습니다. <span class="mono">python docgen/scripts/build_schema.py</span>로 만듭니다.</p>`;
   };
   $("#k-q").oninput = draw;
   draw();

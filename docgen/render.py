@@ -19,7 +19,7 @@ from .banks import bank_view, brand_accent, form_bank, form_context
 from .entities import Profile
 from .registry import BANK_FORM_GROUPS, DocSpec
 
-TEMPLATE_DIR = Path(__file__).resolve().parent.parent / "templates"
+TEMPLATE_DIR = Path(__file__).resolve().parent / "templates"   # docgen/templates
 
 _MISSING = object()
 

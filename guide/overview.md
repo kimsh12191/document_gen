@@ -28,10 +28,10 @@
 
 | 무엇 | 위치 | 브랜치 |
 |---|---|---|
-| OCR 학습 | `training/` (`run_pipeline.py`, `bank_ocr/`) | `claude/bank-ocr-pipeline` (은행 브랜치의 `training/`에 같은 코드) |
+| OCR 학습 | `ocr/` (`run_pipeline.py`, `bank_ocr/`) | `claude/bank-ocr-pipeline` (이 브랜치의 `ocr/`에 같은 코드) |
 | 합성 데이터 생성기, 은행 업무 벤치마크 | `docgen/`, `docgen/bench/` | `claude/ocr-banking-benchmark` |
-| 은행 업무 학습 | `training/` (`run_bank_pipeline.py`, `bank_task/`) | 〃 |
-| viewer | `training/viewer/` (`start.sh` = OCR, `bank_start.sh` = 은행 업무) | 〃 |
+| 은행 업무 학습 | `bank/` (`run_bank_pipeline.py`, `bank_task/`) | 이 브랜치에만 |
+| viewer | `ocr/viewer/start.sh` = OCR, `bank/viewer/bank_start.sh` = 은행 업무 | 〃 |
 | 사용 가이드 | `guide/` | 〃 |
 
 ---
@@ -156,7 +156,7 @@ data/manifest.jsonl  {"document_id": "doc123", "page_id": "p001", "image": "/sha
 - **벤치마크 문제:** 무작위 문항을 풀게 하고 정답(초록)과 모델 답(빨강) 박스를 겹쳐 그립니다. GRPO 보상 점수도 보여 줍니다.
 - **저장된 답 보기:** 파이프라인이 저장한 평가 답을 GPU 없이 정답과 비교합니다. 보상 기준으로 틀린 문제만 골라 볼 수 있습니다.
 
-자세한 내용: 과제·좌표·증강·지표·보상은 [training/docs/DESIGN.md](../training/docs/DESIGN.md), 질문 문장은 [training/docs/PROMPTS.md](../training/docs/PROMPTS.md), 실행은 [training/README.md](../training/README.md)에 있습니다.
+자세한 내용: 과제·좌표·증강·지표·보상은 [ocr/docs/DESIGN.md](../ocr/docs/DESIGN.md), 질문 문장은 [ocr/docs/PROMPTS.md](../ocr/docs/PROMPTS.md), 실행은 [ocr/README.md](../ocr/README.md)에 있습니다.
 
 ---
 
@@ -288,7 +288,7 @@ data/manifest.jsonl  {"document_id": "doc123", "page_id": "p001", "image": "/sha
   - 저장된 답만 보는 모드는 GPU가 필요 없어 학습 중에도 쓸 수 있습니다.
 - **직접 테스트:** 내 서류(이미지·PDF)를 올려 서류 구비 확인, 서류 대조, 심사 질의, 정보 추출, 분류를 물어봅니다. 질문 문장과 이미지 크기는 학습과 같은 규칙을 씁니다.
 
-자세한 내용: 질문 문장과 답 형식은 [questions.md](questions.md), 실행과 설정은 [training/BANK_TASKS.md](../training/BANK_TASKS.md), viewer는 [training/viewer/README.md](../training/viewer/README.md) 6번에 있습니다.
+자세한 내용: 질문 문장과 답 형식은 [questions.md](questions.md), 실행과 설정은 [bank/README.md](../bank/README.md), viewer는 [ocr/viewer/README.md](../ocr/viewer/README.md) 6번에 있습니다.
 
 ---
 
@@ -346,7 +346,7 @@ data/manifest.jsonl  {"document_id": "doc123", "page_id": "p001", "image": "/sha
 **HTML 템플릿 (70종)**
 - 서식마다 Jinja2 템플릿과 값 생성 함수를 둡니다.
 - 템플릿의 값은 모두 `f("경로")`로 찍습니다. 이렇게 찍은 문자열이 그대로 정답이 되고, 위치(박스)도 렌더링에서 함께 뽑습니다. 그래서 정답과 이미지가 어긋날 수 없습니다.
-- 서식 구성은 법령 별지 서식, 은행연합회 표준, 공공기관 발급본을 웹 검색으로 교차 확인해 맞췄습니다. 근거는 `docs/REALISM_STATUS.md`에 있습니다.
+- 서식 구성은 법령 별지 서식, 은행연합회 표준, 공공기관 발급본을 웹 검색으로 교차 확인해 맞췄습니다. 근거는 `docgen/manual/REALISM_STATUS.md`에 있습니다.
 - 은행 서식은 은행별 표기(은행명, 서식번호 줄, 결재란, 인쇄색)가 다르게 나옵니다. 옛 은행(KEB하나, 외환) 서식은 그 시기 날짜·제도로 만듭니다.
 
 **하나은행 원본 서식 (406종)**
@@ -408,7 +408,7 @@ data/manifest.jsonl  {"document_id": "doc123", "page_id": "p001", "image": "/sha
   | 은행 업무 학습 | 10,000,000부터 | 20,000,000부터 |
   | 일반 생성 (`generate`) | 0부터 | — |
 
-- **기본 생성량** (`scripts/make_bank_data.sh`, 8코어 기준)
+- **기본 생성량** (`docgen/scripts/make_bank_data.sh`, 8코어 기준)
 
   | 데이터 | 구성 | 시간 | 용량 |
   |---|---|---|---|
@@ -423,13 +423,13 @@ data/manifest.jsonl  {"document_id": "doc123", "page_id": "p001", "image": "/sha
 |---|---|
 | `docgen/entities.py` | 고객 프로필 |
 | `docgen/registry.py` | 서류 등록, 그룹, 업무 시나리오 |
-| `docgen/render.py`, `templates/` | 렌더링과 정답 수집 (`f()`) |
+| `docgen/render.py`, `docgen/templates/` | 렌더링과 정답 수집 (`f()`) |
 | `docgen/image.py`, `docgen/paginate.js` | PNG와 위치, 쪽 나누기 |
 | `docgen/augment.py` | 스캔·촬영·팩스 증강 |
-| `docgen/realform.py`, `scripts/extract_form_layout.py` | 하나은행 원본 서식 |
+| `docgen/realform.py`, `docgen/scripts/extract_form_layout.py` | 하나은행 원본 서식 |
 | `docgen/bench/` | 벤치마크 (아래 부록 B) |
 
-자세한 내용은 [docs/DOCGEN.md](../docs/DOCGEN.md), 서류 추가 방법은 [docs/TEMPLATE_GUIDE.md](../docs/TEMPLATE_GUIDE.md)에 있습니다.
+자세한 내용은 [docgen/README.md](../docgen/README.md), 서류 추가 방법은 [docgen/manual/TEMPLATE_GUIDE.md](../docgen/manual/TEMPLATE_GUIDE.md)에 있습니다.
 
 ---
 

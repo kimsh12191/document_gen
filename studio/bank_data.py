@@ -1,6 +1,6 @@
 """③ 시나리오·묶음과 ⑥ 데이터셋의 은행 업무 쪽: 레시피, 빌드, 업무 묶음 보기, 고객 일관성 검사, 학습 설정 내보내기(2부).
 
-레시피 datasets/recipes/<이름>.json (docgen.bench build --recipe 가 읽는 것, docgen/bench/build.py 의 RECIPE_KEYS)
+레시피 docgen/recipes/<이름>.json (docgen.bench build --recipe 가 읽는 것, docgen/bench/build.py 의 RECIPE_KEYS)
   {"name", "about", "track": "bank", "split": "test"|"train", "types": "all"|[서식ID·그룹], "per_doc", "scenarios": "all"|[…],
    "bundles": 4 | {"default": 4, "<시나리오>": n}, "fields_per_doc", "max_keys", "conditions": {"clean": .5, …},
    "bundle": {"missing": [.3,.5,.2], "other_customer": .3, "extra_doc": .35, "tamper": .5},
@@ -21,9 +21,9 @@ from docgen.bench import processing as PROCESS
 
 from .config import ROOT
 
-RECIPES = ROOT / "datasets" / "recipes"
+RECIPES = ROOT / "docgen" / "recipes"
 TEMPLATES = {
-    # scripts/make_bank_data.sh 와 같은 양 (평가 세트·학습 데이터)
+    # docgen/scripts/make_bank_data.sh 와 같은 양 (평가 세트·학습 데이터)
     "bank-bench": {"about": "은행 업무 평가 세트: 서류 476종 × 1건 + 업무 12종 × 고객 40명", "track": "bank", "split": "test",
                    "types": "all", "per_doc": 1, "scenarios": "all", "bundles": 40},
     "bank-train": {"about": "은행 업무 학습 데이터: 서류 476종 × 5건 + 업무 12종 × 고객 200명 (평가 세트와 seed 가 겹치지 않음)",
@@ -330,5 +330,5 @@ def bank_training_config(registry, train_ids: list[str], bench_id: str, ocr_id: 
         cfg["ocr_check"] = {"tasks": f"{op}/benchmark_tasks.jsonl", "rows": 1000}
     file = f"configs/studio-{_slug(name)}.json"
     return {"pipeline": "2부 run_bank_pipeline.py", "file": file, "config": cfg, "warnings": warn,
-            "command": f"cd training && python run_bank_pipeline.py --config {file}",
+            "dir": "bank", "command": f"cd bank && python run_bank_pipeline.py --config {file}",
             "note": "model·gpus·sft·grpo·eval 칸은 configs/bank_pipeline.example.json 값을 쓴다. 모델 경로는 직접 확인하세요."}

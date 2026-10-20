@@ -6,7 +6,6 @@ import hashlib
 import io
 import json
 import math
-import random
 import re
 import shutil
 import sys
@@ -339,7 +338,7 @@ def build_ocr(check: dict, out: Path, split: str):
                          'split': 'benchmark' if split == 'test' else 'train'})
     manifest = out / 'manifest.jsonl'
     manifest.write_text(''.join(json.dumps(r, ensure_ascii=False) + '\n' for r in rows), encoding='utf-8')
-    cfg = read(ROOT / 'training/config.example.json')
+    cfg = read(ROOT / 'ocr/config.example.json')
     cfg.update(manifest=str(manifest.resolve()), output_dir=str((out / 'prepared').resolve()),
                cache_dir=str((out / 'ocr_cache').resolve()), ocr_callable='internal_ocr_adapter:ocr_from_file',
                ocr_revision='docgen-labels-v1-' + check['fingerprint'][:16], val_fraction=0,
@@ -351,7 +350,7 @@ def build_ocr(check: dict, out: Path, split: str):
     write(out / 'config.json', cfg)
     write(out / 'import_set.json', {'source': 'results', 'gt': check['meta']['gt'], 'real_data': check['meta']['real_data'],
                                   'label_format': 'docgen-labels/1', 'fingerprint': check['fingerprint']})
-    sys.path.insert(0, str(ROOT / 'training'))
+    sys.path.insert(0, str(ROOT / 'ocr'))
     from bank_ocr.pipeline import prepare
     prepare(str(out / 'config.json'))
 

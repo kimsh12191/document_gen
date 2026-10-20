@@ -3,7 +3,7 @@
 <h2 style="font-size:64px;font-weight:700;line-height:1.15">도커에서 한 번 생성 → prepare → 학습·평가</h2>
 <div style="display:flex;flex-direction:row;gap:28px">
 <div style="flex:1;display:flex;flex-direction:column;gap:16px">
-<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E6E9EC;background:#16202A;padding:22px;border-radius:12px"># docgen 도커 (CPU, 한 번)<br>bash scripts/make_bank_data.sh<br>bench/       고객 40명 · 약 9천 문항<br>bank_train/  고객 200명 · 서류당 5건<br>  meta.json          설정·버전·개수<br>  images/            서류 쪽 이미지<br>  tasks/&lt;과제&gt;.jsonl  문항 (아래)<br>  swift/all.jsonl    학습용 대화 (학습만)</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E6E9EC;background:#16202A;padding:22px;border-radius:12px"># docgen 도커 (CPU, 한 번)<br>bash docgen/scripts/make_bank_data.sh<br>bench/       고객 40명 · 약 9천 문항<br>bank_train/  고객 200명 · 서류당 5건<br>  meta.json          설정·버전·개수<br>  images/            서류 쪽 이미지<br>  tasks/&lt;과제&gt;.jsonl  문항 (아래)<br>  swift/all.jsonl    학습용 대화 (학습만)</p>
 <table style="font-size:24px;color:#16202A;background:#FFFFFF">
 <tr><th style="width:44%">prepared-bank/</th><th style="width:56%">내용</th></tr>
 <tr><td>train_sft.jsonl</td><td>SFT (+ OCR 데이터 3000)</td></tr>

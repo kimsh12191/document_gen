@@ -1,12 +1,12 @@
 """표시 요소: 손글씨·체크 표시·도장·서명이 "어느 칸에 얼마나 나올지"(확률)와 "어떻게 생겼는지"(풀).
 
   docgen/marks.json        확률 설정. 없는 항목은 아래 DEFAULTS (= 이 파일을 만들기 전 코드의 상수)
-  assets/marks/pools.json  풀: 체크 표시·서명 이미지, 도장 틀, 손글씨·인쇄체 글꼴
-  assets/marks/<풀>/…      풀에 올린 이미지 (투명 배경 PNG)
+  docgen/assets/marks/pools.json  풀: 체크 표시·서명 이미지, 도장 틀, 손글씨·인쇄체 글꼴
+  docgen/assets/marks/<풀>/…      풀에 올린 이미지 (투명 배경 PNG)
 
 - 기본값은 예전 코드와 같은 값·같은 순서다. 설정과 풀을 바꾸지 않으면 생성 결과가 그대로다.
 - 풀에서 고를 항목이 하나뿐이면 난수를 쓰지 않는다. 항목을 더하면 그때부터 그 서류의 나머지 값도 달라질 수 있다.
-- 서식마다 덮어쓰기: overlay 는 add_template/overrides/<ID>.json 의 "marks".
+- 서식마다 덮어쓰기: overlay 는 docgen/forms/overrides/<ID>.json 의 "marks".
 - 실서류에서 잘라 온 서명·도장은 저장소 풀에 넣지 않는다 (studio 가 private_forms_dir 아래 풀에만 저장).
 """
 from __future__ import annotations
@@ -17,8 +17,8 @@ import random
 from functools import lru_cache
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
-SETTINGS = ROOT / "docgen" / "marks.json"
+ROOT = Path(__file__).resolve().parent   # docgen/
+SETTINGS = ROOT / "marks.json"
 POOLS_DIR = ROOT / "assets" / "marks"
 POOLS = POOLS_DIR / "pools.json"
 
@@ -40,7 +40,7 @@ DEFAULT_POOLS = {
               {"id": "O", "name": "○ 동그라미", "builtin": True, "weight": 1}],
     "sign": [{"id": "scribble", "name": "선으로 그린 낙서 서명 (코드)", "builtin": True, "weight": 1}],
     "seal": [{"id": "builtin", "name": "원형·사각 도장 (코드)", "builtin": True, "weight": 1}],
-    # 손글씨 글꼴은 fonts/<id>.woff2 가 있어야 한다. scale: 같은 칸 높이에서 키우는 비율 (글꼴마다 글자 몸집이 다름)
+    # 손글씨 글꼴은 docgen/fonts/<id>.woff2 가 있어야 한다. scale: 같은 칸 높이에서 키우는 비율 (글꼴마다 글자 몸집이 다름)
     "hand_fonts": [{"id": "NanumPen", "scale": 1.3, "weight": 1, "builtin": True},
                    {"id": "NanumBrush", "scale": 1.3, "weight": 1, "builtin": True},
                    {"id": "HiMelody", "scale": 1.05, "weight": 1, "builtin": True},
@@ -99,7 +99,7 @@ def _image_bytes(rel: str, mtime: float) -> bytes:
 
 
 def image(rel: str) -> bytes | None:
-    """풀 이미지 (assets/marks/ 기준 경로). 렌더러가 https://docgen.local/marks/<경로> 로 받는다."""
+    """풀 이미지 (docgen/assets/marks/ 기준 경로). 렌더러가 https://docgen.local/marks/<경로> 로 받는다."""
     p = (POOLS_DIR / rel).resolve()
     if POOLS_DIR.resolve() not in p.parents or not p.is_file():
         return None

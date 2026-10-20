@@ -4,7 +4,7 @@
 
 ## 어디서 보나
 
-| 파일 (`training/runs/bank1/` 아래) | 내용 |
+| 파일 (`ocr/runs/bank1/` 아래) | 내용 |
 |---|---|
 | `reports/benchmark.html` (`.md`, `.csv`) | **본 결과.** 모델별 점수, 출발 모델 대비 변화, 답 형식 오류, 세부 표 |
 | `reports/ocr_retention.html` | OCR 능력 유지 여부. OCR 벤치마크 일부에서의 점수 변화 |

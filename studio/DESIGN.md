@@ -27,9 +27,9 @@ studio는 **은행 벤치마크 데이터를 만들고 관리하는 도구**다.
 ### 1.2 UI에서 한 번에 관리한다
 
 - **studio 화면 하나에서** 서식 고치기, 데이터셋 만들기, 가져오기·검수, 데이터셋·모델 답·점수 보기를 모두 한다. 메뉴는 이 흐름 순서로 둔다(6절).
-- **계산은 기존 코드를 불러서 한다.** 데이터셋을 만들고 채점하는 일은 `docgen.bench`(은행 업무), `training/bank_ocr`(1부 OCR), `training/bank_task`(2부 준비·채점)가 이미 한다. studio는 이 코드를 복사하지 않고 불러 쓴다. 같은 일을 명령줄로 해도 같은 결과가 나온다. 서버에서 큰 데이터셋을 만들 때는 명령줄을 쓴다.
+- **계산은 기존 코드를 불러서 한다.** 데이터셋을 만들고 채점하는 일은 `docgen.bench`(은행 업무), `ocr/bank_ocr`(1부 OCR), `bank/bank_task`(2부 준비·채점)가 이미 한다. studio는 이 코드를 복사하지 않고 불러 쓴다. 같은 일을 명령줄로 해도 같은 결과가 나온다. 서버에서 큰 데이터셋을 만들 때는 명령줄을 쓴다.
 - **데이터셋 등록부** 하나에 모든 데이터셋을 올린다(9.1). studio에서 만든 것이든, 1부·2부 파이프라인이 명령줄로 만든 것이든, 경로만 등록하면 같은 화면에서 문항, 정답, 모델 답, 점수를 본다.
-- 모델 학습 실행은 하지 않는다. 학습은 `training/` 파이프라인이 한다. studio는 학습이 남긴 모델 답과 점수를 읽어 보여 준다.
+- 모델 학습 실행은 하지 않는다. 학습은 `ocr/` 파이프라인이 한다. studio는 학습이 남긴 모델 답과 점수를 읽어 보여 준다.
 
 지금 생성기는 서류 476종을 만들지만, 이를 다루기가 어렵다.
 
@@ -51,7 +51,7 @@ studio는 **은행 벤치마크 데이터를 만들고 관리하는 도구**다.
 
 ### 하지 않는 것
 
-- 모델 학습과 추론 실행 (`training/`의 1부·2부 파이프라인과 viewer가 한다). studio는 그 파이프라인이 남긴 모델 답과 점수 파일을 읽는다(9.8)
+- 모델 학습과 추론 실행 (`ocr/`·`bank/`의 1부·2부 파이프라인과 viewer가 한다). studio는 그 파이프라인이 남긴 모델 답과 점수 파일을 읽는다(9.8)
 - 계산이 얽힌 값 생성 로직(세액, 잔액 흐름, 서류 간 정합성) 편집. 이 부분은 코드로 남긴다
 - 서식·설정의 별도 보관. 서식·설정의 원본은 저장소의 파일이고, UI는 그 파일을 읽고 쓰는 편집기다. 데이터셋 자체는 크고 실서류가 섞이므로 저장소 밖에 두고 등록부에 경로만 남긴다(4.4, 9.1)
 
@@ -83,14 +83,14 @@ studio는 **은행 벤치마크 데이터를 만들고 관리하는 도구**다.
 6. **이 PC와 내부망에서 똑같이 돈다.**
    - 서버는 **FastAPI + uvicorn**, 화면은 빌드 없는 HTML·JS 한 벌이다. 생성기의 `requirements.txt`에 더해 `studio/requirements.txt`(fastapi, uvicorn, python-multipart)만 설치한다. 2026-10-20 이 PC의 `.venv`에 설치 확인.
    - **내부망 배치:** studio는 **기존 docgen 도커 컨테이너**(Chromium·글꼴·파이썬 포함)에서 띄운다. 새 이미지를 반입하기 어려우므로 이미지는 그대로 쓰고, studio 패키지는 코드에 든 Linux 설치 파일(`studio/wheels/`, 3.4MB)로 컨테이너 안 코드 폴더(`studio_deps/`)에 설치한다(`python -m studio.deps install`, 인터넷 불필요. 2026-10-20 반입 파일만으로 설치가 끝나는 것 확인). 다음에 이미지를 새로 만들 때는 이미지에 들어간다(`docker/requirements.lock`).
-   - 윈도우 PC에서는 지금 쓰는 SSH 포트(2222)로 터널을 열어 접속한다. 컨테이너를 다시 만들 필요가 없고, 로그인이 없는 studio를 망에 그대로 열지 않는다([docs/DOCKER.md 4절](../docs/DOCKER.md#4-studio-띄우기-같은-컨테이너)).
+   - 윈도우 PC에서는 지금 쓰는 SSH 포트(2222)로 터널을 열어 접속한다. 컨테이너를 다시 만들 필요가 없고, 로그인이 없는 studio를 망에 그대로 열지 않는다([docker/README.md 4절](../docker/README.md#4-studio-띄우기-같은-컨테이너)).
    - 학습은 **별도 학습 컨테이너**에서 한다. 두 컨테이너는 폴더를 공유한다. 같은 폴더가 컨테이너마다 다른 경로로 보이면 설정의 `path_map`으로 바꿔 쓴다(9.9).
    - 브라우저가 없는 곳에서도 studio는 뜬다. 렌더링(미리보기, 합성 데이터 만들기)만 꺼지고, 등록부·평가·검수처럼 렌더링이 필요 없는 화면은 그대로 쓴다.
    - 설정·수정 파일은 JSON이다. YAML 라이브러리를 더 들이지 않기 위해서다.
    - 렌더링은 도커 이미지의 Playwright Chromium, 또는 이 PC에 설치된 Chrome/Edge(`CHROMIUM_PATH`)를 쓴다. 생성 데이터와 미리보기가 픽셀까지 같은 곳은 도커 컨테이너다.
    - 환경마다 다른 것(분석기 주소, OCR 주소, 가져오기 폴더, 실서류 경로, 브라우저 경로)은 설정 파일 하나에 모으고, 코드는 같다.
-7. **라벨 형식은 기존 것을 따른다.** `labels/*.json`([docs/DOCGEN.md](../docs/DOCGEN.md#labelsjson))을 쓴다.
-8. **벤치마크 형식과 채점은 1부·2부 것을 쓴다.** OCR 벤치마크는 1부 `bank_ocr prepare`의 결과 폴더, 은행 업무 벤치마크는 `docgen.bench build` + 2부 `bank_task prepare`의 결과 폴더다. studio용 형식을 새로 만들지 않고, 채점도 `bank_ocr.metrics`·`docgen.bench.evaluate`를 불러 같은 숫자를 낸다. `training/`의 모듈은 표준 라이브러리와 PIL만 쓰므로 생성기 환경에서 import된다(2026-10-20 확인).
+7. **라벨 형식은 기존 것을 따른다.** `labels/*.json`([docgen/README.md](../docgen/README.md#labelsjson))을 쓴다.
+8. **벤치마크 형식과 채점은 1부·2부 것을 쓴다.** OCR 벤치마크는 1부 `bank_ocr prepare`의 결과 폴더, 은행 업무 벤치마크는 `docgen.bench build` + 2부 `bank_task prepare`의 결과 폴더다. studio용 형식을 새로 만들지 않고, 채점도 `bank_ocr.metrics`·`docgen.bench.evaluate`를 불러 같은 숫자를 낸다. `ocr/`의 모듈은 표준 라이브러리와 PIL만 쓰므로 생성기 환경에서 import된다(2026-10-20 확인).
 
 ## 4. 서식
 
@@ -105,7 +105,7 @@ studio는 **은행 벤치마크 데이터를 만들고 관리하는 도구**다.
 
 | 종류 | origin | 뜻 |
 |---|---|---|
-| `html` | `builtin` | 기존 코드의 서식 (`docgen/docs/*.py` + `templates/<그룹>/`) |
+| `html` | `builtin` | 기존 코드의 서식 (`docgen/docs/*.py` + `docgen/templates/<그룹>/`) |
 | `html` | `copy` | 복제한 서식. 부모 서식의 생성 함수를 그대로 쓰고 템플릿만 사본 |
 | `html` | `analyzer` | 분석기가 이미지를 보고 만든 서식 |
 | `overlay` | `pdf` | 원본 PDF가 배경 (기존 406종) |
@@ -125,7 +125,7 @@ overlay 서식은 **값이 들어갈 영역을 지정하면 된다.** 영역마�
 | `staff` | 결재란 칸, 칸 이름 | 담당, 책임자 |
 | 표 반복 행 | 첫 행의 영역들 + 행 수와 행 간격 | 상품명·매수비율 5행 |
 
-자동 추출 결과(`add_template/layouts/`)는 이미 이 형식이다. 사람이 하는 일은 잘못 잡은 영역을 지우고, 빠진 영역을 그리고, 키·타입·값 출처를 채우는 것이다.
+자동 추출 결과(`docgen/forms/layouts/`)는 이미 이 형식이다. 사람이 하는 일은 잘못 잡은 영역을 지우고, 빠진 영역을 그리고, 키·타입·값 출처를 채우는 것이다.
 
 **값 출처**는 고객 프로필 값(`profile.person.name` …) 또는 단순 규칙(`rule:date`, `rule:amount`, `rule:choice` + 보기 목록, `rule:free_text`)에서 고른다. 서식 고유 값(상품명, 사유 등)은 지금 `realform.py`가 항목명으로 추론하는 규칙을 그대로 쓸 수 있다.
 
@@ -206,19 +206,19 @@ overlay 서식은 **값이 들어갈 영역을 지정하면 된다.** 영역마�
 studio/                                 도구 코드와 이 설계서
   DESIGN.md
   config.example.json                   환경 설정 예시 (분석기, 경로) — 실제 config.json 은 git 제외
-add_template/
+docgen/forms/
   layouts/<분류>/<No>.json              overlay(pdf) 자동 추출 결과 (기존, 사람이 고치지 않음)
   overrides/<서식ID>.json               overlay 사람 수정 (신규)
   images/<서식ID>/                      overlay(image): 배경 page_N.png + layout.json (신규)
-templates/copies/<서식ID>/
+docgen/templates/copies/<서식ID>/
   template.html.j2                      html(copy·analyzer) 템플릿 (신규)
   form.json                             부모 서식, 이름, 그룹, 새 항목 선언 (신규)
 docgen/keys.json                        표준 키 사전 (신규, 5절)
 docgen/catalog.json                     서식 목록표: 검수, 학습/평가 배정, 메모 (신규, 4.6)
 docgen/marks.json                       표시 설정: 손글씨·체크·도장·서명 기본값 (신규, 4.7)
 docgen/scenarios.json                   업무 시나리오 구성 (신규, registry.py 에서 옮김, 9.4)
-assets/marks/<풀>.json, <풀>/           표시 요소 풀: 체크·서명·도장 틀·글꼴 목록과 이미지 (신규, 4.7)
-datasets/recipes/<이름>.json            합성 데이터셋 레시피 (신규, 9.1). 만든 데이터셋 자체는 workspace_dir (git 제외)
+docgen/assets/marks/<풀>.json, <풀>/           표시 요소 풀: 체크·서명·도장 틀·글꼴 목록과 이미지 (신규, 4.7)
+docgen/recipes/<이름>.json            합성 데이터셋 레시피 (신규, 9.1). 만든 데이터셋 자체는 workspace_dir (git 제외)
 studio_jobs/                            분석기 작업 폴더 (git 제외)
 studio_cache/                           예시 묶음·미리보기 (git 제외, 4.8)
 ```
@@ -232,7 +232,7 @@ studio_cache/                           예시 묶음·미리보기 (git 제외,
 | `real_data_dir` | 실서류 검수 결과: 라벨 검수(S5), OCR 검수(S11), 실서류 업무 묶음(S13) |
 | `private_forms_dir` | **실서류에서 만든 템플릿.** 값을 지운 배경이라도 실서류에서 나온 것은 공개 저장소에 넣지 않는다. 생성기는 이 경로가 설정돼 있으면 여기 서식도 등록한다 |
 
-### 4.5 overlay 수정 파일 예 (`add_template/overrides/hf169.json`)
+### 4.5 overlay 수정 파일 예 (`docgen/forms/overrides/hf169.json`)
 
 ```json
 {
@@ -272,7 +272,7 @@ studio_cache/                           예시 묶음·미리보기 (git 제외,
 
 | 요소 | 지금 만드는 곳 | 지금 설정 | 라벨에 남는 것 |
 |---|---|---|---|
-| 손글씨 / 인쇄체 | overlay: `realform.py` | 서류마다 손글씨 72%. 손글씨 글꼴 4종(`fonts/`), 인쇄체 5종. 글자마다 기울기·흔들림 | 손글씨 여부 (`ocr_field`의 `writing` 구분에 쓰임) |
+| 손글씨 / 인쇄체 | overlay: `realform.py` | 서류마다 손글씨 72%. 손글씨 글꼴 4종(`docgen/fonts/`), 인쇄체 5종. 글자마다 기울기·흔들림 | 손글씨 여부 (`ocr_field`의 `writing` 구분에 쓰임) |
 | 체크박스 | overlay: `realform.py` / html: `render.py`의 `checkmark`, 템플릿 매크로 | V(손으로 그은 선)·■ 칠하기·○ | 보기마다 `checked`, □ 위치 `box_bbox` |
 | 도장 | html: `_macros.html.j2`의 `seal`(나올 확률 `p`) / overlay: 서명 자리 | 원형·사각, 인감·직인·행원인 | `present`, `kind`, 위치 |
 | 서명 | html: `_macros.html.j2`의 `sign` / overlay: 서명 자리 | 선으로 그린 낙서 모양. 서명란은 도장/서명/빈칸 중 하나 | `present`, 위치 (빈칸이어도 자리 위치) |
@@ -286,7 +286,7 @@ studio에서는 **"어느 칸에 무엇이 나올지"(확률)와 "어떻게 생�
 - 코드 상수를 이 파일로 옮긴다. 전체 기본값을 두고 서식마다 덮어쓴다(서식 정보나 overlay 수정 파일의 `marks` 항목). 예: 이 서식은 손글씨 100%, 이 서명란은 항상 빈칸.
 - 영역 편집기에서 영역마다 고를 수도 있다. `text` 영역은 손글씨/인쇄체/서식 기본, `sign` 영역은 도장/서명/빈칸 비율.
 
-**② 모양: 표시 요소 풀** (`assets/marks/`)
+**② 모양: 표시 요소 풀** (`docgen/assets/marks/`)
 
 표시 요소마다 **모양 후보를 모아 둔 풀**을 두고, 생성기는 칸마다 풀에서 하나를 (가중치대로) 골라 그린다. 지금 코드가 그리는 모양은 풀의 기본 항목으로 등록한다.
 
@@ -295,7 +295,7 @@ studio에서는 **"어느 칸에 무엇이 나올지"(확률)와 "어떻게 생�
 | 체크 표시 | 투명 배경 이미지(PNG/SVG) | 손으로 그은 V·✓, ■ 칠하기, ○ | 이미지 올리기 |
 | 서명 | 투명 배경 이미지 | 선으로 그린 낙서 생성기 | 이미지 올리기 |
 | 도장 | **도장 틀**: 모양(원·사각·타원), 테두리 두께·겹선, 글꼴, 글자 배치(1~4줄, 세로), 인주 색, 번짐·빠짐 | 원형·사각 (인감, 직인, 행원인) | 틀 파일(JSON)에 추가. 글자가 고정인 도장(확인, 검인, 접수)은 이미지로도 |
-| 손글씨 글꼴 | 글꼴 파일 | 4종 (`fonts/`) | `fonts/`에 넣기 (OFL 등 사용 가능한 글꼴) |
+| 손글씨 글꼴 | 글꼴 파일 | 4종 (`docgen/fonts/`) | `docgen/fonts/`에 넣기 (OFL 등 사용 가능한 글꼴) |
 | 인쇄체 글꼴 | 글꼴 이름 | 5종 | 목록에 추가 |
 
 - 화면에서 서명·체크를 그리는 기능과 도장 틀 편집기는 두지 않는다(11판에서 뺌). 화면에서는 항목 보기, 이미지 올리기, 가중치·켜기, 샘플 서식에 적용해 보기만 한다.
@@ -438,7 +438,7 @@ studio에서는 **"어느 칸에 무엇이 나올지"(확률)와 "어떻게 생�
 | 작업 | 입력 | 출력 | 맞는 방식 |
 |---|---|---|---|
 | `layout` 값 영역 제안 | 서식 이미지, 표준 키 사전, (있으면) 사내 OCR 결과 | `layout.json` (4.2 형식) | `openai` 또는 `cli` |
-| `html` 템플릿 작성 | 서식 이미지, `docs/TEMPLATE_GUIDE.md`, 비슷한 기존 서식 1~2개(반복 표·여러 쪽 예 포함), 표준 키 사전, `form.json` 형식(4.3). 다시 고칠 때는 지금 템플릿과 사람 의견 | `template.html.j2` + `form.json` | `cli` (작성 → 렌더링 → 원본과 비교 → 수정을 스스로 반복. 렌더링은 작업 폴더 안에서 `python -m docgen.preview`로) |
+| `html` 템플릿 작성 | 서식 이미지, `docgen/manual/TEMPLATE_GUIDE.md`, 비슷한 기존 서식 1~2개(반복 표·여러 쪽 예 포함), 표준 키 사전, `form.json` 형식(4.3). 다시 고칠 때는 지금 템플릿과 사람 의견 | `template.html.j2` + `form.json` | `cli` (작성 → 렌더링 → 원본과 비교 → 수정을 스스로 반복. 렌더링은 작업 폴더 안에서 `python -m docgen.preview`로) |
 | `autolabel` 실서류 오토 라벨 | 실서류 이미지, 서식 ID, 그 서식의 키 목록 | `labels` 형식 JSON | `openai` + 사내 OCR, `external: false`만 |
 
 모든 분석기는 같은 폴더 구조로 일한다. 분석기를 바꿔도 UI는 바뀌지 않는다.
@@ -485,7 +485,7 @@ studio_jobs/<작업ID>/
 ```
 이미지 폴더 지정 또는 끌어다 놓기 (PDF 는 쪽마다 이미지로 바꿈)
    │
-   ▼  OCR: training/internal_ocr_adapter.py 방식으로 사내 OCR 호출, 결과 캐시 (8.2)
+   ▼  OCR: ocr/internal_ocr_adapter.py 방식으로 사내 OCR 호출, 결과 캐시 (8.2)
    ▼  포맷·양식 묶기: masking_ui 지문 방식 (8.3)
    │
 포맷 목록: 문서 수, 견본 썸네일, 양식 수, 가까운 기존 서식
@@ -499,9 +499,9 @@ studio_jobs/<작업ID>/
    └─▶ OCR 벤치마크로: (필요하면 OCR 검수, 8.7) → 1부 scan·prepare → OCR 데이터셋 (9.2)
 ```
 
-### 8.2 OCR — 1부 OCR 준비 단계(`training/bank_ocr`)를 그대로 쓴다
+### 8.2 OCR — 1부 OCR 준비 단계(`ocr/bank_ocr`)를 그대로 쓴다
 
-OCR을 읽고 부르는 일은 1부 OCR 학습의 준비 단계(`python -m bank_ocr scan` / `prepare`)에 이미 있다. studio는 `training/bank_ocr/data.py`를 **복사하지 않고 불러 쓴다**(표준 라이브러리와 PIL만 쓰므로 생성기 환경에서 import된다. 2026-10-20 확인). 두 곳의 OCR 처리가 늘 같게 된다.
+OCR을 읽고 부르는 일은 1부 OCR 학습의 준비 단계(`python -m bank_ocr scan` / `prepare`)에 이미 있다. studio는 `ocr/bank_ocr/data.py`를 **복사하지 않고 불러 쓴다**(표준 라이브러리와 PIL만 쓰므로 생성기 환경에서 import된다. 2026-10-20 확인). 두 곳의 OCR 처리가 늘 같게 된다.
 
 | 일 | 1부 OCR 준비 단계 | studio |
 |---|---|---|
@@ -510,7 +510,7 @@ OCR을 읽고 부르는 일은 1부 OCR 학습의 준비 단계(`python -m bank_
 | OCR 부르기 | `ocr_callable`(기본 `internal_ocr_adapter:ocr_from_file`)이 원본 JSON을 돌려준다 | 같은 설정 키. 어댑터 파일이 쓰지 않는 `matplotlib`을 import하므로, import가 안 되는 환경이면 같은 요청(`{INTERNAL_OCR_BASE_URL}/ocr`, multipart `file`)을 직접 보낸다 |
 | OCR JSON 해석 | `parse_ocr` + `mapping`(`items_path`, `success_key`, `text_key`, `confidence_key`, `box_key`, `box_format`, `points_key`). 사내 OCR 형식이 기본이고, 다른 OCR이면 `mapping`만 바꾼다 | 같은 함수·같은 `mapping` |
 | 이미지 정규화 | `canonical_image`: EXIF 회전을 적용한 RGB. EXIF 회전이 있는 이미지는 저장된 OCR을 쓰지 않는다(좌표가 어긋남) | 같은 규칙 |
-| 캐시 | 키 = 픽셀 해시 + `ocr_callable` + `ocr_revision` → `<cache_dir>/ocr/<키>.json` | 같은 키 규칙. **studio의 OCR 캐시 경로를 1부의 `cache_dir`(예: `training/data/ocr-cache`)로 두면 1부에서 이미 돌린 OCR을 다시 부르지 않는다** |
+| 캐시 | 키 = 픽셀 해시 + `ocr_callable` + `ocr_revision` → `<cache_dir>/ocr/<키>.json` | 같은 키 규칙. **studio의 OCR 캐시 경로를 1부의 `cache_dir`(예: `ocr/data/ocr-cache`)로 두면 1부에서 이미 돌린 OCR을 다시 부르지 않는다** |
 
 - 결과는 단어 목록 `{text, bbox(픽셀), bbox_norm(0~1000), confidence, order, line_num}`이다(`parse_ocr` 출력 그대로). 포맷 묶기(8.3)는 이 목록을 쓴다.
 - 1부와 마찬가지로 이 OCR 결과는 사람이 검수하지 않은 의사정답이다. 사람이 고치면 검수 정답이 된다(8.7).
@@ -566,7 +566,7 @@ OCR을 읽고 부르는 일은 1부 OCR 학습의 준비 단계(`python -m bank_
 - **견본 고르기:** 양식 안에서 가장 깨끗한(기울기·흐림이 적은) 문서를 기본 견본으로 제안하고, 사람이 바꿀 수 있다.
 - **값 지우기:** 4.2의 배경 지우기 도구를 쓴다. 아래 지울 후보와 값 영역 초안은 7단계 마지막에 만든다. 없어도 손으로 지우고 그려서 서식을 만들 수 있다. **지울 후보**는 같은 양식 문서들의 OCR을 겹쳐 문서마다 달라지는 글자(= 값)로 잡는다.
 - **값 영역 초안:** 같은 양식 문서들에서 늘 같은 글자는 항목명·고정 문구, 문서마다 다른 글자는 값이다. 값 글자 덩어리의 위치를 모아 값 영역 초안으로, 그 왼쪽·위의 항목명을 `label` 초안으로 쓴다. 키는 표준 키 사전에서 고른다(5절).
-- **보관 위치:** 실서류에서 만든 서식은 `private_forms_dir`(4.4)에 두고 공개 저장소에 넣지 않는다. 공개 서식·빈 서식에서 만든 것만 저장소의 `add_template/images/`에 둔다.
+- **보관 위치:** 실서류에서 만든 서식은 `private_forms_dir`(4.4)에 두고 공개 저장소에 넣지 않는다. 공개 서식·빈 서식에서 만든 것만 저장소의 `docgen/forms/images/`에 둔다.
 
 **구현 (7단계)** — `studio/importer.py` `create_template`, `value_drafts`
 
@@ -656,7 +656,7 @@ OCR을 읽고 부르는 일은 1부 OCR 학습의 준비 단계(`python -m bank_
 
 ### 9.1 데이터셋 등록부
 
-데이터셋을 만드는 코드는 지금처럼 `docgen.bench`(은행 업무), `training/bank_ocr`(OCR), `training/bank_task`(2부 준비·채점)에 둔다. studio는 생성·준비 명령을 **백그라운드 프로세스로 실행**하고, 완료한 결과 폴더를 등록부에 자동으로 올린다. 같은 레시피를 명령줄(`python -m docgen.bench build --recipe …`, `python -m bank_ocr prepare --config …`)로도 돌릴 수 있다. 서버에서 큰 데이터셋을 명령줄로 만든 경우에는 폴더를 등록한다. 과제를 추가하거나 바꾸는 일(좌표 등)은 그 코드에서 한다. studio는 과제를 레시피에서 고르고 문항을 보여 준다.
+데이터셋을 만드는 코드는 지금처럼 `docgen.bench`(은행 업무), `ocr/bank_ocr`(OCR), `bank/bank_task`(2부 준비·채점)에 둔다. studio는 생성·준비 명령을 **백그라운드 프로세스로 실행**하고, 완료한 결과 폴더를 등록부에 자동으로 올린다. 같은 레시피를 명령줄(`python -m docgen.bench build --recipe …`, `python -m bank_ocr prepare --config …`)로도 돌릴 수 있다. 서버에서 큰 데이터셋을 명령줄로 만든 경우에는 폴더를 등록한다. 과제를 추가하거나 바꾸는 일(좌표 등)은 그 코드에서 한다. studio는 과제를 레시피에서 고르고 문항을 보여 준다.
 
 **등록부** (`<workspace_dir>/registry.json`): 데이터셋마다 한 줄. 폴더는 옮기지 않고 경로만 적는다.
 
@@ -665,7 +665,7 @@ OCR을 읽고 부르는 일은 1부 OCR 학습의 준비 단계(`python -m bank_
   "ocr-synth-v1": {
     "track": "ocr", "source": "synthetic", "gt": "exact", "real_data": false,
     "path": "D:/studio_workspace/datasets/ocr-synth-v1", "format": "bank_ocr/prepared",
-    "recipe": "datasets/recipes/ocr-synth-v1.json", "version": "1.3", "frozen": true,
+    "recipe": "docgen/recipes/ocr-synth-v1.json", "version": "1.3", "frozen": true,
     "created": "2026-10-28", "counts": {"documents": 400, "benchmark_tasks": 5120}
   },
   "ocr-real-2026-10": {
@@ -701,7 +701,7 @@ OCR을 읽고 부르는 일은 1부 OCR 학습의 준비 단계(`python -m bank_
 
 | studio가 하는 일 | 내용 |
 |---|---|
-| 레시피 | 합성 데이터셋: 벤치마크 종류, 과제, 서식(목록표의 배정·검수 상태로 거르기), 시나리오, 서식당·시나리오당 수, 촬영 조건 비율, 변형 비율, `test`/`train`을 JSON 하나로 (`datasets/recipes/<이름>.json`). 실서류 데이터셋: 출처 폴더, 포맷, 정답 종류(검수 완료만 / 의사정답 포함), 과제 |
+| 레시피 | 합성 데이터셋: 벤치마크 종류, 과제, 서식(목록표의 배정·검수 상태로 거르기), 시나리오, 서식당·시나리오당 수, 촬영 조건 비율, 변형 비율, `test`/`train`을 JSON 하나로 (`docgen/recipes/<이름>.json`). 실서류 데이터셋: 출처 폴더, 포맷, 정답 종류(검수 완료만 / 의사정답 포함), 과제 |
 | 빌드 | 레시피로 `docgen.bench build`·`bank_ocr prepare`·`bank_task prepare`를 백그라운드 작업으로 실행. 진행·오류 표시 |
 | 문항 보기 | 과제별로 문항을 넘겨 보며 이미지·질문·정답(좌표면 박스로)을 함께 본다. 서식·조건·사례별 거르기 |
 | 비교 | 두 버전의 문항 수·구성 차이 |
@@ -758,13 +758,13 @@ OCR 데이터셋 (benchmark_tasks.jsonl, train_sft.jsonl …) → 등록부
 - 촬영 조건(스캔, 촬영, 팩스)을 넣은 이미지는 박스를 같은 변환으로 옮긴다(`docgen`의 증강 좌표 변환을 그대로 쓴다). 1부 `prepare`의 노이즈 사본은 그 위에 따로 더해진다.
 - 합성 OCR 학습 데이터도 같은 길로 만든다. 레시피의 `split`만 `train`으로 둔다. 1부 `prepare`가 같은 픽셀이 train과 benchmark에 함께 들어가지 않는지 검사한다.
 
-**1부 코드에 필요한 변경** (`training/bank_ocr/pipeline.py`): 지금 `prepare`는 train과 benchmark가 둘 다 있어야 돈다. 평가 전용 데이터셋을 만들 수 있도록 `benchmark_only` 설정을 더한다(기본은 꺼짐, 지금 동작 그대로).
+**1부 코드에 필요한 변경** (`ocr/bank_ocr/pipeline.py`): 지금 `prepare`는 train과 benchmark가 둘 다 있어야 돈다. 평가 전용 데이터셋을 만들 수 있도록 `benchmark_only` 설정을 더한다(기본은 꺼짐, 지금 동작 그대로).
 
 **`docgen.bench`의 OCR 과제** (`ocr_field`, `ocr_page`): 지금 은행 업무 세트 안에 있다. 기존 세트와 점수를 이어 보기 위해 그대로 두되, 새 OCR 평가는 위의 1부 형식으로 한다. 9판까지 있던 `ocr_spot`(신규) 계획은 1부 `spotting`으로 대신한다.
 
 ### 9.3 은행 업무 벤치마크의 좌표 — OCR 단계 형식을 그대로 쓰고, 문서 이해 과제는 모두 좌표를 함께 답한다
 
-1부 OCR 학습의 좌표 학습이 잘 됐으므로, 은행 업무 평가 세트(`docgen.bench`)도 **같은 좌표 형식**을 쓴다. 기준 코드는 `training/bank_ocr/tasks.py`(질문·답 형식), `data.py`(`normalize_box`), `metrics.py`(채점)다.
+1부 OCR 학습의 좌표 학습이 잘 됐으므로, 은행 업무 평가 세트(`docgen.bench`)도 **같은 좌표 형식**을 쓴다. 기준 코드는 `ocr/bank_ocr/tasks.py`(질문·답 형식), `data.py`(`normalize_box`), `metrics.py`(채점)다.
 
 **좌표 형식 (OCR 단계와 같음)**
 
@@ -789,7 +789,7 @@ OCR 데이터셋 (benchmark_tasks.jsonl, train_sft.jsonl …) → 등록부
   - 위치 점수: IoU 0.5 기준 F1.
   - 값+위치 점수: 박스가 맞고(IoU ≥ 0.5) 값도 맞은 항목의 F1. 주 지표로 쓴다.
 - **채점은 OCR 단계와 같다.** 예측과 정답을 IoU가 큰 순서로 하나씩 짝짓는다(`metrics.match`). GRPO 보상이 필요하면 OCR 단계처럼 박스 점수 `min(1, IoU/0.8)`을 쓴다.
-- `training/`은 따로 설치하는 프로젝트이므로 `match`·`iou`·`normalize_box`를 `docgen/bench/metrics.py`로 옮겨 쓴다. 옮긴 함수에 출처를 적고, 두 쪽이 같은 결과를 내는지 시험을 둔다.
+- `ocr/`은 따로 설치하는 프로젝트이므로 `match`·`iou`·`normalize_box`를 `docgen/bench/metrics.py`로 옮겨 쓴다. 옮긴 함수에 출처를 적고, 두 쪽이 같은 결과를 내는지 시험을 둔다.
 - **학습 레코드도 같은 형식으로 맞춘다.** 지금 `docgen/swift.py`의 `grounding`·`marks` 답은 `{"checkboxes": [...], "seals": [...], "signatures": [...]}`처럼 평가 문항과 모양이 다르다. 학습과 평가의 답 형식을 하나로 해야 평가 점수가 학습 효과를 그대로 보여 준다.
 - `kie`·`marks` 답 형식이 바뀌므로 평가 세트 버전을 올린다. 이전 버전과는 값 점수만 비교한다.
 
@@ -933,14 +933,14 @@ OCR 데이터셋 (benchmark_tasks.jsonl, train_sft.jsonl …) → 등록부
 
 | 사용자가 고친 것 | 저장되는 파일 | 반영되는 곳 |
 |---|---|---|
-| overlay 영역(위치·키·타입·값 출처), 배경 지우기 | `add_template/overrides/<ID>.json` | 그 서식이 나오는 모든 과제(OCR, 문서 이해, 은행 업무 묶음)의 이미지와 정답 |
-| html 서식 (복제·분석기) | `templates/copies/<ID>/` | 위와 같음 (새 서식으로 추가) |
-| 템플릿으로 보낸 새 서식 | `add_template/images/<ID>/` 또는 `private_forms_dir` | 위와 같음. 실서류에서 만든 서식은 내부망 빌드에서만 |
-| 표시 설정·표시 요소 풀 | `docgen/marks.json`, `assets/marks/` | 체크·도장·서명·손글씨가 들어가는 모든 이미지 |
+| overlay 영역(위치·키·타입·값 출처), 배경 지우기 | `docgen/forms/overrides/<ID>.json` | 그 서식이 나오는 모든 과제(OCR, 문서 이해, 은행 업무 묶음)의 이미지와 정답 |
+| html 서식 (복제·분석기) | `docgen/templates/copies/<ID>/` | 위와 같음 (새 서식으로 추가) |
+| 템플릿으로 보낸 새 서식 | `docgen/forms/images/<ID>/` 또는 `private_forms_dir` | 위와 같음. 실서류에서 만든 서식은 내부망 빌드에서만 |
+| 표시 설정·표시 요소 풀 | `docgen/marks.json`, `docgen/assets/marks/` | 체크·도장·서명·손글씨가 들어가는 모든 이미지 |
 | 표준 키 사전·키 대응 | `docgen/keys.json` | 정답 키, 질문에 넣는 항목 목록 |
 | 검수 상태·학습/평가 배정 | `docgen/catalog.json` | 레시피의 서식 거르기(검수 완료만, 평가 전용 서식은 학습에서 뺌) |
 | 시나리오 구성·처리 설정 | `docgen/scenarios.json` (`docs`, `extra`, `processing`) | 다음 빌드의 은행 업무 묶음과 선택한 구비·대조·심사, 직접 지정한 추출·비교 문항 |
-| 레시피 | `datasets/recipes/<이름>.json` | 그 레시피로 만드는 데이터셋 |
+| 레시피 | `docgen/recipes/<이름>.json` | 그 레시피로 만드는 데이터셋 |
 | 실서류 검수 결과 | `real_data_dir` | **합성 생성에는 들어가지 않는다.** 실서류 평가 세트(9.7)로 쓴다 |
 
 지켜야 할 것:
@@ -1027,7 +1027,7 @@ OCR 데이터셋 (benchmark_tasks.jsonl, train_sft.jsonl …) → 등록부
 
 ### 9.8 결과 보기·채점·비교
 
-등록부의 어느 데이터셋이든 **같은 화면에서 문항, 정답, 모델 답, 점수를 본다.** 지금은 1부 OCR viewer(`training/viewer/ocr_viewer.py`), 2부 은행 업무 viewer(`bank_viewer.py`), 비교표 HTML(`reports/benchmark.html`)이 따로 있다.
+등록부의 어느 데이터셋이든 **같은 화면에서 문항, 정답, 모델 답, 점수를 본다.** 지금은 1부 OCR viewer(`ocr/viewer/ocr_viewer.py`), 2부 은행 업무 viewer(`bank/viewer/bank_viewer.py`), 비교표 HTML(`reports/benchmark.html`)이 따로 있다.
 
 **읽는 것** (모두 1부·2부 파이프라인이 이미 쓰는 파일, 읽기만 한다)
 
@@ -1053,8 +1053,8 @@ studio가 만든 데이터셋은 **1부·2부 학습 파이프라인이 그대�
 
 | 학습 | 파이프라인 | studio 데이터셋을 넣는 곳 | 학습이 끝난 뒤 |
 |---|---|---|---|
-| 1부 OCR | `training/run_pipeline.py` | `configs/pipeline.json`의 `data_config`가 가리키는 1부 설정의 `output_dir` = studio의 OCR 데이터셋 폴더. 폴더에 `DONE.json`이 있으면 파이프라인이 준비 단계를 건너뛴다(`stage_prepare`) | `runs/<실험>/`을 그 데이터셋의 `runs`에 붙인다 → ⑦ 평가 |
-| 2부 은행 업무 | `training/run_bank_pipeline.py` | `configs/bank_pipeline.json`의 `data.train`(은행 업무 학습 데이터셋, `docgen.bench --split train` 폴더 목록), `data.benchmark`(고정한 평가 세트), `data.replay.path`(1부 OCR 데이터셋의 `train_sft.jsonl`), `ocr_check.tasks`(1부 OCR 데이터셋의 `benchmark_tasks.jsonl`) | 같음 |
+| 1부 OCR | `ocr/run_pipeline.py` | `configs/pipeline.json`의 `data_config`가 가리키는 1부 설정의 `output_dir` = studio의 OCR 데이터셋 폴더. 폴더에 `DONE.json`이 있으면 파이프라인이 준비 단계를 건너뛴다(`stage_prepare`) | `runs/<실험>/`을 그 데이터셋의 `runs`에 붙인다 → ⑦ 평가 |
+| 2부 은행 업무 | `bank/run_bank_pipeline.py` | `configs/bank_pipeline.json`의 `data.train`(은행 업무 학습 데이터셋, `docgen.bench --split train` 폴더 목록), `data.benchmark`(고정한 평가 세트), `data.replay.path`(1부 OCR 데이터셋의 `train_sft.jsonl`), `ocr_check.tasks`(1부 OCR 데이터셋의 `benchmark_tasks.jsonl`) | 같음 |
 
 **화면: 데이터셋 → "학습 설정 내보내기"**
 
@@ -1075,19 +1075,19 @@ studio가 만든 데이터셋은 **1부·2부 학습 파이프라인이 그대�
 
 ## 10. 생성기·학습 코드 쪽 변경
 
-UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한으로 바꾼다. `training/`은 기본 동작을 바꾸지 않고 설정을 더하는 것만 한다.
+UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한으로 바꾼다. `ocr/`은 기본 동작을 바꾸지 않고 설정을 더하는 것만 한다.
 
 | 변경 | 위치 | 내용 |
 |---|---|---|
-| 수정층 적용 | `docgen/realform.py` (`load_layout`) | 자동 레이아웃을 읽은 뒤 `add_template/overrides/<ID>.json`을 덧씌운다 |
-| 이미지 배경 | `docgen/realform.py` (`background_png`) | PDF가 없고 `add_template/images/<ID>/`가 있으면 그 이미지를 배경으로 쓴다 |
+| 수정층 적용 | `docgen/realform.py` (`load_layout`) | 자동 레이아웃을 읽은 뒤 `docgen/forms/overrides/<ID>.json`을 덧씌운다 |
+| 이미지 배경 | `docgen/realform.py` (`background_png`) | PDF가 없고 `docgen/forms/images/<ID>/`가 있으면 그 이미지를 배경으로 쓴다 |
 | 배경 지우기 | `docgen/realform.py` (`background_png`) | 수정 파일의 `erase` 목록을 배경에 적용한다 (흰색 / 주변색) (4.2) |
 | 표시 요소 풀 | 신규 `docgen/marks.py`, `render.py`·`realform.py`·`_macros.html.j2` | 체크·서명은 풀 이미지에서, 도장은 틀에서 그린다. 지금 코드의 모양을 기본 항목으로 등록하고, 쓸 때마다 크기·회전·색을 조금씩 바꾼다 (4.7) |
-| 신규 서식 등록 | `docgen/registry.py` (`load_all`) | `templates/copies/*/form.json`과 `add_template/images/*`, 설정돼 있으면 `private_forms_dir`도 읽어 등록한다 |
+| 신규 서식 등록 | `docgen/registry.py` (`load_all`) | `docgen/templates/copies/*/form.json`과 `docgen/forms/images/*`, 설정돼 있으면 `private_forms_dir`도 읽어 등록한다 |
 | 단순 값 규칙 | 신규 `docgen/sources.py` | `source`(`profile.*`, `rule:*`)를 값으로 바꾼다 |
 | 표준 키 사전 | 신규 `docgen/keys.json` | html 서식 키에서 초안을 만든다. `realform.py`의 `KEY_RULES`도 이 사전을 따른다 |
 | 학습/평가 배정 | `docgen/bench/build.py` | `docgen/catalog.json`의 `split`으로 서식을 나눈다 |
-| html 서식 정보 | `docgen/registry.py`, 신규 `docgen/sources.py` | `templates/copies/<ID>/form.json`의 `fields`(키·타입·값 출처)와 `lists`(반복 목록, 행 수 범위)로 생성 함수 없이 값을 만든다. `paginate`가 켜져 있으면 여러 쪽으로 나눈다 (4.3) |
+| html 서식 정보 | `docgen/registry.py`, 신규 `docgen/sources.py` | `docgen/templates/copies/<ID>/form.json`의 `fields`(키·타입·값 출처)와 `lists`(반복 목록, 행 수 범위)로 생성 함수 없이 값을 만든다. `paginate`가 켜져 있으면 여러 쪽으로 나눈다 (4.3) |
 | studio 패키지 반입 | 신규 `studio/deps.py`, `studio/wheels/`, `docker/requirements.lock` | 이미지를 다시 만들지 않고 컨테이너 안 `studio_deps/`에 설치. 다음 이미지에는 포함 (3절 원칙 6) |
 | 미리보기 명령 | `docgen/preview.py` | `python -m docgen.preview <서식ID 또는 템플릿 폴더> --seed N --out <폴더>`: CLI 분석기가 작업 폴더 안에서 렌더링해 원본과 비교할 때 쓴다 (7.3) |
 | 미리보기 함수 | 신규 `docgen/preview.py` | 서식 하나, seed 하나, 변형·촬영 조건을 받아 이미지와 라벨을 돌려준다. 브라우저를 띄워 둔 `ImageRenderer`를 재사용한다 (이 PC에서 장당 0.4~1.3초, 캐시 0.01초. `docgen generate`가 느린 것은 시작할 때 476종 전체를 한 번 렌더링하는 키 목록 수집 때문이다) |
@@ -1100,8 +1100,8 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 | 학습 레코드 형식 | `docgen/swift.py` | `grounding`·`marks` 답 형식을 평가 문항과 같게 (9.3) |
 | 글자 박스 기록 | `docgen/image.py`, `realform.py` | 렌더링 때 서식 고정 문구까지 모든 글자 덩어리의 박스를 잰다. 라벨에 `texts`(쪽마다 글자·박스 목록)로 남긴다. 합성 OCR 세트의 `spotting`·`relation`·`region_ocr` 정답에 필요하다 (9.2) |
 | OCR JSON 내보내기 | 신규 `docgen/ocr_export.py` (`guide/examples/labels_to_ocr.py`를 옮김) | 생성 라벨 → 사내 OCR 응답 형식 JSON, 쪽 이미지와 같은 이름. 글자 덩어리 단위는 사내 OCR에 맞춘다 (9.2) |
-| 평가 전용 OCR 세트 | `training/bank_ocr/pipeline.py` (`prepare`) | `benchmark_only` 설정: train 없이 benchmark만 만든다. 기본은 꺼짐 (9.2) |
-| OCR 정답 종류 | `training/bank_ocr/pipeline.py`·`tasks.py`·`metrics.py`·`inference.py` | `reference_type` 설정(`ocr_pseudo_unreviewed` 기본 / `human_reviewed` / `synthetic_exact`): 문항·`DONE.json`·채점 보고에 그대로 적는다. 기본은 지금 출력 그대로 (8.7) |
+| 평가 전용 OCR 세트 | `ocr/bank_ocr/pipeline.py` (`prepare`) | `benchmark_only` 설정: train 없이 benchmark만 만든다. 기본은 꺼짐 (9.2) |
+| OCR 정답 종류 | `ocr/bank_ocr/pipeline.py`·`tasks.py`·`metrics.py`·`inference.py` | `reference_type` 설정(`ocr_pseudo_unreviewed` 기본 / `human_reviewed` / `synthetic_exact`): 문항·`DONE.json`·채점 보고에 그대로 적는다. 기본은 지금 출력 그대로 (8.7) |
 | 묶음 → 문항 함수 | `docgen/bench/build.py` | 문항 만들기를 "묶음(서류별 라벨 목록) → 문항" 함수로 떼어 내 합성 묶음과 실서류 업무 묶음이 같이 쓴다 (9.7) |
 
 생성 결과가 바뀌는 변경(수정층, 키 변경, 배정, 표시 설정)은 평가 세트 버전을 올린다.
@@ -1117,7 +1117,7 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 | 3. 등록부·결과 보기 | 데이터셋 등록부, 폴더 등록(1부 `prepare`, 2부 `prepare`, `docgen.bench` 결과 알아보기), 데이터셋 설명서, 문항 보기, 모델 답 붙이기·채점, 답 비교, 비교표, 학습 결과 폴더 붙이기 | `guide/examples/make_examples.sh`가 만드는 1부·2부 예시 폴더를 등록해 문항·정답·답을 본다. studio 채점이 명령줄(`bank_ocr evaluate`, `bank_task score`) 점수와 같다 |
 | 4. 은행 업무 데이터셋·묶음 | 레시피(묶음 구성 규칙 포함), 빌드 작업, 버전 기록·고정, `bundles.jsonl`, 시나리오 데이터화와 편집, 묶음 목록·상세·문항 보기, 고객 일관성 검사, 직접 묶음 만들기, 묶음 → 문항 함수 분리, 학습 설정 내보내기(2부) | 기존 8과제 평가 세트를 레시피로 만들어 등록부에 올리고, 대조 문항의 변조 칸을 묶음 상세에서 확인한다. 직접 지정한 묶음 하나를 만들어 문항이 나온다 |
 | 5. 합성 OCR 세트 | 글자 박스 기록(쪽 전체), OCR JSON 내보내기, 1부 `benchmark_only`, OCR 레시피와 빌드, 학습 설정 내보내기(1부) | 합성 레시피로 1부 형식 OCR 세트를 만들어 등록부에 올린다. 정답을 답으로 넣으면 8과제가 모두 만점이다. 서식 고정 문구까지 `spotting` 정답에 들어 있다 |
-| 6. 은행 업무 좌표 | `kie`·`marks` 답 좌표 포함으로 변경, OCR 단계 채점 함수 옮기기, `swift.py` 학습 레코드 형식 맞추기, 문항 보기 박스 표시 | 정답을 답으로 넣으면(`--oracle`) 값·위치·값+위치 점수가 모두 100점, 박스를 일부러 밀면 위치 점수만 떨어진다. 옮긴 채점 함수가 `training/bank_ocr/metrics.py`와 같은 값을 낸다 |
+| 6. 은행 업무 좌표 | `kie`·`marks` 답 좌표 포함으로 변경, OCR 단계 채점 함수 옮기기, `swift.py` 학습 레코드 형식 맞추기, 문항 보기 박스 표시 | 정답을 답으로 넣으면(`--oracle`) 값·위치·값+위치 점수가 모두 100점, 박스를 일부러 밀면 위치 점수만 떨어진다. 옮긴 채점 함수가 `ocr/bank_ocr/metrics.py`와 같은 값을 낸다 |
 | 7. 가져오기·OCR 검수 | 이미지 폴더·끌어다 놓기, PDF 쪽 나누기, 사내 OCR 호출·캐시, `from-docgen`, 포맷·양식 묶기, 포맷 목록과 결정, "템플릿으로"(견본 고르기, 마지막에 지울 후보·값 영역 초안), OCR 검수, 이미지 묶음 → OCR 세트 | **이 PC에서 끝남 (2026-10-20).** `from-docgen` 묶음(재직·경력·퇴직연금·소득금액, 문서 12건 19쪽)이 3포맷으로 묶이고(순도 0.8: 겉모습이 같은 재직·경력증명서가 한 포맷, 양식으로는 갈림), 견본으로 만든 서식에 값 자리 초안이 들어가 생성된다. OCR 검수로 고친 쪽만 모은 세트가 `human_reviewed`로 1부 prepare·등록된다. 남은 것: 내부망에서 실제 이미지 묶음으로 OCR → 묶기 확인. 원래 기준: 생성 데이터를 `from-docgen`으로 넣어 서식별로 맞게 묶인다(서식 ID 대비 묶기 정확도 보고). 견본 하나로 overlay(image) 서식을 만들어 생성한다. OCR JSON 일부를 일부러 틀리게 넣고 OCR 검수로 고친 뒤, 같은 모델 답을 의사정답·검수 정답으로 채점하면 틀린 만큼 차이가 난다. 내부망에서 실제 이미지 묶음으로 OCR → 묶기를 확인한다 |
 | 8. html 서식 만들기 | 분석기 설정·연결 확인(`cli`·`openai`), 작업 폴더·작업 화면, `html` 작업(이미지 → html), `layout` 작업(overlay 값 영역 초안), html 편집기(원본 겹쳐 보기, 행 수 바꿔 보기, 저장 전 검사, 다시 고쳐), 복제, `form.json`(항목·반복 목록), 단순 값 규칙 | 거래내역 서식 이미지 하나를 CLI로 html 서식으로 만들고 편집기에서 고친다. 행 수에 따라 1쪽짜리와 3쪽짜리가 모두 생성되고, 쪽이 나뉘어도 정답 박스가 맞다. 재직증명서를 복제해 새 항목 하나를 넣어 생성한다. `cli` 분석기를 하나 이상 붙인다 |
 | 9. 실서류 | 결과 폴더 가져오기(형식 검사, 저장된 OCR로 묶기), 키 대응, 라벨 검수(라벨 모드, 같은 자리 모아 보기, 의심 먼저 보기), 검수 전후 점수, 실서류 업무 묶음(묶기, 시나리오, 정답 계산·확인), 실서류 평가 세트(OCR, 서류 한 장, 여러 서류), 합성·실서류 비교표, `autolabel` | 생성 데이터를 결과 폴더 형식으로 바꿔 넣고(정답 일부를 일부러 틀리게) 검수 → 검수 전 점수가 틀린 만큼 낮게 나온다. 생성 묶음의 서류들을 묶음 정보 없이 넣어도 묶음 후보가 맞게 나오고, 계산된 구비·대조·심사 답이 생성기 정답과 같다. 내부망에서 실제 결과 폴더로 포맷 하나를 검수해 실서류 평가 세트를 만들고 모델 2개 점수를 낸다 |
@@ -1132,12 +1132,12 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 | 키 | **정함.** 영어 표준 키가 기본. 표준 키 사전을 둔다 |
 | 검수 완료 | **정함.** 사람이 누른다. 자동 검사는 경고만 한다 |
 | 내부망 | **정함.** 같은 코드, 설정 파일만 다름. 분석기는 `openai`/`cli` 두 방식으로 무엇이든 붙인다 |
-| 두 벌인 영어 키 통일 | 초안. 사전 `docgen/keys.json`(`scripts/build_keys.py`)의 `duplicates`에 이름 두 벌 5건과 제안을 적었다(예: 직장은 `employer.*`, 고객인 법인은 `company.*`). `corp_no`→`corp_reg_no`는 이미 통일됨. 나머지 이름 바꾸기는 생성 결과가 바뀌므로 평가 세트 버전을 올릴 때 사용자 확인 후 한다 |
+| 두 벌인 영어 키 통일 | 초안. 사전 `docgen/keys.json`(`docgen/scripts/build_keys.py`)의 `duplicates`에 이름 두 벌 5건과 제안을 적었다(예: 직장은 `employer.*`, 고객인 법인은 `company.*`). `corp_no`→`corp_reg_no`는 이미 통일됨. 나머지 이름 바꾸기는 생성 결과가 바뀌므로 평가 세트 버전을 올릴 때 사용자 확인 후 한다 |
 | 내부망 분석기 | 미정. 내부망에서 쓸 수 있는 vLLM 주소와 CLI 종류 |
 | 실서류 저장 위치 | 미정. 내부망 담당과 정한다. 저장소에는 넣지 않는다 |
 | 사용자 수 | 처음에는 혼자. 여러 명이면 저장 때 파일 충돌 검사를 넣는다 |
 | 내부망 배치 | **정함.** studio = 기존 docgen 도커 컨테이너(이미지 그대로, 패키지만 코드와 함께 반입), 접속 = SSH 터널, 학습 = 폴더를 공유하는 별도 학습 컨테이너. 학습은 studio가 설정과 명령을 내주고 진행·결과를 읽는다 (3절 원칙 6, 9.9) |
-| OCR 읽기·부르기 | **정함.** `training/bank_ocr/data.py`(1부 OCR 준비 단계)를 불러 쓴다: `scan` 규칙, `find_saved_ocr`, `parse_ocr` + `mapping`, `ocr_callable`·`ocr_revision`, 같은 캐시 키 (8.2) |
+| OCR 읽기·부르기 | **정함.** `ocr/bank_ocr/data.py`(1부 OCR 준비 단계)를 불러 쓴다: `scan` 규칙, `find_saved_ocr`, `parse_ocr` + `mapping`, `ocr_callable`·`ocr_revision`, 같은 캐시 키 (8.2) |
 | 가져오기 방식 | **정함.** 두 방식. ① 이미지 묶음 → 사내 OCR(`internal_ocr_adapter` 방식) → 묶기 → 템플릿으로 만들지 결정. ② 결과 폴더(이미 만든 OCR·추론 결과, [RESULTS_FORMAT.md](RESULTS_FORMAT.md)) → 묶기 → 검수 → 실서류 평가 세트 (8절, 9.7) |
 | 수정 반영 | **정함.** 고친 것은 파일로 저장되고 다음 빌드부터 평가·학습 데이터 모두에 반영. 고정한 버전은 그대로. 실서류 검수 결과는 합성 생성에 들어가지 않고 실서류 평가 세트로만 쓴다 (9.6) |
 | 배경 지우기 | **정함.** overlay 영역 편집기에서 사각형·OCR 단어·지울 후보를 흰색 또는 주변색으로 덮는다. 원본은 두고 지운 영역 목록만 저장 (4.2) |
@@ -1148,7 +1148,7 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 | 데이터셋 설명서 | **정함.** 데이터셋마다 자동 칸 + 사람이 쓰는 칸(목적, 한계)으로 된 설명서 (9.1) |
 | masking_ui 묶기 코드 재사용 | **정함.** 지문·묶기 함수만 `studio/formats.py`로 옮기고 masking_ui 의존은 끊는다. 두 도구는 합치지 않는다 (8.3) |
 | 서버 구성 | **정함.** FastAPI + uvicorn (3절 원칙 6) |
-| 데이터셋 생성 코드 | **정함.** `docgen.bench`·`training/bank_ocr`·`training/bank_task`에 두고 studio는 불러 쓴다. 명령줄로도 같은 레시피가 돈다 (9.1) |
+| 데이터셋 생성 코드 | **정함.** `docgen.bench`·`ocr/bank_ocr`·`bank/bank_task`에 두고 studio는 불러 쓴다. 명령줄로도 같은 레시피가 돈다 (9.1) |
 | studio의 역할 | **정함.** 벤치마크 데이터 생성·관리기. 두 벤치마크(OCR, 은행 업무) × 세 출처(합성, 이미지 묶음, 결과 폴더)를 데이터셋 등록부 하나로, UI 한 곳에서 관리한다 (1절) |
 | OCR 벤치마크 형식 | **정함.** 세 출처 모두 1부 `bank_ocr prepare` 형식·채점. `docgen.bench`의 `ocr_field`·`ocr_page`는 기존 세트 호환으로 남기고, 계획했던 `ocr_spot`은 1부 `spotting`으로 대신한다 (9.2) |
 | OCR 검수 정답 | **정함.** 사내 OCR을 사람이 고친 것을 사내 OCR 응답 형식 그대로 저장해 1부 `scan --ocr-dir`로 읽는다 (8.7) |
@@ -1168,7 +1168,7 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 | 다시 추출하면 수정이 엉뚱한 영역에 붙는다 | 영역 순서가 아니라 쪽과 항목명으로 찾고, 못 찾으면 "깨진 수정"으로 띄운다 |
 | 이 PC와 서버의 글꼴이 달라 이미지가 다르다 | 이 PC는 편집·미리보기용. 학습·평가 데이터는 docgen 컨테이너의 studio에서 만든다 |
 | studio에 로그인이 없다 | SSH 터널로만 접속하고 포트를 망에 열지 않는다. 여러 명이 쓰게 되면 그때 접속 제한을 넣는다 |
-| docgen 컨테이너가 다시 시작되면 studio가 꺼진다 | 다시 띄우는 명령 한 줄(docs/DOCKER.md 4절). 등록부·검수 결과는 공유 폴더에 있어 잃지 않는다 |
+| docgen 컨테이너가 다시 시작되면 studio가 꺼진다 | 다시 띄우는 명령 한 줄(docker/README.md 4절). 등록부·검수 결과는 공유 폴더에 있어 잃지 않는다 |
 | 두 컨테이너가 같은 폴더를 다른 경로로 본다 | `path_map`으로 바꿔 쓰고, 내보내기 때 학습 컨테이너 쪽 경로가 맞는지는 사람이 첫 학습에서 한 번 확인한다 |
 | 분석기 결과를 검토 없이 등록한다 | 승인을 거쳐야만 등록되고, 등록 후에도 검수 전 상태로 시작한다 |
 | 외부 분석기로 내부 자료가 나간다 | 7.4의 데이터 경계 |
@@ -1180,7 +1180,7 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 | CLI가 만든 html이 원본과 다르거나 키가 틀린다 | 원본 겹쳐 보기와 저장 전 검사로 사람이 확인하고 승인해야 등록된다. 등록해도 검수 전 상태로 시작한다 (4.3) |
 | 실서류 평가 세트의 이미지가 1부 학습 데이터에도 들어가 점수가 부풀려진다 | 1부 `prepare`는 한 번 돌릴 때 그 안에서만 같은 이미지를 막는다. 데이터셋 사이의 누수 검사는 이번 범위에서 뺐다(11판 결정). 실서류 평가 세트를 만들 때 1부 학습 manifest와 겹치지 않는 결과 폴더를 고르는 것은 사람이 챙긴다 |
 | 합성 OCR 정답에 빠진 글자가 있으면 맞게 읽은 모델이 감점된다 | 쪽 전체 글자 박스를 기록하기 전에는 전체가 필요 없는 과제만 쓴다. 5단계 완료 기준에 "정답을 답으로 넣으면 만점", "고정 문구까지 들어 있음"을 둔다 (9.2) |
-| studio 때문에 1부·2부 파이프라인이 깨진다 | `training/`은 설정을 더하는 것만 하고 기본 동작을 바꾸지 않는다. 등록한 폴더는 읽기만 하고, 점수는 `workspace_dir`에 따로 쓴다 |
+| studio 때문에 1부·2부 파이프라인이 깨진다 | `ocr/`·`bank/`는 설정을 더하는 것만 하고 기본 동작을 바꾸지 않는다. 등록한 폴더는 읽기만 하고, 점수는 `workspace_dir`에 따로 쓴다 |
 | OCR 검수가 너무 오래 걸린다 | 쪽 단위로 저장하고 확인한 쪽만 검수 정답 세트에 넣는다. 의심 단어부터 보여 주고, 벤치마크용 일부 쪽만 검수해도 된다 (8.7) |
 | 실서류 대조 문항은 불일치가 적어 합성과 분포가 다르다 | 비교표에 문항 구성(일치·불일치 수)을 함께 적고, 점수는 일치·불일치를 나눠 본다 (9.7) |
 | 알려진 생성기 버그: 건강보험료 납부확인서의 정산 분할납부 변형(15%로 정함)이 4월이 들어간 문서마다 늘 붙는다 (`docgen/docs/income.py`, `settle` 값을 쓰지 않음) | 고치면 생성 결과가 바뀌므로 5·6단계의 평가 세트 버전 올림에 함께 넣는다 |

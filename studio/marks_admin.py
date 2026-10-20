@@ -1,4 +1,4 @@
-"""② 표시 요소 화면의 서버 쪽: 확률 설정(docgen/marks.json)과 풀(assets/marks/pools.json, 이미지)을 읽고 쓴다.
+"""② 표시 요소 화면의 서버 쪽: 확률 설정(docgen/marks.json)과 풀(docgen/assets/marks/pools.json, 이미지)을 읽고 쓴다.
 
 생성기가 쓰는 규칙은 docgen/marks.py. 여기서는 형식만 검사하고 파일에 쓴다.
 """
@@ -88,7 +88,7 @@ def save_pool(name: str, items: list[dict]) -> dict:
         if name in ("hand_fonts", "print_fonts") and not re.fullmatch(r"[\w' -]+", base["id"]):
             raise ValueError(f"{it['id']}: 글꼴 이름에 쓸 수 없는 글자")
         if name == "hand_fonts" and not (M.ROOT / "fonts" / f"{base['id']}.woff2").exists():
-            raise ValueError(f"{it['id']}: fonts/{base['id']}.woff2 가 없습니다 (손글씨 글꼴은 파일을 fonts/ 에 넣고 추가)")
+            raise ValueError(f"{it['id']}: docgen/fonts/{base['id']}.woff2 가 없습니다 (손글씨 글꼴은 파일을 docgen/fonts/ 에 넣고 추가)")
         out.append(base)
     pools = M.pools()
     pools[name] = out

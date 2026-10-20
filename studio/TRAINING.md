@@ -3,17 +3,17 @@
 studio에서 만들거나 등록한 데이터셋을 1부(OCR)·2부(은행 업무) 학습에 넣고, 학습 결과를 다시 studio에서 보는 방법이다. 설계는 [DESIGN.md 9.9](DESIGN.md#99-학습으로-이어-쓰기).
 
 - **학습 코드는 그대로다.** studio 데이터셋은 학습 파이프라인이 원래 읽는 폴더 형식이라, 설정 파일의 경로만 바꾸면 된다.
-- **두 컨테이너가 폴더를 공유한다.** studio는 docgen 컨테이너에서 띄우고([docs/DOCKER.md 4절](../docs/DOCKER.md#4-studio-띄우기-같은-컨테이너)), 학습은 따로 있는 학습 컨테이너에서 한다. studio가 만든 데이터셋은 공유 폴더에 둔다(설정의 `workspace_dir`, 예: `/out/studio_workspace`).
+- **두 컨테이너가 폴더를 공유한다.** studio는 docgen 컨테이너에서 띄우고([docker/README.md 4절](../docker/README.md#4-studio-띄우기-같은-컨테이너)), 학습은 따로 있는 학습 컨테이너에서 한다. studio가 만든 데이터셋은 공유 폴더에 둔다(설정의 `workspace_dir`, 예: `/out/studio_workspace`).
 - 같은 폴더가 두 컨테이너에서 다른 경로로 보이면 studio 설정의 `path_map`에 적는다(예: `{"/out": "/share/me/docgen_data"}`). 학습 설정을 내보낼 때 studio가 학습 컨테이너 쪽 경로로 바꿔 쓴다. 아래 예의 경로는 학습 컨테이너 쪽 경로다.
 - 처음부터 끝까지 명령줄로 하는 방법은 [guide/tutorial.md](../guide/tutorial.md)에 있다. 이 문서는 그중 "데이터를 어디서 가져오는지"만 studio로 바꾼다.
 
 > 지금 상태 (2026-10-20): ⑥ 데이터셋·⑦ 평가, 은행 업무 데이터셋 만들기와 2부 학습 설정 내보내기(데이터셋 › 학습 탭)가 된다. 합성 OCR 데이터셋 만들기와 1부 설정 내보내기도 된다 (데이터셋 › 학습 탭).
-> 내보낸 설정은 `training/configs/studio-<이름>.json` 이다. 예시 파일과 같은 폴더라 그 안의 상대 경로(`sft.yaml`, `../runs/…`)가 그대로 맞는다. 내부 경로가 들어가므로 git 에 넣지 않는다.
+> 내보낸 설정은 1부면 `ocr/configs/studio-<이름>.json`, 2부면 `bank/configs/studio-<이름>.json` 이다. 예시 파일과 같은 폴더라 그 안의 상대 경로(`sft.yaml`, `../runs/…`)가 그대로 맞는다. 내부 경로가 들어가므로 git 에 넣지 않는다.
 
 ## 전체 그림
 
 ```
-docgen 컨테이너: studio ⑥ 데이터셋      학습 컨테이너: training/                  docgen 컨테이너: studio ⑦ 평가
+docgen 컨테이너: studio ⑥ 데이터셋      학습 컨테이너: ocr/ · bank/           docgen 컨테이너: studio ⑦ 평가
 ──────────────────────────────          ───────────────────────                  ──────────────────────────────
 OCR 데이터셋 (1부 prepare 결과) ──────▶  run_pipeline.py      → runs/exp1/  ───▶  답·점수 보기, 비교
 은행 업무 학습·평가 데이터셋 ─────────▶  run_bank_pipeline.py → runs/bank1/ ───▶  답·점수 보기, 비교
@@ -40,7 +40,7 @@ OCR 데이터셋 (1부 prepare 결과) ──────▶  run_pipeline.py   
 1부 파이프라인은 `configs/pipeline.json`의 `data_config`가 가리키는 1부 설정(`config.json`)을 읽는다. 그 설정의 `output_dir`을 studio 데이터셋 폴더로 바꾼다.
 
 ```jsonc
-// training/config.json (1부 데이터 설정) — 바꾸는 칸만
+// ocr/config.json (1부 데이터 설정) — 바꾸는 칸만
 {
   "output_dir": "/share/studio_workspace/datasets/ocr-mix-v1"
 }
@@ -53,7 +53,7 @@ OCR 데이터셋 (1부 prepare 결과) ──────▶  run_pipeline.py   
 studio의 "학습 설정 내보내기"가 아래 명령을 보여 준다. **학습 컨테이너**에서 실행한다.
 
 ```bash
-cd training
+cd ocr
 python run_pipeline.py --config configs/pipeline.json --smoke   # 리허설
 nohup python run_pipeline.py --config configs/pipeline.json > pipeline.log 2>&1 &
 ```
@@ -72,7 +72,7 @@ nohup python run_pipeline.py --config configs/pipeline.json > pipeline.log 2>&1 
 ### 2-2. 설정에 넣기
 
 ```jsonc
-// training/configs/bank_pipeline.json — 바꾸는 칸만
+// bank/configs/bank_pipeline.json — 바꾸는 칸만
 {
   "data": {
     "train": ["/share/studio_workspace/datasets/bank-train-1.3"],
@@ -92,7 +92,7 @@ nohup python run_pipeline.py --config configs/pipeline.json > pipeline.log 2>&1 
 1-3과 같이 studio가 보여 주는 명령을 학습 컨테이너에서 실행한다.
 
 ```bash
-cd training
+cd bank
 python run_bank_pipeline.py --config configs/bank_pipeline.json --smoke
 nohup python run_bank_pipeline.py --config configs/bank_pipeline.json > bank_pipeline.log 2>&1 &
 ```

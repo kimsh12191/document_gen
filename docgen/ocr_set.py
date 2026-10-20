@@ -1,12 +1,12 @@
 """합성 OCR 벤치마크·학습 데이터: 생성 서류의 쪽 전체 글자를 정답으로, 1부(bank_ocr) prepare 형식으로 만든다.
 
-  python -m docgen.ocr_set build --recipe datasets/recipes/<이름>.json --out <폴더> [--workers 4] [--no-prepare]
+  python -m docgen.ocr_set build --recipe docgen/recipes/<이름>.json --out <폴더> [--workers 4] [--no-prepare]
 
 출력
   <폴더>/images/<서식>_<seed>[_p<쪽>].png|jpg   쪽 이미지 (촬영 조건 증강 포함)
   <폴더>/ocr_json/<같은 이름>.json               정답: 사내 OCR 응답 형식 (docgen/ocr_export.py)
   <폴더>/manifest.jsonl                         1부 scan 결과와 같은 줄 {document_id, page_id, image, split, ocr_json}
-  <폴더>/config.json                            1부 prepare 설정 (training/config.example.json + 레시피의 prepare)
+  <폴더>/config.json                            1부 prepare 설정 (ocr/config.example.json + 레시피의 prepare)
   <폴더>/prepared/                              1부 prepare 결과 (studio 가 데이터셋으로 등록하는 폴더)
   <폴더>/ocr_set.json                           레시피, 생성기 커밋, 수, 서식 해시
 
@@ -33,7 +33,7 @@ import sys
 import time
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent   # 저장소 최상위 (1부 OCR 코드는 ocr/)
 SEEDS = {"benchmark": 3_000_000, "train": 30_000_000}
 DEFAULT_CONDITIONS = {"clean": 0.5, "scan": 0.2, "photo": 0.15, "fax": 0.15}
 # 합성 정답에 맞춘 1부 설정: 애매한 글자(신뢰도 0.3)를 평가에서도 거른다
@@ -206,7 +206,7 @@ def build(args) -> None:
         for r in rows:
             f.write(json.dumps({k: r[k] for k in ("document_id", "page_id", "image", "split", "ocr_json") if k in r},
                                ensure_ascii=False) + "\n")
-    cfg = json.loads((ROOT / "training" / "config.example.json").read_text(encoding="utf-8"))
+    cfg = json.loads((ROOT / "ocr" / "config.example.json").read_text(encoding="utf-8"))
     cfg.update({"manifest": str((out / "manifest.jsonl").resolve()), "output_dir": str((out / "prepared").resolve()),
                 "cache_dir": str((out / "ocr_cache").resolve()), "ocr_revision": f"docgen-synthetic-{unit}-v1"})
     for k, v in PREPARE_DEFAULTS.items():
@@ -230,7 +230,7 @@ def build(args) -> None:
     print(f"서류 {len(jobs)}건, 쪽 {len(rows)} → {out}")
     if not args.no_prepare:
         subprocess.run([sys.executable, "-m", "bank_ocr", "prepare", "--config", str((out / "config.json").resolve())],
-                       cwd=ROOT / "training", check=True)
+                       cwd=ROOT / "ocr", check=True)
         print(f"1부 prepare → {out / 'prepared'}")
 
 

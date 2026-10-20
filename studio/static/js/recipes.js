@@ -1,4 +1,4 @@
-// ⑥ 데이터셋 › 새로 만들기: 레시피(datasets/recipes/<이름>.json) 편집과 빌드 시작. 레시피 형식: studio/bank_data.py
+// ⑥ 데이터셋 › 새로 만들기: 레시피(docgen/recipes/<이름>.json) 편집과 빌드 시작. 레시피 형식: studio/bank_data.py
 "use strict";
 
 addRoute(/^#\/recipes\/([^/]+)$/, name => viewRecipe(decodeURIComponent(name)), "datasets");
@@ -56,7 +56,7 @@ async function viewRecipe(name) {
   const num = (id, v, step = 0.01) => `<input type="number" id="${id}" value="${v}" step="${step}" min="0" style="width:72px">`;
   main().innerHTML = `
     <div class="muted"><a href="#/datasets">데이터셋</a> › 레시피</div>
-    <h1>${esc(name)} <span class="muted mono" style="font-size:13px">datasets/recipes/${esc(name)}.json</span></h1>
+    <h1>${esc(name)} <span class="muted mono" style="font-size:13px">docgen/recipes/${esc(name)}.json</span></h1>
     <div class="bar"><button class="primary" id="rc-save">저장</button><button id="rc-raw">JSON 으로 보기·고치기</button>
       <button id="rc-del">지우기</button><span class="muted">평가 세트 버전 ${esc(opts.version)}</span></div>
     <div class="rc-grid">
@@ -140,7 +140,7 @@ function viewOcrRecipe(name, r, opts) {
   const sel = (id, cur) => `<select id="${id}">${["default", "on", "off"].map(v => `<option value="${v}" ${v === (cur || "default") ? "selected" : ""}>${MODE_NAME[v]}</option>`).join("")}</select>`;
   main().innerHTML = `
     <div class="muted"><a href="#/datasets">데이터셋</a> › 레시피 (합성 OCR)</div>
-    <h1>${esc(name)} <span class="muted mono" style="font-size:13px">datasets/recipes/${esc(name)}.json</span></h1>
+    <h1>${esc(name)} <span class="muted mono" style="font-size:13px">docgen/recipes/${esc(name)}.json</span></h1>
     <div class="bar"><button class="primary" id="rc-save">저장</button><button id="rc-del">지우기</button>
       <span class="muted">python -m docgen.ocr_set build --recipe … → 1부 bank_ocr prepare</span></div>
     <div class="rc-grid">

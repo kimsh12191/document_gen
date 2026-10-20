@@ -20,17 +20,10 @@ from __future__ import annotations
 import hashlib
 import json
 import re
-import sys
 import threading
 import time
 from functools import lru_cache
 from pathlib import Path
-
-from .config import ROOT
-
-TRAINING = ROOT / "training"
-if str(TRAINING) not in sys.path:   # 1부·2부 코드 (표준 라이브러리 + PIL)
-    sys.path.insert(0, str(TRAINING))
 
 _LOCK = threading.Lock()
 TRACKS = ("ocr", "bank")

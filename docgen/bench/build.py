@@ -2,7 +2,7 @@
 
   python -m docgen.bench build --out bench_out [--types all] [--per-doc 1] [--bundles 4]
   python -m docgen.bench build --split train --out bank_train --per-doc 0 --bundles 100 --workers 8
-  python -m docgen.bench build --recipe datasets/recipes/<이름>.json --out <폴더>     (studio 레시피, 아래 RECIPE_KEYS)
+  python -m docgen.bench build --recipe docgen/recipes/<이름>.json --out <폴더>     (studio 레시피, 아래 RECIPE_KEYS)
 
 출력:
   bench_out/

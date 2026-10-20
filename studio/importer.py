@@ -7,7 +7,7 @@
   pages/          PDF 를 쪽마다 그린 그림, 올린 파일
 원본 폴더(import_dir 아래)는 읽기만 한다.
 
-OCR 은 1부 OCR 준비 단계(training/bank_ocr)와 같은 코드·같은 캐시 규칙이다: EXIF 회전을 적용한 그림을 <OCR 캐시>/images/<픽셀 해시>.png
+OCR 은 1부 OCR 준비 단계(ocr/bank_ocr)와 같은 코드·같은 캐시 규칙이다: EXIF 회전을 적용한 그림을 <OCR 캐시>/images/<픽셀 해시>.png
 로 두고 그 그림으로 OCR 을 부르며, 결과는 <OCR 캐시>/ocr/<digest(픽셀 해시, ocr_callable, ocr_revision)>.json. 1부의 cache_dir 을
 studio 설정 ocr.cache_dir 로 두면 1부에서 이미 읽은 쪽은 다시 부르지 않는다.
 
@@ -30,8 +30,9 @@ from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT / "training") not in sys.path:
-    sys.path.insert(0, str(ROOT / "training"))
+OCR_DIR = ROOT / "ocr"   # 1부 OCR 코드 (bank_ocr). 명령줄로 돌 때도 불러 쓴다
+if str(OCR_DIR) not in sys.path:
+    sys.path.insert(0, str(OCR_DIR))
 IMAGE_EXT = {".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp", ".webp"}
 PRINTS = ROOT / "studio_cache" / "form_prints"
 
@@ -131,7 +132,7 @@ def _ocr_settings(batch: dict) -> dict:
     o.setdefault("revision", "")
     o.setdefault("cache_dir", str(ROOT / "studio_cache" / "ocr"))
     if not o.get("mapping"):
-        o["mapping"] = json.loads((ROOT / "training" / "config.example.json").read_text(encoding="utf-8"))["mapping"]
+        o["mapping"] = json.loads((OCR_DIR / "config.example.json").read_text(encoding="utf-8"))["mapping"]
     return o
 
 
@@ -151,7 +152,6 @@ def run_ocr(bdir: Path) -> None:
     if any(not r.get("ocr_json") for r in need):
         if not o.get("revision"):
             raise SystemExit("OCR 설정이 없습니다 (studio/config.json 의 ocr.callable·revision). 사내 OCR 은 내부망에서만 쓸 수 있습니다")
-        sys.path.insert(0, str(ROOT / "training"))
         adapter = load_callable(o["callable"])
     for n, r in enumerate(rows, 1):
         if r.get("ocr"):
@@ -500,7 +500,7 @@ def value_drafts(sample: list[list[dict]], others: list[list[list[dict]]], sizes
 def create_template(bdir: Path, fid: str, page_ids: list[str], form_id: str, name: str, private_dir: str | None,
                     drafts: bool = True) -> dict:
     """견본 쪽 그림을 배경으로 하는 overlay(image) 서식. 영역은 비어 있고 영역 편집기에서 그린다.
-    실서류에서 온 묶음은 private_forms_dir 에만 만든다 (공개 서식으로 표시한 묶음만 저장소의 add_template/images)."""
+    실서류에서 온 묶음은 private_forms_dir 에만 만든다 (공개 서식으로 표시한 묶음만 저장소의 docgen/forms/images)."""
     from docgen import realform as RF
 
     batch = json.loads((bdir / "batch.json").read_text(encoding="utf-8"))
@@ -578,7 +578,7 @@ def ocr_set_files(bdir: Path, out: Path, format_ids: list[str] | None, gt: str, 
         ocr = (reviewed_dir / batch["name"] / f"{_safe(r['id'])}.json") if gt == "reviewed" else Path(r["ocr"])
         man.append({"document_id": r["doc"], "page_id": r["id"], "image": r["image"], "split": split, "ocr_json": str(ocr)})
     _write_jsonl(out / "manifest.jsonl", man)
-    cfg = json.loads((ROOT / "training" / "config.example.json").read_text(encoding="utf-8"))
+    cfg = json.loads((OCR_DIR / "config.example.json").read_text(encoding="utf-8"))
     o = _ocr_settings(batch)
     cfg.update({"manifest": str((out / "manifest.jsonl").resolve()), "output_dir": str((out / "prepared").resolve()),
                 "cache_dir": str((out / "ocr_cache").resolve()), "ocr_revision": o.get("revision") or "saved-ocr",

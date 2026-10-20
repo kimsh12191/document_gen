@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+data/
+demo-run/
+runs/
+reports/
+predictions/
+.test-tools/
+
+viewer/bank-model-server.log

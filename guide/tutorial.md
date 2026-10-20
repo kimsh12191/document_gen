@@ -11,7 +11,7 @@
 | 어디서 | 무엇을 | 필요한 것 |
 |---|---|---|
 | **GPU 서버** (내부망, 학습 환경) | 사내 OCR 서버, OCR 학습, 은행 업무 학습, 평가, viewer | A100 2장 이상, ms-swift 4.x + vLLM이 설치된 파이썬 환경, Qwen3.5-9B 모델 파일 |
-| **docgen 도커 컨테이너** (CPU) | 은행 업무용 합성 데이터 만들기 | docgen 도커 이미지 ([docs/DOCKER.md](../docs/DOCKER.md)) |
+| **docgen 도커 컨테이너** (CPU) | 은행 업무용 합성 데이터 만들기 | docgen 도커 이미지 ([docker/README.md](../docker/README.md)) |
 
 ```text
 1부  [GPU 서버]  실제 서류 이미지 ─(사내 OCR)→ manifest ─→ run_pipeline.py      ─→ OCR 모델
@@ -42,14 +42,17 @@ git clone -b claude/ocr-banking-benchmark https://github.com/kimsh12191/document
 
 ```text
 <코드>/
-  docgen/            합성 서류 생성기 (2부 데이터)
-  scripts/           make_bank_data.sh (2부 데이터 만들기)
-  guide/             사용 가이드 (이 문서)
-  training/          GPU 학습 프로젝트 — 1부와 2부 모두 여기서 실행
+  docgen/            합성 서류·벤치마크 생성기 (2부 데이터). docgen/scripts/make_bank_data.sh 로 만든다
+  ocr/               1부 OCR 준비·학습·평가 (GPU)
     run_pipeline.py        1부 OCR 학습
+    configs/               설정 예제
+    viewer/                OCR 결과 보는 화면 (start.sh)
+  bank/              2부 은행 업무 준비·학습·평가 (GPU, ocr/ 의 코드를 함께 씀)
     run_bank_pipeline.py   2부 은행 업무 학습
     configs/               설정 예제
-    viewer/                결과 보는 화면
+    viewer/                은행 업무 결과 보는 화면 (bank_start.sh)
+  studio/            데이터 만들기·검수·관리 화면
+  guide/             사용 가이드 (이 문서)
 ```
 
 ### 1-2. 학습 환경에 설치
@@ -57,7 +60,7 @@ git clone -b claude/ocr-banking-benchmark https://github.com/kimsh12191/document
 GPU 서버의 학습용 파이썬 환경(ms-swift가 깔린 가상환경)에서:
 
 ```bash
-cd <코드>/training
+cd <코드>/ocr
 pip install --no-index --no-build-isolation -e '.[ocr]'
 ```
 
@@ -76,7 +79,7 @@ nvidia-smi                                                          # 쓸 GPU가
 
 ## 2. OCR 학습 (1부)
 
-실제 서류 이미지를 사내 OCR에 돌린 결과를 정답으로, 글자와 위치를 읽는 법을 학습합니다. 자세한 설계는 [training/docs/DESIGN.md](../training/docs/DESIGN.md)에 있습니다.
+실제 서류 이미지를 사내 OCR에 돌린 결과를 정답으로, 글자와 위치를 읽는 법을 학습합니다. 자세한 설계는 [ocr/docs/DESIGN.md](../ocr/docs/DESIGN.md)에 있습니다.
 
 ### 2-1. 이미지 모으기
 
@@ -106,7 +109,7 @@ export INTERNAL_OCR_BASE_URL=http://localhost:30107
 ### 2-3. 이미지 목록(manifest) 만들기
 
 ```bash
-cd <코드>/training
+cd <코드>/ocr
 python -m bank_ocr scan --root /share/data/images --split train \
   --document-regex '(?P<document_id>[^/]+)_p[0-9]+\.[^.]+$' \
   --out data/manifest.jsonl
@@ -181,11 +184,11 @@ tail -f pipeline.log            # 진행 보기 (Ctrl+C 는 보기만 종료)
 
 ### 3-1. 합성 데이터 만들기 (docgen 도커, 한 번)
 
-도커 컨테이너가 아직 없으면 [docs/DOCKER.md](../docs/DOCKER.md)대로 띄웁니다. 이때 `-v <데이터>:/out`으로 연결한 서버 폴더에 결과가 생깁니다.
+도커 컨테이너가 아직 없으면 [docker/README.md](../docker/README.md)대로 띄웁니다. 이때 `-v <데이터>:/out`으로 연결한 서버 폴더에 결과가 생깁니다.
 
 ```bash
 ssh -p 2222 docgen@<서버IP>                 # 컨테이너 접속 (접속하면 코드 폴더에서 시작)
-bash scripts/make_bank_data.sh              # 백그라운드로 시작. SSH를 끊어도 계속
+bash docgen/scripts/make_bank_data.sh              # 백그라운드로 시작. SSH를 끊어도 계속
 tail -f /out/logs/make_bank_data.log        # "전부 완료" 가 나오면 끝 (약 1시간 15분)
 ```
 
@@ -200,7 +203,7 @@ du -sh <데이터>/bench <데이터>/bank_train                       # 약 3GB,
 ### 3-2. 설정 파일
 
 ```bash
-cd <코드>/training
+cd <코드>/bank
 cp configs/bank_pipeline.example.json configs/bank_pipeline.json
 ```
 
@@ -209,13 +212,13 @@ cp configs/bank_pipeline.example.json configs/bank_pipeline.json
 ```jsonc
 {
   "workdir": "../runs/bank1",                        // 결과 폴더. 그대로 둬도 됨
-  "model": "<코드>/training/runs/exp1/merged/grpo-…-checkpoint-…",   // 2-6의 출발 모델
+  "model": "<코드>/ocr/runs/exp1/merged/grpo-…-checkpoint-…",        // 2-6의 출발 모델
   "gpus": [5, 6],
   "data": {
     "docgen_root": "../..",                          // 그대로 (이 저장소의 docgen/)
     "train": ["<데이터>/bank_train"],                 // 3-1에서 만든 학습 데이터
     "benchmark": "<데이터>/bench",                    // 3-1에서 만든 평가 세트
-    "replay": {"path": "<OCR 학습 폴더>/data/prepared-v2/train_sft.jsonl", "count": 3000},
+    "replay": {"path": "<코드>/ocr/data/prepared-v2/train_sft.jsonl", "count": 3000},
     "output_dir": "../data/prepared-bank",           // 이미 있으면 새 이름
     …
   },
@@ -280,7 +283,7 @@ tail -f bank_pipeline.log
 1. **코드 받기:** `git pull origin claude/ocr-banking-benchmark`
    - git이 안 되면 인터넷 PC에서 `sh docker/build.sh 1.2`로 만든 `docgen-code-1.2.tar.gz`를 반입해 같은 자리에 풉니다.
    - 도커 실행 환경 이미지는 다시 만들 필요 없습니다.
-2. **2부 데이터를 새 폴더에:** 컨테이너 안에서 `OUT=/out/v1.2 bash scripts/make_bank_data.sh` (약 1시간 15분)
+2. **2부 데이터를 새 폴더에:** 컨테이너 안에서 `OUT=/out/v1.2 bash docgen/scripts/make_bank_data.sh` (약 1시간 15분)
    - `make_bank_data.sh`는 이미 만든 폴더(`meta.json` 있음)를 건너뜁니다. **기존 폴더에 그대로 돌리면 아무것도 바뀌지 않습니다.**
    - 다 되면 `<데이터>/v1.2/bench/meta.json`의 `"version"`이 `"1.2"`인지 확인합니다.
 3. **설정 경로 바꾸기:** `configs/bank_pipeline.json`
@@ -307,7 +310,7 @@ tail -f bank_pipeline.log
 |---|---|---|
 | `설정(…)의 경로를 확인하세요` | 설정의 경로가 없음 | 메시지에 나온 키를 서버의 절대 경로로 고침 |
 | `FileNotFoundError: …/prepared-v2/train_sft.jsonl` | `replay`·`ocr_check` 경로가 1부 폴더를 가리키지 않음 | 1부를 돌린 폴더의 `data/prepared-v2/`로 고치거나 `null` |
-| `CUDA out of memory` (2부 SFT/GRPO) | 80GB 설정을 40GB에서 씀 | `sft.config`, `grpo.config`를 `*_a100_40g_x2.yaml`로 ([BANK_TASKS.md](../training/BANK_TASKS.md) GPU별 설정) |
+| `CUDA out of memory` (2부 SFT/GRPO) | 80GB 설정을 40GB에서 씀 | `sft.config`, `grpo.config`를 `*_a100_40g_x2.yaml`로 ([BANK_TASKS.md](../bank/README.md) GPU별 설정) |
 | `Multiple possible model types found` | 모델 종류 자동 판별 실패 | 설정의 `model_type`이 `qwen3_5`인지 확인 |
 | `Output already exists` / `already prepared` | 데이터 준비 폴더가 이미 있음 | `output_dir`을 새 이름으로 (지우지 말고) |
 | `Reference answers do not score 1.0` | 데이터를 만든 docgen 코드와 지금 코드가 다름 | 같은 코드로 데이터를 다시 만들기 (`make_bank_data.sh`) |

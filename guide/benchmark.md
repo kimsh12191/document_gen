@@ -35,7 +35,7 @@ python -m docgen.bench eval --bench bench_out --pred preds/model_a --pred preds/
 
 | 단계 | 필요한 것 |
 |---|---|
-| `build` | 생성기 `--png --augment`와 같음: `requirements.txt`, Playwright Chromium, 한글 폰트(`fonts-nanum`, `fonts-noto-cjk`) |
+| `build` | 생성기 `--png --augment`와 같음: `docgen/requirements.txt`, Playwright Chromium, 한글 폰트(`fonts-nanum`, `fonts-noto-cjk`) |
 | `run` | Pillow, 그리고 컨테이너에서 모델 서버(vLLM 등) 주소로 나가는 네트워크 |
 | `eval` | 파이썬 표준 라이브러리만 (생성기 코드 import) |
 
@@ -95,7 +95,7 @@ docker run --rm --network host -v $PWD/bench_out:/app/bench_out -v $PWD/preds:/a
 
 ### 은행 업무 (업무 묶음)
 
-시나리오 12종([생성기 사용법](../docs/DOCGEN.md#사용법))마다 고객 4명분 서류 묶음을 만듭니다. 묶음 서류는 모두 현행 하나은행 서식이라 날짜가 서로 맞습니다.
+시나리오 12종([생성기 사용법](../docgen/README.md#사용법))마다 고객 4명분 서류 묶음을 만듭니다. 묶음 서류는 모두 현행 하나은행 서식이라 날짜가 서로 맞습니다.
 
 - **`doc_check` — 서류 구비 확인**
   - 필수 서류 중 0~2건(30/50/20%)을 빼고, 나머지 첫 쪽만 순서를 섞어 줍니다. 질문에 고객 성명이 들어갑니다.
@@ -172,7 +172,7 @@ docker run --rm --network host -v $PWD/bench_out:/app/bench_out -v $PWD/preds:/a
 - `cross_check` 198문항은 정상 125(표기만 다름 44 포함), 변조 73입니다.
   - 변조 문항 사례별: 타인 서류 26, 오기 21, 신청↔약정 금액 8, 약정일<신청일 5, 재직기간 5, 소득 부풀리기 3, 업계약 3, 채권최고액 2, 법인 대표자 2, 임대인/매도인≠소유자 각 1, 전세대출>보증금 1, 송금 수취인 1
 - `doc_check` 48문항 중 타인 서류가 섞인 것 11, 불필요 서류가 섞인 것 16입니다.
-- **문항 수:** 은행 업무 과제는 문항이 적어 점수 오차가 크고, 일부 사례는 기본 설정에서 1~4문항뿐입니다. 모델끼리 전체 점수를 비교하려면 `--bundles 20` 이상, 사례별로 보려면 `--bundles 40` 이상으로 늘리세요(`scripts/make_bank_data.sh` 기본값 40). 고객이 1명 늘 때마다 묶음 12개가 추가되고, 묶음 하나는 약 20초 걸립니다.
+- **문항 수:** 은행 업무 과제는 문항이 적어 점수 오차가 크고, 일부 사례는 기본 설정에서 1~4문항뿐입니다. 모델끼리 전체 점수를 비교하려면 `--bundles 20` 이상, 사례별로 보려면 `--bundles 40` 이상으로 늘리세요(`docgen/scripts/make_bank_data.sh` 기본값 40). 고객이 1명 늘 때마다 묶음 12개가 추가되고, 묶음 하나는 약 20초 걸립니다.
 
 - **고정 seed:** 같은 설정이면 언제 만들어도 같은 세트가 나옵니다(같은 코드 기준). `--workers` 수와도 상관없습니다.
   - 단일 서류 과제는 고객 seed `1,000,000`부터, 업무 묶음은 `2,000,000`부터 씁니다.

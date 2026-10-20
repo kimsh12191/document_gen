@@ -415,7 +415,7 @@ async function dsTrain(d) {
   const opt = (list, cur) => list.map(x => `<option value="${esc(x.id)}" ${x.id === cur ? "selected" : ""}>${esc(x.name)} (${esc(x.id)})</option>`).join("");
   $("#tab").innerHTML = `
     <div class="sub">이 데이터셋으로 ${isOcr ? "1부 OCR 학습(<span class=mono>run_pipeline.py</span>)" : "2부 은행 업무 학습(<span class=mono>run_bank_pipeline.py</span>)"}
-      설정을 만듭니다. studio 는 학습을 실행하지 않습니다. 설정 파일을 <span class="mono">training/configs/studio-&lt;이름&gt;.json</span>에 쓰고
+      설정을 만듭니다. studio 는 학습을 실행하지 않습니다. 설정 파일을 <span class="mono">ocr/configs/</span>(1부)·<span class="mono">bank/configs/</span>(2부)의 <span class="mono">studio-&lt;이름&gt;.json</span>에 쓰고
       학습 컨테이너에서 실행할 명령을 보여 줍니다. 진행은 공유 폴더의 state.json 으로 보고, 끝나면 평가 세트에 모델 답으로 붙습니다 (studio/TRAINING.md).</div>
     <div class="panel">
       <label class="fld">학습 이름 <input type="text" id="tr-name" value="${esc(d.id)}-${new Date().toISOString().slice(0, 10)}"></label>
@@ -434,7 +434,7 @@ async function dsTrain(d) {
         ocr: $("#tr-ocr").value || null, name: $("#tr-name").value.trim() };
   const show = info => {
     $("#tr-out").innerHTML = `${(info.warnings || []).map(w => `<p class="kr">⚠ ${esc(w)}</p>`).join("")}
-      <div class="muted">파일 <span class="mono">training/${esc(info.file)}</span> (예시 파일과 합쳐서 씀) · ${esc(info.note || "")}</div>
+      <div class="muted">파일 <span class="mono">${esc(info.dir || "ocr")}/${esc(info.file)}</span> (예시 파일과 합쳐서 씀) · ${esc(info.note || "")}</div>
       <pre class="ans mono">${esc(JSON.stringify(info.config, null, 1))}</pre>
       <div class="muted">학습 컨테이너에서 실행</div><pre class="ans mono">${esc(info.command)}</pre>`;
   };

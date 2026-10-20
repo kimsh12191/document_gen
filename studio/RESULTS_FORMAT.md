@@ -11,7 +11,7 @@
 포맷끼리 묶고 사람이 추론 결과를 검수한다. 검수한 결과는 실서류 정답이 되어 벤치마크 점수 계산에 쓴다. 같은 폴더의 이미지·OCR로 OCR 벤치마크도 만든다([DESIGN.md 9.2](DESIGN.md#92-ocr-벤치마크--세-출처-모두-1부-형식으로-만든다)).
 
 **이미지와 OCR은 1부 OCR 준비 단계(`python -m bank_ocr scan --ocr-dir`)와 같은 규칙이다.** 1부에서 쓰던 이미지 폴더·OCR 폴더를
-옮기지 않고 `meta.json`에 경로만 적으면 된다. studio는 `training/bank_ocr/data.py`의 함수를 그대로 불러 읽는다.
+옮기지 않고 `meta.json`에 경로만 적으면 된다. studio는 `ocr/bank_ocr/data.py`의 함수를 그대로 불러 읽는다.
 
 ## 1. 폴더 구조
 
@@ -58,7 +58,7 @@
 | `images_dir`, `ocr_dir`, `pred_dir` | | 기본 `images`, `ocr`, `pred` |
 | `document_regex` | ●(둘 중 하나) | 1부 `scan --document-regex`와 같다. 이미지 상대 경로에 맞는 정규식, `(?P<document_id>…)` 묶음이 문서 ID. 여러 쪽 문서를 한 문서로 묶는다. 쪽 순서는 경로 순서 |
 | `single_page` | ●(둘 중 하나) | `true`면 이미지 한 장이 한 문서 (1부 `--single-page-documents`). 문서 ID는 확장자를 뺀 상대 경로 |
-| `mapping` | | OCR JSON 해석 규칙. 1부 설정(`training/config.example.json`)의 `mapping`과 같은 키. 없으면 사내 OCR 형식(위 예)을 쓴다 |
+| `mapping` | | OCR JSON 해석 규칙. 1부 설정(`ocr/config.example.json`)의 `mapping`과 같은 키. 없으면 사내 OCR 형식(위 예)을 쓴다 |
 | `ocr` | | OCR 이름·버전 (기록용) |
 | `model` | | 추론에 쓴 모델. 검수 뒤 이 모델의 점수를 바로 낼 때 쓴다 |
 | `task` | | 추론한 과제 (`kie`, `marks`, `classify` …) |

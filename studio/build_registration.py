@@ -43,7 +43,7 @@ def _spec(job: dict) -> dict | None:
     if bank:
         meta.update(source="synthetic", gt="exact")
     if isinstance(info.get("recipe"), str):
-        meta["recipe"] = f"datasets/recipes/{Path(info['recipe']).name}.json"
+        meta["recipe"] = f"docgen/recipes/{Path(info['recipe']).name}.json"
     return {"path": str(out if bank else out / "prepared"), "name": out.name, "meta": meta}
 
 

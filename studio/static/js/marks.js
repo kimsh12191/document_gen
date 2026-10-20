@@ -1,4 +1,4 @@
-// ② 표시 요소: 확률 설정(docgen/marks.json)과 모양 풀(assets/marks/). 생성기 규칙은 docgen/marks.py
+// ② 표시 요소: 확률 설정(docgen/marks.json)과 모양 풀(docgen/assets/marks/). 생성기 규칙은 docgen/marks.py
 "use strict";
 
 addRoute(/^#\/marks$/, () => viewMarks(), "marks");
@@ -67,7 +67,7 @@ async function viewMarks() {
 }
 
 function drawPools(m) {
-  // 손글씨 글꼴 미리보기: 생성기와 같은 글꼴 파일(fonts/<id>.woff2)을 이 화면에도 건다
+  // 손글씨 글꼴 미리보기: 생성기와 같은 글꼴 파일(docgen/fonts/<id>.woff2)을 이 화면에도 건다
   let st = $("#mk-fontfaces");
   if (!st) { st = document.createElement("style"); st.id = "mk-fontfaces"; document.head.appendChild(st); }
   st.textContent = m.pools.hand_fonts.map(f => `@font-face{font-family:'${f.id}';src:url('/fonts/${f.id}.woff2') format('woff2')}`).join("");
@@ -95,7 +95,7 @@ function drawPools(m) {
           <label>인주 <input type="text" data-ink value="#c00" style="width:70px"></label>
           <label>글꼴 <input type="text" data-font placeholder="'Nanum Myeongjo'" style="width:140px"></label>
           <button data-addseal>틀 추가</button>` : ""}
-        ${name === "hand_fonts" || name === "print_fonts" ? `<input type="text" data-fontid placeholder="${name === "hand_fonts" ? "fonts/ 의 파일 이름 (예: NanumPen)" : "글꼴 이름 (예: 'Malgun Gothic')"}" style="width:220px">
+        ${name === "hand_fonts" || name === "print_fonts" ? `<input type="text" data-fontid placeholder="${name === "hand_fonts" ? "docgen/fonts/ 의 파일 이름 (예: NanumPen)" : "글꼴 이름 (예: 'Malgun Gothic')"}" style="width:220px">
           ${name === "hand_fonts" ? `<label>크기 비율 <input type="number" data-fontscale value="1.0" step="0.05" style="width:60px"></label>` : ""}
           <button data-addfont>글꼴 추가</button>` : ""}
         <button class="primary" data-savepool="${name}">이 풀 저장</button>

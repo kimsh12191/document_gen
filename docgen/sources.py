@@ -1,6 +1,6 @@
 """값 출처: 서식 칸에 넣을 값을 "어디서 가져올지" 적은 짧은 문자열을 실제 값으로 바꾼다.
 
-overlay 서식의 사람 수정(add_template/overrides/<ID>.json)과 화면에서 만든 html 서식(templates/copies/<ID>/form.json)이
+overlay 서식의 사람 수정(docgen/forms/overrides/<ID>.json)과 화면에서 만든 html 서식(docgen/templates/copies/<ID>/form.json)이
 같은 규칙을 쓴다.
 
   profile.<경로>        고객 프로필 값. 예: profile.person.name, profile.employment.company.address.road_short

@@ -1,5 +1,5 @@
 {
- "about": "표준 키 사전 초안. scripts/build_keys.py 가 만든다. 키 형식: snake_case, 역할.속성, 반복 행은 목록.*.칸",
+ "about": "표준 키 사전 초안. docgen/scripts/build_keys.py 가 만든다. 키 형식: snake_case, 역할.속성, 반복 행은 목록.*.칸",
  "synonyms": {
   "dob": "birth",
   "date_of_birth": "birth",

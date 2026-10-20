@@ -88,7 +88,7 @@ app.include_router(api_bank.make_router(REGISTRY, JOBS, guard))
 REAL_ROOT = resolve_path(CFG.get("real_data_dir")) or REGISTRY.ws / "real_data"
 app.include_router(api_import.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT / "ocr_reviewed"))
 app.include_router(api_labels.make_router(REGISTRY, JOBS, guard, CFG))
-app.mount("/fonts", StaticFiles(directory=ROOT / "fonts"), name="fonts")   # 손글씨 글꼴 (화면의 글꼴 미리보기)
+app.mount("/fonts", StaticFiles(directory=ROOT / "docgen" / "fonts"), name="fonts")   # 손글씨 글꼴 (화면의 글꼴 미리보기)
 
 
 @app.get("/")

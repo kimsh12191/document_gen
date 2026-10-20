@@ -1,7 +1,7 @@
 """서식 목록과 서식 정보 (목록 화면·상세 화면).
 
 - 서식: docgen 레지스트리 (`docgen.registry.load_all`)
-- 서식별 키 목록: guide/fields/fields.json (`scripts/build_schema.py`가 서식마다 30번 렌더링해 모은 것)
+- 서식별 키 목록: guide/fields/fields.json (`docgen/scripts/build_schema.py`가 서식마다 30번 렌더링해 모은 것)
 - 검수·배정·메모·문제 표시: docgen/catalog.json (없으면 모두 미검수·미배정)
 
 docgen/catalog.json
@@ -33,7 +33,7 @@ _ASCII_KEY = re.compile(r"^[A-Za-z0-9_.]+$")
 
 
 def kind_of(group: str, doc_id: str = "") -> tuple[str, str]:
-    """(종류, origin). hf### 는 하나은행 원본 PDF 배경, 그 밖의 overlay 는 이미지 배경 (add_template/images)."""
+    """(종류, origin). hf### 는 하나은행 원본 PDF 배경, 그 밖의 overlay 는 이미지 배경 (docgen/forms/images)."""
     if group in ("hana", "imported"):
         return ("overlay", "pdf") if re.fullmatch(r"hf\d{3}", doc_id or "hf000") else ("overlay", "image")
     spec = load_all().get(doc_id)
@@ -205,7 +205,7 @@ def form_detail(doc_id: str) -> dict:
         files.append({"role": "사람 수정 (영역 편집기)", "path": _rel(op) + ("" if op.exists() else " (아직 없음)")})
         files.append({"role": "값 채우기·렌더링", "path": "docgen/realform.py"})
     else:
-        files.append({"role": "템플릿", "path": f"templates/{spec.template}"})
+        files.append({"role": "템플릿", "path": f"docgen/templates/{spec.template}"})
         files.append({"role": "생성 함수", "path": _rel(Path(inspect.getsourcefile(spec.generate)))})
     return {
         **_summary(spec, entry),

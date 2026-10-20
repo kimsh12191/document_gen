@@ -2,8 +2,8 @@
 
 은행 업무 단계에서 학습한 모델에게 **어떻게 물으면 어떤 형식으로 답하는지** 정리한 문서입니다. 모델은 아래 질문 문장으로 학습했으므로 같은 문장으로 물을 때 가장 정확합니다. 문장을 바꾸면 답 형식이 흐트러질 수 있습니다.
 
-- 질문 문장은 `docgen/bench/prompts.py`와 같습니다(평가 세트, 학습 데이터, viewer가 모두 이 파일을 씁니다). 테스트(`training/tests/test_bank_task.py`)가 이 문서와 코드가 같은지 확인합니다.
-- OCR 단계 과제(박스 찾기, 영역 읽기 등)는 [OCR 질문 가이드](../training/docs/PROMPTS.md)에 있습니다. 은행 업무 모델도 OCR 데이터를 섞어 학습했으므로 그 질문도 됩니다.
+- 질문 문장은 `docgen/bench/prompts.py`와 같습니다(평가 세트, 학습 데이터, viewer가 모두 이 파일을 씁니다). 테스트(`bank/tests/test_bank_task.py`)가 이 문서와 코드가 같은지 확인합니다.
+- OCR 단계 과제(박스 찾기, 영역 읽기 등)는 [OCR 질문 가이드](../ocr/docs/PROMPTS.md)에 있습니다. 은행 업무 모델도 OCR 데이터를 섞어 학습했으므로 그 질문도 됩니다.
 - `{customer}`처럼 중괄호로 쓴 곳은 실제 값으로 바꿔 넣는 자리입니다.
 
 ## 질문에 넣을 목록은 어디서 찾나
@@ -19,7 +19,7 @@
 
 - **표의 행:** 항목 목록에는 `rows[].amount`처럼 적혀 있습니다. 질문할 때는 `rows.0.amount`, `rows.1.amount`처럼 번호를 넣습니다.
 - **목록을 다시 만들 때:** 생성기 코드가 바뀌면 다시 만듭니다.
-  - `python scripts/build_schema.py`: `fields/`
+  - `python docgen/scripts/build_schema.py`: `fields/`
   - `python -m docgen list --markdown > guide/documents.md`: `documents.md`
 - **실제 서류:** 학습 목록에 없는 서류는 키를 직접 정해 물어도 됩니다. 다만 학습한 키와 이름을 쓸수록 정확합니다.
 
@@ -30,7 +30,7 @@
 | 이미지 순서 | 이미지를 모두 먼저 넣고 질문 글을 마지막에 넣습니다. 여러 서류면 서류 순서대로, 한 서류의 쪽은 1쪽부터 |
 | 이미지 크기 | 한 장은 긴 변 2300·짧은 변 1600 이하. 한 질문의 이미지 합이 약 12,000 토큰(32px 한 칸 기준) 이하가 되도록 장마다 같은 비율로 줄입니다. 예: 13장이면 장당 약 920토큰. viewer의 직접 테스트와 파이프라인 평가가 이 규칙을 그대로 씁니다 |
 | 이미지 수 | 한 질문에 최대 16장 (서버 `--vllm_limit_mm_per_prompt {"image": 16}`). 학습은 최대 13장까지 봤습니다 |
-| 생성 설정 | `temperature 0`, `enable_thinking false`, `max_tokens 4096` (`training/configs/bank_inference.json`) |
+| 생성 설정 | `temperature 0`, `enable_thinking false`, `max_tokens 4096` (`bank/configs/bank_inference.json`) |
 | JSON 답 | 한 줄 JSON으로 답합니다. ```` ```json ```` 코드 블록으로 감싸 올 수 있으니 받는 쪽에서 벗겨 냅니다 |
 | 서류명 | 학습한 서류명은 docgen 서류 목록의 정식 명칭입니다([documents.md](documents.md)). 실제 서류에 다른 이름을 쓰면 그 이름을 질문에 그대로 적으세요 |
 
@@ -41,8 +41,8 @@
 | `doc_check` 서류 구비 확인 | 제출 서류마다 **첫 쪽만** | 고객 성명, 업무명, 필수 서류 목록 | `{"missing": [], "not_required": [], "not_customer": []}` |
 | `cross_check` 서류 대조 | 대조할 서류 2~3건의 **모든 쪽** | 고객 성명, 업무명, 서류 수, 이미지 수 | `{"consistent": true/false, "issues": [...]}` |
 | `review` 심사 질의 | 질문에 필요한 서류 1~2건의 모든 쪽 | 업무명, 이미지 수, 질문 | 숫자 하나 또는 `예`/`아니오` |
-| `kie` 정보 추출 | 서류 한 건의 모든 쪽 | 뽑을 항목 (`키: 항목명`) | `{"키": "값" 또는 null}` |
-| `marks` 체크·도장·서명 | 서류 한 건의 모든 쪽 | 항목과 보기 | `{"키": "보기" / [..] / true/false}` |
+| `kie` 정보 추출 | 서류 한 건의 모든 쪽 | 뽑을 항목 (`키: 항목명`) | `[{"key", "value", "bbox_2d", "page"}, ...]` |
+| `marks` 체크·도장·서명 | 서류 한 건의 모든 쪽 | 항목과 보기 | `[{"key", "value": 보기·true/false, "bbox_2d", "page"}, ...]` |
 | `classify` 서류 분류 | 서류 한 건의 모든 쪽 | 없음 | 서류명 한 줄 |
 | `ocr_page` 전체 받아쓰기 | 서류 한 건의 모든 쪽 | 없음 | 읽은 글자 (줄바꿈) |
 | `ocr_field` 값 칸 읽기 | 값 칸 하나를 잘라낸 이미지 | 없음 | 적힌 글자 |
@@ -127,7 +127,7 @@
 
 **질문**
 ```
-이 문서에서 아래 항목의 값을 찾아 JSON 객체로 답하세요. 키는 그대로 쓰고, 값은 문서에 적힌 그대로 옮기세요. 문서에 비어 있거나 없는 항목은 null 로 답하세요.
+이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
 항목 (키: 항목명)
 {items}
 ```
@@ -135,12 +135,15 @@
 - 키는 질문에 쓴 그대로 답에 쓰도록 학습했습니다. 학습 키는 영어 경로(`applicant.name`)라서, 직접 정한 키(`성명` 등)도 되는지는 viewer 직접 테스트로 확인해 보세요.
 - 표의 행은 `debts.0.balance`, `debts.1.balance`처럼 번호를 붙인 키로 물었습니다.
 
-**답 예**
+**답 예** (평가 세트 2.0부터 값과 위치를 함께 답합니다)
 ```json
-{"applicant.name": "남궁예태", "loan.amount": "301,000,000", "applicant.email": null}
+[{"key": "applicant.name", "value": "남궁예태", "bbox_2d": [212, 148, 318, 171], "page": 1},
+ {"key": "loan.amount", "value": "301,000,000", "bbox_2d": [640, 402, 790, 425], "page": 1},
+ {"key": "applicant.email", "value": null}]
 ```
 - 값은 문서 표기 그대로입니다(쉼표, `원`, `금 ○○원정` 포함). 여러 줄 값은 `\n`이 들어갑니다.
-- 빈 칸은 `null`입니다.
+- 빈 칸은 `{"key": 키, "value": null}`입니다 (위치 없음).
+- 채점은 값 점수(`f1`), 위치 점수(`loc_f1`: 같은 키·같은 쪽에서 IoU 0.5 이상), 값+위치 점수(`vl_f1`, 주 점수) 셋입니다 ([benchmark.md](benchmark.md)).
 
 **학습한 범위:** 한 질문에 항목 최대 40개입니다. 더 많으면 나눠 물으세요. 체크박스·도장·서명은 kie가 아니라 marks로 묻습니다.
 
@@ -148,10 +151,10 @@
 
 **질문**
 ```
-이 문서의 체크박스·도장·서명 상태를 확인해 JSON 객체로 답하세요.
-- 체크박스: 체크된 보기의 글자 (체크된 것이 없으면 null)
-- 복수 선택: 체크된 보기 글자의 목록 (없으면 [])
-- 도장·서명: 찍혀 있거나 서명되어 있으면 true, 비어 있으면 false
+이 문서의 체크박스·도장·서명 상태와 위치를 확인해 JSON 목록으로 답하세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 체크박스: 체크된 보기마다 {"key": 키, "value": 보기 글자, "bbox_2d": 체크된 □ 위치, "page": 쪽}. 체크된 것이 없으면 {"key": 키, "value": null}
+- 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)
+- 도장·서명: {"key": 키, "value": true 또는 false, "bbox_2d": 찍힌 자리, "page": 쪽} (비어 있으면 value 만 false)
 항목
 {items}
 ```
@@ -165,7 +168,11 @@
 
 **답 예**
 ```json
-{"housing": "자가", "products": ["예금", "펀드"], "seal.applicant": true, "sign.applicant": false}
+[{"key": "housing", "value": "자가", "bbox_2d": [301, 512, 318, 529], "page": 1},
+ {"key": "products", "value": "예금", "bbox_2d": [205, 610, 222, 627], "page": 1},
+ {"key": "products", "value": "펀드", "bbox_2d": [405, 610, 422, 627], "page": 1},
+ {"key": "seal.applicant", "value": true, "bbox_2d": [820, 880, 905, 950], "page": 2},
+ {"key": "sign.applicant", "value": false}]
 ```
 
 ## classify — 서류 분류
@@ -185,7 +192,7 @@
 ```
 **답:** 줄바꿈한 글자
 - 학습 정답은 서류에 **채워 넣은 값들**을 줄마다 쓴 것입니다. 그래서 항목명이나 안내문 같은 서식 고정 문구는 빠질 수 있습니다.
-- 서식 문구까지 위치와 함께 필요하면 OCR 단계의 `spotting`([OCR 질문 가이드](../training/docs/PROMPTS.md))을 쓰세요.
+- 서식 문구까지 위치와 함께 필요하면 OCR 단계의 `spotting`([OCR 질문 가이드](../ocr/docs/PROMPTS.md))을 쓰세요.
 
 ## ocr_field — 값 칸 읽기
 
@@ -209,6 +216,6 @@
 | 동의 체크, 도장, 서명 여부 | `marks` |
 | 무슨 서류인지 | `classify` |
 
-viewer([training/viewer/README.md](../training/viewer/README.md) 6번)의 **직접 테스트**가 위 질문 문장과 이미지 크기 규칙을 그대로 씁니다. 패턴을 시험해 볼 때 쓰면 됩니다.
+viewer([ocr/viewer/README.md](../ocr/viewer/README.md) 6번)의 **직접 테스트**가 위 질문 문장과 이미지 크기 규칙을 그대로 씁니다. 패턴을 시험해 볼 때 쓰면 됩니다.
 - 정보 추출 칸에는 `applicant.name: 성명`처럼 키와 항목명을 쓰거나, `성명`만 써도 됩니다(항목명이 키가 됨).
 - marks, ocr_field, 그리고 OCR 단계 과제는 **직접 질문**에 이 문서의 질문 문장을 붙여 넣어 시험합니다.

@@ -33,8 +33,8 @@ _ENV = {"heavy": ("DOCGEN_HEAVY", {"on": "1", "off": "0"}),
 # 모든 서식이 함께 쓰는 렌더링 코드. 바뀌면 모든 미리보기를 새로 그린다.
 COMMON = ["docgen/render.py", "docgen/schema.py", "docgen/image.py", "docgen/paginate.js", "docgen/augment.py",
           "docgen/realform.py", "docgen/entities.py", "docgen/korean.py", "docgen/banks.py", "docgen/docs/_common.py",
-          "docgen/marks.py", "docgen/overrides.py", "docgen/sources.py", "docgen/preview.py", "docgen/marks.json", "assets/marks/pools.json",
-          "templates/_base.html.j2", "templates/_macros.html.j2", "templates/_real_form.html.j2"]
+          "docgen/marks.py", "docgen/overrides.py", "docgen/sources.py", "docgen/preview.py", "docgen/marks.json", "docgen/assets/marks/pools.json",
+          "docgen/templates/_base.html.j2", "docgen/templates/_macros.html.j2", "docgen/templates/_real_form.html.j2"]
 
 
 def source_files(doc_id: str, common: bool = True) -> list[Path]:
@@ -42,7 +42,7 @@ def source_files(doc_id: str, common: bool = True) -> list[Path]:
     from . import overrides
 
     spec = load_all()[doc_id]
-    files = [ROOT / "templates" / spec.template, Path(inspect.getsourcefile(spec.generate)), overrides.path(doc_id)]
+    files = [ROOT / "docgen" / "templates" / spec.template, Path(inspect.getsourcefile(spec.generate)), overrides.path(doc_id)]
     if spec.group in ("hana", "imported"):
         from .realform import form_no, image_form_dir, layout_path
 

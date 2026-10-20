@@ -1,7 +1,7 @@
 """원본 서식 오버레이 — 하나은행 공개 서식 PDF 를 그대로 배경으로 깔고, 손님이 쓴 것처럼 값을 얹는다.
 
 서식 모양을 HTML 로 다시 그리지 않으므로 이미지 속 서식은 원본과 똑같다. 값을 쓸 자리는
-scripts/extract_form_layout.py 가 PDF 에서 뽑은 add_template/layouts/<분류>/<No>.json 을 쓴다.
+docgen/scripts/extract_form_layout.py 가 PDF 에서 뽑은 docgen/forms/layouts/<분류>/<No>.json 을 쓴다.
 
   text   빈 칸에 글자          → f(키)  값은 프로필(성명·주소·계좌…)이나 항목명으로 만든다
   check  □ 보기 묶음           → 고른 보기 □ 위에 V/✓/■ 표시, 정답은 고른 보기 글자
@@ -29,9 +29,9 @@ from . import overrides as OV
 from . import sources as SRC
 from .entities import Profile
 
-ROOT = Path(__file__).resolve().parent.parent
-LAYOUTS = ROOT / "add_template" / "layouts"
-IMAGE_FORMS = ROOT / "add_template" / "images"   # overlay(image): 스캔·사진 배경 서식 <ID>/layout.json + page_<쪽>.png
+ROOT = Path(__file__).resolve().parent   # docgen/ (레이아웃의 "file" 은 이 폴더 기준: forms/하나은행_서식자료/…)
+LAYOUTS = ROOT / "forms" / "layouts"
+IMAGE_FORMS = ROOT / "forms" / "images"   # overlay(image): 스캔·사진 배경 서식 <ID>/layout.json + page_<쪽>.png
 FONTS = ROOT / "fonts"
 CACHE = Path.home() / ".cache" / "docgen" / "bg"
 HOST = "https://docgen.local/"
@@ -65,7 +65,7 @@ def form_no(doc_id: str) -> int | None:
 
 
 def image_form_dir(doc_id: str) -> Path | None:
-    """overlay(image) 서식 폴더: 저장소의 add_template/images/<ID>/ 또는 private_forms_dir/<ID>/."""
+    """overlay(image) 서식 폴더: 저장소의 docgen/forms/images/<ID>/ 또는 private_forms_dir/<ID>/."""
     for root in [IMAGE_FORMS, *_private_roots()]:
         d = root / doc_id
         if (d / "layout.json").exists():
@@ -92,7 +92,7 @@ def raw_layout(doc_id: str) -> dict:
 
 
 def form_layout(doc_id: str) -> tuple[dict, list[dict]]:
-    """사람 수정(add_template/overrides/<ID>.json)을 덧씌운 레이아웃과 못 찾은 수정 목록."""
+    """사람 수정(docgen/forms/overrides/<ID>.json)을 덧씌운 레이아웃과 못 찾은 수정 목록."""
     return OV.apply(raw_layout(doc_id), OV.load(doc_id))
 
 
@@ -727,7 +727,7 @@ def all_layouts() -> list[dict]:
     return out
 
 
-# 고객이 채우는 칸이 없는 인쇄물·내부 문서 (scripts/form_map.py 의 '제외' 판정과 같다)
+# 고객이 채우는 칸이 없는 인쇄물·내부 문서 (docgen/scripts/form_map.py 의 '제외' 판정과 같다)
 EXCLUDE_KW = ["약관", "안내장", "체크리스트", "일반위험고지문", "상품설명서", "중요내용 설명서", "환전장부",
               "과목분류표", "관리대장", "제출서류 목록"]
 # 22: 영문 통합제신고서 — PDF 글자 인코딩이 깨져(글자 코드가 밀려 있음) 항목명을 읽을 수 없다
@@ -740,7 +740,7 @@ def fillable(lay: dict) -> int:
 
 
 def register_images() -> int:
-    """overlay(image) 서식: add_template/images/img_*/ 와 (설정했으면) DOCGEN_PRIVATE_FORMS/img_*/ 의 layout.json.
+    """overlay(image) 서식: docgen/forms/images/img_*/ 와 (설정했으면) DOCGEN_PRIVATE_FORMS/img_*/ 의 layout.json.
     studio 가져오기에서 견본 그림으로 만든 서식이다. 이미 등록된 ID 는 건너뛴다 (여러 번 불러도 된다)."""
     from .registry import REGISTRY, DocSpec
 

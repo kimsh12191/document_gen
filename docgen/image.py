@@ -95,7 +95,7 @@ _JS_COLLECT = """
 # 쪽 전체 글자 박스 (합성 OCR 정답용, docgen/ocr_export.py). 화면에 보이는 글자를 단어마다 잰다.
 #   kind: text (보통 글자) / watermark (견본 표시) / seal (도장 안 글자) / struck (정정으로 두 줄 그은 글자)
 #   blk: 같은 칸(td·th·p·li·div·span.ov)이면 같은 번호 — 줄로 묶을 때 쓴다
-_JS_TEXTS = """
+_JS_TEXTS = r"""
 () => {
   const pages = Array.from(document.querySelectorAll('.page'));
   const bases = pages.map(p => p.getBoundingClientRect());
