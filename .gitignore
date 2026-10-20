@@ -4,3 +4,8 @@ out/
 .pytest_cache/
 bench_out/
 preds/
+.venv
+studio/config.json
+studio_cache/
+studio_jobs/
+studio_workspace/

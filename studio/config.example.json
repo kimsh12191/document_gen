@@ -1,0 +1,17 @@
+{
+  "host": "127.0.0.1",
+  "port": 8765,
+  "browser": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+  "cache_dir": "studio_cache",
+  "ocr": {
+    "callable": "internal_ocr_adapter:ocr_from_file",
+    "revision": "<OCR 버전 — 1부 training/config.json 의 ocr_revision 과 같게>",
+    "cache_dir": "training/data/ocr-cache",
+    "base_url": "http://<사내 OCR 서버>:30107"
+  },
+  "workspace_dir": "studio_workspace",
+  "import_dir": null,
+  "real_data_dir": null,
+  "private_forms_dir": null,
+  "providers": {}
+}
