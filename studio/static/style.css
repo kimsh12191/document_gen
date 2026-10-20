@@ -153,3 +153,17 @@ ul.checks { margin: 0; padding-left: 18px; } ul.checks li { margin: 4px 0; } ul.
 .seal-demo { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 2px solid #c00;
   color: #c00; border-radius: 50%; font: 700 10px/1.1 'Nanum Myeongjo', serif; text-align: center; }
 .ed-list .tag, td .tag { white-space: nowrap; }
+
+/* 데이터셋·평가 */
+.card-md h2 { margin-top: 0; } .card-md h3 { font-size: 14px; margin: 14px 0 4px; } .card-md table { width: auto; }
+.ds-item { margin-bottom: 10px; }
+.ds-row { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 12px; margin-top: 6px; }
+.ds-imgs { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 6px; align-content: start; }
+.ds-imgs .ds-stage:only-child { grid-column: 1 / -1; }
+.ds-stage svg rect { fill: none; stroke-width: 2; vector-effect: non-scaling-stroke; }
+.ds-stage svg rect.ds-gt { stroke: #1f8a4c; } .ds-stage svg rect.ds-ask { stroke: #2f6fdd; stroke-dasharray: 5 3; }
+.ds-stage svg rect.ds-pred.p0 { stroke: #d97706; stroke-dasharray: 3 2; } .ds-stage svg rect.ds-pred.p1 { stroke: #7c3aed; stroke-dasharray: 3 2; }
+.ds-stage svg rect.ds-pred.p2 { stroke: #0e9aa7; stroke-dasharray: 3 2; }
+.ds-text .prompt { white-space: pre-wrap; font-size: 13px; background: #f6f7f9; padding: 6px; border-radius: 4px; max-height: 160px; overflow: auto; }
+pre.ans { white-space: pre-wrap; word-break: break-all; margin: 2px 0 8px; font-size: 12px; background: #f6f7f9; padding: 6px; border-radius: 4px; max-height: 220px; overflow: auto; }
+details.panel { margin-bottom: 6px; } details.panel summary { cursor: pointer; }
