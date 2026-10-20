@@ -1,0 +1,9 @@
+{
+ "about": "합성 OCR 평가 세트: 서식 476종 × 1건, 쪽 전체 글자 정답 (1부 8과제)",
+ "track": "ocr",
+ "split": "benchmark",
+ "types": "all",
+ "per_doc": 1,
+ "unit": "word",
+ "name": "ocr-bench"
+}

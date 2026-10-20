@@ -19,8 +19,14 @@ def prepare(config_path):
         raise ValueError(f"Output already exists: {out}. Use a new output_dir; OCR cache is reusable.")
     seed = cfg.get("seed", 42)
     manifest = resolve(cfg["manifest"])
-    rows = assign_splits(read_jsonl(manifest), seed, cfg.get("val_fraction", 0.05), cfg.get("benchmark_fraction", 0.0))
-    if not any(r["split"] == "train" for r in rows) or not any(r["split"] == "benchmark" for r in rows):
+    # benchmark_only: evaluation-only set (every manifest row is split "benchmark"; studio synthetic/reviewed OCR sets).
+    benchmark_only = bool(cfg.get("benchmark_only", False))
+    rows = assign_splits(read_jsonl(manifest), seed, 0.0 if benchmark_only else cfg.get("val_fraction", 0.05),
+                         0.0 if benchmark_only else cfg.get("benchmark_fraction", 0.0))
+    if benchmark_only:
+        if not rows or any(r["split"] != "benchmark" for r in rows):
+            raise ValueError("benchmark_only: every manifest row must have split 'benchmark'")
+    elif not any(r["split"] == "train" for r in rows) or not any(r["split"] == "benchmark" for r in rows):
         raise ValueError("Manifest must include train and benchmark documents")
     mapping = cfg.get("mapping", {})
     # Rows with "ocr_json" reuse OCR that was already run; only the rest call the adapter.
@@ -200,7 +206,7 @@ def build_datasets(pages, out, cfg):
                 image_items.append({"image": str(path), "width": im.width, "height": im.height, "kind": kind, "ops": ops,
                                     "items": [{"text": i["text"], "bbox_2d": i["box"], "confidence": i["confidence"]} for i in view["items"]]})
                 im.close()
-    if not pools["train"] or not pools["benchmark"]:
+    if (not pools["train"] and not cfg.get("benchmark_only")) or not pools["benchmark"]:
         raise ValueError("Empty train/benchmark dataset after filtering; inspect OCR and thresholds")
     train = pools["train"]
     # Fixed proportions where enough candidates exist; no oversampling duplicates.

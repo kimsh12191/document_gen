@@ -20,7 +20,7 @@ from . import catalog
 from . import training_link as TL
 
 
-def make_router(reg, jobs, guard, extra_preview=None) -> APIRouter:
+def make_router(reg, jobs, guard) -> APIRouter:
     r = APIRouter()
 
     @r.get("/api/recipes")
@@ -53,9 +53,9 @@ def make_router(reg, jobs, guard, extra_preview=None) -> APIRouter:
     def build(req: BuildReq):
         rec = guard(BD.get_recipe, req.recipe)
         if rec.get("track", "bank") == "ocr":
-            if extra_preview is None:
-                raise HTTPException(400, "OCR 레시피 빌드는 아직 연결되지 않았습니다")
-            return guard(extra_preview, req.recipe, req.name, req.workers)
+            from . import ocr_data
+
+            return guard(ocr_data.start_build, jobs, reg, BD.RECIPES, req.recipe, req.name, req.workers)
         return guard(BD.start_build, jobs, reg, req.recipe, req.name, req.workers)
 
     @r.get("/api/jobs")
@@ -133,7 +133,7 @@ def make_router(reg, jobs, guard, extra_preview=None) -> APIRouter:
     @r.post("/api/training/save")
     def training_save(req: TrainReq):
         info = guard(_info, req)
-        return guard(TL.write_training, reg, info, [*req.train, req.benchmark] + ([req.ocr] if req.ocr else []),
+        return guard(TL.write_training, reg, info, list(dict.fromkeys([*req.train, req.benchmark] + ([req.ocr] if req.ocr else []))),
                      req.benchmark, req.name)
 
     @r.get("/api/trainings")

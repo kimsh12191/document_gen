@@ -92,6 +92,54 @@ _JS_COLLECT = """
 """
 
 
+# 쪽 전체 글자 박스 (합성 OCR 정답용, docgen/ocr_export.py). 화면에 보이는 글자를 단어마다 잰다.
+#   kind: text (보통 글자) / watermark (견본 표시) / seal (도장 안 글자) / struck (정정으로 두 줄 그은 글자)
+#   blk: 같은 칸(td·th·p·li·div·span.ov)이면 같은 번호 — 줄로 묶을 때 쓴다
+_JS_TEXTS = """
+() => {
+  const pages = Array.from(document.querySelectorAll('.page'));
+  const bases = pages.map(p => p.getBoundingClientRect());
+  const blocks = new Map();
+  const out = [];
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  let node;
+  while ((node = walker.nextNode())) {
+    const el = node.parentElement, t = node.textContent;
+    if (!el || !t.trim()) continue;
+    const page = pages.indexOf(el.closest('.page'));
+    if (page < 0) continue;
+    const cs = getComputedStyle(el);
+    if (cs.visibility === 'hidden' || cs.display === 'none' || parseFloat(cs.fontSize) < 4) continue;
+    const m = cs.color.match(/rgba?\(([^)]+)\)/);
+    if (cs.color === 'transparent' || (m && m[1].split(',').length === 4 && parseFloat(m[1].split(',')[3]) === 0)) continue;
+    let op = 1;
+    for (let a = el; a && a !== document.body; a = a.parentElement) op *= parseFloat(getComputedStyle(a).opacity || '1');
+    if (op < 0.15) continue;
+    const kind = el.closest('.sample-mark') ? 'watermark' : el.closest('.seal, .corr-seal') ? 'seal'
+      : el.closest('s, .corr-old') ? 'struck' : 'text';
+    const blkEl = el.closest('td, th, p, li, .ov, div') || el;
+    if (!blocks.has(blkEl)) blocks.set(blkEl, blocks.size);
+    const b = bases[page];
+    const re = /\S+/g;
+    let w;
+    while ((w = re.exec(t))) {
+      const rg = document.createRange();
+      rg.setStart(node, w.index);
+      rg.setEnd(node, w.index + w[0].length);
+      const rects = Array.from(rg.getClientRects()).filter(x => x.width > 0.5 && x.height > 0.5);
+      if (!rects.length) continue;
+      let x0 = Math.min(...rects.map(x => x.left)) - b.left, y0 = Math.min(...rects.map(x => x.top)) - b.top;
+      let x1 = Math.max(...rects.map(x => x.right)) - b.left, y1 = Math.max(...rects.map(x => x.bottom)) - b.top;
+      x0 = Math.max(0, x0); y0 = Math.max(0, y0); x1 = Math.min(b.width, x1); y1 = Math.min(b.height, y1);
+      if (x1 - x0 < 1 || y1 - y0 < 1) continue;
+      out.push({page, text: w[0], kind, blk: blocks.get(blkEl), bbox: [x0, y0, x1, y1]});
+    }
+  }
+  return out;
+}
+"""
+
+
 def _executable() -> str | None:
     env = os.environ.get("CHROMIUM_PATH")
     if env:
@@ -142,22 +190,25 @@ class ImageRenderer:
         self._browser.close()
         self._pw.stop()
 
-    def render(self, html: str, png_path: str | Path) -> dict:
+    def render(self, html: str, png_path: str | Path, texts: bool = False) -> dict:
         """PNG 저장 후 위치 정보를 돌려준다 (좌표는 이미지 픽셀, 각 쪽 왼쪽 위 기준).
 
         {'images': [경로...], 'pages': [{width, height}], 'fields'|'labels'|'boxes'|'marks': [{key, page, bbox}],
          'untagged_seals': [...], 'overflow': bool, 'width', 'height'(1쪽 크기)}
+        texts=True 면 'texts': 쪽 전체 글자 단어 박스 [{page, text, kind, blk, bbox}] 도 (배경 그림 속 글자는 없음)
         """
         self._page.set_content(html, wait_until="load")
         self._page.evaluate("document.fonts.ready")
         self._page.evaluate("(" + _PAGINATE_JS + ")()")  # 넘친 쪽 나누기
         info = self._page.evaluate(_JS_COLLECT)
+        if texts:
+            info["texts"] = self._page.evaluate(_JS_TEXTS)
         s = self.scale
         paths = page_paths(png_path, len(info["pages"]))
         for el, path in zip(self._page.locator(".page").all(), paths):
             el.screenshot(path=str(path))
-        for k in ("fields", "labels", "auto_labels", "boxes", "opts", "marks", "untagged_seals"):
-            for it in info[k]:
+        for k in ("fields", "labels", "auto_labels", "boxes", "opts", "marks", "untagged_seals", "texts"):
+            for it in info.get(k, []):
                 it["bbox"] = [round(v * s, 1) for v in it["bbox"]]
         info["pages"] = [{"width": round(p["width"] * s), "height": round(p["height"] * s)} for p in info["pages"]]
         info["images"] = [str(p) for p in paths]

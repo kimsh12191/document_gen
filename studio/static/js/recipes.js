@@ -21,7 +21,7 @@ async function recipesPanel() {
           <button class="primary" data-build="${esc(x.name)}">만들기</button>`]]) : `<p class="muted">레시피가 없습니다. 아래 틀에서 시작하세요.</p>`}
       <div class="bar" style="margin-top:6px"><span class="muted">틀에서 새 레시피:</span>
         ${tpl.map(([k, t]) => `<button data-tpl="${esc(k)}" title="${esc(t.about)}">${esc(k)}</button>`).join("")}
-        <span class="muted">· OCR 레시피는 5단계</span></div>
+        <span class="muted">(bank-* 은행 업무 · ocr-* 합성 OCR: 쪽 전체 글자 정답, 1부 prepare 형식)</span></div>
     </div>`;
 }
 
@@ -44,6 +44,7 @@ function bindRecipesPanel() {
 async function viewRecipe(name) {
   const [r, opts] = await Promise.all([api(`/api/recipes/${encodeURIComponent(name)}`), recipeOpts || api("/api/recipes/options")]);
   recipeOpts = opts;
+  if (r.track === "ocr") return viewOcrRecipe(name, r, opts);
   const b = { ...opts.bundle_defaults, ...(r.bundle || {}) };
   const conds = r.conditions || opts.conditions;
   const scs = r.scenarios === "all" || !r.scenarios ? opts.scenarios.map(s => s.id) : r.scenarios;
@@ -125,4 +126,59 @@ async function viewRecipe(name) {
   $("#rc-raw").onclick = () => { $("#rc-rawbox").style.display = "block"; $("#rc-json").value = JSON.stringify(r, null, 1); };
   $("#rc-rawsave").onclick = () => { try { save(JSON.parse($("#rc-json").value)); } catch (e) { toast(e.message, true); } };
   $("#rc-del").onclick = async () => { if (confirm("레시피를 지울까요? (만든 데이터셋은 그대로)")) { await api(`/api/recipes/${encodeURIComponent(name)}`, undefined, "DELETE"); location.hash = "#/datasets"; } };
+}
+
+
+// 합성 OCR 레시피 (docgen/ocr_set.py) ------------------------------------------
+function viewOcrRecipe(name, r, opts) {
+  const conds = r.conditions || opts.conditions;
+  const num = (id, v, step = 0.01) => `<input type="number" id="${id}" value="${v}" step="${step}" min="0" style="width:72px">`;
+  const sel = (id, cur) => `<select id="${id}">${["default", "on", "off"].map(v => `<option value="${v}" ${v === (cur || "default") ? "selected" : ""}>${MODE_NAME[v]}</option>`).join("")}</select>`;
+  main().innerHTML = `
+    <div class="muted"><a href="#/datasets">데이터셋</a> › 레시피 (합성 OCR)</div>
+    <h1>${esc(name)} <span class="muted mono" style="font-size:13px">datasets/recipes/${esc(name)}.json</span></h1>
+    <div class="bar"><button class="primary" id="rc-save">저장</button><button id="rc-del">지우기</button>
+      <span class="muted">python -m docgen.ocr_set build --recipe … → 1부 bank_ocr prepare</span></div>
+    <div class="rc-grid">
+      <div class="panel"><b>무엇을</b>
+        <label class="fld">설명 <input type="text" id="rc-about" value="${esc(r.about || "")}"></label>
+        <label class="fld">용도 <select id="rc-split"><option value="benchmark">평가 전용 (1부 benchmark_only)</option>
+          <option value="train" ${r.split === "train" ? "selected" : ""}>학습 데이터 (1부가 benchmark_fraction 만큼 평가로 떼어 둠)</option></select></label>
+        <label class="fld">서식 (all · 서식 ID · 그룹, 쉼표로) <input type="text" id="rc-types" value="${esc(Array.isArray(r.types) ? r.types.join(",") : r.types || "all")}"></label>
+        <label class="fld">서식마다 고객 수 <input type="number" id="rc-perdoc" value="${r.per_doc ?? 1}" min="1"></label>
+        <label class="fld">빼는 서식 (쉼표) <input type="text" id="rc-exclude" value="${esc((r.exclude || []).join(","))}"></label>
+        <label><input type="checkbox" id="rc-reviewed" ${r.reviewed_only ? "checked" : ""}> 검수 완료 서식만</label>
+        <label class="fld">정답 한 항목의 단위 <select id="rc-unit"><option value="word">단어 (줄 번호 함께)</option><option value="line" ${r.unit === "line" ? "selected" : ""}>줄</option></select></label>
+        <div class="muted" style="font-size:12px">사내 OCR 이 내는 단위에 맞추세요 (DESIGN.md 12절). 견본 표시·도장 안 글자·정정 글자는 신뢰도 0.3 으로 적어 1부가 그 자리를 뺍니다.</div>
+        <div class="bar"><label>내용 많음 ${sel("rc-heavy", r.heavy)}</label><label>특수 상황 ${sel("rc-special", r.special)}</label></div>
+      </div>
+      <div class="panel"><b>촬영 조건 비율</b> <span class="muted">합 1 (1부 prepare 가 노이즈 사본을 따로 더 만듭니다)</span>
+        <div class="bar">${Object.keys(opts.conditions).map(c => `<label>${esc(COND_NAME[c] || c)} ${num(`rc-c-${c}`, conds[c] ?? 0)}</label>`).join("")}</div>
+        <b>합칠 1부 manifest</b> <span class="muted">실서류 등 다른 데이터와 섞어 한 번에 prepare (한 줄에 경로 하나)</span>
+        <textarea id="rc-merge" rows="3" class="mono" style="width:100%">${esc((r.merge_manifests || []).join("\n"))}</textarea>
+        <b>1부 설정 덮어쓰기 (JSON)</b> <span class="muted">tasks_per_view, filters, benchmark_fraction, image_max_size …</span>
+        <textarea id="rc-prepare" rows="6" class="mono" style="width:100%">${esc(JSON.stringify(r.prepare || {}, null, 1))}</textarea>
+        <label class="fld">seed 시작 <input type="number" id="rc-start" value="${r.start ?? 0}" min="0"></label>
+      </div>
+    </div>`;
+  $("#rc-save").onclick = async () => {
+    try {
+      const types = $("#rc-types").value.trim();
+      const out = { about: $("#rc-about").value.trim(), track: "ocr", split: $("#rc-split").value,
+        types: !types || types === "all" ? "all" : types.split(",").map(s => s.trim()).filter(Boolean),
+        per_doc: +$("#rc-perdoc").value, unit: $("#rc-unit").value, heavy: $("#rc-heavy").value, special: $("#rc-special").value,
+        start: +$("#rc-start").value,
+        conditions: Object.fromEntries(Object.keys(opts.conditions).map(c => [c, +$(`#rc-c-${c}`).value]).filter(([, v]) => v > 0)) };
+      const ex = $("#rc-exclude").value.split(",").map(s => s.trim()).filter(Boolean);
+      if (ex.length) out.exclude = ex;
+      if ($("#rc-reviewed").checked) out.reviewed_only = true;
+      const mm = $("#rc-merge").value.split("\n").map(s => s.trim()).filter(Boolean);
+      if (mm.length) out.merge_manifests = mm;
+      const prep = JSON.parse($("#rc-prepare").value || "{}");
+      if (Object.keys(prep).length) out.prepare = prep;
+      await api(`/api/recipes/${encodeURIComponent(name)}`, out, "PUT");
+      toast("저장했습니다"); viewRecipe(name);
+    } catch (e) { toast(e.message, true); }
+  };
+  $("#rc-del").onclick = async () => { if (confirm("레시피를 지울까요?")) { await api(`/api/recipes/${encodeURIComponent(name)}`, undefined, "DELETE"); location.hash = "#/datasets"; } };
 }

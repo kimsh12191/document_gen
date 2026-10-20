@@ -60,6 +60,10 @@ def get_recipe(name: str) -> dict:
 
 
 def validate_recipe(r: dict) -> dict:
+    if r.get("track") == "ocr":
+        from . import ocr_data
+
+        return ocr_data.validate(r)
     allowed = set(BUILD.RECIPE_KEYS) | {"name", "about", "track", "kind"}
     bad = set(r) - allowed
     if bad:
@@ -115,7 +119,13 @@ def options() -> dict:
     return {"groups": GROUPS, "scenarios": [{"id": k, "name": n, "docs": d} for k, (n, d) in SCENARIOS.items()],
             "cases": [{"id": c.id, "title": c.title, "category": c.category, "basis": c.basis} for c in CASES],
             "rules": list(RULES), "bundle_defaults": BUILD.BUNDLE_RULES,
-            "conditions": dict(BUILD.CONDITIONS), "templates": TEMPLATES, "version": BUILD.VERSION}
+            "conditions": dict(BUILD.CONDITIONS), "templates": {**TEMPLATES, **_ocr_templates()}, "version": BUILD.VERSION}
+
+
+def _ocr_templates() -> dict:
+    from .ocr_data import TEMPLATES as T
+
+    return T
 
 
 # ---------------------------------------------------------------------------

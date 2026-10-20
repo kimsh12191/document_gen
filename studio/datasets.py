@@ -109,6 +109,11 @@ class Registry:
             for k in ("recipe", "dataset_json"):
                 if meta.get(k):
                     entry[k] = meta[k]
+            dj = root / entry.get("dataset_json", "dataset.json")
+            if dj.exists():   # studio 레시피로 만든 것: 생성기 커밋·버전·서식 해시
+                info_dj = json.loads(dj.read_text(encoding="utf-8"))
+                entry["build"] = {k: info_dj.get(k) for k in ("generator_commit", "version", "created", "unit", "split")
+                                  if info_dj.get(k) is not None}
             d["datasets"][ds_id] = entry
             self.save(d)
         return {"id": ds_id, **entry}
