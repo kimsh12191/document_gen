@@ -1,6 +1,6 @@
 # docgen studio
 
-은행 벤치마크 데이터 생성·관리 웹 도구. 생성기(`docgen`)의 서식·라벨을 보고 고치고, OCR·은행 업무 벤치마크를 합성·이미지 묶음·이미 있는 결과에서 만들고, 데이터셋·모델 답·점수를 한 화면에서 관리한다. 설계는 [DESIGN.md](DESIGN.md), 이미 만든 OCR·추론 결과를 가져올 때의 폴더 형식은 [RESULTS_FORMAT.md](RESULTS_FORMAT.md).
+은행 벤치마크 데이터 생성·관리 웹 도구. 생성기(`docgen`)의 서식·라벨을 보고 고치고, OCR·은행 업무 벤치마크를 합성·이미지 묶음·이미 있는 결과에서 만들고, 데이터셋·모델 답·점수를 한 화면에서 관리한다. 설계는 [DESIGN.md](DESIGN.md), 이미 만든 OCR·추론 결과를 가져올 때의 폴더 형식은 [RESULTS_FORMAT.md](RESULTS_FORMAT.md), 만든 데이터셋을 1부·2부 학습에 넣는 방법은 [TRAINING.md](TRAINING.md).
 
 ## 띄우기
 
