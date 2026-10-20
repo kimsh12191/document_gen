@@ -1,0 +1,10 @@
+{
+ "about": "은행 업무 평가 세트: 서류 476종 × 1건 + 업무 12종 × 고객 40명",
+ "track": "bank",
+ "split": "test",
+ "types": "all",
+ "per_doc": 1,
+ "scenarios": "all",
+ "bundles": 40,
+ "name": "bank-bench"
+}

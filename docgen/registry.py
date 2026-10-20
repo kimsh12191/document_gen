@@ -6,9 +6,11 @@
 from __future__ import annotations
 
 import importlib
+import json
 import pkgutil
 import random
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Callable
 
 from .entities import Profile
@@ -33,6 +35,8 @@ GROUPS = {
 BANK_FORM_GROUPS = {"bank_form"}
 
 # 업무(시나리오)별 제출 서류 묶음 — 같은 고객 프로필로 생성된다.
+# docgen/scenarios.json 이 있으면 그 내용으로 바꾼다 (studio ③ 시나리오·묶음에서 고침). 아래는 파일이 없을 때의 기본값.
+SCENARIOS_JSON = Path(__file__).resolve().parent / "scenarios.json"
 SCENARIOS = {
     "account_opening": ("개인 계좌개설", ["resident_id_card", "employment_certificate", "account_opening_application",
                                      "financial_transaction_purpose", "customer_due_diligence", "privacy_consent", "fatca_crs"]),
@@ -76,6 +80,30 @@ SCENARIO_EXTRA = {
     "mortgage": {"loan_kind": "mortgage"},
     "jeonse_loan": {"loan_kind": "jeonse"},
 }
+
+
+def load_scenarios() -> None:
+    """docgen/scenarios.json → SCENARIOS·SCENARIO_EXTRA (같은 dict 객체를 고쳐, 이미 import 한 곳에도 반영)."""
+    if not SCENARIOS_JSON.exists():
+        return
+    data = json.loads(SCENARIOS_JSON.read_text(encoding="utf-8"))
+    SCENARIOS.clear()
+    SCENARIO_EXTRA.clear()
+    for s in data["scenarios"]:
+        SCENARIOS[s["id"]] = (s["name"], list(s["docs"]))
+        if s.get("extra"):
+            SCENARIO_EXTRA[s["id"]] = dict(s["extra"])
+
+
+def save_scenarios(items: list[dict]) -> None:
+    """[{id, name, docs, extra?}] 를 docgen/scenarios.json 에 쓰고 바로 읽는다. 순서가 seed 를 정하므로 순서를 지킨다."""
+    old = json.loads(SCENARIOS_JSON.read_text(encoding="utf-8")) if SCENARIOS_JSON.exists() else {}
+    out = {"about": old.get("about", "업무 시나리오 (docgen/registry.py)"), "scenarios": items}
+    SCENARIOS_JSON.write_text(json.dumps(out, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    load_scenarios()
+
+
+load_scenarios()
 
 
 @dataclass

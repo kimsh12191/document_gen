@@ -1,6 +1,7 @@
 // ⑥ 데이터셋 (등록부·설명서·문항 보기·모델 답 붙이기·채점) · ⑦ 평가 (비교표). 서버: studio/datasets.py
 "use strict";
 
+addRoute(/^#\/datasets\/([^/]+)\/bundle\/(.+)$/, (id, bid) => viewBundle(decodeURIComponent(id), decodeURIComponent(bid)), "datasets");
 addRoute(/^#\/datasets\/([^/]+)(?:\/(\w+))?$/, (id, tab) => viewDataset(decodeURIComponent(id), tab || "card"), "datasets");
 
 const TRACK_NAME = { ocr: "OCR", bank: "은행 업무" };
@@ -29,8 +30,8 @@ async function view_datasets() {
         <label><input type="checkbox" id="dr-real"> 실서류</label>
         <button class="primary" id="dr-go">등록</button>
       </div>
-      <div class="muted" style="font-size:12px">새 데이터셋 만들기(합성 레시피·이미지 묶음·결과 폴더)는 4·5단계에서 이 화면에 생깁니다.</div>
     </div>
+    ${await recipesPanel()}
     ${r.datasets.length ? table(r.datasets, [
       ["name", "이름", d => `<a href="#/datasets/${encodeURIComponent(d.id)}">${esc(d.name)}</a> <span class="mono muted">${esc(d.id)}</span>`],
       ["track", "벤치마크", d => dsTag(d)],
@@ -44,6 +45,8 @@ async function view_datasets() {
       ["frozen", "고정", d => d.frozen ? `<span class="tag ok">고정</span>` : ""],
       ["exists", "", d => d.exists ? "" : `<span class="tag warn">폴더 없음</span>`],
     ]) : `<p class="muted">등록된 데이터셋이 없습니다.</p>`}`;
+  main().insertAdjacentHTML("beforeend", await trainingsPanel());
+  bindRecipesPanel();
   $("#dr-go").onclick = async () => {
     try {
       const d = await api("/api/datasets", { path: $("#dr-path").value.trim(), name: $("#dr-name").value.trim(),
@@ -55,7 +58,8 @@ async function view_datasets() {
 
 async function viewDataset(id, tab) {
   const d = await api(`/api/datasets/${encodeURIComponent(id)}`);
-  const tabs = [["card", "설명서"], ["items", "문항"], ["runs", `모델 답 (${d.predictions.length})`]];
+  const tabs = [["card", "설명서"], ["items", "문항"], ...(d.format === "docgen.bench" ? [["bundles", "업무 묶음"]] : []),
+    ["runs", `모델 답 (${d.predictions.length})`], ["train", "학습"]];
   main().innerHTML = `
     <div class="muted"><a href="#/datasets">데이터셋</a></div>
     <h1>${esc(d.name)} <span class="mono muted">${esc(d.id)}</span></h1>
@@ -75,6 +79,8 @@ async function viewDataset(id, tab) {
   };
   if (tab === "items") return dsItems(d);
   if (tab === "runs") return dsRuns(d);
+  if (tab === "bundles") return dsBundles(d);
+  if (tab === "train") return dsTrain(d);
   return dsCard(d);
 }
 
@@ -279,4 +285,169 @@ async function view_eval() {
   };
   $$("[data-ds]").forEach(x => x.onchange = draw);
   draw();
+}
+
+
+// 업무 묶음 -----------------------------------------------------------------
+async function dsBundles(d) {
+  const r = await api(`/api/datasets/${encodeURIComponent(d.id)}/bundles`);
+  if (!r.bundles.length) {
+    $("#tab").innerHTML = `<p class="muted">bundles.jsonl 이 없습니다. 묶음 기록은 2026-10-20 이후 만든 데이터셋에 들어 있습니다 (다시 만들면 생김).</p>`;
+    return;
+  }
+  const scs = [...new Set(r.bundles.map(b => b.scenario))];
+  $("#tab").innerHTML = `
+    <div class="bar"><select id="bd-sc"><option value="">시나리오 전체</option>${scs.map(s => `<option>${esc(s)}</option>`).join("")}</select>
+      <label><input type="checkbox" id="bd-t"> 변조 있음</label><label><input type="checkbox" id="bd-m"> 빠진 서류 있음</label>
+      <label><input type="checkbox" id="bd-o"> 타인 서류</label><label><input type="checkbox" id="bd-c"> 직접 만든 묶음</label>
+      <span class="muted" id="bd-n"></span></div><div id="bd-list"></div>`;
+  const draw = () => {
+    const sc = $("#bd-sc").value;
+    const rows = r.bundles.filter(b => (!sc || b.scenario === sc) && (!$("#bd-t").checked || b.tampered) &&
+      (!$("#bd-m").checked || b.missing) && (!$("#bd-o").checked || b.other) && (!$("#bd-c").checked || b.custom));
+    $("#bd-n").textContent = `${rows.length}묶음`;
+    $("#bd-list").innerHTML = table(rows, [
+      ["bundle_id", "묶음", b => `<a href="#/datasets/${encodeURIComponent(d.id)}/bundle/${encodeURIComponent(b.bundle_id)}" class="mono">${esc(b.bundle_id)}</a>${b.custom ? ` <span class="tag">직접</span>` : ""}`],
+      ["task_name", "업무"], ["customer", "고객"], ["n_docs", "서류", null, 1], ["n_pages", "쪽", null, 1], ["n_items", "문항", null, 1],
+      ["missing", "빠짐", null, 1], ["other", "타인", null, 1], ["extra", "불필요", null, 1], ["tampered", "변조", null, 1],
+      ["conditions", "촬영", b => b.conditions.map(c => esc(COND_NAME[c] || c)).join(" ")]]);
+  };
+  ["#bd-sc", "#bd-t", "#bd-m", "#bd-o", "#bd-c"].forEach(s => $(s).onchange = draw);
+  draw();
+}
+
+// 그림 위 픽셀 박스: 이미지가 읽히면 원래 크기로 viewBox 를 맞춘다
+function pxStage(url, boxes) {
+  const id = "px" + Math.random().toString(36).slice(2, 8);
+  setTimeout(() => {
+    const img = document.getElementById(id);
+    if (!img) return;
+    const go = () => {
+      const svg = img.nextElementSibling;
+      svg.setAttribute("viewBox", `0 0 ${img.naturalWidth} ${img.naturalHeight}`);
+      svg.innerHTML = boxes.map(b => `<rect class="${b.cls}" x="${b.bbox[0]}" y="${b.bbox[1]}" width="${Math.max(2, b.bbox[2] - b.bbox[0])}" height="${Math.max(2, b.bbox[3] - b.bbox[1])}"><title>${esc(b.title || "")}</title></rect>`).join("");
+    };
+    if (img.complete && img.naturalWidth) go(); else img.onload = go;
+  }, 0);
+  return `<div class="stage ds-stage"><img id="${id}" src="${url}" alt="" loading="lazy"><svg preserveAspectRatio="none"></svg></div>`;
+}
+
+async function viewBundle(id, bid) {
+  const [d, b] = await Promise.all([api(`/api/datasets/${encodeURIComponent(id)}`), api(`/api/datasets/${encodeURIComponent(id)}/bundles/${encodeURIComponent(bid)}`)]);
+  const file = p => `/api/datasets/${encodeURIComponent(id)}/file?p=${encodeURIComponent(p)}`;
+  const dc = b.doc_check || {};
+  const base = b.docs.filter(x => !x.why), extra = b.docs.filter(x => x.why);
+  const sel = { what: null };
+  const draw = () => {
+    const hits = sel.what ? (b.profile.find(p => p.what === sel.what)?.where || []) : [];
+    const warn = b.consistency;
+    const docCard = x => {
+      const boxes = [];
+      for (const h of hits.filter(h => h.doc_id === x.doc_id)) if (h.bbox) boxes.push({ page: h.page || 0, bbox: h.bbox, cls: "ds-gt", title: `${h.key} = ${h.value}` });
+      for (const w of warn.filter(w => w.doc_id === x.doc_id)) if (w.bbox) boxes.push({ page: w.page || 0, bbox: w.bbox, cls: "ds-warn", title: `${w.key}: ${w.value} (프로필: ${w.expected})` });
+      const st = dc.missing?.includes(x.doc_id) ? `<span class="tag warn">빠짐</span>` : x.why === "other_customer" ? `<span class="tag warn">타인 서류</span>`
+        : x.why === "extra" ? `<span class="tag">불필요 서류</span>` : "";
+      return `<div class="panel bd-doc"><div class="bar"><b>${esc(x.name)}</b> <span class="mono muted">${esc(x.doc_id)}</span> ${st}
+        <span class="tag">${esc(COND_NAME[x.condition] || x.condition)}</span> <span class="muted">${x.images.length}쪽</span></div>
+        <div class="ds-imgs">${x.images.slice(0, 4).map((im, k) => pxStage(file(im), boxes.filter(bx => bx.page === k))).join("")}</div></div>`;
+    };
+    main().innerHTML = `
+      <div class="muted"><a href="#/datasets">데이터셋</a> › <a href="#/datasets/${encodeURIComponent(id)}/bundles">${esc(d.name)}</a></div>
+      <h1>${esc(b.task_name)} <span class="mono muted">${esc(b.bundle_id)}</span></h1>
+      <div class="bar"><span class="tag">고객 ${esc(b.customer)} · seed ${b.customer_seed}</span>
+        <span class="tag">서류 ${base.length}</span><span class="tag">문항 ${(b.items || []).length}</span>
+        ${dc.missing?.length ? `<span class="tag warn">빠진 서류 ${dc.missing.length}</span>` : ""}
+        ${dc.not_customer?.length ? `<span class="tag warn">타인 서류 ${dc.not_customer.length}</span>` : ""}
+        ${dc.not_required?.length ? `<span class="tag">불필요 서류 ${dc.not_required.length}</span>` : ""}
+        ${b.plan ? `<span class="tag">직접 만든 묶음</span>` : ""}
+        <button id="bd-rebuild" title="같은 seed 로 이 묶음을 새로 만들어 (서식을 고친 뒤) 전후를 비교">같은 seed 로 다시 만들기</button></div>
+      <div class="viewer" style="grid-template-columns:minmax(0,1fr) 420px">
+        <div>${base.map(docCard).join("")}${extra.length ? `<h2>바꿔 넣은 서류</h2>${extra.map(docCard).join("")}` : ""}</div>
+        <div class="side panel">
+          <b>고객 프로필</b> <span class="muted" style="font-size:12px">값을 누르면 서류에서 그 값이 있는 자리를 초록 박스로</span>
+          ${table(b.profile, [["what", "항목", p => `<a href="#" data-what="${esc(p.what)}" class="${sel.what === p.what ? "kr" : ""}">${esc(p.what)}</a>`],
+            ["value", "값"], ["where", "나온 서류", p => p.where.length ? `${p.where.length}곳` : `<span class="muted">-</span>`]])}
+          <b>고객 일관성 검사</b> ${warn.length ? `<span class="tag warn">${warn.length}건</span>` : `<span class="tag ok">이상 없음</span>`}
+          ${warn.length ? `<ul class="checks">${warn.map(w => `<li class="warn">${esc(w.doc)} · ${esc(w.label || w.key)}: ${esc(w.value)} (프로필 ${esc(w.expected)})</li>`).join("")}</ul>` : ""}
+          <div class="muted" style="font-size:12px">고객 본인 역할 칸의 성명·주민번호·주소만 봅니다 (경고만).</div>
+          <b>대조 문항 (변조판)</b>
+          ${(b.variants || []).map(v => `<div class="bd-var"><span class="tag ${v.perturbed ? "warn" : "ok"}">${v.perturbed ? "변조" : "정상"}</span>
+            <span class="mono">${esc(v.case)}</span> <span class="muted">${esc(v.category)}</span>
+            ${v.changed.map(c => `<div class="muted" style="font-size:12px">${esc(c.doc_id)} ${c.kind === "swap" ? "다른 고객 서류로 바꿈" : ""}
+              ${c.changes.slice(0, 4).map(x => `<div>· ${esc(x.label || x.key)}: <s>${esc(x.old)}</s> → <b>${esc(x.new)}</b></div>`).join("")}
+              ${c.images.length ? `<a href="#" data-var="${esc(v.case)}|${esc(c.doc_id)}">변조판 보기</a>` : ""}</div>`).join("")}</div>`).join("") || `<p class="muted">없음</p>`}
+          <div id="bd-varview"></div>
+          <b>이 묶음의 문항</b><div class="mono" style="font-size:12px">${(b.items || []).map(esc).join("<br>")}</div>
+        </div>
+      </div>`;
+    main().onclick = e => {
+      const w = e.target.dataset.what, vv = e.target.dataset.var;
+      if (w) { e.preventDefault(); sel.what = sel.what === w ? null : w; draw(); }
+      if (vv) {
+        e.preventDefault();
+        const [cs, did] = vv.split("|");
+        const v = b.variants.find(x => x.case === cs), c = v.changed.find(x => x.doc_id === did);
+        const boxes = c.changes.filter(x => x.bbox).map(x => ({ page: x.page || 0, bbox: x.bbox, cls: "ds-warn", title: `${x.label || x.key}: ${x.old} → ${x.new}` }));
+        $("#bd-varview").innerHTML = `<div class="muted">${esc(cs)} · ${esc(did)} 변조판 (빨강 = 바뀐 칸)</div>${c.images.slice(0, 3).map((im, k) => pxStage(file(im), boxes.filter(bx => bx.page === k))).join("")}`;
+      }
+    };
+    $("#bd-rebuild").onclick = async () => {
+      const name = `${bid}-rebuild-${Date.now().toString(36)}`;
+      try {
+        await api(`/api/recipes/${encodeURIComponent(name)}`, { about: `${bid} 다시 만들기 (같은 seed)`, track: "bank", split: "test", types: [], per_doc: 0,
+          scenarios: [], bundles: 0, custom_bundles: [{ scenario: b.scenario, seed: b.customer_seed, name: "", ...(b.plan ? Object.fromEntries(Object.entries(b.plan).filter(([k]) => k !== "name")) : {}) }] }, "PUT");
+        const j = await api("/api/builds", { recipe: name, name, workers: 1 });
+        toast("같은 seed 로 다시 만듭니다. 끝나면 새 데이터셋의 업무 묶음 탭에서 비교하세요");
+        location.hash = `#/jobs/${encodeURIComponent(j.id)}`;
+      } catch (err) { toast(err.message, true); }
+    };
+  };
+  draw();
+}
+
+// 학습 -------------------------------------------------------------------
+async function trainingsPanel() {
+  const r = await api("/api/trainings").catch(() => ({ trainings: [] }));
+  if (!r.trainings.length) return "";
+  return `<h2>학습 기록</h2>${table(r.trainings, [["name", "학습"], ["pipeline", "파이프라인"],
+    ["stages", "진행", t => t.started ? t.stages.map(s => `<span class="tag ${s.done ? "ok" : ""}" title="${esc(s.id)}">${esc(s.name)}</span>`).join("") : `<span class="muted">아직 시작 안 함</span>`],
+    ["command", "실행할 명령 (학습 컨테이너)", t => `<span class="mono" style="font-size:12px">${esc(t.command)}</span>`],
+    ["benchmark", "평가 세트", t => `<a href="#/datasets/${encodeURIComponent(t.benchmark)}/runs">${esc(t.benchmark)}</a>${t.attached ? " ✓ 결과 붙음" : ""}`]])}`;
+}
+
+async function dsTrain(d) {
+  const all = (await api("/api/datasets")).datasets;
+  const bank = all.filter(x => x.format === "docgen.bench"), ocr = all.filter(x => x.format === "bank_ocr/prepared");
+  const isOcr = d.track === "ocr";
+  const opt = (list, cur) => list.map(x => `<option value="${esc(x.id)}" ${x.id === cur ? "selected" : ""}>${esc(x.name)} (${esc(x.id)})</option>`).join("");
+  $("#tab").innerHTML = `
+    <div class="sub">이 데이터셋으로 ${isOcr ? "1부 OCR 학습(<span class=mono>run_pipeline.py</span>)" : "2부 은행 업무 학습(<span class=mono>run_bank_pipeline.py</span>)"}
+      설정을 만듭니다. studio 는 학습을 실행하지 않습니다. 설정 파일을 <span class="mono">training/configs/studio-&lt;이름&gt;.json</span>에 쓰고
+      학습 컨테이너에서 실행할 명령을 보여 줍니다. 진행은 공유 폴더의 state.json 으로 보고, 끝나면 평가 세트에 모델 답으로 붙습니다 (studio/TRAINING.md).</div>
+    <div class="panel">
+      <label class="fld">학습 이름 <input type="text" id="tr-name" value="${esc(d.id)}-${new Date().toISOString().slice(0, 10)}"></label>
+      ${isOcr ? `
+        <label class="fld">학습에 쓸 OCR 데이터셋 (train 이 있는 1부 prepare 결과) <select id="tr-train">${opt(ocr, d.id)}</select></label>
+        <label class="fld">평가 세트 (모델 답을 붙일 곳) <select id="tr-bench">${opt(ocr, d.id)}</select></label>` : `
+        <div class="fld">학습 데이터 (은행 업무, train split) ${bank.map(x => `<label style="display:block"><input type="checkbox" data-train="${esc(x.id)}" ${x.id === d.id ? "checked" : ""}> ${esc(x.name)} <span class="muted">${esc(x.id)}</span></label>`).join("")}</div>
+        <label class="fld">평가 세트 (test split, 고정 권장) <select id="tr-bench">${opt(bank, d.id)}</select></label>
+        <label class="fld">OCR 능력 유지용 1부 데이터셋 (선택: replay·ocr_check) <select id="tr-ocr"><option value="">(없음)</option>${opt(ocr, "")}</select></label>`}
+      <div class="bar"><button id="tr-preview">설정 미리보기</button><button class="primary" id="tr-save">설정 파일 쓰기</button></div>
+      <div id="tr-out"></div>
+    </div>
+    ${await trainingsPanel()}`;
+  const req = () => isOcr ? { pipeline: "ocr", train: [$("#tr-train").value], benchmark: $("#tr-bench").value, name: $("#tr-name").value.trim() }
+    : { pipeline: "bank", train: $$("[data-train]").filter(x => x.checked).map(x => x.dataset.train), benchmark: $("#tr-bench").value,
+        ocr: $("#tr-ocr").value || null, name: $("#tr-name").value.trim() };
+  const show = info => {
+    $("#tr-out").innerHTML = `${(info.warnings || []).map(w => `<p class="kr">⚠ ${esc(w)}</p>`).join("")}
+      <div class="muted">파일 <span class="mono">training/${esc(info.file)}</span> (예시 파일과 합쳐서 씀) · ${esc(info.note || "")}</div>
+      <pre class="ans mono">${esc(JSON.stringify(info.config, null, 1))}</pre>
+      <div class="muted">학습 컨테이너에서 실행</div><pre class="ans mono">${esc(info.command)}</pre>`;
+  };
+  $("#tr-preview").onclick = async () => { try { show(await api("/api/training/preview", req())); } catch (e) { toast(e.message, true); } };
+  $("#tr-save").onclick = async () => {
+    try { const rec = await api("/api/training/save", req()); toast(`썼습니다: ${rec.written}`); dsTrain(d); }
+    catch (e) { toast(e.message, true); }
+  };
 }

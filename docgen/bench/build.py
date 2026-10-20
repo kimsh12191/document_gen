@@ -2,6 +2,7 @@
 
   python -m docgen.bench build --out bench_out [--types all] [--per-doc 1] [--bundles 4]
   python -m docgen.bench build --split train --out bank_train --per-doc 0 --bundles 100 --workers 8
+  python -m docgen.bench build --recipe datasets/recipes/<이름>.json --out <폴더>     (studio 레시피, 아래 RECIPE_KEYS)
 
 출력:
   bench_out/
@@ -11,6 +12,8 @@
     crops/                    ocr_field 용 값 칸 이미지
     tasks/<과제>.jsonl         문항: {"id", "task", "images", "prompt", "answer", "eval"?, "meta"}
     swift/<과제>.jsonl, all.jsonl   (--split train 만) ms-swift 학습 레코드: 같은 문항을 질문·정답 대화로
+    bundles.jsonl             업무 묶음마다 한 줄: 시나리오, 고객 seed, 서류(이미지·값 위치), 변조 내역, 나온 문항 ID
+    dataset.json              (--recipe 로 만들 때) 레시피, 생성기 커밋, 평가 세트 버전, 서식 파일 해시
 
 같은 설정이면 언제 만들어도 같은 세트가 나온다 (seed 고정). 평가 세트(test)와 학습 데이터(train)는 서로,
 그리고 `python -m docgen generate` 의 seed(0부터)와도 겹치지 않는 seed 범위를 쓴다.
@@ -45,6 +48,16 @@ OTHER_OFFSET = 500_000
 # 촬영 조건 비율: 절반은 깨끗한 원본, 나머지는 스캔·촬영·팩스 증강 (docgen/augment.py)
 CONDITIONS = (("clean", 0.5), ("scan", 0.2), ("photo", 0.15), ("fax", 0.15))
 MARK_TYPES = ("checkbox", "checkbox_multi", "seal", "signature")
+# 업무 묶음 구성 규칙 (레시피의 bundle 로 바꾼다). 기본값 = 예전 상수
+BUNDLE_RULES = {
+    "missing": [0.3, 0.5, 0.2],   # 빠진 서류 0 / 1 / 2건 비율
+    "other_customer": 0.3,        # 필수 서류 하나를 다른 고객 것으로 바꿀 확률
+    "extra_doc": 0.35,            # 업무와 상관없는 서류를 끼울 확률
+    "tamper": 0.5,                # 대조 사례마다 변조 문항일 확률 (format 사례는 늘 정상)
+}
+# 레시피(JSON)에서 읽는 항목. 나머지 명령줄 인자와 같은 이름은 그 인자를 덮어쓴다.
+RECIPE_KEYS = ("split", "types", "per_doc", "scenarios", "bundles", "fields_per_doc", "max_keys", "scale", "start",
+               "conditions", "bundle", "cases", "custom_bundles", "exclude", "reviewed_only")
 
 
 
@@ -64,14 +77,15 @@ def _git_rev() -> str | None:
         return None
 
 
-def pick_condition(key: str) -> str:
+def pick_condition(key: str, conditions=None) -> str:
+    conds = conditions or CONDITIONS
     r = random.Random(f"bench:cond:{key}").random()
     acc = 0.0
-    for name, p in CONDITIONS:
+    for name, p in conds:
         acc += p
         if r < acc:
             return name
-    return CONDITIONS[0][0]
+    return conds[0][0]
 
 
 def field_kind(f: dict) -> str:
@@ -91,10 +105,13 @@ def field_kind(f: dict) -> str:
 
 
 class Builder:
-    def __init__(self, out: Path, scale: float):
+    def __init__(self, out: Path, scale: float, rules: dict | None = None):
         from ..image import ImageRenderer
 
         self.out = out
+        self.rules = {**BUNDLE_RULES, **((rules or {}).get("bundle") or {})}
+        self.cases = (rules or {}).get("cases") or {}          # {사례ID: {"enabled": bool, "tamper": 확률}}
+        self.conditions = tuple((rules or {}).get("conditions") or CONDITIONS)
         self.reg = load_all()
         self.renderer = ImageRenderer(scale=scale).__enter__()
         self.buf: list[dict] = []
@@ -244,18 +261,24 @@ class Builder:
         p.extra["form_bank"] = "하나은행"  # 옛 은행 서식(과거 날짜)이 섞이지 않게
         return p
 
-    def bundle(self, scenario: str, seed: int):
+    def bundle(self, scenario: str, seed: int, plan: dict | None = None):
+        """업무 묶음 하나. plan(직접 만든 묶음): {"name", "missing": [서류ID], "other": [서류ID], "extra": [서류ID],
+        "cases": [사례ID], "tamper": {사례ID: bool}} — 정해 준 것은 난수 대신 그대로 쓴다."""
         task_name, ids = SCENARIOS[scenario]
         p = self.bundle_profile(scenario, seed)
-        bid = f"{scenario}_{seed}"
+        bid = f"{scenario}_{seed}" if not plan or not plan.get("name") else f"{scenario}_{seed}_{plan['name']}"
         docs = []
         for doc_id in ids:
             stem = f"images/bundles/{bid}/{doc_id}"
-            docs.append(self.render_doc(doc_id, p, seed, stem, pick_condition(f"{bid}:{doc_id}")))
+            docs.append(self.render_doc(doc_id, p, seed, stem, pick_condition(f"{bid}:{doc_id}", self.conditions)))
         meta = {"scenario": scenario, "task_name": task_name, "bundle": bid, "customer": p.person.name}
+        first = len(self.buf)
+        self.record = {"task": "_bundle", "bundle_id": bid, "scenario": scenario, "task_name": task_name,
+                       "customer_seed": seed, "customer": p.person.name, "plan": plan or None,
+                       "docs": [self._doc_record(d) for d in docs], "variants": [], "doc_check": None}
 
-        self.doc_check(docs, p, seed, bid, meta)
-        self.cross_checks(docs, p, seed, bid, meta)
+        self.doc_check(docs, p, seed, bid, meta, plan)
+        self.cross_checks(docs, p, seed, bid, meta, plan=plan)
 
         # review
         B = Bundle(scenario, {d["doc_id"]: {"name": d["name"], "fields": d["fields"]} for d in docs})
@@ -271,6 +294,16 @@ class Builder:
                        "prompt": P_REVIEW.format(task=task_name, pages=len(imgs), question=q["question"]),
                        "answer": q["answer"], "eval": {"answer_type": q["answer_type"], "tol": q["tol"], **q.get("info", {})},
                        "meta": {**meta, "rule": q["rule"], "skill": q["skill"]}})
+        self.record["items"] = [x["id"] for x in self.buf[first:]]
+        self.emit(self.record)
+
+    @staticmethod
+    def _doc_record(d: dict, why: str = "") -> dict:
+        """bundles.jsonl 의 서류 한 건: 이미지와 값 위치 (묶음 상세·고객 일관성 검사에 쓴다)."""
+        return {"doc_id": d["doc_id"], "name": d["name"], "images": d["images"], "condition": d["condition"],
+                "seed": d["seed"], **({"why": why} if why else {}),
+                "fields": [{k: f[k] for k in ("key", "label", "type", "value", "norm", "page", "bbox") if k in f}
+                           for f in d["fields"] if not f.get("group")]}
 
     def doc_valid(self, docs: list[dict], B: Bundle, profile, seed: int, bid: str):
         """유효기간 문항: 서류 하나를 골라 신청일 기준 경과일이 0~88일(유효) 또는 93~400일(만료)이 되게
@@ -331,33 +364,53 @@ class Builder:
     def other_customer(self, scenario: str, seed: int):
         return self.bundle_profile(scenario, seed + OTHER_OFFSET)
 
-    def doc_check(self, docs: list[dict], p, seed: int, bid: str, meta: dict):
+    def doc_check(self, docs: list[dict], p, seed: int, bid: str, meta: dict, plan: dict | None = None):
         """빠진 서류 0~2건, 업무와 상관없는 서류 끼워 넣기, 필수 서류 하나를 다른 고객 것으로 바꾸기."""
         rng = random.Random(f"bench:doc_check:{bid}")
-        n_missing = rng.choices([0, 1, 2], [0.3, 0.5, 0.2])[0]
-        missing = rng.sample(docs, n_missing)
+        R = self.rules
+        if plan and plan.get("missing") is not None:
+            missing = [d for d in docs if d["doc_id"] in set(plan["missing"])]
+            n_missing = len(missing)
+        else:
+            n_missing = rng.choices([0, 1, 2], R["missing"])[0]
+            missing = rng.sample(docs, n_missing)
         present = [d for d in docs if d not in missing]
         not_customer, not_required = [], []
         swap = [d for d in present if d["doc_id"] in OTHER_OK]
-        if swap and rng.random() < 0.3:
-            d = rng.choice(swap)
+        forced_other = plan.get("other") if plan and plan.get("other") is not None else None
+        if forced_other is not None:
+            swap_docs = [d for d in present if d["doc_id"] in set(forced_other)]
+        else:
+            swap_docs = [rng.choice(swap)] if swap and rng.random() < R["other_customer"] else []
+        for d in swap_docs:
             other = self.other_customer(meta["scenario"], seed)
             o = self.render_doc(d["doc_id"], other, other.seed, f"{d['stem']}_other", d["condition"])
             present[present.index(d)] = o
             not_customer.append(o)
-        if rng.random() < 0.35:
+        forced_extra = plan.get("extra") if plan and plan.get("extra") is not None else None
+        if forced_extra is not None:
+            extra_ids = [x for x in forced_extra if x in self.reg]
+        elif rng.random() < R["extra_doc"]:
             ids = {d["doc_id"] for d in docs}
             pool = sorted({x for _, (_, lst) in SCENARIOS.items() for x in lst} - ids)
-            if pool:
-                xid = rng.choice(pool)
-                stem = f"images/bundles/{bid}/{xid}_extra"
-                x = self.render_doc(xid, p, seed, stem, pick_condition(f"{bid}:{xid}"))
-                present.append(x)
-                not_required.append(x)
+            extra_ids = [rng.choice(pool)] if pool else []
+        else:
+            extra_ids = []
+        for xid in extra_ids:
+            stem = f"images/bundles/{bid}/{xid}_extra"
+            x = self.render_doc(xid, p, seed, stem, pick_condition(f"{bid}:{xid}", self.conditions))
+            present.append(x)
+            not_required.append(x)
         rng.shuffle(present)
         required = "\n".join(f"{i + 1}. {d['name']}" for i, d in enumerate(docs))
         answer = {"missing": [d["name"] for d in docs if d in missing or d["doc_id"] in {o["doc_id"] for o in not_customer}],
                   "not_required": [d["name"] for d in not_required], "not_customer": [d["name"] for d in not_customer]}
+        if getattr(self, "record", None) is not None:
+            self.record["doc_check"] = {"present": [d["doc_id"] for d in present], "missing": [d["doc_id"] for d in missing],
+                                        "not_customer": [d["doc_id"] for d in not_customer],
+                                        "not_required": [d["doc_id"] for d in not_required]}
+            self.record["docs"] += [self._doc_record(d, "other_customer") for d in not_customer]
+            self.record["docs"] += [self._doc_record(d, "extra") for d in not_required]
         self.emit({"id": f"doc_check/{bid}", "task": "doc_check", "images": [d["images"][0] for d in present],
                    "prompt": P_DOC_CHECK.format(customer=meta["customer"], task=meta["task_name"], required=required),
                    "answer": answer,
@@ -365,14 +418,24 @@ class Builder:
                    "meta": {**meta, "n_missing": n_missing, "not_customer": bool(not_customer),
                             "not_required": bool(not_required), "n_docs": len(present)}})
 
-    def cross_checks(self, docs: list[dict], p, seed: int, bid: str, meta: dict, max_pages: int = 10):
+    def cross_checks(self, docs: list[dict], p, seed: int, bid: str, meta: dict, max_pages: int = 10,
+                     plan: dict | None = None):
         """불일치 사례(cases.py)마다 문항 하나: 절반은 변조, 절반은 정상. 사례에 예/아니오 질문이 있으면 review 문항도."""
         by_id = {d["doc_id"]: d for d in docs}
         ctx = Ctx(by_id, p.person.name)
         other = None
+        only = set(plan["cases"]) if plan and plan.get("cases") else None
+        forced = (plan or {}).get("tamper") or {}
         for case in CASES:
+            conf = self.cases.get(case.id, {})
+            if conf.get("enabled") is False or (only is not None and case.id not in only):
+                continue
             rng = random.Random(f"bench:case:{bid}:{case.id}")
-            tamper = case.category != "format" and rng.random() < 0.5
+            if case.category == "format":   # 표기만 다른 사례는 늘 정상 (난수도 뽑지 않는다: 예전과 같은 순서)
+                tamper = False
+            else:
+                x = rng.random()
+                tamper = bool(forced[case.id]) if case.id in forced else x < conf.get("tamper", self.rules["tamper"])
             plan = case.fn(ctx, tamper, rng)
             if not plan or sum(len(by_id[x]["images"]) for x in plan["docs"]) > max_pages:
                 continue
@@ -403,6 +466,18 @@ class Builder:
             rng.shuffle(order)
             imgs = [im for x in order for im in shown[x]["images"]]
             m = {**meta, "case": case.id, "category": case.category, "perturbed": bool(issues), "n_docs": len(order)}
+            if getattr(self, "record", None) is not None:
+                changed = []
+                for did in plan["docs"]:
+                    if shown[did] is not by_id[did]:
+                        old = {f["key"]: f for f in by_id[did]["fields"]}
+                        diff = [{"key": f["key"], "label": f.get("label"), "old": old.get(f["key"], {}).get("value"),
+                                 "new": f.get("value"), "page": f.get("page"), "bbox": f.get("bbox")}
+                                for f in shown[did]["fields"] if old.get(f["key"]) and old[f["key"]].get("value") != f.get("value")]
+                        changed.append({"doc_id": did, "images": shown[did]["images"],
+                                        "kind": "swap" if plan["swap"] == did else "edit", "changes": diff[:20]})
+                self.record["variants"].append({"case": case.id, "category": case.category, "item": f"cross_check/{bid}/{case.id}",
+                                                "perturbed": bool(issues), "docs": order, "changed": changed})
             self.emit({"id": f"cross_check/{bid}/{case.id}", "task": "cross_check", "images": imgs,
                        "prompt": P_CROSS.format(customer=meta["customer"], task=meta["task_name"], n=len(order),
                                                 pages=len(imgs)),
@@ -431,11 +506,11 @@ def swift_record(rec: dict) -> dict:
 _BD: Builder | None = None
 
 
-def _init_worker(out: str, scale: float):
+def _init_worker(out: str, scale: float, rules: dict | None = None):
     from multiprocessing.util import Finalize
 
     global _BD
-    _BD = Builder(Path(out), scale)
+    _BD = Builder(Path(out), scale, rules)
     Finalize(_BD, _BD.close, exitpriority=10)  # pool.close() 후 작업 프로세스가 끝날 때 브라우저 닫기
 
 
@@ -444,12 +519,50 @@ def _job(job: tuple) -> list[dict]:
     if job[0] == "single":
         _, doc_id, seed, fields_per_doc, max_keys = job
         stem = f"images/{doc_id}_{seed}"
-        r = _BD.render_doc(doc_id, make_profile(seed), seed, stem, pick_condition(f"{doc_id}:{seed}"))
+        r = _BD.render_doc(doc_id, make_profile(seed), seed, stem, pick_condition(f"{doc_id}:{seed}", _BD.conditions))
         _BD.single(r, stem, fields_per_doc, max_keys)
     else:
-        _, sc, seed = job
-        _BD.bundle(sc, seed)
+        _, sc, seed, *rest = job
+        _BD.bundle(sc, seed, rest[0] if rest else None)
+        _BD.record = None
     return _BD.take()
+
+
+def load_recipe(path: str | Path, args) -> dict:
+    """레시피 JSON 을 읽어 args 를 덮어쓰고, 묶음 규칙(rules)과 직접 만든 묶음 등을 돌려준다."""
+    recipe = json.loads(Path(path).read_text(encoding="utf-8"))
+    unknown = set(recipe) - set(RECIPE_KEYS) - {"name", "about", "track", "kind"}
+    if unknown:
+        sys.exit(f"레시피에 모르는 항목: {sorted(unknown)} (쓸 수 있는 것: {RECIPE_KEYS})")
+    for k in ("split", "per_doc", "fields_per_doc", "max_keys", "scale", "start"):
+        if k in recipe:
+            setattr(args, k, recipe[k])
+    for k in ("types", "scenarios"):
+        if k in recipe:
+            v = recipe[k]
+            setattr(args, k, v if isinstance(v, str) else ",".join(v))
+    b = recipe.get("bundles")
+    if isinstance(b, dict):
+        args.bundles = int(b.get("default", 4))
+        args.bundles_per = {k: int(v) for k, v in b.items() if k != "default"}
+    elif b is not None:
+        args.bundles = int(b)
+    conds = recipe.get("conditions")
+    if isinstance(conds, dict):
+        conds = list(conds.items())
+    rules = {"bundle": recipe.get("bundle") or {}, "cases": recipe.get("cases") or {},
+             "conditions": [tuple(c) for c in conds] if conds else None}
+    if rules["conditions"] and abs(sum(p for _, p in rules["conditions"]) - 1) > 1e-6:
+        sys.exit("레시피 conditions 비율의 합은 1 이어야 합니다")
+    return {"recipe": recipe, "rules": rules, "custom": recipe.get("custom_bundles") or [],
+            "exclude": set(recipe.get("exclude") or []), "reviewed_only": bool(recipe.get("reviewed_only"))}
+
+
+def reviewed_forms() -> set[str]:
+    p = Path(__file__).resolve().parents[1] / "catalog.json"
+    if not p.exists():
+        return set()
+    return {k for k, v in json.loads(p.read_text(encoding="utf-8")).items() if v.get("reviewed")}
 
 
 def build(args) -> None:
@@ -457,6 +570,8 @@ def build(args) -> None:
     out = Path(args.out)
     if out.exists() and any(out.iterdir()) and not args.force:
         sys.exit(f"{out} 가 비어 있지 않습니다. 다시 만들려면 --force")
+    rc = load_recipe(args.recipe, args) if getattr(args, "recipe", None) else None
+    rules = rc["rules"] if rc else None
     reg = load_all()
     if args.types == "all":
         ids = list(reg)
@@ -464,7 +579,13 @@ def build(args) -> None:
         ids = []
         for t in args.types.split(","):
             t = t.strip()
-            ids += [s.id for s in reg.values() if s.group == t] if t in GROUPS else [t]
+            if t:   # 빈 목록 = 단일 서류 과제 없이 묶음만
+                ids += [s.id for s in reg.values() if s.group == t] if t in GROUPS else [t]
+    if rc and rc["exclude"]:
+        ids = [i for i in ids if i not in rc["exclude"]]
+    if rc and rc["reviewed_only"]:
+        ok = reviewed_forms()
+        ids = [i for i in ids if i in ok]
     scenarios = list(SCENARIOS) if args.scenarios == "all" else [s.strip() for s in args.scenarios.split(",") if s.strip()]
     bad = [i for i in ids if i not in reg] + [s for s in scenarios if s not in SCENARIOS]
     if bad:
@@ -477,7 +598,8 @@ def build(args) -> None:
     start = getattr(args, "start", 0)
     workers = max(1, getattr(args, "workers", 1))
     seed_single, seed_bundle, stride = SPLITS[split]
-    if start + args.bundles > min(stride, OTHER_OFFSET):
+    per_sc = getattr(args, "bundles_per", None) or {}
+    if start + max([args.bundles, *per_sc.values()]) > min(stride, OTHER_OFFSET):
         sys.exit(f"--start + --bundles 는 {min(stride, OTHER_OFFSET)} 이하여야 합니다 (seed 범위)")
     out.mkdir(parents=True, exist_ok=True)
     for d in ("tasks", "swift"):
@@ -487,7 +609,16 @@ def build(args) -> None:
     jobs = [("single", doc_id, seed_single + start + k, args.fields_per_doc, args.max_keys)
             for k in range(args.per_doc) for doc_id in ids]
     jobs += [("bundle", sc, seed_bundle + list(SCENARIOS).index(sc) * stride + start + b)
-             for sc in scenarios for b in range(args.bundles)]
+             for sc in scenarios for b in range(per_sc.get(sc, args.bundles))]
+    for k, cb in enumerate(rc["custom"] if rc else []):   # 직접 만든 묶음: 정해 준 대로 (DESIGN.md 9.5)
+        sc = cb["scenario"]
+        if sc not in SCENARIOS:
+            sys.exit(f"직접 만든 묶음 {k + 1}: 알 수 없는 시나리오 {sc}")
+        seed = int(cb.get("seed", seed_bundle + list(SCENARIOS).index(sc) * stride + start))
+        # name 을 "" 로 주면 묶음 ID 가 보통 묶음과 같다 → 같은 seed 로 "다시 만들기" (서식을 고친 뒤 전후 비교)
+        plan = {"name": cb.get("name", f"custom{k + 1}"), **{x: cb[x] for x in ("missing", "other", "extra", "cases", "tamper")
+                                                             if x in cb}}
+        jobs.append(("bundle", sc, seed, plan))
     n_single = len(ids) * args.per_doc
 
     t0 = time.time()
@@ -504,14 +635,19 @@ def build(args) -> None:
     if workers > 1:
         import multiprocessing as mp
 
-        pool = mp.get_context("spawn").Pool(workers, _init_worker, (str(out), args.scale))
+        pool = mp.get_context("spawn").Pool(workers, _init_worker, (str(out), args.scale, rules))
         results = pool.imap(_job, jobs)  # 순서 유지: 작업 수와 상관없이 같은 파일이 나온다
     else:
-        _BD = Builder(out, args.scale)
+        _BD = Builder(out, args.scale, rules)
         results = map(_job, jobs)
     try:
+        bundles_file = open(out / "bundles.jsonl", "w", encoding="utf-8")
+        files["_", "bundles"] = bundles_file
         for i, recs in enumerate(results):
             for rec in recs:
+                if rec["task"] == "_bundle":   # 묶음 기록은 문항이 아니다
+                    bundles_file.write(json.dumps({k: v for k, v in rec.items() if k != "task"}, ensure_ascii=False) + "\n")
+                    continue
                 write("tasks", rec["task"], rec)
                 if split == "train":
                     sr = swift_record(rec)
@@ -541,7 +677,22 @@ def build(args) -> None:
                          "seed_bundle": seed_bundle, "conditions": dict(CONDITIONS), "held_out_test_only": held_out},
             "counts": dict(sorted(counts.items())),
             "doc_names": {i: reg[i].name for i in ids}}
+    if rc:
+        meta["recipe"] = rc["recipe"].get("name") or Path(args.recipe).stem
+        meta["settings"]["bundles_per"] = per_sc
+        meta["settings"]["rules"] = {"bundle": {**BUNDLE_RULES, **rules["bundle"]}, "cases": rules["cases"],
+                                     "custom_bundles": len(rc["custom"])}
+        if rules["conditions"]:
+            meta["settings"]["conditions"] = dict(rules["conditions"])
     (out / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1), encoding="utf-8")
+    if rc:   # 버전 정보 (studio 데이터셋 등록부·설명서가 읽는다)
+        from ..preview import source_hash
+
+        used = sorted(set(ids) | {d for sc in scenarios for d in SCENARIOS[sc][1]})
+        info = {"recipe": rc["recipe"], "recipe_path": str(args.recipe), "generator_commit": meta["generator_commit"],
+                "version": VERSION, "created": meta["created"], "counts": meta["counts"], "split": split,
+                "form_hashes": {i: source_hash(i, common=False) for i in used if i in reg}}
+        (out / "dataset.json").write_text(json.dumps(info, ensure_ascii=False, indent=1), encoding="utf-8")
     what = "학습 데이터" if split == "train" else "평가 세트"
     print(f"{what} → {out} ({time.time() - t0:.0f}초)" + (f", ms-swift 학습 파일: {out / 'swift'}" if split == "train" else ""))
     for t, c in meta["counts"].items():

@@ -103,7 +103,7 @@ class Registry:
                 "real_data": bool(meta.get("real_data", info.get("real_data", False))),
                 "registered": not meta.get("made_by_studio", False),
                 "created": time.strftime("%Y-%m-%d %H:%M"), "frozen": bool(meta.get("frozen", False)),
-                "version": info.get("version"), "counts": info.get("counts", {}), "runs": [],
+                "version": info.get("version"), "counts": info.get("counts", {}), "runs": [], "split": info.get("split"),
                 "card": {"purpose": meta.get("purpose", ""), "limits": meta.get("limits", ""), "not_for": ""},
             }
             for k in ("recipe", "dataset_json"):

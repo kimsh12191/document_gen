@@ -36,8 +36,9 @@ from pydantic import BaseModel
 from docgen import marks as M
 from docgen.preview import CONDITIONS, MODES, Previewer
 
-from . import api_datasets, catalog, editor, marks_admin
+from . import api_bank, api_datasets, catalog, editor, marks_admin
 from . import datasets as DS
+from .jobs import Jobs
 from .config import ROOT, load, resolve_path, setup_browser
 
 STATIC = Path(__file__).resolve().parent / "static"
@@ -77,6 +78,8 @@ app.mount("/static", StaticFiles(directory=STATIC), name="static")
 app.mount("/marks-img", StaticFiles(directory=M.POOLS_DIR), name="marks-img")
 REGISTRY = DS.Registry(resolve_path(CFG["workspace_dir"]), CFG.get("path_map") or {})
 app.include_router(api_datasets.make_router(REGISTRY, guard))
+JOBS = Jobs(REGISTRY.ws, ROOT)
+app.include_router(api_bank.make_router(REGISTRY, JOBS, guard))
 app.mount("/fonts", StaticFiles(directory=ROOT / "fonts"), name="fonts")   # 손글씨 글꼴 (화면의 글꼴 미리보기)
 
 
