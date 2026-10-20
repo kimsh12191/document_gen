@@ -5,3 +5,19 @@ playwright==1.63.0
 pymupdf==1.28.2
 pillow==12.3.0
 pytest==9.1.1
+# studio (python -m studio). 지금 반입된 이미지에는 없으므로 그 이미지에서는 python -m studio.deps install 로 넣는다
+annotated-doc==0.0.5
+annotated-types==0.8.0
+anyio==4.15.1
+click==8.5.0
+fastapi==0.150.0
+h11==0.16.0
+idna==3.20
+opentelemetry-api==1.45.1
+pydantic==2.14.1
+pydantic-core==2.50.1
+python-multipart==0.0.32
+starlette==1.9.0
+typing-extensions==4.16.0
+typing-inspection==0.4.4
+uvicorn==0.54.0

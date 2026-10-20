@@ -9,3 +9,4 @@ studio/config.json
 studio_cache/
 studio_jobs/
 studio_workspace/
+studio_deps/

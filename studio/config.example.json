@@ -13,5 +13,6 @@
   "import_dir": null,
   "real_data_dir": null,
   "private_forms_dir": null,
-  "providers": {}
+  "providers": {},
+  "path_map": {}
 }

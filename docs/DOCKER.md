@@ -60,6 +60,56 @@ python -m docgen.bench eval --bench /out/bench --pred /out/preds/m1
 
 은행 업무 학습(SFT → GRPO → 벤치마크 비교)에 쓸 학습 데이터·평가 세트를 만드는 방법은 [training/BANK_TASKS.md](../training/BANK_TASKS.md)의 1단계에 있습니다. SSH 없이 서버에서 `docker exec`로 바로 만들 수도 있습니다.
 
+## 4. studio 띄우기 (같은 컨테이너)
+
+studio(서식·데이터셋 관리 웹 화면, [studio/README.md](../studio/README.md))도 이 컨테이너에서 띄웁니다. Chromium·글꼴이 이미 있어 미리보기가 실제 생성 데이터와 같은 이미지로 나옵니다. **이미지를 새로 반입하지 않아도 됩니다.** 학습 컨테이너는 따로 두고, 폴더만 공유합니다.
+
+```
+[윈도우 PC 브라우저] ──SSH 터널 (2222)──▶ [docgen 컨테이너: studio + Chromium + 글꼴]
+                                              │ 공유 폴더 (/out = 서버의 ~/docgen/data …)
+[학습 컨테이너: training/] ◀── 같은 데이터·결과 폴더 ──┘
+```
+
+**① 처음 한 번: studio 패키지 설치.** 1.1 이미지에는 fastapi·uvicorn이 없습니다. 코드 묶음에 Linux용 설치 파일(`studio/wheels/`, 약 3.4MB)이 들어 있으므로 컨테이너 안에서 설치만 합니다(인터넷 불필요).
+
+```bash
+ssh -p 2222 docgen@<서버IP>
+python -m studio.deps install          # → ~/document_gen/studio_deps/ (코드 폴더 안이라 컨테이너를 새로 만들어도 남음)
+```
+
+새 코드 묶음을 풀어도 `studio_deps/`는 그대로 남습니다. `studio/requirements.txt`가 바뀐 코드를 받았을 때만 다시 설치합니다. 다음에 이미지를 새로 만들면 studio 패키지가 이미지에 들어가므로(`docker/requirements.lock`) 이 단계가 필요 없습니다.
+
+**② 설정** — 코드 폴더의 `studio/config.json` (예시: [studio/config.example.json](../studio/config.example.json)). 데이터셋과 검수 결과는 공유 폴더에 둡니다.
+
+```json
+{
+  "workspace_dir": "/out/studio_workspace",
+  "real_data_dir": "/out/real",
+  "path_map": {"/out": "<학습 컨테이너에서 같은 폴더가 보이는 경로>"}
+}
+```
+
+`path_map`: 두 컨테이너가 같은 폴더를 다른 경로로 볼 때, studio가 학습 설정을 내보내며 경로를 바꿔 씁니다.
+
+**③ 띄우기** (컨테이너 안). SSH를 끊어도 계속 돕니다.
+
+```bash
+mkdir -p /out/logs
+setsid nohup python -m studio > /out/logs/studio.log 2>&1 < /dev/null &
+tail -f /out/logs/studio.log          # "docgen studio → http://localhost:8765" 가 보이면 됨 (Ctrl+C 는 보기만 종료)
+```
+
+끄기: `pkill -f "python -m studio"`. 컨테이너가 다시 시작되면 studio도 꺼지므로 ③을 다시 합니다.
+
+**④ 윈도우에서 접속** — SSH 터널. 이 창을 켜 둔 동안 브라우저에서 `http://localhost:8765`로 들어갑니다.
+
+```powershell
+ssh -p 2222 -N -L 8765:localhost:8765 docgen@<서버IP>
+```
+
+- 터널은 지금 열려 있는 SSH 포트(2222)만 쓰므로 컨테이너를 다시 만들 필요가 없습니다.
+- studio에는 로그인이 없습니다. 포트를 바로 열어(`docker run … -p 8765:8765`, `python -m studio --host 0.0.0.0`) 쓰면 같은 망의 누구나 들어올 수 있으니 터널을 권합니다.
+
 ## 참고
 
 - VS Code Remote-SSH 는 처음 접속할 때 인터넷에서 서버 프로그램을 내려받으므로 내부망에서는 따로 준비해야 합니다.

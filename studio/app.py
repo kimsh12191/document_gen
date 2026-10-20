@@ -86,6 +86,9 @@ class RenderReq(BaseModel):
 
 @app.post("/api/forms/{doc_id}/render")
 def render(doc_id: str, req: RenderReq):
+    if not BROWSER:
+        raise HTTPException(503, "렌더링 브라우저가 없어 미리보기를 만들 수 없습니다. Chromium 이 있는 docgen 컨테이너에서 "
+                                 "studio 를 띄우거나 설정의 browser 를 지정하세요. 렌더링이 필요 없는 화면은 그대로 씁니다.")
     # 일반 def 라서 FastAPI 가 스레드에서 돌린다. 실제 렌더링은 Previewer 의 전용 스레드 하나에서 차례로 한다.
     try:
         label = previewer.render(doc_id, req.seed, req.heavy, req.special, req.condition, req.force)
