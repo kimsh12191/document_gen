@@ -12,7 +12,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from jinja2 import Environment, FileSystemLoader, StrictUndefined
+from jinja2 import ChoiceLoader, Environment, FileSystemLoader, FunctionLoader, StrictUndefined
 from markupsafe import Markup, escape
 
 from .banks import bank_view, brand_accent, form_bank, form_context
@@ -330,7 +330,9 @@ _env: Environment | None = None
 def env() -> Environment:
     global _env
     if _env is None:
-        _env = Environment(loader=FileSystemLoader(str(TEMPLATE_DIR)), undefined=StrictUndefined,
+        from .htmlform import jinja_source   # "@form/<ID>": 화면에서 만든 html 서식 (서식 폴더 또는 저장 전 초안)
+
+        _env = Environment(loader=ChoiceLoader([FunctionLoader(jinja_source), FileSystemLoader(str(TEMPLATE_DIR))]), undefined=StrictUndefined,
                            autoescape=True, trim_blocks=True, lstrip_blocks=True)
         _env.globals.update(kv_layout=kv_layout, checkmark=checkmark, seal_lines=seal_lines, seal_font=seal_font, scribble=scribble,
                            seal_style=seal_style,

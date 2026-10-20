@@ -122,6 +122,7 @@ class DocSpec:
     page: str = "a4"  # "a4" | "a4_landscape" | "card" | "passport"
     sample_mark: bool = False  # 신분증 등: '견본' 표시 강제
     description: str = ""
+    origin: str = "builtin"  # html 서식의 출처: builtin(코드) / copy(복제) / analyzer(분석기). overlay 는 catalog.kind_of 가 정함
 
 
 REGISTRY: dict[str, DocSpec] = {}
@@ -141,9 +142,19 @@ def doc(id: str, name: str, group: str, category: str = "external", page: str = 
     return deco
 
 
+_EXTRA_DONE = False
+
+
 def load_all() -> dict[str, DocSpec]:
+    """서류 전부: docgen/docs/*.py 의 @doc(코드 서식, 원본 서식) + 화면에서 만든 html 서식(docgen/htmlform.py, 처음 한 번)."""
+    global _EXTRA_DONE
     from . import docs
 
     for m in pkgutil.iter_modules(docs.__path__):
         importlib.import_module(f"{docs.__name__}.{m.name}")
+    if not _EXTRA_DONE:   # 코드 서식을 모두 등록한 뒤라 ID 가 겹치면 코드 서식이 이긴다
+        _EXTRA_DONE = True
+        from .htmlform import register_forms
+
+        register_forms()
     return REGISTRY

@@ -33,10 +33,13 @@ _ASCII_KEY = re.compile(r"^[A-Za-z0-9_.]+$")
 
 
 def kind_of(group: str, doc_id: str = "") -> tuple[str, str]:
-    """(종류, origin). hf### 는 하나은행 원본 PDF 배경, 그 밖의 overlay 는 이미지 배경 (docgen/forms/images)."""
+    """(종류, origin). hf### 는 하나은행 원본 PDF 배경, 그 밖의 overlay 는 이미지 배경 (docgen/forms/images).
+    화면에서 만든 html 서식(템플릿 "@form/<ID>")은 그룹과 상관없이 html (origin copy·analyzer)."""
+    spec = load_all().get(doc_id)
+    if spec is not None and spec.template.startswith("@form/"):
+        return ("html", getattr(spec, "origin", None) or "copy")
     if group in ("hana", "imported"):
         return ("overlay", "pdf") if re.fullmatch(r"hf\d{3}", doc_id or "hf000") else ("overlay", "image")
-    spec = load_all().get(doc_id)
     origin = getattr(spec, "origin", None) or "builtin"
     return ("html", origin)
 
@@ -189,7 +192,17 @@ def form_detail(doc_id: str) -> dict:
     spec = reg[doc_id]
     entry = _catalog().get(doc_id, {})
     files = []
-    if spec.group in ("hana", "imported"):
+    if spec.template.startswith("@form/"):
+        from docgen import htmlform
+
+        d = htmlform.form_dir(doc_id)
+        form = htmlform.load_form(doc_id) if d else {}
+        files.append({"role": "템플릿", "path": _rel(d / "template.html.j2") if d else spec.template})
+        files.append({"role": "값 선언 (form.json)", "path": _rel(d / "form.json") if d else "-"})
+        if form.get("parent") in load_all():
+            parent = load_all()[form["parent"]]
+            files.append({"role": f"생성 함수 (부모 서식 {parent.id})", "path": _rel(Path(inspect.getsourcefile(parent.generate)))})
+    elif spec.group in ("hana", "imported"):
         from docgen import overrides
         from docgen.realform import form_no, image_form_dir, layout_path, load_layout
 

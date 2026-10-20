@@ -181,7 +181,7 @@ def register_forms() -> int:
             if d.name in REGISTRY or not (d / "form.json").exists() or not (d / "template.html.j2").exists():
                 continue
             form = json.loads((d / "form.json").read_text(encoding="utf-8"))
-            group = form.get("group") if form.get("group") in GROUPS else "imported"
+            group = form.get("group") if form.get("group") in GROUPS else "finance"   # 그룹을 안 정했으면 금융거래
             REGISTRY[d.name] = DocSpec(d.name, form.get("name") or d.name, group, form.get("category", "external"),
                                        PREFIX + d.name, make_generate(d.name), form.get("page", "a4"), False,
                                        form.get("description") or f"화면에서 만든 html 서식 ({form.get('origin', 'copy')})",
@@ -200,27 +200,28 @@ def clone(parent_id: str, new_id: str, name: str, private: bool = False) -> Path
     if not ID_RX.fullmatch(new_id) or new_id in reg or form_dir(new_id):
         raise ValueError(f"서식 ID 는 영어 소문자·숫자·밑줄 3~51자, 겹치지 않게: {new_id}")
     spec = reg[parent_id]
-    if spec.template.startswith(PREFIX) or spec.group in ("hana", "imported") and spec.template == "_real_form.html.j2":
-        if spec.template == "_real_form.html.j2":
-            raise ValueError("overlay 서식은 복제하지 않습니다 (html 서식만)")
+    if spec.template == "_real_form.html.j2":
+        raise ValueError("overlay 서식은 복제하지 않습니다 (html 서식만)")
+    made = spec.template.startswith(PREFIX)   # 부모도 화면에서 만든 서식이면 그 form.json 을 이어 받는다
     root = roots()[-1] if private else COPIES
     if private and root == COPIES:
         raise ValueError("private_forms_dir 이 설정되지 않았습니다")
     d = root / new_id
     d.mkdir(parents=True)
-    src = template_source(parent_id) if spec.template.startswith(PREFIX) else (ROOT / "templates" / spec.template).read_text(encoding="utf-8")
+    src = template_source(parent_id) if made else (ROOT / "templates" / spec.template).read_text(encoding="utf-8")
     (d / "template.html.j2").write_text(src, encoding="utf-8")
-    parent_form = load_form(parent_id) if spec.template.startswith(PREFIX) else {}
+    parent_form = load_form(parent_id) if made else {}
     form = {"name": name or f"{spec.name} (복제)", "group": spec.group, "category": spec.category, "page": spec.page,
-            "origin": "copy", "parent": parent_form.get("parent") or (None if spec.template.startswith(PREFIX) else parent_id),
+            "origin": "copy", "parent": parent_form.get("parent") if made else parent_id,
             "fields": parent_form.get("fields", {}), "lists": parent_form.get("lists", {})}
-    if spec.template.startswith(PREFIX) and form["parent"] is None:
+    if made and form["parent"] is None:   # 분석기가 만든 서식의 복제: 값은 form.json 만으로, 원본 이미지도 함께
         form["origin"] = parent_form.get("origin", "copy")
         img = form_dir(parent_id) / "source.png"
         if img.exists():
             shutil.copyfile(img, d / "source.png")
             form["source_image"] = "source.png"
     (d / "form.json").write_text(json.dumps(form, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    register_forms()   # 바로 목록·미리보기에 나오게
     return d
 
 

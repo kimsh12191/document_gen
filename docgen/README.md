@@ -245,8 +245,8 @@ docgen/
   augment.py               스캔/촬영/팩스 증강
   realform.py              하나은행 원본 서식 오버레이 (레이아웃 → 값 → 렌더링 지시, 배경·글꼴), 가져온 이미지 서식
   overrides.py, sources.py, marks.py   사람 수정층(영역·키·값 출처·배경 지우기), 값 출처 규칙, 표시 요소(손글씨·체크·도장·서명)
-  htmlform.py              화면에서 만든 html 서식 (복제·분석기, templates/copies/)
-  preview.py               서식 하나 미리보기 (studio 가 씀)
+  htmlform.py              화면에서 만든 html 서식 (복제·분석기, templates/copies/<ID>/ 의 template.html.j2 + form.json)
+  preview.py               서식 하나 미리보기 (studio 가 씀). 명령줄: python -m docgen.preview <서식ID>|--dir <폴더> [--rows max] --out <폴더>
   ocr_export.py, ocr_set.py   생성 정답 → 사내 OCR 형식, 합성 OCR 세트 (1부 prepare 형식)
   cli.py                   list / generate / check
   bench/                   은행 업무 벤치마크: 평가 세트·학습 데이터 만들기(build), 모델 실행(run), 채점(eval) — guide/benchmark.md

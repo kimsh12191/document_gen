@@ -42,7 +42,17 @@ def source_files(doc_id: str, common: bool = True) -> list[Path]:
     from . import overrides
 
     spec = load_all()[doc_id]
-    files = [ROOT / "docgen" / "templates" / spec.template, Path(inspect.getsourcefile(spec.generate)), overrides.path(doc_id)]
+    files = [Path(inspect.getsourcefile(spec.generate)), overrides.path(doc_id)]
+    if spec.template.startswith("@form/"):   # 화면에서 만든 html 서식: 서식 폴더 (+ 복제면 부모의 생성 함수)
+        from . import htmlform
+
+        d = htmlform.form_dir(doc_id)
+        files += [d / "template.html.j2", d / "form.json"] if d else []
+        parent = (htmlform.load_form(doc_id) if d else {}).get("parent")
+        if parent in load_all():
+            files.append(Path(inspect.getsourcefile(load_all()[parent].generate)))
+    else:
+        files.insert(0, ROOT / "docgen" / "templates" / spec.template)
     if spec.group in ("hana", "imported"):
         from .realform import form_no, image_form_dir, layout_path
 
@@ -73,10 +83,12 @@ class Previewer:
 
     def render(self, doc_id: str, seed: int = 0, heavy: str = "default", special: str = "default",
                condition: str = "clean", force: bool = False, draft: dict | None = None,
-               extra: dict | None = None) -> dict:
+               extra: dict | None = None, rows: str | None = None) -> dict:
         """라벨 dict 를 돌려준다. 이미지 경로(`images`)는 out_dir 기준 상대 경로.
         draft: 저장하지 않은 overlay 수정 (docgen/overrides.py). 주면 파일 대신 그것으로 그린다 (수정 전후 비교).
-        extra: 시나리오 미리보기의 Profile.extra. 캐시에도 반영한다."""
+        extra: 시나리오 미리보기의 Profile.extra. 캐시에도 반영한다.
+        html 서식(복제·분석기)이면 draft 는 {"template"?, "form"?} (저장하지 않은 템플릿·form.json), rows 는 반복 행 수
+        "min" | "max" (없으면 서식대로 무작위)."""
         reg = load_all()
         if doc_id not in reg:
             raise KeyError(f"알 수 없는 서식: {doc_id}")
@@ -84,18 +96,22 @@ class Previewer:
             raise ValueError(f"heavy·special 은 {MODES} 중 하나")
         if condition not in CONDITIONS:
             raise ValueError(f"condition 은 {CONDITIONS} 중 하나")
+        if rows not in (None, "auto", "min", "max"):
+            raise ValueError("rows 는 auto / min / max")
+        rows = None if rows == "auto" else rows
         if extra is not None and not isinstance(extra, dict):
             raise ValueError("프로필 값은 JSON 객체여야 합니다")
         extra = json.loads(json.dumps(extra or {}, sort_keys=True))
         from .overrides import digest
 
         src = source_hash(doc_id) + ("" if draft is None else ":draft:" + digest(draft))
-        key = hashlib.sha1(json.dumps([doc_id, seed, heavy, special, condition, self.scale, src, extra]).encode()).hexdigest()[:16]
+        key = hashlib.sha1(json.dumps([doc_id, seed, heavy, special, condition, self.scale, src, extra]
+                                      + ([rows] if rows else [])).encode()).hexdigest()[:16]
         folder = self.out / doc_id / key
         label_path = folder / "label.json"
         if label_path.exists() and not force:
             return json.loads(label_path.read_text(encoding="utf-8"))
-        return self._pool.submit(self._render, doc_id, seed, heavy, special, condition, src, folder, draft, extra).result()
+        return self._pool.submit(self._render, doc_id, seed, heavy, special, condition, src, folder, draft, extra, rows).result()
 
     def call(self, fn, *args):
         """렌더러 스레드에서 fn(*args) 를 돌린다 (배경 그림처럼 렌더링과 같은 스레드 상태가 필요한 일)."""
@@ -111,7 +127,7 @@ class Previewer:
 
     # 아래는 전용 스레드에서만 돈다
     def _render(self, doc_id, seed, heavy, special, condition, src, folder: Path, draft: dict | None = None,
-                extra: dict | None = None) -> dict:
+                extra: dict | None = None, rows: str | None = None) -> dict:
         from contextlib import nullcontext
 
         from . import overrides
@@ -134,11 +150,20 @@ class Previewer:
                     os.environ.pop(var, None)
                 else:
                     os.environ[var] = values[mode]
-            with overrides.draft(doc_id, draft) if draft is not None else nullcontext():
+            if spec.template.startswith("@form/"):
+                from . import htmlform
+
+                ctx = htmlform.draft(doc_id, draft, rows)
+            else:
+                ctx = overrides.draft(doc_id, draft) if draft is not None else nullcontext()
+            with ctx:
                 profile = make_profile(seed)
                 profile.extra.update(extra or {})
                 html, raw, data = render(spec, profile, seed)
                 info = self._renderer.render(html, folder / "page.png")
+                checks = None
+                if spec.template.startswith("@form/"):   # html 서식: 저장 전 검사 (선언·템플릿 키, 쪽 넘침)
+                    checks = htmlform.check(htmlform.load_form(doc_id), raw, data, bool(info.get("overflow")))
         finally:
             for name, (var, _) in _ENV.items():
                 if saved[name] is None:
@@ -173,6 +198,55 @@ class Previewer:
             "visible": sorted(visible_keys(html)),
             "writing": "hand" if spec.group in ("hana", "imported") and (data or {}).get("style", {}).get("hand") else "print",
             "elapsed": round(time.time() - t0, 2),
+            **({"checks": checks, "rows": rows or "auto"} if checks is not None else {}),
         }
         (folder / "label.json").write_text(json.dumps(label, ensure_ascii=False), encoding="utf-8")
         return label
+
+
+def main(argv=None) -> None:
+    """명령줄 미리보기 (분석기 CLI 가 작업 폴더 안에서 html 서식을 고치며 쓴다).
+
+      python -m docgen.preview <서식ID> [--seed 0] [--rows auto|min|max] [--condition clean] --out <폴더>
+      python -m docgen.preview --dir <template.html.j2·form.json 이 있는 폴더> [--seed 0] [--rows max] --out <폴더>
+
+    <폴더>/<서식>/<키>/page*.png 와 label.json 을 쓰고, 쪽 수·항목 수·검사 결과를 JSON 한 줄로 출력한다."""
+    import argparse
+
+    ap = argparse.ArgumentParser(prog="docgen.preview", description="서식 하나를 렌더링해 쪽 그림·라벨·검사 결과를 낸다")
+    ap.add_argument("doc_id", nargs="?")
+    ap.add_argument("--dir", help="저장하지 않은 html 서식 폴더 (template.html.j2 + form.json)")
+    ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--rows", default="auto", choices=["auto", "min", "max"])
+    ap.add_argument("--condition", default="clean", choices=CONDITIONS)
+    ap.add_argument("--out", required=True)
+    a = ap.parse_args(argv)
+    draft = None
+    doc_id = a.doc_id
+    if a.dir:
+        from . import htmlform
+        from .registry import GROUPS, REGISTRY, DocSpec
+
+        d = Path(a.dir)
+        form = json.loads((d / "form.json").read_text(encoding="utf-8"))
+        draft = {"template": (d / "template.html.j2").read_text(encoding="utf-8"), "form": form}
+        load_all()
+        doc_id = "draft_" + "".join(c if c.isalnum() else "_" for c in d.resolve().name.lower())
+        REGISTRY[doc_id] = DocSpec(doc_id, form.get("name") or doc_id, form.get("group") if form.get("group") in GROUPS else "imported",
+                                   form.get("category", "external"), htmlform.PREFIX + doc_id, htmlform.make_generate(doc_id),
+                                   form.get("page", "a4"), False, "명령줄 미리보기", form.get("origin", "analyzer"))
+    if not doc_id:
+        ap.error("서식 ID 또는 --dir")
+    pv = Previewer(a.out)
+    try:
+        label = pv.render(doc_id, a.seed, condition=a.condition, force=True, draft=draft, rows=a.rows)
+    finally:
+        pv.close()
+    out = Path(a.out)
+    print(json.dumps({"images": [str(out / p) for p in label["images"]], "pages": len(label["images"]),
+                      "fields": len(label["fields"]), "empty": sum(1 for f in label["fields"] if f.get("value") in (None, "")),
+                      "overflow": label["overflow"], "checks": label.get("checks", [])}, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()

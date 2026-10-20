@@ -189,6 +189,13 @@ pre.log { max-height: 420px; }
 .ed-stage svg text.rv-t { fill: #c0362c; font-family: "Malgun Gothic", sans-serif; pointer-events: none; paint-order: stroke; stroke: #fff; stroke-width: 3px; }
 .rv-list { max-height: calc(100vh - 380px); overflow: auto; }
 
+/* html 편집기 */
+.he-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; align-items: start; }
+.he-text { width: 100%; height: calc(100vh - 330px); min-height: 360px; font-size: 12.5px; line-height: 1.45; white-space: pre; tab-size: 2; }
+.he-help { font-size: 12px; margin-top: 4px; }
+.he-stage { position: relative; }
+.he-stage img.he-src { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; pointer-events: none; mix-blend-mode: multiply; }
+
 /* ③ 시나리오의 필수 서류 이미지 */
 .sc-preview { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 10px; }
 .sc-preview summary { cursor: pointer; color: var(--accent); font-weight: 600; }

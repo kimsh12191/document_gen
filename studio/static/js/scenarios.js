@@ -85,16 +85,25 @@ async function view_scenarios() {
 const JOB_STATUS = { running: "도는 중", done: "끝남", failed: "실패", cancelled: "취소", interrupted: "끊김" };
 
 async function view_jobs() {
-  const r = await api("/api/jobs");
   main().innerHTML = `
     <h1>작업</h1>
     <div class="sub">데이터셋 빌드처럼 오래 걸리는 일입니다. 명령줄과 같은 명령을 그대로 돌립니다 (명령은 작업을 열면 보입니다).
-      분석기 작업(이미지 → html 서식)은 8단계에서 여기에 더해집니다.</div>
+      아래 분석기 작업은 서식 그림을 분석기에 맡겨 html 서식이나 값 영역 초안을 받는 일입니다.</div>
+    <div id="jb-list"></div><div id="az-panel"></div>`;
+  if (typeof analyzerPanel === "function") analyzerPanel($("#az-panel")).catch(e => { $("#az-panel").innerHTML = `<p class="err">${esc(e.message)}</p>`; });
+  drawJobList();
+}
+
+async function drawJobList() {   // 도는 작업이 있으면 목록만 3초마다 다시 (분석기 입력 칸은 그대로)
+  const box = $("#jb-list");
+  if (!box) return;
+  const r = await api("/api/jobs");
+  box.innerHTML = `
     ${r.jobs.length ? table(r.jobs, [["title", "작업", j => `<a href="#/jobs/${encodeURIComponent(j.id)}">${esc(j.title)}</a>`],
       ["status", "상태", j => `<span class="tag ${j.status === "done" ? "ok" : j.status === "running" ? "" : "warn"}">${JOB_STATUS[j.status] || j.status}</span>`],
       ["started", "시작"], ["ended", "끝"], ["result", "결과", j => j.result && j.result.dataset ? `<a href="#/datasets/${encodeURIComponent(j.result.dataset)}">${esc(j.result.dataset)}</a>` : esc(j.error || "")]])
       : `<p class="muted">작업이 없습니다.</p>`}`;
-  if (r.jobs.some(j => j.status === "running")) setTimeout(() => { if (location.hash === "#/jobs") view_jobs(); }, 3000);
+  if (r.jobs.some(j => j.status === "running")) setTimeout(() => { if (location.hash === "#/jobs") drawJobList(); }, 3000);
 }
 
 addRoute(/^#\/jobs\/([^/]+)$/, id => viewJob(decodeURIComponent(id)), "jobs");

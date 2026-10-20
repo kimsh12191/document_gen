@@ -125,11 +125,22 @@ async function viewForm(id, tab) {
       ${d.edited ? `<span class="tag ok">사람 수정 있음</span>` : ""}
       ${d.n_korean_keys ? `<span class="tag warn">한글 키 ${d.n_korean_keys}</span>` : ""}
       ${d.scenario_names.map(s => `<span class="tag">시나리오: ${esc(s.name)}</span>`).join("")}
+      ${d.kind === "html" ? `<button id="f-clone" title="템플릿을 사본으로 만들어 html 편집기에서 고칩니다 (값은 부모 생성 함수 + form.json)">복제</button>` : ""}
     </div>
     ${d.description ? `<div class="sub" style="margin-top:6px">${esc(d.description)}</div>` : ""}
     <div class="tabs">${tabs.map(([t, n]) =>
       `<a href="#/forms/${encodeURIComponent(id)}/${t}" class="${t === tab ? "on" : ""}">${n}</a>`).join("")}</div>
     <div id="tab"></div>`;
+  if ($("#f-clone")) $("#f-clone").onclick = async () => {
+    const nid = (prompt("새 서식 ID (영어 소문자·숫자·밑줄)", `${d.id}_copy`) || "").trim();
+    if (!nid) return;
+    const name = (prompt("새 서식 이름", `${d.name} (복제)`) || "").trim();
+    try {
+      await api(`/api/forms/${encodeURIComponent(d.id)}/clone`, { new_id: nid, name });
+      state.forms = null; toast("복제했습니다. html 편집기로 갑니다");
+      location.hash = `#/forms/${encodeURIComponent(nid)}/html`;
+    } catch (e) { toast(e.message, true); }
+  };
   if (tab === "preview") return tabPreview(d);
   if (tab === "examples") return tabExamples(d);
   if (tab === "questions") return tabQuestions(d);

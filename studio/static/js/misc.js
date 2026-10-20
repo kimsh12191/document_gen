@@ -37,6 +37,19 @@ async function viewSettings() {
       ${row("데이터셋 등록부·작업 공간 (workspace_dir)", i.paths.workspace_dir)}
       ${row("가져올 이미지 폴더 (import_dir)", i.paths.import_dir)}${row("실서류 검수 결과 (real_data_dir)", i.paths.real_data_dir)}
       ${row("실서류에서 만든 서식 (private_forms_dir)", i.paths.private_forms_dir)}
-      ${row("분석기", (i.providers || []).join(", "))}
-    </tbody></table>`;
+    </tbody></table>
+    <h2>분석기</h2>
+    <div class="sub">studio/config.json 의 <span class="mono">providers</span>. 연결 확인은 openai 방식이면 모델 목록, cli 방식이면 --version 만 봅니다 (요청은 보내지 않음).</div>
+    <div id="st-prov"><p class="spin">읽는 중…</p></div>`;
+  const pv = (await api("/api/providers")).providers;
+  $("#st-prov").innerHTML = pv.length ? table(pv, [["name", "이름"], ["kind", "방식"], ["external", "연결 대상", p => p.external ? `<span class="tag warn">외부</span>` : `<span class="tag ok">내부</span>`],
+    ["where", "주소·실행 파일", p => `<span class="mono">${esc(p.kind === "cli" ? (p.cmd || "(찾지 못함)") : `${p.base_url || ""} ${p.model || ""}`)}</span>`],
+    ["check", "연결 확인", p => `<button data-pc="${esc(p.name)}">확인</button> <span class="muted" data-pr="${esc(p.name)}"></span>`]])
+    : `<p class="muted">분석기가 없습니다. 예시는 studio/DESIGN.md 7.2.</p>`;
+  $$("[data-pc]").forEach(b => b.onclick = async () => {
+    const out = $(`[data-pr="${b.dataset.pc}"]`);
+    out.textContent = "확인 중…";
+    try { const r = await api(`/api/providers/${encodeURIComponent(b.dataset.pc)}/check`, {}); out.innerHTML = `${r.ok ? "✔" : "✘"} ${esc(r.detail || "")}`; }
+    catch (e) { out.textContent = e.message; }
+  });
 }
