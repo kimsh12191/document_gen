@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:docgen:document-label:1",
+  "title": "docgen document label v1",
+  "description": "docgen generate image labels. page is zero-based; bbox is image pixels. Model answers use a different coordinate contract.",
+  "type": "object",
+  "required": [
+    "id",
+    "doc_type",
+    "doc_name",
+    "images",
+    "pages",
+    "fields"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "doc_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "doc_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "images": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\\\]+$"
+      }
+    },
+    "pages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "width",
+          "height"
+        ],
+        "properties": {
+          "width": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "height": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "type",
+          "value"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "type": {
+            "enum": [
+              "text",
+              "date",
+              "month",
+              "datetime",
+              "amount",
+              "amount_korean",
+              "number",
+              "percent",
+              "rrn",
+              "biz_no",
+              "corp_reg_no",
+              "phone",
+              "account_no",
+              "checkbox",
+              "checkbox_multi",
+              "seal",
+              "signature"
+            ]
+          },
+          "value": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "norm": {
+            "type": [
+              "string",
+              "number",
+              "null"
+            ]
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "bbox": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": 0
+            },
+            "minItems": 4,
+            "maxItems": 4
+          },
+          "label_bbox": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": 0
+            },
+            "minItems": 4,
+            "maxItems": 4
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "text",
+                "checked"
+              ],
+              "properties": {
+                "text": {
+                  "type": "string"
+                },
+                "checked": {
+                  "type": "boolean"
+                },
+                "bbox": {
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "minItems": 4,
+                  "maxItems": 4
+                },
+                "box_bbox": {
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "minItems": 4,
+                  "maxItems": 4
+                }
+              }
+            }
+          },
+          "present": {
+            "type": "boolean"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "anchor": {
+            "type": "string"
+          },
+          "group": {
+            "type": "boolean"
+          },
+          "corrected_from": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "render": {}
+        },
+        "dependentRequired": {
+          "bbox": [
+            "page"
+          ],
+          "label_bbox": [
+            "page"
+          ]
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "enum": [
+                    "seal",
+                    "signature"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "present"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "$comment": "Also validate image existence and actual dimensions, equal images/pages lengths, page bounds, box ordering/bounds, unique field keys, field keys for the selected form, and package document references. Extra generator metadata is preserved."
+}

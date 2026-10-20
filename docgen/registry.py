@@ -81,6 +81,7 @@ SCENARIO_EXTRA = {
     "mortgage": {"loan_kind": "mortgage"},
     "jeonse_loan": {"loan_kind": "jeonse"},
 }
+SCENARIO_PROCESSING = {}   # 시나리오별 구비 검사·대조·심사 선택과 추출·비교 작업
 
 
 def load_scenarios() -> None:
@@ -90,10 +91,13 @@ def load_scenarios() -> None:
     data = json.loads(SCENARIOS_JSON.read_text(encoding="utf-8"))
     SCENARIOS.clear()
     SCENARIO_EXTRA.clear()
+    SCENARIO_PROCESSING.clear()
     for s in data["scenarios"]:
         SCENARIOS[s["id"]] = (s["name"], list(s["docs"]))
         if s.get("extra"):
             SCENARIO_EXTRA[s["id"]] = dict(s["extra"])
+        if "processing" in s:
+            SCENARIO_PROCESSING[s["id"]] = s["processing"]
 
 
 def save_scenarios(items: list[dict]) -> None:

@@ -1,4 +1,4 @@
-// ③ 시나리오·묶음: 업무 시나리오(필수 서류) 편집, 대조 사례·심사 규칙 목록. 묶음 보기는 ⑥ 데이터셋 › 묶음 탭.
+// ③ 시나리오·묶음: 서류 이미지·구성, 시나리오별 처리 설정과 예시 실행. 생성된 묶음은 ⑥ 데이터셋에서 본다.
 // ⑧ 작업: 데이터셋 빌드 등 백그라운드 작업의 진행과 로그.
 "use strict";
 
@@ -7,11 +7,14 @@ async function view_scenarios() {
   const names = new Map(forms.map(f => [f.id, f.name]));
   let list = clone(r.scenarios);
   let dirty = false;
+  const previews = new ScenarioPreviews();
+  const processing = new ScenarioProcessing(r, previews);
   const draw = () => {
     main().innerHTML = `
       <h1>시나리오·묶음</h1>
       <div class="sub">업무마다 고객이 내는 필수 서류입니다. 은행 업무 데이터셋을 만들 때 시나리오마다 고객 묶음을 만들고, 묶음에서
         서류 구비·대조·심사 문항이 나옵니다. 저장하면 <span class="mono">docgen/scenarios.json</span>에 씁니다.
+        서류 이미지를 펼치면 같은 고객으로 구성한 필수 서류를 보고, 눌러서 확대할 수 있습니다.
         <b>이미 있던 시나리오의 순서는 바꾸지 않습니다</b> (순서가 고객 seed 를 정함). 만든 묶음은 ⑥ 데이터셋 › 묶음 탭에서 봅니다.</div>
       <div class="bar"><button class="primary" id="sc-save" ${dirty ? "" : "disabled"}>저장</button><button id="sc-add">새 시나리오</button>
         <span id="sc-dirty" class="${dirty ? "kr" : "muted"}">${dirty ? "저장 안 됨" : ""}</span></div>
@@ -27,38 +30,52 @@ async function view_scenarios() {
           <div class="sc-docs">${s.docs.map((d, j) => `<span class="tag ${d.kind || ""}">${esc(d.id)} · ${esc(d.name || names.get(d.id) || "?")}
             ${d.reviewed ? "✓" : ""}<a href="#" data-rm="${i}:${j}" title="빼기">×</a></span>`).join("")}
             <input type="text" list="sc-forms" data-addto="${i}" placeholder="서식 ID 더하기" style="width:200px"></div>
+          ${previews.html(s, i)}
+          ${processing.html(s, i)}
         </div>`).join("")}
       <h2>대조 사례 (${r.cases.length})</h2>
       <div class="sub">코드(<span class="mono">docgen/bench/cases.py</span>)로 둡니다. 레시피에서 사례마다 켜고 끄고 변조 비율을 정합니다.</div>
       ${table(r.cases, [["id", "ID", c => `<span class="mono">${esc(c.id)}</span>`], ["title", "사례"], ["category", "분류"], ["basis", "근거"]])}
-      <h2>심사 규칙 (${r.rules.length})</h2>
-      <div class="sub mono">${r.rules.map(esc).join(" · ")}</div>`;
+      <h2>심사·계산 규칙 (${Object.keys(r.processing_rules).length})</h2>
+      <div class="sub">${Object.values(r.processing_rules).map(esc).join(" · ")}</div>`;
     const mark = () => { dirty = true; $("#sc-save").disabled = false; $("#sc-dirty").textContent = "저장 안 됨"; $("#sc-dirty").className = "kr"; };
     $$(".sc-card input[data-f]").forEach(inp => inp.onchange = () => {
       const s = list[+inp.closest(".sc-card").dataset.i];
-      if (inp.dataset.f === "extra") { try { s.extra = JSON.parse(inp.value || "{}"); } catch { toast("프로필 값은 JSON 이어야 합니다", true); return; } }
+      if (inp.dataset.f === "extra") {
+        try {
+          const extra = JSON.parse(inp.value || "{}");
+          if (!extra || Array.isArray(extra) || typeof extra !== "object") throw new Error();
+          s.extra = extra;
+          inp.setCustomValidity("");
+        } catch { inp.setCustomValidity("프로필 값은 JSON 객체여야 합니다"); inp.reportValidity(); return; }
+      }
       else s[inp.dataset.f] = inp.value.trim();
       mark();
+      processing.invalidate(inp.closest(".sc-card"), s);
+      if (inp.dataset.f === "extra" || inp.dataset.f === "id") previews.refresh(inp.closest(".sc-card"), s);
     });
     $$("[data-addto]").forEach(inp => inp.onchange = () => {
       const s = list[+inp.dataset.addto], id = inp.value.trim();
       if (!id) return;
       if (!names.has(id)) { toast(`모르는 서식: ${id}`, true); return; }
       if (!s.docs.some(d => d.id === id)) s.docs.push({ id, name: names.get(id), kind: id.startsWith("hf") ? "overlay" : "html" });
+      processing.invalidate(inp.closest(".sc-card"), s);
       mark(); draw();
     });
     main().onclick = e => {
       const rm = e.target.dataset.rm, del = e.target.dataset.del;
-      if (rm) { e.preventDefault(); const [i, j] = rm.split(":").map(Number); list[i].docs.splice(j, 1); mark(); draw(); }
+      if (rm) { e.preventDefault(); const [i, j] = rm.split(":").map(Number); processing.invalidate(e.target.closest(".sc-card"), list[i]); list[i].docs.splice(j, 1); mark(); draw(); }
       if (del !== undefined) { list.splice(+del, 1); mark(); draw(); }
     };
     $("#sc-add").onclick = () => { list.push({ id: `new_${list.length + 1}`, name: "새 업무", docs: [], extra: {} }); mark(); draw(); };
     $("#sc-save").onclick = async () => {
+      if ($$(".sc-card input[data-f], .sc-operations [required]").some(inp => !inp.reportValidity())) return;
       try {
-        const res = await api("/api/scenarios", { scenarios: list.map(s => ({ id: s.id, name: s.name, docs: s.docs.map(d => d.id), extra: s.extra })) }, "PUT");
+        const res = await api("/api/scenarios", { scenarios: list.map(s => ({ id: s.id, name: s.name, docs: s.docs.map(d => d.id), extra: s.extra, processing: s.processing })) }, "PUT");
         r.scenarios = res.scenarios; list = clone(res.scenarios); dirty = false; toast("저장했습니다"); draw();
       } catch (e) { toast(e.message, true); }
     };
+    $$(".sc-card").forEach((card, i) => { processing.bind(card, list[i], mark); previews.bind(card, list[i]); });
   };
   state.leave = unload => !dirty || (unload ? false : confirm("저장하지 않은 시나리오 수정이 있습니다. 버릴까요?"));
   draw();
@@ -91,7 +108,7 @@ async function viewJob(id) {
     <h1>${esc(j.title)}</h1>
     <div class="bar"><span class="tag ${j.status === "done" ? "ok" : j.status === "running" ? "" : "warn"}">${JOB_STATUS[j.status] || j.status}</span>
       <span class="muted">${esc(j.started)}${j.ended ? ` → ${esc(j.ended)}` : ""}</span> ${pg}
-      ${j.status === "running" ? `<button id="jb-cancel">취소</button>` : ""}
+      ${j.status === "running" && j.stage !== "registering" ? `<button id="jb-cancel">취소</button>` : ""}
       ${j.result && j.result.dataset ? `<a href="#/datasets/${encodeURIComponent(j.result.dataset)}">만든 데이터셋 열기</a>` : ""}</div>
     ${j.error ? `<p class="err">${esc(j.error)}</p>` : ""}
     <div class="muted">명령</div><pre class="ans mono">${esc((j.cmd || []).join(" "))}</pre>

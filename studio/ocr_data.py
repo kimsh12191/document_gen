@@ -50,6 +50,7 @@ def validate(r: dict) -> dict:
 def start_build(jobs, registry, recipes_dir: Path, recipe_name: str, out_name: str, workers: int = 1) -> dict:
     from .bank_data import _slug, get_recipe
     from .jobs import python
+    from .build_registration import register_output
 
     r = get_recipe(recipe_name)
     validate(r)
@@ -59,14 +60,14 @@ def start_build(jobs, registry, recipes_dir: Path, recipe_name: str, out_name: s
     rpath = recipes_dir / f"{_slug(recipe_name)}.json"
     cmd = [python(), "-m", "docgen.ocr_set", "build", "--recipe", str(rpath), "--out", str(out), "--workers", str(max(1, workers))]
 
+    spec = {"path": str(out / "prepared"), "name": _slug(out_name), "meta": {
+        "recipe": str(rpath.relative_to(ROOT)).replace("\\", "/"), "dataset_json": "../ocr_set.json", "purpose": r.get("about", "")}}
+
     def done(job):
-        ds = registry.register(str(out / "prepared"), _slug(out_name), made_by_studio=True,
-                               recipe=str(rpath.relative_to(ROOT)).replace("\\", "/"), dataset_json="../ocr_set.json",
-                               purpose=r.get("about", ""))
-        return {"dataset": ds["id"]}
+        return register_output(registry, spec)
 
     return jobs.start("build_ocr", f"OCR 데이터셋 만들기: {out_name} (레시피 {recipe_name})", cmd, done,
-                      {"recipe": recipe_name, "out": str(out)})
+                      {"recipe": recipe_name, "out": str(out), "dataset": spec})
 
 
 def ocr_training_config(registry, train_ids: list[str], bench_id: str, name: str) -> dict:

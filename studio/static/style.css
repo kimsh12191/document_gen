@@ -188,3 +188,65 @@ pre.log { max-height: 420px; }
 .ed-stage svg rect.rv-orig { fill: none; stroke: #c0362c; stroke-width: 1; stroke-dasharray: 3 2; vector-effect: non-scaling-stroke; pointer-events: none; }
 .ed-stage svg text.rv-t { fill: #c0362c; font-family: "Malgun Gothic", sans-serif; pointer-events: none; paint-order: stroke; stroke: #fff; stroke-width: 3px; }
 .rv-list { max-height: calc(100vh - 380px); overflow: auto; }
+
+/* ③ 시나리오의 필수 서류 이미지 */
+.sc-preview { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 10px; }
+.sc-preview summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+.sc-preview-body { padding-top: 12px; }
+.sc-preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.sc-preview-doc { min-width: 0; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; }
+.sc-preview-thumb { display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center;
+  width: 100%; height: 255px; padding: 8px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0;
+  background: #eef1f5; position: relative; overflow: auto; }
+.sc-preview-thumb:disabled { opacity: 1; }
+.sc-preview-thumb img { width: 100%; height: 100%; object-fit: contain; object-position: top; }
+.sc-preview-enlarge { position: absolute; bottom: 10px; right: 10px; background: #1d2330df; color: white; padding: 3px 8px; border-radius: 5px; font-size: 12px; }
+.sc-preview-caption { padding: 9px 10px; font-size: 12px; overflow-wrap: anywhere; }
+.sc-preview-caption b { display: block; margin-bottom: 4px; font-size: 13px; }
+.sc-preview-pages { color: var(--muted); }
+.sc-preview-dialog { width: min(1120px, 95vw); max-width: 95vw; max-height: 94vh; padding: 18px;
+  border: 1px solid var(--line); border-radius: 10px; color: var(--text); background: var(--bg); }
+.sc-preview-dialog::backdrop { background: #101a2db3; }
+.sc-preview-dialog-head { display: flex; justify-content: space-between; align-items: start; gap: 14px; }
+.sc-preview-dialog-head h2 { margin: 3px 0 12px; }
+.sc-preview-dialog .sc-form-link { margin-left: auto; }
+.sc-preview-paper { overflow: auto; max-height: 70vh; background: #e4e7ec; padding: 12px; text-align: center; }
+.sc-preview-paper img { display: block; max-width: 100%; width: 780px; height: auto; margin: auto; background: white; }
+.sc-preview-original img { max-width: none; width: auto; margin: 0; }
+.sc-preview-paper .stage { width: min(780px, 100%); margin: auto; }
+.sc-preview-original .stage { width: max-content; }
+.sc-preview-paper svg rect.sc-evidence { stroke: #15803d; stroke-width: 3; fill: #22c55e33; }
+.sc-evidence-note { padding: 6px 8px; background: #e3f5ea; margin-bottom: 8px; }
+.sc-processing { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
+.sc-processing > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+.sc-processing-body { padding-top: 12px; }
+.sc-processing-choices { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 10px; }
+.sc-processing-choices summary { cursor: pointer; }
+.sc-processing-checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 5px 12px; padding: 8px 0; }
+.sc-processing-checks label { font-size: 13px; }
+.sc-operation { padding: 12px; border: 1px solid var(--line); border-radius: 6px; margin-bottom: 8px; }
+.sc-operation-fields { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.sc-operation-ref { flex: 1; min-width: min(220px, 100%); display: grid; gap: 6px; }
+.sc-operation-ref select { width: 100%; min-width: 0; }
+.sc-processing-runbar { margin-top: 16px; }
+.sc-process-results { overflow: auto; }
+.sc-process-results table { min-width: 700px; }
+.sc-result-question { font-size: 12px; max-width: 420px; margin-top: 4px; }
+.sc-evidence-link { display: block; text-align: left; margin-bottom: 4px; font-size: 12px; max-width: 260px; overflow-wrap: anywhere; }
+.sc-evidence-link span { display: block; }
+.qa-contract { margin-bottom: 10px; }
+.qa-contract summary, .qa-item summary { cursor: pointer; }
+.qa-item { margin: 12px 0; }
+.qa-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 14px; margin: 10px 0; }
+.qa-item pre.ans { max-height: 330px; }
+.qa-images { display: flex; flex-wrap: wrap; gap: 10px; padding: 10px 0; }
+.qa-images img { max-height: 220px; max-width: 100%; background: white; border: 1px solid var(--line); }
+.qa-dialog { width: min(1120px, 95vw); max-width: 95vw; max-height: 94vh; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--text); }
+.qa-dialog::backdrop { background: #101a2db3; }
+.qa-dialog h2 { margin: 0; flex: 1; font-size: 17px; }
+.qa-notice { padding: 8px 10px; background: var(--accent-soft); border-radius: 6px; }
+.ds-build-panel { margin-bottom: 16px; overflow: auto; }
+.ds-build-panel h2, #ds-registry h2 { margin: 0; }
+.ds-build-panel .sub { margin-top: 6px; }
+#ds-registry { overflow: auto; margin-bottom: 18px; }
+#ds-list tr.ds-new td { background: #edf9f1; }

@@ -28,10 +28,11 @@ import time
 from pathlib import Path
 
 from ..entities import make_profile
-from ..registry import GROUPS, SCENARIO_EXTRA, SCENARIOS, load_all
+from ..registry import GROUPS, SCENARIO_EXTRA, SCENARIO_PROCESSING, SCENARIOS, load_all
 from ..render import render
 from ..schema import build_fields
 from . import perturb
+from . import processing as PROCESS
 from .metrics import norm_text, normalize_box
 from .cases import CASES, OTHER_OK, Ctx
 from .prompts import P_CLASSIFY, P_CROSS, P_DOC_CHECK, P_KIE, P_MARKS, P_OCR_FIELD, P_OCR_PAGE, P_REVIEW
@@ -277,6 +278,7 @@ class Builder:
         """업무 묶음 하나. plan(직접 만든 묶음): {"name", "missing": [서류ID], "other": [서류ID], "extra": [서류ID],
         "cases": [사례ID], "tamper": {사례ID: bool}} — 정해 준 것은 난수 대신 그대로 쓴다."""
         task_name, ids = SCENARIOS[scenario]
+        processing = PROCESS.validate(SCENARIO_PROCESSING.get(scenario), ids)
         p = self.bundle_profile(scenario, seed)
         bid = f"{scenario}_{seed}" if not plan or not plan.get("name") else f"{scenario}_{seed}_{plan['name']}"
         docs = []
@@ -287,16 +289,32 @@ class Builder:
         first = len(self.buf)
         self.record = {"task": "_bundle", "bundle_id": bid, "scenario": scenario, "task_name": task_name,
                        "customer_seed": seed, "customer": p.person.name, "plan": plan or None,
-                       "docs": [self._doc_record(d) for d in docs], "variants": [], "doc_check": None}
+                       "docs": [self._doc_record(d) for d in docs], "variants": [], "doc_check": None,
+                       "processing": processing}
 
-        self.doc_check(docs, p, seed, bid, meta, plan)
-        self.cross_checks(docs, p, seed, bid, meta, plan=plan)
+        if processing["doc_check"]:
+            self.doc_check(docs, p, seed, bid, meta, plan)
+        if processing["cross_check"]:
+            self.cross_checks(docs, p, seed, bid, meta, plan=plan)
 
         # review
         B = Bundle(scenario, {d["doc_id"]: {"name": d["name"], "fields": d["fields"]} for d in docs})
         by_id = {d["doc_id"]: d for d in docs}
-        qs = questions(B, random.Random(f"bench:review:{bid}"))
-        if (dv := self.doc_valid(docs, B, p, seed, bid)) is not None:
+        results = PROCESS.execute(processing, by_id)
+        self.record["processing_results"] = [{k: v for k, v in row.items() if k != "item"} for row in results]
+        for row in results:
+            item = row.get("item")
+            if not item:
+                continue
+            imgs = [im for did in item["docs"] for im in by_id[did]["images"]]
+            task = item["task"]
+            self.emit({"id": f"{task}/{bid}/operation_{row['id']}", "task": task, "images": imgs,
+                       "prompt": item.get("prompt") or P_REVIEW.format(task=task_name, pages=len(imgs), question=item["question"]),
+                       "answer": item["answer"], "eval": item["eval"],
+                       "meta": {**meta, "operation": row["id"], "rule": f"operation:{row['id']}", "skill": "필드 추출" if task == "kie" else "필드 비교"}})
+        qs = questions(B, random.Random(f"bench:review:{bid}")) if processing["review"] else []
+        qs = [q for q in qs if PROCESS.selected(processing, "rule_ids", q["rule"])]
+        if processing["review"] and PROCESS.selected(processing, "rule_ids", "doc_valid") and (dv := self.doc_valid(docs, B, p, seed, bid)) is not None:
             q, aged = dv
             by_id = {**by_id, q["docs"][0]: aged}
             qs.append(q)
@@ -385,6 +403,7 @@ class Builder:
             n_missing = len(missing)
         else:
             n_missing = rng.choices([0, 1, 2], R["missing"])[0]
+            n_missing = min(n_missing, len(docs))
             missing = rng.sample(docs, n_missing)
         present = [d for d in docs if d not in missing]
         not_customer, not_required = [], []
@@ -438,9 +457,10 @@ class Builder:
         other = None
         only = set(plan["cases"]) if plan and plan.get("cases") else None
         forced = (plan or {}).get("tamper") or {}
+        processing = PROCESS.validate(SCENARIO_PROCESSING.get(meta["scenario"]), list(by_id))
         for case in CASES:
             conf = self.cases.get(case.id, {})
-            if conf.get("enabled") is False or (only is not None and case.id not in only):
+            if conf.get("enabled") is False or (only is not None and case.id not in only) or not PROCESS.selected(processing, "case_ids", case.id):
                 continue
             rng = random.Random(f"bench:case:{bid}:{case.id}")
             if case.category == "format":   # 표기만 다른 사례는 늘 정상 (난수도 뽑지 않는다: 예전과 같은 순서)
@@ -495,7 +515,7 @@ class Builder:
                                                 pages=len(imgs)),
                        "answer": {"consistent": not issues, "issues": issues},
                        "eval": {"documents": [shown[x]["name"] for x in order]}, "meta": m})
-            if plan.get("question"):
+            if plan.get("question") and processing["review"]:
                 self.emit({"id": f"review/{bid}/case_{case.id}", "task": "review", "images": imgs,
                            "prompt": P_REVIEW.format(task=meta["task_name"], pages=len(imgs),
                                                      question=plan["question"] + " ('예' 또는 '아니오'로만 답하세요)"),

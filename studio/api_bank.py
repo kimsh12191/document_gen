@@ -58,6 +58,12 @@ def make_router(reg, jobs, guard) -> APIRouter:
             return guard(ocr_data.start_build, jobs, reg, BD.RECIPES, req.recipe, req.name, req.workers)
         return guard(BD.start_build, jobs, reg, req.recipe, req.name, req.workers)
 
+    @r.get("/api/builds")
+    def list_builds():
+        from .build_registration import list_builds as builds
+
+        return {"jobs": guard(builds, jobs, reg)}
+
     @r.get("/api/jobs")
     def list_jobs(kind: str | None = None):
         return {"jobs": jobs.list(kind)}
@@ -101,7 +107,8 @@ def make_router(reg, jobs, guard) -> APIRouter:
                 except OSError:
                     pass
         return {"scenarios": BD.scenarios_view(catalog._catalog(), counts),
-                "cases": BD.options()["cases"], "rules": BD.options()["rules"]}
+                "cases": BD.options()["cases"], "rules": BD.options()["rules"],
+                "processing_rules": BD.PROCESS.RULE_TITLES, "compare_operators": BD.PROCESS.COMPARE_OPS}
 
     class ScenariosReq(BaseModel):
         scenarios: list[dict]

@@ -33,7 +33,7 @@ _ENV = {"heavy": ("DOCGEN_HEAVY", {"on": "1", "off": "0"}),
 # 모든 서식이 함께 쓰는 렌더링 코드. 바뀌면 모든 미리보기를 새로 그린다.
 COMMON = ["docgen/render.py", "docgen/schema.py", "docgen/image.py", "docgen/paginate.js", "docgen/augment.py",
           "docgen/realform.py", "docgen/entities.py", "docgen/korean.py", "docgen/banks.py", "docgen/docs/_common.py",
-          "docgen/marks.py", "docgen/overrides.py", "docgen/sources.py", "docgen/marks.json", "assets/marks/pools.json",
+          "docgen/marks.py", "docgen/overrides.py", "docgen/sources.py", "docgen/preview.py", "docgen/marks.json", "assets/marks/pools.json",
           "templates/_base.html.j2", "templates/_macros.html.j2", "templates/_real_form.html.j2"]
 
 
@@ -72,9 +72,11 @@ class Previewer:
         self._pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix="docgen-preview")
 
     def render(self, doc_id: str, seed: int = 0, heavy: str = "default", special: str = "default",
-               condition: str = "clean", force: bool = False, draft: dict | None = None) -> dict:
+               condition: str = "clean", force: bool = False, draft: dict | None = None,
+               extra: dict | None = None) -> dict:
         """라벨 dict 를 돌려준다. 이미지 경로(`images`)는 out_dir 기준 상대 경로.
-        draft: 저장하지 않은 overlay 수정 (docgen/overrides.py). 주면 파일 대신 그것으로 그린다 (수정 전후 비교)."""
+        draft: 저장하지 않은 overlay 수정 (docgen/overrides.py). 주면 파일 대신 그것으로 그린다 (수정 전후 비교).
+        extra: 시나리오 미리보기의 Profile.extra. 캐시에도 반영한다."""
         reg = load_all()
         if doc_id not in reg:
             raise KeyError(f"알 수 없는 서식: {doc_id}")
@@ -82,15 +84,18 @@ class Previewer:
             raise ValueError(f"heavy·special 은 {MODES} 중 하나")
         if condition not in CONDITIONS:
             raise ValueError(f"condition 은 {CONDITIONS} 중 하나")
+        if extra is not None and not isinstance(extra, dict):
+            raise ValueError("프로필 값은 JSON 객체여야 합니다")
+        extra = json.loads(json.dumps(extra or {}, sort_keys=True))
         from .overrides import digest
 
         src = source_hash(doc_id) + ("" if draft is None else ":draft:" + digest(draft))
-        key = hashlib.sha1(json.dumps([doc_id, seed, heavy, special, condition, self.scale, src]).encode()).hexdigest()[:16]
+        key = hashlib.sha1(json.dumps([doc_id, seed, heavy, special, condition, self.scale, src, extra]).encode()).hexdigest()[:16]
         folder = self.out / doc_id / key
         label_path = folder / "label.json"
         if label_path.exists() and not force:
             return json.loads(label_path.read_text(encoding="utf-8"))
-        return self._pool.submit(self._render, doc_id, seed, heavy, special, condition, src, folder, draft).result()
+        return self._pool.submit(self._render, doc_id, seed, heavy, special, condition, src, folder, draft, extra).result()
 
     def call(self, fn, *args):
         """렌더러 스레드에서 fn(*args) 를 돌린다 (배경 그림처럼 렌더링과 같은 스레드 상태가 필요한 일)."""
@@ -105,12 +110,14 @@ class Previewer:
         self._pool.shutdown()
 
     # 아래는 전용 스레드에서만 돈다
-    def _render(self, doc_id, seed, heavy, special, condition, src, folder: Path, draft: dict | None = None) -> dict:
+    def _render(self, doc_id, seed, heavy, special, condition, src, folder: Path, draft: dict | None = None,
+                extra: dict | None = None) -> dict:
         from contextlib import nullcontext
 
         from . import overrides
         from .cli import _aug_fields
         from .schema import build_fields
+        from .bench.perturb import visible_keys
 
         if self._renderer is None:
             from .image import ImageRenderer
@@ -128,7 +135,9 @@ class Previewer:
                 else:
                     os.environ[var] = values[mode]
             with overrides.draft(doc_id, draft) if draft is not None else nullcontext():
-                html, raw, _ = render(spec, make_profile(seed), seed)
+                profile = make_profile(seed)
+                profile.extra.update(extra or {})
+                html, raw, data = render(spec, profile, seed)
                 info = self._renderer.render(html, folder / "page.png")
         finally:
             for name, (var, _) in _ENV.items():
@@ -160,6 +169,9 @@ class Previewer:
             "special": special, "condition": condition, "source_hash": src,
             "images": [str(p.relative_to(self.out)).replace("\\", "/") for p in images],
             "pages": pages, "overflow": info["overflow"], "fields": fields,
+            "raw_keys": [f["key"] for f in raw],
+            "visible": sorted(visible_keys(html)),
+            "writing": "hand" if spec.group in ("hana", "imported") and (data or {}).get("style", {}).get("hand") else "print",
             "elapsed": round(time.time() - t0, 2),
         }
         (folder / "label.json").write_text(json.dumps(label, ensure_ascii=False), encoding="utf-8")

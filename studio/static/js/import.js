@@ -28,6 +28,25 @@ async function view_import() {
     <h1>가져오기</h1>
     <div class="sub">문서 이미지(또는 PDF) 묶음을 사내 OCR 로 읽고, 같은 포맷끼리 묶습니다. 포맷마다 템플릿으로 만들지, 기존 서식과 같은지,
       건너뛸지 정하고, 묶음(또는 고른 포맷)을 그대로 OCR 벤치마크로 만들 수 있습니다. 원본 폴더는 읽기만 합니다.</div>
+    <details class="panel">
+      <summary><b>라벨 있는 데이터 준비 · 생성기 공통 규격 v1</b></summary>
+      <p>문서마다 <span class="mono">labels/&lt;id&gt;.json</span>을 만들고 생성 데이터와 같은
+        <span class="mono">images · pages · fields</span>를 채웁니다.
+        원본 라벨의 <b>page는 0부터, bbox는 이미지 픽셀 좌표</b>입니다.
+        키는 해당 서식의 키를 그대로 쓰고, 값은 문서 표시 문자열 또는 빈 칸의 <span class="mono">null</span>로 적습니다.</p>
+      <div class="bar">
+        <a href="/static/label-format/v1/example.zip" download>이미지·라벨 예제 ZIP</a>
+        <a href="/static/label-format/v1/document.example.json" download>문서 라벨 예제 JSON</a>
+        <a href="/static/label-format/v1/document.schema.json" download>문서 JSON Schema</a>
+        <a href="/static/label-format/v1/ocr.example.json" download>OCR 예제 JSON</a>
+        <a href="/static/label-format/v1/ocr.schema.json" download>OCR JSON Schema</a>
+        <a href="/static/label-format/v1/meta.schema.json" download>패키지 JSON Schema</a>
+        <a href="/static/label-format/v1/bundle.schema.json" download>묶음 JSON Schema</a>
+      </div>
+      <p class="muted">예제 ZIP을 풀어 아래 '라벨 있는 데이터'에 경로를 입력하세요. OCR 예제는 값 칸·항목명만 포함합니다.
+        쪽 전체 OCR 정답은 별도로 준비합니다. 모델 답의 1부터 시작하는 page·0~1000 bbox_2d와 구분하세요.</p>
+    </details>
+    ${labeledImportHTML()}
     ${realWarn(r)}
     ${r.ocr_set ? "" : `<div class="panel warnbox">사내 OCR 설정(<span class="mono">ocr.callable · revision</span>)이 없습니다. 폴더 묶음은 OCR 단계에서 멈춥니다.
       사내 OCR 없이 흐름을 보려면 아래 "생성 데이터로 시험"을 쓰세요.</div>`}
@@ -66,6 +85,7 @@ async function view_import() {
         <button id="dg-go">생성 데이터로 묶음</button>
       </div>
     </div>`;
+  bindLabeledImport();
   const started = res => { toast(`작업을 시작했습니다: ${res.name}`); location.hash = `#/import/${q(res.name)}`; };
   $("#im-go").onclick = async () => {
     try {

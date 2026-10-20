@@ -4,7 +4,8 @@
                                log.txt    명령의 출력 그대로
 
 - 명령은 명령줄과 똑같은 것(예: python -m docgen.bench build --recipe …)을 그대로 실행한다. 화면 없이도 같은 결과.
-- studio 를 다시 띄우면 돌던 작업은 "끊김"으로 표시된다 (명령을 다시 돌리면 된다).
+- studio 를 다시 띄우면 돌던 작업은 "끊김"으로 표시된다. 생성이 끝난 데이터셋은 완료 파일을 확인해
+  ⑥ 목록 조회 때 자동 등록을 복구한다 (build_registration.py). 미완성 작업은 다시 실행해야 한다.
 - 진행: 명령이 stderr 에 쓰는 "\\r서류 3/40" 같은 줄에서 마지막 "a/b" 를 읽는다.
 - 끝나면 on_done(job) 을 부른다 (예: 만든 폴더를 데이터셋 등록부에 올리기).
 """
@@ -75,7 +76,12 @@ class Jobs:
     def _save(self, j: dict) -> None:
         f = self._file(j["id"])
         f.parent.mkdir(parents=True, exist_ok=True)
-        f.write_text(json.dumps(j, ensure_ascii=False, indent=1), encoding="utf-8")
+        tmp = f.with_name(f".{uuid.uuid4().hex}.tmp")
+        try:
+            tmp.write_text(json.dumps(j, ensure_ascii=False, indent=1), encoding="utf-8")
+            tmp.replace(f)
+        finally:
+            tmp.unlink(missing_ok=True)
 
     def start(self, kind: str, title: str, cmd: list[str], on_done=None, info: dict | None = None,
               cwd: Path | None = None, env: dict | None = None) -> dict:
@@ -102,10 +108,17 @@ class Jobs:
             j2["code"] = code
             j2["ended"] = time.strftime("%Y-%m-%d %H:%M:%S")
             if code == 0 and on_done:
+                registration = bool(j2.get("info", {}).get("dataset"))
+                j2["status"] = "running"
+                j2["stage"] = "registering" if registration else "finalizing"
+                self._save(j2)
                 try:
                     j2["result"] = on_done(j2)
+                    j2["status"] = "done"
+                    j2["stage"] = "registered" if isinstance(j2["result"], dict) and j2["result"].get("dataset") else "done"
                 except Exception as e:  # noqa: BLE001  후처리 실패도 작업 화면에 보인다
                     j2["status"] = "failed"
+                    j2["stage"] = "registration_failed" if registration else "finalize_failed"
                     j2["error"] = f"후처리 실패: {type(e).__name__}: {e}"
             self._save(j2)
 

@@ -110,7 +110,7 @@ async function formDetail(id, force = false) {
 async function viewForm(id, tab) {
   const d = await formDetail(id, tab === "review");
   const editable = d.kind === "overlay";
-  const tabs = [["preview", "미리보기"], ["examples", "예시"],
+  const tabs = [["preview", "미리보기"], ["examples", "예시"], ["questions", "문항 Q/A"],
     ...(editable ? [["edit", "영역 편집"]] : d.origin !== "builtin" ? [["html", "html 편집"]] : []),
     ["review", `검수${d.issues.filter(x => x.status === "open").length ? ` · 문제 ${d.issues.filter(x => x.status === "open").length}` : ""}`],
     ["keys", `키 목록 (${d.keys.length})`], ["files", "파일"]];
@@ -132,6 +132,7 @@ async function viewForm(id, tab) {
     <div id="tab"></div>`;
   if (tab === "preview") return tabPreview(d);
   if (tab === "examples") return tabExamples(d);
+  if (tab === "questions") return tabQuestions(d);
   if (tab === "edit" && editable) return viewEditor(d);
   if (tab === "html" && typeof viewHtmlEditor === "function") return viewHtmlEditor(d);
   if (tab === "review") return tabReview(d);

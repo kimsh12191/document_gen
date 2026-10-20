@@ -11,13 +11,13 @@ async function recipesPanel() {
   const tpl = Object.entries(opts.templates);
   return `
     <div class="panel" style="margin-bottom:12px">
-      <b>새로 만들기</b> <span class="muted">레시피로 데이터셋을 만듭니다. 명령줄 <span class="mono">python -m docgen.bench build --recipe …</span>과 같은 결과입니다.</span>
+      <b>새로 만들기</b> <span class="muted">레시피로 생성합니다. 완료하면 아래 등록 목록에 자동으로 추가됩니다. 폴더를 다시 등록할 필요가 없습니다.</span>
       ${r.recipes.length ? table(r.recipes, [
         ["name", "레시피", x => `<a href="#/recipes/${encodeURIComponent(x.name)}">${esc(x.name)}</a>`],
         ["track", "벤치마크", x => esc(TRACK_NAME[x.track || "bank"])], ["split", "용도", x => x.split === "train" ? "학습 데이터" : "평가 세트"],
         ["about", "설명"],
-        ["go", "", x => `<input type="text" data-outname="${esc(x.name)}" value="${esc(x.name)}-${new Date().toISOString().slice(0, 10)}" style="width:200px">
-          <label>프로세스 <input type="number" data-workers="${esc(x.name)}" value="4" min="1" max="32" style="width:52px"></label>
+        ["go", "", x => `<input type="text" data-outname="${esc(x.name)}" value="${esc(x.name)}-${new Date().toISOString().slice(0, 10)}" style="width:200px" required>
+          <label>프로세스 <input type="number" data-workers="${esc(x.name)}" value="4" min="1" max="32" style="width:52px" required></label>
           <button class="primary" data-build="${esc(x.name)}">만들기</button>`]]) : `<p class="muted">레시피가 없습니다. 아래 틀에서 시작하세요.</p>`}
       <div class="bar" style="margin-top:6px"><span class="muted">틀에서 새 레시피:</span>
         ${tpl.map(([k, t]) => `<button data-tpl="${esc(k)}" title="${esc(t.about)}">${esc(k)}</button>`).join("")}
@@ -34,10 +34,14 @@ function bindRecipesPanel() {
   });
   $$("[data-build]").forEach(b => b.onclick = async () => {
     const name = b.dataset.build;
+    const output = $(`[data-outname="${name}"]`), workers = $(`[data-workers="${name}"]`);
+    if (!output.reportValidity() || !workers.reportValidity()) return;
+    b.disabled = true;
     try {
-      const j = await api("/api/builds", { recipe: name, name: $(`[data-outname="${name}"]`).value.trim(), workers: +$(`[data-workers="${name}"]`).value || 1 });
-      location.hash = `#/jobs/${encodeURIComponent(j.id)}`;
+      const j = await api("/api/builds", { recipe: name, name: output.value.trim(), workers: +workers.value });
+      datasetBuildStarted(j);
     } catch (e) { toast(e.message, true); }
+    finally { if (b.isConnected) b.disabled = false; }
   });
 }
 

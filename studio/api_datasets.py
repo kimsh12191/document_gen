@@ -26,7 +26,7 @@ from pydantic import BaseModel
 from . import datasets as DS
 
 
-def make_router(reg: DS.Registry, guard) -> APIRouter:
+def make_router(reg: DS.Registry, guard, jobs=None) -> APIRouter:
     r = APIRouter()
     scores_dir = reg.ws / "scores"
 
@@ -60,6 +60,10 @@ def make_router(reg: DS.Registry, guard) -> APIRouter:
 
     @r.get("/api/datasets")
     def list_datasets():
+        if jobs is not None:
+            from .build_registration import recover_completed
+
+            guard(recover_completed, jobs, reg)
         d = reg.load()
         out = []
         for k, v in d["datasets"].items():

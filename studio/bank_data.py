@@ -16,7 +16,8 @@ from pathlib import Path
 from docgen.bench import build as BUILD
 from docgen.bench.cases import CASES
 from docgen.bench.rules import RULES
-from docgen.registry import GROUPS, SCENARIO_EXTRA, SCENARIOS, load_all, save_scenarios
+from docgen.registry import GROUPS, SCENARIO_EXTRA, SCENARIO_PROCESSING, SCENARIOS, load_all, save_scenarios
+from docgen.bench import processing as PROCESS
 
 from .config import ROOT
 
@@ -134,6 +135,7 @@ def _ocr_templates() -> dict:
 
 def start_build(jobs, registry, recipe_name: str, out_name: str, workers: int = 1) -> dict:
     from .jobs import python
+    from .build_registration import register_output
 
     r = get_recipe(recipe_name)
     if r.get("track", "bank") != "bank":
@@ -144,14 +146,15 @@ def start_build(jobs, registry, recipe_name: str, out_name: str, workers: int = 
     rpath = RECIPES / f"{_slug(recipe_name)}.json"
     cmd = [python(), "-m", "docgen.bench", "build", "--recipe", str(rpath), "--out", str(out), "--workers", str(max(1, workers))]
 
+    spec = {"path": str(out), "name": _slug(out_name), "meta": {
+        "source": "synthetic", "gt": "exact", "recipe": str(rpath.relative_to(ROOT)).replace("\\", "/"),
+        "dataset_json": "dataset.json", "purpose": r.get("about", "")}}
+
     def done(job):
-        ds = registry.register(str(out), _slug(out_name), source="synthetic", gt="exact", made_by_studio=True,
-                               recipe=str(rpath.relative_to(ROOT)).replace("\\", "/"), dataset_json="dataset.json",
-                               purpose=r.get("about", ""))
-        return {"dataset": ds["id"]}
+        return register_output(registry, spec)
 
     return jobs.start("build_bank", f"은행 업무 데이터셋 만들기: {out_name} (레시피 {recipe_name})", cmd, done,
-                      {"recipe": recipe_name, "out": str(out)})
+                      {"recipe": recipe_name, "out": str(out), "dataset": spec})
 
 
 # ---------------------------------------------------------------------------
@@ -181,6 +184,8 @@ def _n(v) -> str:
 
 def profile_view(b: dict) -> list[dict]:
     """고객 프로필에서 서류끼리 맞아야 하는 값과, 그 값이 각 서류의 어디에 있는지."""
+    if b.get('source') == 'labels':
+        return []   # 반입한 실제 서류에 합성 고객 프로필을 만들어 붙이지 않는다.
     from docgen.entities import make_profile
     from docgen.korean import fmt_date
 
@@ -220,6 +225,8 @@ _ROLE = re.compile(r"^(customer|applicant|holder|employee|borrower|debtor|tenant
 def consistency(b: dict) -> list[dict]:
     """고객 일관성 검사 (경고만): 고객 본인 역할의 성명·주민번호·주소 칸이 프로필과 다르면 경고.
     변조판(cross_check)과 다른 고객·불필요 서류는 일부러 다르므로 보지 않는다."""
+    if b.get('source') == 'labels':
+        return []
     from docgen.entities import make_profile
 
     p = make_profile(b["customer_seed"])
@@ -251,6 +258,7 @@ def scenarios_view(forms: dict, bundle_counts: dict) -> list[dict]:
     out = []
     for k, (name, docs) in SCENARIOS.items():
         out.append({"id": k, "name": name, "extra": SCENARIO_EXTRA.get(k, {}),
+                    "processing": PROCESS.validate(SCENARIO_PROCESSING.get(k), docs),
                     "docs": [{"id": d, "name": reg[d].name if d in reg else None, "reviewed": bool((forms.get(d) or {}).get("reviewed")),
                               "kind": "overlay" if d.startswith("hf") else "html"} for d in docs],
                     "bundles": bundle_counts.get(k, 0)})
@@ -273,7 +281,8 @@ def save_scenarios_list(items: list[dict]) -> None:
         if not docs:
             raise ValueError(f"{sid}: 필수 서류가 하나도 없습니다")
         clean.append({"id": sid, "name": s.get("name") or sid, "docs": docs,
-                      **({"extra": s["extra"]} if s.get("extra") else {})})
+                      **({"extra": s["extra"]} if s.get("extra") else {}),
+                      **({"processing": PROCESS.validate(s["processing"], docs)} if "processing" in s else {})})
     # 이미 있던 시나리오의 순서는 바꾸지 않는다 (순서가 고객 seed 를 정함). 지운 것은 빠지고 새것은 끝에.
     kept = [s for s in clean if s["id"] in old_order]
     if [s["id"] for s in kept] != [x for x in old_order if x in seen]:

@@ -32,12 +32,12 @@ from typing import Any
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from docgen import marks as M
 from docgen.preview import CONDITIONS, MODES, Previewer
 
-from . import api_bank, api_datasets, api_import, catalog, editor, marks_admin
+from . import api_bank, api_datasets, api_import, api_labels, catalog, editor, marks_admin
 from . import datasets as DS
 from .jobs import Jobs
 from .config import ROOT, load, resolve_path, setup_browser
@@ -81,12 +81,13 @@ app.mount("/preview", StaticFiles(directory=PREVIEW_DIR), name="preview")
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
 app.mount("/marks-img", StaticFiles(directory=M.POOLS_DIR), name="marks-img")
 REGISTRY = DS.Registry(resolve_path(CFG["workspace_dir"]), CFG.get("path_map") or {})
-app.include_router(api_datasets.make_router(REGISTRY, guard))
 JOBS = Jobs(REGISTRY.ws, ROOT)
+app.include_router(api_datasets.make_router(REGISTRY, guard, JOBS))
 app.include_router(api_bank.make_router(REGISTRY, JOBS, guard))
 # 실서류 검수 결과 (OCR 검수본 등). 설정이 없으면 작업 공간 안에 두고 화면에 경고한다
 REAL_ROOT = resolve_path(CFG.get("real_data_dir")) or REGISTRY.ws / "real_data"
 app.include_router(api_import.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT / "ocr_reviewed"))
+app.include_router(api_labels.make_router(REGISTRY, JOBS, guard, CFG))
 app.mount("/fonts", StaticFiles(directory=ROOT / "fonts"), name="fonts")   # 손글씨 글꼴 (화면의 글꼴 미리보기)
 
 
@@ -130,6 +131,7 @@ class RenderReq(BaseModel):
     condition: str = "clean"
     force: bool = False
     draft: dict | None = None     # 저장하지 않은 overlay 수정 (수정 전후 비교)
+    extra: dict | None = None     # 시나리오 예시의 고객 프로필 값
 
 
 @app.post("/api/forms/{doc_id}/render")
@@ -140,7 +142,7 @@ def render(doc_id: str, req: RenderReq):
     # 일반 def 라서 FastAPI 가 스레드에서 돌린다. 실제 렌더링은 Previewer 의 전용 스레드 하나에서 차례로 한다.
     try:
         draft = editor.validate(doc_id, req.draft) if req.draft is not None else None
-        label = previewer.render(doc_id, req.seed, req.heavy, req.special, req.condition, req.force, draft)
+        label = previewer.render(doc_id, req.seed, req.heavy, req.special, req.condition, req.force, draft, extra=req.extra)
     except KeyError as e:
         raise HTTPException(404, str(e))
     except ValueError as e:
@@ -148,6 +150,45 @@ def render(doc_id: str, req: RenderReq):
     except Exception as e:  # noqa: BLE001  렌더링 실패는 화면에 그대로 보여 준다
         raise HTTPException(500, f"{type(e).__name__}: {e}")
     return {**label, "image_urls": [f"/preview/{p}" for p in label["images"]]}
+
+
+class ScenarioRunReq(BaseModel):
+    scenario: dict
+    seed: int = Field(default=0, ge=0, le=2147483647)
+
+
+@app.post("/api/scenarios/run")
+def run_scenario(req: ScenarioRunReq):
+    from .scenario_processing import run
+
+    if not BROWSER:
+        raise HTTPException(503, "렌더링 브라우저가 없어 예시 고객의 문서를 만들 수 없습니다")
+    result = guard(run, req.scenario, req.seed, previewer.render)
+    result["labels"] = {did: {**label, "image_urls": [f"/preview/{p}" for p in label["images"]]}
+                        for did, label in result["labels"].items()}
+    return result
+
+
+@app.get("/api/question-formats")
+def question_formats():
+    from docgen.bench.contracts import contracts
+
+    return contracts()
+
+
+class FormQuestionsReq(RenderReq):
+    seed: int = Field(default=0, ge=0, le=2147483647)
+    fields_per_doc: int = Field(default=6, ge=0, le=50)
+    max_keys: int = Field(default=40, ge=1, le=500)
+
+
+@app.post("/api/forms/{doc_id}/questions")
+def form_questions(doc_id: str, req: FormQuestionsReq):
+    from .questions import form_items
+
+    label = render(doc_id, req)
+    items = guard(form_items, label, PREVIEW_DIR, req.fields_per_doc, req.max_keys)
+    return {"items": items, "seed": req.seed, "doc_id": doc_id}
 
 
 # ---------------------------------------------------------------------------

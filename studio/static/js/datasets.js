@@ -15,7 +15,8 @@ const LOWER_BETTER = new Set(["cer"]);
 const dsTag = d => `<span class="tag ${d.track === "ocr" ? "html" : "overlay"}">${TRACK_NAME[d.track]}</span>`;
 
 async function view_datasets() {
-  const r = await api("/api/datasets");
+  const [r, recipes, trainings] = await Promise.all([api("/api/datasets"), recipesPanel(), trainingsPanel()]);
+  if (location.hash !== "#/datasets") return;
   main().innerHTML = `
     <h1>데이터셋</h1>
     <div class="sub">OCR·은행 업무 데이터셋을 출처와 정답 종류와 함께 한 목록으로 관리합니다. 1부·2부 파이프라인이 명령줄로 만든 폴더도
@@ -31,21 +32,11 @@ async function view_datasets() {
         <button class="primary" id="dr-go">등록</button>
       </div>
     </div>
-    ${await recipesPanel()}
-    ${r.datasets.length ? table(r.datasets, [
-      ["name", "이름", d => `<a href="#/datasets/${encodeURIComponent(d.id)}">${esc(d.name)}</a> <span class="mono muted">${esc(d.id)}</span>`],
-      ["track", "벤치마크", d => dsTag(d)],
-      ["source", "출처", d => esc(r.sources[d.source] || d.source)],
-      ["gt", "정답", d => esc((r.gts[d.gt] || d.gt).split(" (")[0])],
-      ["real", "", d => d.real_data ? `<span class="tag warn">실서류</span>` : ""],
-      ["version", "버전", d => esc(d.version || "-")],
-      ["counts", "문항", d => esc(Object.entries(d.counts || {}).filter(([k]) => !/train|val|pages|documents/.test(k) || k === "benchmark_tasks")
-        .reduce((a, [, v]) => a + (+v || 0), 0) || "-")],
-      ["runs", "모델 답", d => d.n_runs || ""], ["scores", "점수", d => d.n_scores || ""],
-      ["frozen", "고정", d => d.frozen ? `<span class="tag ok">고정</span>` : ""],
-      ["exists", "", d => d.exists ? "" : `<span class="tag warn">폴더 없음</span>`],
-    ]) : `<p class="muted">등록된 데이터셋이 없습니다.</p>`}`;
-  main().insertAdjacentHTML("beforeend", await trainingsPanel());
+    ${recipes}
+    <div id="dataset-build-jobs"></div>
+    <section id="ds-registry"><div class="bar"><h2>등록된 데이터셋</h2><span id="ds-reg-status" class="muted">${r.datasets.length}개 등록</span>
+      <button type="button" id="ds-refresh">목록 새로고침</button></div><div id="ds-list">${datasetRegistryHTML(r)}</div></section>
+    ${trainings}`;
   bindRecipesPanel();
   $("#dr-go").onclick = async () => {
     try {
@@ -54,6 +45,7 @@ async function view_datasets() {
       location.hash = `#/datasets/${encodeURIComponent(d.id)}`;
     } catch (e) { toast(e.message, true); }
   };
+  startDatasetDashboard(r);
 }
 
 async function viewDataset(id, tab) {
@@ -354,20 +346,20 @@ async function viewBundle(id, bid) {
     main().innerHTML = `
       <div class="muted"><a href="#/datasets">데이터셋</a> › <a href="#/datasets/${encodeURIComponent(id)}/bundles">${esc(d.name)}</a></div>
       <h1>${esc(b.task_name)} <span class="mono muted">${esc(b.bundle_id)}</span></h1>
-      <div class="bar"><span class="tag">고객 ${esc(b.customer)} · seed ${b.customer_seed}</span>
+      <div class="bar"><span class="tag">고객 ${esc(b.customer)}${b.source === "labels" ? " · 가져온 라벨" : ` · seed ${b.customer_seed}`}</span>
         <span class="tag">서류 ${base.length}</span><span class="tag">문항 ${(b.items || []).length}</span>
         ${dc.missing?.length ? `<span class="tag warn">빠진 서류 ${dc.missing.length}</span>` : ""}
         ${dc.not_customer?.length ? `<span class="tag warn">타인 서류 ${dc.not_customer.length}</span>` : ""}
         ${dc.not_required?.length ? `<span class="tag">불필요 서류 ${dc.not_required.length}</span>` : ""}
         ${b.plan ? `<span class="tag">직접 만든 묶음</span>` : ""}
-        <button id="bd-rebuild" title="같은 seed 로 이 묶음을 새로 만들어 (서식을 고친 뒤) 전후를 비교">같은 seed 로 다시 만들기</button></div>
+        ${b.source === "labels" ? "" : `<button id="bd-rebuild" title="같은 seed 로 이 묶음을 새로 만들어 (서식을 고친 뒤) 전후를 비교">같은 seed 로 다시 만들기</button>`}</div>
       <div class="viewer" style="grid-template-columns:minmax(0,1fr) 420px">
         <div>${base.map(docCard).join("")}${extra.length ? `<h2>바꿔 넣은 서류</h2>${extra.map(docCard).join("")}` : ""}</div>
         <div class="side panel">
           <b>고객 프로필</b> <span class="muted" style="font-size:12px">값을 누르면 서류에서 그 값이 있는 자리를 초록 박스로</span>
           ${table(b.profile, [["what", "항목", p => `<a href="#" data-what="${esc(p.what)}" class="${sel.what === p.what ? "kr" : ""}">${esc(p.what)}</a>`],
             ["value", "값"], ["where", "나온 서류", p => p.where.length ? `${p.where.length}곳` : `<span class="muted">-</span>`]])}
-          <b>고객 일관성 검사</b> ${warn.length ? `<span class="tag warn">${warn.length}건</span>` : `<span class="tag ok">이상 없음</span>`}
+          <b>고객 일관성 검사</b> ${b.source === "labels" ? `<span class="muted">합성 프로필 검사 미적용</span>` : warn.length ? `<span class="tag warn">${warn.length}건</span>` : `<span class="tag ok">이상 없음</span>`}
           ${warn.length ? `<ul class="checks">${warn.map(w => `<li class="warn">${esc(w.doc)} · ${esc(w.label || w.key)}: ${esc(w.value)} (프로필 ${esc(w.expected)})</li>`).join("")}</ul>` : ""}
           <div class="muted" style="font-size:12px">고객 본인 역할 칸의 성명·주민번호·주소만 봅니다 (경고만).</div>
           <b>대조 문항 (변조판)</b>
@@ -377,6 +369,7 @@ async function viewBundle(id, bid) {
               ${c.changes.slice(0, 4).map(x => `<div>· ${esc(x.label || x.key)}: <s>${esc(x.old)}</s> → <b>${esc(x.new)}</b></div>`).join("")}
               ${c.images.length ? `<a href="#" data-var="${esc(v.case)}|${esc(c.doc_id)}">변조판 보기</a>` : ""}</div>`).join("")}</div>`).join("") || `<p class="muted">없음</p>`}
           <div id="bd-varview"></div>
+          ${b.source === "labels" ? `<b>라벨 처리 결과</b>${table(b.processing_results || [], [["id", "작업"], ["status", "상태"], ["answer", "결과", x => esc(x.answer === undefined ? "" : JSON.stringify(x.answer))], ["reason", "생략 사유"]])}` : ""}
           <b>이 묶음의 문항</b><div class="mono" style="font-size:12px">${(b.items || []).map(esc).join("<br>")}</div>
         </div>
       </div>`;
@@ -391,7 +384,7 @@ async function viewBundle(id, bid) {
         $("#bd-varview").innerHTML = `<div class="muted">${esc(cs)} · ${esc(did)} 변조판 (빨강 = 바뀐 칸)</div>${c.images.slice(0, 3).map((im, k) => pxStage(file(im), boxes.filter(bx => bx.page === k))).join("")}`;
       }
     };
-    $("#bd-rebuild").onclick = async () => {
+    if ($("#bd-rebuild")) $("#bd-rebuild").onclick = async () => {
       const name = `${bid}-rebuild-${Date.now().toString(36)}`;
       try {
         await api(`/api/recipes/${encodeURIComponent(name)}`, { about: `${bid} 다시 만들기 (같은 seed)`, track: "bank", split: "test", types: [], per_doc: 0,
