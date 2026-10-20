@@ -227,6 +227,8 @@ def build_fields(fields: list[dict], info: dict | None = None) -> list[dict]:
             rec["group"] = True
         if f.get("corrected"):
             rec["corrected_from"] = f["corrected"]  # 정정 전 값 (두 줄 그어진 글자)
+        if f.get("render"):
+            rec["render"] = f["render"]
         if typ in ("seal", "signature"):
             rec["present"] = f["present"]
             for x in ("kind", "anchor"):

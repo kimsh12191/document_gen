@@ -122,7 +122,8 @@ class FieldRecorder:
         return ""
 
     def mark(self, key: str | None, type: str = "seal", present: bool = True, text: str | None = None,
-             label: str | None = None, kind: str | None = None, anchor: str | None = None) -> str:
+             label: str | None = None, kind: str | None = None, anchor: str | None = None,
+             render: str | None = None) -> str:
         """도장·서명 자리를 기록하고 key 를 돌려준다 (템플릿에서 data-mark 속성으로 쓴다)."""
         root = "seal" if type == "seal" else "sign"  # 'signature' 는 서명란 이름 값으로 이미 쓰인다
         if not key:
@@ -148,6 +149,8 @@ class FieldRecorder:
             rec["kind"] = kind
         if anchor:
             rec["anchor"] = anchor
+        if render:   # 표시 요소 풀에서 고른 모양 (docgen/marks.py). 코드가 그린 기본 모양이면 없음
+            rec["render"] = render
         self.fields[key] = rec
         return key
 
@@ -262,8 +265,33 @@ def seal_font(text: str) -> str:
     return "" if n <= 6 else "font-size:11px" if n <= 9 else "font-size:9.5px;line-height:1.05"
 
 
+def seal_style(tpl: dict) -> str:
+    """도장 틀(docgen/marks.py 의 seal 풀 항목) → 인라인 CSS. 모양·테두리·겹선·글꼴·인주 색."""
+    out = []
+    shape = tpl.get("shape")
+    if shape == "square":
+        out.append("border-radius:4px")
+    elif shape == "oval":
+        out.append("border-radius:50%;width:auto;min-width:38px;padding:0 8px;aspect-ratio:1.45")
+    if tpl.get("border"):
+        out.append(f"border-width:{float(tpl['border']):.1f}px")
+    if tpl.get("double"):
+        out.append("border-style:double;border-width:" + f"{max(3.0, float(tpl.get('border') or 3)):.1f}px")
+    if tpl.get("font"):
+        out.append(f"font-family:{tpl['font']}")
+    if tpl.get("ink"):
+        out.append(f"color:{tpl['ink']};border-color:{tpl['ink']}")
+    return ";".join(out)
+
+
 def scribble(name: str, rng: random.Random) -> Markup:
-    """손 서명 흉내: 이름 길이에 맞춘 이어진 곡선 (SVG). 글자로 읽히지 않는 서명 모양."""
+    """손 서명 흉내: 이름 길이에 맞춘 이어진 곡선 (SVG). 글자로 읽히지 않는 서명 모양.
+    서명 풀(docgen/marks.py)에 이미지가 켜져 있으면 풀에서 하나를 고른다 (기본 풀이면 난수를 쓰지 않는다)."""
+    from . import marks as M
+
+    it = M.pick(rng, M.pools()["sign"])
+    if it and not it.get("builtin"):
+        return Markup(f'<img class="sigimg" src="{M.image_url(it)}" alt="" style="max-height:42px;max-width:{26 * max(2, len(name)) + 30}px">')
     n = max(2, len(name))
     w, h = 26 * n + rng.randint(10, 30), rng.randint(30, 42)
     x, y = 2.0, h * rng.uniform(0.45, 0.7)
@@ -284,7 +312,7 @@ def scribble(name: str, rng: random.Random) -> Markup:
 
 
 def checkmark(size: float, color: str, rng: random.Random) -> Markup:
-    """□ 위에 손으로 그은 체크(V) 표시 (SVG). size = □ 높이(px)."""
+    """□ 위에 손으로 그은 체크(V) 표시 (SVG). size = □ 높이(px). (overlay 서식. 체크 풀의 이미지는 realform 이 고른다)"""
     s = size * rng.uniform(1.0, 1.35)
     x0, y0 = rng.uniform(-0.15, 0.1) * size, size * rng.uniform(0.25, 0.45)
     xm, ym = x0 + s * rng.uniform(0.3, 0.42), y0 + s * rng.uniform(0.45, 0.6)
@@ -305,6 +333,7 @@ def env() -> Environment:
         _env = Environment(loader=FileSystemLoader(str(TEMPLATE_DIR)), undefined=StrictUndefined,
                            autoescape=True, trim_blocks=True, lstrip_blocks=True)
         _env.globals.update(kv_layout=kv_layout, checkmark=checkmark, seal_lines=seal_lines, seal_font=seal_font, scribble=scribble,
+                           seal_style=seal_style,
                            BR=Markup("<br>"))
     return _env
 

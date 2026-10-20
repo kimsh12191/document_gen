@@ -2,13 +2,23 @@
 
 - 서식: docgen 레지스트리 (`docgen.registry.load_all`)
 - 서식별 키 목록: guide/fields/fields.json (`scripts/build_schema.py`가 서식마다 30번 렌더링해 모은 것)
-- 검수·배정: docgen/catalog.json (없으면 모두 미검수·미배정)
+- 검수·배정·메모·문제 표시: docgen/catalog.json (없으면 모두 미검수·미배정)
+
+docgen/catalog.json
+  {"hf169": {"reviewed": {"by": "suhyun", "at": "2026-10-21", "hash": "<서식 전용 파일 해시>"},
+             "split": "train" | "test_only" | "unassigned", "note": "…",
+             "issues": [{"id": "i3", "seed": 0, "page": 0, "bbox": [x0, y0, x1, y1], "key": "…", "note": "…",
+                         "status": "open" | "done", "at": "…"}]}}
+- 검수 완료는 사람이 누른다. 누른 뒤 그 서식 전용 파일(템플릿·생성 함수·레이아웃·수정 파일)이 바뀌면 "재검수 필요".
+- split 은 docgen.bench build 가 읽는다: 학습 데이터(--split train)에서 test_only 서식을 뺀다.
 """
 from __future__ import annotations
 
 import inspect
 import json
 import re
+import threading
+import time
 from functools import lru_cache
 from pathlib import Path
 
@@ -22,9 +32,13 @@ MARK_TYPES = {"checkbox", "checkbox_multi", "seal", "signature"}
 _ASCII_KEY = re.compile(r"^[A-Za-z0-9_.]+$")
 
 
-def kind_of(group: str) -> tuple[str, str]:
-    """(종류, origin). 지금은 하나은행 원본 서식만 overlay 다."""
-    return ("overlay", "pdf") if group == "hana" else ("html", "builtin")
+def kind_of(group: str, doc_id: str = "") -> tuple[str, str]:
+    """(종류, origin). hf### 는 하나은행 원본 PDF 배경, 그 밖의 overlay 는 이미지 배경 (add_template/images)."""
+    if group == "hana":
+        return ("overlay", "pdf") if re.fullmatch(r"hf\d{3}", doc_id or "hf000") else ("overlay", "image")
+    spec = load_all().get(doc_id)
+    origin = getattr(spec, "origin", None) or "builtin"
+    return ("html", origin)
 
 
 @lru_cache(maxsize=1)
@@ -32,8 +46,88 @@ def _fields() -> dict:
     return json.loads(FIELDS_JSON.read_text(encoding="utf-8")) if FIELDS_JSON.exists() else {}
 
 
+_LOCK = threading.Lock()
+SPLITS = ("unassigned", "train", "test_only")
+
+
 def _catalog() -> dict:
     return json.loads(CATALOG_JSON.read_text(encoding="utf-8")) if CATALOG_JSON.exists() else {}
+
+
+def _write(cat: dict) -> None:
+    cat = {k: v for k, v in sorted(cat.items()) if v}
+    CATALOG_JSON.write_text(json.dumps(cat, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+
+
+def update(doc_id: str, fn) -> dict:
+    """catalog.json 의 서식 하나를 fn(entry) 로 고쳐 저장하고 고친 entry 를 돌려준다."""
+    if doc_id not in load_all():
+        raise KeyError(doc_id)
+    with _LOCK:
+        cat = _catalog()
+        entry = cat.get(doc_id, {})
+        fn(entry)
+        cat[doc_id] = {k: v for k, v in entry.items() if v not in (None, "", [])}
+        _write(cat)
+        return cat[doc_id]
+
+
+def form_hash(doc_id: str) -> str:
+    from docgen.preview import source_hash
+
+    return source_hash(doc_id, common=False)
+
+
+def set_review(doc_id: str, done: bool, by: str = "") -> dict:
+    def fn(e):
+        e["reviewed"] = {"by": by or "studio", "at": time.strftime("%Y-%m-%d %H:%M"), "hash": form_hash(doc_id)} if done else None
+    return update(doc_id, fn)
+
+
+def set_meta(doc_id: str, split: str | None = None, note: str | None = None) -> dict:
+    if split is not None and split not in SPLITS:
+        raise ValueError(f"split 은 {SPLITS} 중 하나")
+
+    def fn(e):
+        if split is not None:
+            e["split"] = None if split == "unassigned" else split
+        if note is not None:
+            e["note"] = note
+    return update(doc_id, fn)
+
+
+def add_issue(doc_id: str, issue: dict) -> dict:
+    def fn(e):
+        lst = e.setdefault("issues", [])
+        n = max([int(x["id"][1:]) for x in lst if x.get("id", "").startswith("i")] + [0]) + 1
+        lst.append({"id": f"i{n}", "status": "open", "at": time.strftime("%Y-%m-%d %H:%M"),
+                    **{k: issue[k] for k in ("seed", "page", "bbox", "key", "note", "heavy", "special", "condition")
+                       if k in issue}})
+    return update(doc_id, fn)
+
+
+def set_issue(doc_id: str, issue_id: str, status: str | None = None, note: str | None = None,
+              delete: bool = False) -> dict:
+    def fn(e):
+        lst = e.get("issues", [])
+        if delete:
+            e["issues"] = [x for x in lst if x["id"] != issue_id]
+            return
+        for x in lst:
+            if x["id"] == issue_id:
+                if status:
+                    x["status"] = status
+                if note is not None:
+                    x["note"] = note
+    return update(doc_id, fn)
+
+
+def review_state(doc_id: str, entry: dict) -> str:
+    """none / done / stale (검수 뒤 서식 파일이 바뀜)."""
+    rv = entry.get("reviewed")
+    if not rv:
+        return "none"
+    return "stale" if rv.get("hash") and rv["hash"] != form_hash(doc_id) else "done"
 
 
 @lru_cache(maxsize=1)
@@ -56,13 +150,16 @@ def _key_stats(keys: list[dict]) -> dict:
 
 
 def _summary(spec, entry: dict) -> dict:
-    kind, origin = kind_of(spec.group)
+    kind, origin = kind_of(spec.group, spec.id)
     keys = _fields().get(spec.id, {}).get("keys", [])
+    issues = entry.get("issues", [])
     return {
         "id": spec.id, "name": spec.name, "group": spec.group, "group_name": GROUPS.get(spec.group, spec.group),
         "kind": kind, "origin": origin, "category": spec.category, "page": spec.page,
         "scenarios": [s["id"] for s in _scenarios_of().get(spec.id, [])],
         "reviewed": entry.get("reviewed"), "split": entry.get("split", "unassigned"),
+        "open_issues": sum(1 for x in issues if x.get("status") == "open"),
+        "edited": (ROOT / "add_template" / "overrides" / f"{spec.id}.json").exists(),
         **_key_stats(keys),
     }
 
@@ -87,13 +184,19 @@ def form_detail(doc_id: str) -> dict:
     entry = _catalog().get(doc_id, {})
     files = []
     if spec.group == "hana":
-        from docgen.realform import layout_path, load_layout
+        from docgen import overrides
+        from docgen.realform import form_no, image_form_dir, layout_path, load_layout
 
-        lp = layout_path(int(doc_id[2:]))
+        no = form_no(doc_id)
+        lp = layout_path(no) if no is not None else None
         if lp:
-            lay = load_layout(int(doc_id[2:]))
+            lay = load_layout(no)
             files.append({"role": "레이아웃 (자동 추출)", "path": _rel(lp)})
             files.append({"role": "원본 PDF", "path": lay.get("file", "")})
+        elif (d := image_form_dir(doc_id)):
+            files.append({"role": "레이아웃·배경 이미지", "path": _rel(d)})
+        op = overrides.path(doc_id)
+        files.append({"role": "사람 수정 (영역 편집기)", "path": _rel(op) + ("" if op.exists() else " (아직 없음)")})
         files.append({"role": "값 채우기·렌더링", "path": "docgen/realform.py"})
     else:
         files.append({"role": "템플릿", "path": f"templates/{spec.template}"})
@@ -104,6 +207,8 @@ def form_detail(doc_id: str) -> dict:
         "sample_mark": spec.sample_mark,
         "scenario_names": _scenarios_of().get(doc_id, []),
         "note": entry.get("note", ""),
+        "issues": entry.get("issues", []),
+        "review_state": review_state(doc_id, entry),
         "keys": _fields().get(doc_id, {}).get("keys", []),
         "files": files,
     }

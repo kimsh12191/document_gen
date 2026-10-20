@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <title>{{ spec.name }}</title>
 <style>
-{% for fn in ["NanumPen", "NanumBrush", "HiMelody", "GamjaFlower"] %}
+{% for fn in d.get("fonts") or ["NanumPen", "NanumBrush", "HiMelody", "GamjaFlower"] %}
 @font-face { font-family: '{{ fn }}'; src: url('https://docgen.local/fonts/{{ fn }}.woff2') format('woff2'); }
 {% endfor %}
 * { box-sizing: border-box; }
@@ -36,6 +36,8 @@ html, body { margin: 0; padding: 0; background: #fff; }
 .scribble svg { display: block; overflow: visible; }
 .scribble.fit { display: flex; width: 100%; height: 100%; }
 .scribble.fit svg { max-width: 86%; max-height: 80%; width: auto; height: auto; margin: auto; }
+.scribble img, .box img.ckimg { display: block; max-width: 100%; max-height: 100%; margin: auto; }
+.box img.ckimg { position: absolute; left: -15%; top: -25%; width: 130%; height: 130%; object-fit: contain; }
 </style>
 </head>
 <body>
@@ -59,6 +61,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
 {%- if o.on %}{% set s = (b[3] - b[1]) %}
 {%- if d.style.mark == "■" %}<span class="mk fill"></span>
 {%- elif d.style.mark == "O" %}<span class="mk ring"></span>
+{%- elif d.style.mark == "img" %}<img class="ckimg" src="{{ d.style.mark_img }}" alt="">
 {%- else %}{{ checkmark(s, d.style.ink, f.rng) }}{% endif %}
 {%- endif %}</div>
 <div class="opt" data-opt="{{ it.key }}#{{ loop.index0 }}" style="left:{{ q[0] }}px;top:{{ q[1] }}px;width:{{ q[2] - q[0] }}px;height:{{ q[3] - q[1] }}px">
@@ -69,12 +72,15 @@ html, body { margin: 0; padding: 0; background: #fff; }
 {% endif %}
 {{ f.opts(it.key, it.options|map(attribute="text")|list, it.selected, it.label) }}
 {% elif it.t == "mark" %}
-{% set ks = f.mark(it.key, "seal", it.seal, it.name if it.seal else None, label=it.label, kind="행원인" if it.get("staff") else "인감") %}
-{% set kg = f.mark(it.key, "signature", it.sign, it.name if it.sign else None, label=it.label, kind="행원인" if it.get("staff") else None) %}
+{% set ks = f.mark(it.key, "seal", it.seal, it.name if it.seal else None, label=it.label, kind="행원인" if it.get("staff") else "인감", render=it.get("render", {}).get("seal")) %}
+{% set kg = f.mark(it.key, "signature", it.sign, it.name if it.sign else None, label=it.label, kind="행원인" if it.get("staff") else None, render=it.get("render", {}).get("sign")) %}
+{% set tpl = it.get("seal_tpl") %}
 {# 찍힌 도장·서명은 그 모양 자체가 위치, 없는 쪽은 자리(div)가 위치 #}
 <div class="mark"{% if not it.seal %} data-mark="{{ ks }}"{% endif %}{% if not it.sign %} data-mark2="{{ kg }}"{% endif %} style="left:{{ x0 }}px;top:{{ y0 }}px;width:{{ x1 - x0 }}px;height:{{ y1 - y0 }}px">
 {%- if it.seal %}<span class="seal{{ ' sq' if it.get("square") }}" data-mark="{{ ks }}" style="transform:rotate({{ it.rot }}deg)
-{%- if it.get("size") %};width:{{ it.size }}px;height:{{ it.size }}px;font-size:{{ (it.size * 0.26)|round(1) }}px{% endif %}">{{ seal_lines(it.name)|join(BR) }}</span>
+{%- if it.get("size") %};width:{{ it.size }}px;height:{{ it.size }}px;font-size:{{ (it.size * 0.26)|round(1) }}px{% endif %}
+{%- if tpl %};{{ seal_style(tpl) }}{% endif %}">{{ seal_lines(it.name)|join(BR) }}</span>
+{%- elif it.sign and it.get("sign_img") %}<span class="scribble fit" data-mark="{{ kg }}"><img src="{{ it.sign_img }}" alt=""></span>
 {%- elif it.sign %}<span class="scribble{{ ' fit' if it.get("staff") }}" data-mark="{{ kg }}">{{ scribble(it.name, f.rng) }}</span>{% endif %}</div>
 {% endif %}
 {% endfor %}

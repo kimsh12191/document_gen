@@ -48,6 +48,14 @@ MARK_TYPES = ("checkbox", "checkbox_multi", "seal", "signature")
 
 
 
+def test_only_forms() -> set[str]:
+    """docgen/catalog.json 에서 '평가 전용'으로 배정한 서식 (studio 검수 탭). 학습 데이터에서 뺀다."""
+    p = Path(__file__).resolve().parents[1] / "catalog.json"
+    if not p.exists():
+        return set()
+    return {k for k, v in json.loads(p.read_text(encoding="utf-8")).items() if v.get("split") == "test_only"}
+
+
 def _git_rev() -> str | None:
     try:
         return subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], cwd=Path(__file__).resolve().parents[2],
@@ -462,6 +470,10 @@ def build(args) -> None:
     if bad:
         sys.exit(f"알 수 없는 서류/시나리오: {bad}")
     split = getattr(args, "split", "test")
+    held_out = sorted(test_only_forms() & set(ids)) if split == "train" else []
+    if held_out:   # 평가 전용 서식은 학습 데이터의 단일 서류 과제에 넣지 않는다 (업무 묶음의 서류는 시나리오가 정함)
+        ids = [i for i in ids if i not in held_out]
+        print(f"평가 전용 서식 {len(held_out)}종은 학습 데이터에서 뺍니다: {', '.join(held_out[:10])}", file=sys.stderr)
     start = getattr(args, "start", 0)
     workers = max(1, getattr(args, "workers", 1))
     seed_single, seed_bundle, stride = SPLITS[split]
@@ -526,7 +538,7 @@ def build(args) -> None:
             "settings": {"types": args.types, "n_doc_types": len(ids), "per_doc": args.per_doc, "scenarios": scenarios,
                          "bundles": args.bundles, "start": start, "fields_per_doc": args.fields_per_doc,
                          "max_keys": args.max_keys, "scale": args.scale, "seed_single": seed_single,
-                         "seed_bundle": seed_bundle, "conditions": dict(CONDITIONS)},
+                         "seed_bundle": seed_bundle, "conditions": dict(CONDITIONS), "held_out_test_only": held_out},
             "counts": dict(sorted(counts.items())),
             "doc_names": {i: reg[i].name for i in ids}}
     (out / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1), encoding="utf-8")

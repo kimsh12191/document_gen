@@ -33,25 +33,32 @@ _ENV = {"heavy": ("DOCGEN_HEAVY", {"on": "1", "off": "0"}),
 # 모든 서식이 함께 쓰는 렌더링 코드. 바뀌면 모든 미리보기를 새로 그린다.
 COMMON = ["docgen/render.py", "docgen/schema.py", "docgen/image.py", "docgen/paginate.js", "docgen/augment.py",
           "docgen/realform.py", "docgen/entities.py", "docgen/korean.py", "docgen/banks.py", "docgen/docs/_common.py",
+          "docgen/marks.py", "docgen/overrides.py", "docgen/sources.py", "docgen/marks.json", "assets/marks/pools.json",
           "templates/_base.html.j2", "templates/_macros.html.j2", "templates/_real_form.html.j2"]
 
 
-def source_files(doc_id: str) -> list[Path]:
-    """이 서식의 결과를 바꾸는 파일들 (서식 전용 + 공통)."""
-    spec = load_all()[doc_id]
-    files = [ROOT / "templates" / spec.template, Path(inspect.getsourcefile(spec.generate))]
-    if spec.group == "hana":
-        from .realform import layout_path
+def source_files(doc_id: str, common: bool = True) -> list[Path]:
+    """이 서식의 결과를 바꾸는 파일들 (서식 전용 + 공통). common=False 면 서식 전용만 (검수 후 바뀌었는지 볼 때)."""
+    from . import overrides
 
-        lp = layout_path(int(doc_id[2:]))
+    spec = load_all()[doc_id]
+    files = [ROOT / "templates" / spec.template, Path(inspect.getsourcefile(spec.generate)), overrides.path(doc_id)]
+    if spec.group == "hana":
+        from .realform import form_no, image_form_dir, layout_path
+
+        no = form_no(doc_id)
+        lp = layout_path(no) if no is not None else None
         if lp:
             files.append(lp)
-    return files + [ROOT / c for c in COMMON]
+        d = image_form_dir(doc_id) if no is None else None
+        if d:
+            files += sorted(d.iterdir())
+    return files + ([ROOT / c for c in COMMON] if common else [])
 
 
-def source_hash(doc_id: str) -> str:
+def source_hash(doc_id: str, common: bool = True) -> str:
     h = hashlib.sha1()
-    for p in source_files(doc_id):
+    for p in source_files(doc_id, common):
         h.update(str(p.relative_to(ROOT) if p.is_relative_to(ROOT) else p).encode())
         h.update(p.read_bytes() if p.exists() else b"-")
     return h.hexdigest()[:12]
@@ -65,8 +72,9 @@ class Previewer:
         self._pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix="docgen-preview")
 
     def render(self, doc_id: str, seed: int = 0, heavy: str = "default", special: str = "default",
-               condition: str = "clean", force: bool = False) -> dict:
-        """라벨 dict 를 돌려준다. 이미지 경로(`images`)는 out_dir 기준 상대 경로."""
+               condition: str = "clean", force: bool = False, draft: dict | None = None) -> dict:
+        """라벨 dict 를 돌려준다. 이미지 경로(`images`)는 out_dir 기준 상대 경로.
+        draft: 저장하지 않은 overlay 수정 (docgen/overrides.py). 주면 파일 대신 그것으로 그린다 (수정 전후 비교)."""
         reg = load_all()
         if doc_id not in reg:
             raise KeyError(f"알 수 없는 서식: {doc_id}")
@@ -74,13 +82,19 @@ class Previewer:
             raise ValueError(f"heavy·special 은 {MODES} 중 하나")
         if condition not in CONDITIONS:
             raise ValueError(f"condition 은 {CONDITIONS} 중 하나")
-        src = source_hash(doc_id)
+        from .overrides import digest
+
+        src = source_hash(doc_id) + ("" if draft is None else ":draft:" + digest(draft))
         key = hashlib.sha1(json.dumps([doc_id, seed, heavy, special, condition, self.scale, src]).encode()).hexdigest()[:16]
         folder = self.out / doc_id / key
         label_path = folder / "label.json"
         if label_path.exists() and not force:
             return json.loads(label_path.read_text(encoding="utf-8"))
-        return self._pool.submit(self._render, doc_id, seed, heavy, special, condition, src, folder).result()
+        return self._pool.submit(self._render, doc_id, seed, heavy, special, condition, src, folder, draft).result()
+
+    def call(self, fn, *args):
+        """렌더러 스레드에서 fn(*args) 를 돌린다 (배경 그림처럼 렌더링과 같은 스레드 상태가 필요한 일)."""
+        return self._pool.submit(fn, *args).result()
 
     def close(self) -> None:
         def stop():
@@ -91,7 +105,10 @@ class Previewer:
         self._pool.shutdown()
 
     # 아래는 전용 스레드에서만 돈다
-    def _render(self, doc_id, seed, heavy, special, condition, src, folder: Path) -> dict:
+    def _render(self, doc_id, seed, heavy, special, condition, src, folder: Path, draft: dict | None = None) -> dict:
+        from contextlib import nullcontext
+
+        from . import overrides
         from .cli import _aug_fields
         from .schema import build_fields
 
@@ -110,14 +127,15 @@ class Previewer:
                     os.environ.pop(var, None)
                 else:
                     os.environ[var] = values[mode]
-            html, raw, _ = render(spec, make_profile(seed), seed)
+            with overrides.draft(doc_id, draft) if draft is not None else nullcontext():
+                html, raw, _ = render(spec, make_profile(seed), seed)
+                info = self._renderer.render(html, folder / "page.png")
         finally:
             for name, (var, _) in _ENV.items():
                 if saved[name] is None:
                     os.environ.pop(var, None)
                 else:
                     os.environ[var] = saved[name]
-        info = self._renderer.render(html, folder / "page.png")
         fields = build_fields(raw, info)
         images = [Path(p) for p in info["images"]]
         pages = info["pages"]

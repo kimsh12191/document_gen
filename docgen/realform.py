@@ -24,24 +24,23 @@ from functools import lru_cache
 from pathlib import Path
 
 from . import korean as K
+from . import marks as M
+from . import overrides as OV
+from . import sources as SRC
 from .entities import Profile
 
 ROOT = Path(__file__).resolve().parent.parent
 LAYOUTS = ROOT / "add_template" / "layouts"
+IMAGE_FORMS = ROOT / "add_template" / "images"   # overlay(image): 스캔·사진 배경 서식 <ID>/layout.json + page_<쪽>.png
 FONTS = ROOT / "fonts"
 CACHE = Path.home() / ".cache" / "docgen" / "bg"
 HOST = "https://docgen.local/"
 PX = 96 / 72          # PDF pt → CSS px
 BG_ZOOM = 2 * PX      # 배경 해상도 = 렌더러 device_scale_factor(2) 에 맞춘다
 BANK = "하나은행"
-# 결재란: 접수·처리를 마친 서류의 비율, 처리된 서류에서 칸마다 찍혀 있을 확률
-STAFF_PROCESSED = 0.85
-STAFF_FILLED = 0.85
-
-HAND_FONTS = ["NanumPen", "NanumBrush", "HiMelody", "GamjaFlower"]
-# 손글씨 글꼴마다 글자 몸집이 달라 같은 칸 높이에서 키우는 비율
-HAND_SCALE = {"NanumPen": 1.3, "NanumBrush": 1.3, "HiMelody": 1.05, "GamjaFlower": 1.0}
-PRINT_FONTS = ["'Nanum Gothic'", "'NanumBarunGothic'", "'Noto Sans CJK KR'", "'Nanum Myeongjo'", "'NanumGothicCoding'"]
+# 손글씨 비율, 결재란 비율, 체크 모양·글꼴 목록은 docgen/marks.py (marks.json·풀) 에서 읽는다.
+# 손글씨 글꼴마다 글자 몸집이 달라 같은 칸 높이에서 키우는 비율도 풀의 scale 이다.
+HAND_FONTS = [f["id"] for f in M.DEFAULT_POOLS["hand_fonts"]]   # 템플릿이 @font-face 를 거는 기본 글꼴
 INKS = ["#1b2a80", "#1a1a1a", "#222c55", "#0d3a8a", "#2b2b2b", "#183c9c"]
 D = K.fmt_date
 
@@ -57,10 +56,47 @@ def layout_path(no: int) -> Path | None:
 
 @lru_cache(maxsize=None)
 def load_layout(no: int) -> dict:
+    """자동 추출 레이아웃 그대로 (사람 수정 전)."""
     return json.loads(layout_path(no).read_text(encoding="utf-8"))
 
 
-def background_png(no: int, page: int) -> bytes:
+def form_no(doc_id: str) -> int | None:
+    return int(doc_id[2:]) if re.fullmatch(r"hf\d{3}", doc_id) else None
+
+
+def image_form_dir(doc_id: str) -> Path | None:
+    """overlay(image) 서식 폴더: 저장소의 add_template/images/<ID>/ 또는 private_forms_dir/<ID>/."""
+    for root in [IMAGE_FORMS, *_private_roots()]:
+        d = root / doc_id
+        if (d / "layout.json").exists():
+            return d
+    return None
+
+
+def _private_roots() -> list[Path]:
+    import os
+
+    p = os.environ.get("DOCGEN_PRIVATE_FORMS")
+    return [Path(p)] if p else []
+
+
+def raw_layout(doc_id: str) -> dict:
+    """사람 수정 전 레이아웃 (pdf 서식은 자동 추출, image 서식은 그 폴더의 layout.json)."""
+    no = form_no(doc_id)
+    if no is not None:
+        return load_layout(no)
+    d = image_form_dir(doc_id)
+    if d is None:
+        raise KeyError(doc_id)
+    return json.loads((d / "layout.json").read_text(encoding="utf-8"))
+
+
+def form_layout(doc_id: str) -> tuple[dict, list[dict]]:
+    """사람 수정(add_template/overrides/<ID>.json)을 덧씌운 레이아웃과 못 찾은 수정 목록."""
+    return OV.apply(raw_layout(doc_id), OV.load(doc_id))
+
+
+def _pdf_page_png(no: int, page: int) -> bytes:
     """서식 PDF 의 한 쪽을 PNG 로 (캐시)."""
     out = CACHE / f"{no:03d}_{page}.png"
     if not out.exists():
@@ -76,17 +112,53 @@ def background_png(no: int, page: int) -> bytes:
     return out.read_bytes()
 
 
+def raw_background(doc_id: str, page: int) -> bytes:
+    """지우기 전 배경 PNG (렌더러 배율 2 기준 해상도)."""
+    no = form_no(doc_id)
+    if no is not None:
+        return _pdf_page_png(no, page)
+    d = image_form_dir(doc_id)
+    if d is None:
+        raise KeyError(doc_id)
+    return (d / f"page_{page}.png").read_bytes()
+
+
+def background_png(doc_id: str | int, page: int) -> bytes:
+    """배경 PNG. 사람 수정의 배경 지우기(erase)를 적용한다."""
+    if isinstance(doc_id, int):
+        doc_id = f"hf{doc_id:03d}"
+    data = raw_background(doc_id, page)
+    erases = OV.erase_for(OV.load(doc_id), page)
+    if not erases:
+        return data
+    import io
+
+    from PIL import Image
+
+    img = OV.apply_erase(Image.open(io.BytesIO(data)), erases, BG_ZOOM)
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    return buf.getvalue()
+
+
 def serve(url: str) -> tuple[bytes, str] | None:
-    """https://docgen.local/bg/169/0.png, https://docgen.local/fonts/NanumPen.woff2 → (내용, MIME)."""
+    """https://docgen.local/bg/169/0.png, https://docgen.local/bgi/<ID>/0.png, https://docgen.local/fonts/NanumPen.woff2,
+    https://docgen.local/marks/<풀 이미지> → (내용, MIME)."""
     if not url.startswith(HOST):
         return None
     path = url[len(HOST):].split("?")[0]
     if m := re.fullmatch(r"bg/(\d+)/(\d+)\.png", path):
         return background_png(int(m.group(1)), int(m.group(2))), "image/png"
+    if m := re.fullmatch(r"bgi/([\w.-]+)/(\d+)\.png", path):
+        return background_png(m.group(1), int(m.group(2))), "image/png"
     if m := re.fullmatch(r"fonts/([A-Za-z]+)\.woff2", path):
         f = FONTS / f"{m.group(1)}.woff2"
         if f.exists():
             return f.read_bytes(), "font/woff2"
+    if path.startswith("marks/"):
+        data = M.image(path[len("marks/"):])
+        if data is not None:
+            return data, "image/svg+xml" if path.endswith(".svg") else "image/png"
     return None
 
 
@@ -392,21 +464,39 @@ def _jitter(r: random.Random, hand: bool) -> str:
 
 def build(no: int, p: Profile, rng: random.Random) -> dict:
     """서식 번호와 프로필로 렌더링 데이터(d)를 만든다."""
-    lay = load_layout(no)
-    cls = lay["class"].split("/")[0]
+    return build_form(f"hf{no:03d}", p, rng)
+
+
+def _pool(pools: dict, name: str) -> list[dict]:
+    lst = M.expand(pools[name])
+    return lst or M.expand(M.DEFAULT_POOLS[name])   # 다 꺼 두면 기본 풀
+
+
+def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
+    """overlay 서식(pdf·image) 하나의 렌더링 데이터(d). 사람 수정·표시 설정·풀을 반영한다."""
+    lay, _ = form_layout(doc_id)
+    no = form_no(doc_id)
+    ov = OV.load(doc_id)
+    S = M.settings(ov.get("marks"))
+    pools = M.pools()
+    cls = (lay.get("class") or "기본").split("/")[0]
     vals = Values(p, rng, cls)
-    hand = rng.random() < 0.72
-    hf = rng.choice(HAND_FONTS)
+    hand = rng.random() < S["hand"]
+    hfont = rng.choice(_pool(pools, "hand_fonts"))
+    hf = hfont["id"]
     style = {
         "hand": hand,
-        "scale": HAND_SCALE[hf] if hand else 1.0,
-        "font": f"'{hf}'" if hand else rng.choice(PRINT_FONTS),
+        "scale": hfont.get("scale", 1.0) if hand else 1.0,
+        "font": f"'{hf}'" if hand else rng.choice(_pool(pools, "print_fonts"))["id"],
         "ink": rng.choice(INKS) if hand else rng.choice(["#111", "#1a1a1a", "#222"]),
         "base": rng.uniform(17, 22) if hand else rng.uniform(12, 14),
-        "mark": rng.choice(["V", "V", "✓", "✔", "■", "O"]),
-        "seal": rng.choice(["#d11", "#c00", "#e0312b", "#b22222"]),
-        "fill": rng.uniform(0.75, 0.97),       # 선택 칸을 채울 확률
     }
+    check = rng.choice(_pool(pools, "check"))
+    style["mark"] = check["id"] if check.get("builtin") else "img"
+    if not check.get("builtin"):
+        style["mark_img"] = M.image_url(check)
+    style["seal"] = rng.choice(["#d11", "#c00", "#e0312b", "#b22222"])
+    style["fill"] = rng.uniform(0.75, 0.97)       # 선택 칸을 채울 확률
     out: list[dict] = []
     used_keys: dict[str, int] = {}
 
@@ -440,30 +530,44 @@ def build(no: int, p: Profile, rng: random.Random) -> dict:
                 key_base = f"{norm(it['group'])}_목록" if norm(it.get("group") or "") else "목록"
                 key = re.sub(r"[^\w.]", "", f"{key_base}.{i}.{norm(label) or 'value'}")
                 kind = kind_of(label, it.get("unit"), it.get("hint"))
+                if it.get("key"):   # 사람 수정: products.{i}.name 처럼 {i} 자리에 행 번호
+                    key = re.sub(r"[^\w.]", "", it["key"].replace("{i}", str(i)))
+                kind = it.get("kind") or kind
                 if i >= fill_rows[gk]:
                     value = None
+                elif it.get("source"):
+                    value = SRC.value(it["source"], p, rng, {**it, "class": cls}, vals, row=i)
                 elif kind == "percent":
                     plan = pct_plan.setdefault(gk, _split100(rng, max(1, fill_rows[gk])))
                     value = str(plan[i])
                 else:
                     value = vals.by_kind(kind, label) if kind != "reason" else vals.by_kind("product", label)
             else:
-                skey = key_of(label)
-                kind = kind_of(label, it.get("unit"), it.get("hint"))
+                skey = it.get("key") or key_of(label)
+                kind = it.get("kind") or kind_of(label, it.get("unit"), it.get("hint"))
                 sec = norm(it.get("section") or "")
-                if skey and AGENT_SEC.search(sec) and skey.startswith("customer."):
+                if it.get("key"):
+                    pass   # 사람이 정한 키는 구역(대리인·받는 분)으로 바꾸지 않는다
+                elif skey and AGENT_SEC.search(sec) and skey.startswith("customer."):
                     skey = "agent." + skey.split(".", 1)[1]   # 대리인 구역의 성명·생년월일 …
                 elif skey and FOREIGN_SEC.search(sec) and (skey.startswith("customer.") or skey == "account"):
                     skey = "foreign." + (skey.split(".", 1)[1] if "." in skey else "account")  # 받는 분
                 if kind == "seal" and not skey:   # '인감', '서명/날인' 칸 → 도장·서명 자리
                     x = rng.random()
                     nm = p.person.name
-                    out.append({"t": "mark", "page": page, "key": uniq("signer"), "label": label, "name": nm,
-                                "seal": x < 0.5, "sign": 0.5 <= x < 0.8, "rect": _px(it["rect"]),
-                                "rot": round(rng.uniform(-12, 8), 1)})
+                    sp = S["seal_spot"]
+                    mk = {"t": "mark", "page": page, "key": uniq("signer"), "label": label, "name": nm,
+                          "seal": x < sp["seal_below"], "sign": sp["seal_below"] <= x < sp["sign_below"],
+                          "rect": _px(it["rect"]), "rot": round(rng.uniform(-12, 8), 1)}
+                    out.append(_pooled(mk, pools, rng))
                     continue
-                if skey:
+                if it.get("source"):
+                    value = SRC.value(it["source"], p, rng, {**it, "class": cls}, vals)
+                    key = uniq(skey or norm(label) or "value")
+                elif skey:
                     value = vals.std(skey)
+                    if value is None and it.get("key"):   # 사람이 정한 키인데 프로필 규칙에 없는 키 → 값 종류로
+                        value = vals.by_kind(kind, label)
                     if skey == "customer.rrn" and re.search(r"앞\s*6|앞자리", label) and value:
                         value = value[:6]
                     key = uniq(skey)
@@ -496,7 +600,7 @@ def build(no: int, p: Profile, rng: random.Random) -> dict:
                 sel = None
             else:
                 sel = rng.randrange(len(opts))
-            key = uniq("check." + (norm(label) or norm(texts[0])[:12] or "item"))
+            key = uniq(it["key"] if it.get("key") else "check." + (norm(label) or norm(texts[0])[:12] or "item"))
             out.append({"t": "check", "page": page, "key": key, "label": label or texts[0],
                         "options": [{"text": texts[j], "box": _px(o["box"]), "rect": _px(o["rect"]),
                                      "on": j == sel} for j, o in enumerate(opts)],
@@ -519,40 +623,68 @@ def build(no: int, p: Profile, rng: random.Random) -> dict:
             is_agent = bool(re.search(r"대리인|수임인|보호자|법정대리", n)) or bool(AGENT_SEC.search(norm(it.get("section") or "")))
             name = None if is_agent and rng.random() < 0.85 else (
                 p.corporation.name if re.search(r"법인|상호|회사", n) else p.person.name)
-            role = uniq("signer")
+            role = uniq(it["key"] if it.get("key") else "signer")
             if it.get("name"):
                 out.append(_visible(f"{role}.name", name, it["name"], page, style, rng, label=label, align="center"))
             x = rng.random()
-            seal = name is not None and x < 0.4
-            sign = name is not None and not seal and x < 0.88
-            out.append({"t": "mark", "page": page, "key": role, "label": label, "name": name or "",
-                        "seal": seal, "sign": sign, "rect": _px(it["mark"]),
-                        "rot": round(rng.uniform(-12, 8), 1), "sig_seed": rng.random()})
+            sp = S["sign_spot"]
+            seal = name is not None and x < sp["seal_below"]
+            sign = name is not None and not seal and x < sp["sign_below"]
+            mk = {"t": "mark", "page": page, "key": role, "label": label, "name": name or "",
+                  "seal": seal, "sign": sign, "rect": _px(it["mark"]),
+                  "rot": round(rng.uniform(-12, 8), 1), "sig_seed": rng.random()}
+            out.append(_pooled(mk, pools, rng))
         elif t == "copy":
             filled = rng.random() < 0.85
-            out.append(_visible(uniq("handwritten"), it["text"] if filled else None, it["rect"], page,
-                                {**style, "hand": True, "font": f"'{hf}'", "scale": HAND_SCALE[hf]}, rng,
+            out.append(_visible(uniq(it["key"] if it.get("key") else "handwritten"), it["text"] if filled else None,
+                                it["rect"], page, {**style, "hand": True, "font": f"'{hf}'", "scale": hfont.get("scale", 1.0)}, rng,
                                 label=label or "자필기재", align="center"))
     # 결재란: 은행이 접수·처리한 서류에는 직원 도장·서명이 있다. 같은 칸 이름은 서류 안에서 같은 직원.
     cells = [(i, c) for i, pg in enumerate(lay["pages"]) for c in pg.get("staff", [])]
     if cells:
-        processed = rng.random() < STAFF_PROCESSED
+        st, ss = S["staff"], S["staff_spot"]
+        processed = rng.random() < st["processed"]
         staff: dict[str, str] = {}
         for page, c in cells:
             role = c["role"]
             name = staff.setdefault(role, K.make_name(rng, rng.choice("MF"))[0])
-            on = processed and rng.random() < STAFF_FILLED
+            on = processed and rng.random() < st["filled"]
             x = rng.random()
-            square = x < 0.2                              # 사각 도장: 직원 이름 또는 '확인'·'검인'
+            square = x < ss["square_below"]               # 사각 도장: 직원 이름 또는 '확인'·'검인'
             text = rng.choice(["확인", "검인"]) if square and rng.random() < 0.4 else name
             rect = _px(c["rect"])
             size = max(22.0, min(44.0, min(rect[2] - rect[0], rect[3] - rect[1]) * rng.uniform(0.62, 0.85)))
-            out.append({"t": "mark", "page": page, "key": uniq("staff." + (norm(role) or "결재")), "label": role,
-                        "name": text, "seal": on and x < 0.7, "sign": on and x >= 0.7, "rect": rect,
-                        "rot": round(rng.uniform(-12, 8), 1), "staff": True, "square": square, "size": round(size, 1)})
-    pages = [{"w": round(pg["width"] * PX, 1), "h": round(pg["height"] * PX, 1),
-              "bg": f"{HOST}bg/{no}/{i}.png"} for i, pg in enumerate(lay["pages"])]
-    return {"no": no, "pages": pages, "items": out, "style": style, "class": lay["class"], "name": lay["name"]}
+            mk = {"t": "mark", "page": page, "key": uniq("staff." + (norm(role) or "결재")), "label": role,
+                  "name": text, "seal": on and x < ss["seal_below"], "sign": on and x >= ss["seal_below"], "rect": rect,
+                  "rot": round(rng.uniform(-12, 8), 1), "staff": True, "square": square, "size": round(size, 1)}
+            out.append(_pooled(mk, pools, rng))
+    pages = []
+    for i, pg in enumerate(lay["pages"]):
+        bg = f"{HOST}bg/{no}/{i}.png" if no is not None else f"{HOST}bgi/{doc_id}/{i}.png"
+        if OV.erase_for(ov, i):   # 지운 배경은 주소가 달라야 브라우저가 예전 그림을 다시 쓰지 않는다
+            bg += f"?e={OV.digest(OV.erase_for(ov, i))}"
+        pages.append({"w": round(pg["width"] * PX, 1), "h": round(pg["height"] * PX, 1), "bg": bg})
+    fonts = list(dict.fromkeys(HAND_FONTS + [f["id"] for f in pools["hand_fonts"]]))
+    return {"no": no, "doc_id": doc_id, "pages": pages, "items": out, "style": style, "class": lay.get("class", ""),
+            "name": lay.get("name", doc_id), "fonts": fonts}
+
+
+def _pooled(mk: dict, pools: dict, rng: random.Random) -> dict:
+    """찍힌 도장·서명의 모양을 풀에서 고른다. 풀이 기본(코드가 그리는 모양 하나)이면 난수를 쓰지 않는다."""
+    render = {}
+    if mk["sign"]:
+        it = M.pick(rng, pools["sign"])
+        if it and not it.get("builtin"):
+            mk["sign_img"] = M.image_url(it)
+            render["sign"] = it["id"]
+    if mk["seal"]:
+        it = M.pick(rng, pools["seal"])
+        if it and not it.get("builtin"):
+            mk["seal_tpl"] = it
+            render["seal"] = it["id"]
+    if render:
+        mk["render"] = render
+    return mk
 
 
 def _split100(r: random.Random, n: int) -> list[int]:
