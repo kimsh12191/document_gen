@@ -1,3 +1,6 @@
+"""`prepare`: manifest + OCR (saved JSON or the configured OCR callable, cached) -> prepared folder
+with page views, task JSONL for SFT / GRPO / benchmark and DONE.json (see docs/SETUP.md 4).
+Also `group_turns`, which packs SFT questions on one image into multi-turn samples (group-sft)."""
 import random
 from collections import Counter, defaultdict
 from pathlib import Path

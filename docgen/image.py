@@ -2,6 +2,8 @@
 
 서류 한 건이 여러 쪽(.page 여러 개)이면 쪽마다 이미지를 따로 저장한다.
 페이지 나눔은 paginate.js 가 브라우저에서 처리한다 (A4 서류 .page.a4 · .page.a4_landscape 가 넘치면 다음 쪽으로).
+원본 서식 배경·손글씨 글꼴·표시 요소 그림은 https://docgen.local/ 요청을 가로채 realform.serve() 가 넘겨 준다.
+docgen generate --png, docgen.bench build, docgen.ocr_set, preview(studio), docgen/scripts/make_samples.py 가 쓴다.
 """
 from __future__ import annotations
 
@@ -9,6 +11,7 @@ import os
 from pathlib import Path
 
 _PAGINATE_JS = (Path(__file__).resolve().parent / "paginate.js").read_text(encoding="utf-8")
+_HTML_REGIONS_JS = (Path(__file__).resolve().parent / "html_regions.js").read_text(encoding="utf-8")
 
 _JS_COLLECT = """
 () => {
@@ -77,7 +80,26 @@ _JS_COLLECT = """
     const r = box(el);
     if (r) untagged.push({text: el.innerText.replace(/\\s+/g, ''), square: el.classList.contains('square'), ...r});
   }
+  const seen = new Map(), anchors = [];
+  for (const el of document.querySelectorAll('[data-field]')) {
+    const key = el.dataset.field, count = seen.get(key) || 0;
+    const occurrence = el.dataset.regionOccurrence === undefined ? count : Number(el.dataset.regionOccurrence);
+    seen.set(key, count + 1);
+    let r = box(el);
+    if (!r || r.bbox[2] - r.bbox[0] < 1) r = box(el.closest('.entry, td, .value') || el.parentElement);
+    if (r) anchors.push({key, occurrence, target:'field', text: el.innerText, ...r});
+  }
+  const specialSeen = new Map();
+  const special = (target,key,option,el) => {
+    const id=JSON.stringify([target,key,option]), count=specialSeen.get(id) || 0;
+    const occurrence=el.__regionOccurrences?.[id] ?? count;
+    specialSeen.set(id,count+1);
+    const r=box(el);if(r) anchors.push({target,key,option,occurrence,text:el.innerText,...r});
+  };
+  for(const el of document.querySelectorAll('[data-mark],[data-mark2]')) for(const attr of ['data-mark','data-mark2']) if(el.hasAttribute(attr)) special('mark',el.getAttribute(attr),0,el);
+  for(const el of document.querySelectorAll('[data-box]')) {const [key,opt]=el.dataset.box.split('#');special('box',key,Number(opt || 0),el);}
   return {
+    anchors,
     fields: collect('[data-field]', 'data-field'),
     labels: collect('[data-label]', 'data-label'),
     auto_labels: autoLabels,
@@ -200,6 +222,7 @@ class ImageRenderer:
         self._page.set_content(html, wait_until="load")
         self._page.evaluate("document.fonts.ready")
         self._page.evaluate("(" + _PAGINATE_JS + ")()")  # 넘친 쪽 나누기
+        self._page.evaluate("(" + _HTML_REGIONS_JS + ")()")
         info = self._page.evaluate(_JS_COLLECT)
         if texts:
             info["texts"] = self._page.evaluate(_JS_TEXTS)
@@ -207,7 +230,7 @@ class ImageRenderer:
         paths = page_paths(png_path, len(info["pages"]))
         for el, path in zip(self._page.locator(".page").all(), paths):
             el.screenshot(path=str(path))
-        for k in ("fields", "labels", "auto_labels", "boxes", "opts", "marks", "untagged_seals", "texts"):
+        for k in ("fields", "labels", "auto_labels", "boxes", "opts", "marks", "untagged_seals", "texts", "anchors"):
             for it in info.get(k, []):
                 it["bbox"] = [round(v * s, 1) for v in it["bbox"]]
         info["pages"] = [{"width": round(p["width"] * s), "height": round(p["height"] * s)} for p in info["pages"]]

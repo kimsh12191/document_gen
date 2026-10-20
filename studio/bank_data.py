@@ -1,4 +1,5 @@
 """③ 시나리오·묶음과 ⑥ 데이터셋의 은행 업무 쪽: 레시피, 빌드, 업무 묶음 보기, 고객 일관성 검사, 학습 설정 내보내기(2부).
+API 는 studio/api_bank.py, 화면은 static/js/recipes.js(레시피)·scenarios.js(시나리오)·datasets.js(업무 묶음·학습 탭).
 
 레시피 docgen/recipes/<이름>.json (docgen.bench build --recipe 가 읽는 것, docgen/bench/build.py 의 RECIPE_KEYS)
   {"name", "about", "track": "bank", "split": "test"|"train", "types": "all"|[서식ID·그룹], "per_doc", "scenarios": "all"|[…],
@@ -16,7 +17,7 @@ from pathlib import Path
 from docgen.bench import build as BUILD
 from docgen.bench.cases import CASES
 from docgen.bench.rules import RULES
-from docgen.registry import GROUPS, SCENARIO_EXTRA, SCENARIO_PROCESSING, SCENARIOS, load_all, save_scenarios
+from docgen.registry import GROUPS, SCENARIO_EXTRA, SCENARIO_PROCESSING, SCENARIO_SAMPLING, SCENARIOS, load_all, save_scenarios
 from docgen.bench import processing as PROCESS
 
 from .config import ROOT
@@ -258,6 +259,7 @@ def scenarios_view(forms: dict, bundle_counts: dict) -> list[dict]:
     out = []
     for k, (name, docs) in SCENARIOS.items():
         out.append({"id": k, "name": name, "extra": SCENARIO_EXTRA.get(k, {}),
+                    "sampling": SCENARIO_SAMPLING.get(k, {}),
                     "processing": PROCESS.validate(SCENARIO_PROCESSING.get(k), docs),
                     "docs": [{"id": d, "name": reg[d].name if d in reg else None, "reviewed": bool((forms.get(d) or {}).get("reviewed")),
                               "kind": "overlay" if d.startswith("hf") else "html"} for d in docs],
@@ -280,7 +282,14 @@ def save_scenarios_list(items: list[dict]) -> None:
             raise ValueError(f"{sid}: 모르는 서식 {unknown}")
         if not docs:
             raise ValueError(f"{sid}: 필수 서류가 하나도 없습니다")
+        from docgen.roles import index as role_index, validate_sampling
+
+        roles = role_index()
+        selected_roles = [roles[d]["id"] for d in docs]
+        if len(set(selected_roles)) != len(selected_roles):
+            raise ValueError(f"{sid}: 같은 제출 역할의 서식은 하나만 선택하세요")
         clean.append({"id": sid, "name": s.get("name") or sid, "docs": docs,
+                      **({"sampling":validate_sampling(docs,s["sampling"])} if s.get("sampling") else {}),
                       **({"extra": s["extra"]} if s.get("extra") else {}),
                       **({"processing": PROCESS.validate(s["processing"], docs)} if "processing" in s else {})})
     # 이미 있던 시나리오의 순서는 바꾸지 않는다 (순서가 고객 seed 를 정함). 지운 것은 빠지고 새것은 끝에.

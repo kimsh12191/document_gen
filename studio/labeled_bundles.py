@@ -1,4 +1,11 @@
-"""실제 라벨 묶음의 구비·직접 추출/비교·계산 문항. 이미지 변조와 합성 고객 생성은 하지 않는다."""
+"""④ 라벨 있는 데이터의 업무 묶음(bundles.jsonl) → 구비(doc_check)·직접 추출/비교·심사 계산(review) 문항.
+
+studio/labeled_data.py 의 build_bank 가 부른다. ③에 저장한 시나리오 처리 설정(docgen/bench/processing.py)과
+기존 심사 규칙(docgen/bench/rules.py)을 실제 라벨 값에 적용하고, 못 만든 작업은 processing_results 에 생략 사유를 남긴다.
+- 구비 문항은 명의를 확인한 not_customer 목록이 있을 때만 만든다.
+- 가린 값(*·●)은 계산에 쓰지 않는다.
+- 이미지 변조(합성 대조 사례 cross_check)와 합성 고객 생성은 하지 않는다.
+"""
 import random
 import re
 

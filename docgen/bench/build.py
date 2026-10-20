@@ -16,7 +16,9 @@
     dataset.json              (--recipe 로 만들 때) 레시피, 생성기 커밋, 평가 세트 버전, 서식 파일 해시
 
 같은 설정이면 언제 만들어도 같은 세트가 나온다 (seed 고정). 평가 세트(test)와 학습 데이터(train)는 서로,
-그리고 `python -m docgen generate` 의 seed(0부터)와도 겹치지 않는 seed 범위를 쓴다.
+그리고 `python -m docgen generate` 의 seed(0부터)와도 겹치지 않는 seed 범위를 쓴다 (아래 SPLITS).
+만든 폴더는 2부(bank/)가 학습·평가에 쓴다. 평가 세트와 학습 데이터를 한 번에 만드는 것은 docgen/scripts/make_bank_data.sh,
+studio 는 레시피로 이 명령(--recipe)을 돌려 데이터셋으로 등록한다.
 """
 from __future__ import annotations
 
@@ -28,7 +30,7 @@ import time
 from pathlib import Path
 
 from ..entities import make_profile
-from ..registry import GROUPS, SCENARIO_EXTRA, SCENARIO_PROCESSING, SCENARIOS, load_all
+from ..registry import GROUPS, SCENARIO_EXTRA, SCENARIO_PROCESSING, SCENARIO_SAMPLING, SCENARIOS, load_all
 from ..render import render
 from ..schema import build_fields
 from . import perturb
@@ -164,6 +166,7 @@ class Builder:
             paths, sizes, fields = new_paths, new_sizes, _aug_fields(fields, tfs)
         hand = spec.group in ("hana", "imported") and bool((data or {}).get("style", {}).get("hand"))
         return {"doc_id": doc_id, "name": spec.name, "group": spec.group, "seed": seed, "condition": cond, "stem": stem,
+                "template_variant": (data or {}).get("_template_variant", {"id":"default","name":"기본 레이아웃"}),
                 "images": [str(p.relative_to(self.out)) for p in paths], "sizes": sizes, "fields": fields,
                 "raw": raw, "raw_keys": [r["key"] for r in raw], "visible": perturb.visible_keys(html),
                 "html": html, "data": data, "writing": "hand" if hand else "print",
@@ -278,19 +281,27 @@ class Builder:
         """업무 묶음 하나. plan(직접 만든 묶음): {"name", "missing": [서류ID], "other": [서류ID], "extra": [서류ID],
         "cases": [사례ID], "tamper": {사례ID: bool}} — 정해 준 것은 난수 대신 그대로 쓴다."""
         task_name, ids = SCENARIOS[scenario]
-        processing = PROCESS.validate(SCENARIO_PROCESSING.get(scenario), ids)
+        from ..roles import resolve, resolve_processing
+        selections=resolve(ids,SCENARIO_SAMPLING.get(scenario),seed,scenario)
+        processing=resolve_processing(PROCESS.validate(SCENARIO_PROCESSING.get(scenario),ids),selections)
+        ids=[r["id"] for r in selections]
+        if plan:
+            mapping={r["slot"]:r["id"] for r in selections}
+            plan={**plan,**{key:[mapping.get(d,d) for d in plan[key]] for key in ("missing","other") if key in plan}}
         p = self.bundle_profile(scenario, seed)
         bid = f"{scenario}_{seed}" if not plan or not plan.get("name") else f"{scenario}_{seed}_{plan['name']}"
         docs = []
         for doc_id in ids:
             stem = f"images/bundles/{bid}/{doc_id}"
             docs.append(self.render_doc(doc_id, p, seed, stem, pick_condition(f"{bid}:{doc_id}", self.conditions)))
+        for d,selection in zip(docs,selections):d.update(role=selection["role"],slot=selection["slot"])
         meta = {"scenario": scenario, "task_name": task_name, "bundle": bid, "customer": p.person.name}
         first = len(self.buf)
         self.record = {"task": "_bundle", "bundle_id": bid, "scenario": scenario, "task_name": task_name,
                        "customer_seed": seed, "customer": p.person.name, "plan": plan or None,
                        "docs": [self._doc_record(d) for d in docs], "variants": [], "doc_check": None,
                        "processing": processing}
+        self.record["selections"]=selections
 
         if processing["doc_check"]:
             self.doc_check(docs, p, seed, bid, meta, plan)
@@ -331,6 +342,7 @@ class Builder:
     def _doc_record(d: dict, why: str = "") -> dict:
         """bundles.jsonl 의 서류 한 건: 이미지와 값 위치 (묶음 상세·고객 일관성 검사에 쓴다)."""
         return {"doc_id": d["doc_id"], "name": d["name"], "images": d["images"], "condition": d["condition"],
+                **{k:d[k] for k in ("role","slot","template_variant") if k in d},
                 "seed": d["seed"], **({"why": why} if why else {}),
                 "fields": [{k: f[k] for k in ("key", "label", "type", "value", "norm", "page", "bbox") if k in f}
                            for f in d["fields"] if not f.get("group")]}
@@ -407,7 +419,9 @@ class Builder:
             missing = rng.sample(docs, n_missing)
         present = [d for d in docs if d not in missing]
         not_customer, not_required = [], []
-        swap = [d for d in present if d["doc_id"] in OTHER_OK]
+        from ..roles import index as role_index
+        roles=role_index();other_roles={roles[d]["id"] for d in OTHER_OK if d in roles}
+        swap = [d for d in present if roles[d["doc_id"]]["id"] in other_roles]
         forced_other = plan.get("other") if plan and plan.get("other") is not None else None
         if forced_other is not None:
             swap_docs = [d for d in present if d["doc_id"] in set(forced_other)]
@@ -423,11 +437,14 @@ class Builder:
             extra_ids = [x for x in forced_extra if x in self.reg]
         elif rng.random() < R["extra_doc"]:
             ids = {d["doc_id"] for d in docs}
-            pool = sorted({x for _, (_, lst) in SCENARIOS.items() for x in lst} - ids)
+            required_roles={roles[x]["id"] for x in ids}
+            pool = sorted(x for _, (_, lst) in SCENARIOS.items() for x in lst if roles[x]["id"] not in required_roles)
             extra_ids = [rng.choice(pool)] if pool else []
         else:
             extra_ids = []
         for xid in extra_ids:
+            if roles[xid]["id"] in {roles[d["doc_id"]]["id"] for d in docs}:
+                raise ValueError("불필요 서류로 같은 제출 역할의 대응 서식을 넣을 수 없습니다")
             stem = f"images/bundles/{bid}/{xid}_extra"
             x = self.render_doc(xid, p, seed, stem, pick_condition(f"{bid}:{xid}", self.conditions))
             present.append(x)
@@ -457,7 +474,12 @@ class Builder:
         other = None
         only = set(plan["cases"]) if plan and plan.get("cases") else None
         forced = (plan or {}).get("tamper") or {}
-        processing = PROCESS.validate(SCENARIO_PROCESSING.get(meta["scenario"]), list(by_id))
+        from ..roles import resolve, resolve_processing
+        sid=meta["scenario"]
+        # 시험용 규칙 호출에서는 정식 시나리오가 없을 수도 있다.
+        slots=SCENARIOS[sid][1] if sid in SCENARIOS else list(by_id)
+        selections=resolve(slots,SCENARIO_SAMPLING.get(sid),seed,sid)
+        processing=resolve_processing(PROCESS.validate(SCENARIO_PROCESSING.get(sid),slots),selections)
         for case in CASES:
             conf = self.cases.get(case.id, {})
             if conf.get("enabled") is False or (only is not None and case.id not in only) or not PROCESS.selected(processing, "case_ids", case.id):
@@ -645,7 +667,7 @@ def build(args) -> None:
             for k in range(args.per_doc) for doc_id in ids]
     jobs += [("bundle", sc, seed_bundle + list(SCENARIOS).index(sc) * stride + start + b)
              for sc in scenarios for b in range(per_sc.get(sc, args.bundles))]
-    for k, cb in enumerate(rc["custom"] if rc else []):   # 직접 만든 묶음: 정해 준 대로 (DESIGN.md 9.5)
+    for k, cb in enumerate(rc["custom"] if rc else []):   # 직접 만든 묶음: 정해 준 대로 (studio/DESIGN.md 9.5)
         sc = cb["scenario"]
         if sc not in SCENARIOS:
             sys.exit(f"직접 만든 묶음 {k + 1}: 알 수 없는 시나리오 {sc}")
@@ -712,6 +734,7 @@ def build(args) -> None:
                          "seed_bundle": seed_bundle, "conditions": dict(CONDITIONS), "held_out_test_only": held_out},
             "counts": dict(sorted(counts.items())),
             "doc_names": {i: reg[i].name for i in ids}}
+    meta["scenario_sampling"]={sc:SCENARIO_SAMPLING[sc] for sc in scenarios if sc in SCENARIO_SAMPLING}
     if rc:
         meta["recipe"] = rc["recipe"].get("name") or Path(args.recipe).stem
         meta["settings"]["bundles_per"] = per_sc
@@ -723,7 +746,7 @@ def build(args) -> None:
     if rc:   # 버전 정보 (studio 데이터셋 등록부·설명서가 읽는다)
         from ..preview import source_hash
 
-        used = sorted(set(ids) | {d for sc in scenarios for d in SCENARIOS[sc][1]})
+        used = sorted(set(ids) | {d for sc in scenarios for d in SCENARIOS[sc][1]} | {d for sc in scenarios for c in SCENARIO_SAMPLING.get(sc,{}).values() for d in c.get("forms",[])})
         info = {"recipe": rc["recipe"], "recipe_path": str(args.recipe), "generator_commit": meta["generator_commit"],
                 "version": VERSION, "created": meta["created"], "counts": meta["counts"], "split": split,
                 "form_hashes": {i: source_hash(i, common=False) for i in used if i in reg}}

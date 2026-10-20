@@ -9,17 +9,19 @@
   <폴더>/config.json                            1부 prepare 설정 (ocr/config.example.json + 레시피의 prepare)
   <폴더>/prepared/                              1부 prepare 결과 (studio 가 데이터셋으로 등록하는 폴더)
   <폴더>/ocr_set.json                           레시피, 생성기 커밋, 수, 서식 해시
+prepare 는 ocr/ 에서 python -m bank_ocr prepare 로 돌리므로 1부 패키지가 설치돼 있어야 한다 (없으면 --no-prepare).
 
-레시피 (track: "ocr")
+레시피 (track: "ocr", 예: docgen/recipes/ocr-bench.json, ocr-train.json)
   {"track": "ocr", "name", "about", "split": "benchmark" | "train",
-   "types": "all" | [서식ID·그룹], "per_doc": 서식당 고객 수, "exclude": [...], "reviewed_only": false,
+   "types": "all" | [서식ID·그룹], "per_doc": 서식당 고객 수, "start": seed 시작 오프셋, "exclude": [...], "reviewed_only": false,
    "conditions": {"clean": .5, "scan": .2, "photo": .15, "fax": .15},
-   "unit": "word" | "line",     정답 한 항목의 단위 (사내 OCR 에 맞춘다: DESIGN.md 12절)
+   "unit": "word" | "line",     정답 한 항목의 단위 (사내 OCR 에 맞춘다: studio/DESIGN.md 12절)
    "heavy": "default"|"on"|"off", "special": "default"|"on"|"off",
    "merge_manifests": [다른 1부 manifest 경로 (실서류 등)],
    "prepare": {1부 설정 덮어쓰기: tasks_per_view, filters, benchmark_fraction …}}
 - split="benchmark": 모든 쪽이 평가용 (1부 benchmark_only). split="train": 1부가 benchmark_fraction 만큼 평가로 떼어 둔다.
-- seed 범위는 docgen generate(0~)·docgen.bench(1,000,000~ / 10,000,000~)와 겹치지 않는다: 평가 3,000,000~, 학습 30,000,000~.
+- seed 범위: 평가 3,000,000~, 학습 30,000,000~. docgen generate(0~)·docgen.bench 평가 세트(1,000,000~ / 2,000,000~)와는
+  겹치지 않는다. docgen.bench 학습 묶음(20,000,000 + 시나리오 번호 × 1,000,000)은 11번째 시나리오부터 학습 seed 와 겹친다.
 - 견본 표시·도장 안 글자·정정으로 그은 글자는 신뢰도 0.3 으로 적고, 1부 필터(기본: 평가 0.5, 학습 0.95)가 그 자리를 뺀다.
 """
 from __future__ import annotations
@@ -117,7 +119,7 @@ def _one(job: tuple) -> list[dict]:
                 os.environ[var] = values[mode]
             else:
                 os.environ.pop(var, None)
-        html, raw, _ = render(spec, make_profile(seed), seed)
+        html, raw, data = render(spec, make_profile(seed), seed)
     finally:
         for k, (v, _) in _ENV.items():
             if saved[k] is None:
@@ -129,7 +131,7 @@ def _one(job: tuple) -> list[dict]:
     info = _R.render(html, out / "images" / f"{stem}.png", texts=True)
     paths = [Path(p) for p in info["images"]]
     texts = info["texts"]
-    bg = background_words(doc_id) if spec.group in ("hana", "imported") else {}
+    bg = background_words(doc_id) if spec.template == "_real_form.html.j2" else {}
     zoom = scale * 96 / 72   # pt → 이미지 픽셀
     if cond != "clean":
         arng = random.Random(f"ocrset:aug:{stem}")
@@ -153,7 +155,8 @@ def _one(job: tuple) -> list[dict]:
         oj = out / "ocr_json" / (p.stem + ".json")
         oj.write_text(json.dumps(page_document(items, p.name), ensure_ascii=False), encoding="utf-8")
         rows.append({"document_id": stem, "page_id": f"{stem}/p{k + 1}", "image": str(p.resolve()), "split": split,
-                     "ocr_json": str(oj.resolve()), "doc_type": doc_id, "condition": cond})
+                     "ocr_json": str(oj.resolve()), "doc_type": doc_id, "condition": cond,
+                     "template_variant":data.get("_template_variant",{"id":"default","name":"기본 레이아웃"})})
     return rows
 
 

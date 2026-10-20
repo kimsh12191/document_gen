@@ -1,8 +1,11 @@
-"""명령줄 진입점.
+"""명령줄 진입점 (python -m docgen).
 
-  python -m docgen list
-  python -m docgen generate --types all --n 20 --out out --png
+  python -m docgen list [--markdown]                               서류·시나리오 목록 (--markdown 은 guide/documents.md)
+  python -m docgen generate --types all --n 20 --out out --png     HTML·정답 라벨 (+ PNG·위치·ms-swift jsonl)
   python -m docgen generate --scenario mortgage --n 5 --out out --png
+  python -m docgen check --png                                     템플릿 검증 (예외, 표시하지 않은 값, 페이지 넘침)
+
+출력 형식은 docgen/README.md 의 '출력 구조'. 평가 세트는 docgen.bench, 합성 OCR 세트는 docgen.ocr_set 이 따로 만든다.
 """
 from __future__ import annotations
 

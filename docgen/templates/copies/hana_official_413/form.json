@@ -1,0 +1,45 @@
+{
+  "name": "고객확인서(법인,고유번호나 납세번호가 있는 임의 단체용)",
+  "group": "hana",
+  "category": "internal",
+  "parent": "hf413",
+  "fields": {},
+  "page": "a4",
+  "origin": "copy",
+  "description": "하나은행 공개 원문을 대조한 HTML. 고객확인서(법인,고유번호나 납세번호가 있는 임의 단체용). 기존 hf413 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070106/__icsFiles/afieldfile/2026/06/17/3-08-1301.pdf",
+  "source": {
+    "publisher": "하나은행",
+    "url": "https://image.kebhana.com/cont/customer/customer07/customer0701/customer070106/__icsFiles/afieldfile/2026/06/17/3-08-1301.pdf",
+    "source_file": "forms/하나은행_서식자료/기타/413_고객확인서(법인,고유번호나 납세번호가 있는 임의 단체용).pdf",
+    "sha256": "49d963c91df27cfe310f034a77a07324d1cdf85cd502b5ae96a4499d918fd91f",
+    "checked_at": "2026-10-20",
+    "revision": "(2026.06 개정)",
+    "matches": [
+      "corporate_customer_due_diligence"
+    ],
+    "online_verification": {
+      "status": "verified_pdf",
+      "sha256": "49d963c91df27cfe310f034a77a07324d1cdf85cd502b5ae96a4499d918fd91f",
+      "matches_local": true,
+      "checked_at": "2026-10-20"
+    }
+  },
+  "reconstruction": {
+    "method": "native_html_text_svg_lines",
+    "pages": [
+      {
+        "source_page": 1,
+        "text_spans": 383,
+        "omitted_paths": 10,
+        "omitted_images": 1
+      },
+      {
+        "source_page": 2,
+        "text_spans": 324,
+        "omitted_paths": 10,
+        "omitted_images": 1
+      }
+    ],
+    "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."
+  }
+}

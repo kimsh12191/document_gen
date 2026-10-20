@@ -9,6 +9,11 @@
 - 같은 입력이면 다시 그리지 않고 저장해 둔 결과를 돌려준다. 입력에는 서식 파일(템플릿·생성 함수·레이아웃)과 공통
   렌더링 코드의 내용 해시가 들어가므로, 서식을 고치면 새로 그린다.
 - 변형(heavy, special)은 docgen/docs/_common.py 의 환경변수 스위치를 그 요청 동안만 바꿔 쓴다.
+- source_hash() 는 docgen.bench build·docgen.ocr_set 도 데이터셋 기록(서식 파일 해시)에 쓴다.
+
+명령줄 (분석기가 작업 폴더에서 html 서식을 고치며 쓴다. main() 참고):
+  python -m docgen.preview <서식ID> --out <폴더>
+  python -m docgen.preview --dir <template.html.j2·form.json 폴더> [--rows max] --out <폴더>
 """
 from __future__ import annotations
 
@@ -17,6 +22,7 @@ import inspect
 import json
 import os
 import random
+import re
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -34,7 +40,9 @@ _ENV = {"heavy": ("DOCGEN_HEAVY", {"on": "1", "off": "0"}),
 COMMON = ["docgen/render.py", "docgen/schema.py", "docgen/image.py", "docgen/paginate.js", "docgen/augment.py",
           "docgen/realform.py", "docgen/entities.py", "docgen/korean.py", "docgen/banks.py", "docgen/docs/_common.py",
           "docgen/marks.py", "docgen/overrides.py", "docgen/sources.py", "docgen/preview.py", "docgen/marks.json", "docgen/assets/marks/pools.json",
-          "docgen/templates/_base.html.j2", "docgen/templates/_macros.html.j2", "docgen/templates/_real_form.html.j2"]
+          "docgen/templates/_base.html.j2", "docgen/templates/_macros.html.j2", "docgen/templates/_real_form.html.j2",
+          "docgen/templates/_official_base.html.j2", "docgen/templates/_official_values.html.j2",
+          "docgen/html_regions.py", "docgen/html_regions.js", "docgen/template_variants.py"]
 
 
 def source_files(doc_id: str, common: bool = True) -> list[Path]:
@@ -43,6 +51,13 @@ def source_files(doc_id: str, common: bool = True) -> list[Path]:
 
     spec = load_all()[doc_id]
     files = [Path(inspect.getsourcefile(spec.generate)), overrides.path(doc_id)]
+    if spec.template != "_real_form.html.j2":
+        from . import html_regions
+
+        files.append(html_regions.path(doc_id))
+        from .template_variants import folder
+        vd=folder(doc_id)
+        files += [vd/"variants.json"] + (sorted(vd.glob("*.html.j2")) + sorted(vd.glob("*.regions.json")) if vd.exists() else [])
     if spec.template.startswith("@form/"):   # 화면에서 만든 html 서식: 서식 폴더 (+ 복제면 부모의 생성 함수)
         from . import htmlform
 
@@ -51,6 +66,11 @@ def source_files(doc_id: str, common: bool = True) -> list[Path]:
         parent = (htmlform.load_form(doc_id) if d else {}).get("parent")
         if parent in load_all():
             files.append(Path(inspect.getsourcefile(load_all()[parent].generate)))
+            if re.fullmatch(r"hf\d{3}", parent):
+                from .realform import layout_path
+
+                lp = layout_path(int(parent[2:]))
+                files += ([lp] if lp else []) + [overrides.path(parent)]
     else:
         files.insert(0, ROOT / "docgen" / "templates" / spec.template)
     if spec.group in ("hana", "imported"):
@@ -156,7 +176,9 @@ class Previewer:
                 ctx = htmlform.draft(doc_id, draft, rows)
             else:
                 ctx = overrides.draft(doc_id, draft) if draft is not None else nullcontext()
-            with ctx:
+            from . import html_regions
+            region_draft = (draft or {}).get("html_regions")
+            with ctx, html_regions.draft(doc_id, region_draft):
                 profile = make_profile(seed)
                 profile.extra.update(extra or {})
                 html, raw, data = render(spec, profile, seed)
@@ -194,6 +216,12 @@ class Previewer:
             "special": special, "condition": condition, "source_hash": src,
             "images": [str(p.relative_to(self.out)).replace("\\", "/") for p in images],
             "pages": pages, "overflow": info["overflow"], "fields": fields,
+            "anchors": [{**a, **{k: next((f for f in raw if f["key"] == a["key"]), {}).get(k) for k in ("type", "label")}}
+                        for a in info.get("anchors", [])] if condition == "clean" else [],
+            "editable_fields": [{k: f.get(k) for k in ("key", "type", "label", "value", "present")} for f in raw]
+                               if spec.template != "_real_form.html.j2" else [],
+            "scale": self.scale,
+            "template_variant": data.get("_template_variant", {"id":"default","name":"기본 레이아웃"}),
             "raw_keys": [f["key"] for f in raw],
             "visible": sorted(visible_keys(html)),
             "writing": "hand" if spec.group in ("hana", "imported") and (data or {}).get("style", {}).get("hand") else "print",

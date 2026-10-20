@@ -31,6 +31,41 @@ def make_router(reg, jobs, guard, cfg: dict, previewer, preview_url) -> APIRoute
     r = APIRouter()
     ws = reg.ws
 
+    @r.get("/api/forms/{doc_id}/templates")
+    def templates(doc_id: str):
+        from docgen import template_variants as T
+        return guard(T.load,doc_id)
+
+    @r.put("/api/forms/{doc_id}/templates")
+    def save_templates(doc_id: str, req: dict):
+        from docgen import template_variants as T
+        return guard(T.save,doc_id,req)
+
+    @r.post("/api/forms/{doc_id}/templates")
+    def add_template(doc_id: str, req: dict):
+        from docgen import template_variants as T
+        return guard(T.add,doc_id,req.get("id"),req.get("name"),req.get("base","default"))
+
+    @r.get("/api/forms/{doc_id}/templates/{variant}")
+    def template_source(doc_id: str, variant: str):
+        from docgen import template_variants as T
+        return {"template":guard(T.source,doc_id,variant),"editable":variant!="default"}
+
+    @r.put("/api/forms/{doc_id}/templates/{variant}")
+    def save_template_source(doc_id: str, variant: str, req: dict):
+        from docgen import template_variants as T
+        from docgen.render import env
+        from jinja2 import TemplateSyntaxError
+
+        guard(T.source,doc_id,variant)
+        if variant=="default":raise HTTPException(400,"기본 레이아웃은 보존합니다. 변형을 추가한 뒤 편집하세요")
+        text=req.get("template")
+        if not isinstance(text,str):raise HTTPException(400,"HTML 템플릿을 지정하세요")
+        try:env().parse(text)
+        except TemplateSyntaxError as e:raise HTTPException(400,f"템플릿 문법 오류 ({e.lineno}행): {e.message}")
+        (T.folder(doc_id)/(variant+".html.j2")).write_text(text,encoding="utf-8")
+        return {"saved":True}
+
     def html_form(doc_id: str):
         from docgen import htmlform as H
         from docgen.registry import load_all

@@ -15,6 +15,7 @@ Stages (each recorded in <workdir>/state.json; a re-run continues where it stopp
   eval_grpo   merge + benchmark the GRPO model
   report      reports/benchmark.{csv,md,html} (+ reports/ocr_retention.* when ocr_check is set)
 
+Run from bank/ (setup and config keys: README.md):
   python run_bank_pipeline.py --config configs/bank_pipeline.json --smoke    # rehearsal
   python run_bank_pipeline.py --config configs/bank_pipeline.json            # everything
   python run_bank_pipeline.py --config configs/bank_pipeline.json --from grpo

@@ -1,4 +1,6 @@
-// ① 서식: 목록, 상세(미리보기·예시·편집·검수·키 목록·파일)
+// ① 서식: 목록, 상세(미리보기·예시·문항 Q/A·편집·검수·키 목록·파일), html 서식 복제.
+// 탭 중 문항 Q/A 는 questions.js, 영역 편집(overlay)은 editor.js, html 편집은 htmled.js 가 그린다.
+// 서버: studio/app.py (/api/forms…), studio/catalog.py, 복제는 studio/api_html.py
 "use strict";
 
 addRoute(/^#\/forms\/([^/]+)(?:\/(\w+))?$/, (id, tab) => viewForm(decodeURIComponent(id), tab || "preview"), "forms");
@@ -56,7 +58,8 @@ async function viewForms() {
 function drawFormTable() {
   const f = state.filter, q = f.q.toLowerCase();
   let rows = state.forms.filter(x =>
-    (!q || x.id.toLowerCase().includes(q) || x.name.toLowerCase().includes(q)) &&
+    (!q || x.id.toLowerCase().includes(q) || x.name.toLowerCase().includes(q) ||
+      (x.official_source && ("공식대조 HTML " + x.official_source.publisher).toLowerCase().includes(q))) &&
     (!f.group || x.group === f.group) && (!f.kind || x.kind === f.kind) &&
     (!f.review || (f.review === "yes") === !!x.reviewed) &&
     (!f.korean || x.n_korean_keys > 0) && (!f.scenario || x.scenarios.length > 0) &&
@@ -74,7 +77,7 @@ function drawFormTable() {
     `<th data-k="${k}" class="${num ? "num" : ""}">${n}${state.sort.key === k ? (dir > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}
     </tr></thead><tbody>${rows.map(x => `
     <tr class="click" data-id="${esc(x.id)}">
-      <td class="mono">${esc(x.id)}</td><td>${esc(x.name)}${x.edited ? ` <span class="tag ok" title="사람 수정 있음">수정</span>` : ""}</td>
+      <td class="mono">${esc(x.id)}</td><td>${esc(x.name)}${x.official_source ? ` <span class="tag" title="공식 대조 원문 있음 · 서식·라벨 사람 검수는 별도">공식대조 HTML</span>` : ""}${x.edited ? ` <span class="tag ok" title="사람 수정 있음">수정</span>` : ""}</td>
       <td class="nw">${esc(x.group_name)}</td>
       <td><span class="tag ${x.kind}">${x.kind}</span></td>
       <td class="num">${x.n_keys}</td>
@@ -111,7 +114,9 @@ async function viewForm(id, tab) {
   const d = await formDetail(id, tab === "review");
   const editable = d.kind === "overlay";
   const tabs = [["preview", "미리보기"], ["examples", "예시"], ["questions", "문항 Q/A"],
-    ...(editable ? [["edit", "영역 편집"]] : d.origin !== "builtin" ? [["html", "html 편집"]] : []),
+    ["edit", "영역 편집"],
+    ...(!editable ? [["templates", "레이아웃·샘플링"]] : []),
+    ...(!editable && d.origin !== "builtin" ? [["html", "html 편집"]] : []),
     ["review", `검수${d.issues.filter(x => x.status === "open").length ? ` · 문제 ${d.issues.filter(x => x.status === "open").length}` : ""}`],
     ["keys", `키 목록 (${d.keys.length})`], ["files", "파일"]];
   main().innerHTML = `
@@ -119,6 +124,7 @@ async function viewForm(id, tab) {
     <h1>${esc(d.name)} <span class="mono muted">${esc(d.id)}</span></h1>
     <div>
       <span class="tag ${d.kind}">${d.kind} · ${d.origin}</span>
+      ${d.official_source ? `<span class="tag">공식대조 HTML</span>` : ""}
       <span class="tag">${d.category === "internal" ? "은행 서식" : "외부 발급"}</span>
       ${REVIEW_TAG[d.review_state] || ""}
       <span class="tag">배정: ${esc(SPLIT_NAME[d.split] || d.split)}</span>
@@ -128,6 +134,15 @@ async function viewForm(id, tab) {
       ${d.kind === "html" ? `<button id="f-clone" title="템플릿을 사본으로 만들어 html 편집기에서 고칩니다 (값은 부모 생성 함수 + form.json)">복제</button>` : ""}
     </div>
     ${d.description ? `<div class="sub" style="margin-top:6px">${esc(d.description)}</div>` : ""}
+    ${d.document_role ? `<div class="sub">제출 역할: <b>${esc(d.document_role.name)}</b> · 같은 역할 서식 ${d.document_role.forms.length}종
+      ${d.document_role.forms.filter(x => x !== d.id).map(x => `<a href="#/forms/${encodeURIComponent(x)}">${esc(x)}</a>`).join(' · ')}</div>` : ""}
+    ${d.value_audit ? `<details class="panel"><summary>이미지 값 점검 · ${d.value_audit.checked_at} · seed ${d.value_audit.seed}
+      · 채운 값 ${d.value_audit.filled}/${d.value_audit.text_fields}${d.value_audit.stale ? ' · 수정 후 다시 검사 필요' : ''}</summary>
+      <p>자동 이미지 검사입니다. 사람 검수 완료와 별개입니다. 빈 값에는 미사용 행·기재 대상이 아닌 칸·출처가 없는 칸이 포함됩니다.</p>
+      <p>${esc(d.value_audit.coverage_note || '')}</p><p>쪽 넘침: ${d.value_audit.overflow ? '있음':'없음'} · 값 위치 누락 ${d.value_audit.missing_positions?.length || 0} · 페이지 밖 ${d.value_audit.offpage?.length || 0}</p>
+      <div>${(d.value_audit.empty || []).map(f=>`<span class="tag">${esc(f.label || f.key)} · ${esc(f.key)}</span>`).join('')}</div>
+      <a href="#/forms/${encodeURIComponent(d.id)}/edit">영역·값 출처 편집</a></details>` : ''}
+    ${d.official_source ? `<div class="sub">${esc(d.official_source.publisher)} · ${esc(d.official_source.revision || "")} · <a href="${esc(d.official_source.url)}" target="_blank" rel="noopener noreferrer">공식 원문 보기</a></div>` : ""}
     <div class="tabs">${tabs.map(([t, n]) =>
       `<a href="#/forms/${encodeURIComponent(id)}/${t}" class="${t === tab ? "on" : ""}">${n}</a>`).join("")}</div>
     <div id="tab"></div>`;
@@ -145,6 +160,8 @@ async function viewForm(id, tab) {
   if (tab === "examples") return tabExamples(d);
   if (tab === "questions") return tabQuestions(d);
   if (tab === "edit" && editable) return viewEditor(d);
+  if (tab === "edit") return viewHtmlRegions(d);
+  if (tab === "templates") return viewTemplateVariants(d);
   if (tab === "html" && typeof viewHtmlEditor === "function") return viewHtmlEditor(d);
   if (tab === "review") return tabReview(d);
   if (tab === "keys") return tabKeys(d);

@@ -74,6 +74,11 @@ class FieldRecorder:
 
     def __call__(self, path: str, value: Any = _MISSING, label: str | None = None, type: str | None = None,
                  fix: float = 0.0) -> Markup:
+        binding = getattr(self, "bindings", {}).get(path)
+        if binding is not None:
+            if "value" in binding:
+                value = binding["value"]
+            label = binding.get("label") or label
         try:
             v = lookup(self.data, path) if value is _MISSING else value
         except (KeyError, IndexError, AttributeError):
@@ -331,8 +336,9 @@ def env() -> Environment:
     global _env
     if _env is None:
         from .htmlform import jinja_source   # "@form/<ID>": 화면에서 만든 html 서식 (서식 폴더 또는 저장 전 초안)
+        from .template_variants import jinja_source as layout_source
 
-        _env = Environment(loader=ChoiceLoader([FunctionLoader(jinja_source), FileSystemLoader(str(TEMPLATE_DIR))]), undefined=StrictUndefined,
+        _env = Environment(loader=ChoiceLoader([FunctionLoader(jinja_source), FunctionLoader(layout_source), FileSystemLoader(str(TEMPLATE_DIR))]), undefined=StrictUndefined,
                            autoescape=True, trim_blocks=True, lstrip_blocks=True)
         _env.globals.update(kv_layout=kv_layout, checkmark=checkmark, seal_lines=seal_lines, seal_font=seal_font, scribble=scribble,
                            seal_style=seal_style,
@@ -355,9 +361,23 @@ def render(spec: DocSpec, profile: Profile, seed: int | str, sample_mark: bool |
             accent = brand_accent(profile.bank, random.Random(f"accent:{seed}:{spec.id}"))
             style["accent"] = accent or style["accent"]
     rec = FieldRecorder(data, random.Random(f"marks:{seed}:{spec.id}"))
-    html = env().get_template(spec.template).render(
+    from .template_variants import choose
+    variant = choose(spec,seed,profile.extra)
+    data["_template_variant"] = {k:variant[k] for k in ("id","name")}
+    regions = None
+    if spec.template != "_real_form.html.j2":
+        from . import html_regions
+
+        regions = html_regions.load(spec.id,variant["id"])
+        rec.bindings = html_regions.bindings(regions, profile, seed)
+    html = env().get_template(variant["template"]).render(
         d=data, f=rec, val=lambda p: lookup(data, p), style=style, spec=spec, bk=bk,
         sample_mark=spec.sample_mark if sample_mark is None else (sample_mark or spec.sample_mark),
     )
+    if regions and regions["regions"]:
+        html = html_regions.attach(html, regions, rec, profile, seed)
+    for item in data.get("items", []):
+        if item.get("unit") and item.get("key") in rec.fields:
+            rec.fields[item["key"]]["unit"] = item["unit"]
     groups = [{**g, "value": None, "group_only": True} for g in rec.groups.values()]
     return html, list(rec.fields.values()) + groups, data

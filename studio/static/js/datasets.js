@@ -1,4 +1,6 @@
-// ⑥ 데이터셋 (등록부·설명서·문항 보기·모델 답 붙이기·채점) · ⑦ 평가 (비교표). 서버: studio/datasets.py
+// ⑥ 데이터셋 (등록부·설명서·문항 보기·모델 답 붙이기·채점·업무 묶음·학습 설정) · ⑦ 평가 (비교표).
+// 생성 현황 목록은 dataset-builds.js, 새로 만들기(레시피)는 recipes.js.
+// 서버: studio/api_datasets.py·datasets.py (등록부·채점), studio/api_bank.py·bank_data.py·training_link.py (업무 묶음·학습)
 "use strict";
 
 addRoute(/^#\/datasets\/([^/]+)\/bundle\/(.+)$/, (id, bid) => viewBundle(decodeURIComponent(id), decodeURIComponent(bid)), "datasets");

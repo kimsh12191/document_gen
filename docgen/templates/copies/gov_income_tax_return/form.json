@@ -1,0 +1,300 @@
+{
+  "name": "종합소득세 과세표준확정신고 및 납부계산서(일반)",
+  "group": "tax",
+  "category": "external",
+  "fields": {
+    "official.name": {
+      "label": "성명",
+      "type": "text",
+      "source": "profile.person.name"
+    },
+    "official.rrn": {
+      "label": "주민등록번호",
+      "type": "text",
+      "source": "profile.person.rrn"
+    },
+    "official.address": {
+      "label": "주소",
+      "type": "text",
+      "source": "profile.person.address.road_short"
+    },
+    "official.mobile": {
+      "label": "휴대전화",
+      "type": "text",
+      "source": "profile.person.mobile"
+    }
+  },
+  "page": "a4",
+  "origin": "copy",
+  "description": "국세청 종합소득세 일반 신고서 35쪽(본표·작성방법·부속명세) 원문 대조 HTML. 제40호(2)~(4)의 단순 신고서 변형은 제외. 기본사항만 합성값으로 채우며 전체 세액 계산이나 신고의 완결성을 의미하지 않는다.",
+  "source": {
+    "publisher": "국가법령정보센터 · 국세청",
+    "url": "https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=164463209&bylClsCd=110202",
+    "source_file": "forms/official_sources/gov_income_tax_return.pdf",
+    "sha256": "46e52259333810abff1c9c02baa17e257266cc0c95273b5653bd6cfa7b18b4e6",
+    "checked_at": "2026-10-20",
+    "revision": "2026.03.20 개정, 별지 제40호서식(1)",
+    "matches": [
+      "income_tax_return"
+    ],
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34
+    ],
+    "online_verification": {
+      "status": "verified_pdf",
+      "sha256": "46e52259333810abff1c9c02baa17e257266cc0c95273b5653bd6cfa7b18b4e6",
+      "matches_local": true,
+      "checked_at": "2026-10-20"
+    }
+  },
+  "reconstruction": {
+    "method": "native_html_text_svg_lines",
+    "pages": [
+      {
+        "source_page": 1,
+        "text_spans": 348,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 2,
+        "text_spans": 599,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 3,
+        "text_spans": 334,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 4,
+        "text_spans": 212,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 5,
+        "text_spans": 26,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 6,
+        "text_spans": 406,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 7,
+        "text_spans": 38,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 8,
+        "text_spans": 449,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 9,
+        "text_spans": 150,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 10,
+        "text_spans": 387,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 11,
+        "text_spans": 43,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 12,
+        "text_spans": 381,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 13,
+        "text_spans": 119,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 14,
+        "text_spans": 400,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 15,
+        "text_spans": 209,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 16,
+        "text_spans": 324,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 17,
+        "text_spans": 70,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 18,
+        "text_spans": 746,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 19,
+        "text_spans": 224,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 20,
+        "text_spans": 525,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 21,
+        "text_spans": 650,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 22,
+        "text_spans": 371,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 23,
+        "text_spans": 133,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 24,
+        "text_spans": 284,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 25,
+        "text_spans": 181,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 26,
+        "text_spans": 368,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 27,
+        "text_spans": 122,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 28,
+        "text_spans": 391,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 29,
+        "text_spans": 227,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 30,
+        "text_spans": 209,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 31,
+        "text_spans": 100,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 32,
+        "text_spans": 218,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 33,
+        "text_spans": 34,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 34,
+        "text_spans": 491,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 35,
+        "text_spans": 75,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      }
+    ],
+    "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."
+  }
+}

@@ -223,6 +223,10 @@ def build_fields(fields: list[dict], info: dict | None = None) -> list[dict]:
         rec = {"key": canonical_key(k), "label": f.get("label"), "type": typ, "value": f["value"]}
         if typ not in ("seal", "signature", "checkbox_multi"):
             rec["norm"] = norm
+        if f.get("unit"):
+            rec["unit"] = f["unit"]
+            if isinstance(norm, (int, float)) and not isinstance(norm, bool) and f["unit"] in ("천원", "만원", "백만원", "억원"):
+                rec["norm"] = norm * {"천원": 1000, "만원": 10000, "백만원": 1000000, "억원": 100000000}[f["unit"]]
         if f.get("group_only"):
             rec["group"] = True
         if f.get("corrected"):

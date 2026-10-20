@@ -1,3 +1,6 @@
+"""Command line: python -m bank_ocr {scan,merge,prepare,predict,evaluate,compare,mine,group-sft,image-tokens,rollout-stats}.
+
+run_pipeline.py chains these stages; docs/MANUAL.md runs them one by one."""
 import argparse
 import csv
 import math

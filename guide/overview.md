@@ -32,7 +32,10 @@
 | 합성 데이터 생성기, 은행 업무 벤치마크 | `docgen/`, `docgen/bench/` | `claude/ocr-banking-benchmark` |
 | 은행 업무 학습 | `bank/` (`run_bank_pipeline.py`, `bank_task/`) | 이 브랜치에만 |
 | viewer | `ocr/viewer/start.sh` = OCR, `bank/viewer/bank_start.sh` = 은행 업무 | 〃 |
+| 데이터 만들기·검수·관리 화면 | `studio/` (docgen 도커에서 `python -m studio`) | 〃 |
 | 사용 가이드 | `guide/` | 〃 |
+
+1부 명령과 경로(`runs/exp1/`, `data/prepared-v2/`)는 `ocr/` 기준, 2부(`runs/bank1/`, `data/prepared-bank/`)는 `bank/` 기준입니다.
 
 ---
 
@@ -79,7 +82,7 @@ data/manifest.jsonl  {"document_id": "doc123", "page_id": "p001", "image": "/sha
   - 검증: 학습 문서의 5%
 - **OCR 결과는 캐시합니다.** 이미지 픽셀, OCR 함수, OCR 버전을 키로 저장해서 다시 실행해도 OCR을 재호출하지 않습니다.
 
-**prepare 결과** (`data/prepared-v2/`)
+**prepare 결과** (`ocr/data/prepared-v2/`)
 
 | 파일 | 내용 |
 |---|---|
@@ -143,9 +146,9 @@ data/manifest.jsonl  {"document_id": "doc123", "page_id": "p001", "image": "/sha
   | `spotting`·`relation`·`marked_box` | 박스와 글자가 모두 맞아야 맞는 위치+글자 F1 |
 
 - **나눠 보기:** 전체, 깨끗한 사본 / 노이즈 사본, 사내 OCR 신뢰도(0.95 이상 / 미만), 글자 크기(소·중·대)로 나눠 봅니다. **깨끗한 사본과 노이즈 사본의 점수 차이가 노이즈에 얼마나 강한지**를 보여 줍니다.
-- **결과:** `runs/exp1/reports/benchmark.html`에 Base·SFT·GRPO 점수와 Base 대비 변화가 나옵니다. 깨끗한 사본, 노이즈 사본 표도 따로 있습니다.
+- **결과:** `ocr/runs/exp1/reports/benchmark.html`에 Base·SFT·GRPO 점수와 Base 대비 변화가 나옵니다. 깨끗한 사본, 노이즈 사본 표도 따로 있습니다.
 
-### 1-5. viewer (`bash viewer/start.sh`, 포트 7860)
+### 1-5. viewer (`ocr/`에서 `bash viewer/start.sh`, 포트 7860)
 
 - **직접 테스트:** 이미지나 PDF를 올리고 질문을 고르면 답의 박스를 이미지 위에 그려 줍니다.
   - 전체 글자+위치: 페이지를 타일로 나눠 묻습니다.
@@ -185,12 +188,12 @@ data/manifest.jsonl  {"document_id": "doc123", "page_id": "p001", "image": "/sha
 ### 2-2. 데이터 구조
 
 ```text
-[docgen 도커, 한 번]  scripts/make_bank_data.sh
+[docgen 도커, 한 번]  bash docgen/scripts/make_bank_data.sh
    bench/        평가 세트 : 서류 476종 × 1건 + 업무 12종 × 고객 40명      (seed 1,000,000~ / 2,000,000~)
    bank_train/   학습 데이터: 서류 476종 × 5건 + 업무 12종 × 고객 200명     (seed 10,000,000~ / 20,000,000~)
-        │  run_bank_pipeline.py 의 prepare
+        │  bank/run_bank_pipeline.py 의 prepare
         ▼
-[GPU 서버]  data/prepared-bank/   학습·평가 형식으로 변환
+[GPU 서버]  bank/data/prepared-bank/   학습·평가 형식으로 변환
 ```
 
 **docgen이 만드는 서류 정답** (`labels/*.json`, 서류 한 건)
@@ -224,7 +227,7 @@ data/manifest.jsonl  {"document_id": "doc123", "page_id": "p001", "image": "/sha
 - 이미지 파일 이름의 `_lease_owner`는 값을 바꾼 사본이라는 표시입니다.
 - 학습 데이터는 같은 문항을 ms-swift 형식(질문 + 정답을 모델 출력 형식으로 쓴 답)으로도 냅니다(`swift/*.jsonl`).
 
-**prepare 결과** (`data/prepared-bank/`)
+**prepare 결과** (`bank/data/prepared-bank/`)
 
 | 파일 | 내용 |
 |---|---|
@@ -270,7 +273,7 @@ data/manifest.jsonl  {"document_id": "doc123", "page_id": "p001", "image": "/sha
 - **채점은 규칙 기반입니다.** 날짜·금액·번호는 표기를 맞춘 뒤 비교합니다. 사람이나 LLM 판정이 없어서 결과가 늘 같습니다.
 - **같은 조건 강제:** 출발·SFT·GRPO 모델이 같은 문항, 같은 이미지, 같은 추론 설정으로 풉니다. 조건이 다르면 비교표 만들기를 거부합니다.
 - **OCR 유지 확인:** 각 모델로 1부 벤치마크 1000문항도 같이 풀어, 은행 업무를 배우는 동안 읽기 능력이 떨어지지 않았는지 봅니다.
-- **결과** (`runs/bank1/reports/benchmark.html`)
+- **결과** (`bank/runs/bank1/reports/benchmark.html`)
   - 과제별 점수와 출발 모델 대비 변화(%p)
   - 답 형식 오류 비율
   - 세부 표: 불일치 분류별·사례별, 심사 질의 능력별, 빠진 서류 수별, 서식별, 인쇄체/손글씨별
@@ -279,7 +282,7 @@ data/manifest.jsonl  {"document_id": "doc123", "page_id": "p001", "image": "/sha
   - 찍어도 나오는 점수가 있습니다. 서류 대조는 "문제없음"만 답해도 약 60%가 나옵니다. 그래서 **위치 정확도**(변조 문항에서 서류·값까지 짚은 비율)를 함께 봅니다.
   - 지표 뜻, 오차 범위, 이상 신호는 [results.md](results.md)에 있습니다.
 
-### 2-5. viewer (`bash viewer/bank_start.sh`, 포트 7861)
+### 2-5. viewer (`bank/`에서 `bash viewer/bank_start.sh`, 포트 7861)
 
 - **벤치마크 보기:**
   - 문항마다 모델들의 답을 정답과 나란히 봅니다. 정보 추출은 항목별로 초록(맞음)과 빨강(틀림)으로 표시합니다.
@@ -298,7 +301,7 @@ data/manifest.jsonl  {"document_id": "doc123", "page_id": "p001", "image": "/sha
 
 | 검증함 | 아직 |
 |---|---|
-| 생성기·벤치마크 테스트 540개, 학습 쪽 테스트 48개 통과 | 은행 업무 단계의 실제 GPU 학습 결과 |
+| 생성기·벤치마크·studio 테스트(`python -m pytest`), 1부·2부 학습 쪽 테스트(`ocr/tests`, `bank/tests`) 통과 | 은행 업무 단계의 실제 GPU 학습 결과 |
 | 1부 OCR 학습: 서버에서 학습 완료(2부의 출발 모델) | 실제 서류 묶음으로 한 은행 업무 검증 |
 | 2부 파이프라인: 가짜 학습 도구로 전체 실행 (처음부터, 리허설, `--from grpo`, 명령만 출력) | 1부의 사람 검수 정답셋 (지금은 사내 OCR 일치도만) |
 | 채점기에 정답을 넣으면 모든 과제 100점 | |
@@ -442,8 +445,8 @@ data/manifest.jsonl  {"document_id": "doc123", "page_id": "p001", "image": "/sha
 | OCR | `ocr_field` | 값 칸 하나를 잘라낸 이미지 → 글자 | 완전 일치 (CER 함께) | 약 2,400 |
 | OCR | `ocr_page` | 서류 전체 → 받아쓰기 | 값 재현율 | 약 460 |
 | 문서 이해 | `classify` | 서류 → 서류명 | 정확도 | 476 |
-| 문서 이해 | `kie` | 서류 + 항목 목록 → 값 JSON | F1 | 476 |
-| 문서 이해 | `marks` | 서류 + 체크박스·도장·서명 목록 → 상태 JSON | 항목 정확도 | 약 410 |
+| 문서 이해 | `kie` | 서류 + 항목 목록 → 값과 위치 JSON 목록 | 값+위치 F1 (1.x 세트는 값 F1) | 476 |
+| 문서 이해 | `marks` | 서류 + 체크박스·도장·서명 목록 → 상태와 위치 JSON 목록 | 값+위치 F1 (1.x 세트는 항목 정확도) | 약 410 |
 | 은행 업무 | `doc_check` | 업무·필수 서류 목록 + 제출 서류 첫 쪽들 → 빠진·불필요·타인 서류 | 완전 일치 (F1 함께) | 480 |
 | 은행 업무 | `cross_check` | 서류 2~3건 → 불일치 여부와 문제 서류·항목·값 | 종합 점수 (탐지·위치·오탐률 함께) | 약 2,000 |
 | 은행 업무 | `review` | 심사 질문 + 관련 서류 → 숫자 또는 예/아니오 | 정확도 | 약 2,400 |
@@ -534,7 +537,7 @@ data/manifest.jsonl  {"document_id": "doc123", "page_id": "p001", "image": "/sha
 |---|---|---|
 | 서류 대조 종합 | 항상 "문제없음" | 약 60% (위치는 0%) |
 | 심사 질의 예/아니오 | 항상 "아니오" | 약 57% |
-| 체크·도장·서명 | 전부 비었다고 | 약 40% |
+| 체크·도장·서명 (값 점수) | 전부 비었다고 | 약 40% |
 | 서류 구비 완전 일치 | 세 목록 모두 빈 칸 | 약 15% |
 | 정보 추출 F1 | 전부 빈 칸 | 0% |
 

@@ -1,0 +1,92 @@
+{
+  "name": "지방세 세목별 과세증명서",
+  "group": "tax",
+  "category": "external",
+  "fields": {
+    "official.name": {
+      "label": "성명",
+      "type": "text",
+      "source": "profile.person.name"
+    },
+    "official.rrn": {
+      "label": "주민등록번호",
+      "type": "text",
+      "source": "profile.person.rrn"
+    },
+    "official.address": {
+      "label": "주소",
+      "type": "text",
+      "source": "profile.person.address.road_short"
+    },
+    "official.company": {
+      "label": "상호",
+      "type": "text",
+      "source": "profile.business.name"
+    },
+    "official.purpose": {
+      "label": "사용목적",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "금융기관 제출용"
+    },
+    "official.tax": {
+      "label": "세목",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "재산세"
+    },
+    "official.period": {
+      "label": "부과연월",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "2025.07"
+    },
+    "official.amount": {
+      "label": "세액",
+      "type": "text",
+      "source": "rule:amount"
+    }
+  },
+  "page": "a4",
+  "origin": "copy",
+  "description": "지방세 세목별 과세증명서 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=169943579&bylClsCd=110202",
+  "source": {
+    "publisher": "국가법령정보센터 · 해당 발급기관",
+    "url": "https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=169943579&bylClsCd=110202",
+    "source_file": "forms/official_sources/gov_local_assessment.pdf",
+    "sha256": "34ceab543f6135ec3d8e18b89b18c8515839fcab34cf6957988183c1581b4825",
+    "checked_at": "2026-10-20",
+    "revision": "<개정 2024. 12. 31.>",
+    "matches": [
+      "local_tax_assessment"
+    ],
+    "source_pages": [
+      0,
+      1
+    ],
+    "online_verification": {
+      "status": "verified_pdf",
+      "sha256": "34ceab543f6135ec3d8e18b89b18c8515839fcab34cf6957988183c1581b4825",
+      "matches_local": true,
+      "checked_at": "2026-10-20"
+    }
+  },
+  "reconstruction": {
+    "method": "native_html_text_svg_lines",
+    "pages": [
+      {
+        "source_page": 1,
+        "text_spans": 125,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 2,
+        "text_spans": 91,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      }
+    ],
+    "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."
+  }
+}

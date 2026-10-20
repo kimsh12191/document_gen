@@ -1,6 +1,7 @@
 """⑥ 데이터셋의 OCR 쪽: 합성 OCR 레시피·빌드(docgen.ocr_set → 1부 prepare), 1부 학습 설정 내보내기(run_pipeline.py).
 
 OCR 레시피는 은행 업무 레시피와 같은 docgen/recipes/ 에 track: "ocr" 로 둔다. 형식은 docgen/ocr_set.py 머리말.
+API 는 studio/api_bank.py (/api/builds, /api/training/…), 화면은 static/js/recipes.js·datasets.js(학습 탭).
 """
 from __future__ import annotations
 

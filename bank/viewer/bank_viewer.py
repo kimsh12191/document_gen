@@ -1,5 +1,5 @@
 """Banking-task viewer: browse benchmark answers of the pipeline's models side by side, and try
-your own documents. A small local web page (viewer/bank.html); see viewer/README.md.
+your own documents. A small local web page (viewer/bank.html); see viewer/README.md. Run from bank/:
 
     python viewer/bank_viewer.py --config configs/bank_pipeline.json                    # stored answers only
     python viewer/bank_viewer.py --config configs/bank_pipeline.json --endpoint http://127.0.0.1:8011/v1

@@ -1,0 +1,74 @@
+{
+  "name": "주민등록표(등본)",
+  "group": "family",
+  "category": "external",
+  "fields": {
+    "official.head": {
+      "label": "세대주",
+      "type": "text",
+      "source": "profile.person.name"
+    },
+    "official.address": {
+      "label": "주소",
+      "type": "text",
+      "source": "profile.person.address.road_short"
+    },
+    "official.row": {
+      "label": "순번",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "1"
+    },
+    "official.relation": {
+      "label": "세대주와의 관계",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "본인"
+    },
+    "official.name": {
+      "label": "성명",
+      "type": "text",
+      "source": "profile.person.name"
+    },
+    "official.rrn": {
+      "label": "주민등록번호",
+      "type": "text",
+      "source": "profile.person.rrn"
+    }
+  },
+  "page": "a4",
+  "origin": "copy",
+  "description": "주민등록표(등본) 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=167818361&bylClsCd=110202",
+  "source": {
+    "publisher": "국가법령정보센터 · 해당 발급기관",
+    "url": "https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=167818361&bylClsCd=110202",
+    "source_file": "forms/official_sources/gov_resident_copy.pdf",
+    "sha256": "5103359d5e52fc10b7005abc7a1046957b3481deb2b2aabe32035823b7c783fa",
+    "checked_at": "2026-10-20",
+    "revision": "<개정 2026. 4. 28.>",
+    "matches": [
+      "resident_registration_copy"
+    ],
+    "source_pages": [
+      0
+    ],
+    "online_verification": {
+      "status": "verified_pdf",
+      "sha256": "5103359d5e52fc10b7005abc7a1046957b3481deb2b2aabe32035823b7c783fa",
+      "matches_local": true,
+      "checked_at": "2026-10-20"
+    }
+  },
+  "reconstruction": {
+    "method": "native_html_text_svg_lines",
+    "pages": [
+      {
+        "source_page": 1,
+        "text_spans": 188,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      }
+    ],
+    "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."
+  }
+}

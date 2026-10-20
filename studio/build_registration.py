@@ -1,4 +1,11 @@
-"""완성한 데이터셋 자동 등록. 재시작으로 놓친 완료 처리도 작업 기록과 완료 파일로 복구한다."""
+"""⑥ 데이터셋 › 생성 현황: 완성한 데이터셋 자동 등록 (DESIGN.md 9.1.1). 재시작으로 놓친 완료 처리도 작업 기록과 완료 파일로 복구한다.
+
+- 생성 작업(build_bank·build_ocr: 은행 업무 레시피, 합성 OCR 레시피, ④ 라벨 있는 데이터)은 job.json 의 info.dataset 에
+  등록할 {path, name, meta} 를 남기고, 끝나면 register_output 으로 등록부(studio/datasets.py)에 올린다.
+- recover_completed 는 GET /api/datasets · GET /api/builds 때 돈다: 끊긴(interrupted) 작업이라도 완료 파일이 다 있으면 등록한다.
+  은행 업무는 dataset.json·meta.json 과 tasks/<과제>.jsonl 문항 수, OCR 은 prepared/DONE.json·pages.jsonl 로 완료를 판단한다.
+- <workspace_dir>/datasets/ 밖의 폴더, 실패·취소한 작업은 등록하지 않는다. 같은 폴더는 한 번만 등록한다.
+"""
 from __future__ import annotations
 
 import json

@@ -1,0 +1,89 @@
+{
+  "name": "표준재무제표증명",
+  "group": "business",
+  "category": "external",
+  "fields": {
+    "official.company": {
+      "label": "상호",
+      "type": "text",
+      "source": "profile.corporation.name"
+    },
+    "official.biz_no": {
+      "label": "사업자등록번호",
+      "type": "text",
+      "source": "profile.corporation.biz_no"
+    },
+    "official.name": {
+      "label": "대표자",
+      "type": "text",
+      "source": "profile.person.name"
+    },
+    "official.corp_no": {
+      "label": "법인등록번호",
+      "type": "text",
+      "source": "profile.corporation.corp_no"
+    },
+    "official.industry": {
+      "label": "업태",
+      "type": "text",
+      "source": "profile.corporation.biz_type"
+    },
+    "official.item": {
+      "label": "종목",
+      "type": "text",
+      "source": "profile.corporation.biz_item"
+    },
+    "official.address": {
+      "label": "사업장",
+      "type": "text",
+      "source": "profile.corporation.address.road_short"
+    },
+    "official.year": {
+      "label": "사업연도",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "2025.01.01 ~ 2025.12.31"
+    },
+    "official.filing": {
+      "label": "신고구분",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "정기신고"
+    }
+  },
+  "page": "a4",
+  "origin": "copy",
+  "description": "표준재무제표증명 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?flSeq=155626725&flNm=%5B%EB%B3%84%EC%A7%80+13%5D+%ED%91%9C%EC%A4%80%EC%9E%AC%EB%AC%B4%EC%A0%9C%ED%91%9C%EC%A6%9D%EB%AA%85%28%EA%B5%AD%EB%AC%B8%29&bylClsCd=200203 표준재무제표증명 표지 서식이며 첨부 재무제표 전체를 포함하지 않는다.",
+  "source": {
+    "publisher": "국가법령정보센터 · 해당 발급기관",
+    "url": "https://www.law.go.kr/LSW/flDownload.do?flSeq=155626725&flNm=%5B%EB%B3%84%EC%A7%80+13%5D+%ED%91%9C%EC%A4%80%EC%9E%AC%EB%AC%B4%EC%A0%9C%ED%91%9C%EC%A6%9D%EB%AA%85%28%EA%B5%AD%EB%AC%B8%29&bylClsCd=200203",
+    "source_file": "forms/official_sources/gov_financial_proof.pdf",
+    "sha256": "7f110fc19f057c9c1360dc3a6fb2f38c37ad056076af1dbab58067d18449b508",
+    "checked_at": "2026-10-20",
+    "revision": "<2024. 4. 17. 개정>",
+    "matches": [
+      "standard_financial_statement_proof"
+    ],
+    "source_pages": [
+      0
+    ],
+    "online_verification": {
+      "status": "verified_pdf",
+      "sha256": "7f110fc19f057c9c1360dc3a6fb2f38c37ad056076af1dbab58067d18449b508",
+      "matches_local": true,
+      "checked_at": "2026-10-20"
+    }
+  },
+  "reconstruction": {
+    "method": "native_html_text_svg_lines",
+    "pages": [
+      {
+        "source_page": 1,
+        "text_spans": 70,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      }
+    ],
+    "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."
+  }
+}

@@ -1,3 +1,4 @@
+"""① 문항 Q/A 시험 (studio/questions.py): 실제 Builder.single 문항과 같고 정답을 답으로 넣으면 만점, 공통 형식 목록, 시나리오 Q/A."""
 from PIL import Image
 
 from docgen.bench.build import Builder

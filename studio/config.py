@@ -20,10 +20,10 @@ DEFAULTS = {
     "cache_dir": "studio_cache",
     "ocr": None,                # {"callable", "revision", "cache_dir", "mapping", "base_url"} — 1부 OCR 준비 단계와 같은 키 (DESIGN.md 8.2)
     "workspace_dir": "studio_workspace",  # 데이터셋 등록부·studio가 만든 데이터셋·채점 결과 (DESIGN.md 9.1)
-    "import_dir": None,         # 가져올 문서 이미지 뭉치 폴더 (DESIGN.md 8절)
-    "real_data_dir": None,      # 실서류 검수 결과: 라벨·OCR·업무 묶음 (저장소 밖)
+    "import_dir": None,         # 가져올 문서 이미지 뭉치 폴더 (DESIGN.md 8절). 있으면 ④에서 서버 경로는 이 아래만 받는다
+    "real_data_dir": None,      # 실서류 검수 결과: 라벨·OCR·업무 묶음 (저장소 밖). 없으면 <workspace_dir>/real_data (화면에 경고)
     "private_forms_dir": None,  # 실서류에서 만든 서식 (저장소 밖)
-    "providers": {},            # 분석기 (8단계)
+    "providers": {},            # 분석기 (⑧ 작업 › 분석기, ⑤ autolabel. 형식은 studio/analyzers.py 머리말, DESIGN.md 7.2)
     "path_map": {},             # studio 경로 → 학습 컨테이너 경로 (예: {"/out": "/share/me/docgen_data"}). 학습 설정을 내보낼 때 바꾼다 (DESIGN.md 9.9)
 }
 

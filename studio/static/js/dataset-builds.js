@@ -1,4 +1,6 @@
-// ⑥ 안에서 생성 진행과 자동 등록을 확인한다. 목록만 갱신해 입력 중인 이름·설정은 유지한다.
+// ⑥ 데이터셋 › 생성 현황·등록된 데이터셋 목록: 생성 진행과 자동 등록을 확인한다. 목록만 갱신해 입력 중인 이름·설정은 유지한다.
+// 돌고 있는 작업이 있으면 2초마다 다시 읽는다. 서버: GET /api/datasets·/api/builds (studio/api_datasets.py, api_bank.py, build_registration.py)
+// datasets.js 의 view_datasets 가 startDatasetDashboard 를, 만들기 버튼(recipes.js)이 datasetBuildStarted 를 부른다.
 "use strict";
 
 let datasetBuildDashboard = null;

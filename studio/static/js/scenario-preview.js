@@ -1,4 +1,5 @@
-// ③ 시나리오 안에서 같은 고객의 필수 서류를 펼쳐 보고 확대한다.
+// ③ 시나리오·묶음: 시나리오 안에서 같은 고객(seed·프로필 값)의 필수 서류를 펼쳐 보고 확대·쪽 넘김한다.
+// scenarios.js 가 ScenarioPreviews 를 만들어 쓴다. 서버: POST /api/forms/{id}/render (extra = 고객 프로필 값, studio/app.py)
 "use strict";
 
 class ScenarioPreviews {
@@ -57,9 +58,16 @@ class ScenarioPreviews {
     const version = ++v.version, seed = v.seed;
     // Builder.bundle_profile 과 같은 설정. 편집 중인 extra 도 저장하지 않고 확인한다.
     const extra = { ...(s.extra || {}), scenario: s.id, form_bank: "하나은행" };
-    const docs = s.docs.slice(), grid = $(".sc-preview-grid", card), status = $(".sc-preview-status", card);
+    const grid = $(".sc-preview-grid", card), status = $(".sc-preview-status", card);
     const active = () => card.isConnected && v.open && v.version === version;
     v.labels = new Map();
+    status.textContent='역할별 서식 선택 중…';
+    let resolution;
+    try{resolution=await api('/api/scenarios/resolve',{scenario:{...s,docs:s.docs.map(d=>d.id)},seed});}
+    catch(e){if(active()){grid.innerHTML=`<p class="err">${esc(e.message)}</p>`;status.textContent='서식 선택 오류';}return;}
+    if(!active())return;
+    const docs=resolution.selections.map(x=>({...x}));v.docs=docs;
+    if(this.dialog?.scenario===s)this.dialog.element.close();
     grid.innerHTML = docs.map((d, i) => `<article class="sc-preview-doc">
       <button type="button" class="sc-preview-thumb" data-doc="${i}" disabled aria-label="${esc(d.name || d.id)} 확대">
         <span class="muted">이미지 대기 중…</span></button>
@@ -90,7 +98,7 @@ class ScenarioPreviews {
         thumb.innerHTML = `<img src="${esc(label.image_urls[0])}" alt="${esc(d.name || d.id)} 첫 쪽"><span class="sc-preview-enlarge">확대 보기</span>`;
         thumb.disabled = false;
         thumb.onclick = () => this.show(s, d.id);
-        $(".sc-preview-pages", tile).textContent = `${label.image_urls.length}쪽`;
+        $(".sc-preview-pages", tile).textContent = `${label.image_urls.length}쪽 · ${label.template_variant?.name || '기본 레이아웃'}`;
       } catch (e) {
         if (!active()) return;
         failed++;
@@ -108,18 +116,19 @@ class ScenarioPreviews {
     if (this.dialog) this.dialog.element.close();
     const v = this.states.get(s), dialog = document.createElement("dialog");
     dialog.className = "sc-preview-dialog";
-    let selected = s.docs.findIndex(d => d.id === docId), zoom = false;
+    const docs=v.docs || s.docs;
+    let selected = Math.max(0,docs.findIndex(d => d.id === docId)), zoom = false;
     let page = v.labels.get(docId)?.fields.find(f => f.key === key)?.page || 0;
     const draw = () => {
-      const d = s.docs[selected], label = v.labels.get(d.id);
+      const d = docs[selected], label = v.labels.get(d.id);
       const n = label?.image_urls.length || 0;
       const field = key && label?.fields.find(f => f.key === key);
       dialog.innerHTML = `<div class="sc-preview-dialog-head">
-        <div><div class="muted">${esc(s.name)} · 같은 고객 seed ${v.seed} · 서류 ${selected + 1}/${s.docs.length}</div>
+        <div><div class="muted">${esc(s.name)} · 같은 고객 seed ${v.seed} · 서류 ${selected + 1}/${docs.length}</div>
           <h2>${esc(d.name || d.id)}</h2></div><button type="button" class="sc-close" aria-label="미리보기 닫기">닫기 ×</button></div>
         <div class="bar">
           <button type="button" class="sc-prev-doc" ${selected === 0 ? "disabled" : ""}>이전 서류</button>
-          <button type="button" class="sc-next-doc" ${selected === s.docs.length - 1 ? "disabled" : ""}>다음 서류</button>
+          <button type="button" class="sc-next-doc" ${selected === docs.length - 1 ? "disabled" : ""}>다음 서류</button>
           <span class="sep"></span>
           <button type="button" class="sc-prev-page" ${page <= 0 ? "disabled" : ""}>이전 쪽</button>
           <span>${n ? `${page + 1} / ${n}쪽` : "준비 중"}</span>
@@ -141,7 +150,7 @@ class ScenarioPreviews {
       $(".sc-next-page", dialog).onclick = () => { page++; draw(); };
       $(".sc-zoom", dialog).onclick = () => { zoom = !zoom; draw(); };
     };
-    this.dialog = { scenario: s, element: dialog, ready: id => { if (s.docs[selected].id === id) draw(); } };
+    this.dialog = { scenario: s, element: dialog, ready: id => { if (docs[selected].id === id) draw(); } };
     dialog.addEventListener("close", () => { if (this.dialog?.element === dialog) this.dialog = null; dialog.remove(); });
     dialog.addEventListener("click", e => { if (e.target === dialog) {
       const r = dialog.getBoundingClientRect();

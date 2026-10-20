@@ -1,3 +1,5 @@
+"""Settings reaching their consumers: train.py YAML options and GPU selection, predict's inference
+config and CLI overrides, and comparison reports refusing mismatched generation settings."""
 import contextlib
 import io
 import json

@@ -1,0 +1,57 @@
+{
+  "name": "토지대장",
+  "group": "real_estate",
+  "category": "external",
+  "fields": {
+    "official.address": {
+      "label": "토지소재",
+      "type": "text",
+      "source": "profile.property.address.jibun_full"
+    },
+    "official.owner": {
+      "label": "소유자",
+      "type": "text",
+      "source": "profile.person.name"
+    },
+    "official.rrn": {
+      "label": "등록번호",
+      "type": "text",
+      "source": "profile.person.rrn"
+    }
+  },
+  "page": "a4_landscape",
+  "origin": "copy",
+  "description": "토지대장 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=162454805&bylClsCd=110202",
+  "source": {
+    "publisher": "국가법령정보센터 · 해당 발급기관",
+    "url": "https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=162454805&bylClsCd=110202",
+    "source_file": "forms/official_sources/gov_land.pdf",
+    "sha256": "0d99f55243f13c1576753a89006d40f46a18c6b2dada31e330d2305446f3a267",
+    "checked_at": "2026-10-20",
+    "revision": "<개정2017. 1. 31.>",
+    "matches": [
+      "land_register"
+    ],
+    "source_pages": [
+      0
+    ],
+    "online_verification": {
+      "status": "verified_pdf",
+      "sha256": "0d99f55243f13c1576753a89006d40f46a18c6b2dada31e330d2305446f3a267",
+      "matches_local": true,
+      "checked_at": "2026-10-20"
+    }
+  },
+  "reconstruction": {
+    "method": "native_html_text_svg_lines",
+    "pages": [
+      {
+        "source_page": 1,
+        "text_spans": 116,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      }
+    ],
+    "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."
+  }
+}

@@ -1,3 +1,6 @@
+"""Manifest and OCR input helpers: JSON(L) I/O, image scan into a manifest, document-level
+train/val/benchmark splits, parsing internal OCR responses into pixel and 0..1000 boxes,
+and EXIF-normalized page images."""
 import hashlib
 import importlib
 import json

@@ -5847,6 +5847,6 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 | 업무와 필수 서류 | `docgen/registry.py` 의 `SCENARIOS` |
 | 문항 만드는 방식 (빼는 서류 수, 타인 서류 비율 등) | `docgen/bench/build.py` 의 `doc_check`, `cross_checks`, `single` |
 | 채점 | `docgen/bench/evaluate.py` (GRPO 보상도 이 코드를 그대로 씀: `bank/bank_task/score.py`) |
-| OCR 과제 질문·만드는 방식 | `ocr/bank_ocr/tasks.py` (`PROMPTS`, 과제별 함수), 개수는 `config.json` 의 `tasks_per_view`, 비율은 `task_mix` |
+| OCR 과제 질문·만드는 방식 | `ocr/bank_ocr/tasks.py` (`PROMPTS`, 과제별 함수), 개수는 `ocr/config.json` 의 `tasks_per_view`, 비율은 `task_mix` |
 
 실제 서류로 같은 형식의 문항을 만들면 코드 수정 없이 파이프라인에 연결됩니다. 위 `2-0` 의 폴더 구조와 필드를 그대로 따르면 됩니다.

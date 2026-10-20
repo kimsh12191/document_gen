@@ -6,7 +6,7 @@
 - 영어 키만 사전에 넣는다. 반복 행 번호는 * 로 묶는다 (rows.3.amount → rows.*.amount).
 - 키마다 항목명(한글) 예시, 타입, 쓰는 서식 수, 그룹을 남긴다.
 - 같은 뜻인데 이름이 두 벌인 키는 duplicates 에 모은다. 이름을 실제로 바꾸는 일은 평가 세트 버전을 올릴 때 한다
-  (DESIGN.md 5.3). 사전을 다시 만들어도 duplicates 의 decision(사람이 정한 것)은 유지한다.
+  (studio/DESIGN.md 5.3). 사전을 다시 만들어도 duplicates 의 decision(사람이 정한 것)은 유지한다.
 """
 from __future__ import annotations
 

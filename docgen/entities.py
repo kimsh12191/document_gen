@@ -2,6 +2,7 @@
 
 하나의 Profile 안의 사람/회사/부동산/계좌 정보는 서로 일관되게 생성되므로,
 같은 프로필로 여러 서류를 만들면 '한 고객이 제출한 서류 묶음'이 된다.
+make_profile(seed) 가 seed 하나로 결정론적으로 만들고, 서류 생성 함수(docgen/docs/*.py)가 받아 쓴다.
 """
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""python -m docgen.bench {build,run,eval}"""
+"""python -m docgen.bench {build,run,eval} 의 인자 정의. 일은 build.py(만들기)·runner.py(모델 실행)·evaluate.py(채점)가 한다."""
 from __future__ import annotations
 
 import argparse

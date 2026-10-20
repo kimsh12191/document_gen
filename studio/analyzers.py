@@ -1,4 +1,6 @@
 """⑧ 작업 › 분석기 (DESIGN.md 7절): 서식 이미지를 분석기에 맡겨 html 서식(`html`)이나 overlay 값 영역 초안(`layout`)을 받는다.
+⑤ 라벨 검수의 `autolabel`(실서류를 내부 openai 방식 분석기로 먼저 채우기)도 같은 작업 폴더·작업으로 돈다 (아래 autolabel 절).
+API 는 studio/api_html.py (autolabel 시작은 api_review.py), 화면은 static/js/analyzer.js.
 
 분석기는 두 방식만 붙인다 (특정 도구 이름은 코드에 없다). studio/config.json 의 "providers":
   {"<이름>": {"kind": "openai", "base_url": "http://<서버>:8000/v1", "model": "…", "api_key_env": "환경변수 이름", "external": false},
@@ -11,12 +13,14 @@
   job.json      {id, kind, provider, provider_kind, external, target, source, created, sent: [보낸 파일], from_job?}
   input/        source.png(html) 또는 page_<쪽>.png(layout), 참고 파일 (가이드, 예시 템플릿, 키 사전, 지난 결과)
   TASK.md       지시문 (studio/analyzer_tasks/<kind>.md 틀)
-  output/       분석기가 쓰는 결과. html: template.html.j2 + form.json, layout: layout.json
+  output/       분석기가 쓰는 결과. html: template.html.j2 + form.json, layout: layout.json, autolabel: summary.json
+                (autolabel 의 문서별 결과는 묶음 폴더의 pred/<문서>.json 에 쓴다)
   check/        studio 가 결과를 렌더링해 본 것 (python -m docgen.preview)
   review.json   {"comments": [{at, by, text}], "approved": {as, at, by}}
 실행은 studio 작업(⑧)으로 돌리고, 끝나면 결과를 검사해 결과 요약을 남긴다. 사람이 승인해야 서식으로 등록된다 (등록 뒤에도 검수 전).
 
   python -m studio.analyzers openai <작업 폴더>     openai 방식 실행 (작업이 이 명령을 돌린다)
+  python -m studio.analyzers autolabel <작업 폴더>  autolabel 실행
 """
 from __future__ import annotations
 

@@ -39,12 +39,15 @@ python -m docgen.bench eval --bench bench_out --pred preds/model_a --pred preds/
 | `run` | Pillow, 그리고 컨테이너에서 모델 서버(vLLM 등) 주소로 나가는 네트워크 |
 | `eval` | 파이썬 표준 라이브러리만 (생성기 코드 import) |
 
+docgen 도커 컨테이너를 띄우는 방법은 [docker/README.md](../docker/README.md)에 있습니다. 컨테이너에 SSH로 접속하면 코드 폴더에서 시작하고, 결과는 `/out`(서버 폴더와 연결)에 둡니다.
+
 ```bash
-# 예: 생성기 이미지로 평가 세트 만들기 (출력은 볼륨으로)
-docker run --rm -v $PWD/bench_out:/app/bench_out <생성기 이미지> python -m docgen.bench build --out bench_out
-# 같은 호스트의 vLLM 서버로 예측 (--network host 또는 서버 주소)
-docker run --rm --network host -v $PWD/bench_out:/app/bench_out -v $PWD/preds:/app/preds <생성기 이미지> \
-    python -m docgen.bench run --bench bench_out --pred preds/my_model --base-url http://localhost:8000/v1 --model <모델>
+# 예: docgen 컨테이너 안에서 평가 세트 만들기
+python -m docgen.bench build --out /out/bench_out --workers 8
+# 같은 서버의 vLLM 서버로 예측. 컨테이너 안의 localhost 는 컨테이너 자신이라 서버의 내부망 IP 를 씀
+python -m docgen.bench run --bench /out/bench_out --pred /out/preds/my_model --base-url http://<서버IP>:8000/v1 --model <모델>
+# SSH 없이 서버 터미널에서
+docker exec -u docgen docgen bash -lc 'cd ~/document_gen && python -m docgen.bench build --out /out/bench_out'
 ```
 
 평가 세트는 약 600MB이고, `build`는 CPU 코어 하나로 약 16분 걸립니다. 원본 서식 배경 이미지는 처음 렌더링할 때 `~/.cache/docgen/bg/`에 만들어지므로, 컨테이너를 여러 번 띄울 거면 이 경로도 볼륨으로 두면 빨라집니다.

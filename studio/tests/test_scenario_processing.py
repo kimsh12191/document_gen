@@ -1,3 +1,5 @@
+"""③ 처리 설정 시험: 추출·비교 작업과 설정 검사(docgen/bench/processing.py), 예시 실행(studio/scenario_processing.py)이
+빌드(docgen.bench build)와 같은 입력·답을 내는지, 생략 사유가 남는지. 브라우저 없이."""
 import copy
 import json
 

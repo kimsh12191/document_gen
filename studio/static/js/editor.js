@@ -1,5 +1,6 @@
 // ① 서식 › 영역 편집 (overlay): 값 영역 그리기·옮기기·크기 바꾸기·빼기, 키·값 종류·값 출처, 배경 지우기, 수정 전후 비교.
-// 고친 것은 사람 수정 파일(docgen/forms/overrides/<ID>.json)에 저장한다. 좌표는 레이아웃과 같은 PDF pt.
+// 고친 것은 사람 수정 파일(docgen/forms/overrides/<ID>.json, 가져온 서식 img_* 는 그 서식 폴더의 overrides.json)에 저장한다.
+// 좌표는 레이아웃과 같은 PDF pt. 서버: studio/app.py (/api/forms/{id}/layout·overrides·bg·checks), studio/editor.py
 "use strict";
 
 const ED_TOOLS = [

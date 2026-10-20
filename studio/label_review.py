@@ -1,4 +1,5 @@
 """⑤ 검수 › 라벨 검수 (DESIGN.md 8.6): 결과 폴더(또는 autolabel)의 추론 결과를 문서마다 사람이 고쳐 실서류 정답을 만든다.
+API 는 studio/api_review.py, 화면은 static/js/labels.js. 추론 결과가 없는 문서는 빈 라벨에서 시작한다.
 
 흐름: 포맷마다 서식 정하기(④ 결정: 기존 서식과 같음·템플릿으로) → 키 대응(모델 키 → 그 서식의 표준 키, 포맷마다 한 번) →
 문서마다 값·위치를 고치고 확인 → 확인한 문서는 **표준 라벨 v1 폴더**(studio/LABEL_FORMAT.md)로 → ④ 라벨 있는 데이터로 데이터셋.
@@ -379,7 +380,7 @@ def score(bdir: Path, real_root: Path) -> dict:
 # ---------------------------------------------------------------------------
 
 def bundles(bdir: Path, real_root: Path) -> dict:
-    """업무 묶음 (화면에서 고친 것, 없으면 결과 폴더의 bundles.jsonl) + 묶음 후보 (같은 성명·주민번호·사업자번호)."""
+    """업무 묶음 (화면에서 고친 것, 없으면 결과 폴더의 bundles.jsonl) + 묶음 후보 (검수한 주민번호·사업자번호·법인번호가 같은 문서)."""
     batch, rows, fx = _batch(bdir)
     rt = root(real_root, batch["name"])
     p = rt / "bundles.jsonl"

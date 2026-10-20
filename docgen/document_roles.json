@@ -1,0 +1,561 @@
+{
+  "about": "제출 역할별 서식 변형. 신청서와 발급 증명서, 개인과 법인, 증명 범위가 다른 문서는 구분. 필드 키 호환은 별도.",
+  "roles": [
+    {
+      "id": "hf001",
+      "name": "상속예금 명의변경(지급) 의뢰서 및 손해담보 확약서(상속예금 지급 위임장 겸용)",
+      "forms": [
+        "hf001",
+        "hana_official_001"
+      ]
+    },
+    {
+      "id": "account_opening_application",
+      "name": "예금거래신청서",
+      "forms": [
+        "account_opening_application",
+        "hf003",
+        "hana_official_003"
+      ]
+    },
+    {
+      "id": "auto_transfer_application",
+      "name": "자동이체 신청서",
+      "forms": [
+        "auto_transfer_application",
+        "hf006",
+        "hana_official_006"
+      ]
+    },
+    {
+      "id": "hf011",
+      "name": "예금(신탁)잔액증명 의뢰서",
+      "forms": [
+        "hf011",
+        "hana_official_011"
+      ]
+    },
+    {
+      "id": "hf015",
+      "name": "통합제신고서",
+      "forms": [
+        "hf015",
+        "hana_official_015"
+      ]
+    },
+    {
+      "id": "hf024",
+      "name": "금융거래정보제공(요구·동의)서",
+      "forms": [
+        "hf024",
+        "hana_official_024"
+      ]
+    },
+    {
+      "id": "power_of_attorney",
+      "name": "위임장",
+      "forms": [
+        "power_of_attorney",
+        "hf028",
+        "hana_official_028"
+      ]
+    },
+    {
+      "id": "hf029",
+      "name": "사용인감계(금융계좌개설용)",
+      "forms": [
+        "hf029",
+        "hana_official_029"
+      ]
+    },
+    {
+      "id": "hf047",
+      "name": "대출상담 및 신청서(한국주택금융공사채권유동화목적 보금자리론용)",
+      "forms": [
+        "hf047",
+        "hana_official_047"
+      ]
+    },
+    {
+      "id": "hf048",
+      "name": "가계형소호 여신차입신청서",
+      "forms": [
+        "hf048",
+        "hana_official_048"
+      ]
+    },
+    {
+      "id": "loan_application",
+      "name": "대출거래신청서",
+      "forms": [
+        "loan_application",
+        "hf049",
+        "hana_official_049"
+      ]
+    },
+    {
+      "id": "hf051",
+      "name": "대출계약 철회신청서",
+      "forms": [
+        "hf051",
+        "hana_official_051"
+      ]
+    },
+    {
+      "id": "hf052",
+      "name": "[필수] 개인(신용)정보 수집·이용·제공 및 조회 동의서(주택도시기금 주택전월세자금대출용)",
+      "forms": [
+        "hf052",
+        "hana_official_052"
+      ]
+    },
+    {
+      "id": "hf053",
+      "name": "[필수] 개인(신용)정보 수집·이용·제공 및 조회 동의서(주택도시기금 주택구입자금대출용)",
+      "forms": [
+        "hf053",
+        "hana_official_053"
+      ]
+    },
+    {
+      "id": "hf054",
+      "name": "주택도시기금 대출 신청서(가계용)",
+      "forms": [
+        "hf054",
+        "hana_official_054"
+      ]
+    },
+    {
+      "id": "hf055",
+      "name": "주택도시기금 대출상담 및 신청서(내집마련 디딤돌 대출용)",
+      "forms": [
+        "hf055",
+        "hana_official_055"
+      ]
+    },
+    {
+      "id": "loan_application_corp",
+      "name": "기업여신 신청서",
+      "forms": [
+        "loan_application_corp",
+        "hf058",
+        "hana_official_058"
+      ]
+    },
+    {
+      "id": "hf059",
+      "name": "개인(신용)정보 조회 동의서",
+      "forms": [
+        "hf059",
+        "hana_official_059"
+      ]
+    },
+    {
+      "id": "hf060",
+      "name": "[필수] 개인(신용)정보 수집이용 동의서(대출성상품 적합성적정성 판단용)",
+      "forms": [
+        "hf060",
+        "hana_official_060"
+      ]
+    },
+    {
+      "id": "hf061",
+      "name": "적합성, 적정성 고객정보 확인서(개인 및 개인사업자용)",
+      "forms": [
+        "hf061",
+        "hana_official_061"
+      ]
+    },
+    {
+      "id": "hf062",
+      "name": "적합성, 적정성 고객정보 확인서(법인용)",
+      "forms": [
+        "hf062",
+        "hana_official_062"
+      ]
+    },
+    {
+      "id": "hf064",
+      "name": "대출정보 열람청구, 상환 및 말소접수 위임장(주택담보대출 대출이동서비스)",
+      "forms": [
+        "hf064",
+        "hana_official_064"
+      ]
+    },
+    {
+      "id": "hf065",
+      "name": "국토교통부 주택소유확인 시스템 등 이용 관련 [필수] 개인(신용)정보 수집·이용·제공 동의서",
+      "forms": [
+        "hf065",
+        "hana_official_065"
+      ]
+    },
+    {
+      "id": "hf066",
+      "name": "대출정보 열람청구 및 상환 위임장(대출이동서비스)",
+      "forms": [
+        "hf066",
+        "hana_official_066"
+      ]
+    },
+    {
+      "id": "hf067",
+      "name": "[필수] 개인(신용)정보 수집 · 이용 동의서[대출이동서비스]",
+      "forms": [
+        "hf067",
+        "hana_official_067"
+      ]
+    },
+    {
+      "id": "privacy_consent",
+      "name": "개인(신용)정보 수집·이용·제공·조회 동의서",
+      "forms": [
+        "privacy_consent",
+        "hf118",
+        "hana_official_118"
+      ]
+    },
+    {
+      "id": "hf128",
+      "name": "필수 개인(신용)정보 수집, 이용 및 제공 동의서(소호여신)",
+      "forms": [
+        "hf128",
+        "hana_official_128"
+      ]
+    },
+    {
+      "id": "hf129",
+      "name": "필수 개인(신용)정보 수집, 이용 및 제공 동의서(법인여신)",
+      "forms": [
+        "hf129",
+        "hana_official_129"
+      ]
+    },
+    {
+      "id": "hf138",
+      "name": "대출금 수령위임동의서",
+      "forms": [
+        "hf138",
+        "hana_official_138"
+      ]
+    },
+    {
+      "id": "hf139",
+      "name": "《기업》 지급보증거래 신청서(서면.전자 지급보증 겸용)",
+      "forms": [
+        "hf139",
+        "hana_official_139"
+      ]
+    },
+    {
+      "id": "hf149",
+      "name": "《기업》금융거래확인서",
+      "forms": [
+        "hf149",
+        "hana_official_149"
+      ]
+    },
+    {
+      "id": "hf157",
+      "name": "여신거래용 인감명판 등 신고서",
+      "forms": [
+        "hf157",
+        "hana_official_157"
+      ]
+    },
+    {
+      "id": "overseas_remittance_application",
+      "name": "해외송금신청서",
+      "forms": [
+        "overseas_remittance_application",
+        "hf199",
+        "hana_official_199"
+      ]
+    },
+    {
+      "id": "fatca_crs",
+      "name": "해외금융계좌 납세자 확인서(개인)",
+      "forms": [
+        "fatca_crs",
+        "hf408",
+        "hana_official_408"
+      ]
+    },
+    {
+      "id": "corporate_customer_due_diligence",
+      "name": "고객확인서(법인·단체)",
+      "forms": [
+        "corporate_customer_due_diligence",
+        "hf413",
+        "hana_official_413"
+      ]
+    },
+    {
+      "id": "hf414",
+      "name": "[필수] 개인(신용)정보 수집·이용·제공 동의서 [공공마이데이터 주민등록 등·초본 조회용]",
+      "forms": [
+        "hf414",
+        "hana_official_414"
+      ]
+    },
+    {
+      "id": "hf416",
+      "name": "[필수] 개인(신용)정보 수집·이용·제공 동의서 [공공마이데이터 사업자정보 조회용]",
+      "forms": [
+        "hf416",
+        "hana_official_416"
+      ]
+    },
+    {
+      "id": "hf419",
+      "name": "[필수] 개인(신용)정보 수집 · 이용 동의서 (비여신 금융거래)",
+      "forms": [
+        "hf419",
+        "hana_official_419"
+      ]
+    },
+    {
+      "id": "hf420",
+      "name": "비대면 계좌개설 안심차단 서비스 신청서",
+      "forms": [
+        "hf420",
+        "hana_official_420"
+      ]
+    },
+    {
+      "id": "hf428",
+      "name": "본인확인서(FATCA CRS 법인,임의단체용)(국문)",
+      "forms": [
+        "hf428",
+        "hana_official_428"
+      ]
+    },
+    {
+      "id": "business_registration_certificate",
+      "name": "사업자등록증",
+      "forms": [
+        "business_registration_certificate",
+        "gov_business_registration"
+      ]
+    },
+    {
+      "id": "business_registration_proof",
+      "name": "사업자등록증명",
+      "forms": [
+        "business_registration_proof",
+        "gov_business_proof"
+      ]
+    },
+    {
+      "id": "vat_tax_base_certificate",
+      "name": "부가가치세 과세표준증명",
+      "forms": [
+        "vat_tax_base_certificate",
+        "gov_vat_base"
+      ]
+    },
+    {
+      "id": "gov_vat_exempt_income",
+      "name": "면세사업자 수입금액증명",
+      "forms": [
+        "gov_vat_exempt_income"
+      ]
+    },
+    {
+      "id": "standard_financial_statement_proof",
+      "name": "표준재무제표증명",
+      "forms": [
+        "standard_financial_statement_proof",
+        "gov_financial_proof"
+      ]
+    },
+    {
+      "id": "income_certificate",
+      "name": "소득금액증명원",
+      "forms": [
+        "income_certificate",
+        "gov_income"
+      ]
+    },
+    {
+      "id": "gov_tax_payment_history",
+      "name": "납부내역증명",
+      "forms": [
+        "gov_tax_payment_history"
+      ]
+    },
+    {
+      "id": "tax_payment_certificate",
+      "name": "납세증명서(국세완납증명)",
+      "forms": [
+        "tax_payment_certificate",
+        "gov_national_tax"
+      ]
+    },
+    {
+      "id": "seal_certificate",
+      "name": "인감증명서",
+      "forms": [
+        "seal_certificate",
+        "gov_seal"
+      ]
+    },
+    {
+      "id": "signature_confirmation",
+      "name": "본인서명사실확인서",
+      "forms": [
+        "signature_confirmation",
+        "gov_signature"
+      ]
+    },
+    {
+      "id": "gov_pension",
+      "name": "국민연금가입자 증명서",
+      "forms": [
+        "gov_pension"
+      ]
+    },
+    {
+      "id": "building_register",
+      "name": "집합건축물대장(전유부)",
+      "forms": [
+        "building_register",
+        "gov_building_unit"
+      ],
+      "note": "집합건축물 전유부용. 일반건축물대장과 구분합니다."
+    },
+    {
+      "id": "gov_building_general",
+      "name": "일반건축물대장(갑)",
+      "forms": [
+        "gov_building_general"
+      ]
+    },
+    {
+      "id": "land_register",
+      "name": "토지대장",
+      "forms": [
+        "land_register",
+        "gov_land"
+      ]
+    },
+    {
+      "id": "local_tax_assessment",
+      "name": "지방세 세목별 과세증명서",
+      "forms": [
+        "local_tax_assessment",
+        "gov_local_assessment"
+      ]
+    },
+    {
+      "id": "gov_foreign_household",
+      "name": "외국인체류확인서",
+      "forms": [
+        "gov_foreign_household"
+      ]
+    },
+    {
+      "id": "resident_registration_copy",
+      "name": "주민등록표 등본",
+      "forms": [
+        "resident_registration_copy",
+        "gov_resident_copy"
+      ]
+    },
+    {
+      "id": "resident_registration_abstract",
+      "name": "주민등록표 초본",
+      "forms": [
+        "resident_registration_abstract",
+        "gov_resident_abstract"
+      ]
+    },
+    {
+      "id": "move_in_household_list",
+      "name": "전입세대확인서",
+      "forms": [
+        "move_in_household_list",
+        "gov_move_in"
+      ]
+    },
+    {
+      "id": "local_tax_payment_certificate",
+      "name": "지방세 납세증명서",
+      "forms": [
+        "local_tax_payment_certificate",
+        "gov_local_tax"
+      ]
+    },
+    {
+      "id": "credit_agreement",
+      "name": "대출거래약정서(가계용)",
+      "forms": [
+        "credit_agreement",
+        "hana_personal_agreement"
+      ]
+    },
+    {
+      "id": "credit_agreement_corp",
+      "name": "여신거래약정서(기업용)",
+      "forms": [
+        "credit_agreement_corp",
+        "hana_corporate_agreement"
+      ]
+    },
+    {
+      "id": "collateral_agreement",
+      "name": "근저당권설정계약서",
+      "forms": [
+        "collateral_agreement",
+        "hana_collateral_agreement"
+      ]
+    },
+    {
+      "id": "guarantee_agreement",
+      "name": "보증약정서",
+      "forms": [
+        "guarantee_agreement",
+        "hana_specific_guarantee"
+      ],
+      "note": "특정채무 보증용. 다른 보증 범위가 필요한 업무에서는 사용 여부를 확인하세요."
+    },
+    {
+      "id": "withholding_receipt",
+      "name": "근로소득 원천징수영수증",
+      "forms": [
+        "withholding_receipt",
+        "gov_withholding"
+      ]
+    },
+    {
+      "id": "gov_retirement_withholding",
+      "name": "퇴직소득 원천징수영수증",
+      "forms": [
+        "gov_retirement_withholding"
+      ]
+    },
+    {
+      "id": "gov_pension_withholding",
+      "name": "연금소득 원천징수영수증",
+      "forms": [
+        "gov_pension_withholding"
+      ]
+    },
+    {
+      "id": "business_registration_certificate_corp",
+      "name": "사업자등록증(법인사업자)",
+      "forms": [
+        "business_registration_certificate_corp",
+        "gov_business_registration_corp"
+      ]
+    },
+    {
+      "id": "income_tax_return",
+      "name": "종합소득세 과세표준확정신고 및 납부계산서",
+      "forms": [
+        "income_tax_return",
+        "gov_income_tax_return"
+      ]
+    }
+  ]
+}

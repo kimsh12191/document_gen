@@ -1,4 +1,6 @@
-// ③ 묶음에서 무엇을 검사·추출·비교할지 정하고 예시 고객으로 실행한다.
+// ③ 시나리오·묶음 › 처리 설정: 묶음에서 무엇을 검사·추출·비교할지(구비 검사, 대조 사례, 심사 규칙, 직접 작업) 정하고 예시 고객으로 실행한다.
+// scenarios.js 가 ScenarioProcessing 을 만들어 쓰고, 저장은 시나리오와 함께 PUT /api/scenarios. 설계: DESIGN.md 9.5.1
+// 서버: POST /api/scenarios/run (studio/scenario_processing.py). Q/A 창은 questions.js 의 showQuestionQA
 "use strict";
 
 class ScenarioProcessing {
@@ -80,6 +82,7 @@ class ScenarioProcessing {
         if (!card.isConnected || v.version !== version) return;
         v.result = result;
         const pv = this.previews.states.get(s);
+        pv.docs=result.selections || s.docs;
         for (const [did, label] of Object.entries(result.labels)) pv.labels.set(did, label);
         status.textContent = `${result.customer} · seed ${seed} · 실행 완료`;
         this.drawResults(card, s);
@@ -103,10 +106,15 @@ class ScenarioProcessing {
 
   drawOperations(card, s, changed) {
     const box = $(".sc-operations", card), p = s.processing;
+    const candidateName=id=>state.forms?.find(f=>f.id===id)?.name || id;
+    const mappings=(op,side)=>{
+      const conf=s.sampling?.[op[side].doc], forms=conf?.mode==='sample'?conf.forms.filter(id=>id!==op[side].doc):[];
+      return forms.length?`<details><summary>후보 서식별 항목 연결 · ${forms.length}종</summary><div class="muted">다른 서식은 키가 다를 수 있습니다. 연결하지 않은 후보가 선택되면 이 작업을 건너뜁니다.</div>${forms.map(id=>`<label>${esc(candidateName(id))} · ${esc(id)}<select data-ref-map="${side}" data-candidate="${esc(id)}"><option value="">연결 안 함</option></select></label>`).join('')}</details>`:'';
+    };
     const ref = (op, side) => `<div class="sc-operation-ref">
       <select data-ref-doc="${side}" aria-label="${side === "left" ? "기준" : "비교"} 문서" required><option value="">문서 선택</option>${s.docs.map(d =>
         `<option value="${esc(d.id)}" ${d.id === op[side].doc ? "selected" : ""}>${esc(d.name || d.id)}</option>`).join("")}</select>
-      <select data-ref-key="${side}" aria-label="${side === "left" ? "기준" : "비교"} 항목" required><option value="">항목 불러오는 중…</option></select></div>`;
+      <select data-ref-key="${side}" aria-label="${side === "left" ? "기준" : "비교"} 항목" required><option value="">항목 불러오는 중…</option></select>${mappings(op,side)}</div>`;
     box.innerHTML = p.operations.map((op, i) => `<div class="sc-operation" data-op="${i}">
       <div class="bar"><label><input type="checkbox" data-op-enabled ${op.enabled === false ? "" : "checked"}> ${op.kind === "extract" ? "추출" : "비교"}</label>
         <input type="text" data-op-name value="${esc(op.name || "")}" aria-label="작업 이름"><button type="button" data-op-delete>작업 삭제</button></div>
@@ -122,8 +130,14 @@ class ScenarioProcessing {
           if (key.isConnected && op[side].doc === did) key.innerHTML = options;
         } catch (e) { if (key.isConnected) { key.innerHTML = `<option value="">항목을 불러오지 못했습니다</option>`; toast(e.message, true); } }
       };
-      $$("[data-ref-doc]", row).forEach(sel => sel.onchange = () => { const side = sel.dataset.refDoc; op[side] = { doc: sel.value, key: "" }; changed(); fill(side); });
+      $$("[data-ref-doc]", row).forEach(sel => sel.onchange = () => { const side = sel.dataset.refDoc; op[side] = { doc: sel.value, key: "" }; changed(); this.drawOperations(card,s,changed); });
       $$("[data-ref-key]", row).forEach(sel => { sel.onchange = () => { op[sel.dataset.refKey].key = sel.value; changed(); }; fill(sel.dataset.refKey); });
+      $$('[data-ref-map]',row).forEach(async sel=>{
+        const side=sel.dataset.refMap,id=sel.dataset.candidate;
+        try{const options=await this.keyOptions(id,op[side].keys?.[id],s);if(sel.isConnected)sel.innerHTML=options;}
+        catch(e){if(sel.isConnected)sel.innerHTML='<option value="">항목 읽기 실패</option>';}
+        sel.onchange=()=>{op[side].keys ||= {};if(sel.value)op[side].keys[id]=sel.value;else delete op[side].keys[id];changed();};
+      });
       $("[data-op-enabled]", row).onchange = e => { op.enabled = e.target.checked; changed(); };
       $("[data-op-name]", row).onchange = e => { op.name = e.target.value.trim(); changed(); };
       const oper = $("[data-op-operator]", row);

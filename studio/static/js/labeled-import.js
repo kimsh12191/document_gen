@@ -1,4 +1,5 @@
-// 생성기 공통 라벨 폴더를 검사하고 정답·문서 연결 확인 후 데이터셋을 만든다.
+// ④ 가져오기 › 라벨 있는 데이터: 생성기 공통 라벨(v1) 폴더를 검사하고 정답·문서 연결 확인 후 데이터셋을 만든다 → ⑥ 자동 등록.
+// import.js 가 labeledImportHTML·bindLabeledImport 로 ④ 화면에 넣는다. 서버: studio/api_labels.py, studio/labeled_data.py. 규격: studio/LABEL_FORMAT.md
 "use strict";
 
 function labeledImportHTML() {

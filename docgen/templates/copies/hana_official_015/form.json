@@ -1,0 +1,43 @@
+{
+  "name": "통합제신고서",
+  "group": "hana",
+  "category": "internal",
+  "parent": "hf015",
+  "fields": {},
+  "page": "a4",
+  "origin": "copy",
+  "description": "하나은행 공개 원문을 대조한 HTML. 통합제신고서. 기존 hf015 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070101/__icsFiles/afieldfile/2024/02/02/3-08-1280_240202.pdf",
+  "source": {
+    "publisher": "하나은행",
+    "url": "https://image.kebhana.com/cont/customer/customer07/customer0701/customer070101/__icsFiles/afieldfile/2024/02/02/3-08-1280_240202.pdf",
+    "source_file": "forms/하나은행_서식자료/예금/015_통합제신고서.pdf",
+    "sha256": "11147195dcb52feccb26c7be70c5e64e631b5b2fb96cc5c3a631eb40f1ace3bf",
+    "checked_at": "2026-10-20",
+    "revision": "(2023.07 개정)",
+    "matches": [],
+    "online_verification": {
+      "status": "verified_pdf",
+      "sha256": "11147195dcb52feccb26c7be70c5e64e631b5b2fb96cc5c3a631eb40f1ace3bf",
+      "matches_local": true,
+      "checked_at": "2026-10-20"
+    }
+  },
+  "reconstruction": {
+    "method": "native_html_text_svg_lines",
+    "pages": [
+      {
+        "source_page": 1,
+        "text_spans": 362,
+        "omitted_paths": 12,
+        "omitted_images": 1
+      },
+      {
+        "source_page": 2,
+        "text_spans": 61,
+        "omitted_paths": 12,
+        "omitted_images": 1
+      }
+    ],
+    "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."
+  }
+}

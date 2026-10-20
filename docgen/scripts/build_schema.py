@@ -1,6 +1,8 @@
 """서류별 정답 키 목록(스키마)을 만든다 → guide/fields/ (README.md 규칙·목차, <그룹>.md 서류별 표, fields.json)
 
-  python docgen/scripts/build_schema.py            # 서류당 프로필 30개로 집계
+  python docgen/scripts/build_schema.py            # 서류당 프로필 30개로 집계 (--n 으로 바꾼다)
+
+서류를 더하거나 키를 바꾸면 다시 돌린다. 결과 fields.json 은 docgen/scripts/build_keys.py 의 재료다.
 """
 from __future__ import annotations
 

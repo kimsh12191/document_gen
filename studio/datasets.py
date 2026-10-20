@@ -1,4 +1,5 @@
 """⑥ 데이터셋 · ⑦ 평가의 서버 쪽: 데이터셋 등록부, 문항 보기, 모델 답 붙이기·채점, 데이터셋 설명서, 학습 기록.
+API 는 studio/api_datasets.py, 화면은 static/js/datasets.js·dataset-builds.js.
 
 등록부 <workspace_dir>/registry.json
   {"datasets": {"<ID>": {track, source, gt, real_data, path, format, name, created, frozen, runs: [...], card: {...}}},

@@ -12,6 +12,25 @@ OCR 단계(`run_pipeline.py`)에서 학습한 모델을 출발점으로 **은행
 
 과제와 채점 방식은 [guide/benchmark.md](../guide/benchmark.md), 학습한 모델에게 묻는 질문 문장과 답 형식은 [guide/questions.md](../guide/questions.md)에 있습니다.
 
+## 폴더 구성
+
+이 저장소의 2부(은행 업무)입니다. 아래 명령은 모두 이 폴더(`cd bank`)에서 실행하고, `configs/`·`runs/`·`data/` 같은 경로도 이 폴더 기준입니다.
+
+| 경로 | 내용 |
+|---|---|
+| `run_bank_pipeline.py` | 한 명령 파이프라인 (prepare → 평가 → SFT → GRPO → 비교표) |
+| `bank_task/` | 패키지 (`python -m bank_task prepare·score·mine·report`). docgen 결과 → 학습·평가 데이터(`prepare.py`), docgen 채점기로 채점·GRPO 보상(`score.py`), 비교표(`report.py`) |
+| `bank_task_reward.py` | GRPO 보상 플러그인 (`bank_task/score.py`의 `reward`) |
+| `configs/` | `bank_pipeline.example.json`(파이프라인 설정 예시), `bank_sft*.yaml`·`bank_grpo*.yaml`(80GB/40GB 학습 설정), `bank_inference.json`(평가 추론) |
+| `viewer/` | 은행 업무 viewer (`bank_start.sh`, `bank_viewer.py`, `bank.html`) → [viewer/README.md](viewer/README.md) |
+| `tests/` | 테스트 (`python -m unittest discover -s tests`, 같은 저장소의 docgen으로 채점까지 시험) |
+| `data/`, `runs/` | 실행하면 생김 (git에 넣지 않음): 준비 결과 `data/prepared-bank/`, 파이프라인 결과 `runs/bank1/` |
+
+**다른 폴더와의 관계**
+
+- **`../ocr` (1부 OCR):** 출발 모델은 1부 결과의 병합 모델(`../ocr/runs/exp1/merged/grpo-…`)입니다. 코드도 1부 것을 그대로 씁니다: 파이프라인 뼈대(`run_pipeline.py`의 `Runner`: GPU별 vLLM 서버, LoRA 병합, `state.json` 이어 하기), 학습 실행기(`train.py`), `bank_ocr`의 데이터·추론 도구. `run_bank_pipeline.py`·`bank_task`가 `../ocr`를 `sys.path`와 학습 프로세스의 `PYTHONPATH`에 넣으므로 따로 설치할 것이 없습니다(`bank_ocr`를 pip로 등록해 두었다면 그것도 됩니다). OCR 능력 유지용 데이터(`data.replay`, `ocr_check`)도 1부 준비 결과(`../ocr/data/prepared-v2/`)에서 가져옵니다.
+- **`../docgen` (생성기):** 학습 데이터·평가 세트는 docgen 도커에서 미리 만들어 둡니다(1단계). 채점과 GRPO 보상은 docgen 벤치마크의 채점기(`docgen/bench/evaluate.py`)를 그대로 불러 씁니다. docgen 코드 위치는 설정의 `data.docgen_root`(기본: 저장소 최상위)이고, 파이프라인이 이를 `DOCGEN_ROOT`로 하위 프로세스에 넘깁니다.
+
 ## 전체 흐름
 
 ```text
@@ -71,7 +90,7 @@ OUT=/out/try TYPES=resident_id_card,loan_application SCENARIOS=mortgage \
 SSH 없이 서버 터미널에서 바로 돌리려면 다음 명령을 씁니다. 컨테이너 쪽 작업 폴더가 코드 폴더가 아니어서 전체 경로를 씁니다.
 
 ```bash
-docker exec -u docgen docgen bash -lc 'bash ~/document_gen/scripts/make_bank_data.sh'
+docker exec -u docgen docgen bash -lc 'bash ~/document_gen/docgen/scripts/make_bank_data.sh'
 ```
 
 ### 양은 얼마나
@@ -101,10 +120,10 @@ docker exec -u docgen docgen bash -lc 'bash ~/document_gen/scripts/make_bank_dat
 
 - **docgen 코드:** 채점과 GRPO 보상에 docgen 코드를 씁니다(파이썬 표준 라이브러리만, 설치 불필요). 이 폴더(`bank/`)를 저장소째(`document_gen/bank/`) 쓰면 설정의 `data.docgen_root` 기본값 `../..`(configs 기준 저장소 최상위) 그대로 됩니다. 저장소와 떨어진 곳에서 돌린다면 `data.docgen_root`를 docgen 코드 폴더(예: `/home/<계정>/docgen/document_gen`)로 지정하세요.
 - **1부 코드:** 2부는 옆 폴더 `../ocr`의 코드(`bank_ocr`, `run_pipeline.py`, `train.py`)를 그대로 씁니다. `bank/`와 `ocr/`를 같은 저장소 안에 두면 따로 설치할 것이 없습니다(`run_bank_pipeline.py`가 두 폴더를 학습 프로세스의 `PYTHONPATH`에 넣습니다).
-- **학습 폴더 위치:** docgen 컨테이너에 마운트한 코드 폴더(`~/docgen/document_gen`)는 컨테이너가 시작할 때 컨테이너의 `docgen` 계정(UID 1000)이 쓸 수 없으면 그 계정 소유로 바뀝니다. 서버 계정이 UID 1000이 아니면, 학습은 그 폴더가 아니라 따로 둔 폴더(기존 `bank-ocr-pipeline` 폴더, 또는 코드 묶음을 따로 푼 곳)에서 돌리세요. 학습 결과(`runs/`, `data/`)를 그 폴더에 쓰기 때문입니다.
+- **학습 폴더 위치:** docgen 컨테이너에 마운트한 코드 폴더(`~/docgen/document_gen`)는 컨테이너가 시작할 때 컨테이너의 `docgen` 계정(UID 1000)이 쓸 수 없으면 그 계정 소유로 바뀝니다. 서버 계정이 UID 1000이 아니면, 학습은 그 폴더가 아니라 저장소를 따로 받아 둔 폴더(다른 곳에 `git clone`했거나 코드 묶음을 푼 곳)의 `bank/`에서 돌리세요. 학습 결과(`bank/runs/`, `bank/data/`)를 그 폴더에 쓰기 때문입니다.
 - **데이터:** 1단계에서 만든 `bank_train`, `bench` 폴더를 GPU 서버에서 읽을 수 있어야 합니다. 도커와 같은 서버라면 위 경로 표의 서버 경로를 그대로 씁니다.
-- **이 프로젝트 업데이트:** 새 파일을 덮어쓴 뒤 `cd ../ocr && pip install --no-index --no-build-isolation -e .`를 한 번 실행합니다(1부 `bank_ocr` 패키지 등록. `bank_task`는 설치하지 않아도 됩니다).
-- **출발 모델:** OCR 단계 결과의 병합 모델 폴더입니다. 예: `../ocr/runs/exp1/merged/grpo-v1-…-checkpoint-500`. 폴더 안에 `config.json`이 있어야 합니다.
+- **이 프로젝트 업데이트:** `git pull`(또는 새 파일을 덮어쓰기) 뒤 `bank/`에서 `cd ../ocr && pip install --no-index --no-build-isolation -e .`를 한 번 실행합니다(1부 `bank_ocr` 패키지 등록. `bank_task`는 설치하지 않아도 됩니다).
+- **출발 모델:** OCR 단계 결과의 병합 모델 폴더입니다. 같은 저장소라면 `ocr/runs/exp1/merged/grpo-v1-…-checkpoint-500`(설정에는 절대 경로로, 예: `/home/<계정>/<코드>/ocr/runs/exp1/merged/grpo-v1-…-checkpoint-500`). 폴더 안에 `config.json`이 있어야 합니다.
 
 ## 3. 설정
 
@@ -114,12 +133,12 @@ cp configs/bank_pipeline.example.json configs/bank_pipeline.json
 
 | 키 | 뜻 |
 |---|---|
-| `model` | 출발 모델 (OCR 단계의 병합 모델 폴더) |
+| `model` | 출발 모델 (OCR 단계의 병합 모델 폴더). 절대 경로로 씁니다 (아래 표 밑 설명) |
 | `gpus` | 사용할 GPU. 평가 때는 GPU마다 서버 하나, 학습 때는 전부 사용 |
 | `data.docgen_root` | `docgen/`이 들어 있는 폴더. 기본 `../..` = 이 저장소 최상위 |
 | `data.train` | docgen 학습 폴더 목록 (`--split train` 결과). `docgen generate --png` 결과 폴더도 넣을 수 있습니다(과제 이름 앞에 `gen_`) |
 | `data.benchmark` | docgen 평가 세트 폴더 |
-| `data.replay` | 앞 단계 OCR 학습 데이터 일부를 섞어 OCR 능력이 떨어지지 않게 함. `{"path": ".../prepared-v2/train_sft.jsonl", "count": 3000}` |
+| `data.replay` | 앞 단계 OCR 학습 데이터 일부를 섞어 OCR 능력이 떨어지지 않게 함. `{"path": "../../ocr/data/prepared-v2/train_sft.jsonl", "count": 3000}` (1부 prepare 결과) |
 | `data.output_dir` | 변환된 데이터 폴더 |
 | `data.sft_max_examples` | SFT 문항 수 상한 (기본 20000). 학습 시간에 거의 비례 |
 | `data.task_mix` | 과제별 비율. 목록에 없는 과제는 빠짐. 모자라는 과제의 몫은 다른 과제가 채움 |
@@ -129,13 +148,14 @@ cp configs/bank_pipeline.example.json configs/bank_pipeline.json
 | `grpo.tasks`, `grpo.max_images` | GRPO에 쓸 과제와 문항당 최대 이미지 수 (기본 4) |
 | `grpo.count`, `grpo.candidates` | GRPO 문제 수 (기본 1000), 그중 어려운 문제를 고를 후보 수 (기본 3000) |
 | `eval.compare_models` | 같이 평가할 모델. 예: `[{"label": "Qwen3.5-9B 원본", "model": "/share/cv_share/qwen3.5/9b"}]` |
-| `ocr_check` | 각 모델로 OCR 벤치마크 일부를 같이 풀어 OCR 능력 유지 여부를 봄. `{"tasks": ".../prepared-v2/benchmark_tasks.jsonl", "rows": 1000}`. 안 쓰려면 `null` |
+| `ocr_check` | 각 모델로 OCR 벤치마크 일부를 같이 풀어 OCR 능력 유지 여부를 봄. `{"tasks": "../../ocr/data/prepared-v2/benchmark_tasks.jsonl", "rows": 1000}`. 안 쓰려면 `null` |
 
-설정 파일의 상대 경로는 설정 파일 위치 기준입니다.
+설정 파일의 상대 경로는 설정 파일 위치(`bank/configs/`) 기준입니다. 그래서 1부 준비 결과는 `../../ocr/data/…`, 2부 결과(`workdir`, `data.output_dir`)는 `../runs/…`, `../data/…`(= `bank/runs/`, `bank/data/`)입니다. 단 `model`과 `eval.compare_models`의 `model`은 설정 파일 기준으로 풀지 않으므로 절대 경로를 쓰세요.
 
 ## 4. 실행
 
 ```bash
+cd bank
 # 리허설: 학습 5 step, 과제마다 8문항 평가, GRPO 8문제. 명령·메모리·서버 기동 확인 (runs/bank1/smoke)
 python run_bank_pipeline.py --config configs/bank_pipeline.json --smoke
 
@@ -155,7 +175,7 @@ nohup python run_bank_pipeline.py --config configs/bank_pipeline.json > bank_pip
 
 ### 눈으로 확인: viewer
 
-모델들의 답을 문항별로 정답과 나란히 보고, 내 서류 파일을 올려 직접 물어볼 수 있습니다. 사용법은 [viewer/README.md](../ocr/viewer/README.md) 6번에 있습니다.
+모델들의 답을 문항별로 정답과 나란히 보고, 내 서류 파일을 올려 직접 물어볼 수 있습니다. 사용법은 [viewer/README.md](viewer/README.md)에 있습니다(직접 테스트는 4번).
 
 ```bash
 bash viewer/bank_start.sh                                              # 저장된 답 보기 (GPU 불필요)

@@ -1,6 +1,7 @@
-"""평가 문항의 질문 문장 (build 가 쓰고, 학습 쪽 viewer 도 같은 문장으로 묻는다).
+"""평가 문항의 질문 문장 (build 가 쓰고, 2부 은행 업무 viewer(bank/viewer/bank_viewer.py)와 studio 도 같은 문장으로 묻는다).
 
 표준 라이브러리만 쓰므로 렌더링 환경(jinja2·Playwright)이 없어도 import 된다.
+문장을 바꾸면 guide/questions.md 도 같이 고친다 (bank/tests 가 둘이 같은지 본다).
 """
 
 P_CLASSIFY = ("이 문서는 고객이 은행에 제출한 서류입니다. 서류의 정식 명칭(서류명)을 답하세요. "

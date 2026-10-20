@@ -81,7 +81,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
 {%- if it.get("size") %};width:{{ it.size }}px;height:{{ it.size }}px;font-size:{{ (it.size * 0.26)|round(1) }}px{% endif %}
 {%- if tpl %};{{ seal_style(tpl) }}{% endif %}">{{ seal_lines(it.name)|join(BR) }}</span>
 {%- elif it.sign and it.get("sign_img") %}<span class="scribble fit" data-mark="{{ kg }}"><img src="{{ it.sign_img }}" alt=""></span>
-{%- elif it.sign %}<span class="scribble{{ ' fit' if it.get("staff") }}" data-mark="{{ kg }}">{{ scribble(it.name, f.rng) }}</span>{% endif %}</div>
+{%- elif it.sign %}<span class="scribble fit" data-mark="{{ kg }}">{{ scribble(it.name, f.rng) }}</span>{% endif %}</div>
 {% endif %}
 {% endfor %}
 </div>

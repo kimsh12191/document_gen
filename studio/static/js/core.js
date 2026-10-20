@@ -240,7 +240,7 @@ function scrollRowIntoView(box, row) {
   if (rr.top < sr.top || rr.bottom > sr.bottom) box.scrollTop += rr.top - sr.top - sr.height / 3;
 }
 
-// 아직 만들지 않은 메뉴: 무엇이 들어올지 보여 준다
+// view_<메뉴> 가 없는 메뉴: 무엇이 들어올지 보여 준다 (misc.js 의 PLANS. 지금은 모든 메뉴에 화면이 있어 쓰이지 않는다)
 function viewPlan(title, stage, items) {
   main().innerHTML = `<div class="plan"><h1>${title}</h1><div class="sub">${stage}에서 구현합니다. 설계: <span class="mono">studio/DESIGN.md</span></div>
     <div class="panel"><ul>${items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></div></div>`;

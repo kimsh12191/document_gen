@@ -1,12 +1,12 @@
 """⑥ 데이터셋 · ⑦ 평가 API (studio/datasets.py 를 부른다).
 
-  GET    /api/datasets                       등록부 목록
+  GET    /api/datasets                       등록부 목록 (먼저 놓친 자동 등록을 복구한다, build_registration.py)
   POST   /api/datasets                       폴더 등록 {path, name, source?, gt?, real_data?}
   GET    /api/datasets/{id}                  데이터셋 하나: 정보, 모델 답 목록, 저장한 점수, 설명서
   DELETE /api/datasets/{id}                  등록만 지운다 (폴더는 그대로)
   PATCH  /api/datasets/{id}                  이름·출처·정답 종류·실서류 여부
   POST   /api/datasets/{id}/freeze           고정 {frozen}
-  PUT    /api/datasets/{id}/card             설명서의 사람 칸 {purpose, limits, not_for}
+  PUT    /api/datasets/{id}/card             설명서의 사람 칸 {purpose, limits, not_for} · GET /api/datasets/{id}/card.md 설명서 원문
   GET    /api/datasets/{id}/items            문항 {task, offset, limit, pids, order=id|worst, q}
   GET    /api/datasets/{id}/file?p=          문항 이미지
   POST   /api/datasets/{id}/runs             모델 답 붙이기 {path, label}

@@ -1,4 +1,10 @@
-"""③ 처리 설정 시험 실행. 합성 정답으로 계산하며 모델을 호출하지 않는다."""
+"""③ 시나리오·묶음 › 처리 설정 예시 실행 (DESIGN.md 9.5.1). 합성 정답으로 계산하며 모델을 호출하지 않는다.
+
+시나리오(저장 전 초안 포함)의 필수 서류를 예시 고객(seed)으로 렌더링하고, 구비 검사·직접 추출/비교 작업
+(docgen/bench/processing.py)·대조 사례(docgen/bench/cases.py)·심사 규칙(docgen/bench/rules.py)마다
+상태(ready·skipped·disabled·error)·사유·답·근거 위치(sources)·Q/A 예시를 돌려준다.
+API 는 POST /api/scenarios/run (studio/app.py), 화면은 static/js/scenario-processing.js.
+"""
 from __future__ import annotations
 
 import random
@@ -25,14 +31,18 @@ class EvidenceBundle(Bundle):
 
 
 def run(scenario: dict, seed: int, render) -> dict:
+    from docgen.roles import resolve, resolve_processing
+
     ids = scenario.get("docs")
     if not isinstance(ids, list) or not ids or any(not isinstance(d, str) or d not in load_all() for d in ids):
         raise ValueError("묶음에 등록된 서류를 하나 이상 넣으세요")
     extra = scenario.get("extra") or {}
     if not isinstance(extra, dict):
         raise ValueError("프로필 값은 JSON 객체여야 합니다")
-    conf = P.validate(scenario.get("processing"), ids)
     sid = scenario.get("id") or "draft"
+    selections=resolve(ids,scenario.get("sampling"),seed,sid)
+    conf=resolve_processing(P.validate(scenario.get("processing"),ids),selections)
+    ids=[r["id"] for r in selections]
     labels = {did: render(did, seed=seed, extra={**extra, "scenario": sid, "form_bank": "하나은행"}) for did in ids}
     docs = {did: {**label, "name": label["doc_name"], "images": label["images"],
                   "raw_keys": label.get("raw_keys", [f["key"] for f in label["fields"]]),
@@ -134,4 +144,4 @@ def run(scenario: dict, seed: int, render) -> dict:
                 row.update(status="skipped", reason="필요한 서류·숫자·날짜가 없어 계산할 수 없습니다")
         except (KeyError, TypeError, ValueError, ZeroDivisionError) as e:
             row.update(status="error", reason=f"규칙 계산 오류: {e}")
-    return {"customer": customer, "seed": seed, "rows": rows, "labels": labels}
+    return {"customer": customer, "seed": seed, "rows": rows, "labels": labels,"selections":selections}

@@ -4,6 +4,7 @@
 
 - **정답:** 내부 OCR 결과를 그대로 정답으로 씁니다(사람 검수 없음). 그래서 점수는 실제 정답률이 아니라 **내부 OCR과 얼마나 같은지**입니다.
 - **검증 범위:** 데이터 처리·평가·보상은 로컬에서 검증했습니다. 실제 GPU 학습은 서버에서 처음 돌리므로 본 실행 전에 `--smoke` 리허설을 하세요.
+- **실행 위치:** 이 저장소의 1부(OCR)입니다. 아래 명령은 모두 이 폴더(`cd ocr`)에서 실행하고, `data/`·`runs/`·`configs/` 같은 경로도 이 폴더 기준입니다. 폴더 구성은 [맨 아래](#폴더-구성)에 있습니다.
 
 ## 1. 파이프라인 돌리기
 
@@ -61,7 +62,7 @@ tail -f pipeline.log
   - 같은 표를 깨끗한 이미지와 노이즈 이미지로 나눠서도 보여 줍니다. 둘의 차이가 노이즈에 얼마나 강한지를 뜻합니다.
 - **viewer:** `bash viewer/start.sh runs/exp1/merged/<모델폴더> 1`을 실행하고 `http://localhost:7860`을 엽니다.
   - 이미지나 PDF를 올려 질문하면 답의 박스를 이미지 위에 그려 줍니다. → [viewer/README.md](viewer/README.md)
-- **다음 단계:** `runs/exp1/merged/grpo-*` 폴더가 은행 업무 학습의 출발 모델이 됩니다. → [저장소 README](../README.md), [BANK_TASKS.md](../bank/README.md)
+- **다음 단계:** `runs/exp1/merged/grpo-*` 폴더가 은행 업무 학습의 출발 모델이 됩니다. → [저장소 README](../README.md), [bank/README.md](../bank/README.md)
 
 ## 자세한 문서
 
@@ -72,3 +73,29 @@ tail -f pipeline.log
 | [docs/PIPELINE.md](docs/PIPELINE.md) | 파이프라인 옵션, GRPO 문제 선정, GRPO만 다시 돌리기 |
 | [docs/DESIGN.md](docs/DESIGN.md) | 학습 과제 8종, 좌표 형식, 노이즈 증강, 평가 지표, GRPO 보상 |
 | [docs/MANUAL.md](docs/MANUAL.md) | 파이프라인 없이 한 단계씩 직접 실행하는 명령, 로컬 테스트 |
+
+## 폴더 구성
+
+| 경로 | 내용 |
+|---|---|
+| `run_pipeline.py` | 한 명령 파이프라인 (위 2번의 단계). 2부 `../bank/run_bank_pipeline.py`도 이 파일의 `Runner`를 이어 씁니다 |
+| `bank_ocr/` | 패키지 (`python -m bank_ocr scan·prepare·predict·evaluate·mine …`). 데이터 준비(`pipeline.py`, `tasks.py`, `augment.py`, `data.py`), 추론(`inference.py`), 채점·보상(`metrics.py`), 명령(`cli.py`) |
+| `train.py` | MS-SWIFT SFT·GRPO 실행기. 1부·2부가 같이 씁니다 |
+| `bank_ocr_reward.py` | GRPO 보상 플러그인 (`bank_ocr/metrics.py`의 `reward`) |
+| `internal_ocr_adapter.py` | 사내 OCR 서버 호출 함수 (`config.json`의 `ocr_callable`) |
+| `benchmark_report.py` | Base·SFT·GRPO 평가 JSON → 비교표 (CSV·Markdown·HTML) |
+| `demo.py` | 합성 이미지·가짜 OCR로 하는 연결 검사 (모델 없음) |
+| `config.example.json` | 데이터 준비 설정 예시 → `config.json` |
+| `configs/` | `pipeline.example.json`(파이프라인), `sft.yaml`·`grpo*.yaml`(학습), `inference.json`(평가 추론) |
+| `docs/` | 자세한 문서 (위 표) |
+| `viewer/` | OCR viewer (`start.sh`, `ocr_viewer.py`, `index.html`) → [viewer/README.md](viewer/README.md) |
+| `examples/`, `tests/` | 사내 OCR 응답 예시, 테스트 (`python -m unittest discover -s tests`) |
+| `pyproject.toml`, `requirements-*.in` | 패키지 등록, 학습·추론 환경 후보 목록 |
+
+실행하면 생기는 폴더 (git에 넣지 않음):
+
+| 경로 | 내용 |
+|---|---|
+| `data/` | 이미지 목록(`manifest.jsonl`), OCR 캐시(`ocr-cache/`), 준비 결과(`prepared-v2/`) |
+| `runs/exp1/` | 파이프라인 결과: 학습 체크포인트, 병합 모델(`merged/`), 모델 답(`predictions/`), 점수표(`reports/`), `state.json` |
+| `predictions/`, `reports/` | [docs/MANUAL.md](docs/MANUAL.md)대로 한 단계씩 돌렸을 때의 모델 답과 점수 |

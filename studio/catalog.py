@@ -1,4 +1,4 @@
-"""서식 목록과 서식 정보 (목록 화면·상세 화면).
+"""① 서식의 서버 쪽: 서식 목록과 서식 정보 (목록 화면·상세 화면), 검수·배정·문제 표시. API 는 studio/app.py, 화면은 static/js/forms.js.
 
 - 서식: docgen 레지스트리 (`docgen.registry.load_all`)
 - 서식별 키 목록: guide/fields/fields.json (`docgen/scripts/build_schema.py`가 서식마다 30번 렌더링해 모은 것)
@@ -29,6 +29,7 @@ from .config import ROOT
 FIELDS_JSON = ROOT / "guide" / "fields" / "fields.json"
 CATALOG_JSON = ROOT / "docgen" / "catalog.json"
 MARK_TYPES = {"checkbox", "checkbox_multi", "seal", "signature"}
+AUDIT_JSON = ROOT / "docgen" / "manual" / "form_value_audit.json"
 _ASCII_KEY = re.compile(r"^[A-Za-z0-9_.]+$")
 
 
@@ -47,6 +48,38 @@ def kind_of(group: str, doc_id: str = "") -> tuple[str, str]:
 @lru_cache(maxsize=1)
 def _fields() -> dict:
     return json.loads(FIELDS_JSON.read_text(encoding="utf-8")) if FIELDS_JSON.exists() else {}
+
+
+@lru_cache(maxsize=2)
+def _audit_at(mtime: int) -> dict:
+    if not AUDIT_JSON.exists():
+        return {}
+    return {r["id"]: r for r in json.loads(AUDIT_JSON.read_text(encoding="utf-8"))["forms"]}
+
+
+def value_audit(doc_id: str) -> dict | None:
+    row = _audit_at(AUDIT_JSON.stat().st_mtime_ns if AUDIT_JSON.exists() else 0).get(doc_id)
+    if row is None:
+        return None
+    from docgen.preview import source_hash
+
+    return {**row, "stale": row.get("source_hash") != source_hash(doc_id)}
+
+
+def _keys(doc_id: str) -> list[dict]:
+    keys = list(_fields().get(doc_id, {}).get("keys", []))
+    from docgen import html_regions
+
+    if load_all()[doc_id].template != "_real_form.html.j2" and html_regions.path(doc_id).exists():
+        from docgen.entities import make_profile
+        from docgen.render import render
+        from docgen.schema import build_fields
+
+        _, raw, _ = render(load_all()[doc_id], make_profile(0), 0)
+        live = {f["key"]: {**f, "example": f.get("value")} for f in build_fields(raw)}
+        live = {**{f["key"]: f for f in keys}, **live}
+        keys = list(live.values())
+    return keys
 
 
 _LOCK = threading.Lock()
@@ -155,16 +188,28 @@ def _key_stats(keys: list[dict]) -> dict:
 def _edited(doc_id: str) -> bool:
     from docgen import overrides
 
-    return overrides.path(doc_id).exists()
+    from docgen import html_regions
+    from docgen import template_variants
+
+    return overrides.path(doc_id).exists() or (load_all()[doc_id].template != "_real_form.html.j2" and (html_regions.path(doc_id).exists() or any(template_variants.folder(doc_id).glob("*.regions.json"))))
 
 
 def _summary(spec, entry: dict) -> dict:
     kind, origin = kind_of(spec.group, spec.id)
-    keys = _fields().get(spec.id, {}).get("keys", [])
+    official_source = None
+    if spec.template.startswith("@form/"):
+        from docgen.htmlform import load_form
+
+        source = load_form(spec.id).get("source") or {}
+        if isinstance(source, dict) and str(source.get("url", "")).startswith("https://") and source.get("online_verification", {}).get("matches_local"):
+            official_source = source
+    keys = _keys(spec.id)
     issues = entry.get("issues", [])
     return {
         "id": spec.id, "name": spec.name, "group": spec.group, "group_name": GROUPS.get(spec.group, spec.group),
         "kind": kind, "origin": origin, "category": spec.category, "page": spec.page,
+        "official_source": official_source,
+        "value_audit": value_audit(spec.id),
         "scenarios": [s["id"] for s in _scenarios_of().get(spec.id, [])],
         "reviewed": entry.get("reviewed"), "split": entry.get("split", "unassigned"),
         "open_issues": sum(1 for x in issues if x.get("status") == "open"),
@@ -186,6 +231,8 @@ def _rel(p: Path) -> str:
 
 
 def form_detail(doc_id: str) -> dict:
+    from docgen.roles import index as role_index
+
     reg = load_all()
     if doc_id not in reg:
         raise KeyError(doc_id)
@@ -223,12 +270,13 @@ def form_detail(doc_id: str) -> dict:
     return {
         **_summary(spec, entry),
         "description": spec.description,
+        "document_role": role_index().get(doc_id),
         "sample_mark": spec.sample_mark,
         "scenario_names": _scenarios_of().get(doc_id, []),
         "note": entry.get("note", ""),
         "issues": entry.get("issues", []),
         "review_state": review_state(doc_id, entry),
-        "keys": _fields().get(doc_id, {}).get("keys", []),
+        "keys": _keys(doc_id),
         "files": files,
     }
 

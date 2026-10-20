@@ -1,21 +1,29 @@
-# 모델 사용 가이드
+# 사용 가이드
 
-학습한 모델을 쓰거나 결과를 해석할 때 필요한 정보를 모은 폴더입니다. 질문 방법, 서류별로 뽑을 수 있는 항목, 서류 목록, 벤치마크 설명이 들어 있습니다.
+프로젝트를 처음 돌려 보는 사람, 학습한 모델을 쓰거나 결과를 해석하는 사람을 위한 문서 모음입니다. 저장소의 네 갈래(`ocr/` 1부 OCR, `bank/` 2부 은행 업무, `docgen/` 생성기, `studio/` 화면)와 문서 지도는 [저장소 README](../README.md)에 있습니다.
+
+## 읽는 순서
+
+1. **[tutorial.md](tutorial.md) — 처음부터 따라하기.** 코드 받기 → 설치 → 사내 OCR 서버 → 1부 OCR 학습(`cd ocr`) → 2부 데이터 만들기(docgen 도커) → 2부 은행 업무 학습(`cd bank`) → 결과 확인. 단계마다 확인 방법, 맨 끝에 자주 나는 에러 표가 있습니다.
+2. **[overview.md](overview.md) — 무엇을 왜 그렇게 만들었나** (팀 공유용). 1부·2부 각각 컨셉 → 데이터 구조 → 학습 → 평가 → viewer, 부록에 생성기·벤치마크 상세. 같은 내용의 발표 자료는 [slides/](slides/README.md)입니다.
+3. 그다음은 필요할 때 아래 표에서 찾아 봅니다.
 
 ## 이럴 땐 이 파일
 
 | 궁금한 것 | 파일 |
 |---|---|
 | **처음부터 직접 돌려 보기** (설치, OCR 서버, 설정 파일, 실행, 확인, 에러 해결) | [tutorial.md](tutorial.md) |
+| 이 프로젝트가 **무엇을 했는지** (팀 공유용 소개) | [overview.md](overview.md) |
 | 발표 자료 (웹 슬라이드, 뒤쪽 부록에 모든 과제의 데이터 예시) | [slides/](slides/README.md) |
-| 이 프로젝트가 **무엇을 했는지** (팀 공유용 소개: OCR 학습과 은행 업무 학습 각각의 컨셉·데이터 구조·학습·평가·viewer, 생성기·벤치마크 상세 부록) | [overview.md](overview.md) |
-| **모든 과제의 실제 데이터** (이미지·질문 전문·정답·채점 정보·meta·학습 레코드, 서류 대조 사례 14종, 심사 질의 규칙 전부) | [tasks.md](tasks.md) |
+| **모든 과제의 실제 데이터** (이미지·질문 전문·정답·채점 정보·meta·학습 레코드, 서류 대조 사례 14종, 심사 질의 규칙 전부) | [tasks.md](tasks.md) (자동 생성) |
 | 은행 업무를 모델에게 **어떻게 묻고**, 답이 **어떤 형식으로** 오나 | [questions.md](questions.md) |
 | 글자·박스 읽기(OCR 과제)는 어떻게 묻나 | [ocr/docs/PROMPTS.md](../ocr/docs/PROMPTS.md) — OCR 브랜치와 같이 쓰는 파일이라 그 자리에 둡니다 |
-| 이 서류에서 **어떤 항목**을 뽑을 수 있나 (키·항목명·체크박스 보기) | [fields/](fields/README.md) — 서류 그룹별 파일 |
-| 학습한 **서류 이름** 476종, **업무별 필수 서류** | [documents.md](documents.md) |
-| **벤치마크**는 무엇을 묻고 어떻게 채점하나 | [benchmark.md](benchmark.md) |
+| 이 서류에서 **어떤 항목**을 뽑을 수 있나 (키·항목명·체크박스 보기) | [fields/](fields/README.md) — 서류 그룹별 파일 (자동 생성) |
+| 학습한 **서류 이름** 476종, **업무별 필수 서류** | [documents.md](documents.md) (자동 생성) |
+| **벤치마크**는 무엇을 묻고 어떻게 채점하나 (과제, 문항 만드는 방법, 불일치 14종과 근거) | [benchmark.md](benchmark.md) |
 | 파이프라인 **결과 지표**는 어떻게 읽나 (점수표, 학습 로그, 이상 신호) | [results.md](results.md) |
+
+실행 방법의 원본은 각 폴더의 README입니다: 1부 [ocr/README.md](../ocr/README.md), 2부 [bank/README.md](../bank/README.md), viewer [ocr/viewer/README.md](../ocr/viewer/README.md), 생성기 [docgen/README.md](../docgen/README.md), 화면 [studio/README.md](../studio/README.md), 도커 [docker/README.md](../docker/README.md).
 
 ## 과제 한눈에
 
@@ -24,8 +32,8 @@
 | 서류 구비 확인 `doc_check` | 제출 서류 첫 쪽들 + 업무·필수 서류 목록 | 빠진·불필요·타인 서류 JSON |
 | 서류 대조 `cross_check` | 서류 2~3건 | 불일치 여부와 문제 서류·항목·값 JSON |
 | 심사 질의 `review` | 관련 서류 + 질문 | 숫자 또는 예/아니오 |
-| 정보 추출 `kie` | 서류 한 건 + 항목 목록 | 항목별 값 JSON |
-| 체크·도장·서명 `marks` | 서류 한 건 + 항목·보기 | 체크된 보기, 도장·서명 true/false |
+| 정보 추출 `kie` | 서류 한 건 + 항목 목록 | 항목별 값과 위치 JSON 목록 (`bbox_2d`, `page`) |
+| 체크·도장·서명 `marks` | 서류 한 건 + 항목·보기 | 체크된 보기, 도장·서명 true/false, 그 위치 |
 | 서류 분류 `classify` | 서류 한 건 | 서류명 |
 | 전체 받아쓰기 `ocr_page` | 서류 한 건 | 글자 |
 | 값 칸 읽기 `ocr_field` | 잘라낸 값 칸 | 글자 |
@@ -51,7 +59,7 @@
 - **법인등기부 발급일:**
   - 발급용에만 발행일(`issue_date`)이 있고, 열람용은 열람일시(`viewed_at`)만 있습니다.
   - 발행일은 `서기 2025년 05월 19일` 꼴 그대로 채점합니다. 날짜 형식으로 비교하려면 `issue_date_short`를 쓰세요.
-- **하나은행 원본 서식은 빈 칸이 많습니다.** 정보 추출 정답의 약 절반이 `null`입니다. 주 지표인 F1은 빈 칸을 맞혀도 오르지 않아서 부풀지 않습니다.
+- **하나은행 원본 서식은 빈 칸이 많습니다.** 정보 추출 정답의 약 절반이 `null`입니다. F1(주 지표인 값+위치 F1도)은 빈 칸을 맞혀도 오르지 않아서 부풀지 않습니다.
 - **아무렇게나 답해도 나오는 점수가 있습니다.**
   - 서류 대조: 항상 "문제없음"이라고 하면 약 63%
   - 심사 질의 예/아니오: 항상 "아니오"라고 하면 약 57%
@@ -60,10 +68,10 @@
 
 ## 다시 만들기
 
-생성기 코드를 바꾸면 자동 생성 파일을 다시 만듭니다.
+`tasks.md`, `documents.md`, `fields/`는 자동 생성 파일이라 직접 고치지 않습니다. 생성기 코드를 바꾸면 저장소 최상위에서 다시 만듭니다.
 
 ```bash
-python docgen/scripts/build_schema.py                          # fields/ (약 1분)
+python docgen/scripts/build_schema.py                   # fields/ (약 1분)
 python -m docgen list --markdown > guide/documents.md   # documents.md
 bash guide/examples/make_examples.sh <작업 폴더> --docs   # tasks.md, examples/img/, 발표 부록 (약 10분)
 ```

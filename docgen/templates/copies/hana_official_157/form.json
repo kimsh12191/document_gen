@@ -1,0 +1,37 @@
+{
+  "name": "여신거래용 인감명판 등 신고서",
+  "group": "hana",
+  "category": "internal",
+  "parent": "hf157",
+  "fields": {},
+  "page": "a4",
+  "origin": "copy",
+  "description": "하나은행 공개 원문을 대조한 HTML. 여신거래용 인감명판 등 신고서. 기존 hf157 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2016/07/07/5090002_20160707.pdf",
+  "source": {
+    "publisher": "하나은행",
+    "url": "https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2016/07/07/5090002_20160707.pdf",
+    "source_file": "forms/하나은행_서식자료/대출/157_여신거래용 인감명판 등 신고서.pdf",
+    "sha256": "8a95ce7c4fa8e5490e4f1ef18d73d1224c94d0f43c41e53046a78a5e8f53a182",
+    "checked_at": "2026-10-20",
+    "revision": "원본 PDF 인쇄 개정 표기 및 출처 URL 기준",
+    "matches": [],
+    "online_verification": {
+      "status": "verified_pdf",
+      "sha256": "8a95ce7c4fa8e5490e4f1ef18d73d1224c94d0f43c41e53046a78a5e8f53a182",
+      "matches_local": true,
+      "checked_at": "2026-10-20"
+    }
+  },
+  "reconstruction": {
+    "method": "native_html_text_svg_lines",
+    "pages": [
+      {
+        "source_page": 1,
+        "text_spans": 72,
+        "omitted_paths": 12,
+        "omitted_images": 1
+      }
+    ],
+    "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."
+  }
+}

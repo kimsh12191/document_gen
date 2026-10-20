@@ -1,4 +1,5 @@
-// ⑥ 데이터셋 › 새로 만들기: 레시피(docgen/recipes/<이름>.json) 편집과 빌드 시작. 레시피 형식: studio/bank_data.py
+// ⑥ 데이터셋 › 새로 만들기: 레시피(docgen/recipes/<이름>.json) 편집과 빌드 시작 (은행 업무·합성 OCR).
+// 레시피 형식: studio/bank_data.py (은행 업무), docgen/ocr_set.py (OCR). 서버: studio/api_bank.py (/api/recipes, /api/builds)
 "use strict";
 
 addRoute(/^#\/recipes\/([^/]+)$/, name => viewRecipe(decodeURIComponent(name)), "datasets");

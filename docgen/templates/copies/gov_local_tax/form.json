@@ -1,0 +1,75 @@
+{
+  "name": "지방세 납세증명(신청)서",
+  "group": "tax",
+  "category": "external",
+  "fields": {
+    "official.name": {
+      "label": "성명",
+      "type": "text",
+      "source": "profile.person.name"
+    },
+    "official.rrn": {
+      "label": "주민등록번호",
+      "type": "text",
+      "source": "profile.person.rrn"
+    },
+    "official.address": {
+      "label": "주소",
+      "type": "text",
+      "source": "profile.person.address.road_short"
+    },
+    "official.phone": {
+      "label": "전화번호",
+      "type": "text",
+      "source": "profile.person.mobile"
+    },
+    "official.arrears": {
+      "label": "유예 내역",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "해당 없음"
+    }
+  },
+  "page": "a4",
+  "origin": "copy",
+  "description": "지방세 납세증명(신청)서 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=169946943&bylClsCd=110202 앞쪽의 신청·증명 겸용 서식과 뒤쪽 확인사항을 모두 보존한다.",
+  "source": {
+    "publisher": "국가법령정보센터 · 해당 발급기관",
+    "url": "https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=169946943&bylClsCd=110202",
+    "source_file": "forms/official_sources/gov_local_tax.pdf",
+    "sha256": "35123d7c4825601416a13d66f08d5c18e0c1bc9e092c4c74f7f44e1e4f7d4253",
+    "checked_at": "2026-10-20",
+    "revision": "<개정 2024. 12. 31.>",
+    "matches": [
+      "local_tax_payment_certificate"
+    ],
+    "source_pages": [
+      0,
+      1
+    ],
+    "online_verification": {
+      "status": "verified_pdf",
+      "sha256": "35123d7c4825601416a13d66f08d5c18e0c1bc9e092c4c74f7f44e1e4f7d4253",
+      "matches_local": true,
+      "checked_at": "2026-10-20"
+    }
+  },
+  "reconstruction": {
+    "method": "native_html_text_svg_lines",
+    "pages": [
+      {
+        "source_page": 1,
+        "text_spans": 397,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 2,
+        "text_spans": 152,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      }
+    ],
+    "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."
+  }
+}

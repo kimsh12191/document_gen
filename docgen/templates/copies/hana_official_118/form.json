@@ -1,0 +1,45 @@
+{
+  "name": "[필수] 개인(신용)정보 수집·이용·제공_동의서[가계여신_금융거래]",
+  "group": "hana",
+  "category": "internal",
+  "parent": "hf118",
+  "fields": {},
+  "page": "a4",
+  "origin": "copy",
+  "description": "하나은행 공개 원문을 대조한 HTML. [필수] 개인(신용)정보 수집·이용·제공_동의서[가계여신_금융거래]. 기존 hf118 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2021/03/02/5-16-0179_20210302.pdf",
+  "source": {
+    "publisher": "하나은행",
+    "url": "https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2021/03/02/5-16-0179_20210302.pdf",
+    "source_file": "forms/하나은행_서식자료/대출/118_[필수] 개인(신용)정보 수집·이용·제공_동의서[가계여신_금융거래].pdf",
+    "sha256": "9529c99810b95f7ff5965d053cb51f0e4cda3a27f94752ff6e72eff99fc7a2f6",
+    "checked_at": "2026-10-20",
+    "revision": "(2021.02 개정)",
+    "matches": [
+      "privacy_consent"
+    ],
+    "online_verification": {
+      "status": "verified_pdf",
+      "sha256": "9529c99810b95f7ff5965d053cb51f0e4cda3a27f94752ff6e72eff99fc7a2f6",
+      "matches_local": true,
+      "checked_at": "2026-10-20"
+    }
+  },
+  "reconstruction": {
+    "method": "native_html_text_svg_lines",
+    "pages": [
+      {
+        "source_page": 1,
+        "text_spans": 289,
+        "omitted_paths": 12,
+        "omitted_images": 1
+      },
+      {
+        "source_page": 2,
+        "text_spans": 240,
+        "omitted_paths": 12,
+        "omitted_images": 1
+      }
+    ],
+    "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."
+  }
+}

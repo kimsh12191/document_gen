@@ -1,5 +1,6 @@
-// 메뉴 첫 화면 (view_<메뉴> 가 있으면 그것, 아직 없으면 무엇이 들어올지 안내)과 ⑨ 설정. 단계 번호는 DESIGN.md 11절.
-// ④ 가져오기·⑤ 검수는 import.js·review.js 가 view_import·view_review 로 그린다.
+// 메뉴 첫 화면 라우팅 (#/<메뉴> → view_<메뉴>)과 ⑨ 설정 (설정 요약, 분석기 연결 확인). 서버: /api/info, /api/providers
+// view_<메뉴> 는 datasets.js(view_datasets·view_eval), scenarios.js(view_scenarios·view_jobs), import.js(view_import), review.js(view_review).
+// PLANS 는 view_<메뉴> 가 없을 때 보여 주던 단계별 계획 안내다. 1~9단계(DESIGN.md 11절)가 모두 들어와 지금은 쓰이지 않는다.
 "use strict";
 
 const PLANS = {

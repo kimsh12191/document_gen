@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Banking-task viewer: stored benchmark answers of the pipeline's models, and (with a model) your own files.
+# Run from bank/ (model paths are relative to it); usage in viewer/README.md.
 #
 #   bash viewer/bank_start.sh                                          # stored answers only, no GPU
 #   bash viewer/bank_start.sh runs/bank1/merged/sft-v0-...-checkpoint-800 1   # + this model on GPU 1

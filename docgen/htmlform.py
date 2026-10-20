@@ -133,7 +133,25 @@ def fill(form: dict, p, rng: random.Random, data: dict | None = None) -> dict:
             from .realform import Values
 
             values = Values(p, rng, it.get("class", "기본"))
-        _set(data, key, S.value(src, p, rng, {"label": key.split(".")[-1], **it}, values))
+        if src.startswith("parent."):
+            from .render import lookup
+
+            value = lookup(data, src[len("parent."):])
+        elif form.get("shared_copies") and key.endswith("_copy") and key[:-5] in (form.get("fields") or {}):
+            from .render import lookup
+
+            value = lookup(data, key[:-5])
+        else:
+            value = S.value(src, p, rng, {"label": key.split(".")[-1], **it}, values)
+        if value is not None and "part" in it:
+            value = re.findall(r"\d+", str(value))[it["part"]]
+        if value is not None and it.get("format") == "number":
+            value = re.sub(r"[^0-9.,+-]", "", str(value))
+        if value is not None and it.get("format") == "yy":
+            value = str(value)[-2:]
+        if value is not None and it.get("format") == "office_prefix":
+            value = str(value).removesuffix("세무서장")
+        _set(data, key, value)
     mode = getattr(_local, "rows", None)
     for name, L in (form.get("lists") or {}).items():
         lo, hi = int(L.get("min", 1)), int(L.get("max", L.get("min", 1)))
@@ -164,13 +182,21 @@ def make_generate(doc_id: str):
         data = {}
         if form.get("parent"):
             data = load_all()[form["parent"]].generate(p, rng)
+            if re.fullmatch(r"hf\d{3}", form["parent"]):
+                # 공식 PDF를 HTML로 옮긴 사본: 부모의 빈 칸도 값 선언에 남긴다.
+                # items의 value를 직접 쓰는 템플릿에서 null을 누락된 키로 오인하지 않게 한다.
+                for item in data.get("items", []):
+                    key = item.get("key")
+                    if item.get("t") != "mark" and key and key.split(".")[0] not in {"items", "pages", "style", "class", "name", "doc_id", "no", "fonts"}:
+                        _set(data, key, item.get("value"))
         return fill(form, p, rng, data)
     generate.__doc__ = f"화면에서 만든 html 서식 {doc_id} (docgen/htmlform.py)"
     return generate
 
 
 def register_forms() -> int:
-    """templates/copies/ 와 private_forms_dir 의 html 서식을 등록한다. 이미 등록된 ID 는 건너뛴다."""
+    """docgen/templates/copies/ 와 DOCGEN_PRIVATE_FORMS 의 html 서식을 등록한다 (registry.load_all 이 처음 한 번 부른다).
+    이미 등록된 ID 는 건너뛴다."""
     from .registry import GROUPS, REGISTRY, DocSpec
 
     n = 0

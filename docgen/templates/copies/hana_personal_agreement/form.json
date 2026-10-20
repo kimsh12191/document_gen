@@ -1,0 +1,357 @@
+{
+  "name": "대출거래약정서(가계용)",
+  "group": "hana",
+  "category": "internal",
+  "parent": "credit_agreement",
+  "fields": {
+    "official.name": {
+      "label": "본인",
+      "type": "text",
+      "source": "profile.person.name"
+    },
+    "official.address": {
+      "label": "주소",
+      "type": "text",
+      "source": "profile.person.address.road_short"
+    },
+    "official.subject": {
+      "label": "대출과목",
+      "type": "text",
+      "source": "parent.loan.subject",
+      "text": "일반자금대출"
+    },
+    "official.amount": {
+      "label": "대출금액",
+      "type": "text",
+      "source": "parent.loan.amount",
+      "format": "number"
+    },
+    "official.name_copy": {
+      "label": "본인",
+      "type": "text",
+      "source": "profile.person.name"
+    },
+    "official.address_copy": {
+      "label": "주소",
+      "type": "text",
+      "source": "profile.person.address.road_short"
+    },
+    "official.subject_copy": {
+      "label": "대출과목",
+      "type": "text",
+      "source": "parent.loan.subject",
+      "text": "일반자금대출"
+    },
+    "official.amount_copy": {
+      "label": "대출금액",
+      "type": "text",
+      "source": "parent.loan.amount",
+      "format": "number"
+    },
+    "terms.method": {
+      "label": "개별거래",
+      "type": "checkbox",
+      "source": "rule:fixed",
+      "text": "개별거래"
+    },
+    "terms.method_copy": {
+      "label": "개별거래",
+      "type": "checkbox",
+      "source": "rule:fixed",
+      "text": "개별거래"
+    },
+    "terms.fixed": {
+      "label": "고정금리",
+      "type": "checkbox",
+      "source": "rule:fixed",
+      "text": "고정금리"
+    },
+    "terms.fixed_copy": {
+      "label": "고정금리",
+      "type": "checkbox",
+      "source": "rule:fixed",
+      "text": "고정금리"
+    },
+    "terms.fixed_choice": {
+      "label": "확정금리",
+      "type": "checkbox",
+      "source": "rule:fixed",
+      "text": "확정금리"
+    },
+    "terms.fixed_choice_copy": {
+      "label": "확정금리",
+      "type": "checkbox",
+      "source": "rule:fixed",
+      "text": "확정금리"
+    },
+    "terms.rate": {
+      "label": "약정이율",
+      "type": "text",
+      "source": "parent.loan.applied_rate",
+      "format": "number"
+    },
+    "terms.rate_copy": {
+      "label": "약정이율",
+      "type": "text",
+      "source": "parent.loan.applied_rate",
+      "format": "number"
+    },
+    "terms.start0": {
+      "label": "대출개시일 년",
+      "type": "text",
+      "source": "parent.loan.start_date",
+      "part": 0
+    },
+    "terms.start0_copy": {
+      "label": "대출개시일 년",
+      "type": "text",
+      "source": "parent.loan.start_date",
+      "part": 0
+    },
+    "terms.start1": {
+      "label": "대출개시일 월",
+      "type": "text",
+      "source": "parent.loan.start_date",
+      "part": 1
+    },
+    "terms.start1_copy": {
+      "label": "대출개시일 월",
+      "type": "text",
+      "source": "parent.loan.start_date",
+      "part": 1
+    },
+    "terms.start2": {
+      "label": "대출개시일 일",
+      "type": "text",
+      "source": "parent.loan.start_date",
+      "part": 2
+    },
+    "terms.start2_copy": {
+      "label": "대출개시일 일",
+      "type": "text",
+      "source": "parent.loan.start_date",
+      "part": 2
+    },
+    "terms.end0": {
+      "label": "대출만료일 년",
+      "type": "text",
+      "source": "parent.loan.maturity",
+      "part": 0
+    },
+    "terms.end0_copy": {
+      "label": "대출만료일 년",
+      "type": "text",
+      "source": "parent.loan.maturity",
+      "part": 0
+    },
+    "terms.end1": {
+      "label": "대출만료일 월",
+      "type": "text",
+      "source": "parent.loan.maturity",
+      "part": 1
+    },
+    "terms.end1_copy": {
+      "label": "대출만료일 월",
+      "type": "text",
+      "source": "parent.loan.maturity",
+      "part": 1
+    },
+    "terms.end2": {
+      "label": "대출만료일 일",
+      "type": "text",
+      "source": "parent.loan.maturity",
+      "part": 2
+    },
+    "terms.end2_copy": {
+      "label": "대출만료일 일",
+      "type": "text",
+      "source": "parent.loan.maturity",
+      "part": 2
+    },
+    "terms.late": {
+      "label": "연체가산율",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "3"
+    },
+    "terms.late_copy": {
+      "label": "연체가산율",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "3"
+    },
+    "terms.max_late": {
+      "label": "최고연체율",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "15"
+    },
+    "terms.max_late_copy": {
+      "label": "최고연체율",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "15"
+    },
+    "terms.execution": {
+      "label": "전액실행",
+      "type": "checkbox",
+      "source": "rule:fixed",
+      "text": "전액실행"
+    },
+    "terms.execution_copy": {
+      "label": "전액실행",
+      "type": "checkbox",
+      "source": "rule:fixed",
+      "text": "전액실행"
+    },
+    "terms.repay": {
+      "label": "만기일시상환",
+      "type": "checkbox",
+      "source": "rule:fixed",
+      "text": "만기일시상환"
+    },
+    "terms.repay_copy": {
+      "label": "만기일시상환",
+      "type": "checkbox",
+      "source": "rule:fixed",
+      "text": "만기일시상환"
+    },
+    "terms.written0": {
+      "label": "작성일 년",
+      "type": "text",
+      "source": "parent.contract_date",
+      "part": 0,
+      "format": "yy"
+    },
+    "terms.written0_copy": {
+      "label": "작성일 년",
+      "type": "text",
+      "source": "parent.contract_date",
+      "part": 0,
+      "format": "yy"
+    },
+    "terms.written1": {
+      "label": "작성일 월",
+      "type": "text",
+      "source": "parent.contract_date",
+      "part": 1
+    },
+    "terms.written1_copy": {
+      "label": "작성일 월",
+      "type": "text",
+      "source": "parent.contract_date",
+      "part": 1
+    },
+    "terms.written2": {
+      "label": "작성일 일",
+      "type": "text",
+      "source": "parent.contract_date",
+      "part": 2
+    },
+    "terms.written2_copy": {
+      "label": "작성일 일",
+      "type": "text",
+      "source": "parent.contract_date",
+      "part": 2
+    }
+  },
+  "page": "a4",
+  "origin": "copy",
+  "description": "대출거래약정서(가계용) 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://image.kebhana.com/cont/download/documents/provide/0000003061040_20210325.pdf",
+  "source": {
+    "publisher": "하나은행",
+    "url": "https://image.kebhana.com/cont/download/documents/provide/0000003061040_20210325.pdf",
+    "source_file": "forms/official_sources/hana_personal_agreement.pdf",
+    "sha256": "0414da29ebea082a5e6bc89b555728978db6c72076e7bf1acae6b1bc500478a8",
+    "checked_at": "2026-10-20",
+    "revision": "(10-1) (210×297) NCR74g/㎡ (2021.03 개정)",
+    "matches": [
+      "credit_agreement"
+    ],
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "online_verification": {
+      "status": "verified_pdf",
+      "sha256": "0414da29ebea082a5e6bc89b555728978db6c72076e7bf1acae6b1bc500478a8",
+      "matches_local": true,
+      "checked_at": "2026-10-20"
+    }
+  },
+  "reconstruction": {
+    "method": "native_html_text_svg_lines",
+    "pages": [
+      {
+        "source_page": 1,
+        "text_spans": 549,
+        "omitted_paths": 12,
+        "omitted_images": 1
+      },
+      {
+        "source_page": 2,
+        "text_spans": 809,
+        "omitted_paths": 12,
+        "omitted_images": 1
+      },
+      {
+        "source_page": 3,
+        "text_spans": 266,
+        "omitted_paths": 12,
+        "omitted_images": 1
+      },
+      {
+        "source_page": 4,
+        "text_spans": 538,
+        "omitted_paths": 12,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 5,
+        "text_spans": 809,
+        "omitted_paths": 12,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 6,
+        "text_spans": 266,
+        "omitted_paths": 12,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 7,
+        "text_spans": 729,
+        "omitted_paths": 12,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 8,
+        "text_spans": 836,
+        "omitted_paths": 12,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 9,
+        "text_spans": 764,
+        "omitted_paths": 12,
+        "omitted_images": 0
+      },
+      {
+        "source_page": 10,
+        "text_spans": 319,
+        "omitted_paths": 12,
+        "omitted_images": 0
+      }
+    ],
+    "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."
+  },
+  "shared_copies": true
+}

@@ -1,4 +1,15 @@
-"""생성기 공통 v1 라벨 검사와 데이터셋 변환. 렌더링·OCR 서버 호출 없이 기존 정답을 쓴다."""
+"""④ 가져오기 › 라벨 있는 데이터: 생성기 공통 v1 라벨 검사와 데이터셋 변환 (DESIGN.md 9.7.1·9.7.2, studio/LABEL_FORMAT.md).
+
+렌더링·OCR 서버 호출 없이 기존 정답을 쓴다. API 는 studio/api_labels.py, 규격 파일은 static/label-format/v1/*.schema.json.
+⑤ 라벨 검수가 내보낸 폴더(<real_data_dir>/labels/<묶음>/)도 같은 입력이다.
+
+  inspect      폴더 검사 (meta.json·labels/·images/·ocr/·bundles.jsonl, 오류·확인 사항 각 최대 200건, 파일 해시)
+  build_bank   은행 업무: Builder.single 로 classify·kie·marks·ocr_field + labeled_bundles.py 로 묶음 문항 → docgen.bench 폴더
+  build_ocr    OCR: 쪽 전체 OCR 정답(ocr_scope: full_page)으로 1부 manifest → bank_ocr prepare (OCR 을 다시 부르지 않는다)
+원본은 읽기만 하고, 검사 때의 해시로 확인하며 출력의 input/ 에 복사한다.
+
+  python -m studio.labeled_data --request <요청 JSON>   studio 작업이 돌린다 (요청: {check, out, track, split, tasks})
+"""
 from __future__ import annotations
 
 import argparse

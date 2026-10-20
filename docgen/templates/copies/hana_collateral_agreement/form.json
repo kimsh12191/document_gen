@@ -1,0 +1,108 @@
+{
+  "name": "근저당권설정계약서(근담보용)",
+  "group": "hana",
+  "category": "internal",
+  "fields": {
+    "official.name": {
+      "label": "채무자",
+      "type": "text",
+      "source": "profile.person.name"
+    },
+    "official.address": {
+      "label": "채무자 주소",
+      "type": "text",
+      "source": "profile.person.address.road_short"
+    },
+    "official.amount": {
+      "label": "채권최고액",
+      "type": "text",
+      "source": "rule:amount"
+    },
+    "official.name_copy": {
+      "label": "채무자",
+      "type": "text",
+      "source": "profile.person.name"
+    },
+    "official.address_copy": {
+      "label": "채무자 주소",
+      "type": "text",
+      "source": "profile.person.address.road_short"
+    },
+    "official.amount_copy": {
+      "label": "채권최고액",
+      "type": "text",
+      "source": "rule:amount"
+    }
+  },
+  "page": "a4",
+  "origin": "copy",
+  "description": "근저당권설정계약서(근담보용) 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://image.kebhana.com/cont/download/documents/provide/0000000001049_20211126.pdf",
+  "source": {
+    "publisher": "하나은행",
+    "url": "https://image.kebhana.com/cont/download/documents/provide/0000000001049_20211126.pdf",
+    "source_file": "forms/official_sources/hana_collateral_agreement.pdf",
+    "sha256": "c97ff2307ee84440794109cdfb8193167727480456955fe777215ed5dcd18252",
+    "checked_at": "2026-10-20",
+    "revision": "(6-1) (2021.10 개정)",
+    "matches": [
+      "collateral_agreement"
+    ],
+    "source_pages": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "online_verification": {
+      "status": "verified_pdf",
+      "sha256": "c97ff2307ee84440794109cdfb8193167727480456955fe777215ed5dcd18252",
+      "matches_local": true,
+      "checked_at": "2026-10-20"
+    }
+  },
+  "reconstruction": {
+    "method": "native_html_text_svg_lines",
+    "pages": [
+      {
+        "source_page": 1,
+        "text_spans": 230,
+        "omitted_paths": 12,
+        "omitted_images": 1
+      },
+      {
+        "source_page": 2,
+        "text_spans": 413,
+        "omitted_paths": 12,
+        "omitted_images": 1
+      },
+      {
+        "source_page": 3,
+        "text_spans": 468,
+        "omitted_paths": 12,
+        "omitted_images": 1
+      },
+      {
+        "source_page": 4,
+        "text_spans": 154,
+        "omitted_paths": 12,
+        "omitted_images": 1
+      },
+      {
+        "source_page": 5,
+        "text_spans": 186,
+        "omitted_paths": 12,
+        "omitted_images": 1
+      },
+      {
+        "source_page": 6,
+        "text_spans": 269,
+        "omitted_paths": 12,
+        "omitted_images": 1
+      }
+    ],
+    "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."
+  },
+  "shared_copies": true
+}

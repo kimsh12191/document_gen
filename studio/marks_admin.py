@@ -1,6 +1,6 @@
 """② 표시 요소 화면의 서버 쪽: 확률 설정(docgen/marks.json)과 풀(docgen/assets/marks/pools.json, 이미지)을 읽고 쓴다.
 
-생성기가 쓰는 규칙은 docgen/marks.py. 여기서는 형식만 검사하고 파일에 쓴다.
+생성기가 쓰는 규칙은 docgen/marks.py. 여기서는 형식만 검사하고 파일에 쓴다. API 는 studio/app.py (/api/marks…), 화면은 static/js/marks.js.
 """
 from __future__ import annotations
 

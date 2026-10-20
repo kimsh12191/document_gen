@@ -1,4 +1,7 @@
-"""과제별 질문 원본과 정답 계약. 표시용 설명만 두고 프롬프트는 생성기 상수를 직접 참조한다."""
+"""과제별 질문 원본과 정답 계약. 표시용 설명만 두고 프롬프트는 생성기 상수(prompts.py)를 직접 참조한다.
+
+studio 가 질문 형식 API(/api/question-formats, studio/app.py)로 보여 준다. 채점에는 쓰지 않는다.
+"""
 from . import prompts as P
 
 BOX = {"type": "array", "items": {"type": "integer", "minimum": 0, "maximum": 1000}, "minItems": 4, "maxItems": 4}

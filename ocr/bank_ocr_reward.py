@@ -1,4 +1,5 @@
-"""MS-SWIFT external plugin. Install this project before launching distributed training."""
+"""MS-SWIFT external plugin. Install this project before launching distributed training.
+train.py grpo adds it by default (external_plugins, reward_funcs ["bank_ocr"]); the reward is bank_ocr.metrics.reward."""
 from swift.rewards import ORM, orms
 
 from bank_ocr.metrics import reward

@@ -4,7 +4,7 @@
 
 ## 1. 내부망 환경 준비 및 설치
 
-압축을 내부망 Linux 서버에 풀고 프로젝트 디렉터리로 이동합니다. 데이터 준비에는 Python 3.10+와 Pillow만 필요하며, 학습 환경은 Python 3.12를 권합니다.
+압축을 내부망 Linux 서버에 풀고 프로젝트 디렉터리로 이동합니다(저장소째 받았다면 `cd ocr`; 이 문서의 경로는 모두 이 폴더 기준). 데이터 준비에는 Python 3.10+와 Pillow만 필요하며, 학습 환경은 Python 3.12를 권합니다.
 
 ```bash
 python -m pip install --no-index --find-links /share/wheelhouse --no-build-isolation -e .
@@ -193,7 +193,7 @@ OCR 원본과 방향 보정 페이지는 `cache_dir`에 있으므로 **준비가
 
 ## 5. 이미 반입한 프로젝트 업데이트 (prepared-v1 → v2)
 
-기존 `bank-ocr-pipeline` 폴더에 새 코드를 덮어쓰고, 이미 돌린 OCR 캐시(`data/ocr-cache`)를 그대로 재사용합니다. OCR은 다시 호출하지 않습니다.
+기존 `bank-ocr-pipeline` 폴더에 새 코드를 덮어쓰고, 이미 돌린 OCR 캐시(`data/ocr-cache`)를 그대로 재사용합니다. OCR은 다시 호출하지 않습니다. 저장소째(git) 쓰는 경우에는 1)의 백업·압축 풀기 대신 `git pull`을 하고, `ocr/` 폴더에서 1)의 `pip install`부터 진행합니다. 예전 `training/` 폴더에서 옮겨 올 때는 [저장소 README](../../README.md)의 재배치 안내를 따릅니다.
 
 ```bash
 # 1) 백업 후 덮어쓰기. 업데이트 zip에는 internal_ocr_adapter.py·config.json·data/·predictions/·reports/·runs/가 없어 기존 것이 유지됩니다.

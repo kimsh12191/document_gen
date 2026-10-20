@@ -1,0 +1,43 @@
+{
+  "name": "대출상담 및 신청서(한국주택금융공사채권유동화목적 보금자리론용)",
+  "group": "hana",
+  "category": "internal",
+  "parent": "hf047",
+  "fields": {},
+  "page": "a4",
+  "origin": "copy",
+  "description": "하나은행 공개 원문을 대조한 HTML. 대출상담 및 신청서(한국주택금융공사채권유동화목적 보금자리론용). 기존 hf047 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2026/07/30/3-06-1104.pdf",
+  "source": {
+    "publisher": "하나은행",
+    "url": "https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2026/07/30/3-06-1104.pdf",
+    "source_file": "forms/하나은행_서식자료/대출/047_대출상담 및 신청서(한국주택금융공사채권유동화목적 보금자리론용).pdf",
+    "sha256": "e933bfa9e8091757ba2cd59f305de25780d999d93e677d7ce76c5228a33bf4f8",
+    "checked_at": "2026-10-20",
+    "revision": "(2026.07 개정)",
+    "matches": [],
+    "online_verification": {
+      "status": "verified_pdf",
+      "sha256": "e933bfa9e8091757ba2cd59f305de25780d999d93e677d7ce76c5228a33bf4f8",
+      "matches_local": true,
+      "checked_at": "2026-10-20"
+    }
+  },
+  "reconstruction": {
+    "method": "native_html_text_svg_lines",
+    "pages": [
+      {
+        "source_page": 1,
+        "text_spans": 411,
+        "omitted_paths": 10,
+        "omitted_images": 1
+      },
+      {
+        "source_page": 2,
+        "text_spans": 398,
+        "omitted_paths": 10,
+        "omitted_images": 1
+      }
+    ],
+    "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."
+  }
+}

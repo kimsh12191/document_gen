@@ -1,4 +1,5 @@
-"""overlay 영역 편집기의 서버 쪽: 레이아웃 보기, 사람 수정 저장, 검수 전 자동 검사.
+"""① 서식 › 영역 편집 (overlay)의 서버 쪽: 레이아웃 보기, 사람 수정 저장, 검수 전 자동 검사.
+API 는 studio/app.py (/api/forms/{id}/layout·overrides·checks), 화면은 static/js/editor.js.
 
 화면은 사람 수정(docgen/forms/overrides/<ID>.json)을 그대로 들고 고친 뒤 통째로 저장한다. 여기서는
   - 자동 추출 영역마다 id·match·상태(자동/수정/뺌)를 붙여 보여 주고 (docgen/overrides.py 와 같은 규칙)
@@ -26,7 +27,7 @@ def _overlay(doc_id: str):
     spec = load_all().get(doc_id)
     if spec is None:
         raise KeyError(doc_id)
-    if spec.group not in ("hana", "imported"):
+    if spec.template != "_real_form.html.j2":
         raise ValueError("영역 편집기는 overlay 서식만 씁니다 (html 서식은 html 편집기)")
     return spec
 
@@ -232,7 +233,7 @@ def checks(doc_id: str, label: dict | None = None, fields_keys: list[dict] | Non
             out.append({"level": "info", "code": "never_filled",
                         "text": f"30번 렌더링에서 한 번도 안 채워진 칸 {len(empty)}개: {', '.join(empty[:8])}"
                                 f"{' …' if len(empty) > 8 else ''}"})
-    if spec.group not in ("hana", "imported"):
+    if spec.template != "_real_form.html.j2":
         return out
     view = layout_view(doc_id)
     if view["broken"]:

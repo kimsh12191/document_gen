@@ -1,3 +1,4 @@
+"""⑥ 자동 등록 시험 (studio/build_registration.py): 완료 파일이 다 있을 때만 한 번 등록, 재시작 뒤 복구, 작업 공간 밖 폴더 거부."""
 import json
 import sys
 import threading

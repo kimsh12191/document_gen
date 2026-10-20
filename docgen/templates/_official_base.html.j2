@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><title>{{ spec.name }}</title>
+<style>
+{% for fn in d.get("fonts") or [] %}
+@font-face {font-family:'{{ fn }}';src:url('https://docgen.local/fonts/{{ fn }}.woff2') format('woff2')}
+{% endfor %}
+* {box-sizing:border-box} html,body {margin:0;padding:0;background:#fff}
+.page {position:relative;overflow:hidden;background:white;margin:0 0 8px}
+.printed-lines {position:absolute;left:0;top:0;width:100%;height:100%}
+.printed {position:absolute;display:inline-block;white-space:pre;line-height:1;transform-origin:left top;font-family:'Malgun Gothic','Nanum Gothic',sans-serif}
+.entry {position:absolute;display:flex;align-items:center;white-space:nowrap;color:#14284b;font-family:'Malgun Gothic','Nanum Gothic',sans-serif;padding:0 3px}
+.entry .fv {display:inline-block;transform-origin:left center}
+.sample-mark {position:absolute;left:30%;top:46%;transform:rotate(-30deg);font:28px 'Malgun Gothic',sans-serif;color:#999;opacity:.18;pointer-events:none}
+.ov {position:absolute;display:flex;align-items:center;white-space:nowrap;overflow:visible;line-height:1;
+font-family:{{ (d.get('style') or {}).get('font', "'Malgun Gothic'")|safe }},sans-serif;color:{{ (d.get('style') or {}).get('ink', '#172b50') }}}
+.ov.left {justify-content:flex-start}.ov.right {justify-content:flex-end}.ov.center {justify-content:center}
+.ov .fv,.ov .tx {display:inline-block}.hid .fv,.opt .fv {display:block;width:100%;height:100%;color:transparent;font-size:1px;overflow:hidden}
+.box,.opt {position:absolute}.box .mk {position:absolute;left:50%;top:50%}.box svg.ck {position:absolute;overflow:visible}
+.box .mk.fill {width:70%;height:70%;background:currentColor;transform:translate(-50%,-50%)}
+.box .mk.ring {width:160%;height:160%;border:1.6px solid currentColor;border-radius:50%;transform:translate(-50%,-50%)}
+.mark {position:absolute;display:flex;align-items:center;justify-content:center}
+.seal {display:inline-flex;align-items:center;justify-content:center;text-align:center;width:40px;height:40px;border:2px solid #c22;color:#c22;border-radius:50%;font:700 10px/1.1 'Malgun Gothic',sans-serif;opacity:.82;word-break:keep-all}.seal.sq {border-radius:4px}
+.scribble svg {display:block;overflow:visible}.scribble.fit {display:flex;width:100%;height:100%}.scribble.fit svg {max-width:86%;max-height:80%;width:auto;height:auto;margin:auto}
+.scribble img,.box img.ckimg {display:block;max-width:100%;max-height:100%;margin:auto}.box img.ckimg {position:absolute;left:-15%;top:-25%;width:130%;height:130%;object-fit:contain}
+@media print {.page{margin:0;break-after:page}}
+</style></head><body>
+{% block pages %}{% endblock %}
+<script>
+// Match the original printed span width after fallback fonts finish loading.
+document.fonts.ready.then(() => {
+  for (const el of document.querySelectorAll('.printed')) {
+    const w = el.getBoundingClientRect().width, target = Number(el.dataset.width);
+    if (w > 0 && target > 0) el.style.transform = `scaleX(${target / w})`;
+  }
+  for (const el of document.querySelectorAll('.entry .fv')) {
+    const w = el.getBoundingClientRect().width, target = el.parentElement.clientWidth - 6;
+    if (w > target && target > 0) el.style.transform = `scaleX(${target / w})`;
+  }
+});
+</script></body></html>

@@ -1,4 +1,5 @@
 """④ 가져오기 (이미지 묶음): 문서 이미지 뭉치 → 사내 OCR → 포맷·양식 묶기 → 사람이 포맷마다 정한다 (DESIGN.md 8.1~8.5).
+API 는 studio/api_import.py, 화면은 static/js/import.js. 묶기 계산은 studio/formats.py, 결과 폴더 묶음은 studio/results.py.
 
 묶음 폴더 <workspace_dir>/imports/<묶음>/
   batch.json      이름, 출처(폴더·올린 파일·생성 데이터), 실서류 여부, 공개 서식 표시, OCR 설정, 단계

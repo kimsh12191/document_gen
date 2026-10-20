@@ -1,4 +1,5 @@
 """⑤ 검수 › OCR 검수 (DESIGN.md 8.7): 사내 OCR 결과를 쪽마다 사람이 고쳐 "OCR 검수 정답"을 만든다.
+API 는 studio/api_import.py (/api/imports/{묶음}/ocr), 화면은 static/js/review.js.
 
 저장
   <real_data_dir>/ocr_reviewed/<묶음>/<쪽>.json   고친 OCR. 사내 OCR 응답 형식 그대로 → 1부 scan --ocr-dir 로 바로 읽힌다

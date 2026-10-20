@@ -1,4 +1,6 @@
-// 실제 생성기의 prompt·answer·eval 계약과 고객별 문항을 함께 보여 준다.
+// 문항 Q/A: 실제 생성기의 prompt·answer·eval 계약과 고객별 문항을 함께 보여 준다 (DESIGN.md 9.3.1).
+// ① 서식 › 문항 Q/A 탭(tabQuestions, forms.js 가 부름)과 ③ 처리 설정의 Q/A 창(showQuestionQA, scenario-processing.js).
+// 서버: GET /api/question-formats, POST /api/forms/{id}/questions (studio/app.py, studio/questions.py)
 "use strict";
 
 let questionFormatsPromise = null;

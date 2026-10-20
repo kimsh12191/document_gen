@@ -1,0 +1,18 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block style %}
+.record-head{display:flex;justify-content:space-between;border-bottom:4px double #444;padding-bottom:20px}.record-head h1{font-size:32px;margin:0}.record-person{display:grid;grid-template-columns:2fr 3fr;gap:25px;margin:35px 0}.record-name{font-size:28px;font-weight:bold;padding:20px 0;border-bottom:1px solid #777}.record-meta{padding-top:12px;line-height:2}.record-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 25px}.record-cell{padding:16px 0;border-bottom:1px solid #bbb}.record-cell b{display:block;font-size:12px;color:#555;margin-bottom:12px}.record-wide{grid-column:1/-1}.record-footer{border-top:2px solid #444;margin-top:35px;padding-top:20px}.record-sign{display:flex;align-items:center;justify-content:flex-end;gap:20px;margin-top:20px}
+{% endblock %}
+{% block content %}
+<header class="record-head"><h1>재직증명서</h1><div>{{ f("company.name",label="회사명") }}<br>{{ f("doc_no",label="문서번호") }}</div></header>
+<div class="record-person"><div class="record-name">{{ f("employee.name",label="성명") }}</div><div class="record-meta">
+{% if d.employee.birth is defined %}생년월일 {{ f("employee.birth",label="생년월일") }}{% else %}주민등록번호 {{ f("employee.rrn",label="주민등록번호") }}{% endif %}<br>{{ f("employee.address",label="주소") }}</div></div>
+<div class="record-grid">
+<div class="record-cell"><b>소속</b>{{ f("employment.department",label="소속") }}</div><div class="record-cell"><b>직위</b>{{ f("employment.position",label="직위") }}</div>
+<div class="record-cell record-wide"><b>재직기간</b>{{ f("employment.period",label="재직기간") }}</div><div class="record-cell record-wide"><b>담당업무</b>{{ f("employment.duty",label="담당업무") }}</div>
+{% if d.employment.employment_type is defined %}<div class="record-cell"><b>고용형태</b>{{ f("employment.employment_type",label="고용형태") }}</div><div class="record-cell"><b>계약기간</b>{{ f("employment.contract_period",label="계약기간") }}</div>{% endif %}
+{% if d.employment.leave is defined %}<div class="record-cell record-wide"><b>휴직기간</b>{{ f("employment.leave",label="휴직기간") }}</div>{% endif %}
+{% if d.employment.annual_salary is defined %}<div class="record-cell record-wide"><b>급여</b>{{ f("employment.annual_salary",label="급여(연봉)") }}</div>{% endif %}
+<div class="record-cell"><b>용도</b>{{ f("purpose",label="용도") }}</div><div class="record-cell"><b>제출처</b>{{ f("submit_to",label="제출처") }}</div></div>
+<footer class="record-footer"><p>위 기재 사항과 같이 당사에 재직하고 있음을 증명합니다.</p><div>{{ f("issue_date",label="발급일") }}</div><div class="record-sign">대표이사 {{ f("company.ceo",label="대표이사") }} {{ m.seal("대표이사인",square=True,key="company",kind="직인") }}</div><p>{{ f("company.name",label="회사명") }} · 사업자등록번호 {{ f("company.biz_no",label="사업자등록번호") }}</p><p>{{ f("company.address",label="소재지") }} · TEL {{ f("company.phone",label="전화번호") }}</p></footer>
+{% endblock %}

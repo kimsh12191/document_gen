@@ -1,0 +1,69 @@
+{
+  "name": "인감증명서",
+  "group": "identity",
+  "category": "external",
+  "fields": {
+    "official.name": {
+      "label": "성명",
+      "type": "text",
+      "source": "profile.person.name"
+    },
+    "official.rrn": {
+      "label": "주민등록번호",
+      "type": "text",
+      "source": "profile.person.rrn"
+    },
+    "official.address": {
+      "label": "주소",
+      "type": "text",
+      "source": "profile.person.address.road_short"
+    },
+    "official.nationality": {
+      "label": "국적",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "대한민국"
+    },
+    "official.purpose": {
+      "label": "일반용 용도",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "금융기관 제출용"
+    }
+  },
+  "page": "a4",
+  "origin": "copy",
+  "description": "인감증명서 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=145953337&bylClsCd=110202 인감 영역은 원본 직인·인감 이미지 없이 빈칸으로 유지한다.",
+  "source": {
+    "publisher": "국가법령정보센터 · 해당 발급기관",
+    "url": "https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=145953337&bylClsCd=110202",
+    "source_file": "forms/official_sources/gov_seal.pdf",
+    "sha256": "47d4cba5a2e85d24820284ecca08501fd0b924a1a19f08303397f1fa8837b004",
+    "checked_at": "2026-10-20",
+    "revision": "<개정 2024. 5. 7.>",
+    "matches": [
+      "seal_certificate"
+    ],
+    "source_pages": [
+      0
+    ],
+    "online_verification": {
+      "status": "verified_pdf",
+      "sha256": "47d4cba5a2e85d24820284ecca08501fd0b924a1a19f08303397f1fa8837b004",
+      "matches_local": true,
+      "checked_at": "2026-10-20"
+    }
+  },
+  "reconstruction": {
+    "method": "native_html_text_svg_lines",
+    "pages": [
+      {
+        "source_page": 1,
+        "text_spans": 313,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      }
+    ],
+    "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."
+  }
+}

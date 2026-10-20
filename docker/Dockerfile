@@ -2,7 +2,7 @@
 # 코드(이 저장소)는 이미지에 넣지 않고 따로 반입해 /home/docgen/document_gen 에 마운트한다.
 #
 #   빌드(인터넷 되는 PC):  sh docker/build.sh 1.1   → 이미지 파일 + 코드 파일
-#   실행·접속 방법:        docs/DOCKER.md
+#   실행·접속 방법:        docker/README.md
 ARG PW_VERSION=1.63.0
 
 # Chromium 은 Microsoft 공식 Playwright 이미지에서 가져온다 (Playwright 다운로드 서버가 막힌 망에서도 빌드되게).

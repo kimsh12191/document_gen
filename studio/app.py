@@ -1,12 +1,17 @@
 """studio 웹 서버 (FastAPI). 화면은 studio/static/ 의 HTML·JS 한 벌이다.
 
+여기에는 ① 서식·② 표시 요소·③ 시나리오 예시 실행 API 를 두고, 나머지 메뉴는 api_*.py 의 라우터를 붙인다.
+
 API
   GET  /api/info                      설정 요약, 브라우저 경로
   GET  /api/groups                    서식 그룹
   GET  /api/forms                     서식 목록
   GET  /api/forms/{id}                서식 상세 (키 목록, 파일, 시나리오, 검수·배정·문제 표시)
-  POST /api/forms/{id}/render         미리보기 {seed, heavy, special, condition, force, draft?} → 라벨 + 이미지 주소
-  GET  /api/forms/{id}/layout         overlay 영역 편집기: 영역(자동/수정/추가/뺌), 사람 수정, 깨진 수정
+  POST /api/forms/{id}/render         미리보기 {seed, heavy, special, condition, force, draft?, extra?} → 라벨 + 이미지 주소
+  POST /api/forms/{id}/questions      ① 문항 Q/A: 그 미리보기로 실제 생성기(Builder.single)가 만드는 문항 (studio/questions.py)
+  GET  /api/question-formats          과제별 공통 질문·answer 형식 (docgen.bench.contracts)
+  POST /api/scenarios/run             ③ 처리 설정 예시 실행 {scenario, seed} (studio/scenario_processing.py)
+  GET  /api/forms/{id}/layout        overlay 영역 편집기: 영역(자동/수정/추가/뺌), 사람 수정, 깨진 수정
   PUT  /api/forms/{id}/overrides      사람 수정 저장 {overrides}
   GET  /api/forms/{id}/bg/{page}      지우기 전 배경 그림
   GET  /api/forms/{id}/checks         검수 전 자동 검사 (경고)
@@ -16,9 +21,12 @@ API
   GET  /api/keys                      표준 키 사전 (docgen/keys.json)
   GET  /api/sources                   값 출처 목록 (프로필 경로와 예시, 규칙)
   GET  /api/marks                     표시 요소 설정·풀 · PUT /api/marks/settings · PUT /api/marks/pools/{풀}
-  POST /api/marks/pools/{풀}/upload   풀 이미지 올리기 · POST /api/marks/seal-template · DELETE /api/marks/pools/{풀}/{id}
-  GET  /preview/...                   미리보기 이미지 · /marks-img/... 풀 이미지
-  (등록부·채점: api_datasets.py, 2부 레시피·작업: api_bank.py, 가져오기·OCR 검수: api_import.py)
+  POST /api/marks/pools/{풀}/upload   풀 이미지 올리기 · POST /api/marks/pools/{풀}/font 글꼴 · POST /api/marks/seal-template
+                                      · DELETE /api/marks/pools/{풀}/{id}
+  GET  /preview/...                   미리보기 이미지 · /marks-img/... 풀 이미지 · /fonts/... 손글씨 글꼴
+  (⑥⑦ 등록부·채점: api_datasets.py, ③⑥⑧ 레시피·빌드·작업·업무 묶음·학습 설정: api_bank.py,
+   ④⑤ 이미지 묶음·OCR 검수: api_import.py, ④ 라벨 있는 데이터: api_labels.py, ④ 결과 폴더·⑤ 라벨 검수: api_review.py,
+   ① html 편집·복제·⑧ 분석기: api_html.py)
 """
 from __future__ import annotations
 
@@ -143,7 +151,13 @@ def render(doc_id: str, req: RenderReq):
                                  "studio 를 띄우거나 설정의 browser 를 지정하세요. 렌더링이 필요 없는 화면은 그대로 씁니다.")
     # 일반 def 라서 FastAPI 가 스레드에서 돌린다. 실제 렌더링은 Previewer 의 전용 스레드 하나에서 차례로 한다.
     try:
-        draft = editor.validate(doc_id, req.draft) if req.draft is not None else None
+        if req.draft is not None and set(req.draft) == {"html_regions"}:
+            from docgen import html_regions
+
+            html_regions.path(doc_id)
+            draft = {"html_regions": html_regions.validate(req.draft["html_regions"])}
+        else:
+            draft = editor.validate(doc_id, req.draft) if req.draft is not None else None
         label = previewer.render(doc_id, req.seed, req.heavy, req.special, req.condition, req.force, draft, extra=req.extra)
     except KeyError as e:
         raise HTTPException(404, str(e))
@@ -171,6 +185,12 @@ def run_scenario(req: ScenarioRunReq):
     return result
 
 
+@app.post("/api/scenarios/resolve")
+def resolve_scenario(req: ScenarioRunReq):
+    from docgen.roles import resolve
+    return {"selections":guard(resolve,req.scenario.get("docs"),req.scenario.get("sampling"),req.seed,req.scenario.get("id") or "draft")}
+
+
 @app.get("/api/question-formats")
 def question_formats():
     from docgen.bench.contracts import contracts
@@ -196,6 +216,31 @@ def form_questions(doc_id: str, req: FormQuestionsReq):
 # ---------------------------------------------------------------------------
 # 2단계: overlay 영역 편집기, 검수·배정·문제 표시, 키 사전, 값 출처, 표시 요소
 # ---------------------------------------------------------------------------
+
+@app.get("/api/forms/{doc_id}/regions")
+def html_regions_get(doc_id: str, variant: str = "default"):
+    from docgen import html_regions
+
+    return guard(html_regions.load, doc_id, variant)
+
+
+class RegionsReq(BaseModel):
+    regions: list[dict]
+    seed: int = 0
+    template_variant: str = "default"
+
+
+@app.put("/api/forms/{doc_id}/regions")
+def html_regions_save(doc_id: str, req: RegionsReq):
+    from docgen import html_regions
+
+    value = guard(html_regions.validate, {"regions": req.regions})
+    guard(html_regions.path, doc_id, req.template_variant)
+    if not BROWSER:
+        raise HTTPException(503, "저장 전 이미지 검사를 위해 렌더링 브라우저가 필요합니다")
+    guard(previewer.render, doc_id, req.seed, draft={"html_regions": value}, extra={"template_variants":{doc_id:req.template_variant}})
+    return guard(html_regions.save, doc_id, value, req.template_variant)
+
 
 @app.get("/api/forms/{doc_id}/layout")
 def layout(doc_id: str):

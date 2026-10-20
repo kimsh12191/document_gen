@@ -1,5 +1,6 @@
 // ④ 가져오기: 문서 이미지 묶음 → 사내 OCR → 포맷·양식 묶기 → 포맷마다 결정(템플릿으로·기존 서식과 같음·건너뛰기) → OCR 벤치마크로.
-// 설계: studio/DESIGN.md 8절. 서버: studio/api_import.py, studio/importer.py, studio/formats.py
+// 결과 폴더에서(저장된 OCR·추론 결과)와 생성 데이터로 시험도 같은 묶음이 된다. 라벨 있는 데이터 칸은 labeled-import.js.
+// 설계: studio/DESIGN.md 8절. 서버: studio/api_import.py, studio/importer.py, studio/formats.py, 결과 폴더 검사는 studio/api_review.py·results.py
 "use strict";
 
 addRoute(/^#\/import\/([^/]+)\/f\/([^/]+)$/, (b, f) => viewFormat(decodeURIComponent(b), decodeURIComponent(f)), "import");

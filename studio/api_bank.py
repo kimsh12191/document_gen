@@ -1,9 +1,12 @@
-"""③ 시나리오·묶음, ⑥ 데이터셋 만들기(은행 업무), ⑧ 작업, 학습 연결 API.
+"""③ 시나리오·묶음, ⑥ 데이터셋 만들기(은행 업무·합성 OCR), ⑧ 작업, 학습 연결 API.
+
+서버 쪽 일은 studio/bank_data.py(은행 업무), studio/ocr_data.py(합성 OCR·1부 설정), studio/training_link.py(학습 기록)가 한다.
 
   GET    /api/recipes                     레시피 목록 · GET /api/recipes/options 편집용 목록(시나리오·사례·기본 규칙)
   GET/PUT/DELETE /api/recipes/{이름}       레시피 하나
-  POST   /api/builds                      은행 업무 데이터셋 만들기 {recipe, name, workers} → 작업
-  GET    /api/jobs                        작업 목록 · GET /api/jobs/{id} · POST /api/jobs/{id}/cancel
+  POST   /api/builds                      데이터셋 만들기 {recipe, name, workers} → 작업 (레시피 track 이 ocr 이면 합성 OCR)
+  GET    /api/builds                      생성 작업 목록 (⑥ 생성 현황). 재시작으로 놓친 자동 등록을 여기서 복구한다 (build_registration.py)
+  GET    /api/jobs                       작업 목록 · GET /api/jobs/{id} · POST /api/jobs/{id}/cancel
   GET    /api/datasets/{id}/bundles       업무 묶음 목록 · GET /api/datasets/{id}/bundles/{묶음} 상세(서류, 고객 프로필, 검사)
   GET/PUT /api/scenarios                  시나리오 목록·저장
   POST   /api/training/preview            학습 설정 조각 미리보기 {pipeline, train, benchmark, ocr, name}
@@ -98,6 +101,7 @@ def make_router(reg, jobs, guard) -> APIRouter:
 
     @r.get("/api/scenarios")
     def scenarios():
+        from docgen.roles import catalog as roles_catalog
         counts: dict = {}
         for k, v in reg.load()["datasets"].items():
             if v["format"] == "docgen.bench":
@@ -108,7 +112,8 @@ def make_router(reg, jobs, guard) -> APIRouter:
                     pass
         return {"scenarios": BD.scenarios_view(catalog._catalog(), counts),
                 "cases": BD.options()["cases"], "rules": BD.options()["rules"],
-                "processing_rules": BD.PROCESS.RULE_TITLES, "compare_operators": BD.PROCESS.COMPARE_OPS}
+                "processing_rules": BD.PROCESS.RULE_TITLES, "compare_operators": BD.PROCESS.COMPARE_OPS,
+                "document_roles": roles_catalog()}
 
     class ScenariosReq(BaseModel):
         scenarios: list[dict]

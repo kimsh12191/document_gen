@@ -1,0 +1,37 @@
+{
+  "name": "예금(신탁)잔액증명 의뢰서",
+  "group": "hana",
+  "category": "internal",
+  "parent": "hf011",
+  "fields": {},
+  "page": "a4",
+  "origin": "copy",
+  "description": "하나은행 공개 원문을 대조한 HTML. 예금(신탁)잔액증명 의뢰서. 기존 hf011 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070101/__icsFiles/afieldfile/2025/01/07/5-08-0094.pdf",
+  "source": {
+    "publisher": "하나은행",
+    "url": "https://image.kebhana.com/cont/customer/customer07/customer0701/customer070101/__icsFiles/afieldfile/2025/01/07/5-08-0094.pdf",
+    "source_file": "forms/하나은행_서식자료/예금/011_예금(신탁)잔액증명 의뢰서.pdf",
+    "sha256": "557f36608d25a6f007d2cc015eb41e881e9e9168894b7a4c2463da3b5be3610d",
+    "checked_at": "2026-10-20",
+    "revision": "(2025.01 개정)",
+    "matches": [],
+    "online_verification": {
+      "status": "verified_pdf",
+      "sha256": "557f36608d25a6f007d2cc015eb41e881e9e9168894b7a4c2463da3b5be3610d",
+      "matches_local": true,
+      "checked_at": "2026-10-20"
+    }
+  },
+  "reconstruction": {
+    "method": "native_html_text_svg_lines",
+    "pages": [
+      {
+        "source_page": 1,
+        "text_spans": 337,
+        "omitted_paths": 10,
+        "omitted_images": 1
+      }
+    ],
+    "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."
+  }
+}

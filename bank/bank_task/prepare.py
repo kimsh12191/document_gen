@@ -9,9 +9,10 @@
     benchmark_items.jsonl  benchmark answers for scoring (docgen format, no images)
     images/                resized copies, only where an image is over its token budget (or not PNG for inference)
 
-Data generation itself (docker container, once) is not part of this:
-  python -m docgen.bench build --split train --out bank_train --per-doc 2 --bundles 100 --workers 8
-  python -m docgen.bench build --out bench --bundles 20 --workers 8
+Data generation itself (docker container, once) is not part of this: `bash docgen/scripts/make_bank_data.sh`
+(README.md section 1) runs, by default,
+  python -m docgen.bench build --out bench --bundles 40
+  python -m docgen.bench build --split train --out bank_train --per-doc 5 --bundles 200
 
 Image budget: one image keeps at most the tokens of `image_max_size` (same as the OCR stage), and
 one sample keeps at most `max_image_tokens_per_sample` over all its images; multi-document samples

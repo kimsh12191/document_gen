@@ -4,14 +4,18 @@
 docgen/scripts/extract_form_layout.py 가 PDF 에서 뽑은 docgen/forms/layouts/<분류>/<No>.json 을 쓴다.
 
   text   빈 칸에 글자          → f(키)  값은 프로필(성명·주소·계좌…)이나 항목명으로 만든다
-  check  □ 보기 묶음           → 고른 보기 □ 위에 V/✓/■ 표시, 정답은 고른 보기 글자
+  check  □ 보기 묶음           → 고른 보기 □ 위에 손 V·■·○ (또는 풀 이미지) 표시, 정답은 고른 보기 글자
   date   "  년  월  일" 빈칸    → 숫자만 채우고 정답은 "2026년 1월 31일"
   sign   "(서명 또는 인)" 자리  → 이름 + 도장/서명/빈칸
   copy   자필 기재란            → 회색 안내 문구를 손글씨로 따라 쓴다
   staff  결재란 (담당·책임자 …)  → 은행이 접수·처리한 서류처럼 직원 이름 도장·확인 도장·서명 (일부는 빈칸)
 
-글씨체는 서류마다 손글씨(나눔손글씨 펜·붓, 하이멜로디, 감자꽃) 또는 인쇄체(전산 입력)에서 고른다.
+글씨체는 서류마다 손글씨(기본 풀: 나눔손글씨 펜·붓, 하이멜로디, 감자꽃 — docgen/fonts/) 또는 인쇄체(전산 입력)에서
+고른다. 비율과 글꼴·체크 모양 목록은 docgen/marks.py 가 정한다.
 배경 이미지와 손글씨 글꼴은 렌더러(image.py)가 https://docgen.local/ 주소로 넘겨준다.
+
+등록: docgen/docs/real_forms.py 가 register_all() 을 불러 hf<No>(그룹 hana) 로 등록한다. studio 가져오기에서 만든
+이미지 배경 서식(img_*, 그룹 imported)도 같은 코드로 그린다 (register_images, layout.json 은 그 서식 폴더).
 """
 from __future__ import annotations
 
@@ -174,6 +178,9 @@ def norm(s: str) -> str:
 
 # 항목명(norm) 정규식 → 표준 키. 위에서부터 처음 맞는 것.
 KEY_RULES: list[tuple[str, str]] = [
+    (r"^(주민등록지|현거주지)$", "customer.address"),
+    (r"^배우자성명$", "spouse.name"),
+    (r"^배우자주민등록번호", "spouse.rrn"),
     (r"^(영문(성명|이름|명)|성명영문|EnglishName|NameinEnglish)$", "customer.name_en"),
     (r"^(대리인|수임인)(성명|명)?$", "agent.name"),
     (r"^(성명|이름|고객명|성명또는상호|가입자|가입자명|가입자성명|신청인|신청인성명|신청인명|본인|본인성명|예금주|"
@@ -211,6 +218,10 @@ KEY_RX = [(re.compile(rx), key) for rx, key in KEY_RULES]
 
 # 표준 키가 아닌 항목: 항목명 끝말로 값의 종류를 정한다
 KIND_RULES = [
+    (r"^(임대)?방수$", "count"),
+    (r"(?i)(amount|^FOR$)", "amount"),
+    (r"(?i)(Numberof|^No\.?$)", "number"),
+    (r"(?i)(DATED|^AT$)", "date"),
     # 값을 쓰지 않는 칸: 단위만 남은 라벨, 예/아니오 칸, 은행 칸, 동의서 표의 머리글
     (r"^(|년|월|일|원|금|소|매|갋|계|예|아니오|Yes|No|당행|타행|현금|수입|고정|전기|금기|전기말|금기말|은행사용란|"
      r"영업점장|점검자|점검일자|확인여부|대상여부|접수번호|접수일|처리일|처리기간|실행자아이디|담당자인|■.*|-.*)$", "skip"),
@@ -318,6 +329,8 @@ class Values:
             return self.cache[key]
         e = p.employment
         v = {
+            "spouse.name": lambda: p.spouse.name if p.spouse else None,
+            "spouse.rrn": lambda: p.spouse.rrn[:6] if p.spouse else None,
             "customer.name": lambda: p.person.name,
             "customer.name_en": lambda: p.person.name_en.upper(),
             "customer.birth": lambda: D(p.person.birth, r.choice(["dot", "dot", "kor_short", "dash"]))
@@ -373,7 +386,7 @@ class Values:
         if kind in ("skip", "seal"):
             return None
         if kind == "note":
-            return r.choice(REASONS) if r.random() < 0.15 else None
+            return (r.choice(REASONS) if r.random() < 0.15 else None) if p.extra.get("sparse_fields") else "해당 없음"
         if kind == "date":
             back = r.randint(0, 400) if not re.search(r"만기|기한|기일|종료|유효", label) else -r.randint(30, 1500)
             return D(p.issue_date - timedelta(days=back), r.choice(["dot", "dot", "kor_short", "dash"]))
@@ -418,12 +431,14 @@ class Values:
         if kind == "number":
             return "-".join("".join(str(r.randint(0, 9)) for _ in range(n)) for n in r.choice([[4, 4], [3, 6, 5], [6, 7]]))
         if kind == "count":
+            if re.search(r"방수", label):
+                return str(r.randint(1, 4))
             return str(r.choice([1, 2, 3, 6, 12, 24, 36, 60]))
         if kind == "product":
             pool = PRODUCTS.get(self.cls) or PRODUCTS["기본"]
             return r.choice(pool)
         if kind == "reason":
-            return r.choice(REASONS) if r.random() < 0.7 else None
+            return r.choice(REASONS) if not p.extra.get("sparse_fields") or r.random() < 0.7 else None
         if kind == "bank":
             return r.choice(BANKS)
         if kind == "country":
@@ -496,7 +511,7 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
     if not check.get("builtin"):
         style["mark_img"] = M.image_url(check)
     style["seal"] = rng.choice(["#d11", "#c00", "#e0312b", "#b22222"])
-    style["fill"] = rng.uniform(0.75, 0.97)       # 선택 칸을 채울 확률
+    style["fill"] = rng.uniform(0.75, 0.97) if p.extra.get("sparse_fields") else 1.0
     out: list[dict] = []
     used_keys: dict[str, int] = {}
 
@@ -525,7 +540,7 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
             gk = (page, it.get("group") or "")
             if n_rows > 1:
                 if gk not in fill_rows:
-                    fill_rows[gk] = rng.choice([0, 1, 1, 2, 2, 3]) if rng.random() < 0.85 else n_rows
+                    fill_rows[gk] = rng.choice([0, 1, 1, 2, 2, 3] if p.extra.get("sparse_fields") else [1, 1, 2, 2, 3]) if rng.random() < 0.85 else n_rows
                     fill_rows[gk] = min(fill_rows[gk], n_rows)
                 key_base = f"{norm(it['group'])}_목록" if norm(it.get("group") or "") else "목록"
                 key = re.sub(r"[^\w.]", "", f"{key_base}.{i}.{norm(label) or 'value'}")
@@ -541,10 +556,13 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
                     plan = pct_plan.setdefault(gk, _split100(rng, max(1, fill_rows[gk])))
                     value = str(plan[i])
                 else:
-                    value = vals.by_kind(kind, label) if kind != "reason" else vals.by_kind("product", label)
+                    value = vals.by_kind(kind, label)
             else:
                 skey = it.get("key") or key_of(label)
                 kind = it.get("kind") or kind_of(label, it.get("unit"), it.get("hint"))
+                # '연소득 / 본인 / 백만원'의 '본인'은 성명 칸이 아니다.
+                if not it.get("key") and it.get("unit") in ("원", "천원", "만원", "백만원", "억원", "%", "명", "개", "건", "회"):
+                    skey = None
                 sec = norm(it.get("section") or "")
                 if it.get("key"):
                     pass   # 사람이 정한 키는 구역(대리인·받는 분)으로 바꾸지 않는다
@@ -588,7 +606,20 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
                 continue
             align = "right" if (it.get("unit") in ("원", "천원", "만원", "백만원") or kind == "amount") else \
                 "center" if (it["rect"][2] - it["rect"][0]) < 70 or kind in ("percent", "count") else "left"
-            out.append(_visible(key, value, it["rect"], page, style, rng, label=label, align=align))
+            unit = it.get("unit")
+            if value is not None and unit in ("천원", "만원", "백만원", "억원") and it.get("source") != "rule:fixed":
+                from .schema import korean_number
+
+                amount = korean_number(str(value))
+                if amount is None:
+                    try:
+                        amount = float(re.sub(r"[^0-9.+-]", "", str(value)))
+                    except ValueError:
+                        amount = None
+                if amount is not None:
+                    factor = {"천원": 1000, "만원": 10000, "백만원": 1000000, "억원": 100000000}[unit]
+                    value = f"{amount / factor:,.4f}".rstrip("0").rstrip(".")
+            out.append({**_visible(key, value, it["rect"], page, style, rng, label=label, align=align), "unit": unit})
         elif t == "check":
             opts = [o for o in it["options"]]
             if not opts:

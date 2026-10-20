@@ -1,0 +1,94 @@
+{
+  "name": "부가가치세 과세표준증명",
+  "group": "tax",
+  "category": "external",
+  "fields": {
+    "official.name": {
+      "label": "성명",
+      "type": "text",
+      "source": "profile.person.name"
+    },
+    "official.rrn": {
+      "label": "주민등록번호",
+      "type": "text",
+      "source": "profile.person.rrn"
+    },
+    "official.address": {
+      "label": "주소",
+      "type": "text",
+      "source": "profile.person.address.road_short"
+    },
+    "official.company": {
+      "label": "상호",
+      "type": "text",
+      "source": "profile.business.name"
+    },
+    "official.biz_no": {
+      "label": "사업자등록번호",
+      "type": "text",
+      "source": "profile.business.biz_no"
+    },
+    "official.biz_type": {
+      "label": "업태",
+      "type": "text",
+      "source": "profile.business.biz_type"
+    },
+    "official.biz_item": {
+      "label": "종목",
+      "type": "text",
+      "source": "profile.business.biz_item"
+    },
+    "official.period_start": {
+      "label": "과세기간 시작",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "2025.01.01"
+    },
+    "official.period_end": {
+      "label": "과세기간 종료",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "2025.06.30"
+    },
+    "official.sales": {
+      "label": "매출과세표준",
+      "type": "text",
+      "source": "rule:amount"
+    }
+  },
+  "page": "a4",
+  "origin": "copy",
+  "description": "부가가치세 과세표준증명 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?flSeq=155626701&flNm=%5B%EB%B3%84%EC%A7%80+9%5D+%EB%B6%80%EA%B0%80%EA%B0%80%EC%B9%98%EC%84%B8%EA%B3%BC%EC%84%B8%ED%91%9C%EC%A4%80%EC%A6%9D%EB%AA%85%28%EA%B5%AD%EB%AC%B8%29&bylClsCd=200203",
+  "source": {
+    "publisher": "국가법령정보센터 · 해당 발급기관",
+    "url": "https://www.law.go.kr/LSW/flDownload.do?flSeq=155626701&flNm=%5B%EB%B3%84%EC%A7%80+9%5D+%EB%B6%80%EA%B0%80%EA%B0%80%EC%B9%98%EC%84%B8%EA%B3%BC%EC%84%B8%ED%91%9C%EC%A4%80%EC%A6%9D%EB%AA%85%28%EA%B5%AD%EB%AC%B8%29&bylClsCd=200203",
+    "source_file": "forms/official_sources/gov_vat_base.pdf",
+    "sha256": "361dc74baf6b06607dc2f7e530ce09249c127b8b6b74fa67e36c0d895b043dd6",
+    "checked_at": "2026-10-20",
+    "revision": "<2020. 11. 1. 개정>",
+    "matches": [
+      "vat_tax_base_certificate"
+    ],
+    "source_pages": [
+      0
+    ],
+    "online_verification": {
+      "status": "verified_pdf",
+      "sha256": "361dc74baf6b06607dc2f7e530ce09249c127b8b6b74fa67e36c0d895b043dd6",
+      "matches_local": true,
+      "checked_at": "2026-10-20"
+    }
+  },
+  "reconstruction": {
+    "method": "native_html_text_svg_lines",
+    "pages": [
+      {
+        "source_page": 1,
+        "text_spans": 80,
+        "omitted_paths": 0,
+        "omitted_images": 0
+      }
+    ],
+    "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."
+  }
+}

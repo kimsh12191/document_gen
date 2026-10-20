@@ -1,4 +1,7 @@
-"""시나리오별 처리 설정과 추출·필드 비교. studio 시험 실행과 실제 build가 함께 쓴다."""
+"""시나리오별 처리 설정과 추출·필드 비교. studio 시험 실행과 실제 build가 함께 쓴다.
+
+설정은 docgen/scenarios.json 의 시나리오마다 "processing" (registry.SCENARIO_PROCESSING). 없으면 DEFAULTS.
+"""
 from __future__ import annotations
 
 import math
@@ -53,6 +56,11 @@ def validate(value: dict | None, docs: list[str]) -> dict:
             ref = op.get(side)
             if not isinstance(ref, dict) or ref.get("doc") not in docs or not isinstance(ref.get("key"), str) or not ref["key"].strip():
                 raise ValueError(f"{oid}: 묶음 안의 문서와 항목을 지정하세요 ({side})")
+            if "keys" in ref:
+                from ..roles import index as role_index
+                members=role_index()[ref["doc"]]["forms"]
+                if not isinstance(ref["keys"],dict) or any(d not in members or not isinstance(k,str) or not k.strip() for d,k in ref["keys"].items()):
+                    raise ValueError(f"{oid}: 같은 역할의 후보 서식과 추출 키를 지정하세요")
         if op["kind"] == "compare" and op.get("operator") not in COMPARE_OPS:
             raise ValueError(f"{oid}: 비교 조건을 지정하세요")
     return out
@@ -96,6 +104,9 @@ def execute(conf: dict, docs: dict) -> list[dict]:
             row.update(status="disabled", reason="꺼진 작업")
             continue
         refs = [op["left"]] + ([op["right"]] if op["kind"] == "compare" else [])
+        if any(ref["key"]=="__unmapped_variant__" for ref in refs):
+            row.update(status="skipped",reason="이번에 선택된 후보 서식의 항목 연결이 없습니다. 후보별 추출·비교 키를 설정하세요")
+            continue
         fields = [idx.get(ref["doc"], {}).get(ref["key"]) for ref in refs]
         row["sources"] = [source(ref["doc"], f, docs) for ref, f in zip(refs, fields) if f]
         if any(f is None or f.get("value") in (None, "") or not f.get("bbox") or f.get("type") in MARKS for f in fields):

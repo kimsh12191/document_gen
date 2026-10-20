@@ -10,14 +10,16 @@
 
 | 어디서 | 무엇을 | 필요한 것 |
 |---|---|---|
-| **GPU 서버** (내부망, 학습 환경) | 사내 OCR 서버, OCR 학습, 은행 업무 학습, 평가, viewer | A100 2장 이상, ms-swift 4.x + vLLM이 설치된 파이썬 환경, Qwen3.5-9B 모델 파일 |
-| **docgen 도커 컨테이너** (CPU) | 은행 업무용 합성 데이터 만들기 | docgen 도커 이미지 ([docker/README.md](../docker/README.md)) |
+| **GPU 서버** (내부망, 학습 환경) | 사내 OCR 서버, OCR 학습(`ocr/`), 은행 업무 학습(`bank/`), 평가, viewer | A100 2장 이상, ms-swift 4.x + vLLM이 설치된 파이썬 환경, Qwen3.5-9B 모델 파일 |
+| **docgen 도커 컨테이너** (CPU) | 은행 업무용 합성 데이터 만들기(`docgen/`), 필요하면 studio 화면(`studio/`) | docgen 도커 이미지 ([docker/README.md](../docker/README.md)) |
 
 ```text
-1부  [GPU 서버]  실제 서류 이미지 ─(사내 OCR)→ manifest ─→ run_pipeline.py      ─→ OCR 모델
-2부  [도커]      make_bank_data.sh ─→ bench/, bank_train/
-     [GPU 서버]  OCR 모델 + 위 두 폴더 ─→ run_bank_pipeline.py                  ─→ 은행 업무 모델 + 비교표
+1부  [GPU 서버, cd ocr]   실제 서류 이미지 ─(사내 OCR)→ manifest ─→ run_pipeline.py   ─→ OCR 모델 (ocr/runs/exp1/merged/…)
+2부  [도커]               bash docgen/scripts/make_bank_data.sh ─→ bench/, bank_train/
+     [GPU 서버, cd bank]  OCR 모델 + 위 두 폴더 ─→ run_bank_pipeline.py              ─→ 은행 업무 모델 + 비교표 (bank/runs/bank1/)
 ```
+
+1부 명령은 `<코드>/ocr`에서, 2부 명령은 `<코드>/bank`에서 실행합니다. 아래 표의 상대 경로(`runs/…`, `data/…`)도 그 폴더 기준입니다.
 
 이 문서의 경로 표기:
 
@@ -51,7 +53,8 @@ git clone -b claude/ocr-banking-benchmark https://github.com/kimsh12191/document
     run_bank_pipeline.py   2부 은행 업무 학습
     configs/               설정 예제
     viewer/                은행 업무 결과 보는 화면 (bank_start.sh)
-  studio/            데이터 만들기·검수·관리 화면
+  studio/            데이터 만들기·검수·관리 화면 (docgen 도커에서 띄움)
+  docker/            docgen 도커 이미지 만들기 (Dockerfile, build.sh)
   guide/             사용 가이드 (이 문서)
 ```
 
@@ -66,10 +69,11 @@ pip install --no-index --no-build-isolation -e '.[ocr]'
 
 - 인터넷이 없으면 `--find-links <wheel 폴더>`를 붙입니다.
 - `[ocr]`는 사내 OCR 서버를 부를 때 쓰는 `requests`입니다.
+- 설치하는 것은 1부 `bank_ocr` 패키지뿐입니다. 2부 `bank/`는 설치하지 않습니다(`run_bank_pipeline.py`가 `bank/`와 `ocr/`를 스스로 경로에 넣습니다).
 
 **확인**
 ```bash
-python -c "import swift, vllm, bank_ocr, bank_task; print('ok')"     # ok 가 나와야 함
+python -c "import swift, vllm, bank_ocr; print('ok')"               # ok 가 나와야 함
 swift --help | head -3                                              # 도움말이 나와야 함
 ls <모델>/config.json                                               # 모델 파일이 있어야 함
 nvidia-smi                                                          # 쓸 GPU가 비어 있는지
@@ -169,10 +173,12 @@ tail -f pipeline.log            # 진행 보기 (Ctrl+C 는 보기만 종료)
 
 ### 2-6. 결과
 
+위치는 `<코드>/ocr` 기준입니다.
+
 | 무엇 | 위치 |
 |---|---|
 | 점수표 | `runs/exp1/reports/benchmark.html` (Base·SFT·GRPO, 깨끗한/노이즈 이미지별) |
-| **2부의 출발 모델** | `runs/exp1/merged/grpo-<버전>-checkpoint-<번호>` (폴더 전체 경로를 적어 둡니다) |
+| **2부의 출발 모델** | `runs/exp1/merged/grpo-<버전>-checkpoint-<번호>` (전체 경로 `<코드>/ocr/runs/exp1/merged/…`를 적어 둡니다) |
 | OCR 학습 데이터 (2부에서 섞어 씀) | `data/prepared-v2/train_sft.jsonl`, `data/prepared-v2/benchmark_tasks.jsonl` |
 | 눈으로 보기 | `bash viewer/start.sh runs/exp1/merged/<모델폴더> 1` → `http://localhost:7860` |
 
@@ -192,7 +198,9 @@ bash docgen/scripts/make_bank_data.sh              # 백그라운드로 시작. 
 tail -f /out/logs/make_bank_data.log        # "전부 완료" 가 나오면 끝 (약 1시간 15분)
 ```
 
-SSH 대신 서버 터미널에서 바로: `docker exec -u docgen docgen bash -lc 'bash ~/document_gen/scripts/make_bank_data.sh'`
+SSH 대신 서버 터미널에서 바로: `docker exec -u docgen docgen bash -lc 'bash ~/document_gen/docgen/scripts/make_bank_data.sh'`
+
+양·출력 위치를 바꾸는 환경변수(`OUT`, `TRAIN_BUNDLES`, `BENCH_BUNDLES` 등)는 [bank/README.md](../bank/README.md)의 1단계에 있습니다.
 
 **확인** (서버에서)
 ```bash
@@ -207,28 +215,29 @@ cd <코드>/bank
 cp configs/bank_pipeline.example.json configs/bank_pipeline.json
 ```
 
-`configs/bank_pipeline.json`에서 바꿀 것 (경로는 모두 **서버의 절대 경로**):
+`configs/bank_pipeline.json`에서 바꿀 것 (1부 결과와 3-1 데이터는 **서버의 절대 경로**로 씁니다):
 
 ```jsonc
 {
-  "workdir": "../runs/bank1",                        // 결과 폴더. 그대로 둬도 됨
+  "workdir": "../runs/bank1",                        // 결과 폴더 (<코드>/bank/runs/bank1). 그대로 둬도 됨
   "model": "<코드>/ocr/runs/exp1/merged/grpo-…-checkpoint-…",        // 2-6의 출발 모델
   "gpus": [5, 6],
   "data": {
-    "docgen_root": "../..",                          // 그대로 (이 저장소의 docgen/)
+    "docgen_root": "../..",                          // 그대로 (저장소 최상위 = docgen/ 이 있는 곳)
     "train": ["<데이터>/bank_train"],                 // 3-1에서 만든 학습 데이터
     "benchmark": "<데이터>/bench",                    // 3-1에서 만든 평가 세트
-    "replay": {"path": "<코드>/ocr/data/prepared-v2/train_sft.jsonl", "count": 3000},
-    "output_dir": "../data/prepared-bank",           // 이미 있으면 새 이름
+    "replay": {"path": "<코드>/ocr/data/prepared-v2/train_sft.jsonl", "count": 3000},   // 1부 학습 데이터
+    "output_dir": "../data/prepared-bank",           // <코드>/bank/data/prepared-bank. 이미 있으면 새 이름
     …
   },
   "sft":  {"config": "bank_sft.yaml"},               // 40GB: bank_sft_a100_40g_x2.yaml
   "grpo": {"config": "bank_grpo_a100x2.yaml", …},    // 40GB: bank_grpo_a100_40g_x2.yaml
-  "ocr_check": {"tasks": "<OCR 학습 폴더>/data/prepared-v2/benchmark_tasks.jsonl", "rows": 1000}
+  "ocr_check": {"tasks": "<코드>/ocr/data/prepared-v2/benchmark_tasks.jsonl", "rows": 1000}   // 1부 벤치마크
 }
 ```
 
-- **`replay`, `ocr_check`:** 1부를 돌린 폴더의 파일입니다. OCR 데이터를 섞지 않거나 OCR 유지 확인을 안 하려면 각각 `null`로 둡니다.
+- **`replay`, `ocr_check`:** 1부 준비 결과(`<코드>/ocr/data/prepared-v2/`)의 파일입니다. OCR 데이터를 섞지 않거나 OCR 유지 확인을 안 하려면 각각 `null`로 둡니다.
+- **상대 경로의 기준:** `workdir`, `data.*`, `ocr_check.tasks`, yaml 설정 이름은 설정 파일 폴더(`<코드>/bank/configs`) 기준입니다. `model`만은 실행한 폴더(`<코드>/bank`) 기준이라, 상대 경로로 쓰면 `../ocr/runs/exp1/merged/…`입니다. `model`은 절대 경로를 권합니다.
 - **잘못된 경로:** 경로가 틀리면 실행하자마자 어떤 키가 틀렸는지 한꺼번에 알려 주고 멈춥니다.
 
 ### 3-3. 리허설 → 본 실행
@@ -246,6 +255,8 @@ tail -f bank_pipeline.log
 
 ### 3-4. 결과 보기
 
+위치는 `<코드>/bank` 기준입니다.
+
 | 무엇 | 위치 |
 |---|---|
 | 점수표 | `runs/bank1/reports/benchmark.html` — 읽는 법: [results.md](results.md) |
@@ -259,13 +270,15 @@ tail -f bank_pipeline.log
 
 모델에게 직접 물을 때의 질문 문장은 [questions.md](questions.md)에 있습니다.
 
+studio(docgen 도커에서 띄우는 화면, [docker/README.md 4절](../docker/README.md#4-studio-띄우기-같은-컨테이너))에서도 `runs/<실험>/`을 모델 답으로 붙여 채점·비교할 수 있습니다. studio에서 만든 데이터셋으로 학습하는 방법은 [studio/TRAINING.md](../studio/TRAINING.md)에 있습니다.
+
 ---
 
 ## 4. 다시 돌릴 때
 
 | 하고 싶은 것 | 명령 |
 |---|---|
-| 멈춘 곳부터 이어서 | 같은 명령 그대로 |
+| 멈춘 곳부터 이어서 | 같은 명령 그대로 (1부는 `<코드>/ocr`, 2부는 `<코드>/bank`에서) |
 | GRPO 설정만 바꿔 다시 | `--from grpo` (비교표에 줄이 추가됨) |
 | SFT부터 다시 | `--from sft` |
 | 비교표만 다시 | `--only report` |
@@ -286,7 +299,7 @@ tail -f bank_pipeline.log
 2. **2부 데이터를 새 폴더에:** 컨테이너 안에서 `OUT=/out/v1.2 bash docgen/scripts/make_bank_data.sh` (약 1시간 15분)
    - `make_bank_data.sh`는 이미 만든 폴더(`meta.json` 있음)를 건너뜁니다. **기존 폴더에 그대로 돌리면 아무것도 바뀌지 않습니다.**
    - 다 되면 `<데이터>/v1.2/bench/meta.json`의 `"version"`이 `"1.2"`인지 확인합니다.
-3. **설정 경로 바꾸기:** `configs/bank_pipeline.json`
+3. **설정 경로 바꾸기:** `<코드>/bank/configs/bank_pipeline.json`
    - `data.train` → `<데이터>/v1.2/bank_train`
    - `data.benchmark` → `<데이터>/v1.2/bench`
    - `data.output_dir` → 새 이름 (예: `../data/prepared-bank-v1.2`)
@@ -309,8 +322,8 @@ tail -f bank_pipeline.log
 | 에러 메시지 / 증상 | 원인 | 해결 |
 |---|---|---|
 | `설정(…)의 경로를 확인하세요` | 설정의 경로가 없음 | 메시지에 나온 키를 서버의 절대 경로로 고침 |
-| `FileNotFoundError: …/prepared-v2/train_sft.jsonl` | `replay`·`ocr_check` 경로가 1부 폴더를 가리키지 않음 | 1부를 돌린 폴더의 `data/prepared-v2/`로 고치거나 `null` |
-| `CUDA out of memory` (2부 SFT/GRPO) | 80GB 설정을 40GB에서 씀 | `sft.config`, `grpo.config`를 `*_a100_40g_x2.yaml`로 ([BANK_TASKS.md](../bank/README.md) GPU별 설정) |
+| `FileNotFoundError: …/prepared-v2/train_sft.jsonl` | `replay`·`ocr_check` 경로가 1부 준비 결과를 가리키지 않음 | `<코드>/ocr/data/prepared-v2/`로 고치거나 `null` |
+| `CUDA out of memory` (2부 SFT/GRPO) | 80GB 설정을 40GB에서 씀 | `sft.config`, `grpo.config`를 `*_a100_40g_x2.yaml`로 ([bank/README.md](../bank/README.md) GPU별 설정) |
 | `Multiple possible model types found` | 모델 종류 자동 판별 실패 | 설정의 `model_type`이 `qwen3_5`인지 확인 |
 | `Output already exists` / `already prepared` | 데이터 준비 폴더가 이미 있음 | `output_dir`을 새 이름으로 (지우지 말고) |
 | `Reference answers do not score 1.0` | 데이터를 만든 docgen 코드와 지금 코드가 다름 | 같은 코드로 데이터를 다시 만들기 (`make_bank_data.sh`) |
@@ -320,6 +333,6 @@ tail -f bank_pipeline.log
 | prepare에서 OCR `Error: 500`, 연결 실패 | 사내 OCR 서버가 꺼졌거나 주소가 다름 | 2-2의 서버(`/share/mond/ocr_api/server.py`)가 떠 있는지, `INTERNAL_OCR_BASE_URL`의 포트가 `SERVER_PORT`와 같은지 확인 |
 | `has an EXIF rotation; saved OCR coordinates are ambiguous` | 회전 정보가 있는 이미지에 미리 만든 OCR JSON | 그 이미지는 `--ocr-dir` 없이 OCR 서버로 다시 |
 | `이 docgen 코드에는 --split train 이 없습니다` | 도커에 옛 코드 | 최신 코드로 바꾸기 |
-| 로그를 더 보고 싶음 | — | `runs/<workdir>/logs/` 에 단계별 로그 |
+| 로그를 더 보고 싶음 | — | 설정의 `workdir` 아래 `logs/`에 단계별 로그 (1부 `<코드>/ocr/runs/exp1/logs/`, 2부 `<코드>/bank/runs/bank1/logs/`) |
 
 해결이 안 되면 에러 직전의 `(log: logs/….log)` 파일 마지막 20줄을 같이 공유해 주세요.

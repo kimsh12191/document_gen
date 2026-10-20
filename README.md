@@ -10,7 +10,7 @@
 |---|---|---|---|
 | [`ocr/`](ocr/README.md) | **1부 OCR**: 실서류 이미지 + 사내 OCR → 준비(`prepare`) → SFT·GRPO 학습 → 평가 → OCR viewer | GPU 학습 컨테이너 (`cd ocr`) | [ocr/README.md](ocr/README.md) |
 | [`bank/`](bank/README.md) | **2부 은행 업무**: 생성기 데이터 → 준비 → SFT·GRPO 학습 → 평가 → 은행 업무 viewer. 1부 코드(`../ocr`)를 그대로 씀 | GPU 학습 컨테이너 (`cd bank`) | [bank/README.md](bank/README.md) |
-| [`docgen/`](docgen/README.md) | **벤치마크·합성 데이터 생성**: 서류 476종(html 서식 70 + 하나은행 원본 서식 406), 은행 업무 평가 세트·학습 데이터(`docgen.bench`), 합성 OCR 세트(`docgen.ocr_set`) | docgen 도커 컨테이너 (Chromium·글꼴) | [docgen/README.md](docgen/README.md) |
+| [`docgen/`](docgen/README.md) | **벤치마크·합성 데이터 생성**: 서류 545종(기존 HTML 70 + 공식 대조 HTML 69 + 하나은행 원본 서식 406), 은행 업무 평가 세트·학습 데이터(`docgen.bench`), 합성 OCR 세트(`docgen.ocr_set`) | docgen 도커 컨테이너 (Chromium·글꼴) | [docgen/README.md](docgen/README.md) |
 | [`studio/`](studio/README.md) | **화면**: 서식·라벨 보고 고치기, 데이터셋 만들기(레시피)·등록·채점·비교, 이미지 가져오기·OCR 검수, 학습 설정 내보내기 | docgen 도커 컨테이너 (`python -m studio`, SSH 터널) | [studio/README.md](studio/README.md) |
 
 ```text
@@ -87,10 +87,14 @@ mv training/config.json ocr/                              # 1부 데이터 설�
 cd ocr && pip install --no-index --no-build-isolation -e '.[ocr]'   # 1부 패키지 다시 등록 (2부는 설치 불필요)
 ```
 
-- 설정 파일 안의 **상대 경로**(`../runs/…`, `../data/…`)는 설정 파일 위치 기준이라, 설정을 같은 자리(`ocr/configs/`, `bank/configs/`)에 두면 그대로 맞습니다. 2부 설정의 `model`(1부 결과 모델)·`replay`(1부 준비 결과)는 이제 `../ocr/…` 아래입니다.
+- 설정 파일 안의 **상대 경로**(`../runs/…`, `../data/…`)는 설정 파일 위치 기준이라, 설정을 같은 자리(`ocr/configs/`, `bank/configs/`)에 두면 그대로 맞습니다. 2부 설정에서 1부 것을 가리키는 칸은 기준이 다릅니다: `data.replay.path`·`ocr_check.tasks`는 설정 파일(`bank/configs/`) 기준이라 `../../ocr/data/…`, `model`(1부 결과 모델)은 실행하는 폴더(`bank/`) 기준이라 `../ocr/runs/…`입니다. 헷갈리면 절대 경로를 쓰세요.
 - docgen 도커 이미지는 그대로 씁니다 (이미지의 `PYTHONPATH` 가 저장소 최상위라 `python -m docgen` 이 그대로 돕니다). 2부 데이터 만들기는 `bash docgen/scripts/make_bank_data.sh`.
 
 ## 브랜치
 
 - **이 브랜치에 전부 들어 있습니다.** `ocr/`의 OCR 코드는 OCR 브랜치(`claude/bank-ocr-pipeline`)와 같습니다. OCR 쪽을 고치면 `git merge -X subtree=ocr origin/claude/bank-ocr-pipeline`으로 가져옵니다.
 - 모든 합성 데이터는 실존 인물·사업자와 무관합니다.
+
+## Studio 서식 역할·값 영역
+
+③ 시나리오에서 같은 제출 역할의 기존 HTML·공식 HTML·PDF 배경 서식 중 하나를 선택할 수 있습니다. ① 서식의 HTML에도 글자 값 **영역 편집**을 추가했습니다. 위치·크기·값 출처를 고쳐 미리보기 후 저장하면 생성 이미지와 정답 좌표에 같이 반영됩니다. 사용 방법은 [Studio README](studio/README.md), 저장 방식과 제약은 [DESIGN 14절](studio/DESIGN.md), 545종의 자동 이미지 검사 결과와 남은 항목은 [값 점검표](docgen/manual/FORM_VALUE_AUDIT.md)를 보세요.

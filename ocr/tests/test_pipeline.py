@@ -1,3 +1,6 @@
+"""bank_ocr data parsing, metrics/reward, augmentation, task building, and end-to-end prepare /
+predict / mine / run_pipeline checks on the synthetic demo data (no GPU, no model).
+Run from ocr/: python -m unittest discover -s tests"""
 import copy
 import importlib.util
 import json

@@ -1,0 +1,68 @@
+{
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "본인 성명",
+   "key": "customer.name",
+   "source": "profile.person.name",
+   "rect": [
+    428,
+    749,
+    514,
+    764
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성 월",
+   "key": "written.month",
+   "source": "profile.issue_date.month",
+   "rect": [
+    181,
+    748,
+    203,
+    764
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성 일",
+   "key": "written.day",
+   "source": "profile.issue_date.day",
+   "rect": [
+    232,
+    748,
+    253,
+    764
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성 연도",
+   "key": "written.year",
+   "source": "profile.issue_date.year",
+   "rect": [
+    279,
+    748,
+    305,
+    764
+   ]
+  },
+  {
+   "t": "sign",
+   "page": 0,
+   "label": "본인 서명",
+   "key": "principal",
+   "mark": [
+    525,
+    747,
+    553,
+    764
+   ]
+  }
+ ]
+}

@@ -1,17 +1,33 @@
-# Docker (내부망 반입)
+# docgen 도커 이미지 (내부망 반입)
 
-인터넷 없는 내부망 Linux 서버에서 docgen·벤치마크를 돌리고, 윈도우 PC 에서 SSH 로 컨테이너에 접속해 쓰는 방법입니다.
-이미지에는 실행 환경(파이썬·글꼴·Chromium·SSH)만 들어가고, 코드는 따로 반입해 마운트합니다.
+인터넷 없는 내부망 Linux 서버에서 docgen(합성 서류·벤치마크 생성기)을 돌리고, 윈도우 PC 에서 SSH 로 컨테이너에 접속해 쓰는 방법입니다.
+같은 컨테이너에서 2부 은행 업무 데이터 만들기([3절](#2부-은행-업무-데이터-만들기))와 studio 화면([4절](#4-studio-띄우기-같은-컨테이너))도 합니다.
+GPU 학습(`ocr/`, `bank/`)은 이 컨테이너가 아니라 따로 있는 학습 환경에서 합니다.
+
+이미지에는 실행 환경(파이썬·글꼴·Chromium·SSH)만 들어가고, 코드(이 저장소)는 따로 반입해 `/home/docgen/document_gen` 에 마운트합니다.
+이미지의 `PYTHONPATH` 가 그 코드 폴더(저장소 최상위)라서 코드 묶음만 바꾸면 되고, 이미지는 코드가 바뀌어도 다시 만들 필요가 없습니다.
+
+| 파일 | 역할 |
+|---|---|
+| `docker/Dockerfile` | 실행 환경 이미지 |
+| `docker/build.sh` | 이미지 빌드 + 코드 묶음 + 네트워크를 끊은 테스트 + 반입 파일 저장 |
+| `docker/requirements.lock` | 이미지에 넣는 파이썬 패키지 (판 고정) |
+| `docker/entrypoint.sh`, `docker/sshd_config` | 컨테이너 시작: SSH 호스트 키·계정 준비 후 sshd |
+| `docker/profile.sh` | SSH 로 들어오면 환경변수를 잡고 코드 폴더로 이동 |
 
 ## 1. 반입 파일 만들기 (인터넷 되는 PC, Linux 또는 WSL)
+
+저장소 최상위에서:
 
 ```bash
 sh docker/build.sh 1.1
 #  docgen-image-1.1.tar.gz  실행 환경 (약 390MB). 코드가 바뀌어도 다시 만들 필요 없음
-#  docgen-code-1.1.tar.gz   코드·서식 (약 60MB)
+#  docgen-code-1.1.tar.gz   코드 (이 저장소 전체: docgen/·ocr/·bank/·studio/ …, 약 60MB). 견본 이미지 docgen/samples/ 는 뺌
 ```
 
-사내 프록시가 HTTPS 를 검사하는 망이면 `docker build` 에 `--secret id=ca,src=회사CA.crt` 를, 사내 Ubuntu 미러를 쓰려면
+`1.1` 은 붙일 버전 이름입니다. 코드만 바뀌었으면 이미지는 그대로 두고 `docgen-code-*.tar.gz` 만 새로 반입합니다.
+
+사내 프록시가 HTTPS 를 검사하는 망이면 `build.sh` 의 `docker build` 줄에 `--secret id=ca,src=회사CA.crt` 를, 사내 Ubuntu 미러를 쓰려면
 `--build-arg APT_MIRROR=https://미러/ubuntu` 를 붙이세요 (둘 다 빌드 중에만 쓰이고 이미지에는 남지 않습니다).
 빌드 후 네트워크를 끊은 컨테이너에서 테스트까지 돌립니다. Chromium 은 Microsoft 공식 Playwright 이미지
 (`mcr.microsoft.com/playwright/python`)에서 가져오므로 Playwright 다운로드 서버가 막힌 망에서도 빌드됩니다.
@@ -37,6 +53,7 @@ docker run -d --name docgen --restart unless-stopped \
 - 비밀번호 대신 공개키: `-e SSH_PUBLIC_KEY="$(cat id_ed25519.pub)"` 또는 `-v <파일>:/etc/docgen/authorized_keys:ro`.
   둘 다 없고 `DOCGEN_PASSWORD` 도 없으면 임의 비밀번호를 만들어 `docker logs docgen` 에 남깁니다.
 - 코드 업데이트: 새 `docgen-code-*.tar.gz` 를 같은 자리에 풀고 끝 (컨테이너 재시작 불필요).
+  2026-10-20 재배치(`docgen/`·`ocr/`·`bank/`·`studio/`) 뒤의 코드도 같은 이미지로 돕니다. 풀고 나면 옛 최상위 폴더(`scripts/`, `templates/`, `training/` …)가 남지만 쓰이지 않습니다. `training/` 아래 git 에 없는 데이터·결과를 옮기는 방법은 [저장소 README](../README.md#예전-구조에서-옮겨-올-때-2026-10-20-재배치)에 있습니다.
 
 ## 3. 윈도우에서 접속
 
@@ -58,7 +75,18 @@ python -m docgen.bench eval --bench /out/bench --pred /out/preds/m1
 
 모델 서버가 같은 서버에 있으면 `<모델서버>` 에 서버의 내부망 IP 를 쓰세요 (컨테이너 안의 `localhost` 는 컨테이너 자신입니다).
 
-은행 업무 학습(SFT → GRPO → 벤치마크 비교)에 쓸 학습 데이터·평가 세트를 만드는 방법은 [bank/README.md](../bank/README.md)의 1단계에 있습니다. SSH 없이 서버에서 `docker exec`로 바로 만들 수도 있습니다.
+### 2부 은행 업무 데이터 만들기
+
+2부 학습(`bank/`)에 쓸 평가 세트(`/out/bench`)와 학습 데이터(`/out/bank_train`)를 한 번 만들어 둡니다 (8코어 약 1시간 15분, 약 19GB).
+
+```bash
+bash docgen/scripts/make_bank_data.sh          # 백그라운드로 시작. SSH 를 끊어도 계속
+tail -f /out/logs/make_bank_data.log           # "전부 완료" 가 나오면 끝
+```
+
+SSH 없이 서버 터미널에서: `docker exec -u docgen docgen bash -lc 'bash ~/document_gen/docgen/scripts/make_bank_data.sh'`
+
+양·출력 위치(`OUT`, `TRAIN_BUNDLES`, `BENCH_BUNDLES` …)와 컨테이너 경로 ↔ 서버 경로 대응은 [bank/README.md](../bank/README.md)의 1단계에 있습니다. 학습 설정에는 서버 경로(`~/docgen/data/bench` 의 절대 경로)를 씁니다.
 
 ## 4. studio 띄우기 (같은 컨테이너)
 
@@ -67,7 +95,7 @@ studio(서식·데이터셋 관리 웹 화면, [studio/README.md](../studio/READ
 ```
 [윈도우 PC 브라우저] ──SSH 터널 (2222)──▶ [docgen 컨테이너: studio + Chromium + 글꼴]
                                               │ 공유 폴더 (/out = 서버의 ~/docgen/data …)
-[학습 컨테이너: ocr/] ◀── 같은 데이터·결과 폴더 ──┘
+[학습 컨테이너: ocr/ · bank/] ◀── 같은 데이터·결과 폴더 ──┘
 ```
 
 **① 처음 한 번: studio 패키지 설치.** 1.1 이미지에는 fastapi·uvicorn이 없습니다. 코드 묶음에 Linux용 설치 파일(`studio/wheels/`, 약 3.4MB)이 들어 있으므로 컨테이너 안에서 설치만 합니다(인터넷 불필요).

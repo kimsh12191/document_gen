@@ -1,13 +1,14 @@
 """표시 요소: 손글씨·체크 표시·도장·서명이 "어느 칸에 얼마나 나올지"(확률)와 "어떻게 생겼는지"(풀).
 
   docgen/marks.json        확률 설정. 없는 항목은 아래 DEFAULTS (= 이 파일을 만들기 전 코드의 상수)
-  docgen/assets/marks/pools.json  풀: 체크 표시·서명 이미지, 도장 틀, 손글씨·인쇄체 글꼴
+  docgen/assets/marks/pools.json  풀: 체크 표시·서명 이미지, 도장 틀, 손글씨·인쇄체 글꼴 (없는 풀은 DEFAULT_POOLS)
   docgen/assets/marks/<풀>/…      풀에 올린 이미지 (투명 배경 PNG)
 
 - 기본값은 예전 코드와 같은 값·같은 순서다. 설정과 풀을 바꾸지 않으면 생성 결과가 그대로다.
 - 풀에서 고를 항목이 하나뿐이면 난수를 쓰지 않는다. 항목을 더하면 그때부터 그 서류의 나머지 값도 달라질 수 있다.
 - 서식마다 덮어쓰기: overlay 는 docgen/forms/overrides/<ID>.json 의 "marks".
 - 실서류에서 잘라 온 서명·도장은 저장소 풀에 넣지 않는다 (studio 가 private_forms_dir 아래 풀에만 저장).
+- 두 파일은 studio 의 표시 요소 화면(studio/marks_admin.py)이 만들고 고친다. 읽는 쪽은 realform.py·render.py.
 """
 from __future__ import annotations
 
@@ -32,7 +33,8 @@ DEFAULTS = {
 }
 
 DEFAULT_POOLS = {
-    # overlay 체크 표시 모양 (가중치 = 예전 목록에서 나온 횟수). html 서식은 render.checkmark 의 손 V
+    # overlay 체크 표시 모양 (가중치 = 예전 목록에서 나온 횟수). 그리기는 _real_form.html.j2 (V 는 render.checkmark 의 손 V).
+    # html 템플릿 서식은 이 풀을 쓰지 않는다 (m.choice 의 ■/□ 글자)
     "check": [{"id": "V", "name": "손으로 그은 V", "builtin": True, "weight": 2},
               {"id": "✓", "name": "✓ 글자", "builtin": True, "weight": 1},
               {"id": "✔", "name": "✔ 글자", "builtin": True, "weight": 1},

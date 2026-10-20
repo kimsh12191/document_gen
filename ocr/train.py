@@ -1,4 +1,7 @@
-"""Configurable MS-SWIFT launcher. --execute starts training; otherwise show command."""
+"""Configurable MS-SWIFT launcher. --execute starts training; otherwise show command.
+
+  python train.py {sft,grpo} --config configs/sft.yaml --model <model dir> --data <prepared dir> --output <dir> --execute
+run_pipeline.py calls this for its sft and grpo stages (see docs/SETUP.md 1, docs/MANUAL.md 6 and 9)."""
 import argparse
 import importlib.metadata
 import json
