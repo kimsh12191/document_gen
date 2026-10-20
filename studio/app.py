@@ -18,6 +18,7 @@ API
   GET  /api/marks                     표시 요소 설정·풀 · PUT /api/marks/settings · PUT /api/marks/pools/{풀}
   POST /api/marks/pools/{풀}/upload   풀 이미지 올리기 · POST /api/marks/seal-template · DELETE /api/marks/pools/{풀}/{id}
   GET  /preview/...                   미리보기 이미지 · /marks-img/... 풀 이미지
+  (등록부·채점: api_datasets.py, 2부 레시피·작업: api_bank.py, 가져오기·OCR 검수: api_import.py)
 """
 from __future__ import annotations
 
@@ -36,7 +37,7 @@ from pydantic import BaseModel
 from docgen import marks as M
 from docgen.preview import CONDITIONS, MODES, Previewer
 
-from . import api_bank, api_datasets, catalog, editor, marks_admin
+from . import api_bank, api_datasets, api_import, catalog, editor, marks_admin
 from . import datasets as DS
 from .jobs import Jobs
 from .config import ROOT, load, resolve_path, setup_browser
@@ -49,6 +50,9 @@ PREVIEW_DIR = CACHE / "preview"
 PREVIEW_DIR.mkdir(parents=True, exist_ok=True)
 previewer = Previewer(PREVIEW_DIR)
 USER = CFG.get("user") or os.environ.get("USERNAME") or os.environ.get("USER") or "studio"
+CFG["user"] = USER
+if CFG.get("private_forms_dir"):   # 실서류에서 만든 서식 (docgen.realform 이 등록하고, studio 가 돌리는 작업도 물려받는다)
+    os.environ["DOCGEN_PRIVATE_FORMS"] = str(resolve_path(CFG["private_forms_dir"]))
 M.POOLS_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -80,6 +84,9 @@ REGISTRY = DS.Registry(resolve_path(CFG["workspace_dir"]), CFG.get("path_map") o
 app.include_router(api_datasets.make_router(REGISTRY, guard))
 JOBS = Jobs(REGISTRY.ws, ROOT)
 app.include_router(api_bank.make_router(REGISTRY, JOBS, guard))
+# 실서류 검수 결과 (OCR 검수본 등). 설정이 없으면 작업 공간 안에 두고 화면에 경고한다
+REAL_ROOT = resolve_path(CFG.get("real_data_dir")) or REGISTRY.ws / "real_data"
+app.include_router(api_import.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT / "ocr_reviewed"))
 app.mount("/fonts", StaticFiles(directory=ROOT / "fonts"), name="fonts")   # 손글씨 글꼴 (화면의 글꼴 미리보기)
 
 

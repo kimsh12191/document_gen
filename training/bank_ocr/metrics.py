@@ -17,6 +17,11 @@ TASKS = TEXT_TASKS + BOX_TASKS
 LABELLED_TASKS = ("spotting", "relation", "marked_box")
 HIGH_CONFIDENCE = 0.95
 SIZE_BUCKETS = ((12, "small"), (25, "medium"), (math.inf, "large"))  # target box height, 0..1000 units
+# What the OCR answers are (prepare setting reference_type). Raw internal OCR scores agreement, not accuracy.
+INTERPRETATION = {"ocr_pseudo_unreviewed": "agreement_with_internal_ocr_not_verified_accuracy",
+                  "human_reviewed": "accuracy_against_human_reviewed_ocr",
+                  "synthetic_exact": "accuracy_against_rendered_text"}
+REFERENCE_TYPES = frozenset(INTERPRETATION)
 
 # add_non_thinking_prefix trains the model to emit an empty think block before the answer.
 EMPTY_THINK = re.compile(r"^\s*<think>\s*</think>\s*")
@@ -292,5 +297,7 @@ def evaluate(rows, predictions):
             if value is not None:
                 buckets.setdefault(value, []).append(r)
         breakdown[name] = {value: evaluate_tasks(subset, predictions) for value, subset in sorted(buckets.items())}
-    return {"reference_type": "ocr_pseudo_unreviewed", "interpretation": "agreement_with_internal_ocr_not_verified_accuracy",
+    kinds = {r.get("reference_type", "ocr_pseudo_unreviewed") for r in rows}
+    reference = kinds.pop() if len(kinds) == 1 else "mixed"
+    return {"reference_type": reference, "interpretation": INTERPRETATION.get(reference, "mixed_references"),
             "tasks": evaluate_tasks(rows, predictions), "breakdown": breakdown}

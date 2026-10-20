@@ -43,7 +43,7 @@ def source_files(doc_id: str, common: bool = True) -> list[Path]:
 
     spec = load_all()[doc_id]
     files = [ROOT / "templates" / spec.template, Path(inspect.getsourcefile(spec.generate)), overrides.path(doc_id)]
-    if spec.group == "hana":
+    if spec.group in ("hana", "imported"):
         from .realform import form_no, image_form_dir, layout_path
 
         no = form_no(doc_id)
@@ -52,7 +52,7 @@ def source_files(doc_id: str, common: bool = True) -> list[Path]:
             files.append(lp)
         d = image_form_dir(doc_id) if no is None else None
         if d:
-            files += sorted(d.iterdir())
+            files += [f for f in sorted(d.iterdir()) if f.is_file() and f.name != "overrides.json"]
     return files + ([ROOT / c for c in COMMON] if common else [])
 
 

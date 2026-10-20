@@ -67,13 +67,21 @@ def select_ids(recipe: dict) -> list[str]:
     bad = [i for i in ids if i not in reg]
     if bad:
         raise SystemExit(f"알 수 없는 서식: {bad}")
+    if any(reg[i].group == "imported" for i in ids):   # 가져온 서식은 검수한 것만 "all"·그룹으로 (ID 를 직접 적으면 허용)
+        named = set(lst) if types != "all" else set()
+        ok = _reviewed()
+        ids = [i for i in ids if reg[i].group != "imported" or i in ok or i in named]
     ex = set(recipe.get("exclude") or [])
     ids = [i for i in ids if i not in ex]
     if recipe.get("reviewed_only"):
-        p = ROOT / "docgen" / "catalog.json"
-        ok = {k for k, v in json.loads(p.read_text(encoding="utf-8")).items() if v.get("reviewed")} if p.exists() else set()
+        ok = _reviewed()
         ids = [i for i in ids if i in ok]
     return ids
+
+
+def _reviewed() -> set[str]:
+    p = ROOT / "docgen" / "catalog.json"
+    return {k for k, v in json.loads(p.read_text(encoding="utf-8")).items() if v.get("reviewed")} if p.exists() else set()
 
 
 _R = None
@@ -121,7 +129,7 @@ def _one(job: tuple) -> list[dict]:
     info = _R.render(html, out / "images" / f"{stem}.png", texts=True)
     paths = [Path(p) for p in info["images"]]
     texts = info["texts"]
-    bg = background_words(doc_id) if spec.group == "hana" else {}
+    bg = background_words(doc_id) if spec.group in ("hana", "imported") else {}
     zoom = scale * 96 / 72   # pt → 이미지 픽셀
     if cond != "clean":
         arng = random.Random(f"ocrset:aug:{stem}")
@@ -207,6 +215,8 @@ def build(args) -> None:
         cfg[k] = v
     if split == "benchmark":
         cfg["benchmark_only"] = True
+    if not recipe.get("merge_manifests"):   # 정답이 렌더링한 글자 그대로 (합친 실서류는 사내 OCR 이라 기본값으로 둔다)
+        cfg["reference_type"] = "synthetic_exact"
     cfg["studio"] = {"source": "synthetic" if not recipe.get("merge_manifests") else "results", "gt": "exact",
                      "real_data": bool(recipe.get("merge_manifests"))}
     (out / "config.json").write_text(json.dumps(cfg, ensure_ascii=False, indent=1), encoding="utf-8")

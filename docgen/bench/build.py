@@ -161,7 +161,7 @@ class Builder:
                 new_sizes.append(img.size)
                 tfs.append(tf)
             paths, sizes, fields = new_paths, new_sizes, _aug_fields(fields, tfs)
-        hand = spec.group == "hana" and bool((data or {}).get("style", {}).get("hand"))
+        hand = spec.group in ("hana", "imported") and bool((data or {}).get("style", {}).get("hand"))
         return {"doc_id": doc_id, "name": spec.name, "group": spec.group, "seed": seed, "condition": cond, "stem": stem,
                 "images": [str(p.relative_to(self.out)) for p in paths], "sizes": sizes, "fields": fields,
                 "raw": raw, "raw_keys": [r["key"] for r in raw], "visible": perturb.visible_keys(html),
@@ -593,6 +593,9 @@ def build(args) -> None:
             t = t.strip()
             if t:   # 빈 목록 = 단일 서류 과제 없이 묶음만
                 ids += [s.id for s in reg.values() if s.group == t] if t in GROUPS else [t]
+    named = {t.strip() for t in args.types.split(",")}
+    ok = reviewed_forms()   # 가져온 서식(실서류 견본 배경)은 검수한 것만 "all"·그룹으로 들어온다. ID 를 직접 적으면 시험용으로 허용
+    ids = [i for i in ids if i not in reg or reg[i].group != "imported" or i in ok or i in named]
     if rc and rc["exclude"]:
         ids = [i for i in ids if i not in rc["exclude"]]
     if rc and rc["reviewed_only"]:

@@ -26,7 +26,7 @@ def _overlay(doc_id: str):
     spec = load_all().get(doc_id)
     if spec is None:
         raise KeyError(doc_id)
-    if spec.group != "hana":
+    if spec.group not in ("hana", "imported"):
         raise ValueError("영역 편집기는 overlay 서식만 씁니다 (html 서식은 html 편집기)")
     return spec
 
@@ -232,7 +232,7 @@ def checks(doc_id: str, label: dict | None = None, fields_keys: list[dict] | Non
             out.append({"level": "info", "code": "never_filled",
                         "text": f"30번 렌더링에서 한 번도 안 채워진 칸 {len(empty)}개: {', '.join(empty[:8])}"
                                 f"{' …' if len(empty) > 8 else ''}"})
-    if spec.group != "hana":
+    if spec.group not in ("hana", "imported"):
         return out
     view = layout_view(doc_id)
     if view["broken"]:

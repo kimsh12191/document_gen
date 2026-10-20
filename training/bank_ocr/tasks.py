@@ -95,7 +95,7 @@ def build_view(image_path, size, items, envelopes, fractions, kind, ops, view_id
 def _row(view, page, task, prompt, image, target, items, size=None):
     return {"task": task, "document_id": page["document_id"], "page_id": page["page_id"], "split": page["split"],
             "view": view["kind"], "view_id": view["id"], "view_ops": view["ops"],
-            "reference_type": "ocr_pseudo_unreviewed",
+            "reference_type": page.get("reference_type", "ocr_pseudo_unreviewed"),
             "messages": [{"role": "user", "content": "<image>\n" + prompt}], "images": [image],
             "context_image": view["image"], "target": dumps(target),
             "confidence": min((i["confidence"] for i in items), default=None), "size": size}

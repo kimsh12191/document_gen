@@ -61,7 +61,8 @@ def predict(tasks_path, output, endpoint, model, run_id, with_ocr=False, timeout
     meta_path = output.with_suffix(output.suffix + ".meta.json")
     settings = {"tasks_sha256": digest(path.read_bytes()), "endpoint": endpoint, "model": model,
                 "run_id": run_id, "with_ocr": with_ocr, "temperature": temperature, "max_tokens": max_tokens,
-                "enable_thinking": enable_thinking, "reference_type": "ocr_pseudo_unreviewed"}
+                "enable_thinking": enable_thinking,
+                "reference_type": rows[0].get("reference_type", "ocr_pseudo_unreviewed") if rows else "ocr_pseudo_unreviewed"}
     if request_options:
         settings["request_options"] = request_options
     # A cache must never combine base/SFT/RL generations; use a unique checkpoint run_id.

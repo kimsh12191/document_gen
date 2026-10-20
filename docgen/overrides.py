@@ -1,6 +1,7 @@
 """overlay 서식의 사람 수정층: 자동 추출 레이아웃 위에 사람이 고친 것을 덧씌운다 (studio 영역 편집기가 쓴다).
 
-  add_template/overrides/<서식ID>.json
+  add_template/overrides/<서식ID>.json        (가져온 이미지 서식 img_* 는 그 서식 폴더의 overrides.json:
+                                              실서류에서 만든 서식은 수정도 private_forms_dir 밖으로 나가지 않는다)
   {
     "items": [ {"match": {"page": 0, "t": "text", "label": "직장주소", "n": 0},   자동 추출 영역 고르기
                 "set": {"rect": [...]},                                         영역 정보 바꾸기 (rect, options, parts …)
@@ -34,6 +35,12 @@ _local = threading.local()
 
 
 def path(doc_id: str) -> Path:
+    if doc_id.startswith("img_"):
+        from .realform import image_form_dir
+
+        d = image_form_dir(doc_id)
+        if d is not None:
+            return d / "overrides.json"
     return OVERRIDES / f"{doc_id}.json"
 
 
@@ -160,7 +167,8 @@ def erase_for(ov: dict, page: int) -> list[dict]:
 
 def apply_erase(img, erases: list[dict], scale: float):
     """PIL 이미지에 지우기를 적용한 사본. rect 는 pt, scale 은 pt → 이미지 픽셀 배율.
-    fill: white(흰색) / auto(사각형 바깥 테두리 픽셀의 중앙값 = 주변 종이색)."""
+    fill: white(흰색) / auto(사각형 바깥 테두리 픽셀 중 밝은 쪽 = 주변 종이색. 테두리가 표 선에 걸쳐도 선 색을 고르지 않게
+    밝기 순으로 95% 자리의 픽셀)."""
     from PIL import ImageDraw
 
     img = img.convert("RGB").copy()
@@ -181,6 +189,7 @@ def apply_erase(img, erases: list[dict], scale: float):
                 for x in (max(0, x0 - 2), min(w - 1, x1 + 1)):
                     px.append(img.getpixel((x, y)))
             if px:
-                color = tuple(sorted(c[i] for c in px)[len(px) // 2] for i in range(3))
+                px.sort(key=lambda c: c[0] * 299 + c[1] * 587 + c[2] * 114)
+                color = px[min(len(px) - 1, int(len(px) * 0.95))]
         draw.rectangle([x0, y0, x1 - 1, y1 - 1], fill=color)
     return img

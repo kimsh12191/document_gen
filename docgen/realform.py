@@ -739,8 +739,35 @@ def fillable(lay: dict) -> int:
         sum(1 for it in lay["items"] if it["t"] == "check" and len(it["options"]) > 1)
 
 
+def register_images() -> int:
+    """overlay(image) 서식: add_template/images/img_*/ 와 (설정했으면) DOCGEN_PRIVATE_FORMS/img_*/ 의 layout.json.
+    studio 가져오기에서 견본 그림으로 만든 서식이다. 이미 등록된 ID 는 건너뛴다 (여러 번 불러도 된다)."""
+    from .registry import REGISTRY, DocSpec
+
+    n = 0
+    for root in [IMAGE_FORMS, *_private_roots()]:
+        if not root.is_dir():
+            continue
+        for d in sorted(root.glob("img_*")):
+            if d.name in REGISTRY or not (d / "layout.json").exists():
+                continue
+            lay = json.loads((d / "layout.json").read_text(encoding="utf-8"))
+
+            def generate(p: Profile, rng: random.Random, _id=d.name) -> dict:
+                return build_form(_id, p, rng)
+
+            pg = lay["pages"][0]
+            page = "a4_landscape" if pg["width"] > pg["height"] else "a4"
+            REGISTRY[d.name] = DocSpec(d.name, lay.get("name") or d.name, "imported", "internal", "_real_form.html.j2",
+                                       generate, page, False,
+                                       f"가져온 서식 이미지 위에 기재 (묶음 {lay.get('from_batch', '-')}"
+                                       f"{', 내부 전용' if lay.get('private') else ''})")
+            n += 1
+    return n
+
+
 def register_all() -> int:
-    """레이아웃이 있는 서식을 모두 hf<No> 로 등록한다."""
+    """레이아웃이 있는 서식을 모두 hf<No> 로 등록한다 (+ 가져온 이미지 서식)."""
     from .registry import REGISTRY, DocSpec
 
     n = 0
@@ -760,4 +787,4 @@ def register_all() -> int:
         REGISTRY[doc_id] = DocSpec(doc_id, lay["name"], "hana", "internal", "_real_form.html.j2", generate, page,
                                    False, f"하나은행 공개 서식 No.{no} ({lay['class']}) 원본 위에 기재")
         n += 1
-    return n
+    return n + register_images()

@@ -34,7 +34,7 @@ _ASCII_KEY = re.compile(r"^[A-Za-z0-9_.]+$")
 
 def kind_of(group: str, doc_id: str = "") -> tuple[str, str]:
     """(종류, origin). hf### 는 하나은행 원본 PDF 배경, 그 밖의 overlay 는 이미지 배경 (add_template/images)."""
-    if group == "hana":
+    if group in ("hana", "imported"):
         return ("overlay", "pdf") if re.fullmatch(r"hf\d{3}", doc_id or "hf000") else ("overlay", "image")
     spec = load_all().get(doc_id)
     origin = getattr(spec, "origin", None) or "builtin"
@@ -149,6 +149,12 @@ def _key_stats(keys: list[dict]) -> dict:
     }
 
 
+def _edited(doc_id: str) -> bool:
+    from docgen import overrides
+
+    return overrides.path(doc_id).exists()
+
+
 def _summary(spec, entry: dict) -> dict:
     kind, origin = kind_of(spec.group, spec.id)
     keys = _fields().get(spec.id, {}).get("keys", [])
@@ -159,7 +165,7 @@ def _summary(spec, entry: dict) -> dict:
         "scenarios": [s["id"] for s in _scenarios_of().get(spec.id, [])],
         "reviewed": entry.get("reviewed"), "split": entry.get("split", "unassigned"),
         "open_issues": sum(1 for x in issues if x.get("status") == "open"),
-        "edited": (ROOT / "add_template" / "overrides" / f"{spec.id}.json").exists(),
+        "edited": _edited(spec.id),
         **_key_stats(keys),
     }
 
@@ -183,7 +189,7 @@ def form_detail(doc_id: str) -> dict:
     spec = reg[doc_id]
     entry = _catalog().get(doc_id, {})
     files = []
-    if spec.group == "hana":
+    if spec.group in ("hana", "imported"):
         from docgen import overrides
         from docgen.realform import form_no, image_form_dir, layout_path, load_layout
 

@@ -5,7 +5,7 @@ from pathlib import Path
 from .augment import make_view
 from .data import (assign_splits, canonical_image, digest, dumps, exif_orientation, load_callable,
                    parse_ocr, read_json, read_jsonl, write_json, write_jsonl)
-from .metrics import TASKS, answer_for
+from .metrics import REFERENCE_TYPES, TASKS, answer_for
 from .tasks import (bbox_tasks, build_view, crop_tasks, grounding_tasks, marked_tasks, region_tasks,
                     relation_tasks, spotting_tasks)
 
@@ -21,6 +21,10 @@ def prepare(config_path):
     manifest = resolve(cfg["manifest"])
     # benchmark_only: evaluation-only set (every manifest row is split "benchmark"; studio synthetic/reviewed OCR sets).
     benchmark_only = bool(cfg.get("benchmark_only", False))
+    # reference_type: what the OCR answers are. Default: raw internal OCR (agreement, not accuracy).
+    reference = cfg.get("reference_type", "ocr_pseudo_unreviewed")
+    if reference not in REFERENCE_TYPES:
+        raise ValueError(f"reference_type must be one of {sorted(REFERENCE_TYPES)}")
     rows = assign_splits(read_jsonl(manifest), seed, 0.0 if benchmark_only else cfg.get("val_fraction", 0.05),
                          0.0 if benchmark_only else cfg.get("benchmark_fraction", 0.0))
     if benchmark_only:
@@ -63,7 +67,7 @@ def prepare(config_path):
             except ValueError as exc:
                 raise ValueError(f"Saved OCR {saved} for {page['source_image']}: {exc}") from exc
             page["ocr_cache"] = str(saved)
-            page["reference_type"] = "ocr_pseudo_unreviewed"
+            page["reference_type"] = reference
             continue
         key = digest(dumps([page["pixel_sha256"], cfg["ocr_callable"], revision]).encode())
         cached = cache / "ocr" / f"{key}.json"
@@ -74,14 +78,14 @@ def prepare(config_path):
             write_json(cached, raw)
         page["ocr"] = parse_ocr(read_json(cached), page["width"], page["height"], mapping)
         page["ocr_cache"] = str(cached)
-        page["reference_type"] = "ocr_pseudo_unreviewed"
+        page["reference_type"] = reference
         if n == 1 or n % 100 == 0 or n == len(pages):
             print(f"OCR {n}/{len(pages)}", flush=True)
     out.mkdir(parents=True)
     write_json(out / "config.snapshot.json", cfg)
     write_jsonl(out / "pages.jsonl", pages)
     result = build_datasets(pages, out, cfg)
-    result.update({"reference_type": "ocr_pseudo_unreviewed", "human_reviewed": False,
+    result.update({"reference_type": reference, "human_reviewed": reference == "human_reviewed",
                    "page_counts": dict(Counter(p["split"] for p in pages)),
                    "ocr_revision": revision, "manifest_sha256": digest(manifest.read_bytes()),
                    "image_policy": "OCR reads the EXIF-transposed original; model views are resized to image_max_size "

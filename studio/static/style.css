@@ -176,3 +176,15 @@ pre.log { max-height: 420px; }
 .bd-doc { margin-bottom: 8px; } .bd-var { border-top: 1px solid var(--line); padding: 4px 0; font-size: 13px; }
 .ds-stage svg rect.ds-warn { stroke: #c0362c; stroke-width: 3; fill: rgba(192, 54, 44, .15); }
 .side b { display: block; margin: 10px 0 4px; }
+
+/* 가져오기·OCR 검수 */
+.fm-grid .card .stage img, .fm-pages .card .stage img { max-height: 320px; object-fit: contain; object-position: top; }
+.fm-pages { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+.ed-stage svg rect.rv-w { fill: rgba(47, 111, 221, .05); stroke: #2f6fdd; stroke-width: 1; vector-effect: non-scaling-stroke; }
+.ed-stage svg rect.rv-w.low { stroke: #d97706; stroke-width: 1.6; fill: rgba(217, 119, 6, .12); }
+.ed-stage svg rect.rv-w.edited { stroke: #1f8a4c; fill: rgba(31, 138, 76, .1); }
+.ed-stage svg rect.rv-w.added { stroke: #7c3aed; fill: rgba(124, 58, 237, .12); }
+.ed-stage svg rect.rv-w.sel { stroke: #0b3fa8; stroke-width: 2.4; fill: rgba(47, 111, 221, .2); }
+.ed-stage svg rect.rv-orig { fill: none; stroke: #c0362c; stroke-width: 1; stroke-dasharray: 3 2; vector-effect: non-scaling-stroke; pointer-events: none; }
+.ed-stage svg text.rv-t { fill: #c0362c; font-family: "Malgun Gothic", sans-serif; pointer-events: none; paint-order: stroke; stroke: #fff; stroke-width: 3px; }
+.rv-list { max-height: calc(100vh - 380px); overflow: auto; }
