@@ -32,12 +32,15 @@ from ..registry import GROUPS, SCENARIO_EXTRA, SCENARIOS, load_all
 from ..render import render
 from ..schema import build_fields
 from . import perturb
-from .metrics import norm_text
+from .metrics import norm_text, normalize_box
 from .cases import CASES, OTHER_OK, Ctx
 from .prompts import P_CLASSIFY, P_CROSS, P_DOC_CHECK, P_KIE, P_MARKS, P_OCR_FIELD, P_OCR_PAGE, P_REVIEW
 from .rules import Bundle, questions, r_doc_valid, valid_candidates
 
-VERSION = "1.2"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명
+VERSION = "2.0"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
+#                  2.0: kie·marks 답에 위치(bbox_2d 0~1000, page) — 값·위치·값+위치 점수. 건강보험료 납부확인서 정산 분할납부
+#                       변형이 정한 확률(15%)대로 나오게 고침
+# 1.x 세트(값만 있는 답)도 같은 채점기로 채점된다 (evaluate.py 가 두 형식을 다 읽음). 값 점수는 1.x 와 뜻이 같다.
 SEED_SINGLE = 1_000_000   # 단일 서류 과제 고객 seed 시작
 SEED_BUNDLE = 2_000_000   # 업무 묶음 고객 seed 시작
 # split → (단일 서류 seed 시작, 묶음 seed 시작, 시나리오 간 간격). 묶음 i 의 고객 seed = 시작 + 시나리오 번호 × 간격 + i,
@@ -217,7 +220,15 @@ class Builder:
                                 "writing": self.field_writing(r, f["key"]), "corrected": bool(f.get("corrected_from")),
                                 "length": len(norm_text(f["value"]))}})
 
-        # kie: 항목 목록을 주고 값 추출
+        sizes = r["sizes"]
+
+        def where(f, box):   # 정답 위치: 그 쪽 이미지 기준 0~1000, 쪽은 1부터
+            pg = f.get("page", 0)
+            if not box or pg >= len(sizes):
+                return {}
+            return {"bbox_2d": normalize_box(box, *sizes[pg]), "page": pg + 1}
+
+        # kie: 항목 목록을 주고 값과 위치 추출
         kf = [f for f in fields if f["type"] not in MARK_TYPES and not f.get("group")
               and not f["key"].startswith(("seal.", "sign."))]
         if len(kf) > max_keys:
@@ -225,7 +236,8 @@ class Builder:
         if kf:
             items = "\n".join(f"- {f['key']}: {f.get('label') or '-'}" for f in kf)
             self.emit({"id": f"kie/{sid}", "task": "kie", "prompt": P_KIE.format(items=items),
-                       "answer": {f["key"]: f["value"] for f in kf},
+                       "answer": [{"key": f["key"], "value": f["value"], **(where(f, f.get("bbox")) if f["value"] is not None else {})}
+                                  for f in kf],
                        "eval": {"fields": {f["key"]: {"type": f["type"], "norm": f.get("norm"), "kind": field_kind(f)}
                                            for f in kf}}, **base})
 
@@ -235,18 +247,18 @@ class Builder:
         if len(mf) > max_keys:
             mf = sorted(rng.sample(mf, max_keys), key=mf.index)
         if mf:
-            lines, ans, types = [], {}, {}
+            lines, ans, types = [], [], {}
             for f in mf:
                 lab = f.get("label") or "-"
-                if f["type"] == "checkbox":
-                    lines.append(f"- {f['key']}: {lab} (체크박스, 보기: {' / '.join(o['text'] for o in f['options'])})")
-                    ans[f["key"]] = f["value"]
-                elif f["type"] == "checkbox_multi":
-                    lines.append(f"- {f['key']}: {lab} (복수 선택, 보기: {' / '.join(o['text'] for o in f['options'])})")
-                    ans[f["key"]] = [o["text"] for o in f["options"] if o["checked"]]
+                if f["type"] in ("checkbox", "checkbox_multi"):
+                    kind = "체크박스" if f["type"] == "checkbox" else "복수 선택"
+                    lines.append(f"- {f['key']}: {lab} ({kind}, 보기: {' / '.join(o['text'] for o in f['options'])})")
+                    on = [o for o in f["options"] if o["checked"]]
+                    ans += [{"key": f["key"], "value": o["text"], **where(f, o.get("box_bbox"))} for o in on] or \
+                        [{"key": f["key"], "value": None}]
                 else:
                     lines.append(f"- {f['key']}: {lab} ({'도장' if f['type'] == 'seal' else '서명'})")
-                    ans[f["key"]] = bool(f["present"])
+                    ans.append({"key": f["key"], "value": bool(f["present"]), **(where(f, f.get("bbox")) if f["present"] else {})})
                 types[f["key"]] = f["type"]
             self.emit({"id": f"marks/{sid}", "task": "marks", "prompt": P_MARKS.format(items="\n".join(lines)),
                        "answer": ans, "eval": {"types": types}, **base})

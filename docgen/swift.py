@@ -8,11 +8,12 @@
 과제 (같은 라벨에서 만든다):
   kie        전체 추출: 서류 종류 + 모든 값 (중첩 JSON, 빈 칸 null, 도장·서명 true/false)
   kie_keys   지정 키 추출: 요청한 키만 평탄 JSON 으로, 문서에 없는 키는 null
-  grounding  위치 포함 추출: [{"key", "label", "value", "bbox_2d", "page"?}]
-  marks      체크박스·도장·서명 판별 (위치 포함)
+  grounding  위치 포함 추출: [{"key", "label", "value", "bbox_2d", "page"}]
+  marks      체크박스·도장·서명 판별: [{"key", "value", "bbox_2d"?, "page"?}] — 평가 세트(docgen.bench 2.0)의 marks 답과 같은 꼴
+             (체크된 보기마다 한 줄, 체크 없음은 value null, 도장·서명은 value true/false, 찍힌 것만 위치)
   qa         질의응답 한 문항
-좌표: 기본은 Qwen-VL(Qwen2-VL, Qwen3-VL 계열) 방식의 0~1000 상대 좌표 정수 [x1, y1, x2, y2].
-     coord="pixel" 이면 이미지 픽셀 좌표.
+좌표: 기본은 Qwen-VL(Qwen2-VL, Qwen3-VL 계열) 방식의 0~1000 상대 좌표 정수 [x1, y1, x2, y2] (1부 OCR 학습·평가 세트와
+     같은 변환: docgen.bench.metrics.normalize_box). coord="pixel" 이면 이미지 픽셀 좌표. 쪽 번호 page 는 1부터.
 """
 from __future__ import annotations
 
@@ -38,8 +39,8 @@ P_GROUND = [
     "Extract every field with its key, label, value and bbox_2d as a JSON list.",
 ]
 P_MARKS = [
-    "이 문서의 체크박스 선택 상태와 도장·서명 여부를 위치와 함께 JSON으로 알려주세요.",
-    "체크된 항목, 날인 여부, 서명 여부를 bbox_2d 와 함께 JSON으로 정리하세요.",
+    "이 문서의 체크박스 선택 상태와 도장·서명 여부를 위치(bbox_2d, page)와 함께 JSON 목록으로 알려주세요.",
+    "체크된 보기마다, 도장·서명 자리마다 key·value·bbox_2d·page 를 JSON 목록으로 정리하세요.",
 ]
 P_QA_VALUE = ["이 문서에서 '{label}' 값은 무엇인가요?", "'{label}' 항목에 적힌 내용을 알려주세요.", "{label}?"]
 P_QA_SEAL = ["'{label}' 자리에 도장이 찍혀 있나요?", "{label} 날인이 되어 있습니까?"]
@@ -56,9 +57,9 @@ def _box(b, page_size, coord):
         return None
     if coord == "pixel":
         return [round(v) for v in b]
-    w, h = page_size
-    return [max(0, min(1000, round(b[0] / w * 1000))), max(0, min(1000, round(b[1] / h * 1000))),
-            max(0, min(1000, round(b[2] / w * 1000))), max(0, min(1000, round(b[3] / h * 1000)))]
+    from .bench.metrics import normalize_box
+
+    return normalize_box(b, *page_size)
 
 
 def _user(n_images: int, text: str) -> str:
@@ -84,7 +85,6 @@ def build_records(label: dict, images: list[str], sizes: list[tuple[int, int]], 
     key_pool: 지정 키 추출에서 '문서에 없는 키'로 섞을 후보 (같은 그룹 다른 서류의 키)."""
     fields = fields if fields is not None else label["fields"]
     n = len(images)
-    multi = n > 1
     gt = {"document_type": label["doc_name"], **label["gt"]}
     flat = _flat_values(fields)
     out = []
@@ -116,31 +116,25 @@ def build_records(label: dict, images: list[str], sizes: list[tuple[int, int]], 
         for f in fields:
             if f.get("group") or f["type"] in ("seal", "signature") or f.get("bbox") is None:
                 continue
-            it = {"key": f["key"], "label": f.get("label"), "value": f["value"], "bbox_2d": located(f, f["bbox"])}
-            if multi:
-                it["page"] = page_of(f) + 1
-            items.append(it)
+            items.append({"key": f["key"], "label": f.get("label"), "value": f["value"], "bbox_2d": located(f, f["bbox"]),
+                          "page": page_of(f) + 1})
         if items:
             rec("grounding", rng.choice(P_GROUND), _dump(items))
 
     if "marks" in tasks:
-        checks, seals, signs = [], [], []
+        ans = []
         for f in fields:
-            pg = {"page": page_of(f) + 1} if multi else {}
+            pg = page_of(f) + 1
             if f["type"] in ("checkbox", "checkbox_multi") and f.get("options"):
-                checks.append({"key": f["key"], "label": f.get("label"), **pg,
-                               "checked": [o["text"] for o in f["options"] if o["checked"]],
-                               "options": [{"text": o["text"], "checked": o["checked"],
-                                            "bbox_2d": located(f, o.get("box_bbox"))} for o in f["options"]]})
-            elif f["type"] == "seal":
-                seals.append({"key": f["key"], "label": f.get("label"), "present": f["present"], **pg,
-                              **({"kind": f["kind"]} if f.get("kind") else {}),
-                              "bbox_2d": located(f, f.get("bbox"))})
-            elif f["type"] == "signature":
-                signs.append({"key": f["key"], "label": f.get("label"), "present": f["present"], **pg,
-                              "bbox_2d": located(f, f.get("bbox"))})
-        if checks or seals or signs:
-            rec("marks", rng.choice(P_MARKS), _dump({"checkboxes": checks, "seals": seals, "signatures": signs}))
+                on = [o for o in f["options"] if o["checked"]]
+                ans += [{"key": f["key"], "value": o["text"],
+                         **({"bbox_2d": located(f, o["box_bbox"]), "page": pg} if o.get("box_bbox") else {})} for o in on] or \
+                    [{"key": f["key"], "value": None}]
+            elif f["type"] in ("seal", "signature") and not f["key"].startswith("seal.untagged"):
+                ans.append({"key": f["key"], "value": bool(f["present"]),
+                            **({"bbox_2d": located(f, f["bbox"]), "page": pg} if f["present"] and f.get("bbox") else {})})
+        if ans:
+            rec("marks", rng.choice(P_MARKS), _dump(ans))
 
     if "qa" in tasks:
         cnt: dict = {}

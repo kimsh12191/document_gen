@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import json
+import math
 import re
 import unicodedata
 
@@ -198,3 +199,58 @@ def yes_no(v) -> bool | None:
     if s.startswith(("아니", "no")):
         return False
     return None
+
+# ---------------------------------------------------------------------------
+# 좌표 (1부 OCR 학습 training/bank_ocr 와 같은 규칙 — 그쪽은 따로 설치하는 프로젝트라 옮겨 둔다)
+#   normalize_box: training/bank_ocr/data.py,  valid_box·iou·match: training/bank_ocr/metrics.py
+#   두 쪽이 같은 값을 내는지는 tests/test_bench_coords.py 가 확인한다.
+# ---------------------------------------------------------------------------
+
+def valid_box(box, width=1000, height=1000) -> bool:
+    return (isinstance(box, (list, tuple)) and len(box) == 4
+            and all(type(x) in (int, float) and math.isfinite(x) for x in box)
+            and 0 <= box[0] < box[2] <= width
+            and 0 <= box[1] < box[3] <= height)
+
+
+def normalize_box(box, width, height) -> list[int]:
+    """픽셀 [x1, y1, x2, y2] → 그 이미지 기준 0~1000 정수 (Qwen-VL bbox_2d). 반올림으로 폭·높이가 0 이 되면 넓힌다.
+    촬영 조건 증강으로 쪽 밖으로 조금 나간 박스는 0~1000 으로 자른다 (1부는 오류로 본다: 사내 OCR 박스는 늘 쪽 안)."""
+    scaled = [v / (width if i % 2 == 0 else height) * 1000 for i, v in enumerate(box)]
+    scaled = [min(1000.0, max(0.0, v)) for v in scaled]
+    normalized = [round(v) for v in scaled]
+    for axis in (0, 1):
+        if normalized[axis] == normalized[axis + 2]:
+            normalized[axis] = math.floor(scaled[axis])
+            normalized[axis + 2] = math.ceil(scaled[axis + 2])
+            if normalized[axis] == normalized[axis + 2]:
+                normalized[axis + 2] += 1
+            if normalized[axis + 2] > 1000:
+                normalized[axis], normalized[axis + 2] = 999, 1000
+    if not valid_box(normalized):
+        raise ValueError("bbox collapsed during normalization")
+    return normalized
+
+
+def iou(a, b) -> float:
+    inter = max(0, min(a[2], b[2]) - max(a[0], b[0])) * max(0, min(a[3], b[3]) - max(a[1], b[1]))
+    area = lambda c: (c[2] - c[0]) * (c[3] - c[1])  # noqa: E731
+    return inter / max(area(a) + area(b) - inter, 1e-12)
+
+
+def match(preds, gts, accept) -> list[tuple[int, int, float]]:
+    """IoU 가 큰 짝부터 하나씩 짝짓기 (accept(pred, gt, iou) 를 만족하는 짝만). [(pred 번호, gt 번호, iou)]"""
+    pairs = []
+    for i, p in enumerate(preds):
+        for j, g in enumerate(gts):
+            value = iou(p["bbox_2d"], g["bbox_2d"])
+            if accept(p, g, value):
+                pairs.append((value, i, j))
+    pairs.sort(key=lambda t: (-t[0], t[1], t[2]))
+    used_p, used_g, result = set(), set(), []
+    for value, i, j in pairs:
+        if i not in used_p and j not in used_g:
+            used_p.add(i)
+            used_g.add(j)
+            result.append((i, j, value))
+    return result

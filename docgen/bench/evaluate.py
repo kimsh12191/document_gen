@@ -14,22 +14,31 @@ import sys
 from pathlib import Path
 
 from ..schema import similar_label
-from .metrics import (cer, is_null, loose_text, norm_text, parse_json, strip_answer, substring_distance, to_number,
-                      value_match, yes_no)
+from .metrics import (cer, is_null, loose_text, match, norm_text, parse_json, strip_answer, substring_distance, to_number,
+                      valid_box, value_match, yes_no)
 
 TASK_ORDER = ["ocr_field", "ocr_page", "classify", "kie", "marks", "doc_check", "cross_check", "review"]
 TASK_TITLE = {"ocr_field": "OCR - 값 칸 인식", "ocr_page": "OCR - 전체 받아쓰기", "classify": "서류 분류",
               "kie": "정보 추출", "marks": "체크·도장·서명", "doc_check": "서류 구비 확인",
               "cross_check": "서류 간 대조", "review": "심사 질의"}
 WORST = {"cer": 1.0, "false_alarm": 1.0}
-MAIN = {"ocr_field": "exact", "ocr_page": "recall", "classify": "acc", "kie": "f1", "marks": "acc",
+MAIN = {"ocr_field": "exact", "ocr_page": "recall", "classify": "acc", "kie": "vl_f1", "marks": "vl_f1",
         "doc_check": "exact", "cross_check": "score", "review": "acc"}
+# 평가 세트 1.x 의 kie·marks 는 값만 답한다 → 주 지표가 값 점수 (f1 / acc). 2.0 부터 값+위치 (vl_f1).
+MAIN_V1 = {"kie": "f1", "marks": "acc"}
+
+
+def main_metric(task: str, metrics: dict) -> str:
+    """그 과제의 주 지표 이름. 위치가 없는 1.x 문항이면 값 점수."""
+    m = MAIN[task]
+    return m if m in metrics else MAIN_V1.get(task, m)
 METRIC_TITLE = {"exact": "완전 일치", "cer": "CER(낮을수록 좋음)", "recall": "값 재현율", "recall_fuzzy": "값 재현율(오차 20% 허용)",
                 "acc": "정확도", "acc_lenient": "정확도(포함 허용)", "field_acc": "항목 정확도", "f1": "F1",
                 "precision": "정밀도", "recall_f": "재현율", "doc_exact": "서류 전체 일치", "set_f1": "F1",
                 "score": "종합 점수", "detect": "탐지 정확도", "localize": "위치 정확도(변조 문항)",
                 "false_alarm": "오탐률(정상 문항)", "parse_fail": "출력 파싱 실패", "missing_exact": "빠진 서류 일치",
-                "not_required_exact": "불필요 서류 일치", "not_customer_exact": "타인 서류 일치"}
+                "not_required_exact": "불필요 서류 일치", "not_customer_exact": "타인 서류 일치",
+                "loc_f1": "위치 F1 (IoU 0.5)", "vl_f1": "값+위치 F1", "loc_precision": "위치 정밀도", "loc_recall": "위치 재현율"}
 SLICES = {"ocr_field": ["writing", "condition", "kind", "corrected"], "ocr_page": ["condition", "writing", "group"],
           "classify": ["group", "condition"], "kie": ["group", "condition", "writing", "@kind"],
           "marks": ["group", "condition", "@type"], "doc_check": ["n_missing", "not_customer", "not_required", "scenario"],
@@ -98,7 +107,45 @@ def _flatten(obj, prefix="") -> dict:
     return out
 
 
+def _entries(pred) -> list[dict] | None:
+    """모델 답 → [{"key", "value", "bbox_2d"?, "page"?}]. 목록 답(2.0)과 값만 있는 객체 답(1.x 꼴) 둘 다 받는다."""
+    if isinstance(pred, list):
+        return [x for x in pred if isinstance(x, dict) and isinstance(x.get("key"), str)]
+    if isinstance(pred, dict):
+        return [{"key": k, "value": v} for k, v in _flatten(pred).items()]
+    return None
+
+
+def _has_box(e) -> bool:
+    return valid_box(e.get("bbox_2d"))
+
+
+def _page(e) -> int:
+    try:
+        return int(e.get("page") or 1)
+    except (TypeError, ValueError):
+        return 1
+
+
+def _located(gts: list[dict], preds: list[dict], value_ok) -> dict:
+    """위치 점수: 같은 키·같은 쪽에서 IoU 0.5 이상인 짝 (1부 OCR 과 같은 짝짓기). value_ok(pred, gt) 면 값+위치도 맞음.
+    정답 박스가 없는 항목(빈 칸, 찍히지 않은 도장)은 위치 점수에 넣지 않는다."""
+    g = [x for x in gts if _has_box(x)]
+    p = [x for x in preds if _has_box(x)]
+    pairs = match(p, g, lambda a, b, v: v >= 0.5 and a["key"] == b["key"] and _page(a) == _page(b))
+    vl = sum(1 for i, j, _ in pairs if value_ok(p[i], g[j]))
+
+    def f1(hit):
+        prec = hit / len(p) if p else (1.0 if not g else 0.0)
+        rec = hit / len(g) if g else 1.0
+        return 2 * prec * rec / (prec + rec) if prec + rec else 0.0
+    return {"loc_f1": f1(len(pairs)), "vl_f1": f1(vl), "loc_precision": len(pairs) / len(p) if p else None,
+            "loc_recall": len(pairs) / len(g) if g else None}
+
+
 def s_kie(item, out):
+    if isinstance(item["answer"], list):
+        return _s_kie2(item, out)
     pred = parse_json(out)
     fail = not isinstance(pred, dict)
     flat = _flatten(pred) if isinstance(pred, dict) else {}
@@ -123,6 +170,40 @@ def s_kie(item, out):
                         "doc_exact": float(all(correct_all))}, "parse_fail": fail, "sub": sub}
 
 
+def _s_kie2(item, out):
+    """2.0: 답이 [{"key", "value", "bbox_2d", "page"}] 목록. 값 점수는 1.x 와 같은 계산, 위치·값+위치는 박스로."""
+    gts = item["answer"]
+    pe = _entries(parse_json(out))
+    fail = pe is None
+    pe = pe or []
+    first: dict[str, dict] = {}
+    for e in pe:
+        first.setdefault(e["key"], e)
+    tp = fp = fn = 0
+    correct_all, sub = [], []
+    for g in gts:
+        key, gt = g["key"], g["value"]
+        info = item["eval"]["fields"][key]
+        p = first.get(key, {}).get("value")
+        ok = value_match(p, gt, info["type"], info.get("norm"), key)
+        correct_all.append(ok)
+        sub.append(("kind", info.get("kind", "text"), ok))
+        if gt is not None:
+            tp += ok
+            fn += not ok
+            fp += (not ok) and not is_null(p)
+        elif not is_null(p):
+            fp += 1
+    prec = tp / (tp + fp) if tp + fp else 1.0
+    rec = tp / (tp + fn) if tp + fn else 1.0
+    f1 = 2 * prec * rec / (prec + rec) if prec + rec else 0.0
+    info = item["eval"]["fields"]
+    loc = _located(gts, [e for e in pe if e["key"] in info],
+                   lambda a, b: value_match(a.get("value"), b["value"], info[b["key"]]["type"], info[b["key"]].get("norm"), b["key"]))
+    return {"metrics": {"field_acc": sum(correct_all) / len(correct_all), "f1": f1, "precision": prec, "recall_f": rec,
+                        "doc_exact": float(all(correct_all)), **loc}, "parse_fail": fail, "sub": sub}
+
+
 def _bool(v):
     if isinstance(v, bool):
         return v
@@ -132,6 +213,8 @@ def _bool(v):
 
 
 def s_marks(item, out):
+    if isinstance(item["answer"], list):
+        return _s_marks2(item, out)
     pred = parse_json(out)
     fail = not isinstance(pred, dict)
     flat = _flatten(pred) if isinstance(pred, dict) else {}
@@ -153,6 +236,41 @@ def s_marks(item, out):
         oks.append(ok)
         sub.append(("type", t, ok))
     return {"metrics": {"acc": sum(oks) / len(oks)}, "parse_fail": fail, "sub": sub}
+
+
+def _s_marks2(item, out):
+    """2.0: 답이 목록. 체크박스는 체크된 보기마다 {key, value: 보기 글자, bbox_2d}, 도장·서명은 {key, value: bool, bbox_2d}."""
+    types = item["eval"]["types"]
+    pe = _entries(parse_json(out))
+    fail = pe is None
+    pe = pe or []
+    by_key: dict[str, list] = {}
+    for e in pe:
+        by_key.setdefault(e["key"], []).append(e)
+    gt_by: dict[str, list] = {}
+    for g in item["answer"]:
+        gt_by.setdefault(g["key"], []).append(g)
+    oks, sub = [], []
+    for key, t in types.items():
+        gv = [g["value"] for g in gt_by.get(key, [])]
+        pv = [e.get("value") for e in by_key.get(key, [])]
+        if t in ("seal", "signature"):
+            ok = _bool(pv[0] if pv else None) == bool(gv[0])
+        elif t == "checkbox_multi":   # 줄마다 보기 하나, 또는 값만 답한 목록 ["A", "C"]
+            flat = [y for x in pv for y in (x if isinstance(x, list) else [x])]
+            ok = sorted(loose_text(x) for x in flat if not is_null(x)) == sorted(loose_text(x) for x in gv if x is not None)
+        else:
+            p = next((x for x in pv if not is_null(x)), None)
+            ok = value_match(p, gv[0] if gv else None)
+        oks.append(ok)
+        sub.append(("type", t, ok))
+
+    def value_ok(a, b):
+        if types.get(b["key"]) in ("seal", "signature"):
+            return _bool(a.get("value")) is True
+        return value_match(a.get("value"), b["value"])
+    loc = _located(item["answer"], [e for e in pe if e["key"] in types], value_ok)
+    return {"metrics": {"acc": sum(oks) / len(oks), **loc}, "parse_fail": fail, "sub": sub}
 
 
 DOC_CHECK_KEYS = ("missing", "not_required", "not_customer")
@@ -277,7 +395,7 @@ def score_task(task: str, items: list[dict], preds: dict[str, str]) -> dict:
     for k in {k for _, r in rows for k in r["metrics"]}:
         metrics[k] = _mean([r["metrics"].get(k) for _, r in rows])
     slices = {}
-    main = MAIN[task]
+    main = main_metric(task, metrics)
     for s in SLICES.get(task, []):
         groups: dict = {}
         if s.startswith("@"):  # 항목 단위 구분 (kie 의 값 종류 등)
@@ -351,6 +469,6 @@ def evaluate(args) -> None:
         print("| 과제 | 주 지표 | " + " | ".join(names) + " |\n|---|---|" + "---:|" * len(names))
         for t in TASK_ORDER:
             if t in items:
-                main = MAIN[t]
+                main = summary[names[0]][t]["main"]
                 print(f"| {TASK_TITLE[t]} | {METRIC_TITLE[main]} | "
                       + " | ".join(_fmt(summary[n][t]["metrics"].get(main)) for n in names) + " |")

@@ -55,7 +55,8 @@ def reward(output, item):
     elif task == "ocr_page":
         value = m.get("recall_fuzzy", m["recall"])
     else:
-        value = m[E.MAIN[task]]
+        # 평가 세트 2.0 의 kie·marks 는 값+위치(vl_f1)가 주 지표, 1.x 세트는 값 점수
+        value = m[E.main_metric(task, m)] if hasattr(E, "main_metric") else m[E.MAIN[task]]
     return float(min(1.0, max(0.0, value)))
 
 

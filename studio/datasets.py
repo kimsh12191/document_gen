@@ -392,7 +392,7 @@ def score(ds: dict, preds: dict[str, str | None]) -> dict:
         if t in by_task:
             res = E.score_task(t, by_task[t], preds)
             for row in res.pop("per_item"):
-                per[row["id"]] = row.get(E.MAIN[t])
+                per[row["id"]] = row.get(res["main"])
             tasks[t] = res
     answered = sum(1 for rs in by_task.values() for r in rs if preds.get(r["id"]))
     return {"track": "bank", "n": sum(len(v) for v in by_task.values()), "answered": answered, "tasks": tasks,

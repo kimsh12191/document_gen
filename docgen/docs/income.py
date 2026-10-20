@@ -1015,7 +1015,7 @@ def health_insurance_payment(p: Profile, rng: random.Random) -> dict:
     local_ms = [m for m in months if m < hire_m]
     late = set(rng.sample(local_ms, min(len(local_ms), rng.randint(1, 3)))) if overdue else set()
     aprils = [m for m in months if m.month == 4]
-    s_start = aprils[-1] if aprils else None
+    s_start = aprils[-1] if settle and aprils else None   # 정산 분할납부는 정한 확률(15%)일 때만 (평가 세트 2.0 에서 고침)
     s_per = _t10(K.round_to(rng.uniform(80_000, 700_000), 10) / 10)
 
     def due(m):

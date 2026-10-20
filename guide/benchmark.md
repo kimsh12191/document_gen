@@ -56,8 +56,8 @@ docker run --rm --network host -v $PWD/bench_out:/app/bench_out -v $PWD/preds:/a
 | OCR | `ocr_field` | 값 칸 하나를 잘라낸 이미지 → 적힌 글자 | 완전 일치율 (CER 함께 보고) |
 | OCR | `ocr_page` | 서류 전체(여러 쪽) → 전체 받아쓰기 | 값 재현율: 정답 값이 받아쓴 글에 들어 있는 비율 |
 | 문서 이해 | `classify` | 서류 → 서류명 | 정확도 |
-| 문서 이해 | `kie` | 서류 + 항목 목록(키·항목명) → 값 JSON | F1 (항목 정확도, 서류 전체 일치율 함께) |
-| 문서 이해 | `marks` | 서류 + 체크박스·도장·서명 목록 → 상태 JSON | 항목 정확도 |
+| 문서 이해 | `kie` | 서류 + 항목 목록(키·항목명) → 값과 위치 목록 `[{key, value, bbox_2d, page}]` | 값+위치 F1 (값 F1·위치 F1·항목 정확도 함께) |
+| 문서 이해 | `marks` | 서류 + 체크박스·도장·서명 목록 → 상태와 위치 목록 | 값+위치 F1 (항목 정확도·위치 F1 함께) |
 | 은행 업무 | `doc_check` | 업무명 + 필수 서류 목록 + 제출 서류 첫 쪽들 → 빠진 서류·불필요 서류·타인 서류 | 완전 일치율 (F1 함께) |
 | 은행 업무 | `cross_check` | 서류 2~3건 → 불일치 여부와 문제 서류·항목 (불일치 사례 14종) | 종합 점수 (탐지·위치·오탐률 함께) |
 | 은행 업무 | `review` | 심사 질문 + 관련 서류 → 숫자 또는 예/아니오 | 정확도 |
@@ -85,7 +85,12 @@ docker run --rm --network host -v $PWD/bench_out:/app/bench_out -v $PWD/preds:/a
     - 번호(전화·주민·계좌): 숫자만 비교
     - 그 밖: 공백·문장부호 무시
   - 중첩 JSON(`{"loan": {"amount": ...}}`)으로 답해도 점 경로로 펴서 채점합니다.
+  - **위치 (세트 2.0부터):** 항목마다 `bbox_2d`(그 쪽 이미지 기준 0~1000 정수, 1부 OCR 학습과 같은 좌표)와 `page`(1부터)를 답합니다. 빈 칸은 `{"key", "value": null}`로 위치 없이 답합니다.
+    - 값 점수(`f1`): 위치는 보지 않습니다. 1.x 세트 점수와 뜻이 같고, 위치를 못 내는 모델도 잽니다 (값만 담은 객체로 답해도 됨).
+    - 위치 점수(`loc_f1`): 같은 키·같은 쪽에서 IoU 0.5 이상인 짝 (1부 OCR 의 짝짓기와 같음).
+    - 값+위치 점수(`vl_f1`, 주 지표): 박스도 맞고 값도 맞은 항목.
 - **`marks`:** 체크된 보기 글자, 복수 선택 목록, 도장·서명 true/false를 맞힙니다.
+  - 세트 2.0부터 목록으로 답합니다: 체크된 보기마다 `{key, value: 보기 글자, bbox_2d: 체크된 □, page}`, 체크된 것이 없으면 `{key, value: null}`, 도장·서명은 `{key, value: true/false, bbox_2d: 찍힌 자리}`. 점수는 `kie`와 같이 값(`acc`)·위치·값+위치(주 지표).
   - 은행 직원 결재란(담당·책임자·본인확인 등)도 항목에 들어갑니다. 키가 `seal.staff.책임자`처럼 `staff`를 포함하고, 직원 도장·서명이 찍혔는지를 묻습니다. 고객 도장 칸 옆의 직원 도장을 고객 도장으로 착각하지 않는지도 함께 봅니다.
 
 ### 은행 업무 (업무 묶음)
@@ -174,6 +179,7 @@ docker run --rm --network host -v $PWD/bench_out:/app/bench_out -v $PWD/preds:/a
   - 학습 데이터(`python -m docgen generate --seed 0 …`)와 겹치지 않게 하려는 것입니다. **`generate`에는 seed 1,000,000 미만을 쓰세요.** 은행 업무 학습 데이터(`--split train`)는 따로 떨어진 seed를 씁니다([아래](#은행-업무-학습-데이터---split-train)).
   - 세트 버전 1.1부터 증강 노이즈가 이미지마다 고정됩니다. 1.0 세트와는 문항·정답은 같고 스캔·촬영·팩스 이미지의 노이즈 무늬만 다릅니다.
   - 세트 버전 1.2부터 하나은행 원본 서식(`hf…`)의 결재란에 직원 도장·서명이 찍힙니다. 원본 서식의 이미지와 `marks` 문항이 1.1과 다르므로 **1.1 세트의 점수와 직접 비교하지 마세요.** 다른 서류는 그대로입니다. 1.1로 만든 데이터는 일부만 고치지 말고 새로 만듭니다 → [tutorial.md 4-1](tutorial.md#4-1-생성기가-바뀌었을-때-예-평가-세트-12)
+  - 세트 버전 2.0부터 `kie`·`marks` 답에 위치가 들어가고 주 지표가 값+위치 F1 입니다. 건강보험료 납부확인서의 정산 분할납부 변형이 정한 확률(15%)대로 나옵니다(1.x 에서는 4월이 들어간 서류마다 붙음). **1.x 와는 값 점수(`f1`, `acc`)만 비교하세요.** 1.x 세트도 같은 채점기로 채점됩니다. 학습 데이터도 같은 2.0 코드로 새로 만듭니다 (학습 레코드의 `grounding`·`marks` 답도 같은 목록 꼴).
 - **촬영 조건:** 서류마다 깨끗한 원본 50%, 스캔 20%, 촬영 15%, 팩스 15%입니다. 위치 정답은 증강에 맞춰 옮깁니다.
 - **기록:** `meta.json`에 만든 설정, 생성기 커밋, 과제별 문항 수가 남습니다. 결과를 비교할 때는 같은 `meta.json`의 세트인지 확인하세요.
 
@@ -195,8 +201,9 @@ docker run --rm --network host -v $PWD/bench_out:/app/bench_out -v $PWD/preds:/a
 ```json
 {"id": "kie/loan_application_1000000", "task": "kie",
  "images": ["images/loan_application_1000000.jpg"],
- "prompt": "이 문서에서 아래 항목의 값을 찾아 JSON 객체로 답하세요. …\n- applicant.name: 성명\n- loan.amount: 대출신청금액 …",
- "answer": {"applicant.name": "김나우", "loan.amount": "56,000,000"},
+ "prompt": "이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. …\n- applicant.name: 성명\n- loan.amount: 대출신청금액 …",
+ "answer": [{"key": "applicant.name", "value": "김나우", "bbox_2d": [264, 231, 384, 249], "page": 1},
+            {"key": "loan.amount", "value": "56,000,000", "bbox_2d": [264, 270, 440, 288], "page": 1}],
  "eval": {"fields": {"loan.amount": {"type": "amount", "norm": 56000000, "kind": "amount"}}},
  "meta": {"doc_type": "loan_application", "group": "bank_form", "condition": "scan", "writing": "print", "n_pages": 1}}
 ```
