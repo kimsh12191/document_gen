@@ -242,8 +242,9 @@ def build() -> dict:
 
     for a in attrs:   # 속성 이름 꼴: x_no ↔ x, x_name ↔ x (같은 값으로 보이는 것)
         for suf in ("_no", "_number", "_num"):
-            if a.endswith(suf) and a[: -len(suf)] in attrs:
-                add("attribute", a, a[: -len(suf)], f"끝말 {suf} 만 다름")
+            base = a[: -len(suf)]
+            if a.endswith(suf) and base in attrs and attrs[a]["kind"] == attrs[base]["kind"] != "text":   # passbook_no ≠ passbook
+                add("attribute", a, base, f"끝말 {suf} 만 다르고 값 종류가 같음")
     for r in roles:   # 역할 단수·복수
         if r.endswith("s") and r[:-1] in roles:
             add("role", r, r[:-1], "단수·복수")

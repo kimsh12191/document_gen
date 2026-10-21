@@ -5,47 +5,7 @@
    "dict": "attribute",
    "from": "account_no",
    "into": "account",
-   "reason": "끝말 _no 만 다름",
-   "status": "proposed",
-   "applied": false
-  },
-  {
-   "dict": "attribute",
-   "from": "confirm_no",
-   "into": "confirm",
-   "reason": "끝말 _no 만 다름",
-   "status": "proposed",
-   "applied": false
-  },
-  {
-   "dict": "attribute",
-   "from": "id_no",
-   "into": "id",
-   "reason": "끝말 _no 만 다름",
-   "status": "proposed",
-   "applied": false
-  },
-  {
-   "dict": "attribute",
-   "from": "line_no",
-   "into": "line",
-   "reason": "끝말 _no 만 다름",
-   "status": "proposed",
-   "applied": false
-  },
-  {
-   "dict": "attribute",
-   "from": "passbook_no",
-   "into": "passbook",
-   "reason": "끝말 _no 만 다름",
-   "status": "proposed",
-   "applied": false
-  },
-  {
-   "dict": "attribute",
-   "from": "unit_no",
-   "into": "unit",
-   "reason": "끝말 _no 만 다름",
+   "reason": "끝말 _no 만 다르고 값 종류가 같음",
    "status": "proposed",
    "applied": false
   },
