@@ -32,6 +32,128 @@
       "label": "종목",
       "type": "text",
       "source": "profile.business.biz_item"
+    },
+    "official.taxpayer_type": {
+      "label": "과세유형",
+      "type": "text",
+      "source": "rule:choice",
+      "choices": [
+        "일반과세자",
+        "간이과세자",
+        "면세사업자"
+      ]
+    },
+    "official.opened0": {
+      "label": "개업연월일 년",
+      "type": "text",
+      "source": "profile.business.established",
+      "part": 0,
+      "format": "number"
+    },
+    "official.opened1": {
+      "label": "개업연월일 월",
+      "type": "text",
+      "source": "profile.business.established",
+      "part": 1,
+      "format": "number"
+    },
+    "official.opened2": {
+      "label": "개업연월일 일",
+      "type": "text",
+      "source": "profile.business.established",
+      "part": 2,
+      "format": "number"
+    },
+    "official.birth": {
+      "label": "생년월일",
+      "type": "text",
+      "source": "profile.person.birth"
+    },
+    "official.issue_reason": {
+      "label": "발급 사유",
+      "type": "text",
+      "source": "rule:choice",
+      "choices": [
+        "신규",
+        "재발급",
+        "정정"
+      ]
+    },
+    "official.unit_tax_no": {
+      "label": "사업자 단위 과세 적용 여부 부(V)",
+      "type": "text",
+      "source": "rule:choice",
+      "choices": [
+        "V"
+      ]
+    },
+    "official.einvoice_email": {
+      "label": "전자세금계산서 전용 전자우편주소",
+      "type": "text",
+      "source": "profile.business.email"
+    },
+    "official.issue0": {
+      "label": "발급일 년",
+      "type": "text",
+      "source": "profile.issue_date",
+      "part": 0,
+      "format": "number"
+    },
+    "official.issue1": {
+      "label": "발급일 월",
+      "type": "text",
+      "source": "profile.issue_date",
+      "part": 1,
+      "format": "number"
+    },
+    "official.issue2": {
+      "label": "발급일 일",
+      "type": "text",
+      "source": "profile.issue_date",
+      "part": 2,
+      "format": "number"
+    },
+    "official.annex_biz_no0": {
+      "label": "부표 사업자등록번호 앞",
+      "type": "text",
+      "source": "profile.business.biz_no",
+      "part": 0,
+      "format": "number"
+    },
+    "official.annex_biz_no1": {
+      "label": "부표 사업자등록번호 가운데",
+      "type": "text",
+      "source": "profile.business.biz_no",
+      "part": 1,
+      "format": "number"
+    },
+    "official.annex_biz_no2": {
+      "label": "부표 사업자등록번호 뒤",
+      "type": "text",
+      "source": "profile.business.biz_no",
+      "part": 2,
+      "format": "number"
+    },
+    "official.annex_issue0": {
+      "label": "부표 발급일 년",
+      "type": "text",
+      "source": "profile.issue_date",
+      "part": 0,
+      "format": "number"
+    },
+    "official.annex_issue1": {
+      "label": "부표 발급일 월",
+      "type": "text",
+      "source": "profile.issue_date",
+      "part": 1,
+      "format": "number"
+    },
+    "official.annex_issue2": {
+      "label": "부표 발급일 일",
+      "type": "text",
+      "source": "profile.issue_date",
+      "part": 2,
+      "format": "number"
     }
   },
   "page": "a4",

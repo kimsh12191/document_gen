@@ -1,0 +1,158 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Verification of identity & signature",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Clerk",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Manager",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Name",
+    "n": 0
+   },
+   "key": "agent.name_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Relationship to Principal",
+    "n": 0
+   },
+   "key": "agent.relation_en",
+   "kind": "relation_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Date of Birth",
+    "n": 0
+   },
+   "key": "agent.birth"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Contact Information",
+    "n": 0
+   },
+   "key": "agent.phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Address",
+    "n": 0
+   },
+   "key": "agent.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Others",
+    "n": 0
+   },
+   "key": "poa.other_powers_en",
+   "kind": "poa_power_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Date of Confirming Powers Given",
+    "n": 0
+   },
+   "key": "bank.confirm_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Name",
+    "n": 1
+   },
+   "key": "customer.name_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Contact Information",
+    "n": 1
+   },
+   "key": "customer.phone"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Hana Bank ___ Branch",
+   "rect": [
+    139.5,
+    111.8,
+    198.4,
+    122.2
+   ],
+   "key": "bank.branch",
+   "kind": "branch"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Date (MM-DD-YYYY)",
+   "rect": [
+    225.0,
+    530.6,
+    371.2,
+    553.1
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Principal Date of Birth",
+   "rect": [
+    212.2,
+    678.8,
+    348.4,
+    710.2
+   ],
+   "key": "customer.birth"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:18"
+ }
+}

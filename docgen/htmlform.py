@@ -143,8 +143,9 @@ def fill(form: dict, p, rng: random.Random, data: dict | None = None) -> dict:
             value = lookup(data, key[:-5])
         else:
             value = S.value(src, p, rng, {"label": key.split(".")[-1], **it}, values)
-        if value is not None and "part" in it:
-            value = re.findall(r"\d+", str(value))[it["part"]]
+        if value is not None and "part" in it:   # 숫자 묶음 중 몇 번째 (모자라면 마지막: '2024년' 한 해만인 기간 등)
+            nums = re.findall(r"\d+", str(value))
+            value = nums[min(it["part"], len(nums) - 1)] if nums else None
         if value is not None and it.get("format") == "number":
             value = re.sub(r"[^0-9.,+-]", "", str(value))
         if value is not None and it.get("format") == "yy":

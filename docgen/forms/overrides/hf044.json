@@ -1,0 +1,214 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "예금(신탁)종별",
+    "n": 0
+   },
+   "key": "deposit.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금 액",
+    "n": 0
+   },
+   "key": "deposit.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "만 기 일",
+    "n": 0
+   },
+   "key": "deposit.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "예금(신탁)종별",
+    "n": 0
+   },
+   "key": "deposit.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금 액",
+    "n": 0
+   },
+   "key": "deposit.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "만 기 일",
+    "n": 0
+   },
+   "key": "deposit.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "생년월일(사업자등록번호)",
+    "n": 1
+   },
+   "key": "related.birth",
+   "kind": "date"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    180.0,
+    529.5,
+    249.4,
+    548.2
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "양도인 주소",
+   "rect": [
+    243.8,
+    583.1,
+    547.5,
+    600.0
+   ],
+   "key": "customer.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "양도인 생년월일(사업자등록번호)",
+   "rect": [
+    285.0,
+    607.5,
+    468.8,
+    624.4
+   ],
+   "key": "customer.birth"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "양도인 성명",
+   "rect": [
+    213.8,
+    631.9,
+    397.5,
+    648.8
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "양수인 주소",
+   "rect": [
+    243.8,
+    703.1,
+    547.5,
+    720.0
+   ],
+   "key": "related.address",
+   "kind": "address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "양수인 생년월일(사업자등록번호)",
+   "rect": [
+    285.0,
+    727.5,
+    468.8,
+    744.4
+   ],
+   "key": "related.birth",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "양수인 성명",
+   "rect": [
+    213.8,
+    751.9,
+    397.5,
+    768.8
+   ],
+   "key": "related.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "양수인 귀하",
+   "rect": [
+    78.0,
+    148.1,
+    223.1,
+    164.6
+   ],
+   "key": "related.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "양도인 성명(상호)",
+   "rect": [
+    172.1,
+    205.5,
+    549.4,
+    232.5
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "양수인 성명(상호)",
+   "rect": [
+    172.1,
+    267.4,
+    549.4,
+    295.5
+   ],
+   "key": "related.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "승낙일(년 월 일)",
+   "rect": [
+    180.0,
+    566.2,
+    249.4,
+    585.0
+   ],
+   "key": "date"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:18"
+ }
+}

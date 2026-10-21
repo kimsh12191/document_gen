@@ -24,7 +24,7 @@ from . import korean as K
 
 RULE_KINDS = ["date", "amount", "fx_amount", "percent", "rate", "currency", "account", "phone", "number", "count",
               "biz_no", "passport", "check_no", "product", "goods", "reason", "bank", "branch", "country", "email",
-              "address", "company", "person", "note", "loan_subject", "repay", "check_kind"]
+              "address", "company", "person", "note", "loan_subject", "repay", "check_kind", "other_person", "office_phone"]
 SPECIAL_RULES = ["choice", "fixed", "free_text", "empty", "date_seq"]
 FREE_TEXT = ["해당 없음", "본인 요청", "만기 해지", "계좌 정리", "생활자금", "추가 서류 제출 예정", "담당자 확인 완료",
              "전화 확인", "기존 계좌 유지", "주소 변경"]

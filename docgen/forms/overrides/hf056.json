@@ -1,0 +1,64 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "제공 항목",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "하나생명",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "본인 성명",
+   "rect": [
+    410.6,
+    650.6,
+    478.1,
+    669.4
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "배우자성명",
+   "rect": [
+    410.6,
+    678.8,
+    478.1,
+    697.5
+   ],
+   "key": "spouse.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    217.5,
+    773.2,
+    288.8,
+    789.4
+   ],
+   "key": "date"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:18"
+ }
+}

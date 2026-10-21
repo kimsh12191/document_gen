@@ -1,0 +1,389 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호 또는 회사명",
+    "n": 0
+   },
+   "key": "employer.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "중간정산일",
+    "n": 0
+   },
+   "key": "pension.interim_settlement_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "부득이한 사유의 세율 적용",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금융기관명",
+    "n": 0
+   },
+   "key": "payout.bank",
+   "source": "profile.accounts.0.bank"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "매도순위",
+    "n": 0
+   },
+   "key": "sell_list.{i}.order",
+   "kind": "sell_order"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "매도순위",
+    "n": 1
+   },
+   "key": "sell_list.{i}.order",
+   "kind": "sell_order"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "매도순위",
+    "n": 2
+   },
+   "key": "sell_list.{i}.order",
+   "kind": "sell_order"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "매도순위",
+    "n": 3
+   },
+   "key": "sell_list.{i}.order",
+   "kind": "sell_order"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상품명",
+    "n": 0
+   },
+   "key": "sell_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상품명",
+    "n": 1
+   },
+   "key": "sell_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상품명",
+    "n": 2
+   },
+   "key": "sell_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상품명",
+    "n": 3
+   },
+   "key": "sell_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 0
+   },
+   "key": "sell_list.{i}.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 1
+   },
+   "key": "sell_list.{i}.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 2
+   },
+   "key": "sell_list.{i}.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 3
+   },
+   "key": "sell_list.{i}.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "매도금액 (원/좌)",
+    "n": 0
+   },
+   "key": "sell_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "매도금액 (원/좌)",
+    "n": 1
+   },
+   "key": "sell_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "매도금액 (원/좌)",
+    "n": 2
+   },
+   "key": "sell_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "매도금액 (원/좌)",
+    "n": 3
+   },
+   "key": "sell_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "년 이내에 “채무자 회생 및 파산에 관한 법률” 에 따라 파산 선고를 받은 경우",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "주택 신축",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "연장",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "요양 필요",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "연간임금총액",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "배우자 또는",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "부양가족",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "요양비용의 경우",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "발급기준",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "물적피해",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "배우자 또는",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "예) 인천광역시 남동구",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "재산세(주택)",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    420.0,
+    89.2,
+    473.2,
+    102.8
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청금액 일부 (원)",
+   "rect": [
+    183.8,
+    288.8,
+    262.5,
+    301.1
+   ],
+   "key": "pension.withdraw_amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "추가 부담금 해당사항 있음 금액 (원)",
+   "rect": [
+    276.8,
+    616.1,
+    360.8,
+    627.8
+   ],
+   "key": "pension.extra_contribution",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "입금계좌 계좌번호",
+   "rect": [
+    266.2,
+    660.4,
+    375.0,
+    678.0
+   ],
+   "key": "payout.account",
+   "source": "profile.accounts.0.number"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "세대원 명의 계약 사유",
+   "rect": [
+    147.0,
+    406.9,
+    298.1,
+    418.1
+   ],
+   "key": "pension.household_contract_reason",
+   "source": "rule:free_text"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:18"
+ }
+}
