@@ -51,13 +51,16 @@ def out_root(real_root: Path, batch_name: str) -> Path:
 # ---------------------------------------------------------------------------
 
 def case_of(batch: dict, doc: str) -> tuple[str, str | None]:
-    """서류 → (업무, 건 키). 폴더·cases.csv 의 건, 없으면 ❸ 건 추정(batch["case_guess"]), 그것도 없으면 None."""
+    """서류 → (업무, 건 키). ❸에서 정한 건(batch["case_guess"], intake_cases.infer)이 있으면 그것, 없으면 폴더·cases.csv 의 건,
+    그것도 없으면 None."""
     info = batch.get("intake", {}).get("docs", {}).get(doc, {})
     sc = info.get("scenario") or "-"
+    g = (batch.get("case_guess") or {}).get(doc)
+    if g:
+        return g.get("scenario") or sc, f"case:{g['case']}"
     if info.get("case"):
         return sc, f"{sc}/{info['case']}"
-    g = (batch.get("case_guess") or {}).get(doc)
-    return ((g.get("scenario") or sc), f"guess:{g['case']}") if g else (sc, None)
+    return sc, None
 
 
 def splits(batch: dict, ratio: float | None = None) -> dict[str, str]:

@@ -254,11 +254,19 @@ def consistency(b: dict) -> list[dict]:
 # 시나리오 편집
 # ---------------------------------------------------------------------------
 
+def _scenario_rows() -> list[dict]:
+    from docgen.registry import SCENARIOS_JSON
+
+    return json.loads(SCENARIOS_JSON.read_text(encoding="utf-8"))["scenarios"] if SCENARIOS_JSON.exists() else []
+
+
 def scenarios_view(forms: dict, bundle_counts: dict) -> list[dict]:
     reg = load_all()
     out = []
     for k, (name, docs) in SCENARIOS.items():
-        out.append({"id": k, "name": name, "extra": SCENARIO_EXTRA.get(k, {}),
+        optional = next((s.get("optional", []) for s in _scenario_rows() if s["id"] == k), [])
+        out.append({"id": k, "name": name, "extra": SCENARIO_EXTRA.get(k, {}), "optional": optional,
+                    "optional_names": [reg[d].name if d in reg else d for d in optional],
                     "sampling": SCENARIO_SAMPLING.get(k, {}),
                     "processing": PROCESS.validate(SCENARIO_PROCESSING.get(k), docs),
                     "docs": [{"id": d, "name": reg[d].name if d in reg else None, "reviewed": bool((forms.get(d) or {}).get("reviewed")),
@@ -288,7 +296,10 @@ def save_scenarios_list(items: list[dict]) -> None:
         selected_roles = [roles[d]["id"] for d in docs]
         if len(set(selected_roles)) != len(selected_roles):
             raise ValueError(f"{sid}: 같은 제출 역할의 서식은 하나만 선택하세요")
-        clean.append({"id": sid, "name": s.get("name") or sid, "docs": docs,
+        optional = [d for d in dict.fromkeys(s.get("optional") or []) if d and d not in docs]   # 선택 서류 (구비 검사에서 필수가 아님)
+        if [d for d in optional if d not in reg]:
+            raise ValueError(f"{sid}: 모르는 선택 서류 {[d for d in optional if d not in reg]}")
+        clean.append({"id": sid, "name": s.get("name") or sid, "docs": docs, **({"optional": optional} if optional else {}),
                       **({"sampling":validate_sampling(docs,s["sampling"])} if s.get("sampling") else {}),
                       **({"extra": s["extra"]} if s.get("extra") else {}),
                       **({"processing": PROCESS.validate(s["processing"], docs)} if "processing" in s else {})})

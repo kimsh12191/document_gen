@@ -111,7 +111,7 @@ async function view_scenarios() {
     $("#sc-save").onclick = async () => {
       if ($$(".sc-card input[data-f], .sc-operations [required], .sc-docs [required]").some(inp => !inp.reportValidity())) return;
       try {
-        const res = await api("/api/scenarios", { scenarios: list.map(s => ({ id: s.id, name: s.name, docs: s.docs.map(d => d.id), extra: s.extra, processing: s.processing,sampling:s.sampling })) }, "PUT");
+        const res = await api("/api/scenarios", { scenarios: list.map(s => ({ id: s.id, name: s.name, docs: s.docs.map(d => d.id), extra: s.extra, processing: s.processing,sampling:s.sampling,optional:s.optional })) }, "PUT");
         r.scenarios = res.scenarios; list = clone(res.scenarios); dirty = false; toast("저장했습니다"); draw();
       } catch (e) { toast(e.message, true); }
     };

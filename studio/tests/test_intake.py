@@ -190,3 +190,148 @@ def test_raw_v1_fields_and_self_scoring_guard():
     assert DS.self_scoring(ds, {"label": "m1", "run": "b", "meta": None})
     assert DS.self_scoring(ds, {"label": "m2", "run": "b", "meta": {"model": "m2"}}) is None
     assert DS.self_scoring({**ds, "gt": "reviewed"}, {"label": "m1", "run": "b", "meta": None}) is None
+
+
+def _decide_by_truth(d, truth, template_new=()):
+    """❷를 사람이 고친 것처럼: 모양마다 다수 진짜 서식, 외부 문서 모양은 새 서식(template_new 에 든 모양만 '서식으로')."""
+    from collections import Counter
+
+    from studio import intake_judge as IJ
+
+    fx = json.loads((d / "formats.json").read_text(encoding="utf-8"))
+    by = {**truth, **{v["flat"]: v for v in truth.values()}}
+    dec = {}
+    for f in fx["formats"]:
+        top = Counter(by[x]["form"] for x in f["docs"]).most_common(1)[0][0]
+        if any(by[x].get("external") for x in f["docs"]):
+            dec[f["id"]] = {"kind": "new", "name": top, "uses": {"raw": True, "template": f["id"] in template_new}}
+        else:
+            dec[f["id"]] = {"kind": "existing", "form_id": top, "uses": {"raw": True}}
+    IJ.decide(d, dec)
+    return fx
+
+
+@pytest.mark.parametrize("name", ["structured", "flat"])
+def test_cases_infer(testset, tmp_path, name):
+    """❸ 건·업무: 구분 있는 벌은 폴더 기준이 기본이고 정답과 같다. 구분 없는 벌은 자동(고객 식별값)으로 묶어 '확실'한 것은 틀리지 않는다."""
+    from studio import intake_cases as IC
+
+    b = IN.create_batch(tmp_path, name, str(testset / name), None)
+    d = tmp_path / "imports" / b["name"]
+    IM.run_ocr(d)
+    IM.run_group(d)
+    truth = json.loads((testset / "truth.json").read_text(encoding="utf-8"))["documents"]
+    _decide_by_truth(d, truth)
+    bs = IC.bases(d)
+    assert bs["default"]["case"]["kind"] == ("folder" if name == "structured" else "auto")
+    IC.infer(d)
+    s = IC.score(d, testset / "truth.json")
+    if name == "structured":
+        assert s["pair_precision"] == s["pair_recall"] == s["exact_cases"] == s["task_acc"] == 1.0
+    else:
+        assert s["sure_wrong"] == 0 and s["pair_precision"] >= 0.95
+        assert s["without_external"]["pair_recall"] >= 0.7 and s["without_external"]["task_acc"] >= 0.8
+    batch = json.loads((d / "batch.json").read_text(encoding="utf-8"))
+    # 사람이 고치기: 건 둘 합치기 → 확실
+    c1, c2 = list(batch["cases"]["cases"])[:2]
+    IC.edit(d, {"merge": [[c1, c2]], "task": {c1: "fx_remittance"}})
+    batch = json.loads((d / "batch.json").read_text(encoding="utf-8"))
+    assert c2 not in batch["cases"]["cases"] and batch["cases"]["cases"][c1]["sure"] and batch["cases"]["cases"][c1]["scenario"] == "fx_remittance"
+    assert all(batch["case_guess"][x]["case"] == c1 for x in batch["cases"]["cases"][c1]["docs"])
+
+
+def test_case_grouping_rules():
+    """기준 값은 무조건 한 건, 자동은 주민번호·휴대전화·생년월일+이름이 확실, 생년월일이 두 글자 이상 다른 고객은 합치지 않는다."""
+    from collections import defaultdict
+
+    from studio import intake_cases as IC
+
+    def ident(**kw):
+        t = defaultdict(set)
+        for k, v in kw.items():
+            t[k] |= set(v)
+        return t
+
+    ids = {"a": ident(name=["홍길동"], rrn7=["900101-1"], cust7=["900101-1"]),
+           "b": ident(name=["홍길동"], rrn7=["900101-1"]),                   # 생년월일+이름 → a 와 확실
+           "c": ident(name=["홍길동"], rrn7=["850505-2"], cust7=["850505-2"]),  # 동명이인 (생년월일 다름)
+           "d": ident(mobile=["01012345678"]), "e": ident(mobile=["01012345678"], name=["김철수"]),
+           "f": ident(), "g": ident(), "h": ident(name=["홍길동"], rrn7=["900101-7"], cust7=["900101-7"])}  # 한 글자 다름 = 추출 오류
+    got = IC.group_cases(list(ids), ids, {"f": "R1", "g": "R1"})
+    case = {k: v["case"] for k, v in got.items()}
+    assert case["a"] == case["b"] == case["h"] and got["b"]["sure"]
+    assert case["c"] != case["a"]
+    assert case["d"] == case["e"] and got["d"]["sure"]
+    assert case["f"] == case["g"] and got["f"]["why"] == ["기준"]
+    assert IC._prefix("x/20261021-00123_신분증") == "20261021-00123" and IC._prefix("doc_6343") == "doc"
+
+
+@pytest.fixture
+def sandbox(tmp_path, monkeypatch):
+    """시나리오 파일·키 사전·이미지 서식 폴더를 임시 사본으로 (저장소 파일을 바꾸지 않는다). 끝나면 원래 시나리오를 다시 읽고 만든 서식을 지운다."""
+    import shutil as sh
+
+    from docgen import dictionary as DIC
+    from docgen import realform as RF
+    from docgen import registry as R
+
+    sc = tmp_path / "scenarios.json"
+    sh.copyfile(R.SCENARIOS_JSON, sc)
+    dd = tmp_path / "dictionary"
+    sh.copytree(DIC.DIR, dd)
+    monkeypatch.setattr(R, "SCENARIOS_JSON", sc)
+    monkeypatch.setattr(DIC, "DIR", dd)
+    DIC._cache.clear()
+    monkeypatch.setattr(RF, "IMAGE_FORMS", tmp_path / "images")
+    before = set(R.REGISTRY)
+    yield sc
+    monkeypatch.undo()
+    DIC._cache.clear()
+    R.load_scenarios()
+    for k in set(R.REGISTRY) - before:
+        del R.REGISTRY[k]
+
+
+def test_plan_and_apply(clean_set, tmp_path, sandbox):
+    """❸ 반영: 시나리오에서 뺀 서류는 '필수 추가'로 제안되고, 반영하면 시나리오에 돌아온다. '서식으로'를 켠 새 양식은 overlay 서식으로
+    등록되어(지운 자리 + 값 칸) 원본 데이터로도 내보내진다. 구분 있는 벌과 없는 벌(모양 = 진짜 서식)의 변경안이 같다."""
+    from docgen import registry as R
+    from studio import intake_cases as IC
+    from studio import intake_plan as IP
+
+    data = json.loads(sandbox.read_text(encoding="utf-8"))
+    for s in data["scenarios"]:
+        if s["id"] == "account_opening":
+            s["docs"].remove("employment_certificate")
+    sandbox.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+    R.load_scenarios()
+    truth = json.loads((clean_set / "truth.json").read_text(encoding="utf-8"))["documents"]
+    plans = {}
+    for name in ("structured", "flat"):
+        b = IN.create_batch(tmp_path, name, str(clean_set / name), None)
+        d = tmp_path / "imports" / b["name"]
+        IM.run_ocr(d)
+        IM.run_group(d)
+        fx = _decide_by_truth(d, truth)
+        IC.infer(d)
+        plans[name] = (d, fx, IP.proposals(d))
+    d, fx, p = plans["structured"]
+    ch = {c["id"]: c for t in p["tasks"] for c in t["changes"]}
+    assert "account_opening:add_required:employment_certificate" in ch
+    assert any(c["kind"] == "compare" for c in ch.values())
+    # 새 서식 하나를 '서식으로' (추출 결과에 위치가 있는 외부 문서 모양)
+    batch = json.loads((d / "batch.json").read_text(encoding="utf-8"))
+    by = {f["id"]: f for f in fx["formats"]}
+    ext = next(f for f in fx["formats"] if all(truth[x].get("external") for x in f["docs"])
+               and any(it.get("bbox_2d") for x in f["docs"] for it in IC._pred_items(batch, x)))
+    _decide_by_truth(d, truth, template_new={ext["id"]})
+    out = IP.apply(d, tmp_path / "real", None, selected=["account_opening:add_required:employment_certificate"])
+    assert out["scenarios"]["applied"] == ["account_opening:add_required:employment_certificate"]
+    assert "employment_certificate" in R.SCENARIOS["account_opening"][1]
+    [form] = out["forms"]
+    assert form["format"] == ext["id"] and form["form_id"] in R.REGISTRY and form["slots"] >= 1 and form["erase"] >= 1
+    ov = json.loads((Path(form["dir"]) / "overrides.json").read_text(encoding="utf-8"))
+    assert ov["erase"] and ov["add"][0]["key"]
+    exported = json.loads((Path(out["raw"]["root"]) / "export.json").read_text(encoding="utf-8"))["documents"]
+    assert {v["doc_type"] for v in exported.values()} >= {form["form_id"]}
+    assert len(by[ext["id"]]["docs"]) == sum(v["doc_type"] == form["form_id"] for v in exported.values())

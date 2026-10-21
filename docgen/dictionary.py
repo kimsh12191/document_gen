@@ -131,14 +131,15 @@ def scope(doc_type: str | None, key: str) -> str:
 
 
 def match_extracted(key: str, doc_type: str | None = None) -> str | None:
-    """외부 추출 결과의 키 → 공통 키 (서류 넣기). 공통 키 그대로 · 그 문서에서 이은 칸 · 키 규칙의 다른 이름(aliases, 대소문자·기호 무시)."""
+    """외부 추출 결과의 키 → 공통 키 (서류 넣기). 공통 키 그대로 · 그 문서에서 이은 칸 · 키 규칙·공통 키의 다른 이름(aliases, 대소문자·기호 무시)."""
     if ck := common_key(doc_type, key):
         return ck
     from . import keyrules as KR
 
     common = load("common").get("keys", {})
     alias = {re.sub(r"[^a-z0-9]", "", a.lower()): k for a, k in KR.alias_index().items()}
-    k = alias.get(re.sub(r"[^a-z0-9]", "", key.lower()))
+    alias.update({re.sub(r"[^0-9a-z가-힣]", "", a.lower()): ck for ck, v in common.items() for a in v.get("aliases", [])})   # 공통 키에 남긴 다른 이름 (건 번호 등)
+    k = alias.get(re.sub(r"[^a-z0-9]", "", key.lower())) or alias.get(re.sub(r"[^0-9a-z가-힣]", "", key.lower()))
     if k in common:
         return k
     pk = resolve(key, doc_type)["party_key"] if re.fullmatch(r"[a-z][a-z0-9_]*(\.[a-z0-9_]+)+", key) else None   # 역할.값 꼴이면 역할의 뜻으로
