@@ -245,6 +245,7 @@ function tabPreview(d) {
       const t = performance.now();
       view.label = await renderOne(d.id, o, force);
       await cellsReady;
+      if (!$("#o-stat")) return;   // 렌더링하는 사이 다른 화면으로 넘어감
       view.page = Math.min(view.page, view.label.pages.length - 1);
       view.sel = -1;
       $("#o-stat").textContent = `seed ${o.seed} · ${((performance.now() - t) / 1000).toFixed(1)}초`;

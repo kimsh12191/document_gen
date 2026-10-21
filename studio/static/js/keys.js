@@ -115,8 +115,10 @@ async function cellsView(el, opts) {
   let rows = [];
   const save = () => { if (!fixed) store.set("dict.cells", f); };
   const load = async () => {
+    if (!$("#cv-list")) return;
     if (!fixed && !f.form && !f.q && !f.who && !f.scope) { $("#cv-list").innerHTML = `<p class="muted">서식을 고르거나 검색하세요.</p>`; $("#cv-n").textContent = ""; return; }
     const r = await api(`/api/dictionary/cells?form=${q(f.form)}&q=${q(f.q)}&scope=${q(f.scope)}&who=${q(f.who)}&limit=800`);
+    if (!$("#cv-list")) return;   // 읽는 사이 다른 화면으로 넘어감
     rows = r.rows;
     $("#cv-n").textContent = `${r.total.toLocaleString()}칸${r.total > rows.length ? ` (앞 ${rows.length})` : ""}`;
     $("#cv-list").innerHTML = table(rows, [["sel", "", (x, i) => `<input type="checkbox" data-i="${i}">`],
