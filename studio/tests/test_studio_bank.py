@@ -105,7 +105,7 @@ def test_training_config_and_status(tmp_path, monkeypatch):
     monkeypatch.setitem(TL.DIRS, "train", tmp_path / "train")
     (tmp_path / "train" / "configs").mkdir(parents=True)
     (tmp_path / "train" / "configs" / "pipeline.example.json").write_text(
-        json.dumps({"workdir": "../runs/exp1", "model": "/m", "data": {"sft_max_examples": 20000}}), encoding="utf-8")
+        json.dumps({"workdir": "../runs/exp1", "ocr_prepare": "../../ocr_config.json", "model": "/m", "data": {"sft_max_examples": 20000}}), encoding="utf-8")
     reg = DS.Registry(tmp_path / "ws", {str(tmp_path): "/share/x"})
     t = reg.register(str(_bench(tmp_path, "train1", "train")))
     b = reg.register(str(_bench(tmp_path, "bench1", "test")))
@@ -120,6 +120,7 @@ def test_training_config_and_status(tmp_path, monkeypatch):
     assert any("고정" in w for w in info["warnings"])
     rec = TL.write_training(reg, info, [t["id"], b["id"], o["id"]], [b["id"], o["id"]], "exp 1")
     written = json.loads((tmp_path / "train" / "configs" / "studio-exp-1.json").read_text(encoding="utf-8"))
+    assert "ocr_prepare" not in written   # 가진 이미지 OCR 준비는 손으로 넣는 칸
     assert written["model"] == "/m" and written["data"]["sft_max_examples"] == 20000 and written["data"]["train"][1]["count"] == 3
     st = TL.status(reg, rec)
     assert not st["started"] and not st["finished"]

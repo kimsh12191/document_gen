@@ -1,6 +1,9 @@
 """학습 실행 하나 (옛 ocr/run_pipeline.py + bank/run_bank_pipeline.py): 데이터셋 섞기부터 Base/SFT/GRPO 비교 보고서까지.
 
 단계 (<workdir>/state.json 에 끝난 것을 적고, 다시 돌리면 이어서):
+  ocr_prepare (설정에 ocr_prepare 가 있을 때만) 가진 이미지를 사내 OCR 해 OCR 학습·평가 데이터로 (docgen.bench.ocr_prepare <그 설정>,
+              여러 개면 차례로. 예: 학습용 + 평가 전용(benchmark_only)).
+              결과 폴더(그 설정의 output_dir)를 data.train·data.benchmark 에 적어 둔다. 합성 OCR 등 이미 만든 데이터만 쓰면 빼 둔다
   prepare     data 칸의 데이터셋 섞기 (mix.py) → data.output_dir
   eval_base   출발 모델 평가 (eval.compare_models 도)
   sft         SFT (launch.py), 마지막 체크포인트를 적어 둠
@@ -38,7 +41,7 @@ from .cli import resolve_data
 from .settings import image_tokens, image_tokens_for, load_settings
 
 ROOT = Path(__file__).resolve().parents[1]   # 저장소 최상위: 하위 명령은 여기서 python -m train.… 으로
-STAGES = ["prepare", "eval_base", "sft", "eval_sft", "select", "grpo", "eval_grpo", "report"]
+STAGES = ["ocr_prepare", "prepare", "eval_base", "sft", "eval_sft", "select", "grpo", "eval_grpo", "report"]
 DEFAULTS = {
     "model_type": "qwen3_5",
     "gpus": [0, 1],
@@ -91,6 +94,8 @@ class Runner:
             return str(q) if q.exists() or Path(p).is_absolute() else str(here / p)
         self.workdir = Path(resolve(cfg["workdir"])) / ("smoke" if smoke else "")
         self.data_cfg = resolve_data(cfg, base)
+        ocr = cfg.get("ocr_prepare") or []   # OCR 준비 설정 (선택, 하나 또는 목록)
+        self.ocr_configs = [resolve(p) for p in (ocr if isinstance(ocr, list) else [ocr])]
         self.data = Path(self.data_cfg["output_dir"])
         self.model = cfg["model"]
         self.gpus = [str(g) for g in cfg["gpus"]]
@@ -112,9 +117,21 @@ class Runner:
                 problems.append(f"  {key}: {path}\n      {hint}")
 
         need(Path(self.model, "config.json").is_file(), "model", self.model, "출발 모델 폴더 (config.json 이 있는 폴더)")
+        ocr_outs = set()
+        for conf in self.ocr_configs:
+            need(Path(conf).is_file(), "ocr_prepare", conf, "OCR 준비 설정 (docgen/bench/ocr_config.example.json 꼴)")
+            if Path(conf).is_file():
+                oc, at = read_json(conf), Path(conf).parent
+                out = str((at / oc["output_dir"]).resolve())
+                ocr_outs.add(out)
+                if not Path(out, "DONE.json").is_file():
+                    need((at / oc["manifest"]).is_file(), "ocr_prepare → manifest", str((at / oc["manifest"]).resolve()),
+                         "이미지 목록 (docgen.bench.ocr_data.scan 으로 만든 manifest.jsonl)")
         if not Path(d["output_dir"], "DONE.json").is_file():   # 섞기가 아직이면 데이터셋을 읽어야 한다
             for e in [*d["train"], *d["benchmark"]]:
                 p = e["path"] if isinstance(e, dict) else e
+                if p in ocr_outs:
+                    continue   # ocr_prepare 단계가 만든다
                 need(Path(p, "meta.json").is_file() and Path(p, "tasks").is_dir(), "data.train / data.benchmark", p,
                      "studio 데이터셋 폴더 (meta.json + tasks/)")
         if problems:
@@ -274,6 +291,16 @@ class Runner:
         log(f"{stage} checkpoint: {self.state[f'{stage}_checkpoint']}")
 
     # -- stages --------------------------------------------------------------------------
+    def stage_ocr_prepare(self):
+        if not self.ocr_configs:
+            log("no ocr_prepare config")
+        for n, conf in enumerate(self.ocr_configs):
+            out = (Path(conf).parent / read_json(conf)["output_dir"]).resolve() if Path(conf).is_file() else None
+            if out and (out / "DONE.json").exists():
+                log(f"OCR prepared data exists: {out}")
+                continue
+            self.run([sys.executable, "-m", "docgen.bench.ocr_prepare", conf], f"ocr_prepare{n or ''}.log")
+
     def stage_prepare(self):
         if (self.data / "DONE.json").exists():
             log(f"prepared data exists: {self.data}")

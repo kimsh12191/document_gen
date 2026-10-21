@@ -19,7 +19,7 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 | 만드는 곳 | 과제 |
 |---|---|
 | `python -m docgen.bench build` (`bash docgen/scripts/make_bank_data.sh`), studio 레시피 bank-* | 문서 이해(classify·kie·marks), 업무 처리(doc_check·cross_check·review), 값 칸 OCR(ocr_field·ocr_page) |
-| `python -m docgen.ocr_set build` (합성), `python -m docgen.bench.ocr_prepare` (실서류 + 사내 OCR), studio 레시피 ocr-*·가져오기 | 쪽 OCR 8과제 (crop_ocr·bbox_ocr·region_ocr·marked_ocr·grounding·spotting·relation·marked_box) |
+| `python -m docgen.ocr_set build` (합성), 설정의 `ocr_prepare` 단계·`python -m docgen.bench.ocr_prepare` (실서류 + 사내 OCR), studio 레시피 ocr-*·가져오기 | 쪽 OCR 8과제 (crop_ocr·bbox_ocr·region_ocr·marked_ocr·grounding·spotting·relation·marked_box) |
 | studio ④ 라벨 있는 데이터·서류 넣기(원본 데이터로) | 위 과제 중 고른 것 |
 
 설정의 `data` 칸 (상대 경로는 설정 파일 기준):
@@ -39,6 +39,7 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 
 | 단계 | 하는 일 | 결과 (`workdir` 아래) |
 |---|---|---|
+| ocr_prepare | (선택) 설정 최상위 `ocr_prepare` 에 OCR 준비 설정(`docgen/bench/ocr_config.example.json` 꼴, 하나 또는 목록)을 적으면, 가진 이미지를 사내 OCR 해 OCR 학습·평가 데이터로 (`python -m docgen.bench.ocr_prepare`, 차례로). 결과 폴더(그 설정의 `output_dir`)는 `data.train`·`data.benchmark` 에 경로로 적어 둔다 (평가 전용 `benchmark_only` 는 `data.benchmark` 에만). 합성 OCR·studio 데이터셋만 쓰면 빼 둔다. 설명서 [guide/ocr_prepare.md](../guide/ocr_prepare.md) | 그 설정의 `output_dir/` (`DONE.json` 이 있으면 건너뜀) |
 | prepare | 섞기 (`train/mix.py`) | `data.output_dir/`: `train_sft.jsonl`, `val_sft.jsonl`, `train_grpo.jsonl`, `benchmark_tasks.jsonl`·`benchmark_items.jsonl`, `DONE.json` |
 | eval_base | 출발 모델 평가 (`eval.compare_models` 도) | `predictions/start.jsonl`, `reports/start.json` |
 | sft | SFT (`python -m train.launch sft`) | `sft/…/checkpoint-N` |

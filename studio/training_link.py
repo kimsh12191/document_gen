@@ -18,8 +18,8 @@ from .config import ROOT
 
 TRAIN_DIR = ROOT / "train"
 DIRS = {"train": TRAIN_DIR, "ocr": ROOT / "ocr", "bank": ROOT / "bank"}   # 학습 기록의 "dir" (ocr·bank 는 옛 기록)
-STAGES = ["prepare", "eval_base", "sft", "eval_sft", "select", "grpo", "eval_grpo", "report"]
-STAGE_NAME = {"prepare": "데이터 준비", "eval_base": "원래 모델 평가", "sft": "SFT 학습", "eval_sft": "SFT 평가",
+STAGES = ["ocr_prepare", "prepare", "eval_base", "sft", "eval_sft", "select", "grpo", "eval_grpo", "report"]
+STAGE_NAME = {"ocr_prepare": "OCR 준비", "prepare": "데이터 준비", "eval_base": "원래 모델 평가", "sft": "SFT 학습", "eval_sft": "SFT 평가",
               "select": "GRPO 문제 고르기", "grpo": "GRPO 학습", "eval_grpo": "GRPO 평가", "report": "비교표"}
 
 
@@ -88,7 +88,8 @@ def write_training(registry, info: dict, datasets: list[str], benchmark: list[st
     """설정 조각을 예시 파일과 합쳐 train/configs/studio-<이름>.json 에 쓰고 등록부 trainings 에 남긴다."""
     base = pipeline_dir(info)
     example = json.loads((base / "configs" / "pipeline.example.json").read_text(encoding="utf-8"))
-    merged = {**example, **{k: v for k, v in info["config"].items() if k != "data"}}
+    # ocr_prepare(가진 이미지 OCR 준비)는 손으로 쓰는 칸이라 studio 설정에는 넣지 않는다
+    merged = {**{k: v for k, v in example.items() if k != "ocr_prepare"}, **{k: v for k, v in info["config"].items() if k != "data"}}
     if "data" in info["config"]:
         merged["data"] = {**example.get("data", {}), **info["config"]["data"]}
     f = base / info["file"]

@@ -21,6 +21,7 @@
 | 이 서류에서 **어떤 항목**을 뽑을 수 있나 (키·항목명·체크박스 보기) | [fields/](fields/README.md) — 서류 그룹별 파일 (자동 생성) |
 | 학습한 **서류 이름** 476종, **업무별 필수 서류** | [documents.md](documents.md) (자동 생성) |
 | **벤치마크**는 무엇을 묻고 어떻게 채점하나 (과제, 문항 만드는 방법, 불일치 14종과 근거) | [benchmark.md](benchmark.md) |
+| **가진 서류 이미지**로 OCR 학습·평가 데이터를 만들어 학습에 넣기 (`ocr_prepare`, 평가 전용 세트) | [ocr_prepare.md](ocr_prepare.md) |
 | 파이프라인 **결과 지표**는 어떻게 읽나 (점수표, 학습 로그, 이상 신호) | [results.md](results.md) |
 
 실행 방법의 원본: 학습 [studio/TRAINING.md](../studio/TRAINING.md)·[train/configs/pipeline.example.json](../train/configs/pipeline.example.json), 생성기 [docgen/README.md](../docgen/README.md), 화면 [studio/README.md](../studio/README.md), 도커 [docker/README.md](../docker/README.md).

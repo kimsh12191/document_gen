@@ -16,7 +16,7 @@
 | **docgen 도커 컨테이너** (CPU) | 합성 데이터 만들기(`docgen/`), studio 화면(`studio/`: 데이터셋 보기·채점·비교) | docgen 도커 이미지 ([docker/README.md](../docker/README.md)) |
 
 ```text
-[GPU 서버]  실제 서류 이미지 ─(사내 OCR)→ manifest ─→ OCR 준비 (docgen.bench.ocr_prepare) ─→ data/prepared-v2/  (OCR 과제)
+[GPU 서버]  실제 서류 이미지 ─→ manifest ─→ (python -m train 첫 단계 ocr_prepare: 사내 OCR) ─→ data/prepared-v2/  (OCR 과제)
 [도커]      bash docgen/scripts/make_bank_data.sh ─→ bench/, bank_train/                     (문서 이해·업무 과제)
 [GPU 서버]  위 데이터셋들 ─→ python -m train ─→ 모델 + 비교표 (train/runs/exp1/)
 ```
@@ -71,7 +71,7 @@ nvidia-smi                                                          # 쓸 GPU가
 
 ## 2. OCR 데이터 (실서류)
 
-실제 서류 이미지를 사내 OCR에 돌린 결과를 정답으로, 글자와 위치를 읽는 과제를 만듭니다. 과제 8종은 [tasks.md](tasks.md#ocr-과제)에 있습니다. 합성 서류로 OCR 세트를 만들려면 `python -m docgen.ocr_set build`나 studio ⑥(합성 OCR), 가져온 이미지는 studio ④ "OCR 벤치마크로"를 씁니다. 이때는 이 절을 건너뜁니다.
+실제 서류 이미지를 사내 OCR에 돌린 결과를 정답으로, 글자와 위치를 읽는 과제를 만듭니다. 과제 8종은 [tasks.md](tasks.md#ocr-과제)에 있습니다. 이 절의 설명서(학습·평가 나누기, 평가 전용 세트, 결과 폴더, 에러)는 [ocr_prepare.md](ocr_prepare.md)입니다. 합성 서류로 OCR 세트를 만들려면 `python -m docgen.ocr_set build`나 studio ⑥(합성 OCR), 가져온 이미지는 studio ④ "OCR 벤치마크로"를 씁니다. 이때는 이 절을 건너뜁니다.
 
 ### 2-1. 이미지 모으기
 
@@ -132,6 +132,8 @@ cp docgen/bench/ocr_config.example.json ocr_config.json
 | `ocr_revision` | 사내 OCR 버전을 알아볼 이름. 예: `ocr-api-2026-10`. OCR을 바꾸면 이 값도 바꿉니다 |
 | `benchmark_fraction` | `0.1` 그대로 두면 문서 10%를 평가용으로 뗍니다 |
 
+이 설정을 4-1의 `ocr_prepare`에 적어 두면 학습의 첫 단계(`ocr_prepare`)가 OCR 준비를 돌립니다(결과 폴더에 `DONE.json`이 있으면 건너뜀). 따로 먼저 돌려도 됩니다:
+
 ```bash
 python -m docgen.bench.ocr_prepare ocr_config.json
 ```
@@ -176,6 +178,7 @@ cp train/configs/pipeline.example.json train/configs/pipeline.json
 ```jsonc
 {
   "workdir": "../runs/exp1",                         // 결과 폴더 (<코드>/train/runs/exp1). 그대로 둬도 됨
+  "ocr_prepare": "../../ocr_config.json",            // 2-4 OCR 준비 설정 (<코드>/ocr_config.json). 실서류 OCR 을 안 쓰면 이 줄을 지움
   "model": "<모델>",                                  // 출발 모델. 다른 모델에서 출발해도 됨
   "gpus": [5, 6],                                    // OCR 서버 GPU와 겹치지 않게
   "data": {
@@ -193,8 +196,8 @@ cp train/configs/pipeline.example.json train/configs/pipeline.json
 }
 ```
 
-- **OCR 데이터:** OCR 데이터셋을 `data.train`(개수는 `count`)과 `data.benchmark`에 함께 적으면 됩니다. 문항의 `meta.split`으로 학습·평가가 나뉩니다. OCR을 빼려면 두 곳에서 지웁니다.
-- **상대 경로의 기준:** `workdir`, `data.*`, yaml 설정 이름은 설정 파일 폴더(`<코드>/train/configs`) 기준입니다. `model`만은 실행한 폴더(`<코드>`) 기준이라 절대 경로를 권합니다.
+- **OCR 데이터:** OCR 준비 결과 폴더(`ocr_config.json`의 `output_dir`, 위 예는 `<코드>/data/prepared-v2`)를 `data.train`(개수는 `count`)과 `data.benchmark`에 함께 적으면 됩니다. 문항의 `meta.split`으로 학습·평가가 나뉩니다. 학습용·평가 전용 이미지를 따로 준비하려면 `ocr_prepare`에 설정을 목록으로 적습니다([ocr_prepare.md 4절](ocr_prepare.md#4-쓰는-방법-세-가지)). 합성 OCR·studio OCR 데이터셋은 `ocr_prepare` 없이 경로만 적습니다. OCR을 빼려면 `ocr_prepare`와 두 곳의 경로를 지웁니다.
+- **상대 경로의 기준:** `ocr_prepare`, `workdir`, `data.*`, yaml 설정 이름은 설정 파일 폴더(`<코드>/train/configs`) 기준입니다. `model`만은 실행한 폴더(`<코드>`) 기준이라 절대 경로를 권합니다.
 - **잘못된 경로:** 경로가 틀리면 실행하자마자 어떤 키가 틀렸는지 한꺼번에 알려 주고 멈춥니다.
 - studio ⑥의 "학습 설정 내보내기"를 쓰면 이 칸이 채워진 `train/configs/studio-<이름>.json`과 실행할 명령을 받습니다([studio/TRAINING.md](../studio/TRAINING.md)).
 
@@ -209,7 +212,7 @@ nohup python -m train --config train/configs/pipeline.json > pipeline.log 2>&1 &
 tail -f pipeline.log            # 진행 보기 (Ctrl+C 는 보기만 종료)
 ```
 
-단계: `prepare`(섞기) → `eval_base` → `sft` → `eval_sft` → `select` → `grpo` → `eval_grpo` → `report`.
+단계: `ocr_prepare`(2-4 OCR 준비, `ocr_prepare`가 있을 때만) → `prepare`(섞기) → `eval_base` → `sft` → `eval_sft` → `select` → `grpo` → `eval_grpo` → `report`.
 
 **확인**
 - 리허설 로그 끝에 `timings (h):`가 나오고, `train/runs/exp1/smoke/reports/benchmark.html`이 생기면 성공입니다.

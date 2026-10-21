@@ -1,5 +1,6 @@
 {
   "workdir": "../runs/exp1",
+  "ocr_prepare": "../../ocr_config.json",
   "model": "/share/cv_share/qwen3.5/9b",
   "model_type": "qwen3_5",
   "gpus": [
@@ -12,13 +13,13 @@
         "path": "/share/studio_workspace/datasets/bank-train"
       },
       {
-        "path": "/share/studio_workspace/datasets/ocr-train/prepared",
+        "path": "../../data/prepared-v2",
         "count": 20000
       }
     ],
     "benchmark": [
       "/share/studio_workspace/datasets/bank-bench",
-      "/share/studio_workspace/datasets/ocr-bench/prepared"
+      "../../data/prepared-v2"
     ],
     "output_dir": "../data/mixed-exp1",
     "sft_max_examples": 20000,
