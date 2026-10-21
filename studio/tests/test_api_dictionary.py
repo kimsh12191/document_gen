@@ -67,3 +67,9 @@ def test_docs_tasks_and_links(client):
     assert {"foreign.name", "foreign.address"} <= shared and all(k in DIC.load("common")["keys"] for k in shared)
     ld = client.get(f"/api/dictionary/links/doc_type/{tid}").json()
     assert "fx_remittance" in [x["id"] for x in ld["tasks"]] and ld["keys"] > ld["common"] > 0
+
+
+def test_common_for_form(client):
+    r = client.get("/api/dictionary/common_for/loan_application").json()
+    keys = {x["key"]: x for x in r["keys"]}
+    assert keys["customer.name"]["doc_key"] in ("applicant.name", "customer.name")

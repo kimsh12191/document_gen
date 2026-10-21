@@ -8,6 +8,7 @@ fields.json), 문서별 키를 공통 키에 잇는 것은 links.json. 파일 �
   POST /api/dictionary/link                     {items: [{doc, key}], to: 공통 키 | null, state: 이음 | 제안 | 끊음}
   GET  /api/dictionary/doc_types · PUT /api/dictionary/doc_type/{ID} {name, group, aliases}
   GET  /api/dictionary/tasks · PUT /api/dictionary/task/{ID} {name, group, aliases, roles}
+  GET  /api/dictionary/common_for/{서식 ID}      그 서식에 있는 공통 키 (그 자체가 공통 키이거나 이은 칸) — 시나리오 작업의 항목 고르기
   GET  /api/dictionary/links/task/{업무} · /links/doc_type/{문서}   업무 ↔ 문서 ↔ 공통 키 (업무 안 둘 이상의 문서에 나오는 공통 키 = 대조 후보)
 """
 import json
@@ -141,6 +142,19 @@ def make_router(guard) -> APIRouter:
                 n += 1
         DIC.save("links", d)
         return {"changed": n}
+
+    @r.get("/api/dictionary/common_for/{form_id}")
+    def common_for(form_id: str):
+        dt = DIC.doc_type_of(form_id)
+        common = DIC.load("common").get("keys", {})
+        f = ROOT / "guide" / "fields" / "fields.json"
+        fields = json.loads(f.read_text(encoding="utf-8")).get(form_id, {}).get("keys", []) if f.exists() else []
+        out = {}
+        for k in fields:
+            ck = DIC.common_key(dt, k["key"])
+            if ck and ck not in out:
+                out[ck] = {"key": ck, "name": common.get(ck, {}).get("name", ck), "doc_key": k["key"], "label": k.get("label") or ""}
+        return {"doc_type": dt, "keys": sorted(out.values(), key=lambda x: x["key"])}
 
     @r.get("/api/dictionary/doc_types")
     def doc_types():

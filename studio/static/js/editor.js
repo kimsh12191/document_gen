@@ -15,7 +15,8 @@ async function viewEditor(d, keep = null) {
   $("#tab").innerHTML = `<p class="spin">레이아웃을 읽는 중…</p>`;
   const [view] = await Promise.all([
     api(`/api/forms/${encodeURIComponent(d.id)}/layout`),
-    edKeys ? null : api("/api/keys").then(k => { edKeys = k; }),
+    edKeys ? null : Promise.all([api("/api/keys"), api("/api/dictionary/keys?scope=common").catch(() => ({ rows: [] }))])
+      .then(([k, c]) => { edKeys = { ...k, common: c.rows }; }),   // 키 고르기: 공통 키(키 사전) 먼저
     edSources ? null : api("/api/sources").then(s => { edSources = s; }),
   ]);
   const ed = {
@@ -412,7 +413,7 @@ function edSide(ed) {
       <label class="fld">항목명 <input type="text" id="ed-label" value="${esc(c.label || "")}"></label>
       ${c.t === "staff" ? "" : `
       <label class="fld">키 <input type="text" id="ed-key" list="ed-keylist" value="${esc(c.key || "")}" placeholder="${esc(auto.key || "(자동: 항목명으로)")}"></label>
-      <datalist id="ed-keylist">${(edKeys?.keys || []).slice(0, 4000).map(k => `<option value="${esc(k.key)}">${esc(k.labels[0] || "")}</option>`).join("")}</datalist>
+      <datalist id="ed-keylist">${(edKeys?.common || []).map(k => `<option value="${esc(k.key)}">공통 키 · ${esc(k.name)}</option>`).join("")}${(edKeys?.keys || []).filter(k => !(edKeys?.common || []).some(c => c.key === k.key)).slice(0, 4000).map(k => `<option value="${esc(k.key)}">${esc(k.labels[0] || "")}</option>`).join("")}</datalist>
       ${cands.length ? `<div class="cands">사전 후보: ${cands.map(k => `<a href="#" data-key="${esc(k.key)}" class="mono">${esc(k.key)}</a> <span class="muted">(${k.forms})</span>`).join(" · ")}</div>` : ""}
       ${auto.key ? `<div class="muted" style="font-size:12px">자동 키: <span class="mono">${esc(auto.key)}</span></div>` : ""}
       ${c.t === "text" ? `<label class="fld">값 종류 <select id="ed-kind"><option value="">(자동: ${esc(auto.kind || "text")})</option>${ed.view.kinds.map(k =>

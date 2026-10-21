@@ -54,6 +54,12 @@ def validate(value: dict | None, docs: list[str]) -> dict:
             raise ValueError(f"{oid}: 작업 이름은 문자열이어야 합니다")
         for side in ("left", "right") if op["kind"] == "compare" else ("left",):
             ref = op.get(side)
+            if isinstance(ref, dict) and ref.get("common") is not None:   # 공통 키: 어느 후보 서식이 골라져도 그 서식에서 이은 칸을 찾는다
+                from .. import dictionary as DIC
+
+                if ref.get("doc") not in docs or ref["common"] not in DIC.load("common").get("keys", {}):
+                    raise ValueError(f"{oid}: 묶음 안의 문서와 사전의 공통 키를 지정하세요 ({side})")
+                continue
             if not isinstance(ref, dict) or ref.get("doc") not in docs or not isinstance(ref.get("key"), str) or not ref["key"].strip():
                 raise ValueError(f"{oid}: 묶음 안의 문서와 항목을 지정하세요 ({side})")
             if "keys" in ref:
@@ -93,6 +99,15 @@ def compare(a: dict, b: dict, op: str) -> bool | None:
     return same if op == "equal" else not same
 
 
+def by_common(did: str, common: str, docs: dict) -> dict | None:
+    """문서(서식 ID)의 칸 중 그 공통 키에 이은 것 (키 사전 links.json 의 이음). 값이 있는 칸을 먼저."""
+    from .. import dictionary as DIC
+
+    dt = DIC.doc_type_of(did)
+    hits = [f for f in docs[did]["fields"] if not f.get("group") and DIC.common_key(dt, f["key"]) == common]
+    return next((f for f in hits if f.get("value") not in (None, "")), hits[0] if hits else None)
+
+
 def execute(conf: dict, docs: dict) -> list[dict]:
     """실행 결과와 생성할 문항 item을 반환한다. 값이 없으면 건너뛴 사유를 남긴다."""
     idx = {did: {f["key"]: f for f in d["fields"] if not f.get("group")} for did, d in docs.items()}
@@ -104,10 +119,13 @@ def execute(conf: dict, docs: dict) -> list[dict]:
             row.update(status="disabled", reason="꺼진 작업")
             continue
         refs = [op["left"]] + ([op["right"]] if op["kind"] == "compare" else [])
-        if any(ref["key"]=="__unmapped_variant__" for ref in refs):
+        if any(ref.get("key")=="__unmapped_variant__" for ref in refs):
             row.update(status="skipped",reason="이번에 선택된 후보 서식의 항목 연결이 없습니다. 후보별 추출·비교 키를 설정하세요")
             continue
-        fields = [idx.get(ref["doc"], {}).get(ref["key"]) for ref in refs]
+        fields = [by_common(ref["doc"], ref["common"], docs) if ref.get("common") else idx.get(ref["doc"], {}).get(ref["key"]) for ref in refs]
+        if any(ref.get("common") and f is None for ref, f in zip(refs, fields)):
+            row.update(status="skipped", reason="이 서식에는 그 공통 키에 이은 칸이 없습니다 (키 사전에서 잇기)")
+            continue
         row["sources"] = [source(ref["doc"], f, docs) for ref, f in zip(refs, fields) if f]
         if any(f is None or f.get("value") in (None, "") or not f.get("bbox") or f.get("type") in MARKS for f in fields):
             row.update(status="skipped", reason="이 고객의 문서에 값·근거 위치가 없거나 텍스트 추출 대상이 아닙니다")

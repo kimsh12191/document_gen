@@ -128,3 +128,14 @@ def common_key(doc_type: str | None, key: str, include_suggested: bool = False) 
 
 def scope(doc_type: str | None, key: str) -> str:
     return "공통" if common_key(doc_type, key) else "문서별"
+
+
+def match_extracted(key: str, doc_type: str | None = None) -> str | None:
+    """외부 추출 결과의 키 → 공통 키 (서류 넣기). 공통 키 그대로 · 그 문서에서 이은 칸 · 키 규칙의 다른 이름(aliases, 대소문자·기호 무시)."""
+    if ck := common_key(doc_type, key):
+        return ck
+    from . import keyrules as KR
+
+    alias = {re.sub(r"[^a-z0-9]", "", a.lower()): k for a, k in KR.alias_index().items()}
+    k = alias.get(re.sub(r"[^a-z0-9]", "", key.lower()))
+    return k if k in load("common").get("keys", {}) else None

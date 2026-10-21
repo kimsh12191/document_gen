@@ -106,25 +106,25 @@
   "counterparty.address": {
    "name": "상대방 주소",
    "kind": "text",
-   "docs": 5,
+   "docs": 4,
    "by": "자동"
   },
   "counterparty.name": {
    "name": "상대방 성명",
    "kind": "text",
-   "docs": 7,
+   "docs": 6,
    "by": "자동"
   },
   "customer.address": {
    "name": "고객 주소",
    "kind": "text",
-   "docs": 151,
+   "docs": 159,
    "by": "자동"
   },
   "customer.birth": {
    "name": "고객 생년월일",
    "kind": "date",
-   "docs": 85,
+   "docs": 86,
    "by": "자동"
   },
   "customer.biz_no": {
@@ -166,7 +166,7 @@
   "customer.gender": {
    "name": "고객 성별",
    "kind": "text",
-   "docs": 4,
+   "docs": 6,
    "by": "자동"
   },
   "customer.home_phone": {
@@ -190,7 +190,7 @@
   "customer.name": {
    "name": "고객 성명",
    "kind": "text",
-   "docs": 350,
+   "docs": 359,
    "by": "자동"
   },
   "customer.name_en": {
@@ -202,19 +202,19 @@
   "customer.name_hanja": {
    "name": "고객 한자 성명",
    "kind": "text",
-   "docs": 6,
+   "docs": 7,
    "by": "자동"
   },
   "customer.nationality": {
    "name": "고객 국적",
    "kind": "text",
-   "docs": 18,
+   "docs": 21,
    "by": "자동"
   },
   "customer.phone": {
    "name": "고객 연락처",
    "kind": "phone",
-   "docs": 101,
+   "docs": 103,
    "by": "자동"
   },
   "customer.relation": {
@@ -226,7 +226,7 @@
   "customer.rrn": {
    "name": "고객 주민등록번호",
    "kind": "rrn",
-   "docs": 63,
+   "docs": 67,
    "by": "자동"
   },
   "customer.trade_name": {
@@ -292,13 +292,13 @@
   "foreign.address": {
    "name": "외국 상대 주소",
    "kind": "text",
-   "docs": 9,
+   "docs": 10,
    "by": "자동"
   },
   "foreign.bank": {
    "name": "외국 거래 상대 은행",
    "kind": "text",
-   "docs": 0,
+   "docs": 1,
    "by": "자동"
   },
   "foreign.iban": {
@@ -388,7 +388,7 @@
   "seal.customer": {
    "name": "고객 도장",
    "kind": "seal",
-   "docs": 333,
+   "docs": 336,
    "by": "자동"
   },
   "seal.related": {
@@ -406,7 +406,7 @@
   "sign.customer": {
    "name": "고객 서명",
    "kind": "signature",
-   "docs": 310,
+   "docs": 313,
    "by": "자동"
   },
   "sign.related": {

@@ -28,7 +28,8 @@ class ScenarioProcessing {
         </div>
         <div class="muted">필요한 서류와 값이 있는 작업만 문항으로 만듭니다. 대조 사례의 변조 비율은 레시피에서 정하며, 레시피에서 끈 사례는 생성하지 않습니다.</div>
         <h3>직접 정하는 추출·비교</h3>
-        <div class="bar"><button type="button" data-op-add="extract">추출 항목 추가</button><button type="button" data-op-add="compare">비교 작업 추가</button></div>
+        <div class="bar"><button type="button" data-op-add="extract">추출 항목 추가</button><button type="button" data-op-add="compare">비교 작업 추가</button>
+          <button type="button" data-op-cross title="두 개 이상의 문서에 나오는 공통 키(키 사전)마다 첫 문서와 같은지 비교">서류끼리 대조할 공통 키로 비교 작업 추가</button></div>
         <div class="sc-operations"></div>
         <div class="bar sc-processing-runbar"><button type="button" class="primary sc-process-run">예시 고객으로 실행</button>
           <span class="sc-process-status muted" role="status" aria-live="polite"></span></div>
@@ -60,6 +61,29 @@ class ScenarioProcessing {
       p[cb.dataset.pick] = $$(`[data-pick="${cb.dataset.pick}"]`, card).filter(x => x.checked).map(x => x.value);
       changed();
     });
+    $("[data-op-cross]", card).onclick = async () => {
+      const lists = await Promise.all(s.docs.map(d => this.commonKeys(d.id)));
+      const where = new Map();
+      // 도장·서명과 주소는 뺀다: 주소는 서류마다 적는 방식이 달라(", JAPAN" 등) 글자 그대로 같은지 묻는 비교가 의미 없다
+      lists.forEach((keys, i) => keys.filter(c => !/^(seal|sign)\./.test(c.key) && !/address$/.test(c.key)).forEach(c => {
+        if (!where.has(c.key)) where.set(c.key, { name: c.name, docs: [] });
+        where.get(c.key).docs.push(s.docs[i].id);
+      }));
+      let added = 0;
+      for (const [key, w] of where) {
+        for (const other of w.docs.slice(1)) {
+          const first = w.docs[0];
+          if (p.operations.some(op => op.kind === "compare" && op.left.common === key && op.right?.common === key && op.left.doc === first && op.right.doc === other)) continue;
+          let n = p.operations.length + 1;
+          while (p.operations.some(op => op.id === `cross_${n}`)) n++;
+          p.operations.push({ id: `cross_${n}`, kind: "compare", name: `${w.name}: ${s.docs.find(d => d.id === first)?.name || first} ↔ ${s.docs.find(d => d.id === other)?.name || other}`,
+            enabled: true, operator: "equal", left: { doc: first, common: key }, right: { doc: other, common: key } });
+          added++;
+        }
+      }
+      toast(added ? `비교 작업 ${added}개를 더했습니다` : "더할 공통 키가 없습니다 (두 개 이상의 문서에 나오는 공통 키)");
+      if (added) { changed(); this.drawOperations(card, s, changed); }
+    };
     $$("[data-op-add]", card).forEach(btn => btn.onclick = () => {
       if (!s.docs.length) { toast("먼저 필수 서류를 추가하세요", true); return; }
       let n = 1;
@@ -94,21 +118,30 @@ class ScenarioProcessing {
     if (v.result) this.drawResults(card, s);
   }
 
-  async keyOptions(doc, selected, s) {
+  commonKeys(doc) {   // 그 서식에 있는 공통 키 (키 사전). 공통 키로 정한 작업은 같은 문서의 다른 서식으로 바꿔도 그대로 돈다
+    this.common ||= new Map();
+    if (!this.common.has(doc)) this.common.set(doc, api(`/api/dictionary/common_for/${encodeURIComponent(doc)}`).then(d => d.keys).catch(() => []));
+    return this.common.get(doc);
+  }
+
+  async keyOptions(doc, selected, s, common) {
+    const ck = (await this.commonKeys(doc)).filter(c => !/^(seal|sign)\./.test(c.key));
+    const commonOpts = ck.length ? `<optgroup label="공통 키 (서식이 바뀌어도 그대로)">${ck.map(c =>
+      `<option value="common:${esc(c.key)}" ${c.key === common ? "selected" : ""}>${esc(c.name)} · ${esc(c.key)}</option>`).join("")}</optgroup>` : "";
     if (!this.fields.has(doc)) this.fields.set(doc, api(`/api/forms/${encodeURIComponent(doc)}`).then(d => d.keys).catch(e => { this.fields.delete(doc); throw e; }));
     const fields = new Map((await this.fields.get(doc)).filter(f => !["checkbox", "checkbox_multi", "seal", "signature"].includes(f.type)).map(f => [f.key, f]));
     const rendered = this.previews.states.get(s).labels.get(doc);
     for (const f of rendered?.fields || []) if (!f.group && !["checkbox", "checkbox_multi", "seal", "signature"].includes(f.type)) fields.set(f.key, f);
     if (selected && !fields.has(selected)) fields.set(selected, { key: selected, label: "현재 고객의 후보에 없는 항목" });
-    return `<option value="">항목을 고르세요</option>` + [...fields.values()].map(f =>
-      `<option value="${esc(f.key)}" ${f.key === selected ? "selected" : ""}>${esc(f.label || f.key)} · ${esc(f.key)}</option>`).join("");
+    return `<option value="">항목을 고르세요</option>` + commonOpts + `<optgroup label="이 서식의 키">` + [...fields.values()].map(f =>
+      `<option value="${esc(f.key)}" ${f.key === selected && !common ? "selected" : ""}>${esc(f.label || f.key)} · ${esc(f.key)}</option>`).join("") + `</optgroup>`;
   }
 
   drawOperations(card, s, changed) {
     const box = $(".sc-operations", card), p = s.processing;
     const candidateName=id=>state.forms?.find(f=>f.id===id)?.name || id;
     const mappings=(op,side)=>{
-      const conf=s.sampling?.[op[side].doc], forms=conf?.mode==='sample'?conf.forms.filter(id=>id!==op[side].doc):[];
+      const conf=s.sampling?.[op[side].doc], forms=conf?.mode==='sample'&&!op[side].common?conf.forms.filter(id=>id!==op[side].doc):[];
       return forms.length?`<details><summary>후보 서식별 항목 연결 · ${forms.length}종</summary><div class="muted">다른 서식은 키가 다를 수 있습니다. 연결하지 않은 후보가 선택되면 이 작업을 건너뜁니다.</div>${forms.map(id=>`<label>${esc(candidateName(id))} · ${esc(id)}<select data-ref-map="${side}" data-candidate="${esc(id)}"><option value="">연결 안 함</option></select></label>`).join('')}</details>`:'';
     };
     const ref = (op, side) => `<div class="sc-operation-ref">
@@ -126,12 +159,16 @@ class ScenarioProcessing {
       const fill = async side => {
         const key = $(`[data-ref-key="${side}"]`, row), did = op[side].doc;
         try {
-          const options = await this.keyOptions(did, op[side].key, s);
+          const options = await this.keyOptions(did, op[side].key, s, op[side].common);
           if (key.isConnected && op[side].doc === did) key.innerHTML = options;
         } catch (e) { if (key.isConnected) { key.innerHTML = `<option value="">항목을 불러오지 못했습니다</option>`; toast(e.message, true); } }
       };
       $$("[data-ref-doc]", row).forEach(sel => sel.onchange = () => { const side = sel.dataset.refDoc; op[side] = { doc: sel.value, key: "" }; changed(); this.drawOperations(card,s,changed); });
-      $$("[data-ref-key]", row).forEach(sel => { sel.onchange = () => { op[sel.dataset.refKey].key = sel.value; changed(); }; fill(sel.dataset.refKey); });
+      $$("[data-ref-key]", row).forEach(sel => { sel.onchange = () => {
+        const side = sel.dataset.refKey, doc = op[side].doc;
+        op[side] = sel.value.startsWith("common:") ? { doc, common: sel.value.slice(7) } : { doc, key: sel.value };
+        changed(); this.drawOperations(card, s, changed);
+      }; fill(sel.dataset.refKey); });
       $$('[data-ref-map]',row).forEach(async sel=>{
         const side=sel.dataset.refMap,id=sel.dataset.candidate;
         try{const options=await this.keyOptions(id,op[side].keys?.[id],s);if(sel.isConnected)sel.innerHTML=options;}

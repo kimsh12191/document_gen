@@ -67,10 +67,10 @@ def _name_match(pred: str, names: list[str]) -> str | None:
 
 
 def s_classify(item, out):
-    p = strip_answer(out).split("\n")[0]
-    gt = item["answer"]
-    return {"metrics": {"acc": float(loose_text(p) == loose_text(gt)),
-                        "acc_lenient": float(bool(loose_text(p)) and (loose_text(gt) in loose_text(p)))}}
+    """정답 문서명 또는 그 다른 이름(eval.aliases, 키 사전의 문서명 다른 이름)과 같으면 맞음."""
+    p = loose_text(strip_answer(out).split("\n")[0])
+    gts = [loose_text(x) for x in [item["answer"], *(item.get("eval") or {}).get("aliases", [])] if x]
+    return {"metrics": {"acc": float(p in gts), "acc_lenient": float(bool(p) and any(g in p for g in gts))}}
 
 
 def s_ocr_field(item, out):

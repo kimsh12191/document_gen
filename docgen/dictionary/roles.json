@@ -570,8 +570,8 @@
    "keys": 6
   },
   "consignee": {
-   "party": "foreign",
-   "sure": true,
+   "party": "customer",
+   "sure": false,
    "by": "자동",
    "forms": 6,
    "keys": 2
@@ -1263,7 +1263,7 @@
    "keys": 2
   },
   "importer": {
-   "party": "foreign",
+   "party": "customer",
    "sure": true,
    "by": "자동",
    "forms": 2,
@@ -1277,8 +1277,8 @@
    "keys": 2
   },
   "notify": {
-   "party": "foreign",
-   "sure": true,
+   "party": "customer",
+   "sure": false,
    "by": "자동",
    "forms": 2,
    "keys": 2

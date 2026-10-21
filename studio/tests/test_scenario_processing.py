@@ -187,3 +187,27 @@ def test_table_calculation_links_each_amount_cell():
     row = next(x for x in result["rows"] if x["id"] == "invoice_sum" and x["kind"] == "rule")
     assert row["answer"] == 300
     assert [x["key"] for x in row["sources"]] == ["items.0.amount", "items.1.amount"]
+
+
+def test_common_key_operation_finds_linked_field():
+    """공통 키 작업: 서식마다 키가 달라도(applicant.name · employee.name) 이은 칸을 찾아 비교한다 (키 사전 K3)."""
+    ids = ["loan_application", "employment_certificate"]
+    conf = P.validate({"operations": [{"id": "same_name", "kind": "compare", "operator": "equal",
+                                       "left": {"doc": ids[0], "common": "customer.name"},
+                                       "right": {"doc": ids[1], "common": "customer.name"}}]}, ids)
+    d = {ids[0]: {"name": "대출신청서", "fields": [field("applicant.name", "홍길동")], "sizes": [(100, 200)]},
+         ids[1]: {"name": "재직증명서", "fields": [field("employee.name", "홍길동")], "sizes": [(100, 200)]}}
+    row = P.execute(conf, d)[0]
+    assert row["status"] == "ready" and row["answer"] == "예" and [s["key"] for s in row["sources"]] == ["applicant.name", "employee.name"]
+    d[ids[1]]["fields"] = [field("employee.name", "김철수")]
+    assert P.execute(conf, d)[0]["answer"] == "아니오"
+    d[ids[1]]["fields"] = [field("other.key", "홍길동")]
+    assert P.execute(conf, d)[0]["status"] == "skipped"                   # 이은 칸이 없으면 건너뛴다
+    with pytest.raises(ValueError, match="공통 키"):
+        P.validate({"operations": [{"id": "x", "kind": "extract", "left": {"doc": ids[0], "common": "no.such"}}]}, ids)
+
+
+def test_classify_accepts_aliases():
+    item = {"answer": "재직증명서", "eval": {"aliases": ["Certificate of Employment", "경력·재직증명"]}}
+    assert SCORERS["classify"](item, "Certificate of Employment")["metrics"]["acc"] == 1.0
+    assert SCORERS["classify"](item, "주민등록증")["metrics"]["acc"] == 0.0

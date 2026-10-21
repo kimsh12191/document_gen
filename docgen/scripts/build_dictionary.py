@@ -63,8 +63,8 @@ ROLE_PARTY = {
     "seller": "counterparty", "buyer": "counterparty", "landlord": "counterparty", "co_landlord": "counterparty",
     "tenant": "counterparty", "counterparty": "counterparty", "creditor": "counterparty", "biller": "counterparty",
     "co_seller": "counterparty", "brokers": "counterparty", "landlord_agent": "counterparty", "seller_agent": "counterparty",
-    "foreign": "foreign", "beneficiary": "foreign", "beneficiary_bank": "foreign", "consignee": "foreign", "shipper": "foreign",
-    "importer": "foreign", "notify": "foreign", "manufacturer": "foreign?", "university": "foreign",
+    "foreign": "foreign", "beneficiary": "foreign", "beneficiary_bank": "foreign", "consignee": "customer?", "shipper": "foreign",
+    "importer": "customer", "notify": "customer?", "manufacturer": "foreign?", "university": "foreign",
     "bank": "bank", "bank_use": "bank", "check": "bank?", "staff": "bank",
     "issuer": "issuer", "notary": "issuer", "providers": "issuer?", "registered": "document?",
     "property": "property", "land": "property", "house": "property", "buildings": "property", "unit": "property",
@@ -153,15 +153,23 @@ def party_of(role: str | None, attr: str) -> tuple[str, bool]:
     return p.rstrip("?"), not p.endswith("?")
 
 
+HOLDER_GROUPS = {"identity", "family", "income", "tax"}   # 역할 없는 name·rrn … 이 그 서류의 주인(고객)인 대분류
+PERSON_ATTRS = {"name", "rrn", "address", "birth", "phone", "mobile", "email", "name_hanja", "name_en", "nationality", "gender"}
+BANK_ATTR = {"name": "bank", "address": "bank_address"}
+
+
 def party_key_fn(tasks: dict, roles: dict, merges: list):
     """서식의 키 → (당사자 키, 당사자). 결정된 합치기를 따르고, 업무가 주어지면 업무별 역할을 쓴다."""
     accepted = {m["from"]: m["into"] for m in merges if m["dict"] == "field" and m["status"] == "accepted"}
 
-    def pkey(key, task=None):
+    def pkey(key, task=None, group=None):
         key = accepted.get(key, key)
         role, sub, attr = split_key(key)
         party = (tasks.get(task, {}).get("roles", {}).get(role) if task and role else None) \
-            or (roles.get(role, {}).get("party") if role else SINGLE_PARTY.get(attr, "unassigned")) or "unassigned"
+            or (roles.get(role, {}).get("party") if role else
+                ("customer" if group in HOLDER_GROUPS and attr in PERSON_ATTRS else SINGLE_PARTY.get(attr, "unassigned"))) or "unassigned"
+        if role and role.endswith("_bank") and attr in BANK_ATTR:   # beneficiary_bank.name 은 상대의 '은행' 이름
+            attr = BANK_ATTR[attr]
         mark = attr in ("seal", "sign")
         return ".".join(([attr] if mark else []) + [party] + sub + ([] if mark else [attr])), party
     return pkey
@@ -202,19 +210,25 @@ def build_common(fields: dict, types: dict, tasks: dict, roles: dict, merges: li
     cands = {k for k in cands if ok(k) or k in rules["keys"]}
     proposed = {m["from"]: m["into"] for m in merges if m["dict"] == "field" and m["status"] == "proposed"}
     links, labels, docs_of = {}, defaultdict(Counter), defaultdict(set)
+    doc_tasks = {tid: v.get("tasks", []) for tid, v in relations["doc_types"].items()}
     for fid, f in fields.items():
         tid = form_type.get(fid)
         if not tid:
             continue
+        ts = doc_tasks.get(tid, [])
+        task = ts[0] if len(ts) == 1 else None   # 한 업무에서만 쓰는 문서는 그 업무의 역할 뜻으로 (해외송금의 seller = 외국 상대)
+        group = types[tid].get("group")
         for k in f["keys"]:
-            pk, _ = pkey(k["key"])
+            pk, _ = pkey(k["key"], task, group)
             via = None
             if pk not in cands and k["key"] in proposed:   # 아직 결정 안 한 합치기 후보로 이어지면 '제안'
-                pk, via = pkey(proposed[k["key"]])[0], proposed[k["key"]]
+                pk, via = pkey(proposed[k["key"]], task, group)[0], proposed[k["key"]]
             if pk not in cands:
                 continue
             role = split_key(k["key"])[0]
-            sure = not via and bool(role) and roles.get(role, {}).get("sure", True) and roles.get(role, {}).get("party") != "unassigned"
+            by_task = bool(task and role in tasks.get(task, {}).get("roles", {}))
+            sure = not via and (by_task or (role is None and group in HOLDER_GROUPS) or
+                                (bool(role) and roles.get(role, {}).get("sure", True) and roles.get(role, {}).get("party") != "unassigned"))
             links.setdefault(tid, {})[k["key"]] = {"to": pk, "state": "이음" if sure else "제안", "by": "자동"}
             if k.get("label"):
                 labels[pk][k["label"]] += 1

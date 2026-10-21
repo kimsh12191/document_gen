@@ -83,3 +83,10 @@ def test_common_key_resolution():
     assert DIC.scope(loan, "bank") == "문서별"
     common = DIC.load("common")["keys"]
     assert common["customer.name"]["name"] == "고객 성명" and common["corp.name"]["name"] == "법인·사업자 상호"
+
+
+def test_match_extracted_keys():
+    assert DIC.match_extracted("customer.name") == "customer.name"
+    assert DIC.match_extracted("BIC") == "foreign.swift" and DIC.match_extracted("swift_code") == "foreign.swift"
+    assert DIC.match_extracted("applicant.name", DIC.doc_type_of("loan_application")) == "customer.name"
+    assert DIC.match_extracted("mandate_id") is None

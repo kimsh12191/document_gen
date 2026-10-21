@@ -216,47 +216,47 @@
   "loan_application_corp": {
    "company.name": {
     "to": "corp.name",
-    "state": "제안",
+    "state": "이음",
     "by": "자동"
    },
    "company.name_en": {
     "to": "corp.name_en",
-    "state": "제안",
+    "state": "이음",
     "by": "자동"
    },
    "company.biz_no": {
     "to": "corp.biz_no",
-    "state": "제안",
+    "state": "이음",
     "by": "자동"
    },
    "company.corp_reg_no": {
     "to": "corp.corp_reg_no",
-    "state": "제안",
+    "state": "이음",
     "by": "자동"
    },
    "company.ceo": {
     "to": "corp.ceo",
-    "state": "제안",
+    "state": "이음",
     "by": "자동"
    },
    "company.established": {
     "to": "corp.established",
-    "state": "제안",
+    "state": "이음",
     "by": "자동"
    },
    "company.industry": {
     "to": "corp.industry",
-    "state": "제안",
+    "state": "이음",
     "by": "자동"
    },
    "company.address": {
     "to": "corp.address",
-    "state": "제안",
+    "state": "이음",
     "by": "자동"
    },
    "company.phone": {
     "to": "corp.phone",
-    "state": "제안",
+    "state": "이음",
     "by": "자동"
    },
    "contact.name": {
@@ -870,7 +870,7 @@
    },
    "company.biz_item": {
     "to": "corp.biz_item",
-    "state": "제안",
+    "state": "이음",
     "by": "자동"
    },
    "customer.address": {
@@ -880,17 +880,17 @@
    },
    "company.established": {
     "to": "corp.established",
-    "state": "제안",
+    "state": "이음",
     "by": "자동"
    },
    "company.biz_no": {
     "to": "corp.biz_no",
-    "state": "제안",
+    "state": "이음",
     "by": "자동"
    },
    "company.corp_reg_no": {
     "to": "corp.corp_reg_no",
-    "state": "제안",
+    "state": "이음",
     "by": "자동"
    },
    "agent.relation": {
@@ -2123,6 +2123,11 @@
    }
   },
   "withholding_receipt": {
+   "nationality": {
+    "to": "customer.nationality",
+    "state": "이음",
+    "by": "자동"
+   },
    "payer.name": {
     "to": "customer.name",
     "state": "이음",
@@ -2338,13 +2343,13 @@
     "by": "자동"
    },
    "consignee.name": {
-    "to": "foreign.name",
-    "state": "이음",
+    "to": "customer.name",
+    "state": "제안",
     "by": "자동"
    },
    "consignee.address": {
-    "to": "foreign.address",
-    "state": "이음",
+    "to": "customer.address",
+    "state": "제안",
     "by": "자동"
    },
    "manufacturer.name": {
@@ -2358,7 +2363,7 @@
     "by": "자동"
    },
    "beneficiary_bank.name": {
-    "to": "foreign.name",
+    "to": "foreign.bank",
     "state": "이음",
     "by": "자동"
    },
@@ -2370,22 +2375,32 @@
   },
   "trade_contract": {
    "seller.name": {
-    "to": "counterparty.name",
+    "to": "foreign.name",
     "state": "이음",
     "by": "자동"
    },
    "seller.address": {
-    "to": "counterparty.address",
+    "to": "foreign.address",
     "state": "이음",
     "by": "자동"
    },
    "buyer.name": {
-    "to": "counterparty.name",
+    "to": "customer.name",
     "state": "이음",
     "by": "자동"
    },
    "buyer.address": {
-    "to": "counterparty.address",
+    "to": "customer.address",
+    "state": "이음",
+    "by": "자동"
+   },
+   "seal.buyer": {
+    "to": "seal.customer",
+    "state": "이음",
+    "by": "자동"
+   },
+   "sign.buyer": {
+    "to": "sign.customer",
     "state": "이음",
     "by": "자동"
    }
@@ -2402,23 +2417,23 @@
     "by": "자동"
    },
    "consignee.name": {
-    "to": "foreign.name",
-    "state": "이음",
+    "to": "customer.name",
+    "state": "제안",
     "by": "자동"
    },
    "consignee.address": {
-    "to": "foreign.address",
-    "state": "이음",
+    "to": "customer.address",
+    "state": "제안",
     "by": "자동"
    },
    "notify.name": {
-    "to": "foreign.name",
-    "state": "이음",
+    "to": "customer.name",
+    "state": "제안",
     "by": "자동"
    },
    "notify.address": {
-    "to": "foreign.address",
-    "state": "이음",
+    "to": "customer.address",
+    "state": "제안",
     "by": "자동"
    }
   },
@@ -2434,13 +2449,13 @@
     "by": "자동"
    },
    "consignee.name": {
-    "to": "foreign.name",
-    "state": "이음",
+    "to": "customer.name",
+    "state": "제안",
     "by": "자동"
    },
    "consignee.address": {
-    "to": "foreign.address",
-    "state": "이음",
+    "to": "customer.address",
+    "state": "제안",
     "by": "자동"
    },
    "manufacturer.name": {
@@ -2456,7 +2471,7 @@
   },
   "import_declaration": {
    "importer.name": {
-    "to": "foreign.name",
+    "to": "customer.name",
     "state": "이음",
     "by": "자동"
    },
@@ -2499,12 +2514,12 @@
    },
    "student.name": {
     "to": "family.name",
-    "state": "제안",
+    "state": "이음",
     "by": "자동"
    },
    "student.id": {
     "to": "family.id",
-    "state": "제안",
+    "state": "이음",
     "by": "자동"
    }
   },
@@ -2526,12 +2541,80 @@
    },
    "student.name": {
     "to": "family.name",
-    "state": "제안",
+    "state": "이음",
     "by": "자동"
    },
    "student.id": {
     "to": "family.id",
-    "state": "제안",
+    "state": "이음",
+    "by": "자동"
+   }
+  },
+  "resident_id_card": {
+   "name": {
+    "to": "customer.name",
+    "state": "이음",
+    "by": "자동"
+   },
+   "name_hanja": {
+    "to": "customer.name_hanja",
+    "state": "이음",
+    "by": "자동"
+   },
+   "rrn": {
+    "to": "customer.rrn",
+    "state": "이음",
+    "by": "자동"
+   },
+   "address": {
+    "to": "customer.address",
+    "state": "이음",
+    "by": "자동"
+   }
+  },
+  "driver_license": {
+   "name": {
+    "to": "customer.name",
+    "state": "이음",
+    "by": "자동"
+   },
+   "rrn": {
+    "to": "customer.rrn",
+    "state": "이음",
+    "by": "자동"
+   },
+   "address": {
+    "to": "customer.address",
+    "state": "이음",
+    "by": "자동"
+   }
+  },
+  "passport": {
+   "nationality": {
+    "to": "customer.nationality",
+    "state": "이음",
+    "by": "자동"
+   },
+   "birth": {
+    "to": "customer.birth",
+    "state": "이음",
+    "by": "자동"
+   },
+   "gender": {
+    "to": "customer.gender",
+    "state": "이음",
+    "by": "자동"
+   }
+  },
+  "alien_registration_card": {
+   "name": {
+    "to": "customer.name",
+    "state": "이음",
+    "by": "자동"
+   },
+   "gender": {
+    "to": "customer.gender",
+    "state": "이음",
     "by": "자동"
    }
   },
@@ -2693,12 +2776,32 @@
     "by": "자동"
    },
    "buyer.address": {
-    "to": "counterparty.address",
+    "to": "customer.address",
+    "state": "이음",
+    "by": "자동"
+   },
+   "buyer.rrn": {
+    "to": "customer.rrn",
+    "state": "이음",
+    "by": "자동"
+   },
+   "buyer.phone": {
+    "to": "customer.phone",
     "state": "이음",
     "by": "자동"
    },
    "buyer.name": {
-    "to": "counterparty.name",
+    "to": "customer.name",
+    "state": "이음",
+    "by": "자동"
+   },
+   "seal.buyer": {
+    "to": "seal.customer",
+    "state": "이음",
+    "by": "자동"
+   },
+   "sign.buyer": {
+    "to": "sign.customer",
     "state": "이음",
     "by": "자동"
    },
@@ -2760,7 +2863,7 @@
     "by": "자동"
    },
    "tenant_name": {
-    "to": "counterparty.name",
+    "to": "customer.name",
     "state": "제안",
     "by": "자동"
    },
@@ -2780,12 +2883,32 @@
     "by": "자동"
    },
    "tenant.address": {
-    "to": "counterparty.address",
+    "to": "customer.address",
+    "state": "이음",
+    "by": "자동"
+   },
+   "tenant.rrn": {
+    "to": "customer.rrn",
+    "state": "이음",
+    "by": "자동"
+   },
+   "tenant.phone": {
+    "to": "customer.phone",
     "state": "이음",
     "by": "자동"
    },
    "tenant.name": {
-    "to": "counterparty.name",
+    "to": "customer.name",
+    "state": "이음",
+    "by": "자동"
+   },
+   "seal.tenant": {
+    "to": "seal.customer",
+    "state": "이음",
+    "by": "자동"
+   },
+   "sign.tenant": {
+    "to": "sign.customer",
     "state": "이음",
     "by": "자동"
    },
@@ -15912,6 +16035,11 @@
    }
   },
   "income_tax_return": {
+   "nationality": {
+    "to": "customer.nationality",
+    "state": "이음",
+    "by": "자동"
+   },
    "taxpayer.name": {
     "to": "customer.name",
     "state": "이음",

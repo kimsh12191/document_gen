@@ -82,7 +82,8 @@ def resolve_processing(processing: dict, selections: list[dict]) -> dict:
         for side in ("left","right"):
             if side not in op:continue
             ref=op[side];slot=ref["doc"];did=mapping.get(slot,slot)
-            ref["key"] = ref.get("keys",{}).get(did,ref["key"] if slot==did else "__unmapped_variant__")
+            if ref.get("common") is None:   # 공통 키 작업은 서식이 바뀌어도 그대로 (processing.by_common)
+                ref["key"] = ref.get("keys",{}).get(did,ref["key"] if slot==did else "__unmapped_variant__")
             ref["doc"]=did
             ref.pop("keys",None)
     return out
