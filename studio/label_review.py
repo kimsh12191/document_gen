@@ -354,12 +354,15 @@ def score(bdir: Path, real_root: Path) -> dict:
         live = [g for g in rv["fields"] if g["state"] != "deleted"]
         orig = [g["original"] for g in rv["fields"] if g.get("original")]
         n += 1
+        from docgen import dictionary as DIC   # 문항은 공통 키로 묻는다 (평가 세트 3.0): 원래 추론의 키도 같은 키로 바꿔 채점
+
+        qkey = {f.get("doc_key", f["key"]): f["key"] for f in DIC.apply_common(ld["doc_type"], [{"key": g["key"]} for g in live])}
         for it in _items_for(ld["doc_type"], live, sizes):
             it["id"] = f"{it['task']}/{rv['doc']}"
             items[it["task"]].append(it)
             ans = []
             for o in orig:
-                e = {"key": o["key"], "value": o["value"]}
+                e = {"key": qkey.get(o["key"], o["key"]), "value": o["value"]}
                 if o.get("bbox") and o["page"] < len(sizes):
                     try:
                         e.update(bbox_2d=normalize_box(o["bbox"], *sizes[o["page"]]), page=o["page"] + 1)

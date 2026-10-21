@@ -137,10 +137,11 @@ def execute(conf: dict, docs: dict) -> list[dict]:
             if page >= len(sizes):
                 row.update(status="skipped", reason="근거 쪽이 없습니다")
                 continue
-            answer = [{"key": f["key"], "value": f["value"], "bbox_2d": normalize_box(f["bbox"], *sizes[page]), "page": page + 1}]
-            row.update(answer=f["value"], question=f"{docs[did]['name']}의 {f.get('label') or f['key']} 추출")
-            row["item"] = {"task": "kie", "docs": [did], "prompt": P_KIE.format(items=f"- {f['key']}: {f.get('label') or '-'}"),
-                           "answer": answer, "eval": {"fields": {f["key"]: {"type": f["type"], "norm": f.get("norm")}}}}
+            key = refs[0].get("common") or f["key"]   # 공통 키 작업은 공통 키로 묻고 답한다 (3.0)
+            answer = [{"key": key, "value": f["value"], "bbox_2d": normalize_box(f["bbox"], *sizes[page]), "page": page + 1}]
+            row.update(answer=f["value"], question=f"{docs[did]['name']}의 {f.get('label') or key} 추출")
+            row["item"] = {"task": "kie", "docs": [did], "prompt": P_KIE.format(items=f"- {key}: {f.get('label') or '-'}"),
+                           "answer": answer, "eval": {"fields": {key: {"type": f["type"], "norm": f.get("norm")}}}}
         else:
             answer = compare(*fields, op["operator"])
             if answer is None:

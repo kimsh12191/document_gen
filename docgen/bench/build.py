@@ -29,6 +29,7 @@ import sys
 import time
 from pathlib import Path
 
+from .. import dictionary as DIC
 from ..entities import make_profile
 from ..registry import GROUPS, SCENARIO_EXTRA, SCENARIO_PROCESSING, SCENARIO_SAMPLING, SCENARIOS, load_all
 from ..render import render
@@ -40,9 +41,12 @@ from .cases import CASES, OTHER_OK, Ctx
 from .prompts import P_CLASSIFY, P_CROSS, P_DOC_CHECK, P_KIE, P_MARKS, P_OCR_FIELD, P_OCR_PAGE, P_REVIEW
 from .rules import Bundle, questions, r_doc_valid, valid_candidates
 
-VERSION = "2.0"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
+VERSION = "3.0"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
 #                  2.0: kie·marks 답에 위치(bbox_2d 0~1000, page) — 값·위치·값+위치 점수. 건강보험료 납부확인서 정산 분할납부
 #                       변형이 정한 확률(15%)대로 나오게 고침
+#                  3.0: 키 사전(docgen/dictionary) 적용 — 공통 키에 이은 칸은 서식이 달라도 공통 키로 묻고 답함(customer.name …),
+#                       분류 정답 = 문서명(같은 문서의 서식이 여러 개여도 하나, 다른 이름도 맞음). 10단계의 공식 대조 html 69종·
+#                       값 채우기 변경(빈 칸 무작위 비우기 끔, 금액 단위)도 이 판부터. 2.0 과 kie·marks·분류 점수는 바로 비교하지 않는다
 # 1.x 세트(값만 있는 답)도 같은 채점기로 채점된다 (evaluate.py 가 두 형식을 다 읽음). 값 점수는 1.x 와 뜻이 같다.
 SEED_SINGLE = 1_000_000   # 단일 서류 과제 고객 seed 시작
 SEED_BUNDLE = 2_000_000   # 업무 묶음 고객 seed 시작
@@ -186,10 +190,12 @@ class Builder:
         base = {"images": r["images"], "meta": meta}
         rng = random.Random(f"bench:single:{stem}")
         sid = Path(stem).name
-        fields = r["fields"]
+        fields = DIC.apply_common(r["doc_id"], r["fields"])   # 공통 키에 이은 칸은 공통 키로 (3.0)
         raw_key = dict(zip(range(len(r["raw_keys"])), r["raw_keys"]))
 
-        self.emit({"id": f"classify/{sid}", "task": "classify", "prompt": P_CLASSIFY, "answer": r["name"], **base})
+        name, aliases = DIC.doc_name(r["doc_id"], r["name"])   # 정답 = 문서명, 서식 이름·다른 이름도 맞음
+        self.emit({"id": f"classify/{sid}", "task": "classify", "prompt": P_CLASSIFY, "answer": name,
+                   **({"eval": {"aliases": aliases}} if aliases else {}), **base})
 
         visible = []
         for i, f in enumerate(fields):

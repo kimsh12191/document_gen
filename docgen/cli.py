@@ -15,6 +15,7 @@ import random
 import sys
 from pathlib import Path
 
+from . import dictionary as DIC
 from .banks import BRANDS, LEGACY, supports
 from .entities import BANKS, make_profile
 from .registry import BANK_FORM_GROUPS, GROUPS, SCENARIO_EXTRA, SCENARIOS, load_all
@@ -172,6 +173,7 @@ def cmd_generate(args) -> None:
                                  width=info["width"], height=info["height"])
                     if info["overflow"]:
                         overflow.append(sid)
+                fields = DIC.apply_common(doc_id, fields)   # 공통 키에 이은 칸은 공통 키로 (평가 세트 3.0, 원래 키는 doc_key)
                 label.update(fields=fields, gt=to_nested(fields))
                 if info:
                     rng = random.Random(f"swift:{sid}")

@@ -139,3 +139,30 @@ def match_extracted(key: str, doc_type: str | None = None) -> str | None:
     alias = {re.sub(r"[^a-z0-9]", "", a.lower()): k for a, k in KR.alias_index().items()}
     k = alias.get(re.sub(r"[^a-z0-9]", "", key.lower()))
     return k if k in load("common").get("keys", {}) else None
+
+
+def apply_common(doc_id: str, fields: list[dict]) -> list[dict]:
+    """문항·라벨에 쓸 키 (평가 세트 3.0, DESIGN 16.5 K4): 공통 키에 이은(이음) 칸은 공통 키로 묻고 답한다. 원래 키는 doc_key.
+    같은 공통 키가 이미 있거나 둘 이상의 칸이 같은 공통 키에 이어져 있으면 처음 것만 바꿔 한 문서 안에서 키가 겹치지 않게 한다."""
+    dt = doc_type_of(doc_id)
+    if not dt:
+        return fields
+    present = {f["key"] for f in fields}
+    taken, out = set(), []
+    for f in fields:
+        ck = None if f.get("group") else common_key(dt, f["key"])
+        if ck and ck != f["key"] and ck not in present and ck not in taken:
+            taken.add(ck)
+            out.append({**f, "key": ck, "doc_key": f["key"]})
+        else:
+            out.append(f)
+    return out
+
+
+def doc_name(doc_id: str, default: str) -> tuple[str, list[str]]:
+    """분류 문항의 정답 문서명과 다른 이름 (같은 문서의 서식이 여러 개여도 정답은 하나)."""
+    dt = doc_type_of(doc_id)
+    t = load("doc_types").get("types", {}).get(dt or "")
+    if not t:
+        return default, []
+    return t["name"], [x for x in dict.fromkeys([default, *t.get("aliases", [])]) if x and x != t["name"]]

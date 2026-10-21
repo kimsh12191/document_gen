@@ -101,7 +101,8 @@ def test_bank_conversion_preserves_gt_pixel_coordinates_and_no_fullpage_guess(so
     assert ds['real_data'] and ds['gt'] == 'reviewed' and ds['source'] == 'results'
     assert 'ocr_page' not in all_items  # 값 칸을 쪽 전체 정답으로 취급하지 않는다.
     answer = all_items['kie'][0]['answer']
-    assert next(a for a in answer if a['key'] == 'name') == {'key': 'name', 'value': '홍길동', 'bbox_2d': [100, 100, 300, 150], 'page': 1}
+    # 평가 세트 3.0: 주민등록증의 name 은 공통 키 customer.name 으로 묻고 답한다 (키 사전)
+    assert next(a for a in answer if a['key'] == 'customer.name') == {'key': 'customer.name', 'value': '홍길동', 'bbox_2d': [100, 100, 300, 150], 'page': 1}
     assert all_items['marks'][0]['answer'][0]['value'] is True
     assert (out / 'swift/all.jsonl').is_file()
     assert before == {p.relative_to(source): p.read_bytes() for p in source.rglob('*') if p.is_file()}
@@ -118,7 +119,7 @@ def test_value_only_and_null_fields_do_not_invent_boxes(source, tmp_path):
     a = L.read(out / 'meta.json')
     assert 'ocr_field' not in a['counts']
     answers = json.loads((out / 'tasks/kie.jsonl').read_text(encoding='utf-8'))['answer']
-    assert answers == [{'key': 'name', 'value': '홍길동'}, {'key': 'issue_date', 'value': None}]
+    assert answers == [{'key': 'customer.name', 'value': '홍길동'}, {'key': 'issue_date', 'value': None}]
 
 
 def test_check_then_source_change_is_rejected(source, tmp_path):
