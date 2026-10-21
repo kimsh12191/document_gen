@@ -1,5 +1,11 @@
 """키 사전 풀이 (studio/DESIGN.md 16절). 파일은 docgen/dictionary/*.json (자동 초안: docgen/scripts/build_dictionary.py).
 
+화면·문서에서 쓰는 말은 업무명·문서명·키 셋이다. 키는 범위가 둘:
+  공통 키   여러 문서에 나오고 서류끼리 대조·심사하는 값 (common.json, 예: customer.name 고객 성명)
+  문서별 키 서식의 키 그대로, 그 문서에서만 의미 (fields.json). 공통 키에 이으면(links.json) 공통 키로 묻고 답한다
+  common_key("loan_application", "applicant.name") → "customer.name" (이음만, 제안·끊음은 None)
+당사자·역할(parties·roles)은 잇기 제안을 만드는 속 장치다.
+
   resolve("remitter.name", task="fx_remittance") → {party: "customer", role: "remitter", attribute: "name", sub: [],
                                                     canonical: "remitter.name", party_key: "customer.name"}
   party_key 는 서식이 달라도 같은 값을 가리키는 키 (시나리오 대조·추출이 쓸 키). 합치기는 결정(accepted)된 것만 따라간다.
@@ -14,7 +20,7 @@ import re
 from pathlib import Path
 
 DIR = Path(__file__).with_name("dictionary")
-FILES = ("parties", "roles", "attributes", "doc_types", "tasks", "options", "merges", "relations")
+FILES = ("parties", "roles", "attributes", "doc_types", "tasks", "options", "merges", "relations", "common", "links")
 _cache: dict = {}
 
 
@@ -108,3 +114,17 @@ def task_of(name: str) -> str | None:
         if n and n in {_norm(x) for x in [tid, t["name"], *t.get("aliases", [])]}:
             return merged("task", tid)
     return None
+
+
+def common_key(doc_type: str | None, key: str, include_suggested: bool = False) -> str | None:
+    """문서별 키 → 이은 공통 키. 그 자체가 공통 키면 그대로."""
+    if key in load("common").get("keys", {}):
+        return key
+    x = load("links").get("links", {}).get(doc_type or "", {}).get(key)
+    if x and (x["state"] == "이음" or (include_suggested and x["state"] == "제안")):
+        return x["to"]
+    return None
+
+
+def scope(doc_type: str | None, key: str) -> str:
+    return "공통" if common_key(doc_type, key) else "문서별"

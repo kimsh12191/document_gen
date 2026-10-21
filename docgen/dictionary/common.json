@@ -1,0 +1,449 @@
+{
+ "about": "키 사전 (studio/DESIGN.md 16절). docgen/scripts/build_dictionary.py 가 자동 초안을 만들고 studio 키 사전 화면이 고친다. by: 사람 인 것은 다시 만들어도 남는다. 공통 키: 여러 문서에 나오고 서류끼리 대조·심사하는 값. 나머지는 문서별 키(서식의 키 그대로).",
+ "keys": {
+  "agent.address": {
+   "name": "대리인 주소",
+   "kind": "text",
+   "docs": 15,
+   "by": "자동"
+  },
+  "agent.birth": {
+   "name": "대리인 생년월일",
+   "kind": "date",
+   "docs": 15,
+   "by": "자동"
+  },
+  "agent.name": {
+   "name": "대리인 성명",
+   "kind": "text",
+   "docs": 37,
+   "by": "자동"
+  },
+  "agent.phone": {
+   "name": "대리인 연락처",
+   "kind": "phone",
+   "docs": 13,
+   "by": "자동"
+  },
+  "agent.position": {
+   "name": "대리인 직위",
+   "kind": "text",
+   "docs": 2,
+   "by": "자동"
+  },
+  "agent.relation": {
+   "name": "대리인 관계",
+   "kind": "text",
+   "docs": 26,
+   "by": "자동"
+  },
+  "agent.rrn": {
+   "name": "대리인 주민등록번호",
+   "kind": "rrn",
+   "docs": 8,
+   "by": "자동"
+  },
+  "corp.address": {
+   "name": "법인·사업자 주소",
+   "kind": "text",
+   "docs": 28,
+   "by": "자동"
+  },
+  "corp.biz_item": {
+   "name": "법인·사업자 업종",
+   "kind": "text",
+   "docs": 47,
+   "by": "자동"
+  },
+  "corp.biz_no": {
+   "name": "법인·사업자 사업자등록번호",
+   "kind": "biz_no",
+   "docs": 89,
+   "by": "자동"
+  },
+  "corp.ceo": {
+   "name": "법인·사업자 대표자",
+   "kind": "text",
+   "docs": 51,
+   "by": "자동"
+  },
+  "corp.corp_reg_no": {
+   "name": "법인·사업자 법인등록번호",
+   "kind": "corp_reg_no",
+   "docs": 25,
+   "by": "자동"
+  },
+  "corp.established": {
+   "name": "법인·사업자 설립일",
+   "kind": "date",
+   "docs": 11,
+   "by": "자동"
+  },
+  "corp.industry": {
+   "name": "법인·사업자 업태·종목",
+   "kind": "text",
+   "docs": 2,
+   "by": "자동"
+  },
+  "corp.name": {
+   "name": "법인·사업자 상호",
+   "kind": "text",
+   "docs": 97,
+   "by": "자동"
+  },
+  "corp.name_en": {
+   "name": "법인·사업자 영문 상호",
+   "kind": "text",
+   "docs": 2,
+   "by": "자동"
+  },
+  "corp.phone": {
+   "name": "법인·사업자 연락처",
+   "kind": "phone",
+   "docs": 4,
+   "by": "자동"
+  },
+  "counterparty.address": {
+   "name": "상대방 주소",
+   "kind": "text",
+   "docs": 5,
+   "by": "자동"
+  },
+  "counterparty.name": {
+   "name": "상대방 성명",
+   "kind": "text",
+   "docs": 7,
+   "by": "자동"
+  },
+  "customer.address": {
+   "name": "고객 주소",
+   "kind": "text",
+   "docs": 151,
+   "by": "자동"
+  },
+  "customer.birth": {
+   "name": "고객 생년월일",
+   "kind": "date",
+   "docs": 85,
+   "by": "자동"
+  },
+  "customer.biz_no": {
+   "name": "고객 사업자등록번호",
+   "kind": "biz_no",
+   "docs": 9,
+   "by": "자동"
+  },
+  "customer.bon": {
+   "name": "고객 본관",
+   "kind": "text",
+   "docs": 3,
+   "by": "자동"
+  },
+  "customer.ceo": {
+   "name": "고객 대표자",
+   "kind": "text",
+   "docs": 5,
+   "by": "자동"
+  },
+  "customer.company": {
+   "name": "고객 직장명",
+   "kind": "text",
+   "docs": 3,
+   "by": "자동"
+  },
+  "customer.corp_reg_no": {
+   "name": "고객 법인등록번호",
+   "kind": "corp_reg_no",
+   "docs": 2,
+   "by": "자동"
+  },
+  "customer.email": {
+   "name": "고객 이메일",
+   "kind": "text",
+   "docs": 37,
+   "by": "자동"
+  },
+  "customer.gender": {
+   "name": "고객 성별",
+   "kind": "text",
+   "docs": 4,
+   "by": "자동"
+  },
+  "customer.home_phone": {
+   "name": "고객 자택전화",
+   "kind": "phone",
+   "docs": 5,
+   "by": "자동"
+  },
+  "customer.job": {
+   "name": "고객 직업",
+   "kind": "text",
+   "docs": 2,
+   "by": "자동"
+  },
+  "customer.mobile": {
+   "name": "고객 휴대전화",
+   "kind": "phone",
+   "docs": 6,
+   "by": "자동"
+  },
+  "customer.name": {
+   "name": "고객 성명",
+   "kind": "text",
+   "docs": 350,
+   "by": "자동"
+  },
+  "customer.name_en": {
+   "name": "고객 영문 성명",
+   "kind": "text",
+   "docs": 5,
+   "by": "자동"
+  },
+  "customer.name_hanja": {
+   "name": "고객 한자 성명",
+   "kind": "text",
+   "docs": 6,
+   "by": "자동"
+  },
+  "customer.nationality": {
+   "name": "고객 국적",
+   "kind": "text",
+   "docs": 18,
+   "by": "자동"
+  },
+  "customer.phone": {
+   "name": "고객 연락처",
+   "kind": "phone",
+   "docs": 101,
+   "by": "자동"
+  },
+  "customer.relation": {
+   "name": "고객 관계",
+   "kind": "text",
+   "docs": 3,
+   "by": "자동"
+  },
+  "customer.rrn": {
+   "name": "고객 주민등록번호",
+   "kind": "rrn",
+   "docs": 63,
+   "by": "자동"
+  },
+  "customer.trade_name": {
+   "name": "고객 상호",
+   "kind": "text",
+   "docs": 4,
+   "by": "자동"
+  },
+  "employer.address": {
+   "name": "직장 주소",
+   "kind": "text",
+   "docs": 8,
+   "by": "자동"
+  },
+  "employer.department": {
+   "name": "직장 부서",
+   "kind": "text",
+   "docs": 9,
+   "by": "자동"
+  },
+  "employer.hire_date": {
+   "name": "직장 입사일",
+   "kind": "date",
+   "docs": 8,
+   "by": "자동"
+  },
+  "employer.name": {
+   "name": "직장 이름",
+   "kind": "text",
+   "docs": 22,
+   "by": "자동"
+  },
+  "employer.period": {
+   "name": "직장 재직기간",
+   "kind": "text",
+   "docs": 2,
+   "by": "자동"
+  },
+  "employer.phone": {
+   "name": "직장 연락처",
+   "kind": "phone",
+   "docs": 7,
+   "by": "자동"
+  },
+  "employer.position": {
+   "name": "직장 직위",
+   "kind": "text",
+   "docs": 10,
+   "by": "자동"
+  },
+  "family.id": {
+   "name": "가족 번호",
+   "kind": "text",
+   "docs": 2,
+   "by": "자동"
+  },
+  "family.name": {
+   "name": "가족 성명",
+   "kind": "text",
+   "docs": 5,
+   "by": "자동"
+  },
+  "foreign.address": {
+   "name": "외국 상대 주소",
+   "kind": "text",
+   "docs": 9,
+   "by": "자동"
+  },
+  "foreign.bank": {
+   "name": "외국 거래 상대 은행",
+   "kind": "text",
+   "docs": 0,
+   "by": "자동"
+  },
+  "foreign.iban": {
+   "name": "외국 거래 상대 IBAN",
+   "kind": "iban",
+   "docs": 0,
+   "by": "자동"
+  },
+  "foreign.name": {
+   "name": "외국 상대 이름",
+   "kind": "text",
+   "docs": 10,
+   "by": "자동"
+  },
+  "foreign.office": {
+   "name": "외국 상대 사무소",
+   "kind": "text",
+   "docs": 4,
+   "by": "자동"
+  },
+  "foreign.swift": {
+   "name": "외국 거래 상대 은행 SWIFT(BIC) 코드",
+   "kind": "swift",
+   "docs": 3,
+   "by": "자동"
+  },
+  "property.kind": {
+   "name": "물건 종류",
+   "kind": "text",
+   "docs": 2,
+   "by": "자동"
+  },
+  "property.land_right": {
+   "name": "물건 대지권",
+   "kind": "text",
+   "docs": 2,
+   "by": "자동"
+  },
+  "property.location": {
+   "name": "물건 소재지",
+   "kind": "text",
+   "docs": 4,
+   "by": "자동"
+  },
+  "property.structure": {
+   "name": "물건 구조",
+   "kind": "text",
+   "docs": 2,
+   "by": "자동"
+  },
+  "related.address": {
+   "name": "보증인·공동 주소",
+   "kind": "text",
+   "docs": 5,
+   "by": "자동"
+  },
+  "related.name": {
+   "name": "보증인·공동 성명",
+   "kind": "text",
+   "docs": 154,
+   "by": "자동"
+  },
+  "related.phone": {
+   "name": "보증인·공동 연락처",
+   "kind": "phone",
+   "docs": 5,
+   "by": "자동"
+  },
+  "related.rrn": {
+   "name": "보증인·공동 주민등록번호",
+   "kind": "rrn",
+   "docs": 5,
+   "by": "자동"
+  },
+  "seal.agent": {
+   "name": "대리인 도장",
+   "kind": "seal",
+   "docs": 6,
+   "by": "자동"
+  },
+  "seal.corp": {
+   "name": "법인·사업자 도장",
+   "kind": "seal",
+   "docs": 11,
+   "by": "자동"
+  },
+  "seal.customer": {
+   "name": "고객 도장",
+   "kind": "seal",
+   "docs": 333,
+   "by": "자동"
+  },
+  "seal.related": {
+   "name": "보증인·공동 도장",
+   "kind": "seal",
+   "docs": 174,
+   "by": "자동"
+  },
+  "sign.agent": {
+   "name": "대리인 서명",
+   "kind": "signature",
+   "docs": 6,
+   "by": "자동"
+  },
+  "sign.customer": {
+   "name": "고객 서명",
+   "kind": "signature",
+   "docs": 310,
+   "by": "자동"
+  },
+  "sign.related": {
+   "name": "보증인·공동 서명",
+   "kind": "signature",
+   "docs": 168,
+   "by": "자동"
+  },
+  "trade.hs_code": {
+   "name": "HS 품목 분류 코드",
+   "kind": "hs_code",
+   "docs": 0,
+   "by": "자동"
+  },
+  "trade.incoterms": {
+   "name": "가격 조건 (인코텀즈)",
+   "kind": "incoterms",
+   "docs": 0,
+   "by": "자동"
+  },
+  "trade.port_of_discharge": {
+   "name": "도착항",
+   "kind": "port",
+   "docs": 0,
+   "by": "자동"
+  },
+  "trade.port_of_loading": {
+   "name": "선적항",
+   "kind": "port",
+   "docs": 0,
+   "by": "자동"
+  },
+  "trade.vessel": {
+   "name": "선박명·항차",
+   "kind": "vessel",
+   "docs": 0,
+   "by": "자동"
+  }
+ }
+}

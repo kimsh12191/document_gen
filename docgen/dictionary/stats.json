@@ -9,5 +9,8 @@
  "options": 991,
  "merges": 400,
  "key_forms_assigned": 0.9537,
- "cross_check_candidates": 186
+ "common_keys": 74,
+ "links": 3073,
+ "links_sure": 999,
+ "cross_check_candidates": 178
 }

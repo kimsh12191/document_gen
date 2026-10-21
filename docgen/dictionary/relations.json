@@ -15522,13 +15522,6 @@
      ]
     },
     {
-     "party_key": "customer.address2",
-     "doc_types": [
-      "corporate_customer_due_diligence",
-      "power_of_attorney"
-     ]
-    },
-    {
      "party_key": "customer.biz_no",
      "doc_types": [
       "credit_agreement_corp",
@@ -15925,13 +15918,6 @@
      ]
     },
     {
-     "party_key": "agent.name2",
-     "doc_types": [
-      "account_opening_application",
-      "hf337"
-     ]
-    },
-    {
      "party_key": "agent.phone",
      "doc_types": [
       "account_opening_application",
@@ -15947,48 +15933,6 @@
     },
     {
      "party_key": "customer.email",
-     "doc_types": [
-      "account_opening_application",
-      "hf337"
-     ]
-    },
-    {
-     "party_key": "customer.email2",
-     "doc_types": [
-      "account_opening_application",
-      "hf337"
-     ]
-    },
-    {
-     "party_key": "customer.name2",
-     "doc_types": [
-      "account_opening_application",
-      "hf337"
-     ]
-    },
-    {
-     "party_key": "customer.name3",
-     "doc_types": [
-      "account_opening_application",
-      "hf337"
-     ]
-    },
-    {
-     "party_key": "customer.name4",
-     "doc_types": [
-      "account_opening_application",
-      "hf337"
-     ]
-    },
-    {
-     "party_key": "customer.name5",
-     "doc_types": [
-      "account_opening_application",
-      "hf337"
-     ]
-    },
-    {
-     "party_key": "customer.name6",
      "doc_types": [
       "account_opening_application",
       "hf337"

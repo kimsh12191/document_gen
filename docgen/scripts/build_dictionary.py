@@ -153,13 +153,9 @@ def party_of(role: str | None, attr: str) -> tuple[str, bool]:
     return p.rstrip("?"), not p.endswith("?")
 
 
-SKIP_PARTIES = {"document", "deal", "finance", "unassigned", "bank", "issuer"}   # 대조 후보에서 뺄 당사자 (서류마다 다른 값)
-
-
-def build_relations(fields: dict, types: dict, tasks: dict, roles: dict, merges: list) -> dict:
-    """업무 → 문서 종류 → 당사자 키 (그리고 거꾸로). 업무 안에서 둘 이상의 문서 종류에 나오는 사람·기관 당사자 키 = 대조 후보."""
+def party_key_fn(tasks: dict, roles: dict, merges: list):
+    """서식의 키 → (당사자 키, 당사자). 결정된 합치기를 따르고, 업무가 주어지면 업무별 역할을 쓴다."""
     accepted = {m["from"]: m["into"] for m in merges if m["dict"] == "field" and m["status"] == "accepted"}
-    form_type = {f: tid for tid, t in types.items() for f in t["forms"]}
 
     def pkey(key, task=None):
         key = accepted.get(key, key)
@@ -168,6 +164,90 @@ def build_relations(fields: dict, types: dict, tasks: dict, roles: dict, merges:
             or (roles.get(role, {}).get("party") if role else SINGLE_PARTY.get(attr, "unassigned")) or "unassigned"
         mark = attr in ("seal", "sign")
         return ".".join(([attr] if mark else []) + [party] + sub + ([] if mark else [attr])), party
+    return pkey
+
+
+PARTY_SHORT = {"customer": "고객", "family": "가족", "agent": "대리인", "related": "보증인·공동", "employer": "직장",
+               "corp": "법인·사업자", "counterparty": "상대방", "foreign": "외국 상대", "property": "물건", "bank": "은행",
+               "issuer": "발급기관", "deal": "거래", "finance": "재무", "document": "문서", "trade": "무역"}
+# 공통 키 이름: 당사자 + 값 (이름표가 서식마다 달라 표준 말을 쓴다)
+ATTR_KO = {"name": "성명", "address": "주소", "rrn": "주민등록번호", "phone": "연락처", "mobile": "휴대전화", "home_phone": "자택전화",
+           "birth": "생년월일", "email": "이메일", "nationality": "국적", "name_en": "영문 성명", "name_hanja": "한자 성명",
+           "gender": "성별", "relation": "관계", "job": "직업", "biz_no": "사업자등록번호", "corp_reg_no": "법인등록번호",
+           "ceo": "대표자", "biz_item": "업종", "biz_type": "업태", "industry": "업태·종목", "established": "설립일",
+           "department": "부서", "position": "직위", "hire_date": "입사일", "period": "재직기간", "swift": "SWIFT 코드",
+           "iban": "IBAN", "bank": "은행", "account": "계좌번호", "location": "소재지", "kind": "종류", "structure": "구조",
+           "land_right": "대지권", "id": "번호", "office": "사무소", "trade_name": "상호", "company": "직장명", "bon": "본관"}
+ATTR_KO_PARTY = {("corp", "name"): "상호", ("corp", "name_en"): "영문 상호", ("employer", "name"): "이름",
+                 ("foreign", "name"): "이름", ("property", "location"): "소재지"}
+COMMON_SKIP = {"bank", "issuer", "deal", "finance", "document", "unassigned"}   # 5개 문서 이상이어도 공통으로 올리지 않는 당사자
+
+
+def build_common(fields: dict, types: dict, tasks: dict, roles: dict, merges: list, relations: dict, attrs: dict, rules: dict):
+    """공통 키(여러 문서에 나오고 서류끼리 대조·심사하는 값)와, 문서별 키 → 공통 키 잇기 (DESIGN 16.0).
+    공통 키 후보: 업무 안 둘 이상의 문서에 나오는 사람·기관 키 + 키 규칙의 표준 키 + 사람·기관 키 중 5개 문서 종류 이상.
+    잇기: 서식의 키가 풀어서 공통 키가 되면 잇는다. 역할의 당사자가 확실하면 '이음', 아니면 '제안'. 사람이 정한 것은 남는다."""
+    old = _load("common.json", {"keys": {}})["keys"]
+    old_links = _load("links.json", {"links": {}})["links"]
+    form_type = {f: tid for tid, t in types.items() for f in t["forms"]}
+    pkey = party_key_fn(tasks, roles, merges)
+    numbered = re.compile(r"\d$")   # name2·email2: 같은 서식의 두 번째 칸
+    cands = {x["party_key"] for t in relations["tasks"].values() for x in t["shared"]} | set(rules["keys"])
+    for pk, v in relations["party_keys"].items():
+        parts = pk.split(".")
+        party = parts[1] if parts[0] in ("seal", "sign") and len(parts) > 1 else parts[0]
+        if v["doc_types"] >= 5 and party in WHO and party not in COMMON_SKIP and "*" not in pk:
+            cands.add(pk)
+    ok = lambda k: STD.fullmatch(k) and not numbered.search(k) and (k.split(".")[1] if k.split(".")[0] in ("seal", "sign") else k.split(".")[0]) not in COMMON_SKIP  # noqa: E731
+    cands = {k for k in cands if ok(k) or k in rules["keys"]}
+    proposed = {m["from"]: m["into"] for m in merges if m["dict"] == "field" and m["status"] == "proposed"}
+    links, labels, docs_of = {}, defaultdict(Counter), defaultdict(set)
+    for fid, f in fields.items():
+        tid = form_type.get(fid)
+        if not tid:
+            continue
+        for k in f["keys"]:
+            pk, _ = pkey(k["key"])
+            via = None
+            if pk not in cands and k["key"] in proposed:   # 아직 결정 안 한 합치기 후보로 이어지면 '제안'
+                pk, via = pkey(proposed[k["key"]])[0], proposed[k["key"]]
+            if pk not in cands:
+                continue
+            role = split_key(k["key"])[0]
+            sure = not via and bool(role) and roles.get(role, {}).get("sure", True) and roles.get(role, {}).get("party") != "unassigned"
+            links.setdefault(tid, {})[k["key"]] = {"to": pk, "state": "이음" if sure else "제안", "by": "자동"}
+            if k.get("label"):
+                labels[pk][k["label"]] += 1
+            docs_of[pk].add(tid)
+    for tid, ls in old_links.items():   # 사람이 정한 잇기·끊기 유지
+        for dk, v in ls.items():
+            if v.get("by") == HUMAN:
+                links.setdefault(tid, {})[dk] = v
+    common = {}
+    for ck in sorted(cands | {k for k, v in old.items() if v.get("by") == HUMAN}):
+        prev = old.get(ck, {})
+        if prev.get("by") == HUMAN:
+            common[ck] = {**prev, "docs": len(docs_of[ck])}
+            continue
+        parts = ck.split(".")
+        mark = parts[0] in ("seal", "sign")
+        party, attr = (parts[1], parts[0]) if mark else (parts[0], parts[-1])
+        lab = rules["keys"].get(ck, {}).get("meaning") if ck in rules["keys"] else None
+        lab = lab or ATTR_KO_PARTY.get((party, attr)) or ATTR_KO.get(attr) or next((x for x, _ in labels[ck].most_common() if x and len(x) <= 16), None) or attr
+        name = f"{PARTY_SHORT.get(party, party)} {'도장' if attr == 'seal' else '서명'}" if mark else \
+            lab if ck in rules["keys"] else f"{PARTY_SHORT.get(party, party)} {lab}"
+        kind = rules["keys"].get(ck, {}).get("kind") or (attrs.get(attr) or {}).get("kind") or "text"
+        common[ck] = {"name": name, "kind": kind, "docs": len(docs_of[ck]), "by": "자동"}
+    return common, links
+
+
+SKIP_PARTIES = {"document", "deal", "finance", "unassigned", "bank", "issuer"}   # 대조 후보에서 뺄 당사자 (서류마다 다른 값)
+
+
+def build_relations(fields: dict, types: dict, tasks: dict, roles: dict, merges: list) -> dict:
+    """업무 → 문서 종류 → 당사자 키 (그리고 거꾸로). 업무 안에서 둘 이상의 문서 종류에 나오는 사람·기관 당사자 키 = 대조 후보."""
+    form_type = {f: tid for tid, t in types.items() for f in t["forms"]}
+    pkey = party_key_fn(tasks, roles, merges)
 
     doc_keys = defaultdict(set)
     for fid, f in fields.items():
@@ -407,6 +487,14 @@ def build() -> dict:
     _write("tasks.json", {"about": about, "groups": TASK_GROUPS, "tasks": tasks})
     _write("options.json", {"about": about, "options": options})
     _write("merges.json", {"about": about, "items": merges})
+    common, links = build_common(fields, doc_types["types"], tasks, roles, merges, relations, attrs, rules)
+    for t in relations["tasks"].values():   # 대조 후보는 공통 키만
+        t["shared"] = [x for x in t["shared"] if x["party_key"] in common]
+    _write("common.json", {"about": about + " 공통 키: 여러 문서에 나오고 서류끼리 대조·심사하는 값. 나머지는 문서별 키(서식의 키 그대로).",
+                           "keys": common})
+    _write("links.json", {"about": about + " 문서별 키 → 공통 키 잇기. state: 이음 | 제안 | 끊음, by: 자동 | 사람.", "links": links})
+    stats.update(common_keys=len(common), links=sum(len(v) for v in links.values()),
+                 links_sure=sum(1 for v in links.values() for x in v.values() if x["state"] == "이음"))
     _write("relations.json", {"about": about + " relations 는 매번 새로 만든다(사람이 고치지 않음).", **relations})
     stats["cross_check_candidates"] = sum(len(t["shared"]) for t in relations["tasks"].values())
     _write("stats.json", stats)

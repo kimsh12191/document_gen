@@ -74,3 +74,12 @@ def test_rebuild_keeps_human_decisions(tmp_path, monkeypatch):
     assert again["party"] == "related" and again["by"] == "사람"
     m2 = json.loads((out / "merges.json").read_text(encoding="utf-8"))["items"]
     assert next(x for x in m2 if (x["dict"], x["from"], x["into"]) == (pick["dict"], pick["from"], pick["into"]))["status"] == "rejected"
+
+
+def test_common_key_resolution():
+    loan = DIC.doc_type_of("loan_application")
+    assert DIC.common_key(None, "customer.name") == "customer.name"          # 그 자체가 공통 키
+    assert DIC.common_key(loan, "applicant.name", include_suggested=True) == "customer.name"
+    assert DIC.scope(loan, "bank") == "문서별"
+    common = DIC.load("common")["keys"]
+    assert common["customer.name"]["name"] == "고객 성명" and common["corp.name"]["name"] == "법인·사업자 상호"
