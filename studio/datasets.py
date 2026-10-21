@@ -200,7 +200,7 @@ class Registry:
 
     def allowed(self, ds: dict, f: Path) -> bool:
         """화면에 내줄 수 있는 파일: 이 데이터셋 폴더, 붙인 결과, 다른 등록 데이터셋 폴더 안의 것만
-        (2부 prepare 결과가 docgen.bench 폴더의 이미지를 그대로 가리킬 때가 있다)."""
+        (합친 데이터셋은 다른 과제 폴더의 이미지를 가리킬 때가 있다)."""
         f = f.resolve()
         roots = [Path(ds["path"]).resolve()] + [Path(r["path"]).resolve() for r in ds.get("runs", [])]
         roots += [Path(v["path"]).resolve() for v in self.load()["datasets"].values()]
@@ -354,7 +354,7 @@ def view_item(ds: dict, it: dict) -> dict:
 # ---------------------------------------------------------------------------
 
 def find_predictions(p: Path) -> list[Path]:
-    """붙인 경로 안의 답 묶음. 파일 하나 = 한 묶음, runs/<실험>/predictions/*.jsonl = 파일마다 한 묶음 (1부·2부 파이프라인),
+    """붙인 경로 안의 답 묶음. 파일 하나 = 한 묶음, runs/<실험>/predictions/*.jsonl = 파일마다 한 묶음 (학습 실행 train/),
     그 밖의 폴더(docgen.bench run 의 예측 폴더: 과제마다 파일 하나) = 폴더 전체가 한 묶음."""
     if p.is_file():
         return [p] if p.suffix == ".jsonl" else []

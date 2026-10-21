@@ -1,6 +1,6 @@
 """생성 라벨 → 사내 OCR 응답 형식 JSON (쪽 이미지마다 하나). 합성 OCR 벤치마크의 정답 (studio/DESIGN.md 9.2).
 
-사내 OCR 응답 형식 (1부 ocr/bank_ocr 의 기본 mapping 이 읽는 것)
+사내 OCR 응답 형식 (OCR 준비 docgen.bench.ocr_data 의 기본 mapping 이 읽는 것)
   {"filename": "<이미지 파일 이름>", "success": "Y",
    "data": {"basicData": [[{"text", "confidence", "bounding": {"shape": "rectangle", "vertices": [{x, y} × 4]}, "line_num"}]]}}
 
@@ -8,7 +8,7 @@
   fields_items  값 칸·항목명 칸만. 예시 데이터용으로 guide/examples/labels_to_ocr.py 가 export_fields 로 부른다
   page_items    쪽 전체 글자 (렌더러가 잰 단어 박스 + overlay 배경 PDF 의 인쇄 글자). 합성 OCR 세트(docgen/ocr_set.py)가 쓴다
                 unit="word": 단어마다 한 항목, 같은 줄은 같은 line_num / unit="line": 줄마다 한 항목
-                애매한 글자(견본 표시·도장 안 글자·정정으로 그은 글자)는 신뢰도를 낮춰, 1부 prepare 가 그 자리를
+                애매한 글자(견본 표시·도장 안 글자·정정으로 그은 글자)는 신뢰도를 낮춰, OCR 준비가 그 자리를
                 문항에서 빼거나(필터) 칠해 가리게 한다.
 """
 from __future__ import annotations

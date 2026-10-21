@@ -516,6 +516,8 @@ studio에서는 **"어느 칸에 무엇이 나올지"(확률)와 "어떻게 생�
 
 ### 8.2 OCR — 1부 OCR 준비 단계(`ocr/bank_ocr`)를 그대로 쓴다
 
+> 2026-10-21: 1부 코드는 `docgen/bench/ocr_*`로 옮겼다(17절). 아래의 `ocr/bank_ocr`·`bank_ocr prepare`는 `docgen.bench.ocr_data`·`python -m docgen.bench.ocr_prepare`로 읽는다.
+
 OCR을 읽고 부르는 일은 1부 OCR 학습의 준비 단계(`python -m bank_ocr scan` / `prepare`)에 이미 있다. studio는 `ocr/bank_ocr/data.py`를 **복사하지 않고 불러 쓴다**(표준 라이브러리와 PIL만 쓰므로 생성기 환경에서 import된다. 2026-10-20 확인). 두 곳의 OCR 처리가 늘 같게 된다.
 
 | 일 | 1부 OCR 준비 단계 | studio |
@@ -671,6 +673,8 @@ OCR을 읽고 부르는 일은 1부 OCR 학습의 준비 단계(`python -m bank_
 
 ### 9.1 데이터셋 등록부
 
+> 2026-10-21: 형식은 과제 폴더 하나(docgen-tasks), `track`(ocr·bank) 대신 과제 묶음 `groups`(ocr·doc·work)다(17.3절). 아래의 형식 세 가지는 옛 구분이다.
+
 데이터셋을 만드는 코드는 지금처럼 `docgen.bench`(은행 업무), `ocr/bank_ocr`(OCR), `bank/bank_task`(2부 준비·채점)에 둔다. studio는 생성·준비 명령을 **백그라운드 프로세스로 실행**하고, 완료한 결과 폴더를 등록부에 자동으로 올린다. 같은 레시피를 명령줄(`python -m docgen.bench build --recipe …`, `python -m bank_ocr prepare --config …`)로도 돌릴 수 있다. 서버에서 큰 데이터셋을 명령줄로 만든 경우에는 폴더를 등록한다. 과제를 추가하거나 바꾸는 일(좌표 등)은 그 코드에서 한다. studio는 과제를 레시피에서 고르고 문항을 보여 준다.
 
 **등록부** (`<workspace_dir>/registry.json`): 데이터셋마다 한 줄. 폴더는 옮기지 않고 경로만 적는다.
@@ -749,6 +753,8 @@ OCR을 읽고 부르는 일은 1부 OCR 학습의 준비 단계(`python -m bank_
 2026-10-20 확인: 관련 회귀 테스트 89개 통과. 사용자 등록부와 분리한 작업 공간에서 실제 은행 업무 데이터셋을 브라우저로 생성해 같은 화면 유지·자동 등록·입력 보존을 확인했다. 기존 `bank-bench-2026-10-20`의 완료 파일·문항 수를 확인하고 누락된 등록도 복구했다.
 
 ### 9.2 OCR 벤치마크 — 세 출처 모두 1부 형식으로 만든다
+
+> 2026-10-21: '1부 형식' = OCR 준비(`docgen.bench.ocr_prepare`) 결과이고, 같은 폴더에 과제 형식 `tasks/`도 쓴다(17절).
 
 OCR 벤치마크는 **1부 `bank_ocr prepare`가 만드는 8과제를 그대로 쓴다**(`crop_ocr`, `bbox_ocr`, `grounding`, `region_ocr`, `spotting`, `relation`, `marked_ocr`, `marked_box`). 출처에 따라 다른 것은 **이미지와 OCR JSON(정답)을 어디서 가져오는지**뿐이다. 그 뒤는 1부 코드가 똑같이 처리한다.
 
@@ -1042,6 +1048,8 @@ OCR 데이터셋 (benchmark_tasks.jsonl, train_sft.jsonl …) → 등록부
 
 ### 9.8 결과 보기·채점·비교
 
+> 2026-10-21: viewer 두 개(ocr/viewer·bank/viewer)는 지웠다. 문항·답 보기와 채점은 studio ⑥·⑦ 하나, 채점은 모든 과제 `docgen.bench.evaluate`(17.4절).
+
 등록부의 어느 데이터셋이든 **같은 화면에서 문항, 정답, 모델 답, 점수를 본다.** 지금은 1부 OCR viewer(`ocr/viewer/ocr_viewer.py`), 2부 은행 업무 viewer(`bank/viewer/bank_viewer.py`), 비교표 HTML(`reports/benchmark.html`)이 따로 있다.
 
 **읽는 것** (모두 1부·2부 파이프라인이 이미 쓰는 파일, 읽기만 한다)
@@ -1063,6 +1071,8 @@ OCR 데이터셋 (benchmark_tasks.jsonl, train_sft.jsonl …) → 등록부
 - **추론은 studio에서 하지 않는다**(11판). 모델 답은 1부·2부 파이프라인의 평가 단계나 `bank_ocr predict`가 만든다. 기존 viewer는 서버에서 모델을 띄워 서류를 바로 물어보는 기능이 있어 그대로 둔다. studio는 저장된 결과를 보고 비교하는 쪽을 맡는다. 두 쪽이 같은 파일을 읽으므로 섞어 써도 된다.
 
 ### 9.9 학습으로 이어 쓰기
+
+> 2026-10-21: 학습은 `train/` 하나다(`python -m train`, 17절). 아래 표의 1부·2부 파이프라인과 replay·ocr_check 는 옛 방식이고, 지금은 데이터셋 목록(문항 수)·평가 세트 목록을 `train/configs/studio-<이름>.json`에 쓴다(studio/TRAINING.md).
 
 studio가 만든 데이터셋은 **1부·2부 학습 파이프라인이 그대로 읽는 폴더**다. 학습 코드는 바꾸지 않는다. studio는 학습 코드가 읽을 폴더와 설정 조각을 만들어 주고, 학습이 끝나면 결과를 다시 읽어 온다. 단계별 따라하기는 [TRAINING.md](TRAINING.md)에 둔다.
 
@@ -1089,6 +1099,8 @@ studio가 만든 데이터셋은 **1부·2부 학습 파이프라인이 그대�
 - 이 PC의 studio는 서식 편집·미리보기용이다. 데이터셋을 만들고 학습에 넘기는 일은 내부망 docgen 컨테이너의 studio에서 한다.
 
 ## 10. 생성기·학습 코드 쪽 변경
+
+> 2026-10-21: 학습 코드(`ocr/`·`bank/`)는 `train/`과 `docgen/bench`로 합쳐 지웠다(17절).
 
 UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한으로 바꾼다. `ocr/`은 기본 동작을 바꾸지 않고 설정을 더하는 것만 한다.
 
@@ -1535,8 +1547,8 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 
 | # | 범위 | 완료 기준 |
 |---|---|---|
-| U1 | 채점·보상 하나 (`ocr_metrics` 옮김, `evaluate`가 OCR 과제도) | 같은 OCR·업무 세트와 답을 옛 코드와 새 코드로 채점하면 과제별 지표·보상이 모두 같음 |
-| U2 | OCR 준비를 `docgen/bench`로, 출력에 `docgen-tasks/1` 폴더, studio·docgen 의 `bank_ocr` import 와 `sys.path` 고치기 없앰, 사내 OCR 어댑터는 studio 로 | OCR 준비 결과(문항·쪼개기)가 옮기기 전과 같음, studio 테스트 통과 |
-| U3 | studio 데이터셋·평가 하나 (track 없앰, 보기·채점·레시피·라벨 데이터 만들기 하나) | OCR·업무 문항을 한 데이터셋에 섞어 만들고 같은 화면에서 보고 채점 |
-| U4 | `train/` 하나 (섞기·학습·답 내기·보상·보고서) | 섞기 결과가 옛 2부 prepare(+OCR replay)와 같은 문항 집합, 학습 실행 리허설(dry-run)·보상 플러그인 시험 통과 |
+| U1 | 채점·보상 하나 (`ocr_metrics` 옮김, `evaluate`가 OCR 과제도) | **끝남.** OCR 382·업무 68 문항, 맞음·틀림·빈 답·없는 답을 섞은 답으로 옛 코드와 비교: 과제별 지표·쪼개기(view·confidence·size)·보상·SFT 답 **모두 같음** |
+| U2 | OCR 준비를 `docgen/bench`로, 출력에 `docgen-tasks/1` 폴더, studio·docgen 의 `bank_ocr` import 와 `sys.path` 고치기 없앰, 사내 OCR 어댑터는 studio 로 | **끝남.** 같은 설정으로 옛·새 준비: 문항·SFT·GRPO·쪽 정보·DONE·그림 292장 모두 같음 (한 프로세스에서 준비를 두 번 돌리면 변형 그림 몇 장이 달라지는 것은 옛 코드도 같음). 옛 ocr/tests 중 준비·채점 25개를 docgen/tests 로 |
+| U3 | studio 데이터셋·평가 하나 (track 없앰, 보기·채점·레시피·라벨 데이터 만들기 하나) | **끝남.** `merge_tasks`로 OCR 준비 결과를 업무 과제 폴더에 합친 데이터셋을 등록·문항 보기·채점(평가 문항만), 라벨 있는 데이터는 업무 과제 + 쪽 OCR 8과제를 한 데이터셋으로. tasks/ 없는 옛 OCR 준비 폴더·옛 등록부 줄은 읽을 때 바꿈. 화면에서 OCR 평가 세트 점수가 옛 1부 채점과 같음 |
+| U4 | `train/` 하나 (섞기·학습·답 내기·보상·보고서) | **끝남.** 같은 데이터로 옛 2부 prepare 와 비교: 평가 문항·GRPO 후보·SFT 질문/답·검증 **모두 같음**. OCR replay 는 OCR 데이터셋을 학습 목록에(count), ocr_check 는 평가 목록에. SFT 질문 꼴은 업무 과제와 같게 `<image>`+질문(옛 OCR 은 `<image>\n`). train/tests 9개(섞기·보상 플러그인·골라 뽑기·보고서·답 내기·학습 실행기·리허설). studio 학습 탭은 데이터셋 여러 개(문항 수)·평가 세트 여러 개 |
 | U5 | `ocr/`·`bank/` 지우기, 문서(README·guide·TRAINING·docker·이 문서 9절) 고치기 | 저장소에 `bank_ocr`·`bank_task` 참조 없음, 전체 테스트 통과 |

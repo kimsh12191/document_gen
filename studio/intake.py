@@ -4,7 +4,7 @@ batch["results"](추출 결과 위치)를 남겨 ⑤ 라벨 검수도 그대로 
 
 넣는 폴더 (단계는 빠져도 된다)
   images/<업무>/<건>/<서류>/p1.png …   또는 <서류>.pdf, <서류>.png — images/ 가 없으면 폴더 자체를 이미지 폴더로 본다
-  ocr/<서류 경로>/<쪽>.json            (선택) 사내 OCR 응답. 1부 find_saved_ocr 규칙. PDF 는 ocr/<서류>/p<쪽>.json
+  ocr/<서류 경로>/<쪽>.json            (선택) 사내 OCR 응답. docgen.bench.ocr_data.find_saved_ocr 규칙. PDF 는 ocr/<서류>/p<쪽>.json
   pred/<서류 경로>.json                 (선택) 추출 결과 (RESULTS_FORMAT.md 4절)
   cases.csv                             (선택) path,case,scenario — 서류 경로 → 건·업무. 있으면 폴더 단계보다 우선
   meta.json                             (선택) real_data(기본 true)·mapping·model·name

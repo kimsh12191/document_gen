@@ -10,8 +10,8 @@
 내부 파이프라인이나 모델이 이미 만든 **OCR 결과와 추론 결과를 저장해 둔 폴더**를 studio에 경로로 알려 주면, studio가
 포맷끼리 묶고 사람이 추론 결과를 검수한다. 검수한 결과는 실서류 정답이 되어 벤치마크 점수 계산에 쓴다. 같은 폴더의 이미지·OCR로 OCR 벤치마크도 만든다([DESIGN.md 9.2](DESIGN.md#92-ocr-벤치마크--세-출처-모두-1부-형식으로-만든다)).
 
-**이미지와 OCR은 1부 OCR 준비 단계(`python -m bank_ocr scan --ocr-dir`)와 같은 규칙이다.** 1부에서 쓰던 이미지 폴더·OCR 폴더를
-옮기지 않고 `meta.json`에 경로만 적으면 된다. studio는 `ocr/bank_ocr/data.py`의 함수를 그대로 불러 읽는다.
+**이미지와 OCR은 OCR 준비 단계(`docgen.bench.ocr_data.scan(ocr_dir=…)`)와 같은 규칙이다.** 쓰던 이미지 폴더·OCR 폴더를
+옮기지 않고 `meta.json`에 경로만 적으면 된다. studio는 `docgen/bench/ocr_data.py`의 함수를 그대로 불러 읽는다.
 
 ## 1. 폴더 구조
 
@@ -56,19 +56,19 @@
 | `name` | ● | 결과 묶음 이름 |
 | `real_data` | ● | 실서류면 `true`. 외부 분석기로 보낼 수 없고, 검수 결과는 저장소에 넣지 않는다 |
 | `images_dir`, `ocr_dir`, `pred_dir` | | 기본 `images`, `ocr`, `pred` |
-| `document_regex` | ●(둘 중 하나) | 1부 `scan --document-regex`와 같다. 이미지 상대 경로에 맞는 정규식, `(?P<document_id>…)` 묶음이 문서 ID. 여러 쪽 문서를 한 문서로 묶는다. 쪽 순서는 경로 순서 |
-| `single_page` | ●(둘 중 하나) | `true`면 이미지 한 장이 한 문서 (1부 `--single-page-documents`). 문서 ID는 확장자를 뺀 상대 경로 |
-| `mapping` | | OCR JSON 해석 규칙. 1부 설정(`ocr/config.example.json`)의 `mapping`과 같은 키. 없으면 사내 OCR 형식(위 예)을 쓴다 |
+| `document_regex` | ●(둘 중 하나) | OCR 준비 `scan(document_regex=…)`과 같다. 이미지 상대 경로에 맞는 정규식, `(?P<document_id>…)` 묶음이 문서 ID. 여러 쪽 문서를 한 문서로 묶는다. 쪽 순서는 경로 순서 |
+| `single_page` | ●(둘 중 하나) | `true`면 이미지 한 장이 한 문서 (OCR 준비 `scan(single_page=True)`). 문서 ID는 확장자를 뺀 상대 경로 |
+| `mapping` | | OCR JSON 해석 규칙. OCR 준비 설정(`docgen/bench/ocr_config.example.json`)의 `mapping`과 같은 키. 없으면 사내 OCR 형식(위 예)을 쓴다 |
 | `ocr` | | OCR 이름·버전 (기록용) |
 | `model` | | 추론에 쓴 모델. 검수 뒤 이 모델의 점수를 바로 낼 때 쓴다 |
 | `task` | | 추론한 과제 (`kie`, `marks`, `classify` …) |
 
 ## 3. OCR 결과
 
-- **찾는 규칙 (1부 `find_saved_ocr`와 같음):** 이미지 `images/A/page_1.png`의 OCR은 `ocr/A/page_1.json`, `ocr/A/page_1.png.json`, `ocr/page_1.json`, `ocr/page_1.png.json` 순서로 찾는다.
-- **내용:** OCR 서버가 돌려준 원본 응답 그대로. 사내 OCR이면 `{"success": "Y", "data": {"basicData": [...]}}`. 다른 OCR이면 `meta.json`의 `mapping`으로 글자·박스·신뢰도 위치를 알려 준다 (1부 `parse_ocr`와 같은 해석).
-- **좌표:** 그 이미지 파일의 픽셀. EXIF 회전 정보가 있는 이미지는 저장된 OCR 좌표와 어긋날 수 있으므로 1부와 같이 쓰지 않고, 설정된 OCR로 다시 읽는다.
-- OCR 파일이 없는 이미지는 studio가 설정된 `ocr_callable`로 읽는다. 1부와 같은 캐시 키를 쓰므로 1부에서 이미 돌린 이미지는 다시 부르지 않는다.
+- **찾는 규칙 (`docgen.bench.ocr_data.find_saved_ocr`와 같음):** 이미지 `images/A/page_1.png`의 OCR은 `ocr/A/page_1.json`, `ocr/A/page_1.png.json`, `ocr/page_1.json`, `ocr/page_1.png.json` 순서로 찾는다.
+- **내용:** OCR 서버가 돌려준 원본 응답 그대로. 사내 OCR이면 `{"success": "Y", "data": {"basicData": [...]}}`. 다른 OCR이면 `meta.json`의 `mapping`으로 글자·박스·신뢰도 위치를 알려 준다 (`docgen.bench.ocr_data.parse_ocr`와 같은 해석).
+- **좌표:** 그 이미지 파일의 픽셀. EXIF 회전 정보가 있는 이미지는 저장된 OCR 좌표와 어긋날 수 있으므로 OCR 준비와 같이 쓰지 않고, 설정된 OCR로 다시 읽는다.
+- OCR 파일이 없는 이미지는 studio가 설정된 `ocr_callable`로 읽는다. OCR 준비와 같은 캐시 키를 쓰므로 이미 돌린 이미지는 다시 부르지 않는다.
 
 ## 4. 추론 결과 `pred/<문서ID>.json`
 
@@ -101,7 +101,7 @@
 python -m studio.results check <결과 폴더>
 ```
 
-필수 키, 이미지마다 OCR 파일 찾기(1부 규칙), OCR 해석(`mapping`), 문서 ID와 `pred` 파일 짝, 좌표 범위를 검사하고 문제를 한 번에 모두 보여 준다.
+필수 키, 이미지마다 OCR 파일 찾기(OCR 준비 규칙), OCR 해석(`mapping`), 문서 ID와 `pred` 파일 짝, 좌표 범위를 검사하고 문제를 한 번에 모두 보여 준다.
 
 ## 6. 업무 묶음 `bundles.jsonl` (선택)
 
@@ -130,7 +130,7 @@ studio는 결과 폴더에 쓰지 않는다. 검수 결과는 설정의 `real_da
     review/<문서>.json                 검수 상태: 항목마다 자동/수정/확인/추가/삭제, 원래 추론 값(original) 포함
     keymap.json                        포맷마다 모델 키 → 표준 키
     bundles.jsonl                      업무 묶음 (v1 형식: bundle_id, scenario, documents, customer?, not_customer?)
-  ocr_reviewed/<묶음 이름>/<쪽>.json     OCR 검수 결과. 사내 OCR 응답 형식 그대로 (1부 scan --ocr-dir 로 바로 읽힘)
+  ocr_reviewed/<묶음 이름>/<쪽>.json     OCR 검수 결과. 사내 OCR 응답 형식 그대로 (scan(ocr_dir=…) 로 바로 읽힘)
   ocr_reviewed/<묶음 이름>/review.jsonl  쪽마다 검수 상태
 ```
 - 확인을 푼 문서는 `labels/` 에서 빠진다 (v1 폴더에는 확인한 문서만). 구비·대조·심사 답은 v1 폴더로 데이터셋을 만들 때 규칙 코드가 계산한다.

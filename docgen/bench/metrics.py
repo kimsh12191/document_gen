@@ -201,8 +201,8 @@ def yes_no(v) -> bool | None:
     return None
 
 # ---------------------------------------------------------------------------
-# 좌표 (1부 OCR 학습 ocr/bank_ocr 와 같은 규칙 — 그쪽은 따로 설치하는 프로젝트라 옮겨 둔다)
-#   normalize_box: ocr/bank_ocr/data.py,  valid_box·iou·match: ocr/bank_ocr/metrics.py
+# 좌표 (OCR 과제와 같은 규칙, docgen/tests/test_bench_coords.py 가 같은 값인지 본다)
+#   normalize_box: docgen/bench/ocr_data.py,  valid_box·iou·match: docgen/bench/ocr_metrics.py
 #   두 쪽이 같은 값을 내는지는 tests/test_bench_coords.py 가 확인한다.
 # ---------------------------------------------------------------------------
 
@@ -215,7 +215,7 @@ def valid_box(box, width=1000, height=1000) -> bool:
 
 def normalize_box(box, width, height) -> list[int]:
     """픽셀 [x1, y1, x2, y2] → 그 이미지 기준 0~1000 정수 (Qwen-VL bbox_2d). 반올림으로 폭·높이가 0 이 되면 넓힌다.
-    촬영 조건 증강으로 쪽 밖으로 조금 나간 박스는 0~1000 으로 자른다 (1부는 오류로 본다: 사내 OCR 박스는 늘 쪽 안)."""
+    촬영 조건 증강으로 쪽 밖으로 조금 나간 박스는 0~1000 으로 자른다 (OCR 준비는 오류로 본다: 사내 OCR 박스는 늘 쪽 안)."""
     scaled = [v / (width if i % 2 == 0 else height) * 1000 for i, v in enumerate(box)]
     scaled = [min(1000.0, max(0.0, v)) for v in scaled]
     normalized = [round(v) for v in scaled]

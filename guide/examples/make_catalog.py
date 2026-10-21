@@ -1,12 +1,12 @@
 """guide/tasks.md: every task with a real example, its full question, answer and fields.
 
-Reads a docgen benchmark folder (`python -m docgen.bench build`) and a bank_ocr prepared folder
-(`python -m bank_ocr prepare`), picks one example per task, per cross_check case and per review
+Reads a docgen benchmark folder (`python -m docgen.bench build`) and an OCR prepared folder
+(`python -m docgen.bench.ocr_prepare`), picks one example per task, per cross_check case and per review
 rule, copies the images it needs into guide/examples/img/ and writes guide/tasks.md.
 
   python guide/examples/make_catalog.py --bench <bench 폴더> --ocr <prepared 폴더> [--ocr-json <OCR JSON 폴더>]
 
-Run it where docgen, ocr/ and bank/ can be imported (the docgen container, or any env with Pillow).
+Run it where docgen can be imported (the docgen container, or any env with Pillow).
 """
 from __future__ import annotations
 
@@ -191,16 +191,16 @@ def imgs_html(paths: list[str], width: int = 300) -> str:
 
 # -- OCR -----------------------------------------------------------------------------------------------
 def ocr_section(prep: Path, ocr_json: Path | None) -> str:
-    from bank_ocr.metrics import answer_for
+    from docgen.bench.ocr_metrics import answer_for
 
     rows = [json.loads(x) for x in (prep / "benchmark_tasks.jsonl").open(encoding="utf-8")]
     pages = [json.loads(x) for x in (prep / "pages.jsonl").open(encoding="utf-8")]
     sft = [json.loads(x) for x in (prep / "train_sft.jsonl").open(encoding="utf-8")]
     grpo = [json.loads(x) for x in (prep / "train_grpo.jsonl").open(encoding="utf-8")]
     manifest_cfg = json.loads((prep / "config.snapshot.json").read_text(encoding="utf-8"))
-    out = ["## 1부. OCR 과제\n",
+    out = ["## OCR 과제\n",
            "실제 학습은 내부망 서류 이미지를 사내 OCR에 돌린 결과로 했습니다. 이 문서의 예시는 실제 이미지를 문서에 넣을 수 없어서, "
-           "합성 서류 이미지에 **사내 OCR과 같은 형식의 결과 JSON**을 붙이고 **실제 학습 코드(`bank_ocr scan` → `bank_ocr prepare`)로 만든** 것입니다. "
+           "합성 서류 이미지에 **사내 OCR과 같은 형식의 결과 JSON**을 붙이고 **실제 학습 코드(`docgen.bench.ocr_data.scan` → `docgen.bench.ocr_prepare`)로 만든** 것입니다. "
            "파일 구조·필드·질문·정답 형식은 실제 학습 데이터와 같습니다. 예시용 OCR 결과는 생성기 정답(값 칸·항목명 위치)에서 만들어서 단어가 아니라 줄 단위입니다.\n"]
 
     # inputs
@@ -216,7 +216,7 @@ def ocr_section(prep: Path, ocr_json: Path | None) -> str:
             out.append("<details><summary>펼치기</summary>\n\n" + code(jdump(json.loads(oj.read_text(encoding='utf-8')), width=230), "json") + "</details>\n")
     man = next(json.loads(x) for x in Path(manifest_cfg["manifest"]).open(encoding="utf-8")
                if json.loads(x)["page_id"] == page["page_id"])
-    out.append("**③ manifest.jsonl 한 줄** (`bank_ocr scan` 결과)\n")
+    out.append("**③ manifest.jsonl 한 줄** (`scan` 결과)\n")
     out.append(code(jdump(man), "json"))
     out.append(table([("document_id", "문서 ID. 같은 문서의 쪽은 같은 ID (파일 이름 정규식으로 뽑음)"),
                       ("page_id", "페이지 ID (이미지 상대 경로)"), ("image", "이미지 경로"),
@@ -368,7 +368,7 @@ def bank_section(bench: Path) -> str:
     items = {t: [json.loads(x) for x in (bench / "tasks" / f"{t}.jsonl").open(encoding="utf-8")] for t in BANK_TASKS
              if (bench / "tasks" / f"{t}.jsonl").exists()}
     meta = json.loads((bench / "meta.json").read_text(encoding="utf-8"))
-    out = ["## 2부. 은행 업무 과제\n",
+    out = ["## 은행 업무 과제\n",
            f"예시는 `python -m docgen.bench build` 로 만든 실제 평가 세트 형식 그대로입니다 (세트 버전 {meta.get('version')}, "
            f"생성기 커밋 `{meta.get('generator_commit')}`). 학습 데이터(`--split train`)도 같은 형식이고, 고객만 다릅니다.\n"]
     out.append("### 2-0. 세트 폴더와 문항 한 줄의 필드\n")
@@ -447,8 +447,8 @@ HOWTO = """## 5부. 비슷한 문제를 새로 정의하려면
 | 새 심사 질의 규칙 | `docgen/bench/rules.py` 의 `RULES` 에 함수 추가. `{"question", "answer", "answer_type", "tol", "docs", "skill"}` 를 돌려줌 |
 | 업무와 필수 서류 | `docgen/registry.py` 의 `SCENARIOS` |
 | 문항 만드는 방식 (빼는 서류 수, 타인 서류 비율 등) | `docgen/bench/build.py` 의 `doc_check`, `cross_checks`, `single` |
-| 채점 | `docgen/bench/evaluate.py` (GRPO 보상도 이 코드를 그대로 씀: `bank/bank_task/score.py`) |
-| OCR 과제 질문·만드는 방식 | `ocr/bank_ocr/tasks.py` (`PROMPTS`, 과제별 함수), 개수는 `ocr/config.json` 의 `tasks_per_view`, 비율은 `task_mix` |
+| 채점 | `docgen/bench/evaluate.py` (OCR 과제 포함, GRPO 보상도 같은 `evaluate.reward`: `train/reward_plugin.py`) |
+| OCR 과제 질문·만드는 방식 | `docgen/bench/ocr_tasks.py` (`PROMPTS`, 과제별 함수), 개수는 OCR 준비 설정의 `tasks_per_view` (`docgen/bench/ocr_config.example.json`) |
 
 실제 서류로 같은 형식의 문항을 만들면 코드 수정 없이 파이프라인에 연결됩니다. 위 `2-0` 의 폴더 구조와 필드를 그대로 따르면 됩니다.
 """
@@ -472,8 +472,8 @@ def main():
 - 이미지는 문서 크기 때문에 긴 변 1000px 로 줄인 사본입니다(`guide/examples/img/`). 모델이 보는 크기는 학습 설정(긴 변 2300·짧은 변 1600, 문항당 이미지 합 12,000토큰)을 따릅니다.
 
 **목차**
-- [1부. OCR 과제](#1부-ocr-과제) — 입력 데이터, 문항 필드, 과제 8종, SFT·GRPO 행
-- [2부. 은행 업무 과제](#2부-은행-업무-과제) — 세트 구조, 필드 사전, 과제 8종
+- [OCR 과제](#ocr-과제) — 입력 데이터, 문항 필드, 과제 8종, SFT·GRPO 행
+- [은행 업무 과제](#은행-업무-과제) — 세트 구조, 필드 사전, 과제 8종
 - [3부. 서류 대조 사례 14종](#3부-서류-대조-사례-14종-cross_check-문항-하나씩)
 - [4부. 심사 질의 규칙](#4부-심사-질의-규칙-review-문항-하나씩)
 - [5부. 비슷한 문제를 새로 정의하려면](#5부-비슷한-문제를-새로-정의하려면)

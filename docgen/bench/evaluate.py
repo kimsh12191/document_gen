@@ -146,7 +146,7 @@ def _page(e) -> int:
 
 
 def _located(gts: list[dict], preds: list[dict], value_ok) -> dict:
-    """위치 점수: 같은 키·같은 쪽에서 IoU 0.5 이상인 짝 (1부 OCR 과 같은 짝짓기). value_ok(pred, gt) 면 값+위치도 맞음.
+    """위치 점수: 같은 키·같은 쪽에서 IoU 0.5 이상인 짝 (OCR 과제와 같은 짝짓기). value_ok(pred, gt) 면 값+위치도 맞음.
     정답 박스가 없는 항목(빈 칸, 찍히지 않은 도장)은 위치 점수에 넣지 않는다."""
     g = [x for x in gts if _has_box(x)]
     p = [x for x in preds if _has_box(x)]

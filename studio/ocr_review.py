@@ -2,7 +2,7 @@
 API 는 studio/api_import.py (/api/imports/{묶음}/ocr), 화면은 static/js/review.js.
 
 저장
-  <real_data_dir>/ocr_reviewed/<묶음>/<쪽>.json   고친 OCR. 사내 OCR 응답 형식 그대로 → 1부 scan --ocr-dir 로 바로 읽힌다
+  <real_data_dir>/ocr_reviewed/<묶음>/<쪽>.json   고친 OCR. 사내 OCR 응답 형식 그대로 → docgen.bench.ocr_data.scan(ocr_dir=…) 로 바로 읽힌다
   <real_data_dir>/ocr_reviewed/<묶음>/review.jsonl 쪽마다 마지막 상태 {page, status: in_progress|done, by, at, stats}
 원래 OCR 은 캐시에 그대로 둔다. 원래와 고친 것의 차이가 사내 OCR 의 오류다 (글자 오류율 CER, 박스 F1).
 """

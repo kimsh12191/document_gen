@@ -1,4 +1,4 @@
-"""7단계 시험: 가져오기(묶기·템플릿·값 자리 초안), OCR 검수 저장·통계, 검수본으로 1부 OCR 세트. 사내 OCR·브라우저 없이
+"""7단계 시험: 가져오기(묶기·템플릿·값 자리 초안), OCR 검수 저장·통계, 검수본으로 OCR 세트. 사내 OCR·브라우저 없이
 (쪽 그림은 흰 종이, OCR 결과는 사내 OCR 형식 JSON 을 직접 만든다)."""
 import json
 
@@ -143,7 +143,7 @@ def test_ocr_review_and_reviewed_set(batch, tmp_path):
     saved = json.loads((root / "t" / "pay0__p1.json").read_text(encoding="utf-8"))
     assert {i["confidence"] for i in saved["data"]["basicData"][0]} == {1.0}   # 확인한 쪽은 모두 사람이 본 글자
     assert OR.reviewed_pages(root, "t") == {"pay0/p1"} and OR.summary(root, "t")["done"] == 1
-    # 검수본 정답으로 1부 세트
+    # 검수본 정답으로 OCR 세트
     info = IM.ocr_set_files(batch, tmp_path / "set", None, "reviewed", "benchmark", root)
     cfg = json.loads((tmp_path / "set" / "config.json").read_text(encoding="utf-8"))
     man = IM._jsonl(tmp_path / "set" / "manifest.jsonl")

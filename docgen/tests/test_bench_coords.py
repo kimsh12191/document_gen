@@ -13,7 +13,7 @@ from docgen.bench import ocr_data as OD  # noqa: E402
 from docgen.bench import ocr_metrics as OM  # noqa: E402
 
 
-def test_ported_functions_match_bank_ocr():
+def test_ported_functions_match_ocr_tasks():
     rng = random.Random(7)
     for _ in range(2000):
         w, h = rng.randint(50, 3000), rng.randint(50, 3000)

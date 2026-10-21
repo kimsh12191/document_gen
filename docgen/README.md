@@ -250,7 +250,7 @@ docgen/
   overrides.py, sources.py, marks.py   사람 수정층(영역·키·값 출처·배경 지우기), 값 출처 규칙, 표시 요소(손글씨·체크·도장·서명)
   htmlform.py              화면에서 만든 html 서식 (복제·분석기, templates/copies/<ID>/ 의 template.html.j2 + form.json)
   preview.py               서식 하나 미리보기 (studio 가 씀). 명령줄: python -m docgen.preview <서식ID>|--dir <폴더> [--rows max] --out <폴더>
-  ocr_export.py, ocr_set.py   생성 정답 → 사내 OCR 형식, 합성 OCR 세트 (1부 prepare 형식)
+  ocr_export.py, ocr_set.py   생성 정답 → 사내 OCR 형식, 합성 OCR 세트 (OCR 준비 → 과제 폴더)
   cli.py                   list / generate / check
   bench/                   은행 업무 벤치마크: 평가 세트·학습 데이터 만들기(build), 모델 실행(run), 채점(eval) — guide/benchmark.md
   docs/*.py                서류별 데이터 생성 함수 (그룹별 파일, docs/real_forms.py 가 원본 서식 전부를 등록)
@@ -265,13 +265,13 @@ docgen/
   samples/                 서류별 대표 샘플 이미지·정답 (scripts/make_samples.py)
   recipes/                 데이터셋 레시피 (docgen.bench build --recipe, docgen.ocr_set build --recipe, studio 가 고침)
   scripts/                 extract_form_layout.py(서식 PDF → 기재 자리), form_map.py(→ manual/FORM_MAP.md), make_samples.py,
-                           build_schema.py(→ guide/fields/), build_keys.py(→ keys.json), visualize_labels.py, make_bank_data.sh(2부 데이터)
+                           build_schema.py(→ guide/fields/), build_keys.py(→ keys.json), visualize_labels.py, make_bank_data.sh(문서·업무 과제 데이터)
   manual/                  TEMPLATE_GUIDE.md(서식 추가 방법), FORM_MAP.md, REALISM_STATUS.md·realism/(현실성 점검), variants/(서식 변형)
   tests/                   pytest (생성기·벤치마크)
   requirements.txt         생성기 파이썬 패키지 (도커 이미지는 docker/requirements.lock)
 ```
 
-학습은 옆 폴더에서 합니다: `ocr/`(1부 OCR), `bank/`(2부 은행 업무 — 이 생성기의 평가 세트·학습 데이터를 씀).
+학습은 옆 폴더 `train/`(`python -m train`)에서 합니다. 이 생성기의 평가 세트·학습 데이터와 OCR 준비 결과를 studio 데이터셋으로 등록해 섞어 씁니다. 채점·GRPO 보상은 모두 `docgen/bench/evaluate.py` 입니다.
 
 은행이 직접 쓰는 서식 그룹(`bank_form`)은 `registry.BANK_FORM_GROUPS`로 묶여 있습니다. 이 그룹의 서류는 렌더링할 때 서식을 낸 은행(옛 은행 포함)에 맞춰 프로필이 바뀌고, 템플릿에 서식 문맥 `bk`가 들어갑니다. 그룹을 새로 만들 때 이 집합에 넣어 주면 같은 동작을 받습니다.
 

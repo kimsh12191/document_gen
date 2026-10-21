@@ -1,4 +1,4 @@
-"""5단계 시험: 합성 OCR 정답 만들기(docgen/ocr_export.py), OCR 레시피, 1부 학습 설정. 브라우저 없이."""
+"""5단계 시험: 합성 OCR 정답 만들기(docgen/ocr_export.py), OCR 레시피. 브라우저 없이."""
 import json
 import random
 
@@ -38,8 +38,8 @@ def test_page_items_words_lines_and_low_confidence():
     assert "성명 홍길동" in [x["text"] for x in lines]
 
 
-def test_bank_ocr_parses_export():
-    """1부 parse_ocr 가 기본 mapping 으로 그대로 읽는다."""
+def test_parse_ocr_reads_export():
+    """OCR 준비의 parse_ocr 가 기본 mapping 으로 그대로 읽는다."""
     from docgen.bench.ocr_data import parse_ocr
 
     cfg = json.load(open(ocr_data.ROOT / "docgen" / "bench" / "ocr_config.example.json", encoding="utf-8"))

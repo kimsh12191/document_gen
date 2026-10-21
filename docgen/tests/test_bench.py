@@ -203,3 +203,14 @@ def test_train_and_test_seeds_do_not_overlap():
     test, train = seeds("test", 10, 50), seeds("train", 100, 5000)
     assert not test & train
     assert min(test | train) > 100_000  # docgen generate 의 seed(0부터)와도 떨어져 있음
+
+
+def test_guide_quotes_every_benchmark_prompt():
+    """guide/questions.md 는 사용자가 베껴 쓰는 문서라 학습·평가 질문과 같아야 한다 (옛 bank/tests 에서 옮김)."""
+    from pathlib import Path
+
+    from docgen.bench import prompts
+
+    guide = (Path(__file__).resolve().parents[2] / "guide" / "questions.md").read_text(encoding="utf-8")
+    for name in [n for n in dir(prompts) if n.startswith("P_")]:
+        assert getattr(prompts, name).replace("{{", "{").replace("}}", "}") in guide, name

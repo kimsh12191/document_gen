@@ -1,4 +1,4 @@
-"""③ 시나리오·묶음과 ⑥ 데이터셋의 은행 업무 쪽: 레시피, 빌드, 업무 묶음 보기, 고객 일관성 검사, 학습 설정 내보내기(2부).
+"""③ 시나리오·묶음과 ⑥ 데이터셋의 은행 업무 쪽: 레시피, 빌드, 업무 묶음 보기, 고객 일관성 검사 (학습 설정은 studio/training_link.py).
 API 는 studio/api_bank.py, 화면은 static/js/recipes.js(레시피)·scenarios.js(시나리오)·datasets.js(업무 묶음·학습 탭).
 
 레시피 docgen/recipes/<이름>.json (docgen.bench build --recipe 가 읽는 것, docgen/bench/build.py 의 RECIPE_KEYS)

@@ -5,9 +5,9 @@
 출력
   <폴더>/images/<서식>_<seed>[_p<쪽>].png|jpg   쪽 이미지 (촬영 조건 증강 포함)
   <폴더>/ocr_json/<같은 이름>.json               정답: 사내 OCR 응답 형식 (docgen/ocr_export.py)
-  <폴더>/manifest.jsonl                         1부 scan 결과와 같은 줄 {document_id, page_id, image, split, ocr_json}
+  <폴더>/manifest.jsonl                         OCR 준비 scan 결과와 같은 줄 {document_id, page_id, image, split, ocr_json}
   <폴더>/config.json                            OCR 준비 설정 (docgen/bench/ocr_config.example.json + 레시피의 prepare)
-  <폴더>/prepared/                              1부 prepare 결과 (studio 가 데이터셋으로 등록하는 폴더)
+  <폴더>/prepared/                              OCR 준비 결과 (studio 가 데이터셋으로 등록하는 과제 폴더)
   <폴더>/ocr_set.json                           레시피, 생성기 커밋, 수, 서식 해시
 prepare 는 python -m docgen.bench.ocr_prepare 로 돈다 (--no-prepare 면 이미지·OCR JSON·manifest 까지만).
 
@@ -17,12 +17,12 @@ prepare 는 python -m docgen.bench.ocr_prepare 로 돈다 (--no-prepare 면 이�
    "conditions": {"clean": .5, "scan": .2, "photo": .15, "fax": .15},
    "unit": "word" | "line",     정답 한 항목의 단위 (사내 OCR 에 맞춘다: studio/DESIGN.md 12절)
    "heavy": "default"|"on"|"off", "special": "default"|"on"|"off",
-   "merge_manifests": [다른 1부 manifest 경로 (실서류 등)],
-   "prepare": {1부 설정 덮어쓰기: tasks_per_view, filters, benchmark_fraction …}}
-- split="benchmark": 모든 쪽이 평가용 (1부 benchmark_only). split="train": 1부가 benchmark_fraction 만큼 평가로 떼어 둔다.
+   "merge_manifests": [다른 manifest 경로 (실서류 등)],
+   "prepare": {OCR 준비 설정 덮어쓰기: tasks_per_view, filters, benchmark_fraction …}}
+- split="benchmark": 모든 쪽이 평가용 (benchmark_only). split="train": 문서 benchmark_fraction 만큼을 평가로 떼어 둔다.
 - seed 범위: 평가 3,000,000~, 학습 30,000,000~. docgen generate(0~)·docgen.bench 평가 세트(1,000,000~ / 2,000,000~)와는
   겹치지 않는다. docgen.bench 학습 묶음(20,000,000 + 시나리오 번호 × 1,000,000)은 11번째 시나리오부터 학습 seed 와 겹친다.
-- 견본 표시·도장 안 글자·정정으로 그은 글자는 신뢰도 0.3 으로 적고, 1부 필터(기본: 평가 0.5, 학습 0.95)가 그 자리를 뺀다.
+- 견본 표시·도장 안 글자·정정으로 그은 글자는 신뢰도 0.3 으로 적고, OCR 준비 필터(기본: 평가 0.5, 학습 0.95)가 그 자리를 뺀다.
 """
 from __future__ import annotations
 
@@ -35,10 +35,10 @@ import sys
 import time
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent   # 저장소 최상위 (1부 OCR 코드는 ocr/)
+ROOT = Path(__file__).resolve().parent.parent   # 저장소 최상위
 SEEDS = {"benchmark": 3_000_000, "train": 30_000_000}
 DEFAULT_CONDITIONS = {"clean": 0.5, "scan": 0.2, "photo": 0.15, "fax": 0.15}
-# 합성 정답에 맞춘 1부 설정: 애매한 글자(신뢰도 0.3)를 평가에서도 거른다
+# 합성 정답에 맞춘 OCR 준비 설정: 애매한 글자(신뢰도 0.3)를 평가에서도 거른다
 PREPARE_DEFAULTS = {"filters": {"train": {"min_confidence": 0.95, "min_length": 1, "max_length": 100},
                                 "benchmark": {"min_confidence": 0.5, "min_length": 1, "max_length": 100}}}
 _ENV = {"heavy": ("DOCGEN_HEAVY", {"on": "1", "off": "0"}), "special": ("DOCGEN_SPECIAL", {"on": "all", "off": "none"})}
@@ -196,7 +196,7 @@ def build(args) -> None:
             rows += _one(j)
             print(f"\r서류 {i + 1}/{len(jobs)}", end="", file=sys.stderr)
     print(file=sys.stderr)
-    for m in recipe.get("merge_manifests") or []:   # 다른 1부 manifest (실서류 등) 를 합친다 (1부 merge 와 같은 규칙)
+    for m in recipe.get("merge_manifests") or []:   # 다른 manifest (실서류 등) 를 합친다 (경로는 그 manifest 기준)
         mp_ = Path(m)
         for s in mp_.read_text(encoding="utf-8-sig").splitlines():
             if s.strip():
@@ -237,14 +237,14 @@ def build(args) -> None:
 
 
 def main(argv=None) -> None:
-    ap = argparse.ArgumentParser(prog="docgen.ocr_set", description="합성 OCR 데이터셋 (1부 prepare 형식)")
+    ap = argparse.ArgumentParser(prog="docgen.ocr_set", description="합성 OCR 데이터셋 (과제 폴더 형식)")
     sub = ap.add_subparsers(dest="cmd", required=True)
     b = sub.add_parser("build")
     b.add_argument("--recipe", required=True)
     b.add_argument("--out", required=True)
     b.add_argument("--workers", type=int, default=1)
     b.add_argument("--scale", type=float, default=2.0)
-    b.add_argument("--no-prepare", action="store_true", help="이미지·OCR JSON·manifest 까지만 (1부 prepare 는 따로)")
+    b.add_argument("--no-prepare", action="store_true", help="이미지·OCR JSON·manifest 까지만 (OCR 준비는 따로)")
     args = ap.parse_args(argv)
     build(args)
 

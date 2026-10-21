@@ -9,8 +9,8 @@ API 는 studio/api_import.py, 화면은 static/js/import.js. 묶기 계산은 st
 원본 폴더(import_dir 아래)는 읽기만 한다.
 
 OCR 은 OCR 준비 단계(docgen/bench/ocr_prepare)와 같은 코드·같은 캐시 규칙이다: EXIF 회전을 적용한 그림을 <OCR 캐시>/images/<픽셀 해시>.png
-로 두고 그 그림으로 OCR 을 부르며, 결과는 <OCR 캐시>/ocr/<digest(픽셀 해시, ocr_callable, ocr_revision)>.json. 1부의 cache_dir 을
-studio 설정 ocr.cache_dir 로 두면 1부에서 이미 읽은 쪽은 다시 부르지 않는다.
+로 두고 그 그림으로 OCR 을 부르며, 결과는 <OCR 캐시>/ocr/<digest(픽셀 해시, ocr_callable, ocr_revision)>.json. OCR 준비 설정의 cache_dir 을
+studio 설정 ocr.cache_dir 로 두면 이미 읽은 쪽은 다시 부르지 않는다.
 
 명령줄 (studio 작업이 이것을 돌린다)
   python -m studio.importer ocr <묶음 폴더>          OCR (없는 쪽만) → 지문 → 묶기
@@ -129,7 +129,7 @@ def from_docgen(bdir: Path) -> None:
 
 
 # ---------------------------------------------------------------------------
-# OCR (1부와 같은 규칙)
+# OCR (OCR 준비와 같은 규칙)
 # ---------------------------------------------------------------------------
 
 def _ocr_settings(batch: dict) -> dict:
@@ -574,12 +574,12 @@ def create_template(bdir: Path, fid: str, page_ids: list[str], form_id: str, nam
 
 
 # ---------------------------------------------------------------------------
-# OCR 벤치마크로 (1부 prepare)
+# OCR 벤치마크로 (OCR 준비)
 # ---------------------------------------------------------------------------
 
 def ocr_set_files(bdir: Path, out: Path, format_ids: list[str] | None, gt: str, split: str, reviewed_dir: Path | None,
                   prepare: dict | None = None) -> dict:
-    """묶음의 쪽들로 1부 manifest·설정을 만든다. gt=reviewed 면 OCR 검수에서 확인한 쪽만, 그 검수본을 정답으로."""
+    """묶음의 쪽들로 OCR 준비 manifest·설정을 만든다. gt=reviewed 면 OCR 검수에서 확인한 쪽만, 그 검수본을 정답으로."""
     batch = json.loads((bdir / "batch.json").read_text(encoding="utf-8"))
     fx = json.loads((bdir / "formats.json").read_text(encoding="utf-8")) if (bdir / "formats.json").exists() else {"formats": []}
     pick = None if not format_ids else {p for f in fx["formats"] if f["id"] in format_ids for p in f["pages"]}

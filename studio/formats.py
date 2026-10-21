@@ -12,7 +12,7 @@ app/clustering.py(fingerprint, _Cluster, _vectors, _best, _merge_similar, _run, 
 영문(라틴 글자끼리의 2글자 조각)은 조각 대신 단어("w:invoice")로 비교한다 — 영문 2글자 조각은 거의 모든 영문 문서에 나와
 서로 다른 영문 서류가 한 포맷으로 뭉친다 (2026-10-21, 서류 넣기 시험 폴더에서 확인). 한글 조각은 그대로다.
 
-단어 형식: [{"text", "bbox": [x0, y0, x1, y1] 픽셀, "confidence"?, "line_num"?}] (1부 parse_ocr 결과 그대로).
+단어 형식: [{"text", "bbox": [x0, y0, x1, y1] 픽셀, "confidence"?, "line_num"?}] (docgen.bench.ocr_data.parse_ocr 결과 그대로).
 """
 from __future__ import annotations
 

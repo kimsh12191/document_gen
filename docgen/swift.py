@@ -12,7 +12,7 @@
   marks      체크박스·도장·서명 판별: [{"key", "value", "bbox_2d"?, "page"?}] — 평가 세트(docgen.bench 2.0)의 marks 답과 같은 꼴
              (체크된 보기마다 한 줄, 체크 없음은 value null, 도장·서명은 value true/false, 찍힌 것만 위치)
   qa         질의응답 한 문항
-좌표: 기본은 Qwen-VL(Qwen2-VL, Qwen3-VL 계열) 방식의 0~1000 상대 좌표 정수 [x1, y1, x2, y2] (1부 OCR 학습·평가 세트와
+좌표: 기본은 Qwen-VL(Qwen2-VL, Qwen3-VL 계열) 방식의 0~1000 상대 좌표 정수 [x1, y1, x2, y2] (OCR 과제 학습·평가 세트와
      같은 변환: docgen.bench.metrics.normalize_box). coord="pixel" 이면 이미지 픽셀 좌표. 쪽 번호 page 는 1부터.
 """
 from __future__ import annotations

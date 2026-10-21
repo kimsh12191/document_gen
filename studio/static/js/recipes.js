@@ -22,7 +22,7 @@ async function recipesPanel() {
           <button class="primary" data-build="${esc(x.name)}">만들기</button>`]]) : `<p class="muted">레시피가 없습니다. 아래 틀에서 시작하세요.</p>`}
       <div class="bar" style="margin-top:6px"><span class="muted">틀에서 새 레시피:</span>
         ${tpl.map(([k, t]) => `<button data-tpl="${esc(k)}" title="${esc(t.about)}">${esc(k)}</button>`).join("")}
-        <span class="muted">(bank-* 은행 업무 · ocr-* 합성 OCR: 쪽 전체 글자 정답, 1부 prepare 형식)</span></div>
+        <span class="muted">(bank-* 문서·업무 과제 · ocr-* 합성 쪽 OCR 8과제: 쪽 전체 글자 정답, 같은 과제 폴더 형식)</span></div>
     </div>`;
 }
 
@@ -147,8 +147,8 @@ function viewOcrRecipe(name, r, opts) {
     <div class="rc-grid">
       <div class="panel"><b>무엇을</b>
         <label class="fld">설명 <input type="text" id="rc-about" value="${esc(r.about || "")}"></label>
-        <label class="fld">용도 <select id="rc-split"><option value="benchmark">평가 전용 (1부 benchmark_only)</option>
-          <option value="train" ${r.split === "train" ? "selected" : ""}>학습 데이터 (1부가 benchmark_fraction 만큼 평가로 떼어 둠)</option></select></label>
+        <label class="fld">용도 <select id="rc-split"><option value="benchmark">평가 전용 (benchmark_only)</option>
+          <option value="train" ${r.split === "train" ? "selected" : ""}>학습 데이터 (benchmark_fraction 만큼 문서를 평가로 떼어 둠)</option></select></label>
         <label class="fld">서식 (all · 서식 ID · 그룹, 쉼표로) <input type="text" id="rc-types" value="${esc(Array.isArray(r.types) ? r.types.join(",") : r.types || "all")}"></label>
         <label class="fld">서식마다 고객 수 <input type="number" id="rc-perdoc" value="${r.per_doc ?? 1}" min="1"></label>
         <label class="fld">빼는 서식 (쉼표) <input type="text" id="rc-exclude" value="${esc((r.exclude || []).join(","))}"></label>
@@ -157,11 +157,11 @@ function viewOcrRecipe(name, r, opts) {
         <div class="muted" style="font-size:12px">사내 OCR 이 내는 단위에 맞추세요 (DESIGN.md 12절). 견본 표시·도장 안 글자·정정 글자는 신뢰도 0.3 으로 적어 1부가 그 자리를 뺍니다.</div>
         <div class="bar"><label>내용 많음 ${sel("rc-heavy", r.heavy)}</label><label>특수 상황 ${sel("rc-special", r.special)}</label></div>
       </div>
-      <div class="panel"><b>촬영 조건 비율</b> <span class="muted">합 1 (1부 prepare 가 노이즈 사본을 따로 더 만듭니다)</span>
+      <div class="panel"><b>촬영 조건 비율</b> <span class="muted">합 1 (OCR 준비가 노이즈 사본을 따로 더 만듭니다)</span>
         <div class="bar">${Object.keys(opts.conditions).map(c => `<label>${esc(COND_NAME[c] || c)} ${num(`rc-c-${c}`, conds[c] ?? 0)}</label>`).join("")}</div>
-        <b>합칠 1부 manifest</b> <span class="muted">실서류 등 다른 데이터와 섞어 한 번에 prepare (한 줄에 경로 하나)</span>
+        <b>합칠 manifest</b> <span class="muted">실서류 등 다른 데이터와 섞어 한 번에 prepare (한 줄에 경로 하나)</span>
         <textarea id="rc-merge" rows="3" class="mono" style="width:100%">${esc((r.merge_manifests || []).join("\n"))}</textarea>
-        <b>1부 설정 덮어쓰기 (JSON)</b> <span class="muted">tasks_per_view, filters, benchmark_fraction, image_max_size …</span>
+        <b>OCR 준비 설정 덮어쓰기 (JSON)</b> <span class="muted">tasks_per_view, filters, benchmark_fraction, image_max_size …</span>
         <textarea id="rc-prepare" rows="6" class="mono" style="width:100%">${esc(JSON.stringify(r.prepare || {}, null, 1))}</textarea>
         <label class="fld">seed 시작 <input type="number" id="rc-start" value="${r.start ?? 0}" min="0"></label>
       </div>

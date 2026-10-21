@@ -17,7 +17,7 @@
 
 같은 설정이면 언제 만들어도 같은 세트가 나온다 (seed 고정). 평가 세트(test)와 학습 데이터(train)는 서로,
 그리고 `python -m docgen generate` 의 seed(0부터)와도 겹치지 않는 seed 범위를 쓴다 (아래 SPLITS).
-만든 폴더는 2부(bank/)가 학습·평가에 쓴다. 평가 세트와 학습 데이터를 한 번에 만드는 것은 docgen/scripts/make_bank_data.sh,
+만든 폴더는 studio 데이터셋(과제 폴더)으로 학습(train/)·평가에 쓴다. 평가 세트와 학습 데이터를 한 번에 만드는 것은 docgen/scripts/make_bank_data.sh,
 studio 는 레시피로 이 명령(--recipe)을 돌려 데이터셋으로 등록한다.
 """
 from __future__ import annotations
