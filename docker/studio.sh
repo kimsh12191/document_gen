@@ -2,8 +2,11 @@
 # 내부망 Linux 서버에서 studio 를 띄운다. 컨테이너가 없으면 만들고, 꺼져 있으면 켜고, 떠 있으면 접속 방법만 보여 준다.
 # 코드는 이 스크립트가 있는 저장소를 그대로 마운트하므로, 코드를 고치거나 새 코드 묶음을 풀면 studio 가 저절로 다시 뜬다.
 #
-#   sh docker/studio.sh            띄우기 (서버를 다시 켜도 저절로 뜸). 처음엔 포트 8765
-#   sh docker/studio.sh -p 9000    포트를 바꿔 띄우기 (떠 있던 컨테이너는 새 포트로 다시 만든다. 다음부터는 -p 없이도 9000)
+#   sh docker/studio.sh            띄우기 (서버를 다시 켜도 저절로 뜸). 처음엔 포트 8765, 이 서버에서만 접속
+#   sh docker/studio.sh -p 9000    포트 바꾸기
+#   sh docker/studio.sh --open     다른 PC·컨테이너에서 http://<서버IP>:<포트> 로 바로 들어오게 (로그인 없음: 같은 망 누구나)
+#   sh docker/studio.sh --local    다시 이 서버에서만 (다른 PC 는 SSH 터널)
+#     포트·주소를 바꾸면 컨테이너를 새로 만들고, 다음부터는 옵션 없이도 그대로 뜬다
 #   sh docker/studio.sh logs       로그 보기 (Ctrl+C 는 보기만 종료)
 #   sh docker/studio.sh shell      컨테이너 안 터미널 (python -m docgen … 도 여기서)
 #   sh docker/studio.sh restart    다시 띄우기 (설정 studio/config.json 을 바꿨을 때)
@@ -24,47 +27,55 @@ if pwd -W >/dev/null 2>&1; then
 fi
 
 cmd=up
+bind=
 while [ $# -gt 0 ]; do
     case $1 in
     -p|--port) port=$2; shift 2 ;;
+    --open) bind=0.0.0.0; shift ;;
+    --local) bind=127.0.0.1; shift ;;
     *) cmd=$1; shift ;;
     esac
 done
 case $port in *[!0-9]*) echo "포트는 숫자로: $port"; exit 1 ;; esac
 
 state=$(docker inspect -f '{{.State.Status}}' "$name" 2>/dev/null || true)
-# 이미 만든 컨테이너의 포트 (포트를 안 정했으면 그대로 쓴다)
-now=
-[ -n "$state" ] && now=$(docker inspect -f '{{range (index .HostConfig.PortBindings "8765/tcp")}}{{.HostPort}}{{end}}' "$name")
+# 이미 만든 컨테이너의 포트·여는 주소 (옵션을 안 주면 그대로 쓴다)
+now= now_bind=
+if [ -n "$state" ]; then
+    now=$(docker inspect -f '{{range (index .HostConfig.PortBindings "8765/tcp")}}{{.HostPort}}{{end}}' "$name")
+    now_bind=$(docker inspect -f '{{range (index .HostConfig.PortBindings "8765/tcp")}}{{.HostIp}}{{end}}' "$name")
+    now_bind=${now_bind:-0.0.0.0}
+fi
 
 case $cmd in
 logs) exec docker logs -f --tail 100 "$name" ;;
 shell) exec docker exec -it -u docgen -w /home/docgen/document_gen "$name" bash -l ;;
-restart) docker restart "$name" >/dev/null; port=${now:-8765} ;;
+restart) docker restart "$name" >/dev/null; port=$now; bind=$now_bind ;;
 rm) docker rm -f "$name" >/dev/null; echo "지움: $name"; exit 0 ;;
 up)
-    if [ -n "$state" ] && [ -n "$port" ] && [ "$port" != "$now" ]; then
+    port=${port:-${now:-8765}}
+    bind=${bind:-${now_bind:-127.0.0.1}}
+    if [ -n "$state" ] && [ "$bind:$port" != "$now_bind:$now" ]; then
         docker rm -f "$name" >/dev/null
-        echo "포트 $now → $port: 컨테이너를 새로 만듭니다"
+        echo "$now_bind:$now → $bind:$port: 컨테이너를 새로 만듭니다"
         state=
     fi
-    port=${port:-${now:-8765}}
     if [ -z "$state" ]; then
         mkdir -p "$data"
-        # 127.0.0.1 로만 연다: studio 에는 로그인이 없으므로 다른 PC 는 SSH 터널로만 들어오게
+        # 기본은 127.0.0.1 로만 연다: studio 에는 로그인이 없으므로 다른 PC 는 SSH 터널로 (--open 이면 모든 주소)
         docker run -d --name "$name" --restart unless-stopped \
-            -p "127.0.0.1:$port:8765" --shm-size=1g \
+            -p "$bind:$port:8765" --shm-size=1g \
             -e DOCGEN_UID="$(id -u)" -e DOCGEN_GID="$(id -g)" \
             -v "$code:/home/docgen/document_gen" \
             -v "$data:/out" \
             -v docgen-cache:/home/docgen/.cache \
             "$img" studio >/dev/null
-        echo "만듦: $name ($img, 포트 $port, 코드 $code, 결과 $data → /out)"
+        echo "만듦: $name ($img, $bind:$port, 코드 $code, 결과 $data → /out)"
     elif [ "$state" != running ]; then
         docker start "$name" >/dev/null
     fi
     ;;
-*) sed -n '2,13p' "$0"; exit 1 ;;
+*) sed -n '2,15p' "$0"; exit 1 ;;
 esac
 
 # 뜰 때까지 기다린다 (처음엔 몇 초)
@@ -79,5 +90,9 @@ until ! command -v curl >/dev/null || curl -fs "http://127.0.0.1:$port/" >/dev/n
 done
 ip=$(hostname -I 2>/dev/null | awk '{print $1}')
 echo "studio 떠 있음 → 이 서버에서 http://localhost:$port"
-echo "윈도우 PC에서 (PowerShell, 켜 둔 동안 브라우저로 http://localhost:$port):"
-echo "  ssh -N -L $port:localhost:$port $(id -un)@${ip:-<서버IP>}"
+if [ "$bind" = 0.0.0.0 ]; then
+    echo "다른 PC·컨테이너에서: http://${ip:-<서버IP>}:$port  (로그인 없음. 그만 열려면 sh docker/studio.sh --local)"
+else
+    echo "윈도우 PC에서 (PowerShell, 켜 둔 동안 브라우저로 http://localhost:$port):"
+    echo "  ssh -N -L $port:localhost:$port $(id -un)@${ip:-<서버IP>}"
+fi
