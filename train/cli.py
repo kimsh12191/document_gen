@@ -1,4 +1,4 @@
-"""python -m train.cli {mix,predict,score,mine,report} — 학습 실행(pipeline.py)이 단계마다 부른다. 따로 돌려도 된다."""
+"""python -m train.cli {ocr,mix,predict,score,mine,report} — 학습 실행(pipeline.py)이 단계마다 부른다. 따로 돌려도 된다."""
 import argparse
 from pathlib import Path
 
@@ -16,8 +16,16 @@ def resolve_data(cfg: dict, base: Path) -> dict:
         return [({**e, "path": res(e["path"])} if isinstance(e, dict) else res(e)) for e in (v if isinstance(v, list) else [v])]
     d = dict(cfg["data"])
     d["output_dir"] = res(d.get("output_dir"))
-    d["train"] = entries(d["train"])
-    d["benchmark"] = entries(d["benchmark"])
+    d["train"] = entries(d.get("train") or [])
+    d["benchmark"] = entries(d.get("benchmark") or [])
+    if d.get("ocr_images"):   # 그림 폴더 → ocr 단계가 준비할 폴더를 학습·평가 목록에 (ocr_images.py)
+        from .ocr_images import entries as ocr_entries
+        from .ocr_images import resolve
+
+        d["ocr_images"] = resolve(d["ocr_images"], d["output_dir"], res)
+        train, bench = ocr_entries(d["ocr_images"])
+        d["train"] += [train] if train else []
+        d["benchmark"] += [bench] if bench else []
     return d
 
 
@@ -28,6 +36,8 @@ PREDICT_DEFAULTS = {"endpoint": "http://127.0.0.1:8000/v1", "model": "docgen", "
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__)
     sub = p.add_subparsers(dest="command", required=True)
+    o = sub.add_parser("ocr", help="그림 폴더 OCR·준비 (설정의 data.ocr_images)")
+    o.add_argument("--config", required=True)
     m = sub.add_parser("mix", help="데이터셋 섞기 (설정의 data 칸)")
     m.add_argument("--config", required=True)
     r = sub.add_parser("predict", help="모델 답 내기")
@@ -63,7 +73,16 @@ def main(argv=None):
     b.add_argument("--reports", nargs="+", required=True)
     b.add_argument("--out", required=True, help=".csv (.md·.html 은 옆에)")
     a = p.parse_args(argv)
-    if a.command == "mix":
+    if a.command == "ocr":
+        from .ocr_images import build
+
+        path = Path(a.config).resolve()
+        d = resolve_data(load_settings(path), path.parent)
+        if not d.get("ocr_images"):
+            p.error("설정에 data.ocr_images 가 없습니다")
+        done = build(d["ocr_images"])
+        result = {"output_dir": d["ocr_images"]["output_dir"], "pages": done.get("page_counts"), "sft_examples": done.get("sft_examples")}
+    elif a.command == "mix":
         from .mix import mix
 
         path = Path(a.config).resolve()

@@ -142,6 +142,49 @@ def test_mix_ocr_and_bank_splits_budgets_and_formats(tmp_path, model, ocr_set):
     assert (prep / "image_items.jsonl").is_file()   # --with-ocr 용 사내 OCR
 
 
+def test_ocr_images_stage_scans_ocrs_and_feeds_mix(tmp_path, model):
+    """data.ocr_images: 그림 폴더 → (가짜) 사내 OCR → OCR 준비 → 학습·평가 목록에 저절로 들어가 업무 세트와 섞인다."""
+    from PIL import ImageDraw
+
+    from train.cli import main as cli
+    from train.cli import resolve_data
+
+    scans = tmp_path / "scans"
+    for i, rel in enumerate(["docA/1.png", "docA/2.png", "docB/1.png", "docC/1.png", "docD/1.png", "docE/x/1.png", "single.png"]):
+        (scans / rel).parent.mkdir(parents=True, exist_ok=True)
+        im = Image.new("RGB", (400, 200), "white")
+        draw = ImageDraw.Draw(im)
+        draw.text((20, 5), f"PAGE {i}", fill="black")
+        draw.text((20, 40), "USD 123.45", fill="black")
+        im.save(scans / rel)
+    bank_folder(tmp_path / "train", "train", [f"mortgage_{20000000 + i}" for i in range(6)], n_images=1)
+    bank_folder(tmp_path / "bench", None, ["mortgage_2000000"], n_images=1)
+    config = tmp_path / "pipeline.json"
+    write_json(config, {"workdir": "runs", "model": model, "data": {
+        "train": ["train"], "benchmark": ["bench"], "output_dir": "prep", "val_count": 2, "grpo_holdout": 0.3, "workers": 1,
+        "ocr_images": {"folders": ["scans"], "count": 10,
+                       "ocr": {"callable": "docgen.tests.ocr_fixture:ocr_from_file", "revision": "fixture-v1"},
+                       "prepare": {"val_fraction": 0.2, "benchmark_fraction": 0.2, "sft_max_examples": 30}}}})
+    ocr_out = tmp_path / "prep-ocr"
+    d = resolve_data(read_json(config), tmp_path)
+    assert d["train"][-1] == {"path": str(ocr_out), "count": 10} and d["benchmark"][-1] == str(ocr_out)
+    with contextlib.redirect_stdout(io.StringIO()):
+        cli(["ocr", "--config", str(config)])
+        cli(["ocr", "--config", str(config)])   # 이미 준비했으면 그대로
+    docs = {r["page_id"]: r["document_id"] for r in read_jsonl(tmp_path / "prep-ocr.inputs" / "manifest.jsonl")}
+    assert docs["docA/1.png"] == docs["docA/2.png"] == "docA" and docs["docE/x/1.png"] == "docE/x" and docs["single.png"] == "single.png"
+    split = {}
+    for pg in read_jsonl(ocr_out / "pages.jsonl"):
+        split.setdefault(pg["document_id"], set()).add(pg["split"])
+    assert all(len(v) == 1 for v in split.values()) and {"train", "benchmark"} <= set().union(*split.values())
+    assert (tmp_path / "ocr-cache" / "ocr").is_dir()   # 실험끼리 같이 쓰는 캐시
+    with contextlib.redirect_stdout(io.StringIO()):
+        cli(["mix", "--config", str(config)])
+    done = read_json(tmp_path / "prep" / "DONE.json")
+    assert done["sources"]["train"][str(ocr_out)]["rows"] <= 10 and str(ocr_out) in done["sources"]["benchmark"]
+    assert {"spotting", "kie"} <= set(done["counts"]["benchmark_by_task"])
+
+
 def test_mix_refuses_leaks_and_eval_only_training(tmp_path, model):
     bank_folder(tmp_path / "bench", None, ["mortgage_2"], n_images=1)
     bank_folder(tmp_path / "train", None, ["mortgage_1"], n_images=1)   # 평가 세트를 학습에 넣음

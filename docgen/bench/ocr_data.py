@@ -179,7 +179,9 @@ def find_saved_ocr(ocr_dir, relative):
     return None
 
 
-def scan(root, split, document_regex=None, single_page=False, ocr_dir=None):
+def scan(root, split, document_regex=None, single_page=False, ocr_dir=None, by_folder=False):
+    """Image folder -> manifest rows. One document = regex group document_id, or one image (single_page),
+    or one folder (by_folder: images in the same subfolder; an image directly under root is its own document)."""
     root = Path(root).resolve()
     if ocr_dir is not None and not Path(ocr_dir).is_dir():
         raise ValueError(f"OCR result directory not found: {ocr_dir}")
@@ -194,9 +196,10 @@ def scan(root, split, document_regex=None, single_page=False, ocr_dir=None):
         match = pattern.search(relative) if pattern else None
         if pattern and (not match or "document_id" not in match.groupdict()):
             raise ValueError(f"Regex must match a named document_id group: {relative}")
-        if not pattern and not single_page:
+        if not pattern and not single_page and not by_folder:
             raise ValueError("Specify document_regex or explicitly declare one image per document")
-        doc_id = match.group("document_id") if match else relative
+        doc_id = match.group("document_id") if match else (path.parent.relative_to(root).as_posix()
+                                                          if by_folder and path.parent != root else relative)
         row = {"document_id": doc_id, "page_id": relative, "image": str(path), "split": split}
         if ocr_dir is not None:
             saved = find_saved_ocr(ocr_dir, relative)

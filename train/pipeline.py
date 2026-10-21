@@ -1,6 +1,7 @@
 """학습 실행 하나 (옛 ocr/run_pipeline.py + bank/run_bank_pipeline.py): 데이터셋 섞기부터 Base/SFT/GRPO 비교 보고서까지.
 
 단계 (<workdir>/state.json 에 끝난 것을 적고, 다시 돌리면 이어서):
+  ocr         data.ocr_images 가 있으면 그림 폴더 → 사내 OCR → OCR 준비 (ocr_images.py), 결과는 학습·평가 목록에 저절로
   prepare     data 칸의 데이터셋 섞기 (mix.py) → data.output_dir
   eval_base   출발 모델 평가 (eval.compare_models 도)
   sft         SFT (launch.py), 마지막 체크포인트를 적어 둠
@@ -38,7 +39,7 @@ from .cli import resolve_data
 from .settings import image_tokens, image_tokens_for, load_settings
 
 ROOT = Path(__file__).resolve().parents[1]   # 저장소 최상위: 하위 명령은 여기서 python -m train.… 으로
-STAGES = ["prepare", "eval_base", "sft", "eval_sft", "select", "grpo", "eval_grpo", "report"]
+STAGES = ["ocr", "prepare", "eval_base", "sft", "eval_sft", "select", "grpo", "eval_grpo", "report"]
 DEFAULTS = {
     "model_type": "qwen3_5",
     "gpus": [0, 1],
@@ -112,11 +113,21 @@ class Runner:
                 problems.append(f"  {key}: {path}\n      {hint}")
 
         need(Path(self.model, "config.json").is_file(), "model", self.model, "출발 모델 폴더 (config.json 이 있는 폴더)")
+        ocr = d.get("ocr_images")
         if not Path(d["output_dir"], "DONE.json").is_file():   # 섞기가 아직이면 데이터셋을 읽어야 한다
             for e in [*d["train"], *d["benchmark"]]:
                 p = e["path"] if isinstance(e, dict) else e
+                if ocr and p == ocr["output_dir"]:
+                    continue   # ocr 단계가 만든다
                 need(Path(p, "meta.json").is_file() and Path(p, "tasks").is_dir(), "data.train / data.benchmark", p,
                      "studio 데이터셋 폴더 (meta.json + tasks/)")
+        if ocr and not Path(ocr["output_dir"], "DONE.json").is_file():
+            for f in ocr["folders"]:
+                need(Path(f["path"]).is_dir(), "data.ocr_images.folders", f["path"], "OCR 할 그림 폴더")
+                if f.get("ocr_dir"):
+                    need(Path(f["ocr_dir"]).is_dir(), "data.ocr_images.folders[].ocr_dir", f["ocr_dir"], "이미 돌린 OCR JSON 폴더")
+            need(all(f.get("ocr_dir") for f in ocr["folders"]) or (ocr.get("ocr") or {}).get("revision"),
+                 "data.ocr_images.ocr.revision", "(없음)", "사내 OCR 버전 (캐시 열쇠), 주소는 ocr.base_url")
         if problems:
             sys.exit(f"설정({self.config_path})의 경로를 확인하세요. 상대 경로는 설정 파일이 있는 폴더 기준입니다.\n"
                      + "\n".join(problems))
@@ -274,6 +285,15 @@ class Runner:
         log(f"{stage} checkpoint: {self.state[f'{stage}_checkpoint']}")
 
     # -- stages --------------------------------------------------------------------------
+    def stage_ocr(self):
+        ocr = self.data_cfg.get("ocr_images")
+        if not ocr:
+            log("no data.ocr_images")
+        elif Path(ocr["output_dir"], "DONE.json").exists():
+            log(f"OCR prepared data exists: {ocr['output_dir']}")
+        else:
+            self.run([sys.executable, "-m", "train.cli", "ocr", "--config", str(self.config_path)], "ocr.log")
+
     def stage_prepare(self):
         if (self.data / "DONE.json").exists():
             log(f"prepared data exists: {self.data}")

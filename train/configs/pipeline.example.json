@@ -10,16 +10,23 @@
     "train": [
       {
         "path": "/share/studio_workspace/datasets/bank-train"
-      },
-      {
-        "path": "/share/studio_workspace/datasets/ocr-train/prepared",
-        "count": 20000
       }
     ],
     "benchmark": [
-      "/share/studio_workspace/datasets/bank-bench",
-      "/share/studio_workspace/datasets/ocr-bench/prepared"
+      "/share/studio_workspace/datasets/bank-bench"
     ],
+    "ocr_images": {
+      "folders": [
+        "/share/data/images"
+      ],
+      "documents": "folder",
+      "ocr": {
+        "callable": "studio.internal_ocr_adapter:ocr_from_file",
+        "revision": "ocr-api-2026-10",
+        "base_url": "http://localhost:30107"
+      },
+      "count": 20000
+    },
     "output_dir": "../data/mixed-exp1",
     "sft_max_examples": 20000,
     "task_mix": {
