@@ -129,6 +129,26 @@ def forms():
     return catalog.list_forms()
 
 
+def host_path(p: str | Path) -> str | None:
+    """컨테이너 안 경로 → 서버(도커 호스트)에서 보이는 경로. docker/studio.sh 가 DOCGEN_HOST_CODE·DOCGEN_HOST_DATA 로 넘긴다"""
+    p = Path(p).as_posix()
+    for inside, env in ((ROOT.as_posix(), "DOCGEN_HOST_CODE"), ("/out", "DOCGEN_HOST_DATA")):
+        host = os.environ.get(env)
+        if host and (p == inside or p.startswith(inside + "/")):
+            return host.rstrip("/") + p[len(inside):]
+    return None
+
+
+@app.get("/api/paths")
+def paths():
+    """데이터셋이 어디에 생기는지: 컨테이너 안 경로와 서버 경로"""
+    ws = REGISTRY.ws
+    return {"workspace": str(ws), "workspace_host": host_path(ws), "datasets": str(ws / "datasets"),
+            "datasets_host": host_path(ws / "datasets"), "config_file": CFG["config_file"],
+            "mounts": [[i, os.environ[e]] for i, e in ((ROOT.as_posix(), "DOCGEN_HOST_CODE"), ("/out", "DOCGEN_HOST_DATA"))
+                       if os.environ.get(e)]}
+
+
 @app.get("/api/form-ids")
 def form_ids():
     """서식 ID·이름·그룹만 (원격 생성 docker/remote_build.py 용. /api/forms 는 서식마다 통계를 내서 느리다)"""

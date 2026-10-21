@@ -66,6 +66,7 @@ up)
         docker run -d --name "$name" --restart unless-stopped \
             -p "$bind:$port:8765" --shm-size=1g \
             -e DOCGEN_UID="$(id -u)" -e DOCGEN_GID="$(id -g)" \
+            -e DOCGEN_HOST_CODE="$code" -e DOCGEN_HOST_DATA="$data" \
             -v "$code:/home/docgen/document_gen" \
             -v "$data:/out" \
             -v docgen-cache:/home/docgen/.cache \
@@ -90,6 +91,12 @@ until ! command -v curl >/dev/null || curl -fs "http://127.0.0.1:$port/" >/dev/n
 done
 ip=$(hostname -I 2>/dev/null | awk '{print $1}')
 echo "studio 떠 있음 → 이 서버에서 http://localhost:$port"
+echo "경로 (컨테이너 안 → 이 서버):  /home/docgen/document_gen → $code,  /out → $data"
+if ! docker exec "$name" printenv DOCGEN_HOST_CODE >/dev/null 2>&1; then
+    echo "  (이 컨테이너는 서버 경로를 모릅니다. sh docker/studio.sh rm 후 다시 띄우면 데이터셋의 서버 경로가 보입니다)"
+fi
+ws=$(curl -fs "http://127.0.0.1:$port/api/paths" 2>/dev/null | sed -n 's/.*"datasets_host": *"\([^"]*\)".*/\1/p')
+[ -n "$ws" ] && echo "데이터셋이 생기는 곳 (이 서버): $ws/<이름>/"
 if [ "$bind" = 0.0.0.0 ]; then
     echo "다른 PC·컨테이너에서: http://${ip:-<서버IP>}:$port  (로그인 없음. 그만 열려면 sh docker/studio.sh --local)"
 else

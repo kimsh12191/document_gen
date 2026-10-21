@@ -59,6 +59,7 @@ studio 설정 — 코드 폴더의 `studio/config.json` (git 에 없음, 예시:
 }
 ```
 
+- **`workspace_dir` 를 꼭 `/out/…` 으로 두세요.** 이 설정이 없으면 데이터셋이 코드 폴더 안(`~/docgen/document_gen/studio_workspace/`)에 생겨, 결과 폴더에서 찾을 수 없고 학습 컨테이너와도 공유되지 않습니다. 이미 거기에 만든 것은 폴더째 옮기고 ⑥ 에서 경로로 다시 등록합니다.
 - `path_map`: 두 컨테이너가 같은 폴더를 다른 경로로 볼 때, studio 가 학습 설정(`train/configs/studio-<이름>.json`)을 내보내며 경로를 바꿔 씁니다.
 - `host`·`port`·`browser` 는 컨테이너에서 쓰지 않습니다 (포트는 `studio.sh -p`).
 
@@ -94,6 +95,7 @@ ssh -N -L 8765:localhost:8765 <서버 계정>@<서버IP>
 - **`--open`:** 터널 없이 `http://<서버IP>:<포트>` 로 화면과 API 를 씁니다 (다른 컨테이너에서 생성 맡기기도 이것). studio 에는 로그인이 없어 **같은 망에서 그 주소를 아는 누구나** 서식·레시피를 고치고 생성을 돌릴 수 있습니다. 실서류를 다루는 동안에는 `--local` 로 두세요.
 - 포트·주소는 한 번 정하면 컨테이너에 남아, 다음부터는 옵션 없이 `sh docker/studio.sh` 만 해도 그대로 뜹니다.
 - 컨테이너 안 계정 번호를 서버 사용자와 맞춰 띄우므로, studio 가 만든 파일도 서버 사용자 것입니다.
+- **경로 대응:** 컨테이너 안 `/home/docgen/document_gen` = 서버의 저장소 폴더, `/out` = 서버의 `~/docgen/data` (`DOCGEN_DATA`). studio 화면·로그에 나오는 경로는 컨테이너 안 경로입니다. `studio.sh` 가 끝에 데이터셋이 생기는 서버 경로를 보여 주고, 다른 곳에서는 `python remote_build.py paths` 로 봅니다.
 - 기본값 바꾸기 (환경변수): `DOCGEN_IMAGE=docgen:1.2`, `DOCGEN_DATA=~/docgen/data`(→ `/out`), `STUDIO_NAME=docgen-studio`.
 - 원본 서식 배경 캐시(약 165MB)는 `docgen-cache` 볼륨에 남아, 컨테이너를 다시 만들어도 새로 그리지 않습니다.
 

@@ -9,6 +9,7 @@ studio 를 sh docker/studio.sh --open 으로 띄워 두고, URL 은 --url 또는
   python remote_build.py recipes                                  저장된 레시피
   python remote_build.py jobs                                     생성 작업 목록
   python remote_build.py status <작업ID>                          작업 하나 (진행·로그 끝)
+  python remote_build.py paths                                    데이터셋이 생기는 곳 (컨테이너 안 경로 ↔ 서버 경로)
 
 만들기 (끝날 때까지 기다림. --no-wait 면 작업 ID 만 받고 끝)
   python remote_build.py build --name bench-1021 --recipe bank-bench          저장된 레시피 그대로 (벤치마크 통째)
@@ -116,9 +117,31 @@ def cmd_build(a) -> None:
         return
     j = wait(job["id"], a.poll)
     print(json.dumps({k: j.get(k) for k in ("id", "status", "stage", "error", "result")}, ensure_ascii=False, indent=1))
+    out = (j.get("info") or {}).get("out") or (job.get("info") or {}).get("out")
+    if out and j["status"] == "done":
+        show_path(out)
     if j["status"] != "done":
         print(call(f"/api/jobs/{job['id']}").get("log_tail", "")[-2000:])
         sys.exit(1)
+
+
+def show_path(out: str) -> None:
+    p = call("/api/paths")
+    host = None
+    for inside, h in p.get("mounts", []):
+        if out == inside or out.startswith(inside.rstrip("/") + "/"):
+            host = h.rstrip("/") + out[len(inside.rstrip("/")):]
+    print(f"결과 폴더 (studio 컨테이너 안): {out}")
+    print(f"결과 폴더 (서버):               {host or '알 수 없음 — 서버에서 sh docker/studio.sh rm 후 다시 띄우면 보임'}")
+
+
+def cmd_paths(a) -> None:
+    p = call("/api/paths")
+    print(f"데이터셋 (studio 컨테이너 안): {p['datasets']}/<이름>/")
+    print(f"데이터셋 (서버):               {(p.get('datasets_host') or '알 수 없음') + '/<이름>/'}")
+    for inside, h in p.get("mounts", []):
+        print(f"  {inside}  =  서버 {h}")
+    print(f"studio 설정 파일: {p.get('config_file') or '없음 (기본값: 코드 폴더 안 studio_workspace/)'}")
 
 
 def cmd_types(a) -> None:
@@ -185,6 +208,7 @@ def main() -> None:
     sub.add_parser("scenarios", help="업무 ID 와 필요 서류")
     sub.add_parser("recipes", help="저장된 레시피")
     sub.add_parser("jobs", help="생성 작업 목록")
+    sub.add_parser("paths", help="데이터셋이 생기는 곳 (컨테이너 안 ↔ 서버)")
     s = sub.add_parser("status", help="작업 하나의 상태·로그")
     s.add_argument("job")
     a = ap.parse_args()
@@ -192,7 +216,7 @@ def main() -> None:
         ap.error("--url 또는 STUDIO_URL 이 필요합니다 (예: http://10.0.0.5:8765)")
     BASE = a.url.rstrip("/")
     {"build": cmd_build, "types": cmd_types, "scenarios": cmd_scenarios, "recipes": cmd_recipes,
-     "jobs": cmd_jobs, "status": cmd_status}[a.cmd](a)
+     "jobs": cmd_jobs, "status": cmd_status, "paths": cmd_paths}[a.cmd](a)
 
 
 if __name__ == "__main__":

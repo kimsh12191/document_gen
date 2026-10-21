@@ -114,7 +114,14 @@ studio **⑥ 데이터셋 › 새로 만들기 › (은행 업무 / 합성 OCR)*
 
 ## 6. 결과
 
-서버의 `<workspace_dir>/datasets/<name>/` 에 생깁니다 (README 의 설정이면 `/out/studio_workspace/datasets/<name>/` = 서버의 `~/docgen/data/studio_workspace/datasets/<name>/`).
+`build` 가 끝나면 결과 폴더를 컨테이너 안 경로와 서버 경로로 함께 보여 줍니다. 언제든 `python remote_build.py paths` 로 볼 수 있습니다.
+
+| studio 설정 (`studio/config.json`) | 데이터셋 위치 (서버) |
+|---|---|
+| `"workspace_dir": "/out/studio_workspace"` (권장, [README 2절](README.md#2-내부망-서버-처음-한-번)) | `~/docgen/data/studio_workspace/datasets/<name>/` |
+| 설정 없음 | 코드 폴더 안 `~/docgen/document_gen/studio_workspace/datasets/<name>/` (학습 컨테이너와 공유 안 됨) |
+
+컨테이너 안 `/out` = 서버의 `~/docgen/data`, `/home/docgen/document_gen` = 서버의 저장소 폴더입니다. 학습 컨테이너에서 같은 폴더가 다른 경로로 보이면 그 경로로 바꿔 씁니다 (studio 가 내보내는 학습 설정은 `path_map` 으로 자동).
 
 | 은행 업무 (`bank`) | 내용 |
 |---|---|
@@ -132,6 +139,7 @@ studio **⑥ 데이터셋 › 새로 만들기 › (은행 업무 / 합성 OCR)*
 | 증상 | 할 일 |
 |---|---|
 | `연결하지 못했습니다` | 서버에서 `sh docker/studio.sh --open` 했는지, 주소가 서버 IP·포트인지 (`localhost` 아님), 방화벽 |
+| 만든 데이터셋을 못 찾음 | `paths` 로 위치 확인. `studio/config.json` 이 없으면 코드 폴더 안에 생김 (위 6절 표) |
 | `400 … 모르는 서식·그룹` / `모르는 시나리오` | `types`·`scenarios` 로 ID 를 확인. 시작 전에 거절하므로 아무것도 만들어지지 않음 |
 | `이미 있는 폴더입니다` | `--name` 을 바꿈 (만든 데이터셋은 덮어쓰지 않음) |
 | `interrupted` 가 보임 | studio 가 다시 떴을 뿐 생성은 계속됨. `remote_build.py` 는 끝까지 기다림 |
