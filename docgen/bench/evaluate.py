@@ -1,4 +1,4 @@
-"""채점.
+"""채점 — OCR 8과제(ocr_metrics)와 은행 업무 8과제 모두 여기서 (studio/DESIGN.md 17절). GRPO 보상도 reward() 하나.
 
   python -m docgen.bench eval --bench bench_out --pred preds/model_a [--pred preds/model_b ...]
 
@@ -14,15 +14,27 @@ import sys
 from pathlib import Path
 
 from ..schema import similar_label
+from . import ocr_metrics as OM
 from .metrics import (cer, is_null, loose_text, match, norm_text, parse_json, strip_answer, substring_distance, to_number,
                       valid_box, value_match, yes_no)
 
-TASK_ORDER = ["ocr_field", "ocr_page", "classify", "kie", "marks", "doc_check", "cross_check", "review"]
-TASK_TITLE = {"ocr_field": "OCR - 값 칸 인식", "ocr_page": "OCR - 전체 받아쓰기", "classify": "서류 분류",
+OCR_TASKS = list(OM.TASKS)   # 쪽 OCR (옛 1부): 문항마다가 아니라 과제 전체로 지표를 낸다 (CER = 틀린 글자 합 / 글자 합)
+TASK_ORDER = [*OCR_TASKS, "ocr_field", "ocr_page", "classify", "kie", "marks", "doc_check", "cross_check", "review"]
+TASK_TITLE = {"crop_ocr": "OCR - 칸 잘라 읽기", "bbox_ocr": "OCR - 좌표 → 글자", "region_ocr": "OCR - 영역 받아쓰기",
+              "marked_ocr": "OCR - 그린 박스 → 글자", "grounding": "OCR - 글자 → 좌표", "spotting": "OCR - 글자 찾기(좌표+글자)",
+              "relation": "OCR - 항목명 → 값(좌표+글자)", "marked_box": "OCR - 그린 박스 → 좌표",
+              "ocr_field": "OCR - 값 칸 인식", "ocr_page": "OCR - 전체 받아쓰기", "classify": "서류 분류",
               "kie": "정보 추출", "marks": "체크·도장·서명", "doc_check": "서류 구비 확인",
               "cross_check": "서류 간 대조", "review": "심사 질의"}
+TASK_GROUP = {**{t: "ocr" for t in [*OCR_TASKS, "ocr_field", "ocr_page"]}, "classify": "doc", "kie": "doc", "marks": "doc",
+              "doc_check": "work", "cross_check": "work", "review": "work"}
+GROUP_TITLE = {"ocr": "OCR", "doc": "문서 이해", "work": "업무 처리"}
 WORST = {"cer": 1.0, "false_alarm": 1.0}
-MAIN = {"ocr_field": "exact", "ocr_page": "recall", "classify": "acc", "kie": "vl_f1", "marks": "vl_f1",
+LOWER_IS_BETTER = {"cer", "false_alarm", "matched_label_cer"}
+# OCR 과제의 대표 지표는 옛 1부 비교표(REPORT_METRICS)와 같다
+MAIN = {"crop_ocr": "cer", "bbox_ocr": "em", "region_ocr": "cer", "marked_ocr": "em", "grounding": "f1_iou50",
+        "spotting": "e2e_f1", "relation": "e2e_f1", "marked_box": "f1_iou75",
+        "ocr_field": "exact", "ocr_page": "recall", "classify": "acc", "kie": "vl_f1", "marks": "vl_f1",
         "doc_check": "exact", "cross_check": "score", "review": "acc"}
 # 평가 세트 1.x 의 kie·marks 는 값만 답한다 → 주 지표가 값 점수 (f1 / acc). 2.0 부터 값+위치 (vl_f1).
 MAIN_V1 = {"kie": "f1", "marks": "acc"}
@@ -38,11 +50,17 @@ METRIC_TITLE = {"exact": "완전 일치", "cer": "CER(낮을수록 좋음)", "re
                 "score": "종합 점수", "detect": "탐지 정확도", "localize": "위치 정확도(변조 문항)",
                 "false_alarm": "오탐률(정상 문항)", "parse_fail": "출력 파싱 실패", "missing_exact": "빠진 서류 일치",
                 "not_required_exact": "불필요 서류 일치", "not_customer_exact": "타인 서류 일치",
-                "loc_f1": "위치 F1 (IoU 0.5)", "vl_f1": "값+위치 F1", "loc_precision": "위치 정밀도", "loc_recall": "위치 재현율"}
+                "loc_f1": "위치 F1 (IoU 0.5)", "vl_f1": "값+위치 F1", "loc_precision": "위치 정밀도", "loc_recall": "위치 재현율",
+                "em": "완전 일치", "numeric_em": "숫자 일치", "word_f1": "단어 F1(순서 무관)", "f1_iou50": "위치 F1 (IoU 0.5)",
+                "f1_iou75": "위치 F1 (IoU 0.75)", "e2e_f1": "위치+글자 F1", "f1_center": "위치 F1 (가운데 포함)",
+                "precision_iou50": "위치 정밀도", "recall_iou50": "위치 재현율", "mean_iou_matched": "맞은 박스 평균 IoU",
+                "count_accuracy": "박스 수 일치", "negative_accuracy": "없음 정확도", "valid_json_rate": "형식 맞음",
+                "matched_label_cer": "맞은 박스 글자 CER"}
 SLICES = {"ocr_field": ["writing", "condition", "kind", "corrected"], "ocr_page": ["condition", "writing", "group"],
           "classify": ["group", "condition"], "kie": ["group", "condition", "writing", "@kind"],
           "marks": ["group", "condition", "@type"], "doc_check": ["n_missing", "not_customer", "not_required", "scenario"],
-          "cross_check": ["category", "case", "perturbed", "scenario"], "review": ["skill", "rule"]}
+          "cross_check": ["category", "case", "perturbed", "scenario"], "review": ["skill", "rule"],
+          **{t: ["view", "confidence", "size"] for t in OCR_TASKS}}
 
 
 # ---------------------------------------------------------------------------
@@ -378,7 +396,39 @@ def _mean(xs):
     return sum(xs) / len(xs) if xs else None
 
 
+def _ocr_slice(item: dict, name: str):
+    m = item.get("meta") or {}
+    if name == "confidence":
+        c = m.get("confidence")
+        return None if c is None else ("high" if c >= OM.HIGH_CONFIDENCE else "low")
+    return m.get(name)
+
+
+def _score_ocr(task: str, items: list[dict], preds: dict[str, str]) -> dict:
+    """OCR 과제: 옛 1부와 같은 계산 (빈 답·없는 답은 빈 글자, 지표는 과제 전체로). 문항 점수는 GRPO 보상."""
+    have = {it["id"]: OM.answer(preds[it["id"]]) for it in items if preds.get(it["id"])}
+    rows = [{"id": it["id"], "task": task, "target": it["answer"]} for it in items]
+    full = {r["id"]: have.get(r["id"], "") for r in rows}
+    calc = OM._text_metrics if task in OM.TEXT_TASKS else OM._box_metrics
+    metrics = calc(rows, full)
+    main = MAIN[task]
+    slices = {}
+    for s in SLICES[task]:
+        groups: dict = {}
+        for it, r in zip(items, rows):
+            v = _ocr_slice(it, s)
+            if v is not None:
+                groups.setdefault(str(v), []).append(r)
+        slices[s] = {k: {"n": len(v), main: calc(v, full).get(main)} for k, v in sorted(groups.items(), key=lambda kv: -len(kv[1]))}
+    fails = sum(1 for i in have if task in OM.BOX_TASKS and OM.parse_boxes(have[i]) is None)
+    per = [{"id": it["id"], main: (rw := OM.reward(preds.get(it["id"]) or "", task, it["answer"])), "reward": rw} for it in items]
+    return {"n": len(items), "missing": sum(1 for it in items if it["id"] not in preds), "parse_fail": fails / len(items) if items else 0.0,
+            "main": main, "metrics": metrics, "slices": slices, "per_item": per}
+
+
 def score_task(task: str, items: list[dict], preds: dict[str, str]) -> dict:
+    if task in OCR_TASKS:
+        return _score_ocr(task, items, preds)
     fn = SCORERS[task]
     rows, missing, fails = [], 0, 0
     for it in items:
@@ -412,6 +462,36 @@ def score_task(task: str, items: list[dict], preds: dict[str, str]) -> dict:
     return {"n": len(items), "missing": missing, "parse_fail": fails / len(items) if items else 0.0,
             "main": main, "metrics": metrics, "slices": slices,
             "per_item": [{"id": it["id"], **r["metrics"]} for it, r in rows]}
+
+
+def reward(task: str, output: str | None, item: dict) -> float:
+    """GRPO 보상 [0, 1] — 모든 과제 하나 (train/reward_plugin.py). 답이 없거나 읽을 수 없으면 0.
+
+    OCR 과제: 옛 1부 보상 그대로 (글자 유사도 + 숫자, 박스는 IoU 부드러운 F1).
+    업무 과제: 평가 채점기 그대로, 여러 부분 중 다 맞아야 하는 지표는 부분 점수를 준다:
+      doc_check    0.5 × 완전 일치 + 0.5 × 세 목록 F1
+      cross_check  정상 문항: 맞다고 하면 1 / 변조 문항: 0.5 × (다르다고 함) + 0.5 × (서류·값까지 맞힘)
+      ocr_field    1 − CER,  ocr_page 오차 20% 허용 재현율,  그 밖은 주 지표 (kie·marks 값+위치 F1, classify·review 정확도)
+    """
+    if task in OCR_TASKS:
+        return OM.reward(output or "", task, item["answer"])
+    if output is None:
+        return 0.0
+    result = SCORERS[task](item, output)
+    if result.get("parse_fail"):
+        return 0.0
+    m = result["metrics"]
+    if task == "doc_check":
+        value = 0.5 * m["exact"] + 0.5 * m["set_f1"]
+    elif task == "cross_check":
+        value = m["score"] if item["answer"]["consistent"] else 0.5 * m["detect"] + 0.5 * m["score"]
+    elif task == "ocr_field":
+        value = 1.0 - m["cer"]
+    elif task == "ocr_page":
+        value = m.get("recall_fuzzy", m["recall"])
+    else:
+        value = m[main_metric(task, m)]
+    return float(min(1.0, max(0.0, value)))
 
 
 def _fmt(v, pct=True):

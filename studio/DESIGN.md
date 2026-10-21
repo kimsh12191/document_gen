@@ -1502,3 +1502,41 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 | K2 | 화면 (탭 여섯, 나무, 일괄 승인) | **끝남 (2026-10-21).** `studio/api_dictionary.py`, `static/js/keys.js`. 키 사전 탭: 필드 키(당사자 나무 → 역할 → 키·당사자 키, 업무별 당사자) · 표시 요소(도장·서명 당사자별, 체크 보기) · 문서 분류(대분류·이름·다른 이름) · 업무(대분류·다른 이름·역할 → 당사자) · 합치기 후보(일괄 합치기·안 합치기, 이름 두 벌 결정은 keys.json 에도) · 키 규칙 · 값 종류. 정한 것은 `by: 사람`으로 남고 다시 만들어도 유지(시험) |
 | K3 | 쓰는 쪽 연결 — 시나리오 대조·추출을 공통 키로, 영역 편집기 키 고르기(공통 키 먼저), 분류 문항 다른 이름 채점, 서류 넣기 키 대응 | **끝남 (2026-10-21).** 처리 작업의 `{"doc", "common": 공통 키}`는 고른 서식에서 이은 칸을 찾는다(`processing.by_common`, 다른 서식으로 바뀌어도 그대로). ③ 처리 설정: 항목 고르기에 공통 키 먼저, "서류끼리 대조할 공통 키로 비교 작업 추가"(도장·서명·주소는 뺌 — 주소는 서류마다 적는 방식이 달라 글자 비교가 의미 없음). 분류 채점은 정답 문서명 + 다른 이름. 서류 넣기용 `dictionary.match_extracted`. 실제 렌더링으로 확인하다 고친 잇기: `*_bank.name` → 상대 은행, consignee·notify → 고객(제안), 한 업무에서만 쓰는 문서는 그 업무의 뜻(해외송금 seller = 외국 상대), 신원·가족·소득·세금 서류의 역할 없는 name·rrn → 고객 |
 | K4 | 적용 — 공통 키에 이은 칸을 공통 키로 묻고 답함 (평가 세트 버전 올림) | **끝남 (2026-10-21, 평가 세트 3.0).** `dictionary.apply_common`을 출력 층에만 쓴다: kie·marks 문항(`Builder.single`), 처리 작업의 추출 문항, `docgen generate` 라벨·학습 레코드. 내부 필드(심사·대조 규칙이 읽는 서식 키)는 그대로라 규칙은 바뀌지 않는다. 이은(이음) 칸만, 한 문서 안에서 같은 공통 키가 겹치면 처음 것만. 원래 키는 `doc_key`. 분류 정답 = 문서명(`dictionary.doc_name`) + 다른 이름(`eval.aliases`). 라벨 검수의 검수 전 점수는 원래 추론의 키도 같은 키로 바꿔 채점. 작은 세트(서류 6종 + 해외송금 묶음 1)로 만들어 정답을 답으로 넣으면 모든 과제 100점 |
+
+## 17. OCR·은행 업무 통합 — 과제 형식·채점·학습·보기 하나로 (2026-10-21)
+
+### 17.1 왜
+
+1부 OCR(`ocr/`)과 2부 은행 업무(`bank/`)는 만든 순서 때문에 나뉘었을 뿐이다. 둘 다 "이미지 + 질문 → 답 + 채점"이고 좌표 형식도 같으며(9.3), 2부 학습은 이미 1부 학습 실행기를 물려받고 OCR 데이터를 섞어(replay) 학습한다. 그런데 문항 형식·채점·GRPO 보상·학습 실행·viewer가 두 벌이고, studio는 `sys.path`를 고쳐 `bank_ocr`를 불러 쓴다. viewer 두 개와 따로 된 학습 명령은 쓰지 않으므로(2026-10-21 확인) 하나로 합친다.
+
+### 17.2 자리
+
+| 자리 | 들어가는 것 | 옛 위치 |
+|---|---|---|
+| `docgen/bench` (공용, 학습 컨테이너도 import) | 과제 형식 하나, 과제별 채점(OCR 8 + 은행 업무 8), GRPO 보상 하나, OCR 문항 만들기(`ocr_data`·`ocr_augment`·`ocr_tasks`·`ocr_prepare`·`ocr_metrics`) | `ocr/bank_ocr/{data,augment,tasks,pipeline,metrics}.py`, `bank/bank_task/score.py` |
+| `studio` | 데이터 만들기 전부(합성·실서류·OCR 준비), 데이터셋·평가 화면 하나(옛 viewer 둘을 대신), 사내 OCR 어댑터 | `ocr/internal_ocr_adapter.py`, `ocr/viewer`, `bank/viewer` |
+| `train/` (학습 컨테이너) | 학습 실행 하나(prepare → eval_base → sft → eval_sft → select → grpo → eval_grpo → report), 데이터셋 섞기(목록·비율, 이미지 토큰 예산, 문항 묶기, GRPO 보류 고객), 모델 답 내기, 보상 플러그인, 보고서, 설정 | `ocr/{run_pipeline,train,benchmark_report,bank_ocr_reward}.py`, `ocr/bank_ocr/{inference,settings,cli}.py`, `bank/{run_bank_pipeline,bank_task_reward}.py`, `bank/bank_task/{prepare,report,cli}.py`, 두 `configs/` |
+
+`ocr/`·`bank/`는 옮긴 뒤 지운다. 데모(`ocr/demo.py`)·viewer·옛 문서는 옮기지 않는다.
+
+### 17.3 과제 형식 하나 (`docgen-tasks/1`)
+
+- 데이터셋 = 폴더: `meta.json` + `tasks/<과제>.jsonl` (+ 이미지). 지금 `docgen.bench` 폴더 형식 그대로이고, OCR 준비 결과도 이 형식으로 쓴다.
+- 문항: `{id, task, images, prompt, answer, eval, meta}`. OCR 과제는 `answer` = 옛 `target`을 푼 것(`{"text"}` 또는 `{"boxes": [{bbox_2d, label}]}`), `meta`에 `document_id`·`page_id`·`view`·`view_ops`·`reference_type`·`confidence`·`size`·`context_image`·`split`.
+- 쪼개기: 폴더의 `meta.split`(test·train), OCR 준비처럼 한 폴더에 섞이면 문항의 `meta.split`(train·val·benchmark)이 우선한다.
+- 과제 묶음은 태그다: OCR(`crop_ocr`·`bbox_ocr`·`region_ocr`·`marked_ocr`·`grounding`·`spotting`·`relation`·`marked_box`·`ocr_field`·`ocr_page`), 문서 이해(`classify`·`kie`·`marks`), 업무 처리(`doc_check`·`cross_check`·`review`). 데이터셋의 `track`(ocr/bank)은 없앤다.
+
+### 17.4 채점·보상
+
+- `docgen.bench.evaluate.score_task(task, items, preds)`가 16과제 모두를 채점한다. OCR 과제는 옮긴 `ocr_metrics`를 그대로 불러 **옛 점수와 같은 숫자**를 낸다(대표 지표는 옛 `REPORT_METRICS`와 같음).
+- `docgen.bench.evaluate.reward(task, completion, item)` 하나가 GRPO 보상이다(OCR은 옛 `bank_ocr.metrics.reward`, 업무는 옛 `bank_task.score.reward`와 같은 값). 플러그인은 `train/reward_plugin.py` 하나(`reward_funcs: ["docgen"]`).
+
+### 17.5 순서와 완료 기준
+
+| # | 범위 | 완료 기준 |
+|---|---|---|
+| U1 | 채점·보상 하나 (`ocr_metrics` 옮김, `evaluate`가 OCR 과제도) | 같은 OCR·업무 세트와 답을 옛 코드와 새 코드로 채점하면 과제별 지표·보상이 모두 같음 |
+| U2 | OCR 준비를 `docgen/bench`로, 출력에 `docgen-tasks/1` 폴더, studio·docgen 의 `bank_ocr` import 와 `sys.path` 고치기 없앰, 사내 OCR 어댑터는 studio 로 | OCR 준비 결과(문항·쪼개기)가 옮기기 전과 같음, studio 테스트 통과 |
+| U3 | studio 데이터셋·평가 하나 (track 없앰, 보기·채점·레시피·라벨 데이터 만들기 하나) | OCR·업무 문항을 한 데이터셋에 섞어 만들고 같은 화면에서 보고 채점 |
+| U4 | `train/` 하나 (섞기·학습·답 내기·보상·보고서) | 섞기 결과가 옛 2부 prepare(+OCR replay)와 같은 문항 집합, 학습 실행 리허설(dry-run)·보상 플러그인 시험 통과 |
+| U5 | `ocr/`·`bank/` 지우기, 문서(README·guide·TRAINING·docker·이 문서 9절) 고치기 | 저장소에 `bank_ocr`·`bank_task` 참조 없음, 전체 테스트 통과 |

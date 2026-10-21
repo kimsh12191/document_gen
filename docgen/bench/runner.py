@@ -30,6 +30,11 @@ MAX_TOKENS = {"ocr_page": 4096, "kie": 2048, "marks": 1024, "cross_check": 1024,
 
 
 def oracle_output(item: dict) -> str:
+    """정답을 모델 출력 꼴로 (SFT 가르칠 답, --oracle). OCR 과제는 옛 1부 answer_for 와 같다."""
+    from .ocr_metrics import TASKS as OCR_TASKS, answer_for
+
+    if item["task"] in OCR_TASKS:
+        return answer_for(item["task"], item["answer"])
     a = item["answer"]
     if item["task"] == "ocr_page":
         return "\n".join(a)
