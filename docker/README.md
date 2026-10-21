@@ -18,7 +18,7 @@ GPU 학습(`train/`, `python -m train`)은 이 컨테이너가 아니라 따로 
 | 파일 | 역할 |
 |---|---|
 | `docker/studio.sh` | **서버에서 직접 쓰는 것.** studio 컨테이너 만들기·켜기, 포트·여는 주소, 로그, 셸, 지우기 |
-| `docker/remote_build.py` | 다른 컨테이너·PC 에서 studio 에 데이터 생성을 맡기는 예 ([5절](#5-명령줄로-데이터-만들기)) |
+| `docker/remote_build.py`, `docker/REMOTE_BUILD.md` | 다른 컨테이너·PC 에서 studio 에 데이터 생성을 맡기기, 그 매뉴얼 |
 | `docker/build.sh` | 인터넷 되는 PC 에서 반입 파일 두 개 만들기 (이미지 빌드 + 코드 묶음 + 네트워크를 끊은 테스트) |
 | `docker/Dockerfile` | 이미지: 파이썬·글꼴·Chromium·studio 패키지·SSH 서버 |
 | `docker/requirements.lock` | 이미지에 넣는 파이썬 패키지 (판 고정) |
@@ -126,18 +126,15 @@ python -m docgen.bench eval --bench /out/bench --pred /out/preds/m1
 
 ### 다른 컨테이너에서 생성 맡기기 (HTTP)
 
-studio 의 API 로 다른 컨테이너(학습 컨테이너 등)나 PC 에서 파이썬으로 생성을 시작하고 끝날 때까지 기다릴 수 있습니다. 포트를 따로 열 필요 없이 studio 포트 하나로 됩니다.
-studio 를 `--open` 으로 띄워 두고 (같은 서버의 컨테이너라도 `<서버IP>` 로 들어옵니다), [`docker/remote_build.py`](remote_build.py) 를 그쪽에 복사해 씁니다 (표준 라이브러리만 씀).
+studio 를 `--open` 으로 띄워 두면, 다른 컨테이너(학습 컨테이너 등)나 PC 에서 [`docker/remote_build.py`](remote_build.py) 로 생성을 맡기고 끝날 때까지 기다릴 수 있습니다. 포트는 studio 포트 하나로 됩니다.
+**무엇을 넣으면 무엇이 나오는지, studio 화면의 어디와 대응하는지는 [REMOTE_BUILD.md](REMOTE_BUILD.md) 에 있습니다.**
 
 ```bash
-python remote_build.py --url http://<서버IP>:8765 --list                                    # 레시피 목록
-python remote_build.py --url http://<서버IP>:8765 --recipe bank-bench --name bench-1021      # 있는 레시피로 만들기
-python remote_build.py --url http://<서버IP>:8765 --recipe my --file my.json --name my-1021  # 레시피를 보내고 만들기
+export STUDIO_URL=http://<서버IP>:8765
+python remote_build.py build --name bench-1021 --recipe bank-bench                     # 평가 세트 통째
+python remote_build.py build --name id-5 --types resident_id_card,hf169 --per-doc 5     # 특정 서식만
+python remote_build.py build --name loan-20 --scenarios mortgage --bundles 20           # 특정 업무만
 ```
-
-- 결과는 서버의 `<workspace_dir>/datasets/<name>/` (위 설정이면 `/out/studio_workspace/datasets/…` = 서버의 `~/docgen/data/studio_workspace/datasets/…`)에 생기고 ⑥ 데이터셋에 자동 등록됩니다. 학습 컨테이너는 공유 폴더에서 그대로 읽습니다.
-- 레시피 항목(`types`·`scenarios`·`bundles`·`conditions` …)은 `docgen/recipes/*.json` 과 ⑥ 새로 만들기 화면이 쓰는 것과 같습니다. 같은 이름의 데이터셋이 있으면 거절하니 이름을 바꿔 가며 씁니다.
-- 직접 부를 때: `POST /api/builds {"recipe", "name", "workers"}` → 작업, `GET /api/jobs/<id>` 로 진행(`status`·`progress`), `PUT /api/recipes/<이름>` 으로 레시피 저장. 진행 중에 studio 가 다시 뜨면(코드 반입) 작업이 "끊김"으로 보이지만 생성은 계속되고, `GET /api/builds` 를 부르면 끝난 것을 등록까지 복구합니다 (`remote_build.py` 는 그렇게 기다림).
 
 ### 은행 업무 데이터 만들기
 

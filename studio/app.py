@@ -129,6 +129,14 @@ def forms():
     return catalog.list_forms()
 
 
+@app.get("/api/form-ids")
+def form_ids():
+    """서식 ID·이름·그룹만 (원격 생성 docker/remote_build.py 용. /api/forms 는 서식마다 통계를 내서 느리다)"""
+    from docgen.registry import load_all
+
+    return [{"id": s.id, "name": s.name, "group": s.group} for s in load_all().values()]
+
+
 @app.get("/api/forms/{doc_id}")
 def form(doc_id: str):
     try:
