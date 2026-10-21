@@ -15,10 +15,17 @@ python -m studio --host 0.0.0.0       # 서버에서 띄우고 다른 PC 브라�
 ```
 
 - **렌더링 브라우저:** Playwright 의 Chromium 이 없으면 설정의 `browser` → 환경변수 `CHROMIUM_PATH` → 이 PC의 Chrome·Edge 순으로 찾는다. 회사망에서 `playwright install chromium` 이 인증서 오류로 막혀도 설치된 Chrome 으로 돈다.
-- **설정:** `studio/config.json` (git 제외). 바꿀 항목만 적는다. 예시는 [config.example.json](config.example.json).
-- **내부망:** Linux 서버의 저장소 폴더에서 `sh docker/studio.sh` 한 번이면 docgen 1.2 이미지(Chromium·글꼴·studio 패키지 포함)로 studio 컨테이너가 뜨고, 윈도우 PC에서 SSH 터널로 접속한다. 코드는 마운트라 고치거나 새 코드 묶음을 풀면 studio 가 저절로 다시 뜬다(컨테이너 그대로). 1.1 이미지만 있으면 `python -m studio.deps install` 로 패키지를 넣는다. 순서는 [docker/README.md 3절](../docker/README.md#3-studio-띄우기).
-  - 설치 파일 새로 받기(인터넷 되는 PC, 패키지 판을 바꿀 때만): `python -m studio.deps download`
-  - 학습은 별도 학습 컨테이너에서 한다. 두 컨테이너는 폴더를 공유하고, 경로가 다르면 설정의 `path_map`으로 맞춘다([TRAINING.md](TRAINING.md)).
+- **설정:** `studio/config.json` (git 제외, 없어도 됨). 사내 OCR 연결·이 PC 의 브라우저처럼 환경마다 다른 것만 적는다. 예시는 [config.example.json](config.example.json).
+- **내부망 (도커):** Linux 서버의 저장소 폴더에서 한 줄이면 docgen 1.2 이미지(Chromium·글꼴·studio 패키지 포함)로 studio 컨테이너가 뜬다. 순서는 [docker/README.md 3절](../docker/README.md#3-studio-띄우기).
+  ```bash
+  sh docker/studio.sh --data /database/docgen_studio          # 저장 폴더를 정해 띄우기 (처음 한 번. 다음부터는 sh docker/studio.sh)
+  sh docker/studio.sh --open                                   # 다른 PC·컨테이너에서 http://<서버IP>:8765 로 (로그인 없음)
+  ```
+  - 데이터셋은 `<저장 폴더>/workspace/datasets/<이름>/`, 실서류 검수 결과는 `<저장 폴더>/real_data/` 에 생긴다. 컨테이너에서는 `config.json` 이 필요 없다.
+  - 코드는 마운트라 고치거나 새 코드 묶음을 풀면 studio 가 저절로 다시 뜬다 (컨테이너 그대로).
+  - 다른 컨테이너에서 파이썬으로 생성 맡기기: `docker/remote_build.py`, 매뉴얼 [docker/REMOTE_BUILD.md](../docker/REMOTE_BUILD.md).
+  - 학습은 별도 학습 컨테이너에서 저장 폴더를 공유해 읽는다. 그쪽 경로가 `/out` 과 다르면 `config.json` 의 `path_map` 하나만 적는다([TRAINING.md](TRAINING.md)).
+  - studio 패키지가 없는 옛 1.1 이미지에서는 `python -m studio.deps install` (설치 파일을 새로 받을 때는 인터넷 PC 에서 `python -m studio.deps download`).
 - **브라우저가 없을 때:** studio는 그대로 뜨고 렌더링(미리보기·합성 데이터 만들기)만 꺼진다. 등록부·평가·검수처럼 렌더링이 필요 없는 화면은 쓸 수 있다.
 - 이 PC에서 만든 이미지는 글꼴이 서버와 다를 수 있다(나눔·Noto 글꼴이 없으면 대체 글꼴). 편집·미리보기용으로 쓰고, 학습·평가 데이터는 서버나 도커에서 만든다.
 
