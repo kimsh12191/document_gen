@@ -4,7 +4,7 @@
   "browser": "C:/Program Files/Google/Chrome/Application/chrome.exe",
   "cache_dir": "studio_cache",
   "ocr": {
-    "callable": "internal_ocr_adapter:ocr_from_file",
+    "callable": "studio.internal_ocr_adapter:ocr_from_file",
     "revision": "<OCR 버전 — 1부 ocr/config.json 의 ocr_revision 과 같게>",
     "cache_dir": "ocr/data/ocr-cache",
     "base_url": "http://<사내 OCR 서버>:30107"

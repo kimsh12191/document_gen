@@ -156,9 +156,7 @@ def test_ocr_reuses_saved_gold_and_records_reviewed_accuracy(source, tmp_path, m
     add_ocr(source)
     c = L.inspect(str(source))
     assert c['summary']['full_ocr']
-    import sys
-    sys.path.insert(0, str(L.ROOT / 'training'))
-    from bank_ocr import pipeline
+    from docgen.bench import ocr_prepare as pipeline
     monkeypatch.setattr(pipeline, 'load_callable', lambda *_: pytest.fail('OCR must not be called'))
     out = out_dir(tmp_path)
     L.build_ocr(c, out, 'test')

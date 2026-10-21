@@ -150,7 +150,7 @@ def test_ocr_review_and_reviewed_set(batch, tmp_path):
     assert info["pages"] == 1 and man[0]["ocr_json"].endswith("pay0__p1.json")
     assert cfg["reference_type"] == "human_reviewed" and cfg["filters"]["benchmark"]["min_confidence"] == 0.0
     assert cfg["benchmark_only"] and cfg["studio"]["gt"] == "reviewed" and cfg["studio"]["real_data"]
-    from bank_ocr.pipeline import prepare
+    from docgen.bench.ocr_prepare import prepare
 
     prepare(tmp_path / "set" / "config.json")
     done = json.loads((tmp_path / "set" / "prepared" / "DONE.json").read_text(encoding="utf-8"))
@@ -163,7 +163,7 @@ def test_ocr_review_and_reviewed_set(batch, tmp_path):
 
 
 def test_reference_type_rejects_unknown(tmp_path, batch):
-    from bank_ocr.pipeline import prepare
+    from docgen.bench.ocr_prepare import prepare
 
     IM.ocr_set_files(batch, tmp_path / "s", None, "pseudo", "benchmark", None, {"reference_type": "guess"})
     with pytest.raises(ValueError, match="reference_type"):

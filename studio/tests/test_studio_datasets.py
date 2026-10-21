@@ -60,7 +60,7 @@ def test_detect_and_register(tmp_path, ocr_folder, bench_folder):
 
 
 def test_ocr_score_matches_cli(tmp_path, ocr_folder):
-    from bank_ocr import metrics as OM
+    from docgen.bench import ocr_metrics as OM
 
     root, rows = ocr_folder
     reg = DS.Registry(tmp_path / "ws")

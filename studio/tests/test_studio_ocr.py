@@ -40,9 +40,9 @@ def test_page_items_words_lines_and_low_confidence():
 
 def test_bank_ocr_parses_export():
     """1부 parse_ocr 가 기본 mapping 으로 그대로 읽는다."""
-    from bank_ocr.data import parse_ocr
+    from docgen.bench.ocr_data import parse_ocr
 
-    cfg = json.load(open(ocr_data.ROOT / "ocr" / "config.example.json", encoding="utf-8"))
+    cfg = json.load(open(ocr_data.ROOT / "docgen" / "bench" / "ocr_config.example.json", encoding="utf-8"))
     doc = X.page_document(X.page_items([{"page": 0, "text": "가나", "kind": "text", "blk": 0, "bbox": [10, 10, 50, 30]}], [], 1, "word"), "p.png")
     words = parse_ocr(doc, 200, 100, cfg["mapping"])
     assert words[0]["text"] == "가나" and words[0]["bbox_norm"] == [50, 100, 250, 300]

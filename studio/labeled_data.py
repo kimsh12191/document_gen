@@ -5,7 +5,7 @@
 
   inspect      폴더 검사 (meta.json·labels/·images/·ocr/·bundles.jsonl, 오류·확인 사항 각 최대 200건, 파일 해시)
   build_bank   은행 업무: Builder.single 로 classify·kie·marks·ocr_field + labeled_bundles.py 로 묶음 문항 → docgen.bench 폴더
-  build_ocr    OCR: 쪽 전체 OCR 정답(ocr_scope: full_page)으로 1부 manifest → bank_ocr prepare (OCR 을 다시 부르지 않는다)
+  build_ocr    OCR: 쪽 전체 OCR 정답(ocr_scope: full_page)으로 manifest → OCR 준비 docgen.bench.ocr_prepare (OCR 을 다시 부르지 않는다)
 원본은 읽기만 하고, 검사 때의 해시로 확인하며 출력의 input/ 에 복사한다.
 
   python -m studio.labeled_data --request <요청 JSON>   studio 작업이 돌린다 (요청: {check, out, track, split, tasks})
@@ -350,9 +350,9 @@ def build_ocr(check: dict, out: Path, split: str):
                          'split': 'benchmark' if split == 'test' else 'train'})
     manifest = out / 'manifest.jsonl'
     manifest.write_text(''.join(json.dumps(r, ensure_ascii=False) + '\n' for r in rows), encoding='utf-8')
-    cfg = read(ROOT / 'ocr/config.example.json')
+    cfg = read(ROOT / 'docgen/bench/ocr_config.example.json')
     cfg.update(manifest=str(manifest.resolve()), output_dir=str((out / 'prepared').resolve()),
-               cache_dir=str((out / 'ocr_cache').resolve()), ocr_callable='internal_ocr_adapter:ocr_from_file',
+               cache_dir=str((out / 'ocr_cache').resolve()), ocr_callable='studio.internal_ocr_adapter:ocr_from_file',
                ocr_revision='docgen-labels-v1-' + check['fingerprint'][:16], val_fraction=0,
                benchmark_fraction=0 if split == 'test' else 0.1, benchmark_only=split == 'test',
                reference_type={'exact': 'synthetic_exact', 'reviewed': 'human_reviewed', 'pseudo': 'ocr_pseudo_unreviewed'}[check['meta']['gt']],
@@ -362,8 +362,7 @@ def build_ocr(check: dict, out: Path, split: str):
     write(out / 'config.json', cfg)
     write(out / 'import_set.json', {'source': 'results', 'gt': check['meta']['gt'], 'real_data': check['meta']['real_data'],
                                   'label_format': 'docgen-labels/1', 'fingerprint': check['fingerprint']})
-    sys.path.insert(0, str(ROOT / 'ocr'))
-    from bank_ocr.pipeline import prepare
+    from docgen.bench.ocr_prepare import prepare
     prepare(str(out / 'config.json'))
 
 

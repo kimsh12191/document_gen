@@ -1,7 +1,7 @@
 """④ 가져오기 › 결과 폴더 (studio/RESULTS_FORMAT.md): 이미 OCR·추론을 돌려 저장해 둔 폴더를 읽어 묶음으로 만든다.
 API 는 studio/api_review.py (검사)·api_import.py (묶음 만들기 kind: results), 화면은 static/js/import.js.
 
-- 이미지·OCR 은 1부 OCR 준비 단계와 같은 규칙 (ocr/bank_ocr/data.py 의 scan·find_saved_ocr·parse_ocr).
+- 이미지·OCR 은 1부 OCR 준비 단계와 같은 규칙 (docgen/bench/ocr_data.py 의 scan·find_saved_ocr·parse_ocr).
 - 묶음은 이미지 묶음과 같은 꼴(studio/importer.py)이고 출처만 "results". OCR 이 있는 쪽은 그 OCR 을 쓰고, 없는 쪽만 사내 OCR 을 부른다.
 - 추론 결과 pred/<문서ID>.json 은 ⑤ 라벨 검수의 출발점이다 (studio/label_review.py). 결과 폴더에는 쓰지 않는다.
 
@@ -50,7 +50,7 @@ def pred_items(pred: dict) -> list[dict]:
 
 def check(path: str) -> dict:
     """결과 폴더 검사. {ok, errors, warnings, meta, docs: [{id, pages: [{id, image, ocr}], pred}], summary}."""
-    from bank_ocr.data import find_saved_ocr, parse_ocr, scan
+    from docgen.bench.ocr_data import find_saved_ocr, parse_ocr, scan
 
     root = Path(path).expanduser().resolve()
     errors, warnings = [], []
@@ -68,7 +68,7 @@ def check(path: str) -> dict:
     if not meta.get("document_regex") and not meta.get("single_page"):
         errors.append("meta.json: document_regex 또는 single_page:true 중 하나가 필요합니다")
     images, ocr_dir, pred_dir = _dir(root, meta, "images_dir", "images"), _dir(root, meta, "ocr_dir", "ocr"), _dir(root, meta, "pred_dir", "pred")
-    mapping = meta.get("mapping") or json.loads((IM.OCR_DIR / "config.example.json").read_text(encoding="utf-8"))["mapping"]
+    mapping = meta.get("mapping") or json.loads(IM.OCR_CONFIG.read_text(encoding="utf-8"))["mapping"]
     docs: dict[str, dict] = {}
     if not errors:
         try:

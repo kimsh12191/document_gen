@@ -1,4 +1,4 @@
-"""평가 세트 2.0 좌표 시험: 옮겨 온 좌표 함수가 1부(ocr/bank_ocr)와 같은 값을 내는지, kie·marks 의 값·위치·값+위치 점수."""
+"""평가 세트 2.0 좌표 시험: 옮겨 온 좌표 함수가 OCR 과제(docgen/bench/ocr_*)와 같은 값을 내는지, kie·marks 의 값·위치·값+위치 점수."""
 import json
 import random
 import sys
@@ -9,9 +9,8 @@ import pytest
 from docgen.bench import evaluate as E
 from docgen.bench import metrics as M
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "ocr"))
-from bank_ocr import data as OD  # noqa: E402
-from bank_ocr import metrics as OM  # noqa: E402
+from docgen.bench import ocr_data as OD  # noqa: E402
+from docgen.bench import ocr_metrics as OM  # noqa: E402
 
 
 def test_ported_functions_match_bank_ocr():

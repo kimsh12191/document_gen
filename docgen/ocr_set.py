@@ -1,4 +1,4 @@
-"""합성 OCR 벤치마크·학습 데이터: 생성 서류의 쪽 전체 글자를 정답으로, 1부(bank_ocr) prepare 형식으로 만든다.
+"""합성 OCR 벤치마크·학습 데이터: 생성 서류의 쪽 전체 글자를 정답으로, OCR 준비(docgen.bench.ocr_prepare) 형식으로 만든다.
 
   python -m docgen.ocr_set build --recipe docgen/recipes/<이름>.json --out <폴더> [--workers 4] [--no-prepare]
 
@@ -6,10 +6,10 @@
   <폴더>/images/<서식>_<seed>[_p<쪽>].png|jpg   쪽 이미지 (촬영 조건 증강 포함)
   <폴더>/ocr_json/<같은 이름>.json               정답: 사내 OCR 응답 형식 (docgen/ocr_export.py)
   <폴더>/manifest.jsonl                         1부 scan 결과와 같은 줄 {document_id, page_id, image, split, ocr_json}
-  <폴더>/config.json                            1부 prepare 설정 (ocr/config.example.json + 레시피의 prepare)
+  <폴더>/config.json                            OCR 준비 설정 (docgen/bench/ocr_config.example.json + 레시피의 prepare)
   <폴더>/prepared/                              1부 prepare 결과 (studio 가 데이터셋으로 등록하는 폴더)
   <폴더>/ocr_set.json                           레시피, 생성기 커밋, 수, 서식 해시
-prepare 는 ocr/ 에서 python -m bank_ocr prepare 로 돌리므로 1부 패키지가 설치돼 있어야 한다 (없으면 --no-prepare).
+prepare 는 python -m docgen.bench.ocr_prepare 로 돈다 (--no-prepare 면 이미지·OCR JSON·manifest 까지만).
 
 레시피 (track: "ocr", 예: docgen/recipes/ocr-bench.json, ocr-train.json)
   {"track": "ocr", "name", "about", "split": "benchmark" | "train",
@@ -209,7 +209,7 @@ def build(args) -> None:
         for r in rows:
             f.write(json.dumps({k: r[k] for k in ("document_id", "page_id", "image", "split", "ocr_json") if k in r},
                                ensure_ascii=False) + "\n")
-    cfg = json.loads((ROOT / "ocr" / "config.example.json").read_text(encoding="utf-8"))
+    cfg = json.loads((ROOT / "docgen" / "bench" / "ocr_config.example.json").read_text(encoding="utf-8"))
     cfg.update({"manifest": str((out / "manifest.jsonl").resolve()), "output_dir": str((out / "prepared").resolve()),
                 "cache_dir": str((out / "ocr_cache").resolve()), "ocr_revision": f"docgen-synthetic-{unit}-v1"})
     for k, v in PREPARE_DEFAULTS.items():
@@ -232,9 +232,8 @@ def build(args) -> None:
     (out / "ocr_set.json").write_text(json.dumps(info, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"서류 {len(jobs)}건, 쪽 {len(rows)} → {out}")
     if not args.no_prepare:
-        subprocess.run([sys.executable, "-m", "bank_ocr", "prepare", "--config", str((out / "config.json").resolve())],
-                       cwd=ROOT / "ocr", check=True)
-        print(f"1부 prepare → {out / 'prepared'}")
+        subprocess.run([sys.executable, "-m", "docgen.bench.ocr_prepare", str((out / "config.json").resolve())], cwd=ROOT, check=True)
+        print(f"OCR 준비 → {out / 'prepared'}")
 
 
 def main(argv=None) -> None:

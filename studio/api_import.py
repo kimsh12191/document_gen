@@ -191,7 +191,7 @@ def make_router(reg, jobs, guard, cfg: dict, real_root: Path) -> APIRouter:
         if out.exists():
             raise HTTPException(400, f"이미 있는 폴더입니다: {out}")
         info = guard(IM.ocr_set_files, d, out, req.formats or None, req.gt, req.split, real_root)
-        cmd = [python(), "-m", "bank_ocr", "prepare", "--config", info["config"]]
+        cmd = [python(), "-m", "docgen.bench.ocr_prepare", info["config"]]
 
         def done(job):
             from .build_registration import register_output
@@ -200,7 +200,7 @@ def make_router(reg, jobs, guard, cfg: dict, real_root: Path) -> APIRouter:
         spec = {"path": str(out / "prepared"), "name": IM._slug(req.name), "meta": {"dataset_json": "../import_set.json",
                 "purpose": f"가져온 묶음 {d.name} 의 OCR ({'사람 검수' if req.gt == 'reviewed' else '사내 OCR 그대로'})"}}
         job = jobs.start("build_ocr", f"OCR 벤치마크로: {req.name} (묶음 {d.name}, 쪽 {info['pages']})", cmd, done,
-                         {"batch": d.name, "dataset": spec}, cwd=IM.OCR_DIR)
+                         {"batch": d.name, "dataset": spec}, cwd=IM.ROOT)
         return {"job": job["id"], **info}
 
     @r.get("/api/imports/{name}/page")

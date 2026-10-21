@@ -288,7 +288,7 @@ def view_item(ds: dict, it: dict) -> dict:
     """화면에 보일 모양으로: 질문, 이미지(주소), 정답(보기 좋게), 정답 박스(0~1000, 이미지마다)."""
     if ds["format"] == "bank_ocr/prepared":
         prompt = next((m["content"] for m in it.get("messages", []) if m.get("role") == "user"), "").replace("<image>\n", "")
-        from bank_ocr.metrics import parse_target
+        from docgen.bench.ocr_metrics import parse_target
 
         target = parse_target(it["target"])
         boxes = [{"img": 0, "box": t["bbox_2d"], "label": t.get("label", ""), "cls": "gt"} for t in target.get("boxes") or []]
@@ -381,7 +381,7 @@ def score(ds: dict, preds: dict[str, str | None]) -> dict:
     """과제별 점수와 문항별 점수. 답이 없는 문항은 명령줄과 같이 최악 점수로 센다."""
     by_task = items(ds)
     if ds["track"] == "ocr":
-        from bank_ocr import metrics as OM
+        from docgen.bench import ocr_metrics as OM
 
         rows = [r for rs in by_task.values() for r in rs]
         have = {r["id"]: OM.answer(preds[r["id"]]) for r in rows if preds.get(r["id"])}   # 빈 답은 답 없음으로 센다

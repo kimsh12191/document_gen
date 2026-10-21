@@ -95,7 +95,7 @@ def ocr_training_config(registry, train_ids: list[str], bench_id: str, name: str
         warn.append("1부 파이프라인은 학습 데이터셋 안의 benchmark 로 평가합니다. 고른 평가 세트에는 결과를 붙이기만 합니다")
     snap = root / "config.snapshot.json"
     data_cfg = json.loads(snap.read_text(encoding="utf-8")) if snap.exists() else \
-        json.loads((ROOT / "ocr" / "config.example.json").read_text(encoding="utf-8"))
+        json.loads((ROOT / "docgen" / "bench" / "ocr_config.example.json").read_text(encoding="utf-8"))
     data_cfg = {k: v for k, v in data_cfg.items() if k != "studio"}
     data_cfg["output_dir"] = to_train_path(str(root), registry.path_map)
     n = _slug(name)

@@ -75,7 +75,7 @@ def _cases_csv(root: Path) -> dict[str, dict]:
 
 def check(path: str) -> dict:
     """넣을 폴더 검사. 문제를 한 번에 모두. {ok, errors, warnings, meta, root, mapping, docs, summary}."""
-    from bank_ocr.data import find_saved_ocr, parse_ocr
+    from docgen.bench.ocr_data import find_saved_ocr, parse_ocr
 
     root = Path(path).expanduser().resolve()
     if not root.is_dir():
@@ -92,7 +92,7 @@ def check(path: str) -> dict:
         images = root
     ocr_dir = root / (meta.get("ocr_dir") or "ocr")
     pred_dir = root / (meta.get("pred_dir") or "pred")
-    mapping = meta.get("mapping") or json.loads((IM.OCR_DIR / "config.example.json").read_text(encoding="utf-8"))["mapping"]
+    mapping = meta.get("mapping") or json.loads(IM.OCR_CONFIG.read_text(encoding="utf-8"))["mapping"]
     skip = {ocr_dir, pred_dir} if images == root else set()
     found = [d for d in find_docs(images) if not any(s in d["files"][0].parents for s in skip)]
     if not found:

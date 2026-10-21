@@ -8,7 +8,7 @@ API 는 studio/api_import.py, 화면은 static/js/import.js. 묶기 계산은 st
   pages/          PDF 를 쪽마다 그린 그림, 올린 파일
 원본 폴더(import_dir 아래)는 읽기만 한다.
 
-OCR 은 1부 OCR 준비 단계(ocr/bank_ocr)와 같은 코드·같은 캐시 규칙이다: EXIF 회전을 적용한 그림을 <OCR 캐시>/images/<픽셀 해시>.png
+OCR 은 OCR 준비 단계(docgen/bench/ocr_prepare)와 같은 코드·같은 캐시 규칙이다: EXIF 회전을 적용한 그림을 <OCR 캐시>/images/<픽셀 해시>.png
 로 두고 그 그림으로 OCR 을 부르며, 결과는 <OCR 캐시>/ocr/<digest(픽셀 해시, ocr_callable, ocr_revision)>.json. 1부의 cache_dir 을
 studio 설정 ocr.cache_dir 로 두면 1부에서 이미 읽은 쪽은 다시 부르지 않는다.
 
@@ -31,9 +31,14 @@ from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OCR_DIR = ROOT / "ocr"   # 1부 OCR 코드 (bank_ocr). 명령줄로 돌 때도 불러 쓴다
-if str(OCR_DIR) not in sys.path:
-    sys.path.insert(0, str(OCR_DIR))
+OCR_CONFIG = ROOT / "docgen" / "bench" / "ocr_config.example.json"   # OCR 준비 설정 예시 (mapping 기본값)
+OCR_CALLABLE = "studio.internal_ocr_adapter:ocr_from_file"
+
+
+def ocr_callable(name: str | None) -> str:
+    """OCR 함수 이름. 옛 이름(internal_ocr_adapter:…, ocr/ 폴더에 있던 것)은 studio 로 옮긴 것을 가리킨다."""
+    name = name or OCR_CALLABLE
+    return f"studio.{name}" if name.startswith("internal_ocr_adapter:") else name
 IMAGE_EXT = {".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp", ".webp"}
 PRINTS = ROOT / "studio_cache" / "form_prints"
 
@@ -129,18 +134,18 @@ def from_docgen(bdir: Path) -> None:
 
 def _ocr_settings(batch: dict) -> dict:
     o = dict(batch.get("ocr") or {})
-    o.setdefault("callable", "internal_ocr_adapter:ocr_from_file")
+    o["callable"] = ocr_callable(o.get("callable"))
     o.setdefault("revision", "")
     o.setdefault("cache_dir", str(ROOT / "studio_cache" / "ocr"))
     if not o.get("mapping"):
-        o["mapping"] = json.loads((OCR_DIR / "config.example.json").read_text(encoding="utf-8"))["mapping"]
+        o["mapping"] = json.loads(OCR_CONFIG.read_text(encoding="utf-8"))["mapping"]
     return o
 
 
 def run_ocr(bdir: Path) -> None:
     import os
 
-    from bank_ocr.data import canonical_image, digest, dumps, exif_orientation, load_callable, parse_ocr, write_json
+    from docgen.bench.ocr_data import canonical_image, digest, dumps, exif_orientation, load_callable, parse_ocr, write_json
 
     batch = json.loads((bdir / "batch.json").read_text(encoding="utf-8"))
     o = _ocr_settings(batch)
@@ -189,7 +194,7 @@ def run_ocr(bdir: Path) -> None:
 
 
 def page_words(r: dict, mapping: dict, reviewed: Path | None = None) -> list[dict]:
-    from bank_ocr.data import parse_ocr
+    from docgen.bench.ocr_data import parse_ocr
 
     src = reviewed if reviewed and reviewed.exists() else Path(r["ocr"])
     return parse_ocr(json.loads(src.read_text(encoding="utf-8")), r["width"], r["height"], mapping)
@@ -593,7 +598,7 @@ def ocr_set_files(bdir: Path, out: Path, format_ids: list[str] | None, gt: str, 
         ocr = (reviewed_dir / batch["name"] / f"{_safe(r['id'])}.json") if gt == "reviewed" else Path(r["ocr"])
         man.append({"document_id": r["doc"], "page_id": r["id"], "image": r["image"], "split": split, "ocr_json": str(ocr)})
     _write_jsonl(out / "manifest.jsonl", man)
-    cfg = json.loads((OCR_DIR / "config.example.json").read_text(encoding="utf-8"))
+    cfg = json.loads(OCR_CONFIG.read_text(encoding="utf-8"))
     o = _ocr_settings(batch)
     cfg.update({"manifest": str((out / "manifest.jsonl").resolve()), "output_dir": str((out / "prepared").resolve()),
                 "cache_dir": str((out / "ocr_cache").resolve()), "ocr_revision": o.get("revision") or "saved-ocr",
