@@ -1,0 +1,2874 @@
+{
+ "about": "키 사전 (studio/DESIGN.md 16절). docgen/scripts/build_dictionary.py 가 자동 초안을 만들고 studio 키 사전 화면이 고친다. by: 사람 인 것은 다시 만들어도 남는다.",
+ "items": [
+  {
+   "dict": "attribute",
+   "from": "account_no",
+   "into": "account",
+   "reason": "끝말 _no 만 다름",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "attribute",
+   "from": "confirm_no",
+   "into": "confirm",
+   "reason": "끝말 _no 만 다름",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "attribute",
+   "from": "id_no",
+   "into": "id",
+   "reason": "끝말 _no 만 다름",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "attribute",
+   "from": "line_no",
+   "into": "line",
+   "reason": "끝말 _no 만 다름",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "attribute",
+   "from": "passbook_no",
+   "into": "passbook",
+   "reason": "끝말 _no 만 다름",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "attribute",
+   "from": "unit_no",
+   "into": "unit",
+   "reason": "끝말 _no 만 다름",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "role",
+   "from": "owners",
+   "into": "owner",
+   "reason": "단수·복수",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "role",
+   "from": "loans",
+   "into": "loan",
+   "reason": "단수·복수",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "role",
+   "from": "co_guarantors",
+   "into": "co_guarantor",
+   "reason": "단수·복수",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "role",
+   "from": "signers",
+   "into": "signer",
+   "reason": "단수·복수",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "role",
+   "from": "guarantors",
+   "into": "guarantor",
+   "reason": "단수·복수",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "role",
+   "from": "payments",
+   "into": "payment",
+   "reason": "단수·복수",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "company.name",
+   "into": "employer.name",
+   "reason": "이름 두 벌: 직장(회사) 이름",
+   "status": "proposed",
+   "applied": false,
+   "note": "직장은 employer.*, 고객 자신인 법인·사업자는 company.* 로 나눈다 (html 서식의 직장 키를 employer.* 로 바꿈)"
+  },
+  {
+   "dict": "field",
+   "from": "company.address",
+   "into": "employer.address",
+   "reason": "이름 두 벌: 직장 주소",
+   "status": "proposed",
+   "applied": false,
+   "note": "위와 같다"
+  },
+  {
+   "dict": "field",
+   "from": "company.phone",
+   "into": "employer.phone",
+   "reason": "이름 두 벌: 직장 전화",
+   "status": "proposed",
+   "applied": false,
+   "note": "위와 같다"
+  },
+  {
+   "dict": "field",
+   "from": "company.corp_no",
+   "into": "company.corp_reg_no",
+   "reason": "이름 두 벌: 법인등록번호",
+   "status": "accepted",
+   "applied": false,
+   "note": "corp_reg_no (이미 통일됨)"
+  },
+  {
+   "dict": "field",
+   "from": "applicant.name",
+   "into": "customer.name",
+   "reason": "이름 두 벌: 신청 고객 성명",
+   "status": "proposed",
+   "applied": false,
+   "note": "서식 안에서의 역할이 다르면(신청인·예금주·차주) 그대로 두고, 같은 역할이면 customer.* 로"
+  },
+  {
+   "dict": "field",
+   "from": "applicant_signature",
+   "into": "applicant.signature",
+   "reason": "속성에 역할(applicant)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "applicant_type",
+   "into": "applicant.type",
+   "reason": "속성에 역할(applicant)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "beneficiary.bank_address",
+   "into": "beneficiary.bank.address",
+   "reason": "속성에 역할(bank)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "bank.bank_name",
+   "into": "bank.name",
+   "reason": "속성에 역할(bank)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "beneficiary.bank_name",
+   "into": "beneficiary.bank.name",
+   "reason": "속성에 역할(bank)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "amended.company_name",
+   "into": "amended.company.name",
+   "reason": "속성에 역할(company)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "company_name",
+   "into": "company.name",
+   "reason": "속성에 역할(company)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "corp_name",
+   "into": "corp.name",
+   "reason": "속성에 역할(corp)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "taxpayer.corp_name",
+   "into": "taxpayer.corp.name",
+   "reason": "속성에 역할(corp)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "corp.corp_type",
+   "into": "corp.type",
+   "reason": "속성에 역할(corp)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "gapgu.creditor_address",
+   "into": "gapgu.creditor.address",
+   "reason": "속성에 역할(creditor)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "eulgu.debtor_address",
+   "into": "eulgu.debtor.address",
+   "reason": "속성에 역할(debtor)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "employment.employment_type",
+   "into": "employment.type",
+   "reason": "속성에 역할(employment)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "debit.holder_birth",
+   "into": "debit.holder.birth",
+   "reason": "속성에 역할(holder)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "debit.holder_phone",
+   "into": "debit.holder.phone",
+   "reason": "속성에 역할(holder)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "holder_signature",
+   "into": "holder.signature",
+   "reason": "속성에 역할(holder)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "issuer_name",
+   "into": "issuer.name",
+   "reason": "속성에 역할(issuer)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "workplace.job_type",
+   "into": "workplace.job.type",
+   "reason": "속성에 역할(job)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "landlord_name",
+   "into": "landlord.name",
+   "reason": "속성에 역할(landlord)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "mortgagor_relation",
+   "into": "mortgagor.relation",
+   "reason": "속성에 역할(mortgagor)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "owners_note",
+   "into": "owners.note",
+   "reason": "속성에 역할(owners)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "rep_name",
+   "into": "rep.name",
+   "reason": "속성에 역할(rep)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "rep_rrn",
+   "into": "rep.rrn",
+   "reason": "속성에 역할(rep)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "rep_title",
+   "into": "rep.title",
+   "reason": "속성에 역할(rep)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "shareholders_total",
+   "into": "shareholders.total",
+   "reason": "속성에 역할(shareholders)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "signer_title",
+   "into": "signer.title",
+   "reason": "속성에 역할(signer)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "past_events.spouse_birth",
+   "into": "past_events.spouse.birth",
+   "reason": "속성에 역할(spouse)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "marriage.spouse_name",
+   "into": "marriage.spouse.name",
+   "reason": "속성에 역할(spouse)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "past_events.spouse_name",
+   "into": "past_events.spouse.name",
+   "reason": "속성에 역할(spouse)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "past_events.spouse_nationality",
+   "into": "past_events.spouse.nationality",
+   "reason": "속성에 역할(spouse)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "marriage.spouse_rrn",
+   "into": "marriage.spouse.rrn",
+   "reason": "속성에 역할(spouse)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "taxpayer_type",
+   "into": "taxpayer.type",
+   "reason": "속성에 역할(taxpayer)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "tenant_name",
+   "into": "tenant.name",
+   "reason": "속성에 역할(tenant)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "work_days",
+   "into": "work.days",
+   "reason": "속성에 역할(work)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "work_end",
+   "into": "work.end",
+   "reason": "속성에 역할(work)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "applicant.work_phone",
+   "into": "applicant.work.phone",
+   "reason": "속성에 역할(work)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "job.work_phone",
+   "into": "job.work.phone",
+   "reason": "속성에 역할(work)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "work_start",
+   "into": "work.start",
+   "reason": "속성에 역할(work)이 섞임",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "ACCOUNTEE",
+   "into": "accountee",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "AMOUNT",
+   "into": "items.amount",
+   "reason": "같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "AT2",
+   "into": "at2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "AccountItem",
+   "into": "account_item",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Accountee",
+   "into": "accountee",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "AcquisitionPriceWon",
+   "into": "acquisition_price_won",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "AcquisitionPricewon",
+   "into": "acquisition_pricewon",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "AddressorLocation",
+   "into": "addressor_location",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "AdvisingBank",
+   "into": "advising_bank",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Affiliate",
+   "into": "affiliate",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Amount",
+   "into": "items.amount",
+   "reason": "같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Amounttobetransferred",
+   "into": "amounttobetransferred",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Annual",
+   "into": "annual",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Applicant",
+   "into": "applicant",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "ApplicantInformation",
+   "into": "applicant_information",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Attn",
+   "into": "attn",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "AverageLoanPeriod",
+   "into": "average_loan_period",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "BANK",
+   "into": "bank",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "BActiveNFFEs",
+   "into": "bactive_nffes",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "BENECERT",
+   "into": "benecert",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "BENEFICIARY",
+   "into": "bank.beneficiary",
+   "reason": "같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Bank",
+   "into": "bank",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "BankBranch",
+   "into": "bank_branch",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "BankCode",
+   "into": "bank_code",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "BankVerifiersNameSignature",
+   "into": "bank_verifiers_name_signature",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Bankbook",
+   "into": "bankbook",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Beneficiary",
+   "into": "bank.beneficiary",
+   "reason": "같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "BicCode",
+   "into": "bic_code",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "BranchGeneralManager",
+   "into": "branch_general_manager",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "BusinessCommencementDate",
+   "into": "business_commencement_date",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "BusinessName",
+   "into": "business_name",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "BusinessRegistrationNo",
+   "into": "business_registration_no",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "CEO",
+   "into": "ceo",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "CEO2",
+   "into": "ceo2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "COMMODITY",
+   "into": "commodity",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "CRSNonReporting",
+   "into": "crsnon_reporting",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Capital",
+   "into": "capital",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Capitalinkind",
+   "into": "capitalinkind",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Cash",
+   "into": "cash",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Category",
+   "into": "category",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Changein",
+   "into": "changein",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "ChangeinInformation",
+   "into": "changein_information",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Changeof",
+   "into": "changeof",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Clerk",
+   "into": "clerk",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Commission",
+   "into": "commission",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Consentedby",
+   "into": "consentedby",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "ContactInformation",
+   "into": "contact_information",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "CorporateIdentificationNo",
+   "into": "corporate_identification_no",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "CorporateRegistrationNo",
+   "into": "corporate_registration_no",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Country",
+   "into": "country",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "CountryCode",
+   "into": "country_code",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "CountryofResidence",
+   "into": "countryof_residence",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "CustomerProfile",
+   "into": "customer_profile",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "CustomerWhoConsents",
+   "into": "customer_who_consents",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "DATED",
+   "into": "dated",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "DATED2",
+   "into": "dated2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "DailyKRW",
+   "into": "daily_krw",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "DailyKRW2",
+   "into": "daily_krw2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "DailyKRW3",
+   "into": "daily_krw3",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "DateRegistered",
+   "into": "date_registered",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "DateSubmitted",
+   "into": "date_submitted",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Dated",
+   "into": "dated",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "DateofCompletion",
+   "into": "dateof_completion",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "DateofConfirmingPowersGiven",
+   "into": "dateof_confirming_powers_given",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "DateofIncorporation",
+   "into": "dateof_incorporation",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "DateofOpening",
+   "into": "dateof_opening",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "DateofReceipt",
+   "into": "dateof_receipt",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Delegated",
+   "into": "delegated",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Delegator",
+   "into": "delegator",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "DepositAccount",
+   "into": "deposit_account",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Depositor",
+   "into": "depositor",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "DesignateChange",
+   "into": "designate_change",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "DesignationofBeneficiaryAccount",
+   "into": "designationof_beneficiary_account",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "DoNOTAgree",
+   "into": "do_notagree",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "EDI",
+   "into": "edi",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Emailaddresstobenotified",
+   "into": "emailaddresstobenotified",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "EmployeeNumber",
+   "into": "employee_number",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "ExpectedTermofStayTo",
+   "into": "expected_termof_stay_to",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "ExpiryDate",
+   "into": "expiry_date",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Expirydate",
+   "into": "expirydate",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "FATCANonReporting",
+   "into": "fatcanon_reporting",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "FAX",
+   "into": "fax",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "FAX2",
+   "into": "fax2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "FAX3",
+   "into": "fax3",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "FAXorEMAIL",
+   "into": "faxor_email",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "FOR",
+   "into": "for",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "FOR2",
+   "into": "for2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "FROM",
+   "into": "from",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Fax",
+   "into": "fax",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "FaxNo",
+   "into": "fax_no",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "FilingDate",
+   "into": "filing_date",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "FilingNo",
+   "into": "filing_no",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "FinancialCompanies",
+   "into": "financial_companies",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Foreign",
+   "into": "foreign",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "ForfaitingAmount",
+   "into": "forfaiting_amount",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "From",
+   "into": "from",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Fund",
+   "into": "fund",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "GIINKIINEINNO",
+   "into": "giinkiineinno",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "GMgr",
+   "into": "gmgr",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "GeneralManager",
+   "into": "general_manager",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "GeneralPersonalInformation",
+   "into": "general_personal_information",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "GeneralUser",
+   "into": "general_user",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Gentlemen",
+   "into": "gentlemen",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "GivenName",
+   "into": "given_name",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "GlobalClientNo",
+   "into": "global_client_no",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "HSCODE",
+   "into": "trade.hs_code",
+   "reason": "항목명·이름이 표준 키 규칙·동의어에 맞음",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "HanaBank",
+   "into": "hana_bank",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Headquarter",
+   "into": "headquarter",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Headquarters",
+   "into": "headquarters",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Home",
+   "into": "home",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "HomePhone",
+   "into": "home_phone",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Homepage",
+   "into": "homepage",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "IdentificationNumberetc",
+   "into": "identification_numberetc",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Industry",
+   "into": "industry",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Information",
+   "into": "information",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "InformationAfterChange",
+   "into": "information_after_change",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Initial",
+   "into": "initial",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Inquiry",
+   "into": "inquiry",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Invested",
+   "into": "invested",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Investment",
+   "into": "investment",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "InvestmentandParValueofStocks",
+   "into": "investmentand_par_valueof_stocks",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Investor",
+   "into": "investor",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "IssuingBank",
+   "into": "issuing_bank",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Jurisdictionof",
+   "into": "jurisdictionof",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "JurisdictionofResidence",
+   "into": "jurisdictionof_residence",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "KEBHanaBank",
+   "into": "kebhana_bank",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "KRW",
+   "into": "krw",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "KRW2",
+   "into": "krw2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "LCAmount",
+   "into": "lcamount",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "LCIssuingBank",
+   "into": "lc.bank",
+   "reason": "같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "LCNO",
+   "into": "lc_no",
+   "reason": "같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "LCNo",
+   "into": "lc_no",
+   "reason": "같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "LGAmount",
+   "into": "lgamount",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Latestshippingdate",
+   "into": "latestshippingdate",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "LocationofInvestment",
+   "into": "locationof_investment",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "MAILTO",
+   "into": "mailto",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "MPURL",
+   "into": "mpurl",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "MainFactory",
+   "into": "main_factory",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Mainfactory",
+   "into": "mainfactory",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Manager",
+   "into": "manager",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Mgr",
+   "into": "mgr",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "NET12",
+   "into": "net12",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "NET122",
+   "into": "net122",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "NameCompanyName",
+   "into": "name_company_name",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "NameNameoftheCorporation",
+   "into": "name_nameofthe_corporation",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "NameofCorporation",
+   "into": "nameof_corporation",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "NameofEntity",
+   "into": "nameof_entity",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "NameofIndividualorCorporation",
+   "into": "nameof_individualor_corporation",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "NameofRepresentative",
+   "into": "nameof_representative",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "NewWithdrawalAccountAddition",
+   "into": "new_withdrawal_account_addition",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Nochangeincustomerinformation",
+   "into": "nochangeincustomerinformation",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "NonReportingFI",
+   "into": "non_reporting_fi",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "NotificationNo",
+   "into": "notification_no",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "NumberofBL",
+   "into": "numberof_bl",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "NumberofBL2",
+   "into": "numberof_bl2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "NumberofBL3",
+   "into": "numberof_bl3",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "NumberofCredit",
+   "into": "numberof_credit",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "NumberofLG",
+   "into": "numberof_lg",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "NumberofLG2",
+   "into": "numberof_lg2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "NumberofLG3",
+   "into": "numberof_lg3",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "NumberofReceipt",
+   "into": "numberof_receipt",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "OTP",
+   "into": "otp",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "OTP2",
+   "into": "otp2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "OTPManufacturer",
+   "into": "otpmanufacturer",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Occupation",
+   "into": "occupation",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Office",
+   "into": "university.office",
+   "reason": "같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "OnetimeKRW",
+   "into": "onetime_krw",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "OnetimeKRW2",
+   "into": "onetime_krw2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "OnetimeKRW3",
+   "into": "onetime_krw3",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "OnetimeKRW4",
+   "into": "onetime_krw4",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "OnetimeKRW5",
+   "into": "onetime_krw5",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Other",
+   "into": "other",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "OtherChange",
+   "into": "other_change",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "OtherRequest",
+   "into": "other_request",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "OtherRequests",
+   "into": "other_requests",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Others",
+   "into": "others",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "OverseaEnglishaddress",
+   "into": "oversea_englishaddress",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Overseaaddress",
+   "into": "overseaaddress",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "PRICETERM",
+   "into": "priceterm",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "PROXY",
+   "into": "proxy",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Participation",
+   "into": "participation",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "PassportNo",
+   "into": "passport_no",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Payday",
+   "into": "payday",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "PaymentDeadline",
+   "into": "payment_deadline",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "PhoneBanking",
+   "into": "phone_banking",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "PhoneNo",
+   "into": "phone_no",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "PhoneNoforIdentityVerification",
+   "into": "phone_nofor_identity_verification",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "PostalCode",
+   "into": "postal_code",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "PostpaidFee",
+   "into": "postpaid_fee",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "PowerofAttorney",
+   "into": "powerof_attorney",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Proxy",
+   "into": "proxy",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Publicfeepayment",
+   "into": "publicfeepayment",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "PurposeofLoan",
+   "into": "purposeof_loan",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "RateofInterest",
+   "into": "rateof_interest",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "ReceiptNumber",
+   "into": "receipt_number",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Relation",
+   "into": "relation",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Relationship",
+   "into": "relationship",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "RelationshiptoPrincipal",
+   "into": "relationshipto_principal",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "RelationtoPrincipal",
+   "into": "relationto_principal",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Reportingcountry",
+   "into": "reportingcountry",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Representative",
+   "into": "representative",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "RequestCancel",
+   "into": "request_cancel",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "RequestNotRequest",
+   "into": "request_not_request",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "RequestforSMSmaturitynotice",
+   "into": "requestfor_smsmaturitynotice",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "ResidentRegistrationNo",
+   "into": "resident_registration_no",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Retirement",
+   "into": "retirement",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "RevenueCode",
+   "into": "revenue_code",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "SPCYesNo",
+   "into": "spcyes_no",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "SWIFTCode",
+   "into": "foreign.swift",
+   "reason": "항목명·이름이 표준 키 규칙·동의어에 맞음",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "SareRatio",
+   "into": "sare_ratio",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Server",
+   "into": "server",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Services",
+   "into": "services",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "ShipmentDate",
+   "into": "shipment_date",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "SignatureSeal",
+   "into": "signature_seal",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Signedon",
+   "into": "signedon",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Sourcesoffinancing",
+   "into": "sourcesoffinancing",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Staff",
+   "into": "staff",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Statusofassets",
+   "into": "statusofassets",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Surname",
+   "into": "surname",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "TEL",
+   "into": "tel",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "TEL2",
+   "into": "tel2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "TEL3",
+   "into": "tel3",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "TELNo",
+   "into": "telno",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "TENORMATURITY",
+   "into": "tenormaturity",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "TO2",
+   "into": "to2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "TOREIMBANK",
+   "into": "toreimbank",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "TSAmount",
+   "into": "tsamount",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "TSNo",
+   "into": "tsno",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "TaxAdministrator",
+   "into": "tax_administrator",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "TaxpayerIdentificationNO",
+   "into": "taxpayer_identification_no",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "TaxpayerIdentificationNO2",
+   "into": "taxpayer_identification_no2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "TaxpayerIdentificationNO3",
+   "into": "taxpayer_identification_no3",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "TaxpayerIdentificationNo",
+   "into": "taxpayer_identification_no",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "TelephoneNumber",
+   "into": "telephone_number",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Tenor",
+   "into": "tenor",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Time",
+   "into": "time",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Title",
+   "into": "signer_title",
+   "reason": "같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "ToHanaBank",
+   "into": "to_hana_bank",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Type",
+   "into": "type",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "USbank",
+   "into": "usbank",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "UndertakingAmount",
+   "into": "undertaking_amount",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "UndertakingtermsandConditions",
+   "into": "undertakingtermsand_conditions",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "UserCategory",
+   "into": "user_category",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "UserID",
+   "into": "user_id",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "UserID2",
+   "into": "user_id2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Vehicle",
+   "into": "vehicle",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "Verificationofidentitysignature",
+   "into": "verificationofidentitysignature",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "VesselName",
+   "into": "vessel_name",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "WhetherOverseasResidentorNot",
+   "into": "whether_overseas_residentor_not",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "WithdrawalAccount",
+   "into": "withdrawal_account",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "YYYY",
+   "into": "yyyy",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "YesNo",
+   "into": "yes_no",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.",
+   "into": "check",
+   "reason": "같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.ADVICENO",
+   "into": "check_adviceno",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.ADVICENO2",
+   "into": "check_adviceno2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.AMOUNT",
+   "into": "items.amount",
+   "reason": "같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.AMOUNT2",
+   "into": "items.amount",
+   "reason": "같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.AccountOpening",
+   "into": "check_account_opening",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.Affiliate",
+   "into": "check_affiliate",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.AllNA",
+   "into": "check_all_na",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.Amendment",
+   "into": "check_amendment",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.ApplicationType",
+   "into": "check_application_type",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.CREDITNO",
+   "into": "check_creditno",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.CREDITNO2",
+   "into": "check_creditno2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.CRS",
+   "into": "check_crs",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.Cancellation",
+   "into": "check_cancellation",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.CorporateBan",
+   "into": "check_corporate_ban",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.DB",
+   "into": "check_db",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.Details",
+   "into": "check_details",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.EDI",
+   "into": "check_edi",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.Entire",
+   "into": "check_entire",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.FATCA",
+   "into": "check_fatca",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.FAX",
+   "into": "check_fax",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.ForeignInvestor",
+   "into": "check_foreign_investor",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.ID",
+   "into": "check_id",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.ID2",
+   "into": "check_id2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.ISSUINGBANK",
+   "into": "check_issuingbank",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.ISSUINGBANK2",
+   "into": "check_issuingbank2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.ISSUINGDATE",
+   "into": "check_issuingdate",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.ISSUINGDATE2",
+   "into": "check_issuingdate2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.Ihavereceive",
+   "into": "check_ihavereceive",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.Iherebywishto",
+   "into": "check_iherebywishto",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.Individual",
+   "into": "check_individual",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.Irequestagr",
+   "into": "check_irequestagr",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.Ishallraisen",
+   "into": "check_ishallraisen",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.LocationofAffiliate",
+   "into": "check_locationof_affiliate",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.Nonissuingc",
+   "into": "check_nonissuingc",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.Partial",
+   "into": "check_partial",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.Pleasetickintherelevantbox",
+   "into": "check_pleasetickintherelevantbox",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.PrincipalContractor",
+   "into": "check_principal_contractor",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.Residentinac",
+   "into": "check_residentinac",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.SKT",
+   "into": "check_skt",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.Total",
+   "into": "check_total",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.UScitizen",
+   "into": "check_uscitizen",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "check.eNego",
+   "into": "check_e_nego",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "eLC",
+   "into": "e_lc",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "eMail",
+   "into": "customer.email",
+   "reason": "같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "eNego",
+   "into": "e_nego",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "etcWhichWillProvide",
+   "into": "etc_which_will_provide",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "mthcapitalizationLimit",
+   "into": "mthcapitalization_limit",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "toWhichTransaction",
+   "into": "to_which_transaction",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "wonUSD",
+   "into": "won_usd",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "wonUSD2",
+   "into": "won_usd2",
+   "reason": "영어 표준꼴로 (뜻 확인 필요)",
+   "status": "proposed",
+   "applied": false
+  }
+ ]
+}

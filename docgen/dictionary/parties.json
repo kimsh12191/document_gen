@@ -1,0 +1,80 @@
+{
+ "about": "키 사전 (studio/DESIGN.md 16절). docgen/scripts/build_dictionary.py 가 자동 초안을 만들고 studio 키 사전 화면이 고친다. by: 사람 인 것은 다시 만들어도 남는다.",
+ "parties": {
+  "customer": {
+   "name": "고객 본인",
+   "desc": "업무를 신청한 개인 고객",
+   "profile": "person"
+  },
+  "family": {
+   "name": "배우자·가족",
+   "desc": "고객의 배우자·자녀·부모·세대원",
+   "profile": "spouse"
+  },
+  "agent": {
+   "name": "대리인",
+   "desc": "고객을 대신해 서류를 낸 사람",
+   "profile": null
+  },
+  "related": {
+   "name": "보증인·공동 당사자",
+   "desc": "보증인·연대보증인·공동 차주·담보 제공자 등 업무에 함께 묶인 사람",
+   "profile": null
+  },
+  "employer": {
+   "name": "직장",
+   "desc": "고객이 다니는 회사·근무 이력",
+   "profile": "employment.company"
+  },
+  "corp": {
+   "name": "법인·사업자",
+   "desc": "고객이 법인·개인사업자일 때 그 사업체 (임원·주주 포함)",
+   "profile": "corporation"
+  },
+  "counterparty": {
+   "name": "거래 상대(국내)",
+   "desc": "매도인·임대인·채권자·중개사 등 국내 상대방",
+   "profile": null
+  },
+  "foreign": {
+   "name": "외국 거래 상대",
+   "desc": "수취인·수입상·선사·외국 학교 등",
+   "profile": "foreign"
+  },
+  "bank": {
+   "name": "은행·직원",
+   "desc": "접수 은행·지점·담당 직원·은행 사용란",
+   "profile": "bank"
+  },
+  "issuer": {
+   "name": "발급기관",
+   "desc": "증명서를 발급한 기관·공증인",
+   "profile": null
+  },
+  "property": {
+   "name": "물건",
+   "desc": "부동산·차량·화물 등 대상물",
+   "profile": "property"
+  },
+  "deal": {
+   "name": "거래",
+   "desc": "대출·계좌·송금·무역 조건·상품·거래 내역",
+   "profile": null
+  },
+  "finance": {
+   "name": "재무·세무 수치",
+   "desc": "재무제표·소득·세액 등 수치 표",
+   "profile": null
+  },
+  "document": {
+   "name": "문서 자체",
+   "desc": "발급일·문서번호·약관·동의·질문 등 서류의 머리·몸",
+   "profile": null
+  },
+  "unassigned": {
+   "name": "미정",
+   "desc": "아직 당사자를 정하지 않은 역할",
+   "profile": null
+  }
+ }
+}

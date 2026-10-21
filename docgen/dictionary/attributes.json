@@ -1,0 +1,5393 @@
+{
+ "about": "키 사전 (studio/DESIGN.md 16절). docgen/scripts/build_dictionary.py 가 자동 초안을 만들고 studio 키 사전 화면이 고친다. by: 사람 인 것은 다시 만들어도 남는다.",
+ "attributes": {
+  "accept_date": {
+   "name": "수리일자",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "account": {
+   "name": "계정과목",
+   "kind": "account_no",
+   "by": "자동",
+   "keys": 24,
+   "aliases": []
+  },
+  "account_no": {
+   "name": "계좌번호",
+   "kind": "account_no",
+   "by": "자동",
+   "keys": 8,
+   "aliases": []
+  },
+  "account_type": {
+   "name": "신규예금종류",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "acquired": {
+   "name": "국적취득일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "additional": {
+   "name": "추가납부세액",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "address": {
+   "name": "주소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 55,
+   "aliases": []
+  },
+  "admission_type": {
+   "name": "AdmissionType",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "after": {
+   "name": "결제후잔액",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "agency": {
+   "name": "처분청",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "agrees": {
+   "name": "agrees",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "alert": {
+   "name": "입출금알림",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "amend": {
+   "name": "amend",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "amount": {
+   "name": "금액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 40,
+   "aliases": []
+  },
+  "amount_due_now": {
+   "name": "AmountDueNow",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "amount_korean": {
+   "name": "대출신청금액(한글)",
+   "kind": "amount_korean",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "annual_income": {
+   "name": "연간소득",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "annual_salary": {
+   "name": "급여(연봉)",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "applicant": {
+   "name": "신청인",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "applicant_signature": {
+   "name": "발급신청자서명",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "applicant_type": {
+   "name": "발급구분",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "applied_rate": {
+   "name": "대출이자율",
+   "kind": "percent",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "apply_date": {
+   "name": "신청일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "appointed": {
+   "name": "취임일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "appointment_type": {
+   "name": "취임구분",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "appropriation_date_current": {
+   "name": "처분일",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "appropriation_date_prior": {
+   "name": "처분일",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "aptitude_period": {
+   "name": "적성검사기간",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "arbitration": {
+   "name": "Arbitration",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "area": {
+   "name": "면적(㎡)",
+   "kind": "number",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "arrears": {
+   "name": "체납액",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "arrival_date": {
+   "name": "입항일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "arrival_port": {
+   "name": "국내도착항",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "assets": {
+   "name": "자산총계",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "assistant": {
+   "name": "소속공인중개사",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "attachment": {
+   "name": "첨부서류",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "attachments": {
+   "name": "첨부서류",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "auditor_present": {
+   "name": "출석감사수",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "auditor_total": {
+   "name": "감사총수",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "authority": {
+   "name": "발행관청/Authority",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "authorized_shares": {
+   "name": "발행할주식의총수",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "balance": {
+   "name": "잔액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 9,
+   "aliases": []
+  },
+  "balance_date": {
+   "name": "잔금지급일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "bank": {
+   "name": "은행명",
+   "kind": "text",
+   "by": "자동",
+   "keys": 7,
+   "aliases": []
+  },
+  "bank_address": {
+   "name": "수취은행주소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "bank_name": {
+   "name": "BankName",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "bankruptcy": {
+   "name": "bankruptcy",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "base": {
+   "name": "과세표준",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "base_date": {
+   "name": "기준일",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "base_exempt": {
+   "name": "면세수입금액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "base_rate": {
+   "name": "기준금리",
+   "kind": "percent",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "base_rate_name": {
+   "name": "기준금리종류",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "base_taxable": {
+   "name": "과세분",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "base_total": {
+   "name": "매출과세표준계",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "basic": {
+   "name": "기본공제",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "batch_count": {
+   "name": "송금건수",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "beneficial_owner": {
+   "name": "실제소유자여부",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "beneficiary": {
+   "name": "Beneficiary",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "birth": {
+   "name": "생년월일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 16,
+   "aliases": [
+    "date_of_birth",
+    "dob"
+   ]
+  },
+  "birth_place": {
+   "name": "출생국가",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "biz_address": {
+   "name": "사업장주소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "biz_item": {
+   "name": "종목",
+   "kind": "text",
+   "by": "자동",
+   "keys": 5,
+   "aliases": []
+  },
+  "biz_no": {
+   "name": "사업자등록번호",
+   "kind": "biz_no",
+   "by": "자동",
+   "keys": 13,
+   "aliases": []
+  },
+  "biz_phone": {
+   "name": "사업장전화번호",
+   "kind": "phone",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "biz_type": {
+   "name": "업태",
+   "kind": "text",
+   "by": "자동",
+   "keys": 5,
+   "aliases": []
+  },
+  "bl_no": {
+   "name": "B/LNo",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "body": {
+   "name": "결의내용",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "bon": {
+   "name": "본",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "bonus": {
+   "name": "상여금",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 4,
+   "aliases": []
+  },
+  "bonus_amount": {
+   "name": "상여금",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "booking_no": {
+   "name": "BookingNo",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "bookkeeping": {
+   "name": "기장의무",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "books": {
+   "name": "EstimatedBooksandSupplies",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "branch": {
+   "name": "취급점",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "branch_phone": {
+   "name": "지점전화번호",
+   "kind": "phone",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "break_time": {
+   "name": "휴게시간",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "bs_current_date": {
+   "name": "당기말",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "bs_prior_date": {
+   "name": "전기말",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "building_area": {
+   "name": "건물면적",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "building_name": {
+   "name": "명칭",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "c": {
+   "name": "c",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "cable_fee": {
+   "name": "전신료",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "cancel": {
+   "name": "cancel",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "capital": {
+   "name": "자본금",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 4,
+   "aliases": []
+  },
+  "card_no": {
+   "name": "카드번호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "cargo_no": {
+   "name": "화물관리번호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "carrier": {
+   "name": "Carrier",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "carrier_code": {
+   "name": "운수기관부호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "cash": {
+   "name": "현금서비스",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "cash_tx": {
+   "name": "고액현금거래",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "category": {
+   "name": "지목",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "cause": {
+   "name": "등기원인및기타사항",
+   "kind": "text",
+   "by": "자동",
+   "keys": 6,
+   "aliases": []
+  },
+  "ceo": {
+   "name": "대표자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 7,
+   "aliases": [
+    "ceo_name"
+   ]
+  },
+  "cert_no": {
+   "name": "증명서번호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "cert_type": {
+   "name": "증명서종류",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "certify_date": {
+   "name": "확인일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "chair": {
+   "name": "의장",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "change": {
+   "name": "변경사항",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "change_cause": {
+   "name": "변동원인",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "change_date": {
+   "name": "변동일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "changed": {
+   "name": "변경연월일",
+   "kind": "text",
+   "by": "자동",
+   "keys": 11,
+   "aliases": []
+  },
+  "channels": {
+   "name": "연락방법",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "charge": {
+   "name": "Charges",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "charges": {
+   "name": "NewCharges",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "check": {
+   "name": "□",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "check_card": {
+   "name": "체크카드",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "childcare": {
+   "name": "출산·보육수당",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "claim_amount": {
+   "name": "청구금액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "claim_days": {
+   "name": "ClaimPeriod(days)",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "clearance_plan": {
+   "name": "통관계획",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "clerk": {
+   "name": "담당",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "closed": {
+   "name": "폐지일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "closed_date": {
+   "name": "해지일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "closed_registered": {
+   "name": "등기일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "co_ceo": {
+   "name": "대표자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "co_owner": {
+   "name": "공동사업자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "co_owners": {
+   "name": "공유자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "code": {
+   "name": "업종코드",
+   "kind": "text",
+   "by": "자동",
+   "keys": 5,
+   "aliases": []
+  },
+  "cogs": {
+   "name": "매출원가",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "cohabitants": {
+   "name": "동거인수",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "collateral": {
+   "name": "담보구분",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "collateral_detail": {
+   "name": "담보내용",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "collect": {
+   "name": "Collect",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "collection_type": {
+   "name": "징수형태",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "common_shares": {
+   "name": "보통주식",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "company": {
+   "name": "직장명",
+   "kind": "text",
+   "by": "자동",
+   "keys": 6,
+   "aliases": []
+  },
+  "company_name": {
+   "name": "개정일",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "company_name_en": {
+   "name": "영문상호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "computed": {
+   "name": "산출세액",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "condition": {
+   "name": "조건",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "condition_deadline": {
+   "name": "ConditionDeadline",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "conditions": {
+   "name": "Condition",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "confirm": {
+   "name": "자필설명확인",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "confirm_no": {
+   "name": "발급확인번호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "consent": {
+   "name": "개인(신용)정보동의",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "container_count": {
+   "name": "No.ofContainers",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "content": {
+   "name": "정정내용",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "contract_date": {
+   "name": "계약일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "contract_no": {
+   "name": "ContractNo",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "contract_period": {
+   "name": "계약기간",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "contract_type": {
+   "name": "계약의종류",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "copy_type": {
+   "name": "보관용구분",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "corp_name": {
+   "name": "법인명(단체명)",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "corp_no": {
+   "name": "법인등록번호",
+   "kind": "rrn",
+   "by": "자동",
+   "keys": 1,
+   "aliases": [],
+   "merged_into": "corp_reg_no"
+  },
+  "corp_reg_no": {
+   "name": "법인등록번호",
+   "kind": "corp_reg_no",
+   "by": "자동",
+   "keys": 6,
+   "aliases": [
+    "corp_no"
+   ]
+  },
+  "corp_type": {
+   "name": "법인구분",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "count": {
+   "name": "거래건수",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "country": {
+   "name": "국가",
+   "kind": "text",
+   "by": "자동",
+   "keys": 4,
+   "aliases": []
+  },
+  "country_code": {
+   "name": "발행국/Issuingcountry",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "court": {
+   "name": "허가법원",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "credit": {
+   "name": "Payments/Credits",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "creditor": {
+   "name": "채권자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "creditor_address": {
+   "name": "채권자주소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "credits": {
+   "name": "Payments/Credits",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "ctn_no": {
+   "name": "C/TNo",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "currency": {
+   "name": "통화",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "current": {
+   "name": "당기",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 8,
+   "aliases": []
+  },
+  "current_liab": {
+   "name": "유동부채",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "current_term": {
+   "name": "당기",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "customs": {
+   "name": "세관.과",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "customs_office": {
+   "name": "세관",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "d": {
+   "name": "d",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "date": {
+   "name": "Date",
+   "kind": "date",
+   "by": "자동",
+   "keys": 11,
+   "aliases": []
+  },
+  "date_of_expiry": {
+   "name": "기간만료일/Dateofexpiry",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "date_of_issue": {
+   "name": "발급일/Dateofissue",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "datetime": {
+   "name": "일시",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "days": {
+   "name": "근로일수",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "debit_account": {
+   "name": "자동이체계좌",
+   "kind": "account_no",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "debit_bank": {
+   "name": "이체은행",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "debit_holder": {
+   "name": "예금주",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "debtor": {
+   "name": "채무자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "debtor_address": {
+   "name": "채무자주소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "decl_date": {
+   "name": "신고일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "decl_no": {
+   "name": "신고번호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "declarant": {
+   "name": "신고인",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "decreasedby": {
+   "name": "decreasedby",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "deduction": {
+   "name": "소득공제",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "deduction_total": {
+   "name": "공제액계",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "deferral": {
+   "name": "연장ㆍ유예명세",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "deferred_from": {
+   "name": "DeferredFrom",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "degree": {
+   "name": "Degree",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "delivery": {
+   "name": "TermsofDelivery",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "department": {
+   "name": "근무부서",
+   "kind": "text",
+   "by": "자동",
+   "keys": 6,
+   "aliases": []
+  },
+  "deposit": {
+   "name": "보증금",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "deposit_account": {
+   "name": "대출금입금계좌",
+   "kind": "account_no",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "deposit_deadline": {
+   "name": "DepositDeadline",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "depreciation": {
+   "name": "감가상각비",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "description": {
+   "name": "DescriptionofGoods",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "destination": {
+   "name": "Destination",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "detail": {
+   "name": "건물내역",
+   "kind": "text",
+   "by": "자동",
+   "keys": 4,
+   "aliases": []
+  },
+  "determined": {
+   "name": "결정세액",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "diff_income": {
+   "name": "차감징수세액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "diff_local": {
+   "name": "차감징수세액",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "directors_present": {
+   "name": "출석이사수",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "directors_total": {
+   "name": "이사총수",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "display_no": {
+   "name": "표시번호",
+   "kind": "number",
+   "by": "자동",
+   "keys": 4,
+   "aliases": []
+  },
+  "doc_check_no": {
+   "name": "문서확인번호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "doc_no": {
+   "name": "문서확인번호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "doc_title": {
+   "name": "서식명",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "document_type": {
+   "name": "DocumentType",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "documents": {
+   "name": "징구서류",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "down": {
+   "name": "계약금",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "down_payment": {
+   "name": "계약금",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "drawing_no": {
+   "name": "도면번호",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "due": {
+   "name": "납부기한",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "due_date": {
+   "name": "DueDate",
+   "kind": "date",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "due_payable": {
+   "name": "신고기한이내납부할세액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "duration": {
+   "name": "Duration",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "duty": {
+   "name": "담당업무",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "duty_amount": {
+   "name": "관세액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "duty_rate": {
+   "name": "관세율",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "duty_type": {
+   "name": "세종",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "dwelling": {
+   "name": "주거형태",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "edu": {
+   "name": "지방교육세",
+   "kind": "number",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "effective_date": {
+   "name": "시행일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "effective_rate": {
+   "name": "실효세율(%)",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "einvoice_email": {
+   "name": "전자세금계산서전용전자우편주소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "email": {
+   "name": "e-mail",
+   "kind": "text",
+   "by": "자동",
+   "keys": 8,
+   "aliases": []
+  },
+  "employee_no": {
+   "name": "사번",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "employees": {
+   "name": "종업원수",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "employment_type": {
+   "name": "고용형태",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "end": {
+   "name": "자격상실일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "end_date": {
+   "name": "근로계약종료일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "end_registered": {
+   "name": "등기일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "end_time": {
+   "name": "종료시각",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "end_type": {
+   "name": "퇴임구분",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "ended": {
+   "name": "퇴임일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "equity": {
+   "name": "자본총계",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "established": {
+   "name": "설립일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "evidence": {
+   "name": "제출증빙서류",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "exchange_rate": {
+   "name": "환율",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "exclusive_area": {
+   "name": "전용면적",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "expected_amount": {
+   "name": "예상거래금액",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "expense": {
+   "name": "필요경비",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "explained": {
+   "name": "설명이해확인",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "export_country": {
+   "name": "적출국",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "extra": {
+   "name": "추가공제",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "family": {
+   "name": "가족수",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "fax": {
+   "name": "팩스번호",
+   "kind": "phone",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "fee": {
+   "name": "수수료(이자)",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 6,
+   "aliases": []
+  },
+  "fee_rate": {
+   "name": "할부수수료율",
+   "kind": "percent",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "fee_type": {
+   "name": "요금종류",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "filed": {
+   "name": "신고일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "filed_date": {
+   "name": "신고일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "filing_kind": {
+   "name": "신고구분",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "filing_type": {
+   "name": "신고유형",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "final_destination": {
+   "name": "FinalDestination",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "final_income": {
+   "name": "결정세액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "final_local": {
+   "name": "결정세액",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "first_acquired": {
+   "name": "최초자격취득일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "first_date": {
+   "name": "최초전입일자",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "first_name": {
+   "name": "최초전입자성명",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "first_reg_type": {
+   "name": "최초전입자등록구분",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "fixed_date": {
+   "name": "확정일자",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "floor": {
+   "name": "층별",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "floors": {
+   "name": "층수",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "fob": {
+   "name": "FOBValue",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "followingbusinesses": {
+   "name": "followingbusinesses).",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "forwarder": {
+   "name": "ForwardingAgent",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "freight": {
+   "name": "Freight",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "freight_payable_at": {
+   "name": "FreightPayableat",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "frequency": {
+   "name": "예상거래빈도",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "fund_detail": {
+   "name": "자금원천상세",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "fund_source": {
+   "name": "자금의원천",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "fund_type": {
+   "name": "자금구분",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "fx_amount": {
+   "name": "외화잔액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "fx_rate": {
+   "name": "매매기준율",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "gender": {
+   "name": "성별",
+   "kind": "text",
+   "by": "자동",
+   "keys": 5,
+   "aliases": [
+    "sex"
+   ]
+  },
+  "given_en": {
+   "name": "영문이름",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "given_names": {
+   "name": "이름/Givennames",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "governing_law": {
+   "name": "GoverningLaw",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "grade": {
+   "name": "토지등급",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "grant_date": {
+   "name": "작성일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "gross": {
+   "name": "매출총이익",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "gross_weight": {
+   "name": "GrossWeight",
+   "kind": "number",
+   "by": "자동",
+   "keys": 4,
+   "aliases": []
+  },
+  "guarantee": {
+   "name": "보증채무",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "guarantee_detail": {
+   "name": "보증내역",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "handover_date": {
+   "name": "인도일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "handwritten": {
+   "name": "가입자자필기재",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "handwritten_confirm": {
+   "name": "자필기재(확인)",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "head_name": {
+   "name": "세대주성명",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "head_office": {
+   "name": "본점",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "head_office_city": {
+   "name": "본점소재지",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "head_relation": {
+   "name": "세대주및관계",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "health": {
+   "name": "납부보험료(건강보험)",
+   "kind": "number",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "hire_date": {
+   "name": "입사일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "history_scope": {
+   "name": "주소변동사항",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "holder": {
+   "name": "예금주",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "holder_birth": {
+   "name": "예금주생년월일",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "holder_phone": {
+   "name": "예금주휴대전화",
+   "kind": "phone",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "holder_signature": {
+   "name": "예금주",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "holiday_hours": {
+   "name": "휴일근로시간수",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "home_phone": {
+   "name": "자택전화",
+   "kind": "phone",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "hope_date": {
+   "name": "대출희망일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "hourly_wage": {
+   "name": "통상시급(원)",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "hours": {
+   "name": "총근로시간수",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "household_head": {
+   "name": "세대주여부",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "housing": {
+   "name": "주택소유구분",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "hq_address": {
+   "name": "본점주소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "hs_code": {
+   "name": "세번부호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "id": {
+   "name": "StudentID",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "id_no": {
+   "name": "주민등록번호(사업자번호)",
+   "kind": "rrn",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "id_type": {
+   "name": "실명확인증표",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "identityverificationinformation": {
+   "name": "identityverificationinformation?",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "in": {
+   "name": "맡기신금액",
+   "kind": "number",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "income": {
+   "name": "소득금액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "income_type": {
+   "name": "소득구분",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "increasedby": {
+   "name": "increasedby",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "industry": {
+   "name": "업종",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "initial_shares": {
+   "name": "설립시발행주식총수",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "inquiry": {
+   "name": "조회동의",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "inspection": {
+   "name": "Inspection",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "inspection_days": {
+   "name": "InspectionPeriod(days)",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "inspection_place": {
+   "name": "검사(반입)장소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "installment": {
+   "name": "분할상환횟수",
+   "kind": "number",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "insurance": {
+   "name": "Insurance",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 4,
+   "aliases": []
+  },
+  "intangible": {
+   "name": "무형자산",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "interest_calc": {
+   "name": "이자계산방법",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "interest_day": {
+   "name": "이자납입일",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "interest_pay": {
+   "name": "이자지급시기",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "interest_payment": {
+   "name": "이자지급방법",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "internet": {
+   "name": "인터넷뱅킹",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "inventory": {
+   "name": "재고자산",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "investment": {
+   "name": "투자자산",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "invoice_date": {
+   "name": "InvoiceDate",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "invoice_no": {
+   "name": "InvoiceNo",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "is_current_period": {
+   "name": "당기회계기간",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "is_prior_period": {
+   "name": "전기회계기간",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "issue_date": {
+   "name": "발급일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "issue_date_head": {
+   "name": "발급일자",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "issue_date_short": {
+   "name": "발행일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "issue_no": {
+   "name": "발급번호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "issue_office": {
+   "name": "발급기관",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "issue_place": {
+   "name": "PlaceofIssue",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "issue_reason": {
+   "name": "발급사유",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "issue_scope": {
+   "name": "증명서구분",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "issue_time": {
+   "name": "발급시각",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "issue_type": {
+   "name": "발급구분",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "issued_shares": {
+   "name": "발행주식의총수",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "issuer": {
+   "name": "발급기관",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "issuer_name": {
+   "name": "발급자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "item": {
+   "name": "구분",
+   "kind": "text",
+   "by": "자동",
+   "keys": 5,
+   "aliases": []
+  },
+  "items": {
+   "name": "제공하는항목",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "jeonse_holder": {
+   "name": "전세권자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "jeonse_holder_address": {
+   "name": "전세권자주소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "jibun": {
+   "name": "지번",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "jibun_address": {
+   "name": "지번주소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "job": {
+   "name": "직업",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "job_type": {
+   "name": "직업구분",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "joint": {
+   "name": "공동사업자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "joint_registered": {
+   "name": "등기일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "joint_representation": {
+   "name": "공동대표",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "judgment_date": {
+   "name": "이혼판결확정일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "jurisdiction": {
+   "name": "관할등기소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "kind": {
+   "name": "구분",
+   "kind": "text",
+   "by": "자동",
+   "keys": 15,
+   "aliases": []
+  },
+  "krw_amount": {
+   "name": "원화환산액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "land_area": {
+   "name": "토지면적",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "land_category": {
+   "name": "지목",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "land_right": {
+   "name": "대지권",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "landlord_name": {
+   "name": "임대인",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "late_interest": {
+   "name": "LatePaymentInterest",
+   "kind": "percent",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "late_penalty": {
+   "name": "LateShipmentPenalty",
+   "kind": "percent",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "late_rate": {
+   "name": "지연배상금률",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "lawyer": {
+   "name": "공증담당변호사",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "lc_no": {
+   "name": "L/CNo",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "lease_part": {
+   "name": "임차할부분",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "leave": {
+   "name": "휴직기간",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "lender": {
+   "name": "금융기관",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "lessee": {
+   "name": "임차권자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "lessee_address": {
+   "name": "임차권자주소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "letter_date": {
+   "name": "Date",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "levied": {
+   "name": "부과연월",
+   "kind": "month",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "liab_equity": {
+   "name": "부채와자본총계",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "liabilities": {
+   "name": "부채총계",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "license_no": {
+   "name": "면허번호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "license_type": {
+   "name": "면허종류",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "limit": {
+   "name": "이용한도",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "limit_day": {
+   "name": "1일이체한도",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "limit_note": {
+   "name": "계좌제한구분",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "limit_once": {
+   "name": "1회이체한도",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "line": {
+   "name": "MRZ",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "line_no": {
+   "name": "란번호",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "line_total": {
+   "name": "총란수",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "linked_account": {
+   "name": "출금계좌",
+   "kind": "account_no",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "listed": {
+   "name": "상장여부",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "living": {
+   "name": "EstimatedLivingExpenses",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "loan_account": {
+   "name": "납부자번호",
+   "kind": "account_no",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "loan_date": {
+   "name": "대출일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "loan_product": {
+   "name": "대출상품",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "local": {
+   "name": "종(전)근무지기납부지방소득세",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "location": {
+   "name": "소재지",
+   "kind": "text",
+   "by": "자동",
+   "keys": 7,
+   "aliases": []
+  },
+  "ltc": {
+   "name": "납부보험료(장기요양)",
+   "kind": "number",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "lump": {
+   "name": "일시불",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "mail_to": {
+   "name": "우편물수령처",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "main": {
+   "name": "구분",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "management_fee": {
+   "name": "관리비",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "manager": {
+   "name": "책임자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "manual_received": {
+   "name": "설명서수령확인",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "manufacturer": {
+   "name": "Manufacturer",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "marks": {
+   "name": "MarksandNumbers",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "master_bl": {
+   "name": "MASTERB/L번호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "maturity": {
+   "name": "만기일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "max_amount": {
+   "name": "채권최고액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "max_amount_korean": {
+   "name": "채권최고액(한글)",
+   "kind": "amount_korean",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "meal": {
+   "name": "식사대",
+   "kind": "number",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "measurement": {
+   "name": "Measurement",
+   "kind": "number",
+   "by": "자동",
+   "keys": 4,
+   "aliases": []
+  },
+  "meeting_title": {
+   "name": "의사록종류",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "member": {
+   "name": "회원명",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "member_kind": {
+   "name": "가입자구분",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "memo": {
+   "name": "적요",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "merchant": {
+   "name": "이용하신가맹점",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "message": {
+   "name": "송금메시지",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "method": {
+   "name": "출석구분",
+   "kind": "text",
+   "by": "자동",
+   "keys": 6,
+   "aliases": []
+  },
+  "mgmt_no": {
+   "name": "사업장관리번호",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "middle": {
+   "name": "중도금",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "middle_date": {
+   "name": "중도금지급일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "minutes_date": {
+   "name": "작성일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "mobile": {
+   "name": "휴대전화",
+   "kind": "phone",
+   "by": "자동",
+   "keys": 6,
+   "aliases": []
+  },
+  "model": {
+   "name": "Model",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "month": {
+   "name": "년월",
+   "kind": "month",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "monthly_salary": {
+   "name": "월(일,시간)급",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "months": {
+   "name": "할부개월",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "mortgagee": {
+   "name": "근저당권자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "mortgagee_address": {
+   "name": "근저당권자주소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "mortgagor_relation": {
+   "name": "채무자와의관계",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "move_in_date": {
+   "name": "전입일자",
+   "kind": "date",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "moved_in": {
+   "name": "전입일/변동일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 4,
+   "aliases": []
+  },
+  "name": {
+   "name": "성명",
+   "kind": "text",
+   "by": "자동",
+   "keys": 88,
+   "aliases": []
+  },
+  "name_en": {
+   "name": "영문명",
+   "kind": "text",
+   "by": "자동",
+   "keys": 5,
+   "aliases": []
+  },
+  "name_hanja": {
+   "name": "성명(한자)",
+   "kind": "text",
+   "by": "자동",
+   "keys": 7,
+   "aliases": []
+  },
+  "name_korean": {
+   "name": "한글성명",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "nationality": {
+   "name": "국적",
+   "kind": "text",
+   "by": "자동",
+   "keys": 9,
+   "aliases": []
+  },
+  "net": {
+   "name": "당기순이익",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "net_pay": {
+   "name": "실수령액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "net_weight": {
+   "name": "ContainerNetWeight",
+   "kind": "number",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "next_month": {
+   "name": "다음달결제예정금액",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "night_hours": {
+   "name": "야간근로시간수",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "no": {
+   "name": "번호",
+   "kind": "number",
+   "by": "자동",
+   "keys": 14,
+   "aliases": []
+  },
+  "no_tin_reason": {
+   "name": "납세자번호미기재사유",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "non_op_expense": {
+   "name": "영업외비용",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "non_op_income": {
+   "name": "영업외수익",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "noncurrent": {
+   "name": "비유동자산",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "noncurrent_liab": {
+   "name": "비유동부채",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "note": {
+   "name": "거래가액",
+   "kind": "text",
+   "by": "자동",
+   "keys": 4,
+   "aliases": []
+  },
+  "notice_health": {
+   "name": "고지보험료(건강보험)",
+   "kind": "number",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "notice_ltc": {
+   "name": "고지보험료(장기요양)",
+   "kind": "number",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "notice_method": {
+   "name": "공고방법",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "notified": {
+   "name": "통보일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "notifier": {
+   "name": "통보자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "notify": {
+   "name": "NotifyParty",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "number": {
+   "name": "계좌번호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "object": {
+   "name": "과세대상",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "of": {
+   "name": "of",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "office": {
+   "name": "처리관서",
+   "kind": "text",
+   "by": "자동",
+   "keys": 5,
+   "aliases": []
+  },
+  "office_address": {
+   "name": "사무소소재지",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "office_name": {
+   "name": "사무소명칭",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "officer": {
+   "name": "담당자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "officer_phone": {
+   "name": "전화",
+   "kind": "phone",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "old_name": {
+   "name": "개명전이름",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "on_board_date": {
+   "name": "OnBoardDate",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "op": {
+   "name": "영업이익",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "opened": {
+   "name": "설치일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "opened_registered": {
+   "name": "등기일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "opening_balance": {
+   "name": "조회기간전잔액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "opening_date": {
+   "name": "등기기록개설일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "opening_reason": {
+   "name": "등기기록개설사유",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "origin": {
+   "name": "Origin",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "origin_cert": {
+   "name": "원산지증명서유무",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "originals": {
+   "name": "NumberofOriginalB/L",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "other_loans_total": {
+   "name": "합계",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "other_noncurrent": {
+   "name": "기타비유동자산",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "other_pay": {
+   "name": "기타급여",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "other_sga": {
+   "name": "기타판매비와관리비",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "other_usage": {
+   "name": "그외의용도",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "otp": {
+   "name": "보안매체",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "out": {
+   "name": "찾으신금액",
+   "kind": "number",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "overdraft_limit": {
+   "name": "대출한도",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "overdue": {
+   "name": "연체여부",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "overdue_detail": {
+   "name": "연체내역",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "overdue_fee": {
+   "name": "연체이자",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "overseas_tx": {
+   "name": "해외거래",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "overtime_hours": {
+   "name": "연장근로시간수",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "owner_step": {
+   "name": "실제소유자확인단계",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "owners_note": {
+   "name": "비고",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "packages": {
+   "name": "ContainerPackages",
+   "kind": "text",
+   "by": "자동",
+   "keys": 4,
+   "aliases": []
+  },
+  "packing": {
+   "name": "Packing",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "page_label": {
+   "name": "쪽번호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "paid_date": {
+   "name": "납부일자",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "par_value": {
+   "name": "1주의금액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "partial_shipment": {
+   "name": "PartialShipment",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "partner": {
+   "name": "공동사업자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "passbook": {
+   "name": "통장발행",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "passbook_no": {
+   "name": "통장번호",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "passport_no": {
+   "name": "여권번호/PassportNo.",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "pay_account": {
+   "name": "결제계좌",
+   "kind": "account_no",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "pay_date": {
+   "name": "지급일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "pay_day": {
+   "name": "임금지급일",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "pay_method": {
+   "name": "지급방법",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "pay_total": {
+   "name": "지급액계",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "payable": {
+   "name": "납부(환급)할총세액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "payer": {
+   "name": "소득의지급자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "payer_biz_no": {
+   "name": "사업자등록번호",
+   "kind": "biz_no",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "payment": {
+   "name": "Payment",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "penalty": {
+   "name": "가산세",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "pep": {
+   "name": "외국의정치적주요인물여부",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "per": {
+   "name": "Per",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "period": {
+   "name": "근무기간",
+   "kind": "text",
+   "by": "자동",
+   "keys": 11,
+   "aliases": []
+  },
+  "permitted": {
+   "name": "정정허가일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "personal_no": {
+   "name": "주민등록번호/PersonalNo.",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "personalcreditinformation": {
+   "name": "personalcreditinformation?",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "phone": {
+   "name": "연락처",
+   "kind": "phone",
+   "by": "자동",
+   "keys": 26,
+   "aliases": [
+    "tel"
+   ]
+  },
+  "place": {
+   "name": "출생장소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "place_of_delivery": {
+   "name": "PlaceofDelivery",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "place_of_receipt": {
+   "name": "PlaceofReceipt",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "pledge": {
+   "name": "질권",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "poa": {
+   "name": "위임장",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "port_of_discharge": {
+   "name": "PortofDischarge",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "port_of_loading": {
+   "name": "PortofLoading",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "port_of_shipment": {
+   "name": "PortofShipment",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "position": {
+   "name": "직위",
+   "kind": "text",
+   "by": "자동",
+   "keys": 8,
+   "aliases": []
+  },
+  "possession_date": {
+   "name": "점유개시일자",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "pre_carriage": {
+   "name": "Pre-carriageby",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "pref_rate": {
+   "name": "우대금리",
+   "kind": "percent",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "preferred": {
+   "name": "종류주식",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "preferred_shares": {
+   "name": "상환전환우선주식",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "prepaid": {
+   "name": "Prepaid",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "prepaid_income": {
+   "name": "주(현)근무지",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "prepaid_local": {
+   "name": "주(현)근무지",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "prepay_fee": {
+   "name": "중도상환해약금",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "present_ratio": {
+   "name": "출석비율",
+   "kind": "percent",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "prev_nationality": {
+   "name": "종전국적",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "previous_balance": {
+   "name": "PreviousBalance",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "price": {
+   "name": "공동주택(아파트)가격",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "price_terms": {
+   "name": "PriceTerms",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "principal": {
+   "name": "원금",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "prior": {
+   "name": "전기",
+   "kind": "number",
+   "by": "자동",
+   "keys": 7,
+   "aliases": []
+  },
+  "prior_fixed_date": {
+   "name": "선순위확정일자현황",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "prior_term": {
+   "name": "전기",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "privacy_consent": {
+   "name": "개인정보수집이용동의",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "processed_time": {
+   "name": "처리시각",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "product": {
+   "name": "상품명",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "program": {
+   "name": "Program",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "property": {
+   "name": "부동산의표시",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "protection_limit": {
+   "name": "예금자보호한도",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "provide": {
+   "name": "제공동의",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "provide_unique_id": {
+   "name": "고유식별정보제공동의",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "proxy": {
+   "name": "대리인",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "proxy_count": {
+   "name": "대리출석",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "purpose": {
+   "name": "등기목적",
+   "kind": "text",
+   "by": "자동",
+   "keys": 10,
+   "aliases": []
+  },
+  "purpose_category": {
+   "name": "자금용도구분",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "purpose_code": {
+   "name": "지급사유코드",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "purpose_detail": {
+   "name": "거래목적상세",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "purpose_type": {
+   "name": "사용목적",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "purposes": {
+   "name": "목적",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "q": {
+   "name": "통장양도대여요청여부",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "qty_tolerance": {
+   "name": "QuantityTolerance",
+   "kind": "percent",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "quantity": {
+   "name": "RevenueTons",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "quick": {
+   "name": "당좌자산",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "rank": {
+   "name": "순위번호",
+   "kind": "number",
+   "by": "자동",
+   "keys": 5,
+   "aliases": []
+  },
+  "rate": {
+   "name": "적용환율",
+   "kind": "number",
+   "by": "자동",
+   "keys": 6,
+   "aliases": []
+  },
+  "rate_reset": {
+   "name": "금리변동주기",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "rate_type": {
+   "name": "금리종류",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "ratio": {
+   "name": "지분율",
+   "kind": "percent",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "real_estate_usage": {
+   "name": "부동산관련용도및자동차매도용도",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "reason": {
+   "name": "변동사유",
+   "kind": "text",
+   "by": "자동",
+   "keys": 9,
+   "aliases": []
+  },
+  "receipt": {
+   "name": "접수",
+   "kind": "text",
+   "by": "자동",
+   "keys": 5,
+   "aliases": []
+  },
+  "receipt_datetime": {
+   "name": "접수일시",
+   "kind": "datetime",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "recipient": {
+   "name": "제출처",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "reduction": {
+   "name": "세액감면",
+   "kind": "number",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "reduction_period": {
+   "name": "감면기간",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "ref_no": {
+   "name": "참조번호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "reference": {
+   "name": "PaymentReference",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "refinance": {
+   "name": "상환여부",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "reg_base": {
+   "name": "등록기준지",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "reg_no": {
+   "name": "등록번호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 7,
+   "aliases": []
+  },
+  "reg_type": {
+   "name": "등록구분",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "registered": {
+   "name": "등기연월일",
+   "kind": "text",
+   "by": "자동",
+   "keys": 10,
+   "aliases": []
+  },
+  "registrar": {
+   "name": "등기관",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "registration_no": {
+   "name": "외국인등록번호",
+   "kind": "rrn",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "registry_office": {
+   "name": "관할등기소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "relation": {
+   "name": "채무자와의관계",
+   "kind": "text",
+   "by": "자동",
+   "keys": 14,
+   "aliases": []
+  },
+  "relationship": {
+   "name": "신청인과의관계",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "remark": {
+   "name": "비고",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "remarks": {
+   "name": "비고",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "remote": {
+   "name": "비고",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "remote_attendees": {
+   "name": "원격참석이사",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "remote_count": {
+   "name": "원격참석",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "remote_method": {
+   "name": "원격참석방법",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "renewal_period": {
+   "name": "갱신기간",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "rent": {
+   "name": "차임",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "rep_name": {
+   "name": "성명",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "rep_rrn": {
+   "name": "주민등록번호",
+   "kind": "rrn",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "rep_title": {
+   "name": "자격",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "repayment": {
+   "name": "상환방법",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "reported": {
+   "name": "신고일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 5,
+   "aliases": []
+  },
+  "reporter": {
+   "name": "신고인",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "representative": {
+   "name": "대표",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "requirements": {
+   "name": "requirements",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "residence_category": {
+   "name": "해외거주자여부",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "residency": {
+   "name": "거주구분",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "resident": {
+   "name": "거주구분",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "resident_date": {
+   "name": "주민등록일자",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "resident_type": {
+   "name": "구분",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "restriction": {
+   "name": "지급정지·압류·가압류",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "result": {
+   "name": "처리결과",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "revenue": {
+   "name": "총수입금액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 5,
+   "aliases": []
+  },
+  "revenue_year": {
+   "name": "결산연도",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "revision_effective": {
+   "name": "시행일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "revision_history": {
+   "name": "제정·개정일",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "right_holder": {
+   "name": "권리자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "risk_grade": {
+   "name": "고객위험등급",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "road_address": {
+   "name": "도로명주소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "role": {
+   "name": "권리자구분",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "routing": {
+   "name": "RoutingNumber",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "routing_label": {
+   "name": "RoutingLabel",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "rrn": {
+   "name": "주민등록번호",
+   "kind": "rrn",
+   "by": "자동",
+   "keys": 38,
+   "aliases": []
+  },
+  "sailing_date": {
+   "name": "Sailingonorabout",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "salary": {
+   "name": "급여",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 4,
+   "aliases": []
+  },
+  "salary_transfer": {
+   "name": "급여이체지정",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "scale": {
+   "name": "축척",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "scope": {
+   "name": "범위",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "scope_handwritten": {
+   "name": "자필기재(피담보채무범위)",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "seal": {
+   "name": "신청인",
+   "kind": "seal",
+   "by": "자동",
+   "keys": 35,
+   "aliases": []
+  },
+  "seal_name": {
+   "name": "인감",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "seal_type": {
+   "name": "인감서명등록",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "secured_debt": {
+   "name": "피담보채무",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "seq": {
+   "name": "회차",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "serial": {
+   "name": "암호일련번호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "settlement": {
+   "name": "결산기",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "settlement_type": {
+   "name": "결산기유형",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "sga": {
+   "name": "판매비와관리비",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "share": {
+   "name": "지분",
+   "kind": "text",
+   "by": "자동",
+   "keys": 6,
+   "aliases": []
+  },
+  "share_type": {
+   "name": "주식종류",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "share_types": {
+   "name": "개정일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "shareholders_present": {
+   "name": "출석주주의수",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "shareholders_total": {
+   "name": "주주의총수",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "shares": {
+   "name": "소유주식수",
+   "kind": "number",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "shares_present": {
+   "name": "출석주주의주식수",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "sheet_no": {
+   "name": "장번호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "shipment": {
+   "name": "Shipment",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "shipping_mark": {
+   "name": "ShippingMark",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "sign": {
+   "name": "신청인",
+   "kind": "signature",
+   "by": "자동",
+   "keys": 20,
+   "aliases": []
+  },
+  "sign_date": {
+   "name": "BuyerSigningDate",
+   "kind": "date",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "signature": {
+   "name": "신청인",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "signature_debtor": {
+   "name": "채무자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "signature_mortgagor": {
+   "name": "근저당권설정자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "signed_by": {
+   "name": "Signedby",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "signer": {
+   "name": "BuyerSignatory",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "signer_title": {
+   "name": "Title",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "site_location": {
+   "name": "대지위치",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "size": {
+   "name": "기업규모",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "special_add": {
+   "name": "납부특례세액가산",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "special_deduct": {
+   "name": "납부특례세액차감",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "special_terms": {
+   "name": "특약사항",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "specials": {
+   "name": "특약사항",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "spouse_birth": {
+   "name": "배우자의출생연월일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "spouse_name": {
+   "name": "배우자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "spouse_nationality": {
+   "name": "배우자국적",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "spouse_rrn": {
+   "name": "배우자의주민등록번호",
+   "kind": "rrn",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "spread": {
+   "name": "가산금리",
+   "kind": "percent",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "stamp_tax": {
+   "name": "인지세",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "start": {
+   "name": "자격취득일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "start_date": {
+   "name": "대출개시일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "start_month": {
+   "name": "이체개시",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "statement_month": {
+   "name": "청구월",
+   "kind": "month",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "status": {
+   "name": "등록상태",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "std_name": {
+   "name": "품명",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "structure": {
+   "name": "구조",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "structure_usage": {
+   "name": "구조·용도",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "sub_delegation": {
+   "name": "복대리인선임",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "subject": {
+   "name": "대출과목",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "submit_to": {
+   "name": "제출처",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "sum_amount": {
+   "name": "합계금액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "sum_ratio": {
+   "name": "합계지분율",
+   "kind": "percent",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "sum_shares": {
+   "name": "합계주식수",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "supplier": {
+   "name": "해외거래처",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "surname": {
+   "name": "성/Surname",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "surname_en": {
+   "name": "영문성",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "surrender": {
+   "name": "Surrender",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "surrender_date": {
+   "name": "SurrenderDate",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "swift": {
+   "name": "SWIFT",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "tangible": {
+   "name": "유형자산",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "target": {
+   "name": "이체대상",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "target_owner": {
+   "name": "대상소유자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "tasks": {
+   "name": "위임내용",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "tasks_extra": {
+   "name": "위임내용",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "tax": {
+   "name": "세액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "tax_arrears": {
+   "name": "미납국세·지방세",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "tax_item": {
+   "name": "세목",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "tax_office": {
+   "name": "세무서장",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "tax_period": {
+   "name": "과세기간",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "tax_year": {
+   "name": "과세연도",
+   "kind": "number",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "taxable_krw": {
+   "name": "과세가격(원화)",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "taxable_usd": {
+   "name": "과세가격(USD)",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "taxpayer_type": {
+   "name": "개인/법인",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "tenant_name": {
+   "name": "임차인",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "term": {
+   "name": "계약기간",
+   "kind": "text",
+   "by": "자동",
+   "keys": 4,
+   "aliases": []
+  },
+  "thedateofrenewal": {
+   "name": "thedateofrenewal",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "thefirstbene": {
+   "name": "thefirstbeneficiary.",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "thesecondben": {
+   "name": "thesecondbeneficiary.",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "third_party_consent": {
+   "name": "제3자제공동의",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "tin": {
+   "name": "납세자번호",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "title": {
+   "name": "의안",
+   "kind": "text",
+   "by": "자동",
+   "keys": 4,
+   "aliases": []
+  },
+  "title_month": {
+   "name": "귀속연월",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "total": {
+   "name": "합계",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 13,
+   "aliases": []
+  },
+  "total_amount": {
+   "name": "TotalAmount",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "total_balance": {
+   "name": "대출잔액합계",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "total_income": {
+   "name": "종합소득금액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "total_korean": {
+   "name": "합계금액(한글)",
+   "kind": "amount_korean",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "total_months": {
+   "name": "가입기간합계",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "total_packages": {
+   "name": "총포장갯수",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "total_period": {
+   "name": "총근무기간",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "total_quantity": {
+   "name": "TotalPackages",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "total_shares": {
+   "name": "발행주식총수",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "total_taxable": {
+   "name": "총과세가격",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "total_weight": {
+   "name": "총중량",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "total_words": {
+   "name": "TotalAmountinWords",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "trade_name": {
+   "name": "상호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 4,
+   "aliases": []
+  },
+  "transfer_day": {
+   "name": "출금일",
+   "kind": "text",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "transport": {
+   "name": "운송형태",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "treasury_shares": {
+   "name": "자기주식수",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "trust_no": {
+   "name": "신탁원부",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "tuition": {
+   "name": "EstimatedTuition",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "type": {
+   "name": "예금종류",
+   "kind": "text",
+   "by": "자동",
+   "keys": 8,
+   "aliases": []
+  },
+  "uncleared": {
+   "name": "미결제타점권",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "unique_id": {
+   "name": "고유식별정보처리동의",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "unique_no": {
+   "name": "고유번호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "unit": {
+   "name": "동·호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "unit_name": {
+   "name": "호명칭",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "unit_no": {
+   "name": "건물번호",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "unit_price": {
+   "name": "단가",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "unit_taxation": {
+   "name": "사업자단위과세적용사업자여부",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "usage": {
+   "name": "용도",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "usage_period": {
+   "name": "이용기간",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "usage_type": {
+   "name": "용도",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "use_limit": {
+   "name": "사용제한",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "valid_period": {
+   "name": "증명서유효기간",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "valid_reason": {
+   "name": "유효기간을정한사유",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "value": {
+   "name": "평가금액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "vat": {
+   "name": "부가세",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "vat_amount": {
+   "name": "부가세액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "vat_base": {
+   "name": "부가가치세과표",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "vat_rate": {
+   "name": "부가세율",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "venue": {
+   "name": "장소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "vessel": {
+   "name": "선기명",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "vessel_voyage": {
+   "name": "OceanVessel/VoyNo",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "view_date": {
+   "name": "발급일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "view_datetime": {
+   "name": "열람일시",
+   "kind": "datetime",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "viewed_at": {
+   "name": "열람일시",
+   "kind": "datetime",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "violation": {
+   "name": "위반건축물",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "visa_status": {
+   "name": "체류자격",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "votes": {
+   "name": "표결결과",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "wage": {
+   "name": "기준소득월액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "wage_rate": {
+   "name": "수습기간임금지급률",
+   "kind": "percent",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "warehouse_date": {
+   "name": "반입일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "warranty": {
+   "name": "WarrantyPeriod",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "weekly_holiday": {
+   "name": "주휴일",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "welfare": {
+   "name": "복리후생비",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "withheld": {
+   "name": "원천징수세액",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "won": {
+   "name": "won",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "work_days": {
+   "name": "근무일",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "work_end": {
+   "name": "소정근로시간",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "work_phone": {
+   "name": "직장전화",
+   "kind": "phone",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "work_start": {
+   "name": "소정근로시간",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "workplace": {
+   "name": "공동차주직장",
+   "kind": "text",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "year": {
+   "name": "귀속연도",
+   "kind": "number",
+   "by": "자동",
+   "keys": 3,
+   "aliases": []
+  },
+  "zipcode": {
+   "name": "우편번호",
+   "kind": "number",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "zoning": {
+   "name": "용도지역",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  }
+ }
+}

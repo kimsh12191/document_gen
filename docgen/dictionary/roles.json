@@ -1,0 +1,1377 @@
+{
+ "about": "키 사전 (studio/DESIGN.md 16절). docgen/scripts/build_dictionary.py 가 자동 초안을 만들고 studio 키 사전 화면이 고친다. by: 사람 인 것은 다시 만들어도 남는다.",
+ "roles": {
+  "signer": {
+   "party": "customer",
+   "sure": false,
+   "by": "자동",
+   "forms": 882,
+   "keys": 5
+  },
+  "customer": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 510,
+   "keys": 17
+  },
+  "company": {
+   "party": "corp",
+   "sure": false,
+   "by": "자동",
+   "forms": 333,
+   "keys": 19
+  },
+  "signer2": {
+   "party": "related",
+   "sure": false,
+   "by": "자동",
+   "forms": 145,
+   "keys": 1
+  },
+  "agent": {
+   "party": "agent",
+   "sure": true,
+   "by": "자동",
+   "forms": 133,
+   "keys": 11
+  },
+  "loan": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 79,
+   "keys": 38
+  },
+  "employer": {
+   "party": "employer",
+   "sure": true,
+   "by": "자동",
+   "forms": 59,
+   "keys": 8
+  },
+  "items": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 57,
+   "keys": 46
+  },
+  "taxpayer": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 48,
+   "keys": 16
+  },
+  "rows": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 45,
+   "keys": 37
+  },
+  "signer3": {
+   "party": "related",
+   "sure": false,
+   "by": "자동",
+   "forms": 36,
+   "keys": 1
+  },
+  "issuer": {
+   "party": "issuer",
+   "sure": true,
+   "by": "자동",
+   "forms": 33,
+   "keys": 1
+  },
+  "bank_use": {
+   "party": "bank",
+   "sure": true,
+   "by": "자동",
+   "forms": 31,
+   "keys": 14
+  },
+  "applicant": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 28,
+   "keys": 13
+  },
+  "summary": {
+   "party": "finance",
+   "sure": false,
+   "by": "자동",
+   "forms": 26,
+   "keys": 26
+  },
+  "eulgu": {
+   "party": "property",
+   "sure": true,
+   "by": "자동",
+   "forms": 22,
+   "keys": 22
+  },
+  "gapgu": {
+   "party": "property",
+   "sure": true,
+   "by": "자동",
+   "forms": 22,
+   "keys": 22
+  },
+  "corp": {
+   "party": "corp",
+   "sure": true,
+   "by": "자동",
+   "forms": 21,
+   "keys": 13
+  },
+  "self": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 21,
+   "keys": 7
+  },
+  "debtor": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 20,
+   "keys": 9
+  },
+  "person": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 20,
+   "keys": 7
+  },
+  "deferrals": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 17,
+   "keys": 7
+  },
+  "national": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 17,
+   "keys": 17
+  },
+  "owners": {
+   "party": "customer",
+   "sure": false,
+   "by": "자동",
+   "forms": 17,
+   "keys": 12
+  },
+  "signer4": {
+   "party": "related",
+   "sure": false,
+   "by": "자동",
+   "forms": 17,
+   "keys": 1
+  },
+  "bs_accounts": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 16,
+   "keys": 16
+  },
+  "buyer": {
+   "party": "counterparty",
+   "sure": true,
+   "by": "자동",
+   "forms": 16,
+   "keys": 9
+  },
+  "income_statement": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 16,
+   "keys": 16
+  },
+  "property": {
+   "party": "property",
+   "sure": true,
+   "by": "자동",
+   "forms": 16,
+   "keys": 13
+  },
+  "balance_sheet": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 15,
+   "keys": 15
+  },
+  "shareholders": {
+   "party": "corp",
+   "sure": true,
+   "by": "자동",
+   "forms": 15,
+   "keys": 12
+  },
+  "bank": {
+   "party": "bank",
+   "sure": true,
+   "by": "자동",
+   "forms": 14,
+   "keys": 8
+  },
+  "employee": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 14,
+   "keys": 10
+  },
+  "holder": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 14,
+   "keys": 11
+  },
+  "work": {
+   "party": "employer",
+   "sure": true,
+   "by": "자동",
+   "forms": 14,
+   "keys": 14
+  },
+  "co_borrower": {
+   "party": "related",
+   "sure": true,
+   "by": "자동",
+   "forms": 13,
+   "keys": 9
+  },
+  "seller": {
+   "party": "counterparty",
+   "sure": true,
+   "by": "자동",
+   "forms": 13,
+   "keys": 9
+  },
+  "staff": {
+   "party": "bank",
+   "sure": true,
+   "by": "자동",
+   "forms": 13,
+   "keys": 2
+  },
+  "brokers": {
+   "party": "counterparty",
+   "sure": true,
+   "by": "자동",
+   "forms": 12,
+   "keys": 6
+  },
+  "clauses": {
+   "party": "document",
+   "sure": true,
+   "by": "자동",
+   "forms": 12,
+   "keys": 12
+  },
+  "containers": {
+   "party": "property",
+   "sure": true,
+   "by": "자동",
+   "forms": 12,
+   "keys": 7
+  },
+  "foreign": {
+   "party": "foreign",
+   "sure": true,
+   "by": "자동",
+   "forms": 11,
+   "keys": 4
+  },
+  "legal_rep": {
+   "party": "agent",
+   "sure": true,
+   "by": "자동",
+   "forms": 11,
+   "keys": 7
+  },
+  "sum": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 11,
+   "keys": 10
+  },
+  "agendas": {
+   "party": "corp",
+   "sure": true,
+   "by": "자동",
+   "forms": 10,
+   "keys": 5
+  },
+  "check": {
+   "party": "bank",
+   "sure": false,
+   "by": "자동",
+   "forms": 10,
+   "keys": 10
+  },
+  "notary": {
+   "party": "issuer",
+   "sure": true,
+   "by": "자동",
+   "forms": 10,
+   "keys": 5
+  },
+  "officers": {
+   "party": "corp",
+   "sure": true,
+   "by": "자동",
+   "forms": 10,
+   "keys": 10
+  },
+  "pl_accounts": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 10,
+   "keys": 10
+  },
+  "tax": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 10,
+   "keys": 10
+  },
+  "workplace": {
+   "party": "employer",
+   "sure": true,
+   "by": "자동",
+   "forms": 10,
+   "keys": 8
+  },
+  "business_income": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 9,
+   "keys": 9
+  },
+  "edd": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 9,
+   "keys": 9
+  },
+  "family": {
+   "party": "family",
+   "sure": true,
+   "by": "자동",
+   "forms": 9,
+   "keys": 9
+  },
+  "grantor": {
+   "party": "related",
+   "sure": true,
+   "by": "자동",
+   "forms": 9,
+   "keys": 9
+  },
+  "households": {
+   "party": "family",
+   "sure": true,
+   "by": "자동",
+   "forms": 9,
+   "keys": 9
+  },
+  "signer5": {
+   "party": "related",
+   "sure": false,
+   "by": "자동",
+   "forms": 9,
+   "keys": 1
+  },
+  "beneficiary": {
+   "party": "foreign",
+   "sure": true,
+   "by": "자동",
+   "forms": 8,
+   "keys": 8
+  },
+  "employment": {
+   "party": "employer",
+   "sure": true,
+   "by": "자동",
+   "forms": 8,
+   "keys": 8
+  },
+  "land": {
+   "party": "property",
+   "sure": true,
+   "by": "자동",
+   "forms": 8,
+   "keys": 6
+  },
+  "past_events": {
+   "party": "property",
+   "sure": false,
+   "by": "자동",
+   "forms": 8,
+   "keys": 8
+  },
+  "remittance": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 8,
+   "keys": 8
+  },
+  "student": {
+   "party": "family",
+   "sure": false,
+   "by": "자동",
+   "forms": 8,
+   "keys": 6
+  },
+  "addresses": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 7,
+   "keys": 7
+  },
+  "batch": {
+   "party": "document",
+   "sure": true,
+   "by": "자동",
+   "forms": 7,
+   "keys": 7
+  },
+  "gtc_terms": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 7,
+   "keys": 7
+  },
+  "guarantor": {
+   "party": "related",
+   "sure": true,
+   "by": "자동",
+   "forms": 7,
+   "keys": 6
+  },
+  "job": {
+   "party": "employer",
+   "sure": true,
+   "by": "자동",
+   "forms": 7,
+   "keys": 7
+  },
+  "loans": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 7,
+   "keys": 7
+  },
+  "members": {
+   "party": "family",
+   "sure": true,
+   "by": "자동",
+   "forms": 7,
+   "keys": 7
+  },
+  "spouse": {
+   "party": "family",
+   "sure": true,
+   "by": "자동",
+   "forms": 7,
+   "keys": 7
+  },
+  "university": {
+   "party": "foreign",
+   "sure": true,
+   "by": "자동",
+   "forms": 7,
+   "keys": 4
+  },
+  "work_prev": {
+   "party": "employer",
+   "sure": true,
+   "by": "자동",
+   "forms": 7,
+   "keys": 7
+  },
+  "assets": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 6,
+   "keys": 6
+  },
+  "branches": {
+   "party": "corp",
+   "sure": true,
+   "by": "자동",
+   "forms": 6,
+   "keys": 6
+  },
+  "charges": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 6,
+   "keys": 6
+  },
+  "co_buyer": {
+   "party": "related",
+   "sure": true,
+   "by": "자동",
+   "forms": 6,
+   "keys": 6
+  },
+  "co_landlord": {
+   "party": "counterparty",
+   "sure": true,
+   "by": "자동",
+   "forms": 6,
+   "keys": 6
+  },
+  "co_seller": {
+   "party": "counterparty",
+   "sure": true,
+   "by": "자동",
+   "forms": 6,
+   "keys": 6
+  },
+  "consignee": {
+   "party": "foreign",
+   "sure": true,
+   "by": "자동",
+   "forms": 6,
+   "keys": 2
+  },
+  "house": {
+   "party": "property",
+   "sure": true,
+   "by": "자동",
+   "forms": 6,
+   "keys": 6
+  },
+  "incomes": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 6,
+   "keys": 6
+  },
+  "landlord": {
+   "party": "counterparty",
+   "sure": true,
+   "by": "자동",
+   "forms": 6,
+   "keys": 6
+  },
+  "payment": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 6,
+   "keys": 6
+  },
+  "product": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 6,
+   "keys": 6
+  },
+  "remitter": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 6,
+   "keys": 6
+  },
+  "shipper": {
+   "party": "foreign",
+   "sure": true,
+   "by": "자동",
+   "forms": 6,
+   "keys": 2
+  },
+  "tenant": {
+   "party": "counterparty",
+   "sure": true,
+   "by": "자동",
+   "forms": 6,
+   "keys": 6
+  },
+  "transaction": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 6,
+   "keys": 4
+  },
+  "buildings": {
+   "party": "property",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "capital_history": {
+   "party": "corp",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "co_guarantors": {
+   "party": "related",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "co_mortgagor": {
+   "party": "related",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "common": {
+   "party": "document",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "consent": {
+   "party": "document",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "cost": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "debit": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "debts": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "dependents": {
+   "party": "family",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "ebank": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "exclusive": {
+   "party": "property",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "extra_products": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "landlord_agent": {
+   "party": "counterparty",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "naturalization": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "payer": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "seller_agent": {
+   "party": "counterparty",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "signer6": {
+   "party": "related",
+   "sure": false,
+   "by": "자동",
+   "forms": 5,
+   "keys": 1
+  },
+  "signers": {
+   "party": "related",
+   "sure": false,
+   "by": "자동",
+   "forms": 5,
+   "keys": 3
+  },
+  "tax_agent": {
+   "party": "related",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "txs": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "unit": {
+   "party": "property",
+   "sure": true,
+   "by": "자동",
+   "forms": 5,
+   "keys": 5
+  },
+  "attendees": {
+   "party": "corp",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "careers": {
+   "party": "employer",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "co_owners": {
+   "party": "related",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "cohabitants": {
+   "party": "family",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "contact": {
+   "party": "customer",
+   "sure": false,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "correction": {
+   "party": "document",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "extra_loans": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "filing_rows": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "first_tx": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "guarantors": {
+   "party": "related",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "handwritten": {
+   "party": "document",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "joint_collateral": {
+   "party": "property",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "kinds": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "land_right": {
+   "party": "property",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "manufacturer": {
+   "party": "foreign",
+   "sure": false,
+   "by": "자동",
+   "forms": 4,
+   "keys": 2
+  },
+  "marriage": {
+   "party": "family",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "mortgagor": {
+   "party": "related",
+   "sure": false,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "name_change": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "nontax": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "other_loans": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "past_addresses": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "person_changes": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "providers": {
+   "party": "issuer",
+   "sure": false,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "rep": {
+   "party": "corp",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "sub_kinds": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 2
+  },
+  "total": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "work_sum": {
+   "party": "employer",
+   "sure": true,
+   "by": "자동",
+   "forms": 4,
+   "keys": 4
+  },
+  "amended": {
+   "party": "document",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "appropriation": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "beneficiary_bank": {
+   "party": "foreign",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "birth": {
+   "party": "document",
+   "sure": false,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "borrower": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "calc_methods": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "counterparty": {
+   "party": "counterparty",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "current_address": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "earner": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "equity": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "fixed_date": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "installments": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "lc": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "liabilities": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "manufacturing_cost": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "marketing": {
+   "party": "document",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "name_history": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "office_history": {
+   "party": "employer",
+   "sure": false,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "owner": {
+   "party": "customer",
+   "sure": false,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "price_breakdown": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "purpose_history": {
+   "party": "corp",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "registered": {
+   "party": "document",
+   "sure": false,
+   "by": "자동",
+   "forms": 3,
+   "keys": 1
+  },
+  "residences": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "tax_prev": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 3,
+   "keys": 3
+  },
+  "allowances": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "amendment": {
+   "party": "document",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "biller": {
+   "party": "counterparty",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "capital_change": {
+   "party": "corp",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "company_name_change": {
+   "party": "corp",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "credit_items": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "creditor": {
+   "party": "counterparty",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "deduction_items": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "deductions": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "delegate": {
+   "party": "agent",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "fee_per_100": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "grades": {
+   "party": "family",
+   "sure": false,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "head_office_change": {
+   "party": "corp",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "house_prices": {
+   "party": "property",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "household_formed": {
+   "party": "document",
+   "sure": false,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "household_head": {
+   "party": "customer",
+   "sure": false,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "importer": {
+   "party": "foreign",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "land_prices": {
+   "party": "property",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "notify": {
+   "party": "foreign",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "payments": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "payments_irregular": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "penalty_items": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "prepaid_items": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "probation": {
+   "party": "document",
+   "sure": false,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "purpose_change": {
+   "party": "corp",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "refund_account": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "scholarship": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "signer7": {
+   "party": "related",
+   "sure": false,
+   "by": "자동",
+   "forms": 2,
+   "keys": 1
+  },
+  "terms": {
+   "party": "deal",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "total_liabilities_equity": {
+   "party": "finance",
+   "sure": true,
+   "by": "자동",
+   "forms": 2,
+   "keys": 2
+  },
+  "co_guarantor": {
+   "party": "related",
+   "sure": false,
+   "by": "자동",
+   "forms": 1,
+   "keys": 1
+  },
+  "mrz": {
+   "party": "customer",
+   "sure": true,
+   "by": "자동",
+   "forms": 1,
+   "keys": 1
+  },
+  "questions": {
+   "party": "document",
+   "sure": true,
+   "by": "자동",
+   "forms": 1,
+   "keys": 1
+  },
+  "signer8": {
+   "party": "related",
+   "sure": false,
+   "by": "자동",
+   "forms": 1,
+   "keys": 1
+  }
+ }
+}
