@@ -1,4 +1,5 @@
-"""studio 데이터셋 등록부·채점 시험: 손으로 만든 작은 1부·docgen.bench 폴더로, 명령줄 채점 함수와 같은 숫자가 나오는지."""
+"""studio 데이터셋 등록부·채점 시험: 손으로 만든 작은 OCR 준비(옛 형식)·docgen.bench 폴더로, 명령줄 채점 함수와 같은 숫자가 나오는지.
+과제 형식은 하나(docgen-tasks)이고, tasks/ 가 없는 옛 OCR 준비 폴더는 등록할 때 tasks/ 를 만든다 (studio/DESIGN.md 17절)."""
 import json
 
 import pytest
@@ -45,14 +46,15 @@ def bench_folder(tmp_path):
 
 def test_detect_and_register(tmp_path, ocr_folder, bench_folder):
     root, _ = ocr_folder
-    assert DS.detect(root) == "bank_ocr/prepared"
-    assert DS.detect(bench_folder) == "docgen.bench"
+    assert DS.detect(root) is None and DS.legacy_ocr(root)
+    assert DS.detect(bench_folder) == DS.FORMAT
     assert DS.detect(tmp_path) is None
     reg = DS.Registry(tmp_path / "ws")
     o = reg.register(str(root), "ocr")
-    assert o["track"] == "ocr" and o["gt"] == "pseudo" and o["counts"]["benchmark_tasks"] == 3
+    assert o["format"] == DS.FORMAT and o["groups"] == ["ocr"] and o["gt"] == "pseudo"
+    assert o["counts"]["benchmark_items"] == 3 and o["counts"]["crop_ocr"] == 2
     b = reg.register(str(bench_folder))
-    assert b["track"] == "bank" and b["id"] == "bench"
+    assert b["groups"] == ["doc"] and b["id"] == "bench"
     with pytest.raises(ValueError):
         reg.register(str(bench_folder))   # 같은 폴더 두 번
     with pytest.raises(ValueError):
@@ -68,7 +70,7 @@ def test_ocr_score_matches_cli(tmp_path, ocr_folder):
     preds = {"a": "홍길동", "b": "1,000", "c": '[{"bbox_2d": [12, 10, 98, 42], "label": "성명"}]'}
     s = DS.score(ds, preds)
     cli = OM.evaluate(rows, preds)["tasks"]
-    assert s["tasks"] == cli
+    assert {t: {"count": r["n"], **r["metrics"]} for t, r in s["tasks"].items()} == cli
     assert s["main"]["crop_ocr"]["metric"] == "cer" and s["answered"] == 3
     assert 0 < s["per_item"]["b"] < 1 and s["per_item"]["a"] == 1.0
 
@@ -121,3 +123,26 @@ def test_card_markdown(tmp_path, bench_folder):
     md = DS.card_markdown(reg.get(ds["id"]), [{"label": "m1", "main": {"classify": {"metric": "acc", "value": 0.5}}}],
                           [{"name": "t1", "pipeline": "2부", "created": "2026-10-20"}])
     assert "# bench" in md and "문항이 적다" in md and "50.0 (acc)" in md and "t1" in md
+
+
+def test_mixed_dataset_scores_only_evaluation_items(tmp_path, bench_folder, ocr_folder):
+    """OCR 준비 폴더를 업무 과제 폴더 안에 두고 합치면 한 데이터셋: 과제 묶음 둘, 평가 문항만 채점, 그림 경로는 합친 폴더 기준."""
+    root, _ = ocr_folder
+    import shutil
+
+    shutil.move(str(root), str(bench_folder / "ocr"))
+    DS.upgrade_ocr(bench_folder / "ocr")
+    _jsonl(bench_folder / "ocr" / "tasks" / "crop_ocr.jsonl", [
+        *[json.loads(x) for x in (bench_folder / "ocr" / "tasks" / "crop_ocr.jsonl").read_text(encoding="utf-8").splitlines()],
+        {"id": "t", "task": "crop_ocr", "images": ["img.png"], "prompt": "읽기", "answer": {"text": "학습"}, "meta": {"split": "train"}}])
+    added = DS.merge_tasks(bench_folder, bench_folder / "ocr")
+    assert added == {"crop_ocr": 3, "grounding": 1}
+    reg = DS.Registry(tmp_path / "ws")
+    ds = reg.register(str(bench_folder))
+    assert ds["groups"] == ["ocr", "doc"]
+    assert DS.items(ds)["crop_ocr"][0]["images"] == ["ocr/img.png"]
+    s = DS.score(ds, {"a": "홍길동", "classify/x": "재직증명서"})
+    assert s["tasks"]["crop_ocr"]["n"] == 2 and s["tasks"]["classify"]["n"] == 2   # 학습 문항(t)은 채점하지 않는다
+    assert s["per_item"]["a"] == 1.0 and set(s["main"]) == {"crop_ocr", "grounding", "classify"}
+    v = DS.view_item(ds, DS.items(ds)["grounding"][0])
+    assert v["answer"][0]["label"] == "성명" and v["boxes"][0]["box"] == [10, 10, 100, 40]

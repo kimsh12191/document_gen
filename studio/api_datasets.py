@@ -67,11 +67,11 @@ def make_router(reg: DS.Registry, guard, jobs=None) -> APIRouter:
         d = reg.load()
         out = []
         for k, v in d["datasets"].items():
-            out.append({"id": k, **{x: v.get(x) for x in ("name", "track", "format", "source", "gt", "real_data", "frozen",
+            out.append({"id": k, **{x: v.get(x) for x in ("name", "groups", "kind", "format", "source", "gt", "real_data", "frozen",
                                                          "version", "counts", "created", "registered", "path")},
                         "exists": Path(v["path"]).exists(), "n_runs": len(v.get("runs", [])),
                         "n_scores": len(saved_scores(k))})
-        return {"datasets": out, "workspace": str(reg.ws), "sources": DS.SOURCE_NAME, "gts": DS.GT_NAME}
+        return {"datasets": out, "workspace": str(reg.ws), "sources": DS.SOURCE_NAME, "gts": DS.GT_NAME, "groups": DS.GROUP_NAME}
 
     class RegisterReq(BaseModel):
         path: str
@@ -210,7 +210,7 @@ def make_router(reg: DS.Registry, guard, jobs=None) -> APIRouter:
         for ds_id in [x for x in ids.split(",") if x]:
             ds = ds_or_404(ds_id)
             for s in saved_scores(ds_id):
-                out.append({"dataset": ds_id, "dataset_name": ds["name"], "track": ds["track"], "source": ds["source"],
+                out.append({"dataset": ds_id, "dataset_name": ds["name"], "groups": ds.get("groups"), "source": ds["source"],
                             "gt": ds["gt"], "real_data": ds.get("real_data"), **s})
         return {"rows": out}
 

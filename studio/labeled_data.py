@@ -28,6 +28,7 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMAS = ROOT / 'studio/static/label-format/v1'
 BANK_TASKS = ('classify', 'kie', 'marks', 'ocr_field', 'doc_check', 'review')
+OCR = 'ocr'   # 과제 목록의 이 항목 = 쪽 OCR 8과제 (OCR 준비로 만들어 같은 데이터셋에 넣는다)
 
 
 def read(path):
@@ -374,11 +375,22 @@ def main():
     # 처리 설정은 검사 때 고정한 것을 사용한다. 원본 내용은 복사 시 해시로 재확인한다.
     if not check.get('ok'):
         raise ValueError('유효한 검사 결과가 아닙니다')
-    out = Path(req['out'])
-    if req['track'] == 'bank':
-        build_bank(check, out, req['tasks'], req['split'])
-    else:
-        build_ocr(check, out, req['split'])
+    build(check, Path(req['out']), req['tasks'], req['split'])
+
+
+def build(check: dict, out: Path, tasks: list[str], split: str):
+    """은행 업무 과제(BANK_TASKS)와 쪽 OCR 8과제(OCR)를 한 과제 폴더로 (studio/DESIGN.md 17절).
+    OCR 은 out/ocr/ 에서 준비해 out/tasks 에 합친다 (문항 meta.split 이 train·val·benchmark)."""
+    from .datasets import merge_tasks
+
+    bank = [t for t in tasks if t in BANK_TASKS]
+    if bank:
+        build_bank(check, out, bank, split)
+    if OCR in tasks:
+        build_ocr(check, out / 'ocr', split)
+        merge_tasks(out, out / 'ocr' / 'prepared')
+    if not bank and OCR not in tasks:
+        raise ValueError('과제를 하나 이상 고르세요')
 
 
 if __name__ == '__main__':

@@ -109,11 +109,11 @@ def task_item(row, out):
     def rel(p):
         q = Path(p)
         return q.relative_to(out).as_posix() if q.is_absolute() and q.is_relative_to(out) else str(p)
-    prompt = row["messages"][0]["content"].replace("<image>\n", "", 1).replace("<image>", "", 1)
+    prompt = next((m["content"] for m in row.get("messages", []) if m.get("role") == "user"), row.get("prompt", "")).replace("<image>\n", "", 1).replace("<image>", "", 1)
     meta = {k: row.get(k) for k in ("document_id", "page_id", "split", "view", "view_id", "view_ops", "reference_type",
                                     "confidence", "size")}
     meta["context_image"] = rel(row["context_image"]) if row.get("context_image") else None
-    return {"id": row["id"], "task": row["task"], "images": [rel(i) for i in row["images"]], "prompt": prompt,
+    return {"id": row["id"], "task": row["task"], "images": [rel(i) for i in row.get("images", [])], "prompt": prompt,
             "answer": json.loads(row["target"]) if isinstance(row["target"], str) else row["target"], "eval": {}, "meta": meta}
 
 
@@ -121,8 +121,12 @@ def write_tasks(out, cfg, result):
     """train/val/benchmark 문항을 과제 형식으로: tasks/<과제>.jsonl + meta.json (문항의 meta.split 이 쪼개기)."""
     by = defaultdict(list)
     for split in ("train", "val", "benchmark"):
+        if not (out / f"{split}_tasks.jsonl").exists():
+            continue
         for row in read_jsonl(out / f"{split}_tasks.jsonl"):
-            by[row["task"]].append(task_item(row, out))
+            it = task_item(row, out)
+            it["meta"]["split"] = it["meta"]["split"] or split
+            by[row["task"]].append(it)
     (out / "tasks").mkdir(exist_ok=True)
     for task, items in by.items():
         write_jsonl(out / "tasks" / f"{task}.jsonl", items)
@@ -131,7 +135,8 @@ def write_tasks(out, cfg, result):
         "split": "test" if cfg.get("benchmark_only") else "mixed", "created": time.strftime("%Y-%m-%d %H:%M:%S"),
         "counts": {t: len(v) for t, v in sorted(by.items())},
         "split_counts": dict(Counter(i["meta"]["split"] for v in by.values() for i in v)),
-        "reference_type": result["reference_type"], "studio": cfg.get("studio") or {}})
+        "reference_type": result.get("reference_type") or cfg.get("reference_type", "ocr_pseudo_unreviewed"),
+        "studio": cfg.get("studio") or {}})
 
 
 def main(argv=None):

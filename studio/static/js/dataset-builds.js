@@ -10,7 +10,7 @@ function datasetRegistryHTML(r, added = new Set()) {
   return table(r.datasets, [
     ["name", "이름", d => `<a href="#/datasets/${encodeURIComponent(d.id)}">${esc(d.name)}</a> <span class="mono muted">${esc(d.id)}</span>
       ${added.has(d.id) ? `<span class="tag ok">새로 등록됨</span>` : ""}`],
-    ["track", "벤치마크", d => dsTag(d)], ["source", "출처", d => esc(r.sources[d.source] || d.source)],
+    ["groups", "과제", d => dsTag(d)], ["source", "출처", d => esc(r.sources[d.source] || d.source)],
     ["gt", "정답", d => esc((r.gts[d.gt] || d.gt).split(" (")[0])],
     ["real", "", d => d.real_data ? `<span class="tag warn">실서류</span>` : ""],
     ["version", "버전", d => esc(d.version || "-")],

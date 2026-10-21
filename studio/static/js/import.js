@@ -196,7 +196,7 @@ function ocrSetBox(b) {
   const box = $("#bt-ocrset-box");
   if (box.innerHTML) { box.innerHTML = ""; return; }
   box.innerHTML = `<div class="panel" style="margin-bottom:12px">
-    <b>OCR 벤치마크로</b> <span class="muted">1부(bank_ocr) prepare 로 만들고 ⑥ 데이터셋에 등록합니다.</span>
+    <b>OCR 벤치마크로</b> <span class="muted">OCR 준비(docgen.bench.ocr_prepare)로 쪽 OCR 8과제를 만들고 ⑥ 데이터셋에 등록합니다.</span>
     <div class="rc-scs" style="margin:8px 0">${b.formats.filter(f => !f.decision || f.decision.kind !== "skip").map(f =>
       `<label><input type="checkbox" data-of="${esc(f.id)}" checked> ${esc(f.name)} <span class="muted">(${f.pages.length}쪽)</span></label>`).join("")}</div>
     <div class="bar">

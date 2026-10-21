@@ -6,27 +6,30 @@
 addRoute(/^#\/datasets\/([^/]+)\/bundle\/(.+)$/, (id, bid) => viewBundle(decodeURIComponent(id), decodeURIComponent(bid)), "datasets");
 addRoute(/^#\/datasets\/([^/]+)(?:\/(\w+))?$/, (id, tab) => viewDataset(decodeURIComponent(id), tab || "card"), "datasets");
 
-const TRACK_NAME = { ocr: "OCR", bank: "은행 업무" };
+const GROUP_NAME = { ocr: "OCR", doc: "문서 이해", work: "업무 처리" };   // 과제 묶음 (docgen.bench.evaluate.TASK_GROUP)
+const TASK_GROUP = { crop_ocr: "ocr", bbox_ocr: "ocr", region_ocr: "ocr", marked_ocr: "ocr", grounding: "ocr", spotting: "ocr",
+  relation: "ocr", marked_box: "ocr", ocr_field: "ocr", ocr_page: "ocr", classify: "doc", kie: "doc", marks: "doc",
+  doc_check: "work", cross_check: "work", review: "work" };
 const TASK_KO = {
   crop_ocr: "잘라낸 글자 읽기", bbox_ocr: "박스 안 글자", region_ocr: "영역 받아쓰기", marked_ocr: "그린 박스 글자",
   grounding: "글자 위치 찾기", spotting: "전체 글자+위치", relation: "옆 글자 찾기", marked_box: "그린 박스 위치",
   ocr_field: "값 칸 인식", ocr_page: "전체 받아쓰기", classify: "서류 분류", kie: "정보 추출", marks: "체크·도장·서명",
   doc_check: "서류 구비", cross_check: "서류 대조", review: "심사 질의",
 };
-const LOWER_BETTER = new Set(["cer"]);
-const dsTag = d => `<span class="tag ${d.track === "ocr" ? "html" : "overlay"}">${TRACK_NAME[d.track]}</span>`;
+const LOWER_BETTER = new Set(["cer", "false_alarm", "matched_label_cer"]);
+const dsTag = d => (d.groups || []).map(g => `<span class="tag ${g === "ocr" ? "html" : g === "doc" ? "overlay" : ""}">${GROUP_NAME[g] || esc(g)}</span>`).join(" ");
 
 async function view_datasets() {
   const [r, recipes, trainings] = await Promise.all([api("/api/datasets"), recipesPanel(), trainingsPanel()]);
   if (location.hash !== "#/datasets") return;
   main().innerHTML = `
     <h1>데이터셋</h1>
-    <div class="sub">OCR·은행 업무 데이터셋을 출처와 정답 종류와 함께 한 목록으로 관리합니다. 1부·2부 파이프라인이 명령줄로 만든 폴더도
-      경로만 등록하면 됩니다 (studio 는 읽기만 합니다). 등록부: <span class="mono">${esc(r.workspace)}/registry.json</span></div>
+    <div class="sub">OCR·문서 이해·업무 처리 과제를 같은 형식(과제 폴더)으로, 출처와 정답 종류와 함께 한 목록으로 관리합니다.
+      명령줄로 만든 폴더도 경로만 등록하면 됩니다 (studio 는 읽기만 합니다). 등록부: <span class="mono">${esc(r.workspace)}/registry.json</span></div>
     <div class="panel" style="margin-bottom:12px">
       <b>폴더 등록</b>
       <div class="bar" style="margin-top:6px">
-        <input type="text" id="dr-path" placeholder="폴더 경로 (1부 prepare 결과 · docgen.bench 결과 · 2부 prepare 결과)" style="width:520px">
+        <input type="text" id="dr-path" placeholder="폴더 경로 (과제 폴더: docgen.bench build · OCR 준비 결과)" style="width:520px">
         <input type="text" id="dr-name" placeholder="이름 (비우면 폴더 이름)" style="width:200px">
         <select id="dr-source"><option value="">출처: 자동</option>${Object.entries(r.sources).map(([k, n]) => `<option value="${k}">${n}</option>`).join("")}</select>
         <select id="dr-gt"><option value="">정답: 자동</option>${Object.entries(r.gts).map(([k, n]) => `<option value="${k}">${n}</option>`).join("")}</select>
@@ -52,7 +55,7 @@ async function view_datasets() {
 
 async function viewDataset(id, tab) {
   const d = await api(`/api/datasets/${encodeURIComponent(id)}`);
-  const tabs = [["card", "설명서"], ["items", "문항"], ...(d.format === "docgen.bench" ? [["bundles", "업무 묶음"]] : []),
+  const tabs = [["card", "설명서"], ["items", "문항"], ...((d.groups || []).includes("work") ? [["bundles", "업무 묶음"]] : []),
     ["runs", `모델 답 (${d.predictions.length})`], ["train", "학습"]];
   main().innerHTML = `
     <div class="muted"><a href="#/datasets">데이터셋</a></div>
@@ -219,14 +222,14 @@ async function dsRuns(d) {
   $("#tab").innerHTML = `
     <div class="panel" style="margin-bottom:12px"><b>모델 답 붙이기</b>
       <div class="bar" style="margin-top:6px"><input type="text" id="rn-path" style="width:560px"
-        placeholder="runs/<실험>/ (1부·2부 파이프라인) · 예측 폴더 (docgen.bench run) · 답 파일 .jsonl">
+        placeholder="runs/<실험>/ (학습 실행 train/) · 예측 폴더 (docgen.bench run) · 답 파일 .jsonl">
         <input type="text" id="rn-label" placeholder="이름 (선택)" style="width:160px"><button class="primary" id="rn-go">붙이기</button></div>
       <div class="muted" style="font-size:12px">줄마다 {"id", "prediction"} 또는 {"id", "output"}. 붙인 폴더에는 쓰지 않습니다.</div></div>
     <h2>모델 답 ${d.predictions.length}개</h2>
     ${d.predictions.length ? table(d.predictions, [["label", "이름"], ["run", "붙인 결과"], ["path", "파일", p => `<span class="mono muted" style="font-size:12px">${esc(p.path)}</span>`],
       ["act", "", p => `<button data-score="${p.pid}">${d.scores.some(s => s.pid === p.pid) ? "다시 채점" : "채점"}</button>
         <a href="#/datasets/${encodeURIComponent(d.id)}/items" data-look="${p.pid}">문항 보기</a>`]]) : `<p class="muted">붙인 모델 답이 없습니다.</p>`}
-    <h2>studio 채점 결과 <span class="muted" style="font-weight:400;font-size:13px">명령줄 채점과 같은 함수 (1부 bank_ocr.metrics · docgen.bench.evaluate)</span></h2>
+    <h2>studio 채점 결과 <span class="muted" style="font-weight:400;font-size:13px">명령줄 채점·학습 보상과 같은 함수 (docgen.bench.evaluate)</span></h2>
     ${d.scores.length ? scoreTable(d.scores, tasks) : `<p class="muted">아직 채점하지 않았습니다.</p>`}
     ${d.gt === "pseudo" ? `<p class="muted">정답이 의사정답이라 점수는 "사내 OCR·추론과 얼마나 같은지"입니다.</p>` : ""}
     <h2>파이프라인이 낸 점수 파일</h2>
@@ -269,11 +272,10 @@ async function view_eval() {
     if (!ids.length) { $("#ev-out").innerHTML = ""; return; }
     const c = await api(`/api/compare?ids=${ids.map(encodeURIComponent).join(",")}`);
     const out = [];
-    for (const track of ["ocr", "bank"]) {
-      const rows = c.rows.filter(x => x.track === track);
-      if (!rows.length) continue;
-      const tasks = [...new Set(rows.flatMap(x => Object.keys(x.main || {})))];
-      out.push(`<h2>${TRACK_NAME[track]}</h2>${scoreTable(rows, tasks)}`);
+    for (const g of ["ocr", "doc", "work"]) {   // 과제 묶음마다 표 하나 (한 데이터셋이 여러 묶음에 걸칠 수 있다)
+      const tasks = [...new Set(c.rows.flatMap(x => Object.keys(x.main || {})))].filter(t => (TASK_GROUP[t] || "doc") === g);
+      const rows = c.rows.filter(x => tasks.some(t => (x.main || {})[t]));
+      if (rows.length) out.push(`<h2>${GROUP_NAME[g]}</h2>${scoreTable(rows, tasks)}`);
     }
     $("#ev-out").innerHTML = out.join("") || `<p class="muted">고른 데이터셋에 채점 결과가 없습니다.</p>`;
   };

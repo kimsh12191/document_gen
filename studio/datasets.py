@@ -2,18 +2,18 @@
 API 는 studio/api_datasets.py, 화면은 static/js/datasets.js·dataset-builds.js.
 
 등록부 <workspace_dir>/registry.json
-  {"datasets": {"<ID>": {track, source, gt, real_data, path, format, name, created, frozen, runs: [...], card: {...}}},
+  {"datasets": {"<ID>": {groups, kind, source, gt, real_data, path, format, name, created, frozen, split, runs: [...], card: {...}}},
    "trainings": [...]}
 
-형식 (폴더 안의 파일로 알아낸다)
-  bank_ocr/prepared   1부 OCR prepare 결과: DONE.json + pages.jsonl + benchmark_tasks.jsonl (8과제, 정답 = target)
-  docgen.bench        은행 업무 평가 세트·학습 데이터: meta.json(version) + tasks/<과제>.jsonl
-  bank_task/prepared  2부 prepare 결과: benchmark_items.jsonl(정답) + benchmark_tasks.jsonl(질문·이미지)
+형식은 하나 (studio/DESIGN.md 17절): docgen-tasks — meta.json + tasks/<과제>.jsonl, 문항 {id, task, images, prompt, answer, eval, meta}.
+  docgen.bench build(합성 업무·문서 과제), OCR 준비(docgen.bench.ocr_prepare: 쪽 OCR 8과제, 문항 meta.split 이 train·val·benchmark),
+  라벨 있는 데이터·원본 데이터 내보내기가 모두 이 형식을 쓴다. tasks/ 가 없는 옛 OCR 준비 폴더는 등록할 때 tasks/ 를 만들어 준다.
+  과제 묶음(groups: ocr·doc·work)은 들어 있는 과제로 정한다 (옛 track 대신).
 
 모델 답
-  1부·2부 파이프라인: runs/<실험>/predictions/<run>.jsonl  {"id", "prediction"}, 점수 runs/<실험>/reports/*.json
-  docgen.bench run:   <예측 폴더>/*.jsonl                  {"id", "output"}, 점수 <예측 폴더>/report.json
-채점은 1부 bank_ocr.metrics, 은행 업무는 docgen.bench.evaluate (= 2부 bank_task.score 가 쓰는 것) 를 그대로 부른다.
+  학습 실행(train/): runs/<실험>/predictions/<run>.jsonl  {"id", "prediction"}, 점수 runs/<실험>/reports/*.json
+  docgen.bench run:  <예측 폴더>/*.jsonl                  {"id", "output"}, 점수 <예측 폴더>/report.json
+채점은 모든 과제가 docgen.bench.evaluate (학습 보상과 같은 함수). 평가 문항 = 문항 meta.split 이 train·val 이 아닌 것.
 등록한 폴더에는 쓰지 않는다. studio 가 낸 점수는 <workspace_dir>/scores/<ID>/<답 ID>.json.
 """
 from __future__ import annotations
@@ -27,11 +27,30 @@ from functools import lru_cache
 from pathlib import Path
 
 _LOCK = threading.Lock()
-TRACKS = ("ocr", "bank")
+FORMAT = "docgen-tasks"
 SOURCES = ("synthetic", "images", "results")
 GTS = ("exact", "pseudo", "reviewed")
 SOURCE_NAME = {"synthetic": "합성", "images": "이미지 묶음", "results": "결과 폴더"}
+GROUP_NAME = {"ocr": "OCR", "doc": "문서 이해", "work": "업무 처리"}
 GT_NAME = {"exact": "생성 정답", "pseudo": "의사정답 (사내 OCR·추론 그대로)", "reviewed": "사람 검수 정답"}
+
+
+def _migrate(e: dict) -> None:
+    """옛 등록부 줄(track·옛 형식 이름)을 과제 형식으로 읽는다. tasks/ 없는 옛 OCR 준비 폴더는 그 자리에서 tasks/ 를 만든다."""
+    if e.get("format") == FORMAT and "groups" in e:
+        return
+    root = Path(e.get("path", ""))
+    if e.get("format") != FORMAT and root.is_dir() and detect(root) is None and legacy_ocr(root):
+        try:
+            upgrade_ocr(root)
+        except (OSError, ValueError, KeyError):
+            pass
+    if detect(root) == FORMAT:
+        info = describe(root, FORMAT)
+        e.update(format=FORMAT, groups=info["groups"], kind=info.get("kind"), counts=info["counts"])
+    else:
+        e.setdefault("groups", ["ocr"] if e.get("track") == "ocr" else ["doc"])
+    e.pop("track", None)
 
 
 class Registry:
@@ -47,6 +66,8 @@ class Registry:
         d = json.loads(self.file.read_text(encoding="utf-8"))
         d.setdefault("datasets", {})
         d.setdefault("trainings", [])
+        for e in d["datasets"].values():
+            _migrate(e)
         return d
 
     def save(self, d: dict) -> None:
@@ -75,11 +96,11 @@ class Registry:
         root = Path(path).expanduser()
         if not root.is_dir():
             raise ValueError(f"폴더가 없습니다: {root}")
+        if detect(root) is None and legacy_ocr(root):
+            upgrade_ocr(root)
         fmt = detect(root)
         if fmt is None:
-            raise ValueError(f"{root}: 1부 prepare 결과(DONE.json + pages.jsonl), docgen.bench 결과(meta.json + tasks/), "
-                             "2부 prepare 결과(benchmark_items.jsonl) 중 어느 것도 아닙니다")
-        track = "ocr" if fmt == "bank_ocr/prepared" else "bank"
+            raise ValueError(f"{root}: 과제 폴더(meta.json + tasks/<과제>.jsonl)가 아닙니다 (docgen.bench build, OCR 준비 결과)")
         info = describe(root, fmt)
         base = re.sub(r"[^\w.-]+", "-", name or root.name).strip("-") or "dataset"
         with _LOCK:
@@ -91,9 +112,9 @@ class Registry:
             while ds_id in d["datasets"]:
                 ds_id, n = f"{base}-{n}", n + 1
             entry = {
-                "name": name or root.name, "track": track, "format": fmt, "path": str(root.resolve()),
-                "source": meta.get("source") or info.get("source") or ("synthetic" if fmt != "bank_ocr/prepared" else "results"),
-                "gt": meta.get("gt") or info.get("gt") or ("exact" if fmt != "bank_ocr/prepared" else "pseudo"),
+                "name": name or root.name, "groups": info["groups"], "kind": info.get("kind"), "format": fmt, "path": str(root.resolve()),
+                "source": meta.get("source") or info.get("source") or "synthetic",
+                "gt": meta.get("gt") or info.get("gt") or "exact",
                 "real_data": bool(meta.get("real_data", info.get("real_data", False))),
                 "registered": not meta.get("made_by_studio", False),
                 "created": time.strftime("%Y-%m-%d %H:%M"), "frozen": bool(meta.get("frozen", False)),
@@ -191,59 +212,95 @@ class Registry:
 # ---------------------------------------------------------------------------
 
 def detect(root: Path) -> str | None:
-    if (root / "DONE.json").is_file() and (root / "pages.jsonl").is_file():
-        return "bank_ocr/prepared"
-    if (root / "benchmark_items.jsonl").is_file():
-        return "bank_task/prepared"
     meta = root / "meta.json"
     if meta.is_file() and (root / "tasks").is_dir():
         try:
             if "version" in json.loads(meta.read_text(encoding="utf-8")):
-                return "docgen.bench"
+                return FORMAT
         except ValueError:
             return None
     return None
+
+
+def legacy_ocr(root: Path) -> bool:
+    """tasks/ 없이 옛 1부 형식 문항만 있는 OCR 준비 폴더."""
+    return (root / "DONE.json").is_file() and (root / "benchmark_tasks.jsonl").is_file() and not (root / "tasks").is_dir()
+
+
+def upgrade_ocr(root: Path) -> None:
+    from docgen.bench.ocr_prepare import write_tasks
+
+    cfg = json.loads((root / "config.snapshot.json").read_text(encoding="utf-8")) if (root / "config.snapshot.json").exists() else {}
+    cfg.setdefault("ocr_revision", "unknown")
+    write_tasks(root, cfg, json.loads((root / "DONE.json").read_text(encoding="utf-8")))
 
 
 def _read_jsonl(p: Path) -> list[dict]:
     return [json.loads(s) for s in p.read_text(encoding="utf-8-sig").splitlines() if s.strip()]
 
 
+GT_OF_REFERENCE = {"synthetic_exact": "exact", "human_reviewed": "reviewed", "ocr_pseudo_unreviewed": "pseudo"}
+
+
+def groups_of(counts: dict) -> list[str]:
+    from docgen.bench.evaluate import TASK_GROUP
+
+    return sorted({TASK_GROUP.get(t, "doc") for t, n in counts.items() if n}, key=["ocr", "doc", "work"].index)
+
+
 def describe(root: Path, fmt: str) -> dict:
-    out: dict = {"counts": {}}
-    if fmt == "bank_ocr/prepared":
-        done = json.loads((root / "DONE.json").read_text(encoding="utf-8-sig"))
-        out["version"] = done.get("ocr_revision") or (done.get("config") or {}).get("ocr_revision")
-        snap = root / "config.snapshot.json"
-        if snap.exists():
-            cfg = json.loads(snap.read_text(encoding="utf-8-sig"))
-            out["version"] = cfg.get("ocr_revision") or out["version"]
-            if cfg.get("studio"):
-                out.update({k: cfg["studio"][k] for k in ("source", "gt", "real_data") if k in cfg["studio"]})
-        for split in ("train", "val", "benchmark"):
-            f = root / f"{split}_tasks.jsonl"
-            if f.exists():
-                out["counts"][f"{split}_tasks"] = sum(1 for s in f.open(encoding="utf-8") if s.strip())
+    meta = json.loads((root / "meta.json").read_text(encoding="utf-8"))
+    out: dict = {"version": meta.get("version"), "counts": dict(meta.get("counts", {})), "split": meta.get("split", "test"),
+                 "kind": meta.get("kind") or "bench"}
+    if meta.get("split_counts"):
+        out["counts"].update({f"{k}_items": v for k, v in meta["split_counts"].items()})
+    st = meta.get("studio") or {}
+    if meta.get("reference_type") in GT_OF_REFERENCE:
+        out["gt"] = GT_OF_REFERENCE[meta["reference_type"]]
+    out.update({k: st[k] for k in ("source", "gt", "real_data", "pseudo_model") if k in st})
+    if (root / "pages.jsonl").is_file() and (root / "DONE.json").is_file():   # OCR 준비: 쪽·문서 수
         pages = _read_jsonl(root / "pages.jsonl")
         out["counts"]["pages"] = len(pages)
         out["counts"]["documents"] = len({p.get("document_id") for p in pages})
-    elif fmt == "docgen.bench":
-        meta = json.loads((root / "meta.json").read_text(encoding="utf-8"))
-        out["version"] = meta.get("version")
-        out["counts"] = dict(meta.get("counts", {}))
-        out["split"] = meta.get("split", "test")
-        st = meta.get("studio") or {}
-        out.update({k: st[k] for k in ("source", "gt", "real_data", "pseudo_model") if k in st})
-    else:
-        items = _read_jsonl(root / "benchmark_items.jsonl")
-        c: dict = {}
-        for it in items:
-            c[it["task"]] = c.get(it["task"], 0) + 1
-        out["counts"] = c
-        done = root / "DONE.json"
-        if done.exists():
-            out["version"] = json.loads(done.read_text(encoding="utf-8-sig")).get("bench_version")
+    out["groups"] = groups_of(meta.get("counts", {}))
     return out
+
+
+def merge_tasks(dst: Path, src: Path) -> dict:
+    """src 과제 폴더의 문항을 dst 과제 폴더에 더한다 (OCR·업무 과제를 한 데이터셋으로). src 는 dst 안에 있어야 하고, 그림 경로는
+    dst 기준으로 고친다. dst 에 meta.json 이 없으면 src 것으로 시작한다. dataset.json 이 있으면 문항 수를 맞춘다."""
+    dst, src = Path(dst).resolve(), Path(src).resolve()
+    rel = src.relative_to(dst).as_posix()
+    fix = lambda p: p if not p or Path(p).is_absolute() else f"{rel}/{p}"  # noqa: E731
+    sm = json.loads((src / "meta.json").read_text(encoding="utf-8"))
+    dm = json.loads((dst / "meta.json").read_text(encoding="utf-8")) if (dst / "meta.json").exists() else \
+        {**{k: v for k, v in sm.items() if k not in ("counts", "split_counts")}, "counts": {}}
+    (dst / "tasks").mkdir(exist_ok=True)
+    added = {}
+    for f in sorted((src / "tasks").glob("*.jsonl")):
+        rows = _read_jsonl(f)
+        for r in rows:
+            r["images"] = [fix(i) for i in r.get("images", [])]
+            if (r.get("meta") or {}).get("context_image"):
+                r["meta"]["context_image"] = fix(r["meta"]["context_image"])
+        with (dst / "tasks" / f.name).open("a", encoding="utf-8") as out:
+            out.write("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
+        added[f.stem] = len(rows)
+    for t, n in added.items():
+        dm["counts"][t] = dm["counts"].get(t, 0) + n
+    if dm is not sm and dm.get("split") != sm.get("split"):
+        dm["split"] = "mixed"
+    if sm.get("split_counts"):
+        dm["split_counts"] = {k: dm.get("split_counts", {}).get(k, 0) + v for k, v in sm["split_counts"].items()}
+    if dm.get("kind") and sm.get("kind") and dm["kind"] != sm["kind"]:
+        dm["kind"] = "mixed"
+    dm.setdefault("parts", []).append({"path": rel, "kind": sm.get("kind"), "version": sm.get("version"), "counts": added})
+    (dst / "meta.json").write_text(json.dumps(dm, ensure_ascii=False, indent=1), encoding="utf-8")
+    if (dst / "dataset.json").exists():
+        dj = json.loads((dst / "dataset.json").read_text(encoding="utf-8"))
+        dj["counts"] = dm["counts"]
+        (dst / "dataset.json").write_text(json.dumps(dj, ensure_ascii=False, indent=1), encoding="utf-8")
+    return added
 
 
 # ---------------------------------------------------------------------------
@@ -251,63 +308,45 @@ def describe(root: Path, fmt: str) -> dict:
 # ---------------------------------------------------------------------------
 
 @lru_cache(maxsize=16)
-def _items_cached(path: str, fmt: str, mtime: float) -> dict[str, list[dict]]:
-    root = Path(path)
-    by_task: dict[str, list[dict]] = {}
-    if fmt == "bank_ocr/prepared":
-        for r in _read_jsonl(root / "benchmark_tasks.jsonl"):
-            by_task.setdefault(r["task"], []).append(r)
-    elif fmt == "docgen.bench":
-        for f in sorted((root / "tasks").glob("*.jsonl")):
-            by_task[f.stem] = _read_jsonl(f)
-    else:
-        tasks = {r["id"]: r for r in _read_jsonl(root / "benchmark_tasks.jsonl")} if (root / "benchmark_tasks.jsonl").exists() else {}
-        for it in _read_jsonl(root / "benchmark_items.jsonl"):
-            t = tasks.get(it["id"], {})
-            prompt = next((m["content"] for m in t.get("messages", []) if m.get("role") == "user"), "")
-            by_task.setdefault(it["task"], []).append({**it, "images": t.get("images", []),
-                                                         "prompt": re.sub(r"^(<image>)+", "", prompt)})
-    return by_task
+def _items_cached(path: str, mtime: float) -> dict[str, list[dict]]:
+    return {f.stem: _read_jsonl(f) for f in sorted((Path(path) / "tasks").glob("*.jsonl"))}
 
 
 def _mtime(ds: dict) -> float:
-    root = Path(ds["path"])
-    files = {"bank_ocr/prepared": [root / "benchmark_tasks.jsonl"], "bank_task/prepared": [root / "benchmark_items.jsonl"],
-             "docgen.bench": list((root / "tasks").glob("*.jsonl"))}[ds["format"]]
-    return max((f.stat().st_mtime for f in files if f.exists()), default=0.0)
+    return max((f.stat().st_mtime for f in (Path(ds["path"]) / "tasks").glob("*.jsonl")), default=0.0)
 
 
-def items(ds: dict) -> dict[str, list[dict]]:
-    return _items_cached(ds["path"], ds["format"], _mtime(ds))
+def items(ds: dict, evaluation: bool = False) -> dict[str, list[dict]]:
+    """과제 → 문항. evaluation=True 면 평가 문항만 (문항 meta.split 이 train·val 인 것은 학습용이라 뺀다)."""
+    by = _items_cached(ds["path"], _mtime(ds))
+    if not evaluation:
+        return by
+    out = {t: [r for r in rs if (r.get("meta") or {}).get("split") not in ("train", "val")] for t, rs in by.items()}
+    return {t: rs for t, rs in out.items() if rs}
 
 
 _BOX = re.compile(r"bbox_2d\s*=\s*\[\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\]")
 
 
 def view_item(ds: dict, it: dict) -> dict:
-    """화면에 보일 모양으로: 질문, 이미지(주소), 정답(보기 좋게), 정답 박스(0~1000, 이미지마다)."""
-    if ds["format"] == "bank_ocr/prepared":
-        prompt = next((m["content"] for m in it.get("messages", []) if m.get("role") == "user"), "").replace("<image>\n", "")
-        from docgen.bench.ocr_metrics import parse_target
-
-        target = parse_target(it["target"])
-        boxes = [{"img": 0, "box": t["bbox_2d"], "label": t.get("label", ""), "cls": "gt"} for t in target.get("boxes") or []]
-        m = _BOX.search(prompt)
-        if m:
-            boxes.append({"img": 0, "box": [int(x) for x in m.groups()], "label": "질문 영역", "cls": "ask"})
-        meta = {k: it.get(k) for k in ("document_id", "page_id", "view", "size", "confidence") if it.get(k) is not None}
-        return {"id": it["id"], "task": it["task"], "images": it.get("images", []), "prompt": prompt,
-                "answer": target["text"] if "text" in target else target.get("boxes"),
-                "boxes": boxes, "meta": meta, "unit": 1000}
+    """화면에 보일 모양으로: 질문, 이미지(주소), 정답(보기 좋게), 정답 박스(0~1000, 이미지마다). OCR·업무 과제 모두 같은 꼴."""
     boxes = []
     ans = it.get("answer")
-    if isinstance(ans, list):   # 6단계 이후 kie·marks 답: [{"key","value","bbox_2d","page"}]
+    prompt = it.get("prompt", "")
+    if isinstance(ans, dict) and ("boxes" in ans or "text" in ans):   # OCR 과제: {"text"} / {"boxes": [{bbox_2d, label}]}
+        boxes = [{"img": 0, "box": b["bbox_2d"], "label": b.get("label", ""), "cls": "gt"} for b in ans.get("boxes") or []]
+        ans = ans["text"] if "text" in ans else ans.get("boxes")
+    elif isinstance(ans, list):   # kie·marks 답: [{"key","value","bbox_2d","page"}]
         for a in ans:
             if isinstance(a, dict) and a.get("bbox_2d"):
                 boxes.append({"img": max(0, int(a.get("page", 1)) - 1), "box": a["bbox_2d"],
                               "label": f"{a.get('key', '')} = {a.get('value', '')}", "cls": "gt"})
-    return {"id": it["id"], "task": it["task"], "images": it.get("images", []), "prompt": it.get("prompt", ""),
-            "answer": ans, "boxes": boxes, "meta": it.get("meta", {}), "eval": it.get("eval"), "unit": 1000}
+    m = _BOX.search(prompt)
+    if m:
+        boxes.append({"img": 0, "box": [int(x) for x in m.groups()], "label": "질문 영역", "cls": "ask"})
+    meta = {k: v for k, v in (it.get("meta") or {}).items() if v is not None and k not in ("context_image", "view_ops")}
+    return {"id": it["id"], "task": it["task"], "images": it.get("images", []), "prompt": prompt,
+            "answer": ans, "boxes": boxes, "meta": meta, "eval": it.get("eval"), "unit": 1000}
 
 
 # ---------------------------------------------------------------------------
@@ -378,45 +417,27 @@ def self_scoring(ds: dict, pred: dict) -> str | None:
 
 
 def score(ds: dict, preds: dict[str, str | None]) -> dict:
-    """과제별 점수와 문항별 점수. 답이 없는 문항은 명령줄과 같이 최악 점수로 센다."""
-    by_task = items(ds)
-    if ds["track"] == "ocr":
-        from docgen.bench import ocr_metrics as OM
-
-        rows = [r for rs in by_task.values() for r in rs]
-        have = {r["id"]: OM.answer(preds[r["id"]]) for r in rows if preds.get(r["id"])}   # 빈 답은 답 없음으로 센다
-        full = {r["id"]: have.get(r["id"], "") for r in rows}
-        tasks = OM.evaluate_tasks(rows, full)
-        per = {r["id"]: OM.reward(preds.get(r["id"]) or "", r["task"], r["target"]) for r in rows}
-        return {"track": "ocr", "reference_type": "ocr_pseudo_unreviewed" if ds.get("gt") == "pseudo" else ds.get("gt"),
-                "n": len(rows), "answered": len(have), "tasks": tasks, "main": {t: _ocr_main(t, m) for t, m in tasks.items()},
-                "per_item": per}
+    """과제별 점수와 문항별 점수 (평가 문항만). 모든 과제가 docgen.bench.evaluate.score_task — 명령줄·학습 보고서와 같은 함수.
+    답이 없는 문항은 최악 점수로 센다 (OCR 과제는 빈 글자로)."""
     from docgen.bench import evaluate as E
 
+    by_task = items(ds, evaluation=True)
     tasks, per = {}, {}
-    for t in E.TASK_ORDER:
-        if t in by_task:
+    for t in [*E.TASK_ORDER, *sorted(set(by_task) - set(E.TASK_ORDER))]:
+        if t in by_task and t in E.MAIN:
             res = E.score_task(t, by_task[t], preds)
             for row in res.pop("per_item"):
                 per[row["id"]] = row.get(res["main"])
             tasks[t] = res
-    answered = sum(1 for rs in by_task.values() for r in rs if preds.get(r["id"]))
-    return {"track": "bank", "n": sum(len(v) for v in by_task.values()), "answered": answered, "tasks": tasks,
+    answered = sum(1 for t in tasks for r in by_task[t] if preds.get(r["id"]))
+    refs = {(r.get("meta") or {}).get("reference_type") for t in tasks for r in by_task[t]} - {None}
+    return {"groups": ds.get("groups") or groups_of({t: 1 for t in tasks}), "reference_type": refs.pop() if len(refs) == 1 else None,
+            "n": sum(len(by_task[t]) for t in tasks), "answered": answered, "tasks": tasks,
             "main": {t: {"metric": r["main"], "value": r["metrics"].get(r["main"])} for t, r in tasks.items()},
             "per_item": per}
 
 
-# 1부 비교표(bank_ocr.metrics.REPORT_METRICS)와 같은 대표 지표. cer 은 낮을수록 좋다.
-_OCR_MAIN = {"crop_ocr": "cer", "bbox_ocr": "em", "region_ocr": "cer", "marked_ocr": "em",
-             "grounding": "f1_iou50", "spotting": "e2e_f1", "relation": "e2e_f1", "marked_box": "f1_iou75"}
-LOWER_IS_BETTER = {"cer"}
-
-
-def _ocr_main(task: str, m: dict) -> dict:
-    k = _OCR_MAIN.get(task)
-    if k not in m:
-        k = next((x for x in ("cer", "e2e_f1", "f1_iou50", "f1_iou75", "exact") if x in m), None)
-    return {"metric": k, "value": m.get(k) if k else None}
+LOWER_IS_BETTER = {"cer", "false_alarm", "matched_label_cer"}   # docgen.bench.evaluate.LOWER_IS_BETTER 와 같음
 
 
 def report_files(pred: dict) -> list[dict]:
@@ -440,7 +461,7 @@ def report_files(pred: dict) -> list[dict]:
 def card_markdown(ds: dict, scores: list[dict], trainings: list[dict]) -> str:
     c = ds.get("card", {})
     lines = [f"# {ds['name']}", "",
-             f"- ID: `{ds['id']}` · 벤치마크: {'OCR' if ds['track'] == 'ocr' else '은행 업무'} · 형식: `{ds['format']}`",
+             f"- ID: `{ds['id']}` · 과제: {' · '.join(GROUP_NAME.get(g, g) for g in ds.get('groups') or [])} · 형식: `{ds['format']}`",
              f"- 출처: {SOURCE_NAME.get(ds['source'], ds['source'])} · 정답: {GT_NAME.get(ds['gt'], ds['gt'])}"
              f"{' · **실서류** (저장소·외부 분석기 금지)' if ds.get('real_data') else ''}",
              f"- 폴더: `{ds['path']}`" + (" (등록만 한 폴더, studio 는 읽기만)" if ds.get("registered") else ""),

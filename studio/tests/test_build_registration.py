@@ -21,6 +21,17 @@ def bank_output(root, n=1):
     (root / "dataset.json").write_text(json.dumps({**meta, "recipe": {"about": "생성 당시 설명"}}), encoding="utf-8")
 
 
+def ocr_output(root, studio=None, done=True):
+    """OCR 준비 결과 (과제 형식 tasks/ + meta.json, 쪽 정보, DONE.json 은 마지막)."""
+    (root / "tasks").mkdir(parents=True, exist_ok=True)
+    (root / "pages.jsonl").write_text("")
+    (root / "tasks" / "crop_ocr.jsonl").write_text('{"id":"v0_crop_ocr_0","task":"crop_ocr","answer":{"text":"가"},"meta":{"split":"benchmark"}}\n')
+    (root / "meta.json").write_text(json.dumps({"format": "docgen-tasks/1", "kind": "ocr", "version": "ocr:synthetic-test", "split": "test",
+                                                "counts": {"crop_ocr": 1}, "studio": studio or {}}), encoding="utf-8")
+    if done:
+        (root / "DONE.json").write_text('{"ocr_revision":"synthetic-test"}')
+
+
 def job_record(jobs, output, **kw):
     job = {"id": "build-test", "kind": "build_bank", "status": "interrupted", "started": "2026-10-20 12:00:00",
            "info": {"out": str(output), "recipe": "bank-test"}, **kw}
@@ -83,9 +94,7 @@ def test_recovery_does_not_register_outputs_outside_workspace(tmp_path):
 def test_ocr_only_registers_after_prepare_done_and_keeps_provenance(tmp_path):
     reg, jobs = Registry(tmp_path), Jobs(tmp_path, tmp_path)
     root = tmp_path / "datasets" / "ocr" / "prepared"
-    root.mkdir(parents=True)
-    (root / "pages.jsonl").write_text("")
-    (root / "config.snapshot.json").write_text(json.dumps({"studio": {"source": "synthetic", "gt": "exact", "real_data": False}}))
+    ocr_output(root, {"source": "synthetic", "gt": "exact", "real_data": False}, done=False)
     spec = {"path": str(root), "name": "ocr-finished", "meta": {"dataset_json": "../ocr_set.json"}}
     job_record(jobs, root, kind="build_ocr", info={"dataset": spec})
     recover_completed(jobs, reg)
@@ -160,7 +169,5 @@ def test_new_builds_persist_auto_registration_spec(tmp_path, monkeypatch, track)
     if track == "bank":
         bank_output(Path(spec["path"]))
     else:
-        Path(spec["path"]).mkdir(parents=True)
-        (Path(spec["path"]) / "DONE.json").write_text("{}")
-        (Path(spec["path"]) / "pages.jsonl").write_text("")
+        ocr_output(Path(spec["path"]))
     assert jobs.done({}) == {"dataset": "output"}

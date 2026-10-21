@@ -13,12 +13,14 @@
   POST   /api/training/save               설정 파일 쓰기 + 학습 기록
   GET    /api/trainings                   학습 기록과 진행 (끝난 학습은 평가 세트에 모델 답으로 자동으로 붙음)
 """
+from pathlib import Path
 from typing import Any
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from . import bank_data as BD
+from . import datasets as DS
 from . import catalog
 from . import training_link as TL
 
@@ -104,7 +106,7 @@ def make_router(reg, jobs, guard) -> APIRouter:
         from docgen.roles import catalog as roles_catalog
         counts: dict = {}
         for k, v in reg.load()["datasets"].items():
-            if v["format"] == "docgen.bench":
+            if v["format"] == DS.FORMAT and (Path(v["path"]) / "bundles.jsonl").is_file():
                 try:
                     for b in BD.bundles({**v, "id": k}):
                         counts[b["scenario"]] = counts.get(b["scenario"], 0) + 1

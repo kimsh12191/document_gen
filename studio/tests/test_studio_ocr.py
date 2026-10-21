@@ -72,7 +72,7 @@ def _ocr_ds(tmp_path, name, train_tasks):
     (root / "config.snapshot.json").write_text(json.dumps({"ocr_revision": "r1", "image_max_size": [2300, 1600], "studio": {"gt": "exact"}}),
                                                encoding="utf-8")
     if train_tasks:
-        (root / "train_tasks.jsonl").write_text('{"id": "t"}\n', encoding="utf-8")
+        (root / "train_tasks.jsonl").write_text('{"id": "t", "task": "crop_ocr", "target": "{}"}\n', encoding="utf-8")
     (root / "benchmark_tasks.jsonl").write_text('{"id": "b", "task": "crop_ocr", "target": "{}"}\n', encoding="utf-8")
     return root
 

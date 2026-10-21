@@ -37,12 +37,11 @@ function bindLabeledImport() {
           <select id="li-page" aria-label="미리볼 쪽"></select></div><div id="li-preview"></div></details>
         <div class="bar" style="margin-top:12px">
           <label>데이터셋 이름 <input id="li-name" value="${esc(r.meta.name)}"></label>
-          <label>종류 <select id="li-track"><option value="bank">은행 업무 (항목 라벨)</option>
-            <option value="ocr" ${s.full_ocr ? "" : "disabled"}>OCR (쪽 전체 정답${s.full_ocr ? "" : " 필요"})</option></select></label>
           <label>용도 <select id="li-split"><option value="test">평가</option><option value="train">학습</option></select></label>
         </div>
-        <div class="bar" id="li-tasks">${[["classify","문서 분류"],["kie","항목 추출"],["marks","체크·도장·서명"],["ocr_field","값 칸 OCR"],["doc_check","서류 구비"],["review","직접 비교·심사"]].map(([id, name]) =>
-          `<label><input type="checkbox" data-li-task="${id}" checked>${name}</label>`).join("")}</div>
+        <div class="bar" id="li-tasks"><span class="muted">과제 (한 데이터셋에 함께):</span>${[["classify","문서 분류"],["kie","항목 추출"],["marks","체크·도장·서명"],["ocr_field","값 칸 OCR"],["doc_check","서류 구비"],["review","직접 비교·심사"]].map(([id, name]) =>
+          `<label><input type="checkbox" data-li-task="${id}" checked>${name}</label>`).join("")}
+          <label title="${s.full_ocr ? "쪽 전체 OCR 정답으로 OCR 8과제" : "모든 쪽의 OCR 정답과 ocr_scope:full_page 가 필요합니다"}"><input type="checkbox" data-li-task="ocr" ${s.full_ocr ? "" : "disabled"}>쪽 OCR 8과제${s.full_ocr ? "" : " (쪽 전체 정답 필요)"}</label></div>
         <p class="sub">업무 묶음은 bundles.jsonl과 저장된 ③ 처리 설정을 사용합니다. 값이나 근거가 없는 작업은 사유를 남기고 생략합니다.
           구비 검사는 명의를 확인한 not_customer 목록(타인 서류가 없으면 [])이 필요합니다. 합성 변조 사례는 적용하지 않습니다.</p>
         <label><input type="checkbox" id="li-confirm">라벨 정답 종류와 문서·쪽·고객별 묶음 연결을 확인했습니다.</label>
@@ -55,12 +54,11 @@ function bindLabeledImport() {
       };
       const doc = () => { const d = r.documents[+$("#li-doc").value].label; $("#li-page").innerHTML = d.images.map((_, i) => `<option value="${i}">${i + 1}쪽</option>`).join(""); show(); };
       $("#li-doc").onchange = doc; $("#li-page").onchange = show; doc();
-      $("#li-track").onchange = () => { $("#li-tasks").hidden = $("#li-track").value !== "bank"; };
       $("#li-confirm").onchange = () => { $("#li-build").disabled = !$("#li-confirm").checked; };
       $("#li-build").onclick = async () => {
         const button = $("#li-build"); button.disabled = true; $("#li-confirm").disabled = true;
         try {
-          const result = await api(`/api/labeled-imports/${r.token}/build`, {name: $("#li-name").value.trim(), track: $("#li-track").value,
+          const result = await api(`/api/labeled-imports/${r.token}/build`, {name: $("#li-name").value.trim(),
             split: $("#li-split").value, tasks: $$("[data-li-task]:checked").map(x => x.dataset.liTask), confirmed: true});
           if (!root.isConnected) return;
           toast("생성을 시작했습니다. 완료 후 ⑥ 목록에 자동 등록됩니다");

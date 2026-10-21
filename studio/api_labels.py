@@ -57,9 +57,8 @@ def make_router(reg, jobs, guard, cfg):
 
     class BuildReq(BaseModel):
         name: str
-        track: str = 'bank'
         split: str = 'test'
-        tasks: list[str] = ['classify', 'kie', 'marks', 'ocr_field', 'doc_check', 'review']
+        tasks: list[str] = ['classify', 'kie', 'marks', 'ocr_field', 'doc_check', 'review']   # 'ocr' = 쪽 OCR 8과제
         confirmed: bool = False
 
     @r.post('/api/labeled-imports/{token}/build')
@@ -67,13 +66,14 @@ def make_router(reg, jobs, guard, cfg):
         path, report = checked(token)
         if not req.confirmed:
             raise HTTPException(400, '라벨과 문서 연결을 확인한 뒤 등록하세요')
-        if req.track not in ('bank', 'ocr') or req.split not in ('test', 'train'):
-            raise HTTPException(400, '벤치마크 종류 또는 용도가 잘못되었습니다')
-        if req.track == 'bank' and (not req.tasks or any(t not in L.BANK_TASKS for t in req.tasks)):
+        if req.split not in ('test', 'train'):
+            raise HTTPException(400, '용도가 잘못되었습니다')
+        if not req.tasks or any(t not in (*L.BANK_TASKS, L.OCR) for t in req.tasks):
             raise HTTPException(400, '지원하는 과제를 하나 이상 고르세요')
-        if req.track == 'ocr' and not report['summary']['full_ocr']:
-            raise HTTPException(400, '모든 쪽의 OCR 정답과 ocr_scope:full_page가 필요합니다')
-        if req.track == 'ocr' and req.split == 'train' and report['summary']['documents'] < 2:
+        ocr = L.OCR in req.tasks
+        if ocr and not report['summary']['full_ocr']:
+            raise HTTPException(400, '쪽 OCR 과제는 모든 쪽의 OCR 정답과 ocr_scope:full_page가 필요합니다')
+        if ocr and req.split == 'train' and report['summary']['documents'] < 2:
             raise HTTPException(400, 'OCR 학습용은 문서가 2건 이상 필요합니다')
         if not req.name.strip():
             raise HTTPException(400, '데이터셋 이름을 입력하세요')
@@ -86,13 +86,14 @@ def make_router(reg, jobs, guard, cfg):
         except FileExistsError:
             raise HTTPException(400, '같은 이름의 결과 폴더가 있습니다. 다른 이름을 입력하세요')
         request = checks / token / (uuid.uuid4().hex + '.json')
-        L.write(request, {'check': str(path.resolve()), 'out': str(out.resolve()), 'track': req.track,
+        L.write(request, {'check': str(path.resolve()), 'out': str(out.resolve()),
                           'split': req.split, 'tasks': list(dict.fromkeys(req.tasks))})
-        spec = {'path': str((out if req.track == 'bank' else out / 'prepared').resolve()), 'name': _slug(req.name),
+        bank = any(t in L.BANK_TASKS for t in req.tasks)
+        spec = {'path': str(out.resolve()), 'name': _slug(req.name),
                 'meta': {'source': 'results', 'gt': report['meta']['gt'], 'real_data': report['meta']['real_data'],
-                         'dataset_json': 'dataset.json' if req.track == 'bank' else '../import_set.json',
+                         'dataset_json': 'dataset.json' if bank else 'ocr/import_set.json',
                          'purpose': f'표준 라벨 가져오기: {report["meta"]["name"]}'}}
-        job = jobs.start('build_bank' if req.track == 'bank' else 'build_ocr', f'라벨 데이터 가져오기: {req.name}',
+        job = jobs.start('build_tasks', f'라벨 데이터 가져오기: {req.name}',
                          [python(), '-m', 'studio.labeled_data', '--request', str(request.resolve())],
                          lambda job: register_output(reg, spec), {'dataset': spec, 'label_import': token})
         return {'job': job['id'], 'name': _slug(req.name)}

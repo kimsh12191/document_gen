@@ -322,8 +322,8 @@ def bank_training_config(registry, train_ids: list[str], bench_id: str, ocr_id: 
         if i not in reg:
             raise KeyError(i)
     bench = reg[bench_id]
-    if bench["format"] != "docgen.bench":
-        raise ValueError("평가 세트는 docgen.bench 형식(은행 업무)이어야 합니다")
+    if bench["format"] != "docgen-tasks" or "ocr" in bench.get("groups", []) and len(bench.get("groups", [])) == 1:
+        raise ValueError("평가 세트는 문서·업무 과제가 있는 과제 폴더여야 합니다")
     meta = json.loads((Path(bench["path"]) / "meta.json").read_text(encoding="utf-8"))
     if meta.get("split", "test") != "test":
         raise ValueError("평가 세트로 test split 데이터셋을 고르세요")
@@ -343,7 +343,7 @@ def bank_training_config(registry, train_ids: list[str], bench_id: str, ocr_id: 
     cfg = {"workdir": f"../runs/{_slug(name)}", "data": data}
     if ocr_id:
         ocr = reg[ocr_id]
-        if ocr["format"] != "bank_ocr/prepared":
+        if "ocr" not in ocr.get("groups", []) or not (Path(ocr["path"]) / "train_sft.jsonl").is_file():
             raise ValueError("OCR 유지용으로는 1부 OCR 데이터셋을 고르세요")
         op = to_train_path(ocr["path"], pm)
         data["replay"] = {"path": f"{op}/train_sft.jsonl", "count": 3000}

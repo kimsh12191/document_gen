@@ -84,12 +84,12 @@ def ocr_training_config(registry, train_ids: list[str], bench_id: str, name: str
     for i in (t, bench_id):
         if i not in reg:
             raise KeyError(i)
-        if reg[i]["format"] != "bank_ocr/prepared":
+        if not (Path(reg[i]["path"]) / "DONE.json").is_file():
             raise ValueError(f"{i}: 1부 OCR 데이터셋(prepare 결과)이 아닙니다")
     root = Path(reg[t]["path"])
-    n_train = (reg[t].get("counts") or {}).get("train_tasks", 0)
+    n_train = (reg[t].get("counts") or {}).get("train_items", 0)
     if not n_train:
-        raise ValueError(f"{t}: 학습 문항(train_tasks)이 없습니다 (평가 전용 세트는 학습에 쓸 수 없음)")
+        raise ValueError(f"{t}: 학습 문항(meta.split=train)이 없습니다 (평가 전용 세트는 학습에 쓸 수 없음)")
     warn = []
     if bench_id != t:
         warn.append("1부 파이프라인은 학습 데이터셋 안의 benchmark 로 평가합니다. 고른 평가 세트에는 결과를 붙이기만 합니다")

@@ -13,7 +13,7 @@ import threading
 import time
 from pathlib import Path
 
-BUILD_KINDS = {"build_bank", "build_ocr"}
+BUILD_KINDS = {"build_bank", "build_ocr", "build_tasks"}   # build_tasks: 라벨 있는 데이터 (업무 + 쪽 OCR 을 한 폴더로)
 _LOCK = threading.Lock()
 
 
@@ -59,11 +59,16 @@ def _complete(registry, job: dict, spec: dict) -> bool:
     if not root.is_relative_to((registry.ws / "datasets").resolve()):
         return False
     try:
-        if job["kind"] == "build_bank":
-            manifest = json.loads((root / "dataset.json").read_text(encoding="utf-8"))
+        # 과제 폴더(docgen-tasks): meta.json 문항 수 = tasks/ 줄 수, dataset.json 이 있으면 그 수와도 같음,
+        # OCR 준비 폴더(pages.jsonl)는 DONE.json 을 마지막에 쓴다
+        if (root / "meta.json").is_file():
             meta = json.loads((root / "meta.json").read_text(encoding="utf-8"))
             counts = meta.get("counts")
-            if not isinstance(counts, dict) or not counts or manifest.get("counts") != counts:
+            if not isinstance(counts, dict) or not counts:
+                return False
+            if (root / "dataset.json").is_file() and json.loads((root / "dataset.json").read_text(encoding="utf-8")).get("counts") != counts:
+                return False
+            if (root / "pages.jsonl").is_file() and not (root / "DONE.json").is_file():
                 return False
             for task, count in counts.items():
                 # 작업 파일 이름은 과제 ID여야 한다. 다른 경로를 읽지 않는다.
@@ -73,9 +78,7 @@ def _complete(registry, job: dict, spec: dict) -> bool:
                     if sum(1 for line in f if line.strip()) != count:
                         return False
             return bool(meta.get("version"))
-        # 1부 prepare는 모든 파일을 저장한 뒤 DONE.json을 마지막으로 쓴다.
-        done = json.loads((root / "DONE.json").read_text(encoding="utf-8-sig"))
-        return isinstance(done, dict) and (root / "pages.jsonl").is_file()
+        return False
     except (OSError, ValueError, TypeError):
         return False
 

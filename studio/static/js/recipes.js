@@ -15,7 +15,7 @@ async function recipesPanel() {
       <b>새로 만들기</b> <span class="muted">레시피로 생성합니다. 완료하면 아래 등록 목록에 자동으로 추가됩니다. 폴더를 다시 등록할 필요가 없습니다.</span>
       ${r.recipes.length ? table(r.recipes, [
         ["name", "레시피", x => `<a href="#/recipes/${encodeURIComponent(x.name)}">${esc(x.name)}</a>`],
-        ["track", "벤치마크", x => esc(TRACK_NAME[x.track || "bank"])], ["split", "용도", x => x.split === "train" ? "학습 데이터" : "평가 세트"],
+        ["track", "만드는 과제", x => x.track === "ocr" ? "쪽 OCR 8과제" : "문서 이해·업무 처리"], ["split", "용도", x => x.split === "train" ? "학습 데이터" : "평가 세트"],
         ["about", "설명"],
         ["go", "", x => `<input type="text" data-outname="${esc(x.name)}" value="${esc(x.name)}-${new Date().toISOString().slice(0, 10)}" style="width:200px" required>
           <label>프로세스 <input type="number" data-workers="${esc(x.name)}" value="4" min="1" max="32" style="width:52px" required></label>
@@ -143,7 +143,7 @@ function viewOcrRecipe(name, r, opts) {
     <div class="muted"><a href="#/datasets">데이터셋</a> › 레시피 (합성 OCR)</div>
     <h1>${esc(name)} <span class="muted mono" style="font-size:13px">docgen/recipes/${esc(name)}.json</span></h1>
     <div class="bar"><button class="primary" id="rc-save">저장</button><button id="rc-del">지우기</button>
-      <span class="muted">python -m docgen.ocr_set build --recipe … → 1부 bank_ocr prepare</span></div>
+      <span class="muted">python -m docgen.ocr_set build --recipe … → OCR 준비(docgen.bench.ocr_prepare)</span></div>
     <div class="rc-grid">
       <div class="panel"><b>무엇을</b>
         <label class="fld">설명 <input type="text" id="rc-about" value="${esc(r.about || "")}"></label>
