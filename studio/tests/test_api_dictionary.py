@@ -2,8 +2,10 @@
 import shutil
 
 import pytest
-from fastapi import FastAPI
-from fastapi.testclient import TestClient
+
+pytest.importorskip("httpx2", reason="fastapi TestClient 가 쓰는 httpx2 없음 (도커 이미지에는 넣지 않음)")
+from fastapi import FastAPI  # noqa: E402
+from fastapi.testclient import TestClient  # noqa: E402
 
 from docgen import dictionary as DIC
 from studio import api_dictionary as AD

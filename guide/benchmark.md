@@ -39,7 +39,7 @@ python -m docgen.bench eval --bench bench_out --pred preds/model_a --pred preds/
 | `run` | Pillow, 그리고 컨테이너에서 모델 서버(vLLM 등) 주소로 나가는 네트워크 |
 | `eval` | 파이썬 표준 라이브러리만 (생성기 코드 import) |
 
-docgen 도커 컨테이너를 띄우는 방법은 [docker/README.md](../docker/README.md)에 있습니다. 컨테이너에 SSH로 접속하면 코드 폴더에서 시작하고, 결과는 `/out`(서버 폴더와 연결)에 둡니다.
+docgen 도커 컨테이너를 띄우는 방법은 [docker/README.md](../docker/README.md)에 있습니다. 서버에서 `sh docker/studio.sh shell` 로 컨테이너에 들어가면 코드 폴더에서 시작하고, 결과는 `/out`(서버 폴더와 연결)에 둡니다.
 
 ```bash
 # 예: docgen 컨테이너 안에서 평가 세트 만들기

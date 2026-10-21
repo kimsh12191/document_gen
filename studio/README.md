@@ -16,7 +16,7 @@ python -m studio --host 0.0.0.0       # 서버에서 띄우고 다른 PC 브라�
 
 - **렌더링 브라우저:** Playwright 의 Chromium 이 없으면 설정의 `browser` → 환경변수 `CHROMIUM_PATH` → 이 PC의 Chrome·Edge 순으로 찾는다. 회사망에서 `playwright install chromium` 이 인증서 오류로 막혀도 설치된 Chrome 으로 돈다.
 - **설정:** `studio/config.json` (git 제외). 바꿀 항목만 적는다. 예시는 [config.example.json](config.example.json).
-- **내부망:** docgen 도커 컨테이너(Chromium·글꼴 포함)에서 띄우고, 윈도우 PC에서 SSH 터널로 접속한다. 이미지는 새로 반입하지 않는다. studio 패키지는 코드에 든 Linux 설치 파일(`studio/wheels/`)로 컨테이너 안에서 `python -m studio.deps install` 한 번이면 된다. 순서는 [docker/README.md 4절](../docker/README.md#4-studio-띄우기-같은-컨테이너).
+- **내부망:** Linux 서버의 저장소 폴더에서 `sh docker/studio.sh` 한 번이면 docgen 1.2 이미지(Chromium·글꼴·studio 패키지 포함)로 studio 컨테이너가 뜨고, 윈도우 PC에서 SSH 터널로 접속한다. 코드는 마운트라 고치거나 새 코드 묶음을 풀면 studio 가 저절로 다시 뜬다(컨테이너 그대로). 1.1 이미지만 있으면 `python -m studio.deps install` 로 패키지를 넣는다. 순서는 [docker/README.md 3절](../docker/README.md#3-studio-띄우기).
   - 설치 파일 새로 받기(인터넷 되는 PC, 패키지 판을 바꿀 때만): `python -m studio.deps download`
   - 학습은 별도 학습 컨테이너에서 한다. 두 컨테이너는 폴더를 공유하고, 경로가 다르면 설정의 `path_map`으로 맞춘다([TRAINING.md](TRAINING.md)).
 - **브라우저가 없을 때:** studio는 그대로 뜨고 렌더링(미리보기·합성 데이터 만들기)만 꺼진다. 등록부·평가·검수처럼 렌더링이 필요 없는 화면은 쓸 수 있다.

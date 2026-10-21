@@ -1,70 +1,114 @@
 # docgen 도커 이미지 (내부망 반입)
 
-인터넷 없는 내부망 Linux 서버에서 docgen(합성 서류·벤치마크 생성기)을 돌리고, 윈도우 PC 에서 SSH 로 컨테이너에 접속해 쓰는 방법입니다.
-같은 컨테이너에서 은행 업무 데이터 만들기([3절](#은행-업무-데이터-만들기))와 studio 화면([4절](#4-studio-띄우기-같은-컨테이너))도 합니다.
-GPU 학습(`train/`, `python -m train`)은 이 컨테이너가 아니라 따로 있는 학습 환경에서 합니다.
+인터넷 없는 내부망 Linux 서버에서 studio(서식·데이터셋 관리 웹 화면)와 docgen(합성 서류·벤치마크 생성기)을 돌리는 방법입니다.
+윈도우 PC 에서 Linux 서버로 SSH 접속하고, 서버에서 컨테이너 하나(`docgen-studio`)를 띄워 씁니다.
+GPU 학습(`train/`, `python -m train`)은 이 컨테이너가 아니라 따로 있는 학습 컨테이너에서 하고, 결과 폴더만 공유합니다.
 
-이미지에는 실행 환경(파이썬·글꼴·Chromium·SSH)만 들어가고, 코드(이 저장소)는 따로 반입해 `/home/docgen/document_gen` 에 마운트합니다.
-이미지의 `PYTHONPATH` 가 그 코드 폴더(저장소 최상위)라서 코드 묶음만 바꾸면 되고, 이미지는 코드가 바뀌어도 다시 만들 필요가 없습니다.
+```
+[윈도우 PC 브라우저] ──SSH 터널──▶ [내부망 Linux 서버 127.0.0.1:8765]
+                                          │
+                     [docgen-studio 컨테이너: studio + Chromium + 글꼴 + 파이썬]
+                       코드 = 서버의 ~/docgen/document_gen (마운트, 고치면 studio 가 저절로 다시 뜸)
+                       /out = 서버의 ~/docgen/data ──▶ 학습 컨테이너와 공유
+```
+
+이미지에는 실행 환경만 들어가고, 코드(이 저장소)는 따로 반입해 컨테이너에 마운트합니다.
+그래서 코드가 바뀌면 코드 묶음만 다시 반입하면 되고, 이미지는 다시 만들 필요가 없습니다.
 
 | 파일 | 역할 |
 |---|---|
-| `docker/Dockerfile` | 실행 환경 이미지 |
-| `docker/build.sh` | 이미지 빌드 + 코드 묶음 + 네트워크를 끊은 테스트 + 반입 파일 저장 |
+| `docker/studio.sh` | **서버에서 직접 쓰는 것.** studio 컨테이너 만들기·켜기, 포트, 로그, 셸, 지우기 |
+| `docker/build.sh` | 인터넷 되는 PC 에서 반입 파일 두 개 만들기 (이미지 빌드 + 코드 묶음 + 네트워크를 끊은 테스트) |
+| `docker/Dockerfile` | 이미지: 파이썬·글꼴·Chromium·studio 패키지·SSH 서버 |
 | `docker/requirements.lock` | 이미지에 넣는 파이썬 패키지 (판 고정) |
-| `docker/entrypoint.sh`, `docker/sshd_config` | 컨테이너 시작: SSH 호스트 키·계정 준비 후 sshd |
-| `docker/profile.sh` | SSH 로 들어오면 환경변수를 잡고 코드 폴더로 이동 |
+| `docker/entrypoint.sh` | 컨테이너 시작. `studio` 인자면 studio, 없으면 SSH 서버([6절](#6-선택-컨테이너에-ssh-로-바로-들어가기)) |
+| `docker/sshd_config`, `docker/profile.sh` | SSH 서버 설정, 로그인하면 환경변수를 잡고 코드 폴더로 이동 |
 
-## 1. 반입 파일 만들기 (인터넷 되는 PC, Linux 또는 WSL)
+## 1. 반입 파일 만들기 (인터넷 되는 PC)
 
-저장소 최상위에서:
-
-```bash
-sh docker/build.sh 1.1
-#  docgen-image-1.1.tar.gz  실행 환경 (약 390MB). 코드가 바뀌어도 다시 만들 필요 없음
-#  docgen-code-1.1.tar.gz   코드 (이 저장소 전체: docgen/·train/·studio/ …, 약 60MB). 견본 이미지 docgen/samples/ 는 뺌
-```
-
-`1.1` 은 붙일 버전 이름입니다. 코드만 바뀌었으면 이미지는 그대로 두고 `docgen-code-*.tar.gz` 만 새로 반입합니다.
-
-사내 프록시가 HTTPS 를 검사하는 망이면 `build.sh` 의 `docker build` 줄에 `--secret id=ca,src=회사CA.crt` 를, 사내 Ubuntu 미러를 쓰려면
-`--build-arg APT_MIRROR=https://미러/ubuntu` 를 붙이세요 (둘 다 빌드 중에만 쓰이고 이미지에는 남지 않습니다).
-빌드 후 네트워크를 끊은 컨테이너에서 테스트까지 돌립니다. Chromium 은 Microsoft 공식 Playwright 이미지
-(`mcr.microsoft.com/playwright/python`)에서 가져오므로 Playwright 다운로드 서버가 막힌 망에서도 빌드됩니다.
-
-## 2. 내부망 서버에 설치
+저장소 최상위에서 (Linux·WSL, 또는 Docker Desktop 이 있는 윈도우의 Git Bash). 코드 묶음은 git 의 마지막 커밋으로 만드니 먼저 커밋합니다.
 
 ```bash
-docker load -i docgen-image-1.1.tar.gz
-mkdir -p ~/docgen && tar -xzf docgen-code-1.1.tar.gz -C ~/docgen    # ~/docgen/document_gen
-mkdir -p ~/docgen/data
-
-docker run -d --name docgen --restart unless-stopped \
-  -p 2222:22 --shm-size=1g \
-  -e DOCGEN_PASSWORD='비밀번호' \
-  -v ~/docgen/document_gen:/home/docgen/document_gen \
-  -v ~/docgen/data:/out \
-  -v docgen-ssh:/etc/ssh/keys \
-  docgen:1.1
+sh docker/build.sh 1.2
+#  docgen-image-1.2.tar.gz  실행 환경 (약 410MB). 코드가 바뀌어도 다시 만들 필요 없음
+#  docgen-code-1.2.tar.gz   코드 (이 저장소 전체: docgen/·train/·studio/ …, 약 80MB). 견본 이미지 docgen/samples/ 는 뺌
 ```
 
-- `--shm-size=1g`: Chromium 이 공유 메모리가 모자라면 죽습니다.
-- `docgen-ssh` 볼륨: SSH 호스트 키를 보관해, 이미지를 바꿔 컨테이너를 새로 만들어도 접속 경고가 나지 않습니다.
-- 비밀번호 대신 공개키: `-e SSH_PUBLIC_KEY="$(cat id_ed25519.pub)"` 또는 `-v <파일>:/etc/docgen/authorized_keys:ro`.
-  둘 다 없고 `DOCGEN_PASSWORD` 도 없으면 임의 비밀번호를 만들어 `docker logs docgen` 에 남깁니다.
-- 코드 업데이트: 새 `docgen-code-*.tar.gz` 를 같은 자리에 풀고 끝 (컨테이너 재시작 불필요).
-  2026-10-20 재배치(`docgen/`·`studio/` …)와 2026-10-21 학습 통합(`ocr/`·`bank/` → `train/`) 뒤의 코드도 같은 이미지로 돕니다. 풀고 나면 옛 폴더(`scripts/`, `templates/`, `training/`, `ocr/`, `bank/` …)가 남지만 쓰이지 않습니다. `training/` 아래 git 에 없는 데이터·결과를 옮기는 방법은 [저장소 README](../README.md#예전-구조에서-옮겨-올-때)에 있습니다.
+`1.2` 는 붙일 버전 이름입니다. 빌드 뒤 네트워크를 끊은 컨테이너에서 테스트까지 돌립니다 (약 15분).
 
-## 3. 윈도우에서 접속
+- 사내 프록시가 HTTPS 를 검사하는 망이면 `build.sh` 의 `docker build` 줄에 `--secret id=ca,src=회사CA.crt` 를,
+  사내 Ubuntu 미러를 쓰려면 `--build-arg APT_MIRROR=https://미러/ubuntu` 를 붙이세요 (둘 다 빌드 중에만 쓰이고 이미지에는 남지 않습니다).
+- Chromium 은 Microsoft 공식 Playwright 이미지(`mcr.microsoft.com/playwright/python`)에서 가져오므로 Playwright 다운로드 서버가 막힌 망에서도 빌드됩니다.
+- 이미지 크기는 대부분 렌더링에 꼭 필요한 것입니다: Chromium 260MB, Playwright 의 Node 120MB, 한글·CJK 글꼴 240MB (압축 전).
 
-윈도우 10/11 에는 OpenSSH 클라이언트가 기본으로 있습니다 (PowerShell).
+## 2. 내부망 서버: 처음 한 번
+
+```bash
+docker load -i docgen-image-1.2.tar.gz
+mkdir -p ~/docgen && tar -xzf docgen-code-1.2.tar.gz -C ~/docgen    # → ~/docgen/document_gen
+```
+
+studio 설정 — 코드 폴더의 `studio/config.json` (git 에 없음, 예시: [studio/config.example.json](../studio/config.example.json)). 데이터셋과 검수 결과는 공유 폴더(`/out`)에 둡니다.
+
+```json
+{
+  "workspace_dir": "/out/studio_workspace",
+  "real_data_dir": "/out/real",
+  "path_map": {"/out": "<학습 컨테이너에서 같은 폴더가 보이는 경로>"}
+}
+```
+
+- `path_map`: 두 컨테이너가 같은 폴더를 다른 경로로 볼 때, studio 가 학습 설정(`train/configs/studio-<이름>.json`)을 내보내며 경로를 바꿔 씁니다.
+- `host`·`port`·`browser` 는 컨테이너에서 쓰지 않습니다 (포트는 `studio.sh -p`).
+
+## 3. studio 띄우기
+
+Linux 서버에서 (컨테이너 밖):
+
+```bash
+cd ~/docgen/document_gen
+sh docker/studio.sh            # 컨테이너가 없으면 만들고, 꺼져 있으면 켜고, 떠 있으면 접속 방법만 보여 줌
+sh docker/studio.sh -p 9000    # 포트 바꾸기 (기본 8765). 다음부터는 -p 없이도 9000
+```
+
+윈도우 PC 에서 (PowerShell). 이 창을 켜 둔 동안 브라우저에서 `http://localhost:8765` 로 들어갑니다. `studio.sh` 가 끝에 맞는 명령을 보여 줍니다.
 
 ```powershell
-ssh -p 2222 docgen@<서버IP>
-scp -P 2222 -r docgen@<서버IP>:/out/bench_out .\     # 결과 가져오기 (WinSCP 도 SFTP 로 접속 가능)
+ssh -N -L 8765:localhost:8765 <서버 계정>@<서버IP>
 ```
 
-접속하면 코드 폴더에서 시작합니다. 결과는 `/out` (서버의 `~/docgen/data`)에 저장하세요.
+| 명령 | 하는 일 |
+|---|---|
+| `sh docker/studio.sh` | 띄우기 |
+| `sh docker/studio.sh -p <포트>` | 포트 바꾸기 (컨테이너를 새 포트로 다시 만듦) |
+| `sh docker/studio.sh logs` | 로그 보기 (Ctrl+C 는 보기만 종료) |
+| `sh docker/studio.sh shell` | 컨테이너 안 터미널 ([5절](#5-명령줄로-데이터-만들기)) |
+| `sh docker/studio.sh restart` | 다시 띄우기 (`studio/config.json` 을 바꿨을 때) |
+| `sh docker/studio.sh rm` | 컨테이너 지우기 (이미지·코드·데이터는 그대로). 새 이미지를 반입했으면 지우고 다시 띄움 |
+
+- 컨테이너는 `--restart unless-stopped` 라 서버를 다시 켜도 studio 가 저절로 뜹니다.
+- 포트는 서버의 `127.0.0.1` 에만 엽니다. studio 에는 로그인이 없어 같은 망의 다른 PC 가 바로 들어오지 못하게 하려는 것입니다. 서버에 원격 데스크톱으로 들어가 있다면 서버의 브라우저에서 바로 `http://localhost:8765`.
+- 컨테이너 안 계정 번호를 서버 사용자와 맞춰 띄우므로, studio 가 만든 파일도 서버 사용자 것입니다.
+- 기본값 바꾸기 (환경변수): `DOCGEN_IMAGE=docgen:1.2`, `DOCGEN_DATA=~/docgen/data`(→ `/out`), `STUDIO_NAME=docgen-studio`.
+- 원본 서식 배경 캐시(약 165MB)는 `docgen-cache` 볼륨에 남아, 컨테이너를 다시 만들어도 새로 그리지 않습니다.
+
+## 4. 코드 업데이트
+
+새 `docgen-code-*.tar.gz` 를 같은 자리에 풀면 끝입니다. 컨테이너·이미지는 그대로 둡니다.
+
+```bash
+tar -xzf docgen-code-1.3.tar.gz -C ~/docgen
+```
+
+- `studio/`·`docgen/` 의 `.py` 가 바뀌면 studio 가 몇 초 안에 다시 뜹니다. 화면 파일(`studio/static`)은 브라우저 새로고침만 하면 됩니다. 서버에서 파일을 직접 고쳐도 같습니다.
+- `studio/config.json` 은 코드 묶음에 없으므로 덮어써지지 않습니다.
+- 다시 뜰 때 돌고 있던 ⑧ 작업은 "끊김"으로 표시됩니다 (생성은 끝까지 돌고, 끝난 데이터셋은 ⑥ 목록에서 자동 등록이 복구됨). 긴 빌드 중에는 코드 반입을 미루세요.
+- 풀어도 지워진 파일은 남습니다. 2026-10-20 재배치·2026-10-21 학습 통합(`ocr/`·`bank/` → `train/`) 전 코드에서 넘어왔다면 옛 폴더(`scripts/`, `templates/`, `training/`, `ocr/`, `bank/` …)가 남지만 쓰이지 않습니다. `training/` 아래 git 에 없는 데이터·결과를 옮기는 방법은 [저장소 README](../README.md#예전-구조에서-옮겨-올-때)에 있습니다.
+- 이미지는 `docker/Dockerfile`·`docker/requirements.lock`·`studio/requirements.txt` 가 바뀌었을 때만 새로 반입합니다. 반입 뒤 `sh docker/studio.sh rm` → `DOCGEN_IMAGE=docgen:<새 버전> sh docker/studio.sh`.
+
+## 5. 명령줄로 데이터 만들기
+
+같은 컨테이너에서 합니다. `sh docker/studio.sh shell` 로 들어가면 코드 폴더에서 시작하고, 결과는 `/out` (서버의 `~/docgen/data`)에 둡니다.
 
 ```bash
 python -m docgen generate --types all --n 3 --out /out/gen --png --augment 2
@@ -80,68 +124,44 @@ python -m docgen.bench eval --bench /out/bench --pred /out/preds/m1
 학습(`python -m train`)에 쓸 평가 세트(`/out/bench`)와 학습 데이터(`/out/bank_train`)를 한 번 만들어 둡니다 (8코어 약 1시간 15분, 약 19GB).
 
 ```bash
-bash docgen/scripts/make_bank_data.sh          # 백그라운드로 시작. SSH 를 끊어도 계속
+bash docgen/scripts/make_bank_data.sh          # 백그라운드로 시작. 셸을 나가도 계속
 tail -f /out/logs/make_bank_data.log           # "전부 완료" 가 나오면 끝
 ```
 
-SSH 없이 서버 터미널에서: `docker exec -u docgen docgen bash -lc 'bash ~/document_gen/docgen/scripts/make_bank_data.sh'`
-
 양·출력 위치(`OUT`, `TRAIN_BUNDLES`, `BENCH_BUNDLES` …)는 `docgen/scripts/make_bank_data.sh` 맨 위 주석에 있습니다. 컨테이너의 `/out` 은 서버의 `~/docgen/data` 이므로, 학습 설정(`data.train`·`data.benchmark`)에는 서버 경로(`~/docgen/data/bench` 의 절대 경로)를 씁니다 ([guide/tutorial.md](../guide/tutorial.md) 4절).
 
-## 4. studio 띄우기 (같은 컨테이너)
+결과 파일을 윈도우로 가져오기: `scp -r <서버 계정>@<서버IP>:docgen/data/bench_out .\` (WinSCP 도 SFTP 로 접속 가능).
 
-studio(서식·데이터셋 관리 웹 화면, [studio/README.md](../studio/README.md))도 이 컨테이너에서 띄웁니다. Chromium·글꼴이 이미 있어 미리보기가 실제 생성 데이터와 같은 이미지로 나옵니다. **이미지를 새로 반입하지 않아도 됩니다.** 학습 컨테이너는 따로 두고, 폴더만 공유합니다.
+## 6. (선택) 컨테이너에 SSH 로 바로 들어가기
 
-```
-[윈도우 PC 브라우저] ──SSH 터널 (2222)──▶ [docgen 컨테이너: studio + Chromium + 글꼴]
-                                              │ 공유 폴더 (/out = 서버의 ~/docgen/data …)
-[학습 컨테이너: train/]       ◀── 같은 데이터·결과 폴더 ──┘
-```
-
-**① 처음 한 번: studio 패키지 설치.** 1.1 이미지에는 fastapi·uvicorn이 없습니다. 코드 묶음에 Linux용 설치 파일(`studio/wheels/`, 약 3.4MB)이 들어 있으므로 컨테이너 안에서 설치만 합니다(인터넷 불필요).
+서버 계정 없이 컨테이너에 직접 SSH 로 들어가야 할 때만 씁니다. 같은 이미지를 인자 없이 띄우면 SSH 서버가 뜹니다.
 
 ```bash
-ssh -p 2222 docgen@<서버IP>
-python -m studio.deps install          # → ~/document_gen/studio_deps/ (코드 폴더 안이라 컨테이너를 새로 만들어도 남음)
+docker run -d --name docgen --restart unless-stopped \
+  -p 2222:22 --shm-size=1g \
+  -e DOCGEN_PASSWORD='비밀번호' \
+  -v ~/docgen/document_gen:/home/docgen/document_gen \
+  -v ~/docgen/data:/out \
+  -v docgen-ssh:/etc/ssh/keys \
+  -v docgen-cache:/home/docgen/.cache \
+  docgen:1.2
 ```
-
-새 코드 묶음을 풀어도 `studio_deps/`는 그대로 남습니다. `studio/requirements.txt`가 바뀐 코드를 받았을 때만 다시 설치합니다. 다음에 이미지를 새로 만들면 studio 패키지가 이미지에 들어가므로(`docker/requirements.lock`) 이 단계가 필요 없습니다.
-
-**② 설정** — 코드 폴더의 `studio/config.json` (예시: [studio/config.example.json](../studio/config.example.json)). 데이터셋과 검수 결과는 공유 폴더에 둡니다.
-
-```json
-{
-  "workspace_dir": "/out/studio_workspace",
-  "real_data_dir": "/out/real",
-  "path_map": {"/out": "<학습 컨테이너에서 같은 폴더가 보이는 경로>"}
-}
-```
-
-`path_map`: 두 컨테이너가 같은 폴더를 다른 경로로 볼 때, studio가 학습 설정(`train/configs/studio-<이름>.json`)을 내보내며 경로를 바꿔 씁니다.
-
-**③ 띄우기** (컨테이너 안). SSH를 끊어도 계속 돕니다.
-
-```bash
-mkdir -p /out/logs
-setsid nohup python -m studio > /out/logs/studio.log 2>&1 < /dev/null &
-tail -f /out/logs/studio.log          # "docgen studio → http://localhost:8765" 가 보이면 됨 (Ctrl+C 는 보기만 종료)
-```
-
-끄기: `pkill -f "python -m studio"`. 컨테이너가 다시 시작되면 studio도 꺼지므로 ③을 다시 합니다.
-
-**④ 윈도우에서 접속** — SSH 터널. 이 창을 켜 둔 동안 브라우저에서 `http://localhost:8765`로 들어갑니다.
 
 ```powershell
-ssh -p 2222 -N -L 8765:localhost:8765 docgen@<서버IP>
+ssh -p 2222 docgen@<서버IP>
 ```
 
-- 터널은 지금 열려 있는 SSH 포트(2222)만 쓰므로 컨테이너를 다시 만들 필요가 없습니다.
-- studio에는 로그인이 없습니다. 포트를 바로 열어(`docker run … -p 8765:8765`, `python -m studio --host 0.0.0.0`) 쓰면 같은 망의 누구나 들어올 수 있으니 터널을 권합니다.
+- `--shm-size=1g`: Chromium 이 공유 메모리가 모자라면 죽습니다.
+- `docgen-ssh` 볼륨: SSH 호스트 키를 보관해, 이미지를 바꿔 컨테이너를 새로 만들어도 접속 경고가 나지 않습니다.
+- 비밀번호 대신 공개키: `-e SSH_PUBLIC_KEY="$(cat id_ed25519.pub)"` 또는 `-v <파일>:/etc/docgen/authorized_keys:ro`.
+  둘 다 없고 `DOCGEN_PASSWORD` 도 없으면 임의 비밀번호를 만들어 `docker logs docgen` 에 남깁니다.
+- studio 패키지가 없는 1.1 이미지만 있을 때는 이 컨테이너 안에서 `python -m studio.deps install`(코드 묶음의 `studio/wheels/` 에서 설치) 후
+  `python -m studio --reload` 로 띄우고, 윈도우에서 `ssh -p 2222 -N -L 8765:localhost:8765 docgen@<서버IP>` 로 접속합니다.
 
 ## 참고
 
 - VS Code Remote-SSH 는 처음 접속할 때 인터넷에서 서버 프로그램을 내려받으므로 내부망에서는 따로 준비해야 합니다.
   터미널 `ssh` 와 WinSCP 는 그대로 됩니다.
-- 원본 서식 배경은 처음 그릴 때 `~/.cache/docgen/bg` 에 만들어집니다 (약 165MB). 컨테이너를 새로 만들 때마다
-  다시 만들어지는 게 싫으면 `-v docgen-cache:/home/docgen/.cache` 를 추가하세요.
 - 글꼴은 Playwright 기본 환경(`playwright install --with-deps`)과 같은 이미지가 나오도록 맞췄습니다 (픽셀 비교로 확인).
+  글꼴을 빼면 글자 모양·줄바꿈이 달라지거나 체크 표시가 빈칸이 됩니다.
+- 윈도우 PC 에서도 `sh docker/studio.sh` 가 됩니다 (Docker Desktop + Git Bash). 이 PC 에서 바로 `http://localhost:8765`.

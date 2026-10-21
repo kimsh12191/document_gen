@@ -1,14 +1,15 @@
-# docgen 실행 환경 이미지 (파이썬·글꼴·Chromium·SSH). 인터넷 없는 내부망에서 쓰도록 필요한 것을 모두 담는다.
+# docgen 실행 환경 이미지 (파이썬·글꼴·Chromium·studio 패키지·SSH). 인터넷 없는 내부망에서 쓰도록 필요한 것을 모두 담는다.
 # 코드(이 저장소)는 이미지에 넣지 않고 따로 반입해 /home/docgen/document_gen 에 마운트한다.
 #
-#   빌드(인터넷 되는 PC):  sh docker/build.sh 1.1   → 이미지 파일 + 코드 파일
-#   실행·접속 방법:        docker/README.md
+#   빌드(인터넷 되는 PC):  sh docker/build.sh 1.2   → 이미지 파일 + 코드 파일
+#   띄우기(서버):          sh docker/studio.sh      → studio 컨테이너 (인자 studio). 인자 없이 띄우면 SSH 서버
+#   자세히:                docker/README.md
 ARG PW_VERSION=1.63.0
 
 # Chromium 은 Microsoft 공식 Playwright 이미지에서 가져온다 (Playwright 다운로드 서버가 막힌 망에서도 빌드되게).
-# headless 렌더링에 쓰는 chromium_headless_shell 만 남긴다.
+# headless 렌더링에 쓰는 chromium_headless_shell 만 남긴다 (ffmpeg 는 동영상 녹화용이라 뺌).
 FROM mcr.microsoft.com/playwright/python:v${PW_VERSION}-noble AS browsers
-RUN rm -rf /ms-playwright/firefox-* /ms-playwright/webkit-* /ms-playwright/chromium-[0-9]*
+RUN rm -rf /ms-playwright/firefox-* /ms-playwright/webkit-* /ms-playwright/chromium-[0-9]* /ms-playwright/ffmpeg-*
 
 FROM ubuntu:24.04
 ENV LANG=C.UTF-8 \
@@ -47,12 +48,13 @@ RUN --mount=type=secret,id=ca,mode=0444 \
  && rm -rf /usr/lib/x86_64-linux-gnu/libLLVM* /usr/lib/x86_64-linux-gnu/libgallium* /usr/lib/x86_64-linux-gnu/dri \
  && rm -rf /var/lib/apt/lists/*
 
-# 파이썬 패키지 (판 번호는 검증한 판으로 고정)
+# 파이썬 패키지 (판 번호는 검증한 판으로 고정). 내부망에선 받을 곳이 없어 pip 는 지운다
 COPY docker/requirements.lock /tmp/requirements.lock
 RUN --mount=type=secret,id=ca,mode=0444 \
     python3 -m venv /opt/venv \
  && if [ -s /run/secrets/ca ]; then export PIP_CERT=/run/secrets/ca; fi \
  && pip install -r /tmp/requirements.lock \
+ && pip uninstall -y -q pip \
  && rm -rf /tmp/requirements.lock /root/.cache
 COPY --from=browsers /ms-playwright /opt/ms-playwright
 
@@ -72,6 +74,6 @@ RUN chmod 755 /usr/local/bin/docgen-entrypoint \
  && printf 'PATH="%s"\nLANG=C.UTF-8\nPLAYWRIGHT_BROWSERS_PATH=%s\nPYTHONPATH=%s\nPYTHONUNBUFFERED=1\n' \
       "$PATH" "$PLAYWRIGHT_BROWSERS_PATH" "$PYTHONPATH" > /etc/environment
 
-EXPOSE 22
+EXPOSE 22 8765
 VOLUME ["/out"]
 ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/bin/docgen-entrypoint"]
