@@ -4,7 +4,7 @@ studio에서 만들거나 등록한 데이터셋을 학습(`train/`, `python -m 
 
 - **학습은 하나다.** OCR·문서 이해·업무 처리 과제 데이터셋을 함께 골라 섞는다. 예전의 1부 OCR·2부 은행 업무 학습과 OCR replay·ocr_check 는 없어졌다(OCR 데이터셋을 학습·평가 목록에 그대로 넣는다).
 - **데이터셋은 학습 코드가 그대로 읽는 폴더다.** 모든 데이터셋이 같은 과제 폴더 형식(`meta.json` + `tasks/<과제>.jsonl`)이라, 설정에 경로만 적는다.
-- **두 컨테이너가 폴더를 공유한다.** studio는 docgen 이미지로 띄운 studio 컨테이너에서 돌고([docker/README.md 3절](../docker/README.md#3-studio-띄우기)), 학습은 따로 있는 학습 컨테이너에서 한다. studio가 만든 데이터셋은 공유 폴더에 둔다(설정의 `workspace_dir`, 예: `/out/studio_workspace`).
+- **두 컨테이너가 폴더를 공유한다.** studio는 docgen 이미지로 띄운 studio 컨테이너에서 돌고([docker/README.md 3절](../docker/README.md#3-studio-띄우기)), 학습은 따로 있는 학습 컨테이너에서 한다. studio가 만든 데이터셋은 저장 폴더(`sh docker/studio.sh --data <폴더>`)의 `workspace/datasets/` 에 생기고, 학습 컨테이너는 그 폴더를 공유해 읽는다.
 - 같은 폴더가 두 컨테이너에서 다른 경로로 보이면 studio 설정의 `path_map`에 적는다(예: `{"/out": "/share/me/docgen_data"}`). 학습 설정을 내보낼 때 studio가 학습 컨테이너 쪽 경로로 바꿔 쓴다.
 - 처음부터 끝까지 명령줄로 하는 방법은 [guide/tutorial.md](../guide/tutorial.md), 학습 설정 칸은 [train/README.md](../train/README.md)에 있다.
 
