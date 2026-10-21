@@ -13,3 +13,6 @@ studio_deps/
 train/configs/studio-*.json
 train/runs/
 train/data/
+# 내부망 반입 파일 (docker/build.sh)
+docgen-image-*.tar.gz
+docgen-code-*.tar.gz

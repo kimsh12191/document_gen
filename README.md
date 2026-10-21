@@ -50,7 +50,7 @@ docgen/ ──(과제 폴더: 합성·OCR 준비)──▶ studio/ (만들기·�
 | [guide/results.md](guide/results.md) | 결과 점수표 읽는 법: 지표 뜻, 찍어도 나오는 점수, 오차 범위, 이상 신호 |
 | [docgen/README.md](docgen/README.md) | 생성기 자체 (설치, 명령, 출력 형식, 서식, 서식 추가 방법은 [docgen/manual/TEMPLATE_GUIDE.md](docgen/manual/TEMPLATE_GUIDE.md)) |
 | [studio/README.md](studio/README.md) | studio 화면 사용법 (문항·모델 답·점수 보기는 ⑥ 데이터셋 · ⑦ 평가). 설계는 [studio/DESIGN.md](studio/DESIGN.md) |
-| [docker/README.md](docker/README.md) | docgen 도커 설치, SSH 접속, 같은 컨테이너에서 studio 띄우기 |
+| [docker/README.md](docker/README.md) | 내부망 반입, 서버에서 studio 컨테이너 띄우기(`docker/studio.sh`), 명령줄 데이터 만들기 |
 
 ## 테스트
 

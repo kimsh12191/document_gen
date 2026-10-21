@@ -109,15 +109,13 @@ export INTERNAL_OCR_BASE_URL=http://localhost:30107
 
 ## 3. 은행 업무 데이터 (합성, docgen 도커)
 
-도커 컨테이너가 아직 없으면 [docker/README.md](../docker/README.md)대로 띄웁니다. 이때 `-v <데이터>:/out`으로 연결한 서버 폴더에 결과가 생깁니다.
+도커 컨테이너가 아직 없으면 [docker/README.md](../docker/README.md)대로 `sh docker/studio.sh` 로 띄우고 `sh docker/studio.sh shell` 로 들어갑니다. 결과는 `/out`(서버의 `~/docgen/data`)에 생깁니다.
 
 ```bash
-ssh -p 2222 docgen@<서버IP>                 # 컨테이너 접속 (접속하면 코드 폴더에서 시작)
-bash docgen/scripts/make_bank_data.sh              # 백그라운드로 시작. SSH를 끊어도 계속
+sh docker/studio.sh shell                   # 서버에서 컨테이너 안으로 (코드 폴더에서 시작)
+bash docgen/scripts/make_bank_data.sh       # 백그라운드로 시작. 셸을 나가도 계속
 tail -f /out/logs/make_bank_data.log        # "전부 완료" 가 나오면 끝 (약 1시간 15분)
 ```
-
-SSH 대신 서버 터미널에서 바로: `docker exec -u docgen docgen bash -lc 'bash ~/document_gen/docgen/scripts/make_bank_data.sh'`
 
 양·출력 위치를 바꾸는 환경변수(`OUT`, `TRAIN_BUNDLES`, `BENCH_BUNDLES` 등)는 `docgen/scripts/make_bank_data.sh` 맨 위 주석에 있습니다.
 
@@ -200,7 +198,7 @@ tail -f pipeline.log            # 진행 보기 (Ctrl+C 는 보기만 종료)
 | 섞은 학습·평가 데이터 | `data/mixed-exp1/` (`train_sft.jsonl`, `benchmark_tasks.jsonl` …) |
 | 문항별 답·점수 보기 | studio ⑥ 데이터셋(문항 탭)·⑦ 평가에 `runs/exp1/`을 모델 답으로 붙임 (GPU 불필요) |
 
-studio는 docgen 도커에서 띄웁니다([docker/README.md 4절](../docker/README.md#4-studio-띄우기-같은-컨테이너)). 문항 그림·박스·모델 답·점수를 모든 과제에 대해 같은 화면에서 봅니다. 모델에게 직접 물을 때의 질문 문장은 [questions.md](questions.md)에 있습니다.
+studio는 서버에서 `sh docker/studio.sh` 로 띄웁니다([docker/README.md 3절](../docker/README.md#3-studio-띄우기)). 문항 그림·박스·모델 답·점수를 모든 과제에 대해 같은 화면에서 봅니다. 모델에게 직접 물을 때의 질문 문장은 [questions.md](questions.md)에 있습니다.
 
 ---
 
