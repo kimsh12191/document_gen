@@ -39,6 +39,7 @@ from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
@@ -81,11 +82,14 @@ def guard(fn, *args, **kw):
 
 @asynccontextmanager
 async def lifespan(_app):
+    if BROWSER and not os.environ.get("STUDIO_NO_WARM"):
+        previewer.warm()   # 첫 미리보기 전에 브라우저를 띄워 둔다
     yield
     previewer.close()
 
 
 app = FastAPI(title="docgen studio", lifespan=lifespan)
+app.add_middleware(GZipMiddleware, minimum_size=2000)   # 서식 목록·키 JSON (원격 접속에서 전송이 1/5~1/10)
 app.mount("/preview", StaticFiles(directory=PREVIEW_DIR), name="preview")
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
 app.mount("/marks-img", StaticFiles(directory=M.POOLS_DIR), name="marks-img")

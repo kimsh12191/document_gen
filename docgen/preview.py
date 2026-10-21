@@ -25,6 +25,7 @@ import random
 import re
 import time
 from concurrent.futures import ThreadPoolExecutor
+from functools import lru_cache
 from pathlib import Path
 
 from .entities import make_profile
@@ -45,12 +46,17 @@ COMMON = ["docgen/render.py", "docgen/schema.py", "docgen/image.py", "docgen/pag
           "docgen/html_regions.py", "docgen/html_regions.js", "docgen/template_variants.py"]
 
 
+@lru_cache(maxsize=None)
+def _source_file(fn) -> str:
+    return inspect.getsourcefile(fn)
+
+
 def source_files(doc_id: str, common: bool = True) -> list[Path]:
     """이 서식의 결과를 바꾸는 파일들 (서식 전용 + 공통). common=False 면 서식 전용만 (검수 후 바뀌었는지 볼 때)."""
     from . import overrides
 
     spec = load_all()[doc_id]
-    files = [Path(inspect.getsourcefile(spec.generate)), overrides.path(doc_id)]
+    files = [Path(_source_file(spec.generate)), overrides.path(doc_id)]
     if spec.template != "_real_form.html.j2":
         from . import html_regions
 
@@ -65,7 +71,7 @@ def source_files(doc_id: str, common: bool = True) -> list[Path]:
         files += [d / "template.html.j2", d / "form.json"] if d else []
         parent = (htmlform.load_form(doc_id) if d else {}).get("parent")
         if parent in load_all():
-            files.append(Path(inspect.getsourcefile(load_all()[parent].generate)))
+            files.append(Path(_source_file(load_all()[parent].generate)))
             if re.fullmatch(r"hf\d{3}", parent):
                 from .realform import layout_path
 
@@ -86,11 +92,27 @@ def source_files(doc_id: str, common: bool = True) -> list[Path]:
     return files + ([ROOT / c for c in COMMON] if common else [])
 
 
+_DIGESTS: dict = {}
+
+
+def _file_digest(p: Path) -> bytes:
+    """파일 내용 해시 (경로·mtime·크기가 같으면 다시 읽지 않는다)."""
+    try:
+        st = p.stat()
+    except OSError:
+        return b"-"
+    key = (str(p), st.st_mtime_ns, st.st_size)
+    d = _DIGESTS.get(key)
+    if d is None:
+        d = _DIGESTS[key] = hashlib.sha1(p.read_bytes()).digest()
+    return d
+
+
 def source_hash(doc_id: str, common: bool = True) -> str:
     h = hashlib.sha1()
     for p in source_files(doc_id, common):
         h.update(str(p.relative_to(ROOT) if p.is_relative_to(ROOT) else p).encode())
-        h.update(p.read_bytes() if p.exists() else b"-")
+        h.update(_file_digest(p))
     return h.hexdigest()[:12]
 
 
@@ -133,6 +155,10 @@ class Previewer:
             return json.loads(label_path.read_text(encoding="utf-8"))
         return self._pool.submit(self._render, doc_id, seed, heavy, special, condition, src, folder, draft, extra, rows).result()
 
+    def warm(self) -> None:
+        """브라우저를 미리 띄운다 (첫 미리보기가 약 1초 빨라진다). 기다리지 않는다."""
+        self._pool.submit(self._ensure_renderer)
+
     def call(self, fn, *args):
         """렌더러 스레드에서 fn(*args) 를 돌린다 (배경 그림처럼 렌더링과 같은 스레드 상태가 필요한 일)."""
         return self._pool.submit(fn, *args).result()
@@ -146,6 +172,13 @@ class Previewer:
         self._pool.shutdown()
 
     # 아래는 전용 스레드에서만 돈다
+    def _ensure_renderer(self):
+        if self._renderer is None:
+            from .image import ImageRenderer
+
+            self._renderer = ImageRenderer(scale=self.scale).__enter__()
+        return self._renderer
+
     def _render(self, doc_id, seed, heavy, special, condition, src, folder: Path, draft: dict | None = None,
                 extra: dict | None = None, rows: str | None = None) -> dict:
         from contextlib import nullcontext
@@ -155,10 +188,7 @@ class Previewer:
         from .schema import build_fields
         from .bench.perturb import visible_keys
 
-        if self._renderer is None:
-            from .image import ImageRenderer
-
-            self._renderer = ImageRenderer(scale=self.scale).__enter__()
+        self._ensure_renderer()
         spec = load_all()[doc_id]
         folder.mkdir(parents=True, exist_ok=True)
         t0 = time.time()
