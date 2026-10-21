@@ -142,49 +142,6 @@ def test_mix_ocr_and_bank_splits_budgets_and_formats(tmp_path, model, ocr_set):
     assert (prep / "image_items.jsonl").is_file()   # --with-ocr 용 사내 OCR
 
 
-def test_ocr_images_stage_scans_ocrs_and_feeds_mix(tmp_path, model):
-    """data.ocr_images: 그림 폴더 → (가짜) 사내 OCR → OCR 준비 → 학습·평가 목록에 저절로 들어가 업무 세트와 섞인다."""
-    from PIL import ImageDraw
-
-    from train.cli import main as cli
-    from train.cli import resolve_data
-
-    scans = tmp_path / "scans"
-    for i, rel in enumerate(["docA/1.png", "docA/2.png", "docB/1.png", "docC/1.png", "docD/1.png", "docE/x/1.png", "single.png"]):
-        (scans / rel).parent.mkdir(parents=True, exist_ok=True)
-        im = Image.new("RGB", (400, 200), "white")
-        draw = ImageDraw.Draw(im)
-        draw.text((20, 5), f"PAGE {i}", fill="black")
-        draw.text((20, 40), "USD 123.45", fill="black")
-        im.save(scans / rel)
-    bank_folder(tmp_path / "train", "train", [f"mortgage_{20000000 + i}" for i in range(6)], n_images=1)
-    bank_folder(tmp_path / "bench", None, ["mortgage_2000000"], n_images=1)
-    config = tmp_path / "pipeline.json"
-    write_json(config, {"workdir": "runs", "model": model, "data": {
-        "train": ["train"], "benchmark": ["bench"], "output_dir": "prep", "val_count": 2, "grpo_holdout": 0.3, "workers": 1,
-        "ocr_images": {"folders": ["scans"], "count": 10,
-                       "ocr": {"callable": "docgen.tests.ocr_fixture:ocr_from_file", "revision": "fixture-v1"},
-                       "prepare": {"val_fraction": 0.2, "benchmark_fraction": 0.2, "sft_max_examples": 30}}}})
-    ocr_out = tmp_path / "prep-ocr"
-    d = resolve_data(read_json(config), tmp_path)
-    assert d["train"][-1] == {"path": str(ocr_out), "count": 10} and d["benchmark"][-1] == str(ocr_out)
-    with contextlib.redirect_stdout(io.StringIO()):
-        cli(["ocr", "--config", str(config)])
-        cli(["ocr", "--config", str(config)])   # 이미 준비했으면 그대로
-    docs = {r["page_id"]: r["document_id"] for r in read_jsonl(tmp_path / "prep-ocr.inputs" / "manifest.jsonl")}
-    assert docs["docA/1.png"] == docs["docA/2.png"] == "docA" and docs["docE/x/1.png"] == "docE/x" and docs["single.png"] == "single.png"
-    split = {}
-    for pg in read_jsonl(ocr_out / "pages.jsonl"):
-        split.setdefault(pg["document_id"], set()).add(pg["split"])
-    assert all(len(v) == 1 for v in split.values()) and {"train", "benchmark"} <= set().union(*split.values())
-    assert (tmp_path / "ocr-cache" / "ocr").is_dir()   # 실험끼리 같이 쓰는 캐시
-    with contextlib.redirect_stdout(io.StringIO()):
-        cli(["mix", "--config", str(config)])
-    done = read_json(tmp_path / "prep" / "DONE.json")
-    assert done["sources"]["train"][str(ocr_out)]["rows"] <= 10 and str(ocr_out) in done["sources"]["benchmark"]
-    assert {"spotting", "kie"} <= set(done["counts"]["benchmark_by_task"])
-
-
 def test_mix_refuses_leaks_and_eval_only_training(tmp_path, model):
     bank_folder(tmp_path / "bench", None, ["mortgage_2"], n_images=1)
     bank_folder(tmp_path / "train", None, ["mortgage_1"], n_images=1)   # 평가 세트를 학습에 넣음
@@ -325,6 +282,45 @@ def test_predict_spreads_images_resumes_and_does_not_leak(tmp_path, mixed):
         if it["task"] == "crop_ocr":
             assert it["answer"]["text"] not in sent   # 정답이 질문에 새지 않는다
     assert len(index_predictions(out)) == n
+
+
+def test_pipeline_ocr_prepare_stage_is_optional_and_runs_once(tmp_path, model):
+    """ocr_prepare: 가진 이미지를 OCR 준비 (설정이 없으면 건너뜀, 여러 개면 차례로). 결과 폴더는 data 에 적어 둔 경로로
+    섞기에 들어간다: 학습용 준비 폴더는 학습(train·val 문서)·평가(떼어 둔 문서) 둘 다, 평가 전용(benchmark_only)은 평가에만."""
+    from train import pipeline as P
+
+    create_demo(tmp_path / "ocr")   # manifest + OCR 준비 설정 (가짜 사내 OCR), output_dir = ocr/prepared
+    create_demo(tmp_path / "ocr_eval")
+    man = [{**r, "document_id": "eval_" + r["document_id"], "split": "benchmark"}
+           for r in read_jsonl(tmp_path / "ocr_eval" / "manifest.jsonl")]
+    (tmp_path / "ocr_eval" / "manifest.jsonl").write_text("".join(dumps(r) + "\n" for r in man), encoding="utf-8")
+    write_json(tmp_path / "ocr_eval" / "config.json", {**read_json(tmp_path / "ocr_eval" / "config.json"), "benchmark_only": True})
+    bank_folder(tmp_path / "train", "train", [f"mortgage_{20000000 + i}" for i in range(6)], n_images=1)
+    bank_folder(tmp_path / "bench", None, ["mortgage_2000000"], n_images=1)
+    config = tmp_path / "pipeline.json"
+    write_json(config, {"workdir": "runs", "model": model, "ocr_prepare": ["ocr/config.json", "ocr_eval/config.json"], "data": {
+        "train": ["train", {"path": "ocr/prepared", "count": 10}], "benchmark": ["bench", "ocr/prepared", "ocr_eval/prepared"],
+        "output_dir": "prep", "val_count": 2, "grpo_holdout": 0.3, "workers": 1}})
+    runner = P.Runner(P.merged(P.DEFAULTS, read_json(config)), config, False, False)
+    assert runner.ocr_configs == [str(tmp_path / "ocr" / "config.json"), str(tmp_path / "ocr_eval" / "config.json")]
+    runner.check_inputs()   # 아직 없는 OCR 준비 폴더는 묻지 않는다
+    with contextlib.redirect_stdout(io.StringIO()) as out:
+        runner.stage_ocr_prepare()
+        runner.stage_ocr_prepare()
+        runner.stage_prepare()
+    assert out.getvalue().count("OCR prepared data exists") == 2
+    done = read_json(tmp_path / "prep" / "DONE.json")
+    assert done["sources"]["train"][str(tmp_path / "ocr" / "prepared")]["rows"] <= 10
+    assert set(done["sources"]["benchmark"]) == {str(tmp_path / p) for p in ("bench", "ocr/prepared", "ocr_eval/prepared")}
+    eval_ids = {it["id"] for t in read_json(tmp_path / "ocr_eval" / "prepared" / "meta.json")["counts"]
+                for it in read_jsonl(tmp_path / "ocr_eval" / "prepared" / "tasks" / f"{t}.jsonl")}
+    assert eval_ids <= {it["id"] for it in read_jsonl(tmp_path / "prep" / "benchmark_items.jsonl")}
+    assert {"spotting", "kie"} <= set(done["counts"]["benchmark_by_task"])
+    write_json(config, {"workdir": "runs2", "model": model, "data": read_json(config)["data"]})
+    runner = P.Runner(P.merged(P.DEFAULTS, read_json(config)), config, False, False)
+    with contextlib.redirect_stdout(io.StringIO()) as out:
+        runner.stage_ocr_prepare()
+    assert "no ocr_prepare config" in out.getvalue()
 
 
 def test_pipeline_dry_run_and_grpo_rerun_report(tmp_path, mixed, model):

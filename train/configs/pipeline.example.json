@@ -1,5 +1,6 @@
 {
   "workdir": "../runs/exp1",
+  "ocr_prepare": "../../ocr_config.json",
   "model": "/share/cv_share/qwen3.5/9b",
   "model_type": "qwen3_5",
   "gpus": [
@@ -10,23 +11,16 @@
     "train": [
       {
         "path": "/share/studio_workspace/datasets/bank-train"
+      },
+      {
+        "path": "../../data/prepared-v2",
+        "count": 20000
       }
     ],
     "benchmark": [
-      "/share/studio_workspace/datasets/bank-bench"
+      "/share/studio_workspace/datasets/bank-bench",
+      "../../data/prepared-v2"
     ],
-    "ocr_images": {
-      "folders": [
-        "/share/data/images"
-      ],
-      "documents": "folder",
-      "ocr": {
-        "callable": "studio.internal_ocr_adapter:ocr_from_file",
-        "revision": "ocr-api-2026-10",
-        "base_url": "http://localhost:30107"
-      },
-      "count": 20000
-    },
     "output_dir": "../data/mixed-exp1",
     "sft_max_examples": 20000,
     "task_mix": {
