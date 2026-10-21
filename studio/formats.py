@@ -9,12 +9,15 @@ app/clustering.py(fingerprint, _Cluster, _vectors, _best, _merge_similar, _run, 
   양식  포맷 안에서 표 배치·값 위치까지 같은 문서: 글자 조각 + 가로·세로 위치 (기준 0.60)
   이어지는 쪽: 제목 없이 표만 이어지는 쪽은 표 머리줄이 같은 (제목 있는) 포맷에 붙인다
 숫자가 든 조각, 전체 문서 중 한 문서에만 나오는 조각(값)은 비교에서 뺀다.
+영문(라틴 글자끼리의 2글자 조각)은 조각 대신 단어("w:invoice")로 비교한다 — 영문 2글자 조각은 거의 모든 영문 문서에 나와
+서로 다른 영문 서류가 한 포맷으로 뭉친다 (2026-10-21, 서류 넣기 시험 폴더에서 확인). 한글 조각은 그대로다.
 
 단어 형식: [{"text", "bbox": [x0, y0, x1, y1] 픽셀, "confidence"?, "line_num"?}] (1부 parse_ocr 결과 그대로).
 """
 from __future__ import annotations
 
 import math
+import re
 from collections import Counter
 from statistics import median
 
@@ -185,22 +188,34 @@ def same_line(a: str, b: str) -> bool:
     return k >= 3 and k >= 0.6 * max(len(A), len(B))
 
 
+def _title_chars(t: str) -> str:
+    """제목 글자: 한글이 2자 이상이면 한글만, 아니면 영문자(대문자로). 영문 서류(인보이스·B/L…)도 제목으로 가른다."""
+    h = "".join(c for c in t if "가" <= c <= "힣")
+    return h if len(h) >= 2 else "".join(c for c in t if c.isascii() and c.isalpha()).upper()
+
+
 def main_title(lines: list[Line]) -> str:
-    """본문보다 확실히 큰 맨 위쪽 줄의 한글 (제목). 없으면 ''."""
+    """본문보다 확실히 큰 맨 위쪽 줄의 한글(없으면 영문, 4자 이상) (제목). 없으면 ''."""
     if len(lines) < 3:
         return ""
     y0 = min(L.bbox[1] for L in lines)
     y1 = max(L.bbox[3] for L in lines)
     med = sorted(L.H for L in lines)[len(lines) // 2]
     hang = lambda t: "".join(c for c in t if "가" <= c <= "힣")  # noqa: E731
-    top = [L for L in lines if L.bbox[1] < y0 + 0.3 * (y1 - y0) and len(hang(L.text)) >= 2 and L.H < 5 * med]
+    ok = lambda t: len(hang(t)) >= 2 or len(_title_chars(t)) >= 4  # noqa: E731
+    top = [L for L in lines if L.bbox[1] < y0 + 0.3 * (y1 - y0) and ok(L.text) and L.H < 5 * med]
     if not top:
         return ""
     b = max(top, key=lambda L: L.H)
     if b.H < 1.4 * med:
         return ""
-    t = hang(b.text)[:24]
+    t = _title_chars(b.text)[:24]
     return t if len(t) >= 2 else ""
+
+
+def titles_differ(a: str, b: str) -> bool:
+    """두 제목이 분명히 다르다 (둘 다 있고 글자가 70% 넘게 같지 않음). 다른 제목끼리는 한 포맷으로 묶지 않는다."""
+    return bool(a and b) and not _same_cell(a, b)
 
 
 def title_of(words: list, H: float) -> str:
@@ -224,6 +239,15 @@ def title_of(words: list, H: float) -> str:
     return t[:30] or "포맷"
 
 
+def _latin(bg: str) -> bool:
+    return bg.isascii() and bg.isalpha()
+
+
+def _words(text: str) -> list[str]:
+    """영문 단어 (2자 이상). 영문은 2글자 조각이 거의 모든 문서에 나와 생김새를 가르지 못하므로 단어로 비교한다."""
+    return [w.lower() for w in re.findall(r"[A-Za-z]{2,}", text)][:40]
+
+
 def fingerprint(words: list, W: float, H: float) -> dict:
     lines = build_lines(words)
     toks, labels, layout, heads = set(), set(), set(), set()
@@ -242,14 +266,14 @@ def fingerprint(words: list, W: float, H: float) -> dict:
                 continue
             cx = min(0.999, max(0.0, ((sb[0] + sb[2]) / 2 - x0) / xspan))
             sy = max(0.0, ((sb[1] + sb[3]) / 2 - y0) / xspan)
-            for i in range(len(sn) - 1):
-                bg = sn[i:i + 2]
+            grams = [sn[i:i + 2] for i in range(len(sn) - 1)]
+            for bg in [g for g in grams if not _latin(g)] + ["w:" + w for w in _words(L.text[a:z])]:
                 if any(c.isdigit() for c in bg):
                     continue
                 layout.add(f"{bg}@{int(cx * LX)}.{int(sy * LY)}")
                 layout.add(f"{bg}@h{int(cx * LX + 0.5)}.{int(sy * LY + 0.5)}")
-        for i in range(len(n) - 1):
-            bg = n[i:i + 2]
+        grams = [n[i:i + 2] for i in range(len(n) - 1)]
+        for bg in [g for g in grams if not _latin(g)] + ["w:" + w for w in _words(L.text)]:
             if any(c.isdigit() for c in bg):
                 continue
             toks.add(bg)
@@ -388,13 +412,14 @@ def cluster(docs: list[dict], threshold: float = THRESHOLD, fixed: dict | None =
                 c.pinned = True
                 cl.append(c)
         else:
-            c, s = _best([x for x in cl if x.n], v)
+            c, s = _best([x for x in cl if x.n and not titles_differ(T[did], x.dominant())], v)
             if c is None or s < threshold:
                 c = Cluster()
                 cl.append(c)
         c.add(v, T[did])
         assign[did] = c
-    _merge_similar(cl, threshold, lambda keep, gone: not getattr(gone, "pinned", False))
+    _merge_similar(cl, threshold, lambda keep, gone: not getattr(gone, "pinned", False)
+                   and not titles_differ(keep.dominant(), gone.dominant()))
     assign = {k: _resolve(c) for k, c in assign.items()}
     for _ in range(2):
         moved = 0
@@ -404,7 +429,7 @@ def cluster(docs: list[dict], threshold: float = THRESHOLD, fixed: dict | None =
             if did in fixed:
                 continue
             v, cur = V[did], assign[did]
-            c, s = _best(live, v)
+            c, s = _best([x for x in live if not titles_differ(T[did], x.dominant())], v)
             if c is not None and c is not cur and s > cur.sim(v) + REASSIGN_MARGIN:
                 cur.remove(v, T[did])
                 c.add(v, T[did])

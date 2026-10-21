@@ -213,8 +213,8 @@ def build(out: Path, src: Path = SRC, log=print) -> dict:
             q.parent.mkdir(parents=True, exist_ok=True)
             q.write_text(json.dumps({"items": items}, ensure_ascii=False, indent=1), encoding="utf-8")
         name = Path(d["file"]).name
-        truth["documents"][rel] = {
-            "form": f"ext:{d['id']}", "name": d["id"], "role": f"external_{d['kind']}", "kind": d["kind"], "pages": len(paths),
+        truth["documents"][rel] = {   # form: 같은 발행처의 같은 양식은 sources.json 의 format 으로 묶는다
+            "form": f"ext:{d.get('format') or d['id']}", "name": d["id"], "role": f"external_{d['kind']}", "kind": d["kind"], "pages": len(paths),
             "condition": "external", "pred": bool(items), "pred_errors": [], "boxes": f"{found}/{len(items)}",
             "source": f"{repo['url']}/blob/{repo['commit']}/{repo['path']}/{name}" if d["repo"] != "docling"
             else f"{repo['url']}/blob/{repo['commit']}/{repo['path']}/{'ocr' if f.suffix != '.pdf' else 'pdf'}/sources/{name}",

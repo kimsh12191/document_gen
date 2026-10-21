@@ -85,7 +85,7 @@
    "sha256": "f014ddfa83dd456ca89643fe8f3ca6579e32f68839970a408fd85fffe343afe8"
   },
   "external/invoice/coolblue1": {
-   "form": "ext:coolblue1",
+   "form": "ext:coolblue",
    "name": "coolblue1",
    "role": "external_invoice",
    "kind": "invoice",
@@ -99,7 +99,7 @@
    "sha256": "3932539b71338f0c73d6ade499a2a00cd2f9056c60f5a87b1ef623af095e1607"
   },
   "external/invoice/coolblue2": {
-   "form": "ext:coolblue2",
+   "form": "ext:coolblue",
    "name": "coolblue2",
    "role": "external_invoice",
    "kind": "invoice",

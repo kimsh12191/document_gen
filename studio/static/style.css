@@ -258,3 +258,9 @@ pre.log { max-height: 420px; }
 .ds-build-panel .sub { margin-top: 6px; }
 #ds-registry { overflow: auto; margin-bottom: 18px; }
 #ds-list tr.ds-new td { background: #edf9f1; }
+/* ④ 서류 넣기 (intake.js) */
+.steps .tag { font-size: 13px; padding: 3px 10px; }
+.cards .card { cursor: default; padding-bottom: 8px; }
+.cards .card img { display: block; width: 100%; max-height: 300px; object-fit: contain; object-position: top; border-bottom: 1px solid var(--line); margin-bottom: 6px; }
+.cards .card > div { padding: 1px 10px; font-size: 12.5px; }
+div.warn { color: var(--warn); }
