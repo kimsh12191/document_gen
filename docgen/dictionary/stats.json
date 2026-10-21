@@ -1,12 +1,13 @@
 {
- "roles": 196,
- "roles_unassigned": 0,
- "roles_unsure": 28,
- "attributes": 768,
+ "roles": 197,
+ "roles_unassigned": 1,
+ "roles_unsure": 29,
+ "attributes": 815,
  "nonstd_keys": 319,
  "doc_types": 474,
  "tasks": 12,
  "options": 991,
- "merges": 353,
- "key_forms_assigned": 1.0
+ "merges": 400,
+ "key_forms_assigned": 0.9537,
+ "cross_check_candidates": 186
 }

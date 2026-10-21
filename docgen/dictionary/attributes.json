@@ -47,7 +47,14 @@
    "name": "주소",
    "kind": "text",
    "by": "자동",
-   "keys": 55,
+   "keys": 56,
+   "aliases": []
+  },
+  "address_copy": {
+   "name": "주소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
    "aliases": []
   },
   "admission_type": {
@@ -96,7 +103,14 @@
    "name": "금액",
    "kind": "amount",
    "by": "자동",
-   "keys": 40,
+   "keys": 41,
+   "aliases": []
+  },
+  "amount_copy": {
+   "name": "대출금액",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
    "aliases": []
   },
   "amount_due_now": {
@@ -208,14 +222,14 @@
    "name": "면적(㎡)",
    "kind": "number",
    "by": "자동",
-   "keys": 3,
+   "keys": 4,
    "aliases": []
   },
   "arrears": {
    "name": "체납액",
    "kind": "text",
    "by": "자동",
-   "keys": 1,
+   "keys": 2,
    "aliases": []
   },
   "arrival_date": {
@@ -411,7 +425,7 @@
    "name": "생년월일",
    "kind": "date",
    "by": "자동",
-   "keys": 16,
+   "keys": 17,
    "aliases": [
     "date_of_birth",
     "dob"
@@ -435,14 +449,14 @@
    "name": "종목",
    "kind": "text",
    "by": "자동",
-   "keys": 5,
+   "keys": 6,
    "aliases": []
   },
   "biz_no": {
    "name": "사업자등록번호",
    "kind": "biz_no",
    "by": "자동",
-   "keys": 13,
+   "keys": 14,
    "aliases": []
   },
   "biz_phone": {
@@ -456,7 +470,7 @@
    "name": "업태",
    "kind": "text",
    "by": "자동",
-   "keys": 5,
+   "keys": 6,
    "aliases": []
   },
   "bl_no": {
@@ -885,7 +899,7 @@
    "name": "직장명",
    "kind": "text",
    "by": "자동",
-   "keys": 6,
+   "keys": 7,
    "aliases": []
   },
   "company_name": {
@@ -1019,7 +1033,7 @@
    "name": "법인등록번호",
    "kind": "corp_reg_no",
    "by": "자동",
-   "keys": 6,
+   "keys": 7,
    "aliases": [
     "corp_no"
    ]
@@ -1203,11 +1217,18 @@
    "name": "채무자",
    "kind": "text",
    "by": "자동",
-   "keys": 1,
+   "keys": 2,
    "aliases": []
   },
   "debtor_address": {
    "name": "채무자주소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "debtor_copy": {
+   "name": "채무자성명",
    "kind": "text",
    "by": "자동",
    "keys": 1,
@@ -1532,7 +1553,7 @@
    "name": "e-mail",
    "kind": "text",
    "by": "자동",
-   "keys": 8,
+   "keys": 9,
    "aliases": []
   },
   "employee_no": {
@@ -1559,6 +1580,27 @@
   "end": {
    "name": "자격상실일",
    "kind": "date",
+   "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "end0_copy": {
+   "name": "대출만료일년",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "end1_copy": {
+   "name": "대출만료일월",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "end2_copy": {
+   "name": "대출만료일일",
+   "kind": "number",
    "by": "자동",
    "keys": 1,
    "aliases": []
@@ -1629,6 +1671,20 @@
   "exclusive_area": {
    "name": "전용면적",
    "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "execution": {
+   "name": "전액실행",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "execution_copy": {
+   "name": "전액실행",
+   "kind": "checkbox",
    "by": "자동",
    "keys": 1,
    "aliases": []
@@ -1717,6 +1773,13 @@
    "keys": 1,
    "aliases": []
   },
+  "filing": {
+   "name": "신고구분",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
   "filing_kind": {
    "name": "신고구분",
    "kind": "text",
@@ -1766,6 +1829,13 @@
    "keys": 1,
    "aliases": []
   },
+  "first_joined": {
+   "name": "최초자격취득일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
   "first_name": {
    "name": "최초전입자성명",
    "kind": "text",
@@ -1776,6 +1846,34 @@
   "first_reg_type": {
    "name": "최초전입자등록구분",
    "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "fixed": {
+   "name": "고정금리",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "fixed_choice": {
+   "name": "확정금리",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "fixed_choice_copy": {
+   "name": "확정금리",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "fixed_copy": {
+   "name": "고정금리",
+   "kind": "checkbox",
    "by": "자동",
    "keys": 1,
    "aliases": []
@@ -1950,6 +2048,20 @@
    "keys": 1,
    "aliases": []
   },
+  "guarantor": {
+   "name": "연대보증인",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "guarantor_copy": {
+   "name": "연대보증인",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
   "handover_date": {
    "name": "인도일",
    "kind": "date",
@@ -1966,6 +2078,13 @@
   },
   "handwritten_confirm": {
    "name": "자필기재(확인)",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "head": {
+   "name": "세대주",
    "kind": "text",
    "by": "자동",
    "keys": 1,
@@ -2112,10 +2231,10 @@
    "aliases": []
   },
   "id": {
-   "name": "StudentID",
+   "name": "건물ID",
    "kind": "text",
    "by": "자동",
-   "keys": 1,
+   "keys": 2,
    "aliases": []
   },
   "id_no": {
@@ -2150,7 +2269,7 @@
    "name": "소득금액",
    "kind": "amount",
    "by": "자동",
-   "keys": 3,
+   "keys": 4,
    "aliases": []
   },
   "income_type": {
@@ -2171,7 +2290,7 @@
    "name": "업종",
    "kind": "text",
    "by": "자동",
-   "keys": 3,
+   "keys": 4,
    "aliases": []
   },
   "initial_shares": {
@@ -2307,6 +2426,13 @@
    "keys": 1,
    "aliases": []
   },
+  "issue": {
+   "name": "발급일년",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
   "issue_date": {
    "name": "발급일",
    "kind": "date",
@@ -2377,6 +2503,13 @@
    "keys": 1,
    "aliases": []
   },
+  "issued": {
+   "name": "발급일자",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
   "issued_shares": {
    "name": "발행주식의총수",
    "kind": "text",
@@ -2402,7 +2535,7 @@
    "name": "구분",
    "kind": "text",
    "by": "자동",
-   "keys": 5,
+   "keys": 6,
    "aliases": []
   },
   "items": {
@@ -2430,7 +2563,7 @@
    "name": "지번",
    "kind": "text",
    "by": "자동",
-   "keys": 1,
+   "keys": 2,
    "aliases": []
   },
   "jibun_address": {
@@ -2527,6 +2660,20 @@
   "landlord_name": {
    "name": "임대인",
    "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "late": {
+   "name": "연체가산율",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "late_copy": {
+   "name": "연체가산율",
+   "kind": "number",
    "by": "자동",
    "keys": 1,
    "aliases": []
@@ -2839,6 +2986,20 @@
    "keys": 1,
    "aliases": []
   },
+  "max_late": {
+   "name": "최고연체율",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "max_late_copy": {
+   "name": "최고연체율",
+   "kind": "amount",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
   "meal": {
    "name": "식사대",
    "kind": "number",
@@ -2897,9 +3058,16 @@
   },
   "method": {
    "name": "출석구분",
-   "kind": "text",
+   "kind": "checkbox",
    "by": "자동",
-   "keys": 6,
+   "keys": 7,
+   "aliases": []
+  },
+  "method_copy": {
+   "name": "개별거래",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
    "aliases": []
   },
   "mgmt_no": {
@@ -2934,7 +3102,7 @@
    "name": "휴대전화",
    "kind": "phone",
    "by": "자동",
-   "keys": 6,
+   "keys": 7,
    "aliases": []
   },
   "model": {
@@ -2993,6 +3161,13 @@
    "keys": 2,
    "aliases": []
   },
+  "moved": {
+   "name": "전입일자",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
   "moved_in": {
    "name": "전입일/변동일",
    "kind": "date",
@@ -3004,14 +3179,21 @@
    "name": "성명",
    "kind": "text",
    "by": "자동",
-   "keys": 88,
+   "keys": 89,
+   "aliases": []
+  },
+  "name_copy": {
+   "name": "채무자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
    "aliases": []
   },
   "name_en": {
    "name": "영문명",
    "kind": "text",
    "by": "자동",
-   "keys": 5,
+   "keys": 6,
    "aliases": []
   },
   "name_hanja": {
@@ -3032,7 +3214,7 @@
    "name": "국적",
    "kind": "text",
    "by": "자동",
-   "keys": 9,
+   "keys": 10,
    "aliases": []
   },
   "net": {
@@ -3162,10 +3344,10 @@
    "aliases": []
   },
   "number": {
-   "name": "계좌번호",
+   "name": "발급번호",
    "kind": "text",
    "by": "자동",
-   "keys": 1,
+   "keys": 2,
    "aliases": []
   },
   "object": {
@@ -3186,7 +3368,7 @@
    "name": "처리관서",
    "kind": "text",
    "by": "자동",
-   "keys": 5,
+   "keys": 6,
    "aliases": []
   },
   "office_address": {
@@ -3239,10 +3421,10 @@
    "aliases": []
   },
   "opened": {
-   "name": "설치일",
+   "name": "개업일",
    "kind": "date",
    "by": "자동",
-   "keys": 3,
+   "keys": 4,
    "aliases": []
   },
   "opened_registered": {
@@ -3385,6 +3567,13 @@
    "keys": 1,
    "aliases": []
   },
+  "owner": {
+   "name": "소유자",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
   "owner_step": {
    "name": "실제소유자확인단계",
    "kind": "checkbox",
@@ -3420,8 +3609,22 @@
    "keys": 1,
    "aliases": []
   },
+  "paid": {
+   "name": "납부금액",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
   "paid_date": {
    "name": "납부일자",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "paid_on": {
+   "name": "납부일",
    "kind": "date",
    "by": "자동",
    "keys": 1,
@@ -3557,7 +3760,21 @@
    "name": "근무기간",
    "kind": "text",
    "by": "자동",
-   "keys": 11,
+   "keys": 12,
+   "aliases": []
+  },
+  "period_end": {
+   "name": "과세기간종료",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "period_start": {
+   "name": "과세기간시작",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
    "aliases": []
   },
   "permitted": {
@@ -3585,7 +3802,7 @@
    "name": "연락처",
    "kind": "phone",
    "by": "자동",
-   "keys": 26,
+   "keys": 27,
    "aliases": [
     "tel"
    ]
@@ -3853,7 +4070,7 @@
    "name": "등기목적",
    "kind": "text",
    "by": "자동",
-   "keys": 10,
+   "keys": 11,
    "aliases": []
   },
   "purpose_category": {
@@ -3905,6 +4122,13 @@
    "keys": 1,
    "aliases": []
   },
+  "qual": {
+   "name": "자격취득일",
+   "kind": "date",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
   "quantity": {
    "name": "RevenueTons",
    "kind": "text",
@@ -3930,7 +4154,14 @@
    "name": "적용환율",
    "kind": "number",
    "by": "자동",
-   "keys": 6,
+   "keys": 7,
+   "aliases": []
+  },
+  "rate_copy": {
+   "name": "약정이율",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
    "aliases": []
   },
   "rate_reset": {
@@ -4049,7 +4280,7 @@
    "name": "등기연월일",
    "kind": "text",
    "by": "자동",
-   "keys": 10,
+   "keys": 11,
    "aliases": []
   },
   "registrar": {
@@ -4077,7 +4308,7 @@
    "name": "채무자와의관계",
    "kind": "text",
    "by": "자동",
-   "keys": 14,
+   "keys": 15,
    "aliases": []
   },
   "relationship": {
@@ -4160,6 +4391,20 @@
   "rep_title": {
    "name": "자격",
    "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "repay": {
+   "name": "만기일시상환",
+   "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "repay_copy": {
+   "name": "만기일시상환",
+   "kind": "checkbox",
    "by": "자동",
    "keys": 1,
    "aliases": []
@@ -4290,6 +4535,13 @@
    "keys": 1,
    "aliases": []
   },
+  "road": {
+   "name": "도로명주소",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
   "road_address": {
    "name": "도로명주소",
    "kind": "text",
@@ -4318,11 +4570,18 @@
    "keys": 1,
    "aliases": []
   },
+  "row": {
+   "name": "순번",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
   "rrn": {
    "name": "주민등록번호",
    "kind": "rrn",
    "by": "자동",
-   "keys": 38,
+   "keys": 39,
    "aliases": []
   },
   "sailing_date": {
@@ -4336,12 +4595,19 @@
    "name": "급여",
    "kind": "amount",
    "by": "자동",
-   "keys": 4,
+   "keys": 5,
    "aliases": []
   },
   "salary_transfer": {
    "name": "급여이체지정",
    "kind": "checkbox",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "sales": {
+   "name": "매출과세표준",
+   "kind": "number",
    "by": "자동",
    "keys": 1,
    "aliases": []
@@ -4644,6 +4910,27 @@
    "name": "자격취득일",
    "kind": "date",
    "by": "자동",
+   "keys": 2,
+   "aliases": []
+  },
+  "start0_copy": {
+   "name": "대출개시일년",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "start1_copy": {
+   "name": "대출개시일월",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "start2_copy": {
+   "name": "대출개시일일",
+   "kind": "number",
+   "by": "자동",
    "keys": 1,
    "aliases": []
   },
@@ -4672,7 +4959,7 @@
    "name": "등록상태",
    "kind": "text",
    "by": "자동",
-   "keys": 3,
+   "keys": 4,
    "aliases": []
   },
   "std_name": {
@@ -4686,7 +4973,7 @@
    "name": "구조",
    "kind": "text",
    "by": "자동",
-   "keys": 3,
+   "keys": 4,
    "aliases": []
   },
   "structure_usage": {
@@ -4707,7 +4994,14 @@
    "name": "대출과목",
    "kind": "text",
    "by": "자동",
-   "keys": 2,
+   "keys": 3,
+   "aliases": []
+  },
+  "subject_copy": {
+   "name": "대출과목",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
    "aliases": []
   },
   "submit_to": {
@@ -4816,10 +5110,10 @@
    "aliases": []
   },
   "tax": {
-   "name": "세액",
+   "name": "총결정세액",
    "kind": "amount",
    "by": "자동",
-   "keys": 3,
+   "keys": 4,
    "aliases": []
   },
   "tax_arrears": {
@@ -4834,6 +5128,13 @@
    "kind": "text",
    "by": "자동",
    "keys": 2,
+   "aliases": []
+  },
+  "tax_kind": {
+   "name": "세목",
+   "kind": "text",
+   "by": "자동",
+   "keys": 1,
    "aliases": []
   },
   "tax_office": {
@@ -4851,10 +5152,10 @@
    "aliases": []
   },
   "tax_year": {
-   "name": "과세연도",
+   "name": "귀속연도",
    "kind": "number",
    "by": "자동",
-   "keys": 2,
+   "keys": 3,
    "aliases": []
   },
   "taxable_krw": {
@@ -5078,7 +5379,7 @@
    "name": "예금종류",
    "kind": "text",
    "by": "자동",
-   "keys": 8,
+   "keys": 9,
    "aliases": []
   },
   "uncleared": {
@@ -5368,11 +5669,39 @@
    "keys": 3,
    "aliases": []
   },
+  "written": {
+   "name": "작성일년",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "written0_copy": {
+   "name": "작성일년",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "written1_copy": {
+   "name": "작성일월",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
+  "written2_copy": {
+   "name": "작성일일",
+   "kind": "number",
+   "by": "자동",
+   "keys": 1,
+   "aliases": []
+  },
   "year": {
    "name": "귀속연도",
    "kind": "number",
    "by": "자동",
-   "keys": 3,
+   "keys": 4,
    "aliases": []
   },
   "zipcode": {

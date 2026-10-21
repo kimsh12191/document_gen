@@ -408,6 +408,382 @@
   },
   {
    "dict": "field",
+   "from": "official.address",
+   "into": "customer.address",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.address_copy",
+   "into": "official.address",
+   "reason": "보관본·사본의 같은 값 (_copy)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.amount",
+   "into": "loan.amount",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.amount_copy",
+   "into": "official.amount",
+   "reason": "보관본·사본의 같은 값 (_copy)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.birth",
+   "into": "customer.birth",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.biz_item",
+   "into": "company.biz_item",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.biz_no",
+   "into": "company.biz_no",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.biz_type",
+   "into": "company.biz_type",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.company",
+   "into": "company.name",
+   "reason": "역할 이름이 속성 자리에 (official.debtor → debtor.name)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.corp_reg_no",
+   "into": "company.corp_reg_no",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.debtor",
+   "into": "debtor.name",
+   "reason": "역할 이름이 속성 자리에 (official.debtor → debtor.name)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.debtor_copy",
+   "into": "official.debtor",
+   "reason": "보관본·사본의 같은 값 (_copy)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.email",
+   "into": "customer.email",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.filing",
+   "into": "filing_kind",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.first_joined",
+   "into": "first_acquired",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.guarantor",
+   "into": "guarantor.name",
+   "reason": "역할 이름이 속성 자리에 (official.debtor → debtor.name)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.guarantor_copy",
+   "into": "official.guarantor",
+   "reason": "보관본·사본의 같은 값 (_copy)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.income",
+   "into": "filing_rows.revenue",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.industry",
+   "into": "company.biz_type",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.issued",
+   "into": "issue_date",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.item",
+   "into": "company.biz_item",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.mobile",
+   "into": "customer.phone",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.moved",
+   "into": "cohabitants.move_in_date",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.name",
+   "into": "seal.signer",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.name_copy",
+   "into": "official.name",
+   "reason": "보관본·사본의 같은 값 (_copy)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.name_en",
+   "into": "customer.name_en",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.nationality",
+   "into": "customer.nationality",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.number",
+   "into": "issue_no",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.opened",
+   "into": "company.established",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.owner",
+   "into": "owner.name",
+   "reason": "역할 이름이 속성 자리에 (official.debtor → debtor.name)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.period",
+   "into": "deferrals.tax_period",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.phone",
+   "into": "customer.phone",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.purpose",
+   "into": "purpose",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.qual",
+   "into": "rows.start",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.registered",
+   "into": "registered",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.road",
+   "into": "property.road_address",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.row",
+   "into": "cohabitants.no",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.rrn",
+   "into": "customer.rrn",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.salary",
+   "into": "employment.annual_salary",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.status",
+   "into": "cohabitants.reg_type",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.subject",
+   "into": "loan.subject",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.subject_copy",
+   "into": "official.subject",
+   "reason": "보관본·사본의 같은 값 (_copy)",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.tax",
+   "into": "deferrals.tax_item",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.tax_kind",
+   "into": "deferrals.tax_item",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.tax_year",
+   "into": "filing_rows.year",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.type",
+   "into": "rows.kind",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
+   "from": "official.year",
+   "into": "period",
+   "reason": "이름공간 official: 같은 항목명을 쓰는 표준 키",
+   "status": "proposed",
+   "applied": false
+  },
+  {
+   "dict": "field",
    "from": "ACCOUNTEE",
    "into": "accountee",
    "reason": "영어 표준꼴로 (뜻 확인 필요)",

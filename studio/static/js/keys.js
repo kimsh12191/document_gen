@@ -38,7 +38,8 @@ function fieldsTab(s) {
       <span class="muted">역할을 누르면 그 역할의 키와 당사자 키가 보입니다. 당사자를 바꾸면 '사람'이 정한 것으로 남습니다.</span></div>
     <div class="split"><div id="fd-tree" class="scroll tree"></div><div id="fd-edit" class="panel">왼쪽에서 역할을 고르세요.</div></div>`;
   const draw = () => {
-    $("#fd-tree").innerHTML = s.parties.map(p => {
+    $("#fd-tree").innerHTML = `<div class="node"><a href="#" id="fd-single"><b>▸ 역할 없는 키</b></a>
+      <span class="muted">bank · date · 취급점 · 금액 처럼 속성만 있는 키 (주로 overlay 서식의 항목명 키)</span></div>` + s.parties.map(p => {
       const roles = p.roles.filter(r => !f.unsure || (r.sure === false && r.by !== "사람"));
       if (f.unsure && !roles.length) return "";
       const open = f.open === p.id || f.unsure;
@@ -49,9 +50,38 @@ function fieldsTab(s) {
     }).join("");
     $$("#fd-tree [data-party]").forEach(a => a.onclick = e => { e.preventDefault(); f.open = f.open === a.dataset.party ? "" : a.dataset.party; store.set("dict.fields", f); draw(); });
     $$("#fd-tree [data-role]").forEach(a => a.onclick = e => { e.preventDefault(); editRole(s, a.dataset.role); });
+    $("#fd-single").onclick = e => { e.preventDefault(); editSingle(s, "unassigned"); };
   };
   $("#fd-unsure").onchange = e => { f.unsure = e.target.checked; store.set("dict.fields", f); draw(); };
   draw();
+}
+
+async function editSingle(s, show, qv = "") {
+  const r = await api(`/api/dictionary/single?show=${show}&q=${q(qv)}`);
+  const opts = cur => s.parties.map(p => `<option value="${p.id}" ${p.id === cur ? "selected" : ""}>${esc(p.name)}</option>`).join("");
+  $("#fd-edit").innerHTML = `
+    <div><b>역할 없는 키</b> <span class="muted">미정 ${r.counts.unassigned} · 추정 ${r.counts.unsure} · 전체 ${r.counts.all}</span></div>
+    <div class="bar"><select id="sg-show">${[["unassigned", "미정"], ["unsure", "추정한 것"], ["all", "전체"]].map(([k, n]) =>
+      `<option value="${k}" ${k === show ? "selected" : ""}>${n}</option>`).join("")}</select>
+      <input type="text" id="sg-q" placeholder="속성·항목명" value="${esc(qv)}"> <span class="muted">${r.total}개 (서식 많은 순 ${r.rows.length})</span></div>
+    <div class="bar">고른 것을 <select id="sg-all">${opts("")}</select> <button id="sg-apply">로 바꾸기</button>
+      <button class="primary" id="sg-save">저장</button> <span class="muted">저장하면 '사람'이 정한 것으로 남습니다.</span></div>
+    ${table(r.rows, [["sel", "", (x, i) => `<input type="checkbox" data-sg="${i}">`], ["attribute", "속성", x => `<span class="mono">${esc(x.attribute)}</span>`],
+      ["label", "항목명"], ["forms", "서식", null, true], ["state", "", x => x.state === "사람" ? `<span class="tag ok">사람</span>` : x.state === "추정" ? `<span class="tag warn">추정</span>` : ""],
+      ["party", "당사자", (x, i) => `<select data-sp="${i}">${opts(x.party)}</select>`]])}`;
+  const changed = new Set();
+  $$("[data-sp]").forEach(el => el.onchange = () => changed.add(+el.dataset.sp));
+  $("#sg-show").onchange = e => editSingle(s, e.target.value, $("#sg-q").value);
+  $("#sg-q").onchange = e => editSingle(s, $("#sg-show").value, e.target.value);
+  $("#sg-apply").onclick = () => $$("[data-sg]").filter(el => el.checked).forEach(el => {
+    const i = +el.dataset.sg; $(`[data-sp="${i}"]`).value = $("#sg-all").value; changed.add(i);
+  });
+  $("#sg-save").onclick = async () => {
+    const parties = Object.fromEntries([...changed].map(i => [r.rows[i].attribute, $(`[data-sp="${i}"]`).value]));
+    if (!Object.keys(parties).length) return toast("바꾼 것이 없습니다", true);
+    try { const res = await api("/api/dictionary/single", { parties }, "PUT"); toast(`${res.changed}개 저장`); editSingle(s, show, qv); }
+    catch (e) { toast(e.message, true); }
+  };
 }
 
 async function editRole(s, role) {
@@ -66,13 +96,22 @@ async function editRole(s, role) {
       ${Object.entries(s.tasks).map(([t, n]) => `<div class="bar"><span style="width:160px">${esc(n)}</span>${sel(`data-task="${esc(t)}"`, (r.by_task || {})[t], "(기본)")}</div>`).join("")}</details>
     <div class="bar"><button class="primary" id="rl-save">저장</button></div>
     ${table(r.keys.slice(0, 200), [["key", "키", k => `<span class="mono">${esc(k.key)}</span>${k.canonical !== k.key ? `<div class="muted">→ ${esc(k.canonical)}</div>` : ""}`],
-      ["labels", "항목명", k => esc(k.labels.join(" · "))], ["party_key", "당사자 키", k => `<span class="mono">${esc(k.party_key)}</span>`],
-      ["forms", "서식", null, true]])}`;
+      ["labels", "항목명", k => esc(k.labels.join(" · "))], ["party_key", "당사자 키", k => `<a href="#" class="mono" data-pk="${esc(k.party_key)}">${esc(k.party_key)}</a>`],
+      ["forms", "서식", null, true], ["doc_types", "문서 종류", null, true]])}
+    <div id="rl-pk"></div>`;
+  $$("#fd-edit [data-pk]").forEach(a => a.onclick = e => { e.preventDefault(); showPartyKey(a.dataset.pk, $("#rl-pk")); });
   $("#rl-save").onclick = async () => {
     const by_task = Object.fromEntries($$("[data-task]").map(el => [el.dataset.task, el.value]).filter(([, v]) => v));
     try { await api(`/api/dictionary/role/${q(role)}`, { party: $("#rl-party").value, name: $("#rl-name").value, by_task }, "PUT"); toast("저장"); viewKeys("fields"); }
     catch (e) { toast(e.message, true); }
   };
+}
+
+async function showPartyKey(pk, box) {
+  const l = await api(`/api/dictionary/links/party_key/${pk.split(".").map(encodeURIComponent).join(".")}`);
+  box.innerHTML = `<div class="panel"><b class="mono">${esc(pk)}</b> — 문서 종류 ${l.doc_types.length} · 업무 ${l.tasks.length}
+    <div>${l.tasks.map(t => `<span class="tag">${esc(t.name)}</span>`).join(" ")}</div>
+    <div class="muted">${esc(l.doc_types.slice(0, 30).map(d => d.name).join(" · "))}${l.doc_types.length > 30 ? " …" : ""}</div></div>`;
 }
 
 // ---------------------------------------------------------------------------
@@ -133,7 +172,15 @@ function editDoc(d, id) {
     <label>대분류 <select id="de-g">${Object.entries(d.groups).map(([k, n]) => `<option value="${k}" ${k === t.group ? "selected" : ""}>${esc(n)}</option>`).join("")}</select></label>
     <label>다른 이름 (한 줄에 하나 — 영문 이름, 줄임말) <textarea id="de-al" rows="5" style="width:100%">${esc(t.aliases.join("\n"))}</textarea></label>
     <div>실제 서식: ${t.forms.map(f => `<a href="#/forms/${q(f)}" class="mono">${esc(f)}</a>`).join(" · ")}</div>
-    <div class="bar"><button class="primary" id="de-save">저장</button></div>`;
+    <div class="bar"><button class="primary" id="de-save">저장</button></div>
+    <div id="de-links" class="muted">연결 읽는 중…</div>`;
+  api(`/api/dictionary/links/doc_type/${q(id)}`).then(l => {
+    $("#de-links").innerHTML = `<div><b>쓰는 업무</b> ${l.tasks.map(t => `<span class="tag">${esc(t.name)}</span>`).join(" ") || "없음"}</div>
+      <div><b>당사자 키</b> ${l.party_keys.length} (키 ${l.keys}) — 다른 문서 종류에도 나오는 순</div>
+      <div>${l.party_keys.slice(0, 40).map(x => `<a href="#" class="mono" data-pk="${esc(x.party_key)}">${esc(x.party_key)}</a><span class="muted">(${x.doc_types})</span>`).join(" · ")}</div>
+      <div id="de-pk"></div>`;
+    $$("#de-links [data-pk]").forEach(a => a.onclick = e => { e.preventDefault(); showPartyKey(a.dataset.pk, $("#de-pk")); });
+  }).catch(() => { $("#de-links").textContent = ""; });
   $("#de-save").onclick = async () => {
     try {
       await api(`/api/dictionary/doc_type/${q(id)}`, { name: $("#de-name").value, group: $("#de-g").value,
@@ -168,8 +215,14 @@ function editTask(d, id) {
     <label>다른 이름 (쉼표) <input type="text" id="te-al" value="${esc(t.aliases.join(", "))}" style="width:100%"></label>
     <div><b>이 업무의 역할 → 당사자</b></div>
     <div id="te-roles">${[...roleRows, ["", "customer"]].map(([r, p]) => `<div class="bar te-row"><input type="text" value="${esc(r)}" placeholder="역할 (예: buyer)" class="mono"> → ${psel(p)}</div>`).join("")}</div>
-    <div class="muted">필수 서류: ${esc((t.docs || []).join(", "))}</div>
-    <div class="bar"><button class="primary" id="te-save">저장</button></div>`;
+    <div class="bar"><button class="primary" id="te-save">저장</button></div>
+    <div id="te-links" class="muted">연결 읽는 중…</div>`;
+  api(`/api/dictionary/links/task/${q(id)}`).then(l => {
+    $("#te-links").innerHTML = `<div><b>필수 문서 종류</b> ${l.doc_types.map(d => `<span class="tag">${esc(d.name)}</span>`).join(" ")}</div>
+      <div><b>서류끼리 겹치는 당사자 키 (대조 후보) ${l.shared.length}</b> — 같은 값이어야 하는 칸</div>
+      ${table(l.shared.slice(0, 60), [["party_key", "당사자 키", x => `<span class="mono">${esc(x.party_key)}</span>`],
+        ["names", "나오는 문서 종류", x => esc(x.names.join(" · "))], ["n", "수", x => x.doc_types.length, true]])}`;
+  }).catch(() => { $("#te-links").textContent = ""; });
   $("#te-save").onclick = async () => {
     const roles = Object.fromEntries($$(".te-row").map(el => [$("input", el).value.trim(), $("select", el).value]).filter(([r]) => r));
     try {

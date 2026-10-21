@@ -14,7 +14,7 @@ import re
 from pathlib import Path
 
 DIR = Path(__file__).with_name("dictionary")
-FILES = ("parties", "roles", "attributes", "doc_types", "tasks", "options", "merges")
+FILES = ("parties", "roles", "attributes", "doc_types", "tasks", "options", "merges", "relations")
 _cache: dict = {}
 
 
@@ -49,6 +49,7 @@ def merged(dict_: str, name: str) -> str:
 
 
 def split(key: str) -> tuple[str | None, list[str], str]:
+    key = re.sub(r"\[\]", ".*", key)   # owners[].name → owners.*.name (반복 행)
     parts = key.split(".")
     if parts[0] in ("seal", "sign") and len(parts) >= 2:
         return ("staff" if parts[1] == "staff" else ".".join(parts[1:])), [], parts[0]
@@ -57,10 +58,10 @@ def split(key: str) -> tuple[str | None, list[str], str]:
     return parts[0], parts[1:-1], parts[-1]
 
 
-def role_party(role: str | None, doc_type: str | None = None, task: str | None = None) -> str:
+def role_party(role: str | None, doc_type: str | None = None, task: str | None = None, attr: str | None = None) -> str:
     """서류 속 역할 → 당사자. 업무 > 문서 종류 > 역할 기본값 순."""
-    if role is None:
-        return "document"
+    if role is None:   # 역할 없이 속성만 있는 키 (bank, date …): roles.json 의 single
+        return load("roles").get("single", {}).get(attr or "", "unassigned")
     role = merged("role", role)
     t = load("tasks").get("tasks", {}).get(task or "", {})
     if role in t.get("roles", {}):
@@ -77,7 +78,7 @@ def resolve(key: str, doc_type: str | None = None, task: str | None = None) -> d
     canonical = merged("field", key)
     role, sub, attr = split(canonical)
     attr = merged("attribute", attr)
-    party = role_party(role, doc_type, task)
+    party = role_party(role, doc_type, task, attr)
     a = load("attributes").get("attributes", {}).get(attr, {})
     mark = attr in ("seal", "sign")
     return {"key": key, "canonical": canonical, "party": party, "role": role, "sub": sub, "attribute": attr,

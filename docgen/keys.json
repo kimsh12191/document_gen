@@ -67,7 +67,7 @@
     "0.2%p"
    ],
    "type": "text",
-   "forms": 1,
+   "forms": 2,
    "groups": [
     "hana"
    ]
@@ -1041,7 +1041,7 @@
     "FAX()-"
    ],
    "type": "phone",
-   "forms": 8,
+   "forms": 9,
    "groups": [
     "hana"
    ],
@@ -1054,7 +1054,7 @@
     "FAX()-"
    ],
    "type": "phone",
-   "forms": 3,
+   "forms": 4,
    "groups": [
     "hana"
    ],
@@ -1066,7 +1066,7 @@
     "FAX"
    ],
    "type": "phone",
-   "forms": 1,
+   "forms": 2,
    "groups": [
     "hana"
    ],
@@ -3096,11 +3096,11 @@
     "출금계좌번호",
     "퇴직연금계좌번호",
     "입금계좌번호",
-    "AccountNo.",
-    "입금계좌"
+    "입금계좌",
+    "AccountNo."
    ],
    "type": "account_no",
-   "forms": 51,
+   "forms": 58,
    "groups": [
     "hana"
    ],
@@ -3306,11 +3306,11 @@
    "key": "agent.address",
    "labels": [
     "주소",
-    "주소*",
-    "주소(선택항목)"
+    "주소(선택항목)",
+    "주소*"
    ],
    "type": "text",
-   "forms": 15,
+   "forms": 20,
    "groups": [
     "corporate",
     "hana"
@@ -3323,7 +3323,7 @@
     "생년월일"
    ],
    "type": "date",
-   "forms": 16,
+   "forms": 21,
    "groups": [
     "corporate",
     "hana"
@@ -3353,7 +3353,7 @@
     "위임인"
    ],
    "type": "text",
-   "forms": 38,
+   "forms": 44,
    "groups": [
     "bank_form",
     "corporate",
@@ -3371,7 +3371,7 @@
     "연락처(선택항목)"
    ],
    "type": "phone",
-   "forms": 15,
+   "forms": 20,
    "groups": [
     "bank_form",
     "corporate",
@@ -3414,7 +3414,7 @@
     "위임인과의관계"
    ],
    "type": "text",
-   "forms": 27,
+   "forms": 32,
    "groups": [
     "bank_form",
     "corporate",
@@ -5685,7 +5685,7 @@
     "c"
    ],
    "type": "text",
-   "forms": 1,
+   "forms": 2,
    "groups": [
     "hana"
    ]
@@ -7484,7 +7484,7 @@
     "소재지(본점)"
    ],
    "type": "text",
-   "forms": 29,
+   "forms": 32,
    "groups": [
     "bank_form",
     "hana",
@@ -7503,7 +7503,7 @@
     "종목"
    ],
    "type": "text",
-   "forms": 41,
+   "forms": 43,
    "groups": [
     "hana"
    ],
@@ -7516,11 +7516,11 @@
     "사업자번호",
     "사업자(주민)등록번호",
     "사업자(주민)번호",
-    "사업자등록번호(생년월일)",
-    "사업자(주민등록)번호"
+    "사업자등록번호(고유번호및납세번호등포함)",
+    "사업자번호(생년월일)"
    ],
    "type": "biz_no",
-   "forms": 81,
+   "forms": 87,
    "groups": [
     "bank_form",
     "hana",
@@ -7563,7 +7563,7 @@
     "대표자성명"
    ],
    "type": "text",
-   "forms": 51,
+   "forms": 54,
    "groups": [
     "bank_form",
     "hana",
@@ -7595,7 +7595,7 @@
     "법인등록번호*"
    ],
    "type": "corp_reg_no",
-   "forms": 23,
+   "forms": 24,
    "groups": [
     "bank_form",
     "hana"
@@ -7617,13 +7617,13 @@
   {
    "key": "company.established",
    "labels": [
-    "설립연월일",
     "설립일",
+    "설립연월일",
     "설립(예정)일",
     "개업일"
    ],
    "type": "date",
-   "forms": 10,
+   "forms": 11,
    "groups": [
     "bank_form",
     "hana"
@@ -7665,7 +7665,7 @@
     "CompanyName"
    ],
    "type": "text",
-   "forms": 78,
+   "forms": 84,
    "groups": [
     "bank_form",
     "hana",
@@ -8589,13 +8589,13 @@
    "labels": [
     "주소",
     "Address",
-    "주소*",
     "자택주소",
-    "주소(영문)",
-    "Address*"
+    "주소*",
+    "주소(선택항목)",
+    "주소(영문)"
    ],
    "type": "text",
-   "forms": 112,
+   "forms": 124,
    "groups": [
     "bank_form",
     "hana"
@@ -8613,7 +8613,7 @@
     "생년월일DateofBirth"
    ],
    "type": "date",
-   "forms": 75,
+   "forms": 88,
    "groups": [
     "hana"
    ],
@@ -8642,7 +8642,7 @@
     "이메일"
    ],
    "type": "text",
-   "forms": 36,
+   "forms": 42,
    "groups": [
     "bank_form",
     "hana"
@@ -8670,7 +8670,7 @@
     "집전화"
    ],
    "type": "phone",
-   "forms": 5,
+   "forms": 7,
    "groups": [
     "hana"
    ],
@@ -8712,10 +8712,10 @@
     "예금주",
     "신청인",
     "고객명",
-    "이름"
+    "이름(GivenName)"
    ],
    "type": "text",
-   "forms": 122,
+   "forms": 142,
    "groups": [
     "bank_form",
     "hana"
@@ -8726,14 +8726,14 @@
    "key": "customer.name_en",
    "labels": [
     "영문명",
-    "성명(영문)",
     "영문명(외국법인필수)",
+    "성명(영문)",
     "영문",
     "성명",
     "이름"
    ],
    "type": "text",
-   "forms": 5,
+   "forms": 7,
    "groups": [
     "bank_form",
     "hana"
@@ -8761,12 +8761,12 @@
     "연락처",
     "전화번호",
     "휴대폰번호",
+    "핸드폰",
     "휴대전화",
-    "휴대폰",
-    "핸드폰"
+    "휴대폰"
    ],
    "type": "phone",
-   "forms": 93,
+   "forms": 106,
    "groups": [
     "hana"
    ],
@@ -8789,13 +8789,13 @@
    "labels": [
     "주민등록번호",
     "주민등록번호(사업자등록번호)",
-    "실명번호",
     "주민번호앞6자리",
+    "실명번호",
     "주민(사업자)등록번호",
-    "주민번호(사업자등록번호)"
+    "주민등록번호앞6자리"
    ],
    "type": "rrn",
-   "forms": 30,
+   "forms": 35,
    "groups": [
     "bank_form",
     "hana"
@@ -8846,7 +8846,7 @@
     "d"
    ],
    "type": "text",
-   "forms": 1,
+   "forms": 2,
    "groups": [
     "hana"
    ]
@@ -8859,10 +8859,10 @@
     "일자",
     "Date",
     "년월일",
-    "신청일"
+    "대출희망일"
    ],
    "type": "date",
-   "forms": 346,
+   "forms": 380,
    "groups": [
     "bank_form",
     "hana"
@@ -9957,7 +9957,7 @@
     "근무지주소"
    ],
    "type": "text",
-   "forms": 7,
+   "forms": 10,
    "groups": [
     "hana",
     "income"
@@ -9979,12 +9979,12 @@
   {
    "key": "employer.department",
    "labels": [
-    "부서",
     "부서명",
+    "부서",
     "소속부서"
    ],
    "type": "text",
-   "forms": 6,
+   "forms": 8,
    "groups": [
     "hana"
    ],
@@ -9998,7 +9998,7 @@
     "입사연월일"
    ],
    "type": "date",
-   "forms": 7,
+   "forms": 9,
    "groups": [
     "hana"
    ],
@@ -10007,15 +10007,15 @@
   {
    "key": "employer.name",
    "labels": [
-    "회사명",
     "직장명",
+    "회사명",
     "소속",
     "직장",
-    "사업주",
-    "직장명(직위)"
+    "직장명(직위)",
+    "사업주"
    ],
    "type": "text",
-   "forms": 21,
+   "forms": 26,
    "groups": [
     "hana",
     "income"
@@ -10032,7 +10032,7 @@
     "근무처전화"
    ],
    "type": "phone",
-   "forms": 7,
+   "forms": 10,
    "groups": [
     "hana",
     "income"
@@ -10047,7 +10047,7 @@
     "직책"
    ],
    "type": "text",
-   "forms": 9,
+   "forms": 12,
    "groups": [
     "hana"
    ],
@@ -11109,7 +11109,7 @@
     "성명"
    ],
    "type": "text",
-   "forms": 4,
+   "forms": 5,
    "groups": [
     "hana"
    ],
@@ -16093,6 +16093,815 @@
    "example": "900210-*******"
   },
   {
+   "key": "official.address",
+   "labels": [
+    "주소",
+    "사업장소재지",
+    "대지위치",
+    "사업장",
+    "토지소재",
+    "대상건물소재지"
+   ],
+   "type": "text",
+   "forms": 29,
+   "groups": [
+    "business",
+    "family",
+    "hana",
+    "identity",
+    "income",
+    "real_estate",
+    "tax"
+   ],
+   "example": "서울특별시 서초구 방배로 524, 110동 501호"
+  },
+  {
+   "key": "official.address_copy",
+   "labels": [
+    "주소",
+    "채무자주소",
+    "보증인주소"
+   ],
+   "type": "text",
+   "forms": 4,
+   "groups": [
+    "hana"
+   ],
+   "example": "서울특별시 서초구 방배로 524, 110동 501호"
+  },
+  {
+   "key": "official.amount",
+   "labels": [
+    "세액",
+    "대출금액",
+    "여신금액",
+    "채권최고액",
+    "피보증채무금액",
+    "총연금액"
+   ],
+   "type": "amount",
+   "forms": 6,
+   "groups": [
+    "hana",
+    "income",
+    "tax"
+   ],
+   "example": "198,970,000"
+  },
+  {
+   "key": "official.amount_copy",
+   "labels": [
+    "대출금액",
+    "여신금액",
+    "채권최고액",
+    "피보증채무금액"
+   ],
+   "type": "amount",
+   "forms": 4,
+   "groups": [
+    "hana"
+   ],
+   "example": "292,000,000"
+  },
+  {
+   "key": "official.area",
+   "labels": [
+    "전유면적"
+   ],
+   "type": "number",
+   "forms": 1,
+   "groups": [
+    "real_estate"
+   ],
+   "example": "101.84"
+  },
+  {
+   "key": "official.arrears",
+   "labels": [
+    "연장·유예내역",
+    "유예내역"
+   ],
+   "type": "text",
+   "forms": 2,
+   "groups": [
+    "tax"
+   ],
+   "example": "해당 없음"
+  },
+  {
+   "key": "official.birth",
+   "labels": [
+    "생년월일"
+   ],
+   "type": "date",
+   "forms": 1,
+   "groups": [
+    "hana"
+   ],
+   "example": "1990.02.10"
+  },
+  {
+   "key": "official.biz_item",
+   "labels": [
+    "종목"
+   ],
+   "type": "text",
+   "forms": 2,
+   "groups": [
+    "business",
+    "tax"
+   ],
+   "example": "학원"
+  },
+  {
+   "key": "official.biz_no",
+   "labels": [
+    "사업자등록번호",
+    "등록번호",
+    "발생처사업자등록번호"
+   ],
+   "type": "biz_no",
+   "forms": 9,
+   "groups": [
+    "business",
+    "income",
+    "tax"
+   ],
+   "example": "860-11-55034"
+  },
+  {
+   "key": "official.biz_type",
+   "labels": [
+    "업태"
+   ],
+   "type": "text",
+   "forms": 2,
+   "groups": [
+    "business",
+    "tax"
+   ],
+   "example": "서비스업"
+  },
+  {
+   "key": "official.company",
+   "labels": [
+    "상호",
+    "징수의무자상호",
+    "상호(법인명)",
+    "근로소득발생처"
+   ],
+   "type": "text",
+   "forms": 11,
+   "groups": [
+    "business",
+    "income",
+    "tax"
+   ],
+   "example": "동방학원"
+  },
+  {
+   "key": "official.corp_reg_no",
+   "labels": [
+    "법인등록번호"
+   ],
+   "type": "corp_reg_no",
+   "forms": 2,
+   "groups": [
+    "business"
+   ],
+   "example": "200112-7448551"
+  },
+  {
+   "key": "official.debtor",
+   "labels": [
+    "채무자성명"
+   ],
+   "type": "text",
+   "forms": 1,
+   "groups": [
+    "hana"
+   ],
+   "example": "(주)유니온무역"
+  },
+  {
+   "key": "official.debtor_copy",
+   "labels": [
+    "채무자성명"
+   ],
+   "type": "text",
+   "forms": 1,
+   "groups": [
+    "hana"
+   ],
+   "example": "(주)유니온무역"
+  },
+  {
+   "key": "official.email",
+   "labels": [
+    "이메일"
+   ],
+   "type": "text",
+   "forms": 1,
+   "groups": [
+    "hana"
+   ],
+   "example": "chanyeon363@naver.com"
+  },
+  {
+   "key": "official.filing",
+   "labels": [
+    "신고구분"
+   ],
+   "type": "text",
+   "forms": 1,
+   "groups": [
+    "business"
+   ],
+   "example": "정기신고"
+  },
+  {
+   "key": "official.first_joined",
+   "labels": [
+    "최초자격취득일"
+   ],
+   "type": "date",
+   "forms": 1,
+   "groups": [
+    "income"
+   ],
+   "example": "2020.05.08"
+  },
+  {
+   "key": "official.guarantor",
+   "labels": [
+    "연대보증인"
+   ],
+   "type": "text",
+   "forms": 1,
+   "groups": [
+    "hana"
+   ],
+   "example": "박찬연"
+  },
+  {
+   "key": "official.guarantor_copy",
+   "labels": [
+    "연대보증인"
+   ],
+   "type": "text",
+   "forms": 1,
+   "groups": [
+    "hana"
+   ],
+   "example": "박찬연"
+  },
+  {
+   "key": "official.head",
+   "labels": [
+    "세대주"
+   ],
+   "type": "text",
+   "forms": 2,
+   "groups": [
+    "family",
+    "real_estate"
+   ],
+   "example": "박찬연"
+  },
+  {
+   "key": "official.id",
+   "labels": [
+    "건물ID"
+   ],
+   "type": "text",
+   "forms": 1,
+   "groups": [
+    "real_estate"
+   ],
+   "example": "1792-2013-094176"
+  },
+  {
+   "key": "official.income",
+   "labels": [
+    "수입금액"
+   ],
+   "type": "amount",
+   "forms": 1,
+   "groups": [
+    "business"
+   ],
+   "example": "2,840,000원"
+  },
+  {
+   "key": "official.industry",
+   "labels": [
+    "업태"
+   ],
+   "type": "text",
+   "forms": 4,
+   "groups": [
+    "business"
+   ],
+   "example": "서비스업"
+  },
+  {
+   "key": "official.issue",
+   "labels": [
+    "발급일년",
+    "발급일월",
+    "발급일일"
+   ],
+   "type": "number",
+   "forms": 1,
+   "groups": [
+    "income"
+   ],
+   "example": "2026"
+  },
+  {
+   "key": "official.issued",
+   "labels": [
+    "발급일자"
+   ],
+   "type": "date",
+   "forms": 1,
+   "groups": [
+    "income"
+   ],
+   "example": "2026.01.31"
+  },
+  {
+   "key": "official.item",
+   "labels": [
+    "종목"
+   ],
+   "type": "text",
+   "forms": 4,
+   "groups": [
+    "business"
+   ],
+   "example": "학원"
+  },
+  {
+   "key": "official.jibun",
+   "labels": [
+    "대상지번주소"
+   ],
+   "type": "text",
+   "forms": 1,
+   "groups": [
+    "real_estate"
+   ],
+   "example": "경기도 수원시 영통구 원천동 87"
+  },
+  {
+   "key": "official.mobile",
+   "labels": [
+    "휴대전화"
+   ],
+   "type": "phone",
+   "forms": 1,
+   "groups": [
+    "tax"
+   ],
+   "example": "010-5907-7253"
+  },
+  {
+   "key": "official.moved",
+   "labels": [
+    "전입일자"
+   ],
+   "type": "date",
+   "forms": 2,
+   "groups": [
+    "family",
+    "real_estate"
+   ],
+   "example": "2020.05.08"
+  },
+  {
+   "key": "official.name",
+   "labels": [
+    "성명",
+    "명칭",
+    "채무자",
+    "대표자성명",
+    "대표자",
+    "본인"
+   ],
+   "type": "text",
+   "forms": 27,
+   "groups": [
+    "business",
+    "family",
+    "hana",
+    "identity",
+    "income",
+    "real_estate",
+    "tax"
+   ],
+   "example": "박찬연"
+  },
+  {
+   "key": "official.name_copy",
+   "labels": [
+    "채무자",
+    "본인"
+   ],
+   "type": "text",
+   "forms": 3,
+   "groups": [
+    "hana"
+   ],
+   "example": "박찬연"
+  },
+  {
+   "key": "official.name_en",
+   "labels": [
+    "영문명"
+   ],
+   "type": "text",
+   "forms": 1,
+   "groups": [
+    "hana"
+   ],
+   "example": "PARK CHANYEON"
+  },
+  {
+   "key": "official.nationality",
+   "labels": [
+    "국적"
+   ],
+   "type": "text",
+   "forms": 1,
+   "groups": [
+    "identity"
+   ],
+   "example": "대한민국"
+  },
+  {
+   "key": "official.number",
+   "labels": [
+    "발급번호",
+    "일련번호"
+   ],
+   "type": "text",
+   "forms": 3,
+   "groups": [
+    "business",
+    "family",
+    "income"
+   ],
+   "example": "328739-0928843"
+  },
+  {
+   "key": "official.office",
+   "labels": [
+    "관할지역"
+   ],
+   "type": "text",
+   "forms": 1,
+   "groups": [
+    "income"
+   ],
+   "example": "서초"
+  },
+  {
+   "key": "official.opened",
+   "labels": [
+    "개업일"
+   ],
+   "type": "date",
+   "forms": 1,
+   "groups": [
+    "business"
+   ],
+   "example": "2020.03.21"
+  },
+  {
+   "key": "official.owner",
+   "labels": [
+    "소유자",
+    "소유자성명"
+   ],
+   "type": "text",
+   "forms": 3,
+   "groups": [
+    "real_estate"
+   ],
+   "example": "박찬연"
+  },
+  {
+   "key": "official.paid",
+   "labels": [
+    "납부금액"
+   ],
+   "type": "number",
+   "forms": 1,
+   "groups": [
+    "tax"
+   ],
+   "example": "96,990,000"
+  },
+  {
+   "key": "official.paid_on",
+   "labels": [
+    "납부일"
+   ],
+   "type": "date",
+   "forms": 1,
+   "groups": [
+    "tax"
+   ],
+   "example": "2026.05.31"
+  },
+  {
+   "key": "official.period",
+   "labels": [
+    "과세기간",
+    "부과연월"
+   ],
+   "type": "text",
+   "forms": 2,
+   "groups": [
+    "business",
+    "tax"
+   ],
+   "example": "2025.01.01 ~ 2025.12.31"
+  },
+  {
+   "key": "official.period_end",
+   "labels": [
+    "과세기간종료"
+   ],
+   "type": "date",
+   "forms": 1,
+   "groups": [
+    "tax"
+   ],
+   "example": "2025.06.30"
+  },
+  {
+   "key": "official.period_start",
+   "labels": [
+    "과세기간시작"
+   ],
+   "type": "date",
+   "forms": 1,
+   "groups": [
+    "tax"
+   ],
+   "example": "2025.01.01"
+  },
+  {
+   "key": "official.phone",
+   "labels": [
+    "휴대폰",
+    "전화번호"
+   ],
+   "type": "phone",
+   "forms": 2,
+   "groups": [
+    "hana",
+    "tax"
+   ],
+   "example": "010-5907-7253"
+  },
+  {
+   "key": "official.purpose",
+   "labels": [
+    "사용목적(기타)",
+    "일반용용도",
+    "일반용도",
+    "사용목적"
+   ],
+   "type": "text",
+   "forms": 4,
+   "groups": [
+    "identity",
+    "tax"
+   ],
+   "example": "금융기관 제출용"
+  },
+  {
+   "key": "official.qual",
+   "labels": [
+    "자격취득일"
+   ],
+   "type": "date",
+   "forms": 1,
+   "groups": [
+    "income"
+   ],
+   "example": "2020.05.08"
+  },
+  {
+   "key": "official.registered",
+   "labels": [
+    "사업자등록일"
+   ],
+   "type": "date",
+   "forms": 1,
+   "groups": [
+    "business"
+   ],
+   "example": "2020.03.21"
+  },
+  {
+   "key": "official.relation",
+   "labels": [
+    "세대주와의관계"
+   ],
+   "type": "text",
+   "forms": 1,
+   "groups": [
+    "family"
+   ],
+   "example": "본인"
+  },
+  {
+   "key": "official.road",
+   "labels": [
+    "도로명주소"
+   ],
+   "type": "text",
+   "forms": 2,
+   "groups": [
+    "real_estate"
+   ],
+   "example": "경기도 수원시 영통구 매탄로 376, 115동 2104호"
+  },
+  {
+   "key": "official.row",
+   "labels": [
+    "순번"
+   ],
+   "type": "number",
+   "forms": 1,
+   "groups": [
+    "family"
+   ],
+   "example": "1"
+  },
+  {
+   "key": "official.rrn",
+   "labels": [
+    "주민등록번호",
+    "소유자등록번호",
+    "등록번호"
+   ],
+   "type": "rrn",
+   "forms": 19,
+   "groups": [
+    "business",
+    "family",
+    "identity",
+    "income",
+    "real_estate",
+    "tax"
+   ],
+   "example": "900210-1659382"
+  },
+  {
+   "key": "official.salary",
+   "labels": [
+    "지급받은총액",
+    "급여"
+   ],
+   "type": "amount",
+   "forms": 2,
+   "groups": [
+    "income"
+   ],
+   "example": "48,570,000"
+  },
+  {
+   "key": "official.sales",
+   "labels": [
+    "매출과세표준"
+   ],
+   "type": "number",
+   "forms": 1,
+   "groups": [
+    "tax"
+   ],
+   "example": "236,880,000원"
+  },
+  {
+   "key": "official.status",
+   "labels": [
+    "등록구분"
+   ],
+   "type": "text",
+   "forms": 1,
+   "groups": [
+    "real_estate"
+   ],
+   "example": "거주자"
+  },
+  {
+   "key": "official.structure",
+   "labels": [
+    "주구조"
+   ],
+   "type": "text",
+   "forms": 1,
+   "groups": [
+    "real_estate"
+   ],
+   "example": "철근콘크리트구조"
+  },
+  {
+   "key": "official.subject",
+   "labels": [
+    "대출과목",
+    "여신과목"
+   ],
+   "type": "text",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "주택담보대출"
+  },
+  {
+   "key": "official.subject_copy",
+   "labels": [
+    "대출과목",
+    "여신과목"
+   ],
+   "type": "text",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "주택담보대출"
+  },
+  {
+   "key": "official.tax",
+   "labels": [
+    "총결정세액",
+    "세목"
+   ],
+   "type": "amount",
+   "forms": 2,
+   "groups": [
+    "income",
+    "tax"
+   ],
+   "example": "2,257,830"
+  },
+  {
+   "key": "official.tax_kind",
+   "labels": [
+    "세목"
+   ],
+   "type": "text",
+   "forms": 1,
+   "groups": [
+    "tax"
+   ],
+   "example": "종합소득세"
+  },
+  {
+   "key": "official.tax_year",
+   "labels": [
+    "귀속연도"
+   ],
+   "type": "number",
+   "forms": 1,
+   "groups": [
+    "tax"
+   ],
+   "example": "2025"
+  },
+  {
+   "key": "official.type",
+   "labels": [
+    "가입자종류"
+   ],
+   "type": "text",
+   "forms": 1,
+   "groups": [
+    "income"
+   ],
+   "example": "사업장가입자"
+  },
+  {
+   "key": "official.year",
+   "labels": [
+    "사업연도",
+    "귀속연도"
+   ],
+   "type": "text",
+   "forms": 2,
+   "groups": [
+    "business",
+    "income"
+   ],
+   "example": "2025.01.01 ~ 2025.12.31"
+  },
+  {
    "key": "on_board_date",
    "labels": [
     "OnBoardDate"
@@ -19539,7 +20348,7 @@
     "성명"
    ],
    "type": "seal",
-   "forms": 305,
+   "forms": 343,
    "groups": [
     "corporate",
     "hana"
@@ -20321,7 +21130,7 @@
     "성명"
    ],
    "type": "signature",
-   "forms": 303,
+   "forms": 341,
    "groups": [
     "hana"
    ],
@@ -20453,7 +21262,7 @@
     "기업명"
    ],
    "type": "text",
-   "forms": 272,
+   "forms": 305,
    "groups": [
     "hana",
     "identity"
@@ -20477,13 +21286,13 @@
    "labels": [
     "대리인성명",
     "대리인",
+    "신청인",
     "신고기관",
     "명",
-    "성명",
-    "신청인"
+    "성명"
    ],
    "type": "text",
-   "forms": 145,
+   "forms": 172,
    "groups": [
     "hana"
    ],
@@ -20494,13 +21303,13 @@
    "labels": [
     "기업명",
     "성명",
-    "본인성명",
-    "신청인",
-    "대표자",
-    "가입자"
+    "법정대리인성명",
+    "신청인(본인)",
+    "담보제공",
+    "세대원성명"
    ],
    "type": "text",
-   "forms": 36,
+   "forms": 42,
    "groups": [
     "hana"
    ],
@@ -20509,15 +21318,15 @@
   {
    "key": "signer4.name",
    "labels": [
+    "•접수번호(등기부등본을구기준)",
+    "세대원성명",
     "가입자",
     "본인확인(직원기재)",
     "본인성명",
-    "•접수번호(등기부등본을구기준)",
-    "세대원성명",
     "배우자성명"
    ],
    "type": "text",
-   "forms": 17,
+   "forms": 19,
    "groups": [
     "hana"
    ],
@@ -20526,15 +21335,15 @@
   {
    "key": "signer5.name",
    "labels": [
+    "세대원성명",
+    "신청인",
     "가입자",
     "위임자(본인)",
     "대리인성명",
-    "세대원성명",
-    "주택임차인",
-    "신청인"
+    "주택임차인"
    ],
    "type": "text",
-   "forms": 9,
+   "forms": 11,
    "groups": [
     "hana"
    ],
@@ -20550,7 +21359,7 @@
     "판매직원"
    ],
    "type": "text",
-   "forms": 5,
+   "forms": 6,
    "groups": [
     "hana"
    ],
@@ -20705,12 +21514,14 @@
   {
    "key": "spouse.name",
    "labels": [
+    "배우자성명",
     "성명"
    ],
    "type": "text",
-   "forms": 1,
+   "forms": 3,
    "groups": [
-    "family"
+    "family",
+    "hana"
    ],
    "example": "이도민"
   },
@@ -20741,12 +21552,15 @@
   {
    "key": "spouse.rrn",
    "labels": [
-    "주민등록번호"
+    "주민등록번호",
+    "배우자주민등록번호앞6자리",
+    "배우자주민등록번호"
    ],
    "type": "rrn",
-   "forms": 1,
+   "forms": 2,
    "groups": [
-    "family"
+    "family",
+    "hana"
    ],
    "example": "670921-1882767"
   },
@@ -22009,6 +22823,206 @@
    "example": "FOB HO CHI MINH CITY (CAT LAI), VIETNAM (INCOTERMS 2020)"
   },
   {
+   "key": "terms.end",
+   "labels": [
+    "대출만료일년",
+    "대출만료일월",
+    "대출만료일일",
+    "만료일년",
+    "만료일월",
+    "만료일일"
+   ],
+   "type": "number",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "2066"
+  },
+  {
+   "key": "terms.end0_copy",
+   "labels": [
+    "대출만료일년",
+    "만료일년"
+   ],
+   "type": "number",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "2066"
+  },
+  {
+   "key": "terms.end1_copy",
+   "labels": [
+    "대출만료일월",
+    "만료일월"
+   ],
+   "type": "number",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "02"
+  },
+  {
+   "key": "terms.end2_copy",
+   "labels": [
+    "대출만료일일",
+    "만료일일"
+   ],
+   "type": "number",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "16"
+  },
+  {
+   "key": "terms.execution",
+   "labels": [
+    "전액실행"
+   ],
+   "type": "checkbox",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "전액실행"
+  },
+  {
+   "key": "terms.execution_copy",
+   "labels": [
+    "전액실행"
+   ],
+   "type": "checkbox",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "전액실행"
+  },
+  {
+   "key": "terms.fixed",
+   "labels": [
+    "고정금리"
+   ],
+   "type": "checkbox",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "고정금리"
+  },
+  {
+   "key": "terms.fixed_choice",
+   "labels": [
+    "확정금리"
+   ],
+   "type": "checkbox",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "확정금리"
+  },
+  {
+   "key": "terms.fixed_choice_copy",
+   "labels": [
+    "확정금리"
+   ],
+   "type": "checkbox",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "확정금리"
+  },
+  {
+   "key": "terms.fixed_copy",
+   "labels": [
+    "고정금리"
+   ],
+   "type": "checkbox",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "고정금리"
+  },
+  {
+   "key": "terms.late",
+   "labels": [
+    "연체가산율"
+   ],
+   "type": "number",
+   "forms": 1,
+   "groups": [
+    "hana"
+   ],
+   "example": "3"
+  },
+  {
+   "key": "terms.late_copy",
+   "labels": [
+    "연체가산율"
+   ],
+   "type": "number",
+   "forms": 1,
+   "groups": [
+    "hana"
+   ],
+   "example": "3"
+  },
+  {
+   "key": "terms.max_late",
+   "labels": [
+    "최고연체율"
+   ],
+   "type": "amount",
+   "forms": 1,
+   "groups": [
+    "hana"
+   ],
+   "example": "15"
+  },
+  {
+   "key": "terms.max_late_copy",
+   "labels": [
+    "최고연체율"
+   ],
+   "type": "amount",
+   "forms": 1,
+   "groups": [
+    "hana"
+   ],
+   "example": "15"
+  },
+  {
+   "key": "terms.method",
+   "labels": [
+    "개별거래"
+   ],
+   "type": "checkbox",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "개별거래"
+  },
+  {
+   "key": "terms.method_copy",
+   "labels": [
+    "개별거래"
+   ],
+   "type": "checkbox",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "개별거래"
+  },
+  {
    "key": "terms.payment",
    "labels": [
     "TermsofPayment"
@@ -22019,6 +23033,160 @@
     "fx"
    ],
    "example": "T/T 60 DAYS AFTER B/L DATE"
+  },
+  {
+   "key": "terms.rate",
+   "labels": [
+    "약정이율"
+   ],
+   "type": "number",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "3.95"
+  },
+  {
+   "key": "terms.rate_copy",
+   "labels": [
+    "약정이율"
+   ],
+   "type": "number",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "3.95"
+  },
+  {
+   "key": "terms.repay",
+   "labels": [
+    "만기일시상환"
+   ],
+   "type": "checkbox",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "만기일시상환"
+  },
+  {
+   "key": "terms.repay_copy",
+   "labels": [
+    "만기일시상환"
+   ],
+   "type": "checkbox",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "만기일시상환"
+  },
+  {
+   "key": "terms.start",
+   "labels": [
+    "대출개시일년",
+    "대출개시일월",
+    "대출개시일일",
+    "개시일년",
+    "개시일월",
+    "개시일일"
+   ],
+   "type": "number",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "2026"
+  },
+  {
+   "key": "terms.start0_copy",
+   "labels": [
+    "대출개시일년",
+    "개시일년"
+   ],
+   "type": "number",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "2026"
+  },
+  {
+   "key": "terms.start1_copy",
+   "labels": [
+    "대출개시일월",
+    "개시일월"
+   ],
+   "type": "number",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "02"
+  },
+  {
+   "key": "terms.start2_copy",
+   "labels": [
+    "대출개시일일",
+    "개시일일"
+   ],
+   "type": "number",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "16"
+  },
+  {
+   "key": "terms.written",
+   "labels": [
+    "작성일년",
+    "작성일월",
+    "작성일일"
+   ],
+   "type": "number",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "26"
+  },
+  {
+   "key": "terms.written0_copy",
+   "labels": [
+    "작성일년"
+   ],
+   "type": "number",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "26"
+  },
+  {
+   "key": "terms.written1_copy",
+   "labels": [
+    "작성일월"
+   ],
+   "type": "number",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "02"
+  },
+  {
+   "key": "terms.written2_copy",
+   "labels": [
+    "작성일일"
+   ],
+   "type": "number",
+   "forms": 2,
+   "groups": [
+    "hana"
+   ],
+   "example": "09"
   },
   {
    "key": "thedateofrenewal",
@@ -22685,7 +23853,7 @@
     "(국문)"
    ],
    "type": "amount",
-   "forms": 23,
+   "forms": 24,
    "groups": [
     "hana"
    ]

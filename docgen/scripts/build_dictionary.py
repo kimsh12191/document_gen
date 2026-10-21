@@ -86,6 +86,15 @@ ROLE_PARTY = {
     "amended": "document", "amendment": "document", "handwritten": "document", "common": "document", "batch": "document",
     "probation": "document?", "household_formed": "document?", "birth": "document?",
 }
+# 역할이 아니라 이름 묶음인 앞 이름 (공식 대조 html 69종의 official.*): 키마다 합치기 후보로 진짜 키를 찾는다
+NAMESPACES = {"official"}
+WHO = {"customer", "family", "agent", "related", "employer", "corp", "counterparty", "foreign", "bank", "issuer"}   # 사람·기관 당사자
+# 역할 없는 키의 값 종류(realform.kind_of) → 당사자 (추정)
+KIND_PARTY = {"branch": "bank", "bank": "bank", "amount": "deal", "fx_amount": "deal", "percent": "deal", "rate": "deal", "count": "deal",
+              "currency": "deal", "product": "deal", "loan_subject": "deal", "repay": "deal", "check_kind": "deal", "check_no": "deal",
+              "goods": "deal", "account": "deal", "reason": "deal", "date": "document", "number": "document", "note": "document",
+              "skip": "document", "seal": "document", "person": "customer", "address": "customer", "phone": "customer",
+              "email": "customer", "passport": "customer", "biz_no": "corp", "company": "counterparty", "country": "foreign"}
 # 역할 없는 한 단어 키(속성만) → 당사자
 SINGLE_PARTY = {"bank": "bank", "branch": "bank", "bank_name": "bank", "date": "document", "issue_date": "document",
                 "doc_no": "document", "issue_no": "document", "purpose": "deal", "amount": "deal", "account": "deal"}
@@ -123,6 +132,7 @@ def _write(name: str, obj) -> None:
 
 def split_key(key: str) -> tuple[str | None, list[str], str]:
     """필드 키 → (역할, 세부, 속성). seal.applicant → (applicant, [], seal) / rows.*.amount → (rows, ['*'], amount)."""
+    key = re.sub(r"\[\]", ".*", key)   # owners[].name → owners.*.name (반복 행)
     parts = key.split(".")
     if parts[0] in ("seal", "sign") and len(parts) >= 2:
         return ".".join(parts[1:]) if parts[1] != "staff" else "staff", [], parts[0]
@@ -133,7 +143,7 @@ def split_key(key: str) -> tuple[str | None, list[str], str]:
 
 def party_of(role: str | None, attr: str) -> tuple[str, bool]:
     """(당사자, 확신) — 표에 없으면 미정."""
-    p = ROLE_PARTY.get(role) if role else SINGLE_PARTY.get(attr, "customer?")
+    p = ROLE_PARTY.get(role) if role else SINGLE_PARTY.get(attr)
     if p is None and role:
         base = re.sub(r"\d+$", "", role.removeprefix("co_"))   # signer3 → signer, co_xxx → xxx
         p = ROLE_PARTY.get(base) or ROLE_PARTY.get(base.rstrip("s"))
@@ -141,6 +151,49 @@ def party_of(role: str | None, attr: str) -> tuple[str, bool]:
     if p is None:
         return "unassigned", False
     return p.rstrip("?"), not p.endswith("?")
+
+
+SKIP_PARTIES = {"document", "deal", "finance", "unassigned", "bank", "issuer"}   # 대조 후보에서 뺄 당사자 (서류마다 다른 값)
+
+
+def build_relations(fields: dict, types: dict, tasks: dict, roles: dict, merges: list) -> dict:
+    """업무 → 문서 종류 → 당사자 키 (그리고 거꾸로). 업무 안에서 둘 이상의 문서 종류에 나오는 사람·기관 당사자 키 = 대조 후보."""
+    accepted = {m["from"]: m["into"] for m in merges if m["dict"] == "field" and m["status"] == "accepted"}
+    form_type = {f: tid for tid, t in types.items() for f in t["forms"]}
+
+    def pkey(key, task=None):
+        key = accepted.get(key, key)
+        role, sub, attr = split_key(key)
+        party = (tasks.get(task, {}).get("roles", {}).get(role) if task and role else None) \
+            or (roles.get(role, {}).get("party") if role else SINGLE_PARTY.get(attr, "unassigned")) or "unassigned"
+        mark = attr in ("seal", "sign")
+        return ".".join(([attr] if mark else []) + [party] + sub + ([] if mark else [attr])), party
+
+    doc_keys = defaultdict(set)
+    for fid, f in fields.items():
+        tid = form_type.get(fid)
+        if tid:
+            doc_keys[tid].update(k["key"] for k in f["keys"])
+    out_docs = {tid: {"keys": len(ks), "party_keys": sorted({pkey(k)[0] for k in ks}), "tasks": []} for tid, ks in doc_keys.items()}
+    out_tasks, by_pk = {}, defaultdict(lambda: {"doc_types": set(), "tasks": set()})
+    for sid, t in tasks.items():
+        dts = list(dict.fromkeys(form_type[d] for d in t["docs"] if d in form_type))
+        where = defaultdict(set)
+        for tid in dts:
+            out_docs.setdefault(tid, {"keys": 0, "party_keys": [], "tasks": []})["tasks"].append(sid)
+            for k in doc_keys.get(tid, ()):
+                pk, party = pkey(k, sid)
+                if party not in SKIP_PARTIES and "*" not in pk:
+                    where[pk].add(tid)
+        shared = sorted(({"party_key": pk, "doc_types": sorted(ds)} for pk, ds in where.items() if len(ds) >= 2),
+                        key=lambda x: (-len(x["doc_types"]), x["party_key"]))
+        out_tasks[sid] = {"doc_types": dts, "shared": shared}
+    for tid, d in out_docs.items():
+        for pk in d["party_keys"]:
+            by_pk[pk]["doc_types"].add(tid)
+            by_pk[pk]["tasks"].update(d["tasks"])
+    party_keys = {pk: {"doc_types": len(v["doc_types"]), "tasks": sorted(v["tasks"])} for pk, v in sorted(by_pk.items())}
+    return {"doc_types": out_docs, "tasks": out_tasks, "party_keys": party_keys}
 
 
 def build() -> dict:
@@ -175,7 +228,10 @@ def build() -> dict:
             roles[role] = prev
             continue
         party, sure = party_of(role, "")
+        if role in NAMESPACES:
+            party, sure = "unassigned", False
         roles[role] = {"party": party, "sure": sure, "by": "자동", "forms": role_forms[role], "keys": len(role_keys[role]),
+                       **({"namespace": True} if role in NAMESPACES else {}),
                        **{k: prev[k] for k in ("name", "by_doc_type", "by_task") if prev.get(k)}}
 
     old_attrs = _load("attributes.json", {"attributes": {}})["attributes"]
@@ -261,8 +317,7 @@ def build() -> dict:
             if frm != into:
                 cand.append({"dict": "field", "from": frm, "into": into, "reason": f"이름 두 벌: {d['meaning']}",
                              "status": "accepted" if d.get("decision") else "proposed", "applied": False, "note": d.get("proposal")})
-    who = {"customer", "family", "agent", "related", "employer", "corp", "counterparty", "foreign", "bank", "issuer"}
-    person_roles = {r for r in set(roles) | set(ROLE_PARTY) if party_of(r, "")[0] in who}
+    person_roles = {r for r in set(roles) | set(ROLE_PARTY) if party_of(r, "")[0] in WHO}
     for a in attrs:   # 속성에 사람·기관 역할이 섞인 것: x.holder_phone → x.holder.phone, bank.bank_name → bank.name
         m = re.fullmatch(r"([a-z]+(?:_[a-z]+)?)_([a-z]+)", a)
         if m and m.group(1) in person_roles and m.group(2) in attrs and m.group(2) != "no":   # corp_no·employee_no 는 번호 속성 그대로
@@ -274,9 +329,25 @@ def build() -> dict:
     alias = {re.sub(r"[^a-z0-9]", "", a.lower()): k for k, v in rules["keys"].items() for a in [k, *v.get("aliases", [])]}
     by_label = defaultdict(Counter)   # 항목명 → 그 항목명을 쓰는 영어 표준 키
     for k in keys["keys"]:
-        if STD.fullmatch(k["key"]):
+        if STD.fullmatch(k["key"]) and k["key"].split(".")[0] not in NAMESPACES:
             for lab in k.get("labels", []):
                 by_label[RF.norm(lab).lower()][k["key"]] += k["forms"]
+    for k in keys["keys"]:   # 이름공간(official.*): 역할이 속성 자리에 있거나(official.debtor), 같은 항목명의 표준 키로
+        ns, _, attr = k["key"].partition(".")
+        if ns not in NAMESPACES or not attr:
+            continue
+        base = attr.removesuffix("_copy")
+        if base != attr:
+            add("field", k["key"], f"{ns}.{base}", "보관본·사본의 같은 값 (_copy)")
+            continue
+        if base in ROLE_PARTY and party_of(base, "")[0] in WHO:
+            add("field", k["key"], f"{base}.name", "역할 이름이 속성 자리에 (official.debtor → debtor.name)")
+            continue
+        same = Counter()
+        for lab in k.get("labels", []):
+            same.update(by_label.get(RF.norm(lab).lower(), {}))
+        if same:
+            add("field", k["key"], same.most_common(1)[0][0], f"이름공간 {ns}: 같은 항목명을 쓰는 표준 키")
     for k in nonstd:   # 영어 표준꼴이 아닌 키 (주로 하나은행 영문 서식의 항목명 그대로)
         into = next((RF.key_of(lab) for lab in [k["key"], *k.get("labels", [])] if RF.key_of(lab)), None) \
             or alias.get(re.sub(r"[^a-z0-9]", "", k["key"].lower()))
@@ -299,6 +370,7 @@ def build() -> dict:
     seen = set()
     merges = [c for c in cand if not ((c["dict"], c["from"], c["into"]) in seen or seen.add((c["dict"], c["from"], c["into"])))]
 
+    relations = build_relations(fields, doc_types["types"], tasks, roles, merges)
     stats = {"roles": len(roles), "roles_unassigned": sum(1 for r in roles.values() if r["party"] == "unassigned"),
              "roles_unsure": sum(1 for r in roles.values() if not r.get("sure", True)), "attributes": len(attrs),
              "nonstd_keys": len(nonstd), "doc_types": len(types), "tasks": len(tasks), "options": len(options), "merges": len(merges),
@@ -306,12 +378,37 @@ def build() -> dict:
                                          max(1, sum(r["forms"] for r in roles.values())), 4)}
     about = "키 사전 (studio/DESIGN.md 16절). docgen/scripts/build_dictionary.py 가 자동 초안을 만들고 studio 키 사전 화면이 고친다. by: 사람 인 것은 다시 만들어도 남는다."
     _write("parties.json", {"about": about, "parties": PARTIES})
-    _write("roles.json", {"about": about, "roles": roles})
+    prev_roles = _load("roles.json", {})
+    human = set(prev_roles.get("single_human", []))
+    single, unsure = dict(SINGLE_PARTY), []
+    for fid, f in fields.items():   # 역할 없이 속성만 있는 키: 항목명 규칙의 값 종류로 당사자를 추정 (확신 낮음)
+        for k in f["keys"]:
+            role, _, attr = split_key(k["key"])
+            if role is not None or attr in single:
+                continue
+            base = re.sub(r"\d+$", "", attr) or attr
+            if base in single:
+                single[attr] = single[base]
+                continue
+            std = RF.key_of(k.get("label") or attr) or RF.key_of(attr)
+            if std:
+                single[attr] = party_of(std.split(".")[0] if "." in std else None, std)[0]
+            else:
+                single[attr] = KIND_PARTY.get(RF.kind_of(k.get("label") or attr, None, None), "unassigned")
+            unsure.append(attr)
+    for a in human:   # 사람이 정한 것 유지
+        if a in prev_roles.get("single", {}):
+            single[a] = prev_roles["single"][a]
+    _write("roles.json", {"about": about + " single 은 역할 없이 속성만 있는 키(bank, date, 취급점 …)의 당사자, single_unsure 는 추정한 것,"
+                                           " single_human 은 사람이 정한 것.", "roles": roles, "single": single,
+                          "single_unsure": sorted(set(unsure) - human), "single_human": sorted(human)})
     _write("attributes.json", {"about": about, "attributes": attrs})
     _write("doc_types.json", {"about": about, **doc_types})
     _write("tasks.json", {"about": about, "groups": TASK_GROUPS, "tasks": tasks})
     _write("options.json", {"about": about, "options": options})
     _write("merges.json", {"about": about, "items": merges})
+    _write("relations.json", {"about": about + " relations 는 매번 새로 만든다(사람이 고치지 않음).", **relations})
+    stats["cross_check_candidates"] = sum(len(t["shared"]) for t in relations["tasks"].values())
     _write("stats.json", stats)
     return stats
 

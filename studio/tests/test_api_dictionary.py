@@ -9,6 +9,8 @@ from fastapi.testclient import TestClient
 from docgen import dictionary as DIC
 from studio import api_dictionary as AD
 
+REPO = AD.ROOT
+
 
 @pytest.fixture
 def client(tmp_path, monkeypatch):
@@ -63,3 +65,29 @@ def test_doc_type_and_task_edit(client):
     task = c.get("/api/dictionary/tasks").json()["tasks"]["fx_remittance"]
     assert c.put("/api/dictionary/task/fx_remittance", json={**task, "aliases": task["aliases"] + ["무역송금"]}).status_code == 200
     assert DIC.task_of("무역송금") == "fx_remittance"
+
+
+def test_links_task_doc_party_key(client):
+    c, _ = client
+    t = c.get("/api/dictionary/links/task/fx_remittance").json()
+    assert len(t["doc_types"]) == 5
+    shared = {x["party_key"]: x for x in t["shared"]}
+    assert "foreign.name" in shared and len(shared["foreign.name"]["doc_types"]) >= 2     # 서류끼리 대조할 칸
+    assert not any(k.startswith(("document.", "deal.", "issuer.", "unassigned.")) for k in shared)
+    tid = DIC.doc_type_of("commercial_invoice")
+    d = c.get(f"/api/dictionary/links/doc_type/{tid}").json()
+    assert "fx_remittance" in [x["id"] for x in d["tasks"]] and any(x["party_key"] == "foreign.name" for x in d["party_keys"])
+    pk = c.get("/api/dictionary/links/party_key/customer.name").json()
+    assert len(pk["doc_types"]) > 20 and "mortgage" in [x["id"] for x in pk["tasks"]]
+
+
+def test_single_keys_set_by_person(client):
+    c, root = client
+    (root / "guide" / "fields").mkdir(parents=True)
+    shutil.copyfile(REPO / "guide" / "fields" / "fields.json", root / "guide" / "fields" / "fields.json")
+    r = c.get("/api/dictionary/single?show=unassigned").json()
+    assert r["counts"]["unassigned"] > 0 and r["rows"]
+    attr = r["rows"][0]["attribute"]
+    assert c.put("/api/dictionary/single", json={"parties": {attr: "document"}}).json()["changed"] == 1
+    assert DIC.resolve(attr)["party"] == "document"
+    assert attr in DIC.load("roles")["single_human"]
