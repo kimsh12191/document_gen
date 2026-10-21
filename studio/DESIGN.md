@@ -1381,7 +1381,7 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 
 | # | 범위 | 완료 기준 |
 |---|---|---|
-| 2a | `key_rules.json`으로 옮기기 (`KEY_RULES`·`KIND_RULES`·`LEAF_SYNONYMS`·값 종류), 키 사전 화면(키·값 종류·이름 두 벌 탭), `foreign` 값 종류 연결, IBAN·HS 코드·인코텀즈 | 옮기기 전후 overlay 서식 표본(예: 50종 × seed 3)의 생성 값이 같다. 화면에서 새 값 종류를 만들고 키에 붙이면 영역 편집기 미리보기에 그 값이 나온다 |
+| 2a | `key_rules.json`으로 옮기기 (`KEY_RULES`·`KIND_RULES`·`LEAF_SYNONYMS`·값 종류), 키 사전 화면(키·값 종류·이름 두 벌 탭), `foreign` 값 종류 연결, IBAN·HS 코드·인코텀즈 | **끝남 (2026-10-21).** `docgen/keyrules.py`·`key_rules.json`, `studio/api_keys.py`·`static/js/keys.js`. 옮기기 전후 overlay 서식 **406종 전부 × seed 3**의 생성 결과가 바이트 단위로 같음. 더한 표준 키 8개(foreign.bank·swift·iban, trade.incoterms·hs_code·port_of_loading·port_of_discharge·vessel)와 데이터 값 종류 6개(swift·iban·incoterms·hs_code·port·vessel). 새 키의 overlay 항목명은 **제안으로만** 두었다(켜면 hf154·hf225·hf294·hf334·hf336 5종의 생성 값이 바뀜 — 평가 세트 버전을 올릴 때 켠다). 영역 편집기의 값 종류 목록에도 데이터 종류가 나온다 |
 | 3에 더함 | 대기 탭 (모르는 추출 키 → 제안 → 일괄 승인) | 시험 폴더의 다른 이름 키(`name`, `rrn` …)가 제안대로 원래 표준 키에 이어진다 |
 
 **외부 문서:** 생성기에 없는 양식으로 "새 서식"·"새 업무"를 시험하려고 공개 문서(허용 라이선스: CC-BY·MIT·Apache 등)를 모아 라벨을 붙여 시험 폴더에 섞는다. 출처·라이선스·SHA-256을 함께 기록한다. 이 클라우드 환경에서는 파일 저장소(Hugging Face 파일 CDN, 정부 사이트)가 망 정책으로 막혀 있어(2026-10-21) 받을 수 있게 되면 넣는다.

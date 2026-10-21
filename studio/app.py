@@ -25,7 +25,7 @@ API
                                       · DELETE /api/marks/pools/{풀}/{id}
   GET  /preview/...                   미리보기 이미지 · /marks-img/... 풀 이미지 · /fonts/... 손글씨 글꼴
   (⑥⑦ 등록부·채점: api_datasets.py, ③⑥⑧ 레시피·빌드·작업·업무 묶음·학습 설정: api_bank.py,
-   ④ 서류 넣기: api_intake.py, ④⑤ 이미지 묶음·OCR 검수: api_import.py, ④ 라벨 있는 데이터: api_labels.py, ④ 결과 폴더·⑤ 라벨 검수: api_review.py,
+   키 사전: api_keys.py, ④ 서류 넣기: api_intake.py, ④⑤ 이미지 묶음·OCR 검수: api_import.py, ④ 라벨 있는 데이터: api_labels.py, ④ 결과 폴더·⑤ 라벨 검수: api_review.py,
    ① html 편집·복제·⑧ 분석기: api_html.py)
 """
 from __future__ import annotations
@@ -45,7 +45,7 @@ from pydantic import BaseModel, Field
 from docgen import marks as M
 from docgen.preview import CONDITIONS, MODES, Previewer
 
-from . import api_bank, api_datasets, api_html, api_import, api_intake, api_labels, api_review, catalog, editor, marks_admin
+from . import api_bank, api_datasets, api_html, api_import, api_intake, api_keys, api_labels, api_review, catalog, editor, marks_admin
 from . import datasets as DS
 from .jobs import Jobs
 from .config import ROOT, load, resolve_path, setup_browser
@@ -99,6 +99,7 @@ app.include_router(api_labels.make_router(REGISTRY, JOBS, guard, CFG))
 app.include_router(api_html.make_router(REGISTRY, JOBS, guard, CFG, previewer, lambda p: f"/preview/{p}"))   # html 편집·복제·분석기
 app.include_router(api_review.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT))   # 결과 폴더 검사, 라벨 검수
 app.include_router(api_intake.make_router(REGISTRY, JOBS, guard, CFG))   # ④ 서류 넣기
+app.include_router(api_keys.make_router(guard))   # 키 사전
 app.mount("/fonts", StaticFiles(directory=ROOT / "docgen" / "fonts"), name="fonts")   # 손글씨 글꼴 (화면의 글꼴 미리보기)
 
 

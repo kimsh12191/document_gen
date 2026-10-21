@@ -264,3 +264,8 @@ pre.log { max-height: 420px; }
 .cards .card img { display: block; width: 100%; max-height: 300px; object-fit: contain; object-position: top; border-bottom: 1px solid var(--line); margin-bottom: 6px; }
 .cards .card > div { padding: 1px 10px; font-size: 12.5px; }
 div.warn { color: var(--warn); }
+/* 키 사전 (keys.js) */
+.split { display: grid; grid-template-columns: minmax(0, 3fr) minmax(320px, 2fr); gap: 14px; align-items: start; }
+.split .scroll { max-height: 72vh; overflow: auto; }
+.split .panel label { display: block; margin: 8px 0; }
+@media (max-width: 900px) { .split { grid-template-columns: 1fr; } }

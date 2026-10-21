@@ -27,6 +27,7 @@ from datetime import timedelta
 from functools import lru_cache
 from pathlib import Path
 
+from . import keyrules as KR
 from . import korean as K
 from . import marks as M
 from . import overrides as OV
@@ -176,86 +177,21 @@ def norm(s: str) -> str:
     return re.sub(r"[\s:：*※·.,]+", "", s)
 
 
-# 항목명(norm) 정규식 → 표준 키. 위에서부터 처음 맞는 것.
-KEY_RULES: list[tuple[str, str]] = [
-    (r"^(주민등록지|현거주지)$", "customer.address"),
-    (r"^배우자성명$", "spouse.name"),
-    (r"^배우자주민등록번호", "spouse.rrn"),
-    (r"^(영문(성명|이름|명)|성명영문|EnglishName|NameinEnglish)$", "customer.name_en"),
-    (r"^(대리인|수임인)(성명|명)?$", "agent.name"),
-    (r"^(성명|이름|고객명|성명또는상호|가입자|가입자명|가입자성명|신청인|신청인성명|신청인명|본인|본인성명|예금주|"
-     r"예금주명|위임인|위임인성명|의뢰인|신고인|차주|차주성명|채무자|고객성명|명의인|Name)$", "customer.name"),
-    (r"^(생년월일|DateofBirth)", "customer.birth"),
-    (r"^(주민등록번호|실명번호|주민번호|실명확인번호)", "customer.rrn"),
-    (r"^(휴대전화|휴대폰|휴대폰번호|핸드폰|핸드폰번호|휴대전화번호|HP|연락처|전화번호|연락전화|Tel|Mobile)$",
-     "customer.phone"),
-    (r"^(자택전화|자택전화번호|집전화)$", "customer.home_phone"),
-    (r"^(이메일|이메일주소|E-?[Mm][Aa][Ii][Ll](주소|Address)?|e-?mail|전자우편|전자우편주소)$", "customer.email"),
-    (r"^(자택주소|주소|현주소|주소지|거주지주소|Address)$", "customer.address"),
-    (r"^(직장주소|회사주소|근무지주소)$", "employer.address"),
-    (r"^(직장전화|회사전화|직장전화번호|근무처전화)$", "employer.phone"),
-    (r"^(회사명|직장명|근무처|근무처명|직장|소속|사용자명)$", "employer.name"),
-    (r"^(부서|부서명|소속부서)$", "employer.department"),
-    (r"^(직위|직급|직책)$", "employer.position"),
-    (r"^(입사일|입사일자|입사연월일)$", "employer.hire_date"),
-    (r"^(직업|직업구분)$", "customer.job"),
-    (r"^(국적|Nationality)$", "customer.nationality"),
-    (r"^(우편번호)$", "customer.zipcode"),
-    (r"^(상호|법인명|기업명|업체명|사업장명|상호명|기업체명|법인단체명|단체명|법인명칭|CompanyName)$", "company.name"),
-    (r"^(사업자등록번호|사업자번호|고유번호)$", "company.biz_no"),
-    (r"^(법인등록번호|법인번호)$", "company.corp_no"),
-    (r"^(대표자|대표자명|대표자성명|대표이사)$", "company.ceo"),
-    (r"^(소재지|사업장소재지|본점소재지|사업장주소|본점주소)$", "company.address"),
-    (r"^(업태)$", "company.biz_type"),
-    (r"^(업종|종목)$", "company.biz_item"),
-    (r"^(설립일|설립연월일|개업일)$", "company.established"),
-    (r"^(계좌번호|출금계좌|출금계좌번호|입금계좌|입금계좌번호|결제계좌|결제계좌번호|퇴직연금계좌번호|IRP계좌번호|"
-     r"계좌|해지계좌번호|이전계좌번호|AccountNo)$", "account"),
-    (r"^(관계|본인과의관계|위임인과의관계)$", "agent.relation"),
-    (r"^(작성일|작성일자|신청일|신청일자|신고일|신고일자|일자|년월일|Date)$", "date"),
-]
-KEY_RX = [(re.compile(rx), key) for rx, key in KEY_RULES]
+# 항목명(norm) 정규식 → 표준 키, 항목명 → 값 종류: docgen/key_rules.json (studio 키 사전 화면이 고친다, docgen/keyrules.py).
+# 위에서부터 처음 맞는 것. 아래 두 이름은 지금 파일 내용 (build_keys.py·studio editor 가 읽는다).
+KEY_RULES: list[tuple[str, str]] = [tuple(x) for x in KR.load()["label_rules"]]
 
 # 표준 키가 아닌 항목: 항목명 끝말로 값의 종류를 정한다
-KIND_RULES = [
-    (r"^(임대)?방수$", "count"),
-    (r"(?i)(amount|^FOR$)", "amount"),
-    (r"(?i)(Numberof|^No\.?$)", "number"),
-    (r"(?i)(DATED|^AT$)", "date"),
-    # 값을 쓰지 않는 칸: 단위만 남은 라벨, 예/아니오 칸, 은행 칸, 동의서 표의 머리글
-    (r"^(|년|월|일|원|금|소|매|갋|계|예|아니오|Yes|No|당행|타행|현금|수입|고정|전기|금기|전기말|금기말|은행사용란|"
-     r"영업점장|점검자|점검일자|확인여부|대상여부|접수번호|접수일|처리일|처리기간|실행자아이디|담당자인|■.*|-.*)$", "skip"),
-    (r"(인감|서명|날인|도장|^인$|인/서명)", "seal"),
-    (r"(비고|특기사항|기타$|^기타|내용$|변경전|변경후|요청사항)", "note"),
-    (r"(외화금액|외화|USD|US\$|^Amount$)", "fx_amount"),
-    (r"(비율|이율|금리|요율|지분율|율$|률$)", "percent"),
-    (r"(사업자(등록)?번호|BusinessRegistrationNo)", "biz_no"),
-    (r"(여권번호|PassportNo)", "passport"),
-    (r"(수표번호|어음번호|증서.*번호)", "check_no"),
-    (r"(일자|년월일|만기일|개시일|종료일|시작일|날짜|기한|기일|만기|일$|Date)", "date"),
-    (r"(금액|대금|가액|잔액|원금|이자|합계|수수료|보증금|한도|총액|부담금|급여액|월급|소득|매출|공급가|입금액|단가|이전액)", "amount"),
-    (r"(환율)", "rate"),
-    (r"(통화|Currency)", "currency"),
-    (r"(계좌)", "account"),
-    (r"(전화|연락처|휴대|팩스|FAX|PhoneNo|Tel)", "phone"),
-    (r"(번호|No$|코드|ID$)", "number"),
-    (r"(수량|건수|횟수|개수|매수$|기간\(월\))", "count"),
-    (r"(품목|(?<!상)품명|제품명|모델명|규격|제조사|물품)", "goods"),
-    (r"(상품명|펀드명|상품|예금종류|예금과목|예금종별|^종류$|^종별$)", "product"),
-    (r"(수표종류|수표어음)", "check_kind"),
-    (r"(과목)", "loan_subject"),
-    (r"(상환방법)", "repay"),
-    (r"(사유|목적|용도)", "reason"),
-    (r"(은행|기관명|금융회사|금융기관|운용관리|자산관리)", "bank"),
-    (r"(개설점|취급점|지점|지급지|영업점)", "branch"),
-    (r"(국가|국명|Country)", "country"),
-    (r"(이메일|E-?[Mm]ail|전자우편)", "email"),
-    (r"(주소|소재지)", "address"),
-    (r"(기업명|업체명|회사명|법인명|상호|거래처|차입처|지사명|사업자명|채권양도인|발행인|추심의뢰인|수취인|신고자|"
-     r"Applicant|보증자|협력기업|명칭)", "company"),
-    (r"(담당자|주주명|한글명|성명|이름|명의인)", "person"),
-]
-KIND_RX = [(re.compile(rx), k) for rx, k in KIND_RULES]
+KIND_RULES: list[tuple[str, str]] = [tuple(x) for x in KR.load()["kind_rules"]]
+_RX: dict = {}
+
+
+def _compiled(name: str) -> list:
+    """key_rules.json 의 규칙을 정규식으로 (파일이 바뀌면 다시)."""
+    d = KR.load()
+    if _RX.get(name, (None,))[0] is not d:
+        _RX[name] = (d, [(re.compile(rx), k) for rx, k in d[name]])
+    return _RX[name][1]
 
 PRODUCTS = {
     "퇴직연금": ["정기예금 (1년)", "정기예금 (3년)", "이율보증형 보험(GIC) 1년", "하나 IRP 정기예금 3년",
@@ -290,10 +226,10 @@ def _company(r: random.Random) -> str:
 
 def key_of(label: str) -> str | None:
     n = norm(label)
-    for rx, key in KEY_RX:
+    for rx, key in _compiled("label_rules"):
         if rx.match(n):
             return key
-    return None
+    return next((k for lab, k in KR.label_index().items() if norm(lab).lower() == n.lower()), None)
 
 
 def kind_of(label: str, unit: str | None, hint: str | None) -> str:
@@ -304,7 +240,7 @@ def kind_of(label: str, unit: str | None, hint: str | None) -> str:
     if unit in ("개월", "년", "회", "건", "명", "주", "개", "매", "좌", "세", "일간", "개년"):
         return "count"
     n = norm(label)
-    for rx, k in KIND_RX:
+    for rx, k in _compiled("kind_rules"):
         if rx.search(n):
             return k
     return "text"
@@ -376,8 +312,11 @@ class Values:
             "agent.relation": lambda: "배우자" if p.spouse else "부",
             "date": lambda: D(p.issue_date, r.choice(["kor", "dot"])),
         }.get(key)
-        if v is None:
-            return None
+        if v is None:   # 키 사전(key_rules.json)에서 더한 표준 키: 값 출처(프로필 경로) 또는 값 종류
+            k = KR.load()["keys"].get(key)
+            if not k or not (k.get("source") or k.get("kind")):
+                return None
+            v = (lambda: KR.resolve_source(p, k["source"])) if k.get("source") else (lambda: self.by_kind(k["kind"], key))
         self.cache[key] = v()
         return self.cache[key]
 
@@ -449,7 +388,7 @@ class Values:
             return p.person.email
         if kind == "phone":
             return p.person.mobile if not re.search(r"팩스|FAX|직장|회사", label) else p.employment.company.phone
-        return None  # 뜻을 모르는 칸은 비워 둔다 (실제 서식도 빈 칸이 많다)
+        return KR.make_value(kind, p, r)  # 키 사전에서 더한 종류. 그 밖의 뜻을 모르는 칸은 비워 둔다 (실제 서식도 빈 칸이 많다)
 
 
 # ---------------------------------------------------------------------------

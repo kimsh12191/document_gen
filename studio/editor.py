@@ -19,7 +19,12 @@ from docgen.registry import load_all
 
 ITEM_TYPES = ("text", "check", "date", "sign", "copy", "staff")
 ADDABLE = ("text", "check", "sign", "copy", "staff")
-VALUE_KINDS = ["text"] + [k for k, _ in RF.KIND_RULES if k not in ("skip",)]
+def value_kinds() -> list[str]:
+    """영역 편집기의 값 종류: 항목명 규칙의 종류 + 키 사전에서 더한 종류 (docgen/key_rules.json)."""
+    from docgen import keyrules as KR
+
+    d = KR.load()
+    return list(dict.fromkeys(["text"] + [k for _, k in d["kind_rules"] if k != "skip"] + list(d["kinds"])))
 _ASCII = re.compile(r"^[A-Za-z0-9_.{}]+$")
 
 
@@ -89,7 +94,7 @@ def layout_view(doc_id: str) -> dict:
     broken = [o for o in ov.get("items", []) if OV.item_id({"n": 0, **o["match"]}) not in found]
     pages = [{"w": pg["width"], "h": pg["height"]} for pg in raw["pages"]]
     return {"doc_id": doc_id, "name": raw.get("name"), "pages": pages, "scale": RF.BG_ZOOM, "items": items,
-            "overrides": ov, "broken": broken, "kinds": VALUE_KINDS, "item_types": ITEM_TYPES, "addable": ADDABLE}
+            "overrides": ov, "broken": broken, "kinds": value_kinds(), "item_types": ITEM_TYPES, "addable": ADDABLE}
 
 
 def _box(v, name: str) -> list[float]:

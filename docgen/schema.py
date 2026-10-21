@@ -15,23 +15,20 @@ from __future__ import annotations
 import re
 from datetime import date
 
+from . import keyrules as _KR
+
 # ---------------------------------------------------------------------------
 # 키 통일: 서류마다 다르게 붙은 같은 뜻의 마지막 키 이름을 하나로 맞춘다.
 # 규칙: 영어 snake_case, 역할(applicant/employee/company ...) 아래에 속성(name/rrn/address ...).
 # ---------------------------------------------------------------------------
-LEAF_SYNONYMS = {
-    "dob": "birth",
-    "date_of_birth": "birth",
-    "sex": "gender",
-    "corp_no": "corp_reg_no",
-    "ceo_name": "ceo",
-    "tel": "phone",
-}
+# 동의어는 docgen/key_rules.json 의 synonyms (studio 키 사전 화면이 고친다). LEAF_SYNONYMS 는 지금 파일 내용.
+LEAF_SYNONYMS = dict(_KR.load()["synonyms"])
 
 
 def canonical_key(key: str) -> str:
     parts = key.split(".")
-    parts[-1] = LEAF_SYNONYMS.get(parts[-1], parts[-1])
+    syn = _KR.load()["synonyms"]
+    parts[-1] = syn.get(parts[-1], parts[-1])
     return ".".join(parts)
 
 
