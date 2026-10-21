@@ -2,7 +2,7 @@
 # 인터넷 되는 PC 에서 내부망 반입용 파일 두 개를 만든다.
 #   sh docker/build.sh 1.1
 #     docgen-image-1.1.tar.gz  실행 환경 (파이썬·글꼴·Chromium·SSH). 코드가 바뀌어도 다시 만들 필요 없음
-#     docgen-code-1.1.tar.gz   이 저장소 전체 (docgen/ 생성기·서식, ocr/·bank/ 학습 프로젝트, studio/). 견본 이미지 docgen/samples/,
+#     docgen-code-1.1.tar.gz   이 저장소 전체 (docgen/ 생성기·서식·채점, train/ 학습 실행, studio/). 견본 이미지 docgen/samples/,
 #                              서식 원본 중 안 쓰는 exe·xls·doc 는 뺀다
 set -e
 ver=${1:-latest}

@@ -10,5 +10,6 @@ studio_cache/
 studio_jobs/
 studio_workspace/
 studio_deps/
-ocr/configs/studio-*.json
-bank/configs/studio-*.json
+train/configs/studio-*.json
+train/runs/
+train/data/

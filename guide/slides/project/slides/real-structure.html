@@ -3,14 +3,14 @@
 <h2 style="font-size:64px;font-weight:700;line-height:1.15">실제 서류도 같은 폴더 구조로 만들면 된다</h2>
 <div style="display:flex;flex-direction:row;gap:28px">
 <div style="flex:1;display:flex;flex-direction:column;gap:12px">
-<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;color:#E6E9EC;background:#16202A;padding:24px;border-radius:12px">real_bench/          ← 평가 세트<br>  meta.json          {"split": "test", …}<br>  images/<br>    C0001/loan_application_p1.png<br>    C0001/withholding_receipt_p1.png<br>  tasks/<br>    doc_check.jsonl<br>    cross_check.jsonl<br>    review.jsonl  kie.jsonl  …<br><br>real_train/          ← 학습 데이터<br>  meta.json          {"split": "train", …}<br>  images/  tasks/      (같은 구조)<br>  swift/all.jsonl    질문 + 정답 답변 대화</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;color:#E6E9EC;background:#16202A;padding:24px;border-radius:12px">real_bench/          ← 평가 세트<br>  meta.json          {"split": "test", …}<br>  images/<br>    C0001/loan_application_p1.png<br>    C0001/withholding_receipt_p1.png<br>  tasks/<br>    doc_check.jsonl<br>    cross_check.jsonl<br>    review.jsonl  kie.jsonl  …<br><br>real_train/          ← 학습 데이터<br>  meta.json          {"split": "train", …}<br>  images/  tasks/      (같은 구조)<br>  (swift/ 는 없어도 됨: 섞기가 tasks/ 로 만듦)</p>
 </div>
 <div style="flex:1;display:flex;flex-direction:column;gap:16px">
 <h3 style="font-size:30px;font-weight:600">파이프라인에 연결</h3>
-<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;color:#E6E9EC;background:#16202A;padding:20px;border-radius:12px">"data": {<br>  "benchmark": "/data/real_bench",<br>  "train": ["/data/bank_train",<br>            "/data/real_train"]}</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.5;color:#E6E9EC;background:#16202A;padding:20px;border-radius:12px">"data": {<br>  "benchmark": ["/data/real_bench"],<br>  "train": ["/data/bank_train",<br>            "/data/real_train"]}</p>
 <ul style="font-size:26px;line-height:1.5;color:#44505C"><li><b>meta.json의 split</b>으로 평가(test)·학습(train)을 구분</li><li><b>tasks/</b>는 과제별 문항 파일, 한 줄 = 한 문항</li><li><b>학습 폴더</b>는 합성 데이터와 함께 여러 개 나열 가능</li><li><b>평가만</b> 실제로 바꾸고 학습은 합성 그대로도 가능</li></ul>
 </div>
 </div>
 <p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">실제 데이터로 확장 · 지금 파이프라인 코드를 바꾸지 않고 연결되는 구조</p>
-<aside>2부는 아직 합성 데이터만 썼지만, prepare는 폴더 구조만 맞으면 어디서 온 데이터인지 상관하지 않습니다. 가장 현실적인 첫 단계는 실제 서류 묶음 수십 개로 평가 세트만 만드는 것입니다. 학습은 합성 데이터 그대로 두고, 실제 평가 세트로 진짜 성능을 재는 겁니다.</aside>
+<aside>은행 업무 과제는 아직 합성 데이터만 썼지만, prepare는 폴더 구조만 맞으면 어디서 온 데이터인지 상관하지 않습니다. 가장 현실적인 첫 단계는 실제 서류 묶음 수십 개로 평가 세트만 만드는 것입니다. 학습은 합성 데이터 그대로 두고, 실제 평가 세트로 진짜 성능을 재는 겁니다.</aside>
 </section>

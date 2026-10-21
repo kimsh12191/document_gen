@@ -1,21 +1,21 @@
 <section id="ocr-viewer" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:28px">
-<p style="font-size:26px;font-weight:600;color:#1E5AA8">1부 OCR · viewer</p>
+<p style="font-size:26px;font-weight:600;color:#1E5AA8">결과 보기 · studio ⑥ 데이터셋</p>
 <h2 style="font-size:64px;font-weight:700;line-height:1.15">답의 박스를 이미지 위에 그려 본다</h2>
-<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#E6E9EC;background:#16202A;padding:16px 24px;border-radius:12px">bash viewer/start.sh runs/exp1/merged/&lt;모델폴더&gt; 1     # 브라우저 http://localhost:7860</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#E6E9EC;background:#16202A;padding:16px 24px;border-radius:12px">python -m studio     # docgen 도커 · 브라우저 http://localhost:8765 (SSH 터널)</p>
 <div style="display:flex;flex-direction:row;gap:28px">
 <div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:14px">
-<h3 style="font-size:32px;font-weight:600;color:#1E5AA8">직접 테스트</h3>
-<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>이미지·PDF 업로드</li><li>전체 글자+위치 (타일로 나눠 질문)</li><li>글자 찾기 · 드래그한 영역 읽기 · 기준 글자 옆 찾기</li><li>학습과 같은 크기로 줄여 보냄</li></ul>
+<h3 style="font-size:32px;font-weight:600;color:#1E5AA8">문항 탭</h3>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>과제를 고르면 그림·질문·정답</li><li>정답(초록) · 질문 영역(파랑 점선) · 모델 답 박스 겹쳐 보기</li><li>OCR · 문서 이해 · 업무 16과제 모두</li><li>문항 안 글자 검색</li></ul>
 </div>
 <div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:14px">
-<h3 style="font-size:32px;font-weight:600;color:#1E5AA8">벤치마크 문제</h3>
-<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>무작위 문항을 풀게 함</li><li>정답(초록)과 모델 답(빨강) 박스 겹쳐 보기</li><li>GRPO 보상 점수 표시</li><li>과제, clean/aug로 거르기</li></ul>
+<h3 style="font-size:32px;font-weight:600;color:#1E5AA8">모델 답 탭</h3>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>runs/&lt;실험&gt;/ 을 붙이면 채점</li><li>docgen.bench.evaluate (= GRPO 보상)로 채점</li><li>명령줄 보고서와 같은 숫자</li><li>학습 점수 파일도 보기</li></ul>
 </div>
 <div style="flex:1;background:#FFFFFF;border:1px solid #D5DBE1;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:14px">
-<h3 style="font-size:32px;font-weight:600;color:#1E5AA8">저장된 답 보기</h3>
-<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>파이프라인이 저장한 평가 답을 GPU 없이</li><li>보상 기준으로 틀린 문제만</li><li>학습 중에도 사용 가능</li></ul>
+<h3 style="font-size:32px;font-weight:600;color:#1E5AA8">문항 점수</h3>
+<ul style="font-size:26px;line-height:1.5;color:#44505C"><li>문항마다 모델별 점수</li><li>첫 답 점수 낮은 것부터</li><li>GPU 없이, 학습 중에도 사용 가능</li></ul>
 </div>
 </div>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">1부 OCR 학습 · 사용법: ocr/viewer/README.md 1~5</p>
-<aside>OCR viewer는 모델이 실제로 어디를 보고 답했는지를 눈으로 확인하는 도구입니다. 점수표만으로는 박스가 조금씩 밀리는지, 특정 글씨체에서 틀리는지 알기 어렵습니다.</aside>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">결과 보기 · 사용법: studio/README.md (⑥ 데이터셋)</p>
+<aside>studio ⑥의 문항 탭은 모델이 실제로 어디를 보고 답했는지를 눈으로 확인하는 곳입니다. 예전 OCR·은행 업무 viewer 둘을 대신합니다. 점수표만으로는 박스가 조금씩 밀리는지, 특정 글씨체에서 틀리는지 알기 어렵습니다.</aside>
 </section>

@@ -1,11 +1,11 @@
 # 사용 가이드
 
-프로젝트를 처음 돌려 보는 사람, 학습한 모델을 쓰거나 결과를 해석하는 사람을 위한 문서 모음입니다. 저장소의 네 갈래(`ocr/` 1부 OCR, `bank/` 2부 은행 업무, `docgen/` 생성기, `studio/` 화면)와 문서 지도는 [저장소 README](../README.md)에 있습니다.
+프로젝트를 처음 돌려 보는 사람, 학습한 모델을 쓰거나 결과를 해석하는 사람을 위한 문서 모음입니다. 저장소의 갈래(`docgen/` 생성기·채점, `train/` 학습, `studio/` 화면, `docker/`)와 문서 지도는 [저장소 README](../README.md)에 있습니다.
 
 ## 읽는 순서
 
-1. **[tutorial.md](tutorial.md) — 처음부터 따라하기.** 코드 받기 → 설치 → 사내 OCR 서버 → 1부 OCR 학습(`cd ocr`) → 2부 데이터 만들기(docgen 도커) → 2부 은행 업무 학습(`cd bank`) → 결과 확인. 단계마다 확인 방법, 맨 끝에 자주 나는 에러 표가 있습니다.
-2. **[overview.md](overview.md) — 무엇을 왜 그렇게 만들었나** (팀 공유용). 1부·2부 각각 컨셉 → 데이터 구조 → 학습 → 평가 → viewer, 부록에 생성기·벤치마크 상세. 같은 내용의 발표 자료는 [slides/](slides/README.md)입니다.
+1. **[tutorial.md](tutorial.md) — 처음부터 따라하기.** 코드 받기 → 환경 확인 → 사내 OCR 서버 → OCR 준비 → 은행 업무 데이터 만들기(docgen 도커) → 학습(`python -m train`) → 결과 확인. 단계마다 확인 방법, 맨 끝에 자주 나는 에러 표가 있습니다.
+2. **[overview.md](overview.md) — 무엇을 왜 그렇게 만들었나** (팀 공유용). OCR·은행 업무 과제의 컨셉 → 데이터 구조, 학습 하나 → 평가, 부록에 생성기·벤치마크 상세. 같은 내용의 발표 자료는 [slides/](slides/README.md)입니다.
 3. 그다음은 필요할 때 아래 표에서 찾아 봅니다.
 
 ## 이럴 땐 이 파일
@@ -17,13 +17,13 @@
 | 발표 자료 (웹 슬라이드, 뒤쪽 부록에 모든 과제의 데이터 예시) | [slides/](slides/README.md) |
 | **모든 과제의 실제 데이터** (이미지·질문 전문·정답·채점 정보·meta·학습 레코드, 서류 대조 사례 14종, 심사 질의 규칙 전부) | [tasks.md](tasks.md) (자동 생성) |
 | 은행 업무를 모델에게 **어떻게 묻고**, 답이 **어떤 형식으로** 오나 | [questions.md](questions.md) |
-| 글자·박스 읽기(OCR 과제)는 어떻게 묻나 | [ocr/docs/PROMPTS.md](../ocr/docs/PROMPTS.md) — OCR 브랜치와 같이 쓰는 파일이라 그 자리에 둡니다 |
+| 글자·박스 읽기(OCR 과제)는 어떻게 묻나 | [tasks.md](tasks.md#ocr-과제) — 질문 문장 원본은 `docgen/bench/ocr_tasks.py`의 `PROMPTS` |
 | 이 서류에서 **어떤 항목**을 뽑을 수 있나 (키·항목명·체크박스 보기) | [fields/](fields/README.md) — 서류 그룹별 파일 (자동 생성) |
 | 학습한 **서류 이름** 476종, **업무별 필수 서류** | [documents.md](documents.md) (자동 생성) |
 | **벤치마크**는 무엇을 묻고 어떻게 채점하나 (과제, 문항 만드는 방법, 불일치 14종과 근거) | [benchmark.md](benchmark.md) |
 | 파이프라인 **결과 지표**는 어떻게 읽나 (점수표, 학습 로그, 이상 신호) | [results.md](results.md) |
 
-실행 방법의 원본은 각 폴더의 README입니다: 1부 [ocr/README.md](../ocr/README.md), 2부 [bank/README.md](../bank/README.md), viewer [ocr/viewer/README.md](../ocr/viewer/README.md), 생성기 [docgen/README.md](../docgen/README.md), 화면 [studio/README.md](../studio/README.md), 도커 [docker/README.md](../docker/README.md).
+실행 방법의 원본: 학습 [studio/TRAINING.md](../studio/TRAINING.md)·[train/configs/pipeline.example.json](../train/configs/pipeline.example.json), 생성기 [docgen/README.md](../docgen/README.md), 화면 [studio/README.md](../studio/README.md), 도커 [docker/README.md](../docker/README.md).
 
 ## 과제 한눈에
 
@@ -55,7 +55,7 @@
 - **같은 질문 문장으로 물으세요.**
   - 모델은 [questions.md](questions.md)의 문장으로 학습했습니다.
   - 문장을 바꾸면 답 형식이 흐트러질 수 있습니다.
-  - viewer의 직접 테스트가 같은 문장을 씁니다.
+  - 평가·학습·studio가 같은 문장(`docgen/bench/prompts.py`)을 씁니다.
 - **법인등기부 발급일:**
   - 발급용에만 발행일(`issue_date`)이 있고, 열람용은 열람일시(`viewed_at`)만 있습니다.
   - 발행일은 `서기 2025년 05월 19일` 꼴 그대로 채점합니다. 날짜 형식으로 비교하려면 `issue_date_short`를 쓰세요.
@@ -76,6 +76,6 @@ python -m docgen list --markdown > guide/documents.md   # documents.md
 bash guide/examples/make_examples.sh <작업 폴더> --docs   # tasks.md, examples/img/, 발표 부록 (약 10분)
 ```
 
-`make_examples.sh`는 합성 서류 생성 → 사내 OCR 형식 JSON(`examples/labels_to_ocr.py`) → `bank_ocr scan`·`prepare` → `docgen.bench build` → 과제별 예시 고르기(`examples/make_catalog.py`) → 부록 슬라이드(`slides/make_appendix.py`) 순서로 돌립니다. 명령과 바꾼 설정값이 스크립트 안에 그대로 있습니다.
+`make_examples.sh`는 합성 서류 생성 → 사내 OCR 형식 JSON(`examples/labels_to_ocr.py`) → `scan`·OCR 준비(`docgen.bench.ocr_prepare`) → `docgen.bench build` → 과제별 예시 고르기(`examples/make_catalog.py`) → 부록 슬라이드(`slides/make_appendix.py`) 순서로 돌립니다. 명령과 바꾼 설정값이 스크립트 안에 그대로 있습니다.
 
-`questions.md`의 질문 문장은 테스트(`bank/tests/test_bank_task.py`)가 `docgen/bench/prompts.py`와 같은지 확인합니다.
+`questions.md`의 질문 문장은 테스트(`docgen/tests/test_bench.py`)가 `docgen/bench/prompts.py`와 같은지 확인합니다.

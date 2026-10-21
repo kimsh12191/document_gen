@@ -442,7 +442,7 @@ HOWTO = """## 5부. 비슷한 문제를 새로 정의하려면
 
 | 바꾸고 싶은 것 | 고칠 곳 |
 |---|---|
-| 질문 문장 | `docgen/bench/prompts.py` (평가·학습·viewer 가 같이 씀. `guide/questions.md` 와 테스트도 같이 고침) |
+| 질문 문장 | `docgen/bench/prompts.py` (평가·학습·studio 가 같이 씀. `guide/questions.md` 와 테스트도 같이 고침) |
 | 새 서류 대조 사례 | `docgen/bench/cases.py` 의 `CASES` 에 `Case(id, 제목, 분류, 근거, 함수)` 추가. 함수는 원본에서 관계가 맞는지 확인하고, 바꿀 서류·키·값과 짝 서류를 돌려줌 |
 | 새 심사 질의 규칙 | `docgen/bench/rules.py` 의 `RULES` 에 함수 추가. `{"question", "answer", "answer_type", "tol", "docs", "skill"}` 를 돌려줌 |
 | 업무와 필수 서류 | `docgen/registry.py` 의 `SCENARIOS` |

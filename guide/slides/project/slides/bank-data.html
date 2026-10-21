@@ -1,12 +1,12 @@
 <section id="bank-data" data-transition="fade" style="background:#F6F5F1;color:#16202A;font-family:'IBM Plex Sans KR', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:24px">
-<p style="font-size:26px;font-weight:600;color:#B54A12">2부 은행 업무 · 데이터 구조</p>
+<p style="font-size:26px;font-weight:600;color:#B54A12">은행 업무 · 데이터 구조</p>
 <h2 style="font-size:64px;font-weight:700;line-height:1.15">도커에서 한 번 생성 → prepare → 학습·평가</h2>
 <div style="display:flex;flex-direction:row;gap:28px">
 <div style="flex:1;display:flex;flex-direction:column;gap:16px">
 <p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E6E9EC;background:#16202A;padding:22px;border-radius:12px"># docgen 도커 (CPU, 한 번)<br>bash docgen/scripts/make_bank_data.sh<br>bench/       고객 40명 · 약 9천 문항<br>bank_train/  고객 200명 · 서류당 5건<br>  meta.json          설정·버전·개수<br>  images/            서류 쪽 이미지<br>  tasks/&lt;과제&gt;.jsonl  문항 (아래)<br>  swift/all.jsonl    학습용 대화 (학습만)</p>
 <table style="font-size:24px;color:#16202A;background:#FFFFFF">
-<tr><th style="width:44%">prepared-bank/</th><th style="width:56%">내용</th></tr>
-<tr><td>train_sft.jsonl</td><td>SFT (+ OCR 데이터 3000)</td></tr>
+<tr><th style="width:44%">mixed-exp1/ (섞은 결과)</th><th style="width:56%">내용</th></tr>
+<tr><td>train_sft.jsonl</td><td>SFT (OCR·업무 섞음)</td></tr>
 <tr><td>train_grpo.jsonl</td><td>GRPO 풀 + 채점용 문항</td></tr>
 <tr><td>benchmark_*.jsonl</td><td>평가 질문 / 정답</td></tr>
 </table>
@@ -16,6 +16,6 @@
 <p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E6E9EC;background:#16202A;padding:22px;border-radius:12px">{"id": "cross_check/jeonse_loan_2003000/<br>       lease_owner",<br> "task": "cross_check",<br> "images": ["…/lease_contract.png",<br>   "…/real_estate_registry_lease_owner.png"],<br> "prompt": "고객 '방하주' 님이 … 대조해 …",<br> "answer": {"consistent": false, "issues": [<br>   {"document": "등기사항전부증명서(집합건물)",<br>    "field": "소유자", "value": "추규태",<br>    "expected": "신수유"}]},<br> "eval": {"documents": [ … 보여 준 서류명 ]},<br> "meta": {"case": "lease_owner", …}}</p>
 </div>
 </div>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">2부 은행 업무 학습 · id의 두 번째 칸(묶음 ID) = 고객 단위 · answer = 정답 · eval = 채점 정보 · meta = 세부 표 기준</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">은행 업무 과제 · id의 두 번째 칸(묶음 ID) = 고객 단위 · answer = 정답 · eval = 채점 정보 · meta = 세부 표 기준</p>
 <aside>평가 세트와 학습 데이터는 같은 형식입니다. 학습 데이터에는 같은 문항을 질문과 정답 답변의 대화 형식으로 바꾼 swift/all.jsonl이 더 있습니다. id의 두 번째 칸은 고객 묶음 ID인데, prepare가 이걸로 학습과 평가의 고객이 겹치는지 검사하고 GRPO용 고객을 떼어 둡니다. 이 구조가 뒤에서 실제 데이터를 넣을 때의 기준이 됩니다.</aside>
 </section>
