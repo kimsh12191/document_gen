@@ -61,3 +61,27 @@ def test_noisy_records_errors():
     assert out[0]["key"] == "name"                                            # 다른 키 이름
     assert all(e["kind"] == "wrong" for e in errs) and len(errs) >= 1
     assert all(o["value"] != i["value"] for o, i in zip(out, items) if any(e["key"] == i["key"] for e in errs))
+
+
+def test_external_bundle_placed_into_cases(tmp_path):
+    truth = T.build(tmp_path / "o", ["fx_remittance"], 2, [], scale=1.0, conditions=(("clean", 1.0),), missing=0.0,
+                    external=T.EXTERNAL, log=lambda *a: None)
+    ext = {r: d for r, d in truth["documents"].items() if d.get("external")}
+    assert len(ext) == 15
+    fx = [r for r, d in ext.items() if d["scenario"] == "fx_remittance"]
+    assert len(fx) == 12 and all(r.split("/")[1] in ("C70000", "C70001") and r.split("/")[2].startswith("d") for r in fx)
+    assert all(d["license"] in ("MIT", "Apache-2.0") and len(d["sha256"]) == 64 and d["source"].startswith("https://github.com/")
+               for d in ext.values())
+    # 업무가 없는 종류(account_opening 에 넣을 서식·기타)는 external/ 그대로
+    assert {d["scenario"] for r, d in ext.items() if r not in fx} == {"external"}
+    res = R.check(str(tmp_path / "o" / "structured"))
+    assert res["ok"], res["errors"]
+
+
+def test_external_locate_variants():
+    from studio import intake_external as E
+
+    words = [{"text": t, "bbox": [i * 10, 0, i * 10 + 8, 10]} for i, t in enumerate(["Date:", "8-9-2022", "Total", "EUR", "4.904,94"])]
+    assert E.locate("2022-09-08", words) == [10, 0, 18, 10]       # 0 없이 찍힌 날짜
+    assert E.locate(4904.94, words) == [40, 0, 48, 10]            # 소수점 쉼표·천 단위 점
+    assert E.locate("nl", [{"text": "SCONL0303", "bbox": [0, 0, 90, 10]}]) is None   # 짧은 값은 단어 안 일부로 찾지 않는다

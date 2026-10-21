@@ -1,0 +1,174 @@
+{
+ "items": [
+  {
+   "key": "issuer",
+   "value": "Coolblue B.V.",
+   "bbox_2d": [
+    748,
+    54,
+    835,
+    67
+   ],
+   "page": 1
+  },
+  {
+   "key": "amount",
+   "value": "717.97",
+   "bbox_2d": [
+    882,
+    687,
+    924,
+    700
+   ],
+   "page": 1
+  },
+  {
+   "key": "amount_untaxed",
+   "value": "593.36",
+   "bbox_2d": [
+    259,
+    687,
+    301,
+    700
+   ],
+   "page": 1
+  },
+  {
+   "key": "partner_coc",
+   "value": "24330087",
+   "bbox_2d": [
+    846,
+    155,
+    907,
+    168
+   ],
+   "page": 1
+  },
+  {
+   "key": "narration",
+   "value": "Ordernummer: 12572103",
+   "bbox_2d": [
+    76,
+    235,
+    238,
+    248
+   ],
+   "page": 1
+  },
+  {
+   "key": "note",
+   "value": "Klantnummer: 6669263 Ordernummer: 12572103 Orderdatum: 18 april 2014 Alles voor een glimlach."
+  },
+  {
+   "key": "partner_name",
+   "value": "Coolblue B.V.",
+   "bbox_2d": [
+    748,
+    54,
+    835,
+    67
+   ],
+   "page": 1
+  },
+  {
+   "key": "country_code",
+   "value": "NL"
+  },
+  {
+   "key": "partner_zip",
+   "value": "3012 CN",
+   "bbox_2d": [
+    748,
+    88,
+    800,
+    101
+   ],
+   "page": 1
+  },
+  {
+   "key": "partner_city",
+   "value": "Rotterdam",
+   "bbox_2d": [
+    807,
+    88,
+    875,
+    101
+   ],
+   "page": 1
+  },
+  {
+   "key": "partner_street",
+   "value": "Weena 664"
+  },
+  {
+   "key": "vat",
+   "value": "NL810433941B01",
+   "bbox_2d": [
+    780,
+    172,
+    891,
+    185
+   ],
+   "page": 1
+  },
+  {
+   "key": "bic",
+   "value": "INGBNL2A",
+   "bbox_2d": [
+    773,
+    206,
+    840,
+    219
+   ],
+   "page": 1
+  },
+  {
+   "key": "iban",
+   "value": "NL50INGB0683251309",
+   "bbox_2d": [
+    783,
+    189,
+    926,
+    202
+   ],
+   "page": 1
+  },
+  {
+   "key": "date",
+   "value": "2014-04-19",
+   "bbox_2d": [
+    175,
+    218,
+    256,
+    231
+   ],
+   "page": 1
+  },
+  {
+   "key": "invoice_number",
+   "value": "993548900",
+   "bbox_2d": [
+    188,
+    185,
+    257,
+    198
+   ],
+   "page": 1
+  },
+  {
+   "key": "payment_method",
+   "value": "iDEAL",
+   "bbox_2d": [
+    635,
+    728,
+    662,
+    741
+   ],
+   "page": 1
+  },
+  {
+   "key": "currency",
+   "value": "EUR"
+  }
+ ]
+}

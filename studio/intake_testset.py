@@ -8,7 +8,7 @@
 - OCR 은 쪽 전체 글자(합성 OCR 정답, docgen/ocr_set.py 와 같은 방법)를 사내 OCR 응답 형식으로 쓴다.
 - 추출 결과(pred)는 생성 라벨의 값·위치에서 만들고, 일부러 틀린 값·다른 키 이름·빠진 항목·pred 없는 서류를 섞는다.
 - 서류 폴더 이름(d01…)과 flat 의 ID 는 서식 ID 를 드러내지 않는다. 건마다 서류 하나가 빠질 수 있다(--missing).
-- 외부 공개 문서는 --external <폴더>(같은 구조의 images/ocr/pred + truth 조각)를 그대로 합친다.
+- 외부 공개 문서(생성기에 없는 양식)는 기본으로 studio/testdata/external/bundle 을 합친다 (--external, 없애려면 --no-external).
 
   python -m studio.intake_testset <out> [--scenarios all|fx_remittance,…] [--cases 3] [--hold-out 서식ID,…]
 """
@@ -31,6 +31,7 @@ MARKS = ("seal", "signature", "checkbox", "checkbox_multi")
 RENAME = {"customer.name": "name", "applicant.name": "name", "customer.rrn": "rrn", "applicant.rrn": "rrn",
           "customer.address": "address", "applicant.address": "address", "customer.mobile": "phone"}
 DOC_RE = r"^(?P<document_id>.+)/p\d+\.(png|jpg)$"
+EXTERNAL = Path(__file__).resolve().parent / "testdata" / "external" / "bundle"
 
 
 def _write(p: Path, obj) -> None:
@@ -195,20 +196,36 @@ def build(out: Path, scenarios: list[str], cases: int, hold_out: list[str], seed
 
 
 def add_external(out: Path, ext: Path, truth: dict) -> None:
-    """외부 공개 문서 묶음 합치기: <ext>/images/<업무>/<건>/<서류>/… (+ocr, pred) 와 <ext>/truth.json 의 documents 조각.
-    문서마다 source(출처 URL)·license·sha256 을 truth 에 남긴다. 받은 그대로 두 벌에 넣는다."""
+    """외부 공개 문서 묶음 합치기 (studio/intake_external.py 가 만든 <ext>/images·ocr·pred/<문서>/… + truth.json).
+    truth 의 placement {종류: 업무} 대로 그 업무의 건에 차례로 끼워 넣는다(경로 <업무>/<건>/d<다음 번호>). 그 업무가 없으면
+    external/<종류>/<ID> 그대로. 문서마다 출처 URL·라이선스·SHA-256 을 정답에 남긴다."""
     t = json.loads((ext / "truth.json").read_text(encoding="utf-8"))
-    for rel, d in t["documents"].items():
+    cases = {}
+    for d in truth["documents"].values():
+        if not d.get("external"):
+            cases.setdefault(d["scenario"], []).append(d["case"])
+    cases = {sc: list(dict.fromkeys(cs)) for sc, cs in cases.items()}
+    used: dict = {}
+    for src, d in t["documents"].items():
+        sc = t.get("placement", {}).get(d.get("kind"))
+        if sc in cases:
+            n = used.get(sc, 0)
+            used[sc] = n + 1
+            case = cases[sc][n % len(cases[sc])]
+            k = sum(1 for r in truth["documents"] if r.startswith(f"{sc}/{case}/")) + 1   # 생성 서류 다음 번호 (외부임이 드러나지 않게)
+            rel, d = f"{sc}/{case}/d{k:02d}", {**d, "scenario": sc, "case": case}
+        else:
+            rel, d = src, {**d, "scenario": "external", "case": None}
         flat = "doc_" + hashlib.sha1(f"flat:{rel}".encode()).hexdigest()[:10]
         for sub in ("images", "ocr"):
-            for f in sorted((ext / sub / rel).glob("*")) if (ext / sub / rel).is_dir() else []:
+            for f in sorted((ext / sub / src).glob("*")) if (ext / sub / src).is_dir() else []:
                 _link(f, out / "structured" / sub / rel / f.name)
                 _link(f, out / "flat" / sub / flat / f.name)
-        pf = ext / "pred" / f"{rel}.json"
+        pf = ext / "pred" / f"{src}.json"
         if pf.is_file():
             _link(pf, out / "structured" / "pred" / f"{rel}.json")
             _link(pf, out / "flat" / "pred" / f"{flat}.json")
-        truth["documents"][rel] = {**d, "flat": flat, "external": True, "new_form": True}
+        truth["documents"][rel] = {**d, "flat": flat, "external": True, "new_form": True, "external_id": src}
 
 
 def main(argv=None) -> None:
@@ -224,7 +241,8 @@ def main(argv=None) -> None:
     ap.add_argument("--no-pred", type=float, default=0.15, help="추출 결과가 없는 서류 비율")
     ap.add_argument("--wrong", type=float, default=0.1, help="추출 값을 틀리게 할 확률 (항목마다)")
     ap.add_argument("--drop", type=float, default=0.05, help="추출 항목을 빠뜨릴 확률")
-    ap.add_argument("--external", help="외부 공개 문서 묶음 폴더 (add_external 형식)")
+    ap.add_argument("--external", default=str(EXTERNAL), help="외부 공개 문서 묶음 폴더 (studio/intake_external.py 가 만든 것)")
+    ap.add_argument("--no-external", action="store_true", help="외부 문서를 섞지 않는다")
     a = ap.parse_args(argv)
     scenarios = list(SCENARIOS) if a.scenarios == "all" else [s.strip() for s in a.scenarios.split(",") if s.strip()]
     hold = [s.strip() for s in a.hold_out.split(",") if s.strip()]
@@ -233,10 +251,11 @@ def main(argv=None) -> None:
     if bad:
         sys.exit(f"없는 시나리오·서식: {bad}")
     t = build(Path(a.out), scenarios, a.cases, hold, a.seed_start, a.scale, (("clean", 1.0),) if a.clean else CONDITIONS,
-              a.missing, a.no_pred, a.wrong, a.drop, Path(a.external) if a.external else None)
+              a.missing, a.no_pred, a.wrong, a.drop, None if a.no_external else Path(a.external))
     docs = t["documents"].values()
     print(f"{a.out}: 업무 {len(t['scenarios'])} · 건 {len({(d['scenario'], d['case']) for d in docs})} · 서류 {len(t['documents'])}"
-          f" · 쪽 {sum(d['pages'] for d in docs)} · 추출 결과 {sum(d['pred'] for d in docs)} · 새 서식 서류 {sum(d['new_form'] for d in docs)}")
+          f" · 쪽 {sum(d['pages'] for d in docs)} · 추출 결과 {sum(d['pred'] for d in docs)} · 새 서식 서류 {sum(d['new_form'] for d in docs)}"
+          f" (외부 문서 {sum(bool(d.get('external')) for d in docs)})")
 
 
 if __name__ == "__main__":

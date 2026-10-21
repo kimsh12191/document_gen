@@ -1,0 +1,63 @@
+{
+ "items": [
+  {
+   "key": "issuer",
+   "value": "Flipkart",
+   "bbox_2d": [
+    164,
+    866,
+    203,
+    876
+   ],
+   "page": 1
+  },
+  {
+   "key": "amount",
+   "value": "319.0",
+   "bbox_2d": [
+    910,
+    247,
+    956,
+    261
+   ],
+   "page": 1
+  },
+  {
+   "key": "date",
+   "value": "2015-10-20",
+   "bbox_2d": [
+    113,
+    147,
+    190,
+    162
+   ],
+   "page": 1
+  },
+  {
+   "key": "invoice_number",
+   "value": "#BLR_WFLD20151000982590",
+   "bbox_2d": [
+    768,
+    50,
+    955,
+    63
+   ],
+   "page": 1
+  },
+  {
+   "key": "order_id",
+   "value": "OD304175096047380001",
+   "bbox_2d": [
+    84,
+    105,
+    258,
+    120
+   ],
+   "page": 1
+  },
+  {
+   "key": "currency",
+   "value": "INR"
+  }
+ ]
+}

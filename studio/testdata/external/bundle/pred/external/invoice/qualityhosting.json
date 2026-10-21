@@ -1,0 +1,81 @@
+{
+ "items": [
+  {
+   "key": "issuer",
+   "value": "QualityHosting AG",
+   "bbox_2d": [
+    108,
+    168,
+    205,
+    176
+   ],
+   "page": 1
+  },
+  {
+   "key": "amount",
+   "value": "34.73",
+   "bbox_2d": [
+    924,
+    529,
+    957,
+    539
+   ],
+   "page": 2
+  },
+  {
+   "key": "amount_untaxed",
+   "value": "34.73",
+   "bbox_2d": [
+    924,
+    529,
+    957,
+    539
+   ],
+   "page": 2
+  },
+  {
+   "key": "date",
+   "value": "2014-05-07",
+   "bbox_2d": [
+    249,
+    378,
+    328,
+    389
+   ],
+   "page": 1
+  },
+  {
+   "key": "invoice_number",
+   "value": "30064443",
+   "bbox_2d": [
+    249,
+    364,
+    316,
+    375
+   ],
+   "page": 1
+  },
+  {
+   "key": "vat",
+   "value": "DE 232 446 240",
+   "bbox_2d": [
+    413,
+    962,
+    498,
+    970
+   ],
+   "page": 1
+  },
+  {
+   "key": "currency",
+   "value": "EUR",
+   "bbox_2d": [
+    726,
+    529,
+    755,
+    539
+   ],
+   "page": 2
+  }
+ ]
+}

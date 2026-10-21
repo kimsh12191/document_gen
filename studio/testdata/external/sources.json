@@ -1,0 +1,31 @@
+{
+  "about": "서류 넣기 시험용 외부 공개 문서 (studio/DESIGN.md 15.6). 생성기에 없는 양식. python -m studio.intake_external 이 쪽 이미지·OCR·추출 결과(라벨)로 만든다. 추출 키는 원래 출처의 키 이름 그대로 둔다(키 사전 대기 탭 시험).",
+  "repos": {
+    "invoice2data": {"url": "https://github.com/invoice-x/invoice2data", "commit": "9066f0dc8b88e50b94bcd0d17918896a222f63a3",
+                     "path": "tests/compare", "license": "MIT", "license_file": "licenses/invoice2data-LICENSE.txt"},
+    "docling": {"url": "https://github.com/docling-project/docling", "commit": "4f00195b8dadbc1a67f4cefae6b619c47e4e515f",
+                "path": "tests/data", "license": "MIT", "license_file": "licenses/docling-LICENSE.txt"},
+    "unstructured": {"url": "https://github.com/Unstructured-IO/unstructured", "commit": "07d978b8c182404b800fba27c01f4a2c633cfffc",
+                     "path": "example-docs/pdf", "license": "Apache-2.0", "license_file": "licenses/unstructured-LICENSE.md"}
+  },
+  "documents": [
+    {"id": "aws", "repo": "invoice2data", "file": "invoice2data/AmazonWebServices.pdf", "kind": "invoice", "labels": "invoice2data"},
+    {"id": "azure", "repo": "invoice2data", "file": "invoice2data/AzureInterior.pdf", "kind": "invoice", "labels": "invoice2data"},
+    {"id": "flipkart", "repo": "invoice2data", "file": "invoice2data/FlipkartInvoice.pdf", "kind": "invoice", "labels": "invoice2data"},
+    {"id": "netpresse", "repo": "invoice2data", "file": "invoice2data/NetpresseInvoice.pdf", "kind": "invoice", "labels": "invoice2data"},
+    {"id": "qualityhosting", "repo": "invoice2data", "file": "invoice2data/QualityHosting.pdf", "kind": "invoice", "labels": "invoice2data"},
+    {"id": "sammy", "repo": "invoice2data", "file": "invoice2data/SammyMaystoneLinesTest.pdf", "kind": "invoice", "labels": "invoice2data"},
+    {"id": "coolblue1", "repo": "invoice2data", "file": "invoice2data/coolblue1.pdf", "kind": "invoice", "labels": "invoice2data"},
+    {"id": "coolblue2", "repo": "invoice2data", "file": "invoice2data/coolblue2.pdf", "kind": "invoice", "labels": "invoice2data"},
+    {"id": "free_fiber", "repo": "invoice2data", "file": "invoice2data/free_fiber.pdf", "kind": "invoice", "labels": "invoice2data"},
+    {"id": "oyo", "repo": "invoice2data", "file": "invoice2data/oyo.pdf", "kind": "invoice", "labels": "invoice2data"},
+    {"id": "saeco", "repo": "invoice2data", "file": "invoice2data/saeco.pdf", "kind": "invoice", "labels": "invoice2data"},
+    {"id": "qr_bill", "repo": "docling", "file": "docling/qr_bill_example.jpg", "ocr": "docling/qr_bill_example.ocr.json", "kind": "payment_slip",
+     "labels": {"creditor_name": "Robert Schneider AG", "iban": "CH5800791123000889012", "bill_no": "3139", "date": "01.07.2020",
+                "currency": "CHF", "amount": "3'949.75", "vat_rate": "7.7%", "debtor_name": "Pia Rutschmann"}},
+    {"id": "acroform", "repo": "docling", "file": "docling/acroform_sample.pdf", "kind": "form", "labels": "acroform"},
+    {"id": "memo", "repo": "unstructured", "file": "unstructured/fake-memo.pdf", "kind": "other", "labels": "none"},
+    {"id": "korean_card", "repo": "unstructured", "file": "unstructured/korean-text-with-tables.pdf", "kind": "other", "labels": "none"}
+  ],
+  "placement": {"invoice": "fx_remittance", "payment_slip": "fx_remittance", "form": "account_opening", "other": "account_opening"}
+}

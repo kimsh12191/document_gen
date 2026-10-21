@@ -1,0 +1,140 @@
+{
+ "items": [
+  {
+   "key": "issuer",
+   "value": "OYO",
+   "bbox_2d": [
+    77,
+    141,
+    108,
+    153
+   ],
+   "page": 1
+  },
+  {
+   "key": "amount",
+   "value": "1939.0",
+   "bbox_2d": [
+    620,
+    273,
+    650,
+    285
+   ],
+   "page": 1
+  },
+  {
+   "key": "date",
+   "value": "2017-12-31",
+   "bbox_2d": [
+    743,
+    92,
+    812,
+    104
+   ],
+   "page": 1
+  },
+  {
+   "key": "invoice_number",
+   "value": "IBZY2087",
+   "bbox_2d": [
+    533,
+    182,
+    595,
+    194
+   ],
+   "page": 1
+  },
+  {
+   "key": "currency",
+   "value": "INR"
+  },
+  {
+   "key": "hotel_details",
+   "value": " OYO 4189 Resort Nanganallur",
+   "bbox_2d": [
+    77,
+    141,
+    269,
+    153
+   ],
+   "page": 1
+  },
+  {
+   "key": "date_check_in",
+   "value": "2017-12-31",
+   "bbox_2d": [
+    743,
+    92,
+    812,
+    104
+   ],
+   "page": 1
+  },
+  {
+   "key": "date_check_out",
+   "value": "2018-01-01",
+   "bbox_2d": [
+    680,
+    141,
+    749,
+    153
+   ],
+   "page": 1
+  },
+  {
+   "key": "amount_rooms",
+   "value": "1.0",
+   "bbox_2d": [
+    782,
+    798,
+    805,
+    810
+   ],
+   "page": 1
+  },
+  {
+   "key": "booking_id",
+   "value": "IBZY2087",
+   "bbox_2d": [
+    533,
+    182,
+    595,
+    194
+   ],
+   "page": 1
+  },
+  {
+   "key": "payment_method",
+   "value": "Cash at Hotel",
+   "bbox_2d": [
+    680,
+    182,
+    765,
+    194
+   ],
+   "page": 1
+  },
+  {
+   "key": "gstin",
+   "value": "06AABCO6063D1ZQ",
+   "bbox_2d": [
+    96,
+    714,
+    227,
+    726
+   ],
+   "page": 1
+  },
+  {
+   "key": "cin",
+   "value": "U63090DL2012PTC231770",
+   "bbox_2d": [
+    507,
+    714,
+    676,
+    726
+   ],
+   "page": 1
+  }
+ ]
+}

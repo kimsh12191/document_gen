@@ -1,0 +1,92 @@
+{
+ "items": [
+  {
+   "key": "creditor_name",
+   "value": "Robert Schneider AG",
+   "bbox_2d": [
+    775,
+    148,
+    920,
+    160
+   ],
+   "page": 1
+  },
+  {
+   "key": "iban",
+   "value": "CH5800791123000889012",
+   "bbox_2d": [
+    586,
+    680,
+    814,
+    691
+   ],
+   "page": 1
+  },
+  {
+   "key": "bill_no",
+   "value": "3139",
+   "bbox_2d": [
+    186,
+    358,
+    225,
+    375
+   ],
+   "page": 1
+  },
+  {
+   "key": "date",
+   "value": "01.07.2020",
+   "bbox_2d": [
+    839,
+    271,
+    920,
+    283
+   ],
+   "page": 1
+  },
+  {
+   "key": "currency",
+   "value": "CHF",
+   "bbox_2d": [
+    318,
+    903,
+    359,
+    918
+   ],
+   "page": 1
+  },
+  {
+   "key": "amount",
+   "value": "3'949.75",
+   "bbox_2d": [
+    845,
+    526,
+    914,
+    538
+   ],
+   "page": 1
+  },
+  {
+   "key": "vat_rate",
+   "value": "7.7%",
+   "bbox_2d": [
+    871,
+    479,
+    916,
+    494
+   ],
+   "page": 1
+  },
+  {
+   "key": "debtor_name",
+   "value": "Pia Rutschmann",
+   "bbox_2d": [
+    119,
+    89,
+    233,
+    103
+   ],
+   "page": 1
+  }
+ ]
+}
