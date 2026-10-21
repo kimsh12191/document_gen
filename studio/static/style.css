@@ -274,3 +274,10 @@ div.warn { color: var(--warn); }
 .tree .kids { padding: 4px 0 2px 18px; }
 .tree .kids > div { padding: 2px 0; }
 .small { font-size: 12px; }
+.cards.wide { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+#ij-cards .card select, #ij-cards .card input[type=text] { max-width: 100%; box-sizing: border-box; }
+.ij-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0; }
+.ij-stage { position: relative; border: 1px solid var(--line); }
+.ij-stage img { display: block; width: 100%; }
+.ij-box { position: absolute; border: 2px solid #2563eb; background: rgba(37, 99, 235, .08); }
+.ij-box.left { border-color: #ea580c; background: rgba(234, 88, 12, .10); }

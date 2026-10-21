@@ -324,9 +324,11 @@ def load_form_prints() -> dict:
 
 
 def build_form_prints(ids: list[str] | None = None) -> int:
-    """서식마다 seed 0 으로 렌더링해 쪽 전체 글자(합성 OCR 정답)로 첫 쪽 지문을 만든다."""
+    """서식마다 seed 0 으로 레이아웃(template_variants)별로 렌더링해 쪽마다 지문(합성 OCR 정답 글자)을 만든다.
+    pages: [{variant, page, title, tokens}] — 서류의 첫 쪽이 다른 레이아웃·다른 쪽(요약 쪽이 앞에 오는 등)이어도 맞는 것을 찾게."""
     import tempfile
 
+    from docgen import template_variants as TV
     from docgen.entities import make_profile
     from docgen.image import ImageRenderer
     from docgen.ocr_export import background_words, page_items
@@ -344,18 +346,30 @@ def build_form_prints(ids: list[str] | None = None) -> int:
         for k, i in enumerate(ids, 1):
             out = PRINTS / f"{i}.json"
             h = source_hash(i, common=False)
-            if out.exists() and json.loads(out.read_text(encoding="utf-8")).get("hash") == h:
+            if out.exists() and (o := json.loads(out.read_text(encoding="utf-8"))).get("hash") == h and "pages" in o:
                 continue
             spec = reg[i]
-            html, _, _ = render(spec, make_profile(0), 0)
-            info = R.render(html, Path(d) / f"{i}.png", texts=True)
+            real = spec.template == "_real_form.html.j2"
+            variants = ["default"] if real else [r["id"] for r in TV.load(i)["variants"] if r.get("enabled", True)] or ["default"]
             bg = background_words(i) if spec.group in ("hana", "imported") else {}
-            items = page_items([t for t in info["texts"] if t["page"] == 0], bg.get(0, []), 2 * 96 / 72, "word")
-            words = [{"text": x["text"], "bbox": [x["bounding"]["vertices"][0]["x"], x["bounding"]["vertices"][0]["y"],
-                                                  x["bounding"]["vertices"][2]["x"], x["bounding"]["vertices"][2]["y"]],
-                      "line_num": x["line_num"]} for x in items]
-            fp = F.fingerprint(words, info["pages"][0]["width"], info["pages"][0]["height"])
-            out.write_text(json.dumps({"name": spec.name, "hash": h, "tokens": fp["tokens"]}, ensure_ascii=False), encoding="utf-8")
+            pages = []
+            for v in variants:
+                profile = make_profile(0)
+                if not real:
+                    profile.extra = {**profile.extra, "template_variants": {i: v}}
+                html, _, _ = render(spec, profile, 0)
+                info = R.render(html, Path(d) / f"{i}.png", texts=True)
+                for pg, size in enumerate(info["pages"]):
+                    items = page_items([t for t in info["texts"] if t["page"] == pg], bg.get(pg, []), 2 * 96 / 72, "word")
+                    words = [{"text": x["text"], "bbox": [x["bounding"]["vertices"][0]["x"], x["bounding"]["vertices"][0]["y"],
+                                                          x["bounding"]["vertices"][2]["x"], x["bounding"]["vertices"][2]["y"]],
+                              "line_num": x["line_num"]} for x in items]
+                    if words:
+                        fp = F.fingerprint(words, size["width"], size["height"])
+                        pages.append({"variant": v, "page": pg + 1, "title": fp.get("title", ""), "tokens": fp["tokens"]})
+            first = pages[0] if pages else {"title": "", "tokens": []}
+            out.write_text(json.dumps({"name": spec.name, "hash": h, "title": first["title"], "tokens": first["tokens"], "pages": pages},
+                                      ensure_ascii=False), encoding="utf-8")
             n += 1
             print(f"\r서식 {k}/{len(ids)}", end="", file=sys.stderr, flush=True)
     print(file=sys.stderr)

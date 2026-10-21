@@ -80,3 +80,42 @@ def test_batch_ocr_group_score(testset, tmp_path, name, structure):
     ov = IN.overview(d)
     assert sum(f["n_docs"] for f in ov["formats"]) == s["documents"]
     assert json.loads((d / "batch.json").read_text(encoding="utf-8"))["results"]["pred"]   # ⑤ 라벨 검수가 쓰는 추출 결과 위치
+
+
+def test_judge_decide_and_draft(testset, tmp_path, monkeypatch):
+    """❷: 기존 서식 지문과 맞는 모양은 '기존 서식', 아닌 것은 '새 서식'. 결정 저장, 새 서식 초안(값 칸·지운 배경)."""
+    from studio import intake_judge as IJ
+
+    b = IN.create_batch(tmp_path, "j", str(testset / "structured"), None)
+    d = tmp_path / "imports" / b["name"]
+    IM.run_ocr(d)
+    IM.run_group(d)
+    truth = json.loads((testset / "truth.json").read_text(encoding="utf-8"))["documents"]
+    rows = {r["id"]: r for r in IM._jsonl(d / "pages.jsonl")}
+    fx = json.loads((d / "formats.json").read_text(encoding="utf-8"))
+    form_of = lambda f: max({truth[x]["form"] for x in f["docs"]}, key=lambda k: sum(truth[x]["form"] == k for x in f["docs"]))  # noqa: E731
+    known = next(f for f in fx["formats"] if form_of(f) == "employment_certificate")
+    # 지문: 재직증명서 하나만 '기존 서식'으로 (나머지 모양은 맞는 지문이 없다)
+    tokens = rows[next(iter(known["docs"].values()))[0]]["fp"]["tokens"]
+    monkeypatch.setattr(IM, "load_form_prints", lambda: {"employment_certificate": {"name": "재직증명서", "tokens": tokens}})
+    j = {x["id"]: x for x in IJ.judge(d)}
+    assert j[known["id"]]["suggest"]["kind"] == "existing" and j[known["id"]]["suggest"]["form_id"] == "employment_certificate"
+    other = next(f for f in fx["formats"] if form_of(f) == "commercial_invoice")
+    assert j[other["id"]]["suggest"]["kind"] == "new" and j[other["id"]]["keys"]
+    assert any(k["common"] == "foreign.name" for k in j[other["id"]]["keys"])          # shipper.name → 외국 상대 이름
+    IJ.decide(d, {other["id"]: {"kind": "new", "name": "상업송장(새)", "uses": {"template": True, "raw": True},
+                                "keymap": {"invoice_no": None}}})
+    saved = next(x for x in IJ.judge(d) if x["id"] == other["id"])["decision"]
+    assert saved["name"] == "상업송장(새)" and saved["uses"] == {"template": True, "raw": True} and saved["keymap"] == {"invoice_no": None}
+    with pytest.raises(ValueError):
+        IJ.decide(d, {other["id"]: {"kind": "existing", "form_id": "no_such_form"}})
+    dr = IJ.draft(d, other["id"])
+    assert dr["regions"] and dr["images"] and (d / "drafts" / dr["images"][0]["name"]).is_file()
+    # 지운 자리는 한 색으로 칠해진다 (원래 값 글자가 남지 않음)
+    from PIL import Image
+
+    img = Image.open(d / "drafts" / dr["images"][0]["name"]).convert("L")
+    g = next(x for x in dr["regions"] if x["page"] == 0 and x["rect"][2] - x["rect"][0] > 20)
+    x0, y0, x1, y1 = (int(v) for v in g["rect"])
+    lo, hi = img.crop((x0 + 2, y0 + 2, x1 - 2, y1 - 2)).getextrema()
+    assert lo == hi

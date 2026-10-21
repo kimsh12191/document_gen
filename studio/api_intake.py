@@ -4,14 +4,20 @@
   GET  /api/intake              서류 넣기로 만든 묶음 목록
   POST /api/intake              {name, path} → 묶음 만들기 + OCR·묶기 작업
   GET  /api/intake/{묶음}        ❶ 결과와 ❷에 넘길 양식 요약 (양식마다 서류 수·업무 분포·추출 결과·가까운 기존 서식)
+  GET  /api/intake/{묶음}/judge  ❷ 모양마다 판정 제안(기존 서식·새 서식)·가까운 서식 3·쓸 길·추출 키 → 공통 키 제안·저장된 결정
+  POST /api/intake/{묶음}/decide {formats: {모양: {kind, form_id?, name?, uses, keymap}}}
+  GET  /api/intake/{묶음}/draft/{모양}       새 서식 초안 (값 칸·지울 자리·지운 배경 그림 이름)
+  GET  /api/intake/{묶음}/draft-image/{그림}  지운 배경 그림
 """
 import json
 
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from . import importer as IM
 from . import intake as IN
+from . import intake_judge as IJ
 
 
 def make_router(reg, jobs, guard, cfg: dict) -> APIRouter:
@@ -67,5 +73,33 @@ def make_router(reg, jobs, guard, cfg: dict) -> APIRouter:
                 "summary": b["intake"]["summary"], "warnings": b["intake"]["warnings"],
                 "n_ocr": sum(1 for x in rows if x.get("ocr")), "n_pages": len(rows),
                 "job": running[0] if running else None, "formats": out["formats"]}
+
+    def bdir(name: str):
+        d = imports / IM._slug(name)
+        if not (d / "formats.json").exists():
+            raise HTTPException(404, f"묶기가 끝난 묶음이 없습니다: {name}")
+        return d
+
+    @r.get("/api/intake/{name}/judge")
+    def judge(name: str):
+        return {"formats": guard(IJ.judge, bdir(name))}
+
+    class DecideReq(BaseModel):
+        formats: dict
+
+    @r.post("/api/intake/{name}/decide")
+    def decide(name: str, req: DecideReq):
+        return guard(IJ.decide, bdir(name), req.formats)
+
+    @r.get("/api/intake/{name}/draft/{fid}")
+    def draft(name: str, fid: str):
+        return guard(IJ.draft, bdir(name), fid)
+
+    @r.get("/api/intake/{name}/draft-image/{img}")
+    def draft_image(name: str, img: str):
+        f = bdir(name) / "drafts" / IM._slug(img)
+        if not f.is_file():
+            raise HTTPException(404, img)
+        return FileResponse(f, headers={"Cache-Control": "no-store"})
 
     return r

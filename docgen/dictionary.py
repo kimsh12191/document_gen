@@ -136,9 +136,13 @@ def match_extracted(key: str, doc_type: str | None = None) -> str | None:
         return ck
     from . import keyrules as KR
 
+    common = load("common").get("keys", {})
     alias = {re.sub(r"[^a-z0-9]", "", a.lower()): k for a, k in KR.alias_index().items()}
     k = alias.get(re.sub(r"[^a-z0-9]", "", key.lower()))
-    return k if k in load("common").get("keys", {}) else None
+    if k in common:
+        return k
+    pk = resolve(key, doc_type)["party_key"] if re.fullmatch(r"[a-z][a-z0-9_]*(\.[a-z0-9_]+)+", key) else None   # 역할.값 꼴이면 역할의 뜻으로
+    return pk if pk in common else None
 
 
 def apply_common(doc_id: str, fields: list[dict]) -> list[dict]:
