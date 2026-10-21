@@ -1,0 +1,42 @@
+# GRPO for 2 x A100 80GB: 4 completions per GPU step x 2 GPUs = 8 = num_generations (one whole group
+# per step), x 4 accumulation = 4 prompts per optimizer step.
+# If it runs out of memory: per_device_train_batch_size 2, num_generations 4 (= grpo_a100_40g_x2.yaml),
+# or grpo.max_images 3 in the pipeline config (shorter prompts).
+# Reward: docgen.bench.evaluate.reward for every task (OCR text/box similarity, banking partial credit). Native MS-SWIFT 4.x options; paths and GPU IDs are launcher arguments.
+model_type: qwen3_5
+tuner_type: lora
+torch_dtype: bfloat16
+target_modules: all-linear
+freeze_llm: false
+freeze_vit: false
+freeze_aligner: false
+lora_rank: 32
+lora_alpha: 64
+per_device_train_batch_size: 4
+gradient_accumulation_steps: 4
+gradient_checkpointing: true
+num_train_epochs: 1
+max_length: 16384
+warmup_ratio: 0.05
+logging_steps: 1
+save_steps: 50
+save_total_limit: 3
+dataloader_num_workers: 2
+dataset_num_proc: 4
+split_dataset_ratio: 0
+report_to: none
+deepspeed: zero2
+# LoRA (continues the SFT adapter)
+learning_rate: 5.0e-6
+beta: 0.04
+rlhf_type: grpo
+reward_funcs: ["docgen"]   # train/reward_plugin.py (launch.py adds it), reward = docgen.bench.evaluate.reward
+remove_unused_columns: false
+num_generations: 8
+temperature: 1.0
+top_p: 0.95
+# Longest answers: OCR spotting (up to 40 boxes) and kie with up to 40 fields; cross_check and review are short.
+max_completion_length: 1536
+use_vllm: false
+enable_thinking: false
+log_completions: true

@@ -1,6 +1,6 @@
 """③ 시나리오·묶음, ⑥ 데이터셋 만들기(은행 업무·합성 OCR), ⑧ 작업, 학습 연결 API.
 
-서버 쪽 일은 studio/bank_data.py(은행 업무), studio/ocr_data.py(합성 OCR·1부 설정), studio/training_link.py(학습 기록)가 한다.
+서버 쪽 일은 studio/bank_data.py(은행 업무), studio/ocr_data.py(합성 OCR), studio/training_link.py(학습 설정·기록)가 한다.
 
   GET    /api/recipes                     레시피 목록 · GET /api/recipes/options 편집용 목록(시나리오·사례·기본 규칙)
   GET/PUT/DELETE /api/recipes/{이름}       레시피 하나
@@ -9,7 +9,7 @@
   GET    /api/jobs                       작업 목록 · GET /api/jobs/{id} · POST /api/jobs/{id}/cancel
   GET    /api/datasets/{id}/bundles       업무 묶음 목록 · GET /api/datasets/{id}/bundles/{묶음} 상세(서류, 고객 프로필, 검사)
   GET/PUT /api/scenarios                  시나리오 목록·저장
-  POST   /api/training/preview            학습 설정 조각 미리보기 {pipeline, train, benchmark, ocr, name}
+  POST   /api/training/preview            학습 설정 조각 미리보기 {train, counts, benchmark: [ID…], name}
   POST   /api/training/save               설정 파일 쓰기 + 학습 기록
   GET    /api/trainings                   학습 기록과 진행 (끝난 학습은 평가 세트에 모델 답으로 자동으로 붙음)
 """
@@ -127,18 +127,14 @@ def make_router(reg, jobs, guard) -> APIRouter:
         return scenarios()
 
     class TrainReq(BaseModel):
-        pipeline: str = "bank"
         train: list[str] = []
-        benchmark: str
-        ocr: str | None = None
+        counts: dict = {}          # 데이터셋 ID → 쓸 SFT 문항 수 (없으면 다)
+        benchmark: list[str] | str
         name: str
 
     def _info(req: TrainReq) -> dict:
-        if req.pipeline == "bank":
-            return BD.bank_training_config(reg, req.train, req.benchmark, req.ocr, req.name)
-        from . import ocr_data
-
-        return ocr_data.ocr_training_config(reg, req.train, req.benchmark, req.name)
+        train = [{"id": t, **({"count": req.counts[t]} if req.counts.get(t) else {})} for t in req.train]
+        return TL.training_config(reg, train, req.benchmark, req.name)
 
     @r.post("/api/training/preview")
     def training_preview(req: TrainReq):
@@ -147,8 +143,8 @@ def make_router(reg, jobs, guard) -> APIRouter:
     @r.post("/api/training/save")
     def training_save(req: TrainReq):
         info = guard(_info, req)
-        return guard(TL.write_training, reg, info, list(dict.fromkeys([*req.train, req.benchmark] + ([req.ocr] if req.ocr else []))),
-                     req.benchmark, req.name)
+        bench = [req.benchmark] if isinstance(req.benchmark, str) else req.benchmark
+        return guard(TL.write_training, reg, info, list(dict.fromkeys([*req.train, *bench])), bench, req.name)
 
     @r.get("/api/trainings")
     def trainings():

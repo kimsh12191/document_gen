@@ -62,30 +62,3 @@ def test_ocr_recipe_validate():
                 {"track": "ocr", "conditions": {"clean": 0.3}}):
         with pytest.raises(ValueError):
             ocr_data.validate(bad)
-
-
-def _ocr_ds(tmp_path, name, train_tasks):
-    root = tmp_path / name
-    root.mkdir()
-    (root / "DONE.json").write_text("{}", encoding="utf-8")
-    (root / "pages.jsonl").write_text('{"document_id": "d", "page_id": "p"}\n', encoding="utf-8")
-    (root / "config.snapshot.json").write_text(json.dumps({"ocr_revision": "r1", "image_max_size": [2300, 1600], "studio": {"gt": "exact"}}),
-                                               encoding="utf-8")
-    if train_tasks:
-        (root / "train_tasks.jsonl").write_text('{"id": "t", "task": "crop_ocr", "target": "{}"}\n', encoding="utf-8")
-    (root / "benchmark_tasks.jsonl").write_text('{"id": "b", "task": "crop_ocr", "target": "{}"}\n', encoding="utf-8")
-    return root
-
-
-def test_ocr_training_config(tmp_path):
-    reg = DS.Registry(tmp_path / "ws", {str(tmp_path): "/share/x"})
-    a = reg.register(str(_ocr_ds(tmp_path, "syn", True)))
-    b = reg.register(str(_ocr_ds(tmp_path, "evalonly", False)))
-    assert a["gt"] == "exact"
-    with pytest.raises(ValueError):
-        ocr_data.ocr_training_config(reg, [b["id"]], b["id"], "t")   # 학습 문항 없음
-    info = ocr_data.ocr_training_config(reg, [a["id"]], a["id"], "ocr exp")
-    data = info["extra_files"]["configs/studio-ocr-exp-data.json"]
-    assert data["output_dir"] == "/share/x/syn" and "studio" not in data
-    assert info["config"] == {"workdir": "../runs/ocr-exp", "data_config": "studio-ocr-exp-data.json"}
-    assert info["command"].endswith("--config configs/studio-ocr-exp.json")

@@ -9,8 +9,6 @@ import os
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]   # 저장소 최상위
-OCR_DIR = ROOT / "ocr"     # 1부 OCR 준비·학습 (run_pipeline.py)
-BANK_DIR = ROOT / "bank"   # 2부 은행 업무 준비·학습 (run_bank_pipeline.py)
 CONFIG_PATH = Path(os.environ.get("STUDIO_CONFIG", ROOT / "studio" / "config.json"))
 
 DEFAULTS = {

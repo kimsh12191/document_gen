@@ -67,7 +67,7 @@ def make_router(reg: DS.Registry, guard, jobs=None) -> APIRouter:
         d = reg.load()
         out = []
         for k, v in d["datasets"].items():
-            out.append({"id": k, **{x: v.get(x) for x in ("name", "groups", "kind", "format", "source", "gt", "real_data", "frozen",
+            out.append({"id": k, **{x: v.get(x) for x in ("name", "groups", "kind", "split", "format", "source", "gt", "real_data", "frozen",
                                                          "version", "counts", "created", "registered", "path")},
                         "exists": Path(v["path"]).exists(), "n_runs": len(v.get("runs", [])),
                         "n_scores": len(saved_scores(k))})

@@ -406,41 +406,38 @@ async function viewBundle(id, bid) {
 async function trainingsPanel() {
   const r = await api("/api/trainings").catch(() => ({ trainings: [] }));
   if (!r.trainings.length) return "";
-  return `<h2>학습 기록</h2>${table(r.trainings, [["name", "학습"], ["pipeline", "파이프라인"],
+  return `<h2>학습 기록</h2>${table(r.trainings, [["name", "학습"],
     ["stages", "진행", t => t.started ? t.stages.map(s => `<span class="tag ${s.done ? "ok" : ""}" title="${esc(s.id)}">${esc(s.name)}</span>`).join("") : `<span class="muted">아직 시작 안 함</span>`],
-    ["command", "실행할 명령 (학습 컨테이너)", t => `<span class="mono" style="font-size:12px">${esc(t.command)}</span>`],
-    ["benchmark", "평가 세트", t => `<a href="#/datasets/${encodeURIComponent(t.benchmark)}/runs">${esc(t.benchmark)}</a>${t.attached ? " ✓ 결과 붙음" : ""}`]])}`;
+    ["command", "실행할 명령 (학습 컨테이너, 저장소 최상위에서)", t => `<span class="mono" style="font-size:12px">${esc(t.command)}</span>`],
+    ["benchmark", "평가 세트", t => (t.benchmark || []).map(b => `<a href="#/datasets/${encodeURIComponent(b)}/runs">${esc(b)}</a>`).join(", ") + (t.attached ? " ✓ 결과 붙음" : "")]])}`;
 }
 
 async function dsTrain(d) {
-  const all = (await api("/api/datasets")).datasets;
-  const bank = all.filter(x => x.format === "docgen.bench"), ocr = all.filter(x => x.format === "bank_ocr/prepared");
-  const isOcr = d.track === "ocr";
-  const opt = (list, cur) => list.map(x => `<option value="${esc(x.id)}" ${x.id === cur ? "selected" : ""}>${esc(x.name)} (${esc(x.id)})</option>`).join("");
+  const all = (await api("/api/datasets")).datasets.filter(x => x.format === "docgen-tasks");
+  const hasTrain = x => ["train", "mixed"].includes(x.split) || (x.counts || {}).train_items;
+  const train = all.filter(hasTrain), bench = all.filter(x => x.split !== "train");
+  const row = (x, kind) => `<label style="display:block"><input type="checkbox" data-${kind}="${esc(x.id)}" ${x.id === d.id && (kind === "train" ? hasTrain(d) : d.split !== "train") ? "checked" : ""}>
+    ${dsTag(x)} ${esc(x.name)} <span class="muted">${esc(x.id)}</span>${kind === "train" ? ` <input type="number" min="1" placeholder="문항 수 (비우면 다)" data-count="${esc(x.id)}" style="width:150px">` : ""}</label>`;
   $("#tab").innerHTML = `
-    <div class="sub">이 데이터셋으로 ${isOcr ? "1부 OCR 학습(<span class=mono>run_pipeline.py</span>)" : "2부 은행 업무 학습(<span class=mono>run_bank_pipeline.py</span>)"}
-      설정을 만듭니다. studio 는 학습을 실행하지 않습니다. 설정 파일을 <span class="mono">ocr/configs/</span>(1부)·<span class="mono">bank/configs/</span>(2부)의 <span class="mono">studio-&lt;이름&gt;.json</span>에 쓰고
-      학습 컨테이너에서 실행할 명령을 보여 줍니다. 진행은 공유 폴더의 state.json 으로 보고, 끝나면 평가 세트에 모델 답으로 붙습니다 (studio/TRAINING.md).</div>
+    <div class="sub">학습은 하나입니다 (<span class="mono">python -m train</span>): OCR·문서 이해·업무 처리 과제 데이터셋을 함께 골라 섞습니다.
+      studio 는 학습을 실행하지 않습니다. 설정 파일을 <span class="mono">train/configs/studio-&lt;이름&gt;.json</span>에 쓰고 학습 컨테이너에서 실행할 명령을 보여 줍니다.
+      진행은 공유 폴더의 state.json 으로 보고, 끝나면 고른 평가 세트마다 모델 답으로 붙습니다 (studio/TRAINING.md).</div>
     <div class="panel">
       <label class="fld">학습 이름 <input type="text" id="tr-name" value="${esc(d.id)}-${new Date().toISOString().slice(0, 10)}"></label>
-      ${isOcr ? `
-        <label class="fld">학습에 쓸 OCR 데이터셋 (train 이 있는 1부 prepare 결과) <select id="tr-train">${opt(ocr, d.id)}</select></label>
-        <label class="fld">평가 세트 (모델 답을 붙일 곳) <select id="tr-bench">${opt(ocr, d.id)}</select></label>` : `
-        <div class="fld">학습 데이터 (은행 업무, train split) ${bank.map(x => `<label style="display:block"><input type="checkbox" data-train="${esc(x.id)}" ${x.id === d.id ? "checked" : ""}> ${esc(x.name)} <span class="muted">${esc(x.id)}</span></label>`).join("")}</div>
-        <label class="fld">평가 세트 (test split, 고정 권장) <select id="tr-bench">${opt(bank, d.id)}</select></label>
-        <label class="fld">OCR 능력 유지용 1부 데이터셋 (선택: replay·ocr_check) <select id="tr-ocr"><option value="">(없음)</option>${opt(ocr, "")}</select></label>`}
+      <div class="fld">학습 데이터 (학습 문항이 있는 데이터셋, 문항 수를 적으면 그만큼만 무작위로) ${train.map(x => row(x, "train")).join("") || `<span class="muted">없음</span>`}</div>
+      <div class="fld">평가 세트 (평가 문항, 고정 권장) ${bench.map(x => row(x, "bench")).join("") || `<span class="muted">없음</span>`}</div>
       <div class="bar"><button id="tr-preview">설정 미리보기</button><button class="primary" id="tr-save">설정 파일 쓰기</button></div>
       <div id="tr-out"></div>
     </div>
     ${await trainingsPanel()}`;
-  const req = () => isOcr ? { pipeline: "ocr", train: [$("#tr-train").value], benchmark: $("#tr-bench").value, name: $("#tr-name").value.trim() }
-    : { pipeline: "bank", train: $$("[data-train]").filter(x => x.checked).map(x => x.dataset.train), benchmark: $("#tr-bench").value,
-        ocr: $("#tr-ocr").value || null, name: $("#tr-name").value.trim() };
+  const req = () => ({ train: $$("[data-train]").filter(x => x.checked).map(x => x.dataset.train),
+    counts: Object.fromEntries($$("[data-count]").filter(x => x.value).map(x => [x.dataset.count, +x.value])),
+    benchmark: $$("[data-bench]").filter(x => x.checked).map(x => x.dataset.bench), name: $("#tr-name").value.trim() });
   const show = info => {
     $("#tr-out").innerHTML = `${(info.warnings || []).map(w => `<p class="kr">⚠ ${esc(w)}</p>`).join("")}
-      <div class="muted">파일 <span class="mono">${esc(info.dir || "ocr")}/${esc(info.file)}</span> (예시 파일과 합쳐서 씀) · ${esc(info.note || "")}</div>
+      <div class="muted">파일 <span class="mono">train/${esc(info.file)}</span> (예시 파일과 합쳐서 씀) · ${esc(info.note || "")}</div>
       <pre class="ans mono">${esc(JSON.stringify(info.config, null, 1))}</pre>
-      <div class="muted">학습 컨테이너에서 실행</div><pre class="ans mono">${esc(info.command)}</pre>`;
+      <div class="muted">학습 컨테이너의 저장소 최상위에서 실행</div><pre class="ans mono">${esc(info.command)}</pre>`;
   };
   $("#tr-preview").onclick = async () => { try { show(await api("/api/training/preview", req())); } catch (e) { toast(e.message, true); } };
   $("#tr-save").onclick = async () => {
