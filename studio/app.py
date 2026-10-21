@@ -90,7 +90,30 @@ async def lifespan(_app):
 
 app = FastAPI(title="docgen studio", lifespan=lifespan)
 app.add_middleware(GZipMiddleware, minimum_size=2000)   # 서식 목록·키 JSON (원격 접속에서 전송이 1/5~1/10)
-app.mount("/preview", StaticFiles(directory=PREVIEW_DIR), name="preview")
+
+
+@app.get("/preview/{path:path}")
+async def preview_file(path: str):
+    """미리보기 그림. 1쪽 먼저 그린 렌더의 남은 쪽이면 찍힐 때까지 기다리고, 찍다 멈췄으면 마저 그린다."""
+    import asyncio
+
+    from starlette.concurrency import run_in_threadpool
+
+    f = (PREVIEW_DIR / path).resolve()
+    if not f.is_relative_to(PREVIEW_DIR.resolve()):
+        raise HTTPException(404)
+    pending = f.parent / "pending.json"
+    for _ in range(1200):   # 남은 쪽을 찍는 중이면 기다린다 (최대 2분)
+        if f.is_file() or not pending.exists() or not previewer.finishing(f.parent):
+            break
+        await asyncio.sleep(0.1)
+    if not f.is_file() and pending.exists() and f.parent.is_relative_to(PREVIEW_DIR.resolve()):
+        await run_in_threadpool(guard, previewer.complete, f.parent)
+    if not f.is_file():
+        raise HTTPException(404)
+    return FileResponse(f)
+
+
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
 app.mount("/marks-img", StaticFiles(directory=M.POOLS_DIR), name="marks-img")
 REGISTRY = DS.Registry(resolve_path(CFG["workspace_dir"]), CFG.get("path_map") or {})
@@ -194,7 +217,8 @@ def render(doc_id: str, req: RenderReq):
             draft = {"html_regions": html_regions.validate(req.draft["html_regions"])}
         else:
             draft = editor.validate(doc_id, req.draft) if req.draft is not None else None
-        label = previewer.render(doc_id, req.seed, req.heavy, req.special, req.condition, req.force, draft, extra=req.extra)
+        # first: 1쪽이 나오면 바로 돌려주고 남은 쪽은 이어서 (그 쪽 그림은 /preview/ 가 다 될 때까지 기다려 준다)
+        label = previewer.render(doc_id, req.seed, req.heavy, req.special, req.condition, req.force, draft, extra=req.extra, first=True)
     except KeyError as e:
         raise HTTPException(404, str(e))
     except ValueError as e:
