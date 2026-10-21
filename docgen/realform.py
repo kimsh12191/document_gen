@@ -27,6 +27,7 @@ from datetime import timedelta
 from functools import lru_cache
 from pathlib import Path
 
+from . import dictionary as DIC
 from . import keyrules as KR
 from . import korean as K
 from . import marks as M
@@ -232,6 +233,88 @@ def key_of(label: str) -> str | None:
     return next((k for lab, k in KR.label_index().items() if norm(lab).lower() == n.lower()), None)
 
 
+def _text_key(it: dict) -> tuple[str | None, str]:
+    """글자 칸(표 행이 아닌 것)의 표준 키와 값 종류. 렌더링(build_form)과 영역 편집기(layout_keys)가 같이 쓴다."""
+    label = it.get("label") or ""
+    skey = it.get("key") or key_of(label)
+    kind = it.get("kind") or kind_of(label, it.get("unit"), it.get("hint"))
+    # '연소득 / 본인 / 백만원'의 '본인'은 성명 칸이 아니다.
+    if not it.get("key") and it.get("unit") in ("원", "천원", "만원", "백만원", "억원", "%", "명", "개", "건", "회"):
+        skey = None
+    sec = norm(it.get("section") or "")
+    if it.get("key"):
+        pass   # 사람이 정한 키는 구역(대리인·받는 분)으로 바꾸지 않는다
+    elif skey and AGENT_SEC.search(sec) and skey.startswith("customer."):
+        skey = "agent." + skey.split(".", 1)[1]   # 대리인 구역의 성명·생년월일 …
+    elif skey and FOREIGN_SEC.search(sec) and (skey.startswith("customer.") or skey == "account"):
+        skey = "foreign." + (skey.split(".", 1)[1] if "." in skey else "account")  # 받는 분
+    return skey, kind
+
+
+def _uniq_fn():
+    """서식 안에서 키가 겹치면 뒤에 번호 (name, name2 …). HTML 속성·JSON 경로에 쓸 수 있는 글자만."""
+    used: dict[str, int] = {}
+
+    def uniq(key: str) -> str:
+        key = re.sub(r"[^\w.]", "", key) or "value"
+        used[key] = used.get(key, 0) + 1
+        return key if used[key] == 1 else f"{key}{used[key]}"
+    return uniq
+
+
+def _row_key(it: dict, i: int) -> str:
+    """표 행 칸의 키: <묶음>_목록.<행>.<항목명> (사람이 정한 키면 {i} 자리에 행 번호)."""
+    label = it.get("label") or ""
+    if it.get("key"):
+        return re.sub(r"[^\w.]", "", it["key"].replace("{i}", str(i)))
+    key_base = f"{norm(it['group'])}_목록" if norm(it.get("group") or "") else "목록"
+    return re.sub(r"[^\w.]", "", f"{key_base}.{i}.{norm(label) or 'value'}")
+
+
+def _check_key(it: dict) -> str:
+    texts = [o["text"] or f"보기{j + 1}" for j, o in enumerate(it["options"])]
+    return it["key"] if it.get("key") else "check." + (norm(it.get("label") or "") or norm(texts[0])[:12] or "item")
+
+
+def layout_keys(doc_id: str) -> dict[str, dict]:
+    """영역(영역 편집기 id)마다 {t, label, keys}: 렌더링 정답에 나오는 칸 키 (서식의 키). build_form 과 같은 순서로 번호를 붙인다.
+    도장·서명 자리는 seal.<자리> · sign.<자리>, 서명 칸의 이름은 <자리>.name."""
+    lay, _ = form_layout(doc_id)
+    uniq, out, row_idx, rows = _uniq_fn(), {}, {}, {}
+    mark = lambda role: [f"seal.{role}", f"sign.{role}"]  # noqa: E731
+    rkey = lambda it: (it["page"], it.get("group") or "", norm(it.get("label") or ""))  # noqa: E731
+    for it in lay["items"]:
+        if it["t"] == "text" and it.get("row"):
+            rows[rkey(it)] = rows.get(rkey(it), 0) + 1
+    for it in lay["items"]:
+        t, label, ks = it["t"], it.get("label") or "", []
+        if t == "text":
+            i = row_idx[rkey(it)] = row_idx.get(rkey(it), -1) + 1
+        if t == "text" and it.get("row") and rows[rkey(it)] > 1:   # 한 줄뿐인 표 행은 보통 칸처럼
+            ks = [_row_key(it, i)]
+        elif t == "text":
+            skey, kind = _text_key(it)
+            if kind == "seal" and not skey:
+                ks = mark(uniq("signer"))
+            else:
+                ks = [uniq(skey or norm(label) or "value") if (it.get("source") or not skey) else uniq(skey)]
+        elif t == "check" and it.get("options"):
+            ks = [uniq(_check_key(it))]
+        elif t == "date":
+            ks = [uniq(key_of(label) or "date") if label else uniq("date")]
+        elif t == "sign":
+            role = uniq(it["key"] if it.get("key") else "signer")
+            ks = ([f"{role}.name"] if it.get("name") else []) + mark(role)
+        elif t == "copy":
+            ks = [uniq(it["key"] if it.get("key") else "handwritten")]
+        out[it.get("_id") or f"item:{len(out)}"] = {"t": t, "label": label, "keys": ks}
+    for pg in lay["pages"]:
+        for c in pg.get("staff", []):
+            out[c.get("_id") or f"staff:{len(out)}"] = {"t": "staff", "label": c["role"],
+                                                        "keys": mark(uniq("staff." + (norm(c["role"]) or "결재")))}
+    return out
+
+
 def kind_of(label: str, unit: str | None, hint: str | None) -> str:
     if unit in ("원", "천원", "백만원", "만원", "억원", "원정"):
         return "amount"
@@ -310,6 +393,8 @@ class Values:
             "agent.name_en": lambda: (p.spouse or p.father).name_en.upper(),
             "agent.home_phone": lambda: self.home_phone,
             "agent.relation": lambda: "배우자" if p.spouse else "부",
+            "family.name": lambda: (p.spouse or p.father).name,
+            "related.name": lambda: K.make_name(r, r.choice("MF"))[0],   # 보증인·공동: 이 서류 안에서 같은 사람
             "date": lambda: D(p.issue_date, r.choice(["kor", "dot"])),
         }.get(key)
         if v is None:   # 키 사전(key_rules.json)에서 더한 표준 키: 값 출처(프로필 경로) 또는 값 종류
@@ -452,12 +537,8 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
     style["seal"] = rng.choice(["#d11", "#c00", "#e0312b", "#b22222"])
     style["fill"] = rng.uniform(0.75, 0.97) if p.extra.get("sparse_fields") else 1.0
     out: list[dict] = []
-    used_keys: dict[str, int] = {}
-
-    def uniq(key: str) -> str:
-        key = re.sub(r"[^\w.]", "", key) or "value"   # HTML 속성·JSON 경로에 쓸 수 있는 글자만
-        used_keys[key] = used_keys.get(key, 0) + 1
-        return key if used_keys[key] == 1 else f"{key}{used_keys[key]}"
+    uniq = _uniq_fn()
+    fk = DIC.form_entries(doc_id)   # 칸마다 누구의 · 무엇 (키 사전): 서명 칸에 누구 이름을 쓸지
 
     # 표 행(같은 묶음·같은 항목명이 여러 줄): 묶음마다 채울 줄 수를 정한다
     rows: dict[tuple, int] = {}
@@ -481,12 +562,8 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
                 if gk not in fill_rows:
                     fill_rows[gk] = rng.choice([0, 1, 1, 2, 2, 3] if p.extra.get("sparse_fields") else [1, 1, 2, 2, 3]) if rng.random() < 0.85 else n_rows
                     fill_rows[gk] = min(fill_rows[gk], n_rows)
-                key_base = f"{norm(it['group'])}_목록" if norm(it.get("group") or "") else "목록"
-                key = re.sub(r"[^\w.]", "", f"{key_base}.{i}.{norm(label) or 'value'}")
-                kind = kind_of(label, it.get("unit"), it.get("hint"))
-                if it.get("key"):   # 사람 수정: products.{i}.name 처럼 {i} 자리에 행 번호
-                    key = re.sub(r"[^\w.]", "", it["key"].replace("{i}", str(i)))
-                kind = it.get("kind") or kind
+                key = _row_key(it, i)
+                kind = it.get("kind") or kind_of(label, it.get("unit"), it.get("hint"))
                 if i >= fill_rows[gk]:
                     value = None
                 elif it.get("source"):
@@ -497,18 +574,7 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
                 else:
                     value = vals.by_kind(kind, label)
             else:
-                skey = it.get("key") or key_of(label)
-                kind = it.get("kind") or kind_of(label, it.get("unit"), it.get("hint"))
-                # '연소득 / 본인 / 백만원'의 '본인'은 성명 칸이 아니다.
-                if not it.get("key") and it.get("unit") in ("원", "천원", "만원", "백만원", "억원", "%", "명", "개", "건", "회"):
-                    skey = None
-                sec = norm(it.get("section") or "")
-                if it.get("key"):
-                    pass   # 사람이 정한 키는 구역(대리인·받는 분)으로 바꾸지 않는다
-                elif skey and AGENT_SEC.search(sec) and skey.startswith("customer."):
-                    skey = "agent." + skey.split(".", 1)[1]   # 대리인 구역의 성명·생년월일 …
-                elif skey and FOREIGN_SEC.search(sec) and (skey.startswith("customer.") or skey == "account"):
-                    skey = "foreign." + (skey.split(".", 1)[1] if "." in skey else "account")  # 받는 분
+                skey, kind = _text_key(it)
                 if kind == "seal" and not skey:   # '인감', '서명/날인' 칸 → 도장·서명 자리
                     x = rng.random()
                     nm = p.person.name
@@ -570,7 +636,7 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
                 sel = None
             else:
                 sel = rng.randrange(len(opts))
-            key = uniq(it["key"] if it.get("key") else "check." + (norm(label) or norm(texts[0])[:12] or "item"))
+            key = uniq(_check_key(it))
             out.append({"t": "check", "page": page, "key": key, "label": label or texts[0],
                         "options": [{"text": texts[j], "box": _px(o["box"]), "rect": _px(o["rect"]),
                                      "on": j == sel} for j, o in enumerate(opts)],
@@ -589,11 +655,8 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
             for part, txt in (("y", y), ("m", m), ("d", dd)):
                 out.append(_visible(None, txt, pr[part], page, style, rng, align="center"))
         elif t == "sign":
-            n = norm(label)
-            is_agent = bool(re.search(r"대리인|수임인|보호자|법정대리", n)) or bool(AGENT_SEC.search(norm(it.get("section") or "")))
-            name = None if is_agent and rng.random() < 0.85 else (
-                p.corporation.name if re.search(r"법인|상호|회사", n) else p.person.name)
             role = uniq(it["key"] if it.get("key") else "signer")
+            name = _signer_name(role, label, it, fk, vals, rng)
             if it.get("name"):
                 out.append(_visible(f"{role}.name", name, it["name"], page, style, rng, label=label, align="center"))
             x = rng.random()
@@ -637,6 +700,25 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
     fonts = list(dict.fromkeys(HAND_FONTS + [f["id"] for f in pools["hand_fonts"]]))
     return {"no": no, "doc_id": doc_id, "pages": pages, "items": out, "style": style, "class": lay.get("class", ""),
             "name": lay.get("name", doc_id), "fonts": fonts}
+
+
+def _signer_name(role: str, label: str, it: dict, fk: dict, vals: "Values", rng: random.Random) -> str | None:
+    """서명 칸에 쓰는 이름. 키 사전에서 그 칸을 누구의 것으로 정했으면 그 사람 (은행·직원 칸은 직원 이름이거나 빈칸),
+    정하지 않았으면 항목명으로 (대리인 칸은 대개 빈칸, 법인·상호 칸은 상호, 나머지는 고객)."""
+    p = vals.p
+    e = fk.get(f"{role}.name") or fk.get(f"sign.{role}") or fk.get(f"seal.{role}") or {}
+    who, what = e.get("who"), (fk.get(f"{role}.name") or {}).get("what")
+    if who == "bank":
+        return K.make_name(rng, rng.choice("MF"))[0] if rng.random() < 0.5 else None
+    if who == "corp":
+        return p.corporation.ceo.name if what == "ceo" else p.corporation.name
+    if who in ("agent", "family", "related"):
+        return vals.std(f"{who}.name") if rng.random() < 0.6 else None   # 함께 오지 않으면 빈칸
+    if who == "customer":
+        return p.person.name
+    n = norm(label)
+    is_agent = bool(re.search(r"대리인|수임인|보호자|법정대리", n)) or bool(AGENT_SEC.search(norm(it.get("section") or "")))
+    return None if is_agent and rng.random() < 0.85 else (p.corporation.name if re.search(r"법인|상호|회사", n) else p.person.name)
 
 
 def _pooled(mk: dict, pools: dict, rng: random.Random) -> dict:

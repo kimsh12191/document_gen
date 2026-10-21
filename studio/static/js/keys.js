@@ -1,111 +1,72 @@
-// 키 사전 (studio/DESIGN.md 16.0): 화면의 말은 업무명·문서명·키 셋. 키는 범위가 둘 — 공통 키(여러 문서에 나오고 서류끼리 대조·심사하는 값,
-// 사전에서 이름을 정함)와 문서별 키(서식의 키 그대로). 문서별 키를 공통 키에 '이으면' 그 칸은 공통 키로 묻고 답한다.
+// 키 사전 (studio/DESIGN.md 16.0): 칸마다 키는 하나 — 공통 키(여러 서류에 나오고 서류끼리 대조하는 값) 또는 문서별 키(그 서식에만 있는 칸).
+// 칸의 누구의 · 무엇을 정하면 그 둘이 공통 키일 때 공통 키가 된다. 고르기 패널은 keypick.js (서식 미리보기·영역 편집과 같이 쓴다).
 // 서버: studio/api_dictionary.py (docgen/dictionary.py, docgen/dictionary/*.json), 값 종류·값 출처는 studio/api_keys.py (docgen/key_rules.json)
 "use strict";
 
-addRoute(/^#\/keys(?:\/(\w+))?$/, tab => viewKeys(tab || "keys"), "keys");
+addRoute(/^#\/keys(?:\/(\w+))?$/, tab => viewKeys(tab || "common"), "keys");
 
 const HOW_NAME = { code: "코드", source: "프로필 값", choices: "목록", pattern: "틀" };
 const BY_TAG = x => x.by === "사람" ? `<span class="tag ok">사람</span>` : "";
-const STATE_TAG = { "이음": `<span class="tag ok">이음</span>`, "제안": `<span class="tag warn">제안</span>`, "끊음": `<span class="tag">끊음</span>`, "공통": `<span class="tag ok">공통</span>` };
 
 async function viewKeys(tab) {
-  const s = await api("/api/dictionary");
-  const tabs = [["keys", "키", s.suggested], ["docs", "문서"], ["tasks", "업무"], ["kinds", "값 종류"]];
+  if (tab === "keys") tab = "common";   // 예전 주소
+  const [s] = await Promise.all([api("/api/dictionary"), kpLoad(true)]);
+  const tabs = [["common", "공통 키"], ["cells", "서식의 키"], ["todo", "정리할 것", s.todo], ["docs", "문서"], ["tasks", "업무"], ["kinds", "값 종류"]];
   main().innerHTML = `
     <h1>키 사전</h1>
-    <div class="sub">프롬프트가 묻고 답하는 것은 <b>업무명 · 문서명 · 키</b>입니다. 키는 둘로 나뉩니다.
-      <b>공통 키</b>는 여러 문서에 나오고 서류끼리 대조·심사하는 값(예: 고객 성명), <b>문서별 키</b>는 그 문서에 찍힌 칸 그대로입니다.
-      문서별 키를 공통 키에 <b>이으면</b> 서식이 달라도 같은 키로 묻고 답합니다. 생성 결과에 반영하는 것은 평가 세트 버전을 올릴 때입니다.</div>
-    <div class="sub">공통 키 ${s.common} · 문서별 키 ${s.doc_keys.toLocaleString()} (공통 키에 이음 ${s.linked.toLocaleString()} · 제안 ${s.suggested.toLocaleString()})
-      · 문서 ${s.docs} · 업무 ${s.tasks}</div>
-    <div class="tabs">${tabs.map(([k, n, c]) => `<a href="#/keys/${k}" class="${k === tab ? "on" : ""}">${n}${c ? ` <span class="tag warn">제안 ${c.toLocaleString()}</span>` : ""}</a>`).join("")}</div>
+    <div class="sub">서식의 칸마다 키가 하나 있습니다. 키는 두 가지입니다.
+      <b>공통 키</b>는 여러 서류에 나오고 서류끼리 대조하는 값(예: 고객 성명), <b>문서별 키</b>는 그 서식에만 있는 칸입니다.
+      칸이 <b>누구의 · 무엇</b>인지 정하면, 그 둘이 공통 키일 때 그 칸은 공통 키가 됩니다. 생성 결과에 반영하는 것은 평가 세트 버전을 올릴 때입니다.</div>
+    <div class="sub">공통 키 ${s.common} · 서식 ${s.forms} · 칸 ${s.cells.toLocaleString()} (공통 ${s.common_cells.toLocaleString()} · 문서별 ${s.doc_cells.toLocaleString()})
+      ${s.todo ? ` · <a href="#/keys/todo">정리할 것 ${s.todo.toLocaleString()}</a>` : ""}</div>
+    <div class="tabs">${tabs.map(([k, n, c]) => `<a href="#/keys/${k}" class="${k === tab ? "on" : ""}">${n}${c ? ` <span class="tag warn">${c.toLocaleString()}</span>` : ""}</a>`).join("")}</div>
     <div id="kd-body"></div>`;
   if (tab === "kinds") return kindsTab(await api("/api/keyrules"));
-  return ({ keys: keysTab, docs: docsTab, tasks: tasksTab })[tab](s);
+  return ({ common: commonTab, cells: () => cellsView($("#kd-body"), {}), todo: todoTab, docs: docsTab, tasks: tasksTab })[tab](s);
 }
 
 // ---------------------------------------------------------------------------
-// 키: 공통 키 · 문서별 키
+// 공통 키: 누구의 × 무엇
 // ---------------------------------------------------------------------------
-async function keysTab() {
-  const f = store.get("dict.keys", { scope: "common", doc: "", q: "", state: "" });
-  const docs = await api("/api/dictionary/doc_types");
-  const common = (await api("/api/dictionary/keys?scope=common")).rows;
-  const docName = id => docs.types[id]?.name || id;
+async function commonTab() {
+  const t = await api("/api/dictionary/common");
+  const byWho = {};
+  for (const r of t.rows) (byWho[r.who] = byWho[r.who] || []).push(r);
   $("#kd-body").innerHTML = `
-    <div class="bar">
-      <select id="kk-scope"><option value="common" ${f.scope === "common" ? "selected" : ""}>공통 키</option><option value="doc" ${f.scope === "doc" ? "selected" : ""}>문서별 키</option></select>
-      <span id="kk-docbox" ${f.scope === "doc" ? "" : "hidden"}>
-        <input list="kk-doclist" id="kk-doc" placeholder="문서명 (비우면 전체)" value="${esc(f.doc ? docName(f.doc) : "")}" style="width:240px">
-        <datalist id="kk-doclist">${Object.entries(docs.types).map(([id, t]) => `<option value="${esc(t.name)}" data-id="${esc(id)}">`).join("")}</datalist>
-        <select id="kk-state">${[["", "잇기 전체"], ["제안", "제안만"], ["이음", "이은 것"], ["끊음", "끊은 것"], ["공통", "그 자체가 공통 키"]].map(([v, n]) =>
-          `<option value="${v}" ${v === f.state ? "selected" : ""}>${n}</option>`).join("")}</select></span>
-      <input type="text" id="kk-q" placeholder="키·이름 검색" value="${esc(f.q)}"> <span class="muted" id="kk-n"></span>
-      ${f.scope === "common" ? `<button id="kk-new">새 공통 키</button>` : ""}</div>
-    <div id="kk-bulk" class="bar" ${f.scope === "doc" ? "" : 'style="display:none"'}>고른 것을
-      <select id="kk-to"><option value="">(지금 제안된 공통 키)</option>${common.map(c => `<option value="${esc(c.key)}">${esc(c.name)} · ${esc(c.key)}</option>`).join("")}</select>
-      <button class="primary" id="kk-link">에 잇기</button> <button id="kk-cut">끊기</button>
-      <label><input type="checkbox" id="kk-all"> 보이는 것 모두</label></div>
-    <div class="split"><div id="kk-list" class="scroll"></div><div id="kk-edit" class="panel">키를 고르세요.</div></div>`;
-  let rows = [];
-  const save = () => store.set("dict.keys", f);
-  const load = async () => {
-    if (f.scope === "common") {
-      const r = await api(`/api/dictionary/keys?scope=common&q=${q(f.q)}`);
-      rows = r.rows;
-      $("#kk-n").textContent = `${r.total}개`;
-      $("#kk-list").innerHTML = table(rows, [["key", "공통 키", x => `<a href="#" data-ck="${esc(x.key)}" class="mono">${esc(x.key)}</a>`],
-        ["name", "이름", x => `${esc(x.name)} ${BY_TAG(x)}`], ["kind", "값 종류"], ["docs", "문서", null, true],
-        ["linked", "이은 칸", x => `${x.linked}${x.suggested ? ` <span class="muted">+제안 ${x.suggested}</span>` : ""}`, true]]);
-      $$("#kk-list [data-ck]").forEach(a => a.onclick = e => { e.preventDefault(); editCommon(a.dataset.ck, common); });
-    } else {
-      const r = await api(`/api/dictionary/keys?scope=doc&doc=${q(f.doc)}&q=${q(f.q)}&state=${q(f.state)}&limit=500`);
-      rows = r.rows;
-      $("#kk-n").textContent = `${r.total.toLocaleString()}개${r.total > rows.length ? ` (앞 ${rows.length})` : ""}`;
-      $("#kk-list").innerHTML = table(rows, [["sel", "", (x, i) => x.state === "공통" ? "" : `<input type="checkbox" data-i="${i}">`],
-        ...(f.doc ? [] : [["doc_name", "문서"]]), ["key", "문서별 키", x => `<span class="mono">${esc(x.key)}</span>`], ["label", "이름표"],
-        ["to", "공통 키", x => x.to ? `${STATE_TAG[x.state] || ""} <a href="#" class="mono" data-ck="${esc(x.to)}">${esc(x.to)}</a>` : `<span class="muted">문서별</span>`]]);
-      $$("#kk-list [data-ck]").forEach(a => a.onclick = e => { e.preventDefault(); editCommon(a.dataset.ck, common); });
-    }
-  };
-  $("#kk-scope").onchange = e => { f.scope = e.target.value; save(); keysTab(); };
-  $("#kk-q").onchange = e => { f.q = e.target.value; save(); load(); };
-  if ($("#kk-doc")) $("#kk-doc").onchange = e => {
-    const v = e.target.value.trim();
-    f.doc = v ? (Object.entries(docs.types).find(([, t]) => t.name === v) || [""])[0] : "";
-    save(); load();
-  };
-  $("#kk-state").onchange = e => { f.state = e.target.value; save(); load(); };
-  $("#kk-all").onchange = e => $$("#kk-list [data-i]").forEach(el => el.checked = e.target.checked);
-  const act = async state => {
-    const items = $$("#kk-list [data-i]").filter(el => el.checked).map(el => ({ doc: rows[+el.dataset.i].doc, key: rows[+el.dataset.i].key }));
-    if (!items.length) return toast("고른 칸이 없습니다", true);
-    try { const r = await api("/api/dictionary/link", { items, to: $("#kk-to").value || null, state }); toast(`${r.changed}칸`); load(); }
-    catch (e) { toast(e.message, true); }
-  };
-  $("#kk-link").onclick = () => act("이음");
-  $("#kk-cut").onclick = () => act("끊음");
-  if ($("#kk-new")) $("#kk-new").onclick = () => newCommon();
-  load();
+    <div class="bar"><button id="cm-new">새 공통 키</button>
+      <span class="muted">누구의(줄) · 무엇(칸). 숫자는 그 키를 쓰는 서식 수입니다. 누르면 그 키인 칸을 봅니다.</span></div>
+    <div class="split"><div class="scroll">${kpVocab.who.filter(w => byWho[w.id]).map(w => `<div class="who-row">
+        <div class="who-name"><b>${esc(w.name)}</b><div class="muted" style="font-size:12px">${esc(w.desc)}</div></div>
+        <div class="who-keys">${byWho[w.id].map(r => `<a href="#" data-ck="${esc(r.key)}" class="chip ${r.forms ? "" : "muted"}" title="${esc(r.name)} · ${esc(r.key)}">${esc(r.what_name || r.what)}
+          <span class="muted">${r.forms}</span></a>`).join("")}</div></div>`).join("")}</div>
+      <div id="cm-edit" class="panel">공통 키를 고르세요.</div></div>`;
+  $$("#kd-body [data-ck]").forEach(a => a.onclick = e => { e.preventDefault(); editCommon(a.dataset.ck); });
+  $("#cm-new").onclick = () => newCommon();
 }
 
-async function newCommon(prefill = {}) {
-  const key = (prompt("새 공통 키 (영어 소문자, 앞부분.값 — 예: foreign.bank_address)", prefill.key || "") || "").trim();
-  if (!key) return;
-  const name = (prompt("이름 (예: 외국 상대 은행 주소)", prefill.name || "") || "").trim();
-  try { await api(`/api/dictionary/key/${key.split(".").map(encodeURIComponent).join(".")}`, { name, kind: "text" }, "PUT"); toast("만들었습니다"); viewKeys("keys"); }
-  catch (e) { toast(e.message, true); }
+function newCommon() {
+  $("#cm-edit").innerHTML = `<div><b>새 공통 키</b></div>
+    <div class="muted">여러 서류에 나오고 서류끼리 같은 값이어야 하는 것만 공통 키로 만듭니다.</div>
+    <div class="bar"><label>누구의 <select id="nc-who">${kpVocab.who.map(w => `<option value="${w.id}">${esc(w.name)}</option>`).join("")}</select></label>
+      <label>무엇 <input id="nc-what" list="nc-whats" placeholder="예: bank_address" class="mono"></label>
+      <datalist id="nc-whats">${kpVocab.what.filter(w => !KP_MARK.includes(w.id)).slice(0, 3000).map(w => `<option value="${esc(w.id)}">${esc(w.name)}</option>`).join("")}</datalist></div>
+    <label>이름 <input id="nc-name" placeholder="(비우면 누구의 + 무엇 이름)" style="width:100%"></label>
+    <div class="bar"><button class="primary" id="nc-save">만들기</button></div>`;
+  $("#nc-save").onclick = async () => {
+    try {
+      const r = await api("/api/dictionary/common", { who: $("#nc-who").value, what: $("#nc-what").value.trim(), name: $("#nc-name").value.trim() });
+      toast(`만들었습니다: ${r.name}`); await kpLoad(true); await commonTab(); editCommon(r.key);
+    } catch (e) { toast(e.message, true); }
+  };
 }
 
-async function editCommon(ck, common) {
-  const k = await api(`/api/dictionary/key/${ck.split(".").map(encodeURIComponent).join(".")}`);
-  const rules = await api("/api/keyrules");
+async function editCommon(ck) {
+  const [k, rules, src] = await Promise.all([api(`/api/dictionary/key/${ck.split(".").map(encodeURIComponent).join(".")}`),
+    api("/api/keyrules"), api("/api/keyrules/sources")]);
   const rule = (rules.keys.find(x => x.key === ck) || {}).rule || {};
-  const src = await api("/api/keyrules/sources");
-  const nLinked = k.docs.reduce((a, d) => a + d.keys.filter(x => x.state === "이음").length, 0);
-  $("#kk-edit").innerHTML = `
-    <div><b class="mono">${esc(ck)}</b> ${BY_TAG(k)} <span class="muted">문서 ${k.docs.length} · 이은 칸 ${nLinked}</span></div>
+  $("#cm-edit").innerHTML = `
+    <div><b>${esc(k.name)}</b> ${BY_TAG(k)} <span class="mono muted">${esc(ck)}</span></div>
+    <div class="muted">누구의 <b>${esc(k.who_name)}</b> · 무엇 <b>${esc(k.what_name)}</b> · 서식 ${k.forms} · 칸 ${k.cells.length}</div>
     <label>이름 <input type="text" id="ce-name" value="${esc(k.name)}" style="width:100%"></label>
     <div class="bar"><label>값 종류 <select id="ce-kind">${[...new Set([k.kind, ...rules.kinds.map(x => x.name)])].map(n =>
       `<option ${n === (rule.kind || k.kind) ? "selected" : ""}>${esc(n)}</option>`).join("")}</select></label>
@@ -114,17 +75,141 @@ async function editCommon(ck, common) {
     <label>다른 이름 (외부 추출 결과의 키, 쉼표) <input type="text" id="ce-alias" value="${esc((rule.aliases || []).join(", "))}" style="width:100%"></label>
     <div class="bar"><button class="primary" id="ce-save">저장</button></div>
     <div><b>쓰는 업무</b> ${k.tasks.map(t => `<span class="tag">${esc(t.name)}</span>`).join(" ") || "없음"}</div>
-    <div><b>이은 문서별 키</b></div>
-    ${table(k.docs.slice(0, 120), [["name", "문서"], ["keys", "칸", d => d.keys.map(x => `${STATE_TAG[x.state]} <span class="mono">${esc(x.key)}</span> <span class="muted">${esc(x.label)}</span>`).join("<br>")]])}`;
+    <div><b>이 키인 칸</b></div>
+    ${table(k.cells.slice(0, 300), [["form_name", "서식", x => `<a href="#/forms/${q(x.form)}/keys">${esc(x.form_name)}</a>`],
+      ["label", "이름표"], ["raw", "서식의 키", x => `<span class="mono muted">${esc(x.raw[0])}</span>`], ["by", "정함", x => esc(KP_BY[x.by] || "")]])}`;
   $("#ce-save").onclick = async () => {
     const name = $("#ce-name").value.trim(), kind = $("#ce-kind").value, source = $("#ce-src").value || null;
     try {
       await api(`/api/dictionary/key/${ck.split(".").map(encodeURIComponent).join(".")}`, { name, kind }, "PUT");
       await api(`/api/keyrules/keys/${q(ck)}`, { meaning: name, kind, source, aliases: $("#ce-alias").value.split(",").map(x => x.trim()).filter(Boolean),
         labels: rule.labels || [] }, "PUT");
-      toast("저장"); editCommon(ck, common);
+      toast("저장"); await kpLoad(true); editCommon(ck);
     } catch (e) { toast(e.message, true); }
   };
+}
+
+// ---------------------------------------------------------------------------
+// 서식의 키: 칸마다 이름표 · 누구의 · 무엇 · 키. 서식 화면의 '키' 탭도 이것 (opts.form 고정)
+// ---------------------------------------------------------------------------
+async function cellsView(el, opts) {
+  await kpLoad();
+  const fixed = opts.form;
+  const f = fixed ? { form: fixed, q: "", scope: "", who: "" } : store.get("dict.cells", { form: "", q: "", scope: "", who: "" });
+  const ids = fixed ? null : await api("/api/form-ids").catch(() => null);
+  const forms = ids ? (ids.forms || ids) : [];
+  const fname = id => (forms.find(x => (x.id || x) === id) || {}).name || id;
+  el.innerHTML = `
+    <div class="bar">
+      ${fixed ? "" : `<input list="cv-forms" id="cv-form" placeholder="서식 (비우면 전체)" value="${esc(f.form ? fname(f.form) : "")}" style="width:260px">
+        <datalist id="cv-forms">${forms.map(x => `<option value="${esc(x.name || x)}" data-id="${esc(x.id || x)}">`).join("")}</datalist>`}
+      <input type="text" id="cv-q" placeholder="이름표·키 검색" value="${esc(f.q)}">
+      <select id="cv-scope">${[["", "공통·문서별"], ["common", "공통 키만"], ["doc", "문서별 키만"]].map(([v, n]) => `<option value="${v}" ${v === f.scope ? "selected" : ""}>${n}</option>`).join("")}</select>
+      <select id="cv-who"><option value="">누구의 전체</option><option value="-" ${f.who === "-" ? "selected" : ""}>(모름)</option>${kpVocab.who.map(w =>
+        `<option value="${w.id}" ${w.id === f.who ? "selected" : ""}>${esc(w.name)}</option>`).join("")}</select>
+      <span class="muted" id="cv-n"></span></div>
+    <div class="bar" id="cv-bulk">고른 칸을 누구의 <select id="cv-bwho"><option value="">(모름)</option>${kpVocab.who.map(w => `<option value="${w.id}">${esc(w.name)}</option>`).join("")}</select>
+      <button id="cv-bset">로 정하기</button> <label><input type="checkbox" id="cv-all"> 보이는 것 모두</label>
+      <span class="muted">무엇은 칸마다 정한 것(없으면 키로 추정한 것)을 그대로 씁니다.</span></div>
+    <div class="split"><div id="cv-list" class="scroll"></div><div id="cv-edit" class="panel">칸을 고르세요.</div></div>`;
+  let rows = [];
+  const save = () => { if (!fixed) store.set("dict.cells", f); };
+  const load = async () => {
+    if (!fixed && !f.form && !f.q && !f.who && !f.scope) { $("#cv-list").innerHTML = `<p class="muted">서식을 고르거나 검색하세요.</p>`; $("#cv-n").textContent = ""; return; }
+    const r = await api(`/api/dictionary/cells?form=${q(f.form)}&q=${q(f.q)}&scope=${q(f.scope)}&who=${q(f.who)}&limit=800`);
+    rows = r.rows;
+    $("#cv-n").textContent = `${r.total.toLocaleString()}칸${r.total > rows.length ? ` (앞 ${rows.length})` : ""}`;
+    $("#cv-list").innerHTML = table(rows, [["sel", "", (x, i) => `<input type="checkbox" data-i="${i}">`],
+      ...(f.form ? [] : [["form_name", "서식", x => `<a href="#/forms/${q(x.form)}/keys">${esc(x.form_name)}</a>`]]),
+      ["label", "이름표", (x, i) => `<a href="#" data-c="${i}">${esc(x.label || "(없음)")}</a>`],
+      ["who", "누구의 · 무엇", x => kpWhoCell(x)], ["key", "키", x => kpKeyCell(x)],
+      ["by", "정함", x => x.by === "사람" ? `<span class="tag ok">사람</span>` : x.by === "자동" ? `<span class="muted">자동</span>` : ""]],
+      (x, i) => `data-row="${i}"`);
+    $$("#cv-list [data-c]").forEach(a => a.onclick = e => { e.preventDefault(); pick(+a.dataset.c); });
+  };
+  const pick = i => kpPanel($("#cv-edit"), rows[i].form, rows[i], async () => { await load(); const j = rows.findIndex(x => x.form === rows[i]?.form && x.id === rows[i]?.id); if (j >= 0) pick(j); });
+  if (!fixed) $("#cv-form").onchange = e => {
+    const v = e.target.value.trim();
+    f.form = v ? ((forms.find(x => (x.name || x) === v) || {}).id || v) : "";
+    save(); load();
+  };
+  $("#cv-q").onchange = e => { f.q = e.target.value.trim(); save(); load(); };
+  $("#cv-scope").onchange = e => { f.scope = e.target.value; save(); load(); };
+  $("#cv-who").onchange = e => { f.who = e.target.value; save(); load(); };
+  $("#cv-all").onchange = e => $$("#cv-list [data-i]").forEach(x => x.checked = e.target.checked);
+  $("#cv-bset").onclick = async () => {
+    const pickd = $$("#cv-list [data-i]").filter(x => x.checked).map(x => rows[+x.dataset.i]);
+    if (!pickd.length) return toast("고른 칸이 없습니다", true);
+    const who = $("#cv-bwho").value || null;
+    try {
+      for (const [what, grp] of Object.entries(groupBy(pickd, x => x.what || ""))) {
+        await api("/api/dictionary/cells", { items: grp.map(x => ({ form: x.form, keys: x.raw })), who, what: what || null }, "PUT");
+      }
+      toast(`${pickd.length}칸`); load();
+    } catch (e) { toast(e.message, true); }
+  };
+  load();
+}
+
+const groupBy = (xs, fn) => xs.reduce((m, x) => ((m[fn(x)] = m[fn(x)] || []).push(x), m), {});
+
+// ---------------------------------------------------------------------------
+// 정리할 것: 공통 키 후보 · 누구 것인지 모르는 서명 칸 · 누구의만 정하면 되는 칸 · 깨진 이름표
+// ---------------------------------------------------------------------------
+async function todoTab() {
+  const t = await api("/api/dictionary/todo");
+  const g = Object.fromEntries(t.groups.map(x => [x.id, x]));
+  const whoSel = (id, cur = "") => `<select id="${id}"><option value="">(누구의)</option>${kpVocab.who.map(w => `<option value="${w.id}" ${w.id === cur ? "selected" : ""}>${esc(w.name)}</option>`).join("")}</select>`;
+  const cellLink = (x, i, grp) => `<a href="#" data-g="${grp}" data-i="${i}">${esc(x.label || "(없음)")}</a>`;
+  const sect = (x, body) => `<details class="panel todo" ${x.n ? "open" : ""}><summary><b>${esc(x.title)}</b> <span class="tag ${x.n ? "warn" : "ok"}">${x.n.toLocaleString()}</span></summary>
+    <div class="muted">${esc(x.desc)}</div>${x.n ? body : `<p class="muted">없습니다.</p>`}</details>`;
+  $("#kd-body").innerHTML = `<div class="split"><div class="scroll">
+    ${sect(g.candidate, `<div class="bar"><button class="primary" id="td-cand-all">모두 제안대로</button></div>
+      ${table(g.candidate.rows.slice(0, 300), [["form_name", "서식"], ["label", "이름표", (x, i) => cellLink(x, i, "candidate")],
+        ["raw", "서식의 키", x => `<span class="mono muted">${esc(x.raw[0])}</span>`],
+        ["suggest", "제안", x => kpKeyCell({ common: true, key: x.suggest.key })],
+        ["ok", "", (x, i) => `<button data-cand="${i}">제안대로</button>`]])}`)}
+    ${sect(g.who, g.who.groups.slice(0, 80).map((x, j) => `<div class="todo-grp">
+      <div class="bar"><b>${esc(x.label)}</b> <span class="muted">무엇: ${esc(x.what_name)} · ${x.rows.length}칸 · 서식 ${x.forms}</span>
+        ${whoSel(`td-who-${j}`)} <button data-who="${j}">고른 칸 정하기</button></div>
+      <details><summary class="muted">칸 보기</summary>${table(x.rows, [["c", "", (r, i) => `<input type="checkbox" data-wg="${j}" data-wi="${i}" checked>`],
+        ["form_name", "서식"], ["label", "이름표", (r, i) => `<a href="#" data-wg2="${j}" data-wi2="${i}">${esc(r.label)}</a>`],
+        ["raw", "서식의 키", r => `<span class="mono muted">${esc(r.raw[0])}</span>`]])}</details></div>`).join(""))}
+    ${sect(g.mark, table(g.mark.rows, [["form_name", "서식", x => `<a href="#/forms/${q(x.form)}/preview">${esc(x.form_name)}</a>`],
+      ["label", "이름표", (x, i) => cellLink(x, i, "mark")], ["raw", "서식의 키", x => `<span class="mono muted">${esc(x.raw.join(" · "))}</span>`]]))}
+    ${sect(g.broken, table(g.broken.rows.slice(0, 300), [["form_name", "서식", x => `<a href="#/forms/${q(x.form)}/edit">${esc(x.form_name)}</a>`],
+      ["label", "이름표", x => `<span class="kr">${esc(x.label || "(없음)")}</span>`], ["raw", "서식의 키", x => `<span class="mono muted">${esc(x.raw[0])}</span>`]]))}
+    </div><div id="td-edit" class="panel">칸을 누르면 여기서 누구의 · 무엇을 정합니다.</div></div>`;
+  const reload = () => viewKeys("todo");
+  const put = async (items, who, what) => api("/api/dictionary/cells", { items: items.map(x => ({ form: x.form, keys: x.raw })), who, what }, "PUT");
+  $$("#kd-body [data-g]").forEach(a => a.onclick = e => {
+    e.preventDefault();
+    const x = g[a.dataset.g].rows[+a.dataset.i];
+    kpPanel($("#td-edit"), x.form, x.suggest ? { ...x, who: x.suggest.who, what: x.suggest.what } : x, reload);
+  });
+  $$("#kd-body [data-wg2]").forEach(a => a.onclick = e => {
+    e.preventDefault();
+    const x = g.who.groups[+a.dataset.wg2].rows[+a.dataset.wi2];
+    kpPanel($("#td-edit"), x.form, { ...x, what: x.suggest.what }, reload);
+  });
+  $$("#kd-body [data-cand]").forEach(b => b.onclick = async () => {
+    const x = g.candidate.rows[+b.dataset.cand];
+    try { await put([x], x.suggest.who, x.suggest.what); toast("저장"); reload(); } catch (e) { toast(e.message, true); }
+  });
+  if ($("#td-cand-all")) $("#td-cand-all").onclick = async () => {
+    if (!confirm(`공통 키 후보 ${g.candidate.rows.length}칸을 모두 제안대로 정할까요?`)) return;
+    try {
+      for (const grp of Object.values(groupBy(g.candidate.rows, x => `${x.suggest.who}|${x.suggest.what}`))) await put(grp, grp[0].suggest.who, grp[0].suggest.what);
+      toast("저장"); reload();
+    } catch (e) { toast(e.message, true); }
+  };
+  $$("#kd-body [data-who]").forEach(b => b.onclick = async () => {
+    const j = +b.dataset.who, x = g.who.groups[j], who = $(`#td-who-${j}`).value;
+    if (!who) return toast("누구의를 고르세요", true);
+    const items = $$(`#kd-body [data-wg="${j}"]`).filter(c => c.checked).map(c => x.rows[+c.dataset.wi]);
+    if (!items.length) return toast("고른 칸이 없습니다", true);
+    try { await put(items, who, x.what); toast(`${items.length}칸`); reload(); } catch (e) { toast(e.message, true); }
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -165,9 +250,8 @@ function editDoc(d, id) {
     <div id="de-links" class="muted">연결 읽는 중…</div>`;
   api(`/api/dictionary/links/doc_type/${q(id)}`).then(l => {
     $("#de-links").innerHTML = `<div><b>쓰는 업무</b> ${l.tasks.map(t => `<span class="tag">${esc(t.name)}</span>`).join(" ") || "없음"}</div>
-      <div><b>키</b> ${l.keys} — 공통 키 ${l.common} · 공통 키 제안 ${l.suggested} · 나머지는 문서별 키
-        <a href="#" id="de-keys">이 문서의 키 보기</a></div>`;
-    $("#de-keys").onclick = e => { e.preventDefault(); store.set("dict.keys", { ...store.get("dict.keys", {}), scope: "doc", doc: id, state: "", q: "" }); location.hash = "#/keys/keys"; };
+      <div><b>칸</b> ${l.keys} — 공통 키 ${l.common} · 나머지는 문서별 키
+        ${t.forms.map(f => `<a href="#/forms/${q(f)}/keys">${esc(f)} 칸 보기</a>`).join(" · ")}</div>`;
   }).catch(() => { $("#de-links").textContent = ""; });
   $("#de-save").onclick = async () => {
     try {

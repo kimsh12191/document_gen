@@ -114,11 +114,14 @@ def item_id(m: dict) -> str:
 
 
 def apply(lay: dict, ov: dict) -> tuple[dict, list[dict]]:
-    """레이아웃 사본에 수정을 덧씌운다. (새 레이아웃, 못 찾은 수정 목록)."""
-    if not ov:
-        return lay, []
+    """레이아웃 사본에 수정을 덧씌운다. (새 레이아웃, 못 찾은 수정 목록).
+    영역·결재란 칸마다 영역 편집기의 id 를 "_id" 로 남긴다 (자동 영역은 item_id, 더한 영역은 add:<번호>)."""
     lay = copy.deepcopy(lay)
     found = {item_id(m): (it, m) for it, m in matches(lay)}
+    for iid, (it, _) in found.items():
+        (lay["pages"][it["_staff"][0]]["staff"][it["_staff"][1]] if it["t"] == "staff" else it)["_id"] = iid
+    if not ov:
+        return lay, []
     broken, drop_items, drop_staff = [], set(), set()
     for o in ov.get("items", []):
         hit = found.get(item_id({"n": 0, **o["match"]}))
@@ -146,13 +149,15 @@ def apply(lay: dict, ov: dict) -> tuple[dict, list[dict]]:
     for page, pg in enumerate(lay["pages"]):
         if pg.get("staff"):
             pg["staff"] = [c for j, c in enumerate(pg["staff"]) if (page, j) not in drop_staff]
-    for a in ov.get("add", []):
+    for k, a in enumerate(ov.get("add", [])):
         a = copy.deepcopy(a)
         if a.get("t") == "staff":
-            lay["pages"][a["page"]].setdefault("staff", []).append({"role": a.get("label") or "결재", "rect": a["rect"]})
+            lay["pages"][a["page"]].setdefault("staff", []).append({"role": a.get("label") or "결재", "rect": a["rect"],
+                                                                     "_id": f"add:{k}"})
             continue
         a.setdefault("label", "")
         a["added"] = True
+        a["_id"] = f"add:{k}"
         lay["items"].append(a)
     return lay, broken
 

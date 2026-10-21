@@ -18,6 +18,7 @@ async function viewEditor(d, keep = null) {
     edKeys ? null : Promise.all([api("/api/keys"), api("/api/dictionary/keys?scope=common").catch(() => ({ rows: [] }))])
       .then(([k, c]) => { edKeys = { ...k, common: c.rows }; }),   // 키 고르기: 공통 키(키 사전) 먼저
     edSources ? null : api("/api/sources").then(s => { edSources = s; }),
+    kpLoad().catch(() => null),   // 공통 키 이름 (키 칸 표시)
   ]);
   const ed = {
     d, view, page: 0, tool: "select", sel: null, zoom: store.get("ed.zoom", 1), onlyBg: false, dirty: false, compare: null,
@@ -301,7 +302,7 @@ function edBindStage(ed) {
     if (!tip) return;
     if (!b) { tip.style.display = "none"; return; }
     const c = b.it.kind === "erase" ? { label: b.it.ref.fill === "auto" ? "지우기(주변색)" : "지우기(흰색)" } : cur(ed, b.it);
-    tip.textContent = b.it.kind === "erase" ? c.label : `${ED_T[c.t] || c.t} · ${c.label || "(항목명 없음)"}${c.key ? ` → ${c.key}` : ""}`;
+    tip.textContent = b.it.kind === "erase" ? c.label : `${ED_T[c.t] || c.t} · ${c.label || "(이름표 없음)"}${c.key ? ` → ${c.key}` : ""}`;
     const sr = stage.getBoundingClientRect();
     tip.style.display = "block";
     tip.style.left = `${Math.min(e.clientX - sr.left + 14, stage.clientWidth - tip.offsetWidth - 4)}px`;
@@ -410,12 +411,17 @@ function edSide(ed) {
     html = `<div class="detail-box panel">
       <div><b>${esc(ED_T[c.t] || c.t)}</b> <span class="tag st-${st}">${ED_STATUS[st]}</span> <span class="muted mono" style="font-size:11px">${esc(it.id)}</span></div>
       ${st === "dropped" ? `<p class="muted">이 영역은 뺐습니다. 생성기가 값을 쓰지 않습니다.</p><button id="ed-undrop">되살리기</button>` : `
-      <label class="fld">항목명 <input type="text" id="ed-label" value="${esc(c.label || "")}"></label>
-      ${c.t === "staff" ? "" : `
-      <label class="fld">키 <input type="text" id="ed-key" list="ed-keylist" value="${esc(c.key || "")}" placeholder="${esc(auto.key || "(자동: 항목명으로)")}"></label>
+      ${c.t === "staff" ? `<div class="fld muted">결재란은 은행·직원 칸입니다 (문서별 키).</div>` : `
+      <div class="fld">${it.cell && !ed.dirty ? `<div>키 ${kpKeyCell(it.cell)}</div><div id="ed-kp"></div>`
+        : `<div class="muted">${it.cell ? "저장하면" : "저장한 뒤"} 이 칸의 키(누구의 · 무엇)를 정합니다.</div>`}</div>`}
+      <div class="muted" style="font-size:12px">서식에 인쇄된 글자: ${esc(c.label || "(없음)")}</div>
+      <details class="fld"><summary class="muted">자세히 — 인쇄된 글자를 잘못 읽었을 때만 고칩니다</summary>
+      <label class="fld">인쇄된 글자 <input type="text" id="ed-label" value="${esc(c.label || "")}"></label>
+      ${c.t === "staff" ? "</details>" : `
+      <label class="fld">서식의 키 <input type="text" id="ed-key" list="ed-keylist" value="${esc(c.key || "")}" placeholder="${esc(auto.key || "(자동: 인쇄된 글자로)")}"></label>
       <datalist id="ed-keylist">${(edKeys?.common || []).map(k => `<option value="${esc(k.key)}">공통 키 · ${esc(k.name)}</option>`).join("")}${(edKeys?.keys || []).filter(k => !(edKeys?.common || []).some(c => c.key === k.key)).slice(0, 4000).map(k => `<option value="${esc(k.key)}">${esc(k.labels[0] || "")}</option>`).join("")}</datalist>
       ${cands.length ? `<div class="cands">사전 후보: ${cands.map(k => `<a href="#" data-key="${esc(k.key)}" class="mono">${esc(k.key)}</a> <span class="muted">(${k.forms})</span>`).join(" · ")}</div>` : ""}
-      ${auto.key ? `<div class="muted" style="font-size:12px">자동 키: <span class="mono">${esc(auto.key)}</span></div>` : ""}
+      ${auto.key ? `<div class="muted" style="font-size:12px">자동 키: <span class="mono">${esc(auto.key)}</span></div>` : ""}</details>
       ${c.t === "text" ? `<label class="fld">값 종류 <select id="ed-kind"><option value="">(자동: ${esc(auto.kind || "text")})</option>${ed.view.kinds.map(k =>
         `<option value="${k}" ${c.kind === k ? "selected" : ""}>${k}</option>`).join("")}</select></label>
       <label class="fld">값 출처 <select id="ed-source">${sourceOptions(c.source || "")}</select></label>
@@ -435,11 +441,12 @@ function edSide(ed) {
   const list = edPageItems(ed).filter(x => x.kind !== "erase");
   const nEdited = ed.items.filter(x => statusOf(ed, x) !== "auto").length;
   html += `<div class="muted" style="margin:6px 0 4px">이 쪽 영역 ${list.length}개 · 지우기 ${ed.ov.erase.filter(e => e.page === ed.page).length}개 · 전체 수정 ${nEdited}개</div>
-    <table class="ed-list"><thead><tr><th>상태</th><th>종류</th><th>항목명</th><th>키</th></tr></thead><tbody>${list.map(x => {
+    <table class="ed-list"><thead><tr><th>상태</th><th>종류</th><th>키</th></tr></thead><tbody>${list.map(x => {
       const c = cur(ed, x), st = statusOf(ed, x);
       return `<tr class="click ${ed.sel && ed.sel.id === x.id ? "sel" : ""}" data-id="${esc(x.id)}"><td><span class="tag st-${st}">${ED_STATUS[st]}</span></td>
-        <td class="nw">${esc(ED_T[c.t] || c.t)}</td><td>${esc(c.label || "")}</td>
-        <td class="mono ${c.key || x.auto?.key ? "" : "muted"}">${esc(c.key || x.auto?.key || "")}</td></tr>`;
+        <td class="nw">${esc(ED_T[c.t] || c.t)}</td>
+        <td>${x.cell ? kpKeyCell(x.cell) : `<span class="mono muted">${esc(c.key || x.auto?.key || "")}</span>`}
+          <div class="muted" style="font-size:11px">${esc(c.label || "")}</div></td></tr>`;
     }).join("")}</tbody></table>`;
   $("#ed-side").innerHTML = html;
   scrollRowIntoView($("#ed-side"), $("#ed-side tr.sel"));
@@ -463,6 +470,7 @@ function edSide(ed) {
     });
     return;
   }
+  if ($("#ed-kp")) kpPanel($("#ed-kp"), ed.d.id, it.cell, () => viewEditor(ed.d, { page: ed.page, tool: ed.tool, sel: ed.sel }), { label: false, image: false });
   on("#ed-label", "change", e => { setProp(ed, it, "label", e.target.value.trim()); redraw(); });
   on("#ed-key", "change", e => { setProp(ed, it, "key", e.target.value.trim()); redraw(); });
   on("#ed-kind", "change", e => { setProp(ed, it, "kind", e.target.value); redraw(); });

@@ -69,7 +69,13 @@ def test_rebuild_keeps_human_decisions(tmp_path, monkeypatch):
     pick = next(x for x in m["items"] if x["status"] == "proposed")
     pick["status"] = "rejected"
     (out / "merges.json").write_text(json.dumps(m, ensure_ascii=False), encoding="utf-8")
+    fk = json.loads((out / "form_keys.json").read_text(encoding="utf-8"))
+    fk["forms"]["loan_application"]["applicant.name"] = {"who": None, "what": None, "by": "사람"}   # 문서별로 정함
+    (out / "form_keys.json").write_text(json.dumps(fk, ensure_ascii=False), encoding="utf-8")
     B.build()
+    fk2 = json.loads((out / "form_keys.json").read_text(encoding="utf-8"))["forms"]
+    assert fk2["loan_application"]["applicant.name"] == {"who": None, "what": None, "by": "사람"}
+    assert fk2["loan_application"]["applicant.rrn"] == {"who": "customer", "what": "rrn", "by": "자동"}
     again = json.loads((out / "roles.json").read_text(encoding="utf-8"))["roles"]["signer"]
     assert again["party"] == "related" and again["by"] == "사람"
     m2 = json.loads((out / "merges.json").read_text(encoding="utf-8"))["items"]
@@ -79,7 +85,7 @@ def test_rebuild_keeps_human_decisions(tmp_path, monkeypatch):
 def test_common_key_resolution():
     loan = DIC.doc_type_of("loan_application")
     assert DIC.common_key(None, "customer.name") == "customer.name"          # 그 자체가 공통 키
-    assert DIC.common_key(loan, "applicant.name", include_suggested=True) == "customer.name"
+    assert DIC.common_key(loan, "applicant.name") == "customer.name"          # 서식에서 고객 · 성명으로 정한 칸
     assert DIC.scope(loan, "bank") == "문서별"
     common = DIC.load("common")["keys"]
     assert common["customer.name"]["name"] == "고객 성명" and common["corp.name"]["name"] == "법인·사업자 상호"
@@ -90,3 +96,25 @@ def test_match_extracted_keys():
     assert DIC.match_extracted("BIC") == "foreign.swift" and DIC.match_extracted("swift_code") == "foreign.swift"
     assert DIC.match_extracted("applicant.name", DIC.doc_type_of("loan_application")) == "customer.name"
     assert DIC.match_extracted("mandate_id") is None
+
+
+def test_field_key_is_who_and_what():
+    """칸의 키 = 누구의 · 무엇이 공통 키이면 공통 키, 아니면 서식의 키 그대로 (문서별)."""
+    assert DIC.key_for("customer", "name") == "customer.name" and DIC.key_for("customer", "seal") == "seal.customer"
+    assert DIC.who_what("seal.customer") == ("customer", "seal") and DIC.who_what("corp.biz_no") == ("corp", "biz_no")
+    f = DIC.field_key("loan_application", "applicant.name")
+    assert (f["key"], f["common"], f["who"], f["what"]) == ("customer.name", True, "customer", "name")
+    assert DIC.field_key("loan_application", "bank") == {"raw": "bank", "key": "bank", "common": False, "who": None, "what": None, "by": "없음"}
+    fields = [{"key": "applicant.name", "value": "홍길동"}, {"key": "bank", "value": "하나은행"}]
+    assert [(x["key"], x.get("doc_key")) for x in DIC.apply("loan_application", fields)] == [("customer.name", "applicant.name"), ("bank", None)]
+
+
+def test_set_field_keeps_document_scope_and_clear_resets(tmpdict):
+    f = DIC.set_field("loan_application", "applicant.name", None, None)       # 문서별로 정함 — 자동 초안이 다시 잇지 않게 남는다
+    assert (f["key"], f["common"], f["by"]) == ("applicant.name", False, "사람")
+    f = DIC.set_field("loan_application", "applicant.name", "agent", "name")
+    assert (f["key"], f["common"]) == ("agent.name", True)
+    f = DIC.set_field("loan_application", "applicant.name", "bank", "name")   # 은행·직원 · 성명은 공통 키가 아니다
+    assert (f["key"], f["common"], f["who"]) == ("applicant.name", False, "bank")
+    f = DIC.set_field("loan_application", "applicant.name", None, None, clear=True)
+    assert f["by"] == "없음" and f["key"] == "applicant.name"

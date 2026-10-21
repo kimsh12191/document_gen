@@ -118,7 +118,7 @@ async function viewForm(id, tab) {
     ...(!editable ? [["templates", "레이아웃·샘플링"]] : []),
     ...(!editable && d.origin !== "builtin" ? [["html", "html 편집"]] : []),
     ["review", `검수${d.issues.filter(x => x.status === "open").length ? ` · 문제 ${d.issues.filter(x => x.status === "open").length}` : ""}`],
-    ["keys", `키 목록 (${d.keys.length})`], ["files", "파일"]];
+    ["keys", `키 (${d.keys.length})`], ["files", "파일"]];
   main().innerHTML = `
     <div class="muted"><a href="#/forms">서식</a> › ${esc(d.group_name)}</div>
     <h1>${esc(d.name)} <span class="mono muted">${esc(d.id)}</span></h1>
@@ -170,7 +170,13 @@ async function viewForm(id, tab) {
 
 // 미리보기 탭 ---------------------------------------------------------------
 function tabPreview(d) {
-  const view = { label: null, page: 0, sel: -1, zoom: false, issueMode: false };
+  const view = { label: null, page: 0, sel: -1, zoom: false, issueMode: false, cells: {} };
+  const loadCells = async () => {   // 서식의 키 → 칸 (최종 키 · 누구의 · 무엇, 키 사전)
+    await kpLoad();
+    const r = await api(`/api/dictionary/cells?form=${encodeURIComponent(d.id)}&limit=3000`);
+    view.cells = Object.fromEntries(r.rows.flatMap(c => c.raw.map(k => [k, c])));
+  };
+  const cellsReady = loadCells().catch(() => {});
   $("#tab").innerHTML = `
     <div class="bar">${optionBar(true)}
       <button class="primary" id="o-go">렌더링</button>
@@ -200,9 +206,11 @@ function tabPreview(d) {
   };
   const drawSide = () => {
     const L = view.label, f = L.fields[view.sel];
+    const cell = f && view.cells[f.key];
     const detail = f ? `<div class="detail-box panel">
-        <div><b class="mono">${esc(f.key)}</b></div>
-        <div>항목명: ${esc(f.label ?? "")}</div><div>타입: ${esc(f.type)}</div>
+        <div>${cell ? kpKeyCell({ common: !!(cell.keys || []).find(k => k.raw === f.key)?.common, key: finalKey(f.key) }) : `<b class="mono">${esc(f.key)}</b>`}</div>
+        ${cell && finalKey(f.key) !== f.key ? `<div class="muted" style="font-size:12px">서식의 키 <span class="mono">${esc(f.key)}</span></div>` : ""}
+        ${cell ? "" : `<div>이름표: ${esc(f.label ?? "")}</div>`}<div>타입: ${esc(f.type)}</div>
         <div>값: ${esc(valueText(f))}</div>
         ${f.norm !== undefined && f.norm !== f.value ? `<div>정규화 값: <span class="mono">${esc(JSON.stringify(f.norm))}</span></div>` : ""}
         ${f.options ? `<div>보기: ${f.options.map(o => `${o.checked ? "■" : "□"} ${esc(o.text)}`).join(" ")}</div>` : ""}
@@ -210,16 +218,20 @@ function tabPreview(d) {
         ${f.render ? `<div>풀 항목: ${esc(f.render)}</div>` : ""}
         ${f.corrected_from ? `<div>정정 전 값: ${esc(f.corrected_from)}</div>` : ""}
         <div>쪽: ${(f.page || 0) + 1} · 위치: ${f.bbox ? `<span class="mono">${f.bbox.map(Math.round).join(", ")}</span>` : "없음"}</div>
+        ${cell ? `<div id="v-kp"></div>` : ""}
       </div>` : "";
     $("#v-side").innerHTML = `${detail}
       <div class="muted" style="margin-bottom:4px">항목 ${L.fields.length}개 · ${L.pages.length}쪽${L.overflow ? " · <b class=kr>쪽 넘침</b>" : ""}</div>
       <table><thead><tr><th>쪽</th><th>키</th><th>값</th></tr></thead><tbody>${L.fields.map((x, i) => `
         <tr class="click ${i === view.sel ? "sel" : ""}" data-i="${i}">
-          <td>${(x.page || 0) + 1}</td><td class="mono ${/[^\x00-\x7f]/.test(x.key) ? "kr" : ""}">${esc(x.key)}</td>
+          <td>${(x.page || 0) + 1}</td><td class="mono ${/[^\x00-\x7f]/.test(finalKey(x.key)) ? "kr" : ""}">${(view.cells[x.key]?.keys || []).find(k => k.raw === x.key)?.common ? `<span class="tag ok">공통</span> ` : ""}${esc(finalKey(x.key))}</td>
           <td>${esc(valueText(x))}${x.bbox ? "" : ` <span class="muted">(위치 없음)</span>`}</td></tr>`).join("")}
       </tbody></table>`;
     scrollRowIntoView($("#v-side"), $("#v-side tr.sel"));
+    if (cell) kpPanel($("#v-kp"), d.id, cell, async () => { await loadCells(); drawSide(); }, { image: false });
   };
+  // 그 칸의 최종 키 (공통 키로 정했으면 공통 키). 서명 칸은 이름·서명·도장 키마다 따로
+  const finalKey = raw => (view.cells[raw]?.keys || []).find(k => k.raw === raw)?.key || raw;
   const select = i => {
     view.sel = i;
     const f = view.label.fields[i];
@@ -232,6 +244,7 @@ function tabPreview(d) {
     try {
       const t = performance.now();
       view.label = await renderOne(d.id, o, force);
+      await cellsReady;
       view.page = Math.min(view.page, view.label.pages.length - 1);
       view.sel = -1;
       $("#o-stat").textContent = `seed ${o.seed} · ${((performance.now() - t) / 1000).toFixed(1)}초`;
@@ -441,8 +454,15 @@ async function tabReview(d) {
   } catch (e) { $("#rv-checks").innerHTML = `<span class="err">${esc(e.message)}</span>`; }
 }
 
-// 키 목록 탭 ---------------------------------------------------------------
+// 키 탭: 칸마다 이름표 · 누구의 · 무엇 · 키 (키 사전 keys.js 의 cellsView)
 function tabKeys(d) {
+  $("#tab").innerHTML = `<div class="sub">칸마다 키가 하나 있습니다. 칸이 <b>누구의 · 무엇</b>인지 정하면, 그 둘이 공통 키일 때 공통 키로 묻고 답합니다.
+    나머지는 문서별 키(서식의 키 그대로)입니다. 미리보기에서 칸을 눌러도 같은 것을 정합니다.</div><div id="k-cells"></div>`;
+  return cellsView($("#k-cells"), { form: d.id });
+}
+
+// 예전 키 목록 (30번 렌더링해 모은 키·채움률) -----------------------------------
+function tabKeysSampled(d) {
   $("#tab").innerHTML = `
     <div class="sub">서식마다 고객 30명으로 렌더링해 모은 키입니다 (<span class="mono">guide/fields/fields.json</span>).
       채움률은 30번 중 그 키가 나온 비율, 예시가 비어 있으면 값이 한 번도 안 채워진 칸입니다.

@@ -100,11 +100,10 @@ def compare(a: dict, b: dict, op: str) -> bool | None:
 
 
 def by_common(did: str, common: str, docs: dict) -> dict | None:
-    """문서(서식 ID)의 칸 중 그 공통 키에 이은 것 (키 사전 links.json 의 이음). 값이 있는 칸을 먼저."""
+    """문서(서식 ID)의 칸 중 그 공통 키인 것 (키 사전 form_keys.json 에서 정한 칸). 값이 있는 칸을 먼저."""
     from .. import dictionary as DIC
 
-    dt = DIC.doc_type_of(did)
-    hits = [f for f in docs[did]["fields"] if not f.get("group") and DIC.common_key(dt, f["key"]) == common]
+    hits = [f for f in docs[did]["fields"] if not f.get("group") and DIC.field_key(did, f["key"])["key"] == common]
     return next((f for f in hits if f.get("value") not in (None, "")), hits[0] if hits else None)
 
 

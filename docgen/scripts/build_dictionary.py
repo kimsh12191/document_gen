@@ -192,11 +192,12 @@ COMMON_SKIP = {"bank", "issuer", "deal", "finance", "document", "unassigned"}   
 
 
 def build_common(fields: dict, types: dict, tasks: dict, roles: dict, merges: list, relations: dict, attrs: dict, rules: dict):
-    """공통 키(여러 문서에 나오고 서류끼리 대조·심사하는 값)와, 문서별 키 → 공통 키 잇기 (DESIGN 16.0).
+    """공통 키(여러 문서에 나오고 서류끼리 대조·심사하는 값)와, 서식마다 칸 → 누구의 · 무엇 (form_keys, DESIGN 16.0).
     공통 키 후보: 업무 안 둘 이상의 문서에 나오는 사람·기관 키 + 키 규칙의 표준 키 + 사람·기관 키 중 5개 문서 종류 이상.
-    잇기: 서식의 키가 풀어서 공통 키가 되면 잇는다. 역할의 당사자가 확실하면 '이음', 아니면 '제안'. 사람이 정한 것은 남는다."""
+    칸: 서식의 키가 풀어서 공통 키가 되고 역할의 당사자가 확실하면 자동으로 정한다. 확실하지 않은 것은 정하지 않고
+    studio 키 사전 '정리할 것'의 후보로 남긴다. 사람이 정한 것은 남는다."""
     old = _load("common.json", {"keys": {}})["keys"]
-    old_links = _load("links.json", {"links": {}})["links"]
+    old_fk = _load("form_keys.json", {"forms": {}})["forms"]
     form_type = {f: tid for tid, t in types.items() for f in t["forms"]}
     pkey = party_key_fn(tasks, roles, merges)
     numbered = re.compile(r"\d$")   # name2·email2: 같은 서식의 두 번째 칸
@@ -209,7 +210,7 @@ def build_common(fields: dict, types: dict, tasks: dict, roles: dict, merges: li
     ok = lambda k: STD.fullmatch(k) and not numbered.search(k) and (k.split(".")[1] if k.split(".")[0] in ("seal", "sign") else k.split(".")[0]) not in COMMON_SKIP  # noqa: E731
     cands = {k for k in cands if ok(k) or k in rules["keys"]}
     proposed = {m["from"]: m["into"] for m in merges if m["dict"] == "field" and m["status"] == "proposed"}
-    links, labels, docs_of = {}, defaultdict(Counter), defaultdict(set)
+    form_keys, labels, docs_of = {}, defaultdict(Counter), defaultdict(set)
     doc_tasks = {tid: v.get("tasks", []) for tid, v in relations["doc_types"].items()}
     for fid, f in fields.items():
         tid = form_type.get(fid)
@@ -229,14 +230,17 @@ def build_common(fields: dict, types: dict, tasks: dict, roles: dict, merges: li
             by_task = bool(task and role in tasks.get(task, {}).get("roles", {}))
             sure = not via and (by_task or (role is None and group in HOLDER_GROUPS) or
                                 (bool(role) and roles.get(role, {}).get("sure", True) and roles.get(role, {}).get("party") != "unassigned"))
-            links.setdefault(tid, {})[k["key"]] = {"to": pk, "state": "이음" if sure else "제안", "by": "자동"}
+            if sure:
+                p = pk.split(".")
+                who, what = (p[1], p[0]) if p[0] in ("seal", "sign") else (p[0], p[1])
+                form_keys.setdefault(fid, {})[k["key"]] = {"who": who, "what": what, "by": "자동"}
             if k.get("label"):
                 labels[pk][k["label"]] += 1
             docs_of[pk].add(tid)
-    for tid, ls in old_links.items():   # 사람이 정한 잇기·끊기 유지
-        for dk, v in ls.items():
+    for fid, ks in old_fk.items():   # 사람이 정한 칸 유지
+        for dk, v in ks.items():
             if v.get("by") == HUMAN:
-                links.setdefault(tid, {})[dk] = v
+                form_keys.setdefault(fid, {})[dk] = v
     common = {}
     for ck in sorted(cands | {k for k, v in old.items() if v.get("by") == HUMAN}):
         prev = old.get(ck, {})
@@ -252,7 +256,7 @@ def build_common(fields: dict, types: dict, tasks: dict, roles: dict, merges: li
             lab if ck in rules["keys"] else f"{PARTY_SHORT.get(party, party)} {lab}"
         kind = rules["keys"].get(ck, {}).get("kind") or (attrs.get(attr) or {}).get("kind") or "text"
         common[ck] = {"name": name, "kind": kind, "docs": len(docs_of[ck]), "by": "자동"}
-    return common, links
+    return common, dict(sorted(form_keys.items()))
 
 
 SKIP_PARTIES = {"document", "deal", "finance", "unassigned", "bank", "issuer"}   # 대조 후보에서 뺄 당사자 (서류마다 다른 값)
@@ -501,14 +505,14 @@ def build() -> dict:
     _write("tasks.json", {"about": about, "groups": TASK_GROUPS, "tasks": tasks})
     _write("options.json", {"about": about, "options": options})
     _write("merges.json", {"about": about, "items": merges})
-    common, links = build_common(fields, doc_types["types"], tasks, roles, merges, relations, attrs, rules)
+    common, form_keys = build_common(fields, doc_types["types"], tasks, roles, merges, relations, attrs, rules)
     for t in relations["tasks"].values():   # 대조 후보는 공통 키만
         t["shared"] = [x for x in t["shared"] if x["party_key"] in common]
     _write("common.json", {"about": about + " 공통 키: 여러 문서에 나오고 서류끼리 대조·심사하는 값. 나머지는 문서별 키(서식의 키 그대로).",
                            "keys": common})
-    _write("links.json", {"about": about + " 문서별 키 → 공통 키 잇기. state: 이음 | 제안 | 끊음, by: 자동 | 사람.", "links": links})
-    stats.update(common_keys=len(common), links=sum(len(v) for v in links.values()),
-                 links_sure=sum(1 for v in links.values() for x in v.values() if x["state"] == "이음"))
+    _write("form_keys.json", {"about": about + " 서식마다 칸(서식의 키) → 누구의(parties) · 무엇(attributes). 둘이 공통 키이면 그 칸은"
+                                              " 공통 키로 묻고 답하고, 아니면 문서별 키(서식의 키 그대로). by: 자동 | 사람.", "forms": form_keys})
+    stats.update(common_keys=len(common), form_keys=sum(len(v) for v in form_keys.values()))
     _write("relations.json", {"about": about + " relations 는 매번 새로 만든다(사람이 고치지 않음).", **relations})
     stats["cross_check_candidates"] = sum(len(t["shared"]) for t in relations["tasks"].values())
     _write("stats.json", stats)

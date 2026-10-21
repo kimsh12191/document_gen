@@ -173,7 +173,7 @@ def cmd_generate(args) -> None:
                                  width=info["width"], height=info["height"])
                     if info["overflow"]:
                         overflow.append(sid)
-                fields = DIC.apply_common(doc_id, fields)   # 공통 키에 이은 칸은 공통 키로 (평가 세트 3.0, 원래 키는 doc_key)
+                fields = DIC.apply(doc_id, fields)   # 공통 키로 정한 칸은 공통 키로 (평가 세트 3.0, 원래 키는 doc_key)
                 label.update(fields=fields, gt=to_nested(fields))
                 if info:
                     rng = random.Random(f"swift:{sid}")

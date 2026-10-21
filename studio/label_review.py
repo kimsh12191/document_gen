@@ -356,7 +356,7 @@ def score(bdir: Path, real_root: Path) -> dict:
         n += 1
         from docgen import dictionary as DIC   # 문항은 공통 키로 묻는다 (평가 세트 3.0): 원래 추론의 키도 같은 키로 바꿔 채점
 
-        qkey = {f.get("doc_key", f["key"]): f["key"] for f in DIC.apply_common(ld["doc_type"], [{"key": g["key"]} for g in live])}
+        qkey = {f.get("doc_key", f["key"]): f["key"] for f in DIC.apply(ld["doc_type"], [{"key": g["key"]} for g in live])}
         for it in _items_for(ld["doc_type"], live, sizes):
             it["id"] = f"{it['task']}/{rv['doc']}"
             items[it["task"]].append(it)

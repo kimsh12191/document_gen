@@ -190,7 +190,7 @@ class Builder:
         base = {"images": r["images"], "meta": meta}
         rng = random.Random(f"bench:single:{stem}")
         sid = Path(stem).name
-        fields = DIC.apply_common(r["doc_id"], r["fields"])   # 공통 키에 이은 칸은 공통 키로 (3.0)
+        fields = DIC.apply(r["doc_id"], r["fields"])   # 공통 키로 정한 칸은 공통 키로 (3.0)
         raw_key = dict(zip(range(len(r["raw_keys"])), r["raw_keys"]))
 
         name, aliases = DIC.doc_name(r["doc_id"], r["name"])   # 정답 = 문서명, 서식 이름·다른 이름도 맞음

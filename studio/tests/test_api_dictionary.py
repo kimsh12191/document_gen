@@ -1,77 +1,80 @@
-"""키 사전 API (studio/api_dictionary.py): 저장소 파일 대신 사본으로 — 공통 키·문서별 키, 잇기·끊기, 공통으로 올리기, 문서·업무."""
+"""키 사전 API (studio/api_dictionary.py): 저장소 파일 대신 사본으로 — 공통 키(누구의 × 무엇), 서식의 칸, 칸 정하기, 정리할 것, 문서·업무.
+TestClient(httpx2) 없이 라우터의 함수를 바로 부른다."""
+import inspect
 import shutil
 
 import pytest
-
-pytest.importorskip("httpx2", reason="fastapi TestClient 가 쓰는 httpx2 없음 (도커 이미지에는 넣지 않음)")
-from fastapi import FastAPI  # noqa: E402
-from fastapi.testclient import TestClient  # noqa: E402
+from fastapi import HTTPException
 
 from docgen import dictionary as DIC
 from studio import api_dictionary as AD
 
-REPO = AD.ROOT
+
+class Api:
+    def __init__(self, router):
+        self.ep = {(m, rt.path): rt.endpoint for rt in router.routes for m in rt.methods}
+
+    def __call__(self, method, path, **kw):
+        return self.ep[(method, path)](**kw)
+
+    def req(self, method, path, **kw):
+        """그 API 의 요청 본문(pydantic 모델)."""
+        return inspect.signature(self.ep[(method, path)]).parameters["req"].annotation(**kw)
 
 
 @pytest.fixture
-def client(tmp_path, monkeypatch):
+def api(tmp_path, monkeypatch):
     d = tmp_path / "dictionary"
     shutil.copytree(DIC.DIR, d)
     monkeypatch.setattr(DIC, "DIR", d)
-    (tmp_path / "guide" / "fields").mkdir(parents=True)
-    shutil.copyfile(REPO / "guide" / "fields" / "fields.json", tmp_path / "guide" / "fields" / "fields.json")
-    monkeypatch.setattr(AD, "ROOT", tmp_path)
     DIC._cache.clear()
-    app = FastAPI()
-    app.include_router(AD.make_router(lambda fn, *a, **k: fn(*a, **k)))
-    yield TestClient(app)
+    yield Api(AD.make_router(lambda fn, *a, **k: fn(*a, **k)))
     DIC._cache.clear()
 
 
-def test_common_keys_and_doc_keys(client):
-    s = client.get("/api/dictionary").json()
-    assert 50 <= s["common"] <= 150 and s["doc_keys"] > 5000 and s["linked"] > 0
-    common = {x["key"]: x for x in client.get("/api/dictionary/keys?scope=common").json()["rows"]}
-    assert common["customer.name"]["name"] == "고객 성명" and common["foreign.swift"]
-    assert not any(k.startswith("bank.") for k in common)                      # 은행 사용란은 공통 키가 아니다
-    loan = DIC.doc_type_of("loan_application")
-    rows = client.get(f"/api/dictionary/keys?scope=doc&doc={loan}").json()["rows"]
-    app_name = next(r for r in rows if r["key"] == "applicant.name")
-    assert app_name["to"] == "customer.name" and app_name["state"] in ("이음", "제안")
-    assert any(r["to"] is None for r in rows)                                  # 문서별로 남는 칸
+def test_summary_and_common_table(api):
+    s = api("GET", "/api/dictionary")
+    assert 50 <= s["common"] <= 150 and s["cells"] > 10000 and 0 < s["common_cells"] < s["cells"]
+    rows = {x["key"]: x for x in api("GET", "/api/dictionary/common")["rows"]}
+    c = rows["customer.name"]
+    assert (c["who"], c["what"], c["name"]) == ("customer", "name", "고객 성명") and c["forms"] > 100
+    assert (rows["seal.customer"]["who"], rows["seal.customer"]["what"]) == ("customer", "seal")
+    assert not any(k.startswith("bank.") for k in rows)                       # 은행 사용란은 공통 키가 아니다
+    v = api("GET", "/api/dictionary/vocab")
+    assert "unassigned" not in {w["id"] for w in v["who"]} and {"seal", "sign", "name"} <= {w["id"] for w in v["what"]}
 
 
-def test_link_cut_and_promote(client):
-    loan = DIC.doc_type_of("loan_application")
-    item = {"doc": loan, "key": "branch"}
-    assert client.post("/api/dictionary/link", json={"items": [item], "to": "nope.key"}).status_code == 400
-    assert client.put("/api/dictionary/key/bank.branch_name", json={"name": "은행 취급점", "kind": "text"}).status_code == 200
-    assert client.post("/api/dictionary/link", json={"items": [item], "to": "bank.branch_name", "state": "이음"}).json()["changed"] == 1
-    assert DIC.common_key(loan, "branch") == "bank.branch_name"
-    k = client.get("/api/dictionary/key/bank.branch_name").json()
-    assert k["docs"][0]["keys"][0]["key"] == "branch"
-    client.post("/api/dictionary/link", json={"items": [item], "state": "끊음"})
-    assert DIC.common_key(loan, "branch") is None
-    assert client.put("/api/dictionary/key/Bad Key", json={"name": "x"}).status_code == 400
+def test_cells_and_set_who_what(api):
+    rows = api("GET", "/api/dictionary/cells", form="loan_application")["rows"]
+    name = next(r for r in rows if r["raw"] == ["applicant.name"])
+    assert (name["key"], name["common"], name["who"]) == ("customer.name", True, "customer")
+    assert any(not r["common"] for r in rows)                                 # 문서별로 남는 칸
+    sign = next(r for r in api("GET", "/api/dictionary/cells", form="hf011")["rows"] if r["t"] == "sign")
+    assert len(sign["raw"]) == 3                                               # 서명 칸 = 이름·도장·서명
+    put = lambda who: api("PUT", "/api/dictionary/cells", req=api.req("PUT", "/api/dictionary/cells",  # noqa: E731
+                                                                      items=[{"form": "hf011", "keys": sign["raw"]}], who=who, what="name"))
+    assert {k["key"] for k in put("agent")["keys"]} == {"agent.name", "seal.agent", "sign.agent"}
+    assert not any(k["common"] for k in put("bank")["keys"])                   # 은행·직원 칸은 문서별
+    with pytest.raises(HTTPException):
+        put("nobody")
 
 
-def test_docs_tasks_and_links(client):
-    tid = DIC.doc_type_of("commercial_invoice")
-    t = client.get("/api/dictionary/doc_types").json()["types"][tid]
-    assert client.put(f"/api/dictionary/doc_type/{tid}", json={"name": t["name"], "group": t["group"],
-                                                              "aliases": ["Commercial Invoice"]}).status_code == 200
-    assert DIC.find_doc_type("COMMERCIAL INVOICE") == tid
-    task = client.get("/api/dictionary/tasks").json()["tasks"]["fx_remittance"]
-    assert client.put("/api/dictionary/task/fx_remittance", json={**task, "aliases": task["aliases"] + ["무역송금"]}).status_code == 200
-    assert DIC.task_of("무역송금") == "fx_remittance"
-    lt = client.get("/api/dictionary/links/task/fx_remittance").json()
-    shared = {x["key"] for x in lt["shared"]}
-    assert {"foreign.name", "foreign.address"} <= shared and all(k in DIC.load("common")["keys"] for k in shared)
-    ld = client.get(f"/api/dictionary/links/doc_type/{tid}").json()
-    assert "fx_remittance" in [x["id"] for x in ld["tasks"]] and ld["keys"] > ld["common"] > 0
+def test_new_common_key_and_todo(api):
+    new = lambda **kw: api("POST", "/api/dictionary/common", req=api.req("POST", "/api/dictionary/common", **kw))  # noqa: E731
+    k = new(who="bank", what="branch_name", name="은행 취급점")
+    assert k["key"] == "bank.branch_name" and DIC.common_of("bank", "branch_name") == "bank.branch_name"
+    with pytest.raises(HTTPException):
+        new(who="bank", what="branch_name")                                    # 이미 있음
+    groups = {g["id"]: g for g in api("GET", "/api/dictionary/todo")["groups"]}
+    assert set(groups) == {"candidate", "mark", "who", "broken"}
+    assert all(r["suggest"]["key"] in DIC.load("common")["keys"] for r in groups["candidate"]["rows"])
 
 
-def test_common_for_form(client):
-    r = client.get("/api/dictionary/common_for/loan_application").json()
-    keys = {x["key"]: x for x in r["keys"]}
+def test_common_for_form_and_docs(api):
+    keys = {x["key"]: x for x in api("GET", "/api/dictionary/common_for/{form_id}", form_id="loan_application")["keys"]}
     assert keys["customer.name"]["doc_key"] in ("applicant.name", "customer.name")
+    tid = DIC.doc_type_of("commercial_invoice")
+    ld = api("GET", "/api/dictionary/links/doc_type/{tid}", tid=tid)
+    assert "fx_remittance" in [x["id"] for x in ld["tasks"]] and ld["keys"] > ld["common"] > 0
+    lt = api("GET", "/api/dictionary/links/task/{tid}", tid="fx_remittance")
+    assert {"foreign.name", "foreign.address"} <= {x["key"] for x in lt["shared"]}

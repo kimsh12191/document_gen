@@ -14,6 +14,7 @@ API
   GET  /api/forms/{id}/layout        overlay 영역 편집기: 영역(자동/수정/추가/뺌), 사람 수정, 깨진 수정
   PUT  /api/forms/{id}/overrides      사람 수정 저장 {overrides}
   GET  /api/forms/{id}/bg/{page}      지우기 전 배경 그림
+  GET  /api/forms/{id}/cell-image?keys=a,b   칸 자리 그림 (seed 0 미리보기에서 그 칸 둘레를 잘라 빨간 테두리) — 키 사전에서 칸이 누구 것인지 볼 때
   GET  /api/forms/{id}/checks         검수 전 자동 검사 (경고)
   POST /api/forms/{id}/review         검수 완료 {done}
   POST /api/forms/{id}/meta           학습/평가 배정·메모 {split, note}
@@ -292,6 +293,38 @@ def background(doc_id: str, page: int):
     from docgen.realform import raw_background
 
     return Response(guard(raw_background, doc_id, page), media_type="image/png")
+
+
+@app.get("/api/forms/{doc_id}/cell-image")
+def cell_image(doc_id: str, keys: str):
+    """칸(서식의 키 하나 이상)의 자리: seed 0 미리보기 그림에서 그 칸 둘레를 잘라 테두리를 그린다. 위치가 없으면 404."""
+    if not BROWSER:
+        raise HTTPException(503, "렌더링 브라우저가 없어 칸 그림을 만들 수 없습니다")
+    from io import BytesIO
+
+    from PIL import Image, ImageDraw
+
+    want = [k for k in keys.split(",") if k]
+    try:
+        label = previewer.render(doc_id, 0, "default", "default", "clean")
+    except KeyError as e:
+        raise HTTPException(404, str(e))
+    hits = [f for k in want for f in label["fields"] if f["key"] == k and f.get("bbox")]
+    if not hits:
+        raise HTTPException(404, "이 칸은 그림에 위치가 없습니다")
+    page = hits[0].get("page") or 0
+    bs = [f["bbox"] for f in hits if (f.get("page") or 0) == page]
+    box = [min(b[0] for b in bs), min(b[1] for b in bs), max(b[2] for b in bs), max(b[3] for b in bs)]
+    img = Image.open(PREVIEW_DIR / label["images"][page]).convert("RGB")
+    mx, my = 420, 170   # 둘레: 이름표·옆 칸이 보이게
+    crop = (max(0, int(box[0] - mx)), max(0, int(box[1] - my)), min(img.width, int(box[2] + mx)), min(img.height, int(box[3] + my)))
+    out = img.crop(crop)
+    ImageDraw.Draw(out).rectangle([box[0] - crop[0] - 4, box[1] - crop[1] - 4, box[2] - crop[0] + 4, box[3] - crop[1] + 4], outline=(220, 30, 30), width=4)
+    if out.width > 900:
+        out = out.resize((900, round(out.height * 900 / out.width)))
+    buf = BytesIO()
+    out.save(buf, "PNG")
+    return Response(buf.getvalue(), media_type="image/png", headers={"Cache-Control": "max-age=600"})
 
 
 @app.get("/api/forms/{doc_id}/checks")
