@@ -4,6 +4,7 @@
   <out>/structured/  images/<업무>/<건>/<서류>/p1.png · ocr/<같은 경로>/p1.json · pred/<업무>/<건>/<서류>.json
   <out>/flat/        같은 서류를 구분 없이: images/<무작위 ID>/p1.png … (업무·건 추정 시험용)
   <out>/truth.json   서류마다 진짜 서식 ID·역할·건·업무와 두 벌의 경로, 빼 둔 서식(--hold-out), 넣은 추출 오류
+  <out>/gt/<업무>/<건>/<서류>.json   오류 없는 추출 정답 {"items": …} (pred 와 같은 형식, 원래 키). 원본 데이터 내보내기 채점용
 
 - OCR 은 쪽 전체 글자(합성 OCR 정답, docgen/ocr_set.py 와 같은 방법)를 사내 OCR 응답 형식으로 쓴다.
 - 추출 결과(pred)는 생성 라벨의 값·위치에서 만들고, 일부러 틀린 값·다른 키 이름·빠진 항목·pred 없는 서류를 섞는다.
@@ -174,8 +175,10 @@ def build(out: Path, scenarios: list[str], cases: int, hold_out: list[str], seed
                         _write(S / "ocr" / rel / f"p{k}.json", oj)
                         _write(Fl / "ocr" / flat / f"p{k}.json", oj)
                     errs, has_pred = [], rng.random() >= no_pred
+                    clean = pred_items(d["fields"], d["sizes"])
+                    _write(out / "gt" / f"{rel}.json", {"items": clean})
                     if has_pred:
-                        items, errs = noisy(pred_items(d["fields"], d["sizes"]), rng, p_wrong, p_drop)
+                        items, errs = noisy(clean, rng, p_wrong, p_drop)
                         _write(S / "pred" / f"{rel}.json", {"items": items})
                         _write(Fl / "pred" / f"{flat}.json", {"items": items})
                     truth["documents"][rel] = {"form": r["id"], "name": d["name"], "role": r["role"], "scenario": sc, "case": case,
@@ -222,7 +225,8 @@ def add_external(out: Path, ext: Path, truth: dict) -> None:
                 _link(f, out / "structured" / sub / rel / f.name)
                 _link(f, out / "flat" / sub / flat / f.name)
         pf = ext / "pred" / f"{src}.json"
-        if pf.is_file():
+        if pf.is_file():   # 외부 문서의 추출 결과는 손으로 단 라벨 그대로 (오류를 넣지 않는다)
+            _link(pf, out / "gt" / f"{rel}.json")
             _link(pf, out / "structured" / "pred" / f"{rel}.json")
             _link(pf, out / "flat" / "pred" / f"{flat}.json")
         truth["documents"][rel] = {**d, "flat": flat, "external": True, "new_form": True, "external_id": src}

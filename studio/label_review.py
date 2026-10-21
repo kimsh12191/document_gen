@@ -234,7 +234,7 @@ def _v1_field(g: dict) -> dict:
         f.update(value=None, present=bool(present))
     elif t in ("checkbox", "checkbox_multi"):
         vals = g["value"] if isinstance(g.get("value"), list) else ([] if g.get("value") in (None, "") else [g["value"]])
-        f["value"] = vals if t == "checkbox_multi" else (vals[0] if vals else None)
+        f["value"] = None if t == "checkbox_multi" else (vals[0] if vals else None)   # 복수 선택의 답은 options 의 checked (v1)
         f["options"] = [{"text": str(v), "checked": True, **({"box_bbox": g["bbox"]} if g.get("bbox") else {})} for v in vals]
     else:
         f["value"] = None if g.get("value") in (None, "") else str(g["value"])

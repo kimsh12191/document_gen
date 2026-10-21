@@ -98,7 +98,7 @@ app.include_router(api_import.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT 
 app.include_router(api_labels.make_router(REGISTRY, JOBS, guard, CFG))
 app.include_router(api_html.make_router(REGISTRY, JOBS, guard, CFG, previewer, lambda p: f"/preview/{p}"))   # html 편집·복제·분석기
 app.include_router(api_review.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT))   # 결과 폴더 검사, 라벨 검수
-app.include_router(api_intake.make_router(REGISTRY, JOBS, guard, CFG))   # ④ 서류 넣기
+app.include_router(api_intake.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT))   # ④ 서류 넣기
 app.include_router(api_keys.make_router(guard))   # 키 사전 (키 규칙·값 종류)
 app.include_router(api_dictionary.make_router(guard))   # 키 사전 (당사자 계층·문서 분류·업무·합치기)
 app.mount("/fonts", StaticFiles(directory=ROOT / "docgen" / "fonts"), name="fonts")   # 손글씨 글꼴 (화면의 글꼴 미리보기)

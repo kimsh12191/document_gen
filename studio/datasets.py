@@ -103,6 +103,8 @@ class Registry:
             for k in ("recipe", "dataset_json"):
                 if meta.get(k):
                     entry[k] = meta[k]
+            if info.get("pseudo_model"):   # 의사정답을 낸 모델 (그 모델은 이 세트로 채점하지 않는다)
+                entry["pseudo_model"] = info["pseudo_model"]
             dj = root / entry.get("dataset_json", "dataset.json")
             if dj.exists():   # studio 레시피로 만든 것: 생성기 커밋·버전·서식 해시
                 info_dj = json.loads(dj.read_text(encoding="utf-8"))
@@ -231,7 +233,7 @@ def describe(root: Path, fmt: str) -> dict:
         out["counts"] = dict(meta.get("counts", {}))
         out["split"] = meta.get("split", "test")
         st = meta.get("studio") or {}
-        out.update({k: st[k] for k in ("source", "gt", "real_data") if k in st})
+        out.update({k: st[k] for k in ("source", "gt", "real_data", "pseudo_model") if k in st})
     else:
         items = _read_jsonl(root / "benchmark_items.jsonl")
         c: dict = {}
@@ -365,6 +367,16 @@ def load_pred(path: str) -> dict[str, str | None]:
 # 채점 (명령줄과 같은 함수)
 # ---------------------------------------------------------------------------
 
+def self_scoring(ds: dict, pred: dict) -> str | None:
+    """의사정답 세트를 그 정답을 낸 모델의 답으로 채점하려 하면 까닭을 돌려준다 (DESIGN.md 15.4: 자기 답으로 자기를 채점하는 꼴)."""
+    m = ds.get("pseudo_model") if ds.get("gt") == "pseudo" else None
+    if not m:
+        return None
+    if m == ((pred.get("meta") or {}).get("model")) or m in (pred.get("label"), pred.get("run")):
+        return f"이 세트의 정답은 {m} 의 추출 결과 그대로라 {m} 의 답은 채점할 수 없습니다. 검수한 정답(reviewed) 세트로 채점하세요"
+    return None
+
+
 def score(ds: dict, preds: dict[str, str | None]) -> dict:
     """과제별 점수와 문항별 점수. 답이 없는 문항은 명령줄과 같이 최악 점수로 센다."""
     by_task = items(ds)
@@ -437,7 +449,8 @@ def card_markdown(ds: dict, scores: list[dict], trainings: list[dict]) -> str:
              "## 쓰면 안 되는 곳", c.get("not_for") or "(사람이 적는다)", "",
              "## 알려진 한계", c.get("limits") or "(사람이 적는다)"]
     if ds.get("gt") == "pseudo":
-        lines.append("- 정답이 사내 OCR·추론 그대로라 점수는 '그것과 얼마나 같은지'다 (실제 정확도 아님).")
+        lines.append("- 정답이 사내 OCR·추론 그대로라 점수는 '그것과 얼마나 같은지'다 (실제 정확도 아님)."
+                     + (f" 정답을 낸 모델({ds['pseudo_model']})은 이 세트로 채점하지 않는다." if ds.get("pseudo_model") else ""))
     lines += ["", "## 구성", "", "| 항목 | 수 |", "|---|---:|"]
     lines += [f"| {k} | {v} |" for k, v in sorted((ds.get("counts") or {}).items())]
     if scores:

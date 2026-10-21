@@ -327,7 +327,8 @@ def build_bank(check: dict, out: Path, tasks: list[str], split: str):
     (out / 'bundles.jsonl').write_text(''.join(json.dumps(r, ensure_ascii=False) + '\n' for r in bundle_records), encoding='utf-8')
     meta = {'version': VERSION, 'split': split, 'created': time.strftime('%Y-%m-%d %H:%M:%S'), 'counts': counts,
             'doc_names': {d['label']['doc_type']: d['label']['doc_name'] for d in check['documents']},
-            'studio': {'source': 'results', 'gt': check['meta']['gt'], 'real_data': check['meta']['real_data']},
+            'studio': {'source': 'results', 'gt': check['meta']['gt'], 'real_data': check['meta']['real_data'],
+                       **({'pseudo_model': check['meta']['model']} if check['meta']['gt'] == 'pseudo' and check['meta'].get('model') else {})},
             'settings': {'label_format': 'docgen-labels/1', 'fingerprint': check['fingerprint'], 'tasks': tasks}}
     write(out / 'meta.json', meta)
     # 복구가 완료 파일·문항 수를 검사할 수 있도록 dataset.json은 마지막에 쓴다.

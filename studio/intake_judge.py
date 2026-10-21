@@ -135,7 +135,7 @@ def _fill(img, rect):
 
 
 def draft(bdir: Path, fid: str) -> dict:
-    """새 서식 초안: 추출값이 가장 많이 위치를 가진 문서를 견본으로, 값 칸 = 추출값 위치(키·공통 키·값), 지울 자리 = 값 칸 + (같은 모양
+    """새 서식 초안: 추출값이 가장 많이 위치를 가진 문서(평가 쪽 건은 빼고)를 견본으로, 값 칸 = 추출값 위치(키·공통 키·값), 지울 자리 = 값 칸 + (같은 모양
     문서가 여럿이면) 문서마다 달라지는 글자 중 값 칸 밖의 것(남은 값 후보). 지운 배경 그림을 drafts/ 에 쓴다."""
     from docgen import dictionary as DIC
     from PIL import Image
@@ -146,8 +146,12 @@ def draft(bdir: Path, fid: str) -> dict:
         raise KeyError(fid)
     o = IM._ocr_settings(batch)
     keymap = (f.get("intake") or {}).get("keymap") or {}
+    from .intake_raw import test_docs
+
+    held = test_docs(bdir)   # 평가로 뺀 건의 서류는 서식 배경으로 쓰지 않는다 (모두 평가 쪽이면 어쩔 수 없이 쓴다)
+    cands = [d for d in f["docs"] if d not in held] or list(f["docs"])
     best, best_n = None, -1
-    for d in f["docs"]:
+    for d in cands:
         n = sum(1 for it in _pred(batch, d) if it.get("bbox_2d"))
         if n > best_n:
             best, best_n = d, n

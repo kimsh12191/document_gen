@@ -176,6 +176,8 @@ def make_router(reg: DS.Registry, guard, jobs=None) -> APIRouter:
         pred = next((p for p in DS.predictions_of(ds) if p["pid"] == req.pid), None)
         if pred is None:
             raise HTTPException(404, "모델 답을 찾을 수 없습니다")
+        if why := DS.self_scoring(ds, pred):
+            raise HTTPException(409, why)
         t0 = time.time()
         s = guard(DS.score, ds, DS.load_pred(pred["path"]))
         s.update(pid=pred["pid"], label=pred["label"], run=pred["run"], path=pred["path"],

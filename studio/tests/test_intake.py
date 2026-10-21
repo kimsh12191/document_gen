@@ -119,3 +119,74 @@ def test_judge_decide_and_draft(testset, tmp_path, monkeypatch):
     x0, y0, x1, y1 = (int(v) for v in g["rect"])
     lo, hi = img.crop((x0 + 2, y0 + 2, x1 - 2, y1 - 2)).getextrema()
     assert lo == hi
+
+
+@pytest.fixture(scope="module")
+def clean_set(tmp_path_factory):
+    """추출 오류를 넣지 않은 시험 폴더 (원본 데이터로 내보내기 채점용). 키 이름 바꾸기(name·rrn …)는 그대로 섞인다."""
+    out = tmp_path_factory.mktemp("clean")
+    T.build(out, ["fx_remittance", "account_opening"], 2, [], scale=1.0, conditions=(("clean", 1.0),), missing=0.0, no_pred=0.0,
+            p_wrong=0.0, p_drop=0.0, external=T.EXTERNAL, log=lambda *a: None)
+    return out
+
+
+def test_raw_export_scores_full_on_generated_truth(clean_set, tmp_path):
+    """원본 데이터로: 모양마다 진짜 서식으로 정하고 내보내면, 생성 정답으로 채점해 서식·항목(키·값·쪽·위치)이 다 맞고 건이 양쪽에 새지 않는다.
+    v1 검사를 통과하고, 의사정답(gt pseudo)·추출 모델이 meta 에 남는다. 외부 문서(새 서식, 등록 전)는 빠진다."""
+    from collections import Counter
+
+    from studio import intake_judge as IJ
+    from studio import intake_raw as IR
+    from studio.labeled_data import inspect
+
+    b = IN.create_batch(tmp_path, "raw", str(clean_set / "structured"), None)
+    d = tmp_path / "imports" / b["name"]
+    IM.run_ocr(d)
+    IM.run_group(d)
+    truth = json.loads((clean_set / "truth.json").read_text(encoding="utf-8"))["documents"]
+    fx = json.loads((d / "formats.json").read_text(encoding="utf-8"))
+    dec = {}
+    for f in fx["formats"]:
+        top = Counter(truth[x]["form"] for x in f["docs"]).most_common(1)[0][0]
+        ext = any(truth[x].get("external") for x in f["docs"])
+        dec[f["id"]] = {"kind": "new", "uses": {"raw": True}} if ext else {"kind": "existing", "form_id": top, "uses": {"raw": True}}
+    IJ.decide(d, dec)
+    pv = IR.preview(d)
+    assert pv["unknown_case"] == 0 and pv["cases"]["test"] >= 2 and pv["not_ready"].get("새 서식 등록 전")
+    r = IR.export(d, tmp_path / "real")
+    assert set(r["splits"]) == {"train", "test"} and r["skipped"]["새 서식 등록 전"] == sum(t.get("external", False) for t in truth.values())
+    s = IR.score(tmp_path / "real", b["name"], clean_set)
+    assert s["leaked_cases"] == 0 and s["documents"] == sum(not t.get("external") for t in truth.values())
+    assert all(w["doc_type"] != w["form"] for w in s["wrong"]), s["wrong"][:3]   # 틀린 것은 묶기에서 섞인 서류뿐
+    assert s["form_acc"] >= 0.9
+    for sp, x in r["splits"].items():
+        c = inspect(x["path"])
+        assert c["ok"], c["errors"][:3]
+        assert c["meta"]["gt"] == "pseudo" and c["meta"]["model"] == "intake-testset" and c["meta"]["split"] == sp
+    # 평가 쪽 건의 서류는 새 서식 초안의 견본으로 쓰지 않는다
+    held = IR.test_docs(d)
+    assert held and held < set(truth)
+
+
+def test_raw_v1_fields_and_self_scoring_guard():
+    from studio import datasets as DS
+    from studio import intake_raw as IR
+
+    km = IR.KeyMapper("account_opening_application", {})
+    assert [km(k) for k in ("name", "rrn", "phone", "customer.name")] == ["customer.name", "customer.rrn", "customer.mobile", "customer.name"]
+    items = [{"key": "agree", "type": "checkbox", "value": "예", "bbox_2d": [10, 10, 20, 20], "page": 1},
+             {"key": "agree", "type": "checkbox", "value": "아니오", "bbox_2d": [30, 10, 40, 20], "page": 1},
+             {"key": "seal.bank", "type": "seal", "value": True, "bbox_2d": [500, 500, 600, 600], "page": 1},
+             {"key": "memo", "value": "", "page": 1}]
+    fields, _ = IR.v1_fields(items, [(1000, 2000)], IR.KeyMapper("no_such_form", {}))
+    by = {f["key"]: f for f in fields}
+    assert by["agree"]["type"] == "checkbox_multi" and by["agree"]["value"] is None and [o["text"] for o in by["agree"]["options"]] == ["예", "아니오"]
+    assert by["agree"]["options"][1]["box_bbox"] == [30.0, 20.0, 40.0, 40.0]
+    assert by["seal.bank"] == {"key": "seal.bank", "label": "bank", "type": "seal", "value": None, "present": True, "page": 0,
+                               "bbox": [500.0, 1000.0, 600.0, 1200.0]}
+    assert by["memo"]["value"] is None and "bbox" not in by["memo"]
+    ds = {"gt": "pseudo", "pseudo_model": "m1"}
+    assert DS.self_scoring(ds, {"label": "a", "run": "b", "meta": {"model": "m1"}})
+    assert DS.self_scoring(ds, {"label": "m1", "run": "b", "meta": None})
+    assert DS.self_scoring(ds, {"label": "m2", "run": "b", "meta": {"model": "m2"}}) is None
+    assert DS.self_scoring({**ds, "gt": "reviewed"}, {"label": "m1", "run": "b", "meta": None}) is None

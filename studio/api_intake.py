@@ -8,6 +8,8 @@
   POST /api/intake/{묶음}/decide {formats: {모양: {kind, form_id?, name?, uses, keymap}}}
   GET  /api/intake/{묶음}/draft/{모양}       새 서식 초안 (값 칸·지울 자리·지운 배경 그림 이름)
   GET  /api/intake/{묶음}/draft-image/{그림}  지운 배경 그림
+  GET  /api/intake/{묶음}/raw   원본 데이터로: 건 단위 학습/평가 나누기 미리보기와 마지막 내보내기
+  POST /api/intake/{묶음}/raw   {ratio} → 의사정답 v1 폴더 두 개(<real_data_dir>/labels/<묶음>-raw/train·test)로 내보내기
 """
 import json
 
@@ -18,9 +20,10 @@ from pydantic import BaseModel
 from . import importer as IM
 from . import intake as IN
 from . import intake_judge as IJ
+from . import intake_raw as IR
 
 
-def make_router(reg, jobs, guard, cfg: dict) -> APIRouter:
+def make_router(reg, jobs, guard, cfg: dict, real_root) -> APIRouter:
     r = APIRouter()
     imports = reg.ws / "imports"
 
@@ -101,5 +104,18 @@ def make_router(reg, jobs, guard, cfg: dict) -> APIRouter:
         if not f.is_file():
             raise HTTPException(404, img)
         return FileResponse(f, headers={"Cache-Control": "no-store"})
+
+    @r.get("/api/intake/{name}/raw")
+    def raw(name: str, ratio: float | None = None):
+        return {**guard(IR.preview, bdir(name), ratio), "real_root_set": bool(cfg.get("real_data_dir"))}
+
+    class RawReq(BaseModel):
+        ratio: float | None = None
+
+    @r.post("/api/intake/{name}/raw")
+    def raw_export(name: str, req: RawReq):
+        if req.ratio is not None and not 0 <= req.ratio < 1:
+            raise HTTPException(400, "평가 비율은 0 이상 1 미만입니다")
+        return guard(IR.export, bdir(name), real_root, req.ratio)
 
     return r
