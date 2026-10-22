@@ -60,7 +60,8 @@ def prepare(config_path):
     cache.mkdir(parents=True, exist_ok=True)
     pixels, pages = {}, []
     # Preflight every page before invoking OCR; identical decoded pixels cannot cross splits.
-    for row in sorted(rows, key=lambda r: (r["document_id"], r["page_id"])):
+    ordered = sorted(rows, key=lambda r: (r["document_id"], r["page_id"]))
+    for n, row in enumerate(ordered, 1):
         source = (manifest_dir / row["image"]).resolve()
         im = canonical_image(source)
         sha = digest(str(im.size).encode() + im.tobytes())
@@ -74,6 +75,8 @@ def prepare(config_path):
         pages.append({**row, "source_image": str(source), "image": str(staged), "pixel_sha256": sha, "width": im.width, "height": im.height,
                       "id": digest(dumps([row["document_id"], row["page_id"]]).encode())[:24]})
         im.close()
+        if n == 1 or n % 100 == 0 or n == len(ordered):
+            print(f"그림 확인 {n}/{len(ordered)}", flush=True)
     for n, page in enumerate(pages, 1):
         if "ocr_json" in page:
             saved = (manifest_dir / page["ocr_json"]).resolve()
@@ -86,17 +89,16 @@ def prepare(config_path):
             except ValueError as exc:
                 raise ValueError(f"Saved OCR {saved} for {page['source_image']}: {exc}") from exc
             page["ocr_cache"] = str(saved)
-            page["reference_type"] = reference
-            continue
-        key = digest(dumps([page["pixel_sha256"], cfg["ocr_callable"], revision]).encode())
-        cached = cache / "ocr" / f"{key}.json"
-        if not cached.exists():
-            # OCR sees the EXACT same orientation-normalized PNG used by the VLM.
-            raw = adapter(page["image"])
-            parse_ocr(raw, page["width"], page["height"], mapping)
-            write_json(cached, raw)
-        page["ocr"] = parse_ocr(read_json(cached), page["width"], page["height"], mapping)
-        page["ocr_cache"] = str(cached)
+        else:
+            key = digest(dumps([page["pixel_sha256"], cfg["ocr_callable"], revision]).encode())
+            cached = cache / "ocr" / f"{key}.json"
+            if not cached.exists():
+                # OCR sees the EXACT same orientation-normalized PNG used by the VLM.
+                raw = adapter(page["image"])
+                parse_ocr(raw, page["width"], page["height"], mapping)
+                write_json(cached, raw)
+            page["ocr"] = parse_ocr(read_json(cached), page["width"], page["height"], mapping)
+            page["ocr_cache"] = str(cached)
         page["reference_type"] = reference
         if n == 1 or n % 100 == 0 or n == len(pages):
             print(f"OCR {n}/{len(pages)}", flush=True)
@@ -237,7 +239,9 @@ def build_datasets(pages, out, cfg):
         vocabulary[page["split"]].update(x["text"] for x in page["ocr"] if 2 <= len(x["text"]) <= 20)
     vocabulary = {k: sorted(v) for k, v in vocabulary.items()}
     pools, audit, candidates, image_items = defaultdict(list), Counter(), Counter(), []
-    for page in pages:
+    for done, page in enumerate(pages, 1):
+        if done == 1 or done % 100 == 0 or done == len(pages):
+            print(f"문항 만들기 {done}/{len(pages)}", flush=True)
         split = page["split"]
         thresholds = cfg.get("filters", {}).get("benchmark" if split == "benchmark" else "train", {})
         confidence = thresholds.get("min_confidence", 0.0 if split == "benchmark" else 0.95)

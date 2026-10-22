@@ -32,7 +32,7 @@ ssh -N -L 8765:localhost:8765 <계정>@<서버IP>
 | `bank-train` | 은행 업무 학습 데이터 |
 | `ocr-bench` · `ocr-train` | 합성 OCR 평가 세트 · 학습 데이터 (서식을 그려 쪽 전체 글자를 정답으로) |
 
-- OCR 레시피는 만들 때 OCR 준비(`docgen.bench.ocr_prepare`)까지 studio가 돌립니다. 따로 준비할 것은 없고, 학습에는 `<이름>/prepared` 경로를 적습니다.
+- OCR 레시피는 만들 때 OCR 준비(`docgen.bench.ocr_prepare`)까지 studio가 돌립니다. 서류를 다 그린 뒤 작업 진행이 "그림 확인 → OCR → 문항 만들기"로 이어지고, `<이름>/prepared/DONE.json`이 생겨야 끝입니다 (그 전에는 목록에 안 뜸). 학습에는 `<이름>/prepared` 경로를 적습니다.
 - **용도**를 꼭 확인합니다: 평가 세트(`test`/`benchmark`) 또는 학습(`train`). 학습과 평가는 서로 다른 고객으로 만들어집니다.
 - 서식·업무·수량·촬영 조건·대조 사례는 레시피에서 고칩니다. 칸의 뜻은 [agent-workflow.md 3절](agent-workflow.md#3-레시피-정하기)에 표로 있습니다.
 - 처음에는 작게 만들어 ⑥ › 문항에서 그림과 정답을 본 뒤 크게 만듭니다.

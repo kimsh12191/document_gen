@@ -232,8 +232,9 @@ def build(args) -> None:
             "split": split, "unit": unit, "documents": len(jobs), "pages": len(rows), "seconds": round(time.time() - t0),
             "form_hashes": {i: source_hash(i, common=False) for i in ids}}
     (out / "ocr_set.json").write_text(json.dumps(info, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"서류 {len(jobs)}건, 쪽 {len(rows)} → {out}")
+    print(f"서류 {len(jobs)}건, 쪽 {len(rows)} → {out}", flush=True)
     if not args.no_prepare:
+        print(f"OCR 준비 시작 → {out / 'prepared'} (끝나야 데이터셋으로 등록됨)", flush=True)
         subprocess.run([sys.executable, "-m", "docgen.bench.ocr_prepare", str((out / "config.json").resolve())], cwd=ROOT, check=True)
         print(f"OCR 준비 → {out / 'prepared'}")
 
