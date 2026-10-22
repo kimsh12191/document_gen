@@ -55,7 +55,7 @@ async function view_datasets() {
 
 async function viewDataset(id, tab) {
   const d = await api(`/api/datasets/${encodeURIComponent(id)}`);
-  const tabs = [["card", "설명서"], ["items", "문항"], ...((d.groups || []).includes("work") ? [["bundles", "업무 묶음"]] : []),
+  const tabs = [["card", "설명서"], ["tracking", "구성·추적"], ["items", "문항"], ...((d.groups || []).includes("work") ? [["bundles", "업무 묶음"]] : []),
     ["runs", `모델 답 (${d.predictions.length})`], ["train", "학습"]];
   main().innerHTML = `
     <div class="muted"><a href="#/datasets">데이터셋</a></div>
@@ -75,6 +75,7 @@ async function viewDataset(id, tab) {
     location.hash = "#/datasets";
   };
   if (tab === "items") return dsItems(d);
+  if (tab === "tracking") return dsTracking(d);
   if (tab === "runs") return dsRuns(d);
   if (tab === "bundles") return dsBundles(d);
   if (tab === "train") return dsTrain(d);
@@ -156,18 +157,22 @@ function itemStage(d, it, img, k) {
 
 const showAns = a => typeof a === "string" ? esc(a) : `<pre class="ans">${esc(JSON.stringify(a, null, 1))}</pre>`;
 
-function dsItems(d) {
+async function dsItems(d) {
   const st = store.get(`ds.${d.id}`, { task: Object.keys(d.tasks)[0] || "", pids: [], order: "id" });
   const tasks = Object.entries(d.tasks);
+  const summary = await api(`/api/datasets/${encodeURIComponent(d.id)}/composition`).catch(() => null);
+  st.filters ||= {};
   $("#tab").innerHTML = `
+    ${summary ? '' : '<p class="warn">현재 서버에는 구성·추적 API가 없습니다. Studio를 재시작하면 구분별 필터를 사용할 수 있습니다.</p>'}
     <div class="bar">
-      <select id="it-task">${tasks.map(([t, n]) => `<option value="${t}" ${t === st.task ? "selected" : ""}>${esc(TASK_KO[t] || t)} (${t}) · ${n}</option>`).join("")}</select>
+      <select id="it-task"><option value="" ${st.task === "" ? "selected" : ""}>과제 전체</option>${tasks.map(([t, n]) => `<option value="${t}" ${t === st.task ? "selected" : ""}>${esc(TASK_KO[t] || t)} (${t}) · ${n}</option>`).join("")}</select>
       <input type="text" id="it-q" placeholder="문항 안 글자 검색" style="width:180px">
       <span class="muted">모델 답:</span>
       ${d.predictions.map(p => `<label><input type="checkbox" data-pid="${p.pid}" ${st.pids.includes(p.pid) ? "checked" : ""}> ${esc(p.label)}</label>`).join("") || `<span class="muted">(없음 — 모델 답 탭에서 붙입니다)</span>`}
       <label>순서 <select id="it-order"><option value="id">ID 순</option><option value="worst" ${st.order === "worst" ? "selected" : ""}>첫 답 점수 낮은 것부터</option></select></label>
       <span class="muted" id="it-stat"></span>
     </div>
+    <div class="bar">${["task_group", "scenario", "label_format", "doc_type"].map(key => `<label>${TRACKING_TITLE[key]} <select data-track-filter="${key}" ${summary?'':'disabled'}><option value="">전체</option>${Object.keys(summary?.all.by[key] || {}).map(v => `<option value="${esc(v)}" ${st.filters[key] === v ? "selected" : ""}>${esc(trackName(v))}</option>`).join("")}</select></label>`).join("")}<label><input type="checkbox" id="it-evaluation-only" ${summary?'':'disabled'} ${st.evaluationOnly?'checked':''}> 평가 문항만</label><button id="it-clear-filters">필터 초기화</button></div>
     <div class="keys-help">초록 박스 = 정답, 파랑 점선 = 질문 영역, 주황·보라·청록 = 모델 답. 점수는 채점한 뒤에 보입니다 (모델 답 탭).</div>
     <div id="it-list"></div>
     <div class="bar"><button id="it-prev">◀ 이전</button><button id="it-next">다음 ▶</button></div>`;
@@ -175,11 +180,13 @@ function dsItems(d) {
   const load = async () => {
     st.task = $("#it-task").value; st.order = $("#it-order").value;
     st.pids = $$("[data-pid]").filter(x => x.checked).map(x => x.dataset.pid);
+    st.filters = Object.fromEntries($$("[data-track-filter]").map(x => [x.dataset.trackFilter, x.value]));
+    st.evaluationOnly = $("#it-evaluation-only").checked;
     store.set(`ds.${d.id}`, st);
     $("#it-stat").textContent = "읽는 중…";
     try {
       const r = await api(`/api/datasets/${encodeURIComponent(d.id)}/items?task=${encodeURIComponent(st.task)}&offset=${offset}&limit=10` +
-        `&pids=${st.pids.join(",")}&order=${st.order}&q=${encodeURIComponent($("#it-q").value.trim())}`);
+        `&pids=${st.pids.join(",")}&order=${st.order}&evaluation_only=${st.evaluationOnly}&q=${encodeURIComponent($("#it-q").value.trim())}&${new URLSearchParams(st.filters)}`);
       $("#it-stat").textContent = `${r.total}개 중 ${r.total ? offset + 1 : 0}–${Math.min(r.total, offset + 10)}`;
       $("#it-list").innerHTML = r.items.map(it => `
         <div class="panel ds-item">
@@ -201,6 +208,9 @@ function dsItems(d) {
   $("#it-task").onchange = () => { offset = 0; load(); };
   $("#it-order").onchange = () => { offset = 0; load(); };
   $("#it-q").onchange = () => { offset = 0; load(); };
+  $$("[data-track-filter]").forEach(x => x.onchange = () => { offset = 0; load(); });
+  $("#it-evaluation-only").onchange = () => { offset = 0; load(); };
+  $("#it-clear-filters").onclick = () => { $$("[data-track-filter]").forEach(x => { x.value = ""; }); $("#it-evaluation-only").checked = false; offset = 0; load(); };
   $$("[data-pid]").forEach(x => x.onchange = () => { offset = 0; load(); });
   $("#it-prev").onclick = () => { offset = Math.max(0, offset - 10); load(); };
   $("#it-next").onclick = () => { offset += 10; load(); };
@@ -409,13 +419,16 @@ async function trainingsPanel() {
   return `<h2>학습 기록</h2>${table(r.trainings, [["name", "학습"],
     ["stages", "진행", t => t.started ? t.stages.map(s => `<span class="tag ${s.done ? "ok" : ""}" title="${esc(s.id)}">${esc(s.name)}</span>`).join("") : `<span class="muted">아직 시작 안 함</span>`],
     ["command", "실행할 명령 (학습 컨테이너, 저장소 최상위에서)", t => `<span class="mono" style="font-size:12px">${esc(t.command)}</span>`],
-    ["benchmark", "평가 세트", t => (t.benchmark || []).map(b => `<a href="#/datasets/${encodeURIComponent(b)}/runs">${esc(b)}</a>`).join(", ") + (t.attached ? " ✓ 결과 붙음" : "")]])}`;
+    ["benchmark", "평가 세트", t => (t.benchmark || []).map(b => `<a href="#/datasets/${encodeURIComponent(b)}/runs">${esc(b)}</a>`).join(", ") + (t.attached ? " ✓ 결과 붙음" : "")],
+    ["benchmark_units", "평가 단위", t => (t.benchmark_units || []).map(u=>`${esc(u.name)} · ${esc(u.id)} (${u.datasets.length}개)`).join('<br>')],
+    ["report", "평가 보고서", t => t.finished ? `<a href="/api/trainings/${encodeURIComponent(t.name)}/report/benchmark.html" target="_blank" rel="noopener">벤치마크별 비교</a>` : '—']])}`;
 }
 
 async function dsTrain(d) {
   const all = (await api("/api/datasets")).datasets.filter(x => x.format === "docgen-tasks");
   const hasTrain = x => ["train", "mixed"].includes(x.split) || (x.counts || {}).train_items;
   const train = all.filter(hasTrain), bench = all.filter(x => x.split !== "train");
+  const benchmarkEditor = benchmarkConfigEditor(bench, d.split === 'train' ? null : d.id);
   const row = (x, kind) => `<label style="display:block"><input type="checkbox" data-${kind}="${esc(x.id)}" ${x.id === d.id && (kind === "train" ? hasTrain(d) : d.split !== "train") ? "checked" : ""}>
     ${dsTag(x)} ${esc(x.name)} <span class="muted">${esc(x.id)}</span>${kind === "train" ? ` <input type="number" min="1" placeholder="문항 수 (비우면 다)" data-count="${esc(x.id)}" style="width:150px">` : ""}</label>`;
   $("#tab").innerHTML = `
@@ -425,14 +438,19 @@ async function dsTrain(d) {
     <div class="panel">
       <label class="fld">학습 이름 <input type="text" id="tr-name" value="${esc(d.id)}-${new Date().toISOString().slice(0, 10)}"></label>
       <div class="fld">학습 데이터 (학습 문항이 있는 데이터셋, 문항 수를 적으면 그만큼만 무작위로) ${train.map(x => row(x, "train")).join("") || `<span class="muted">없음</span>`}</div>
-      <div class="fld">평가 세트 (평가 문항, 고정 권장) ${bench.map(x => row(x, "bench")).join("") || `<span class="muted">없음</span>`}</div>
+      ${benchmarkEditor.html}
       <div class="bar"><button id="tr-preview">설정 미리보기</button><button class="primary" id="tr-save">설정 파일 쓰기</button></div>
       <div id="tr-out"></div>
     </div>
     ${await trainingsPanel()}`;
-  const req = () => ({ train: $$("[data-train]").filter(x => x.checked).map(x => x.dataset.train),
+  benchmarkEditor.mount();
+  const req = () => {
+    if(!state.info?.features?.benchmark_units) throw new Error('벤치마크 평가 단위 설정을 사용하려면 Studio 서버를 재시작하세요.');
+    const units=benchmarkEditor.read();
+    return { train: $$("[data-train]").filter(x => x.checked).map(x => x.dataset.train),
     counts: Object.fromEntries($$("[data-count]").filter(x => x.value).map(x => [x.dataset.count, +x.value])),
-    benchmark: $$("[data-bench]").filter(x => x.checked).map(x => x.dataset.bench), name: $("#tr-name").value.trim() });
+    benchmark: [...new Set(units.flatMap(x=>x.datasets))], benchmark_units: units, name: $("#tr-name").value.trim() };
+  };
   const show = info => {
     $("#tr-out").innerHTML = `${(info.warnings || []).map(w => `<p class="kr">⚠ ${esc(w)}</p>`).join("")}
       <div class="muted">파일 <span class="mono">train/${esc(info.file)}</span> (예시 파일과 합쳐서 씀) · ${esc(info.note || "")}</div>

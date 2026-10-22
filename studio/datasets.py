@@ -309,11 +309,17 @@ def merge_tasks(dst: Path, src: Path) -> dict:
 
 @lru_cache(maxsize=16)
 def _items_cached(path: str, mtime: float) -> dict[str, list[dict]]:
-    return {f.stem: _read_jsonl(f) for f in sorted((Path(path) / "tasks").glob("*.jsonl"))}
+    from docgen.bench.tracking import enrich, source_id
+
+    root = Path(path)
+    meta = json.loads((root / "meta.json").read_text(encoding="utf-8"))
+    origin = source_id(root.name, meta)
+    return {f.stem: [enrich(it, origin) for it in _read_jsonl(f)] for f in sorted((root / "tasks").glob("*.jsonl"))}
 
 
 def _mtime(ds: dict) -> float:
-    return max((f.stat().st_mtime for f in (Path(ds["path"]) / "tasks").glob("*.jsonl")), default=0.0)
+    files = [Path(ds["path"]) / "meta.json", *(Path(ds["path"]) / "tasks").glob("*.jsonl")]
+    return max((f.stat().st_mtime for f in files if f.exists()), default=0.0)
 
 
 def items(ds: dict, evaluation: bool = False) -> dict[str, list[dict]]:
@@ -321,7 +327,8 @@ def items(ds: dict, evaluation: bool = False) -> dict[str, list[dict]]:
     by = _items_cached(ds["path"], _mtime(ds))
     if not evaluation:
         return by
-    out = {t: [r for r in rs if (r.get("meta") or {}).get("split") not in ("train", "val")] for t, rs in by.items()}
+    folder_split = ds.get("split") or json.loads((Path(ds["path"]) / "meta.json").read_text(encoding="utf-8")).get("split", "test")
+    out = {t: [r for r in rs if ((r.get("meta") or {}).get("split") or folder_split) not in ("train", "val")] for t, rs in by.items()}
     return {t: rs for t, rs in out.items() if rs}
 
 
@@ -431,10 +438,13 @@ def score(ds: dict, preds: dict[str, str | None]) -> dict:
             tasks[t] = res
     answered = sum(1 for t in tasks for r in by_task[t] if preds.get(r["id"]))
     refs = {(r.get("meta") or {}).get("reference_type") for t in tasks for r in by_task[t]} - {None}
+    from docgen.bench.tracking import evaluate_groups
+
+    tracking = evaluate_groups([r for t in tasks for r in by_task[t]], preds, tasks)
     return {"groups": ds.get("groups") or groups_of({t: 1 for t in tasks}), "reference_type": refs.pop() if len(refs) == 1 else None,
             "n": sum(len(by_task[t]) for t in tasks), "answered": answered, "tasks": tasks,
             "main": {t: {"metric": r["main"], "value": r["metrics"].get(r["main"])} for t, r in tasks.items()},
-            "per_item": per}
+            "per_item": per, **tracking}
 
 
 LOWER_IS_BETTER = {"cer", "false_alarm", "matched_label_cer"}   # docgen.bench.evaluate.LOWER_IS_BETTER 와 같음
@@ -445,6 +455,8 @@ def report_files(pred: dict) -> list[dict]:
     out = []
     if pred.get("reports_dir"):
         for f in sorted(Path(pred["reports_dir"]).glob("*.json")):
+            if f.name.endswith(".breakdowns.json"):
+                continue
             out.append({"path": str(f), "name": f.stem})
     else:
         p = Path(pred["path"])

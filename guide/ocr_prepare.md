@@ -2,6 +2,8 @@
 
 가진 서류 이미지를 사내 OCR에 돌려 OCR 과제(글자·위치 읽기 8종)의 학습·평가 데이터로 만들고, `python -m train` 한 번에 학습까지 이어 가는 방법입니다. 예전 1부 OCR 파이프라인(`bank_ocr prepare`)과 같은 일을 학습의 첫 단계 `ocr_prepare`가 합니다.
 
+서식별·시나리오별로 결과를 추적하려면 manifest에 `doc_type`·`scenario`를 명시하세요. 선택 항목인 `condition`·`template_variant`·`source_dataset`도 OCR 준비와 과제 폴더까지 보존합니다. 합성 OCR 생성기는 이 정보를 자동으로 기록합니다. 분류를 알 수 없는 실서류는 생략해도 되며 `unknown`으로 표시합니다. [구성·평가 추적](benchmark-tracking.md)을 참고하세요.
+
 - **선택 단계입니다.** OCR 데이터는 합성(`python -m docgen.ocr_set build`, studio 합성 OCR 레시피)이나 studio에서 가져온 이미지(④ "OCR 벤치마크로")로도 만들 수 있습니다. 그런 데이터셋만 쓰면 `ocr_prepare`를 적지 않고 결과 폴더 경로만 `data`에 적습니다.
 - 처음부터 따라 하는 순서는 [tutorial.md 2절·4절](tutorial.md#2-ocr-데이터-실서류), 과제 예시는 [tasks.md](tasks.md#ocr-과제)에 있습니다.
 

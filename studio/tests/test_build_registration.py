@@ -25,7 +25,8 @@ def ocr_output(root, studio=None, done=True):
     """OCR 준비 결과 (과제 형식 tasks/ + meta.json, 쪽 정보, DONE.json 은 마지막)."""
     (root / "tasks").mkdir(parents=True, exist_ok=True)
     (root / "pages.jsonl").write_text("")
-    (root / "tasks" / "crop_ocr.jsonl").write_text('{"id":"v0_crop_ocr_0","task":"crop_ocr","answer":{"text":"가"},"meta":{"split":"benchmark"}}\n')
+    (root / "tasks" / "crop_ocr.jsonl").write_text('{"id":"v0_crop_ocr_0","task":"crop_ocr","answer":{"text":"가"},"meta":{"split":"benchmark"}}\n',
+                                                     encoding="utf-8")
     (root / "meta.json").write_text(json.dumps({"format": "docgen-tasks/1", "kind": "ocr", "version": "ocr:synthetic-test", "split": "test",
                                                 "counts": {"crop_ocr": 1}, "studio": studio or {}}), encoding="utf-8")
     if done:

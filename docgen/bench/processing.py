@@ -10,7 +10,7 @@ import re
 
 from .cases import CASES
 from .metrics import normalize_box, norm_text
-from .prompts import P_KIE
+from .prompts import P_KIE, kie_line
 
 RULE_TITLES = {
     "ltv": "대출신청금액 ÷ 매매대금 (LTV)", "collateral_ratio": "채권최고액 ÷ 약정금액",
@@ -139,7 +139,9 @@ def execute(conf: dict, docs: dict) -> list[dict]:
             key = refs[0].get("common") or f["key"]   # 공통 키 작업은 공통 키로 묻고 답한다 (3.0)
             answer = [{"key": key, "value": f["value"], "bbox_2d": normalize_box(f["bbox"], *sizes[page]), "page": page + 1}]
             row.update(answer=f["value"], question=f"{docs[did]['name']}의 {f.get('label') or key} 추출")
-            row["item"] = {"task": "kie", "docs": [did], "prompt": P_KIE.format(items=f"- {key}: {f.get('label') or '-'}"),
+            row["item"] = {"task": "kie", "docs": [did], "prompt": P_KIE.format(items=kie_line(
+                did, key, f.get("label"), f["key"],
+                siblings=[x for x in docs[did]["fields"] if not x.get("group") and x.get("type") not in MARKS])),
                            "answer": answer, "eval": {"fields": {key: {"type": f["type"], "norm": f.get("norm")}}}}
         else:
             answer = compare(*fields, op["operator"])

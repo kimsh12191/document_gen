@@ -58,14 +58,17 @@ def load_folder(path: Path) -> tuple[dict, list[dict]]:
     meta_path = path / "meta.json"
     if not meta_path.is_file() or not (path / "tasks").is_dir():
         raise ValueError(f"{path}: 과제 폴더(meta.json + tasks/)가 아닙니다 — studio 데이터셋 폴더를 쓰세요")
+    from docgen.bench.tracking import enrich, source_id
+
     meta = read_json(meta_path)
+    origin = source_id(path.name, meta)
     items = []
     for f in sorted((path / "tasks").glob("*.jsonl")):
         for it in read_jsonl(f):
             it["images"] = [str(p if Path(p).is_absolute() else path / p) for p in it.get("images", [])]
             if (it.get("meta") or {}).get("context_image") and not Path(it["meta"]["context_image"]).is_absolute():
                 it["meta"]["context_image"] = str(path / it["meta"]["context_image"])
-            items.append(it)
+            items.append(enrich(it, origin))
     return meta, items
 
 
@@ -262,14 +265,29 @@ def mix(data_cfg: dict, model_dir: str | None) -> dict:
         return sample_caps(n, per_image, budget)
 
     # -- 평가 -------------------------------------------------------------------------------
+    from .benchmarks import normalize, paths as benchmark_paths
+
+    benchmarks = normalize(cfg["benchmark"])
+    named = any(not b["legacy"] for b in benchmarks)
     bench_items, bench_sources = [], {}
-    for e in _entries(cfg["benchmark"]):
-        meta, items = load_folder(Path(e["path"]))
-        test = [it for it in items if split_of(it, meta.get("split", "test")) == "test"]
-        if not test:
-            raise ValueError(f"benchmark {e['path']}: 평가 문항이 없습니다 (학습 전용 데이터셋)")
-        bench_items += test
-        bench_sources[e["path"]] = {k: v for k, v in meta.items() if k not in ("doc_names",)}
+    for b in benchmarks:
+        references = set()
+        for path in b["paths"]:
+            meta, items = load_folder(Path(path))
+            test = [it for it in items if split_of(it, meta.get("split", "test")) == "test"]
+            if not test:
+                raise ValueError(f"benchmark {path}: 평가 문항이 없습니다 (학습 전용 데이터셋)")
+            reference = meta.get("reference_type") or (meta.get("studio") or {}).get("gt") or meta.get("gt")
+            reference = {"exact":"synthetic_exact", "reviewed":"human_reviewed", "pseudo":"ocr_pseudo_unreviewed"}.get(reference, reference)
+            if reference:
+                references.add(reference)
+            if named:
+                test = [{**it, "meta": {**it["meta"], "benchmark_id": b["id"], "benchmark_name": b["name"],
+                                        "benchmark_group": b["group"], "benchmark_path": path}} for it in test]
+            bench_items += test
+            bench_sources[path] = {k: v for k, v in meta.items() if k not in ("doc_names",)}
+        if len(references) > 1:
+            raise ValueError(f"benchmark {b['id']}: 정답 출처가 다릅니다. 별도 id로 나누세요: {sorted(references)}")
     if len({it["id"] for it in bench_items}) != len(bench_items):
         raise ValueError("평가 데이터셋끼리 문항 ID 가 겹칩니다")
     bench_keys = {group_key(it) for it in bench_items}
@@ -372,7 +390,7 @@ def mix(data_cfg: dict, model_dir: str | None) -> dict:
     resized = fit.run(cfg["workers"])
     write_jsonl(out / "benchmark_tasks.jsonl", bench_rows)
     write_jsonl(out / "benchmark_items.jsonl", [{k: it[k] for k in BENCH_ITEM_KEYS if k in it} for it in bench_items])
-    for src in {Path(e["path"]) for e in _entries(cfg["benchmark"])}:   # OCR 준비 폴더의 그림별 사내 OCR (--with-ocr)
+    for src in {Path(p) for p in benchmark_paths(cfg["benchmark"])}:   # OCR 준비 폴더의 그림별 사내 OCR (--with-ocr)
         if (src / "image_items.jsonl").is_file():
             image_items.update({r["image"]: r for r in read_jsonl(src / "image_items.jsonl")})
     if image_items:
@@ -401,6 +419,7 @@ def mix(data_cfg: dict, model_dir: str | None) -> dict:
                    "resized_images": resized},
         "excluded_tasks": sorted(t for t in avail if not take.get(t)),
         "sources": {"train": train_sources, "benchmark": bench_sources},
+        "benchmarks": [{k: v for k, v in b.items() if k != "legacy"} for b in benchmarks] if named else [],
         "settings": {k: cfg[k] for k in DEFAULTS},
         "seconds": round(time.time() - started),
     }

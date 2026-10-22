@@ -5,6 +5,7 @@ from PIL import ImageDraw, ImageStat
 
 from .ocr_data import dumps, normalize_box
 from .ocr_metrics import size_bucket
+from .tracking import PROVENANCE_KEYS
 
 PROMPTS = {
     "crop_ocr": [
@@ -87,7 +88,8 @@ def build_view(image_path, size, items, envelopes, fractions, kind, ops, view_id
 
 
 def _row(view, page, task, prompt, image, target, items, size=None):
-    return {"task": task, "document_id": page["document_id"], "page_id": page["page_id"], "split": page["split"],
+    return {**{k: page[k] for k in PROVENANCE_KEYS if k in page},
+            "task": task, "document_id": page["document_id"], "page_id": page["page_id"], "split": page["split"],
             "view": view["kind"], "view_id": view["id"], "view_ops": view["ops"],
             "reference_type": page.get("reference_type", "ocr_pseudo_unreviewed"),
             "messages": [{"role": "user", "content": "<image>\n" + prompt}], "images": [image],

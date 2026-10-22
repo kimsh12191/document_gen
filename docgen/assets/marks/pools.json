@@ -35,5 +35,23 @@
    "weight": 1,
    "enabled": false
   }
+ ],
+ "seal": [
+  {
+   "id": "builtin",
+   "name": "원형·사각 도장 (코드)",
+   "builtin": true,
+   "weight": 1
+  },
+  {
+   "name": "도장 틀",
+   "weight": 1,
+   "shape": "square",
+   "border": 2,
+   "double": false,
+   "ink": "#c00",
+   "id": "seal_6d1d9802",
+   "origin": "template"
+  }
  ]
 }

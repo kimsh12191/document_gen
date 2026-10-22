@@ -38,7 +38,7 @@ from . import perturb
 from . import processing as PROCESS
 from .metrics import norm_text, normalize_box
 from .cases import CASES, OTHER_OK, Ctx
-from .prompts import P_CLASSIFY, P_CROSS, P_DOC_CHECK, P_KIE, P_MARKS, P_OCR_FIELD, P_OCR_PAGE, P_REVIEW
+from .prompts import P_CLASSIFY, P_CROSS, P_DOC_CHECK, P_KIE, P_MARKS, P_OCR_FIELD, P_OCR_PAGE, P_REVIEW, kie_line
 from .rules import Bundle, questions, r_doc_valid, valid_candidates
 
 VERSION = "3.0"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
@@ -132,7 +132,9 @@ class Builder:
         self.renderer.__exit__(None, None, None)
 
     def emit(self, rec: dict):
-        self.buf.append(rec)
+        from .tracking import enrich
+
+        self.buf.append(enrich(rec) if rec["task"] != "_bundle" else rec)
 
     def take(self) -> list[dict]:
         out, self.buf = self.buf, []
@@ -241,10 +243,11 @@ class Builder:
         # kie: 항목 목록을 주고 값과 위치 추출
         kf = [f for f in fields if f["type"] not in MARK_TYPES and not f.get("group")
               and not f["key"].startswith(("seal.", "sign."))]
+        all_kf = kf   # 같은 항목명 칸의 순번은 뽑기 전 전체에서 센다
         if len(kf) > max_keys:
             kf = sorted(rng.sample(kf, max_keys), key=kf.index)
         if kf:
-            items = "\n".join(f"- {f['key']}: {f.get('label') or '-'}" for f in kf)
+            items = "\n".join(kie_line(r["doc_id"], f["key"], f.get("label"), f.get("doc_key"), siblings=all_kf) for f in kf)
             self.emit({"id": f"kie/{sid}", "task": "kie", "prompt": P_KIE.format(items=items),
                        "answer": [{"key": f["key"], "value": f["value"], **(where(f, f.get("bbox")) if f["value"] is not None else {})}
                                   for f in kf],
@@ -254,20 +257,21 @@ class Builder:
         # marks: 체크박스·도장·서명
         mf = [f for f in fields if f["type"] in MARK_TYPES and not f["key"].startswith("seal.untagged")
               and (f["type"] in ("seal", "signature") or f.get("options"))]
+        all_mf = mf
         if len(mf) > max_keys:
             mf = sorted(rng.sample(mf, max_keys), key=mf.index)
         if mf:
             lines, ans, types = [], [], {}
             for f in mf:
-                lab = f.get("label") or "-"
+                line = lambda extra: kie_line(r["doc_id"], f["key"], f.get("label"), f.get("doc_key"), extra, all_mf)
                 if f["type"] in ("checkbox", "checkbox_multi"):
                     kind = "체크박스" if f["type"] == "checkbox" else "복수 선택"
-                    lines.append(f"- {f['key']}: {lab} ({kind}, 보기: {' / '.join(o['text'] for o in f['options'])})")
+                    lines.append(line(f"{kind}, 보기: {' / '.join(o['text'] for o in f['options'])}"))
                     on = [o for o in f["options"] if o["checked"]]
                     ans += [{"key": f["key"], "value": o["text"], **where(f, o.get("box_bbox"))} for o in on] or \
                         [{"key": f["key"], "value": None}]
                 else:
-                    lines.append(f"- {f['key']}: {lab} ({'도장' if f['type'] == 'seal' else '서명'})")
+                    lines.append(line("도장" if f["type"] == "seal" else "서명"))
                     ans.append({"key": f["key"], "value": bool(f["present"]), **(where(f, f.get("bbox")) if f["present"] else {})})
                 types[f["key"]] = f["type"]
             self.emit({"id": f"marks/{sid}", "task": "marks", "prompt": P_MARKS.format(items="\n".join(lines)),
@@ -686,6 +690,9 @@ def build(args) -> None:
 
     t0 = time.time()
     counts: dict[str, int] = {}
+    from .tracking import Composition
+
+    tracking = Composition()
     files: dict[tuple[str, str], object] = {}
 
     def write(d: str, t: str, rec: dict):
@@ -712,6 +719,7 @@ def build(args) -> None:
                     bundles_file.write(json.dumps({k: v for k, v in rec.items() if k != "task"}, ensure_ascii=False) + "\n")
                     continue
                 write("tasks", rec["task"], rec)
+                tracking.add(rec)
                 if split == "train":
                     sr = swift_record(rec)
                     write("swift", rec["task"], sr)
@@ -738,9 +746,10 @@ def build(args) -> None:
                          "bundles": args.bundles, "start": start, "fields_per_doc": args.fields_per_doc,
                          "max_keys": args.max_keys, "scale": args.scale, "seed_single": seed_single,
                          "seed_bundle": seed_bundle, "conditions": dict(CONDITIONS), "held_out_test_only": held_out},
-            "counts": dict(sorted(counts.items())),
+            "counts": dict(sorted(counts.items())), "composition": tracking.result(),
             "doc_names": {i: reg[i].name for i in ids}}
     meta["scenario_sampling"]={sc:SCENARIO_SAMPLING[sc] for sc in scenarios if sc in SCENARIO_SAMPLING}
+    meta["scenario_processing"] = {sc: PROCESS.validate(SCENARIO_PROCESSING.get(sc), SCENARIOS[sc][1]) for sc in scenarios}
     if rc:
         meta["recipe"] = rc["recipe"].get("name") or Path(args.recipe).stem
         meta["settings"]["bundles_per"] = per_sc
@@ -755,7 +764,8 @@ def build(args) -> None:
         used = sorted(set(ids) | {d for sc in scenarios for d in SCENARIOS[sc][1]} | {d for sc in scenarios for c in SCENARIO_SAMPLING.get(sc,{}).values() for d in c.get("forms",[])})
         info = {"recipe": rc["recipe"], "recipe_path": str(args.recipe), "generator_commit": meta["generator_commit"],
                 "version": VERSION, "created": meta["created"], "counts": meta["counts"], "split": split,
-                "form_hashes": {i: source_hash(i, common=False) for i in used if i in reg}}
+                "form_hashes": {i: source_hash(i, common=False) for i in used if i in reg},
+                "scenario_processing": meta["scenario_processing"], "composition": tracking.result()}
         (out / "dataset.json").write_text(json.dumps(info, ensure_ascii=False, indent=1), encoding="utf-8")
     what = "학습 데이터" if split == "train" else "평가 세트"
     print(f"{what} → {out} ({time.time() - t0:.0f}초)" + (f", ms-swift 학습 파일: {out / 'swift'}" if split == "train" else ""))

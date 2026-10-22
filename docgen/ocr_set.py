@@ -206,8 +206,10 @@ def build(args) -> None:
                         row[key] = str((mp_.resolve().parent / row[key]).resolve())
                 rows.append(row)
     with open(out / "manifest.jsonl", "w", encoding="utf-8") as f:
+        from .bench.tracking import PROVENANCE_KEYS
+
         for r in rows:
-            f.write(json.dumps({k: r[k] for k in ("document_id", "page_id", "image", "split", "ocr_json") if k in r},
+            f.write(json.dumps({k: r[k] for k in ("document_id", "page_id", "image", "split", "ocr_json", *PROVENANCE_KEYS) if k in r},
                                ensure_ascii=False) + "\n")
     cfg = json.loads((ROOT / "docgen" / "bench" / "ocr_config.example.json").read_text(encoding="utf-8"))
     cfg.update({"manifest": str((out / "manifest.jsonl").resolve()), "output_dir": str((out / "prepared").resolve()),

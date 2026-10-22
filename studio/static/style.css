@@ -294,4 +294,50 @@ div.warn { color: var(--warn); }
 .todo-grp { border-bottom: 1px solid var(--line); padding: 4px 0; }
 .todo td button, .todo td .tag { white-space: nowrap; }
 .kp .bar label, .kp-label { white-space: nowrap; } .kp .bar { flex-wrap: wrap; }
+
+/* 실문서 벤치마크: 한 작업 안에서 준비·추론·검수·확정 */
+.rb-breadcrumb { margin-bottom: 10px; }
+.rb-steps { display: flex; gap: 10px; margin: 14px 0 20px; flex-wrap: wrap; }
+.rb-steps a { display: flex; align-items: center; gap: 8px; padding: 10px 18px; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); }
+.rb-steps a.reached { color: var(--accent); background: var(--accent-soft); }
+.rb-steps span { border: 1px solid currentColor; border-radius: 50%; width: 24px; height: 24px; text-align: center; line-height: 24px; }
+.rb-create { margin: 18px 0; }
+.rb-create summary, .rb-format summary { cursor: pointer; padding: 8px 0; }
+.rb-create form, .rb-form { display: grid; gap: 12px; }
+.rb-create form { margin-top: 14px; max-width: 720px; }
+.rb-create label, .rb-form label, .rb-schema > label { display: grid; gap: 5px; }
+.rb-create [hidden] { display: none !important; }
+.rb-connection-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin: 18px 0; }
+.rb-form input, .rb-form textarea, .rb-schema input, .rb-schema select { width: 100%; box-sizing: border-box; }
+.rb-format { margin: 12px 0; }
+.rb-format-body { display: grid; grid-template-columns: minmax(240px, 2fr) minmax(480px, 3fr); gap: 20px; margin-top: 14px; }
+.rb-schema { min-width: 0; }
+.rb-schema table { margin: 12px 0; }
+.rb-schema th:first-child { width: 26%; }
+.rb-thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; max-height: 420px; overflow: auto; }
+.rb-thumb { position: relative; border: 1px solid var(--line); border-radius: 6px; padding: 8px; cursor: pointer; overflow: hidden; }
+.rb-thumb input { position: absolute; left: 8px; top: 8px; }
+.rb-thumb img { width: 100%; height: 160px; object-fit: contain; background: #eee; }
+.rb-thumb span { display: block; font-size: 12px; overflow-wrap: anywhere; }
+.rb-job { padding: 10px 0; border-top: 1px solid var(--line); }
+.rb-job pre, .rb-format pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 220px; overflow: auto; }
+#rb-step-3, #rb-step-4 { margin-top: 20px; }
+.rb-key-assist { border: 1px solid var(--line); background: var(--bg); border-radius: 6px; padding: 10px; margin-top: 10px; }
+.rb-key-assist .bar { margin-bottom: 6px; }
+.rb-key-assist .bar select { width: auto; }
+.rb-key-table { overflow: auto; max-height: 320px; margin: 10px 0; }
+.rb-key-table th:first-child { width: auto; }
+.rb-key-table td { min-width: 90px; font-size: 12px; }
+.rb-key-table td:first-child { min-width: 40px; }
+.rb-key-table input[type=checkbox] { width: auto; }
+.rb-key-table code { overflow-wrap: anywhere; }
+@media (max-width: 1100px) { .rb-format-body, .rb-connection-grid { grid-template-columns: 1fr; } }
 .kp-img { margin-bottom: 8px; } .kp-img img { max-width: 100%; border: 1px solid var(--line); border-radius: 6px; display: block; }
+/* OCR 과제 예시: 문서와 같은 입력·정답을 나란히 표시 */
+.ocr-task-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:8px; margin:16px 0; }
+.ocr-task-grid .panel { margin:0; text-decoration:none; }
+.ocr-task-selected { border-color:#2563eb; background:#eff6ff; }
+.ocr-example-layout { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:18px; align-items:start; }
+.ocr-example-image { display:block; max-width:100%; height:auto; margin:12px auto; }
+.ocr-example-layout pre { white-space:pre-wrap; overflow-wrap:anywhere; }
+@media(max-width:900px) { .ocr-example-layout { grid-template-columns:minmax(0,1fr); } }

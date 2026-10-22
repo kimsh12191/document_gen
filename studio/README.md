@@ -1,6 +1,16 @@
 # docgen studio
 
-은행 벤치마크 데이터 생성·관리 웹 도구. 생성기(`docgen`)의 서식·라벨을 보고 고치고, OCR·은행 업무 벤치마크를 만들며 데이터셋·모델 답·점수를 한 화면에서 관리한다. 합성 데이터, 이미지·PDF OCR 가져오기, **생성기 공통 형식의 라벨 폴더 검사·문항 생성·자동 등록**을 지원한다. 임의 모델 결과 형식의 가져오기와 항목 라벨 편집기는 아직 미구현이다. 설계는 [DESIGN.md](DESIGN.md), 내 데이터 준비와 UI 순서는 [DATA_IMPORT.md](DATA_IMPORT.md), 정답 규격은 [LABEL_FORMAT.md](LABEL_FORMAT.md), 기존 모델 결과 보조 경로는 [RESULTS_FORMAT.md](RESULTS_FORMAT.md), 학습 연결은 [TRAINING.md](TRAINING.md).
+**실문서 벤치마크** 탭에서 이미지 등록 → OCR 포맷 묶기 → 사용자 정의 추출 항목 → vLLM 추론·검수 → 평가 세트 확정을 한 작업 안에서 진행합니다. 합성 서식 연결 없이 기존 가져오기·박스 편집·문항 생성·채점 기능을 재사용합니다. [사용법·연결 설정](../guide/real-benchmark.md).
+
+포맷별 **VLM으로 항목·키 제안**은 문서 표시명과 기존 키의 개념·목록을 함께 보내 기존 키를 연결하거나 새 키 초안을 만듭니다. 사람이 선택·수정·저장하며 공통 사전에는 자동 등록하지 않습니다.
+
+**데이터셋 → 구성·추적**에서 업무·시나리오·정답 구조별 수량과 평가 결과를 확인하고, 구성표의 수량을 눌러 해당 문항으로 이동합니다. **필드 타입 · 항목 단위**에서는 추출·표시 필드의 값 정확도를 봅니다. [분류 기준·원격 조회·train 보고서](../guide/benchmark-tracking.md)를 참고하세요.
+
+**OCR 예시** 메뉴에서 데이터셋 생성·등록 전에도 OCR 8과제의 입력 이미지·질문·모델 답·채점 기준을 확인합니다. [예시 사용법](../guide/ocr-examples.md), [같은 원본 예시](../guide/tasks.md#ocr-과제)를 참고하세요.
+
+**사용 설명서는 [guide/README.md](../guide/README.md)에 통합했습니다.** Studio의 **사용 가이드** 메뉴에서도 같은 문서를 읽습니다. **서식 → 추출·시나리오**에서 서류별 추출 항목·문항 키·연결 업무를 확인하고, **문항 Q/A**에서 실제 생성 결과를 확인합니다. 설정 변경 후 `python -m studio.guidebook`으로 문서 카탈로그를 갱신합니다.
+
+은행 벤치마크 데이터 생성·관리 웹 도구. 생성기(`docgen`)의 서식·라벨을 보고 고치고, OCR·은행 업무 벤치마크를 만들며 데이터셋·모델 답·점수를 한 화면에서 관리한다. 합성 데이터, 이미지·PDF OCR 가져오기, **생성기 공통 형식의 라벨 폴더 검사·문항 생성·자동 등록**을 지원한다. 사용자 정의 항목의 추론·라벨 수정은 실문서 벤치마크 탭에서 지원하며, 임의 모델 결과 형식은 별도 변환이 필요하다. 설계는 [DESIGN.md](DESIGN.md), 내 데이터 준비와 UI 순서는 [DATA_IMPORT.md](DATA_IMPORT.md), 정답 규격은 [LABEL_FORMAT.md](LABEL_FORMAT.md), 기존 모델 결과 보조 경로는 [RESULTS_FORMAT.md](RESULTS_FORMAT.md), 학습 연결은 [TRAINING.md](TRAINING.md).
 
 ## 띄우기
 
@@ -23,7 +33,7 @@ python -m studio --host 0.0.0.0       # 서버에서 띄우고 다른 PC 브라�
   ```
   - 데이터셋은 `<저장 폴더>/workspace/datasets/<이름>/`, 실서류 검수 결과는 `<저장 폴더>/real_data/` 에 생긴다. 컨테이너에서는 `config.json` 이 필요 없다.
   - 코드는 마운트라 고치거나 새 코드 묶음을 풀면 studio 가 저절로 다시 뜬다 (컨테이너 그대로).
-  - 다른 컨테이너에서 파이썬으로 생성 맡기기: `docker/remote_build.py`, 매뉴얼 [docker/REMOTE_BUILD.md](../docker/REMOTE_BUILD.md).
+  - 다른 컨테이너에서 파이썬으로 생성 맡기기: `docker/remote_build.py`, 매뉴얼 [원격 생성 가이드](../guide/remote-build.md).
   - 학습은 별도 학습 컨테이너에서 저장 폴더를 공유해 읽는다. 그쪽 경로가 `/out` 과 다르면 `config.json` 의 `path_map` 하나만 적는다([TRAINING.md](TRAINING.md)).
   - studio 패키지가 없는 옛 1.1 이미지에서는 `python -m studio.deps install` (설치 파일을 새로 받을 때는 인터넷 PC 에서 `python -m studio.deps download`).
 - **브라우저가 없을 때:** studio는 그대로 뜨고 렌더링(미리보기·합성 데이터 만들기)만 꺼진다. 등록부·평가·검수처럼 렌더링이 필요 없는 화면은 쓸 수 있다.

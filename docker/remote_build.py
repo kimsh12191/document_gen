@@ -1,7 +1,8 @@
 """다른 컨테이너·PC 에서 studio 에 데이터 생성을 맡긴다 (파이썬 표준 라이브러리만 씀. 이 파일만 복사해 가도 된다).
 
 studio 를 sh docker/studio.sh --open 으로 띄워 두고, URL 은 --url 또는 환경변수 STUDIO_URL (예: http://10.0.0.5:8765).
-매뉴얼 (무엇을 넣으면 무엇이 나오는지, studio 화면과의 대응): docker/REMOTE_BUILD.md
+사용 설명서: guide/README.md · 생성 가능 범위: guide/research-agent.md
+원격 생성: guide/remote-build.md · 서류별 추출·시나리오: guide/catalog.md (기계용 catalog.json)
 
 보기
   python remote_build.py types [--group income] [--find 재직]     서식 ID 목록 (그룹·이름으로 거르기)
@@ -10,6 +11,8 @@ studio 를 sh docker/studio.sh --open 으로 띄워 두고, URL 은 --url 또는
   python remote_build.py jobs                                     생성 작업 목록
   python remote_build.py status <작업ID>                          작업 하나 (진행·로그 끝)
   python remote_build.py paths                                    데이터셋이 생기는 곳 (컨테이너 안 경로 ↔ 서버 경로)
+  python remote_build.py catalog --form employment_certificate     서식별 추출 항목·연결 업무
+  python remote_build.py composition <데이터셋ID> --out trace.json  생성된 전체/평가 문항 구성·재현 정보
 
 만들기 (끝날 때까지 기다림. --no-wait 면 작업 ID 만 받고 끝)
   python remote_build.py build --name bench-1021 --recipe bank-bench          저장된 레시피 그대로 (벤치마크 통째)
@@ -34,6 +37,7 @@ import os
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 
 BASE = ""
@@ -144,6 +148,31 @@ def cmd_paths(a) -> None:
     print(f"studio 설정 파일: {p.get('config_file') or '없음 (기본값: 코드 폴더 안 studio_workspace/)'}")
 
 
+def cmd_catalog(a) -> None:
+    """현재 서류·추출 항목·연결 업무를 기계가 읽는 JSON으로 받는다."""
+    path = f"/api/guide/forms/{urllib.parse.quote(a.form, safe='')}" if a.form else "/api/guide/catalog"
+    data = call(path)
+    content = json.dumps(data, ensure_ascii=False, indent=2)
+    if a.out:
+        with open(a.out, "w", encoding="utf-8") as f:
+            f.write(content + "\n")
+        print(f"카탈로그 저장: {a.out}")
+    else:
+        print(content)
+
+
+def cmd_composition(a) -> None:
+    """등록한 데이터셋의 실제 생성 구성과 재현 정보를 조회한다."""
+    data = call(f"/api/datasets/{urllib.parse.quote(a.dataset, safe='')}/composition")
+    content = json.dumps(data, ensure_ascii=False, indent=2)
+    if a.out:
+        with open(a.out, "w", encoding="utf-8") as f:
+            f.write(content + "\n")
+        print(f"데이터셋 구성 저장: {a.out}")
+    else:
+        print(content)
+
+
 def cmd_types(a) -> None:
     rows = call("/api/form-ids")
     if a.group:
@@ -209,6 +238,12 @@ def main() -> None:
     sub.add_parser("recipes", help="저장된 레시피")
     sub.add_parser("jobs", help="생성 작업 목록")
     sub.add_parser("paths", help="데이터셋이 생기는 곳 (컨테이너 안 ↔ 서버)")
+    c = sub.add_parser("catalog", help="서류별 추출 항목·문항 키·연결 업무 JSON")
+    c.add_argument("--form", help="서식 ID 하나만 조회 (생략하면 전체)")
+    c.add_argument("--out", help="JSON을 UTF-8 파일로 저장")
+    c = sub.add_parser("composition", help="데이터셋의 업무·시나리오·정답 구조별 구성 조회")
+    c.add_argument("dataset", help="등록된 데이터셋 ID (통상 생성할 때의 --name)")
+    c.add_argument("--out", help="구성 JSON을 UTF-8 파일로 저장")
     s = sub.add_parser("status", help="작업 하나의 상태·로그")
     s.add_argument("job")
     a = ap.parse_args()
@@ -216,7 +251,7 @@ def main() -> None:
         ap.error("--url 또는 STUDIO_URL 이 필요합니다 (예: http://10.0.0.5:8765)")
     BASE = a.url.rstrip("/")
     {"build": cmd_build, "types": cmd_types, "scenarios": cmd_scenarios, "recipes": cmd_recipes,
-     "jobs": cmd_jobs, "status": cmd_status, "paths": cmd_paths}[a.cmd](a)
+     "jobs": cmd_jobs, "status": cmd_status, "paths": cmd_paths, "catalog": cmd_catalog, "composition": cmd_composition}[a.cmd](a)
 
 
 if __name__ == "__main__":

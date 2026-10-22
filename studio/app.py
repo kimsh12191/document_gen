@@ -46,7 +46,7 @@ from pydantic import BaseModel, Field
 from docgen import marks as M
 from docgen.preview import CONDITIONS, MODES, Previewer
 
-from . import api_bank, api_datasets, api_dictionary, api_html, api_import, api_intake, api_keys, api_labels, api_review, catalog, editor, marks_admin
+from . import api_bank, api_datasets, api_dictionary, api_html, api_import, api_intake, api_keys, api_labels, api_review, api_real_benchmark, catalog, editor, marks_admin
 from . import datasets as DS
 from .jobs import Jobs
 from .config import ROOT, load, resolve_path, setup_browser
@@ -86,8 +86,21 @@ async def lifespan(_app):
 
 
 app = FastAPI(title="docgen studio", lifespan=lifespan)
+
+
+@app.middleware("http")
+async def revalidate_ui_assets(request, call_next):
+    """화면 코드를 갱신하면 HTML·CSS·JS의 이전 캐시를 재검증한다."""
+    response = await call_next(request)
+    path = request.url.path
+    if path == "/" or (path.startswith("/static/") and path.endswith((".css", ".js"))):
+        response.headers["Cache-Control"] = "no-cache"
+    return response
+
+
 app.mount("/preview", StaticFiles(directory=PREVIEW_DIR), name="preview")
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
+app.mount("/ocr-example-images", StaticFiles(directory=ROOT / "guide/examples/img"), name="ocr-example-images")
 app.mount("/marks-img", StaticFiles(directory=M.POOLS_DIR), name="marks-img")
 REGISTRY = DS.Registry(resolve_path(CFG["workspace_dir"]), CFG.get("path_map") or {})
 JOBS = Jobs(REGISTRY.ws, ROOT)
@@ -95,6 +108,7 @@ app.include_router(api_datasets.make_router(REGISTRY, guard, JOBS))
 app.include_router(api_bank.make_router(REGISTRY, JOBS, guard))
 # 실서류 검수 결과 (OCR 검수본 등). 설정이 없으면 작업 공간 안에 두고 화면에 경고한다
 REAL_ROOT = resolve_path(CFG.get("real_data_dir")) or REGISTRY.ws / "real_data"
+app.include_router(api_real_benchmark.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT))
 app.include_router(api_import.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT / "ocr_reviewed"))
 app.include_router(api_labels.make_router(REGISTRY, JOBS, guard, CFG))
 app.include_router(api_html.make_router(REGISTRY, JOBS, guard, CFG, previewer, lambda p: f"/preview/{p}"))   # html 편집·복제·분석기
@@ -113,6 +127,7 @@ def index():
 @app.get("/api/info")
 def info():
     return {
+        "features": {"benchmark_units": True},
         "config_file": CFG["config_file"], "browser": BROWSER, "cache_dir": str(CACHE),
         "paths": {k: CFG[k] for k in ("workspace_dir", "import_dir", "real_data_dir", "private_forms_dir")},
         "ocr": CFG["ocr"], "providers": sorted(CFG["providers"]),
@@ -123,6 +138,45 @@ def info():
 @app.get("/api/groups")
 def groups():
     return catalog.groups()
+
+
+@app.get("/api/guide")
+def guide_index():
+    from .guidebook import DOCUMENTS
+
+    return [{"id": k, "title": v} for k, v in DOCUMENTS.items()]
+
+
+@app.get("/api/ocr-examples")
+def ocr_examples():
+    from .ocr_examples import examples
+
+    return guard(examples)
+
+
+@app.get("/api/guide/catalog")
+def guide_catalog():
+    from .guidebook import catalog as data_catalog
+
+    return guard(data_catalog)
+
+
+@app.get("/api/guide/document")
+def guide_document(name: str):
+    from .guidebook import document
+
+    return {"name": name, "markdown": guard(document, name)}
+
+
+@app.get("/api/guide/forms/{doc_id}")
+def guide_form(doc_id: str):
+    from .guidebook import catalog as data_catalog
+
+    data = guard(data_catalog)
+    item = next((f for f in data["forms"] if f["id"] == doc_id), None)
+    if item is None:
+        raise HTTPException(404, "알 수 없는 서식")
+    return item
 
 
 @app.get("/api/forms")

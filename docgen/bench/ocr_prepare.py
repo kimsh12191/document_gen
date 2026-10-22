@@ -106,6 +106,8 @@ def prepare(config_path):
 
 def task_item(row, out):
     """옛 1부 문항 행 → 과제 형식 문항 {id, task, images, prompt, answer, eval, meta} (그림은 준비 폴더 기준 상대 경로)."""
+    from .tracking import enrich, PROVENANCE_KEYS
+
     def rel(p):
         q = Path(p)
         return q.relative_to(out).as_posix() if q.is_absolute() and q.is_relative_to(out) else str(p)
@@ -113,12 +115,16 @@ def task_item(row, out):
     meta = {k: row.get(k) for k in ("document_id", "page_id", "split", "view", "view_id", "view_ops", "reference_type",
                                     "confidence", "size")}
     meta["context_image"] = rel(row["context_image"]) if row.get("context_image") else None
-    return {"id": row["id"], "task": row["task"], "images": [rel(i) for i in row.get("images", [])], "prompt": prompt,
-            "answer": json.loads(row["target"]) if isinstance(row["target"], str) else row["target"], "eval": {}, "meta": meta}
+    meta.update({key: row[key] for key in PROVENANCE_KEYS if key in row})
+
+    return enrich({"id": row["id"], "task": row["task"], "images": [rel(i) for i in row.get("images", [])], "prompt": prompt,
+                   "answer": json.loads(row["target"]) if isinstance(row["target"], str) else row["target"], "eval": {}, "meta": meta})
 
 
 def write_tasks(out, cfg, result):
     """train/val/benchmark 문항을 과제 형식으로: tasks/<과제>.jsonl + meta.json (문항의 meta.split 이 쪼개기)."""
+    from .tracking import composition
+
     by = defaultdict(list)
     for split in ("train", "val", "benchmark"):
         if not (out / f"{split}_tasks.jsonl").exists():
@@ -136,7 +142,8 @@ def write_tasks(out, cfg, result):
         "counts": {t: len(v) for t, v in sorted(by.items())},
         "split_counts": dict(Counter(i["meta"]["split"] for v in by.values() for i in v)),
         "reference_type": result.get("reference_type") or cfg.get("reference_type", "ocr_pseudo_unreviewed"),
-        "studio": cfg.get("studio") or {}})
+        "studio": cfg.get("studio") or {},
+        "composition": composition(i for rows in by.values() for i in rows)})
 
 
 def main(argv=None):

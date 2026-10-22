@@ -2,8 +2,8 @@
 <html lang="ko">
 <head><meta charset="utf-8"><title>{{ spec.name }}</title>
 <style>
-{% for fn in d.get("fonts") or [] %}
-@font-face {font-family:'{{ fn }}';src:url('https://docgen.local/fonts/{{ fn }}.woff2') format('woff2')}
+{% for f in d.get("fonts") or [] %}
+@font-face {font-family:'{{ f.family }}';src:url('https://docgen.local/fonts/{{ f.file }}')}
 {% endfor %}
 * {box-sizing:border-box} html,body {margin:0;padding:0;background:#fff}
 .page {position:relative;overflow:hidden;background:white;margin:0 0 8px}

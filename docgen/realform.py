@@ -46,7 +46,6 @@ BG_ZOOM = 2 * PX      # 배경 해상도 = 렌더러 device_scale_factor(2) 에 
 BANK = "하나은행"
 # 손글씨 비율, 결재란 비율, 체크 모양·글꼴 목록은 docgen/marks.py (marks.json·풀) 에서 읽는다.
 # 손글씨 글꼴마다 글자 몸집이 달라 같은 칸 높이에서 키우는 비율도 풀의 scale 이다.
-HAND_FONTS = [f["id"] for f in M.DEFAULT_POOLS["hand_fonts"]]   # 템플릿이 @font-face 를 거는 기본 글꼴
 INKS = ["#1b2a80", "#1a1a1a", "#222c55", "#0d3a8a", "#2b2b2b", "#183c9c"]
 D = K.fmt_date
 
@@ -157,10 +156,10 @@ def serve(url: str) -> tuple[bytes, str] | None:
         return background_png(int(m.group(1)), int(m.group(2))), "image/png"
     if m := re.fullmatch(r"bgi/([\w.-]+)/(\d+)\.png", path):
         return background_png(m.group(1), int(m.group(2))), "image/png"
-    if m := re.fullmatch(r"fonts/([A-Za-z]+)\.woff2", path):
-        f = FONTS / f"{m.group(1)}.woff2"
+    if m := re.fullmatch(r"fonts/([A-Za-z0-9_-]+\.(woff2|woff|ttf|otf))", path):
+        f = FONTS / m.group(1)
         if f.exists():
-            return f.read_bytes(), "font/woff2"
+            return f.read_bytes(), f"font/{m.group(2)}"
     if path.startswith("marks/"):
         data = M.image(path[len("marks/"):])
         if data is not None:
@@ -697,7 +696,7 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
         if OV.erase_for(ov, i):   # 지운 배경은 주소가 달라야 브라우저가 예전 그림을 다시 쓰지 않는다
             bg += f"?e={OV.digest(OV.erase_for(ov, i))}"
         pages.append({"w": round(pg["width"] * PX, 1), "h": round(pg["height"] * PX, 1), "bg": bg})
-    fonts = list(dict.fromkeys(HAND_FONTS + [f["id"] for f in pools["hand_fonts"]]))
+    fonts = M.font_faces(pools)
     return {"no": no, "doc_id": doc_id, "pages": pages, "items": out, "style": style, "class": lay.get("class", ""),
             "name": lay.get("name", doc_id), "fonts": fonts}
 

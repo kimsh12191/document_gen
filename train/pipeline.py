@@ -128,8 +128,10 @@ class Runner:
                     need((at / oc["manifest"]).is_file(), "ocr_prepare → manifest", str((at / oc["manifest"]).resolve()),
                          "이미지 목록 (docgen.bench.ocr_data.scan 으로 만든 manifest.jsonl)")
         if not Path(d["output_dir"], "DONE.json").is_file():   # 섞기가 아직이면 데이터셋을 읽어야 한다
-            for e in [*d["train"], *d["benchmark"]]:
-                p = e["path"] if isinstance(e, dict) else e
+            from .benchmarks import paths as benchmark_paths
+
+            train_paths = [e["path"] if isinstance(e, dict) else e for e in d["train"]]
+            for p in [*train_paths, *benchmark_paths(d["benchmark"])]:
                 if p in ocr_outs:
                     continue   # ocr_prepare 단계가 만든다
                 need(Path(p, "meta.json").is_file() and Path(p, "tasks").is_dir(), "data.train / data.benchmark", p,

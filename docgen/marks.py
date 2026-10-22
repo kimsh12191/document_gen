@@ -42,7 +42,7 @@ DEFAULT_POOLS = {
               {"id": "O", "name": "○ 동그라미", "builtin": True, "weight": 1}],
     "sign": [{"id": "scribble", "name": "선으로 그린 낙서 서명 (코드)", "builtin": True, "weight": 1}],
     "seal": [{"id": "builtin", "name": "원형·사각 도장 (코드)", "builtin": True, "weight": 1}],
-    # 손글씨 글꼴은 docgen/fonts/<id>.woff2 가 있어야 한다. scale: 같은 칸 높이에서 키우는 비율 (글꼴마다 글자 몸집이 다름)
+    # 손글씨 글꼴은 docgen/fonts/<id>.woff2 (경로로 등록한 글꼴은 font_file) 가 있어야 한다. scale: 같은 칸 높이에서 키우는 비율 (글꼴마다 글자 몸집이 다름)
     "hand_fonts": [{"id": "NanumPen", "scale": 1.3, "weight": 1, "builtin": True},
                    {"id": "NanumBrush", "scale": 1.3, "weight": 1, "builtin": True},
                    {"id": "HiMelody", "scale": 1.05, "weight": 1, "builtin": True},
@@ -52,6 +52,28 @@ DEFAULT_POOLS = {
                     {"id": "'NanumGothicCoding'", "weight": 1, "builtin": True}],
 }
 POOL_NAMES = {"check": "체크 표시", "sign": "서명", "seal": "도장 틀", "hand_fonts": "손글씨 글꼴", "print_fonts": "인쇄체 글꼴"}
+FONTS_DIR = ROOT / "fonts"
+FONT_EXTS = (".woff2", ".woff", ".ttf", ".otf")
+
+
+def font_file(pool: str, item: dict) -> str | None:
+    """글꼴 항목의 docgen/fonts/ 파일 이름. 경로로 등록한 글꼴은 font_file, 기본 손글씨는 <id>.woff2,
+    파일 없이 이름만 둔 인쇄체(설치된 글꼴)는 None."""
+    if item.get("font_file"):
+        return item["font_file"]
+    return f"{item['id']}.woff2" if pool == "hand_fonts" else None
+
+
+def font_faces(pools: dict) -> list[dict]:
+    """렌더링 템플릿이 @font-face 로 걸 글꼴 [{family, file}]. 기본 손글씨 글꼴은 풀에서 꺼도 늘 건다."""
+    out: dict[str, str] = {}
+    for pool, items in (("hand_fonts", DEFAULT_POOLS["hand_fonts"]), ("hand_fonts", pools["hand_fonts"]),
+                        ("print_fonts", pools["print_fonts"])):
+        for it in items:
+            f = font_file(pool, it)
+            if f:
+                out.setdefault(it["id"].strip("'"), f)
+    return [{"family": k, "file": v} for k, v in out.items()]
 
 
 def _merge(base: dict, over: dict) -> dict:

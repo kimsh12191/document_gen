@@ -114,12 +114,12 @@ async function viewKeyView(name, fid, key) {
   };
 }
 
-async function viewLabelDoc(name, fid, doc) {
-  const [d, list] = await Promise.all([api(`/api/labels/${q(name)}/doc?d=${q(doc)}`), api(`/api/labels/${q(name)}/formats/${q(fid)}`)]);
+async function viewLabelDoc(name, fid, doc, context = null) {
+  const [d, list] = context ? await context.load() : await Promise.all([api(`/api/labels/${q(name)}/doc?d=${q(doc)}`), api(`/api/labels/${q(name)}/formats/${q(fid)}`)]);
   const order = list.docs.map(x => x.doc);
   const next = order.slice(order.indexOf(doc) + 1).find(x => (list.docs.find(y => y.doc === x) || {}).status !== "done");
-  const lb = { name, fid, doc, d, fields: d.fields.map(f => ({ ...f })), sel: -1, page: 0, draw: false, dirty: false, next };
-  main().innerHTML = lbHead(name, ` › <a href="#/labels/${q(name)}/format/${q(fid)}">${esc(fid)}</a>`) + `
+  const lb = { name, fid, doc, d, fields: d.fields.map(f => ({ ...f })), sel: -1, page: 0, draw: false, dirty: false, next, context };
+  main().innerHTML = (context ? context.header : lbHead(name, ` › <a href="#/labels/${q(name)}/format/${q(fid)}">${esc(fid)}</a>`)) + `
     <h1>${esc(doc)} ${d.status === "done" ? `<span class="tag ok">확인</span>` : ""} <span class="muted">${esc(d.doc_type || "서식 미정")}</span></h1>
     <div class="bar">
       <span id="lb-pages"></span>
@@ -132,7 +132,7 @@ async function viewLabelDoc(name, fid, doc) {
     <div class="viewer ed-viewer">
       <div id="lb-wrap"><div class="ed-stage" id="lb-stage"><img id="lb-img" alt=""><svg preserveAspectRatio="none"></svg></div></div>
       <div class="side" id="lb-side"></div>
-    </div>`;
+    </div>${context ? `<details class="panel"><summary>모델 원본 응답 · ${esc(d.model || "모델 미실행")}</summary><pre>${esc(d.raw || "추론 결과 없음")}</pre></details>` : ""}`;
   lbBind(lb);
   lbPage(lb, 0);
   state.keyHandler = e => {
@@ -178,7 +178,7 @@ function lbSide(lb) {
     ${lb.fields.map((f, i) => f.state === "deleted" ? "" : `<tr class="click ${i === lb.sel ? "sel" : ""}" data-row="${i}">
       <td><input type="text" list="lb-keys" data-k="${i}" value="${esc(f.key)}" style="width:150px" class="mono"></td>
       <td>${f.type === "seal" || f.type === "signature" ? `<label><input type="checkbox" data-pres="${i}" ${f.value || f.present ? "checked" : ""}> 있음</label>`
-        : `<input type="text" data-v="${i}" value="${esc(f.value ?? "")}" style="width:100%">`}</td>
+        : `<input type="text" data-v="${i}" value="${esc(f.type === "checkbox_multi" && Array.isArray(f.value) ? f.value.join(", ") : f.value ?? "")}" style="width:100%" ${f.type === "checkbox_multi" ? 'placeholder="선택한 보기를 쉼표로 구분"' : ""}>`}</td>
       <td class="num">${f.bbox ? f.page + 1 : `<span class="kr">-</span>`}</td>
       <td><span class="tag ${(LB_STATE[f.state] || [])[1] || ""}">${(LB_STATE[f.state] || [f.state])[0]}</span></td></tr>`).join("")}
     </tbody></table>
@@ -193,7 +193,7 @@ function lbSide(lb) {
     lb.dirty = true;
   };
   $$("[data-row]").forEach(tr => tr.onclick = e => { if (e.target.tagName !== "INPUT") { lb.sel = +tr.dataset.row; const f = lb.fields[lb.sel]; if (f.bbox && f.page !== lb.page) lbPage(lb, f.page); else lbDraw(lb); } });
-  $$("[data-v]").forEach(inp => { inp.onfocus = () => { lb.sel = +inp.dataset.v; lbDrawOnly(lb); }; inp.oninput = () => mark(+inp.dataset.v, { value: inp.value }); });
+  $$("[data-v]").forEach(inp => { inp.onfocus = () => { lb.sel = +inp.dataset.v; lbDrawOnly(lb); }; inp.oninput = () => mark(+inp.dataset.v, { value: lb.fields[+inp.dataset.v].type === "checkbox_multi" ? inp.value.split(",").map(v => v.trim()).filter(Boolean) : inp.value }); });
   $$("[data-k]").forEach(inp => inp.onchange = () => { mark(+inp.dataset.k, { key: inp.value.trim() }); lbDraw(lb); });
   $$("[data-pres]").forEach(cb => cb.onchange = () => mark(+cb.dataset.pres, { value: cb.checked, present: cb.checked }));
   $$("[data-addk]").forEach(b => b.onclick = () => lbAdd(lb, b.dataset.addk));
@@ -206,7 +206,7 @@ function lbDrawOnly(lb) {   // 표는 두고 그림의 고른 칸만 다시
 
 function lbAdd(lb, key = "") {
   const s = lb.d.standard.find(x => x.key === key);
-  lb.fields.push({ key, label: s ? s.label : "", type: s ? s.type : "text", value: "", page: lb.page, bbox: null, state: "added" });
+  lb.fields.push({ key, label: s ? s.label : "", type: s ? s.type : "text", value: s && ["seal", "signature"].includes(s.type) ? false : s && s.type === "checkbox_multi" ? [] : "", page: lb.page, bbox: null, state: "added" });
   lb.sel = lb.fields.length - 1;
   lb.draw = true;   // 바로 위치를 그리게
   lb.dirty = true;
@@ -265,11 +265,11 @@ function lbBind(lb) {
 
 async function lbSave(lb, done) {
   try {
-    const r = await api(`/api/labels/${q(lb.name)}/doc?d=${q(lb.doc)}`, { fields: lb.fields, done }, "PUT");
+    const r = await api(lb.context ? lb.context.saveUrl : `/api/labels/${q(lb.name)}/doc?d=${q(lb.doc)}`, { fields: lb.fields, done }, "PUT");
     lb.dirty = false;
     toast(done ? `확인했습니다 (항목 ${r.fields})` : "저장했습니다");
-    if (done) location.hash = lb.next ? `#/labels/${q(lb.name)}/doc/${q(lb.fid)}/${q(lb.next)}` : `#/labels/${q(lb.name)}/format/${q(lb.fid)}`;
-    else viewLabelDoc(lb.name, lb.fid, lb.doc);
+    if (done) location.hash = lb.context ? (lb.next ? lb.context.docHash(lb.next) : lb.context.backHash) : (lb.next ? `#/labels/${q(lb.name)}/doc/${q(lb.fid)}/${q(lb.next)}` : `#/labels/${q(lb.name)}/format/${q(lb.fid)}`);
+    else viewLabelDoc(lb.name, lb.fid, lb.doc, lb.context);
   } catch (e) { toast(e.message, true); }
 }
 

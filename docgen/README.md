@@ -261,7 +261,7 @@ docgen/
   forms/                   overlay 서식 재료: 하나은행_서식자료/(원본 PDF), layouts/(PDF 에서 뽑은 기재 자리, 생성 파일),
                            overrides/(사람 수정), images/(가져온 이미지 서식 img_*)
   assets/marks/            표시 요소 풀 (pools.json, 올린 체크·서명 이미지)
-  fonts/                   손글씨 글꼴 (woff2, SIL OFL)
+  fonts/                   손글씨 글꼴 (woff2, SIL OFL) + studio 표시 요소 화면에서 경로로 등록한 글꼴
   samples/                 서류별 대표 샘플 이미지·정답 (scripts/make_samples.py)
   recipes/                 데이터셋 레시피 (docgen.bench build --recipe, docgen.ocr_set build --recipe, studio 가 고침)
   scripts/                 extract_form_layout.py(서식 PDF → 기재 자리), form_map.py(→ manual/FORM_MAP.md), make_samples.py,

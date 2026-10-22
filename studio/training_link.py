@@ -43,12 +43,14 @@ def from_train_path(p: str, path_map: dict) -> str:
     return p
 
 
-def training_config(registry, train: list, benchmark: list | str, name: str) -> dict:
+def training_config(registry, train: list, benchmark: list | str, name: str, benchmark_units: list | None = None) -> dict:
     """학습 설정 조각과 실행할 명령. train = [데이터셋 ID 또는 {id, count}], benchmark = 평가 데이터셋 ID 목록.
     나머지 칸(모델·GPU·SFT·GRPO)은 예시 파일 값을 쓴다."""
     reg = registry.load()["datasets"]
     train = [t if isinstance(t, dict) else {"id": t} for t in train]
     bench = [benchmark] if isinstance(benchmark, str) else list(benchmark)
+    if benchmark_units:
+        bench = list(dict.fromkeys(b for unit in benchmark_units for b in unit.get("datasets", [])))
     if not train or not bench:
         raise ValueError("학습 데이터와 평가 세트를 하나 이상 고르세요")
     warn = []
@@ -78,9 +80,15 @@ def training_config(registry, train: list, benchmark: list | str, name: str) -> 
     data = {"train": [{"path": to_train_path(reg[t["id"]]["path"], pm), **({"count": int(t["count"])} if t.get("count") else {})}
                       for t in train],
             "benchmark": [to_train_path(reg[b]["path"], pm) for b in bench], "output_dir": f"../data/mixed-{n}"}
+    if benchmark_units:
+        from train.benchmarks import normalize
+
+        specs = [{"id": unit["id"], "name": unit["name"], "group": unit["group"],
+                  "paths": [to_train_path(reg[b]["path"], pm) for b in unit.get("datasets", [])]} for unit in benchmark_units]
+        data["benchmark"] = [{k: v for k, v in unit.items() if k != "legacy"} for unit in normalize(specs)]
     file = f"configs/studio-{n}.json"
     return {"pipeline": "train", "dir": "train", "file": file, "config": {"workdir": f"../runs/{n}", "data": data},
-            "warnings": warn, "command": f"python -m train --config train/{file}",
+            "benchmark_units": benchmark_units or [], "warnings": warn, "command": f"python -m train --config train/{file}",
             "note": "model·gpus·sft·grpo·eval·task_mix 칸은 train/configs/pipeline.example.json 값을 쓴다. 모델 경로는 직접 확인하세요."}
 
 
@@ -98,6 +106,7 @@ def write_training(registry, info: dict, datasets: list[str], benchmark: list[st
     d = registry.load()
     rec = {"name": slug(name), "pipeline": info["pipeline"], "dir": info.get("dir", "train"), "config": info["file"], "datasets": datasets,
            "benchmark": [benchmark] if isinstance(benchmark, str) else benchmark, "workdir": merged.get("workdir"),
+           "benchmark_units": info.get("benchmark_units", []),
            "created": time.strftime("%Y-%m-%d %H:%M"), "command": info["command"]}
     d["trainings"] = [t for t in d.get("trainings", []) if t["name"] != rec["name"]] + [rec]
     registry.save(d)

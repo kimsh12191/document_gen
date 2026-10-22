@@ -13,7 +13,7 @@ P_OCR_FIELD = "이미지에 적힌 글자를 그대로 읽어 옮기세요. 설�
 P_KIE = ("이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 "
          '{{"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}} 를 쓰세요. '
          "좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 "
-         '{{"key": 키, "value": null}} 로 답하세요.\n항목 (키: 항목명)\n{items}')
+         '{{"key": 키, "value": null}} 로 답하세요.\n항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))\n{items}')
 P_MARKS = ("이 문서의 체크박스·도장·서명 상태와 위치를 확인해 JSON 목록으로 답하세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.\n"
            '- 체크박스: 체크된 보기마다 {{"key": 키, "value": 보기 글자, "bbox_2d": 체크된 □ 위치, "page": 쪽}}. '
            '체크된 것이 없으면 {{"key": 키, "value": null}}\n'
@@ -33,4 +33,22 @@ P_CROSS = ("고객 '{customer}' 님이 '{task}' 업무를 위해 제출한 서�
            '{{"consistent": true 또는 false, "issues": [{{"document": "문제가 있는 서류명", "field": "항목명", '
            '"value": "그 서류에 적힌 값", "expected": "다른 서류에 적힌 값"}}]}} 형식의 JSON 으로 답하세요. '
            '문제가 없으면 {{"consistent": true, "issues": []}} 입니다.')
-P_REVIEW = "고객이 '{task}' 업무를 위해 제출한 서류입니다 (이미지 {pages}장).\n{question}"
+
+
+def kie_line(form_id: str | None, key: str, label: str | None, doc_key: str | None = None, extra: str = "",
+             siblings: list[dict] | None = None) -> str:
+    """kie·marks 항목 한 줄: '- 키: 항목명 (설명)'. 설명은 키 사전의 누구의 무엇과 표의 행 (docgen.dictionary.describe).
+    extra 는 marks 의 종류·보기처럼 괄호에 같이 넣을 것. siblings(그 문서의 같은 과제 칸, 문서 순서)에 항목명이 같은 칸이
+    또 있으면 몇 번째 칸인지 붙인다 (작성일·작성일2 처럼 행 번호가 없는 반복 칸)."""
+    from .. import dictionary as DIC
+
+    desc = DIC.describe(form_id, key, label, doc_key)
+    same = [s["key"] for s in siblings or [] if DIC._norm(s.get("label") or "") == DIC._norm(label or "")]
+    me = key if key in same else doc_key   # 공통 키로 묻는 칸은 서식의 키로 찾는다
+    if label and len(same) > 1 and me in same and not any(p.isdigit() for p in key.split(".")):
+        desc = ", ".join(x for x in [desc, f"같은 항목명 중 {same.index(me) + 1}번째 칸"] if x)
+    note = ", ".join(x for x in [desc, extra] if x)
+    return f"- {key}: {label or '-'}" + (f" ({note})" if note else "")
+
+
+P_REVIEW ="고객이 '{task}' 업무를 위해 제출한 서류입니다 (이미지 {pages}장).\n{question}"

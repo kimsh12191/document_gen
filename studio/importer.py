@@ -159,6 +159,10 @@ def run_ocr(bdir: Path) -> None:
         if not o.get("revision"):
             raise SystemExit("OCR 설정이 없습니다 (studio/config.json 의 ocr.callable·revision). 사내 OCR 은 내부망에서만 쓸 수 있습니다")
         adapter = load_callable(o["callable"])
+        if o["callable"] == OCR_CALLABLE and o.get("base_url"):
+            from functools import partial
+
+            adapter = partial(adapter, base_url=o["base_url"])
     for n, r in enumerate(rows, 1):
         if r.get("ocr"):
             continue

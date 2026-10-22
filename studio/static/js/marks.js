@@ -68,10 +68,11 @@ async function viewMarks() {
 }
 
 function drawPools(m) {
-  // 손글씨 글꼴 미리보기: 생성기와 같은 글꼴 파일(docgen/fonts/<id>.woff2)을 이 화면에도 건다
+  // 글꼴 미리보기: 생성기와 같은 글꼴 파일(docgen/fonts/)을 이 화면에도 건다 (파일 없는 인쇄체는 설치된 글꼴)
   let st = $("#mk-fontfaces");
   if (!st) { st = document.createElement("style"); st.id = "mk-fontfaces"; document.head.appendChild(st); }
-  st.textContent = m.pools.hand_fonts.map(f => `@font-face{font-family:'${f.id}';src:url('/fonts/${f.id}.woff2') format('woff2')}`).join("");
+  st.textContent = [...m.pools.hand_fonts, ...m.pools.print_fonts].filter(f => f.face)
+    .map(f => `@font-face{font-family:'${f.id.replace(/'/g, "")}';src:url('${f.face}')}`).join("");
   const glyph = (name, it) => {
     if (it.url) return `<img src="${esc(it.url)}" alt="">`;
     if (name === "check") return `<span class="glyph">${esc(it.id === "O" ? "○" : it.id)}</span>`;
@@ -96,7 +97,8 @@ function drawPools(m) {
           <label>인주 <input type="text" data-ink value="#c00" style="width:70px"></label>
           <label>글꼴 <input type="text" data-font placeholder="'Nanum Myeongjo'" style="width:140px"></label>
           <button data-addseal>틀 추가</button>` : ""}
-        ${name === "hand_fonts" || name === "print_fonts" ? `<input type="text" data-fontid placeholder="${name === "hand_fonts" ? "docgen/fonts/ 의 파일 이름 (예: NanumPen)" : "글꼴 이름 (예: 'Malgun Gothic')"}" style="width:220px">
+        ${name === "hand_fonts" || name === "print_fonts" ? `<input type="text" data-fontid placeholder="글꼴 파일·폴더 경로 (studio 서버 기준)${name === "print_fonts" ? " 또는 설치된 글꼴 이름" : ""}"
+            title="경로를 넣으면 그 안의 .ttf .otf .woff .woff2 를 모두(하위 폴더 포함) docgen/fonts/ 로 복사해 등록합니다" style="width:300px">
           ${name === "hand_fonts" ? `<label>크기 비율 <input type="number" data-fontscale value="1.0" step="0.05" style="width:60px"></label>` : ""}
           <button data-addfont>글꼴 추가</button>` : ""}
         <button class="primary" data-savepool="${name}">이 풀 저장</button>
@@ -131,8 +133,9 @@ function drawPools(m) {
       } else if (e.target.dataset.addfont !== undefined) {
         const fid = $("[data-fontid]", box).value.trim();
         if (!fid) return;
-        await api(`/api/marks/pools/${name}/font`, { id: fid, scale: +($("[data-fontscale]", box)?.value || 1) });
-        toast("글꼴을 더했습니다"); viewMarks();
+        const r = await api(`/api/marks/pools/${name}/font`, { id: fid, scale: +($("[data-fontscale]", box)?.value || 1) });
+        toast(r.added ? `글꼴 ${r.added.length}개를 더했습니다` + (r.skipped.length ? ` (이미 있는 ${r.skipped.length}개 건너뜀)` : "")
+          : "글꼴을 더했습니다"); viewMarks();
       } else if (e.target.dataset.addseal !== undefined) {
         await api("/api/marks/seal-template", { shape: $("[data-shape]", box).value, border: +$("[data-border]", box).value,
           double: $("[data-double]", box).checked, ink: $("[data-ink]", box).value.trim(), font: $("[data-font]", box).value.trim() });

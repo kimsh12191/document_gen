@@ -2,7 +2,7 @@
 
 실제 서류 이미지와 사내 OCR 결과, 합성 은행 서류로 VLM(Qwen3.5-9B)에 **글자·위치 읽기(OCR)**, **문서 이해**(분류·정보 추출·체크·도장·서명), **업무 처리**(서류 구비 확인, 서류 대조, 심사 질의)를 한 번에 학습시키고 벤치마크로 비교합니다. 데이터는 생성기(docgen)와 화면(studio)이 같은 과제 형식으로 만들고, 학습은 하나(`python -m train`)입니다.
 
-**처음이면 [guide/tutorial.md](guide/tutorial.md)부터 따라 하세요.**
+**데이터 생성·사용 설명서는 [guide/README.md](guide/README.md)에서 시작하세요.** 생성 범위 → 서류별 추출 항목·시나리오 → 질문·정답 → 원격 생성 → 결과 사용 순서로 정리되어 있으며, Studio의 사용 가이드에서도 읽을 수 있습니다.
 
 ## 세 갈래
 
@@ -50,7 +50,7 @@ docgen/ ──(과제 폴더: 합성·OCR 준비)──▶ studio/ (만들기·�
 | [guide/results.md](guide/results.md) | 결과 점수표 읽는 법: 지표 뜻, 찍어도 나오는 점수, 오차 범위, 이상 신호 |
 | [docgen/README.md](docgen/README.md) | 생성기 자체 (설치, 명령, 출력 형식, 서식, 서식 추가 방법은 [docgen/manual/TEMPLATE_GUIDE.md](docgen/manual/TEMPLATE_GUIDE.md)) |
 | [studio/README.md](studio/README.md) | studio 화면 사용법 (문항·모델 답·점수 보기는 ⑥ 데이터셋 · ⑦ 평가). 설계는 [studio/DESIGN.md](studio/DESIGN.md) |
-| [docker/README.md](docker/README.md) | 내부망 반입, 서버에서 studio 컨테이너 띄우기(`docker/studio.sh --data <저장 폴더>`), 다른 컨테이너에서 생성 맡기기([REMOTE_BUILD.md](docker/REMOTE_BUILD.md)) |
+| [docker/README.md](docker/README.md) | 내부망 반입, 서버에서 studio 컨테이너 띄우기(`docker/studio.sh --data <저장 폴더>`), 다른 컨테이너에서 생성 맡기기([원격 생성 가이드](guide/remote-build.md)) |
 
 ## 테스트
 

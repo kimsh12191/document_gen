@@ -18,8 +18,18 @@
       }
     ],
     "benchmark": [
-      "/share/studio_workspace/datasets/bank-bench",
-      "../../data/prepared-v2"
+      {
+        "id": "bank_synthetic_v1",
+        "name": "합성 문서·은행 업무",
+        "group": "synthetic_bank",
+        "paths": ["/share/studio_workspace/datasets/bank-bench"]
+      },
+      {
+        "id": "ocr_real_v1",
+        "name": "실문서 OCR",
+        "group": "real_ocr",
+        "paths": ["../../data/prepared-v2"]
+      }
     ],
     "output_dir": "../data/mixed-exp1",
     "sft_max_examples": 20000,

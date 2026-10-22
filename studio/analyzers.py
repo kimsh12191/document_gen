@@ -435,9 +435,9 @@ def create_autolabel(ws: Path, cfg: dict, provider: str, bdir: Path, fid: str, d
     job_id = time.strftime("%Y%m%d-%H%M%S-") + uuid.uuid4().hex[:4]
     d = _root(ws) / job_id
     (d / "output").mkdir(parents=True)
-    from docgen.bench.prompts import P_KIE
+    from docgen.bench.prompts import P_KIE, kie_line
 
-    prompt = P_KIE.format(items="\n".join(f"- {k['key']}: {k.get('label') or '-'}" for k in keys))
+    prompt = P_KIE.format(items="\n".join(kie_line(None, k["key"], k.get("label")) for k in keys))
     (d / "TASK.md").write_text(prompt, encoding="utf-8")
     (d / "input").mkdir()
     _write(d / "job.json", {"id": job_id, "kind": "autolabel", "provider": provider, "provider_kind": "openai", "external": False,

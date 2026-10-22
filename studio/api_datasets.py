@@ -100,6 +100,35 @@ def make_router(reg: DS.Registry, guard, jobs=None) -> APIRouter:
         guard(reg.unregister, ds_id)
         return {"ok": True}
 
+    @r.get("/api/datasets/{ds_id}/composition")
+    def composition(ds_id: str):
+        from docgen.bench.tracking import composition as summarize
+
+        ds = ds_or_404(ds_id)
+        all_rows = guard(DS.items, ds)
+        eval_rows = guard(DS.items, ds, evaluation=True)
+        root = Path(ds["path"])
+        meta = json.loads((root / "meta.json").read_text(encoding="utf-8"))
+        recipe = json.loads((root / "dataset.json").read_text(encoding="utf-8")) if (root / "dataset.json").exists() else {}
+        if not recipe:
+            ocr_info = root.parent / "ocr_set.json" if root.name == "prepared" else root / "ocr_set.json"
+            if ocr_info.exists():
+                recipe = json.loads(ocr_info.read_text(encoding="utf-8"))
+        return {"all": summarize(x for rows in all_rows.values() for x in rows),
+                "evaluation": summarize(x for rows in eval_rows.values() for x in rows),
+                "provenance": {k: recipe.get(k, meta.get(k)) for k in
+                               ("generator_commit", "version", "created", "recipe", "form_hashes", "scenario_sampling", "scenario_processing")}}
+
+    @r.get("/api/datasets/{ds_id}/breakdowns")
+    def breakdowns(ds_id: str, pid: str):
+        ds_or_404(ds_id)
+        if pid not in {s.get("pid") for s in saved_scores(ds_id)}:
+            raise HTTPException(404, "저장한 채점 결과가 없습니다")
+        data = json.loads((scores_dir / ds_id / f"{pid}.json").read_text(encoding="utf-8"))
+        return {"available": "breakdowns" in data, "composition": data.get("composition"),
+                "breakdowns": data.get("breakdowns", {}), "tasks": data.get("tasks", {}),
+                "scored_at": data.get("scored_at")}
+
     @r.patch("/api/datasets/{ds_id}")
     def patch(ds_id: str, req: dict):
         return guard(reg.set_meta, ds_id, req)
@@ -127,12 +156,20 @@ def make_router(reg: DS.Registry, guard, jobs=None) -> APIRouter:
         return json.loads(f.read_text(encoding="utf-8")).get("per_item", {}) if f.exists() else {}
 
     @r.get("/api/datasets/{ds_id}/items")
-    def list_items(ds_id: str, task: str = "", offset: int = 0, limit: int = 20, pids: str = "", order: str = "id", q: str = ""):
+    def list_items(ds_id: str, task: str = "", offset: int = 0, limit: int = 20, pids: str = "", order: str = "id", q: str = "",
+                   task_group: str = "", scenario: str = "", label_format: str = "", doc_type: str = "", evaluation_only: bool = False):
         ds = ds_or_404(ds_id)
         by_task = guard(DS.items, ds)
         if task and task not in by_task:
             raise HTTPException(404, f"과제가 없습니다: {task}")
         rows = by_task[task] if task else [x for v in by_task.values() for x in v]
+        if evaluation_only:
+            evaluation_ids = {x["id"] for rs in guard(DS.items, ds, evaluation=True).values() for x in rs}
+            rows = [x for x in rows if x["id"] in evaluation_ids]
+        from docgen.bench.tracking import facets
+
+        filters = {"task_group": task_group, "scenario": scenario, "label_format": label_format, "doc_type": doc_type}
+        rows = [x for x in rows if all(not v or facets(x)[k] == v for k, v in filters.items())]
         if q:
             rows = [x for x in rows if q.lower() in json.dumps(x, ensure_ascii=False).lower()]
         pid_list = [p for p in pids.split(",") if p]
@@ -197,11 +234,21 @@ def make_router(reg: DS.Registry, guard, jobs=None) -> APIRouter:
                     data = json.loads(Path(f["path"]).read_text(encoding="utf-8"))
                 except ValueError:
                     continue
+                if data.get("benchmarks"):
+                    from .training_link import to_train_path
+
+                    train_path = to_train_path(ds["path"], reg.path_map)
+                    for ident, bench in data["benchmarks"].items():
+                        if train_path in bench.get("paths", []):
+                            out.append({"pid": p["pid"], "label": p["label"], "file": f["path"],
+                                        "name": f"{f['name']} · {bench['name']}", "benchmark_id": ident,
+                                        "model_label": data.get("label"), "tasks": bench["tasks"]})
+                    continue
                 tasks = data.get("tasks", data)
                 out.append({"pid": p["pid"], "label": p["label"], "file": f["path"], "name": f["name"],
                             "model_label": data.get("model_label") or data.get("label"),
                             "tasks": {t: m for t, m in tasks.items() if isinstance(m, dict)}})
-        uniq = {o["file"]: o for o in out}
+        uniq = {(o["file"], o.get("benchmark_id")): o for o in out}
         return {"reports": list(uniq.values())}
 
     @r.get("/api/compare")

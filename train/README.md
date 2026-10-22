@@ -37,6 +37,10 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 
 ## 단계와 결과
 
+평가 결과는 업무 시나리오·정답 구조·서식·원본 데이터셋별로도 추적합니다. 각 단계의 점수 JSON에 `composition`·`breakdowns`가 남고, 최종 보고서에 `benchmark.breakdowns.csv`·`.json`과 구분별 표가 추가됩니다. [분류 기준과 Studio 확인 방법](../guide/benchmark-tracking.md)을 참고하세요.
+
+업무·과제 그룹별 점수도 같은 보고서에 포함합니다. 상세 CSV의 `unit: items`는 문항 수, `unit: fields`는 KIE·marks의 필드 항목 수이며 `field_kind` 행의 값 정확도와 문항 단위 위치 F1은 구분합니다. JSON에서는 필드별 점수를 `models[].field_type_scores`로 제공합니다. 합성 OCR과 직접 준비한 OCR의 명시적 서식·시나리오 정보, 이미 기록한 원본 데이터셋 출처는 혼합 후에도 유지합니다.
+
 | 단계 | 하는 일 | 결과 (`workdir` 아래) |
 |---|---|---|
 | ocr_prepare | (선택) 설정 최상위 `ocr_prepare` 에 OCR 준비 설정(`docgen/bench/ocr_config.example.json` 꼴, 하나 또는 목록)을 적으면, 가진 이미지를 사내 OCR 해 OCR 학습·평가 데이터로 (`python -m docgen.bench.ocr_prepare`, 차례로). 결과 폴더(그 설정의 `output_dir`)는 `data.train`·`data.benchmark` 에 경로로 적어 둔다 (평가 전용 `benchmark_only` 는 `data.benchmark` 에만). 합성 OCR·studio 데이터셋만 쓰면 빼 둔다. 설명서 [guide/ocr_prepare.md](../guide/ocr_prepare.md) | 그 설정의 `output_dir/` (`DONE.json` 이 있으면 건너뜀) |

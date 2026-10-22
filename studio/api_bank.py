@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Any
 
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from . import bank_data as BD
@@ -126,15 +127,22 @@ def make_router(reg, jobs, guard) -> APIRouter:
         catalog._scenarios_of.cache_clear()
         return scenarios()
 
+    class BenchmarkUnit(BaseModel):
+        id: str
+        name: str
+        group: str
+        datasets: list[str]
+
     class TrainReq(BaseModel):
         train: list[str] = []
         counts: dict = {}          # 데이터셋 ID → 쓸 SFT 문항 수 (없으면 다)
-        benchmark: list[str] | str
+        benchmark: list[str] | str = []
+        benchmark_units: list[BenchmarkUnit] = []
         name: str
 
     def _info(req: TrainReq) -> dict:
         train = [{"id": t, **({"count": req.counts[t]} if req.counts.get(t) else {})} for t in req.train]
-        return TL.training_config(reg, train, req.benchmark, req.name)
+        return TL.training_config(reg, train, req.benchmark, req.name, [u.model_dump() for u in req.benchmark_units])
 
     @r.post("/api/training/preview")
     def training_preview(req: TrainReq):
@@ -144,10 +152,23 @@ def make_router(reg, jobs, guard) -> APIRouter:
     def training_save(req: TrainReq):
         info = guard(_info, req)
         bench = [req.benchmark] if isinstance(req.benchmark, str) else req.benchmark
+        if req.benchmark_units:
+            bench = list(dict.fromkeys(b for u in req.benchmark_units for b in u.datasets))
         return guard(TL.write_training, reg, info, list(dict.fromkeys([*req.train, *bench])), bench, req.name)
 
     @r.get("/api/trainings")
     def trainings():
         return {"trainings": [TL.status(reg, t) for t in reg.load().get("trainings", [])]}
+
+    @r.get("/api/trainings/{name}/report/{relative:path}")
+    def training_report(name: str, relative: str):
+        record = next((t for t in reg.load().get("trainings", []) if t["name"] == name), None)
+        if record is None:
+            raise HTTPException(404, "학습 기록이 없습니다")
+        root = (TL.workdir_of(record, reg.path_map) / "reports").resolve()
+        target = (root / relative).resolve()
+        if not target.is_relative_to(root) or target.suffix not in (".html", ".csv", ".md", ".json") or not target.is_file():
+            raise HTTPException(404, "보고서 파일이 없습니다")
+        return FileResponse(target, headers={"Cache-Control": "no-cache"})
 
     return r

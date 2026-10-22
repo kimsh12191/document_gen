@@ -171,6 +171,29 @@ def field_key(form_id: str, key: str) -> dict:
     return {"raw": key, "key": key, "common": False, "who": None, "what": None, "by": "없음"}
 
 
+def describe(form_id: str | None, key: str, label: str | None = None, doc_key: str | None = None) -> str:
+    """질문에 붙일 칸 설명: 누구의 · 무엇(키 사전)과 표의 몇 번째 행인지. 이름표와 같으면 뺀다.
+    describe("hf011", "customer.name", "성명") → "고객 성명", describe(None, "debts.1.balance", "잔액") → "2행"."""
+    parts = []
+    common = load("common").get("keys", {})
+    if key in common:
+        parts.append(common[key].get("name") or "")
+    elif form_id:
+        e = field_key(form_id, doc_key or key)
+        who = load("parties").get("parties", {}).get(e["who"] or "", {}).get("name")
+        what = load("attributes").get("attributes", {}).get(e["what"] or "", {}).get("name")
+        if who:
+            parts.append(f"{who}의 {what}" if what else who)
+    segs = key.split(".")
+    nums = [i for i, s in enumerate(segs) if s.isdigit()]
+    if nums:   # 생성기 서식은 행을 0부터 센다 (템플릿 loop.index0)
+        i = nums[0]
+        table = ".".join(segs[:i]).replace("_", " ")   # 한글 키면 표 이름으로 쓴다 (기업부담금_목록.0.상품명 → 기업부담금 목록 1행)
+        table = table + " " if re.search(r"[가-힣]", table) else ""
+        parts.append(f"{table}{int(segs[i]) + 1}{'번째' if i == len(segs) - 1 else '행'}")
+    return ", ".join(p for p in parts if p and _norm(p) != _norm(label or ""))
+
+
 def mark_what(key: str, what: str | None) -> str | None:
     """도장·서명 자리 키(seal.* · sign.*)의 무엇은 늘 도장·서명이다."""
     p = key.split(".")[0]

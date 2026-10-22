@@ -13,7 +13,8 @@ def resolve_data(cfg: dict, base: Path) -> dict:
         return str((base / p).resolve()) if p and not Path(p).is_absolute() else p
 
     def entries(v):
-        return [({**e, "path": res(e["path"])} if isinstance(e, dict) else res(e)) for e in (v if isinstance(v, list) else [v])]
+        return [({**e, **({"paths": [res(p) for p in e["paths"]]} if "paths" in e else {"path": res(e["path"])})}
+                 if isinstance(e, dict) else res(e)) for e in (v if isinstance(v, list) else [v])]
     d = dict(cfg["data"])
     d["output_dir"] = res(d.get("output_dir"))
     d["train"] = entries(d["train"])

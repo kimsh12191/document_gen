@@ -13,7 +13,7 @@ def items_digest(items):
     return h.hexdigest()
 
 
-def score(items, predictions):
+def score(items, predictions, _split_benchmarks=True):
     """과제별 결과 (docgen score_task, 문항별 줄은 뺌). 과제 순서는 evaluate.TASK_ORDER."""
     by_task = {}
     for it in items:
@@ -24,7 +24,26 @@ def score(items, predictions):
             res = E.score_task(task, by_task[task], predictions)
             res.pop("per_item", None)
             tasks[task] = res
-    return {"items_sha256": items_digest(items), "n": len(items), "tasks": tasks}
+    from docgen.bench.tracking import evaluate_groups
+
+    result = {"items_sha256": items_digest(items), "n": len(items), "tasks": tasks, **evaluate_groups(items, predictions, tasks)}
+    if _split_benchmarks and any((it.get("meta") or {}).get("benchmark_id") for it in items):
+        buckets = {}
+        for it in items:
+            ident = (it.get("meta") or {}).get("benchmark_id")
+            if not ident:
+                raise ValueError("이름 있는 벤치마크와 식별자 없는 문항이 섞였습니다")
+            buckets.setdefault(ident, []).append(it)
+        result["benchmarks"] = {}
+        for ident, rows in buckets.items():
+            names = {(it["meta"].get("benchmark_name", ident), it["meta"].get("benchmark_group", "ungrouped")) for it in rows}
+            if len(names) != 1:
+                raise ValueError(f"benchmark {ident}: name/group 설정이 일치하지 않습니다")
+            name, group = names.pop()
+            details = score(rows, predictions, _split_benchmarks=False)
+            result["benchmarks"][ident] = {"id": ident, "name": name, "group": group,
+                                           "paths": sorted({it["meta"]["benchmark_path"] for it in rows if it["meta"].get("benchmark_path")}), **details}
+    return result
 
 
 def mine(rows, predictions, count, seed, hard_fraction, hard_threshold=0.9):

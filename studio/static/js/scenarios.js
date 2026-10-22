@@ -16,6 +16,7 @@ async function view_scenarios() {
   const draw = () => {
     main().innerHTML = `
       <h1>시나리오·묶음</h1>
+      <div class="bar"><a href="#/guide/catalog.md">서류별 추출 항목·연결 업무</a><a href="#/guide/research-agent.md">생성 범위</a><a href="#/guide/remote-build.md">레시피·원격 생성 방법</a></div>
       <div class="sub">업무마다 고객이 내는 필수 서류입니다. 은행 업무 데이터셋을 만들 때 시나리오마다 고객 묶음을 만들고, 묶음에서
         서류 구비·대조·심사 문항이 나옵니다. 저장하면 <span class="mono">docgen/scenarios.json</span>에 씁니다.
         서류 이미지를 펼치면 같은 고객으로 구성한 필수 서류를 보고, 눌러서 확대할 수 있습니다.

@@ -539,6 +539,17 @@ def evaluate(args) -> None:
         res = {t: score_task(t, its, preds) for t, its in items.items()}
         (pred / "report.json").write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
         md = report_md(pred.name, res)
+        from .tracking import evaluate_groups, DIMENSIONS
+
+        tracking = evaluate_groups([it for rows in items.values() for it in rows], preds, res)
+        (pred / "report.breakdowns.json").write_text(json.dumps(tracking, ensure_ascii=False, indent=1), encoding="utf-8")
+        for dimension, groups in tracking["breakdowns"].items():
+            md += f"\n## {DIMENSIONS[dimension]}별 평가\n\n| 구분 | 과제 | 문항 수 | 지표 | 점수 (%) |\n|---|---|---:|---|---:|\n"
+            for name, bucket in groups.items():
+                for task, result in bucket["tasks"].items():
+                    value = result["metrics"].get(result["main"])
+                    clean_name = str(name).replace("|", "\\|").replace("\n", " ")
+                    md += f"| {clean_name} | {task} | {result['n']} | {result['main']} | {_fmt(value)} |\n"
         (pred / "report.md").write_text(md, encoding="utf-8")
         summary[pred.name] = res
         if len(args.pred) == 1:
