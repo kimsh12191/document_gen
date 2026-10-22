@@ -4,7 +4,7 @@
 결과 폴더는 studio 데이터셋과 같은 형식이라 학습([training.md](training.md))에 경로만 적으면 됩니다.
 
 - 정답은 **사내 OCR이 읽은 값**입니다. 그래서 점수는 "정확도"가 아니라 "사내 OCR과 얼마나 같게 읽나"입니다.
-- 합성 서류로 OCR 데이터를 만들 때는 이 문서가 아니라 [studio.md 2절](studio.md#2-합성-데이터-만들기)을 봅니다.
+- 합성 서류로 OCR 데이터를 만들 때는 이 문서가 필요 없습니다. studio `ocr-bench`·`ocr-train` 레시피가 OCR 준비까지 해서 `<이름>/prepared`로 내놓습니다 ([studio.md 2절](studio.md#2-합성-데이터-만들기)).
 - 8과제의 질문·정답 예시는 studio **OCR 예시** 메뉴나 [tasks.md](tasks.md#ocr-과제)에 있습니다.
 
 아래 명령은 학습 서버의 코드 폴더(`document_gen/`)에서 실행합니다.
