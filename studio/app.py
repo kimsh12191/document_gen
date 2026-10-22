@@ -47,7 +47,7 @@ from pydantic import BaseModel, Field
 from docgen import marks as M
 from docgen.preview import CONDITIONS, MODES, Previewer
 
-from . import api_bank, api_datasets, api_dictionary, api_html, api_import, api_intake, api_keys, api_labels, api_review, api_real_benchmark, catalog, editor, marks_admin
+from . import api_bank, api_datasets, api_dictionary, api_form_draft, api_html, api_import, api_intake, api_keys, api_labels, api_review, api_real_benchmark, catalog, editor, marks_admin
 from . import datasets as DS
 from .jobs import Jobs
 from .config import ROOT, load, resolve_path, setup_browser
@@ -143,6 +143,7 @@ app.include_router(api_review.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT)
 app.include_router(api_intake.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT))   # ④ 서류 넣기
 app.include_router(api_keys.make_router(guard))   # 키 사전 (키 규칙·값 종류)
 app.include_router(api_dictionary.make_router(guard))   # 키 사전 (당사자 계층·문서 분류·업무·합치기)
+app.include_router(api_form_draft.make_router(REGISTRY, JOBS, guard, CFG))   # 서식 초안 (예시 이미지 → html·키 추천)
 app.mount("/fonts", StaticFiles(directory=ROOT / "docgen" / "fonts"), name="fonts")   # 손글씨 글꼴 (화면의 글꼴 미리보기)
 
 
