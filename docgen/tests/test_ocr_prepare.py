@@ -332,6 +332,24 @@ class IntegrationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "No saved OCR JSON"):
             scan(self.root, "train", single_page=True, ocr_dir=self.root / "prepared")
 
+    def test_image_folder_without_manifest(self):
+        images = self.root / "images"
+        images.mkdir()
+        for png in self.root.glob("document_*.png"):
+            png.rename(images / png.name)
+        cfg = read_json(self.config)
+        del cfg["manifest"]
+        cfg.update(images="images", benchmark_fraction=0.25)
+        write_json(self.config, cfg)
+        summary = prepare(self.config)
+        self.assertEqual(sum(summary["page_counts"].values()), 4)
+        self.assertEqual(summary["page_counts"]["benchmark"], 1)
+        pages = read_jsonl(self.root / "prepared" / "pages.jsonl")
+        self.assertEqual({p["document_id"] for p in pages}, {f"document_{i}.png" for i in range(4)})
+        cfg.update(split="benchmark", output_dir="prepared_eval")
+        write_json(self.config, cfg)
+        self.assertEqual(prepare(self.config)["page_counts"], {"benchmark": 4})
+
     def test_obsolete_config_key_rejected(self):
         cfg = read_json(self.config)
         cfg["train_regions_per_page"] = 0

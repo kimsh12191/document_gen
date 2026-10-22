@@ -3,6 +3,9 @@
 채점(docgen.bench.evaluate)·학습 섞기(train/)가 OCR·업무 과제를 같은 형식으로 다룬다.
 
   python -m docgen.bench.ocr_prepare <설정.json>      설정 예시: docgen/bench/ocr_config.example.json
+
+이미지 목록은 "manifest"(scan 으로 만든 manifest.jsonl) 대신 "images": "<이미지 폴더>" 만 적어도 된다.
+그때는 그림 한 장을 문서 한 건으로 보고, "split"(기본 train; benchmark 면 전부 평가용)을 따른다.
 """
 import json
 import random
@@ -12,7 +15,7 @@ from pathlib import Path
 
 from .ocr_augment import make_view
 from .ocr_data import (assign_splits, canonical_image, digest, dumps, exif_orientation, load_callable,
-                   parse_ocr, read_json, read_jsonl, write_json, write_jsonl)
+                   parse_ocr, read_json, read_jsonl, scan, write_json, write_jsonl)
 from .ocr_metrics import REFERENCE_TYPES, TASKS, answer_for
 from .ocr_tasks import (bbox_tasks, build_view, crop_tasks, grounding_tasks, marked_tasks, region_tasks,
                     relation_tasks, spotting_tasks)
@@ -26,20 +29,28 @@ def prepare(config_path):
     if out.exists():
         raise ValueError(f"Output already exists: {out}. Use a new output_dir; OCR cache is reusable.")
     seed = cfg.get("seed", 42)
-    manifest = resolve(cfg["manifest"])
+    if cfg.get("images"):
+        # Image folder only: one image = one document, so no manifest or document ids to write.
+        split = cfg.get("split", "train")
+        listed = scan(resolve(cfg["images"]), split, single_page=True)
+        manifest_dir, manifest_bytes = base, dumps(listed).encode()
+        cfg.setdefault("benchmark_only", split == "benchmark")
+    else:
+        manifest = resolve(cfg["manifest"])
+        listed, manifest_dir, manifest_bytes = read_jsonl(manifest), manifest.parent, manifest.read_bytes()
     # benchmark_only: evaluation-only set (every manifest row is split "benchmark"; studio synthetic/reviewed OCR sets).
     benchmark_only = bool(cfg.get("benchmark_only", False))
     # reference_type: what the OCR answers are. Default: raw internal OCR (agreement, not accuracy).
     reference = cfg.get("reference_type", "ocr_pseudo_unreviewed")
     if reference not in REFERENCE_TYPES:
         raise ValueError(f"reference_type must be one of {sorted(REFERENCE_TYPES)}")
-    rows = assign_splits(read_jsonl(manifest), seed, 0.0 if benchmark_only else cfg.get("val_fraction", 0.05),
+    rows = assign_splits(listed, seed, 0.0 if benchmark_only else cfg.get("val_fraction", 0.05),
                          0.0 if benchmark_only else cfg.get("benchmark_fraction", 0.0))
     if benchmark_only:
         if not rows or any(r["split"] != "benchmark" for r in rows):
             raise ValueError("benchmark_only: every manifest row must have split 'benchmark'")
     elif not any(r["split"] == "train" for r in rows) or not any(r["split"] == "benchmark" for r in rows):
-        raise ValueError("Manifest must include train and benchmark documents")
+        raise ValueError("Manifest must include train and benchmark documents (train needs at least two images and benchmark_fraction > 0)")
     mapping = cfg.get("mapping", {})
     # Rows with "ocr_json" reuse OCR that was already run; only the rest call the adapter.
     adapter = load_callable(cfg["ocr_callable"]) if any("ocr_json" not in r for r in rows) else None
@@ -50,7 +61,7 @@ def prepare(config_path):
     pixels, pages = {}, []
     # Preflight every page before invoking OCR; identical decoded pixels cannot cross splits.
     for row in sorted(rows, key=lambda r: (r["document_id"], r["page_id"])):
-        source = (manifest.parent / row["image"]).resolve()
+        source = (manifest_dir / row["image"]).resolve()
         im = canonical_image(source)
         sha = digest(str(im.size).encode() + im.tobytes())
         old_split = pixels.setdefault(sha, row["split"])
@@ -65,7 +76,7 @@ def prepare(config_path):
         im.close()
     for n, page in enumerate(pages, 1):
         if "ocr_json" in page:
-            saved = (manifest.parent / page["ocr_json"]).resolve()
+            saved = (manifest_dir / page["ocr_json"]).resolve()
             if exif_orientation(page["source_image"]) not in (None, 1):
                 # Saved OCR ran on the stored pixels; the rotated page would not match its boxes.
                 raise ValueError(f"{page['source_image']} has an EXIF rotation; saved OCR coordinates are ambiguous. "
@@ -95,7 +106,7 @@ def prepare(config_path):
     result = build_datasets(pages, out, cfg)
     result.update({"reference_type": reference, "human_reviewed": reference == "human_reviewed",
                    "page_counts": dict(Counter(p["split"] for p in pages)),
-                   "ocr_revision": revision, "manifest_sha256": digest(manifest.read_bytes()),
+                   "ocr_revision": revision, "manifest_sha256": digest(manifest_bytes),
                    "image_policy": "OCR reads the EXIF-transposed original; model views are resized to image_max_size "
                                    "(clean) or degraded copies (aug) whose boxes follow every geometric step"})
     write_tasks(out, cfg, result)

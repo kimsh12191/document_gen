@@ -38,6 +38,10 @@
 
 ### 3-1. manifest (이미지 목록)
 
+**그림 한 장이 문서 한 건이면 manifest는 만들지 않아도 됩니다.** 3-2의 설정에서 `"manifest"` 줄 대신 `"images": "/share/data/images"`(이미지 폴더, 하위 폴더까지 읽음)를 적으면 OCR 준비가 목록을 직접 만듭니다. `"split"`을 생략하면 `train`(일부를 평가·검증으로 떼어 냄), `"split": "benchmark"`면 전부 평가용입니다. 결과 폴더(`cache_dir`·`output_dir`)는 이미지 폴더 밖에 두세요.
+
+여러 쪽 문서를 문서 단위로 묶어야 할 때만 아래처럼 manifest를 만듭니다.
+
 ```bash
 cd <코드>
 python -c "from docgen.bench.ocr_data import scan, write_jsonl; write_jsonl('data/manifest.jsonl', scan(

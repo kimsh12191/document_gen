@@ -124,7 +124,9 @@ class Runner:
                 oc, at = read_json(conf), Path(conf).parent
                 out = str((at / oc["output_dir"]).resolve())
                 ocr_outs.add(out)
-                if not Path(out, "DONE.json").is_file():
+                if not Path(out, "DONE.json").is_file() and oc.get("images"):
+                    need((at / oc["images"]).is_dir(), "ocr_prepare → images", str((at / oc["images"]).resolve()), "이미지 폴더")
+                elif not Path(out, "DONE.json").is_file():
                     need((at / oc["manifest"]).is_file(), "ocr_prepare → manifest", str((at / oc["manifest"]).resolve()),
                          "이미지 목록 (docgen.bench.ocr_data.scan 으로 만든 manifest.jsonl)")
         if not Path(d["output_dir"], "DONE.json").is_file():   # 섞기가 아직이면 데이터셋을 읽어야 한다
