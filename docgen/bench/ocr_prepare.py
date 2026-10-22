@@ -10,6 +10,7 @@
 import json
 import random
 import time
+import traceback
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -58,56 +59,76 @@ def prepare(config_path):
     if not revision:
         raise ValueError("Set ocr_revision to the internal OCR model/config version for cache invalidation")
     cache.mkdir(parents=True, exist_ok=True)
+    # A bad page (unreadable image, broken OCR JSON, OCR call error, view error) is logged and skipped;
+    # the build goes on with the rest. Skipped pages land in <output_dir>/skipped.jsonl and DONE.json.
+    skipped = []
     pixels, pages = {}, []
     # Preflight every page before invoking OCR; identical decoded pixels cannot cross splits.
     ordered = sorted(rows, key=lambda r: (r["document_id"], r["page_id"]))
     for n, row in enumerate(ordered, 1):
         source = (manifest_dir / row["image"]).resolve()
-        im = canonical_image(source)
-        sha = digest(str(im.size).encode() + im.tobytes())
-        old_split = pixels.setdefault(sha, row["split"])
-        if old_split != row["split"]:
-            raise ValueError(f"Duplicate image leakage across {old_split}/{row['split']}: {source}")
-        staged = cache / "images" / f"{sha}.png"
-        if not staged.exists():
-            staged.parent.mkdir(exist_ok=True)
-            im.save(staged)
-        pages.append({**row, "source_image": str(source), "image": str(staged), "pixel_sha256": sha, "width": im.width, "height": im.height,
-                      "id": digest(dumps([row["document_id"], row["page_id"]]).encode())[:24]})
-        im.close()
+        try:
+            with canonical_image(source) as im:
+                sha = digest(str(im.size).encode() + im.tobytes())
+                old_split = pixels.setdefault(sha, row["split"])
+                if old_split != row["split"]:
+                    raise ValueError(f"Duplicate image leakage across {old_split}/{row['split']}: {source}")
+                staged = cache / "images" / f"{sha}.png"
+                if not staged.exists():
+                    staged.parent.mkdir(exist_ok=True)
+                    im.save(staged)
+                pages.append({**row, "source_image": str(source), "image": str(staged), "pixel_sha256": sha,
+                              "width": im.width, "height": im.height,
+                              "id": digest(dumps([row["document_id"], row["page_id"]]).encode())[:24]})
+        except Exception as exc:
+            skip_page(skipped, row, "image", exc, source)
         if n == 1 or n % 100 == 0 or n == len(ordered):
             print(f"그림 확인 {n}/{len(ordered)}", flush=True)
+    ready = []
     for n, page in enumerate(pages, 1):
-        if "ocr_json" in page:
-            saved = (manifest_dir / page["ocr_json"]).resolve()
-            if exif_orientation(page["source_image"]) not in (None, 1):
-                # Saved OCR ran on the stored pixels; the rotated page would not match its boxes.
-                raise ValueError(f"{page['source_image']} has an EXIF rotation; saved OCR coordinates are ambiguous. "
-                                 "Re-run OCR through ocr_callable for this page.")
-            try:
-                page["ocr"] = parse_ocr(read_json(saved), page["width"], page["height"], mapping)
-            except ValueError as exc:
-                raise ValueError(f"Saved OCR {saved} for {page['source_image']}: {exc}") from exc
-            page["ocr_cache"] = str(saved)
-        else:
-            key = digest(dumps([page["pixel_sha256"], cfg["ocr_callable"], revision]).encode())
-            cached = cache / "ocr" / f"{key}.json"
-            if not cached.exists():
-                # OCR sees the EXACT same orientation-normalized PNG used by the VLM.
-                raw = adapter(page["image"])
-                parse_ocr(raw, page["width"], page["height"], mapping)
-                write_json(cached, raw)
-            page["ocr"] = parse_ocr(read_json(cached), page["width"], page["height"], mapping)
-            page["ocr_cache"] = str(cached)
-        page["reference_type"] = reference
+        try:
+            if "ocr_json" in page:
+                saved = (manifest_dir / page["ocr_json"]).resolve()
+                if exif_orientation(page["source_image"]) not in (None, 1):
+                    # Saved OCR ran on the stored pixels; the rotated page would not match its boxes.
+                    raise ValueError(f"{page['source_image']} has an EXIF rotation; saved OCR coordinates are ambiguous. "
+                                     "Re-run OCR through ocr_callable for this page.")
+                try:
+                    page["ocr"] = parse_ocr(read_json(saved), page["width"], page["height"], mapping)
+                except ValueError as exc:
+                    raise ValueError(f"Saved OCR {saved} for {page['source_image']}: {exc}") from exc
+                page["ocr_cache"] = str(saved)
+            else:
+                key = digest(dumps([page["pixel_sha256"], cfg["ocr_callable"], revision]).encode())
+                cached = cache / "ocr" / f"{key}.json"
+                if not cached.exists():
+                    # OCR sees the EXACT same orientation-normalized PNG used by the VLM.
+                    raw = adapter(page["image"])
+                    parse_ocr(raw, page["width"], page["height"], mapping)
+                    write_json(cached, raw)
+                page["ocr"] = parse_ocr(read_json(cached), page["width"], page["height"], mapping)
+                page["ocr_cache"] = str(cached)
+            page["reference_type"] = reference
+            ready.append(page)
+        except Exception as exc:
+            skip_page(skipped, page, "ocr", exc, page["source_image"])
         if n == 1 or n % 100 == 0 or n == len(pages):
-            print(f"OCR {n}/{len(pages)}", flush=True)
+            print(f"OCR {n}/{len(pages)} (skipped so far {len(skipped)})", flush=True)
+    pages = ready
+    if not pages:
+        raise ValueError(f"Every page failed ({len(skipped)} skipped); first error: {skipped[0]['error'] if skipped else '-'}")
     out.mkdir(parents=True)
     write_json(out / "config.snapshot.json", cfg)
+    result = build_datasets(pages, out, cfg, skipped)
+    failed = {s["id"] for s in skipped if s.get("id")}
+    pages = [p for p in pages if p["id"] not in failed]
     write_jsonl(out / "pages.jsonl", pages)
-    result = build_datasets(pages, out, cfg)
+    write_jsonl(out / "skipped.jsonl", skipped)
+    if skipped:
+        print(f"Skipped {len(skipped)} page(s) → {out / 'skipped.jsonl'}", flush=True)
     result.update({"reference_type": reference, "human_reviewed": reference == "human_reviewed",
                    "page_counts": dict(Counter(p["split"] for p in pages)),
+                   "skipped_pages": len(skipped), "skipped_by_stage": dict(Counter(s["stage"] for s in skipped)),
                    "ocr_revision": revision, "manifest_sha256": digest(manifest_bytes),
                    "image_policy": "OCR reads the EXIF-transposed original; model views are resized to image_max_size "
                                    "(clean) or degraded copies (aug) whose boxes follow every geometric step"})
@@ -115,6 +136,14 @@ def prepare(config_path):
     # DONE is written last; incomplete builds must never be used for training.
     write_json(out / "DONE.json", result)
     return result
+
+
+def skip_page(skipped, page, stage, exc, source):
+    """Record one failed page (stage: image / ocr / views) and keep going."""
+    skipped.append({"id": page.get("id"), "document_id": page.get("document_id"), "page_id": page.get("page_id"),
+                    "split": page.get("split"), "image": str(source), "stage": stage,
+                    "error": f"{type(exc).__name__}: {exc}", "traceback": traceback.format_exc()})
+    print(f"[skip {len(skipped)}] {stage} {page.get('page_id')} ({source}): {type(exc).__name__}: {exc}", flush=True)
 
 
 def task_item(row, out):
@@ -216,7 +245,52 @@ DEFAULT_TASK_MIX = {"crop_ocr": 0.1, "bbox_ocr": 0.15, "grounding": 0.2, "region
                     "relation": 0.15, "marked_ocr": 0.05, "marked_box": 0.05}
 
 
-def build_datasets(pages, out, cfg):
+def _page_views(page, split, confidence, minimum, maximum, out, cfg, per_view_cfg, views_cfg, augment, max_size,
+                negative_fraction, vocabulary, max_items):
+    """One page → its views and task rows. Nothing is shared until it returns, so a failing page leaves no partial rows."""
+    audit, candidates, page_rows, page_items = Counter(), Counter(), [], []
+    items = []
+    for x in page["ocr"]:
+        if not x["text"]:
+            continue
+        candidates[split] += 1
+        usable = x["confidence"] >= confidence and minimum <= len(x["text"]) <= maximum and "\ufffd" not in x["text"]
+        audit[f"{split}:{'usable' if usable else 'filtered'}"] += 1
+        items.append({"text": x["text"], "confidence": x["confidence"], "order": x["order"],
+                      "line_num": x.get("line_num"), "usable": usable})
+    boxes = [x["bbox"] for x in page["ocr"] if x["text"]]
+    counts = per_view_cfg[split]
+    specs = views_cfg[split]
+    kinds = ["clean"] * specs.get("clean", 1) + ["aug"] * specs.get("augmented", 0)
+    with canonical_image(page["image"]) as original:
+        for n, kind in enumerate(kinds):
+            view_rng = random.Random(f"{cfg.get('seed', 42)}:{page['id']}:{n}")
+            im, envelopes, fractions, ops = make_view(original, boxes, view_rng, max_size, augment if kind == "aug" else None)
+            view_id = f"{page['id']}_v{n}"
+            path = (out / "views" / f"{view_id}.png").resolve()
+            im.save(path)
+            view = build_view(str(path), im.size, items, envelopes, fractions, kind, ops, view_id)
+            audit[f"{split}:{kind}:cut_items"] += sum(i["cut"] for i in view["items"])
+            rows = (crop_tasks(view, page, view_rng, counts.get("crop_ocr", 0), im, out / "crops")
+                    + bbox_tasks(view, page, view_rng, counts.get("bbox_ocr", 0))
+                    + grounding_tasks(view, page, view_rng, counts.get("grounding", 0), negative_fraction, vocabulary[split])
+                    + region_tasks(view, page, view_rng, counts.get("region_ocr", 0))
+                    + spotting_tasks(view, page, view_rng, counts.get("spotting", 0), im, out / "tiles", max_items))
+            rows += relation_tasks(view, page, view_rng, counts.get("relation", 0))
+            rows += marked_tasks(view, page, view_rng, counts.get("marked_ocr", 0), counts.get("marked_box", 0),
+                                 im, out / "marked")
+            numbering = Counter()
+            for row in rows:
+                row["id"] = f"{view_id}_{row['task']}_{numbering[row['task']]}"
+                numbering[row["task"]] += 1
+                page_rows.append(row)
+            page_items.append({"image": str(path), "width": im.width, "height": im.height, "kind": kind, "ops": ops,
+                                "items": [{"text": i["text"], "bbox_2d": i["box"], "confidence": i["confidence"]} for i in view["items"]]})
+            im.close()
+    return audit, candidates, page_rows, page_items
+
+
+def build_datasets(pages, out, cfg, skipped=None):
     for key, replacement in OBSOLETE_KEYS.items():
         if key in cfg:
             raise ValueError(f"Config key {key} is no longer used; configure {replacement}")
@@ -248,44 +322,19 @@ def build_datasets(pages, out, cfg):
         minimum, maximum = thresholds.get("min_length", 1), thresholds.get("max_length", 100)
         if not 0 <= confidence <= 1 or not 1 <= minimum <= maximum:
             raise ValueError("Invalid filter thresholds")
-        items = []
-        for x in page["ocr"]:
-            if not x["text"]:
-                continue
-            candidates[split] += 1
-            usable = x["confidence"] >= confidence and minimum <= len(x["text"]) <= maximum and "\ufffd" not in x["text"]
-            audit[f"{split}:{'usable' if usable else 'filtered'}"] += 1
-            items.append({"text": x["text"], "confidence": x["confidence"], "order": x["order"],
-                          "line_num": x.get("line_num"), "usable": usable})
-        boxes = [x["bbox"] for x in page["ocr"] if x["text"]]
-        counts = per_view_cfg[split]
-        specs = views_cfg[split]
-        kinds = ["clean"] * specs.get("clean", 1) + ["aug"] * specs.get("augmented", 0)
-        with canonical_image(page["image"]) as original:
-            for n, kind in enumerate(kinds):
-                view_rng = random.Random(f"{cfg.get('seed', 42)}:{page['id']}:{n}")
-                im, envelopes, fractions, ops = make_view(original, boxes, view_rng, max_size, augment if kind == "aug" else None)
-                view_id = f"{page['id']}_v{n}"
-                path = (out / "views" / f"{view_id}.png").resolve()
-                im.save(path)
-                view = build_view(str(path), im.size, items, envelopes, fractions, kind, ops, view_id)
-                audit[f"{split}:{kind}:cut_items"] += sum(i["cut"] for i in view["items"])
-                rows = (crop_tasks(view, page, view_rng, counts.get("crop_ocr", 0), im, out / "crops")
-                        + bbox_tasks(view, page, view_rng, counts.get("bbox_ocr", 0))
-                        + grounding_tasks(view, page, view_rng, counts.get("grounding", 0), negative_fraction, vocabulary[split])
-                        + region_tasks(view, page, view_rng, counts.get("region_ocr", 0))
-                        + spotting_tasks(view, page, view_rng, counts.get("spotting", 0), im, out / "tiles", max_items))
-                rows += relation_tasks(view, page, view_rng, counts.get("relation", 0))
-                rows += marked_tasks(view, page, view_rng, counts.get("marked_ocr", 0), counts.get("marked_box", 0),
-                                     im, out / "marked")
-                numbering = Counter()
-                for row in rows:
-                    row["id"] = f"{view_id}_{row['task']}_{numbering[row['task']]}"
-                    numbering[row["task"]] += 1
-                    pools[split].append(row)
-                image_items.append({"image": str(path), "width": im.width, "height": im.height, "kind": kind, "ops": ops,
-                                    "items": [{"text": i["text"], "bbox_2d": i["box"], "confidence": i["confidence"]} for i in view["items"]]})
-                im.close()
+        try:
+            page_audit, page_candidates, page_rows, page_items = _page_views(
+                page, split, confidence, minimum, maximum, out, cfg, per_view_cfg, views_cfg, augment, max_size,
+                negative_fraction, vocabulary, max_items)
+        except Exception as exc:
+            if skipped is None:
+                raise
+            skip_page(skipped, page, "views", exc, page.get("source_image", page["image"]))
+            continue
+        audit.update(page_audit)
+        candidates.update(page_candidates)
+        pools[split].extend(page_rows)
+        image_items.extend(page_items)
     if (not pools["train"] and not cfg.get("benchmark_only")) or not pools["benchmark"]:
         raise ValueError("Empty train/benchmark dataset after filtering; inspect OCR and thresholds")
     train = pools["train"]

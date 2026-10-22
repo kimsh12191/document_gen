@@ -1,5 +1,6 @@
 """OCR 문항 만들기(docgen/bench/ocr_*): 사내 OCR 응답 읽기·나누기·채점/보상·쪽 그림 변형·과제 만들기·준비 전체 (studio/DESIGN.md 17절).
 옛 1부 ocr/tests/test_pipeline.py 에서 옮김 (학습·답 내기·골라 뽑기 시험은 train/tests)."""
+import io
 import json
 import random
 import tempfile
@@ -357,17 +358,30 @@ class IntegrationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "tasks_per_view"):
             prepare(self.config)
 
-    def test_duplicate_pixels_fail_before_ocr(self):
+    def test_duplicate_pixels_skipped_before_ocr(self):
+        # The only benchmark page copies a train page: it is skipped in preflight (never OCR'd), so benchmark ends up empty.
         manifest = read_jsonl(self.root / "manifest.jsonl")
         manifest[-1]["image"] = manifest[0]["image"]
         write_jsonl(self.root / "manifest.jsonl", manifest)
-        with patch("docgen.tests.ocr_fixture.ocr_from_file", side_effect=AssertionError("No OCR during preflight")):
-            with self.assertRaisesRegex(ValueError, "Duplicate image leakage"):
+        with patch("sys.stdout", new_callable=io.StringIO) as log:
+            with self.assertRaisesRegex(ValueError, "Empty train/benchmark"):
                 prepare(self.config)
+        self.assertIn("Duplicate image leakage", log.getvalue())
+
+    def test_bad_page_is_skipped_and_build_finishes(self):
+        (self.root / "document_1.png").write_bytes(b"not an image")
+        summary = prepare(self.config)
+        out = self.root / "prepared"
+        self.assertTrue((out / "DONE.json").is_file())
+        skipped = read_jsonl(out / "skipped.jsonl")
+        self.assertEqual([(s["document_id"], s["stage"]) for s in skipped], [("doc_1", "image")])
+        self.assertEqual(summary["skipped_pages"], 1)
+        self.assertEqual(sum(summary["page_counts"].values()), 3)
+        self.assertEqual(len(read_jsonl(out / "pages.jsonl")), 3)
 
     def test_failure_does_not_poison_cache(self):
         with patch("docgen.tests.ocr_fixture.ocr_from_file", return_value={"success": "N"}):
-            with self.assertRaises(ValueError):
+            with self.assertRaisesRegex(ValueError, "Every page failed"):
                 prepare(self.config)
         self.assertEqual(list((self.root / "cache" / "ocr").glob("*.json")), [])
         prepare(self.config)

@@ -9,6 +9,7 @@
   <폴더>/config.json                            OCR 준비 설정 (docgen/bench/ocr_config.example.json + 레시피의 prepare)
   <폴더>/prepared/                              OCR 준비 결과 (studio 가 데이터셋으로 등록하는 과제 폴더)
   <폴더>/ocr_set.json                           레시피, 생성기 커밋, 수, 서식 해시
+  <폴더>/failed.jsonl                           만들다 실패한 서류 {document, form, seed, error, traceback} (그 서류만 빼고 계속 간다)
 prepare 는 python -m docgen.bench.ocr_prepare 로 돈다 (--no-prepare 면 이미지·OCR JSON·manifest 까지만).
 
 레시피 (track: "ocr", 예: docgen/recipes/ocr-bench.json, ocr-train.json)
@@ -33,6 +34,7 @@ import random
 import subprocess
 import sys
 import time
+import traceback
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent   # 저장소 최상위
@@ -97,6 +99,15 @@ def _init(scale: float):
     global _R
     _R = ImageRenderer(scale=scale).__enter__()
     Finalize(_R, lambda: _R.__exit__(None, None, None), exitpriority=10)
+
+
+def _safe_one(job: tuple) -> tuple[list[dict], dict | None]:
+    """서류 한 건을 만들되, 실패하면 그 서류만 빼고 (manifest 줄 없음, 실패 기록) 돌려준다."""
+    try:
+        return _one(job), None
+    except Exception as exc:
+        return [], {"document": f"{job[0]}_{job[1]}", "form": job[0], "seed": job[1], "condition": job[2],
+                    "error": f"{type(exc).__name__}: {exc}", "traceback": traceback.format_exc()}
 
 
 def _one(job: tuple) -> list[dict]:
@@ -183,19 +194,34 @@ def build(args) -> None:
              recipe.get("special", "default"), split, args.scale) for k in range(per) for doc_id in ids]
     t0 = time.time()
     rows: list[dict] = []
+    failed: list[dict] = []
+
+    def take(i, result):
+        r, err = result
+        rows.extend(r)
+        if err:
+            failed.append(err)
+            print(f"\n[실패 {len(failed)}] 서류 {err['document']}: {err['error']} (건너뜀)", file=sys.stderr, flush=True)
+        print(f"\r서류 {i + 1}/{len(jobs)}", end="", file=sys.stderr)
+
     if args.workers > 1:
         import multiprocessing as mp
 
         with mp.get_context("spawn").Pool(args.workers, _init, (args.scale,)) as pool:
-            for i, r in enumerate(pool.imap(_one, jobs)):
-                rows += r
-                print(f"\r서류 {i + 1}/{len(jobs)}", end="", file=sys.stderr)
+            for i, r in enumerate(pool.imap(_safe_one, jobs)):
+                take(i, r)
     else:
         _init(args.scale)
         for i, j in enumerate(jobs):
-            rows += _one(j)
-            print(f"\r서류 {i + 1}/{len(jobs)}", end="", file=sys.stderr)
+            take(i, _safe_one(j))
     print(file=sys.stderr)
+    if failed:
+        with open(out / "failed.jsonl", "w", encoding="utf-8") as f:
+            for e in failed:
+                f.write(json.dumps(e, ensure_ascii=False) + "\n")
+        print(f"실패 서류 {len(failed)}/{len(jobs)}건은 빼고 진행 → {out / 'failed.jsonl'}", file=sys.stderr)
+    if not rows:
+        raise SystemExit(f"만든 쪽이 하나도 없습니다 (서류 {len(jobs)}건 모두 실패). {out / 'failed.jsonl'} 를 보세요")
     for m in recipe.get("merge_manifests") or []:   # 다른 manifest (실서류 등) 를 합친다 (경로는 그 manifest 기준)
         mp_ = Path(m)
         for s in mp_.read_text(encoding="utf-8-sig").splitlines():
@@ -229,7 +255,7 @@ def build(args) -> None:
     from .preview import source_hash
 
     info = {"recipe": recipe, "recipe_path": str(args.recipe), "generator_commit": _git_rev(), "created": time.strftime("%Y-%m-%d %H:%M:%S"),
-            "split": split, "unit": unit, "documents": len(jobs), "pages": len(rows), "seconds": round(time.time() - t0),
+            "split": split, "unit": unit, "documents": len(jobs) - len(failed), "failed_documents": len(failed), "pages": len(rows), "seconds": round(time.time() - t0),
             "form_hashes": {i: source_hash(i, common=False) for i in ids}}
     (out / "ocr_set.json").write_text(json.dumps(info, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"서류 {len(jobs)}건, 쪽 {len(rows)} → {out}", flush=True)
