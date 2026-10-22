@@ -132,3 +132,28 @@ def test_parse_html_checks():
         FD.parse_html(json.dumps({**data, "template": data["template"] + "{% if %}"}))
     ok = FD.parse_html(json.dumps({**data, "template": data["template"].split("{% block content %}")[1].replace("{% endblock %}", "")}))
     assert ok["template"].startswith('{% extends "_base.html.j2" %}')   # 머리를 빠뜨려도 붙인다
+
+
+def test_dev_vlm_mock_runs_whole_flow(tmp_path, img):
+    """시험용 더미 모델 서버(studio.dev_vlm --mock)로 처음부터 끝까지: 공통 키는 기존, 나머지는 새 키."""
+    import socket
+    from studio import dev_vlm
+
+    with socket.socket() as s:
+        s.bind(("127.0.0.1", 0))
+        port = s.getsockname()[1]
+    threading.Thread(target=dev_vlm.serve, args=("127.0.0.1", port, "mock", "", 0), daemon=True).start()
+    import time
+    for _ in range(50):
+        try:
+            socket.create_connection(("127.0.0.1", port), timeout=0.2).close()
+            break
+        except OSError:
+            time.sleep(0.1)
+    d = FD.create(tmp_path, conn(f"http://127.0.0.1:{port}/v1"), "glm", img)
+    FD.run(d)
+    keys = {k["slot"]: k for k in FD.detail(tmp_path, d.name)["keys"]}
+    assert keys["v01"]["key"] == "customer.name" and keys["v06"]["key"] == "agent.name" and keys["v16"]["key"] == "sign.customer"
+    assert keys["v08"]["source"] == "new" and keys["v11"]["key"] == "transfers.*.date"
+    form = json.loads((d / "output" / "form.json").read_text(encoding="utf-8"))
+    assert set(form["lists"]["transfers"]["fields"]) == {"date", "account", "amount"}

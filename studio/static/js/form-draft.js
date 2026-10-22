@@ -73,7 +73,8 @@ async function viewFormDraft(id) {
     <div class="bar"><h1>${esc(a.target.name || (draft && draft.name) || "서식 초안")} <span class="mono muted" style="font-size:13px">${esc(a.id)}</span></h1>
       <span style="flex:1"></span>${fdStatus(run.status)}<span class="tag">${esc(a.provider)}</span>
       ${run.id ? `<a href="#/jobs/${q(run.id)}">실행 로그</a>` : ""}<a href="#/jobs/analyzer/${q(a.id)}">분석기 작업으로</a></div>
-    ${running ? `<div class="panel"><p class="spin">${esc((run.log_tail || "").trim().split("\n").filter(Boolean).slice(-1)[0] || "모델이 일하는 중…")}</p></div>` : ""}
+    ${running ? `<div class="panel"><p class="spin">${run.stage === "finalizing" ? "만든 서식을 그려 검사하는 중…"
+      : esc((run.log_tail || "").trim().split("\n").filter(Boolean).slice(-1)[0] || "모델이 일하는 중…")}</p></div>` : ""}
     ${run.status === "failed" || run.status === "interrupted" ? `<div class="panel warnbox"><b>실패</b><pre class="ans">${esc(run.error || (run.log_tail || "").slice(-1500))}</pre></div>` : ""}
     ${a.conflict ? `<div class="panel warnbox">추천 키끼리 부딪혀 칸 ID 그대로 그렸습니다: ${esc(a.conflict)}. 아래에서 키를 고쳐 저장하세요.</div>` : ""}
     <div class="rc-grid">
@@ -139,7 +140,7 @@ async function viewFormDraft(id) {
         <td><input type="text" data-f="label" value="${esc(k.label)}" style="width:150px"></td>
         <td><input type="text" data-f="description" value="${esc(k.description)}" style="width:240px"></td>
         <td><select data-f="type">${["text", "amount", "number", "date", "checkbox", "seal", "signature"].map(t => `<option ${t === k.type ? "selected" : ""}>${t}</option>`).join("")}</select></td>
-        <td class="muted" style="font-size:12px;max-width:260px">${esc(k.reason || "")}</td></tr>`;
+        <td class="muted" style="font-size:12px;min-width:200px;max-width:320px">${esc(k.reason || "")}</td></tr>`;
     }).join("");
     $$("#fd-rows input, #fd-rows select").forEach(el => el.oninput = el.onchange = () => {
       const tr = el.closest("tr"), k = keys[+tr.dataset.i];
