@@ -138,6 +138,8 @@ def mock_answer(body: dict, delay: float) -> str:
     time.sleep(delay)   # 화면에서 '도는 중'을 볼 수 있게
     if "칸 목록:" in text and "기존 키 목록:" in text:
         return mock_keys(text)
+    if "더 비슷하게 고치기" in text:   # 다듬기: 더미는 그림을 보지 않으므로 고칠 것이 없다고 답한다
+        return "<<<DIFF>>>\n- (더미 모델) 그림을 보지 않아 고칠 것을 찾지 못함\n<<<DONE>>>"
     if "html 서식" in text:
         return "<think>예시 이미지의 표와 칸을 살펴본다.</think>\n" + mock_html()
     return "[]"

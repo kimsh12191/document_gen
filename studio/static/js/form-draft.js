@@ -32,11 +32,13 @@ async function viewFormDrafts() {
       <div class="bar">
         <label>서식 이름 <input type="text" id="fd-name" placeholder="예: 예금거래신청서 (비우면 모델이 제목을 읽음)" style="width:300px"></label>
         <label>그룹 <select id="fd-group">${groups.map(g => `<option value="${esc(g.id)}">${esc(g.name)}</option>`).join("") || `<option>finance</option>`}</select></label>
+        <label title="그려서 원본과 견주며 고치는 횟수. 2회 연속 나아지지 않으면 일찍 멈춥니다">다듬기 <input type="number" id="fd-rounds" min="0" max="8" value="3" style="width:56px">회</label>
         <label title="개인 값이 들어 있는 실서류면 내부 연결로만 보내고, 등록할 때 private_forms_dir 에 둡니다"><input type="checkbox" id="fd-real" checked> 실서류 (개인 값 포함)</label>
       </div>
       <div class="bar"><input type="text" id="fd-comment" placeholder="모델에 덧붙일 말 (선택, 예: 2쪽짜리 서식의 1쪽입니다)" style="flex:1">
         <button class="primary" id="fd-go" ${pv.length ? "" : "disabled"}>만들기</button></div>
-      <div class="muted">PDF 는 첫 쪽만 씁니다. 큰 모델은 몇 분 걸릴 수 있습니다 (연결의 최대 응답 길이·시간 제한을 넉넉히: 16000 토큰 · 900초 정도).</div>
+      <div class="muted">PDF 는 첫 쪽만 씁니다. 뒤에서 모델을 여러 번 부릅니다: 초안 1번, 다듬기마다 1번 (그려서 원본과 견준 그림·위치 차이를 보내 고치게 함), 키 추천 1번.
+        큰 모델은 몇 분 걸립니다 (연결의 최대 응답 길이·시간 제한을 넉넉히: 16000 토큰 · 900초 정도).</div>
     </form>
     ${r.drafts.length ? table(r.drafts, [["id", "초안", d => `<a href="#/form-draft/${q(d.id)}">${esc(d.name || d.id)}</a> <span class="muted mono" style="font-size:11px">${esc(d.id)}</span>`],
       ["provider", "모델", d => esc(d.provider)], ["by", "올린 사람", d => esc(d.by || "")],
@@ -54,7 +56,7 @@ async function viewFormDrafts() {
     $("#fd-go").disabled = true;
     try {
       const res = await apiUpload("/api/form-draft", file, { provider: p.name, name: $("#fd-name").value.trim(), group: $("#fd-group").value,
-        comment: $("#fd-comment").value, real_data: $("#fd-real").checked });
+        comment: $("#fd-comment").value, real_data: $("#fd-real").checked, rounds: $("#fd-rounds").value || 3 });
       location.hash = `#/form-draft/${q(res.id)}`;
     } catch (err) { toast(err.message, true); $("#fd-go").disabled = false; }
   };
@@ -89,6 +91,17 @@ async function viewFormDraft(id) {
         ${!renders.length && !running ? `<p class="muted">그린 결과가 없습니다.</p>` : ""}
       </div>
     </div>
+    ${a.rounds.length ? `<div class="panel" style="margin-top:10px"><div class="bar"><b>다듬기</b>
+        <span class="muted">점수는 원본과 선·글자가 겹치는 정도 (0~100). 가장 좋은 회차가 기본으로 쓰입니다.</span></div>
+      <div style="overflow-x:auto"><table><thead><tr><th>회차</th><th>점수</th><th>결과</th><th>무엇을 고쳤나</th><th>비교 그림</th><th></th></tr></thead><tbody>
+      ${a.rounds.map(h => `<tr><td class="mono">${h.n === 0 ? "초안" : h.n}</td>
+        <td class="num">${h.score ?? "-"}${h.pages > 1 ? ` <span class="tag warn">${h.pages}쪽</span>` : ""}</td>
+        <td>${h.n === a.using_round ? `<span class="tag ok">사용 중</span>` : ""}${h.n === a.best_round ? ` <span class="tag">최고</span>` : ""}
+          ${h.n && !h.kept ? `<span class="tag warn">${h.score == null ? "멈춤" : "되돌림"}</span>` : ""}</td>
+        <td class="muted" style="font-size:12px;white-space:pre-wrap;max-width:420px">${esc(h.note || "")}</td>
+        <td>${h.has_image ? `<a href="${file(`draft/rounds/${h.n}/compare.png`)}" target="_blank" rel="noopener"><img src="${file(`draft/rounds/${h.n}/compare.png`)}" alt="" style="width:210px;border:1px solid var(--line, #ccc)"></a>` : ""}</td>
+        <td>${h.has_image && h.n !== a.using_round && !running ? `<button data-fd-round="${h.n}">이 회차로</button>` : ""}</td></tr>`).join("")}
+      </tbody></table></div></div>` : ""}
     ${draft ? `<div class="panel" style="margin-top:10px">
       <div class="bar"><b>추출 키</b><span class="muted">칸 ${draft.slots.length}개 · ${a.edited_by && a.edited_by !== "model" ? `${esc(a.edited_by)} 수정 ${esc(a.edited_at || "")}` : "모델 추천"}</span>
         <span style="flex:1"></span><button id="fd-reset" ${a.suggested.length ? "" : "disabled"}>모델 추천으로 되돌리기</button>
@@ -117,6 +130,11 @@ async function viewFormDraft(id) {
     </div>`}`;
   $$('[name="fd-rows"]').forEach(r => r.onchange = () => $$("[data-fd-render]").forEach(el => el.hidden = el.dataset.fdRender !== r.value));
   if (running) setTimeout(() => { if (location.hash === `#/form-draft/${q(id)}`) viewFormDraft(id); }, 3000);
+  $$("[data-fd-round]").forEach(b => b.onclick = async () => {
+    b.disabled = true;
+    try { const r = await api(`/api/form-draft/${q(id)}/use-round`, { n: +b.dataset.fdRound }); toast(r.ok ? "그 회차로 바꿨습니다 · 검사 통과" : "그 회차로 바꿨습니다 · 검사에 문제", !r.ok); viewFormDraft(id); }
+    catch (e) { toast(e.message, true); b.disabled = false; }
+  });
   if ($("#fd-rerun")) $("#fd-rerun").onclick = async () => {
     try { const r = await api(`/api/form-draft/${q(id)}/rerun`, { comment: $("#fd-again").value }); location.hash = `#/form-draft/${q(r.id)}`; }
     catch (e) { toast(e.message, true); }

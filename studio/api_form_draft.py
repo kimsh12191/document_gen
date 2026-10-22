@@ -1,14 +1,15 @@
 """서식 초안 탭 API (외주 작업: 예시 이미지 → html 서식 → 추출 키 추천). 설명은 studio/form_draft.py.
 
   GET  /api/form-draft                     초안 목록 + 쓸 수 있는 모델 연결 (OCR·모델 연결 화면과 같은 설정)
-  POST /api/form-draft                     이미지 올리고 시작 (multipart: file, provider, name, group, comment, real_data)
+  POST /api/form-draft                     이미지 올리고 시작 (multipart: file, provider, name, group, comment, real_data, rounds)
   GET  /api/form-draft/catalog             키 사전 (키·뜻·타입·공통/문서별) — 키 입력 칸의 후보
   GET  /api/form-draft/{작업}              상세: 칸·키·검사 결과·실행 상태
   PUT  /api/form-draft/{작업}/keys         키 저장 {keys: [{slot, key, label, description, type}]} → 다시 그려 검사
+  POST /api/form-draft/{작업}/use-round    다듬기 회차 고르기 {n} (그 회차의 판으로 바꾸고 다시 검사)
   POST /api/form-draft/{작업}/rerun        같은 이미지로 다시 {provider?, comment}
   GET  /api/form-draft/{작업}/export       키 목록 JSON
   POST /api/form-draft/{작업}/register     서식으로 등록 {form_id, name} (분석기 승인과 같다)
-그림은 /api/analyzer/{작업}/file?path=input/source.png · check/… 로 본다.
+그림은 /api/analyzer/{작업}/file?path=input/source.png · draft/rounds/<n>/compare.png · check/… 로 본다.
 """
 import shutil
 import threading
@@ -56,7 +57,7 @@ def make_router(reg, jobs, guard, cfg: dict) -> APIRouter:
 
     @r.post("")
     async def create(file: UploadFile = File(...), provider: str = Form(...), name: str = Form(""), group: str = Form("finance"),
-                     comment: str = Form(""), real_data: bool = Form(True)):
+                     comment: str = Form(""), real_data: bool = Form(True), rounds: int = Form(FD.ROUNDS)):
         up = ws / "analyzer_uploads"
         up.mkdir(parents=True, exist_ok=True)
         uid = uuid.uuid4().hex[:12]
@@ -77,7 +78,7 @@ def make_router(reg, jobs, guard, cfg: dict) -> APIRouter:
                     im.convert("RGB").save(png)
         except Exception as e:  # noqa: BLE001
             raise HTTPException(400, f"그림으로 읽지 못했습니다: {e}")
-        d = guard(FD.create, ws, conn(), provider, png, name.strip(), group, comment, real_data, user())
+        d = guard(FD.create, ws, conn(), provider, png, name.strip(), group, comment, real_data, user(), rounds)
         return start(d)
 
     @r.get("/catalog")
@@ -106,12 +107,21 @@ def make_router(reg, jobs, guard, cfg: dict) -> APIRouter:
         info = guard(FD.detail, ws, aid)
         src = ws / "analyzer" / info["id"] / "input" / "source.png"
         d = guard(FD.create, ws, conn(), req.provider or info["provider"], src, info["target"].get("name", ""),
-                  info["target"].get("group", "finance"), req.comment, bool(info["source"].get("real_data")), user())
+                  info["target"].get("group", "finance"), req.comment, bool(info["source"].get("real_data")), user(),
+                  info["target"].get("rounds", FD.ROUNDS))
         return start(d)
 
     @r.get("/{aid}/export")
     def export(aid: str):
         return guard(FD.export, ws, aid)
+
+    class UseRound(BaseModel):
+        n: int
+
+    @r.post("/{aid}/use-round")
+    def use_round(aid: str, req: UseRound):
+        with lock:
+            return guard(FD.use_round, ws, aid, req.n, user())
 
     class Register(BaseModel):
         form_id: str

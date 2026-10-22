@@ -1,10 +1,12 @@
-"""서식 초안 (외주 작업 탭): 예시 서식 이미지 → VLM 이 그 모양대로 html 서식을 만들고 → 키 사전을 참고해 칸마다
-추출 키·항목명·설명을 추천한다. 작업자는 추천을 고쳐 저장하고, 검사(렌더링)를 통과하면 서식으로 등록한다.
-화면은 static/js/form-draft.js, API 는 api_form_draft.py.
+"""서식 초안 (외주 작업 탭): 예시 서식 이미지 → VLM 이 그 모양대로 html 서식을 만들고, 그려서 원본과 견주며 몇 번 고친 뒤
+키 사전을 참고해 칸마다 추출 키·항목명·설명을 추천한다. 작업자는 추천을 고쳐 저장하고, 검사(렌더링)를 통과하면 서식으로 등록한다.
+화면은 static/js/form-draft.js, API 는 api_form_draft.py, 비교는 form_fit.py.
 
-두 번 묻는다 (둘 다 이미지를 같이 보낸다).
-  1단계 html   analyzer_tasks/draft_html.md. 키 대신 칸 ID(v01…)로 쓴 템플릿과 칸 목록(항목명·구역·종류)을 받는다.
-  2단계 키     칸 목록 + 키 사전 후보(key_suggestions.catalog·candidates: 공통 키 전체 + 관련 문서별 키)로 칸마다 키를 추천받는다.
+사용자는 이미지를 올리고 만들기만 누른다. 뒤에서 vLLM(openai 방식)을 여러 번 부른다 (모두 이미지를 같이 보낸다).
+  1. 초안    analyzer_tasks/draft_html.md. 칸 ID(v01…)로 쓴 템플릿과 칸 목록. 형식이 틀리면 오류를 붙여 한 번 더.
+  2. 다듬기  회차마다: 그린다 → form_fit 이 점수·겹침 그림·덩어리별 위치 차이 → analyzer_tasks/draft_refine.md 로
+             찾아 바꾸기 수정을 받는다. 점수가 가장 좋은 판을 남기고, 나빠진 수정은 되돌린다. 2회 연속 안 오르면 멈춘다.
+  3. 키      칸 목록 + 키 사전 후보(key_suggestions.catalog·candidates)로 칸마다 키를 추천받는다.
   칸 ID 를 키로 바꿔 output/ 에 쓰면 분석기 html 결과와 같은 꼴이 되어, 검사(analyzers.validate)·등록(analyzers.approve)을 그대로 쓴다.
 
 작업 폴더는 분석기 작업 폴더(<workspace_dir>/analyzer/<ID>/, kind "html")이고 target.draft 가 true 다 (⑧ 작업 › 분석기에도 보인다).
@@ -12,12 +14,17 @@
   TASK.md             1단계 지시문
   draft/request.json  {provider, provider_config} (작업 프로세스가 읽는다. api 키는 환경변수 이름만)
   draft/html_answer.txt · keys_answer.txt   모델 답 그대로
-  draft/slots.json    {name, category, template: 칸 ID 템플릿, slots: [{id, kind, label, section, type, rule?, choices?, list?}], lists}
+  draft/rounds/<n>/   회차 (0 = 초안): template.html.j2, slots.json, page.png, compare.png, score.json, prompt.txt, answer.txt
+  draft/rounds.json   [{n, score, kept, note}] 와 best
+  draft/slots.json    지금 쓰는 판 {name, category, template: 칸 ID 템플릿, slots: [{id, kind, label, section, type, rule?, choices?, list?}], lists}
   draft/keys.json     {suggested: 모델 추천, keys: 지금 쓰는 키 (작업자가 고친 것), by, at}
                       칸마다 {slot, key, source: existing|new, label: 항목명(누구의 무엇), description: 항목 설명, type, reason}
   output/             template.html.j2 + form.json (칸 ID → 키)
 
-  python -m studio.form_draft <작업 폴더>     1단계 → 2단계 → output/ (작업이 이 명령을 돌린다)
+연결 설정(provider)에서 더 읽는 것: max_tokens·timeout, max_images (한 요청에 보낼 그림 수, 기본 1: 다듬기는 원본이 든
+비교 그림 한 장만 보낸다), extra_body (요청에 그대로 더한다. 예: {"chat_template_kwargs": {"enable_thinking": false}}).
+
+  python -m studio.form_draft <작업 폴더>     1 → 2 → 3 → output/ (작업이 이 명령을 돌린다)
 """
 from __future__ import annotations
 
@@ -35,6 +42,10 @@ from docgen.sources import RULE_KINDS, SPECIAL_RULES
 from . import analyzers as AZ, key_suggestions as KS, real_benchmark as RB
 
 TASK = Path(__file__).resolve().parent / "analyzer_tasks" / "draft_html.md"
+REFINE = Path(__file__).resolve().parent / "analyzer_tasks" / "draft_refine.md"
+ROUNDS = 3                 # 기본 다듬기 횟수
+MARK = re.compile(r"<<<(META|TEMPLATE|SLOTS|LISTS|DIFF|EDITS|DONE|END)>>>")
+EDIT = re.compile(r"<<<<<<<\s*SEARCH\s*?\n(.*?)\n=======\s*?\n(.*?)\n?>>>>>>>\s*REPLACE", re.S)
 KINDS = ("field", "check", "seal", "sign")
 RULES = RULE_KINDS + ["choice", "free_text", "date_seq"]
 SLOT_RX = re.compile(r"v\d{2,3}")
@@ -54,7 +65,7 @@ def _think(text: str) -> str:
 # ---------------------------------------------------------------------------
 
 def create(ws: Path, conn: dict, provider: str, image: Path, name: str = "", group: str = "finance", comment: str = "",
-           real_data: bool = True, by: str = "studio") -> Path:
+           real_data: bool = True, by: str = "studio", rounds: int = ROUNDS) -> Path:
     """작업 폴더를 만든다 (아직 실행하지 않는다). conn: real_benchmark.connection_config (OCR·모델 연결 화면의 설정)."""
     p = AZ._provider(conn, provider)
     if p["kind"] != "openai":
@@ -67,7 +78,7 @@ def create(ws: Path, conn: dict, provider: str, image: Path, name: str = "", gro
     for sub in ("input", "output", "draft"):
         (d / sub).mkdir(parents=True)
     shutil.copyfile(image, d / "input" / "source.png")
-    target = {"name": name, "group": group or "finance", "draft": True}
+    target = {"name": name, "group": group or "finance", "draft": True, "rounds": max(0, min(8, int(rounds)))}
     (d / "TASK.md").write_text(task_text(target, comment), encoding="utf-8")
     RB.write(d / "draft" / "request.json", {"provider": provider, "provider_config": p})
     AZ._write(d / "job.json", {"id": job_id, "kind": "html", "provider": provider, "provider_kind": "openai", "external": external,
@@ -90,10 +101,36 @@ def task_text(target: dict, comment: str = "") -> str:
 # 1단계: html (칸 ID)
 # ---------------------------------------------------------------------------
 
+def sections(text: str) -> dict:
+    """<<<NAME>>> 구획으로 나눈 답 → {NAME: 내용}. 코드 블록 울타리(```)는 벗긴다."""
+    text = _think(text)
+    parts = MARK.split(text)
+    out = {}
+    for name, body in zip(parts[1::2], parts[2::2]):
+        body = re.sub(r"^\s*```[\w-]*\s*\n|\n\s*```\s*$", "", body.strip("\n")).strip("\n")
+        out[name] = body
+    return out
+
+
 def parse_html(text: str) -> dict:
-    data = parse_json(_think(text))
+    """1단계 답 (구획 형식, 또는 예전 JSON 형식) → 검사한 초안."""
+    sec = sections(text)
+    if "TEMPLATE" in sec:
+        meta = parse_json(sec.get("META") or "{}")
+        slots = parse_json(sec.get("SLOTS") or "")
+        if not isinstance(slots, list):
+            raise ValueError("SLOTS 구획이 JSON 목록이 아닙니다")
+        lists = parse_json(sec.get("LISTS") or "{}")
+        data = {**(meta if isinstance(meta, dict) else {}), "template": sec["TEMPLATE"], "slots": slots,
+                "lists": lists if isinstance(lists, dict) else {}}
+    else:
+        data = parse_json(_think(text))
+    return check_draft(data)
+
+
+def check_draft(data) -> dict:
     if not isinstance(data, dict) or not isinstance(data.get("template"), str) or not isinstance(data.get("slots"), list):
-        raise ValueError('답이 {"template", "slots"} JSON 이 아닙니다')
+        raise ValueError("답에서 TEMPLATE·SLOTS 구획을 찾지 못했습니다")
     from docgen.render import env
     from jinja2 import TemplateSyntaxError
 
@@ -217,7 +254,7 @@ def suggest(ws: Path, d: Path, draft: dict, pc: dict) -> list[dict]:
     terms = [draft.get("name") or ""] + [s["label"] for s in draft["slots"]] + [s["section"] for s in draft["slots"]]
     selected = KS.candidates(all_rows, terms)
     question = key_prompt(draft, selected, len(all_rows))
-    raw = RB.vlm_completion(pc, [str(d / "input" / "source.png")], question)
+    raw = chat(pc, [d / "input" / "source.png"], [question])
     (d / "draft" / "keys_answer.txt").write_text(raw, encoding="utf-8")
     return parse_keys(raw, draft, all_rows)
 
@@ -294,24 +331,203 @@ def apply(d: Path, rows: list[dict], by: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# 모델 부르기 (vLLM openai 방식)
+# ---------------------------------------------------------------------------
+
+def chat(pc: dict, images: list, turns: list[str]) -> str:
+    """turns: [사용자, 모델, 사용자, …] 글자 (다시 받기는 앞 답과 오류를 붙여 보낸다). 그림은 첫 사용자 말에 붙인다.
+    max_images 를 넘는 그림은 앞에서부터 자른다. extra_body 는 요청에 그대로 더한다."""
+    import base64
+    import mimetypes
+    from urllib.request import Request, urlopen
+
+    images = [str(i) for i in images][:max(1, int(pc.get("max_images", 1)))]
+    first = [{"type": "image_url", "image_url": {"url": "data:" + (mimetypes.guess_type(im)[0] or "image/png") + ";base64,"
+                                                  + base64.b64encode(Path(im).read_bytes()).decode()}} for im in images]
+    messages = [{"role": "user", "content": first + [{"type": "text", "text": turns[0]}]}]
+    for i, t in enumerate(turns[1:]):
+        messages.append({"role": "assistant" if i % 2 == 0 else "user", "content": t})
+    body = {"model": pc["model"], "messages": messages, "temperature": 0, "max_tokens": int(pc.get("max_tokens", 8192)),
+            **(pc.get("extra_body") or {})}
+    req = Request(pc["base_url"].rstrip("/") + "/chat/completions", data=json.dumps(body).encode(),
+                  headers={"Content-Type": "application/json", **AZ._auth(pc)})
+    with urlopen(req, timeout=int(pc.get("timeout", 300))) as res:
+        out = json.loads(res.read())
+    choice = out["choices"][0]
+    if choice.get("finish_reason") == "length":
+        raise ValueError("응답이 최대 길이에서 잘렸습니다. 연결의 최대 응답 길이(max_tokens)를 늘리세요")
+    return choice["message"]["content"] or ""
+
+
+def ask(pc: dict, images: list, prompt: str, parse, log: Path):
+    """부르고 읽는다. 읽지 못하면 오류를 붙여 한 번 더 부른다. (값, 답) — 두 번 다 실패하면 ValueError."""
+    raw = chat(pc, images, [prompt])
+    log.write_text(raw, encoding="utf-8")
+    try:
+        return parse(raw), raw
+    except ValueError as e:
+        print(f"  답을 읽지 못해 다시 묻습니다: {e}", flush=True)
+        again = chat(pc, images, [prompt, raw, f"앞 답을 쓸 수 없습니다: {e}\n같은 형식으로 고쳐서 다시 답하세요."])
+        log.with_name(log.stem + "_retry.txt").write_text(again, encoding="utf-8")
+        return parse(again), again
+
+
+# ---------------------------------------------------------------------------
+# 다듬기: 그리기 · 견주기 · 고치기
+# ---------------------------------------------------------------------------
+
+def apply_edits(template: str, text: str) -> str:
+    """찾아 바꾸기 묶음을 적용한다. SEARCH 는 정확히 한 번 나와야 하고, 공백만 다르면 공백을 무시하고 한 번 더 찾는다."""
+    edits = EDIT.findall(text)
+    if not edits:
+        raise ValueError("EDITS 구획에 찾아 바꾸기 묶음이 없습니다")
+    for n, (find, repl) in enumerate(edits, 1):
+        if template.count(find) == 1:
+            template = template.replace(find, repl)
+            continue
+        if template.count(find) > 1:
+            raise ValueError(f"{n}번째 수정의 SEARCH 가 템플릿에 여러 번 나옵니다. 더 긴 줄을 쓰세요: {find[:80]!r}")
+        words = find.split()
+        hits = list(re.finditer(r"\s+".join(map(re.escape, words)), template)) if words else []
+        if len(hits) != 1:
+            raise ValueError(f"{n}번째 수정의 SEARCH 를 템플릿에서 찾지 못했습니다 (지금 템플릿에서 그대로 옮기세요): {find[:80]!r}")
+        template = template[:hits[0].start()] + repl + template[hits[0].end():]
+    return template
+
+
+def parse_refine(text: str, draft: dict) -> dict | None:
+    """다듬기 답 → 새 초안 (DONE 이면 None)."""
+    sec = sections(text)
+    if "DONE" in sec and not sec.get("EDITS") and not sec.get("TEMPLATE"):
+        return None
+    if sec.get("TEMPLATE"):
+        tpl = sec["TEMPLATE"]
+    elif sec.get("EDITS"):
+        tpl = apply_edits(draft["template"], sec["EDITS"])
+    else:
+        raise ValueError("EDITS 또는 TEMPLATE 구획이 없습니다 (고칠 것이 없으면 <<<DONE>>>)")
+    slots = parse_json(sec["SLOTS"]) if sec.get("SLOTS") else draft["slots"]
+    new = check_draft({**draft, "template": tpl, "slots": slots})
+    return {**new, "name": draft.get("name"), "category": draft.get("category"), "diff": sec.get("DIFF", "").strip()}
+
+
+def render(d: Path, draft: dict, n: int) -> dict:
+    """회차 n 의 판을 칸 ID 그대로 그리고 원본과 견준다 → draft/rounds/<n>/ 와 점수."""
+    import subprocess
+
+    from . import form_fit as FF
+
+    rd = d / "draft" / "rounds" / str(n)
+    (rd / "form").mkdir(parents=True, exist_ok=True)
+    (rd / "template.html.j2").write_text(draft["template"], encoding="utf-8")
+    RB.write(rd / "slots.json", draft)
+    tpl, form = build(draft, [{"slot": s["id"], "key": f"{s['list']}.*.{s['id']}" if s.get("list") else s["id"]} for s in draft["slots"]])
+    (rd / "form" / "template.html.j2").write_text(tpl, encoding="utf-8")
+    AZ._write(rd / "form" / "form.json", form)
+    r = subprocess.run([sys.executable, "-m", "docgen.preview", "--dir", str(rd / "form"), "--rows", "min", "--out", str(rd / "check")],
+                       capture_output=True, text=True, encoding="utf-8", errors="replace", cwd=str(AZ.ROOT), timeout=300)
+    if r.returncode:
+        raise ValueError(f"그리기 실패: {(r.stderr or r.stdout).strip().splitlines()[-1:] or ['?']}")
+    info = json.loads(r.stdout.strip().splitlines()[-1])
+    page = Path(info["images"][0])
+    shutil.copyfile(page, rd / "page.png")
+    cmp = FF.compare(d / "input" / "source.png", page, page.parent / "label.json")
+    FF.composite(d / "input" / "source.png", page, rd / "compare.png")
+    res = {"n": n, "score": cmp["score"], "precision": cmp["precision"], "recall": cmp["recall"], "pages": info["pages"],
+           "checks": info["checks"], "feedback": cmp["feedback"]}
+    if info["pages"] > 1:
+        res["feedback"] = f"쪽 넘침: 원본은 한 쪽인데 {info['pages']}쪽으로 그려졌다. 높이·간격·글자 크기를 줄여 한 쪽에 넣는다.\n" + res["feedback"]
+    RB.write(rd / "score.json", res)
+    return res
+
+
+def refine_prompt(draft: dict, res: dict, history: list[dict], n: int, total: int, note: str = "") -> str:
+    hist = "\n".join(f"- {h['n']}회차: {h['score']}{'' if h.get('kept', True) else ' (되돌림)'}" for h in history)
+    slots = json.dumps([{k: v for k, v in s.items() if k in ("id", "kind", "label", "list")} for s in draft["slots"]],
+                       ensure_ascii=False)
+    return (REFINE.read_text(encoding="utf-8").replace("{round}", str(n)).replace("{rounds}", str(total))
+            .replace("{history}", hist + f"\n- 지금 판: {res['score']} (0~100, 원본과 선·글자가 겹치는 정도)")
+            .replace("{measured}", res["feedback"]).replace("{note}", note).replace("{slots}", slots)
+            .replace("{template}", draft["template"]))
+
+
+def refine(d: Path, pc: dict, draft: dict, total: int, measure: bool = True) -> dict:
+    """그리고 견주고 고치기를 total 회까지. 가장 점수가 좋은 판을 돌려준다. measure=False 면 위치 숫자 없이 그림만 (비교 시험용)."""
+    cur = render(d, draft, 0)
+    best, best_draft = cur, draft
+    history = [{"n": 0, "score": cur["score"], "kept": True, "note": "초안"}]
+    print(f"초안 점수 {cur['score']}", flush=True)
+    note, stale = "", 0
+    save = lambda: RB.write(d / "draft" / "rounds.json", {"best": best["n"], "rounds": history})  # noqa: E731
+    save()
+    for n in range(1, total + 1):
+        print(f"다듬기 {n}/{total} (지금 {best['score']})", flush=True)
+        rd = d / "draft" / "rounds" / str(best["n"])
+        prompt = refine_prompt(best_draft, best if measure else {**best, "feedback": "(이번에는 숫자를 주지 않는다. 겹침 그림만 보고 고친다.)"},
+                               history, n, total, note)
+        (d / "draft" / "rounds" / f"prompt_{n}.txt").write_text(prompt, encoding="utf-8")
+        images = [rd / "compare.png"] + ([d / "input" / "source.png"] if int(pc.get("max_images", 1)) > 1 else [])
+        try:
+            new, _ = ask(pc, images, prompt, lambda t: parse_refine(t, best_draft), d / "draft" / "rounds" / f"answer_{n}.txt")
+        except ValueError as e:
+            print(f"  다듬기를 멈춥니다: {e}", flush=True)
+            history.append({"n": n, "score": None, "kept": False, "note": f"답을 쓸 수 없음: {e}"})
+            break
+        if new is None:
+            print("  모델이 더 고칠 것이 없다고 답했습니다", flush=True)
+            history.append({"n": n, "score": None, "kept": False, "note": "더 고칠 것 없음"})
+            break
+        try:
+            res = render(d, new, n)
+        except ValueError as e:
+            note = f"\n지난 수정은 그릴 수 없어 되돌렸다 ({e}). 같은 수정을 다시 하지 않는다."
+            history.append({"n": n, "score": None, "kept": False, "note": str(e)})
+            stale += 1
+            if stale >= 2:
+                break
+            continue
+        kept = res["score"] > best["score"] + 0.2
+        history.append({"n": n, "score": res["score"], "kept": kept, "note": new.get("diff", "")[:500]})
+        print(f"  점수 {res['score']} ({'남김' if kept else '되돌림'})", flush=True)
+        if kept:
+            best, best_draft, note, stale = res, new, "", 0
+        else:
+            note = (f"\n지난 수정(아래)은 점수를 {best['score']} → {res['score']} 로 낮춰 되돌렸다. 위 그림·숫자는 되돌린 판의 것이다. "
+                    f"같은 방향으로 크게 바꾸지 말고 숫자대로 작게 고친다.\n지난 수정의 설명: {new.get('diff', '')[:600]}")
+            stale += 1
+        save()
+        if stale >= 2:
+            print("  2회 연속 나아지지 않아 멈춥니다", flush=True)
+            break
+    save()
+    return best_draft
+
+
+# ---------------------------------------------------------------------------
 # 실행 (작업 프로세스)
 # ---------------------------------------------------------------------------
 
-def run(d: Path) -> None:
+def run(d: Path, keys: bool = True) -> None:
     d = Path(d)
     req = RB.read(d / "draft" / "request.json")
     pc = req["provider_config"]
     ws = d.parent.parent
-    print(f"단계 1/2: html 만들기 ({pc.get('base_url')} · {pc.get('model')})", flush=True)
-    raw = RB.vlm_completion(pc, [str(d / "input" / "source.png")], (d / "TASK.md").read_text(encoding="utf-8"))
-    (d / "draft" / "html_answer.txt").write_text(raw, encoding="utf-8")
-    draft = parse_html(raw)
     job = RB.read(d / "job.json")
+    total = int(job["target"].get("rounds", ROUNDS))
+    print(f"1/3 초안 만들기 ({pc.get('base_url')} · {pc.get('model')})", flush=True)
+    draft, _ = ask(pc, [d / "input" / "source.png"], (d / "TASK.md").read_text(encoding="utf-8"), parse_html,
+                   d / "draft" / "html_answer.txt")
     if job["target"].get("name"):
         draft["name"] = job["target"]["name"]
-    RB.write(d / "draft" / "slots.json", draft)
     print(f"칸 {len(draft['slots'])}개", flush=True)
-    print("단계 2/2: 키 추천", flush=True)
+    if total:
+        print(f"2/3 그려서 견주며 다듬기 (최대 {total}회)", flush=True)
+        draft = refine(d, pc, draft, total, job["target"].get("measure", True))
+    draft.pop("diff", None)
+    RB.write(d / "draft" / "slots.json", draft)
+    if not keys:
+        return
+    print("3/3 키 추천", flush=True)
     rows = suggest(ws, d, draft, pc)
     RB.write(d / "draft" / "keys.json", {"suggested": rows})
     try:
@@ -356,9 +572,33 @@ def detail(ws: Path, job_id: str) -> dict:
     keys = RB.read(d / "draft" / "keys.json", {}) or {}
     answers = {n: (d / "draft" / f).read_text(encoding="utf-8")[:200_000]
                for n, f in (("html", "html_answer.txt"), ("keys", "keys_answer.txt")) if (d / "draft" / f).exists()}
+    rounds = RB.read(d / "draft" / "rounds.json", {}) or {}
+    scores = {r.parent.name: RB.read(r) for r in (d / "draft" / "rounds").glob("*/score.json")}
+    for h in rounds.get("rounds", []):
+        h["has_image"] = (d / "draft" / "rounds" / str(h["n"]) / "compare.png").exists()
+        h.update({k: v for k, v in (scores.get(str(h["n"])) or {}).items() if k in ("pages", "precision", "recall")})
     return {**{k: v for k, v in a.items() if k != "task"}, "draft": RB.read(d / "draft" / "slots.json"),
             "keys": keys.get("keys") or keys.get("suggested") or [], "suggested": keys.get("suggested") or [],
-            "edited_by": keys.get("by"), "edited_at": keys.get("at"), "conflict": keys.get("conflict"), "answers": answers}
+            "edited_by": keys.get("by"), "edited_at": keys.get("at"), "conflict": keys.get("conflict"), "answers": answers,
+            "rounds": rounds.get("rounds", []), "best_round": rounds.get("best"), "using_round": rounds.get("using", rounds.get("best"))}
+
+
+def use_round(ws: Path, job_id: str, n: int, by: str) -> dict:
+    """작업자가 고른 회차의 판으로 바꾼다. 키는 같은 칸 ID 의 것을 그대로 쓰고, 새 칸은 임시 키로."""
+    d = _dir(ws, job_id)
+    draft = RB.read(d / "draft" / "rounds" / str(int(n)) / "slots.json")
+    if not draft:
+        raise KeyError(f"{n}회차")
+    draft.pop("diff", None)
+    RB.write(d / "draft" / "slots.json", draft)
+    old = {r["slot"]: r for r in (RB.read(d / "draft" / "keys.json", {}) or {}).get("keys") or []}
+    rows = [{**old.get(s["id"], {}), "slot": s["id"], "key": old.get(s["id"], {}).get("key") or
+             (f"{s['list']}.*.{s['id']}" if s.get("list") else f"todo_{s['id']}")} for s in draft["slots"]]
+    rows = annotate(rows, draft, KS.catalog(ws))
+    apply(d, rows, by)
+    rounds = RB.read(d / "draft" / "rounds.json", {}) or {}
+    RB.write(d / "draft" / "rounds.json", {**rounds, "using": int(n)})
+    return AZ.validate(d)
 
 
 def save_keys(ws: Path, job_id: str, rows: list[dict], by: str) -> dict:

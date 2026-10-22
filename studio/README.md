@@ -168,10 +168,20 @@ docgen/preview.py 서식 하나 렌더링 (브라우저 전용 스레드, 결과
 
 ## 서식 초안 (외주 작업: 예시 이미지 → html 서식 → 추출 키 추천)
 
-메뉴 **서식 초안**. 예시 서식 이미지(PNG·JPG·PDF 첫 쪽)를 올리면 내부망 VLM(vLLM, openai 방식)에 두 번 묻습니다. 코드는 `studio/form_draft.py`, `studio/api_form_draft.py`.
+메뉴 **서식 초안**. 예시 서식 이미지(PNG·JPG·PDF 첫 쪽)를 올리고 만들기만 누르면, 뒤에서 내부망 VLM(vLLM, openai 방식)을 여러 번 부릅니다. 코드는 `studio/form_draft.py`(흐름), `studio/form_fit.py`(비교), `studio/api_form_draft.py`.
 
-1. **html**: 이미지를 보고 같은 모양의 docgen html 서식을 만듭니다. 값 자리는 칸 ID(`v01`…)와 항목명·구역·종류(글자·체크·도장·서명·반복 표)로 받습니다. 지시문은 `studio/analyzer_tasks/draft_html.md`.
-2. **키 추천**: 칸 목록과 키 사전 후보(공통 키 전체 + 항목명으로 고른 문서별 키, 뜻 포함)를 이미지와 함께 보내 칸마다 키·항목명(누구의 무엇)·항목 설명·타입·이유를 받습니다. 기존 키인지는 사전이 정합니다.
+1. **초안** (1회): 이미지를 보고 같은 모양의 docgen html 서식을 만듭니다. 값 자리는 칸 ID(`v01`…)와 항목명·구역·종류로 받습니다. 지시문 `studio/analyzer_tasks/draft_html.md` (쪽 794×1123px 기준으로 열 너비는 %, **행 높이는 px 로 직접**). 형식이 틀리면 오류를 붙여 한 번 더 묻습니다.
+2. **다듬기** (기본 3회): 회차마다 그려서 원본과 견줍니다. 원본에서 선을 검출하지 않고, 깨끗한 렌더링에서 찾은 덩어리·가로선·세로선이 원본의 어디에 대응하는지 잉크 분포를 맞대어 잽니다 (예: `가로선 렌더링→원본 181→173, 205→193`). 원본|렌더링|겹침 그림 한 장과 이 숫자를 보내 찾아 바꾸기로 고치게 하고(`analyzer_tasks/draft_refine.md`), 점수(원본과 선·글자가 겹치는 정도, 0~100)가 오르면 남기고 내리면 되돌립니다. 2회 연속 오르지 않으면 멈춥니다. 화면에서 회차별 점수·비교 그림을 보고 다른 회차를 고를 수 있습니다.
+3. **키 추천** (1회): 칸 목록과 키 사전 후보(공통 키 전체 + 항목명으로 고른 문서별 키, 뜻 포함)를 이미지와 함께 보내 칸마다 키·항목명(누구의 무엇)·항목 설명·타입·이유를 받습니다. 기존 키인지는 사전이 정합니다.
+
+연결 설정(`studio/config.json` 의 providers)에서 더 읽는 것: `max_tokens`·`timeout`, `max_images`(한 요청의 그림 수, 기본 1 — 다듬기는 원본이 든 비교 그림 한 장만 보냄), `extra_body`(요청에 그대로 더함, 예: `{"chat_template_kwargs": {"enable_thinking": false}}`).
+
+**비교 시험** (내부망에서 실제 모델로): 이미 있는 서식을 그린 그림을 넣어 다시 만들고 초안 점수와 다듬은 뒤 점수를 견줍니다.
+
+```bash
+python -m studio.draft_bench --provider <연결 이름> --sample 10 --rounds 3 --conditions clean,scan --out bench_out
+python -m studio.draft_bench --provider <연결 이름> --sample 10 --rounds 3 --no-measure --out bench_out_nomeasure   # 위치 숫자 없이 (효과 비교)
+```
 
 작업자는 표에서 키·항목명·설명을 고쳐 **저장하고 다시 그리기**(렌더링 검사), **키 목록 내려받기**(JSON), 검사를 통과하면 **서식으로 등록**합니다(분석기 승인과 같음, 실서류면 `private_forms_dir`). 모델 연결은 실문서 벤치마크의 **OCR·모델 연결** 설정을 같이 씁니다. 큰 모델은 최대 응답 길이 16000 토큰·시간 제한 900초 정도로 넉넉히 두세요. 결과 폴더는 분석기 작업과 같은 꼴(`<workspace_dir>/analyzer/<ID>/`)이라 ⑧ 작업 › 분석기에서도 보입니다.
 

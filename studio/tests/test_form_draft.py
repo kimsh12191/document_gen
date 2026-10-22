@@ -82,7 +82,7 @@ def test_create_boundary(tmp_path, img):
 
 def test_run_end_to_end(tmp_path, img, server):
     url, seen = server
-    d = FD.create(tmp_path, conn(url), "glm", img, "", "finance")
+    d = FD.create(tmp_path, conn(url), "glm", img, "", "finance", rounds=0)
     FD.run(d)
     assert len(seen) == 2 and all(m["messages"][0]["content"][0]["type"] == "image_url" for m in seen)   # 두 단계 모두 이미지를 본다
     assert "customer.name" in seen[1]["messages"][0]["content"][-1]["text"]   # 공통 키 후보를 보낸다
@@ -101,7 +101,7 @@ def test_run_end_to_end(tmp_path, img, server):
 
 def test_save_keys_and_export(tmp_path, img, server, monkeypatch):
     url, _ = server
-    d = FD.create(tmp_path, conn(url), "glm", img)
+    d = FD.create(tmp_path, conn(url), "glm", img, rounds=0)
     FD.run(d)
     monkeypatch.setattr(AZ, "validate", lambda d: {"ok": True, "errors": []})   # 렌더링(브라우저)은 빼고
     rows = FD.detail(tmp_path, d.name)["keys"]
@@ -150,10 +150,110 @@ def test_dev_vlm_mock_runs_whole_flow(tmp_path, img):
             break
         except OSError:
             time.sleep(0.1)
-    d = FD.create(tmp_path, conn(f"http://127.0.0.1:{port}/v1"), "glm", img)
+    d = FD.create(tmp_path, conn(f"http://127.0.0.1:{port}/v1"), "glm", img, rounds=0)
     FD.run(d)
     keys = {k["slot"]: k for k in FD.detail(tmp_path, d.name)["keys"]}
     assert keys["v01"]["key"] == "customer.name" and keys["v06"]["key"] == "agent.name" and keys["v16"]["key"] == "sign.customer"
     assert keys["v08"]["source"] == "new" and keys["v11"]["key"] == "transfers.*.date"
     form = json.loads((d / "output" / "form.json").read_text(encoding="utf-8"))
     assert set(form["lists"]["transfers"]["fields"]) == {"date", "account", "amount"}
+
+
+# ---------------------------------------------------------------------------
+# 다듬기 하네스: 구획 답 · 찾아 바꾸기 · 위치 맞대기 · 회차 루프 (브라우저 없이)
+# ---------------------------------------------------------------------------
+
+def _sections_answer(template=TEMPLATE, slots=None):
+    data = json.loads(HTML_ANSWER.split("</think>")[1])
+    return ("<<<META>>>\n{\"name\": \"예금거래신청서\"}\n<<<TEMPLATE>>>\n```html\n" + template + "\n```\n<<<SLOTS>>>\n"
+            + json.dumps(slots or data["slots"], ensure_ascii=False) + "\n<<<LISTS>>>\n" + json.dumps(data["lists"]) + "\n<<<END>>>")
+
+
+def test_parse_sections_format():
+    d = FD.parse_html("<think>본다</think>\n" + _sections_answer())
+    assert d["name"] == "예금거래신청서" and d["template"].startswith("{% extends") and len(d["slots"]) == 5
+    assert d["lists"]["rows"] == {"min": 2, "max": 5}
+    with pytest.raises(ValueError, match="SLOTS"):
+        FD.parse_html("<<<TEMPLATE>>>\nx\n<<<SLOTS>>>\n아님\n<<<END>>>")
+
+
+def test_apply_edits_exact_whitespace_and_errors():
+    tpl = "a { height: 24px; }\n<td>{{ f(\"v01\") }}</td>\n<td>x</td>\n<td>x</td>"
+    one = "<<<<<<< SEARCH\na { height: 24px; }\n=======\na { height: 21px; }\n>>>>>>> REPLACE"
+    assert FD.apply_edits(tpl, one).startswith("a { height: 21px; }")
+    loose = "<<<<<<< SEARCH\n  <td>{{ f(\"v01\")   }}</td>\n=======\n<td class=\"c\">{{ f(\"v01\") }}</td>\n>>>>>>> REPLACE"
+    assert '<td class="c">' in FD.apply_edits(tpl, loose)   # 들여쓰기·공백 수만 다르면 찾는다
+    with pytest.raises(ValueError, match="여러 번"):
+        FD.apply_edits(tpl, "<<<<<<< SEARCH\n<td>x</td>\n=======\n<td>y</td>\n>>>>>>> REPLACE")
+    with pytest.raises(ValueError, match="찾지 못했습니다"):
+        FD.apply_edits(tpl, "<<<<<<< SEARCH\nnone\n=======\ny\n>>>>>>> REPLACE")
+
+
+def test_parse_refine():
+    draft = FD.parse_html(_sections_answer())
+    new = FD.parse_refine("<<<DIFF>>>\n- 제목이 작음\n<<<EDITS>>>\n<<<<<<< SEARCH\n{{ m.title(\"예금거래신청서\") }}\n=======\n"
+                          "<h1 style=\"font-size:30px\">예금거래신청서</h1>\n>>>>>>> REPLACE\n<<<END>>>", draft)
+    assert "font-size:30px" in new["template"] and new["diff"] == "- 제목이 작음" and new["name"] == "예금거래신청서"
+    assert FD.parse_refine("<<<DIFF>>>\n- 없음\n<<<DONE>>>", draft) is None
+    with pytest.raises(ValueError, match="템플릿에 없는"):   # 칸을 지운 수정은 칸 목록 검사에 걸린다
+        FD.parse_refine("<<<EDITS>>>\n<<<<<<< SEARCH\n<th>연락처</th><td>{{ f(\"v02\", label=\"연락처\") }}</td>\n=======\n\n>>>>>>> REPLACE", draft)
+
+
+def test_form_fit_finds_vertical_shift(tmp_path):
+    """같은 표를 20px 아래로 내린 그림: 맞대기가 '원본보다 아래' 와 가로선 대응을 낸다."""
+    from PIL import ImageDraw
+    from studio import form_fit as FF
+
+    def page(shift, row):
+        im = Image.new("RGB", (794, 1123), "white")
+        dr = ImageDraw.Draw(im)
+        for i in range(8):
+            y = 200 + shift + i * row
+            dr.line([(60, y), (734, y)], fill="black", width=2)
+        for x in (60, 200, 734):
+            dr.line([(x, 200 + shift), (x, 200 + shift + 7 * row)], fill="black", width=2)
+        return im
+
+    page(0, 22).save(tmp_path / "orig.png")
+    page(20, 25).save(tmp_path / "render.png")
+    r = FF.compare(tmp_path / "orig.png", tmp_path / "render.png")
+    table = max(r["blocks"], key=lambda b: b["y"][1] - b["y"][0])
+    assert 14 <= table["y"][0] - table["orig_y"][0] <= 26
+    assert "아래" in r["feedback"] and "가로선" in r["feedback"]
+    same = FF.compare(tmp_path / "orig.png", tmp_path / "orig.png")
+    assert same["score"] == 100.0 and "큰 위치 차이는 없다" in same["feedback"]
+    assert r["score"] < same["score"]
+    FF.composite(tmp_path / "orig.png", tmp_path / "render.png", tmp_path / "c.png")
+    assert Image.open(tmp_path / "c.png").size == (794 * 3 + 20, 1123)
+
+
+def test_refine_keeps_best_and_stops(tmp_path, img, monkeypatch):
+    """점수가 오른 수정은 남기고, 내린 수정은 되돌리고, 2회 연속 안 오르면 멈춘다."""
+    d = FD.create(tmp_path, conn("http://x/v1"), "glm", img, rounds=5)
+    draft = FD.parse_html(_sections_answer())
+    scores = iter([60.0, 70.0, 65.0, 69.0, 99.0])
+
+    def fake_render(d_, dr, n):
+        rd = d_ / "draft" / "rounds" / str(n)
+        rd.mkdir(parents=True, exist_ok=True)
+        RB_write(rd / "slots.json", dr)
+        (rd / "compare.png").write_bytes(b"x")
+        return {"n": n, "score": next(scores), "feedback": "1. y 10~20: 시작이 원본보다 8px 아래", "pages": 1}
+
+    from studio import real_benchmark as RB
+    RB_write = RB.write
+    edit = ("<<<DIFF>>>\n- 간격 {n}\n<<<EDITS>>>\n<<<<<<< SEARCH\n{{ m.title(\"예금거래신청서\") }}\n=======\n"
+            "{{ m.title(\"예금거래신청서\") }}<!--{n}-->\n>>>>>>> REPLACE")
+    calls = []
+
+    def fake_chat(pc, images, turns):
+        calls.append(turns[0])
+        return edit.replace("{n}", str(len(calls)))
+
+    monkeypatch.setattr(FD, "render", fake_render)
+    monkeypatch.setattr(FD, "chat", fake_chat)
+    best = FD.refine(d, {}, draft, 5)
+    rounds = json.loads((d / "draft" / "rounds.json").read_text(encoding="utf-8"))
+    assert [h["kept"] for h in rounds["rounds"]] == [True, True, False, False] and rounds["best"] == 1
+    assert "<!--1-->" in best["template"] and "<!--2-->" not in best["template"]
+    assert "되돌렸다" in calls[2] and "8px 아래" in calls[0] and "(1/5회차)" in calls[0]
