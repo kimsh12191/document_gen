@@ -323,6 +323,50 @@ def test_pipeline_ocr_prepare_stage_is_optional_and_runs_once(tmp_path, model):
     assert "no ocr_prepare config" in out.getvalue()
 
 
+def test_pipeline_parts_run_sft_and_grpo_separately(tmp_path, mixed, model):
+    """--part sft 는 SFT 까지 + 보고서, --part grpo 는 SFT 체크포인트에서 GRPO + 보고서. 체크포인트가 없으면 멈춘다."""
+    from train import pipeline as P
+
+    config = tmp_path / "pipeline.json"
+    write_json(config, {"workdir": "runs", "model": model,
+                        "data": {"train": [str(tmp_path / "train")], "benchmark": [str(tmp_path / "bench")], "output_dir": "prep"}})
+
+    def ran(*args):
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            P.main(["--config", str(config), "--dry-run", *args])
+        return [st for st in P.STAGES if f"=== {st} done" in out.getvalue()], out.getvalue()
+
+    assert ran("--part", "sft")[0] == ["ocr_prepare", "prepare", "eval_base", "sft", "eval_sft", "report"]
+    stages, text = ran("--part", "grpo")
+    assert stages == ["prepare", "eval_sft", "select", "grpo", "eval_grpo", "report"]
+    assert "--adapter <sft checkpoint>" in text
+    ckpt = tmp_path / "other" / "checkpoint-100"
+    ckpt.mkdir(parents=True)
+    assert f"--adapter {ckpt}" in ran("--part", "grpo", "--sft-checkpoint", str(ckpt))[1]
+    with pytest.raises(SystemExit, match="SFT 체크포인트가 없습니다"):
+        P.main(["--config", str(config), "--part", "grpo"])
+    # SFT 가 끝난 상태: --part grpo 는 SFT 평가를 건너뛰고, 보고서는 늘 다시 만든다
+    runner = P.Runner(P.merged(P.DEFAULTS, read_json(config)), config, False, False)
+    runner.state.update(done=["ocr_prepare", "prepare", "eval_base", "sft", "eval_sft", "report"], sft_checkpoint=str(ckpt))
+    runner.save()
+    calls = []
+    with patch.object(P.Runner, "check_inputs", lambda self: None), \
+            patch.multiple(P.Runner, **{f"stage_{st}": (lambda st: lambda self: calls.append(st))(st) for st in P.STAGES}):
+        with contextlib.redirect_stdout(io.StringIO()):
+            P.main(["--config", str(config), "--part", "grpo"])
+    assert calls == ["select", "grpo", "eval_grpo", "report"]
+    calls.clear()
+    other = tmp_path / "other" / "checkpoint-200"
+    other.mkdir()
+    with patch.object(P.Runner, "check_inputs", lambda self: None), \
+            patch.multiple(P.Runner, **{f"stage_{st}": (lambda st: lambda self: calls.append(st))(st) for st in P.STAGES}):
+        with contextlib.redirect_stdout(io.StringIO()):
+            P.main(["--config", str(config), "--part", "grpo", "--sft-checkpoint", str(other)])
+    assert calls == ["eval_sft", "select", "grpo", "eval_grpo", "report"]
+    assert read_json(runner.state_path)["sft_checkpoint"] == str(other)
+
+
 def test_pipeline_dry_run_and_grpo_rerun_report(tmp_path, mixed, model):
     from train import pipeline as P
 

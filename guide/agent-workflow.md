@@ -159,8 +159,10 @@ python -m train --config train/configs/<실험>.json --smoke
 | 요청 | 명령 |
 |---|---|
 | 전부 (SFT + GRPO) | `nohup python -m train --config <설정> > <workdir>.log 2>&1 &` |
-| SFT까지만 | `--only prepare`, `--only eval_base`, `--only sft`, `--only eval_sft`, `--only report` 차례로 |
-| GRPO만 다시 | `--from grpo` |
+| SFT까지만 | `--part sft` |
+| 끝난 SFT에서 GRPO | `--part grpo` (SFT 체크포인트가 없으면 멈춤) |
+| 다른 실험의 SFT에서 GRPO | `--part grpo --sft-checkpoint <폴더>` |
+| GRPO 설정을 바꿔 다시 | `--from grpo` |
 | 평가만 (학습 없이) | `--only prepare`, `--only eval_base`, `--only report`. 섞기에 학습 문항이 필요하므로 `data.train`에 학습 데이터셋 하나는 둠 |
 
 - 진행: `<workdir>/state.json`의 `done`(끝난 단계), `timings`(시간). 로그는 `<workdir>/logs/<단계>.log`.

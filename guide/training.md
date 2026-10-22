@@ -74,7 +74,15 @@ cp train/configs/pipeline.example.json train/configs/pipeline.json
 
 ```bash
 python -m train --config train/configs/pipeline.json --smoke          # 리허설 (5 step, 작은 평가)
-nohup python -m train --config train/configs/pipeline.json > train.log 2>&1 &   # 본 실행 (A100 2장 1~2일)
+nohup python -m train --config train/configs/pipeline.json > train.log 2>&1 &   # 본 실행: SFT + GRPO (A100 2장 1~2일)
+```
+
+SFT와 GRPO를 따로 돌릴 수도 있습니다. 둘 다 끝나면 점수표를 만듭니다.
+
+```bash
+python -m train --config train/configs/pipeline.json --part sft       # 섞기 → 출발 모델 평가 → SFT → SFT 평가 → 점수표
+python -m train --config train/configs/pipeline.json --part grpo      # 위 SFT에서 GRPO → 평가 → 점수표 (출발·SFT·GRPO 한 표)
+python -m train --config train/configs/pipeline.json --part grpo --sft-checkpoint <SFT 체크포인트 폴더>   # 다른 SFT에서 GRPO
 ```
 
 | 확인 | 정상 |
@@ -94,10 +102,12 @@ nohup python -m train --config train/configs/pipeline.json > train.log 2>&1 &   
 | 이어서 | 같은 명령 |
 | 새 실험 | `workdir` 새 이름 |
 | 데이터 구성을 바꿈 | `data.output_dir` 새 이름 |
-| GRPO만 다시 | `--from grpo` |
+| SFT까지만 | `--part sft` |
+| 끝난 SFT에서 GRPO | `--part grpo` |
+| 다른 실험의 SFT에서 GRPO | `--part grpo --sft-checkpoint <폴더>` (SFT 평가부터 다시) |
+| GRPO 설정을 바꿔 다시 | `--from grpo` (앞 GRPO 점수도 표에 남음) |
 | SFT부터 다시 | `--from sft` |
 | 한 단계만 | `--only <단계>` (단계: `prepare` `eval_base` `sft` `eval_sft` `select` `grpo` `eval_grpo` `report`) |
-| SFT까지만 하고 표 | `--only prepare` → `--only eval_base` → `--only sft` → `--only eval_sft` → `--only report` 차례로 |
 | 명령만 보기 | `--dry-run` (경로 검사는 안 함) |
 | 생성기 코드가 바뀜 | 데이터셋을 새 이름으로 다시 만들고, `data`의 경로·`output_dir`·`workdir`을 새로. 옛 세트와 점수는 직접 비교하지 않음 |
 

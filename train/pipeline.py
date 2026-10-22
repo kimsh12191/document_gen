@@ -17,8 +17,12 @@
 저장소 최상위에서:
   python -m train --config train/configs/pipeline.json --smoke     # 5 step·작은 평가 리허설 (workdir/smoke)
   python -m train --config train/configs/pipeline.json             # 전부
+  python -m train --config train/configs/pipeline.json --part sft  # SFT 까지 (섞기·출발 평가·SFT·SFT 평가·보고서)
+  python -m train --config train/configs/pipeline.json --part grpo  # 그 SFT 에서 GRPO (고르기·GRPO·평가·보고서)
+  python -m train --config train/configs/pipeline.json --part grpo --sft-checkpoint <SFT 체크포인트>   # 다른 SFT 에서
   python -m train --config train/configs/pipeline.json --from grpo # GRPO 다시 (보고서는 둘 다 남김)
   python -m train --config train/configs/pipeline.json --dry-run   # 명령만 보기
+보고서(report)는 단계를 돌릴 때마다 다시 만든다.
 """
 import argparse
 import json
@@ -42,6 +46,9 @@ from .settings import image_tokens, image_tokens_for, load_settings
 
 ROOT = Path(__file__).resolve().parents[1]   # 저장소 최상위: 하위 명령은 여기서 python -m train.… 으로
 STAGES = ["ocr_prepare", "prepare", "eval_base", "sft", "eval_sft", "select", "grpo", "eval_grpo", "report"]
+PARTS = {"sft": ["ocr_prepare", "prepare", "eval_base", "sft", "eval_sft", "report"],
+         "grpo": ["prepare", "eval_sft", "select", "grpo", "eval_grpo", "report"]}
+AFTER_SFT = ["eval_sft", "select", "grpo", "eval_grpo"]   # SFT 체크포인트가 바뀌면 다시 할 단계
 DEFAULTS = {
     "model_type": "qwen3_5",
     "gpus": [0, 1],
@@ -385,16 +392,32 @@ class Runner:
 def main(argv=None):
     p = argparse.ArgumentParser(prog="python -m train", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--config", required=True, help="파이프라인 설정 JSON (train/configs/pipeline.example.json)")
-    p.add_argument("--from", dest="start", choices=STAGES, help="이 단계와 뒤 단계를 다시")
-    p.add_argument("--only", choices=STAGES, help="이 단계만")
+    pick = p.add_mutually_exclusive_group()
+    pick.add_argument("--part", choices=PARTS, help="sft: SFT 까지, grpo: SFT 체크포인트에서 GRPO (끝난 단계는 건너뜀)")
+    pick.add_argument("--from", dest="start", choices=STAGES, help="이 단계와 뒤 단계를 다시")
+    pick.add_argument("--only", choices=STAGES, help="이 단계만")
+    p.add_argument("--sft-checkpoint", help="GRPO 를 시작할 SFT 체크포인트 (다른 실험의 것도 됨). 주면 SFT 평가부터 다시")
     p.add_argument("--smoke", action="store_true", help="5 step 학습·작은 평가 (workdir/smoke)")
     p.add_argument("--dry-run", action="store_true", help="명령만 보여 주고 실행하지 않음")
     a = p.parse_args(argv)
     cfg = merged(DEFAULTS, load_settings(a.config))
     runner = Runner(cfg, a.config, a.smoke, a.dry_run)
-    stages = [a.only] if a.only else STAGES[STAGES.index(a.start):] if a.start else STAGES
+    stages = [a.only] if a.only else STAGES[STAGES.index(a.start):] if a.start else PARTS[a.part] if a.part else STAGES
     if a.start or a.only:
         runner.state["done"] = [s for s in runner.state["done"] if s not in stages]
+    if a.sft_checkpoint:
+        ckpt = str(Path(a.sft_checkpoint).resolve())
+        if not a.dry_run and not Path(ckpt).is_dir():
+            sys.exit(f"--sft-checkpoint 폴더가 없습니다: {ckpt}")
+        if runner.state.get("sft_checkpoint") != ckpt:
+            runner.state["sft_checkpoint"] = ckpt
+            runner.state["done"] = [s for s in runner.state["done"] if s not in AFTER_SFT]
+    if a.part == "grpo" and "sft_checkpoint" not in runner.state:
+        if not a.dry_run:
+            sys.exit("SFT 체크포인트가 없습니다. 먼저 --part sft 로 SFT 를 돌리거나 --sft-checkpoint <폴더> 로 주세요.")
+        runner.state["sft_checkpoint"] = "<sft checkpoint>"
+    # 보고서는 늘 지금 있는 점수로 다시 만든다 (--part sft 뒤 --part grpo 를 돌려도 GRPO 줄이 생기게)
+    runner.state["done"] = [s for s in runner.state["done"] if s != "report"]
     if not a.dry_run:
         runner.check_inputs()
     for stage in stages:

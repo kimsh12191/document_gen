@@ -6,6 +6,8 @@ studio 데이터셋(과제 폴더)을 섞어 SFT·GRPO 로 학습하고, 같은 
 # 학습 컨테이너, 저장소 최상위에서
 python -m train --config train/configs/<이름>.json --smoke     # 리허설: 5 step 학습, 과제마다 8문항 평가 (workdir/smoke)
 python -m train --config train/configs/<이름>.json             # 전부
+python -m train --config train/configs/<이름>.json --part sft  # SFT 까지 (+ 보고서)
+python -m train --config train/configs/<이름>.json --part grpo # 그 SFT 에서 GRPO (+ 보고서). 다른 SFT 는 --sft-checkpoint <폴더>
 python -m train --config train/configs/<이름>.json --from grpo # GRPO 다시 (앞 GRPO 점수도 보고서에 남음)
 python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보기
 ```
