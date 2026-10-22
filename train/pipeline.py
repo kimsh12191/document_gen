@@ -160,7 +160,10 @@ class Runner:
             return
         path = self.workdir / "logs" / log_name
         with path.open("a", encoding="utf-8") as out:
-            proc = subprocess.Popen(cmd, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, cwd=ROOT)
+            # Child logs are Korean: force UTF-8 both ways (Windows consoles default to cp949).
+            env = {**(env or os.environ), "PYTHONIOENCODING": "utf-8"}
+            proc = subprocess.Popen(cmd, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
+                                    encoding="utf-8", errors="replace", cwd=ROOT)
             for line in proc.stdout:
                 out.write(line)
                 sys.stdout.write(line)
