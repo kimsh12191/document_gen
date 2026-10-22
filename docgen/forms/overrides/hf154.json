@@ -1,0 +1,1153 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성 명",
+    "n": 0
+   },
+   "key": "related_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성 명",
+    "n": 1
+   },
+   "key": "related_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "연령",
+    "n": 0
+   },
+   "key": "related_list.{i}.age",
+   "kind": "age_years"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "연령",
+    "n": 1
+   },
+   "key": "related_list.{i}.age",
+   "kind": "age_years"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "직업 및 직위",
+    "n": 0
+   },
+   "key": "related_list.{i}.job",
+   "kind": "job_position"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "직업 및 직위",
+    "n": 1
+   },
+   "key": "related_list.{i}.job",
+   "kind": "job_position"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "차주와의 관계",
+    "n": 0
+   },
+   "key": "related_list.{i}.relation",
+   "kind": "guarantor_relation"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "차주와의 관계",
+    "n": 1
+   },
+   "key": "related_list.{i}.relation",
+   "kind": "guarantor_relation"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "월평균수입",
+    "n": 0
+   },
+   "key": "related_list.{i}.monthly_income",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "월평균수입",
+    "n": 1
+   },
+   "key": "related_list.{i}.monthly_income",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "실 자 산",
+    "n": 0
+   },
+   "key": "related_list.{i}.net_assets",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "실 자 산",
+    "n": 1
+   },
+   "key": "related_list.{i}.net_assets",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주 소(전화번호)",
+    "n": 0
+   },
+   "key": "related_list.{i}.address",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주 소(전화번호)",
+    "n": 1
+   },
+   "key": "related_list.{i}.address",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 량",
+    "n": 0
+   },
+   "key": "loan.basis_list.{i}.line",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 량",
+    "n": 1
+   },
+   "key": "loan.basis_list.{i}.line",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 량",
+    "n": 2
+   },
+   "key": "loan.basis_list.{i}.line",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 량",
+    "n": 3
+   },
+   "key": "loan.basis_list.{i}.line",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 량",
+    "n": 4
+   },
+   "key": "loan.basis_list.{i}.line",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 량",
+    "n": 5
+   },
+   "key": "bank.opinion_list.{i}.line",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 량",
+    "n": 6
+   },
+   "key": "bank.opinion_list.{i}.line",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 량",
+    "n": 7
+   },
+   "key": "bank.opinion_list.{i}.line",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금 액",
+    "n": 0
+   },
+   "key": "loan.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이자지급시기",
+    "n": 0
+   },
+   "key": "loan.interest_timing",
+   "kind": "interest_timing"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기 한",
+    "n": 0
+   },
+   "key": "loan.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상환자원및 방법",
+    "n": 0
+   },
+   "key": "loan.repay",
+   "kind": "repay"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "L/C(계약서) No",
+    "n": 0
+   },
+   "key": "trade.lc_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금 액",
+    "n": 1
+   },
+   "key": "trade.amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "품 목",
+    "n": 0
+   },
+   "key": "trade.goods",
+   "kind": "goods"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 량",
+    "n": 8
+   },
+   "key": "trade.quantity",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "선적(납품)기일",
+    "n": 0
+   },
+   "key": "trade.shipment_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "유효기일",
+    "n": 0
+   },
+   "key": "trade.expiry_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "가 격 조 건",
+    "n": 0
+   },
+   "key": "trade.incoterms"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "결 제 조 건",
+    "n": 0
+   },
+   "key": "trade.payment_terms",
+   "kind": "payment_terms"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기타특수조건",
+    "n": 0
+   },
+   "key": "trade.special_terms",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "승 인 일 자",
+    "n": 0
+   },
+   "key": "bank.approval_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "승 인 기 한",
+    "n": 0
+   },
+   "key": "bank.approval_expiry",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "U$",
+    "n": 0
+   },
+   "key": "bank.proper_limit_usd",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "U$",
+    "n": 1
+   },
+   "key": "bank.used_usd",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "U$",
+    "n": 2
+   },
+   "key": "bank.limit_remaining_usd",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "생 산",
+    "n": 0
+   },
+   "key": "credit.trade.production",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "원자재수입",
+    "n": 0
+   },
+   "key": "credit.trade.raw_import",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "원자재구매",
+    "n": 0
+   },
+   "key": "credit.trade.raw_purchase",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "완제품구매",
+    "n": 0
+   },
+   "key": "credit.trade.product_purchase",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "포괄금융",
+    "n": 0
+   },
+   "key": "credit.trade.comprehensive",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "농수산물수출준비",
+    "n": 0
+   },
+   "key": "credit.trade.agri_export",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "내국신용장발행",
+    "n": 0
+   },
+   "key": "credit.trade.local_lc",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "수입신용장발행",
+    "n": 2
+   },
+   "key": "credit.trade.import_lc",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "무 역 금 융",
+    "n": 0
+   },
+   "key": "credit.working.trade_finance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "일반자금대출",
+    "n": 0
+   },
+   "key": "credit.working.general",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당 좌 대 출",
+    "n": 0
+   },
+   "key": "credit.working.overdraft",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상 업 어 음",
+    "n": 2
+   },
+   "key": "credit.working.commercial_bill",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "일반자금대출",
+    "n": 1
+   },
+   "key": "credit.facility.general",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "무역금융관계",
+    "n": 0
+   },
+   "key": "credit.guarantee.trade",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "기타원화표시",
+    "n": 0
+   },
+   "key": "credit.guarantee.other_krw",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외 화 대 출",
+    "n": 3
+   },
+   "key": "credit.facility.fx_loan",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "기타외화표시",
+    "n": 1
+   },
+   "key": "credit.guarantee.other_fx",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "수입신용장발행",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "수입신용장발행",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상 업 어 음",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상 업 어 음",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외 화 대 출",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외 화 대 출",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외 화 대 출",
+    "n": 2
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "기타외화표시",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "소 계",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "소 계",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금년도 수출실적 : (당행Nego액 : ) (예 정 액 : )",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "정기예금",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "정기예금",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "월말잔액",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "월말잔액",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "담보제공액",
+    "n": 6
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "담보제공액",
+    "n": 7
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "담보제공액",
+    "n": 8
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비 고",
+    "n": 2
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비 고",
+    "n": 3
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비 고",
+    "n": 4
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "정기예금",
+    "n": 2
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "정기예금",
+    "n": 3
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "담보제공액",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "담보제공액",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "담보제공액",
+    "n": 3
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "보통예금",
+    "n": 0
+   },
+   "key": "deposit.savings_balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "담보제공액",
+    "n": 4
+   },
+   "key": "deposit_list.{i}.savings_pledged",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비 고",
+    "n": 0
+   },
+   "key": "deposit_list.{i}.savings_note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "정기예금",
+    "n": 4
+   },
+   "key": "deposit.time_balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "담보제공액",
+    "n": 5
+   },
+   "key": "deposit_list.{i}.time_pledged",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비 고",
+    "n": 1
+   },
+   "key": "deposit_list.{i}.time_note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "정기예금",
+    "n": 5
+   },
+   "key": "collateral.time_deposit",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "부 동 산",
+    "n": 0
+   },
+   "key": "property.location",
+   "source": "rule:free_text"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "담보제공액",
+    "n": 2
+   },
+   "key": "collateral_list.{i}.property_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "기 타",
+    "n": 0
+   },
+   "key": "collateral.other",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "전년도 실적",
+    "n": 0
+   },
+   "key": "export.last_year",
+   "kind": "fx_amount"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    229.5,
+    121.9,
+    283.1,
+    136.9
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 주소",
+   "rect": [
+    149.2,
+    181.5,
+    385.1,
+    202.5
+   ],
+   "key": "company.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 상호",
+   "rect": [
+    149.2,
+    206.2,
+    270.0,
+    223.1
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 전화번호",
+   "rect": [
+    316.9,
+    206.2,
+    376.9,
+    223.1
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 대표자",
+   "rect": [
+    149.2,
+    225.0,
+    256.9,
+    241.9
+   ],
+   "key": "company.ceo"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "이자율 연 이율 (%)",
+   "rect": [
+    169.1,
+    334.1,
+    266.2,
+    351.4
+   ],
+   "key": "loan.rate",
+   "kind": "percent"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "지연배상금 이율 연 (%)",
+   "rect": [
+    407.6,
+    334.1,
+    508.1,
+    351.4
+   ],
+   "key": "loan.overdue_rate",
+   "kind": "percent"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "무역금융승인한도 (천원)",
+   "rect": [
+    438.8,
+    518.6,
+    534.4,
+    535.5
+   ],
+   "key": "bank.trade_limit",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "사용액(본건포함) (천원)",
+   "rect": [
+    438.8,
+    538.5,
+    534.4,
+    555.4
+   ],
+   "key": "bank.trade_used",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "여유액(본건취급후) (천원)",
+   "rect": [
+    438.8,
+    558.0,
+    534.4,
+    575.2
+   ],
+   "key": "bank.trade_remaining",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "전년도 실적 당행Nego액",
+   "rect": [
+    502.5,
+    97.5,
+    536.2,
+    116.2
+   ],
+   "key": "export.last_year_nego",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "과거1년간 실적",
+   "rect": [
+    388.1,
+    118.9,
+    439.9,
+    132.0
+   ],
+   "key": "export.past_year",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "과거1년간 당행Nego액",
+   "rect": [
+    502.5,
+    118.9,
+    540.0,
+    132.0
+   ],
+   "key": "export.past_year_nego",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "최근3개월 실적",
+   "rect": [
+    388.1,
+    135.0,
+    436.9,
+    150.0
+   ],
+   "key": "export.recent_3m",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "최근3개월 당행Nego액",
+   "rect": [
+    502.5,
+    135.0,
+    536.2,
+    150.0
+   ],
+   "key": "export.recent_3m_nego",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "금년도 수출실적",
+   "rect": [
+    393.8,
+    153.0,
+    436.9,
+    166.9
+   ],
+   "key": "export.this_year",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "금년도 당행Nego액",
+   "rect": [
+    502.5,
+    153.0,
+    536.2,
+    166.9
+   ],
+   "key": "export.this_year_nego",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "금년도 예정액",
+   "rect": [
+    493.1,
+    168.8,
+    536.2,
+    184.1
+   ],
+   "key": "export.this_year_plan",
+   "kind": "fx_amount"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:18"
+ }
+}

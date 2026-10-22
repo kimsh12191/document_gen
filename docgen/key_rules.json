@@ -86,6 +86,18 @@
   "incoterms": {"meaning": "인코텀즈 2020", "how": "choices", "choices": {"FOB": 3, "CIF": 3, "CFR": 2, "EXW": 1, "FCA": 1, "DAP": 1, "DDP": 1}},
   "hs_code": {"meaning": "HS 코드 10자리", "how": "pattern", "pattern": "####.##-####"},
   "port": {"meaning": "항구 (영문)", "how": "choices", "choices": {"BUSAN, KOREA": 4, "INCHEON, KOREA": 2, "SHANGHAI, CHINA": 2, "LOS ANGELES, USA": 1, "HAMBURG, GERMANY": 1, "ROTTERDAM, NETHERLANDS": 1, "HAIPHONG, VIETNAM": 1, "SINGAPORE": 1}},
-  "vessel": {"meaning": "선박명 + 항차", "how": "pattern", "pattern": "{HMM|EVER|MSC|STAR|SEA} {ALGECIRAS|GIVEN|OSCAR|PIONEER|DREAM} ###{E|W|N|S}"}
+  "vessel": {"meaning": "선박명 + 항차", "how": "pattern", "pattern": "{HMM|EVER|MSC|STAR|SEA} {ALGECIRAS|GIVEN|OSCAR|PIONEER|DREAM} ###{E|W|N|S}"},
+  "transfer_day": {"meaning": "자동이체일(매월)", "how": "choices", "choices": {"5일": 2, "10일": 3, "15일": 1, "20일": 1, "25일": 3}},
+  "payday": {"meaning": "급여일", "how": "choices", "choices": {"10일": 2, "25일": 3, "말일": 1}},
+  "user_id": {"meaning": "인터넷뱅킹 이용자ID(영문/숫자 6~15자)", "how": "choices", "choices": {"hana2025": 1, "kimsh82": 1, "leewk1025": 1, "parkjy77": 1, "choi0315": 1, "jhlee2024": 1}},
+  "contract_period": {"meaning": "예금 계약기간", "how": "choices", "choices": {"12개월": 5, "6개월": 2, "24개월": 2, "36개월": 1}},
+  "sell_order": {"meaning": "매도순위", "how": "choices", "choices": {"1": 3, "2": 2, "3": 1, "4": 1}},
+  "age_years": {"meaning": "나이(세)", "how": "choices", "choices": {"41": 1, "47": 2, "52": 2, "56": 2, "61": 1}},
+  "job_position": {"meaning": "직업 및 직위", "how": "choices", "choices": {"회사원/대표이사": 4, "회사원/이사": 2, "자영업/대표": 2, "회사원/부장": 1}},
+  "guarantor_relation": {"meaning": "보증인과 차주(법인)와의 관계", "how": "choices", "choices": {"대표이사": 5, "이사": 2, "실제경영자": 1, "최대주주": 1, "배우자": 1}},
+  "interest_timing": {"meaning": "이자지급시기", "how": "choices", "choices": {"매월 후취": 4, "매월 선취": 2, "3개월마다 후취": 1, "만기 일시": 1}},
+  "payment_terms": {"meaning": "결제조건", "how": "choices", "choices": {"L/C AT SIGHT": 4, "USANCE L/C 90 DAYS": 2, "D/P": 1, "D/A 60 DAYS": 1, "T/T IN ADVANCE": 2}},
+  "relation_en": {"meaning": "본인과의 관계(영문)", "how": "choices", "choices": {"Spouse": 4, "Son": 2, "Daughter": 2, "Parent": 1, "Sibling": 1}},
+  "poa_power_en": {"meaning": "위임 업무 상세(영문)", "how": "choices", "choices": {"Inquiry of account balance and transaction history": 3, "Reissue of bankbook": 2, "Issuance of balance certificate": 2, "Withdrawal of deposit": 1}}
  }
 }

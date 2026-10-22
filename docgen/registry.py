@@ -147,15 +147,18 @@ def doc(id: str, name: str, group: str, category: str = "external", page: str = 
 
 
 _EXTRA_DONE = False
+_SCANNED = False
 
 
 def load_all() -> dict[str, DocSpec]:
     """서류 전부: docgen/docs/*.py 의 @doc(코드 서식, 원본 서식) + 화면에서 만든 html 서식(docgen/htmlform.py, 처음 한 번)."""
-    global _EXTRA_DONE
+    global _EXTRA_DONE, _SCANNED
     from . import docs
 
-    for m in pkgutil.iter_modules(docs.__path__):
-        importlib.import_module(f"{docs.__name__}.{m.name}")
+    if not _SCANNED:   # 폴더는 처음 한 번만 훑는다 (서식 목록 한 번에 수천 번 불린다). 실행 중 새 서식은 각 등록 함수가 넣는다
+        for m in pkgutil.iter_modules(docs.__path__):
+            importlib.import_module(f"{docs.__name__}.{m.name}")
+        _SCANNED = True
     if not _EXTRA_DONE:   # 코드 서식을 모두 등록한 뒤라 ID 가 겹치면 코드 서식이 이긴다
         _EXTRA_DONE = True
         from .htmlform import register_forms

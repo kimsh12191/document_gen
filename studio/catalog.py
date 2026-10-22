@@ -194,7 +194,8 @@ def _edited(doc_id: str) -> bool:
     return overrides.path(doc_id).exists() or (load_all()[doc_id].template != "_real_form.html.j2" and (html_regions.path(doc_id).exists() or any(template_variants.folder(doc_id).glob("*.regions.json"))))
 
 
-def _summary(spec, entry: dict) -> dict:
+def _summary(spec, entry: dict, audit: bool = False) -> dict:
+    """서식 한 줄. audit: 이미지 값 점검(상세 화면만 씀, 서식마다 원본 해시를 계산해 느리다)."""
     kind, origin = kind_of(spec.group, spec.id)
     official_source = None
     if spec.template.startswith("@form/"):
@@ -209,7 +210,7 @@ def _summary(spec, entry: dict) -> dict:
         "id": spec.id, "name": spec.name, "group": spec.group, "group_name": GROUPS.get(spec.group, spec.group),
         "kind": kind, "origin": origin, "category": spec.category, "page": spec.page,
         "official_source": official_source,
-        "value_audit": value_audit(spec.id),
+        **({"value_audit": value_audit(spec.id)} if audit else {}),
         "scenarios": [s["id"] for s in _scenarios_of().get(spec.id, [])],
         "reviewed": entry.get("reviewed"), "split": entry.get("split", "unassigned"),
         "open_issues": sum(1 for x in issues if x.get("status") == "open"),
@@ -268,7 +269,7 @@ def form_detail(doc_id: str) -> dict:
         files.append({"role": "템플릿", "path": f"docgen/templates/{spec.template}"})
         files.append({"role": "생성 함수", "path": _rel(Path(inspect.getsourcefile(spec.generate)))})
     return {
-        **_summary(spec, entry),
+        **_summary(spec, entry, audit=True),
         "description": spec.description,
         "document_role": role_index().get(doc_id),
         "sample_mark": spec.sample_mark,

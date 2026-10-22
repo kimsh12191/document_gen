@@ -208,16 +208,26 @@ class ImageRenderer:
         self._page.route("https://docgen.local/**", _serve_local)
         return self
 
+    def finish(self, rest: list, stop=lambda: False) -> bool:
+        """render(first_only=True) 의 남은 쪽을 지금 화면에서 찍는다. stop() 이 참이면 거기서 멈추고 False."""
+        els = self._page.locator(".page").all()
+        for i, path in rest:
+            if stop():
+                return False
+            els[i].screenshot(path=str(path))
+        return True
+
     def __exit__(self, *exc):
         self._browser.close()
         self._pw.stop()
 
-    def render(self, html: str, png_path: str | Path, texts: bool = False) -> dict:
+    def render(self, html: str, png_path: str | Path, texts: bool = False, first_only: bool = False) -> dict:
         """PNG 저장 후 위치 정보를 돌려준다 (좌표는 이미지 픽셀, 각 쪽 왼쪽 위 기준).
 
         {'images': [경로...], 'pages': [{width, height}], 'fields'|'labels'|'boxes'|'marks': [{key, page, bbox}],
          'untagged_seals': [...], 'overflow': bool, 'width', 'height'(1쪽 크기)}
         texts=True 면 'texts': 쪽 전체 글자 단어 박스 [{page, text, kind, blk, bbox}] 도 (배경 그림 속 글자는 없음)
+        first_only=True 면 1쪽 그림만 찍고, 남은 쪽은 info['rest'] 로 돌려준다 → 다른 html 을 넣기 전에 finish(info['rest'])
         """
         self._page.set_content(html, wait_until="load")
         self._page.evaluate("document.fonts.ready")
@@ -228,7 +238,10 @@ class ImageRenderer:
             info["texts"] = self._page.evaluate(_JS_TEXTS)
         s = self.scale
         paths = page_paths(png_path, len(info["pages"]))
-        for el, path in zip(self._page.locator(".page").all(), paths):
+        for i, (el, path) in enumerate(zip(self._page.locator(".page").all(), paths)):
+            if first_only and i:
+                info.setdefault("rest", []).append([i, str(path)])
+                continue
             el.screenshot(path=str(path))
         for k in ("fields", "labels", "auto_labels", "boxes", "opts", "marks", "untagged_seals", "texts", "anchors"):
             for it in info.get(k, []):

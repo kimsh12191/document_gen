@@ -61,12 +61,12 @@ def make_router(guard) -> APIRouter:
                 "raw": [k["raw"] for k in c["keys"]], "keys": [{"raw": k["raw"], "key": k["key"], "common": k["common"]} for k in c["keys"]],
                 "example": c.get("example")}
 
-    def todo_groups() -> list[dict]:
+    def todo_groups(cells: list | None = None) -> list[dict]:
         common = DIC.load("common").get("keys", {})
         norm = lambda t: re.sub(r"[\s()\[\]:*·.]", "", t or "")  # noqa: E731
         whats = {norm(what_name(w)): w for w in {DIC.who_what(k)[1] for k in common} - {"kind", "id", "office"}}   # 공통 키에 쓰이는 무엇의 이름 (주소·성명 …, '구분' 같은 말은 빼고)
         cand, marks, broken, labels = [], [], [], defaultdict(list)
-        for fid, f, c in all_cells():
+        for fid, f, c in (all_cells() if cells is None else cells):
             if c["t"] == "staff":   # 결재란은 늘 은행
                 continue
             x = row(fid, f, c)
@@ -97,11 +97,12 @@ def make_router(guard) -> APIRouter:
     def summary():
         n = Counter()
         fs = forms()
-        for _, _, c in all_cells():
+        cells = list(all_cells())   # 칸을 한 번만 푼다 (해야 할 일도 같은 칸으로)
+        for _, _, c in cells:
             n["cells"] += 1
             n["common_cells" if c["common"] else "doc_cells"] += 1
         return {"common": len(DIC.load("common").get("keys", {})), **n, "forms": len(fs),
-                "todo": sum(g["n"] for g in todo_groups()),
+                "todo": sum(g["n"] for g in todo_groups(cells)),
                 "docs": len(DIC.load("doc_types")["types"]), "tasks": len(DIC.load("tasks")["tasks"])}
 
     @r.get("/api/dictionary/vocab")

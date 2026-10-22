@@ -253,6 +253,134 @@
       "type": "text",
       "source": "parent.contract_date",
       "part": 2
+    },
+    "official.amount_won": {
+      "label": "대출(한도)금액 (₩)",
+      "type": "text",
+      "source": "parent.loan.amount",
+      "format": "number"
+    },
+    "official.amount_won_copy": {
+      "label": "대출(한도)금액 (₩) (고객교부용)",
+      "type": "text",
+      "source": "parent.loan.amount",
+      "format": "number"
+    },
+    "official.start_date_check": {
+      "label": "대출개시일 날짜 지정",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "V"
+    },
+    "official.start_date_check_copy": {
+      "label": "대출개시일 날짜 지정 (고객교부용)",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "V"
+    },
+    "official.maturity_date_check": {
+      "label": "대출기간 만료일 날짜 지정",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "V"
+    },
+    "official.maturity_date_check_copy": {
+      "label": "대출기간 만료일 날짜 지정 (고객교부용)",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "V"
+    },
+    "official.prepay_target": {
+      "label": "중도상환해약금 대상",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "V"
+    },
+    "official.prepay_target_copy": {
+      "label": "중도상환해약금 대상 (고객교부용)",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "V"
+    },
+    "official.prepay_rate": {
+      "label": "중도상환해약금률(%)",
+      "type": "text",
+      "source": "rule:percent",
+      "format": "number"
+    },
+    "official.prepay_rate_copy": {
+      "label": "중도상환해약금률(%) (고객교부용)",
+      "type": "text",
+      "source": "rule:percent",
+      "format": "number"
+    },
+    "official.repay_lump_full": {
+      "label": "일시상환 대출기간 만료일에 전액 상환",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "V"
+    },
+    "official.repay_lump_full_copy": {
+      "label": "일시상환 대출기간 만료일에 전액 상환 (고객교부용)",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "V"
+    },
+    "official.interest_monthly": {
+      "label": "이자지급 매월 지정일",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "V"
+    },
+    "official.interest_monthly_copy": {
+      "label": "이자지급 매월 지정일 (고객교부용)",
+      "type": "text",
+      "source": "rule:fixed",
+      "text": "V"
+    },
+    "official.interest_day": {
+      "label": "이자지급일(매월 ○일)",
+      "type": "text",
+      "source": "parent.loan.interest_pay",
+      "part": 0,
+      "format": "number"
+    },
+    "official.interest_day_copy": {
+      "label": "이자지급일(매월 ○일) (고객교부용)",
+      "type": "text",
+      "source": "parent.loan.interest_pay",
+      "part": 0,
+      "format": "number"
+    },
+    "official.disburse_account": {
+      "label": "대출금 입금(실행) 계좌",
+      "type": "text",
+      "source": "parent.loan.debit_account"
+    },
+    "official.disburse_account_copy": {
+      "label": "대출금 입금(실행) 계좌 (고객교부용)",
+      "type": "text",
+      "source": "parent.loan.debit_account"
+    },
+    "official.debit_account": {
+      "label": "원(리)금 및 이자 자동이체 결제계좌",
+      "type": "text",
+      "source": "parent.loan.debit_account"
+    },
+    "official.debit_account_copy": {
+      "label": "원(리)금 및 이자 자동이체 결제계좌 (고객교부용)",
+      "type": "text",
+      "source": "parent.loan.debit_account"
+    },
+    "official.fee_consent_sign": {
+      "label": "비용의 납부 동의 본인 서명",
+      "type": "text",
+      "source": "profile.person.name"
+    },
+    "official.fee_consent_sign_copy": {
+      "label": "비용의 납부 동의 본인 서명 (고객교부용)",
+      "type": "text",
+      "source": "profile.person.name"
     }
   },
   "page": "a4",

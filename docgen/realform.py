@@ -433,6 +433,10 @@ class Values:
             return p.corporation.name if r.random() < 0.3 else _company(r)
         if kind == "person":
             return K.make_name(r, r.choice("MF"))[0] if r.random() < 0.6 else p.person.name
+        if kind == "other_person":   # 발급기관 담당자·은행 직원: 고객 이름이 나오면 안 되는 칸
+            return K.make_name(r, r.choice("MF"))[0]
+        if kind == "office_phone":
+            return K.landline(r, r.choice([p.person.address.sido, p.employment.company.address.sido]))
         if kind == "amount":
             hi = r.choice([1e6, 1e7, 1e7, 5e7, 1e8, 3e8])
             n = K.round_to(r.uniform(hi / 20, hi), 10_000)

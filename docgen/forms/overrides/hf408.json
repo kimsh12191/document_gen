@@ -1,0 +1,138 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성(SurName)",
+    "n": 0
+   },
+   "key": "customer.surname_en",
+   "source": "profile.person.surname_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이름(GivenName)",
+    "n": 0
+   },
+   "key": "customer.given_name_en",
+   "source": "profile.person.given_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "거주관할권*(1)",
+    "n": 0
+   },
+   "key": "tax.residence_list.0.country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "거주관할권*(2)",
+    "n": 0
+   },
+   "key": "tax.residence_list.1.country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "납세자번호(TIN)",
+    "n": 0
+   },
+   "key": "tax.residence_list.{i}.tin",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "납세자번호(TIN)",
+    "n": 1
+   },
+   "key": "tax.residence_list.{i}.tin",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해외영문주소",
+    "n": 0
+   },
+   "key": "customer.overseas_address",
+   "source": "profile.foreign.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "내국인 또는 거주자증명서* 또는 반증증표* 을 제출한 경우",
+    "n": 0
+   },
+   "key": "tax.no_tin_reason",
+   "kind": "reason"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    108.8,
+    750.0,
+    153.0,
+    763.1
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "본인 성명",
+   "rect": [
+    316.9,
+    750.0,
+    412.5,
+    763.1
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대리인 성명",
+   "rect": [
+    316.9,
+    766.9,
+    412.5,
+    780.0
+   ],
+   "key": "agent.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대리인 관계",
+   "rect": [
+    491.2,
+    766.9,
+    532.5,
+    780.0
+   ],
+   "key": "agent.relation"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:18"
+ }
+}

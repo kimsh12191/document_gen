@@ -73,6 +73,70 @@
       "type": "text",
       "source": "profile.issue_date",
       "part": 2
+    },
+    "official.salary_income": {
+      "label": "근로소득 소득금액",
+      "type": "text",
+      "source": "rule:amount"
+    },
+    "official.period_from": {
+      "label": "납세자가 신청한 증명귀속연도 시작",
+      "type": "text",
+      "source": "parent.period",
+      "part": 0,
+      "format": "number"
+    },
+    "official.period_to": {
+      "label": "납세자가 신청한 증명귀속연도 끝",
+      "type": "text",
+      "source": "parent.period",
+      "part": 1,
+      "format": "number"
+    },
+    "official.receipt_no": {
+      "label": "접수번호",
+      "type": "text",
+      "source": "rule:number"
+    },
+    "official.issuer_department": {
+      "label": "증명발급자 담당부서",
+      "type": "text",
+      "source": "rule:choice",
+      "choices": [
+        "민원봉사실",
+        "소득세과",
+        "부가가치세과"
+      ]
+    },
+    "official.issuer_person": {
+      "label": "증명발급자 담당자",
+      "type": "text",
+      "source": "rule:other_person"
+    },
+    "official.issuer_phone": {
+      "label": "증명발급자 연락처",
+      "type": "text",
+      "source": "rule:office_phone"
+    },
+    "official.tax_officer_department": {
+      "label": "세적담당자 담당부서",
+      "type": "text",
+      "source": "rule:choice",
+      "choices": [
+        "소득세과",
+        "부가가치세과",
+        "재산법인세과"
+      ]
+    },
+    "official.tax_officer_person": {
+      "label": "세적담당자 담당자",
+      "type": "text",
+      "source": "rule:other_person"
+    },
+    "official.tax_officer_phone": {
+      "label": "세적담당자 연락처",
+      "type": "text",
+      "source": "rule:office_phone"
     }
   },
   "page": "a4",

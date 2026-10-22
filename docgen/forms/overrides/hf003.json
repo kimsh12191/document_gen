@@ -1,0 +1,1047 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통장발행",
+    "n": 0
+   },
+   "key": "deposit_list.{i}.interest_account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통장발행",
+    "n": 1
+   },
+   "key": "deposit_list.{i}.interest_account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통장발행",
+    "n": 2
+   },
+   "key": "deposit_list.{i}.interest_account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "만기안내 문자통지 신청",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전 화",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전 화",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전 화",
+    "n": 2
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전 화",
+    "n": 3
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전 화",
+    "n": 4
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전 화",
+    "n": 5
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "정기 자유",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "정기 자유",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "정기 자유",
+    "n": 2
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "정기 자유",
+    "n": 3
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "정기 자유",
+    "n": 4
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "정기 자유",
+    "n": 5
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "E-mail",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "E-mail",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "E-mail",
+    "n": 2
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "확정형 연동형( 개월)",
+    "n": 0
+   },
+   "key": "deposit_list_list.{i}.0.transfer_day",
+   "kind": "transfer_day"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "확정형 연동형( 개월)",
+    "n": 1
+   },
+   "key": "deposit_list_list.{i}.1.transfer_day",
+   "kind": "transfer_day"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "확정형 연동형( 개월)",
+    "n": 2
+   },
+   "key": "deposit_list_list.{i}.2.transfer_day",
+   "kind": "transfer_day"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "한도 : ₩ . . ~ . .",
+    "n": 0
+   },
+   "kind": "seal"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "한도 : ₩ . . ~ . .",
+    "n": 1
+   },
+   "kind": "seal"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "한도 : ₩ . . ~ . .",
+    "n": 2
+   },
+   "kind": "seal"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "고객정보 변경없음",
+    "n": 0
+   },
+   "kind": "seal"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이메일",
+    "n": 0
+   },
+   "key": "customer.email",
+   "kind": "email"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "자택",
+    "n": 0
+   },
+   "key": "customer.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "직장",
+    "n": 0
+   },
+   "key": "employer.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "자택",
+    "n": 1
+   },
+   "key": "customer.home_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "직장",
+    "n": 1
+   },
+   "key": "employer.phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "급여일",
+    "n": 0
+   },
+   "key": "customer.payday",
+   "kind": "payday"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "연원가식",
+    "n": 0
+   },
+   "key": "deposit_list.0.tax_free_limit",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "연원가식",
+    "n": 1
+   },
+   "key": "deposit_list.1.tax_free_limit",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "연원가식",
+    "n": 2
+   },
+   "key": "deposit_list.2.tax_free_limit",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "출금계좌 [",
+    "n": 0
+   },
+   "key": "deposit.withdraw_account",
+   "source": "profile.accounts.0.number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "자동이체계좌번호",
+    "n": 0
+   },
+   "key": "bank.auto_transfer_account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "과목명",
+    "n": 0
+   },
+   "key": "bank.subject",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계약(확인)금액",
+    "n": 0
+   },
+   "key": "bank.contract_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지급기일",
+    "n": 0
+   },
+   "key": "bank.pay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "최초거래일",
+    "n": 0
+   },
+   "key": "bank.first_trade_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신규일",
+    "n": 0
+   },
+   "key": "bank.open_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "입금(수탁)액",
+    "n": 0
+   },
+   "key": "bank.deposit_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종별",
+    "n": 0
+   },
+   "key": "bank.kind",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "권유직원번호",
+    "n": 0
+   },
+   "key": "bank.staff_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "자동이체계좌번호",
+    "n": 0
+   },
+   "key": "bank.auto_transfer_account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "과목명",
+    "n": 0
+   },
+   "key": "bank.subject",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "계약(확인)금액",
+    "n": 0
+   },
+   "key": "bank.contract_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "지급기일",
+    "n": 0
+   },
+   "key": "bank.pay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "최초거래일",
+    "n": 0
+   },
+   "key": "bank.first_trade_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "신규일",
+    "n": 0
+   },
+   "key": "bank.open_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "입금(수탁)액",
+    "n": 0
+   },
+   "key": "bank.deposit_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "종별",
+    "n": 0
+   },
+   "key": "bank.kind",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "권유직원번호",
+    "n": 0
+   },
+   "key": "bank.staff_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "이용자ID",
+    "n": 0
+   },
+   "key": "ebank.user_id",
+   "kind": "user_id"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "인터넷/스마트폰뱅킹 (1일 : 원) (1회 : 원)",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "원) (1회",
+    "n": 0
+   },
+   "key": "ebank.phone_limit_once",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "예 아니오",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "재산현황",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "1,000억원 이상",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "카드대금 결제",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "부동산 양도소득",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "귀금속판매상",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "개업년월일",
+    "n": 0
+   },
+   "key": "company.established"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "아니오 (실제소유자 성명",
+    "n": 0
+   },
+   "key": "related.name"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "[신청상품] 1",
+    "n": 0
+   },
+   "key": "redeposit_list.0.product",
+   "kind": "product"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 1,
+   "label": "실명번호 :",
+   "rect": [
+    480.5,
+    289.7,
+    511.7,
+    301.7
+   ],
+   "key": "related.rrn",
+   "kind": "number"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "성명(업체명)",
+   "rect": [
+    87.0,
+    113.6,
+    249.4,
+    137.6
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "생년월일(사업자번호)",
+   "rect": [
+    465.8,
+    113.6,
+    565.1,
+    137.6
+   ],
+   "key": "customer.birth"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "휴대폰",
+   "rect": [
+    284.2,
+    139.9,
+    409.1,
+    160.9
+   ],
+   "key": "customer.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "계약서류수령 E-mail 또는 휴대폰번호",
+   "rect": [
+    375.8,
+    322.9,
+    495.0,
+    333.0
+   ],
+   "key": "customer.email"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "상품명1",
+   "rect": [
+    42.8,
+    360.0,
+    116.6,
+    377.6
+   ],
+   "key": "deposit_list.0.product",
+   "kind": "product"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "가입금액1",
+   "rect": [
+    159.4,
+    360.0,
+    210.8,
+    377.6
+   ],
+   "key": "deposit_list.0.amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "계약기간1",
+   "rect": [
+    213.0,
+    360.0,
+    248.2,
+    377.6
+   ],
+   "key": "deposit_list.0.period",
+   "kind": "contract_period"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "이체금액1",
+   "rect": [
+    345.0,
+    379.9,
+    406.9,
+    390.8
+   ],
+   "key": "deposit_list.0.transfer_amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "이체기간(만료일)1",
+   "rect": [
+    410.6,
+    379.9,
+    488.6,
+    390.8
+   ],
+   "key": "deposit_list.0.transfer_end",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "상품명2",
+   "rect": [
+    42.8,
+    420.4,
+    118.1,
+    436.9
+   ],
+   "key": "deposit_list.1.product",
+   "kind": "product"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "가입금액2",
+   "rect": [
+    159.4,
+    420.4,
+    210.8,
+    436.9
+   ],
+   "key": "deposit_list.1.amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "계약기간2",
+   "rect": [
+    213.0,
+    420.4,
+    248.2,
+    436.9
+   ],
+   "key": "deposit_list.1.period",
+   "kind": "contract_period"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "이체금액2",
+   "rect": [
+    345.0,
+    439.5,
+    406.9,
+    451.5
+   ],
+   "key": "deposit_list.1.transfer_amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "이체기간(만료일)2",
+   "rect": [
+    410.6,
+    439.5,
+    488.6,
+    451.5
+   ],
+   "key": "deposit_list.1.transfer_end",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "상품명3",
+   "rect": [
+    42.8,
+    481.1,
+    116.6,
+    499.9
+   ],
+   "key": "deposit_list.2.product",
+   "kind": "product"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "가입금액3",
+   "rect": [
+    159.4,
+    482.6,
+    210.8,
+    499.9
+   ],
+   "key": "deposit_list.2.amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "계약기간3",
+   "rect": [
+    213.0,
+    482.6,
+    248.2,
+    499.9
+   ],
+   "key": "deposit_list.2.period",
+   "kind": "contract_period"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "이체금액3",
+   "rect": [
+    345.0,
+    502.1,
+    406.9,
+    513.0
+   ],
+   "key": "deposit_list.2.transfer_amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "이체기간(만료일)3",
+   "rect": [
+    410.6,
+    502.1,
+    488.6,
+    513.0
+   ],
+   "key": "deposit_list.2.transfer_end",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "출금금액 ①",
+   "rect": [
+    335.6,
+    557.6,
+    390.4,
+    568.5
+   ],
+   "key": "deposit_list.0.funding_amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "출금금액 ②",
+   "rect": [
+    397.5,
+    557.6,
+    453.0,
+    568.5
+   ],
+   "key": "deposit_list.1.funding_amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "출금금액 ③",
+   "rect": [
+    455.2,
+    557.6,
+    524.6,
+    568.5
+   ],
+   "key": "deposit_list.2.funding_amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    210.0,
+    603.0,
+    305.6,
+    610.1
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "인터넷/스마트폰뱅킹 1일 한도",
+   "rect": [
+    345.0,
+    76.9,
+    431.2,
+    97.9
+   ],
+   "key": "ebank.internet_limit_day",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "인터넷/스마트폰뱅킹 1회 한도",
+   "rect": [
+    465.0,
+    76.9,
+    545.6,
+    97.9
+   ],
+   "key": "ebank.internet_limit_once",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "폰뱅킹 1일 한도",
+   "rect": [
+    345.0,
+    100.1,
+    431.2,
+    120.8
+   ],
+   "key": "ebank.phone_limit_day",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "전자통장 설명문구(한글6자)",
+   "rect": [
+    114.4,
+    200.2,
+    238.1,
+    211.9
+   ],
+   "key": "ebank.passbook_memo",
+   "source": "rule:free_text"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "영문명(전자화폐발급시)",
+   "rect": [
+    307.5,
+    200.2,
+    420.0,
+    211.9
+   ],
+   "key": "customer.name_en"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "갱신횟수",
+   "rect": [
+    515.6,
+    439.5,
+    551.2,
+    455.2
+   ],
+   "key": "deposit.renew_count",
+   "kind": "count"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "신청상품 ②",
+   "rect": [
+    243.8,
+    457.5,
+    318.8,
+    474.4
+   ],
+   "key": "redeposit_list.1.product",
+   "kind": "product"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "신청상품 ③",
+   "rect": [
+    333.8,
+    457.5,
+    427.5,
+    474.4
+   ],
+   "key": "redeposit_list.2.product",
+   "kind": "product"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:18"
+ }
+}
