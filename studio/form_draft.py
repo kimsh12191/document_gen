@@ -252,7 +252,11 @@ def annotate(rows: list[dict], draft: dict, all_rows: list[dict]) -> list[dict]:
 def suggest(ws: Path, d: Path, draft: dict, pc: dict) -> list[dict]:
     all_rows = KS.catalog(ws)
     terms = [draft.get("name") or ""] + [s["label"] for s in draft["slots"]] + [s["section"] for s in draft["slots"]]
-    selected = KS.candidates(all_rows, terms)
+    sections = [s["section"] for s in draft["slots"]] + [s["label"] for s in draft["slots"]]
+    pick = {}
+    selected = KS.candidates(all_rows, terms, parties=KS.party_hints(sections), name=draft.get("name") or "",
+                             index=KS.form_key_index(), extra=pick)
+    print(f"  키 후보 {len(selected)}/{len(all_rows)}개 (고른 방법: {pick})", flush=True)
     question = key_prompt(draft, selected, len(all_rows))
     raw = chat(pc, [d / "input" / "source.png"], [question])
     (d / "draft" / "keys_answer.txt").write_text(raw, encoding="utf-8")

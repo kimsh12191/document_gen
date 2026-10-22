@@ -257,3 +257,23 @@ def test_refine_keeps_best_and_stops(tmp_path, img, monkeypatch):
     assert [h["kept"] for h in rounds["rounds"]] == [True, True, False, False] and rounds["best"] == 1
     assert "<!--1-->" in best["template"] and "<!--2-->" not in best["template"]
     assert "되돌렸다" in calls[2] and "8px 아래" in calls[0] and "(1/5회차)" in calls[0]
+
+
+def test_key_candidates_party_and_similar_forms(tmp_path):
+    """구역에서 짐작한 당사자의 서식별 키와 이름이 비슷한 서식의 키가 후보에 더해진다 (공통 키 전체는 늘 포함)."""
+    from studio import key_suggestions as KS
+
+    assert KS.party_hints(["대리인 신청란", "은행 사용란"])[:2] == ["bank", "agent"] or set(KS.party_hints(["대리인 신청란", "은행 사용란"])) >= {"agent", "bank"}
+    assert KS.party_hints(["아무 상관 없는 말"]) == []
+    rows = KS.catalog(tmp_path)
+    idx = KS.form_key_index()
+    assert "lease_contract" in KS.similar_forms(idx, "임대차계약서") and KS.similar_forms(idx, "ㅋ") == []
+    extra = {}
+    sel = KS.candidates(rows, ["임대차계약서", "임대인", "임차인"], parties=KS.party_hints(["임대인", "임차인", "물건"]),
+                        name="임대차계약서", index=idx, extra=extra)
+    keys = {r["key"] for r in sel}
+    common = {r["key"] for r in rows if r["scope"] == "common"}
+    assert common <= keys and len(sel) <= 256
+    assert extra["similar"] > 0 and "counterparty" in extra["parties"] and {"landlord.name", "tenant.name"} <= keys
+    old = {r["key"] for r in KS.candidates(rows, ["임대차계약서", "임대인", "임차인"])}
+    assert keys >= old - set()   # 보강은 기존 후보를 줄이지 않는다 (한도 안에서)

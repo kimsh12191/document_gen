@@ -65,8 +65,68 @@ def normalized(s):
     return "".join(c.lower() for c in s if c.isalnum())
 
 
-def candidates(rows, terms, limit=256):
-    """공통 키 전체 + 표시명/OCR과 관련된 문서별 후보. 목록이 잘렸다는 사실도 프롬프트에 명시한다."""
+# 구역·항목명에 이 낱말이 있으면 그 당사자(키 사전 parties)의 칸으로 본다
+PARTY_WORDS = {
+    "agent": ["대리인", "위임", "수임"],
+    "related": ["보증인", "연대보증", "공동", "담보제공", "담보 제공", "배우자", "법정대리"],
+    "employer": ["직장", "근무처", "재직", "회사", "고용"],
+    "corp": ["법인", "사업자", "대표자", "상호", "사업장", "기업"],
+    "counterparty": ["매도인", "매수인", "임대인", "임차인", "채권자", "중개", "상대방", "수취", "판매자"],
+    "foreign": ["외국", "해외", "수취인", "수입", "수출", "beneficiary", "swift"],
+    "bank": ["은행 사용", "은행사용", "취급", "접수", "담당", "책임자", "지점", "확인란", "직원"],
+    "issuer": ["발급", "증명기관", "공증"],
+    "property": ["부동산", "물건", "소재지", "토지", "건물", "차량", "목적물"],
+    "customer": ["신청인", "고객", "본인", "예금주", "차주", "인적사항", "계약자", "가입자"],
+}
+
+
+def party_hints(texts) -> list[str]:
+    """구역·항목명 글자에서 당사자 추정 (낱말이 겹치는 순)."""
+    hay = " ".join(normalized(t) for t in texts if t)
+    hits = {}
+    for party, words in PARTY_WORDS.items():
+        n = sum(1 for w in words if normalized(w) and normalized(w) in hay)
+        if n:
+            hits[party] = n
+    return sorted(hits, key=lambda k: -hits[k])
+
+
+def form_key_index() -> dict:
+    """서식별 칸(키 사전 form_keys)에서: 키 → {'forms': 쓰는 서식 수, 'who': {당사자: 횟수}}, 서식 → 이름·키 목록."""
+    forms, keys = DIC.load("form_keys").get("forms", {}), {}
+    from docgen.registry import load_all
+
+    names = {k: v.name for k, v in load_all().items()}
+    for fid, ents in forms.items():
+        for key, e in ents.items():
+            row = keys.setdefault(key, {"forms": 0, "who": {}})
+            row["forms"] += 1
+            if e.get("who"):
+                row["who"][e["who"]] = row["who"].get(e["who"], 0) + 1
+    return {"keys": keys, "forms": {fid: {"name": names.get(fid, fid), "keys": list(ents)} for fid, ents in forms.items()}}
+
+
+def similar_forms(index: dict, name: str, k: int = 3) -> list[str]:
+    """서식 이름이 비슷한 기존 서식 (정확히 같거나 포함하면 우선, 아니면 두 글자 조각이 많이 겹치는 순)."""
+    n = normalized(name)
+    if len(n) < 2:
+        return []
+    grams = {n[i:i + 2] for i in range(len(n) - 1)}
+    scored = []
+    for fid, f in index["forms"].items():
+        m = normalized(f["name"])
+        if len(m) < 2:
+            continue
+        g = {m[i:i + 2] for i in range(len(m) - 1)}
+        sc = len(g & grams) / max(1, len(g | grams)) + (1 if n == m else 0.5 if n in m or m in n else 0)
+        if sc >= 0.34:
+            scored.append((sc, fid))
+    return [fid for _, fid in sorted(scored, reverse=True)[:k]]
+
+
+def candidates(rows, terms, limit=256, parties=(), name="", index=None, extra=None):
+    """공통 키 전체 + (이름이 비슷한 서식의 키) + (구역에서 짐작한 당사자의 서식별 키) + 표시명/OCR 과 관련된 문서별 후보.
+    목록이 잘렸다는 사실도 프롬프트에 명시한다. extra 를 넘기면 어떻게 골랐는지 채워 준다 (화면·시험용)."""
     texts = [normalized(t) for t in terms if normalized(t)]
     terms_set = set(texts)
     grams = {s[i:i + 2] for s in texts for i in range(len(s) - 1)}
@@ -77,8 +137,39 @@ def candidates(rows, terms, limit=256):
         own_grams = {name[i:i + 2] for name in names for i in range(len(name) - 1)}
         return exact * 100 + partial * 10 + len(own_grams & grams)
     required = [r for r in rows if r["scope"] == "common"]
+    by_key = {r["key"]: r for r in rows}
+    picked, seen = list(required), {r["key"] for r in required}
+    room = max(0, limit - len(required))
+
+    def add(keys, cap, why):
+        n = 0
+        for key in keys:
+            if n >= cap or len(picked) - len(required) >= room:
+                break
+            if key in by_key and key not in seen:
+                picked.append(by_key[key])
+                seen.add(key)
+                n += 1
+        if extra is not None:
+            extra[why] = n
+
+    if index is not None:
+        sim = similar_forms(index, name)
+        if extra is not None:
+            extra["similar_forms"] = sim
+        sim_keys = {}
+        for fid in sim:
+            for key in index["forms"][fid]["keys"]:
+                sim_keys.setdefault(key, index["keys"].get(key, {}).get("forms", 0))
+        add(sorted(sim_keys, key=lambda k: -sim_keys[k]), 60, "similar")
+        if extra is not None:
+            extra["parties"] = list(parties)
+        for party in parties[:3]:   # 짐작한 당사자의 서식별 키: 많은 서식에서 쓰인 순
+            mine = [k for k, v in index["keys"].items() if v["who"].get(party)]
+            add(sorted(mine, key=lambda k: -index["keys"][k]["who"][party]), 40, f"party:{party}")
     optional = sorted((r for r in rows if r["scope"] != "common"), key=lambda r: (-score(r), -r.get("forms", 0), r["key"]))
-    return required + [r for r in optional if score(r) > 0][:max(0, limit - len(required))]
+    add((r["key"] for r in optional if score(r) > 0), room, "text")
+    return picked
 
 
 def prepare(ws, bdir, fid, provider, provider_config, fields, document=""):
