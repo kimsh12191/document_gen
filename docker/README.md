@@ -18,7 +18,7 @@ GPU 학습(`train/`, `python -m train`)은 이 컨테이너가 아니라 따로 
 | 파일 | 역할 |
 |---|---|
 | `docker/studio.sh` | **서버에서 직접 쓰는 것.** studio 컨테이너 만들기·켜기, 포트·여는 주소, 로그, 셸, 지우기 |
-| `docker/remote_build.py`, `guide/remote-build.md` | 다른 컨테이너·PC 에서 studio 에 데이터 생성을 맡기기, 그 매뉴얼 |
+| `docker/remote_build.py`, `guide/agent-workflow.md` | 다른 컨테이너·PC 에서 studio 에 데이터 생성을 맡기기, 그 매뉴얼 |
 | `docker/build.sh` | 인터넷 되는 PC 에서 반입 파일 두 개 만들기 (이미지 빌드 + 코드 묶음 + 네트워크를 끊은 테스트) |
 | `docker/Dockerfile` | 이미지: 파이썬·글꼴·Chromium·studio 패키지·SSH 서버 |
 | `docker/requirements.lock` | 이미지에 넣는 파이썬 패키지 (판 고정) |
@@ -127,7 +127,7 @@ python -m docgen.bench eval --bench /out/bench --pred /out/preds/m1
 ### 다른 컨테이너에서 생성 맡기기 (HTTP)
 
 studio 를 `--open` 으로 띄워 두면, 다른 컨테이너(학습 컨테이너 등)나 PC 에서 [`docker/remote_build.py`](remote_build.py) 로 생성을 맡기고 끝날 때까지 기다릴 수 있습니다. 포트는 studio 포트 하나로 됩니다.
-**무엇을 넣으면 무엇이 나오는지, studio 화면의 어디와 대응하는지는 [원격 생성 가이드](../guide/remote-build.md) 에 있습니다.**
+**무엇을 넣으면 무엇이 나오는지, studio 화면의 어디와 대응하는지는 [agent 작업 절차](../guide/agent-workflow.md) 에 있습니다.**
 
 ```bash
 export STUDIO_URL=http://<서버IP>:8765
@@ -145,7 +145,7 @@ bash docgen/scripts/make_bank_data.sh          # 백그라운드로 시작. 셸�
 tail -f /out/logs/make_bank_data.log           # "전부 완료" 가 나오면 끝
 ```
 
-양·출력 위치(`OUT`, `TRAIN_BUNDLES`, `BENCH_BUNDLES` …)는 `docgen/scripts/make_bank_data.sh` 맨 위 주석에 있습니다. 컨테이너의 `/out` 은 저장 폴더이므로, 학습 설정(`data.train`·`data.benchmark`)에는 서버 경로(예: `/database/docgen_studio/bench`)를 씁니다 ([guide/tutorial.md](../guide/tutorial.md) 4절).
+양·출력 위치(`OUT`, `TRAIN_BUNDLES`, `BENCH_BUNDLES` …)는 `docgen/scripts/make_bank_data.sh` 맨 위 주석에 있습니다. 컨테이너의 `/out` 은 저장 폴더이므로, 학습 설정(`data.train`·`data.benchmark`)에는 서버 경로(예: `/database/docgen_studio/bench`)를 씁니다 ([guide/training.md](../guide/training.md)).
 
 결과 파일을 윈도우로 가져오기: `scp -r <서버 계정>@<서버IP>:docgen/data/bench_out .\` (WinSCP 도 SFTP 로 접속 가능).
 

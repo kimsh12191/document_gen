@@ -265,7 +265,7 @@ python -m train --config train/configs/pipeline.json     # 설정 예: train/con
   - OCR 과제의 정답이 사내 OCR 그대로(의사정답)면 점수는 "사내 OCR과 얼마나 같은지"입니다.
   - 지표 뜻, 오차 범위, 이상 신호는 [results.md](results.md)에 있습니다.
 
-자세한 내용: 과제별 질문·정답 한 건은 [tasks.md](tasks.md), 질문 문장과 답 형식은 [questions.md](questions.md), 실행은 [tutorial.md](tutorial.md), studio 데이터셋으로 학습하는 방법은 [studio/TRAINING.md](../studio/TRAINING.md)에 있습니다.
+자세한 내용: 과제별 질문·정답 한 건은 [tasks.md](tasks.md), 질문 문장과 답 형식은 [questions.md](questions.md), 실행은 [training.md](training.md)에 있습니다.
 
 ---
 

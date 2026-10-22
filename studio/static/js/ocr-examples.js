@@ -8,7 +8,7 @@ async function viewOcrExamples(task) {
   const pretty = value => JSON.stringify(value, null, 2);
   main().innerHTML = `<h1>OCR 예시</h1>
     <p class="sub">데이터셋을 생성하기 전에 과제별 입력 이미지·질문·정답을 확인하세요. 과제를 선택하면 같은 가이드 예시가 표시됩니다.</p>
-    <div class="bar"><a href="#/guide/ocr-examples.md">OCR 예시 설명</a><a href="#/guide/research-agent.md">생성 범위</a><a href="#/guide/remote-build.md">내 OCR 데이터 만들기</a><a href="#/datasets">생성·등록한 데이터셋의 문항 보기</a></div>
+    <div class="bar"><a href="#/guide/studio.md">합성 OCR 만들기</a><a href="#/guide/ocr.md">내 이미지로 OCR 데이터</a><a href="#/datasets">생성·등록한 데이터셋의 문항 보기</a></div>
     <div class="ocr-task-grid">${data.examples.map(x => `<a href="#/ocr-examples/${esc(x.task)}" class="panel ${item.task === x.task ? 'ocr-task-selected' : ''}" ${item.task === x.task ? 'aria-current="page"' : ''}><b>${esc(x.title)}</b><br><span class="mono muted">${esc(x.task)}</span></a>`).join("")}</div>
     <h2>${esc(item.title)} <span class="mono muted">${esc(item.task)}</span></h2>
     <p>${esc(item.how)}</p><p class="sub">${esc(data.note)}</p>

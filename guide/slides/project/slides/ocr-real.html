@@ -12,6 +12,6 @@
 <ul style="font-size:26px;line-height:1.5;color:#44505C"><li><b>문서 ID</b>: 같은 문서의 쪽은 같은 ID. 파일명 규칙이 없으면 manifest를 직접 작성</li><li><b>OCR JSON</b>: 사내 OCR 응답 그대로 (success · basicData · vertices). 다른 형식은 config의 mapping으로 키 지정</li><li><b>같은 픽셀</b>: OCR을 돌린 이미지 파일 그대로 (PDF는 쪽별 이미지로)</li><li><b>OCR JSON이 없으면</b>: 사내 OCR 서버를 띄우고 (GPU_ID=7 SERVER_PORT=30107 python server.py) INTERNAL_OCR_BASE_URL로 연결 → prepare가 호출</li><li><b>OCR 버전</b>: ocr_revision을 바꾸면 캐시도 새로</li><li><b>벤치마크</b>: benchmark_fraction 10%로 자동 분리, 또는 split: benchmark 지정</li></ul>
 </div>
 </div>
-<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">OCR 과제 · 따라하기: guide/tutorial.md 2절</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#6B7682">OCR 과제 · 따라하기: guide/ocr.md</p>
 <aside>OCR 과제는 이미 실제 데이터로 돌아가는 구조입니다. 새 데이터를 추가할 때는 이미지와 OCR JSON을 같은 이름으로 두고 scan으로 manifest를 만들고 OCR 준비를 돌리면 데이터셋이 됩니다. 학습 설정의 data.train과 data.benchmark에 그 폴더를 적으면 됩니다. 문서 ID 규칙만 신경 쓰면 됩니다.</aside>
 </section>

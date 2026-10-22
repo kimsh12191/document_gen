@@ -1,4 +1,4 @@
-"""학습으로 이어 쓰기 (DESIGN.md 9.9·17절, studio/TRAINING.md): 설정 만들기, 학습 기록, 진행 읽기, 결과 자동 붙이기.
+"""학습으로 이어 쓰기 (DESIGN.md 9.9·17절, guide/training.md): 설정 만들기, 학습 기록, 진행 읽기, 결과 자동 붙이기.
 
 - 학습은 하나다 (train/, python -m train). 설정은 train/configs/studio-<이름>.json 에 쓴다. 예시 파일
   (train/configs/pipeline.example.json)과 같은 폴더라 그 안의 상대 경로(sft.yaml, ../runs/…, ../data/…)가 그대로 맞는다.

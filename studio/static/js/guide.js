@@ -67,7 +67,7 @@ async function viewGuide(name) {
 }
 
 function guideFormHTML(f) {
-  return `<p>${esc(f.description)}</p><div class="bar"><a href="#/forms/${encodeURIComponent(f.id)}/questions">실제 문항 Q/A</a><a href="#/forms/${encodeURIComponent(f.id)}">서식 미리보기·편집</a><a href="#/guide/remote-build.md">생성 방법</a></div>
+  return `<p>${esc(f.description)}</p><div class="bar"><a href="#/forms/${encodeURIComponent(f.id)}/questions">실제 문항 Q/A</a><a href="#/forms/${encodeURIComponent(f.id)}">서식 미리보기·편집</a><a href="#/guide/studio.md">생성 방법</a></div>
     <p class="sub">필드 목록은 스키마 수집 결과입니다. 현재 값·문항은 문항 Q/A에서 확인하세요. 원본 키와 공통 문항 키를 함께 표시합니다.</p>
     ${!f.schema_available ? '<p>필드 목록 미수집 · 스키마 갱신 필요</p>' : `<div style="overflow:auto"><table><thead><tr><th>원본 키</th><th>문항 키</th><th>항목명</th><th>타입</th><th>값 예시</th></tr></thead><tbody>${f.fields.map(x => `<tr>${[x.key,x.question_key,x.label,x.type,typeof x.example === 'object' ? JSON.stringify(x.example) : x.example].map(v => `<td>${esc(v)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`}
     <h3>연결된 업무 · 추출/비교 시나리오</h3>${f.scenarios.length ? f.scenarios.map(s => `<details><summary>${esc(s.name)} · ${esc(s.id)}</summary><p>문서 역할: ${s.roles.map(esc).join(", ")}</p><p>${[["doc_check","구비 확인"],["cross_check","서류 대조"],["review","심사 질의"]].map(([k,n]) => `${n}: ${s.processing[k] ? "켜짐" : "꺼짐"}`).join(" · ")}</p><p>명시적 추출·비교 작업 ${s.operations.length}개. 작업이 없더라도 켜진 기본 과제는 유효한 서류·규칙에 따라 생성됩니다.</p>${guideOperationsHTML(s.operations)}<details><summary>전체 처리 설정 JSON</summary><pre class="ans mono">${esc(JSON.stringify(s.processing, null, 2))}</pre></details><a href="#/scenarios">시나리오의 서류·후보·처리 설정 확인</a></details>`).join("") : '<p>연결된 업무 없음 · 단일 서류 과제로 사용 가능</p>'}`;

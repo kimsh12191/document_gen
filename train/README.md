@@ -10,7 +10,7 @@ python -m train --config train/configs/<이름>.json --from grpo # GRPO 다시 (
 python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보기
 ```
 
-설정은 studio ⑥ 데이터셋 › 학습 탭이 `train/configs/studio-<이름>.json` 으로 만들어 줍니다 ([studio/TRAINING.md](../studio/TRAINING.md)). 손으로 쓸 때는 [configs/pipeline.example.json](configs/pipeline.example.json) 을 복사합니다.
+설정은 studio ⑥ 데이터셋 › 학습 탭이 `train/configs/studio-<이름>.json` 으로 만들어 줍니다 ([guide/training.md](../guide/training.md)). 손으로 쓸 때는 [configs/pipeline.example.json](configs/pipeline.example.json) 을 복사합니다.
 
 ## 데이터: 과제 폴더 섞기
 
@@ -43,7 +43,7 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 
 | 단계 | 하는 일 | 결과 (`workdir` 아래) |
 |---|---|---|
-| ocr_prepare | (선택) 설정 최상위 `ocr_prepare` 에 OCR 준비 설정(`docgen/bench/ocr_config.example.json` 꼴, 하나 또는 목록)을 적으면, 가진 이미지를 사내 OCR 해 OCR 학습·평가 데이터로 (`python -m docgen.bench.ocr_prepare`, 차례로). 결과 폴더(그 설정의 `output_dir`)는 `data.train`·`data.benchmark` 에 경로로 적어 둔다 (평가 전용 `benchmark_only` 는 `data.benchmark` 에만). 합성 OCR·studio 데이터셋만 쓰면 빼 둔다. 설명서 [guide/ocr_prepare.md](../guide/ocr_prepare.md) | 그 설정의 `output_dir/` (`DONE.json` 이 있으면 건너뜀) |
+| ocr_prepare | (선택) 설정 최상위 `ocr_prepare` 에 OCR 준비 설정(`docgen/bench/ocr_config.example.json` 꼴, 하나 또는 목록)을 적으면, 가진 이미지를 사내 OCR 해 OCR 학습·평가 데이터로 (`python -m docgen.bench.ocr_prepare`, 차례로). 결과 폴더(그 설정의 `output_dir`)는 `data.train`·`data.benchmark` 에 경로로 적어 둔다 (평가 전용 `benchmark_only` 는 `data.benchmark` 에만). 합성 OCR·studio 데이터셋만 쓰면 빼 둔다. 설명서 [guide/ocr.md](../guide/ocr.md) | 그 설정의 `output_dir/` (`DONE.json` 이 있으면 건너뜀) |
 | prepare | 섞기 (`train/mix.py`) | `data.output_dir/`: `train_sft.jsonl`, `val_sft.jsonl`, `train_grpo.jsonl`, `benchmark_tasks.jsonl`·`benchmark_items.jsonl`, `DONE.json` |
 | eval_base | 출발 모델 평가 (`eval.compare_models` 도) | `predictions/start.jsonl`, `reports/start.json` |
 | sft | SFT (`python -m train.launch sft`) | `sft/…/checkpoint-N` |

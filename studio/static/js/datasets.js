@@ -434,7 +434,7 @@ async function dsTrain(d) {
   $("#tab").innerHTML = `
     <div class="sub">학습은 하나입니다 (<span class="mono">python -m train</span>): OCR·문서 이해·업무 처리 과제 데이터셋을 함께 골라 섞습니다.
       studio 는 학습을 실행하지 않습니다. 설정 파일을 <span class="mono">train/configs/studio-&lt;이름&gt;.json</span>에 쓰고 학습 컨테이너에서 실행할 명령을 보여 줍니다.
-      진행은 공유 폴더의 state.json 으로 보고, 끝나면 고른 평가 세트마다 모델 답으로 붙습니다 (studio/TRAINING.md).</div>
+      진행은 공유 폴더의 state.json 으로 보고, 끝나면 고른 평가 세트마다 모델 답으로 붙습니다 (guide/training.md).</div>
     <div class="panel">
       <label class="fld">학습 이름 <input type="text" id="tr-name" value="${esc(d.id)}-${new Date().toISOString().slice(0, 10)}"></label>
       <div class="fld">학습 데이터 (학습 문항이 있는 데이터셋, 문항 수를 적으면 그만큼만 무작위로) ${train.map(x => row(x, "train")).join("") || `<span class="muted">없음</span>`}</div>

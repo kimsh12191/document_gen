@@ -17,20 +17,19 @@ from docgen.registry import GROUPS, load_all, load_scenarios, SCENARIOS, SCENARI
 ROOT = Path(__file__).resolve().parents[1]
 DOCUMENTS = {
     "README.md": "사용 설명서 · 시작하기",
-    "research-agent.md": "생성 가능 범위 · 연구 목적별 선택",
-    "catalog.md": "서류별 추출 항목 · 연결 시나리오",
-    "ocr-examples.md": "OCR 8과제 · 이미지·질문·정답 예시",
-    "benchmark-tracking.md": "벤치마크 구성 · 구분별 평가 추적",
-    "remote-build.md": "원격 생성 · 레시피 · 결과 가져오기",
-    "questions.md": "질문과 정답 형식",
-    "tutorial.md": "설치부터 학습까지",
-    "overview.md": "프로젝트 개요",
-    "benchmark.md": "업무 과제 · 사례 · 채점",
-    "ocr_prepare.md": "실제 이미지 OCR 준비",
+    "studio.md": "Studio 사용법 · 데이터 만들기·넣기·채점",
+    "ocr.md": "내 이미지로 OCR 데이터 준비",
+    "training.md": "학습 설정·실행",
     "results.md": "결과 해석",
-    "documents.md": "서류 이름 목록",
+    "agent-workflow.md": "agent 작업 절차 · 생성→학습→보고",
+    "catalog.md": "서류별 추출 항목 · 연결 시나리오",
+    "questions.md": "질문과 정답 형식",
     "tasks.md": "실제 데이터 예시",
+    "benchmark.md": "업무 과제 · 사례 · 채점",
+    "benchmark-tracking.md": "벤치마크 구성 · 구분별 평가 추적",
+    "documents.md": "서류 이름 목록",
     "fields/README.md": "필드 목록 안내",
+    "overview.md": "프로젝트 개요",
 }
 # 추가 참고 문서도 guide 내부에서 이동할 수 있다. 경로는 서버가 수집한 목록만 허용한다.
 for _path in sorted((ROOT / "guide").rglob("*.md")):

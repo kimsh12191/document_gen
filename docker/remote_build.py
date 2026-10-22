@@ -1,8 +1,8 @@
 """다른 컨테이너·PC 에서 studio 에 데이터 생성을 맡긴다 (파이썬 표준 라이브러리만 씀. 이 파일만 복사해 가도 된다).
 
 studio 를 sh docker/studio.sh --open 으로 띄워 두고, URL 은 --url 또는 환경변수 STUDIO_URL (예: http://10.0.0.5:8765).
-사용 설명서: guide/README.md · 생성 가능 범위: guide/research-agent.md
-원격 생성: guide/remote-build.md · 서류별 추출·시나리오: guide/catalog.md (기계용 catalog.json)
+사용 설명서: guide/README.md · 생성·학습 절차: guide/agent-workflow.md
+서류별 추출·시나리오: guide/catalog.md (기계용 catalog.json)
 
 보기
   python remote_build.py types [--group income] [--find 재직]     서식 ID 목록 (그룹·이름으로 거르기)
