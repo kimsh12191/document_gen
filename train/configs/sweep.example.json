@@ -1,0 +1,17 @@
+{
+ "name": "E01-realocr",
+ "about": "하나은행 서식 없이 학습해도 키 설명으로 추출되나 · 실서류 OCR 을 더하면 실서류에서 오르나",
+ "record": "experiments/E01-realocr.md",
+ "base": "pipeline.json",
+ "root": "../runs/E01-realocr",
+ "part": "sft",
+ "runs": [
+  {"label": "a1-syn", "about": "기준: 합성 업무·OCR (하나은행 서식 제외), 실서류 없음",
+   "train": ["/database/docgen_studio/workspace/datasets/bank-train-part-v1-2026-10-23",
+             "/database/docgen_studio/workspace/datasets/ocr-train-part-v1-2026-10-23/prepared"]},
+  {"label": "a2-synreal", "about": "기준 + 실서류 OCR",
+   "train": ["/database/docgen_studio/workspace/datasets/bank-train-part-v1-2026-10-23",
+             "/database/docgen_studio/workspace/datasets/ocr-train-part-v1-2026-10-23/prepared",
+             "/share/tom/env/2026_PROJECT/PT/docgen_studio/data/prepared-v2"]}
+ ]
+}

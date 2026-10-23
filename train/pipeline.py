@@ -71,6 +71,7 @@ DEFAULTS = {
                            "--served_model_name", "docgen", "--enable_thinking", "false", "--max_new_tokens", "4096"],
         "health_path": "/v1/models",
         "compare_models": [],
+        "skip_start": False,   # 출발 모델 평가를 건너뜀 (train/sweep.py: 첫 모델만 평가)
     },
     "smoke": {"train_steps": 5, "benchmark_per_task": 8, "grpo_candidates": 40, "grpo_count": 8},
 }
@@ -360,6 +361,9 @@ class Runner:
     def stage_eval_base(self):
         for i, m in enumerate(self.cfg["eval"].get("compare_models") or []):
             self.evaluate(m["label"], m["model"], f"compare{i}")
+        if self.cfg["eval"].get("skip_start"):
+            log("출발 모델 평가 건너뜀 (eval.skip_start)")
+            return
         self.evaluate("start", self.model, "start")
 
     def stage_sft(self):

@@ -61,13 +61,14 @@ def build(paths, output):
     return _build_reports(reports, Path(output))
 
 
-def _build_reports(reports, output):
+def _build_reports(reports, output, check_images=True):
+    """check_images=False: 그림이 같은지는 부른 쪽이 확인했다 (train/sweep.py: 섞은 폴더가 달라 그림 경로가 다르다)."""
     if not reports:
         raise ValueError("No reports")
     if len({r["items_sha256"] for r in reports}) != 1:
         raise ValueError("Reports use different benchmark items; do not compare them")
     infos = [r.get("inference") or {} for r in reports]
-    for key in ("images_sha256", "temperature", "max_tokens", "enable_thinking", "request_options"):
+    for key in ("images_sha256", "temperature", "max_tokens", "enable_thinking", "request_options")[0 if check_images else 1:]:
         known = [i.get(key) for i in infos if key in i]
         if any(v != known[0] for v in known):
             raise ValueError(f"Reports use different inference {key}")

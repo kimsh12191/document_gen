@@ -105,6 +105,34 @@ python -m train --config train/configs/pipeline.json --part grpo --sft-checkpoin
 - 중간에 멈추면 **같은 명령을 다시** 실행합니다. 끝난 단계는 건너뜁니다.
 - 학습한 모델은 `train/runs/exp1/merged/`에 있습니다.
 
+## 4.1 학습 데이터만 바꾼 모델 여러 개 (실험 묶음)
+
+한 번 걸어 두고 나중에 비교표만 봅니다. 모델을 차례로 섞기 → SFT → 평가하고, 하나 끝날 때마다 비교표를 다시 만듭니다.
+
+```bash
+cp train/configs/sweep.example.json train/configs/E01-realocr.sweep.json   # name·about·runs 고치기
+nohup python -m train sweep --config train/configs/E01-realocr.sweep.json > E01.log 2>&1 &
+python -m train sweep --config train/configs/E01-realocr.sweep.json --status   # 진행 상황
+```
+
+| 칸 | 뜻 |
+|---|---|
+| `name`, `about` | 실험 ID와 무엇을 확인하는지 (필수). 비교표 맨 위와 `--status`에 나옴 |
+| `record` | 실험 기록 파일 (선택, 예: `experiments/E01-realocr.md`) |
+| `base` | 공통 파이프라인 설정 (`model`, `sft`, `data.benchmark`, `eval` …). 3절의 `pipeline.json` |
+| `root` | 결과 폴더. 모델마다 `<root>/<label>/`가 `workdir`, `<root>/<label>/data`가 섞은 데이터 |
+| `part` | `sft`(기본) · `grpo` · `all` |
+| `runs[]` | `label`(영문 소문자·숫자·`-`), `about`(이 모델이 무엇인지, 필수), `train`(= `data.train`). 꼭 필요할 때만 `set`으로 그 모델의 설정 칸을 덮어씀 |
+
+- **결과:** `<root>/compare.md`·`.html`·`.csv`. 맨 위에 실험 설명과 모델별 설명·학습 데이터, 아래에 점수표(출발 모델이 Δ의 기준).
+- **출발 모델 평가는 첫 모델에서만** 합니다. 나머지는 `eval.skip_start`.
+- **한 모델이 실패해도 다음으로** 갑니다. `--status`에 실패와 로그(`<root>/<label>/sweep.log`, 자세히는 `<root>/<label>/logs/`)가 나옵니다.
+- **같은 명령을 다시 치면 이어서** 돕니다. 끝난 모델은 건너뛰고, 모델을 `runs`에 더하면 그것만 돌아 표에 붙습니다.
+- **이미 돈 모델의 설정(base·train·set)을 바꾸면 그 모델은 돌리지 않습니다.** 새 `label`로 추가하세요.
+- 평가 문항·그림 설정이 첫 모델과 다른 모델은 표에서 빼고 `compare_notes.txt`에 이유를 남깁니다.
+- SFT만 비교할 때는 `base`에 `"grpo": {"select": "random"}`을 두면 SFT 평가 뒤 GRPO 후보 답 내기(추론 수천 건)를 건너뜁니다.
+- 처음에는 `--smoke`로 리허설합니다 (모델마다 5 step, `<root>/<label>/smoke`).
+
 ## 5. 다시 돌릴 때
 
 | 하고 싶은 것 | 방법 |
