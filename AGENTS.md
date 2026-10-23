@@ -20,6 +20,7 @@
 |---|---|
 | 데이터 생성 → 학습 → 평가 → 보고 (전체 절차) | [guide/agent-workflow.md](guide/agent-workflow.md) |
 | 학습 설정·실행·에러 | [guide/training.md](guide/training.md), 설정 칸 [train/README.md](train/README.md) |
+| 학습한 모델을 새 평가 세트로 다시 채점 | [guide/eval.md](guide/eval.md) |
 | 실서류 이미지 OCR 준비 | [guide/ocr.md](guide/ocr.md) |
 | 결과 지표 해석 | [guide/results.md](guide/results.md) |
 | 실험 기록 (가설·설계·결과) | [experiments/README.md](experiments/README.md) |

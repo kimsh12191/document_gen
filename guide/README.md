@@ -7,6 +7,7 @@
 | 서식 보기·고치기, 합성 데이터 만들기, 내 서류 넣기, 채점 | [studio.md](studio.md) |
 | 내가 가진 이미지로 OCR 학습·평가 데이터 만들기 | [ocr.md](ocr.md) |
 | 데이터셋을 모아 학습하기 | [training.md](training.md) |
+| 학습 없이 평가만 다시 하기 (새 평가 세트) | [eval.md](eval.md) |
 | 결과 점수표 읽기 | [results.md](results.md) |
 
 agent에게 일을 맡길 때는 저장소 최상위의 [AGENTS.md](../AGENTS.md)부터 읽게 하세요. 절차는 [agent-workflow.md](agent-workflow.md)입니다.

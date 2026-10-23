@@ -151,6 +151,7 @@ python -m train sweep --config train/configs/E01-realocr.sweep.json --status   #
 | SFT부터 다시 | `--from sft` |
 | 한 단계만 | `--only <단계>` (단계: `prepare` `eval_base` `sft` `eval_sft` `select` `grpo` `eval_grpo` `report`) |
 | 명령만 보기 | `--dry-run` (경로 검사는 안 함) |
+| 학습 없이 새 평가 세트로 다시 채점 | [eval.md](eval.md) |
 | 생성기 코드가 바뀜 | 데이터셋을 새 이름으로 다시 만들고, `data`의 경로·`output_dir`·`workdir`을 새로. 옛 세트와 점수는 직접 비교하지 않음 |
 
 ## 6. 에러
