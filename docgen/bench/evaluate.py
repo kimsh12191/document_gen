@@ -165,15 +165,19 @@ def s_kie(item, out):
     if isinstance(item["answer"], list):
         return _s_kie2(item, out)
     pred = parse_json(out)
+    order = item["eval"].get("order")
+    if order is not None and isinstance(pred, list):   # 값만 순서대로 답하는 꼴 (train.swift_import): 개수가 다르면 못 읽은 것
+        pred = dict(zip(order, pred)) if len(pred) == len(order) else None
     fail = not isinstance(pred, dict)
     flat = _flatten(pred) if isinstance(pred, dict) else {}
     tp = fp = fn = 0
-    correct_all, sub = [], []
+    correct_all, sub, exact = [], [], []
     for key, gt in item["answer"].items():
         info = item["eval"]["fields"][key]
         p = flat.get(key)
         ok = value_match(p, gt, info["type"], info.get("norm"), key)
         correct_all.append(ok)
+        exact.append(p == gt)
         sub.append(("kind", info.get("kind", "text"), ok))
         if gt is not None:
             tp += ok
@@ -184,8 +188,11 @@ def s_kie(item, out):
     prec = tp / (tp + fp) if tp + fp else 1.0
     rec = tp / (tp + fn) if tp + fn else 1.0
     f1 = 2 * prec * rec / (prec + rec) if prec + rec else 0.0
-    return {"metrics": {"field_acc": sum(correct_all) / len(correct_all), "f1": f1, "precision": prec, "recall_f": rec,
-                        "doc_exact": float(all(correct_all))}, "parse_fail": fail, "sub": sub}
+    metrics = {"field_acc": sum(correct_all) / len(correct_all), "f1": f1, "precision": prec, "recall_f": rec,
+               "doc_exact": float(all(correct_all))}
+    if order is not None:   # "문서에 적힌 그대로" 를 묻는 질문: 글자 하나까지 같은 비율도 따로
+        metrics["field_exact"] = sum(exact) / len(exact)
+    return {"metrics": metrics, "parse_fail": fail, "sub": sub}
 
 
 def _s_kie2(item, out):

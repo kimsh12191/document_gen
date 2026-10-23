@@ -54,11 +54,18 @@ CHARS_PER_TOKEN = 0.67  # conservative for Korean text: assume 1.5 tokens per ch
 
 
 def load_folder(path: Path) -> tuple[dict, list[dict]]:
-    """과제 폴더 → (meta, 문항). 문항의 images 는 절대 경로로."""
+    """과제 폴더 → (meta, 문항). 문항의 images 는 절대 경로로. swift 형식 .jsonl 파일도 읽는다 (train/swift_import.py)."""
+    from docgen.bench.tracking import enrich, source_id
+
+    if path.suffix == ".jsonl" and path.is_file():
+        from .swift_import import load_swift
+
+        meta, items = load_swift(path)
+        origin = source_id(path.stem, meta)
+        return meta, [enrich(it, origin) for it in items]
     meta_path = path / "meta.json"
     if not meta_path.is_file() or not (path / "tasks").is_dir():
-        raise ValueError(f"{path}: 과제 폴더(meta.json + tasks/)가 아닙니다 — studio 데이터셋 폴더를 쓰세요")
-    from docgen.bench.tracking import enrich, source_id
+        raise ValueError(f"{path}: 과제 폴더(meta.json + tasks/)가 아닙니다 — studio 데이터셋 폴더나 swift .jsonl 을 쓰세요")
 
     meta = read_json(meta_path)
     origin = source_id(path.name, meta)

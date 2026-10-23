@@ -143,8 +143,8 @@ class Runner:
             for p in [*train_paths, *benchmark_paths(d["benchmark"])]:
                 if p in ocr_outs:
                     continue   # ocr_prepare 단계가 만든다
-                need(Path(p, "meta.json").is_file() and Path(p, "tasks").is_dir(), "data.train / data.benchmark", p,
-                     "studio 데이터셋 폴더 (meta.json + tasks/)")
+                need(Path(p, "meta.json").is_file() and Path(p, "tasks").is_dir() or p.endswith(".jsonl") and Path(p).is_file(),
+                     "data.train / data.benchmark", p, "studio 데이터셋 폴더 (meta.json + tasks/) 또는 swift .jsonl (평가 전용)")
         if problems:
             sys.exit(f"설정({self.config_path})의 경로를 확인하세요. 상대 경로는 설정 파일이 있는 폴더 기준입니다.\n"
                      + "\n".join(problems))

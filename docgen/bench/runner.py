@@ -36,6 +36,8 @@ def oracle_output(item: dict) -> str:
     if item["task"] in OCR_TASKS:
         return answer_for(item["task"], item["answer"])
     a = item["answer"]
+    if item["task"] == "kie" and item.get("eval", {}).get("order") is not None:   # 값만 순서대로 (train.swift_import)
+        return json.dumps([a[k] for k in item["eval"]["order"]], ensure_ascii=False)
     if item["task"] == "ocr_page":
         return "\n".join(a)
     return a if isinstance(a, str) else json.dumps(a, ensure_ascii=False)

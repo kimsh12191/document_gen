@@ -323,6 +323,37 @@ def test_pipeline_ocr_prepare_stage_is_optional_and_runs_once(tmp_path, model):
     assert "no ocr_prepare config" in out.getvalue()
 
 
+def test_swift_jsonl_is_a_benchmark_as_is(tmp_path, model):
+    """실서류 swift .jsonl 을 data.benchmark 에 그대로: 질문의 필드 순서와 답 배열을 짝지어 kie 로 채점, 못 읽는 줄은 건너뜀."""
+    real = tmp_path / "real"
+    (real / "images").mkdir(parents=True)
+    Image.new("RGB", (400, 560), "white").save(real / "images" / "a.png")
+    prompt = ('<image>\nWhat are the values of the following fields in this document, in order: ["NO_LC", "DATE", "DATE"]\n'
+              "Return only a valid JSON array of strings.")
+    rows = [{"messages": [{"role": "user", "content": prompt},
+                          {"role": "assistant", "content": dumps(["K114434", "2025 년 01월 01일", "20250101"])}],
+             "images": [str(real / "images" / "a.png")]},
+            {"messages": [{"role": "user", "content": prompt}, {"role": "assistant", "content": "[\"하나뿐\"]"}],
+             "images": ["images/a.png"]}]
+    (real / "eval_qa.jsonl").write_text("".join(dumps(r) + "\n" for r in rows), encoding="utf-8")
+    bank_folder(tmp_path / "train", "train", [f"m_{i}" for i in range(6)], n_images=1, size=(400, 560))
+    bench = [{"id": "real-fx", "name": "실서류 외환", "group": "real", "paths": [str(real / "eval_qa.jsonl")]}]
+    with contextlib.redirect_stdout(io.StringIO()) as out:
+        M.mix(data_cfg(tmp_path, benchmark=bench), model)
+    assert "1줄을 읽지 못해" in out.getvalue()
+    items = read_jsonl(tmp_path / "prep" / "benchmark_items.jsonl")
+    assert [it["id"] for it in items] == ["eval_qa/00001"]
+    it = items[0]
+    assert it["answer"] == {"NO_LC": "K114434", "DATE": "2025 년 01월 01일", "DATE#2": "20250101"}
+    task = read_jsonl(tmp_path / "prep" / "benchmark_tasks.jsonl")[0]
+    assert task["messages"][0]["content"].startswith("<image>What are the values")   # 질문은 그대로
+    assert reward("kie", oracle_output(it), it) == 1.0
+    assert oracle_output(it) == dumps(["K114434", "2025 년 01월 01일", "20250101"])
+    res = score([it], {it["id"]: '["K114434", "2025년 01월 01일", "20250101"]'})["tasks"]["kie"]["metrics"]
+    assert res["field_acc"] == 1.0 and abs(res["field_exact"] - 2 / 3) < 1e-9   # 띄어쓰기만 다름: 맞음, 글자 그대로는 아님
+    assert score([it], {it["id"]: '["K114434", "20250101"]'})["tasks"]["kie"]["metrics"]["field_acc"] == 0.0   # 개수가 다름
+
+
 def test_eval_drops_questions_over_server_image_limit(tmp_path, mixed, model):
     """서버(--vllm_limit_mm_per_prompt)보다 그림이 많은 평가 문항은 빼고 기록한다: 한 문항 때문에 추론 전체가 멈추지 않게."""
     from train import pipeline as P
