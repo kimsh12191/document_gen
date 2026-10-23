@@ -68,7 +68,7 @@ async function viewRecipe(name) {
         ${formPickButton("rc-types", "쓸 서식")}
         <label class="fld">서식마다 샘플 수 <input type="number" id="rc-perdoc" value="${r.per_doc ?? 1}" min="0"></label>
         <label class="fld">빼는 서식 (쉼표) <input type="text" id="rc-exclude" value="${esc((r.exclude || []).join(","))}"></label>
-        ${formPickButton("rc-exclude", "뺄 서식", "연결 업무가 있는 서식은 여기 넣어도 업무 묶음 안에는 그대로 들어갑니다 (단일 서류 과제에서만 빠짐).")}
+        ${formPickButton("rc-exclude", "뺄 서식", "업무 묶음에서도 빠집니다. 그 자리에 고를 다른 서식이 없는 묶음은 건너뛰고 skipped_bundles.jsonl 에 남깁니다 (연결 업무 있는 서식을 빼면 그 업무의 묶음이 줄어듦).")}
         <label><input type="checkbox" id="rc-reviewed" ${r.reviewed_only ? "checked" : ""}> 검수 완료 서식만 (평가 세트 권장)</label>
         <label class="fld">서류마다 값 칸 OCR 문항 수 <input type="number" id="rc-fpd" value="${r.fields_per_doc ?? 6}" min="0"></label>
         <label class="fld">kie·marks 문항 하나의 최대 항목 수 <input type="number" id="rc-maxkeys" value="${r.max_keys ?? 40}" min="1"></label>

@@ -9,7 +9,7 @@ from docgen import template_variants as T
 from docgen import html_regions as HR
 from docgen.entities import make_profile
 from docgen.render import render
-from docgen.roles import resolve,resolve_processing,validate_sampling
+from docgen.roles import ExcludedForm,resolve,resolve_processing,validate_sampling
 from docgen.schema import build_fields
 
 
@@ -57,6 +57,26 @@ def test_role_sampling_one_per_slot_and_no_cross_role():
     with pytest.raises(ValueError):validate_sampling(docs,{"loan_application":{"mode":"sample","forms":["gov_income"]}})
     with pytest.raises(ValueError):validate_sampling(docs,{"loan_application":{"mode":"sample","forms":[]}})
     with pytest.raises(ValueError):resolve(["loan_application","hf049"],None,0,"test")
+
+
+def test_excluded_forms_are_not_sampled_and_block_fixed_slots():
+    docs=["loan_application","employment_certificate"]
+    sampling={"loan_application":{"mode":"sample","forms":["loan_application","hana_official_049"]}}
+    for seed in range(20):
+        assert resolve(docs,sampling,seed,"test",{"hana_official_049"})[0]["id"]=="loan_application"
+    with pytest.raises(ExcludedForm):resolve(docs,sampling,0,"test",{"loan_application","hana_official_049"})
+    with pytest.raises(ExcludedForm):resolve(docs,sampling,0,"test",{"employment_certificate"})
+
+
+def test_builder_skips_bundle_that_needs_excluded_form(monkeypatch):
+    from docgen.bench.build import Builder
+
+    sid="exclude_test";docs=["loan_application","employment_certificate"]
+    monkeypatch.setitem(R.SCENARIOS,sid,("시험",docs));monkeypatch.setitem(R.SCENARIO_SAMPLING,sid,{})
+    b=Builder.__new__(Builder);b.buf=[];b.exclude=frozenset({"employment_certificate"})
+    b.render_doc=lambda *a,**k:pytest.fail("빼는 서식이 든 묶음을 그렸습니다")
+    b.bundle(sid,7)
+    assert [r["task"] for r in b.buf]==["_skipped"] and b.buf[0]["bundle_id"]==f"{sid}_7"
 
 
 def test_preview_and_builder_select_same_document_and_keys(monkeypatch):

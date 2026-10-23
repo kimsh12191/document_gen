@@ -76,7 +76,7 @@ python docker/remote_build.py scenarios                   # 업무 ID와 필요 
 |---|---|
 | `track` | `bank` (기본) · `ocr` |
 | `split` | bank `test`·`train`, ocr `benchmark`·`train` |
-| `types`, `exclude`, `reviewed_only` | 서식: `"all"` · ID 목록 · 그룹. 검수 완료 서식만 |
+| `types`, `exclude`, `reviewed_only` | 서식: `"all"` · ID 목록 · 그룹. 검수 완료 서식만. `exclude` 서식은 업무 묶음에서도 빠집니다: 고를 수 있는 다른 서식이 없는 묶음은 건너뛰고 `skipped_bundles.jsonl`·`meta.json`의 `skipped_bundles`에 남습니다 |
 | `per_doc` | 서식마다 문서 수 (문항 수 아님) |
 | `scenarios`, `bundles` | 업무 ID와 업무마다 고객 묶음 수 (`{"default": 4, "mortgage": 20}`도 됨) |
 | `conditions` | 촬영 조건 비율, 합 1: `{"clean": 0.5, "scan": 0.2, "photo": 0.15, "fax": 0.15}` |

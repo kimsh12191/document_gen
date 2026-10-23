@@ -115,6 +115,8 @@ def field_kind(f: dict) -> str:
 
 
 class Builder:
+    exclude: frozenset = frozenset()
+
     def __init__(self, out: Path, scale: float, rules: dict | None = None):
         from ..image import ImageRenderer
 
@@ -122,6 +124,7 @@ class Builder:
         self.rules = {**BUNDLE_RULES, **((rules or {}).get("bundle") or {})}
         self.cases = (rules or {}).get("cases") or {}          # {사례ID: {"enabled": bool, "tamper": 확률}}
         self.conditions = tuple((rules or {}).get("conditions") or CONDITIONS)
+        self.exclude = frozenset((rules or {}).get("exclude") or ())   # 레시피의 빼는 서식: 업무 묶음에서도 뺀다
         self.reg = load_all()
         self.renderer = ImageRenderer(scale=scale).__enter__()
         self.buf: list[dict] = []
@@ -134,7 +137,7 @@ class Builder:
     def emit(self, rec: dict):
         from .tracking import enrich
 
-        self.buf.append(enrich(rec) if rec["task"] != "_bundle" else rec)
+        self.buf.append(enrich(rec) if rec["task"] not in ("_bundle", "_skipped") else rec)
 
     def take(self) -> list[dict]:
         out, self.buf = self.buf, []
@@ -291,15 +294,21 @@ class Builder:
         """업무 묶음 하나. plan(직접 만든 묶음): {"name", "missing": [서류ID], "other": [서류ID], "extra": [서류ID],
         "cases": [사례ID], "tamper": {사례ID: bool}} — 정해 준 것은 난수 대신 그대로 쓴다."""
         task_name, ids = SCENARIOS[scenario]
-        from ..roles import resolve, resolve_processing
-        selections=resolve(ids,SCENARIO_SAMPLING.get(scenario),seed,scenario)
+        from ..roles import ExcludedForm, resolve, resolve_processing
+        bid = f"{scenario}_{seed}" if not plan or not plan.get("name") else f"{scenario}_{seed}_{plan['name']}"
+        try:
+            selections=resolve(ids,SCENARIO_SAMPLING.get(scenario),seed,scenario,self.exclude)
+            if plan and set(plan.get("extra") or ()) & self.exclude:
+                raise ExcludedForm(f"{bid}: 불필요 서류로 정한 서식이 빼는 서식입니다")
+        except ExcludedForm as e:   # 빼는 서식 없이는 만들 수 없는 묶음: 건너뛰고 기록한다
+            self.emit({"task": "_skipped", "bundle_id": bid, "scenario": scenario, "why": str(e)})
+            return
         processing=resolve_processing(PROCESS.validate(SCENARIO_PROCESSING.get(scenario),ids),selections)
         ids=[r["id"] for r in selections]
         if plan:
             mapping={r["slot"]:r["id"] for r in selections}
             plan={**plan,**{key:[mapping.get(d,d) for d in plan[key]] for key in ("missing","other") if key in plan}}
         p = self.bundle_profile(scenario, seed)
-        bid = f"{scenario}_{seed}" if not plan or not plan.get("name") else f"{scenario}_{seed}_{plan['name']}"
         docs = []
         for doc_id in ids:
             stem = f"images/bundles/{bid}/{doc_id}"
@@ -448,7 +457,8 @@ class Builder:
         elif rng.random() < R["extra_doc"]:
             ids = {d["doc_id"] for d in docs}
             required_roles={roles[x]["id"] for x in ids}
-            pool = sorted(x for _, (_, lst) in SCENARIOS.items() for x in lst if roles[x]["id"] not in required_roles)
+            pool = sorted(x for _, (_, lst) in SCENARIOS.items() for x in lst
+                          if roles[x]["id"] not in required_roles and x not in self.exclude)
             extra_ids = [rng.choice(pool)] if pool else []
         else:
             extra_ids = []
@@ -618,6 +628,7 @@ def load_recipe(path: str | Path, args) -> dict:
              "conditions": [tuple(c) for c in conds] if conds else None}
     if rules["conditions"] and abs(sum(p for _, p in rules["conditions"]) - 1) > 1e-6:
         sys.exit("레시피 conditions 비율의 합은 1 이어야 합니다")
+    rules["exclude"] = sorted(recipe.get("exclude") or [])
     return {"recipe": recipe, "rules": rules, "custom": recipe.get("custom_bundles") or [],
             "exclude": set(recipe.get("exclude") or []), "reviewed_only": bool(recipe.get("reviewed_only"))}
 
@@ -694,6 +705,7 @@ def build(args) -> None:
 
     tracking = Composition()
     files: dict[tuple[str, str], object] = {}
+    skipped: list[dict] = []
 
     def write(d: str, t: str, rec: dict):
         if (d, t) not in files:
@@ -715,6 +727,9 @@ def build(args) -> None:
         files["_", "bundles"] = bundles_file
         for i, recs in enumerate(results):
             for rec in recs:
+                if rec["task"] == "_skipped":   # 빼는 서식이 들어가야 하는 묶음
+                    skipped.append({k: v for k, v in rec.items() if k != "task"})
+                    continue
                 if rec["task"] == "_bundle":   # 묶음 기록은 문항이 아니다
                     bundles_file.write(json.dumps({k: v for k, v in rec.items() if k != "task"}, ensure_ascii=False) + "\n")
                     continue
@@ -748,6 +763,12 @@ def build(args) -> None:
                          "seed_bundle": seed_bundle, "conditions": dict(CONDITIONS), "held_out_test_only": held_out},
             "counts": dict(sorted(counts.items())), "composition": tracking.result(),
             "doc_names": {i: reg[i].name for i in ids}}
+    if rc and rc["exclude"]:
+        meta["settings"]["exclude"] = sorted(rc["exclude"])
+        meta["skipped_bundles"] = {sc: sum(1 for s in skipped if s["scenario"] == sc) for sc in dict.fromkeys(s["scenario"] for s in skipped)}
+    if skipped:
+        with open(out / "skipped_bundles.jsonl", "w", encoding="utf-8") as fh:
+            fh.writelines(json.dumps(s, ensure_ascii=False) + "\n" for s in skipped)
     meta["scenario_sampling"]={sc:SCENARIO_SAMPLING[sc] for sc in scenarios if sc in SCENARIO_SAMPLING}
     meta["scenario_processing"] = {sc: PROCESS.validate(SCENARIO_PROCESSING.get(sc), SCENARIOS[sc][1]) for sc in scenarios}
     if rc:
@@ -761,7 +782,7 @@ def build(args) -> None:
     if rc:   # 버전 정보 (studio 데이터셋 등록부·설명서가 읽는다)
         from ..preview import source_hash
 
-        used = sorted(set(ids) | {d for sc in scenarios for d in SCENARIOS[sc][1]} | {d for sc in scenarios for c in SCENARIO_SAMPLING.get(sc,{}).values() for d in c.get("forms",[])})
+        used = sorted((set(ids) | {d for sc in scenarios for d in SCENARIOS[sc][1]} | {d for sc in scenarios for c in SCENARIO_SAMPLING.get(sc,{}).values() for d in c.get("forms",[])}) - rc["exclude"])
         info = {"recipe": rc["recipe"], "recipe_path": str(args.recipe), "generator_commit": meta["generator_commit"],
                 "version": VERSION, "created": meta["created"], "counts": meta["counts"], "split": split,
                 "form_hashes": {i: source_hash(i, common=False) for i in used if i in reg},
@@ -771,3 +792,6 @@ def build(args) -> None:
     print(f"{what} → {out} ({time.time() - t0:.0f}초)" + (f", ms-swift 학습 파일: {out / 'swift'}" if split == "train" else ""))
     for t, c in meta["counts"].items():
         print(f"  {t:12s} {c}")
+    if skipped:
+        print(f"빼는 서식 때문에 건너뛴 업무 묶음 {len(skipped)}개 (skipped_bundles.jsonl): "
+              + ", ".join(f"{sc} {n}" for sc, n in meta["skipped_bundles"].items()))

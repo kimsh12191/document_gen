@@ -60,7 +60,12 @@ def validate_sampling(docs: list[str], value: dict | None) -> dict:
     return out
 
 
-def resolve(docs: list[str], sampling: dict | None, seed: int, scenario: str) -> list[dict]:
+class ExcludedForm(ValueError):
+    """묶음의 한 자리에 쓸 수 있는 서식이 모두 빼는 서식이다 (레시피 exclude)."""
+
+
+def resolve(docs: list[str], sampling: dict | None, seed: int, scenario: str, exclude=frozenset()) -> list[dict]:
+    """자리마다 실제 서식을 고른다. exclude 의 서식은 후보에서 빼고, 남는 후보가 없으면 ExcludedForm."""
     from .registry import load_all
     reg=load_all()
     if not isinstance(docs,list) or not docs or any(not isinstance(d,str) or d not in reg for d in docs):
@@ -71,7 +76,10 @@ def resolve(docs: list[str], sampling: dict | None, seed: int, scenario: str) ->
         if role["id"] in used:raise ValueError("같은 제출 역할의 서식은 한 자리만 넣으세요")
         used.add(role["id"])
         conf=config.get(slot,{"mode":"fixed","forms":[slot]})
-        did=slot if conf["mode"]=="fixed" else random.Random(f"role-form:{scenario}:{seed}:{role['id']}").choices(conf["forms"],weights=[conf.get("weights",{}).get(d,1) for d in conf["forms"]])[0]
+        forms=[slot] if conf["mode"]=="fixed" else [d for d in conf["forms"] if d not in exclude]
+        if not forms or forms==[slot] and slot in exclude:
+            raise ExcludedForm(f"{scenario}: {role['name']} 자리의 서식이 모두 빼는 서식입니다 ({', '.join(conf.get('forms') or [slot])})")
+        did=slot if conf["mode"]=="fixed" else random.Random(f"role-form:{scenario}:{seed}:{role['id']}").choices(forms,weights=[conf.get("weights",{}).get(d,1) for d in forms])[0]
         out.append({"slot":slot,"role":role["id"],"role_name":role["name"],"id":did,"name":reg[did].name,"mode":conf["mode"]})
     return out
 

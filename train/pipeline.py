@@ -182,17 +182,49 @@ class Runner:
 
     def benchmark_tasks(self):
         tasks = self.data / "benchmark_tasks.jsonl"
-        if not self.smoke:
+        if self.smoke:
+            subset = self.workdir / "benchmark_subset.jsonl"
+            if not subset.exists() and not self.dry:
+                by_task = {}
+                for row in read_jsonl(tasks):
+                    by_task.setdefault(row["task"], []).append(row)
+                n = self.cfg["smoke"]["benchmark_per_task"]
+                rows = [r for t in sorted(by_task) for r in random.Random(0).sample(by_task[t], min(n, len(by_task[t])))]
+                write_jsonl(subset, rows)
+            tasks = subset
+        return self.servable(tasks)
+
+    def image_limit(self):
+        """평가 서버가 질문 하나에 받는 그림 수 (deploy_command 의 limit_mm_per_prompt). 못 읽으면 None."""
+        cmd = self.cfg["eval"]["deploy_command"]
+        for flag, value in zip(cmd, cmd[1:]):
+            if flag.lstrip("-").replace("-", "_") in ("vllm_limit_mm_per_prompt", "limit_mm_per_prompt"):
+                try:
+                    return int(json.loads(value.format())["image"])
+                except (ValueError, KeyError, TypeError):
+                    return None
+        return None
+
+    def servable(self, tasks):
+        """그림이 서버 한도보다 많은 문항은 빼고 평가한다 (서버가 400 으로 거절해 추론 전체가 멈추던 것).
+        뺀 문항은 <workdir>/benchmark_over_image_limit.jsonl 에 남기고, 모든 모델을 같은 문항으로 잰다."""
+        limit = self.image_limit()
+        if not limit or not tasks.exists():
             return tasks
-        subset = self.workdir / "benchmark_subset.jsonl"
-        if not subset.exists() and not self.dry:
-            by_task = {}
-            for row in read_jsonl(tasks):
-                by_task.setdefault(row["task"], []).append(row)
-            n = self.cfg["smoke"]["benchmark_per_task"]
-            rows = [r for t in sorted(by_task) for r in random.Random(0).sample(by_task[t], min(n, len(by_task[t])))]
-            write_jsonl(subset, rows)
-        return subset
+        rows = read_jsonl(tasks)
+        keep = [r for r in rows if len(r["images"]) <= limit]
+        if len(keep) == len(rows):
+            return tasks
+        over = [{"id": r["id"], "task": r["task"], "n_images": len(r["images"])} for r in rows if len(r["images"]) > limit]
+        out = self.workdir / f"{tasks.stem}.max{limit}images.jsonl"
+        write_jsonl(out, keep)
+        write_jsonl(self.workdir / "benchmark_over_image_limit.jsonl", over)
+        by_task = {}
+        for r in over:
+            by_task[r["task"]] = by_task.get(r["task"], 0) + 1
+        log(f"WARNING: 평가 문항 {len(over)}개는 그림이 {limit}장보다 많아 빼고 평가합니다 (서버 limit_mm_per_prompt): "
+            + ", ".join(f"{t} {n}" for t, n in sorted(by_task.items())) + f" → {self.workdir / 'benchmark_over_image_limit.jsonl'}")
+        return out
 
     @staticmethod
     def last_checkpoint(output):

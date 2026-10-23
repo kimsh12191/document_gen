@@ -15,7 +15,7 @@ import pytest
 from PIL import Image
 
 from docgen.bench.evaluate import reward
-from docgen.bench.ocr_data import dumps, read_json, read_jsonl, write_json
+from docgen.bench.ocr_data import dumps, read_json, read_jsonl, write_json, write_jsonl
 from docgen.bench.runner import oracle_output
 from docgen.tests.ocr_fixture import create_demo
 from train import mix as M
@@ -321,6 +321,29 @@ def test_pipeline_ocr_prepare_stage_is_optional_and_runs_once(tmp_path, model):
     with contextlib.redirect_stdout(io.StringIO()) as out:
         runner.stage_ocr_prepare()
     assert "no ocr_prepare config" in out.getvalue()
+
+
+def test_eval_drops_questions_over_server_image_limit(tmp_path, mixed, model):
+    """서버(--vllm_limit_mm_per_prompt)보다 그림이 많은 평가 문항은 빼고 기록한다: 한 문항 때문에 추론 전체가 멈추지 않게."""
+    from train import pipeline as P
+
+    rows = read_jsonl(mixed / "benchmark_tasks.jsonl")
+    big = {**rows[0], "id": "big/1", "images": rows[0]["images"] * 3}
+    write_jsonl(mixed / "benchmark_tasks.jsonl", rows + [big])
+    config = tmp_path / "pipeline.json"
+    write_json(config, {"workdir": "runs", "model": model, "data": {"train": [str(tmp_path / "train")], "output_dir": "prep",
+                                                                     "benchmark": [str(tmp_path / "bench")]}})
+    cfg = P.merged(P.DEFAULTS, read_json(config))
+    cfg["eval"]["deploy_command"] = [p.replace("16", "2") for p in cfg["eval"]["deploy_command"]]
+    runner = P.Runner(cfg, config, False, False)
+    assert runner.image_limit() == 2
+    with contextlib.redirect_stdout(io.StringIO()) as out:
+        tasks = runner.benchmark_tasks()
+    assert "1개는 그림이 2장보다 많아" in out.getvalue()
+    assert [r["id"] for r in read_jsonl(tasks)] == [r["id"] for r in rows]
+    assert read_jsonl(tmp_path / "runs" / "benchmark_over_image_limit.jsonl") == [{"id": "big/1", "task": big["task"], "n_images": 3}]
+    runner.cfg["eval"]["deploy_command"] = ["swift", "deploy"]   # 한도를 못 읽으면 그대로
+    assert runner.benchmark_tasks() == mixed / "benchmark_tasks.jsonl"
 
 
 def test_pipeline_parts_run_sft_and_grpo_separately(tmp_path, mixed, model):

@@ -122,6 +122,8 @@ python -m train --config train/configs/pipeline.json --part grpo --sft-checkpoin
 | `Reference answers do not score 1.0` | 데이터를 만든 코드와 지금 코드가 다름. 같은 코드로 데이터 다시 만들기 |
 | `Server on port … exited` / `not ready in time` | 평가 서버(vLLM)가 못 뜸. `logs/<단계>-server0.log` 끝과 `nvidia-smi` 확인 |
 | `Port … is already in use` | 예전 평가 서버를 끄거나 `eval.port_base` 변경 |
+| 평가 중 `HTTP Error 400` (서버 로그 `At most 16 image(s)`) | 그림이 서버 한도(`--vllm_limit_mm_per_prompt`, 기본 16장)보다 많은 문항. 지금은 평가 전에 빼고 `<workdir>/benchmark_over_image_limit.jsonl`에 남깁니다 (로그 `WARNING: 평가 문항 N개는 …`) |
+| `Prediction run settings or input changed` | 끊긴 평가의 답 파일이 지금 평가 문항과 다름 (예: 위처럼 문항이 빠짐). `predictions/<run>.jsonl`과 `.meta.json`을 다른 이름으로 옮기고 같은 명령 |
 | `Multiple possible model types found` | `model_type`이 `qwen3_5`인지 |
 
 로그는 `train/runs/exp1/logs/<단계>.log`에 있습니다.
