@@ -130,6 +130,7 @@ python -m train sweep --config train/configs/E01-realocr.sweep.json --status   #
 - **결과:** `<root>/compare.md`·`.html`·`.csv`. 맨 위에 실험 설명과 모델별 설명·학습 데이터, 아래에 점수표(출발 모델이 Δ의 기준).
 - **출발 모델 평가는 첫 모델에서만** 합니다. 나머지는 `eval.skip_start`. 평가 세트를 고정해 실험을 이어 가면 `start_from`으로 앞 실험의 것을 씁니다. 평가 문항·그림 설정이 다르면 쓰지 않고 첫 모델에서 다시 평가합니다.
 - **GRPO:** 비교표에 `<label> GRPO` 줄이 붙습니다. SFT로 끝난 모델의 `part`를 `all`로 바꿔 다시 치면 SFT는 건너뛰고 GRPO만 돕니다 (`base`의 `grpo.select`가 `mine`이어야 SFT 평가 때 후보 답을 내 둡니다).
+- **시작 전에 모든 모델의 설정을 한꺼번에 검사합니다** (평가 칸 `id`·`format`·`gt`, 출발 모델, 학습·평가 경로, `label`). 틀린 것이 있으면 목록을 보여 주고 하나도 돌리지 않습니다.
 - **한 모델이 실패해도 다음으로** 갑니다. `--status`에 실패와 로그(`<root>/<label>/sweep.log`, 자세히는 `<root>/<label>/logs/`)가 나옵니다.
 - **같은 명령을 다시 치면 이어서** 돕니다. 끝난 모델은 건너뛰고, 모델을 `runs`에 더하면 그것만 돌아 표에 붙습니다.
 - **이미 돈 모델의 설정(base·train·set)을 바꾸면 그 모델은 돌리지 않습니다.** 새 `label`로 추가하세요.

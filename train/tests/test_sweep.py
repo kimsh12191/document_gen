@@ -51,7 +51,11 @@ def fake_pipeline(good, fail=(), src="/src", start=2):
 
 @pytest.fixture
 def sweep_file(tmp_path):
-    write_json(tmp_path / "base.json", {"workdir": "x", "model": "/m", "sft": {"config": "sft.yaml"},
+    for d in ("syn-train", "real", "tgt", "x", "y", "other", "bench"):   # 데이터셋 폴더 꼴 (돌리기 전 검사가 본다)
+        write_json(tmp_path / d / "meta.json", {})
+        (tmp_path / d / "tasks").mkdir()
+    write_json(tmp_path / "model" / "config.json", {})
+    write_json(tmp_path / "base.json", {"workdir": "x", "model": str(tmp_path / "model"), "sft": {"config": "sft.yaml"},
                                         "data": {"train": [], "benchmark": [{"id": "syn", "name": "합성", "paths": ["bench"]}],
                                                  "output_dir": "x"}})
     sw = {"name": "E09-test", "about": "실서류 OCR 을 더하면 오르나", "record": "experiments/E09-test.md",
@@ -141,3 +145,25 @@ def test_sweep_reuses_start_from_and_per_model_grpo(sweep_file, tmp_path):
     with contextlib.redirect_stdout(io.StringIO()):
         S.run(tmp_path / "e10.sweep.json", runner=runner4)
     assert [(c[0], c[2]) for c in calls4] == [("b1", "all")]
+
+
+def test_sweep_checks_every_model_before_starting(sweep_file, tmp_path):
+    base = read_json(tmp_path / "base.json")
+    base["data"]["benchmark"] = [{"id": "ocr_synthetic_v1 (261023 전체)", "name": "합성 OCR", "paths": ["bench"]},
+                                 {"id": "real", "name": "실서류", "format": "swift-fields", "paths": ["no.jsonl"]}]
+    write_json(tmp_path / "base.json", base)
+    sw = read_json(sweep_file)
+    sw["runs"][2]["train"] = ["syn-train", "nowhere"]
+    write_json(sweep_file, sw)
+    runner, calls = fake_pipeline({"a1-syn": 4, "a2-real": 8, "a3-more": 10})
+    with pytest.raises(SystemExit) as e:
+        S.run(sweep_file, runner=runner)
+    msg = str(e.value)
+    assert calls == [] and "아무 모델도 시작하지 않았습니다" in msg
+    assert "ocr_synthetic_v1 (261023 전체)" in msg and "a3-more: train 경로" in msg
+    assert msg.count("benchmark.id") == 1   # 공통 설정 문제는 한 번만
+    base["data"]["benchmark"] = [{"id": "syn", "name": "합성", "paths": ["bench"]},
+                                 {"id": "real", "name": "실서류", "format": "swift-fields", "paths": ["no.jsonl"]}]
+    write_json(tmp_path / "base.json", base)
+    with pytest.raises(SystemExit, match="real: 경로가 없습니다"):
+        S.run(sweep_file, runner=runner)

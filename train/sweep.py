@@ -126,8 +126,52 @@ def finished(sw, run, smoke):
     return state.exists() and DONE_PARTS[part_of(sw, run)] in read_json(state).get("done", [])
 
 
+def preflight(sw):
+    """돌리기 전에 모든 모델의 설정을 한꺼번에 검사한다: 평가 칸(id·format·gt), 출발 모델, 학습·평가 경로.
+    틀린 것이 있으면 하나도 돌리지 않는다 (모델마다 시작했다가 같은 이유로 줄줄이 실패하지 않게)."""
+    from .benchmarks import normalize
+
+    problems = []
+    for i, r in enumerate(sw["runs"]):
+        label = r["label"]
+        try:
+            cfg = run_config(sw, r, first=i == 0)
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            problems.append(f"{label}: 설정을 만들지 못함 ({exc})")
+            continue
+        try:
+            benches = normalize(cfg["data"]["benchmark"])
+        except ValueError as exc:
+            problems.append(f"base 의 data.benchmark: {exc}")
+            benches = []
+        model = Path(cfg["model"]) if Path(cfg["model"]).is_absolute() else ROOT / cfg["model"]
+        if not (model / "config.json").is_file():
+            problems.append(f"base 의 model: 출발 모델 폴더(config.json)가 없습니다: {model}")
+        later = set()   # ocr_prepare 단계가 만들 폴더
+        for conf in cfg.get("ocr_prepare") or []:
+            if Path(conf).is_file():
+                later.add(str((Path(conf).parent / read_json(conf)["output_dir"]).resolve()))
+        for e in cfg["data"]["train"]:
+            path = e if isinstance(e, str) else e.get("path", "")
+            if path not in later and not ((Path(path) / "meta.json").is_file() and (Path(path) / "tasks").is_dir()):
+                problems.append(f"{label}: train 경로가 데이터셋 폴더(meta.json + tasks/)가 아닙니다: {path}")
+        for b in benches:
+            for path in b["paths"]:
+                if path in later:
+                    continue
+                ok = Path(path).is_file() if b.get("format") == "swift-fields" else \
+                    (Path(path) / "meta.json").is_file() and (Path(path) / "tasks").is_dir()
+                if not ok:
+                    problems.append(f"base 의 data.benchmark {b['id']}: 경로가 없습니다: {path}")
+    problems = list(dict.fromkeys(problems))   # 공통 설정의 문제는 한 번만
+    if problems:
+        raise SystemExit(f"묶음 {sw['_file']} 를 돌리기 전에 고칠 것 ({len(problems)}건, 아무 모델도 시작하지 않았습니다):\n  "
+                         + "\n  ".join(problems))
+
+
 def run(sweep_path, smoke=False, runner=default_runner):
     sw = load(sweep_path)
+    preflight(sw)
     root = sw["_root"]
     root.mkdir(parents=True, exist_ok=True)
     lock = root / "sweep.lock"
