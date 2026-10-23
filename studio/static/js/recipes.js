@@ -65,8 +65,10 @@ async function viewRecipe(name) {
         <label class="fld">설명 <input type="text" id="rc-about" value="${esc(r.about || "")}"></label>
         <label class="fld">용도 <select id="rc-split"><option value="test">평가 세트 (test)</option><option value="train" ${r.split === "train" ? "selected" : ""}>학습 데이터 (train: 평가 세트와 seed 가 겹치지 않음, ms-swift 학습 레코드도)</option></select></label>
         <label class="fld">단일 서류 과제에 쓸 서식 (all · 서식 ID · 그룹, 쉼표로) <input type="text" id="rc-types" value="${esc(Array.isArray(r.types) ? r.types.join(",") : r.types || "all")}"></label>
+        ${formPickButton("rc-types", "쓸 서식")}
         <label class="fld">서식마다 샘플 수 <input type="number" id="rc-perdoc" value="${r.per_doc ?? 1}" min="0"></label>
         <label class="fld">빼는 서식 (쉼표) <input type="text" id="rc-exclude" value="${esc((r.exclude || []).join(","))}"></label>
+        ${formPickButton("rc-exclude", "뺄 서식", "연결 업무가 있는 서식은 여기 넣어도 업무 묶음 안에는 그대로 들어갑니다 (단일 서류 과제에서만 빠짐).")}
         <label><input type="checkbox" id="rc-reviewed" ${r.reviewed_only ? "checked" : ""}> 검수 완료 서식만 (평가 세트 권장)</label>
         <label class="fld">서류마다 값 칸 OCR 문항 수 <input type="number" id="rc-fpd" value="${r.fields_per_doc ?? 6}" min="0"></label>
         <label class="fld">kie·marks 문항 하나의 최대 항목 수 <input type="number" id="rc-maxkeys" value="${r.max_keys ?? 40}" min="1"></label>
@@ -95,6 +97,7 @@ async function viewRecipe(name) {
     </div>
     <div id="rc-rawbox" style="display:none"><textarea id="rc-json" rows="24" class="mono" style="width:100%"></textarea>
       <button id="rc-rawsave">JSON 저장</button></div>`;
+  bindFormPickers();
   const collect = () => {
     const out = { about: $("#rc-about").value.trim(), track: "bank", split: $("#rc-split").value };
     const types = $("#rc-types").value.trim();
@@ -150,8 +153,10 @@ function viewOcrRecipe(name, r, opts) {
         <label class="fld">용도 <select id="rc-split"><option value="benchmark">평가 전용 (benchmark_only)</option>
           <option value="train" ${r.split === "train" ? "selected" : ""}>학습 데이터 (benchmark_fraction 만큼 문서를 평가로 떼어 둠)</option></select></label>
         <label class="fld">서식 (all · 서식 ID · 그룹, 쉼표로) <input type="text" id="rc-types" value="${esc(Array.isArray(r.types) ? r.types.join(",") : r.types || "all")}"></label>
+        ${formPickButton("rc-types", "쓸 서식")}
         <label class="fld">서식마다 고객 수 <input type="number" id="rc-perdoc" value="${r.per_doc ?? 1}" min="1"></label>
         <label class="fld">빼는 서식 (쉼표) <input type="text" id="rc-exclude" value="${esc((r.exclude || []).join(","))}"></label>
+        ${formPickButton("rc-exclude", "뺄 서식")}
         <label><input type="checkbox" id="rc-reviewed" ${r.reviewed_only ? "checked" : ""}> 검수 완료 서식만</label>
         <label class="fld">정답 한 항목의 단위 <select id="rc-unit"><option value="word">단어 (줄 번호 함께)</option><option value="line" ${r.unit === "line" ? "selected" : ""}>줄</option></select></label>
         <div class="muted" style="font-size:12px">사내 OCR 이 내는 단위에 맞추세요 (DESIGN.md 12절). 견본 표시·도장 안 글자·정정 글자는 신뢰도 0.3 으로 적어 1부가 그 자리를 뺍니다.</div>
@@ -166,6 +171,7 @@ function viewOcrRecipe(name, r, opts) {
         <label class="fld">seed 시작 <input type="number" id="rc-start" value="${r.start ?? 0}" min="0"></label>
       </div>
     </div>`;
+  bindFormPickers();
   $("#rc-save").onclick = async () => {
     try {
       const types = $("#rc-types").value.trim();
@@ -186,4 +192,89 @@ function viewOcrRecipe(name, r, opts) {
     } catch (e) { toast(e.message, true); }
   };
   $("#rc-del").onclick = async () => { if (confirm("레시피를 지울까요?")) { await api(`/api/recipes/${encodeURIComponent(name)}`, undefined, "DELETE"); location.hash = "#/datasets"; } };
+}
+
+
+// 서식 고르기 창: 레시피의 "쓸 서식"(types)·"빼는 서식"(exclude) 칸을 목록에서 체크해 채운다 --------------------
+// 칸에 저장되는 형식은 그대로 (쉼표로 이은 서식 ID). 서식 ID 가 아닌 값(all·그룹 이름)은 고른 뒤에도 남긴다.
+const csvIds = v => v.split(",").map(s => s.trim()).filter(Boolean);
+
+function formPickButton(inputId, what, note = "") {
+  return `<div class="bar"><button type="button" data-pick="${inputId}" data-what="${esc(what)}" data-note="${esc(note)}">서식 고르기</button>
+    <span class="muted" data-pick-n="${inputId}"></span></div>`;
+}
+
+function bindFormPickers() {
+  $$("[data-pick]").forEach(b => {
+    const input = $(`#${b.dataset.pick}`), n = $(`[data-pick-n="${b.dataset.pick}"]`);
+    const count = () => {
+      const ids = csvIds(input.value).filter(x => x !== "all");
+      n.textContent = ids.length ? `${ids.length}개` : "";
+    };
+    input.addEventListener("input", count);
+    count();
+    b.onclick = async () => {
+      const picked = await pickForms(csvIds(input.value), b.dataset.what, b.dataset.note);
+      if (picked === null) return;
+      input.value = picked.length ? picked.join(",") : (b.dataset.pick === "rc-types" ? "all" : "");
+      count();
+    };
+  });
+}
+
+async function pickForms(current, what, note = "") {
+  const forms = await api("/api/forms");
+  const known = new Set(forms.map(f => f.id));
+  const keep = current.filter(x => !known.has(x) && x !== "all");   // 그룹 이름 등 서식 ID 가 아닌 값
+  const sel = new Set(current.filter(x => known.has(x)));
+  const groups = [...new Map(forms.map(f => [f.group, f.group_name])).entries()].sort((a, b) => a[1].localeCompare(b[1]));
+  const dialog = document.createElement("dialog");
+  dialog.className = "qa-dialog";
+  dialog.innerHTML = `<div class="bar"><h2>${esc(what)} 고르기</h2><button type="button" class="fp-close">닫기 ×</button></div>
+    <div class="bar">
+      <input type="search" id="fp-q" placeholder="ID·서식명 검색" style="width:220px">
+      <select id="fp-group"><option value="">그룹 전체</option>${groups.map(([g, n]) => `<option value="${esc(g)}">${esc(n)}</option>`).join("")}</select>
+      <select id="fp-sc"><option value="">연결 업무 상관없이</option><option value="none">연결 업무 없는 서식만</option><option value="some">연결 업무 있는 서식만</option></select>
+      <label><input type="checkbox" id="fp-only"> 고른 것만 보기</label>
+    </div>
+    <div class="bar"><button type="button" id="fp-all">보이는 것 모두 고르기</button><button type="button" id="fp-none">보이는 것 모두 빼기</button>
+      <span class="muted" id="fp-count"></span></div>
+    ${keep.length ? `<p class="muted">목록에 없는 값은 그대로 둡니다: <span class="mono">${esc(keep.join(", "))}</span></p>` : ""}
+    <div id="fp-list" style="max-height:56vh;overflow:auto"></div>
+    ${note ? `<p class="muted" style="font-size:12px">${esc(note)}</p>` : ""}
+    <div class="bar"><button type="button" class="primary" id="fp-ok">적용</button><button type="button" class="fp-close">취소</button></div>`;
+  document.body.appendChild(dialog);
+  let rows = [];
+  const draw = () => {
+    const q = $("#fp-q", dialog).value.trim().toLowerCase(), g = $("#fp-group", dialog).value, sc = $("#fp-sc", dialog).value;
+    const only = $("#fp-only", dialog).checked;
+    rows = forms.filter(f => (!q || f.id.toLowerCase().includes(q) || f.name.toLowerCase().includes(q)) && (!g || f.group === g) &&
+      (!sc || (sc === "none") === !f.scenarios.length) && (!only || sel.has(f.id)));
+    $("#fp-count", dialog).textContent = `보이는 서식 ${rows.length}종 · 고른 서식 ${sel.size}종`;
+    $("#fp-list", dialog).innerHTML = `<table><thead><tr><th></th><th>ID</th><th>서식명</th><th>그룹</th><th>연결 업무</th></tr></thead><tbody>${rows.map(f => `
+      <tr><td><input type="checkbox" data-fp="${esc(f.id)}" ${sel.has(f.id) ? "checked" : ""}></td>
+        <td class="mono">${esc(f.id)}</td><td>${esc(f.name)}</td><td class="nw">${esc(f.group_name)}</td>
+        <td>${f.scenarios.map(s => `<span class="tag">${esc(s)}</span>`).join("")}</td></tr>`).join("")}</tbody></table>`;
+  };
+  ["#fp-q", "#fp-group", "#fp-sc", "#fp-only"].forEach(id => $(id, dialog).addEventListener("input", draw));
+  $("#fp-list", dialog).addEventListener("change", e => {
+    const id = e.target.dataset.fp;
+    if (!id) return;
+    e.target.checked ? sel.add(id) : sel.delete(id);
+    $("#fp-count", dialog).textContent = `보이는 서식 ${rows.length}종 · 고른 서식 ${sel.size}종`;
+  });
+  $("#fp-all", dialog).onclick = () => { rows.forEach(f => sel.add(f.id)); draw(); };
+  $("#fp-none", dialog).onclick = () => { rows.forEach(f => sel.delete(f.id)); draw(); };
+  draw();
+  return new Promise(resolve => {
+    let result = null;
+    $$(".fp-close", dialog).forEach(b => b.onclick = () => dialog.close());
+    $("#fp-ok", dialog).onclick = () => {
+      result = [...keep, ...forms.map(f => f.id).filter(id => sel.has(id))];
+      dialog.close();
+    };
+    dialog.addEventListener("close", () => { dialog.remove(); resolve(result); });
+    dialog.showModal();
+    $("#fp-q", dialog).focus();
+  });
 }
