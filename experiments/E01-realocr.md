@@ -32,19 +32,26 @@
 
 ## 데이터
 
-| 이름 | 경로 | 만든 방법 (레시피·커밋) | 문항 수 |
-|---|---|---|---|
-| `syn-nohana-v1` (학습) | | `bank-train`·`ocr-train` 복제 + 빼는 서식에 하나은행 서식 450종 | |
-| `real-ocr-v1` (학습) | | 실서류 OCR 준비 (마스킹) | |
-| `real-kie-ocr-v1` (학습, 비교2만) | | 평가 ③ 문서의 OCR 준비 | |
-| `eval-syn-v1` | | `bank-bench`·`ocr-bench` (전체 서식) | |
-| `eval-realocr-v1` | | | |
-| `eval-realkie-v1` | | | |
+경로 앞부분: studio 데이터셋 `/database/docgen_studio/workspace/datasets/` (= `DS/`), 실서류 `/share/tom/env/2026_PROJECT/PT/docgen_studio/data/` (= `REAL/`).
+
+| 쓰임 | 이름 | 경로 | 비고 | 문항 수 |
+|---|---|---|---|---|
+| 학습 (기준·비교1·비교2) | 합성 업무 (하나은행 제외) | `DS/bank-train-part-v1-2026-10-23` | 하나은행 서식 제외 확인 필요 (아래) | |
+| 학습 (기준·비교1·비교2) | 합성 OCR (하나은행 제외) | `DS/ocr-train-part-v1-2026-10-23/prepared` | | |
+| 학습 (비교1·비교2) | 실서류 OCR | `REAL/prepared-v2` | 평가 ②와 같은 폴더 (안에서 학습·평가 문서가 나뉨) | |
+| 학습 (비교2만) | 평가 ③ 문서의 OCR | | 정할 것 | |
+| 평가 ① `bank_synthetic_v1` | 합성 문서·은행 업무 (전체 서식) | `DS/bank-bench-2026-10-22` | | |
+| 평가 ① `ocr_synthetic_v1` | 합성 OCR (전체 서식) | `DS/ocr-bench-2026-10-23/prepared` | | |
+| 평가 ② `ocr_real_v1` | 실문서 OCR | `REAL/prepared-v2` | | |
+| 평가 ③ `real-fx-po` | 실서류 매입추심 (swift, 사람 검수) | `REAL/FE_eval/eval_qa_PO.jsonl` | `format: swift-fields` | |
+| 평가 ③ `real-fx-bl` | 실서류 BL (swift, 사람 검수) | `REAL/FE_eval/eval_qa_BL.jsonl` | `format: swift-fields` | |
+| 평가 ③ | 실서류 검사부 | | 아직 없음 | |
 
 ## 실행
 
-| 모델 | 설정 파일 | workdir | 날짜 | 비고 |
-|---|---|---|---|---|
+| 모델 | 설정 파일 | workdir | data.output_dir | 날짜 | 비고 |
+|---|---|---|---|---|---|
+| 기준 `e01-a1-syn` | | | `../data/mixed-exp0001` | 2026-10-23 | 학습: 합성 업무·OCR (하나은행 제외). 평가: 위 ①②③ 5개 |
 
 ## 결과
 
@@ -54,10 +61,23 @@
 
 ## 확인할 것 / 주의
 
+- **학습 데이터에 하나은행 서식이 정말 없는지.** 업무 묶음에서도 빼는 기능(커밋 `e5fea5b`)이 들어가기 전의 studio로 만들었다면, 묶음 안에 하나은행 서식이 남아 있습니다. 아래 명령으로 확인하고, 0이 아니면 새 이름으로 다시 만듭니다.
+  ```bash
+  python - <<'EOF'
+  import json, re
+  d = "/database/docgen_studio/workspace/datasets/bank-train-part-v1-2026-10-23"
+  m = json.load(open(f"{d}/meta.json"))
+  print("빼는 서식", len(m["settings"].get("exclude", [])), "건너뛴 묶음", m.get("skipped_bundles"))
+  print("묶음 속 하나은행 서식", sum(len(re.findall(r'"doc_id": "h(?:f\d|ana_)', l)) for l in open(f"{d}/bundles.jsonl")))
+  o = json.load(open("/database/docgen_studio/workspace/datasets/ocr-train-part-v1-2026-10-23/ocr_set.json"))
+  print("OCR 빼는 서식", len(o.get("recipe", {}).get("exclude", [])))
+  EOF
+  ```
+
 - **하나은행 서식을 빼면 합성 서식이 545종 중 95종만 남습니다.** 하나은행 서식이 450종입니다. 그리고 하나은행 서식이 들어가는 업무 4종(개인형IRP 개설, 퇴직급여 수령, 전자금융 가입, 상속예금 지급)의 묶음은 모두 건너뜁니다(`skipped_bundles.jsonl`). 학습 데이터 양이 크게 줄어드니 문항 수를 기록하세요.
 - **"빼는 서식"에는 그룹 이름이 아니라 서식 ID를 넣어야 합니다.** 레시피 화면 [서식 고르기] → 그룹 "하나은행 서식(원본)" → "보이는 것 모두 고르기"로 450개를 넣습니다. `types`에 다른 그룹만 적는 방법은 단일 서류만 빠지고 업무 묶음에는 남으니 쓰지 않습니다.
 - **"은행 서식"(14종) 그룹은 하나은행이 아닌 것으로 보고 학습에 남깁니다.** 맞는지 확인하세요.
-- **평가 ①은 서식 그룹별로 나눠서 봐야 가설 1을 답할 수 있습니다.** 보고서 표가 그룹별로 나뉘는지 확인하고, 안 나뉘면 하나은행 서식만 모은 평가 세트를 따로 만듭니다.
+- **가설 1은 평가 ① 업무 세트의 서식 그룹별 점수로 봅니다.** 분류·추출·체크/도장 점수는 보고서 `slices.group`에서 "하나은행 서식(원본)"과 나머지로 나뉩니다. 합성 OCR 8과제(`ocr_synthetic_v1`)는 그룹별로 나뉘지 않습니다.
 - **실서류는 문서 단위로 나눕니다.** 평가 ②·③의 문서는 비교1의 학습 OCR에 들어가면 안 됩니다. 평가 ②와 ③도 서로 다른 문서여야 하는지 정하세요.
 - **평가 ③ 정답이 사람 검수인지 사내 OCR·추론 그대로(의사정답)인지 적습니다.**
 - **비교2에서 평가 ③ 문서는 더 이상 "어디에도 없던" 문서가 아닙니다.** 이미지는 학습에 들어가고 추출 정답만 빠집니다. 의도한 설계라 결과에도 그렇게 적습니다.
