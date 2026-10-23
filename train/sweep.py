@@ -6,14 +6,19 @@
 
 묶음 파일 (상대 경로는 이 파일이 있는 폴더 기준):
   {"name": "E01-realocr", "about": "무엇을 확인하는 실험인지", "record": "experiments/E01-realocr.md",
-   "base": "pipeline.e01.json", "root": "../runs/E01-realocr", "part": "sft",
+   "base": "pipeline.e01.json", "root": "../runs/E01-realocr", "part": "sft", "start_from": "../runs/E00-x/a1",
    "runs": [{"label": "a1-syn", "about": "기준: 합성만, 하나은행 서식 제외", "train": ["<데이터셋>", {"path": "<OCR 준비>", "count": 20000}]},
-            {"label": "a2-synreal", "about": "기준 + 실서류 OCR", "train": [...], "set": {...}}]}
+            {"label": "a2-synreal", "about": "기준 + 실서류 OCR", "train": [...], "part": "all", "set": {...}}]}
 - name·about, runs 마다 about 은 꼭 적는다 (진행 상황·비교표 맨 위·<root>/sweep.config.json 에 남는다). record 는 실험 기록 파일 (선택).
+- label 은 이 실험 안의 모델 이름이자 폴더 이름 (<root>/<label>/).
+- part: "sft"(SFT 까지, 기본) | "all"(SFT + GRPO). 묶음 전체에, runs 마다 덮어쓸 수 있다.
+  sft 로 끝난 모델을 all 로 바꿔 다시 치면 SFT 는 건너뛰고 GRPO 만 돈다 (base 의 grpo.select 가 mine 이어야 SFT 평가 때 후보 답을 내 둔다).
+- start_from: 다른 묶음의 모델 폴더. 그 출발 모델 평가(reports/start.json)를 가져다 쓰고 이 묶음에서는 출발 모델을 평가하지 않는다.
+  평가 문항·그림 설정이 다르면 쓰지 않고 첫 모델에서 출발 모델 평가를 돌린다.
 - base: 공통 파이프라인 설정 (model, sft, data.benchmark, eval …). 모델마다 다른 것은 train(data.train) 뿐이 원칙.
   set 은 그 모델만 base 에 덮어쓸 칸 (꼭 필요할 때만, 비교표 해석이 달라진다).
 - 모델마다 <root>/<label>/ 가 workdir, <root>/<label>/data 가 data.output_dir, 쓴 설정은 <root>/<label>/config.json.
-- 출발 모델 평가는 첫 모델에서만 (나머지는 eval.skip_start). 평가 문항·그림이 같은지는 비교표를 만들 때 확인한다.
+- 출발 모델 평가는 첫 모델에서만 (나머지는 eval.skip_start), start_from 이 있으면 하지 않는다. 평가 문항·그림이 같은지는 비교표를 만들 때 확인한다.
 - 모델 하나가 실패해도 다음 모델로 간다 (<root>/sweep.json 상태, <root>/<label>/sweep.log).
 - 모델 하나가 끝날 때마다 <root>/compare.{csv,md,html} 를 다시 만든다.
 - 이미 돈 모델의 설정이 바뀌면 그 모델은 돌리지 않는다 (새 label 로).
@@ -34,7 +39,7 @@ from .settings import load_settings
 
 ROOT = Path(__file__).resolve().parents[1]
 LABEL = re.compile(r"[a-z0-9][a-z0-9-]*")
-DONE_PARTS = {"sft": "eval_sft", "grpo": "eval_grpo", None: "eval_grpo"}
+DONE_PARTS = {"sft": "eval_sft", "all": "eval_grpo"}
 
 
 def log(message):
@@ -53,12 +58,21 @@ def load(path):
         raise ValueError(f"runs.label 은 겹치지 않는 영문 소문자·숫자·- 여야 합니다: {bad or labels}")
     if any(not r.get("train") or not str(r.get("about", "")).strip() for r in sw["runs"]):
         raise ValueError("runs 마다 train 과 about (이 모델이 무엇인지) 이 있어야 합니다")
-    if sw.get("part", "sft") not in ("sft", "grpo", "all"):
-        raise ValueError("part 는 sft · grpo · all")
+    if any(part_of(sw, r) not in DONE_PARTS for r in sw["runs"]):
+        raise ValueError("part 는 sft (SFT 까지) · all (SFT + GRPO)")
     sw["_dir"] = path.parent
     sw["_file"] = path
     sw["_root"] = (path.parent / sw["root"]).resolve()
+    if sw.get("start_from"):
+        sf = (path.parent / sw["start_from"]).resolve()
+        if not (sf / "config.json").is_file() or not (sf / "reports" / "start.json").is_file():
+            raise ValueError(f"start_from 은 출발 모델 평가를 마친 다른 묶음의 모델 폴더여야 합니다 (config.json·reports/start.json): {sf}")
+        sw["_start_from"] = sf
     return sw
+
+
+def part_of(sw, run):
+    return run.get("part") or sw.get("part", "sft")
 
 
 def run_config(sw, run, first):
@@ -81,12 +95,20 @@ def run_config(sw, run, first):
     if cfg.get("ocr_prepare"):
         ocr = cfg["ocr_prepare"]
         cfg["ocr_prepare"] = [p if Path(p).is_absolute() else str((at / p).resolve()) for p in (ocr if isinstance(ocr, list) else [ocr])]
-    cfg.setdefault("eval", {})["skip_start"] = not first
+    cfg.setdefault("eval", {})["skip_start"] = not first or "_start_from" in sw
     return cfg
 
 
-def default_runner(config: Path, log_path: Path, part: str, smoke: bool) -> int:
-    cmd = [sys.executable, "-m", "train", "--config", str(config)] + ([] if part == "all" else ["--part", part])
+def same_model(a, b):
+    """설정이 같은 모델인지 (출발 모델 평가를 건너뛰는지 여부는 모델과 상관없다)."""
+    def strip(c):
+        return {**c, "eval": {k: v for k, v in (c.get("eval") or {}).items() if k != "skip_start"}}
+    return strip(a) == strip(b)
+
+
+def default_runner(config: Path, log_path: Path, part: str, smoke: bool, only: str | None = None) -> int:
+    cmd = [sys.executable, "-m", "train", "--config", str(config)]
+    cmd += ["--only", only] if only else ([] if part == "all" else ["--part", part])
     cmd += ["--smoke"] if smoke else []
     with log_path.open("a", encoding="utf-8") as out:
         out.write(time.strftime("[%Y-%m-%d %H:%M:%S] $ ") + " ".join(cmd) + "\n")
@@ -99,10 +121,9 @@ def workdir_of(sw, label, smoke):
     return sw["_root"] / label / ("smoke" if smoke else "")
 
 
-def finished(sw, label, smoke):
-    state = workdir_of(sw, label, smoke) / "state.json"
-    part = sw.get("part", "sft")
-    return state.exists() and DONE_PARTS[None if part == "all" else part] in read_json(state).get("done", [])
+def finished(sw, run, smoke):
+    state = workdir_of(sw, run["label"], smoke) / "state.json"
+    return state.exists() and DONE_PARTS[part_of(sw, run)] in read_json(state).get("done", [])
 
 
 def run(sweep_path, smoke=False, runner=default_runner):
@@ -128,31 +149,40 @@ def run(sweep_path, smoke=False, runner=default_runner):
             folder = root / label
             folder.mkdir(parents=True, exist_ok=True)
             cpath = folder / "config.json"
-            if cpath.exists() and read_json(cpath) != cfg:
+            if cpath.exists() and not same_model(read_json(cpath), cfg):
                 status[label] = {"status": "failed", "why": "이미 돈 모델의 설정이 바뀜 (base·train·set). 새 label 로 추가하세요",
                                  "at": time.strftime("%Y-%m-%d %H:%M")}
                 write_json(status_path, status)
                 log(f"{label}: 설정이 바뀌어 건너뜁니다 ({cpath})")
                 continue
             write_json(cpath, cfg)
-            if finished(sw, label, smoke) and status.get(label, {}).get("status") == "done":
+            if finished(sw, r, smoke) and status.get(label, {}).get("status") == "done":
                 log(f"{label}: 끝남 (건너뜀)")
                 continue
             log(f"=== {label} ({i + 1}/{len(sw['runs'])}) → {folder / 'sweep.log'}")
             status[label] = {"status": "running", "started": time.strftime("%Y-%m-%d %H:%M"), "pid": os.getpid()}
             write_json(status_path, status)
             started = time.monotonic()
-            code = runner(cpath, folder / "sweep.log", sw.get("part", "sft"), smoke)
+            code = runner(cpath, folder / "sweep.log", part_of(sw, r), smoke)
             hours = round((time.monotonic() - started) / 3600, 2)
-            ok = code == 0 and finished(sw, label, smoke)
+            ok = code == 0 and finished(sw, r, smoke)
             status[label] = {"status": "done" if ok else "failed", "hours": hours, "at": time.strftime("%Y-%m-%d %H:%M"),
                              **({} if ok else {"why": f"종료 코드 {code}, 로그 {folder / 'sweep.log'}"})}
             write_json(status_path, status)
             log(f"{label}: {'끝' if ok else '실패 — 다음 모델로'} ({hours} h)")
             compare(sw, smoke)
+        compare(sw, smoke)
+        first = sw["runs"][0]["label"]
+        if sw.get("_start_mismatch") and (root / first / "data" / "DONE.json").exists():
+            # start_from 의 평가 문항이 이 묶음과 다르다: 첫 모델에서 출발 모델을 평가한다
+            log(f"start_from 의 출발 모델 평가를 쓸 수 없어 {first} 에서 출발 모델을 평가합니다")
+            spath = root / first / "config.start.json"
+            write_json(spath, {**read_json(root / first / "config.json"), "eval": {**read_json(root / first / "config.json")["eval"],
+                                                                                 "skip_start": False}})
+            runner(spath, root / first / "sweep.log", part_of(sw, sw["runs"][0]), smoke, only="eval_base")
+            compare(sw, smoke)
     finally:
         lock.unlink(missing_ok=True)
-    compare(sw, smoke)
 
 
 # -- 비교표 ----------------------------------------------------------------------------------
@@ -168,13 +198,21 @@ def compare(sw, smoke=False):
     from .report import _build_reports
 
     root, reports, notes, ref = sw["_root"], [], [], None
-    part = sw.get("part", "sft")
+    sw["_start_mismatch"] = False
+    own = workdir_of(sw, sw["runs"][0]["label"], smoke)
+    start = None
+    if (own / "reports" / "start.json").exists():   # 이 묶음에서 평가한 출발 모델이 우선
+        start = (own / "reports" / "start.json", own, root / sw["runs"][0]["label"] / "data", "출발 모델")
+    elif "_start_from" in sw:
+        sf = sw["_start_from"]
+        start = (sf / "reports" / "start.json", sf, Path(read_json(sf / "config.json")["data"]["output_dir"]),
+                 f"출발 모델 ({sf.parent.name}/{sf.name})")
     for i, r in enumerate(sw["runs"]):
         label = r["label"]
         wd = workdir_of(sw, label, smoke)
         rep = wd / "reports"
-        picks = ([(rep / "start.json", "출발 모델")] if i == 0 else []) + [(rep / "sft.json", label)]
-        if part != "sft":
+        picks = [(rep / "sft.json", label)]
+        if part_of(sw, r) != "sft":
             grpo = sorted(rep.glob("grpo-*.json"), key=lambda p: p.stat().st_mtime)
             picks += [(grpo[-1], f"{label} GRPO")] if grpo else []
         picks = [(p, name) for p, name in picks if p.exists()]
@@ -192,6 +230,16 @@ def compare(sw, smoke=False):
             continue
         for p, name in picks:
             reports.append({**read_json(p), "label": name})
+    if start and ref is not None:
+        try:
+            ok = _images(start[1], start[2]) == ref and read_json(start[0])["items_sha256"] == reports[0]["items_sha256"]
+        except (OSError, KeyError, ValueError):
+            ok = False
+        if ok:
+            reports.insert(0, {**read_json(start[0]), "label": start[3]})
+        else:
+            sw["_start_mismatch"] = "_start_from" in sw and start[1] != own
+            notes.append(f"출발 모델 평가({start[0]})는 평가 문항·그림 설정이 달라 표에서 뺍니다")
     out = root / "compare.csv"
     if not reports:
         return None
