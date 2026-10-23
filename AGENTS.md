@@ -22,6 +22,7 @@
 | 학습 설정·실행·에러 | [guide/training.md](guide/training.md), 설정 칸 [train/README.md](train/README.md) |
 | 실서류 이미지 OCR 준비 | [guide/ocr.md](guide/ocr.md) |
 | 결과 지표 해석 | [guide/results.md](guide/results.md) |
+| 실험 기록 (가설·설계·결과) | [experiments/README.md](experiments/README.md) |
 | 서식 ID·추출 항목·연결 업무 | [guide/catalog.json](guide/catalog.json), `remote_build.py catalog` |
 | 과제별 질문·정답 형식 | [guide/questions.md](guide/questions.md), 실제 예시 [guide/tasks.md](guide/tasks.md) |
 | 과제·채점 규칙 | [guide/benchmark.md](guide/benchmark.md) |
