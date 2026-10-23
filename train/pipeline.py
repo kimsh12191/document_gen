@@ -137,14 +137,18 @@ class Runner:
                     need((at / oc["manifest"]).is_file(), "ocr_prepare → manifest", str((at / oc["manifest"]).resolve()),
                          "이미지 목록 (docgen.bench.ocr_data.scan 으로 만든 manifest.jsonl)")
         if not Path(d["output_dir"], "DONE.json").is_file():   # 섞기가 아직이면 데이터셋을 읽어야 한다
-            from .benchmarks import paths as benchmark_paths
+            from .benchmarks import normalize
 
             train_paths = [e["path"] if isinstance(e, dict) else e for e in d["train"]]
-            for p in [*train_paths, *benchmark_paths(d["benchmark"])]:
+            swift = {p for b in normalize(d["benchmark"]) if b.get("format") == "swift-fields" for p in b["paths"]}
+            for p in [*train_paths, *(p for b in normalize(d["benchmark"]) for p in b["paths"])]:
                 if p in ocr_outs:
                     continue   # ocr_prepare 단계가 만든다
-                need(Path(p, "meta.json").is_file() and Path(p, "tasks").is_dir() or p.endswith(".jsonl") and Path(p).is_file(),
-                     "data.train / data.benchmark", p, "studio 데이터셋 폴더 (meta.json + tasks/) 또는 swift .jsonl (평가 전용)")
+                if p in swift:
+                    need(Path(p).is_file(), "data.benchmark", p, 'swift .jsonl ("format": "swift-fields")')
+                    continue
+                need(Path(p, "meta.json").is_file() and Path(p, "tasks").is_dir(), "data.train / data.benchmark", p,
+                     "studio 데이터셋 폴더 (meta.json + tasks/)")
         if problems:
             sys.exit(f"설정({self.config_path})의 경로를 확인하세요. 상대 경로는 설정 파일이 있는 폴더 기준입니다.\n"
                      + "\n".join(problems))

@@ -53,11 +53,11 @@ BENCH_ITEM_KEYS = ("id", "task", "answer", "eval", "meta")
 CHARS_PER_TOKEN = 0.67  # conservative for Korean text: assume 1.5 tokens per character
 
 
-def load_folder(path: Path) -> tuple[dict, list[dict]]:
-    """과제 폴더 → (meta, 문항). 문항의 images 는 절대 경로로. swift 형식 .jsonl 파일도 읽는다 (train/swift_import.py)."""
+def load_folder(path: Path, fmt: str = "tasks") -> tuple[dict, list[dict]]:
+    """과제 폴더 → (meta, 문항). 문항의 images 는 절대 경로로. fmt "swift-fields": 실서류 swift .jsonl (train/swift_import.py)."""
     from docgen.bench.tracking import enrich, source_id
 
-    if path.suffix == ".jsonl" and path.is_file():
+    if fmt == "swift-fields":
         from .swift_import import load_swift
 
         meta, items = load_swift(path)
@@ -65,7 +65,8 @@ def load_folder(path: Path) -> tuple[dict, list[dict]]:
         return meta, [enrich(it, origin) for it in items]
     meta_path = path / "meta.json"
     if not meta_path.is_file() or not (path / "tasks").is_dir():
-        raise ValueError(f"{path}: 과제 폴더(meta.json + tasks/)가 아닙니다 — studio 데이터셋 폴더나 swift .jsonl 을 쓰세요")
+        raise ValueError(f"{path}: 과제 폴더(meta.json + tasks/)가 아닙니다 — studio 데이터셋 폴더를 쓰세요 "
+                         '(swift .jsonl 은 평가에 "format": "swift-fields" 와 함께)')
 
     meta = read_json(meta_path)
     origin = source_id(path.name, meta)
@@ -280,7 +281,9 @@ def mix(data_cfg: dict, model_dir: str | None) -> dict:
     for b in benchmarks:
         references = set()
         for path in b["paths"]:
-            meta, items = load_folder(Path(path))
+            meta, items = load_folder(Path(path), b.get("format", "tasks"))
+            if b.get("gt"):
+                meta = {**meta, "gt": b["gt"]}
             test = [it for it in items if split_of(it, meta.get("split", "test")) == "test"]
             if not test:
                 raise ValueError(f"benchmark {path}: 평가 문항이 없습니다 (학습 전용 데이터셋)")

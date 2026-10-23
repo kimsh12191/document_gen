@@ -1,7 +1,12 @@
-"""벤치마크 한 개(id/name)는 여러 경로를 합산한다. group은 표시 분류다."""
+"""벤치마크 한 개(id/name)는 여러 경로를 합산한다. group은 표시 분류다.
+format: "tasks"(기본, studio 과제 폴더) | "swift-fields"(실서류 swift .jsonl, train/swift_import.py).
+gt: 정답 출처 "exact"·"reviewed"·"pseudo" (폴더의 meta.json 보다 우선)."""
 import hashlib
 from pathlib import Path
 import re
+
+FORMATS = ("tasks", "swift-fields")
+GTS = ("exact", "reviewed", "pseudo")
 
 
 def normalize(spec):
@@ -29,7 +34,16 @@ def normalize(spec):
         name, group = value.get("name", ident), value.get("group", "ungrouped")
         if any(not isinstance(v, str) or not v.strip() for v in (name, group)):
             raise ValueError("benchmark.name과 group은 비어 있지 않은 문자열이어야 합니다")
-        result.append({"id": ident, "name": name.strip(), "group": group.strip(), "paths": paths, "legacy": legacy})
+        fmt, gt = value.get("format", "tasks"), value.get("gt")
+        if fmt not in FORMATS:
+            raise ValueError(f"benchmark.format은 {', '.join(FORMATS)} 중 하나입니다: {fmt}")
+        if gt is not None and gt not in GTS:
+            raise ValueError(f"benchmark.gt는 {', '.join(GTS)} 중 하나입니다: {gt}")
+        for p in paths:
+            if (fmt == "swift-fields") != p.endswith(".jsonl"):
+                raise ValueError(f"{p}: swift .jsonl 은 \"format\": \"swift-fields\" 와 함께, 그 밖의 경로는 과제 폴더로 적습니다")
+        result.append({"id": ident, "name": name.strip(), "group": group.strip(), "paths": paths, "legacy": legacy,
+                       **({"format": fmt} if fmt != "tasks" else {}), **({"gt": gt} if gt else {})})
     return result
 
 

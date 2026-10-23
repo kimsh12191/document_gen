@@ -324,7 +324,7 @@ def test_pipeline_ocr_prepare_stage_is_optional_and_runs_once(tmp_path, model):
 
 
 def test_swift_jsonl_is_a_benchmark_as_is(tmp_path, model):
-    """실서류 swift .jsonl 을 data.benchmark 에 그대로: 질문의 필드 순서와 답 배열을 짝지어 kie 로 채점, 못 읽는 줄은 건너뜀."""
+    """실서류 swift .jsonl 을 data.benchmark 에 format swift-fields 로: 질문의 필드 순서와 답 배열을 짝지어 kie 로 채점, 못 읽는 줄은 건너뜀."""
     real = tmp_path / "real"
     (real / "images").mkdir(parents=True)
     Image.new("RGB", (400, 560), "white").save(real / "images" / "a.png")
@@ -338,9 +338,13 @@ def test_swift_jsonl_is_a_benchmark_as_is(tmp_path, model):
     (real / "eval_qa.jsonl").write_text("".join(dumps(r) + "\n" for r in rows), encoding="utf-8")
     bank_folder(tmp_path / "train", "train", [f"m_{i}" for i in range(6)], n_images=1, size=(400, 560))
     bench = [{"id": "real-fx", "name": "실서류 외환", "group": "real", "paths": [str(real / "eval_qa.jsonl")]}]
+    with pytest.raises(ValueError, match="swift-fields"):   # 형식을 적지 않으면 짐작하지 않는다
+        M.mix(data_cfg(tmp_path, benchmark=bench), model)
+    bench[0].update(format="swift-fields", gt="reviewed")
     with contextlib.redirect_stdout(io.StringIO()) as out:
         M.mix(data_cfg(tmp_path, benchmark=bench), model)
     assert "1줄을 읽지 못해" in out.getvalue()
+    assert read_json(tmp_path / "prep" / "DONE.json")["sources"]["benchmark"][str(real / "eval_qa.jsonl")]["gt"] == "reviewed"
     items = read_jsonl(tmp_path / "prep" / "benchmark_items.jsonl")
     assert [it["id"] for it in items] == ["eval_qa/00001"]
     it = items[0]
