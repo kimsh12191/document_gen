@@ -13,9 +13,9 @@ def test_record_matches_text():
     today = date(2026, 10, 24)
     for i in range(300):
         r = random.Random(i)
-        text, rec, level = FT.make(r, today, ["purpose", "reason", "note"][i % 3], r.choice([2, 3, 4]))
+        text, rec, level = FT.make(r, today, ["purpose", "reason", "note"][i % 3])
         assert set(rec) <= {*FT.KEYS, "approx"} and rec and None not in rec.values()
-        assert level in ("simple", "abbrev", "relative", "approx")
+        assert level in ("short", "sentence", "relative", "approx") and "{" not in text and "(으)로" not in text
         for k in ("purpose", "reason", "request"):
             if k in rec:
                 assert rec[k] in FT.VOCAB[k]
@@ -41,9 +41,26 @@ def test_relative_dates():
 def test_amount_words():
     assert FT.korean_number(3000) == "삼천" and FT.korean_number(1500) == "천오백" and FT.korean_number(25) == "이십오"
     for i in range(200):
-        won, text, _ = FT._amount(random.Random(i))
+        won, text = FT._amount(random.Random(i))
         if text.endswith("천"):   # '3천' = 3천만원
             assert won == int(text[:-1]) * 10_000_000
+
+
+def test_templates():
+    """문장 틀 파일 형식: 칸 종류·자리 이름·set 값이 맞는지, 틀이 100개 이상인지, 칸 종류마다 정답 키가 하나 이상 나오는지."""
+    tpls = FT.templates()
+    assert set(tpls) == {"purpose", "reason", "note"} and sum(map(len, tpls.values())) >= 100
+    for slot, ts in tpls.items():
+        for t in ts:
+            assert set(t) <= {"slot", "t", "set", "approx"}, t
+            assert not FT.re.sub(r"\{(purpose|reason|amount|period|date|request|memo)\}", "", t["t"]).count("{"), t
+            for k, v in t.get("set", {}).items():
+                assert k in FT.KEYS and k not in ("amount", "date", "period_months"), t
+                assert (v in FT.VOCAB[k]) if k in FT.VOCAB else v in t["t"], t
+            assert set(t.get("approx", [])) <= {"amount", "date", "period_months"}, t
+            r = random.Random(0)
+            text, rec, _ = FT.make_from(t, r, date(2026, 10, 24))
+            assert rec and set(rec.get("approx", [])) <= set(rec), t
 
 
 def test_slot_of():

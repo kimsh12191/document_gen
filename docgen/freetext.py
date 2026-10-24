@@ -1,6 +1,7 @@
 """기타 칸 정리(freetext) 과제: 비고·기타·사유·용도 칸에 사람이 대충 쓴 듯한 글과, 그 글을 DB 칸으로 정리한 정답.
 
-정답(레코드)을 먼저 뽑고 글로 바꾼다 → 글과 정답이 늘 맞는다.
+칸 종류(용도·사유·비고)별 문장 틀(docgen/freetext_templates.json, 130여 개)을 골라 자리({amount}, {date} …)를
+채운다. 정답 = 채운 값 + 틀에 정해 둔 값(set) → 글과 정답이 늘 맞는다.
   레코드 키: purpose(용도 보기), reason(사유 보기), amount(원 정수), date(YYYY-MM-DD), period_months(개월),
             request(요청 보기), memo(다른 키에 맞지 않는 말, 글에 적힌 그대로), approx(대략적인 값의 키 목록)
   적히지 않은 키는 레코드에 없다 (null 을 쓰지 않는다).
@@ -11,18 +12,22 @@ data["_freetext"] 로 bench build 까지 간다 (docgen/bench/build.py 가 freet
 from __future__ import annotations
 
 import calendar
+import json
 import random
 import re
 import threading
 from contextlib import contextmanager
 from datetime import date, timedelta
+from functools import lru_cache
+from pathlib import Path
 
 KEYS = ("purpose", "reason", "amount", "date", "period_months", "request", "memo")
 
-# 보기(DB 값) → 글에 쓰는 표현
+# 보기(DB 값) → 글에 쓰는 표현. 틀(freetext_templates.json)의 {purpose}·{reason}·{request} 자리에 들어가므로
+# 용도·사유는 명사꼴, 요청은 문장 끝에 오는 꼴로 쓴다.
 PURPOSES = {
-    "생활자금": ["생활비", "생활자금", "생활 안정자금", "생활비 용도"],
-    "주택구입": ["집 사는데", "주택 구입", "아파트 매수", "주택매입"],
+    "생활자금": ["생활비", "생활자금", "생활 안정자금"],
+    "주택구입": ["주택 구입", "집 구입", "아파트 매수", "주택매입"],
     "전세자금": ["전세 보증금", "전세금", "전세자금"],
     "사업자금": ["가게 운영비", "사업 운영자금", "사업자금", "매장 인테리어"],
     "학자금": ["대학 등록금", "학비", "학자금"],
@@ -32,14 +37,14 @@ PURPOSES = {
     "차량구입": ["차 구입", "자동차 구입", "차량 구입"],
 }
 REASONS = {
-    "만기 해지": ["만기돼서 해지", "만기 해지", "만기로 해지"],
-    "해외 이주": ["이민 감", "해외 이주", "외국으로 이사"],
-    "타행 이체": ["다른 은행으로 옮김", "타행으로 이전", "타행 이체"],
-    "급여 수령": ["월급 통장 변경", "급여 받으려고", "급여 수령"],
-    "본인 요청": ["본인 요청", "고객 요청", "본인이 원함"],
-    "계좌 정리": ["안 쓰는 계좌 정리", "계좌 정리", "통장 정리"],
-    "주소 변경": ["이사함", "주소 이전", "주소 변경"],
-    "분실": ["통장 잃어버림", "카드 분실", "분실"],
+    "만기 해지": ["만기 해지", "만기", "적금 만기"],
+    "해외 이주": ["해외 이주", "이민", "해외 이사"],
+    "타행 이체": ["타행 이체", "타행 이전", "다른 은행 이전"],
+    "급여 수령": ["급여 수령", "급여계좌 변경", "월급 통장 변경"],
+    "본인 요청": ["본인 요청", "고객 요청", "본인 희망"],
+    "계좌 정리": ["계좌 정리", "통장 정리", "안 쓰는 계좌 정리"],
+    "주소 변경": ["주소 변경", "주소 이전", "이사"],
+    "분실": ["분실", "통장 분실", "카드 분실"],
 }
 REQUESTS = {
     "서류 추가 제출": ["서류 추가 제출 예정", "추가서류 낼게요", "서류 보완 예정", "소득서류 추가 제출"],
@@ -49,7 +54,17 @@ REQUESTS = {
     "방문 예정": ["다시 방문 예정", "지점 방문 예정", "재방문"],
 }
 MEMOS = ["배우자 동의함", "보증인 없음", "급여이체 예정", "기존 대출 상환 후 신청", "상담 후 결정",
-         "신분증 사본 첨부", "자동이체 같이 신청", "가족 명의 계좌 있음"]
+         "신분증 사본 첨부", "자동이체 같이 신청", "가족 명의 계좌 있음", "등본 첨부", "대리인 방문"]
+# 용도별 금액 (만원): 학자금 3억 같은 어색한 조합을 막는다. 용도 없으면 GENERAL
+AMOUNTS = {
+    "생활자금": [300, 500, 800, 1000, 1500, 2000, 3000, 5000], "주택구입": [10000, 15000, 20000, 30000, 40000, 50000],
+    "전세자금": [5000, 8000, 10000, 15000, 20000, 30000], "사업자금": [1000, 2000, 3000, 5000, 10000, 20000],
+    "학자금": [300, 400, 500, 800, 1000, 1500], "자녀 교육비": [100, 200, 300, 500, 1000, 2000],
+    "의료비": [100, 200, 300, 500, 1000, 3000], "결혼자금": [1000, 2000, 3000, 5000],
+    "차량구입": [1000, 2000, 3000, 4000, 6000],
+}
+GENERAL = [100, 300, 500, 1000, 2000, 3000, 5000, 10000]
+TEMPLATES_PATH = Path(__file__).resolve().parent / "freetext_templates.json"
 VOCAB = {"purpose": PURPOSES, "reason": REASONS, "request": REQUESTS}
 
 # 칸 고르기 (항목명, 공백 뺀 것). 용도 칸 → purpose, 사유 칸 → reason, 비고·기타 칸 → 둘 다 올 수 있음
@@ -83,8 +98,8 @@ def korean_number(n: int) -> str:
     return out + (_DIGIT[n % 10] if n % 10 else "")
 
 
-def _amount(r: random.Random) -> tuple[int, str, list[str]]:
-    man = r.choice([300, 500, 800, 1000, 1500, 2000, 3000, 5000, 7000, 10000, 15000, 20000, 30000])
+def _amount(r: random.Random, purpose: str | None = None) -> tuple[int, str]:
+    man = r.choice(AMOUNTS.get(purpose, GENERAL))
     won = man * 10000
     eok, rest = divmod(man, 10000)
     if eok:
@@ -92,11 +107,10 @@ def _amount(r: random.Random) -> tuple[int, str, list[str]]:
         kor = f"{korean_number(eok) if eok > 1 else '일'}억" + (f"{korean_number(rest)}만" if rest else "")
     else:
         num, kor = f"{man:,}만", f"{korean_number(man)}만"
-    forms = [(num + "원", False), (num, True), (kor + "원", False), (f"{won:,}원", False)]
+    forms = [num + "원", num, kor + "원", f"{won:,}원"]
     if man % 1000 == 0 and not eok:   # '3천' 처럼 만을 빼고 쓰는 표현 (대출 맥락에서 3천만원)
-        forms.append((f"{man // 1000}천", True))
-    text, short = r.choice(forms)
-    return won, text, ["abbrev"] if short else []
+        forms.append(f"{man // 1000}천")
+    return won, r.choice(forms)
 
 
 def _period(r: random.Random) -> tuple[int, str]:
@@ -147,69 +161,63 @@ def _ro(word: str) -> str:
     return "으로" if 0 <= c < 11172 and c % 28 not in (0, 8) else "로"
 
 
-def make(r: random.Random, today: date, slot: str, n_facts: int) -> tuple[str, dict, str]:
-    """(글, 정답 레코드, 난이도). 난이도: simple · abbrev(줄임·구어) · relative(상대 날짜) · approx(대략)."""
-    rec: dict = {}
-    approx: list[str] = []
-    tags: set[str] = set()
-    parts: list[str] = []
+@lru_cache(maxsize=1)
+def templates() -> dict[str, list[dict]]:
+    """칸 종류별 문장 틀 (docgen/freetext_templates.json)."""
+    out: dict[str, list[dict]] = {}
+    for t in json.loads(TEMPLATES_PATH.read_text(encoding="utf-8"))["templates"]:
+        out.setdefault(t["slot"], []).append(t)
+    return out
 
-    head = slot if slot != "note" else r.choice(["purpose", "reason", None])
-    pool = {"purpose": ["amount", "period_months", "date_request", "memo"],
-            "reason": ["date_request", "memo", "request"],
-            None: ["amount", "date_request", "request", "memo", "period_months"]}[head]
-    picks = r.sample(pool, min(len(pool), max(1, n_facts - (head is not None))))
-    if head:
-        canon = r.choice(list(VOCAB[head]))
-        word = r.choice(VOCAB[head][canon])
-        rec[head] = canon
-        if word != canon:
-            tags.add("abbrev")
-        parts.append(word + (_ro(word) if head == "purpose" and r.random() < 0.3 else ""))
-    if "amount" in picks:
-        won, text, t = _amount(r)
-        tags.update(t)
-        if r.random() < 0.3:
-            text = r.choice([f"{text} 정도", f"{text}쯤", f"약 {text}", f"{text} 내외"])
-            approx.append("amount")
-        rec["amount"] = won
-        parts.append(text)
-    if "period_months" in picks:
-        months, text = _period(r)
-        if r.random() < 0.2:
-            text += r.choice([" 정도", "쯤"])
-            approx.append("period_months")
-        rec["period_months"] = months
-        parts.append(text + r.choice(["", " 쓰고", " 사용", " 상환"]))
-    if "date_request" in picks or "request" in picks:
-        canon = r.choice(list(REQUESTS))
-        word = r.choice(REQUESTS[canon])
-        rec["request"] = canon
-        if "date_request" in picks:
-            d, dtext, rough, rel = _date(r, today)
+
+SLOTS_RE = re.compile(r"\{(purpose|reason|amount|period|date|request|memo)\}")
+
+
+def make(r: random.Random, today: date, slot: str) -> tuple[str, dict, str]:
+    """칸 종류에 맞는 틀 하나를 골라 채운다 → (글, 정답 레코드, 난이도)."""
+    return make_from(r.choice(templates()[slot]), r, today)
+
+
+def make_from(tpl: dict, r: random.Random, today: date) -> tuple[str, dict, str]:
+    """틀 하나를 채운다. 난이도: short(값 나열) · sentence(문장) · relative(상대 날짜) · approx(대략적인 값)."""
+    rec: dict = dict(tpl.get("set", {}))
+    approx = set(tpl.get("approx", []))
+    relative = False
+
+    def fill(m: re.Match) -> str:
+        nonlocal relative
+        k = m.group(1)
+        if k in VOCAB:
+            canon = rec[k] if k == "purpose" and k in rec else r.choice(list(VOCAB[k]))
+            rec[k] = canon
+            return r.choice(VOCAB[k][canon])
+        if k == "amount":
+            won, text = _amount(r, rec.get("purpose"))
+            rec["amount"] = won
+            return text
+        if k == "period":
+            rec["period_months"], text = _period(r)
+            return text
+        if k == "date":
+            d, text, rough, rel = _date(r, today)
             rec["date"] = d.isoformat()
             if rough:
-                approx.append("date")
-            if rel:
-                tags.add("relative")
-            parts.append(f"{dtext}까지 {word}")
-        else:
-            parts.append(word)
-    if "memo" in picks:
-        memo = r.choice(MEMOS)
-        rec["memo"] = memo
-        parts.append(memo)
+                approx.add("date")
+            relative |= rel
+            return text
+        rec["memo"] = r.choice(MEMOS)
+        return rec["memo"]
 
-    first = parts[:1] if head else []
-    rest = parts[len(first):]
-    r.shuffle(rest)
-    sep = r.choice([", ", " ", " / ", ". ", ","])
-    text = sep.join(first + rest)
-    if r.random() < 0.15:
-        text = "※ " + text
+    if "{purpose}" in tpl["t"]:   # 금액이 용도보다 앞에 와도 용도에 맞는 금액이 되게 용도를 먼저 정한다
+        rec["purpose"] = r.choice(list(PURPOSES))
+    text = SLOTS_RE.sub(fill, tpl["t"])
+    text = re.sub(r"(.)\(으\)로", lambda m: m.group(1) + _ro(m.group(1)), text)
+    if r.random() < 0.1:
+        text = "※ " + text if not text.startswith("※") else text
     if approx:
         rec["approx"] = sorted(approx)
-    level = "approx" if approx else "relative" if "relative" in tags else "abbrev" if tags else "simple"
+    bare = re.sub(r"[\s,./()\-:※]", "", SLOTS_RE.sub("", tpl["t"]))
+    level = "approx" if approx else "relative" if relative else "short" if len(bare) <= 4 else "sentence"
     return text, rec, level
 
 
@@ -245,8 +253,8 @@ def fill(label: str, seed_key: str, today: date, fits) -> str | None:
     r = random.Random(f"freetext:{seed_key}")
     if r.random() >= RATE:
         return None
-    for n in (r.choice([2, 3, 3, 4]), 2):
-        text, rec, level = make(r, today, slot, n)
+    for _ in range(6):   # 칸에 안 들어가면 다른 틀로 (짧은 틀이 많아 대개 몇 번 안에 들어감)
+        text, rec, level = make(r, today, slot)
         if fits(text):
             record(text, rec, level, today)
             return text

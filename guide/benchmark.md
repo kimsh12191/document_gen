@@ -97,12 +97,12 @@ docker exec -u docgen docgen bash -lc 'cd ~/document_gen && python -m docgen.ben
   - 세트 2.0부터 목록으로 답합니다: 체크된 보기마다 `{key, value: 보기 글자, bbox_2d: 체크된 □, page}`, 체크된 것이 없으면 `{key, value: null}`, 도장·서명은 `{key, value: true/false, bbox_2d: 찍힌 자리}`. 점수는 `kie`와 같이 값(`acc`)·위치·값+위치(주 지표).
   - 은행 직원 결재란(담당·책임자·본인확인 등)도 항목에 들어갑니다. 키가 `seal.staff.책임자`처럼 `staff`를 포함하고, 직원 도장·서명이 찍혔는지를 묻습니다. 고객 도장 칸 옆의 직원 도장을 고객 도장으로 착각하지 않는지도 함께 봅니다.
 - **`freetext`:** 기타·비고·사유·용도 칸에 대충 쓴 글을 정해진 키(`purpose`, `reason`, `amount`, `date`, `period_months`, `request`, `memo`, `approx`)로 정리합니다. 질문과 보기는 [questions.md](questions.md#freetext--기타-칸-정리).
-  - 글과 정답은 `docgen/freetext.py`가 같이 만듭니다: 정답 레코드를 먼저 뽑고, 표현을 섞어(`3천 정도`, `담달 말`, `애 학원비` …) 칸에 씁니다. 원본·가져온 서식(overlay)의 해당 칸 약 40%에 들어갑니다.
+  - 글과 정답은 `docgen/freetext.py`가 같이 만듭니다. 칸 종류(용도·사유·비고)별 **문장 틀 130여 개**(`docgen/freetext_templates.json`, 예: `재직증명서 {date}까지 가져오기로 함`, `{purpose}(으)로 {amount} 필요`)에서 하나를 골라 자리를 채우고(`3천 정도`, `담달 말`, `애 학원비` …), 채운 값과 틀에 정해 둔 값이 정답입니다. 금액은 용도에 맞는 범위에서 뽑습니다. 원본·가져온 서식(overlay)의 해당 칸 약 40%에 들어갑니다. 틀은 사람이 더하거나 고쳐도 됩니다 (테스트가 형식을 검사).
   - 키마다 맞는지 봅니다. 금액·기간은 숫자가, 날짜는 `YYYY-MM-DD` 글자가, 용도·사유·요청은 보기 글자가 정확히 같아야 맞습니다. `memo`만 띄어쓰기·문장부호 차이를 허용합니다. **`kie`처럼 표기가 달라도 같은 값으로 봐 주지 않습니다** — DB에 넣을 꼴로 정리하는 것이 과제이기 때문입니다.
   - `f1`(주 지표): 맞힌 키 / (정답 키, 답한 키). 정답에 없는 키를 답하면 정밀도가 떨어집니다.
   - `extra_key`: 답한 키 중 정답에 없는 키(글에 없는 내용을 지어냄)의 비율. 낮을수록 좋습니다.
   - `approx_acc`: `approx` 목록이 정답과 같은 비율. `doc_exact`: 키·값·`approx`가 모두 맞은 비율.
-  - 결과는 서식 그룹·글씨·난이도(`level`: `simple` 그대로 / `abbrev` 줄임·구어 / `relative` 상대 날짜 / `approx` 대략)·키별로 나눠 봅니다.
+  - 결과는 서식 그룹·글씨·난이도(`level`: `short` 값 나열 / `sentence` 문장 / `relative` 상대 날짜 / `approx` 대략)·키별로 나눠 봅니다.
 
 ### 은행 업무 (업무 묶음)
 
