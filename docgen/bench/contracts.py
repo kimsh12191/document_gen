@@ -27,6 +27,12 @@ def contracts() -> dict:
                   "answer_schema": {"type": "array", "items": {**ENTRY, "properties": {**ENTRY["properties"], "value": {"type": ["string", "boolean", "null"]}}}},
                   "example": [{"key": "consent", "value": "동의", "bbox_2d": [100, 200, 120, 220], "page": 1}, {"key": "seal", "value": False}],
                   "notes": "체크박스는 체크된 보기마다 한 항목(없으면 null), 도장·서명은 true/false입니다. 표시가 있으면 그 위치와 쪽을 답합니다."},
+        "freetext": {"name": "기타 칸 정리", "prompt_template": P.P_FREETEXT,
+                     "answer_schema": {"type": "object", "properties": {
+                         **{k: {"type": "string"} for k in ("purpose", "reason", "date", "request", "memo")},
+                         "amount": {"type": "integer"}, "period_months": {"type": "integer"}, "approx": STRINGS}},
+                     "example": {"purpose": "생활자금", "amount": 30000000, "period_months": 12, "approx": ["amount"]},
+                     "notes": "기타·비고·사유 칸의 자유 기재를 DB 칸으로 정리합니다. 적힌 키만 쓰고 null 은 쓰지 않습니다. 용도·사유·요청은 질문의 보기 중 하나, 금액은 원 단위 정수, 날짜는 YYYY-MM-DD(상대 날짜는 질문의 기준일로 계산)입니다."},
         "doc_check": {"name": "서류 구비 검사", "prompt_template": P.P_DOC_CHECK,
                       "answer_schema": {"type": "object", "required": ["missing", "not_required", "not_customer"],
                                         "properties": {key: STRINGS for key in ("missing", "not_required", "not_customer")}},

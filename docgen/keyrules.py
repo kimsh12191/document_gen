@@ -25,10 +25,10 @@ CODE_KINDS = {
     "text": "자유 글자 (값 출처가 없으면 비움)", "date": "날짜 (만기·기한이면 앞날짜)", "amount": "원화 금액", "fx_amount": "통화 + 외화 금액",
     "percent": "비율·이율", "rate": "환율", "currency": "통화 코드", "account": "국내 계좌번호", "number": "번호·코드", "count": "수량·건수·기간",
     "biz_no": "사업자등록번호", "passport": "여권번호", "check_no": "수표·어음 번호", "goods": "품목", "product": "금융 상품명",
-    "check_kind": "수표 종류", "loan_subject": "대출 과목", "repay": "상환 방법", "reason": "사유·목적", "bank": "은행", "branch": "지점",
+    "check_kind": "수표 종류", "loan_subject": "대출 과목", "repay": "상환 방법", "reason": "사유·목적 (일부 자유 기재)", "bank": "은행", "branch": "지점",
     "country": "국가", "address": "주소", "email": "이메일", "phone": "전화번호", "company": "회사명", "person": "사람 이름",
     "other_person": "고객이 아닌 사람 이름 (발급기관 담당자·은행 직원 등)", "office_phone": "기관·회사 일반전화",
-    "note": "비고 (해당 없음)", "skip": "값을 쓰지 않는 칸", "seal": "도장·서명 칸",
+    "note": "비고 (해당 없음·일부 자유 기재)", "skip": "값을 쓰지 않는 칸", "seal": "도장·서명 칸",
 }
 HOW = ("source", "choices", "pattern")
 _cache: tuple[float, dict] | None = None

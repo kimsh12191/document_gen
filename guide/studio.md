@@ -36,6 +36,7 @@ ssh -N -L 8765:localhost:8765 <계정>@<서버IP>
 - **용도**를 꼭 확인합니다: 평가 세트(`test`/`benchmark`) 또는 학습(`train`). 학습과 평가는 서로 다른 고객으로 만들어집니다.
 - 서식·업무·수량·촬영 조건·대조 사례는 레시피에서 고칩니다. 칸의 뜻은 [agent-workflow.md 3절](agent-workflow.md#3-레시피-정하기)에 표로 있습니다.
 - 처음에는 작게 만들어 ⑥ › 문항에서 그림과 정답을 본 뒤 크게 만듭니다.
+- `bank-*` 레시피는 **기타 칸 정리**(`freetext`) 문항도 같이 만듭니다. 원본·가져온 서식의 비고·기타·사유·용도 칸 일부에 `3천 정도 1년, 담달 말까지 서류 낼게요`처럼 **일부러 대충 쓴 글**이 들어가고, 그 글을 DB 칸으로 정리한 것이 정답입니다 (이상한 값이 아닙니다). 따로 켜고 끄는 칸은 없고, 학습에 쓸지는 학습 설정 `task_mix`로 정합니다. 하나은행 서식을 모두 빼면 이 문항은 거의 생기지 않습니다 (해당 칸이 대부분 하나은행 서식에 있음). 질문·채점: [questions.md](questions.md#freetext--기타-칸-정리), [benchmark.md](benchmark.md)
 - 명령줄로 만들기: 다른 컨테이너에서 `docker/remote_build.py` ([agent-workflow.md](agent-workflow.md)), 컨테이너 안에서 `bash docgen/scripts/make_bank_data.sh` (평가 세트 + 학습 데이터 통째, 약 1시간 15분).
 
 ## 3. 내 서류 넣기

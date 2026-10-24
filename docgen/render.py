@@ -15,6 +15,7 @@ from typing import Any
 from jinja2 import ChoiceLoader, Environment, FileSystemLoader, FunctionLoader, StrictUndefined
 from markupsafe import Markup, escape
 
+from . import freetext
 from .banks import bank_view, brand_accent, form_bank, form_context
 from .entities import Profile
 from .registry import BANK_FORM_GROUPS, DocSpec
@@ -354,7 +355,10 @@ def render(spec: DocSpec, profile: Profile, seed: int | str, sample_mark: bool |
         profile = bank_view(profile, form_bank(profile, spec.id))
         bk = form_context(profile, spec.id)
     data_rng = random.Random(f"data:{seed}:{spec.id}")
-    data = spec.generate(profile, data_rng)
+    with freetext.collect() as written:   # 기타 칸에 넣은 자유 기재 글 → 정답 (freetext 과제)
+        data = spec.generate(profile, data_rng)
+    if written:
+        data["_freetext"] = written
     if style is None:
         style = random_style(random.Random(f"style:{seed}:{spec.id}"), spec)
         if bk:

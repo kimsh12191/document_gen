@@ -34,11 +34,12 @@
     "output_dir": "../data/mixed-exp1",
     "sft_max_examples": 20000,
     "task_mix": {
-      "cross_check": 0.25,
+      "cross_check": 0.2,
       "review": 0.2,
       "doc_check": 0.1,
       "kie": 0.15,
       "marks": 0.08,
+      "freetext": 0.05,
       "classify": 0.07,
       "ocr_page": 0.05,
       "ocr_field": 0.1

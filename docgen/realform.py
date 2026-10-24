@@ -28,6 +28,7 @@ from functools import lru_cache
 from pathlib import Path
 
 from . import dictionary as DIC
+from . import freetext as FT
 from . import keyrules as KR
 from . import korean as K
 from . import marks as M
@@ -37,6 +38,7 @@ from .entities import Profile
 
 ROOT = Path(__file__).resolve().parent   # docgen/ (레이아웃의 "file" 은 이 폴더 기준: forms/하나은행_서식자료/…)
 LAYOUTS = ROOT / "forms" / "layouts"
+FT_MIN_SIZE = 9.0   # 자유 기재 글이 이보다 작게 줄어야 들어가는 칸이면 넣지 않는다 (px)
 IMAGE_FORMS = ROOT / "forms" / "images"   # overlay(image): 스캔·사진 배경 서식 <ID>/layout.json + page_<쪽>.png
 FONTS = ROOT / "fonts"
 CACHE = Path.home() / ".cache" / "docgen" / "bg"
@@ -600,6 +602,10 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
                 else:
                     value = vals.by_kind(kind, label)
                     key = uniq(norm(label) or "value")
+                    x0, y0, x1, y1 = _px(it["rect"])   # 기타·비고·사유 칸 일부는 자유 기재 글 (docgen/freetext.py)
+                    value = FT.fill(label, f"{p.seed}:{doc_id}:{page}:{it['rect']}", p.issue_date,
+                                    lambda s: _fit(s, x1 - x0 - 6, y1 - y0, style["hand"], style["base"],
+                                                   style.get("scale", 1.0)) >= FT_MIN_SIZE) or value
                 if value is not None and rng.random() > style["fill"] and skey not in ("customer.name", "date"):
                     value = None
             if it.get("at") and value and "@" in value:

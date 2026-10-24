@@ -8,14 +8,16 @@ addRoute(/^#\/datasets\/([^/]+)(?:\/(\w+))?$/, (id, tab) => viewDataset(decodeUR
 
 const GROUP_NAME = { ocr: "OCR", doc: "문서 이해", work: "업무 처리" };   // 과제 묶음 (docgen.bench.evaluate.TASK_GROUP)
 const TASK_GROUP = { crop_ocr: "ocr", bbox_ocr: "ocr", region_ocr: "ocr", marked_ocr: "ocr", grounding: "ocr", spotting: "ocr",
-  relation: "ocr", marked_box: "ocr", ocr_field: "ocr", ocr_page: "ocr", classify: "doc", kie: "doc", marks: "doc",
+  relation: "ocr", marked_box: "ocr", ocr_field: "ocr", ocr_page: "ocr", classify: "doc", kie: "doc", marks: "doc", freetext: "doc",
   doc_check: "work", cross_check: "work", review: "work" };
 const TASK_KO = {
   crop_ocr: "잘라낸 글자 읽기", bbox_ocr: "박스 안 글자", region_ocr: "영역 받아쓰기", marked_ocr: "그린 박스 글자",
   grounding: "글자 위치 찾기", spotting: "전체 글자+위치", relation: "옆 글자 찾기", marked_box: "그린 박스 위치",
-  ocr_field: "값 칸 인식", ocr_page: "전체 받아쓰기", classify: "서류 분류", kie: "정보 추출", marks: "체크·도장·서명",
+  ocr_field: "값 칸 인식", ocr_page: "전체 받아쓰기", classify: "서류 분류", kie: "정보 추출", marks: "체크·도장·서명", freetext: "기타 칸 정리",
   doc_check: "서류 구비", cross_check: "서류 대조", review: "심사 질의",
 };
+// 이름만으로 헷갈리는 과제의 설명 (과제 이름에 마우스를 올리면 보임)
+const TASK_HINT = { freetext: "기타·비고·사유 칸의 자유 기재를 DB 칸(용도·금액·날짜…)으로 정리. 정보 추출(kie)은 적힌 그대로, 이건 정리한 값" };
 const LOWER_BETTER = new Set(["cer", "false_alarm", "matched_label_cer"]);
 const dsTag = d => (d.groups || []).map(g => `<span class="tag ${g === "ocr" ? "html" : g === "doc" ? "overlay" : ""}">${GROUP_NAME[g] || esc(g)}</span>`).join(" ");
 
@@ -165,7 +167,7 @@ async function dsItems(d) {
   $("#tab").innerHTML = `
     ${summary ? '' : '<p class="warn">현재 서버에는 구성·추적 API가 없습니다. Studio를 재시작하면 구분별 필터를 사용할 수 있습니다.</p>'}
     <div class="bar">
-      <select id="it-task"><option value="" ${st.task === "" ? "selected" : ""}>과제 전체</option>${tasks.map(([t, n]) => `<option value="${t}" ${t === st.task ? "selected" : ""}>${esc(TASK_KO[t] || t)} (${t}) · ${n}</option>`).join("")}</select>
+      <select id="it-task"><option value="" ${st.task === "" ? "selected" : ""}>과제 전체</option>${tasks.map(([t, n]) => `<option value="${t}" title="${esc(TASK_HINT[t] || "")}" ${t === st.task ? "selected" : ""}>${esc(TASK_KO[t] || t)} (${t}) · ${n}</option>`).join("")}</select>
       <input type="text" id="it-q" placeholder="문항 안 글자 검색" style="width:180px">
       <span class="muted">모델 답:</span>
       ${d.predictions.map(p => `<label><input type="checkbox" data-pid="${p.pid}" ${st.pids.includes(p.pid) ? "checked" : ""}> ${esc(p.label)}</label>`).join("") || `<span class="muted">(없음 — 모델 답 탭에서 붙입니다)</span>`}
@@ -219,7 +221,7 @@ async function dsItems(d) {
 
 // 모델 답 ------------------------------------------------------------------
 function scoreTable(rows, tasks) {
-  return `<table><thead><tr><th>모델 답</th><th>채점</th>${tasks.map(t => `<th class="num" title="${t}">${esc(TASK_KO[t] || t)}</th>`).join("")}</tr></thead>
+  return `<table><thead><tr><th>모델 답</th><th>채점</th>${tasks.map(t => `<th class="num" title="${t}${TASK_HINT[t] ? " · " + esc(TASK_HINT[t]) : ""}">${esc(TASK_KO[t] || t)}</th>`).join("")}</tr></thead>
     <tbody>${rows.map(s => `<tr><td>${esc(s.label)}${s.dataset_name ? ` <span class="muted">· ${esc(s.dataset_name)}</span>` : ""}</td>
       <td class="muted nw">${esc(s.scored_at || "")}${s.answered !== undefined ? ` · 답 ${s.answered}/${s.n}` : ""}</td>
       ${tasks.map(t => { const m = (s.main || {})[t]; return `<td class="num" title="${m ? esc(m.metric) : ""}">${m && m.value !== null && m.value !== undefined ?
@@ -244,7 +246,7 @@ async function dsRuns(d) {
     ${d.gt === "pseudo" ? `<p class="muted">정답이 의사정답이라 점수는 "사내 OCR·추론과 얼마나 같은지"입니다.</p>` : ""}
     <h2>파이프라인이 낸 점수 파일</h2>
     ${reps.reports.length ? reps.reports.map(r => `<details class="panel"><summary>${esc(r.name)} <span class="muted mono">${esc(r.file)}</span></summary>
-      ${table(Object.entries(r.tasks).map(([t, m]) => ({ t, m })), [["t", "과제", x => esc(TASK_KO[x.t] || x.t)],
+      ${table(Object.entries(r.tasks).map(([t, m]) => ({ t, m })), [["t", "과제", x => `<span title="${esc(TASK_HINT[x.t] || x.t)}">${esc(TASK_KO[x.t] || x.t)}</span>`],
         ["m", "지표", x => Object.entries(x.m.metrics || x.m).filter(([, v]) => typeof v === "number").slice(0, 8)
           .map(([k, v]) => `${esc(k)} ${v <= 1 ? pct(v) : v}`).join(" · ")]])}</details>`).join("") : `<p class="muted">없음</p>`}`;
   $("#rn-go").onclick = async () => {

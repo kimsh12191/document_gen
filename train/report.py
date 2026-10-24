@@ -30,6 +30,8 @@ COLUMNS = [
     ("kie", "vl_f1", "정보 추출 값+위치 F1", False),
     ("marks", "acc", "체크·도장·서명", False),
     ("marks", "vl_f1", "체크·도장·서명 값+위치 F1", False),
+    ("freetext", "f1", "기타 칸 정리 F1", False),
+    ("freetext", "extra_key", "기타 칸 정리 지어낸 키 비율", True),
     ("doc_check", "exact", "서류 구비 완전 일치", False),
     ("doc_check", "set_f1", "서류 구비 F1", False),
     ("cross_check", "score", "서류 대조 종합", False),

@@ -60,6 +60,7 @@ async function viewRecipe(name) {
     <h1>${esc(name)} <span class="muted mono" style="font-size:13px">docgen/recipes/${esc(name)}.json</span></h1>
     <div class="bar"><button class="primary" id="rc-save">저장</button><button id="rc-raw">JSON 으로 보기·고치기</button>
       <button id="rc-del">지우기</button><span class="muted">평가 세트 버전 ${esc(opts.version)}</span></div>
+    <div class="muted" style="font-size:12px;margin:4px 0">서식 문항(분류·정보 추출·체크·기타 칸 정리·값 칸 OCR)은 늘 같이 만들어집니다. 학습에 어떤 과제를 얼마나 쓸지는 학습 설정 task_mix 로 정합니다. 기타 칸 정리: 원본 서식의 비고·기타·사유 칸 일부에 일부러 대충 쓴 글을 넣고 DB 칸으로 정리한 것이 정답.</div>
     <div class="rc-grid">
       <div class="panel"><b>무엇을</b>
         <label class="fld">설명 <input type="text" id="rc-about" value="${esc(r.about || "")}"></label>

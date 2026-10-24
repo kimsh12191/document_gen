@@ -20,7 +20,7 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 
 | 만드는 곳 | 과제 |
 |---|---|
-| `python -m docgen.bench build` (`bash docgen/scripts/make_bank_data.sh`), studio 레시피 bank-* | 문서 이해(classify·kie·marks), 업무 처리(doc_check·cross_check·review), 값 칸 OCR(ocr_field·ocr_page) |
+| `python -m docgen.bench build` (`bash docgen/scripts/make_bank_data.sh`), studio 레시피 bank-* | 문서 이해(classify·kie·marks·freetext), 업무 처리(doc_check·cross_check·review), 값 칸 OCR(ocr_field·ocr_page) |
 | `python -m docgen.ocr_set build` (합성), 설정의 `ocr_prepare` 단계·`python -m docgen.bench.ocr_prepare` (실서류 + 사내 OCR), studio 레시피 ocr-*·가져오기 | 쪽 OCR 8과제 (crop_ocr·bbox_ocr·region_ocr·marked_ocr·grounding·spotting·relation·marked_box) |
 | studio ④ 라벨 있는 데이터·서류 넣기(원본 데이터로) | 위 과제 중 고른 것 |
 

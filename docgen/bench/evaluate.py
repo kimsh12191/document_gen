@@ -19,22 +19,22 @@ from .metrics import (cer, is_null, loose_text, match, norm_text, parse_json, st
                       valid_box, value_match, yes_no)
 
 OCR_TASKS = list(OM.TASKS)   # 쪽 OCR (옛 1부): 문항마다가 아니라 과제 전체로 지표를 낸다 (CER = 틀린 글자 합 / 글자 합)
-TASK_ORDER = [*OCR_TASKS, "ocr_field", "ocr_page", "classify", "kie", "marks", "doc_check", "cross_check", "review"]
+TASK_ORDER = [*OCR_TASKS, "ocr_field", "ocr_page", "classify", "kie", "marks", "freetext", "doc_check", "cross_check", "review"]
 TASK_TITLE = {"crop_ocr": "OCR - 칸 잘라 읽기", "bbox_ocr": "OCR - 좌표 → 글자", "region_ocr": "OCR - 영역 받아쓰기",
               "marked_ocr": "OCR - 그린 박스 → 글자", "grounding": "OCR - 글자 → 좌표", "spotting": "OCR - 글자 찾기(좌표+글자)",
               "relation": "OCR - 항목명 → 값(좌표+글자)", "marked_box": "OCR - 그린 박스 → 좌표",
               "ocr_field": "OCR - 값 칸 인식", "ocr_page": "OCR - 전체 받아쓰기", "classify": "서류 분류",
-              "kie": "정보 추출", "marks": "체크·도장·서명", "doc_check": "서류 구비 확인",
+              "kie": "정보 추출", "marks": "체크·도장·서명", "freetext": "기타 칸 정리", "doc_check": "서류 구비 확인",
               "cross_check": "서류 간 대조", "review": "심사 질의"}
 TASK_GROUP = {**{t: "ocr" for t in [*OCR_TASKS, "ocr_field", "ocr_page"]}, "classify": "doc", "kie": "doc", "marks": "doc",
-              "doc_check": "work", "cross_check": "work", "review": "work"}
+              "freetext": "doc", "doc_check": "work", "cross_check": "work", "review": "work"}
 GROUP_TITLE = {"ocr": "OCR", "doc": "문서 이해", "work": "업무 처리"}
-WORST = {"cer": 1.0, "false_alarm": 1.0}
-LOWER_IS_BETTER = {"cer", "false_alarm", "matched_label_cer"}
+WORST = {"cer": 1.0, "false_alarm": 1.0, "extra_key": 1.0}
+LOWER_IS_BETTER = {"cer", "false_alarm", "matched_label_cer", "extra_key"}
 # OCR 과제의 대표 지표는 옛 1부 비교표(REPORT_METRICS)와 같다
 MAIN = {"crop_ocr": "cer", "bbox_ocr": "em", "region_ocr": "cer", "marked_ocr": "em", "grounding": "f1_iou50",
         "spotting": "e2e_f1", "relation": "e2e_f1", "marked_box": "f1_iou75",
-        "ocr_field": "exact", "ocr_page": "recall", "classify": "acc", "kie": "vl_f1", "marks": "vl_f1",
+        "ocr_field": "exact", "ocr_page": "recall", "classify": "acc", "kie": "vl_f1", "marks": "vl_f1", "freetext": "f1",
         "doc_check": "exact", "cross_check": "score", "review": "acc"}
 # 평가 세트 1.x 의 kie·marks 는 값만 답한다 → 주 지표가 값 점수 (f1 / acc). 2.0 부터 값+위치 (vl_f1).
 MAIN_V1 = {"kie": "f1", "marks": "acc"}
@@ -55,10 +55,11 @@ METRIC_TITLE = {"exact": "완전 일치", "cer": "CER(낮을수록 좋음)", "re
                 "f1_iou75": "위치 F1 (IoU 0.75)", "e2e_f1": "위치+글자 F1", "f1_center": "위치 F1 (가운데 포함)",
                 "precision_iou50": "위치 정밀도", "recall_iou50": "위치 재현율", "mean_iou_matched": "맞은 박스 평균 IoU",
                 "count_accuracy": "박스 수 일치", "negative_accuracy": "없음 정확도", "valid_json_rate": "형식 맞음",
-                "matched_label_cer": "맞은 박스 글자 CER"}
+                "matched_label_cer": "맞은 박스 글자 CER", "extra_key": "지어낸 키 비율(낮을수록 좋음)",
+                "approx_acc": "대략 표시 일치"}
 SLICES = {"ocr_field": ["writing", "condition", "kind", "corrected"], "ocr_page": ["condition", "writing", "group"],
           "classify": ["group", "condition"], "kie": ["group", "condition", "writing", "@kind"],
-          "marks": ["group", "condition", "@type"], "doc_check": ["n_missing", "not_customer", "not_required", "scenario"],
+          "marks": ["group", "condition", "@type"], "freetext": ["group", "writing", "level", "@key"], "doc_check": ["n_missing", "not_customer", "not_required", "scenario"],
           "cross_check": ["category", "case", "perturbed", "scenario"], "review": ["skill", "rule"],
           **{t: ["view", "confidence", "size"] for t in OCR_TASKS}}
 
@@ -369,7 +370,43 @@ def s_review(item, out):
     return {"metrics": {"acc": float(ok)}, "parse_fail": p is None}
 
 
+
+def _freetext_ok(key: str, pred, gt) -> bool:
+    """기타 칸 정리: 금액·기간·날짜·보기는 정확히 같아야 맞음, memo 만 띄어쓰기·문장부호 차이 허용."""
+    if is_null(pred):
+        return False
+    if key in ("amount", "period_months"):
+        n = to_number(str(pred))
+        return n is not None and abs(n - gt) < 1e-6
+    if key == "memo":
+        return loose_text(str(pred)) == loose_text(gt)
+    return norm_text(str(pred)) == norm_text(str(gt))
+
+
+def s_freetext(item, out):
+    """답: {"purpose", "amount", …, "approx": [키]}. 적히지 않은 키는 정답에 없다 → 그 키를 답하면 지어낸 것 (extra_key)."""
+    gt = {k: v for k, v in item["answer"].items() if k != "approx"}
+    pred = parse_json(out)
+    fail = not isinstance(pred, dict)
+    pred = pred if isinstance(pred, dict) else {}
+    said = {k: v for k, v in pred.items() if k != "approx" and not is_null(v)}
+    ok = {k: _freetext_ok(k, said.get(k), v) for k, v in gt.items()}
+    tp = sum(ok.values())
+    extra = [k for k in said if k not in gt]
+    fp = len(extra) + sum(1 for k in gt if k in said and not ok[k])
+    prec = tp / (tp + fp) if tp + fp else 1.0
+    rec = tp / len(gt) if gt else 1.0
+    f1 = 2 * prec * rec / (prec + rec) if prec + rec else 0.0
+    approx = pred.get("approx") if isinstance(pred.get("approx"), list) else []
+    approx_ok = sorted(map(str, approx)) == sorted(item["answer"].get("approx", []))
+    return {"metrics": {"f1": f1, "field_acc": tp / len(gt) if gt else 1.0, "precision": prec, "recall_f": rec,
+                        "extra_key": len(extra) / len(said) if said else 0.0, "approx_acc": float(approx_ok),
+                        "doc_exact": float(tp == len(gt) and not extra and approx_ok)},
+            "parse_fail": fail, "sub": [("key", k, v) for k, v in ok.items()]}
+
+
 SCORERS = {"classify": s_classify, "ocr_field": s_ocr_field, "ocr_page": s_ocr_page, "kie": s_kie, "marks": s_marks,
+           "freetext": s_freetext,
            "doc_check": s_doc_check, "cross_check": s_cross_check, "review": s_review}
 
 

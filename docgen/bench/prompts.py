@@ -34,6 +34,26 @@ P_CROSS = ("고객 '{customer}' 님이 '{task}' 업무를 위해 제출한 서�
            '"value": "그 서류에 적힌 값", "expected": "다른 서류에 적힌 값"}}]}} 형식의 JSON 으로 답하세요. '
            '문제가 없으면 {{"consistent": true, "issues": []}} 입니다.')
 
+# freetext: 기타·비고·사유 칸의 자유 기재를 DB 칸으로. 보기 목록은 docgen/freetext.py (freetext_prompt 가 채운다)
+P_FREETEXT = ("이 문서의 '{label}' 칸에 적힌 내용을 DB에 넣을 수 있게 정리해 JSON 한 줄로 답하세요. 기준일(서류 작성일)은 {basis} 입니다.\n"
+              "쓸 수 있는 키\n"
+              "- purpose: 용도. 보기 중 하나: {purposes}\n"
+              "- reason: 사유. 보기 중 하나: {reasons}\n"
+              "- amount: 금액. 원 단위 정수 (3천만원 → 30000000)\n"
+              "- date: 날짜. YYYY-MM-DD. 상대 날짜는 기준일로 계산 (초 = 1일, 중순 = 15일, 말 = 말일, 다음주 = 7일 뒤)\n"
+              "- period_months: 기간. 개월 수 정수 (1년 → 12)\n"
+              "- request: 요청. 보기 중 하나: {requests}\n"
+              "- memo: 위 키에 맞지 않는 내용. 적힌 그대로\n"
+              "- approx: 대략적인 값(정도, 쯤, 약, 초·중순, 다음주 등)을 쓴 키의 목록\n"
+              "적힌 내용만 쓰고 null 은 쓰지 않습니다. 대략적인 값도 가장 그럴듯한 값 하나로 쓰세요.")
+
+
+def freetext_prompt(label: str, basis: str) -> str:
+    from ..freetext import PURPOSES, REASONS, REQUESTS
+
+    return P_FREETEXT.format(label=label, basis=basis, purposes=", ".join(PURPOSES), reasons=", ".join(REASONS),
+                             requests=", ".join(REQUESTS))
+
 
 def kie_line(form_id: str | None, key: str, label: str | None, doc_key: str | None = None, extra: str = "",
              siblings: list[dict] | None = None) -> str:

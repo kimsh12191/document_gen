@@ -38,15 +38,18 @@ from . import perturb
 from . import processing as PROCESS
 from .metrics import norm_text, normalize_box
 from .cases import CASES, OTHER_OK, Ctx
-from .prompts import P_CLASSIFY, P_CROSS, P_DOC_CHECK, P_KIE, P_MARKS, P_OCR_FIELD, P_OCR_PAGE, P_REVIEW, kie_line
+from .prompts import (P_CLASSIFY, P_CROSS, P_DOC_CHECK, P_KIE, P_MARKS, P_OCR_FIELD, P_OCR_PAGE, P_REVIEW,
+                      freetext_prompt, kie_line)
 from .rules import Bundle, questions, r_doc_valid, valid_candidates
 
-VERSION = "3.0"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
+VERSION = "3.1"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
 #                  2.0: kie·marks 답에 위치(bbox_2d 0~1000, page) — 값·위치·값+위치 점수. 건강보험료 납부확인서 정산 분할납부
 #                       변형이 정한 확률(15%)대로 나오게 고침
 #                  3.0: 키 사전(docgen/dictionary) 적용 — 공통 키에 이은 칸은 서식이 달라도 공통 키로 묻고 답함(customer.name …),
 #                       분류 정답 = 문서명(같은 문서의 서식이 여러 개여도 하나, 다른 이름도 맞음). 10단계의 공식 대조 html 69종·
 #                       값 채우기 변경(빈 칸 무작위 비우기 끔, 금액 단위)도 이 판부터. 2.0 과 kie·marks·분류 점수는 바로 비교하지 않는다
+#                  3.1: 원본·가져온 서식의 기타·비고·사유·용도 칸 일부(40%)에 자유 기재 글 + freetext(기타 칸 정리) 과제
+#                       (docgen/freetext.py). 그 칸이 있는 서식의 이미지·kie 정답이 3.0 과 다르다
 # 1.x 세트(값만 있는 답)도 같은 채점기로 채점된다 (evaluate.py 가 두 형식을 다 읽음). 값 점수는 1.x 와 뜻이 같다.
 SEED_SINGLE = 1_000_000   # 단일 서류 과제 고객 seed 시작
 SEED_BUNDLE = 2_000_000   # 업무 묶음 고객 seed 시작
@@ -256,6 +259,16 @@ class Builder:
                                   for f in kf],
                        "eval": {"fields": {f["key"]: {"type": f["type"], "norm": f.get("norm"), "kind": field_kind(f)}
                                            for f in kf}}, **base})
+
+        # freetext: 기타·비고·사유 칸에 쓴 자유 기재 글 → DB 칸 (docgen/freetext.py 가 글과 정답을 같이 만든다)
+        written = (r.get("data") or {}).get("_freetext") or {}
+        for f in fields:
+            ft = written.get(f["value"]) if isinstance(f.get("value"), str) else None
+            if ft:
+                self.emit({"id": f"freetext/{sid}/{f['key']}", "task": "freetext",
+                           "prompt": freetext_prompt((f.get("label") or f["key"]).strip(), ft["basis"]),
+                           "answer": ft["answer"], **base,
+                           "meta": {**meta, "key": f["key"], "label": f.get("label"), "level": ft["level"]}})
 
         # marks: 체크박스·도장·서명
         mf = [f for f in fields if f["type"] in MARK_TYPES and not f["key"].startswith("seal.untagged")
