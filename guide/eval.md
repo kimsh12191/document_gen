@@ -41,6 +41,7 @@ cat <workdir>/state.json             # sft_checkpoint·grpo_checkpoint 가 마�
 }
 ```
 
+- 새 평가 세트의 채점 기준이 기본과 다르면 그 세트에 `"scorer"`를 붙입니다 ([training.md 3.1절](training.md#31-평가-세트별-채점-함수-scorer), 견본 `train/scorers/`).
 - `compare_models`의 `label`은 비교표의 줄 이름입니다. 겹치지 않게, 실험 안의 모델 이름(`label`)과 SFT·GRPO를 함께 적습니다.
 - 출발 모델 점수가 필요 없으면 `"eval": {"skip_start": true, "compare_models": [...]}`.
 - 학습 칸(`data.train`)은 학습에 썼던 데이터셋 하나를 `count`를 작게 해 둡니다. 평가 세트와 겹치는 데이터는 넣지 않습니다 (섞기가 멈춤).
@@ -80,7 +81,7 @@ python -m train rescore ../runs/E01-reeval-v2        # workdir 하나: reports/*
 - 예전 보고서는 `reports/before-rescore-<시각>/`에 옮겨 두고, 과제별로 바뀐 점수를 출력합니다.
 - 섞은 폴더는 `<workdir>/config.json`의 `data.output_dir`에서 찾습니다. 없으면 `--data <섞은 폴더>`.
 - 끝나면 모아 보기(4절)도 다시 만드세요.
-- 평가 세트의 채점 함수(`scorer`, [training.md 3절](training.md#3-설정-파일))를 고쳤을 때도 이것으로 다시 채점합니다. 섞을 때 적힌 그 파일을 고치세요.
+- 평가 세트의 채점 함수(`scorer`, [training.md 3.1절](training.md#31-평가-세트별-채점-함수-scorer))를 고쳤을 때도 이것으로 다시 채점합니다. 섞을 때 적힌 그 파일을 고치세요.
 
 ## 알아 둘 점
 

@@ -21,7 +21,7 @@
 | 데이터 생성 → 학습 → 평가 → 보고 (전체 절차) | [guide/agent-workflow.md](guide/agent-workflow.md) |
 | 학습 설정·실행·에러 | [guide/training.md](guide/training.md), 설정 칸 [train/README.md](train/README.md) |
 | 학습한 모델을 새 평가 세트로 다시 채점 | [guide/eval.md](guide/eval.md) |
-| 채점 함수 고친 뒤 저장된 답으로 다시 채점, 평가 세트별 채점 함수 | [guide/eval.md 5절](guide/eval.md#5-채점-규칙이-바뀌었을-때-다시-채점), [guide/training.md 3절](guide/training.md#3-설정-파일) |
+| 채점 함수 고친 뒤 저장된 답으로 다시 채점, 평가 세트별 채점 함수 | [guide/eval.md 5절](guide/eval.md#5-채점-규칙이-바뀌었을-때-다시-채점), [guide/training.md 3.1절](guide/training.md#31-평가-세트별-채점-함수-scorer) |
 | 여러 실험 한 화면 비교 | [guide/eval.md 4절](guide/eval.md#4-다른-실험과-한-화면에-모아-보기) |
 | 실서류 이미지 OCR 준비 | [guide/ocr.md](guide/ocr.md) |
 | 결과 지표 해석 | [guide/results.md](guide/results.md) |

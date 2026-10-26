@@ -141,7 +141,7 @@ ms-swift가 학습 폴더에 `logging.jsonl`을 남깁니다(`train/runs/exp1/sf
 | SFT보다 GRPO가 떨어짐 | 보상 신호 없음, 또는 과하게 학습 | `frac_reward_zero_std`, `kl` 확인. `grpo.count`나 학습률을 줄여 `--from grpo` |
 | OCR 열이 크게 떨어짐 | 잊어버림 | OCR 데이터셋 `count`를 늘리고 새 `data.output_dir`로 `--from prepare` |
 | 서류 분류·값 칸 OCR·심사 질의가 답은 맞는데 낮음 (2026-10-26 전 보고서) | 답 앞의 빈 `<think></think>`를 답으로 읽던 채점 버그 | 고친 코드로 `python -m train rescore <workdir>` ([eval.md 5절](eval.md#5-채점-규칙이-바뀌었을-때-다시-채점)). 추론은 다시 안 함 |
-| 실서류 세트가 맞게 읽었는데 틀림 (표기 차이: 날짜·금액 형식) | 그 세트에 맞지 않는 비교 기준 | 그 세트에 채점 함수(`scorer`)를 붙이고 `rescore` ([training.md 3절](training.md#3-설정-파일)) |
+| 실서류 세트가 맞게 읽었는데 틀림 (표기 차이: 날짜·금액 형식) | 그 세트에 맞지 않는 비교 기준 | 그 세트에 채점 함수(`scorer`)를 붙이고 `rescore` ([training.md 3.1절](training.md#31-평가-세트별-채점-함수-scorer)) |
 
 ## 주의
 

@@ -78,7 +78,7 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 
 | 하고 싶은 것 | 방법 |
 |---|---|
-| 평가 세트 하나만 다르게 채점 | `data.benchmark` 의 그 세트에 `"scorer": "<파일.py>:<함수>"` (설정 파일 기준). 견본 `train/scorers/kie_default.py` (studio 기본 kie 값 점수와 같은 계산, `FIELD_TYPES` 로 항목별 비교 기준). 평가에만 쓰고 GRPO 보상은 그대로. 설명 [guide/training.md 3절](../guide/training.md#3-설정-파일) |
+| 평가 세트 하나만 다르게 채점 | `data.benchmark` 의 그 세트에 `"scorer": "<파일.py>:<함수>"` (설정 파일 기준). 견본 `train/scorers/`: `kie_default.py`(값만 보는 정보 추출, `FIELD_TYPES` 로 항목별 비교 기준) · `bank_default.py`(합성 은행 서류 세트, 과제마다 함수) · `ocr_default.py`(쪽 OCR) — 모두 기본 채점과 같은 점수. 평가에만 쓰고 GRPO 보상은 그대로. 설명 [guide/training.md 3.1절](../guide/training.md#31-평가-세트별-채점-함수-scorer) |
 | 채점 규칙·채점 함수를 고친 뒤 다시 채점 | `python -m train rescore <workdir 또는 묶음 결과 폴더>` — 저장된 답(`predictions/*.jsonl`)으로, 추론·GPU 없이. 예전 보고서는 `reports/before-rescore-<시각>/` (코드 `train/rescore.py`, [guide/eval.md 5절](../guide/eval.md#5-채점-규칙이-바뀌었을-때-다시-채점)) |
 
 채점 함수는 모두 `docgen.bench.evaluate` 하나입니다 (보고서·studio·GRPO 보상). 답 앞의 생각 블록(`<think>…</think>`)은 떼고 채점합니다.

@@ -418,8 +418,11 @@ def mix(data_cfg: dict, model_dir: str | None) -> dict:
         if not spec:
             return reward(it["task"], oracle_output(it), it) >= 1.0
         from docgen.bench.evaluate import load_scorer
+        from docgen.bench.evaluate import LOWER_IS_BETTER
         r = load_scorer(spec)(it, oracle_output(it))
-        return not r.get("parse_fail") and r["metrics"].get(r.get("main") or "f1", 0) >= 1.0
+        main = r.get("main") or "f1"
+        v = r["metrics"].get(main)
+        return not r.get("parse_fail") and v is not None and (v <= 0.0 if main in LOWER_IS_BETTER else v >= 1.0)
     bad = [it["id"] for it in sample if not perfect(it)]
     if bad:
         raise ValueError(f"Reference answers do not score 1.0 with this docgen code (e.g. {bad[:3]}); "

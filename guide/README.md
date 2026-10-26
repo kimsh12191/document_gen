@@ -9,6 +9,7 @@
 | 데이터셋을 모아 학습하기 | [training.md](training.md) |
 | 학습 없이 평가만 다시 하기 (새 평가 세트) | [eval.md](eval.md) |
 | 결과 점수표 읽기 | [results.md](results.md) |
+| 평가 세트마다 채점 방식 바꾸기 (채점 함수), 채점을 고친 뒤 다시 채점 | [training.md 3.1절](training.md#31-평가-세트별-채점-함수-scorer), [eval.md 5절](eval.md#5-채점-규칙이-바뀌었을-때-다시-채점) |
 
 agent에게 일을 맡길 때는 저장소 최상위의 [AGENTS.md](../AGENTS.md)부터 읽게 하세요. 절차는 [agent-workflow.md](agent-workflow.md)입니다.
 

@@ -8,6 +8,7 @@ from docgen.bench import evaluate as E
 from train.benchmarks import normalize
 from train.cli import resolve_data
 from train.score import score
+from train.tests.test_train import model, ocr_set  # noqa: F401  (pytest 준비물)
 
 SAMPLE = str(Path(__file__).resolve().parents[1] / "scorers" / "kie_default.py")
 SWIFT = {"id": "po/00001", "task": "kie", "answer": {"NEGO_CLCT": "EOA", "DATE": "2025 05 21", "TENOR": ""}, "meta": {},
@@ -65,3 +66,35 @@ def test_sample_field_types(tmp_path):
     assert E.load_scorer(str(tmp_path / "po.py"))(SWIFT, out)["metrics"]["f1"] == 1.0
     assert E.SCORERS["kie"](SWIFT, out)["metrics"]["f1"] < 1.0
     json.dumps(E.load_scorer(SAMPLE)(SWIFT, out))   # 결과는 JSON 으로 쓸 수 있어야 (보고서)
+
+
+SCORERS_DIR = Path(__file__).resolve().parents[1] / "scorers"
+
+
+def test_bank_and_ocr_samples_match_default(tmp_path, model, ocr_set):
+    """합성 세트 견본(bank_default·ocr_default)은 기본 채점과 같은 문항 점수, 붙여서 섞어도 정답 만점 검사를 지난다."""
+    import contextlib
+    import io
+
+    from docgen.bench.ocr_data import read_jsonl
+    from docgen.bench.runner import oracle_output
+    from train import mix as M
+    from train.tests.test_train import _item, bank_folder, data_cfg
+
+    bank = E.load_scorer(str(SCORERS_DIR / "bank_default.py"))
+    for it in [_item(t, "a") for t in ("cross_check", "review", "doc_check", "kie")] + [SWIFT, LISTED]:
+        for out in (oracle_output(it), "엉뚱한 답", '{"x": 1}'):
+            assert bank(it, out)["metrics"] == E.SCORERS[it["task"]](it, out)["metrics"], (it["id"], out)
+    ocr = E.load_scorer(str(SCORERS_DIR / "ocr_default.py"))
+    items = [it for f in sorted((ocr_set / "tasks").glob("*.jsonl")) for it in read_jsonl(f)]
+    assert {it["task"] for it in items} >= {"crop_ocr", "grounding"}
+    for it in items[:40]:
+        r = ocr(it, oracle_output(it))
+        one = E.score_task(it["task"], [it], {it["id"]: oracle_output(it)})   # 문항 하나면 기본 채점(과제 전체 계산)과 같다
+        assert r["main"] == one["main"] and r["metrics"][r["main"]] == one["metrics"][one["main"]], it["id"]
+    bank_folder(tmp_path / "train", "train", [f"m_{i}" for i in range(6)], n_images=1, size=(400, 560))
+    bank_folder(tmp_path / "bench", None, ["b_0", "b_1"], n_images=1, size=(400, 560))
+    bench = [{"id": "syn", "paths": [str(tmp_path / "bench")], "scorer": str(SCORERS_DIR / "bank_default.py")},
+             {"id": "ocr", "paths": [str(ocr_set)], "scorer": str(SCORERS_DIR / "ocr_default.py")}]
+    with contextlib.redirect_stdout(io.StringIO()):
+        M.mix(data_cfg(tmp_path, benchmark=bench), model)   # cer 처럼 낮을수록 좋은 주 지표도 정답 = 만점

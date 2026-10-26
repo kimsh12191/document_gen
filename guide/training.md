@@ -75,16 +75,52 @@ cp train/configs/pipeline.example.json train/configs/pipeline.json
      "paths": ["/database/…/검사부.jsonl"], "scorer": "scorers/inspect.py:score"}
   ]
   ```
-- **평가 세트마다 채점 방식을 바꾸려면 `"scorer": "<파일.py>:<함수>"`** (설정 파일 기준 상대 경로, `:함수`를 빼면 `score`). 없으면 studio 기본 채점입니다.
-  - 견본 [`train/scorers/kie_default.py`](../train/scorers/kie_default.py): studio 기본 정보 추출의 값 점수와 같은 계산입니다. 복사해서 고칩니다. 위쪽 `FIELD_TYPES`에 항목별 비교 기준(`text`·`amount`·`date`·`digits`)만 적어도 되고(`{"AMT_VALUE": "amount", "DATE": "date"}`), 함수를 직접 고쳐도 됩니다.
-  - 함수 꼴: `score(item, output) -> {"metrics": {이름: 0~1}, "main": "f1", "parse_fail": False}`. `item["answer"]`가 정답, `output`은 생각 블록을 뗀 모델 답입니다. 문항 점수의 평균이 그 평가 세트 점수이고, `main`이 비교표의 주 지표입니다.
-  - 돌리기 전에 파일·함수가 있는지 검사합니다. 함수가 문항에서 실패하면 문항 id와 함께 멈춥니다.
-  - 평가 채점에만 씁니다 (학습·GRPO 보상은 그대로). 채점 함수가 다른 평가 세트끼리는 점수를 같은 기준으로 비교하지 않습니다.
-  - 함수를 고친 뒤에는 학습·추론 없이 `python -m train rescore <workdir>`로 다시 채점합니다 ([eval.md 5절](eval.md#5-채점-규칙이-바뀌었을-때-다시-채점)). 채점 함수 파일 경로는 섞을 때 문항에 적혀서, 같은 파일을 고치면 됩니다.
+- **평가 세트마다 채점 방식을 바꾸려면 `"scorer": "<파일.py>:<함수>"`** ([3.1절](#31-평가-세트별-채점-함수-scorer)). 없으면 기본 채점입니다.
 - **40GB GPU**면 `"sft": {"config": "sft_a100_40g_x2.yaml"}`, `"grpo": {"config": "grpo_a100_40g_x2.yaml", …}`.
 - 다른 칸(`task_mix`, `grpo`, `eval`)은 [train/README.md](../train/README.md)에 설명이 있습니다. 처음에는 그대로 둡니다.
 - studio ⑥ 데이터셋 › 학습 탭에서 데이터셋을 고르면 이 파일을 `train/configs/studio-<이름>.json`으로 써 줍니다. 그때는 `model`·`gpus`만 확인합니다.
   학습 서버에서 저장 폴더가 `/out`이 아닌 경로로 보이면 studio `config.json`에 `{"path_map": {"/out": "<학습 서버 경로>"}}`를 둡니다. 학습이 끝나면 studio가 결과를 평가 세트마다 모델 답으로 붙입니다.
+
+## 3.1 평가 세트별 채점 함수 (`scorer`)
+
+평가 세트(`data.benchmark`의 `id` 하나)마다 채점 함수를 붙일 수 있습니다. 붙이지 않으면 기본 채점(`docgen.bench.evaluate`, studio 채점과 같음)입니다. 실서류처럼 맞음의 기준이 세트마다 다를 때 씁니다.
+
+```json
+{"id": "real-fx-po", "name": "실서류 매입추심", "group": "real", "format": "swift-fields", "gt": "reviewed",
+ "paths": ["/share/…/FE_eval/eval_qa_PO.jsonl"], "scorer": "scorers/po.py:score"}
+```
+- 경로는 설정 파일 기준 상대 경로이고, `:함수`를 빼면 `score` 함수입니다.
+- 돌리기 전에 파일·함수가 있는지 검사하고, 섞을 때 정답을 답으로 넣어 그 함수로 만점인지 확인합니다. 함수가 문항에서 실패하면 문항 id와 함께 멈춥니다.
+
+**견본** (`train/scorers/`). 모두 기본 채점과 같은 점수를 냅니다. 복사해서 고칩니다.
+
+| 파일 | 붙일 세트 | 고치는 곳 |
+|---|---|---|
+| [`kie_default.py`](../train/scorers/kie_default.py) | 실서류 추출 (swift `.jsonl`) 등 값만 보는 정보 추출 | 위쪽 `FIELD_TYPES`에 항목별 비교 기준(`text`·`amount`·`date`·`digits`), 또는 `same`·`score` 함수 |
+| [`bank_default.py`](../train/scorers/bank_default.py) | 합성 은행 서류 세트 (bank-* 레시피, `docgen.bench build`): 분류·정보 추출·체크·기타 칸·구비·대조·심사·값 칸 OCR·받아쓰기 | 과제마다 함수 하나 (`classify`, `kie` …). 바꿀 과제의 함수만 고침 |
+| [`ocr_default.py`](../train/scorers/ocr_default.py) | 합성 OCR 세트, 실서류 OCR 준비 폴더 (쪽 OCR 8과제) | `page_ocr` 또는 `score` |
+
+- `ocr_default.py`만 기본 표와 숫자가 조금 다릅니다. 기본 채점은 쪽 OCR 지표를 과제 전체로 내고(CER = 틀린 글자 합 / 전체 글자 수), 채점 함수는 문항마다 내서 평균하기 때문입니다.
+- `kie_default.py`의 날짜 비교는 표기 차이(`2025 05 21` = `2025-05-21` = `20250521`)를 무시합니다. 기본 채점은 띄어쓰기·8자리 날짜를 날짜로 읽지 않습니다.
+
+**함수 꼴**
+```python
+def score(item, output):
+    # item["answer"]: 정답 ({키: 값}, [{"key", "value"}, …], 정답 글 그대로 등)
+    # item["eval"], item["meta"]: 채점 정보·출처.  output: 모델 답 (앞의 <think>…</think> 는 뗀 것, 답이 없으면 "")
+    return {"metrics": {"f1": 0.83, "field_acc": 0.8}, "main": "f1", "parse_fail": False}
+```
+- `metrics`는 문항마다 0~1입니다. 평가 세트 점수는 문항 평균이고, `main`이 비교표의 주 지표입니다. 낮을수록 좋은 지표는 `cer`처럼 기본 이름을 쓰면 비교표가 그렇게 읽습니다.
+- `parse_fail`이 참이면 그 문항은 모든 지표가 최하점이고, 답 형식 오류로 따로 셉니다.
+
+**swift `.jsonl`과 채점 함수:** swift 파일은 ms-swift 형식(`messages` user·assistant + `images`)이면 내용과 상관없이 읽습니다.
+- 정답이 `in order: [...]` 질문 + 문자열 배열이거나 `{키: 값}` 객체면 기본 채점으로도 됩니다.
+- 그 밖의 꼴이면 정답 글이 그대로 `item["answer"]`로 가고, 채점 함수를 꼭 붙여야 합니다. 없으면 섞기에서 멈춥니다.
+
+**주의**
+- 평가 채점에만 씁니다. 학습 데이터와 GRPO 보상은 그대로입니다.
+- 채점 함수가 다른 평가 세트끼리는 점수를 같은 기준으로 비교하지 않습니다. 같은 세트도 함수를 바꾸면 예전 결과를 `rescore`로 맞춘 뒤 비교합니다.
+- 함수를 고친 뒤에는 학습·추론 없이 `python -m train rescore <workdir>`로 다시 채점합니다 ([eval.md 5절](eval.md#5-채점-규칙이-바뀌었을-때-다시-채점)). 함수 파일 경로는 섞을 때 문항에 적히므로 그 파일을 고치면 됩니다. 다른 파일로 바꾸거나 새로 붙이려면 새 `data.output_dir`로 다시 섞습니다.
 
 ## 4. 실행
 
