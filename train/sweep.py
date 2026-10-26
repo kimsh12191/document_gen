@@ -296,13 +296,43 @@ def compare(sw, smoke=False):
     for n in notes:
         log("WARNING: " + n)
     if result:
-        _header(sw, root / "compare.md", root / "compare.html", notes)
+        _header(sw, root / "compare.md", root / "compare.html", notes, reports)
         log(f"비교표 → {root / 'compare.html'} ({', '.join(result['models'])})")
     return result
 
 
-def _header(sw, md, page, notes):
-    """비교표(.md·.html) 맨 위에 실험 이름·설명·모델별 설명과 학습 데이터."""
+LOWER = {"cer", "false_alarm", "matched_label_cer", "extra_key"}
+
+
+def _overview(sw, reports):
+    """한눈에 보기: 평가 세트·과제마다 주 지표 한 줄, 열은 모델. 괄호는 기준 모델(첫 모델) 대비 %p.
+
+    평가 세트(id)를 나눠 둔 설정이면 세트별로, 아니면 과제별로. 세트별 자세한 표는 아래 본문."""
+    base = sw["runs"][0]["label"]
+    ref = next((r for r in reports if r["label"] == base), None)
+
+    def scopes(r):
+        if r.get("benchmarks"):
+            return {(b.get("name") or i, i): b["tasks"] for i, b in r["benchmarks"].items()}
+        return {("", ""): r["tasks"]}
+
+    rows = []
+    first = scopes(reports[0])
+    for (name, ident), tasks in first.items():
+        for task, t in tasks.items():
+            metric = t["main"]
+            cells = []
+            for r in reports:
+                v = scopes(r).get((name, ident), {}).get(task, {}).get("metrics", {}).get(metric)
+                b = scopes(ref).get((name, ident), {}).get(task, {}).get("metrics", {}).get(metric) if ref else None
+                d = None if v is None or b is None or r is ref or r["label"].startswith("출발 모델") else (v - b) * 100
+                cells.append((v, d))
+            rows.append((ident or "", task, metric + (" ↓" if metric in LOWER else ""), t.get("n"), metric in LOWER, cells))
+    return base, rows
+
+
+def _header(sw, md, page, notes, reports=()):
+    """비교표(.md·.html) 맨 위에 실험 이름·설명·모델별 설명과 학습 데이터, 한눈에 보기 표."""
     def train(r):
         return "<br>".join(html.escape(e if isinstance(e, str) else e["path"] + (f" (count {e['count']})" if e.get("count") is not None else ""))
                            for e in r["train"])
@@ -312,12 +342,34 @@ def _header(sw, md, page, notes):
     head += ["| 모델 | 설명 | 학습 데이터 |", "|---|---|---|"]
     head += [f"| {r['label']} | {r['about']} | {train(r)} |" for r in sw["runs"]]
     head += ["", *[f"- {n}" for n in notes], ""] if notes else [""]
+    labels = [r["label"] for r in reports]
+    base, rows = _overview(sw, reports) if reports else (None, [])
+
+    def cell(v, d):
+        return "—" if v is None else f"{v * 100:.1f}" + ("" if d is None else f" ({d:+.1f})")
+    if rows:
+        head += ["## 한눈에 보기", "", f"점수 %, 괄호는 기준 모델 `{base}` 대비 %p (↓ 는 낮을수록 좋음). 평가 세트별 자세한 표는 아래.", "",
+                 "| 평가 세트 | 과제 | 지표 | 문항 수 | " + " | ".join(labels) + " |", "|---" * (4 + len(labels)) + "|"]
+        head += [f"| {i} | {t} | {m} | {n} | " + " | ".join(cell(v, d) for v, d in cells) + " |" for i, t, m, n, _, cells in rows]
+        head += [""]
     md.write_text("\n".join(head) + "\n" + md.read_text(encoding="utf-8"), encoding="utf-8")
     e = html.escape
     block = (f"<h1>{e(sw['name'])}</h1><p>{e(sw['about'])}</p>" + (f"<p>기록: {e(sw['record'])}</p>" if sw.get("record") else "")
              + "<table><tr><th>모델</th><th>설명</th><th>학습 데이터</th></tr>"
              + "".join(f"<tr><td>{e(r['label'])}</td><td>{e(r['about'])}</td><td>{train(r)}</td></tr>" for r in sw["runs"])
              + "</table>" + "".join(f"<p>{e(n)}</p>" for n in notes))
+    if rows:
+        def td(v, d, lower):
+            if v is None:
+                return "<td>—</td>"
+            color = "" if d is None or abs(d) < 0.05 else ("#1a7f37" if (d > 0) != lower else "#cf222e")
+            return f"<td>{v * 100:.1f}" + ("" if d is None else f" <span style='color:{color or '#666'}'>({d:+.1f})</span>") + "</td>"
+        block += (f"<h2>한눈에 보기</h2><p>점수 %, 괄호는 기준 모델 <b>{e(base)}</b> 대비 %p (초록 = 좋아짐, 빨강 = 나빠짐, ↓ 는 낮을수록 좋음). "
+                  "평가 세트별 자세한 표는 아래.</p><table><tr><th>평가 세트</th><th>과제</th><th>지표</th><th>문항 수</th>"
+                  + "".join(f"<th>{e(l)}</th>" for l in labels) + "</tr>"
+                  + "".join(f"<tr><td>{e(i)}</td><td>{e(t)}</td><td>{e(m)}</td><td>{n if n is not None else ''}</td>"
+                            + "".join(td(v, d, lower) for v, d in cells) + "</tr>" for i, t, m, n, lower, cells in rows)
+                  + "</table>")
     text = page.read_text(encoding="utf-8")
     i = text.find("<h1>")
     page.write_text(text[:i] + block + text[i:] if i >= 0 else text, encoding="utf-8")

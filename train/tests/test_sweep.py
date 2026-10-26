@@ -86,6 +86,9 @@ def test_sweep_runs_in_order_survives_failure_resumes_and_compares(sweep_file, t
     table = md.split("# 벤치마크 비교")[1].split("## ")[0]
     assert "| 출발 모델 |" in table and "| a1-syn |" in table and "| a3-more |" in table and "| a2-real |" not in table
     assert "실서류 OCR 을 더하면 오르나" in (root / "compare.html").read_text(encoding="utf-8")
+    glance = md.split("## 한눈에 보기")[1].split("# 벤치마크 비교")[0]   # 맨 위 요약: 기준(a1) 대비 %p
+    assert "| 출발 모델 | a1-syn | a3-more |" in glance and "| cross_check | score | 6 | 33.3 | 66.7 | 100.0 (+33.3) |" in glance
+    assert "한눈에 보기" in (root / "compare.html").read_text(encoding="utf-8")
     assert read_json(root / "sweep.config.json")["about"] == "실서류 OCR 을 더하면 오르나"
     # 다시 치면 실패한 것만 (끝난 모델은 건너뜀)
     runner2, calls2 = fake_pipeline({"a1-syn": 4, "a2-real": 8, "a3-more": 10})
@@ -167,3 +170,17 @@ def test_sweep_checks_every_model_before_starting(sweep_file, tmp_path):
     write_json(tmp_path / "base.json", base)
     with pytest.raises(SystemExit, match="real: 경로가 없습니다"):
         S.run(sweep_file, runner=runner)
+
+
+def test_overview_per_benchmark_id():
+    """평가 세트를 id 로 나눈 보고서: 세트·과제마다 한 줄, 기준 모델 대비 %p, 낮을수록 좋은 지표 표시."""
+    def rep(label, kie, cer):
+        return {"label": label, "benchmarks": {
+            "real-fx-po": {"name": "매입추심", "tasks": {"kie": {"main": "f1", "n": 50, "metrics": {"f1": kie}}}},
+            "ocr_real": {"name": "검사부", "tasks": {"ocr_page": {"main": "cer", "n": 9, "metrics": {"cer": cer}}}}}}
+    sw = {"runs": [{"label": "a1-syn"}, {"label": "a2"}]}
+    base, rows = S._overview(sw, [rep("출발 모델", 0.1, 0.5), rep("a1-syn", 0.4, 0.3), rep("a2", 0.5, 0.2)])
+    assert base == "a1-syn"
+    kie, ocr = rows
+    assert kie[:4] == ("real-fx-po", "kie", "f1", 50) and [round(d, 1) if d is not None else d for _, d in kie[5]] == [None, None, 10.0]
+    assert ocr[2] == "cer ↓" and ocr[4] is True and round(ocr[5][2][1], 1) == -10.0
