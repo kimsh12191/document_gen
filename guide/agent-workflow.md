@@ -164,6 +164,8 @@ python -m train --config train/configs/<실험>.json --smoke
 | 다른 실험의 SFT에서 GRPO | `--part grpo --sft-checkpoint <폴더>` |
 | GRPO 설정을 바꿔 다시 | `--from grpo` |
 | 평가만 (학습 없이) | `--only prepare`, `--only eval_base`, `--only report`. 섞기에 학습 문항이 필요하므로 `data.train`에 학습 데이터셋 하나는 둠 |
+| 학습한 모델을 새 평가 세트로 다시 채점 | 새 `workdir`에 `eval.compare_models` ([eval.md](eval.md)) |
+| 학습 데이터만 바꾼 모델 여러 개 | `python -m train sweep --config <묶음.json>` ([training.md 4.1절](training.md#41-학습-데이터만-바꾼-모델-여러-개-실험-묶음)). 끝나면 `<root>/compare.html` |
 
 - 진행: `<workdir>/state.json`의 `done`(끝난 단계), `timings`(시간). 로그는 `<workdir>/logs/<단계>.log`.
 - 멈췄으면 **같은 명령을 다시** 실행합니다 (끝난 단계는 건너뜀). 다시 실행해도 같은 단계에서 같은 에러면 멈추고 보고.
@@ -180,6 +182,11 @@ python -m train --config train/configs/<실험>.json --smoke
 3. 기준선(찍어도 나오는 점수)과 비교, 문항 수에 따른 오차 범위.
 4. OCR 열이 출발 모델보다 크게 떨어졌는지.
 5. 대표 오답 몇 개: `reports/*.json`과 **[사람]** studio ⑥ › 모델 답에 `<workdir>`를 붙여 확인 요청.
+6. 다른 실험과 비교해야 하면 모아 보기를 만듭니다. 이미 끝난 보고서만 읽으므로 요청 범위 안에서 해도 됩니다.
+   ```bash
+   python -m train summary <묶음 결과 폴더|묶음 파일|평가만 한 workdir> ... --out <새 이름>.html
+   ```
+   `†`가 붙은 칸은 평가 문항이 다른 것이라 다른 실험과 비교하지 않습니다 ([training.md 4.1절](training.md#실험-여러-개를-한-화면에-모아-보기), [eval.md 4절](eval.md#4-다른-실험과-한-화면에-모아-보기)).
 
 **보고에 넣을 것:**
 
@@ -190,7 +197,7 @@ python -m train --config train/configs/<실험>.json --smoke
 | 설정 | 설정 파일 경로, 모델, GPU, `data.output_dir`, 바꾼 칸 |
 | 결과 | 과제별 주 지표 표 (출발/SFT/GRPO), 형식 오류율, 오차 범위 안의 차이는 "차이 없음" |
 | 확인 안 된 것 | 사람 검수를 받지 못한 것, 건너뛴 단계 |
-| 경로 | `<workdir>/reports/benchmark.html`, 로그 폴더, 모델 `<workdir>/merged/…` |
+| 경로 | `<workdir>/reports/benchmark.html` (묶음은 `<root>/compare.html`, 모아 보기를 만들었으면 그 html), 로그 폴더, 모델 `<workdir>/merged/…` |
 | 다음 제안 | 실행하지 않은 추가 실험 |
 
 ## 8. 설정으로 안 되는 것
