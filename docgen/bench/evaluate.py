@@ -225,10 +225,8 @@ def _s_kie2(item, out):
     rec = tp / (tp + fn) if tp + fn else 1.0
     f1 = 2 * prec * rec / (prec + rec) if prec + rec else 0.0
     info = item["eval"]["fields"]
-    # 위치 정답이 없는 문항(값만 묻는 실서류, P_KIE_VALUE)은 위치 점수를 내지 않는다 → 주 지표가 값 점수 f1
     loc = _located(gts, [e for e in pe if e["key"] in info],
-                   lambda a, b: value_match(a.get("value"), b["value"], info[b["key"]]["type"], info[b["key"]].get("norm"), b["key"])
-                   ) if any(_has_box(g) for g in gts) else {}
+                   lambda a, b: value_match(a.get("value"), b["value"], info[b["key"]]["type"], info[b["key"]].get("norm"), b["key"]))
     return {"metrics": {"field_acc": sum(correct_all) / len(correct_all), "f1": f1, "precision": prec, "recall_f": rec,
                         "doc_exact": float(all(correct_all)), **loc}, "parse_fail": fail, "sub": sub}
 

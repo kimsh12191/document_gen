@@ -3,7 +3,6 @@
 한 줄: {"messages": [{"role": "user", "content": "<image>… in order: [\"필드\", …] …"},
                     {"role": "assistant", "content": "[\"값\", …]"}], "images": ["/절대/경로.png"]}
 질문은 그대로 묻고, 질문에 적힌 필드 목록(순서)과 답 배열을 짝지어 kie 로 채점한다 (eval.order: 값만 순서대로 답하는 꼴).
-train/swift_to_kie.py 로 고친 꼴(답이 [{"key", "value"}, …] 목록)도 읽는다: 합성 kie 처럼 목록으로 채점 (위치 없음 → 값 점수).
 같은 그림의 문항은 meta.document_id 가 같다 (학습 데이터와 겹치는지 섞기 단계가 본다).
 읽을 수 없는 줄은 건너뛰고 경고와 함께 meta.skipped 에 남긴다 (섞은 폴더 DONE.json 의 sources).
 """
@@ -48,22 +47,15 @@ def item_of(rec: dict, source: str, line: int, base: Path) -> dict:
     missing = [p for p in images if not Path(p).is_file()]
     if missing:
         raise ValueError(f"이미지가 없습니다: {missing[0]}")
+    fields = fields_of(prompt)
     values = json.loads(answer)
-    if isinstance(values, list) and values and all(isinstance(v, dict) and isinstance(v.get("key"), str) for v in values):
-        keys = [v["key"] for v in values]   # swift_to_kie 꼴: [{"key", "value"}, …]
-        if len(set(keys)) != len(keys) or not all(v.get("value") is None or isinstance(v["value"], str) for v in values):
-            raise ValueError("답 목록의 키가 겹치거나 값이 문자열·null 이 아닙니다")
-        answer, ev = [{"key": v["key"], "value": v.get("value")} for v in values], {}
-    else:
-        fields = fields_of(prompt)
-        if not isinstance(values, list) or len(values) != len(fields) or not all(isinstance(v, str) for v in values):
-            raise ValueError(f"답이 필드 {len(fields)}개와 같은 수의 문자열 배열이 아닙니다")
-        keys = keys_of(fields)
-        answer, ev = dict(zip(keys, values)), {"order": keys}
+    if not isinstance(values, list) or len(values) != len(fields) or not all(isinstance(v, str) for v in values):
+        raise ValueError(f"답이 필드 {len(fields)}개와 같은 수의 문자열 배열이 아닙니다")
+    keys = keys_of(fields)
     return {"id": f"{source}/{line:05d}", "task": "kie", "images": images,
             "prompt": prompt.replace("<image>", "").strip(),
-            "answer": answer,
-            "eval": {**ev, "fields": {k: {"type": "text"} for k in keys}},
+            "answer": dict(zip(keys, values)),
+            "eval": {"order": keys, "fields": {k: {"type": "text"} for k in keys}},
             "meta": {"source": source, "line": line, "document_id": f"{source}:{Path(images[0]).stem}",
                      "n_fields": len(keys), "split": "test"}}
 
