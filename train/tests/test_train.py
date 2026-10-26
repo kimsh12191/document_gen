@@ -142,6 +142,26 @@ def test_mix_ocr_and_bank_splits_budgets_and_formats(tmp_path, model, ocr_set):
     assert (prep / "image_items.jsonl").is_file()   # --with-ocr 용 사내 OCR
 
 
+def test_mix_fixes_benchmark_images_apart_from_training(tmp_path, model):
+    """benchmark_image_max_size·benchmark_max_image_tokens_per_sample: 학습 그림 예산을 바꿔도 평가 그림은 따로."""
+    bank_folder(tmp_path / "train", "train", [f"mortgage_{20000000 + i}" for i in range(6)], n_images=2)
+    bank_folder(tmp_path / "bench", None, ["mortgage_2000000"], n_images=2)
+    out = {}
+    for name, extra in (("a", {}), ("b", {"image_max_size": [800, 600], "max_image_tokens_per_sample": 900,
+                                          "benchmark_image_max_size": [2300, 1600], "benchmark_max_image_tokens_per_sample": 12000})):
+        cfg = {**data_cfg(tmp_path, train=[str(tmp_path / "train")], benchmark=[str(tmp_path / "bench")]),
+               "output_dir": str(tmp_path / name), **extra}
+        M.mix(cfg, model)
+        out[name] = read_jsonl(tmp_path / name / "benchmark_tasks.jsonl"), read_jsonl(tmp_path / name / "train_sft.jsonl")
+
+    def size(p):
+        with Image.open(p) as im:
+            return im.size
+    assert [[size(p) for p in r["images"]] for r in out["a"][0]] == [[size(p) for p in r["images"]] for r in out["b"][0]]
+    assert max(max(size(p)) for r in out["b"][1] for p in r["images"]) < 1000 < max(max(size(p)) for r in out["a"][1] for p in r["images"])
+    assert read_json(tmp_path / "b" / "DONE.json")["benchmark_image_max_size"] == [2300, 1600]
+
+
 def test_mix_refuses_leaks_and_eval_only_training(tmp_path, model):
     bank_folder(tmp_path / "bench", None, ["mortgage_2"], n_images=1)
     bank_folder(tmp_path / "train", None, ["mortgage_1"], n_images=1)   # 평가 세트를 학습에 넣음
@@ -222,6 +242,13 @@ def test_launch_dry_runs(tmp_path, mixed, model):
         assert "NPROC_PER_NODE=4" in out and "IMAGE_MAX_TOKEN_NUM=3600" in out and "--freeze_vit false" in out
         if stage == "grpo":
             assert "--remove_unused_columns false" in out and "reward_plugin.py" in out and '--reward_funcs docgen' in out
+    # --options: yaml 위에 칸 하나씩 (실험 묶음의 sft·grpo 칸)
+    argv = ["launch", "sft", "--model", model, "--data", str(mixed), "--output", str(tmp_path / "runs"),
+            "--options", '{"learning_rate": 5e-05, "lora_rank": 64}']
+    capture = io.StringIO()
+    with patch.object(sys, "argv", argv), contextlib.redirect_stdout(capture):
+        runpy.run_module("train.launch", run_name="__main__")
+    assert "--learning_rate 5e-05" in capture.getvalue() and "--lora_rank 64" in capture.getvalue()
 
 
 class _Server:
@@ -466,6 +493,15 @@ def test_pipeline_dry_run_and_grpo_rerun_report(tmp_path, mixed, model):
     for stage in P.STAGES:
         assert f"=== {stage} done" in text
     assert "IMAGE_MAX_TOKEN_NUM=3600" in text and "--gpus 0,1" in text and "-m train.launch" in text
+    assert "--options" not in text   # yaml 그대로
+    write_json(config, {**read_json(config), "sft": {"learning_rate": 5e-05}, "grpo": {"beta": 0.08, "count": 10},
+                        "data": {**read_json(config)["data"], "sft_max_length": 8192}})
+    capture = io.StringIO()
+    with contextlib.redirect_stdout(capture):
+        P.main(["--config", str(config), "--dry-run"])
+    text = capture.getvalue()
+    assert '--options {"learning_rate": 5e-05, "max_length": 8192}' in text and '--options {"beta": 0.08}' in text
+    write_json(config, {k: v for k, v in read_json(config).items() if k not in ("sft", "grpo")})
     assert "prepared data exists" in text   # 섞은 폴더가 있으면 다시 섞지 않는다
     assert not (tmp_path / "runs" / "state.json").exists()
     # GRPO 를 다시 돌리면 앞의 점수도 보고서에 남는다

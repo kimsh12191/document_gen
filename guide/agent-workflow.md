@@ -164,7 +164,7 @@ python -m train --config train/configs/<실험>.json --smoke
 | 다른 실험의 SFT에서 GRPO | `--part grpo --sft-checkpoint <폴더>` |
 | GRPO 설정을 바꿔 다시 | `--from grpo` |
 | 학습 없이 평가만 (학습한 모델, 새 평가 세트) | 새 `workdir`에 `eval.compare_models` + `--only prepare` → `--only eval_base` → `--only report` ([eval.md 3절](eval.md#3-학습-없이-평가만-하기)) |
-| 학습 데이터만 바꾼 모델 여러 개 | `python -m train sweep --config <묶음.json>` ([training.md 4절](training.md#4-학습-데이터만-바꾼-모델-여러-개-실험-묶음)) |
+| 설정을 바꾼 모델 여러 개 (데이터·학습률·출발 모델·GRPO, 평가 세트 고정) | `python -m train sweep --config <묶음.json>` ([training.md 4절](training.md#4-여러-모델을-한-번에-실험-묶음)) |
 
 - 진행: `<workdir>/state.json`의 `done`(끝난 단계), `timings`(시간). 로그는 `<workdir>/logs/<단계>.log`.
 - 멈췄으면 **같은 명령을 다시** 실행합니다 (끝난 단계는 건너뜀). 다시 실행해도 같은 단계에서 같은 에러면 멈추고 보고.

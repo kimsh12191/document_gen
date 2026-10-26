@@ -72,7 +72,8 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 
 | 명령 | 하는 일 | 설명서 |
 |---|---|---|
-| `python -m train sweep --config <묶음.json>` | 학습 데이터만 바꾼 모델 여러 개를 차례로 → `<root>/summary.html`·`compare.html` (코드 `sweep.py`) | [training.md 4절](../guide/training.md#4-학습-데이터만-바꾼-모델-여러-개-실험-묶음) |
+| `python -m train sweep --config <묶음.json>` | 평가 세트를 고정하고 학습 설정을 모델마다 바꿔 여러 개를 차례로·동시에 → `<root>/summary.html`·`compare.html`·`answers.html` (코드 `sweep.py`) | [training.md 4절](../guide/training.md#4-여러-모델을-한-번에-실험-묶음) |
+| `python -m train answers <결과 폴더 또는 workdir>` | 문항별 모델 답 페이지 (`--per-task N`, `--all`; 코드 `answers.py`) | [results.md](../guide/results.md#어디서-보나) |
 | `python -m train summary <결과 폴더> ... --out <html>` | 여러 실험을 한 화면에 (코드 `summary.py`) | [results.md](../guide/results.md#여러-실험을-한-화면에) |
 | `python -m train rescore <workdir 또는 묶음 결과 폴더>` | 저장된 답으로 다시 채점, 추론 없이 (코드 `rescore.py`) | [eval.md 4절](../guide/eval.md#4-저장된-답으로-다시-채점-rescore) |
 

@@ -20,6 +20,8 @@
   grpo_holdout 학습 문항 중 이 비율의 고객(업무 묶음)·문서는 SFT 에 넣지 않고 GRPO 후보로
 평가 세트와 같은 고객·문서가 학습에 있으면 멈춘다. 이미지 예산: 그림 하나는 image_max_size 의 토큰까지, 문항 하나는 모든 그림 합쳐
 max_image_tokens_per_sample 까지 (여러 서류는 고르게 줄임). 평가도 같은 규칙이라 학습·평가가 같은 픽셀을 본다.
+평가 그림만 다르게: benchmark_image_max_size · benchmark_max_image_tokens_per_sample (실험 묶음이 모델마다 학습 그림 예산을
+바꿔도 평가 그림은 base 값으로 고정할 때).
 """
 import hashlib
 import json
@@ -40,6 +42,8 @@ from .settings import image_tokens, image_tokens_for
 DEFAULTS = {
     "image_max_size": [2300, 1600],
     "max_image_tokens_per_sample": 12000,
+    "benchmark_image_max_size": None,               # 평가 그림만 따로 (None 이면 위 두 값). 실험 묶음이 base 값으로 고정한다
+    "benchmark_max_image_tokens_per_sample": None,
     "sft_max_length": 16384,
     "sft_max_examples": 20000,
     "task_mix": None,
@@ -292,10 +296,16 @@ def mix(data_cfg: dict, model_dir: str | None) -> dict:
         per_image = image_tokens_for(cfg["image_max_size"], factor)
         print(f"WARNING: {exc}; assuming 32x32 pixels per visual token")
     budget = cfg["max_image_tokens_per_sample"]
+    bench_size = cfg["benchmark_image_max_size"] or cfg["image_max_size"]
+    bench_budget = cfg["benchmark_max_image_tokens_per_sample"] or budget
+    bench_per_image = image_tokens_for(bench_size, factor)
     fit = Fitter(out, factor)
 
     def cap(n):
         return sample_caps(n, per_image, budget)
+
+    def bench_cap(n):
+        return sample_caps(n, bench_per_image, bench_budget)
 
     # -- 평가 -------------------------------------------------------------------------------
     from .benchmarks import normalize, paths as benchmark_paths
@@ -410,8 +420,8 @@ def mix(data_cfg: dict, model_dir: str | None) -> dict:
     write_jsonl(out / "train_sft.jsonl", sft)
     write_jsonl(out / "val_sft.jsonl", [to_sample(it) for it in val])
 
-    def question(it, png):
-        imgs = [fit(p, cap(len(it["images"])), png=png) for p in it["images"]]
+    def question(it, png, caps=cap):
+        imgs = [fit(p, caps(len(it["images"])), png=png) for p in it["images"]]
         return imgs, [{"role": "user", "content": "<image>" * len(imgs) + it["prompt"]}]
 
     # -- GRPO 후보 (PNG: SFT 모델이 평가와 같은 답 내기 코드로 답해 골라 뽑는다) ------------------------
@@ -427,7 +437,7 @@ def mix(data_cfg: dict, model_dir: str | None) -> dict:
     # -- 평가 -------------------------------------------------------------------------------
     bench_rows, image_items = [], {}
     for it in bench_items:
-        imgs, messages = question(it, png=True)
+        imgs, messages = question(it, png=True, caps=bench_cap)
         row = {"id": it["id"], "split": "benchmark", "task": it["task"], "messages": messages, "images": imgs,
                "source_images": it["images"]}
         ctx = (it.get("meta") or {}).get("context_image")
@@ -459,6 +469,8 @@ def mix(data_cfg: dict, model_dir: str | None) -> dict:
     done = {
         "image_max_size": cfg["image_max_size"], "pixels_per_token_side": factor,
         "max_image_tokens_per_image": per_image, "max_image_tokens_per_sample": budget,
+        "benchmark_image_max_size": bench_size, "max_image_tokens_per_image_benchmark": bench_per_image,
+        "benchmark_max_image_tokens_per_sample": bench_budget,
         "sft_max_length": cfg["sft_max_length"],
         "counts": {"sft_rows_by_task": {t: n for t, n in take.items() if n}, "sft_available_by_task": avail,
                    "sft_samples": len(sft), "sft_packed_from": len(samples), "sft_dropped_too_long": too_long,

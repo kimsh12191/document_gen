@@ -2,6 +2,8 @@
 import contextlib
 import io
 import json
+import threading
+import time
 
 import pytest
 
@@ -14,38 +16,57 @@ from train.tests.test_train import _item
 ITEMS = [_item("cross_check", f"b{i}") for i in range(6)] + [_item("kie", f"k{i}") for i in range(4)]
 
 
-def fake_pipeline(good, fail=(), src="/src", start=2):
-    """설정을 받아 파이프라인이 남기는 것(섞은 폴더·state·보고서)을 흉내 낸다. good[label] = 맞히는 문항 수, src = 원본 그림 폴더."""
-    calls = []
+def fake_pipeline(good, fail=(), src="/src", start=2, delay=0):
+    """설정을 받아 파이프라인이 남기는 것(섞은 폴더·state·보고서·답 파일)을 흉내 낸다.
+    good[label] = 맞히는 문항 수, src = 원본 그림 폴더, delay = 모델마다 걸리는 초 (동시 실행 확인)."""
+    calls, live = [], {"now": 0, "max": 0}
+    lock = threading.Lock()
 
     def report(wd, role, n, label):
-        res = score(ITEMS, {it["id"]: oracle_output(it) if i < n else "x" for i, it in enumerate(ITEMS)})
-        write_json(wd / "reports" / f"{role}.json", {"label": role, "role": role.split("-")[0],
-                                                     "inference": {"images_sha256": label, "temperature": 0}, **res})
+        preds = {it["id"]: oracle_output(it) if i < n else "x" for i, it in enumerate(ITEMS)}
+        path = wd / "predictions" / f"{role}.jsonl"
+        write_jsonl(path, [{"id": k, "prediction": v} for k, v in preds.items()])
+        write_json(wd / "reports" / f"{role}.json", {"label": role, "role": role.split("-")[0], "predictions": str(path),
+                                                     "inference": {"images_sha256": label, "temperature": 0}, **score(ITEMS, preds)})
 
-    def runner(config, log_path, part, smoke, only=None):
+    def runner(config, log_path, part, smoke, only=None, sft_checkpoint=None, env=None):
         cfg = read_json(config)
         wd, data = config.parent, config.parent / "data"
         label = wd.name
-        calls.append((label, cfg, part, only))
-        log_path.write_text("log\n", encoding="utf-8")
-        if only == "eval_base":
-            report(wd, "start", start, label)
+        with lock:
+            calls.append((label, cfg, part, only, sft_checkpoint, env))
+            live["now"] += 1
+            live["max"] = max(live["max"], live["now"])
+        try:
+            time.sleep(delay)
+            log_path.write_text("log\n", encoding="utf-8")
+            if only == "eval_base":
+                report(wd, "start", start, label)
+                return 0
+            if label in fail:
+                return 1
+            d = cfg["data"]
+            size = d.get("image_max_size", [2300, 1600])
+            write_json(data / "DONE.json", {"image_max_size": size, "benchmark_image_max_size": d.get("benchmark_image_max_size") or size,
+                                            "pixels_per_token_side": 28 if "vl" in cfg["model"] else 32,
+                                            "max_image_tokens_per_sample": 12000})
+            write_jsonl(data / "benchmark_tasks.jsonl", [{"id": it["id"], "images": [f"{data}/{it['id']}.png"],
+                                                          "messages": [{"role": "user", "content": "<image>" + it["prompt"]}],
+                                                          "source_images": [f"{src}/{it['id']}.png"]} for it in ITEMS])
+            write_jsonl(data / "benchmark_items.jsonl", ITEMS)
+            if not cfg["eval"]["skip_start"]:
+                report(wd, "start", start, label)
+            report(wd, "sft", good[label], label)
+            done = ["prepare", "eval_base", "sft", "eval_sft", "report"]
+            if part in ("all", "grpo"):
+                report(wd, "grpo-x", min(len(ITEMS), good[label] + 1), label)
+                done += ["select", "grpo", "eval_grpo"]
+            write_json(wd / "state.json", {"done": done, "sft_checkpoint": str(sft_checkpoint or wd / "sft" / "checkpoint-5")})
             return 0
-        if label in fail:
-            return 1
-        write_json(data / "DONE.json", {"image_max_size": [2300, 1600], "pixels_per_token_side": 32, "max_image_tokens_per_sample": 12000})
-        write_jsonl(data / "benchmark_tasks.jsonl", [{"id": it["id"], "images": [f"{data}/{it['id']}.png"],
-                                                      "source_images": [f"{src}/{it['id']}.png"]} for it in ITEMS])
-        if not cfg["eval"]["skip_start"]:
-            report(wd, "start", start, label)
-        report(wd, "sft", good[label], label)
-        done = ["prepare", "eval_base", "sft", "eval_sft", "report"]
-        if part == "all":
-            report(wd, "grpo-x", min(len(ITEMS), good[label] + 1), label)
-            done += ["select", "grpo", "eval_grpo"]
-        write_json(wd / "state.json", {"done": done})
-        return 0
+        finally:
+            with lock:
+                live["now"] -= 1
+    runner.live = live
     return runner, calls
 
 
@@ -82,7 +103,7 @@ def test_sweep_runs_in_order_survives_failure_resumes_and_compares(sweep_file, t
     status = read_json(root / "sweep.json")
     assert [status[k]["status"] for k in ("a1-syn", "a2-real", "a3-more")] == ["done", "failed", "done"]
     md = (root / "compare.md").read_text(encoding="utf-8")
-    assert md.startswith("# E09-test\n\n실서류 OCR 을 더하면 오르나") and "| a2-real | 기준 + 실서류 OCR | syn-train<br>real (count 10) |" in md
+    assert md.startswith("# E09-test\n\n실서류 OCR 을 더하면 오르나") and "| a2-real | 기준 + 실서류 OCR |  | syn-train<br>real (count 10) |" in md
     table = md.split("# 벤치마크 비교")[1].split("## ")[0]
     assert "| 출발 모델 |" in table and "| a1-syn |" in table and "| a3-more |" in table and "| a2-real |" not in table
     assert "실서류 OCR 을 더하면 오르나" in (root / "compare.html").read_text(encoding="utf-8")
@@ -238,3 +259,118 @@ def test_summary_reads_eval_only_workdir(tmp_path):
     assert "reports/benchmark.html" not in M.render([(sw, reports, [])], tmp_path / "s.html").read_text(encoding="utf-8")   # 표가 아직 없으면 링크 없음
     with pytest.raises(SystemExit):
         M.load(tmp_path)
+
+
+def test_sweep_runs_change_any_training_setting_but_not_evaluation(sweep_file, tmp_path):
+    """모델마다 학습 쪽 칸(출발 모델·데이터·SFT 옵션·GRPO)을 바꾸고, 적지 않은 칸은 base. 평가 칸은 못 바꾼다."""
+    write_json(tmp_path / "vl" / "config.json", {})
+    base = read_json(tmp_path / "base.json")
+    base["data"]["train"] = ["syn-train"]
+    write_json(tmp_path / "base.json", base)
+    sw = read_json(sweep_file)
+    sw["baseline"] = "a2-real"
+    sw["runs"] = [{"label": "a1-syn", "about": "base 그대로"},
+                  {"label": "a2-real", "about": "학습률·데이터", "train": ["real"],
+                   "sft": {"learning_rate": 5e-5, "num_train_epochs": 2}, "data": {"task_mix": {"kie": 0.5}, "image_max_size": [1600, 1200]}},
+                  {"label": "a3-vl", "about": "다른 출발 모델", "model": "vl", "model_type": "qwen3_vl", "part": "all",
+                   "grpo": {"beta": 0.08, "count": 500}, "deploy": ["swift", "deploy", "--port", "{port}"]}]
+    write_json(sweep_file, sw)
+    runner, calls = fake_pipeline({"a1-syn": 4, "a2-real": 8, "a3-vl": 6})
+    with contextlib.redirect_stdout(io.StringIO()):
+        S.run(sweep_file, runner=runner)
+    cfg = {c[0]: c[1] for c in calls}
+    assert cfg["a1-syn"]["data"]["train"] == [str(tmp_path / "syn-train")]   # train 을 안 적으면 base (base 파일 기준 경로)
+    assert cfg["a2-real"]["data"]["train"] == [str(tmp_path / "real")] and cfg["a2-real"]["data"]["task_mix"] == {"kie": 0.5}
+    assert cfg["a2-real"]["sft"] == {"config": "sft.yaml", "learning_rate": 5e-5, "num_train_epochs": 2}
+    assert cfg["a2-real"]["data"]["benchmark_image_max_size"] == [2300, 1600]   # 학습 그림을 바꿔도 평가 그림은 base 값
+    assert "benchmark_image_max_size" not in cfg["a1-syn"]["data"]
+    assert cfg["a3-vl"]["model"] == str(tmp_path / "vl") and cfg["a3-vl"]["model_type"] == "qwen3_vl"
+    assert cfg["a3-vl"]["grpo"] == {"beta": 0.08, "count": 500} and cfg["a3-vl"]["eval"]["deploy_command"][1] == "deploy"
+    # 출발 모델마다 한 번씩 평가
+    assert [cfg[k]["eval"]["skip_start"] for k in ("a1-syn", "a2-real", "a3-vl")] == [False, True, False]
+    root = tmp_path / "runs" / "E09"
+    md = (root / "compare.md").read_text(encoding="utf-8")
+    assert "| a2-real | 학습률·데이터 | data.image_max_size=[1600, 1200] · data.task_mix.kie=0.5 · sft.learning_rate=5e-05 · sft.num_train_epochs=2 | real |" in md
+    assert "출발 모델 tmp_path" not in md and "| a1-syn | base 그대로 |  | <i>공통 (base)</i> |" in md
+    table = md.split("# 벤치마크 비교")[1].split("## ")[0]
+    assert f"| 출발 모델 ({tmp_path.name}/model) |" in table and f"| 출발 모델 ({tmp_path.name}/vl) |" in table and "| a3-vl GRPO |" in table
+    glance = md.split("## 한눈에 보기")[1].split("# 벤치마크 비교")[0]
+    assert "기준 모델 `a2-real`" in glance and "| 100.0 |" in glance   # baseline 이 기준
+    assert "그림 조각 28px" in (root / "compare_notes.txt").read_text(encoding="utf-8")   # 다른 규격 모델도 표에 남음
+    # 평가 칸은 모델마다 못 바꾼다 — 돌리기 전에 멈춘다
+    sw["runs"][1]["set"] = {"data": {"benchmark": []}}
+    sw["runs"][2]["data"] = {"output_dir": "x"}
+    write_json(sweep_file, sw)
+    with pytest.raises(SystemExit) as e:
+        S.run(sweep_file, runner=runner)
+    assert "a2-real: 설정을 만들지 못함 (a2-real: data.benchmark 는 모델마다 바꿀 수 없습니다" in str(e.value)
+    assert "a3-vl: 설정을 만들지 못함 (a3-vl: data.output_dir" in str(e.value)
+    sw["runs"][1] = {"label": "a2-real", "about": "x", "lr": 1}
+    write_json(sweep_file, sw)
+    with pytest.raises(ValueError, match="모르는 칸 \\['lr'\\]"):
+        S.load(sweep_file)
+
+
+def test_sweep_parallel_gpu_groups_and_from_sft(sweep_file, tmp_path):
+    """gpu_groups: 비는 GPU 묶음에 다음 모델 (포트·MASTER_PORT 다르게). from_sft 는 부모 SFT 가 끝나면 그 체크포인트에서 GRPO 만."""
+    sw = read_json(sweep_file)
+    sw["gpu_groups"] = [[0, 1], [2, 3]]
+    sw["runs"] = [{"label": "a1", "about": "기준", "train": ["syn-train"]},
+                  {"label": "a2", "about": "데이터", "train": ["real"]},
+                  {"label": "a3", "about": "a1 에서 GRPO", "from_sft": "a1", "grpo": {"beta": 0.08}},
+                  {"label": "a4", "about": "GPU 지정", "train": ["tgt"], "gpus": [2]}]
+    write_json(sweep_file, sw)
+    runner, calls = fake_pipeline({"a1": 4, "a2": 8, "a3": 6, "a4": 5}, delay=0.3)
+    with contextlib.redirect_stdout(io.StringIO()):
+        S.run(sweep_file, runner=runner)
+    assert runner.live["max"] == 2   # 두 묶음이 동시에
+    by = {c[0]: c for c in calls}
+    assert {tuple(by["a1"][1]["gpus"]), tuple(by["a2"][1]["gpus"])} == {(0, 1), (2, 3)}
+    assert by["a1"][1]["eval"]["port_base"] != by["a2"][1]["eval"]["port_base"]
+    assert by["a1"][5]["MASTER_PORT"] != by["a2"][5]["MASTER_PORT"]
+    assert by["a4"][1]["gpus"] == [2]
+    a3 = by["a3"]
+    assert a3[2] == "grpo" and a3[4] == str(tmp_path / "runs" / "E09" / "a1" / "sft" / "checkpoint-5")   # 부모 체크포인트
+    assert a3[1]["data"]["train"] == [str(tmp_path / "syn-train")] and a3[1]["grpo"]["beta"] == 0.08   # 부모 칸을 물려받음
+    assert a3[1]["eval"]["skip_start"] is True
+    assert [c[0] for c in calls].index("a3") > [c[0] for c in calls].index("a1")
+    root = tmp_path / "runs" / "E09"
+    assert {v["status"] for v in read_json(root / "sweep.json").values()} == {"done"}
+    table = (root / "compare.md").read_text(encoding="utf-8").split("# 벤치마크 비교")[1].split("## ")[0]
+    assert "| a3 |" in table and "| a3 GRPO |" not in table   # from_sft 는 GRPO 줄 하나 (SFT 는 부모와 같음)
+    assert "a1 의 SFT 에서 GRPO · grpo.beta=0.08" in (root / "compare.md").read_text(encoding="utf-8")
+    # 부모가 실패하면 from_sft 모델은 시작하지 않는다
+    runner2, calls2 = fake_pipeline({"b1": 4, "b2": 6}, fail={"b1"})
+    sw2 = {**sw, "root": "runs/E10", "gpu_groups": [], "runs": [{"label": "b1", "about": "x"}, {"label": "b2", "about": "y", "from_sft": "b1"}]}
+    write_json(tmp_path / "e10.sweep.json", sw2)
+    base = read_json(tmp_path / "base.json")
+    base["data"]["train"] = ["syn-train"]
+    write_json(tmp_path / "base.json", base)
+    with contextlib.redirect_stdout(io.StringIO()):
+        S.run(tmp_path / "e10.sweep.json", runner=runner2)
+    assert [c[0] for c in calls2] == ["b1"] and "b1 가 끝나지 않음" in read_json(tmp_path / "runs" / "E10" / "sweep.json")["b2"]["why"]
+
+
+def test_answers_page(sweep_file, tmp_path):
+    """문항별 모델 답: 평가 세트·과제마다 표본, 모델끼리 갈린 문항이 먼저, 모델마다 답과 문항 점수."""
+    from train import answers as A
+
+    runner, _ = fake_pipeline({"a1-syn": 4, "a2-real": 8, "a3-more": 10})
+    with contextlib.redirect_stdout(io.StringIO()):
+        S.run(sweep_file, runner=runner)
+    root = tmp_path / "runs" / "E09"
+    page = (root / "answers.html").read_text(encoding="utf-8")   # 묶음이 스스로 만든다
+    data = json.loads(page.split("id='data'>")[1].split("</script>")[0])
+    assert data["models"] == ["출발 모델", "a1-syn", "a2-real", "a3-more"] and data["base"] == "a1-syn"
+    assert {(g["set"], g["task"]) for g in data["groups"]} == {("", "cross_check"), ("", "kie")}   # 가짜 문항엔 평가 세트 id 가 없다
+    card = next(c for c in data["cards"] if c["id"] == ITEMS[0]["id"])
+    assert [a[1] for a in card["answers"]] == [1.0, 1.0, 1.0, 1.0] and "cross_check 질문" in card["prompt"]
+    late = next(c for c in data["cards"] if c["id"] == ITEMS[9]["id"])   # a3 만 맞힌 문항
+    assert [a[1] for a in late["answers"]] == [0.0, 0.0, 0.0, 1.0] and late["images"][0].endswith(".png")
+    sw = S.load(sweep_file)
+    reports, _ = S.collect(sw)
+    out = A.build(reports, sw["_sources"], tmp_path / "small.html", per_task=2)
+    small = json.loads(out.read_text(encoding="utf-8").split("id='data'>")[1].split("</script>")[0])
+    kie = next(g for g in small["groups"] if g["task"] == "kie")
+    assert kie["shown"] == 2 and kie["n"] == 4 and kie["split"] == 4
+    assert len([c for c in small["cards"] if small["groups"][c["g"]]["task"] == "cross_check"]) == 2

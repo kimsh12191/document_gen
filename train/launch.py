@@ -51,11 +51,17 @@ def main():
     p.add_argument("--image-tokens", type=int, default=None,
                    help="Default: IMAGE_MAX_TOKEN_NUM, else computed from image_max_size and the model's vision config")
     p.add_argument("--deepspeed", help="zero2, zero3, or custom DeepSpeed config path")
+    p.add_argument("--options", help='JSON object of MS-SWIFT options laid over --config, e.g. {"learning_rate": 5e-5}')
     p.add_argument("--execute", action="store_true")
     a = p.parse_args()
     config = Path(a.config).resolve() if a.config else ROOT / "configs" / {"sft": "sft.yaml", "grpo": "grpo_a100x2.yaml"}[a.stage]
     try:
         options = load_settings(config)
+        if a.options:
+            extra = json.loads(a.options)
+            if not isinstance(extra, dict):
+                raise ValueError("--options must be a JSON object")
+            options.update(extra)
         reserved = {"model", "dataset", "val_dataset", "output_dir", "adapters", "ref_adapters", "config", "ENV"}
         if reserved & options.keys():
             raise ValueError("Use launcher CLI for paths/environment: " + ", ".join(sorted(reserved & options.keys())))

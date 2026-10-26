@@ -76,6 +76,8 @@ DEFAULTS = {
     "smoke": {"train_steps": 5, "benchmark_per_task": 8, "grpo_candidates": 40, "grpo_count": 8},
 }
 LABELS = {"start": "출발 모델", "sft": "SFT", "grpo": "GRPO"}
+# sft·grpo 칸에서 파이프라인이 쓰는 칸. 나머지는 ms-swift 옵션으로 yaml(config) 위에 덮어쓴다 (launch.py --options)
+OWN_KEYS = {"sft": {"config"}, "grpo": {"config", "select", "candidates", "count", "hard_fraction", "seed", "tasks", "max_images"}}
 
 
 def log(message):
@@ -178,12 +180,14 @@ class Runner:
     def image_token_budget(self):
         if self.dry and not (self.data / "DONE.json").exists():
             return image_tokens_for([2300, 1600], 32)
-        size = read_json(self.data / "DONE.json")["image_max_size"]
+        done = read_json(self.data / "DONE.json")
+        # 평가 그림(benchmark_image_max_size)과 GRPO 후보 그림(image_max_size) 어느 쪽도 서버가 다시 줄이지 않게
+        sizes = [done["image_max_size"], done.get("benchmark_image_max_size") or done["image_max_size"]]
         try:
-            return image_tokens(self.model, size)[0]
+            return max(image_tokens(self.model, s)[0] for s in sizes)
         except (OSError, ValueError) as exc:
             log(f"WARNING: {exc}; assuming 32x32 pixels per visual token")
-            return image_tokens_for(size, 32)
+            return max(image_tokens_for(s, 32) for s in sizes)
 
     def benchmark_tasks(self):
         tasks = self.data / "benchmark_tasks.jsonl"
@@ -330,11 +334,22 @@ class Runner:
             # GRPO 를 다시 돌려도(--from grpo) 앞의 점수를 남겨 보고서에 줄이 늘어난다
             shutil.copy2(report, report.with_name(f"grpo-{self.tag(self.state['grpo_checkpoint'])}.json"))
 
+    def swift_options(self, stage):
+        """yaml 위에 덮어쓸 ms-swift 옵션: sft·grpo 칸의 파이프라인 칸이 아닌 것 (예: learning_rate).
+        SFT 의 max_length 는 data.sft_max_length 를 적었으면 그 값 (섞기가 이 길이에 맞춰 문항을 거른다)."""
+        options = {k: v for k, v in self.cfg[stage].items() if k not in OWN_KEYS[stage]}
+        if stage == "sft" and "sft_max_length" in self.cfg["data"]:
+            options.setdefault("max_length", self.cfg["data"]["sft_max_length"])
+        return options
+
     def train(self, stage, extra):
         output = self.workdir / stage
         cmd = [sys.executable, "-m", "train.launch", stage, "--config", self.cfg[stage]["config"],
                "--gpus", ",".join(self.gpus), "--model", self.model, "--model-type", self.cfg["model_type"],
                "--data", str(self.data), "--output", str(output), "--execute"] + extra
+        options = self.swift_options(stage)
+        if options:
+            cmd += ["--options", json.dumps(options, ensure_ascii=False)]
         if self.smoke:
             cmd += ["--max-steps", str(self.cfg["smoke"]["train_steps"])]
         self.run(cmd, f"train-{stage}.log")
@@ -433,8 +448,15 @@ class Runner:
         if not self.dry:   # 한 화면 (실험 모아 보기와 같은 꼴, 이 workdir 의 모델만)
             from .summary import gather, write_own
 
-            if write_own(gather([str(self.workdir)]), reports / "summary.html"):
+            exps = gather([str(self.workdir)])
+            if write_own(exps, reports / "summary.html"):
                 log(f"한 화면: {reports / 'summary.html'}")
+            from .answers import write_own as write_answers
+
+            sw, rows, _ = exps[0]
+            if write_answers(rows, {r["label"]: (self.workdir, self.data) for r in rows}, reports / "answers.html",
+                             sw["name"], sw["runs"][0]["label"] if sw["runs"] else None):
+                log(f"문항별 답: {reports / 'answers.html'}")
 
 
 def main(argv=None):

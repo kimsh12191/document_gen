@@ -19,10 +19,10 @@
 | 작업 | 문서 |
 |---|---|
 | 데이터 생성 → 학습 → 평가 → 보고 (전체 절차) | [guide/agent-workflow.md](guide/agent-workflow.md) |
-| 학습 설정·실행·실험 묶음·에러 | [guide/training.md](guide/training.md), 설정 칸 [train/README.md](train/README.md) |
+| 학습 설정·실행·실험 묶음(설정을 바꾼 모델 여러 개)·에러 | [guide/training.md](guide/training.md), 설정 칸 [train/README.md](train/README.md) |
 | 평가 세트·채점 함수, 학습 없이 평가만, 다시 채점 | [guide/eval.md](guide/eval.md) |
 | 실서류 이미지 OCR 준비 | [guide/ocr.md](guide/ocr.md) |
-| 결과 보기·지표 해석, 여러 실험 한 화면 | [guide/results.md](guide/results.md) |
+| 결과 보기·지표 해석, 여러 실험 한 화면, 문항별 모델 답 | [guide/results.md](guide/results.md) |
 | 실험 기록 (가설·설계·결과) | [experiments/README.md](experiments/README.md) |
 | 서식 ID·추출 항목·연결 업무 | [guide/catalog.json](guide/catalog.json), `remote_build.py catalog` |
 | 과제별 질문·정답 형식 | [guide/questions.md](guide/questions.md), 실제 예시 [guide/tasks.md](guide/tasks.md) |

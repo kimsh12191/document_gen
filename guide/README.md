@@ -6,9 +6,9 @@
 |---|---|
 | 서식 보기·고치기, 합성 데이터 만들기, 내 서류 넣기, 채점 | [studio.md](studio.md) |
 | 내가 가진 이미지로 OCR 학습·평가 데이터 만들기 | [ocr.md](ocr.md) |
-| 데이터셋을 모아 학습하기, 실험 묶음 | [training.md](training.md) |
+| 데이터셋을 모아 학습하기, 설정을 바꾼 모델 여러 개를 한 번에(실험 묶음) | [training.md](training.md) |
 | 평가 세트 정하기, 채점 방식(채점 함수), 학습 없이 평가만, 다시 채점 | [eval.md](eval.md) |
-| 결과 보기·읽기, 여러 실험 한 화면 비교 | [results.md](results.md) |
+| 결과 보기·읽기, 여러 실험 한 화면 비교, 문항별 모델 답 | [results.md](results.md) |
 
 agent에게 일을 맡길 때는 저장소 최상위의 [AGENTS.md](../AGENTS.md)부터 읽게 하세요. 절차는 [agent-workflow.md](agent-workflow.md)입니다.
 
@@ -16,7 +16,7 @@ agent에게 일을 맡길 때는 저장소 최상위의 [AGENTS.md](../AGENTS.md
 
 ```text
 studio: 데이터셋 만들기 ─┐
-학습 서버: 내 이미지 OCR ─┼─▶ 학습 서버: python -m train ─▶ summary.html·benchmark.html ─▶ studio에서 문항별 답 보기
+학습 서버: 내 이미지 OCR ─┼─▶ 학습 서버: python -m train (또는 sweep) ─▶ summary.html·answers.html·benchmark.html
 실서류 swift .jsonl ──────┘   (평가 세트로)
 ```
 

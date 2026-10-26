@@ -7,7 +7,7 @@
 - 학습 실행·평가만 다시 한 workdir(reports/ 가 있는 곳)도 실험 하나로 받는다.
   줄은 compare_models · 출발 모델 · SFT · GRPO 순, 기준(괄호 %p)은 compare_models 가 있으면 그 첫 모델, 없으면 출발 모델.
 - 따로 치지 않아도 학습 실행은 <workdir>/reports/summary.html, 실험 묶음은 <root>/summary.html 을 만든다 (그 실험 안의 모델만).
-- 행은 평가 세트(id)·과제의 주 지표, 열은 실험별 모델. 괄호는 그 실험의 기준 모델(첫 모델) 대비 %p.
+- 행은 평가 세트(id)·과제의 주 지표, 열은 실험별 모델. 괄호는 그 실험의 기준 모델(묶음의 baseline, 기본 첫 모델) 대비 %p.
 - 실험마다 평가 문항이 다를 수 있다. 평가 세트마다 가장 많은 실험이 쓴 문항을 기준으로,
   문항이 다른 칸은 흐리게 † 를 붙인다 (그 칸은 다른 실험과 점수를 직접 비교하지 않는다).
   굵은 글씨는 기준 문항을 쓴 칸 중 가장 좋은 값.
@@ -85,7 +85,7 @@ def table(exps):
     for (ident, task), (name, metric, n) in sorted(keys.items(), key=lambda kv: order.index(kv[0][0])):   # 평가 세트끼리 붙여서
         cells = []
         for sw, reports, _ in exps:
-            base = next((r for r in reports if r["label"] == sw["runs"][0]["label"]), None)
+            base = next((r for r in reports if r["label"] == S.baseline(sw)), None)
 
             def get(r):
                 sc = _scopes(r).get(ident)
@@ -119,11 +119,11 @@ def render(exps, out):
     e = html.escape
     rows = table(exps)
     cols = [(sw, r["label"]) for sw, reports, _ in exps for r in reports]
-    parts = [f"<h1>실험 모아 보기</h1><p>실험 {len(exps)}개 · 모델 {len(cols)}개. 점수 %, 괄호는 각 실험의 기준 모델(첫 모델) 대비 %p "
+    parts = [f"<h1>실험 모아 보기</h1><p>실험 {len(exps)}개 · 모델 {len(cols)}개. 점수 %, 괄호는 각 실험의 기준 모델(baseline, 기본 첫 모델) 대비 %p "
              "(초록 = 좋아짐, 빨강 = 나빠짐, ↓ 는 낮을수록 좋음). 굵게 = 같은 평가 문항을 쓴 칸 중 가장 좋은 값, "
              "흐린 † = 평가 문항이 다른 실험 (다른 실험과 직접 비교하지 않음).</p>"]
     parts.append("<h2>실험</h2><div class='wrap'><table class='exp-list'><tr><th class='l'>실험</th><th class='l'>무엇을 보나</th>"
-                 "<th class='l'>모델</th><th class='l'>설명</th><th class='l'>학습 데이터</th></tr>")
+                 "<th class='l'>모델</th><th class='l'>설명</th><th class='l'>바꾼 설정</th><th class='l'>학습 데이터</th></tr>")
     for sw, reports, notes in exps:
         done = {r["label"].removesuffix(" GRPO") for r in reports}
         link = sw.get("_page") or sw["_root"] / "compare.html"
@@ -132,11 +132,13 @@ def render(exps, out):
                 + (f"<br>기록: {e(sw['record'])}" if sw.get("record") else "")
                 + "".join(f"<br><small>{e(n)}</small>" for n in notes))
         runs = sw["runs"]
+        own = None if "_reports" in sw else sw   # 묶음이면 from_sft 로 물려받은 칸까지
         for i, r in enumerate(runs):
             first = (f"<td class='l' rowspan='{len(runs)}'>{head}</td><td class='l' rowspan='{len(runs)}'>{e(sw['about'])}</td>"
                      if i == 0 else "")
             state = "" if r["label"] in done else " <small>(결과 없음)</small>"
-            parts.append(f"<tr>{first}<td class='l'>{e(r['label'])}{state}</td><td class='l'>{e(r['about'])}</td><td class='l'>{S.train(r)}</td></tr>")
+            parts.append(f"<tr>{first}<td class='l'>{e(r['label'])}{state}</td><td class='l'>{e(r['about'])}</td>"
+                         f"<td class='l'>{e(S.changes(r, own))}</td><td class='l'>{S.train(r, own)}</td></tr>")
     parts.append("</table></div>")
 
     parts.append("<h2>한눈에 보기</h2><div class='wrap'><table><tr><th class='l' rowspan='2'>과제</th><th class='l' rowspan='2'>지표</th>"
