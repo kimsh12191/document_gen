@@ -5,10 +5,17 @@
 | 파일 | 하는 일 |
 |---|---|
 | `swift_to_kie_tmp.py` | swift 추출 `.jsonl`의 질문·답을 kie 꼴(한국어 질문, `{키: 값}` 객체 답)로 바꾼 새 `.jsonl`을 만듦. 키는 질문의 `in order: [...]`에서 자동으로 뽑음 |
+| `swift_kie_scorer.py` | 위로 바꾼 파일을 평가 세트로 쓸 때 붙이는 채점 함수 예시. 질문의 `- 키: -` 줄에서 키 순서를 읽어, 모델이 값만 배열로 답해도 채점 |
 
 ```bash
 python temp/swift_to_kie_tmp.py <입력.jsonl> <출력.jsonl>
 ```
 
 - 원본은 고치지 않습니다. 바꿀 수 없는 줄은 건너뛰고 수를 알려 줍니다.
-- 바꾼 파일을 평가 세트로 쓸 때도 `"format": "swift-fields"`로 넣습니다. 답이 `{키: 값}` 객체여도 기본 채점 함수(`train/scorers/swift_default.py`)가 읽습니다 ([guide/eval.md](../guide/eval.md#1-평가-세트-정하기)).
+- 바꾼 파일을 평가 세트로 쓸 때는 `"format": "swift-fields"`에 `swift_kie_scorer.py`를 붙입니다. 예시는 [`train/configs/pipeline.example.json`](../train/configs/pipeline.example.json)의 `real_po_kie`입니다.
+
+  ```json
+  {"id": "real_po_kie", "format": "swift-fields", "paths": ["<바꾼 .jsonl>"], "scorer": "../../temp/swift_kie_scorer.py:score"}
+  ```
+
+  경로는 설정 파일 기준입니다 (`train/configs/`에서 저장소 최상위까지 `../../`). 채점 함수를 붙이지 않으면 `swift_default.py`로 채점합니다. 이 함수는 `{키: 값}` 답만 읽고, 값만 담은 배열 답은 형식 오류(0점)로 셉니다.

@@ -45,7 +45,7 @@
 {"id": "real-po", …, "format": "swift-fields", "paths": ["…/eval_qa_PO.jsonl"], "scorer": "scorers/po.py:score"}
 ```
 
-- 경로는 설정 파일 기준이고, `:함수`를 빼면 `score`입니다.
+- 경로는 설정 파일 기준이고, `:함수`를 빼면 `score`입니다. 설정 예시는 [`pipeline.example.json`](../train/configs/pipeline.example.json)의 `real_po_kie`(kie 꼴로 바꾼 swift 세트에 [`temp/swift_kie_scorer.py`](../temp/swift_kie_scorer.py)를 붙임)입니다.
 - 돌리기 전에 파일·함수가 있는지 보고, 섞을 때 정답을 답으로 넣어 그 함수로 만점인지 확인합니다. 함수가 정답을 못 읽는 swift 줄은 경고와 함께 건너뜁니다.
 - 평가에만 씁니다. 학습 데이터와 GRPO 보상은 그대로입니다.
 

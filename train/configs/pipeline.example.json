@@ -29,6 +29,15 @@
         "name": "실문서 OCR",
         "group": "real_ocr",
         "paths": ["../../data/prepared-v2"]
+      },
+      {
+        "id": "real_po_kie",
+        "name": "실서류 매입추심 (kie 꼴로 바꾼 swift)",
+        "group": "real",
+        "format": "swift-fields",
+        "gt": "reviewed",
+        "paths": ["/share/…/FE_eval/eval_qa_PO.kie.jsonl"],
+        "scorer": "../../temp/swift_kie_scorer.py:score"
       }
     ],
     "output_dir": "../data/mixed-exp1",

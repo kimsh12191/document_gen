@@ -11,7 +11,7 @@ swift 세트는 정답(assistant) 글이 그대로 item["answer"] 로 오고, �
   필드마다 대소문자·공백·문장부호를 빼고 같으면 맞음 (NO:ILHLR… = NO.ILHLR…). 빈 값("" 또는 null)은 빈 답이어야 맞음.
   f1 (주 지표) = 정밀도(쓴 값 중 맞은 것)·재현율(정답 값 중 맞힌 것)의 조화평균, field_acc 맞은 필드 비율,
   doc_exact 문항 전체 일치, field_exact 글자 하나까지 같은 필드 비율.
-다른 기준이 필요하면 이 파일을 복사해 고치고 그 세트에 "scorer": "<복사한 파일>:score" (guide/training.md 3.1절).
+다른 기준이 필요하면 이 파일을 복사해 고치고 그 세트에 "scorer": "<복사한 파일>:score" (guide/eval.md 2절).
 """
 import json
 import re
@@ -52,7 +52,11 @@ def score(item, output):
     gold = as_dict(parse_json(item["answer"]) if isinstance(item["answer"], str) else item["answer"], keys)
     if gold is None:
         raise ValueError("정답을 읽지 못했습니다 ('in order' 질문 + 배열, 또는 {키: 값} 객체가 아님). 이 세트에 맞는 scorer 를 붙이세요")
-    pred = as_dict(parse_json(output), keys)
+    return compare(gold, as_dict(parse_json(output), keys))
+
+
+def compare(gold, pred):
+    """{키: 값} 정답과 모델 답(못 읽었으면 None)의 필드별 점수. 다른 채점 함수가 가져다 쓴다 (temp/swift_kie_scorer.py)."""
     if pred is None:
         return {"metrics": {"f1": 0.0, "field_acc": 0.0, "doc_exact": 0.0, "field_exact": 0.0}, "main": "f1", "parse_fail": True}
     tp = fp = fn = 0
