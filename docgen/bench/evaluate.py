@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import difflib
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -168,6 +169,7 @@ def s_kie(item, out):
     pred = parse_json(out)
     order = item["eval"].get("order")
     if order is not None and isinstance(pred, list):   # 값만 순서대로 답하는 꼴 (train.swift_import): 개수가 다르면 못 읽은 것
+        pred = [x["value"] if isinstance(x, dict) and set(x) == {"value"} else x for x in pred]   # [{"value": …}] 로 감싼 답도 값으로
         pred = dict(zip(order, pred)) if len(pred) == len(order) else None
     fail = not isinstance(pred, dict)
     flat = _flatten(pred) if isinstance(pred, dict) else {}
@@ -470,13 +472,21 @@ def _score_ocr(task: str, items: list[dict], preds: dict[str, str]) -> dict:
             "main": main, "metrics": metrics, "slices": slices, "per_item": per}
 
 
+THINK = re.compile(r"^\s*<think>.*?</think>\s*", re.S)
+
+
+def answer_text(out):
+    """모델 출력에서 앞의 생각 블록(<think>…</think>, 비어 있어도)을 뗀 답. 생각을 끄고 학습한 모델도 빈 블록을 낸다."""
+    return THINK.sub("", out, count=1) if isinstance(out, str) else out
+
+
 def score_task(task: str, items: list[dict], preds: dict[str, str]) -> dict:
     if task in OCR_TASKS:
         return _score_ocr(task, items, preds)
     fn = SCORERS[task]
     rows, missing, fails = [], 0, 0
     for it in items:
-        out = preds.get(it["id"])
+        out = answer_text(preds.get(it["id"]))
         if it["id"] not in preds:
             missing += 1
         r = fn(it, out)
@@ -521,7 +531,7 @@ def reward(task: str, output: str | None, item: dict) -> float:
         return OM.reward(output or "", task, item["answer"])
     if output is None:
         return 0.0
-    result = SCORERS[task](item, output)
+    result = SCORERS[task](item, answer_text(output))
     if result.get("parse_fail"):
         return 0.0
     m = result["metrics"]

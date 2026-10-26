@@ -78,6 +78,8 @@ docker exec -u docgen docgen bash -lc 'cd ~/document_gen && python -m docgen.ben
 
 ### 문서 이해
 
+- **모든 과제 공통:** 답 앞의 생각 블록(`<think>…</think>`, 비어 있어도)은 떼고 채점합니다 (2026-10-26 전에는 `classify`·`ocr_field`가 이 블록 때문에 맞은 답도 틀림 → `python -m train rescore`로 다시 채점, [eval.md 5절](eval.md#5-채점-규칙이-바뀌었을-때-다시-채점)).
+
 - **`classify`:** 서류명을 자유롭게 답하게 하고, 공백·문장부호를 뺀 뒤 정식 명칭과 같으면 맞습니다.
   - `acc_lenient`는 답 안에 정식 명칭이 들어 있으면 맞은 것으로 셉니다.
 - **`kie`:** 항목 키와 항목명을 질문에 같이 줍니다. 그래서 학습하지 않은 모델도 같은 조건으로 잴 수 있습니다.
