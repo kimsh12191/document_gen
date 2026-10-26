@@ -65,7 +65,7 @@ cp train/configs/pipeline.example.json train/configs/pipeline.json
 ```
 
 - **OCR 폴더는 학습·평가 양쪽에 적습니다.** 학습 쪽은 학습 문항만, 평가 쪽은 떼어 둔 평가 문항만 가져갑니다.
-- **실서류 swift `.jsonl`은 평가에 파일 경로를 그대로 적고 `"format": "swift-fields"`를 붙입니다.** 질문에 `in order: ["필드", …]`가 있고 답이 같은 순서의 문자열 배열인 꼴(`["값", …]`)입니다. 질문은 그대로 묻고, 필드마다 맞았는지로 채점합니다(정보 추출 `kie`: `field_acc`·`f1`, 글자 하나까지 같은 비율 `field_exact`). 값은 대소문자·공백·문장부호를 빼고 비교하고(`NO:ILHLR…` = `NO.ILHLR…`), 답 배열의 개수가 필드 수와 다르면 그 문항은 못 읽은 것(전부 틀림)입니다. `[{"value": …}]`로 감싼 답도 값으로 읽습니다. 읽지 못한 줄은 `WARNING`과 함께 건너뜁니다. `"gt"`에는 정답 출처(`reviewed` 사람 검수 · `pseudo` 사내 OCR·추론 그대로)를 적습니다. 형식을 적지 않은 `.jsonl`은 받지 않습니다:
+- **실서류 swift `.jsonl`은 평가에 파일 경로를 그대로 적고 `"format": "swift-fields"`를 붙입니다.** 질문에 `in order: ["필드", …]`가 있고 답이 같은 순서의 문자열 배열인 꼴(`["값", …]`)입니다. 질문은 그대로 묻고, 필드마다 맞았는지로 채점합니다(정보 추출 `kie`: `field_acc`·`f1`, 글자 하나까지 같은 비율 `field_exact`). 값은 대소문자·공백·문장부호를 빼고 비교하고(`NO:ILHLR…` = `NO.ILHLR…`), 답 배열의 개수가 필드 수와 다르면 그 문항은 못 읽은 것(전부 틀림)입니다. `[{"value": …}]`로 감싼 답도 값으로 읽습니다. 합성 정보 추출(kie)과 같은 질문·답 꼴로 바꿔 평가·학습하려면 `python -m train.swift_to_kie <swift.jsonl> --out <새 과제 폴더>`로 과제 폴더를 만들어 `format` 없이 넣습니다 (값만 묻는 kie, [questions.md](questions.md#kie--정보-추출)). 읽지 못한 줄은 `WARNING`과 함께 건너뜁니다. `"gt"`에는 정답 출처(`reviewed` 사람 검수 · `pseudo` 사내 OCR·추론 그대로)를 적습니다. 형식을 적지 않은 `.jsonl`은 받지 않습니다:
   ```jsonc
   "benchmark": [
     {"id": "syn", "name": "합성", "group": "synthetic", "paths": ["<studio 평가용 데이터셋>"]},
