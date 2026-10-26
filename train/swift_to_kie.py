@@ -5,8 +5,8 @@
 - 들어오는 것: train/swift_import.py 와 같은 꼴. 질문에 'in order: ["필드", …]', 답은 같은 순서의 문자열 배열.
 - 나가는 것: <out>/meta.json + <out>/tasks/kie.jsonl (studio 데이터셋과 같은 과제 폴더). data.benchmark(평가)나
   data.train(학습)에 폴더 경로로 넣는다 (format 은 적지 않음).
-- 질문은 합성 kie 와 같은 꼴의 '값만 묻는 kie' (docgen.bench.prompts.P_KIE_VALUE), 답은 [{"key", "value"}, …].
-  위치 정답이 없어 bbox_2d·page 는 없고, 채점은 값 점수(f1)만 (guide/questions.md 'kie').
+- 질문은 합성 kie 와 같은 꼴에서 위치만 뺀 것 (아래 P_KIE_VALUE), 답은 [{"key", "value"}, …].
+  위치 정답이 없어 bbox_2d·page 는 없고, 채점은 값 점수(f1)만 (위치 정답 없는 문항은 evaluate 가 위치 점수를 내지 않음).
 - 빈 값("")은 null (합성 kie 와 같음). 같은 필드가 두 번 나오면 두 번째부터 '필드#2'.
 - --labels: {"필드": "항목명"} JSON. 주면 항목 줄이 '- NEGO_CLCT: 매입추심구분' 처럼, 없으면 '- NEGO_CLCT: -'.
 - 그림은 원래 절대 경로를 그대로 쓴다 (복사하지 않음). 읽을 수 없는 줄은 건너뛰고 수를 알려 준다.
@@ -17,9 +17,13 @@ import json
 from pathlib import Path
 
 from docgen.bench.ocr_data import read_jsonl, write_json, write_jsonl
-from docgen.bench.prompts import P_KIE_VALUE
 
 from .swift_import import item_of
+
+# 합성 kie 질문(docgen.bench.prompts.P_KIE)과 같은 목록 꼴에서 위치만 뺀 것
+P_KIE_VALUE = ("이 문서에서 아래 항목의 값을 찾아 JSON 목록으로 답하세요. 항목마다 "
+               '{{"key": 키, "value": 문서에 적힌 값 그대로}} 를 쓰세요. 값이 여러 개면 줄바꿈으로 이어 한 문자열로 쓰세요. '
+               '키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {{"key": 키, "value": null}} 로 답하세요.\n항목 (키: 서식의 항목명)\n{items}')
 
 
 def convert(rec, source, line, base, labels, split):
