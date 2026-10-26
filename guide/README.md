@@ -6,10 +6,9 @@
 |---|---|
 | 서식 보기·고치기, 합성 데이터 만들기, 내 서류 넣기, 채점 | [studio.md](studio.md) |
 | 내가 가진 이미지로 OCR 학습·평가 데이터 만들기 | [ocr.md](ocr.md) |
-| 데이터셋을 모아 학습하기 | [training.md](training.md) |
-| 학습 없이 평가만 다시 하기 (새 평가 세트) | [eval.md](eval.md) |
-| 결과 점수표 읽기 | [results.md](results.md) |
-| 평가 세트마다 채점 방식 바꾸기 (채점 함수), 채점을 고친 뒤 다시 채점 | [training.md 3.1절](training.md#31-평가-세트별-채점-함수-scorer), [eval.md 5절](eval.md#5-채점-규칙이-바뀌었을-때-다시-채점) |
+| 데이터셋을 모아 학습하기, 실험 묶음 | [training.md](training.md) |
+| 평가 세트 정하기, 채점 방식(채점 함수), 학습 없이 평가만, 다시 채점 | [eval.md](eval.md) |
+| 결과 보기·읽기, 여러 실험 한 화면 비교 | [results.md](results.md) |
 
 agent에게 일을 맡길 때는 저장소 최상위의 [AGENTS.md](../AGENTS.md)부터 읽게 하세요. 절차는 [agent-workflow.md](agent-workflow.md)입니다.
 
@@ -17,8 +16,8 @@ agent에게 일을 맡길 때는 저장소 최상위의 [AGENTS.md](../AGENTS.md
 
 ```text
 studio: 데이터셋 만들기 ─┐
-                         ├─▶ 학습 서버: python -m train ─▶ 점수표 ─▶ studio에서 문항별 답 보기
-학습 서버: 내 이미지 OCR ─┘
+학습 서버: 내 이미지 OCR ─┼─▶ 학습 서버: python -m train ─▶ summary.html·benchmark.html ─▶ studio에서 문항별 답 보기
+실서류 swift .jsonl ──────┘   (평가 세트로)
 ```
 
 ## 찾아보는 자료
@@ -28,8 +27,8 @@ studio: 데이터셋 만들기 ─┐
 | 서류별 추출 항목·연결 업무 | [catalog.md](catalog.md) (기계용 [catalog.json](catalog.json)) |
 | 모델에게 묻는 질문 문장과 답 형식 | [questions.md](questions.md) |
 | 모든 과제의 실제 데이터 예시 | [tasks.md](tasks.md) |
-| 업무 과제·대조 사례·채점 규칙 | [benchmark.md](benchmark.md) |
-| 업무·시나리오별 구성과 점수 추적 | [benchmark-tracking.md](benchmark-tracking.md) |
+| 과제별 채점 규칙, 업무 과제·대조 사례 | [benchmark.md](benchmark.md) |
+| 시나리오·서식별 구성과 점수 | [benchmark-tracking.md](benchmark-tracking.md) |
 | 서류 이름, 업무별 필수 서류 | [documents.md](documents.md) |
 | 서류별 항목 키·타입 | [fields/](fields/README.md) |
 | 프로젝트 소개 (팀 공유용) | [overview.md](overview.md), 발표 자료 [slides/](slides/README.md) |

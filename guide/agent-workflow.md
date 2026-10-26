@@ -34,7 +34,7 @@ ls <paths 의 서버 경로>                       # 학습 서버에서 데이�
 | studio 연결 | 생성 불가. `sh docker/studio.sh --open`이 필요하다고 보고 |
 | 학습 서버에서 데이터셋 경로가 보임 | 학습 불가. 경로가 다르면 studio `config.json`의 `path_map` |
 | GPU·학습 환경 | 학습 불가. studio에 접속된다고 학습할 수 있는 것이 아님 |
-| 사내 OCR (`INTERNAL_OCR_BASE_URL`), VLM | 실서류 OCR 준비·실문서 추론 불가 |
+| 사내 OCR (`INTERNAL_OCR_BASE_URL`) | 실서류 OCR 준비 불가 |
 
 **완료 조건:** 요청에 필요한 서비스·경로에 모두 접근됨. 안 되는 것은 보고함.
 
@@ -134,14 +134,14 @@ python docker/remote_build.py composition <이름> --out composition.json       
 
 ## 5. 학습 준비
 
-**[train]** 설정 파일 하나를 만듭니다 (자세히: [training.md](training.md) 3절).
+**[train]** 설정 파일 하나를 만듭니다 (자세히: [training.md 2절](training.md#2-설정-파일), 평가 세트는 [eval.md 1절](eval.md#1-평가-세트-정하기)).
 
 ```bash
 cp train/configs/pipeline.example.json train/configs/<실험>.json
 ```
 
 - `workdir`, `data.output_dir`은 **새 이름** (이미 있으면 그 결과를 재사용하므로, 재사용이 목적일 때만 같은 이름).
-- `data.train`: 학습용 데이터셋들 (OCR은 `count`), `data.benchmark`: 평가 세트들. 평가 세트를 `train`에 넣지 않음.
+- `data.train`: 학습용 데이터셋들 (OCR은 `count`), `data.benchmark`: 평가 세트들 (`id`로 나눔). 평가 세트를 `train`에 넣지 않음.
 - 실서류 OCR을 함께 쓰면 [ocr.md](ocr.md)로 먼저 준비하고 그 폴더를 양쪽에 적음. `ocr_prepare` 줄은 지움.
 - `model`, `gpus`를 1절에서 확인한 값으로.
 
@@ -163,31 +163,26 @@ python -m train --config train/configs/<실험>.json --smoke
 | 끝난 SFT에서 GRPO | `--part grpo` (SFT 체크포인트가 없으면 멈춤) |
 | 다른 실험의 SFT에서 GRPO | `--part grpo --sft-checkpoint <폴더>` |
 | GRPO 설정을 바꿔 다시 | `--from grpo` |
-| 평가만 (학습 없이) | `--only prepare`, `--only eval_base`, `--only report`. 섞기에 학습 문항이 필요하므로 `data.train`에 학습 데이터셋 하나는 둠 |
-| 학습한 모델을 새 평가 세트로 다시 채점 | 새 `workdir`에 `eval.compare_models` ([eval.md](eval.md)) |
-| 학습 데이터만 바꾼 모델 여러 개 | `python -m train sweep --config <묶음.json>` ([training.md 4.1절](training.md#41-학습-데이터만-바꾼-모델-여러-개-실험-묶음)). 끝나면 `<root>/compare.html` |
+| 학습 없이 평가만 (학습한 모델, 새 평가 세트) | 새 `workdir`에 `eval.compare_models` + `--only prepare` → `--only eval_base` → `--only report` ([eval.md 3절](eval.md#3-학습-없이-평가만-하기)) |
+| 학습 데이터만 바꾼 모델 여러 개 | `python -m train sweep --config <묶음.json>` ([training.md 4절](training.md#4-학습-데이터만-바꾼-모델-여러-개-실험-묶음)) |
 
 - 진행: `<workdir>/state.json`의 `done`(끝난 단계), `timings`(시간). 로그는 `<workdir>/logs/<단계>.log`.
 - 멈췄으면 **같은 명령을 다시** 실행합니다 (끝난 단계는 건너뜀). 다시 실행해도 같은 단계에서 같은 에러면 멈추고 보고.
 - 결과가 아쉬워도 요청에 없는 GRPO, 추가 학습, 데이터 재생성을 시작하지 않습니다. 제안으로 보고합니다.
 
-**완료 조건:** 요청한 단계가 `state.json`의 `done`에 있고 `<workdir>/reports/benchmark.html`이 생김.
+**완료 조건:** 요청한 단계가 `state.json`의 `done`에 있고 `<workdir>/reports/summary.html`·`benchmark.html`이 생김.
 
 ## 7. 결과 분석·보고
 
-**[train]** 읽는 법은 [results.md](results.md).
+**[train]** 먼저 `<workdir>/reports/summary.html`(실험 묶음은 `<root>/summary.html`)을 봅니다. 읽는 법은 [results.md](results.md).
 
 1. 답 형식 오류율: SFT 뒤 거의 0%인지.
 2. 과제별 주 지표의 출발 → SFT (→ GRPO) 변화.
 3. 기준선(찍어도 나오는 점수)과 비교, 문항 수에 따른 오차 범위.
 4. OCR 열이 출발 모델보다 크게 떨어졌는지.
 5. 대표 오답 몇 개: `reports/*.json`과 **[사람]** studio ⑥ › 모델 답에 `<workdir>`를 붙여 확인 요청.
-6. 다른 실험과 비교해야 하면 모아 보기를 만듭니다. 이미 끝난 보고서만 읽으므로 요청 범위 안에서 해도 됩니다.
-   ```bash
-   python -m train summary <묶음 결과 폴더|묶음 파일|평가만 한 workdir> ... --out <새 이름>.html
-   ```
-   `†`가 붙은 칸은 평가 문항이 다른 것이라 다른 실험과 비교하지 않습니다 ([training.md 4.1절](training.md#실험-여러-개를-한-화면에-모아-보기), [eval.md 4절](eval.md#4-다른-실험과-한-화면에-모아-보기)).
-7. 채점이 의심스러우면(맞는 답이 틀림으로) 대표 오답으로 확인한 뒤 보고합니다. 채점 코드나 평가 세트의 채점 함수(`scorer`)가 바뀌었으면 `python -m train rescore <workdir>`로 다시 채점합니다 (추론·GPU 없음, 예전 보고서는 남음, [eval.md 5절](eval.md#5-채점-규칙이-바뀌었을-때-다시-채점)). 채점 함수를 새로 만들거나 바꾸는 것은 요청받았을 때만 하고, 보고에 어느 세트를 어떤 함수로 채점했는지 적습니다.
+6. 다른 실험과 비교해야 하면 `python -m train summary <결과 폴더> ... --out <새 이름>.html`로 한 화면을 만듭니다 ([results.md](results.md#여러-실험을-한-화면에)). 끝난 보고서만 읽으므로 요청 범위 안에서 해도 됩니다. `†` 칸은 평가 문항이 달라 비교하지 않습니다.
+7. 맞는 답이 틀림으로 채점된 것 같으면 대표 오답으로 확인해 보고합니다. 채점 함수(`scorer`)를 만들거나 바꾸는 것은 요청받았을 때만 하고, 바꿨으면 `python -m train rescore <workdir>`로 다시 채점합니다 ([eval.md 2·4절](eval.md#2-채점)).
 
 **보고에 넣을 것:**
 
@@ -198,7 +193,7 @@ python -m train --config train/configs/<실험>.json --smoke
 | 설정 | 설정 파일 경로, 모델, GPU, `data.output_dir`, 바꾼 칸, 평가 세트별 채점 함수(`scorer`, 없으면 기본) |
 | 결과 | 과제별 주 지표 표 (출발/SFT/GRPO), 형식 오류율, 오차 범위 안의 차이는 "차이 없음" |
 | 확인 안 된 것 | 사람 검수를 받지 못한 것, 건너뛴 단계 |
-| 경로 | `<workdir>/reports/benchmark.html`·`summary.html` (묶음은 `<root>/compare.html`·`summary.html`, 여러 실험 모아 보기를 만들었으면 그 html), 로그 폴더, 모델 `<workdir>/merged/…` |
+| 경로 | `<workdir>/reports/summary.html`·`benchmark.html` (묶음은 `<root>/summary.html`·`compare.html`), 로그 폴더, 모델 `<workdir>/merged/…` |
 | 다음 제안 | 실행하지 않은 추가 실험 |
 
 ## 8. 설정으로 안 되는 것
@@ -207,4 +202,4 @@ python -m train --config train/configs/<실험>.json --smoke
 - **새 심사 질문·대조 규칙:** 생성·채점 코드 추가가 필요.
 - **특정 값·사건의 정확한 개수:** 레시피는 비율만 정함. 생성 후 골라내거나 코드 확장.
 - **다른 학습 포맷:** 생성 후 변환. 이미지 경로와 좌표 의미를 보존.
-- **실제 고객 데이터 성능:** 합성 데이터 점수는 실서류보다 높게 나옴. 실서류 평가 세트는 검수한 파일을 `data.benchmark`에 넣어 평가 ([eval.md](eval.md)).
+- **실제 고객 데이터 성능:** 합성 데이터 점수는 실서류보다 높게 나옴. 검수한 실서류 파일을 평가 세트로 넣어 따로 봄 ([eval.md 1절](eval.md#1-평가-세트-정하기)).

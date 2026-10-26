@@ -36,7 +36,7 @@ ssh -N -L 8765:localhost:8765 <계정>@<서버IP>
 - **용도**를 꼭 확인합니다: 평가 세트(`test`/`benchmark`) 또는 학습(`train`). 학습과 평가는 서로 다른 고객으로 만들어집니다.
 - 서식·업무·수량·촬영 조건·대조 사례는 레시피에서 고칩니다. 칸의 뜻은 [agent-workflow.md 3절](agent-workflow.md#3-레시피-정하기)에 표로 있습니다.
 - 처음에는 작게 만들어 ⑥ › 문항에서 그림과 정답을 본 뒤 크게 만듭니다.
-- `bank-*` 레시피는 **기타 칸 정리**(`freetext`) 문항도 같이 만듭니다. 원본·가져온 서식의 비고·기타·사유·용도 칸 일부에 `3천 정도 1년, 담달 말까지 서류 낼게요`처럼 **일부러 대충 쓴 글**이 들어가고, 그 글을 DB 칸으로 정리한 것이 정답입니다 (이상한 값이 아닙니다). 따로 켜고 끄는 칸은 없고, 학습에 쓸지는 학습 설정 `task_mix`로 정합니다. 하나은행 서식을 모두 빼면 이 문항은 거의 생기지 않습니다 (해당 칸이 대부분 하나은행 서식에 있음). 질문·채점: [questions.md](questions.md#freetext--기타-칸-정리), [benchmark.md](benchmark.md)
+- `bank-*` 레시피는 **기타 칸 정리**(`freetext`) 문항도 만듭니다. 비고·기타·사유·용도 칸 일부에 `3천 정도 1년, 담달 말까지 서류 낼게요`처럼 **일부러 대충 쓴 글**이 들어갑니다 (이상한 값이 아님). 이 칸은 대부분 하나은행 서식에 있어서, 하나은행 서식을 빼면 거의 생기지 않습니다. 질문·채점은 [questions.md](questions.md#freetext--기타-칸-정리).
 - 명령줄로 만들기: 다른 컨테이너에서 `docker/remote_build.py` ([agent-workflow.md](agent-workflow.md)), 컨테이너 안에서 `bash docgen/scripts/make_bank_data.sh` (평가 세트 + 학습 데이터 통째, 약 1시간 15분).
 
 ## 3. 내 서류 넣기
@@ -50,14 +50,14 @@ ssh -N -L 8765:localhost:8765 <계정>@<서버IP>
 
 파일 배치·설정 예시는 [DATA_IMPORT.md](../studio/DATA_IMPORT.md)에 있습니다.
 
-실서류 평가 세트는 스튜디오 밖에서 검수한 파일을 학습 설정 `data.benchmark`에 바로 넣습니다 ([eval.md](eval.md)). 예전의 **실문서 벤치마크**·**서식 초안** 메뉴는 쓰지 않아 숨겼습니다 (기록: [studio/README.md](../studio/README.md)).
+검수한 실서류 추출 데이터(swift `.jsonl`)는 studio를 거치지 않고 학습 설정의 평가 세트에 바로 넣습니다 ([eval.md 1절](eval.md#1-평가-세트-정하기)).
 
 ## 4. 보기·채점·비교
 
 | 하고 싶은 것 | 메뉴 |
 |---|---|
 | 문항의 그림·질문·정답 박스 보기 | ⑥ 데이터셋 › 데이터셋 › 문항 |
-| 모델 답 붙여 채점 | ⑥ › 모델 답 (`train/runs/<실험>/` 또는 답 파일) |
+| 모델 답 붙여 채점 | ⑥ › 모델 답 (학습 `workdir` 또는 답 파일) |
 | 여러 모델·데이터셋 점수 한 표 | ⑦ 평가 |
 | 구성(업무·시나리오·정답 구조별 수량) | ⑥ › 구성·추적 ([benchmark-tracking.md](benchmark-tracking.md)) |
 | 학습 설정 만들기 | ⑥ › 학습 탭 → `train/configs/studio-<이름>.json` ([training.md](training.md)) |
@@ -65,7 +65,7 @@ ssh -N -L 8765:localhost:8765 <계정>@<서버IP>
 | 서식별 추출 항목·연결 업무 | ① 서식 › 추출·시나리오, 사용 가이드 › 카탈로그 ([catalog.md](catalog.md)) |
 | 실제로 나오는 질문·정답 | ① 서식 › 문항 Q/A ([questions.md](questions.md)) |
 
-채점은 학습 보상과 같은 함수(`docgen.bench.evaluate`)라 명령줄 점수와 같습니다.
+채점은 학습 보고서와 같은 함수(`docgen.bench.evaluate`)라 점수가 같습니다. 평가 세트에 채점 함수(`scorer`)를 붙인 경우는 학습 보고서 쪽 점수를 봅니다.
 
 ## 5. 서식 고치기·만들기
 
