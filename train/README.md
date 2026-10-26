@@ -29,7 +29,7 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 | 칸 | 뜻 |
 |---|---|
 | `train` | 학습 데이터셋 목록. 경로 또는 `{"path", "count"}` (그 데이터셋에서 SFT 문항을 count 개만 무작위로). 문항 `meta.split` 이 train 이면 학습, val 이면 검증 (`docgen.bench build --split train` 폴더는 표시 없는 문항도 학습) |
-| `benchmark` | 평가 데이터셋 목록. 문항 `meta.split` 이 train·val 이 아닌 것. OCR 준비 폴더 하나를 학습·평가 둘 다에 넣어도 된다 (문서 단위로 나뉘어 있음) |
+| `benchmark` | 평가 데이터셋 목록. 문항 `meta.split` 이 train·val 이 아닌 것. OCR 준비 폴더 하나를 학습·평가 둘 다에 넣어도 된다 (문서 단위로 나뉘어 있음). `{"id", "name", "group", "paths", "format"?, "gt"?, "scorer"?}` 로 세트를 나누면 세트별 점수 (실서류 swift `.jsonl` 은 `"format": "swift-fields"`, 채점 함수는 아래 '채점') |
 | `output_dir` | 섞은 폴더 (`DONE.json` 이 있으면 다시 섞지 않음) |
 | `task_mix` | `{과제: 비율}`. 적힌 과제는 `sft_max_examples` 안에서 그 비율, 0 이면 뺌, **적히지 않은 과제는 있는 만큼 다** (OCR 은 보통 `count` 로만 줄인다) |
 | `grpo_holdout` | 학습 문항 중 이 비율의 고객(업무 묶음)·문서는 SFT 에 넣지 않고 GRPO 후보로 (기본 0.2) |
@@ -73,6 +73,15 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 학습 데이터만 바꾼 모델 여러 개를 차례로 돌리고 `<root>/compare.{md,html,csv}` 한 표로. 묶음 파일 꼴은 `train/configs/sweep.example.json`, 설명서 [guide/training.md 4.1절](../guide/training.md#41-학습-데이터만-바꾼-모델-여러-개-실험-묶음), 코드 `train/sweep.py`.
 
 여러 실험을 html 하나로: `python -m train summary <결과 폴더|묶음 파일> ... --out runs/summary.html` (코드 `train/summary.py`).
+
+## 채점
+
+| 하고 싶은 것 | 방법 |
+|---|---|
+| 평가 세트 하나만 다르게 채점 | `data.benchmark` 의 그 세트에 `"scorer": "<파일.py>:<함수>"` (설정 파일 기준). 견본 `train/scorers/kie_default.py` (studio 기본 kie 값 점수와 같은 계산, `FIELD_TYPES` 로 항목별 비교 기준). 평가에만 쓰고 GRPO 보상은 그대로. 설명 [guide/training.md 3절](../guide/training.md#3-설정-파일) |
+| 채점 규칙·채점 함수를 고친 뒤 다시 채점 | `python -m train rescore <workdir 또는 묶음 결과 폴더>` — 저장된 답(`predictions/*.jsonl`)으로, 추론·GPU 없이. 예전 보고서는 `reports/before-rescore-<시각>/` (코드 `train/rescore.py`, [guide/eval.md 5절](../guide/eval.md#5-채점-규칙이-바뀌었을-때-다시-채점)) |
+
+채점 함수는 모두 `docgen.bench.evaluate` 하나입니다 (보고서·studio·GRPO 보상). 답 앞의 생각 블록(`<think>…</think>`)은 떼고 채점합니다.
 
 ## 하나씩 돌리기 (`python -m train.cli`)
 

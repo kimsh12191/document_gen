@@ -187,6 +187,7 @@ python -m train --config train/configs/<실험>.json --smoke
    python -m train summary <묶음 결과 폴더|묶음 파일|평가만 한 workdir> ... --out <새 이름>.html
    ```
    `†`가 붙은 칸은 평가 문항이 다른 것이라 다른 실험과 비교하지 않습니다 ([training.md 4.1절](training.md#실험-여러-개를-한-화면에-모아-보기), [eval.md 4절](eval.md#4-다른-실험과-한-화면에-모아-보기)).
+7. 채점이 의심스러우면(맞는 답이 틀림으로) 대표 오답으로 확인한 뒤 보고합니다. 채점 코드나 평가 세트의 채점 함수(`scorer`)가 바뀌었으면 `python -m train rescore <workdir>`로 다시 채점합니다 (추론·GPU 없음, 예전 보고서는 남음, [eval.md 5절](eval.md#5-채점-규칙이-바뀌었을-때-다시-채점)). 채점 함수를 새로 만들거나 바꾸는 것은 요청받았을 때만 하고, 보고에 어느 세트를 어떤 함수로 채점했는지 적습니다.
 
 **보고에 넣을 것:**
 
@@ -194,7 +195,7 @@ python -m train --config train/configs/<실험>.json --smoke
 |---|---|
 | 요청 범위와 실제 실행한 단계 | SFT까지, `state.json` done |
 | 데이터 | 데이터셋 이름·경로, 레시피, 생성기 커밋·버전(`dataset.json`), 과제별 문항 수 |
-| 설정 | 설정 파일 경로, 모델, GPU, `data.output_dir`, 바꾼 칸 |
+| 설정 | 설정 파일 경로, 모델, GPU, `data.output_dir`, 바꾼 칸, 평가 세트별 채점 함수(`scorer`, 없으면 기본) |
 | 결과 | 과제별 주 지표 표 (출발/SFT/GRPO), 형식 오류율, 오차 범위 안의 차이는 "차이 없음" |
 | 확인 안 된 것 | 사람 검수를 받지 못한 것, 건너뛴 단계 |
 | 경로 | `<workdir>/reports/benchmark.html` (묶음은 `<root>/compare.html`, 모아 보기를 만들었으면 그 html), 로그 폴더, 모델 `<workdir>/merged/…` |
