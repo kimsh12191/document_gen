@@ -56,6 +56,18 @@ python -m train --config train/configs/E01-reeval-v2.json --only report      # �
 결과는 `../runs/E01-reeval-v2/reports/benchmark.md`·`.html`입니다. 줄은 출발 모델과 `compare_models`, 열은 평가 세트별입니다. 읽는 법은 [results.md](results.md).
 모델마다 평가 서버를 띄웠다 내리므로 모델 하나에 평가 한 번 분량의 시간이 듭니다. 끊기면 같은 명령을 다시 실행하면 답을 낸 데까지 이어서 합니다.
 
+## 4. 다른 실험과 한 화면에 (모아 보기)
+
+이 `workdir`도 `python -m train summary`에 실험 하나로 넣을 수 있습니다 ([training.md 4.1절](training.md#실험-여러-개를-한-화면에-모아-보기)).
+
+```bash
+python -m train summary ../runs/E01-realocr ../runs/E01-reeval-v2 --out ../runs/summary.html
+```
+
+- 줄 순서는 `compare_models` → 출발 모델 → (있으면) SFT·GRPO입니다. 괄호 %p의 기준은 **`compare_models`의 첫 모델**이니, 기준으로 볼 모델을 맨 앞에 적으세요.
+- 다시 평가한 결과는 예전 실험과 문항이 다를 수 있습니다 (새 세트를 더했거나 섞기를 새로 함). 평가 세트마다 문항이 다수와 다른 칸은 흐리게 `†`로 표시되고, 그 칸끼리는 비교하지 않습니다. 같은 id의 세트라도 `†`가 붙으면 예전 점수와 섞어 읽지 마세요.
+- 이 `workdir`의 자세한 표 링크는 `reports/benchmark.html`입니다 (3절의 `--only report`를 먼저 돌려야 생깁니다).
+
 ## 알아 둘 점
 
 - **모든 문항을 처음부터 다시 추론합니다.** 새 세트만 더했어도 기존 세트까지 다시 답합니다.

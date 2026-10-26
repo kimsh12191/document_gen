@@ -210,3 +210,21 @@ def test_summary_across_experiments(sweep_file, tmp_path):
 
     out = M.render(exps, tmp_path / "summary.html").read_text(encoding="utf-8")
     assert "E09-test" in out and "compare.html" in out and "한눈에 보기" in out and "a3-more" in out
+
+
+def test_summary_reads_eval_only_workdir(tmp_path):
+    """평가만 다시 한 workdir (guide/eval.md): compare_models 가 먼저, 기준은 출발 모델이 아닌 첫 줄."""
+    from train import summary as M
+
+    wd = tmp_path / "E01-reeval"
+    for name, label, role, n in (("cmp-compare0", "a1-syn SFT", "other", 4), ("cmp-compare1", "a2 SFT", "other", 8),
+                                 ("start", "출발 모델", "start", 2)):
+        write_json(wd / "reports" / f"{name}.json", {"label": label, "role": role, "model": f"/m/{name}",
+                                                       **score(ITEMS, {it["id"]: oracle_output(it) if i < n else "x" for i, it in enumerate(ITEMS)})})
+    ((sw, reports, _),) = M.gather([wd])
+    assert [r["label"] for r in reports] == ["a1-syn SFT", "a2 SFT", "출발 모델"] and sw["runs"][0]["label"] == "a1-syn SFT"
+    cells = M.table([(sw, reports, [])])[0][6]
+    assert cells[0][1] is None and cells[1][1] is not None and cells[2][1] is None
+    assert "reports/benchmark.html" not in M.render([(sw, reports, [])], tmp_path / "s.html").read_text(encoding="utf-8")   # 표가 아직 없으면 링크 없음
+    with pytest.raises(SystemExit):
+        M.load(tmp_path)

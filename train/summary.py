@@ -4,11 +4,13 @@
 
 - 인자는 묶음 파일(train/configs/E01-….json) 이나 그 결과 폴더(<root>, sweep.config.json 이 있는 곳). 섞어도 된다.
   결과 폴더만 주면 start_from 으로 가져온 출발 모델은 표에 없다 (묶음 파일로 주면 있다).
+- 평가만 다시 한 workdir(guide/eval.md, reports/ 가 있는 곳)도 실험 하나로 받는다.
+  줄은 compare_models · 출발 모델 · SFT · GRPO 순, 기준(괄호 %p)은 출발 모델이 아닌 첫 줄.
 - 행은 평가 세트(id)·과제의 주 지표, 열은 실험별 모델. 괄호는 그 실험의 기준 모델(첫 모델) 대비 %p.
 - 실험마다 평가 문항이 다를 수 있다. 평가 세트마다 가장 많은 실험이 쓴 문항을 기준으로,
   문항이 다른 칸은 흐리게 † 를 붙인다 (그 칸은 다른 실험과 점수를 직접 비교하지 않는다).
   굵은 글씨는 기준 문항을 쓴 칸 중 가장 좋은 값.
-- 실험마다 자세한 표는 각 <root>/compare.html (링크).
+- 실험마다 자세한 표는 각 <root>/compare.html, 평가만 한 workdir 는 reports/benchmark.html (링크).
 - 학습·평가는 하지 않고 이미 끝난 보고서만 읽는다.
 """
 import argparse
@@ -22,12 +24,28 @@ from docgen.bench.ocr_data import read_json
 from . import sweep as S
 
 
+def workdir(path):
+    """평가만 다시 한(또는 하나만 돌린) 파이프라인 workdir → 묶음 설정 꼴과 보고서 (pipeline 의 report 단계와 같은 순서)."""
+    rep = path / "reports"
+    cfg = read_json(path / "config.json") if (path / "config.json").is_file() else {}
+    picks = (sorted(rep.glob("cmp-compare*.json"), key=lambda p: int(p.stem.removeprefix("cmp-compare") or 0))
+             + [rep / "start.json", rep / "sft.json"] + sorted(rep.glob("grpo-*.json"), key=lambda p: p.stat().st_mtime))
+    reports = [read_json(p) for p in picks if p.is_file()]
+    first = [r for r in reports if r.get("role") != "start"] or reports
+    runs = [{"label": r["label"], "about": r.get("model") or "", "train": []} for r in first + [r for r in reports if r not in first]]
+    sw = {"name": path.name, "about": cfg.get("about") or "평가만 다시 한 결과 (guide/eval.md)", "runs": runs,
+          "_root": path, "_page": rep / "benchmark.html", "_reports": reports}
+    return sw
+
+
 def load(arg):
-    """묶음 파일 또는 결과 폴더 → 묶음 설정 (sw)."""
+    """묶음 파일 · 결과 폴더 · 평가만 한 workdir → 묶음 설정 (sw)."""
     path = Path(arg).resolve()
     if path.is_dir():
         if not (path / "sweep.config.json").is_file():
-            raise SystemExit(f"{path} 에 sweep.config.json 이 없습니다 (실험 묶음 결과 폴더나 묶음 파일을 주세요)")
+            if (path / "reports").is_dir():
+                return workdir(path)
+            raise SystemExit(f"{path} 에 sweep.config.json 도 reports/ 도 없습니다 (실험 묶음 결과 폴더·묶음 파일·평가 workdir 를 주세요)")
         sw = read_json(path / "sweep.config.json")
         sw.pop("start_from", None)   # 묶음 파일 기준 상대 경로라 결과 폴더만으로는 못 찾는다
         return {**sw, "_root": path}
@@ -45,7 +63,7 @@ def gather(args, smoke=False):
     out = []
     for a in args:
         sw = load(a)
-        reports, notes = S.collect(sw, smoke)
+        reports, notes = (sw["_reports"], []) if "_reports" in sw else S.collect(sw, smoke)
         out.append((sw, reports, notes))
     return out
 
@@ -106,7 +124,7 @@ def render(exps, out):
                  "<th class='l'>모델</th><th class='l'>설명</th><th class='l'>학습 데이터</th></tr>")
     for sw, reports, notes in exps:
         done = {r["label"].removesuffix(" GRPO") for r in reports}
-        link = sw["_root"] / "compare.html"
+        link = sw.get("_page") or sw["_root"] / "compare.html"
         rel = os.path.relpath(link, out.parent) if link.exists() else None
         head = (f"<b>{e(sw['name'])}</b>" + (f"<br><a href='{e(Path(rel).as_posix())}'>자세한 비교표</a>" if rel else "")
                 + (f"<br>기록: {e(sw['record'])}" if sw.get("record") else "")
