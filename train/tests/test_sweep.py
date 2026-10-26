@@ -184,3 +184,29 @@ def test_overview_per_benchmark_id():
     kie, ocr = rows
     assert kie[:4] == ("real-fx-po", "kie", "f1", 50) and [round(d, 1) if d is not None else d for _, d in kie[5]] == [None, None, 10.0]
     assert ocr[2] == "cer ↓" and ocr[4] is True and round(ocr[5][2][1], 1) == -10.0
+
+
+def test_summary_across_experiments(sweep_file, tmp_path):
+    """실험 여러 개를 html 하나로: 묶음 파일·결과 폴더 둘 다 받고, 평가 문항이 다른 실험 칸은 † 로."""
+    from train import summary as M
+
+    runner, _ = fake_pipeline({"a1-syn": 4, "a2-real": 8, "a3-more": 10})
+    with contextlib.redirect_stdout(io.StringIO()):
+        S.run(sweep_file, runner=runner)
+    exps = M.gather([sweep_file, tmp_path / "runs" / "E09"])   # 같은 실험을 두 번 (파일·폴더)
+    assert [len(r) for _, r, _ in exps] == [4, 4]   # 출발 모델(첫 모델에서 평가) + 모델 3
+    rows = M.table(exps)
+    assert {r[2] for r in rows} == {"cross_check", "kie"}
+    cells = rows[0][6]
+    assert len(cells) == 8 and cells[1][1] is None and cells[2][1] is not None and all(same for *_, same in cells)
+
+    def rep(label, sha, v):
+        return {"label": label, "benchmarks": {"syn": {"name": "합성", "items_sha256": sha, "tasks": {"kie": {"main": "f1", "n": 4, "metrics": {"f1": v}}}}}}
+    a = ({"name": "A", "runs": [{"label": "a1"}]}, [rep("a1", "h1", 0.5)], [])
+    b = ({"name": "B", "runs": [{"label": "b1"}]}, [rep("b1", "h1", 0.6)], [])
+    c = ({"name": "C", "runs": [{"label": "c1"}]}, [rep("c1", "h2", 0.9)], [])
+    (row,) = M.table([a, b, c])
+    assert [same for *_, same in row[6]] == [True, True, False]   # 다수(h1)가 기준
+
+    out = M.render(exps, tmp_path / "summary.html").read_text(encoding="utf-8")
+    assert "E09-test" in out and "compare.html" in out and "한눈에 보기" in out and "a3-more" in out

@@ -72,6 +72,8 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 
 학습 데이터만 바꾼 모델 여러 개를 차례로 돌리고 `<root>/compare.{md,html,csv}` 한 표로. 묶음 파일 꼴은 `train/configs/sweep.example.json`, 설명서 [guide/training.md 4.1절](../guide/training.md#41-학습-데이터만-바꾼-모델-여러-개-실험-묶음), 코드 `train/sweep.py`.
 
+여러 실험을 html 하나로: `python -m train summary <결과 폴더|묶음 파일> ... --out runs/summary.html` (코드 `train/summary.py`).
+
 ## 하나씩 돌리기 (`python -m train.cli`)
 
 ```bash

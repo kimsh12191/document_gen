@@ -142,6 +142,22 @@ python -m train sweep --config train/configs/E01-realocr.sweep.json --status   #
 - GRPO를 하지 않을 묶음이면 `base`에 `"grpo": {"select": "random"}`을 두어 SFT 평가 뒤 GRPO 후보 답 내기(추론 수천 건)를 건너뜁니다. 나중에 GRPO를 할 수도 있으면 그대로(`mine`) 둡니다.
 - 처음에는 `--smoke`로 리허설합니다 (모델마다 5 step, `<root>/<label>/smoke`).
 
+### 실험 여러 개를 한 화면에 (모아 보기)
+
+실험 묶음은 각자 `<root>/compare.html`을 만듭니다. 여러 실험을 한 페이지에서 보려면:
+
+```bash
+python -m train summary runs/E01-realocr runs/E02-freetext --out runs/summary.html
+# 묶음 파일을 줘도 됩니다: python -m train summary train/configs/E01-realocr.json ... --out runs/summary.html
+```
+
+- 학습·평가는 하지 않고 끝난 보고서만 읽습니다. 실험이 끝날 때마다 같은 명령으로 다시 만들면 됩니다.
+- **실험:** 실험마다 무엇을 보는지, 모델별 설명·학습 데이터, 각 실험의 자세한 비교표 링크, 비교에서 뺀 모델과 이유.
+- **한눈에 보기:** 행은 평가 세트·과제의 주 지표, 열은 실험별 모델. 괄호는 **그 실험의 첫 모델 대비 %p**입니다.
+- **굵게**는 같은 평가 문항을 쓴 칸 중 가장 좋은 값입니다.
+- 실험끼리 평가 문항이 다를 수 있습니다. 평가 세트마다 가장 많은 실험이 쓴 문항을 기준으로 삼고, 다른 문항을 쓴 칸은 흐리게 `†`를 붙입니다 (같은 수가 비기면 먼저 적은 실험이 기준). `†` 칸은 다른 실험과 점수를 직접 비교하지 않습니다. 실험 간 비교가 필요하면 평가 세트를 고정하세요.
+- 결과 폴더만 주면 `start_from`으로 가져온 출발 모델은 표에 나오지 않습니다. 필요하면 묶음 파일을 주세요.
+
 ## 5. 다시 돌릴 때
 
 | 하고 싶은 것 | 방법 |

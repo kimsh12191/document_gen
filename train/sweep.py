@@ -21,6 +21,7 @@
 - 출발 모델 평가는 첫 모델에서만 (나머지는 eval.skip_start), start_from 이 있으면 하지 않는다. 평가 문항·그림이 같은지는 비교표를 만들 때 확인한다.
 - 모델 하나가 실패해도 다음 모델로 간다 (<root>/sweep.json 상태, <root>/<label>/sweep.log).
 - 모델 하나가 끝날 때마다 <root>/compare.{csv,md,html} 를 다시 만든다.
+- 실험 여러 개를 한 html 로: python -m train summary <묶음.json|결과 폴더> ... --out <html> (train/summary.py).
 - 이미 돈 모델의 설정이 바뀌면 그 모델은 돌리지 않는다 (새 label 로).
 """
 import argparse
@@ -237,10 +238,8 @@ def _images(workdir, data):
     return [done.get(k) for k in ("image_max_size", "pixels_per_token_side", "max_image_tokens_per_sample")], tasks
 
 
-def compare(sw, smoke=False):
-    """끝난 모델들의 점수를 한 표로: <root>/compare.{csv,md,html}. 출발 모델은 첫 모델의 평가."""
-    from .report import _build_reports
-
+def collect(sw, smoke=False):
+    """끝난 모델들의 보고서(평가 문항·그림이 첫 모델과 같은 것만)와 뺀 이유. 출발 모델은 첫 모델의 평가."""
     root, reports, notes, ref = sw["_root"], [], [], None
     sw["_start_mismatch"] = False
     own = workdir_of(sw, sw["runs"][0]["label"], smoke)
@@ -284,6 +283,15 @@ def compare(sw, smoke=False):
         else:
             sw["_start_mismatch"] = "_start_from" in sw and start[1] != own
             notes.append(f"출발 모델 평가({start[0]})는 평가 문항·그림 설정이 달라 표에서 뺍니다")
+    return reports, notes
+
+
+def compare(sw, smoke=False):
+    """끝난 모델들의 점수를 한 표로: <root>/compare.{csv,md,html}."""
+    from .report import _build_reports
+
+    root = sw["_root"]
+    reports, notes = collect(sw, smoke)
     out = root / "compare.csv"
     if not reports:
         return None
@@ -331,11 +339,14 @@ def _overview(sw, reports):
     return base, rows
 
 
+def train(r):
+    """모델의 학습 데이터 (html, 줄마다 하나)."""
+    return "<br>".join(html.escape(e if isinstance(e, str) else e["path"] + (f" (count {e['count']})" if e.get("count") is not None else ""))
+                       for e in r["train"])
+
+
 def _header(sw, md, page, notes, reports=()):
     """비교표(.md·.html) 맨 위에 실험 이름·설명·모델별 설명과 학습 데이터, 한눈에 보기 표."""
-    def train(r):
-        return "<br>".join(html.escape(e if isinstance(e, str) else e["path"] + (f" (count {e['count']})" if e.get("count") is not None else ""))
-                           for e in r["train"])
     head = [f"# {sw['name']}", "", sw["about"], ""]
     if sw.get("record"):
         head += [f"기록: {sw['record']}", ""]
