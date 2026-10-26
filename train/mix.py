@@ -296,6 +296,9 @@ def mix(data_cfg: dict, model_dir: str | None) -> dict:
                                         "benchmark_group": b["group"], "benchmark_path": path}} for it in test]
             if b.get("scorer"):   # 이 평가 세트만 다른 채점 함수 (학습·GRPO 보상은 그대로)
                 test = [{**it, "eval": {**(it.get("eval") or {}), "scorer": b["scorer"]}} for it in test]
+            elif any((it.get("eval") or {}).get("raw") for it in test):
+                raise ValueError(f"benchmark {b['id']}: {path} 의 정답 꼴을 기본 채점기가 읽지 못합니다 "
+                                 "('in order' 배열·{{키: 값}} 객체가 아님). 이 평가 세트에 \"scorer\" 를 붙이세요")
             bench_items += test
             bench_sources[path] = {k: v for k, v in meta.items() if k not in ("doc_names",)}
         if len(references) > 1:
@@ -410,10 +413,17 @@ def mix(data_cfg: dict, model_dir: str | None) -> dict:
 
     # 정답을 답으로 넣으면 만점이어야 한다 (데이터와 채점 코드가 맞는지)
     sample = random.Random(0).sample(bench_items, min(200, len(bench_items)))
-    bad = [it["id"] for it in sample if reward(it["task"], oracle_output(it), it) < 1.0]
+    def perfect(it):   # 채점 함수를 붙인 세트는 그 함수로 (주 지표)
+        spec = (it.get("eval") or {}).get("scorer")
+        if not spec:
+            return reward(it["task"], oracle_output(it), it) >= 1.0
+        from docgen.bench.evaluate import load_scorer
+        r = load_scorer(spec)(it, oracle_output(it))
+        return not r.get("parse_fail") and r["metrics"].get(r.get("main") or "f1", 0) >= 1.0
+    bad = [it["id"] for it in sample if not perfect(it)]
     if bad:
         raise ValueError(f"Reference answers do not score 1.0 with this docgen code (e.g. {bad[:3]}); "
-                         "use the docgen code the data was built with")
+                         "use the docgen code the data was built with (채점 함수를 붙인 세트면 그 함수가 정답에 만점을 주는지)")
 
     def count(rows, key="task"):
         c = {}

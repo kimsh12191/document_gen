@@ -8,7 +8,7 @@
 
 함수 꼴
   score(item, output) -> {"metrics": {이름: 0~1, …}, "main": 주 지표 이름, "parse_fail": bool}
-  - item: 평가 문항. item["answer"] 정답 ({키: 값} 또는 [{"key", "value"}, …]), item["eval"]["fields"][키]["type"], item["meta"]
+  - item: 평가 문항. item["answer"] 정답 ({키: 값}, [{"key", "value"}, …], 또는 swift 답 글 그대로), item["eval"]["fields"][키]["type"], item["meta"]
   - output: 모델 답 (앞의 <think>…</think> 는 뗀 것). 답이 없으면 "".
   - metrics: 문항마다 0~1. 평가 세트 점수는 문항 평균. 비교표에는 main 이 주 지표로 나온다.
   - parse_fail=True 면 그 문항은 모든 지표가 0 (답을 못 읽음 비율에 따로 잡힘).
@@ -58,7 +58,11 @@ def read_answer(output):
 
 def score(item, output):
     gold = item["answer"]
+    if isinstance(gold, str):     # 정답이 글 그대로인 세트 (swift 답이 기본 꼴이 아닐 때): 모델 답과 같은 방법으로 읽는다
+        gold = read_answer(gold)
     gold = {g["key"]: g["value"] for g in gold} if isinstance(gold, list) else gold
+    if not isinstance(gold, dict):
+        raise ValueError("정답을 {키: 값} 으로 읽지 못했습니다. 이 세트에 맞게 score 를 고치세요")
     pred = read_answer(output)
     order = (item.get("eval") or {}).get("order")
     if isinstance(pred, list) and order and len(pred) == len(order):   # ["값", …]: 질문의 필드 순서로 짝짓기

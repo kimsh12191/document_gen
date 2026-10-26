@@ -2,7 +2,10 @@
 
 한 줄: {"messages": [{"role": "user", "content": "<image>… in order: [\"필드\", …] …"},
                     {"role": "assistant", "content": "[\"값\", …]"}], "images": ["/절대/경로.png"]}
-질문은 그대로 묻고, 질문에 적힌 필드 목록(순서)과 답 배열을 짝지어 kie 로 채점한다 (eval.order: 값만 순서대로 답하는 꼴).
+질문은 그대로 묻는다. 답(정답) 꼴에 따라:
+  - 질문에 'in order: [...]', 답이 같은 수의 문자열 배열 → 필드와 짝지어 kie 로 채점 (eval.order)
+  - 답이 {키: 값} JSON 객체 → 그 키로 kie 채점 (기본 채점기가 읽는 꼴)
+  - 그 밖 (어떤 글이든) → 정답 글을 그대로 두고, 그 평가 세트의 채점 함수(scorer)로만 채점 (eval.raw)
 같은 그림의 문항은 meta.document_id 가 같다 (학습 데이터와 겹치는지 섞기 단계가 본다).
 읽을 수 없는 줄은 건너뛰고 경고와 함께 meta.skipped 에 남긴다 (섞은 폴더 DONE.json 의 sources).
 """
@@ -47,15 +50,29 @@ def item_of(rec: dict, source: str, line: int, base: Path) -> dict:
     missing = [p for p in images if not Path(p).is_file()]
     if missing:
         raise ValueError(f"이미지가 없습니다: {missing[0]}")
-    fields = fields_of(prompt)
-    values = json.loads(answer)
-    if not isinstance(values, list) or len(values) != len(fields) or not all(isinstance(v, str) for v in values):
-        raise ValueError(f"답이 필드 {len(fields)}개와 같은 수의 문자열 배열이 아닙니다")
-    keys = keys_of(fields)
+    if not isinstance(answer, str):
+        raise ValueError("답(assistant content)이 글이 아닙니다")
+    try:
+        values = json.loads(answer)
+    except ValueError:
+        values = None
+    try:
+        fields = fields_of(prompt)
+    except ValueError:
+        fields = None
+    if fields:   # 'in order' 질문인데 답이 안 맞으면 데이터 오류 (건너뜀)
+        if not isinstance(values, list) or len(values) != len(fields) or not all(isinstance(v, str) for v in values):
+            raise ValueError(f"답이 필드 {len(fields)}개와 같은 수의 문자열 배열이 아닙니다")
+        keys = keys_of(fields)
+        gold, ev = dict(zip(keys, values)), {"order": keys, "fields": {k: {"type": "text"} for k in keys}}
+    elif isinstance(values, dict) and values and all(v is None or isinstance(v, str) for v in values.values()):
+        keys = list(values)
+        gold, ev = values, {"fields": {k: {"type": "text"} for k in keys}}
+    else:   # 기본 채점기가 모르는 꼴: 정답 글 그대로, 채점 함수(scorer)가 있어야 한다 (train/mix.py 가 확인)
+        keys, gold, ev = [], answer, {"raw": True}
     return {"id": f"{source}/{line:05d}", "task": "kie", "images": images,
             "prompt": prompt.replace("<image>", "").strip(),
-            "answer": dict(zip(keys, values)),
-            "eval": {"order": keys, "fields": {k: {"type": "text"} for k in keys}},
+            "answer": gold, "eval": ev,
             "meta": {"source": source, "line": line, "document_id": f"{source}:{Path(images[0]).stem}",
                      "n_fields": len(keys), "split": "test"}}
 
