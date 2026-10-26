@@ -98,3 +98,18 @@ def test_bank_and_ocr_samples_match_default(tmp_path, model, ocr_set):
              {"id": "ocr", "paths": [str(ocr_set)], "scorer": str(SCORERS_DIR / "ocr_default.py")}]
     with contextlib.redirect_stdout(io.StringIO()):
         M.mix(data_cfg(tmp_path, benchmark=bench), model)   # cer 처럼 낮을수록 좋은 주 지표도 정답 = 만점
+
+
+def test_swift_default_matches_old_swift_scoring():
+    """swift_default (정답 글 그대로 + 질문) = 예전 기본 채점 (필드 순서와 배열을 짝지은 kie)."""
+    fn = E.load_scorer(str(SCORERS_DIR / "swift_default.py"))
+    raw = {"id": "po/1", "task": "kie", "answer": json.dumps(["EOA", "2025 05 21", ""]), "meta": {},
+           "eval": {"raw": True, "prompt": 'What are … in order: ["NEGO_CLCT", "DATE", "TENOR"] …'}}
+    for out in OUTPUTS + ['[{"value": "EOA"}, {"value": "2025 05 21"}, {"value": ""}]']:
+        mine, old = fn(raw, out), E.SCORERS["kie"](SWIFT, out)
+        if old["parse_fail"]:   # 견본은 예전에 못 읽던 꼴([{"key", "value"}] 목록)도 읽는다
+            continue
+        assert not mine.get("parse_fail"), out
+        if True:
+            assert {k: mine["metrics"][k] for k in ("f1", "field_acc", "doc_exact", "field_exact")} == \
+                   {k: old["metrics"][k] for k in ("f1", "field_acc", "doc_exact", "field_exact")}, out

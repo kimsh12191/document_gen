@@ -29,7 +29,7 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 | 칸 | 뜻 |
 |---|---|
 | `train` | 학습 데이터셋 목록. 경로 또는 `{"path", "count"}` (그 데이터셋에서 SFT 문항을 count 개만 무작위로). 문항 `meta.split` 이 train 이면 학습, val 이면 검증 (`docgen.bench build --split train` 폴더는 표시 없는 문항도 학습) |
-| `benchmark` | 평가 데이터셋 목록. 문항 `meta.split` 이 train·val 이 아닌 것. OCR 준비 폴더 하나를 학습·평가 둘 다에 넣어도 된다 (문서 단위로 나뉘어 있음). `{"id", "name", "group", "paths", "format"?, "gt"?, "scorer"?}` 로 세트를 나누면 세트별 점수 (실서류 swift `.jsonl` 은 `"format": "swift-fields"`, 채점 함수는 아래 '채점') |
+| `benchmark` | 평가 데이터셋 목록. 문항 `meta.split` 이 train·val 이 아닌 것. OCR 준비 폴더 하나를 학습·평가 둘 다에 넣어도 된다 (문서 단위로 나뉘어 있음). `{"id", "name", "group", "paths", "format"?, "gt"?, "scorer"?}` 로 세트를 나누면 세트별 점수 (실서류 swift `.jsonl` 은 `"format": "swift-fields"` — 정답 글을 그대로 채점 함수에, 안 적으면 `scorers/swift_default.py`. 채점 함수는 아래 '채점') |
 | `output_dir` | 섞은 폴더 (`DONE.json` 이 있으면 다시 섞지 않음) |
 | `task_mix` | `{과제: 비율}`. 적힌 과제는 `sft_max_examples` 안에서 그 비율, 0 이면 뺌, **적히지 않은 과제는 있는 만큼 다** (OCR 은 보통 `count` 로만 줄인다) |
 | `grpo_holdout` | 학습 문항 중 이 비율의 고객(업무 묶음)·문서는 SFT 에 넣지 않고 GRPO 후보로 (기본 0.2) |
@@ -78,7 +78,7 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 
 | 하고 싶은 것 | 방법 |
 |---|---|
-| 평가 세트 하나만 다르게 채점 | `data.benchmark` 의 그 세트에 `"scorer": "<파일.py>:<함수>"` (설정 파일 기준). 견본 `train/scorers/`: `kie_default.py`(값만 보는 정보 추출, `FIELD_TYPES` 로 항목별 비교 기준) · `bank_default.py`(합성 은행 서류 세트, 과제마다 함수) · `ocr_default.py`(쪽 OCR) — 모두 기본 채점과 같은 점수. 평가에만 쓰고 GRPO 보상은 그대로. 설명 [guide/training.md 3.1절](../guide/training.md#31-평가-세트별-채점-함수-scorer) |
+| 평가 세트 하나만 다르게 채점 | `data.benchmark` 의 그 세트에 `"scorer": "<파일.py>:<함수>"` (설정 파일 기준). 견본 `train/scorers/`: `swift_default.py`(swift 세트 기본) · `kie_default.py`(값만 보는 정보 추출, `FIELD_TYPES` 로 항목별 비교 기준) · `bank_default.py`(합성 은행 서류 세트, 과제마다 함수) · `ocr_default.py`(쪽 OCR) — 모두 기본 채점과 같은 점수. 평가에만 쓰고 GRPO 보상은 그대로. 설명 [guide/training.md 3.1절](../guide/training.md#31-평가-세트별-채점-함수-scorer) |
 | 채점 규칙·채점 함수를 고친 뒤 다시 채점 | `python -m train rescore <workdir 또는 묶음 결과 폴더>` — 저장된 답(`predictions/*.jsonl`)으로, 추론·GPU 없이. 예전 보고서는 `reports/before-rescore-<시각>/` (코드 `train/rescore.py`, [guide/eval.md 5절](../guide/eval.md#5-채점-규칙이-바뀌었을-때-다시-채점)) |
 
 채점 함수는 모두 `docgen.bench.evaluate` 하나입니다 (보고서·studio·GRPO 보상). 답 앞의 생각 블록(`<think>…</think>`)은 떼고 채점합니다.

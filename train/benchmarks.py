@@ -1,7 +1,8 @@
 """벤치마크 한 개(id/name)는 여러 경로를 합산한다. group은 표시 분류다.
 format: "tasks"(기본, studio 과제 폴더) | "swift-fields"(실서류 swift .jsonl, train/swift_import.py).
 gt: 정답 출처 "exact"·"reviewed"·"pseudo" (폴더의 meta.json 보다 우선).
-scorer: 이 평가 세트만 다르게 채점할 때 "<파일.py>:<함수>" (설정 파일 기준 상대 경로, 함수를 빼면 score). 견본 train/scorers/kie_default.py."""
+scorer: 이 평가 세트만 다르게 채점할 때 "<파일.py>:<함수>" (설정 파일 기준 상대 경로, 함수를 빼면 score). 견본 train/scorers/.
+  swift-fields 세트는 늘 채점 함수로 채점하고, 적지 않으면 train/scorers/swift_default.py."""
 import hashlib
 from pathlib import Path
 import re
@@ -44,6 +45,8 @@ def normalize(spec):
             if (fmt == "swift-fields") != p.endswith(".jsonl"):
                 raise ValueError(f"{p}: swift .jsonl 은 \"format\": \"swift-fields\" 와 함께, 그 밖의 경로는 과제 폴더로 적습니다")
         scorer = value.get("scorer")
+        if scorer is None and fmt == "swift-fields":   # swift 세트는 늘 채점 함수로 (정답 글을 그대로 넘김)
+            scorer = str(Path(__file__).resolve().parent / "scorers" / "swift_default.py") + ":score"
         if scorer is not None:
             if not isinstance(scorer, str) or not scorer.partition(":")[0].endswith(".py"):
                 raise ValueError(f"benchmark {ident}: scorer 는 \"<파일.py>:<함수>\" 입니다: {scorer}")

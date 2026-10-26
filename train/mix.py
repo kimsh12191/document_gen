@@ -80,6 +80,31 @@ def load_folder(path: Path, fmt: str = "tasks") -> tuple[dict, list[dict]]:
     return meta, items
 
 
+def perfect(it: dict) -> bool:
+    """정답을 답으로 넣으면 만점인지. 채점 함수를 붙인 세트는 그 함수의 주 지표로 (낮을수록 좋은 지표는 0)."""
+    spec = (it.get("eval") or {}).get("scorer")
+    if not spec:
+        return reward(it["task"], oracle_output(it), it) >= 1.0
+    from docgen.bench.evaluate import LOWER_IS_BETTER, load_scorer
+
+    r = load_scorer(spec)(it, oracle_output(it))
+    main = r.get("main") or "f1"
+    v = r["metrics"].get(main)
+    return not r.get("parse_fail") and v is not None and (v <= 0.0 if main in LOWER_IS_BETTER else v >= 1.0)
+
+
+def unreadable(items: list[dict]) -> tuple[list[dict], list[dict]]:
+    """채점 함수가 정답을 읽지 못하거나 정답에 만점을 주지 않는 문항을 가른다 (swift 의 깨진 줄)."""
+    good, bad = [], []
+    for it in items:
+        try:
+            ok, why = perfect(it), "정답을 답으로 넣어도 만점이 아님"
+        except Exception as exc:  # noqa: BLE001  사용자 채점 함수
+            ok, why = False, f"{type(exc).__name__}: {exc}"
+        (good if ok else bad).append(it if ok else {"id": it["id"], "line": it["meta"].get("line"), "why": why})
+    return good, bad
+
+
 def split_of(item: dict, folder_split: str) -> str:
     s = (item.get("meta") or {}).get("split")
     if s in ("train", "val"):
@@ -296,9 +321,16 @@ def mix(data_cfg: dict, model_dir: str | None) -> dict:
                                         "benchmark_group": b["group"], "benchmark_path": path}} for it in test]
             if b.get("scorer"):   # 이 평가 세트만 다른 채점 함수 (학습·GRPO 보상은 그대로)
                 test = [{**it, "eval": {**(it.get("eval") or {}), "scorer": b["scorer"]}} for it in test]
-            elif any((it.get("eval") or {}).get("raw") for it in test):
-                raise ValueError(f"benchmark {b['id']}: {path} 의 정답 꼴을 기본 채점기가 읽지 못합니다 "
-                                 "('in order' 배열·{{키: 값}} 객체가 아님). 이 평가 세트에 \"scorer\" 를 붙이세요")
+            elif any((it.get("eval") or {}).get("raw") for it in test):   # 정답 글 그대로인 문항은 채점 함수가 있어야
+                raise ValueError(f"benchmark {b['id']}: {path} 는 채점 함수(scorer)가 필요합니다")
+            if any((it.get("eval") or {}).get("raw") for it in test):   # swift: 채점 함수가 정답을 못 읽는 줄은 건너뜀
+                test, skipped = unreadable(test)
+                if skipped:
+                    print(f"WARNING: {Path(path).name}: 채점 함수({b['scorer']})가 정답을 읽지 못한 {len(skipped)}줄을 건너뜁니다 "
+                          f"(예: {skipped[0]['id']} {skipped[0]['why']})", flush=True)
+                    meta = {**meta, "skipped": [*meta.get("skipped", []), *skipped]}
+                if not test:
+                    raise ValueError(f"benchmark {b['id']}: {path} 에서 채점 함수가 읽은 정답이 없습니다 (예: {skipped[0]['why']})")
             bench_items += test
             bench_sources[path] = {k: v for k, v in meta.items() if k not in ("doc_names",)}
         if len(references) > 1:
@@ -413,16 +445,6 @@ def mix(data_cfg: dict, model_dir: str | None) -> dict:
 
     # 정답을 답으로 넣으면 만점이어야 한다 (데이터와 채점 코드가 맞는지)
     sample = random.Random(0).sample(bench_items, min(200, len(bench_items)))
-    def perfect(it):   # 채점 함수를 붙인 세트는 그 함수로 (주 지표)
-        spec = (it.get("eval") or {}).get("scorer")
-        if not spec:
-            return reward(it["task"], oracle_output(it), it) >= 1.0
-        from docgen.bench.evaluate import load_scorer
-        from docgen.bench.evaluate import LOWER_IS_BETTER
-        r = load_scorer(spec)(it, oracle_output(it))
-        main = r.get("main") or "f1"
-        v = r["metrics"].get(main)
-        return not r.get("parse_fail") and v is not None and (v <= 0.0 if main in LOWER_IS_BETTER else v >= 1.0)
     bad = [it["id"] for it in sample if not perfect(it)]
     if bad:
         raise ValueError(f"Reference answers do not score 1.0 with this docgen code (e.g. {bad[:3]}); "

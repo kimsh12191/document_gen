@@ -65,7 +65,7 @@ cp train/configs/pipeline.example.json train/configs/pipeline.json
 ```
 
 - **OCR 폴더는 학습·평가 양쪽에 적습니다.** 학습 쪽은 학습 문항만, 평가 쪽은 떼어 둔 평가 문항만 가져갑니다.
-- **실서류 swift `.jsonl`(ms-swift 형식: `messages` user·assistant + `images`)은 평가에 파일 경로를 그대로 적고 `"format": "swift-fields"`를 붙입니다.** 질문은 그대로 묻고, 정답(assistant)의 꼴에 따라 채점합니다. ① 질문에 `in order: ["필드", …]`가 있고 답이 같은 순서의 문자열 배열(`["값", …]`) ② 답이 `{키: 값}` JSON 객체 — 둘은 기본 채점(키마다 맞았는지), ③ 그 밖의 꼴은 그 평가 세트에 채점 함수(`scorer`, 아래)를 붙여야 하고 정답 글이 그대로 함수에 갑니다(없으면 섞기에서 멈춤). ①은 필드마다 맞았는지로 채점합니다(정보 추출 `kie`: `field_acc`·`f1`, 글자 하나까지 같은 비율 `field_exact`). 값은 대소문자·공백·문장부호를 빼고 비교하고(`NO:ILHLR…` = `NO.ILHLR…`), 답 배열의 개수가 필드 수와 다르면 그 문항은 못 읽은 것(전부 틀림)입니다. `[{"value": …}]`로 감싼 답도 값으로 읽습니다. 읽지 못한 줄은 `WARNING`과 함께 건너뜁니다. `"gt"`에는 정답 출처(`reviewed` 사람 검수 · `pseudo` 사내 OCR·추론 그대로)를 적습니다. 형식을 적지 않은 `.jsonl`은 받지 않습니다:
+- **실서류 swift `.jsonl`(ms-swift 형식: `messages` user·assistant + `images`)은 평가에 파일 경로를 그대로 적고 `"format": "swift-fields"`를 붙입니다.** 질문은 그대로 묻고, 정답(assistant) 글은 그대로 채점 함수(`scorer`, [3.1절](#31-평가-세트별-채점-함수-scorer))에 넘겨 채점합니다. `scorer`를 적지 않으면 견본 `train/scorers/swift_default.py`(질문의 `in order: ["필드", …]`와 답 배열, 또는 `{키: 값}` 객체를 필드마다 비교)입니다. 채점 함수가 정답을 읽지 못하는 줄은 `WARNING`과 함께 건너뜁니다. `"gt"`에는 정답 출처(`reviewed` 사람 검수 · `pseudo` 사내 OCR·추론 그대로)를 적습니다. 형식을 적지 않은 `.jsonl`은 받지 않습니다:
   ```jsonc
   "benchmark": [
     {"id": "syn", "name": "합성", "group": "synthetic", "paths": ["<studio 평가용 데이터셋>"]},
@@ -96,7 +96,8 @@ cp train/configs/pipeline.example.json train/configs/pipeline.json
 
 | 파일 | 붙일 세트 | 고치는 곳 |
 |---|---|---|
-| [`kie_default.py`](../train/scorers/kie_default.py) | 실서류 추출 (swift `.jsonl`) 등 값만 보는 정보 추출 | 위쪽 `FIELD_TYPES`에 항목별 비교 기준(`text`·`amount`·`date`·`digits`), 또는 `same`·`score` 함수 |
+| [`swift_default.py`](../train/scorers/swift_default.py) | swift `.jsonl` 세트 (`scorer`를 안 적으면 이것) | `score` (필드마다 비교 규칙) |
+| [`kie_default.py`](../train/scorers/kie_default.py) | 값만 보는 정보 추출 (과제 폴더) | 위쪽 `FIELD_TYPES`에 항목별 비교 기준(`text`·`amount`·`date`·`digits`), 또는 `same`·`score` 함수 |
 | [`bank_default.py`](../train/scorers/bank_default.py) | 합성 은행 서류 세트 (bank-* 레시피, `docgen.bench build`): 분류·정보 추출·체크·기타 칸·구비·대조·심사·값 칸 OCR·받아쓰기 | 과제마다 함수 하나 (`classify`, `kie` …). 바꿀 과제의 함수만 고침 |
 | [`ocr_default.py`](../train/scorers/ocr_default.py) | 합성 OCR 세트, 실서류 OCR 준비 폴더 (쪽 OCR 8과제) | `page_ocr` 또는 `score` |
 
@@ -113,9 +114,7 @@ def score(item, output):
 - `metrics`는 문항마다 0~1입니다. 평가 세트 점수는 문항 평균이고, `main`이 비교표의 주 지표입니다. 낮을수록 좋은 지표는 `cer`처럼 기본 이름을 쓰면 비교표가 그렇게 읽습니다.
 - `parse_fail`이 참이면 그 문항은 모든 지표가 최하점이고, 답 형식 오류로 따로 셉니다.
 
-**swift `.jsonl`과 채점 함수:** swift 파일은 ms-swift 형식(`messages` user·assistant + `images`)이면 내용과 상관없이 읽습니다.
-- 정답이 `in order: [...]` 질문 + 문자열 배열이거나 `{키: 값}` 객체면 기본 채점으로도 됩니다.
-- 그 밖의 꼴이면 정답 글이 그대로 `item["answer"]`로 가고, 채점 함수를 꼭 붙여야 합니다. 없으면 섞기에서 멈춥니다.
+**swift `.jsonl`과 채점 함수:** swift 세트는 늘 채점 함수로 채점합니다. 정답 글은 그대로 `item["answer"]`, 질문은 `item["eval"]["prompt"]`로 갑니다. 정답 꼴이 `swift_default.py`가 읽는 꼴(`in order` 질문 + 문자열 배열, 또는 `{키: 값}` 객체)이 아니면 그 세트에 맞는 함수를 붙입니다.
 
 **주의**
 - 평가 채점에만 씁니다. 학습 데이터와 GRPO 보상은 그대로입니다.

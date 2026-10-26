@@ -324,7 +324,8 @@ def test_pipeline_ocr_prepare_stage_is_optional_and_runs_once(tmp_path, model):
 
 
 def test_swift_jsonl_is_a_benchmark_as_is(tmp_path, model):
-    """실서류 swift .jsonl 을 data.benchmark 에 format swift-fields 로: 질문의 필드 순서와 답 배열을 짝지어 kie 로 채점, 못 읽는 줄은 건너뜀."""
+    """실서류 swift .jsonl 을 data.benchmark 에 format swift-fields 로: 질문은 그대로, 정답 글은 그대로 채점 함수에.
+    scorer 를 안 적으면 swift_default (질문의 필드 순서와 답 배열을 짝지어 필드마다), 그 함수가 못 읽는 줄은 건너뜀."""
     real = tmp_path / "real"
     (real / "images").mkdir(parents=True)
     Image.new("RGB", (400, 560), "white").save(real / "images" / "a.png")
@@ -343,54 +344,47 @@ def test_swift_jsonl_is_a_benchmark_as_is(tmp_path, model):
     bench[0].update(format="swift-fields", gt="reviewed")
     with contextlib.redirect_stdout(io.StringIO()) as out:
         M.mix(data_cfg(tmp_path, benchmark=bench), model)
-    assert "1줄을 읽지 못해" in out.getvalue()
+    assert "읽지 못한 1줄을 건너뜁니다" in out.getvalue()
     assert read_json(tmp_path / "prep" / "DONE.json")["sources"]["benchmark"][str(real / "eval_qa.jsonl")]["gt"] == "reviewed"
     items = read_jsonl(tmp_path / "prep" / "benchmark_items.jsonl")
     assert [it["id"] for it in items] == ["eval_qa/00001"]
     it = items[0]
-    assert it["answer"] == {"NO_LC": "K114434", "DATE": "2025 년 01월 01일", "DATE#2": "20250101"}
+    assert it["answer"] == dumps(["K114434", "2025 년 01월 01일", "20250101"]) and it["eval"]["scorer"].endswith("swift_default.py:score")
     task = read_jsonl(tmp_path / "prep" / "benchmark_tasks.jsonl")[0]
     assert task["messages"][0]["content"].startswith("<image>What are the values")   # 질문은 그대로
-    assert reward("kie", oracle_output(it), it) == 1.0
-    assert oracle_output(it) == dumps(["K114434", "2025 년 01월 01일", "20250101"])
-    res = score([it], {it["id"]: '["K114434", "2025년 01월 01일", "20250101"]'})["tasks"]["kie"]["metrics"]
-    assert res["field_acc"] == 1.0 and abs(res["field_exact"] - 2 / 3) < 1e-9   # 띄어쓰기만 다름: 맞음, 글자 그대로는 아님
+    res = score([it], {it["id"]: '["K114434", "2025년 01월 01일", "20250101"]'})["tasks"]["kie"]
+    assert res["main"] == "f1" and res["metrics"]["field_acc"] == 1.0 and abs(res["metrics"]["field_exact"] - 2 / 3) < 1e-9
     assert score([it], {it["id"]: '["K114434", "20250101"]'})["tasks"]["kie"]["metrics"]["field_acc"] == 0.0   # 개수가 다름
-
+    assert score([it], {it["id"]: '{"NO_LC": "K114434", "DATE": "2025 년 01월 01일", "DATE#2": "20250101"}'})["tasks"]["kie"]["metrics"]["f1"] == 1.0
 
 
 def test_swift_jsonl_any_content_with_scorer(tmp_path, model):
-    """swift .jsonl 은 질문·답 내용과 상관없이 읽는다: {키: 값} 답은 기본 kie 채점, 그 밖의 꼴은 평가 세트의 채점 함수(scorer)로."""
-    import shutil
-
+    """swift .jsonl 은 질문·답 내용과 상관없이 읽는다: 기본 견본이 못 읽는 정답 꼴은 그 세트에 맞는 채점 함수를 붙인다."""
     real = tmp_path / "real"
     (real / "images").mkdir(parents=True)
     Image.new("RGB", (400, 560), "white").save(real / "images" / "a.png")
     obj = [{"messages": [{"role": "user", "content": "<image>이 문서의 항목 값을 JSON 객체로 답하세요.\n- NEGO_CLCT\n- DATE"},
                          {"role": "assistant", "content": dumps({"NEGO_CLCT": "EOA", "DATE": "2025 05 21"})}],
             "images": ["images/a.png"]}]
-    listed = [{**obj[0], "messages": [obj[0]["messages"][0], {"role": "assistant", "content": dumps(
-        [{"key": "NEGO_CLCT", "value": "EOA"}, {"key": "DATE", "value": "2025 05 21"}])}]}]
+    free = [{**obj[0], "messages": [{"role": "user", "content": "<image>매입추심 구분은?"}, {"role": "assistant", "content": "EOA"}]}]
     write_jsonl(real / "obj.jsonl", obj)
-    write_jsonl(real / "listed.jsonl", listed)
+    write_jsonl(real / "free.jsonl", free)
     bank_folder(tmp_path / "train", "train", [f"m_{i}" for i in range(6)], n_images=1, size=(400, 560))
     bench = [{"id": "po-obj", "paths": [str(real / "obj.jsonl")], "format": "swift-fields"},
-             {"id": "po-list", "paths": [str(real / "listed.jsonl")], "format": "swift-fields"}]
-    with pytest.raises(ValueError, match="po-list.*scorer"):   # 기본 채점기가 모르는 꼴은 채점 함수가 있어야
+             {"id": "po-free", "paths": [str(real / "free.jsonl")], "format": "swift-fields"}]
+    with pytest.raises(ValueError, match="po-free.*읽은 정답이 없습니다"):   # 기본 견본이 모르는 꼴
         M.mix(data_cfg(tmp_path, benchmark=bench), model)
-    shutil.copy(REPO / "train" / "scorers" / "kie_default.py", tmp_path / "po.py")
-    bench[1]["scorer"] = str(tmp_path / "po.py")
+    (tmp_path / "same.py").write_text("def score(item, output):\n    return {'metrics': {'acc': float(output.strip() == item['answer'])}, 'main': 'acc'}\n",
+                                      encoding="utf-8")
+    bench[1]["scorer"] = str(tmp_path / "same.py")
     with contextlib.redirect_stdout(io.StringIO()):
         M.mix(data_cfg(tmp_path, benchmark=bench), model)
     items = {it["meta"]["benchmark_id"]: it for it in read_jsonl(tmp_path / "prep" / "benchmark_items.jsonl")}
-    assert items["po-obj"]["answer"] == {"NEGO_CLCT": "EOA", "DATE": "2025 05 21"} and "scorer" not in items["po-obj"]["eval"]
-    assert items["po-list"]["eval"]["raw"] and isinstance(items["po-list"]["answer"], str)
-    task = {r["id"]: r for r in read_jsonl(tmp_path / "prep" / "benchmark_tasks.jsonl")}[items["po-obj"]["id"]]
-    assert task["messages"][0]["content"].startswith("<image>이 문서의 항목 값을")   # 질문은 그대로
-    pred = {items["po-obj"]["id"]: '{"NEGO_CLCT": "EOA", "DATE": "2025-05-21"}',
-            items["po-list"]["id"]: '[{"key": "NEGO_CLCT", "value": "EOA"}, {"key": "DATE", "value": "x"}]'}
+    pred = {items["po-obj"]["id"]: '{"NEGO_CLCT": "EOA", "DATE": "2025-05-21"}', items["po-free"]["id"]: " EOA"}
     res = score(list(items.values()), pred)["benchmarks"]
-    assert res["po-obj"]["tasks"]["kie"]["metrics"]["f1"] == 1.0 and res["po-list"]["tasks"]["kie"]["metrics"]["f1"] == 0.5
+    assert res["po-obj"]["tasks"]["kie"]["metrics"]["f1"] == 1.0 and res["po-free"]["tasks"]["kie"]["main"] == "acc"
+    assert res["po-free"]["tasks"]["kie"]["metrics"]["acc"] == 1.0
+
 
 def test_eval_drops_questions_over_server_image_limit(tmp_path, mixed, model):
     """서버(--vllm_limit_mm_per_prompt)보다 그림이 많은 평가 문항은 빼고 기록한다: 한 문항 때문에 추론 전체가 멈추지 않게."""
