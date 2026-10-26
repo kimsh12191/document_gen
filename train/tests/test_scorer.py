@@ -113,3 +113,29 @@ def test_swift_default_matches_old_swift_scoring():
         if True:
             assert {k: mine["metrics"][k] for k in ("f1", "field_acc", "doc_exact", "field_exact")} == \
                    {k: old["metrics"][k] for k in ("f1", "field_acc", "doc_exact", "field_exact")}, out
+
+
+def test_swift_kie_scorer_reads_converted_file_and_jsonl_line(tmp_path):
+    """temp/swift_to_kie_tmp.py 로 바꾼 파일: 파이프라인 문항과 .jsonl 한 줄 둘 다, 배열 답도. 정답을 못 읽으면 만점이 아니라 에러."""
+    import runpy
+
+    from PIL import Image
+
+    from train.swift_import import load_swift
+
+    Image.new("RGB", (32, 32), "white").save(tmp_path / "x.png")
+    src = {"messages": [{"role": "user", "content": '<image>Extract in order: ["NEGO No", "Amount", "NEGO No"]'},
+                        {"role": "assistant", "content": '["NO:ILH1", "", "X2"]'}], "images": [str(tmp_path / "x.png")]}
+    (tmp_path / "in.jsonl").write_text(json.dumps(src) + "\n", encoding="utf-8")
+    conv = runpy.run_path(str(Path(__file__).resolve().parents[2] / "temp" / "swift_to_kie_tmp.py"))
+    conv["main"](str(tmp_path / "in.jsonl"), str(tmp_path / "out.jsonl"))
+    line = json.loads((tmp_path / "out.jsonl").read_text(encoding="utf-8"))
+    _, (item,) = load_swift(tmp_path / "out.jsonl")
+    fn = E.load_scorer(str(Path(__file__).resolve().parents[1] / "scorers" / "swift_kie_scorer.py"))
+    for it in (item, line):   # 파이프라인이 넘기는 문항 · 파일 한 줄 그대로
+        assert fn(it, it.get("answer") or line["messages"][1]["content"])["metrics"]["f1"] == 1.0
+        assert fn(it, '["NO.ILH1", null, "x2"]')["metrics"]["f1"] == 1.0   # 값만 순서대로
+        assert fn(it, '{"NEGO No": "zz", "Amount": null, "NEGO No#2": "X2"}')["metrics"]["f1"] == 0.5
+        assert fn(it, "모름")["parse_fail"]
+    with pytest.raises(ValueError, match="키: 값"):
+        fn({"answer": "", "eval": {"prompt": ""}}, '{"a": 1}')

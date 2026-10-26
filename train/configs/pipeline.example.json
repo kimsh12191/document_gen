@@ -37,7 +37,7 @@
         "format": "swift-fields",
         "gt": "reviewed",
         "paths": ["/share/…/FE_eval/eval_qa_PO.kie.jsonl"],
-        "scorer": "../../temp/swift_kie_scorer.py:score"
+        "scorer": "../scorers/swift_kie_scorer.py:score"
       }
     ],
     "output_dir": "../data/mixed-exp1",

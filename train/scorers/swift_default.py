@@ -56,7 +56,7 @@ def score(item, output):
 
 
 def compare(gold, pred):
-    """{키: 값} 정답과 모델 답(못 읽었으면 None)의 필드별 점수. 다른 채점 함수가 가져다 쓴다 (temp/swift_kie_scorer.py)."""
+    """{키: 값} 정답과 모델 답(못 읽었으면 None)의 필드별 점수. 다른 채점 함수가 가져다 쓴다 (swift_kie_scorer.py)."""
     if pred is None:
         return {"metrics": {"f1": 0.0, "field_acc": 0.0, "doc_exact": 0.0, "field_exact": 0.0}, "main": "f1", "parse_fail": True}
     tp = fp = fn = 0

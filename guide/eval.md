@@ -45,7 +45,7 @@
 {"id": "real-po", …, "format": "swift-fields", "paths": ["…/eval_qa_PO.jsonl"], "scorer": "scorers/po.py:score"}
 ```
 
-- 경로는 설정 파일 기준이고, `:함수`를 빼면 `score`입니다. 설정 예시는 [`pipeline.example.json`](../train/configs/pipeline.example.json)의 `real_po_kie`(kie 꼴로 바꾼 swift 세트에 [`temp/swift_kie_scorer.py`](../temp/swift_kie_scorer.py)를 붙임)입니다.
+- 경로는 설정 파일 기준이고, `:함수`를 빼면 `score`입니다. 설정 예시는 [`pipeline.example.json`](../train/configs/pipeline.example.json)의 `real_po_kie`(kie 꼴로 바꾼 swift 세트에 `swift_kie_scorer.py`를 붙임)입니다.
 - 돌리기 전에 파일·함수가 있는지 보고, 섞을 때 정답을 답으로 넣어 그 함수로 만점인지 확인합니다. 함수가 정답을 못 읽는 swift 줄은 경고와 함께 건너뜁니다.
 - 평가에만 씁니다. 학습 데이터와 GRPO 보상은 그대로입니다.
 
@@ -54,6 +54,7 @@
 | 파일 | 붙일 세트 | 고치는 곳 |
 |---|---|---|
 | [`swift_default.py`](../train/scorers/swift_default.py) | swift `.jsonl` (안 적으면 이것) | `score` |
+| [`swift_kie_scorer.py`](../train/scorers/swift_kie_scorer.py) | `temp/swift_to_kie_tmp.py`로 kie 꼴로 바꾼 swift `.jsonl` | `score` |
 | [`kie_default.py`](../train/scorers/kie_default.py) | 값만 보는 정보 추출 | 위쪽 `FIELD_TYPES`에 항목별 비교 기준(`text`·`amount`·`date`·`digits`) |
 | [`bank_default.py`](../train/scorers/bank_default.py) | 합성 은행 서류 세트 | 과제마다 함수 하나 (`classify`, `kie` …) |
 | [`ocr_default.py`](../train/scorers/ocr_default.py) | 합성 OCR·OCR 준비 폴더 | `page_ocr` |
