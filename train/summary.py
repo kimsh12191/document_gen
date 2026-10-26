@@ -4,8 +4,9 @@
 
 - 인자는 묶음 파일(train/configs/E01-….json) 이나 그 결과 폴더(<root>, sweep.config.json 이 있는 곳). 섞어도 된다.
   결과 폴더만 주면 start_from 으로 가져온 출발 모델은 표에 없다 (묶음 파일로 주면 있다).
-- 평가만 다시 한 workdir(guide/eval.md, reports/ 가 있는 곳)도 실험 하나로 받는다.
-  줄은 compare_models · 출발 모델 · SFT · GRPO 순, 기준(괄호 %p)은 출발 모델이 아닌 첫 줄.
+- 학습 실행·평가만 다시 한 workdir(reports/ 가 있는 곳)도 실험 하나로 받는다.
+  줄은 compare_models · 출발 모델 · SFT · GRPO 순, 기준(괄호 %p)은 compare_models 가 있으면 그 첫 모델, 없으면 출발 모델.
+- 따로 치지 않아도 학습 실행은 <workdir>/reports/summary.html, 실험 묶음은 <root>/summary.html 을 만든다 (그 실험 안의 모델만).
 - 행은 평가 세트(id)·과제의 주 지표, 열은 실험별 모델. 괄호는 그 실험의 기준 모델(첫 모델) 대비 %p.
 - 실험마다 평가 문항이 다를 수 있다. 평가 세트마다 가장 많은 실험이 쓴 문항을 기준으로,
   문항이 다른 칸은 흐리게 † 를 붙인다 (그 칸은 다른 실험과 점수를 직접 비교하지 않는다).
@@ -31,10 +32,11 @@ def workdir(path):
     picks = (sorted(rep.glob("cmp-compare*.json"), key=lambda p: int(p.stem.removeprefix("cmp-compare") or 0))
              + [rep / "start.json", rep / "sft.json"] + sorted(rep.glob("grpo-*.json"), key=lambda p: p.stat().st_mtime))
     reports = [read_json(p) for p in picks if p.is_file()]
-    first = [r for r in reports if r.get("role") != "start"] or reports
-    runs = [{"label": r["label"], "about": r.get("model") or "", "train": []} for r in first + [r for r in reports if r not in first]]
-    sw = {"name": path.name, "about": cfg.get("about") or "평가만 다시 한 결과 (guide/eval.md)", "runs": runs,
-          "_root": path, "_page": rep / "benchmark.html", "_reports": reports}
+    cmp = [r for r in reports if r.get("role") == "other"]   # 평가만 다시 한 것: compare_models 첫 모델이 기준
+    base = (cmp or [r for r in reports if r.get("role") == "start"] or reports)[:1]   # 학습 실행: 출발 모델이 기준
+    runs = [{"label": r["label"], "about": r.get("model") or "", "train": []} for r in base + [r for r in reports if r not in base]]
+    about = cfg.get("about") or ("평가만 다시 한 결과 (guide/eval.md)" if cmp else "학습 실행 (출발 모델 → SFT → GRPO)")
+    sw = {"name": path.name, "about": about, "runs": runs, "_root": path, "_page": rep / "benchmark.html", "_reports": reports}
     return sw
 
 
@@ -171,6 +173,15 @@ def render(exps, out):
     out.write_text("<!doctype html><html lang='ko'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"
                    f"<title>실험 모아 보기</title><style>{CSS}</style></head><body>" + "".join(parts) + "</body></html>\n", encoding="utf-8")
     return out
+
+
+def write_own(exps, out):
+    """학습 실행·실험 묶음이 보고서를 쓸 때 그 실험 모델만의 한 화면 (실패해도 학습은 계속)."""
+    try:
+        return render(exps, out)
+    except Exception as exc:  # noqa: BLE001  보고서 하나 때문에 멈추지 않는다
+        print(f"WARNING: 한 화면 보고서를 만들지 못했습니다 ({out}): {type(exc).__name__}: {exc}", flush=True)
+        return None
 
 
 def main(argv=None):

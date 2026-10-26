@@ -3,8 +3,8 @@
   python -m train rescore <workdir 또는 실험 묶음 결과 폴더> ... [--data <섞은 폴더>]
 
 - workdir: reports/*.json 마다 그 보고서가 가리키는 답 파일(predictions/*.jsonl)을 지금 채점기로 다시 채점해 같은 이름으로 쓴다.
-  고치기 전 보고서는 reports/before-rescore-<시각>/ 에 옮겨 둔다. 끝나면 benchmark.{csv,md,html} 도 다시 만든다.
-- 실험 묶음 결과 폴더(sweep.config.json 이 있는 곳): 모델 폴더마다 위처럼 하고 compare.{csv,md,html} 를 다시 만든다.
+  고치기 전 보고서는 reports/before-rescore-<시각>/ 에 옮겨 둔다. 끝나면 benchmark.{csv,md,html}·summary.html 도 다시 만든다.
+- 실험 묶음 결과 폴더(sweep.config.json 이 있는 곳): 모델 폴더마다 위처럼 하고 compare.{csv,md,html}·summary.html 을 다시 만든다.
 - 섞은 폴더(benchmark_items.jsonl 이 있는 곳)는 <workdir>/config.json 의 data.output_dir. 없으면 --data 로.
 - GPU·평가 서버는 쓰지 않는다. 평가 문항은 그대로라 점수끼리 계속 비교할 수 있다.
 """
@@ -53,6 +53,9 @@ def rescore_workdir(wd, data=None):
         order = (sorted(rep.glob("cmp-compare*.json")) + [rep / "start.json", rep / "sft.json"]
                  + sorted(rep.glob("grpo-*.json"), key=lambda q: q.stat().st_mtime))
         build([q for q in order if q.exists()], rep / "benchmark.csv")
+        from .summary import gather, write_own
+
+        write_own(gather([str(wd)]), rep / "summary.html")
     print(f"{wd}: {len(done)}개 다시 채점, 예전 보고서 {backup}")
     return done
 

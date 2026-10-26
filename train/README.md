@@ -53,7 +53,7 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 | select | GRPO 문항 고르기: `mine`(반은 SFT 보상이 낮은 것) · `random` · `all` | `grpo_train.jsonl` |
 | grpo | GRPO, 보상 = `docgen.bench.evaluate.reward` (`train/reward_plugin.py`) | `grpo/…/checkpoint-N` |
 | eval_grpo | GRPO 병합·평가 | `reports/grpo-<체크포인트>.json` |
-| report | 비교표 (OCR·문서·업무 열 한 표) | `reports/benchmark.{csv,md,html}` — 읽는 법 [guide/results.md](../guide/results.md) |
+| report | 비교표 (OCR·문서·업무 열 한 표), 한 화면 (평가 세트·과제별 주 지표, 출발 모델 대비 %p) | `reports/benchmark.{csv,md,html}`, `reports/summary.html` — 읽는 법 [guide/results.md](../guide/results.md) |
 
 평가는 GPU 마다 vLLM 서버를 하나씩 띄우고 같은 그림의 질문을 같은 서버로 보냅니다. 끝나면(report) studio 학습 기록이 평가 세트마다 모델 답으로 붙여 ⑦ 평가에 점수가 뜹니다.
 

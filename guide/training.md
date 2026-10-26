@@ -168,7 +168,7 @@ python -m train sweep --config train/configs/E01-realocr.sweep.json --status   #
 
 **모든 모델은 같은 출발 모델(`base`의 `model`)에서 각자 SFT합니다.** 앞 모델에 이어서 학습하지 않습니다. 학습 설정·seed·평가 세트도 `base`에서 같게 가져옵니다.
 
-- **결과:** `<root>/compare.md`·`.html`·`.csv`.
+- **결과:** `<root>/compare.md`·`.html`·`.csv`, 한 화면 `<root>/summary.html` (모아 보기와 같은 꼴, 이 묶음의 모델만. 모델이 끝날 때마다 다시 씀).
   - 맨 위: 실험 설명, 모델별 설명·학습 데이터.
   - **한눈에 보기:** 평가 세트·과제마다 주 지표 한 줄, 열은 모델. 괄호는 **기준 모델(묶음의 첫 모델) 대비 %p**입니다 (html 은 초록 = 좋아짐, 빨강 = 나빠짐). "a2·a3 가 a1 보다 나은가"는 여기서 봅니다.
   - 아래: 평가 세트별 자세한 표 (Δ 는 출발 모델 대비), 링크를 누르면 시나리오·서식·필드별 상세.
@@ -185,7 +185,7 @@ python -m train sweep --config train/configs/E01-realocr.sweep.json --status   #
 
 ### 실험 여러 개를 한 화면에 (모아 보기)
 
-실험 묶음은 각자 `<root>/compare.html`을 만듭니다. 여러 실험을 한 페이지에서 보려면:
+학습 실행은 `<workdir>/reports/summary.html`, 실험 묶음은 `<root>/summary.html`로 자기 모델만의 한 화면을 저절로 남깁니다. 여러 실험을 한 페이지에서 보려면:
 
 ```bash
 python -m train summary runs/E01-realocr runs/E02-freetext --out runs/summary.html

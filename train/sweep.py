@@ -20,7 +20,7 @@
 - 모델마다 <root>/<label>/ 가 workdir, <root>/<label>/data 가 data.output_dir, 쓴 설정은 <root>/<label>/config.json.
 - 출발 모델 평가는 첫 모델에서만 (나머지는 eval.skip_start), start_from 이 있으면 하지 않는다. 평가 문항·그림이 같은지는 비교표를 만들 때 확인한다.
 - 모델 하나가 실패해도 다음 모델로 간다 (<root>/sweep.json 상태, <root>/<label>/sweep.log).
-- 모델 하나가 끝날 때마다 <root>/compare.{csv,md,html} 를 다시 만든다.
+- 모델 하나가 끝날 때마다 <root>/compare.{csv,md,html} 와 한 화면 <root>/summary.html 을 다시 만든다.
 - 실험 여러 개를 한 html 로: python -m train summary <묶음.json|결과 폴더> ... --out <html> (train/summary.py).
 - 이미 돈 모델의 설정이 바뀌면 그 모델은 돌리지 않는다 (새 label 로).
 """
@@ -306,6 +306,9 @@ def compare(sw, smoke=False):
     if result:
         _header(sw, root / "compare.md", root / "compare.html", notes, reports)
         log(f"비교표 → {root / 'compare.html'} ({', '.join(result['models'])})")
+        from .summary import write_own
+
+        write_own([(sw, reports, notes)], root / "summary.html")   # 한 화면 (실험 모아 보기와 같은 꼴, 이 묶음의 모델만)
     return result
 
 

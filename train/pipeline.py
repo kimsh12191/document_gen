@@ -430,6 +430,11 @@ class Runner:
         self.run([sys.executable, "-m", "train.cli", "report", "--reports", *map(str, ordered),
                   "--out", str(reports / "benchmark.csv")], "report.log")
         log(f"open {reports / 'benchmark.html'}")
+        if not self.dry:   # 한 화면 (실험 모아 보기와 같은 꼴, 이 workdir 의 모델만)
+            from .summary import gather, write_own
+
+            if write_own(gather([str(self.workdir)]), reports / "summary.html"):
+                log(f"한 화면: {reports / 'summary.html'}")
 
 
 def main(argv=None):

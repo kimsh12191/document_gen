@@ -7,6 +7,7 @@
 | 파일 (`train/runs/exp1/` 아래, 설정의 `workdir`) | 내용 |
 |---|---|
 | `reports/benchmark.html` (`.md`, `.csv`) | **본 결과.** 모델별 점수(OCR → 문서 이해 → 업무 열 순서), 출발 모델 대비 변화, 답 형식 오류, 세부 표 |
+| `reports/summary.html` | **한 화면.** 평가 세트·과제마다 주 지표 한 줄, 열은 모델(출발·SFT·GRPO), 괄호는 출발 모델 대비 %p. 여러 실험 모아 보기와 같은 꼴 |
 | `reports/start.json`, `sft.json`, `grpo-*.json` | 모델별 원본 점수. 표에 없는 지표도 들어 있음 (예: `kie`의 `field_acc`, `classify`의 `acc_lenient`) |
 | `state.json` | 단계별 완료 여부, 걸린 시간(`timings`) |
 | `logs/` | 단계별 실행 로그. GRPO 문제 선정 결과는 `mine.log` |

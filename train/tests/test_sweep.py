@@ -193,6 +193,7 @@ def test_summary_across_experiments(sweep_file, tmp_path):
     runner, _ = fake_pipeline({"a1-syn": 4, "a2-real": 8, "a3-more": 10})
     with contextlib.redirect_stdout(io.StringIO()):
         S.run(sweep_file, runner=runner)
+    assert "a3-more" in (tmp_path / "runs" / "E09" / "summary.html").read_text(encoding="utf-8")   # 묶음이 스스로 만든 한 화면
     exps = M.gather([sweep_file, tmp_path / "runs" / "E09"])   # 같은 실험을 두 번 (파일·폴더)
     assert [len(r) for _, r, _ in exps] == [4, 4]   # 출발 모델(첫 모델에서 평가) + 모델 3
     rows = M.table(exps)
@@ -223,6 +224,15 @@ def test_summary_reads_eval_only_workdir(tmp_path):
                                                        **score(ITEMS, {it["id"]: oracle_output(it) if i < n else "x" for i, it in enumerate(ITEMS)})})
     ((sw, reports, _),) = M.gather([wd])
     assert [r["label"] for r in reports] == ["a1-syn SFT", "a2 SFT", "출발 모델"] and sw["runs"][0]["label"] == "a1-syn SFT"
+    # compare_models 가 없는 학습 실행은 출발 모델이 기준
+    for f in ("cmp-compare0", "cmp-compare1"):
+        (wd / "reports" / f"{f}.json").unlink()
+    write_json(wd / "reports" / "sft.json", {"label": "SFT", "role": "sft", "model": "/m/sft",
+                                            **score(ITEMS, {it["id"]: oracle_output(it) for it in ITEMS})})
+    ((sw2, reports2, _),) = M.gather([wd])
+    assert sw2["runs"][0]["label"] == "출발 모델" and [r["label"] for r in reports2] == ["출발 모델", "SFT"]
+    cells2 = M.table([(sw2, reports2, [])])[0][6]
+    assert cells2[0][1] is None and cells2[1][1] > 0
     cells = M.table([(sw, reports, [])])[0][6]
     assert cells[0][1] is None and cells[1][1] is not None and cells[2][1] is None
     assert "reports/benchmark.html" not in M.render([(sw, reports, [])], tmp_path / "s.html").read_text(encoding="utf-8")   # 표가 아직 없으면 링크 없음

@@ -481,6 +481,8 @@ def test_pipeline_dry_run_and_grpo_rerun_report(tmp_path, mixed, model):
     cmd = commands[0]
     names = [Path(p).name for p in cmd[cmd.index("--reports") + 1:cmd.index("--out")]]
     assert names == ["start.json", "sft.json", "grpo-v0-1-checkpoint-500.json", "grpo-v1-2-checkpoint-500.json"]
+    page = (reports / "summary.html").read_text(encoding="utf-8")   # 학습 실행도 한 화면을 남긴다 (이 workdir 의 모델만)
+    assert "grpo-v1-2-checkpoint-500" in page and "한눈에 보기" in page
     import subprocess
 
     subprocess.run(cmd, check=True, capture_output=True, cwd=REPO)

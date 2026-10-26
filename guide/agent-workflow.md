@@ -198,7 +198,7 @@ python -m train --config train/configs/<실험>.json --smoke
 | 설정 | 설정 파일 경로, 모델, GPU, `data.output_dir`, 바꾼 칸, 평가 세트별 채점 함수(`scorer`, 없으면 기본) |
 | 결과 | 과제별 주 지표 표 (출발/SFT/GRPO), 형식 오류율, 오차 범위 안의 차이는 "차이 없음" |
 | 확인 안 된 것 | 사람 검수를 받지 못한 것, 건너뛴 단계 |
-| 경로 | `<workdir>/reports/benchmark.html` (묶음은 `<root>/compare.html`, 모아 보기를 만들었으면 그 html), 로그 폴더, 모델 `<workdir>/merged/…` |
+| 경로 | `<workdir>/reports/benchmark.html`·`summary.html` (묶음은 `<root>/compare.html`·`summary.html`, 여러 실험 모아 보기를 만들었으면 그 html), 로그 폴더, 모델 `<workdir>/merged/…` |
 | 다음 제안 | 실행하지 않은 추가 실험 |
 
 ## 8. 설정으로 안 되는 것
