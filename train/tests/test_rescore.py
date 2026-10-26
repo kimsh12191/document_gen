@@ -22,6 +22,8 @@ def test_think_block_and_wrapped_values():
     assert E.reward("ocr_field", T + "AT SIGHT", FIELD) == 1.0
     assert E.reward("kie", T + '[{"value": "AT SIGHT"}, {"value": "MAIL TO"}]', BL) == 1.0
     assert E.score_task("classify", [CLS], {CLS["id"]: T + "외화송금신청서"})["metrics"]["acc"] == 1.0
+    yesno = {"id": "review/a/x", "task": "review", "answer": "예", "eval": {"answer_type": "yesno", "tol": 0}, "meta": {}}
+    assert E.reward("review", T + "예", yesno) == 1.0   # 예/아니오 심사 질문도 첫 줄만 보던 채점
 
 
 def test_rescore_workdir(tmp_path):

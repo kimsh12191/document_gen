@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import difflib
 import json
-import re
 import sys
 from pathlib import Path
 
@@ -472,12 +471,10 @@ def _score_ocr(task: str, items: list[dict], preds: dict[str, str]) -> dict:
             "main": main, "metrics": metrics, "slices": slices, "per_item": per}
 
 
-THINK = re.compile(r"^\s*<think>.*?</think>\s*", re.S)
-
-
 def answer_text(out):
-    """모델 출력에서 앞의 생각 블록(<think>…</think>, 비어 있어도)을 뗀 답. 생각을 끄고 학습한 모델도 빈 블록을 낸다."""
-    return THINK.sub("", out, count=1) if isinstance(out, str) else out
+    """모델 출력에서 앞의 생각 블록(<think>…</think>, 비어 있어도)을 뗀 답. 생각을 끄고 학습한 모델도 빈 블록을 낸다.
+    OCR 과제(ocr_metrics.answer)와 같은 규칙."""
+    return OM.answer(out) if isinstance(out, str) else out
 
 
 def score_task(task: str, items: list[dict], preds: dict[str, str]) -> dict:

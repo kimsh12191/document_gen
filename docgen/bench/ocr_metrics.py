@@ -25,8 +25,9 @@ INTERPRETATION = {"ocr_pseudo_unreviewed": "agreement_with_internal_ocr_not_veri
                   "synthetic_exact": "accuracy_against_rendered_text"}
 REFERENCE_TYPES = frozenset(INTERPRETATION)
 
-# add_non_thinking_prefix trains the model to emit an empty think block before the answer.
-EMPTY_THINK = re.compile(r"^\s*<think>\s*</think>\s*")
+# add_non_thinking_prefix trains the model to emit an empty think block before the answer;
+# a thinking model writes its reasoning there. Either way the answer is what follows (all tasks, evaluate.answer_text).
+THINK = re.compile(r"^\s*<think>.*?</think>\s*", re.S)
 FENCE = re.compile(r"^```(?:json)?\s*\n?(.*?)\n?\s*```$", re.S)
 
 # (key, heading, task, metric) used by `compare` and benchmark_report.py.
@@ -48,7 +49,7 @@ LOWER_IS_BETTER = {"crop_cer", "region_cer"}
 
 
 def answer(text):
-    return EMPTY_THINK.sub("", text, count=1)
+    return THINK.sub("", text, count=1)
 
 
 def norm(text):
