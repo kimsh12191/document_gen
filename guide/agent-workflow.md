@@ -202,8 +202,8 @@ python -m train --config train/configs/<실험>.json --smoke
 
 ## 8. 설정으로 안 되는 것
 
-- **목록에 없는 서류 양식:** 서식 추가가 필요 ([docgen/manual/TEMPLATE_GUIDE.md](../docgen/manual/TEMPLATE_GUIDE.md), studio 서식 초안).
+- **목록에 없는 서류 양식:** 서식 추가가 필요 ([docgen/manual/TEMPLATE_GUIDE.md](../docgen/manual/TEMPLATE_GUIDE.md), studio ④ 포맷 열기 › 템플릿으로).
 - **새 심사 질문·대조 규칙:** 생성·채점 코드 추가가 필요.
 - **특정 값·사건의 정확한 개수:** 레시피는 비율만 정함. 생성 후 골라내거나 코드 확장.
 - **다른 학습 포맷:** 생성 후 변환. 이미지 경로와 좌표 의미를 보존.
-- **실제 고객 데이터 성능:** 합성 데이터 점수는 실서류보다 높게 나옴. 실서류 평가 세트는 studio 실문서 벤치마크로.
+- **실제 고객 데이터 성능:** 합성 데이터 점수는 실서류보다 높게 나옴. 실서류 평가 세트는 검수한 파일을 `data.benchmark`에 넣어 평가 ([eval.md](eval.md)).
