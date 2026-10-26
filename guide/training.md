@@ -72,9 +72,15 @@ cp train/configs/pipeline.example.json train/configs/pipeline.json
     {"id": "real-fx", "name": "실서류 외환", "group": "real", "format": "swift-fields", "gt": "reviewed",
      "paths": ["/database/…/eval/eval_qa_PO.jsonl"]},
     {"id": "real-inspect", "name": "실서류 검사부", "group": "real", "format": "swift-fields", "gt": "reviewed",
-     "paths": ["/database/…/검사부.jsonl"]}
+     "paths": ["/database/…/검사부.jsonl"], "scorer": "scorers/inspect.py:score"}
   ]
   ```
+- **평가 세트마다 채점 방식을 바꾸려면 `"scorer": "<파일.py>:<함수>"`** (설정 파일 기준 상대 경로, `:함수`를 빼면 `score`). 없으면 studio 기본 채점입니다.
+  - 견본 [`train/scorers/kie_default.py`](../train/scorers/kie_default.py): studio 기본 정보 추출의 값 점수와 같은 계산입니다. 복사해서 고칩니다. 위쪽 `FIELD_TYPES`에 항목별 비교 기준(`text`·`amount`·`date`·`digits`)만 적어도 되고(`{"AMT_VALUE": "amount", "DATE": "date"}`), 함수를 직접 고쳐도 됩니다.
+  - 함수 꼴: `score(item, output) -> {"metrics": {이름: 0~1}, "main": "f1", "parse_fail": False}`. `item["answer"]`가 정답, `output`은 생각 블록을 뗀 모델 답입니다. 문항 점수의 평균이 그 평가 세트 점수이고, `main`이 비교표의 주 지표입니다.
+  - 돌리기 전에 파일·함수가 있는지 검사합니다. 함수가 문항에서 실패하면 문항 id와 함께 멈춥니다.
+  - 평가 채점에만 씁니다 (학습·GRPO 보상은 그대로). 채점 함수가 다른 평가 세트끼리는 점수를 같은 기준으로 비교하지 않습니다.
+  - 함수를 고친 뒤에는 학습·추론 없이 `python -m train rescore <workdir>`로 다시 채점합니다 ([eval.md 5절](eval.md#5-채점-규칙이-바뀌었을-때-다시-채점)). 채점 함수 파일 경로는 섞을 때 문항에 적혀서, 같은 파일을 고치면 됩니다.
 - **40GB GPU**면 `"sft": {"config": "sft_a100_40g_x2.yaml"}`, `"grpo": {"config": "grpo_a100_40g_x2.yaml", …}`.
 - 다른 칸(`task_mix`, `grpo`, `eval`)은 [train/README.md](../train/README.md)에 설명이 있습니다. 처음에는 그대로 둡니다.
 - studio ⑥ 데이터셋 › 학습 탭에서 데이터셋을 고르면 이 파일을 `train/configs/studio-<이름>.json`으로 써 줍니다. 그때는 `model`·`gpus`만 확인합니다.

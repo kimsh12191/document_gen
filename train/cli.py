@@ -12,8 +12,14 @@ def resolve_data(cfg: dict, base: Path) -> dict:
     def res(p):
         return str((base / p).resolve()) if p and not Path(p).is_absolute() else p
 
+    def scorer(e):   # "<파일.py>:<함수>" 의 파일 쪽만
+        if not e.get("scorer"):
+            return {}
+        path, colon, name = e["scorer"].partition(":")
+        return {"scorer": res(path) + colon + name}
+
     def entries(v):
-        return [({**e, **({"paths": [res(p) for p in e["paths"]]} if "paths" in e else {"path": res(e["path"])})}
+        return [({**e, **({"paths": [res(p) for p in e["paths"]]} if "paths" in e else {"path": res(e["path"])}), **scorer(e)}
                  if isinstance(e, dict) else res(e)) for e in (v if isinstance(v, list) else [v])]
     d = dict(cfg["data"])
     d["output_dir"] = res(d.get("output_dir"))

@@ -1,6 +1,7 @@
 """벤치마크 한 개(id/name)는 여러 경로를 합산한다. group은 표시 분류다.
 format: "tasks"(기본, studio 과제 폴더) | "swift-fields"(실서류 swift .jsonl, train/swift_import.py).
-gt: 정답 출처 "exact"·"reviewed"·"pseudo" (폴더의 meta.json 보다 우선)."""
+gt: 정답 출처 "exact"·"reviewed"·"pseudo" (폴더의 meta.json 보다 우선).
+scorer: 이 평가 세트만 다르게 채점할 때 "<파일.py>:<함수>" (설정 파일 기준 상대 경로, 함수를 빼면 score). 견본 train/scorers/kie_default.py."""
 import hashlib
 from pathlib import Path
 import re
@@ -42,8 +43,16 @@ def normalize(spec):
         for p in paths:
             if (fmt == "swift-fields") != p.endswith(".jsonl"):
                 raise ValueError(f"{p}: swift .jsonl 은 \"format\": \"swift-fields\" 와 함께, 그 밖의 경로는 과제 폴더로 적습니다")
+        scorer = value.get("scorer")
+        if scorer is not None:
+            if not isinstance(scorer, str) or not scorer.partition(":")[0].endswith(".py"):
+                raise ValueError(f"benchmark {ident}: scorer 는 \"<파일.py>:<함수>\" 입니다: {scorer}")
+            from docgen.bench.evaluate import load_scorer
+
+            load_scorer(scorer)   # 파일·함수가 있는지 돌리기 전에
         result.append({"id": ident, "name": name.strip(), "group": group.strip(), "paths": paths, "legacy": legacy,
-                       **({"format": fmt} if fmt != "tasks" else {}), **({"gt": gt} if gt else {})})
+                       **({"format": fmt} if fmt != "tasks" else {}), **({"gt": gt} if gt else {}),
+                       **({"scorer": scorer} if scorer else {})})
     return result
 
 

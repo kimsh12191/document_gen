@@ -294,6 +294,8 @@ def mix(data_cfg: dict, model_dir: str | None) -> dict:
             if named:
                 test = [{**it, "meta": {**it["meta"], "benchmark_id": b["id"], "benchmark_name": b["name"],
                                         "benchmark_group": b["group"], "benchmark_path": path}} for it in test]
+            if b.get("scorer"):   # 이 평가 세트만 다른 채점 함수 (학습·GRPO 보상은 그대로)
+                test = [{**it, "eval": {**(it.get("eval") or {}), "scorer": b["scorer"]}} for it in test]
             bench_items += test
             bench_sources[path] = {k: v for k, v in meta.items() if k not in ("doc_names",)}
         if len(references) > 1:

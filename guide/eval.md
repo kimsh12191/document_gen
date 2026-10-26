@@ -80,6 +80,7 @@ python -m train rescore ../runs/E01-reeval-v2        # workdir 하나: reports/*
 - 예전 보고서는 `reports/before-rescore-<시각>/`에 옮겨 두고, 과제별로 바뀐 점수를 출력합니다.
 - 섞은 폴더는 `<workdir>/config.json`의 `data.output_dir`에서 찾습니다. 없으면 `--data <섞은 폴더>`.
 - 끝나면 모아 보기(4절)도 다시 만드세요.
+- 평가 세트의 채점 함수(`scorer`, [training.md 3절](training.md#3-설정-파일))를 고쳤을 때도 이것으로 다시 채점합니다. 섞을 때 적힌 그 파일을 고치세요.
 
 ## 알아 둘 점
 

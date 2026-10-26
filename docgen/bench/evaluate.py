@@ -479,26 +479,55 @@ def answer_text(out):
     return OM.answer(out) if isinstance(out, str) else out
 
 
+_CUSTOM: dict = {}
+
+
+def load_scorer(spec: str):
+    """평가 세트마다 넣는 채점 함수 '<파일.py>:<함수>' (함수를 빼면 score). 꼴은 train/scorers/kie_default.py.
+    함수(item, output) -> {"metrics": {이름: 0~1}, "main"?: 주 지표 이름, "parse_fail"?: bool}. output 은 생각 블록을 뗀 답."""
+    import importlib.util
+
+    path, _, name = spec.partition(":")
+    key = (path, Path(path).stat().st_mtime if Path(path).is_file() else None, name or "score")
+    if key not in _CUSTOM:
+        if not Path(path).is_file():
+            raise ValueError(f"채점 함수 파일이 없습니다: {path}")
+        mod_spec = importlib.util.spec_from_file_location(f"docgen_scorer_{abs(hash(key))}", path)
+        mod = importlib.util.module_from_spec(mod_spec)
+        mod_spec.loader.exec_module(mod)
+        fn = getattr(mod, name or "score", None)
+        if not callable(fn):
+            raise ValueError(f"{path} 에 함수 {name or 'score'} 가 없습니다")
+        _CUSTOM[key] = fn
+    return _CUSTOM[key]
+
+
 def score_task(task: str, items: list[dict], preds: dict[str, str]) -> dict:
-    if task in OCR_TASKS:
+    custom = any((it.get("eval") or {}).get("scorer") for it in items)
+    if task in OCR_TASKS and not custom:
         return _score_ocr(task, items, preds)
-    fn = SCORERS[task]
     rows, missing, fails = [], 0, 0
     for it in items:
+        spec = (it.get("eval") or {}).get("scorer")
+        fn = load_scorer(spec) if spec else SCORERS[task]
         out = answer_text(preds.get(it["id"]))
         if it["id"] not in preds:
             missing += 1
-        r = fn(it, out)
+        try:
+            r = fn(it, out if out is not None or not spec else "")
+        except Exception as exc:  # noqa: BLE001  사용자 채점 함수의 오류는 어느 문항인지와 함께
+            raise ValueError(f"채점 함수 {spec or task} 가 문항 {it['id']} 에서 실패: {type(exc).__name__}: {exc}") from exc
         fails += bool(r.get("parse_fail")) and out is not None
         if out is None or r.get("parse_fail"):  # 예측 없음·파싱 실패는 최악 점수 (빈 답이 null 칸·'도장 없음'을 맞히지 않게)
             r = {"metrics": {k: WORST.get(k, 0.0) for k in r["metrics"]},
-                 "sub": [(n, v, False) for n, v, _ in r.get("sub", [])]}
+                 "sub": [(n, v, False) for n, v, _ in r.get("sub", [])], **({"main": r["main"]} if r.get("main") else {})}
         rows.append((it, r))
     metrics = {}
     for k in {k for _, r in rows for k in r["metrics"]}:
         metrics[k] = _mean([r["metrics"].get(k) for _, r in rows])
     slices = {}
-    main = main_metric(task, metrics)
+    mains = {r.get("main") for _, r in rows}
+    main = mains.pop() if len(mains) == 1 and None not in mains else main_metric(task, metrics)   # 채점 함수가 정한 주 지표
     for s in SLICES.get(task, []):
         groups: dict = {}
         if s.startswith("@"):  # 항목 단위 구분 (kie 의 값 종류 등)
