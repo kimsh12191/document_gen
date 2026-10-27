@@ -111,7 +111,7 @@ def test_template_private_and_drafts(batch, tmp_path, monkeypatch):
     assert not (tmp_path / "public_forms").exists()
     lay = json.loads((priv / "img_pay_test" / "layout.json").read_text(encoding="utf-8"))
     assert lay["pages"][0]["width"] == pytest.approx(W / RF.BG_ZOOM, abs=0.01) and lay["texts"]
-    assert OV.path("img_pay_test") == priv / "img_pay_test" / "overrides.json"   # 수정도 서식 폴더 (저장소 밖)
+    assert OV.path("img_pay_test") == priv / "regions" / "img_pay_test.json"   # 수정도 사내 폴더 (저장소 밖)
     ov = OV.load("img_pay_test")
     assert {a["label"] for a in ov["add"]} == {"성명", "지급총액", "공제총액", "실수령액"}
     # 지운 값은 배경 글자(합성 OCR 정답)에서 빠진다

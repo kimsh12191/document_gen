@@ -1,4 +1,6 @@
 {
+ "engine": "overlay",
+ "unit": "pt",
  "erase": [
   {
    "page": 0,

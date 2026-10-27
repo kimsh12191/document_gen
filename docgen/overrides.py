@@ -1,8 +1,9 @@
 """overlay 서식의 사람 수정층: 자동 추출 레이아웃 위에 사람이 고친 것을 덧씌운다 (studio 영역 편집기가 쓴다).
 
-  docgen/forms/overrides/<서식ID>.json        (가져온 이미지 서식 img_* 는 그 서식 폴더의 overrides.json:
-                                              실서류에서 만든 서식은 수정도 private_forms_dir 밖으로 나가지 않는다)
+  파일은 docgen/regions.py 가 정한다: docgen/forms/regions/<서식ID>.json (실서류에서 가져온 서식 img_* 는
+  $DOCGEN_PRIVATE_FORMS/regions/<서식ID>.json — 수정도 private_forms_dir 밖으로 나가지 않는다)
   {
+    "engine": "overlay", "unit": "pt",                                          서식 종류·좌표 단위 (저장할 때 붙인다)
     "items": [ {"match": {"page": 0, "t": "text", "label": "직장주소", "n": 0},   자동 추출 영역 고르기
                 "set": {"rect": [...]},                                         영역 정보 바꾸기 (rect, options, parts …)
                 "key": "employer.address", "kind": "address",                   키·값 종류
@@ -29,19 +30,13 @@ import unicodedata
 from contextlib import contextmanager
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent   # docgen/
-OVERRIDES = ROOT / "forms" / "overrides"
 _local = threading.local()
 
 
 def path(doc_id: str) -> Path:
-    if doc_id.startswith("img_"):
-        from .realform import image_form_dir
+    from . import regions
 
-        d = image_form_dir(doc_id)
-        if d is not None:
-            return d / "overrides.json"
-    return OVERRIDES / f"{doc_id}.json"
+    return regions.path(doc_id)
 
 
 def load(doc_id: str) -> dict:
@@ -49,20 +44,15 @@ def load(doc_id: str) -> dict:
     drafts = getattr(_local, "drafts", None)
     if drafts and doc_id in drafts:
         return drafts[doc_id]
-    p = path(doc_id)
-    return json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
+    from . import regions
+
+    return regions.read(doc_id)
 
 
 def save(doc_id: str, ov: dict) -> Path:
-    p = path(doc_id)
-    ov = {k: v for k, v in ov.items() if v not in (None, [], {})}
-    if not ov or not any(ov.get(k) for k in ("items", "add", "erase", "marks")):
-        if p.exists():
-            p.unlink()
-        return p
-    p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(json.dumps(ov, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    return p
+    from . import regions
+
+    return regions.write(doc_id, ov)
 
 
 @contextmanager

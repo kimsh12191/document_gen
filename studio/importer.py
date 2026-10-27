@@ -526,6 +526,7 @@ def create_template(bdir: Path, fid: str, page_ids: list[str], form_id: str, nam
     """견본 쪽 그림을 배경으로 하는 overlay(image) 서식. 영역은 비어 있고 영역 편집기에서 그린다.
     실서류에서 온 묶음은 private_forms_dir 에만 만든다 (공개 서식으로 표시한 묶음만 저장소의 docgen/forms/images)."""
     from docgen import realform as RF
+    from docgen import regions
 
     batch = json.loads((bdir / "batch.json").read_text(encoding="utf-8"))
     if not re.fullmatch(r"img_[a-z0-9_]{2,40}", form_id):
@@ -556,7 +557,7 @@ def create_template(bdir: Path, fid: str, page_ids: list[str], form_id: str, nam
            "texts": texts, "created": time.strftime("%Y-%m-%d %H:%M"), "private": root != RF.IMAGE_FORMS}
     (dest / "layout.json").write_text(json.dumps(lay, ensure_ascii=False, indent=1), encoding="utf-8")
     n_drafts = 0
-    if drafts:   # 같은 포맷의 다른 문서와 견줘 값 자리 초안 → 서식 폴더의 overrides.json (영역 편집기에서 "추가"·"지우기"로 보인다)
+    if drafts:   # 같은 포맷의 다른 문서와 견줘 값 자리 초안 → 수정 파일 regions/<ID>.json (영역 편집기에서 "추가"·"지우기"로 보인다)
         fx = json.loads((bdir / "formats.json").read_text(encoding="utf-8"))
         f = next((x for x in fx["formats"] if x["id"] == fid), None)
         docs = (f or {}).get("docs") or {}
@@ -571,7 +572,7 @@ def create_template(bdir: Path, fid: str, page_ids: list[str], form_id: str, nam
             to_pt = lambda r: [round(v / RF.BG_ZOOM, 2) for v in r]  # noqa: E731
             ov = {"erase": [{**e, "rect": to_pt(e["rect"])} for e in dr["erase"]],
                   "add": [{**a, "rect": to_pt(a["rect"])} for a in dr["add"]]}
-            (dest / "overrides.json").write_text(json.dumps(ov, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+            regions.write_new(root, form_id, ov)
             n_drafts = len(ov["add"])
     set_decision(bdir, fid, {"kind": "template", "form_id": form_id, "dir": str(dest)})
     return {"form_id": form_id, "dir": str(dest), "private": lay["private"], "drafts": n_drafts}

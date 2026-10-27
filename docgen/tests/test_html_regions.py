@@ -4,6 +4,7 @@ import json
 import pytest
 
 from docgen import html_regions as HR
+from docgen import regions
 from docgen.entities import make_profile
 from docgen.registry import load_all
 from docgen.render import render
@@ -21,7 +22,7 @@ def test_invalid_sources_and_duplicate_occurrences():
 
 
 def test_binding_and_addition_preserve_original(tmp_path, monkeypatch):
-    monkeypatch.setattr(HR,"ROOT",tmp_path)
+    monkeypatch.setattr(regions,"ROOT",tmp_path)
     spec=load_all()["gov_income"]
     p=make_profile(7)
     html,raw,_=render(spec,p,7)
@@ -78,7 +79,7 @@ def test_actual_image_placement_and_extraction(tmp_path,monkeypatch):
     from docgen.image import ImageRenderer
     from docgen.bench.processing import execute,validate
 
-    monkeypatch.setattr(HR,"ROOT",tmp_path/"regions")
+    monkeypatch.setattr(regions,"ROOT",tmp_path/"regions")
     spec=load_all()["gov_income"]
     config={"regions":[{"key":"official.name","occurrence":0,"source":"rule:fixed","text":"영역 검증","page":0,"rect":[60,80,200,105]},
                        {"key":"added.test","source":"profile.person.mobile","label":"연락처","page":0,"rect":[60,115,250,140]}]}
@@ -95,4 +96,4 @@ def test_actual_image_placement_and_extraction(tmp_path,monkeypatch):
     result=execute(conf,{spec.id:{"name":spec.name,"fields":fields,"pages":info["pages"]}})
     assert result[0]["status"]=="ready" and result[0]["item"]["answer"][0]["value"]==added["value"]
     HR.save(spec.id,config)
-    assert json.loads(HR.path(spec.id).read_text(encoding="utf-8"))==config
+    assert json.loads(HR.path(spec.id).read_text(encoding="utf-8"))=={"engine":"html","unit":"px",**config}

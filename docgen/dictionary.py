@@ -231,13 +231,13 @@ def _raw_cells(form_id: str) -> list[dict]:
 
     spec = load_all().get(form_id)
     if spec is not None and spec.template == "_real_form.html.j2":
-        from . import overrides as OV
         from . import realform as RF
+        from . import regions
 
         if ("_src", form_id) not in _cells:   # 레이아웃 파일 찾기(glob)는 한 번만
             no = RF.form_no(form_id)
             _cells[("_src", form_id)] = (RF.layout_path(no) if no is not None else (RF.image_form_dir(form_id) or Path()) / "layout.json",
-                                         OV.path(form_id))
+                                         *regions.files(form_id))
         stamp = tuple(f.stat().st_mtime if f and f.exists() else 0 for f in _cells[("_src", form_id)])
         if _cells.get(form_id, (None,))[0] != stamp:
             _cells[form_id] = (stamp, [{"id": i, **v} for i, v in RF.layout_keys(form_id).items() if v["keys"]])

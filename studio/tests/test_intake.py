@@ -330,7 +330,8 @@ def test_plan_and_apply(clean_set, tmp_path, sandbox):
     assert "employment_certificate" in R.SCENARIOS["account_opening"][1]
     [form] = out["forms"]
     assert form["format"] == ext["id"] and form["form_id"] in R.REGISTRY and form["slots"] >= 1 and form["erase"] >= 1
-    ov = json.loads((Path(form["dir"]) / "overrides.json").read_text(encoding="utf-8"))
+    from docgen import regions
+    ov = json.loads(regions.path(form["form_id"]).read_text(encoding="utf-8"))
     assert ov["erase"] and ov["add"][0]["key"]
     exported = json.loads((Path(out["raw"]["root"]) / "export.json").read_text(encoding="utf-8"))["documents"]
     assert {v["doc_type"] for v in exported.values()} >= {form["form_id"]}

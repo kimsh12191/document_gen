@@ -1,5 +1,8 @@
 """HTML 값 영역의 별도 수정층. 템플릿 원본을 보존하고 모든 렌더 경로에 같은 수정을 적용한다.
 
+html 서식은 템플릿이 칸을 만든다. 이 수정층은 그 칸을 key 로 집어 위치·값·항목명을 바꾸거나 drop 으로 빼고, 새 칸을 더한다.
+파일은 docgen/regions.py 가 정한다: <서식이 있는 곳>/regions/<ID>.json 의 "regions" (기본 레이아웃)와
+"variants": {"<변형 ID>": {"regions": [...]}} (레이아웃 변형별).
 좌표는 페이지 왼쪽 위 기준 CSS px. 반복 출력은 key + occurrence(0부터)로 구분한다.
 """
 from __future__ import annotations
@@ -12,30 +15,27 @@ import threading
 from contextlib import contextmanager
 from pathlib import Path
 
-ROOT = Path(__file__).parent / "forms" / "html_regions"
 _local = threading.local()
 _lock = threading.Lock()
 
 
 def path(doc_id: str, variant: str = "default") -> Path:
+    """수정 파일 (레이아웃 변형도 같은 파일의 variants 칸). overlay 서식이거나 등록되지 않은 변형이면 ValueError."""
+    from . import regions
     from .registry import load_all
-    from .htmlform import form_dir, COPIES
 
     spec = load_all()[doc_id]
     if spec.template == "_real_form.html.j2":
         raise ValueError("overlay는 기존 영역 편집기를 사용하세요")
     if variant != "default":
-        from .template_variants import folder, load as variants
+        from .template_variants import load as variants
         if variant not in {r["id"] for r in variants(doc_id)["variants"]}:
             raise ValueError("등록되지 않은 레이아웃입니다")
-        return folder(doc_id)/(variant+".regions.json")
-    folder = form_dir(doc_id)
-    if folder and not folder.is_relative_to(COPIES):
-        return folder / "regions.json"
-    return ROOT / f"{doc_id}.json"
+    return regions.path(doc_id)
 
 
 def load(doc_id: str, variant: str = "default") -> dict:
+    from . import regions
     from .registry import load_all
 
     if doc_id not in load_all():
@@ -43,8 +43,10 @@ def load(doc_id: str, variant: str = "default") -> dict:
     drafts = getattr(_local, "drafts", {})
     if doc_id in drafts:
         return drafts[doc_id]
-    p = path(doc_id,variant)
-    return json.loads(p.read_text(encoding="utf-8")) if p.exists() else {"regions": []}
+    path(doc_id, variant)
+    body = regions.read(doc_id)
+    part = body if variant == "default" else body.get("variants", {}).get(variant, {})
+    return {"regions": part.get("regions", [])}
 
 
 def validate(value: dict) -> dict:
@@ -104,13 +106,17 @@ def validate(value: dict) -> dict:
 
 
 def save(doc_id: str, value: dict, variant: str = "default") -> dict:
+    from . import regions
+
     value = validate(value)
-    p = path(doc_id,variant)
+    path(doc_id, variant)
     with _lock:
-        p.parent.mkdir(parents=True, exist_ok=True)
-        tmp = p.with_suffix(".tmp")
-        tmp.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        tmp.replace(p)
+        body = regions.read(doc_id)
+        if variant == "default":
+            body["regions"] = value["regions"]
+        else:
+            body.setdefault("variants", {})[variant] = {"regions": value["regions"]}
+        regions.write(doc_id, body)
     return value
 
 

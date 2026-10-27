@@ -68,9 +68,9 @@ def value_audit(doc_id: str) -> dict | None:
 
 def _keys(doc_id: str) -> list[dict]:
     keys = list(_fields().get(doc_id, {}).get("keys", []))
-    from docgen import html_regions
+    from docgen import regions
 
-    if load_all()[doc_id].template != "_real_form.html.j2" and html_regions.path(doc_id).exists():
+    if load_all()[doc_id].template != "_real_form.html.j2" and regions.exists(doc_id):
         from docgen.entities import make_profile
         from docgen.render import render
         from docgen.schema import build_fields
@@ -186,12 +186,9 @@ def _key_stats(keys: list[dict]) -> dict:
 
 
 def _edited(doc_id: str) -> bool:
-    from docgen import overrides
+    from docgen import regions
 
-    from docgen import html_regions
-    from docgen import template_variants
-
-    return overrides.path(doc_id).exists() or (load_all()[doc_id].template != "_real_form.html.j2" and (html_regions.path(doc_id).exists() or any(template_variants.folder(doc_id).glob("*.regions.json"))))
+    return regions.exists(doc_id)
 
 
 def _summary(spec, entry: dict, audit: bool = False) -> dict:
@@ -251,7 +248,6 @@ def form_detail(doc_id: str) -> dict:
             parent = load_all()[form["parent"]]
             files.append({"role": f"생성 함수 (부모 서식 {parent.id})", "path": _rel(Path(inspect.getsourcefile(parent.generate)))})
     elif spec.group in ("hana", "imported"):
-        from docgen import overrides
         from docgen.realform import form_no, image_form_dir, layout_path, load_layout
 
         no = form_no(doc_id)
@@ -262,12 +258,18 @@ def form_detail(doc_id: str) -> dict:
             files.append({"role": "원본 PDF", "path": lay.get("file", "")})
         elif (d := image_form_dir(doc_id)):
             files.append({"role": "레이아웃·배경 이미지", "path": _rel(d)})
-        op = overrides.path(doc_id)
-        files.append({"role": "사람 수정 (영역 편집기)", "path": _rel(op) + ("" if op.exists() else " (아직 없음)")})
         files.append({"role": "값 채우기·렌더링", "path": "docgen/realform.py"})
     else:
         files.append({"role": "템플릿", "path": f"docgen/templates/{spec.template}"})
         files.append({"role": "생성 함수", "path": _rel(Path(inspect.getsourcefile(spec.generate)))})
+    from docgen import regions
+
+    op = regions.path(doc_id)
+    files.append({"role": "사람 수정 (영역 편집기)", "path": _rel(op) + ("" if op.exists() else " (아직 없음)")})
+    for vid, f in regions.legacy(doc_id).items():
+        files.append({"role": "예전 수정 파일" + (f" ({vid})" if vid else ""),
+                      "path": _rel(f) + (" (새 파일이 있어 안 읽음 — python -m docgen.regions check)" if op.exists()
+                                         else " (python -m docgen.regions migrate 로 옮기세요)")})
     return {
         **_summary(spec, entry, audit=True),
         "description": spec.description,

@@ -41,7 +41,7 @@ _ENV = {"heavy": ("DOCGEN_HEAVY", {"on": "1", "off": "0"}),
 # 모든 서식이 함께 쓰는 렌더링 코드. 바뀌면 모든 미리보기를 새로 그린다.
 COMMON = ["docgen/render.py", "docgen/schema.py", "docgen/image.py", "docgen/paginate.js", "docgen/augment.py",
           "docgen/realform.py", "docgen/keyrules.py", "docgen/key_rules.json", "docgen/entities.py", "docgen/korean.py", "docgen/banks.py", "docgen/docs/_common.py",
-          "docgen/marks.py", "docgen/overrides.py", "docgen/sources.py", "docgen/preview.py", "docgen/marks.json", "docgen/assets/marks/pools.json",
+          "docgen/marks.py", "docgen/overrides.py", "docgen/regions.py", "docgen/sources.py", "docgen/preview.py", "docgen/marks.json", "docgen/assets/marks/pools.json",
           "docgen/templates/_base.html.j2", "docgen/templates/_macros.html.j2", "docgen/templates/_real_form.html.j2",
           "docgen/templates/_official_base.html.j2", "docgen/templates/_official_values.html.j2",
           "docgen/html_regions.py", "docgen/html_regions.js", "docgen/template_variants.py"]
@@ -54,14 +54,11 @@ def _source_file(fn) -> str:
 
 def source_files(doc_id: str, common: bool = True) -> list[Path]:
     """이 서식의 결과를 바꾸는 파일들 (서식 전용 + 공통). common=False 면 서식 전용만 (검수 후 바뀌었는지 볼 때)."""
-    from . import overrides
+    from . import regions
 
     spec = load_all()[doc_id]
-    files = [Path(_source_file(spec.generate)), overrides.path(doc_id)]
+    files = [Path(_source_file(spec.generate)), *regions.hash_files(doc_id)]
     if spec.template != "_real_form.html.j2":
-        from . import html_regions
-
-        files.append(html_regions.path(doc_id))
         from .template_variants import folder
         vd=folder(doc_id)
         files += [vd/"variants.json"] + (sorted(vd.glob("*.html.j2")) + sorted(vd.glob("*.regions.json")) if vd.exists() else [])
@@ -77,7 +74,7 @@ def source_files(doc_id: str, common: bool = True) -> list[Path]:
                 from .realform import layout_path
 
                 lp = layout_path(int(parent[2:]))
-                files += ([lp] if lp else []) + [overrides.path(parent)]
+                files += ([lp] if lp else []) + regions.hash_files(parent)
     else:
         files.insert(0, ROOT / "docgen" / "templates" / spec.template)
     if spec.group in ("hana", "imported"):
@@ -89,7 +86,7 @@ def source_files(doc_id: str, common: bool = True) -> list[Path]:
             files.append(lp)
         d = image_form_dir(doc_id) if no is None else None
         if d:
-            files += [f for f in sorted(d.iterdir()) if f.is_file() and f.name != "overrides.json"]
+            files += [f for f in sorted(d.iterdir()) if f.is_file() and f.name not in ("overrides.json", "regions.json")]
     return files + ([ROOT / c for c in COMMON] if common else [])
 
 

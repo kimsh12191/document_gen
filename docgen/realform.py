@@ -99,7 +99,7 @@ def raw_layout(doc_id: str) -> dict:
 
 
 def form_layout(doc_id: str) -> tuple[dict, list[dict]]:
-    """사람 수정(docgen/forms/overrides/<ID>.json)을 덧씌운 레이아웃과 못 찾은 수정 목록."""
+    """사람 수정(docgen/forms/regions/<ID>.json)을 덧씌운 레이아웃과 못 찾은 수정 목록."""
     return OV.apply(raw_layout(doc_id), OV.load(doc_id))
 
 

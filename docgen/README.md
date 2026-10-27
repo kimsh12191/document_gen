@@ -303,7 +303,7 @@ HTML 템플릿 70종을 실제 서식과 비교해 서식 번호, 항목 구성�
 
 Studio ③은 `document_roles.json`의 제출 역할마다 실제 서식 하나를 선택합니다. 기존 HTML·공식 HTML·overlay를 같은 역할의 변형으로 묶되 신청서/증명서·개인/법인·증명 범위는 구분합니다. `scenarios.json.docs`에는 선택한 실제 ID가 저장되며 CLI 빌드도 그 선택을 사용합니다. 역할과 필드 스키마는 별개라, 교체 후 직접 추출·비교 키를 다시 선택해야 합니다.
 
-HTML 글자 값 영역은 Studio ①의 영역 편집에서 고칩니다. `forms/html_regions/<ID>.json`(내부 전용 서식은 그 폴더의 `regions.json`)에 CSS px 좌표와 값 출처를 저장합니다. 원본 템플릿은 유지하고 `render.py`·`image.py`가 수정층을 적용하므로 미리보기·CLI·은행 업무·OCR 생성 결과에 공통 반영됩니다. 체크·서명·도장의 HTML 영역 편집은 아직 템플릿에서 합니다. 동적 페이지는 다른 seed에서도 확인하세요.
+HTML 글자 값 영역은 Studio ①의 영역 편집에서 고칩니다. overlay와 같은 수정 파일 `forms/regions/<ID>.json`(아래 "서식 수정 파일")에 CSS px 좌표와 값 출처를 저장합니다. 원본 템플릿은 유지하고 `render.py`·`image.py`가 수정층을 적용하므로 미리보기·CLI·은행 업무·OCR 생성 결과에 공통 반영됩니다. 체크·서명·도장의 HTML 영역 편집은 아직 템플릿에서 합니다. 동적 페이지는 다른 seed에서도 확인하세요.
 
 현재는 알아낸 overlay 글자 칸을 무작위로 비우지 않고 표를 최소 한 행 채웁니다. 이전 방식은 프로필 값 `sparse_fields=true`로 선택합니다. 천원·만원·백만원·억원 칸은 단위에 맞춰 표시하고 라벨 `unit`·원 단위 `norm`을 기록합니다. HTML `fields`의 `parent.<경로>`는 부모 생성값을 참조하고, `shared_copies=true`인 약정의 `_copy` 값은 원본 기재값을 공유합니다. 생성 결과가 달라졌으므로 새 데이터셋 버전으로 만드세요.
 
@@ -312,3 +312,31 @@ HTML 글자 값 영역은 Studio ①의 영역 편집에서 고칩니다. `forms
 ```powershell
 python -m docgen.scripts.audit_form_values --out studio_cache/value_audit/final
 ```
+
+## 서식 수정 파일
+
+서식 하나에 사람 수정 파일이 하나입니다. overlay(`hf###`, `img_*`)와 html 서식 모두 같은 규칙입니다.
+
+| 서식 | 수정 파일 |
+|---|---|
+| 저장소 서식 (공개) | `docgen/forms/regions/<ID>.json` |
+| 실서류에서 만든 서식 (`private_forms_dir`) | `$DOCGEN_PRIVATE_FORMS/regions/<ID>.json` (수정도 저장소 밖) |
+
+```json
+{"engine": "overlay", "unit": "pt", "items": [...], "add": [...], "erase": [...], "marks": {...}}
+{"engine": "html", "unit": "px", "regions": [...], "variants": {"<레이아웃 변형 ID>": {"regions": [...]}}}
+```
+
+- 이 파일을 고치면 다음에 생성하는 이미지와 정답(키·항목명·값 출처·위치·뺀 칸)에 반영됩니다. 이미 만든 데이터셋은 그대로입니다.
+- overlay는 자동 추출한 기재 자리 위에, html은 템플릿이 만든 칸 위에 덧씌우는 수정층입니다. html 템플릿 칸은 파일에 적지 않아도 나오고, 빼려면 그 키에 `"drop": true`.
+- `engine`이 서식 종류와 다르면 조용히 무시하지 않고 에러로 멈춥니다.
+- studio ① 서식 › 영역 편집에서 고치면 검증·미리보기가 같이 됩니다. 손으로 고쳤으면 아래 `check`.
+
+```bash
+python -m docgen.regions path <ID>             # 이 서식의 수정 파일 위치
+python -m docgen.regions show <ID>             # 최종 값 칸 목록 (자동 추출·템플릿 칸 + 수정)
+python -m docgen.regions check <ID>            # 형식·서식 종류·깨진 수정(못 찾은 자동 영역)·남은 예전 파일 (--all: 수정이 있는 서식 전부)
+python -m docgen.regions migrate [--apply]     # 예전 위치의 수정 파일을 새 파일로 (기본은 목록만)
+```
+
+예전 위치(`forms/overrides/<ID>.json`, `forms/html_regions/<ID>.json`, 서식 폴더의 `overrides.json`·`regions.json`, 레이아웃 변형 폴더의 `<변형>.regions.json`)는 새 파일이 없을 때만 읽습니다. 저장하거나 `migrate --apply` 하면 새 파일로 합치고 예전 파일은 `<이름>.migrated`로 바꿔 둡니다. 새 파일로 옮긴 서식은 서식 해시가 한 번 바뀌므로 studio에서 "검수 후 바뀜"으로 보일 수 있습니다 (내용은 같음).

@@ -248,7 +248,9 @@ studio_cache/                           예시 묶음·미리보기 (git 제외,
 | `real_data_dir` | 실서류 검수 결과: 라벨 검수(S5), OCR 검수(S11), 실서류 업무 묶음(S13) |
 | `private_forms_dir` | **실서류에서 만든 템플릿.** 값을 지운 배경이라도 실서류에서 나온 것은 공개 저장소에 넣지 않는다. 생성기는 이 경로가 설정돼 있으면 여기 서식도 등록한다 |
 
-### 4.5 overlay 수정 파일 예 (`docgen/forms/overrides/hf169.json`)
+### 4.5 overlay 수정 파일 예 (`docgen/forms/regions/hf169.json`)
+
+서식 하나 = 수정 파일 하나 = `<서식이 있는 곳>/regions/<ID>.json` (overlay·html 공통, `docgen/regions.py`). 파일 맨 앞에 `"engine": "overlay", "unit": "pt"`가 붙는다.
 
 ```json
 {
@@ -590,7 +592,7 @@ OCR을 읽고 부르는 일은 1부 OCR 학습의 준비 단계(`python -m bank_
 
 **구현 (7단계)** — `studio/importer.py` `create_template`, `value_drafts`
 
-- 서식 폴더 `img_<ID>/`: `page_<n>.png`(견본 쪽 그림, OCR이 본 그림 그대로), `layout.json`(쪽 크기 pt = px ÷ `BG_ZOOM`, 빈 `items`, 배경 글자 `texts` = 견본 OCR 단어(pt) — 합성 OCR 정답의 서식 글자), `overrides.json`(사람 수정. `img_*` 서식은 수정도 서식 폴더에 둬서 실서류 서식의 수정이 저장소로 나가지 않는다).
+- 서식 폴더 `img_<ID>/`: `page_<n>.png`(견본 쪽 그림, OCR이 본 그림 그대로), `layout.json`(쪽 크기 pt = px ÷ `BG_ZOOM`, 빈 `items`, 배경 글자 `texts` = 견본 OCR 단어(pt) — 합성 OCR 정답의 서식 글자), 사람 수정은 `<서식 폴더가 든 곳>/regions/<ID>.json`(`private_forms_dir` 서식은 수정도 그 아래에 둬서 실서류 서식의 수정이 저장소로 나가지 않는다).
 - 값 자리 초안: 같은 포맷 다른 문서(같은 양식 먼저, 12개까지)의 같은 쪽을 견본에 **아핀 정렬**(양쪽에 한 번씩만 나오는 같은 글자들의 중심으로 최소제곱, 어긋난 짝 30% 빼고 다시)한 뒤, 견본 단어가 다른 문서 **60% 이상**에서 같은 자리(가로 4%·세로 2%)에 같은 글자로 나오면 서식 글자, 아니면 값. 견본 글자가 25% 미만(또는 가장 비슷한 문서의 60% 미만) 겹치는 문서는 다른 서식으로 보고 뺀다(한 포맷에 섞인 재직·경력증명서). 기호만인 단어는 경계로 보지 않는다.
 - 값 단어를 줄로 모아 왼쪽부터, 사이에 서식 글자가 없고 간격이 글자 높이 2배 안이면 한 자리로 묶는다. 자리마다 `erase`(주변색) + `add`(글자 칸, 항목명 = 같은 줄 왼쪽 서식 글자(띄어 쓴 "소 재 지"는 붙임), 없으면 바로 위). 키는 항목명으로 자동 추정되고(`realform.kind_of`), 사람이 영역 편집기에서 고친다.
 - 생성 데이터 3종으로 확인(2026-10-20): 퇴직연금 신청서·소득금액증명·재직증명서에서 성명·주민번호·주소·회사·금액·날짜가 값 자리로 잡히고, 몇 개의 서식 글자가 값으로 잘못 잡힌다(사람이 지운다).
@@ -957,7 +959,7 @@ OCR 데이터셋 (benchmark_tasks.jsonl, train_sft.jsonl …) → 등록부
 
 | 사용자가 고친 것 | 저장되는 파일 | 반영되는 곳 |
 |---|---|---|
-| overlay 영역(위치·키·타입·값 출처), 배경 지우기 | `docgen/forms/overrides/<ID>.json` | 그 서식이 나오는 모든 과제(OCR, 문서 이해, 은행 업무 묶음)의 이미지와 정답 |
+| overlay·html 영역(위치·키·타입·값 출처), 배경 지우기 | `docgen/forms/regions/<ID>.json` (실서류에서 만든 서식은 `private_forms_dir/regions/<ID>.json`) | 그 서식이 나오는 모든 과제(OCR, 문서 이해, 은행 업무 묶음)의 이미지와 정답 |
 | html 서식 (복제·분석기) | `docgen/templates/copies/<ID>/` | 위와 같음 (새 서식으로 추가) |
 | 템플릿으로 보낸 새 서식 | `docgen/forms/images/<ID>/` 또는 `private_forms_dir` | 위와 같음. 실서류에서 만든 서식은 내부망 빌드에서만 |
 | 표시 설정·표시 요소 풀 | `docgen/marks.json`, `docgen/assets/marks/` | 체크·도장·서명·손글씨가 들어가는 모든 이미지 |
@@ -1109,7 +1111,7 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 
 | 변경 | 위치 | 내용 |
 |---|---|---|
-| 수정층 적용 | `docgen/realform.py` (`load_layout`) | 자동 레이아웃을 읽은 뒤 `docgen/forms/overrides/<ID>.json`을 덧씌운다 |
+| 수정층 적용 | `docgen/realform.py` (`load_layout`) | 자동 레이아웃을 읽은 뒤 `docgen/forms/regions/<ID>.json`을 덧씌운다 |
 | 이미지 배경 | `docgen/realform.py` (`background_png`) | PDF가 없고 `docgen/forms/images/<ID>/`가 있으면 그 이미지를 배경으로 쓴다 |
 | 배경 지우기 | `docgen/realform.py` (`background_png`) | 수정 파일의 `erase` 목록을 배경에 적용한다 (흰색 / 주변색) (4.2) |
 | 표시 요소 풀 | 신규 `docgen/marks.py`, `render.py`·`realform.py`·`_macros.html.j2` | 체크·서명은 풀 이미지에서, 도장은 틀에서 그린다. 지금 코드의 모양을 기본 항목으로 등록하고, 쓸 때마다 크기·회전·색을 조금씩 바꾼다 (4.7) |
@@ -1227,7 +1229,8 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 
 ①의 **영역 편집**을 HTML에도 제공한다. 실제 생성 이미지 위에서 칸 선택·이동·모서리로 크기 조절·좌표 입력·다른 쪽으로 이동·새 값 칸 그리기·출력 제외·수정 취소를 할 수 있다. 항목명·값 출처(`profile.*`, `rule:*`)·고정 값·글자 크기도 고친다. 위치가 없는 항목도 목록에 표시하며, 이를 선택한 뒤 그리면 해당 키에 위치를 연결한다. 체크·도장·서명은 이 글자 편집 대상에서 제외하며 현재는 HTML 템플릿에서 편집한다. overlay는 기존 편집기를 사용한다.
 
-- 공개 HTML 수정: `docgen/forms/html_regions/<ID>.json`. 내부 전용 HTML은 그 서식 폴더의 `regions.json`.
+- HTML 수정도 overlay와 같은 파일: 공개 서식은 `docgen/forms/regions/<ID>.json`, 내부 전용 서식은 `private_forms_dir/regions/<ID>.json` (`"engine": "html", "unit": "px"`). 레이아웃 변형별 수정은 같은 파일의 `"variants": {"<변형 ID>": {"regions": [...]}}`.
+- html 서식은 템플릿이 칸을 만든다. 이 파일은 그 위의 수정층이라, 적지 않은 템플릿 칸은 그대로 나온다 (빼려면 `drop`).
 - 원본 템플릿을 보존하는 별도 수정층이다. 좌표는 페이지 왼쪽 위 기준 **CSS px**이며 overlay의 PDF pt와 다르다.
 - `regions`는 `{key, occurrence?, page?, rect?, source?, label?, text?, choices?, font_size?, drop?}` 목록. `occurrence`는 같은 키의 출력 순서(0부터). 같은 키의 값 출처는 하나이며 위치는 출력마다 고칠 수 있다.
 - `GET/PUT /api/forms/{id}/regions`. 저장 전 미리보기는 render API의 `draft.html_regions`를 사용하며 파일을 바꾸지 않는다. 저장은 이미지 렌더링으로 페이지·좌표를 확인한 뒤 처리한다.
