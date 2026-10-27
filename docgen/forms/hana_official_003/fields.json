@@ -1,0 +1,36 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "official.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "profile.person.name"
+  },
+  "official.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "profile.person.address.road_short"
+  },
+  "official.name_en": {
+   "label": "영문명",
+   "type": "text",
+   "source": "profile.person.name_en"
+  },
+  "official.phone": {
+   "label": "휴대폰",
+   "type": "text",
+   "source": "profile.person.mobile"
+  },
+  "official.email": {
+   "label": "이메일",
+   "type": "text",
+   "source": "profile.person.email"
+  },
+  "official.birth": {
+   "label": "생년월일",
+   "type": "date",
+   "source": "profile.person.birth"
+  }
+ }
+}

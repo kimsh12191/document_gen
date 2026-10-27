@@ -154,7 +154,9 @@ def compile_form(entry, overwrite=False):
                  "reconstruction": {"method": "native_html_text_svg_lines", "pages": stats,
                                     "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."}})
     dest.mkdir(parents=True, exist_ok=True)
-    (dest / "form.json").write_text(json.dumps(form, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    from docgen.htmlform import write_form
+
+    write_form(dest, form)   # form.json(이름·출처) + 칸 목록 fields.json(값 선언)
     tpl = formdir.template_in(dest) or dest / "look" / formdir.TEMPLATE
     tpl.parent.mkdir(parents=True, exist_ok=True)
     tpl.write_text("\n".join(parts) + "\n", encoding="utf-8")

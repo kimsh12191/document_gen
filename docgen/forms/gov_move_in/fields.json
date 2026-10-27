@@ -1,0 +1,32 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "official.address": {
+   "label": "대상 도로명주소",
+   "type": "text",
+   "source": "profile.property.address.road_short"
+  },
+  "official.jibun": {
+   "label": "대상 지번주소",
+   "type": "text",
+   "source": "profile.property.address.jibun_full"
+  },
+  "official.head": {
+   "label": "세대주",
+   "type": "text",
+   "source": "profile.person.name"
+  },
+  "official.moved": {
+   "label": "전입일자",
+   "type": "text",
+   "source": "profile.employment.hire_date"
+  },
+  "official.status": {
+   "label": "등록구분",
+   "type": "text",
+   "source": "rule:fixed",
+   "text": "거주자"
+  }
+ }
+}

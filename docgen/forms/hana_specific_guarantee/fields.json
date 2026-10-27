@@ -1,0 +1,47 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "official.guarantor": {
+   "label": "연대보증인",
+   "type": "text",
+   "source": "profile.person.name"
+  },
+  "official.address": {
+   "label": "보증인 주소",
+   "type": "text",
+   "source": "profile.person.address.road_short"
+  },
+  "official.debtor": {
+   "label": "채무자 성명",
+   "type": "text",
+   "source": "profile.corporation.name"
+  },
+  "official.amount": {
+   "label": "피보증채무 금액",
+   "type": "text",
+   "source": "rule:amount"
+  },
+  "official.guarantor_copy": {
+   "label": "연대보증인",
+   "type": "text",
+   "source": "profile.person.name"
+  },
+  "official.address_copy": {
+   "label": "보증인 주소",
+   "type": "text",
+   "source": "profile.person.address.road_short"
+  },
+  "official.debtor_copy": {
+   "label": "채무자 성명",
+   "type": "text",
+   "source": "profile.corporation.name"
+  },
+  "official.amount_copy": {
+   "label": "피보증채무 금액",
+   "type": "text",
+   "source": "rule:amount"
+  }
+ },
+ "shared_copies": true
+}

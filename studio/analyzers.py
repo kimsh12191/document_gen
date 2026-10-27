@@ -388,7 +388,7 @@ def approve(ws: Path, job_id: str, by: str, form_id: str | None = None, name: st
         form.update({"origin": "analyzer", "source_image": "source.png", "from_job": job_id})
         if name:
             form["name"] = name
-        (dest / "form.json").write_text(json.dumps(form, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+        H.write_form(dest, form)   # form.json(이름·출처) + 칸 목록 fields.json(값 선언)
         shutil.copyfile(d / "input" / "source.png", dest / "source.png")
         H.register_forms()
         approved = {"as": form_id, "dir": str(dest), "private": private}

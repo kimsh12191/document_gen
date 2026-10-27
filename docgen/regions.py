@@ -119,9 +119,25 @@ def legacy(doc_id: str) -> dict[str, Path]:
     return out
 
 
+def _html_fields(doc_id: str) -> bool:
+    """html 서식이고 칸 목록(fields.json)이 있으면 사람 수정은 그 안의 regions·variants."""
+    from . import formfields
+
+    try:
+        return engine(doc_id) == "html" and formfields.exists(doc_id)
+    except KeyError:
+        return False
+
+
 def files(doc_id: str) -> list[Path]:
-    """이 서식의 결과를 바꿀 수 있는 수정 파일 (새 위치 + 남은 예전 파일). 미리보기 캐시 키에 쓴다."""
-    return [path(doc_id), *legacy(doc_id).values()]
+    """이 서식의 결과를 바꿀 수 있는 수정 파일 (칸 목록 + 새 위치 + 남은 예전 파일). 미리보기 캐시 키에 쓴다."""
+    from . import formfields
+
+    try:
+        head = [formfields.path(doc_id)] if engine(doc_id) == "html" else []
+    except KeyError:
+        head = []
+    return [*head, path(doc_id), *legacy(doc_id).values()]
 
 
 def hash_files(doc_id: str) -> list[Path]:
@@ -138,7 +154,19 @@ def hash_files(doc_id: str) -> list[Path]:
 
 
 def exists(doc_id: str) -> bool:
-    return any(p.exists() for p in files(doc_id))
+    """사람 수정이 있나 (html 은 칸 목록의 regions·variants, 아직 없으면 수정 파일)."""
+    if _html_fields(doc_id):
+        try:
+            body = read(doc_id)
+        except (ValueError, json.JSONDecodeError):
+            return True
+        return bool(body.get("regions") or body.get("variants"))
+    return any(p.exists() for p in [path(doc_id), *legacy(doc_id).values()])
+
+
+def leftovers(doc_id: str) -> list[Path]:
+    """칸 목록이 있어 더는 읽지 않는 예전 수정 파일."""
+    return [f for f in [path(doc_id), *legacy(doc_id).values()] if f.exists()] if _html_fields(doc_id) else []
 
 
 # ---------------------------------------------------------------------------
@@ -178,7 +206,13 @@ def unknown(doc_id: str, data: dict) -> list[str]:
 
 
 def read(doc_id: str) -> dict:
-    """수정 내용 (engine·unit 칸 뺀 것). 새 파일이 없으면 예전 파일들을 모아서. 없으면 (모르는 서식도) {}."""
+    """수정 내용 (engine·unit 칸 뺀 것). html 은 칸 목록이 있으면 그 안의 regions·variants.
+    새 파일이 없으면 예전 파일들을 모아서. 없으면 (모르는 서식도) {}."""
+    if _html_fields(doc_id):
+        from . import formfields
+
+        f = formfields.read(doc_id) or {}
+        return {k: f[k] for k in ("regions", "variants") if k in f}
     p = path(doc_id)
     if p.exists():
         data = _read_json(p)
@@ -210,6 +244,10 @@ def write(doc_id: str, body: dict) -> Path:
         body["variants"] = {k: v for k, v in body["variants"].items() if v.get("regions")}
         if not body["variants"]:
             body.pop("variants")
+    if eng == "html":   # html 사람 수정은 칸 목록(fields.json)의 regions·variants
+        from . import formfields
+
+        return formfields.update(doc_id, body, formfields.REGION_KEYS)
     p = path(doc_id)
     with _lock:
         if any(body.get(k) for k in BODY[eng]):
@@ -279,7 +317,9 @@ def check(doc_id: str) -> list[str]:
             return check_fields(doc_id)
     problems = []
     p, old = path(doc_id), legacy(doc_id)
-    if p.exists() and old:
+    if leftovers(doc_id):
+        problems.append("예전 수정 파일이 남아 있음 (칸 목록이 있어 안 읽음): " + ", ".join(_rel(f) for f in leftovers(doc_id)))
+    elif p.exists() and old:
         problems.append("예전 수정 파일이 남아 있음 (새 파일만 씀): " + ", ".join(_rel(f) for f in old.values()))
     try:
         body = read(doc_id)

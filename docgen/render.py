@@ -360,6 +360,10 @@ def render(spec: DocSpec, profile: Profile, seed: int | str, sample_mark: bool |
     data_rng = random.Random(f"data:{seed}:{spec.id}")
     with freetext.collect() as written:   # 기타 칸에 넣은 자유 기재 글 → 정답 (freetext 과제)
         data = spec.generate(profile, data_rng)
+        if spec.template != "_real_form.html.j2" and not spec.template.startswith("@"):
+            from .htmlform import builtin_values   # 코드 서식: 칸 목록 fields.json 의 값 선언을 위에 덮어쓰기
+
+            data = builtin_values(spec.id, profile, data_rng, data)
     if written:
         data["_freetext"] = written
     if style is None:

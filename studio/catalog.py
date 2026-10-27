@@ -191,6 +191,10 @@ def _edited(doc_id: str) -> bool:
     if regions.engine(doc_id) == "overlay" and formfields.exists(doc_id):
         f = formfields.read(doc_id)
         return bool(f.get("erase") or f.get("marks") or f.get("dropped") or any(it.get("edited") or it.get("added") for it in f["items"]))
+    if not load_all()[doc_id].template.startswith("@") and formfields.exists(doc_id):   # 코드 서식에 적은 값 선언
+        f = formfields.read(doc_id) or {}
+        if f.get("fields") or f.get("lists"):
+            return True
     return regions.exists(doc_id)
 
 
@@ -255,14 +259,15 @@ def form_detail(doc_id: str) -> dict:
             files.append({"role": f"생성 함수 (부모 서식 {parent.id})", "path": _rel(Path(inspect.getsourcefile(parent.generate)))})
     elif spec.group in ("hana", "imported"):
         files.append({"role": "값 채우기·렌더링", "path": "docgen/realform.py"})
-    from docgen import regions
+    from docgen import formfields, regions
 
-    op = regions.path(doc_id)
-    files.append({"role": "사람 수정 (영역 편집기)", "path": _rel(op) + ("" if op.exists() else " (아직 없음)")})
-    for vid, f in regions.legacy(doc_id).items():
-        files.append({"role": "예전 수정 파일" + (f" ({vid})" if vid else ""),
-                      "path": _rel(f) + (" (새 파일이 있어 안 읽음 — python -m docgen.regions check)" if op.exists()
-                                         else " (python -m docgen.formdir migrate 로 옮기세요)")})
+    op = formfields.path(doc_id)
+    files.append({"role": "칸 목록 (영역 편집기·html 편집기가 고침)", "path": _rel(op) + ("" if op.exists() else " (아직 없음)")})
+    for f in [regions.path(doc_id), *regions.legacy(doc_id).values()]:
+        if f.exists():
+            files.append({"role": "예전 수정 파일",
+                          "path": _rel(f) + (" (칸 목록이 있어 안 읽음 — python -m docgen.regions check)" if op.exists()
+                                             else " (python -m docgen.formdir migrate 로 옮기세요)")})
     return {
         **_summary(spec, entry, audit=True),
         "description": spec.description,

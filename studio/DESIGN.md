@@ -224,10 +224,10 @@ studio/                                 도구 코드와 이 설계서
   config.example.json                   환경 설정 예시 (분석기, 경로) — 실제 config.json 은 git 제외
 docgen/forms/<서식ID>/                  서식 하나 = 폴더 하나 (docgen/formdir.py). 실서류에서 만든 서식은 private_forms_dir/<서식ID>/ 에 같은 꼴
   look/                                 모양: original.pdf (hf###) · page_N.png (img_*) · template.html.j2 (html)
-  fields.json                           overlay 칸 목록: 기재 자리·키·값 출처·배경 지우기 (사람이 고치는 곳, docgen/formfields.py)
+  fields.json                           칸 목록: overlay 기재 자리·키·값 출처·배경 지우기, html 값 선언·칸 덮어쓰기 (사람이 고치는 곳, docgen/formfields.py)
   layout.json                           overlay 자동 추출 초안 (hf### 은 PDF 에서, img_* 는 가져올 때). fields.json 의 처음 바탕
-  form.json                             html(copy·analyzer): 부모 서식, 이름, 그룹, 새 항목 선언
-  regions.json                          html 사람 수정 (docgen/regions.py)
+  form.json                             html(copy·analyzer): 부모 서식, 이름, 그룹, 출처 (값 선언은 fields.json)
+                                        (html 은 값 선언 fields·lists 와 칸 덮어쓰기 regions·variants)
   variants/                             html 레이아웃 변형
 docgen/templates/                       여러 서식이 같이 쓰는 틀만 (_base·_macros·_official_*·_real_form, 그룹 부품)
 docgen/keys.json                        표준 키 사전 (신규, 5절)
@@ -1119,7 +1119,7 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 | 단순 값 규칙 | 신규 `docgen/sources.py` | `source`(`profile.*`, `rule:*`)를 값으로 바꾼다 |
 | 표준 키 사전 | 신규 `docgen/keys.json` | html 서식 키에서 초안을 만든다. `realform.py`의 `KEY_RULES`도 이 사전을 따른다 |
 | 학습/평가 배정 | `docgen/bench/build.py` | `docgen/catalog.json`의 `split`으로 서식을 나눈다 |
-| html 서식 정보 | `docgen/registry.py`, 신규 `docgen/sources.py` | `docgen/forms/<ID>/form.json`의 `fields`(키·타입·값 출처)와 `lists`(반복 목록, 행 수 범위)로 생성 함수 없이 값을 만든다. `paginate`가 켜져 있으면 여러 쪽으로 나눈다 (4.3) |
+| html 서식 정보 | `docgen/registry.py`, 신규 `docgen/sources.py` | `docgen/forms/<ID>/fields.json`(예전 `form.json`)의 `fields`(키·타입·값 출처)와 `lists`(반복 목록, 행 수 범위)로 생성 함수 없이 값을 만든다. `paginate`가 켜져 있으면 여러 쪽으로 나눈다 (4.3) |
 | studio 패키지 반입 | 신규 `studio/deps.py`, `studio/wheels/`, `docker/requirements.lock` | 이미지를 다시 만들지 않고 컨테이너 안 `studio_deps/`에 설치. 다음 이미지에는 포함 (3절 원칙 6) |
 | 미리보기 명령 | `docgen/preview.py` | `python -m docgen.preview <서식ID 또는 템플릿 폴더> --seed N --out <폴더>`: CLI 분석기가 작업 폴더 안에서 렌더링해 원본과 비교할 때 쓴다 (7.3) |
 | 미리보기 함수 | 신규 `docgen/preview.py` | 서식 하나, seed 하나, 변형·촬영 조건을 받아 이미지와 라벨을 돌려준다. 브라우저를 띄워 둔 `ImageRenderer`를 재사용한다 (이 PC에서 장당 0.4~1.3초, 캐시 0.01초. `docgen generate`가 느린 것은 시작할 때 476종 전체를 한 번 렌더링하는 키 목록 수집 때문이다) |
@@ -1229,7 +1229,7 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 
 ①의 **영역 편집**을 HTML에도 제공한다. 실제 생성 이미지 위에서 칸 선택·이동·모서리로 크기 조절·좌표 입력·다른 쪽으로 이동·새 값 칸 그리기·출력 제외·수정 취소를 할 수 있다. 항목명·값 출처(`profile.*`, `rule:*`)·고정 값·글자 크기도 고친다. 위치가 없는 항목도 목록에 표시하며, 이를 선택한 뒤 그리면 해당 키에 위치를 연결한다. 체크·도장·서명은 이 글자 편집 대상에서 제외하며 현재는 HTML 템플릿에서 편집한다. overlay는 기존 편집기를 사용한다.
 
-- HTML 수정도 overlay와 같은 파일: 공개 서식은 `docgen/forms/<ID>/regions.json`, 내부 전용 서식은 `private_forms_dir/<ID>/regions.json` (`"engine": "html", "unit": "px"`). 레이아웃 변형별 수정은 같은 파일의 `"variants": {"<변형 ID>": {"regions": [...]}}`.
+- HTML 수정도 overlay와 같은 파일: 서식 폴더의 칸 목록 `fields.json`(공개 서식 `docgen/forms/<ID>/`, 내부 전용 서식 `private_forms_dir/<ID>/`)의 `regions`. 레이아웃 변형별 수정은 같은 파일의 `"variants": {"<변형 ID>": {"regions": [...]}}`.
 - html 서식은 템플릿이 칸을 만든다. 이 파일은 그 위의 수정층이라, 적지 않은 템플릿 칸은 그대로 나온다 (빼려면 `drop`).
 - 원본 템플릿을 보존하는 별도 수정층이다. 좌표는 페이지 왼쪽 위 기준 **CSS px**이며 overlay의 PDF pt와 다르다.
 - `regions`는 `{key, occurrence?, page?, rect?, source?, label?, text?, choices?, font_size?, drop?}` 목록. `occurrence`는 같은 키의 출력 순서(0부터). 같은 키의 값 출처는 하나이며 위치는 출력마다 고칠 수 있다.

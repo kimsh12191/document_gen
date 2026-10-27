@@ -1,201 +1,47 @@
 {
-  "name": "사업자등록증",
-  "group": "business",
-  "category": "external",
-  "fields": {
-    "official.biz_no": {
-      "label": "등록번호",
-      "type": "text",
-      "source": "profile.business.biz_no"
-    },
-    "official.company": {
-      "label": "상호",
-      "type": "text",
-      "source": "profile.business.name"
-    },
-    "official.name": {
-      "label": "성명",
-      "type": "text",
-      "source": "profile.person.name"
-    },
-    "official.address": {
-      "label": "사업장 소재지",
-      "type": "text",
-      "source": "profile.business.address.road_short"
-    },
-    "official.industry": {
-      "label": "업태",
-      "type": "text",
-      "source": "profile.business.biz_type"
-    },
-    "official.item": {
-      "label": "종목",
-      "type": "text",
-      "source": "profile.business.biz_item"
-    },
-    "official.taxpayer_type": {
-      "label": "과세유형",
-      "type": "text",
-      "source": "rule:choice",
-      "choices": [
-        "일반과세자",
-        "간이과세자",
-        "면세사업자"
-      ]
-    },
-    "official.opened0": {
-      "label": "개업연월일 년",
-      "type": "text",
-      "source": "profile.business.established",
-      "part": 0,
-      "format": "number"
-    },
-    "official.opened1": {
-      "label": "개업연월일 월",
-      "type": "text",
-      "source": "profile.business.established",
-      "part": 1,
-      "format": "number"
-    },
-    "official.opened2": {
-      "label": "개업연월일 일",
-      "type": "text",
-      "source": "profile.business.established",
-      "part": 2,
-      "format": "number"
-    },
-    "official.birth": {
-      "label": "생년월일",
-      "type": "text",
-      "source": "profile.person.birth"
-    },
-    "official.issue_reason": {
-      "label": "발급 사유",
-      "type": "text",
-      "source": "rule:choice",
-      "choices": [
-        "신규",
-        "재발급",
-        "정정"
-      ]
-    },
-    "official.unit_tax_no": {
-      "label": "사업자 단위 과세 적용 여부 부(V)",
-      "type": "text",
-      "source": "rule:choice",
-      "choices": [
-        "V"
-      ]
-    },
-    "official.einvoice_email": {
-      "label": "전자세금계산서 전용 전자우편주소",
-      "type": "text",
-      "source": "profile.business.email"
-    },
-    "official.issue0": {
-      "label": "발급일 년",
-      "type": "text",
-      "source": "profile.issue_date",
-      "part": 0,
-      "format": "number"
-    },
-    "official.issue1": {
-      "label": "발급일 월",
-      "type": "text",
-      "source": "profile.issue_date",
-      "part": 1,
-      "format": "number"
-    },
-    "official.issue2": {
-      "label": "발급일 일",
-      "type": "text",
-      "source": "profile.issue_date",
-      "part": 2,
-      "format": "number"
-    },
-    "official.annex_biz_no0": {
-      "label": "부표 사업자등록번호 앞",
-      "type": "text",
-      "source": "profile.business.biz_no",
-      "part": 0,
-      "format": "number"
-    },
-    "official.annex_biz_no1": {
-      "label": "부표 사업자등록번호 가운데",
-      "type": "text",
-      "source": "profile.business.biz_no",
-      "part": 1,
-      "format": "number"
-    },
-    "official.annex_biz_no2": {
-      "label": "부표 사업자등록번호 뒤",
-      "type": "text",
-      "source": "profile.business.biz_no",
-      "part": 2,
-      "format": "number"
-    },
-    "official.annex_issue0": {
-      "label": "부표 발급일 년",
-      "type": "text",
-      "source": "profile.issue_date",
-      "part": 0,
-      "format": "number"
-    },
-    "official.annex_issue1": {
-      "label": "부표 발급일 월",
-      "type": "text",
-      "source": "profile.issue_date",
-      "part": 1,
-      "format": "number"
-    },
-    "official.annex_issue2": {
-      "label": "부표 발급일 일",
-      "type": "text",
-      "source": "profile.issue_date",
-      "part": 2,
-      "format": "number"
-    }
-  },
-  "page": "a4",
-  "origin": "copy",
-  "description": "사업자등록증 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=162624673&bylClsCd=110202 개인사업자용 서식 및 종된 사업장 부표. 원본의 서식 규격 안내도 유지한다.",
-  "source": {
-    "publisher": "국가법령정보센터 · 해당 발급기관",
-    "url": "https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=162624673&bylClsCd=110202",
-    "source_file": "forms/official_sources/gov_business_registration.pdf",
-    "sha256": "36f2f0384e7c28ee39267c431615dc2c26899c97c79a01ca9f2a9467773a1694",
-    "checked_at": "2026-10-20",
-    "revision": "<개정 2014.3.14>",
-    "matches": [
-      "business_registration_certificate"
-    ],
-    "source_pages": [
-      0,
-      1
-    ],
-    "online_verification": {
-      "status": "verified_pdf",
-      "sha256": "36f2f0384e7c28ee39267c431615dc2c26899c97c79a01ca9f2a9467773a1694",
-      "matches_local": true,
-      "checked_at": "2026-10-20"
-    }
-  },
-  "reconstruction": {
-    "method": "native_html_text_svg_lines",
-    "pages": [
-      {
-        "source_page": 1,
-        "text_spans": 71,
-        "omitted_paths": 0,
-        "omitted_images": 0
-      },
-      {
-        "source_page": 2,
-        "text_spans": 50,
-        "omitted_paths": 0,
-        "omitted_images": 0
-      }
-    ],
-    "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."
+ "name": "사업자등록증",
+ "group": "business",
+ "category": "external",
+ "page": "a4",
+ "origin": "copy",
+ "description": "사업자등록증 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=162624673&bylClsCd=110202 개인사업자용 서식 및 종된 사업장 부표. 원본의 서식 규격 안내도 유지한다.",
+ "source": {
+  "publisher": "국가법령정보센터 · 해당 발급기관",
+  "url": "https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=162624673&bylClsCd=110202",
+  "source_file": "forms/official_sources/gov_business_registration.pdf",
+  "sha256": "36f2f0384e7c28ee39267c431615dc2c26899c97c79a01ca9f2a9467773a1694",
+  "checked_at": "2026-10-20",
+  "revision": "<개정 2014.3.14>",
+  "matches": [
+   "business_registration_certificate"
+  ],
+  "source_pages": [
+   0,
+   1
+  ],
+  "online_verification": {
+   "status": "verified_pdf",
+   "sha256": "36f2f0384e7c28ee39267c431615dc2c26899c97c79a01ca9f2a9467773a1694",
+   "matches_local": true,
+   "checked_at": "2026-10-20"
   }
+ },
+ "reconstruction": {
+  "method": "native_html_text_svg_lines",
+  "pages": [
+   {
+    "source_page": 1,
+    "text_spans": 71,
+    "omitted_paths": 0,
+    "omitted_images": 0
+   },
+   {
+    "source_page": 2,
+    "text_spans": 50,
+    "omitted_paths": 0,
+    "omitted_images": 0
+   }
+  ],
+  "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."
+ }
 }

@@ -20,8 +20,9 @@ _lock = threading.Lock()
 
 
 def path(doc_id: str, variant: str = "default") -> Path:
-    """수정 파일 (레이아웃 변형도 같은 파일의 variants 칸). overlay 서식이거나 등록되지 않은 변형이면 ValueError."""
-    from . import regions
+    """수정이 들어가는 파일: 칸 목록 fields.json 의 regions (레이아웃 변형은 variants 칸). overlay 서식이거나 등록되지 않은
+    변형이면 ValueError."""
+    from . import formfields
     from .registry import load_all
 
     spec = load_all()[doc_id]
@@ -31,7 +32,7 @@ def path(doc_id: str, variant: str = "default") -> Path:
         from .template_variants import load as variants
         if variant not in {r["id"] for r in variants(doc_id)["variants"]}:
             raise ValueError("등록되지 않은 레이아웃입니다")
-    return regions.path(doc_id)
+    return formfields.path(doc_id)
 
 
 def load(doc_id: str, variant: str = "default") -> dict:

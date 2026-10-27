@@ -82,7 +82,7 @@ def test_html_default_and_variants_in_one_file(roots):
     assert HR.load("employment_certificate") == {"regions": [row]}
     assert HR.load("employment_certificate", "letter_copy") == {"regions": [row2]}
     HR.save("employment_certificate", {"regions": [row, {**row, "key": "x.b"}]})
-    saved = json.loads(regions.path("employment_certificate").read_text(encoding="utf-8"))
+    saved = json.loads(HR.path("employment_certificate").read_text(encoding="utf-8"))   # 칸 목록 fields.json
     assert saved["engine"] == "html" and saved["unit"] == "px" and len(saved["regions"]) == 2
     assert saved["variants"] == {"letter_copy": {"regions": [row2]}}   # 저장하면서 변형 파일도 합쳐진다
     assert regions.legacy("employment_certificate") == {}
@@ -110,3 +110,29 @@ def test_cli_path_and_show(roots, capsys):
     OV.save("hf169", {"items": [{"match": m, "source": "rule:fixed", "text": "고정"}]})
     assert any(r["how"] == "수정" and r["source"] == "rule:fixed" for r in regions.show("hf169"))
     assert OV.load("no_such_form") == {}
+
+
+def test_html_fields_hold_value_declarations_and_overrides(roots):
+    """복제 서식의 form.json 값 선언(fields)이 칸 목록으로 옮겨지고, 코드 서식도 칸 목록의 값 선언으로 덮어쓴다."""
+    from docgen import formfields
+    from docgen import htmlform as H
+    from docgen.registry import load_all
+    from docgen.render import render
+
+    d = H.form_dir("gov_income")
+    form = json.loads((d / "form.json").read_text(encoding="utf-8"))
+    form["fields"] = json.loads((formdir.PUBLIC / "gov_income" / "fields.json").read_text(encoding="utf-8"))["fields"]
+    _write(d / "form.json", form)   # 칸 목록 만들기 전 꼴: 값 선언이 form.json 에
+    assert not formfields.exists("gov_income")
+    before = H.load_form("gov_income")
+    formfields.adopt("gov_income")
+    assert "fields" not in json.loads((d / "form.json").read_text(encoding="utf-8"))
+    assert formfields.read("gov_income")["fields"] == form["fields"] and H.load_form("gov_income") == before
+    spec = load_all()["employment_certificate"]
+    html, raw, _ = render(spec, make_profile(1), 1)
+    formfields.update("employment_certificate", {"fields": {"employee.name": {"source": "rule:fixed", "text": "칸목록값"}}}, ("fields",))
+    _, raw2, data = render(spec, make_profile(1), 1)
+    assert data["employee"]["name"] == "칸목록값"
+    assert next(f for f in raw2 if f["key"] == "employee.name")["value"] == "칸목록값"
+    formfields.update("employment_certificate", {}, ("fields",))
+    assert render(spec, make_profile(1), 1)[0] == html   # 비우면 그대로

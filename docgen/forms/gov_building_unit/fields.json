@@ -1,0 +1,41 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "official.id": {
+   "label": "건물ID",
+   "type": "text",
+   "source": "profile.property.unique_no"
+  },
+  "official.name": {
+   "label": "명칭",
+   "type": "text",
+   "source": "profile.property.address.building_name"
+  },
+  "official.address": {
+   "label": "대지위치",
+   "type": "text",
+   "source": "profile.property.address.jibun_full"
+  },
+  "official.road": {
+   "label": "도로명주소",
+   "type": "text",
+   "source": "profile.property.address.road_short"
+  },
+  "official.owner": {
+   "label": "소유자 성명",
+   "type": "text",
+   "source": "profile.person.name"
+  },
+  "official.rrn": {
+   "label": "소유자 등록번호",
+   "type": "text",
+   "source": "profile.person.rrn"
+  },
+  "official.area": {
+   "label": "전유면적",
+   "type": "text",
+   "source": "profile.property.exclusive_area"
+  }
+ }
+}

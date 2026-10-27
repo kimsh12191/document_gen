@@ -34,7 +34,7 @@ def test_binding_and_addition_preserve_original(tmp_path, monkeypatch):
     assert next(f for f in after if f["key"]=="added.test")["value"]==p.person.mobile
     from docgen.bench.perturb import visible_keys
     assert "added.test" in visible_keys(changed)
-    assert not HR.path(spec.id).exists()
+    assert HR.load(spec.id)=={"regions":[]}   # 미리보기 초안은 파일에 쓰지 않는다
     assert render(spec,p,7)[0]==html
 
 
@@ -96,4 +96,5 @@ def test_actual_image_placement_and_extraction(tmp_path,monkeypatch):
     result=execute(conf,{spec.id:{"name":spec.name,"fields":fields,"pages":info["pages"]}})
     assert result[0]["status"]=="ready" and result[0]["item"]["answer"][0]["value"]==added["value"]
     HR.save(spec.id,config)
-    assert json.loads(HR.path(spec.id).read_text(encoding="utf-8"))=={"engine":"html","unit":"px",**config}
+    saved=json.loads(HR.path(spec.id).read_text(encoding="utf-8"))   # 칸 목록 fields.json (값 선언 fields 와 함께)
+    assert saved["engine"]=="html" and saved["regions"]==config["regions"] and saved["fields"]

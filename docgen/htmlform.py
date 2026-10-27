@@ -5,9 +5,11 @@
   <private_forms_dir>/<ID>/         실서류 견본에서 만든 것 (저장소 밖, 환경변수 DOCGEN_PRIVATE_FORMS)
     look/template.html.j2           Jinja 템플릿. 기존 서식과 같은 _base·_macros, f("키")·d·val 을 쓴다
     form.json                       {"name", "group", "category", "page", "origin": "copy" | "analyzer", "parent": 부모 ID | null,
-                                     "fields": {키: {"label", "type", "source", "choices"?, "text"?}},
-                                     "lists": {이름: {"min", "max", "fields": {하위 키: {...}}}},
                                      "source_image": "source.png" (있으면 편집기에서 원본 겹쳐 보기)}
+    fields.json                     칸 목록 (docgen/formfields.py) — 값 선언:
+                                     "fields": {키: {"label", "type", "source", "choices"?, "text"?}},
+                                     "lists": {이름: {"min", "max", "fields": {하위 키: {...}}}}
+                                    (load_form 은 둘을 합쳐 예전 form.json 꼴로 돌려준다. 칸 목록이 없으면 form.json 안의 것)
     source.png                      (있으면) 원본 이미지
 
 값 채우기
@@ -60,7 +62,38 @@ def load_form(doc_id: str) -> dict:
     d = form_dir(doc_id)
     if d is None:
         raise KeyError(doc_id)
-    return json.loads((d / "form.json").read_text(encoding="utf-8"))
+    form = json.loads((d / "form.json").read_text(encoding="utf-8"))
+    from . import formfields
+
+    f = formfields.read(doc_id) if formfields.exists(doc_id) else None
+    if f is not None:   # 값 선언은 칸 목록 fields.json 에 있다
+        form = {k: v for k, v in form.items() if k not in formfields.VALUE_KEYS}
+        form.update({k: f[k] for k in formfields.VALUE_KEYS if k in f})
+    return form
+
+
+def write_form(d: Path, form: dict) -> None:
+    """새 서식 폴더에 form.json(이름·그룹·부모·출처)과 칸 목록 fields.json(값 선언)을 쓴다."""
+    from . import formfields
+
+    meta = {k: v for k, v in form.items() if k not in formfields.VALUE_KEYS}
+    vals = {k: form[k] for k in formfields.VALUE_KEYS if form.get(k) not in (None, [], {})}
+    (d / "form.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    (d / formfields.NAME).write_text(json.dumps({"engine": "html", "unit": "px", **vals}, ensure_ascii=False, indent=1) + "\n",
+                                     encoding="utf-8")
+
+
+def builtin_values(doc_id: str, p, rng: random.Random, data: dict) -> dict:
+    """코드 서식: 생성 함수가 만든 값 위에 칸 목록 fields.json 의 값 선언(fields·lists)을 덮어쓴다 (적은 것이 있을 때만)."""
+    from . import formfields
+
+    try:
+        f = formfields.read(doc_id) if formfields.exists(doc_id) else None
+    except KeyError:
+        return data
+    if f and (f.get("fields") or f.get("lists")):
+        return fill(f, p, rng, data)
+    return data
 
 
 def template_source(doc_id: str) -> str:
@@ -245,7 +278,7 @@ def clone(parent_id: str, new_id: str, name: str, private: bool = False) -> Path
         if img.exists():
             shutil.copyfile(img, d / "source.png")
             form["source_image"] = "source.png"
-    (d / "form.json").write_text(json.dumps(form, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    write_form(d, form)
     register_forms()   # 바로 목록·미리보기에 나오게
     return d
 
@@ -257,7 +290,11 @@ def save(doc_id: str, template: str | None = None, form: dict | None = None) -> 
     if template is not None:
         _template_path(d).write_text(template, encoding="utf-8")
     if form is not None:
-        (d / "form.json").write_text(json.dumps(form, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+        from . import formfields
+
+        meta = {k: v for k, v in form.items() if k not in formfields.VALUE_KEYS}
+        formfields.update(doc_id, form, formfields.VALUE_KEYS)   # 값 선언은 칸 목록에 (처음이면 예전 form.json 것을 먼저 옮긴다)
+        (d / "form.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     from .registry import REGISTRY
 
     spec = REGISTRY.get(doc_id)

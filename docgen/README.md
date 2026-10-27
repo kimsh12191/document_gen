@@ -23,14 +23,13 @@ Studio의 ① 서식에서 `공식대조 HTML`로 검색하세요. 기존 70종 
 ```
 docgen/forms/<ID>/                 공개 서식 (실서류에서 만든 서식은 $DOCGEN_PRIVATE_FORMS/<ID>/ 에 같은 꼴)
   look/                            모양: original.pdf (hf###) · page_0.png … (img_*) · template.html.j2 (html)
-  fields.json                      overlay 칸 목록: 기재 자리·키·항목명·값 출처, 배경 지우기 — 사람이 고치는 곳 (아래 "서식 수정 파일")
+  fields.json                      칸 목록: 키·항목명·값 출처·위치 — 사람이 고치는 곳은 이 파일 하나 (아래 "서식 수정 파일")
   layout.json                      overlay 자동 추출 초안 (hf### 은 PDF 에서 뽑은 것). fields.json 을 처음 만들 때만 썼다
-  form.json                        복제·분석기 html 서식: 부모 서식·값 선언
-  regions.json                     html 서식의 사람 수정: 템플릿 칸 위치·키·항목명·값 출처·빼기 (아래 "서식 수정 파일")
-  variants/                        html 레이아웃 변형
+  form.json                        복제·분석기 html 서식: 이름·그룹·부모 서식·출처
+  variants/                        html 레이아웃 변형 (variants.json, <변형>.html.j2)
 ```
 
-- **값이나 칸을 고치려면** → overlay 는 `fields.json`, html 은 `regions.json` (둘 다 studio ① 서식 › 영역 편집)
+- **값이나 칸을 고치려면** → `fields.json` (studio ① 서식 › 영역 편집, 복제 서식의 값 선언은 html 편집)
 - **html 서식의 표·문구 모양을 고치려면** → `look/template.html.j2` (복제 서식은 studio html 편집). overlay 서식은 모양(원본 그림)을 바꾸지 않습니다.
 - 코드 서식 70종은 값을 `docgen/docs/<그룹>.py` 의 생성 함수가 만듭니다. 여러 서식이 같이 쓰는 틀(`_base`·`_macros`·`_real_form`, 그룹 부품)은 `docgen/templates/` 에 남습니다.
 - 서식 하나의 파일을 모두 보려면 `python -m docgen.formdir path <ID>`.
@@ -337,26 +336,24 @@ python -m docgen.scripts.audit_form_values --out studio_cache/value_audit/final
 
 ## 서식 수정 파일
 
-서식 하나에 사람이 고치는 파일이 하나입니다.
+서식 하나에 사람이 고치는 파일은 서식 폴더의 칸 목록 `fields.json` 하나입니다. 공개 서식은 `docgen/forms/<ID>/`, 실서류에서 만든 서식은 `$DOCGEN_PRIVATE_FORMS/<ID>/`(수정도 저장소 밖)에 있습니다.
 
-| 서식 | 고치는 파일 | 내용 |
+| 서식 | `fields.json` 내용 | 모양 |
 |---|---|---|
-| overlay (`hf###`, `img_*`) | 서식 폴더의 `fields.json` (칸 목록) | 기재 자리 전부(위치·키·항목명·값 종류·값 출처), 결재란 칸, 배경 지우기, 표시 설정 |
-| html | 서식 폴더의 `regions.json` (수정층) | 템플릿 칸 위에 덧씌우는 위치·값·항목명·빼기, 새 칸 |
-
-공개 서식은 `docgen/forms/<ID>/`, 실서류에서 만든 서식은 `$DOCGEN_PRIVATE_FORMS/<ID>/`(수정도 저장소 밖)에 있습니다.
-
-- overlay 칸 목록은 자동 추출 레이아웃(`layout.json`)과 예전 사람 수정을 합쳐 한 번 만든 것입니다. 그 뒤로는 칸 목록이 기준이라 자동 추출을 다시 해도 바뀌지 않습니다(새로 뽑은 `layout.json`은 비교용 초안). 영역 편집기는 고친 것을 보내고 서버가 칸 목록에 바로 합쳐 씁니다. 사람이 고친 칸은 `"edited": true`, 더한 칸은 `"added": true`, 뺀 자동 영역은 `"dropped"`에 남습니다.
+| overlay (`hf###`, `img_*`) | 기재 자리 전부(`items`: 위치·키·항목명·값 종류·값 출처), 결재란 칸(`pages[].staff`), 배경 지우기(`erase`), 표시 설정(`marks`) | 원본 그림 (바꾸지 않음) |
+| html | 값 선언(`fields`·`lists`: 키마다 값 출처), 칸 덮어쓰기(`regions`: 키마다 항목명·값·위치·빼기·새 칸, 레이아웃 변형별 `variants`) | 템플릿 `look/template.html.j2` (반복 행·조건 칸·레이아웃 변형은 템플릿에) |
 
 ```json
-{"engine": "overlay", "unit": "pt", "pages": [...], "items": [...], "erase": [...], "marks": {...}}     // fields.json
-{"engine": "html", "unit": "px", "regions": [...], "variants": {"<레이아웃 변형 ID>": {"regions": [...]}}}   // regions.json
+{"engine": "overlay", "unit": "pt", "pages": [...], "items": [...], "erase": [...], "marks": {...}}
+{"engine": "html", "unit": "px", "fields": {"official.name": {"label": "성명", "source": "profile.person.name"}},
+ "lists": {...}, "regions": [{"key": "official.name", "rect": [80, 80, 180, 100]}], "variants": {"<변형 ID>": {"regions": [...]}}}
 ```
 
 - 이 파일을 고치면 다음에 생성하는 이미지와 정답(키·항목명·값 출처·위치·뺀 칸)에 반영됩니다. 이미 만든 데이터셋은 그대로입니다.
-- html 수정은 템플릿이 만든 칸 위에 덧씌우는 수정층입니다. html 템플릿 칸은 파일에 적지 않아도 나오고, 빼려면 그 키에 `"drop": true`.
+- **overlay:** 자동 추출 레이아웃(`layout.json`)과 예전 사람 수정을 합쳐 한 번 만든 것이 기준입니다. 자동 추출을 다시 해도 칸 목록은 바뀌지 않습니다(새로 뽑은 `layout.json`은 비교용 초안). 영역 편집기는 고친 것을 보내고 서버가 칸 목록에 바로 합칩니다. 사람이 고친 칸은 `"edited": true`, 더한 칸은 `"added": true`, 뺀 자동 영역은 `"dropped"`에 남습니다.
+- **html:** 템플릿이 칸을 만들고, 칸 목록은 그 위에 값을 정하고 덮어씁니다. 템플릿 칸은 칸 목록에 적지 않아도 나오고, 빼려면 `regions`에 그 키로 `"drop": true`. 복제·분석기 서식은 예전 `form.json`의 `fields`·`lists`가 여기로 왔습니다. 코드 서식은 값을 생성 함수(`docs/*.py`)가 만들고, `fields`를 적으면 그 위에 덮어씁니다(4단계에서 생성 함수를 값 선언으로 옮기는 중).
 - `engine`이 서식 종류와 다르면 조용히 무시하지 않고 에러로 멈춥니다.
-- studio ① 서식 › 영역 편집에서 고치면 검증·미리보기가 같이 됩니다. 손으로 고쳤으면 아래 `check`.
+- studio에서 고치면 검증·미리보기가 같이 됩니다. 손으로 고쳤으면 아래 `check`.
 
 ```bash
 python -m docgen.regions path <ID>             # 이 서식의 수정 파일 위치
