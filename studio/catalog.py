@@ -202,10 +202,11 @@ def _edited(doc_id: str) -> bool:
 def _summary(spec, entry: dict, audit: bool = False) -> dict:
     """서식 한 줄. audit: 이미지 값 점검(상세 화면만 씀, 서식마다 원본 해시를 계산해 느리다)."""
     kind, origin = kind_of(spec.group, spec.id)
-    official_source = None
+    official_source, script = None, False
     if spec.template.startswith("@form/"):
-        from docgen.htmlform import load_form
+        from docgen.htmlform import load_form, script_path
 
+        script = script_path(spec.id) is not None
         source = load_form(spec.id).get("source") or {}
         if isinstance(source, dict) and str(source.get("url", "")).startswith("https://") and source.get("online_verification", {}).get("matches_local"):
             official_source = source
@@ -214,7 +215,7 @@ def _summary(spec, entry: dict, audit: bool = False) -> dict:
     return {
         "id": spec.id, "name": spec.name, "group": spec.group, "group_name": GROUPS.get(spec.group, spec.group),
         "kind": kind, "origin": origin, "category": spec.category, "page": spec.page,
-        "official_source": official_source,
+        "official_source": official_source, "script": script,
         **({"value_audit": value_audit(spec.id)} if audit else {}),
         "scenarios": [s["id"] for s in _scenarios_of().get(spec.id, [])],
         "reviewed": entry.get("reviewed"), "split": entry.get("split", "unassigned"),
@@ -289,7 +290,16 @@ def form_detail(doc_id: str) -> dict:
         "review_state": review_state(doc_id, entry),
         "keys": _keys(doc_id),
         "files": files,
+        "script": _script_source(doc_id) if spec.template.startswith("@form/") else None,
     }
+
+
+def _script_source(doc_id: str) -> dict | None:
+    """생성 스크립트(generate.py) 내용 (파일 탭에서 읽고 확인)."""
+    from docgen.htmlform import script_path
+
+    p = script_path(doc_id)
+    return {"path": _rel(p), "source": p.read_text(encoding="utf-8")[:200_000]} if p else None
 
 
 def groups() -> list[dict]:

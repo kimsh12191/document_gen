@@ -177,7 +177,8 @@ def refresh() -> dict:
     - 폴더가 없어진 html·이미지 서식은 목록에서 뺀다 (검수 기록 catalog.json 은 그대로 — 폴더를 되돌리면 되살아난다).
     - 코드 서식(docs/*.py)과 하나은행 원본(hf###)은 건드리지 않는다. 레이아웃 파일은 다시 읽게 한다.
     템플릿·칸 목록의 내용은 원래 그릴 때마다 읽으므로 여기서 할 일이 없다.
-    → {"added", "updated", "removed": [ID…], "problems": [{"id", "reason"}]}"""
+    → {"added", "updated", "removed": [ID…], "problems": [{"id", "reason"}],
+       "with_script": 새로·바뀐 것 중 생성 스크립트(generate.py)가 있는 서식 — 사람이 읽고 넣었는지 확인용}"""
     from . import formdir, htmlform
     from . import realform as RF
 
@@ -228,6 +229,7 @@ def refresh() -> dict:
             continue
         put(doc_id, lambda d=d: RF.image_spec(d))
     RF.load_layout.cache_clear()
+    out["with_script"] = [i for i in out["added"] + out["updated"] if i in html_dirs and (html_dirs[i] / htmlform.SCRIPT).exists()]
     for k in out:
         out[k].sort(key=lambda x: x["id"] if isinstance(x, dict) else x)
     return out

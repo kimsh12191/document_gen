@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DOCUMENTS = {
     "README.md": "사용 설명서 · 시작하기",
     "studio.md": "Studio 사용법 · 데이터 만들기·넣기·채점",
+    "new-forms.md": "새 서식 추가 · 대형 모델로 html·키 만들기 → studio 에 넣기 → 검수",
     "ocr.md": "내 이미지로 OCR 데이터 준비",
     "training.md": "학습 설정·실행",
     "results.md": "결과 해석",
@@ -31,6 +32,13 @@ DOCUMENTS = {
     "fields/README.md": "필드 목록 안내",
     "overview.md": "프로젝트 개요",
 }
+# 서식 만들기 참고 문서 (docgen/manual, 저장소 기준 경로를 ID 로): 새 서식 가이드가 링크한다.
+MANUALS = {
+    "docgen/manual/NEW_FORM_SPEC.md": "새 서식 결과물 형식 · 템플릿·칸 목록·키·생성 스크립트",
+    "docgen/manual/FORM_SHELL_GUIDE.md": "서식 모양(껍데기)만 고치기 · VLM 에게 맡길 때",
+    "docgen/manual/TEMPLATE_GUIDE.md": "서류 템플릿 작성 가이드",
+}
+DOCUMENTS.update({k: v for k, v in MANUALS.items() if (ROOT / k).exists()})
 # 추가 참고 문서도 guide 내부에서 이동할 수 있다. 경로는 서버가 수집한 목록만 허용한다.
 for _path in sorted((ROOT / "guide").rglob("*.md")):
     _name = _path.relative_to(ROOT / "guide").as_posix()
@@ -118,7 +126,9 @@ def markdown(data: dict, form_id: str | None = None) -> str:
 def document(name: str) -> str:
     if name not in DOCUMENTS:
         raise KeyError(name)
-    return markdown(catalog()) if name == "catalog.md" else (ROOT / "guide" / name).read_text(encoding="utf-8")
+    if name == "catalog.md":
+        return markdown(catalog())
+    return (ROOT / name if name in MANUALS else ROOT / "guide" / name).read_text(encoding="utf-8")
 
 
 def export() -> None:

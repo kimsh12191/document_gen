@@ -17,8 +17,9 @@ A. 초안 폴더 (만들면서 검사할 때)            B. 등록 폴더 (studi
   template.html.j2   모양 + 값 자리           $DOCGEN_PRIVATE_FORMS/<서식ID>/  (실서류에서 만든 것)
   form.json          이름·그룹 + 칸 목록        look/template.html.j2     A 의 template.html.j2 그대로
   source.png         (선택) 원본 그림           form.json                 이름·그룹·출처만
-                                                fields.json               칸 목록 (A 의 form.json 에서 fields·lists)
+  generate.py        (선택) 생성 스크립트       fields.json               칸 목록 (A 의 form.json 에서 fields·lists)
                                                 source.png                (선택) 원본 그림
+                                                generate.py               (선택) 생성 스크립트 (8절)
 ```
 
 - **A** 는 `python -m docgen.preview --dir <폴더>` 로 바로 그려 볼 수 있습니다. 만드는 도구가 고치고 그려 보기를 반복할 때 씁니다.
@@ -136,7 +137,8 @@ Jinja2 + HTML 입니다. 쪽은 **A4 세로 794 × 1123 px** 입니다.
 | `rule:empty` | 늘 빈 칸 |
 | `rule:date_seq` | 반복 행에서 행마다 늘어나는 날짜 |
 
-`rule:` 값은 칸마다 따로 뽑습니다 (예: 조회 시작일이 종료일보다 늦을 수 있음). 값끼리 맞아야 하는 칸은 `profile.` 을 쓰거나, 등록 뒤 studio 에서 값 출처를 고칩니다.
+`rule:` 값은 칸마다 따로 뽑습니다 (예: 합계가 행 금액의 합과 다름, 발급일이 조회기간보다 앞섬). 같은 사람의 값은 `profile.` 로 맞추고,
+**칸끼리 관계(순서·합계·잔액·조건·표기)는 생성 스크립트 `generate.py` 로 맞춥니다 (8절).**
 값 출처를 다 정하지 못했으면 `rule:note`(아무 글자) 로 두고 studio ① 서식에서 고쳐도 됩니다. **키와 위치만 맞으면 값 출처는 나중에 고칠 수 있습니다.**
 
 ---
@@ -201,6 +203,7 @@ python -m docgen.preview --dir <초안 폴더> --rows max --out work/max
 <초안>/form.json 의 fields·lists →  <서식ID>/fields.json   {"engine": "html", "unit": "px", "fields": …, "lists": …}
 <초안>/form.json 의 나머지     →  <서식ID>/form.json
 <초안>/source.png            →  <서식ID>/source.png
+<초안>/generate.py           →  <서식ID>/generate.py       (있으면. 사람이 읽고 옮긴다 — 8절)
 ```
 
 - **서식 ID**: 영어 소문자로 시작, 소문자·숫자·밑줄 3~51자 (`[a-z][a-z0-9_]{2,50}`). 이미 있는 ID 는 쓰지 않습니다 (`python -m docgen.formdir path <ID>` 로 확인). 기존 폴더를 덮어쓰지 않습니다.
@@ -236,7 +239,68 @@ python -m docgen.preview <ID> --rows max --out work/<ID>   # 등록된 서식으
 
 ---
 
-## 8. 전체 예시 (검사 통과)
+## 8. 생성 스크립트 `generate.py` (선택)
+
+칸 목록의 값 출처는 칸마다 값을 따로 뽑습니다. 칸끼리 관계가 있으면 서식 폴더에 `generate.py` 를 두고 **값을 다 채운 뒤 다듬습니다.**
+
+```
+칸 목록(fields)으로 값을 채운다 → generate.py 의 adjust(d, p, rng) → 템플릿에 넣어 그린다 → 정답 라벨
+```
+
+```python
+from docgen.formkit import to_date, date_like, to_amount, amount_like, rows
+
+
+def adjust(d, p, rng):
+    """d: 칸 목록으로 채운 값 (dict, 고쳐서 돌려준다) · p: 고객 프로필 · rng: 이 문서의 난수."""
+    s, e = to_date(d["period"]["start"]), to_date(d["period"]["end"])
+    if s > e:                                                    # 조회 시작 ≤ 종료
+        s, e = e, s
+    d["period"]["start"], d["period"]["end"] = date_like(s, d["period"]["start"]), date_like(e, d["period"]["end"])
+    d["issue_date"] = date_like(e, d["issue_date"])              # 발급일 = 조회 종료일
+    for r in rows(d, "rows"):                                    # 행마다 출금·입금 중 하나만
+        if rng.random() < 0.5:
+            r["out"] = ""
+        else:
+            r["in"] = ""
+    d["total"]["out"] = amount_like(sum(to_amount(r["out"]) or 0 for r in rows(d, "rows")), d["total"]["out"])  # 합계 칸 (칸 목록에 total.out 선언)
+    return d
+```
+
+**`d` 의 꼴**: 키의 점 경로가 그대로 dict 입니다 (`period.start` → `d["period"]["start"]`, 반복 표 `rows` → `d["rows"]` = 행 dict 목록).
+값은 서식에 찍힐 **글자**입니다 (`"2025.01.03"`, `"1,234,000원"`). 계산할 때는 도우미로 바꾸고 같은 표기로 되돌립니다.
+빈 칸은 `""` 나 `None`.
+
+**도우미** `docgen.formkit`
+
+| 함수 | 하는 일 |
+|---|---|
+| `to_date(s)` / `date_like(date, 보기)` | `'2025.01.03'`·`'2025-01-03'`·`'2025년 1월 3일'` → date / date → 보기와 같은 표기 |
+| `add_days(s, n)` | 날짜 글자에 n 일 더해 같은 표기로 |
+| `to_amount(s)` / `amount_like(n, 보기)` | `'1,234,000원'` → 1234000 / 정수 → 보기와 같은 꼴 (쉼표·'원'·통화 유지) |
+| `won_korean(n)` | 120000000 → `'일억이천만'` (금액 한글 표기) |
+| `rows(d, "rows")` | 반복 표 행 목록 |
+| `get(d, "a.b")` / `put(d, "a.b", 값)` | 점 경로로 읽기·쓰기 |
+
+**약속** (검사가 잡는 것은 ✓)
+
+| 약속 | |
+|---|---|
+| 함수 이름은 `adjust(d, p, rng)`, 값 dict 를 돌려준다 (`None` 이면 d 그대로) | ✓ 없으면 오류 |
+| 난수는 넘겨받은 `rng` 만 쓴다. 시간·파일·네트워크·전역 상태를 읽지 않는다 | ✓ 같은 seed 로 두 번 돌려 다르면 경고 |
+| **키는 칸 목록에 있는 것만 고친다.** 새 값 칸이 필요하면 칸 목록(`fields`)에 선언하고 템플릿에 `f()` 로 | ✓ 칸 목록에 없는 키를 만들면 경고 |
+| `docgen.formkit` 과 파이썬 표준 라이브러리(`re`, `datetime`, `math`)만 쓴다 | 사람이 읽고 확인 |
+| 오류가 나면 그 서식만 실패합니다 | `생성 스크립트 generate.py 3번째 줄: KeyError: …` |
+
+- 초안 폴더에 두면 `python -m docgen.preview --dir` 도 스크립트를 실행합니다. 검사 경고는 `checks` 에 나옵니다.
+- 스크립트도 서식 해시에 들어갑니다: 고치면 미리보기를 다시 그리고 검수 완료는 "재검수 필요" 로 바뀝니다.
+- **그림을 그릴 때마다 실행되는 코드입니다.** 외부 모델이 쓴 스크립트는 사람이 읽고 서식 폴더에 넣습니다.
+  studio 는 스크립트가 있는 서식에 `스크립트` 표시를 붙이고, [서식 다시 읽기] 결과와 서식의 파일 탭에 내용을 보여 줍니다.
+- 기존 서식을 복제한 서식(`parent`)도 부모가 값을 만들고 칸 목록이 덮어쓴 뒤에 실행됩니다.
+
+---
+
+## 9. 전체 예시 (검사 통과)
 
 `template.html.j2`
 

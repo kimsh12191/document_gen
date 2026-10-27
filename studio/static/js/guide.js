@@ -11,7 +11,9 @@ function guideMarkdown(text, name, documents) {
     let s = esc(value).replace(/`([^`]+)`/g, (_, code) => hold(`<code>${code}</code>`));
     s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
       if (/^https?:\/\//.test(href)) return hold(`<a href="${href}" target="_blank" rel="noopener">${label}</a>`);
-      const target = new URL(href, `https://guide.local/guide/${name}`).pathname.replace(/^\/guide\//, "");
+      const base = name.startsWith("docgen/") ? `https://guide.local/${name}` : `https://guide.local/guide/${name}`;   // docgen/manual 문서는 저장소 기준 경로
+      const path = decodeURIComponent(new URL(href, base).pathname);
+      const target = path.startsWith("/guide/") ? path.slice(7) : path.slice(1);
       if (documents.some(d => d.id === target)) return hold(`<a href="#/guide/${encodeURIComponent(target)}">${label}</a>`);
       if (target === "catalog.json") return hold(`<a href="/api/guide/catalog" target="_blank" rel="noopener">${label} (현재 JSON)</a>`);
       return `${label} <span class="muted">(${href})</span>`;

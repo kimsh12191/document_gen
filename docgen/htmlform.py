@@ -11,6 +11,8 @@
                                      "lists": {이름: {"min", "max", "fields": {하위 키: {...}}}}
                                     (load_form 은 둘을 합쳐 예전 form.json 꼴로 돌려준다. 칸 목록이 없으면 form.json 안의 것)
     source.png                      (있으면) 원본 이미지
+    generate.py                     (있으면) 생성 스크립트: adjust(d, p, rng) 가 칸 목록으로 채운 값을 다듬는다
+                                    (칸끼리 순서·합계·조건·표기). 도우미 docgen/formkit.py, 연결점 run_script
 
 값 채우기
 - parent 가 있으면 부모 생성 함수로 값을 만든다 (키·정답 구조가 부모와 같다). 그다음 fields 값을 더하거나 덮는다.
@@ -287,9 +289,120 @@ def make_generate(doc_id: str):
                     key = item.get("key")
                     if item.get("t") != "mark" and key and key.split(".")[0] not in {"items", "pages", "style", "class", "name", "doc_id", "no", "fonts"}:
                         _set(data, key, item.get("value"))
-        return fill(form, p, rng, data)
+        return run_script(doc_id, fill(form, p, rng, data), p, rng)
     generate.__doc__ = f"화면에서 만든 html 서식 {doc_id} (docgen/htmlform.py)"
     return generate
+
+
+# ---------------------------------------------------------------------------
+# 생성 스크립트 (서식 폴더의 generate.py): 칸 목록이 값을 채운 뒤 칸끼리 관계를 맞춘다
+# ---------------------------------------------------------------------------
+SCRIPT = "generate.py"
+_SCRIPTS: dict = {}   # (경로, 수정 시각) → {"fn", "checked", "warn"}
+
+
+def script_path(doc_id: str) -> Path | None:
+    """이 서식의 생성 스크립트. 초안(preview --dir)이면 초안 폴더의 것, 아니면 서식 폴더의 generate.py. 없으면 None."""
+    dr = _draft(doc_id)
+    if dr and "script" in dr:
+        return Path(dr["script"]) if dr["script"] else None
+    d = form_dir(doc_id)
+    p = d / SCRIPT if d else None
+    return p if p is not None and p.exists() else None
+
+
+def _where(path: Path, e: BaseException) -> str:
+    import traceback
+
+    line = e.lineno if isinstance(e, SyntaxError) else next(
+        (f.lineno for f in reversed(traceback.extract_tb(e.__traceback__)) if Path(f.filename) == path), None)
+    return f"생성 스크립트 {path.name}{f' {line}번째 줄' if line else ''}: {type(e).__name__}: {e}"
+
+
+def _load_script(path: Path) -> dict:
+    import importlib.util
+
+    key = (str(path), path.stat().st_mtime_ns)
+    if key not in _SCRIPTS:
+        spec = importlib.util.spec_from_file_location(f"docgen_form_script_{abs(hash(key))}", path)
+        mod = importlib.util.module_from_spec(spec)
+        try:
+            spec.loader.exec_module(mod)
+        except Exception as e:  # noqa: BLE001  스크립트 오류는 그 서식만 (어느 줄인지와 함께)
+            raise ValueError(_where(path, e)) from e
+        fn = getattr(mod, "adjust", None)
+        if not callable(fn):
+            raise ValueError(f"생성 스크립트 {path.name} 에 adjust(d, p, rng) 함수가 없습니다")
+        _SCRIPTS[key] = {"fn": fn, "checked": False, "warn": []}
+    return _SCRIPTS[key]
+
+
+def _paths(v, prefix: str = "") -> set[str]:
+    """값 dict 의 끝 칸 경로 (반복 행 번호는 #). 밑줄로 시작하는 칸(_template_variant 등)은 뺀다."""
+    out = set()
+    if isinstance(v, dict):
+        for k, x in v.items():
+            if not str(k).startswith("_"):
+                out |= _paths(x, f"{prefix}{k}.")
+    elif isinstance(v, list) and v and all(isinstance(x, dict) for x in v):
+        for x in v:
+            out |= _paths(x, f"{prefix}#.")
+    else:
+        out.add(prefix[:-1])
+    return out
+
+
+def run_script(doc_id: str, data: dict, p, rng: random.Random) -> dict:
+    """생성 스크립트가 있으면 adjust(d, p, rng) 를 불러 값을 다듬는다. 없으면 data 그대로.
+    약속: 난수는 rng 만, 파일·네트워크·시간을 읽지 않는다, 키는 칸 목록이 정한 것만 고친다 (새 키는 검사 경고).
+    스크립트마다 처음 한 번은 같은 입력·같은 난수로 한 번 더 돌려 결과가 같은지 본다 (다르면 검사 경고)."""
+    path = script_path(doc_id)
+    if path is None:
+        return data
+    import copy
+
+    s = _load_script(path)
+    before = _paths(data)
+    first = None
+    if not s["checked"]:
+        try:
+            first, state = copy.deepcopy(data), rng.getstate()
+        except Exception:  # noqa: BLE001  복사할 수 없는 값이면 재현성 검사를 건너뛴다
+            first = None
+    try:
+        out = s["fn"](data, p, rng)
+    except Exception as e:  # noqa: BLE001
+        raise ValueError(_where(path, e)) from e
+    out = data if out is None else out
+    if not isinstance(out, dict):
+        raise ValueError(f"생성 스크립트 {path.name}: adjust 는 값 dict 를 돌려줘야 합니다 ({type(out).__name__})")
+    if not s["checked"]:
+        s["checked"] = True
+        if first is not None:
+            r2 = random.Random()
+            r2.setstate(state)
+            try:
+                again = s["fn"](first, p, r2)
+                again = first if again is None else again
+                same = json.dumps(again, sort_keys=True, default=str) == json.dumps(out, sort_keys=True, default=str)
+            except Exception:  # noqa: BLE001
+                same = False
+            if not same:
+                s["warn"].append(f"생성 스크립트 {path.name}: 같은 seed 로 두 번 돌렸는데 결과가 다릅니다 "
+                                 "(난수는 넘겨받은 rng 만 쓰고, 시간·파일·전역 상태를 읽지 않습니다)")
+    new = sorted(_paths(out) - before)
+    infos = getattr(_local, "scripts", None)
+    if infos is None:
+        infos = _local.scripts = {}
+    infos[doc_id] = {"file": str(path), "warn": list(s["warn"]) +
+                     ([f"생성 스크립트 {path.name} 가 칸 목록에 없는 키를 만들었습니다: {', '.join(new[:10])} "
+                       "(정답 키는 칸 목록·템플릿이 정합니다. 칸 목록에 선언하세요)"] if new else [])}
+    return out
+
+
+def script_warnings(doc_id: str) -> list[str]:
+    """이 스레드에서 마지막으로 그린 doc_id 의 생성 스크립트 검사 경고."""
+    return ((getattr(_local, "scripts", None) or {}).get(doc_id) or {}).get("warn", [])
 
 
 def register_forms() -> int:
@@ -341,6 +454,11 @@ def check_dir(d: Path) -> str | None:
         env().parse(tpl.read_text(encoding="utf-8"))
     except TemplateSyntaxError as e:
         return f"템플릿 문법 오류 ({tpl.name} {e.lineno}번째 줄): {e.message}"
+    if (d / SCRIPT).exists():
+        try:
+            compile((d / SCRIPT).read_text(encoding="utf-8"), str(d / SCRIPT), "exec")
+        except SyntaxError as e:
+            return f"생성 스크립트 문법 오류 ({SCRIPT} {e.lineno}번째 줄): {e.msg}"
     return None
 
 
@@ -413,8 +531,9 @@ def declared(form: dict) -> dict[str, str]:
     return out
 
 
-def check(form: dict, raw: list[dict], data: dict, overflow: bool = False) -> list[dict]:
-    """저장 전 검사 (경고만): 선언했는데 안 나온 키, 템플릿에 있는데 값이 없는 키(선언·부모에 없음), 쪽 넘침."""
+def check(form: dict, raw: list[dict], data: dict, overflow: bool = False, doc_id: str | None = None) -> list[dict]:
+    """저장 전 검사 (경고만): 선언했는데 안 나온 키, 템플릿에 있는데 값이 없는 키(선언·부모에 없음), 쪽 넘침,
+    (doc_id 를 주면) 생성 스크립트 경고 (재현성, 칸 목록에 없는 새 키)."""
     from .render import lookup
 
     out = []
@@ -432,4 +551,6 @@ def check(form: dict, raw: list[dict], data: dict, overflow: bool = False) -> li
             out.append({"level": "warn", "text": f"템플릿에 있는데 값이 없는 키 (form.json·부모에 없음): {r['key']}"})
     if overflow:
         out.append({"level": "warn", "text": "쪽 넘침: 한 쪽 서식(카드·여권 등) 밖으로 내용이 나갑니다"})
+    if doc_id:
+        out += [{"level": "warn", "text": w} for w in script_warnings(doc_id)]
     return out

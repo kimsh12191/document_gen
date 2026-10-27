@@ -39,6 +39,7 @@ async function viewForms() {
       <label><input type="checkbox" id="f-issues" ${f.issues ? "checked" : ""}> 문제 표시 있음</label>
       <label><input type="checkbox" id="f-edited" ${f.edited ? "checked" : ""}> 사람 수정 있음</label>
       <span class="muted" id="f-count"></span>
+      <a href="#/new-forms" title="대형 모델로 html·키 만들기 → 검사 → 폴더 넣기 → 서식 다시 읽기 → 검수">새 서식 추가 방법</a>
       <button id="f-refresh" title="서식 폴더(docgen/forms/<ID>/, 사내 서식 폴더)를 다시 훑어 새로 넣은 서식을 등록하고, 이름·그룹을 다시 읽고, 지운 폴더는 목록에서 뺍니다. 다시 띄우지 않아도 됩니다">서식 다시 읽기</button>
     </div>
     <div id="f-refreshed">${refreshNote(state.refreshed)}</div>
@@ -82,7 +83,8 @@ function refreshNote(r) {
     `<li><span class="mono">${esc(p.id)}</span> — ${esc(p.reason)}</li>`).join("")}</ul></div>` : "";
   const none = !r.added.length && !r.updated.length && !r.removed.length && !r.problems.length;
   return `<div class="box">${none ? `<span class="muted">서식 다시 읽기: 바뀐 것 없음</span>` :
-    ids(r.added, "새로") + ids(r.updated, "이름·그룹 바뀜") + `${r.removed.length ? `<div><b>빠짐 ${r.removed.length}</b> <span class="mono">${r.removed.map(esc).join(" ")}</span> <span class="muted">(폴더가 없어짐. 검수 기록은 남아 있어 폴더를 되돌리면 다시 나옵니다)</span></div>` : ""}` + probs}</div>`;
+    ids(r.added, "새로") + ids(r.updated, "이름·그룹 바뀜") +
+    `${(r.with_script || []).length ? `<div class="kr"><b>생성 스크립트 있음 ${r.with_script.length}</b> ${r.with_script.map(esc).join(" ")} <span class="muted">(값을 만든 뒤 실행되는 코드입니다. 사람이 내용을 읽고 넣었는지 확인하세요 — 파일 탭)</span></div>` : ""}` + `${r.removed.length ? `<div><b>빠짐 ${r.removed.length}</b> <span class="mono">${r.removed.map(esc).join(" ")}</span> <span class="muted">(폴더가 없어짐. 검수 기록은 남아 있어 폴더를 되돌리면 다시 나옵니다)</span></div>` : ""}` + probs}</div>`;
 }
 
 function drawFormTable() {
@@ -107,7 +109,7 @@ function drawFormTable() {
     `<th data-k="${k}" class="${num ? "num" : ""}">${n}${state.sort.key === k ? (dir > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}
     </tr></thead><tbody>${rows.map(x => `
     <tr class="click" data-id="${esc(x.id)}">
-      <td class="mono">${esc(x.id)}</td><td>${esc(x.name)}${x.official_source ? ` <span class="tag" title="공식 대조 원문 있음 · 서식·라벨 사람 검수는 별도">공식대조 HTML</span>` : ""}${x.edited ? ` <span class="tag ok" title="사람 수정 있음">수정</span>` : ""}</td>
+      <td class="mono">${esc(x.id)}</td><td>${esc(x.name)}${x.official_source ? ` <span class="tag" title="공식 대조 원문 있음 · 서식·라벨 사람 검수는 별도">공식대조 HTML</span>` : ""}${x.edited ? ` <span class="tag ok" title="사람 수정 있음">수정</span>` : ""}${x.script ? ` <span class="tag warn" title="서식 폴더에 생성 스크립트 generate.py 가 있습니다 (값을 만든 뒤 실행되는 코드). 파일 탭에서 내용을 볼 수 있습니다">스크립트</span>` : ""}</td>
       <td class="nw">${esc(x.group_name)}</td>
       <td><span class="tag ${x.kind}">${x.kind}</span></td>
       <td class="num">${x.n_keys}</td>
@@ -518,5 +520,9 @@ function tabFiles(d) {
   $("#tab").innerHTML = `
     <div class="sub">이 서식의 결과를 정하는 파일입니다 (저장소 기준 경로). 영역 편집기·html 편집기에서 고친 것도 이 파일들에 저장됩니다.</div>
     <table><thead><tr><th>역할</th><th>경로</th></tr></thead><tbody>${d.files.map(f =>
-      `<tr><td>${esc(f.role)}</td><td class="mono">${esc(f.path)}</td></tr>`).join("")}</tbody></table>`;
+      `<tr><td>${esc(f.role)}</td><td class="mono">${esc(f.path)}</td></tr>`).join("")}</tbody></table>
+    ${d.script ? `<h3>생성 스크립트 <span class="mono muted">${esc(d.script.path)}</span></h3>
+      <div class="sub">칸 목록이 값을 채운 뒤 <span class="mono">adjust(d, p, rng)</span> 가 값을 다듬습니다 (칸끼리 순서·합계·조건·표기).
+      그림을 그릴 때마다 실행되는 코드이니 내용을 읽고 확인하세요. 고치는 것은 파일로 (고치면 재검수 필요로 바뀝니다).</div>
+      <pre class="mono" style="max-height:480px;overflow:auto">${esc(d.script.source)}</pre>` : ""}`;
 }

@@ -494,6 +494,8 @@ def describe(doc_id: str) -> list[tuple[str, Path | None]]:
         rows += [("모양 (템플릿)", template(doc_id))]
         if copy_dir(doc_id):
             rows += [("값 선언 (form.json)", copy_dir(doc_id) / "form.json")]
+            if (copy_dir(doc_id) / "generate.py").exists():
+                rows += [("생성 스크립트 (generate.py)", copy_dir(doc_id) / "generate.py")]
         else:
             from .preview import _source_file
 

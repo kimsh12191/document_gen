@@ -66,6 +66,8 @@ def source_files(doc_id: str, common: bool = True) -> list[Path]:
 
         d = htmlform.form_dir(doc_id)
         files += [formdir.template_in(d), d / "form.json"] if d else []
+        if d and (d / htmlform.SCRIPT).exists():   # 생성 스크립트 (없는 서식은 해시가 예전 그대로)
+            files.append(d / htmlform.SCRIPT)
         parent = (htmlform.load_form(doc_id) if d else {}).get("parent")
         if parent in load_all():
             files.append(Path(_source_file(load_all()[parent].generate)))
@@ -252,7 +254,7 @@ class Previewer:
                 info = self._renderer.render(html, folder / "page.png", **({"first_only": True} if early else {}))
                 checks = None
                 if spec.template.startswith("@form/"):   # html 서식: 저장 전 검사 (선언·템플릿 키, 쪽 넘침)
-                    checks = htmlform.check(htmlform.load_form(doc_id), raw, data, bool(info.get("overflow")))
+                    checks = htmlform.check(htmlform.load_form(doc_id), raw, data, bool(info.get("overflow")), doc_id)
         finally:
             for name, (var, _) in _ENV.items():
                 if saved[name] is None:
@@ -343,7 +345,8 @@ def main(argv=None) -> None:
 
         d = Path(a.dir)
         form = json.loads((d / "form.json").read_text(encoding="utf-8"))
-        draft = {"template": (d / "template.html.j2").read_text(encoding="utf-8"), "form": form}
+        draft = {"template": (d / "template.html.j2").read_text(encoding="utf-8"), "form": form,
+                 "script": str(d / htmlform.SCRIPT) if (d / htmlform.SCRIPT).exists() else None}
         load_all()
         doc_id = "draft_" + "".join(c if c.isalnum() else "_" for c in d.resolve().name.lower())
         REGISTRY[doc_id] = DocSpec(doc_id, form.get("name") or doc_id, form.get("group") if form.get("group") in GROUPS else "imported",

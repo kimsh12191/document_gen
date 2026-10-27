@@ -7,7 +7,7 @@
 서식 그림 ──▶ ① 대형 모델: 초안 폴더 (template.html.j2 + form.json)
                  │   그려 보며 원본과 맞춤 (python -m docgen.preview --dir)
                  ▼
-             ② 사람: 검사 통과 확인 → studio 서식 폴더로 옮기기 → studio [서식 다시 읽기]
+             ② 사람: 검사 통과 확인 (생성 스크립트가 있으면 읽기) → studio 서식 폴더로 옮기기 → studio [서식 다시 읽기]
                  ▼
              ③ 사람: studio ① 서식에서 손보기 (값 출처, 빠진 칸, 위치) → 검수 완료
                  ▼
@@ -25,6 +25,7 @@
   template.html.j2   모양 + 값 자리 (Jinja2 html)
   form.json          서식 이름·그룹 + 칸 목록 (키마다 항목명·타입·값 출처)
   source.png         (선택) 원본 그림 — studio 에서 겹쳐 보기용
+  generate.py        (선택) 생성 스크립트 — 칸끼리 관계(순서·합계·잔액·조건·표기)를 맞출 때
 ```
 
 서식은 **템플릿 하나 + 칸 목록**으로, 고객 정보·행 수·글꼴을 바꿔 가며 문서를 계속 찍어 냅니다.
@@ -78,7 +79,22 @@
 - **있는 키를 먼저**: `docgen/dictionary/common.json`(공통 키), `docgen/keys.json`(서식들이 쓰는 키), `docgen/dictionary/parties.json`(누구).
 - `account` 와 `account.number` 처럼 한 키가 다른 키의 앞부분이면 안 됨. 도장·서명 키는 `seal.`·`sign.` 으로 시작.
 
-전체 규칙(매크로·CSS 클래스·값 출처 목록·흔한 실수·검사 통과한 전체 예시)은 [docgen/manual/NEW_FORM_SPEC.md](../docgen/manual/NEW_FORM_SPEC.md) 입니다. **모델에게는 이 파일을 통째로 줍니다.**
+### generate.py — 칸끼리 관계 (선택)
+
+칸 목록은 칸마다 값을 따로 뽑습니다. "시작일 ≤ 종료일", "합계 = 행 금액의 합", "기타를 골랐을 때만 사유" 처럼 칸끼리 맞아야 하면
+`generate.py` 의 `adjust(d, p, rng)` 가 채운 값을 다듬습니다. 날짜·금액 계산 도우미는 `docgen.formkit`.
+
+```python
+from docgen.formkit import to_amount, amount_like, rows
+
+def adjust(d, p, rng):
+    d["total"]["out"] = amount_like(sum(to_amount(r["out"]) or 0 for r in rows(d, "rows")), d["total"]["out"])
+    return d
+```
+
+약속: 난수는 `rng` 만, 시간·파일·네트워크 금지, 키는 칸 목록에 있는 것만 (어기면 검사 경고). 그림마다 실행되는 코드라 **사람이 읽고 넣습니다** (5절).
+
+전체 규칙(매크로·CSS 클래스·값 출처 목록·생성 스크립트·흔한 실수·검사 통과한 전체 예시)은 [docgen/manual/NEW_FORM_SPEC.md](../docgen/manual/NEW_FORM_SPEC.md) 입니다. **모델에게는 이 파일을 통째로 줍니다.**
 
 ---
 
@@ -106,13 +122,15 @@
 ```text
 첨부한 서식 그림과 똑같이 생긴 docgen html 서식을 만들어라. 형식은 NEW_FORM_SPEC.md 를 따른다.
 
-결과: work/<이름>/template.html.j2 와 work/<이름>/form.json (form.json 에 fields·lists 포함, 8절 예시 꼴).
+결과: work/<이름>/template.html.j2 와 work/<이름>/form.json (form.json 에 fields·lists 포함, 9절 예시 꼴).
 - 그림에 인쇄된 글자(제목·항목명·안내문·보기·주석)는 빠짐없이 옮긴다. 그림에 적힌 개인 값(이름·번호·주소·금액)은 옮기지 말고 값 자리로 바꾼다.
 - 사람이 쓰거나 출력되어 채워지는 자리는 모두 값 자리로 만든다: 글자 f(), 체크 m.choice, 도장 m.seal, 서명 m.sigspot.
   label 은 그림에 인쇄된 항목명 그대로.
 - 행 수가 바뀌는 표는 {% for r in d.<목록> %} 반복 행과 form.json lists(min = 그림에 보이는 행 수)로.
 - 키는 docgen/dictionary/common.json, docgen/keys.json 에 있는 것을 먼저 쓰고, 없으면 "누구의 무엇" 영어 키를 새로 짓는다.
 - 값 출처(source)는 맞는 profile.* 이나 rule:* 를 고르고, 모르겠으면 rule:note.
+- 칸끼리 관계(시작일 ≤ 종료일, 합계 = 행의 합, 잔액, 조건부 칸, 금액 한글 표기)가 있으면 work/<이름>/generate.py 의
+  adjust(d, p, rng) 로 맞춘다 (NEW_FORM_SPEC.md 8절: docgen.formkit 과 표준 라이브러리만, 난수는 rng 만, 새 키 금지).
 - 서식 이름: <서식 이름>, 그룹: <finance 등>, 종류: <external|internal>
 
 끝내기 전에 아래 두 명령으로 그려서 원본 그림과 비교하고, 비슷해질 때까지 고친다.
@@ -144,6 +162,7 @@ python -m docgen.preview --dir work/<이름> --rows max --out work/check_max
 | `pages` (`--rows min`) | 원본 쪽 수와 같음 (`--rows max` 는 늘어도 됨, 자동 쪽 나눔) |
 | 그림 (`images` 경로) | 원본과 나란히 놓고: 표 구조·문구가 같은지, 값이 칸 안에 들어가는지 |
 | 템플릿에 `{{ d.` | 없어야 함 (값을 직접 찍으면 정답 라벨에서 빠지는데 검사가 못 잡음) |
+| `generate.py` (있으면) | **사람이 읽음**: `docgen.formkit`·표준 라이브러리만 쓰는지, 파일·네트워크·`os`·`subprocess` 가 없는지, 하는 일이 원본의 칸 관계와 맞는지. seed 몇 개로 그려 관계가 지켜지는지 |
 
 ---
 
@@ -162,8 +181,9 @@ assert H.ID_RX.fullmatch(form_id), "서식 ID 형식 (영어 소문자로 시작
 dest = formdir.new_dir(form_id, Path(root) if root else None)   # 이미 있으면 멈춤 (덮어쓰지 않음)
 shutil.copyfile(src / "template.html.j2", dest / "look" / formdir.TEMPLATE)
 H.write_form(dest, json.loads((src / "form.json").read_text(encoding="utf-8")))   # form.json + fields.json 으로 나눔
-if (src / "source.png").exists():
-    shutil.copyfile(src / "source.png", dest / "source.png")
+for extra in ("source.png", "generate.py"):   # 원본 그림, 생성 스크립트 (있으면 — 스크립트는 읽고 확인한 것만)
+    if (src / extra).exists():
+        shutil.copyfile(src / extra, dest / extra)
 print(dest)
 EOF
 ```
@@ -194,6 +214,7 @@ python -m docgen.preview <서식ID> --rows max --out work/<서식ID>
 | 체크 보기, 도장, 서명 | **html 편집** (템플릿) |
 | **반복 표 안의 칸**, 표 구조, 인쇄 문구, 선 | **html 편집** (템플릿), 또는 모델에게 다시 맡기기 |
 | 키 이름 | `fields.json` 과 템플릿을 같이 (html 편집) |
+| 칸끼리 관계 (순서·합계·조건·표기) | 서식 폴더의 `generate.py` (파일로. 내용은 **파일** 탭에서 보임) |
 
 - 영역 편집으로 그린 칸은 **쪽 위의 고정 위치**라 행 수가 바뀌어도 따라 움직이지 않습니다. 반복 표 안의 칸은 템플릿에서 고칩니다.
 - 이미 등록된 서식의 템플릿·`fields.json` 을 파일로 고친 것은 [서식 다시 읽기] 없이 다음 미리보기에 바로 나옵니다.
@@ -222,4 +243,7 @@ python -m docgen.preview <서식ID> --rows max --out work/<서식ID>
 | `키 'a' 와 'a.b' 를 함께 쓸 수 없습니다` | 1절 키 이름 규칙 (한 키가 다른 키의 앞부분) |
 | [서식 다시 읽기] 의 문제: `코드 서식과 ID 가 겹칩니다` | 다른 ID 로 폴더 이름을 바꾸고 다시 누르기 |
 | 5절 명령이 `FileExistsError` | 같은 ID 폴더가 이미 있음. 다른 ID 를 쓰거나, 기존 서식을 고칠 거면 6절로 |
+| `생성 스크립트 generate.py N번째 줄: …` | 그 줄의 오류. 이 서식만 그려지지 않음 |
+| checks: `같은 seed 로 두 번 돌렸는데 결과가 다릅니다` | 스크립트가 `rng` 말고 `random`·시간 등을 씀 → `rng` 로 |
+| checks: `칸 목록에 없는 키를 만들었습니다` | 스크립트가 새 키를 만듦 → 칸 목록 `fields` 에 선언하고 템플릿에 `f()` 로, 아니면 지우기 |
 | 목록의 "키" 수가 0 | 목록의 그 칸은 미리 만든 카탈로그에서 읽어 새 서식은 0. 상세·미리보기에는 정상으로 나옴 |
