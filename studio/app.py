@@ -212,6 +212,12 @@ def forms():
     return catalog.list_forms()
 
 
+@app.post("/api/forms/refresh")
+def forms_refresh():
+    """서식 폴더를 다시 훑는다 (① 서식 › 서식 다시 읽기): 새 폴더 등록, 이름·그룹 다시 읽기, 없어진 폴더 빼기. docgen/registry.refresh."""
+    return guard(catalog.refresh)
+
+
 def host_path(p: str | Path) -> str | None:
     """컨테이너 안 경로 → 서버(도커 호스트)에서 보이는 경로. docker/studio.sh 가 DOCGEN_HOST_CODE·DOCGEN_HOST_DATA 로 넘긴다"""
     p = Path(p).as_posix()

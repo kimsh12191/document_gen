@@ -165,3 +165,69 @@ def load_all() -> dict[str, DocSpec]:
 
         register_forms()
     return REGISTRY
+
+
+SPEC_FIELDS = ("name", "group", "category", "page", "description", "origin")
+
+
+def refresh() -> dict:
+    """서식 폴더를 다시 훑어 서식 목록을 최신으로 (studio ① 서식 › 서식 다시 읽기). 다시 띄우지 않아도 된다.
+    - 새 폴더(html 서식 docgen/forms/<ID>/ · 사내 서식, 이미지 서식 img_*)를 등록한다. 깨진 폴더는 등록하지 않고 이유를 남긴다.
+    - 이미 있는 html·이미지 서식은 form.json·layout.json 의 이름·그룹 등을 다시 읽는다.
+    - 폴더가 없어진 html·이미지 서식은 목록에서 뺀다 (검수 기록 catalog.json 은 그대로 — 폴더를 되돌리면 되살아난다).
+    - 코드 서식(docs/*.py)과 하나은행 원본(hf###)은 건드리지 않는다. 레이아웃 파일은 다시 읽게 한다.
+    템플릿·칸 목록의 내용은 원래 그릴 때마다 읽으므로 여기서 할 일이 없다.
+    → {"added", "updated", "removed": [ID…], "problems": [{"id", "reason"}]}"""
+    from . import formdir, htmlform
+    from . import realform as RF
+
+    reg = load_all()
+    out = {"added": [], "updated": [], "removed": [], "problems": []}
+    html_dirs = {d.name: d for d in formdir.copy_dirs()}
+    image_dirs = {d.name: d for d in formdir.image_dirs()}
+    for doc_id, spec in list(reg.items()):
+        if spec.template == htmlform.PREFIX + doc_id:
+            gone = doc_id not in html_dirs
+        elif spec.template == "_real_form.html.j2" and spec.group == "imported":
+            gone = doc_id not in image_dirs
+        else:
+            continue
+        if gone:
+            del reg[doc_id]
+            out["removed"].append(doc_id)
+
+    def put(doc_id, make):
+        try:
+            new = make()
+        except (OSError, ValueError, KeyError, IndexError, TypeError) as e:
+            out["problems"].append({"id": doc_id, "reason": f"읽지 못했습니다: {e}"})
+            return
+        old = reg.get(doc_id)
+        if old is None:
+            reg[doc_id] = new
+            out["added"].append(doc_id)
+        elif any(getattr(old, k) != getattr(new, k) for k in SPEC_FIELDS):
+            for k in SPEC_FIELDS:
+                setattr(old, k, getattr(new, k))
+            out["updated"].append(doc_id)
+
+    for doc_id, d in html_dirs.items():
+        spec = reg.get(doc_id)
+        if spec is not None and spec.template != htmlform.PREFIX + doc_id:
+            out["problems"].append({"id": doc_id, "reason": f"코드 서식과 ID 가 겹칩니다 — 코드 서식이 쓰입니다 ({d})"})
+            continue
+        why = htmlform.check_dir(d)
+        if why:
+            out["problems"].append({"id": doc_id, "reason": why})
+            continue
+        put(doc_id, lambda d=d: htmlform.spec_of(d))
+    for doc_id, d in image_dirs.items():
+        spec = reg.get(doc_id)
+        if spec is not None and spec.template != "_real_form.html.j2":
+            out["problems"].append({"id": doc_id, "reason": f"다른 서식과 ID 가 겹칩니다 ({d})"})
+            continue
+        put(doc_id, lambda d=d: RF.image_spec(d))
+    RF.load_layout.cache_clear()
+    for k in out:
+        out[k].sort(key=lambda x: x["id"] if isinstance(x, dict) else x)
+    return out

@@ -119,3 +119,47 @@ def test_builtin_declarations_and_per_key_override(tmp_path, monkeypatch):
     assert len(data["rows"]) == len([r for r in raw if r["key"].endswith("." + memo)])   # 행 수는 생성 함수 그대로
     _, n = formfields.merge_declared("bank_statement", declare("bank_statement", 4))   # 다시 적어도 사람이 바꾼 칸은 그대로
     assert formfields.read("bank_statement")["fields"]["holder"]["source"] == "rule:fixed" and n == 0
+
+
+def test_refresh_registers_updates_and_removes_form_folders(tmp_path, monkeypatch):
+    """서식 다시 읽기 (registry.refresh): 다시 띄우지 않고 새 폴더 등록 · 이름 다시 읽기 · 깨진 폴더는 이유만 · 지운 폴더는 목록에서 뺌.
+    코드 서식과 하나은행 원본은 그대로."""
+    from docgen import registry
+    from docgen.render import render
+
+    reg = load_all()
+    before = set(reg)
+    priv = tmp_path / "private"
+    monkeypatch.setenv("DOCGEN_PRIVATE_FORMS", str(priv))
+    src = formdir.folder("gov_income")
+    good = priv / "t_new_form"
+    shutil.copytree(src, good)
+    bad = priv / "t_bad_form"
+    shutil.copytree(src, bad)
+    (bad / "look" / "template.html.j2").write_text('{% extends "_base.html.j2" %}{% block content %}{% if %}{% endblock %}',
+                                                    encoding="utf-8")
+    img = priv / "img_t_refresh"
+    img.mkdir()
+    (img / "layout.json").write_text(json.dumps({"name": "새 이미지", "pages": [{"width": 100, "height": 140}], "items": []}),
+                                     encoding="utf-8")
+    try:
+        r = registry.refresh()
+        assert r["added"] == ["img_t_refresh", "t_new_form"] and not r["removed"]
+        assert [p["id"] for p in r["problems"]] == ["t_bad_form"] and "템플릿 문법 오류" in r["problems"][0]["reason"]
+        assert "t_bad_form" not in reg and reg["img_t_refresh"].name == "새 이미지"
+        html, _, data = render(reg["t_new_form"], make_profile(1), 1)   # 등록하자마자 그려진다
+        assert html and data
+        form = json.loads((good / "form.json").read_text(encoding="utf-8"))
+        (good / "form.json").write_text(json.dumps({**form, "name": "바꾼 이름", "group": "tax"}, ensure_ascii=False), encoding="utf-8")
+        r = registry.refresh()
+        assert r["updated"] == ["t_new_form"] and not r["added"] and reg["t_new_form"].name == "바꾼 이름"
+        assert reg["t_new_form"].group == "tax"
+        assert registry.refresh()["updated"] == []   # 바뀐 것이 없으면 그대로
+        shutil.rmtree(good)
+        shutil.rmtree(img)
+        r = registry.refresh()
+        assert r["removed"] == ["img_t_refresh", "t_new_form"] and "t_new_form" not in reg
+        assert set(reg) == before   # 코드 서식·hf### 는 그대로
+    finally:
+        for k in ("t_new_form", "img_t_refresh", "t_bad_form"):
+            reg.pop(k, None)

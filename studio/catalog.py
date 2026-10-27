@@ -224,6 +224,15 @@ def _summary(spec, entry: dict, audit: bool = False) -> dict:
     }
 
 
+def refresh() -> dict:
+    """서식 폴더를 다시 훑고 (docgen.registry.refresh) 서식 목록에 딸린 저장값을 비운다."""
+    from docgen.registry import refresh as rescan
+
+    res = rescan()
+    _scenarios_of.cache_clear()
+    return res
+
+
 def list_forms() -> list[dict]:
     cat = _catalog()
     return [_summary(spec, cat.get(spec.id, {})) for spec in load_all().values()]

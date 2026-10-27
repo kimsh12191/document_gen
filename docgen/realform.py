@@ -808,19 +808,26 @@ def register_images() -> int:
     n = 0
     for d in formdir.image_dirs():
         if d.name not in REGISTRY:
-            lay = json.loads((d / "layout.json").read_text(encoding="utf-8"))
-
-            def generate(p: Profile, rng: random.Random, _id=d.name) -> dict:
-                return build_form(_id, p, rng)
-
-            pg = lay["pages"][0]
-            page = "a4_landscape" if pg["width"] > pg["height"] else "a4"
-            REGISTRY[d.name] = DocSpec(d.name, lay.get("name") or d.name, "imported", "internal", "_real_form.html.j2",
-                                       generate, page, False,
-                                       f"가져온 서식 이미지 위에 기재 (묶음 {lay.get('from_batch', '-')}"
-                                       f"{', 내부 전용' if lay.get('private') else ''})")
+            REGISTRY[d.name] = image_spec(d)
             n += 1
     return n
+
+
+def image_spec(d: Path):
+    """이미지 서식 폴더 → 등록 정보 (layout.json 의 이름·쪽 방향)."""
+    from .registry import DocSpec
+
+    lay = json.loads((d / "layout.json").read_text(encoding="utf-8"))
+
+    def generate(p: Profile, rng: random.Random, _id=d.name) -> dict:
+        return build_form(_id, p, rng)
+
+    pg = lay["pages"][0]
+    page = "a4_landscape" if pg["width"] > pg["height"] else "a4"
+    return DocSpec(d.name, lay.get("name") or d.name, "imported", "internal", "_real_form.html.j2",
+                   generate, page, False,
+                   f"가져온 서식 이미지 위에 기재 (묶음 {lay.get('from_batch', '-')}"
+                   f"{', 내부 전용' if lay.get('private') else ''})")
 
 
 def register_all() -> int:

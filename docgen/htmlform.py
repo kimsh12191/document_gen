@@ -302,14 +302,46 @@ def register_forms() -> int:
     n = 0
     for d in formdir.copy_dirs():
         if d.name not in REGISTRY:
-            form = json.loads((d / "form.json").read_text(encoding="utf-8"))
-            group = form.get("group") if form.get("group") in GROUPS else "finance"   # 그룹을 안 정했으면 금융거래
-            REGISTRY[d.name] = DocSpec(d.name, form.get("name") or d.name, group, form.get("category", "external"),
-                                       PREFIX + d.name, make_generate(d.name), form.get("page", "a4"), False,
-                                       form.get("description") or f"화면에서 만든 html 서식 ({form.get('origin', 'copy')})",
-                                       form.get("origin", "copy"))
+            REGISTRY[d.name] = spec_of(d)
             n += 1
     return n
+
+
+def spec_of(d: Path):
+    """서식 폴더 → 등록 정보 (form.json 의 이름·그룹·종류·쪽·설명·출처)."""
+    from .registry import GROUPS, DocSpec
+
+    form = json.loads((d / "form.json").read_text(encoding="utf-8"))
+    group = form.get("group") if form.get("group") in GROUPS else "finance"   # 그룹을 안 정했으면 금융거래
+    return DocSpec(d.name, form.get("name") or d.name, group, form.get("category", "external"),
+                   PREFIX + d.name, make_generate(d.name), form.get("page", "a4"), False,
+                   form.get("description") or f"화면에서 만든 html 서식 ({form.get('origin', 'copy')})",
+                   form.get("origin", "copy"))
+
+
+def check_dir(d: Path) -> str | None:
+    """서식 폴더를 등록해도 되는지: form.json·칸 목록을 읽을 수 있고 템플릿 문법이 맞는지, 서식 ID 형식. 문제면 그 이유."""
+    from jinja2 import TemplateSyntaxError
+
+    from . import formdir, formfields
+    from .render import env
+
+    if not ID_RX.fullmatch(d.name):
+        return f"서식 ID 형식이 아닙니다 (영어 소문자로 시작, 소문자·숫자·밑줄 3~51자): {d.name}"
+    try:
+        form = json.loads((d / "form.json").read_text(encoding="utf-8"))
+        if not isinstance(form, dict):
+            return "form.json 이 JSON 객체가 아닙니다"
+        if (d / formfields.NAME).exists():
+            json.loads((d / formfields.NAME).read_text(encoding="utf-8"))
+    except (OSError, ValueError) as e:
+        return f"JSON 을 읽지 못했습니다: {e}"
+    tpl = formdir.template_in(d)
+    try:
+        env().parse(tpl.read_text(encoding="utf-8"))
+    except TemplateSyntaxError as e:
+        return f"템플릿 문법 오류 ({tpl.name} {e.lineno}번째 줄): {e.message}"
+    return None
 
 
 def clone(parent_id: str, new_id: str, name: str, private: bool = False) -> Path:
