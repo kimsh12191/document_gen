@@ -27,6 +27,7 @@
 | 서식 ID·추출 항목·연결 업무 | [guide/catalog.json](guide/catalog.json), `remote_build.py catalog` |
 | 서식 파일 위치 (서식 하나 = 폴더 `docgen/forms/<ID>/` 하나) · 영역·키·값 출처 고치기 (칸 목록 `fields.json`) | [docgen/README.md](docgen/README.md#서식--폴더-하나), [서식 수정 파일](docgen/README.md#서식-수정-파일), `python -m docgen.formdir path <ID>`, `python -m docgen.regions show\|check <ID>` |
 | 서식 모양(껍데기)만 원본에 맞게 고치기 (VLM 에게 맡길 때 넘길 문서) | [docgen/manual/FORM_SHELL_GUIDE.md](docgen/manual/FORM_SHELL_GUIDE.md) |
+| 이미지에서 새 html 서식 만들기: 결과물 형식 (템플릿·칸 목록·키·검사·등록) | [docgen/manual/NEW_FORM_SPEC.md](docgen/manual/NEW_FORM_SPEC.md) |
 | 과제별 질문·정답 형식 | [guide/questions.md](guide/questions.md), 실제 예시 [guide/tasks.md](guide/tasks.md) |
 | 과제·채점 규칙 | [guide/benchmark.md](guide/benchmark.md) |
 | studio 화면 기능 | [guide/studio.md](guide/studio.md), 전체 [studio/README.md](studio/README.md) |
