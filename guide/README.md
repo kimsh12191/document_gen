@@ -8,6 +8,7 @@
 | 내가 가진 이미지로 OCR 학습·평가 데이터 만들기 | [ocr.md](ocr.md) |
 | 데이터셋을 모아 학습하기, 설정을 바꾼 모델 여러 개를 한 번에(실험 묶음) | [training.md](training.md) |
 | 평가 세트 정하기, 채점 방식(채점 함수), 학습 없이 평가만, 다시 채점 | [eval.md](eval.md) |
+| 새 서식 추가 (대형 모델로 html·키 만들기 → studio 에 넣기 → 검수) | [new-forms.md](new-forms.md) |
 | 결과 보기·읽기, 여러 실험 한 화면 비교, 문항별 모델 답 | [results.md](results.md) |
 
 agent에게 일을 맡길 때는 저장소 최상위의 [AGENTS.md](../AGENTS.md)부터 읽게 하세요. 절차는 [agent-workflow.md](agent-workflow.md)입니다.
