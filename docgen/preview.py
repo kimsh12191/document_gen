@@ -54,7 +54,7 @@ def _source_file(fn) -> str:
 
 def source_files(doc_id: str, common: bool = True) -> list[Path]:
     """이 서식의 결과를 바꾸는 파일들 (서식 전용 + 공통). common=False 면 서식 전용만 (검수 후 바뀌었는지 볼 때)."""
-    from . import formdir, regions
+    from . import formdir, formfields, regions
 
     spec = load_all()[doc_id]
     files = [Path(_source_file(spec.generate)), *regions.hash_files(doc_id)]
@@ -73,7 +73,7 @@ def source_files(doc_id: str, common: bool = True) -> list[Path]:
                 from .realform import layout_path
 
                 lp = layout_path(int(parent[2:]))
-                files += ([lp] if lp else []) + regions.hash_files(parent)
+                files += ([lp] if lp else []) + regions.hash_files(parent) + formfields.hash_files(parent)
     else:
         files.insert(0, formdir.template(doc_id) or formdir.TEMPLATES / spec.template)
     if spec.group in ("hana", "imported"):
@@ -83,6 +83,8 @@ def source_files(doc_id: str, common: bool = True) -> list[Path]:
         lp = layout_path(no) if no is not None else None
         if lp:
             files.append(lp)
+        if no is not None:
+            files += formfields.hash_files(doc_id)
         if no is None:
             files += formdir.image_files(doc_id)
     return files + ([ROOT / c for c in COMMON] if common else [])

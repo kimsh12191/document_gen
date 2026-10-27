@@ -1,7 +1,10 @@
-"""overlay 서식의 사람 수정층: 자동 추출 레이아웃 위에 사람이 고친 것을 덧씌운다 (studio 영역 편집기가 쓴다).
+"""overlay 서식의 사람 수정: 고친 것(아래 overrides 꼴)을 칸 목록 fields.json 에 합쳐 쓴다 (studio 영역 편집기가 쓴다).
 
-  파일은 docgen/regions.py 가 정한다: 서식 폴더의 regions.json — docgen/forms/<서식ID>/regions.json (실서류에서 가져온
-  서식 img_* 는 $DOCGEN_PRIVATE_FORMS/<서식ID>/regions.json — 수정도 private_forms_dir 밖으로 나가지 않는다)
+  기준은 서식 폴더의 칸 목록 fields.json (docgen/formfields.py). 처음 한 번 자동 추출 레이아웃(layout.json)과
+  예전 사람 수정 파일(regions.json)을 합쳐 만든다 (freeze, python -m docgen.formdir migrate). 아직 없으면 예전처럼
+  자동 추출 레이아웃 위에 regions.json 을 덧씌운다.
+
+  고친 것 (편집기가 보내는 꼴, 바탕 = 칸 목록 또는 자동 추출 레이아웃)
   {
     "engine": "overlay", "unit": "pt",                                          서식 종류·좌표 단위 (저장할 때 붙인다)
     "items": [ {"match": {"page": 0, "t": "text", "label": "직장주소", "n": 0},   자동 추출 영역 고르기
@@ -18,6 +21,7 @@
 - match 는 쪽·종류·항목명과 "같은 항목명 중 몇 번째(n)" 로 고른다. 레이아웃을 다시 추출해 영역 순서가 바뀌어도 같은
   영역을 찾는다. 못 찾은 수정은 broken 으로 돌려준다 (studio 가 "깨진 수정"으로 보여 준다).
 - 결재란 칸(쪽 정보의 staff)도 t="staff", label=칸 이름으로 고른다.
+- erase·marks·confirmed_erase·updated 는 칸 목록에 통째로 둔다 (고친 것이 있으면 그것으로 바꾼다).
 - studio 가 저장 전 미리보기를 할 때는 draft() 로 그 렌더링 동안만 파일 대신 쓸 수정을 넘긴다.
 """
 from __future__ import annotations
@@ -31,28 +35,107 @@ from contextlib import contextmanager
 from pathlib import Path
 
 _local = threading.local()
+WHOLE = ("erase", "marks", "confirmed_erase", "updated")   # 칸 목록에 통째로 두는 것
 
 
 def path(doc_id: str) -> Path:
-    from . import regions
+    """사람 수정이 들어가는 파일: 칸 목록 fields.json."""
+    from . import formfields
 
-    return regions.path(doc_id)
+    return formfields.path(doc_id)
+
+
+def base(doc_id: str) -> dict:
+    """고친 것을 덧씌울 바탕: 칸 목록(fields.json)이 있으면 그것, 없으면 자동 추출 레이아웃."""
+    from . import formfields
+    from .realform import raw_layout
+
+    f = formfields.read(doc_id)
+    return f if f is not None else raw_layout(doc_id)
 
 
 def load(doc_id: str) -> dict:
-    """저장된 수정 (미리보기 중이면 그 초안). 없으면 빈 수정."""
+    """바탕 위에 덧씌울 수정 (미리보기 중이면 그 초안). 칸 목록이 있으면 통째로 두는 칸(erase·marks …)만,
+    없으면 예전 사람 수정 파일(regions.json). 없으면 빈 수정."""
     drafts = getattr(_local, "drafts", None)
     if drafts and doc_id in drafts:
         return drafts[doc_id]
-    from . import regions
+    from . import formfields, regions
 
+    f = formfields.read(doc_id)
+    if f is not None:
+        return {k: f[k] for k in WHOLE if k in f}
     return regions.read(doc_id)
 
 
-def save(doc_id: str, ov: dict) -> Path:
-    from . import regions
+def _strip(lay: dict) -> dict:
+    lay = copy.deepcopy(lay)
+    for it in lay.get("items", []):
+        it.pop("_id", None)
+    for pg in lay.get("pages", []):
+        for c in pg.get("staff", []):
+            c.pop("_id", None)
+    return lay
 
-    return regions.write(doc_id, ov)
+
+def _bake(doc_id: str, ov: dict) -> tuple[Path, list[dict]]:
+    """바탕에 고친 것을 합쳐 칸 목록으로 쓴다. 예전 사람 수정 파일은 <이름>.migrated 로. (파일, 못 찾은 수정)."""
+    from . import formfields, regions
+
+    b = base(doc_id)
+    lay, broken = apply(b, ov)
+    lay = _strip(lay)
+    dropped = [o["match"] for o in ov.get("items", []) if o.get("drop") and o not in broken]
+    if dropped:   # 뺀 자동 영역 기록 (칸 목록에서는 사라지므로)
+        lay["dropped"] = b.get("dropped", []) + dropped
+    for k in WHOLE:
+        if ov.get(k) not in (None, [], {}):
+            lay[k] = copy.deepcopy(ov[k])
+        else:
+            lay.pop(k, None)
+    p = formfields.write(doc_id, lay)
+    for f in [regions.path(doc_id), *regions.legacy(doc_id).values()]:
+        if f.exists():
+            f.replace(f.with_name(f.name + ".migrated"))
+    return p, broken
+
+
+def save(doc_id: str, ov: dict) -> Path:
+    """고친 것을 칸 목록(fields.json)에 합쳐 쓴다."""
+    return _bake(doc_id, ov)[0]
+
+
+def write_new(form_dir: Path, ov: dict) -> Path:
+    """새로 만든 이미지 서식(아직 등록 전)의 칸 목록: 서식 폴더의 layout.json + 고친 것(초안 add·erase)."""
+    from . import formfields
+
+    lay = json.loads((Path(form_dir) / "layout.json").read_text(encoding="utf-8"))
+    out, _ = apply(lay, ov)
+    out = _strip(out)
+    for k in WHOLE:
+        if ov.get(k):
+            out[k] = copy.deepcopy(ov[k])
+    p = Path(form_dir) / formfields.NAME
+    p.write_text(json.dumps({"engine": "overlay", "unit": "pt", **out}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    return p
+
+
+def added(doc_id: str) -> list[dict]:
+    """사람이 더한 영역 (칸 목록에 합친 것 + 아직 합치지 않은 것). overlay 가 아니거나 모르는 서식이면 []."""
+    try:
+        lay = base(doc_id)
+    except (KeyError, ValueError):
+        return []
+    return [it for it in lay.get("items", []) if it.get("added")] + load(doc_id).get("add", [])
+
+
+def freeze(doc_id: str) -> tuple[Path | None, list[dict]]:
+    """칸 목록이 없으면 자동 추출 레이아웃 + 예전 사람 수정으로 만든다. (파일 또는 이미 있으면 None, 못 찾은 수정)."""
+    from . import formfields, regions
+
+    if formfields.exists(doc_id):
+        return None, []
+    return _bake(doc_id, regions.read(doc_id))
 
 
 @contextmanager

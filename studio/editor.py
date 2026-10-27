@@ -77,7 +77,7 @@ def layout_view(doc_id: str) -> dict:
     from docgen import dictionary as DIC
 
     _overlay(doc_id)
-    raw = RF.raw_layout(doc_id)
+    raw = OV.base(doc_id)   # 칸 목록(fields.json), 아직 없으면 자동 추출 레이아웃
     ov = OV.load(doc_id)
     by_id = {OV.item_id({"n": 0, **o["match"]}): o for o in ov.get("items", [])}
     cells = {c["id"]: c for c in DIC.form_cells(doc_id)}   # 저장된 레이아웃 기준 칸 키 (렌더링과 같은 계산, 키 사전의 누구의 · 무엇)
@@ -90,7 +90,9 @@ def layout_view(doc_id: str) -> dict:
             if o and o.get(k) not in (None, ""):
                 merged[k] = o[k]
         status = "auto" if not o else "dropped" if o.get("drop") else "edited"
-        items.append({"id": iid, "match": m, "status": status, "auto": _auto(it), "base_raw": _public(it), "cell": cells.get(iid), **merged})
+        was = "edited" if it.get("edited") or it.get("added") else None   # 칸 목록에 이미 합친 사람 수정
+        items.append({"id": iid, "match": m, "status": status, "was": was, "auto": _auto(it), "base_raw": _public(it),
+                      "cell": cells.get(iid), **merged})
     for k, a in enumerate(ov.get("add", [])):
         items.append({"id": f"add:{k}", "status": "added", "auto": {"key": None, "kind": None}, "cell": cells.get(f"add:{k}"), **_public(a)})
     found = {OV.item_id(m) for _, m in OV.matches(raw)}
@@ -127,7 +129,7 @@ def _check_source(src: str | None, where: str):
 def validate(doc_id: str, ov: dict) -> dict:
     """저장 전 형식 검사. 고친 사본을 돌려준다 (숫자 반올림, 빈 칸 정리)."""
     _overlay(doc_id)
-    raw = RF.raw_layout(doc_id)
+    raw = OV.base(doc_id)
     n_pages = len(raw["pages"])
     out: dict = {}
     items = []

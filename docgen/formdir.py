@@ -418,6 +418,27 @@ def migrate(apply: bool = False, ids: list[str] | None = None) -> list[dict]:
     return rows
 
 
+def freeze(apply: bool = False, ids: list[str] | None = None) -> list[dict]:
+    """overlay 서식마다 칸 목록(fields.json)이 없으면 자동 추출 레이아웃 + 예전 사람 수정으로 만든다 (overrides.freeze).
+    [{id, status, broken}]. 목록만 볼 때도 못 찾을 예전 수정을 알려 준다."""
+    from . import formfields
+    from . import overrides as OV
+    from . import regions
+    from .realform import raw_layout
+    from .registry import load_all
+
+    rows = []
+    for doc_id in ids or sorted(load_all()):
+        if load_all()[doc_id].template != "_real_form.html.j2" or formfields.exists(doc_id):
+            continue
+        if apply:
+            _, broken = OV.freeze(doc_id)
+        else:
+            _, broken = OV.apply(raw_layout(doc_id), regions.read(doc_id))
+        rows.append({"id": doc_id, "status": "만듦" if apply else "만들 것", "broken": broken})
+    return rows
+
+
 def _register_again() -> None:
     """옮긴 뒤 같은 프로세스에서 레이아웃 캐시를 비운다."""
     from . import realform
@@ -478,12 +499,18 @@ def main(argv=None) -> int:
     reg = regions.migrate(a.apply)
     for r in reg:
         print(f"{r['status']}  {r['id']} 사람 수정: {', '.join(r['from'])} → {r['to']}")
-    if not rows and not reg:
+    frozen = freeze(a.apply)
+    for r in frozen:
+        if r["broken"]:
+            print(f"{r['status']}  {r['id']} 칸 목록: 못 찾은 예전 수정 {len(r['broken'])}개 (빠짐): "
+                  + ", ".join(f"{b['match'].get('page', 0) + 1}쪽 '{b['match'].get('label', '')}'" for b in r["broken"][:5]))
+    if not rows and not reg and not frozen:
         print("옮길 예전 파일이 없습니다")
     elif not a.apply:
-        print(f"서식 {len(rows)}개 · 사람 수정 {len(reg)}개. 목록만 보였습니다. 옮기려면 --apply")
+        print(f"서식 {len(rows)}개 · 사람 수정 {len(reg)}개 · 칸 목록 만들 overlay 서식 {len(frozen)}개. 목록만 보였습니다. 옮기려면 --apply")
     else:
-        print(f"서식 {sum(r['status'] == '옮김' for r in rows)}개 · 사람 수정 {sum(r['status'] == '옮김' for r in reg)}개 옮김")
+        print(f"서식 {sum(r['status'] == '옮김' for r in rows)}개 · 사람 수정 {sum(r['status'] == '옮김' for r in reg)}개 옮김 · "
+              f"칸 목록 {len(frozen)}개 만듦 (못 찾은 예전 수정 {sum(len(r['broken']) for r in frozen)}개)")
     return 0
 
 

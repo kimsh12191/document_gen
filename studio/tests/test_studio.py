@@ -57,12 +57,13 @@ def test_override_source_rect_drop_add_erase(tmp_overrides):
 
 
 def test_draft_does_not_touch_file(tmp_overrides):
+    saved = OV.path("hf169").read_bytes()
     lay = RF.raw_layout("hf169")
     m = next(m for it, m in OV.matches(lay) if it.get("label") == "직장주소")
     with OV.draft("hf169", {"items": [{"match": m, "drop": True}]}):
         assert "employer.address" not in _by_key(_build())
     assert "employer.address" in _by_key(_build())
-    assert not OV.path("hf169").exists()
+    assert OV.path("hf169").read_bytes() == saved   # 칸 목록 파일은 그대로
 
 
 def test_broken_override_reported(tmp_overrides):
@@ -129,7 +130,10 @@ def test_layout_view_ids_and_status(tmp_overrides):
     OV.save("hf169", {"items": [{"match": it["match"], "key": "employer.address_full"}]})
     v2 = editor.layout_view("hf169")
     it2 = next(x for x in v2["items"] if x["id"] == it["id"])
-    assert it2["status"] == "edited" and it2["key"] == "employer.address_full" and it2["base_raw"].get("key") is None
+    assert it2["key"] == "employer.address_full" and it2["was"] == "edited"   # 저장하면 칸 목록에 합쳐진다
+    assert it2["status"] == "auto"   # 이번에 고친 것은 없다
+    auto = next(x for x in RF.raw_layout("hf169")["items"] if x.get("label") == "직장주소")
+    assert auto.get("key") is None   # 자동 추출 초안(layout.json)은 그대로
 
 
 def test_catalog_review_goes_stale(tmp_path, monkeypatch, tmp_overrides):

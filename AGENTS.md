@@ -25,7 +25,7 @@
 | 결과 보기·지표 해석, 여러 실험 한 화면, 문항별 모델 답 | [guide/results.md](guide/results.md) |
 | 실험 기록 (가설·설계·결과) | [experiments/README.md](experiments/README.md) |
 | 서식 ID·추출 항목·연결 업무 | [guide/catalog.json](guide/catalog.json), `remote_build.py catalog` |
-| 서식 파일 위치 (서식 하나 = 폴더 `docgen/forms/<ID>/` 하나) · 영역·키·값 출처 고치기 (`regions.json`) | [docgen/README.md](docgen/README.md#서식--폴더-하나), [서식 수정 파일](docgen/README.md#서식-수정-파일), `python -m docgen.formdir path <ID>`, `python -m docgen.regions show\|check <ID>` |
+| 서식 파일 위치 (서식 하나 = 폴더 `docgen/forms/<ID>/` 하나) · 영역·키·값 출처 고치기 (overlay `fields.json`, html `regions.json`) | [docgen/README.md](docgen/README.md#서식--폴더-하나), [서식 수정 파일](docgen/README.md#서식-수정-파일), `python -m docgen.formdir path <ID>`, `python -m docgen.regions show\|check <ID>` |
 | 과제별 질문·정답 형식 | [guide/questions.md](guide/questions.md), 실제 예시 [guide/tasks.md](guide/tasks.md) |
 | 과제·채점 규칙 | [guide/benchmark.md](guide/benchmark.md) |
 | studio 화면 기능 | [guide/studio.md](guide/studio.md), 전체 [studio/README.md](studio/README.md) |

@@ -21,7 +21,7 @@ def roots(tmp_path, monkeypatch):
     monkeypatch.setattr(regions, "LEGACY_HTML", tmp_path / "html_regions")
     monkeypatch.setattr(formdir, "LEGACY_REGIONS", tmp_path / "regions")
     monkeypatch.setattr(formdir, "LEGACY_VARIANTS", tmp_path / "variants")
-    forms_sandbox(monkeypatch, tmp_path, "hf169", "gov_income", "employment_certificate")
+    forms_sandbox(monkeypatch, tmp_path, "hf169", "gov_income", "employment_certificate", fields=False)   # 칸 목록 만들기 전 꼴
     return tmp_path
 
 
@@ -49,8 +49,11 @@ def test_overlay_legacy_is_read_then_migrated_with_same_output(roots):
     assert saved == {"engine": "overlay", "unit": "pt", **ov}   # 기록 칸(updated)도 그대로
     assert (roots / "overrides" / "hf169.json.migrated").exists() and not (roots / "overrides" / "hf169.json").exists()
     assert _build() == before and regions.check("hf169") == []
-    OV.save("hf169", {})   # 내용이 비면 파일을 지운다
-    assert not regions.path("hf169").exists() and source_hash("hf169", common=False) == plain
+    OV.freeze("hf169")   # 칸 목록(fields.json)으로 굳히면 예전 수정 파일은 .migrated
+    assert not regions.path("hf169").exists() and _build() == before and regions.check("hf169") == []
+    f = json.loads(OV.path("hf169").read_text(encoding="utf-8"))
+    assert f["engine"] == "overlay" and f["updated"] == ov["updated"] and f["dropped"] == [m]
+    assert "employer.address" not in {it.get("key") for it in RF.form_layout("hf169")[0]["items"]}
 
 
 def test_hash_unchanged_until_moved(roots):

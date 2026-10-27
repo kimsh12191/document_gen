@@ -186,8 +186,11 @@ def _key_stats(keys: list[dict]) -> dict:
 
 
 def _edited(doc_id: str) -> bool:
-    from docgen import regions
+    from docgen import formfields, regions
 
+    if regions.engine(doc_id) == "overlay" and formfields.exists(doc_id):
+        f = formfields.read(doc_id)
+        return bool(f.get("erase") or f.get("marks") or f.get("dropped") or any(it.get("edited") or it.get("added") for it in f["items"]))
     return regions.exists(doc_id)
 
 

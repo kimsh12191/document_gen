@@ -92,8 +92,8 @@ def raw_layout(doc_id: str) -> dict:
 
 
 def form_layout(doc_id: str) -> tuple[dict, list[dict]]:
-    """사람 수정(서식 폴더의 regions.json)을 덧씌운 레이아웃과 못 찾은 수정 목록."""
-    return OV.apply(raw_layout(doc_id), OV.load(doc_id))
+    """칸 목록(서식 폴더의 fields.json, 없으면 자동 추출 + 예전 사람 수정)에 미리보기 초안을 덧씌운 레이아웃과 못 찾은 수정 목록."""
+    return OV.apply(OV.base(doc_id), OV.load(doc_id))
 
 
 def _pdf_page_png(no: int, page: int) -> bytes:

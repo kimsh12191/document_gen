@@ -23,13 +23,14 @@ Studio의 ① 서식에서 `공식대조 HTML`로 검색하세요. 기존 70종 
 ```
 docgen/forms/<ID>/                 공개 서식 (실서류에서 만든 서식은 $DOCGEN_PRIVATE_FORMS/<ID>/ 에 같은 꼴)
   look/                            모양: original.pdf (hf###) · page_0.png … (img_*) · template.html.j2 (html)
-  layout.json                      overlay 기재 자리 (hf### 은 PDF 에서 자동 추출)
+  fields.json                      overlay 칸 목록: 기재 자리·키·항목명·값 출처, 배경 지우기 — 사람이 고치는 곳 (아래 "서식 수정 파일")
+  layout.json                      overlay 자동 추출 초안 (hf### 은 PDF 에서 뽑은 것). fields.json 을 처음 만들 때만 썼다
   form.json                        복제·분석기 html 서식: 부모 서식·값 선언
-  regions.json                     사람 수정: 칸 위치·키·항목명·값 출처·빼기, 배경 지우기 (아래 "서식 수정 파일")
+  regions.json                     html 서식의 사람 수정: 템플릿 칸 위치·키·항목명·값 출처·빼기 (아래 "서식 수정 파일")
   variants/                        html 레이아웃 변형
 ```
 
-- **값이나 칸을 고치려면** → `regions.json` (studio ① 서식 › 영역 편집)
+- **값이나 칸을 고치려면** → overlay 는 `fields.json`, html 은 `regions.json` (둘 다 studio ① 서식 › 영역 편집)
 - **html 서식의 표·문구 모양을 고치려면** → `look/template.html.j2` (복제 서식은 studio html 편집). overlay 서식은 모양(원본 그림)을 바꾸지 않습니다.
 - 코드 서식 70종은 값을 `docgen/docs/<그룹>.py` 의 생성 함수가 만듭니다. 여러 서식이 같이 쓰는 틀(`_base`·`_macros`·`_real_form`, 그룹 부품)은 `docgen/templates/` 에 남습니다.
 - 서식 하나의 파일을 모두 보려면 `python -m docgen.formdir path <ID>`.
@@ -266,7 +267,8 @@ docgen/
   augment.py               스캔/촬영/팩스 증강
   realform.py              하나은행 원본 서식 오버레이 (레이아웃 → 값 → 렌더링 지시, 배경·글꼴), 가져온 이미지 서식
   formdir.py               서식 폴더 (서식 하나 = 폴더 하나): 파일 자리를 여기서만 정함, 예전 자리 읽기·옮기기
-  regions.py, overrides.py, html_regions.py   사람 수정 파일(서식 폴더의 regions.json)과 overlay·html 수정층
+  formfields.py, overrides.py   overlay 칸 목록(fields.json)과 영역 편집기가 고친 것을 합쳐 쓰기
+  regions.py, html_regions.py   html 사람 수정 파일(regions.json)과 html 수정층
   sources.py, marks.py     값 출처 규칙, 표시 요소(손글씨·체크·도장·서명)
   htmlform.py              화면에서 만든 html 서식 (복제·분석기, 서식 폴더의 look/template.html.j2 + form.json)
   preview.py               서식 하나 미리보기 (studio 가 씀). 명령줄: python -m docgen.preview <서식ID>|--dir <폴더> [--rows max] --out <폴더>
@@ -335,27 +337,31 @@ python -m docgen.scripts.audit_form_values --out studio_cache/value_audit/final
 
 ## 서식 수정 파일
 
-서식 하나에 사람 수정 파일이 하나입니다. overlay(`hf###`, `img_*`)와 html 서식 모두 같은 규칙입니다.
+서식 하나에 사람이 고치는 파일이 하나입니다.
 
-| 서식 | 수정 파일 |
-|---|---|
-| 저장소 서식 (공개) | `docgen/forms/<ID>/regions.json` |
-| 실서류에서 만든 서식 (`private_forms_dir`) | `$DOCGEN_PRIVATE_FORMS/<ID>/regions.json` (수정도 저장소 밖) |
+| 서식 | 고치는 파일 | 내용 |
+|---|---|---|
+| overlay (`hf###`, `img_*`) | 서식 폴더의 `fields.json` (칸 목록) | 기재 자리 전부(위치·키·항목명·값 종류·값 출처), 결재란 칸, 배경 지우기, 표시 설정 |
+| html | 서식 폴더의 `regions.json` (수정층) | 템플릿 칸 위에 덧씌우는 위치·값·항목명·빼기, 새 칸 |
+
+공개 서식은 `docgen/forms/<ID>/`, 실서류에서 만든 서식은 `$DOCGEN_PRIVATE_FORMS/<ID>/`(수정도 저장소 밖)에 있습니다.
+
+- overlay 칸 목록은 자동 추출 레이아웃(`layout.json`)과 예전 사람 수정을 합쳐 한 번 만든 것입니다. 그 뒤로는 칸 목록이 기준이라 자동 추출을 다시 해도 바뀌지 않습니다(새로 뽑은 `layout.json`은 비교용 초안). 영역 편집기는 고친 것을 보내고 서버가 칸 목록에 바로 합쳐 씁니다. 사람이 고친 칸은 `"edited": true`, 더한 칸은 `"added": true`, 뺀 자동 영역은 `"dropped"`에 남습니다.
 
 ```json
-{"engine": "overlay", "unit": "pt", "items": [...], "add": [...], "erase": [...], "marks": {...}}
-{"engine": "html", "unit": "px", "regions": [...], "variants": {"<레이아웃 변형 ID>": {"regions": [...]}}}
+{"engine": "overlay", "unit": "pt", "pages": [...], "items": [...], "erase": [...], "marks": {...}}     // fields.json
+{"engine": "html", "unit": "px", "regions": [...], "variants": {"<레이아웃 변형 ID>": {"regions": [...]}}}   // regions.json
 ```
 
 - 이 파일을 고치면 다음에 생성하는 이미지와 정답(키·항목명·값 출처·위치·뺀 칸)에 반영됩니다. 이미 만든 데이터셋은 그대로입니다.
-- overlay는 자동 추출한 기재 자리 위에, html은 템플릿이 만든 칸 위에 덧씌우는 수정층입니다. html 템플릿 칸은 파일에 적지 않아도 나오고, 빼려면 그 키에 `"drop": true`.
+- html 수정은 템플릿이 만든 칸 위에 덧씌우는 수정층입니다. html 템플릿 칸은 파일에 적지 않아도 나오고, 빼려면 그 키에 `"drop": true`.
 - `engine`이 서식 종류와 다르면 조용히 무시하지 않고 에러로 멈춥니다.
 - studio ① 서식 › 영역 편집에서 고치면 검증·미리보기가 같이 됩니다. 손으로 고쳤으면 아래 `check`.
 
 ```bash
 python -m docgen.regions path <ID>             # 이 서식의 수정 파일 위치
 python -m docgen.regions show <ID>             # 최종 값 칸 목록 (자동 추출·템플릿 칸 + 수정)
-python -m docgen.regions check <ID>            # 형식·서식 종류·깨진 수정(못 찾은 자동 영역)·남은 예전 파일 (--all: 수정이 있는 서식 전부)
+python -m docgen.regions check <ID>            # 형식·서식 종류·쪽 번호·깨진 수정·남은 예전 파일 (--all: 칸 목록·수정이 있는 서식 전부)
 python -m docgen.regions migrate [--apply]     # 예전 위치의 수정 파일을 새 파일로 (기본은 목록만)
 ```
 
@@ -365,8 +371,9 @@ python -m docgen.regions migrate [--apply]     # 예전 위치의 수정 파일�
 
 ```bash
 python -m docgen.formdir migrate            # 무엇을 어디로 옮길지 목록 (예전과 새 파일이 다르면 "건너뜀: 다름")
-python -m docgen.formdir migrate --apply    # 옮김: 글 파일은 복사하고 예전 것을 <이름>.migrated 로, 그림·PDF 는 옮김
+python -m docgen.formdir migrate --apply    # 옮김: 글 파일은 복사하고 예전 것을 <이름>.migrated 로, 그림·PDF 는 옮김.
+                                            # overlay 는 칸 목록 fields.json 을 만든다 (못 찾은 예전 수정이 있으면 알려 줌)
 python -m docgen.regions check --all
 ```
 
-영역 편집기에서 저장하면 그 서식의 사람 수정은 바로 새 자리로 옮겨집니다. 서식 해시(studio "검수 후 바뀜")에는 파일을 옮기기 전 자리 이름을 넣으므로 위치를 옮겨도 그대로입니다. 생성 코드(`realform.py`·`htmlform.py` 등)가 바뀌면 그 코드를 쓰는 서식의 해시는 바뀝니다.
+영역 편집기에서 저장하면 그 서식의 사람 수정은 바로 새 자리로 옮겨집니다(overlay 는 칸 목록이 만들어짐). 서식 해시(studio "검수 후 바뀜")에는 파일을 옮기기 전 자리 이름을 넣으므로 위치를 옮겨도 그대로입니다. 생성 코드(`realform.py`·`htmlform.py` 등)가 바뀌면 그 코드를 쓰는 서식의 해시는 바뀝니다.

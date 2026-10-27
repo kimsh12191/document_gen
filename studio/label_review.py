@@ -71,7 +71,7 @@ def form_keys(doc_type: str | None) -> list[dict]:
         return [{"key": k["key"], "label": k.get("label"), "type": k.get("type", "text")} for k in keys]
     from docgen import overrides as OV
 
-    return [{"key": a["key"], "label": a.get("label"), "type": "text"} for a in OV.load(doc_type).get("add", []) if a.get("key")]
+    return [{"key": a["key"], "label": a.get("label"), "type": "text"} for a in OV.added(doc_type) if a.get("key")]
 
 
 def pred_of(bdir: Path, batch: dict, doc: str) -> dict | None:

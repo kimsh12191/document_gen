@@ -97,7 +97,7 @@ def test_layout_validate_and_approve(tmp_path, img, monkeypatch):
     assert AZ.validate(d) == {**AZ.validate(d), "ok": True, "items": 2}
     got = AZ.approve(tmp_path, d.name, "tester")
     assert got["added"] == 2
-    ov = OV.load("img_az_t")
+    ov = {"add": OV.added("img_az_t")}   # 칸 목록 fields.json 에 합쳐진 추가 영역
     assert ov["add"][0]["rect"] == [round(80 / RF.BG_ZOOM, 2), round(80 / RF.BG_ZOOM, 2), round(240 / RF.BG_ZOOM, 2), round(120 / RF.BG_ZOOM, 2)]
     assert ov["add"][1]["options"][0]["text"] == "자택" and "rect" in ov["add"][1]["options"][0]
     assert AZ.get_job(tmp_path, d.name)["review"]["approved"]["by"] == "tester"

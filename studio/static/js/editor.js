@@ -66,7 +66,7 @@ function cur(ed, it) {
 function statusOf(ed, it) {
   if (it.status === "added") return "added";
   const e = edEntry(ed, it, false);
-  return !e ? "auto" : e.drop ? "dropped" : "edited";
+  return !e ? (it.was || "auto") : e.drop ? "dropped" : "edited";   // was: 칸 목록에 이미 합친 사람 수정
 }
 
 function tidyEntry(ed, it) {
@@ -435,7 +435,7 @@ function edSide(ed) {
       <label class="fld">메모 <input type="text" id="ed-note" value="${esc(c.note || "")}"></label>
       <div class="mono muted" style="font-size:11px">${subsOf(ed, it).map(s => `${s.name}: ${s.box.map(r1).join(", ")}`).join("<br>")}</div>
       <div class="bar"><button id="ed-del">${it.status === "added" ? "지우기" : "빼기"}</button>
-        ${st === "edited" ? `<button id="ed-revert">자동 값으로 되돌리기</button>` : ""}</div>`}
+        ${st === "edited" && edEntry(ed, it, false) ? `<button id="ed-revert">이번 수정 되돌리기</button>` : ""}</div>`}
     </div>`;
   }
   const list = edPageItems(ed).filter(x => x.kind !== "erase");

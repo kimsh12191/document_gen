@@ -115,7 +115,8 @@ OCR 종류는 모든 쪽의 `ocr/*.json`과 **`meta.json`의 `ocr_scope: "full_p
 
 | 고친 것 | 파일 | 생성기가 읽는 곳 |
 |---|---|---|
-| overlay·html 영역·키·값 출처·배경 지우기 | `docgen/forms/<ID>/regions.json` (실서류에서 만든 서식은 `private_forms_dir/<ID>/regions.json`). 서식 파일 전부 `python -m docgen.formdir path <ID>` | `docgen/regions.py` → `docgen/overrides.py`(overlay)·`docgen/html_regions.py`(html) |
+| overlay 영역·키·값 출처·배경 지우기 | 서식 폴더의 칸 목록 `docgen/forms/<ID>/fields.json` (실서류에서 만든 서식은 `private_forms_dir/<ID>/fields.json`). 서식 파일 전부 `python -m docgen.formdir path <ID>` | `docgen/overrides.py`·`docgen/formfields.py` → `docgen/realform.py` |
+| html 영역·키·값 출처 | 서식 폴더의 `regions.json` | `docgen/regions.py` → `docgen/html_regions.py` |
 | 가져온 서식 (공개 서식 묶음) | `docgen/forms/img_*/` (`layout.json`, `look/page_<n>.png`) — 실서류 묶음에서 만든 것은 `private_forms_dir/img_*/` (저장소 밖) | `docgen/realform.py` `register_images` |
 | 검수·배정·메모·문제 표시 | `docgen/catalog.json` | `docgen/bench/build.py` (학습 데이터에서 평가 전용 서식 빼기) |
 | 표시 요소 확률 | `docgen/marks.json` | `docgen/marks.py` |

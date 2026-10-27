@@ -225,8 +225,8 @@ def _form_id(batch: str, fmt: str, name: str) -> str:
 def register_new_forms(bdir: Path, private_dir: str | None, only: set[str] | None = None) -> list[dict]:
     """❷에서 '새 서식'·'서식으로'를 켠 모양을 overlay 서식으로: 견본 쪽 그림 + 지울 자리(추출값·남은 값 후보) + 값 칸(추출값 위치, 키는
     이은 공통 키 또는 추출 키). 미검수 서식이라 영역 편집기에서 확인해야 데이터셋에 들어간다(8.5). 결정에 form_id 를 남긴다."""
+    from docgen import overrides as OV
     from docgen import realform as RF
-    from docgen import regions
 
     from .intake_judge import draft
 
@@ -253,7 +253,7 @@ def register_new_forms(bdir: Path, private_dir: str | None, only: set[str] | Non
             add.append({"t": "text", "page": g["page"], "label": g.get("label") or g["key"], "rect": to_pt(g["rect"]), "key": key})
         for g in dr["leftover"]:
             add.append({"t": "text", "page": g["page"], "label": g.get("label") or "값", "rect": to_pt(g["rect"]), "note": "남은 값 후보"})
-        regions.write_new(Path(res["dir"]), {"erase": erase, "add": add})
+        OV.write_new(Path(res["dir"]), {"erase": erase, "add": add})
         _set_intake(bdir, f["id"], form_id=fid)
         out.append({"format": f["id"], "form_id": fid, "name": d.get("name") or f["name"], "dir": res["dir"], "private": res["private"],
                     "slots": len(add), "erase": len(erase)})

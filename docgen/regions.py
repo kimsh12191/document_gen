@@ -3,8 +3,9 @@
   공개 서식 (저장소)             docgen/forms/<ID>/regions.json
   사내 서식 (실서류에서 만든 것) $DOCGEN_PRIVATE_FORMS/<ID>/regions.json   (수정도 저장소 밖에 둔다)
 
-  overlay 서식 (hf###, img_*)  {"engine": "overlay", "unit": "pt", "items": [...], "add": [...], "erase": [...], "marks": {...}}
-                                내용은 docgen/overrides.py
+  overlay 서식 (hf###, img_*)  예전 사람 수정 {"engine": "overlay", "unit": "pt", "items": [...], "add": [...], "erase": [...]}
+                                지금은 칸 목록 fields.json 이 기준이다 (docgen/formfields.py). 이 파일은 칸 목록을 만들 때
+                                합쳐지고 <이름>.migrated 가 된다 (docgen/overrides.py freeze)
   html 서식                     {"engine": "html", "unit": "px", "regions": [...],
                                  "variants": {"<레이아웃 변형 ID>": {"regions": [...]}}}
                                 내용은 docgen/html_regions.py. html 서식은 템플릿이 칸을 만들고, 이 파일은 그 위의 수정층
@@ -224,13 +225,6 @@ def write(doc_id: str, body: dict) -> Path:
     return p
 
 
-def write_new(form_dir: Path, body: dict) -> Path:
-    """아직 등록 전인 가져온 서식(img_*)의 첫 수정: form_dir = 그 서식 폴더."""
-    p = Path(form_dir) / "regions.json"
-    p.write_text(json.dumps({"engine": "overlay", "unit": "pt", **body}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    return p
-
-
 # ---------------------------------------------------------------------------
 # 명령
 # ---------------------------------------------------------------------------
@@ -278,6 +272,11 @@ def show(doc_id: str) -> list[dict]:
 
 def check(doc_id: str) -> list[str]:
     """문제 목록 (빈 목록 = 괜찮음)."""
+    if engine(doc_id) == "overlay":
+        from . import formfields
+
+        if formfields.exists(doc_id):
+            return check_fields(doc_id)
     problems = []
     p, old = path(doc_id), legacy(doc_id)
     if p.exists() and old:
@@ -309,6 +308,30 @@ def check(doc_id: str) -> list[str]:
             HR.validate({"regions": part.get("regions", [])})
         except ValueError as e:
             problems.append(f"{vid}: {e}")
+    return problems
+
+
+def check_fields(doc_id: str) -> list[str]:
+    """overlay 칸 목록(fields.json) 검사: 형식, 쪽 번호, 남은 예전 수정 파일."""
+    from . import formfields
+
+    problems = []
+    left = [f for f in [path(doc_id), *legacy(doc_id).values()] if f.exists()]
+    if left:
+        problems.append("예전 수정 파일이 남아 있음 (칸 목록이 있어 안 읽음): " + ", ".join(_rel(f) for f in left))
+    try:
+        f = formfields.read(doc_id)
+    except (ValueError, json.JSONDecodeError) as e:
+        return problems + [str(e)]
+    n = len(f.get("pages") or [])
+    if not n:
+        problems.append("pages 가 없습니다")
+    for i, it in enumerate(f.get("items") or []):
+        if not isinstance(it, dict) or not it.get("t") or not isinstance(it.get("page"), int) or not 0 <= it["page"] < n:
+            problems.append(f"items[{i}]: 종류(t)·쪽(page)이 틀렸습니다")
+    for i, e in enumerate(f.get("erase") or []):
+        if not isinstance(e.get("page"), int) or not 0 <= e["page"] < n or len(e.get("rect") or []) != 4:
+            problems.append(f"erase[{i}]: 쪽·사각형이 틀렸습니다")
     return problems
 
 
@@ -370,7 +393,9 @@ def main(argv=None) -> int:
             print(f"  [{r['how']}] p{r['page']} {r['key'] or '(키 없음)'}  {r['label']}  {r['kind']}" + (f"  ← {r['source']}" if r["source"] else ""))
         return 0
     if a.cmd == "check":
-        ids = a.ids if a.ids and not a.all else [i for i in _all_ids() if exists(i)]
+        from . import formfields
+
+        ids = a.ids if a.ids and not a.all else [i for i in _all_ids() if exists(i) or formfields.exists(i)]
         bad = 0
         for doc_id in ids:
             probs = check(doc_id)
