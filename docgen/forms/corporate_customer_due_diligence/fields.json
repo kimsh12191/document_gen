@@ -1,4 +1,243 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "agent.name": {
+   "label": "거래담당자성명",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.position": {
+   "label": "직위관계",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.rrn": {
+   "label": "거래담당자실명번호",
+   "type": "text",
+   "source": "code"
+  },
+  "bank.name": {
+   "label": "은행명",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.branch": {
+   "label": "확인영업점",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.clerk": {
+   "label": "담당",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.documents": {
+   "label": "징구서류",
+   "type": "checkbox_multi",
+   "source": "code"
+  },
+  "bank_use.manager": {
+   "label": "책임자",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.risk_grade": {
+   "label": "고객위험등급",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "corp.biz_address": {
+   "label": "사업장주소",
+   "type": "text",
+   "source": "code"
+  },
+  "corp.biz_no": {
+   "label": "사업자등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "corp.corp_no": {
+   "label": "법인등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "corp.corp_type": {
+   "label": "법인구분",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "corp.email": {
+   "label": "이메일",
+   "type": "text",
+   "source": "code"
+  },
+  "corp.established": {
+   "label": "설립일",
+   "type": "text",
+   "source": "code"
+  },
+  "corp.hq_address": {
+   "label": "본점주소",
+   "type": "text",
+   "source": "code"
+  },
+  "corp.industry": {
+   "label": "업종",
+   "type": "text",
+   "source": "code"
+  },
+  "corp.listed": {
+   "label": "상장여부",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "corp.name": {
+   "label": "법인명(국문)",
+   "type": "text",
+   "source": "code"
+  },
+  "corp.name_en": {
+   "label": "법인명(영문)",
+   "type": "text",
+   "source": "code"
+  },
+  "corp.phone": {
+   "label": "대표전화",
+   "type": "text",
+   "source": "code"
+  },
+  "date": {
+   "label": "작성일",
+   "type": "text",
+   "source": "code"
+  },
+  "owner_step": {
+   "label": "실제소유자확인단계",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "pep": {
+   "label": "외국의정치적주요인물여부",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "rep.birth": {
+   "label": "대표자생년월일",
+   "type": "text",
+   "source": "code"
+  },
+  "rep.name": {
+   "label": "대표자성명",
+   "type": "text",
+   "source": "code"
+  },
+  "rep.name_en": {
+   "label": "대표자영문성명",
+   "type": "text",
+   "source": "code"
+  },
+  "rep.nationality": {
+   "label": "대표자국적",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.corp": {
+   "label": "법인인감",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.staff.clerk": {
+   "label": "담당",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.staff.manager": {
+   "label": "책임자",
+   "type": "seal",
+   "source": "code"
+  },
+  "transaction.fund_source": {
+   "label": "자금원천",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "transaction.purpose": {
+   "label": "거래목적",
+   "type": "checkbox",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "bank_use.documents.#": {
+   "source": "code",
+   "fields": {
+    "#": {
+     "label": "징구서류",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "owners": {
+   "source": "code",
+   "fields": {
+    "birth": {
+     "label": "생년월일",
+     "type": "text",
+     "source": "code"
+    },
+    "name": {
+     "label": "성명",
+     "type": "text",
+     "source": "code"
+    },
+    "nationality": {
+     "label": "국적",
+     "type": "text",
+     "source": "code"
+    },
+    "ratio": {
+     "label": "지분율",
+     "type": "text",
+     "source": "code"
+    },
+    "relation": {
+     "label": "법인과의관계",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "shareholders": {
+   "source": "code",
+   "fields": {
+    "birth": {
+     "label": "생년월일",
+     "type": "text",
+     "source": "code"
+    },
+    "name": {
+     "label": "주주명",
+     "type": "text",
+     "source": "code"
+    },
+    "ratio": {
+     "label": "지분율",
+     "type": "text",
+     "source": "code"
+    },
+    "relation": {
+     "label": "법인과의관계",
+     "type": "text",
+     "source": "code"
+    },
+    "shares": {
+     "label": "소유주식수",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

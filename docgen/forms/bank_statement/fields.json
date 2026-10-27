@@ -1,4 +1,118 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "account_no": {
+   "label": "계좌번호",
+   "type": "text",
+   "source": "code"
+  },
+  "birth": {
+   "label": "생년월일",
+   "type": "text",
+   "source": "code"
+  },
+  "holder": {
+   "label": "예금주",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_no": {
+   "label": "발급번호",
+   "type": "text",
+   "source": "code"
+  },
+  "issuer": {
+   "label": "발급점",
+   "type": "text",
+   "source": "code"
+  },
+  "opening_balance": {
+   "label": "조회기간전잔액",
+   "type": "text",
+   "source": "code"
+  },
+  "overdraft_limit": {
+   "label": "대출한도",
+   "type": "text",
+   "source": "code"
+  },
+  "period": {
+   "label": "조회기간",
+   "type": "text",
+   "source": "code"
+  },
+  "product": {
+   "label": "상품명",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "summary.balance": {
+   "label": "최종잔액",
+   "type": "text",
+   "source": "code"
+  },
+  "summary.count": {
+   "label": "거래건수",
+   "type": "text",
+   "source": "code"
+  },
+  "summary.in": {
+   "label": "맡기신금액합계",
+   "type": "text",
+   "source": "code"
+  },
+  "summary.out": {
+   "label": "찾으신금액합계",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "rows": {
+   "source": "code",
+   "fields": {
+    "balance": {
+     "label": "거래후잔액",
+     "type": "text",
+     "source": "code"
+    },
+    "datetime": {
+     "label": "거래일시",
+     "type": "text",
+     "source": "code"
+    },
+    "in": {
+     "label": "맡기신금액",
+     "type": "text",
+     "source": "code"
+    },
+    "memo": {
+     "label": "기재내용",
+     "type": "text",
+     "source": "code"
+    },
+    "out": {
+     "label": "찾으신금액",
+     "type": "text",
+     "source": "code"
+    },
+    "type": {
+     "label": "적요",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

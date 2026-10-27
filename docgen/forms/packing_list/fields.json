@@ -1,4 +1,198 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "carrier": {
+   "label": "Carrier",
+   "type": "text",
+   "source": "code"
+  },
+  "consignee.address": {
+   "label": "ConsigneeAddress",
+   "type": "text",
+   "source": "code"
+  },
+  "consignee.name": {
+   "label": "Consignee",
+   "type": "text",
+   "source": "code"
+  },
+  "contract_no": {
+   "label": "ContractNo",
+   "type": "text",
+   "source": "code"
+  },
+  "final_destination": {
+   "label": "FinalDestination",
+   "type": "text",
+   "source": "code"
+  },
+  "invoice_date": {
+   "label": "InvoiceDate",
+   "type": "text",
+   "source": "code"
+  },
+  "invoice_no": {
+   "label": "InvoiceNo",
+   "type": "text",
+   "source": "code"
+  },
+  "lc_no": {
+   "label": "L/CNo",
+   "type": "text",
+   "source": "code"
+  },
+  "manufacturer.address": {
+   "label": "ManufacturerAddress",
+   "type": "text",
+   "source": "code"
+  },
+  "manufacturer.name": {
+   "label": "Manufacturer",
+   "type": "text",
+   "source": "code"
+  },
+  "marks": {
+   "label": "MarksandNumbers",
+   "type": "text",
+   "source": "code"
+  },
+  "notify": {
+   "label": "NotifyParty",
+   "type": "text",
+   "source": "code"
+  },
+  "partial_shipment": {
+   "label": "PartialShipment",
+   "type": "text",
+   "source": "code"
+  },
+  "port_of_loading": {
+   "label": "PortofLoading",
+   "type": "text",
+   "source": "code"
+  },
+  "sailing_date": {
+   "label": "Sailingonorabout",
+   "type": "text",
+   "source": "code"
+  },
+  "shipper.address": {
+   "label": "ShipperAddress",
+   "type": "text",
+   "source": "code"
+  },
+  "shipper.name": {
+   "label": "Shipper/Exporter",
+   "type": "text",
+   "source": "code"
+  },
+  "signed_by": {
+   "label": "Signedby",
+   "type": "text",
+   "source": "code"
+  },
+  "signer": {
+   "label": "Signer",
+   "type": "text",
+   "source": "code"
+  },
+  "total.gross_weight": {
+   "label": "TotalGrossWeight",
+   "type": "text",
+   "source": "code"
+  },
+  "total.measurement": {
+   "label": "TotalMeasurement",
+   "type": "text",
+   "source": "code"
+  },
+  "total.net_weight": {
+   "label": "TotalNetWeight",
+   "type": "text",
+   "source": "code"
+  },
+  "total.packages": {
+   "label": "TotalPackages",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "containers": {
+   "source": "code",
+   "fields": {
+    "gross_weight": {
+     "label": "ContainerGrossWeight",
+     "type": "text",
+     "source": "code"
+    },
+    "measurement": {
+     "label": "ContainerMeasurement",
+     "type": "text",
+     "source": "code"
+    },
+    "net_weight": {
+     "label": "ContainerNetWeight",
+     "type": "text",
+     "source": "code"
+    },
+    "no": {
+     "label": "ContainerNo",
+     "type": "text",
+     "source": "code"
+    },
+    "packages": {
+     "label": "ContainerPackages",
+     "type": "text",
+     "source": "code"
+    },
+    "seal": {
+     "label": "SealNo",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "items": {
+   "source": "code",
+   "fields": {
+    "ctn_no": {
+     "label": "C/TNo",
+     "type": "text",
+     "source": "code"
+    },
+    "description": {
+     "label": "DescriptionofGoods",
+     "type": "text",
+     "source": "code"
+    },
+    "gross_weight": {
+     "label": "GrossWeight",
+     "type": "text",
+     "source": "code"
+    },
+    "measurement": {
+     "label": "Measurement",
+     "type": "text",
+     "source": "code"
+    },
+    "net_weight": {
+     "label": "NetWeight",
+     "type": "text",
+     "source": "code"
+    },
+    "packages": {
+     "label": "Packages",
+     "type": "text",
+     "source": "code"
+    },
+    "quantity": {
+     "label": "Quantity",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

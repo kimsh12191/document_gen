@@ -1,4 +1,81 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "counterparty.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "counterparty.name": {
+   "label": "성명(법인명)",
+   "type": "text",
+   "source": "code"
+  },
+  "counterparty.rrn": {
+   "label": "주민등록번호(법인등록번호)",
+   "type": "text",
+   "source": "code"
+  },
+  "delegate.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "delegate.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "doc_no": {
+   "label": "문서확인번호",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "issuer": {
+   "label": "발급기관",
+   "type": "text",
+   "source": "code"
+  },
+  "other_usage": {
+   "label": "그외의용도",
+   "type": "text",
+   "source": "code"
+  },
+  "real_estate_usage": {
+   "label": "부동산관련용도및자동차매도용도",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "signature": {
+   "label": "서명",
+   "type": "text",
+   "source": "code"
+  },
+  "signer.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "signer.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "signer.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  }
+ }
 }

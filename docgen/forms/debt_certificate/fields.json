@@ -1,4 +1,128 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "base_date": {
+   "label": "기준일",
+   "type": "text",
+   "source": "code"
+  },
+  "borrower.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "borrower.name": {
+   "label": "차주명",
+   "type": "text",
+   "source": "code"
+  },
+  "borrower.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "cert_no": {
+   "label": "증명서번호",
+   "type": "text",
+   "source": "code"
+  },
+  "guarantee": {
+   "label": "보증채무",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "guarantee_detail": {
+   "label": "보증내역",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "issuer": {
+   "label": "발급점",
+   "type": "text",
+   "source": "code"
+  },
+  "overdue": {
+   "label": "연체여부",
+   "type": "text",
+   "source": "code"
+  },
+  "overdue_detail": {
+   "label": "연체내역",
+   "type": "text",
+   "source": "code"
+  },
+  "purpose": {
+   "label": "용도",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "total_amount": {
+   "label": "대출금액합계",
+   "type": "text",
+   "source": "code"
+  },
+  "total_balance": {
+   "label": "대출잔액합계",
+   "type": "text",
+   "source": "code"
+  },
+  "total_korean": {
+   "label": "대출잔액합계(한글)",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "loans": {
+   "source": "code",
+   "fields": {
+    "account_no": {
+     "label": "계좌번호",
+     "type": "text",
+     "source": "code"
+    },
+    "amount": {
+     "label": "대출금액",
+     "type": "text",
+     "source": "code"
+    },
+    "balance": {
+     "label": "대출잔액",
+     "type": "text",
+     "source": "code"
+    },
+    "loan_date": {
+     "label": "대출일",
+     "type": "text",
+     "source": "code"
+    },
+    "maturity": {
+     "label": "만기일",
+     "type": "text",
+     "source": "code"
+    },
+    "rate": {
+     "label": "금리",
+     "type": "text",
+     "source": "code"
+    },
+    "subject": {
+     "label": "대출과목",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

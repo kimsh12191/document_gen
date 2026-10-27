@@ -1,4 +1,86 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "arrears": {
+   "label": "체납액",
+   "type": "text",
+   "source": "code"
+  },
+  "deferral": {
+   "label": "연장ㆍ유예명세",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_no": {
+   "label": "발급번호",
+   "type": "text",
+   "source": "code"
+  },
+  "issuer": {
+   "label": "발급기관",
+   "type": "text",
+   "source": "code"
+  },
+  "payer": {
+   "label": "대금지급자",
+   "type": "text",
+   "source": "code"
+  },
+  "purpose": {
+   "label": "사용목적",
+   "type": "text",
+   "source": "code"
+  },
+  "purpose_type": {
+   "label": "사용목적",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "taxpayer.address": {
+   "label": "주소(본점)",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.biz_no": {
+   "label": "사업자등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.ceo": {
+   "label": "성명(대표자)",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.corp_name": {
+   "label": "상호(법인명)",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.corp_reg_no": {
+   "label": "법인등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "valid_period": {
+   "label": "증명서유효기간",
+   "type": "text",
+   "source": "code"
+  },
+  "valid_reason": {
+   "label": "유효기간을정한사유",
+   "type": "text",
+   "source": "code"
+  }
+ }
 }

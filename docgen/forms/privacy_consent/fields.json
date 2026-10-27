@@ -1,4 +1,143 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "applicant.birth": {
+   "label": "생년월일",
+   "type": "text",
+   "source": "code"
+  },
+  "applicant.name": {
+   "label": "본인성명",
+   "type": "text",
+   "source": "code"
+  },
+  "bank.name": {
+   "label": "은행명",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.clerk": {
+   "label": "본인확인",
+   "type": "text",
+   "source": "code"
+  },
+  "consent.collect": {
+   "label": "수집이용동의",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "consent.inquiry": {
+   "label": "조회동의",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "consent.provide": {
+   "label": "제공동의",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "consent.provide_unique_id": {
+   "label": "고유식별정보제공동의",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "consent.unique_id": {
+   "label": "고유식별정보처리동의",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "date": {
+   "label": "작성일",
+   "type": "text",
+   "source": "code"
+  },
+  "legal_rep.name": {
+   "label": "법정대리인",
+   "type": "text",
+   "source": "code"
+  },
+  "legal_rep.relation": {
+   "label": "본인과의관계",
+   "type": "text",
+   "source": "code"
+  },
+  "marketing.channels": {
+   "label": "연락방법",
+   "type": "checkbox_multi",
+   "source": "code"
+  },
+  "marketing.collect": {
+   "label": "마케팅수집이용동의",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "marketing.provide": {
+   "label": "마케팅제공동의",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "seal.applicant": {
+   "label": "본인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.legal_rep": {
+   "label": "법정대리인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.staff.clerk": {
+   "label": "본인확인",
+   "type": "seal",
+   "source": "code"
+  },
+  "sign.applicant": {
+   "label": "본인",
+   "type": "signature",
+   "source": "code"
+  },
+  "sign.legal_rep": {
+   "label": "법정대리인",
+   "type": "signature",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "marketing.channels.#": {
+   "source": "code",
+   "fields": {
+    "#": {
+     "label": "연락방법",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "providers": {
+   "source": "code",
+   "fields": {
+    "items": {
+     "label": "제공하는항목",
+     "type": "text",
+     "source": "code"
+    },
+    "name": {
+     "label": "제공받는자",
+     "type": "text",
+     "source": "code"
+    },
+    "period": {
+     "label": "제공받는자의보유이용기간",
+     "type": "text",
+     "source": "code"
+    },
+    "purpose": {
+     "label": "제공받는자의이용목적",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

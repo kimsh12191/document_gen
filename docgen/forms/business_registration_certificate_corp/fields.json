@@ -1,4 +1,103 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "address": {
+   "label": "사업장소재지",
+   "type": "text",
+   "source": "code"
+  },
+  "biz_item": {
+   "label": "종목",
+   "type": "text",
+   "source": "code"
+  },
+  "biz_no": {
+   "label": "등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "biz_type": {
+   "label": "업태",
+   "type": "text",
+   "source": "code"
+  },
+  "ceo": {
+   "label": "대표자",
+   "type": "text",
+   "source": "code"
+  },
+  "co_ceo": {
+   "label": "대표자",
+   "type": "text",
+   "source": "code"
+  },
+  "corp_name": {
+   "label": "법인명(단체명)",
+   "type": "text",
+   "source": "code"
+  },
+  "corp_reg_no": {
+   "label": "법인등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "einvoice_email": {
+   "label": "전자세금계산서전용전자우편주소",
+   "type": "text",
+   "source": "code"
+  },
+  "head_office": {
+   "label": "본점소재지",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_reason": {
+   "label": "발급사유",
+   "type": "text",
+   "source": "code"
+  },
+  "issuer": {
+   "label": "발급기관",
+   "type": "text",
+   "source": "code"
+  },
+  "opened": {
+   "label": "개업연월일",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "unit_taxation": {
+   "label": "사업자단위과세적용사업자여부",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "sub_kinds": {
+   "source": "code",
+   "fields": {
+    "biz_item": {
+     "label": "종목",
+     "type": "text",
+     "source": "code"
+    },
+    "biz_type": {
+     "label": "업태",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

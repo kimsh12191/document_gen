@@ -1,4 +1,111 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "company.address": {
+   "label": "소재지",
+   "type": "text",
+   "source": "code"
+  },
+  "company.biz_no": {
+   "label": "사업자등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "company.ceo": {
+   "label": "대표이사",
+   "type": "text",
+   "source": "code"
+  },
+  "company.name": {
+   "label": "회사명",
+   "type": "text",
+   "source": "code"
+  },
+  "company.phone": {
+   "label": "전화번호",
+   "type": "text",
+   "source": "code"
+  },
+  "doc_no": {
+   "label": "문서번호",
+   "type": "text",
+   "source": "code"
+  },
+  "employee.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "employee.birth": {
+   "label": "생년월일",
+   "type": "text",
+   "source": "code"
+  },
+  "employee.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "employee.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "employment.contract_period": {
+   "label": "계약기간",
+   "type": "text",
+   "source": "code"
+  },
+  "employment.department": {
+   "label": "소속",
+   "type": "text",
+   "source": "code"
+  },
+  "employment.duty": {
+   "label": "담당업무",
+   "type": "text",
+   "source": "code"
+  },
+  "employment.employment_type": {
+   "label": "고용형태",
+   "type": "text",
+   "source": "code"
+  },
+  "employment.leave": {
+   "label": "휴직기간",
+   "type": "text",
+   "source": "code"
+  },
+  "employment.period": {
+   "label": "재직기간",
+   "type": "text",
+   "source": "code"
+  },
+  "employment.position": {
+   "label": "직위",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "purpose": {
+   "label": "용도",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.company": {
+   "label": "회사직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "submit_to": {
+   "label": "제출처",
+   "type": "text",
+   "source": "code"
+  }
+ }
 }

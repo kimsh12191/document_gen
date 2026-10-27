@@ -1,4 +1,268 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "agent.name": {
+   "label": "대리인성명",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.relation": {
+   "label": "본인과의관계",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.rrn": {
+   "label": "대리인실명번호",
+   "type": "text",
+   "source": "code"
+  },
+  "bank.name": {
+   "label": "은행명",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.branch": {
+   "label": "확인영업점",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.clerk": {
+   "label": "담당",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.id_type": {
+   "label": "실명확인증표",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "bank_use.manager": {
+   "label": "책임자",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.risk_grade": {
+   "label": "고객위험등급",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "beneficial_owner": {
+   "label": "실제소유자여부",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "customer.address": {
+   "label": "주소(거소)",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.email": {
+   "label": "E-mail",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.gender": {
+   "label": "성별",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "customer.mobile": {
+   "label": "휴대전화",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.name": {
+   "label": "성명(한글)",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.name_en": {
+   "label": "성명(영문)",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.nationality": {
+   "label": "국적",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.resident_type": {
+   "label": "구분",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "customer.rrn": {
+   "label": "실명번호",
+   "type": "text",
+   "source": "code"
+  },
+  "date": {
+   "label": "작성일",
+   "type": "text",
+   "source": "code"
+  },
+  "edd.annual_income": {
+   "label": "연간소득",
+   "type": "text",
+   "source": "code"
+  },
+  "edd.assets": {
+   "label": "보유자산규모",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "edd.cash_tx": {
+   "label": "고액현금거래",
+   "type": "text",
+   "source": "code"
+  },
+  "edd.fund_detail": {
+   "label": "자금원천상세",
+   "type": "text",
+   "source": "code"
+  },
+  "edd.overseas_tx": {
+   "label": "해외거래",
+   "type": "text",
+   "source": "code"
+  },
+  "edd.purpose_detail": {
+   "label": "거래목적상세",
+   "type": "text",
+   "source": "code"
+  },
+  "job.biz_no": {
+   "label": "사업자등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "job.company": {
+   "label": "직장명",
+   "type": "text",
+   "source": "code"
+  },
+  "job.department": {
+   "label": "부서/직위",
+   "type": "text",
+   "source": "code"
+  },
+  "job.industry": {
+   "label": "업종",
+   "type": "text",
+   "source": "code"
+  },
+  "job.opened": {
+   "label": "개업년월일",
+   "type": "text",
+   "source": "code"
+  },
+  "job.type": {
+   "label": "직업",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "job.work_phone": {
+   "label": "직장전화",
+   "type": "text",
+   "source": "code"
+  },
+  "owner.birth": {
+   "label": "실제소유자생년월일",
+   "type": "text",
+   "source": "code"
+  },
+  "owner.name": {
+   "label": "실제소유자성명",
+   "type": "text",
+   "source": "code"
+  },
+  "owner.nationality": {
+   "label": "실제소유자국적",
+   "type": "text",
+   "source": "code"
+  },
+  "pep": {
+   "label": "외국의정치적주요인물여부",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "seal.agent": {
+   "label": "대리인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.customer": {
+   "label": "고객",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.staff.clerk": {
+   "label": "담당",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.staff.manager": {
+   "label": "책임자",
+   "type": "seal",
+   "source": "code"
+  },
+  "sign.agent": {
+   "label": "대리인",
+   "type": "signature",
+   "source": "code"
+  },
+  "sign.customer": {
+   "label": "고객",
+   "type": "signature",
+   "source": "code"
+  },
+  "signature": {
+   "label": "고객성명",
+   "type": "text",
+   "source": "code"
+  },
+  "transaction.expected_amount": {
+   "label": "예상거래금액",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "transaction.frequency": {
+   "label": "예상거래빈도",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "transaction.fund_source": {
+   "label": "자금의원천",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "transaction.purpose": {
+   "label": "거래목적",
+   "type": "checkbox",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "edd.accounts": {
+   "source": "code",
+   "fields": {
+    "bank": {
+     "label": "금융회사",
+     "type": "text",
+     "source": "code"
+    },
+    "kind": {
+     "label": "계좌종류",
+     "type": "text",
+     "source": "code"
+    },
+    "purpose": {
+     "label": "주된용도",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

@@ -1,4 +1,113 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "company.address": {
+   "label": "소재지",
+   "type": "text",
+   "source": "code"
+  },
+  "company.biz_no": {
+   "label": "사업자등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "company.ceo": {
+   "label": "대표이사",
+   "type": "text",
+   "source": "code"
+  },
+  "company.name": {
+   "label": "회사명",
+   "type": "text",
+   "source": "code"
+  },
+  "company.phone": {
+   "label": "전화번호",
+   "type": "text",
+   "source": "code"
+  },
+  "doc_no": {
+   "label": "문서번호",
+   "type": "text",
+   "source": "code"
+  },
+  "hire_date": {
+   "label": "입사일",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "person.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "person.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "person.phone": {
+   "label": "연락처",
+   "type": "text",
+   "source": "code"
+  },
+  "person.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "purpose": {
+   "label": "용도",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.company": {
+   "label": "회사직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "submit_to": {
+   "label": "제출처",
+   "type": "text",
+   "source": "code"
+  },
+  "total_period": {
+   "label": "총근무기간",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "careers": {
+   "source": "code",
+   "fields": {
+    "department": {
+     "label": "근무부서",
+     "type": "text",
+     "source": "code"
+    },
+    "duty": {
+     "label": "담당업무",
+     "type": "text",
+     "source": "code"
+    },
+    "period": {
+     "label": "근무기간",
+     "type": "text",
+     "source": "code"
+    },
+    "position": {
+     "label": "직위",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

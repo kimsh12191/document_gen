@@ -1,4 +1,303 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "agent.name": {
+   "label": "대리인성명",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.phone": {
+   "label": "대리인연락처",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.relation": {
+   "label": "본인과의관계",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.rrn": {
+   "label": "대리인실명번호",
+   "type": "text",
+   "source": "code"
+  },
+  "alert": {
+   "label": "입출금알림",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "bank.name": {
+   "label": "은행명",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.account_no": {
+   "label": "계좌번호",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.branch": {
+   "label": "개설영업점",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.clerk": {
+   "label": "담당",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.id_type": {
+   "label": "실명확인증표",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "bank_use.manager": {
+   "label": "책임자",
+   "type": "text",
+   "source": "code"
+  },
+  "check_card": {
+   "label": "체크카드",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "customer.address": {
+   "label": "자택주소",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.company": {
+   "label": "직장명",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.email": {
+   "label": "이메일",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.job": {
+   "label": "직업",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.mobile": {
+   "label": "휴대폰",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.name_en": {
+   "label": "영문명",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.nationality": {
+   "label": "국적",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.rrn": {
+   "label": "실명번호",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.zipcode": {
+   "label": "우편번호",
+   "type": "text",
+   "source": "code"
+  },
+  "date": {
+   "label": "신청일",
+   "type": "text",
+   "source": "code"
+  },
+  "ebank.internet": {
+   "label": "인터넷뱅킹",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "ebank.limit_day": {
+   "label": "1일이체한도",
+   "type": "text",
+   "source": "code"
+  },
+  "ebank.limit_once": {
+   "label": "1회이체한도",
+   "type": "text",
+   "source": "code"
+  },
+  "ebank.mobile": {
+   "label": "모바일뱅킹",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "ebank.otp": {
+   "label": "보안매체",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "legal_rep.documents": {
+   "label": "제출서류",
+   "type": "text",
+   "source": "code"
+  },
+  "legal_rep.name": {
+   "label": "법정대리인성명",
+   "type": "text",
+   "source": "code"
+  },
+  "legal_rep.phone": {
+   "label": "법정대리인연락처",
+   "type": "text",
+   "source": "code"
+  },
+  "legal_rep.relation": {
+   "label": "본인과의관계",
+   "type": "text",
+   "source": "code"
+  },
+  "legal_rep.rrn": {
+   "label": "법정대리인실명번호",
+   "type": "text",
+   "source": "code"
+  },
+  "mail_to": {
+   "label": "우편물수령처",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "passbook": {
+   "label": "통장발행",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "product.amount": {
+   "label": "신규금액",
+   "type": "text",
+   "source": "code"
+  },
+  "product.interest_payment": {
+   "label": "이자지급방법",
+   "type": "text",
+   "source": "code"
+  },
+  "product.linked_account": {
+   "label": "출금계좌",
+   "type": "text",
+   "source": "code"
+  },
+  "product.name": {
+   "label": "상품명",
+   "type": "text",
+   "source": "code"
+  },
+  "product.term": {
+   "label": "계약기간",
+   "type": "text",
+   "source": "code"
+  },
+  "product.type": {
+   "label": "예금종류",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "protection_limit": {
+   "label": "예금자보호한도",
+   "type": "text",
+   "source": "code"
+  },
+  "salary_transfer": {
+   "label": "급여이체지정",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "seal.agent": {
+   "label": "대리인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.applicant": {
+   "label": "신청인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.legal_rep": {
+   "label": "법정대리인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.staff.clerk": {
+   "label": "담당",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.staff.manager": {
+   "label": "책임자",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal_type": {
+   "label": "인감서명등록",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "sign.agent": {
+   "label": "대리인",
+   "type": "signature",
+   "source": "code"
+  },
+  "sign.applicant": {
+   "label": "신청인",
+   "type": "signature",
+   "source": "code"
+  },
+  "sign.legal_rep": {
+   "label": "법정대리인",
+   "type": "signature",
+   "source": "code"
+  },
+  "signature": {
+   "label": "확인자",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "extra_products": {
+   "source": "code",
+   "fields": {
+    "account_no": {
+     "label": "계좌번호",
+     "type": "text",
+     "source": "code"
+    },
+    "amount": {
+     "label": "신규금액",
+     "type": "text",
+     "source": "code"
+    },
+    "name": {
+     "label": "상품명",
+     "type": "text",
+     "source": "code"
+    },
+    "term": {
+     "label": "계약기간",
+     "type": "text",
+     "source": "code"
+    },
+    "type": {
+     "label": "예금종류",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

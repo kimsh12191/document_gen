@@ -351,11 +351,14 @@ python -m docgen.scripts.audit_form_values --out studio_cache/value_audit/final
 
 - 이 파일을 고치면 다음에 생성하는 이미지와 정답(키·항목명·값 출처·위치·뺀 칸)에 반영됩니다. 이미 만든 데이터셋은 그대로입니다.
 - **overlay:** 자동 추출 레이아웃(`layout.json`)과 예전 사람 수정을 합쳐 한 번 만든 것이 기준입니다. 자동 추출을 다시 해도 칸 목록은 바뀌지 않습니다(새로 뽑은 `layout.json`은 비교용 초안). 영역 편집기는 고친 것을 보내고 서버가 칸 목록에 바로 합칩니다. 사람이 고친 칸은 `"edited": true`, 더한 칸은 `"added": true`, 뺀 자동 영역은 `"dropped"`에 남습니다.
-- **html:** 템플릿이 칸을 만들고, 칸 목록은 그 위에 값을 정하고 덮어씁니다. 템플릿 칸은 칸 목록에 적지 않아도 나오고, 빼려면 `regions`에 그 키로 `"drop": true`. 복제·분석기 서식은 예전 `form.json`의 `fields`·`lists`가 여기로 왔습니다. 코드 서식은 값을 생성 함수(`docs/*.py`)가 만들고, `fields`를 적으면 그 위에 덮어씁니다(4단계에서 생성 함수를 값 선언으로 옮기는 중).
+- **html:** 템플릿이 칸을 만들고, 칸 목록은 그 위에 값을 정하고 덮어씁니다. 템플릿 칸은 칸 목록에 적지 않아도 나오고, 빼려면 `regions`에 그 키로 `"drop": true`. 복제·분석기 서식은 예전 `form.json`의 `fields`·`lists`가 여기로 왔습니다.
+- **코드 서식(html 70종):** 값은 생성 함수(`docs/<그룹>.py`)가 만들고, 칸 목록에는 그 칸이 모두 `"source": "code"`로 적혀 있습니다(키·항목명·종류, 반복 행은 `lists`). `"code"`는 생성 함수 값 그대로라 결과를 바꾸지 않습니다. 키 하나의 `source`를 `profile.…`·`rule:…`로 바꾸면 그 칸만 덮어쓰고, 반복 행 하위 칸은 행마다 덮어씁니다(행 수는 생성 함수 그대로). 칸 목록은 여러 seed로 그려 나온 칸이라, 드물게 나오는 조건 칸이 빠졌으면 `python -m docgen.formdir declare <ID> --seeds 100 --apply`로 더합니다(바꾼 칸은 그대로 둠).
 - `engine`이 서식 종류와 다르면 조용히 무시하지 않고 에러로 멈춥니다.
 - studio에서 고치면 검증·미리보기가 같이 됩니다. 손으로 고쳤으면 아래 `check`.
 
 ```bash
+python -m docgen.formdir path <ID>             # 이 서식의 파일들 (모양·칸 목록·값 생성 코드)
+python -m docgen.formdir declare [<ID>…] [--apply]   # 코드 서식의 칸을 칸 목록에 적기 (source "code")
 python -m docgen.regions path <ID>             # 이 서식의 수정 파일 위치
 python -m docgen.regions show <ID>             # 최종 값 칸 목록 (자동 추출·템플릿 칸 + 수정)
 python -m docgen.regions check <ID>            # 형식·서식 종류·쪽 번호·깨진 수정·남은 예전 파일 (--all: 칸 목록·수정이 있는 서식 전부)

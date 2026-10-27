@@ -1,4 +1,278 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "balance": {
+   "label": "잔금",
+   "type": "text",
+   "source": "code"
+  },
+  "balance_date": {
+   "label": "잔금지급일",
+   "type": "text",
+   "source": "code"
+  },
+  "co_landlord.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "co_landlord.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "co_landlord.phone": {
+   "label": "전화",
+   "type": "text",
+   "source": "code"
+  },
+  "co_landlord.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "contract_date": {
+   "label": "계약일",
+   "type": "text",
+   "source": "code"
+  },
+  "contract_type": {
+   "label": "계약의종류",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "deposit": {
+   "label": "보증금",
+   "type": "text",
+   "source": "code"
+  },
+  "down_payment": {
+   "label": "계약금",
+   "type": "text",
+   "source": "code"
+  },
+  "end_date": {
+   "label": "임대차종료일",
+   "type": "text",
+   "source": "code"
+  },
+  "fixed_date.date": {
+   "label": "확정일자",
+   "type": "text",
+   "source": "code"
+  },
+  "fixed_date.no": {
+   "label": "확정일자번호",
+   "type": "text",
+   "source": "code"
+  },
+  "fixed_date.office": {
+   "label": "확정일자부여기관",
+   "type": "text",
+   "source": "code"
+  },
+  "handover_date": {
+   "label": "인도일",
+   "type": "text",
+   "source": "code"
+  },
+  "house.building_area": {
+   "label": "건물면적",
+   "type": "text",
+   "source": "code"
+  },
+  "house.land_area": {
+   "label": "토지면적",
+   "type": "text",
+   "source": "code"
+  },
+  "house.land_category": {
+   "label": "지목",
+   "type": "text",
+   "source": "code"
+  },
+  "house.lease_part": {
+   "label": "임차할부분",
+   "type": "text",
+   "source": "code"
+  },
+  "house.location": {
+   "label": "소재지",
+   "type": "text",
+   "source": "code"
+  },
+  "house.structure_usage": {
+   "label": "구조·용도",
+   "type": "text",
+   "source": "code"
+  },
+  "landlord.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "landlord.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "landlord.phone": {
+   "label": "전화",
+   "type": "text",
+   "source": "code"
+  },
+  "landlord.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "landlord_agent.address": {
+   "label": "대리인주소",
+   "type": "text",
+   "source": "code"
+  },
+  "landlord_agent.name": {
+   "label": "대리인성명",
+   "type": "text",
+   "source": "code"
+  },
+  "landlord_agent.rrn": {
+   "label": "대리인주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "landlord_name": {
+   "label": "임대인",
+   "type": "text",
+   "source": "code"
+  },
+  "management_fee": {
+   "label": "관리비",
+   "type": "text",
+   "source": "code"
+  },
+  "prior_fixed_date": {
+   "label": "선순위확정일자현황",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.co_landlord": {
+   "label": "공동임대인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.landlord": {
+   "label": "임대인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.landlord_agent": {
+   "label": "임대인대리인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.tenant": {
+   "label": "임차인",
+   "type": "seal",
+   "source": "code"
+  },
+  "sign.co_landlord": {
+   "label": "공동임대인",
+   "type": "signature",
+   "source": "code"
+  },
+  "sign.landlord": {
+   "label": "임대인",
+   "type": "signature",
+   "source": "code"
+  },
+  "sign.landlord_agent": {
+   "label": "임대인대리인",
+   "type": "signature",
+   "source": "code"
+  },
+  "sign.tenant": {
+   "label": "임차인",
+   "type": "signature",
+   "source": "code"
+  },
+  "tax_arrears": {
+   "label": "미납국세·지방세",
+   "type": "text",
+   "source": "code"
+  },
+  "tenant.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "tenant.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "tenant.phone": {
+   "label": "전화",
+   "type": "text",
+   "source": "code"
+  },
+  "tenant.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "tenant_name": {
+   "label": "임차인",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "brokers": {
+   "source": "code",
+   "fields": {
+    "assistant": {
+     "label": "소속공인중개사",
+     "type": "text",
+     "source": "code"
+    },
+    "office_address": {
+     "label": "사무소소재지",
+     "type": "text",
+     "source": "code"
+    },
+    "office_name": {
+     "label": "사무소명칭",
+     "type": "text",
+     "source": "code"
+    },
+    "phone": {
+     "label": "전화",
+     "type": "text",
+     "source": "code"
+    },
+    "reg_no": {
+     "label": "등록번호",
+     "type": "text",
+     "source": "code"
+    },
+    "representative": {
+     "label": "대표",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "specials.#": {
+   "source": "code",
+   "fields": {
+    "#": {
+     "label": "특약사항",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

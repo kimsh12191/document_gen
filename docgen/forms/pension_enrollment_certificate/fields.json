@@ -1,4 +1,88 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "first_acquired": {
+   "label": "최초자격취득일",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date_head": {
+   "label": "발급일자",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_no": {
+   "label": "발급번호",
+   "type": "text",
+   "source": "code"
+  },
+  "person.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "person.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "purpose": {
+   "label": "용도",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "total_months": {
+   "label": "가입기간합계",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "rows": {
+   "source": "code",
+   "fields": {
+    "end": {
+     "label": "자격상실일",
+     "type": "text",
+     "source": "code"
+    },
+    "kind": {
+     "label": "가입자종류",
+     "type": "text",
+     "source": "code"
+    },
+    "note": {
+     "label": "비고",
+     "type": "text",
+     "source": "code"
+    },
+    "start": {
+     "label": "자격취득일",
+     "type": "text",
+     "source": "code"
+    },
+    "wage": {
+     "label": "기준소득월액",
+     "type": "text",
+     "source": "code"
+    },
+    "workplace": {
+     "label": "사업장명칭",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

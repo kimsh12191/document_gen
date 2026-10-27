@@ -61,7 +61,14 @@ def hash_files(doc_id: str) -> list[Path]:
     p = path(doc_id)
     if not p.exists():
         return []
+    from .regions import engine
+
     body = read(doc_id) or {}
+    if engine(doc_id) == "html":   # "code"(생성 함수 값 그대로)만 적힌 칸 목록은 결과를 바꾸지 않는다
+        from .htmlform import own
+
+        live = own(body) or any(body.get(k) for k in ("regions", "variants", "shared_copies"))
+        return [p] if live else []
     return [p] if any(body.get(k) for k in body) else []
 
 
@@ -97,6 +104,32 @@ def update(doc_id: str, values: dict, keys: tuple) -> Path:
         else:
             cur[k] = v
     return write(doc_id, cur)
+
+
+def merge_declared(doc_id: str, declared: dict) -> tuple[Path, int]:
+    """코드 서식 칸 목록에 생성 함수 칸(declare 결과, source "code")을 더한다. 사람이 값 출처를 바꾼 칸은 그대로 둔다.
+    (파일, 새로 더한 칸 수)."""
+    adopt(doc_id)
+    cur = read(doc_id) or {}
+    n = 0
+    fields = cur.setdefault("fields", {})
+    for k, e in declared.get("fields", {}).items():
+        if k not in fields:
+            n += 1
+        if fields.get(k, {}).get("source", "code") == "code":
+            fields[k] = {**fields.get(k, {}), **e}
+    lists = cur.setdefault("lists", {})
+    for name, L in declared.get("lists", {}).items():
+        mine = lists.setdefault(name, {"source": "code", "fields": {}})
+        for sub, e in L["fields"].items():
+            if sub not in mine.setdefault("fields", {}):
+                n += 1
+            if mine["fields"].get(sub, {}).get("source", "code") == "code":
+                mine["fields"][sub] = {**mine["fields"].get(sub, {}), **e}
+    for k in ("fields", "lists"):
+        if not cur[k]:
+            cur.pop(k)
+    return write(doc_id, cur), n
 
 
 def adopt(doc_id: str) -> Path | None:

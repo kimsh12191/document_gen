@@ -1,4 +1,128 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "agent.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.birth": {
+   "label": "생년월일",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.phone": {
+   "label": "연락처",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.relation": {
+   "label": "본인과의관계",
+   "type": "text",
+   "source": "code"
+  },
+  "attachment": {
+   "label": "첨부서류",
+   "type": "text",
+   "source": "code"
+  },
+  "grant_date": {
+   "label": "작성일",
+   "type": "text",
+   "source": "code"
+  },
+  "grantor.address": {
+   "label": "본점소재지",
+   "type": "text",
+   "source": "code"
+  },
+  "grantor.birth": {
+   "label": "생년월일",
+   "type": "text",
+   "source": "code"
+  },
+  "grantor.biz_no": {
+   "label": "사업자등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "grantor.ceo": {
+   "label": "대표자",
+   "type": "text",
+   "source": "code"
+  },
+  "grantor.corp_reg_no": {
+   "label": "법인등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "grantor.name": {
+   "label": "상호",
+   "type": "text",
+   "source": "code"
+  },
+  "grantor.phone": {
+   "label": "연락처",
+   "type": "text",
+   "source": "code"
+  },
+  "grantor.type": {
+   "label": "위임인구분",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "period": {
+   "label": "위임기간",
+   "type": "text",
+   "source": "code"
+  },
+  "recipient": {
+   "label": "제출처",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.corp": {
+   "label": "법인인감",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.grantor": {
+   "label": "위임인",
+   "type": "seal",
+   "source": "code"
+  },
+  "sub_delegation": {
+   "label": "복대리인선임",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "tasks_extra": {
+   "label": "위임내용",
+   "type": "text",
+   "source": "code"
+  },
+  "use_limit": {
+   "label": "사용제한",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "tasks.#": {
+   "source": "code",
+   "fields": {
+    "#": {
+     "label": "위임내용",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

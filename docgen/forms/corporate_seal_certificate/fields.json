@@ -1,4 +1,86 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "company_name": {
+   "label": "상호",
+   "type": "text",
+   "source": "code"
+  },
+  "confirm_no": {
+   "label": "발급확인번호",
+   "type": "text",
+   "source": "code"
+  },
+  "corp_reg_no": {
+   "label": "등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "fee": {
+   "label": "수수료",
+   "type": "text",
+   "source": "code"
+  },
+  "head_office": {
+   "label": "본점",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_no": {
+   "label": "발급번호",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_office": {
+   "label": "발급기관",
+   "type": "text",
+   "source": "code"
+  },
+  "purpose": {
+   "label": "용도",
+   "type": "text",
+   "source": "code"
+  },
+  "reg_no": {
+   "label": "등기번호",
+   "type": "text",
+   "source": "code"
+  },
+  "registrar": {
+   "label": "등기관",
+   "type": "text",
+   "source": "code"
+  },
+  "rep_name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "rep_rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "rep_title": {
+   "label": "자격",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.registered": {
+   "label": "등록인감",
+   "type": "seal",
+   "source": "code"
+  }
+ }
 }

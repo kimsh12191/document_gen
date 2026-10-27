@@ -1,4 +1,133 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "base_date": {
+   "label": "기준일",
+   "type": "text",
+   "source": "code"
+  },
+  "biz_no": {
+   "label": "사업자등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "capital": {
+   "label": "자본금",
+   "type": "text",
+   "source": "code"
+  },
+  "ceo_name": {
+   "label": "대표이사",
+   "type": "text",
+   "source": "code"
+  },
+  "certify_date": {
+   "label": "확인일",
+   "type": "text",
+   "source": "code"
+  },
+  "company_name": {
+   "label": "회사명",
+   "type": "text",
+   "source": "code"
+  },
+  "corp_reg_no": {
+   "label": "법인등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "head_office": {
+   "label": "본점소재지",
+   "type": "text",
+   "source": "code"
+  },
+  "par_value": {
+   "label": "1주의금액",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.corp": {
+   "label": "법인인감",
+   "type": "seal",
+   "source": "code"
+  },
+  "sum_amount": {
+   "label": "합계금액",
+   "type": "text",
+   "source": "code"
+  },
+  "sum_ratio": {
+   "label": "합계지분율",
+   "type": "text",
+   "source": "code"
+  },
+  "sum_shares": {
+   "label": "합계주식수",
+   "type": "text",
+   "source": "code"
+  },
+  "total_shares": {
+   "label": "발행주식총수",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "shareholders": {
+   "source": "code",
+   "fields": {
+    "acquired": {
+     "label": "취득일",
+     "type": "text",
+     "source": "code"
+    },
+    "address": {
+     "label": "주소",
+     "type": "text",
+     "source": "code"
+    },
+    "amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    },
+    "id_no": {
+     "label": "주민등록번호(사업자번호)",
+     "type": "text",
+     "source": "code"
+    },
+    "name": {
+     "label": "주주명",
+     "type": "text",
+     "source": "code"
+    },
+    "no": {
+     "label": "번호",
+     "type": "text",
+     "source": "code"
+    },
+    "note": {
+     "label": "비고",
+     "type": "text",
+     "source": "code"
+    },
+    "ratio": {
+     "label": "지분율",
+     "type": "text",
+     "source": "code"
+    },
+    "share_type": {
+     "label": "주식종류",
+     "type": "text",
+     "source": "code"
+    },
+    "shares": {
+     "label": "소유주식수",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

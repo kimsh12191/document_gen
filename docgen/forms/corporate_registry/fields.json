@@ -1,4 +1,333 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "authorized_shares": {
+   "label": "발행할주식의총수",
+   "type": "text",
+   "source": "code"
+  },
+  "capital": {
+   "label": "자본금의액",
+   "type": "text",
+   "source": "code"
+  },
+  "capital_change.changed": {
+   "label": "변경연월일",
+   "type": "text",
+   "source": "code"
+  },
+  "capital_change.registered": {
+   "label": "등기연월일",
+   "type": "text",
+   "source": "code"
+  },
+  "common_shares": {
+   "label": "보통주식",
+   "type": "text",
+   "source": "code"
+  },
+  "company_name": {
+   "label": "상호",
+   "type": "text",
+   "source": "code"
+  },
+  "company_name_change.changed": {
+   "label": "변경연월일",
+   "type": "text",
+   "source": "code"
+  },
+  "company_name_change.registered": {
+   "label": "등기연월일",
+   "type": "text",
+   "source": "code"
+  },
+  "confirm_no": {
+   "label": "발급확인번호",
+   "type": "text",
+   "source": "code"
+  },
+  "corp_reg_no": {
+   "label": "등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "established": {
+   "label": "회사성립연월일",
+   "type": "text",
+   "source": "code"
+  },
+  "fee": {
+   "label": "수수료",
+   "type": "text",
+   "source": "code"
+  },
+  "head_office": {
+   "label": "본점",
+   "type": "text",
+   "source": "code"
+  },
+  "head_office_change.changed": {
+   "label": "변경연월일",
+   "type": "text",
+   "source": "code"
+  },
+  "head_office_change.registered": {
+   "label": "등기연월일",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발행일",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date_short": {
+   "label": "발행일",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_no": {
+   "label": "발행번호",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_scope": {
+   "label": "증명서구분",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_type": {
+   "label": "발급구분",
+   "type": "text",
+   "source": "code"
+  },
+  "issued_shares": {
+   "label": "발행주식의총수",
+   "type": "text",
+   "source": "code"
+  },
+  "jurisdiction": {
+   "label": "관할등기소",
+   "type": "text",
+   "source": "code"
+  },
+  "notice_method": {
+   "label": "공고방법",
+   "type": "text",
+   "source": "code"
+  },
+  "opening_date": {
+   "label": "등기기록개설일",
+   "type": "text",
+   "source": "code"
+  },
+  "opening_reason": {
+   "label": "등기기록개설사유",
+   "type": "text",
+   "source": "code"
+  },
+  "par_value": {
+   "label": "1주의금액",
+   "type": "text",
+   "source": "code"
+  },
+  "purpose_change.changed": {
+   "label": "변경연월일",
+   "type": "text",
+   "source": "code"
+  },
+  "purpose_change.registered": {
+   "label": "등기연월일",
+   "type": "text",
+   "source": "code"
+  },
+  "reg_no": {
+   "label": "등기번호",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "viewed_at": {
+   "label": "열람일시",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "branches": {
+   "source": "code",
+   "fields": {
+    "address": {
+     "label": "지점소재지",
+     "type": "text",
+     "source": "code"
+    },
+    "no": {
+     "label": "지점번호",
+     "type": "text",
+     "source": "code"
+    },
+    "opened": {
+     "label": "설치일",
+     "type": "text",
+     "source": "code"
+    },
+    "opened_registered": {
+     "label": "등기일",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "capital_history": {
+   "source": "code",
+   "fields": {
+    "capital": {
+     "label": "자본금의액",
+     "type": "text",
+     "source": "code"
+    },
+    "changed": {
+     "label": "변경연월일",
+     "type": "text",
+     "source": "code"
+    },
+    "common_shares": {
+     "label": "보통주식",
+     "type": "text",
+     "source": "code"
+    },
+    "issued_shares": {
+     "label": "발행주식의총수",
+     "type": "text",
+     "source": "code"
+    },
+    "registered": {
+     "label": "등기연월일",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "name_history": {
+   "source": "code",
+   "fields": {
+    "name": {
+     "label": "상호",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "office_history": {
+   "source": "code",
+   "fields": {
+    "address": {
+     "label": "본점",
+     "type": "text",
+     "source": "code"
+    },
+    "changed": {
+     "label": "변경연월일",
+     "type": "text",
+     "source": "code"
+    },
+    "registered": {
+     "label": "등기연월일",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "officers": {
+   "source": "code",
+   "fields": {
+    "address": {
+     "label": "주소",
+     "type": "text",
+     "source": "code"
+    },
+    "appointed": {
+     "label": "취임일",
+     "type": "text",
+     "source": "code"
+    },
+    "appointment_type": {
+     "label": "취임구분",
+     "type": "text",
+     "source": "code"
+    },
+    "end_registered": {
+     "label": "등기일",
+     "type": "text",
+     "source": "code"
+    },
+    "end_type": {
+     "label": "퇴임구분",
+     "type": "text",
+     "source": "code"
+    },
+    "ended": {
+     "label": "퇴임일",
+     "type": "text",
+     "source": "code"
+    },
+    "name": {
+     "label": "성명",
+     "type": "text",
+     "source": "code"
+    },
+    "position": {
+     "label": "직위",
+     "type": "text",
+     "source": "code"
+    },
+    "registered": {
+     "label": "등기일",
+     "type": "text",
+     "source": "code"
+    },
+    "rrn": {
+     "label": "주민등록번호",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "purpose_history": {
+   "source": "code",
+   "fields": {
+    "changed": {
+     "label": "변경연월일",
+     "type": "text",
+     "source": "code"
+    },
+    "purposes.#": {
+     "label": "목적",
+     "type": "text",
+     "source": "code"
+    },
+    "registered": {
+     "label": "등기연월일",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "purposes.#": {
+   "source": "code",
+   "fields": {
+    "#": {
+     "label": "목적",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

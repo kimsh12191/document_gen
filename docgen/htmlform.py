@@ -34,6 +34,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent   # docgen/
 PREFIX = "@form/"
+CODE = "code"   # 값 출처 "code": 코드 서식의 생성 함수(docgen/docs/*.py)가 만든 값 그대로
 ID_RX = re.compile(r"[a-z][a-z0-9_]{2,50}")
 _local = threading.local()
 
@@ -91,9 +92,47 @@ def builtin_values(doc_id: str, p, rng: random.Random, data: dict) -> dict:
         f = formfields.read(doc_id) if formfields.exists(doc_id) else None
     except KeyError:
         return data
-    if f and (f.get("fields") or f.get("lists")):
+    if f and own(f):
         return fill(f, p, rng, data)
     return data
+
+
+def own(f: dict) -> bool:
+    """칸 목록에 생성 함수 값이 아닌 값 선언이 있나 ("code" 만 적힌 칸 목록은 결과를 바꾸지 않는다)."""
+    return any(it.get("source") != CODE for it in (f.get("fields") or {}).values()) or \
+        any(L.get("source") != CODE or any(it.get("source") != CODE for it in (L.get("fields") or {}).values())
+            for L in (f.get("lists") or {}).values())
+
+
+def declare(doc_id: str, seeds: int = 24) -> dict:
+    """코드 서식의 칸을 칸 목록 꼴로: 여러 seed 로 그려 나온 키마다 {"label", "type", "source": "code"}.
+    반복 행(키에 번호)은 lists 로 모은다. {"fields": {...}, "lists": {...}}."""
+    from collections import Counter
+
+    from .entities import make_profile
+    from .registry import load_all
+    from .render import render
+
+    spec = load_all()[doc_id]
+    seen: dict[str, Counter] = {}
+    types: dict[str, str] = {}
+    for seed in range(seeds):
+        _, raw, _ = render(spec, make_profile(seed), seed)
+        for r in raw:
+            k = re.sub(r"\.\d+(?=\.|$)", ".#", r["key"])
+            seen.setdefault(k, Counter())[r.get("label") or ""] += 1
+            types.setdefault(k, r.get("type") or "text")
+    fields, lists = {}, {}
+    for k in sorted(seen):
+        label = seen[k].most_common(1)[0][0]
+        entry = {**({"label": label} if label else {}), "type": types[k], "source": CODE}
+        if ".#." in k or k.endswith(".#"):
+            name, _, sub = k.partition(".#.")
+            L = lists.setdefault(name, {"source": CODE, "fields": {}})
+            L["fields"][sub or "#"] = entry
+        else:
+            fields[k] = entry
+    return {"fields": fields, "lists": lists}
 
 
 def template_source(doc_id: str) -> str:
@@ -161,6 +200,8 @@ def fill(form: dict, p, rng: random.Random, data: dict | None = None) -> dict:
     data = data if data is not None else {}
     values = None
     for key, it in (form.get("fields") or {}).items():
+        if it.get("source") == CODE:   # 코드 서식의 생성 함수 값 그대로
+            continue
         src = it.get("source") or f"rule:{it.get('type') or 'note'}"
         if values is None and src.startswith("rule:"):
             from .realform import Values
@@ -188,6 +229,27 @@ def fill(form: dict, p, rng: random.Random, data: dict | None = None) -> dict:
         _set(data, key, value)
     mode = getattr(_local, "rows", None)
     for name, L in (form.get("lists") or {}).items():
+        if L.get("source") == CODE:   # 행은 생성 함수 것 그대로, 값 출처를 바꾼 하위 칸만 행마다 덮어쓴다
+            from .render import lookup
+
+            try:
+                rows = lookup(data, name)
+            except (KeyError, IndexError, AttributeError, TypeError, ValueError):
+                rows = None
+            for sub, it in (L.get("fields") or {}).items():
+                if it.get("source") == CODE or not isinstance(rows, list) or "#" in sub:
+                    continue
+                src = it.get("source")
+                if values is None and src.startswith("rule:"):
+                    from .realform import Values
+
+                    values = Values(p, rng, it.get("class", "기본"))
+                for i, row in enumerate(rows):
+                    if isinstance(row, dict):
+                        if src.startswith("rule:") and src[5:] not in S.SPECIAL_RULES:
+                            values.cache.pop(src[5:], None)
+                        _set(row, sub, S.value(src, p, rng, {"label": sub.split(".")[-1], **it}, values, row=i))
+            continue
         lo, hi = int(L.get("min", 1)), int(L.get("max", L.get("min", 1)))
         hi = max(lo, hi)
         n = lo if mode == "min" else hi if mode == "max" else rng.randint(lo, hi)
@@ -195,6 +257,8 @@ def fill(form: dict, p, rng: random.Random, data: dict | None = None) -> dict:
         for i in range(n):
             row = {}
             for sub, it in (L.get("fields") or {}).items():
+                if it.get("source") == CODE:
+                    continue
                 src = it.get("source") or f"rule:{it.get('type') or 'note'}"
                 if values is None and src.startswith("rule:"):
                     from .realform import Values

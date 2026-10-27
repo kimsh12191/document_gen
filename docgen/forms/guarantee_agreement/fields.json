@@ -1,4 +1,183 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "bank": {
+   "label": "은행명",
+   "type": "text",
+   "source": "code"
+  },
+  "branch": {
+   "label": "취급점",
+   "type": "text",
+   "source": "code"
+  },
+  "contract_date": {
+   "label": "약정일",
+   "type": "text",
+   "source": "code"
+  },
+  "creditor": {
+   "label": "채권자",
+   "type": "text",
+   "source": "code"
+  },
+  "debtor.address": {
+   "label": "소재지",
+   "type": "text",
+   "source": "code"
+  },
+  "debtor.biz_no": {
+   "label": "사업자등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "debtor.ceo": {
+   "label": "대표자",
+   "type": "text",
+   "source": "code"
+  },
+  "debtor.name": {
+   "label": "채무자",
+   "type": "text",
+   "source": "code"
+  },
+  "explained": {
+   "label": "설명이해확인",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "guarantor.address": {
+   "label": "보증인주소",
+   "type": "text",
+   "source": "code"
+  },
+  "guarantor.name": {
+   "label": "보증인",
+   "type": "text",
+   "source": "code"
+  },
+  "guarantor.phone": {
+   "label": "연락처",
+   "type": "text",
+   "source": "code"
+  },
+  "guarantor.relation": {
+   "label": "채무자와의관계",
+   "type": "text",
+   "source": "code"
+  },
+  "guarantor.rrn": {
+   "label": "실명번호",
+   "type": "text",
+   "source": "code"
+  },
+  "handwritten.confirm": {
+   "label": "자필설명확인",
+   "type": "text",
+   "source": "code"
+  },
+  "handwritten.max_amount": {
+   "label": "자필보증채무최고액",
+   "type": "text",
+   "source": "code"
+  },
+  "handwritten.method": {
+   "label": "자필보증방법",
+   "type": "text",
+   "source": "code"
+  },
+  "handwritten.name": {
+   "label": "자필성명",
+   "type": "text",
+   "source": "code"
+  },
+  "max_amount": {
+   "label": "보증채무최고액",
+   "type": "text",
+   "source": "code"
+  },
+  "max_amount_korean": {
+   "label": "보증채무최고액(한글)",
+   "type": "text",
+   "source": "code"
+  },
+  "method": {
+   "label": "보증방법",
+   "type": "text",
+   "source": "code"
+  },
+  "period": {
+   "label": "보증기간",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.co_guarantor": {
+   "label": "인감",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.co_guarantor2": {
+   "label": "인감",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.guarantor": {
+   "label": "보증인",
+   "type": "seal",
+   "source": "code"
+  },
+  "secured_debt": {
+   "label": "피보증채무",
+   "type": "text",
+   "source": "code"
+  },
+  "signature": {
+   "label": "보증인",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "co_guarantors": {
+   "source": "code",
+   "fields": {
+    "address": {
+     "label": "보증인주소",
+     "type": "text",
+     "source": "code"
+    },
+    "name": {
+     "label": "보증인",
+     "type": "text",
+     "source": "code"
+    },
+    "phone": {
+     "label": "연락처",
+     "type": "text",
+     "source": "code"
+    },
+    "relation": {
+     "label": "채무자와의관계",
+     "type": "text",
+     "source": "code"
+    },
+    "rrn": {
+     "label": "실명번호",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "special_terms.#": {
+   "source": "code",
+   "fields": {
+    "#": {
+     "label": "특약사항",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

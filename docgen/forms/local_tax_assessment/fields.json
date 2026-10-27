@@ -1,4 +1,113 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_no": {
+   "label": "발급번호",
+   "type": "text",
+   "source": "code"
+  },
+  "issuer": {
+   "label": "발급기관",
+   "type": "text",
+   "source": "code"
+  },
+  "period": {
+   "label": "과세연도",
+   "type": "text",
+   "source": "code"
+  },
+  "purpose": {
+   "label": "사용목적",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "sum.edu": {
+   "label": "지방교육세합계",
+   "type": "text",
+   "source": "code"
+  },
+  "sum.tax": {
+   "label": "세액합계",
+   "type": "text",
+   "source": "code"
+  },
+  "sum.total": {
+   "label": "총합계",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.address": {
+   "label": "주소(영업소)",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.name": {
+   "label": "성명(법인명)",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.rrn": {
+   "label": "주민(법인,외국인)등록번호",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "items": {
+   "source": "code",
+   "fields": {
+    "base": {
+     "label": "과세표준",
+     "type": "text",
+     "source": "code"
+    },
+    "edu": {
+     "label": "지방교육세",
+     "type": "text",
+     "source": "code"
+    },
+    "kind": {
+     "label": "구분",
+     "type": "text",
+     "source": "code"
+    },
+    "levied": {
+     "label": "부과연월",
+     "type": "text",
+     "source": "code"
+    },
+    "object": {
+     "label": "과세대상",
+     "type": "text",
+     "source": "code"
+    },
+    "tax": {
+     "label": "세액",
+     "type": "text",
+     "source": "code"
+    },
+    "tax_item": {
+     "label": "세목",
+     "type": "text",
+     "source": "code"
+    },
+    "total": {
+     "label": "합계",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

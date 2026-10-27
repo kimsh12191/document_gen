@@ -1,4 +1,66 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "aptitude_period": {
+   "label": "적성검사기간",
+   "type": "text",
+   "source": "code"
+  },
+  "condition": {
+   "label": "조건",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "issuer": {
+   "label": "발급기관",
+   "type": "text",
+   "source": "code"
+  },
+  "license_no": {
+   "label": "면허번호",
+   "type": "text",
+   "source": "code"
+  },
+  "license_type": {
+   "label": "면허종류",
+   "type": "text",
+   "source": "code"
+  },
+  "name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "renewal_period": {
+   "label": "갱신기간",
+   "type": "text",
+   "source": "code"
+  },
+  "rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "serial": {
+   "label": "암호일련번호",
+   "type": "text",
+   "source": "code"
+  }
+ }
 }

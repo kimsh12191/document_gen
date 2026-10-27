@@ -1,4 +1,223 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "buyer.address": {
+   "label": "BuyerAddress",
+   "type": "text",
+   "source": "code"
+  },
+  "buyer.name": {
+   "label": "Buyer",
+   "type": "text",
+   "source": "code"
+  },
+  "buyer.sign_date": {
+   "label": "BuyerSigningDate",
+   "type": "text",
+   "source": "code"
+  },
+  "buyer.signer": {
+   "label": "BuyerSignatory",
+   "type": "text",
+   "source": "code"
+  },
+  "buyer.title": {
+   "label": "BuyerTitle",
+   "type": "text",
+   "source": "code"
+  },
+  "clauses.arbitration": {
+   "label": "Arbitration",
+   "type": "text",
+   "source": "code"
+  },
+  "clauses.destination": {
+   "label": "Destination",
+   "type": "text",
+   "source": "code"
+  },
+  "clauses.inspection": {
+   "label": "Inspection",
+   "type": "text",
+   "source": "code"
+  },
+  "clauses.insurance": {
+   "label": "Insurance",
+   "type": "text",
+   "source": "code"
+  },
+  "clauses.manufacturer": {
+   "label": "Manufacturer",
+   "type": "text",
+   "source": "code"
+  },
+  "clauses.origin": {
+   "label": "Origin",
+   "type": "text",
+   "source": "code"
+  },
+  "clauses.packing": {
+   "label": "Packing",
+   "type": "text",
+   "source": "code"
+  },
+  "clauses.payment": {
+   "label": "Payment",
+   "type": "text",
+   "source": "code"
+  },
+  "clauses.port_of_shipment": {
+   "label": "PortofShipment",
+   "type": "text",
+   "source": "code"
+  },
+  "clauses.price_terms": {
+   "label": "PriceTerms",
+   "type": "text",
+   "source": "code"
+  },
+  "clauses.shipment": {
+   "label": "Shipment",
+   "type": "text",
+   "source": "code"
+  },
+  "clauses.shipping_mark": {
+   "label": "ShippingMark",
+   "type": "text",
+   "source": "code"
+  },
+  "contract_date": {
+   "label": "Date",
+   "type": "text",
+   "source": "code"
+  },
+  "contract_no": {
+   "label": "ContractNo",
+   "type": "text",
+   "source": "code"
+  },
+  "gtc_terms.claim_days": {
+   "label": "ClaimPeriod(days)",
+   "type": "text",
+   "source": "code"
+  },
+  "gtc_terms.governing_law": {
+   "label": "GoverningLaw",
+   "type": "text",
+   "source": "code"
+  },
+  "gtc_terms.inspection_days": {
+   "label": "InspectionPeriod(days)",
+   "type": "text",
+   "source": "code"
+  },
+  "gtc_terms.late_interest": {
+   "label": "LatePaymentInterest",
+   "type": "text",
+   "source": "code"
+  },
+  "gtc_terms.late_penalty": {
+   "label": "LateShipmentPenalty",
+   "type": "text",
+   "source": "code"
+  },
+  "gtc_terms.qty_tolerance": {
+   "label": "QuantityTolerance",
+   "type": "text",
+   "source": "code"
+  },
+  "gtc_terms.warranty": {
+   "label": "WarrantyPeriod",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.buyer": {
+   "label": "BuyerSignature",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.seller": {
+   "label": "SellerSignature",
+   "type": "seal",
+   "source": "code"
+  },
+  "seller.address": {
+   "label": "SellerAddress",
+   "type": "text",
+   "source": "code"
+  },
+  "seller.name": {
+   "label": "Seller",
+   "type": "text",
+   "source": "code"
+  },
+  "seller.sign_date": {
+   "label": "SellerSigningDate",
+   "type": "text",
+   "source": "code"
+  },
+  "seller.signer": {
+   "label": "SellerSignatory",
+   "type": "text",
+   "source": "code"
+  },
+  "seller.title": {
+   "label": "SellerTitle",
+   "type": "text",
+   "source": "code"
+  },
+  "sign.buyer": {
+   "label": "BuyerSignature",
+   "type": "signature",
+   "source": "code"
+  },
+  "sign.seller": {
+   "label": "SellerSignature",
+   "type": "signature",
+   "source": "code"
+  },
+  "total_amount": {
+   "label": "TotalAmount",
+   "type": "text",
+   "source": "code"
+  },
+  "total_words": {
+   "label": "TotalAmountinWords",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "items": {
+   "source": "code",
+   "fields": {
+    "amount": {
+     "label": "Amount",
+     "type": "text",
+     "source": "code"
+    },
+    "description": {
+     "label": "Commodity&Description",
+     "type": "text",
+     "source": "code"
+    },
+    "model": {
+     "label": "Model",
+     "type": "text",
+     "source": "code"
+    },
+    "quantity": {
+     "label": "Quantity",
+     "type": "text",
+     "source": "code"
+    },
+    "unit_price": {
+     "label": "UnitPrice",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

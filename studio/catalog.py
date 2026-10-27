@@ -192,8 +192,9 @@ def _edited(doc_id: str) -> bool:
         f = formfields.read(doc_id)
         return bool(f.get("erase") or f.get("marks") or f.get("dropped") or any(it.get("edited") or it.get("added") for it in f["items"]))
     if not load_all()[doc_id].template.startswith("@") and formfields.exists(doc_id):   # 코드 서식에 적은 값 선언
-        f = formfields.read(doc_id) or {}
-        if f.get("fields") or f.get("lists"):
+        from docgen.htmlform import own
+
+        if own(formfields.read(doc_id) or {}):   # "code"(생성 함수 값 그대로)가 아닌 값 선언
             return True
     return regions.exists(doc_id)
 

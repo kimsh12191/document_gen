@@ -1,4 +1,146 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "applicant": {
+   "label": "신청인",
+   "type": "text",
+   "source": "code"
+  },
+  "cert_type": {
+   "label": "증명서종류",
+   "type": "text",
+   "source": "code"
+  },
+  "doc_check_no": {
+   "label": "문서확인번호",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_time": {
+   "label": "발급시각",
+   "type": "text",
+   "source": "code"
+  },
+  "issuer": {
+   "label": "발급기관",
+   "type": "text",
+   "source": "code"
+  },
+  "marriage.office": {
+   "label": "처리관서",
+   "type": "text",
+   "source": "code"
+  },
+  "marriage.reported": {
+   "label": "신고일",
+   "type": "text",
+   "source": "code"
+  },
+  "marriage.spouse_name": {
+   "label": "배우자",
+   "type": "text",
+   "source": "code"
+  },
+  "marriage.spouse_rrn": {
+   "label": "배우자의주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "officer": {
+   "label": "발급담당자",
+   "type": "text",
+   "source": "code"
+  },
+  "officer_phone": {
+   "label": "전화",
+   "type": "text",
+   "source": "code"
+  },
+  "reg_base": {
+   "label": "등록기준지",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "self.birth": {
+   "label": "출생연월일",
+   "type": "text",
+   "source": "code"
+  },
+  "self.bon": {
+   "label": "본",
+   "type": "text",
+   "source": "code"
+  },
+  "self.gender": {
+   "label": "성별",
+   "type": "text",
+   "source": "code"
+  },
+  "self.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "self.name_hanja": {
+   "label": "성명(한자)",
+   "type": "text",
+   "source": "code"
+  },
+  "self.relation": {
+   "label": "구분",
+   "type": "text",
+   "source": "code"
+  },
+  "self.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "spouse.birth": {
+   "label": "출생연월일",
+   "type": "text",
+   "source": "code"
+  },
+  "spouse.bon": {
+   "label": "본",
+   "type": "text",
+   "source": "code"
+  },
+  "spouse.gender": {
+   "label": "성별",
+   "type": "text",
+   "source": "code"
+  },
+  "spouse.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "spouse.name_hanja": {
+   "label": "성명(한자)",
+   "type": "text",
+   "source": "code"
+  },
+  "spouse.relation": {
+   "label": "구분",
+   "type": "text",
+   "source": "code"
+  },
+  "spouse.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  }
+ }
 }

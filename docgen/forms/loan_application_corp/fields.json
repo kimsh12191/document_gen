@@ -1,4 +1,253 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "agent.name": {
+   "label": "대리인성명",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.phone": {
+   "label": "대리인연락처",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.position": {
+   "label": "대리인직위",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.rrn": {
+   "label": "대리인실명번호",
+   "type": "text",
+   "source": "code"
+  },
+  "apply_date": {
+   "label": "신청일",
+   "type": "text",
+   "source": "code"
+  },
+  "bank": {
+   "label": "은행명",
+   "type": "text",
+   "source": "code"
+  },
+  "branch": {
+   "label": "취급점",
+   "type": "text",
+   "source": "code"
+  },
+  "company.address": {
+   "label": "본점소재지",
+   "type": "text",
+   "source": "code"
+  },
+  "company.biz_no": {
+   "label": "사업자등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "company.capital": {
+   "label": "자본금",
+   "type": "text",
+   "source": "code"
+  },
+  "company.ceo": {
+   "label": "대표자",
+   "type": "text",
+   "source": "code"
+  },
+  "company.corp_no": {
+   "label": "법인등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "company.employees": {
+   "label": "종업원수",
+   "type": "text",
+   "source": "code"
+  },
+  "company.established": {
+   "label": "설립일",
+   "type": "text",
+   "source": "code"
+  },
+  "company.fax": {
+   "label": "팩스번호",
+   "type": "text",
+   "source": "code"
+  },
+  "company.industry": {
+   "label": "업태/종목",
+   "type": "text",
+   "source": "code"
+  },
+  "company.name": {
+   "label": "기업명",
+   "type": "text",
+   "source": "code"
+  },
+  "company.name_en": {
+   "label": "영문명",
+   "type": "text",
+   "source": "code"
+  },
+  "company.phone": {
+   "label": "전화번호",
+   "type": "text",
+   "source": "code"
+  },
+  "company.revenue": {
+   "label": "매출액",
+   "type": "text",
+   "source": "code"
+  },
+  "company.revenue_year": {
+   "label": "결산연도",
+   "type": "text",
+   "source": "code"
+  },
+  "company.size": {
+   "label": "기업규모",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "contact.email": {
+   "label": "E-mail",
+   "type": "text",
+   "source": "code"
+  },
+  "contact.name": {
+   "label": "담당자",
+   "type": "text",
+   "source": "code"
+  },
+  "contact.phone": {
+   "label": "연락처",
+   "type": "text",
+   "source": "code"
+  },
+  "contact.position": {
+   "label": "부서/직위",
+   "type": "text",
+   "source": "code"
+  },
+  "loan.amount": {
+   "label": "신청금액",
+   "type": "text",
+   "source": "code"
+  },
+  "loan.amount_korean": {
+   "label": "신청금액(한글)",
+   "type": "text",
+   "source": "code"
+  },
+  "loan.collateral": {
+   "label": "담보구분",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "loan.collateral_detail": {
+   "label": "담보/보증내용",
+   "type": "text",
+   "source": "code"
+  },
+  "loan.deposit_account": {
+   "label": "대출금입금계좌",
+   "type": "text",
+   "source": "code"
+  },
+  "loan.fund_type": {
+   "label": "자금구분",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "loan.hope_date": {
+   "label": "대출희망일",
+   "type": "text",
+   "source": "code"
+  },
+  "loan.product": {
+   "label": "상품명",
+   "type": "text",
+   "source": "code"
+  },
+  "loan.purpose": {
+   "label": "자금용도",
+   "type": "text",
+   "source": "code"
+  },
+  "loan.rate_type": {
+   "label": "금리종류",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "loan.repayment": {
+   "label": "상환방법",
+   "type": "text",
+   "source": "code"
+  },
+  "loan.subject": {
+   "label": "여신과목",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "loan.term": {
+   "label": "여신기간",
+   "type": "text",
+   "source": "code"
+  },
+  "other_loans_total": {
+   "label": "합계",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.agent": {
+   "label": "대리인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.corp": {
+   "label": "법인인감",
+   "type": "seal",
+   "source": "code"
+  },
+  "sign.agent": {
+   "label": "대리인",
+   "type": "signature",
+   "source": "code"
+  },
+  "signature": {
+   "label": "대표이사",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "other_loans": {
+   "source": "code",
+   "fields": {
+    "balance": {
+     "label": "잔액",
+     "type": "text",
+     "source": "code"
+    },
+    "collateral": {
+     "label": "담보",
+     "type": "text",
+     "source": "code"
+    },
+    "kind": {
+     "label": "여신종류",
+     "type": "text",
+     "source": "code"
+    },
+    "lender": {
+     "label": "금융기관",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

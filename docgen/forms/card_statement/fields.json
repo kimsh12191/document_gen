@@ -1,4 +1,168 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "card_no": {
+   "label": "카드번호",
+   "type": "text",
+   "source": "code"
+  },
+  "company": {
+   "label": "카드사",
+   "type": "text",
+   "source": "code"
+  },
+  "fee_rate": {
+   "label": "할부수수료율",
+   "type": "text",
+   "source": "code"
+  },
+  "member": {
+   "label": "회원명",
+   "type": "text",
+   "source": "code"
+  },
+  "pay_account": {
+   "label": "결제계좌",
+   "type": "text",
+   "source": "code"
+  },
+  "pay_date": {
+   "label": "결제일",
+   "type": "text",
+   "source": "code"
+  },
+  "statement_month": {
+   "label": "청구월",
+   "type": "text",
+   "source": "code"
+  },
+  "sum.amount": {
+   "label": "이용금액합계",
+   "type": "text",
+   "source": "code"
+  },
+  "sum.fee": {
+   "label": "수수료합계",
+   "type": "text",
+   "source": "code"
+  },
+  "sum.principal": {
+   "label": "결제원금합계",
+   "type": "text",
+   "source": "code"
+  },
+  "summary.cash": {
+   "label": "현금서비스",
+   "type": "text",
+   "source": "code"
+  },
+  "summary.fee": {
+   "label": "수수료(이자)",
+   "type": "text",
+   "source": "code"
+  },
+  "summary.installment": {
+   "label": "할부",
+   "type": "text",
+   "source": "code"
+  },
+  "summary.limit": {
+   "label": "이용한도",
+   "type": "text",
+   "source": "code"
+  },
+  "summary.lump": {
+   "label": "일시불",
+   "type": "text",
+   "source": "code"
+  },
+  "summary.next_month": {
+   "label": "다음달결제예정금액",
+   "type": "text",
+   "source": "code"
+  },
+  "summary.overdue": {
+   "label": "연체금액",
+   "type": "text",
+   "source": "code"
+  },
+  "summary.overdue_fee": {
+   "label": "연체이자",
+   "type": "text",
+   "source": "code"
+  },
+  "summary.total": {
+   "label": "청구금액",
+   "type": "text",
+   "source": "code"
+  },
+  "usage_period": {
+   "label": "이용기간",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "fee_per_100": {
+   "source": "code",
+   "fields": {
+    "fee": {
+     "label": "100원당수수료",
+     "type": "text",
+     "source": "code"
+    },
+    "months": {
+     "label": "할부개월",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "rows": {
+   "source": "code",
+   "fields": {
+    "after": {
+     "label": "결제후잔액",
+     "type": "text",
+     "source": "code"
+    },
+    "amount": {
+     "label": "이용금액",
+     "type": "text",
+     "source": "code"
+    },
+    "date": {
+     "label": "이용일자",
+     "type": "text",
+     "source": "code"
+    },
+    "fee": {
+     "label": "수수료(이자)",
+     "type": "text",
+     "source": "code"
+    },
+    "merchant": {
+     "label": "이용하신가맹점",
+     "type": "text",
+     "source": "code"
+    },
+    "months": {
+     "label": "할부",
+     "type": "text",
+     "source": "code"
+    },
+    "principal": {
+     "label": "원금",
+     "type": "text",
+     "source": "code"
+    },
+    "seq": {
+     "label": "회차",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

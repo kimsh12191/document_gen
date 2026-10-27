@@ -1,4 +1,348 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "accept_date": {
+   "label": "수리일자",
+   "type": "text",
+   "source": "code"
+  },
+  "amendment.date": {
+   "label": "정정승인일자",
+   "type": "text",
+   "source": "code"
+  },
+  "amendment.reason": {
+   "label": "정정사유",
+   "type": "text",
+   "source": "code"
+  },
+  "arrival_date": {
+   "label": "입항일",
+   "type": "text",
+   "source": "code"
+  },
+  "arrival_port": {
+   "label": "국내도착항",
+   "type": "text",
+   "source": "code"
+  },
+  "bl_no": {
+   "label": "B/L번호",
+   "type": "text",
+   "source": "code"
+  },
+  "cargo_no": {
+   "label": "화물관리번호",
+   "type": "text",
+   "source": "code"
+  },
+  "carrier_code": {
+   "label": "운수기관부호",
+   "type": "text",
+   "source": "code"
+  },
+  "clearance_plan": {
+   "label": "통관계획",
+   "type": "text",
+   "source": "code"
+  },
+  "collection_type": {
+   "label": "징수형태",
+   "type": "text",
+   "source": "code"
+  },
+  "customs": {
+   "label": "세관.과",
+   "type": "text",
+   "source": "code"
+  },
+  "customs_office": {
+   "label": "세관",
+   "type": "text",
+   "source": "code"
+  },
+  "decl_date": {
+   "label": "신고일",
+   "type": "text",
+   "source": "code"
+  },
+  "decl_no": {
+   "label": "신고번호",
+   "type": "text",
+   "source": "code"
+  },
+  "declarant": {
+   "label": "신고인",
+   "type": "text",
+   "source": "code"
+  },
+  "exchange_rate": {
+   "label": "환율",
+   "type": "text",
+   "source": "code"
+  },
+  "export_country": {
+   "label": "적출국",
+   "type": "text",
+   "source": "code"
+  },
+  "forwarder": {
+   "label": "운송주선인",
+   "type": "text",
+   "source": "code"
+  },
+  "freight": {
+   "label": "운임",
+   "type": "text",
+   "source": "code"
+  },
+  "importer.code": {
+   "label": "수입자통관고유부호",
+   "type": "text",
+   "source": "code"
+  },
+  "importer.name": {
+   "label": "수입자",
+   "type": "text",
+   "source": "code"
+  },
+  "inspection_place": {
+   "label": "검사(반입)장소",
+   "type": "text",
+   "source": "code"
+  },
+  "insurance": {
+   "label": "보험료",
+   "type": "text",
+   "source": "code"
+  },
+  "line_total": {
+   "label": "총란수",
+   "type": "text",
+   "source": "code"
+  },
+  "master_bl": {
+   "label": "MASTERB/L번호",
+   "type": "text",
+   "source": "code"
+  },
+  "officer": {
+   "label": "담당자",
+   "type": "text",
+   "source": "code"
+  },
+  "origin_cert": {
+   "label": "원산지증명서유무",
+   "type": "text",
+   "source": "code"
+  },
+  "payment": {
+   "label": "결제금액",
+   "type": "text",
+   "source": "code"
+  },
+  "receipt_datetime": {
+   "label": "접수일시",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "supplier": {
+   "label": "해외거래처",
+   "type": "text",
+   "source": "code"
+  },
+  "tax.duty": {
+   "label": "관세",
+   "type": "text",
+   "source": "code"
+  },
+  "tax.total": {
+   "label": "총세액합계",
+   "type": "text",
+   "source": "code"
+  },
+  "tax.vat": {
+   "label": "부가세",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.address": {
+   "label": "납세의무자주소",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.biz_no": {
+   "label": "사업자등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.ceo": {
+   "label": "납세의무자성명",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.code": {
+   "label": "납세의무자통관고유부호",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.name": {
+   "label": "납세의무자상호",
+   "type": "text",
+   "source": "code"
+  },
+  "total_packages": {
+   "label": "총포장갯수",
+   "type": "text",
+   "source": "code"
+  },
+  "total_taxable": {
+   "label": "총과세가격",
+   "type": "text",
+   "source": "code"
+  },
+  "total_weight": {
+   "label": "총중량",
+   "type": "text",
+   "source": "code"
+  },
+  "transport": {
+   "label": "운송형태",
+   "type": "text",
+   "source": "code"
+  },
+  "vat_base": {
+   "label": "부가가치세과표",
+   "type": "text",
+   "source": "code"
+  },
+  "vessel": {
+   "label": "선기명",
+   "type": "text",
+   "source": "code"
+  },
+  "warehouse_date": {
+   "label": "반입일",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "items": {
+   "source": "code",
+   "fields": {
+    "duty_amount": {
+     "label": "관세액",
+     "type": "text",
+     "source": "code"
+    },
+    "duty_rate": {
+     "label": "관세율",
+     "type": "text",
+     "source": "code"
+    },
+    "duty_type": {
+     "label": "세종",
+     "type": "text",
+     "source": "code"
+    },
+    "hs_code": {
+     "label": "세번부호",
+     "type": "text",
+     "source": "code"
+    },
+    "line_no": {
+     "label": "란번호",
+     "type": "text",
+     "source": "code"
+    },
+    "net_weight": {
+     "label": "순중량",
+     "type": "text",
+     "source": "code"
+    },
+    "origin": {
+     "label": "원산지",
+     "type": "text",
+     "source": "code"
+    },
+    "reduction.amount": {
+     "label": "감면액",
+     "type": "text",
+     "source": "code"
+    },
+    "reduction.code": {
+     "label": "감면분납부호",
+     "type": "text",
+     "source": "code"
+    },
+    "reduction.rate": {
+     "label": "감면율",
+     "type": "text",
+     "source": "code"
+    },
+    "specs.#.amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    },
+    "specs.#.model": {
+     "label": "모델·규격",
+     "type": "text",
+     "source": "code"
+    },
+    "specs.#.no": {
+     "label": "규격번호",
+     "type": "text",
+     "source": "code"
+    },
+    "specs.#.quantity": {
+     "label": "수량",
+     "type": "text",
+     "source": "code"
+    },
+    "specs.#.unit_price": {
+     "label": "단가",
+     "type": "text",
+     "source": "code"
+    },
+    "std_name": {
+     "label": "품명",
+     "type": "text",
+     "source": "code"
+    },
+    "taxable_krw": {
+     "label": "과세가격(원화)",
+     "type": "text",
+     "source": "code"
+    },
+    "taxable_usd": {
+     "label": "과세가격(USD)",
+     "type": "text",
+     "source": "code"
+    },
+    "trade_name": {
+     "label": "거래품명",
+     "type": "text",
+     "source": "code"
+    },
+    "vat_amount": {
+     "label": "부가세액",
+     "type": "text",
+     "source": "code"
+    },
+    "vat_rate": {
+     "label": "부가세율",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

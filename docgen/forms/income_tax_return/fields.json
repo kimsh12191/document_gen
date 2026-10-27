@@ -1,4 +1,378 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "bookkeeping": {
+   "label": "기장의무",
+   "type": "text",
+   "source": "code"
+  },
+  "business_income.address": {
+   "label": "사업장소재지",
+   "type": "text",
+   "source": "code"
+  },
+  "business_income.biz_no": {
+   "label": "사업자등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "business_income.code": {
+   "label": "업종코드",
+   "type": "text",
+   "source": "code"
+  },
+  "business_income.expense": {
+   "label": "필요경비",
+   "type": "text",
+   "source": "code"
+  },
+  "business_income.income": {
+   "label": "소득금액",
+   "type": "text",
+   "source": "code"
+  },
+  "business_income.partner": {
+   "label": "공동사업자",
+   "type": "text",
+   "source": "code"
+  },
+  "business_income.revenue": {
+   "label": "총수입금액",
+   "type": "text",
+   "source": "code"
+  },
+  "business_income.share": {
+   "label": "손익분배비율",
+   "type": "text",
+   "source": "code"
+  },
+  "business_income.trade_name": {
+   "label": "상호",
+   "type": "text",
+   "source": "code"
+  },
+  "filed_date": {
+   "label": "신고일",
+   "type": "text",
+   "source": "code"
+  },
+  "filing_kind": {
+   "label": "신고구분",
+   "type": "text",
+   "source": "code"
+  },
+  "filing_type": {
+   "label": "신고유형",
+   "type": "text",
+   "source": "code"
+  },
+  "national.additional": {
+   "label": "추가납부세액",
+   "type": "text",
+   "source": "code"
+  },
+  "national.base": {
+   "label": "과세표준",
+   "type": "text",
+   "source": "code"
+  },
+  "national.computed": {
+   "label": "산출세액",
+   "type": "text",
+   "source": "code"
+  },
+  "national.credit": {
+   "label": "세액공제",
+   "type": "text",
+   "source": "code"
+  },
+  "national.deduction": {
+   "label": "소득공제",
+   "type": "text",
+   "source": "code"
+  },
+  "national.determined": {
+   "label": "결정세액",
+   "type": "text",
+   "source": "code"
+  },
+  "national.due_payable": {
+   "label": "신고기한이내납부할세액",
+   "type": "text",
+   "source": "code"
+  },
+  "national.installment": {
+   "label": "분납할세액",
+   "type": "text",
+   "source": "code"
+  },
+  "national.payable": {
+   "label": "납부(환급)할총세액",
+   "type": "text",
+   "source": "code"
+  },
+  "national.penalty": {
+   "label": "가산세",
+   "type": "text",
+   "source": "code"
+  },
+  "national.prepaid": {
+   "label": "기납부세액",
+   "type": "text",
+   "source": "code"
+  },
+  "national.rate": {
+   "label": "세율",
+   "type": "text",
+   "source": "code"
+  },
+  "national.reduction": {
+   "label": "세액감면",
+   "type": "text",
+   "source": "code"
+  },
+  "national.special_add": {
+   "label": "납부특례세액가산",
+   "type": "text",
+   "source": "code"
+  },
+  "national.special_deduct": {
+   "label": "납부특례세액차감",
+   "type": "text",
+   "source": "code"
+  },
+  "national.total": {
+   "label": "합계",
+   "type": "text",
+   "source": "code"
+  },
+  "national.total_income": {
+   "label": "종합소득금액",
+   "type": "text",
+   "source": "code"
+  },
+  "nationality": {
+   "label": "내ㆍ외국인",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "refund_account.bank": {
+   "label": "금융기관/체신관서명",
+   "type": "text",
+   "source": "code"
+  },
+  "refund_account.number": {
+   "label": "계좌번호",
+   "type": "text",
+   "source": "code"
+  },
+  "residency": {
+   "label": "거주구분",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "seal.tax_agent": {
+   "label": "세무대리인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.taxpayer": {
+   "label": "신고인",
+   "type": "seal",
+   "source": "code"
+  },
+  "sign.tax_agent": {
+   "label": "세무대리인",
+   "type": "signature",
+   "source": "code"
+  },
+  "sign.taxpayer": {
+   "label": "신고인",
+   "type": "signature",
+   "source": "code"
+  },
+  "tax_agent.biz_no": {
+   "label": "세무대리인사업자등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "tax_agent.name": {
+   "label": "세무대리인",
+   "type": "text",
+   "source": "code"
+  },
+  "tax_agent.phone": {
+   "label": "세무대리인전화번호",
+   "type": "text",
+   "source": "code"
+  },
+  "tax_office": {
+   "label": "세무서장",
+   "type": "text",
+   "source": "code"
+  },
+  "tax_year": {
+   "label": "귀속연도",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.biz_phone": {
+   "label": "사업장전화번호",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.email": {
+   "label": "전자우편주소",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.mobile": {
+   "label": "휴대전화번호",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "credit_items": {
+   "source": "code",
+   "fields": {
+    "amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    },
+    "item": {
+     "label": "세액공제항목",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "deduction_items": {
+   "source": "code",
+   "fields": {
+    "amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    },
+    "item": {
+     "label": "소득공제항목",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "dependents": {
+   "source": "code",
+   "fields": {
+    "basic": {
+     "label": "기본공제",
+     "type": "text",
+     "source": "code"
+    },
+    "extra": {
+     "label": "추가공제",
+     "type": "text",
+     "source": "code"
+    },
+    "name": {
+     "label": "성명",
+     "type": "text",
+     "source": "code"
+    },
+    "relation": {
+     "label": "관계",
+     "type": "text",
+     "source": "code"
+    },
+    "rrn": {
+     "label": "주민등록번호",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "incomes": {
+   "source": "code",
+   "fields": {
+    "amount": {
+     "label": "소득금액",
+     "type": "text",
+     "source": "code"
+    },
+    "expense": {
+     "label": "필요경비",
+     "type": "text",
+     "source": "code"
+    },
+    "payer": {
+     "label": "소득의지급자",
+     "type": "text",
+     "source": "code"
+    },
+    "revenue": {
+     "label": "총수입금액",
+     "type": "text",
+     "source": "code"
+    },
+    "type": {
+     "label": "소득구분",
+     "type": "text",
+     "source": "code"
+    },
+    "withheld": {
+     "label": "원천징수세액",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "penalty_items": {
+   "source": "code",
+   "fields": {
+    "amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    },
+    "item": {
+     "label": "가산세항목",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "prepaid_items": {
+   "source": "code",
+   "fields": {
+    "amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    },
+    "item": {
+     "label": "기납부세액항목",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

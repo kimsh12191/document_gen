@@ -445,6 +445,25 @@ def freeze(apply: bool = False, ids: list[str] | None = None) -> list[dict]:
     return rows
 
 
+def declare(apply: bool = False, ids: list[str] | None = None, seeds: int = 24) -> list[dict]:
+    """코드 서식(html 70종)의 칸을 칸 목록에 적는다: 여러 seed 로 그려 나온 키마다 항목명·종류와 source "code"
+    (값은 생성 함수 그대로). 사람이 값 출처를 바꾼 칸은 건드리지 않는다. [{id, keys, new}]."""
+    from . import formfields
+    from .htmlform import declare as found
+    from .registry import load_all
+
+    rows = []
+    for doc_id in ids or sorted(load_all()):
+        spec = load_all()[doc_id]
+        if spec.template.startswith("@") or spec.template == "_real_form.html.j2":
+            continue
+        d = found(doc_id, seeds)
+        n = sum(len(L["fields"]) for L in d["lists"].values()) + len(d["fields"])
+        new = formfields.merge_declared(doc_id, d)[1] if apply else n
+        rows.append({"id": doc_id, "keys": n, "new": new})
+    return rows
+
+
 def _register_again() -> None:
     """옮긴 뒤 같은 프로세스에서 레이아웃 캐시를 비운다."""
     from . import realform
@@ -492,12 +511,24 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="python -m docgen.formdir", description="서식 폴더 (서식 하나 = 폴더 하나)")
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("path", help="이 서식의 파일들").add_argument("id")
+    dc = sub.add_parser("declare", help="코드 서식의 칸을 칸 목록에 적기 (source \"code\", 값은 생성 함수 그대로)")
+    dc.add_argument("ids", nargs="*")
+    dc.add_argument("--apply", action="store_true")
+    dc.add_argument("--seeds", type=int, default=24, help="그려 볼 seed 수 (조건부 칸을 찾으려면 늘린다)")
     m = sub.add_parser("migrate", help="예전 자리의 서식 파일을 서식 폴더로 (사람 수정도 함께)")
     m.add_argument("--apply", action="store_true", help="실제로 옮긴다 (없으면 목록만)")
     a = ap.parse_args(argv)
+    from .registry import load_all
+
     if a.cmd == "path":
         for role, p in describe(a.id):
             print(f"{role:<16} {_rel(p) if p else '-'}" + ("" if p is None or p.exists() else "  (아직 없음)"))
+        return 0
+    if a.cmd == "declare":
+        rows = declare(a.apply, a.ids or None, a.seeds)
+        for r in rows:
+            print(f"{r['id']}: 칸 {r['keys']}개" + (f" (새로 {r['new']}개)" if a.apply else ""))
+        print(f"코드 서식 {len(rows)}개" + ("" if a.apply else ". 목록만 보였습니다. 적으려면 --apply"))
         return 0
     from . import regions
 
@@ -508,6 +539,13 @@ def main(argv=None) -> int:
     for r in reg:
         print(f"{r['status']}  {r['id']} 사람 수정: {', '.join(r['from'])} → {r['to']}")
     frozen = freeze(a.apply)
+    if a.apply:   # 코드 서식의 칸을 칸 목록에 (아직 안 적은 서식만)
+        from . import formfields
+
+        todo = [i for i in sorted(load_all()) if not load_all()[i].template.startswith("@")
+                and load_all()[i].template != "_real_form.html.j2" and not (formfields.read(i) or {}).get("fields")]
+        if todo:
+            print(f"코드 서식 칸 적기 {len(declare(True, todo))}개")
     for r in frozen:
         if r["broken"]:
             print(f"{r['status']}  {r['id']} 칸 목록: 못 찾은 예전 수정 {len(r['broken'])}개 (빠짐): "

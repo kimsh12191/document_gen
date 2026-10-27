@@ -1,4 +1,183 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "amount": {
+   "label": "출금금액",
+   "type": "text",
+   "source": "code"
+  },
+  "applicant.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "applicant.birth": {
+   "label": "생년월일",
+   "type": "text",
+   "source": "code"
+  },
+  "applicant.name": {
+   "label": "신청인",
+   "type": "text",
+   "source": "code"
+  },
+  "applicant.phone": {
+   "label": "연락처",
+   "type": "text",
+   "source": "code"
+  },
+  "apply_date": {
+   "label": "신청일",
+   "type": "text",
+   "source": "code"
+  },
+  "bank": {
+   "label": "은행명",
+   "type": "text",
+   "source": "code"
+  },
+  "biller.fee_type": {
+   "label": "요금종류",
+   "type": "text",
+   "source": "code"
+  },
+  "biller.name": {
+   "label": "수납기관",
+   "type": "text",
+   "source": "code"
+  },
+  "branch": {
+   "label": "취급점",
+   "type": "text",
+   "source": "code"
+  },
+  "debit.account": {
+   "label": "출금계좌번호",
+   "type": "text",
+   "source": "code"
+  },
+  "debit.bank": {
+   "label": "출금은행",
+   "type": "text",
+   "source": "code"
+  },
+  "debit.holder": {
+   "label": "예금주",
+   "type": "text",
+   "source": "code"
+  },
+  "debit.holder_birth": {
+   "label": "예금주생년월일",
+   "type": "text",
+   "source": "code"
+  },
+  "debit.holder_phone": {
+   "label": "예금주휴대전화",
+   "type": "text",
+   "source": "code"
+  },
+  "holder_signature": {
+   "label": "예금주",
+   "type": "text",
+   "source": "code"
+  },
+  "kind": {
+   "label": "신청구분",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "loan_account": {
+   "label": "납부자번호(대출계좌번호)",
+   "type": "text",
+   "source": "code"
+  },
+  "loan_product": {
+   "label": "대출상품명",
+   "type": "text",
+   "source": "code"
+  },
+  "privacy_consent": {
+   "label": "개인정보수집이용동의",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "relation": {
+   "label": "신청인과예금주와의관계",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "seal.applicant": {
+   "label": "신청인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.holder": {
+   "label": "예금주",
+   "type": "seal",
+   "source": "code"
+  },
+  "sign.applicant": {
+   "label": "신청인",
+   "type": "signature",
+   "source": "code"
+  },
+  "sign.holder": {
+   "label": "예금주",
+   "type": "signature",
+   "source": "code"
+  },
+  "signature": {
+   "label": "신청인",
+   "type": "text",
+   "source": "code"
+  },
+  "start_month": {
+   "label": "이체개시",
+   "type": "text",
+   "source": "code"
+  },
+  "target": {
+   "label": "이체대상",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "third_party_consent": {
+   "label": "제3자제공동의",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "transfer_day": {
+   "label": "출금일",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "extra_loans": {
+   "source": "code",
+   "fields": {
+    "loan_account": {
+     "label": "납부자번호",
+     "type": "text",
+     "source": "code"
+    },
+    "loan_product": {
+     "label": "대출상품",
+     "type": "text",
+     "source": "code"
+    },
+    "target": {
+     "label": "이체대상",
+     "type": "text",
+     "source": "code"
+    },
+    "transfer_day": {
+     "label": "출금일",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

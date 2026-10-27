@@ -1,4 +1,118 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_no": {
+   "label": "발급번호",
+   "type": "text",
+   "source": "code"
+  },
+  "issuer": {
+   "label": "발급기관",
+   "type": "text",
+   "source": "code"
+  },
+  "period": {
+   "label": "증명기간",
+   "type": "text",
+   "source": "code"
+  },
+  "purpose": {
+   "label": "용도",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "submit_to": {
+   "label": "제출처",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.address": {
+   "label": "주소(사업장소재지)",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.name": {
+   "label": "성명(대표자)",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "filing_rows": {
+   "source": "code",
+   "fields": {
+    "income": {
+     "label": "소득금액",
+     "type": "text",
+     "source": "code"
+    },
+    "income_type": {
+     "label": "소득구분",
+     "type": "text",
+     "source": "code"
+    },
+    "revenue": {
+     "label": "수입금액",
+     "type": "text",
+     "source": "code"
+    },
+    "year": {
+     "label": "귀속연도",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "rows": {
+   "source": "code",
+   "fields": {
+    "amount": {
+     "label": "소득금액(과세대상급여액)",
+     "type": "text",
+     "source": "code"
+    },
+    "income_type": {
+     "label": "소득구분",
+     "type": "text",
+     "source": "code"
+    },
+    "payer": {
+     "label": "법인명(상호)",
+     "type": "text",
+     "source": "code"
+    },
+    "payer_biz_no": {
+     "label": "사업자등록번호",
+     "type": "text",
+     "source": "code"
+    },
+    "tax": {
+     "label": "총결정세액",
+     "type": "text",
+     "source": "code"
+    },
+    "year": {
+     "label": "귀속연도",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
 }

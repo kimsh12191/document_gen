@@ -1,4 +1,101 @@
 {
  "engine": "html",
- "unit": "px"
+ "unit": "px",
+ "fields": {
+  "agent.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "applicant_signature": {
+   "label": "발급신청자서명",
+   "type": "text",
+   "source": "code"
+  },
+  "applicant_type": {
+   "label": "발급구분",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "buyer.address": {
+   "label": "주소(법인소재지)",
+   "type": "text",
+   "source": "code"
+  },
+  "buyer.name": {
+   "label": "성명(법인명)",
+   "type": "text",
+   "source": "code"
+  },
+  "buyer.rrn": {
+   "label": "주민등록번호(법인등록번호)",
+   "type": "text",
+   "source": "code"
+  },
+  "doc_no": {
+   "label": "인감증명서발급사실확인용번호",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "issuer": {
+   "label": "발급기관",
+   "type": "text",
+   "source": "code"
+  },
+  "person.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "person.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "person.name_hanja": {
+   "label": "한자",
+   "type": "text",
+   "source": "code"
+  },
+  "person.nationality": {
+   "label": "국적",
+   "type": "text",
+   "source": "code"
+  },
+  "person.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.registered": {
+   "label": "등록인감",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal_name": {
+   "label": "인감",
+   "type": "text",
+   "source": "code"
+  },
+  "usage_type": {
+   "label": "용도",
+   "type": "checkbox",
+   "source": "code"
+  }
+ }
 }

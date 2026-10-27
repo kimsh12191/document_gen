@@ -94,3 +94,28 @@ def test_builtin_template_loader_and_paths():
     assert formdir.variants_dir("employment_certificate") == formdir.folder("employment_certificate") / "variants"
     roles = dict(formdir.describe("gov_income"))
     assert roles["값 선언 (form.json)"] == formdir.folder("gov_income") / "form.json"
+
+
+def test_builtin_declarations_and_per_key_override(tmp_path, monkeypatch):
+    """코드 서식 칸 목록: 생성 함수 칸은 source "code" (결과 그대로), 값 출처를 바꾼 칸만 덮어쓴다 (반복 행은 행마다)."""
+    from docgen import formfields
+    from docgen.htmlform import declare
+    from docgen.render import render
+    from docgen.tests.sandbox import forms_sandbox
+
+    load_all()
+    forms_sandbox(monkeypatch, tmp_path, "bank_statement")
+    spec = load_all()["bank_statement"]
+    html, raw, _ = render(spec, make_profile(2), 2)
+    f = formfields.read("bank_statement")
+    assert f["fields"]["holder"]["source"] == "code" and f["lists"]["rows"]["source"] == "code"
+    assert render(spec, make_profile(2), 2)[0] == html   # "code" 만 적힌 칸 목록은 결과를 바꾸지 않는다
+    f["fields"]["holder"] = {"label": "예금주", "source": "rule:fixed", "text": "칸목록"}
+    memo = next(k for k in f["lists"]["rows"]["fields"] if "memo" in k or "desc" in k or "note" in k)
+    f["lists"]["rows"]["fields"][memo] = {"source": "rule:fixed", "text": "행덮어쓰기"}
+    formfields.write("bank_statement", f)
+    _, raw2, data = render(spec, make_profile(2), 2)
+    assert data["holder"] == "칸목록" and all(r[memo] == "행덮어쓰기" for r in data["rows"])
+    assert len(data["rows"]) == len([r for r in raw if r["key"].endswith("." + memo)])   # 행 수는 생성 함수 그대로
+    _, n = formfields.merge_declared("bank_statement", declare("bank_statement", 4))   # 다시 적어도 사람이 바꾼 칸은 그대로
+    assert formfields.read("bank_statement")["fields"]["holder"]["source"] == "rule:fixed" and n == 0
