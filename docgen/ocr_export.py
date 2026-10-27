@@ -88,6 +88,7 @@ def export_fields(gen_dir: Path, out_dir: Path) -> int:
 def background_words(doc_id: str) -> dict[int, list[dict]]:
     """overlay 서식 배경 그림 속 인쇄 글자: pdf 서식은 PDF 글자 층, image 서식은 layout.json 의 texts.
     좌표는 pt. 사람 수정의 배경 지우기 안에 있는 글자는 뺀다. html 서식이면 빈 것."""
+    from . import formdir
     from . import overrides as OV
     from . import realform as RF
 
@@ -99,7 +100,7 @@ def background_words(doc_id: str) -> dict[int, list[dict]]:
         import pymupdf
 
         lay = RF.load_layout(no)
-        with pymupdf.open(RF.ROOT / lay["file"]) as doc:
+        with pymupdf.open(formdir.original_pdf(no)) as doc:
             for i, page in enumerate(doc):
                 out[i] = [{"text": w[4], "bbox": list(w[:4]), "line": f"pdf:{w[5]}:{w[6]}"} for w in page.get_text("words")]
     elif RF.image_form_dir(doc_id) is not None:

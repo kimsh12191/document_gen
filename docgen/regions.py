@@ -1,7 +1,7 @@
-"""서식 수정 파일: 서식 하나 = 파일 하나 = <서식이 있는 곳>/regions/<서식ID>.json.
+"""서식 수정 파일: 서식 하나 = 파일 하나 = 서식 폴더의 regions.json (docgen/formdir.py).
 
-  공개 서식 (저장소)          docgen/forms/regions/<ID>.json
-  사내 서식 (실서류에서 만든 것) $DOCGEN_PRIVATE_FORMS/regions/<ID>.json   (수정도 저장소 밖에 둔다)
+  공개 서식 (저장소)             docgen/forms/<ID>/regions.json
+  사내 서식 (실서류에서 만든 것) $DOCGEN_PRIVATE_FORMS/<ID>/regions.json   (수정도 저장소 밖에 둔다)
 
   overlay 서식 (hf###, img_*)  {"engine": "overlay", "unit": "pt", "items": [...], "add": [...], "erase": [...], "marks": {...}}
                                 내용은 docgen/overrides.py
@@ -10,9 +10,10 @@
                                 내용은 docgen/html_regions.py. html 서식은 템플릿이 칸을 만들고, 이 파일은 그 위의 수정층
                                 (템플릿 칸을 key 로 집어 위치·값·항목명을 바꾸거나 drop, 새 칸 추가).
 
-예전 위치(forms/overrides/<ID>.json, forms/html_regions/<ID>.json, 서식 폴더의 overrides.json·regions.json,
-레이아웃 변형 폴더의 <변형>.regions.json)는 새 파일이 없을 때만 읽는다. 저장하면 새 파일로 쓰고 예전 파일은
-<이름>.migrated 로 바꿔 둔다. 한꺼번에 옮기기: python -m docgen.regions migrate [--apply].
+예전 위치(forms/regions/<ID>.json, <사내 폴더>/regions/<ID>.json, forms/overrides/<ID>.json,
+forms/html_regions/<ID>.json, 이미지 서식 폴더의 overrides.json, 레이아웃 변형 폴더의 <변형>.regions.json)는
+새 파일이 없을 때만 읽는다. 저장하면 새 파일로 쓰고 예전 파일은 <이름>.migrated 로 바꿔 둔다.
+한꺼번에 옮기기: python -m docgen.formdir migrate [--apply] (서식 파일과 함께) 또는 python -m docgen.regions migrate.
 
   python -m docgen.regions path <ID>          이 서식의 수정 파일 위치 (예전 파일이 남았으면 함께)
   python -m docgen.regions show <ID>          최종 칸 목록 (자동 추출·템플릿 칸 + 수정)
@@ -29,7 +30,6 @@ import threading
 from pathlib import Path
 
 DOCGEN = Path(__file__).resolve().parent
-ROOT = DOCGEN / "forms" / "regions"
 LEGACY_OVERLAY = DOCGEN / "forms" / "overrides"
 LEGACY_HTML = DOCGEN / "forms" / "html_regions"
 UNIT = {"overlay": "pt", "html": "px"}
@@ -54,36 +54,49 @@ def engine(doc_id: str) -> str:
     return "overlay" if spec.template == "_real_form.html.j2" else "html"
 
 
-def _form_root(doc_id: str) -> Path | None:
-    """서식 폴더가 있는 서식(가져온 img_*, 화면에서 만든 html)의 그 폴더가 든 곳. 없으면 None."""
-    if doc_id.startswith("img_"):
-        from .realform import image_form_dir
-
-        d = image_form_dir(doc_id)
-    elif re.fullmatch(r"hf\d{3}", doc_id):
-        d = None
-    else:
-        from .htmlform import form_dir
-
-        d = form_dir(doc_id)
-    return d.parent if d else None
-
-
-def home(root: Path | None) -> Path:
-    """서식 폴더가 든 곳 → 수정 파일 폴더. 저장소 안이면 docgen/forms/regions, 사내 폴더면 <사내 폴더>/regions."""
-    if root is None:
-        return ROOT
-    from .htmlform import COPIES
-    from .realform import IMAGE_FORMS
-
-    root = Path(root).resolve()
-    if root == Path(IMAGE_FORMS).resolve():   # docgen/forms/images → docgen/forms/regions (= ROOT)
-        return Path(IMAGE_FORMS).parent / "regions"
-    return ROOT if root == Path(COPIES).resolve() else root / "regions"
-
-
 def path(doc_id: str) -> Path:
-    return home(_form_root(doc_id)) / f"{doc_id}.json"
+    from . import formdir
+
+    return formdir.home(doc_id) / "regions.json"
+
+
+def _private_home(doc_id: str) -> Path | None:
+    """사내 폴더의 서식이면 그 사내 폴더."""
+    from . import formdir
+
+    for r in formdir.private_roots():
+        if (r / doc_id).is_dir():
+            return r
+    return None
+
+
+def _gen2(doc_id: str) -> Path:
+    """바로 전 자리: docgen/forms/regions/<ID>.json (사내 서식은 <사내 폴더>/regions/<ID>.json)."""
+    from . import formdir
+
+    r = _private_home(doc_id)
+    return (r / "regions" / f"{doc_id}.json") if r else formdir.LEGACY_REGIONS / f"{doc_id}.json"
+
+
+def _gen1(doc_id: str) -> list[Path]:
+    """그 전 자리 (기본 레이아웃)."""
+    from . import formdir
+
+    r = _private_home(doc_id)
+    if engine(doc_id) == "overlay":
+        if doc_id.startswith("img_"):
+            return [(r or formdir.LEGACY_IMAGES) / doc_id / "overrides.json"]
+        return [LEGACY_OVERLAY / f"{doc_id}.json"]
+    return [] if r else [LEGACY_HTML / f"{doc_id}.json"]   # 사내 html 은 그때도 <사내 폴더>/<ID>/regions.json (지금 자리)
+
+
+def _variant_files(doc_id: str) -> list[Path]:
+    from . import formdir
+
+    out = []
+    for vd in dict.fromkeys([formdir.variants_dir(doc_id), formdir.LEGACY_VARIANTS / doc_id]):
+        out += sorted(vd.glob("*.regions.json")) if vd.exists() else []
+    return out
 
 
 def legacy(doc_id: str) -> dict[str, Path]:
@@ -92,23 +105,16 @@ def legacy(doc_id: str) -> dict[str, Path]:
         eng = engine(doc_id)
     except KeyError:
         return {}
-    root = _form_root(doc_id)
     out = {}
-    if eng == "overlay":
-        for p in ([root / doc_id / "overrides.json"] if root else []) + [LEGACY_OVERLAY / f"{doc_id}.json"]:
-            if p.exists():
-                out[""] = p
-                break
-        return out
-    for p in ([root / doc_id / "regions.json"] if root else []) + [LEGACY_HTML / f"{doc_id}.json"]:
-        if p.exists():
+    g2 = _gen2(doc_id)
+    if g2.exists():
+        out[""] = g2   # 바로 전 자리에는 변형도 함께 들어 있다
+    for p in _gen1(doc_id):
+        if p.exists() and "" not in out:
             out[""] = p
-            break
-    from .template_variants import folder
-
-    vd = folder(doc_id)
-    for p in sorted(vd.glob("*.regions.json")) if vd.exists() else []:
-        out[p.name[:-len(".regions.json")]] = p
+    if eng == "html" and not g2.exists():
+        for p in _variant_files(doc_id):
+            out.setdefault(p.name[:-len(".regions.json")], p)
     return out
 
 
@@ -119,17 +125,15 @@ def files(doc_id: str) -> list[Path]:
 
 def hash_files(doc_id: str) -> list[Path]:
     """서식 해시(docgen.preview.source_hash: 검수 후 바뀌었는지·데이터셋 기록)에 넣을 수정 파일.
-    해시에는 경로도 들어가므로, 새 파일이 아직 없는 서식은 예전 경로 그대로 둬서 이 코드로 바꿔도 해시가 그대로다
-    (새 파일로 옮긴 서식만 한 번 바뀐다). 예전 레이아웃 변형 파일(<변형>.regions.json)은 preview 가 변형 폴더에서 넣는다."""
-    if path(doc_id).exists():
-        return files(doc_id)
-    root = _form_root(doc_id)
+    해시에는 경로도 들어가므로(새 자리는 formdir.hash_label 이 바로 전 자리 이름으로 바꾼다), 수정 파일을 옮기지 않은
+    서식은 예전 경로 그대로 둬서 해시가 그대로다. 예전 레이아웃 변형 파일은 preview 가 변형 폴더에서 넣는다."""
+    p, g2 = path(doc_id), _gen2(doc_id)
+    if p.exists() or g2.exists():
+        return [f for f in [p, g2] if f.exists()] + [f for f in _gen1(doc_id) if f.exists()]
     if engine(doc_id) == "overlay":
-        return [root / doc_id / "overrides.json" if root and doc_id.startswith("img_") else LEGACY_OVERLAY / f"{doc_id}.json"]
-    from .htmlform import COPIES
-
-    private = root is not None and not root.resolve().is_relative_to(Path(COPIES).resolve())
-    return [LEGACY_OVERLAY / f"{doc_id}.json", root / doc_id / "regions.json" if private else LEGACY_HTML / f"{doc_id}.json"]
+        return _gen1(doc_id)
+    r = _private_home(doc_id)
+    return [LEGACY_OVERLAY / f"{doc_id}.json", (r / doc_id / "regions.json") if r else LEGACY_HTML / f"{doc_id}.json"]
 
 
 def exists(doc_id: str) -> bool:
@@ -220,10 +224,9 @@ def write(doc_id: str, body: dict) -> Path:
     return p
 
 
-def write_new(root: Path | None, doc_id: str, body: dict) -> Path:
-    """아직 등록 전인 가져온 서식(img_*)의 첫 수정: root = 서식 폴더가 든 곳."""
-    p = home(root) / f"{doc_id}.json"
-    p.parent.mkdir(parents=True, exist_ok=True)
+def write_new(form_dir: Path, body: dict) -> Path:
+    """아직 등록 전인 가져온 서식(img_*)의 첫 수정: form_dir = 그 서식 폴더."""
+    p = Path(form_dir) / "regions.json"
     p.write_text(json.dumps({"engine": "overlay", "unit": "pt", **body}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     return p
 

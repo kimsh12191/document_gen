@@ -52,7 +52,7 @@ python -m studio --host 0.0.0.0       # 서버에서 띄우고 다른 PC 브라�
 | | **검수**: 자동 검사(한글 키, 값 영역 겹침, 영역 안 인쇄 글자, 깨진 수정, 안 채워지는 칸 — 경고만), 검수 완료 버튼(누른 사람·날짜, 서식 파일이 바뀌면 "재검수 필요"), 학습/평가 배정, 메모, 문제 표시 목록 |
 | | **문항 Q/A**: 과제별 공통 질문·answer JSON Schema, 실제 생성기의 고객별 문항(입력 이미지·질문 전문·정답 JSON·모델 출력 예시·채점 조건). 시나리오 작업에서도 같은 Q/A 보기 사용 ([DESIGN.md](DESIGN.md) 9.3.1) |
 | | 키 목록(30번 렌더링 기준 채움률·예시, 한글 키 표시), 파일(이 서식을 정하는 파일) |
-| | **복제** (html 서식): 템플릿을 사본으로 `docgen/templates/copies/<ID>/` 에 만들고 html 편집기로. 값은 부모 생성 함수 + form.json |
+| | **복제** (html 서식): 템플릿을 사본으로 `docgen/forms/<ID>/` 에 만들고 html 편집기로. 값은 부모 생성 함수 + form.json |
 | | **html 편집** (복제·분석기 서식): 템플릿·form.json 고치기, 저장 전 미리보기(Ctrl+Enter), 행 수 서식대로/최소/최대, 원본 그림 겹쳐 보기, 검사(선언·템플릿 키, 쪽 넘침), 미리보기 박스 → 템플릿의 그 키, "분석기에 다시 고쳐" |
 | ② 표시 요소 | 확률(손글씨 비율, 결재란, 서명·도장 자리), 풀(체크 표시·서명 이미지 올리기, 도장 틀, 손글씨·인쇄체 글꼴)의 가중치·켜기, 샘플 서식에 적용해 보기 |
 | ⑥ 데이터셋 | **새로 만들기 → 생성 현황 → 완료 후 아래 목록에 자동 등록**. 생성 중에도 같은 화면에서 확인하며, 목록만 갱신해 입력 중인 이름·설정은 유지. 서버 재시작으로 등록이 누락된 완성 결과도 복구. 명령줄로 만든 과제 폴더는 경로로 등록(읽기만, tasks/ 없는 옛 OCR 준비 폴더는 등록 때 tasks/ 를 만듦). 과제 묶음(OCR·문서 이해·업무 처리) 태그, 출처·정답 종류·실서류 표시, 고정 |
@@ -115,8 +115,8 @@ OCR 종류는 모든 쪽의 `ocr/*.json`과 **`meta.json`의 `ocr_scope: "full_p
 
 | 고친 것 | 파일 | 생성기가 읽는 곳 |
 |---|---|---|
-| overlay·html 영역·키·값 출처·배경 지우기 | `docgen/forms/regions/<ID>.json` (실서류에서 만든 서식은 `private_forms_dir/regions/<ID>.json`). 위치 확인 `python -m docgen.regions path <ID>` | `docgen/regions.py` → `docgen/overrides.py`(overlay)·`docgen/html_regions.py`(html) |
-| 가져온 서식 (공개 서식 묶음) | `docgen/forms/images/img_*/` (`layout.json`, `page_<n>.png`) — 실서류 묶음에서 만든 것은 `private_forms_dir/img_*/` (저장소 밖) | `docgen/realform.py` `register_images` |
+| overlay·html 영역·키·값 출처·배경 지우기 | `docgen/forms/<ID>/regions.json` (실서류에서 만든 서식은 `private_forms_dir/<ID>/regions.json`). 서식 파일 전부 `python -m docgen.formdir path <ID>` | `docgen/regions.py` → `docgen/overrides.py`(overlay)·`docgen/html_regions.py`(html) |
+| 가져온 서식 (공개 서식 묶음) | `docgen/forms/img_*/` (`layout.json`, `look/page_<n>.png`) — 실서류 묶음에서 만든 것은 `private_forms_dir/img_*/` (저장소 밖) | `docgen/realform.py` `register_images` |
 | 검수·배정·메모·문제 표시 | `docgen/catalog.json` | `docgen/bench/build.py` (학습 데이터에서 평가 전용 서식 빼기) |
 | 표시 요소 확률 | `docgen/marks.json` | `docgen/marks.py` |
 | 표시 요소 풀 | `docgen/assets/marks/pools.json`, `docgen/assets/marks/<풀>/` | `docgen/marks.py` → `realform.py`·`render.py` |
@@ -201,7 +201,7 @@ python -m studio                         # 터미널 2: studio → http://localh
 3. 키 표에서 키를 고쳐 **저장하고 다시 그리기**, **키 목록 내려받기**, **서식으로 등록**까지 해 봅니다
 
 더미는 이미지를 보지 않고 늘 같은 예시 서식(예금거래신청서)을 돌려주고, 키는 구역(신청인·대리인)과 항목명으로 키 사전의 공통 키에 맞춥니다.
-등록을 시험하면 `docgen/templates/copies/<ID>/` 에 서식이 생기니 끝나면 지웁니다.
+등록을 시험하면 `docgen/forms/<ID>/` 에 서식이 생기니 끝나면 지웁니다.
 
 실제 모델로 보려면 `python -m studio.dev_vlm --claude` (기본 `claude-sonnet-5-5`, `pip install anthropic` 과 `ANTHROPIC_API_KEY`) 로 띄우고,
 이미지가 사외로 나가므로 화면 등록 대신 `studio/config.json` 에 사외 연결로 둡니다 (studio 가 실서류 표시된 이미지를 보내지 않음). 빈 서식·공개 서식으로만 시험하세요.

@@ -99,7 +99,9 @@ def test_template_private_and_drafts(batch, tmp_path, monkeypatch):
     from docgen import overrides as OV
     from docgen import realform as RF
 
-    monkeypatch.setattr(RF, "IMAGE_FORMS", tmp_path / "public_forms")
+    from docgen import formdir
+
+    monkeypatch.setattr(formdir, "NEW_FORMS", tmp_path / "public_forms")
     fx = IM.run_group(batch)
     pay = next(f for f in fx["formats"] if f["name"] == "급여명세서")
     with pytest.raises(ValueError, match="private_forms_dir"):   # 실서류 묶음은 저장소에 만들지 않는다
@@ -107,11 +109,11 @@ def test_template_private_and_drafts(batch, tmp_path, monkeypatch):
     priv = tmp_path / "private"
     monkeypatch.setenv("DOCGEN_PRIVATE_FORMS", str(priv))
     res = IM.create_template(batch, pay["id"], pay["docs"]["pay0"], "img_pay_test", "급여", str(priv))
-    assert res["private"] and res["drafts"] == 4 and (priv / "img_pay_test" / "page_0.png").exists()
+    assert res["private"] and res["drafts"] == 4 and (priv / "img_pay_test" / "look" / "page_0.png").exists()
     assert not (tmp_path / "public_forms").exists()
     lay = json.loads((priv / "img_pay_test" / "layout.json").read_text(encoding="utf-8"))
     assert lay["pages"][0]["width"] == pytest.approx(W / RF.BG_ZOOM, abs=0.01) and lay["texts"]
-    assert OV.path("img_pay_test") == priv / "regions" / "img_pay_test.json"   # 수정도 사내 폴더 (저장소 밖)
+    assert OV.path("img_pay_test") == priv / "img_pay_test" / "regions.json"   # 수정도 사내 서식 폴더 (저장소 밖)
     ov = OV.load("img_pay_test")
     assert {a["label"] for a in ov["add"]} == {"성명", "지급총액", "공제총액", "실수령액"}
     # 지운 값은 배경 글자(합성 OCR 정답)에서 빠진다

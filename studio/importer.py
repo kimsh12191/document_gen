@@ -524,7 +524,8 @@ def value_drafts(sample: list[list[dict]], others: list[list[list[dict]]], sizes
 def create_template(bdir: Path, fid: str, page_ids: list[str], form_id: str, name: str, private_dir: str | None,
                     drafts: bool = True) -> dict:
     """견본 쪽 그림을 배경으로 하는 overlay(image) 서식. 영역은 비어 있고 영역 편집기에서 그린다.
-    실서류에서 온 묶음은 private_forms_dir 에만 만든다 (공개 서식으로 표시한 묶음만 저장소의 docgen/forms/images)."""
+    실서류에서 온 묶음은 private_forms_dir 에만 만든다 (공개 서식으로 표시한 묶음만 저장소의 docgen/forms/<ID>)."""
+    from docgen import formdir
     from docgen import realform as RF
     from docgen import regions
 
@@ -533,31 +534,30 @@ def create_template(bdir: Path, fid: str, page_ids: list[str], form_id: str, nam
         raise ValueError("서식 ID 는 img_ 로 시작하는 영어 소문자·숫자·밑줄 (예: img_payslip_a)")
     from docgen.registry import load_all
 
-    if form_id in load_all() or RF.image_form_dir(form_id):
+    if form_id in load_all() or RF.image_form_dir(form_id) or formdir.folder(form_id):
         raise ValueError(f"이미 있는 서식 ID: {form_id}")
     if batch.get("real_data") and not batch.get("public"):
         if not private_dir:
             raise ValueError("실서류 묶음에서 만든 서식은 private_forms_dir 에만 둡니다. 설정에 private_forms_dir 을 정하세요")
         root = Path(private_dir)
     else:
-        root = RF.IMAGE_FORMS
+        root = None   # 저장소 docgen/forms/<ID>/
     rows = {r["id"]: r for r in _jsonl(bdir / "pages.jsonl")}
     o = _ocr_settings(batch)
-    dest = root / form_id
-    dest.mkdir(parents=True)
+    dest = formdir.new_dir(form_id, root)
     pages, texts = [], []
     for k, pid in enumerate(page_ids):
         r = rows[pid]
-        shutil.copyfile(r["image"], dest / f"page_{k}.png")
+        shutil.copyfile(r["image"], dest / "look" / f"page_{k}.png")
         pages.append({"width": round(r["width"] / RF.BG_ZOOM, 2), "height": round(r["height"] / RF.BG_ZOOM, 2), "from": pid})
         for w in page_words(r, o["mapping"]):   # 배경 그림 속 글자 (합성 OCR 정답용, 지운 곳은 빠짐)
             texts.append({"page": k, "text": w["text"], "rect": [round(v / RF.BG_ZOOM, 2) for v in w["bbox"]],
                           "line": w.get("line_num") or 0})
     lay = {"name": name, "class": "가져온 서식", "from_batch": batch["name"], "format": fid, "pages": pages, "items": [],
-           "texts": texts, "created": time.strftime("%Y-%m-%d %H:%M"), "private": root != RF.IMAGE_FORMS}
+           "texts": texts, "created": time.strftime("%Y-%m-%d %H:%M"), "private": root is not None}
     (dest / "layout.json").write_text(json.dumps(lay, ensure_ascii=False, indent=1), encoding="utf-8")
     n_drafts = 0
-    if drafts:   # 같은 포맷의 다른 문서와 견줘 값 자리 초안 → 수정 파일 regions/<ID>.json (영역 편집기에서 "추가"·"지우기"로 보인다)
+    if drafts:   # 같은 포맷의 다른 문서와 견줘 값 자리 초안 → 서식 폴더의 regions.json (영역 편집기에서 "추가"·"지우기"로 보인다)
         fx = json.loads((bdir / "formats.json").read_text(encoding="utf-8"))
         f = next((x for x in fx["formats"] if x["id"] == fid), None)
         docs = (f or {}).get("docs") or {}
@@ -572,7 +572,7 @@ def create_template(bdir: Path, fid: str, page_ids: list[str], form_id: str, nam
             to_pt = lambda r: [round(v / RF.BG_ZOOM, 2) for v in r]  # noqa: E731
             ov = {"erase": [{**e, "rect": to_pt(e["rect"])} for e in dr["erase"]],
                   "add": [{**a, "rect": to_pt(a["rect"])} for a in dr["add"]]}
-            regions.write_new(root, form_id, ov)
+            regions.write_new(dest, ov)
             n_drafts = len(ov["add"])
     set_decision(bdir, fid, {"kind": "template", "form_id": form_id, "dir": str(dest)})
     return {"form_id": form_id, "dir": str(dest), "private": lay["private"], "drafts": n_drafts}

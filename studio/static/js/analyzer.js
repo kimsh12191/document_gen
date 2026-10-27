@@ -123,7 +123,7 @@ async function viewAnalyzerJob(id) {
           : a.kind === "html" && !a.target.update ? `<div class="bar"><label>서식 ID <input type="text" id="ap-id" value="${esc(a.target.form_id || "")}" style="width:180px"></label>
               <label>이름 <input type="text" id="ap-name" value="${esc(a.target.name || "")}"></label>
               <button class="primary" id="ap-go" ${res && res.ok ? "" : "disabled"}>승인하고 등록</button></div>
-              <div class="muted">${a.source.real_data && !a.source.public ? "실서류 그림이라 private_forms_dir 에 만듭니다." : "docgen/templates/copies/&lt;ID&gt;/ 에 만듭니다."}</div>`
+              <div class="muted">${a.source.real_data && !a.source.public ? "실서류 그림이라 private_forms_dir 에 만듭니다." : "docgen/forms/&lt;ID&gt;/ 에 만듭니다."}</div>`
           : `<button class="primary" id="ap-go" ${res && res.ok ? "" : "disabled"}>${a.kind === "html" ? `승인하고 ${esc(a.target.form_id)} 바꾸기` : `승인하고 ${esc(a.target.form_id)} 영역 편집기에 넣기`}</button>`}
       </div>
       <div class="panel">

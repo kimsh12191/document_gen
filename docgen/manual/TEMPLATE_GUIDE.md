@@ -4,10 +4,10 @@
 
 ```
 docgen/docs/<그룹>.py                 @doc(...) 로 등록하는 생성 함수
-docgen/templates/<그룹>/<서류ID>.html.j2      Jinja2 HTML 템플릿
+docgen/forms/<서류ID>/look/template.html.j2   Jinja2 HTML 템플릿 (registry 이름은 "<그룹>/<서류ID>.html.j2")
 ```
 
-예시: `docgen/docs/income.py`의 `employment_certificate`와 `docgen/templates/income/employment_certificate.html.j2`
+예시: `docgen/docs/income.py`의 `employment_certificate`와 `docgen/forms/employment_certificate/look/template.html.j2`
 
 ## 1. 생성 함수
 

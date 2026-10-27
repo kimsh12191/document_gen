@@ -6,6 +6,7 @@ from urllib.parse import urlsplit
 
 import pytest
 
+from docgen import formdir
 from docgen.entities import make_profile
 from docgen.htmlform import check, load_form
 from docgen.preview import source_files
@@ -21,7 +22,7 @@ ENTRIES = json.loads((ROOT/'manual/official_html_sources.json').read_text(encodi
 def test_official_source_and_render(entry):
     assert urlsplit(entry['url']).scheme == 'https'
     assert urlsplit(entry['url']).hostname in {'www.law.go.kr', 'image.kebhana.com', 'biz.kebhana.com'}
-    assert hashlib.sha256((ROOT/entry['source_file']).read_bytes()).hexdigest() == entry['sha256']
+    assert hashlib.sha256(formdir.source_path(entry['source_file']).read_bytes()).hexdigest() == entry['sha256']
     assert entry['online_verification']['matches_local']
     spec = load_all()[entry['id']]
     assert spec.template == '@form/'+entry['id']
@@ -40,7 +41,7 @@ def test_official_source_and_render(entry):
 
 
 def test_hana_clone_tracks_parent_layout_and_common_templates():
-    paths = {p.name for p in source_files('hana_official_003')}
+    paths = {formdir.hash_label(p).name for p in source_files('hana_official_003')}   # 해시 이름은 옮기기 전 자리
     assert '003.json' in paths
     assert '_official_base.html.j2' in paths
     assert '_official_values.html.j2' in paths

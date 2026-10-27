@@ -12,7 +12,8 @@
   sign   서명·날인 자리 "(서명 또는 인)"                   {label, name, mark}
   copy   자필 기재란 [가입자 자필기재 : 설명을 듣고 이해하였음] {label, rect, text}
 
-좌표는 PDF 포인트 [x0, y0, x1, y1] (쪽 왼쪽 위 기준). 결과는 docgen/forms/layouts/<분류>/<No>.json.
+좌표는 PDF 포인트 [x0, y0, x1, y1] (쪽 왼쪽 위 기준). 결과는 서식 폴더 docgen/forms/hf<No>/layout.json (docgen/formdir.py).
+원본 PDF 는 서식 폴더의 look/original.pdf, 아직 옮기지 않았으면 하나은행_서식자료 (레이아웃의 "file" 은 내려받은 자리 기록).
 은행 전용칸(결재란·전산인자란·은행 사용란)은 고객이 쓰는 자리가 아니므로 items 에서 뺀다.
 대신 결재란의 도장 칸은 쪽마다 staff 로 따로 남긴다 (접수·처리 뒤 직원 도장·서명을 찍을 자리).
 
@@ -33,9 +34,10 @@ from pathlib import Path
 import pymupdf
 
 ROOT = Path(__file__).resolve().parents[2]   # 저장소 최상위 (이 파일은 docgen/scripts/)
+sys.path.insert(0, str(ROOT))
+from docgen import formdir  # noqa: E402
 FORMS = ROOT / "docgen" / "forms"
 SRC = FORMS / "하나은행_서식자료"
-OUT = FORMS / "layouts"
 
 BOXES = "□☐◻"  # ■ 는 빈 서식에서 글머리표로만 쓰인다
 # 결재·전산·은행 기재 칸 (고객 기재란이 아니다)
@@ -761,14 +763,14 @@ def extract(pdf: Path) -> dict:
             "items": [it for p in pages for it in p["items"]]}
 
 
-def add_staff(out: Path, only: list[int] | None) -> None:
+def add_staff(only: list[int] | None) -> None:
     """저장된 bank 영역은 그대로 두고, 쪽마다 결재란 도장 칸(staff)만 다시 뽑아 넣는다."""
     n = cells = 0
-    for path in sorted(out.glob("*/*.json")):
+    for path in formdir.hf_layouts():
         lay = json.loads(path.read_text(encoding="utf-8"))
         if only and lay["no"] not in only:
             continue
-        doc = pymupdf.open(ROOT / "docgen" / lay["file"])
+        doc = pymupdf.open(formdir.original_pdf(lay["no"]))
         for pg, page in zip(lay["pages"], doc):
             try:
                 tables = page.find_tables().tables if pg["bank"] else []
@@ -785,15 +787,13 @@ def add_staff(out: Path, only: list[int] | None) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--no", type=int, nargs="*", help="이 번호의 서식만 처리")
-    ap.add_argument("--out", default=str(OUT))
     ap.add_argument("--staff-only", action="store_true", help="기존 레이아웃 파일에 결재란 staff 만 추가 (나머지는 그대로)")
     args = ap.parse_args()
     if args.staff_only:
-        add_staff(Path(args.out), args.no)
+        add_staff(args.no)
         return
 
     rows = list(csv.DictReader((SRC / "다운로드_결과.csv").read_text(encoding="utf-8-sig").splitlines(True)))
-    out = Path(args.out)
     done = 0
     for r in rows:
         no = int(r["No"])
@@ -801,7 +801,8 @@ def main() -> None:
             continue
         if r["형식"] != "PDF":
             continue
-        pdf = SRC / r["저장 파일"].replace("\\", "/")
+        recorded = SRC / r["저장 파일"].replace("\\", "/")
+        pdf = formdir.source_path(str(recorded.relative_to(ROOT / "docgen")))
         if not pdf.exists():
             continue
         try:
@@ -810,10 +811,10 @@ def main() -> None:
             print(f"  !! {no} {pdf.name}: {type(e).__name__} {e}", file=sys.stderr)
             continue
         lay = {"no": no, "class": r["분류"], "name": " ".join(r["서식명"].split()),
-               "file": str(pdf.relative_to(ROOT / "docgen")).replace("\\", "/"), **lay}
-        d = out / r["분류"].replace("/", "_")
-        d.mkdir(parents=True, exist_ok=True)
-        (d / f"{no:03d}.json").write_text(json.dumps(lay, ensure_ascii=False, indent=1), encoding="utf-8")
+               "file": str(recorded.relative_to(ROOT / "docgen")).replace("\\", "/"), **lay}
+        path = formdir.hf_layout(no) or formdir.NEW_FORMS / f"hf{no:03d}" / "layout.json"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(lay, ensure_ascii=False, indent=1), encoding="utf-8")
         done += 1
         kinds: dict[str, int] = {}
         for it in lay["items"]:
@@ -823,7 +824,7 @@ def main() -> None:
             for it in lay["items"]:
                 extra = it.get("text") or ", ".join(o["text"] for o in it.get("options", [])) or it.get("hint", "")
                 print(f"   p{it['page']} {it['t']:5s} {it.get('label')!r:30s} {it.get('group') or ''} {extra[:60]}")
-    print(f"\n완료 {done}건 → {out}")
+    print(f"\n완료 {done}건 → 서식 폴더의 layout.json")
 
 
 if __name__ == "__main__":

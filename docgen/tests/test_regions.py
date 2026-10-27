@@ -1,4 +1,4 @@
-"""서식 수정 파일 하나 (docgen/regions.py): 예전 위치도 읽고, 옮겨도 결과가 같고, 서식 종류가 다른 수정은 멈춘다."""
+"""서식 수정 파일 하나 (docgen/regions.py, 서식 폴더의 regions.json): 예전 위치도 읽고, 옮겨도 결과가 같고, 서식 종류가 다른 수정은 멈춘다."""
 import json
 import random
 
@@ -8,17 +8,20 @@ from docgen import html_regions as HR
 from docgen import overrides as OV
 from docgen import realform as RF
 from docgen import regions
+from docgen import formdir
 from docgen import template_variants as T
 from docgen.entities import make_profile
 from docgen.preview import source_hash
+from docgen.tests.sandbox import forms_sandbox
 
 
 @pytest.fixture()
 def roots(tmp_path, monkeypatch):
-    monkeypatch.setattr(regions, "ROOT", tmp_path / "regions")
     monkeypatch.setattr(regions, "LEGACY_OVERLAY", tmp_path / "overrides")
     monkeypatch.setattr(regions, "LEGACY_HTML", tmp_path / "html_regions")
-    monkeypatch.setattr(T, "ROOT", tmp_path / "variants")
+    monkeypatch.setattr(formdir, "LEGACY_REGIONS", tmp_path / "regions")
+    monkeypatch.setattr(formdir, "LEGACY_VARIANTS", tmp_path / "variants")
+    forms_sandbox(monkeypatch, tmp_path, "hf169", "gov_income", "employment_certificate")
     return tmp_path
 
 
@@ -37,7 +40,7 @@ def test_overlay_legacy_is_read_then_migrated_with_same_output(roots):
     ov = {"items": [{"match": m, "drop": True}], "updated": {"by": "a", "at": "x"}}
     plain = source_hash("hf169", common=False)
     _write(roots / "overrides" / "hf169.json", ov)
-    assert OV.load("hf169") == ov and regions.path("hf169") == roots / "regions" / "hf169.json"
+    assert OV.load("hf169") == ov and regions.path("hf169") == roots / "forms" / "hf169" / "regions.json"
     before, h_legacy = _build(), source_hash("hf169", common=False)
     assert "employer.address" not in {it.get("key") for it in before["items"]} and h_legacy != plain
     assert [r["status"] for r in regions.migrate(ids=["hf169"])] == ["옮길 것"] and not regions.path("hf169").exists()
@@ -96,7 +99,7 @@ def test_check_reports_leftovers_and_unknown_fields(roots):
 
 def test_cli_path_and_show(roots, capsys):
     assert regions.main(["path", "hf169"]) == 0
-    assert "regions/hf169.json" in capsys.readouterr().out
+    assert "hf169/regions.json" in capsys.readouterr().out
     rows = regions.show("hf169")
     assert rows and all(r["key"] and r["how"] == "자동" for r in rows)
     lay = RF.raw_layout("hf169")

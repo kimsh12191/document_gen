@@ -339,7 +339,10 @@ def env() -> Environment:
         from .htmlform import jinja_source   # "@form/<ID>": 화면에서 만든 html 서식 (서식 폴더 또는 저장 전 초안)
         from .template_variants import jinja_source as layout_source
 
-        _env = Environment(loader=ChoiceLoader([FunctionLoader(jinja_source), FunctionLoader(layout_source), FileSystemLoader(str(TEMPLATE_DIR))]), undefined=StrictUndefined,
+        from .formdir import jinja_source as form_source   # 코드 서식 "<그룹>/<ID>.html.j2" → 서식 폴더의 look/template.html.j2
+
+        _env = Environment(loader=ChoiceLoader([FunctionLoader(jinja_source), FunctionLoader(layout_source), FunctionLoader(form_source),
+                                                FileSystemLoader(str(TEMPLATE_DIR))]), undefined=StrictUndefined,
                            autoescape=True, trim_blocks=True, lstrip_blocks=True)
         _env.globals.update(kv_layout=kv_layout, checkmark=checkmark, seal_lines=seal_lines, seal_font=seal_font, scribble=scribble,
                            seal_style=seal_style,

@@ -3,7 +3,7 @@
   python docgen/scripts/form_map.py > docgen/manual/FORM_MAP.md
 
 모든 서식은 원본 PDF 를 배경으로 쓰는 오버레이(docgen/realform.py)로 hf<No> 에 등록된다.
-기재 자리는 docgen/scripts/extract_form_layout.py 가 뽑은 docgen/forms/layouts/<분류>/<No>.json.
+기재 자리는 docgen/scripts/extract_form_layout.py 가 뽑은 docgen/forms/hf<No>/layout.json.
 등록되지 않는 것은 PDF 가 아니거나(XLS·DOC·EXE), 고객이 쓰는 칸이 없는 인쇄물(약관·안내장 등)이다.
 """
 from __future__ import annotations
@@ -56,7 +56,7 @@ def main() -> None:
     p("모든 서식은 **원본 PDF 를 그대로 배경으로 깔고** 손님이 쓴 것처럼 값을 얹는다 "
       "([docgen/realform.py](../realform.py)). 그래서 이미지 속 서식은 원본과 똑같다. "
       "값을 쓸 자리는 [docgen/scripts/extract_form_layout.py](../scripts/extract_form_layout.py) 가 PDF 의 글자·선에서 뽑아 "
-      "`docgen/forms/layouts/` 에 둔다.\n")
+      "`docgen/forms/hf<No>/layout.json` 에 둔다.\n")
     p(f"- 등록: **{cnt['등록']}종** (서류 ID `hf<No>`, 그룹 `hana`)")
     p(f"- 제외: {cnt['제외']}종\n")
     p("열 설명: 칸 = 글자 기재란, 체크 = □ 보기 묶음, 날짜 = '년 월 일' 빈칸, 서명 = 서명·날인·자필 기재 자리\n")

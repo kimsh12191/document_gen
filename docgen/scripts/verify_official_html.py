@@ -10,6 +10,7 @@ from pathlib import Path
 import pymupdf
 from PIL import Image, ImageDraw, ImageFont
 
+from docgen import formdir
 from docgen.entities import make_profile
 from docgen.htmlform import check, load_form
 from docgen.image import ImageRenderer
@@ -46,7 +47,7 @@ def main():
             info = renderer.render(html, folder/'page.png', texts=True)
             fields = build_fields(raw, info)
             warnings = check(load_form(doc_id), raw, data, info['overflow'])
-            pdf = pymupdf.open(ROOT/entry['source_file'])
+            pdf = pymupdf.open(formdir.source_path(entry['source_file']))
             pages = entry.get('source_pages', list(range(len(pdf))))
             assert len(pages) == len(info['pages']), (doc_id, 'page count')
             assert not info['overflow'], (doc_id, 'overflow')

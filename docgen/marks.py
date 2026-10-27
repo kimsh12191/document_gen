@@ -6,7 +6,7 @@
 
 - 기본값은 예전 코드와 같은 값·같은 순서다. 설정과 풀을 바꾸지 않으면 생성 결과가 그대로다.
 - 풀에서 고를 항목이 하나뿐이면 난수를 쓰지 않는다. 항목을 더하면 그때부터 그 서류의 나머지 값도 달라질 수 있다.
-- 서식마다 덮어쓰기: overlay 는 수정 파일 docgen/forms/regions/<ID>.json 의 "marks".
+- 서식마다 덮어쓰기: overlay 는 서식 폴더의 수정 파일 regions.json 의 "marks".
 - 실서류에서 잘라 온 서명·도장은 저장소 풀에 넣지 않는다 (studio 가 private_forms_dir 아래 풀에만 저장).
 - 두 파일은 studio 의 표시 요소 화면(studio/marks_admin.py)이 만들고 고친다. 읽는 쪽은 realform.py·render.py.
 """

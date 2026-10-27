@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 from PIL import Image
 
+from docgen import formdir
 from studio import importer as IM
 from studio import intake as IN
 from studio import intake_testset as T
@@ -272,7 +273,6 @@ def sandbox(tmp_path, monkeypatch):
     import shutil as sh
 
     from docgen import dictionary as DIC
-    from docgen import realform as RF
     from docgen import registry as R
 
     sc = tmp_path / "scenarios.json"
@@ -282,7 +282,7 @@ def sandbox(tmp_path, monkeypatch):
     monkeypatch.setattr(R, "SCENARIOS_JSON", sc)
     monkeypatch.setattr(DIC, "DIR", dd)
     DIC._cache.clear()
-    monkeypatch.setattr(RF, "IMAGE_FORMS", tmp_path / "images")
+    monkeypatch.setattr(formdir, "NEW_FORMS", tmp_path / "images")
     before = set(R.REGISTRY)
     yield sc
     monkeypatch.undo()

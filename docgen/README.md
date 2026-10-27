@@ -16,6 +16,24 @@
 
 Studio의 ① 서식에서 `공식대조 HTML`로 검색하세요. 기존 70종 각각의 매칭 결과, 추가한 서식 목록, 공식 원문 링크, 아직 대조하지 못한 항목은 [공식 서식 대조표](manual/OFFICIAL_HTML_AUDIT.md)에 있습니다. 새 HTML도 생성값·라벨을 검수한 뒤 데이터셋에 사용합니다.
 
+### 서식 = 폴더 하나
+
+서식 하나는 폴더 하나입니다. 서식 종류(원본 PDF·견본 그림·HTML)에 따라 다른 것은 `look/` 안의 모양 파일뿐입니다.
+
+```
+docgen/forms/<ID>/                 공개 서식 (실서류에서 만든 서식은 $DOCGEN_PRIVATE_FORMS/<ID>/ 에 같은 꼴)
+  look/                            모양: original.pdf (hf###) · page_0.png … (img_*) · template.html.j2 (html)
+  layout.json                      overlay 기재 자리 (hf### 은 PDF 에서 자동 추출)
+  form.json                        복제·분석기 html 서식: 부모 서식·값 선언
+  regions.json                     사람 수정: 칸 위치·키·항목명·값 출처·빼기, 배경 지우기 (아래 "서식 수정 파일")
+  variants/                        html 레이아웃 변형
+```
+
+- **값이나 칸을 고치려면** → `regions.json` (studio ① 서식 › 영역 편집)
+- **html 서식의 표·문구 모양을 고치려면** → `look/template.html.j2` (복제 서식은 studio html 편집). overlay 서식은 모양(원본 그림)을 바꾸지 않습니다.
+- 코드 서식 70종은 값을 `docgen/docs/<그룹>.py` 의 생성 함수가 만듭니다. 여러 서식이 같이 쓰는 틀(`_base`·`_macros`·`_real_form`, 그룹 부품)은 `docgen/templates/` 에 남습니다.
+- 서식 하나의 파일을 모두 보려면 `python -m docgen.formdir path <ID>`.
+
 - 전체 목록: [guide/documents.md](../guide/documents.md)
 - 하나은행 공개 서식 441건 대응표: [docgen/manual/FORM_MAP.md](manual/FORM_MAP.md)
 - 서류별 샘플 이미지와 정답: [samples/](samples/)
@@ -205,14 +223,14 @@ DOCGEN_SPECIAL=all python -m docgen generate ...      # 특수 상황을 모두 
 
 ## 하나은행 원본 서식 (원본 PDF 오버레이)
 
-`docgen/forms/하나은행_서식자료/` 의 하나은행 공개 서식 PDF는 **원본을 그대로 배경으로 깔고 값만 얹어** 만듭니다. HTML로 서식을 다시 그리지 않으므로 이미지 속 서식은 원본과 똑같습니다. 서류 ID는 `hf<No>`(No는 엑셀 목록 번호), 그룹은 `hana`입니다.
+하나은행 공개 서식 PDF(서식 폴더의 `look/original.pdf`, 내려받은 목록·안내문은 `docgen/forms/하나은행_서식자료/`)는 **원본을 그대로 배경으로 깔고 값만 얹어** 만듭니다. HTML로 서식을 다시 그리지 않으므로 이미지 속 서식은 원본과 똑같습니다. 서류 ID는 `hf<No>`(No는 엑셀 목록 번호), 그룹은 `hana`입니다.
 
 ```bash
 python -m docgen generate --types hana --n 1 --png --out out     # 원본 서식 전부
 python -m docgen generate --types hf169 --n 3 --png --out out    # 한 서식만
 ```
 
-1. **기재 자리 뽑기** — [scripts/extract_form_layout.py](scripts/extract_form_layout.py)가 PDF의 글자(위치·색)와 표 선에서 고객이 쓰는 자리를 찾아 `docgen/forms/layouts/<분류>/<No>.json`에 저장합니다.
+1. **기재 자리 뽑기** — [scripts/extract_form_layout.py](scripts/extract_form_layout.py)가 PDF의 글자(위치·색)와 표 선에서 고객이 쓰는 자리를 찾아 서식 폴더의 `docgen/forms/hf<No>/layout.json`에 저장합니다. 레이아웃의 `"file"`은 원본을 내려받은 자리 기록입니다.
    - `text`: 라벨 칸 오른쪽(또는 머리글 아래)의 빈 칸, 같은 칸 안 라벨 오른쪽 빈자리, `성명 : ____` 같은 콜론 뒤 빈칸
    - `check`: `□` 보기 묶음 (`□` 위치와 보기 글자 위치)
    - `date`: `년 월 일` 빈칸, `sign`: `(서명 또는 인)` 자리, `copy`: 회색 안내 문구를 따라 쓰는 자필 기재란
@@ -247,8 +265,10 @@ docgen/
   image.py, paginate.js    Playwright 로 PNG + 위치 (값·항목명·체크칸·도장·쪽 전체 글자), 넘친 쪽 나누기
   augment.py               스캔/촬영/팩스 증강
   realform.py              하나은행 원본 서식 오버레이 (레이아웃 → 값 → 렌더링 지시, 배경·글꼴), 가져온 이미지 서식
-  overrides.py, sources.py, marks.py   사람 수정층(영역·키·값 출처·배경 지우기), 값 출처 규칙, 표시 요소(손글씨·체크·도장·서명)
-  htmlform.py              화면에서 만든 html 서식 (복제·분석기, templates/copies/<ID>/ 의 template.html.j2 + form.json)
+  formdir.py               서식 폴더 (서식 하나 = 폴더 하나): 파일 자리를 여기서만 정함, 예전 자리 읽기·옮기기
+  regions.py, overrides.py, html_regions.py   사람 수정 파일(서식 폴더의 regions.json)과 overlay·html 수정층
+  sources.py, marks.py     값 출처 규칙, 표시 요소(손글씨·체크·도장·서명)
+  htmlform.py              화면에서 만든 html 서식 (복제·분석기, 서식 폴더의 look/template.html.j2 + form.json)
   preview.py               서식 하나 미리보기 (studio 가 씀). 명령줄: python -m docgen.preview <서식ID>|--dir <폴더> [--rows max] --out <폴더>
   ocr_export.py, ocr_set.py   생성 정답 → 사내 OCR 형식, 합성 OCR 세트 (OCR 준비 → 과제 폴더)
   cli.py                   list / generate / check
@@ -256,10 +276,10 @@ docgen/
   docs/*.py                서류별 데이터 생성 함수 (그룹별 파일, docs/real_forms.py 가 원본 서식 전부를 등록)
   scenarios.json, keys.json, marks.json, catalog.json   업무 시나리오, 표준 키 사전, 표시 설정, 서식 검수·배정 (studio 가 고침)
 
-  templates/               Jinja2 템플릿: _base·_macros(공통), _real_form(원본 서식 오버레이), <그룹>/<서류ID>.html.j2,
-                           bank_form/_loan_parts.html.j2(은행 서식 공유 조각), copies/<ID>/(화면에서 만든 html 서식)
-  forms/                   overlay 서식 재료: 하나은행_서식자료/(원본 PDF), layouts/(PDF 에서 뽑은 기재 자리, 생성 파일),
-                           overrides/(사람 수정), images/(가져온 이미지 서식 img_*)
+  forms/<ID>/               서식 폴더 545종 + 등록 안 되는 hf 레이아웃 (위 "서식 = 폴더 하나")
+  forms/하나은행_서식자료/  원본 다운로드 보관 (목록 csv·안내문, 레이아웃이 없는 파일). forms/official_sources/: 공식 원본 대조용 PDF
+  templates/               여러 서식이 같이 쓰는 Jinja2 틀만: _base·_macros(공통), _real_form(원본 서식 오버레이),
+                           _official_*(공식 대조 HTML), 그룹 부품(bank_form/_loan_parts.html.j2 등)
   assets/marks/            표시 요소 풀 (pools.json, 올린 체크·서명 이미지)
   fonts/                   손글씨 글꼴 (woff2, SIL OFL) + studio 표시 요소 화면에서 경로로 등록한 글꼴
   samples/                 서류별 대표 샘플 이미지·정답 (scripts/make_samples.py)
@@ -303,7 +323,7 @@ HTML 템플릿 70종을 실제 서식과 비교해 서식 번호, 항목 구성�
 
 Studio ③은 `document_roles.json`의 제출 역할마다 실제 서식 하나를 선택합니다. 기존 HTML·공식 HTML·overlay를 같은 역할의 변형으로 묶되 신청서/증명서·개인/법인·증명 범위는 구분합니다. `scenarios.json.docs`에는 선택한 실제 ID가 저장되며 CLI 빌드도 그 선택을 사용합니다. 역할과 필드 스키마는 별개라, 교체 후 직접 추출·비교 키를 다시 선택해야 합니다.
 
-HTML 글자 값 영역은 Studio ①의 영역 편집에서 고칩니다. overlay와 같은 수정 파일 `forms/regions/<ID>.json`(아래 "서식 수정 파일")에 CSS px 좌표와 값 출처를 저장합니다. 원본 템플릿은 유지하고 `render.py`·`image.py`가 수정층을 적용하므로 미리보기·CLI·은행 업무·OCR 생성 결과에 공통 반영됩니다. 체크·서명·도장의 HTML 영역 편집은 아직 템플릿에서 합니다. 동적 페이지는 다른 seed에서도 확인하세요.
+HTML 글자 값 영역은 Studio ①의 영역 편집에서 고칩니다. overlay와 같은 수정 파일 `forms/<ID>/regions.json`(아래 "서식 수정 파일")에 CSS px 좌표와 값 출처를 저장합니다. 원본 템플릿은 유지하고 `render.py`·`image.py`가 수정층을 적용하므로 미리보기·CLI·은행 업무·OCR 생성 결과에 공통 반영됩니다. 체크·서명·도장의 HTML 영역 편집은 아직 템플릿에서 합니다. 동적 페이지는 다른 seed에서도 확인하세요.
 
 현재는 알아낸 overlay 글자 칸을 무작위로 비우지 않고 표를 최소 한 행 채웁니다. 이전 방식은 프로필 값 `sparse_fields=true`로 선택합니다. 천원·만원·백만원·억원 칸은 단위에 맞춰 표시하고 라벨 `unit`·원 단위 `norm`을 기록합니다. HTML `fields`의 `parent.<경로>`는 부모 생성값을 참조하고, `shared_copies=true`인 약정의 `_copy` 값은 원본 기재값을 공유합니다. 생성 결과가 달라졌으므로 새 데이터셋 버전으로 만드세요.
 
@@ -319,8 +339,8 @@ python -m docgen.scripts.audit_form_values --out studio_cache/value_audit/final
 
 | 서식 | 수정 파일 |
 |---|---|
-| 저장소 서식 (공개) | `docgen/forms/regions/<ID>.json` |
-| 실서류에서 만든 서식 (`private_forms_dir`) | `$DOCGEN_PRIVATE_FORMS/regions/<ID>.json` (수정도 저장소 밖) |
+| 저장소 서식 (공개) | `docgen/forms/<ID>/regions.json` |
+| 실서류에서 만든 서식 (`private_forms_dir`) | `$DOCGEN_PRIVATE_FORMS/<ID>/regions.json` (수정도 저장소 밖) |
 
 ```json
 {"engine": "overlay", "unit": "pt", "items": [...], "add": [...], "erase": [...], "marks": {...}}
@@ -339,4 +359,14 @@ python -m docgen.regions check <ID>            # 형식·서식 종류·깨진 �
 python -m docgen.regions migrate [--apply]     # 예전 위치의 수정 파일을 새 파일로 (기본은 목록만)
 ```
 
-예전 위치(`forms/overrides/<ID>.json`, `forms/html_regions/<ID>.json`, 서식 폴더의 `overrides.json`·`regions.json`, 레이아웃 변형 폴더의 `<변형>.regions.json`)는 새 파일이 없을 때만 읽습니다. 저장하거나 `migrate --apply` 하면 새 파일로 합치고 예전 파일은 `<이름>.migrated`로 바꿔 둡니다. 새 파일로 옮긴 서식은 서식 해시가 한 번 바뀌므로 studio에서 "검수 후 바뀜"으로 보일 수 있습니다 (내용은 같음).
+예전 자리는 새 자리에 없을 때만 읽습니다: 서식 파일은 `forms/layouts/<분류>/<No>.json`, `하나은행_서식자료/` 의 PDF, `forms/images/<ID>/`, `templates/<그룹>/<ID>.html.j2`, `templates/copies/<ID>/`, `templates/variants/<ID>/`, 서식 폴더 바로 아래 `template.html.j2`·`page_<n>.png`. 사람 수정은 `forms/regions/<ID>.json`, `forms/overrides/<ID>.json`, `forms/html_regions/<ID>.json`, 이미지 서식 폴더의 `overrides.json`, `<변형>.regions.json`.
+
+한꺼번에 옮기기:
+
+```bash
+python -m docgen.formdir migrate            # 무엇을 어디로 옮길지 목록 (예전과 새 파일이 다르면 "건너뜀: 다름")
+python -m docgen.formdir migrate --apply    # 옮김: 글 파일은 복사하고 예전 것을 <이름>.migrated 로, 그림·PDF 는 옮김
+python -m docgen.regions check --all
+```
+
+영역 편집기에서 저장하면 그 서식의 사람 수정은 바로 새 자리로 옮겨집니다. 서식 해시(studio "검수 후 바뀜")에는 파일을 옮기기 전 자리 이름을 넣으므로 위치를 옮겨도 그대로입니다. 생성 코드(`realform.py`·`htmlform.py` 등)가 바뀌면 그 코드를 쓰는 서식의 해시는 바뀝니다.

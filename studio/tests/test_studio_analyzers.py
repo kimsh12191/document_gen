@@ -5,6 +5,7 @@ import sys
 import pytest
 from PIL import Image
 
+from docgen import formdir
 from studio import analyzers as AZ
 
 CFG = {"providers": {
@@ -79,7 +80,7 @@ def test_layout_validate_and_approve(tmp_path, img, monkeypatch):
     form = tmp_path / "forms" / "img_az_t"
     form.mkdir(parents=True)
     (form / "layout.json").write_text(json.dumps({"name": "x", "pages": [{"width": 150, "height": 210}], "items": [], "texts": []}), encoding="utf-8")
-    monkeypatch.setattr(RF, "IMAGE_FORMS", tmp_path / "forms")
+    monkeypatch.setattr(formdir, "NEW_FORMS", tmp_path / "forms")
     d = AZ.create_job(tmp_path, CFG, "layout", "cli-in", [str(img)], {"form_id": "img_az_t", "texts": [{"text": "성명"}]}, {})
     assert (d / "input" / "ocr_words.json").exists()
     assert not AZ.validate(d)["ok"]   # 결과 없음

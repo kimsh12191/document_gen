@@ -34,7 +34,7 @@ _ASCII_KEY = re.compile(r"^[A-Za-z0-9_.]+$")
 
 
 def kind_of(group: str, doc_id: str = "") -> tuple[str, str]:
-    """(종류, origin). hf### 는 하나은행 원본 PDF 배경, 그 밖의 overlay 는 이미지 배경 (docgen/forms/images).
+    """(종류, origin). hf### 는 하나은행 원본 PDF 배경, 그 밖의 overlay 는 이미지 배경 (docgen/forms/img_*).
     화면에서 만든 html 서식(템플릿 "@form/<ID>")은 그룹과 상관없이 html (origin copy·analyzer)."""
     spec = load_all().get(doc_id)
     if spec is not None and spec.template.startswith("@form/"):
@@ -236,32 +236,22 @@ def form_detail(doc_id: str) -> dict:
         raise KeyError(doc_id)
     spec = reg[doc_id]
     entry = _catalog().get(doc_id, {})
+    from docgen import formdir
+
     files = []
+    for role, f in formdir.describe(doc_id):
+        if role == "사람 수정":
+            continue
+        files.append({"role": role, "path": (_rel(f) + ("" if f.exists() else " (아직 없음)")) if f else "-"})
     if spec.template.startswith("@form/"):
         from docgen import htmlform
 
-        d = htmlform.form_dir(doc_id)
-        form = htmlform.load_form(doc_id) if d else {}
-        files.append({"role": "템플릿", "path": _rel(d / "template.html.j2") if d else spec.template})
-        files.append({"role": "값 선언 (form.json)", "path": _rel(d / "form.json") if d else "-"})
+        form = htmlform.load_form(doc_id) if htmlform.form_dir(doc_id) else {}
         if form.get("parent") in load_all():
             parent = load_all()[form["parent"]]
             files.append({"role": f"생성 함수 (부모 서식 {parent.id})", "path": _rel(Path(inspect.getsourcefile(parent.generate)))})
     elif spec.group in ("hana", "imported"):
-        from docgen.realform import form_no, image_form_dir, layout_path, load_layout
-
-        no = form_no(doc_id)
-        lp = layout_path(no) if no is not None else None
-        if lp:
-            lay = load_layout(no)
-            files.append({"role": "레이아웃 (자동 추출)", "path": _rel(lp)})
-            files.append({"role": "원본 PDF", "path": lay.get("file", "")})
-        elif (d := image_form_dir(doc_id)):
-            files.append({"role": "레이아웃·배경 이미지", "path": _rel(d)})
         files.append({"role": "값 채우기·렌더링", "path": "docgen/realform.py"})
-    else:
-        files.append({"role": "템플릿", "path": f"docgen/templates/{spec.template}"})
-        files.append({"role": "생성 함수", "path": _rel(Path(inspect.getsourcefile(spec.generate)))})
     from docgen import regions
 
     op = regions.path(doc_id)
@@ -269,7 +259,7 @@ def form_detail(doc_id: str) -> dict:
     for vid, f in regions.legacy(doc_id).items():
         files.append({"role": "예전 수정 파일" + (f" ({vid})" if vid else ""),
                       "path": _rel(f) + (" (새 파일이 있어 안 읽음 — python -m docgen.regions check)" if op.exists()
-                                         else " (python -m docgen.regions migrate 로 옮기세요)")})
+                                         else " (python -m docgen.formdir migrate 로 옮기세요)")})
     return {
         **_summary(spec, entry, audit=True),
         "description": spec.description,

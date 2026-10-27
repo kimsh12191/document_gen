@@ -1,7 +1,7 @@
 """① 서식 › 영역 편집 (overlay)의 서버 쪽: 레이아웃 보기, 사람 수정 저장, 검수 전 자동 검사.
 API 는 studio/app.py (/api/forms/{id}/layout·overrides·checks), 화면은 static/js/editor.js.
 
-화면은 사람 수정(docgen/forms/regions/<ID>.json, docgen/regions.py)을 그대로 들고 고친 뒤 통째로 저장한다. 여기서는
+화면은 사람 수정(서식 폴더의 regions.json, docgen/regions.py)을 그대로 들고 고친 뒤 통째로 저장한다. 여기서는
   - 자동 추출 영역마다 id·match·상태(자동/수정/뺌)를 붙여 보여 주고 (docgen/overrides.py 와 같은 규칙)
   - 저장할 때 형식을 검사하고
   - 검수 버튼을 누를 때 보여 줄 경고(한글 키, 겹침, 깨진 수정, 값이 안 채워지는 칸)를 만든다.
@@ -215,9 +215,10 @@ def _pdf_words(doc_id: str) -> dict[int, list]:
         return {}
     import pymupdf
 
-    lay = RF.load_layout(no)
+    from docgen import formdir
+
     out = {}
-    with pymupdf.open(RF.ROOT / lay["file"]) as doc:
+    with pymupdf.open(formdir.original_pdf(no)) as doc:
         for i, page in enumerate(doc):
             out[i] = [w[:5] for w in page.get_text("words")]
     return out

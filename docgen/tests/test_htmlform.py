@@ -4,6 +4,7 @@ import random
 
 import pytest
 
+from docgen import formdir
 from docgen import htmlform as H
 from docgen.entities import make_profile
 from docgen.registry import REGISTRY, load_all
@@ -26,7 +27,7 @@ FORM = {"name": "거래내역(시험)", "group": "finance", "origin": "analyzer"
 def copies(tmp_path, monkeypatch):
     load_all()
     original = dict(REGISTRY)
-    monkeypatch.setattr(H, "COPIES", tmp_path / "copies")
+    monkeypatch.setattr(formdir, "NEW_FORMS", tmp_path / "copies")
     added = []
     yield tmp_path / "copies", added
     REGISTRY.clear()

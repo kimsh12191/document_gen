@@ -7,7 +7,7 @@ import pytest
 from docgen import marks as M
 from docgen import overrides as OV
 from docgen import realform as RF
-from docgen import regions as RG
+from docgen.tests.sandbox import forms_sandbox
 from docgen import sources as SRC
 from docgen.entities import make_profile
 from docgen.registry import load_all
@@ -15,8 +15,7 @@ from docgen.registry import load_all
 
 @pytest.fixture()
 def tmp_overrides(tmp_path, monkeypatch):
-    monkeypatch.setattr(RG, "ROOT", tmp_path / "regions")
-    return tmp_path / "regions"
+    return forms_sandbox(monkeypatch, tmp_path, "hf169")
 
 
 def _build(doc_id="hf169", seed=1):

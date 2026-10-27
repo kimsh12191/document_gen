@@ -1,7 +1,7 @@
 """원본 서식 오버레이 — 하나은행 공개 서식 PDF 를 그대로 배경으로 깔고, 손님이 쓴 것처럼 값을 얹는다.
 
 서식 모양을 HTML 로 다시 그리지 않으므로 이미지 속 서식은 원본과 똑같다. 값을 쓸 자리는
-docgen/scripts/extract_form_layout.py 가 PDF 에서 뽑은 docgen/forms/layouts/<분류>/<No>.json 을 쓴다.
+docgen/scripts/extract_form_layout.py 가 PDF 에서 뽑은 docgen/forms/hf<No>/layout.json 을 쓴다 (서식 폴더: docgen/formdir.py).
 
   text   빈 칸에 글자          → f(키)  값은 프로필(성명·주소·계좌…)이나 항목명으로 만든다
   check  □ 보기 묶음           → 고른 보기 □ 위에 손 V·■·○ (또는 풀 이미지) 표시, 정답은 고른 보기 글자
@@ -36,10 +36,8 @@ from . import overrides as OV
 from . import sources as SRC
 from .entities import Profile
 
-ROOT = Path(__file__).resolve().parent   # docgen/ (레이아웃의 "file" 은 이 폴더 기준: forms/하나은행_서식자료/…)
-LAYOUTS = ROOT / "forms" / "layouts"
+ROOT = Path(__file__).resolve().parent   # docgen/ (레이아웃의 "file" 은 원본을 내려받은 자리 기록. 파일은 formdir.original_pdf)
 FT_MIN_SIZE = 9.0   # 자유 기재 글이 이보다 작게 줄어야 들어가는 칸이면 넣지 않는다 (px)
-IMAGE_FORMS = ROOT / "forms" / "images"   # overlay(image): 스캔·사진 배경 서식 <ID>/layout.json + page_<쪽>.png
 FONTS = ROOT / "fonts"
 CACHE = Path.home() / ".cache" / "docgen" / "bg"
 HOST = "https://docgen.local/"
@@ -56,9 +54,13 @@ D = K.fmt_date
 # 배경·글꼴 제공 (렌더러가 부른다)
 # ---------------------------------------------------------------------------
 
+# 서식 파일 자리는 docgen/formdir.py: hf### 은 docgen/forms/hf<번호>/(layout.json, look/original.pdf),
+# 가져온 이미지 서식 img_* 는 docgen/forms/<ID>/ 또는 $DOCGEN_PRIVATE_FORMS/<ID>/ (layout.json, look/page_<쪽>.png).
+
 def layout_path(no: int) -> Path | None:
-    hits = list(LAYOUTS.glob(f"*/{no:03d}.json"))
-    return hits[0] if hits else None
+    from . import formdir
+
+    return formdir.hf_layout(no)
 
 
 @lru_cache(maxsize=None)
@@ -72,19 +74,10 @@ def form_no(doc_id: str) -> int | None:
 
 
 def image_form_dir(doc_id: str) -> Path | None:
-    """overlay(image) 서식 폴더: 저장소의 docgen/forms/images/<ID>/ 또는 private_forms_dir/<ID>/."""
-    for root in [IMAGE_FORMS, *_private_roots()]:
-        d = root / doc_id
-        if (d / "layout.json").exists():
-            return d
-    return None
+    """overlay(image) 서식 폴더 (layout.json 이 있는 곳)."""
+    from . import formdir
 
-
-def _private_roots() -> list[Path]:
-    import os
-
-    p = os.environ.get("DOCGEN_PRIVATE_FORMS")
-    return [Path(p)] if p else []
+    return formdir.image_dir(doc_id)
 
 
 def raw_layout(doc_id: str) -> dict:
@@ -99,7 +92,7 @@ def raw_layout(doc_id: str) -> dict:
 
 
 def form_layout(doc_id: str) -> tuple[dict, list[dict]]:
-    """사람 수정(docgen/forms/regions/<ID>.json)을 덧씌운 레이아웃과 못 찾은 수정 목록."""
+    """사람 수정(서식 폴더의 regions.json)을 덧씌운 레이아웃과 못 찾은 수정 목록."""
     return OV.apply(raw_layout(doc_id), OV.load(doc_id))
 
 
@@ -109,9 +102,11 @@ def _pdf_page_png(no: int, page: int) -> bytes:
     if not out.exists():
         import pymupdf
 
-        lay = load_layout(no)
+        from . import formdir
+
         out.parent.mkdir(parents=True, exist_ok=True)
-        with pymupdf.open(ROOT / lay["file"]) as doc:
+
+        with pymupdf.open(formdir.original_pdf(no)) as doc:
             pix = doc[page].get_pixmap(matrix=pymupdf.Matrix(BG_ZOOM, BG_ZOOM), alpha=False)
             tmp = out.with_suffix(".tmp")
             pix.save(str(tmp), output="png")
@@ -127,7 +122,9 @@ def raw_background(doc_id: str, page: int) -> bytes:
     d = image_form_dir(doc_id)
     if d is None:
         raise KeyError(doc_id)
-    return (d / f"page_{page}.png").read_bytes()
+    from . import formdir
+
+    return formdir.page_png(doc_id, page).read_bytes()
 
 
 def background_png(doc_id: str | int, page: int) -> bytes:
@@ -782,7 +779,9 @@ def _visible(key, value, rect, page, style, r: random.Random, label: str = "", a
 
 def all_layouts() -> list[dict]:
     out = []
-    for path in sorted(LAYOUTS.glob("*/*.json")):
+    from . import formdir
+
+    for path in formdir.hf_layouts():
         lay = json.loads(path.read_text(encoding="utf-8"))
         out.append(lay)
     return out
@@ -801,17 +800,14 @@ def fillable(lay: dict) -> int:
 
 
 def register_images() -> int:
-    """overlay(image) 서식: docgen/forms/images/img_*/ 와 (설정했으면) DOCGEN_PRIVATE_FORMS/img_*/ 의 layout.json.
+    """overlay(image) 서식: docgen/forms/img_*/ 와 (설정했으면) DOCGEN_PRIVATE_FORMS/img_*/ 의 layout.json (docgen/formdir.py).
     studio 가져오기에서 견본 그림으로 만든 서식이다. 이미 등록된 ID 는 건너뛴다 (여러 번 불러도 된다)."""
+    from . import formdir
     from .registry import REGISTRY, DocSpec
 
     n = 0
-    for root in [IMAGE_FORMS, *_private_roots()]:
-        if not root.is_dir():
-            continue
-        for d in sorted(root.glob("img_*")):
-            if d.name in REGISTRY or not (d / "layout.json").exists():
-                continue
+    for d in formdir.image_dirs():
+        if d.name not in REGISTRY:
             lay = json.loads((d / "layout.json").read_text(encoding="utf-8"))
 
             def generate(p: Profile, rng: random.Random, _id=d.name) -> dict:

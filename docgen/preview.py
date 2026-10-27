@@ -54,19 +54,18 @@ def _source_file(fn) -> str:
 
 def source_files(doc_id: str, common: bool = True) -> list[Path]:
     """이 서식의 결과를 바꾸는 파일들 (서식 전용 + 공통). common=False 면 서식 전용만 (검수 후 바뀌었는지 볼 때)."""
-    from . import regions
+    from . import formdir, regions
 
     spec = load_all()[doc_id]
     files = [Path(_source_file(spec.generate)), *regions.hash_files(doc_id)]
     if spec.template != "_real_form.html.j2":
-        from .template_variants import folder
-        vd=folder(doc_id)
+        vd = formdir.variants_dir(doc_id)
         files += [vd/"variants.json"] + (sorted(vd.glob("*.html.j2")) + sorted(vd.glob("*.regions.json")) if vd.exists() else [])
     if spec.template.startswith("@form/"):   # 화면에서 만든 html 서식: 서식 폴더 (+ 복제면 부모의 생성 함수)
         from . import htmlform
 
         d = htmlform.form_dir(doc_id)
-        files += [d / "template.html.j2", d / "form.json"] if d else []
+        files += [formdir.template_in(d), d / "form.json"] if d else []
         parent = (htmlform.load_form(doc_id) if d else {}).get("parent")
         if parent in load_all():
             files.append(Path(_source_file(load_all()[parent].generate)))
@@ -76,17 +75,16 @@ def source_files(doc_id: str, common: bool = True) -> list[Path]:
                 lp = layout_path(int(parent[2:]))
                 files += ([lp] if lp else []) + regions.hash_files(parent)
     else:
-        files.insert(0, ROOT / "docgen" / "templates" / spec.template)
+        files.insert(0, formdir.template(doc_id) or formdir.TEMPLATES / spec.template)
     if spec.group in ("hana", "imported"):
-        from .realform import form_no, image_form_dir, layout_path
+        from .realform import form_no, layout_path
 
         no = form_no(doc_id)
         lp = layout_path(no) if no is not None else None
         if lp:
             files.append(lp)
-        d = image_form_dir(doc_id) if no is None else None
-        if d:
-            files += [f for f in sorted(d.iterdir()) if f.is_file() and f.name not in ("overrides.json", "regions.json")]
+        if no is None:
+            files += formdir.image_files(doc_id)
     return files + ([ROOT / c for c in COMMON] if common else [])
 
 
@@ -107,9 +105,12 @@ def _file_digest(p: Path) -> bytes:
 
 
 def source_hash(doc_id: str, common: bool = True) -> str:
+    from .formdir import hash_label
+
     h = hashlib.sha1()
     for p in source_files(doc_id, common):
-        h.update(str(p.relative_to(ROOT) if p.is_relative_to(ROOT) else p).encode())
+        name = hash_label(p)   # 서식 폴더로 옮긴 파일은 예전 자리 이름으로 (옮겨도 해시가 그대로)
+        h.update(str(name.relative_to(ROOT) if name.is_relative_to(ROOT) else name).encode())
         h.update(_file_digest(p))
     return h.hexdigest()[:12]
 

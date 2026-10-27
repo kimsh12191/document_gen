@@ -121,7 +121,7 @@ async function viewFormDraft(id) {
           : `<div class="bar"><label>서식 ID <input type="text" id="fd-id" placeholder="영어 소문자·숫자·밑줄" style="width:200px"></label>
             <label>이름 <input type="text" id="fd-rname" value="${esc(a.target.name || draft.name || "")}"></label>
             <button class="primary" id="fd-register" ${res && res.ok ? "" : "disabled"}>등록</button></div>
-            <div class="muted">${a.source.real_data ? "실서류 이미지라 private_forms_dir 에 만듭니다." : "docgen/templates/copies/&lt;ID&gt;/ 에 만듭니다."} 등록 뒤 ① 서식의 html 편집기에서 모양을 더 고칠 수 있습니다.</div>`}
+            <div class="muted">${a.source.real_data ? "실서류 이미지라 private_forms_dir 에 만듭니다." : "docgen/forms/&lt;ID&gt;/ 에 만듭니다."} 등록 뒤 ① 서식의 html 편집기에서 모양을 더 고칠 수 있습니다.</div>`}
       </div>
     </div>` : ""}
     ${running ? "" : `<div class="panel" style="margin-top:10px"><b>다시 만들기</b>

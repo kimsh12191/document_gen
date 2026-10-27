@@ -1,8 +1,9 @@
 """화면에서 만든 html 서식: 복제(copy)와 분석기가 이미지에서 만든 것(analyzer). studio 의 html 편집기가 고친다.
 
-  docgen/templates/copies/<ID>/     공개 서식에서 만든 것 (저장소)
+서식 폴더 (docgen/formdir.py):
+  docgen/forms/<ID>/                공개 서식에서 만든 것 (저장소)
   <private_forms_dir>/<ID>/         실서류 견본에서 만든 것 (저장소 밖, 환경변수 DOCGEN_PRIVATE_FORMS)
-    template.html.j2                Jinja 템플릿. 기존 서식과 같은 _base·_macros, f("키")·d·val 을 쓴다
+    look/template.html.j2           Jinja 템플릿. 기존 서식과 같은 _base·_macros, f("키")·d·val 을 쓴다
     form.json                       {"name", "group", "category", "page", "origin": "copy" | "analyzer", "parent": 부모 ID | null,
                                      "fields": {키: {"label", "type", "source", "choices"?, "text"?}},
                                      "lists": {이름: {"min", "max", "fields": {하위 키: {...}}}},
@@ -30,23 +31,22 @@ from contextlib import contextmanager
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent   # docgen/
-COPIES = ROOT / "templates" / "copies"
 PREFIX = "@form/"
 ID_RX = re.compile(r"[a-z][a-z0-9_]{2,50}")
 _local = threading.local()
 
 
-def roots() -> list[Path]:
-    p = os.environ.get("DOCGEN_PRIVATE_FORMS")
-    return [COPIES] + ([Path(p)] if p else [])
-
-
 def form_dir(doc_id: str) -> Path | None:
-    for r in roots():
-        d = r / doc_id
-        if (d / "form.json").exists() and (d / "template.html.j2").exists():
-            return d
-    return None
+    """form.json 과 템플릿이 있는 서식 폴더 (예전 자리 docgen/templates/copies/<ID> 도)."""
+    from . import formdir
+
+    return formdir.copy_dir(doc_id)
+
+
+def _template_path(d: Path) -> Path:
+    from . import formdir
+
+    return formdir.template_in(d) or d / "look" / formdir.TEMPLATE
 
 
 def _draft(doc_id: str) -> dict | None:
@@ -70,7 +70,7 @@ def template_source(doc_id: str) -> str:
     d = form_dir(doc_id)
     if d is None:
         raise KeyError(doc_id)
-    return (d / "template.html.j2").read_text(encoding="utf-8")
+    return _template_path(d).read_text(encoding="utf-8")
 
 
 def jinja_source(name: str):
@@ -83,7 +83,7 @@ def jinja_source(name: str):
     except KeyError:
         return None
     d = form_dir(doc_id)
-    path = str(d / "template.html.j2") if d else name
+    path = str(_template_path(d)) if d else name
     mtime = os.path.getmtime(path) if d else 0
     drafted = _draft(doc_id) is not None
     return src, path, (lambda: not drafted and _draft(doc_id) is None and d is not None and os.path.getmtime(path) == mtime)
@@ -196,17 +196,15 @@ def make_generate(doc_id: str):
 
 
 def register_forms() -> int:
-    """docgen/templates/copies/ 와 DOCGEN_PRIVATE_FORMS 의 html 서식을 등록한다 (registry.load_all 이 처음 한 번 부른다).
+    """docgen/forms/<ID>/ 와 DOCGEN_PRIVATE_FORMS 의 html 서식(form.json 이 있는 폴더)을 등록한다 (registry.load_all 이 처음 한 번 부른다).
     이미 등록된 ID 는 건너뛴다."""
     from .registry import GROUPS, REGISTRY, DocSpec
 
+    from . import formdir
+
     n = 0
-    for r in roots():
-        if not r.is_dir():
-            continue
-        for d in sorted(r.iterdir()):
-            if d.name in REGISTRY or not (d / "form.json").exists() or not (d / "template.html.j2").exists():
-                continue
+    for d in formdir.copy_dirs():
+        if d.name not in REGISTRY:
             form = json.loads((d / "form.json").read_text(encoding="utf-8"))
             group = form.get("group") if form.get("group") in GROUPS else "finance"   # 그룹을 안 정했으면 금융거래
             REGISTRY[d.name] = DocSpec(d.name, form.get("name") or d.name, group, form.get("category", "external"),
@@ -224,19 +222,19 @@ def clone(parent_id: str, new_id: str, name: str, private: bool = False) -> Path
     reg = load_all()
     if parent_id not in reg:
         raise KeyError(parent_id)
-    if not ID_RX.fullmatch(new_id) or new_id in reg or form_dir(new_id):
+    from . import formdir
+
+    if not ID_RX.fullmatch(new_id) or new_id in reg or form_dir(new_id) or formdir.folder(new_id):
         raise ValueError(f"서식 ID 는 영어 소문자·숫자·밑줄 3~51자, 겹치지 않게: {new_id}")
     spec = reg[parent_id]
     if spec.template == "_real_form.html.j2":
         raise ValueError("overlay 서식은 복제하지 않습니다 (html 서식만)")
     made = spec.template.startswith(PREFIX)   # 부모도 화면에서 만든 서식이면 그 form.json 을 이어 받는다
-    root = roots()[-1] if private else COPIES
-    if private and root == COPIES:
+    if private and not formdir.private_roots():
         raise ValueError("private_forms_dir 이 설정되지 않았습니다")
-    d = root / new_id
-    d.mkdir(parents=True)
-    src = template_source(parent_id) if made else (ROOT / "templates" / spec.template).read_text(encoding="utf-8")
-    (d / "template.html.j2").write_text(src, encoding="utf-8")
+    src = template_source(parent_id) if made else formdir.template(parent_id).read_text(encoding="utf-8")
+    d = formdir.new_dir(new_id, formdir.private_roots()[0] if private else None)
+    (d / "look" / formdir.TEMPLATE).write_text(src, encoding="utf-8")
     parent_form = load_form(parent_id) if made else {}
     form = {"name": name or f"{spec.name} (복제)", "group": spec.group, "category": spec.category, "page": spec.page,
             "origin": "copy", "parent": parent_form.get("parent") if made else parent_id,
@@ -257,7 +255,7 @@ def save(doc_id: str, template: str | None = None, form: dict | None = None) -> 
     if d is None:
         raise KeyError(doc_id)
     if template is not None:
-        (d / "template.html.j2").write_text(template, encoding="utf-8")
+        _template_path(d).write_text(template, encoding="utf-8")
     if form is not None:
         (d / "form.json").write_text(json.dumps(form, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     from .registry import REGISTRY

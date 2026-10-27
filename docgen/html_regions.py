@@ -1,7 +1,7 @@
 """HTML 값 영역의 별도 수정층. 템플릿 원본을 보존하고 모든 렌더 경로에 같은 수정을 적용한다.
 
 html 서식은 템플릿이 칸을 만든다. 이 수정층은 그 칸을 key 로 집어 위치·값·항목명을 바꾸거나 drop 으로 빼고, 새 칸을 더한다.
-파일은 docgen/regions.py 가 정한다: <서식이 있는 곳>/regions/<ID>.json 의 "regions" (기본 레이아웃)와
+파일은 docgen/regions.py 가 정한다: 서식 폴더의 regions.json 의 "regions" (기본 레이아웃)와
 "variants": {"<변형 ID>": {"regions": [...]}} (레이아웃 변형별).
 좌표는 페이지 왼쪽 위 기준 CSS px. 반복 출력은 key + occurrence(0부터)로 구분한다.
 """

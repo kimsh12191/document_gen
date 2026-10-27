@@ -13,11 +13,14 @@ import argparse
 import hashlib
 import html
 import json
+import sys
 from pathlib import Path
 
 import pymupdf
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT.parent))
+from docgen import formdir  # noqa: E402
 MANIFEST = ROOT / "manual" / "official_html_sources.json"
 PX = 96 / 72
 
@@ -100,12 +103,12 @@ def printed_text(page, exclusions):
 
 
 def compile_form(entry, overwrite=False):
-    source = ROOT / entry["source_file"]
+    source = formdir.source_path(entry["source_file"])
     expected = entry["sha256"]
     actual = hashlib.sha256(source.read_bytes()).hexdigest()
     if actual != expected:
         raise ValueError(f"원본 해시 불일치: {source}")
-    dest = ROOT / "templates" / "copies" / entry["id"]
+    dest = formdir.copy_dir(entry["id"]) or formdir.NEW_FORMS / entry["id"]
     if dest.exists() and not overwrite:
         raise FileExistsError(f"편집한 서식 보호: {dest} (--overwrite로 명시)")
     doc = pymupdf.open(source)
@@ -152,7 +155,9 @@ def compile_form(entry, overwrite=False):
                                     "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."}})
     dest.mkdir(parents=True, exist_ok=True)
     (dest / "form.json").write_text(json.dumps(form, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    (dest / "template.html.j2").write_text("\n".join(parts) + "\n", encoding="utf-8")
+    tpl = formdir.template_in(dest) or dest / "look" / formdir.TEMPLATE
+    tpl.parent.mkdir(parents=True, exist_ok=True)
+    tpl.write_text("\n".join(parts) + "\n", encoding="utf-8")
     doc.close()
     return len(pages)
 

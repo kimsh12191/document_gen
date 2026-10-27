@@ -253,7 +253,7 @@ def register_new_forms(bdir: Path, private_dir: str | None, only: set[str] | Non
             add.append({"t": "text", "page": g["page"], "label": g.get("label") or g["key"], "rect": to_pt(g["rect"]), "key": key})
         for g in dr["leftover"]:
             add.append({"t": "text", "page": g["page"], "label": g.get("label") or "값", "rect": to_pt(g["rect"]), "note": "남은 값 후보"})
-        regions.write_new(Path(res["dir"]).parent, fid, {"erase": erase, "add": add})
+        regions.write_new(Path(res["dir"]), {"erase": erase, "add": add})
         _set_intake(bdir, f["id"], form_id=fid)
         out.append({"format": f["id"], "form_id": fid, "name": d.get("name") or f["name"], "dir": res["dir"], "private": res["private"],
                     "slots": len(add), "erase": len(erase)})

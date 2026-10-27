@@ -112,7 +112,7 @@ studio는 **은행 벤치마크 데이터를 만들고 관리하는 도구**다.
 
 | 종류 | origin | 뜻 |
 |---|---|---|
-| `html` | `builtin` | 기존 코드의 서식 (`docgen/docs/*.py` + `docgen/templates/<그룹>/`) |
+| `html` | `builtin` | 기존 코드의 서식 (값은 `docgen/docs/*.py`, 모양은 `docgen/forms/<ID>/look/template.html.j2`) |
 | `html` | `copy` | 복제한 서식. 부모 서식의 생성 함수를 그대로 쓰고 템플릿만 사본 |
 | `html` | `analyzer` | 분석기가 이미지를 보고 만든 서식 |
 | `overlay` | `pdf` | 원본 PDF가 배경 (기존 406종) |
@@ -132,7 +132,7 @@ overlay 서식은 **값이 들어갈 영역을 지정하면 된다.** 영역마�
 | `staff` | 결재란 칸, 칸 이름 | 담당, 책임자 |
 | 표 반복 행 | 첫 행의 영역들 + 행 수와 행 간격 | 상품명·매수비율 5행 |
 
-자동 추출 결과(`docgen/forms/layouts/`)는 이미 이 형식이다. 사람이 하는 일은 잘못 잡은 영역을 지우고, 빠진 영역을 그리고, 키·타입·값 출처를 채우는 것이다.
+자동 추출 결과(`docgen/forms/hf<No>/layout.json`)는 이미 이 형식이다. 사람이 하는 일은 잘못 잡은 영역을 지우고, 빠진 영역을 그리고, 키·타입·값 출처를 채우는 것이다.
 
 **값 출처**는 고객 프로필 값(`profile.person.name` …) 또는 단순 규칙(`rule:date`, `rule:amount`, `rule:choice` + 보기 목록, `rule:free_text`)에서 고른다. 서식 고유 값(상품명, 사유 등)은 지금 `realform.py`가 항목명으로 추론하는 규칙을 그대로 쓸 수 있다.
 
@@ -209,7 +209,7 @@ overlay 서식은 **값이 들어갈 영역을 지정하면 된다.** 영역마�
 
 **구현 (8단계)** — `docgen/htmlform.py`, `studio/api_html.py`, `studio/static/js/htmled.js`
 
-- 서식 폴더: `docgen/templates/copies/<ID>/`(공개), 실서류 그림에서 만든 것은 `private_forms_dir/<ID>/`. 안에 `template.html.j2`, `form.json`, (분석기면) `source.png`.
+- 서식 폴더: `docgen/forms/<ID>/`(공개), 실서류 그림에서 만든 것은 `private_forms_dir/<ID>/`. 안에 `look/template.html.j2`, `form.json`, (분석기면) `source.png`.
   생성기는 처음 `load_all()` 때 이 폴더들을 등록한다(코드 서식 ID 와 겹치면 코드 서식이 이긴다). 템플릿 이름은 `@form/<ID>` 이고 `render.env()` 의 로더가 서식 폴더(또는 저장 전 초안)에서 읽는다.
 - 값: 부모가 있으면(복제) 부모 생성 함수 → `fields` 로 더하거나 덮기 → `lists` 마다 행 수 `min~max`. 행마다 `rule:<종류>` 값은 새로 뽑는다. 데이터 난수는 서식 ID 로 정해지므로 복제본은 부모와 키 구조는 같고 값은 다르다.
 - 미리보기: `Previewer.render(…, draft={"template", "form"}, rows="min"|"max")`. 라벨에 `checks`(선언했는데 안 나온 키, 템플릿에 있는데 값이 없는 키, 쪽 넘침)를 붙인다. 저장 때는 Jinja 문법·form.json 형식만 막고, 키 검사는 경고만 한다.
@@ -222,20 +222,19 @@ overlay 서식은 **값이 들어갈 영역을 지정하면 된다.** 영역마�
 studio/                                 도구 코드와 이 설계서
   DESIGN.md
   config.example.json                   환경 설정 예시 (분석기, 경로) — 실제 config.json 은 git 제외
-docgen/forms/
-  layouts/<분류>/<No>.json              overlay(pdf) 자동 추출 결과 (기존, 사람이 고치지 않음)
-  overrides/<서식ID>.json               overlay 사람 수정 (신규)
-  images/<서식ID>/                      overlay(image): 배경 page_N.png + layout.json (신규)
-docgen/templates/copies/<서식ID>/
-  template.html.j2                      html(copy·analyzer) 템플릿 (신규)
-  form.json                             부모 서식, 이름, 그룹, 새 항목 선언 (신규)
+docgen/forms/<서식ID>/                  서식 하나 = 폴더 하나 (docgen/formdir.py). 실서류에서 만든 서식은 private_forms_dir/<서식ID>/ 에 같은 꼴
+  look/                                 모양: original.pdf (hf###) · page_N.png (img_*) · template.html.j2 (html)
+  layout.json                           overlay 기재 자리 (hf### 은 자동 추출, 사람이 고치지 않음)
+  form.json                             html(copy·analyzer): 부모 서식, 이름, 그룹, 새 항목 선언
+  regions.json                          사람 수정 (overlay·html 공통, docgen/regions.py)
+  variants/                             html 레이아웃 변형
+docgen/templates/                       여러 서식이 같이 쓰는 틀만 (_base·_macros·_official_*·_real_form, 그룹 부품)
 docgen/keys.json                        표준 키 사전 (신규, 5절)
 docgen/catalog.json                     서식 목록표: 검수, 학습/평가 배정, 메모 (신규, 4.6)
 docgen/marks.json                       표시 설정: 손글씨·체크·도장·서명 기본값 (신규, 4.7)
 docgen/scenarios.json                   업무 시나리오 구성 (신규, registry.py 에서 옮김, 9.4)
 docgen/assets/marks/<풀>.json, <풀>/           표시 요소 풀: 체크·서명·도장 틀·글꼴 목록과 이미지 (신규, 4.7)
 docgen/recipes/<이름>.json            합성 데이터셋 레시피 (신규, 9.1). 만든 데이터셋 자체는 workspace_dir (git 제외)
-docgen/templates/copies/<서식ID>/        화면에서 만든 html 서식 (복제·분석기): template.html.j2, form.json, source.png
 studio_cache/                           예시 묶음·미리보기 (git 제외, 4.8)
 ```
 
@@ -248,9 +247,9 @@ studio_cache/                           예시 묶음·미리보기 (git 제외,
 | `real_data_dir` | 실서류 검수 결과: 라벨 검수(S5), OCR 검수(S11), 실서류 업무 묶음(S13) |
 | `private_forms_dir` | **실서류에서 만든 템플릿.** 값을 지운 배경이라도 실서류에서 나온 것은 공개 저장소에 넣지 않는다. 생성기는 이 경로가 설정돼 있으면 여기 서식도 등록한다 |
 
-### 4.5 overlay 수정 파일 예 (`docgen/forms/regions/hf169.json`)
+### 4.5 overlay 수정 파일 예 (`docgen/forms/hf169/regions.json`)
 
-서식 하나 = 수정 파일 하나 = `<서식이 있는 곳>/regions/<ID>.json` (overlay·html 공통, `docgen/regions.py`). 파일 맨 앞에 `"engine": "overlay", "unit": "pt"`가 붙는다.
+서식 하나 = 수정 파일 하나 = 서식 폴더의 `regions.json` (overlay·html 공통, `docgen/regions.py`). 파일 맨 앞에 `"engine": "overlay", "unit": "pt"`가 붙는다.
 
 ```json
 {
@@ -588,11 +587,11 @@ OCR을 읽고 부르는 일은 1부 OCR 학습의 준비 단계(`python -m bank_
 - **견본 고르기:** 양식 안에서 가장 깨끗한(기울기·흐림이 적은) 문서를 기본 견본으로 제안하고, 사람이 바꿀 수 있다.
 - **값 지우기:** 4.2의 배경 지우기 도구를 쓴다. 아래 지울 후보와 값 영역 초안은 7단계 마지막에 만든다. 없어도 손으로 지우고 그려서 서식을 만들 수 있다. **지울 후보**는 같은 양식 문서들의 OCR을 겹쳐 문서마다 달라지는 글자(= 값)로 잡는다.
 - **값 영역 초안:** 같은 양식 문서들에서 늘 같은 글자는 항목명·고정 문구, 문서마다 다른 글자는 값이다. 값 글자 덩어리의 위치를 모아 값 영역 초안으로, 그 왼쪽·위의 항목명을 `label` 초안으로 쓴다. 키는 표준 키 사전에서 고른다(5절).
-- **보관 위치:** 실서류에서 만든 서식은 `private_forms_dir`(4.4)에 두고 공개 저장소에 넣지 않는다. 공개 서식·빈 서식에서 만든 것만 저장소의 `docgen/forms/images/`에 둔다.
+- **보관 위치:** 실서류에서 만든 서식은 `private_forms_dir`(4.4)에 두고 공개 저장소에 넣지 않는다. 공개 서식·빈 서식에서 만든 것만 저장소의 `docgen/forms/<ID>/`에 둔다.
 
 **구현 (7단계)** — `studio/importer.py` `create_template`, `value_drafts`
 
-- 서식 폴더 `img_<ID>/`: `page_<n>.png`(견본 쪽 그림, OCR이 본 그림 그대로), `layout.json`(쪽 크기 pt = px ÷ `BG_ZOOM`, 빈 `items`, 배경 글자 `texts` = 견본 OCR 단어(pt) — 합성 OCR 정답의 서식 글자), 사람 수정은 `<서식 폴더가 든 곳>/regions/<ID>.json`(`private_forms_dir` 서식은 수정도 그 아래에 둬서 실서류 서식의 수정이 저장소로 나가지 않는다).
+- 서식 폴더 `img_<ID>/`: `look/page_<n>.png`(견본 쪽 그림, OCR이 본 그림 그대로), `layout.json`(쪽 크기 pt = px ÷ `BG_ZOOM`, 빈 `items`, 배경 글자 `texts` = 견본 OCR 단어(pt) — 합성 OCR 정답의 서식 글자), 사람 수정은 서식 폴더의 `regions.json`(`private_forms_dir` 서식은 수정도 그 폴더에 있어 실서류 서식의 수정이 저장소로 나가지 않는다).
 - 값 자리 초안: 같은 포맷 다른 문서(같은 양식 먼저, 12개까지)의 같은 쪽을 견본에 **아핀 정렬**(양쪽에 한 번씩만 나오는 같은 글자들의 중심으로 최소제곱, 어긋난 짝 30% 빼고 다시)한 뒤, 견본 단어가 다른 문서 **60% 이상**에서 같은 자리(가로 4%·세로 2%)에 같은 글자로 나오면 서식 글자, 아니면 값. 견본 글자가 25% 미만(또는 가장 비슷한 문서의 60% 미만) 겹치는 문서는 다른 서식으로 보고 뺀다(한 포맷에 섞인 재직·경력증명서). 기호만인 단어는 경계로 보지 않는다.
 - 값 단어를 줄로 모아 왼쪽부터, 사이에 서식 글자가 없고 간격이 글자 높이 2배 안이면 한 자리로 묶는다. 자리마다 `erase`(주변색) + `add`(글자 칸, 항목명 = 같은 줄 왼쪽 서식 글자(띄어 쓴 "소 재 지"는 붙임), 없으면 바로 위). 키는 항목명으로 자동 추정되고(`realform.kind_of`), 사람이 영역 편집기에서 고친다.
 - 생성 데이터 3종으로 확인(2026-10-20): 퇴직연금 신청서·소득금액증명·재직증명서에서 성명·주민번호·주소·회사·금액·날짜가 값 자리로 잡히고, 몇 개의 서식 글자가 값으로 잘못 잡힌다(사람이 지운다).
@@ -959,9 +958,9 @@ OCR 데이터셋 (benchmark_tasks.jsonl, train_sft.jsonl …) → 등록부
 
 | 사용자가 고친 것 | 저장되는 파일 | 반영되는 곳 |
 |---|---|---|
-| overlay·html 영역(위치·키·타입·값 출처), 배경 지우기 | `docgen/forms/regions/<ID>.json` (실서류에서 만든 서식은 `private_forms_dir/regions/<ID>.json`) | 그 서식이 나오는 모든 과제(OCR, 문서 이해, 은행 업무 묶음)의 이미지와 정답 |
-| html 서식 (복제·분석기) | `docgen/templates/copies/<ID>/` | 위와 같음 (새 서식으로 추가) |
-| 템플릿으로 보낸 새 서식 | `docgen/forms/images/<ID>/` 또는 `private_forms_dir` | 위와 같음. 실서류에서 만든 서식은 내부망 빌드에서만 |
+| overlay·html 영역(위치·키·타입·값 출처), 배경 지우기 | `docgen/forms/<ID>/regions.json` (실서류에서 만든 서식은 `private_forms_dir/<ID>/regions.json`) | 그 서식이 나오는 모든 과제(OCR, 문서 이해, 은행 업무 묶음)의 이미지와 정답 |
+| html 서식 (복제·분석기) | `docgen/forms/<ID>/` | 위와 같음 (새 서식으로 추가) |
+| 템플릿으로 보낸 새 서식 | `docgen/forms/<ID>/` 또는 `private_forms_dir/<ID>/` | 위와 같음. 실서류에서 만든 서식은 내부망 빌드에서만 |
 | 표시 설정·표시 요소 풀 | `docgen/marks.json`, `docgen/assets/marks/` | 체크·도장·서명·손글씨가 들어가는 모든 이미지 |
 | 표준 키 사전·키 대응 | `docgen/keys.json` | 정답 키, 질문에 넣는 항목 목록 |
 | 검수 상태·학습/평가 배정 | `docgen/catalog.json` | 레시피의 서식 거르기(검수 완료만, 평가 전용 서식은 학습에서 뺌) |
@@ -1111,15 +1110,15 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 
 | 변경 | 위치 | 내용 |
 |---|---|---|
-| 수정층 적용 | `docgen/realform.py` (`load_layout`) | 자동 레이아웃을 읽은 뒤 `docgen/forms/regions/<ID>.json`을 덧씌운다 |
-| 이미지 배경 | `docgen/realform.py` (`background_png`) | PDF가 없고 `docgen/forms/images/<ID>/`가 있으면 그 이미지를 배경으로 쓴다 |
+| 수정층 적용 | `docgen/realform.py` (`load_layout`) | 자동 레이아웃을 읽은 뒤 `docgen/forms/<ID>/regions.json`을 덧씌운다 |
+| 이미지 배경 | `docgen/realform.py` (`background_png`) | PDF가 없고 `docgen/forms/<ID>/look/page_<n>.png`가 있으면 그 이미지를 배경으로 쓴다 |
 | 배경 지우기 | `docgen/realform.py` (`background_png`) | 수정 파일의 `erase` 목록을 배경에 적용한다 (흰색 / 주변색) (4.2) |
 | 표시 요소 풀 | 신규 `docgen/marks.py`, `render.py`·`realform.py`·`_macros.html.j2` | 체크·서명은 풀 이미지에서, 도장은 틀에서 그린다. 지금 코드의 모양을 기본 항목으로 등록하고, 쓸 때마다 크기·회전·색을 조금씩 바꾼다 (4.7) |
-| 신규 서식 등록 | `docgen/registry.py` (`load_all`) | `docgen/templates/copies/*/form.json`과 `docgen/forms/images/*`, 설정돼 있으면 `private_forms_dir`도 읽어 등록한다 |
+| 신규 서식 등록 | `docgen/registry.py` (`load_all`) | `docgen/forms/*/form.json`·`docgen/forms/img_*/layout.json`, 설정돼 있으면 `private_forms_dir`도 읽어 등록한다 (`docgen/formdir.py`) |
 | 단순 값 규칙 | 신규 `docgen/sources.py` | `source`(`profile.*`, `rule:*`)를 값으로 바꾼다 |
 | 표준 키 사전 | 신규 `docgen/keys.json` | html 서식 키에서 초안을 만든다. `realform.py`의 `KEY_RULES`도 이 사전을 따른다 |
 | 학습/평가 배정 | `docgen/bench/build.py` | `docgen/catalog.json`의 `split`으로 서식을 나눈다 |
-| html 서식 정보 | `docgen/registry.py`, 신규 `docgen/sources.py` | `docgen/templates/copies/<ID>/form.json`의 `fields`(키·타입·값 출처)와 `lists`(반복 목록, 행 수 범위)로 생성 함수 없이 값을 만든다. `paginate`가 켜져 있으면 여러 쪽으로 나눈다 (4.3) |
+| html 서식 정보 | `docgen/registry.py`, 신규 `docgen/sources.py` | `docgen/forms/<ID>/form.json`의 `fields`(키·타입·값 출처)와 `lists`(반복 목록, 행 수 범위)로 생성 함수 없이 값을 만든다. `paginate`가 켜져 있으면 여러 쪽으로 나눈다 (4.3) |
 | studio 패키지 반입 | 신규 `studio/deps.py`, `studio/wheels/`, `docker/requirements.lock` | 이미지를 다시 만들지 않고 컨테이너 안 `studio_deps/`에 설치. 다음 이미지에는 포함 (3절 원칙 6) |
 | 미리보기 명령 | `docgen/preview.py` | `python -m docgen.preview <서식ID 또는 템플릿 폴더> --seed N --out <폴더>`: CLI 분석기가 작업 폴더 안에서 렌더링해 원본과 비교할 때 쓴다 (7.3) |
 | 미리보기 함수 | 신규 `docgen/preview.py` | 서식 하나, seed 하나, 변형·촬영 조건을 받아 이미지와 라벨을 돌려준다. 브라우저를 띄워 둔 `ImageRenderer`를 재사용한다 (이 PC에서 장당 0.4~1.3초, 캐시 0.01초. `docgen generate`가 느린 것은 시작할 때 476종 전체를 한 번 렌더링하는 키 목록 수집 때문이다) |
@@ -1229,7 +1228,7 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 
 ①의 **영역 편집**을 HTML에도 제공한다. 실제 생성 이미지 위에서 칸 선택·이동·모서리로 크기 조절·좌표 입력·다른 쪽으로 이동·새 값 칸 그리기·출력 제외·수정 취소를 할 수 있다. 항목명·값 출처(`profile.*`, `rule:*`)·고정 값·글자 크기도 고친다. 위치가 없는 항목도 목록에 표시하며, 이를 선택한 뒤 그리면 해당 키에 위치를 연결한다. 체크·도장·서명은 이 글자 편집 대상에서 제외하며 현재는 HTML 템플릿에서 편집한다. overlay는 기존 편집기를 사용한다.
 
-- HTML 수정도 overlay와 같은 파일: 공개 서식은 `docgen/forms/regions/<ID>.json`, 내부 전용 서식은 `private_forms_dir/regions/<ID>.json` (`"engine": "html", "unit": "px"`). 레이아웃 변형별 수정은 같은 파일의 `"variants": {"<변형 ID>": {"regions": [...]}}`.
+- HTML 수정도 overlay와 같은 파일: 공개 서식은 `docgen/forms/<ID>/regions.json`, 내부 전용 서식은 `private_forms_dir/<ID>/regions.json` (`"engine": "html", "unit": "px"`). 레이아웃 변형별 수정은 같은 파일의 `"variants": {"<변형 ID>": {"regions": [...]}}`.
 - html 서식은 템플릿이 칸을 만든다. 이 파일은 그 위의 수정층이라, 적지 않은 템플릿 칸은 그대로 나온다 (빼려면 `drop`).
 - 원본 템플릿을 보존하는 별도 수정층이다. 좌표는 페이지 왼쪽 위 기준 **CSS px**이며 overlay의 PDF pt와 다르다.
 - `regions`는 `{key, occurrence?, page?, rect?, source?, label?, text?, choices?, font_size?, drop?}` 목록. `occurrence`는 같은 키의 출력 순서(0부터). 같은 키의 값 출처는 하나이며 위치는 출력마다 고칠 수 있다.

@@ -79,10 +79,12 @@ def make_router(reg, jobs, guard, cfg: dict, previewer, preview_url) -> APIRoute
 
     @r.get("/api/forms/{doc_id}/html")
     def get_html(doc_id: str):
+        from docgen import formdir
+
         H, spec = html_form(doc_id)
         d = H.form_dir(doc_id)
         return {"template": H.template_source(doc_id), "form": H.load_form(doc_id), "origin": spec.origin, "dir": str(d),
-                "private": d.parent != H.COPIES, "has_source": (d / "source.png").exists()}
+                "private": formdir.is_private(d), "has_source": (d / "source.png").exists()}
 
     class HtmlReq(BaseModel):
         template: str | None = None
@@ -165,7 +167,9 @@ def make_router(reg, jobs, guard, cfg: dict, previewer, preview_url) -> APIRoute
             raise HTTPException(400, "원본 그림이 없는 서식은 분석기에 맡길 수 없습니다 (복제한 코드 서식 등)")
         form = req.form if req.form is not None else H.load_form(doc_id)
         prev = {"template.html.j2": req.template if req.template is not None else H.template_source(doc_id), "form.json": form}
-        private = d.parent != H.COPIES
+        from docgen import formdir
+
+        private = formdir.is_private(d)
         jd = guard(AZ.create_job, ws, cfg, "html", req.provider, [str(d / "source.png")],
                    {"form_id": doc_id, "name": spec.name, "group": spec.group, "update": True},
                    {"real_data": private, "public": not private, "label": f"서식 {doc_id}"}, None, req.comment, prev)
@@ -230,7 +234,9 @@ def make_router(reg, jobs, guard, cfg: dict, previewer, preview_url) -> APIRoute
             if d is None:
                 raise HTTPException(400, "가져온 이미지 서식(img_*)만 쓸 수 있습니다")
             lay = json.loads((d / "layout.json").read_text(encoding="utf-8"))
-            return [str(d / f"page_{k}.png") for k in range(len(lay["pages"]))], \
+            from docgen import formdir
+
+            return [str(formdir.page_png(src["form"], k)) for k in range(len(lay["pages"]))], \
                 {"real_data": bool(lay.get("private")), "public": not lay.get("private"), "label": f"서식 {src['form']}", "texts": lay.get("texts")}
         raise HTTPException(400, "그림 출처를 고르세요 (upload / batch / form)")
 

@@ -5,21 +5,19 @@ import json
 import math
 import random
 import re
-from pathlib import Path
 
-ROOT = Path(__file__).parent / "templates" / "variants"
 RX = re.compile(r"[a-z][a-z0-9_]{0,50}")
 
 
 def folder(doc_id):
+    """레이아웃 변형 폴더: 서식 폴더의 variants/ (docgen/formdir.py)."""
     from .registry import load_all
-    from .htmlform import form_dir, COPIES
+    from . import formdir
 
     spec=load_all()[doc_id]
     if spec.template == "_real_form.html.j2":
         raise ValueError("HTML 서식의 레이아웃 변형 기능입니다")
-    d=form_dir(doc_id)
-    return d/"variants" if d and not d.is_relative_to(COPIES) else ROOT/doc_id
+    return formdir.variants_dir(doc_id)
 
 
 def load(doc_id):
@@ -59,7 +57,8 @@ def source(doc_id,variant):
         from .registry import load_all
         from .htmlform import template_source
         spec=load_all()[doc_id]
-        return template_source(doc_id) if spec.template.startswith("@form/") else (Path(__file__).parent/"templates"/spec.template).read_text(encoding="utf-8")
+        from . import formdir
+        return template_source(doc_id) if spec.template.startswith("@form/") else formdir.template(doc_id).read_text(encoding="utf-8")
     if not RX.fullmatch(variant) or variant not in {r["id"] for r in load(doc_id)["variants"]}:
         raise ValueError("등록되지 않은 레이아웃입니다")
     return (folder(doc_id)/(variant+".html.j2")).read_text(encoding="utf-8")

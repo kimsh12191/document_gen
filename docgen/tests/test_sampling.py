@@ -8,6 +8,7 @@ from docgen import registry as R
 from docgen import template_variants as T
 from docgen import html_regions as HR
 from docgen import regions
+from docgen.tests.sandbox import forms_sandbox
 from docgen.entities import make_profile
 from docgen.render import render
 from docgen.roles import ExcludedForm,resolve,resolve_processing,validate_sampling
@@ -33,8 +34,7 @@ def test_layout_sampling_preserves_semantic_values():
 
 
 def test_variant_files_and_validation(tmp_path,monkeypatch):
-    monkeypatch.setattr(T,"ROOT",tmp_path)
-    monkeypatch.setattr(regions,"ROOT",tmp_path/"regions")
+    forms_sandbox(monkeypatch,tmp_path,"employment_certificate")   # 레이아웃 변형 없이 복사
     T.add("employment_certificate","letter_copy","회사별 양식")
     cfg=T.load("employment_certificate");cfg["mode"]="fixed";cfg["fixed"]="letter_copy"
     T.save("employment_certificate",cfg)
@@ -111,7 +111,7 @@ def test_preview_and_builder_select_same_document_and_keys(monkeypatch):
 def test_marks_and_checks_can_move_and_change_presence(tmp_path,monkeypatch):
     from docgen.image import ImageRenderer
 
-    monkeypatch.setattr(regions,"ROOT",tmp_path/"regions")
+    forms_sandbox(monkeypatch,tmp_path,"loan_application")
     spec=R.load_all()["loan_application"];p=make_profile(3)
     original,raw,_=render(spec,p,3)
     present=next(f for f in raw if f.get("type") in ("seal","signature") and f.get("present"))

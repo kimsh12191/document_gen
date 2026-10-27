@@ -141,9 +141,11 @@ def create_job(ws: Path, cfg: dict, kind: str, provider: str, images: list[str],
     if kind == "html":
         shutil.copyfile(images[0], d / "input" / "source.png")
         sent.append("input/source.png")
+        from docgen import formdir
+
         refs = {"TEMPLATE_GUIDE.md": ROOT / "docgen" / "manual" / "TEMPLATE_GUIDE.md",
-                "example_simple.html.j2": ROOT / "docgen" / "templates" / "income" / "employment_certificate.html.j2",
-                "example_rows.html.j2": ROOT / "docgen" / "templates" / "finance" / "bank_statement.html.j2",
+                "example_simple.html.j2": formdir.template("employment_certificate"),
+                "example_rows.html.j2": formdir.template("bank_statement"),
                 "_macros.html.j2": ROOT / "docgen" / "templates" / "_macros.html.j2",
                 "keys.json": ROOT / "docgen" / "keys.json"}
     else:
@@ -373,14 +375,15 @@ def approve(ws: Path, job_id: str, by: str, form_id: str | None = None, name: st
             rv["approved"] = {"as": form_id, "updated": True, "at": time.strftime("%Y-%m-%d %H:%M"), "by": by}
             _write(d / "review.json", rv)
             return rv["approved"]
-        if not form_id or not H.ID_RX.fullmatch(form_id) or form_id in load_all() or H.form_dir(form_id):
+        from docgen import formdir
+
+        if not form_id or not H.ID_RX.fullmatch(form_id) or form_id in load_all() or H.form_dir(form_id) or formdir.folder(form_id):
             raise ValueError(f"서식 ID 를 확인하세요 (영어 소문자·숫자·밑줄, 겹치지 않게): {form_id}")
         private = bool(job["source"].get("real_data")) and not job["source"].get("public")
         if private and not private_dir:
             raise ValueError("실서류 그림에서 만든 서식은 private_forms_dir 에만 둡니다. 설정에 private_forms_dir 을 정하세요")
-        dest = (Path(private_dir) if private else H.COPIES) / form_id
-        dest.mkdir(parents=True)
-        shutil.copyfile(d / "output" / "template.html.j2", dest / "template.html.j2")
+        dest = formdir.new_dir(form_id, Path(private_dir) if private else None)
+        shutil.copyfile(d / "output" / "template.html.j2", dest / "look" / formdir.TEMPLATE)
         form = json.loads((d / "output" / "form.json").read_text(encoding="utf-8"))
         form.update({"origin": "analyzer", "source_image": "source.png", "from_job": job_id})
         if name:
