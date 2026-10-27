@@ -33,6 +33,7 @@ docgen/forms/<ID>/                 공개 서식 (실서류에서 만든 서식�
 - **html 서식의 표·문구 모양을 고치려면** → `look/template.html.j2` (복제 서식은 studio html 편집). overlay 서식은 모양(원본 그림)을 바꾸지 않습니다.
 - 코드 서식 70종은 값을 `docgen/docs/<그룹>.py` 의 생성 함수가 만듭니다. 여러 서식이 같이 쓰는 틀(`_base`·`_macros`·`_real_form`, 그룹 부품)은 `docgen/templates/` 에 남습니다.
 - 서식 하나의 파일을 모두 보려면 `python -m docgen.formdir path <ID>`.
+- 모양(껍데기)만 원본에 맞게 고치기 — 사람·VLM 공용 안내: [manual/FORM_SHELL_GUIDE.md](manual/FORM_SHELL_GUIDE.md)
 
 - 전체 목록: [guide/documents.md](../guide/documents.md)
 - 하나은행 공개 서식 441건 대응표: [docgen/manual/FORM_MAP.md](manual/FORM_MAP.md)
