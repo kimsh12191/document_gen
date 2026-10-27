@@ -290,7 +290,10 @@ def preflight(sw):
                 later.add(str((Path(conf).parent / read_json(conf)["output_dir"]).resolve()))
         for e in cfg["data"]["train"]:
             path = e if isinstance(e, str) else e.get("path", "")
-            if path not in later and not ((Path(path) / "meta.json").is_file() and (Path(path) / "tasks").is_dir()):
+            if not isinstance(e, str) and e.get("format") == "swift-fields":
+                if not Path(path).is_file():
+                    problems.append(f"{label}: train swift .jsonl 이 없습니다: {path}")
+            elif path not in later and not ((Path(path) / "meta.json").is_file() and (Path(path) / "tasks").is_dir()):
                 problems.append(f"{label}: train 경로가 데이터셋 폴더(meta.json + tasks/)가 아닙니다: {path}")
         for b in benches:
             for path in b["paths"]:

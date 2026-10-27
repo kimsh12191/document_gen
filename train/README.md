@@ -28,7 +28,7 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 
 | 칸 | 뜻 |
 |---|---|
-| `train` | 학습 데이터셋 목록. 경로 또는 `{"path", "count"}` (그 데이터셋에서 SFT 문항을 count 개만 무작위로). 문항 `meta.split` 이 train 이면 학습, val 이면 검증 (`docgen.bench build --split train` 폴더는 표시 없는 문항도 학습) |
+| `train` | 학습 데이터셋 목록. 경로 또는 `{"path", "count"}` (그 데이터셋에서 SFT 문항을 count 개만 무작위로). 문항 `meta.split` 이 train 이면 학습, val 이면 검증 (`docgen.bench build --split train` 폴더는 표시 없는 문항도 학습). 실서류 swift `.jsonl` 은 `{"path": "….jsonl", "format": "swift-fields", "scorer"?}` — 줄 전부 학습(과제 `kie`), 채점 함수(없으면 `swift_default.py`)가 못 읽는 줄은 빼고 GRPO 보상도 그 함수. [guide/training.md 2절](../guide/training.md#2-설정-파일) |
 | `benchmark` | 평가 세트 목록. `{"id", "name", "group", "paths", "format"?, "gt"?, "scorer"?}` 로 세트마다 점수가 따로 나온다. 문항 `meta.split` 이 train·val 이 아닌 것만 쓰므로 OCR 준비 폴더는 학습·평가 둘 다에 넣어도 된다. 자세히 [guide/eval.md 1절](../guide/eval.md#1-평가-세트-정하기) |
 | `output_dir` | 섞은 폴더 (`DONE.json` 이 있으면 다시 섞지 않음) |
 | `task_mix` | `{과제: 비율}`. 적힌 과제는 `sft_max_examples` 안에서 그 비율, 0 이면 뺌, **적히지 않은 과제는 있는 만큼 다** (OCR 은 보통 `count` 로만 줄인다) |
@@ -51,7 +51,7 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 | sft | SFT (`python -m train.launch sft`) | `sft/…/checkpoint-N` |
 | eval_sft | SFT 병합·평가, GRPO 후보에 답 | `reports/sft.json` |
 | select | GRPO 문항 고르기: `mine`(반은 SFT 보상이 낮은 것) · `random` · `all` | `grpo_train.jsonl` |
-| grpo | GRPO, 보상 = `docgen.bench.evaluate.reward` (`train/reward_plugin.py`) | `grpo/…/checkpoint-N` |
+| grpo | GRPO, 보상 = `docgen.bench.evaluate.reward` (`train/reward_plugin.py`; swift 학습 데이터는 그 `scorer`) | `grpo/…/checkpoint-N` |
 | eval_grpo | GRPO 병합·평가 | `reports/grpo-<체크포인트>.json` |
 | report | 한 화면(평가 세트·과제별 주 지표, 출발 모델 대비 %p), 자세한 비교표 | `reports/summary.html`, `reports/benchmark.{csv,md,html}` — 읽는 법 [guide/results.md](../guide/results.md) |
 

@@ -13,7 +13,9 @@
 
 설정 (파이프라인 설정의 data 칸)
   train       학습 데이터셋 [경로 또는 {"path", "count": 이 데이터셋에서 쓸 SFT 문항 수(무작위)}]. 문항 meta.split 이 train 인
-              것(폴더 meta.split 이 train 이면 표시 없는 문항도)이 학습, val 은 검증
+              것(폴더 meta.split 이 train 이면 표시 없는 문항도)이 학습, val 은 검증.
+              swift .jsonl 은 {"path": "….jsonl", "format": "swift-fields", "scorer"?: "<파일.py>:<함수>"} — 줄 전부 학습,
+              채점 함수(없으면 train/scorers/swift_default.py)가 정답을 못 읽는 줄은 빼고, GRPO 보상도 그 함수로
   benchmark   평가 데이터셋 [경로 …] — 문항 meta.split 이 train·val 이 아닌 것
   task_mix    {과제: 비율} — 적힌 과제는 sft_max_examples 안에서 그 비율, 적히지 않은 과제는 있는 만큼 다 (예: OCR 은 count 로만 줄임).
               없으면 있는 비율대로 sft_max_examples 까지
@@ -57,20 +59,21 @@ BENCH_ITEM_KEYS = ("id", "task", "answer", "eval", "meta")
 CHARS_PER_TOKEN = 0.67  # conservative for Korean text: assume 1.5 tokens per character
 
 
-def load_folder(path: Path, fmt: str = "tasks") -> tuple[dict, list[dict]]:
-    """과제 폴더 → (meta, 문항). 문항의 images 는 절대 경로로. fmt "swift-fields": 실서류 swift .jsonl (train/swift_import.py)."""
+def load_folder(path: Path, fmt: str = "tasks", split: str = "test") -> tuple[dict, list[dict]]:
+    """과제 폴더 → (meta, 문항). 문항의 images 는 절대 경로로. fmt "swift-fields": 실서류 swift .jsonl (train/swift_import.py),
+    split 은 swift 문항의 쓰임 ("test" 평가, "train" 학습)."""
     from docgen.bench.tracking import enrich, source_id
 
     if fmt == "swift-fields":
         from .swift_import import load_swift
 
-        meta, items = load_swift(path)
+        meta, items = load_swift(path, split)
         origin = source_id(path.stem, meta)
         return meta, [enrich(it, origin) for it in items]
     meta_path = path / "meta.json"
     if not meta_path.is_file() or not (path / "tasks").is_dir():
         raise ValueError(f"{path}: 과제 폴더(meta.json + tasks/)가 아닙니다 — studio 데이터셋 폴더를 쓰세요 "
-                         '(swift .jsonl 은 평가에 "format": "swift-fields" 와 함께)')
+                         '(swift .jsonl 은 "format": "swift-fields" 와 함께)')
 
     meta = read_json(meta_path)
     origin = source_id(path.name, meta)
@@ -277,10 +280,6 @@ def sft_record(it: dict) -> dict:
     return swift_record(it)
 
 
-def _entries(spec) -> list[dict]:
-    return [s if isinstance(s, dict) else {"path": s} for s in (spec if isinstance(spec, list) else [spec])]
-
-
 def mix(data_cfg: dict, model_dir: str | None) -> dict:
     cfg = {**DEFAULTS, **data_cfg}
     out = Path(cfg["output_dir"])
@@ -348,19 +347,32 @@ def mix(data_cfg: dict, model_dir: str | None) -> dict:
     if len({it["id"] for it in bench_items}) != len(bench_items):
         raise ValueError("평가 데이터셋끼리 문항 ID 가 겹칩니다")
     bench_keys = {group_key(it) for it in bench_items}
+    bench_images = {str(Path(p).resolve()) for it in bench_items for p in it["images"]}
 
     # -- 학습: SFT 풀·검증·GRPO 후보 ------------------------------------------------------------
+    from .benchmarks import train_entries
+
     pools, val_rows, grpo, overlap, train_sources = {}, [], [], 0, {}
-    for e in _entries(cfg["train"]):
-        meta, items = load_folder(Path(e["path"]))
+    for e in train_entries(cfg["train"]):
+        fmt = e.get("format", "tasks")
+        meta, items = load_folder(Path(e["path"]), fmt, split="train")
+        if fmt == "swift-fields":   # 정답 글 그대로: 그 학습 데이터의 채점 함수가 읽고 만점을 주는 줄만 (GRPO 보상도 이 함수)
+            items = [{**it, "eval": {**it["eval"], "scorer": e["scorer"]}} for it in items]
+            items, skipped = unreadable(items)
+            if skipped:
+                print(f"WARNING: {Path(e['path']).name}: 채점 함수({e['scorer']})가 정답을 읽지 못한 {len(skipped)}줄을 학습에서 뺍니다 "
+                      f"(예: {skipped[0]['id']} {skipped[0]['why']})", flush=True)
+                meta = {**meta, "skipped": [*meta.get("skipped", []), *skipped]}
+            if not items:
+                raise ValueError(f"train {e['path']}: 채점 함수가 읽은 정답이 없습니다 (예: {skipped[0]['why']})")
         rows, n_val, before = [], 0, overlap
         for it in items:
             s = split_of(it, meta.get("split", "test"))
             if s == "test":
                 continue
             key = group_key(it)
-            if key in bench_keys:
-                overlap += 1
+            if key in bench_keys or (fmt == "swift-fields" and bench_images & {str(Path(p).resolve()) for p in it["images"]}):
+                overlap += 1   # swift 는 파일 이름이 문서 ID 에 들어가므로 같은 그림인지도 본다
                 continue
             if s == "val":
                 val_rows.append(it)
@@ -378,6 +390,7 @@ def mix(data_cfg: dict, model_dir: str | None) -> dict:
         for it in rows:
             pools.setdefault(it["task"], []).append(it)
         train_sources[e["path"]] = {"rows": len(rows), "val": n_val, "count": e.get("count"),
+                                    **({"format": fmt, "scorer": e["scorer"]} if fmt != "tasks" else {}),
                                     "meta": {k: v for k, v in meta.items() if k not in ("doc_names",)}}
     if overlap:
         raise ValueError(f"{overlap} training rows share a customer or document with the benchmark; "

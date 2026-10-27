@@ -2,13 +2,15 @@
 format: "tasks"(기본, studio 과제 폴더) | "swift-fields"(실서류 swift .jsonl, train/swift_import.py).
 gt: 정답 출처 "exact"·"reviewed"·"pseudo" (폴더의 meta.json 보다 우선).
 scorer: 이 평가 세트만 다르게 채점할 때 "<파일.py>:<함수>" (설정 파일 기준 상대 경로, 함수를 빼면 score). 견본 train/scorers/.
-  swift-fields 세트는 늘 채점 함수로 채점하고, 적지 않으면 train/scorers/swift_default.py."""
+  swift-fields 세트는 늘 채점 함수로 채점하고, 적지 않으면 train/scorers/swift_default.py.
+학습 데이터(data.train)도 같은 format·scorer 를 받는다 (train_entries)."""
 import hashlib
 from pathlib import Path
 import re
 
 FORMATS = ("tasks", "swift-fields")
 GTS = ("exact", "reviewed", "pseudo")
+SWIFT_DEFAULT = str(Path(__file__).resolve().parent / "scorers" / "swift_default.py") + ":score"
 
 
 def normalize(spec):
@@ -44,19 +46,44 @@ def normalize(spec):
         for p in paths:
             if (fmt == "swift-fields") != p.endswith(".jsonl"):
                 raise ValueError(f"{p}: swift .jsonl 은 \"format\": \"swift-fields\" 와 함께, 그 밖의 경로는 과제 폴더로 적습니다")
-        scorer = value.get("scorer")
-        if scorer is None and fmt == "swift-fields":   # swift 세트는 늘 채점 함수로 (정답 글을 그대로 넘김)
-            scorer = str(Path(__file__).resolve().parent / "scorers" / "swift_default.py") + ":score"
-        if scorer is not None:
-            if not isinstance(scorer, str) or not scorer.partition(":")[0].endswith(".py"):
-                raise ValueError(f"benchmark {ident}: scorer 는 \"<파일.py>:<함수>\" 입니다: {scorer}")
-            from docgen.bench.evaluate import load_scorer
-
-            load_scorer(scorer)   # 파일·함수가 있는지 돌리기 전에
+        scorer = _scorer(value.get("scorer"), fmt, f"benchmark {ident}")
         result.append({"id": ident, "name": name.strip(), "group": group.strip(), "paths": paths, "legacy": legacy,
                        **({"format": fmt} if fmt != "tasks" else {}), **({"gt": gt} if gt else {}),
                        **({"scorer": scorer} if scorer else {})})
     return result
+
+
+def _scorer(scorer, fmt, where):
+    if scorer is None and fmt == "swift-fields":   # swift 는 늘 채점 함수로 (정답 글을 그대로 넘김)
+        scorer = SWIFT_DEFAULT
+    if scorer is not None:
+        if not isinstance(scorer, str) or not scorer.partition(":")[0].endswith(".py"):
+            raise ValueError(f"{where}: scorer 는 \"<파일.py>:<함수>\" 입니다: {scorer}")
+        from docgen.bench.evaluate import load_scorer
+
+        load_scorer(scorer)   # 파일·함수가 있는지 돌리기 전에
+    return scorer
+
+
+def train_entries(spec) -> list[dict]:
+    """data.train 칸 → [{"path", "format"?, "scorer"?, "count"?}]. 경로만 적으면 studio 과제 폴더 (예전 그대로).
+    swift .jsonl 은 "format": "swift-fields" 와 함께 — 채점 함수(scorer, 없으면 swift_default)가 깨진 줄을 거르고 GRPO 보상을 낸다."""
+    out = []
+    for e in spec if isinstance(spec, list) else [spec]:
+        e = dict(e) if isinstance(e, dict) else {"path": e}
+        if not isinstance(e.get("path"), str) or not e["path"].strip():
+            raise ValueError(f"data.train: 경로(path)가 없습니다: {e}")
+        fmt = e.get("format", "tasks")
+        if fmt not in FORMATS:
+            raise ValueError(f"data.train.format은 {', '.join(FORMATS)} 중 하나입니다: {fmt}")
+        if (fmt == "swift-fields") != e["path"].endswith(".jsonl"):
+            raise ValueError(f"{e['path']}: swift .jsonl 은 \"format\": \"swift-fields\" 와 함께, 그 밖의 경로는 과제 폴더로 적습니다")
+        if fmt == "tasks" and e.get("scorer") is not None:
+            raise ValueError(f"data.train {e['path']}: scorer 는 swift .jsonl 학습 데이터에만 붙입니다")
+        scorer = _scorer(e.get("scorer"), fmt, f"data.train {e['path']}")
+        out.append({**{k: v for k, v in e.items() if k not in ("format", "scorer")},
+                    **({"format": fmt} if fmt != "tasks" else {}), **({"scorer": scorer} if scorer else {})})
+    return out
 
 
 def paths(spec):

@@ -49,7 +49,8 @@ cp train/configs/pipeline.example.json train/configs/pipeline.json
   "data": {
     "train": [
       {"path": "<studio 학습용 데이터셋>"},
-      {"path": "<OCR 데이터셋>", "count": 20000}       // OCR은 쓸 문항 수를 정함
+      {"path": "<OCR 데이터셋>", "count": 20000},      // OCR은 쓸 문항 수를 정함
+      {"path": "/share/…/train_qa_PO.jsonl", "format": "swift-fields"}   // (선택) 실서류 swift .jsonl
     ],
     "benchmark": [
       {"id": "syn", "name": "합성", "group": "synthetic", "paths": ["<studio 평가용 데이터셋>"]},
@@ -60,6 +61,11 @@ cp train/configs/pipeline.example.json train/configs/pipeline.json
 ```
 
 - **평가 세트(`benchmark`)는 `id`를 붙여 나눕니다.** 점수가 세트마다 따로 나옵니다. 실서류 swift `.jsonl`을 넣는 법, 세트마다 채점 방식을 바꾸는 법은 [eval.md 1·2절](eval.md#1-평가-세트-정하기).
+- **실서류 swift `.jsonl` 도 학습 데이터로 넣을 수 있습니다.** `"format": "swift-fields"` 를 꼭 적습니다 (안 적으면 멈춤). 경로만 적은 다른 학습 데이터는 예전과 똑같이 동작합니다.
+  - 줄마다 질문은 그대로, 정답(assistant) 글은 그대로 SFT 답으로 가르칩니다. 과제는 `kie` 로 셉니다 (`task_mix`·`count` 도 그대로 적용).
+  - 채점 함수(`scorer`, 안 적으면 `swift_default.py`)가 정답을 못 읽거나 정답에 만점을 주지 않는 줄은 학습에서 빼고 경고합니다. 평가 세트와 같은 채점 함수를 붙이세요 ([eval.md 2절](eval.md#2-채점)).
+  - GRPO 보상도 그 채점 함수의 주 지표입니다 (필드 일부만 맞으면 부분 점수).
+  - 평가 세트와 같은 그림이 들어 있으면 (파일 이름이 달라도) 섞기에서 멈춥니다. 학습용·평가용 파일을 문서 단위로 나눠 두세요.
 - **OCR 데이터셋은 학습·평가 양쪽에 적어도 됩니다.** 학습 쪽은 학습 문항만, 평가 쪽은 떼어 둔 평가 문항만 가져갑니다.
 - **40GB GPU**면 `"sft": {"config": "sft_a100_40g_x2.yaml"}`, `"grpo": {"config": "grpo_a100_40g_x2.yaml", …}`.
 - 다른 칸(`task_mix`, `grpo`, `eval`)은 [train/README.md](../train/README.md)에 있습니다. 처음에는 그대로 둡니다.
@@ -212,7 +218,9 @@ python -m train sweep --config train/configs/E02.sweep.json --status   # 진행 
 | `설정(…)의 경로를 확인하세요` | 메시지에 나온 칸을 `meta.json`이 있는 폴더의 절대 경로로 |
 | `CUDA out of memory` | 40GB yaml로 (2절) |
 | `Output already exists` / `already prepared` | `output_dir`을 새 이름으로 (지우지 말 것) |
-| `training rows share a customer or document with the benchmark` | 평가용 데이터셋이 `train`에 들어감. 빼기 |
+| `training rows share a customer or document with the benchmark` | 평가용 데이터셋이 `train`에 들어감. 빼기 (swift `.jsonl` 은 평가 파일과 같은 그림이 학습 파일에 있음: 문서 단위로 나누기) |
+| `swift .jsonl 은 "format": "swift-fields" 와 함께` | `train`·`benchmark` 의 `.jsonl` 칸에 `"format": "swift-fields"` 를 적기 |
+| `채점 함수(…)가 정답을 읽지 못한 N줄을 …` (경고) | 그 줄은 빠짐. 줄 수가 많으면 정답 꼴에 맞는 `scorer` 를 붙이기 ([eval.md 2절](eval.md#2-채점)) |
 | `Reference answers do not score 1.0` | 데이터를 만든 코드와 지금 코드가 다름(같은 코드로 데이터 다시 만들기), 또는 붙인 채점 함수가 정답에 만점을 주지 않음 |
 | `Server on port … exited` / `not ready in time` | 평가 서버(vLLM)가 못 뜸. `logs/<단계>-server0.log` 끝과 `nvidia-smi` 확인 |
 | `Port … is already in use` | 예전 평가 서버를 끄거나 `eval.port_base` 변경 |

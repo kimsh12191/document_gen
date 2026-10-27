@@ -413,6 +413,54 @@ def test_swift_jsonl_any_content_with_scorer(tmp_path, model):
     assert res["po-free"]["tasks"]["kie"]["metrics"]["acc"] == 1.0
 
 
+def _swift_rows(real, names):
+    prompt = '<image>\nWhat are the values of the following fields in this document, in order: ["NO", "DATE"]'
+    (real / "images").mkdir(parents=True, exist_ok=True)
+    rows = []
+    for i, n in enumerate(names):
+        Image.new("RGB", (400, 560), "white").save(real / "images" / f"{n}.png")
+        rows.append({"messages": [{"role": "user", "content": prompt},
+                                  {"role": "assistant", "content": dumps([f"K{i:04d}", "2025-01-01"])}],
+                     "images": [f"images/{n}.png"]})
+    return rows
+
+
+def test_swift_jsonl_as_training_data(tmp_path, model):
+    """swift .jsonl 을 data.train 에 format swift-fields 로: 정답 글 그대로 SFT 답, 채점 함수가 못 읽는 줄은 빼고,
+    GRPO 보상은 그 채점 함수 (부분 점수), 평가 세트와 같은 그림이면 파일이 달라도 멈춘다. 경로만 적은 학습 데이터는 예전 그대로."""
+    real = tmp_path / "real"
+    rows = _swift_rows(real, [f"d{i}" for i in range(12)])
+    broken = {**rows[0], "messages": [rows[0]["messages"][0], {"role": "assistant", "content": "[\"하나뿐\"]"}]}
+    write_jsonl(real / "train_qa.jsonl", rows + [broken])
+    bank_folder(tmp_path / "bench", None, ["b_0", "b_1"], n_images=1, size=(400, 560))
+    train = [{"path": str(real / "train_qa.jsonl")}]
+    with pytest.raises(ValueError, match="swift-fields"):   # 형식을 적지 않으면 짐작하지 않는다
+        M.mix(data_cfg(tmp_path, train=train), model)
+    train[0]["format"] = "swift-fields"
+    with contextlib.redirect_stdout(io.StringIO()) as out:
+        done = M.mix(data_cfg(tmp_path, train=train), model)
+    assert "읽지 못한 1줄을 학습에서 뺍니다" in out.getvalue()
+    src = read_json(tmp_path / "prep" / "DONE.json")["sources"]["train"][str(real / "train_qa.jsonl")]
+    assert src["format"] == "swift-fields" and src["scorer"].endswith("swift_default.py:score")
+    sft = read_jsonl(tmp_path / "prep" / "train_sft.jsonl") + read_jsonl(tmp_path / "prep" / "val_sft.jsonl")
+    grpo = read_jsonl(tmp_path / "prep" / "train_grpo.jsonl")
+    answers = {m["content"] for r in sft for m in r["messages"] if m["role"] == "assistant"}
+    assert answers and answers <= {r["messages"][1]["content"] for r in rows}   # 정답 글 그대로, 깨진 줄 없음
+    assert grpo and all(r["task"] == "kie" for r in grpo)
+    item = json.loads(grpo[0]["bench_item"])
+    assert item["eval"]["scorer"].endswith("swift_default.py:score")
+    assert reward("kie", item["answer"], item) == 1.0
+    assert reward("kie", dumps([json.loads(item["answer"])[0], "1999-12-31"]), item) == 0.5   # 두 칸 중 하나
+    assert reward("kie", "모르겠습니다", item) == 0.0 and reward("kie", None, item) == 0.0
+    del done
+
+    # 평가 swift 세트가 같은 그림을 쓰면 (파일 이름이 달라 문서 ID 가 달라도) 멈춘다
+    write_jsonl(real / "eval_qa.jsonl", rows[:1])
+    bench = [{"id": "real", "paths": [str(real / "eval_qa.jsonl")], "format": "swift-fields"}]
+    with pytest.raises(ValueError, match="share a customer or document"):
+        M.mix(data_cfg(tmp_path, train=train, benchmark=bench, output_dir=str(tmp_path / "prep2")), model)
+
+
 def test_eval_drops_questions_over_server_image_limit(tmp_path, mixed, model):
     """서버(--vllm_limit_mm_per_prompt)보다 그림이 많은 평가 문항은 빼고 기록한다: 한 문항 때문에 추론 전체가 멈추지 않게."""
     from train import pipeline as P

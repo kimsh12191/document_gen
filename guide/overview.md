@@ -215,7 +215,7 @@ python -m train --config train/configs/pipeline.json     # 설정 예: train/con
 
 ### 3-3. GRPO
 
-- **보상 = 평가 채점기 그대로**(`docgen.bench.evaluate.reward`, ms-swift 플러그인 `train/reward_plugin.py`, `reward_funcs: ["docgen"]`).
+- **보상 = 평가 채점기 그대로**(`docgen.bench.evaluate.reward`, ms-swift 플러그인 `train/reward_plugin.py`, `reward_funcs: ["docgen"]`). 실서류 swift `.jsonl` 학습 데이터는 그 데이터에 붙인 채점 함수(`scorer`)의 주 지표.
 - **OCR 과제 보상:**
   ```text
   글자 과제 = 0.7 × 문자 유사도 + 0.3 × 숫자 유사도

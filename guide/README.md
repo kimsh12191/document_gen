@@ -17,7 +17,7 @@ agent에게 일을 맡길 때는 저장소 최상위의 [AGENTS.md](../AGENTS.md
 ```text
 studio: 데이터셋 만들기 ─┐
 학습 서버: 내 이미지 OCR ─┼─▶ 학습 서버: python -m train (또는 sweep) ─▶ summary.html·answers.html·benchmark.html
-실서류 swift .jsonl ──────┘   (평가 세트로)
+실서류 swift .jsonl ──────┘   (평가 세트로, 학습 데이터로도)
 ```
 
 ## 찾아보는 자료

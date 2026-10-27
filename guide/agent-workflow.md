@@ -141,7 +141,7 @@ cp train/configs/pipeline.example.json train/configs/<실험>.json
 ```
 
 - `workdir`, `data.output_dir`은 **새 이름** (이미 있으면 그 결과를 재사용하므로, 재사용이 목적일 때만 같은 이름).
-- `data.train`: 학습용 데이터셋들 (OCR은 `count`), `data.benchmark`: 평가 세트들 (`id`로 나눔). 평가 세트를 `train`에 넣지 않음.
+- `data.train`: 학습용 데이터셋들 (OCR은 `count`, 실서류 swift `.jsonl` 은 `"format": "swift-fields"`), `data.benchmark`: 평가 세트들 (`id`로 나눔). 평가 세트를 `train`에 넣지 않음.
 - 실서류 OCR을 함께 쓰면 [ocr.md](ocr.md)로 먼저 준비하고 그 폴더를 양쪽에 적음. `ocr_prepare` 줄은 지움.
 - `model`, `gpus`를 1절에서 확인한 값으로.
 

@@ -50,7 +50,7 @@ ssh -N -L 8765:localhost:8765 <계정>@<서버IP>
 
 파일 배치·설정 예시는 [DATA_IMPORT.md](../studio/DATA_IMPORT.md)에 있습니다.
 
-검수한 실서류 추출 데이터(swift `.jsonl`)는 studio를 거치지 않고 학습 설정의 평가 세트에 바로 넣습니다 ([eval.md 1절](eval.md#1-평가-세트-정하기)).
+검수한 실서류 추출 데이터(swift `.jsonl`)는 studio를 거치지 않고 학습 설정에 바로 넣습니다. 평가 세트로는 [eval.md 1절](eval.md#1-평가-세트-정하기), 학습 데이터로는 [training.md 2절](training.md#2-설정-파일).
 
 ## 4. 보기·채점·비교
 

@@ -1,4 +1,5 @@
-"""채점 함수 견본: 실서류 swift 추출 데이터 (data.benchmark 의 "format": "swift-fields"). scorer 를 적지 않은 swift 세트는 이것으로 채점.
+"""채점 함수 견본: 실서류 swift 추출 데이터 (data.benchmark·data.train 의 "format": "swift-fields"). scorer 를 적지 않은 swift 세트는 이것으로 채점
+(학습 데이터면 깨진 줄 거르기와 GRPO 보상도).
 
 swift 세트는 정답(assistant) 글이 그대로 item["answer"] 로 오고, 질문은 item["eval"]["prompt"] 에 있다.
 이 견본이 읽는 꼴:

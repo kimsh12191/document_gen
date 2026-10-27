@@ -552,11 +552,23 @@ def reward(task: str, output: str | None, item: dict) -> float:
       doc_check    0.5 × 완전 일치 + 0.5 × 세 목록 F1
       cross_check  정상 문항: 맞다고 하면 1 / 변조 문항: 0.5 × (다르다고 함) + 0.5 × (서류·값까지 맞힘)
       ocr_field    1 − CER,  ocr_page 오차 20% 허용 재현율,  그 밖은 주 지표 (kie·marks 값+위치 F1, classify·review 정확도)
+    채점 함수를 붙인 문항(eval.scorer — swift .jsonl 학습 데이터): 그 함수의 주 지표 (낮을수록 좋은 지표는 1 − 값).
     """
-    if task in OCR_TASKS:
+    spec = (item.get("eval") or {}).get("scorer")
+    if task in OCR_TASKS and not spec:
         return OM.reward(output or "", task, item["answer"])
     if output is None:
         return 0.0
+    if spec:   # 채점 함수를 붙인 학습 문항 (swift .jsonl 학습 데이터): 그 함수의 주 지표
+        result = load_scorer(spec)(item, answer_text(output))
+        if result.get("parse_fail"):
+            return 0.0
+        m = result["metrics"]
+        main = result.get("main") or main_metric(task, m)
+        v = m.get(main)
+        if v is None:
+            return 0.0
+        return float(min(1.0, max(0.0, 1.0 - v if main in LOWER_IS_BETTER else v)))
     result = SCORERS[task](item, answer_text(output))
     if result.get("parse_fail"):
         return 0.0

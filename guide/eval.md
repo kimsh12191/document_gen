@@ -26,7 +26,8 @@
 | `scorer` | (선택) 이 세트만 다르게 채점할 함수 (2절) |
 
 - **실서류 swift `.jsonl`**: ms-swift 형식(`messages` user·assistant + `images`)이면 내용과 상관없이 읽습니다. 질문은 그대로 묻고, 정답(assistant) 글은 그대로 채점 함수에 넘깁니다. `scorer`를 적지 않으면 견본 `swift_default.py`로 채점합니다 (2절).
-- 평가 세트와 같은 고객·문서가 학습 데이터에 있으면 섞기에서 멈춥니다.
+- swift `.jsonl` 은 학습 데이터(`data.train`)에도 같은 `format`·`scorer` 로 넣을 수 있습니다 ([training.md 2절](training.md#2-설정-파일)).
+- 평가 세트와 같은 고객·문서가 학습 데이터에 있으면 섞기에서 멈춥니다. swift 는 같은 그림 파일인지도 봅니다.
 - 실험끼리 비교하려면 평가 세트를 고정합니다.
 
 ## 2. 채점
