@@ -2,7 +2,7 @@
 // 지시문·옮기기 명령은 guide/new-forms.md 의 코드 블록을 그대로 읽어 보여 준다 (문서와 화면이 어긋나지 않게).
 "use strict";
 
-addRoute(/^#\/new-forms$/, () => viewNewForms(), "forms");
+addRoute(/^#\/new-forms$/, () => viewNewForms(), "new-forms");
 
 // 마크다운에서 제목(heading 으로 시작하는 줄) 다음 첫 코드 블록
 function mdBlock(md, heading) {
@@ -68,6 +68,7 @@ async function viewNewForms() {
         <tr><td>원본과 나란히 보고 확인</td><td>① 서식 › <b>검수</b> › 검수 완료</td></tr>
       </tbody></table>
       <p class="muted">html 서식은 검수 전이어도 레시피의 "all"·그룹 선택에 들어갑니다. 검수한 것만 쓰려면 레시피의 <b>검수 완료 서식만</b>을 켭니다.</p>`)}`;
+  $("#nf-refreshed").addEventListener("click", e => { if (e.target.closest("[data-close]")) $("#nf-refreshed").innerHTML = ""; });
   main().querySelectorAll("[data-copy]").forEach(b => { b.onclick = () => copyText($(`#${b.dataset.copy}`).textContent); });
   $("#nf-refresh").onclick = async () => {
     const b = $("#nf-refresh");

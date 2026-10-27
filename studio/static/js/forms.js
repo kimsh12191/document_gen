@@ -39,10 +39,9 @@ async function viewForms() {
       <label><input type="checkbox" id="f-issues" ${f.issues ? "checked" : ""}> 문제 표시 있음</label>
       <label><input type="checkbox" id="f-edited" ${f.edited ? "checked" : ""}> 사람 수정 있음</label>
       <span class="muted" id="f-count"></span>
-      <a href="#/new-forms" title="대형 모델로 html·키 만들기 → 검사 → 폴더 넣기 → 서식 다시 읽기 → 검수">새 서식 추가 방법</a>
       <button id="f-refresh" title="서식 폴더(docgen/forms/<ID>/, 사내 서식 폴더)를 다시 훑어 새로 넣은 서식을 등록하고, 이름·그룹을 다시 읽고, 지운 폴더는 목록에서 뺍니다. 다시 띄우지 않아도 됩니다">서식 다시 읽기</button>
     </div>
-    <div id="f-refreshed">${refreshNote(state.refreshed)}</div>
+    <div id="f-refreshed">${state.showRefreshed ? refreshNote(state.refreshed) : ""}</div>
     <div id="f-table"></div>`;
   $("#f-refresh").addEventListener("click", async () => {
     const b = $("#f-refresh");
@@ -54,13 +53,18 @@ async function viewForms() {
       await loadForms(true);
       const r = state.refreshed;
       toast(`서식 다시 읽기: 새로 ${r.added.length} · 바뀜 ${r.updated.length} · 빠짐 ${r.removed.length} · 문제 ${r.problems.length}`, r.problems.length > 0);
-      viewForms();
+      if (location.hash === "#/forms") {   // 기다리는 동안 다른 화면으로 갔으면 덮어쓰지 않는다
+        state.showRefreshed = true;
+        viewForms();
+      }
     } catch (e) {
       toast(e.message, true);
       b.disabled = false;
       b.textContent = "서식 다시 읽기";
     }
   });
+  state.showRefreshed = false;   // 다시 읽기 결과는 누른 직후에만 (목록을 가리지 않게)
+  $("#f-refreshed").addEventListener("click", e => { if (e.target.closest("[data-close]")) $("#f-refreshed").innerHTML = ""; });
   const ids = ["#f-q", "#f-group", "#f-kind", "#f-review", "#f-korean", "#f-scenario", "#f-issues", "#f-edited"];
   const update = () => {
     Object.assign(f, {
@@ -82,7 +86,7 @@ function refreshNote(r) {
   const probs = r.problems.length ? `<div class="kr"><b>문제 ${r.problems.length}</b> (등록하지 않음)<ul>${r.problems.map(p =>
     `<li><span class="mono">${esc(p.id)}</span> — ${esc(p.reason)}</li>`).join("")}</ul></div>` : "";
   const none = !r.added.length && !r.updated.length && !r.removed.length && !r.problems.length;
-  return `<div class="box">${none ? `<span class="muted">서식 다시 읽기: 바뀐 것 없음</span>` :
+  return `<div class="box"><button data-close style="float:right" title="닫기">✕</button>${none ? `<span class="muted">서식 다시 읽기: 바뀐 것 없음</span>` :
     ids(r.added, "새로") + ids(r.updated, "이름·그룹 바뀜") +
     `${(r.with_script || []).length ? `<div class="kr"><b>생성 스크립트 있음 ${r.with_script.length}</b> ${r.with_script.map(esc).join(" ")} <span class="muted">(값을 만든 뒤 실행되는 코드입니다. 사람이 내용을 읽고 넣었는지 확인하세요 — 파일 탭)</span></div>` : ""}` + `${r.removed.length ? `<div><b>빠짐 ${r.removed.length}</b> <span class="mono">${r.removed.map(esc).join(" ")}</span> <span class="muted">(폴더가 없어짐. 검수 기록은 남아 있어 폴더를 되돌리면 다시 나옵니다)</span></div>` : ""}` + probs}</div>`;
 }
