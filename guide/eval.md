@@ -55,7 +55,8 @@
 | 파일 | 붙일 세트 | 고치는 곳 |
 |---|---|---|
 | [`swift_default.py`](../train/scorers/swift_default.py) | swift `.jsonl` (안 적으면 이것) | `score` |
-| [`swift_kie_scorer.py`](../train/scorers/swift_kie_scorer.py) | `temp/swift_to_kie_tmp.py`로 kie 꼴로 바꾼 swift `.jsonl` | `score` |
+| [`swift_kie_scorer.py`](../train/scorers/swift_kie_scorer.py) | `temp/swift_to_kie_tmp.py`(v1)·`swift_to_kie_v2_tmp.py`(v2)로 kie 꼴로 바꾼 swift `.jsonl` | `score` |
+| [`kie_list_scorer.py`](../train/scorers/kie_list_scorer.py) | `temp/swift_to_kie_v3_tmp.py`로 **합성 kie 와 같은 꼴**(같은 질문, `[{"key", "value"}]` 정답)로 바꾼 `.jsonl`. 합성과 같은 값 채점, 위치 정답이 없으니 주 지표 `f1` | `score` |
 | [`kie_default.py`](../train/scorers/kie_default.py) | 값만 보는 정보 추출 | 위쪽 `FIELD_TYPES`에 항목별 비교 기준(`text`·`amount`·`date`·`digits`) |
 | [`bank_default.py`](../train/scorers/bank_default.py) | 합성 은행 서류 세트 | 과제마다 함수 하나 (`classify`, `kie` …) |
 | [`ocr_default.py`](../train/scorers/ocr_default.py) | 합성 OCR·OCR 준비 폴더 | `page_ocr` |

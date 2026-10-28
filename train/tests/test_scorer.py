@@ -148,5 +148,27 @@ def test_swift_kie_scorer_reads_converted_file_and_jsonl_line(tmp_path):
     _, (item2,) = load_swift(tmp_path / "v2.jsonl")
     assert fn(item2, '["NO.ILH1", null, "x2"]')["metrics"]["f1"] == 1.0
     assert fn(item2, '{"NEGO No": "zz", "Amount": null, "NEGO No#2": "X2"}')["metrics"]["f1"] == 0.5
+    # v3 (temp/swift_to_kie_v3_tmp.py): 합성 kie 와 같은 질문(P_KIE)·목록 정답, 채점은 합성과 같은 값 채점 (위치 정답이 없어 주 지표 f1)
+    from docgen.bench.prompts import P_KIE
+
+    v3 = runpy.run_path(str(Path(__file__).resolve().parents[2] / "temp" / "swift_to_kie_v3_tmp.py"))
+    v3["cmd_convert"](str(tmp_path / "out.jsonl"), str(tmp_path / "v3.jsonl"), str(tmp_path / "labels.json"))
+    line3 = json.loads((tmp_path / "v3.jsonl").read_text(encoding="utf-8"))
+    q3 = line3["messages"][0]["content"]
+    assert q3.startswith("<image>" + P_KIE.split("{items}")[0].replace("{{", "{").replace("}}", "}"))
+    assert "- NEGO No: 매입번호\n- Amount: Amount\n- NEGO No#2: 매입번호 (같은 항목명 중 2번째 칸)" in q3
+    assert json.loads(line3["messages"][1]["content"]) == [{"key": "NEGO No", "value": "NO:ILH1"}, {"key": "Amount", "value": None},
+                                                           {"key": "NEGO No#2", "value": "X2"}]
+    kl = E.load_scorer(str(Path(__file__).resolve().parents[1] / "scorers" / "kie_list_scorer.py"))
+    _, (item3,) = load_swift(tmp_path / "v3.jsonl")
+    item3 = {**item3, "eval": {**item3["eval"], "scorer": str(Path(__file__).resolve().parents[1] / "scorers" / "kie_list_scorer.py")}}
+    boxed = ('[{"key": "NEGO No", "value": "NO.ILH1", "bbox_2d": [10, 10, 90, 30], "page": 1}, {"key": "Amount", "value": null},'
+             ' {"key": "NEGO No#2", "value": "x2", "bbox_2d": [10, 40, 90, 60], "page": 1}]')
+    r = kl(item3, boxed)   # 모델은 위치까지 답한다: 정답에 위치가 없어도 값으로만 채점 (값+위치 0 이 되지 않게)
+    assert r["main"] == "f1" and r["metrics"]["f1"] == 1.0 and "vl_f1" not in r["metrics"]
+    assert kl(item3, '[{"key": "NEGO No", "value": "zz"}, {"key": "NEGO No#2", "value": "X2"}]')["metrics"]["f1"] == 0.5
+    assert kl(line3, boxed)["metrics"]["f1"] == 1.0 and kl(item3, "모름")["parse_fail"]
+    res = E.score_task("kie", [item3], {item3["id"]: boxed})
+    assert res["main"] == "f1" and res["metrics"]["f1"] == 1.0
     with pytest.raises(ValueError, match="키: 값"):
         fn({"answer": "", "eval": {"prompt": ""}}, '{"a": 1}')
