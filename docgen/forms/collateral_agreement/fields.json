@@ -1,0 +1,233 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "bank": {
+   "label": "은행명",
+   "type": "text",
+   "source": "code"
+  },
+  "co_mortgagor.address": {
+   "label": "공동설정자주소",
+   "type": "text",
+   "source": "code"
+  },
+  "co_mortgagor.name": {
+   "label": "공동설정자",
+   "type": "text",
+   "source": "code"
+  },
+  "co_mortgagor.rrn": {
+   "label": "공동설정자실명번호",
+   "type": "text",
+   "source": "code"
+  },
+  "co_mortgagor.share": {
+   "label": "지분",
+   "type": "text",
+   "source": "code"
+  },
+  "contract_date": {
+   "label": "계약일",
+   "type": "text",
+   "source": "code"
+  },
+  "creditor.branch": {
+   "label": "취급점",
+   "type": "text",
+   "source": "code"
+  },
+  "creditor.name": {
+   "label": "채권자겸근저당권자",
+   "type": "text",
+   "source": "code"
+  },
+  "debtor.address": {
+   "label": "채무자주소",
+   "type": "text",
+   "source": "code"
+  },
+  "debtor.name": {
+   "label": "채무자",
+   "type": "text",
+   "source": "code"
+  },
+  "handwritten_confirm": {
+   "label": "자필기재(확인)",
+   "type": "text",
+   "source": "code"
+  },
+  "max_amount": {
+   "label": "채권최고액",
+   "type": "text",
+   "source": "code"
+  },
+  "max_amount_korean": {
+   "label": "채권최고액(한글)",
+   "type": "text",
+   "source": "code"
+  },
+  "mortgagor.address": {
+   "label": "설정자주소",
+   "type": "text",
+   "source": "code"
+  },
+  "mortgagor.name": {
+   "label": "근저당권설정자",
+   "type": "text",
+   "source": "code"
+  },
+  "mortgagor.rrn": {
+   "label": "실명번호",
+   "type": "text",
+   "source": "code"
+  },
+  "mortgagor_relation": {
+   "label": "채무자와의관계",
+   "type": "text",
+   "source": "code"
+  },
+  "property.exclusive_area": {
+   "label": "전용면적",
+   "type": "text",
+   "source": "code"
+  },
+  "property.floors": {
+   "label": "층수",
+   "type": "text",
+   "source": "code"
+  },
+  "property.kind": {
+   "label": "건물종류",
+   "type": "text",
+   "source": "code"
+  },
+  "property.land_right": {
+   "label": "대지권",
+   "type": "text",
+   "source": "code"
+  },
+  "property.location": {
+   "label": "소재지",
+   "type": "text",
+   "source": "code"
+  },
+  "property.road_address": {
+   "label": "도로명주소",
+   "type": "text",
+   "source": "code"
+  },
+  "property.structure": {
+   "label": "구조",
+   "type": "text",
+   "source": "code"
+  },
+  "property.unique_no": {
+   "label": "고유번호",
+   "type": "text",
+   "source": "code"
+  },
+  "property.unit": {
+   "label": "건물번호",
+   "type": "text",
+   "source": "code"
+  },
+  "rank": {
+   "label": "순위",
+   "type": "text",
+   "source": "code"
+  },
+  "scope": {
+   "label": "피담보채무의범위",
+   "type": "text",
+   "source": "code"
+  },
+  "scope_handwritten": {
+   "label": "자필기재(피담보채무범위)",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.co_mortgagor": {
+   "label": "인감",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.debtor": {
+   "label": "채무자",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.mortgagor": {
+   "label": "근저당권설정자",
+   "type": "seal",
+   "source": "code"
+  },
+  "secured_debt": {
+   "label": "피담보채무",
+   "type": "text",
+   "source": "code"
+  },
+  "settlement": {
+   "label": "결산기",
+   "type": "text",
+   "source": "code"
+  },
+  "settlement_type": {
+   "label": "결산기유형",
+   "type": "text",
+   "source": "code"
+  },
+  "sign.debtor": {
+   "label": "채무자",
+   "type": "signature",
+   "source": "code"
+  },
+  "signature_debtor": {
+   "label": "채무자",
+   "type": "text",
+   "source": "code"
+  },
+  "signature_mortgagor": {
+   "label": "근저당권설정자",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "joint_collateral": {
+   "source": "code",
+   "fields": {
+    "detail": {
+     "label": "지목면적",
+     "type": "text",
+     "source": "code"
+    },
+    "kind": {
+     "label": "종류",
+     "type": "text",
+     "source": "code"
+    },
+    "location": {
+     "label": "소재지번",
+     "type": "text",
+     "source": "code"
+    },
+    "unique_no": {
+     "label": "고유번호",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "special_terms.#": {
+   "source": "code",
+   "fields": {
+    "#": {
+     "label": "특약사항",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

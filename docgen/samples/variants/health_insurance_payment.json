@@ -1,0 +1,352 @@
+{
+ "document_type": "건강보험료 납부확인서",
+ "issue_no": "60-558629-6020",
+ "person": {
+  "name": "김소윤",
+  "rrn": "901121-2******",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호"
+ },
+ "member_kind": "직장가입자",
+ "period": "2022.12 ~ 2025.10",
+ "workplace": {
+  "name": "(주)새한소프트",
+  "mgmt_no": "45886131970",
+  "address": "전라남도 여수시 여수시민로 411, 2층"
+ },
+ "rows": [
+  {
+   "month": "2022.12",
+   "notice_health": "169,010",
+   "notice_ltc": "20,730",
+   "health": "169,010",
+   "ltc": "20,730",
+   "total": "189,740",
+   "paid_date": "2023.01.10"
+  },
+  {
+   "month": "2023.01",
+   "notice_health": "177,690",
+   "notice_ltc": "22,760",
+   "health": "177,690",
+   "ltc": "22,760",
+   "total": "200,450",
+   "paid_date": "2023.02.10"
+  },
+  {
+   "month": "2023.02",
+   "notice_health": "177,690",
+   "notice_ltc": "22,760",
+   "health": "177,690",
+   "ltc": "22,760",
+   "total": "200,450",
+   "paid_date": "2023.03.10"
+  },
+  {
+   "month": "2023.03",
+   "notice_health": "177,690",
+   "notice_ltc": "22,760",
+   "health": "177,690",
+   "ltc": "22,760",
+   "total": "200,450",
+   "paid_date": "2023.04.10"
+  },
+  {
+   "month": "2023.04",
+   "notice_health": "177,690",
+   "notice_ltc": "22,760",
+   "health": "177,690",
+   "ltc": "22,760",
+   "total": "200,450",
+   "paid_date": "2023.05.10"
+  },
+  {
+   "month": "2023.05",
+   "notice_health": "177,690",
+   "notice_ltc": "22,760",
+   "health": "177,690",
+   "ltc": "22,760",
+   "total": "200,450",
+   "paid_date": "2023.06.12"
+  },
+  {
+   "month": "2023.06",
+   "notice_health": "177,690",
+   "notice_ltc": "22,760",
+   "health": "177,690",
+   "ltc": "22,760",
+   "total": "200,450",
+   "paid_date": "2023.07.10"
+  },
+  {
+   "month": "2023.07",
+   "notice_health": "177,690",
+   "notice_ltc": "22,760",
+   "health": "177,690",
+   "ltc": "22,760",
+   "total": "200,450",
+   "paid_date": "2023.08.10"
+  },
+  {
+   "month": "2023.08",
+   "notice_health": "177,690",
+   "notice_ltc": "22,760",
+   "health": "177,690",
+   "ltc": "22,760",
+   "total": "200,450",
+   "paid_date": "2023.09.11"
+  },
+  {
+   "month": "2023.09",
+   "notice_health": "177,690",
+   "notice_ltc": "22,760",
+   "health": "177,690",
+   "ltc": "22,760",
+   "total": "200,450",
+   "paid_date": "2023.10.10"
+  },
+  {
+   "month": "2023.10",
+   "notice_health": "177,690",
+   "notice_ltc": "22,760",
+   "health": "177,690",
+   "ltc": "22,760",
+   "total": "200,450",
+   "paid_date": "2023.11.10"
+  },
+  {
+   "month": "2023.11",
+   "notice_health": "177,690",
+   "notice_ltc": "22,760",
+   "health": "177,690",
+   "ltc": "22,760",
+   "total": "200,450",
+   "paid_date": "2023.12.11"
+  },
+  {
+   "month": "2023.12",
+   "notice_health": "177,690",
+   "notice_ltc": "22,760",
+   "health": "177,690",
+   "ltc": "22,760",
+   "total": "200,450",
+   "paid_date": "2024.01.10"
+  },
+  {
+   "month": "2024.01",
+   "notice_health": "184,130",
+   "notice_ltc": "23,840",
+   "health": "184,130",
+   "ltc": "23,840",
+   "total": "207,970",
+   "paid_date": "2024.02.12"
+  },
+  {
+   "month": "2024.02",
+   "notice_health": "184,130",
+   "notice_ltc": "23,840",
+   "health": "184,130",
+   "ltc": "23,840",
+   "total": "207,970",
+   "paid_date": "2024.03.11"
+  },
+  {
+   "month": "2024.03",
+   "notice_health": "184,130",
+   "notice_ltc": "23,840",
+   "health": "184,130",
+   "ltc": "23,840",
+   "total": "207,970",
+   "paid_date": "2024.04.10"
+  },
+  {
+   "month": "2024.04",
+   "notice_health": "184,130",
+   "notice_ltc": "23,840",
+   "health": "184,130",
+   "ltc": "23,840",
+   "total": "207,970",
+   "paid_date": "2024.05.10"
+  },
+  {
+   "month": "2024.05",
+   "notice_health": "184,130",
+   "notice_ltc": "23,840",
+   "health": "184,130",
+   "ltc": "23,840",
+   "total": "207,970",
+   "paid_date": "2024.06.10"
+  },
+  {
+   "month": "2024.06",
+   "notice_health": "184,130",
+   "notice_ltc": "23,840",
+   "health": "184,130",
+   "ltc": "23,840",
+   "total": "207,970",
+   "paid_date": "2024.07.10"
+  },
+  {
+   "month": "2024.07",
+   "notice_health": "184,130",
+   "notice_ltc": "23,840",
+   "health": "184,130",
+   "ltc": "23,840",
+   "total": "207,970",
+   "paid_date": "2024.08.12"
+  },
+  {
+   "month": "2024.08",
+   "notice_health": "184,130",
+   "notice_ltc": "23,840",
+   "health": "184,130",
+   "ltc": "23,840",
+   "total": "207,970",
+   "paid_date": "2024.09.10"
+  },
+  {
+   "month": "2024.09",
+   "notice_health": "184,130",
+   "notice_ltc": "23,840",
+   "health": "184,130",
+   "ltc": "23,840",
+   "total": "207,970",
+   "paid_date": "2024.10.10"
+  },
+  {
+   "month": "2024.10",
+   "notice_health": "184,130",
+   "notice_ltc": "23,840",
+   "health": "184,130",
+   "ltc": "23,840",
+   "total": "207,970",
+   "paid_date": "2024.11.11"
+  },
+  {
+   "month": "2024.11",
+   "notice_health": "184,130",
+   "notice_ltc": "23,840",
+   "health": "184,130",
+   "ltc": "23,840",
+   "total": "207,970",
+   "paid_date": "2024.12.10"
+  },
+  {
+   "month": "2024.12",
+   "notice_health": "184,130",
+   "notice_ltc": "23,840",
+   "health": "184,130",
+   "ltc": "23,840",
+   "total": "207,970",
+   "paid_date": "2025.01.10"
+  },
+  {
+   "month": "2025.01",
+   "notice_health": "190,830",
+   "notice_ltc": "24,710",
+   "health": "190,830",
+   "ltc": "24,710",
+   "total": "215,540",
+   "paid_date": "2025.02.10"
+  },
+  {
+   "month": "2025.02",
+   "notice_health": "190,830",
+   "notice_ltc": "24,710",
+   "health": "190,830",
+   "ltc": "24,710",
+   "total": "215,540",
+   "paid_date": "2025.03.10"
+  },
+  {
+   "month": "2025.03",
+   "notice_health": "190,830",
+   "notice_ltc": "24,710",
+   "health": "190,830",
+   "ltc": "24,710",
+   "total": "215,540",
+   "paid_date": "2025.04.10"
+  },
+  {
+   "month": "2025.04",
+   "notice_health": "221,740",
+   "notice_ltc": "28,710",
+   "health": "221,740",
+   "ltc": "28,710",
+   "total": "250,450",
+   "paid_date": "2025.05.12",
+   "note": "정산 분할 1/10회"
+  },
+  {
+   "month": "2025.05",
+   "notice_health": "221,740",
+   "notice_ltc": "28,710",
+   "health": "221,740",
+   "ltc": "28,710",
+   "total": "250,450",
+   "paid_date": "2025.06.10",
+   "note": "정산 분할 2/10회"
+  },
+  {
+   "month": "2025.06",
+   "notice_health": "221,740",
+   "notice_ltc": "28,710",
+   "health": "221,740",
+   "ltc": "28,710",
+   "total": "250,450",
+   "paid_date": "2025.07.10",
+   "note": "정산 분할 3/10회"
+  },
+  {
+   "month": "2025.07",
+   "notice_health": "221,740",
+   "notice_ltc": "28,710",
+   "health": "221,740",
+   "ltc": "28,710",
+   "total": "250,450",
+   "paid_date": "2025.08.11",
+   "note": "정산 분할 4/10회"
+  },
+  {
+   "month": "2025.08",
+   "notice_health": "221,740",
+   "notice_ltc": "28,710",
+   "health": "221,740",
+   "ltc": "28,710",
+   "total": "250,450",
+   "paid_date": "2025.09.10",
+   "note": "정산 분할 5/10회"
+  },
+  {
+   "month": "2025.09",
+   "notice_health": "221,740",
+   "notice_ltc": "28,710",
+   "health": "221,740",
+   "ltc": "28,710",
+   "total": "250,450",
+   "paid_date": "2025.10.10",
+   "note": "정산 분할 6/10회"
+  },
+  {
+   "month": "2025.10",
+   "notice_health": "221,740",
+   "notice_ltc": "28,710",
+   "health": "221,740",
+   "ltc": "28,710",
+   "total": "250,450",
+   "paid_date": "2025.11.10",
+   "note": "정산 분할 7/10회"
+  }
+ ],
+ "sum": {
+  "notice_health": "6,635,520",
+  "notice_ltc": "855,030",
+  "health": "6,635,520",
+  "ltc": "855,030",
+  "total": "7,490,550"
+ },
+ "purpose": "기타",
+ "issue_date": "2025년 11월 29일",
+ "seal": {
+  "issuer": true
+ }
+}

@@ -1,0 +1,27 @@
+{
+ "items": [
+  {
+   "key": "applicant_name",
+   "value": "Ada Lovelace",
+   "bbox_2d": [
+    248,
+    104,
+    367,
+    125
+   ],
+   "page": 1
+  },
+  {
+   "key": "agree_terms",
+   "value": "Yes",
+   "type": "checkbox",
+   "bbox_2d": [
+    118,
+    177,
+    141,
+    194
+   ],
+   "page": 1
+  }
+ ]
+}

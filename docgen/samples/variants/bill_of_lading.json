@@ -1,0 +1,96 @@
+{
+ "document_type": "선하증권(B/L)",
+ "shipper": {
+  "name": "Tokyo Seimitsu Kogyo K.K.",
+  "address": "2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN"
+ },
+ "booking_no": "BASL8527401",
+ "bl_no": "BASLJP55477018",
+ "carrier": "BLUE ANCHOR SHIPPING LTD.",
+ "forwarder": "Daon Logistics Co., Ltd.",
+ "consignee": {
+  "name": "TO ORDER OF NONGHYUP BANK"
+ },
+ "notify": {
+  "name": "SAEHAN SOFT CO., LTD.",
+  "address": "8F, DONGBANG PLAZA, 22-7 GUKJEGEUMYUNG-RO, YEONGDEUNGPO-GU, SEOUL 07028, KOREA"
+ },
+ "pre_carriage": "TRUCK",
+ "place_of_receipt": "TOKYO CY",
+ "origin": "JAPAN",
+ "vessel_voyage": "STAR PIONEER 079N",
+ "port_of_loading": "TOKYO, JAPAN",
+ "port_of_discharge": "BUSAN, KOREA",
+ "place_of_delivery": "BUSAN CY",
+ "marks": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-6844\nMADE IN JAPAN",
+ "container_count": "4 X 40'HC",
+ "packages": "6,844 CTNS",
+ "description": "Thick Film Chip Resistor 0603 10K OHM 1%  402,800,000 PCS\nBoard-to-Board Connector 0.5mm Pitch 40P  4,426,000 PCS\nLi-ion Battery Cell 18650 3.6V 3000mAh  241,200 PCS",
+ "lc_no": "M92342511NU19306",
+ "freight": "FREIGHT COLLECT",
+ "gross_weight": "64,335.60 KGS",
+ "measurement": "208.335 CBM",
+ "total_words": "SAY: FOUR (4) CONTAINERS ONLY",
+ "freight_payable_at": "BUSAN",
+ "issue_place": "TOKYO",
+ "issue_date": "09 NOV 2025",
+ "originals": "THREE (3)",
+ "on_board_date": "09 NOV 2025",
+ "charges": [
+  {
+   "name": "OCEAN FREIGHT",
+   "quantity": "4.00",
+   "rate": "1,200.00",
+   "per": "CNTR",
+   "collect": "USD 4,800.00"
+  },
+  {
+   "name": "BUNKER ADJUSTMENT FACTOR (BAF)",
+   "quantity": "4.00",
+   "rate": "350.00",
+   "per": "CNTR",
+   "collect": "USD 1,400.00"
+  },
+  {
+   "name": "TERMINAL HANDLING CHARGE (ORIGIN)",
+   "quantity": "4.00",
+   "rate": "220.00",
+   "per": "CNTR",
+   "prepaid": "USD 880.00"
+  }
+ ],
+ "containers": [
+  {
+   "no": "BAQU4582440",
+   "seal": "H758805",
+   "type": "40'HC",
+   "packages": "1,914 CTNS",
+   "gross_weight": "14,469.84",
+   "measurement": "57.420"
+  },
+  {
+   "no": "BAQU8686271",
+   "seal": "SL188089",
+   "type": "40'HC",
+   "packages": "1,681 CTNS",
+   "gross_weight": "12,708.36",
+   "measurement": "50.430"
+  },
+  {
+   "no": "BAQU1451519",
+   "seal": "KR970713",
+   "type": "40'HC",
+   "packages": "1,603 CTNS",
+   "gross_weight": "14,645.88",
+   "measurement": "48.090"
+  },
+  {
+   "no": "BAQU2389609",
+   "seal": "H251874",
+   "type": "40'HC",
+   "packages": "1,646 CTNS",
+   "gross_weight": "22,511.52",
+   "measurement": "52.395"
+  }
+ ]
+}

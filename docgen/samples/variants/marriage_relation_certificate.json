@@ -1,0 +1,55 @@
+{
+ "document_type": "혼인관계증명서",
+ "cert_type": "상세",
+ "reg_base": "서울특별시 마포구 서교동 159",
+ "self": {
+  "relation": "본인",
+  "name": "김소윤",
+  "name_hanja": "金素允",
+  "birth": "1990년 11월 21일",
+  "rrn": "901121-2030821",
+  "gender": "여",
+  "bon": "安東"
+ },
+ "spouse": {
+  "relation": "배우자",
+  "name": "김승성",
+  "name_hanja": "金承誠",
+  "birth": "1990년 03월 06일",
+  "rrn": "900306-1190934",
+  "gender": "남",
+  "bon": "金海"
+ },
+ "past_events": [
+  {
+   "kind": "혼인",
+   "reported": "2013년 05월 07일",
+   "spouse_name": "응우옌반안(NGUYEN VAN AN)",
+   "spouse_nationality": "베트남",
+   "spouse_birth": "1991년 11월 24일",
+   "office": "인천광역시 연수구"
+  },
+  {
+   "kind": "이혼",
+   "reported": "2014년 08월 18일",
+   "spouse_name": "응우옌반안(NGUYEN VAN AN)",
+   "spouse_nationality": "베트남",
+   "office": "서울특별시 서초구"
+  }
+ ],
+ "marriage": {
+  "reported": "2016년 07월 31일",
+  "spouse_name": "김승성",
+  "spouse_rrn": "900306-1190934",
+  "office": "광주광역시 서구"
+ },
+ "issue_date": "2025년 11월 29일",
+ "issuer": "광주광역시 서구청장",
+ "seal": {
+  "issuer": true
+ },
+ "issue_time": "17시 59분",
+ "officer": "황동윤",
+ "officer_phone": "062-363-9123",
+ "applicant": "김소윤"
+}

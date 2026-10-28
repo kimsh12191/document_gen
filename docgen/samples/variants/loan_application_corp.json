@@ -1,0 +1,133 @@
+{
+ "document_type": "기업여신 신청서",
+ "bank": "농협은행",
+ "branch": "분당지점",
+ "company": {
+  "name": "주식회사 새한소프트",
+  "name_en": "Saehan Soft Co., Ltd.",
+  "biz_no": "530-82-09978",
+  "corp_reg_no": "135012-6946558",
+  "ceo": "김소윤",
+  "established": "2021년 12월 08일",
+  "industry": "정보통신업 / 응용소프트웨어 개발",
+  "employees": "308명",
+  "size": "중소기업",
+  "capital": "100,000,000원",
+  "revenue": "71,301,000,000원",
+  "revenue_year": "2024년",
+  "address": "서울특별시 영등포구 국제금융로 22-7, 8층 (당산동, 동방프라자)",
+  "phone": "02-9757-8466",
+  "fax": null
+ },
+ "contact": {
+  "name": "안연도",
+  "position": "회계팀 과장",
+  "phone": "010-3434-9033",
+  "email": null
+ },
+ "loan": {
+  "subject": "일반자금대출",
+  "product": "기업일반운전자금대출",
+  "rate_type": "고정금리",
+  "amount_korean": "금 십오억원정",
+  "amount": "1,500,000,000원",
+  "term": "12개월",
+  "hope_date": "2025.12.08",
+  "repayment": "만기일시상환",
+  "fund_type": null,
+  "purpose": "운전자금(인건비 등 경상비)",
+  "deposit_account": "농협은행 108-9840-3627-48",
+  "collateral": "부동산",
+  "collateral_detail": "본사 사옥(서울특별시 영등포구 소재) 근저당권 설정, 채권최고액 1,800,000,000원"
+ },
+ "other_loans": [
+  {
+   "lender": "국민은행",
+   "kind": "당좌대출",
+   "balance": "1,040",
+   "collateral": "예금"
+  },
+  {
+   "lender": "SBI저축은행",
+   "kind": "외화대출",
+   "balance": "950",
+   "collateral": "신용"
+  },
+  {
+   "lender": "OK저축은행",
+   "kind": "수입신용장(L/C)",
+   "balance": "830",
+   "collateral": "신용"
+  },
+  {
+   "lender": "OK저축은행",
+   "kind": "팩토링",
+   "balance": "1,030",
+   "collateral": "부동산"
+  },
+  {
+   "lender": "경남은행",
+   "kind": "무역금융",
+   "balance": "230",
+   "collateral": "신용보증기금"
+  },
+  {
+   "lender": "현대캐피탈",
+   "kind": "무역금융",
+   "balance": "890",
+   "collateral": "부동산"
+  },
+  {
+   "lender": "SBI저축은행",
+   "kind": "리스",
+   "balance": "1,280",
+   "collateral": "부동산"
+  },
+  {
+   "lender": "현대캐피탈",
+   "kind": "수입신용장(L/C)",
+   "balance": "1,070",
+   "collateral": "신용보증기금"
+  },
+  {
+   "lender": "국민은행",
+   "kind": "리스",
+   "balance": "1,090",
+   "collateral": "기술보증기금"
+  },
+  {
+   "lender": "산업은행",
+   "kind": "외화대출",
+   "balance": "410",
+   "collateral": "신용보증기금"
+  },
+  {
+   "lender": "현대캐피탈",
+   "kind": "리스",
+   "balance": "1,210",
+   "collateral": "부동산"
+  },
+  {
+   "lender": "현대캐피탈",
+   "kind": "운전자금대출",
+   "balance": "1,230",
+   "collateral": "신용보증기금"
+  }
+ ],
+ "other_loans_total": "11,260",
+ "agent": {
+  "name": "안연도",
+  "position": "회계팀 과장",
+  "rrn": "881227-1******",
+  "phone": "010-3434-9033"
+ },
+ "apply_date": "2025년 11월 29일",
+ "signature": "김소윤",
+ "seal": {
+  "corp": true,
+  "agent": false
+ },
+ "sign": {
+  "agent": false
+ }
+}

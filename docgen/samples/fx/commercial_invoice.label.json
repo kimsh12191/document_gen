@@ -1,0 +1,665 @@
+{
+ "images": [
+  "fx/commercial_invoice.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "shipper.name",
+   "label": "Shipper/Exporter",
+   "type": "text",
+   "value": "Tokyo Seimitsu Kogyo K.K.",
+   "norm": "Tokyo Seimitsu Kogyo K.K.",
+   "page": 0,
+   "bbox": [
+    81.0,
+    160.4,
+    282.4,
+    178.4
+   ],
+   "label_bbox": [
+    81.0,
+    138.9,
+    638.2,
+    157.4
+   ]
+  },
+  {
+   "key": "shipper.address",
+   "label": "ShipperAddress",
+   "type": "text",
+   "value": "2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN",
+   "norm": "2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN",
+   "page": 0,
+   "bbox": [
+    81.0,
+    184.1,
+    497.8,
+    202.1
+   ]
+  },
+  {
+   "key": "invoice_no",
+   "label": "InvoiceNo",
+   "type": "text",
+   "value": "TSK-2511-156",
+   "norm": "TSK-2511-156",
+   "page": 0,
+   "bbox": [
+    657.8,
+    160.4,
+    761.3,
+    178.4
+   ],
+   "label_bbox": [
+    657.8,
+    138.9,
+    1110.0,
+    157.4
+   ]
+  },
+  {
+   "key": "invoice_date",
+   "label": "InvoiceDate",
+   "type": "date",
+   "value": "November 06, 2025",
+   "norm": "2025-11-06",
+   "page": 0,
+   "bbox": [
+    657.8,
+    184.1,
+    792.8,
+    202.1
+   ]
+  },
+  {
+   "key": "consignee.name",
+   "label": "Consignee",
+   "type": "text",
+   "value": "SAEHAN SOFT CO., LTD.",
+   "norm": "SAEHAN SOFT CO., LTD.",
+   "page": 0,
+   "bbox": [
+    81.0,
+    238.3,
+    279.7,
+    256.3
+   ]
+  },
+  {
+   "key": "consignee.address",
+   "label": "ConsigneeAddress",
+   "type": "text",
+   "value": "8F, DONGBANG PLAZA, 22-7 GUKJEGEUMYUNG-RO, YEONGDEUNGPO-GU, SEOUL 07028, KOREA",
+   "norm": "8F, DONGBANG PLAZA, 22-7 GUKJEGEUMYUNG-RO, YEONGDEUNGPO-GU, SEOUL 07028, KOREA",
+   "page": 0,
+   "bbox": [
+    81.0,
+    262.0,
+    491.5,
+    303.7
+   ]
+  },
+  {
+   "key": "notify",
+   "label": "NotifyParty",
+   "type": "text",
+   "value": "SAME AS ABOVE",
+   "norm": "SAME AS ABOVE",
+   "page": 0,
+   "bbox": [
+    81.0,
+    346.6,
+    214.7,
+    364.6
+   ],
+   "label_bbox": [
+    81.0,
+    325.2,
+    638.2,
+    343.6
+   ]
+  },
+  {
+   "key": "terms.delivery",
+   "label": "TermsofDelivery",
+   "type": "text",
+   "value": "FOB TOKYO, JAPAN (INCOTERMS 2020)",
+   "norm": "FOB TOKYO, JAPAN (INCOTERMS 2020)",
+   "page": 0,
+   "bbox": [
+    786.9,
+    346.6,
+    1109.4,
+    364.6
+   ]
+  },
+  {
+   "key": "terms.payment",
+   "label": "TermsofPayment",
+   "type": "text",
+   "value": "D/P AT SIGHT",
+   "norm": "D/P AT SIGHT",
+   "page": 0,
+   "bbox": [
+    789.8,
+    370.4,
+    899.3,
+    388.4
+   ]
+  },
+  {
+   "key": "origin",
+   "label": "CountryofOrigin",
+   "type": "text",
+   "value": "JAPAN",
+   "norm": "JAPAN",
+   "page": 0,
+   "bbox": [
+    785.3,
+    394.1,
+    836.5,
+    412.1
+   ],
+   "label_bbox": [
+    70.5,
+    265.7,
+    1120.5,
+    319.9
+   ]
+  },
+  {
+   "key": "contract_no",
+   "label": "ContractNo",
+   "type": "text",
+   "value": "TSK-SC-25806",
+   "norm": "TSK-SC-25806",
+   "page": 0,
+   "bbox": [
+    745.4,
+    417.8,
+    842.4,
+    434.3
+   ]
+  },
+  {
+   "key": "port_of_loading",
+   "label": "PortofLoading",
+   "type": "text",
+   "value": "TOKYO, JAPAN",
+   "norm": "TOKYO, JAPAN",
+   "page": 0,
+   "bbox": [
+    81.0,
+    400.8,
+    199.7,
+    418.8
+   ],
+   "label_bbox": [
+    81.0,
+    379.4,
+    354.8,
+    397.8
+   ]
+  },
+  {
+   "key": "final_destination",
+   "label": "FinalDestination",
+   "type": "text",
+   "value": "BUSAN, KOREA",
+   "norm": "BUSAN, KOREA",
+   "page": 0,
+   "bbox": [
+    374.2,
+    400.8,
+    498.5,
+    418.8
+   ],
+   "label_bbox": [
+    374.2,
+    379.4,
+    638.2,
+    397.8
+   ]
+  },
+  {
+   "key": "carrier",
+   "label": "Carrier",
+   "type": "text",
+   "value": "STAR PIONEER V.079N",
+   "norm": "STAR PIONEER V.079N",
+   "page": 0,
+   "bbox": [
+    81.0,
+    455.0,
+    254.6,
+    473.0
+   ],
+   "label_bbox": [
+    81.0,
+    433.5,
+    354.8,
+    452.0
+   ]
+  },
+  {
+   "key": "sailing_date",
+   "label": "Sailingonorabout",
+   "type": "date",
+   "value": "November 09, 2025",
+   "norm": "2025-11-09",
+   "page": 0,
+   "bbox": [
+    374.2,
+    455.0,
+    509.3,
+    473.0
+   ],
+   "label_bbox": [
+    374.2,
+    433.5,
+    638.2,
+    452.0
+   ]
+  },
+  {
+   "key": "marks",
+   "label": "MarksandNumbers",
+   "type": "text",
+   "value": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-208\nMADE IN JAPAN",
+   "norm": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-208\nMADE IN JAPAN",
+   "page": 0,
+   "bbox": [
+    79.5,
+    553.9,
+    190.0,
+    632.1
+   ],
+   "label_bbox": [
+    70.5,
+    485.5,
+    291.0,
+    515.5
+   ]
+  },
+  {
+   "key": "items.0.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Multilayer Ceramic Capacitor 0402 100nF 16V",
+   "norm": "Multilayer Ceramic Capacitor 0402 100nF 16V",
+   "page": 0,
+   "bbox": [
+    299.2,
+    553.9,
+    621.6,
+    571.9
+   ],
+   "label_bbox": [
+    291.0,
+    485.5,
+    637.5,
+    515.5
+   ]
+  },
+  {
+   "key": "items.0.model",
+   "label": "Model",
+   "type": "text",
+   "value": "CL05-569B",
+   "norm": "CL05-569B",
+   "page": 0,
+   "bbox": [
+    365.4,
+    577.6,
+    442.8,
+    595.6
+   ],
+   "label_bbox": [
+    291.0,
+    485.5,
+    637.5,
+    515.5
+   ]
+  },
+  {
+   "key": "items.0.quantity",
+   "label": "Quantity/Unit",
+   "type": "text",
+   "value": "8,300,000 PCS",
+   "norm": "8,300,000 PCS",
+   "page": 0,
+   "bbox": [
+    684.6,
+    553.9,
+    786.8,
+    571.9
+   ],
+   "label_bbox": [
+    637.5,
+    485.5,
+    795.0,
+    515.5
+   ]
+  },
+  {
+   "key": "items.0.unit_price",
+   "label": "Unit-price",
+   "type": "amount",
+   "value": "JPY 1.68",
+   "norm": 1.68,
+   "page": 0,
+   "bbox": [
+    861.7,
+    553.9,
+    923.2,
+    571.9
+   ],
+   "label_bbox": [
+    795.0,
+    485.5,
+    931.5,
+    515.5
+   ]
+  },
+  {
+   "key": "items.0.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 13,944,000",
+   "norm": 13944000,
+   "page": 0,
+   "bbox": [
+    1003.4,
+    553.9,
+    1111.5,
+    571.9
+   ],
+   "label_bbox": [
+    931.5,
+    485.5,
+    1120.5,
+    515.5
+   ]
+  },
+  {
+   "key": "items.1.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "norm": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "page": 0,
+   "bbox": [
+    299.2,
+    645.1,
+    584.2,
+    663.1
+   ],
+   "label_bbox": [
+    291.0,
+    485.5,
+    637.5,
+    515.5
+   ]
+  },
+  {
+   "key": "items.1.model",
+   "label": "Model",
+   "type": "text",
+   "value": "INR18650-186",
+   "norm": "INR18650-186",
+   "page": 0,
+   "bbox": [
+    365.4,
+    668.9,
+    463.5,
+    686.9
+   ],
+   "label_bbox": [
+    291.0,
+    485.5,
+    637.5,
+    515.5
+   ]
+  },
+  {
+   "key": "items.1.quantity",
+   "label": "Quantity/Unit",
+   "type": "text",
+   "value": "46,000 PCS",
+   "norm": "46,000 PCS",
+   "page": 0,
+   "bbox": [
+    705.8,
+    645.1,
+    786.8,
+    663.1
+   ],
+   "label_bbox": [
+    637.5,
+    485.5,
+    795.0,
+    515.5
+   ]
+  },
+  {
+   "key": "items.1.unit_price",
+   "label": "Unit-price",
+   "type": "amount",
+   "value": "JPY 341",
+   "norm": 341,
+   "page": 0,
+   "bbox": [
+    865.9,
+    645.1,
+    923.2,
+    663.1
+   ],
+   "label_bbox": [
+    795.0,
+    485.5,
+    931.5,
+    515.5
+   ]
+  },
+  {
+   "key": "items.1.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 15,678,640",
+   "norm": 15678640,
+   "page": 0,
+   "bbox": [
+    1003.4,
+    645.1,
+    1111.5,
+    663.1
+   ],
+   "label_bbox": [
+    931.5,
+    485.5,
+    1120.5,
+    515.5
+   ]
+  },
+  {
+   "key": "items.2.description",
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "value": "LED Driver IC, SOP-8",
+   "norm": "LED Driver IC, SOP-8",
+   "page": 0,
+   "bbox": [
+    299.2,
+    701.6,
+    455.5,
+    719.6
+   ],
+   "label_bbox": [
+    291.0,
+    485.5,
+    637.5,
+    515.5
+   ]
+  },
+  {
+   "key": "items.2.model",
+   "label": "Model",
+   "type": "text",
+   "value": "LD-256",
+   "norm": "LD-256",
+   "page": 0,
+   "bbox": [
+    365.4,
+    725.3,
+    416.7,
+    743.3
+   ],
+   "label_bbox": [
+    291.0,
+    485.5,
+    637.5,
+    515.5
+   ]
+  },
+  {
+   "key": "items.2.quantity",
+   "label": "Quantity/Unit",
+   "type": "text",
+   "value": "200,000 PCS",
+   "norm": "200,000 PCS",
+   "page": 0,
+   "bbox": [
+    697.3,
+    701.6,
+    786.8,
+    719.6
+   ],
+   "label_bbox": [
+    637.5,
+    485.5,
+    795.0,
+    515.5
+   ]
+  },
+  {
+   "key": "items.2.unit_price",
+   "label": "Unit-price",
+   "type": "amount",
+   "value": "JPY 82.34",
+   "norm": 82.34,
+   "page": 0,
+   "bbox": [
+    853.2,
+    701.6,
+    923.2,
+    719.6
+   ],
+   "label_bbox": [
+    795.0,
+    485.5,
+    931.5,
+    515.5
+   ]
+  },
+  {
+   "key": "items.2.amount",
+   "label": "Amount",
+   "type": "amount",
+   "value": "JPY 16,468,000",
+   "norm": 16468000,
+   "page": 0,
+   "bbox": [
+    1003.4,
+    701.6,
+    1111.5,
+    719.6
+   ],
+   "label_bbox": [
+    931.5,
+    485.5,
+    1120.5,
+    515.5
+   ]
+  },
+  {
+   "key": "total_quantity",
+   "label": "TotalPackages",
+   "type": "text",
+   "value": "208 CTNS",
+   "norm": "208 CTNS",
+   "page": 0,
+   "bbox": [
+    554.4,
+    1086.7,
+    629.2,
+    1104.7
+   ],
+   "label_bbox": [
+    70.5,
+    485.5,
+    291.0,
+    515.5
+   ]
+  },
+  {
+   "key": "total_amount",
+   "label": "TotalAmount",
+   "type": "amount",
+   "value": "JPY 46,090,640",
+   "norm": 46090640,
+   "page": 0,
+   "bbox": [
+    1000.6,
+    1086.7,
+    1111.5,
+    1104.7
+   ],
+   "label_bbox": [
+    931.5,
+    485.5,
+    1120.5,
+    515.5
+   ]
+  },
+  {
+   "key": "signed_by",
+   "label": "Signedby",
+   "type": "text",
+   "value": "Tokyo Seimitsu Kogyo K.K.",
+   "norm": "Tokyo Seimitsu Kogyo K.K.",
+   "page": 0,
+   "bbox": [
+    672.0,
+    1180.6,
+    873.4,
+    1198.6
+   ],
+   "label_bbox": [
+    672.0,
+    1155.4,
+    1122.0,
+    1179.1
+   ]
+  },
+  {
+   "key": "signer",
+   "label": "Signer",
+   "type": "text",
+   "value": "Kenji Sato",
+   "norm": "Kenji Sato",
+   "page": 0,
+   "bbox": [
+    672.0,
+    1264.4,
+    744.0,
+    1282.4
+   ]
+  }
+ ]
+}

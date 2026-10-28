@@ -1,0 +1,493 @@
+{
+ "document_type": "포장명세서(Packing List)",
+ "shipper": {
+  "name": "MERIDIAN GLOBAL SOURCING PTE. LTD.",
+  "address": "30 CECIL STREET, #19-08, SINGAPORE 049712"
+ },
+ "invoice_no": "MGS-2511-156",
+ "invoice_date": "06 NOV 2025",
+ "consignee": {
+  "name": "SAEHAN SOFT CO., LTD.",
+  "address": "8F, DONGBANG PLAZA, 22-7 GUKJEGEUMYUNG-RO, YEONGDEUNGPO-GU, SEOUL 07028, KOREA"
+ },
+ "contract_no": "MGS-SC-25806",
+ "lc_no": "M92342511NU19306",
+ "partial_shipment": "2ND LOT OF 2 LOTS",
+ "manufacturer": {
+  "name": "Tokyo Seimitsu Kogyo K.K.",
+  "address": "2-3-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-0001, JAPAN"
+ },
+ "notify": "SAME AS CONSIGNEE",
+ "port_of_loading": "TOKYO, JAPAN",
+ "final_destination": "BUSAN, KOREA",
+ "carrier": "STAR PIONEER V.079N",
+ "sailing_date": "09 NOV 2025",
+ "marks": "SAEHAN\nBUSAN, KOREA\nC/NO. 1-6844\nMADE IN JAPAN",
+ "containers": [
+  {
+   "no": "BAQU4582440",
+   "seal": "H758805",
+   "packages": "1,914 CTNS",
+   "net_weight": "13,398.00",
+   "gross_weight": "14,469.84",
+   "measurement": "57.420"
+  },
+  {
+   "no": "BAQU8686271",
+   "seal": "SL188089",
+   "packages": "1,681 CTNS",
+   "net_weight": "11,767.00",
+   "gross_weight": "12,708.36",
+   "measurement": "50.430"
+  },
+  {
+   "no": "BAQU1451519",
+   "seal": "KR970713",
+   "packages": "1,603 CTNS",
+   "net_weight": "13,561.00",
+   "gross_weight": "14,645.88",
+   "measurement": "48.090"
+  },
+  {
+   "no": "BAQU2389609",
+   "seal": "H251874",
+   "packages": "1,646 CTNS",
+   "net_weight": "20,844.00",
+   "gross_weight": "22,511.52",
+   "measurement": "52.395"
+  }
+ ],
+ "items": [
+  {
+   "ctn_no": "1-213",
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "packages": "213 CTNS",
+   "quantity": "21,300,000 PCS",
+   "net_weight": "1,491.00",
+   "gross_weight": "1,610.28",
+   "measurement": "6.390"
+  },
+  {
+   "ctn_no": "214-370",
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "packages": "157 CTNS",
+   "quantity": "15,700,000 PCS",
+   "net_weight": "1,099.00",
+   "gross_weight": "1,186.92",
+   "measurement": "4.710"
+  },
+  {
+   "ctn_no": "371-426",
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "packages": "56 CTNS",
+   "quantity": "5,600,000 PCS",
+   "net_weight": "392.00",
+   "gross_weight": "423.36",
+   "measurement": "1.680"
+  },
+  {
+   "ctn_no": "427-528",
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "packages": "102 CTNS",
+   "quantity": "10,200,000 PCS",
+   "net_weight": "714.00",
+   "gross_weight": "771.12",
+   "measurement": "3.060"
+  },
+  {
+   "ctn_no": "529-898",
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "packages": "370 CTNS",
+   "quantity": "37,000,000 PCS",
+   "net_weight": "2,590.00",
+   "gross_weight": "2,797.20",
+   "measurement": "11.100"
+  },
+  {
+   "ctn_no": "899-1226",
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "packages": "328 CTNS",
+   "quantity": "32,800,000 PCS",
+   "net_weight": "2,296.00",
+   "gross_weight": "2,479.68",
+   "measurement": "9.840"
+  },
+  {
+   "ctn_no": "1227-1502",
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "packages": "276 CTNS",
+   "quantity": "27,600,000 PCS",
+   "net_weight": "1,932.00",
+   "gross_weight": "2,086.56",
+   "measurement": "8.280"
+  },
+  {
+   "ctn_no": "1503-1914",
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "packages": "412 CTNS",
+   "quantity": "41,200,000 PCS",
+   "net_weight": "2,884.00",
+   "gross_weight": "3,114.72",
+   "measurement": "12.360"
+  },
+  {
+   "ctn_no": "1915-2560",
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "packages": "646 CTNS",
+   "quantity": "64,600,000 PCS",
+   "net_weight": "4,522.00",
+   "gross_weight": "4,883.76",
+   "measurement": "19.380"
+  },
+  {
+   "ctn_no": "2561-2711",
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "packages": "151 CTNS",
+   "quantity": "15,100,000 PCS",
+   "net_weight": "1,057.00",
+   "gross_weight": "1,141.56",
+   "measurement": "4.530"
+  },
+  {
+   "ctn_no": "2712-2772",
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "packages": "61 CTNS",
+   "quantity": "6,100,000 PCS",
+   "net_weight": "427.00",
+   "gross_weight": "461.16",
+   "measurement": "1.830"
+  },
+  {
+   "ctn_no": "2773-2979",
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "packages": "207 CTNS",
+   "quantity": "20,700,000 PCS",
+   "net_weight": "1,449.00",
+   "gross_weight": "1,564.92",
+   "measurement": "6.210"
+  },
+  {
+   "ctn_no": "2980-3088",
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "packages": "109 CTNS",
+   "quantity": "10,900,000 PCS",
+   "net_weight": "763.00",
+   "gross_weight": "824.04",
+   "measurement": "3.270"
+  },
+  {
+   "ctn_no": "3089-3193",
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "packages": "105 CTNS",
+   "quantity": "10,500,000 PCS",
+   "net_weight": "735.00",
+   "gross_weight": "793.80",
+   "measurement": "3.150"
+  },
+  {
+   "ctn_no": "3194-3595",
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "packages": "402 CTNS",
+   "quantity": "40,200,000 PCS",
+   "net_weight": "2,814.00",
+   "gross_weight": "3,039.12",
+   "measurement": "12.060"
+  },
+  {
+   "ctn_no": "3596-3821",
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "packages": "226 CTNS",
+   "quantity": "22,600,000 PCS",
+   "net_weight": "1,582.00",
+   "gross_weight": "1,708.56",
+   "measurement": "6.780"
+  },
+  {
+   "ctn_no": "3822-3942",
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "packages": "121 CTNS",
+   "quantity": "12,100,000 PCS",
+   "net_weight": "847.00",
+   "gross_weight": "914.76",
+   "measurement": "3.630"
+  },
+  {
+   "ctn_no": "3943-4028",
+   "description": "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "packages": "86 CTNS",
+   "quantity": "8,600,000 PCS",
+   "net_weight": "602.00",
+   "gross_weight": "650.16",
+   "measurement": "2.580"
+  },
+  {
+   "ctn_no": "4029-4346",
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "packages": "318 CTNS",
+   "quantity": "636,000 PCS",
+   "net_weight": "2,862.00",
+   "gross_weight": "3,090.96",
+   "measurement": "9.540"
+  },
+  {
+   "ctn_no": "4347-4448",
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "packages": "102 CTNS",
+   "quantity": "204,000 PCS",
+   "net_weight": "918.00",
+   "gross_weight": "991.44",
+   "measurement": "3.060"
+  },
+  {
+   "ctn_no": "4449-4573",
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "packages": "125 CTNS",
+   "quantity": "250,000 PCS",
+   "net_weight": "1,125.00",
+   "gross_weight": "1,215.00",
+   "measurement": "3.750"
+  },
+  {
+   "ctn_no": "4574-4667",
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "packages": "94 CTNS",
+   "quantity": "188,000 PCS",
+   "net_weight": "846.00",
+   "gross_weight": "913.68",
+   "measurement": "2.820"
+  },
+  {
+   "ctn_no": "4668-4715",
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "packages": "48 CTNS",
+   "quantity": "96,000 PCS",
+   "net_weight": "432.00",
+   "gross_weight": "466.56",
+   "measurement": "1.440"
+  },
+  {
+   "ctn_no": "4716-4836",
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "packages": "121 CTNS",
+   "quantity": "242,000 PCS",
+   "net_weight": "1,089.00",
+   "gross_weight": "1,176.12",
+   "measurement": "3.630"
+  },
+  {
+   "ctn_no": "4837-4876",
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "packages": "40 CTNS",
+   "quantity": "80,000 PCS",
+   "net_weight": "360.00",
+   "gross_weight": "388.80",
+   "measurement": "1.200"
+  },
+  {
+   "ctn_no": "4877-5198",
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "packages": "322 CTNS",
+   "quantity": "644,000 PCS",
+   "net_weight": "2,898.00",
+   "gross_weight": "3,129.84",
+   "measurement": "9.660"
+  },
+  {
+   "ctn_no": "5199-5574",
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "packages": "376 CTNS",
+   "quantity": "752,000 PCS",
+   "net_weight": "3,384.00",
+   "gross_weight": "3,654.72",
+   "measurement": "11.280"
+  },
+  {
+   "ctn_no": "5575-5676",
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "packages": "102 CTNS",
+   "quantity": "204,000 PCS",
+   "net_weight": "918.00",
+   "gross_weight": "991.44",
+   "measurement": "3.060"
+  },
+  {
+   "ctn_no": "5677-5791",
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "packages": "115 CTNS",
+   "quantity": "230,000 PCS",
+   "net_weight": "1,035.00",
+   "gross_weight": "1,117.80",
+   "measurement": "3.450"
+  },
+  {
+   "ctn_no": "5792-5847",
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "packages": "56 CTNS",
+   "quantity": "112,000 PCS",
+   "net_weight": "504.00",
+   "gross_weight": "544.32",
+   "measurement": "1.680"
+  },
+  {
+   "ctn_no": "5848-5885",
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "packages": "38 CTNS",
+   "quantity": "76,000 PCS",
+   "net_weight": "342.00",
+   "gross_weight": "369.36",
+   "measurement": "1.140"
+  },
+  {
+   "ctn_no": "5886-5923",
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "packages": "38 CTNS",
+   "quantity": "76,000 PCS",
+   "net_weight": "342.00",
+   "gross_weight": "369.36",
+   "measurement": "1.140"
+  },
+  {
+   "ctn_no": "5924-6143",
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "packages": "220 CTNS",
+   "quantity": "440,000 PCS",
+   "net_weight": "1,980.00",
+   "gross_weight": "2,138.40",
+   "measurement": "6.600"
+  },
+  {
+   "ctn_no": "6144-6210",
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "packages": "67 CTNS",
+   "quantity": "134,000 PCS",
+   "net_weight": "603.00",
+   "gross_weight": "651.24",
+   "measurement": "2.010"
+  },
+  {
+   "ctn_no": "6211-6241",
+   "description": "Board-to-Board Connector 0.5mm Pitch 40P",
+   "packages": "31 CTNS",
+   "quantity": "62,000 PCS",
+   "net_weight": "279.00",
+   "gross_weight": "301.32",
+   "measurement": "0.930"
+  },
+  {
+   "ctn_no": "6242-6260",
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "packages": "19 CTNS",
+   "quantity": "7,600 PCS",
+   "net_weight": "361.00",
+   "gross_weight": "389.88",
+   "measurement": "0.665"
+  },
+  {
+   "ctn_no": "6261-6333",
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "packages": "73 CTNS",
+   "quantity": "29,200 PCS",
+   "net_weight": "1,387.00",
+   "gross_weight": "1,497.96",
+   "measurement": "2.555"
+  },
+  {
+   "ctn_no": "6334-6415",
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "packages": "82 CTNS",
+   "quantity": "32,800 PCS",
+   "net_weight": "1,558.00",
+   "gross_weight": "1,682.64",
+   "measurement": "2.870"
+  },
+  {
+   "ctn_no": "6416-6478",
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "packages": "63 CTNS",
+   "quantity": "25,200 PCS",
+   "net_weight": "1,197.00",
+   "gross_weight": "1,292.76",
+   "measurement": "2.205"
+  },
+  {
+   "ctn_no": "6479-6541",
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "packages": "63 CTNS",
+   "quantity": "25,200 PCS",
+   "net_weight": "1,197.00",
+   "gross_weight": "1,292.76",
+   "measurement": "2.205"
+  },
+  {
+   "ctn_no": "6542-6577",
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "packages": "36 CTNS",
+   "quantity": "14,400 PCS",
+   "net_weight": "684.00",
+   "gross_weight": "738.72",
+   "measurement": "1.260"
+  },
+  {
+   "ctn_no": "6578-6650",
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "packages": "73 CTNS",
+   "quantity": "29,200 PCS",
+   "net_weight": "1,387.00",
+   "gross_weight": "1,497.96",
+   "measurement": "2.555"
+  },
+  {
+   "ctn_no": "6651-6679",
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "packages": "29 CTNS",
+   "quantity": "11,600 PCS",
+   "net_weight": "551.00",
+   "gross_weight": "595.08",
+   "measurement": "1.015"
+  },
+  {
+   "ctn_no": "6680-6712",
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "packages": "33 CTNS",
+   "quantity": "13,200 PCS",
+   "net_weight": "627.00",
+   "gross_weight": "677.16",
+   "measurement": "1.155"
+  },
+  {
+   "ctn_no": "6713-6752",
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "packages": "40 CTNS",
+   "quantity": "16,000 PCS",
+   "net_weight": "760.00",
+   "gross_weight": "820.80",
+   "measurement": "1.400"
+  },
+  {
+   "ctn_no": "6753-6785",
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "packages": "33 CTNS",
+   "quantity": "13,200 PCS",
+   "net_weight": "627.00",
+   "gross_weight": "677.16",
+   "measurement": "1.155"
+  },
+  {
+   "ctn_no": "6786-6844",
+   "description": "Li-ion Battery Cell 18650 3.6V 3000mAh",
+   "packages": "59 CTNS",
+   "quantity": "23,600 PCS",
+   "net_weight": "1,121.00",
+   "gross_weight": "1,210.68",
+   "measurement": "2.065"
+  }
+ ],
+ "total": {
+  "packages": "6,844 CTNS",
+  "net_weight": "59,570.00 KGS",
+  "gross_weight": "64,335.60 KGS",
+  "measurement": "208.335 CBM"
+ },
+ "signed_by": "MERIDIAN GLOBAL SOURCING PTE. LTD.",
+ "signer": "David Wong"
+}

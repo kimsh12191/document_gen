@@ -1,0 +1,74 @@
+{
+ "items": [
+  {
+   "key": "issuer",
+   "value": "NETPRESSE",
+   "bbox_2d": [
+    606,
+    608,
+    708,
+    624
+   ],
+   "page": 1
+  },
+  {
+   "key": "amount",
+   "value": "56.02",
+   "bbox_2d": [
+    858,
+    489,
+    900,
+    506
+   ],
+   "page": 1
+  },
+  {
+   "key": "amount_untaxed",
+   "value": "46.68",
+   "bbox_2d": [
+    858,
+    430,
+    900,
+    446
+   ],
+   "page": 1
+  },
+  {
+   "key": "date",
+   "value": "2022-11-28",
+   "bbox_2d": [
+    144,
+    223,
+    228,
+    239
+   ],
+   "page": 1
+  },
+  {
+   "key": "invoice_number",
+   "value": "2022089083",
+   "bbox_2d": [
+    496,
+    208,
+    590,
+    225
+   ],
+   "page": 1
+  },
+  {
+   "key": "siren",
+   "value": "530848134",
+   "bbox_2d": [
+    454,
+    960,
+    514,
+    971
+   ],
+   "page": 1
+  },
+  {
+   "key": "currency",
+   "value": "EUR"
+  }
+ ]
+}

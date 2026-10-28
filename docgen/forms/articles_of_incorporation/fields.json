@@ -1,0 +1,103 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "amended.company_name": {
+   "label": "개정일",
+   "type": "text",
+   "source": "code"
+  },
+  "amended.purposes": {
+   "label": "개정일",
+   "type": "text",
+   "source": "code"
+  },
+  "authorized_shares": {
+   "label": "발행예정주식의총수",
+   "type": "text",
+   "source": "code"
+  },
+  "ceo_name": {
+   "label": "대표이사",
+   "type": "text",
+   "source": "code"
+  },
+  "certify_date": {
+   "label": "증명일",
+   "type": "text",
+   "source": "code"
+  },
+  "company_name": {
+   "label": "상호",
+   "type": "text",
+   "source": "code"
+  },
+  "company_name_en": {
+   "label": "영문상호",
+   "type": "text",
+   "source": "code"
+  },
+  "effective_date": {
+   "label": "시행일",
+   "type": "text",
+   "source": "code"
+  },
+  "head_office_city": {
+   "label": "본점소재지",
+   "type": "text",
+   "source": "code"
+  },
+  "initial_shares": {
+   "label": "설립시발행주식총수",
+   "type": "text",
+   "source": "code"
+  },
+  "notice_method": {
+   "label": "공고방법",
+   "type": "text",
+   "source": "code"
+  },
+  "par_value": {
+   "label": "1주의금액",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.corp": {
+   "label": "법인인감",
+   "type": "seal",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "purposes.#": {
+   "source": "code",
+   "fields": {
+    "#": {
+     "label": "목적",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "revision_effective.#": {
+   "source": "code",
+   "fields": {
+    "#": {
+     "label": "시행일",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "revision_history.#": {
+   "source": "code",
+   "fields": {
+    "#": {
+     "label": "제정·개정일",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

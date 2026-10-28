@@ -1,0 +1,36 @@
+{
+ "document_type": "통장사본",
+ "bank": "농협은행",
+ "product": "저축예금",
+ "seal": {
+  "registered": true
+ },
+ "passbook_no": "03",
+ "account_no": "628-8975-1402-61",
+ "holder": "김소윤",
+ "opened": "2010-05-18",
+ "branch": "해운대지점",
+ "branch_phone": "062-323-0860",
+ "first_tx": {
+  "date": "2010.05.18",
+  "memo": "신규",
+  "amount": "100,000",
+  "balance": "100,000"
+ },
+ "txs": [
+  {
+   "date": "2010.05.27",
+   "memo": "모바일입금",
+   "in": "3,171,910",
+   "balance": "3,271,910"
+  },
+  {
+   "date": "2010.06.20",
+   "memo": "해지",
+   "out": "3,271,910",
+   "balance": "0"
+  }
+ ],
+ "status": "해지",
+ "closed_date": "2010.06.20"
+}

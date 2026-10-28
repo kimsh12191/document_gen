@@ -1,0 +1,103 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "arrears": {
+   "label": "체납액",
+   "type": "text",
+   "source": "code"
+  },
+  "deferral": {
+   "label": "징수유예등또는체납처분유예의내역",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_no": {
+   "label": "발급번호",
+   "type": "text",
+   "source": "code"
+  },
+  "issuer": {
+   "label": "발급기관",
+   "type": "text",
+   "source": "code"
+  },
+  "purpose": {
+   "label": "증명서사용목적",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "taxpayer.address": {
+   "label": "주소(영업소)",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.biz_no": {
+   "label": "사업자등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.name": {
+   "label": "성명(법인명)",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.rrn": {
+   "label": "주민등록번호(법인등록번호)",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.trade_name": {
+   "label": "상호",
+   "type": "text",
+   "source": "code"
+  },
+  "valid_period": {
+   "label": "증명서유효기간",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "deferrals": {
+   "source": "code",
+   "fields": {
+    "amount": {
+     "label": "세액",
+     "type": "text",
+     "source": "code"
+    },
+    "due": {
+     "label": "납부기한",
+     "type": "text",
+     "source": "code"
+    },
+    "period": {
+     "label": "유예기간",
+     "type": "text",
+     "source": "code"
+    },
+    "tax_item": {
+     "label": "세목",
+     "type": "text",
+     "source": "code"
+    },
+    "tax_year": {
+     "label": "과세연도",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

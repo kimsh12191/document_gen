@@ -1,0 +1,273 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "agent.name": {
+   "label": "대리인성명",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.phone": {
+   "label": "대리인연락처",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.relation": {
+   "label": "신청인과의관계",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.rrn": {
+   "label": "대리인실명번호",
+   "type": "text",
+   "source": "code"
+  },
+  "bank.name": {
+   "label": "은행명",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.branch": {
+   "label": "취급영업점",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.cable_fee": {
+   "label": "전신료",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.clerk": {
+   "label": "담당자",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.fee": {
+   "label": "송금수수료",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.krw_amount": {
+   "label": "원화환산액",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.manager": {
+   "label": "결재권자",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.rate": {
+   "label": "적용환율",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.ref_no": {
+   "label": "참조번호",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.total": {
+   "label": "합계",
+   "type": "text",
+   "source": "code"
+  },
+  "batch_count": {
+   "label": "송금건수",
+   "type": "text",
+   "source": "code"
+  },
+  "beneficiary.account_no": {
+   "label": "수취인계좌번호",
+   "type": "text",
+   "source": "code"
+  },
+  "beneficiary.address": {
+   "label": "수취인주소",
+   "type": "text",
+   "source": "code"
+  },
+  "beneficiary.bank_address": {
+   "label": "수취은행주소",
+   "type": "text",
+   "source": "code"
+  },
+  "beneficiary.bank_name": {
+   "label": "수취은행명",
+   "type": "text",
+   "source": "code"
+  },
+  "beneficiary.country": {
+   "label": "수취인국가",
+   "type": "text",
+   "source": "code"
+  },
+  "beneficiary.name": {
+   "label": "수취인성명",
+   "type": "text",
+   "source": "code"
+  },
+  "beneficiary.relationship": {
+   "label": "신청인과의관계",
+   "type": "text",
+   "source": "code"
+  },
+  "beneficiary.swift": {
+   "label": "SWIFTBIC",
+   "type": "text",
+   "source": "code"
+  },
+  "date": {
+   "label": "신청일",
+   "type": "text",
+   "source": "code"
+  },
+  "remittance.amount": {
+   "label": "송금금액",
+   "type": "text",
+   "source": "code"
+  },
+  "remittance.charge": {
+   "label": "수수료부담",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "remittance.currency": {
+   "label": "송금통화",
+   "type": "text",
+   "source": "code"
+  },
+  "remittance.documents": {
+   "label": "지급증빙서류",
+   "type": "text",
+   "source": "code"
+  },
+  "remittance.message": {
+   "label": "송금메시지",
+   "type": "text",
+   "source": "code"
+  },
+  "remittance.method": {
+   "label": "송금방법",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "remittance.purpose": {
+   "label": "송금사유",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "remittance.purpose_code": {
+   "label": "지급사유코드",
+   "type": "text",
+   "source": "code"
+  },
+  "remitter.address": {
+   "label": "송금인주소",
+   "type": "text",
+   "source": "code"
+  },
+  "remitter.company": {
+   "label": "상호(사업자번호)",
+   "type": "text",
+   "source": "code"
+  },
+  "remitter.name": {
+   "label": "송금인성명",
+   "type": "text",
+   "source": "code"
+  },
+  "remitter.name_en": {
+   "label": "송금인영문명",
+   "type": "text",
+   "source": "code"
+  },
+  "remitter.phone": {
+   "label": "전화번호",
+   "type": "text",
+   "source": "code"
+  },
+  "remitter.rrn": {
+   "label": "실명번호",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.agent": {
+   "label": "대리인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.applicant": {
+   "label": "신청인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.staff.clerk": {
+   "label": "담당자",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.staff.manager": {
+   "label": "결재권자",
+   "type": "seal",
+   "source": "code"
+  },
+  "sign.agent": {
+   "label": "대리인",
+   "type": "signature",
+   "source": "code"
+  },
+  "sign.applicant": {
+   "label": "신청인",
+   "type": "signature",
+   "source": "code"
+  },
+  "signature": {
+   "label": "신청인",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "batch": {
+   "source": "code",
+   "fields": {
+    "account_no": {
+     "label": "계좌번호",
+     "type": "text",
+     "source": "code"
+    },
+    "amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    },
+    "bank": {
+     "label": "수취은행",
+     "type": "text",
+     "source": "code"
+    },
+    "beneficiary": {
+     "label": "수취인",
+     "type": "text",
+     "source": "code"
+    },
+    "country": {
+     "label": "국가",
+     "type": "text",
+     "source": "code"
+    },
+    "currency": {
+     "label": "통화",
+     "type": "text",
+     "source": "code"
+    },
+    "message": {
+     "label": "송금메시지",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

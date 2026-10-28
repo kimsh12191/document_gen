@@ -1,0 +1,123 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "bank.name": {
+   "label": "은행명",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.branch": {
+   "label": "접수영업점",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.clerk": {
+   "label": "담당",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.manager": {
+   "label": "책임자",
+   "type": "text",
+   "source": "code"
+  },
+  "date": {
+   "label": "작성일",
+   "type": "text",
+   "source": "code"
+  },
+  "holder.address": {
+   "label": "현재거주지주소",
+   "type": "text",
+   "source": "code"
+  },
+  "holder.birth": {
+   "label": "생년월일",
+   "type": "text",
+   "source": "code"
+  },
+  "holder.birth_place": {
+   "label": "출생국가",
+   "type": "text",
+   "source": "code"
+  },
+  "holder.given_en": {
+   "label": "영문이름",
+   "type": "text",
+   "source": "code"
+  },
+  "holder.mobile": {
+   "label": "연락처",
+   "type": "text",
+   "source": "code"
+  },
+  "holder.name": {
+   "label": "성명(한글)",
+   "type": "text",
+   "source": "code"
+  },
+  "holder.nationality": {
+   "label": "국적",
+   "type": "text",
+   "source": "code"
+  },
+  "holder.surname_en": {
+   "label": "영문성",
+   "type": "text",
+   "source": "code"
+  },
+  "residence_category": {
+   "label": "해외거주자여부",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.holder": {
+   "label": "계좌보유자",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.staff.clerk": {
+   "label": "담당",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.staff.manager": {
+   "label": "책임자",
+   "type": "seal",
+   "source": "code"
+  },
+  "sign.holder": {
+   "label": "계좌보유자",
+   "type": "signature",
+   "source": "code"
+  },
+  "signature": {
+   "label": "계좌보유자",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "residences": {
+   "source": "code",
+   "fields": {
+    "country": {
+     "label": "거주관할권",
+     "type": "text",
+     "source": "code"
+    },
+    "no_tin_reason": {
+     "label": "납세자번호미기재사유",
+     "type": "text",
+     "source": "code"
+    },
+    "tin": {
+     "label": "납세자번호",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

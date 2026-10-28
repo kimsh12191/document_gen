@@ -1,0 +1,152 @@
+{
+ "document_type": "학비 청구서(Tuition Invoice)",
+ "university": {
+  "name": "Westlake State University",
+  "office": "Office of Student Accounts",
+  "address": "1800 Lakeview Dr, Seattle, WA 98105, USA"
+ },
+ "student": {
+  "name": "Soyun Kim",
+  "id": "N42700432",
+  "program": "Master of Science (M.S.) in Data Science"
+ },
+ "invoice_no": "INV-2026163654",
+ "invoice_date": "November 02, 2025",
+ "term": "Spring 2026",
+ "items": [
+  {
+   "date": "10/31/2025",
+   "description": "Tuition: DS 823 Data Engineering (3 cr)",
+   "charge": "$5,919.23"
+  },
+  {
+   "date": "11/01/2025",
+   "description": "Tuition: DS 661 Optimization Methods (3 cr)",
+   "charge": "$5,919.23"
+  },
+  {
+   "date": "11/01/2025",
+   "description": "Tuition: DS 873 Statistical Learning (3 cr)",
+   "charge": "$5,919.23"
+  },
+  {
+   "date": "11/01/2025",
+   "description": "Tuition: DS 603 Probability and Inference (4 cr)",
+   "charge": "$7,892.31"
+  },
+  {
+   "date": "10/31/2025",
+   "description": "Student Activity Fee",
+   "charge": "$354.00"
+  },
+  {
+   "date": "10/31/2025",
+   "description": "Technology Fee",
+   "charge": "$260.00"
+  },
+  {
+   "date": "11/02/2025",
+   "description": "Student Health Insurance Plan",
+   "charge": "$2,597.00"
+  },
+  {
+   "date": "10/30/2025",
+   "description": "International Student Service Fee",
+   "charge": "$107.00"
+  },
+  {
+   "date": "10/30/2025",
+   "description": "Athletics Fee",
+   "charge": "$196.00"
+  },
+  {
+   "date": "11/02/2025",
+   "description": "Recreation Center Fee",
+   "charge": "$157.00"
+  },
+  {
+   "date": "10/31/2025",
+   "description": "Student Union Fee",
+   "charge": "$183.00"
+  },
+  {
+   "date": "11/01/2025",
+   "description": "Student ID Card Fee",
+   "charge": "$32.00"
+  },
+  {
+   "date": "11/02/2025",
+   "description": "Transportation Fee (Transit Pass)",
+   "charge": "$141.00"
+  },
+  {
+   "date": "10/31/2025",
+   "description": "Graduate Student Association Fee",
+   "charge": "$45.00"
+  },
+  {
+   "date": "10/30/2025",
+   "description": "On-Campus Housing (Single Room)",
+   "charge": "$8,300.00"
+  },
+  {
+   "date": "11/01/2025",
+   "description": "Meal Plan",
+   "charge": "$2,530.00"
+  },
+  {
+   "date": "10/31/2025",
+   "description": "Payment Plan Enrollment Fee",
+   "charge": "$60.00"
+  },
+  {
+   "date": "10/25/2025",
+   "description": "Global Excellence Scholarship",
+   "credit": "$12,820.00"
+  },
+  {
+   "date": "10/27/2025",
+   "description": "Payment Received - International Wire (Ref. 89768621)",
+   "credit": "$13,400.00"
+  }
+ ],
+ "summary": {
+  "previous_balance": "$0.00",
+  "charges": "$40,612.00",
+  "credits": "$26,220.00"
+ },
+ "total": "USD 14,392.00",
+ "due_date": "January 01, 2026",
+ "amount_due_now": "$3,598.00",
+ "installments": [
+  {
+   "no": "1",
+   "due_date": "January 01, 2026",
+   "amount": "$3,598.00"
+  },
+  {
+   "no": "2",
+   "due_date": "February 01, 2026",
+   "amount": "$3,598.00"
+  },
+  {
+   "no": "3",
+   "due_date": "March 01, 2026",
+   "amount": "$3,598.00"
+  },
+  {
+   "no": "4",
+   "due_date": "April 01, 2026",
+   "amount": "$3,598.00"
+  }
+ ],
+ "bank": {
+  "beneficiary": "Westlake State University",
+  "bank_name": "Bank of America, N.A.",
+  "swift": "BOFAUS3N",
+  "account": "321450801",
+  "routing_label": "ABA Routing No.",
+  "routing": "041250495",
+  "reference": "N42700432 Soyun Kim"
+ }
+}

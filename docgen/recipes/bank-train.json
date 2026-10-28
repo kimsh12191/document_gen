@@ -1,0 +1,10 @@
+{
+ "about": "은행 업무 학습 데이터: 서류 476종 × 5건 + 업무 12종 × 고객 200명 (평가 세트와 seed 가 겹치지 않음)",
+ "track": "bank",
+ "split": "train",
+ "types": "all",
+ "per_doc": 5,
+ "scenarios": "all",
+ "bundles": 200,
+ "name": "bank-train"
+}

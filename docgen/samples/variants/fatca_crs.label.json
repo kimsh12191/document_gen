@@ -1,0 +1,361 @@
+{
+ "images": [
+  "variants/fatca_crs.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "bank.name",
+   "label": "은행명",
+   "type": "text",
+   "value": "농협은행",
+   "norm": "농협은행",
+   "page": 0,
+   "bbox": [
+    92.9,
+    58.6,
+    207.0,
+    88.6
+   ]
+  },
+  {
+   "key": "holder.name",
+   "label": "성명(한글)",
+   "type": "text",
+   "value": "솜차이 분마",
+   "norm": "솜차이 분마",
+   "page": 0,
+   "bbox": [
+    257.9,
+    340.0,
+    350.8,
+    361.0
+   ],
+   "label_bbox": [
+    62.1,
+    328.6,
+    248.1,
+    375.3
+   ]
+  },
+  {
+   "key": "holder.surname_en",
+   "label": "영문성",
+   "type": "text",
+   "value": "BOONMA",
+   "norm": "BOONMA",
+   "page": 0,
+   "bbox": [
+    257.9,
+    386.7,
+    336.5,
+    407.7
+   ],
+   "label_bbox": [
+    62.1,
+    375.3,
+    248.1,
+    422.0
+   ]
+  },
+  {
+   "key": "holder.given_en",
+   "label": "영문이름",
+   "type": "text",
+   "value": "SOMCHAI",
+   "norm": "SOMCHAI",
+   "page": 0,
+   "bbox": [
+    706.0,
+    386.7,
+    787.6,
+    407.7
+   ],
+   "label_bbox": [
+    510.3,
+    375.3,
+    696.3,
+    422.0
+   ]
+  },
+  {
+   "key": "holder.birth",
+   "label": "생년월일",
+   "type": "date",
+   "value": "1985.11.23",
+   "norm": "1985-11-23",
+   "page": 0,
+   "bbox": [
+    257.9,
+    433.4,
+    336.8,
+    454.4
+   ],
+   "label_bbox": [
+    62.1,
+    422.0,
+    248.1,
+    468.7
+   ]
+  },
+  {
+   "key": "holder.mobile",
+   "label": "연락처",
+   "type": "phone",
+   "value": "010-5999-8349",
+   "norm": "01059998349",
+   "page": 0,
+   "bbox": [
+    706.0,
+    433.4,
+    815.1,
+    454.4
+   ],
+   "label_bbox": [
+    510.3,
+    422.0,
+    696.3,
+    468.7
+   ]
+  },
+  {
+   "key": "holder.birth_place",
+   "label": "출생국가",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    62.1,
+    468.7,
+    248.1,
+    515.4
+   ],
+   "page": 0
+  },
+  {
+   "key": "holder.nationality",
+   "label": "국적",
+   "type": "text",
+   "value": "태국 (THAILAND)",
+   "norm": "태국 (THAILAND)",
+   "page": 0,
+   "bbox": [
+    706.0,
+    480.1,
+    849.0,
+    501.1
+   ],
+   "label_bbox": [
+    510.3,
+    468.7,
+    696.3,
+    515.4
+   ]
+  },
+  {
+   "key": "holder.address",
+   "label": "현재거주지주소",
+   "type": "text",
+   "value": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+   "norm": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+   "page": 0,
+   "bbox": [
+    257.9,
+    526.8,
+    795.4,
+    547.8
+   ],
+   "label_bbox": [
+    62.1,
+    515.4,
+    248.1,
+    562.1
+   ]
+  },
+  {
+   "key": "residence_category",
+   "label": "해외거주자여부",
+   "type": "checkbox",
+   "value": null,
+   "norm": null,
+   "options": [
+    {
+     "text": "미국 시민권자(이중국적자 포함)",
+     "checked": false
+    },
+    {
+     "text": "미국 영주권자",
+     "checked": false
+    },
+    {
+     "text": "미국 세법상 미국 거주자",
+     "checked": false
+    },
+    {
+     "text": "미국 이외의 해외 거주자",
+     "checked": false
+    },
+    {
+     "text": "해당사항 없음",
+     "checked": false
+    }
+   ]
+  },
+  {
+   "key": "date",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025.11.29",
+   "norm": "2025-11-29",
+   "page": 0,
+   "bbox": [
+    553.9,
+    1166.6,
+    632.9,
+    1187.6
+   ]
+  },
+  {
+   "key": "signature",
+   "label": "계좌보유자",
+   "type": "text",
+   "value": "솜차이 분마",
+   "norm": "솜차이 분마",
+   "page": 0,
+   "bbox": [
+    891.8,
+    1166.6,
+    984.7,
+    1187.6
+   ]
+  },
+  {
+   "key": "seal.holder",
+   "label": "계좌보유자",
+   "type": "seal",
+   "value": null,
+   "present": false,
+   "kind": "인감",
+   "anchor": "signature",
+   "page": 0,
+   "bbox": [
+    1010.2,
+    1166.6,
+    1129.6,
+    1190.5
+   ]
+  },
+  {
+   "key": "sign.holder",
+   "label": "계좌보유자",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "anchor": "signature",
+   "page": 0,
+   "bbox": [
+    1010.2,
+    1166.6,
+    1129.6,
+    1190.5
+   ]
+  },
+  {
+   "key": "bank_use.branch",
+   "label": "접수영업점",
+   "type": "text",
+   "value": "분당지점",
+   "norm": "분당지점",
+   "page": 0,
+   "bbox": [
+    227.9,
+    1278.4,
+    298.6,
+    1299.4
+   ],
+   "label_bbox": [
+    74.1,
+    1265.5,
+    218.1,
+    1315.2
+   ]
+  },
+  {
+   "key": "seal.staff.clerk",
+   "label": "담당",
+   "type": "seal",
+   "value": "배훈희",
+   "present": true,
+   "kind": "행원인",
+   "anchor": "bank_use.clerk",
+   "page": 0,
+   "bbox": [
+    940.4,
+    1296.4,
+    1005.4,
+    1361.4
+   ]
+  },
+  {
+   "key": "bank_use.clerk",
+   "label": "담당",
+   "type": "text",
+   "value": "배훈희",
+   "norm": "배훈희",
+   "page": 0,
+   "bbox": [
+    949.8,
+    1318.7,
+    996.0,
+    1339.1
+   ],
+   "label_bbox": [
+    924.9,
+    1265.5,
+    1020.9,
+    1292.9
+   ]
+  },
+  {
+   "key": "seal.staff.manager",
+   "label": "책임자",
+   "type": "seal",
+   "value": "남나혜",
+   "present": true,
+   "kind": "행원인",
+   "anchor": "bank_use.manager",
+   "page": 0,
+   "bbox": [
+    1036.4,
+    1296.4,
+    1101.4,
+    1361.4
+   ]
+  },
+  {
+   "key": "bank_use.manager",
+   "label": "책임자",
+   "type": "text",
+   "value": "남나혜",
+   "norm": "남나혜",
+   "page": 0,
+   "bbox": [
+    1045.8,
+    1318.7,
+    1092.0,
+    1339.1
+   ],
+   "label_bbox": [
+    1020.9,
+    1265.5,
+    1116.9,
+    1292.9
+   ]
+  }
+ ]
+}

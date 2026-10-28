@@ -1,0 +1,188 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "building_name": {
+   "label": "명칭",
+   "type": "text",
+   "source": "code"
+  },
+  "confirm_no": {
+   "label": "문서확인번호",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "issuer": {
+   "label": "발급기관",
+   "type": "text",
+   "source": "code"
+  },
+  "jibun": {
+   "label": "지번",
+   "type": "text",
+   "source": "code"
+  },
+  "officer": {
+   "label": "담당자",
+   "type": "text",
+   "source": "code"
+  },
+  "officer_phone": {
+   "label": "전화",
+   "type": "text",
+   "source": "code"
+  },
+  "owners_note": {
+   "label": "비고",
+   "type": "text",
+   "source": "code"
+  },
+  "road_address": {
+   "label": "도로명주소",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "site_location": {
+   "label": "대지위치",
+   "type": "text",
+   "source": "code"
+  },
+  "unique_no": {
+   "label": "고유번호",
+   "type": "text",
+   "source": "code"
+  },
+  "unit_name": {
+   "label": "호명칭",
+   "type": "text",
+   "source": "code"
+  },
+  "violation": {
+   "label": "위반건축물",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "common": {
+   "source": "code",
+   "fields": {
+    "area": {
+     "label": "면적(㎡)",
+     "type": "text",
+     "source": "code"
+    },
+    "floor": {
+     "label": "층별",
+     "type": "text",
+     "source": "code"
+    },
+    "kind": {
+     "label": "구분",
+     "type": "text",
+     "source": "code"
+    },
+    "structure": {
+     "label": "구조",
+     "type": "text",
+     "source": "code"
+    },
+    "usage": {
+     "label": "용도",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "exclusive": {
+   "source": "code",
+   "fields": {
+    "area": {
+     "label": "면적(㎡)",
+     "type": "text",
+     "source": "code"
+    },
+    "floor": {
+     "label": "층별",
+     "type": "text",
+     "source": "code"
+    },
+    "kind": {
+     "label": "구분",
+     "type": "text",
+     "source": "code"
+    },
+    "structure": {
+     "label": "구조",
+     "type": "text",
+     "source": "code"
+    },
+    "usage": {
+     "label": "용도",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "house_prices": {
+   "source": "code",
+   "fields": {
+    "base_date": {
+     "label": "기준일",
+     "type": "text",
+     "source": "code"
+    },
+    "price": {
+     "label": "공동주택(아파트)가격",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "owners": {
+   "source": "code",
+   "fields": {
+    "address": {
+     "label": "주소",
+     "type": "text",
+     "source": "code"
+    },
+    "change_cause": {
+     "label": "변동원인",
+     "type": "text",
+     "source": "code"
+    },
+    "change_date": {
+     "label": "변동일",
+     "type": "text",
+     "source": "code"
+    },
+    "name": {
+     "label": "성명(명칭)",
+     "type": "text",
+     "source": "code"
+    },
+    "rrn": {
+     "label": "주민(법인)등록번호",
+     "type": "text",
+     "source": "code"
+    },
+    "share": {
+     "label": "소유권지분",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

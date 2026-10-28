@@ -1,0 +1,291 @@
+{
+ "document_type": "법인 등기사항전부증명서(현재 유효사항)",
+ "viewed_at": "2025년11월26일 13시50분21초",
+ "issue_type": "열람용",
+ "issue_scope": "말소사항 포함",
+ "reg_no": "147900",
+ "corp_reg_no": "135012-6946558",
+ "name_history": [
+  {
+   "name": "주식회사 새한엔지니어링"
+  }
+ ],
+ "company_name": "주식회사 새한소프트",
+ "company_name_change": {
+  "changed": "2024.07.14 변경",
+  "registered": "2024.07.17 등기"
+ },
+ "office_history": [
+  {
+   "address": "서울특별시 영등포구 국제금융로 15-40, 6층 18호 (신길동, 하나로타워)"
+  },
+  {
+   "address": "서울특별시 영등포구 국제금융로 591, 19층 (문래동, 대성타워)",
+   "changed": "2022.12.07 이전",
+   "registered": "2022.12.10 등기"
+  },
+  {
+   "address": "서울특별시 영등포구 여의대로 377-38, 10층 02호 (당산동, 코리아오피스텔)",
+   "changed": "2022.12.15 이전",
+   "registered": "2022.12.17 등기"
+  }
+ ],
+ "head_office": "서울특별시 영등포구 국제금융로 22-7, 8층 (당산동, 동방프라자)",
+ "head_office_change": {
+  "changed": "2023.09.17 이전",
+  "registered": "2023.09.25 등기"
+ },
+ "notice_method": "회사의 인터넷 홈페이지(http://www.saehan.co.kr)에 게재한다. 다만, 전산장애 또는 그 밖의 부득이한 사유로 인터넷 홈페이지에 공고를 할 수 없을 때에는 서울특별시에서 발행되는 일간 중앙일보에 게재한다.",
+ "par_value": "금 5,000 원",
+ "authorized_shares": "100,000 주",
+ "capital_history": [
+  {
+   "issued_shares": "5,000 주",
+   "common_shares": "5,000 주",
+   "capital": "금 25,000,000 원"
+  },
+  {
+   "issued_shares": "12,300 주",
+   "common_shares": "12,300 주",
+   "capital": "금 61,500,000 원",
+   "changed": "2023.02.28 변경",
+   "registered": "2023.03.05 등기"
+  }
+ ],
+ "issued_shares": "20,000 주",
+ "common_shares": "18,956 주",
+ "preferred_shares": "1,044 주",
+ "capital": "금 100,000,000 원",
+ "capital_change": {
+  "changed": "2024.04.03 변경",
+  "registered": "2024.04.12 등기"
+ },
+ "purpose_history": [
+  {
+   "purposes": [
+    "1. 응용 소프트웨어 개발 및 공급업",
+    "2. 정보통신 서비스업",
+    "3. 컴퓨터 프로그래밍 서비스업",
+    "4. 시스템 통합 자문 및 구축 서비스업",
+    "5. 전자상거래업",
+    "6. 위 각 호와 관련된 부대사업 일체"
+   ]
+  }
+ ],
+ "purposes": [
+  "1. 응용 소프트웨어 개발 및 공급업",
+  "2. 정보통신 서비스업",
+  "3. 컴퓨터 프로그래밍 서비스업",
+  "4. 시스템 통합 자문 및 구축 서비스업",
+  "5. 데이터베이스 및 온라인 정보 제공업",
+  "6. 전자상거래업",
+  "7. 교육 서비스업",
+  "8. 위 각 호와 관련된 부대사업 일체"
+ ],
+ "purpose_change": {
+  "changed": "2025.01.19 변경",
+  "registered": "2025.01.22 등기"
+ },
+ "officers": [
+  {
+   "position": "감사",
+   "name": "최윤린",
+   "rrn": "810514-*******",
+   "appointed": "2021 년 12 월 08 일",
+   "appointment_type": "취임",
+   "registered": "2021 년 12 월 12 일",
+   "ended": "2024 년 07 월 29 일",
+   "end_type": "사임",
+   "end_registered": "2024 년 08 월 07 일"
+  },
+  {
+   "position": "사내이사",
+   "name": "선호성",
+   "rrn": "670924-*******",
+   "appointed": "2021 년 12 월 08 일",
+   "appointment_type": "취임",
+   "registered": "2021 년 12 월 13 일"
+  },
+  {
+   "position": "대표이사",
+   "name": "김소윤",
+   "rrn": "901121-*******",
+   "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+   "appointed": "2021 년 12 월 08 일",
+   "appointment_type": "취임",
+   "registered": "2021 년 12 월 15 일"
+  },
+  {
+   "position": "사내이사",
+   "name": "김소윤",
+   "rrn": "901121-*******",
+   "appointed": "2021 년 12 월 08 일",
+   "appointment_type": "취임",
+   "registered": "2021 년 12 월 20 일"
+  },
+  {
+   "position": "대표이사",
+   "name": "선호성",
+   "rrn": "670924-*******",
+   "address": "강원특별자치도 춘천시 퇴계로 109, 118동 101호 (후평동, 래미안1차)",
+   "appointed": "2021 년 12 월 08 일",
+   "appointment_type": "취임",
+   "registered": "2021 년 12 월 21 일"
+  },
+  {
+   "position": "사내이사",
+   "name": "차철예",
+   "rrn": "821011-*******",
+   "appointed": "2022 년 04 월 30 일",
+   "appointment_type": "취임",
+   "registered": "2022 년 05 월 05 일"
+  },
+  {
+   "position": "사내이사",
+   "name": "지민아",
+   "rrn": "741101-*******",
+   "appointed": "2022 년 09 월 14 일",
+   "appointment_type": "취임",
+   "registered": "2022 년 09 월 24 일",
+   "ended": "2025 년 09 월 14 일",
+   "end_type": "퇴임",
+   "end_registered": "2025 년 09 월 16 일"
+  },
+  {
+   "position": "사내이사",
+   "name": "이태빈",
+   "rrn": "900506-*******",
+   "appointed": "2022 년 10 월 21 일",
+   "appointment_type": "취임",
+   "registered": "2022 년 11 월 01 일",
+   "ended": "2024 년 07 월 12 일",
+   "end_type": "사임",
+   "end_registered": "2024 년 07 월 18 일"
+  },
+  {
+   "position": "사내이사",
+   "name": "변영재",
+   "rrn": "920602-*******",
+   "appointed": "2023 년 05 월 11 일",
+   "appointment_type": "취임",
+   "registered": "2023 년 05 월 24 일",
+   "ended": "2024 년 08 월 12 일",
+   "end_type": "사임",
+   "end_registered": "2024 년 08 월 23 일"
+  },
+  {
+   "position": "사내이사",
+   "name": "박재주",
+   "rrn": "820616-*******",
+   "appointed": "2024 년 06 월 23 일",
+   "appointment_type": "취임",
+   "registered": "2024 년 07 월 04 일",
+   "ended": "2025 년 06 월 27 일",
+   "end_type": "사임",
+   "end_registered": "2025 년 07 월 08 일"
+  },
+  {
+   "position": "사외이사",
+   "name": "공주하",
+   "rrn": "690522-*******",
+   "appointed": "2024 년 06 월 28 일",
+   "appointment_type": "취임",
+   "registered": "2024 년 07 월 10 일",
+   "ended": "2025 년 06 월 16 일",
+   "end_type": "사임",
+   "end_registered": "2025 년 06 월 18 일"
+  },
+  {
+   "position": "감사",
+   "name": "김채진",
+   "rrn": "750818-*******",
+   "appointed": "2024 년 07 월 29 일",
+   "appointment_type": "취임",
+   "registered": "2024 년 08 월 10 일"
+  },
+  {
+   "position": "사내이사",
+   "name": "김민유",
+   "rrn": "660910-*******",
+   "appointed": "2024 년 08 월 21 일",
+   "appointment_type": "취임",
+   "registered": "2024 년 08 월 29 일",
+   "ended": "2025 년 07 월 09 일",
+   "end_type": "사임",
+   "end_registered": "2025 년 07 월 18 일"
+  },
+  {
+   "position": "사내이사",
+   "name": "김소윤",
+   "rrn": "901121-*******",
+   "appointed": "2024 년 12 월 08 일",
+   "appointment_type": "중임",
+   "registered": "2024 년 12 월 11 일"
+  },
+  {
+   "position": "대표이사",
+   "name": "김소윤",
+   "rrn": "901121-*******",
+   "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+   "appointed": "2024 년 12 월 08 일",
+   "appointment_type": "중임",
+   "registered": "2024 년 12 월 17 일"
+  },
+  {
+   "position": "사내이사",
+   "name": "선호성",
+   "rrn": "670924-*******",
+   "appointed": "2024 년 12 월 08 일",
+   "appointment_type": "중임",
+   "registered": "2024 년 12 월 18 일"
+  },
+  {
+   "position": "대표이사",
+   "name": "선호성",
+   "rrn": "670924-*******",
+   "address": "강원특별자치도 춘천시 퇴계로 109, 118동 101호 (후평동, 래미안1차)",
+   "appointed": "2024 년 12 월 08 일",
+   "appointment_type": "중임",
+   "registered": "2024 년 12 월 19 일"
+  },
+  {
+   "position": "사내이사",
+   "name": "차철예",
+   "rrn": "821011-*******",
+   "appointed": "2025 년 04 월 30 일",
+   "appointment_type": "중임",
+   "registered": "2025 년 05 월 09 일"
+  }
+ ],
+ "branches": [
+  {
+   "no": "1",
+   "address": "세종특별자치시 도움1로 210, 11층 09호 (도담동, 신영센터)",
+   "opened": "2022 년 10 월 05 일",
+   "opened_registered": "2022 년 10 월 11 일"
+  },
+  {
+   "no": "2",
+   "address": "경상남도 창원시 성산구 중앙대로 625-35, 14층 (상남동, 그린빌딩)",
+   "opened": "2023 년 09 월 02 일",
+   "opened_registered": "2023 년 09 월 11 일"
+  },
+  {
+   "no": "3",
+   "address": "인천광역시 연수구 컨벤시아대로 413-6, 3층 (청학동, 태평양프라자)",
+   "opened": "2025 년 04 월 30 일",
+   "opened_registered": "2025 년 05 월 06 일"
+  },
+  {
+   "no": "4",
+   "address": "강원특별자치도 춘천시 후석로 607, 3층 (석사동, 미래빌딩)",
+   "opened": "2025 년 09 월 25 일",
+   "opened_registered": "2025 년 10 월 02 일"
+  }
+ ],
+ "established": "2021 년 12 월 08 일",
+ "opening_reason": "설립",
+ "opening_date": "2021 년 12 월 08 일",
+ "jurisdiction": "서울중앙지방법원 등기국",
+ "issue_no": "41523075123786747203"
+}

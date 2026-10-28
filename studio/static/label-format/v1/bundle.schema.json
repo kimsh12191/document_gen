@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:docgen:bundle-input:1",
+  "title": "docgen labeled bundle input v1",
+  "type": "object",
+  "required": [
+    "bundle_id",
+    "scenario",
+    "documents"
+  ],
+  "properties": {
+    "bundle_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scenario": {
+      "type": "string",
+      "minLength": 1
+    },
+    "customer": {"type": "string", "minLength": 1},
+    "not_customer": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "documents": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

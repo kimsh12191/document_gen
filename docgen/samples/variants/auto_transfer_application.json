@@ -1,0 +1,93 @@
+{
+ "document_type": "자동이체 신청서",
+ "bank": "농협은행",
+ "biller": {
+  "name": "농협은행 주식회사",
+  "fee_type": "대출이자(전세자금대출)"
+ },
+ "branch": "분당지점",
+ "kind": "변경",
+ "target": "대출이자",
+ "loan_product": "HUG 전세보증금대출",
+ "loan_account": "715-4432-7750-59",
+ "applicant": {
+  "name": "김소윤",
+  "birth": "901121",
+  "phone": "010-4372-6867",
+  "address": null
+ },
+ "debit": {
+  "bank": "신한은행",
+  "account": "169-677-474223",
+  "holder": "김승성",
+  "holder_birth": "900306",
+  "holder_phone": "010-6066-8711"
+ },
+ "relation": "가족",
+ "transfer_day": "매월 10일",
+ "start_month": "2026년 1월분부터",
+ "amount": "청구금액 전액 (약 913,470원)",
+ "extra_loans": [
+  {
+   "loan_account": "509-2862-9223-42",
+   "loan_product": "주택담보대출",
+   "target": "대출이자",
+   "transfer_day": "매월 20일"
+  },
+  {
+   "loan_account": "541-0284-0284-32",
+   "loan_product": "마이너스통장",
+   "target": "대출원리금",
+   "transfer_day": "매월 25일"
+  },
+  {
+   "loan_account": "777-0955-5829-98",
+   "loan_product": "가계일반자금대출",
+   "target": "대출원리금",
+   "transfer_day": "매월 15일"
+  },
+  {
+   "loan_account": "563-6525-6438-70",
+   "loan_product": "가계일반자금대출",
+   "target": "대출이자",
+   "transfer_day": "매월 25일"
+  },
+  {
+   "loan_account": "886-6917-6498-25",
+   "loan_product": "전세자금대출",
+   "target": "대출원리금",
+   "transfer_day": "매월 20일"
+  },
+  {
+   "loan_account": "849-4598-5037-13",
+   "loan_product": "주택담보대출",
+   "target": "대출이자",
+   "transfer_day": "매월 15일"
+  },
+  {
+   "loan_account": "741-7738-3527-60",
+   "loan_product": "보금자리론",
+   "target": "대출원리금",
+   "transfer_day": "매월 20일"
+  },
+  {
+   "loan_account": "211-1442-1608-56",
+   "loan_product": "예적금담보대출",
+   "target": "대출이자",
+   "transfer_day": "매월 5일"
+  }
+ ],
+ "privacy_consent": "동의함",
+ "third_party_consent": null,
+ "apply_date": "2025.12.07",
+ "signature": "김소윤",
+ "seal": {
+  "applicant": true,
+  "holder": false
+ },
+ "sign": {
+  "applicant": false,
+  "holder": false
+ },
+ "holder_signature": "김승성"
+}

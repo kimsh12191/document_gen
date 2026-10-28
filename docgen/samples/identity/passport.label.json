@@ -1,0 +1,301 @@
+{
+ "images": [
+  "identity/passport.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1080,
+   "height": 750
+  }
+ ],
+ "fields": [
+  {
+   "key": "type",
+   "label": "종류/Type",
+   "type": "text",
+   "value": "PM",
+   "norm": "PM",
+   "page": 0,
+   "bbox": [
+    280.5,
+    99.3,
+    321.2,
+    126.3
+   ],
+   "label_bbox": [
+    280.5,
+    84.4,
+    498.7,
+    100.8
+   ]
+  },
+  {
+   "key": "country_code",
+   "label": "발행국/Issuingcountry",
+   "type": "text",
+   "value": "KOR",
+   "norm": "KOR",
+   "page": 0,
+   "bbox": [
+    519.7,
+    99.3,
+    575.3,
+    126.3
+   ],
+   "label_bbox": [
+    519.7,
+    84.4,
+    737.9,
+    100.8
+   ]
+  },
+  {
+   "key": "passport_no",
+   "label": "여권번호/PassportNo.",
+   "type": "text",
+   "value": "M93924334",
+   "norm": "M93924334",
+   "page": 0,
+   "bbox": [
+    758.9,
+    99.3,
+    914.6,
+    126.3
+   ],
+   "label_bbox": [
+    758.9,
+    84.4,
+    1042.5,
+    100.8
+   ]
+  },
+  {
+   "key": "surname",
+   "label": "성/Surname",
+   "type": "text",
+   "value": "KIM",
+   "norm": "KIM",
+   "page": 0,
+   "bbox": [
+    280.5,
+    147.6,
+    331.4,
+    174.6
+   ],
+   "label_bbox": [
+    280.5,
+    132.7,
+    1042.5,
+    149.1
+   ]
+  },
+  {
+   "key": "given_names",
+   "label": "이름/Givennames",
+   "type": "text",
+   "value": "SOYUN",
+   "norm": "SOYUN",
+   "page": 0,
+   "bbox": [
+    280.5,
+    195.8,
+    372.9,
+    222.8
+   ],
+   "label_bbox": [
+    280.5,
+    181.0,
+    1042.5,
+    197.3
+   ]
+  },
+  {
+   "key": "name_korean",
+   "label": "한글성명",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    280.5,
+    245.6,
+    350.8,
+    271.1
+   ],
+   "label_bbox": [
+    280.5,
+    229.2,
+    737.9,
+    245.6
+   ]
+  },
+  {
+   "key": "nationality",
+   "label": "국적/Nationality",
+   "type": "text",
+   "value": "REPUBLIC OF KOREA",
+   "norm": "REPUBLIC OF KOREA",
+   "page": 0,
+   "bbox": [
+    758.9,
+    244.1,
+    997.2,
+    266.6
+   ],
+   "label_bbox": [
+    758.9,
+    229.2,
+    1042.5,
+    245.6
+   ]
+  },
+  {
+   "key": "birth",
+   "label": "생년월일/Dateofbirth",
+   "type": "date",
+   "value": "21 NOV 1990",
+   "norm": "1990-11-21",
+   "page": 0,
+   "bbox": [
+    280.5,
+    292.4,
+    454.8,
+    319.4
+   ],
+   "label_bbox": [
+    280.5,
+    277.5,
+    498.7,
+    293.9
+   ]
+  },
+  {
+   "key": "gender",
+   "label": "성별/Sex",
+   "type": "text",
+   "value": "F",
+   "norm": "F",
+   "page": 0,
+   "bbox": [
+    519.7,
+    292.4,
+    536.0,
+    319.4
+   ],
+   "label_bbox": [
+    519.7,
+    277.5,
+    737.9,
+    293.9
+   ]
+  },
+  {
+   "key": "personal_no",
+   "label": "주민등록번호/PersonalNo.",
+   "type": "text",
+   "value": "2******",
+   "norm": "2******",
+   "page": 0,
+   "bbox": [
+    758.9,
+    292.4,
+    851.4,
+    319.4
+   ],
+   "label_bbox": [
+    758.9,
+    277.5,
+    1042.5,
+    293.9
+   ]
+  },
+  {
+   "key": "date_of_issue",
+   "label": "발급일/Dateofissue",
+   "type": "date",
+   "value": "31 JUL 2020",
+   "norm": "2020-07-31",
+   "page": 0,
+   "bbox": [
+    280.5,
+    340.6,
+    441.0,
+    367.6
+   ],
+   "label_bbox": [
+    280.5,
+    325.7,
+    498.7,
+    342.1
+   ]
+  },
+  {
+   "key": "date_of_expiry",
+   "label": "기간만료일/Dateofexpiry",
+   "type": "date",
+   "value": "31 JUL 2030",
+   "norm": "2030-07-31",
+   "page": 0,
+   "bbox": [
+    519.7,
+    340.6,
+    680.2,
+    367.6
+   ],
+   "label_bbox": [
+    519.7,
+    325.7,
+    1042.5,
+    342.1
+   ]
+  },
+  {
+   "key": "authority",
+   "label": "발행관청/Authority",
+   "type": "text",
+   "value": "MINISTRY OF FOREIGN AFFAIRS",
+   "norm": "MINISTRY OF FOREIGN AFFAIRS",
+   "page": 0,
+   "bbox": [
+    280.5,
+    388.9,
+    646.2,
+    411.4
+   ],
+   "label_bbox": [
+    280.5,
+    374.0,
+    1042.5,
+    390.4
+   ]
+  },
+  {
+   "key": "mrz.line1",
+   "label": "MRZ",
+   "type": "text",
+   "value": "PMKORKIM<<SOYUN<<<<<<<<<<<<<<<<<<<<<<<<<<<<<",
+   "norm": "PMKORKIM<<SOYUN<<<<<<<<<<<<<<<<<<<<<<<<<<<<<",
+   "page": 0,
+   "bbox": [
+    37.5,
+    636.4,
+    964.5,
+    675.4
+   ]
+  },
+  {
+   "key": "mrz.line2",
+   "label": "MRZ",
+   "type": "text",
+   "value": "M939243341KOR9011218F3007310<<<<<<<<<<<<<<<2",
+   "norm": "M939243341KOR9011218F3007310<<<<<<<<<<<<<<<2",
+   "page": 0,
+   "bbox": [
+    37.5,
+    681.9,
+    964.5,
+    720.9
+   ]
+  }
+ ]
+}

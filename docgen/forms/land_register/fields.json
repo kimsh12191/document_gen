@@ -1,0 +1,158 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "drawing_no": {
+   "label": "도면번호",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_no": {
+   "label": "발급번호",
+   "type": "text",
+   "source": "code"
+  },
+  "issuer": {
+   "label": "발급기관",
+   "type": "text",
+   "source": "code"
+  },
+  "issuer_name": {
+   "label": "발급자",
+   "type": "text",
+   "source": "code"
+  },
+  "jibun": {
+   "label": "지번",
+   "type": "text",
+   "source": "code"
+  },
+  "location": {
+   "label": "토지소재",
+   "type": "text",
+   "source": "code"
+  },
+  "processed_time": {
+   "label": "처리시각",
+   "type": "text",
+   "source": "code"
+  },
+  "scale": {
+   "label": "축척",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "sheet_no": {
+   "label": "장번호",
+   "type": "text",
+   "source": "code"
+  },
+  "unique_no": {
+   "label": "고유번호",
+   "type": "text",
+   "source": "code"
+  },
+  "zoning": {
+   "label": "용도지역",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "grades": {
+   "source": "code",
+   "fields": {
+    "date": {
+     "label": "등급수정년월일",
+     "type": "text",
+     "source": "code"
+    },
+    "grade": {
+     "label": "토지등급",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "land": {
+   "source": "code",
+   "fields": {
+    "area": {
+     "label": "면적",
+     "type": "text",
+     "source": "code"
+    },
+    "category": {
+     "label": "지목",
+     "type": "text",
+     "source": "code"
+    },
+    "reason": {
+     "label": "사유",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "land_prices": {
+   "source": "code",
+   "fields": {
+    "base_date": {
+     "label": "개별공시지가기준일",
+     "type": "text",
+     "source": "code"
+    },
+    "price": {
+     "label": "개별공시지가",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "owners": {
+   "source": "code",
+   "fields": {
+    "address": {
+     "label": "주소",
+     "type": "text",
+     "source": "code"
+    },
+    "change_cause": {
+     "label": "변동원인",
+     "type": "text",
+     "source": "code"
+    },
+    "change_date": {
+     "label": "변동일자",
+     "type": "text",
+     "source": "code"
+    },
+    "co_owners": {
+     "label": "공유자",
+     "type": "text",
+     "source": "code"
+    },
+    "name": {
+     "label": "성명또는명칭",
+     "type": "text",
+     "source": "code"
+    },
+    "reg_no": {
+     "label": "등록번호",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

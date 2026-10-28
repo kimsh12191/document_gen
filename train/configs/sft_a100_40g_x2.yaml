@@ -1,0 +1,36 @@
+# Banking-task SFT for 2 x A100 40GB. Same data and update size as sft.yaml (8 samples per update),
+# with the memory savers a 40GB card needs for samples of up to 12000 image tokens + 16384 total tokens:
+#   - freeze_vit: the vision encoder is not trained here (it was trained in the OCR stage). Its backward pass
+#     over up to ~48000 image patches per sample costs a lot of activation memory.
+#   - deepspeed zero3: the 9B weights (~19GB in bf16) are split over the two GPUs instead of copied.
+# Still out of memory: lower data.max_image_tokens_per_sample to 8000 and data.sft_max_length / max_length
+# to 12288 in the pipeline config, give data.output_dir a new name, and run again (prepare rebuilds the data).
+model_type: qwen3_5
+tuner_type: lora
+torch_dtype: bfloat16
+target_modules: all-linear
+freeze_llm: false
+freeze_vit: true
+freeze_aligner: false
+lora_rank: 32
+lora_alpha: 64
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 4
+gradient_checkpointing: true
+num_train_epochs: 1
+# Must match data.sft_max_length (prepare drops samples that would not fit).
+max_length: 16384
+warmup_ratio: 0.05
+logging_steps: 1
+save_steps: 200
+save_total_limit: 3
+dataloader_num_workers: 2
+dataset_num_proc: 4
+split_dataset_ratio: 0
+report_to: none
+deepspeed: zero3
+learning_rate: 1.0e-4
+eval_steps: 200
+per_device_eval_batch_size: 1
+add_non_thinking_prefix: true
+loss_scale: ignore_empty_think

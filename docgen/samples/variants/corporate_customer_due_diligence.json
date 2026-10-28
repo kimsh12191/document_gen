@@ -1,0 +1,202 @@
+{
+ "document_type": "고객확인서(법인·단체)",
+ "bank": {
+  "name": "농협은행"
+ },
+ "corp": {
+  "name": "주식회사 새한소프트",
+  "name_en": "Saehan Soft Co., Ltd.",
+  "biz_no": "530-82-09978",
+  "corp_reg_no": "135012-6946558",
+  "established": "2021년 12월 08일",
+  "industry": "정보통신업 / 응용소프트웨어 개발",
+  "hq_address": "서울특별시 영등포구 국제금융로 22-7, 8층 (당산동, 동방프라자)",
+  "biz_address": "서울특별시 영등포구 국제금융로 22-7, 8층",
+  "phone": "02-9757-8466",
+  "email": null,
+  "corp_type": "중소기업",
+  "listed": "비상장"
+ },
+ "rep": {
+  "name": "김소윤",
+  "name_en": null,
+  "birth": "1990.11.21",
+  "nationality": "대한민국"
+ },
+ "transaction": {
+  "purpose": "대출",
+  "fund_source": null
+ },
+ "owner_step": "1단계",
+ "owners": [
+  {
+   "name": "김소윤",
+   "birth": "1990.11.21",
+   "nationality": "대한민국",
+   "ratio": "30.16%",
+   "relation": "대표이사"
+  }
+ ],
+ "shareholders": [
+  {
+   "name": "김소윤",
+   "birth": "1990.11.21",
+   "shares": "6,029",
+   "ratio": "30.16%",
+   "relation": "대표이사"
+  },
+  {
+   "name": "백형우",
+   "birth": "1995.02.21",
+   "shares": "1,113",
+   "ratio": "5.57%",
+   "relation": "주주"
+  },
+  {
+   "name": "길은성",
+   "birth": "1965.10.01",
+   "shares": "1,110",
+   "ratio": "5.55%",
+   "relation": "주주"
+  },
+  {
+   "name": "마다혜",
+   "birth": "1968.05.22",
+   "shares": "1,083",
+   "ratio": "5.42%",
+   "relation": "주주"
+  },
+  {
+   "name": "박도율",
+   "birth": "1970.01.26",
+   "shares": "1,018",
+   "ratio": "5.09%",
+   "relation": "주주"
+  },
+  {
+   "name": "최원은",
+   "birth": "1971.05.23",
+   "shares": "971",
+   "ratio": "4.86%",
+   "relation": "주주(임직원)"
+  },
+  {
+   "name": "선호성",
+   "birth": "1967.09.24",
+   "shares": "931",
+   "ratio": "4.66%",
+   "relation": "이사"
+  },
+  {
+   "name": "이수승",
+   "birth": "1971.12.15",
+   "shares": "931",
+   "ratio": "4.66%",
+   "relation": "주주"
+  },
+  {
+   "name": "차철예",
+   "birth": "1982.10.11",
+   "shares": "911",
+   "ratio": "4.56%",
+   "relation": "이사"
+  },
+  {
+   "name": "조혁린",
+   "birth": "1970.10.16",
+   "shares": "815",
+   "ratio": "4.08%",
+   "relation": "주주"
+  },
+  {
+   "name": "이서원",
+   "birth": "1992.08.08",
+   "shares": "757",
+   "ratio": "3.79%",
+   "relation": "주주"
+  },
+  {
+   "name": "이철원",
+   "birth": "1996.07.26",
+   "shares": "679",
+   "ratio": "3.40%",
+   "relation": "주주"
+  },
+  {
+   "name": "김기수",
+   "birth": "1966.05.14",
+   "shares": "651",
+   "ratio": "3.26%",
+   "relation": "주주"
+  },
+  {
+   "name": "나기도",
+   "birth": "1997.06.16",
+   "shares": "585",
+   "ratio": "2.93%",
+   "relation": "주주"
+  },
+  {
+   "name": "중소기업진흥공단",
+   "birth": "-",
+   "shares": "555",
+   "ratio": "2.78%",
+   "relation": "주주(법인)"
+  },
+  {
+   "name": "미래에셋벤처투자",
+   "birth": "-",
+   "shares": "548",
+   "ratio": "2.74%",
+   "relation": "주주(법인)"
+  },
+  {
+   "name": "김건태",
+   "birth": "1996.05.03",
+   "shares": "485",
+   "ratio": "2.43%",
+   "relation": "주주"
+  },
+  {
+   "name": "강민인",
+   "birth": "1985.05.16",
+   "shares": "459",
+   "ratio": "2.30%",
+   "relation": "주주"
+  },
+  {
+   "name": "석주하",
+   "birth": "1971.08.02",
+   "shares": "358",
+   "ratio": "1.79%",
+   "relation": "주주(임직원)"
+  }
+ ],
+ "pep": "아니오",
+ "agent": {
+  "name": "옥숙영",
+  "rrn": "880108-2******",
+  "position": "회계팀 주임"
+ },
+ "date": "2025년 11월 29일",
+ "seal": {
+  "corp": true,
+  "staff": {
+   "clerk": true,
+   "manager": true
+  }
+ },
+ "bank_use": {
+  "risk_grade": "저위험",
+  "documents": [
+   "사업자등록증",
+   "법인등기사항전부증명서",
+   "주주명부",
+   "정관",
+   "법인인감증명서"
+  ],
+  "branch": "분당지점",
+  "clerk": "김환예",
+  "manager": "이환혜"
+ }
+}

@@ -1,0 +1,268 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "buyer.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "buyer.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "buyer.phone": {
+   "label": "전화",
+   "type": "text",
+   "source": "code"
+  },
+  "buyer.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "co_buyer.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "co_buyer.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "co_buyer.phone": {
+   "label": "전화",
+   "type": "text",
+   "source": "code"
+  },
+  "co_buyer.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "co_seller.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "co_seller.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "co_seller.phone": {
+   "label": "전화",
+   "type": "text",
+   "source": "code"
+  },
+  "co_seller.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "contract_date": {
+   "label": "계약일",
+   "type": "text",
+   "source": "code"
+  },
+  "payment.balance": {
+   "label": "잔금",
+   "type": "text",
+   "source": "code"
+  },
+  "payment.balance_date": {
+   "label": "잔금지급일",
+   "type": "text",
+   "source": "code"
+  },
+  "payment.down": {
+   "label": "계약금",
+   "type": "text",
+   "source": "code"
+  },
+  "payment.middle": {
+   "label": "중도금",
+   "type": "text",
+   "source": "code"
+  },
+  "payment.middle_date": {
+   "label": "중도금지급일",
+   "type": "text",
+   "source": "code"
+  },
+  "payment.price": {
+   "label": "매매대금",
+   "type": "text",
+   "source": "code"
+  },
+  "property.building_area": {
+   "label": "면적",
+   "type": "text",
+   "source": "code"
+  },
+  "property.land_area": {
+   "label": "면적",
+   "type": "text",
+   "source": "code"
+  },
+  "property.land_category": {
+   "label": "지목",
+   "type": "text",
+   "source": "code"
+  },
+  "property.land_right": {
+   "label": "대지권",
+   "type": "text",
+   "source": "code"
+  },
+  "property.location": {
+   "label": "소재지",
+   "type": "text",
+   "source": "code"
+  },
+  "property.structure": {
+   "label": "구조",
+   "type": "text",
+   "source": "code"
+  },
+  "property.usage": {
+   "label": "용도",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.buyer": {
+   "label": "매수인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.co_buyer": {
+   "label": "공동매수인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.co_seller": {
+   "label": "공동매도인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.seller": {
+   "label": "매도인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.seller_agent": {
+   "label": "매도인대리인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seller.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "seller.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "seller.phone": {
+   "label": "전화",
+   "type": "text",
+   "source": "code"
+  },
+  "seller.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "seller_agent.address": {
+   "label": "대리인주소",
+   "type": "text",
+   "source": "code"
+  },
+  "seller_agent.name": {
+   "label": "대리인성명",
+   "type": "text",
+   "source": "code"
+  },
+  "seller_agent.rrn": {
+   "label": "대리인주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "sign.buyer": {
+   "label": "매수인",
+   "type": "signature",
+   "source": "code"
+  },
+  "sign.co_buyer": {
+   "label": "공동매수인",
+   "type": "signature",
+   "source": "code"
+  },
+  "sign.co_seller": {
+   "label": "공동매도인",
+   "type": "signature",
+   "source": "code"
+  },
+  "sign.seller": {
+   "label": "매도인",
+   "type": "signature",
+   "source": "code"
+  },
+  "sign.seller_agent": {
+   "label": "매도인대리인",
+   "type": "signature",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "brokers": {
+   "source": "code",
+   "fields": {
+    "assistant": {
+     "label": "소속공인중개사",
+     "type": "text",
+     "source": "code"
+    },
+    "office_address": {
+     "label": "사무소소재지",
+     "type": "text",
+     "source": "code"
+    },
+    "office_name": {
+     "label": "사무소명칭",
+     "type": "text",
+     "source": "code"
+    },
+    "phone": {
+     "label": "전화",
+     "type": "text",
+     "source": "code"
+    },
+    "reg_no": {
+     "label": "등록번호",
+     "type": "text",
+     "source": "code"
+    },
+    "representative": {
+     "label": "대표",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "specials.#": {
+   "source": "code",
+   "fields": {
+    "#": {
+     "label": "특약사항",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

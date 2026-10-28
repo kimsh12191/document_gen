@@ -1,0 +1,43 @@
+{
+ "document_type": "입학허가서(Letter of Admission)",
+ "university": {
+  "name": "Westlake State University",
+  "office": "Office of Admissions",
+  "address": "1800 Lakeview Dr, Seattle, WA 98105, USA",
+  "email": "admissions@westlakestate.edu"
+ },
+ "letter_date": "September 19, 2025",
+ "student": {
+  "name": "Soyun Kim",
+  "address": "Apt. 114-1401, 75 Naebang-ro, Seo-gu, Gwangju 61092, Korea",
+  "birth": "21 NOV 1990",
+  "nationality": "Republic of Korea",
+  "id": "N42700432"
+ },
+ "admission_type": "CONDITIONAL ADMISSION",
+ "term": "Spring 2026",
+ "deferred_from": "Spring 2025",
+ "program": "Data Science",
+ "degree": "Master of Science (M.S.)",
+ "start_date": "January 13, 2026",
+ "duration": "2 years (full-time)",
+ "condition_deadline": "December 05, 2025",
+ "conditions": [
+  "Submission of an official IELTS Academic score of overall 6.5 with no band below 6.0, or TOEFL iBT 90 or above",
+  "Receipt of your official final transcript showing conferral of your bachelor's degree"
+ ],
+ "scholarship": {
+  "name": "Global Excellence Scholarship",
+  "amount": "$12,820.00 per semester"
+ },
+ "cost": {
+  "tuition": "$51,300.00",
+  "living": "$16,600.00",
+  "insurance": "$2,990.00",
+  "books": "$1,280.00",
+  "total": "$72,170.00"
+ },
+ "deposit_deadline": "October 26, 2025",
+ "signer": "David L. Morgan",
+ "signer_title": "Director of Admissions"
+}

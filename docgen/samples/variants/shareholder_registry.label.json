@@ -1,0 +1,7500 @@
+{
+ "images": [
+  "variants/shareholder_registry_p1.jpg",
+  "variants/shareholder_registry_p2.jpg",
+  "variants/shareholder_registry_p3.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "base_date",
+   "label": "기준일",
+   "type": "date",
+   "value": "2025년 11월 28일",
+   "norm": "2025-11-28",
+   "page": 0,
+   "bbox": [
+    956.6,
+    159.7,
+    1107.8,
+    182.2
+   ]
+  },
+  {
+   "key": "company_name",
+   "label": "회사명",
+   "type": "text",
+   "value": "주식회사 새한소프트",
+   "norm": "주식회사 새한소프트",
+   "page": 0,
+   "bbox": [
+    253.5,
+    209.9,
+    440.8,
+    232.4
+   ],
+   "label_bbox": [
+    77.2,
+    201.7,
+    242.2,
+    242.9
+   ]
+  },
+  {
+   "key": "corp_reg_no",
+   "label": "법인등록번호",
+   "type": "corp_reg_no",
+   "value": "135012-6946558",
+   "norm": "135012-6946558",
+   "page": 0,
+   "bbox": [
+    818.4,
+    209.9,
+    956.7,
+    232.4
+   ],
+   "label_bbox": [
+    642.1,
+    201.7,
+    807.1,
+    242.9
+   ]
+  },
+  {
+   "key": "biz_no",
+   "label": "사업자등록번호",
+   "type": "biz_no",
+   "value": "530-82-09978",
+   "norm": "530-82-09978",
+   "page": 0,
+   "bbox": [
+    253.5,
+    251.2,
+    368.2,
+    273.7
+   ],
+   "label_bbox": [
+    77.2,
+    242.9,
+    242.2,
+    284.1
+   ]
+  },
+  {
+   "key": "total_shares",
+   "label": "발행주식총수",
+   "type": "text",
+   "value": "20,000주",
+   "norm": "20,000주",
+   "page": 0,
+   "bbox": [
+    818.4,
+    251.2,
+    894.3,
+    273.7
+   ],
+   "label_bbox": [
+    642.1,
+    242.9,
+    807.1,
+    284.1
+   ]
+  },
+  {
+   "key": "head_office",
+   "label": "본점소재지",
+   "type": "text",
+   "value": "서울특별시 영등포구 국제금융로 22-7, 8층",
+   "norm": "서울특별시 영등포구 국제금융로 22-7, 8층",
+   "page": 0,
+   "bbox": [
+    253.5,
+    292.4,
+    629.8,
+    314.9
+   ],
+   "label_bbox": [
+    77.2,
+    284.1,
+    242.2,
+    325.4
+   ]
+  },
+  {
+   "key": "par_value",
+   "label": "1주의금액",
+   "type": "amount",
+   "value": "5,000원",
+   "norm": 5000,
+   "page": 0,
+   "bbox": [
+    253.5,
+    333.6,
+    319.3,
+    356.1
+   ],
+   "label_bbox": [
+    77.2,
+    325.4,
+    242.2,
+    366.6
+   ]
+  },
+  {
+   "key": "capital",
+   "label": "자본금",
+   "type": "amount",
+   "value": "100,000,000원",
+   "norm": 100000000,
+   "page": 0,
+   "bbox": [
+    818.4,
+    333.6,
+    939.9,
+    356.1
+   ],
+   "label_bbox": [
+    642.1,
+    325.4,
+    807.1,
+    366.6
+   ]
+  },
+  {
+   "key": "shareholders.0.no",
+   "label": "번호",
+   "type": "number",
+   "value": "1",
+   "norm": 1,
+   "page": 0,
+   "bbox": [
+    98.8,
+    471.8,
+    107.5,
+    489.8
+   ],
+   "label_bbox": [
+    77.2,
+    395.1,
+    129.1,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.0.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    149.8,
+    471.8,
+    201.6,
+    489.8
+   ],
+   "label_bbox": [
+    129.1,
+    395.1,
+    222.4,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.0.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "901121-2******",
+   "norm": "901121-2******",
+   "page": 0,
+   "bbox": [
+    236.3,
+    471.8,
+    353.5,
+    489.8
+   ],
+   "label_bbox": [
+    222.4,
+    395.1,
+    367.5,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.0.address",
+   "label": "주소",
+   "type": "text",
+   "value": "광주광역시 서구 내방로 75, 114동 1401호",
+   "norm": "광주광역시 서구 내방로 75, 114동 1401호",
+   "page": 0,
+   "bbox": [
+    372.7,
+    462.1,
+    570.7,
+    501.6
+   ],
+   "label_bbox": [
+    367.5,
+    395.1,
+    595.6,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.0.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 0,
+   "bbox": [
+    609.4,
+    460.0,
+    643.9,
+    501.6
+   ],
+   "label_bbox": [
+    595.6,
+    395.1,
+    657.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.0.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "15,740",
+   "norm": 15740,
+   "page": 0,
+   "bbox": [
+    688.0,
+    471.8,
+    735.4,
+    489.8
+   ],
+   "label_bbox": [
+    657.8,
+    395.1,
+    740.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "78,700,000",
+   "norm": 78700000,
+   "page": 0,
+   "bbox": [
+    771.8,
+    471.8,
+    849.4,
+    489.8
+   ],
+   "label_bbox": [
+    740.7,
+    395.1,
+    854.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.0.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "78.70%",
+   "norm": 78.7,
+   "page": 0,
+   "bbox": [
+    868.8,
+    471.8,
+    922.0,
+    489.8
+   ],
+   "label_bbox": [
+    854.7,
+    395.1,
+    927.2,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.0.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2021.12.08",
+   "norm": "2021-12-08",
+   "page": 0,
+   "bbox": [
+    940.2,
+    471.8,
+    1017.8,
+    489.8
+   ],
+   "label_bbox": [
+    927.2,
+    395.1,
+    1030.9,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.0.note",
+   "label": "비고",
+   "type": "text",
+   "value": "대표이사",
+   "norm": "대표이사",
+   "page": 0,
+   "bbox": [
+    1037.8,
+    471.8,
+    1106.8,
+    489.8
+   ],
+   "label_bbox": [
+    1030.9,
+    395.1,
+    1113.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.1.no",
+   "label": "번호",
+   "type": "number",
+   "value": "2",
+   "norm": 2,
+   "page": 0,
+   "bbox": [
+    98.8,
+    532.5,
+    107.5,
+    550.5
+   ],
+   "label_bbox": [
+    77.2,
+    395.1,
+    129.1,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.1.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "선호성",
+   "norm": "선호성",
+   "page": 0,
+   "bbox": [
+    149.8,
+    532.5,
+    201.6,
+    550.5
+   ],
+   "label_bbox": [
+    129.1,
+    395.1,
+    222.4,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.1.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "670924-*******",
+   "norm": "670924-*******",
+   "page": 0,
+   "bbox": [
+    235.9,
+    532.5,
+    353.8,
+    550.5
+   ],
+   "label_bbox": [
+    222.4,
+    395.1,
+    367.5,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.1.address",
+   "label": "주소",
+   "type": "text",
+   "value": "강원특별자치도 춘천시 퇴계로 109, 118동 101호",
+   "norm": "강원특별자치도 춘천시 퇴계로 109, 118동 101호",
+   "page": 0,
+   "bbox": [
+    372.7,
+    522.9,
+    545.3,
+    562.3
+   ],
+   "label_bbox": [
+    367.5,
+    395.1,
+    595.6,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.1.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 0,
+   "bbox": [
+    609.4,
+    520.7,
+    643.9,
+    562.3
+   ],
+   "label_bbox": [
+    595.6,
+    395.1,
+    657.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.1.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "907",
+   "norm": 907,
+   "page": 0,
+   "bbox": [
+    709.5,
+    532.5,
+    735.4,
+    550.5
+   ],
+   "label_bbox": [
+    657.8,
+    395.1,
+    740.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.1.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "4,535,000",
+   "norm": 4535000,
+   "page": 0,
+   "bbox": [
+    780.4,
+    532.5,
+    849.4,
+    550.5
+   ],
+   "label_bbox": [
+    740.7,
+    395.1,
+    854.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.1.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "4.54%",
+   "norm": 4.54,
+   "page": 0,
+   "bbox": [
+    877.4,
+    532.5,
+    922.0,
+    550.5
+   ],
+   "label_bbox": [
+    854.7,
+    395.1,
+    927.2,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.1.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2021.12.08",
+   "norm": "2021-12-08",
+   "page": 0,
+   "bbox": [
+    940.2,
+    532.5,
+    1017.8,
+    550.5
+   ],
+   "label_bbox": [
+    927.2,
+    395.1,
+    1030.9,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.1.note",
+   "label": "비고",
+   "type": "text",
+   "value": "사내이사",
+   "norm": "사내이사",
+   "page": 0,
+   "bbox": [
+    1037.8,
+    532.5,
+    1106.8,
+    550.5
+   ],
+   "label_bbox": [
+    1030.9,
+    395.1,
+    1113.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.2.no",
+   "label": "번호",
+   "type": "number",
+   "value": "3",
+   "norm": 3,
+   "page": 0,
+   "bbox": [
+    98.8,
+    593.3,
+    107.5,
+    611.3
+   ],
+   "label_bbox": [
+    77.2,
+    395.1,
+    129.1,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.2.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "차철예",
+   "norm": "차철예",
+   "page": 0,
+   "bbox": [
+    149.8,
+    593.3,
+    201.6,
+    611.3
+   ],
+   "label_bbox": [
+    129.1,
+    395.1,
+    222.4,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.2.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "821011-1******",
+   "norm": "821011-1******",
+   "page": 0,
+   "bbox": [
+    236.3,
+    593.3,
+    353.5,
+    611.3
+   ],
+   "label_bbox": [
+    222.4,
+    395.1,
+    367.5,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.2.address",
+   "label": "주소",
+   "type": "text",
+   "value": "서울특별시 영등포구 당산로 125, 110동 402호",
+   "norm": "서울특별시 영등포구 당산로 125, 110동 402호",
+   "page": 0,
+   "bbox": [
+    372.7,
+    583.6,
+    579.0,
+    623.1
+   ],
+   "label_bbox": [
+    367.5,
+    395.1,
+    595.6,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.2.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 0,
+   "bbox": [
+    609.4,
+    581.5,
+    643.9,
+    623.1
+   ],
+   "label_bbox": [
+    595.6,
+    395.1,
+    657.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.2.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "818",
+   "norm": 818,
+   "page": 0,
+   "bbox": [
+    709.5,
+    593.3,
+    735.4,
+    611.3
+   ],
+   "label_bbox": [
+    657.8,
+    395.1,
+    740.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.2.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "4,090,000",
+   "norm": 4090000,
+   "page": 0,
+   "bbox": [
+    780.4,
+    593.3,
+    849.4,
+    611.3
+   ],
+   "label_bbox": [
+    740.7,
+    395.1,
+    854.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.2.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "4.09%",
+   "norm": 4.09,
+   "page": 0,
+   "bbox": [
+    877.4,
+    593.3,
+    922.0,
+    611.3
+   ],
+   "label_bbox": [
+    854.7,
+    395.1,
+    927.2,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.2.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2021.12.08",
+   "norm": "2021-12-08",
+   "page": 0,
+   "bbox": [
+    940.2,
+    593.3,
+    1017.8,
+    611.3
+   ],
+   "label_bbox": [
+    927.2,
+    395.1,
+    1030.9,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.2.note",
+   "label": "비고",
+   "type": "text",
+   "value": "사내이사",
+   "norm": "사내이사",
+   "page": 0,
+   "bbox": [
+    1037.8,
+    593.3,
+    1106.8,
+    611.3
+   ],
+   "label_bbox": [
+    1030.9,
+    395.1,
+    1113.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.3.no",
+   "label": "번호",
+   "type": "number",
+   "value": "4",
+   "norm": 4,
+   "page": 0,
+   "bbox": [
+    98.8,
+    677.6,
+    107.5,
+    695.6
+   ],
+   "label_bbox": [
+    77.2,
+    395.1,
+    129.1,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.3.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "하나로벤처투자 주식회사",
+   "norm": "하나로벤처투자 주식회사",
+   "page": 0,
+   "bbox": [
+    141.2,
+    654.0,
+    210.2,
+    719.3
+   ],
+   "label_bbox": [
+    129.1,
+    395.1,
+    222.4,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.3.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "biz_no",
+   "value": "721-81-15706",
+   "norm": "721-81-15706",
+   "page": 0,
+   "bbox": [
+    246.0,
+    677.6,
+    343.8,
+    695.6
+   ],
+   "label_bbox": [
+    222.4,
+    395.1,
+    367.5,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.3.address",
+   "label": "주소",
+   "type": "text",
+   "value": "부산광역시 해운대구 해운대로 562, 12층",
+   "norm": "부산광역시 해운대구 해운대로 562, 12층",
+   "page": 0,
+   "bbox": [
+    372.7,
+    668.0,
+    525.3,
+    707.5
+   ],
+   "label_bbox": [
+    367.5,
+    395.1,
+    595.6,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.3.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "상환전환우선주",
+   "norm": "상환전환우선주",
+   "page": 0,
+   "bbox": [
+    609.4,
+    642.2,
+    643.9,
+    731.1
+   ],
+   "label_bbox": [
+    595.6,
+    395.1,
+    657.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.3.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "551",
+   "norm": 551,
+   "page": 0,
+   "bbox": [
+    709.5,
+    677.6,
+    735.4,
+    695.6
+   ],
+   "label_bbox": [
+    657.8,
+    395.1,
+    740.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.3.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "2,755,000",
+   "norm": 2755000,
+   "page": 0,
+   "bbox": [
+    780.4,
+    677.6,
+    849.4,
+    695.6
+   ],
+   "label_bbox": [
+    740.7,
+    395.1,
+    854.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.3.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "2.76%",
+   "norm": 2.76,
+   "page": 0,
+   "bbox": [
+    877.4,
+    677.6,
+    922.0,
+    695.6
+   ],
+   "label_bbox": [
+    854.7,
+    395.1,
+    927.2,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.3.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2024.04.03",
+   "norm": "2024-04-03",
+   "page": 0,
+   "bbox": [
+    940.2,
+    677.6,
+    1017.8,
+    695.6
+   ],
+   "label_bbox": [
+    927.2,
+    395.1,
+    1030.9,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.3.note",
+   "label": "비고",
+   "type": "text",
+   "value": "법인주주",
+   "norm": "법인주주",
+   "page": 0,
+   "bbox": [
+    1037.8,
+    677.6,
+    1106.8,
+    695.6
+   ],
+   "label_bbox": [
+    1030.9,
+    395.1,
+    1113.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.4.no",
+   "label": "번호",
+   "type": "number",
+   "value": "5",
+   "norm": 5,
+   "page": 0,
+   "bbox": [
+    98.8,
+    797.5,
+    107.5,
+    815.5
+   ],
+   "label_bbox": [
+    77.2,
+    395.1,
+    129.1,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.4.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "한결창업투자 신기술사업투자조합 제4호",
+   "norm": "한결창업투자 신기술사업투자조합 제4호",
+   "page": 0,
+   "bbox": [
+    141.2,
+    750.2,
+    210.2,
+    862.7
+   ],
+   "label_bbox": [
+    129.1,
+    395.1,
+    222.4,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.4.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "biz_no",
+   "value": "582-87-49433",
+   "norm": "582-87-49433",
+   "page": 0,
+   "bbox": [
+    246.0,
+    797.5,
+    343.8,
+    815.5
+   ],
+   "label_bbox": [
+    222.4,
+    395.1,
+    367.5,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.4.address",
+   "label": "주소",
+   "type": "text",
+   "value": "서울특별시 송파구 송파대로 188, 2층",
+   "norm": "서울특별시 송파구 송파대로 188, 2층",
+   "page": 0,
+   "bbox": [
+    372.7,
+    787.8,
+    579.0,
+    827.3
+   ],
+   "label_bbox": [
+    367.5,
+    395.1,
+    595.6,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.4.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "상환전환우선주",
+   "norm": "상환전환우선주",
+   "page": 0,
+   "bbox": [
+    609.4,
+    762.0,
+    643.9,
+    850.9
+   ],
+   "label_bbox": [
+    595.6,
+    395.1,
+    657.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.4.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "493",
+   "norm": 493,
+   "page": 0,
+   "bbox": [
+    709.5,
+    797.5,
+    735.4,
+    815.5
+   ],
+   "label_bbox": [
+    657.8,
+    395.1,
+    740.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.4.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "2,465,000",
+   "norm": 2465000,
+   "page": 0,
+   "bbox": [
+    780.4,
+    797.5,
+    849.4,
+    815.5
+   ],
+   "label_bbox": [
+    740.7,
+    395.1,
+    854.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.4.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "2.47%",
+   "norm": 2.47,
+   "page": 0,
+   "bbox": [
+    877.4,
+    797.5,
+    922.0,
+    815.5
+   ],
+   "label_bbox": [
+    854.7,
+    395.1,
+    927.2,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.4.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2024.04.03",
+   "norm": "2024-04-03",
+   "page": 0,
+   "bbox": [
+    940.2,
+    797.5,
+    1017.8,
+    815.5
+   ],
+   "label_bbox": [
+    927.2,
+    395.1,
+    1030.9,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.4.note",
+   "label": "비고",
+   "type": "text",
+   "value": "법인주주",
+   "norm": "법인주주",
+   "page": 0,
+   "bbox": [
+    1037.8,
+    797.5,
+    1106.8,
+    815.5
+   ],
+   "label_bbox": [
+    1030.9,
+    395.1,
+    1113.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.5.no",
+   "label": "번호",
+   "type": "number",
+   "value": "6",
+   "norm": 6,
+   "page": 0,
+   "bbox": [
+    98.8,
+    893.6,
+    107.5,
+    911.6
+   ],
+   "label_bbox": [
+    77.2,
+    395.1,
+    129.1,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.5.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "최아현",
+   "norm": "최아현",
+   "page": 0,
+   "bbox": [
+    149.8,
+    893.6,
+    201.6,
+    911.6
+   ],
+   "label_bbox": [
+    129.1,
+    395.1,
+    222.4,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.5.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "891219-2******",
+   "norm": "891219-2******",
+   "page": 0,
+   "bbox": [
+    235.9,
+    893.6,
+    353.8,
+    911.6
+   ],
+   "label_bbox": [
+    222.4,
+    395.1,
+    367.5,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.5.address",
+   "label": "주소",
+   "type": "text",
+   "value": "서울특별시 송파구 백제고분로 378, 117동 2104호",
+   "norm": "서울특별시 송파구 백제고분로 378, 117동 2104호",
+   "page": 0,
+   "bbox": [
+    372.7,
+    884.0,
+    586.6,
+    923.5
+   ],
+   "label_bbox": [
+    367.5,
+    395.1,
+    595.6,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.5.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 0,
+   "bbox": [
+    609.4,
+    881.8,
+    643.9,
+    923.5
+   ],
+   "label_bbox": [
+    595.6,
+    395.1,
+    657.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.5.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "59",
+   "norm": 59,
+   "page": 0,
+   "bbox": [
+    718.2,
+    893.6,
+    735.4,
+    911.6
+   ],
+   "label_bbox": [
+    657.8,
+    395.1,
+    740.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.5.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "295,000",
+   "norm": 295000,
+   "page": 0,
+   "bbox": [
+    793.4,
+    893.6,
+    849.4,
+    911.6
+   ],
+   "label_bbox": [
+    740.7,
+    395.1,
+    854.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.5.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.30%",
+   "norm": 0.3,
+   "page": 0,
+   "bbox": [
+    877.4,
+    893.6,
+    922.0,
+    911.6
+   ],
+   "label_bbox": [
+    854.7,
+    395.1,
+    927.2,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.5.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2022.07.08",
+   "norm": "2022-07-08",
+   "page": 0,
+   "bbox": [
+    940.2,
+    893.6,
+    1017.8,
+    911.6
+   ],
+   "label_bbox": [
+    927.2,
+    395.1,
+    1030.9,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.5.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    395.1,
+    1113.8,
+    451.7
+   ],
+   "page": 0
+  },
+  {
+   "key": "shareholders.6.no",
+   "label": "번호",
+   "type": "number",
+   "value": "7",
+   "norm": 7,
+   "page": 0,
+   "bbox": [
+    98.8,
+    954.4,
+    107.5,
+    972.4
+   ],
+   "label_bbox": [
+    77.2,
+    395.1,
+    129.1,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.6.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "고수율",
+   "norm": "고수율",
+   "page": 0,
+   "bbox": [
+    149.8,
+    954.4,
+    201.6,
+    972.4
+   ],
+   "label_bbox": [
+    129.1,
+    395.1,
+    222.4,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.6.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "680428-2******",
+   "norm": "680428-2******",
+   "page": 0,
+   "bbox": [
+    235.9,
+    954.4,
+    353.8,
+    972.4
+   ],
+   "label_bbox": [
+    222.4,
+    395.1,
+    367.5,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.6.address",
+   "label": "주소",
+   "type": "text",
+   "value": "충청북도 청주시 흥덕구 가로수로 599, 106동 1303호",
+   "norm": "충청북도 청주시 흥덕구 가로수로 599, 106동 1303호",
+   "page": 0,
+   "bbox": [
+    372.7,
+    944.8,
+    570.7,
+    984.2
+   ],
+   "label_bbox": [
+    367.5,
+    395.1,
+    595.6,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.6.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 0,
+   "bbox": [
+    609.4,
+    942.6,
+    643.9,
+    984.2
+   ],
+   "label_bbox": [
+    595.6,
+    395.1,
+    657.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.6.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "42",
+   "norm": 42,
+   "page": 0,
+   "bbox": [
+    718.2,
+    954.4,
+    735.4,
+    972.4
+   ],
+   "label_bbox": [
+    657.8,
+    395.1,
+    740.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.6.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "210,000",
+   "norm": 210000,
+   "page": 0,
+   "bbox": [
+    793.4,
+    954.4,
+    849.4,
+    972.4
+   ],
+   "label_bbox": [
+    740.7,
+    395.1,
+    854.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.6.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.21%",
+   "norm": 0.21,
+   "page": 0,
+   "bbox": [
+    877.4,
+    954.4,
+    922.0,
+    972.4
+   ],
+   "label_bbox": [
+    854.7,
+    395.1,
+    927.2,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.6.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2024.05.22",
+   "norm": "2024-05-22",
+   "page": 0,
+   "bbox": [
+    940.2,
+    954.4,
+    1017.8,
+    972.4
+   ],
+   "label_bbox": [
+    927.2,
+    395.1,
+    1030.9,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.6.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    395.1,
+    1113.8,
+    451.7
+   ],
+   "page": 0
+  },
+  {
+   "key": "shareholders.7.no",
+   "label": "번호",
+   "type": "number",
+   "value": "8",
+   "norm": 8,
+   "page": 0,
+   "bbox": [
+    98.8,
+    1015.1,
+    107.5,
+    1033.1
+   ],
+   "label_bbox": [
+    77.2,
+    395.1,
+    129.1,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.7.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "강아찬",
+   "norm": "강아찬",
+   "page": 0,
+   "bbox": [
+    149.8,
+    1015.1,
+    201.6,
+    1033.1
+   ],
+   "label_bbox": [
+    129.1,
+    395.1,
+    222.4,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.7.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "840320-2******",
+   "norm": "840320-2******",
+   "page": 0,
+   "bbox": [
+    235.9,
+    1015.1,
+    353.8,
+    1033.1
+   ],
+   "label_bbox": [
+    222.4,
+    395.1,
+    367.5,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.7.address",
+   "label": "주소",
+   "type": "text",
+   "value": "경기도 성남시 분당구 판교역로 340, 112동 2001호",
+   "norm": "경기도 성남시 분당구 판교역로 340, 112동 2001호",
+   "page": 0,
+   "bbox": [
+    372.7,
+    1005.5,
+    570.1,
+    1045.0
+   ],
+   "label_bbox": [
+    367.5,
+    395.1,
+    595.6,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.7.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 0,
+   "bbox": [
+    609.4,
+    1003.3,
+    643.9,
+    1045.0
+   ],
+   "label_bbox": [
+    595.6,
+    395.1,
+    657.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.7.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "42",
+   "norm": 42,
+   "page": 0,
+   "bbox": [
+    718.2,
+    1015.1,
+    735.4,
+    1033.1
+   ],
+   "label_bbox": [
+    657.8,
+    395.1,
+    740.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.7.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "210,000",
+   "norm": 210000,
+   "page": 0,
+   "bbox": [
+    793.4,
+    1015.1,
+    849.4,
+    1033.1
+   ],
+   "label_bbox": [
+    740.7,
+    395.1,
+    854.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.7.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.21%",
+   "norm": 0.21,
+   "page": 0,
+   "bbox": [
+    877.4,
+    1015.1,
+    922.0,
+    1033.1
+   ],
+   "label_bbox": [
+    854.7,
+    395.1,
+    927.2,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.7.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2024.06.16",
+   "norm": "2024-06-16",
+   "page": 0,
+   "bbox": [
+    940.2,
+    1015.1,
+    1017.8,
+    1033.1
+   ],
+   "label_bbox": [
+    927.2,
+    395.1,
+    1030.9,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.7.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    395.1,
+    1113.8,
+    451.7
+   ],
+   "page": 0
+  },
+  {
+   "key": "shareholders.8.no",
+   "label": "번호",
+   "type": "number",
+   "value": "9",
+   "norm": 9,
+   "page": 0,
+   "bbox": [
+    98.8,
+    1075.9,
+    107.5,
+    1093.9
+   ],
+   "label_bbox": [
+    77.2,
+    395.1,
+    129.1,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.8.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "송연하",
+   "norm": "송연하",
+   "page": 0,
+   "bbox": [
+    149.8,
+    1075.9,
+    201.6,
+    1093.9
+   ],
+   "label_bbox": [
+    129.1,
+    395.1,
+    222.4,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.8.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "730117-*******",
+   "norm": "730117-*******",
+   "page": 0,
+   "bbox": [
+    236.3,
+    1075.9,
+    353.5,
+    1093.9
+   ],
+   "label_bbox": [
+    222.4,
+    395.1,
+    367.5,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.8.address",
+   "label": "주소",
+   "type": "text",
+   "value": "부산광역시 부산진구 전포대로 138, 107동 301호",
+   "norm": "부산광역시 부산진구 전포대로 138, 107동 301호",
+   "page": 0,
+   "bbox": [
+    372.7,
+    1066.3,
+    562.5,
+    1105.7
+   ],
+   "label_bbox": [
+    367.5,
+    395.1,
+    595.6,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.8.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 0,
+   "bbox": [
+    609.4,
+    1064.1,
+    643.9,
+    1105.7
+   ],
+   "label_bbox": [
+    595.6,
+    395.1,
+    657.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.8.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "42",
+   "norm": 42,
+   "page": 0,
+   "bbox": [
+    718.2,
+    1075.9,
+    735.4,
+    1093.9
+   ],
+   "label_bbox": [
+    657.8,
+    395.1,
+    740.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.8.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "210,000",
+   "norm": 210000,
+   "page": 0,
+   "bbox": [
+    793.4,
+    1075.9,
+    849.4,
+    1093.9
+   ],
+   "label_bbox": [
+    740.7,
+    395.1,
+    854.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.8.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.21%",
+   "norm": 0.21,
+   "page": 0,
+   "bbox": [
+    877.4,
+    1075.9,
+    922.0,
+    1093.9
+   ],
+   "label_bbox": [
+    854.7,
+    395.1,
+    927.2,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.8.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2024.06.28",
+   "norm": "2024-06-28",
+   "page": 0,
+   "bbox": [
+    940.2,
+    1075.9,
+    1017.8,
+    1093.9
+   ],
+   "label_bbox": [
+    927.2,
+    395.1,
+    1030.9,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.8.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    395.1,
+    1113.8,
+    451.7
+   ],
+   "page": 0
+  },
+  {
+   "key": "shareholders.9.no",
+   "label": "번호",
+   "type": "number",
+   "value": "10",
+   "norm": 10,
+   "page": 0,
+   "bbox": [
+    94.5,
+    1136.6,
+    111.8,
+    1154.6
+   ],
+   "label_bbox": [
+    77.2,
+    395.1,
+    129.1,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.9.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "최준도",
+   "norm": "최준도",
+   "page": 0,
+   "bbox": [
+    149.8,
+    1136.6,
+    201.6,
+    1154.6
+   ],
+   "label_bbox": [
+    129.1,
+    395.1,
+    222.4,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.9.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "640814-1******",
+   "norm": "640814-1******",
+   "page": 0,
+   "bbox": [
+    235.9,
+    1136.6,
+    353.8,
+    1154.6
+   ],
+   "label_bbox": [
+    222.4,
+    395.1,
+    367.5,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.9.address",
+   "label": "주소",
+   "type": "text",
+   "value": "제주특별자치도 제주시 첨단로 73, 110동 1402호",
+   "norm": "제주특별자치도 제주시 첨단로 73, 110동 1402호",
+   "page": 0,
+   "bbox": [
+    372.7,
+    1127.0,
+    545.3,
+    1166.5
+   ],
+   "label_bbox": [
+    367.5,
+    395.1,
+    595.6,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.9.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 0,
+   "bbox": [
+    609.4,
+    1124.8,
+    643.9,
+    1166.5
+   ],
+   "label_bbox": [
+    595.6,
+    395.1,
+    657.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.9.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "41",
+   "norm": 41,
+   "page": 0,
+   "bbox": [
+    718.2,
+    1136.6,
+    735.4,
+    1154.6
+   ],
+   "label_bbox": [
+    657.8,
+    395.1,
+    740.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.9.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "205,000",
+   "norm": 205000,
+   "page": 0,
+   "bbox": [
+    793.4,
+    1136.6,
+    849.4,
+    1154.6
+   ],
+   "label_bbox": [
+    740.7,
+    395.1,
+    854.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.9.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.21%",
+   "norm": 0.21,
+   "page": 0,
+   "bbox": [
+    877.4,
+    1136.6,
+    922.0,
+    1154.6
+   ],
+   "label_bbox": [
+    854.7,
+    395.1,
+    927.2,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.9.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2022.08.03",
+   "norm": "2022-08-03",
+   "page": 0,
+   "bbox": [
+    940.2,
+    1136.6,
+    1017.8,
+    1154.6
+   ],
+   "label_bbox": [
+    927.2,
+    395.1,
+    1030.9,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.9.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    395.1,
+    1113.8,
+    451.7
+   ],
+   "page": 0
+  },
+  {
+   "key": "shareholders.10.no",
+   "label": "번호",
+   "type": "number",
+   "value": "11",
+   "norm": 11,
+   "page": 0,
+   "bbox": [
+    94.9,
+    1197.4,
+    111.5,
+    1215.4
+   ],
+   "label_bbox": [
+    77.2,
+    395.1,
+    129.1,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.10.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "김혜준",
+   "norm": "김혜준",
+   "page": 0,
+   "bbox": [
+    149.8,
+    1197.4,
+    201.6,
+    1215.4
+   ],
+   "label_bbox": [
+    129.1,
+    395.1,
+    222.4,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.10.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "880924-2******",
+   "norm": "880924-2******",
+   "page": 0,
+   "bbox": [
+    235.9,
+    1197.4,
+    353.8,
+    1215.4
+   ],
+   "label_bbox": [
+    222.4,
+    395.1,
+    367.5,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.10.address",
+   "label": "주소",
+   "type": "text",
+   "value": "전라남도 여수시 좌수영로 341, 114동 1602호",
+   "norm": "전라남도 여수시 좌수영로 341, 114동 1602호",
+   "page": 0,
+   "bbox": [
+    372.7,
+    1187.8,
+    562.5,
+    1227.2
+   ],
+   "label_bbox": [
+    367.5,
+    395.1,
+    595.6,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.10.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 0,
+   "bbox": [
+    609.4,
+    1185.6,
+    643.9,
+    1227.2
+   ],
+   "label_bbox": [
+    595.6,
+    395.1,
+    657.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.10.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "41",
+   "norm": 41,
+   "page": 0,
+   "bbox": [
+    718.2,
+    1197.4,
+    735.4,
+    1215.4
+   ],
+   "label_bbox": [
+    657.8,
+    395.1,
+    740.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.10.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "205,000",
+   "norm": 205000,
+   "page": 0,
+   "bbox": [
+    793.4,
+    1197.4,
+    849.4,
+    1215.4
+   ],
+   "label_bbox": [
+    740.7,
+    395.1,
+    854.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.10.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.21%",
+   "norm": 0.21,
+   "page": 0,
+   "bbox": [
+    877.4,
+    1197.4,
+    922.0,
+    1215.4
+   ],
+   "label_bbox": [
+    854.7,
+    395.1,
+    927.2,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.10.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2024.02.17",
+   "norm": "2024-02-17",
+   "page": 0,
+   "bbox": [
+    940.2,
+    1197.4,
+    1017.8,
+    1215.4
+   ],
+   "label_bbox": [
+    927.2,
+    395.1,
+    1030.9,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.10.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    395.1,
+    1113.8,
+    451.7
+   ],
+   "page": 0
+  },
+  {
+   "key": "shareholders.11.no",
+   "label": "번호",
+   "type": "number",
+   "value": "12",
+   "norm": 12,
+   "page": 0,
+   "bbox": [
+    94.5,
+    1258.1,
+    111.8,
+    1276.1
+   ],
+   "label_bbox": [
+    77.2,
+    395.1,
+    129.1,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.11.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "옥도찬",
+   "norm": "옥도찬",
+   "page": 0,
+   "bbox": [
+    149.8,
+    1258.1,
+    201.6,
+    1276.1
+   ],
+   "label_bbox": [
+    129.1,
+    395.1,
+    222.4,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.11.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "940618-1******",
+   "norm": "940618-1******",
+   "page": 0,
+   "bbox": [
+    235.9,
+    1258.1,
+    353.8,
+    1276.1
+   ],
+   "label_bbox": [
+    222.4,
+    395.1,
+    367.5,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.11.address",
+   "label": "주소",
+   "type": "text",
+   "value": "서울특별시 서초구 서초대로 102, 113동 404호",
+   "norm": "서울특별시 서초구 서초대로 102, 113동 404호",
+   "page": 0,
+   "bbox": [
+    372.7,
+    1248.5,
+    579.0,
+    1288.0
+   ],
+   "label_bbox": [
+    367.5,
+    395.1,
+    595.6,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.11.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 0,
+   "bbox": [
+    609.4,
+    1246.3,
+    643.9,
+    1288.0
+   ],
+   "label_bbox": [
+    595.6,
+    395.1,
+    657.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.11.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "38",
+   "norm": 38,
+   "page": 0,
+   "bbox": [
+    718.2,
+    1258.1,
+    735.4,
+    1276.1
+   ],
+   "label_bbox": [
+    657.8,
+    395.1,
+    740.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.11.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "190,000",
+   "norm": 190000,
+   "page": 0,
+   "bbox": [
+    793.4,
+    1258.1,
+    849.4,
+    1276.1
+   ],
+   "label_bbox": [
+    740.7,
+    395.1,
+    854.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.11.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.19%",
+   "norm": 0.19,
+   "page": 0,
+   "bbox": [
+    877.4,
+    1258.1,
+    922.0,
+    1276.1
+   ],
+   "label_bbox": [
+    854.7,
+    395.1,
+    927.2,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.11.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2024.04.04",
+   "norm": "2024-04-04",
+   "page": 0,
+   "bbox": [
+    940.2,
+    1258.1,
+    1017.8,
+    1276.1
+   ],
+   "label_bbox": [
+    927.2,
+    395.1,
+    1030.9,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.11.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    395.1,
+    1113.8,
+    451.7
+   ],
+   "page": 0
+  },
+  {
+   "key": "shareholders.12.no",
+   "label": "번호",
+   "type": "number",
+   "value": "13",
+   "norm": 13,
+   "page": 0,
+   "bbox": [
+    94.5,
+    1318.9,
+    111.8,
+    1336.9
+   ],
+   "label_bbox": [
+    77.2,
+    395.1,
+    129.1,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.12.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "홍하유",
+   "norm": "홍하유",
+   "page": 0,
+   "bbox": [
+    149.8,
+    1318.9,
+    201.6,
+    1336.9
+   ],
+   "label_bbox": [
+    129.1,
+    395.1,
+    222.4,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.12.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "950205-2******",
+   "norm": "950205-2******",
+   "page": 0,
+   "bbox": [
+    235.9,
+    1318.9,
+    353.8,
+    1336.9
+   ],
+   "label_bbox": [
+    222.4,
+    395.1,
+    367.5,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.12.address",
+   "label": "주소",
+   "type": "text",
+   "value": "강원특별자치도 춘천시 퇴계로 272, 108동 1703호",
+   "norm": "강원특별자치도 춘천시 퇴계로 272, 108동 1703호",
+   "page": 0,
+   "bbox": [
+    372.7,
+    1309.3,
+    554.2,
+    1348.7
+   ],
+   "label_bbox": [
+    367.5,
+    395.1,
+    595.6,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.12.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 0,
+   "bbox": [
+    609.4,
+    1307.1,
+    643.9,
+    1348.7
+   ],
+   "label_bbox": [
+    595.6,
+    395.1,
+    657.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.12.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "36",
+   "norm": 36,
+   "page": 0,
+   "bbox": [
+    718.2,
+    1318.9,
+    735.4,
+    1336.9
+   ],
+   "label_bbox": [
+    657.8,
+    395.1,
+    740.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.12.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "180,000",
+   "norm": 180000,
+   "page": 0,
+   "bbox": [
+    793.4,
+    1318.9,
+    849.4,
+    1336.9
+   ],
+   "label_bbox": [
+    740.7,
+    395.1,
+    854.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.12.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.18%",
+   "norm": 0.18,
+   "page": 0,
+   "bbox": [
+    877.4,
+    1318.9,
+    922.0,
+    1336.9
+   ],
+   "label_bbox": [
+    854.7,
+    395.1,
+    927.2,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.12.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2022.12.24",
+   "norm": "2022-12-24",
+   "page": 0,
+   "bbox": [
+    940.2,
+    1318.9,
+    1017.8,
+    1336.9
+   ],
+   "label_bbox": [
+    927.2,
+    395.1,
+    1030.9,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.12.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    395.1,
+    1113.8,
+    451.7
+   ],
+   "page": 0
+  },
+  {
+   "key": "shareholders.13.no",
+   "label": "번호",
+   "type": "number",
+   "value": "14",
+   "norm": 14,
+   "page": 0,
+   "bbox": [
+    94.5,
+    1379.6,
+    111.8,
+    1397.6
+   ],
+   "label_bbox": [
+    77.2,
+    395.1,
+    129.1,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.13.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "이상정",
+   "norm": "이상정",
+   "page": 0,
+   "bbox": [
+    149.8,
+    1379.6,
+    201.6,
+    1397.6
+   ],
+   "label_bbox": [
+    129.1,
+    395.1,
+    222.4,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.13.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "661013-1******",
+   "norm": "661013-1******",
+   "page": 0,
+   "bbox": [
+    235.9,
+    1379.6,
+    353.8,
+    1397.6
+   ],
+   "label_bbox": [
+    222.4,
+    395.1,
+    367.5,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.13.address",
+   "label": "주소",
+   "type": "text",
+   "value": "서울특별시 노원구 화랑로 418, 104동 401호",
+   "norm": "서울특별시 노원구 화랑로 418, 104동 401호",
+   "page": 0,
+   "bbox": [
+    372.7,
+    1370.0,
+    562.5,
+    1409.5
+   ],
+   "label_bbox": [
+    367.5,
+    395.1,
+    595.6,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.13.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 0,
+   "bbox": [
+    609.4,
+    1367.8,
+    643.9,
+    1409.5
+   ],
+   "label_bbox": [
+    595.6,
+    395.1,
+    657.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.13.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "35",
+   "norm": 35,
+   "page": 0,
+   "bbox": [
+    718.2,
+    1379.6,
+    735.4,
+    1397.6
+   ],
+   "label_bbox": [
+    657.8,
+    395.1,
+    740.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.13.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "175,000",
+   "norm": 175000,
+   "page": 0,
+   "bbox": [
+    793.4,
+    1379.6,
+    849.4,
+    1397.6
+   ],
+   "label_bbox": [
+    740.7,
+    395.1,
+    854.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.13.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.18%",
+   "norm": 0.18,
+   "page": 0,
+   "bbox": [
+    877.4,
+    1379.6,
+    922.0,
+    1397.6
+   ],
+   "label_bbox": [
+    854.7,
+    395.1,
+    927.2,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.13.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2024.02.19",
+   "norm": "2024-02-19",
+   "page": 0,
+   "bbox": [
+    940.2,
+    1379.6,
+    1017.8,
+    1397.6
+   ],
+   "label_bbox": [
+    927.2,
+    395.1,
+    1030.9,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.13.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    395.1,
+    1113.8,
+    451.7
+   ],
+   "page": 0
+  },
+  {
+   "key": "shareholders.14.no",
+   "label": "번호",
+   "type": "number",
+   "value": "15",
+   "norm": 15,
+   "page": 0,
+   "bbox": [
+    94.5,
+    1448.9,
+    111.8,
+    1466.9
+   ],
+   "label_bbox": [
+    77.2,
+    395.1,
+    129.1,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.14.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "차유주",
+   "norm": "차유주",
+   "page": 0,
+   "bbox": [
+    149.8,
+    1448.9,
+    201.6,
+    1466.9
+   ],
+   "label_bbox": [
+    129.1,
+    395.1,
+    222.4,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.14.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "790516-2******",
+   "norm": "790516-2******",
+   "page": 0,
+   "bbox": [
+    235.9,
+    1448.9,
+    353.8,
+    1466.9
+   ],
+   "label_bbox": [
+    222.4,
+    395.1,
+    367.5,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.14.address",
+   "label": "주소",
+   "type": "text",
+   "value": "전북특별자치도 전주시 완산구 서신로 101, 110동 2001호",
+   "norm": "전북특별자치도 전주시 완산구 서신로 101, 110동 2001호",
+   "page": 0,
+   "bbox": [
+    372.7,
+    1428.6,
+    553.6,
+    1489.5
+   ],
+   "label_bbox": [
+    367.5,
+    395.1,
+    595.6,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.14.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 0,
+   "bbox": [
+    609.4,
+    1437.1,
+    643.9,
+    1478.7
+   ],
+   "label_bbox": [
+    595.6,
+    395.1,
+    657.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.14.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "31",
+   "norm": 31,
+   "page": 0,
+   "bbox": [
+    718.2,
+    1448.9,
+    735.4,
+    1466.9
+   ],
+   "label_bbox": [
+    657.8,
+    395.1,
+    740.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.14.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "155,000",
+   "norm": 155000,
+   "page": 0,
+   "bbox": [
+    793.4,
+    1448.9,
+    849.4,
+    1466.9
+   ],
+   "label_bbox": [
+    740.7,
+    395.1,
+    854.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.14.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.16%",
+   "norm": 0.16,
+   "page": 0,
+   "bbox": [
+    877.4,
+    1448.9,
+    922.0,
+    1466.9
+   ],
+   "label_bbox": [
+    854.7,
+    395.1,
+    927.2,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.14.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2023.07.30",
+   "norm": "2023-07-30",
+   "page": 0,
+   "bbox": [
+    940.2,
+    1448.9,
+    1017.8,
+    1466.9
+   ],
+   "label_bbox": [
+    927.2,
+    395.1,
+    1030.9,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.14.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    395.1,
+    1113.8,
+    451.7
+   ],
+   "page": 0
+  },
+  {
+   "key": "shareholders.15.no",
+   "label": "번호",
+   "type": "number",
+   "value": "16",
+   "norm": 16,
+   "page": 0,
+   "bbox": [
+    94.5,
+    1518.2,
+    111.8,
+    1536.2
+   ],
+   "label_bbox": [
+    77.2,
+    395.1,
+    129.1,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.15.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "윤영예",
+   "norm": "윤영예",
+   "page": 0,
+   "bbox": [
+    149.8,
+    1518.2,
+    201.6,
+    1536.2
+   ],
+   "label_bbox": [
+    129.1,
+    395.1,
+    222.4,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.15.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "910207-1******",
+   "norm": "910207-1******",
+   "page": 0,
+   "bbox": [
+    235.9,
+    1518.2,
+    353.8,
+    1536.2
+   ],
+   "label_bbox": [
+    222.4,
+    395.1,
+    367.5,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.15.address",
+   "label": "주소",
+   "type": "text",
+   "value": "대구광역시 수성구 수성로 311, 121동 1304호",
+   "norm": "대구광역시 수성구 수성로 311, 121동 1304호",
+   "page": 0,
+   "bbox": [
+    372.7,
+    1508.6,
+    562.5,
+    1548.0
+   ],
+   "label_bbox": [
+    367.5,
+    395.1,
+    595.6,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.15.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 0,
+   "bbox": [
+    609.4,
+    1506.4,
+    643.9,
+    1548.0
+   ],
+   "label_bbox": [
+    595.6,
+    395.1,
+    657.8,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.15.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "30",
+   "norm": 30,
+   "page": 0,
+   "bbox": [
+    718.2,
+    1518.2,
+    735.4,
+    1536.2
+   ],
+   "label_bbox": [
+    657.8,
+    395.1,
+    740.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.15.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "150,000",
+   "norm": 150000,
+   "page": 0,
+   "bbox": [
+    793.4,
+    1518.2,
+    849.4,
+    1536.2
+   ],
+   "label_bbox": [
+    740.7,
+    395.1,
+    854.7,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.15.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.15%",
+   "norm": 0.15,
+   "page": 0,
+   "bbox": [
+    877.4,
+    1518.2,
+    922.0,
+    1536.2
+   ],
+   "label_bbox": [
+    854.7,
+    395.1,
+    927.2,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.15.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2023.08.12",
+   "norm": "2023-08-12",
+   "page": 0,
+   "bbox": [
+    940.2,
+    1518.2,
+    1017.8,
+    1536.2
+   ],
+   "label_bbox": [
+    927.2,
+    395.1,
+    1030.9,
+    451.7
+   ]
+  },
+  {
+   "key": "shareholders.15.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    395.1,
+    1113.8,
+    451.7
+   ],
+   "page": 0
+  },
+  {
+   "key": "shareholders.16.no",
+   "label": "번호",
+   "type": "number",
+   "value": "17",
+   "norm": 17,
+   "page": 1,
+   "bbox": [
+    94.5,
+    180.9,
+    111.8,
+    198.9
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.16.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "박준린",
+   "norm": "박준린",
+   "page": 1,
+   "bbox": [
+    149.8,
+    180.9,
+    201.6,
+    198.9
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.16.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "860220-1******",
+   "norm": "860220-1******",
+   "page": 1,
+   "bbox": [
+    235.9,
+    180.9,
+    353.8,
+    198.9
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.16.address",
+   "label": "주소",
+   "type": "text",
+   "value": "경상남도 창원시 성산구 창이대로 70-36, 106동 304호",
+   "norm": "경상남도 창원시 성산구 창이대로 70-36, 106동 304호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    171.3,
+    576.2,
+    210.8
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.16.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    169.1,
+    643.9,
+    210.8
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.16.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "30",
+   "norm": 30,
+   "page": 1,
+   "bbox": [
+    718.2,
+    180.9,
+    735.4,
+    198.9
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.16.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "150,000",
+   "norm": 150000,
+   "page": 1,
+   "bbox": [
+    793.4,
+    180.9,
+    849.4,
+    198.9
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.16.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.15%",
+   "norm": 0.15,
+   "page": 1,
+   "bbox": [
+    877.4,
+    180.9,
+    922.0,
+    198.9
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.16.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2025.07.26",
+   "norm": "2025-07-26",
+   "page": 1,
+   "bbox": [
+    940.2,
+    180.9,
+    1017.8,
+    198.9
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.16.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.17.no",
+   "label": "번호",
+   "type": "number",
+   "value": "18",
+   "norm": 18,
+   "page": 1,
+   "bbox": [
+    94.5,
+    241.7,
+    111.8,
+    259.7
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.17.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "노태현",
+   "norm": "노태현",
+   "page": 1,
+   "bbox": [
+    149.8,
+    241.7,
+    201.6,
+    259.7
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.17.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "830525-1******",
+   "norm": "830525-1******",
+   "page": 1,
+   "bbox": [
+    235.9,
+    241.7,
+    353.8,
+    259.7
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.17.address",
+   "label": "주소",
+   "type": "text",
+   "value": "충청북도 청주시 흥덕구 풍산로 391, 122동 2504호",
+   "norm": "충청북도 청주시 흥덕구 풍산로 391, 122동 2504호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    232.1,
+    554.2,
+    271.5
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.17.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    229.9,
+    643.9,
+    271.5
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.17.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "29",
+   "norm": 29,
+   "page": 1,
+   "bbox": [
+    718.2,
+    241.7,
+    735.4,
+    259.7
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.17.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "145,000",
+   "norm": 145000,
+   "page": 1,
+   "bbox": [
+    793.4,
+    241.7,
+    849.4,
+    259.7
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.17.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.15%",
+   "norm": 0.15,
+   "page": 1,
+   "bbox": [
+    877.4,
+    241.7,
+    922.0,
+    259.7
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.17.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2024.07.26",
+   "norm": "2024-07-26",
+   "page": 1,
+   "bbox": [
+    940.2,
+    241.7,
+    1017.8,
+    259.7
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.17.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.18.no",
+   "label": "번호",
+   "type": "number",
+   "value": "19",
+   "norm": 19,
+   "page": 1,
+   "bbox": [
+    94.5,
+    302.4,
+    111.8,
+    320.4
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.18.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "엄수인",
+   "norm": "엄수인",
+   "page": 1,
+   "bbox": [
+    149.8,
+    302.4,
+    201.6,
+    320.4
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.18.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "690328-1******",
+   "norm": "690328-1******",
+   "page": 1,
+   "bbox": [
+    235.9,
+    302.4,
+    353.8,
+    320.4
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.18.address",
+   "label": "주소",
+   "type": "text",
+   "value": "전라남도 여수시 소호로 160-24, 121동 1703호",
+   "norm": "전라남도 여수시 소호로 160-24, 121동 1703호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    292.8,
+    580.3,
+    332.2
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.18.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    290.6,
+    643.9,
+    332.2
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.18.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "29",
+   "norm": 29,
+   "page": 1,
+   "bbox": [
+    718.2,
+    302.4,
+    735.4,
+    320.4
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.18.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "145,000",
+   "norm": 145000,
+   "page": 1,
+   "bbox": [
+    793.4,
+    302.4,
+    849.4,
+    320.4
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.18.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.15%",
+   "norm": 0.15,
+   "page": 1,
+   "bbox": [
+    877.4,
+    302.4,
+    922.0,
+    320.4
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.18.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2025.07.27",
+   "norm": "2025-07-27",
+   "page": 1,
+   "bbox": [
+    940.2,
+    302.4,
+    1017.8,
+    320.4
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.18.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.19.no",
+   "label": "번호",
+   "type": "number",
+   "value": "20",
+   "norm": 20,
+   "page": 1,
+   "bbox": [
+    94.5,
+    371.7,
+    111.8,
+    389.7
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.19.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "김서유",
+   "norm": "김서유",
+   "page": 1,
+   "bbox": [
+    149.8,
+    371.7,
+    201.6,
+    389.7
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.19.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "640321-*******",
+   "norm": "640321-*******",
+   "page": 1,
+   "bbox": [
+    235.9,
+    371.7,
+    353.8,
+    389.7
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.19.address",
+   "label": "주소",
+   "type": "text",
+   "value": "부산광역시 부산진구 중앙대로 205-14, 120동 2003호",
+   "norm": "부산광역시 부산진구 중앙대로 205-14, 120동 2003호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    351.4,
+    539.1,
+    412.3
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.19.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    359.9,
+    643.9,
+    401.5
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.19.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "26",
+   "norm": 26,
+   "page": 1,
+   "bbox": [
+    718.2,
+    371.7,
+    735.4,
+    389.7
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.19.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "130,000",
+   "norm": 130000,
+   "page": 1,
+   "bbox": [
+    793.4,
+    371.7,
+    849.4,
+    389.7
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.19.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.13%",
+   "norm": 0.13,
+   "page": 1,
+   "bbox": [
+    877.4,
+    371.7,
+    922.0,
+    389.7
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.19.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2024.06.06",
+   "norm": "2024-06-06",
+   "page": 1,
+   "bbox": [
+    940.2,
+    371.7,
+    1017.8,
+    389.7
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.19.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.20.no",
+   "label": "번호",
+   "type": "number",
+   "value": "21",
+   "norm": 21,
+   "page": 1,
+   "bbox": [
+    94.5,
+    441.0,
+    111.8,
+    459.0
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.20.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "김아빈",
+   "norm": "김아빈",
+   "page": 1,
+   "bbox": [
+    149.8,
+    441.0,
+    201.6,
+    459.0
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.20.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "931006-2******",
+   "norm": "931006-2******",
+   "page": 1,
+   "bbox": [
+    235.9,
+    441.0,
+    353.8,
+    459.0
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.20.address",
+   "label": "주소",
+   "type": "text",
+   "value": "경기도 화성시 효행로 373, 110동 2003호",
+   "norm": "경기도 화성시 효행로 373, 110동 2003호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    431.4,
+    562.5,
+    470.8
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.20.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    429.2,
+    643.9,
+    470.8
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.20.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "25",
+   "norm": 25,
+   "page": 1,
+   "bbox": [
+    718.2,
+    441.0,
+    735.4,
+    459.0
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.20.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "125,000",
+   "norm": 125000,
+   "page": 1,
+   "bbox": [
+    793.4,
+    441.0,
+    849.4,
+    459.0
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.20.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.13%",
+   "norm": 0.13,
+   "page": 1,
+   "bbox": [
+    877.4,
+    441.0,
+    922.0,
+    459.0
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.20.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2023.03.02",
+   "norm": "2023-03-02",
+   "page": 1,
+   "bbox": [
+    940.2,
+    441.0,
+    1017.8,
+    459.0
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.20.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.21.no",
+   "label": "번호",
+   "type": "number",
+   "value": "22",
+   "norm": 22,
+   "page": 1,
+   "bbox": [
+    94.5,
+    501.8,
+    111.8,
+    519.8
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.21.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "김건혜",
+   "norm": "김건혜",
+   "page": 1,
+   "bbox": [
+    149.8,
+    501.8,
+    201.6,
+    519.8
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.21.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "830703-1******",
+   "norm": "830703-1******",
+   "page": 1,
+   "bbox": [
+    235.9,
+    501.8,
+    353.8,
+    519.8
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.21.address",
+   "label": "주소",
+   "type": "text",
+   "value": "부산광역시 부산진구 서면로 116, 109동 2103호",
+   "norm": "부산광역시 부산진구 서면로 116, 109동 2103호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    492.1,
+    579.0,
+    531.6
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.21.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    490.0,
+    643.9,
+    531.6
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.21.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "25",
+   "norm": 25,
+   "page": 1,
+   "bbox": [
+    718.2,
+    501.8,
+    735.4,
+    519.8
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.21.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "125,000",
+   "norm": 125000,
+   "page": 1,
+   "bbox": [
+    793.4,
+    501.8,
+    849.4,
+    519.8
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.21.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.12%",
+   "norm": 0.12,
+   "page": 1,
+   "bbox": [
+    877.4,
+    501.8,
+    922.0,
+    519.8
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.21.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2025.01.14",
+   "norm": "2025-01-14",
+   "page": 1,
+   "bbox": [
+    940.2,
+    501.8,
+    1017.8,
+    519.8
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.21.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.22.no",
+   "label": "번호",
+   "type": "number",
+   "value": "23",
+   "norm": 23,
+   "page": 1,
+   "bbox": [
+    94.5,
+    571.1,
+    111.8,
+    589.1
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.22.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "박정은",
+   "norm": "박정은",
+   "page": 1,
+   "bbox": [
+    149.8,
+    571.1,
+    201.6,
+    589.1
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.22.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "661106-*******",
+   "norm": "661106-*******",
+   "page": 1,
+   "bbox": [
+    236.3,
+    571.1,
+    353.5,
+    589.1
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.22.address",
+   "label": "주소",
+   "type": "text",
+   "value": "전북특별자치도 전주시 완산구 서신로 599, 115동 1204호",
+   "norm": "전북특별자치도 전주시 완산구 서신로 599, 115동 1204호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    550.7,
+    553.6,
+    611.6
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.22.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    559.2,
+    643.9,
+    600.9
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.22.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "25",
+   "norm": 25,
+   "page": 1,
+   "bbox": [
+    718.2,
+    571.1,
+    735.4,
+    589.1
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.22.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "125,000",
+   "norm": 125000,
+   "page": 1,
+   "bbox": [
+    793.4,
+    571.1,
+    849.4,
+    589.1
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.22.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.12%",
+   "norm": 0.12,
+   "page": 1,
+   "bbox": [
+    877.4,
+    571.1,
+    922.0,
+    589.1
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.22.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2023.08.15",
+   "norm": "2023-08-15",
+   "page": 1,
+   "bbox": [
+    940.2,
+    571.1,
+    1017.8,
+    589.1
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.22.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.23.no",
+   "label": "번호",
+   "type": "number",
+   "value": "24",
+   "norm": 24,
+   "page": 1,
+   "bbox": [
+    94.5,
+    640.4,
+    111.8,
+    658.4
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.23.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "전혁주",
+   "norm": "전혁주",
+   "page": 1,
+   "bbox": [
+    149.8,
+    640.4,
+    201.6,
+    658.4
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.23.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "830908-1******",
+   "norm": "830908-1******",
+   "page": 1,
+   "bbox": [
+    235.9,
+    640.4,
+    353.8,
+    658.4
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.23.address",
+   "label": "주소",
+   "type": "text",
+   "value": "부산광역시 해운대구 좌동순환로 537, 116동 1102호",
+   "norm": "부산광역시 해운대구 좌동순환로 537, 116동 1102호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    630.7,
+    586.0,
+    670.2
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.23.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    628.5,
+    643.9,
+    670.2
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.23.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "17",
+   "norm": 17,
+   "page": 1,
+   "bbox": [
+    718.2,
+    640.4,
+    735.4,
+    658.4
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.23.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "85,000",
+   "norm": 85000,
+   "page": 1,
+   "bbox": [
+    802.0,
+    640.4,
+    849.4,
+    658.4
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.23.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.08%",
+   "norm": 0.08,
+   "page": 1,
+   "bbox": [
+    877.4,
+    640.4,
+    922.0,
+    658.4
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.23.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2024.02.26",
+   "norm": "2024-02-26",
+   "page": 1,
+   "bbox": [
+    940.2,
+    640.4,
+    1017.8,
+    658.4
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.23.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.24.no",
+   "label": "번호",
+   "type": "number",
+   "value": "25",
+   "norm": 25,
+   "page": 1,
+   "bbox": [
+    94.5,
+    701.1,
+    111.8,
+    719.1
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.24.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "장은유",
+   "norm": "장은유",
+   "page": 1,
+   "bbox": [
+    149.8,
+    701.1,
+    201.6,
+    719.1
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.24.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "880826-2******",
+   "norm": "880826-2******",
+   "page": 1,
+   "bbox": [
+    235.9,
+    701.1,
+    353.8,
+    719.1
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.24.address",
+   "label": "주소",
+   "type": "text",
+   "value": "경기도 용인시 수지구 수지로 86, 105동 703호",
+   "norm": "경기도 용인시 수지구 수지로 86, 105동 703호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    691.5,
+    583.1,
+    730.9
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.24.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    689.3,
+    643.9,
+    730.9
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.24.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "17",
+   "norm": 17,
+   "page": 1,
+   "bbox": [
+    718.2,
+    701.1,
+    735.4,
+    719.1
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.24.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "85,000",
+   "norm": 85000,
+   "page": 1,
+   "bbox": [
+    802.0,
+    701.1,
+    849.4,
+    719.1
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.24.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.08%",
+   "norm": 0.08,
+   "page": 1,
+   "bbox": [
+    877.4,
+    701.1,
+    922.0,
+    719.1
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.24.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2025.06.15",
+   "norm": "2025-06-15",
+   "page": 1,
+   "bbox": [
+    940.2,
+    701.1,
+    1017.8,
+    719.1
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.24.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.25.no",
+   "label": "번호",
+   "type": "number",
+   "value": "26",
+   "norm": 26,
+   "page": 1,
+   "bbox": [
+    94.5,
+    761.9,
+    111.8,
+    779.9
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.25.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "명찬서",
+   "norm": "명찬서",
+   "page": 1,
+   "bbox": [
+    149.8,
+    761.9,
+    201.6,
+    779.9
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.25.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "740923-1******",
+   "norm": "740923-1******",
+   "page": 1,
+   "bbox": [
+    235.9,
+    761.9,
+    353.8,
+    779.9
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.25.address",
+   "label": "주소",
+   "type": "text",
+   "value": "경기도 용인시 수지구 수지로 317, 121동 2104호",
+   "norm": "경기도 용인시 수지구 수지로 317, 121동 2104호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    752.2,
+    583.1,
+    791.7
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.25.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    750.0,
+    643.9,
+    791.7
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.25.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "16",
+   "norm": 16,
+   "page": 1,
+   "bbox": [
+    718.2,
+    761.9,
+    735.4,
+    779.9
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.25.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "80,000",
+   "norm": 80000,
+   "page": 1,
+   "bbox": [
+    802.0,
+    761.9,
+    849.4,
+    779.9
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.25.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.08%",
+   "norm": 0.08,
+   "page": 1,
+   "bbox": [
+    877.4,
+    761.9,
+    922.0,
+    779.9
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.25.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2024.08.26",
+   "norm": "2024-08-26",
+   "page": 1,
+   "bbox": [
+    940.2,
+    761.9,
+    1017.8,
+    779.9
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.25.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.26.no",
+   "label": "번호",
+   "type": "number",
+   "value": "27",
+   "norm": 27,
+   "page": 1,
+   "bbox": [
+    94.5,
+    822.6,
+    111.8,
+    840.6
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.26.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "남궁유빈",
+   "norm": "남궁유빈",
+   "page": 1,
+   "bbox": [
+    141.2,
+    822.6,
+    210.2,
+    840.6
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.26.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "800227-*******",
+   "norm": "800227-*******",
+   "page": 1,
+   "bbox": [
+    235.9,
+    822.6,
+    353.8,
+    840.6
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.26.address",
+   "label": "주소",
+   "type": "text",
+   "value": "서울특별시 영등포구 도림로 140, 106동 803호",
+   "norm": "서울특별시 영등포구 도림로 140, 106동 803호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    813.0,
+    579.0,
+    852.4
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.26.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    810.8,
+    643.9,
+    852.4
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.26.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "16",
+   "norm": 16,
+   "page": 1,
+   "bbox": [
+    718.2,
+    822.6,
+    735.4,
+    840.6
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.26.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "80,000",
+   "norm": 80000,
+   "page": 1,
+   "bbox": [
+    802.0,
+    822.6,
+    849.4,
+    840.6
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.26.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.08%",
+   "norm": 0.08,
+   "page": 1,
+   "bbox": [
+    877.4,
+    822.6,
+    922.0,
+    840.6
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.26.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2025.01.07",
+   "norm": "2025-01-07",
+   "page": 1,
+   "bbox": [
+    940.2,
+    822.6,
+    1017.8,
+    840.6
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.26.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.27.no",
+   "label": "번호",
+   "type": "number",
+   "value": "28",
+   "norm": 28,
+   "page": 1,
+   "bbox": [
+    94.5,
+    891.9,
+    111.8,
+    909.9
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.27.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "길민빈",
+   "norm": "길민빈",
+   "page": 1,
+   "bbox": [
+    149.8,
+    891.9,
+    201.6,
+    909.9
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.27.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "800124-2******",
+   "norm": "800124-2******",
+   "page": 1,
+   "bbox": [
+    235.9,
+    891.9,
+    353.8,
+    909.9
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.27.address",
+   "label": "주소",
+   "type": "text",
+   "value": "전북특별자치도 전주시 완산구 기린대로 46, 125동 1603호",
+   "norm": "전북특별자치도 전주시 완산구 기린대로 46, 125동 1603호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    871.5,
+    562.5,
+    932.4
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.27.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    880.1,
+    643.9,
+    921.7
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.27.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "16",
+   "norm": 16,
+   "page": 1,
+   "bbox": [
+    718.2,
+    891.9,
+    735.4,
+    909.9
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.27.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "80,000",
+   "norm": 80000,
+   "page": 1,
+   "bbox": [
+    802.0,
+    891.9,
+    849.4,
+    909.9
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.27.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.08%",
+   "norm": 0.08,
+   "page": 1,
+   "bbox": [
+    877.4,
+    891.9,
+    922.0,
+    909.9
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.27.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2025.02.16",
+   "norm": "2025-02-16",
+   "page": 1,
+   "bbox": [
+    940.2,
+    891.9,
+    1017.8,
+    909.9
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.27.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.28.no",
+   "label": "번호",
+   "type": "number",
+   "value": "29",
+   "norm": 29,
+   "page": 1,
+   "bbox": [
+    94.5,
+    961.2,
+    111.8,
+    979.2
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.28.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "양욱주",
+   "norm": "양욱주",
+   "page": 1,
+   "bbox": [
+    149.8,
+    961.2,
+    201.6,
+    979.2
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.28.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "860413-1******",
+   "norm": "860413-1******",
+   "page": 1,
+   "bbox": [
+    235.9,
+    961.2,
+    353.8,
+    979.2
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.28.address",
+   "label": "주소",
+   "type": "text",
+   "value": "부산광역시 부산진구 동천로 26, 113동 2203호",
+   "norm": "부산광역시 부산진구 동천로 26, 113동 2203호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    951.6,
+    579.0,
+    991.0
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.28.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    949.4,
+    643.9,
+    991.0
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.28.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "15",
+   "norm": 15,
+   "page": 1,
+   "bbox": [
+    718.2,
+    961.2,
+    735.4,
+    979.2
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.28.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "75,000",
+   "norm": 75000,
+   "page": 1,
+   "bbox": [
+    802.0,
+    961.2,
+    849.4,
+    979.2
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.28.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.07%",
+   "norm": 0.07,
+   "page": 1,
+   "bbox": [
+    877.4,
+    961.2,
+    922.0,
+    979.2
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.28.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2022.10.08",
+   "norm": "2022-10-08",
+   "page": 1,
+   "bbox": [
+    940.2,
+    961.2,
+    1017.8,
+    979.2
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.28.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.29.no",
+   "label": "번호",
+   "type": "number",
+   "value": "30",
+   "norm": 30,
+   "page": 1,
+   "bbox": [
+    94.5,
+    1021.9,
+    111.8,
+    1039.9
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.29.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "황호정",
+   "norm": "황호정",
+   "page": 1,
+   "bbox": [
+    149.8,
+    1021.9,
+    201.6,
+    1039.9
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.29.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "880711-1******",
+   "norm": "880711-1******",
+   "page": 1,
+   "bbox": [
+    236.3,
+    1021.9,
+    353.5,
+    1039.9
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.29.address",
+   "label": "주소",
+   "type": "text",
+   "value": "경기도 화성시 동탄순환대로 153, 112동 1703호",
+   "norm": "경기도 화성시 동탄순환대로 153, 112동 1703호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    1012.3,
+    579.0,
+    1051.8
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.29.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    1010.1,
+    643.9,
+    1051.8
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.29.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "15",
+   "norm": 15,
+   "page": 1,
+   "bbox": [
+    718.2,
+    1021.9,
+    735.4,
+    1039.9
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.29.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "75,000",
+   "norm": 75000,
+   "page": 1,
+   "bbox": [
+    802.0,
+    1021.9,
+    849.4,
+    1039.9
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.29.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.07%",
+   "norm": 0.07,
+   "page": 1,
+   "bbox": [
+    877.4,
+    1021.9,
+    922.0,
+    1039.9
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.29.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2024.04.03",
+   "norm": "2024-04-03",
+   "page": 1,
+   "bbox": [
+    940.2,
+    1021.9,
+    1017.8,
+    1039.9
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.29.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.30.no",
+   "label": "번호",
+   "type": "number",
+   "value": "31",
+   "norm": 31,
+   "page": 1,
+   "bbox": [
+    94.5,
+    1082.7,
+    111.8,
+    1100.7
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.30.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "남궁민연",
+   "norm": "남궁민연",
+   "page": 1,
+   "bbox": [
+    141.2,
+    1082.7,
+    210.2,
+    1100.7
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.30.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "911009-2******",
+   "norm": "911009-2******",
+   "page": 1,
+   "bbox": [
+    236.3,
+    1082.7,
+    353.5,
+    1100.7
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.30.address",
+   "label": "주소",
+   "type": "text",
+   "value": "부산광역시 부산진구 서면로 136, 114동 302호",
+   "norm": "부산광역시 부산진구 서면로 136, 114동 302호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    1073.1,
+    579.0,
+    1112.5
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.30.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    1070.9,
+    643.9,
+    1112.5
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.30.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "15",
+   "norm": 15,
+   "page": 1,
+   "bbox": [
+    718.2,
+    1082.7,
+    735.4,
+    1100.7
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.30.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "75,000",
+   "norm": 75000,
+   "page": 1,
+   "bbox": [
+    802.0,
+    1082.7,
+    849.4,
+    1100.7
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.30.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.07%",
+   "norm": 0.07,
+   "page": 1,
+   "bbox": [
+    877.4,
+    1082.7,
+    922.0,
+    1100.7
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.30.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2025.07.30",
+   "norm": "2025-07-30",
+   "page": 1,
+   "bbox": [
+    940.2,
+    1082.7,
+    1017.8,
+    1100.7
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.30.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.31.no",
+   "label": "번호",
+   "type": "number",
+   "value": "32",
+   "norm": 32,
+   "page": 1,
+   "bbox": [
+    94.5,
+    1143.4,
+    111.8,
+    1161.4
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.31.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "강도진",
+   "norm": "강도진",
+   "page": 1,
+   "bbox": [
+    149.8,
+    1143.4,
+    201.6,
+    1161.4
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.31.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "640607-1******",
+   "norm": "640607-1******",
+   "page": 1,
+   "bbox": [
+    235.9,
+    1143.4,
+    353.8,
+    1161.4
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.31.address",
+   "label": "주소",
+   "type": "text",
+   "value": "서울특별시 강남구 남부순환로 481, 116동 601호",
+   "norm": "서울특별시 강남구 남부순환로 481, 116동 601호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    1133.8,
+    578.3,
+    1173.3
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.31.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    1131.6,
+    643.9,
+    1173.3
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.31.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "13",
+   "norm": 13,
+   "page": 1,
+   "bbox": [
+    718.2,
+    1143.4,
+    735.4,
+    1161.4
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.31.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "65,000",
+   "norm": 65000,
+   "page": 1,
+   "bbox": [
+    802.0,
+    1143.4,
+    849.4,
+    1161.4
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.31.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.06%",
+   "norm": 0.06,
+   "page": 1,
+   "bbox": [
+    877.4,
+    1143.4,
+    922.0,
+    1161.4
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.31.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2024.04.18",
+   "norm": "2024-04-18",
+   "page": 1,
+   "bbox": [
+    940.2,
+    1143.4,
+    1017.8,
+    1161.4
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.31.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.32.no",
+   "label": "번호",
+   "type": "number",
+   "value": "33",
+   "norm": 33,
+   "page": 1,
+   "bbox": [
+    94.5,
+    1204.2,
+    111.8,
+    1222.2
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.32.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "옥아성",
+   "norm": "옥아성",
+   "page": 1,
+   "bbox": [
+    149.8,
+    1204.2,
+    201.6,
+    1222.2
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.32.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "751126-2******",
+   "norm": "751126-2******",
+   "page": 1,
+   "bbox": [
+    236.3,
+    1204.2,
+    353.5,
+    1222.2
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.32.address",
+   "label": "주소",
+   "type": "text",
+   "value": "전라남도 여수시 좌수영로 345-9, 102동 704호",
+   "norm": "전라남도 여수시 좌수영로 345-9, 102동 704호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    1194.6,
+    562.5,
+    1234.0
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.32.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    1192.4,
+    643.9,
+    1234.0
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.32.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "13",
+   "norm": 13,
+   "page": 1,
+   "bbox": [
+    718.2,
+    1204.2,
+    735.4,
+    1222.2
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.32.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "65,000",
+   "norm": 65000,
+   "page": 1,
+   "bbox": [
+    802.0,
+    1204.2,
+    849.4,
+    1222.2
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.32.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.06%",
+   "norm": 0.06,
+   "page": 1,
+   "bbox": [
+    877.4,
+    1204.2,
+    922.0,
+    1222.2
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.32.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2025.06.15",
+   "norm": "2025-06-15",
+   "page": 1,
+   "bbox": [
+    940.2,
+    1204.2,
+    1017.8,
+    1222.2
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.32.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.33.no",
+   "label": "번호",
+   "type": "number",
+   "value": "34",
+   "norm": 34,
+   "page": 1,
+   "bbox": [
+    94.5,
+    1264.9,
+    111.8,
+    1282.9
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.33.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "표용지",
+   "norm": "표용지",
+   "page": 1,
+   "bbox": [
+    149.8,
+    1264.9,
+    201.6,
+    1282.9
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.33.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "880613-*******",
+   "norm": "880613-*******",
+   "page": 1,
+   "bbox": [
+    235.9,
+    1264.9,
+    353.8,
+    1282.9
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.33.address",
+   "label": "주소",
+   "type": "text",
+   "value": "광주광역시 서구 풍암신흥로 193, 123동 604호",
+   "norm": "광주광역시 서구 풍암신흥로 193, 123동 604호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    1255.3,
+    579.0,
+    1294.8
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.33.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    1253.1,
+    643.9,
+    1294.8
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.33.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "13",
+   "norm": 13,
+   "page": 1,
+   "bbox": [
+    718.2,
+    1264.9,
+    735.4,
+    1282.9
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.33.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "65,000",
+   "norm": 65000,
+   "page": 1,
+   "bbox": [
+    802.0,
+    1264.9,
+    849.4,
+    1282.9
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.33.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.06%",
+   "norm": 0.06,
+   "page": 1,
+   "bbox": [
+    877.4,
+    1264.9,
+    922.0,
+    1282.9
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.33.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2023.03.15",
+   "norm": "2023-03-15",
+   "page": 1,
+   "bbox": [
+    940.2,
+    1264.9,
+    1017.8,
+    1282.9
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.33.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.34.no",
+   "label": "번호",
+   "type": "number",
+   "value": "35",
+   "norm": 35,
+   "page": 1,
+   "bbox": [
+    94.5,
+    1325.7,
+    111.8,
+    1343.7
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.34.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "주민윤",
+   "norm": "주민윤",
+   "page": 1,
+   "bbox": [
+    149.8,
+    1325.7,
+    201.6,
+    1343.7
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.34.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "731218-*******",
+   "norm": "731218-*******",
+   "page": 1,
+   "bbox": [
+    235.9,
+    1325.7,
+    353.8,
+    1343.7
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.34.address",
+   "label": "주소",
+   "type": "text",
+   "value": "세종특별자치시 도움1로 453-32, 123동 901호",
+   "norm": "세종특별자치시 도움1로 453-32, 123동 901호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    1316.1,
+    584.5,
+    1355.5
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.34.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    1313.9,
+    643.9,
+    1355.5
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.34.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "12",
+   "norm": 12,
+   "page": 1,
+   "bbox": [
+    718.2,
+    1325.7,
+    735.4,
+    1343.7
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.34.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "60,000",
+   "norm": 60000,
+   "page": 1,
+   "bbox": [
+    802.0,
+    1325.7,
+    849.4,
+    1343.7
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.34.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.06%",
+   "norm": 0.06,
+   "page": 1,
+   "bbox": [
+    877.4,
+    1325.7,
+    922.0,
+    1343.7
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.34.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2023.02.16",
+   "norm": "2023-02-16",
+   "page": 1,
+   "bbox": [
+    940.2,
+    1325.7,
+    1017.8,
+    1343.7
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.34.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.35.no",
+   "label": "번호",
+   "type": "number",
+   "value": "36",
+   "norm": 36,
+   "page": 1,
+   "bbox": [
+    94.5,
+    1386.4,
+    111.8,
+    1404.4
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.35.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "홍영진",
+   "norm": "홍영진",
+   "page": 1,
+   "bbox": [
+    149.8,
+    1386.4,
+    201.6,
+    1404.4
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.35.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "rrn",
+   "value": "920703-1******",
+   "norm": "920703-1******",
+   "page": 1,
+   "bbox": [
+    235.9,
+    1386.4,
+    353.8,
+    1404.4
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.35.address",
+   "label": "주소",
+   "type": "text",
+   "value": "경상북도 포항시 남구 희망대로 242, 124동 1604호",
+   "norm": "경상북도 포항시 남구 희망대로 242, 124동 1604호",
+   "page": 1,
+   "bbox": [
+    372.7,
+    1376.8,
+    570.7,
+    1416.3
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.35.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    1374.6,
+    643.9,
+    1416.3
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.35.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "10",
+   "norm": 10,
+   "page": 1,
+   "bbox": [
+    718.2,
+    1386.4,
+    735.4,
+    1404.4
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.35.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "50,000",
+   "norm": 50000,
+   "page": 1,
+   "bbox": [
+    802.0,
+    1386.4,
+    849.4,
+    1404.4
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.35.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "0.05%",
+   "norm": 0.05,
+   "page": 1,
+   "bbox": [
+    877.4,
+    1386.4,
+    922.0,
+    1404.4
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.35.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2023.07.10",
+   "norm": "2023-07-10",
+   "page": 1,
+   "bbox": [
+    940.2,
+    1386.4,
+    1017.8,
+    1404.4
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.35.note",
+   "label": "비고",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ],
+   "page": 1
+  },
+  {
+   "key": "shareholders.36.no",
+   "label": "번호",
+   "type": "number",
+   "value": "37",
+   "norm": 37,
+   "page": 1,
+   "bbox": [
+    94.5,
+    1459.0,
+    111.8,
+    1477.0
+   ],
+   "label_bbox": [
+    77.2,
+    104.2,
+    129.1,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.36.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "주식회사 새한소프트",
+   "norm": "주식회사 새한소프트",
+   "page": 1,
+   "bbox": [
+    141.2,
+    1435.4,
+    210.2,
+    1500.6
+   ],
+   "label_bbox": [
+    129.1,
+    104.2,
+    222.4,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.36.id_no",
+   "label": "주민등록번호(사업자번호)",
+   "type": "biz_no",
+   "value": "530-82-09978",
+   "norm": "530-82-09978",
+   "page": 1,
+   "bbox": [
+    246.0,
+    1459.0,
+    343.8,
+    1477.0
+   ],
+   "label_bbox": [
+    222.4,
+    104.2,
+    367.5,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.36.address",
+   "label": "주소",
+   "type": "text",
+   "value": "서울특별시 영등포구 국제금융로 22-7, 8층",
+   "norm": "서울특별시 영등포구 국제금융로 22-7, 8층",
+   "page": 1,
+   "bbox": [
+    372.7,
+    1449.4,
+    525.3,
+    1488.8
+   ],
+   "label_bbox": [
+    367.5,
+    104.2,
+    595.6,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.36.share_type",
+   "label": "주식종류",
+   "type": "text",
+   "value": "보통주",
+   "norm": "보통주",
+   "page": 1,
+   "bbox": [
+    609.4,
+    1447.2,
+    643.9,
+    1488.8
+   ],
+   "label_bbox": [
+    595.6,
+    104.2,
+    657.8,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.36.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "677",
+   "norm": 677,
+   "page": 1,
+   "bbox": [
+    709.5,
+    1459.0,
+    735.4,
+    1477.0
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.36.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "3,385,000",
+   "norm": 3385000,
+   "page": 1,
+   "bbox": [
+    780.4,
+    1459.0,
+    849.4,
+    1477.0
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.36.ratio",
+   "label": "지분율",
+   "type": "percent",
+   "value": "3.38%",
+   "norm": 3.38,
+   "page": 1,
+   "bbox": [
+    877.4,
+    1459.0,
+    922.0,
+    1477.0
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.36.acquired",
+   "label": "취득일",
+   "type": "date",
+   "value": "2024.04.05",
+   "norm": "2024-04-05",
+   "page": 1,
+   "bbox": [
+    940.2,
+    1459.0,
+    1017.8,
+    1477.0
+   ],
+   "label_bbox": [
+    927.2,
+    104.2,
+    1030.9,
+    160.9
+   ]
+  },
+  {
+   "key": "shareholders.36.note",
+   "label": "비고",
+   "type": "text",
+   "value": "자기주식",
+   "norm": "자기주식",
+   "page": 1,
+   "bbox": [
+    1037.8,
+    1459.0,
+    1106.8,
+    1477.0
+   ],
+   "label_bbox": [
+    1030.9,
+    104.2,
+    1113.8,
+    160.9
+   ]
+  },
+  {
+   "key": "sum_shares",
+   "label": "합계주식수",
+   "type": "amount",
+   "value": "20,000",
+   "norm": 20000,
+   "page": 2,
+   "bbox": [
+    688.0,
+    180.9,
+    735.4,
+    198.9
+   ],
+   "label_bbox": [
+    657.8,
+    104.2,
+    740.7,
+    160.9
+   ]
+  },
+  {
+   "key": "sum_amount",
+   "label": "합계금액",
+   "type": "amount",
+   "value": "100,000,000",
+   "norm": 100000000,
+   "page": 2,
+   "bbox": [
+    763.2,
+    180.9,
+    849.4,
+    198.9
+   ],
+   "label_bbox": [
+    740.7,
+    104.2,
+    854.7,
+    160.9
+   ]
+  },
+  {
+   "key": "sum_ratio",
+   "label": "합계지분율",
+   "type": "percent",
+   "value": "100.00%",
+   "norm": 100.0,
+   "page": 2,
+   "bbox": [
+    874.5,
+    169.1,
+    922.0,
+    210.8
+   ],
+   "label_bbox": [
+    854.7,
+    104.2,
+    927.2,
+    160.9
+   ]
+  },
+  {
+   "key": "certify_date",
+   "label": "확인일",
+   "type": "date",
+   "value": "2025년 11월 29일",
+   "norm": "2025-11-29",
+   "page": 2,
+   "bbox": [
+    513.4,
+    355.7,
+    677.6,
+    378.2
+   ],
+   "label_bbox": [
+    76.5,
+    282.4,
+    1114.5,
+    312.2
+   ]
+  },
+  {
+   "key": "ceo",
+   "label": "대표이사",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 2,
+   "bbox": [
+    569.7,
+    483.1,
+    642.9,
+    508.6
+   ]
+  },
+  {
+   "key": "seal.corp",
+   "label": "법인인감",
+   "type": "seal",
+   "value": "주식회사 새한소프트 대표이사인",
+   "present": true,
+   "kind": "법인인감",
+   "page": 2,
+   "bbox": [
+    661.0,
+    426.1,
+    816.8,
+    582.0
+   ]
+  }
+ ]
+}

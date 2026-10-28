@@ -1,0 +1,38 @@
+{
+ "name": "납부내역증명",
+ "group": "tax",
+ "category": "external",
+ "page": "a4",
+ "origin": "copy",
+ "description": "납부내역증명 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?flSeq=155626763&flNm=%5B%EB%B3%84%EC%A7%80+19%5D+%EB%82%A9%EB%B6%80%EB%82%B4%EC%97%AD%EC%A6%9D%EB%AA%85%28%EA%B5%AD%EB%AC%B8%29&bylClsCd=200203",
+ "source": {
+  "publisher": "국가법령정보센터 · 해당 발급기관",
+  "url": "https://www.law.go.kr/LSW/flDownload.do?flSeq=155626763&flNm=%5B%EB%B3%84%EC%A7%80+19%5D+%EB%82%A9%EB%B6%80%EB%82%B4%EC%97%AD%EC%A6%9D%EB%AA%85%28%EA%B5%AD%EB%AC%B8%29&bylClsCd=200203",
+  "source_file": "forms/official_sources/gov_tax_payment_history.pdf",
+  "sha256": "b404b7c18939e9b6b885b5b1c046099ad156cf3e5be584c2aed3a0e263fac4da",
+  "checked_at": "2026-10-20",
+  "revision": "<2024. 4. 17. 개정>",
+  "matches": [],
+  "source_pages": [
+   0
+  ],
+  "online_verification": {
+   "status": "verified_pdf",
+   "sha256": "b404b7c18939e9b6b885b5b1c046099ad156cf3e5be584c2aed3a0e263fac4da",
+   "matches_local": true,
+   "checked_at": "2026-10-20"
+  }
+ },
+ "reconstruction": {
+  "method": "native_html_text_svg_lines",
+  "pages": [
+   {
+    "source_page": 1,
+    "text_spans": 133,
+    "omitted_paths": 0,
+    "omitted_images": 0
+   }
+  ],
+  "notice": "시스템 글꼴 대체. 원본 이미지·직인·QR 제외. 합성값을 채운 연구용 HTML 견본."
+ }
+}

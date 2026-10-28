@@ -1,0 +1,9 @@
+{
+  "mode": "sample",
+  "fixed": "default",
+  "variants": [
+    {"id":"default", "name":"구획 표형", "weight":1, "enabled":true},
+    {"id":"letter", "name":"회사 공문형", "weight":1, "enabled":true},
+    {"id":"record", "name":"인사 기록형", "weight":1, "enabled":true}
+  ]
+}

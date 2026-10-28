@@ -1,0 +1,37 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "official.name": {
+   "label": "채무자",
+   "type": "text",
+   "source": "profile.person.name"
+  },
+  "official.address": {
+   "label": "채무자 주소",
+   "type": "text",
+   "source": "profile.person.address.road_short"
+  },
+  "official.amount": {
+   "label": "채권최고액",
+   "type": "text",
+   "source": "rule:amount"
+  },
+  "official.name_copy": {
+   "label": "채무자",
+   "type": "text",
+   "source": "profile.person.name"
+  },
+  "official.address_copy": {
+   "label": "채무자 주소",
+   "type": "text",
+   "source": "profile.person.address.road_short"
+  },
+  "official.amount_copy": {
+   "label": "채권최고액",
+   "type": "text",
+   "source": "rule:amount"
+  }
+ },
+ "shared_copies": true
+}

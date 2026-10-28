@@ -1,0 +1,25 @@
+{% extends "_base.html.j2" %}
+{% import "_macros.html.j2" as m with context %}
+{% block style %}
+.company-head{border-bottom:3px solid #333;padding-bottom:16px;margin-bottom:34px}.company-head strong{font-size:22px}.company-head p{margin:5px 0}
+.letter-title{text-align:left;font-size:32px;letter-spacing:.15em;margin:34px 0}.letter-part{border-top:1px solid #444;padding:15px 0;margin-top:22px}.letter-part h2{font-size:16px;margin:0 0 14px}
+.letter-kv{display:grid;grid-template-columns:115px 1fr;gap:15px 20px}.letter-kv dt{font-weight:bold}.letter-kv dd{margin:0}.letter-end{text-align:right;margin-top:40px}.letter-end .org{font-size:21px;margin:20px 0}
+{% endblock %}
+{% block content %}
+<header class="company-head"><strong>{{ f("company.name",label="회사명") }}</strong><p>{{ f("company.address",label="소재지") }}</p><p>TEL {{ f("company.phone",label="전화번호") }} · 사업자등록번호 {{ f("company.biz_no",label="사업자등록번호") }}</p></header>
+{{ m.doc_no("doc_no","문서번호") }}<h1 class="letter-title">재직증명서</h1>
+<p>아래 직원의 재직 사실을 확인하여 증명서를 발급합니다.</p>
+<section class="letter-part"><h2>증명 대상</h2><dl class="letter-kv">
+<dt>성명</dt><dd>{{ f("employee.name",label="성명") }}</dd>
+{% if d.employee.birth is defined %}<dt>생년월일</dt><dd>{{ f("employee.birth",label="생년월일") }}</dd>{% else %}<dt>주민등록번호</dt><dd>{{ f("employee.rrn",label="주민등록번호") }}</dd>{% endif %}
+<dt>주소</dt><dd>{{ f("employee.address",label="주소") }}</dd></dl></section>
+<section class="letter-part"><h2>재직 사항</h2><dl class="letter-kv">
+<dt>소속 / 직위</dt><dd>{{ f("employment.department",label="소속") }} / {{ f("employment.position",label="직위") }}</dd>
+<dt>재직기간</dt><dd>{{ f("employment.period",label="재직기간") }}</dd><dt>담당업무</dt><dd>{{ f("employment.duty",label="담당업무") }}</dd>
+{% if d.employment.employment_type is defined %}<dt>고용형태</dt><dd>{{ f("employment.employment_type",label="고용형태") }}</dd><dt>계약기간</dt><dd>{{ f("employment.contract_period",label="계약기간") }}</dd>{% endif %}
+{% if d.employment.leave is defined %}<dt>휴직기간</dt><dd>{{ f("employment.leave",label="휴직기간") }}</dd>{% endif %}
+{% if d.employment.annual_salary is defined %}<dt>급여</dt><dd>{{ f("employment.annual_salary",label="급여(연봉)") }}</dd>{% endif %}
+</dl></section>
+<section class="letter-part"><dl class="letter-kv"><dt>용도 / 제출처</dt><dd>{{ f("purpose",label="용도") }} / {{ f("submit_to",label="제출처") }}</dd></dl></section>
+<footer class="letter-end"><div>{{ f("issue_date",label="발급일") }}</div><div class="org">{{ f("company.name",label="회사명") }}</div><div>대표이사 {{ f("company.ceo",label="대표이사") }} {{ m.seal("대표이사인",square=True,key="company",kind="직인") }}</div></footer>
+{% endblock %}

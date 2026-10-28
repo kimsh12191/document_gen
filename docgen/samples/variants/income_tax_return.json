@@ -1,0 +1,182 @@
+{
+ "document_type": "종합소득세 과세표준확정신고 및 납부계산서",
+ "tax_year": "2024",
+ "residency": "거주자",
+ "nationality": "내국인",
+ "taxpayer": {
+  "name": "김소윤",
+  "rrn": "901121-2030821",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+  "email": "soyun407@hanmail.net",
+  "biz_phone": "02-7824-2394",
+  "mobile": "010-4372-6867"
+ },
+ "filing_type": "간편장부",
+ "bookkeeping": "간편장부대상자",
+ "filing_kind": "기한후신고",
+ "refund_account": {
+  "bank": "농협은행",
+  "number": "628-8975-1402-61"
+ },
+ "national": {
+  "total_income": "40,617,290",
+  "deduction": "13,562,140",
+  "base": "27,055,150",
+  "rate": "15%",
+  "computed": "2,798,272",
+  "reduction": "0",
+  "credit": "750,000",
+  "determined": "2,048,272",
+  "penalty": "0",
+  "additional": "0",
+  "total": "2,048,272",
+  "prepaid": "2,146,290",
+  "payable": "-98,018",
+  "special_deduct": "0",
+  "special_add": "0",
+  "installment": "0",
+  "due_payable": "-98,018"
+ },
+ "filed_date": "2025년 08월 04일",
+ "seal": {
+  "taxpayer": false,
+  "tax_agent": false
+ },
+ "sign": {
+  "taxpayer": false,
+  "tax_agent": false
+ },
+ "tax_agent": {
+  "name": "이훈태",
+  "biz_no": "165-19-98822",
+  "phone": "02-8680-6562"
+ },
+ "tax_office": "서광주세무서장",
+ "incomes": [
+  {
+   "type": "사업소득",
+   "payer": "넥스트몰",
+   "revenue": "92,870,775",
+   "expense": "85,309,535",
+   "amount": "7,561,240",
+   "withheld": "0"
+  },
+  {
+   "type": "근로소득",
+   "payer": "(주)세진테크",
+   "revenue": "33,480,000",
+   "expense": "10,272,000",
+   "amount": "23,208,000",
+   "withheld": "795,680"
+  },
+  {
+   "type": "부동산임대업소득",
+   "payer": "서구 주택임대",
+   "revenue": "12,000,000",
+   "expense": "4,619,550",
+   "amount": "7,380,450",
+   "withheld": "0"
+  },
+  {
+   "type": "기타소득",
+   "payer": "한국생산성본부",
+   "revenue": "6,169,000",
+   "expense": "3,701,400",
+   "amount": "2,467,600",
+   "withheld": "493,520"
+  }
+ ],
+ "business_income": {
+  "address": "서울특별시 송파구 중대로 398, 12층 13호 (잠실동, 에이스지식산업센터)",
+  "trade_name": "넥스트몰",
+  "biz_no": "129-20-96799",
+  "code": "525101",
+  "revenue": "92,870,775",
+  "expense": "85,309,535",
+  "income": "7,561,240",
+  "partner": "김승성",
+  "share": "50%"
+ },
+ "dependents": [
+  {
+   "relation": "본인",
+   "name": "김소윤",
+   "rrn": "901121-2030821",
+   "basic": "○",
+   "extra": null
+  },
+  {
+   "relation": "배우자",
+   "name": "김승성",
+   "rrn": "900306-1190934",
+   "basic": "○",
+   "extra": null
+  },
+  {
+   "relation": "자녀",
+   "name": "김주지",
+   "rrn": "190107-4319484",
+   "basic": "○",
+   "extra": null
+  },
+  {
+   "relation": "자녀",
+   "name": "김민윤",
+   "rrn": "201102-4760189",
+   "basic": "○",
+   "extra": null
+  }
+ ],
+ "deduction_items": [
+  {
+   "item": "기본공제",
+   "amount": "6,000,000"
+  },
+  {
+   "item": "연금보험료공제",
+   "amount": "3,655,540"
+  },
+  {
+   "item": "특별소득공제(보험료)",
+   "amount": "1,506,600"
+  },
+  {
+   "item": "소기업ㆍ소상공인 공제부금 소득공제",
+   "amount": "2,400,000"
+  }
+ ],
+ "credit_items": [
+  {
+   "item": "근로소득세액공제",
+   "amount": "660,000"
+  },
+  {
+   "item": "표준세액공제",
+   "amount": "70,000"
+  },
+  {
+   "item": "전자신고세액공제",
+   "amount": "20,000"
+  }
+ ],
+ "penalty_items": [
+  {
+   "item": "무신고가산세",
+   "amount": "0"
+  },
+  {
+   "item": "납부지연가산세",
+   "amount": "0"
+  }
+ ],
+ "prepaid_items": [
+  {
+   "item": "중간예납세액",
+   "amount": "857,090"
+  },
+  {
+   "item": "원천징수세액",
+   "amount": "1,289,200"
+  }
+ ]
+}

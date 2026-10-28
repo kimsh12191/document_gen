@@ -1,0 +1,246 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "copy_type": {
+   "label": "보관용구분",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "earner.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "earner.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "earner.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "household_head": {
+   "label": "세대주여부",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "nationality": {
+   "label": "내·외국인",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "nontax.childcare": {
+   "label": "출산·보육수당",
+   "type": "text",
+   "source": "code"
+  },
+  "nontax.meal": {
+   "label": "식사대",
+   "type": "text",
+   "source": "code"
+  },
+  "nontax.reduction": {
+   "label": "감면소득계",
+   "type": "text",
+   "source": "code"
+  },
+  "nontax.total": {
+   "label": "비과세소득계",
+   "type": "text",
+   "source": "code"
+  },
+  "payer.address": {
+   "label": "소재지(주소)",
+   "type": "text",
+   "source": "code"
+  },
+  "payer.biz_no": {
+   "label": "사업자등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "payer.ceo": {
+   "label": "대표자(성명)",
+   "type": "text",
+   "source": "code"
+  },
+  "payer.name": {
+   "label": "법인명(상호)",
+   "type": "text",
+   "source": "code"
+  },
+  "resident": {
+   "label": "거주구분",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "seal.payer": {
+   "label": "징수의무자",
+   "type": "seal",
+   "source": "code"
+  },
+  "settlement_type": {
+   "label": "연말정산구분",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "tax.diff_income": {
+   "label": "차감징수세액",
+   "type": "text",
+   "source": "code"
+  },
+  "tax.diff_local": {
+   "label": "차감징수세액",
+   "type": "text",
+   "source": "code"
+  },
+  "tax.effective_rate": {
+   "label": "실효세율(%)",
+   "type": "text",
+   "source": "code"
+  },
+  "tax.final_income": {
+   "label": "결정세액",
+   "type": "text",
+   "source": "code"
+  },
+  "tax.final_local": {
+   "label": "결정세액",
+   "type": "text",
+   "source": "code"
+  },
+  "tax.prepaid_income": {
+   "label": "주(현)근무지",
+   "type": "text",
+   "source": "code"
+  },
+  "tax.prepaid_local": {
+   "label": "주(현)근무지",
+   "type": "text",
+   "source": "code"
+  },
+  "tax_office": {
+   "label": "세무서장",
+   "type": "text",
+   "source": "code"
+  },
+  "tax_prev.biz_no": {
+   "label": "종(전)근무지사업자등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "tax_prev.income": {
+   "label": "종(전)근무지기납부소득세",
+   "type": "text",
+   "source": "code"
+  },
+  "tax_prev.local": {
+   "label": "종(전)근무지기납부지방소득세",
+   "type": "text",
+   "source": "code"
+  },
+  "work.biz_no": {
+   "label": "사업자등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "work.bonus": {
+   "label": "상여",
+   "type": "text",
+   "source": "code"
+  },
+  "work.company": {
+   "label": "근무처명",
+   "type": "text",
+   "source": "code"
+  },
+  "work.period": {
+   "label": "근무기간",
+   "type": "text",
+   "source": "code"
+  },
+  "work.reduction_period": {
+   "label": "감면기간",
+   "type": "text",
+   "source": "code"
+  },
+  "work.salary": {
+   "label": "급여",
+   "type": "text",
+   "source": "code"
+  },
+  "work.total": {
+   "label": "계",
+   "type": "text",
+   "source": "code"
+  },
+  "work_prev.biz_no": {
+   "label": "종(전)사업자등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "work_prev.bonus": {
+   "label": "종(전)상여",
+   "type": "text",
+   "source": "code"
+  },
+  "work_prev.company": {
+   "label": "종(전)근무처명",
+   "type": "text",
+   "source": "code"
+  },
+  "work_prev.meal": {
+   "label": "종(전)식사대",
+   "type": "text",
+   "source": "code"
+  },
+  "work_prev.period": {
+   "label": "종(전)근무기간",
+   "type": "text",
+   "source": "code"
+  },
+  "work_prev.salary": {
+   "label": "종(전)급여",
+   "type": "text",
+   "source": "code"
+  },
+  "work_prev.total": {
+   "label": "종(전)계",
+   "type": "text",
+   "source": "code"
+  },
+  "work_sum.bonus": {
+   "label": "상여합계",
+   "type": "text",
+   "source": "code"
+  },
+  "work_sum.meal": {
+   "label": "식사대합계",
+   "type": "text",
+   "source": "code"
+  },
+  "work_sum.salary": {
+   "label": "급여합계",
+   "type": "text",
+   "source": "code"
+  },
+  "work_sum.total": {
+   "label": "계합계",
+   "type": "text",
+   "source": "code"
+  },
+  "year": {
+   "label": "귀속연도",
+   "type": "text",
+   "source": "code"
+  }
+ }
+}

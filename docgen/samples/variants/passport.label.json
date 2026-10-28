@@ -1,0 +1,281 @@
+{
+ "images": [
+  "variants/passport.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1080,
+   "height": 750
+  }
+ ],
+ "fields": [
+  {
+   "key": "type",
+   "label": "종류/Type",
+   "type": "text",
+   "value": "PS",
+   "norm": "PS",
+   "page": 0,
+   "bbox": [
+    280.5,
+    99.3,
+    315.0,
+    126.3
+   ],
+   "label_bbox": [
+    280.5,
+    84.4,
+    498.7,
+    100.8
+   ]
+  },
+  {
+   "key": "country_code",
+   "label": "발행국/Issuingcountry",
+   "type": "text",
+   "value": "KOR",
+   "norm": "KOR",
+   "page": 0,
+   "bbox": [
+    519.7,
+    99.3,
+    575.3,
+    126.3
+   ],
+   "label_bbox": [
+    519.7,
+    84.4,
+    737.9,
+    100.8
+   ]
+  },
+  {
+   "key": "passport_no",
+   "label": "여권번호/PassportNo.",
+   "type": "text",
+   "value": "S068K6269",
+   "norm": "S068K6269",
+   "page": 0,
+   "bbox": [
+    758.9,
+    99.3,
+    910.2,
+    126.3
+   ],
+   "label_bbox": [
+    758.9,
+    84.4,
+    1042.5,
+    100.8
+   ]
+  },
+  {
+   "key": "surname",
+   "label": "성/Surname",
+   "type": "text",
+   "value": "KIM",
+   "norm": "KIM",
+   "page": 0,
+   "bbox": [
+    280.5,
+    147.6,
+    331.4,
+    174.6
+   ],
+   "label_bbox": [
+    280.5,
+    132.7,
+    1042.5,
+    149.1
+   ]
+  },
+  {
+   "key": "given_names",
+   "label": "이름/Givennames",
+   "type": "text",
+   "value": "SOYUN",
+   "norm": "SOYUN",
+   "page": 0,
+   "bbox": [
+    280.5,
+    195.8,
+    372.9,
+    222.8
+   ],
+   "label_bbox": [
+    280.5,
+    181.0,
+    1042.5,
+    197.3
+   ]
+  },
+  {
+   "key": "name_korean",
+   "label": "한글성명",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    280.5,
+    245.6,
+    350.8,
+    271.1
+   ],
+   "label_bbox": [
+    280.5,
+    229.2,
+    737.9,
+    245.6
+   ]
+  },
+  {
+   "key": "nationality",
+   "label": "국적/Nationality",
+   "type": "text",
+   "value": "REPUBLIC OF KOREA",
+   "norm": "REPUBLIC OF KOREA",
+   "page": 0,
+   "bbox": [
+    758.9,
+    244.1,
+    997.2,
+    266.6
+   ],
+   "label_bbox": [
+    758.9,
+    229.2,
+    1042.5,
+    245.6
+   ]
+  },
+  {
+   "key": "birth",
+   "label": "생년월일/Dateofbirth",
+   "type": "text",
+   "value": "21 11월/NOV 1990",
+   "norm": "21 11월/NOV 1990",
+   "page": 0,
+   "bbox": [
+    280.5,
+    292.4,
+    443.0,
+    345.2
+   ],
+   "label_bbox": [
+    280.5,
+    277.5,
+    498.7,
+    293.9
+   ]
+  },
+  {
+   "key": "gender",
+   "label": "성별/Sex",
+   "type": "text",
+   "value": "F",
+   "norm": "F",
+   "page": 0,
+   "bbox": [
+    519.7,
+    292.4,
+    536.0,
+    319.4
+   ],
+   "label_bbox": [
+    519.7,
+    277.5,
+    737.9,
+    293.9
+   ]
+  },
+  {
+   "key": "date_of_issue",
+   "label": "발급일/Dateofissue",
+   "type": "text",
+   "value": "09 2월/FEB 2025",
+   "norm": "09 2월/FEB 2025",
+   "page": 0,
+   "bbox": [
+    280.5,
+    366.5,
+    494.6,
+    393.5
+   ],
+   "label_bbox": [
+    280.5,
+    351.6,
+    498.7,
+    368.0
+   ]
+  },
+  {
+   "key": "date_of_expiry",
+   "label": "기간만료일/Dateofexpiry",
+   "type": "text",
+   "value": "09 2월/FEB 2026",
+   "norm": "09 2월/FEB 2026",
+   "page": 0,
+   "bbox": [
+    519.7,
+    366.5,
+    733.7,
+    393.5
+   ],
+   "label_bbox": [
+    519.7,
+    351.6,
+    1042.5,
+    368.0
+   ]
+  },
+  {
+   "key": "authority",
+   "label": "발행관청/Authority",
+   "type": "text",
+   "value": "외교부/MINISTRY OF FOREIGN AFFAIRS",
+   "norm": "외교부/MINISTRY OF FOREIGN AFFAIRS",
+   "page": 0,
+   "bbox": [
+    280.5,
+    414.8,
+    708.6,
+    437.2
+   ],
+   "label_bbox": [
+    280.5,
+    399.9,
+    1042.5,
+    416.2
+   ]
+  },
+  {
+   "key": "mrz.line1",
+   "label": "MRZ",
+   "type": "text",
+   "value": "PSKORKIM<<SOYUN<<<<<<<<<<<<<<<<<<<<<<<<<<<<<",
+   "norm": "PSKORKIM<<SOYUN<<<<<<<<<<<<<<<<<<<<<<<<<<<<<",
+   "page": 0,
+   "bbox": [
+    37.5,
+    636.4,
+    964.5,
+    675.4
+   ]
+  },
+  {
+   "key": "mrz.line2",
+   "label": "MRZ",
+   "type": "text",
+   "value": "S068K62695KOR9011218F2602095<<<<<<<<<<<<<<<8",
+   "norm": "S068K62695KOR9011218F2602095<<<<<<<<<<<<<<<8",
+   "page": 0,
+   "bbox": [
+    37.5,
+    681.9,
+    964.5,
+    720.9
+   ]
+  }
+ ]
+}

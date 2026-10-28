@@ -1,0 +1,248 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "bl_no": {
+   "label": "B/LNo",
+   "type": "text",
+   "source": "code"
+  },
+  "booking_no": {
+   "label": "BookingNo",
+   "type": "text",
+   "source": "code"
+  },
+  "carrier": {
+   "label": "Carrier",
+   "type": "text",
+   "source": "code"
+  },
+  "consignee.address": {
+   "label": "ConsigneeAddress",
+   "type": "text",
+   "source": "code"
+  },
+  "consignee.name": {
+   "label": "Consignee",
+   "type": "text",
+   "source": "code"
+  },
+  "container_count": {
+   "label": "No.ofContainers",
+   "type": "text",
+   "source": "code"
+  },
+  "description": {
+   "label": "DescriptionofGoods",
+   "type": "text",
+   "source": "code"
+  },
+  "document_type": {
+   "label": "DocumentType",
+   "type": "text",
+   "source": "code"
+  },
+  "forwarder": {
+   "label": "ForwardingAgent",
+   "type": "text",
+   "source": "code"
+  },
+  "freight": {
+   "label": "Freight",
+   "type": "text",
+   "source": "code"
+  },
+  "freight_payable_at": {
+   "label": "FreightPayableat",
+   "type": "text",
+   "source": "code"
+  },
+  "gross_weight": {
+   "label": "GrossWeight",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "DateofIssue",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_place": {
+   "label": "PlaceofIssue",
+   "type": "text",
+   "source": "code"
+  },
+  "lc_no": {
+   "label": "L/CNo",
+   "type": "text",
+   "source": "code"
+  },
+  "marks": {
+   "label": "MarksandNumbers",
+   "type": "text",
+   "source": "code"
+  },
+  "measurement": {
+   "label": "Measurement",
+   "type": "text",
+   "source": "code"
+  },
+  "notify.address": {
+   "label": "NotifyPartyAddress",
+   "type": "text",
+   "source": "code"
+  },
+  "notify.name": {
+   "label": "NotifyParty",
+   "type": "text",
+   "source": "code"
+  },
+  "on_board_date": {
+   "label": "OnBoardDate",
+   "type": "text",
+   "source": "code"
+  },
+  "origin": {
+   "label": "PointandCountryofOrigin",
+   "type": "text",
+   "source": "code"
+  },
+  "originals": {
+   "label": "NumberofOriginalB/L",
+   "type": "text",
+   "source": "code"
+  },
+  "packages": {
+   "label": "No.ofPackages",
+   "type": "text",
+   "source": "code"
+  },
+  "place_of_delivery": {
+   "label": "PlaceofDelivery",
+   "type": "text",
+   "source": "code"
+  },
+  "place_of_receipt": {
+   "label": "PlaceofReceipt",
+   "type": "text",
+   "source": "code"
+  },
+  "port_of_discharge": {
+   "label": "PortofDischarge",
+   "type": "text",
+   "source": "code"
+  },
+  "port_of_loading": {
+   "label": "PortofLoading",
+   "type": "text",
+   "source": "code"
+  },
+  "pre_carriage": {
+   "label": "Pre-carriageby",
+   "type": "text",
+   "source": "code"
+  },
+  "shipper.address": {
+   "label": "ShipperAddress",
+   "type": "text",
+   "source": "code"
+  },
+  "shipper.name": {
+   "label": "Shipper",
+   "type": "text",
+   "source": "code"
+  },
+  "surrender": {
+   "label": "Surrender",
+   "type": "text",
+   "source": "code"
+  },
+  "surrender_date": {
+   "label": "SurrenderDate",
+   "type": "text",
+   "source": "code"
+  },
+  "total_words": {
+   "label": "TotalNumberinWords",
+   "type": "text",
+   "source": "code"
+  },
+  "vessel_voyage": {
+   "label": "OceanVessel/VoyNo",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "charges": {
+   "source": "code",
+   "fields": {
+    "collect": {
+     "label": "Collect",
+     "type": "text",
+     "source": "code"
+    },
+    "name": {
+     "label": "Charge",
+     "type": "text",
+     "source": "code"
+    },
+    "per": {
+     "label": "Per",
+     "type": "text",
+     "source": "code"
+    },
+    "prepaid": {
+     "label": "Prepaid",
+     "type": "text",
+     "source": "code"
+    },
+    "quantity": {
+     "label": "RevenueTons",
+     "type": "text",
+     "source": "code"
+    },
+    "rate": {
+     "label": "Rate",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "containers": {
+   "source": "code",
+   "fields": {
+    "gross_weight": {
+     "label": "ContainerGrossWeight",
+     "type": "text",
+     "source": "code"
+    },
+    "measurement": {
+     "label": "ContainerMeasurement",
+     "type": "text",
+     "source": "code"
+    },
+    "no": {
+     "label": "ContainerNo",
+     "type": "text",
+     "source": "code"
+    },
+    "packages": {
+     "label": "ContainerPackages",
+     "type": "text",
+     "source": "code"
+    },
+    "seal": {
+     "label": "SealNo",
+     "type": "text",
+     "source": "code"
+    },
+    "type": {
+     "label": "ContainerType",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

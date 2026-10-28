@@ -1,0 +1,43 @@
+{
+ "document_type": "자동이체 신청서",
+ "bank": "KEB하나은행",
+ "biller": {
+  "name": "주식회사 하나은행",
+  "fee_type": "대출이자(전세자금대출)"
+ },
+ "branch": "분당지점",
+ "kind": "변경",
+ "target": "대출이자",
+ "loan_product": "HUG 전세보증금대출",
+ "loan_account": "715-443277-50592",
+ "applicant": {
+  "name": "김소윤",
+  "birth": "821121",
+  "phone": "010-4372-6867",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호"
+ },
+ "debit": {
+  "bank": "KEB하나은행",
+  "account": "172-278616-33931",
+  "holder": "김소윤",
+  "holder_birth": "821121",
+  "holder_phone": "010-4372-6867"
+ },
+ "relation": "본인",
+ "transfer_day": "매월 10일",
+ "start_month": "2017년 2월분부터",
+ "amount": "청구금액 전액 (약 913,470원)",
+ "privacy_consent": "동의함",
+ "third_party_consent": "동의함",
+ "apply_date": "2017.01.23",
+ "signature": "김소윤",
+ "seal": {
+  "applicant": false,
+  "holder": true
+ },
+ "sign": {
+  "applicant": true,
+  "holder": false
+ },
+ "holder_signature": "김소윤"
+}

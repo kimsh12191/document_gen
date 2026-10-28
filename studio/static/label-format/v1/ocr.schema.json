@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:docgen:ocr-label:1",
+  "title": "docgen OCR label v1",
+  "type": "object",
+  "required": [
+    "filename",
+    "success",
+    "data"
+  ],
+  "properties": {
+    "filename": {
+      "type": "string",
+      "minLength": 1
+    },
+    "success": {
+      "const": "Y"
+    },
+    "data": {
+      "type": "object",
+      "required": [
+        "basicData"
+      ],
+      "properties": {
+        "basicData": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "text",
+                "confidence",
+                "bounding",
+                "line_num"
+              ],
+              "properties": {
+                "text": {
+                  "type": "string"
+                },
+                "confidence": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "line_num": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "bounding": {
+                  "type": "object",
+                  "required": [
+                    "shape",
+                    "vertices"
+                  ],
+                  "properties": {
+                    "shape": {
+                      "const": "rectangle"
+                    },
+                    "vertices": {
+                      "type": "array",
+                      "minItems": 4,
+                      "maxItems": 4,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "x",
+                          "y"
+                        ],
+                        "properties": {
+                          "x": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "y": {
+                            "type": "number",
+                            "minimum": 0
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

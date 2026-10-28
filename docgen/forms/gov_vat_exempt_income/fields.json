@@ -1,0 +1,52 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "official.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "profile.person.name"
+  },
+  "official.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "profile.person.rrn"
+  },
+  "official.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "profile.person.address.road_short"
+  },
+  "official.company": {
+   "label": "상호",
+   "type": "text",
+   "source": "profile.business.name"
+  },
+  "official.biz_no": {
+   "label": "사업자등록번호",
+   "type": "text",
+   "source": "profile.business.biz_no"
+  },
+  "official.biz_type": {
+   "label": "업태",
+   "type": "text",
+   "source": "profile.business.biz_type"
+  },
+  "official.biz_item": {
+   "label": "종목",
+   "type": "text",
+   "source": "profile.business.biz_item"
+  },
+  "official.period": {
+   "label": "과세기간",
+   "type": "text",
+   "source": "rule:fixed",
+   "text": "2025.01.01 ~ 2025.12.31"
+  },
+  "official.income": {
+   "label": "수입금액",
+   "type": "text",
+   "source": "rule:amount"
+  }
+ }
+}

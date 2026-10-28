@@ -1,0 +1,147 @@
+{
+ "document_type": "대출거래신청서",
+ "bank": "농협은행",
+ "branch": "분당지점",
+ "applicant": {
+  "name": "김소윤",
+  "rrn": "901121-2******",
+  "zipcode": null,
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+  "mobile": "010-4372-6867",
+  "home_phone": "062-543-1694",
+  "email": null,
+  "work_phone": null
+ },
+ "housing": "자가",
+ "dwelling": "아파트",
+ "workplace": {
+  "job_type": "급여소득자",
+  "name": "(주)새한소프트",
+  "department": "경영지원팀",
+  "position": "차장",
+  "hire_date": "2014년 12월 01일",
+  "annual_income": "6,700만원",
+  "address": null
+ },
+ "debts": [
+  {
+   "lender": "카카오뱅크",
+   "kind": "보험약관대출",
+   "balance": "3,800,000",
+   "maturity": "2029.10.19",
+   "refinance": "유지"
+  },
+  {
+   "lender": "OK저축은행",
+   "kind": "자동차할부",
+   "balance": "10,000,000",
+   "maturity": "2031.02.13",
+   "refinance": "유지"
+  },
+  {
+   "lender": "신한은행",
+   "kind": "신용대출",
+   "balance": "8,000,000",
+   "maturity": "2029.02.10",
+   "refinance": "유지"
+  },
+  {
+   "lender": "토스뱅크",
+   "kind": "보험약관대출",
+   "balance": "2,200,000",
+   "maturity": "2027.09.05",
+   "refinance": "유지"
+  },
+  {
+   "lender": "OK저축은행",
+   "kind": "자동차할부",
+   "balance": "7,700,000",
+   "maturity": "2029.07.22",
+   "refinance": "유지"
+  },
+  {
+   "lender": "새마을금고",
+   "kind": "학자금대출",
+   "balance": "9,900,000",
+   "maturity": "2027.08.07",
+   "refinance": "유지"
+  },
+  {
+   "lender": "우리은행",
+   "kind": "현금서비스",
+   "balance": "4,500,000",
+   "maturity": "2029.12.29",
+   "refinance": "유지"
+  },
+  {
+   "lender": "토스뱅크",
+   "kind": "자동차할부",
+   "balance": "10,000,000",
+   "maturity": "2028.01.22",
+   "refinance": "유지"
+  }
+ ],
+ "assets": [
+  {
+   "kind": "아파트",
+   "location": "광주광역시 서구 내방로 75",
+   "value": "450,000,000"
+  },
+  {
+   "kind": "적금",
+   "location": "현대카드",
+   "value": "10,100,000"
+  },
+  {
+   "kind": "적금",
+   "location": "현대카드",
+   "value": "7,900,000"
+  }
+ ],
+ "loan": {
+  "subject": "전세자금대출",
+  "product": "HUG 전세보증금대출",
+  "amount_korean": "금 이억칠천이백만원정",
+  "amount": "272,000,000",
+  "term": "24개월",
+  "hope_date": "2025년 12월 07일",
+  "repayment": "만기일시",
+  "rate_type": null,
+  "interest_day": "매월 10일",
+  "purpose_category": "주택임차",
+  "purpose": "주택 임차보증금",
+  "debit_bank": "농협은행",
+  "debit_account": "628-8975-1402-61",
+  "debit_holder": "김소윤"
+ },
+ "collateral": "보증",
+ "collateral_detail": "서울보증보험(SGI) 보증서",
+ "co_borrower": {
+  "name": "김승성",
+  "rrn": "900306-1******",
+  "relation": "배우자",
+  "mobile": "010-6066-8711",
+  "workplace": null
+ },
+ "agent": {
+  "name": "김승성",
+  "rrn": "900306-1******",
+  "relation": "배우자",
+  "phone": "010-6066-8711",
+  "poa": "첨부"
+ },
+ "manual_received": "예",
+ "consent": "동의함",
+ "apply_date": "2025년 11월 29일",
+ "signature": "김소윤",
+ "seal": {
+  "applicant": false,
+  "co_borrower": true,
+  "agent": false
+ },
+ "sign": {
+  "applicant": true,
+  "co_borrower": false,
+  "agent": true
+ }
+}

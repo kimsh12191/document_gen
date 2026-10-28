@@ -1,0 +1,63 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_no": {
+   "label": "발급번호",
+   "type": "text",
+   "source": "code"
+  },
+  "person.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "person.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "purpose": {
+   "label": "용도",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "rows": {
+   "source": "code",
+   "fields": {
+    "end": {
+     "label": "자격상실일",
+     "type": "text",
+     "source": "code"
+    },
+    "kind": {
+     "label": "가입자구분",
+     "type": "text",
+     "source": "code"
+    },
+    "start": {
+     "label": "자격취득일",
+     "type": "text",
+     "source": "code"
+    },
+    "workplace": {
+     "label": "사업장명칭",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

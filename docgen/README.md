@@ -1,0 +1,380 @@
+# 서류 생성기 (docgen)
+
+고객이 은행에 제출하는 서류 **545종**(기존 HTML 70 + 공식 대조 HTML 69 + 하나은행 PDF 배경 406)에 가상 고객 데이터를 채워 **VLM 정보추출(Key Information Extraction) 학습 데이터**를 만듭니다. 기존 HTML은 합성용 양식이며 모두 공식 원문 재현본인 것은 아닙니다.
+
+- **외부 발급 서류 56종**: 신분증, 등·초본, 가족관계증명서, 소득금액증명원, 원천징수영수증, 등기부등본, 사업자등록증, 재무제표, 인보이스 등
+- **은행 서식 14종 (HTML 템플릿)**: 대출신청서, 여신거래약정서, 근저당권설정계약서, 고객확인서(KYC), 해외송금신청서 등
+  - 은행별 표기(은행명·법인명칭·서식번호 줄·결재란·인쇄색·계좌번호)가 다르게 나옵니다.
+  - **하나은행**과 옛 은행 **KEB하나은행(2015~2020)**, **외환은행(~2015.8)** 서식도 만듭니다. 옛 은행 서식은 그 시기 날짜와 제도로 만들어집니다. → [docgen/manual/realism/bank_brands.md](manual/realism/bank_brands.md)
+- **하나은행 원본 서식 406종**: 하나은행 공개 서식 PDF를 그대로 배경으로 깔고 손님이 쓴 것처럼 값을 얹습니다. 서식 모양은 원본과 똑같습니다. → [하나은행 원본 서식](#하나은행-원본-서식-원본-pdf-오버레이)
+
+| | 종수 | 방식 |
+|---|---:|---|
+| **HTML 템플릿** | 70 | 서식마다 Jinja2 템플릿과 전용 생성 함수를 둡니다. 글꼴·선·여백이 샘플마다 바뀝니다. |
+| **공식 대조 HTML** | 69 | 하나은행 44종·정부 별지 25종. 공식 PDF의 문구·표 배치를 HTML 글자·SVG 도형으로 옮기고 출처·개정 표기·원문 해시를 기록합니다. 기존 버전도 보존합니다. |
+| **원본 PDF 오버레이** | 406 | 원본 PDF가 배경이고, PDF에서 찾은 기재 자리에 손글씨/인쇄체로 값을 씁니다. |
+
+Studio의 ① 서식에서 `공식대조 HTML`로 검색하세요. 기존 70종 각각의 매칭 결과, 추가한 서식 목록, 공식 원문 링크, 아직 대조하지 못한 항목은 [공식 서식 대조표](manual/OFFICIAL_HTML_AUDIT.md)에 있습니다. 새 HTML도 생성값·라벨을 검수한 뒤 데이터셋에 사용합니다.
+
+### 서식 = 폴더 하나
+
+서식 하나는 폴더 하나입니다. 서식 종류(원본 PDF·견본 그림·HTML)에 따라 다른 것은 `look/` 안의 모양 파일뿐입니다.
+
+```
+docgen/forms/<ID>/                 공개 서식 (실서류에서 만든 서식은 $DOCGEN_PRIVATE_FORMS/<ID>/ 에 같은 꼴)
+  look/                            모양: original.pdf (hf###) · page_0.png … (img_*) · template.html.j2 (html)
+  fields.json                      칸 목록: 키·항목명·값 출처·위치 — 사람이 고치는 곳은 이 파일 하나 (아래 "서식 수정 파일")
+  layout.json                      overlay 자동 추출 초안 (hf### 은 PDF 에서 뽑은 것). fields.json 을 처음 만들 때만 썼다
+  form.json                        복제·분석기 html 서식: 이름·그룹·부모 서식·출처
+  variants/                        html 레이아웃 변형 (variants.json, <변형>.html.j2)
+```
+
+- **값이나 칸을 고치려면** → `fields.json` (studio ① 서식 › 영역 편집, 복제 서식의 값 선언은 html 편집)
+- **html 서식의 표·문구 모양을 고치려면** → `look/template.html.j2` (복제 서식은 studio html 편집). overlay 서식은 모양(원본 그림)을 바꾸지 않습니다.
+- 코드 서식 70종은 값을 `docgen/docs/<그룹>.py` 의 생성 함수가 만듭니다. 여러 서식이 같이 쓰는 틀(`_base`·`_macros`·`_real_form`, 그룹 부품)은 `docgen/templates/` 에 남습니다.
+- 서식 하나의 파일을 모두 보려면 `python -m docgen.formdir path <ID>`.
+- 모양(껍데기)만 원본에 맞게 고치기 — 사람·VLM 공용 안내: [manual/FORM_SHELL_GUIDE.md](manual/FORM_SHELL_GUIDE.md)
+
+- 전체 목록: [guide/documents.md](../guide/documents.md)
+- 하나은행 공개 서식 441건 대응표: [docgen/manual/FORM_MAP.md](manual/FORM_MAP.md)
+- 서류별 샘플 이미지와 정답: [samples/](samples/)
+
+모든 데이터는 학습용 **합성 데이터**이며 실존 인물·사업자와 무관합니다.
+
+## 특징
+
+| | |
+|---|---|
+| **정답이 문서와 항상 일치** | 템플릿의 모든 값은 `f("경로")`로 출력되고, 화면에 찍힌 문자열이 그대로 GT로 기록됩니다. |
+| **고객 단위 일관성** | 같은 고객 프로필로 만든 서류들은 이름·주민번호·주소·회사·소득·부동산·계좌가 서로 맞습니다. 급여명세서 실수령액은 통장 급여 입금액과 같고, 등기부 근저당은 대출 약정과 같은 식입니다. |
+| **숫자 정합성** | 합계, 세액(누진세율·4대보험), 잔액 흐름, 대차대조(자산=부채+자본), 환율 환산, 한글 금액(`금 이억일천사백만원정`)이 계산으로 맞춰집니다. |
+| **식별번호 형식** | 주민번호, 사업자번호, 법인등록번호는 체크섬까지 맞는 형식으로 생성됩니다(값은 랜덤). 여권 MRZ도 ICAO 체크디지트를 적용합니다. |
+| **시각 다양성** | 샘플마다 폰트(나눔·Noto·명조 계열), 글자 크기, 선 굵기, 배경색, 여백이 바뀝니다. 서류 안에서도 열람용/발급용, 마스킹 여부, 선택 항목 등이 랜덤입니다. |
+| **형식 변형·여러 쪽** | 사람마다 사정이 다른 경우가 랜덤으로 섞입니다. 이사가 잦은 초본, 근저당이 반복된 등기부, 임원 변경이 많은 법인등기부, 품목이 많은 인보이스처럼 내용이 길면 자동으로 여러 쪽이 됩니다. 말소·개명·이혼·특약·손글씨 정정 같은 특수 상황도 나옵니다. → [서식 변형](#서식-변형-여러-쪽특수-상황) |
+| **스캔·촬영 증강** | 기울기, 배경, 조명, 흐림, 노이즈, 팩스, JPEG 압축 효과를 줍니다. |
+| **위조 방지** | 신분증, 여권, 인감증명서 등 신원 서류는 항상 "견본 SAMPLE" 워터마크가 들어갑니다. 실제 기관 로고·관인·보안패턴은 넣지 않습니다. |
+
+## 설치
+
+```bash
+pip install -r docgen/requirements.txt
+python -m playwright install chromium     # PNG 렌더링에 필요 (HTML만 만들 땐 불필요)
+# 한글 폰트: Ubuntu 기준
+sudo apt-get install fonts-nanum fonts-noto-cjk
+```
+
+Chromium을 이미 설치했다면 `CHROMIUM_PATH=/path/to/chrome`으로 지정할 수 있습니다.
+
+`pymupdf`는 하나은행 원본 서식(`hana` 그룹)의 배경 이미지를 만들고 기재 자리를 뽑는 데 씁니다.
+
+## 사용법
+
+```bash
+# 서류·시나리오 목록
+python -m docgen list
+
+# 전 서류 x 고객 100명 → HTML + 정답 JSON (476종 x 100명이라 오래 걸립니다)
+python -m docgen generate --n 100 --out out
+
+# 이미지(PNG) + 위치 + ms-swift 학습 jsonl 까지
+python -m docgen generate --n 100 --out out --png
+
+# 샘플마다 스캔/촬영 증강 이미지 2장 추가
+python -m docgen generate --n 100 --out out --png --augment 2
+
+# 특정 서류나 그룹만
+python -m docgen generate --types income_certificate,pay_stub --n 50 --out out --png
+python -m docgen generate --types corporate,fx --n 50 --out out --png
+
+# 은행 서식을 특정 은행으로 (하나은행, KEB하나은행, 외환은행, 국민은행, ...)
+python -m docgen generate --types bank_form --bank 하나은행 --n 50 --out out --png
+python -m docgen generate --types hana --n 30 --out out --png              # 하나은행 원본 서식 406종
+python -m docgen generate --bank 외환은행 --n 50 --out out --png   # 옛 은행: 은행 서식만 생성
+
+# 업무 시나리오 단위 (같은 고객의 제출 서류 묶음)
+python -m docgen generate --scenario mortgage --n 30 --out out --png
+
+# 템플릿 검증 (예외, 표시되지 않은 값, 페이지 넘침)
+python -m docgen check --png
+```
+
+시나리오는 12개입니다: `account_opening`, `personal_credit_loan`, `mortgage`, `jeonse_loan`, `sole_proprietor_loan`, `corporate_credit`, `fx_remittance`, `study_abroad_remittance`, `irp_opening`, `retirement_payout`, `efinance_signup`, `inheritance`
+
+## 벤치마크 (OCR·은행업무)
+
+같은 생성기로 **고정된 평가 세트**를 만들어 모델을 잽니다. 과제는 OCR(값 칸 인식, 전체 받아쓰기), 문서 이해(분류, 정보 추출, 체크·도장·서명), 은행 업무(서류 구비 확인, 서류 간 대조, 심사 질의)입니다. 서류 간 대조는 실제 심사 사례를 바탕으로 한 불일치 14종(오기, 타인 서류, 소득 부풀리기, 임대인≠등기부 소유자, 업계약 등)을 일부러 섞어 만듭니다. 자세한 내용은 [guide/benchmark.md](../guide/benchmark.md)에 있습니다.
+
+내부망 서버에서 Docker 로 돌리고 윈도우에서 SSH 로 접속해 쓰는 방법은 [docker/README.md](../docker/README.md)에 있습니다.
+
+```bash
+python -m docgen.bench build --out bench_out                                   # 평가 세트
+python -m docgen.bench build --split train --out bank_train --per-doc 0 \
+    --bundles 100 --workers 8                                                   # 은행 업무 학습 데이터 (swift/)
+python -m docgen.bench run --bench bench_out --pred preds/my_model \
+    --base-url http://localhost:8000/v1 --model <모델>                          # OpenAI 호환 API 로 예측
+python -m docgen.bench eval --bench bench_out --pred preds/my_model            # 채점 → report.md
+```
+
+평가 세트는 고객 seed 1,000,000 이상을 씁니다. `generate` 학습 데이터는 그보다 작은 seed로 만드세요 (`--split train`은 평가 세트와 겹치지 않는 seed를 따로 씁니다).
+
+## 출력 구조
+
+```
+out/
+  html/<서류ID>_<seed>.html              렌더링된 HTML
+  images/<서류ID>_<seed>.png             (--png) 이미지. 여러 쪽이면 _p1.png, _p2.png ...
+  images/<서류ID>_<seed>_aug0.jpg        (--augment) 스캔·촬영 증강 이미지
+  labels/<서류ID>_<seed>.json            정답 + 필드별 타입·정규화 값·위치
+  manifest.jsonl                         샘플 목록
+  swift/<과제>.jsonl, swift/all.jsonl    (--png) ms-swift 학습 데이터
+```
+
+같은 `seed`(파일명 숫자)를 가진 서류들은 같은 고객의 서류입니다. 은행 서식의 label·manifest에는 서식을 낸 은행이 `bank`로 기록됩니다.
+
+`--bank`를 주지 않으면 고객의 약 10%는 외환은행, 6%는 KEB하나은행 서식으로 만들어집니다(시나리오 생성 제외). 이 서식들은 2011~2020년 날짜이므로 같은 고객의 외부 발급 서류와 날짜가 맞지 않습니다.
+
+### labels/*.json
+
+```json
+{
+ "id": "loan_application_000003", "doc_type": "loan_application", "doc_name": "대출거래신청서",
+ "images": ["images/loan_application_000003.png"], "pages": [{"width": 1588, "height": 2246}],
+ "fields": [
+  {"key": "loan.amount", "label": "대출신청금액", "type": "amount", "value": "56,000,000",
+   "norm": 56000000, "page": 0, "bbox": [x0, y0, x1, y1], "label_bbox": [x0, y0, x1, y1]},
+  {"key": "loan.rate_type", "label": "금리방식", "type": "checkbox", "value": "변동", "page": 0,
+   "options": [{"text": "고정", "checked": false, "box_bbox": [...], "bbox": [...]},
+               {"text": "변동", "checked": true,  "box_bbox": [...], "bbox": [...]}]},
+  {"key": "seal.applicant", "label": "신청인", "type": "seal", "present": true, "kind": "인감",
+   "value": "김나우", "anchor": "signature", "page": 0, "bbox": [...]},
+  {"key": "sign.applicant", "label": "신청인", "type": "signature", "present": false, "page": 0, "bbox": [...]}
+ ],
+ "gt": {"loan": {"amount": "56,000,000", "rate_type": "변동"}, "seal": {"applicant": true}, "sign": {"applicant": false}}
+}
+```
+
+- **좌표:** 이미지 픽셀 `[x0, y0, x1, y1]`, 해당 쪽(`page`, 0부터) 왼쪽 위 기준입니다.
+- **값(`value`)과 정규화 값(`norm`):** `value`는 문서에 찍힌 그대로, `norm`은 날짜 `YYYY-MM-DD`, 금액 정수, 전화번호 숫자 등입니다. 빈 칸은 `null`입니다.
+- **체크박스:** 보기마다 체크 여부와 □/■ 칸 위치(`box_bbox`)가 있습니다. 정답 값은 체크된 보기입니다.
+- **도장·서명:** `seal.<자리>`, `sign.<자리>`. 서명란은 랜덤으로 도장 / 서명 / 빈 칸이 되고, 없을 때도 그 자리 위치가 기록됩니다.
+- **키 목록과 규칙:** 서류별 전체 키·항목명·타입은 [guide/fields/](../guide/fields/README.md)(기계용 `guide/fields/fields.json`)에 있습니다.
+- **좌표 확인:** `python docgen/scripts/visualize_labels.py out/labels/<파일>.json` 으로 위치를 그린 이미지를 만듭니다.
+
+### swift/*.jsonl (ms-swift 학습용)
+
+Qwen-VL 계열을 ms-swift로 학습하는 형식입니다. 한 줄이 학습 샘플 하나입니다.
+
+```json
+{"id": "loan_application_000003:kie", "task": "kie", "augment": "clean",
+ "images": ["images/loan_application_000003.png"],
+ "messages": [{"role": "user", "content": "<image>이 문서의 종류를 판별하고, ... JSON으로 추출하세요."},
+              {"role": "assistant", "content": "{\"document_type\": \"대출거래신청서\", \"loan\": {...}}"}]}
+```
+
+| 과제 | 질문 | 답 |
+|---|---|---|
+| `kie` | 전체 추출 | 서류 종류 + 전체 정답 JSON (빈 칸 null, 도장·서명 true/false) |
+| `kie_keys` | 지정한 키 목록 (문서에 없는 키도 가끔 섞음) | 그 키들만 평탄 JSON, 없으면 null |
+| `grounding` | 위치 포함 추출 | `[{"key", "label", "value", "bbox_2d"}]` |
+| `marks` | 체크박스·도장·서명 판별 | 체크 상태·날인·서명 여부와 위치 |
+| `qa` | 항목 하나 질문 | 값 또는 예/아니오 |
+
+- **좌표(`bbox_2d`):** 기본은 0~1000 상대 좌표 정수입니다(Qwen2-VL·Qwen3-VL 방식). `--coord pixel`이면 픽셀 좌표입니다. 학습할 모델 버전의 좌표 방식을 한 번 확인하세요.
+- **여러 쪽 서류:** `<image>`가 쪽 수만큼 들어가고, 위치 답에 `page`(1부터)가 붙습니다.
+- **증강 이미지:** 회전·이동·축소를 위치 정답에도 똑같이 적용하므로 `grounding`/`marks`에도 씁니다.
+- **경로:** `images`는 출력 폴더 기준 상대 경로입니다. 학습은 출력 폴더에서 실행하거나 경로를 바꿔 쓰세요.
+- 일부 과제만: `--tasks kie,kie_keys`
+
+```bash
+python -m docgen generate --n 500 --out out --png --augment 2
+cd out && swift sft --model <Qwen-VL 모델> --dataset swift/all.jsonl ...
+```
+
+## 서식 변형 (여러 쪽·특수 상황)
+
+서류마다 실제로 생기는 예외적인 경우가 정해진 확률로 섞여 나옵니다. 서류별 경우·확률·새 키는 [docgen/manual/variants/](manual/variants/)에 있습니다.
+
+- **내용이 많은 경우(heavy):** 서류마다 15~35% 확률입니다. 주소이력 20~40건, 거래 수백 줄, 품목 20~60개처럼 내용이 길어집니다.
+- **여러 쪽 나눔:** 브라우저에서 자동으로 합니다 ([docgen/paginate.js](../docgen/paginate.js)).
+  - 표는 줄 단위로 자르고 머리글 줄을 다음 쪽에 반복합니다.
+  - 발급번호 줄은 쪽마다 다시 찍힙니다.
+  - 쪽 번호와 "다음 쪽에 계속"이 들어갑니다. 영문 서류는 "Page 1 of 3"입니다.
+  - 발급기관과 직인은 마지막 쪽에 옵니다.
+- **특수 상황(special):** 서류마다 2~5가지가 있고, 각각 5~30% 확률입니다.
+  - 예: 등기부 말소사항(빨간 밑줄·취소선), 초본 개명, 가족관계 이혼·재혼·사망, 법인 상호·본점 변경, 계약서 특약, 납세 유예, 신용장 거래.
+- **손글씨 정정:** 고객이 손으로 쓰는 서식(은행 서식, 계약서, 위임장, 서면 신고서)에서 4~8% 확률로 나옵니다.
+  - 틀린 값에 두 줄을 긋고, 옆에 바른 값과 작은 정정 도장을 찍습니다.
+  - 정답은 바른 값이고, 라벨의 `corrected_from`에 틀린 값이 남습니다.
+- **같은 고객의 서류는 같은 사정을 공유합니다.** 예를 들어 상호 변경일은 등기부, 정관, 사업자등록증에서 같습니다.
+
+확률을 바꾸려면 환경변수를 씁니다.
+
+```bash
+DOCGEN_HEAVY=1 python -m docgen generate ...          # 내용이 많은 경우를 항상 (0 이면 끔)
+DOCGEN_SPECIAL=all python -m docgen generate ...      # 특수 상황을 모두 켬 (none 이면 끔, 이름,이름 이면 그것만)
+```
+
+**학습 시 참고 (Qwen-VL):**
+- 여러 쪽 서류는 이미지 여러 장이 한 샘플에 들어갑니다.
+  - 쪽마다 이미지 토큰이 들고, 긴 서류는 3~4쪽까지 나옵니다.
+  - ms-swift의 `MAX_PIXELS`(이미지 한 장의 최대 픽셀)와 `--max_length`를 함께 정하세요.
+- 기본 `--scale 2.0`이면 A4 한 쪽이 약 1588×2246 픽셀(1.5면 1190×1684)입니다.
+  - `MAX_PIXELS=1003520`(약 1280개의 28×28 칸)이면 쪽당 약 1280 토큰입니다.
+  - 등기부·명세서처럼 글자가 작은 서류는 해상도를 너무 줄이면 읽기 어려우니 확인해 보세요.
+
+## 하나은행 원본 서식 (원본 PDF 오버레이)
+
+하나은행 공개 서식 PDF(서식 폴더의 `look/original.pdf`, 내려받은 목록·안내문은 `docgen/forms/하나은행_서식자료/`)는 **원본을 그대로 배경으로 깔고 값만 얹어** 만듭니다. HTML로 서식을 다시 그리지 않으므로 이미지 속 서식은 원본과 똑같습니다. 서류 ID는 `hf<No>`(No는 엑셀 목록 번호), 그룹은 `hana`입니다.
+
+```bash
+python -m docgen generate --types hana --n 1 --png --out out     # 원본 서식 전부
+python -m docgen generate --types hf169 --n 3 --png --out out    # 한 서식만
+```
+
+1. **기재 자리 뽑기** — [scripts/extract_form_layout.py](scripts/extract_form_layout.py)가 PDF의 글자(위치·색)와 표 선에서 고객이 쓰는 자리를 찾아 서식 폴더의 `docgen/forms/hf<No>/layout.json`에 저장합니다. 레이아웃의 `"file"`은 원본을 내려받은 자리 기록입니다.
+   - `text`: 라벨 칸 오른쪽(또는 머리글 아래)의 빈 칸, 같은 칸 안 라벨 오른쪽 빈자리, `성명 : ____` 같은 콜론 뒤 빈칸
+   - `check`: `□` 보기 묶음 (`□` 위치와 보기 글자 위치)
+   - `date`: `년 월 일` 빈칸, `sign`: `(서명 또는 인)` 자리, `copy`: 회색 안내 문구를 따라 쓰는 자필 기재란
+   - 회색 안내 글자(`상품명 전체 자필기재`)는 빈 칸으로, 결재란·전산인자란·은행 사용란은 고객 칸이 아닌 것으로 봅니다.
+   - `staff`: 결재란(담당·책임자·본인확인·부점장 …) 칸 이름 아래(또는 오른쪽)의 도장 칸. 쪽마다 `pages[i].staff`에 따로 저장합니다(원본 서식 155종, 426칸). 기존 레이아웃에 이것만 다시 뽑을 때는 `--staff-only`.
+2. **값 채우기** — [docgen/realform.py](../docgen/realform.py)가 항목명으로 값을 정합니다.
+   - 성명·생년월일·주소·전화·계좌 같은 항목은 고객 프로필에서 가져옵니다(같은 고객의 다른 서류와 일치).
+   - `대리인`·`받는 분` 구역의 성명·연락처는 대리인·해외 수취인 값으로 바뀝니다.
+   - 나머지는 항목명 끝말로 종류(날짜·금액·비율·번호·상품명·회사명 …)를 정하고, 뜻을 모르는 칸은 비워 둡니다.
+   - 표의 반복 행(상품명·매수비율 …)은 위에서부터 몇 줄만 채우고, 비율은 합이 100이 되게 나눕니다.
+3. **그리기** — [docgen/templates/\_real_form.html.j2](templates/_real_form.html.j2)가 쪽마다 PDF 이미지를 깔고 값을 절대 위치로 얹습니다.
+   - 글씨: 서류마다 손글씨(나눔손글씨 펜·붓, 하이멜로디, 감자꽃 — `docgen/fonts/`, OFL) 70%, 인쇄체 30%. 손글씨는 글자마다 조금씩 기울고 흔들립니다.
+   - 체크: 손으로 그은 V(SVG), ■ 칠하기, ○ 중 하나. 도장·서명은 기존 서류와 같은 모양입니다.
+   - 결재란: 은행이 접수·처리한 서류처럼 직원 도장·서명을 찍습니다. 서류의 85%는 처리된 서류로 보고, 그 안에서 칸마다 85% 확률로 찍습니다(나머지는 빈칸). 찍을 때는 직원 이름 원형 도장 50%, 사각 도장(직원 이름 또는 `확인`·`검인`) 20%, 서명 30%입니다. 같은 칸 이름은 한 서류 안에서 같은 직원입니다.
+   - 배경 PNG는 처음 쓸 때 PDF에서 만들어 `~/.cache/docgen/bg/`에 둡니다. 배경과 글꼴은 렌더러가 `https://docgen.local/` 주소로 넘겨 줍니다(HTML만 열면 배경이 보이지 않습니다).
+4. **정답** — 다른 서류와 같은 `f()` 규약이라 GT·위치·ms-swift 학습 데이터가 그대로 나옵니다. 키는 표준 항목은 영어 경로(`customer.name`, `account`, `agent.name`), 서식 고유 항목은 한글 항목명(`매수비율`), 표 행은 `기업부담금_목록.0.상품명` 꼴입니다. 결재란은 `seal.staff.<칸 이름>`·`sign.staff.<칸 이름>`(예: `seal.staff.책임자`)이고 `kind`가 `행원인`이라 고객 도장(`인감`)과 구분됩니다.
+
+서식별 등록 여부와 찾은 자리 수는 [docgen/manual/FORM_MAP.md](manual/FORM_MAP.md)에 있습니다 (`python docgen/scripts/form_map.py > docgen/manual/FORM_MAP.md`).
+PDF가 바뀌거나 추출 규칙을 고치면 `python docgen/scripts/extract_form_layout.py`(전체) 또는 `--no 169`(한 건, 결과 요약 출력)로 다시 뽑습니다.
+
+## 구조
+
+이 폴더 하나에 생성기 코드와 재료(서식·글꼴·견본·스크립트·레시피)가 모두 있습니다. 명령은 저장소 최상위에서 `python -m docgen …`, `python docgen/scripts/….py` 로 돌립니다.
+
+```
+docgen/
+  korean.py, entities.py   이름·주소·번호·금액·날짜 포맷, 고객 프로필 (본인·가족·직장·사업체·법인·부동산·계좌·해외거래처)
+  registry.py              서류 등록(@doc), 그룹, 업무 시나리오 (scenarios.json 에서 읽음)
+  banks.py                 은행별 서식 표기, 옛 은행(외환·KEB하나) 시기 이동
+  render.py                Jinja2 렌더링 + 정답 수집(f(), 체크박스·도장·서명 기록), 랜덤 스타일
+  schema.py, swift.py      타입 추론·정규화 값·키 통일, ms-swift 학습 레코드 (과제별)
+  image.py, paginate.js    Playwright 로 PNG + 위치 (값·항목명·체크칸·도장·쪽 전체 글자), 넘친 쪽 나누기
+  augment.py               스캔/촬영/팩스 증강
+  realform.py              하나은행 원본 서식 오버레이 (레이아웃 → 값 → 렌더링 지시, 배경·글꼴), 가져온 이미지 서식
+  formdir.py               서식 폴더 (서식 하나 = 폴더 하나): 파일 자리를 여기서만 정함, 예전 자리 읽기·옮기기
+  formfields.py, overrides.py   overlay 칸 목록(fields.json)과 영역 편집기가 고친 것을 합쳐 쓰기
+  regions.py, html_regions.py   html 사람 수정 파일(regions.json)과 html 수정층
+  sources.py, marks.py     값 출처 규칙, 표시 요소(손글씨·체크·도장·서명)
+  htmlform.py              화면에서 만든 html 서식 (복제·분석기, 서식 폴더의 look/template.html.j2 + form.json)
+  preview.py               서식 하나 미리보기 (studio 가 씀). 명령줄: python -m docgen.preview <서식ID>|--dir <폴더> [--rows max] --out <폴더>
+  ocr_export.py, ocr_set.py   생성 정답 → 사내 OCR 형식, 합성 OCR 세트 (OCR 준비 → 과제 폴더)
+  cli.py                   list / generate / check
+  bench/                   은행 업무 벤치마크: 평가 세트·학습 데이터 만들기(build), 모델 실행(run), 채점(eval) — guide/benchmark.md
+  docs/*.py                서류별 데이터 생성 함수 (그룹별 파일, docs/real_forms.py 가 원본 서식 전부를 등록)
+  scenarios.json, keys.json, marks.json, catalog.json   업무 시나리오, 표준 키 사전, 표시 설정, 서식 검수·배정 (studio 가 고침)
+
+  forms/<ID>/               서식 폴더 545종 + 등록 안 되는 hf 레이아웃 (위 "서식 = 폴더 하나")
+  forms/하나은행_서식자료/  원본 다운로드 보관 (목록 csv·안내문, 레이아웃이 없는 파일). forms/official_sources/: 공식 원본 대조용 PDF
+  templates/               여러 서식이 같이 쓰는 Jinja2 틀만: _base·_macros(공통), _real_form(원본 서식 오버레이),
+                           _official_*(공식 대조 HTML), 그룹 부품(bank_form/_loan_parts.html.j2 등)
+  assets/marks/            표시 요소 풀 (pools.json, 올린 체크·서명 이미지)
+  fonts/                   손글씨 글꼴 (woff2, SIL OFL) + studio 표시 요소 화면에서 경로로 등록한 글꼴
+  samples/                 서류별 대표 샘플 이미지·정답 (scripts/make_samples.py)
+  recipes/                 데이터셋 레시피 (docgen.bench build --recipe, docgen.ocr_set build --recipe, studio 가 고침)
+  scripts/                 extract_form_layout.py(서식 PDF → 기재 자리), form_map.py(→ manual/FORM_MAP.md), make_samples.py,
+                           build_schema.py(→ guide/fields/), build_keys.py(→ keys.json), visualize_labels.py, make_bank_data.sh(문서·업무 과제 데이터)
+  manual/                  TEMPLATE_GUIDE.md(서식 추가 방법), FORM_MAP.md, REALISM_STATUS.md·realism/(현실성 점검), variants/(서식 변형)
+  tests/                   pytest (생성기·벤치마크)
+  requirements.txt         생성기 파이썬 패키지 (도커 이미지는 docker/requirements.lock)
+```
+
+학습은 옆 폴더 `train/`(`python -m train`)에서 합니다. 이 생성기의 평가 세트·학습 데이터와 OCR 준비 결과를 studio 데이터셋으로 등록해 섞어 씁니다. 채점·GRPO 보상은 모두 `docgen/bench/evaluate.py` 입니다.
+
+은행이 직접 쓰는 서식 그룹(`bank_form`)은 `registry.BANK_FORM_GROUPS`로 묶여 있습니다. 이 그룹의 서류는 렌더링할 때 서식을 낸 은행(옛 은행 포함)에 맞춰 프로필이 바뀌고, 템플릿에 서식 문맥 `bk`가 들어갑니다. 그룹을 새로 만들 때 이 집합에 넣어 주면 같은 동작을 받습니다.
+
+서류를 추가하거나 수정하는 방법은 [docgen/manual/TEMPLATE_GUIDE.md](manual/TEMPLATE_GUIDE.md)를 보세요.
+
+## 서식 현실화 현황
+
+HTML 템플릿 70종을 실제 서식과 비교해 서식 번호, 항목 구성·순서, 라벨 문구, 고정 문구를 맞췄습니다. (하나은행 원본 서식 406종은 원본 PDF 자체를 쓰므로 해당 없음.) 비교 대상은 법령 별지 서식, 은행연합회 표준, 공공기관 발급본입니다. 서류별 근거, 출처, 수정 내용은 [docgen/manual/REALISM_STATUS.md](manual/REALISM_STATUS.md)에 있습니다. 담당 그룹별 원본과 메모는 `docgen/manual/realism/*.md`에 있습니다.
+
+- **반영(검색근거) 69종:** 웹 검색 결과를 두 곳 이상에서 교차 확인해 반영했습니다. 원본 서식 이미지·PDF를 직접 열어 대조하지는 못했습니다. 작업 환경의 네트워크 정책으로 law.go.kr, gov.kr, kfb.or.kr 등에 접속할 수 없었기 때문입니다.
+- **보류 1종(부채증명서):** 은행별 실제 표 구성을 확인하지 못해 기존 서식을 유지했습니다.
+- **원본 대조 방법:** 해당 도메인 접속을 허용하거나 실제 서류 스캔본을 주면 칸 배치까지 대조해 `반영(원본대조)`로 올릴 수 있습니다.
+
+현실화 과정에서 일부 GT 키가 바뀌었습니다. 예를 들어 위임장 `agent.rrn`은 `agent.birth`가 되었고, FATCA `us_person`은 `residence_category`가 되었습니다. 서류별 변경 내역은 `docgen/manual/realism/*.md`에 있습니다.
+
+## 알려진 한계
+
+- **원본 서식의 기재 자리 인식:** PDF의 글자·선으로 자리를 찾으므로 복잡한 서식(은행거래신청서처럼 칸이 촘촘하고 색이 많은 것)은 일부 칸을 못 찾아 빈칸으로 남습니다. 표 인식이 칸을 잘못 나눈 곳은 값이 칸 경계에 걸치기도 합니다. 서식별 찾은 자리 수는 [docgen/manual/FORM_MAP.md](manual/FORM_MAP.md)에 있습니다.
+- **원본 서식의 값:** 성명·주소·계좌 등 표준 항목은 고객 프로필과 이어지지만, 서식 고유 항목(채권번호·HS코드 …)은 항목명으로 종류만 추론한 값이고 뜻을 모르는 칸은 비워 둡니다. 서식 고유 항목의 키는 한글 항목명입니다.
+- **원본 서식에서 빠진 것:** XLS·DOC·EXE 원본, 고객 기재란이 없는 인쇄물(약관·안내장 등), 글자 인코딩이 깨진 영문 서식 1종 등 35종은 넣지 않았습니다. [docgen/manual/FORM_MAP.md](manual/FORM_MAP.md)에 표시돼 있습니다.
+- **확인하지 못한 세부 항목:** 표의 칸 배치, 일부 안내 문구, 서식 번호의 최신 개정일 등은 검색으로 확인하지 못했습니다. 은행 서식의 서식번호 일부는 형식만 실제와 같은 임의값입니다.
+- **긴 서류와 신분증:** 내용이 길면 여러 쪽으로 나오지만, 약정서 약관 전문처럼 매우 긴 고정 문구는 일부만 넣었습니다. 신분증은 앞면만 있습니다.
+- **필기 표현:** 서명은 선으로 그린 낙서 모양입니다. 원본 서식의 손글씨는 손글씨 글꼴 4종이라 사람마다 다른 필체의 다양성은 제한적입니다. HTML 템플릿 서류의 자필 기재란은 일반 폰트로 흉내 냈습니다.
+- **변형 문구:** 말소 표시 방식, 공증 문구, 감면 코드 등 일부 특수 상황의 문구는 실제 서식으로 확인하지 못한 추정입니다. 서류별 메모는 [docgen/manual/variants/](manual/variants/)에 있습니다.
+- **스캔·촬영 실제감:** 증강은 Pillow 기반의 단순한 효과입니다. 원근 왜곡이나 구겨짐은 없습니다.
+- **조합의 개연성:** 한 고객이 근로자이면서 개인사업자이자 법인 대표로 생성됩니다. 서류별로는 문제가 없지만 시나리오를 넘나들면 비현실적인 조합이 됩니다.
+
+## 제출 역할·값 영역·이미지 점검
+
+Studio ③은 `document_roles.json`의 제출 역할마다 실제 서식 하나를 선택합니다. 기존 HTML·공식 HTML·overlay를 같은 역할의 변형으로 묶되 신청서/증명서·개인/법인·증명 범위는 구분합니다. `scenarios.json.docs`에는 선택한 실제 ID가 저장되며 CLI 빌드도 그 선택을 사용합니다. 역할과 필드 스키마는 별개라, 교체 후 직접 추출·비교 키를 다시 선택해야 합니다.
+
+HTML 글자 값 영역은 Studio ①의 영역 편집에서 고칩니다. overlay와 같은 수정 파일 `forms/<ID>/regions.json`(아래 "서식 수정 파일")에 CSS px 좌표와 값 출처를 저장합니다. 원본 템플릿은 유지하고 `render.py`·`image.py`가 수정층을 적용하므로 미리보기·CLI·은행 업무·OCR 생성 결과에 공통 반영됩니다. 체크·서명·도장의 HTML 영역 편집은 아직 템플릿에서 합니다. 동적 페이지는 다른 seed에서도 확인하세요.
+
+현재는 알아낸 overlay 글자 칸을 무작위로 비우지 않고 표를 최소 한 행 채웁니다. 이전 방식은 프로필 값 `sparse_fields=true`로 선택합니다. 천원·만원·백만원·억원 칸은 단위에 맞춰 표시하고 라벨 `unit`·원 단위 `norm`을 기록합니다. HTML `fields`의 `parent.<경로>`는 부모 생성값을 참조하고, `shared_copies=true`인 약정의 `_copy` 값은 원본 기재값을 공유합니다. 생성 결과가 달라졌으므로 새 데이터셋 버전으로 만드세요.
+
+전체 545종·917쪽의 실제 이미지 자동 검사와 남은 빈 칸은 [FORM_VALUE_AUDIT.md](manual/FORM_VALUE_AUDIT.md)에 있습니다. 주요 칸만 연결한 정부·은행 HTML도 있으므로 이 검사를 모든 기재란 완성이나 사람 검수 완료로 해석하지 않습니다. 다시 검사하려면:
+
+```powershell
+python -m docgen.scripts.audit_form_values --out studio_cache/value_audit/final
+```
+
+## 서식 수정 파일
+
+서식 하나에 사람이 고치는 파일은 서식 폴더의 칸 목록 `fields.json` 하나입니다. 공개 서식은 `docgen/forms/<ID>/`, 실서류에서 만든 서식은 `$DOCGEN_PRIVATE_FORMS/<ID>/`(수정도 저장소 밖)에 있습니다.
+
+| 서식 | `fields.json` 내용 | 모양 |
+|---|---|---|
+| overlay (`hf###`, `img_*`) | 기재 자리 전부(`items`: 위치·키·항목명·값 종류·값 출처), 결재란 칸(`pages[].staff`), 배경 지우기(`erase`), 표시 설정(`marks`) | 원본 그림 (바꾸지 않음) |
+| html | 값 선언(`fields`·`lists`: 키마다 값 출처), 칸 덮어쓰기(`regions`: 키마다 항목명·값·위치·빼기·새 칸, 레이아웃 변형별 `variants`) | 템플릿 `look/template.html.j2` (반복 행·조건 칸·레이아웃 변형은 템플릿에) |
+
+```json
+{"engine": "overlay", "unit": "pt", "pages": [...], "items": [...], "erase": [...], "marks": {...}}
+{"engine": "html", "unit": "px", "fields": {"official.name": {"label": "성명", "source": "profile.person.name"}},
+ "lists": {...}, "regions": [{"key": "official.name", "rect": [80, 80, 180, 100]}], "variants": {"<변형 ID>": {"regions": [...]}}}
+```
+
+- 이 파일을 고치면 다음에 생성하는 이미지와 정답(키·항목명·값 출처·위치·뺀 칸)에 반영됩니다. 이미 만든 데이터셋은 그대로입니다.
+- **overlay:** 자동 추출 레이아웃(`layout.json`)과 예전 사람 수정을 합쳐 한 번 만든 것이 기준입니다. 자동 추출을 다시 해도 칸 목록은 바뀌지 않습니다(새로 뽑은 `layout.json`은 비교용 초안). 영역 편집기는 고친 것을 보내고 서버가 칸 목록에 바로 합칩니다. 사람이 고친 칸은 `"edited": true`, 더한 칸은 `"added": true`, 뺀 자동 영역은 `"dropped"`에 남습니다.
+- **html:** 템플릿이 칸을 만들고, 칸 목록은 그 위에 값을 정하고 덮어씁니다. 템플릿 칸은 칸 목록에 적지 않아도 나오고, 빼려면 `regions`에 그 키로 `"drop": true`. 복제·분석기 서식은 예전 `form.json`의 `fields`·`lists`가 여기로 왔습니다.
+- **코드 서식(html 70종):** 값은 생성 함수(`docs/<그룹>.py`)가 만들고, 칸 목록에는 그 칸이 모두 `"source": "code"`로 적혀 있습니다(키·항목명·종류, 반복 행은 `lists`). `"code"`는 생성 함수 값 그대로라 결과를 바꾸지 않습니다. 키 하나의 `source`를 `profile.…`·`rule:…`로 바꾸면 그 칸만 덮어쓰고, 반복 행 하위 칸은 행마다 덮어씁니다(행 수는 생성 함수 그대로). 칸 목록은 여러 seed로 그려 나온 칸이라, 드물게 나오는 조건 칸이 빠졌으면 `python -m docgen.formdir declare <ID> --seeds 100 --apply`로 더합니다(바꾼 칸은 그대로 둠).
+- `engine`이 서식 종류와 다르면 조용히 무시하지 않고 에러로 멈춥니다.
+- studio에서 고치면 검증·미리보기가 같이 됩니다. 손으로 고쳤으면 아래 `check`.
+
+```bash
+python -m docgen.formdir path <ID>             # 이 서식의 파일들 (모양·칸 목록·값 생성 코드)
+python -m docgen.formdir declare [<ID>…] [--apply]   # 코드 서식의 칸을 칸 목록에 적기 (source "code")
+python -m docgen.regions path <ID>             # 이 서식의 수정 파일 위치
+python -m docgen.regions show <ID>             # 최종 값 칸 목록 (자동 추출·템플릿 칸 + 수정)
+python -m docgen.regions check <ID>            # 형식·서식 종류·쪽 번호·깨진 수정·남은 예전 파일 (--all: 칸 목록·수정이 있는 서식 전부)
+python -m docgen.regions migrate [--apply]     # 예전 위치의 수정 파일을 새 파일로 (기본은 목록만)
+```
+
+예전 자리는 새 자리에 없을 때만 읽습니다: 서식 파일은 `forms/layouts/<분류>/<No>.json`, `하나은행_서식자료/` 의 PDF, `forms/images/<ID>/`, `templates/<그룹>/<ID>.html.j2`, `templates/copies/<ID>/`, `templates/variants/<ID>/`, 서식 폴더 바로 아래 `template.html.j2`·`page_<n>.png`. 사람 수정은 `forms/regions/<ID>.json`, `forms/overrides/<ID>.json`, `forms/html_regions/<ID>.json`, 이미지 서식 폴더의 `overrides.json`, `<변형>.regions.json`.
+
+한꺼번에 옮기기:
+
+```bash
+python -m docgen.formdir migrate            # 무엇을 어디로 옮길지 목록 (예전과 새 파일이 다르면 "건너뜀: 다름")
+python -m docgen.formdir migrate --apply    # 옮김: 글 파일은 복사하고 예전 것을 <이름>.migrated 로, 그림·PDF 는 옮김.
+                                            # overlay 는 칸 목록 fields.json 을 만든다 (못 찾은 예전 수정이 있으면 알려 줌)
+python -m docgen.regions check --all
+```
+
+영역 편집기에서 저장하면 그 서식의 사람 수정은 바로 새 자리로 옮겨집니다(overlay 는 칸 목록이 만들어짐). 서식 해시(studio "검수 후 바뀜")에는 파일을 옮기기 전 자리 이름을 넣으므로 위치를 옮겨도 그대로입니다. 생성 코드(`realform.py`·`htmlform.py` 등)가 바뀌면 그 코드를 쓰는 서식의 해시는 바뀝니다.

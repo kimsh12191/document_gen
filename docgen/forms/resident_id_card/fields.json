@@ -1,0 +1,41 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "issuer": {
+   "label": "발급기관",
+   "type": "text",
+   "source": "code"
+  },
+  "name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "name_hanja": {
+   "label": "한자성명",
+   "type": "text",
+   "source": "code"
+  },
+  "rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  }
+ }
+}

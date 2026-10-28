@@ -1,0 +1,549 @@
+{
+ "images": [
+  "variants/articles_of_incorporation_p1.jpg",
+  "variants/articles_of_incorporation_p2.jpg",
+  "variants/articles_of_incorporation_p3.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "company_name",
+   "label": "상호",
+   "type": "text",
+   "value": "주식회사 새한소프트",
+   "norm": "주식회사 새한소프트",
+   "page": 0,
+   "bbox": [
+    492.2,
+    126.7,
+    698.8,
+    150.7
+   ]
+  },
+  {
+   "key": "revision_history.0",
+   "label": "제정·개정일",
+   "type": "text",
+   "value": "제정 2021.12.08",
+   "norm": "제정 2021.12.08",
+   "page": 0,
+   "bbox": [
+    93.1,
+    170.3,
+    213.5,
+    191.3
+   ]
+  },
+  {
+   "key": "revision_history.1",
+   "label": "제정·개정일",
+   "type": "text",
+   "value": "개정 2022.12.01",
+   "norm": "개정 2022.12.01",
+   "page": 0,
+   "bbox": [
+    240.5,
+    170.3,
+    360.9,
+    191.3
+   ]
+  },
+  {
+   "key": "revision_history.2",
+   "label": "제정·개정일",
+   "type": "text",
+   "value": "개정 2022.12.10",
+   "norm": "개정 2022.12.10",
+   "page": 0,
+   "bbox": [
+    387.9,
+    170.3,
+    508.3,
+    191.3
+   ]
+  },
+  {
+   "key": "revision_history.3",
+   "label": "제정·개정일",
+   "type": "text",
+   "value": "개정 2023.01.02",
+   "norm": "개정 2023.01.02",
+   "page": 0,
+   "bbox": [
+    535.3,
+    170.3,
+    655.7,
+    191.3
+   ]
+  },
+  {
+   "key": "revision_history.4",
+   "label": "제정·개정일",
+   "type": "text",
+   "value": "개정 2024.01.10",
+   "norm": "개정 2024.01.10",
+   "page": 0,
+   "bbox": [
+    682.7,
+    170.3,
+    803.1,
+    191.3
+   ]
+  },
+  {
+   "key": "revision_history.5",
+   "label": "제정·개정일",
+   "type": "text",
+   "value": "개정 2024.07.14",
+   "norm": "개정 2024.07.14",
+   "page": 0,
+   "bbox": [
+    830.1,
+    170.3,
+    950.5,
+    191.3
+   ]
+  },
+  {
+   "key": "revision_history.6",
+   "label": "제정·개정일",
+   "type": "text",
+   "value": "개정 2025.01.15",
+   "norm": "개정 2025.01.15",
+   "page": 0,
+   "bbox": [
+    977.5,
+    170.3,
+    1097.9,
+    191.3
+   ]
+  },
+  {
+   "key": "revision_history.7",
+   "label": "제정·개정일",
+   "type": "text",
+   "value": "개정 2025.01.19",
+   "norm": "개정 2025.01.19",
+   "page": 0,
+   "bbox": [
+    535.3,
+    197.4,
+    655.7,
+    218.4
+   ]
+  },
+  {
+   "key": "company_name_en",
+   "label": "영문상호",
+   "type": "text",
+   "value": "Saehan Soft Co., Ltd.",
+   "norm": "Saehan Soft Co., Ltd.",
+   "page": 0,
+   "bbox": [
+    709.8,
+    268.6,
+    856.9,
+    286.6
+   ]
+  },
+  {
+   "key": "amended.company_name",
+   "label": "개정일",
+   "type": "date",
+   "value": "2024.07.14",
+   "norm": "2024-07-14",
+   "page": 0,
+   "bbox": [
+    1005.4,
+    265.6,
+    1085.6,
+    286.6
+   ]
+  },
+  {
+   "key": "amended.purposes",
+   "label": "개정일",
+   "type": "date",
+   "value": "2025.01.19",
+   "norm": "2025-01-19",
+   "page": 0,
+   "bbox": [
+    593.7,
+    297.9,
+    673.9,
+    318.9
+   ]
+  },
+  {
+   "key": "purposes.0",
+   "label": "목적",
+   "type": "text",
+   "value": "1. 응용 소프트웨어 개발 및 공급업",
+   "norm": "1. 응용 소프트웨어 개발 및 공급업",
+   "page": 0,
+   "bbox": [
+    102.4,
+    327.2,
+    358.6,
+    345.2
+   ]
+  },
+  {
+   "key": "purposes.1",
+   "label": "목적",
+   "type": "text",
+   "value": "2. 정보통신 서비스업",
+   "norm": "2. 정보통신 서비스업",
+   "page": 0,
+   "bbox": [
+    102.4,
+    352.0,
+    260.4,
+    370.0
+   ]
+  },
+  {
+   "key": "purposes.2",
+   "label": "목적",
+   "type": "text",
+   "value": "3. 컴퓨터 프로그래밍 서비스업",
+   "norm": "3. 컴퓨터 프로그래밍 서비스업",
+   "page": 0,
+   "bbox": [
+    102.4,
+    376.8,
+    333.0,
+    394.8
+   ]
+  },
+  {
+   "key": "purposes.3",
+   "label": "목적",
+   "type": "text",
+   "value": "4. 시스템 통합 자문 및 구축 서비스업",
+   "norm": "4. 시스템 통합 자문 및 구축 서비스업",
+   "page": 0,
+   "bbox": [
+    102.4,
+    401.6,
+    380.0,
+    419.6
+   ]
+  },
+  {
+   "key": "purposes.4",
+   "label": "목적",
+   "type": "text",
+   "value": "5. 데이터베이스 및 온라인 정보 제공업",
+   "norm": "5. 데이터베이스 및 온라인 정보 제공업",
+   "page": 0,
+   "bbox": [
+    622.7,
+    327.2,
+    913.1,
+    345.2
+   ]
+  },
+  {
+   "key": "purposes.5",
+   "label": "목적",
+   "type": "text",
+   "value": "6. 전자상거래업",
+   "norm": "6. 전자상거래업",
+   "page": 0,
+   "bbox": [
+    622.7,
+    352.0,
+    742.3,
+    370.0
+   ]
+  },
+  {
+   "key": "purposes.6",
+   "label": "목적",
+   "type": "text",
+   "value": "7. 교육 서비스업",
+   "norm": "7. 교육 서비스업",
+   "page": 0,
+   "bbox": [
+    622.7,
+    376.8,
+    746.6,
+    394.8
+   ]
+  },
+  {
+   "key": "purposes.7",
+   "label": "목적",
+   "type": "text",
+   "value": "8. 위 각 호와 관련된 부대사업 일체",
+   "norm": "8. 위 각 호와 관련된 부대사업 일체",
+   "page": 0,
+   "bbox": [
+    622.7,
+    401.6,
+    883.2,
+    419.6
+   ]
+  },
+  {
+   "key": "head_office_city",
+   "label": "본점소재지",
+   "type": "text",
+   "value": "서울특별시",
+   "norm": "서울특별시",
+   "page": 0,
+   "bbox": [
+    530.6,
+    432.4,
+    616.1,
+    450.4
+   ],
+   "label_bbox": [
+    75.0,
+    432.4,
+    372.6,
+    450.4
+   ]
+  },
+  {
+   "key": "notice_method",
+   "label": "공고방법",
+   "type": "text",
+   "value": "회사의 인터넷 홈페이지(http://www.saehan.co.kr)에 게재한다. 다만, 전산장애 또는 그 밖의 부득이한 사유로 인터넷 홈페이지에 공고를 할 수 없을 때에는 서울특별시에서 발행되는 일간 중앙일보에 게재한다.",
+   "norm": "회사의 인터넷 홈페이지(http://www.saehan.co.kr)에 게재한다. 다만, 전산장애 또는 그 밖의 부득이한 사유로 인터넷 홈페이지에 공고를 할 수 없을 때에는 서울특별시에서 발행되는 일간 중앙일보에 게재한다.",
+   "page": 0,
+   "bbox": [
+    75.0,
+    488.0,
+    1116.0,
+    530.8
+   ]
+  },
+  {
+   "key": "authorized_shares",
+   "label": "발행예정주식의총수",
+   "type": "text",
+   "value": "100,000주",
+   "norm": "100,000주",
+   "page": 0,
+   "bbox": [
+    534.9,
+    581.6,
+    607.5,
+    599.6
+   ],
+   "label_bbox": [
+    75.0,
+    581.6,
+    287.2,
+    599.6
+   ]
+  },
+  {
+   "key": "par_value",
+   "label": "1주의금액",
+   "type": "amount",
+   "value": "금 5,000원",
+   "norm": 5000,
+   "page": 0,
+   "bbox": [
+    505.0,
+    612.4,
+    581.9,
+    630.4
+   ],
+   "label_bbox": [
+    75.0,
+    612.4,
+    210.3,
+    630.4
+   ]
+  },
+  {
+   "key": "initial_shares",
+   "label": "설립시발행주식총수",
+   "type": "text",
+   "value": "5,000주",
+   "norm": "5,000주",
+   "page": 0,
+   "bbox": [
+    710.0,
+    643.2,
+    765.6,
+    661.2
+   ],
+   "label_bbox": [
+    75.0,
+    643.2,
+    368.3,
+    661.2
+   ]
+  },
+  {
+   "key": "preferred",
+   "label": "종류주식",
+   "type": "text",
+   "value": "상환전환우선주식",
+   "norm": "상환전환우선주식",
+   "page": 0,
+   "bbox": [
+    577.6,
+    675.5,
+    714.3,
+    693.5
+   ],
+   "label_bbox": [
+    75.0,
+    675.5,
+    218.8,
+    693.5
+   ]
+  },
+  {
+   "key": "amended.share_types",
+   "label": "개정일",
+   "type": "date",
+   "value": "2024.04.03",
+   "norm": "2024-04-03",
+   "page": 0,
+   "bbox": [
+    845.7,
+    672.5,
+    925.9,
+    693.5
+   ]
+  },
+  {
+   "key": "effective_date",
+   "label": "시행일",
+   "type": "date",
+   "value": "2021년 12월 8일",
+   "norm": "2021-12-08",
+   "page": 2,
+   "bbox": [
+    368.3,
+    113.1,
+    487.9,
+    131.1
+   ],
+   "label_bbox": [
+    75.0,
+    113.1,
+    180.4,
+    131.1
+   ]
+  },
+  {
+   "key": "revision_effective.0",
+   "label": "시행일",
+   "type": "date",
+   "value": "2022년 12월 1일",
+   "norm": "2022-12-01",
+   "page": 2,
+   "bbox": [
+    157.6,
+    174.7,
+    277.2,
+    192.7
+   ]
+  },
+  {
+   "key": "revision_effective.1",
+   "label": "시행일",
+   "type": "date",
+   "value": "2022년 12월 10일",
+   "norm": "2022-12-10",
+   "page": 2,
+   "bbox": [
+    157.6,
+    205.5,
+    285.8,
+    223.5
+   ]
+  },
+  {
+   "key": "revision_effective.2",
+   "label": "시행일",
+   "type": "date",
+   "value": "2023년 1월 2일",
+   "norm": "2023-01-02",
+   "page": 2,
+   "bbox": [
+    157.6,
+    236.3,
+    268.7,
+    254.3
+   ]
+  },
+  {
+   "key": "revision_effective.3",
+   "label": "시행일",
+   "type": "date",
+   "value": "2024년 1월 10일",
+   "norm": "2024-01-10",
+   "page": 2,
+   "bbox": [
+    157.6,
+    267.1,
+    277.2,
+    285.1
+   ]
+  },
+  {
+   "key": "revision_effective.4",
+   "label": "시행일",
+   "type": "date",
+   "value": "2024년 7월 14일",
+   "norm": "2024-07-14",
+   "page": 2,
+   "bbox": [
+    157.6,
+    297.9,
+    277.2,
+    315.9
+   ]
+  },
+  {
+   "key": "revision_effective.5",
+   "label": "시행일",
+   "type": "date",
+   "value": "2025년 1월 15일",
+   "norm": "2025-01-15",
+   "page": 2,
+   "bbox": [
+    157.6,
+    328.7,
+    277.2,
+    346.7
+   ]
+  },
+  {
+   "key": "revision_effective.6",
+   "label": "시행일",
+   "type": "date",
+   "value": "2025년 1월 19일",
+   "norm": "2025-01-19",
+   "page": 2,
+   "bbox": [
+    157.6,
+    359.5,
+    277.2,
+    377.5
+   ]
+  }
+ ]
+}

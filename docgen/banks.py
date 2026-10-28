@@ -11,7 +11,7 @@
                        결재란 "담당 책임자 관리자 부점장", 약정 상대방 "주식회사 하나은행 앞"
   KEB하나은행(2015.9~2020.1) 서식도 같은 번호 체계 (예: 5-16-0178(2-1) (2016.03 개정))
   구 외환은행 계좌번호 12자리, 하나은행 14자리. 외환은행 SWIFT KOEXKRSE (현 하나은행이 승계)
-  외환은행 자체 서식번호 체계는 확인하지 못해 형식만 흉내 낸다 (docs/realism/bank_brands.md).
+  외환은행 자체 서식번호 체계는 확인하지 못해 형식만 흉내 낸다 (docgen/manual/realism/bank_brands.md).
 """
 from __future__ import annotations
 

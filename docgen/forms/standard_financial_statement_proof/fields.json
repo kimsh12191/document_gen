@@ -1,0 +1,423 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "attachments": {
+   "label": "첨부서류",
+   "type": "text",
+   "source": "code"
+  },
+  "balance_sheet.assets": {
+   "label": "자산총계",
+   "type": "text",
+   "source": "code"
+  },
+  "balance_sheet.capital": {
+   "label": "자본금",
+   "type": "text",
+   "source": "code"
+  },
+  "balance_sheet.current": {
+   "label": "유동자산",
+   "type": "text",
+   "source": "code"
+  },
+  "balance_sheet.current_liab": {
+   "label": "유동부채",
+   "type": "text",
+   "source": "code"
+  },
+  "balance_sheet.equity": {
+   "label": "자본총계",
+   "type": "text",
+   "source": "code"
+  },
+  "balance_sheet.intangible": {
+   "label": "무형자산",
+   "type": "text",
+   "source": "code"
+  },
+  "balance_sheet.inventory": {
+   "label": "재고자산",
+   "type": "text",
+   "source": "code"
+  },
+  "balance_sheet.investment": {
+   "label": "투자자산",
+   "type": "text",
+   "source": "code"
+  },
+  "balance_sheet.liab_equity": {
+   "label": "부채와자본총계",
+   "type": "text",
+   "source": "code"
+  },
+  "balance_sheet.liabilities": {
+   "label": "부채총계",
+   "type": "text",
+   "source": "code"
+  },
+  "balance_sheet.noncurrent": {
+   "label": "비유동자산",
+   "type": "text",
+   "source": "code"
+  },
+  "balance_sheet.noncurrent_liab": {
+   "label": "비유동부채",
+   "type": "text",
+   "source": "code"
+  },
+  "balance_sheet.other_noncurrent": {
+   "label": "기타비유동자산",
+   "type": "text",
+   "source": "code"
+  },
+  "balance_sheet.quick": {
+   "label": "당좌자산",
+   "type": "text",
+   "source": "code"
+  },
+  "balance_sheet.tangible": {
+   "label": "유형자산",
+   "type": "text",
+   "source": "code"
+  },
+  "filed_date": {
+   "label": "신고일",
+   "type": "text",
+   "source": "code"
+  },
+  "filing_kind": {
+   "label": "신고구분",
+   "type": "text",
+   "source": "code"
+  },
+  "income_statement.cogs": {
+   "label": "매출원가",
+   "type": "text",
+   "source": "code"
+  },
+  "income_statement.depreciation": {
+   "label": "감가상각비",
+   "type": "text",
+   "source": "code"
+  },
+  "income_statement.gross": {
+   "label": "매출총이익",
+   "type": "text",
+   "source": "code"
+  },
+  "income_statement.net": {
+   "label": "당기순이익",
+   "type": "text",
+   "source": "code"
+  },
+  "income_statement.non_op_expense": {
+   "label": "영업외비용",
+   "type": "text",
+   "source": "code"
+  },
+  "income_statement.non_op_income": {
+   "label": "영업외수익",
+   "type": "text",
+   "source": "code"
+  },
+  "income_statement.op": {
+   "label": "영업이익",
+   "type": "text",
+   "source": "code"
+  },
+  "income_statement.other_sga": {
+   "label": "기타판매비와관리비",
+   "type": "text",
+   "source": "code"
+  },
+  "income_statement.rent": {
+   "label": "임차료",
+   "type": "text",
+   "source": "code"
+  },
+  "income_statement.revenue": {
+   "label": "매출액",
+   "type": "text",
+   "source": "code"
+  },
+  "income_statement.salary": {
+   "label": "급여",
+   "type": "text",
+   "source": "code"
+  },
+  "income_statement.sga": {
+   "label": "판매비와관리비",
+   "type": "text",
+   "source": "code"
+  },
+  "income_statement.welfare": {
+   "label": "복리후생비",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_no": {
+   "label": "발급번호",
+   "type": "text",
+   "source": "code"
+  },
+  "issuer": {
+   "label": "발급기관",
+   "type": "text",
+   "source": "code"
+  },
+  "period": {
+   "label": "사업연도",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "taxpayer.address": {
+   "label": "사업장",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.biz_item": {
+   "label": "종목",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.biz_no": {
+   "label": "사업자등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.biz_type": {
+   "label": "업태",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.name": {
+   "label": "성명(대표자)",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.rrn": {
+   "label": "주민(법인)등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer.trade_name": {
+   "label": "상호(법인명)",
+   "type": "text",
+   "source": "code"
+  },
+  "taxpayer_type": {
+   "label": "개인/법인",
+   "type": "checkbox",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "bs_accounts.current_liab": {
+   "source": "code",
+   "fields": {
+    "account": {
+     "label": "계정과목",
+     "type": "text",
+     "source": "code"
+    },
+    "amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "bs_accounts.intangible": {
+   "source": "code",
+   "fields": {
+    "account": {
+     "label": "계정과목",
+     "type": "text",
+     "source": "code"
+    },
+    "amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "bs_accounts.inventory": {
+   "source": "code",
+   "fields": {
+    "account": {
+     "label": "계정과목",
+     "type": "text",
+     "source": "code"
+    },
+    "amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "bs_accounts.investment": {
+   "source": "code",
+   "fields": {
+    "account": {
+     "label": "계정과목",
+     "type": "text",
+     "source": "code"
+    },
+    "amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "bs_accounts.noncurrent_liab": {
+   "source": "code",
+   "fields": {
+    "account": {
+     "label": "계정과목",
+     "type": "text",
+     "source": "code"
+    },
+    "amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "bs_accounts.other_noncurrent": {
+   "source": "code",
+   "fields": {
+    "account": {
+     "label": "계정과목",
+     "type": "text",
+     "source": "code"
+    },
+    "amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "bs_accounts.quick": {
+   "source": "code",
+   "fields": {
+    "account": {
+     "label": "계정과목",
+     "type": "text",
+     "source": "code"
+    },
+    "amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "bs_accounts.tangible": {
+   "source": "code",
+   "fields": {
+    "account": {
+     "label": "계정과목",
+     "type": "text",
+     "source": "code"
+    },
+    "amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "pl_accounts.cogs": {
+   "source": "code",
+   "fields": {
+    "account": {
+     "label": "계정과목",
+     "type": "text",
+     "source": "code"
+    },
+    "amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "pl_accounts.non_op_expense": {
+   "source": "code",
+   "fields": {
+    "account": {
+     "label": "계정과목",
+     "type": "text",
+     "source": "code"
+    },
+    "amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "pl_accounts.non_op_income": {
+   "source": "code",
+   "fields": {
+    "account": {
+     "label": "계정과목",
+     "type": "text",
+     "source": "code"
+    },
+    "amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "pl_accounts.revenue": {
+   "source": "code",
+   "fields": {
+    "account": {
+     "label": "계정과목",
+     "type": "text",
+     "source": "code"
+    },
+    "amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "pl_accounts.sga": {
+   "source": "code",
+   "fields": {
+    "account": {
+     "label": "계정과목",
+     "type": "text",
+     "source": "code"
+    },
+    "amount": {
+     "label": "금액",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

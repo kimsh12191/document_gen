@@ -1,0 +1,192 @@
+{
+  "filename": "case_001_id_card.jpg",
+  "success": "Y",
+  "data": {
+    "basicData": [
+      [
+        {
+          "text": "김소윤",
+          "confidence": 0.99,
+          "bounding": {
+            "shape": "rectangle",
+            "vertices": [
+              {
+                "x": 38,
+                "y": 124
+              },
+              {
+                "x": 151,
+                "y": 124
+              },
+              {
+                "x": 151,
+                "y": 162
+              },
+              {
+                "x": 38,
+                "y": 162
+              }
+            ]
+          },
+          "line_num": 0
+        },
+        {
+          "text": "金素允",
+          "confidence": 0.99,
+          "bounding": {
+            "shape": "rectangle",
+            "vertices": [
+              {
+                "x": 166,
+                "y": 136
+              },
+              {
+                "x": 237,
+                "y": 136
+              },
+              {
+                "x": 237,
+                "y": 160
+              },
+              {
+                "x": 166,
+                "y": 160
+              }
+            ]
+          },
+          "line_num": 0
+        },
+        {
+          "text": "901121-2030821",
+          "confidence": 0.9999,
+          "bounding": {
+            "shape": "rectangle",
+            "vertices": [
+              {
+                "x": 38,
+                "y": 184
+              },
+              {
+                "x": 275,
+                "y": 184
+              },
+              {
+                "x": 275,
+                "y": 217
+              },
+              {
+                "x": 38,
+                "y": 217
+              }
+            ]
+          },
+          "line_num": 0
+        },
+        {
+          "text": "광주광역시 서구 내방로 75, 114동 1401호",
+          "confidence": 0.995,
+          "bounding": {
+            "shape": "rectangle",
+            "vertices": [
+              {
+                "x": 38,
+                "y": 240
+              },
+              {
+                "x": 388,
+                "y": 240
+              },
+              {
+                "x": 388,
+                "y": 265
+              },
+              {
+                "x": 38,
+                "y": 265
+              }
+            ]
+          },
+          "line_num": 0
+        },
+        {
+          "text": "(치평동, 삼익센트럴아파트)",
+          "confidence": 0.97,
+          "bounding": {
+            "shape": "rectangle",
+            "vertices": [
+              {
+                "x": 38,
+                "y": 265
+              },
+              {
+                "x": 388,
+                "y": 265
+              },
+              {
+                "x": 388,
+                "y": 291
+              },
+              {
+                "x": 38,
+                "y": 291
+              }
+            ]
+          },
+          "line_num": 0
+        },
+        {
+          "text": "2020.02.17",
+          "confidence": 0.99,
+          "bounding": {
+            "shape": "rectangle",
+            "vertices": [
+              {
+                "x": 347,
+                "y": 413
+              },
+              {
+                "x": 463,
+                "y": 413
+              },
+              {
+                "x": 463,
+                "y": 435
+              },
+              {
+                "x": 347,
+                "y": 435
+              }
+            ]
+          },
+          "line_num": 0
+        },
+        {
+          "text": "광주광역시 서구청장",
+          "confidence": 0.99,
+          "bounding": {
+            "shape": "rectangle",
+            "vertices": [
+              {
+                "x": 239,
+                "y": 445
+              },
+              {
+                "x": 529,
+                "y": 445
+              },
+              {
+                "x": 529,
+                "y": 475
+              },
+              {
+                "x": 239,
+                "y": 475
+              }
+            ]
+          },
+          "line_num": 0
+        }
+      ]
+    ]
+  }
+}

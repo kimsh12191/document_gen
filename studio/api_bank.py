@@ -1,0 +1,174 @@
+"""③ 시나리오·묶음, ⑥ 데이터셋 만들기(은행 업무·합성 OCR), ⑧ 작업, 학습 연결 API.
+
+서버 쪽 일은 studio/bank_data.py(은행 업무), studio/ocr_data.py(합성 OCR), studio/training_link.py(학습 설정·기록)가 한다.
+
+  GET    /api/recipes                     레시피 목록 · GET /api/recipes/options 편집용 목록(시나리오·사례·기본 규칙)
+  GET/PUT/DELETE /api/recipes/{이름}       레시피 하나
+  POST   /api/builds                      데이터셋 만들기 {recipe, name, workers} → 작업 (레시피 track 이 ocr 이면 합성 OCR)
+  GET    /api/builds                      생성 작업 목록 (⑥ 생성 현황). 재시작으로 놓친 자동 등록을 여기서 복구한다 (build_registration.py)
+  GET    /api/jobs                       작업 목록 · GET /api/jobs/{id} · POST /api/jobs/{id}/cancel
+  GET    /api/datasets/{id}/bundles       업무 묶음 목록 · GET /api/datasets/{id}/bundles/{묶음} 상세(서류, 고객 프로필, 검사)
+  GET/PUT /api/scenarios                  시나리오 목록·저장
+  POST   /api/training/preview            학습 설정 조각 미리보기 {train, counts, benchmark: [ID…], name}
+  POST   /api/training/save               설정 파일 쓰기 + 학습 기록
+  GET    /api/trainings                   학습 기록과 진행 (끝난 학습은 평가 세트에 모델 답으로 자동으로 붙음)
+"""
+from pathlib import Path
+from typing import Any
+
+from fastapi import APIRouter, HTTPException
+from fastapi.responses import FileResponse
+from pydantic import BaseModel
+
+from . import bank_data as BD
+from . import datasets as DS
+from . import catalog
+from . import training_link as TL
+
+
+def make_router(reg, jobs, guard) -> APIRouter:
+    r = APIRouter()
+
+    @r.get("/api/recipes")
+    def recipes():
+        return {"recipes": BD.list_recipes()}
+
+    @r.get("/api/recipes/options")
+    def recipe_options():
+        return BD.options()
+
+    @r.get("/api/recipes/{name}")
+    def recipe(name: str):
+        return guard(BD.get_recipe, name)
+
+    @r.put("/api/recipes/{name}")
+    def save_recipe(name: str, req: dict[str, Any]):
+        return guard(BD.save_recipe, name, req)
+
+    @r.delete("/api/recipes/{name}")
+    def delete_recipe(name: str):
+        guard(BD.delete_recipe, name)
+        return {"ok": True}
+
+    class BuildReq(BaseModel):
+        recipe: str
+        name: str
+        workers: int = 1
+
+    @r.post("/api/builds")
+    def build(req: BuildReq):
+        rec = guard(BD.get_recipe, req.recipe)
+        if rec.get("track", "bank") == "ocr":
+            from . import ocr_data
+
+            return guard(ocr_data.start_build, jobs, reg, BD.RECIPES, req.recipe, req.name, req.workers)
+        return guard(BD.start_build, jobs, reg, req.recipe, req.name, req.workers)
+
+    @r.get("/api/builds")
+    def list_builds():
+        from .build_registration import list_builds as builds
+
+        return {"jobs": guard(builds, jobs, reg)}
+
+    @r.get("/api/jobs")
+    def list_jobs(kind: str | None = None):
+        return {"jobs": jobs.list(kind)}
+
+    @r.get("/api/jobs/{job_id}")
+    def job(job_id: str):
+        return guard(jobs.get, job_id)
+
+    @r.post("/api/jobs/{job_id}/cancel")
+    def cancel(job_id: str):
+        return guard(jobs.cancel, job_id)
+
+    def ds_or_404(ds_id):
+        try:
+            return reg.get(ds_id)
+        except KeyError:
+            raise HTTPException(404, f"등록되지 않은 데이터셋: {ds_id}")
+
+    @r.get("/api/datasets/{ds_id}/bundles")
+    def bundles(ds_id: str):
+        ds = ds_or_404(ds_id)
+        return {"bundles": [BD.bundle_summary(b) for b in guard(BD.bundles, ds)]}
+
+    @r.get("/api/datasets/{ds_id}/bundles/{bid}")
+    def bundle(ds_id: str, bid: str):
+        ds = ds_or_404(ds_id)
+        b = next((x for x in guard(BD.bundles, ds) if x["bundle_id"] == bid), None)
+        if b is None:
+            raise HTTPException(404, f"묶음이 없습니다: {bid}")
+        return {**b, "summary": BD.bundle_summary(b), "profile": guard(BD.profile_view, b),
+                "consistency": guard(BD.consistency, b)}
+
+    @r.get("/api/scenarios")
+    def scenarios():
+        from docgen.roles import catalog as roles_catalog
+        counts: dict = {}
+        for k, v in reg.load()["datasets"].items():
+            if v["format"] == DS.FORMAT and (Path(v["path"]) / "bundles.jsonl").is_file():
+                try:
+                    for b in BD.bundles({**v, "id": k}):
+                        counts[b["scenario"]] = counts.get(b["scenario"], 0) + 1
+                except OSError:
+                    pass
+        return {"scenarios": BD.scenarios_view(catalog._catalog(), counts),
+                "cases": BD.options()["cases"], "rules": BD.options()["rules"],
+                "processing_rules": BD.PROCESS.RULE_TITLES, "compare_operators": BD.PROCESS.COMPARE_OPS,
+                "document_roles": roles_catalog()}
+
+    class ScenariosReq(BaseModel):
+        scenarios: list[dict]
+
+    @r.put("/api/scenarios")
+    def save_scenarios(req: ScenariosReq):
+        guard(BD.save_scenarios_list, req.scenarios)
+        catalog._scenarios_of.cache_clear()
+        return scenarios()
+
+    class BenchmarkUnit(BaseModel):
+        id: str
+        name: str
+        group: str
+        datasets: list[str]
+
+    class TrainReq(BaseModel):
+        train: list[str] = []
+        counts: dict = {}          # 데이터셋 ID → 쓸 SFT 문항 수 (없으면 다)
+        benchmark: list[str] | str = []
+        benchmark_units: list[BenchmarkUnit] = []
+        name: str
+
+    def _info(req: TrainReq) -> dict:
+        train = [{"id": t, **({"count": req.counts[t]} if req.counts.get(t) else {})} for t in req.train]
+        return TL.training_config(reg, train, req.benchmark, req.name, [u.model_dump() for u in req.benchmark_units])
+
+    @r.post("/api/training/preview")
+    def training_preview(req: TrainReq):
+        return guard(_info, req)
+
+    @r.post("/api/training/save")
+    def training_save(req: TrainReq):
+        info = guard(_info, req)
+        bench = [req.benchmark] if isinstance(req.benchmark, str) else req.benchmark
+        if req.benchmark_units:
+            bench = list(dict.fromkeys(b for u in req.benchmark_units for b in u.datasets))
+        return guard(TL.write_training, reg, info, list(dict.fromkeys([*req.train, *bench])), bench, req.name)
+
+    @r.get("/api/trainings")
+    def trainings():
+        return {"trainings": [TL.status(reg, t) for t in reg.load().get("trainings", [])]}
+
+    @r.get("/api/trainings/{name}/report/{relative:path}")
+    def training_report(name: str, relative: str):
+        record = next((t for t in reg.load().get("trainings", []) if t["name"] == name), None)
+        if record is None:
+            raise HTTPException(404, "학습 기록이 없습니다")
+        root = (TL.workdir_of(record, reg.path_map) / "reports").resolve()
+        target = (root / relative).resolve()
+        if not target.is_relative_to(root) or target.suffix not in (".html", ".csv", ".md", ".json") or not target.is_file():
+            raise HTTPException(404, "보고서 파일이 없습니다")
+        return FileResponse(target, headers={"Cache-Control": "no-cache"})
+
+    return r

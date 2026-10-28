@@ -1,0 +1,592 @@
+{
+ "images": [
+  "bank_variants/외환은행/collateral_agreement.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "bank",
+   "label": "은행명",
+   "type": "text",
+   "value": "외환은행",
+   "norm": "외환은행",
+   "page": 0,
+   "bbox": [
+    105.0,
+    84.6,
+    211.7,
+    119.2
+   ]
+  },
+  {
+   "key": "creditor.name",
+   "label": "채권자겸근저당권자",
+   "type": "text",
+   "value": "주식회사 한국외환은행",
+   "norm": "주식회사 한국외환은행",
+   "page": 0,
+   "bbox": [
+    72.0,
+    235.1,
+    234.9,
+    251.6
+   ],
+   "label_bbox": [
+    72.0,
+    140.2,
+    1119.0,
+    224.6
+   ]
+  },
+  {
+   "key": "creditor.branch",
+   "label": "취급점",
+   "type": "text",
+   "value": "분당지점",
+   "norm": "분당지점",
+   "page": 0,
+   "bbox": [
+    321.2,
+    235.1,
+    381.8,
+    251.6
+   ]
+  },
+  {
+   "key": "mortgagor.name",
+   "label": "근저당권설정자",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    326.1,
+    326.5,
+    371.2,
+    345.1
+   ],
+   "label_bbox": [
+    223.5,
+    319.3,
+    316.5,
+    353.5
+   ]
+  },
+  {
+   "key": "mortgagor.rrn",
+   "label": "실명번호",
+   "type": "rrn",
+   "value": "791121-2411282",
+   "norm": "791121-2411282",
+   "page": 0,
+   "bbox": [
+    565.9,
+    327.6,
+    673.3,
+    344.1
+   ],
+   "label_bbox": [
+    430.1,
+    319.3,
+    556.1,
+    353.5
+   ]
+  },
+  {
+   "key": "mortgagor.address",
+   "label": "설정자주소",
+   "type": "text",
+   "value": "광주광역시 서구 내방로 75, 114동 1401호",
+   "norm": "광주광역시 서구 내방로 75, 114동 1401호",
+   "page": 0,
+   "bbox": [
+    326.1,
+    358.2,
+    623.8,
+    380.3
+   ],
+   "label_bbox": [
+    223.5,
+    353.5,
+    316.5,
+    387.0
+   ]
+  },
+  {
+   "key": "debtor.name",
+   "label": "채무자",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    326.1,
+    393.4,
+    371.2,
+    412.0
+   ],
+   "label_bbox": [
+    223.5,
+    387.0,
+    316.5,
+    421.1
+   ]
+  },
+  {
+   "key": "debtor.address",
+   "label": "채무자주소",
+   "type": "text",
+   "value": "광주광역시 서구 내방로 75, 114동 1401호",
+   "norm": "광주광역시 서구 내방로 75, 114동 1401호",
+   "page": 0,
+   "bbox": [
+    565.8,
+    391.6,
+    863.5,
+    413.8
+   ],
+   "label_bbox": [
+    430.1,
+    387.0,
+    556.1,
+    421.1
+   ]
+  },
+  {
+   "key": "rank",
+   "label": "순위",
+   "type": "number",
+   "value": "2",
+   "norm": 2,
+   "page": 0,
+   "bbox": [
+    751.3,
+    430.1,
+    759.3,
+    446.6
+   ]
+  },
+  {
+   "key": "max_amount_korean",
+   "label": "채권최고액(한글)",
+   "type": "amount_korean",
+   "value": "금 삼억사백만원整",
+   "norm": 304000000,
+   "page": 0,
+   "bbox": [
+    248.1,
+    512.7,
+    427.0,
+    540.7
+   ],
+   "label_bbox": [
+    73.5,
+    506.5,
+    238.5,
+    548.3
+   ]
+  },
+  {
+   "key": "max_amount",
+   "label": "채권최고액",
+   "type": "amount",
+   "value": "304,000,000",
+   "norm": 304000000,
+   "page": 0,
+   "bbox": [
+    459.1,
+    521.5,
+    538.6,
+    538.0
+   ],
+   "label_bbox": [
+    73.5,
+    506.5,
+    238.5,
+    548.3
+   ]
+  },
+  {
+   "key": "scope",
+   "label": "피담보채무의범위",
+   "type": "text",
+   "value": "특정근담보",
+   "norm": "특정근담보",
+   "page": 0,
+   "bbox": [
+    261.8,
+    555.0,
+    341.3,
+    571.5
+   ],
+   "label_bbox": [
+    73.5,
+    548.3,
+    238.5,
+    665.7
+   ]
+  },
+  {
+   "key": "secured_debt",
+   "label": "피담보채무",
+   "type": "text",
+   "value": "2014년 8월 28일자 대출거래약정서(가계용)",
+   "norm": "2014년 8월 28일자 대출거래약정서(가계용)",
+   "page": 0,
+   "bbox": [
+    279.9,
+    574.4,
+    585.5,
+    596.6
+   ],
+   "label_bbox": [
+    73.5,
+    548.3,
+    238.5,
+    665.7
+   ]
+  },
+  {
+   "key": "settlement_type",
+   "label": "결산기유형",
+   "type": "text",
+   "value": "지정형",
+   "norm": "지정형",
+   "page": 0,
+   "bbox": [
+    93.9,
+    699.2,
+    139.4,
+    715.7
+   ],
+   "label_bbox": [
+    72.0,
+    674.7,
+    1119.0,
+    696.2
+   ]
+  },
+  {
+   "key": "settlement",
+   "label": "결산기",
+   "type": "date",
+   "value": "2044년 8월 29일",
+   "norm": "2044-08-29",
+   "page": 0,
+   "bbox": [
+    200.3,
+    699.2,
+    306.3,
+    715.7
+   ],
+   "label_bbox": [
+    72.0,
+    674.7,
+    1119.0,
+    696.2
+   ]
+  },
+  {
+   "key": "property.location",
+   "label": "소재지",
+   "type": "text",
+   "value": "광주광역시 서구 치평동 193-4 삼익센트럴아파트",
+   "norm": "광주광역시 서구 치평동 193-4 삼익센트럴아파트",
+   "page": 0,
+   "bbox": [
+    385.5,
+    840.8,
+    724.5,
+    857.3
+   ],
+   "label_bbox": [
+    237.8,
+    834.0,
+    375.8,
+    866.0
+   ]
+  },
+  {
+   "key": "property.road_address",
+   "label": "도로명주소",
+   "type": "text",
+   "value": "광주광역시 서구 내방로 75",
+   "norm": "광주광역시 서구 내방로 75",
+   "page": 0,
+   "bbox": [
+    385.5,
+    872.7,
+    572.2,
+    889.2
+   ],
+   "label_bbox": [
+    237.8,
+    866.0,
+    375.8,
+    897.9
+   ]
+  },
+  {
+   "key": "property.structure",
+   "label": "구조",
+   "type": "text",
+   "value": "철골철근콘크리트구조",
+   "norm": "철골철근콘크리트구조",
+   "page": 0,
+   "bbox": [
+    385.5,
+    904.7,
+    544.4,
+    921.2
+   ],
+   "label_bbox": [
+    237.8,
+    897.9,
+    375.8,
+    929.9
+   ]
+  },
+  {
+   "key": "property.floors",
+   "label": "층수",
+   "type": "text",
+   "value": "26층",
+   "norm": "26층",
+   "page": 0,
+   "bbox": [
+    957.7,
+    904.7,
+    989.5,
+    921.2
+   ],
+   "label_bbox": [
+    828.0,
+    897.9,
+    948.0,
+    929.9
+   ]
+  },
+  {
+   "key": "property.unit",
+   "label": "건물번호",
+   "type": "text",
+   "value": "114동 1401호",
+   "norm": "114동 1401호",
+   "page": 0,
+   "bbox": [
+    385.5,
+    936.6,
+    476.3,
+    953.1
+   ],
+   "label_bbox": [
+    237.8,
+    929.9,
+    375.8,
+    961.8
+   ]
+  },
+  {
+   "key": "property.kind",
+   "label": "건물종류",
+   "type": "text",
+   "value": "아파트",
+   "norm": "아파트",
+   "page": 0,
+   "bbox": [
+    957.7,
+    936.6,
+    1005.4,
+    953.1
+   ],
+   "label_bbox": [
+    828.0,
+    929.9,
+    948.0,
+    961.8
+   ]
+  },
+  {
+   "key": "property.exclusive_area",
+   "label": "전용면적",
+   "type": "text",
+   "value": "84.99㎡",
+   "norm": "84.99㎡",
+   "page": 0,
+   "bbox": [
+    385.5,
+    968.6,
+    437.2,
+    985.1
+   ],
+   "label_bbox": [
+    237.8,
+    961.8,
+    375.8,
+    993.8
+   ]
+  },
+  {
+   "key": "property.land_right",
+   "label": "대지권",
+   "type": "text",
+   "value": "소유권대지권 11,128.0분의 53.80",
+   "norm": "소유권대지권 11,128.0분의 53.80",
+   "page": 0,
+   "bbox": [
+    385.5,
+    1000.5,
+    611.4,
+    1017.0
+   ],
+   "label_bbox": [
+    237.8,
+    993.8,
+    375.8,
+    1025.7
+   ]
+  },
+  {
+   "key": "property.unique_no",
+   "label": "고유번호",
+   "type": "text",
+   "value": "1928-2011-055218",
+   "norm": "1928-2011-055218",
+   "page": 0,
+   "bbox": [
+    247.5,
+    1032.5,
+    368.7,
+    1049.0
+   ],
+   "label_bbox": [
+    72.8,
+    1025.7,
+    237.8,
+    1057.7
+   ]
+  },
+  {
+   "key": "scope_handwritten",
+   "label": "자필기재(피담보채무범위)",
+   "type": "text",
+   "value": "특정근담보",
+   "norm": "특정근담보",
+   "page": 0,
+   "bbox": [
+    306.8,
+    1138.0,
+    406.5,
+    1163.4
+   ]
+  },
+  {
+   "key": "handwritten_confirm",
+   "label": "자필기재(확인)",
+   "type": "text",
+   "value": "설명을 듣고 이해함",
+   "norm": "설명을 듣고 이해함",
+   "page": 0,
+   "bbox": [
+    519.5,
+    1137.5,
+    690.7,
+    1163.9
+   ]
+  },
+  {
+   "key": "contract_date",
+   "label": "계약일",
+   "type": "date",
+   "value": "2014년 08월 28일",
+   "norm": "2014-08-28",
+   "page": 0,
+   "bbox": [
+    90.0,
+    1209.4,
+    209.2,
+    1225.9
+   ]
+  },
+  {
+   "key": "signature_debtor",
+   "label": "채무자",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    980.2,
+    1192.7,
+    1027.9,
+    1209.2
+   ]
+  },
+  {
+   "key": "seal.debtor",
+   "label": "채무자",
+   "type": "seal",
+   "value": "김소윤",
+   "present": true,
+   "kind": "인감",
+   "anchor": "signature_debtor",
+   "page": 0,
+   "bbox": [
+    1059.6,
+    1167.3,
+    1127.4,
+    1235.0
+   ]
+  },
+  {
+   "key": "sign.debtor",
+   "label": "채무자",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "anchor": "signature_debtor",
+   "page": 0,
+   "bbox": [
+    1068.0,
+    1183.7,
+    1119.0,
+    1218.6
+   ]
+  },
+  {
+   "key": "signature_mortgagor",
+   "label": "근저당권설정자",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    980.2,
+    1227.6,
+    1027.9,
+    1244.1
+   ]
+  },
+  {
+   "key": "seal.mortgagor",
+   "label": "근저당권설정자",
+   "type": "seal",
+   "value": "김소윤인",
+   "present": true,
+   "kind": "인감",
+   "anchor": "signature_mortgagor",
+   "page": 0,
+   "bbox": [
+    1039.3,
+    1181.9,
+    1147.7,
+    1290.3
+   ]
+  }
+ ]
+}

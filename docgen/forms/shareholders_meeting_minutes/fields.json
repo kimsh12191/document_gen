@@ -1,0 +1,198 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "chair": {
+   "label": "의장",
+   "type": "text",
+   "source": "code"
+  },
+  "company_name": {
+   "label": "상호",
+   "type": "text",
+   "source": "code"
+  },
+  "datetime": {
+   "label": "일시",
+   "type": "text",
+   "source": "code"
+  },
+  "end_time": {
+   "label": "종료시각",
+   "type": "text",
+   "source": "code"
+  },
+  "head_office": {
+   "label": "본점",
+   "type": "text",
+   "source": "code"
+  },
+  "issued_shares": {
+   "label": "발행주식의총수",
+   "type": "text",
+   "source": "code"
+  },
+  "meeting_title": {
+   "label": "의사록종류",
+   "type": "text",
+   "source": "code"
+  },
+  "minutes_date": {
+   "label": "작성일",
+   "type": "text",
+   "source": "code"
+  },
+  "notary.date": {
+   "label": "인증일",
+   "type": "text",
+   "source": "code"
+  },
+  "notary.lawyer": {
+   "label": "공증담당변호사",
+   "type": "text",
+   "source": "code"
+  },
+  "notary.office": {
+   "label": "공증인",
+   "type": "text",
+   "source": "code"
+  },
+  "notary.reg_no": {
+   "label": "등부번호",
+   "type": "text",
+   "source": "code"
+  },
+  "present_ratio": {
+   "label": "출석비율",
+   "type": "text",
+   "source": "code"
+  },
+  "proxy_count": {
+   "label": "대리출석",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.corp": {
+   "label": "법인인감",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.notary": {
+   "label": "공증인직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.signer2": {
+   "label": "서명인2",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.signer3": {
+   "label": "서명인3",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.signer4": {
+   "label": "서명인4",
+   "type": "seal",
+   "source": "code"
+  },
+  "shareholders_present": {
+   "label": "출석주주의수",
+   "type": "text",
+   "source": "code"
+  },
+  "shareholders_total": {
+   "label": "주주의총수",
+   "type": "text",
+   "source": "code"
+  },
+  "shares_present": {
+   "label": "출석주주의주식수",
+   "type": "text",
+   "source": "code"
+  },
+  "treasury_shares": {
+   "label": "자기주식수",
+   "type": "text",
+   "source": "code"
+  },
+  "venue": {
+   "label": "장소",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "agendas": {
+   "source": "code",
+   "fields": {
+    "body": {
+     "label": "결의내용",
+     "type": "text",
+     "source": "code"
+    },
+    "detail": {
+     "label": "세부내용",
+     "type": "text",
+     "source": "code"
+    },
+    "no": {
+     "label": "의안번호",
+     "type": "text",
+     "source": "code"
+    },
+    "title": {
+     "label": "의안",
+     "type": "text",
+     "source": "code"
+    },
+    "votes": {
+     "label": "표결결과",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "attendees": {
+   "source": "code",
+   "fields": {
+    "method": {
+     "label": "출석구분",
+     "type": "text",
+     "source": "code"
+    },
+    "name": {
+     "label": "주주명",
+     "type": "text",
+     "source": "code"
+    },
+    "proxy": {
+     "label": "대리인",
+     "type": "text",
+     "source": "code"
+    },
+    "shares": {
+     "label": "소유주식수",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "signers": {
+   "source": "code",
+   "fields": {
+    "name": {
+     "label": "성명",
+     "type": "text",
+     "source": "code"
+    },
+    "title": {
+     "label": "자격",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,85 @@
+{
+ "items": [
+  {
+   "key": "issuer",
+   "value": "Amazon Web Services",
+   "bbox_2d": [
+    420,
+    86,
+    682,
+    105
+   ],
+   "page": 1
+  },
+  {
+   "key": "amount",
+   "value": "4.11",
+   "bbox_2d": [
+    900,
+    184,
+    933,
+    195
+   ],
+   "page": 1
+  },
+  {
+   "key": "amount_untaxed",
+   "value": "4.11",
+   "bbox_2d": [
+    900,
+    184,
+    933,
+    195
+   ],
+   "page": 1
+  },
+  {
+   "key": "date",
+   "value": "2014-08-03",
+   "bbox_2d": [
+    842,
+    164,
+    933,
+    173
+   ],
+   "page": 1
+  },
+  {
+   "key": "invoice_number",
+   "value": "42183017",
+   "bbox_2d": [
+    875,
+    149,
+    933,
+    158
+   ],
+   "page": 1
+  },
+  {
+   "key": "partner_name",
+   "value": "Amazon Web Services, Inc.",
+   "bbox_2d": [
+    696,
+    838,
+    836,
+    846
+   ],
+   "page": 1
+  },
+  {
+   "key": "partner_website",
+   "value": "aws.amazon.com",
+   "bbox_2d": [
+    731,
+    109,
+    822,
+    118
+   ],
+   "page": 1
+  },
+  {
+   "key": "currency",
+   "value": "USD"
+  }
+ ]
+}

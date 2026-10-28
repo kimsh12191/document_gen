@@ -1,0 +1,81 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "authority": {
+   "label": "발행관청/Authority",
+   "type": "text",
+   "source": "code"
+  },
+  "country_code": {
+   "label": "발행국/Issuingcountry",
+   "type": "text",
+   "source": "code"
+  },
+  "date_of_birth": {
+   "label": "생년월일/Dateofbirth",
+   "type": "text",
+   "source": "code"
+  },
+  "date_of_expiry": {
+   "label": "기간만료일/Dateofexpiry",
+   "type": "text",
+   "source": "code"
+  },
+  "date_of_issue": {
+   "label": "발급일/Dateofissue",
+   "type": "text",
+   "source": "code"
+  },
+  "given_names": {
+   "label": "이름/Givennames",
+   "type": "text",
+   "source": "code"
+  },
+  "mrz.line1": {
+   "label": "MRZ",
+   "type": "text",
+   "source": "code"
+  },
+  "mrz.line2": {
+   "label": "MRZ",
+   "type": "text",
+   "source": "code"
+  },
+  "name_korean": {
+   "label": "한글성명",
+   "type": "text",
+   "source": "code"
+  },
+  "nationality": {
+   "label": "국적/Nationality",
+   "type": "text",
+   "source": "code"
+  },
+  "passport_no": {
+   "label": "여권번호/PassportNo.",
+   "type": "text",
+   "source": "code"
+  },
+  "personal_no": {
+   "label": "주민등록번호/PersonalNo.",
+   "type": "text",
+   "source": "code"
+  },
+  "sex": {
+   "label": "성별/Sex",
+   "type": "text",
+   "source": "code"
+  },
+  "surname": {
+   "label": "성/Surname",
+   "type": "text",
+   "source": "code"
+  },
+  "type": {
+   "label": "종류/Type",
+   "type": "text",
+   "source": "code"
+  }
+ }
+}

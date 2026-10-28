@@ -1,0 +1,173 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "bonus": {
+   "label": "상여금",
+   "type": "text",
+   "source": "code"
+  },
+  "bonus_amount": {
+   "label": "상여금",
+   "type": "text",
+   "source": "code"
+  },
+  "break_time": {
+   "label": "휴게시간",
+   "type": "text",
+   "source": "code"
+  },
+  "contract_date": {
+   "label": "계약일",
+   "type": "text",
+   "source": "code"
+  },
+  "employee.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "employee.name": {
+   "label": "근로자",
+   "type": "text",
+   "source": "code"
+  },
+  "employee.phone": {
+   "label": "연락처",
+   "type": "text",
+   "source": "code"
+  },
+  "employer.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "employer.ceo": {
+   "label": "대표자",
+   "type": "text",
+   "source": "code"
+  },
+  "employer.name": {
+   "label": "사업주",
+   "type": "text",
+   "source": "code"
+  },
+  "employer.phone": {
+   "label": "전화",
+   "type": "text",
+   "source": "code"
+  },
+  "end_date": {
+   "label": "근로계약종료일",
+   "type": "text",
+   "source": "code"
+  },
+  "job": {
+   "label": "업무의내용",
+   "type": "text",
+   "source": "code"
+  },
+  "monthly_salary": {
+   "label": "월(일,시간)급",
+   "type": "text",
+   "source": "code"
+  },
+  "other_pay": {
+   "label": "기타급여",
+   "type": "text",
+   "source": "code"
+  },
+  "pay_day": {
+   "label": "임금지급일",
+   "type": "text",
+   "source": "code"
+  },
+  "pay_method": {
+   "label": "지급방법",
+   "type": "text",
+   "source": "code"
+  },
+  "probation.period": {
+   "label": "수습기간",
+   "type": "text",
+   "source": "code"
+  },
+  "probation.wage_rate": {
+   "label": "수습기간임금지급률",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.employee": {
+   "label": "근로자",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.employer": {
+   "label": "사용자",
+   "type": "seal",
+   "source": "code"
+  },
+  "sign.employee": {
+   "label": "근로자",
+   "type": "signature",
+   "source": "code"
+  },
+  "start_date": {
+   "label": "근로개시일",
+   "type": "text",
+   "source": "code"
+  },
+  "weekly_holiday": {
+   "label": "주휴일",
+   "type": "text",
+   "source": "code"
+  },
+  "work_days": {
+   "label": "근무일",
+   "type": "text",
+   "source": "code"
+  },
+  "work_end": {
+   "label": "소정근로시간",
+   "type": "text",
+   "source": "code"
+  },
+  "work_start": {
+   "label": "소정근로시간",
+   "type": "text",
+   "source": "code"
+  },
+  "workplace": {
+   "label": "근무장소",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "allowances": {
+   "source": "code",
+   "fields": {
+    "amount": {
+     "label": "기타급여(제수당등)",
+     "type": "text",
+     "source": "code"
+    },
+    "name": {
+     "label": "기타급여(제수당등)",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "special_terms.#": {
+   "source": "code",
+   "fields": {
+    "#": {
+     "label": "특약사항",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

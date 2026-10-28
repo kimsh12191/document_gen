@@ -1,0 +1,168 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "company": {
+   "label": "회사명",
+   "type": "text",
+   "source": "code"
+  },
+  "deduction_total": {
+   "label": "공제액계",
+   "type": "text",
+   "source": "code"
+  },
+  "doc_title": {
+   "label": "서식명",
+   "type": "text",
+   "source": "code"
+  },
+  "employee.birth": {
+   "label": "생년월일",
+   "type": "text",
+   "source": "code"
+  },
+  "employee.department": {
+   "label": "부서",
+   "type": "text",
+   "source": "code"
+  },
+  "employee.employee_no": {
+   "label": "사번",
+   "type": "text",
+   "source": "code"
+  },
+  "employee.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "employee.position": {
+   "label": "직급",
+   "type": "text",
+   "source": "code"
+  },
+  "net_pay": {
+   "label": "실수령액",
+   "type": "text",
+   "source": "code"
+  },
+  "pay_date": {
+   "label": "지급일",
+   "type": "text",
+   "source": "code"
+  },
+  "pay_total": {
+   "label": "지급액계",
+   "type": "text",
+   "source": "code"
+  },
+  "title_month": {
+   "label": "귀속연월",
+   "type": "text",
+   "source": "code"
+  },
+  "work.days": {
+   "label": "근로일수",
+   "type": "text",
+   "source": "code"
+  },
+  "work.family": {
+   "label": "가족수",
+   "type": "text",
+   "source": "code"
+  },
+  "work.holiday_hours": {
+   "label": "휴일근로시간수",
+   "type": "text",
+   "source": "code"
+  },
+  "work.hourly_wage": {
+   "label": "통상시급(원)",
+   "type": "text",
+   "source": "code"
+  },
+  "work.hours": {
+   "label": "총근로시간수",
+   "type": "text",
+   "source": "code"
+  },
+  "work.night_hours": {
+   "label": "야간근로시간수",
+   "type": "text",
+   "source": "code"
+  },
+  "work.overtime_hours": {
+   "label": "연장근로시간수",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "calc_methods": {
+   "source": "code",
+   "fields": {
+    "amount": {
+     "label": "금액(원)",
+     "type": "text",
+     "source": "code"
+    },
+    "item": {
+     "label": "구분",
+     "type": "text",
+     "source": "code"
+    },
+    "method": {
+     "label": "산출식또는산출방법",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "deductions": {
+   "source": "code",
+   "fields": {
+    "amount": {
+     "label": "공제금액",
+     "type": "text",
+     "source": "code"
+    },
+    "name": {
+     "label": "공제항목",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "payments": {
+   "source": "code",
+   "fields": {
+    "amount": {
+     "label": "지급금액",
+     "type": "text",
+     "source": "code"
+    },
+    "name": {
+     "label": "임금항목",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "payments_irregular": {
+   "source": "code",
+   "fields": {
+    "amount": {
+     "label": "지급금액",
+     "type": "text",
+     "source": "code"
+    },
+    "name": {
+     "label": "임금항목",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

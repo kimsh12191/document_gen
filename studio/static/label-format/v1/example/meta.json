@@ -1,0 +1,7 @@
+{
+  "format": "docgen-labels/1",
+  "name": "합성 주민등록증 라벨 예제",
+  "real_data": false,
+  "gt": "exact",
+  "ocr_scope": "fields_only_example"
+}

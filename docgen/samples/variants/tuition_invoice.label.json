@@ -1,0 +1,1802 @@
+{
+ "images": [
+  "variants/tuition_invoice_p1.jpg",
+  "variants/tuition_invoice_p2.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "university.name",
+   "label": "University",
+   "type": "text",
+   "value": "Westlake State University",
+   "norm": "Westlake State University",
+   "page": 0,
+   "bbox": [
+    90.0,
+    79.5,
+    453.0,
+    117.0
+   ]
+  },
+  {
+   "key": "university.office",
+   "label": "Office",
+   "type": "text",
+   "value": "Office of Student Accounts",
+   "norm": "Office of Student Accounts",
+   "page": 0,
+   "bbox": [
+    90.0,
+    124.3,
+    281.0,
+    143.8
+   ]
+  },
+  {
+   "key": "university.address",
+   "label": "UniversityAddress",
+   "type": "text",
+   "value": "1800 Lakeview Dr, Seattle, WA 98105, USA",
+   "norm": "1800 Lakeview Dr, Seattle, WA 98105, USA",
+   "page": 0,
+   "bbox": [
+    90.0,
+    149.8,
+    404.0,
+    169.3
+   ]
+  },
+  {
+   "key": "student.name",
+   "label": "StudentName",
+   "type": "text",
+   "value": "Soyun Kim",
+   "norm": "Soyun Kim",
+   "page": 0,
+   "bbox": [
+    222.4,
+    221.7,
+    317.5,
+    244.2
+   ],
+   "label_bbox": [
+    90.0,
+    217.2,
+    222.4,
+    249.0
+   ]
+  },
+  {
+   "key": "student.id",
+   "label": "StudentID",
+   "type": "text",
+   "value": "N42700432",
+   "norm": "N42700432",
+   "page": 0,
+   "bbox": [
+    222.4,
+    253.5,
+    315.8,
+    276.0
+   ],
+   "label_bbox": [
+    90.0,
+    249.0,
+    222.4,
+    280.7
+   ]
+  },
+  {
+   "key": "student.program",
+   "label": "Program",
+   "type": "text",
+   "value": "Master of Science (M.S.) in Data Science",
+   "norm": "Master of Science (M.S.) in Data Science",
+   "page": 0,
+   "bbox": [
+    222.4,
+    285.2,
+    550.9,
+    307.7
+   ],
+   "label_bbox": [
+    90.0,
+    280.7,
+    222.4,
+    312.4
+   ]
+  },
+  {
+   "key": "invoice_no",
+   "label": "InvoiceNo",
+   "type": "text",
+   "value": "INV-2026163654",
+   "norm": "INV-2026163654",
+   "page": 0,
+   "bbox": [
+    931.3,
+    221.7,
+    1070.2,
+    244.2
+   ],
+   "label_bbox": [
+    813.3,
+    217.2,
+    931.3,
+    249.0
+   ]
+  },
+  {
+   "key": "invoice_date",
+   "label": "InvoiceDate",
+   "type": "date",
+   "value": "November 02, 2025",
+   "norm": "2025-11-02",
+   "page": 0,
+   "bbox": [
+    931.3,
+    253.5,
+    1089.0,
+    276.0
+   ],
+   "label_bbox": [
+    813.3,
+    249.0,
+    931.3,
+    280.7
+   ]
+  },
+  {
+   "key": "term",
+   "label": "Term",
+   "type": "text",
+   "value": "Spring 2026",
+   "norm": "Spring 2026",
+   "page": 0,
+   "bbox": [
+    931.3,
+    285.2,
+    1028.6,
+    307.7
+   ],
+   "label_bbox": [
+    813.3,
+    280.7,
+    931.3,
+    312.4
+   ]
+  },
+  {
+   "key": "items.0.date",
+   "label": "Date",
+   "type": "date",
+   "value": "10/31/2025",
+   "norm": "2025-10-31",
+   "page": 0,
+   "bbox": [
+    106.5,
+    383.1,
+    196.6,
+    405.6
+   ],
+   "label_bbox": [
+    90.8,
+    325.1,
+    240.8,
+    376.3
+   ]
+  },
+  {
+   "key": "items.0.description",
+   "label": "Description",
+   "type": "text",
+   "value": "Tuition: DS 823 Data Engineering (3 cr)",
+   "norm": "Tuition: DS 823 Data Engineering (3 cr)",
+   "page": 0,
+   "bbox": [
+    256.5,
+    383.1,
+    576.6,
+    405.6
+   ],
+   "label_bbox": [
+    240.8,
+    325.1,
+    710.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.0.charge",
+   "label": "Charges",
+   "type": "amount",
+   "value": "$5,919.23",
+   "norm": 5919.23,
+   "page": 0,
+   "bbox": [
+    810.4,
+    383.1,
+    889.5,
+    405.6
+   ],
+   "label_bbox": [
+    710.2,
+    325.1,
+    905.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.1.date",
+   "label": "Date",
+   "type": "date",
+   "value": "11/01/2025",
+   "norm": "2025-11-01",
+   "page": 0,
+   "bbox": [
+    106.5,
+    419.3,
+    195.9,
+    441.8
+   ],
+   "label_bbox": [
+    90.8,
+    325.1,
+    240.8,
+    376.3
+   ]
+  },
+  {
+   "key": "items.1.description",
+   "label": "Description",
+   "type": "text",
+   "value": "Tuition: DS 661 Optimization Methods (3 cr)",
+   "norm": "Tuition: DS 661 Optimization Methods (3 cr)",
+   "page": 0,
+   "bbox": [
+    256.5,
+    419.3,
+    616.2,
+    441.8
+   ],
+   "label_bbox": [
+    240.8,
+    325.1,
+    710.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.1.charge",
+   "label": "Charges",
+   "type": "amount",
+   "value": "$5,919.23",
+   "norm": 5919.23,
+   "page": 0,
+   "bbox": [
+    810.4,
+    419.3,
+    889.5,
+    441.8
+   ],
+   "label_bbox": [
+    710.2,
+    325.1,
+    905.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.2.date",
+   "label": "Date",
+   "type": "date",
+   "value": "11/01/2025",
+   "norm": "2025-11-01",
+   "page": 0,
+   "bbox": [
+    106.5,
+    455.5,
+    195.9,
+    478.0
+   ],
+   "label_bbox": [
+    90.8,
+    325.1,
+    240.8,
+    376.3
+   ]
+  },
+  {
+   "key": "items.2.description",
+   "label": "Description",
+   "type": "text",
+   "value": "Tuition: DS 873 Statistical Learning (3 cr)",
+   "norm": "Tuition: DS 873 Statistical Learning (3 cr)",
+   "page": 0,
+   "bbox": [
+    256.5,
+    455.5,
+    592.0,
+    478.0
+   ],
+   "label_bbox": [
+    240.8,
+    325.1,
+    710.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.2.charge",
+   "label": "Charges",
+   "type": "amount",
+   "value": "$5,919.23",
+   "norm": 5919.23,
+   "page": 0,
+   "bbox": [
+    810.4,
+    455.5,
+    889.5,
+    478.0
+   ],
+   "label_bbox": [
+    710.2,
+    325.1,
+    905.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.3.date",
+   "label": "Date",
+   "type": "date",
+   "value": "11/01/2025",
+   "norm": "2025-11-01",
+   "page": 0,
+   "bbox": [
+    106.5,
+    491.7,
+    195.9,
+    514.2
+   ],
+   "label_bbox": [
+    90.8,
+    325.1,
+    240.8,
+    376.3
+   ]
+  },
+  {
+   "key": "items.3.description",
+   "label": "Description",
+   "type": "text",
+   "value": "Tuition: DS 603 Probability and Inference (4 cr)",
+   "norm": "Tuition: DS 603 Probability and Inference (4 cr)",
+   "page": 0,
+   "bbox": [
+    256.5,
+    491.7,
+    638.7,
+    514.2
+   ],
+   "label_bbox": [
+    240.8,
+    325.1,
+    710.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.3.charge",
+   "label": "Charges",
+   "type": "amount",
+   "value": "$7,892.31",
+   "norm": 7892.31,
+   "page": 0,
+   "bbox": [
+    810.4,
+    491.7,
+    889.5,
+    514.2
+   ],
+   "label_bbox": [
+    710.2,
+    325.1,
+    905.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.4.date",
+   "label": "Date",
+   "type": "date",
+   "value": "10/31/2025",
+   "norm": "2025-10-31",
+   "page": 0,
+   "bbox": [
+    106.5,
+    527.9,
+    196.6,
+    550.4
+   ],
+   "label_bbox": [
+    90.8,
+    325.1,
+    240.8,
+    376.3
+   ]
+  },
+  {
+   "key": "items.4.description",
+   "label": "Description",
+   "type": "text",
+   "value": "Student Activity Fee",
+   "norm": "Student Activity Fee",
+   "page": 0,
+   "bbox": [
+    256.5,
+    527.9,
+    419.2,
+    550.4
+   ],
+   "label_bbox": [
+    240.8,
+    325.1,
+    710.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.4.charge",
+   "label": "Charges",
+   "type": "amount",
+   "value": "$354.00",
+   "norm": 354.0,
+   "page": 0,
+   "bbox": [
+    825.2,
+    527.9,
+    889.5,
+    550.4
+   ],
+   "label_bbox": [
+    710.2,
+    325.1,
+    905.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.5.date",
+   "label": "Date",
+   "type": "date",
+   "value": "10/31/2025",
+   "norm": "2025-10-31",
+   "page": 0,
+   "bbox": [
+    106.5,
+    564.1,
+    196.6,
+    586.6
+   ],
+   "label_bbox": [
+    90.8,
+    325.1,
+    240.8,
+    376.3
+   ]
+  },
+  {
+   "key": "items.5.description",
+   "label": "Description",
+   "type": "text",
+   "value": "Technology Fee",
+   "norm": "Technology Fee",
+   "page": 0,
+   "bbox": [
+    256.5,
+    564.1,
+    383.1,
+    586.6
+   ],
+   "label_bbox": [
+    240.8,
+    325.1,
+    710.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.5.charge",
+   "label": "Charges",
+   "type": "amount",
+   "value": "$260.00",
+   "norm": 260.0,
+   "page": 0,
+   "bbox": [
+    825.2,
+    564.1,
+    889.5,
+    586.6
+   ],
+   "label_bbox": [
+    710.2,
+    325.1,
+    905.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.6.date",
+   "label": "Date",
+   "type": "date",
+   "value": "11/02/2025",
+   "norm": "2025-11-02",
+   "page": 0,
+   "bbox": [
+    106.5,
+    600.4,
+    195.9,
+    622.9
+   ],
+   "label_bbox": [
+    90.8,
+    325.1,
+    240.8,
+    376.3
+   ]
+  },
+  {
+   "key": "items.6.description",
+   "label": "Description",
+   "type": "text",
+   "value": "Student Health Insurance Plan",
+   "norm": "Student Health Insurance Plan",
+   "page": 0,
+   "bbox": [
+    256.5,
+    600.4,
+    496.6,
+    622.9
+   ],
+   "label_bbox": [
+    240.8,
+    325.1,
+    710.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.6.charge",
+   "label": "Charges",
+   "type": "amount",
+   "value": "$2,597.00",
+   "norm": 2597.0,
+   "page": 0,
+   "bbox": [
+    810.4,
+    600.4,
+    889.5,
+    622.9
+   ],
+   "label_bbox": [
+    710.2,
+    325.1,
+    905.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.7.date",
+   "label": "Date",
+   "type": "date",
+   "value": "10/30/2025",
+   "norm": "2025-10-30",
+   "page": 0,
+   "bbox": [
+    106.5,
+    636.6,
+    196.6,
+    659.1
+   ],
+   "label_bbox": [
+    90.8,
+    325.1,
+    240.8,
+    376.3
+   ]
+  },
+  {
+   "key": "items.7.description",
+   "label": "Description",
+   "type": "text",
+   "value": "International Student Service Fee",
+   "norm": "International Student Service Fee",
+   "page": 0,
+   "bbox": [
+    256.5,
+    636.6,
+    520.7,
+    659.1
+   ],
+   "label_bbox": [
+    240.8,
+    325.1,
+    710.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.7.charge",
+   "label": "Charges",
+   "type": "amount",
+   "value": "$107.00",
+   "norm": 107.0,
+   "page": 0,
+   "bbox": [
+    825.2,
+    636.6,
+    889.5,
+    659.1
+   ],
+   "label_bbox": [
+    710.2,
+    325.1,
+    905.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.8.date",
+   "label": "Date",
+   "type": "date",
+   "value": "10/30/2025",
+   "norm": "2025-10-30",
+   "page": 0,
+   "bbox": [
+    106.5,
+    672.8,
+    196.6,
+    695.3
+   ],
+   "label_bbox": [
+    90.8,
+    325.1,
+    240.8,
+    376.3
+   ]
+  },
+  {
+   "key": "items.8.description",
+   "label": "Description",
+   "type": "text",
+   "value": "Athletics Fee",
+   "norm": "Athletics Fee",
+   "page": 0,
+   "bbox": [
+    256.5,
+    672.8,
+    361.4,
+    695.3
+   ],
+   "label_bbox": [
+    240.8,
+    325.1,
+    710.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.8.charge",
+   "label": "Charges",
+   "type": "amount",
+   "value": "$196.00",
+   "norm": 196.0,
+   "page": 0,
+   "bbox": [
+    825.2,
+    672.8,
+    889.5,
+    695.3
+   ],
+   "label_bbox": [
+    710.2,
+    325.1,
+    905.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.9.date",
+   "label": "Date",
+   "type": "date",
+   "value": "11/02/2025",
+   "norm": "2025-11-02",
+   "page": 0,
+   "bbox": [
+    106.5,
+    709.0,
+    195.9,
+    731.5
+   ],
+   "label_bbox": [
+    90.8,
+    325.1,
+    240.8,
+    376.3
+   ]
+  },
+  {
+   "key": "items.9.description",
+   "label": "Description",
+   "type": "text",
+   "value": "Recreation Center Fee",
+   "norm": "Recreation Center Fee",
+   "page": 0,
+   "bbox": [
+    256.5,
+    709.0,
+    433.4,
+    731.5
+   ],
+   "label_bbox": [
+    240.8,
+    325.1,
+    710.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.9.charge",
+   "label": "Charges",
+   "type": "amount",
+   "value": "$157.00",
+   "norm": 157.0,
+   "page": 0,
+   "bbox": [
+    825.2,
+    709.0,
+    889.5,
+    731.5
+   ],
+   "label_bbox": [
+    710.2,
+    325.1,
+    905.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.10.date",
+   "label": "Date",
+   "type": "date",
+   "value": "10/31/2025",
+   "norm": "2025-10-31",
+   "page": 0,
+   "bbox": [
+    106.5,
+    745.2,
+    196.6,
+    767.7
+   ],
+   "label_bbox": [
+    90.8,
+    325.1,
+    240.8,
+    376.3
+   ]
+  },
+  {
+   "key": "items.10.description",
+   "label": "Description",
+   "type": "text",
+   "value": "Student Union Fee",
+   "norm": "Student Union Fee",
+   "page": 0,
+   "bbox": [
+    256.5,
+    745.2,
+    404.9,
+    767.7
+   ],
+   "label_bbox": [
+    240.8,
+    325.1,
+    710.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.10.charge",
+   "label": "Charges",
+   "type": "amount",
+   "value": "$183.00",
+   "norm": 183.0,
+   "page": 0,
+   "bbox": [
+    825.2,
+    745.2,
+    889.5,
+    767.7
+   ],
+   "label_bbox": [
+    710.2,
+    325.1,
+    905.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.11.date",
+   "label": "Date",
+   "type": "date",
+   "value": "11/01/2025",
+   "norm": "2025-11-01",
+   "page": 0,
+   "bbox": [
+    106.5,
+    781.4,
+    195.9,
+    803.9
+   ],
+   "label_bbox": [
+    90.8,
+    325.1,
+    240.8,
+    376.3
+   ]
+  },
+  {
+   "key": "items.11.description",
+   "label": "Description",
+   "type": "text",
+   "value": "Student ID Card Fee",
+   "norm": "Student ID Card Fee",
+   "page": 0,
+   "bbox": [
+    256.5,
+    781.4,
+    419.7,
+    803.9
+   ],
+   "label_bbox": [
+    240.8,
+    325.1,
+    710.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.11.charge",
+   "label": "Charges",
+   "type": "amount",
+   "value": "$32.00",
+   "norm": 32.0,
+   "page": 0,
+   "bbox": [
+    835.1,
+    781.4,
+    889.5,
+    803.9
+   ],
+   "label_bbox": [
+    710.2,
+    325.1,
+    905.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.12.date",
+   "label": "Date",
+   "type": "date",
+   "value": "11/02/2025",
+   "norm": "2025-11-02",
+   "page": 0,
+   "bbox": [
+    106.5,
+    817.6,
+    195.9,
+    840.1
+   ],
+   "label_bbox": [
+    90.8,
+    325.1,
+    240.8,
+    376.3
+   ]
+  },
+  {
+   "key": "items.12.description",
+   "label": "Description",
+   "type": "text",
+   "value": "Transportation Fee (Transit Pass)",
+   "norm": "Transportation Fee (Transit Pass)",
+   "page": 0,
+   "bbox": [
+    256.5,
+    817.6,
+    519.4,
+    840.1
+   ],
+   "label_bbox": [
+    240.8,
+    325.1,
+    710.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.12.charge",
+   "label": "Charges",
+   "type": "amount",
+   "value": "$141.00",
+   "norm": 141.0,
+   "page": 0,
+   "bbox": [
+    825.2,
+    817.6,
+    889.5,
+    840.1
+   ],
+   "label_bbox": [
+    710.2,
+    325.1,
+    905.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.13.date",
+   "label": "Date",
+   "type": "date",
+   "value": "10/31/2025",
+   "norm": "2025-10-31",
+   "page": 0,
+   "bbox": [
+    106.5,
+    853.8,
+    196.6,
+    876.3
+   ],
+   "label_bbox": [
+    90.8,
+    325.1,
+    240.8,
+    376.3
+   ]
+  },
+  {
+   "key": "items.13.description",
+   "label": "Description",
+   "type": "text",
+   "value": "Graduate Student Association Fee",
+   "norm": "Graduate Student Association Fee",
+   "page": 0,
+   "bbox": [
+    256.5,
+    853.8,
+    525.1,
+    876.3
+   ],
+   "label_bbox": [
+    240.8,
+    325.1,
+    710.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.13.charge",
+   "label": "Charges",
+   "type": "amount",
+   "value": "$45.00",
+   "norm": 45.0,
+   "page": 0,
+   "bbox": [
+    835.1,
+    853.8,
+    889.5,
+    876.3
+   ],
+   "label_bbox": [
+    710.2,
+    325.1,
+    905.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.14.date",
+   "label": "Date",
+   "type": "date",
+   "value": "10/30/2025",
+   "norm": "2025-10-30",
+   "page": 0,
+   "bbox": [
+    106.5,
+    890.0,
+    196.6,
+    912.5
+   ],
+   "label_bbox": [
+    90.8,
+    325.1,
+    240.8,
+    376.3
+   ]
+  },
+  {
+   "key": "items.14.description",
+   "label": "Description",
+   "type": "text",
+   "value": "On-Campus Housing (Single Room)",
+   "norm": "On-Campus Housing (Single Room)",
+   "page": 0,
+   "bbox": [
+    256.5,
+    890.0,
+    546.1,
+    912.5
+   ],
+   "label_bbox": [
+    240.8,
+    325.1,
+    710.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.14.charge",
+   "label": "Charges",
+   "type": "amount",
+   "value": "$8,300.00",
+   "norm": 8300.0,
+   "page": 0,
+   "bbox": [
+    810.4,
+    890.0,
+    889.5,
+    912.5
+   ],
+   "label_bbox": [
+    710.2,
+    325.1,
+    905.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.15.date",
+   "label": "Date",
+   "type": "date",
+   "value": "11/01/2025",
+   "norm": "2025-11-01",
+   "page": 0,
+   "bbox": [
+    106.5,
+    926.2,
+    195.9,
+    948.8
+   ],
+   "label_bbox": [
+    90.8,
+    325.1,
+    240.8,
+    376.3
+   ]
+  },
+  {
+   "key": "items.15.description",
+   "label": "Description",
+   "type": "text",
+   "value": "Meal Plan",
+   "norm": "Meal Plan",
+   "page": 0,
+   "bbox": [
+    256.5,
+    926.2,
+    337.3,
+    948.8
+   ],
+   "label_bbox": [
+    240.8,
+    325.1,
+    710.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.15.charge",
+   "label": "Charges",
+   "type": "amount",
+   "value": "$2,530.00",
+   "norm": 2530.0,
+   "page": 0,
+   "bbox": [
+    810.4,
+    926.2,
+    889.5,
+    948.8
+   ],
+   "label_bbox": [
+    710.2,
+    325.1,
+    905.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.16.date",
+   "label": "Date",
+   "type": "date",
+   "value": "10/31/2025",
+   "norm": "2025-10-31",
+   "page": 0,
+   "bbox": [
+    106.5,
+    962.5,
+    196.6,
+    985.0
+   ],
+   "label_bbox": [
+    90.8,
+    325.1,
+    240.8,
+    376.3
+   ]
+  },
+  {
+   "key": "items.16.description",
+   "label": "Description",
+   "type": "text",
+   "value": "Payment Plan Enrollment Fee",
+   "norm": "Payment Plan Enrollment Fee",
+   "page": 0,
+   "bbox": [
+    256.5,
+    962.5,
+    493.3,
+    985.0
+   ],
+   "label_bbox": [
+    240.8,
+    325.1,
+    710.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.16.charge",
+   "label": "Charges",
+   "type": "amount",
+   "value": "$60.00",
+   "norm": 60.0,
+   "page": 0,
+   "bbox": [
+    835.1,
+    962.5,
+    889.5,
+    985.0
+   ],
+   "label_bbox": [
+    710.2,
+    325.1,
+    905.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.17.date",
+   "label": "Date",
+   "type": "date",
+   "value": "10/25/2025",
+   "norm": "2025-10-25",
+   "page": 0,
+   "bbox": [
+    106.5,
+    998.7,
+    196.6,
+    1021.2
+   ],
+   "label_bbox": [
+    90.8,
+    325.1,
+    240.8,
+    376.3
+   ]
+  },
+  {
+   "key": "items.17.description",
+   "label": "Description",
+   "type": "text",
+   "value": "Global Excellence Scholarship",
+   "norm": "Global Excellence Scholarship",
+   "page": 0,
+   "bbox": [
+    256.5,
+    998.7,
+    500.4,
+    1021.2
+   ],
+   "label_bbox": [
+    240.8,
+    325.1,
+    710.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.17.credit",
+   "label": "Payments/Credits",
+   "type": "amount",
+   "value": "$12,820.00",
+   "norm": 12820.0,
+   "page": 0,
+   "bbox": [
+    995.5,
+    998.7,
+    1084.5,
+    1021.2
+   ],
+   "label_bbox": [
+    905.2,
+    325.1,
+    1100.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.18.date",
+   "label": "Date",
+   "type": "date",
+   "value": "10/27/2025",
+   "norm": "2025-10-27",
+   "page": 0,
+   "bbox": [
+    106.5,
+    1049.2,
+    196.6,
+    1071.7
+   ],
+   "label_bbox": [
+    90.8,
+    325.1,
+    240.8,
+    376.3
+   ]
+  },
+  {
+   "key": "items.18.description",
+   "label": "Description",
+   "type": "text",
+   "value": "Payment Received - International Wire (Ref. 89768621)",
+   "norm": "Payment Received - International Wire (Ref. 89768621)",
+   "page": 0,
+   "bbox": [
+    256.5,
+    1034.9,
+    610.2,
+    1086.1
+   ],
+   "label_bbox": [
+    240.8,
+    325.1,
+    710.2,
+    376.3
+   ]
+  },
+  {
+   "key": "items.18.credit",
+   "label": "Payments/Credits",
+   "type": "amount",
+   "value": "$13,400.00",
+   "norm": 13400.0,
+   "page": 0,
+   "bbox": [
+    995.5,
+    1049.2,
+    1084.5,
+    1071.7
+   ],
+   "label_bbox": [
+    905.2,
+    325.1,
+    1100.2,
+    376.3
+   ]
+  },
+  {
+   "key": "summary.previous_balance",
+   "label": "PreviousBalance",
+   "type": "amount",
+   "value": "$0.00",
+   "norm": 0.0,
+   "page": 0,
+   "bbox": [
+    1040.0,
+    1117.8,
+    1084.5,
+    1140.3
+   ],
+   "label_bbox": [
+    606.8,
+    1103.6,
+    905.6,
+    1154.8
+   ]
+  },
+  {
+   "key": "summary.charges",
+   "label": "NewCharges",
+   "type": "amount",
+   "value": "$40,612.00",
+   "norm": 40612.0,
+   "page": 0,
+   "bbox": [
+    995.5,
+    1169.0,
+    1084.5,
+    1191.5
+   ],
+   "label_bbox": [
+    606.8,
+    1154.8,
+    905.6,
+    1206.0
+   ]
+  },
+  {
+   "key": "summary.credits",
+   "label": "Payments/Credits",
+   "type": "amount",
+   "value": "$26,220.00",
+   "norm": 26220.0,
+   "page": 0,
+   "bbox": [
+    995.5,
+    1220.2,
+    1084.5,
+    1242.7
+   ],
+   "label_bbox": [
+    606.8,
+    1206.0,
+    905.6,
+    1257.9
+   ]
+  },
+  {
+   "key": "total",
+   "label": "TotalAmountDue",
+   "type": "amount",
+   "value": "USD 14,392.00",
+   "norm": 14392.0,
+   "page": 0,
+   "bbox": [
+    960.8,
+    1272.9,
+    1084.5,
+    1295.4
+   ],
+   "label_bbox": [
+    606.8,
+    1257.9,
+    905.6,
+    1309.9
+   ]
+  },
+  {
+   "key": "due_date",
+   "label": "DueDate",
+   "type": "date",
+   "value": "January 01, 2026",
+   "norm": "2026-01-01",
+   "page": 0,
+   "bbox": [
+    280.2,
+    1328.6,
+    452.1,
+    1354.1
+   ]
+  },
+  {
+   "key": "amount_due_now",
+   "label": "AmountDueNow",
+   "type": "amount",
+   "value": "$3,598.00",
+   "norm": 3598.0,
+   "page": 1,
+   "bbox": [
+    794.7,
+    167.4,
+    864.8,
+    186.9
+   ]
+  },
+  {
+   "key": "installments.0.no",
+   "label": "InstallmentNo",
+   "type": "number",
+   "value": "1",
+   "norm": 1,
+   "page": 1,
+   "bbox": [
+    194.6,
+    257.6,
+    204.5,
+    280.1
+   ],
+   "label_bbox": [
+    90.8,
+    192.1,
+    308.4,
+    243.4
+   ]
+  },
+  {
+   "key": "installments.0.due_date",
+   "label": "InstallmentDueDate",
+   "type": "date",
+   "value": "January 01, 2026",
+   "norm": "2026-01-01",
+   "page": 1,
+   "bbox": [
+    324.2,
+    257.6,
+    459.9,
+    280.1
+   ],
+   "label_bbox": [
+    308.4,
+    192.1,
+    609.1,
+    243.4
+   ]
+  },
+  {
+   "key": "installments.0.amount",
+   "label": "InstallmentAmount",
+   "type": "amount",
+   "value": "$3,598.00",
+   "norm": 3598.0,
+   "page": 1,
+   "bbox": [
+    702.1,
+    257.6,
+    781.2,
+    280.1
+   ],
+   "label_bbox": [
+    609.1,
+    192.1,
+    796.9,
+    243.4
+   ]
+  },
+  {
+   "key": "installments.1.no",
+   "label": "InstallmentNo",
+   "type": "number",
+   "value": "2",
+   "norm": 2,
+   "page": 1,
+   "bbox": [
+    194.6,
+    308.8,
+    204.5,
+    331.3
+   ],
+   "label_bbox": [
+    90.8,
+    192.1,
+    308.4,
+    243.4
+   ]
+  },
+  {
+   "key": "installments.1.due_date",
+   "label": "InstallmentDueDate",
+   "type": "date",
+   "value": "February 01, 2026",
+   "norm": "2026-02-01",
+   "page": 1,
+   "bbox": [
+    324.2,
+    308.8,
+    469.8,
+    331.3
+   ],
+   "label_bbox": [
+    308.4,
+    192.1,
+    609.1,
+    243.4
+   ]
+  },
+  {
+   "key": "installments.1.amount",
+   "label": "InstallmentAmount",
+   "type": "amount",
+   "value": "$3,598.00",
+   "norm": 3598.0,
+   "page": 1,
+   "bbox": [
+    702.1,
+    308.8,
+    781.2,
+    331.3
+   ],
+   "label_bbox": [
+    609.1,
+    192.1,
+    796.9,
+    243.4
+   ]
+  },
+  {
+   "key": "installments.2.no",
+   "label": "InstallmentNo",
+   "type": "number",
+   "value": "3",
+   "norm": 3,
+   "page": 1,
+   "bbox": [
+    194.6,
+    360.0,
+    204.5,
+    382.5
+   ],
+   "label_bbox": [
+    90.8,
+    192.1,
+    308.4,
+    243.4
+   ]
+  },
+  {
+   "key": "installments.2.due_date",
+   "label": "InstallmentDueDate",
+   "type": "date",
+   "value": "March 01, 2026",
+   "norm": "2026-03-01",
+   "page": 1,
+   "bbox": [
+    324.2,
+    360.0,
+    450.0,
+    382.5
+   ],
+   "label_bbox": [
+    308.4,
+    192.1,
+    609.1,
+    243.4
+   ]
+  },
+  {
+   "key": "installments.2.amount",
+   "label": "InstallmentAmount",
+   "type": "amount",
+   "value": "$3,598.00",
+   "norm": 3598.0,
+   "page": 1,
+   "bbox": [
+    702.1,
+    360.0,
+    781.2,
+    382.5
+   ],
+   "label_bbox": [
+    609.1,
+    192.1,
+    796.9,
+    243.4
+   ]
+  },
+  {
+   "key": "installments.3.no",
+   "label": "InstallmentNo",
+   "type": "number",
+   "value": "4",
+   "norm": 4,
+   "page": 1,
+   "bbox": [
+    194.6,
+    411.2,
+    204.5,
+    433.7
+   ],
+   "label_bbox": [
+    90.8,
+    192.1,
+    308.4,
+    243.4
+   ]
+  },
+  {
+   "key": "installments.3.due_date",
+   "label": "InstallmentDueDate",
+   "type": "date",
+   "value": "April 01, 2026",
+   "norm": "2026-04-01",
+   "page": 1,
+   "bbox": [
+    324.2,
+    411.2,
+    440.1,
+    433.7
+   ],
+   "label_bbox": [
+    308.4,
+    192.1,
+    609.1,
+    243.4
+   ]
+  },
+  {
+   "key": "installments.3.amount",
+   "label": "InstallmentAmount",
+   "type": "amount",
+   "value": "$3,598.00",
+   "norm": 3598.0,
+   "page": 1,
+   "bbox": [
+    702.1,
+    411.2,
+    781.2,
+    433.7
+   ],
+   "label_bbox": [
+    609.1,
+    192.1,
+    796.9,
+    243.4
+   ]
+  },
+  {
+   "key": "bank.beneficiary",
+   "label": "Beneficiary",
+   "type": "text",
+   "value": "Westlake State University",
+   "norm": "Westlake State University",
+   "page": 1,
+   "bbox": [
+    394.5,
+    528.9,
+    599.5,
+    551.4
+   ],
+   "label_bbox": [
+    109.5,
+    524.4,
+    394.5,
+    556.1
+   ]
+  },
+  {
+   "key": "bank.bank_name",
+   "label": "BankName",
+   "type": "text",
+   "value": "Bank of America, N.A.",
+   "norm": "Bank of America, N.A.",
+   "page": 1,
+   "bbox": [
+    394.5,
+    560.6,
+    578.0,
+    583.1
+   ],
+   "label_bbox": [
+    109.5,
+    556.1,
+    394.5,
+    587.8
+   ]
+  },
+  {
+   "key": "bank.swift",
+   "label": "SWIFT",
+   "type": "text",
+   "value": "BOFAUS3N",
+   "norm": "BOFAUS3N",
+   "page": 1,
+   "bbox": [
+    394.5,
+    592.3,
+    495.3,
+    614.8
+   ],
+   "label_bbox": [
+    109.5,
+    587.8,
+    394.5,
+    619.5
+   ]
+  },
+  {
+   "key": "bank.account",
+   "label": "AccountNumber",
+   "type": "account_no",
+   "value": "321450801",
+   "norm": "321450801",
+   "page": 1,
+   "bbox": [
+    394.5,
+    624.0,
+    483.5,
+    646.5
+   ],
+   "label_bbox": [
+    109.5,
+    619.5,
+    394.5,
+    651.3
+   ]
+  },
+  {
+   "key": "bank.routing_label",
+   "label": "RoutingLabel",
+   "type": "text",
+   "value": "ABA Routing No.",
+   "norm": "ABA Routing No.",
+   "page": 1,
+   "bbox": [
+    109.5,
+    655.8,
+    257.3,
+    678.3
+   ]
+  },
+  {
+   "key": "bank.routing",
+   "label": "RoutingNumber",
+   "type": "number",
+   "value": "041250495",
+   "norm": 41250495,
+   "page": 1,
+   "bbox": [
+    394.5,
+    655.8,
+    483.5,
+    678.3
+   ],
+   "label_bbox": [
+    109.5,
+    651.3,
+    394.5,
+    683.0
+   ]
+  },
+  {
+   "key": "bank.reference",
+   "label": "PaymentReference",
+   "type": "text",
+   "value": "N42700432 Soyun Kim",
+   "norm": "N42700432 Soyun Kim",
+   "page": 1,
+   "bbox": [
+    394.5,
+    687.5,
+    588.0,
+    710.0
+   ],
+   "label_bbox": [
+    109.5,
+    683.0,
+    394.5,
+    714.7
+   ]
+  }
+ ]
+}

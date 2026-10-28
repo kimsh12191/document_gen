@@ -1,0 +1,288 @@
+{
+ "items": [
+  {
+   "key": "issuer",
+   "value": "Azure Interior",
+   "bbox_2d": [
+    50,
+    54,
+    156,
+    68
+   ],
+   "page": 1
+  },
+  {
+   "key": "amount",
+   "value": "279.84",
+   "bbox_2d": [
+    892,
+    689,
+    946,
+    703
+   ],
+   "page": 1
+  },
+  {
+   "key": "amount_tax",
+   "value": "16.94",
+   "bbox_2d": [
+    902,
+    664,
+    946,
+    678
+   ],
+   "page": 1
+  },
+  {
+   "key": "amount_untaxed",
+   "value": "262.9",
+   "bbox_2d": [
+    892,
+    639,
+    946,
+    653
+   ],
+   "page": 1
+  },
+  {
+   "key": "invoice_number",
+   "value": "INV/2023/03/0008",
+   "bbox_2d": [
+    166,
+    245,
+    464,
+    272
+   ],
+   "page": 1
+  },
+  {
+   "key": "partner_email",
+   "value": "azure.Interior24@example.com",
+   "bbox_2d": [
+    326,
+    895,
+    563,
+    909
+   ],
+   "page": 1
+  },
+  {
+   "key": "partner_website",
+   "value": "http://www.azure-interior.com",
+   "bbox_2d": [
+    575,
+    895,
+    808,
+    909
+   ],
+   "page": 1
+  },
+  {
+   "key": "partner_name",
+   "value": "Azure Interior",
+   "bbox_2d": [
+    50,
+    54,
+    156,
+    68
+   ],
+   "page": 1
+  },
+  {
+   "key": "partner_street",
+   "value": "4557 De Silva St",
+   "bbox_2d": [
+    50,
+    73,
+    172,
+    86
+   ],
+   "page": 1
+  },
+  {
+   "key": "partner_city",
+   "value": "Fremont",
+   "bbox_2d": [
+    50,
+    91,
+    115,
+    105
+   ],
+   "page": 1
+  },
+  {
+   "key": "state_code",
+   "value": "CA",
+   "bbox_2d": [
+    118,
+    91,
+    142,
+    105
+   ],
+   "page": 1
+  },
+  {
+   "key": "country_code",
+   "value": "US"
+  },
+  {
+   "key": "partner_zip",
+   "value": "94538",
+   "bbox_2d": [
+    145,
+    91,
+    195,
+    105
+   ],
+   "page": 1
+  },
+  {
+   "key": "partner_street2",
+   "value": "Building AA"
+  },
+  {
+   "key": "partner_street3",
+   "value": "10th Floor"
+  },
+  {
+   "key": "partner_ref",
+   "value": "Azure_Int",
+   "bbox_2d": [
+    326,
+    895,
+    402,
+    909
+   ],
+   "page": 1
+  },
+  {
+   "key": "currency_symbol",
+   "value": "$"
+  },
+  {
+   "key": "telephone",
+   "value": "(870)-931-0505",
+   "bbox_2d": [
+    193,
+    895,
+    315,
+    909
+   ],
+   "page": 1
+  },
+  {
+   "key": "iban",
+   "value": "US1234567890",
+   "bbox_2d": [
+    165,
+    771,
+    286,
+    785
+   ],
+   "page": 1
+  },
+  {
+   "key": "bic",
+   "value": "bic"
+  },
+  {
+   "key": "incoterm",
+   "value": "DPU",
+   "bbox_2d": [
+    128,
+    832,
+    164,
+    846
+   ],
+   "page": 1
+  },
+  {
+   "key": "payment_reference",
+   "value": "202309097001",
+   "bbox_2d": [
+    493,
+    710,
+    613,
+    724
+   ],
+   "page": 1
+  },
+  {
+   "key": "customer_order_free_ref",
+   "value": "CUSTREF123",
+   "bbox_2d": [
+    672,
+    311,
+    776,
+    325
+   ],
+   "page": 1
+  },
+  {
+   "key": "date",
+   "value": "2023-03-20",
+   "bbox_2d": [
+    50,
+    311,
+    142,
+    325
+   ],
+   "page": 1
+  },
+  {
+   "key": "date_due",
+   "value": "2023-04-04",
+   "bbox_2d": [
+    361,
+    311,
+    453,
+    325
+   ],
+   "page": 1
+  },
+  {
+   "key": "mandate_id",
+   "value": "111"
+  },
+  {
+   "key": "payment_unece_code",
+   "value": "30"
+  },
+  {
+   "key": "customer_order_number",
+   "value": "333"
+  },
+  {
+   "key": "purchase_order_id",
+   "value": "444"
+  },
+  {
+   "key": "mobile",
+   "value": "555"
+  },
+  {
+   "key": "partner_coc",
+   "value": "666"
+  },
+  {
+   "key": "date_start",
+   "value": "2023-03-01"
+  },
+  {
+   "key": "date_end",
+   "value": "2023-03-31"
+  },
+  {
+   "key": "currency",
+   "value": "USD"
+  },
+  {
+   "key": "narration",
+   "value": "Due to global inflation our payment term has changed to 15 days."
+  },
+  {
+   "key": "note",
+   "value": "Due to global inflation our payment term has changed to 15 days."
+  }
+ ]
+}

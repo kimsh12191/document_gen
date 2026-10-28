@@ -1,0 +1,123 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "account_no": {
+   "label": "계좌번호",
+   "type": "text",
+   "source": "code"
+  },
+  "bank": {
+   "label": "은행명",
+   "type": "text",
+   "source": "code"
+  },
+  "branch": {
+   "label": "지점명",
+   "type": "text",
+   "source": "code"
+  },
+  "branch_phone": {
+   "label": "지점전화번호",
+   "type": "text",
+   "source": "code"
+  },
+  "closed_date": {
+   "label": "해지일",
+   "type": "text",
+   "source": "code"
+  },
+  "first_tx.amount": {
+   "label": "맡기신금액",
+   "type": "text",
+   "source": "code"
+  },
+  "first_tx.balance": {
+   "label": "잔액",
+   "type": "text",
+   "source": "code"
+  },
+  "first_tx.date": {
+   "label": "거래일",
+   "type": "text",
+   "source": "code"
+  },
+  "first_tx.memo": {
+   "label": "적요",
+   "type": "text",
+   "source": "code"
+  },
+  "holder": {
+   "label": "예금주",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "출력일",
+   "type": "text",
+   "source": "code"
+  },
+  "limit_note": {
+   "label": "계좌제한구분",
+   "type": "text",
+   "source": "code"
+  },
+  "opened": {
+   "label": "신규일",
+   "type": "text",
+   "source": "code"
+  },
+  "passbook_no": {
+   "label": "통장번호",
+   "type": "text",
+   "source": "code"
+  },
+  "product": {
+   "label": "상품명",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.registered": {
+   "label": "등록인감",
+   "type": "seal",
+   "source": "code"
+  },
+  "status": {
+   "label": "계좌상태",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "txs": {
+   "source": "code",
+   "fields": {
+    "balance": {
+     "label": "잔액",
+     "type": "text",
+     "source": "code"
+    },
+    "date": {
+     "label": "거래일",
+     "type": "text",
+     "source": "code"
+    },
+    "in": {
+     "label": "맡기신금액",
+     "type": "text",
+     "source": "code"
+    },
+    "memo": {
+     "label": "적요",
+     "type": "text",
+     "source": "code"
+    },
+    "out": {
+     "label": "찾으신금액",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

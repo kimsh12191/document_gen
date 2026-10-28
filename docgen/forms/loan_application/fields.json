@@ -1,0 +1,333 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "agent.name": {
+   "label": "대리인성명",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.phone": {
+   "label": "대리인연락처",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.poa": {
+   "label": "위임장",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "agent.relation": {
+   "label": "본인과의관계",
+   "type": "text",
+   "source": "code"
+  },
+  "agent.rrn": {
+   "label": "대리인실명번호",
+   "type": "text",
+   "source": "code"
+  },
+  "applicant.address": {
+   "label": "자택주소",
+   "type": "text",
+   "source": "code"
+  },
+  "applicant.email": {
+   "label": "E-mail",
+   "type": "text",
+   "source": "code"
+  },
+  "applicant.home_phone": {
+   "label": "자택전화",
+   "type": "text",
+   "source": "code"
+  },
+  "applicant.mobile": {
+   "label": "휴대전화",
+   "type": "text",
+   "source": "code"
+  },
+  "applicant.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "applicant.rrn": {
+   "label": "실명번호",
+   "type": "text",
+   "source": "code"
+  },
+  "applicant.work_phone": {
+   "label": "직장전화",
+   "type": "text",
+   "source": "code"
+  },
+  "applicant.zipcode": {
+   "label": "우편번호",
+   "type": "text",
+   "source": "code"
+  },
+  "apply_date": {
+   "label": "신청일",
+   "type": "text",
+   "source": "code"
+  },
+  "bank": {
+   "label": "은행명",
+   "type": "text",
+   "source": "code"
+  },
+  "branch": {
+   "label": "취급점",
+   "type": "text",
+   "source": "code"
+  },
+  "co_borrower.mobile": {
+   "label": "공동차주휴대전화",
+   "type": "text",
+   "source": "code"
+  },
+  "co_borrower.name": {
+   "label": "공동차주성명",
+   "type": "text",
+   "source": "code"
+  },
+  "co_borrower.relation": {
+   "label": "신청인과의관계",
+   "type": "text",
+   "source": "code"
+  },
+  "co_borrower.rrn": {
+   "label": "공동차주실명번호",
+   "type": "text",
+   "source": "code"
+  },
+  "co_borrower.workplace": {
+   "label": "공동차주직장",
+   "type": "text",
+   "source": "code"
+  },
+  "collateral": {
+   "label": "담보구분",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "collateral_detail": {
+   "label": "담보내용",
+   "type": "text",
+   "source": "code"
+  },
+  "consent": {
+   "label": "개인(신용)정보동의",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "dwelling": {
+   "label": "주거형태",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "housing": {
+   "label": "주택소유구분",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "loan.amount": {
+   "label": "대출신청금액",
+   "type": "text",
+   "source": "code"
+  },
+  "loan.amount_korean": {
+   "label": "대출신청금액(한글)",
+   "type": "text",
+   "source": "code"
+  },
+  "loan.debit_account": {
+   "label": "이체계좌번호",
+   "type": "text",
+   "source": "code"
+  },
+  "loan.debit_bank": {
+   "label": "이체은행",
+   "type": "text",
+   "source": "code"
+  },
+  "loan.debit_holder": {
+   "label": "예금주",
+   "type": "text",
+   "source": "code"
+  },
+  "loan.hope_date": {
+   "label": "대출희망일",
+   "type": "text",
+   "source": "code"
+  },
+  "loan.interest_day": {
+   "label": "이자납입일",
+   "type": "text",
+   "source": "code"
+  },
+  "loan.product": {
+   "label": "상품명",
+   "type": "text",
+   "source": "code"
+  },
+  "loan.purpose": {
+   "label": "세부용도",
+   "type": "text",
+   "source": "code"
+  },
+  "loan.purpose_category": {
+   "label": "자금용도구분",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "loan.rate_type": {
+   "label": "금리방식",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "loan.repayment": {
+   "label": "상환방법",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "loan.subject": {
+   "label": "대출과목",
+   "type": "text",
+   "source": "code"
+  },
+  "loan.term": {
+   "label": "대출기간",
+   "type": "text",
+   "source": "code"
+  },
+  "manual_received": {
+   "label": "설명서수령확인",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "seal.agent": {
+   "label": "대리인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.applicant": {
+   "label": "신청인",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.co_borrower": {
+   "label": "공동차주",
+   "type": "seal",
+   "source": "code"
+  },
+  "sign.agent": {
+   "label": "대리인",
+   "type": "signature",
+   "source": "code"
+  },
+  "sign.applicant": {
+   "label": "신청인",
+   "type": "signature",
+   "source": "code"
+  },
+  "sign.co_borrower": {
+   "label": "공동차주",
+   "type": "signature",
+   "source": "code"
+  },
+  "signature": {
+   "label": "신청인",
+   "type": "text",
+   "source": "code"
+  },
+  "workplace.address": {
+   "label": "직장주소",
+   "type": "text",
+   "source": "code"
+  },
+  "workplace.annual_income": {
+   "label": "연소득(본인)",
+   "type": "text",
+   "source": "code"
+  },
+  "workplace.department": {
+   "label": "근무부서",
+   "type": "text",
+   "source": "code"
+  },
+  "workplace.hire_date": {
+   "label": "입사년월일",
+   "type": "text",
+   "source": "code"
+  },
+  "workplace.job_type": {
+   "label": "직업구분",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "workplace.name": {
+   "label": "직장명",
+   "type": "text",
+   "source": "code"
+  },
+  "workplace.position": {
+   "label": "직위",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "assets": {
+   "source": "code",
+   "fields": {
+    "kind": {
+     "label": "종류",
+     "type": "text",
+     "source": "code"
+    },
+    "location": {
+     "label": "소재지",
+     "type": "text",
+     "source": "code"
+    },
+    "value": {
+     "label": "평가금액",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "debts": {
+   "source": "code",
+   "fields": {
+    "balance": {
+     "label": "잔액",
+     "type": "text",
+     "source": "code"
+    },
+    "kind": {
+     "label": "대출종류",
+     "type": "text",
+     "source": "code"
+    },
+    "lender": {
+     "label": "금융기관",
+     "type": "text",
+     "source": "code"
+    },
+    "maturity": {
+     "label": "만기일",
+     "type": "text",
+     "source": "code"
+    },
+    "refinance": {
+     "label": "상환여부",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

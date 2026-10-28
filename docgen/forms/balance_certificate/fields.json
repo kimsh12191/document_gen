@@ -1,0 +1,118 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "base_date": {
+   "label": "기준일",
+   "type": "text",
+   "source": "code"
+  },
+  "cert_no": {
+   "label": "증명서번호",
+   "type": "text",
+   "source": "code"
+  },
+  "currency": {
+   "label": "통화",
+   "type": "text",
+   "source": "code"
+  },
+  "fx_rate": {
+   "label": "매매기준율",
+   "type": "text",
+   "source": "code"
+  },
+  "holder.name": {
+   "label": "예금주",
+   "type": "text",
+   "source": "code"
+  },
+  "holder.rrn": {
+   "label": "고객번호(주민등록번호)",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  },
+  "issuer": {
+   "label": "발급점",
+   "type": "text",
+   "source": "code"
+  },
+  "purpose": {
+   "label": "용도",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "total": {
+   "label": "합계",
+   "type": "text",
+   "source": "code"
+  },
+  "total_korean": {
+   "label": "합계금액(한글)",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "remarks.#": {
+   "source": "code",
+   "fields": {
+    "#": {
+     "label": "비고",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "rows": {
+   "source": "code",
+   "fields": {
+    "account_no": {
+     "label": "계좌번호",
+     "type": "text",
+     "source": "code"
+    },
+    "balance": {
+     "label": "예금잔액",
+     "type": "text",
+     "source": "code"
+    },
+    "fx_amount": {
+     "label": "외화잔액",
+     "type": "text",
+     "source": "code"
+    },
+    "kind": {
+     "label": "과목",
+     "type": "text",
+     "source": "code"
+    },
+    "pledge": {
+     "label": "질권",
+     "type": "text",
+     "source": "code"
+    },
+    "restriction": {
+     "label": "지급정지·압류·가압류",
+     "type": "text",
+     "source": "code"
+    },
+    "uncleared": {
+     "label": "미결제타점권",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

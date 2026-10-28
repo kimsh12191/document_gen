@@ -1,0 +1,30 @@
+{
+ "name": "E02-tune",
+ "about": "평가 세트를 고정하고 데이터·학습률·LoRA·출발 모델·GRPO 를 바꿔 보면 어디서 오르나",
+ "record": "experiments/E02-tune.md",
+ "base": "pipeline.json",
+ "root": "../runs/E02-tune",
+ "part": "sft",
+ "baseline": "a1-base",
+ "gpu_groups": [[0, 1], [2, 3]],
+ "runs": [
+  {"label": "a1-base", "about": "기준: base 그대로"},
+  {"label": "a2-realocr", "about": "학습 데이터에 실서류 OCR 더함",
+   "train": ["/database/docgen_studio/workspace/datasets/bank-train-part-v1-2026-10-23",
+             "/database/docgen_studio/workspace/datasets/ocr-train-part-v1-2026-10-23/prepared",
+             {"path": "/share/tom/env/2026_PROJECT/PT/docgen_studio/data/prepared-v2", "count": 20000}]},
+  {"label": "a3-mix", "about": "과제 비율·문항 수·그림 예산",
+   "data": {"task_mix": {"kie": 0.3, "cross_check": 0.1}, "sft_max_examples": 30000,
+            "image_max_size": [1800, 1300], "max_image_tokens_per_sample": 9000}},
+  {"label": "a4-lr", "about": "학습률·에폭·LoRA",
+   "sft": {"learning_rate": 5e-5, "num_train_epochs": 2, "lora_rank": 64, "lora_alpha": 128}},
+  {"label": "a5-vit", "about": "비전 인코더 고정, 40GB yaml",
+   "sft": {"config": "sft_a100_40g_x2.yaml", "freeze_vit": true}},
+  {"label": "a6-other-model", "about": "다른 출발 모델",
+   "model": "/share/cv_share/qwen3.5/4b", "model_type": "qwen3_5"},
+  {"label": "a7-grpo", "about": "a1 의 SFT 에서 GRPO (beta·후보 수)", "from_sft": "a1-base",
+   "grpo": {"beta": 0.08, "num_generations": 8, "candidates": 4000, "count": 1500}},
+  {"label": "a8-full", "about": "SFT + GRPO 를 한 번에", "part": "all",
+   "sft": {"learning_rate": 5e-5}, "grpo": {"learning_rate": 2e-6}}
+ ]
+}

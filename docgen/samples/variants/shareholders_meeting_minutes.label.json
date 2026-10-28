@@ -1,0 +1,2773 @@
+{
+ "images": [
+  "variants/shareholders_meeting_minutes_p1.jpg",
+  "variants/shareholders_meeting_minutes_p2.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "meeting_title",
+   "label": "의사록종류",
+   "type": "text",
+   "value": "정기주주총회의사록",
+   "norm": "정기주주총회의사록",
+   "page": 0,
+   "bbox": [
+    341.0,
+    108.0,
+    850.0,
+    156.0
+   ]
+  },
+  {
+   "key": "datetime",
+   "label": "일시",
+   "type": "text",
+   "value": "2025년 3월 24일 오후 4시 00분",
+   "norm": "2025년 3월 24일 오후 4시 00분",
+   "page": 0,
+   "bbox": [
+    277.5,
+    187.7,
+    489.9,
+    205.7
+   ],
+   "label_bbox": [
+    94.5,
+    186.2,
+    277.5,
+    207.9
+   ]
+  },
+  {
+   "key": "venue",
+   "label": "장소",
+   "type": "text",
+   "value": "본점 대회의실 (서울특별시 영등포구 국제금융로 22-7, 8층)",
+   "norm": "본점 대회의실 (서울특별시 영등포구 국제금융로 22-7, 8층)",
+   "page": 0,
+   "bbox": [
+    277.5,
+    213.9,
+    690.3,
+    231.9
+   ],
+   "label_bbox": [
+    94.5,
+    212.4,
+    277.5,
+    234.0
+   ]
+  },
+  {
+   "key": "shareholders_total",
+   "label": "주주의총수",
+   "type": "text",
+   "value": "36명",
+   "norm": "36명",
+   "page": 0,
+   "bbox": [
+    346.0,
+    283.5,
+    379.6,
+    301.5
+   ],
+   "label_bbox": [
+    135.3,
+    265.4,
+    337.8,
+    321.3
+   ]
+  },
+  {
+   "key": "issued_shares",
+   "label": "발행주식의총수",
+   "type": "text",
+   "value": "19,323주",
+   "norm": "19,323주",
+   "page": 0,
+   "bbox": [
+    806.2,
+    283.5,
+    869.1,
+    301.5
+   ],
+   "label_bbox": [
+    595.5,
+    265.4,
+    797.9,
+    321.3
+   ]
+  },
+  {
+   "key": "shareholders_present",
+   "label": "출석주주의수",
+   "type": "text",
+   "value": "27명",
+   "norm": "27명",
+   "page": 0,
+   "bbox": [
+    346.0,
+    328.0,
+    379.6,
+    346.0
+   ],
+   "label_bbox": [
+    135.3,
+    321.3,
+    337.8,
+    377.1
+   ]
+  },
+  {
+   "key": "proxy_count",
+   "label": "대리출석",
+   "type": "text",
+   "value": "위임장에 의한 대리출석 4명 포함",
+   "norm": "위임장에 의한 대리출석 4명 포함",
+   "page": 0,
+   "bbox": [
+    350.4,
+    352.2,
+    539.3,
+    367.2
+   ],
+   "label_bbox": [
+    135.3,
+    321.3,
+    337.8,
+    377.1
+   ]
+  },
+  {
+   "key": "shares_present",
+   "label": "출석주주의주식수",
+   "type": "text",
+   "value": "19,093주",
+   "norm": "19,093주",
+   "page": 0,
+   "bbox": [
+    806.2,
+    339.3,
+    869.1,
+    357.3
+   ],
+   "label_bbox": [
+    595.5,
+    321.3,
+    797.9,
+    377.1
+   ]
+  },
+  {
+   "key": "present_ratio",
+   "label": "출석비율",
+   "type": "percent",
+   "value": "98.81%",
+   "norm": 98.81,
+   "page": 0,
+   "bbox": [
+    878.9,
+    339.3,
+    930.6,
+    357.3
+   ],
+   "label_bbox": [
+    595.5,
+    321.3,
+    797.9,
+    377.1
+   ]
+  },
+  {
+   "key": "treasury_shares",
+   "label": "자기주식수",
+   "type": "text",
+   "value": "677주",
+   "norm": "677주",
+   "page": 0,
+   "bbox": [
+    318.0,
+    385.3,
+    356.2,
+    401.8
+   ]
+  },
+  {
+   "key": "attendees.0.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    312.6,
+    477.3,
+    363.0,
+    495.3
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.0.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "15,740",
+   "norm": 15740,
+   "page": 0,
+   "bbox": [
+    596.3,
+    477.3,
+    642.5,
+    495.3
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.0.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    477.3,
+    757.9,
+    495.3
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.0.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.1.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "선호성",
+   "norm": "선호성",
+   "page": 0,
+   "bbox": [
+    312.6,
+    510.5,
+    363.0,
+    528.5
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.1.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "907",
+   "norm": 907,
+   "page": 0,
+   "bbox": [
+    617.3,
+    510.5,
+    642.5,
+    528.5
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.1.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    510.5,
+    757.9,
+    528.5
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.1.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.2.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "차철예",
+   "norm": "차철예",
+   "page": 0,
+   "bbox": [
+    312.6,
+    543.6,
+    363.0,
+    561.6
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.2.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "818",
+   "norm": 818,
+   "page": 0,
+   "bbox": [
+    617.3,
+    543.6,
+    642.5,
+    561.6
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.2.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "대리출석",
+   "norm": "대리출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    543.6,
+    757.9,
+    561.6
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.2.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": "김건예 (법무사 사무원)",
+   "norm": "김건예 (법무사 사무원)",
+   "page": 0,
+   "bbox": [
+    841.5,
+    543.6,
+    1012.1,
+    561.6
+   ],
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.3.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "하나로벤처투자 주식회사",
+   "norm": "하나로벤처투자 주식회사",
+   "page": 0,
+   "bbox": [
+    243.4,
+    576.8,
+    432.2,
+    594.8
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.3.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "551",
+   "norm": 551,
+   "page": 0,
+   "bbox": [
+    617.3,
+    576.8,
+    642.5,
+    594.8
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.3.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    576.8,
+    757.9,
+    594.8
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.3.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.4.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "한결창업투자 신기술사업투자조합 제4호",
+   "norm": "한결창업투자 신기술사업투자조합 제4호",
+   "page": 0,
+   "bbox": [
+    218.2,
+    610.0,
+    457.4,
+    650.6
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.4.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "493",
+   "norm": 493,
+   "page": 0,
+   "bbox": [
+    617.3,
+    621.3,
+    642.5,
+    639.3
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.4.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    621.3,
+    757.9,
+    639.3
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.4.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.5.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "최아현",
+   "norm": "최아현",
+   "page": 0,
+   "bbox": [
+    312.6,
+    665.8,
+    363.0,
+    683.8
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.5.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "59",
+   "norm": 59,
+   "page": 0,
+   "bbox": [
+    625.7,
+    665.8,
+    642.5,
+    683.8
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.5.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "대리출석",
+   "norm": "대리출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    665.8,
+    757.9,
+    683.8
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.5.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": "황석성 (배우자)",
+   "norm": "황석성 (배우자)",
+   "page": 0,
+   "bbox": [
+    868.8,
+    665.8,
+    984.8,
+    683.8
+   ],
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.6.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "고수율",
+   "norm": "고수율",
+   "page": 0,
+   "bbox": [
+    312.6,
+    699.0,
+    363.0,
+    717.0
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.6.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "42",
+   "norm": 42,
+   "page": 0,
+   "bbox": [
+    625.7,
+    699.0,
+    642.5,
+    717.0
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.6.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    699.0,
+    757.9,
+    717.0
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.6.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.7.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "강아찬",
+   "norm": "강아찬",
+   "page": 0,
+   "bbox": [
+    312.6,
+    732.1,
+    363.0,
+    750.1
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.7.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "42",
+   "norm": 42,
+   "page": 0,
+   "bbox": [
+    625.7,
+    732.1,
+    642.5,
+    750.1
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.7.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    732.1,
+    757.9,
+    750.1
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.7.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.8.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "최준도",
+   "norm": "최준도",
+   "page": 0,
+   "bbox": [
+    312.6,
+    765.3,
+    363.0,
+    783.3
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.8.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "41",
+   "norm": 41,
+   "page": 0,
+   "bbox": [
+    625.7,
+    765.3,
+    642.5,
+    783.3
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.8.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "대리출석",
+   "norm": "대리출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    765.3,
+    757.9,
+    783.3
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.8.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": "배은하 (배우자)",
+   "norm": "배은하 (배우자)",
+   "page": 0,
+   "bbox": [
+    868.8,
+    765.3,
+    984.8,
+    783.3
+   ],
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.9.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "김혜준",
+   "norm": "김혜준",
+   "page": 0,
+   "bbox": [
+    312.6,
+    798.4,
+    363.0,
+    816.4
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.9.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "41",
+   "norm": 41,
+   "page": 0,
+   "bbox": [
+    625.7,
+    798.4,
+    642.5,
+    816.4
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.9.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    798.4,
+    757.9,
+    816.4
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.9.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.10.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "옥도찬",
+   "norm": "옥도찬",
+   "page": 0,
+   "bbox": [
+    312.6,
+    831.6,
+    363.0,
+    849.6
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.10.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "38",
+   "norm": 38,
+   "page": 0,
+   "bbox": [
+    625.7,
+    831.6,
+    642.5,
+    849.6
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.10.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    831.6,
+    757.9,
+    849.6
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.10.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.11.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "차유주",
+   "norm": "차유주",
+   "page": 0,
+   "bbox": [
+    312.6,
+    864.8,
+    363.0,
+    882.8
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.11.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "31",
+   "norm": 31,
+   "page": 0,
+   "bbox": [
+    625.7,
+    864.8,
+    642.5,
+    882.8
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.11.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    864.8,
+    757.9,
+    882.8
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.11.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.12.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "윤영예",
+   "norm": "윤영예",
+   "page": 0,
+   "bbox": [
+    312.6,
+    897.9,
+    363.0,
+    915.9
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.12.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "30",
+   "norm": 30,
+   "page": 0,
+   "bbox": [
+    625.7,
+    897.9,
+    642.5,
+    915.9
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.12.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    897.9,
+    757.9,
+    915.9
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.12.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.13.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "노태현",
+   "norm": "노태현",
+   "page": 0,
+   "bbox": [
+    312.6,
+    931.1,
+    363.0,
+    949.1
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.13.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "29",
+   "norm": 29,
+   "page": 0,
+   "bbox": [
+    625.7,
+    931.1,
+    642.5,
+    949.1
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.13.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    931.1,
+    757.9,
+    949.1
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.13.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.14.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "엄수인",
+   "norm": "엄수인",
+   "page": 0,
+   "bbox": [
+    312.6,
+    964.3,
+    363.0,
+    982.3
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.14.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "29",
+   "norm": 29,
+   "page": 0,
+   "bbox": [
+    625.7,
+    964.3,
+    642.5,
+    982.3
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.14.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    964.3,
+    757.9,
+    982.3
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.14.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.15.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "김서유",
+   "norm": "김서유",
+   "page": 0,
+   "bbox": [
+    312.6,
+    997.4,
+    363.0,
+    1015.4
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.15.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "26",
+   "norm": 26,
+   "page": 0,
+   "bbox": [
+    625.7,
+    997.4,
+    642.5,
+    1015.4
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.15.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    997.4,
+    757.9,
+    1015.4
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.15.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.16.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "김건혜",
+   "norm": "김건혜",
+   "page": 0,
+   "bbox": [
+    312.6,
+    1030.6,
+    363.0,
+    1048.6
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.16.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "25",
+   "norm": 25,
+   "page": 0,
+   "bbox": [
+    625.7,
+    1030.6,
+    642.5,
+    1048.6
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.16.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    1030.6,
+    757.9,
+    1048.6
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.16.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.17.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "박정은",
+   "norm": "박정은",
+   "page": 0,
+   "bbox": [
+    312.6,
+    1063.8,
+    363.0,
+    1081.8
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.17.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "25",
+   "norm": 25,
+   "page": 0,
+   "bbox": [
+    625.7,
+    1063.8,
+    642.5,
+    1081.8
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.17.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    1063.8,
+    757.9,
+    1081.8
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.17.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.18.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "전혁주",
+   "norm": "전혁주",
+   "page": 0,
+   "bbox": [
+    312.6,
+    1096.9,
+    363.0,
+    1114.9
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.18.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "17",
+   "norm": 17,
+   "page": 0,
+   "bbox": [
+    625.7,
+    1096.9,
+    642.5,
+    1114.9
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.18.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    1096.9,
+    757.9,
+    1114.9
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.18.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.19.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "장은유",
+   "norm": "장은유",
+   "page": 0,
+   "bbox": [
+    312.6,
+    1130.1,
+    363.0,
+    1148.1
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.19.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "17",
+   "norm": 17,
+   "page": 0,
+   "bbox": [
+    625.7,
+    1130.1,
+    642.5,
+    1148.1
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.19.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    1130.1,
+    757.9,
+    1148.1
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.19.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.20.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "명찬서",
+   "norm": "명찬서",
+   "page": 0,
+   "bbox": [
+    312.6,
+    1163.2,
+    363.0,
+    1181.2
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.20.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "16",
+   "norm": 16,
+   "page": 0,
+   "bbox": [
+    625.7,
+    1163.2,
+    642.5,
+    1181.2
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.20.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "대리출석",
+   "norm": "대리출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    1163.2,
+    757.9,
+    1181.2
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.20.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": "이찬혜 (대리인)",
+   "norm": "이찬혜 (대리인)",
+   "page": 0,
+   "bbox": [
+    868.8,
+    1163.2,
+    984.8,
+    1181.2
+   ],
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.21.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "양욱주",
+   "norm": "양욱주",
+   "page": 0,
+   "bbox": [
+    312.6,
+    1196.4,
+    363.0,
+    1214.4
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.21.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "15",
+   "norm": 15,
+   "page": 0,
+   "bbox": [
+    625.7,
+    1196.4,
+    642.5,
+    1214.4
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.21.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    1196.4,
+    757.9,
+    1214.4
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.21.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.22.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "강도진",
+   "norm": "강도진",
+   "page": 0,
+   "bbox": [
+    312.6,
+    1229.6,
+    363.0,
+    1247.6
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.22.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "13",
+   "norm": 13,
+   "page": 0,
+   "bbox": [
+    625.7,
+    1229.6,
+    642.5,
+    1247.6
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.22.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    1229.6,
+    757.9,
+    1247.6
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.22.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.23.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "옥아성",
+   "norm": "옥아성",
+   "page": 0,
+   "bbox": [
+    312.6,
+    1262.7,
+    363.0,
+    1280.7
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.23.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "13",
+   "norm": 13,
+   "page": 0,
+   "bbox": [
+    625.7,
+    1262.7,
+    642.5,
+    1280.7
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.23.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    1262.7,
+    757.9,
+    1280.7
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.23.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.24.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "표용지",
+   "norm": "표용지",
+   "page": 0,
+   "bbox": [
+    312.6,
+    1295.9,
+    363.0,
+    1313.9
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.24.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "13",
+   "norm": 13,
+   "page": 0,
+   "bbox": [
+    625.7,
+    1295.9,
+    642.5,
+    1313.9
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.24.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    1295.9,
+    757.9,
+    1313.9
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.24.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.25.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "주민윤",
+   "norm": "주민윤",
+   "page": 0,
+   "bbox": [
+    312.6,
+    1329.1,
+    363.0,
+    1347.1
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.25.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "12",
+   "norm": 12,
+   "page": 0,
+   "bbox": [
+    625.7,
+    1329.1,
+    642.5,
+    1347.1
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.25.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    1329.1,
+    757.9,
+    1347.1
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.25.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "attendees.26.name",
+   "label": "주주명",
+   "type": "text",
+   "value": "홍영진",
+   "norm": "홍영진",
+   "page": 0,
+   "bbox": [
+    312.6,
+    1362.2,
+    363.0,
+    1380.2
+   ],
+   "label_bbox": [
+    208.9,
+    437.4,
+    466.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.26.shares",
+   "label": "소유주식수",
+   "type": "number",
+   "value": "10",
+   "norm": 10,
+   "page": 0,
+   "bbox": [
+    625.7,
+    1362.2,
+    642.5,
+    1380.2
+   ],
+   "label_bbox": [
+    466.7,
+    437.4,
+    650.7,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.26.method",
+   "label": "출석구분",
+   "type": "text",
+   "value": "본인출석",
+   "norm": "본인출석",
+   "page": 0,
+   "bbox": [
+    690.8,
+    1362.2,
+    757.9,
+    1380.2
+   ],
+   "label_bbox": [
+    650.7,
+    437.4,
+    798.0,
+    470.6
+   ]
+  },
+  {
+   "key": "attendees.26.proxy",
+   "label": "대리인",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    798.0,
+    437.4,
+    1055.6,
+    470.6
+   ],
+   "page": 0
+  },
+  {
+   "key": "chair",
+   "label": "의장",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    232.5,
+    1407.4,
+    280.5,
+    1425.4
+   ]
+  },
+  {
+   "key": "agendas.0.no",
+   "label": "의안번호",
+   "type": "text",
+   "value": "제1호 의안",
+   "norm": "제1호 의안",
+   "page": 1,
+   "bbox": [
+    94.5,
+    117.0,
+    170.6,
+    135.0
+   ]
+  },
+  {
+   "key": "agendas.0.title",
+   "label": "의안",
+   "type": "text",
+   "value": "제4기(2024년도) 재무제표 승인의 건",
+   "norm": "제4기(2024년도) 재무제표 승인의 건",
+   "page": 1,
+   "bbox": [
+    184.0,
+    117.0,
+    439.2,
+    135.0
+   ]
+  },
+  {
+   "key": "agendas.0.body",
+   "label": "결의내용",
+   "type": "text",
+   "value": "의장은 제출된 재무상태표, 손익계산서 및 이익잉여금처분계산서(안)의 내용을 설명하고 그 승인을 물은바, 출석주주 전원의 찬성으로 원안대로 승인 가결하다.",
+   "norm": "의장은 제출된 재무상태표, 손익계산서 및 이익잉여금처분계산서(안)의 내용을 설명하고 그 승인을 물은바, 출석주주 전원의 찬성으로 원안대로 승인 가결하다."
+  },
+  {
+   "key": "agendas.1.no",
+   "label": "의안번호",
+   "type": "text",
+   "value": "제2호 의안",
+   "norm": "제2호 의안",
+   "page": 1,
+   "bbox": [
+    94.5,
+    159.7,
+    170.6,
+    177.7
+   ]
+  },
+  {
+   "key": "agendas.1.title",
+   "label": "의안",
+   "type": "text",
+   "value": "이익배당의 건",
+   "norm": "이익배당의 건",
+   "page": 1,
+   "bbox": [
+    184.0,
+    159.7,
+    284.2,
+    177.7
+   ]
+  },
+  {
+   "key": "agendas.1.body",
+   "label": "결의내용",
+   "type": "text",
+   "value": "의장은 아래와 같이 현금배당을 실시할 것을 제안하고 그 가부를 물은바, 출석주주 의결권의 과반수인 19,064주의 찬성으로 원안대로 승인 가결하다. (주주 노태현 반대)",
+   "norm": "의장은 아래와 같이 현금배당을 실시할 것을 제안하고 그 가부를 물은바, 출석주주 의결권의 과반수인 19,064주의 찬성으로 원안대로 승인 가결하다. (주주 노태현 반대)",
+   "page": 1,
+   "bbox": [
+    94.5,
+    197.8,
+    1096.5,
+    241.5
+   ]
+  },
+  {
+   "key": "agendas.1.detail",
+   "label": "세부내용",
+   "type": "text",
+   "value": "배당의 종류 : 현금배당 / 1주당 배당금 : 보통주 100원 / 배당기준일 : 2024.12.31",
+   "norm": "배당의 종류 : 현금배당 / 1주당 배당금 : 보통주 100원 / 배당기준일 : 2024.12.31",
+   "page": 1,
+   "bbox": [
+    162.0,
+    273.2,
+    709.3,
+    291.2
+   ]
+  },
+  {
+   "key": "agendas.1.votes",
+   "label": "표결결과",
+   "type": "text",
+   "value": "찬성 19,064주, 반대 29주",
+   "norm": "찬성 19,064주, 반대 29주",
+   "page": 1,
+   "bbox": [
+    221.0,
+    314.3,
+    393.3,
+    332.3
+   ]
+  },
+  {
+   "key": "agendas.2.no",
+   "label": "의안번호",
+   "type": "text",
+   "value": "제3호 의안",
+   "norm": "제3호 의안",
+   "page": 1,
+   "bbox": [
+    94.5,
+    357.0,
+    170.6,
+    375.0
+   ]
+  },
+  {
+   "key": "agendas.2.title",
+   "label": "의안",
+   "type": "text",
+   "value": "감사 보수한도 승인의 건",
+   "norm": "감사 보수한도 승인의 건",
+   "page": 1,
+   "bbox": [
+    184.0,
+    357.0,
+    356.3,
+    375.0
+   ]
+  },
+  {
+   "key": "agendas.2.body",
+   "label": "결의내용",
+   "type": "text",
+   "value": "의장은 당해 사업연도 감사 보수한도액을 아래와 같이 정하고자 함을 설명하고 그 승인을 물은바, 출석주주 전원이 이의 없이 찬성하여 원안대로 승인 가결하다.",
+   "norm": "의장은 당해 사업연도 감사 보수한도액을 아래와 같이 정하고자 함을 설명하고 그 승인을 물은바, 출석주주 전원이 이의 없이 찬성하여 원안대로 승인 가결하다.",
+   "page": 1,
+   "bbox": [
+    94.5,
+    395.2,
+    1096.5,
+    438.8
+   ]
+  },
+  {
+   "key": "agendas.2.detail",
+   "label": "세부내용",
+   "type": "text",
+   "value": "감사 보수한도액: 금 일억삼천만원 (₩130,000,000)",
+   "norm": "감사 보수한도액: 금 일억삼천만원 (₩130,000,000)",
+   "page": 1,
+   "bbox": [
+    162.0,
+    470.5,
+    512.9,
+    488.5
+   ]
+  },
+  {
+   "key": "agendas.3.no",
+   "label": "의안번호",
+   "type": "text",
+   "value": "제4호 의안",
+   "norm": "제4호 의안",
+   "page": 1,
+   "bbox": [
+    94.5,
+    523.7,
+    170.6,
+    541.7
+   ]
+  },
+  {
+   "key": "agendas.3.title",
+   "label": "의안",
+   "type": "text",
+   "value": "감사 선임의 건",
+   "norm": "감사 선임의 건",
+   "page": 1,
+   "bbox": [
+    184.0,
+    523.7,
+    288.2,
+    541.7
+   ]
+  },
+  {
+   "key": "agendas.3.body",
+   "label": "결의내용",
+   "type": "text",
+   "value": "의장은 감사 김채진의 임기 만료로 감사를 선임하여야 함을 설명하고 그 선임을 물은바, 출석주주 전원의 찬성으로 아래 사람을 감사로 선임하다. 피선임자는 즉석에서 취임을 승낙하다.",
+   "norm": "의장은 감사 김채진의 임기 만료로 감사를 선임하여야 함을 설명하고 그 선임을 물은바, 출석주주 전원의 찬성으로 아래 사람을 감사로 선임하다. 피선임자는 즉석에서 취임을 승낙하다.",
+   "page": 1,
+   "bbox": [
+    94.5,
+    561.8,
+    1096.5,
+    605.5
+   ]
+  },
+  {
+   "key": "agendas.3.detail",
+   "label": "세부내용",
+   "type": "text",
+   "value": "감사  김채진 (1975년 8월 18일생)  중임",
+   "norm": "감사  김채진 (1975년 8월 18일생)  중임",
+   "page": 1,
+   "bbox": [
+    162.0,
+    637.2,
+    425.2,
+    655.2
+   ]
+  },
+  {
+   "key": "agendas.4.no",
+   "label": "의안번호",
+   "type": "text",
+   "value": "제5호 의안",
+   "norm": "제5호 의안",
+   "page": 1,
+   "bbox": [
+    94.5,
+    690.4,
+    170.6,
+    708.4
+   ]
+  },
+  {
+   "key": "agendas.4.title",
+   "label": "의안",
+   "type": "text",
+   "value": "이사 보수한도 승인의 건",
+   "norm": "이사 보수한도 승인의 건",
+   "page": 1,
+   "bbox": [
+    184.0,
+    690.4,
+    356.3,
+    708.4
+   ]
+  },
+  {
+   "key": "agendas.4.body",
+   "label": "결의내용",
+   "type": "text",
+   "value": "의장은 당해 사업연도 이사 보수한도액을 아래와 같이 정하고자 함을 설명하고 그 승인을 물은바, 출석주주 전원의 찬성으로 원안대로 승인 가결하다.",
+   "norm": "의장은 당해 사업연도 이사 보수한도액을 아래와 같이 정하고자 함을 설명하고 그 승인을 물은바, 출석주주 전원의 찬성으로 원안대로 승인 가결하다.",
+   "page": 1,
+   "bbox": [
+    94.5,
+    728.5,
+    1096.5,
+    772.2
+   ]
+  },
+  {
+   "key": "agendas.4.detail",
+   "label": "세부내용",
+   "type": "text",
+   "value": "이사 보수한도액: 금 구억원 (₩900,000,000)",
+   "norm": "이사 보수한도액: 금 구억원 (₩900,000,000)",
+   "page": 1,
+   "bbox": [
+    162.0,
+    803.9,
+    464.8,
+    821.9
+   ]
+  },
+  {
+   "key": "end_time",
+   "label": "종료시각",
+   "type": "text",
+   "value": "오후 5시 16분",
+   "norm": "오후 5시 16분",
+   "page": 1,
+   "bbox": [
+    857.3,
+    852.6,
+    953.5,
+    870.6
+   ]
+  },
+  {
+   "key": "minutes_date",
+   "label": "작성일",
+   "type": "date",
+   "value": "2025년 3월 24일",
+   "norm": "2025-03-24",
+   "page": 1,
+   "bbox": [
+    539.4,
+    935.4,
+    651.6,
+    953.4
+   ]
+  },
+  {
+   "key": "company_name",
+   "label": "상호",
+   "type": "text",
+   "value": "주식회사 새한소프트",
+   "norm": "주식회사 새한소프트",
+   "page": 1,
+   "bbox": [
+    948.2,
+    979.6,
+    1096.5,
+    997.6
+   ]
+  },
+  {
+   "key": "head_office",
+   "label": "본점",
+   "type": "text",
+   "value": "서울특별시 영등포구 국제금융로 22-7, 8층",
+   "norm": "서울특별시 영등포구 국제금융로 22-7, 8층",
+   "page": 1,
+   "bbox": [
+    812.5,
+    1006.8,
+    1096.5,
+    1023.3
+   ]
+  },
+  {
+   "key": "signers.0.title",
+   "label": "자격",
+   "type": "text",
+   "value": "의장 대표이사",
+   "norm": "의장 대표이사",
+   "page": 1,
+   "bbox": [
+    496.5,
+    1069.9,
+    602.3,
+    1087.9
+   ]
+  },
+  {
+   "key": "signers.0.name",
+   "label": "성명",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 1,
+   "bbox": [
+    676.5,
+    1069.9,
+    734.2,
+    1087.9
+   ]
+  },
+  {
+   "key": "seal.corp",
+   "label": "법인인감",
+   "type": "seal",
+   "value": "주식회사 새한소프트 대표이사인",
+   "present": true,
+   "kind": "법인인감",
+   "page": 1,
+   "bbox": [
+    809.5,
+    1035.2,
+    897.5,
+    1123.3
+   ]
+  },
+  {
+   "key": "signers.1.title",
+   "label": "자격",
+   "type": "text",
+   "value": "사내이사",
+   "norm": "사내이사",
+   "page": 1,
+   "bbox": [
+    496.5,
+    1141.9,
+    563.8,
+    1159.9
+   ]
+  },
+  {
+   "key": "signers.1.name",
+   "label": "성명",
+   "type": "text",
+   "value": "선호성",
+   "norm": "선호성",
+   "page": 1,
+   "bbox": [
+    676.5,
+    1141.9,
+    734.2,
+    1159.9
+   ]
+  },
+  {
+   "key": "seal.signer2",
+   "label": "서명인2",
+   "type": "seal",
+   "value": null,
+   "present": false,
+   "kind": "인감",
+   "anchor": "signers.1.name",
+   "page": 1,
+   "bbox": [
+    826.5,
+    1121.2,
+    886.5,
+    1181.2
+   ]
+  },
+  {
+   "key": "signers.2.title",
+   "label": "자격",
+   "type": "text",
+   "value": "사내이사",
+   "norm": "사내이사",
+   "page": 1,
+   "bbox": [
+    496.5,
+    1213.9,
+    563.8,
+    1231.9
+   ]
+  },
+  {
+   "key": "signers.2.name",
+   "label": "성명",
+   "type": "text",
+   "value": "차철예",
+   "norm": "차철예",
+   "page": 1,
+   "bbox": [
+    676.5,
+    1213.9,
+    734.2,
+    1231.9
+   ]
+  },
+  {
+   "key": "seal.signer3",
+   "label": "서명인3",
+   "type": "seal",
+   "value": null,
+   "present": false,
+   "kind": "인감",
+   "anchor": "signers.2.name",
+   "page": 1,
+   "bbox": [
+    826.5,
+    1193.2,
+    886.5,
+    1253.2
+   ]
+  },
+  {
+   "key": "notary.reg_no",
+   "label": "등부번호",
+   "type": "text",
+   "value": "2025년 제3993호",
+   "norm": "2025년 제3993호",
+   "page": 1,
+   "bbox": [
+    656.8,
+    1299.6,
+    773.3,
+    1319.6
+   ]
+  },
+  {
+   "key": "notary.date",
+   "label": "인증일",
+   "type": "date",
+   "value": "2025년 3월 31일",
+   "norm": "2025-03-31",
+   "page": 1,
+   "bbox": [
+    622.5,
+    1402.2,
+    735.0,
+    1422.1
+   ]
+  },
+  {
+   "key": "notary.office",
+   "label": "공증인",
+   "type": "text",
+   "value": "법무법인 해송",
+   "norm": "법무법인 해송",
+   "page": 1,
+   "bbox": [
+    675.0,
+    1425.5,
+    775.5,
+    1445.3
+   ]
+  },
+  {
+   "key": "notary.lawyer",
+   "label": "공증담당변호사",
+   "type": "text",
+   "value": "김기민",
+   "norm": "김기민",
+   "page": 1,
+   "bbox": [
+    739.9,
+    1466.6,
+    788.3,
+    1485.4
+   ]
+  },
+  {
+   "key": "seal.notary",
+   "label": "공증인직인",
+   "type": "seal",
+   "value": "공증인",
+   "present": true,
+   "kind": "공증인 직인",
+   "page": 1,
+   "bbox": [
+    788.3,
+    1441.9,
+    856.0,
+    1509.7
+   ]
+  }
+ ]
+}

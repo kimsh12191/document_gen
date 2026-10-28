@@ -1,0 +1,87 @@
+{
+  "workdir": "../runs/exp1",
+  "ocr_prepare": "../../ocr_config.json",
+  "model": "/share/cv_share/qwen3.5/9b",
+  "model_type": "qwen3_5",
+  "gpus": [
+    0,
+    1
+  ],
+  "data": {
+    "train": [
+      {
+        "path": "/share/studio_workspace/datasets/bank-train"
+      },
+      {
+        "path": "../../data/prepared-v2",
+        "count": 20000
+      }
+    ],
+    "benchmark": [
+      {
+        "id": "bank_synthetic_v1",
+        "name": "합성 문서·은행 업무",
+        "group": "synthetic_bank",
+        "paths": ["/share/studio_workspace/datasets/bank-bench"]
+      },
+      {
+        "id": "ocr_real_v1",
+        "name": "실문서 OCR",
+        "group": "real_ocr",
+        "paths": ["../../data/prepared-v2"]
+      },
+      {
+        "id": "real_po_kie",
+        "name": "실서류 매입추심 (kie 꼴로 바꾼 swift)",
+        "group": "real",
+        "format": "swift-fields",
+        "gt": "reviewed",
+        "paths": ["/share/…/FE_eval/eval_qa_PO.kie.jsonl"],
+        "scorer": "../scorers/swift_kie_scorer.py:score"
+      }
+    ],
+    "output_dir": "../data/mixed-exp1",
+    "sft_max_examples": 20000,
+    "task_mix": {
+      "cross_check": 0.2,
+      "review": 0.2,
+      "doc_check": 0.1,
+      "kie": 0.15,
+      "marks": 0.08,
+      "freetext": 0.05,
+      "classify": 0.07,
+      "ocr_page": 0.05,
+      "ocr_field": 0.1
+    },
+    "max_image_tokens_per_sample": 12000,
+    "sft_max_length": 16384
+  },
+  "sft": {
+    "config": "sft.yaml"
+  },
+  "grpo": {
+    "config": "grpo_a100x2.yaml",
+    "select": "mine",
+    "candidates": 3000,
+    "count": 1000,
+    "hard_fraction": 0.5,
+    "seed": 42,
+    "tasks": [
+      "cross_check",
+      "review",
+      "doc_check",
+      "kie",
+      "grounding",
+      "spotting",
+      "relation"
+    ],
+    "max_images": 4
+  },
+  "eval": {
+    "inference_config": "inference.json",
+    "concurrency_per_server": 16,
+    "port_base": 8000,
+    "server_start_timeout_minutes": 40,
+    "compare_models": []
+  }
+}

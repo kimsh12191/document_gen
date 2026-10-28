@@ -1,0 +1,446 @@
+{
+ "document_type": "수입신고필증",
+ "decl_no": "87430-25-1347015X",
+ "decl_date": "2025/11/14",
+ "customs": "030-11",
+ "arrival_date": "2025/11/11",
+ "bl_no": "BASLJP55477018",
+ "cargo_no": "25BASL620219I-7804-029",
+ "warehouse_date": "2025/11/13",
+ "collection_type": "11",
+ "declarant": "한길관세법인 윤수영",
+ "importer": {
+  "name": "주식회사 새한소프트",
+  "code": "새한소프5831285"
+ },
+ "taxpayer": {
+  "code": "새한소프5831285",
+  "address": "서울특별시 영등포구 국제금융로 22-7, 8층",
+  "name": "주식회사 새한소프트",
+  "ceo": "김소윤",
+  "biz_no": "530-82-09978"
+ },
+ "forwarder": "DAON LOGISTICS CO., LTD.",
+ "supplier": "MERIDIAN GLOBAL SOURCING PTE. LTD. (SG)",
+ "clearance_plan": "D 보세구역장치후",
+ "origin_cert": "N",
+ "total_weight": "64,336 KG",
+ "total_packages": "6,844 CT",
+ "arrival_port": "KRPUS 부산항",
+ "transport": "10 FCL",
+ "export_country": "JP JAPAN",
+ "vessel": "STAR PIONEER",
+ "master_bl": "BASLJP55477018",
+ "carrier_code": "BASL",
+ "inspection_place": "03087499-48748182 부산신항국제터미널",
+ "items": [
+  {
+   "line_no": "001",
+   "std_name": "FIXED CARBON RESISTORS, CHIP TYPE",
+   "trade_name": "THICK FILM CHIP RESISTOR 0603 10K OHM 1%",
+   "specs": [
+    {
+     "no": "01",
+     "model": "RC-917B",
+     "quantity": "21,300,000 PCS",
+     "unit_price": "0.28",
+     "amount": "5,964,000"
+    },
+    {
+     "no": "02",
+     "model": "RC-321A",
+     "quantity": "15,700,000 PCS",
+     "unit_price": "0.17",
+     "amount": "2,669,000"
+    },
+    {
+     "no": "03",
+     "model": "RC-220B",
+     "quantity": "5,600,000 PCS",
+     "unit_price": "0.54",
+     "amount": "3,024,000"
+    },
+    {
+     "no": "04",
+     "model": "RC-150B",
+     "quantity": "10,200,000 PCS",
+     "unit_price": "0.60",
+     "amount": "6,120,000"
+    },
+    {
+     "no": "05",
+     "model": "RC-680A",
+     "quantity": "37,000,000 PCS",
+     "unit_price": "0.23",
+     "amount": "8,510,000"
+    },
+    {
+     "no": "06",
+     "model": "RC-958A",
+     "quantity": "32,800,000 PCS",
+     "unit_price": "0.26",
+     "amount": "8,528,000"
+    },
+    {
+     "no": "07",
+     "model": "RC-504S",
+     "quantity": "27,600,000 PCS",
+     "unit_price": "0.16",
+     "amount": "4,416,000"
+    },
+    {
+     "no": "08",
+     "model": "RC-619",
+     "quantity": "41,200,000 PCS",
+     "unit_price": "0.26",
+     "amount": "10,712,000"
+    },
+    {
+     "no": "09",
+     "model": "RC-890S",
+     "quantity": "64,600,000 PCS",
+     "unit_price": "0.17",
+     "amount": "10,982,000"
+    },
+    {
+     "no": "10",
+     "model": "RC-739",
+     "quantity": "15,100,000 PCS",
+     "unit_price": "0.59",
+     "amount": "8,909,000"
+    },
+    {
+     "no": "11",
+     "model": "RC-684S",
+     "quantity": "6,100,000 PCS",
+     "unit_price": "0.55",
+     "amount": "3,355,000"
+    },
+    {
+     "no": "12",
+     "model": "RC-791S",
+     "quantity": "20,700,000 PCS",
+     "unit_price": "0.48",
+     "amount": "9,936,000"
+    },
+    {
+     "no": "13",
+     "model": "RC-869A",
+     "quantity": "10,900,000 PCS",
+     "unit_price": "0.56",
+     "amount": "6,104,000"
+    },
+    {
+     "no": "14",
+     "model": "RC-231A",
+     "quantity": "10,500,000 PCS",
+     "unit_price": "0.58",
+     "amount": "6,090,000"
+    },
+    {
+     "no": "15",
+     "model": "RC-835B",
+     "quantity": "40,200,000 PCS",
+     "unit_price": "0.18",
+     "amount": "7,236,000"
+    },
+    {
+     "no": "16",
+     "model": "RC-858B",
+     "quantity": "22,600,000 PCS",
+     "unit_price": "0.39",
+     "amount": "8,814,000"
+    },
+    {
+     "no": "17",
+     "model": "RC-464S",
+     "quantity": "12,100,000 PCS",
+     "unit_price": "0.26",
+     "amount": "3,146,000"
+    },
+    {
+     "no": "18",
+     "model": "RC-261",
+     "quantity": "8,600,000 PCS",
+     "unit_price": "0.51",
+     "amount": "4,386,000"
+    }
+   ],
+   "hs_code": "8533.21-0000",
+   "net_weight": "28,196.0 KG",
+   "taxable_usd": "$818,819",
+   "taxable_krw": "₩1,061,255,387",
+   "origin": "JP-G-N",
+   "duty_type": "관",
+   "duty_rate": "0.00(C)",
+   "duty_amount": "0",
+   "vat_rate": "10.00(A)",
+   "vat_amount": "106,125,530"
+  },
+  {
+   "line_no": "002",
+   "std_name": "ELECTRICAL CONNECTORS, FOR A VOLTAGE NOT EXCEEDING 1,000V",
+   "trade_name": "BOARD-TO-BOARD CONNECTOR 0.5MM PITCH 40P",
+   "specs": [
+    {
+     "no": "01",
+     "model": "BB-877B",
+     "quantity": "636,000 PCS",
+     "unit_price": "12.25",
+     "amount": "7,791,000"
+    },
+    {
+     "no": "02",
+     "model": "BB-666S",
+     "quantity": "204,000 PCS",
+     "unit_price": "26.06",
+     "amount": "5,316,240"
+    },
+    {
+     "no": "03",
+     "model": "BB-261",
+     "quantity": "250,000 PCS",
+     "unit_price": "16.33",
+     "amount": "4,082,500"
+    },
+    {
+     "no": "04",
+     "model": "BB-776A",
+     "quantity": "188,000 PCS",
+     "unit_price": "54.89",
+     "amount": "10,319,320"
+    },
+    {
+     "no": "05",
+     "model": "BB-740S",
+     "quantity": "96,000 PCS",
+     "unit_price": "54.88",
+     "amount": "5,268,480"
+    },
+    {
+     "no": "06",
+     "model": "BB-859B",
+     "quantity": "242,000 PCS",
+     "unit_price": "43.90",
+     "amount": "10,623,800"
+    },
+    {
+     "no": "07",
+     "model": "BB-349B",
+     "quantity": "80,000 PCS",
+     "unit_price": "65.75",
+     "amount": "5,260,000"
+    },
+    {
+     "no": "08",
+     "model": "BB-934B",
+     "quantity": "644,000 PCS",
+     "unit_price": "16.05",
+     "amount": "10,336,200"
+    },
+    {
+     "no": "09",
+     "model": "BB-953B",
+     "quantity": "752,000 PCS",
+     "unit_price": "15.30",
+     "amount": "11,505,600"
+    },
+    {
+     "no": "10",
+     "model": "BB-278S",
+     "quantity": "204,000 PCS",
+     "unit_price": "28.87",
+     "amount": "5,889,480"
+    },
+    {
+     "no": "11",
+     "model": "BB-356B",
+     "quantity": "230,000 PCS",
+     "unit_price": "17.36",
+     "amount": "3,992,800"
+    },
+    {
+     "no": "12",
+     "model": "BB-529S",
+     "quantity": "112,000 PCS",
+     "unit_price": "42.09",
+     "amount": "4,714,080"
+    },
+    {
+     "no": "13",
+     "model": "BB-684",
+     "quantity": "76,000 PCS",
+     "unit_price": "64.86",
+     "amount": "4,929,360"
+    },
+    {
+     "no": "14",
+     "model": "BB-812B",
+     "quantity": "76,000 PCS",
+     "unit_price": "51.08",
+     "amount": "3,882,080"
+    },
+    {
+     "no": "15",
+     "model": "BB-737S",
+     "quantity": "440,000 PCS",
+     "unit_price": "13.05",
+     "amount": "5,742,000"
+    },
+    {
+     "no": "16",
+     "model": "BB-876S",
+     "quantity": "134,000 PCS",
+     "unit_price": "20.66",
+     "amount": "2,768,440"
+    },
+    {
+     "no": "17",
+     "model": "BB-932A",
+     "quantity": "62,000 PCS",
+     "unit_price": "44.86",
+     "amount": "2,781,320"
+    }
+   ],
+   "hs_code": "8536.69-9000",
+   "net_weight": "19,917.0 KG",
+   "taxable_usd": "$724,485",
+   "taxable_krw": "₩938,990,694",
+   "origin": "JP-G-N",
+   "duty_type": "관",
+   "duty_rate": "8.00(A)",
+   "reduction": {
+    "rate": "80.00",
+    "code": "Y5020",
+    "amount": "60,095,400"
+   },
+   "duty_amount": "15,023,850",
+   "vat_rate": "10.00(A)",
+   "vat_amount": "95,401,450"
+  },
+  {
+   "line_no": "003",
+   "std_name": "LITHIUM-ION ACCUMULATORS",
+   "trade_name": "LI-ION BATTERY CELL 18650 3.6V 3000MAH",
+   "specs": [
+    {
+     "no": "01",
+     "model": "INR18650-245S",
+     "quantity": "7,600 PCS",
+     "unit_price": "457",
+     "amount": "3,470,996"
+    },
+    {
+     "no": "02",
+     "model": "INR18650-460A",
+     "quantity": "29,200 PCS",
+     "unit_price": "343",
+     "amount": "10,005,964"
+    },
+    {
+     "no": "03",
+     "model": "INR18650-880",
+     "quantity": "32,800 PCS",
+     "unit_price": "326",
+     "amount": "10,701,328"
+    },
+    {
+     "no": "04",
+     "model": "INR18650-752B",
+     "quantity": "25,200 PCS",
+     "unit_price": "461",
+     "amount": "11,629,548"
+    },
+    {
+     "no": "05",
+     "model": "INR18650-139S",
+     "quantity": "25,200 PCS",
+     "unit_price": "273",
+     "amount": "6,869,268"
+    },
+    {
+     "no": "06",
+     "model": "INR18650-861S",
+     "quantity": "14,400 PCS",
+     "unit_price": "448",
+     "amount": "6,449,328"
+    },
+    {
+     "no": "07",
+     "model": "INR18650-301A",
+     "quantity": "29,200 PCS",
+     "unit_price": "384",
+     "amount": "11,199,660"
+    },
+    {
+     "no": "08",
+     "model": "INR18650-505B",
+     "quantity": "11,600 PCS",
+     "unit_price": "417",
+     "amount": "4,832,908"
+    },
+    {
+     "no": "09",
+     "model": "INR18650-797B",
+     "quantity": "13,200 PCS",
+     "unit_price": "268",
+     "amount": "3,542,484"
+    },
+    {
+     "no": "10",
+     "model": "INR18650-460B",
+     "quantity": "16,000 PCS",
+     "unit_price": "276",
+     "amount": "4,410,560"
+    },
+    {
+     "no": "11",
+     "model": "INR18650-469S",
+     "quantity": "13,200 PCS",
+     "unit_price": "402",
+     "amount": "5,300,724"
+    },
+    {
+     "no": "12",
+     "model": "INR18650-262A",
+     "quantity": "23,600 PCS",
+     "unit_price": "380",
+     "amount": "8,964,224"
+    }
+   ],
+   "hs_code": "8507.60-0000",
+   "net_weight": "11,457.0 KG",
+   "taxable_usd": "$601,727",
+   "taxable_krw": "₩779,886,665",
+   "origin": "JP-G-N",
+   "duty_type": "관",
+   "duty_rate": "8.00(A)",
+   "duty_amount": "62,390,930",
+   "vat_rate": "10.00(A)",
+   "vat_amount": "84,227,750"
+  }
+ ],
+ "line_total": "003",
+ "payment": "FOB-JPY-311,480,692-LU",
+ "exchange_rate": "8.8941",
+ "total_taxable": "₩2,780,132,746",
+ "freight": "₩7,853,090",
+ "vat_base": "₩2,857,547,526",
+ "insurance": "₩1,939,233",
+ "tax": {
+  "duty": "77,414,780",
+  "vat": "285,754,730",
+  "total": "363,169,510"
+ },
+ "customs_office": "부산세관",
+ "officer": "박선경",
+ "receipt_datetime": "2025/11/14 16:05",
+ "accept_date": "2025/11/15",
+ "amendment": {
+  "date": "2025/11/29",
+  "reason": "(18)총중량 정정 - B/L 중량 정정"
+ },
+ "seal": {
+  "issuer": true
+ }
+}

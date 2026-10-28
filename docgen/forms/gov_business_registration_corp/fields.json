@@ -1,0 +1,41 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "official.biz_no": {
+   "label": "등록번호",
+   "type": "text",
+   "source": "profile.corporation.biz_no"
+  },
+  "official.company": {
+   "label": "상호",
+   "type": "text",
+   "source": "profile.corporation.name"
+  },
+  "official.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "profile.person.name"
+  },
+  "official.address": {
+   "label": "사업장 소재지",
+   "type": "text",
+   "source": "profile.corporation.address.road_short"
+  },
+  "official.industry": {
+   "label": "업태",
+   "type": "text",
+   "source": "profile.corporation.biz_type"
+  },
+  "official.item": {
+   "label": "종목",
+   "type": "text",
+   "source": "profile.corporation.biz_item"
+  },
+  "official.corp_no": {
+   "label": "법인등록번호",
+   "type": "text",
+   "source": "profile.corporation.corp_no"
+  }
+ }
+}

@@ -1,0 +1,198 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "beneficiary_bank.account": {
+   "label": "BeneficiaryAccountNo",
+   "type": "text",
+   "source": "code"
+  },
+  "beneficiary_bank.name": {
+   "label": "BeneficiaryBank",
+   "type": "text",
+   "source": "code"
+  },
+  "beneficiary_bank.swift": {
+   "label": "BeneficiaryBankSWIFT",
+   "type": "text",
+   "source": "code"
+  },
+  "carrier": {
+   "label": "Carrier",
+   "type": "text",
+   "source": "code"
+  },
+  "consignee.address": {
+   "label": "ConsigneeAddress",
+   "type": "text",
+   "source": "code"
+  },
+  "consignee.name": {
+   "label": "Consignee",
+   "type": "text",
+   "source": "code"
+  },
+  "contract_no": {
+   "label": "ContractNo",
+   "type": "text",
+   "source": "code"
+  },
+  "final_destination": {
+   "label": "FinalDestination",
+   "type": "text",
+   "source": "code"
+  },
+  "invoice_date": {
+   "label": "InvoiceDate",
+   "type": "text",
+   "source": "code"
+  },
+  "invoice_no": {
+   "label": "InvoiceNo",
+   "type": "text",
+   "source": "code"
+  },
+  "lc.bank": {
+   "label": "L/CIssuingBank",
+   "type": "text",
+   "source": "code"
+  },
+  "lc.date": {
+   "label": "L/CDate",
+   "type": "text",
+   "source": "code"
+  },
+  "lc.no": {
+   "label": "L/CNo",
+   "type": "text",
+   "source": "code"
+  },
+  "manufacturer.address": {
+   "label": "ManufacturerAddress",
+   "type": "text",
+   "source": "code"
+  },
+  "manufacturer.name": {
+   "label": "Manufacturer",
+   "type": "text",
+   "source": "code"
+  },
+  "marks": {
+   "label": "MarksandNumbers",
+   "type": "text",
+   "source": "code"
+  },
+  "notify": {
+   "label": "NotifyParty",
+   "type": "text",
+   "source": "code"
+  },
+  "origin": {
+   "label": "CountryofOrigin",
+   "type": "text",
+   "source": "code"
+  },
+  "partial_shipment": {
+   "label": "PartialShipment",
+   "type": "text",
+   "source": "code"
+  },
+  "port_of_loading": {
+   "label": "PortofLoading",
+   "type": "text",
+   "source": "code"
+  },
+  "price_breakdown.fob": {
+   "label": "FOBValue",
+   "type": "text",
+   "source": "code"
+  },
+  "price_breakdown.freight": {
+   "label": "OceanFreight",
+   "type": "text",
+   "source": "code"
+  },
+  "price_breakdown.insurance": {
+   "label": "InsurancePremium",
+   "type": "text",
+   "source": "code"
+  },
+  "sailing_date": {
+   "label": "Sailingonorabout",
+   "type": "text",
+   "source": "code"
+  },
+  "shipper.address": {
+   "label": "ShipperAddress",
+   "type": "text",
+   "source": "code"
+  },
+  "shipper.name": {
+   "label": "Shipper/Exporter",
+   "type": "text",
+   "source": "code"
+  },
+  "signed_by": {
+   "label": "Signedby",
+   "type": "text",
+   "source": "code"
+  },
+  "signer": {
+   "label": "Signer",
+   "type": "text",
+   "source": "code"
+  },
+  "terms.delivery": {
+   "label": "TermsofDelivery",
+   "type": "text",
+   "source": "code"
+  },
+  "terms.payment": {
+   "label": "TermsofPayment",
+   "type": "text",
+   "source": "code"
+  },
+  "total_amount": {
+   "label": "TotalAmount",
+   "type": "text",
+   "source": "code"
+  },
+  "total_quantity": {
+   "label": "TotalPackages",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "items": {
+   "source": "code",
+   "fields": {
+    "amount": {
+     "label": "Amount",
+     "type": "text",
+     "source": "code"
+    },
+    "description": {
+     "label": "DescriptionofGoods",
+     "type": "text",
+     "source": "code"
+    },
+    "model": {
+     "label": "Model",
+     "type": "text",
+     "source": "code"
+    },
+    "quantity": {
+     "label": "Quantity/Unit",
+     "type": "text",
+     "source": "code"
+    },
+    "unit_price": {
+     "label": "Unit-price",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

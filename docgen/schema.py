@@ -15,23 +15,20 @@ from __future__ import annotations
 import re
 from datetime import date
 
+from . import keyrules as _KR
+
 # ---------------------------------------------------------------------------
 # 키 통일: 서류마다 다르게 붙은 같은 뜻의 마지막 키 이름을 하나로 맞춘다.
 # 규칙: 영어 snake_case, 역할(applicant/employee/company ...) 아래에 속성(name/rrn/address ...).
 # ---------------------------------------------------------------------------
-LEAF_SYNONYMS = {
-    "dob": "birth",
-    "date_of_birth": "birth",
-    "sex": "gender",
-    "corp_no": "corp_reg_no",
-    "ceo_name": "ceo",
-    "tel": "phone",
-}
+# 동의어는 docgen/key_rules.json 의 synonyms (studio 키 사전 화면이 고친다). LEAF_SYNONYMS 는 지금 파일 내용.
+LEAF_SYNONYMS = dict(_KR.load()["synonyms"])
 
 
 def canonical_key(key: str) -> str:
     parts = key.split(".")
-    parts[-1] = LEAF_SYNONYMS.get(parts[-1], parts[-1])
+    syn = _KR.load()["synonyms"]
+    parts[-1] = syn.get(parts[-1], parts[-1])
     return ".".join(parts)
 
 
@@ -223,10 +220,16 @@ def build_fields(fields: list[dict], info: dict | None = None) -> list[dict]:
         rec = {"key": canonical_key(k), "label": f.get("label"), "type": typ, "value": f["value"]}
         if typ not in ("seal", "signature", "checkbox_multi"):
             rec["norm"] = norm
+        if f.get("unit"):
+            rec["unit"] = f["unit"]
+            if isinstance(norm, (int, float)) and not isinstance(norm, bool) and f["unit"] in ("천원", "만원", "백만원", "억원"):
+                rec["norm"] = norm * {"천원": 1000, "만원": 10000, "백만원": 1000000, "억원": 100000000}[f["unit"]]
         if f.get("group_only"):
             rec["group"] = True
         if f.get("corrected"):
             rec["corrected_from"] = f["corrected"]  # 정정 전 값 (두 줄 그어진 글자)
+        if f.get("render"):
+            rec["render"] = f["render"]
         if typ in ("seal", "signature"):
             rec["present"] = f["present"]
             for x in ("kind", "anchor"):
@@ -261,9 +264,3 @@ def build_fields(fields: list[dict], info: dict | None = None) -> list[dict]:
                         "present": True, "kind": "직인" if s["square"] else "도장", "page": s["page"], "bbox": s["bbox"]})
     return out
 
-
-def gt_from_fields(fields: list[dict]) -> dict:
-    """라벨 필드 → 중첩 정답 JSON (통일 키 기준). 도장·서명은 bool, 빈 칸은 null."""
-    from .render import to_nested
-
-    return to_nested([{**f, "type": f["type"]} for f in fields])

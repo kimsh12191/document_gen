@@ -1,0 +1,55 @@
+{
+ "document_type": "해외송금신청서",
+ "bank": {
+  "name": "농협은행"
+ },
+ "remitter": {
+  "name": "솜차이 분마",
+  "name_en": "BOONMA SOMCHAI",
+  "rrn": "840503-5021016",
+  "phone": "010-7368-7002",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)"
+ },
+ "beneficiary": {
+  "name": "BOONMA SOMSAK",
+  "address": null,
+  "country": "THAILAND",
+  "relationship": null,
+  "swift": "KASITHBK",
+  "bank_name": "KASIKORNBANK PUBLIC COMPANY LIMITED",
+  "bank_address": "BANGKOK, THAILAND",
+  "account_no": "083603567695"
+ },
+ "remittance": {
+  "currency": "USD",
+  "amount": "1,600.00",
+  "purpose": "국내보수송금",
+  "charge": "OUR",
+  "method": "전신송금(T/T)",
+  "message": "FAMILY SUPPORT",
+  "documents": "근로계약서, 급여명세서(소득증빙)"
+ },
+ "date": "2025년 11월 29일",
+ "signature": "솜차이 분마",
+ "seal": {
+  "applicant": false,
+  "staff": {
+   "clerk": true,
+   "manager": true
+  }
+ },
+ "sign": {
+  "applicant": false
+ },
+ "bank_use": {
+  "ref_no": "OR25112999512",
+  "branch": "분당지점",
+  "rate": "1,412.76",
+  "krw_amount": "2,260,416원",
+  "fee": "10,000원",
+  "cable_fee": "8,000원",
+  "total": "2,278,416원",
+  "clerk": "한정우",
+  "manager": "정소연"
+ }
+}

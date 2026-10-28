@@ -25,12 +25,19 @@ from pathlib import Path
 
 from .evaluate import load_items
 
-MAX_TOKENS = {"ocr_page": 4096, "kie": 2048, "marks": 1024, "cross_check": 1024, "doc_check": 512,
+MAX_TOKENS = {"ocr_page": 4096, "kie": 2048, "marks": 1024, "freetext": 512, "cross_check": 1024, "doc_check": 512,
               "ocr_field": 256, "classify": 128, "review": 256}
 
 
 def oracle_output(item: dict) -> str:
+    """정답을 모델 출력 꼴로 (SFT 가르칠 답, --oracle). OCR 과제는 옛 1부 answer_for 와 같다."""
+    from .ocr_metrics import TASKS as OCR_TASKS, answer_for
+
+    if item["task"] in OCR_TASKS:
+        return answer_for(item["task"], item["answer"])
     a = item["answer"]
+    if item["task"] == "kie" and item.get("eval", {}).get("order") is not None:   # 값만 순서대로 (train.swift_import)
+        return json.dumps([a[k] for k in item["eval"]["order"]], ensure_ascii=False)
     if item["task"] == "ocr_page":
         return "\n".join(a)
     return a if isinstance(a, str) else json.dumps(a, ensure_ascii=False)

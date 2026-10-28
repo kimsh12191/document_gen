@@ -1,0 +1,34 @@
+{
+ "items": [
+  {
+   "key": "issuer",
+   "value": "Sammy Maystone - For Lines testing"
+  },
+  {
+   "key": "invoice_number",
+   "value": "invoice_number_1",
+   "bbox_2d": [
+    769,
+    75,
+    933,
+    91
+   ],
+   "page": 1
+  },
+  {
+   "key": "date",
+   "value": "2022-01-01",
+   "bbox_2d": [
+    840,
+    143,
+    925,
+    155
+   ],
+   "page": 1
+  },
+  {
+   "key": "currency",
+   "value": "USD"
+  }
+ ]
+}

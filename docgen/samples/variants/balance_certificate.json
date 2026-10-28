@@ -1,0 +1,122 @@
+{
+ "document_type": "잔액증명서",
+ "cert_no": "제 2025-37304 호",
+ "holder": {
+  "name": "김소윤",
+  "rrn": "901121-2******"
+ },
+ "base_date": "2025년 11월 29일 현재",
+ "rows": [
+  {
+   "kind": "저축예금",
+   "account_no": "628-8975-1402-61",
+   "balance": "50,791,717",
+   "uncleared": "0",
+   "pledge": "무",
+   "restriction": "지급정지"
+  },
+  {
+   "kind": "보통예금",
+   "account_no": "713-9463-7949-88",
+   "balance": "19,442,816",
+   "uncleared": "0",
+   "pledge": "무",
+   "restriction": "무"
+  },
+  {
+   "kind": "자유적립식예금",
+   "account_no": "393-2543-3455-91",
+   "balance": "10,200,000",
+   "uncleared": "0",
+   "pledge": "무",
+   "restriction": "무"
+  },
+  {
+   "kind": "청년도약계좌",
+   "account_no": "774-7902-9862-71",
+   "balance": "9,300,000",
+   "uncleared": "0",
+   "pledge": "유",
+   "restriction": "무"
+  },
+  {
+   "kind": "정기적금",
+   "account_no": "339-2326-5855-09",
+   "balance": "600,000",
+   "uncleared": "0",
+   "pledge": "무",
+   "restriction": "무"
+  },
+  {
+   "kind": "자유적립식예금",
+   "account_no": "886-9438-5924-09",
+   "balance": "3,100,000",
+   "uncleared": "0",
+   "pledge": "무",
+   "restriction": "무"
+  },
+  {
+   "kind": "기업자유예금",
+   "account_no": "311-2362-5248-49",
+   "balance": "14,213,658",
+   "uncleared": "0",
+   "pledge": "무",
+   "restriction": "무"
+  },
+  {
+   "kind": "청년도약계좌",
+   "account_no": "653-5198-9920-08",
+   "balance": "10,200,000",
+   "uncleared": "0",
+   "pledge": "무",
+   "restriction": "무"
+  },
+  {
+   "kind": "청년도약계좌",
+   "account_no": "089-9705-2752-81",
+   "balance": "700,000",
+   "uncleared": "0",
+   "pledge": "무",
+   "restriction": "무"
+  },
+  {
+   "kind": "정기적금",
+   "account_no": "342-5684-7582-82",
+   "balance": "10,500,000",
+   "uncleared": "0",
+   "pledge": "무",
+   "restriction": "무"
+  },
+  {
+   "kind": "MMDA",
+   "account_no": "200-6130-6703-58",
+   "balance": "11,935,716",
+   "uncleared": "0",
+   "pledge": "무",
+   "restriction": "무"
+  },
+  {
+   "kind": "외화보통예금(USD)",
+   "fx_amount": "USD 32,188.52",
+   "account_no": "611-8602-8905-61",
+   "balance": "45,435,029",
+   "uncleared": "0",
+   "pledge": "무",
+   "restriction": "무"
+  }
+ ],
+ "currency": "KRW",
+ "total": "186,418,936",
+ "total_korean": "금 일억팔천육백사십일만팔천구백삼십육원정",
+ "remarks": [
+  "계좌번호 774-7902-9862-71 : 질권설정 (질권자 : 서울보증보험(주), 설정금액 7,420,000원)",
+  "계좌번호 628-8975-1402-61 : 지급정지 (사고신고 접수)"
+ ],
+ "purpose": "유학 신청용",
+ "fx_rate": "USD 1,411.53",
+ "issue_date": "2025년 11월 29일",
+ "issuer": "농협은행 분당지점장",
+ "seal": {
+  "issuer": true
+ }
+}

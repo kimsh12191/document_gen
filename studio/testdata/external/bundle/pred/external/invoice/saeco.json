@@ -1,0 +1,193 @@
+{
+ "items": [
+  {
+   "key": "issuer",
+   "value": "e-Luscious Nederland B.V."
+  },
+  {
+   "key": "amount",
+   "value": "49.99",
+   "bbox_2d": [
+    664,
+    400,
+    698,
+    412
+   ],
+   "page": 1
+  },
+  {
+   "key": "amount_tax",
+   "value": "8.68",
+   "bbox_2d": [
+    798,
+    530,
+    824,
+    543
+   ],
+   "page": 1
+  },
+  {
+   "key": "amount_untaxed",
+   "value": "41.31",
+   "bbox_2d": [
+    694,
+    530,
+    728,
+    543
+   ],
+   "page": 1
+  },
+  {
+   "key": "date",
+   "value": "2022-09-08",
+   "bbox_2d": [
+    567,
+    347,
+    622,
+    360
+   ],
+   "page": 1
+  },
+  {
+   "key": "date_due",
+   "value": "2022-09-22",
+   "bbox_2d": [
+    858,
+    347,
+    921,
+    360
+   ],
+   "page": 1
+  },
+  {
+   "key": "invoice_number",
+   "value": "VF1005193039",
+   "bbox_2d": [
+    687,
+    347,
+    778,
+    360
+   ],
+   "page": 1
+  },
+  {
+   "key": "payment_method",
+   "value": "Credit Card",
+   "bbox_2d": [
+    582,
+    798,
+    675,
+    814
+   ],
+   "page": 1
+  },
+  {
+   "key": "static_vat",
+   "value": "NL815254295B01"
+  },
+  {
+   "key": "bic",
+   "value": "RABONL2U"
+  },
+  {
+   "key": "iban",
+   "value": "NL58RABO0198723202"
+  },
+  {
+   "key": "telephone",
+   "value": "020 7604101",
+   "bbox_2d": [
+    703,
+    878,
+    805,
+    889
+   ],
+   "page": 1
+  },
+  {
+   "key": "partner_website",
+   "value": "saeco.com",
+   "bbox_2d": [
+    337,
+    859,
+    433,
+    870
+   ],
+   "page": 1
+  },
+  {
+   "key": "partner_email",
+   "value": "verkoop-nl@saeco.com",
+   "bbox_2d": [
+    142,
+    897,
+    347,
+    910
+   ],
+   "page": 1
+  },
+  {
+   "key": "partner_name",
+   "value": "e-Luscious Nederland B.V."
+  },
+  {
+   "key": "country_code",
+   "value": "nl"
+  },
+  {
+   "key": "partner_zip",
+   "value": "8401 BL",
+   "bbox_2d": [
+    169,
+    877,
+    236,
+    891
+   ],
+   "page": 1
+  },
+  {
+   "key": "partner_city",
+   "value": "Gorredijk",
+   "bbox_2d": [
+    247,
+    877,
+    346,
+    891
+   ],
+   "page": 1
+  },
+  {
+   "key": "partner_street",
+   "value": "Badweg 48",
+   "bbox_2d": [
+    70,
+    877,
+    158,
+    891
+   ],
+   "page": 1
+  },
+  {
+   "key": "partner_coc",
+   "value": "04080176",
+   "bbox_2d": [
+    190,
+    916,
+    285,
+    928
+   ],
+   "page": 1
+  },
+  {
+   "key": "currency",
+   "value": "EUR",
+   "bbox_2d": [
+    780,
+    441,
+    806,
+    453
+   ],
+   "page": 1
+  }
+ ]
+}

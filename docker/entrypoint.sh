@@ -1,6 +1,38 @@
 #!/bin/sh
-# 컨테이너 시작: SSH 호스트 키·접속 계정 준비 후 sshd 실행
+# 컨테이너 시작
+#   (인자 없음)  SSH 호스트 키·접속 계정 준비 후 sshd
+#   studio [..]  studio 를 띄운다 (코드를 고치면 저절로 다시 뜸). docker/studio.sh 가 이렇게 띄운다
 set -e
+code=/home/docgen/document_gen
+
+# 계정 번호를 서버 사용자와 맞춘다 (DOCGEN_UID·DOCGEN_GID). 마운트한 코드·결과 폴더를 그대로 고칠 수 있게
+if [ -n "$DOCGEN_UID" ] && [ "$DOCGEN_UID" != "$(id -u docgen)" ]; then
+    groupmod -o -g "${DOCGEN_GID:-$DOCGEN_UID}" docgen
+    usermod -o -u "$DOCGEN_UID" -g "${DOCGEN_GID:-$DOCGEN_UID}" docgen
+fi
+chown docgen:docgen /home/docgen
+[ -d /home/docgen/.cache ] && chown docgen:docgen /home/docgen/.cache
+
+# 결과 폴더: 호스트에서 root 로 만든 폴더를 마운트했으면 docgen 계정이 쓸 수 있게
+if ! su docgen -s /bin/sh -c 'test -w /out'; then
+    chown docgen:docgen /out
+fi
+
+# 코드: 따로 반입한 저장소를 /home/docgen/document_gen 에 마운트해야 한다
+if [ ! -d "$code/docgen" ]; then
+    echo "[docgen] 경고: $code 에 코드가 없습니다. docgen-code-*.tar.gz 를 풀어 -v <폴더>:$code 로 마운트하세요."
+elif ! su docgen -s /bin/sh -c "test -w $code"; then
+    echo "[docgen] 코드 폴더를 docgen 계정이 고칠 수 있게 소유자를 바꿉니다 (uid $(id -u docgen))"
+    chown -R docgen:docgen "$code"
+fi
+
+if [ "$1" = studio ]; then
+    shift
+    cd "$code"
+    # --reload: studio/·docgen/ 의 .py 가 바뀌면 서버를 다시 띄운다. 화면 파일(studio/static)은 새로고침만 하면 된다
+    exec setpriv --reuid=docgen --regid=docgen --init-groups env HOME=/home/docgen USER=docgen \
+        python -m studio --host 0.0.0.0 --reload "$@"
+fi
 
 # 호스트 키: /etc/ssh/keys 를 볼륨으로 두면 컨테이너를 새로 만들어도 같은 키를 쓴다 (접속 경고 없음)
 for t in ed25519 rsa; do
@@ -28,20 +60,6 @@ elif [ ! -s "$ak" ]; then
 else
     usermod -p "*" docgen   # 비밀번호 로그인 막기 (잠금 "!" 은 공개키 로그인도 막을 수 있어 "*" 사용)
     sed -i 's/^PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config.d/docgen.conf
-fi
-
-# 결과 폴더: 호스트에서 root 로 만든 폴더를 마운트했으면 docgen 계정이 쓸 수 있게
-if ! su docgen -s /bin/sh -c 'test -w /out'; then
-    chown docgen:docgen /out
-fi
-
-# 코드: 따로 반입한 저장소를 /home/docgen/document_gen 에 마운트해야 한다
-code=/home/docgen/document_gen
-if [ ! -d "$code/docgen" ]; then
-    echo "[docgen] 경고: $code 에 코드가 없습니다. docgen-code-*.tar.gz 를 풀어 -v <폴더>:$code 로 마운트하세요."
-elif ! su docgen -s /bin/sh -c "test -w $code"; then
-    echo "[docgen] 코드 폴더를 docgen 계정이 고칠 수 있게 소유자를 바꿉니다 (uid $(id -u docgen))"
-    chown -R docgen:docgen "$code"
 fi
 
 echo "[docgen] SSH 대기 중 (컨테이너 22번 포트). 계정: docgen"

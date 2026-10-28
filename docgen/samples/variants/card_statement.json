@@ -1,0 +1,581 @@
+{
+ "document_type": "신용카드 이용대금명세서",
+ "company": "우리카드",
+ "statement_month": "2025년 11월",
+ "member": "김소윤",
+ "card_no": "5019-19**-****-9899",
+ "pay_date": "2025.11.14",
+ "pay_account": "농협은행 628-89**-**02-61",
+ "usage_period": "2025.10.01 ~ 2025.10.31",
+ "summary": {
+  "total": "8,041,290",
+  "lump": "1,727,120",
+  "installment": "4,250,840",
+  "cash": "600,000",
+  "fee": "53,140",
+  "next_month": "1,881,038",
+  "limit": "15,000,000",
+  "overdue": "1,399,540",
+  "overdue_fee": "10,650"
+ },
+ "rows": [
+  {
+   "date": "2025.03.14",
+   "merchant": "대한항공",
+   "amount": "877,300",
+   "months": "10개월",
+   "seq": "8/10",
+   "principal": "87,730",
+   "fee": "3,610",
+   "after": "175,460"
+  },
+  {
+   "date": "2025.04.06",
+   "merchant": "서울밝은치과의원",
+   "amount": "590,100",
+   "months": "12개월",
+   "seq": "7/12",
+   "principal": "49,175",
+   "fee": "0",
+   "after": "245,875"
+  },
+  {
+   "date": "2025.07.05",
+   "merchant": "대한항공",
+   "amount": "1,288,500",
+   "months": "10개월",
+   "seq": "4/10",
+   "principal": "128,850",
+   "fee": "12,400",
+   "after": "773,100"
+  },
+  {
+   "date": "2025.08.03",
+   "merchant": "롯데하이마트",
+   "amount": "1,362,400",
+   "months": "3개월",
+   "seq": "3/3",
+   "principal": "454,134",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.08.14",
+   "merchant": "서울밝은치과의원",
+   "amount": "1,720,300",
+   "months": "3개월",
+   "seq": "3/3",
+   "principal": "573,434",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.08.21",
+   "merchant": "롯데하이마트",
+   "amount": "1,034,800",
+   "months": "3개월",
+   "seq": "3/3",
+   "principal": "344,934",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.09.15",
+   "merchant": "대한항공",
+   "amount": "1,622,900",
+   "months": "6개월",
+   "seq": "2/6",
+   "principal": "270,483",
+   "fee": "0",
+   "after": "1,081,934"
+  },
+  {
+   "date": "2025.09.16",
+   "merchant": "서울밝은치과의원",
+   "amount": "1,207,500",
+   "months": "6개월",
+   "seq": "2/6",
+   "principal": "201,250",
+   "fee": "13,830",
+   "after": "805,000"
+  },
+  {
+   "date": "2025.09.19",
+   "merchant": "아시아나항공",
+   "amount": "1,994,600",
+   "months": "2개월",
+   "seq": "2/2",
+   "principal": "997,300",
+   "fee": "13,710",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.01",
+   "merchant": "GS칼텍스",
+   "amount": "18,940",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "18,940",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.03",
+   "merchant": "배달의민족",
+   "amount": "52,510",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "52,510",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.05",
+   "merchant": "스타벅스",
+   "amount": "6,500",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "6,500",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.05",
+   "merchant": "CU",
+   "amount": "25,160",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "25,160",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.06",
+   "merchant": "스타벅스",
+   "amount": "130,600",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "130,600",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.08",
+   "merchant": "카카오T",
+   "amount": "23,380",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "23,380",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.09",
+   "merchant": "네이버페이",
+   "amount": "6,140",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "6,140",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.09",
+   "merchant": "배달의민족",
+   "amount": "21,340",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "21,340",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.11",
+   "merchant": "SK에너지",
+   "amount": "29,030",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "29,030",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.12",
+   "merchant": "SK에너지(취소)",
+   "amount": "-29,030",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "-29,030",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.13",
+   "merchant": "롯데마트",
+   "amount": "50,450",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "50,450",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.13",
+   "merchant": "이마트",
+   "amount": "26,200",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "26,200",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.14",
+   "merchant": "올리브영",
+   "amount": "44,230",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "44,230",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.14",
+   "merchant": "CGV",
+   "amount": "55,610",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "55,610",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.14",
+   "merchant": "다이소",
+   "amount": "141,620",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "141,620",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.15",
+   "merchant": "GS25",
+   "amount": "23,920",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "23,920",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.15",
+   "merchant": "단기카드대출(현금서비스)",
+   "amount": "300,000",
+   "months": "현금서비스",
+   "seq": "-",
+   "principal": "300,000",
+   "fee": "4,410",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.17",
+   "merchant": "쿠팡",
+   "amount": "8,130",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "8,130",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.19",
+   "merchant": "11번가",
+   "amount": "31,370",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "31,370",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.19",
+   "merchant": "배달의민족",
+   "amount": "23,240",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "23,240",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.20",
+   "merchant": "SK에너지",
+   "amount": "3,020",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "3,020",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.20",
+   "merchant": "교보문고",
+   "amount": "100,330",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "100,330",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.20",
+   "merchant": "애플코리아",
+   "amount": "2,287,100",
+   "months": "2개월",
+   "seq": "1/2",
+   "principal": "1,143,550",
+   "fee": "0",
+   "after": "1,143,550"
+  },
+  {
+   "date": "2025.10.20",
+   "merchant": "쿠팡(취소)",
+   "amount": "-8,130",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "-8,130",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.21",
+   "merchant": "네이버페이",
+   "amount": "57,380",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "57,380",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.21",
+   "merchant": "무신사",
+   "amount": "13,890",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "13,890",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.21",
+   "merchant": "GS25",
+   "amount": "38,330",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "38,330",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.22",
+   "merchant": "배달의민족",
+   "amount": "18,960",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "18,960",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.22",
+   "merchant": "CGV",
+   "amount": "104,250",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "104,250",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.22",
+   "merchant": "카카오T",
+   "amount": "28,260",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "28,260",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.22",
+   "merchant": "11번가",
+   "amount": "22,500",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "22,500",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.23",
+   "merchant": "무신사",
+   "amount": "17,640",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "17,640",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.23",
+   "merchant": "단기카드대출(현금서비스)",
+   "amount": "300,000",
+   "months": "현금서비스",
+   "seq": "-",
+   "principal": "300,000",
+   "fee": "5,180",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.24",
+   "merchant": "세븐일레븐",
+   "amount": "34,100",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "34,100",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.24",
+   "merchant": "스타벅스",
+   "amount": "6,420",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "6,420",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.25",
+   "merchant": "GS25",
+   "amount": "23,840",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "23,840",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.26",
+   "merchant": "카카오T",
+   "amount": "27,290",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "27,290",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.26",
+   "merchant": "쿠팡",
+   "amount": "25,960",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "25,960",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.26",
+   "merchant": "STARBUCKS SINGAPORE (SGD 92.94)",
+   "amount": "96,920",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "96,920",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.28",
+   "merchant": "스타벅스",
+   "amount": "10,110",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "10,110",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.29",
+   "merchant": "올리브영",
+   "amount": "30,310",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "30,310",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.29",
+   "merchant": "다이소",
+   "amount": "46,940",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "46,940",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.31",
+   "merchant": "배달의민족",
+   "amount": "40,640",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "40,640",
+   "fee": "0",
+   "after": "0"
+  },
+  {
+   "date": "2025.10.31",
+   "merchant": "APPLE.COM/BILL (USD 213.87)",
+   "amount": "298,820",
+   "months": "일시불",
+   "seq": "-",
+   "principal": "298,820",
+   "fee": "0",
+   "after": "0"
+  }
+ ],
+ "sum": {
+  "amount": "16,312,620",
+  "principal": "6,577,960",
+  "fee": "53,140"
+ },
+ "fee_rate": "연 16.5%",
+ "fee_per_100": [
+  {
+   "months": "2개월",
+   "fee": "2.06원"
+  },
+  {
+   "months": "3개월",
+   "fee": "2.75원"
+  },
+  {
+   "months": "6개월",
+   "fee": "4.81원"
+  },
+  {
+   "months": "10개월",
+   "fee": "7.56원"
+  },
+  {
+   "months": "12개월",
+   "fee": "8.94원"
+  }
+ ]
+}

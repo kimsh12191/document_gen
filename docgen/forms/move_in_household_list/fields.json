@@ -1,0 +1,143 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "address": {
+   "label": "건물또는시설소재지",
+   "type": "text",
+   "source": "code"
+  },
+  "applicant.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "applicant.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "applicant.purpose": {
+   "label": "열람·교부목적",
+   "type": "text",
+   "source": "code"
+  },
+  "applicant.rrn": {
+   "label": "주민등록번호",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발급일자",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_no": {
+   "label": "발급번호",
+   "type": "text",
+   "source": "code"
+  },
+  "issuer": {
+   "label": "발급기관",
+   "type": "text",
+   "source": "code"
+  },
+  "jibun_address": {
+   "label": "지번주소",
+   "type": "text",
+   "source": "code"
+  },
+  "kind": {
+   "label": "열람·교부구분",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "view_date": {
+   "label": "발급일",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "cohabitants": {
+   "source": "code",
+   "fields": {
+    "move_in_date": {
+     "label": "전입일자",
+     "type": "text",
+     "source": "code"
+    },
+    "name": {
+     "label": "동거인성명",
+     "type": "text",
+     "source": "code"
+    },
+    "no": {
+     "label": "순번",
+     "type": "text",
+     "source": "code"
+    },
+    "reg_type": {
+     "label": "등록구분",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "households": {
+   "source": "code",
+   "fields": {
+    "cohabitants": {
+     "label": "동거인수",
+     "type": "text",
+     "source": "code"
+    },
+    "first_date": {
+     "label": "최초전입일자",
+     "type": "text",
+     "source": "code"
+    },
+    "first_name": {
+     "label": "최초전입자성명",
+     "type": "text",
+     "source": "code"
+    },
+    "first_reg_type": {
+     "label": "최초전입자등록구분",
+     "type": "text",
+     "source": "code"
+    },
+    "head_name": {
+     "label": "세대주성명",
+     "type": "text",
+     "source": "code"
+    },
+    "move_in_date": {
+     "label": "전입일자",
+     "type": "text",
+     "source": "code"
+    },
+    "no": {
+     "label": "순번",
+     "type": "text",
+     "source": "code"
+    },
+    "reg_type": {
+     "label": "등록구분",
+     "type": "text",
+     "source": "code"
+    },
+    "unit": {
+     "label": "동·호",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

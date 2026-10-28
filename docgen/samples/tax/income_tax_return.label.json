@@ -1,0 +1,1606 @@
+{
+ "images": [
+  "tax/income_tax_return_p1.jpg",
+  "tax/income_tax_return_p2.jpg",
+  "tax/income_tax_return_p3.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  },
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "tax_year",
+   "label": "귀속연도",
+   "type": "number",
+   "value": "2024",
+   "norm": 2024,
+   "page": 0,
+   "bbox": [
+    462.0,
+    147.4,
+    502.8,
+    169.9
+   ]
+  },
+  {
+   "key": "residency",
+   "label": "거주구분",
+   "type": "checkbox",
+   "value": "거주자",
+   "norm": "거주자",
+   "page": 0,
+   "bbox": [
+    885.1,
+    146.2,
+    935.0,
+    164.2
+   ],
+   "label_bbox": [
+    741.0,
+    136.9,
+    852.4,
+    175.7
+   ],
+   "options": [
+    {
+     "text": "거주자",
+     "checked": true,
+     "box_bbox": [
+      860.7,
+      146.2,
+      880.9,
+      164.2
+     ],
+     "bbox": [
+      860.7,
+      146.2,
+      935.0,
+      164.2
+     ]
+    },
+    {
+     "text": "비거주자",
+     "checked": false,
+     "box_bbox": [
+      950.0,
+      146.2,
+      965.2,
+      164.2
+     ],
+     "bbox": [
+      950.0,
+      146.2,
+      1036.0,
+      164.2
+     ]
+    }
+   ]
+  },
+  {
+   "key": "nationality",
+   "label": "내ㆍ외국인",
+   "type": "checkbox",
+   "value": "내국인",
+   "norm": "내국인",
+   "page": 0,
+   "bbox": [
+    885.1,
+    185.8,
+    935.0,
+    203.8
+   ],
+   "label_bbox": [
+    741.0,
+    175.7,
+    852.4,
+    215.4
+   ],
+   "options": [
+    {
+     "text": "내국인",
+     "checked": true,
+     "box_bbox": [
+      860.7,
+      185.8,
+      880.9,
+      203.8
+     ],
+     "bbox": [
+      860.7,
+      185.8,
+      935.0,
+      203.8
+     ]
+    },
+    {
+     "text": "외국인",
+     "checked": false,
+     "box_bbox": [
+      950.0,
+      185.8,
+      965.2,
+      203.8
+     ],
+     "bbox": [
+      950.0,
+      185.8,
+      1019.3,
+      203.8
+     ]
+    }
+   ]
+  },
+  {
+   "key": "taxpayer.name",
+   "label": "성명",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    300.8,
+    299.1,
+    350.7,
+    317.1
+   ],
+   "label_bbox": [
+    105.0,
+    291.6,
+    291.0,
+    325.3
+   ]
+  },
+  {
+   "key": "taxpayer.rrn",
+   "label": "주민등록번호",
+   "type": "rrn",
+   "value": "901121-2030821",
+   "norm": "901121-2030821",
+   "page": 0,
+   "bbox": [
+    795.8,
+    299.1,
+    908.9,
+    317.1
+   ],
+   "label_bbox": [
+    600.0,
+    291.6,
+    786.0,
+    325.3
+   ]
+  },
+  {
+   "key": "taxpayer.address",
+   "label": "주소",
+   "type": "text",
+   "value": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+   "norm": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+   "page": 0,
+   "bbox": [
+    300.8,
+    332.0,
+    806.3,
+    350.0
+   ],
+   "label_bbox": [
+    105.0,
+    325.3,
+    291.0,
+    358.2
+   ]
+  },
+  {
+   "key": "taxpayer.email",
+   "label": "전자우편주소",
+   "type": "text",
+   "value": "soyun407@hanmail.net",
+   "norm": "soyun407@hanmail.net",
+   "page": 0,
+   "bbox": [
+    300.8,
+    365.0,
+    458.9,
+    383.0
+   ],
+   "label_bbox": [
+    105.0,
+    358.2,
+    291.0,
+    391.2
+   ]
+  },
+  {
+   "key": "taxpayer.biz_phone",
+   "label": "사업장전화번호",
+   "type": "phone",
+   "value": "02-7824-2394",
+   "norm": "0278242394",
+   "page": 0,
+   "bbox": [
+    300.8,
+    397.9,
+    395.0,
+    415.9
+   ],
+   "label_bbox": [
+    105.0,
+    391.2,
+    291.0,
+    424.1
+   ]
+  },
+  {
+   "key": "taxpayer.mobile",
+   "label": "휴대전화번호",
+   "type": "phone",
+   "value": "010-4372-6867",
+   "norm": "01043726867",
+   "page": 0,
+   "bbox": [
+    795.8,
+    397.9,
+    898.4,
+    415.9
+   ],
+   "label_bbox": [
+    600.0,
+    391.2,
+    786.0,
+    424.1
+   ]
+  },
+  {
+   "key": "filing_type",
+   "label": "신고유형",
+   "type": "text",
+   "value": "추계-기준율",
+   "norm": "추계-기준율",
+   "page": 0,
+   "bbox": [
+    851.1,
+    432.4,
+    943.9,
+    451.9
+   ],
+   "label_bbox": [
+    105.0,
+    424.1,
+    291.0,
+    486.8
+   ]
+  },
+  {
+   "key": "bookkeeping",
+   "label": "기장의무",
+   "type": "text",
+   "value": "간편장부대상자",
+   "norm": "간편장부대상자",
+   "page": 0,
+   "bbox": [
+    498.4,
+    495.1,
+    620.1,
+    514.6
+   ],
+   "label_bbox": [
+    105.0,
+    486.8,
+    291.0,
+    523.4
+   ]
+  },
+  {
+   "key": "filing_kind",
+   "label": "신고구분",
+   "type": "text",
+   "value": "정기신고",
+   "norm": "정기신고",
+   "page": 0,
+   "bbox": [
+    342.9,
+    531.7,
+    412.4,
+    551.2
+   ],
+   "label_bbox": [
+    105.0,
+    523.4,
+    291.0,
+    560.7
+   ]
+  },
+  {
+   "key": "national.total_income",
+   "label": "종합소득금액",
+   "type": "amount",
+   "value": "15,122,480",
+   "norm": 15122480,
+   "page": 0,
+   "bbox": [
+    785.6,
+    725.5,
+    860.4,
+    743.5
+   ],
+   "label_bbox": [
+    575.9,
+    694.1,
+    870.2,
+    721.8
+   ]
+  },
+  {
+   "key": "national.deduction",
+   "label": "소득공제",
+   "type": "amount",
+   "value": "9,761,010",
+   "norm": 9761010,
+   "page": 0,
+   "bbox": [
+    793.9,
+    752.5,
+    860.4,
+    770.5
+   ],
+   "label_bbox": [
+    575.9,
+    694.1,
+    870.2,
+    721.8
+   ]
+  },
+  {
+   "key": "national.base",
+   "label": "과세표준",
+   "type": "amount",
+   "value": "5,361,470",
+   "norm": 5361470,
+   "page": 0,
+   "bbox": [
+    793.9,
+    779.4,
+    860.4,
+    797.4
+   ],
+   "label_bbox": [
+    575.9,
+    694.1,
+    870.2,
+    721.8
+   ]
+  },
+  {
+   "key": "national.rate",
+   "label": "세율",
+   "type": "percent",
+   "value": "6%",
+   "norm": 6,
+   "page": 0,
+   "bbox": [
+    838.2,
+    806.4,
+    860.4,
+    824.4
+   ],
+   "label_bbox": [
+    575.9,
+    694.1,
+    870.2,
+    721.8
+   ]
+  },
+  {
+   "key": "national.computed",
+   "label": "산출세액",
+   "type": "number",
+   "value": "321,688",
+   "norm": 321688,
+   "page": 0,
+   "bbox": [
+    806.3,
+    833.3,
+    860.4,
+    851.3
+   ],
+   "label_bbox": [
+    575.9,
+    694.1,
+    870.2,
+    721.8
+   ]
+  },
+  {
+   "key": "national.reduction",
+   "label": "세액감면",
+   "type": "number",
+   "value": "0",
+   "norm": 0,
+   "page": 0,
+   "bbox": [
+    852.1,
+    860.3,
+    860.4,
+    878.3
+   ],
+   "label_bbox": [
+    575.9,
+    694.1,
+    870.2,
+    721.8
+   ]
+  },
+  {
+   "key": "national.credit",
+   "label": "세액공제",
+   "type": "amount",
+   "value": "90,000",
+   "norm": 90000,
+   "page": 0,
+   "bbox": [
+    814.7,
+    887.2,
+    860.4,
+    905.2
+   ],
+   "label_bbox": [
+    575.9,
+    694.1,
+    870.2,
+    721.8
+   ]
+  },
+  {
+   "key": "national.determined",
+   "label": "결정세액",
+   "type": "number",
+   "value": "231,688",
+   "norm": 231688,
+   "page": 0,
+   "bbox": [
+    806.3,
+    914.2,
+    860.4,
+    932.2
+   ],
+   "label_bbox": [
+    575.9,
+    694.1,
+    870.2,
+    721.8
+   ]
+  },
+  {
+   "key": "national.penalty",
+   "label": "가산세",
+   "type": "number",
+   "value": "0",
+   "norm": 0,
+   "page": 0,
+   "bbox": [
+    852.1,
+    941.1,
+    860.4,
+    959.1
+   ],
+   "label_bbox": [
+    575.9,
+    694.1,
+    870.2,
+    721.8
+   ]
+  },
+  {
+   "key": "national.additional",
+   "label": "추가납부세액",
+   "type": "number",
+   "value": "0",
+   "norm": 0,
+   "page": 0,
+   "bbox": [
+    852.1,
+    968.1,
+    860.4,
+    986.1
+   ],
+   "label_bbox": [
+    575.9,
+    694.1,
+    870.2,
+    721.8
+   ]
+  },
+  {
+   "key": "national.total",
+   "label": "합계",
+   "type": "amount",
+   "value": "231,688",
+   "norm": 231688,
+   "page": 0,
+   "bbox": [
+    806.3,
+    995.0,
+    860.4,
+    1013.0
+   ],
+   "label_bbox": [
+    575.9,
+    694.1,
+    870.2,
+    721.8
+   ]
+  },
+  {
+   "key": "national.prepaid",
+   "label": "기납부세액",
+   "type": "number",
+   "value": "69,690",
+   "norm": 69690,
+   "page": 0,
+   "bbox": [
+    814.7,
+    1022.0,
+    860.4,
+    1040.0
+   ],
+   "label_bbox": [
+    575.9,
+    694.1,
+    870.2,
+    721.8
+   ]
+  },
+  {
+   "key": "national.payable",
+   "label": "납부(환급)할총세액",
+   "type": "amount",
+   "value": "161,990",
+   "norm": 161990,
+   "page": 0,
+   "bbox": [
+    806.3,
+    1048.9,
+    860.4,
+    1066.9
+   ],
+   "label_bbox": [
+    575.9,
+    694.1,
+    870.2,
+    721.8
+   ]
+  },
+  {
+   "key": "national.special_deduct",
+   "label": "납부특례세액차감",
+   "type": "number",
+   "value": "0",
+   "norm": 0,
+   "page": 0,
+   "bbox": [
+    852.1,
+    1075.9,
+    860.4,
+    1093.9
+   ],
+   "label_bbox": [
+    575.9,
+    694.1,
+    870.2,
+    721.8
+   ]
+  },
+  {
+   "key": "national.special_add",
+   "label": "납부특례세액가산",
+   "type": "number",
+   "value": "0",
+   "norm": 0,
+   "page": 0,
+   "bbox": [
+    852.1,
+    1102.9,
+    860.4,
+    1120.9
+   ],
+   "label_bbox": [
+    575.9,
+    694.1,
+    870.2,
+    721.8
+   ]
+  },
+  {
+   "key": "national.installment",
+   "label": "분납할세액",
+   "type": "number",
+   "value": "0",
+   "norm": 0,
+   "page": 0,
+   "bbox": [
+    852.1,
+    1129.8,
+    860.4,
+    1147.8
+   ],
+   "label_bbox": [
+    575.9,
+    694.1,
+    870.2,
+    721.8
+   ]
+  },
+  {
+   "key": "national.due_payable",
+   "label": "신고기한이내납부할세액",
+   "type": "amount",
+   "value": "161,990",
+   "norm": 161990,
+   "page": 0,
+   "bbox": [
+    806.3,
+    1156.8,
+    860.4,
+    1174.8
+   ],
+   "label_bbox": [
+    575.9,
+    694.1,
+    870.2,
+    721.8
+   ]
+  },
+  {
+   "key": "filed_date",
+   "label": "신고일",
+   "type": "date",
+   "value": "2025년 05월 02일",
+   "norm": "2025-05-02",
+   "page": 0,
+   "bbox": [
+    962.7,
+    1240.9,
+    1087.5,
+    1258.9
+   ]
+  },
+  {
+   "key": "seal.taxpayer",
+   "label": "신고인",
+   "type": "seal",
+   "value": null,
+   "present": false,
+   "kind": "인감",
+   "anchor": "taxpayer.name",
+   "page": 0,
+   "bbox": [
+    984.9,
+    1263.4,
+    1087.5,
+    1285.9
+   ]
+  },
+  {
+   "key": "sign.taxpayer",
+   "label": "신고인",
+   "type": "signature",
+   "value": null,
+   "present": false,
+   "anchor": "taxpayer.name",
+   "page": 0,
+   "bbox": [
+    984.9,
+    1263.4,
+    1087.5,
+    1285.9
+   ]
+  },
+  {
+   "key": "tax_office",
+   "label": "세무서장",
+   "type": "text",
+   "value": "서광주세무서장",
+   "norm": "서광주세무서장",
+   "page": 0,
+   "bbox": [
+    103.5,
+    1391.9,
+    256.7,
+    1415.9
+   ],
+   "label_bbox": [
+    103.5,
+    1345.9,
+    1087.5,
+    1384.4
+   ]
+  },
+  {
+   "key": "incomes.0.type",
+   "label": "소득구분",
+   "type": "text",
+   "value": "사업소득",
+   "norm": "사업소득",
+   "page": 1,
+   "bbox": [
+    144.2,
+    230.3,
+    213.7,
+    249.8
+   ],
+   "label_bbox": [
+    105.0,
+    169.9,
+    252.1,
+    225.1
+   ]
+  },
+  {
+   "key": "incomes.0.payer",
+   "label": "소득의지급자",
+   "type": "text",
+   "value": "넥스트몰",
+   "norm": "넥스트몰",
+   "page": 1,
+   "bbox": [
+    260.4,
+    230.3,
+    330.0,
+    249.8
+   ],
+   "label_bbox": [
+    252.1,
+    169.9,
+    477.8,
+    225.1
+   ]
+  },
+  {
+   "key": "incomes.0.revenue",
+   "label": "총수입금액",
+   "type": "amount",
+   "value": "185,741,550",
+   "norm": 185741550,
+   "page": 1,
+   "bbox": [
+    531.2,
+    230.3,
+    618.2,
+    249.8
+   ],
+   "label_bbox": [
+    477.8,
+    169.9,
+    626.4,
+    225.1
+   ]
+  },
+  {
+   "key": "incomes.0.expense",
+   "label": "필요경비",
+   "type": "amount",
+   "value": "170,619,070",
+   "norm": 170619070,
+   "page": 1,
+   "bbox": [
+    679.9,
+    230.3,
+    766.8,
+    249.8
+   ],
+   "label_bbox": [
+    626.4,
+    169.9,
+    775.1,
+    225.1
+   ]
+  },
+  {
+   "key": "incomes.0.amount",
+   "label": "소득금액",
+   "type": "amount",
+   "value": "15,122,480",
+   "norm": 15122480,
+   "page": 1,
+   "bbox": [
+    824.7,
+    230.3,
+    903.0,
+    249.8
+   ],
+   "label_bbox": [
+    775.1,
+    169.9,
+    911.2,
+    225.1
+   ]
+  },
+  {
+   "key": "incomes.0.withheld",
+   "label": "원천징수세액",
+   "type": "number",
+   "value": "0",
+   "norm": 0,
+   "page": 1,
+   "bbox": [
+    1068.3,
+    230.3,
+    1077.0,
+    249.8
+   ],
+   "label_bbox": [
+    911.2,
+    169.9,
+    1086.0,
+    225.1
+   ]
+  },
+  {
+   "key": "business_income.address",
+   "label": "사업장소재지",
+   "type": "text",
+   "value": "서울특별시 송파구 중대로 398, 12층 13호 (잠실동, 에이스지식산업센터)",
+   "norm": "서울특별시 송파구 중대로 398, 12층 13호 (잠실동, 에이스지식산업센터)",
+   "page": 1,
+   "bbox": [
+    329.1,
+    329.7,
+    875.4,
+    349.2
+   ],
+   "label_bbox": [
+    105.0,
+    323.7,
+    320.8,
+    355.4
+   ]
+  },
+  {
+   "key": "business_income.trade_name",
+   "label": "상호",
+   "type": "text",
+   "value": "넥스트몰",
+   "norm": "넥스트몰",
+   "page": 1,
+   "bbox": [
+    329.1,
+    360.7,
+    398.6,
+    380.2
+   ],
+   "label_bbox": [
+    105.0,
+    355.4,
+    320.8,
+    386.4
+   ]
+  },
+  {
+   "key": "business_income.biz_no",
+   "label": "사업자등록번호",
+   "type": "biz_no",
+   "value": "129-20-96799",
+   "norm": "129-20-96799",
+   "page": 1,
+   "bbox": [
+    804.1,
+    360.7,
+    902.6,
+    380.2
+   ],
+   "label_bbox": [
+    580.0,
+    355.4,
+    795.8,
+    386.4
+   ]
+  },
+  {
+   "key": "business_income.code",
+   "label": "업종코드",
+   "type": "number",
+   "value": "525101",
+   "norm": 525101,
+   "page": 1,
+   "bbox": [
+    329.1,
+    391.6,
+    381.2,
+    411.1
+   ],
+   "label_bbox": [
+    105.0,
+    386.4,
+    320.8,
+    417.3
+   ]
+  },
+  {
+   "key": "business_income.revenue",
+   "label": "총수입금액",
+   "type": "amount",
+   "value": "185,741,550",
+   "norm": 185741550,
+   "page": 1,
+   "bbox": [
+    990.0,
+    391.6,
+    1077.0,
+    411.1
+   ],
+   "label_bbox": [
+    580.0,
+    386.4,
+    795.8,
+    417.3
+   ]
+  },
+  {
+   "key": "business_income.expense",
+   "label": "필요경비",
+   "type": "amount",
+   "value": "170,619,070",
+   "norm": 170619070,
+   "page": 1,
+   "bbox": [
+    484.8,
+    422.6,
+    571.8,
+    442.1
+   ],
+   "label_bbox": [
+    105.0,
+    417.3,
+    320.8,
+    449.0
+   ]
+  },
+  {
+   "key": "business_income.income",
+   "label": "소득금액",
+   "type": "amount",
+   "value": "15,122,480",
+   "norm": 15122480,
+   "page": 1,
+   "bbox": [
+    998.7,
+    422.6,
+    1077.0,
+    442.1
+   ],
+   "label_bbox": [
+    580.0,
+    417.3,
+    795.8,
+    449.0
+   ]
+  },
+  {
+   "key": "dependents.0.relation",
+   "label": "관계",
+   "type": "text",
+   "value": "본인",
+   "norm": "본인",
+   "page": 1,
+   "bbox": [
+    156.6,
+    522.0,
+    191.4,
+    541.5
+   ],
+   "label_bbox": [
+    105.0,
+    485.0,
+    242.3,
+    516.7
+   ]
+  },
+  {
+   "key": "dependents.0.name",
+   "label": "성명",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 1,
+   "bbox": [
+    314.3,
+    522.0,
+    366.5,
+    541.5
+   ],
+   "label_bbox": [
+    242.3,
+    485.0,
+    438.5,
+    516.7
+   ]
+  },
+  {
+   "key": "dependents.0.rrn",
+   "label": "주민등록번호",
+   "type": "rrn",
+   "value": "901121-2******",
+   "norm": "901121-2******",
+   "page": 1,
+   "bbox": [
+    516.8,
+    522.0,
+    634.9,
+    541.5
+   ],
+   "label_bbox": [
+    438.5,
+    485.0,
+    713.2,
+    516.7
+   ]
+  },
+  {
+   "key": "dependents.0.basic",
+   "label": "기본공제",
+   "type": "text",
+   "value": "○",
+   "norm": "○",
+   "page": 1,
+   "bbox": [
+    776.6,
+    522.0,
+    787.1,
+    541.5
+   ],
+   "label_bbox": [
+    713.2,
+    485.0,
+    850.5,
+    516.7
+   ]
+  },
+  {
+   "key": "dependents.0.extra",
+   "label": "추가공제",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    850.5,
+    485.0,
+    1086.0,
+    516.7
+   ],
+   "page": 1
+  },
+  {
+   "key": "dependents.1.relation",
+   "label": "관계",
+   "type": "text",
+   "value": "배우자",
+   "norm": "배우자",
+   "page": 1,
+   "bbox": [
+    147.9,
+    552.9,
+    200.1,
+    572.4
+   ],
+   "label_bbox": [
+    105.0,
+    485.0,
+    242.3,
+    516.7
+   ]
+  },
+  {
+   "key": "dependents.1.name",
+   "label": "성명",
+   "type": "text",
+   "value": "김승성",
+   "norm": "김승성",
+   "page": 1,
+   "bbox": [
+    314.3,
+    552.9,
+    366.5,
+    572.4
+   ],
+   "label_bbox": [
+    242.3,
+    485.0,
+    438.5,
+    516.7
+   ]
+  },
+  {
+   "key": "dependents.1.rrn",
+   "label": "주민등록번호",
+   "type": "rrn",
+   "value": "900306-1******",
+   "norm": "900306-1******",
+   "page": 1,
+   "bbox": [
+    516.4,
+    552.9,
+    635.3,
+    572.4
+   ],
+   "label_bbox": [
+    438.5,
+    485.0,
+    713.2,
+    516.7
+   ]
+  },
+  {
+   "key": "dependents.1.basic",
+   "label": "기본공제",
+   "type": "text",
+   "value": "○",
+   "norm": "○",
+   "page": 1,
+   "bbox": [
+    776.6,
+    552.9,
+    787.1,
+    572.4
+   ],
+   "label_bbox": [
+    713.2,
+    485.0,
+    850.5,
+    516.7
+   ]
+  },
+  {
+   "key": "dependents.1.extra",
+   "label": "추가공제",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    850.5,
+    485.0,
+    1086.0,
+    516.7
+   ],
+   "page": 1
+  },
+  {
+   "key": "dependents.2.relation",
+   "label": "관계",
+   "type": "text",
+   "value": "자녀",
+   "norm": "자녀",
+   "page": 1,
+   "bbox": [
+    156.6,
+    583.9,
+    191.4,
+    603.4
+   ],
+   "label_bbox": [
+    105.0,
+    485.0,
+    242.3,
+    516.7
+   ]
+  },
+  {
+   "key": "dependents.2.name",
+   "label": "성명",
+   "type": "text",
+   "value": "김주지",
+   "norm": "김주지",
+   "page": 1,
+   "bbox": [
+    314.3,
+    583.9,
+    366.5,
+    603.4
+   ],
+   "label_bbox": [
+    242.3,
+    485.0,
+    438.5,
+    516.7
+   ]
+  },
+  {
+   "key": "dependents.2.rrn",
+   "label": "주민등록번호",
+   "type": "rrn",
+   "value": "190107-4******",
+   "norm": "190107-4******",
+   "page": 1,
+   "bbox": [
+    516.4,
+    583.9,
+    635.3,
+    603.4
+   ],
+   "label_bbox": [
+    438.5,
+    485.0,
+    713.2,
+    516.7
+   ]
+  },
+  {
+   "key": "dependents.2.basic",
+   "label": "기본공제",
+   "type": "text",
+   "value": "○",
+   "norm": "○",
+   "page": 1,
+   "bbox": [
+    776.6,
+    583.9,
+    787.1,
+    603.4
+   ],
+   "label_bbox": [
+    713.2,
+    485.0,
+    850.5,
+    516.7
+   ]
+  },
+  {
+   "key": "dependents.2.extra",
+   "label": "추가공제",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    850.5,
+    485.0,
+    1086.0,
+    516.7
+   ],
+   "page": 1
+  },
+  {
+   "key": "dependents.3.relation",
+   "label": "관계",
+   "type": "text",
+   "value": "자녀",
+   "norm": "자녀",
+   "page": 1,
+   "bbox": [
+    156.6,
+    614.8,
+    191.4,
+    634.3
+   ],
+   "label_bbox": [
+    105.0,
+    485.0,
+    242.3,
+    516.7
+   ]
+  },
+  {
+   "key": "dependents.3.name",
+   "label": "성명",
+   "type": "text",
+   "value": "김민윤",
+   "norm": "김민윤",
+   "page": 1,
+   "bbox": [
+    314.3,
+    614.8,
+    366.5,
+    634.3
+   ],
+   "label_bbox": [
+    242.3,
+    485.0,
+    438.5,
+    516.7
+   ]
+  },
+  {
+   "key": "dependents.3.rrn",
+   "label": "주민등록번호",
+   "type": "rrn",
+   "value": "201102-4******",
+   "norm": "201102-4******",
+   "page": 1,
+   "bbox": [
+    516.8,
+    614.8,
+    634.9,
+    634.3
+   ],
+   "label_bbox": [
+    438.5,
+    485.0,
+    713.2,
+    516.7
+   ]
+  },
+  {
+   "key": "dependents.3.basic",
+   "label": "기본공제",
+   "type": "text",
+   "value": "○",
+   "norm": "○",
+   "page": 1,
+   "bbox": [
+    776.6,
+    614.8,
+    787.1,
+    634.3
+   ],
+   "label_bbox": [
+    713.2,
+    485.0,
+    850.5,
+    516.7
+   ]
+  },
+  {
+   "key": "dependents.3.extra",
+   "label": "추가공제",
+   "type": "text",
+   "value": null,
+   "norm": null,
+   "label_bbox": [
+    850.5,
+    485.0,
+    1086.0,
+    516.7
+   ],
+   "page": 1
+  },
+  {
+   "key": "deduction_items.0.item",
+   "label": "소득공제항목",
+   "type": "text",
+   "value": "기본공제",
+   "norm": "기본공제",
+   "page": 1,
+   "bbox": [
+    114.0,
+    714.2,
+    183.6,
+    733.7
+   ],
+   "label_bbox": [
+    105.0,
+    677.2,
+    752.5,
+    709.0
+   ]
+  },
+  {
+   "key": "deduction_items.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "6,000,000",
+   "norm": 6000000,
+   "page": 1,
+   "bbox": [
+    1007.4,
+    714.2,
+    1077.0,
+    733.7
+   ],
+   "label_bbox": [
+    752.5,
+    677.2,
+    1086.0,
+    709.0
+   ]
+  },
+  {
+   "key": "deduction_items.1.item",
+   "label": "소득공제항목",
+   "type": "text",
+   "value": "연금보험료공제",
+   "norm": "연금보험료공제",
+   "page": 1,
+   "bbox": [
+    114.0,
+    745.2,
+    235.7,
+    764.7
+   ],
+   "label_bbox": [
+    105.0,
+    677.2,
+    752.5,
+    709.0
+   ]
+  },
+  {
+   "key": "deduction_items.1.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "1,361,010",
+   "norm": 1361010,
+   "page": 1,
+   "bbox": [
+    1007.4,
+    745.2,
+    1077.0,
+    764.7
+   ],
+   "label_bbox": [
+    752.5,
+    677.2,
+    1086.0,
+    709.0
+   ]
+  },
+  {
+   "key": "deduction_items.2.item",
+   "label": "소득공제항목",
+   "type": "text",
+   "value": "소기업ㆍ소상공인 공제부금 소득공제",
+   "norm": "소기업ㆍ소상공인 공제부금 소득공제",
+   "page": 1,
+   "bbox": [
+    114.0,
+    776.1,
+    400.9,
+    795.6
+   ],
+   "label_bbox": [
+    105.0,
+    677.2,
+    752.5,
+    709.0
+   ]
+  },
+  {
+   "key": "deduction_items.2.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "2,400,000",
+   "norm": 2400000,
+   "page": 1,
+   "bbox": [
+    1007.4,
+    776.1,
+    1077.0,
+    795.6
+   ],
+   "label_bbox": [
+    752.5,
+    677.2,
+    1086.0,
+    709.0
+   ]
+  },
+  {
+   "key": "credit_items.0.item",
+   "label": "세액공제항목",
+   "type": "text",
+   "value": "표준세액공제",
+   "norm": "표준세액공제",
+   "page": 2,
+   "bbox": [
+    114.0,
+    206.9,
+    218.3,
+    226.4
+   ],
+   "label_bbox": [
+    105.0,
+    169.9,
+    752.5,
+    201.6
+   ]
+  },
+  {
+   "key": "credit_items.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "70,000",
+   "norm": 70000,
+   "page": 2,
+   "bbox": [
+    1029.2,
+    206.9,
+    1077.0,
+    226.4
+   ],
+   "label_bbox": [
+    752.5,
+    169.9,
+    1086.0,
+    201.6
+   ]
+  },
+  {
+   "key": "credit_items.1.item",
+   "label": "세액공제항목",
+   "type": "text",
+   "value": "전자신고세액공제",
+   "norm": "전자신고세액공제",
+   "page": 2,
+   "bbox": [
+    114.0,
+    237.8,
+    253.1,
+    257.3
+   ],
+   "label_bbox": [
+    105.0,
+    169.9,
+    752.5,
+    201.6
+   ]
+  },
+  {
+   "key": "credit_items.1.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "20,000",
+   "norm": 20000,
+   "page": 2,
+   "bbox": [
+    1029.2,
+    237.8,
+    1077.0,
+    257.3
+   ],
+   "label_bbox": [
+    752.5,
+    169.9,
+    1086.0,
+    201.6
+   ]
+  },
+  {
+   "key": "prepaid_items.0.item",
+   "label": "기납부세액항목",
+   "type": "text",
+   "value": "중간예납세액",
+   "norm": "중간예납세액",
+   "page": 2,
+   "bbox": [
+    114.0,
+    368.2,
+    218.3,
+    387.7
+   ],
+   "label_bbox": [
+    105.0,
+    331.2,
+    752.5,
+    362.9
+   ]
+  },
+  {
+   "key": "prepaid_items.0.amount",
+   "label": "금액",
+   "type": "amount",
+   "value": "69,690",
+   "norm": 69690,
+   "page": 2,
+   "bbox": [
+    1029.2,
+    368.2,
+    1077.0,
+    387.7
+   ],
+   "label_bbox": [
+    752.5,
+    331.2,
+    1086.0,
+    362.9
+   ]
+  }
+ ]
+}

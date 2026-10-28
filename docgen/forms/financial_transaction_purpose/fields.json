@@ -1,0 +1,121 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "account_type": {
+   "label": "신규예금종류",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "bank.name": {
+   "label": "은행명",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.clerk": {
+   "label": "담당",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.manager": {
+   "label": "책임자",
+   "type": "text",
+   "source": "code"
+  },
+  "bank_use.result": {
+   "label": "처리결과",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "customer.address": {
+   "label": "주소",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.company": {
+   "label": "직장명",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.job": {
+   "label": "직업",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.mobile": {
+   "label": "연락처",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.name": {
+   "label": "성명",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.nationality": {
+   "label": "국적",
+   "type": "text",
+   "source": "code"
+  },
+  "customer.rrn": {
+   "label": "실명번호",
+   "type": "text",
+   "source": "code"
+  },
+  "date": {
+   "label": "작성일",
+   "type": "text",
+   "source": "code"
+  },
+  "evidence": {
+   "label": "제출증빙서류",
+   "type": "text",
+   "source": "code"
+  },
+  "purpose": {
+   "label": "금융거래목적",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "questions.q1": {
+   "label": "통장양도대여요청여부",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "questions.q2": {
+   "label": "취업대출빙자요청여부",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "questions.q3": {
+   "label": "최근타행계좌개설여부",
+   "type": "checkbox",
+   "source": "code"
+  },
+  "seal.customer": {
+   "label": "고객",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.staff.clerk": {
+   "label": "담당",
+   "type": "seal",
+   "source": "code"
+  },
+  "seal.staff.manager": {
+   "label": "책임자",
+   "type": "seal",
+   "source": "code"
+  },
+  "sign.customer": {
+   "label": "고객",
+   "type": "signature",
+   "source": "code"
+  },
+  "signature": {
+   "label": "고객성명",
+   "type": "text",
+   "source": "code"
+  }
+ }
+}

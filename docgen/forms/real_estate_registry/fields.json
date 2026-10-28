@@ -1,0 +1,453 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "confirm_no": {
+   "label": "발급확인번호",
+   "type": "text",
+   "source": "code"
+  },
+  "fee": {
+   "label": "수수료",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date": {
+   "label": "발행일",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_date_short": {
+   "label": "발행일",
+   "type": "text",
+   "source": "code"
+  },
+  "issue_no": {
+   "label": "발행번호",
+   "type": "text",
+   "source": "code"
+  },
+  "land.area": {
+   "label": "면적",
+   "type": "text",
+   "source": "code"
+  },
+  "land.category": {
+   "label": "지목",
+   "type": "text",
+   "source": "code"
+  },
+  "land.cause": {
+   "label": "등기원인및기타사항",
+   "type": "text",
+   "source": "code"
+  },
+  "land.display_no": {
+   "label": "표시번호",
+   "type": "text",
+   "source": "code"
+  },
+  "land.location": {
+   "label": "소재지번",
+   "type": "text",
+   "source": "code"
+  },
+  "land_right.cause": {
+   "label": "등기원인및기타사항",
+   "type": "text",
+   "source": "code"
+  },
+  "land_right.display_no": {
+   "label": "표시번호",
+   "type": "text",
+   "source": "code"
+  },
+  "land_right.kind": {
+   "label": "대지권종류",
+   "type": "text",
+   "source": "code"
+  },
+  "land_right.ratio": {
+   "label": "대지권비율",
+   "type": "text",
+   "source": "code"
+  },
+  "page_label": {
+   "label": "쪽번호",
+   "type": "text",
+   "source": "code"
+  },
+  "property": {
+   "label": "부동산의표시",
+   "type": "text",
+   "source": "code"
+  },
+  "registry_office": {
+   "label": "관할등기소",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.issuer": {
+   "label": "발급기관직인",
+   "type": "seal",
+   "source": "code"
+  },
+  "unique_no": {
+   "label": "고유번호",
+   "type": "text",
+   "source": "code"
+  },
+  "unit.cause": {
+   "label": "등기원인및기타사항",
+   "type": "text",
+   "source": "code"
+  },
+  "unit.detail": {
+   "label": "건물내역",
+   "type": "text",
+   "source": "code"
+  },
+  "unit.display_no": {
+   "label": "표시번호",
+   "type": "text",
+   "source": "code"
+  },
+  "unit.receipt": {
+   "label": "접수",
+   "type": "text",
+   "source": "code"
+  },
+  "unit.unit_no": {
+   "label": "건물번호",
+   "type": "text",
+   "source": "code"
+  },
+  "view_datetime": {
+   "label": "열람일시",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "buildings": {
+   "source": "code",
+   "fields": {
+    "cause": {
+     "label": "등기원인및기타사항",
+     "type": "text",
+     "source": "code"
+    },
+    "detail": {
+     "label": "건물내역",
+     "type": "text",
+     "source": "code"
+    },
+    "display_no": {
+     "label": "표시번호",
+     "type": "text",
+     "source": "code"
+    },
+    "location": {
+     "label": "소재지번,건물명칭및번호",
+     "type": "text",
+     "source": "code"
+    },
+    "receipt": {
+     "label": "접수",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "eulgu": {
+   "source": "code",
+   "fields": {
+    "cause": {
+     "label": "등기원인",
+     "type": "text",
+     "source": "code"
+    },
+    "change": {
+     "label": "변경사항",
+     "type": "text",
+     "source": "code"
+    },
+    "contract_date": {
+     "label": "임대차계약일자",
+     "type": "text",
+     "source": "code"
+    },
+    "debtor": {
+     "label": "채무자",
+     "type": "text",
+     "source": "code"
+    },
+    "debtor_address": {
+     "label": "채무자주소",
+     "type": "text",
+     "source": "code"
+    },
+    "deposit": {
+     "label": "임차보증금",
+     "type": "text",
+     "source": "code"
+    },
+    "fixed_date": {
+     "label": "확정일자",
+     "type": "text",
+     "source": "code"
+    },
+    "jeonse_holder": {
+     "label": "전세권자",
+     "type": "text",
+     "source": "code"
+    },
+    "jeonse_holder_address": {
+     "label": "전세권자주소",
+     "type": "text",
+     "source": "code"
+    },
+    "lessee": {
+     "label": "임차권자",
+     "type": "text",
+     "source": "code"
+    },
+    "lessee_address": {
+     "label": "임차권자주소",
+     "type": "text",
+     "source": "code"
+    },
+    "max_amount": {
+     "label": "채권최고액",
+     "type": "text",
+     "source": "code"
+    },
+    "mortgagee": {
+     "label": "근저당권자",
+     "type": "text",
+     "source": "code"
+    },
+    "mortgagee_address": {
+     "label": "근저당권자주소",
+     "type": "text",
+     "source": "code"
+    },
+    "period": {
+     "label": "존속기간",
+     "type": "text",
+     "source": "code"
+    },
+    "possession_date": {
+     "label": "점유개시일자",
+     "type": "text",
+     "source": "code"
+    },
+    "purpose": {
+     "label": "등기목적",
+     "type": "text",
+     "source": "code"
+    },
+    "rank": {
+     "label": "순위번호",
+     "type": "text",
+     "source": "code"
+    },
+    "receipt": {
+     "label": "접수",
+     "type": "text",
+     "source": "code"
+    },
+    "rent": {
+     "label": "차임",
+     "type": "text",
+     "source": "code"
+    },
+    "resident_date": {
+     "label": "주민등록일자",
+     "type": "text",
+     "source": "code"
+    },
+    "scope": {
+     "label": "범위",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "gapgu": {
+   "source": "code",
+   "fields": {
+    "agency": {
+     "label": "처분청",
+     "type": "text",
+     "source": "code"
+    },
+    "cause": {
+     "label": "등기원인",
+     "type": "text",
+     "source": "code"
+    },
+    "change": {
+     "label": "변경사항",
+     "type": "text",
+     "source": "code"
+    },
+    "claim_amount": {
+     "label": "청구금액",
+     "type": "text",
+     "source": "code"
+    },
+    "creditor": {
+     "label": "채권자",
+     "type": "text",
+     "source": "code"
+    },
+    "creditor_address": {
+     "label": "채권자주소",
+     "type": "text",
+     "source": "code"
+    },
+    "holder.address": {
+     "label": "주소",
+     "type": "text",
+     "source": "code"
+    },
+    "holder.name": {
+     "label": "소유자",
+     "type": "text",
+     "source": "code"
+    },
+    "holder.note": {
+     "label": "거래가액",
+     "type": "text",
+     "source": "code"
+    },
+    "holder.reg_no": {
+     "label": "등록번호",
+     "type": "text",
+     "source": "code"
+    },
+    "holder.role": {
+     "label": "권리자구분",
+     "type": "text",
+     "source": "code"
+    },
+    "holders.#.address": {
+     "label": "주소",
+     "type": "text",
+     "source": "code"
+    },
+    "holders.#.name": {
+     "label": "공유자",
+     "type": "text",
+     "source": "code"
+    },
+    "holders.#.reg_no": {
+     "label": "등록번호",
+     "type": "text",
+     "source": "code"
+    },
+    "holders.#.role": {
+     "label": "권리자구분",
+     "type": "text",
+     "source": "code"
+    },
+    "holders.#.share": {
+     "label": "지분",
+     "type": "text",
+     "source": "code"
+    },
+    "note": {
+     "label": "거래가액",
+     "type": "text",
+     "source": "code"
+    },
+    "purpose": {
+     "label": "등기목적",
+     "type": "text",
+     "source": "code"
+    },
+    "rank": {
+     "label": "순위번호",
+     "type": "text",
+     "source": "code"
+    },
+    "receipt": {
+     "label": "접수",
+     "type": "text",
+     "source": "code"
+    },
+    "right_holder": {
+     "label": "권리자",
+     "type": "text",
+     "source": "code"
+    },
+    "trust_no": {
+     "label": "신탁원부",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "summary.owners": {
+   "source": "code",
+   "fields": {
+    "address": {
+     "label": "주소",
+     "type": "text",
+     "source": "code"
+    },
+    "name": {
+     "label": "등기명의인",
+     "type": "text",
+     "source": "code"
+    },
+    "rank": {
+     "label": "순위번호",
+     "type": "text",
+     "source": "code"
+    },
+    "reg_no": {
+     "label": "(주민)등록번호",
+     "type": "text",
+     "source": "code"
+    },
+    "share": {
+     "label": "최종지분",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "summary.rights": {
+   "source": "code",
+   "fields": {
+    "main": {
+     "label": "주요등기사항",
+     "type": "text",
+     "source": "code"
+    },
+    "purpose": {
+     "label": "등기목적",
+     "type": "text",
+     "source": "code"
+    },
+    "rank": {
+     "label": "순위번호",
+     "type": "text",
+     "source": "code"
+    },
+    "receipt": {
+     "label": "접수정보",
+     "type": "text",
+     "source": "code"
+    },
+    "target_owner": {
+     "label": "대상소유자",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

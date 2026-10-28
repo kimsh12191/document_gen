@@ -1,0 +1,89 @@
+{
+ "document_type": "고객확인서(개인)",
+ "bank": {
+  "name": "농협은행"
+ },
+ "customer": {
+  "name": "존 밀러",
+  "name_en": null,
+  "rrn": "831210-5785492",
+  "resident_type": "외국인",
+  "gender": "남",
+  "nationality": "미국",
+  "address": "광주광역시 서구 내방로 75, 114동 1401호 (치평동, 삼익센트럴아파트)",
+  "mobile": "010-8215-9940",
+  "email": null
+ },
+ "job": {
+  "type": "개인사업자",
+  "company": "넥스트몰",
+  "biz_no": "129-20-96799",
+  "industry": "소매업 / 전자상거래",
+  "opened": "2017.04.04",
+  "work_phone": "02-7824-2394"
+ },
+ "transaction": {
+  "purpose": "사업상 거래",
+  "fund_source": null,
+  "expected_amount": "1천만원 미만",
+  "frequency": "월 10~20회"
+ },
+ "beneficial_owner": "아니오",
+ "owner": {
+  "name": "김승성",
+  "birth": "1990.03.06",
+  "nationality": "대한민국"
+ },
+ "pep": "아니오",
+ "agent": {
+  "name": "김승성",
+  "rrn": "900306-1******",
+  "relation": "배우자"
+ },
+ "edd": {
+  "annual_income": "6,700만원",
+  "assets": "5억원 미만",
+  "fund_detail": "부동산 매각대금 (매매계약서 제출)",
+  "purpose_detail": "주식·가상자산 투자자금 이체",
+  "cash_tx": "월 1~2회 (1천만원 이상)",
+  "overseas_tx": "있음 (중국)",
+  "accounts": [
+   {
+    "bank": "기업은행",
+    "kind": "정기예금",
+    "purpose": "생활비"
+   },
+   {
+    "bank": "미래에셋증권",
+    "kind": "정기예금",
+    "purpose": "생활비"
+   },
+   {
+    "bank": "농협은행",
+    "kind": "정기예금",
+    "purpose": "급여 수령"
+   }
+  ]
+ },
+ "date": "2025년 11월 29일",
+ "signature": "MILLER JOHN",
+ "seal": {
+  "customer": false,
+  "agent": true,
+  "staff": {
+   "clerk": true,
+   "manager": true
+  }
+ },
+ "sign": {
+  "customer": true,
+  "agent": false
+ },
+ "bank_use": {
+  "risk_grade": "고위험",
+  "id_type": "여권",
+  "branch": "분당지점",
+  "clerk": "서숙린",
+  "manager": "방영은"
+ }
+}

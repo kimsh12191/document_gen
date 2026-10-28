@@ -1,0 +1,163 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "amount_due_now": {
+   "label": "AmountDueNow",
+   "type": "text",
+   "source": "code"
+  },
+  "bank.account": {
+   "label": "AccountNumber",
+   "type": "text",
+   "source": "code"
+  },
+  "bank.bank_name": {
+   "label": "BankName",
+   "type": "text",
+   "source": "code"
+  },
+  "bank.beneficiary": {
+   "label": "Beneficiary",
+   "type": "text",
+   "source": "code"
+  },
+  "bank.reference": {
+   "label": "PaymentReference",
+   "type": "text",
+   "source": "code"
+  },
+  "bank.routing": {
+   "label": "RoutingNumber",
+   "type": "text",
+   "source": "code"
+  },
+  "bank.routing_label": {
+   "label": "RoutingLabel",
+   "type": "text",
+   "source": "code"
+  },
+  "bank.swift": {
+   "label": "SWIFT",
+   "type": "text",
+   "source": "code"
+  },
+  "due_date": {
+   "label": "DueDate",
+   "type": "text",
+   "source": "code"
+  },
+  "invoice_date": {
+   "label": "InvoiceDate",
+   "type": "text",
+   "source": "code"
+  },
+  "invoice_no": {
+   "label": "InvoiceNo",
+   "type": "text",
+   "source": "code"
+  },
+  "student.id": {
+   "label": "StudentID",
+   "type": "text",
+   "source": "code"
+  },
+  "student.name": {
+   "label": "StudentName",
+   "type": "text",
+   "source": "code"
+  },
+  "student.program": {
+   "label": "Program",
+   "type": "text",
+   "source": "code"
+  },
+  "summary.charges": {
+   "label": "NewCharges",
+   "type": "text",
+   "source": "code"
+  },
+  "summary.credits": {
+   "label": "Payments/Credits",
+   "type": "text",
+   "source": "code"
+  },
+  "summary.previous_balance": {
+   "label": "PreviousBalance",
+   "type": "text",
+   "source": "code"
+  },
+  "term": {
+   "label": "Term",
+   "type": "text",
+   "source": "code"
+  },
+  "total": {
+   "label": "TotalAmountDue",
+   "type": "text",
+   "source": "code"
+  },
+  "university.address": {
+   "label": "UniversityAddress",
+   "type": "text",
+   "source": "code"
+  },
+  "university.name": {
+   "label": "University",
+   "type": "text",
+   "source": "code"
+  },
+  "university.office": {
+   "label": "Office",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "installments": {
+   "source": "code",
+   "fields": {
+    "amount": {
+     "label": "InstallmentAmount",
+     "type": "text",
+     "source": "code"
+    },
+    "due_date": {
+     "label": "InstallmentDueDate",
+     "type": "text",
+     "source": "code"
+    },
+    "no": {
+     "label": "InstallmentNo",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "items": {
+   "source": "code",
+   "fields": {
+    "charge": {
+     "label": "Charges",
+     "type": "text",
+     "source": "code"
+    },
+    "credit": {
+     "label": "Payments/Credits",
+     "type": "text",
+     "source": "code"
+    },
+    "date": {
+     "label": "Date",
+     "type": "text",
+     "source": "code"
+    },
+    "description": {
+     "label": "Description",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

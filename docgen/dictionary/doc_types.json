@@ -1,0 +1,4388 @@
+{
+ "about": "키 사전 (studio/DESIGN.md 16절). docgen/scripts/build_dictionary.py 가 자동 초안을 만들고 studio 키 사전 화면이 고친다. by: 사람 인 것은 다시 만들어도 남는다.",
+ "groups": {
+  "identity": "신원·신분",
+  "family": "가족관계",
+  "income": "소득·재직",
+  "tax": "세금·보험",
+  "finance": "금융거래",
+  "real_estate": "부동산",
+  "business": "개인사업자",
+  "corporate": "법인",
+  "fx": "외환·무역",
+  "bank_form": "은행 서식",
+  "hana": "하나은행 서식(원본)",
+  "imported": "가져온 서식(이미지)"
+ },
+ "types": {
+  "privacy_consent": {
+   "name": "개인(신용)정보 수집·이용·제공·조회 동의서",
+   "group": "bank_form",
+   "forms": [
+    "privacy_consent",
+    "hf118",
+    "hana_official_118"
+   ],
+   "aliases": [
+    "[필수] 개인(신용)정보 수집·이용·제공_동의서[가계여신_금융거래]"
+   ],
+   "by": "자동"
+  },
+  "customer_due_diligence": {
+   "name": "고객확인서(개인)",
+   "group": "bank_form",
+   "forms": [
+    "customer_due_diligence"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "corporate_customer_due_diligence": {
+   "name": "고객확인서(법인·단체)",
+   "group": "bank_form",
+   "forms": [
+    "corporate_customer_due_diligence",
+    "hf413",
+    "hana_official_413"
+   ],
+   "aliases": [
+    "고객확인서(법인,고유번호나 납세번호가 있는 임의 단체용)"
+   ],
+   "by": "자동"
+  },
+  "collateral_agreement": {
+   "name": "근저당권설정계약서",
+   "group": "bank_form",
+   "forms": [
+    "collateral_agreement",
+    "hana_collateral_agreement"
+   ],
+   "aliases": [
+    "근저당권설정계약서(근담보용)"
+   ],
+   "by": "자동"
+  },
+  "financial_transaction_purpose": {
+   "name": "금융거래목적확인서",
+   "group": "bank_form",
+   "forms": [
+    "financial_transaction_purpose"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "loan_application_corp": {
+   "name": "기업여신 신청서",
+   "group": "bank_form",
+   "forms": [
+    "loan_application_corp",
+    "hf058",
+    "hana_official_058"
+   ],
+   "aliases": [
+    "융자상담 및 차입신청서(기업용)"
+   ],
+   "by": "자동"
+  },
+  "loan_application": {
+   "name": "대출거래신청서",
+   "group": "bank_form",
+   "forms": [
+    "loan_application",
+    "hf049",
+    "hana_official_049"
+   ],
+   "aliases": [
+    "《개인》대출신청서(가계용)"
+   ],
+   "by": "자동"
+  },
+  "credit_agreement": {
+   "name": "대출거래약정서(가계용)",
+   "group": "bank_form",
+   "forms": [
+    "credit_agreement",
+    "hana_personal_agreement"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "guarantee_agreement": {
+   "name": "보증약정서",
+   "group": "bank_form",
+   "forms": [
+    "guarantee_agreement",
+    "hana_specific_guarantee"
+   ],
+   "aliases": [
+    "보증서(특정채무보증용)"
+   ],
+   "by": "자동"
+  },
+  "credit_agreement_corp": {
+   "name": "여신거래약정서(기업용)",
+   "group": "bank_form",
+   "forms": [
+    "credit_agreement_corp",
+    "hana_corporate_agreement"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "account_opening_application": {
+   "name": "예금거래신청서",
+   "group": "bank_form",
+   "forms": [
+    "account_opening_application",
+    "hf003",
+    "hana_official_003"
+   ],
+   "aliases": [
+    "은행거래신청서"
+   ],
+   "by": "자동"
+  },
+  "auto_transfer_application": {
+   "name": "자동이체 신청서",
+   "group": "bank_form",
+   "forms": [
+    "auto_transfer_application",
+    "hf006",
+    "hana_official_006"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "fatca_crs": {
+   "name": "해외금융계좌 납세자 확인서(개인)",
+   "group": "bank_form",
+   "forms": [
+    "fatca_crs",
+    "hf408",
+    "hana_official_408"
+   ],
+   "aliases": [
+    "본인확인서(FATCA CRS 개인,개인사업자용)(국문)"
+   ],
+   "by": "자동"
+  },
+  "overseas_remittance_application": {
+   "name": "해외송금신청서",
+   "group": "bank_form",
+   "forms": [
+    "overseas_remittance_application",
+    "hf199",
+    "hana_official_199"
+   ],
+   "aliases": [
+    "외화송금신청서"
+   ],
+   "by": "자동"
+  },
+  "gov_vat_exempt_income": {
+   "name": "면세사업자 수입금액증명",
+   "group": "business",
+   "forms": [
+    "gov_vat_exempt_income"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "business_registration_certificate": {
+   "name": "사업자등록증",
+   "group": "business",
+   "forms": [
+    "business_registration_certificate",
+    "gov_business_registration"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "business_registration_certificate_corp": {
+   "name": "사업자등록증(법인사업자)",
+   "group": "business",
+   "forms": [
+    "business_registration_certificate_corp",
+    "gov_business_registration_corp"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "business_registration_proof": {
+   "name": "사업자등록증명",
+   "group": "business",
+   "forms": [
+    "business_registration_proof",
+    "gov_business_proof"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "standard_financial_statement_proof": {
+   "name": "표준재무제표증명",
+   "group": "business",
+   "forms": [
+    "standard_financial_statement_proof",
+    "gov_financial_proof"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "corporate_registry": {
+   "name": "법인 등기사항전부증명서(현재 유효사항)",
+   "group": "corporate",
+   "forms": [
+    "corporate_registry"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "corporate_seal_certificate": {
+   "name": "법인인감증명서",
+   "group": "corporate",
+   "forms": [
+    "corporate_seal_certificate"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "power_of_attorney": {
+   "name": "위임장",
+   "group": "corporate",
+   "forms": [
+    "power_of_attorney",
+    "hf028",
+    "hana_official_028"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "board_minutes": {
+   "name": "이사회의사록",
+   "group": "corporate",
+   "forms": [
+    "board_minutes"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "shareholders_meeting_minutes": {
+   "name": "임시주주총회의사록",
+   "group": "corporate",
+   "forms": [
+    "shareholders_meeting_minutes"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "financial_statements": {
+   "name": "재무제표(재무상태표·손익계산서)",
+   "group": "corporate",
+   "forms": [
+    "financial_statements"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "articles_of_incorporation": {
+   "name": "정관",
+   "group": "corporate",
+   "forms": [
+    "articles_of_incorporation"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "shareholder_registry": {
+   "name": "주주명부",
+   "group": "corporate",
+   "forms": [
+    "shareholder_registry"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "family_relation_certificate": {
+   "name": "가족관계증명서",
+   "group": "family",
+   "forms": [
+    "family_relation_certificate"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "basic_certificate": {
+   "name": "기본증명서",
+   "group": "family",
+   "forms": [
+    "basic_certificate"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "gov_foreign_household": {
+   "name": "외국인체류확인서",
+   "group": "family",
+   "forms": [
+    "gov_foreign_household"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "resident_registration_copy": {
+   "name": "주민등록표 등본",
+   "group": "family",
+   "forms": [
+    "resident_registration_copy",
+    "gov_resident_copy"
+   ],
+   "aliases": [
+    "주민등록표(등본)"
+   ],
+   "by": "자동"
+  },
+  "resident_registration_abstract": {
+   "name": "주민등록표 초본",
+   "group": "family",
+   "forms": [
+    "resident_registration_abstract",
+    "gov_resident_abstract"
+   ],
+   "aliases": [
+    "주민등록표(초본)"
+   ],
+   "by": "자동"
+  },
+  "marriage_relation_certificate": {
+   "name": "혼인관계증명서",
+   "group": "family",
+   "forms": [
+    "marriage_relation_certificate"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "bank_statement": {
+   "name": "거래내역확인서",
+   "group": "finance",
+   "forms": [
+    "bank_statement"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "debt_certificate": {
+   "name": "부채증명서",
+   "group": "finance",
+   "forms": [
+    "debt_certificate"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "card_statement": {
+   "name": "신용카드 이용대금명세서",
+   "group": "finance",
+   "forms": [
+    "card_statement"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "balance_certificate": {
+   "name": "잔액증명서",
+   "group": "finance",
+   "forms": [
+    "balance_certificate"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "bankbook_copy": {
+   "name": "통장사본",
+   "group": "finance",
+   "forms": [
+    "bankbook_copy"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "trade_contract": {
+   "name": "무역 매매계약서(Sales Contract)",
+   "group": "fx",
+   "forms": [
+    "trade_contract"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "commercial_invoice": {
+   "name": "상업송장(Commercial Invoice)",
+   "group": "fx",
+   "forms": [
+    "commercial_invoice"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "bill_of_lading": {
+   "name": "선하증권(B/L)",
+   "group": "fx",
+   "forms": [
+    "bill_of_lading"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "import_declaration": {
+   "name": "수입신고필증",
+   "group": "fx",
+   "forms": [
+    "import_declaration"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "admission_letter": {
+   "name": "입학허가서(Letter of Admission)",
+   "group": "fx",
+   "forms": [
+    "admission_letter"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "packing_list": {
+   "name": "포장명세서(Packing List)",
+   "group": "fx",
+   "forms": [
+    "packing_list"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "tuition_invoice": {
+   "name": "학비 청구서(Tuition Invoice)",
+   "group": "fx",
+   "forms": [
+    "tuition_invoice"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf253": {
+   "name": "( ) 변경신고(수리)서",
+   "group": "hana",
+   "forms": [
+    "hf253"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf326": {
+   "name": "( )매매 신고서",
+   "group": "hana",
+   "forms": [
+    "hf326"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf305": {
+   "name": "( )예금/신탁 거래신고서",
+   "group": "hana",
+   "forms": [
+    "hf305"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf103": {
+   "name": "B2B 전자결제서비스 업무 이용신청서(MP용)",
+   "group": "hana",
+   "forms": [
+    "hf103"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf358": {
+   "name": "CMS Global 이용신청서",
+   "group": "hana",
+   "forms": [
+    "hf358"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf355": {
+   "name": "CMS Mega 이용계약서",
+   "group": "hana",
+   "forms": [
+    "hf355"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf354": {
+   "name": "CMS Plus 이용계약서",
+   "group": "hana",
+   "forms": [
+    "hf354"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf356": {
+   "name": "CMS Plus 이용신청서",
+   "group": "hana",
+   "forms": [
+    "hf356"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf353": {
+   "name": "CMS Plus 이용신청서(지사)",
+   "group": "hana",
+   "forms": [
+    "hf353"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf357": {
+   "name": "CMSiNet 지사정보 등록신청서",
+   "group": "hana",
+   "forms": [
+    "hf357"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf301": {
+   "name": "Cable Nego 신청서",
+   "group": "hana",
+   "forms": [
+    "hf301"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf180": {
+   "name": "DB 적립금 이전 요청서",
+   "group": "hana",
+   "forms": [
+    "hf180"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf388": {
+   "name": "HANA FX TRADING SYSTEM 이용신청서",
+   "group": "hana",
+   "forms": [
+    "hf388"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf387": {
+   "name": "HANA FX TRADING SYSTEM 자동결제 이용신청서",
+   "group": "hana",
+   "forms": [
+    "hf387"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf367": {
+   "name": "Hana 1Q bank CMS iNet 서비스 이용 추가 계약서(iSBS)",
+   "group": "hana",
+   "forms": [
+    "hf367"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf366": {
+   "name": "Hana 1Q bank CMS iNet 서비스 이용 추가신청서(iSBS)(국문)",
+   "group": "hana",
+   "forms": [
+    "hf366"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf365": {
+   "name": "Hana 1Q bank CMS iNet 서비스 이용 추가신청서(iSBS)(영문)",
+   "group": "hana",
+   "forms": [
+    "hf365"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf162": {
+   "name": "ISA계약만기연장 확인서",
+   "group": "hana",
+   "forms": [
+    "hf162"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf300": {
+   "name": "LG 보증금 환급 신청 및 확약서",
+   "group": "hana",
+   "forms": [
+    "hf300"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf272": {
+   "name": "REDEMPTION OF OUR LETTERS OF GUARANTEE",
+   "group": "hana",
+   "forms": [
+    "hf272"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf225": {
+   "name": "Usance 송금 신청서",
+   "group": "hana",
+   "forms": [
+    "hf225"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf224": {
+   "name": "Usance 송금 조건변경신청서",
+   "group": "hana",
+   "forms": [
+    "hf224"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf273": {
+   "name": "[서식관리프로그램] 수입신용장 취소 및 수입보증금 환급 신청서",
+   "group": "hana",
+   "forms": [
+    "hf273"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf423": {
+   "name": "[선택] 개인(신용)정보 수집ㆍ이용 및 제공동의서 (상품서비스 안내 등)",
+   "group": "hana",
+   "forms": [
+    "hf423"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf419": {
+   "name": "[필수] 개인(신용)정보 수집 · 이용 동의서 (비여신 금융거래)",
+   "group": "hana",
+   "forms": [
+    "hf419",
+    "hana_official_419"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf067": {
+   "name": "[필수] 개인(신용)정보 수집 · 이용 동의서[대출이동서비스]",
+   "group": "hana",
+   "forms": [
+    "hf067",
+    "hana_official_067"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf251": {
+   "name": "[필수] 개인(신용)정보 수집 이용 동의서(외투용)_국문",
+   "group": "hana",
+   "forms": [
+    "hf251"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf250": {
+   "name": "[필수] 개인(신용)정보 수집 이용 동의서(외투용)_영문",
+   "group": "hana",
+   "forms": [
+    "hf250"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf418": {
+   "name": "[필수] 개인(신용)정보 수집·이용 동의서 [비대면 스크래핑 서비스]",
+   "group": "hana",
+   "forms": [
+    "hf418"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf123": {
+   "name": "[필수] 개인(신용)정보 수집·이용 동의서 [전세자금대출-주택금융보증서용]",
+   "group": "hana",
+   "forms": [
+    "hf123"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf159": {
+   "name": "[필수] 개인(신용)정보 수집·이용 동의서(일임형ISA)",
+   "group": "hana",
+   "forms": [
+    "hf159"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf122": {
+   "name": "[필수] 개인(신용)정보 수집·이용 및 제공 동의서(전세자금대출 권리보험가입용)",
+   "group": "hana",
+   "forms": [
+    "hf122"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf125": {
+   "name": "[필수] 개인(신용)정보 수집·이용 및 제공동의서[군간부전세자금대출기본),군간부월세자금대출]",
+   "group": "hana",
+   "forms": [
+    "hf125"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf416": {
+   "name": "[필수] 개인(신용)정보 수집·이용·제공 동의서 [공공마이데이터 사업자정보 조회용]",
+   "group": "hana",
+   "forms": [
+    "hf416",
+    "hana_official_416"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf414": {
+   "name": "[필수] 개인(신용)정보 수집·이용·제공 동의서 [공공마이데이터 주민등록 등·초본 조회용]",
+   "group": "hana",
+   "forms": [
+    "hf414",
+    "hana_official_414"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf053": {
+   "name": "[필수] 개인(신용)정보 수집·이용·제공 및 조회 동의서(주택도시기금 주택구입자금대출용)",
+   "group": "hana",
+   "forms": [
+    "hf053",
+    "hana_official_053"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf052": {
+   "name": "[필수] 개인(신용)정보 수집·이용·제공 및 조회 동의서(주택도시기금 주택전월세자금대출용)",
+   "group": "hana",
+   "forms": [
+    "hf052",
+    "hana_official_052"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf421": {
+   "name": "[필수] 개인(신용)정보 수집·이용·제공·조회 동의서 [비대면 계좌개설 안심차단 서비스]",
+   "group": "hana",
+   "forms": [
+    "hf421"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf422": {
+   "name": "[필수] 개인(신용)정보 수집·이용·조회 동의서[비대면 계좌개설 안심차단 신청여부 조회용]",
+   "group": "hana",
+   "forms": [
+    "hf422"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf060": {
+   "name": "[필수] 개인(신용)정보 수집이용 동의서(대출성상품 적합성적정성 판단용)",
+   "group": "hana",
+   "forms": [
+    "hf060",
+    "hana_official_060"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf116": {
+   "name": "[필수] 개인(신용)정보 수집이용, 제공 동의서(공무원대출)",
+   "group": "hana",
+   "forms": [
+    "hf116"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf117": {
+   "name": "[필수] 개인(신용)정보 수집이용, 제공 동의서(군인생활안정자금)",
+   "group": "hana",
+   "forms": [
+    "hf117"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf115": {
+   "name": "[필수] 개인(신용)정보 수집이용, 제공 동의서(핀크생활비대출용)",
+   "group": "hana",
+   "forms": [
+    "hf115"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf432": {
+   "name": "[필수] 개인(신용)정보 제3자 제공 동의서 (하나원큐 공모주 정보제공 제휴서비스용)",
+   "group": "hana",
+   "forms": [
+    "hf432"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf417": {
+   "name": "[필수] 개인(신용)정보 제3자 제공 동의서 [공공마이데이터 사업자정보 조회용]",
+   "group": "hana",
+   "forms": [
+    "hf417"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf415": {
+   "name": "[필수] 개인(신용)정보 제3자 제공 동의서 [공공마이데이터 주민등록 등·초본 조회용]",
+   "group": "hana",
+   "forms": [
+    "hf415"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf073": {
+   "name": "[필수] 개인(신용)정보 제3자 제공 동의서(안전망대출Ⅱ)",
+   "group": "hana",
+   "forms": [
+    "hf073"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf056": {
+   "name": "[필수] 개인(신용)정보 제3자 제공 동의서(하나더넥스트 내집연금용_역모기지)",
+   "group": "hana",
+   "forms": [
+    "hf056"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf074": {
+   "name": "[필수] 개인(신용)정보 제3자 제공 동의서(햇살론17)",
+   "group": "hana",
+   "forms": [
+    "hf074"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf424": {
+   "name": "[필수] 개인(신용)정보 제3자제공 동의서 [하나카드 발급_미성년자용]",
+   "group": "hana",
+   "forms": [
+    "hf424"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf425": {
+   "name": "[필수] 개인(신용)정보 제3자제공 동의서 [하나카드 발급_법정대리인용]",
+   "group": "hana",
+   "forms": [
+    "hf425"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf121": {
+   "name": "[필수] 개인(신용)정보 제3차 제공 동의서(우량주택전세론,군간부전세자금대출)",
+   "group": "hana",
+   "forms": [
+    "hf121"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf124": {
+   "name": "[필수] 개인(신용)정보 처리 동의서(전세자금대출 권리보험가입용)",
+   "group": "hana",
+   "forms": [
+    "hf124"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf126": {
+   "name": "[필수] 상품별 개인(신용)정보 수집·이용·제공 동의서[목돈안드는 행복전세,목돈 안다는 드림전세(집주인담보대출)용]",
+   "group": "hana",
+   "forms": [
+    "hf126"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf050": {
+   "name": "[필수]개인(신용)정보 제3자 제공 동의서(토지분양대금 대출 약정_대구도시개발공사)",
+   "group": "hana",
+   "forms": [
+    "hf050"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf077": {
+   "name": "[필수]개인(신용)정보 제3자 제공 동의서(토지분양대금대출약정_대전광역시,대전도시공사)",
+   "group": "hana",
+   "forms": [
+    "hf077"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf026": {
+   "name": "[필수]개인(신용)정보 제3자 제공동의서(하나미소드림적금가입자용)",
+   "group": "hana",
+   "forms": [
+    "hf026"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf112": {
+   "name": "[필수]개인(신용)정보 제공동의서(서민맞춤대출용)",
+   "group": "hana",
+   "forms": [
+    "hf112"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf412": {
+   "name": "[필수]본인 행정정보 제공 요구서(공공마이데이터 수신 묶음정보用 - 사업자등록증명 조회)",
+   "group": "hana",
+   "forms": [
+    "hf412"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf411": {
+   "name": "[필수]본인 행정정보 제공 요구서(공공마이데이터 수신 묶음정보用 - 주민등록표 등·초본 조회)",
+   "group": "hana",
+   "forms": [
+    "hf411"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf111": {
+   "name": "《개인》위임장(해외체제자 담보대출용)",
+   "group": "hana",
+   "forms": [
+    "hf111"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf139": {
+   "name": "《기업》 지급보증거래 신청서(서면.전자 지급보증 겸용)",
+   "group": "hana",
+   "forms": [
+    "hf139",
+    "hana_official_139"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf150": {
+   "name": "《기업》근저당권유용합의서",
+   "group": "hana",
+   "forms": [
+    "hf150"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf149": {
+   "name": "《기업》금융거래확인서",
+   "group": "hana",
+   "forms": [
+    "hf149",
+    "hana_official_149"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf151": {
+   "name": "《기업》무역어음인수·할인신청서",
+   "group": "hana",
+   "forms": [
+    "hf151"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf152": {
+   "name": "《기업》연대보증인(교체·면제)증서",
+   "group": "hana",
+   "forms": [
+    "hf152"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf153": {
+   "name": "《기업》질권설정등록청구서",
+   "group": "hana",
+   "forms": [
+    "hf153"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf136": {
+   "name": "《기업》차입신청서(한도내 개별/분할실행용)",
+   "group": "hana",
+   "forms": [
+    "hf136"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf302": {
+   "name": "「외국환서식관리프로그램」BILL OF EXCHANGE (환어음 고객용)",
+   "group": "hana",
+   "forms": [
+    "hf302"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf294": {
+   "name": "「외국환서식관리프로그램」선적서류 (일부)매입(추심) 의뢰서(2D용)",
+   "group": "hana",
+   "forms": [
+    "hf294"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf293": {
+   "name": "「외국환서식관리프로그램」선적서류 수령증 및 수입화물 대도(T/R)신청서",
+   "group": "hana",
+   "forms": [
+    "hf293"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf291": {
+   "name": "「외국환서식관리프로그램」수출대금채권 양도에 따른 대금지급지시서 및 동의통지서",
+   "group": "hana",
+   "forms": [
+    "hf291"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf274": {
+   "name": "「외국환서식관리프로그램」신용장 분실신고 및 재발행 신청서",
+   "group": "hana",
+   "forms": [
+    "hf274"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf288": {
+   "name": "「외국환서식관리프로그램」신용장 양도 신청서(Application for Total/Partial transfer)",
+   "group": "hana",
+   "forms": [
+    "hf288"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf287": {
+   "name": "「외국환서식관리프로그램」신용장 양도 조건변경/취소 신청서 (Amendment / Cancellation)",
+   "group": "hana",
+   "forms": [
+    "hf287"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf223": {
+   "name": "「외국환서식관리프로그램」전자무역업무이용(신규,변경,해지)신청서",
+   "group": "hana",
+   "forms": [
+    "hf223"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf282": {
+   "name": "「외국환서식관리프로그램」조건변경부 신용장양도(SKY T/S) 신청서",
+   "group": "hana",
+   "forms": [
+    "hf282"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf281": {
+   "name": "「외국환서식관리프로그램」조건변경부 신용장양도(SKY T/S) 조건변경.취소 신청서",
+   "group": "hana",
+   "forms": [
+    "hf281"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf048": {
+   "name": "가계형소호 여신차입신청서",
+   "group": "hana",
+   "forms": [
+    "hf048",
+    "hana_official_048"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf368": {
+   "name": "가상계좌서비스 이용계약서(외화)",
+   "group": "hana",
+   "forms": [
+    "hf368"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf369": {
+   "name": "가상계좌서비스 이용계약서(원화)",
+   "group": "hana",
+   "forms": [
+    "hf369"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf337": {
+   "name": "개인 전자금융 서비스 신청서",
+   "group": "hana",
+   "forms": [
+    "hf337"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf336": {
+   "name": "개인 전자금융 서비스 신청서(영문)",
+   "group": "hana",
+   "forms": [
+    "hf336"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf360": {
+   "name": "개인(신용)정보 및 금융거래정보 제3자 제공동의서(모임통장서비스용)",
+   "group": "hana",
+   "forms": [
+    "hf360"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf134": {
+   "name": "개인(신용)정보 수집.이용 동의서(매도인,무상거주인등 제3자용)(적격대출용)",
+   "group": "hana",
+   "forms": [
+    "hf134"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf113": {
+   "name": "개인(신용)정보 수집.이용 및 제공 동의서[필수적 동의](적격대출용)",
+   "group": "hana",
+   "forms": [
+    "hf113"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf114": {
+   "name": "개인(신용)정보 수집.이용 제공 동의서(주택보유수 확인등)",
+   "group": "hana",
+   "forms": [
+    "hf114"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf363": {
+   "name": "개인(신용)정보 수집이용 동의서[은행공동인증서비스(BankSign)]",
+   "group": "hana",
+   "forms": [
+    "hf363"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf364": {
+   "name": "개인(신용)정보 제3자 제공 동의서[은행공동인증서비스(BankSign)]",
+   "group": "hana",
+   "forms": [
+    "hf364"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf059": {
+   "name": "개인(신용)정보 조회 동의서",
+   "group": "hana",
+   "forms": [
+    "hf059",
+    "hana_official_059"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf202": {
+   "name": "거래외국환지정(변경)신청서",
+   "group": "hana",
+   "forms": [
+    "hf202"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf201": {
+   "name": "거래외국환지정(변경)신청서(영문)",
+   "group": "hana",
+   "forms": [
+    "hf201"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf264": {
+   "name": "거주자간 해외직접투자 양수도 신고(보고)서",
+   "group": "hana",
+   "forms": [
+    "hf264"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf226": {
+   "name": "거주자의 외화자금 차입 및 상환 현황보고서",
+   "group": "hana",
+   "forms": [
+    "hf226"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf227": {
+   "name": "거주자의 해외 증권발행 및 상환 현황 보고서",
+   "group": "hana",
+   "forms": [
+    "hf227"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf068": {
+   "name": "계약 체결 이행 등을 위한 필수 동의서(개인금융성 신용보험용)",
+   "group": "hana",
+   "forms": [
+    "hf068"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf160": {
+   "name": "계약대상자확인서(일임형ISA용)",
+   "group": "hana",
+   "forms": [
+    "hf160"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf437": {
+   "name": "고객정보 활용 동의서(매출채권보험_모집대행업무용)",
+   "group": "hana",
+   "forms": [
+    "hf437"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf391": {
+   "name": "고령투자자확인서(장외파생상품용)",
+   "group": "hana",
+   "forms": [
+    "hf391"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf198": {
+   "name": "공모부동산집합투자증권 과세특례신청서",
+   "group": "hana",
+   "forms": [
+    "hf198"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf032": {
+   "name": "국내원천소득 제한세율 적용신청서(비거주자용)",
+   "group": "hana",
+   "forms": [
+    "hf032"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf033": {
+   "name": "국내원천소득 제한세율 적용신청서(비거주자용-영문)",
+   "group": "hana",
+   "forms": [
+    "hf033"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf031": {
+   "name": "국내원천소득 제한세율 적용신청서(외국법인용)",
+   "group": "hana",
+   "forms": [
+    "hf031"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf030": {
+   "name": "국내원천소득 제한세율 적용신청서(외국법인용-영문)",
+   "group": "hana",
+   "forms": [
+    "hf030"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf065": {
+   "name": "국토교통부 주택소유확인 시스템 등 이용 관련 [필수] 개인(신용)정보 수집·이용·제공 동의서",
+   "group": "hana",
+   "forms": [
+    "hf065",
+    "hana_official_065"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf378": {
+   "name": "글로벌뱅킹서비스 이용,변경,해지 신청서",
+   "group": "hana",
+   "forms": [
+    "hf378"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf133": {
+   "name": "금융거래 정보제공 동의서(연대보증 면제 신용보증서 담보대출용)",
+   "group": "hana",
+   "forms": [
+    "hf133"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf345": {
+   "name": "금융거래정보 이용제공 동의서(기업관계사서비스용)",
+   "group": "hana",
+   "forms": [
+    "hf345"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf343": {
+   "name": "금융거래정보 이용제공 동의서(기업관계사서비스용)(영문)",
+   "group": "hana",
+   "forms": [
+    "hf343"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf398": {
+   "name": "금융거래정보이용제공동의서",
+   "group": "hana",
+   "forms": [
+    "hf398"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf397": {
+   "name": "금융거래정보이용제공동의서(영문)",
+   "group": "hana",
+   "forms": [
+    "hf397"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf024": {
+   "name": "금융거래정보제공(요구·동의)서",
+   "group": "hana",
+   "forms": [
+    "hf024",
+    "hana_official_024"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf380": {
+   "name": "금융결제원CMS 이용계약서",
+   "group": "hana",
+   "forms": [
+    "hf380"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf440": {
+   "name": "금융사고예방을 위한 문자통지(SMS) 서비스 신청서",
+   "group": "hana",
+   "forms": [
+    "hf440"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf233": {
+   "name": "금전의 대차계약 신고(보고)서",
+   "group": "hana",
+   "forms": [
+    "hf233"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf254": {
+   "name": "금전의 대차계약 신고서",
+   "group": "hana",
+   "forms": [
+    "hf254"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf340": {
+   "name": "기업 전자금융서비스 신청서(은행용)",
+   "group": "hana",
+   "forms": [
+    "hf340"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf338": {
+   "name": "기업 전자금융서비스 신청서(은행용)(영문)",
+   "group": "hana",
+   "forms": [
+    "hf338"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf341": {
+   "name": "기업 전자금융서비스 신청확인서(고객용)",
+   "group": "hana",
+   "forms": [
+    "hf341"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf130": {
+   "name": "기업가치 및 기업정보 제공활용 동의서",
+   "group": "hana",
+   "forms": [
+    "hf130"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf069": {
+   "name": "기업간결제 제신고(약정해지,변경) 신청서",
+   "group": "hana",
+   "forms": [
+    "hf069"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf347": {
+   "name": "기업관계사 서비스 이용계약서",
+   "group": "hana",
+   "forms": [
+    "hf347"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf344": {
+   "name": "기업관계사 서비스 이용계약서(영문)",
+   "group": "hana",
+   "forms": [
+    "hf344"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf346": {
+   "name": "기업관계사 서비스 이용신청서",
+   "group": "hana",
+   "forms": [
+    "hf346"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf348": {
+   "name": "기업관계사 서비스 이용신청서(영문)",
+   "group": "hana",
+   "forms": [
+    "hf348"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf091": {
+   "name": "기업구매자금 결제제도 이용 신청서",
+   "group": "hana",
+   "forms": [
+    "hf091"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf107": {
+   "name": "기업구매자금대출 연장신청서",
+   "group": "hana",
+   "forms": [
+    "hf107"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf098": {
+   "name": "기업구매자금어음 지급제시 명세",
+   "group": "hana",
+   "forms": [
+    "hf098"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf104": {
+   "name": "기업구매자금어음 추심의뢰서",
+   "group": "hana",
+   "forms": [
+    "hf104"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf088": {
+   "name": "기업구매자금어음 추심취소 및 반환의뢰서",
+   "group": "hana",
+   "forms": [
+    "hf088"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf106": {
+   "name": "기업구매자금어음(기업구매자금용)",
+   "group": "hana",
+   "forms": [
+    "hf106"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf102": {
+   "name": "기업현황서(B2B전자결제서비스 업무, MP용)",
+   "group": "hana",
+   "forms": [
+    "hf102"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf196": {
+   "name": "기업형IRP 가입대상 근로자 확인서",
+   "group": "hana",
+   "forms": [
+    "hf196"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf090": {
+   "name": "납품대금 선입금(벤더입금) 신청서",
+   "group": "hana",
+   "forms": [
+    "hf090"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf020": {
+   "name": "노무비닷컴계좌 개설 및 지급이체서비스 이용 신청서",
+   "group": "hana",
+   "forms": [
+    "hf020"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf132": {
+   "name": "다주택처분확약서(서울보증보험)",
+   "group": "hana",
+   "forms": [
+    "hf132"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf297": {
+   "name": "단기수출보험(수출채권유동화) 청약 확인서",
+   "group": "hana",
+   "forms": [
+    "hf297"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf327": {
+   "name": "담보제공 신고서",
+   "group": "hana",
+   "forms": [
+    "hf327"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf228": {
+   "name": "담보제공신고(보고)서",
+   "group": "hana",
+   "forms": [
+    "hf228"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf210": {
+   "name": "대북투자 신고 및 투자실적 보고서",
+   "group": "hana",
+   "forms": [
+    "hf210"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf318": {
+   "name": "대북투자(변경)신고서",
+   "group": "hana",
+   "forms": [
+    "hf318"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf310": {
+   "name": "대북투자사업 청산 및 대부채권 회수보고서",
+   "group": "hana",
+   "forms": [
+    "hf310"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf308": {
+   "name": "대북투자사업계획서",
+   "group": "hana",
+   "forms": [
+    "hf308"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf025": {
+   "name": "대여금고(신규·변경·해지)신청서",
+   "group": "hana",
+   "forms": [
+    "hf025"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf242": {
+   "name": "대외지급보증 발급 신청서(SWIFT 방식)(2D)",
+   "group": "hana",
+   "forms": [
+    "hf242"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf241": {
+   "name": "대외지급보증 조건변경 신청서(SWIFT 방식)(2D)",
+   "group": "hana",
+   "forms": [
+    "hf241"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf435": {
+   "name": "대전광역시 지역개발채권 매입 신청서",
+   "group": "hana",
+   "forms": [
+    "hf435"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf051": {
+   "name": "대출계약 철회신청서",
+   "group": "hana",
+   "forms": [
+    "hf051",
+    "hana_official_051"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf137": {
+   "name": "대출금 분할실행 신청서(에듀큐론용)",
+   "group": "hana",
+   "forms": [
+    "hf137"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf138": {
+   "name": "대출금 수령위임동의서",
+   "group": "hana",
+   "forms": [
+    "hf138",
+    "hana_official_138"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf047": {
+   "name": "대출상담 및 신청서(한국주택금융공사채권유동화목적 보금자리론용)",
+   "group": "hana",
+   "forms": [
+    "hf047",
+    "hana_official_047"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf066": {
+   "name": "대출정보 열람청구 및 상환 위임장(대출이동서비스)",
+   "group": "hana",
+   "forms": [
+    "hf066",
+    "hana_official_066"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf064": {
+   "name": "대출정보 열람청구, 상환 및 말소접수 위임장(주택담보대출 대출이동서비스)",
+   "group": "hana",
+   "forms": [
+    "hf064",
+    "hana_official_064"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf144": {
+   "name": "동산담보 제공 예정내역서(개별동산용)",
+   "group": "hana",
+   "forms": [
+    "hf144"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf145": {
+   "name": "동산담보 제공 예정내역서(집합동산용)",
+   "group": "hana",
+   "forms": [
+    "hf145"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf135": {
+   "name": "동의서(대출비용지급용)",
+   "group": "hana",
+   "forms": [
+    "hf135"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf390": {
+   "name": "매매내역 등의 통지방법에 대한 고객확인서(장외파생상품)",
+   "group": "hana",
+   "forms": [
+    "hf390"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf229": {
+   "name": "매매신고(보고)서",
+   "group": "hana",
+   "forms": [
+    "hf229"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf296": {
+   "name": "매입제한 해제 신청서",
+   "group": "hana",
+   "forms": [
+    "hf296"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf140": {
+   "name": "매출채권 잔액 확인서",
+   "group": "hana",
+   "forms": [
+    "hf140"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf141": {
+   "name": "매출채권 잔액 확인서(사전확인용)",
+   "group": "hana",
+   "forms": [
+    "hf141"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf438": {
+   "name": "매출채권보험 상담 신청서(신청기업용)",
+   "group": "hana",
+   "forms": [
+    "hf438"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf142": {
+   "name": "매출채권설정등기통지서",
+   "group": "hana",
+   "forms": [
+    "hf142"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf046": {
+   "name": "목돈을 불리는 통장 거래신청서",
+   "group": "hana",
+   "forms": [
+    "hf046"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf093": {
+   "name": "미결제 전자채권대금 입금확인서",
+   "group": "hana",
+   "forms": [
+    "hf093"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf097": {
+   "name": "미래채권 대출신청서(미래대,상생미래대용)",
+   "group": "hana",
+   "forms": [
+    "hf097"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf087": {
+   "name": "미래채권담보대출 추천서",
+   "group": "hana",
+   "forms": [
+    "hf087"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf086": {
+   "name": "미래채권담보대출 협력기업 일괄추천서",
+   "group": "hana",
+   "forms": [
+    "hf086"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf430": {
+   "name": "민원신청서",
+   "group": "hana",
+   "forms": [
+    "hf430"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf096": {
+   "name": "발주명세 등록신청서",
+   "group": "hana",
+   "forms": [
+    "hf096"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf441": {
+   "name": "법원보관금 납부서(은행제출용)",
+   "group": "hana",
+   "forms": [
+    "hf441"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf095": {
+   "name": "벤더승인명세 등록 신청서",
+   "group": "hana",
+   "forms": [
+    "hf095"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf230": {
+   "name": "보증계약신고(보고)서",
+   "group": "hana",
+   "forms": [
+    "hf230"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf295": {
+   "name": "보증서(수출환어음등 재매입용)",
+   "group": "hana",
+   "forms": [
+    "hf295"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf005": {
+   "name": "보호예수 의뢰서",
+   "group": "hana",
+   "forms": [
+    "hf005"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf004": {
+   "name": "보호예수품 반환 의뢰서",
+   "group": "hana",
+   "forms": [
+    "hf004"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf018": {
+   "name": "본인계좌 일괄지급정지 조회신청서",
+   "group": "hana",
+   "forms": [
+    "hf018"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf019": {
+   "name": "본인계좌 일괄지급정지(해제)신청서",
+   "group": "hana",
+   "forms": [
+    "hf019"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf429": {
+   "name": "본인확인서(FATCA CRS 개인,개인사업자용)(영문)",
+   "group": "hana",
+   "forms": [
+    "hf429"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf409": {
+   "name": "본인확인서(FATCA CRS 법인,임의단체용) 본문 설명서(국문)",
+   "group": "hana",
+   "forms": [
+    "hf409"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf407": {
+   "name": "본인확인서(FATCA CRS 법인,임의단체용) 본문 설명서(영문)",
+   "group": "hana",
+   "forms": [
+    "hf407"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf428": {
+   "name": "본인확인서(FATCA CRS 법인,임의단체용)(국문)",
+   "group": "hana",
+   "forms": [
+    "hf428",
+    "hana_official_428"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf410": {
+   "name": "본인확인서(FATCA CRS 법인,임의단체용)(영문)",
+   "group": "hana",
+   "forms": [
+    "hf410"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf321": {
+   "name": "부동산취득신고(수리)서",
+   "group": "hana",
+   "forms": [
+    "hf321"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf322": {
+   "name": "북한사무소 경비지급신고서",
+   "group": "hana",
+   "forms": [
+    "hf322"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf316": {
+   "name": "북한지사 등의 영업활동 보고서",
+   "group": "hana",
+   "forms": [
+    "hf316"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf314": {
+   "name": "북한지사 설치(변경) 신고서",
+   "group": "hana",
+   "forms": [
+    "hf314"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf313": {
+   "name": "북한지사 설치·현황 보고서",
+   "group": "hana",
+   "forms": [
+    "hf313"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf323": {
+   "name": "북한지점 경비지급신고서",
+   "group": "hana",
+   "forms": [
+    "hf323"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf312": {
+   "name": "비거주자원화계정을 통한 송금(투자)보고서",
+   "group": "hana",
+   "forms": [
+    "hf312"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf420": {
+   "name": "비대면 계좌개설 안심차단 서비스 신청서",
+   "group": "hana",
+   "forms": [
+    "hf420",
+    "hana_official_420"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf041": {
+   "name": "사고신고 담보금 지급정지가처분담보금 처리를 위한 약정서",
+   "group": "hana",
+   "forms": [
+    "hf041"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf211": {
+   "name": "사업계획서",
+   "group": "hana",
+   "forms": [
+    "hf211"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf029": {
+   "name": "사용인감계(금융계좌개설용)",
+   "group": "hana",
+   "forms": [
+    "hf029",
+    "hana_official_029"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf213": {
+   "name": "사전 송금방식 수입대금 지급시",
+   "group": "hana",
+   "forms": [
+    "hf213"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf042": {
+   "name": "사채원리금 지급대행 계약서",
+   "group": "hana",
+   "forms": [
+    "hf042"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf094": {
+   "name": "상생벤더구매론 승인명세 등록신청서",
+   "group": "hana",
+   "forms": [
+    "hf094"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf001": {
+   "name": "상속예금 명의변경(지급) 의뢰서 및 손해담보 확약서(상속예금 지급 위임장 겸용)",
+   "group": "hana",
+   "forms": [
+    "hf001",
+    "hana_official_001"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf439": {
+   "name": "상조회사 선수금 예치확인서",
+   "group": "hana",
+   "forms": [
+    "hf439"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf127": {
+   "name": "상품별 필수 개인(신용)정보 제공동의서(하나V-Plus대출)",
+   "group": "hana",
+   "forms": [
+    "hf127"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf215": {
+   "name": "상호계산계정 결산대차기잔액처분(변경)신고서",
+   "group": "hana",
+   "forms": [
+    "hf215"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf311": {
+   "name": "상호계산계정 폐쇄 신고서",
+   "group": "hana",
+   "forms": [
+    "hf311"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf262": {
+   "name": "상호계산신고서",
+   "group": "hana",
+   "forms": [
+    "hf262"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf218": {
+   "name": "서약서(개인의 외국주택 취득)",
+   "group": "hana",
+   "forms": [
+    "hf218"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf043": {
+   "name": "세금우대종합저축(비과세저축) 제변경신고서(비과세공용)",
+   "group": "hana",
+   "forms": [
+    "hf043"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf434": {
+   "name": "세종특별자치시 지역개발채권 매입 신청서",
+   "group": "hana",
+   "forms": [
+    "hf434"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf333": {
+   "name": "송금(투자)보고서",
+   "group": "hana",
+   "forms": [
+    "hf333"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf268": {
+   "name": "수입선적서류 도착통지 및 수입신용장 조건불일치에 관한 조회",
+   "group": "hana",
+   "forms": [
+    "hf268"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf275": {
+   "name": "수입신용장 재개설 및 중계에 관한 약정서",
+   "group": "hana",
+   "forms": [
+    "hf275"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf303": {
+   "name": "수입실적 확인 및 증명 발급신청서(별지 제11호 서식)",
+   "group": "hana",
+   "forms": [
+    "hf303"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf292": {
+   "name": "수입통관도우미서비스 이용신청서",
+   "group": "hana",
+   "forms": [
+    "hf292"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf266": {
+   "name": "수출대금채권 매입의뢰서",
+   "group": "hana",
+   "forms": [
+    "hf266"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf304": {
+   "name": "수출실적 확인 및 증명 발급신청서(별지 제10호 서식)",
+   "group": "hana",
+   "forms": [
+    "hf304"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf290": {
+   "name": "수출환어음 추심 후 매입전환 신청서",
+   "group": "hana",
+   "forms": [
+    "hf290"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf289": {
+   "name": "수출환어음등의 재매입을 위한 약정서",
+   "group": "hana",
+   "forms": [
+    "hf289"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf265": {
+   "name": "수탁기관 변경 신청서",
+   "group": "hana",
+   "forms": [
+    "hf265"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf038": {
+   "name": "수표(어음)발행사실 확인의뢰서",
+   "group": "hana",
+   "forms": [
+    "hf038"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf035": {
+   "name": "수표·어음용지 폐기신고서",
+   "group": "hana",
+   "forms": [
+    "hf035"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf286": {
+   "name": "신용장 확인 신청 및 확약서",
+   "group": "hana",
+   "forms": [
+    "hf286"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf085": {
+   "name": "신용정보 제공 동의서(외담대,e-안심팩토링,동반성장론 구매기업용)",
+   "group": "hana",
+   "forms": [
+    "hf085"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf350": {
+   "name": "아이부자 걷기챌린지 서비스 동의서",
+   "group": "hana",
+   "forms": [
+    "hf350"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf427": {
+   "name": "아이부자 선불전자지급수단 잔액 상속(지급) 및 서비스 해지 요청서(위임장 겸용)",
+   "group": "hana",
+   "forms": [
+    "hf427"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf045": {
+   "name": "야간금고입금의뢰서",
+   "group": "hana",
+   "forms": [
+    "hf045"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf157": {
+   "name": "여신거래용 인감명판 등 신고서",
+   "group": "hana",
+   "forms": [
+    "hf157",
+    "hana_official_157"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf206": {
+   "name": "연간사업실적보고서(투자잔액 1,000만불 초과 기업)",
+   "group": "hana",
+   "forms": [
+    "hf206"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf207": {
+   "name": "연간사업실적보고서(투자잔액 300만불 초과 1,000만불 이하 기업)",
+   "group": "hana",
+   "forms": [
+    "hf207"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf209": {
+   "name": "영수확인서",
+   "group": "hana",
+   "forms": [
+    "hf209"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf044": {
+   "name": "예금(신탁) 양도승낙 의뢰서 및 양도승낙서",
+   "group": "hana",
+   "forms": [
+    "hf044"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf036": {
+   "name": "예금(신탁) 이관 의뢰서",
+   "group": "hana",
+   "forms": [
+    "hf036"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf011": {
+   "name": "예금(신탁)잔액증명 의뢰서",
+   "group": "hana",
+   "forms": [
+    "hf011",
+    "hana_official_011"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf332": {
+   "name": "외국기업 국내 결산순이익금 송금신청서",
+   "group": "hana",
+   "forms": [
+    "hf332"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf330": {
+   "name": "외국기업 국내지사 변경신고서",
+   "group": "hana",
+   "forms": [
+    "hf330"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf329": {
+   "name": "외국기업 국내지사 설치신고서",
+   "group": "hana",
+   "forms": [
+    "hf329"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf328": {
+   "name": "외국기업 국내지사 폐쇄신고서",
+   "group": "hana",
+   "forms": [
+    "hf328"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf235": {
+   "name": "외국인투자기업등록(변경등록)신청서(국문)",
+   "group": "hana",
+   "forms": [
+    "hf235"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf247": {
+   "name": "외국인투자기업등록(변경등록)신청서(영문)",
+   "group": "hana",
+   "forms": [
+    "hf247"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf252": {
+   "name": "외국환 신고(확인)필증",
+   "group": "hana",
+   "forms": [
+    "hf252"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf243": {
+   "name": "외국환거래 UMS통지서비스 (변경)신청서",
+   "group": "hana",
+   "forms": [
+    "hf243"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf205": {
+   "name": "외국환거래법시행령상 거주성확인서",
+   "group": "hana",
+   "forms": [
+    "hf205"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf267": {
+   "name": "외국환거래용 인감(서명)신고서",
+   "group": "hana",
+   "forms": [
+    "hf267"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf256": {
+   "name": "외국환업무 등록 신청서",
+   "group": "hana",
+   "forms": [
+    "hf256"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf260": {
+   "name": "외국환업무 등록내용 변경 신고서",
+   "group": "hana",
+   "forms": [
+    "hf260"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf108": {
+   "name": "외상매출채권 대출신청서(외담대,e-안심팩토링대출 겸용)",
+   "group": "hana",
+   "forms": [
+    "hf108"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf089": {
+   "name": "외상매출채권 양도통지서(e-안심팩토링대출용)",
+   "group": "hana",
+   "forms": [
+    "hf089"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf084": {
+   "name": "외상매출채권 양도통지서(장래채권양도통지용)",
+   "group": "hana",
+   "forms": [
+    "hf084"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf092": {
+   "name": "외상매출채권양도통지서(개별채권양도통지용)",
+   "group": "hana",
+   "forms": [
+    "hf092"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf234": {
+   "name": "외화송금의 내용변경 및 취소, 송금수표 분실신고 등 신청서",
+   "group": "hana",
+   "forms": [
+    "hf234"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf240": {
+   "name": "외화증권(채권)취득보고서(법인 및 개인기업 설립보고서 포함)",
+   "group": "hana",
+   "forms": [
+    "hf240"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf405": {
+   "name": "외환파생상품 거래 금액 확인서",
+   "group": "hana",
+   "forms": [
+    "hf405"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf386": {
+   "name": "외환파생상품거래 헤지 수요 현황 및 거래 실행에 따른 확인서",
+   "group": "hana",
+   "forms": [
+    "hf386"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf161": {
+   "name": "위임장 (특정금전신탁용)",
+   "group": "hana",
+   "forms": [
+    "hf161"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf027": {
+   "name": "위임장(영문)",
+   "group": "hana",
+   "forms": [
+    "hf027"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf163": {
+   "name": "위임장(일임형 개인종합자산관리계좌(ISA)용)",
+   "group": "hana",
+   "forms": [
+    "hf163"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf389": {
+   "name": "위임장(장외파생상품 일반투자자용)",
+   "group": "hana",
+   "forms": [
+    "hf389"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf197": {
+   "name": "위임장(집합투자증권 및 연금저축계좌 투자용)",
+   "group": "hana",
+   "forms": [
+    "hf197"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf158": {
+   "name": "위임장(하나골드신탁 만기 연장 접수용)",
+   "group": "hana",
+   "forms": [
+    "hf158"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf376": {
+   "name": "위임장(해외체류자 전자금융용)",
+   "group": "hana",
+   "forms": [
+    "hf376"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf037": {
+   "name": "위탁유가증권 반환청구서",
+   "group": "hana",
+   "forms": [
+    "hf037"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf039": {
+   "name": "유가증권 수탁약정서",
+   "group": "hana",
+   "forms": [
+    "hf039"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf002": {
+   "name": "은행거래신청서(영문)",
+   "group": "hana",
+   "forms": [
+    "hf002"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf426": {
+   "name": "이의제기 신청서",
+   "group": "hana",
+   "forms": [
+    "hf426"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf393": {
+   "name": "이자율스왑 연계 대출 분할상환 원금 및 이자율스왑 정산이자 출금서비스 특약",
+   "group": "hana",
+   "forms": [
+    "hf393"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf181": {
+   "name": "이전 가입자 명부(DC,기업형 IRP용)",
+   "group": "hana",
+   "forms": [
+    "hf181"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf182": {
+   "name": "이전신청(취소)서(DB,DC,기업형IRP 이전용)",
+   "group": "hana",
+   "forms": [
+    "hf182"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf285": {
+   "name": "인감증 발급신청서(외국환업무)",
+   "group": "hana",
+   "forms": [
+    "hf285"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf284": {
+   "name": "인감증 분실신고 및 재발급 신청서(외국환업무)",
+   "group": "hana",
+   "forms": [
+    "hf284"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf283": {
+   "name": "인감증(외국환업무)",
+   "group": "hana",
+   "forms": [
+    "hf283"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf021": {
+   "name": "일괄처리(지급)요청서",
+   "group": "hana",
+   "forms": [
+    "hf021"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf403": {
+   "name": "일반투자자 전환신청서",
+   "group": "hana",
+   "forms": [
+    "hf403"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf324": {
+   "name": "임대차계약신고서",
+   "group": "hana",
+   "forms": [
+    "hf324"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf255": {
+   "name": "자(손자)회사 사업계획서",
+   "group": "hana",
+   "forms": [
+    "hf255"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf375": {
+   "name": "자금관리서비스 이용계약서",
+   "group": "hana",
+   "forms": [
+    "hf375"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf362": {
+   "name": "자동화기기 이용(신규,해지,변경)신청서",
+   "group": "hana",
+   "forms": [
+    "hf362"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf214": {
+   "name": "자본거래 사후보고 확인서",
+   "group": "hana",
+   "forms": [
+    "hf214"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf244": {
+   "name": "자본재 등 도입물품명세 검토ㆍ확인신청서",
+   "group": "hana",
+   "forms": [
+    "hf244"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf246": {
+   "name": "장기차관 방식의 외국인투자신고서, 변경신고서(국문)",
+   "group": "hana",
+   "forms": [
+    "hf246"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf245": {
+   "name": "장기차관 방식의 외국인투자신고서, 변경신고서(영문)",
+   "group": "hana",
+   "forms": [
+    "hf245"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf402": {
+   "name": "장외파생상품 거래 담당자 지정 통지서",
+   "group": "hana",
+   "forms": [
+    "hf402"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf381": {
+   "name": "장외파생상품 일반투자자 (부)적정성 판단보고서",
+   "group": "hana",
+   "forms": [
+    "hf381"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf382": {
+   "name": "장외파생상품 일반투자자 투자자정보 분석결과표",
+   "group": "hana",
+   "forms": [
+    "hf382"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf385": {
+   "name": "장외파생상품 일반투자자 투자자정보 확인서(개인 고객용)",
+   "group": "hana",
+   "forms": [
+    "hf385"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf384": {
+   "name": "장외파생상품 일반투자자 투자자정보 확인서(법인 및 개인사업자 고객용)",
+   "group": "hana",
+   "forms": [
+    "hf384"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf383": {
+   "name": "장외파생상품 투자성향에 적정하지 않은 거래확인서",
+   "group": "hana",
+   "forms": [
+    "hf383"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf320": {
+   "name": "재환전 신청서",
+   "group": "hana",
+   "forms": [
+    "hf320"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf394": {
+   "name": "적정성원칙 투자자확인서",
+   "group": "hana",
+   "forms": [
+    "hf394"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf061": {
+   "name": "적합성, 적정성 고객정보 확인서(개인 및 개인사업자용)",
+   "group": "hana",
+   "forms": [
+    "hf061",
+    "hana_official_061"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf062": {
+   "name": "적합성, 적정성 고객정보 확인서(법인용)",
+   "group": "hana",
+   "forms": [
+    "hf062",
+    "hana_official_062"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf401": {
+   "name": "전문투자자 전환신청서",
+   "group": "hana",
+   "forms": [
+    "hf401"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf372": {
+   "name": "전산기기 임대차계약서(Hana 1Q bank CMS)",
+   "group": "hana",
+   "forms": [
+    "hf372"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf131": {
+   "name": "전세자금대출 이용 확약서(서울보증보험증권 담보 전세자금대출용)",
+   "group": "hana",
+   "forms": [
+    "hf131"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf431": {
+   "name": "전자금융거래 사고 피해 신고서(통합서류)",
+   "group": "hana",
+   "forms": [
+    "hf431"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf083": {
+   "name": "전자방식 외상매출채권 결제제도 이용신청서 (서울시농수산식품공사용)",
+   "group": "hana",
+   "forms": [
+    "hf083"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf072": {
+   "name": "전자방식 외상매출채권 결제제도 이용신청서(외담대,동반성장론,e-안심팩토링대출용)",
+   "group": "hana",
+   "forms": [
+    "hf072"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf110": {
+   "name": "전자방식 외상매출채권 발행취소 신청서(외담대,e-안심팩토링용)",
+   "group": "hana",
+   "forms": [
+    "hf110"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf373": {
+   "name": "전자어음 교부 신청서",
+   "group": "hana",
+   "forms": [
+    "hf373"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf374": {
+   "name": "전자어음 이용(변경,해지) 신청서",
+   "group": "hana",
+   "forms": [
+    "hf374"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf334": {
+   "name": "전자적무역결제금융등록(변경,해지)신청서",
+   "group": "hana",
+   "forms": [
+    "hf334"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf105": {
+   "name": "전자채권미결제 확인의뢰서 및 확인서",
+   "group": "hana",
+   "forms": [
+    "hf105"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf109": {
+   "name": "전자채권사고신고(취하)서",
+   "group": "hana",
+   "forms": [
+    "hf109"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf080": {
+   "name": "정보교환 기업구매자금어음 부도통보확인서",
+   "group": "hana",
+   "forms": [
+    "hf080"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf081": {
+   "name": "정보교환 기업구매자금어음 인수거절통보확인서",
+   "group": "hana",
+   "forms": [
+    "hf081"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf079": {
+   "name": "정보교환 기업구매자금어음금 미결제통보확인서",
+   "group": "hana",
+   "forms": [
+    "hf079"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf016": {
+   "name": "종합금융상품 ON-LINE 거래 약정서",
+   "group": "hana",
+   "forms": [
+    "hf016"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf017": {
+   "name": "종합금융상품 ON-LINE_거래 (이체)신청서",
+   "group": "hana",
+   "forms": [
+    "hf017"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf379": {
+   "name": "주류구매전용카드 가맹점가입신청서",
+   "group": "hana",
+   "forms": [
+    "hf379"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf010": {
+   "name": "주식(사채)납입금 수납대행의뢰서(보관증명서 발급의뢰서 겸용)",
+   "group": "hana",
+   "forms": [
+    "hf010"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf249": {
+   "name": "주식등의 취득 또는 출연방식에 의한 외국인투자 내용변경 신고서, 허가신청서(국문)",
+   "group": "hana",
+   "forms": [
+    "hf249"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf248": {
+   "name": "주식등의 취득 또는 출연방식에 의한 외국인투자 내용변경 신고서, 허가신청서(영문)",
+   "group": "hana",
+   "forms": [
+    "hf248"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf204": {
+   "name": "주식등의 취득 또는 출연방식에 의한 외국인투자 신고서, 허가신청서(국문)",
+   "group": "hana",
+   "forms": [
+    "hf204"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf203": {
+   "name": "주식등의 취득 또는 출연방식에 의한 외국인투자 신고서, 허가신청서(영문)",
+   "group": "hana",
+   "forms": [
+    "hf203"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf436": {
+   "name": "주주명부(법인 비대면 실명확인 서비스 용)",
+   "group": "hana",
+   "forms": [
+    "hf436"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf054": {
+   "name": "주택도시기금 대출 신청서(가계용)",
+   "group": "hana",
+   "forms": [
+    "hf054",
+    "hana_official_054"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf055": {
+   "name": "주택도시기금 대출상담 및 신청서(내집마련 디딤돌 대출용)",
+   "group": "hana",
+   "forms": [
+    "hf055",
+    "hana_official_055"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf315": {
+   "name": "증권(채권)취득 보고서",
+   "group": "hana",
+   "forms": [
+    "hf315"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf306": {
+   "name": "증권대차계약 신고서",
+   "group": "hana",
+   "forms": [
+    "hf306"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf317": {
+   "name": "증권발행 보고서",
+   "group": "hana",
+   "forms": [
+    "hf317"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf232": {
+   "name": "증권발행 신고(보고)서",
+   "group": "hana",
+   "forms": [
+    "hf232"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf319": {
+   "name": "증권취득 신고서",
+   "group": "hana",
+   "forms": [
+    "hf319"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf325": {
+   "name": "증권취득신고서",
+   "group": "hana",
+   "forms": [
+    "hf325"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf263": {
+   "name": "지급등의 방법(변경)신고(보고)서",
+   "group": "hana",
+   "forms": [
+    "hf263"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf307": {
+   "name": "지급수단등의 수출입(변경)신고서",
+   "group": "hana",
+   "forms": [
+    "hf307"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf099": {
+   "name": "지급승인명세 등록 신청서",
+   "group": "hana",
+   "forms": [
+    "hf099"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf208": {
+   "name": "지급확인서",
+   "group": "hana",
+   "forms": [
+    "hf208"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf009": {
+   "name": "질권설정 승낙의뢰서(수신_제3자 질권용)",
+   "group": "hana",
+   "forms": [
+    "hf009"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf007": {
+   "name": "질권실행 의뢰서(수신_제3자 질권용)",
+   "group": "hana",
+   "forms": [
+    "hf007"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf008": {
+   "name": "질권해지 통지서(수신_제3자 질권용)",
+   "group": "hana",
+   "forms": [
+    "hf008"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf154": {
+   "name": "차입신청서(무역금융용)",
+   "group": "hana",
+   "forms": [
+    "hf154"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf100": {
+   "name": "창구대출신청서(전자채권담보대출용)",
+   "group": "hana",
+   "forms": [
+    "hf100"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf082": {
+   "name": "채권발행 등록 신청서",
+   "group": "hana",
+   "forms": [
+    "hf082"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf155": {
+   "name": "채권양도통지서(외국법인용)(K-biz파트너론)",
+   "group": "hana",
+   "forms": [
+    "hf155"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf392": {
+   "name": "초고령투자자확인서(장외파생상품용)",
+   "group": "hana",
+   "forms": [
+    "hf392"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf280": {
+   "name": "추심 수출환어음 종결처리(유예) 요청서",
+   "group": "hana",
+   "forms": [
+    "hf280"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf279": {
+   "name": "추심의뢰서(Renego)",
+   "group": "hana",
+   "forms": [
+    "hf279"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf433": {
+   "name": "추심지급 신청서",
+   "group": "hana",
+   "forms": [
+    "hf433"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf015": {
+   "name": "통합제신고서",
+   "group": "hana",
+   "forms": [
+    "hf015",
+    "hana_official_015"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf078": {
+   "name": "통화전환 옵션부 외화대출 원화대출 전환신청서",
+   "group": "hana",
+   "forms": [
+    "hf078"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf175": {
+   "name": "퇴직연금 AI 포트폴리오 설계(신규 리밸런싱)신청서",
+   "group": "hana",
+   "forms": [
+    "hf175"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf185": {
+   "name": "퇴직연금 DC 기업부담금 자동이체 신청서",
+   "group": "hana",
+   "forms": [
+    "hf185"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf169": {
+   "name": "퇴직연금 가입자 거래신청서(DC/기업형IRP)",
+   "group": "hana",
+   "forms": [
+    "hf169"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf195": {
+   "name": "퇴직연금 가입자(등록·변경·삭제) 신청서(DB,DC,기업형IRP)",
+   "group": "hana",
+   "forms": [
+    "hf195"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf172": {
+   "name": "퇴직연금 거래신청서(DC, 기업형IRP)",
+   "group": "hana",
+   "forms": [
+    "hf172"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf171": {
+   "name": "퇴직연금 거래신청서(개인형IRP)",
+   "group": "hana",
+   "forms": [
+    "hf171"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf174": {
+   "name": "퇴직연금 계약이전 동의서",
+   "group": "hana",
+   "forms": [
+    "hf174"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf170": {
+   "name": "퇴직연금 계약이전 신청서(기업형IRP)",
+   "group": "hana",
+   "forms": [
+    "hf170"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf165": {
+   "name": "퇴직연금 계약이전신청서(DB)",
+   "group": "hana",
+   "forms": [
+    "hf165"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf166": {
+   "name": "퇴직연금 계약이전신청서(DC)",
+   "group": "hana",
+   "forms": [
+    "hf166"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf191": {
+   "name": "퇴직연금 계약해지 신청서(DB,DC)",
+   "group": "hana",
+   "forms": [
+    "hf191"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf184": {
+   "name": "퇴직연금 계약해지 신청서(개인형IRP)",
+   "group": "hana",
+   "forms": [
+    "hf184"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf193": {
+   "name": "퇴직연금 계약해지 신청서(기업형IRP)",
+   "group": "hana",
+   "forms": [
+    "hf193"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf189": {
+   "name": "퇴직연금 부담금 등록 신청서(DC,기업형IRP)",
+   "group": "hana",
+   "forms": [
+    "hf189"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf168": {
+   "name": "퇴직연금 사전지정운용방법 지정 신청서(디폴트옵션 지정)",
+   "group": "hana",
+   "forms": [
+    "hf168"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf167": {
+   "name": "퇴직연금 사전지정운용제도 신청서(디폴트옵션, 기업용)",
+   "group": "hana",
+   "forms": [
+    "hf167"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf177": {
+   "name": "퇴직연금 운용상품지정 신청서(DC)",
+   "group": "hana",
+   "forms": [
+    "hf177"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf178": {
+   "name": "퇴직연금 입금예정상품등록/변경 신청서",
+   "group": "hana",
+   "forms": [
+    "hf178"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf188": {
+   "name": "퇴직연금 중도인출신청서(DC,기업형·개인형IRP)",
+   "group": "hana",
+   "forms": [
+    "hf188"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf183": {
+   "name": "퇴직연금 통지서비스 신청서(가입자용)",
+   "group": "hana",
+   "forms": [
+    "hf183"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf192": {
+   "name": "퇴직연금 통지서비스 신청서(기업용)",
+   "group": "hana",
+   "forms": [
+    "hf192"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf179": {
+   "name": "퇴직연금 퇴직급여 지급신청서(DB)",
+   "group": "hana",
+   "forms": [
+    "hf179"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf164": {
+   "name": "퇴직연금 퇴직급여 지급신청서(DC,기업형IRP)",
+   "group": "hana",
+   "forms": [
+    "hf164"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf176": {
+   "name": "퇴직연금 퇴직급여 지급신청서(DC,기업형IRP)",
+   "group": "hana",
+   "forms": [
+    "hf176"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf194": {
+   "name": "퇴직연금 항목등록/변경 신청서",
+   "group": "hana",
+   "forms": [
+    "hf194"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf186": {
+   "name": "퇴직연금_거래신청서(DB)",
+   "group": "hana",
+   "forms": [
+    "hf186"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf173": {
+   "name": "투자자확인서(퇴직연금용)",
+   "group": "hana",
+   "forms": [
+    "hf173"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf400": {
+   "name": "파생상품거래 손실한도 감액통지서",
+   "group": "hana",
+   "forms": [
+    "hf400"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf399": {
+   "name": "파생상품거래 손실한도 초과 및 증거담보 요청 통지서",
+   "group": "hana",
+   "forms": [
+    "hf399"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf309": {
+   "name": "파생상품거래 신고서",
+   "group": "hana",
+   "forms": [
+    "hf309"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf278": {
+   "name": "판매대금추심의뢰서 매입(취소) 등록 요청/확인서",
+   "group": "hana",
+   "forms": [
+    "hf278"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf349": {
+   "name": "펌뱅킹 출금전용계좌이용 동의서",
+   "group": "hana",
+   "forms": [
+    "hf349"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf277": {
+   "name": "포페이팅 의뢰서",
+   "group": "hana",
+   "forms": [
+    "hf277"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf129": {
+   "name": "필수 개인(신용)정보 수집, 이용 및 제공 동의서(법인여신)",
+   "group": "hana",
+   "forms": [
+    "hf129",
+    "hana_official_129"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf128": {
+   "name": "필수 개인(신용)정보 수집, 이용 및 제공 동의서(소호여신)",
+   "group": "hana",
+   "forms": [
+    "hf128",
+    "hana_official_128"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf119": {
+   "name": "필수 개인(신용)정보_수집·이용·제공_동의서[하나_사잇돌_중금리대출용]",
+   "group": "hana",
+   "forms": [
+    "hf119"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf120": {
+   "name": "필수 개인(신용)정보수집·이용및제공동의서(하나원클릭모기지,원클릭전세론,e금리고정형적격)",
+   "group": "hana",
+   "forms": [
+    "hf120"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf352": {
+   "name": "하나 sERP 상담신청서",
+   "group": "hana",
+   "forms": [
+    "hf352"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf359": {
+   "name": "하나 sERP 이용신청서",
+   "group": "hana",
+   "forms": [
+    "hf359"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf335": {
+   "name": "하나 입출금 거래내역 문자통지서비스 신청서",
+   "group": "hana",
+   "forms": [
+    "hf335"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf023": {
+   "name": "하도급협력대금통장(상생결제 노무비) 지급이체서비스 이용신청서",
+   "group": "hana",
+   "forms": [
+    "hf023"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf239": {
+   "name": "해외 부동산 처분(변경)신고서",
+   "group": "hana",
+   "forms": [
+    "hf239"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf222": {
+   "name": "해외 부동산 취득 보고서",
+   "group": "hana",
+   "forms": [
+    "hf222"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf216": {
+   "name": "해외부동산 취득신고(수리)서",
+   "group": "hana",
+   "forms": [
+    "hf216"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf219": {
+   "name": "해외사무소 설치(변경)신고서",
+   "group": "hana",
+   "forms": [
+    "hf219"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf377": {
+   "name": "해외영업점 계좌개설 신청서",
+   "group": "hana",
+   "forms": [
+    "hf377"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf236": {
+   "name": "해외예금 및 신탁 잔액 보고서",
+   "group": "hana",
+   "forms": [
+    "hf236"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf237": {
+   "name": "해외예금 입금보고서",
+   "group": "hana",
+   "forms": [
+    "hf237"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf342": {
+   "name": "해외은행 계좌정보 수신서비스(SWIFT MT940) 이용신청서",
+   "group": "hana",
+   "forms": [
+    "hf342"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf221": {
+   "name": "해외지사 설치·현황 보고서",
+   "group": "hana",
+   "forms": [
+    "hf221"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf220": {
+   "name": "해외지점 설치(변경)신고서",
+   "group": "hana",
+   "forms": [
+    "hf220"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf331": {
+   "name": "해외지점의 영업활동 보고서",
+   "group": "hana",
+   "forms": [
+    "hf331"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf217": {
+   "name": "해외직접투자 내용변경 신고(보고)서",
+   "group": "hana",
+   "forms": [
+    "hf217"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf212": {
+   "name": "해외직접투자 신고서(보고서)",
+   "group": "hana",
+   "forms": [
+    "hf212"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf238": {
+   "name": "해외직접투자사업 청산 및 대부채권 회수보고서",
+   "group": "hana",
+   "forms": [
+    "hf238"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf231": {
+   "name": "현지금융 차입·상환·보증등 한도 운영현황 보고서",
+   "group": "hana",
+   "forms": [
+    "hf231"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf276": {
+   "name": "확약서(단기수출보험(본지사금융))",
+   "group": "hana",
+   "forms": [
+    "hf276"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf034": {
+   "name": "확인서(잔액통보생략용)",
+   "group": "hana",
+   "forms": [
+    "hf034"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf259": {
+   "name": "환전업무 등록내용 변경 신고서",
+   "group": "hana",
+   "forms": [
+    "hf259"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf258": {
+   "name": "환전업무 등록신청서",
+   "group": "hana",
+   "forms": [
+    "hf258"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "hf261": {
+   "name": "환전업무 폐지 신고서",
+   "group": "hana",
+   "forms": [
+    "hf261"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "signature_confirmation": {
+   "name": "본인서명사실확인서",
+   "group": "identity",
+   "forms": [
+    "signature_confirmation",
+    "gov_signature"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "passport": {
+   "name": "여권",
+   "group": "identity",
+   "forms": [
+    "passport"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "alien_registration_card": {
+   "name": "외국인등록증",
+   "group": "identity",
+   "forms": [
+    "alien_registration_card"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "driver_license": {
+   "name": "운전면허증",
+   "group": "identity",
+   "forms": [
+    "driver_license"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "seal_certificate": {
+   "name": "인감증명서",
+   "group": "identity",
+   "forms": [
+    "seal_certificate",
+    "gov_seal"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "resident_id_card": {
+   "name": "주민등록증",
+   "group": "identity",
+   "forms": [
+    "resident_id_card"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "health_insurance_qualification": {
+   "name": "건강보험 자격득실확인서",
+   "group": "income",
+   "forms": [
+    "health_insurance_qualification"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "health_insurance_payment": {
+   "name": "건강보험료 납부확인서",
+   "group": "income",
+   "forms": [
+    "health_insurance_payment"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "career_certificate": {
+   "name": "경력증명서",
+   "group": "income",
+   "forms": [
+    "career_certificate"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "pension_enrollment_certificate": {
+   "name": "국민연금 가입자 가입증명",
+   "group": "income",
+   "forms": [
+    "pension_enrollment_certificate"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "gov_pension": {
+   "name": "국민연금가입자 증명서",
+   "group": "income",
+   "forms": [
+    "gov_pension"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "employment_contract": {
+   "name": "근로계약서",
+   "group": "income",
+   "forms": [
+    "employment_contract"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "withholding_receipt": {
+   "name": "근로소득 원천징수영수증",
+   "group": "income",
+   "forms": [
+    "withholding_receipt",
+    "gov_withholding"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "pay_stub": {
+   "name": "급여명세서",
+   "group": "income",
+   "forms": [
+    "pay_stub"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "income_certificate": {
+   "name": "소득금액증명원",
+   "group": "income",
+   "forms": [
+    "income_certificate",
+    "gov_income"
+   ],
+   "aliases": [
+    "소득금액증명"
+   ],
+   "by": "자동"
+  },
+  "gov_pension_withholding": {
+   "name": "연금소득 원천징수영수증",
+   "group": "income",
+   "forms": [
+    "gov_pension_withholding"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "employment_certificate": {
+   "name": "재직증명서",
+   "group": "income",
+   "forms": [
+    "employment_certificate"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "gov_retirement_withholding": {
+   "name": "퇴직소득 원천징수영수증",
+   "group": "income",
+   "forms": [
+    "gov_retirement_withholding"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "real_estate_registry": {
+   "name": "등기사항전부증명서(집합건물)",
+   "group": "real_estate",
+   "forms": [
+    "real_estate_registry"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "sales_contract": {
+   "name": "부동산 매매계약서",
+   "group": "real_estate",
+   "forms": [
+    "sales_contract"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "gov_building_general": {
+   "name": "일반건축물대장(갑)",
+   "group": "real_estate",
+   "forms": [
+    "gov_building_general"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "move_in_household_list": {
+   "name": "전입세대확인서",
+   "group": "real_estate",
+   "forms": [
+    "move_in_household_list",
+    "gov_move_in"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "lease_contract": {
+   "name": "주택임대차표준계약서",
+   "group": "real_estate",
+   "forms": [
+    "lease_contract"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "building_register": {
+   "name": "집합건축물대장(전유부)",
+   "group": "real_estate",
+   "forms": [
+    "building_register",
+    "gov_building_unit"
+   ],
+   "aliases": [
+    "집합건축물대장(전유부, 갑)"
+   ],
+   "by": "자동"
+  },
+  "land_register": {
+   "name": "토지대장",
+   "group": "real_estate",
+   "forms": [
+    "land_register",
+    "gov_land"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "gov_tax_payment_history": {
+   "name": "납부내역증명",
+   "group": "tax",
+   "forms": [
+    "gov_tax_payment_history"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "tax_payment_certificate": {
+   "name": "납세증명서(국세완납증명)",
+   "group": "tax",
+   "forms": [
+    "tax_payment_certificate",
+    "gov_national_tax"
+   ],
+   "aliases": [
+    "납세증명서"
+   ],
+   "by": "자동"
+  },
+  "tax_payment_certificate_corp": {
+   "name": "납세증명서(법인)",
+   "group": "tax",
+   "forms": [
+    "tax_payment_certificate_corp"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "vat_tax_base_certificate": {
+   "name": "부가가치세 과세표준증명",
+   "group": "tax",
+   "forms": [
+    "vat_tax_base_certificate",
+    "gov_vat_base"
+   ],
+   "aliases": [],
+   "by": "자동"
+  },
+  "income_tax_return": {
+   "name": "종합소득세 과세표준확정신고 및 납부계산서",
+   "group": "tax",
+   "forms": [
+    "income_tax_return",
+    "gov_income_tax_return"
+   ],
+   "aliases": [
+    "종합소득세 과세표준확정신고 및 납부계산서(일반)"
+   ],
+   "by": "자동"
+  },
+  "local_tax_payment_certificate": {
+   "name": "지방세 납세증명서",
+   "group": "tax",
+   "forms": [
+    "local_tax_payment_certificate",
+    "gov_local_tax"
+   ],
+   "aliases": [
+    "지방세 납세증명(신청)서"
+   ],
+   "by": "자동"
+  },
+  "local_tax_assessment": {
+   "name": "지방세 세목별 과세증명서",
+   "group": "tax",
+   "forms": [
+    "local_tax_assessment",
+    "gov_local_assessment"
+   ],
+   "aliases": [],
+   "by": "자동"
+  }
+ }
+}

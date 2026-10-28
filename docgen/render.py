@@ -12,14 +12,15 @@ import re
 from pathlib import Path
 from typing import Any
 
-from jinja2 import Environment, FileSystemLoader, StrictUndefined
+from jinja2 import ChoiceLoader, Environment, FileSystemLoader, FunctionLoader, StrictUndefined
 from markupsafe import Markup, escape
 
+from . import freetext
 from .banks import bank_view, brand_accent, form_bank, form_context
 from .entities import Profile
 from .registry import BANK_FORM_GROUPS, DocSpec
 
-TEMPLATE_DIR = Path(__file__).resolve().parent.parent / "templates"
+TEMPLATE_DIR = Path(__file__).resolve().parent / "templates"   # docgen/templates
 
 _MISSING = object()
 
@@ -74,6 +75,11 @@ class FieldRecorder:
 
     def __call__(self, path: str, value: Any = _MISSING, label: str | None = None, type: str | None = None,
                  fix: float = 0.0) -> Markup:
+        binding = getattr(self, "bindings", {}).get(path)
+        if binding is not None:
+            if "value" in binding:
+                value = binding["value"]
+            label = binding.get("label") or label
         try:
             v = lookup(self.data, path) if value is _MISSING else value
         except (KeyError, IndexError, AttributeError):
@@ -122,7 +128,8 @@ class FieldRecorder:
         return ""
 
     def mark(self, key: str | None, type: str = "seal", present: bool = True, text: str | None = None,
-             label: str | None = None, kind: str | None = None, anchor: str | None = None) -> str:
+             label: str | None = None, kind: str | None = None, anchor: str | None = None,
+             render: str | None = None) -> str:
         """도장·서명 자리를 기록하고 key 를 돌려준다 (템플릿에서 data-mark 속성으로 쓴다)."""
         root = "seal" if type == "seal" else "sign"  # 'signature' 는 서명란 이름 값으로 이미 쓰인다
         if not key:
@@ -148,6 +155,8 @@ class FieldRecorder:
             rec["kind"] = kind
         if anchor:
             rec["anchor"] = anchor
+        if render:   # 표시 요소 풀에서 고른 모양 (docgen/marks.py). 코드가 그린 기본 모양이면 없음
+            rec["render"] = render
         self.fields[key] = rec
         return key
 
@@ -262,8 +271,33 @@ def seal_font(text: str) -> str:
     return "" if n <= 6 else "font-size:11px" if n <= 9 else "font-size:9.5px;line-height:1.05"
 
 
+def seal_style(tpl: dict) -> str:
+    """도장 틀(docgen/marks.py 의 seal 풀 항목) → 인라인 CSS. 모양·테두리·겹선·글꼴·인주 색."""
+    out = []
+    shape = tpl.get("shape")
+    if shape == "square":
+        out.append("border-radius:4px")
+    elif shape == "oval":
+        out.append("border-radius:50%;width:auto;min-width:38px;padding:0 8px;aspect-ratio:1.45")
+    if tpl.get("border"):
+        out.append(f"border-width:{float(tpl['border']):.1f}px")
+    if tpl.get("double"):
+        out.append("border-style:double;border-width:" + f"{max(3.0, float(tpl.get('border') or 3)):.1f}px")
+    if tpl.get("font"):
+        out.append(f"font-family:{tpl['font']}")
+    if tpl.get("ink"):
+        out.append(f"color:{tpl['ink']};border-color:{tpl['ink']}")
+    return ";".join(out)
+
+
 def scribble(name: str, rng: random.Random) -> Markup:
-    """손 서명 흉내: 이름 길이에 맞춘 이어진 곡선 (SVG). 글자로 읽히지 않는 서명 모양."""
+    """손 서명 흉내: 이름 길이에 맞춘 이어진 곡선 (SVG). 글자로 읽히지 않는 서명 모양.
+    서명 풀(docgen/marks.py)에 이미지가 켜져 있으면 풀에서 하나를 고른다 (기본 풀이면 난수를 쓰지 않는다)."""
+    from . import marks as M
+
+    it = M.pick(rng, M.pools()["sign"])
+    if it and not it.get("builtin"):
+        return Markup(f'<img class="sigimg" src="{M.image_url(it)}" alt="" style="max-height:42px;max-width:{26 * max(2, len(name)) + 30}px">')
     n = max(2, len(name))
     w, h = 26 * n + rng.randint(10, 30), rng.randint(30, 42)
     x, y = 2.0, h * rng.uniform(0.45, 0.7)
@@ -284,7 +318,7 @@ def scribble(name: str, rng: random.Random) -> Markup:
 
 
 def checkmark(size: float, color: str, rng: random.Random) -> Markup:
-    """□ 위에 손으로 그은 체크(V) 표시 (SVG). size = □ 높이(px)."""
+    """□ 위에 손으로 그은 체크(V) 표시 (SVG). size = □ 높이(px). (overlay 서식. 체크 풀의 이미지는 realform 이 고른다)"""
     s = size * rng.uniform(1.0, 1.35)
     x0, y0 = rng.uniform(-0.15, 0.1) * size, size * rng.uniform(0.25, 0.45)
     xm, ym = x0 + s * rng.uniform(0.3, 0.42), y0 + s * rng.uniform(0.45, 0.6)
@@ -302,9 +336,16 @@ _env: Environment | None = None
 def env() -> Environment:
     global _env
     if _env is None:
-        _env = Environment(loader=FileSystemLoader(str(TEMPLATE_DIR)), undefined=StrictUndefined,
+        from .htmlform import jinja_source   # "@form/<ID>": 화면에서 만든 html 서식 (서식 폴더 또는 저장 전 초안)
+        from .template_variants import jinja_source as layout_source
+
+        from .formdir import jinja_source as form_source   # 코드 서식 "<그룹>/<ID>.html.j2" → 서식 폴더의 look/template.html.j2
+
+        _env = Environment(loader=ChoiceLoader([FunctionLoader(jinja_source), FunctionLoader(layout_source), FunctionLoader(form_source),
+                                                FileSystemLoader(str(TEMPLATE_DIR))]), undefined=StrictUndefined,
                            autoescape=True, trim_blocks=True, lstrip_blocks=True)
         _env.globals.update(kv_layout=kv_layout, checkmark=checkmark, seal_lines=seal_lines, seal_font=seal_font, scribble=scribble,
+                           seal_style=seal_style,
                            BR=Markup("<br>"))
     return _env
 
@@ -317,16 +358,37 @@ def render(spec: DocSpec, profile: Profile, seed: int | str, sample_mark: bool |
         profile = bank_view(profile, form_bank(profile, spec.id))
         bk = form_context(profile, spec.id)
     data_rng = random.Random(f"data:{seed}:{spec.id}")
-    data = spec.generate(profile, data_rng)
+    with freetext.collect() as written:   # 기타 칸에 넣은 자유 기재 글 → 정답 (freetext 과제)
+        data = spec.generate(profile, data_rng)
+        if spec.template != "_real_form.html.j2" and not spec.template.startswith("@"):
+            from .htmlform import builtin_values   # 코드 서식: 칸 목록 fields.json 의 값 선언을 위에 덮어쓰기
+
+            data = builtin_values(spec.id, profile, data_rng, data)
+    if written:
+        data["_freetext"] = written
     if style is None:
         style = random_style(random.Random(f"style:{seed}:{spec.id}"), spec)
         if bk:
             accent = brand_accent(profile.bank, random.Random(f"accent:{seed}:{spec.id}"))
             style["accent"] = accent or style["accent"]
     rec = FieldRecorder(data, random.Random(f"marks:{seed}:{spec.id}"))
-    html = env().get_template(spec.template).render(
+    from .template_variants import choose
+    variant = choose(spec,seed,profile.extra)
+    data["_template_variant"] = {k:variant[k] for k in ("id","name")}
+    regions = None
+    if spec.template != "_real_form.html.j2":
+        from . import html_regions
+
+        regions = html_regions.load(spec.id,variant["id"])
+        rec.bindings = html_regions.bindings(regions, profile, seed)
+    html = env().get_template(variant["template"]).render(
         d=data, f=rec, val=lambda p: lookup(data, p), style=style, spec=spec, bk=bk,
         sample_mark=spec.sample_mark if sample_mark is None else (sample_mark or spec.sample_mark),
     )
+    if regions and regions["regions"]:
+        html = html_regions.attach(html, regions, rec, profile, seed)
+    for item in data.get("items", []):
+        if item.get("unit") and item.get("key") in rec.fields:
+            rec.fields[item["key"]]["unit"] = item["unit"]
     groups = [{**g, "value": None, "group_only": True} for g in rec.groups.values()]
     return html, list(rec.fields.values()) + groups, data

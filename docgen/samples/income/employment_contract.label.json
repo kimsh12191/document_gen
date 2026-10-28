@@ -1,0 +1,453 @@
+{
+ "images": [
+  "income/employment_contract.jpg"
+ ],
+ "pages": [
+  {
+   "width": 1191,
+   "height": 1684
+  }
+ ],
+ "fields": [
+  {
+   "key": "employer.name",
+   "label": "사업주",
+   "type": "text",
+   "value": "(주)새한소프트",
+   "norm": "(주)새한소프트",
+   "page": 0,
+   "bbox": [
+    91.5,
+    193.6,
+    217.4,
+    214.6
+   ]
+  },
+  {
+   "key": "employee.name",
+   "label": "근로자",
+   "type": "text",
+   "value": "김소윤",
+   "norm": "김소윤",
+   "page": 0,
+   "bbox": [
+    460.2,
+    193.6,
+    516.9,
+    214.6
+   ],
+   "label_bbox": [
+    82.5,
+    91.5,
+    1108.5,
+    163.6
+   ]
+  },
+  {
+   "key": "start_date",
+   "label": "근로개시일",
+   "type": "date",
+   "value": "2014년 12월 01일",
+   "norm": "2014-12-01",
+   "page": 0,
+   "bbox": [
+    219.5,
+    246.8,
+    361.2,
+    267.8
+   ]
+  },
+  {
+   "key": "workplace",
+   "label": "근무장소",
+   "type": "text",
+   "value": "(주)새한소프트 본사",
+   "norm": "(주)새한소프트 본사",
+   "page": 0,
+   "bbox": [
+    214.8,
+    285.1,
+    383.3,
+    306.1
+   ]
+  },
+  {
+   "key": "job",
+   "label": "업무의내용",
+   "type": "text",
+   "value": "경영지원팀 총무 및 경영지원 업무",
+   "norm": "경영지원팀 총무 및 경영지원 업무",
+   "page": 0,
+   "bbox": [
+    224.3,
+    323.4,
+    507.6,
+    344.4
+   ]
+  },
+  {
+   "key": "work_start",
+   "label": "소정근로시간",
+   "type": "text",
+   "value": "09시 00분",
+   "norm": "09시 00분",
+   "page": 0,
+   "bbox": [
+    238.4,
+    361.7,
+    318.7,
+    382.7
+   ]
+  },
+  {
+   "key": "work_end",
+   "label": "소정근로시간",
+   "type": "text",
+   "value": "18시 00분",
+   "norm": "18시 00분",
+   "page": 0,
+   "bbox": [
+    379.2,
+    361.7,
+    459.5,
+    382.7
+   ]
+  },
+  {
+   "key": "break_time",
+   "label": "휴게시간",
+   "type": "text",
+   "value": "12시 00분 ~ 13시 00분",
+   "norm": "12시 00분 ~ 13시 00분",
+   "page": 0,
+   "bbox": [
+    607.6,
+    361.7,
+    787.9,
+    382.7
+   ]
+  },
+  {
+   "key": "work_days",
+   "label": "근무일",
+   "type": "number",
+   "value": "5",
+   "norm": 5,
+   "page": 0,
+   "bbox": [
+    283.6,
+    399.9,
+    293.0,
+    420.9
+   ]
+  },
+  {
+   "key": "weekly_holiday",
+   "label": "주휴일",
+   "type": "text",
+   "value": "일",
+   "norm": "일",
+   "page": 0,
+   "bbox": [
+    639.5,
+    399.9,
+    658.4,
+    420.9
+   ]
+  },
+  {
+   "key": "monthly_salary",
+   "label": "월(일,시간)급",
+   "type": "amount",
+   "value": "3,825,000",
+   "norm": 3825000,
+   "page": 0,
+   "bbox": [
+    256.4,
+    469.0,
+    331.9,
+    490.0
+   ]
+  },
+  {
+   "key": "bonus",
+   "label": "상여금",
+   "type": "text",
+   "value": "있음",
+   "norm": "있음",
+   "page": 0,
+   "bbox": [
+    187.5,
+    501.3,
+    225.3,
+    522.3
+   ]
+  },
+  {
+   "key": "bonus_amount",
+   "label": "상여금",
+   "type": "amount",
+   "value": "3,425,000",
+   "norm": 3425000,
+   "page": 0,
+   "bbox": [
+    295.4,
+    501.3,
+    370.9,
+    522.3
+   ]
+  },
+  {
+   "key": "other_pay",
+   "label": "기타급여",
+   "type": "text",
+   "value": "있음",
+   "norm": "있음",
+   "page": 0,
+   "bbox": [
+    299.3,
+    533.5,
+    337.1,
+    554.5
+   ]
+  },
+  {
+   "key": "allowances.0.name",
+   "label": "기타급여(제수당등)",
+   "type": "text",
+   "value": "식대",
+   "norm": "식대",
+   "page": 0,
+   "bbox": [
+    138.9,
+    564.3,
+    176.6,
+    585.3
+   ]
+  },
+  {
+   "key": "allowances.0.amount",
+   "label": "기타급여(제수당등)",
+   "type": "amount",
+   "value": "200,000원",
+   "norm": 200000,
+   "page": 0,
+   "bbox": [
+    190.4,
+    564.3,
+    270.7,
+    585.3
+   ]
+  },
+  {
+   "key": "allowances.1.name",
+   "label": "기타급여(제수당등)",
+   "type": "text",
+   "value": "자가운전보조금",
+   "norm": "자가운전보조금",
+   "page": 0,
+   "bbox": [
+    138.9,
+    595.1,
+    271.1,
+    616.1
+   ]
+  },
+  {
+   "key": "allowances.1.amount",
+   "label": "기타급여(제수당등)",
+   "type": "amount",
+   "value": "200,000원",
+   "norm": 200000,
+   "page": 0,
+   "bbox": [
+    284.8,
+    595.1,
+    365.1,
+    616.1
+   ]
+  },
+  {
+   "key": "pay_day",
+   "label": "임금지급일",
+   "type": "amount",
+   "value": "15",
+   "norm": 15,
+   "page": 0,
+   "bbox": [
+    423.8,
+    627.4,
+    442.7,
+    648.4
+   ]
+  },
+  {
+   "key": "pay_method",
+   "label": "지급방법",
+   "type": "text",
+   "value": "근로자 명의 예금통장에 입금",
+   "norm": "근로자 명의 예금통장에 입금",
+   "page": 0,
+   "bbox": [
+    442.2,
+    659.6,
+    683.1,
+    680.6
+   ]
+  },
+  {
+   "key": "contract_date",
+   "label": "계약일",
+   "type": "date",
+   "value": "2014년 11월 27일",
+   "norm": "2014-11-27",
+   "page": 0,
+   "bbox": [
+    512.7,
+    1097.9,
+    678.3,
+    1118.9
+   ]
+  },
+  {
+   "key": "employer.phone",
+   "label": "전화",
+   "type": "phone",
+   "value": "061-681-3222",
+   "norm": "0616813222",
+   "page": 0,
+   "bbox": [
+    519.7,
+    1182.1,
+    626.7,
+    1203.1
+   ]
+  },
+  {
+   "key": "employer.address",
+   "label": "주소",
+   "type": "text",
+   "value": "전라남도 여수시 여수시민로 411, 2층",
+   "norm": "전라남도 여수시 여수시민로 411, 2층",
+   "page": 0,
+   "bbox": [
+    325.5,
+    1217.3,
+    631.8,
+    1238.3
+   ],
+   "label_bbox": [
+    196.5,
+    1211.3,
+    319.5,
+    1246.6
+   ]
+  },
+  {
+   "key": "employer.ceo",
+   "label": "대표자",
+   "type": "text",
+   "value": "박연윤",
+   "norm": "박연윤",
+   "page": 0,
+   "bbox": [
+    325.5,
+    1267.5,
+    382.2,
+    1288.5
+   ],
+   "label_bbox": [
+    196.5,
+    1246.6,
+    319.5,
+    1312.6
+   ]
+  },
+  {
+   "key": "seal.employer",
+   "label": "사용자",
+   "type": "seal",
+   "value": "대표이사인",
+   "present": true,
+   "kind": "직인",
+   "page": 0,
+   "bbox": [
+    452.7,
+    1246.2,
+    519.6,
+    1313.0
+   ]
+  },
+  {
+   "key": "employee.address",
+   "label": "주소",
+   "type": "text",
+   "value": "광주광역시 서구 내방로 75, 114동 1401호",
+   "norm": "광주광역시 서구 내방로 75, 114동 1401호",
+   "page": 0,
+   "bbox": [
+    325.5,
+    1333.6,
+    664.9,
+    1354.6
+   ],
+   "label_bbox": [
+    196.5,
+    1312.6,
+    319.5,
+    1362.9
+   ]
+  },
+  {
+   "key": "employee.phone",
+   "label": "연락처",
+   "type": "phone",
+   "value": "010-4372-6867",
+   "norm": "01043726867",
+   "page": 0,
+   "bbox": [
+    325.5,
+    1368.9,
+    442.0,
+    1389.9
+   ],
+   "label_bbox": [
+    196.5,
+    1362.9,
+    319.5,
+    1398.2
+   ]
+  },
+  {
+   "key": "seal.employee",
+   "label": "근로자",
+   "type": "seal",
+   "value": null,
+   "present": false,
+   "kind": "인감",
+   "anchor": "employee.name",
+   "page": 0,
+   "bbox": [
+    401.1,
+    1401.2,
+    452.1,
+    1430.4
+   ]
+  },
+  {
+   "key": "sign.employee",
+   "label": "근로자",
+   "type": "signature",
+   "value": "김소윤",
+   "present": true,
+   "anchor": "employee.name",
+   "page": 0,
+   "bbox": [
+    346.3,
+    1391.0,
+    506.8,
+    1436.0
+   ]
+  }
+ ]
+}

@@ -1,0 +1,269 @@
+{
+ "about": "키 사전 (studio/DESIGN.md 16절). docgen/scripts/build_dictionary.py 가 자동 초안을 만들고 studio 키 사전 화면이 고친다. by: 사람 인 것은 다시 만들어도 남는다.",
+ "groups": {
+  "deposit": "수신·전자금융",
+  "loan": "여신",
+  "fx": "외환",
+  "pension": "퇴직연금"
+ },
+ "tasks": {
+  "account_opening": {
+   "name": "개인 계좌개설",
+   "group": "deposit",
+   "aliases": [
+    "계좌개설",
+    "신규"
+   ],
+   "docs": [
+    "resident_id_card",
+    "employment_certificate",
+    "account_opening_application",
+    "financial_transaction_purpose",
+    "customer_due_diligence",
+    "privacy_consent",
+    "fatca_crs"
+   ],
+   "roles": {},
+   "by": "자동"
+  },
+  "personal_credit_loan": {
+   "name": "개인 신용대출",
+   "group": "loan",
+   "aliases": [
+    "신용대출"
+   ],
+   "docs": [
+    "resident_id_card",
+    "employment_certificate",
+    "income_certificate",
+    "withholding_receipt",
+    "health_insurance_qualification",
+    "pay_stub",
+    "loan_application",
+    "credit_agreement",
+    "privacy_consent"
+   ],
+   "roles": {},
+   "by": "자동"
+  },
+  "mortgage": {
+   "name": "주택담보대출",
+   "group": "loan",
+   "aliases": [
+    "주담대",
+    "주택담보"
+   ],
+   "docs": [
+    "resident_id_card",
+    "resident_registration_copy",
+    "family_relation_certificate",
+    "seal_certificate",
+    "income_certificate",
+    "real_estate_registry",
+    "building_register",
+    "sales_contract",
+    "loan_application",
+    "credit_agreement",
+    "collateral_agreement",
+    "privacy_consent"
+   ],
+   "roles": {
+    "buyer": "customer",
+    "seller": "counterparty",
+    "owner": "customer",
+    "owners": "customer"
+   },
+   "by": "자동"
+  },
+  "jeonse_loan": {
+   "name": "전세자금대출",
+   "group": "loan",
+   "aliases": [
+    "전세대출",
+    "전세자금"
+   ],
+   "docs": [
+    "resident_id_card",
+    "resident_registration_copy",
+    "lease_contract",
+    "real_estate_registry",
+    "employment_certificate",
+    "income_certificate",
+    "loan_application",
+    "privacy_consent"
+   ],
+   "roles": {
+    "tenant": "customer",
+    "landlord": "counterparty"
+   },
+   "by": "자동"
+  },
+  "sole_proprietor_loan": {
+   "name": "개인사업자 대출",
+   "group": "loan",
+   "aliases": [
+    "사업자대출"
+   ],
+   "docs": [
+    "resident_id_card",
+    "business_registration_certificate",
+    "business_registration_proof",
+    "vat_tax_base_certificate",
+    "income_certificate",
+    "tax_payment_certificate",
+    "local_tax_payment_certificate",
+    "loan_application",
+    "credit_agreement",
+    "privacy_consent"
+   ],
+   "roles": {
+    "company": "corp"
+   },
+   "by": "자동"
+  },
+  "corporate_credit": {
+   "name": "법인 여신",
+   "group": "loan",
+   "aliases": [
+    "기업여신"
+   ],
+   "docs": [
+    "corporate_registry",
+    "articles_of_incorporation",
+    "shareholder_registry",
+    "financial_statements",
+    "corporate_seal_certificate",
+    "board_minutes",
+    "business_registration_certificate_corp",
+    "tax_payment_certificate_corp",
+    "corporate_customer_due_diligence",
+    "loan_application_corp",
+    "credit_agreement_corp",
+    "power_of_attorney"
+   ],
+   "roles": {
+    "company": "corp",
+    "borrower": "corp",
+    "applicant": "corp"
+   },
+   "by": "자동"
+  },
+  "fx_remittance": {
+   "name": "해외송금",
+   "group": "fx",
+   "aliases": [
+    "해외송금",
+    "당발송금",
+    "외화송금"
+   ],
+   "docs": [
+    "resident_id_card",
+    "overseas_remittance_application",
+    "commercial_invoice",
+    "trade_contract",
+    "bill_of_lading"
+   ],
+   "roles": {
+    "remitter": "customer",
+    "beneficiary": "foreign",
+    "buyer": "customer",
+    "seller": "foreign",
+    "importer": "customer",
+    "shipper": "foreign"
+   },
+   "by": "자동"
+  },
+  "study_abroad_remittance": {
+   "name": "유학생 송금",
+   "group": "fx",
+   "aliases": [
+    "유학송금"
+   ],
+   "docs": [
+    "passport",
+    "admission_letter",
+    "tuition_invoice",
+    "family_relation_certificate",
+    "overseas_remittance_application"
+   ],
+   "roles": {
+    "remitter": "customer",
+    "student": "family",
+    "beneficiary": "foreign",
+    "university": "foreign"
+   },
+   "by": "자동"
+  },
+  "irp_opening": {
+   "name": "개인형IRP 개설",
+   "group": "pension",
+   "aliases": [
+    "IRP",
+    "개인형퇴직연금"
+   ],
+   "docs": [
+    "resident_id_card",
+    "employment_certificate",
+    "hf171",
+    "hf173",
+    "hf168",
+    "privacy_consent"
+   ],
+   "roles": {},
+   "by": "자동"
+  },
+  "retirement_payout": {
+   "name": "퇴직급여 수령",
+   "group": "pension",
+   "aliases": [
+    "퇴직급여"
+   ],
+   "docs": [
+    "resident_id_card",
+    "employment_certificate",
+    "hf176",
+    "hf171",
+    "hf028"
+   ],
+   "roles": {},
+   "by": "자동"
+  },
+  "efinance_signup": {
+   "name": "전자금융 가입",
+   "group": "deposit",
+   "aliases": [
+    "전자금융",
+    "인터넷뱅킹"
+   ],
+   "docs": [
+    "resident_id_card",
+    "account_opening_application",
+    "hf337",
+    "hf335",
+    "privacy_consent"
+   ],
+   "roles": {},
+   "by": "자동"
+  },
+  "inheritance": {
+   "name": "상속예금 지급",
+   "group": "deposit",
+   "aliases": [
+    "상속"
+   ],
+   "docs": [
+    "resident_id_card",
+    "family_relation_certificate",
+    "basic_certificate",
+    "seal_certificate",
+    "hf001",
+    "hf011"
+   ],
+   "roles": {
+    "heir": "customer",
+    "deceased": "family"
+   },
+   "by": "자동"
+  }
+ }
+}

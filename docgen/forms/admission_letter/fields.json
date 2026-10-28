@@ -1,0 +1,158 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "admission_type": {
+   "label": "AdmissionType",
+   "type": "text",
+   "source": "code"
+  },
+  "condition_deadline": {
+   "label": "ConditionDeadline",
+   "type": "text",
+   "source": "code"
+  },
+  "cost.books": {
+   "label": "EstimatedBooksandSupplies",
+   "type": "text",
+   "source": "code"
+  },
+  "cost.insurance": {
+   "label": "EstimatedHealthInsurance",
+   "type": "text",
+   "source": "code"
+  },
+  "cost.living": {
+   "label": "EstimatedLivingExpenses",
+   "type": "text",
+   "source": "code"
+  },
+  "cost.total": {
+   "label": "TotalEstimatedCost",
+   "type": "text",
+   "source": "code"
+  },
+  "cost.tuition": {
+   "label": "EstimatedTuition",
+   "type": "text",
+   "source": "code"
+  },
+  "deferred_from": {
+   "label": "DeferredFrom",
+   "type": "text",
+   "source": "code"
+  },
+  "degree": {
+   "label": "Degree",
+   "type": "text",
+   "source": "code"
+  },
+  "deposit_deadline": {
+   "label": "DepositDeadline",
+   "type": "text",
+   "source": "code"
+  },
+  "duration": {
+   "label": "Duration",
+   "type": "text",
+   "source": "code"
+  },
+  "letter_date": {
+   "label": "Date",
+   "type": "text",
+   "source": "code"
+  },
+  "program": {
+   "label": "Program",
+   "type": "text",
+   "source": "code"
+  },
+  "scholarship.amount": {
+   "label": "ScholarshipAmount",
+   "type": "text",
+   "source": "code"
+  },
+  "scholarship.name": {
+   "label": "Scholarship",
+   "type": "text",
+   "source": "code"
+  },
+  "signer": {
+   "label": "Signedby",
+   "type": "text",
+   "source": "code"
+  },
+  "signer_title": {
+   "label": "Title",
+   "type": "text",
+   "source": "code"
+  },
+  "start_date": {
+   "label": "ClassesBegin",
+   "type": "text",
+   "source": "code"
+  },
+  "student.address": {
+   "label": "StudentAddress",
+   "type": "text",
+   "source": "code"
+  },
+  "student.dob": {
+   "label": "DateofBirth",
+   "type": "text",
+   "source": "code"
+  },
+  "student.id": {
+   "label": "StudentID",
+   "type": "text",
+   "source": "code"
+  },
+  "student.name": {
+   "label": "StudentName",
+   "type": "text",
+   "source": "code"
+  },
+  "student.nationality": {
+   "label": "Citizenship",
+   "type": "text",
+   "source": "code"
+  },
+  "term": {
+   "label": "TermofEntry",
+   "type": "text",
+   "source": "code"
+  },
+  "university.address": {
+   "label": "UniversityAddress",
+   "type": "text",
+   "source": "code"
+  },
+  "university.email": {
+   "label": "Email",
+   "type": "text",
+   "source": "code"
+  },
+  "university.name": {
+   "label": "University",
+   "type": "text",
+   "source": "code"
+  },
+  "university.office": {
+   "label": "Office",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "conditions.#": {
+   "source": "code",
+   "fields": {
+    "#": {
+     "label": "Condition",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}

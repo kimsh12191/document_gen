@@ -4,8 +4,15 @@ out/
 .pytest_cache/
 bench_out/
 preds/
-
-# mpx 실행 결과
-data/
-runs/
-reports/
+.venv
+studio/config.json
+studio_cache/
+studio_jobs/
+studio_workspace/
+studio_deps/
+train/configs/studio-*.json
+train/runs/
+train/data/
+# 내부망 반입 파일 (docker/build.sh)
+docgen-image-*.tar.gz
+docgen-code-*.tar.gz

@@ -1,0 +1,203 @@
+{
+ "engine": "html",
+ "unit": "px",
+ "fields": {
+  "appropriation_date_current": {
+   "label": "처분일",
+   "type": "text",
+   "source": "code"
+  },
+  "appropriation_date_prior": {
+   "label": "처분일",
+   "type": "text",
+   "source": "code"
+  },
+  "bs_current_date": {
+   "label": "당기말",
+   "type": "text",
+   "source": "code"
+  },
+  "bs_prior_date": {
+   "label": "전기말",
+   "type": "text",
+   "source": "code"
+  },
+  "ceo_name": {
+   "label": "대표이사",
+   "type": "text",
+   "source": "code"
+  },
+  "certify_date": {
+   "label": "확인일",
+   "type": "text",
+   "source": "code"
+  },
+  "company_name": {
+   "label": "회사명",
+   "type": "text",
+   "source": "code"
+  },
+  "current_term": {
+   "label": "당기",
+   "type": "text",
+   "source": "code"
+  },
+  "is_current_period": {
+   "label": "당기회계기간",
+   "type": "text",
+   "source": "code"
+  },
+  "is_prior_period": {
+   "label": "전기회계기간",
+   "type": "text",
+   "source": "code"
+  },
+  "prior_term": {
+   "label": "전기",
+   "type": "text",
+   "source": "code"
+  },
+  "seal.corp": {
+   "label": "법인인감",
+   "type": "seal",
+   "source": "code"
+  },
+  "total_liabilities_equity.current": {
+   "label": "부채와자본총계(당기)",
+   "type": "text",
+   "source": "code"
+  },
+  "total_liabilities_equity.prior": {
+   "label": "부채와자본총계(전기)",
+   "type": "text",
+   "source": "code"
+  },
+  "unit": {
+   "label": "단위",
+   "type": "text",
+   "source": "code"
+  }
+ },
+ "lists": {
+  "appropriation": {
+   "source": "code",
+   "fields": {
+    "account": {
+     "label": "과목",
+     "type": "text",
+     "source": "code"
+    },
+    "current": {
+     "label": "당기",
+     "type": "text",
+     "source": "code"
+    },
+    "prior": {
+     "label": "전기",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "assets": {
+   "source": "code",
+   "fields": {
+    "account": {
+     "label": "과목",
+     "type": "text",
+     "source": "code"
+    },
+    "current": {
+     "label": "당기",
+     "type": "text",
+     "source": "code"
+    },
+    "prior": {
+     "label": "전기",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "equity": {
+   "source": "code",
+   "fields": {
+    "account": {
+     "label": "과목",
+     "type": "text",
+     "source": "code"
+    },
+    "current": {
+     "label": "당기",
+     "type": "text",
+     "source": "code"
+    },
+    "prior": {
+     "label": "전기",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "income_statement": {
+   "source": "code",
+   "fields": {
+    "account": {
+     "label": "과목",
+     "type": "text",
+     "source": "code"
+    },
+    "current": {
+     "label": "당기",
+     "type": "text",
+     "source": "code"
+    },
+    "prior": {
+     "label": "전기",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "liabilities": {
+   "source": "code",
+   "fields": {
+    "account": {
+     "label": "과목",
+     "type": "text",
+     "source": "code"
+    },
+    "current": {
+     "label": "당기",
+     "type": "text",
+     "source": "code"
+    },
+    "prior": {
+     "label": "전기",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  },
+  "manufacturing_cost": {
+   "source": "code",
+   "fields": {
+    "account": {
+     "label": "과목",
+     "type": "text",
+     "source": "code"
+    },
+    "current": {
+     "label": "당기",
+     "type": "text",
+     "source": "code"
+    },
+    "prior": {
+     "label": "전기",
+     "type": "text",
+     "source": "code"
+    }
+   }
+  }
+ }
+}
