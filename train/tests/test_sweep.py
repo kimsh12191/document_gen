@@ -2,6 +2,7 @@
 import contextlib
 import io
 import json
+import sys
 import threading
 import time
 
@@ -120,6 +121,26 @@ def test_sweep_runs_in_order_survives_failure_resumes_and_compares(sweep_file, t
     with contextlib.redirect_stdout(io.StringIO()) as out:
         S.show_status(S.load(sweep_file))
     assert "E09-test: 실서류 OCR 을 더하면 오르나" in out.getvalue() and "기준 + 실서류 OCR" in out.getvalue()
+
+
+def test_sweep_compares_named_benchmarks_across_mixed_folders(sweep_file, tmp_path, monkeypatch):
+    """평가 세트가 여럿(id)이어도 비교표가 만들어진다: 모델마다 섞은 폴더가 달라 그림 경로(images_sha256)가 달라도
+    원본 그림이 같으면 세트별 표까지 비교한다 (예전: 'Reports use different inference images_sha256' 로 비교표 실패)."""
+    named = [{**it, "meta": {**it["meta"], "benchmark_id": "syn" if i % 2 else "real", "benchmark_name": "합성" if i % 2 else "실서류",
+                             "benchmark_group": "g"}} for i, it in enumerate(ITEMS)]
+    monkeypatch.setattr(sys.modules[__name__], "ITEMS", named)
+    runner, _ = fake_pipeline({"a1-syn": 4, "a2-real": 8, "a3-more": 10})
+    with contextlib.redirect_stdout(io.StringIO()):
+        S.run(sweep_file, runner=runner)
+    root = tmp_path / "runs" / "E09"
+    assert "비교표를 만들지 못함" not in (root / "compare_notes.txt").read_text(encoding="utf-8")
+    md = (root / "compare.md").read_text(encoding="utf-8")
+    assert all(f"| {m} |" in md for m in ("a1-syn", "a2-real", "a3-more"))
+    assert (root / "benchmarks" / "syn" / "compare.md").exists() and (root / "benchmarks" / "real" / "compare.md").exists()
+    (root / "compare.md").unlink()   # 학습 없이 비교표만 다시: S.compare(S.load(<묶음 파일>)) (guide/training.md)
+    with contextlib.redirect_stdout(io.StringIO()):
+        assert S.compare(S.load(sweep_file))["models"][-3:] == ["a1-syn", "a2-real", "a3-more"]
+    assert (root / "compare.md").exists() and (root / "summary.html").exists()
 
 
 def test_sweep_refuses_changed_settings_and_missing_about(sweep_file, tmp_path):

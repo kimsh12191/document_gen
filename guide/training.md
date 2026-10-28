@@ -187,6 +187,13 @@ python -m train sweep --config train/configs/E02.sweep.json --status   # 진행 
 
 읽는 법은 [results.md](results.md#어디서-보나)입니다.
 
+표에 끝난 모델이 빠져 있으면 `<root>/compare_notes.txt` 를 봅니다 (뺀 모델과 이유, 표를 만들지 못한 이유).
+학습을 돌리지 않고 비교표·한 화면·문항별 답만 다시 만들려면:
+
+```bash
+python -c "from train import sweep as S; print(S.compare(S.load('train/configs/<묶음>.sweep.json'))['models'])"
+```
+
 ### 그 밖에
 
 - 시작 전에 모든 모델의 설정을 한꺼번에 검사합니다. 틀린 것이 있으면 하나도 돌리지 않습니다.

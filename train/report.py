@@ -79,7 +79,7 @@ def _build_reports(reports, output, check_images=True):
         raise ValueError("Report labels must be unique")
     base = next((r for r in reports if r.get("role") == "start"), reports[0])
     if any("benchmarks" in r for r in reports):
-        return _build_suite(reports, base, Path(output))
+        return _build_suite(reports, base, Path(output), check_images)
     cols = [c for c in COLUMNS if any(c[0] in r["tasks"] for r in reports)]
 
     def value(r, task, metric):
@@ -225,8 +225,9 @@ def _build_reports(reports, output, check_images=True):
     return {"models": labels, "output": str(output)}
 
 
-def _build_suite(reports, base, output):
-    """각 id를 독립 채점한 보고서를 먼저 보여 준다. group끼리는 합산하지 않는다."""
+def _build_suite(reports, base, output, check_images=True):
+    """각 id를 독립 채점한 보고서를 먼저 보여 준다. group끼리는 합산하지 않는다.
+    check_images: _build_reports 와 같다 (평가 세트별 표에도 그대로 — sweep 은 모델마다 섞은 폴더가 달라 그림 경로가 다르다)."""
     if output.suffix.lower() != ".csv":
         raise ValueError("--out must end with .csv")
     definitions = base.get("benchmarks", {})
@@ -254,7 +255,7 @@ def _build_suite(reports, base, output):
                 child.pop("benchmarks", None)
                 scoped.append(child)
             child_output = output.parent / "benchmarks" / ident / output.name
-            _build_reports(scoped, child_output)
+            _build_reports(scoped, child_output, check_images)
             rel = child_output.relative_to(output.parent).with_suffix(".html").as_posix()
             markdown += [f"### {definition['name']} · {ident}", "", f"경로 {len(definition.get('paths', []))}개 · 평가 문항 {definition['n']}개 · [상세 보고서]({rel})", ""]
             head = ["과제", "지표", "문항 수"] + [t for label in labels for t in (label, label + " Δpp")]
