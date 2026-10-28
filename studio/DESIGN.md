@@ -822,7 +822,7 @@ OCR 데이터셋 (benchmark_tasks.jsonl, train_sft.jsonl …) → 등록부
 #### 9.3.1 서식·시나리오의 question / answer 계약과 실제 예시 (구현: 2026-10-20)
 
 화면의 **question은 실제 문항 레코드의 `prompt`**다. `answer`는 데이터 정답, `eval`은 채점에 필요한 타입·허용 오차·서류명 등이다.
-각 과제의 계약은 `docgen/bench/contracts.py`에서 표시하고, 질문 원본은 `docgen/bench/prompts.py`의 상수를 직접 참조한다.
+각 과제의 계약은 `docgen/bench/contracts.py`에서 표시하고, 질문 원본은 `docgen/bench/prompts.py`의 상수를 직접 참조한다. 서류 한 건 과제의 답 형식·예시·설명은 과제 파일(`docgen/bench/tasks/<과제>.py`)의 것을 그대로 가져온다.
 계약 표시와 예시 조회는 읽기 전용이며, 질문·답 형식이나 기존 문항을 수정하지 않는다.
 
 | 과제 | question에 들어가는 내용 | 저장되는 answer | 모델 출력 / eval |

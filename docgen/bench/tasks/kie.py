@@ -1,0 +1,42 @@
+"""kie — 정보 추출. 서류 한 건의 모든 쪽을 보고, 질문에 적은 항목마다 값과 위치를 답한다.
+
+질문: P_KIE + 항목 줄 '- 키: 항목명 (설명)' (prompts.kie_line). 항목은 체크·도장·서명과 묶음 칸을 뺀 칸 전부,
+      max_keys(기본 40)개를 넘으면 그만큼만 골라 문서 순서로
+정답: 항목마다 {"key": 키, "value": 서식을 그릴 때 넣은 값, "bbox_2d": 0~1000 좌표, "page": 쪽}.
+      빈 칸은 {"key": 키, "value": null} (위치 없음). 값·위치 모두 그릴 때 기록한 것 그대로 — 사람이 따로 단 정답이 아니다
+eval.fields: 키마다 타입(날짜·금액 등 표기를 맞춰 비교)·norm·값 종류
+채점: evaluate.s_kie, 주 지표 vl_f1 (값+위치), 값만은 f1
+"""
+from .. import prompts
+from . import ENTRY, MARK_TYPES, field_kind
+
+TASK = "kie"
+NAME = "정보 추출"
+PROMPT = prompts.P_KIE
+ANSWER = {"type": "array", "items": ENTRY}
+EXAMPLE = [{"key": "employee.name", "value": "홍길동", "bbox_2d": [100, 200, 300, 230], "page": 1}, {"key": "memo", "value": None}]
+NOTES = ("key는 질문의 키 그대로, value는 문서 표시값입니다. 좌표는 해당 쪽 기준 0~1000, page는 1부터입니다. "
+         "비어 있거나 없는 항목은 value:null이며 위치를 생략합니다.")
+
+
+def items(doc) -> list[dict]:
+    """물을 수 있는 칸: 체크·도장·서명, 묶음 칸을 뺀 전부."""
+    return [f for f in doc.fields if f["type"] not in MARK_TYPES and not f.get("group")
+            and not f["key"].startswith(("seal.", "sign."))]
+
+
+def answer(doc, f) -> dict:
+    return {"key": f["key"], "value": f["value"], **(doc.where(f, f.get("bbox")) if f["value"] is not None else {})}
+
+
+def make(doc):
+    all_kf = items(doc)   # 같은 항목명 칸의 순번은 뽑기 전 전체에서 센다
+    kf = doc.sample(all_kf, doc.max_keys)
+    if not kf:
+        return []
+    lines = "\n".join(prompts.kie_line(doc.r["doc_id"], f["key"], f.get("label"), f.get("doc_key"), siblings=all_kf)
+                      for f in kf)
+    return [{"id": f"kie/{doc.sid}", "task": TASK, "prompt": PROMPT.format(items=lines),
+             "answer": [answer(doc, f) for f in kf],
+             "eval": {"fields": {f["key"]: {"type": f["type"], "norm": f.get("norm"), "kind": field_kind(f)} for f in kf}},
+             **doc.base}]

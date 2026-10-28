@@ -29,17 +29,17 @@ import sys
 import time
 from pathlib import Path
 
-from .. import dictionary as DIC
 from ..entities import make_profile
 from ..registry import GROUPS, SCENARIO_EXTRA, SCENARIO_PROCESSING, SCENARIO_SAMPLING, SCENARIOS, load_all
 from ..render import render
 from ..schema import build_fields
 from . import perturb
 from . import processing as PROCESS
-from .metrics import norm_text, normalize_box
+from .metrics import norm_text
 from .cases import CASES, OTHER_OK, Ctx
-from .prompts import (P_CLASSIFY, P_CROSS, P_DOC_CHECK, P_KIE, P_MARKS, P_OCR_FIELD, P_OCR_PAGE, P_REVIEW,
-                      freetext_prompt, kie_line)
+from . import tasks as TASKS
+from .prompts import P_CROSS, P_DOC_CHECK, P_REVIEW
+from .tasks import MARK_TYPES, field_kind  # noqa: F401  (field_kind: 예전 import 자리 build.field_kind)
 from .rules import Bundle, questions, r_doc_valid, valid_candidates
 
 VERSION = "3.1"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
@@ -60,7 +60,6 @@ OTHER_OFFSET = 500_000
 
 # 촬영 조건 비율: 절반은 깨끗한 원본, 나머지는 스캔·촬영·팩스 증강 (docgen/augment.py)
 CONDITIONS = (("clean", 0.5), ("scan", 0.2), ("photo", 0.15), ("fax", 0.15))
-MARK_TYPES = ("checkbox", "checkbox_multi", "seal", "signature")
 # 업무 묶음 구성 규칙 (레시피의 bundle 로 바꾼다). 기본값 = 예전 상수
 BUNDLE_RULES = {
     "missing": [0.3, 0.5, 0.2],   # 빠진 서류 0 / 1 / 2건 비율
@@ -99,22 +98,6 @@ def pick_condition(key: str, conditions=None) -> str:
         if r < acc:
             return name
     return conds[0][0]
-
-
-def field_kind(f: dict) -> str:
-    """cross_check·ocr_field 분석용 값 종류."""
-    lab, t = f.get("label") or "", f.get("type")
-    if t in ("rrn", "biz_no", "corp_reg_no", "phone", "account_no", "date", "amount", "amount_korean"):
-        return {"amount_korean": "amount", "biz_no": "reg_no", "corp_reg_no": "reg_no"}.get(t, t)
-    if perturb.NAME_LABEL.search(lab):
-        return "name"
-    if "주소" in lab or "소재지" in lab:
-        return "address"
-    if "계좌" in lab:
-        return "account_no"
-    if t in ("number",):
-        return "number"
-    return "text"
 
 
 class Builder:
@@ -184,114 +167,13 @@ class Builder:
                 "html": html, "data": data, "writing": "hand" if hand else "print",
                 "bank": next((f["value"] for f in fields if f["key"] in ("bank", "bank.name")), None)}
 
-    def field_writing(self, r: dict, key: str) -> str:
-        if r["group"] == "hana" and key.startswith("handwritten"):
-            return "hand"
-        return r["writing"]
-
     # ------------------------------------------------------------------
     # 단일 서류 과제
     # ------------------------------------------------------------------
     def single(self, r: dict, stem: str, fields_per_doc: int, max_keys: int):
-        meta = {"doc_type": r["doc_id"], "doc_name": r["name"], "group": r["group"], "condition": r["condition"],
-                "writing": r["writing"], "n_pages": len(r["images"])}
-        base = {"images": r["images"], "meta": meta}
-        rng = random.Random(f"bench:single:{stem}")
-        sid = Path(stem).name
-        fields = DIC.apply(r["doc_id"], r["fields"])   # 공통 키로 정한 칸은 공통 키로 (3.0)
-        raw_key = dict(zip(range(len(r["raw_keys"])), r["raw_keys"]))
-
-        name, aliases = DIC.doc_name(r["doc_id"], r["name"])   # 정답 = 문서명, 서식 이름·다른 이름도 맞음
-        self.emit({"id": f"classify/{sid}", "task": "classify", "prompt": P_CLASSIFY, "answer": name,
-                   **({"eval": {"aliases": aliases}} if aliases else {}), **base})
-
-        visible = []
-        for i, f in enumerate(fields):
-            if (f.get("value") is None or f["type"] in MARK_TYPES or f.get("group")
-                    or raw_key.get(i) not in r["visible"]):
-                continue
-            visible.append(f)
-        lines: list[str] = []
-        for f in visible:
-            for ln in str(f["value"]).split("\n"):
-                if norm_text(ln) and ln.strip() not in lines:
-                    lines.append(ln.strip())
-        if lines:
-            self.emit({"id": f"ocr_page/{sid}", "task": "ocr_page", "prompt": P_OCR_PAGE, "answer": lines, **base})
-
-        # ocr_field: 값 칸 잘라내기
-        from PIL import Image
-
-        boxed = [f for f in visible if f.get("bbox") and f.get("page", 0) < len(r["images"])]
-        for j, f in enumerate(sorted(rng.sample(boxed, min(len(boxed), fields_per_doc)), key=boxed.index)):
-            img = Image.open(self.out / r["images"][f.get("page", 0)])
-            x0, y0, x1, y1 = f["bbox"]
-            pad = (y1 - y0) * 0.25 + 4
-            box = (max(0, int(x0 - pad)), max(0, int(y0 - pad)), min(img.width, int(x1 + pad)), min(img.height, int(y1 + pad)))
-            if box[2] - box[0] < 4 or box[3] - box[1] < 4:
-                continue
-            crop_path = f"crops/{sid}_{j}.png"
-            img.crop(box).convert("RGB").save(self.out / crop_path)
-            self.emit({"id": f"ocr_field/{sid}/{f['key']}", "task": "ocr_field", "images": [crop_path],
-                       "prompt": P_OCR_FIELD, "answer": str(f["value"]).replace("\n", " "),
-                       "meta": {**meta, "n_pages": 1, "key": f["key"], "label": f.get("label"), "kind": field_kind(f),
-                                "writing": self.field_writing(r, f["key"]), "corrected": bool(f.get("corrected_from")),
-                                "length": len(norm_text(f["value"]))}})
-
-        sizes = r["sizes"]
-
-        def where(f, box):   # 정답 위치: 그 쪽 이미지 기준 0~1000, 쪽은 1부터
-            pg = f.get("page", 0)
-            if not box or pg >= len(sizes):
-                return {}
-            return {"bbox_2d": normalize_box(box, *sizes[pg]), "page": pg + 1}
-
-        # kie: 항목 목록을 주고 값과 위치 추출
-        kf = [f for f in fields if f["type"] not in MARK_TYPES and not f.get("group")
-              and not f["key"].startswith(("seal.", "sign."))]
-        all_kf = kf   # 같은 항목명 칸의 순번은 뽑기 전 전체에서 센다
-        if len(kf) > max_keys:
-            kf = sorted(rng.sample(kf, max_keys), key=kf.index)
-        if kf:
-            items = "\n".join(kie_line(r["doc_id"], f["key"], f.get("label"), f.get("doc_key"), siblings=all_kf) for f in kf)
-            self.emit({"id": f"kie/{sid}", "task": "kie", "prompt": P_KIE.format(items=items),
-                       "answer": [{"key": f["key"], "value": f["value"], **(where(f, f.get("bbox")) if f["value"] is not None else {})}
-                                  for f in kf],
-                       "eval": {"fields": {f["key"]: {"type": f["type"], "norm": f.get("norm"), "kind": field_kind(f)}
-                                           for f in kf}}, **base})
-
-        # freetext: 기타·비고·사유 칸에 쓴 자유 기재 글 → DB 칸 (docgen/freetext.py 가 글과 정답을 같이 만든다)
-        written = (r.get("data") or {}).get("_freetext") or {}
-        for f in fields:
-            ft = written.get(f["value"]) if isinstance(f.get("value"), str) else None
-            if ft:
-                self.emit({"id": f"freetext/{sid}/{f['key']}", "task": "freetext",
-                           "prompt": freetext_prompt((f.get("label") or f["key"]).strip(), ft["basis"]),
-                           "answer": ft["answer"], **base,
-                           "meta": {**meta, "key": f["key"], "label": f.get("label"), "level": ft["level"]}})
-
-        # marks: 체크박스·도장·서명
-        mf = [f for f in fields if f["type"] in MARK_TYPES and not f["key"].startswith("seal.untagged")
-              and (f["type"] in ("seal", "signature") or f.get("options"))]
-        all_mf = mf
-        if len(mf) > max_keys:
-            mf = sorted(rng.sample(mf, max_keys), key=mf.index)
-        if mf:
-            lines, ans, types = [], [], {}
-            for f in mf:
-                line = lambda extra: kie_line(r["doc_id"], f["key"], f.get("label"), f.get("doc_key"), extra, all_mf)
-                if f["type"] in ("checkbox", "checkbox_multi"):
-                    kind = "체크박스" if f["type"] == "checkbox" else "복수 선택"
-                    lines.append(line(f"{kind}, 보기: {' / '.join(o['text'] for o in f['options'])}"))
-                    on = [o for o in f["options"] if o["checked"]]
-                    ans += [{"key": f["key"], "value": o["text"], **where(f, o.get("box_bbox"))} for o in on] or \
-                        [{"key": f["key"], "value": None}]
-                else:
-                    lines.append(line("도장" if f["type"] == "seal" else "서명"))
-                    ans.append({"key": f["key"], "value": bool(f["present"]), **(where(f, f.get("bbox")) if f["present"] else {})})
-                types[f["key"]] = f["type"]
-            self.emit({"id": f"marks/{sid}", "task": "marks", "prompt": P_MARKS.format(items="\n".join(lines)),
-                       "answer": ans, "eval": {"types": types}, **base})
+        """서류 한 건의 과제 문항: 과제 파일(docgen/bench/tasks/<과제>.py)을 차례로 부른다. 질문·정답 만드는 법은 그 파일에."""
+        for rec in TASKS.make_single(r, stem, self.out, fields_per_doc, max_keys):
+            self.emit(rec)
 
     # ------------------------------------------------------------------
     # 업무 묶음 과제
