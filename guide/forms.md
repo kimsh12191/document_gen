@@ -13,11 +13,11 @@ docgen/forms/<ID>/               ← 서식 하나 (그 서식만의 것 전부)
   look/template.html.j2            모양·칸 자리 {{ f("키", label="항목명") }}   (원본 서식: look/original.pdf + layout.json)
   fields.json                      칸 목록 — 칸 하나 = 한 줄: 키·항목명·값 출처·박스(원본 서식 rect)·질문 설정 q
   generate.py                      값 만들기 — 코드 서식: @doc 함수가 값 전부 / html 서식: adjust(d, p, rng) 로 칸끼리 관계
-  questions.json                   질문 껍데기 — 문장·답 꼴·전용 질문, 기본과 다르게 할 것만 (없으면 모두 기본)
+  questions.json                   질문 껍데기 — 문장·항목 줄 틀·답 틀·전용 질문, 기본과 다르게 할 것만 (없으면 모두 기본)
   form.json, variants/, source.png …
 
 docgen/forms/_common/            ← 모든 서식 (README.md)
-  questions.json                   기본 질문 문장·항목 줄 꼴·답 꼴
+  questions.json                   기본 질문 문장·항목 줄 틀·답 틀
   dictionary/                      키 사전 (공통 키, 괄호 설명, 문서명 = 분류 정답)
   templates/                       바탕 틀 (_base·_macros·_real_form·_official_*) + 그룹 부품
   key_rules.json, keys.json        항목명 → 키 규칙·값 종류, 키 목록
@@ -70,7 +70,7 @@ studio ⑥ 데이터셋 › 만들기는 레시피(`docgen/recipes/<이름>.json
 | 칸끼리 안 맞음 (합계·날짜 순서) | generate.py | generate.py 의 `adjust(d, p, rng)` | — | 재검수 |
 | 모양·표·문구 | 템플릿 (studio html 편집) | 같음 | 바꾸지 않음 | 재검수 |
 | 이 칸을 묻지 않기·질문의 항목명·설명 | `fields.json` 그 칸 `"q"` (줄이 없으면 맨 위 `"q"` 묶음) | 같음 | `fields.json` 그 칸 `"q"` | 검수 필요 없음 ([qa.md](qa.md)) |
-| 질문 문장·답 꼴·서식 전용 질문·분류 정답 | `questions.json` | 같음 | 같음 | 검수 필요 없음 |
+| 질문 문장·답 틀(칸 이름·위치 넣기)·서식 전용 질문·분류 정답 | `questions.json` | 같음 | 같음 | 검수 필요 없음 |
 | 답의 박스 | 템플릿 배치 | 같음 | `fields.json` 그 칸 `rect` | 재검수 |
 
 - **그림을 바꾸는 것**(템플릿·generate.py·fields.json 의 키·값·박스)을 고치면 그 서식이 "재검수 필요"로 바뀝니다. 질문 설정(`fields.json` 의 `q`)·`questions.json` 은 그림을 바꾸지 않아 검수 상태가 그대로입니다.

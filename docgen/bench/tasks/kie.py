@@ -5,8 +5,9 @@
       어떤 칸을 어떤 항목명·설명으로 묻나는 칸 목록 fields.json 의 그 칸 "q" (ask·label·note)
 정답: 항목마다 {"key": 키, "value": 서식을 그릴 때 넣은 값, "bbox_2d": 0~1000 좌표, "page": 쪽}.
       빈 칸은 {"key": 키, "value": null} (위치 없음). 값·위치 모두 그릴 때 기록한 것 그대로 — 사람이 따로 단 정답이 아니다
-      질문 전문(prompt)·항목 줄 꼴(line)·답 꼴(answer: list_box 위 꼴 / list 위치 없이 / object {키: 값})은
-      서식 폴더 questions.json 의 kie 에서 (없으면 공통). list·object 는 eval.answer 에 적혀 값 점수(f1)가 주 지표
+      질문 전문(prompt)·질문 항목 줄 틀(item)·답 항목 틀(answer, answer_empty)은 서식 폴더 questions.json 의 kie (없으면 공통
+      docgen/forms/_common/questions.json). 답 틀의 칸 이름이 기본과 다르면 eval.answer_fields 에 적어 채점이 거꾸로 읽는다.
+      답 틀에 위치(bbox_2d)가 없으면 값 점수(f1)가 주 지표
 eval.fields: 키마다 타입(날짜·금액 등 표기를 맞춰 비교)·norm·값 종류
 채점: evaluate.s_kie, 주 지표 vl_f1 (값+위치), 값만은 f1
 """
@@ -29,9 +30,10 @@ def items(fields: list[dict]) -> list[dict]:
             and not f["key"].startswith(("seal.", "sign."))]
 
 
-def answer(doc, f, shape: str = "list_box") -> dict:
-    where = doc.where(f, f.get("bbox")) if f["value"] is not None and shape == "list_box" else {}
-    return {"key": f["key"], "value": f["value"], **where}
+def answer(doc, f, tpl: dict, empty: dict) -> dict:
+    """칸 하나의 답 항목: 답 틀에 키·그린 값·위치를 채운다 (docgen/formquestions.fill_answer)."""
+    where = doc.where(f, f.get("bbox")) if f["value"] is not None else {}
+    return FQ.fill_answer(tpl, empty, f["key"], f["value"], where)
 
 
 def make(doc):
@@ -39,11 +41,12 @@ def make(doc):
     kf = doc.sample(all_kf, doc.max_keys)
     if not kf:
         return []
-    line, shape = FQ.shell(doc.q, TASK)   # 서식의 항목 줄 꼴·답 꼴 (없으면 공통)
+    item, tpl, empty = FQ.shell(doc.q, TASK)   # 질문 항목 줄 틀·답 항목 틀·빈 칸 틀 (서식 questions.json, 없으면 공통)
     lines = "\n".join(prompts.kie_line(doc.r["doc_id"], f["key"], f.get("label"), f.get("doc_key"), siblings=all_kf,
-                                        note=f.get("_note"), line=line) for f in kf)
-    ans = [answer(doc, f, shape) for f in kf]
+                                        note=f.get("_note"), line=item) for f in kf)
     ev = {"fields": {f["key"]: {"type": f["type"], "norm": f.get("norm"), "kind": field_kind(f)} for f in kf}}
+    names = FQ.answer_fields(tpl)
+    if names != {p: p for p in FQ.PLACES}:   # 답 틀의 칸 이름이 기본과 다르면 채점이 거꾸로 읽게 적어 둔다
+        ev["answer_fields"] = names
     return [{"id": f"kie/{doc.sid}", "task": TASK, "prompt": FQ.prompt(doc.q, TASK, lines),
-             "answer": {a["key"]: a["value"] for a in ans} if shape == "object" else ans,
-             "eval": ev if shape == "list_box" else {**ev, "answer": shape}, **doc.base}]
+             "answer": [answer(doc, f, tpl, empty) for f in kf], "eval": ev, **doc.base}]

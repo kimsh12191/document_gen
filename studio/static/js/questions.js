@@ -58,8 +58,8 @@ async function tabQuestions(d) {
   $("#tab").innerHTML = `<div class="sub">각 과제가 모델에 묻는 question은 실제 데이터의 <code>prompt</code>입니다.
       공통 형식과 선택한 고객의 문항을 함께 확인합니다.</div>
     <details class="qa-contract"><summary>이 서식의 질문·답 바꾼 것 <span class="mono">${esc(qf ? qf.path : "questions.json 없음 — 모두 기본")}</span></summary>
-      <div class="sub">질문 문장·답 꼴·항목 줄 꼴은 공통 <span class="mono">docgen/forms/_common/questions.json</span>, 항목명은 칸의 항목명이 기본입니다.
-        이 서식에서 다르게 할 것: 질문 문장 <code>prompt</code>·답 꼴 <code>answer</code>·서식 전용 질문 <code>extra</code>·분류 정답은 서식 폴더의 <span class="mono">questions.json</span>,
+      <div class="sub">질문 문장·질문 항목 줄 틀(item)·답 항목 틀(answer)은 공통 <span class="mono">docgen/forms/_common/questions.json</span>, 항목명은 칸의 항목명이 기본입니다.
+        이 서식에서 다르게 할 것: 질문 문장 <code>prompt</code>·답 항목 틀 <code>answer</code>(예: <code>{"key": "{key}", "value": "{value}"}</code>)·서식 전용 질문 <code>extra</code>·분류 정답은 서식 폴더의 <span class="mono">questions.json</span>,
         칸마다(묻지 않기 <code>ask: false</code>, 항목명 <code>label</code>, 설명 <code>note</code>, OCR 빼기 <code>ocr: false</code>)는 칸 목록 <span class="mono">fields.json</span> 그 칸의 <code>"q"</code>.
         합친 전체와 고칠 줄은 <a href="#/forms/${encodeURIComponent(d.id)}/card">카드</a> 탭. 고친 뒤 아래에서 문항을 다시 만들어 확인합니다.
         검사: <span class="mono">python -m docgen.formdir check ${esc(d.id)}</span> · 설명: <a href="#/guide/qa.md">질문·답 가이드</a></div>

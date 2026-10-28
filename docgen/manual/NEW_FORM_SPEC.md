@@ -383,6 +383,7 @@ B 꼴로 옮긴 뒤 `docgen.preview <ID>`, `docgen.regions check <ID>` 도 통�
 - `id`: 영문·숫자·`_.-`. `type`: `number`(칸 값을 숫자로) / `yesno`(`when` 칸에 값이 있으면 예) / `text`(`{키}` 를 채운 글).
 - `{키}`·`when` 은 칸 목록에 있는 키만. 답 꼴(숫자만, 예/아니오)을 질문 문장에 적습니다.
 - 정답 **값**은 적지 않습니다 — 문서를 그릴 때마다 그 칸 값으로 정해집니다.
+- 질문 문장·질문 항목 줄·답 항목 모양까지 바꿀 때는 `kie`·`marks` 에 `prompt`·`item`·`answer`(답 항목 하나의 틀, 예 `{"항목": "{key}", "값": "{value}"}`)·`answer_empty` 를 적습니다 ([guide/qa.md 3절](../../guide/qa.md#3-서식의-질문-껍데기-questionsjson)). 보통은 적지 않습니다.
 - 칸 하나를 묻지 않거나 질문에서 다른 항목명을 쓰려면 칸 목록(`form.json`/`fields.json`)의 그 칸에 `"q": {"ask": false}` / `"q": {"label": "…"}` 를 적습니다 ([guide/qa.md](../../guide/qa.md)).
 
 **등록한 뒤** 서식 카드를 만듭니다. 카드는 항목·위치·정한 곳·실제 질문→답을 적은 읽는 문서입니다 (자동 생성, 직접 고치지 않음):

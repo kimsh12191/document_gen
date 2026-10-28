@@ -277,9 +277,15 @@ def render_card(doc_id: str, builder) -> str:
         shown[t] = shown.get(t, 0) + 1
         if shown[t] > (2 if t in ("ocr_field", "form_qa", "freetext") else 1):
             continue
-        shape = view[t]["answer"] if t in ("kie", "marks") else None
-        L += [f"### {TASK_TITLE.get(t, t)} `{t}`" + (f" — 답 꼴 {shape}" if shape else "") + f" · 채점 {MAIN.get(t, '-')}", "",
-              "질문:", "", "```", rec["prompt"], "```", "", "답:", "", "```json", _answer_text(rec["answer"]), "```", ""]
+        L += [f"### {TASK_TITLE.get(t, t)} `{t}` · 채점 {MAIN.get(t, '-')}", ""]
+        if t in ("kie", "marks"):
+            v = view[t]
+            ch = lambda k: " ← 이 서식에서 바꿈" if k in v["changed"] else ""
+            L += [f"틀 (질문의 항목 한 줄 · 답 항목 하나 · 빈 칸일 때) — `questions.json` 의 `{t}`:", "", "```",
+                  f"item:         {v['item']}{ch('item')}",
+                  f"answer:       {json.dumps(v['answer'], ensure_ascii=False)}{ch('answer')}",
+                  f"answer_empty: {json.dumps(v['answer_empty'], ensure_ascii=False)}{ch('answer_empty')}", "```", ""]
+        L += ["질문:", "", "```", rec["prompt"], "```", "", "답:", "", "```json", _answer_text(rec["answer"]), "```", ""]
     if not q_exists:
         L += ["이 서식에만 있는 질문(form_qa)은 없습니다 — `questions.json` 의 `extra` 로 더합니다.", ""]
 
@@ -307,7 +313,8 @@ def render_card(doc_id: str, builder) -> str:
     L += ['| 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |',
           '| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |',
           '| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |',
-          '| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | 필요 없음 |',
+          '| 질문 문장 | `questions.json`: `{"kie": {"prompt": "…\\n{items}"}}` | 필요 없음 |',
+          '| 답 모양 | `questions.json`: `{"kie": {"answer": {"key": "{key}", "value": "{value}"}}}` (답 항목 하나의 틀. 위 예는 위치 없이 — 질문 문장도 같은 꼴로) | 필요 없음 |',
           '| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | 필요 없음 |',
           '| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |',
           "| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |", "",

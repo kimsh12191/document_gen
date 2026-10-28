@@ -7,11 +7,10 @@
 합친 전체는 서식 카드 FORM.md (docgen/formcard.py) 와 python -m docgen.formdir questions <ID> --show.
 
   {"kie":   {"prompt": "이 증명서에서 … \\n{items}",                 질문 전문. {items} 자리에 항목 줄들 (없으면 공통)
-             "line": "* {label} → {key}",                          항목 한 줄 꼴. {note} = " (괄호 설명)" 또는 빈칸 (없으면 공통)
-             "answer": "object",                                   답 꼴: list_box [{key, value, bbox_2d, page}] (값+위치 채점, 공통)
-                                                                          list [{key, value}] / object {키: 값} (값 채점)
-             "others": "skip"},                                    q 를 적은 칸만 묻기 (기본 ask: 모든 칸)
-   "marks": {"prompt", "line", "answer": "list_box"|"list", "others"},
+             "item": "- {key}: {label}{note}",                     질문의 항목 한 줄 틀. {note} = " (괄호 설명)" 또는 빈칸
+             "answer": {"key": "{key}", "value": "{value}"},       답 목록의 항목 하나 틀 (공통: + "bbox_2d": "{bbox_2d}", "page": "{page}")
+             "answer_empty": {"key": "{key}", "value": null}},     빈 칸(값 없음)일 때의 항목 틀
+   "marks": {"prompt", "item", "answer", "answer_empty"},          같은 꼴 (체크박스 value = 보기 글자, 도장·서명 = true/false)
    "ocr_field": {"prompt"?}, "ocr_page": {"prompt"?},
    "classify":  {"prompt"?, "answer": "…", "aliases": [...]},       분류 정답·다른 이름 (없으면 키 사전의 문서명)
    "extra": [{"id": "amount", "prompt": "대출 신청금액은 얼마입니까? 원 단위 숫자로만 답하세요.",
@@ -34,8 +33,10 @@ from pathlib import Path
 NAME = "questions.json"
 TOP = ("kie", "marks", "ocr_field", "ocr_page", "classify", "extra")
 EXTRA_TYPES = ("text", "number", "yesno")
-ANSWERS = {"kie": ("list_box", "list", "object"), "marks": ("list_box", "list")}   # 채점이 읽는 답 꼴
 WITH_ITEMS = ("kie", "marks")
+PLACES = ("key", "value", "bbox_2d", "page")   # 답 틀에 쓰는 자리 — "{key}" 처럼 값 칸 전체로
+TASK_KEYS = {"kie": ("prompt", "item", "answer", "answer_empty"), "marks": ("prompt", "item", "answer", "answer_empty"),
+             "ocr_field": ("prompt",), "ocr_page": ("prompt",), "classify": ("prompt", "answer", "aliases")}
 READ_ONLY = ("from", "kind", "options")   # 예전 꼴 파일의 읽기용 칸 (정리할 때 지움)
 PLACE = re.compile(r"\{([^{}]+)\}")
 _cache: dict = {}
@@ -76,7 +77,7 @@ def _match(key: str, keys) -> bool:
 # ---------------------------------------------------------------------------
 
 def defaults(task: str) -> dict:
-    """과제의 기본 {"prompt", "line"?, "answer"?}. prompt 는 사람이 읽는 글 (kie·marks 는 {items} 자리)."""
+    """과제의 기본 {"prompt", "item"?, "answer"?, "answer_empty"?}. prompt 는 사람이 읽는 글 (kie·marks 는 {items} 자리)."""
     from .bench.prompts import DEFAULTS
 
     return DEFAULTS[task]
@@ -101,16 +102,14 @@ def field_q(fq: dict | None, f: dict) -> dict | None:
 
 def pick(q: dict | None, task: str, fields: list[dict], fq: dict | None = None) -> list[dict]:
     """kie·marks: 물을 칸만 남기고 항목명·설명을 칸의 q 대로. 문서 순서 그대로.
-    fq: 칸마다 질문 설정 (fields.json 의 q). questions.json 의 others: skip 이면 q 를 적은 칸만 묻는다."""
-    skip_others = ((q or {}).get(task) or {}).get("others", "ask") == "skip"
-    if not fq and not skip_others:
+    fq: 칸마다 질문 설정 (fields.json 의 q)."""
+    if not fq:
         return fields
     out = []
     for f in fields:
         it = field_q(fq, f)
         if it is None:
-            if not skip_others:
-                out.append(f)
+            out.append(f)
             continue
         if it.get("ask") is False:
             continue
@@ -129,10 +128,35 @@ def prompt(q: dict | None, task: str, items: str | None = None) -> str:
     return text if items is None else text.replace("{items}", items)
 
 
-def shell(q: dict | None, task: str) -> tuple[str | None, str]:
-    """kie·marks 의 (항목 줄 꼴, 답 꼴). 없으면 (None = 공통 꼴, 공통 답 꼴)."""
-    spec = (q or {}).get(task) or {}
-    return spec.get("line"), spec.get("answer") or defaults(task).get("answer", "list_box")
+def shell(q: dict | None, task: str) -> tuple[str, dict, dict]:
+    """kie·marks 의 (질문 항목 줄 틀, 답 항목 틀, 빈 칸 답 항목 틀). 서식 파일에 없으면 공통."""
+    spec, base = (q or {}).get(task) or {}, defaults(task)
+    tpl = lambda k: spec[k] if isinstance(spec.get(k), dict) else base[k]  # 예전 꼴 "answer": "list_box" 는 기본 틀
+    return spec.get("item") or spec.get("line") or base["item"], tpl("answer"), tpl("answer_empty")
+
+
+def fill_answer(tpl: dict, empty: dict, key: str, value, where: dict) -> dict:
+    """답 항목 하나: 틀의 "{key}"·"{value}"·"{bbox_2d}"·"{page}" 자리를 채운다 (값은 그대로의 꼴: 글자·true/false·좌표 목록·쪽 번호).
+    값이 None 이면 빈 칸 틀. 위치가 없으면 위치 자리의 칸은 뺀다."""
+    vals = {"key": key, "value": value, **where}
+    out = {}
+    for name, v in (empty if value is None else tpl).items():
+        if isinstance(v, str) and v.startswith("{") and v.endswith("}") and v[1:-1] in PLACES:
+            if v[1:-1] in vals:
+                out[name] = vals[v[1:-1]]
+        else:
+            out[name] = v
+    return out
+
+
+def answer_fields(tpl: dict) -> dict:
+    """답 틀에서 자리마다 칸 이름: {"key": "key", "value": "value", "bbox_2d": …} (채점이 모델 답을 거꾸로 읽을 때)."""
+    return {v[1:-1]: name for name, v in tpl.items() if isinstance(v, str) and v[1:-1] in PLACES and v == "{" + v[1:-1] + "}"}
+
+
+def default_answer(task: str) -> bool:
+    """이 과제의 공통 답 틀이 예전 꼴 그대로인지 (그러면 문항에 틀 표시를 남기지 않는다)."""
+    return answer_fields(defaults(task)["answer"]) == {p: p for p in PLACES}
 
 
 def excluded(q: dict | None, task: str, fields: list[dict], fq: dict | None = None) -> list[dict]:
@@ -216,16 +240,14 @@ def resolved(doc_id: str, docs: list[list[dict]] | None = None, seeds: int = 8) 
     out = {}
     for task in WITH_ITEMS:
         base, mine = defaults(task), q.get(task) or {}
-        asked_default = mine.get("others", "ask") == "ask"
         items = []
         for r in field_rows(task, docs):
             it = fq.get(r.get("from") or r["key"], {})
-            items.append({**r, "ask": it.get("ask", asked_default or bool(it)),
+            items.append({**r, "ask": it.get("ask", True),
                           "q_label": it.get("label") or r["label"], "note": it.get("note"),
                           "changed": sorted(k for k in ("label", "note", "ask") if k in it)})
-        out[task] = {"prompt": mine.get("prompt") or base["prompt"], "line": mine.get("line") or base.get("line"),
-                     "answer": mine.get("answer") or base.get("answer", "list_box"), "others": mine.get("others", "ask"),
-                     "changed": sorted(k for k in ("prompt", "line", "answer", "others") if k in mine), "items": items}
+        out[task] = {**{k: mine.get(k) or base[k] for k in ("prompt", "item", "answer", "answer_empty")},
+                     "changed": sorted(k for k in ("prompt", "item", "answer", "answer_empty") if k in mine), "items": items}
     no_ocr = sorted(k for k, it in fq.items() if it.get("ocr") is False)
     for task in ("ocr_field", "ocr_page"):
         mine = q.get(task) or {}
@@ -247,10 +269,15 @@ def slim(doc_id: str, body: dict, docs: list[list[dict]] | None = None) -> dict:
     out = {}
     for task in WITH_ITEMS:
         spec, base = dict(body.get(task) or {}), defaults(task)
-        for k, d in (("prompt", base["prompt"]), ("line", base.get("line")), ("answer", base.get("answer", "list_box")),
-                     ("others", "ask")):
-            if spec.get(k) == d:
+        for k in ("prompt", "item", "answer", "answer_empty"):
+            if spec.get(k) == base[k]:
                 spec.pop(k)
+        if spec.get("line") == base["item"]:   # 예전 꼴 이름
+            spec.pop("line")
+        if spec.get("answer") == "list_box":
+            spec.pop("answer")
+        if spec.get("others") == "ask":
+            spec.pop("others")
         if spec.get("items"):
             docs = docs if docs is not None else seen_fields(doc_id)
             labels = {r["key"]: r["label"] for r in field_rows(task, docs)}
@@ -354,6 +381,14 @@ def check_body(body) -> list[str]:
     unknown = [k for k in body if k not in TOP]
     if unknown:
         bad.append(f"모르는 항목 {unknown} (쓸 수 있는 것: {list(TOP)})")
+    for task, keys in TASK_KEYS.items():
+        spec = body.get(task)
+        if isinstance(spec, dict):
+            odd = [k for k in spec if k not in keys and k not in ("items", "exclude")]
+            if odd:
+                hint = {"line": "item", "others": "칸마다 fields.json 의 q.ask"}
+                bad.append(f"{task}: 모르는 칸 {odd} (쓸 수 있는 것: {list(keys)}"
+                           + "".join(f"; {o} → {hint[o]}" for o in odd if o in hint) + ")")
     for task in WITH_ITEMS:
         spec = body.get(task)
         if spec is None:
@@ -361,14 +396,21 @@ def check_body(body) -> list[str]:
         if not isinstance(spec, dict) or not isinstance(spec.get("items", []), list):
             bad.append(f"{task}: {{\"prompt\"?, \"answer\"?, \"items\": [...]}} 꼴이어야 합니다")
             continue
-        if spec.get("others", "ask") not in ("ask", "skip"):
-            bad.append(f"{task}.others 는 ask 또는 skip")
         if "prompt" in spec and not (isinstance(spec["prompt"], str) and "{items}" in spec["prompt"]):
             bad.append(f"{task}.prompt 에 항목 줄이 들어갈 자리 {{items}} 가 있어야 합니다")
-        if "line" in spec and not (isinstance(spec["line"], str) and "{key}" in spec["line"]):
-            bad.append(f"{task}.line 에 {{key}} 가 있어야 합니다 (답의 key 와 맞춰 볼 키)")
-        if spec.get("answer", "list_box") not in ANSWERS[task]:
-            bad.append(f"{task}.answer 는 {' / '.join(ANSWERS[task])}")
+        if "item" in spec and not (isinstance(spec["item"], str) and "{key}" in spec["item"]):
+            bad.append(f"{task}.item 에 {{key}} 가 있어야 합니다 (답의 key 와 맞춰 볼 키)")
+        for k in ("answer", "answer_empty"):
+            if k not in spec:
+                continue
+            t = spec[k]
+            f = answer_fields(t) if isinstance(t, dict) else {}
+            used = [v for v in (t.values() if isinstance(t, dict) else []) if isinstance(v, str) and v.startswith("{") and v.endswith("}")]
+            if not isinstance(t, dict) or "key" not in f or (k == "answer" and "value" not in f):
+                bad.append(f'{task}.{k} 는 답 항목 하나의 JSON 틀이고 "{{key}}"' + (' 와 "{value}"' if k == "answer" else "")
+                           + ' 자리가 있어야 합니다 (예: {"key": "{key}", "value": "{value}"})')
+            elif len(used) != len(set(used)) or any(u[1:-1] not in PLACES for u in used):
+                bad.append(f"{task}.{k}: 자리는 {', '.join('{' + p + '}' for p in PLACES)} 를 한 번씩만")
         if spec.get("items"):
             bad.append(f"{task}.items: 칸마다 묻기·항목명·설명은 칸 목록 fields.json 의 그 칸에 \"q\" 로 적습니다 "
                        "(예: {\"q\": {\"ask\": false}}, {\"q\": {\"label\": \"발급 용도\"}})")
@@ -438,11 +480,12 @@ def check(doc_id: str, seeds: int = 8, docs: list[list[dict]] | None = None) -> 
         v = view[task]
         if "prompt" in v["changed"]:
             notes.append(f"{task}: 질문 문장이 공통 문장과 다릅니다 (학습한 문장과 달라 점수가 흔들릴 수 있음)")
-        boxed = v["answer"] == "list_box"
-        if boxed and "bbox_2d" not in v["prompt"]:
-            problems.append(f"{task}: 답 꼴이 list_box(위치 포함)인데 질문에 bbox_2d(위치) 요청이 없습니다")
-        elif not boxed and "bbox_2d" in v["prompt"]:
-            problems.append(f"{task}: 답 꼴이 {v['answer']}(위치 없음)인데 질문이 bbox_2d(위치)를 요청합니다")
+        names = answer_fields(v["answer"])   # 자리 → 답 틀의 칸 이름
+        miss = [n for n in names.values() if f'"{n}"' not in v["prompt"]]
+        if miss:
+            problems.append(f"{task}: 답 틀의 칸 {miss} 이(가) 질문 문장에 없습니다 — 질문에 답 꼴을 같은 이름으로 적어야 모델이 그 꼴로 답합니다")
+        if "bbox_2d" not in names and "bbox_2d" in v["prompt"]:
+            problems.append(f"{task}: 답 틀에 위치(bbox_2d)가 없는데 질문이 bbox_2d(위치)를 요청합니다")
         relabel = [it for it in v["items"] if "label" in it["changed"]]
         if relabel:
             notes.append(f"{task}: 칸의 항목명과 다르게 묻는 칸 {len(relabel)}개: "

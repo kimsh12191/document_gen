@@ -79,7 +79,7 @@ def test_only_changes_are_written_and_they_change_the_questions(form, tmp_path):
     before = _items(tmp_path)
     view = FQ.resolved(ID, seeds=2)
     assert [it["key"] for it in view["kie"]["items"]] == ["bank", "branch", "loan.amount", "memo", "rows.*.out"]
-    assert view["kie"]["prompt"] == FQ.common_prompt("kie") and view["kie"]["answer"] == "list_box"
+    assert view["kie"]["prompt"] == FQ.common_prompt("kie") and not view["kie"]["changed"]
     assert all(it["ask"] and not it["changed"] and it["q_label"] == it["label"] for it in view["kie"]["items"])
 
     from docgen.preview import source_hash
@@ -104,8 +104,9 @@ def test_only_changes_are_written_and_they_change_the_questions(form, tmp_path):
     body["q"] = {"bank": {"label": "은행명"}}   # 칸 줄이 없거나(부모 값·체크·도장) 줄 밖에 적고 싶을 때: 맨 위 q 묶음
     (form / "fields.json").write_text(json.dumps(body, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     assert source_hash(ID, common=False) == h
-    _write(form, {"kie": {"others": "skip"}})   # q 를 적은 칸만 묻는다
-    assert [a["key"] for a in _items(tmp_path)["kie"]["answer"]] == ["bank"]
+    _write(form, {"kie": {"others": "skip"}})   # 예전 꼴 "others" 는 읽지 않고 (check 가 알려 줌) 모든 칸을 묻는다
+    assert "- bank: 은행명" in _items(tmp_path)["kie"]["prompt"]
+    assert any("others" in w for w in FQ.check_dir(form))
     (form / "questions.json").unlink()
     _set_q(form, {})
     assert _items(tmp_path) == before
@@ -166,39 +167,37 @@ def test_checks_catch_bad_files_missing_keys_and_mismatches(form):
     assert any("묻지 않는 칸" in n and "memo" in n for n in r["notes"])
 
 
-def test_question_and_answer_shells_come_from_the_form_file(form, tmp_path):
-    body = {"kie": {"prompt": "이 증명서에서 아래 항목 값을 JSON 객체 {키: 값} 하나로 답하세요.\n{items}",
-                    "line": "* {label} → {key}", "answer": "object"},
-            "marks": {"answer": "list", "prompt": "체크 상태를 [{\"key\", \"value\"}] 목록으로.\n{items}"},
+def test_question_and_answer_templates_come_from_the_form_file(form, tmp_path):
+    view = FQ.resolved(ID, seeds=2)["kie"]
+    assert view["item"] == "- {key}: {label}{note}" and view["answer_empty"] == {"key": "{key}", "value": None}
+    assert view["answer"] == {"key": "{key}", "value": "{value}", "bbox_2d": "{bbox_2d}", "page": "{page}"}
+
+    body = {"kie": {"prompt": '이 증명서에서 아래 항목을 [{"항목": 키, "값": 적힌 값}] 목록으로 답하세요.\n{items}',
+                    "item": "* {label} → {key}", "answer": {"항목": "{key}", "값": "{value}"}, "answer_empty": {"항목": "{key}", "값": "없음"}},
             "classify": {"prompt": "서류 이름만 답하세요."}}
     _write(form, body)
     got = _items(tmp_path)
     kie = got["kie"]
     assert kie["prompt"].startswith("이 증명서에서") and "* 은행명 → bank" in kie["prompt"]
-    assert isinstance(kie["answer"], dict) and kie["answer"]["bank"] == "국민은행" and kie["eval"]["answer"] == "object"
+    assert kie["answer"][0] == {"항목": "bank", "값": "국민은행"}   # 틀 그대로, 위치 자리가 없으니 위치 없음
+    assert {"항목": "memo", "값": "없음"} in kie["answer"]          # 빈 칸 틀
+    assert kie["eval"]["answer_fields"] == {"key": "항목", "value": "값"}
     assert got["classify"]["prompt"] == "서류 이름만 답하세요."
     s = SCORERS["kie"](kie, oracle_output(kie))["metrics"]
-    assert main_metric("kie", s) == "f1" and s["f1"] == 1
+    assert "vl_f1" not in s and main_metric("kie", s) == "f1" and s["f1"] == 1   # 칸 이름을 거꾸로 읽고, 위치 점수는 뺌
+    wrong = json.dumps([{"항목": "bank", "값": "신한은행"}], ensure_ascii=False)
+    assert SCORERS["kie"](kie, wrong)["metrics"]["f1"] < 1
 
-    body["kie"]["answer"] = "list"
-    body["kie"]["prompt"] = "아래 항목 값을 [{\"key\", \"value\"}] 목록으로.\n{items}"
-    _write(form, body)
-    kie = _items(tmp_path)["kie"]
-    assert all(set(a) == {"key", "value"} for a in kie["answer"]) and kie["eval"]["answer"] == "list"
-    s = SCORERS["kie"](kie, oracle_output(kie))["metrics"]
-    assert "vl_f1" not in s and main_metric("kie", s) == "f1" and s["f1"] == 1   # 위치 점수가 0 으로 끌어내리지 않음
-
-    body["kie"]["answer"] = "list_box"   # 위치를 답하라는 말이 질문에 없음
-    _write(form, body)
     r = FQ.check(ID, seeds=2)
-    assert any("list_box" in p and "bbox_2d" in p for p in r["problems"])
-    assert any("kie: 질문 문장이 공통 문장과 다릅니다" in n for n in r["notes"])
+    assert not r["problems"] and any("kie: 질문 문장이 공통 문장과 다릅니다" in n for n in r["notes"])
+    body["kie"]["prompt"] = "아래 항목의 값을 목록으로 답하세요.\n{items}"   # 답 틀의 칸 이름을 질문에 안 적음
+    _write(form, body)
+    assert any("질문 문장에 없습니다" in p and "항목" in p for p in FQ.check(ID, seeds=2)["problems"])
 
-    body["kie"]["prompt"] = "항목 자리 없음"
-    body["kie"]["answer"] = "csv"
+    body["kie"] = {"prompt": "항목 자리 없음", "answer": {"value": "{value}"}, "line": "- {key}"}
     _write(form, body)
     why = FQ.check_dir(form)
-    assert any("{items}" in w for w in why) and any("kie.answer 는" in w for w in why)
+    assert any("{items}" in w for w in why) and any('"{key}"' in w for w in why) and any("line → item" in w for w in why)
 
 
 def test_editor_save_keeps_question_settings(form):
@@ -212,3 +211,16 @@ def test_editor_save_keeps_question_settings(form):
     body = json.loads((form / "fields.json").read_text(encoding="utf-8"))
     assert body["fields"]["memo"] == {**plain["fields"]["memo"], "q": {"ask": False}}
     assert body["lists"]["rows"]["fields"]["out"]["q"] == {"note": "출금액"}
+
+
+def test_marks_answer_with_renamed_fields_is_scored_like_the_default():
+    tpl, empty = {"항목": "{key}", "선택": "{value}", "bbox_2d": "{bbox_2d}", "page": "{page}"}, {"항목": "{key}", "선택": None}
+    ans = [FQ.fill_answer(tpl, empty, "consent", "동의", {"bbox_2d": [10, 10, 20, 20], "page": 1}),
+           FQ.fill_answer(tpl, empty, "seal", False, {}), FQ.fill_answer(tpl, empty, "agree2", None, {})]
+    assert ans == [{"항목": "consent", "선택": "동의", "bbox_2d": [10, 10, 20, 20], "page": 1}, {"항목": "seal", "선택": False},
+                   {"항목": "agree2", "선택": None}]
+    item = {"task": "marks", "answer": ans, "eval": {"types": {"consent": "checkbox", "seal": "seal", "agree2": "checkbox"},
+                                                     "answer_fields": FQ.answer_fields(tpl)}}
+    assert SCORERS["marks"](item, oracle_output(item))["metrics"]["acc"] == 1
+    wrong = json.dumps([{"항목": "consent", "선택": "부동의"}, {"항목": "seal", "선택": True}], ensure_ascii=False)
+    assert SCORERS["marks"](item, wrong)["metrics"]["acc"] < 1

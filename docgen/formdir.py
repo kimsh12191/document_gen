@@ -620,7 +620,9 @@ def show_questions(doc_id: str, seeds: int = 8) -> str:
     out = [f"# {doc_id} 질문·답 (기본 + {FQ.path(doc_id).name if FQ.path(doc_id).exists() else '바꾼 것 없음'})"]
     for task in ("kie", "marks"):
         t = v[task]
-        out += [f"\n## {task}", f"답 꼴: {t['answer']}{mark(task, 'answer')}", f"항목 줄 꼴: {t['line']}{mark(task, 'line')}",
+        out += [f"\n## {task}", f"질문 항목 줄 틀: {t['item']}{mark(task, 'item')}",
+                f"답 항목 틀: {json.dumps(t['answer'], ensure_ascii=False)}{mark(task, 'answer')}",
+                f"빈 칸 답 틀: {json.dumps(t['answer_empty'], ensure_ascii=False)}{mark(task, 'answer_empty')}",
                 f"질문{mark(task, 'prompt')}:", *("  " + x for x in t["prompt"].split("\n")), "칸:"]
         for it in t["items"]:
             ch = f"  ← 바꿈: {', '.join(it['changed'])}" if it["changed"] else ""
@@ -653,7 +655,7 @@ def main(argv=None) -> int:
     qs.add_argument("ids", nargs="*")
     qs.add_argument("--all", action="store_true", help="모든 서식")
     qs.add_argument("--show", action="store_true", help="합친 전체 (기본 + 이 서식에서 바꾼 것)")
-    qs.add_argument("--check", action="store_true", help="지금 칸과 맞는지 검사 (없는 키·답 꼴과 질문·기본과 같은 줄)")
+    qs.add_argument("--check", action="store_true", help="지금 칸과 맞는지 검사 (질문 설정 q·답 틀과 질문·기본과 같은 줄)")
     qs.add_argument("--slim", action="store_true", help="기본과 같은 것을 파일에서 지움 (예전 꼴의 전체 사본 정리)")
     qs.add_argument("--write", action="store_true", help="--slim 을 파일에 쓴다 (없으면 목록만)")
     qs.add_argument("--seeds", type=int, default=8, help="그려 볼 seed 수 (평가·학습 범위에서 각각)")

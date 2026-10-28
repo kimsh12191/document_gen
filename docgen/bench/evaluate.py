@@ -165,11 +165,30 @@ def _located(gts: list[dict], preds: list[dict], value_ok) -> dict:
 
 
 def _no_loc(item, loc: dict) -> dict:
-    """서식이 위치 없는 답 꼴(questions.json 의 answer: list)을 고른 문항은 위치 점수를 빼고 값 점수가 주 지표."""
-    return {} if (item.get("eval") or {}).get("answer") == "list" else loc
+    """서식의 답 틀(questions.json 의 answer)에 위치(bbox_2d)가 없는 문항은 위치 점수를 빼고 값 점수가 주 지표."""
+    names = (item.get("eval") or {}).get("answer_fields")
+    return {} if names and "bbox_2d" not in names else loc
+
+
+def _canonical(item, out):
+    """서식의 답 틀이 칸 이름을 바꿨으면 (eval.answer_fields: {"key": "항목", …}) 정답·모델 답을 기본 이름으로 읽는다."""
+    names = (item.get("eval") or {}).get("answer_fields")
+    if not names:
+        return item, out
+    inv = {name: place for place, name in names.items()}
+
+    def ren(e):
+        return {inv.get(k, k): v for k, v in e.items()} if isinstance(e, dict) else e
+    if isinstance(item.get("answer"), list):
+        item = {**item, "answer": [ren(e) for e in item["answer"]]}
+    pred = parse_json(out)
+    if isinstance(pred, list):
+        out = json.dumps([ren(e) for e in pred], ensure_ascii=False)
+    return item, out
 
 
 def s_kie(item, out):
+    item, out = _canonical(item, out)
     if isinstance(item["answer"], list):
         return _s_kie2(item, out)
     pred = parse_json(out)
@@ -247,6 +266,7 @@ def _bool(v):
 
 
 def s_marks(item, out):
+    item, out = _canonical(item, out)
     if isinstance(item["answer"], list):
         return _s_marks2(item, out)
     pred = parse_json(out)

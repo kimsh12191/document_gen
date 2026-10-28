@@ -282,7 +282,7 @@ docgen/
   cli.py                   list / generate / check
   bench/                   은행 업무 벤치마크: 평가 세트·학습 데이터 만들기(build), 모델 실행(run), 채점(eval) — guide/benchmark.md
   bench/tasks/<과제>.py    서류 한 건 과제: 과제 하나 = 파일 하나 (질문, 정답 만드는 make(doc), 답 형식). 견본 kie.py
-  formquestions.py         서식 폴더의 questions.json: 이 서식의 질문 문장·답 꼴·묻는 칸·항목명, 서식 전용 질문 (guide/qa.md)
+  formquestions.py         서식 폴더의 questions.json: 질문 문장·질문 항목 줄 틀·답 항목 틀, 서식 전용 질문 (guide/qa.md)
   docs/<그룹>.py           같은 그룹 코드 서식들이 같이 쓰는 도우미 + 끝의 FORMS 차례로 서식 폴더의 generate.py 를 등록
                            (docs/_common.py 모든 코드 서식의 도우미, docs/real_forms.py 원본 서식 전부를 등록)
   formcard.py              서식 카드 FORM.md·공통 값 출처 목록 values.md 만들기

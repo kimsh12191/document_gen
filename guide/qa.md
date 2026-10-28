@@ -13,13 +13,14 @@ kie(정보 추출), 원본 서식 한 건:
 항목 (키: 서식의 항목명 …)
 - customer.name: 예금주 성명 (고객 성명)                           ← ② fields.json 그 칸: 키 · q.label (없으면 칸 label) · q.note
 - account.number: 계좌번호                                          ← ② 다른 칸 (q.ask:false 면 이 줄이 없음)
+  줄 꼴 "- {key}: {label}{note}"                                     ← ⑤ questions.json  kie.item (질문 항목 줄 틀, 없으면 공통)
 
 답 ───────────────────────────────────────────────────────────────────
 [{"key": "customer.name",                                          ← ② fields.json 그 칸: key (원본 서식은 없으면 규칙이 항목명으로)
   "value": "남궁예태",                                              ← ③ fields.json 그 칸: source (코드 서식은 generate.py) — 그릴 때마다 채움
   "bbox_2d": [188, 314, 253, 326], "page": 1},                     ← ④ fields.json 그 칸: rect (html·코드 서식은 템플릿 배치)
  …]
- 꼴 [{key,value,bbox_2d,page}] / [{key,value}] / {키: 값}            ← ⑤ questions.json  kie.answer (없으면 공통 list_box)
+ 한 항목의 꼴 {"key": "{key}", "value": "{value}", "bbox_2d": …}      ← ⑤ questions.json  kie.answer (답 항목 틀, 없으면 공통)
 ```
 
 | 바꾸고 싶은 것 | 고칠 곳 | 재검수 |
@@ -31,12 +32,13 @@ kie(정보 추출), 원본 서식 한 건:
 | 답의 키 | ② 템플릿 `f("키")` (html·코드) / `fields.json` 그 칸 `"key"` (원본) | 다시 |
 | 답의 값 | ③ `fields.json` 그 칸 `"source"` / `generate.py` (코드 서식) | 다시 |
 | 답의 위치 | ④ `fields.json` 그 칸 `"rect"` (원본) / 템플릿 배치 (html·코드) | 다시 |
-| 답의 모양 | ⑤ `questions.json` → `kie.answer` | 필요 없음 |
+| 질문 항목 줄의 꼴 | ⑤ `questions.json` → `kie.item` | 필요 없음 |
+| 답의 모양 (칸 이름·위치 넣기) | ⑤ `questions.json` → `kie.answer`, 빈 칸은 `kie.answer_empty` | 필요 없음 |
 | 이 서식에만 있는 질문·답 | `questions.json` → `extra` | 필요 없음 |
 | 분류 정답 | `questions.json` → `classify` | 필요 없음 |
 
 - **정답 값은 파일에 적지 않습니다.** 문서를 그릴 때마다 고객이 바뀌므로, 파일에는 "어디서 채우나"(`source`)만 있습니다.
-- **기본:** 질문 문장·항목 줄 꼴·답 꼴은 공통 `docgen/forms/_common/questions.json`, 항목명은 칸의 항목명, 괄호 설명은 키 사전.
+- **기본:** 질문 문장·항목 줄 틀·답 틀은 공통 `docgen/forms/_common/questions.json`, 항목명은 칸의 항목명, 괄호 설명은 키 사전.
   서식에서는 **다르게 할 것만** 적습니다 (지금 545종 모두 바꾼 것이 없음).
 - 칸 하나에 관한 것(박스·키·값·질문 설정 `q`)은 모두 `fields.json` 의 **그 칸 한 줄**에 있습니다. 카드(`FORM.md`)의 "고칠 곳" 열이 그 줄 번호입니다.
 - **확인:** 카드의 "질문 → 답"(다시 만들기: `python -m docgen.formdir card <ID>`), studio 문항 Q/A 탭, `python -m docgen.formdir questions <ID> --show`.
@@ -68,15 +70,30 @@ kie(정보 추출), 원본 서식 한 건:
 
 ## 3. 서식의 질문 껍데기 `questions.json`
 
+질문 쪽 틀과 답 쪽 틀이 **둘 다 글자 그대로** 적혀 있습니다. 기본(공통 `docgen/forms/_common/questions.json`)의 kie:
+
+```json
+"kie": {
+  "prompt": "이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. …\n{items}",
+  "item":   "- {key}: {label}{note}",
+  "answer": {"key": "{key}", "value": "{value}", "bbox_2d": "{bbox_2d}", "page": "{page}"},
+  "answer_empty": {"key": "{key}", "value": null}
+}
+```
+
+- **질문** = `prompt` 의 `{items}` 자리에, 물을 칸마다 `item` 한 줄.
+- **답** = 물은 칸마다 `answer` 하나를 채운 목록. 값이 비었으면 `answer_empty`.
+
+서식에서 바꾼 예 (다르게 할 것만 적음):
+
 ```json
 {
  "kie": {
-   "prompt": "이 증명서에서 아래 항목 값을 JSON 객체 {키: 값} 하나로 답하세요.\n{items}",
-   "line": "* {label} → {key}",
-   "answer": "object",
-   "others": "skip"
+   "prompt": "이 증명서에서 아래 항목을 [{\"항목\": 키, \"값\": 적힌 값}] 목록으로 답하세요.\n{items}",
+   "item": "* {label} → {key}",
+   "answer": {"항목": "{key}", "값": "{value}"},
+   "answer_empty": {"항목": "{key}", "값": null}
  },
- "marks": {"answer": "list", "prompt": "…\n{items}"},
  "classify": {"answer": "재직증명서", "aliases": ["재직 증명서"]},
  "extra": [
    {"id": "amount", "prompt": "대출 신청금액은 얼마입니까? 원 단위 숫자로만 답하세요.", "type": "number", "answer": "{loan.amount}"},
@@ -86,23 +103,38 @@ kie(정보 추출), 원본 서식 한 건:
 }
 ```
 
+이 서식의 kie 한 건:
+
+```
+질문:  이 증명서에서 아래 항목을 [{"항목": 키, "값": 적힌 값}] 목록으로 답하세요.
+       * 성명 → customer.name
+       * 비고 → memo
+답:    [{"항목": "customer.name", "값": "남궁예태"}, {"항목": "memo", "값": null}]
+```
+
 | 칸 | 뜻 |
 |---|---|
 | `prompt` | 질문 전문 (과제마다: kie·marks·classify·ocr_field·ocr_page). kie·marks 는 `{items}` 자리에 항목 줄 (꼭 있어야 함). 줄바꿈은 `\n` |
-| `line` | (kie·marks) 항목 한 줄 꼴. `{key}`, `{label}`(없으면 `-`), `{note}`(` (설명)` 또는 빈칸) |
-| `answer` | 답 꼴 — 아래 표 |
-| `others: "skip"` | (kie·marks) `q` 를 적은 칸만 묻기. 기본은 모든 칸 |
+| `item` | (kie·marks) 질문 항목 한 줄의 틀. `{key}`, `{label}`(없으면 `-`), `{note}`(` (설명)` 또는 빈칸) |
+| `answer` | (kie·marks) 답 항목 하나의 틀 — 아래 |
+| `answer_empty` | (kie·marks) 값이 빈 칸의 답 항목 틀 (marks 는 체크된 보기가 없을 때) |
 | `classify` | 분류 정답 `answer`, 정답으로 인정할 다른 이름 `aliases` (없으면 키 사전의 문서명) |
 | `extra` | 서식 전용 질문 (아래) |
 
-| 과제 | `answer` | 정답 꼴 | 주 지표 |
-|---|---|---|---|
-| kie | `list_box` (기본) | `[{"key", "value", "bbox_2d", "page"}]`, 빈 칸 `{"key", "value": null}` | 값+위치 vl_f1 |
-| kie | `list` | `[{"key", "value"}]` | 값 f1 (위치 점수 뺌) |
-| kie | `object` | `{"키": 값, …}` | 값 f1 |
-| marks | `list_box` (기본) / `list` | 체크된 보기·도장 유무 (+ 위치) | vl_f1 / acc |
+**답 항목 틀 (`answer`·`answer_empty`)**
 
-답 꼴을 바꾸면 질문 문장도 그 꼴로 고칩니다 (`list`·`object` 면 위치 이야기를 빼고 꼴을 설명). `check` 가 안 맞으면 알려 줍니다.
+| 틀에 적는 것 | 채워지는 것 |
+|---|---|
+| `"{key}"` | 칸의 키 (꼭 있어야 함) |
+| `"{value}"` | 그린 값 (글자 그대로. marks 는 체크된 보기 글자, 도장·서명은 true/false). `answer` 에 꼭 있어야 함 |
+| `"{bbox_2d}"` | 위치 `[x1, y1, x2, y2]` (0~1000). 위치가 없는 칸은 이 칸이 빠짐 |
+| `"{page}"` | 쪽 번호 (1부터). 위치와 같이 빠짐 |
+| 그 밖의 값 | 그대로 (예: `"값": null`, `"확인": true`) |
+
+- 칸 **이름**(`"항목"`, `"값"` …)은 마음대로 정합니다. 채점은 틀을 거꾸로 읽어 맞춥니다 (문항의 `eval.answer_fields`).
+- 틀에 `"{bbox_2d}"` 가 없으면 위치 점수를 빼고 **값 점수(f1, marks 는 acc)가 주 지표**입니다.
+- 자리는 값 전체로만 씁니다 (`"{value}원"` 처럼 섞지 않음). 각 자리는 한 번만.
+- 답 틀을 바꾸면 **질문 문장도 그 꼴로** 고칩니다: 틀의 칸 이름을 질문에 적고, 위치를 빼면 위치 이야기도 뺍니다. `check` 가 안 맞으면 알려 줍니다.
 
 **`extra` (서식 전용 질문 → 과제 `form_qa`)**
 
@@ -122,10 +154,10 @@ kie(정보 추출), 원본 서식 한 건:
 
 | 바꾸고 싶은 것 | 고칠 곳 |
 |---|---|
-| 기본 질문 문장·항목 줄 꼴·답 꼴 | `docgen/forms/_common/questions.json` + [questions.md](questions.md) (테스트가 둘을 맞춰 봄). 평가 세트 `VERSION` 을 올림 |
+| 기본 질문 문장·항목 줄 틀·답 틀 | `docgen/forms/_common/questions.json` + [questions.md](questions.md) (테스트가 둘을 맞춰 봄). 평가 세트 `VERSION` 을 올림 |
 | 괄호 설명·공통 키·문서명 | 키 사전 `docgen/forms/_common/dictionary/` (studio 키 사전 화면) |
 | 원본 서식의 항목명 → 키·값 종류 규칙 | `docgen/forms/_common/key_rules.json` (studio 키 사전 화면) |
-| 그린 문서에서 정답을 꺼내는 법·새 답 꼴 (엔진) | `docgen/bench/tasks/<과제>.py` 의 `make(doc)` + 채점 `docgen/bench/evaluate.py` |
+| 그린 문서에서 정답을 꺼내는 법·새 과제 (엔진) | `docgen/bench/tasks/<과제>.py` 의 `make(doc)` + 채점 `docgen/bench/evaluate.py` |
 | 업무 묶음 과제 (구비·대조·심사) | `docgen/bench/build.py`·`cases.py`·`rules.py` ([benchmark.md](benchmark.md)) |
 
 ## 5. 명령
@@ -145,7 +177,9 @@ python -m docgen.formdir questions --all --slim [--write]      # questions.json 
 | 문제: source … | 값 출처가 틀림 ([값 출처 목록](../docgen/forms/_common/values.md)) |
 | 문제: 박스가 쪽 밖 | 원본 서식 칸의 `rect` |
 | 문제: extra 의 칸에 없는 키 | `{키}`·`when` 오타 |
-| 문제: 답 꼴과 질문이 안 맞음 | `list_box` 인데 질문에 위치(`bbox_2d`) 요청이 없음, 또는 반대 |
+| 문제: 답 틀의 칸 이름이 질문 문장에 없음 | 틀의 `"항목"` 같은 이름을 질문에 적지 않음, 또는 질문에 위치(`bbox_2d`) 요청이 있는데 틀에 위치 자리가 없음 |
+| 문제: 답 틀 형식 | `"{key}"`·`"{value}"` 가 없음, 같은 자리 두 번, 모르는 자리 |
+| 문제: 모르는 칸 `line`·`others` | 예전 이름: `line` → `item`, `others` → 칸마다 `fields.json` 의 `q.ask` |
 | 문제: questions.json 의 items·exclude | 칸 설정은 `fields.json` 의 `q` 로 옮겨 적음 |
 | 참고: 묻지 않는 칸·항목명을 바꾼 칸·문장이 공통과 다름 | 일부러 바꾼 것인지 확인 |
 | 참고: 카드가 오래됨 | `card <ID>` |

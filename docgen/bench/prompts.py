@@ -30,7 +30,7 @@ P_CROSS = _fmt(DEFAULTS["cross_check"]["prompt"], ("customer", "task", "n", "pag
 # freetext: 기타·비고·사유 칸의 자유 기재를 DB 칸으로. 보기 목록은 docgen/freetext.py (freetext_prompt 가 채운다)
 P_FREETEXT = _fmt(DEFAULTS["freetext"]["prompt"], ("label", "basis", "purposes", "reasons", "requests"))
 P_REVIEW = _fmt(DEFAULTS["review"]["prompt"], ("task", "pages", "question"))
-LINE = DEFAULTS["kie"]["line"]   # 항목 한 줄의 꼴 (서식의 questions.json 의 line 으로 바꿀 수 있다)
+LINE = DEFAULTS["kie"]["item"]   # 질문의 항목 한 줄 틀 (서식의 questions.json 의 item 으로 바꿀 수 있다)
 
 
 def freetext_prompt(label: str, basis: str) -> str:
