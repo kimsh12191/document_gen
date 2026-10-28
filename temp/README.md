@@ -5,10 +5,18 @@
 | 파일 | 하는 일 |
 |---|---|
 | `swift_to_kie_tmp.py` | swift 추출 `.jsonl`의 질문·답을 kie 꼴(한국어 질문, `{키: 값}` 객체 답)로 바꾼 새 `.jsonl`을 만듦. 키는 질문의 `in order: [...]`에서 자동으로 뽑음 |
+| `swift_to_kie_v2_tmp.py` | v2: 질문 문장만 고쳐 다시 씀 (그림·정답 그대로). 답 꼴 예시를 그 문항의 실제 키로(`{"HSCODE": "…", …}`, 예시 베끼기 방지), 키 옆에 한국어 항목명(`--labels` 표). 입력은 v1 변환본이나 swift 원본 |
 
 ```bash
 python temp/swift_to_kie_tmp.py <입력.jsonl> <출력.jsonl>
+
+# v2: 키 목록 → 항목명 표 채우기 → 변환
+python temp/swift_to_kie_v2_tmp.py keys <eval_qa_PO_kie.jsonl> <eval_qa_BL_kie.jsonl> > labels.json   # 값 칸에 한국어 항목명
+python temp/swift_to_kie_v2_tmp.py convert <eval_qa_PO_kie.jsonl> <eval_qa_PO_kie_v2.jsonl> --labels labels.json
 ```
+
+- v2 는 평가 세트를 새 `id` 로 넣습니다 (예: `real-fx-po-v2`). 질문이 바뀌면 v1 점수와 같은 시험이 아닙니다. 채점 함수는 v1 과 같은 `swift_kie_scorer.py`.
+- `--labels` 없이 돌리면 항목명은 `-` 그대로이고 답 꼴 예시만 바뀝니다.
 
 - 원본은 고치지 않습니다. 바꿀 수 없는 줄은 건너뛰고 수를 알려 줍니다.
 - 바꾼 파일을 평가 세트로 쓸 때는 `"format": "swift-fields"`에 채점 함수 [`train/scorers/swift_kie_scorer.py`](../train/scorers/swift_kie_scorer.py)를 붙입니다. 예시는 [`train/configs/pipeline.example.json`](../train/configs/pipeline.example.json)의 `real_po_kie`입니다.

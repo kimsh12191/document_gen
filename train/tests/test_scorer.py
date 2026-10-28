@@ -137,5 +137,16 @@ def test_swift_kie_scorer_reads_converted_file_and_jsonl_line(tmp_path):
         assert fn(it, '["NO.ILH1", null, "x2"]')["metrics"]["f1"] == 1.0   # 값만 순서대로
         assert fn(it, '{"NEGO No": "zz", "Amount": null, "NEGO No#2": "X2"}')["metrics"]["f1"] == 0.5
         assert fn(it, "모름")["parse_fail"]
+    # v2 (temp/swift_to_kie_v2_tmp.py): 질문만 바뀜 — 답 꼴 예시가 실제 키, 키 옆에 항목명. 정답·채점은 같다
+    v2 = runpy.run_path(str(Path(__file__).resolve().parents[2] / "temp" / "swift_to_kie_v2_tmp.py"))
+    (tmp_path / "labels.json").write_text(json.dumps({"NEGO No": "매입번호"}, ensure_ascii=False), encoding="utf-8")
+    v2["cmd_convert"](str(tmp_path / "out.jsonl"), str(tmp_path / "v2.jsonl"), str(tmp_path / "labels.json"))
+    line2 = json.loads((tmp_path / "v2.jsonl").read_text(encoding="utf-8"))
+    q = line2["messages"][0]["content"]
+    assert '답 꼴: {"NEGO No": "…", "Amount": "…", "NEGO No#2": "…"}' in q and "- NEGO No: 매입번호" in q and "- Amount: -" in q
+    assert '"키"' not in q and line2["messages"][1]["content"] == line["messages"][1]["content"] and line2["images"] == line["images"]
+    _, (item2,) = load_swift(tmp_path / "v2.jsonl")
+    assert fn(item2, '["NO.ILH1", null, "x2"]')["metrics"]["f1"] == 1.0
+    assert fn(item2, '{"NEGO No": "zz", "Amount": null, "NEGO No#2": "X2"}')["metrics"]["f1"] == 0.5
     with pytest.raises(ValueError, match="키: 값"):
         fn({"answer": "", "eval": {"prompt": ""}}, '{"a": 1}')
