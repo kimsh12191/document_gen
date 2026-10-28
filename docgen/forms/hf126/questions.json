@@ -1,36 +1,58 @@
 {
- "kie": {"others": "ask", "items": [
-   {"key": "일반개인정보", "label": "■일반개인정보"},
-   {"key": "금융사고조사분쟁해결민원처리", "label": "■금융사고조사,분쟁해결,민원처리"},
-   {"key": "성명", "label": "■성명"},
-   {"key": "개인식별정보외에고객이제공한정보", "label": "■개인식별정보외에고객이제공한정보"},
-   {"key": "국토교통부", "label": "국토교통부"},
-   {"key": "일반개인정보2", "label": "■일반개인정보"},
-   {"key": "customer.name", "label": "본인성명", "from": "signer.name"},
-   {"key": "date", "label": "작성일"},
-   {"key": "signer2.name", "label": "성명"},
-   {"key": "signer3.name", "label": "성명"},
-   {"key": "signer4.name", "label": "성명"},
-   {"key": "이용목적", "label": "이용목적"},
-   {"key": "성명2", "label": "■성명"},
-   {"key": "개인식별정보외에고객이제공한정보2", "label": "■개인식별정보외에고객이제공한정보"}
-  ]},
- "marks": {"others": "ask", "items": [
-   {"key": "check.위고유식별정보수집이용에동의하십니까", "label": "위고유식별정보수집·이용에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
-   {"key": "check.위개인신용정보수집이용에동의하십니까", "label": "위개인신용정보수집·이용에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
-   {"key": "check.위고유식별정보제공에동의하십니까", "label": "위고유식별정보제공에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
-   {"key": "check.위개인신용정보제공에동의하십니까", "label": "위개인신용정보제공에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
-   {"key": "seal.customer", "label": "본인성명", "from": "seal.signer", "kind": "도장"},
-   {"key": "sign.customer", "label": "본인성명", "from": "sign.signer", "kind": "서명"},
-   {"key": "seal.signer2", "label": "성명", "kind": "도장"},
-   {"key": "sign.signer2", "label": "성명", "kind": "서명"},
-   {"key": "seal.signer3", "label": "성명", "kind": "도장"},
-   {"key": "sign.signer3", "label": "성명", "kind": "서명"},
-   {"key": "seal.signer4", "label": "성명", "kind": "도장"},
-   {"key": "sign.signer4", "label": "성명", "kind": "서명"}
-  ]},
- "ocr_field": {"exclude": []},
- "ocr_page": {"exclude": []},
- "classify": {"answer": "[필수] 상품별 개인(신용)정보 수집·이용·제공 동의서[목돈안드는 행복전세,목돈 안다는 드림전세(집주인담보대출)용]", "aliases": []},
+ "kie": {
+   "prompt": "이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {\"key\": 키, \"value\": 문서에 적힌 값 그대로, \"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {\"key\": 키, \"value\": null} 로 답하세요.\n항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))\n{items}",
+   "line": "- {key}: {label}{note}",
+   "answer": "list_box",
+   "others": "ask",
+   "items": [
+     {"key": "일반개인정보", "label": "■일반개인정보"},
+     {"key": "금융사고조사분쟁해결민원처리", "label": "■금융사고조사,분쟁해결,민원처리"},
+     {"key": "성명", "label": "■성명"},
+     {"key": "개인식별정보외에고객이제공한정보", "label": "■개인식별정보외에고객이제공한정보"},
+     {"key": "국토교통부", "label": "국토교통부"},
+     {"key": "일반개인정보2", "label": "■일반개인정보"},
+     {"key": "customer.name", "label": "본인성명", "from": "signer.name"},
+     {"key": "date", "label": "작성일"},
+     {"key": "signer2.name", "label": "성명"},
+     {"key": "signer3.name", "label": "성명"},
+     {"key": "signer4.name", "label": "성명"},
+     {"key": "이용목적", "label": "이용목적"},
+     {"key": "성명2", "label": "■성명"},
+     {"key": "개인식별정보외에고객이제공한정보2", "label": "■개인식별정보외에고객이제공한정보"}
+   ]
+ },
+ "marks": {
+   "prompt": "이 문서의 체크박스·도장·서명 상태와 위치를 확인해 JSON 목록으로 답하세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.\n- 체크박스: 체크된 보기마다 {\"key\": 키, \"value\": 보기 글자, \"bbox_2d\": 체크된 □ 위치, \"page\": 쪽}. 체크된 것이 없으면 {\"key\": 키, \"value\": null}\n- 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)\n- 도장·서명: {\"key\": 키, \"value\": true 또는 false, \"bbox_2d\": 찍힌 자리, \"page\": 쪽} (비어 있으면 value 만 false)\n항목\n{items}",
+   "line": "- {key}: {label}{note}",
+   "answer": "list_box",
+   "others": "ask",
+   "items": [
+     {"key": "check.위고유식별정보수집이용에동의하십니까", "label": "위고유식별정보수집·이용에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
+     {"key": "check.위개인신용정보수집이용에동의하십니까", "label": "위개인신용정보수집·이용에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
+     {"key": "check.위고유식별정보제공에동의하십니까", "label": "위고유식별정보제공에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
+     {"key": "check.위개인신용정보제공에동의하십니까", "label": "위개인신용정보제공에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
+     {"key": "seal.customer", "label": "본인성명", "from": "seal.signer", "kind": "도장"},
+     {"key": "sign.customer", "label": "본인성명", "from": "sign.signer", "kind": "서명"},
+     {"key": "seal.signer2", "label": "성명", "kind": "도장"},
+     {"key": "sign.signer2", "label": "성명", "kind": "서명"},
+     {"key": "seal.signer3", "label": "성명", "kind": "도장"},
+     {"key": "sign.signer3", "label": "성명", "kind": "서명"},
+     {"key": "seal.signer4", "label": "성명", "kind": "도장"},
+     {"key": "sign.signer4", "label": "성명", "kind": "서명"}
+   ]
+ },
+ "ocr_field": {
+   "prompt": "이미지에 적힌 글자를 그대로 읽어 옮기세요. 설명 없이 읽은 글자만 출력하세요.",
+   "exclude": []
+ },
+ "ocr_page": {
+   "prompt": "이 문서 이미지에 보이는 모든 글자를 빠짐없이 읽어 텍스트로 옮기세요. 위에서 아래, 왼쪽에서 오른쪽 순서로 쓰고, 표는 한 행을 한 줄로 쓰세요. 설명 없이 읽은 글자만 출력하세요.",
+   "exclude": []
+ },
+ "classify": {
+   "prompt": "이 문서는 고객이 은행에 제출한 서류입니다. 서류의 정식 명칭(서류명)을 답하세요. 설명 없이 서류명만 한 줄로 답하세요.",
+   "answer": "[필수] 상품별 개인(신용)정보 수집·이용·제공 동의서[목돈안드는 행복전세,목돈 안다는 드림전세(집주인담보대출)용]",
+   "aliases": []
+ },
  "extra": []
 }

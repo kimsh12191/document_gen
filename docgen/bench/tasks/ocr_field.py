@@ -1,6 +1,6 @@
 """ocr_field — 값 칸 읽기. 값 칸 하나를 잘라낸 그림을 보고 적힌 글자를 옮긴다.
 
-질문: P_OCR_FIELD (고정 문장)
+질문: 서식 폴더 questions.json 의 ocr_field.prompt (없으면 공통 P_OCR_FIELD)
 정답: 그 칸에 넣은 값 (줄바꿈은 빈칸으로). 서류마다 위치가 있는 보이는 칸 중 fields_per_doc 개를 골라
       칸 둘레를 조금 넓혀 잘라 crops/<서류>_<n>.png 로 저장한다. 서식 폴더 questions.json 의 ocr_field.exclude 칸은 고르지 않는다
 채점: evaluate.s_ocr_field, 주 지표 exact
@@ -34,7 +34,7 @@ def make(doc):
         crop_path = f"crops/{doc.sid}_{j}.png"
         img.crop(box).convert("RGB").save(doc.out / crop_path)
         out.append({"id": f"ocr_field/{doc.sid}/{f['key']}", "task": TASK, "images": [crop_path],
-                    "prompt": PROMPT, "answer": str(f["value"]).replace("\n", " "),
+                    "prompt": FQ.prompt(doc.q, TASK), "answer": str(f["value"]).replace("\n", " "),
                     "meta": {**doc.meta, "n_pages": 1, "key": f["key"], "label": f.get("label"), "kind": field_kind(f),
                              "writing": doc.writing(f["key"]), "corrected": bool(f.get("corrected_from")),
                              "length": len(norm_text(f["value"]))}})

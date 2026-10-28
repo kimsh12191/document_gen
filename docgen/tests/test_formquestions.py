@@ -135,3 +135,46 @@ def test_checks_catch_bad_files_missing_keys_and_new_fields(form):
 
     merged, added = FQ.add_new(body, FQ.default(ID, seeds=2))
     assert added == ["kie:memo"] and merged["kie"]["items"][0]["label"] == "거래은행"   # 사람이 고친 줄은 그대로
+
+
+def test_question_and_answer_shells_come_from_the_form_file(form, tmp_path):
+    body = FQ.default(ID, seeds=2)
+    assert body["kie"]["prompt"] == FQ.common_prompt("kie") and "{items}" in body["kie"]["prompt"]
+    assert body["kie"]["answer"] == "list_box" and body["classify"]["prompt"] == FQ.common_prompt("classify")
+    body["kie"]["prompt"] = "이 증명서에서 아래 항목 값을 JSON 객체 {키: 값} 하나로 답하세요.\n{items}"
+    body["kie"]["line"] = "* {label} → {key}"
+    body["kie"]["answer"] = "object"
+    body["marks"]["answer"] = "list"
+    body["marks"]["prompt"] = "체크 상태를 [{\"key\", \"value\"}] 목록으로.\n{items}"
+    body["classify"]["prompt"] = "서류 이름만 답하세요."
+    _write(form, body)
+    got = _items(tmp_path)
+    kie = got["kie"]
+    assert kie["prompt"].startswith("이 증명서에서") and "* 은행명 → bank" in kie["prompt"]
+    assert isinstance(kie["answer"], dict) and kie["answer"]["bank"] == "국민은행" and kie["eval"]["answer"] == "object"
+    assert got["classify"]["prompt"] == "서류 이름만 답하세요."
+    s = SCORERS["kie"](kie, oracle_output(kie))["metrics"]
+    assert main_metric("kie", s) == "f1" and s["f1"] == 1
+
+    body["kie"]["answer"] = "list"
+    body["kie"]["prompt"] = "아래 항목 값을 [{\"key\", \"value\"}] 목록으로.\n{items}"
+    _write(form, body)
+    kie = _items(tmp_path)["kie"]
+    assert all(set(a) == {"key", "value"} for a in kie["answer"]) and kie["eval"]["answer"] == "list"
+    s = SCORERS["kie"](kie, oracle_output(kie))["metrics"]
+    assert "vl_f1" not in s and main_metric("kie", s) == "f1" and s["f1"] == 1   # 위치 점수가 0 으로 끌어내리지 않음
+
+    body["kie"]["answer"] = "list_box"   # 위치를 답하라는 말이 질문에 없음
+    _write(form, body)
+    r = FQ.check(ID, seeds=2)
+    assert any("list_box" in p and "bbox_2d" in p for p in r["problems"])
+    assert any("kie: 질문 문장이 공통 문장과 다릅니다" in n for n in r["notes"])
+    back, changed = FQ.add_new(body, FQ.default(ID, seeds=2), common_prompts=True)
+    assert back["kie"]["prompt"] == FQ.common_prompt("kie") and back["kie"]["line"] == "- {key}: {label}{note}"
+    assert back["kie"]["answer"] == "list_box" and "kie.prompt (공통 문장으로)" in changed
+
+    body["kie"]["prompt"] = "항목 자리 없음"
+    body["kie"]["answer"] = "csv"
+    _write(form, body)
+    why = FQ.check_dir(form)
+    assert any("{items}" in w for w in why) and any("kie.answer 는" in w for w in why)

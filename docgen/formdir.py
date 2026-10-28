@@ -25,7 +25,7 @@ hf### 레이아웃의 "file"(원본을 내려받은 자리)과 form.json 의 sou
 서식 폴더 바로 아래의 template.html.j2·page_<n>.png)는 새 위치에 없을 때만 읽는다. 옮기기:
   python -m docgen.formdir migrate [--apply]     (기본은 목록만. 글 파일은 복사하고 예전 것을 <이름>.migrated 로, 그림·PDF 는 옮긴다)
   python -m docgen.formdir path <ID>             이 서식의 파일들
-  python -m docgen.formdir questions <ID>…|--all [--write] [--check]   질문·답 questions.json (docgen/formquestions.py)
+  python -m docgen.formdir questions <ID>…|--all [--write] [--check] [--common-prompt]   질문·답 questions.json (docgen/formquestions.py)
 """
 from __future__ import annotations
 
@@ -514,8 +514,9 @@ def describe(doc_id: str) -> list[tuple[str, Path | None]]:
     return rows
 
 
-def questions(ids: list[str], write: bool = False, seeds: int = 8) -> list[dict]:
-    """서식의 questions.json 만들기: 없으면 지금 규칙 그대로 새로, 있으면 새로 생긴 칸만 더한다. [{id, status, added}]."""
+def questions(ids: list[str], write: bool = False, seeds: int = 8, common_prompts: bool = False) -> list[dict]:
+    """서식의 questions.json 만들기: 없으면 지금 규칙 그대로 새로, 있으면 새로 생긴 칸·빠진 칸만 더한다
+    (common_prompts: 질문 문장·항목 줄 꼴을 지금 공통 문장으로). [{id, status, added}]."""
     from . import formquestions as FQ
 
     rows = []
@@ -525,7 +526,7 @@ def questions(ids: list[str], write: bool = False, seeds: int = 8) -> list[dict]
         if old is None:
             body, added, status = fresh, [], "새로"
         else:
-            body, added = FQ.add_new(old, fresh)
+            body, added = FQ.add_new(old, fresh, common_prompts)
             status = "더함" if added else "그대로"
         if write and status != "그대로":
             FQ.write(doc_id, body)
@@ -548,6 +549,8 @@ def main(argv=None) -> int:
     qs.add_argument("--write", action="store_true", help="파일에 쓴다 (없으면 목록만)")
     qs.add_argument("--check", action="store_true", help="지금 칸과 맞는지 검사 (없는 키·새 칸·항목명 차이)")
     qs.add_argument("--seeds", type=int, default=8, help="그려 볼 seed 수 (평가·학습 범위에서 각각)")
+    qs.add_argument("--common-prompt", action="store_true",
+                    help="질문 문장(prompt)·항목 줄 꼴(line)을 지금 공통 문장(docgen/bench/prompts.py)으로 바꾼다")
     m = sub.add_parser("migrate", help="예전 자리의 서식 파일을 서식 폴더로 (사람 수정도 함께)")
     m.add_argument("--apply", action="store_true", help="실제로 옮긴다 (없으면 목록만)")
     a = ap.parse_args(argv)
@@ -580,7 +583,7 @@ def main(argv=None) -> int:
                     print(f"참고  {i}: {n}")
             print(f"서식 {len(ids)}개 검사, 문제 있는 서식 {bad}개")
             return 1 if bad else 0
-        rows = questions(ids, a.write, a.seeds)
+        rows = questions(ids, a.write, a.seeds, a.common_prompt)
         for r in rows:
             if r["status"] != "그대로" or len(ids) == 1:
                 print(f"{r['status']}  {r['id']}: kie {r['kie']}칸, marks {r['marks']}칸"

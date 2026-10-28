@@ -1,6 +1,6 @@
 """ocr_page — 전체 받아쓰기. 서류 한 건의 모든 쪽을 보고 보이는 글자를 전부 옮긴다.
 
-질문: P_OCR_PAGE (고정 문장)
+질문: 서식 폴더 questions.json 의 ocr_page.prompt (없으면 공통 P_OCR_PAGE)
 정답: 그림에 보이는 칸 값의 줄 목록 (doc.visible 의 값을 줄바꿈으로 나눠, 같은 줄은 한 번). 고정 인쇄 문구는 정답에 없다 —
       모델은 전체를 받아쓰고, 채점은 이 값 줄들을 얼마나 찾았는지 본다. 보이는 값이 하나도 없으면 문항을 만들지 않는다
       서식 폴더 questions.json 의 ocr_page.exclude 에 적은 칸은 정답에서 뺀다
@@ -28,4 +28,4 @@ def make(doc):
                 lines.append(ln.strip())
     if not lines:
         return []
-    return [{"id": f"ocr_page/{doc.sid}", "task": TASK, "prompt": PROMPT, "answer": lines, **doc.base}]
+    return [{"id": f"ocr_page/{doc.sid}", "task": TASK, "prompt": FQ.prompt(doc.q, TASK), "answer": lines, **doc.base}]

@@ -58,9 +58,10 @@ async function tabQuestions(d) {
   $("#tab").innerHTML = `<div class="sub">각 과제가 모델에 묻는 question은 실제 데이터의 <code>prompt</code>입니다.
       공통 형식과 선택한 고객의 문항을 함께 확인합니다.</div>
     <details class="qa-contract"${qf ? "" : " open"}><summary>이 서식의 질문·답 파일 <span class="mono">${esc(qf ? qf.path : "questions.json (없음)")}</span></summary>
-      <div class="sub">무엇을 어떤 항목명으로 묻는지(kie·marks 의 items: <code>ask: false</code> 면 묻지 않음, <code>label</code>·<code>note</code> 를 고치면 질문이 바뀜),
-        뺄 칸(ocr_field·ocr_page 의 exclude), 분류 정답(classify), 서식 전용 질문(extra → 과제 form_qa)을 이 파일에서 정합니다.
-        공통 지시문·답 구조·채점은 모든 서식이 같습니다. 고치는 것은 파일로 하고, 고친 뒤 아래에서 문항을 다시 만들어 확인합니다.
+      <div class="sub">이 서식의 질문 전문(<code>prompt</code>, kie·marks 는 <code>{items}</code> 자리에 항목 줄), 항목 한 줄 꼴(<code>line</code>),
+        답 꼴(<code>answer</code>: list_box · list · object), 묻는 칸(<code>items</code>: <code>ask: false</code> 면 묻지 않음, <code>label</code>·<code>note</code> 를 고치면 질문이 바뀜),
+        뺄 칸(<code>exclude</code>), 분류 정답(classify), 서식 전용 질문(extra → 과제 form_qa)을 이 파일에서 정합니다.
+        정답 값·위치는 그린 문서에서 옵니다. 고치는 것은 파일로 하고, 고친 뒤 아래에서 문항을 다시 만들어 확인합니다.
         검사: <span class="mono">python -m docgen.formdir questions ${esc(d.id)} --check</span> · 설명: <a href="#/guide/qa.md">질문·답 가이드</a></div>
       ${qf ? `<pre class="ans mono" style="max-height:420px;overflow:auto">${esc(qf.source)}</pre>`
         : `<p class="muted">파일이 없어 공통 규칙 그대로 묻습니다. 만들기: <span class="mono">python -m docgen.formdir questions ${esc(d.id)} --write</span></p>`}</details>

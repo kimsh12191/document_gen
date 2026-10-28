@@ -164,6 +164,11 @@ def _located(gts: list[dict], preds: list[dict], value_ok) -> dict:
             "loc_recall": len(pairs) / len(g) if g else None}
 
 
+def _no_loc(item, loc: dict) -> dict:
+    """서식이 위치 없는 답 꼴(questions.json 의 answer: list)을 고른 문항은 위치 점수를 빼고 값 점수가 주 지표."""
+    return {} if (item.get("eval") or {}).get("answer") == "list" else loc
+
+
 def s_kie(item, out):
     if isinstance(item["answer"], list):
         return _s_kie2(item, out)
@@ -230,7 +235,7 @@ def _s_kie2(item, out):
     loc = _located(gts, [e for e in pe if e["key"] in info],
                    lambda a, b: value_match(a.get("value"), b["value"], info[b["key"]]["type"], info[b["key"]].get("norm"), b["key"]))
     return {"metrics": {"field_acc": sum(correct_all) / len(correct_all), "f1": f1, "precision": prec, "recall_f": rec,
-                        "doc_exact": float(all(correct_all)), **loc}, "parse_fail": fail, "sub": sub}
+                        "doc_exact": float(all(correct_all)), **_no_loc(item, loc)}, "parse_fail": fail, "sub": sub}
 
 
 def _bool(v):
@@ -299,7 +304,7 @@ def _s_marks2(item, out):
             return _bool(a.get("value")) is True
         return value_match(a.get("value"), b["value"])
     loc = _located(item["answer"], [e for e in pe if e["key"] in types], value_ok)
-    return {"metrics": {"acc": sum(oks) / len(oks), **loc}, "parse_fail": fail, "sub": sub}
+    return {"metrics": {"acc": sum(oks) / len(oks), **_no_loc(item, loc)}, "parse_fail": fail, "sub": sub}
 
 
 DOC_CHECK_KEYS = ("missing", "not_required", "not_customer")

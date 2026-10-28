@@ -5,6 +5,8 @@
       어떤 칸을 어떤 항목명·설명으로 묻나는 서식 폴더 questions.json 의 kie.items (docgen/formquestions.py)
 정답: 항목마다 {"key": 키, "value": 서식을 그릴 때 넣은 값, "bbox_2d": 0~1000 좌표, "page": 쪽}.
       빈 칸은 {"key": 키, "value": null} (위치 없음). 값·위치 모두 그릴 때 기록한 것 그대로 — 사람이 따로 단 정답이 아니다
+      질문 전문(prompt)·항목 줄 꼴(line)·답 꼴(answer: list_box 위 꼴 / list 위치 없이 / object {키: 값})은
+      서식 폴더 questions.json 의 kie 에서 (없으면 공통). list·object 는 eval.answer 에 적혀 값 점수(f1)가 주 지표
 eval.fields: 키마다 타입(날짜·금액 등 표기를 맞춰 비교)·norm·값 종류
 채점: evaluate.s_kie, 주 지표 vl_f1 (값+위치), 값만은 f1
 """
@@ -27,8 +29,9 @@ def items(fields: list[dict]) -> list[dict]:
             and not f["key"].startswith(("seal.", "sign."))]
 
 
-def answer(doc, f) -> dict:
-    return {"key": f["key"], "value": f["value"], **(doc.where(f, f.get("bbox")) if f["value"] is not None else {})}
+def answer(doc, f, shape: str = "list_box") -> dict:
+    where = doc.where(f, f.get("bbox")) if f["value"] is not None and shape == "list_box" else {}
+    return {"key": f["key"], "value": f["value"], **where}
 
 
 def make(doc):
@@ -36,9 +39,11 @@ def make(doc):
     kf = doc.sample(all_kf, doc.max_keys)
     if not kf:
         return []
+    line, shape = FQ.shell(doc.q, TASK)   # 서식의 항목 줄 꼴·답 꼴 (없으면 공통)
     lines = "\n".join(prompts.kie_line(doc.r["doc_id"], f["key"], f.get("label"), f.get("doc_key"), siblings=all_kf,
-                                        note=f.get("_note")) for f in kf)
-    return [{"id": f"kie/{doc.sid}", "task": TASK, "prompt": PROMPT.format(items=lines),
-             "answer": [answer(doc, f) for f in kf],
-             "eval": {"fields": {f["key"]: {"type": f["type"], "norm": f.get("norm"), "kind": field_kind(f)} for f in kf}},
-             **doc.base}]
+                                        note=f.get("_note"), line=line) for f in kf)
+    ans = [answer(doc, f, shape) for f in kf]
+    ev = {"fields": {f["key"]: {"type": f["type"], "norm": f.get("norm"), "kind": field_kind(f)} for f in kf}}
+    return [{"id": f"kie/{doc.sid}", "task": TASK, "prompt": FQ.prompt(doc.q, TASK, lines),
+             "answer": {a["key"]: a["value"] for a in ans} if shape == "object" else ans,
+             "eval": ev if shape == "list_box" else {**ev, "answer": shape}, **doc.base}]

@@ -56,13 +56,12 @@ def freetext_prompt(label: str, basis: str) -> str:
 
 
 def kie_line(form_id: str | None, key: str, label: str | None, doc_key: str | None = None, extra: str = "",
-             siblings: list[dict] | None = None, note: str | None = None) -> str:
+             siblings: list[dict] | None = None, note: str | None = None, line: str | None = None) -> str:
     """kie·marks 항목 한 줄: '- 키: 항목명 (설명)'. 설명은 키 사전의 누구의 무엇과 표의 행 (docgen.dictionary.describe).
     extra 는 marks 의 종류·보기처럼 괄호에 같이 넣을 것. siblings(그 문서의 같은 과제 칸, 문서 순서)에 항목명이 같은 칸이
     또 있으면 몇 번째 칸인지 붙인다 (작성일·작성일2 처럼 행 번호가 없는 반복 칸)."""
     if note is not None:   # 서식의 questions.json 에 적은 설명 그대로 (docgen/formquestions.py)
-        note = ", ".join(x for x in [note, extra] if x)
-        return f"- {key}: {label or '-'}" + (f" ({note})" if note else "")
+        return item_line(key, label, ", ".join(x for x in [note, extra] if x), line)
     from .. import dictionary as DIC
 
     desc = DIC.describe(form_id, key, label, doc_key)
@@ -70,8 +69,21 @@ def kie_line(form_id: str | None, key: str, label: str | None, doc_key: str | No
     me = key if key in same else doc_key   # 공통 키로 묻는 칸은 서식의 키로 찾는다
     if label and len(same) > 1 and me in same and not any(p.isdigit() for p in key.split(".")):
         desc = ", ".join(x for x in [desc, f"같은 항목명 중 {same.index(me) + 1}번째 칸"] if x)
-    note = ", ".join(x for x in [desc, extra] if x)
-    return f"- {key}: {label or '-'}" + (f" ({note})" if note else "")
+    return item_line(key, label, ", ".join(x for x in [desc, extra] if x), line)
+
+
+LINE = "- {key}: {label}{note}"   # 항목 한 줄의 꼴 (서식의 questions.json 의 line 으로 바꿀 수 있다)
+
+
+def item_line(key: str, label: str | None, note: str, line: str | None = None) -> str:
+    """{key}·{label}(없으면 -)·{note}(괄호 설명, 없으면 빈칸)를 채운다. 글자 그대로 바꿔 넣는다 (항목명에 중괄호가 있어도 됨)."""
+    return ((line or LINE).replace("{key}", key).replace("{label}", label or "-")
+            .replace("{note}", f" ({note})" if note else ""))
+
+
+def text_of(template: str) -> str:
+    """format 용 틀(P_KIE 의 {{ }})을 사람이 읽고 고치는 글로: {{ → {, }} → }. {items} 같은 자리는 그대로."""
+    return template.replace("{{", "{").replace("}}", "}")
 
 
 P_REVIEW ="고객이 '{task}' 업무를 위해 제출한 서류입니다 (이미지 {pages}장).\n{question}"

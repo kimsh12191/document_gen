@@ -1,31 +1,53 @@
 {
- "kie": {"others": "ask", "items": [
-   {"key": "customer.name", "label": "성명"},
-   {"key": "customer.birth", "label": "생년월일"},
-   {"key": "customer.phone", "label": "연락처"},
-   {"key": "이용기관", "label": "이용기관"},
-   {"key": "제공유형", "label": "제공유형"},
-   {"key": "customer.name2", "label": "성명"},
-   {"key": "customer.birth2", "label": "생년월일"},
-   {"key": "customer.phone2", "label": "연락처"},
-   {"key": "하나은행", "label": "(주)하나은행"},
-   {"key": "수신", "label": "수신"},
-   {"key": "일회성제공", "label": "일회성제공"},
-   {"key": "date", "label": "작성일"},
-   {"key": "signer.name", "label": "본인성명"},
-   {"key": "금융수신", "label": "¶금융수신"},
-   {"key": "금융거래의설정유지이행관리", "label": "-금융거래의설정·유지·이행·관리"},
-   {"key": "본인정보에관한사항", "label": "[별지]본인정보에관한사항(상세항목)"}
-  ]},
- "marks": {"others": "ask", "items": [
-   {"key": "check.보기1", "label": "보기1", "kind": "체크박스", "options": ["보기1"]},
-   {"key": "check.제공요구하지않습니다", "label": "제공요구하지않습니다(아니오)", "kind": "체크박스", "options": ["제공 요구하지 않습니다 (아니오)"]},
-   {"key": "check.에는해당되는곳에표를합", "label": "에는해당되는곳에√표를합니다.", "kind": "체크박스", "options": ["에는 해당되는 곳에 √ 표를 합니다."]},
-   {"key": "seal.customer", "label": "본인성명", "from": "seal.signer", "kind": "도장"},
-   {"key": "sign.customer", "label": "본인성명", "from": "sign.signer", "kind": "서명"}
-  ]},
- "ocr_field": {"exclude": []},
- "ocr_page": {"exclude": []},
- "classify": {"answer": "[필수]본인 행정정보 제공 요구서(공공마이데이터 수신 묶음정보用 - 사업자등록증명 조회)", "aliases": []},
+ "kie": {
+   "prompt": "이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {\"key\": 키, \"value\": 문서에 적힌 값 그대로, \"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {\"key\": 키, \"value\": null} 로 답하세요.\n항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))\n{items}",
+   "line": "- {key}: {label}{note}",
+   "answer": "list_box",
+   "others": "ask",
+   "items": [
+     {"key": "customer.name", "label": "성명"},
+     {"key": "customer.birth", "label": "생년월일"},
+     {"key": "customer.phone", "label": "연락처"},
+     {"key": "이용기관", "label": "이용기관"},
+     {"key": "제공유형", "label": "제공유형"},
+     {"key": "customer.name2", "label": "성명"},
+     {"key": "customer.birth2", "label": "생년월일"},
+     {"key": "customer.phone2", "label": "연락처"},
+     {"key": "하나은행", "label": "(주)하나은행"},
+     {"key": "수신", "label": "수신"},
+     {"key": "일회성제공", "label": "일회성제공"},
+     {"key": "date", "label": "작성일"},
+     {"key": "signer.name", "label": "본인성명"},
+     {"key": "금융수신", "label": "¶금융수신"},
+     {"key": "금융거래의설정유지이행관리", "label": "-금융거래의설정·유지·이행·관리"},
+     {"key": "본인정보에관한사항", "label": "[별지]본인정보에관한사항(상세항목)"}
+   ]
+ },
+ "marks": {
+   "prompt": "이 문서의 체크박스·도장·서명 상태와 위치를 확인해 JSON 목록으로 답하세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.\n- 체크박스: 체크된 보기마다 {\"key\": 키, \"value\": 보기 글자, \"bbox_2d\": 체크된 □ 위치, \"page\": 쪽}. 체크된 것이 없으면 {\"key\": 키, \"value\": null}\n- 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)\n- 도장·서명: {\"key\": 키, \"value\": true 또는 false, \"bbox_2d\": 찍힌 자리, \"page\": 쪽} (비어 있으면 value 만 false)\n항목\n{items}",
+   "line": "- {key}: {label}{note}",
+   "answer": "list_box",
+   "others": "ask",
+   "items": [
+     {"key": "check.보기1", "label": "보기1", "kind": "체크박스", "options": ["보기1"]},
+     {"key": "check.제공요구하지않습니다", "label": "제공요구하지않습니다(아니오)", "kind": "체크박스", "options": ["제공 요구하지 않습니다 (아니오)"]},
+     {"key": "check.에는해당되는곳에표를합", "label": "에는해당되는곳에√표를합니다.", "kind": "체크박스", "options": ["에는 해당되는 곳에 √ 표를 합니다."]},
+     {"key": "seal.customer", "label": "본인성명", "from": "seal.signer", "kind": "도장"},
+     {"key": "sign.customer", "label": "본인성명", "from": "sign.signer", "kind": "서명"}
+   ]
+ },
+ "ocr_field": {
+   "prompt": "이미지에 적힌 글자를 그대로 읽어 옮기세요. 설명 없이 읽은 글자만 출력하세요.",
+   "exclude": []
+ },
+ "ocr_page": {
+   "prompt": "이 문서 이미지에 보이는 모든 글자를 빠짐없이 읽어 텍스트로 옮기세요. 위에서 아래, 왼쪽에서 오른쪽 순서로 쓰고, 표는 한 행을 한 줄로 쓰세요. 설명 없이 읽은 글자만 출력하세요.",
+   "exclude": []
+ },
+ "classify": {
+   "prompt": "이 문서는 고객이 은행에 제출한 서류입니다. 서류의 정식 명칭(서류명)을 답하세요. 설명 없이 서류명만 한 줄로 답하세요.",
+   "answer": "[필수]본인 행정정보 제공 요구서(공공마이데이터 수신 묶음정보用 - 사업자등록증명 조회)",
+   "aliases": []
+ },
  "extra": []
 }
