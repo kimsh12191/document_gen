@@ -1,0 +1,24 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "corp.name", "label": "업체명", "from": "company.name"},
+   {"key": "customer.zipcode", "label": "우편번호"},
+   {"key": "employer.department", "label": "부서"},
+   {"key": "TEL", "label": "TEL"},
+   {"key": "corp.biz_no", "label": "사업자번호", "from": "company.biz_no"},
+   {"key": "customer.name", "label": "성명"},
+   {"key": "FAX", "label": "FAX"},
+   {"key": "account", "label": "계좌번호"},
+   {"key": "customer.name2", "label": "예금주"},
+   {"key": "비고", "label": "비고"},
+   {"key": "date", "label": "작성일"},
+   {"key": "signer.name", "label": "(신청인)신청기관명"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.corp", "label": "(신청인)신청기관명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "(신청인)신청기관명", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "하도급협력대금통장(상생결제 노무비) 지급이체서비스 이용신청서", "aliases": []},
+ "extra": []
+}

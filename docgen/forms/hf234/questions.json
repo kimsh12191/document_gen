@@ -1,0 +1,35 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "송금일자", "label": "송금일자"},
+   {"key": "송금번호", "label": "송금번호(수표번호)"},
+   {"key": "수취인", "label": "수취인"},
+   {"key": "value", "label": "[전신송금내용변경기재란]"},
+   {"key": "거래은행", "label": "거래은행"},
+   {"key": "foreign.account", "label": "계좌번호"},
+   {"key": "foreign.name", "label": "성명"},
+   {"key": "foreign.address", "label": "주소"},
+   {"key": "foreign.phone", "label": "전화번호"},
+   {"key": "기타", "label": "기타(사유등)"},
+   {"key": "수취인_목록.*.변경후", "label": "변경후"},
+   {"key": "변경후", "label": "변경후"},
+   {"key": "송금인", "label": "송금인"},
+   {"key": "customer.birth", "label": "생년월일/사업자번호"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "customer.phone", "label": "전화번호"},
+   {"key": "customer.email", "label": "E-mail주소"},
+   {"key": "date", "label": "작성일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.송금방법", "label": "송금방법", "kind": "체크박스", "options": ["전신송금(T/T)", "송금수표(D/D)"]},
+   {"key": "check.전신송금", "label": "전신송금", "kind": "체크박스", "options": ["전신송금 지급여부조회", "전신송금 내용변경", "전신송금 취소"]},
+   {"key": "check.송금수표", "label": "송금수표", "kind": "체크박스", "options": ["송금수표 분실신고"]},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "외화송금의 내용변경 및 취소, 송금수표 분실신고 등 신청서", "aliases": []},
+ "extra": []
+}

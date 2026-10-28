@@ -1,0 +1,26 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "최초거래일자", "label": "최초거래일자"},
+   {"key": "연간", "label": "연간"},
+   {"key": "계약서", "label": "계약서(주1)"},
+   {"key": "평균결제기간", "label": "평균결제기간(주2)"},
+   {"key": "백만원", "label": "()백만원"},
+   {"key": "전자결제방식", "label": "전자결제방식"},
+   {"key": "전자방식외상매출채권전자어음구매전용카드", "label": "()전자방식외상매출채권()전자어음()구매전용카드"},
+   {"key": "customer.phone", "label": "연락처(핸드폰번호)"},
+   {"key": "date", "label": "작성일"},
+   {"key": "corp.name", "label": "업체명", "from": "signer.name"},
+   {"key": "corp.ceo", "label": "대표자", "from": "signer2.name"},
+   {"key": "납품", "label": "납품"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.corp", "label": "업체명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "업체명", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "대표자", "kind": "도장"},
+   {"key": "sign.signer2", "label": "대표자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "미래채권담보대출 추천서", "aliases": []},
+ "extra": []
+}

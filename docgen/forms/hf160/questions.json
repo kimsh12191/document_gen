@@ -1,0 +1,24 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "가입대상", "label": "가입대상"},
+   {"key": "date", "label": "작성일"},
+   {"key": "agent.name", "label": "대리인"},
+   {"key": "agent.name2", "label": "대리인"},
+   {"key": "가입대상2", "label": "가입대상"},
+   {"key": "date2", "label": "작성일"},
+   {"key": "agent.name3", "label": "대리인"},
+   {"key": "agent.name4", "label": "대리인"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.staff.본인확인", "label": "본인확인", "kind": "도장"},
+   {"key": "sign.staff.본인확인", "label": "본인확인", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "계약대상자확인서(일임형ISA용)", "aliases": []},
+ "extra": []
+}

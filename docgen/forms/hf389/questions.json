@@ -1,0 +1,19 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "이름"},
+   {"key": "customer.birth", "label": "생년월일"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "agent.relation", "label": "본인과의관계"},
+   {"key": "customer.phone", "label": "연락처"},
+   {"key": "customer.name2", "label": "고객명(위임인)"},
+   {"key": "date", "label": "작성일"},
+   {"key": "본인의투자성향파악여부에대한의사결정", "label": "-본인의투자성향파악여부에대한의사결정"},
+   {"key": "본인의투자성향분석결과를확인하는행위", "label": "-본인의투자성향분석결과를확인하는행위"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "위임장(장외파생상품 일반투자자용)", "aliases": []},
+ "extra": []
+}

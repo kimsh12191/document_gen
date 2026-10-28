@@ -1,0 +1,20 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "issue_no", "label": "발급번호"},
+   {"key": "customer.name", "label": "성명", "from": "person.name"},
+   {"key": "customer.rrn", "label": "주민등록번호", "from": "person.rrn"},
+   {"key": "rows.*.kind", "label": "가입자구분"},
+   {"key": "rows.*.start", "label": "자격취득일"},
+   {"key": "rows.*.end", "label": "자격상실일"},
+   {"key": "rows.*.workplace", "label": "사업장명칭"},
+   {"key": "purpose", "label": "용도"},
+   {"key": "issue_date", "label": "발급일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.issuer", "label": "발급기관직인", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "건강보험 자격득실확인서", "aliases": []},
+ "extra": []
+}

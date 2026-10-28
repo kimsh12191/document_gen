@@ -1,0 +1,26 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "발신인주소", "label": "발신인주소"},
+   {"key": "발신인", "label": "발신인"},
+   {"key": "수신인주소", "label": "수신인주소"},
+   {"key": "수신인", "label": "수신인"},
+   {"key": "date", "label": "작성일"},
+   {"key": "signer.name", "label": "주식회사하나은행"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "목록.*.외상매출채권번호", "label": "외상매출채권번호"},
+   {"key": "목록.*.채권양도인사업자번호", "label": "채권양도인사업자번호"},
+   {"key": "목록.*.채권양도인", "label": "채권양도인"},
+   {"key": "목록.*.채권양도금액", "label": "채권양도금액"},
+   {"key": "목록.*.채권발행일", "label": "채권발행일"},
+   {"key": "목록.*.채권지급일", "label": "채권지급일"},
+   {"key": "목록.*.비고", "label": "비고"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.signer", "label": "주식회사하나은행", "kind": "도장"},
+   {"key": "sign.signer", "label": "주식회사하나은행", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "외상매출채권양도통지서(개별채권양도통지용)", "aliases": []},
+ "extra": []
+}

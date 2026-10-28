@@ -1,0 +1,35 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "납세자번호", "label": "납세자번호"},
+   {"key": "거주지국", "label": "거주지국"},
+   {"key": "value", "label": "(거주지전화)(국내전화)"},
+   {"key": "customer.birth", "label": "생년월일"},
+   {"key": "거주지국코드", "label": "거주지국코드"},
+   {"key": "가국내에주소를두고있습니까", "label": "가국내에주소를두고있습니까?"},
+   {"key": "나국내에계속하여183일이상거주하고있습니까", "label": "나국내에계속하여183일이상거주하고있습니까?"},
+   {"key": "바대한민국의공무원입니까", "label": "바대한민국의공무원입니까?"},
+   {"key": "가국내에주소를두고있습니까2", "label": "가국내에주소를두고있습니까?"},
+   {"key": "나국내에계속하여183일이상거주하고있습니까2", "label": "나국내에계속하여183일이상거주하고있습니까?"},
+   {"key": "다최근1년동안국내에체재한날이183일이상입니까", "label": "다최근1년동안국내에체재한날이183일이상입니까?"},
+   {"key": "목록.*.예", "label": "예"},
+   {"key": "마국내에계속하여183일이상거주할것을필요로하는직업이있습니까", "label": "마국내에계속하여183일이상거주할것을필요로하는직업이있습니까?"},
+   {"key": "바대한민국의공무원입니까2", "label": "바대한민국의공무원입니까?"},
+   {"key": "목록.*.아니오", "label": "아니오"},
+   {"key": "주소또는소재지", "label": "주소또는소재지"},
+   {"key": "성명또는법인명", "label": "성명또는법인명"},
+   {"key": "corp.biz_no", "label": "사업자(주민)등록번호", "from": "company.biz_no"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "신청인", "from": "signer.name"},
+   {"key": "signer2.name", "label": "고객명"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "신청인", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "신청인", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "고객명", "kind": "도장"},
+   {"key": "sign.signer2", "label": "고객명", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "국내원천소득 제한세율 적용신청서(비거주자용)", "aliases": []},
+ "extra": []
+}

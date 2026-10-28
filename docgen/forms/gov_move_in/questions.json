@@ -1,0 +1,15 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "property.location", "label": "대상도로명주소", "from": "official.address"},
+   {"key": "official.jibun", "label": "대상지번주소"},
+   {"key": "official.head", "label": "세대주"},
+   {"key": "official.moved", "label": "전입일자"},
+   {"key": "official.status", "label": "등록구분"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "전입세대확인서", "aliases": []},
+ "extra": []
+}

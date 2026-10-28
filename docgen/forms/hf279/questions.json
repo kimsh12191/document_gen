@@ -1,0 +1,21 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "목록.*.OurRefNo", "label": "OurRef.No."},
+   {"key": "목록.*.Amount", "label": "Amount"},
+   {"key": "목록.*.사유", "label": "사유(하자내용등)"},
+   {"key": "수신", "label": "수신"},
+   {"key": "참조", "label": "참조"},
+   {"key": "발신", "label": "발신"},
+   {"key": "목록.*.Discrepancies", "label": "Discrepancies"},
+   {"key": "To", "label": "To"},
+   {"key": "Attn", "label": "Attn"},
+   {"key": "From", "label": "From"},
+   {"key": "date", "label": "Date"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "추심의뢰서(Renego)", "aliases": []},
+ "extra": []
+}

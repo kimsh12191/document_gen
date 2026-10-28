@@ -1,0 +1,25 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "고객명", "from": "signer.name"},
+   {"key": "본서식의작성대상이아님", "label": "→본서식의작성대상이아님"},
+   {"key": "수입물품을국내에서인수하는경우", "label": ":수입물품을국내에서인수하는경우"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.사전송금방식", "label": "사전송금방식", "kind": "체크박스", "options": ["사전 송금방식"]},
+   {"key": "check.대금송금후물품수령예정일", "label": "대금송금후물품(선적서류)수령예정일", "kind": "체크박스", "options": ["년 이내"]},
+   {"key": "check.대금송금후물품수령예정일2", "label": "대금송금후물품(선적서류)수령예정일", "kind": "체크박스", "options": ["년 초과"]},
+   {"key": "check.중계무역", "label": "중계무역", "kind": "체크박스", "options": ["중계무역"]},
+   {"key": "check.현재수출계약체결", "label": "현재수출계약체결", "kind": "체크박스", "options": ["현재 수출계약 체결"]},
+   {"key": "check.현재수출계약미체결", "label": "현재수출계약미체결", "kind": "체크박스", "options": ["현재 수출계약 미체결"]},
+   {"key": "check.사후송금방식", "label": "사후송금방식", "kind": "체크박스", "options": ["사후 송금방식"]},
+   {"key": "check.일반수입", "label": "일반수입", "kind": "체크박스", "options": ["일반 수입"]},
+   {"key": "check.외국인수수입", "label": "외국인수수입", "kind": "체크박스", "options": ["외국인수수입"]},
+   {"key": "seal.customer", "label": "고객명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "고객명", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "사전 송금방식 수입대금 지급시", "aliases": []},
+ "extra": []
+}

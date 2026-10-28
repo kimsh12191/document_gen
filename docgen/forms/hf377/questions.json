@@ -1,0 +1,39 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "담당Prepare", "label": "담당Prepare"},
+   {"key": "책임자Approval", "label": "책임자Approval"},
+   {"key": "성명Name", "label": "성명Name"},
+   {"key": "성명Name2", "label": "성명Name"},
+   {"key": "customer.birth", "label": "생년월일DateofBirth"},
+   {"key": "여권번호PassportNo", "label": "여권번호PassportNo."},
+   {"key": "국내주소DomesticAddress_목록.*.여권유효기일DateofExpiry", "label": "여권유효기일DateofExpiry"},
+   {"key": "국내주소DomesticAddress", "label": "국내주소DomesticAddress"},
+   {"key": "해외주소OverseasAddress_목록.*.여권유효기일DateofExpiry", "label": "여권유효기일DateofExpiry"},
+   {"key": "국적Nationality", "label": "국적Nationality"},
+   {"key": "여권유효기일DateofExpiry", "label": "여권유효기일DateofExpiry"},
+   {"key": "개설신청은행지점명OpeningBankBranch", "label": "개설신청은행/지점명OpeningBank/Branch"},
+   {"key": "개설통화Currency", "label": "개설통화Currency"},
+   {"key": "접수은행지점명BankBranch", "label": "접수은행/지점명Bank/Branch"},
+   {"key": "customer.name", "label": "고객명(Name)"},
+   {"key": "제출서류", "label": "제출서류(Document)"},
+   {"key": "account", "label": "계좌번호(A/CNo.)"},
+   {"key": "date", "label": "신청일자(Date)"},
+   {"key": "signer.name", "label": "담당자(직,성명)"},
+   {"key": "signer3.name", "label": "담당자(직,성명)"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.신청", "label": "신청(Application)", "kind": "체크박스", "options": ["신청(Application)", "취소(Cancellation)"]},
+   {"key": "check.본인은위와같이예금계좌개", "label": "본인은위와같이예금계좌개설/취소를신청합니다.", "kind": "체크박스", "options": ["본인은 위와 같이 예금계좌 개설/취소를 신청합니다."]},
+   {"key": "check.현지국의법규및규제사항거", "label": "현지국의법규및규제사항,거래약관에따라신청자앞예금계좌가개설되", "kind": "체크박스", "options": ["현지국의 법규 및 규제사항, 거래약관에 따라 신청자 앞 예금계좌가 개설되"]},
+   {"key": "seal.signer", "label": "담당자(직,성명)", "kind": "도장"},
+   {"key": "sign.signer", "label": "담당자(직,성명)", "kind": "서명"},
+   {"key": "seal.signer2", "label": "지점장", "kind": "도장"},
+   {"key": "sign.signer2", "label": "지점장", "kind": "서명"},
+   {"key": "seal.signer3", "label": "담당자(직,성명)", "kind": "도장"},
+   {"key": "sign.signer3", "label": "담당자(직,성명)", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "해외영업점 계좌개설 신청서", "aliases": []},
+ "extra": []
+}

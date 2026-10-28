@@ -1,0 +1,34 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "서류확인및접수확인자", "label": "서류확인및접수확인자"},
+   {"key": "corp.name", "label": "기업명", "from": "company.name"},
+   {"key": "account", "label": "퇴직연금계좌번호"},
+   {"key": "customer.name", "label": "성명"},
+   {"key": "금융기관명", "label": "금융기관명"},
+   {"key": "account2", "label": "계좌번호"},
+   {"key": "customer.birth", "label": "생년월일"},
+   {"key": "employer.hire_date", "label": "입사일자"},
+   {"key": "중간정산일자", "label": "중간정산일자"},
+   {"key": "잔여부담금", "label": "잔여부담금"},
+   {"key": "퇴직일자", "label": "퇴직일자"},
+   {"key": "date", "label": "작성일"},
+   {"key": "signer.name", "label": "기업명"},
+   {"key": "signer2.name", "label": "가입자"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.해지사유", "label": "해지사유", "kind": "체크박스", "options": ["제도폐지", "사업장 파산/폐업", "사업장의 인수합병", "법령 변경"]},
+   {"key": "check.수수료연동출금", "label": "수수료연동출금**", "kind": "체크박스", "options": ["연동출금 동의 (사전에 약정된 경우)", "연동출금 미동의(기업별도입금)"]},
+   {"key": "check.개인형IRP", "label": "개인형IRP", "kind": "체크박스", "options": ["개인형 IRP", "요구불계좌"]},
+   {"key": "check.만55세이후퇴직", "label": "만55세이후퇴직", "kind": "체크박스", "options": ["만55세이후 퇴직", "만원 이하 퇴직금 지급"]},
+   {"key": "check.계좌번호", "label": "계좌번호", "kind": "체크박스", "options": ["국민연금전환금", "계속근로기관 1년 미만"]},
+   {"key": "check.적용", "label": "적용", "kind": "체크박스", "options": ["적용", "미적용"]},
+   {"key": "seal.corp", "label": "기업명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "기업명", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.customer", "label": "가입자", "from": "seal.signer2", "kind": "도장"},
+   {"key": "sign.signer2", "label": "가입자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "퇴직연금 계약해지 신청서(기업형IRP)", "aliases": []},
+ "extra": []
+}

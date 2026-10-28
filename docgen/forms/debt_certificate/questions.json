@@ -1,0 +1,33 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "cert_no", "label": "증명서번호"},
+   {"key": "customer.name", "label": "차주명", "from": "borrower.name"},
+   {"key": "customer.rrn", "label": "주민등록번호", "from": "borrower.rrn"},
+   {"key": "customer.address", "label": "주소", "from": "borrower.address"},
+   {"key": "base_date", "label": "기준일"},
+   {"key": "loans.*.subject", "label": "대출과목"},
+   {"key": "loans.*.account_no", "label": "계좌번호"},
+   {"key": "loans.*.loan_date", "label": "대출일"},
+   {"key": "loans.*.maturity", "label": "만기일"},
+   {"key": "loans.*.amount", "label": "대출금액"},
+   {"key": "loans.*.balance", "label": "대출잔액"},
+   {"key": "loans.*.rate", "label": "금리"},
+   {"key": "total_amount", "label": "대출금액합계"},
+   {"key": "total_balance", "label": "대출잔액합계"},
+   {"key": "total_korean", "label": "대출잔액합계(한글)"},
+   {"key": "overdue", "label": "연체여부"},
+   {"key": "purpose", "label": "용도"},
+   {"key": "issue_date", "label": "발급일"},
+   {"key": "issuer", "label": "발급점"},
+   {"key": "guarantee_detail", "label": "보증내역"},
+   {"key": "overdue_detail", "label": "연체내역"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "guarantee", "label": "보증채무", "kind": "체크박스", "options": ["있음", "없음"]},
+   {"key": "seal.issuer", "label": "발급기관직인", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "부채증명서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,33 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "issue_no", "label": "발급번호"},
+   {"key": "trade_name", "label": "상호(법인명)"},
+   {"key": "biz_no", "label": "사업자등록번호"},
+   {"key": "name", "label": "성명(대표자)"},
+   {"key": "rrn", "label": "주민(법인)등록번호"},
+   {"key": "address", "label": "사업장소재지"},
+   {"key": "opened", "label": "개업일"},
+   {"key": "registered", "label": "사업자등록일"},
+   {"key": "kind", "label": "과세유형"},
+   {"key": "joint", "label": "공동사업자"},
+   {"key": "kinds.*.biz_type", "label": "업태"},
+   {"key": "kinds.*.biz_item", "label": "종목"},
+   {"key": "kinds.*.code", "label": "업종코드"},
+   {"key": "kinds.*.main", "label": "구분"},
+   {"key": "purpose", "label": "사용목적"},
+   {"key": "submit_to", "label": "제출처"},
+   {"key": "issue_date", "label": "발급일"},
+   {"key": "issuer", "label": "발급기관"},
+   {"key": "co_owners.*.name", "label": "성명"},
+   {"key": "co_owners.*.rrn", "label": "주민등록번호"},
+   {"key": "co_owners.*.share", "label": "지분율"},
+   {"key": "co_owners.*.role", "label": "구분"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.issuer", "label": "발급기관직인", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "사업자등록증명", "aliases": []},
+ "extra": []
+}

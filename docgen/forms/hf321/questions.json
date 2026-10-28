@@ -1,0 +1,31 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "상호및대표자성명", "from": "signer.name"},
+   {"key": "corp.biz_item", "label": "업종(직업)", "from": "company.biz_item"},
+   {"key": "부동산의종류", "label": "부동산의종류"},
+   {"key": "corp.address", "label": "소재지", "from": "company.address"},
+   {"key": "면적", "label": "면적"},
+   {"key": "취득기간", "label": "취득기간"},
+   {"key": "취득사유", "label": "취득사유"},
+   {"key": "신고번호", "label": "신고(수리)번호"},
+   {"key": "신고금액", "label": "신고(수리)금액"},
+   {"key": "유효기간", "label": "유효기간"},
+   {"key": "처리기간", "label": "처리기간"},
+   {"key": "date", "label": "작성일"},
+   {"key": "신고수리조건", "label": "신고수리조건"},
+   {"key": "date2", "label": "작성일"},
+   {"key": "소", "label": "소(소재지)"},
+   {"key": "취득가액", "label": "취득가액"},
+   {"key": "위의신고를다음과같이신고수리함", "label": "위의신고를다음과같이신고수리함."}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "상호및대표자성명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "상호및대표자성명", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "신고수리기관:한국은행총재", "kind": "도장"},
+   {"key": "sign.signer2", "label": "신고수리기관:한국은행총재", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "부동산취득신고(수리)서", "aliases": []},
+ "extra": []
+}

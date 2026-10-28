@@ -1,0 +1,20 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "변경전", "label": "변경전"},
+   {"key": "corp.name", "label": "상호", "from": "company.name"},
+   {"key": "corp.ceo", "label": "대표자", "from": "company.ceo"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "변경사유", "label": "변경사유"},
+   {"key": "변경후", "label": "변경후"},
+   {"key": "corp.established", "label": "설립연월일", "from": "company.established"},
+   {"key": "근거법령", "label": "근거법령"},
+   {"key": "date", "label": "작성일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.동의함", "label": "동의함", "kind": "체크박스", "options": ["동의함", "동의하지않음"]}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "환전업무 등록내용 변경 신고서", "aliases": []},
+ "extra": []
+}

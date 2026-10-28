@@ -1,0 +1,15 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "official.name", "label": "명칭"},
+   {"key": "property.location", "label": "대지위치", "from": "official.address"},
+   {"key": "official.road", "label": "도로명주소"},
+   {"key": "official.owner", "label": "소유자"},
+   {"key": "official.structure", "label": "주구조"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "일반건축물대장(갑)", "aliases": []},
+ "extra": []
+}

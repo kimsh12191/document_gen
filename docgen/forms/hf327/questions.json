@@ -1,0 +1,31 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "상호및대표자성명", "from": "signer.name"},
+   {"key": "corp.biz_item", "label": "업종(직업)", "from": "company.biz_item"},
+   {"key": "담보소재지", "label": "담보소재지"},
+   {"key": "수량", "label": "수량"},
+   {"key": "담보가액", "label": "담보가액"},
+   {"key": "담보제공기간", "label": "담보제공기간"},
+   {"key": "신고번호", "label": "신고번호"},
+   {"key": "신고금액", "label": "신고금액"},
+   {"key": "date", "label": "신고일자"},
+   {"key": "유효기간", "label": "유효기간"},
+   {"key": "기타참고사항", "label": "기타참고사항"},
+   {"key": "처리기간", "label": "처리기간"},
+   {"key": "date2", "label": "작성일"},
+   {"key": "신고기관", "label": "신고기관"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "상호및대표자성명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "상호및대표자성명", "from": "sign.signer", "kind": "서명"},
+   {"key": "check.담보제공자", "label": "담보제공자", "kind": "체크박스", "options": ["거주자/", "비거주자"]},
+   {"key": "check.담보취득자", "label": "담보취득자", "kind": "체크박스", "options": ["거주자/", "비거주자"]},
+   {"key": "check.담보제공수혜자", "label": "담보제공수혜자", "kind": "체크박스", "options": ["거주자/", "비거주자"]},
+   {"key": "check.담보물종류", "label": "담보물종류", "kind": "체크박스", "options": ["부동산", "동산", "증권", "예금(현금)", "기타("]},
+   {"key": "check.담보제공용도", "label": "담보제공용도", "kind": "체크박스", "options": ["주채무계열소속 30대 계열기업체의 단기외화차입에 대한 담보제공", "비거주자간 거래에 대한 담보제공", "역외금융회사의 거래 및 채무이행에 관한 직·간접적 담보제공", "기타("]}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "담보제공 신고서", "aliases": []},
+ "extra": []
+}

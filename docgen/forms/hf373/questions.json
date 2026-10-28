@@ -1,0 +1,30 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "corp.name", "label": "법인명(성명)", "from": "company.name"},
+   {"key": "corp.biz_no", "label": "사업자등록번호(법인)", "from": "company.biz_no"},
+   {"key": "당좌계좌번호", "label": "당좌계좌번호"},
+   {"key": "교부신청매수", "label": "교부신청매수"},
+   {"key": "corp.ceo", "label": "대표자명", "from": "company.ceo"},
+   {"key": "customer.birth", "label": "생년월일(개인/개인사업자)"},
+   {"key": "회수신청매수", "label": "회수신청매수"},
+   {"key": "취급점", "label": "취급점"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "신청인", "from": "signer.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "신청인", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "신청인", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"},
+   {"key": "seal.staff.관리자", "label": "관리자", "kind": "도장"},
+   {"key": "sign.staff.관리자", "label": "관리자", "kind": "서명"},
+   {"key": "seal.staff.부점장", "label": "부점장", "kind": "도장"},
+   {"key": "sign.staff.부점장", "label": "부점장", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "전자어음 교부 신청서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,17 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "official.id", "label": "건물ID"},
+   {"key": "official.name", "label": "명칭"},
+   {"key": "property.location", "label": "대지위치", "from": "official.address"},
+   {"key": "official.road", "label": "도로명주소"},
+   {"key": "official.owner", "label": "소유자성명"},
+   {"key": "official.rrn", "label": "소유자등록번호"},
+   {"key": "official.area", "label": "전유면적"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "집합건축물대장(전유부)", "aliases": ["집합건축물대장(전유부, 갑)"]},
+ "extra": []
+}

@@ -1,0 +1,13 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "A등급", "label": "A등급"},
+   {"key": "date", "label": "작성일"},
+   {"key": "법인등록번호생년월일", "label": "법인등록번호/생년월일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "적정성원칙 투자자확인서", "aliases": []},
+ "extra": []
+}

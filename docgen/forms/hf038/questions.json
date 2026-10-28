@@ -1,0 +1,31 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "목록.*.수표어음", "label": "수표어음"},
+   {"key": "목록.*.번호", "label": "번호"},
+   {"key": "목록.*.발행일", "label": "발행일"},
+   {"key": "목록.*.지급일", "label": "지급일"},
+   {"key": "목록.*.금액", "label": "금액"},
+   {"key": "목록.*.수취인", "label": "수취인"},
+   {"key": "목록.*.용도", "label": "용도"},
+   {"key": "목록.*.확인여부", "label": "확인여부(결제일등)"},
+   {"key": "목록.*.담당자인", "label": "담당자인"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "상호및대표자", "from": "signer.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "상호및대표자", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "상호및대표자", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"},
+   {"key": "seal.staff.관리자", "label": "관리자", "kind": "도장"},
+   {"key": "sign.staff.관리자", "label": "관리자", "kind": "서명"},
+   {"key": "seal.staff.부점장", "label": "부점장", "kind": "도장"},
+   {"key": "sign.staff.부점장", "label": "부점장", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "수표(어음)발행사실 확인의뢰서", "aliases": []},
+ "extra": []
+}

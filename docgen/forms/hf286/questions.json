@@ -1,0 +1,24 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "취급점", "label": "취급점"},
+   {"key": "customer.name", "label": "(본인)", "from": "signer.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.CREDITNO", "label": "CREDITNO.(신용장번호)", "kind": "체크박스", "options": ["CREDIT NO. (신용장번호)"]},
+   {"key": "check.ADVICENO", "label": "ADVICENO.(신용장통지번호)", "kind": "체크박스", "options": ["ADVICE NO.(신용장통지번호)"]},
+   {"key": "check.ISSUINGBANK", "label": "ISSUINGBANK(개설은행)", "kind": "체크박스", "options": ["ISSUING BANK(개설은행)"]},
+   {"key": "check.ISSUINGDATE", "label": "ISSUINGDATE(개설일)", "kind": "체크박스", "options": ["ISSUING DATE(개설일)"]},
+   {"key": "check.AMOUNT", "label": "AMOUNT(금액)", "kind": "체크박스", "options": ["AMOUNT(금액)"]},
+   {"key": "seal.customer", "label": "(본인)", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "(본인)", "from": "sign.signer", "kind": "서명"},
+   {"key": "check.CREDITNO2", "label": "CREDITNO.(신용장번호)", "kind": "체크박스", "options": ["CREDIT NO. (신용장번호)"]},
+   {"key": "check.ADVICENO2", "label": "ADVICENO.(신용장통지번호)", "kind": "체크박스", "options": ["ADVICE NO.(신용장통지번호)"]},
+   {"key": "check.ISSUINGBANK2", "label": "ISSUINGBANK(개설은행)", "kind": "체크박스", "options": ["ISSUING BANK(개설은행)"]},
+   {"key": "check.ISSUINGDATE2", "label": "ISSUINGDATE(개설일)", "kind": "체크박스", "options": ["ISSUING DATE(개설일)"]},
+   {"key": "check.AMOUNT2", "label": "AMOUNT(금액)", "kind": "체크박스", "options": ["AMOUNT(금액)"]}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "신용장 확인 신청 및 확약서", "aliases": []},
+ "extra": []
+}

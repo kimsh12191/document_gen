@@ -1,0 +1,23 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "통화선도", "label": "통화선도(외환스왑,NDF포함)"},
+   {"key": "통화옵션", "label": "통화옵션"},
+   {"key": "통화스왑", "label": "통화스왑"},
+   {"key": "환변동보험", "label": "환변동보험"},
+   {"key": "통화선도2", "label": "통화선도(외환스왑,NDF포함)"},
+   {"key": "통화옵션2", "label": "통화옵션"},
+   {"key": "통화스왑2", "label": "통화스왑"},
+   {"key": "환변동보험2", "label": "환변동보험"},
+   {"key": "헤지거래한도", "label": "헤지거래한도(a)"},
+   {"key": "기체결외환파생거래금액", "label": "기체결외환파생거래금액(b)"},
+   {"key": "금번거래예정금액", "label": "금번거래예정금액(c)"},
+   {"key": "위험헤지비율100", "label": "위험헤지비율((b+c)/(a)*100)"},
+   {"key": "date", "label": "작성일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "외환파생상품 거래 금액 확인서", "aliases": []},
+ "extra": []
+}

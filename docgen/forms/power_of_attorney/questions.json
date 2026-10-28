@@ -1,0 +1,33 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "agent.name", "label": "성명"},
+   {"key": "agent.birth", "label": "생년월일"},
+   {"key": "agent.relation", "label": "본인과의관계"},
+   {"key": "agent.phone", "label": "연락처"},
+   {"key": "agent.address", "label": "주소"},
+   {"key": "tasks.*", "label": "위임내용"},
+   {"key": "period", "label": "위임기간"},
+   {"key": "grant_date", "label": "작성일"},
+   {"key": "related.name", "from": "grantor.name"},
+   {"key": "grantor.birth", "label": "생년월일"},
+   {"key": "related.phone", "label": "연락처", "from": "grantor.phone"},
+   {"key": "related.address", "from": "grantor.address"},
+   {"key": "attachment", "label": "첨부서류"},
+   {"key": "recipient", "label": "제출처"},
+   {"key": "tasks_extra", "label": "위임내용"},
+   {"key": "grantor.ceo", "label": "대표자"},
+   {"key": "grantor.biz_no", "label": "사업자등록번호"},
+   {"key": "grantor.corp_reg_no", "label": "법인등록번호"},
+   {"key": "use_limit", "label": "사용제한"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "sub_delegation", "label": "복대리인선임", "kind": "체크박스", "options": ["허용", "불허"]},
+   {"key": "grantor.type", "label": "위임인구분", "kind": "체크박스", "options": ["법인", "개인"]},
+   {"key": "seal.related", "label": "위임인", "from": "seal.grantor", "kind": "도장"},
+   {"key": "seal.corp", "label": "법인인감", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "위임장", "aliases": []},
+ "extra": []
+}

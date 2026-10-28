@@ -1,0 +1,32 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "원화계좌_목록.*.통화", "label": "통화"},
+   {"key": "외화계좌_목록.*.통화", "label": "통화"},
+   {"key": "원화계좌_목록.*.계좌번호", "label": "계좌번호"},
+   {"key": "외화계좌_목록.*.계좌번호", "label": "계좌번호"},
+   {"key": "원화계좌_목록.*.통장용인감", "label": "통장용인감(서명)"},
+   {"key": "외화계좌_목록.*.통장용인감", "label": "통장용인감(서명)"},
+   {"key": "취급점", "label": "취급점"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.address", "label": "주소"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.신청", "label": "신청", "kind": "체크박스", "options": ["신청", "해지"]},
+   {"key": "check.신청2", "label": "신청", "kind": "체크박스", "options": ["신청", "해지"]},
+   {"key": "check.신청3", "label": "신청", "kind": "체크박스", "options": ["신청", "해지"]},
+   {"key": "check.신청4", "label": "신청", "kind": "체크박스", "options": ["신청", "해지"]},
+   {"key": "check.신청5", "label": "신청", "kind": "체크박스", "options": ["신청", "해지"]},
+   {"key": "check.신청6", "label": "신청", "kind": "체크박스", "options": ["신청", "해지"]},
+   {"key": "check.신청7", "label": "신청", "kind": "체크박스", "options": ["신청", "해지"]},
+   {"key": "check.신청8", "label": "신청", "kind": "체크박스", "options": ["신청", "해지"]},
+   {"key": "check.HANAFXTRADINGSYSTEM일괄예약결제", "label": "■HANAFXTRADINGSYSTEM일괄예약결제", "kind": "체크박스", "options": ["신청", "미신청"]},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "HANA FX TRADING SYSTEM 자동결제 이용신청서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,29 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "bank", "label": "은행명"},
+   {"key": "product", "label": "상품명"},
+   {"key": "passbook_no", "label": "통장번호"},
+   {"key": "account_no", "label": "계좌번호"},
+   {"key": "holder", "label": "예금주"},
+   {"key": "opened", "label": "신규일"},
+   {"key": "branch"},
+   {"key": "branch_phone"},
+   {"key": "first_tx.date", "label": "거래일"},
+   {"key": "first_tx.memo", "label": "적요"},
+   {"key": "first_tx.amount", "label": "맡기신금액"},
+   {"key": "first_tx.balance", "label": "잔액"},
+   {"key": "issue_date", "label": "출력일"},
+   {"key": "txs.*.date", "label": "거래일"},
+   {"key": "txs.*.memo", "label": "적요"},
+   {"key": "txs.*.in", "label": "맡기신금액"},
+   {"key": "txs.*.balance", "label": "잔액"},
+   {"key": "txs.*.out", "label": "찾으신금액"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.registered", "label": "등록인감", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "통장사본", "aliases": []},
+ "extra": []
+}

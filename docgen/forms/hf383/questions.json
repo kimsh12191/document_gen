@@ -1,0 +1,21 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "고객등급", "label": "고객등급"},
+   {"key": "거래가능상품의위험등급", "label": "거래가능상품의위험등급"},
+   {"key": "거래희망상품명", "label": "거래희망상품명"},
+   {"key": "거래희망상품의위험등급", "label": "거래희망상품의위험등급"},
+   {"key": "customer.name", "label": "본인"},
+   {"key": "customer.name2", "label": "고객명"},
+   {"key": "agent.name", "label": "대리인"},
+   {"key": "담당자", "label": "담당자(파생상품투자권유자문인력)"},
+   {"key": "영업점장", "label": "영업점장(파생상품영업관리자)"},
+   {"key": "date", "label": "작성일"},
+   {"key": "date2", "label": "작성일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "장외파생상품 투자성향에 적정하지 않은 거래확인서", "aliases": []},
+ "extra": []
+}

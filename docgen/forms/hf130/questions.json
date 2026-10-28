@@ -1,0 +1,15 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "date", "label": "작성일"},
+   {"key": "corp.name", "label": "기업체명", "from": "company.name"},
+   {"key": "corp.ceo", "label": "대표자", "from": "signer.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.corp", "label": "대표자", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "대표자", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "기업가치 및 기업정보 제공활용 동의서", "aliases": []},
+ "extra": []
+}

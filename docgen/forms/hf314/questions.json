@@ -1,0 +1,34 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "corp.name", "label": "상호", "from": "signer.name"},
+   {"key": "corp.ceo", "label": "대표자", "from": "company.ceo"},
+   {"key": "지사명", "label": "지사명"},
+   {"key": "corp.address", "label": "소재지", "from": "company.address"},
+   {"key": "corp.biz_item", "label": "업종", "from": "company.biz_item"},
+   {"key": "회계기간", "label": "회계기간"},
+   {"key": "내용", "label": "내용"},
+   {"key": "사유", "label": "사유"},
+   {"key": "신고번호", "label": "신고번호"},
+   {"key": "유효기간", "label": "유효기간"},
+   {"key": "처리기간", "label": "처리기간"},
+   {"key": "corp.biz_no", "label": "사업자등록번호", "from": "company.biz_no"},
+   {"key": "customer.rrn", "label": "주민등록번호"},
+   {"key": "date", "label": "작성일"},
+   {"key": "date2", "label": "작성일"},
+   {"key": "signer2.name", "label": "신고기관"},
+   {"key": "위의신청을다음과같이신고필함", "label": "위의신청을다음과같이신고필함."}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.corp", "label": "상호", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "상호", "from": "sign.signer", "kind": "서명"},
+   {"key": "check.신고구분", "label": "신고구분", "kind": "체크박스", "options": ["설 치", "변 경", "폐 지"]},
+   {"key": "check.지사구분", "label": "지사구분", "kind": "체크박스", "options": ["독립채산지점", "비독립채산지점", "사 무 소"]},
+   {"key": "check.설치사유", "label": "설치사유", "kind": "체크박스", "options": ["저임활용", "수출촉진", "북한시장진출", "기타("]},
+   {"key": "seal.signer2", "label": "신고기관", "kind": "도장"},
+   {"key": "sign.signer2", "label": "신고기관", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "북한지사 설치(변경) 신고서", "aliases": []},
+ "extra": []
+}

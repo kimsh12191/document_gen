@@ -1,0 +1,32 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "signer.name", "label": "상호및대표자성명"},
+   {"key": "corp.biz_item", "label": "업종(직업)", "from": "company.biz_item"},
+   {"key": "customer.name", "label": "차주"},
+   {"key": "대주", "label": "대주"},
+   {"key": "통화및금액", "label": "통화및금액"},
+   {"key": "차입일대출일", "label": "차입일/대출일"},
+   {"key": "대차기간", "label": "대차기간"},
+   {"key": "사용용도", "label": "사용용도"},
+   {"key": "상환방법", "label": "상환방법"},
+   {"key": "신고번호", "label": "신고번호"},
+   {"key": "신고금액", "label": "신고금액"},
+   {"key": "유효기간", "label": "유효기간"},
+   {"key": "처리기간", "label": "처리기간"},
+   {"key": "date", "label": "작성일"},
+   {"key": "신고조건", "label": "신고조건"},
+   {"key": "date2", "label": "작성일"},
+   {"key": "signer2.name", "label": "신고기관"},
+   {"key": "위의신청을다음과같이신고필함", "label": "위의신청을다음과같이신고필함."}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "상호및대표자성명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "상호및대표자성명", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "신고기관", "kind": "도장"},
+   {"key": "sign.signer2", "label": "신고기관", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "금전의 대차계약 신고(보고)서", "aliases": []},
+ "extra": []
+}

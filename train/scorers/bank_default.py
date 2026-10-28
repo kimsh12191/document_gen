@@ -28,6 +28,11 @@ def freetext(item, output):
     return E.s_freetext(item, output)
 
 
+def form_qa(item, output):
+    """서식 전용 질문 (서식 폴더 questions.json 의 extra): 숫자·예/아니오는 심사 질의와 같게, 글은 띄어쓰기를 맞춰 같은지. 주 지표 acc."""
+    return E.s_form_qa(item, output)
+
+
 def doc_check(item, output):
     """서류 구비 확인: missing·not_required·not_customer 세 목록이 모두 맞으면 exact (주 지표), 목록 F1 은 set_f1."""
     return E.s_doc_check(item, output)
@@ -53,7 +58,7 @@ def ocr_page(item, output):
     return E.s_ocr_page(item, output)
 
 
-TASKS = {"classify": classify, "kie": kie, "marks": marks, "freetext": freetext, "doc_check": doc_check,
+TASKS = {"classify": classify, "kie": kie, "marks": marks, "freetext": freetext, "form_qa": form_qa, "doc_check": doc_check,
          "cross_check": cross_check, "review": review, "ocr_field": ocr_field, "ocr_page": ocr_page}
 
 

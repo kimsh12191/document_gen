@@ -1,0 +1,18 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "related.name", "label": "연대보증인", "from": "official.guarantor"},
+   {"key": "related.address", "label": "보증인주소", "from": "official.address"},
+   {"key": "customer.name", "label": "채무자성명", "from": "official.debtor"},
+   {"key": "official.amount", "label": "피보증채무금액"},
+   {"key": "official.guarantor_copy", "label": "연대보증인"},
+   {"key": "official.address_copy", "label": "보증인주소"},
+   {"key": "official.debtor_copy", "label": "채무자성명"},
+   {"key": "official.amount_copy", "label": "피보증채무금액"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "보증약정서", "aliases": ["보증서(특정채무보증용)"]},
+ "extra": []
+}

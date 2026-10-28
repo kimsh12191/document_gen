@@ -1,0 +1,25 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "date", "label": "Date"},
+   {"key": "LCNo", "label": "L/CNo."},
+   {"key": "Dated", "label": "Dated"},
+   {"key": "IssuingBank", "label": "IssuingBank"},
+   {"key": "Amount", "label": "Amount"},
+   {"key": "Beneficiary", "label": "Beneficiary"},
+   {"key": "Accountee", "label": "Accountee"},
+   {"key": "Gentlemen", "label": "Gentlemen"},
+   {"key": "Amounttobetransferred", "label": "Amounttobetransferred"},
+   {"key": "Latestshippingdate", "label": "Latestshippingdate"},
+   {"key": "Expirydate", "label": "Expirydate"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.Total", "label": "Total", "kind": "체크박스", "options": ["Total"]},
+   {"key": "check.Partial", "label": "Partial", "kind": "체크박스", "options": ["Partial"]},
+   {"key": "check.thefirstbene", "label": "thefirstbeneficiary.", "kind": "체크박스", "options": ["the first beneficiary."]},
+   {"key": "check.thesecondben", "label": "thesecondbeneficiary.", "kind": "체크박스", "options": ["the second beneficiary."]}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "「외국환서식관리프로그램」신용장 양도 신청서(Application for Total/Partial transfer)", "aliases": []},
+ "extra": []
+}

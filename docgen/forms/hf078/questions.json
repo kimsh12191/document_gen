@@ -1,0 +1,26 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "원화대출전환희망일", "label": "원화대출전환희망일"},
+   {"key": "신청사유", "label": "신청사유"},
+   {"key": "대출과목", "label": "대출과목"},
+   {"key": "대출금액", "label": "대출금액(본건전환후외화대출잔액)"},
+   {"key": "date", "label": "대출취급일"},
+   {"key": "date2", "label": "대출만기일"},
+   {"key": "대출금리", "label": "대출금리"},
+   {"key": "date3", "label": "일자"},
+   {"key": "date4", "label": "년월일"},
+   {"key": "주1", "label": "주1"},
+   {"key": "date5", "label": "년월일"},
+   {"key": "주3", "label": "주3"},
+   {"key": "date6", "label": "작성일"},
+   {"key": "customer.name", "label": "채무자본인", "from": "signer.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "채무자본인", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "채무자본인", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "통화전환 옵션부 외화대출 원화대출 전환신청서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,31 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "성명"},
+   {"key": "customer.birth", "label": "생년월일"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "agent.relation", "label": "본인과의관계"},
+   {"key": "customer.phone", "label": "연락처"},
+   {"key": "signer.name", "label": "■기타※신규외기타위임거래를구체적으로명시1.2.3."},
+   {"key": "date", "label": "작성일"},
+   {"key": "소", "label": "소"},
+   {"key": "처", "label": "처"},
+   {"key": "signer2.name", "label": "직원명"},
+   {"key": "본인의투자성향파악여부에대한의사결정", "label": "-본인의투자성향파악여부에대한의사결정"},
+   {"key": "본인의투자성향분석결과를확인하는행위", "label": "-본인의투자성향분석결과를확인하는행위"},
+   {"key": "특정금전신탁상품가입과관련한일체의사항", "label": "■특정금전신탁상품가입과관련한일체의사항"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.signer", "label": "■기타※신규외기타위임거래를구체적으로명시1.2.3.", "kind": "도장"},
+   {"key": "sign.signer", "label": "■기타※신규외기타위임거래를구체적으로명시1.2.3.", "kind": "서명"},
+   {"key": "seal.signer2", "label": "직원명", "kind": "도장"},
+   {"key": "sign.signer2", "label": "직원명", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "위임장 (특정금전신탁용)", "aliases": []},
+ "extra": []
+}

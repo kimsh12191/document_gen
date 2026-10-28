@@ -1,0 +1,33 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "followingbusinesses", "label": "followingbusinesses)."},
+   {"key": "bankruptcy", "label": "bankruptcy"},
+   {"key": "RevenueCode", "label": "RevenueCode"},
+   {"key": "USbank", "label": "(6)U.S.bank"},
+   {"key": "FATCANonReporting", "label": "FATCANon-Reporting"},
+   {"key": "requirements", "label": "requirements"},
+   {"key": "Investment", "label": "Investment"},
+   {"key": "BActiveNFFEs", "label": "B.ActiveNFFEs"},
+   {"key": "Participation", "label": "Participation"},
+   {"key": "Retirement", "label": "Retirement"},
+   {"key": "Fund", "label": "Fund"},
+   {"key": "NonReportingFI", "label": "Non-ReportingFI"},
+   {"key": "Investment2", "label": "Investment"},
+   {"key": "Office", "label": "Office"},
+   {"key": "Retirement2", "label": "Retirement"},
+   {"key": "Fund2", "label": "Fund"},
+   {"key": "CRSNonReporting", "label": "CRSNon-Reporting"},
+   {"key": "Services", "label": "Services"},
+   {"key": "Commission", "label": "Commission"},
+   {"key": "Vehicle", "label": "Vehicle"},
+   {"key": "Office2", "label": "Office"},
+   {"key": "Retirement3", "label": "Retirement"},
+   {"key": "Fund3", "label": "Fund"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "본인확인서(FATCA CRS 법인,임의단체용) 본문 설명서(영문)", "aliases": []},
+ "extra": []
+}

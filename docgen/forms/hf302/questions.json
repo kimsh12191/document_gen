@@ -1,0 +1,18 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "TO", "label": "TO"},
+   {"key": "TO2", "label": "TO"},
+   {"key": "FOR", "label": "FOR"},
+   {"key": "AT", "label": "AT"},
+   {"key": "DATED", "label": "DATED"},
+   {"key": "FOR2", "label": "FOR"},
+   {"key": "AT2", "label": "AT"},
+   {"key": "DATED2", "label": "DATED"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "「외국환서식관리프로그램」BILL OF EXCHANGE (환어음 고객용)", "aliases": []},
+ "extra": []
+}

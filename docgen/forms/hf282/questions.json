@@ -1,0 +1,29 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "FAX", "label": "FAX"},
+   {"key": "유효기일", "label": "유효기일"},
+   {"key": "제시기일", "label": "제시기일"},
+   {"key": "선적기일", "label": "선적기일"},
+   {"key": "부보비율", "label": "부보비율"},
+   {"key": "목록.*.조건변경부신용장내용", "label": "조건변경부신용장내용"},
+   {"key": "제2수익자상호", "label": "제2수익자상호"},
+   {"key": "제2수익자주소", "label": "제2수익자주소"},
+   {"key": "통지은행명및주소", "label": "통지은행명및주소"},
+   {"key": "customer.name", "label": "신청인", "from": "signer.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.전문사본요청합니다", "label": "전문사본요청합니다.", "kind": "체크박스", "options": ["전문사본 요청합니다."]},
+   {"key": "seal.customer", "label": "신청인", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "신청인", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.staff.본인확인", "label": "본인확인", "kind": "도장"},
+   {"key": "sign.staff.본인확인", "label": "본인확인", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "「외국환서식관리프로그램」조건변경부 신용장양도(SKY T/S) 신청서", "aliases": []},
+ "extra": []
+}

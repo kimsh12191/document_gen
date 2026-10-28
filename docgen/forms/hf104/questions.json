@@ -1,0 +1,31 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "목록.*.사업자번호", "label": "사업자번호"},
+   {"key": "목록.*.사업자명", "label": "사업자명"},
+   {"key": "목록.*.어음금액", "label": "어음금액"},
+   {"key": "목록.*.발행일", "label": "발행일"},
+   {"key": "목록.*.대표품명", "label": "대표품명"},
+   {"key": "목록.*.공급가액", "label": "공급가액"},
+   {"key": "목록.*.지급은행", "label": "지급은행"},
+   {"key": "건수", "label": "건수"},
+   {"key": "금액", "label": "금액"},
+   {"key": "수수료", "label": "수수료"},
+   {"key": "비고", "label": "비고"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "인", "from": "signer.name"},
+   {"key": "signer2.name", "label": "사업자번호"},
+   {"key": "date2", "label": "작성일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "인", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "인", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "사업자번호", "kind": "도장"},
+   {"key": "sign.signer2", "label": "사업자번호", "kind": "서명"},
+   {"key": "seal.signer3", "label": "지점", "kind": "도장"},
+   {"key": "sign.signer3", "label": "지점", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "기업구매자금어음 추심의뢰서", "aliases": []},
+ "extra": []
+}

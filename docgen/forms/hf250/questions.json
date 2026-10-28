@@ -1,0 +1,19 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "GeneralPersonalInformation", "label": "■■GeneralPersonalInformation"},
+   {"key": "customer.name", "label": "본인성명"},
+   {"key": "written.month", "label": "작성월"},
+   {"key": "written.day", "label": "작성일"},
+   {"key": "written.year", "label": "작성연도"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.identityverificationinformation", "label": "identityverificationinformation?", "kind": "체크박스", "options": ["Do Not Agree", "Agree"]},
+   {"key": "check.personalcreditinformation", "label": "personalcreditinformation?", "kind": "체크박스", "options": ["Do Not Agree", "Agree"]},
+   {"key": "seal.principal", "label": "본인서명", "kind": "도장"},
+   {"key": "sign.principal", "label": "본인서명", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "[필수] 개인(신용)정보 수집 이용 동의서(외투용)_영문", "aliases": []},
+ "extra": []
+}

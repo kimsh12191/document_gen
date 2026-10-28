@@ -1,0 +1,26 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "목록.*.제공받는자", "label": "제공받는자"},
+   {"key": "목록.*.이용목적", "label": "이용목적"},
+   {"key": "보유및이용기간", "label": "보유및이용기간"},
+   {"key": "고유식별정보", "label": "고유식별정보"},
+   {"key": "일반개인정보", "label": "일반개인정보"},
+   {"key": "개인정보", "label": "개인(신용)정보"},
+   {"key": "customer.name", "label": "본인성명", "from": "signer.name"},
+   {"key": "date", "label": "작성일"},
+   {"key": "agent.name", "label": "대리인성명", "from": "signer2.name"},
+   {"key": "불이익", "label": "불이익"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.위고유식별정보제공에동의하십니까", "label": "위고유식별정보제공에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
+   {"key": "check.위개인신용정보제공에동의하십니까", "label": "위개인신용정보제공에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
+   {"key": "seal.customer", "label": "본인성명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "본인성명", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.agent", "label": "대리인성명", "from": "seal.signer2", "kind": "도장"},
+   {"key": "sign.agent", "label": "대리인성명", "from": "sign.signer2", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "개인(신용)정보 제3자 제공 동의서[은행공동인증서비스(BankSign)]", "aliases": []},
+ "extra": []
+}

@@ -18,8 +18,9 @@ A. 초안 폴더 (만들면서 검사할 때)            B. 등록 폴더 (studi
   form.json          이름·그룹 + 칸 목록        look/template.html.j2     A 의 template.html.j2 그대로
   source.png         (선택) 원본 그림           form.json                 이름·그룹·출처만
   generate.py        (선택) 생성 스크립트       fields.json               칸 목록 (A 의 form.json 에서 fields·lists)
-                                                source.png                (선택) 원본 그림
+  questions.json     (선택) 서식 전용 질문      source.png                (선택) 원본 그림
                                                 generate.py               (선택) 생성 스크립트 (8절)
+                                                questions.json            질문·답 (등록 뒤 만듦, 10절)
 ```
 
 - **A** 는 `python -m docgen.preview --dir <폴더>` 로 바로 그려 볼 수 있습니다. 만드는 도구가 고치고 그려 보기를 반복할 때 씁니다.
@@ -204,6 +205,7 @@ python -m docgen.preview --dir <초안 폴더> --rows max --out work/max
 <초안>/form.json 의 나머지     →  <서식ID>/form.json
 <초안>/source.png            →  <서식ID>/source.png
 <초안>/generate.py           →  <서식ID>/generate.py       (있으면. 사람이 읽고 옮긴다 — 8절)
+<초안>/questions.json        →  <서식ID>/questions.json    (있으면. 없으면 등록 뒤 만든다 — 10절)
 ```
 
 - **서식 ID**: 영어 소문자로 시작, 소문자·숫자·밑줄 3~51자 (`[a-z][a-z0-9_]{2,50}`). 이미 있는 ID 는 쓰지 않습니다 (`python -m docgen.formdir path <ID>` 로 확인). 기존 폴더를 덮어쓰지 않습니다.
@@ -360,3 +362,31 @@ table.t th { background: #f2f2f2; font-weight: normal; }
 
 검사 결과: `--rows min` 1쪽·값 28개, `--rows max` 2쪽(자동 나눔)·값 128개, 둘 다 `overflow: false`, `checks: []`.
 B 꼴로 옮긴 뒤 `docgen.preview <ID>`, `docgen.regions check <ID>` 도 통과.
+
+---
+
+## 10. 질문·답 `questions.json` (선택)
+
+이 서식에서 **무엇을 어떤 항목명으로 묻는지**와 **이 서식에만 있는 질문**을 적는 파일입니다. 자세한 설명은 [guide/qa.md](../../guide/qa.md).
+모델이 만들지 않아도 됩니다 — 등록 뒤 지금 규칙 그대로 만들고 사람이 고칩니다:
+
+```bash
+python -m docgen.formdir questions <ID> --write     # 만들기 (있으면 새 칸만 더함)
+python -m docgen.formdir questions <ID> --check     # 칸과 맞는지
+```
+
+모델에게 서식 전용 질문까지 맡길 때만 초안 폴더에 `questions.json` 을 넣습니다. 그때는 `extra` 만 적으면 됩니다:
+
+```json
+{"extra": [
+  {"id": "amount", "prompt": "대출 신청금액은 얼마입니까? 원 단위 숫자로만 답하세요.", "type": "number", "answer": "{loan.amount}"},
+  {"id": "has_guarantor", "prompt": "보증인 성명이 적혀 있습니까? 예/아니오로 답하세요.", "type": "yesno", "when": "guarantor.name"},
+  {"id": "branch", "prompt": "취급 은행과 지점을 '은행 지점' 꼴로 답하세요.", "type": "text", "answer": "{bank} {branch}"}
+]}
+```
+
+- `id`: 영문·숫자·`_.-`. `type`: `number`(칸 값을 숫자로) / `yesno`(`when` 칸에 값이 있으면 예) / `text`(`{키}` 를 채운 글).
+- `{키}`·`when` 은 칸 목록에 있는 키만. 답 꼴(숫자만, 예/아니오)을 질문 문장에 적습니다.
+- 정답 **값**은 적지 않습니다 — 문서를 그릴 때마다 그 칸 값으로 정해집니다.
+- 그 뒤 `--write` 를 하면 kie·marks 목록이 더해집니다 (적은 `extra` 는 그대로).
+

@@ -1,0 +1,17 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "증명발급번호", "label": "증명발급번호"},
+   {"key": "발급용도", "label": "발급용도"},
+   {"key": "customer.name", "label": "신청인(상호,주소성명)"},
+   {"key": "date", "label": "작성일"},
+   {"key": "비고", "label": "비고"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.signer", "label": "지점장", "kind": "도장"},
+   {"key": "sign.signer", "label": "지점장", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "수출실적 확인 및 증명 발급신청서(별지 제10호 서식)", "aliases": []},
+ "extra": []
+}

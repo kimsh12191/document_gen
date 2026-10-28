@@ -1,0 +1,30 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "issue_no", "label": "발급번호"},
+   {"key": "customer.name", "label": "성명(법인명)", "from": "taxpayer.name"},
+   {"key": "customer.rrn", "label": "주민(법인,외국인)등록번호", "from": "taxpayer.rrn"},
+   {"key": "customer.address", "label": "주소(영업소)", "from": "taxpayer.address"},
+   {"key": "period", "label": "과세연도"},
+   {"key": "purpose", "label": "사용목적"},
+   {"key": "items.*.tax_item", "label": "세목"},
+   {"key": "items.*.levied", "label": "부과연월"},
+   {"key": "items.*.kind", "label": "구분"},
+   {"key": "items.*.object", "label": "과세대상"},
+   {"key": "items.*.base", "label": "과세표준"},
+   {"key": "items.*.tax", "label": "세액"},
+   {"key": "items.*.edu", "label": "지방교육세"},
+   {"key": "items.*.total", "label": "합계"},
+   {"key": "sum.tax", "label": "세액합계"},
+   {"key": "sum.edu", "label": "지방교육세합계"},
+   {"key": "sum.total", "label": "총합계"},
+   {"key": "issue_date", "label": "발급일"},
+   {"key": "issuer", "label": "발급기관"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.issuer", "label": "발급기관직인", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "지방세 세목별 과세증명서", "aliases": []},
+ "extra": []
+}

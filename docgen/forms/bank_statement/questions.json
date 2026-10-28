@@ -1,0 +1,31 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "issue_no", "label": "발급번호"},
+   {"key": "holder", "label": "예금주"},
+   {"key": "birth", "label": "생년월일"},
+   {"key": "account_no", "label": "계좌번호"},
+   {"key": "product", "label": "상품명"},
+   {"key": "period", "label": "조회기간"},
+   {"key": "opening_balance", "label": "조회기간전잔액"},
+   {"key": "rows.*.datetime", "label": "거래일시"},
+   {"key": "rows.*.type", "label": "적요"},
+   {"key": "rows.*.memo", "label": "기재내용"},
+   {"key": "rows.*.out", "label": "찾으신금액"},
+   {"key": "rows.*.in", "label": "맡기신금액"},
+   {"key": "rows.*.balance", "label": "거래후잔액"},
+   {"key": "summary.count", "label": "거래건수"},
+   {"key": "summary.out", "label": "찾으신금액합계"},
+   {"key": "summary.in", "label": "맡기신금액합계"},
+   {"key": "summary.balance", "label": "최종잔액"},
+   {"key": "issue_date", "label": "발급일"},
+   {"key": "issuer", "label": "발급점"},
+   {"key": "overdraft_limit", "label": "대출한도"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.issuer", "label": "발급기관직인", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "거래내역확인서", "aliases": []},
+ "extra": []
+}

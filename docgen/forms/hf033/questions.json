@@ -1,0 +1,21 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "FilingNo", "label": "FilingNo."},
+   {"key": "FilingDate", "label": "FilingDate"},
+   {"key": "TaxpayerIdentificationNo", "label": "TaxpayerIdentificationNo."},
+   {"key": "CountryofResidence", "label": "CountryofResidence"},
+   {"key": "customer.birth", "label": "DateofBirth"},
+   {"key": "CountryCode", "label": "CountryCode"},
+   {"key": "목록.*.Yes", "label": "Yes"},
+   {"key": "목록.*.No", "label": "No"},
+   {"key": "AddressorLocation", "label": "AddressorLocation"},
+   {"key": "NameofIndividualorCorporation", "label": "NameofIndividualorCorporation"},
+   {"key": "Applicant", "label": "Applicant"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "국내원천소득 제한세율 적용신청서(비거주자용-영문)", "aliases": []},
+ "extra": []
+}

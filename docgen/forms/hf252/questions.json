@@ -1,0 +1,39 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "반출입구분", "label": "반출입구분(ExorImport)"},
+   {"key": "휴대_목록.*.통화종류CodeofCurrency", "label": "통화종류CodeofCurrency"},
+   {"key": "송금", "label": "송금(Remitted)"},
+   {"key": "기타", "label": "기타(FromOthereligiblesources)"},
+   {"key": "휴대_목록.*.형태Form", "label": "형태Form"},
+   {"key": "목록.*.형태Form", "label": "형태Form"},
+   {"key": "휴대_목록.*.통화별금액AmountineachCurrency", "label": "통화별금액AmountineachCurrency"},
+   {"key": "목록.*.통화별금액AmountineachCurrency", "label": "통화별금액AmountineachCurrency"},
+   {"key": "휴대_목록.*.합계Sum", "label": "합계(미화상당)Sum(US$equiv)"},
+   {"key": "목록.*.합계Sum", "label": "합계(미화상당)Sum(US$equiv)"},
+   {"key": "휴대_목록.*.반출입용도Use", "label": "반출입용도Use"},
+   {"key": "목록.*.반출입용도Use", "label": "반출입용도Use"},
+   {"key": "휴대_목록.*.비고", "label": "비고(Note)(수표번호등)"},
+   {"key": "목록.*.비고", "label": "비고(Note)(수표번호등)"},
+   {"key": "국적Nationality", "label": "국적Nationality"},
+   {"key": "목록.*.일자Date", "label": "일자Date"},
+   {"key": "목록.*.금액Amount", "label": "금액Amount"},
+   {"key": "확인ResponsibleOfficial", "label": "확인ResponsibleOfficial"},
+   {"key": "통화종류CodeofCurrency", "label": "통화종류CodeofCurrency"},
+   {"key": "확인기관ConfirmationOffice", "label": "확인기관ConfirmationOffice"},
+   {"key": "확인자Signature", "label": "확인자Signature"},
+   {"key": "customer.name", "label": "성명"},
+   {"key": "customer.name2", "label": "Name"},
+   {"key": "Initial", "label": "Initial"},
+   {"key": "customer.rrn", "label": "주민등록번호"},
+   {"key": "PassportNo", "label": "PassportNo."},
+   {"key": "ExpectedTermofStayTo", "label": "ExpectedTermofStayTo"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "신고인서명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "신고인서명", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "외국환 신고(확인)필증", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,25 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "이미신고된사항", "label": "이미신고된사항"},
+   {"key": "corp.name", "label": "상호", "from": "company.name"},
+   {"key": "corp.ceo", "label": "대표자", "from": "company.ceo"},
+   {"key": "corp.address", "label": "소재지", "from": "company.address"},
+   {"key": "corp.biz_item", "label": "업종", "from": "company.biz_item"},
+   {"key": "변경사유", "label": "변경사유"},
+   {"key": "변경하고자하는사항", "label": "변경하고자하는사항"},
+   {"key": "신고번호", "label": "신고번호"},
+   {"key": "date", "label": "신고일자"},
+   {"key": "처리기간", "label": "처리기간"},
+   {"key": "date2", "label": "작성일"},
+   {"key": "customer.name", "label": "신고인", "from": "signer.name"},
+   {"key": "신고기관기획재정부장관", "label": "신고기관:기획재정부장관"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "신고인", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "신고인", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "외국기업 국내지사 변경신고서", "aliases": []},
+ "extra": []
+}

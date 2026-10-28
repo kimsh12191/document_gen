@@ -1,0 +1,19 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "KEBHanaBank", "label": "KEBHanaBank"},
+   {"key": "NameNameoftheCorporation", "label": "Name/NameoftheCorporation"},
+   {"key": "customer.address", "label": "Address"},
+   {"key": "Consentedby", "label": "Consentedby"},
+   {"key": "CustomerWhoConsents", "label": "CustomerWhoConsents"},
+   {"key": "FinancialCompanies", "label": "FinancialCompanies,"},
+   {"key": "etcWhichWillProvide", "label": "etc.WhichWillProvide"},
+   {"key": "toWhichTransaction", "label": "toWhichTransaction"},
+   {"key": "Signedon", "label": "Signedon"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "금융거래정보이용제공동의서(영문)", "aliases": []},
+ "extra": []
+}

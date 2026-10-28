@@ -1,0 +1,12 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "date", "label": "작성일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.동의", "label": "동의", "kind": "체크박스", "options": ["동의", "동의하지 않음"]}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "펌뱅킹 출금전용계좌이용 동의서", "aliases": []},
+ "extra": []
+}

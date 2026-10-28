@@ -1,0 +1,31 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "입금모계좌", "label": "입금모계좌"},
+   {"key": "수수료인출계좌", "label": "수수료인출계좌"},
+   {"key": "목록.*.계좌번호", "label": "계좌번호"},
+   {"key": "목록.*.예금주", "label": "예금주"},
+   {"key": "date", "label": "작성일"},
+   {"key": "corp.ceo", "label": "대표이사", "from": "signer.name"},
+   {"key": "만원이상", "label": "만원이상"},
+   {"key": "영업일기준", "label": "영업일기준"},
+   {"key": "사유", "label": "사유"},
+   {"key": "부기명표기사유및부기명내용", "label": "부기명표기사유및부기명내용"},
+   {"key": "가상계좌개설후최초입금시1회징구", "label": "가상계좌개설후최초입금시1회징구"},
+   {"key": "가상계좌로입금거래발생시매회징구", "label": "가상계좌로입금거래발생시매회징구"},
+   {"key": "신청좌수", "label": "신청좌수"},
+   {"key": "동일가상계좌에입금가능한횟수를의미함", "label": "동일가상계좌에입금가능한횟수를의미함"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.corp", "label": "대표이사", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "대표이사", "from": "sign.signer", "kind": "서명"},
+   {"key": "check.정산일", "label": "정산일", "kind": "체크박스", "options": ["입금당일정산", "입금후"]},
+   {"key": "check.정산방식", "label": "정산방식", "kind": "체크박스", "options": ["일괄정산", "실시간 입금"]},
+   {"key": "check.예금주명표기방식", "label": "예금주명표기방식", "kind": "체크박스", "options": ["예금주명만 표기", "예금주명 +부기명"]},
+   {"key": "check.가상계좌재사용여부", "label": "가상계좌재사용여부", "kind": "체크박스", "options": ["재사용", "회만 사용"]},
+   {"key": "check.가상계좌별입금횟수제한", "label": "가상계좌별입금횟수제한", "kind": "체크박스", "options": ["제한없음", "매월"]}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "가상계좌서비스 이용계약서(원화)", "aliases": []},
+ "extra": []
+}

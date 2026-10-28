@@ -1,0 +1,36 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "company.biz_type", "label": "업태"},
+   {"key": "corp.name", "label": "기업명(MP상호명)", "from": "company.name"},
+   {"key": "MPURL", "label": "MPURL"},
+   {"key": "corp.ceo", "label": "대표자명", "from": "company.ceo"},
+   {"key": "customer.phone", "label": "전화번호"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "수수료입금계좌", "label": "수수료입금계좌"},
+   {"key": "담당부서", "label": "담당부서"},
+   {"key": "담당자명", "label": "담당자명"},
+   {"key": "email주소", "label": "e-mail주소"},
+   {"key": "corp.biz_item", "label": "업종", "from": "company.biz_item"},
+   {"key": "corp.biz_no", "label": "사업자등록번호", "from": "company.biz_no"},
+   {"key": "신용보증", "label": "신용보증"},
+   {"key": "기술보증", "label": "기술보증"},
+   {"key": "지역보증", "label": "지역보증"},
+   {"key": "대표자생년월일", "label": "대표자생년월일"},
+   {"key": "FAX번호", "label": "FAX번호"},
+   {"key": "customer.name", "label": "예금주명"},
+   {"key": "date", "label": "작성일"},
+   {"key": "signer.name", "label": "성명"},
+   {"key": "customer.address2", "label": "주소"},
+   {"key": "선택", "label": "선택"},
+   {"key": "있어야추심등록및대출실행", "label": "있어야추심등록및대출실행"},
+   {"key": "절차필요", "label": "절차필요"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "성명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "성명", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "B2B 전자결제서비스 업무 이용신청서(MP용)", "aliases": []},
+ "extra": []
+}

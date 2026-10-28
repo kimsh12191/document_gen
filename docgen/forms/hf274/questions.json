@@ -1,0 +1,29 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "분실사유", "label": "분실사유"},
+   {"key": "첨부서류분실신용장사본", "label": "첨부서류:분실신용장사본"},
+   {"key": "통지번호", "label": "통지번호"},
+   {"key": "LC번호", "label": "L/C번호"},
+   {"key": "금액", "label": "금액"},
+   {"key": "유효기일", "label": "유효기일"},
+   {"key": "발행은행", "label": "발행은행"},
+   {"key": "수익자", "label": "수익자"},
+   {"key": "개설의뢰인", "label": "개설의뢰인"},
+   {"key": "발행일", "label": "발행일"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "신청인", "from": "signer.name"},
+   {"key": "customer.address", "label": "주소"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "신청인", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "신청인", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "「외국환서식관리프로그램」신용장 분실신고 및 재발행 신청서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,30 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "상호및대표자성명", "from": "signer.name"},
+   {"key": "corp.biz_item", "label": "업종(직업)", "from": "company.biz_item"},
+   {"key": "상호및대표자성명", "label": "상호및대표자성명"},
+   {"key": "company.biz_item2", "label": "업종(직업)"},
+   {"key": "계약금액", "label": "계약(명목)금액"},
+   {"key": "만기", "label": "만기"},
+   {"key": "세부내용", "label": "세부내용"},
+   {"key": "신고번호", "label": "신고번호"},
+   {"key": "신고금액", "label": "신고금액"},
+   {"key": "date", "label": "신고일자"},
+   {"key": "유효기간", "label": "유효기간"},
+   {"key": "기타참고사항", "label": "기타참고사항"},
+   {"key": "처리기간", "label": "처리기간"},
+   {"key": "date2", "label": "작성일"},
+   {"key": "신고기관", "label": "신고기관"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "상호및대표자성명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "상호및대표자성명", "from": "sign.signer", "kind": "서명"},
+   {"key": "check.거래기초자산", "label": "거래기초자산", "kind": "체크박스", "options": ["신용", "통화", "이자율", "주식", "상품", "기타("]},
+   {"key": "check.거래종류", "label": "거래종류", "kind": "체크박스", "options": ["선도거래", "선물거래", "스왑거래", "옵션거래", "신용파생상품거래(", "보장매입", "보장매도"]},
+   {"key": "check.거래특이사항", "label": "거래특이사항", "kind": "체크박스", "options": ["자본거래시 해당자본거래와 직접 관련되는 파생상품거래를 해당자본거래의", "액면금액의 100분의 20이상을 선급수수료로 지급하는 거래", "기 체결된 파생상품거래의 변경·취소·종료시 발생한 손실을 새로운 파생상품", "자금유출입·거주자와 비거주자간 금전대차 거래 관련 신고등의 절차를 회피"]}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "파생상품거래 신고서", "aliases": []},
+ "extra": []
+}

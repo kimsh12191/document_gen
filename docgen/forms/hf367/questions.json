@@ -1,0 +1,21 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.address", "label": "주소"},
+   {"key": "customer.address2", "label": "주소"},
+   {"key": "date", "label": "작성일"},
+   {"key": "교육기관명", "label": "교육기관명"},
+   {"key": "corp.ceo", "label": "대표자(학교장)", "from": "signer.name"},
+   {"key": "signer2.name", "label": "지점장"},
+   {"key": "고객", "label": "“고객”"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.corp", "label": "대표자(학교장)", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "대표자(학교장)", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "지점장", "kind": "도장"},
+   {"key": "sign.signer2", "label": "지점장", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "Hana 1Q bank CMS iNet 서비스 이용 추가 계약서(iSBS)", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,27 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "agent.name_en", "label": "Name"},
+   {"key": "agent.relation_en", "label": "RelationshiptoPrincipal"},
+   {"key": "agent.address", "label": "Address"},
+   {"key": "account", "label": "AccountNo."},
+   {"key": "poa.other_powers_en", "label": "Others"},
+   {"key": "agent.birth", "label": "DateofBirth"},
+   {"key": "agent.phone", "label": "ContactInformation"},
+   {"key": "bank.confirm_date", "label": "DateofConfirmingPowersGiven"},
+   {"key": "customer.name_en", "label": "Name"},
+   {"key": "customer.address", "label": "Address"},
+   {"key": "customer.phone", "label": "ContactInformation"},
+   {"key": "bank.branch", "label": "HanaBank___Branch"},
+   {"key": "date", "label": "Date(MM-DD-YYYY)"},
+   {"key": "customer.birth", "label": "PrincipalDateofBirth"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.Pleasetickintherelevantbox", "label": "Pleasetick√intherelevantbox", "kind": "체크박스", "options": ["."]},
+   {"key": "check.AccountOpening", "label": "AccountOpening", "kind": "체크박스", "options": ["Savings Deposit", "Time Deposit", "Installment Deposit", "Others ("]},
+   {"key": "check.Details", "label": "Details", "kind": "체크박스", "options": ["Change of password", "Bankbook / Seal loss", "Account closing", "Others ("]}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "위임장(영문)", "aliases": []},
+ "extra": []
+}

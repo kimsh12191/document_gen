@@ -1,0 +1,34 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "신용거래정보", "label": "■신용거래정보"},
+   {"key": "수집이용목적", "label": "수집·이용목적"},
+   {"key": "일반개인정보", "label": "■일반개인정보"},
+   {"key": "성명생년월일", "label": "성명,생년월일"},
+   {"key": "하나금융그룹계열사", "label": "-하나금융그룹계열사"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "성명", "from": "signer.name"},
+   {"key": "agent.name", "label": "법정대리인", "from": "signer2.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.위개인정보수집이용에동의하십니까안심", "label": "위개인(신용)정보수집·이용에동의하십니까?안심", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
+   {"key": "check.광고성정보의수신을동의하시겠습니까", "label": "광고성정보의수신을동의하시겠습니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
+   {"key": "check.14전체", "label": "1~4전체", "kind": "체크박스", "options": ["보기1"]},
+   {"key": "check.문자메시지", "label": "문자메시지(SMS,LMS,모바일메시지등)", "kind": "체크박스", "options": ["보기1", "보기2"]},
+   {"key": "check.전자우편", "label": "전자우편(이메일)", "kind": "체크박스", "options": ["보기1", "보기2"]},
+   {"key": "seal.staff.본인확인", "label": "본인확인", "kind": "도장"},
+   {"key": "sign.staff.본인확인", "label": "본인확인", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"},
+   {"key": "check.위개인정보제공에동의하십니까안심", "label": "위개인(신용)정보제공에동의하십니까?안심", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
+   {"key": "seal.customer", "label": "성명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "성명", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.agent", "label": "법정대리인", "from": "seal.signer2", "kind": "도장"},
+   {"key": "sign.agent", "label": "법정대리인", "from": "sign.signer2", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "[선택] 개인(신용)정보 수집ㆍ이용 및 제공동의서 (상품서비스 안내 등)", "aliases": []},
+ "extra": []
+}

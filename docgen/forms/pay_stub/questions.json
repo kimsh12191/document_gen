@@ -1,0 +1,38 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "doc_title", "label": "서식명"},
+   {"key": "title_month", "label": "귀속연월"},
+   {"key": "company", "label": "회사명"},
+   {"key": "pay_date", "label": "지급일"},
+   {"key": "customer.name", "label": "성명", "from": "employee.name"},
+   {"key": "customer.birth", "label": "생년월일", "from": "employee.birth"},
+   {"key": "employee.employee_no", "label": "사번"},
+   {"key": "employee.department", "label": "부서"},
+   {"key": "employee.position", "label": "직급"},
+   {"key": "payments.*.name", "label": "임금항목"},
+   {"key": "payments.*.amount", "label": "지급금액"},
+   {"key": "deductions.*.name", "label": "공제항목"},
+   {"key": "deductions.*.amount", "label": "공제금액"},
+   {"key": "payments_irregular.*.name", "label": "임금항목"},
+   {"key": "payments_irregular.*.amount", "label": "지급금액"},
+   {"key": "pay_total", "label": "지급액계"},
+   {"key": "deduction_total", "label": "공제액계"},
+   {"key": "net_pay", "label": "실수령액"},
+   {"key": "work.days", "label": "근로일수"},
+   {"key": "work.hours", "label": "총근로시간수"},
+   {"key": "work.overtime_hours", "label": "연장근로시간수"},
+   {"key": "work.night_hours", "label": "야간근로시간수"},
+   {"key": "work.holiday_hours", "label": "휴일근로시간수"},
+   {"key": "work.hourly_wage", "label": "통상시급(원)"},
+   {"key": "work.family", "label": "가족수"},
+   {"key": "calc_methods.*.item", "label": "구분"},
+   {"key": "calc_methods.*.method", "label": "산출식또는산출방법"},
+   {"key": "calc_methods.*.amount", "label": "금액(원)"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "급여명세서", "aliases": []},
+ "extra": []
+}

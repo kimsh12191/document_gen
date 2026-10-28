@@ -1,0 +1,28 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "biz_no", "label": "등록번호"},
+   {"key": "corp.name", "label": "법인명(단체명)", "from": "corp_name"},
+   {"key": "ceo", "label": "대표자"},
+   {"key": "opened", "label": "개업연월일"},
+   {"key": "corp_reg_no", "label": "법인등록번호"},
+   {"key": "address", "label": "사업장소재지"},
+   {"key": "head_office", "label": "본점소재지"},
+   {"key": "biz_type", "label": "업태"},
+   {"key": "biz_item", "label": "종목"},
+   {"key": "issue_reason", "label": "발급사유"},
+   {"key": "unit_taxation", "label": "사업자단위과세적용사업자여부"},
+   {"key": "einvoice_email", "label": "전자세금계산서전용전자우편주소"},
+   {"key": "issue_date", "label": "발급일"},
+   {"key": "issuer", "label": "발급기관"},
+   {"key": "sub_kinds.*.biz_type", "label": "업태"},
+   {"key": "sub_kinds.*.biz_item", "label": "종목"},
+   {"key": "co_ceo", "label": "대표자"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.issuer", "label": "발급기관직인", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "사업자등록증(법인사업자)", "aliases": []},
+ "extra": []
+}

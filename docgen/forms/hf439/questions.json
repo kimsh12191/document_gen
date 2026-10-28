@@ -1,0 +1,19 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "상조회사명", "label": "상조회사명"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "corp.biz_no", "label": "사업자번호", "from": "company.biz_no"},
+   {"key": "목록.*.예금과목", "label": "예금과목"},
+   {"key": "목록.*.계좌번호", "label": "계좌번호"},
+   {"key": "목록.*.금액", "label": "금액"},
+   {"key": "date", "label": "작성일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.signer", "label": "지점장", "kind": "도장"},
+   {"key": "sign.signer", "label": "지점장", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "상조회사 선수금 예치확인서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,36 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "doc_no"},
+   {"key": "officer", "label": "담당자"},
+   {"key": "officer_phone", "label": "전화"},
+   {"key": "applicant", "label": "신청인"},
+   {"key": "purpose", "label": "용도및목적"},
+   {"key": "issue_date", "label": "발급일"},
+   {"key": "issuer", "label": "발급기관"},
+   {"key": "household_head.name", "label": "세대주성명"},
+   {"key": "household_head.name_hanja", "label": "세대주성명(한자)"},
+   {"key": "household_formed.reason", "label": "세대구성사유"},
+   {"key": "household_formed.date", "label": "세대구성일자"},
+   {"key": "past_addresses.*.no", "label": "번호"},
+   {"key": "past_addresses.*.address", "label": "주소"},
+   {"key": "past_addresses.*.moved_in", "label": "전입일/변동일"},
+   {"key": "past_addresses.*.reason", "label": "변동사유"},
+   {"key": "customer.address", "label": "현주소", "from": "current_address.address"},
+   {"key": "current_address.moved_in", "label": "전입일/변동일"},
+   {"key": "current_address.reason", "label": "변동사유"},
+   {"key": "members.*.no", "label": "번호"},
+   {"key": "members.*.relation", "label": "세대주관계"},
+   {"key": "members.*.name", "label": "성명"},
+   {"key": "members.*.name_hanja", "label": "한자"},
+   {"key": "members.*.moved_in", "label": "전입일/변동일"},
+   {"key": "members.*.reason", "label": "변동사유"},
+   {"key": "members.*.rrn", "label": "주민등록번호"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.issuer", "label": "발급기관직인", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "주민등록표 등본", "aliases": ["주민등록표(등본)"]},
+ "extra": []
+}

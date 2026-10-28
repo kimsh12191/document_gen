@@ -1,0 +1,28 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "corp.corp_reg_no", "label": "법인등록번호", "from": "company.corp_reg_no"},
+   {"key": "corp.biz_no", "label": "사업자등록번호", "from": "company.biz_no"},
+   {"key": "사업자명", "label": "사업자명"},
+   {"key": "사업자대표", "label": "사업자대표"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "customer.address2", "label": "주소"},
+   {"key": "customer.phone", "label": "전화번호"},
+   {"key": "팩스번호", "label": "팩스번호"},
+   {"key": "customer.email", "label": "e-mail"},
+   {"key": "목록.*.실행자ID", "label": "실행자ID"},
+   {"key": "목록.*.통화", "label": "통화"},
+   {"key": "목록.*.계좌번호", "label": "계좌번호"},
+   {"key": "목록.*.예금주명", "label": "예금주명"},
+   {"key": "목록.*.인감서명", "label": "인감/서명"},
+   {"key": "목록.*.개설점", "label": "개설점"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.하나해외지점법인주1고객", "label": "하나해외지점/법인주1)고객", "kind": "체크박스", "options": ["예 (아래내용 필수기입)"]},
+   {"key": "check.아래의사업장을CMSiN", "label": "아래의사업장을CMSiNet지사로등록하여주시기바랍니다.", "kind": "체크박스", "options": ["아래의 사업장을 CMS iNet 지사로 등록하여 주시기 바랍니다."]},
+   {"key": "check.지사출금계좌", "label": "지사출금계좌", "kind": "체크박스", "options": ["지사 출금계좌"]}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "CMSiNet 지사정보 등록신청서", "aliases": []},
+ "extra": []
+}

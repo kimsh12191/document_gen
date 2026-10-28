@@ -1,0 +1,36 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "agent.name", "label": "성명"},
+   {"key": "agent.relation", "label": "본인과의관계"},
+   {"key": "agent.address", "label": "주소"},
+   {"key": "account", "label": "계좌번호"},
+   {"key": "기타사항", "label": "기타사항"},
+   {"key": "agent.birth", "label": "생년월일"},
+   {"key": "agent.phone", "label": "연락처"},
+   {"key": "위임내용확인일시", "label": "위임내용확인일시"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "signer.name", "label": "성명(업체명)"},
+   {"key": "customer.birth", "label": "생년월일(사업자번호)"},
+   {"key": "customer.address2", "label": "주소"},
+   {"key": "customer.phone", "label": "연락처"},
+   {"key": "취급점", "label": "취급점"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "성명"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.해당", "label": "해당", "kind": "체크박스", "options": ["에 √ 표시하며 기타의 경우 구체적인 위임내용을 기재합니다"]},
+   {"key": "check.신규계좌개설", "label": "신규계좌개설", "kind": "체크박스", "options": ["입출금이자유로운예금", "정기예금", "적금", "기타 ("]},
+   {"key": "check.신규계좌개설2", "label": "신규계좌개설", "kind": "체크박스", "options": ["개인(신용)정보 수집 이용 및 제공 동의서(상품서비스 안내 등) 작성"]},
+   {"key": "check.세부내용", "label": "세부내용", "kind": "체크박스", "options": ["비밀번호 변경", "통장/인감 분실", "계좌해지", "기타 ("]},
+   {"key": "seal.customer", "label": "성명(업체명)", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "성명(업체명)", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "위임장", "aliases": []},
+ "extra": []
+}

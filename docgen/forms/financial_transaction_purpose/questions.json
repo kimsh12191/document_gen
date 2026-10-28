@@ -1,0 +1,34 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "bank.name", "label": "은행명"},
+   {"key": "customer.name", "label": "성명"},
+   {"key": "customer.nationality", "label": "국적"},
+   {"key": "customer.rrn", "label": "실명번호"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "customer.mobile", "label": "연락처"},
+   {"key": "customer.job", "label": "직업"},
+   {"key": "evidence", "label": "제출증빙서류"},
+   {"key": "date", "label": "작성일"},
+   {"key": "signature", "label": "고객성명"},
+   {"key": "bank_use.clerk", "label": "담당"},
+   {"key": "bank_use.manager", "label": "책임자"},
+   {"key": "customer.company", "label": "직장명"},
+   {"key": "purpose_detail", "label": "기타금융거래목적"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "account_type", "label": "신규예금종류", "kind": "체크박스", "options": ["보통예금", "저축예금", "기타 입출금예금"]},
+   {"key": "purpose", "label": "금융거래목적", "kind": "체크박스", "options": ["급여계좌", "사업자 거래", "공과금 이체", "모임 회비", "아르바이트", "기타"]},
+   {"key": "questions.q1", "label": "통장양도대여요청여부", "kind": "체크박스", "options": ["예", "아니오"]},
+   {"key": "questions.q2", "label": "취업대출빙자요청여부", "kind": "체크박스", "options": ["예", "아니오"]},
+   {"key": "questions.q3", "label": "최근타행계좌개설여부", "kind": "체크박스", "options": ["예", "아니오"]},
+   {"key": "seal.customer", "label": "고객", "kind": "도장"},
+   {"key": "sign.customer", "label": "고객", "kind": "서명"},
+   {"key": "bank_use.result", "label": "처리결과", "kind": "체크박스", "options": ["일반계좌 개설", "금융거래한도계좌 개설", "개설 거절"]},
+   {"key": "seal.staff.clerk", "label": "담당", "kind": "도장"},
+   {"key": "seal.staff.manager", "label": "책임자", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "금융거래목적확인서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,29 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "성명"},
+   {"key": "customer.birth", "label": "생년월일"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "agent.relation", "label": "본인과의관계"},
+   {"key": "customer.phone", "label": "연락처"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.birth2", "label": "생년월일/사업자번호"},
+   {"key": "customer.address2", "label": "주소"},
+   {"key": "customer.phone2", "label": "연락처"},
+   {"key": "signer.name", "label": "직원명"},
+   {"key": "본인의투자성향파악여부에대한의사결정", "label": "-본인의투자성향파악여부에대한의사결정"},
+   {"key": "본인의투자성향분석결과를확인하는행위", "label": "-본인의투자성향분석결과를확인하는행위"},
+   {"key": "신규외기타위임거래를구체적으로명시", "label": "신규외기타위임거래를구체적으로명시"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.signer", "label": "직원명", "kind": "도장"},
+   {"key": "sign.signer", "label": "직원명", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "위임장(집합투자증권 및 연금저축계좌 투자용)", "aliases": []},
+ "extra": []
+}

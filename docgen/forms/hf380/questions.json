@@ -1,0 +1,26 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "출금이체", "label": "출금이체"},
+   {"key": "입금이체", "label": "입금이체"},
+   {"key": "목록.*.예금주명", "label": "예금주명"},
+   {"key": "원", "label": "원"},
+   {"key": "이체건당", "label": "이체건당"},
+   {"key": "원2", "label": "원"},
+   {"key": "원3", "label": "원"},
+   {"key": "원4", "label": "원"},
+   {"key": "계약지점코드", "label": "계약지점코드"},
+   {"key": "corp.biz_no", "label": "사업자등록번호", "from": "company.biz_no"},
+   {"key": "signer.name", "label": "지점장"},
+   {"key": "corp.ceo", "label": "대표자", "from": "signer2.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.signer", "label": "지점장", "kind": "도장"},
+   {"key": "sign.signer", "label": "지점장", "kind": "서명"},
+   {"key": "seal.corp", "label": "대표자", "from": "seal.signer2", "kind": "도장"},
+   {"key": "sign.customer", "label": "대표자", "from": "sign.signer2", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "금융결제원CMS 이용계약서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,33 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "성명", "from": "official.name"},
+   {"key": "customer.rrn", "label": "주민등록번호", "from": "official.rrn"},
+   {"key": "customer.address", "label": "주소", "from": "official.address"},
+   {"key": "employer.name", "label": "근로소득발생처", "from": "official.company"},
+   {"key": "official.biz_no", "label": "발생처사업자등록번호"},
+   {"key": "official.salary", "label": "지급받은총액"},
+   {"key": "official.year", "label": "귀속연도"},
+   {"key": "official.tax", "label": "총결정세액"},
+   {"key": "official.number", "label": "발급번호"},
+   {"key": "official.office", "label": "관할지역"},
+   {"key": "official.issue0", "label": "발급일년"},
+   {"key": "official.issue1", "label": "발급일월"},
+   {"key": "official.issue2", "label": "발급일일"},
+   {"key": "official.salary_income", "label": "근로소득소득금액"},
+   {"key": "official.period_from", "label": "납세자가신청한증명귀속연도시작"},
+   {"key": "official.period_to", "label": "납세자가신청한증명귀속연도끝"},
+   {"key": "official.receipt_no", "label": "접수번호"},
+   {"key": "official.issuer_department", "label": "증명발급자담당부서"},
+   {"key": "official.issuer_person", "label": "증명발급자담당자"},
+   {"key": "official.issuer_phone", "label": "증명발급자연락처"},
+   {"key": "official.tax_officer_department", "label": "세적담당자담당부서"},
+   {"key": "official.tax_officer_person", "label": "세적담당자담당자"},
+   {"key": "official.tax_officer_phone", "label": "세적담당자연락처"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "소득금액증명원", "aliases": ["소득금액증명"]},
+ "extra": []
+}

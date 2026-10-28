@@ -1,0 +1,41 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "confirm_no", "label": "문서확인번호"},
+   {"key": "unique_no", "label": "고유번호"},
+   {"key": "building_name", "label": "명칭"},
+   {"key": "unit_name", "label": "호명칭"},
+   {"key": "site_location", "label": "대지위치"},
+   {"key": "jibun", "label": "지번"},
+   {"key": "road_address", "label": "도로명주소"},
+   {"key": "exclusive.*.kind", "label": "구분"},
+   {"key": "exclusive.*.floor", "label": "층별"},
+   {"key": "exclusive.*.structure", "label": "구조"},
+   {"key": "exclusive.*.usage", "label": "용도"},
+   {"key": "exclusive.*.area", "label": "면적(㎡)"},
+   {"key": "common.*.kind", "label": "구분"},
+   {"key": "common.*.floor", "label": "층별"},
+   {"key": "common.*.structure", "label": "구조"},
+   {"key": "common.*.usage", "label": "용도"},
+   {"key": "common.*.area", "label": "면적(㎡)"},
+   {"key": "owners.*.name", "label": "성명(명칭)"},
+   {"key": "owners.*.rrn", "label": "주민(법인)등록번호"},
+   {"key": "owners.*.address", "label": "주소"},
+   {"key": "owners.*.share", "label": "소유권지분"},
+   {"key": "owners.*.change_date", "label": "변동일"},
+   {"key": "owners.*.change_cause", "label": "변동원인"},
+   {"key": "house_prices.*.base_date", "label": "기준일"},
+   {"key": "house_prices.*.price", "label": "공동주택(아파트)가격"},
+   {"key": "officer", "label": "담당자"},
+   {"key": "officer_phone", "label": "전화"},
+   {"key": "issue_date", "label": "발급일"},
+   {"key": "issuer", "label": "발급기관"},
+   {"key": "owners_note", "label": "비고"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.issuer", "label": "발급기관직인", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "집합건축물대장(전유부)", "aliases": ["집합건축물대장(전유부, 갑)"]},
+ "extra": []
+}

@@ -1,0 +1,19 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "LCNO", "label": "L/CNO(REFNO)"},
+   {"key": "선적서류금액", "label": "선적서류금액"},
+   {"key": "통보내역", "label": "[은행사용란]통보내역"},
+   {"key": "신용장번호", "label": "신용장번호"},
+   {"key": "선적서류금액2", "label": "선적서류금액"},
+   {"key": "불일치내용", "label": "불일치내용"},
+   {"key": "date", "label": "작성일"},
+   {"key": "취급점", "label": "취급점"},
+   {"key": "date2", "label": "작성일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "수입선적서류 도착통지 및 수입신용장 조건불일치에 관한 조회", "aliases": []},
+ "extra": []
+}

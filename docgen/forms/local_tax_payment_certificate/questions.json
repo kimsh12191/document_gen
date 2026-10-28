@@ -1,0 +1,28 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "issue_no", "label": "발급번호"},
+   {"key": "customer.name", "label": "성명(법인명)", "from": "taxpayer.name"},
+   {"key": "customer.rrn", "label": "주민등록번호(법인등록번호)", "from": "taxpayer.rrn"},
+   {"key": "customer.address", "label": "주소(영업소)", "from": "taxpayer.address"},
+   {"key": "purpose", "label": "증명서사용목적"},
+   {"key": "valid_period", "label": "증명서유효기간"},
+   {"key": "deferral", "label": "징수유예등또는체납처분유예의내역"},
+   {"key": "arrears", "label": "체납액"},
+   {"key": "issue_date", "label": "발급일"},
+   {"key": "issuer", "label": "발급기관"},
+   {"key": "customer.trade_name", "label": "상호", "from": "taxpayer.trade_name"},
+   {"key": "customer.biz_no", "label": "사업자등록번호", "from": "taxpayer.biz_no"},
+   {"key": "deferrals.*.tax_year", "label": "과세연도"},
+   {"key": "deferrals.*.tax_item", "label": "세목"},
+   {"key": "deferrals.*.due", "label": "납부기한"},
+   {"key": "deferrals.*.amount", "label": "세액"},
+   {"key": "deferrals.*.period", "label": "유예기간"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.issuer", "label": "발급기관직인", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "지방세 납세증명서", "aliases": ["지방세 납세증명(신청)서"]},
+ "extra": []
+}

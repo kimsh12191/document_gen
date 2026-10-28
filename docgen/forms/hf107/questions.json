@@ -1,0 +1,30 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "목록.*.계좌번호", "label": "계좌번호"},
+   {"key": "목록.*.추심의뢰인", "label": "추심의뢰인"},
+   {"key": "목록.*.대출금액", "label": "대출금액"},
+   {"key": "목록.*.대출취급일", "label": "대출취급일"},
+   {"key": "목록.*.당초만기일", "label": "당초만기일"},
+   {"key": "목록.*.기한연장일", "label": "기한연장일"},
+   {"key": "목록.*.비고", "label": "비고"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "신청인", "from": "signer.name"},
+   {"key": "customer.address", "label": "주소"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "신청인", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "신청인", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.staff.계", "label": "계", "kind": "도장"},
+   {"key": "sign.staff.계", "label": "계", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"},
+   {"key": "seal.staff.관리자", "label": "관리자", "kind": "도장"},
+   {"key": "sign.staff.관리자", "label": "관리자", "kind": "서명"},
+   {"key": "seal.staff.부점장", "label": "부점장", "kind": "도장"},
+   {"key": "sign.staff.부점장", "label": "부점장", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "기업구매자금대출 연장신청서", "aliases": []},
+ "extra": []
+}

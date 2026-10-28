@@ -1,0 +1,24 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "RM", "label": "RM"},
+   {"key": "영업점장", "label": "영업점장"},
+   {"key": "신용장번호", "label": "(무)신용장번호"},
+   {"key": "신용장유효기일", "label": "신용장유효기일"},
+   {"key": "수출상", "label": "수출상(Beneficiary)"},
+   {"key": "LG금액", "label": "L/G금액"},
+   {"key": "LG발행일자", "label": "L/G발행일자"},
+   {"key": "BL번호및선적일자", "label": "B/L번호및선적일자"},
+   {"key": "LG보증금금액", "label": "L/G보증금금액"},
+   {"key": "account", "label": "입금계좌번호"},
+   {"key": "customer.name", "label": "본인", "from": "signer.name"},
+   {"key": "LG번호", "label": "L/G번호"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "본인", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "본인", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "LG 보증금 환급 신청 및 확약서", "aliases": []},
+ "extra": []
+}

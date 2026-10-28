@@ -1,0 +1,27 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.phone", "label": "핸드폰번호"},
+   {"key": "customer.name", "label": "고객명", "from": "signer.name"},
+   {"key": "요구불예금", "label": "요구불예금(금액제한없음)"},
+   {"key": "중도해지금액제한없음", "label": "중도해지:금액제한없음"},
+   {"key": "건당1억원이상", "label": "건당1억원이상"},
+   {"key": "통장재발급", "label": "통장재발급"},
+   {"key": "계좌비밀번호변경", "label": "계좌비밀번호변경"},
+   {"key": "현금IC카드재발급", "label": "현금IC카드재발급"},
+   {"key": "통장MS훼손재기록", "label": "통장M/S훼손재기록"},
+   {"key": "customer.phone2", "label": "휴대폰번호(변경전/후번호로통지)"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "고객명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "고객명", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "금융사고예방을 위한 문자통지(SMS) 서비스 신청서", "aliases": []},
+ "extra": []
+}

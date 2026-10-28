@@ -1,0 +1,37 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "corp.name", "label": "상호", "from": "company.name"},
+   {"key": "corp.ceo", "label": "대표자", "from": "signer.name"},
+   {"key": "corp.biz_item", "label": "업종", "from": "company.biz_item"},
+   {"key": "투자국명", "label": "투자국명"},
+   {"key": "투자방법", "label": "투자방법"},
+   {"key": "투자업종", "label": "투자업종"},
+   {"key": "투자금액", "label": "투자금액"},
+   {"key": "투자비율", "label": "투자비율"},
+   {"key": "투자목적", "label": "투자목적"},
+   {"key": "corp.biz_no", "label": "사업자등록번호", "from": "company.biz_no"},
+   {"key": "corp.corp_reg_no", "label": "법인등록번호", "from": "company.corp_reg_no"},
+   {"key": "customer.rrn", "label": "주민등록번호"},
+   {"key": "corp.address", "label": "소재지", "from": "company.address"},
+   {"key": "자금조달", "label": "자금조달"},
+   {"key": "주요제품", "label": "주요제품"},
+   {"key": "출자금액", "label": "출자금액"},
+   {"key": "결산월", "label": "결산월"},
+   {"key": "투자유형", "label": "투자유형"},
+   {"key": "신고번호", "label": "신고번호"},
+   {"key": "신고금액", "label": "신고금액"},
+   {"key": "유효기간", "label": "유효기간"},
+   {"key": "해외직접투자신고서", "label": "해외직접투자신고서(보고서)"},
+   {"key": "date", "label": "작성일"},
+   {"key": "company.ceo", "label": "대표자"},
+   {"key": "위와같이신고되었음을확인함", "label": "위와같이신고(보고)되었음을확인함"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.corp", "label": "대표자", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "대표자", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "해외직접투자 신고서(보고서)", "aliases": []},
+ "extra": []
+}

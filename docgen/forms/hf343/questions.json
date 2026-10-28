@@ -1,0 +1,14 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "HanaBank", "label": "HanaBank"},
+   {"key": "HanaBank2", "label": "HanaBank"},
+   {"key": "Emailaddresstobenotified", "label": "E-mailaddresstobenotified"},
+   {"key": "BusinessRegistrationNo", "label": "BusinessRegistrationNo."}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "금융거래정보 이용제공 동의서(기업관계사서비스용)(영문)", "aliases": []},
+ "extra": []
+}

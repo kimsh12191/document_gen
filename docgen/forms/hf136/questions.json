@@ -1,0 +1,29 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "date", "label": "작성일"},
+   {"key": "date2", "label": "작성일"},
+   {"key": "여신과목", "label": "여신과목"},
+   {"key": "신청금액", "label": "신청금액"},
+   {"key": "기한", "label": "기한"},
+   {"key": "금리", "label": "금리"},
+   {"key": "자금용도", "label": "자금용도"},
+   {"key": "승인금액", "label": "승인금액(A)"},
+   {"key": "여신잔액", "label": "여신잔액(B)"},
+   {"key": "본건신청액", "label": "본건신청액(C)"},
+   {"key": "본건취급후", "label": "본건취급후"},
+   {"key": "잔액", "label": "잔액(A-B-C)"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.신청구분", "label": "신청구분", "kind": "체크박스", "options": ["신규", "연장(계좌번호"]},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"},
+   {"key": "seal.staff.관리자", "label": "관리자", "kind": "도장"},
+   {"key": "sign.staff.관리자", "label": "관리자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "《기업》차입신청서(한도내 개별/분할실행용)", "aliases": []},
+ "extra": []
+}

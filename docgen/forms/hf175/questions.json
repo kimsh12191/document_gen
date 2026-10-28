@@ -1,0 +1,31 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "성명"},
+   {"key": "customer.birth", "label": "생년월일"},
+   {"key": "계좌번호또는회사명", "label": "계좌번호또는회사명"},
+   {"key": "하나연금닥터AI연금투자솔루션", "label": "하나연금닥터AI연금투자솔루션"},
+   {"key": "상승", "label": "상승+("},
+   {"key": "하락", "label": ")%하락–("},
+   {"key": "handwritten", "label": "설계신청을동의합니다."},
+   {"key": "date", "label": "작성일"},
+   {"key": "signer.name", "label": "신청인(본인)"},
+   {"key": "에도달할경우통지", "label": "에도달할경우통지"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.제도구분", "label": "제도구분", "kind": "체크박스", "options": ["DC", "기업형IRP", "개인형IRP"]},
+   {"key": "check.포트폴리오매수또는리밸런싱후6개월마다리밸런싱안내", "label": "포트폴리오매수또는리밸런싱후6개월마다리밸런싱안내", "kind": "체크박스", "options": ["이메일", "알림톡(LMS)"]},
+   {"key": "check.신청여부", "label": "신청여부", "kind": "체크박스", "options": ["신청안함", "이메일", "알림톡(LMS)"]},
+   {"key": "seal.customer", "label": "신청인(본인)", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "신청인(본인)", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.staff.본인확인", "label": "본인확인", "kind": "도장"},
+   {"key": "sign.staff.본인확인", "label": "본인확인", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "퇴직연금 AI 포트폴리오 설계(신규 리밸런싱)신청서", "aliases": []},
+ "extra": []
+}

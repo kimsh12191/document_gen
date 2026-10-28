@@ -1,0 +1,29 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "기호및번호", "label": "기호및번호"},
+   {"key": "수령일자", "label": "수령일자"},
+   {"key": "폐기일자", "label": "폐기일자"},
+   {"key": "폐기경위", "label": "폐기경위"},
+   {"key": "취급점", "label": "취급점"},
+   {"key": "customer.name", "label": "명", "from": "signer.name"},
+   {"key": "customer.birth", "label": "생년월일(사업자등록번호)"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "date", "label": "작성일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "명", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"},
+   {"key": "seal.staff.관리자", "label": "관리자", "kind": "도장"},
+   {"key": "sign.staff.관리자", "label": "관리자", "kind": "서명"},
+   {"key": "seal.staff.부점장", "label": "부점장", "kind": "도장"},
+   {"key": "sign.staff.부점장", "label": "부점장", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "수표·어음용지 폐기신고서", "aliases": []},
+ "extra": []
+}

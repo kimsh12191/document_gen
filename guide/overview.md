@@ -532,6 +532,7 @@ python -m train --config train/configs/pipeline.json     # 설정 예: train/con
 | `docgen/bench/perturb.py` | 값 바꾸기 (여러 서류에 같이 나오는 값 찾기) |
 | `docgen/bench/rules.py` | 심사 질의 규칙 |
 | `docgen/bench/prompts.py` | 질문 문장 (평가·학습·studio 공용) |
-| `docgen/bench/tasks/<과제>.py` | 서류 한 건 과제(분류·받아쓰기·값 칸 읽기·정보 추출·기타 칸 정리·체크·도장·서명)의 정답 만드는 법과 답 형식, 과제 하나에 파일 하나 |
+| `docgen/bench/tasks/<과제>.py` | 서류 한 건 과제(분류·받아쓰기·값 칸 읽기·정보 추출·기타 칸 정리·체크·도장·서명·서식 전용 질문)의 정답 만드는 법과 답 형식, 과제 하나에 파일 하나 |
+| `docgen/forms/<ID>/questions.json` | 서식마다 무엇을 어떤 항목명으로 묻나, 서식 전용 질문 (`docgen/formquestions.py`, [qa.md](qa.md)) |
 | `docgen/bench/evaluate.py` | 채점 (GRPO 보상도 이 코드를 그대로 씀) |
 | `docgen/bench/runner.py` | OpenAI 호환 서버로 모델 실행 |

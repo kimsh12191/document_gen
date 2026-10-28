@@ -1,0 +1,35 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "사채의명칭", "label": "사채의명칭"},
+   {"key": "사채의종류", "label": "사채의종류"},
+   {"key": "사채의전자등록총액", "label": "사채의전자등록총액"},
+   {"key": "사채의발행가액", "label": "사채의발행가액"},
+   {"key": "사채의발행가액총액", "label": "사채의발행가액총액"},
+   {"key": "사채의거래단위", "label": "사채의거래단위"},
+   {"key": "사채의이율", "label": "사채의이율"},
+   {"key": "date", "label": "작성일"},
+   {"key": "date2", "label": "작성일"},
+   {"key": "이자지급기일", "label": "이자지급기일"},
+   {"key": "연체이자", "label": "연체이자"},
+   {"key": "사채관리회사", "label": "사채관리회사"},
+   {"key": "기타", "label": "기타"},
+   {"key": "목록.*.예금주", "label": "예금주"},
+   {"key": "목록.*.계좌번호", "label": "계좌번호"},
+   {"key": "담당자성명", "label": "담당자성명"},
+   {"key": "customer.phone", "label": "핸드폰번호(SMS교환안내수신번호)"},
+   {"key": "회사전화번호", "label": "회사전화번호"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "corp.ceo", "label": "대표이사", "from": "signer.name"},
+   {"key": "signer2.name", "label": "지점지점장"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.corp", "label": "대표이사", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "대표이사", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "지점지점장", "kind": "도장"},
+   {"key": "sign.signer2", "label": "지점지점장", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "사채원리금 지급대행 계약서", "aliases": []},
+ "extra": []
+}

@@ -56,10 +56,13 @@ def freetext_prompt(label: str, basis: str) -> str:
 
 
 def kie_line(form_id: str | None, key: str, label: str | None, doc_key: str | None = None, extra: str = "",
-             siblings: list[dict] | None = None) -> str:
+             siblings: list[dict] | None = None, note: str | None = None) -> str:
     """kie·marks 항목 한 줄: '- 키: 항목명 (설명)'. 설명은 키 사전의 누구의 무엇과 표의 행 (docgen.dictionary.describe).
     extra 는 marks 의 종류·보기처럼 괄호에 같이 넣을 것. siblings(그 문서의 같은 과제 칸, 문서 순서)에 항목명이 같은 칸이
     또 있으면 몇 번째 칸인지 붙인다 (작성일·작성일2 처럼 행 번호가 없는 반복 칸)."""
+    if note is not None:   # 서식의 questions.json 에 적은 설명 그대로 (docgen/formquestions.py)
+        note = ", ".join(x for x in [note, extra] if x)
+        return f"- {key}: {label or '-'}" + (f" ({note})" if note else "")
     from .. import dictionary as DIC
 
     desc = DIC.describe(form_id, key, label, doc_key)

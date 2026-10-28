@@ -1,0 +1,16 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "명", "from": "signer.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "명", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "지점", "kind": "도장"},
+   {"key": "sign.signer2", "label": "지점", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "사고신고 담보금 지급정지가처분담보금 처리를 위한 약정서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,22 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "license_type", "label": "면허종류"},
+   {"key": "serial", "label": "암호일련번호"},
+   {"key": "license_no", "label": "면허번호"},
+   {"key": "customer.name", "label": "성명", "from": "name"},
+   {"key": "customer.rrn", "label": "주민등록번호", "from": "rrn"},
+   {"key": "customer.address", "label": "주소", "from": "address"},
+   {"key": "aptitude_period", "label": "적성검사기간"},
+   {"key": "condition", "label": "조건"},
+   {"key": "issue_date", "label": "발급일"},
+   {"key": "issuer", "label": "발급기관"},
+   {"key": "renewal_period", "label": "갱신기간"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.issuer", "label": "발급기관직인", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "운전면허증", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,16 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "RM", "label": "RM"},
+   {"key": "영업점장", "label": "영업점장"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "본인\b", "from": "signer.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "본인\b", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "본인\b", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "수출환어음등의 재매입을 위한 약정서", "aliases": []},
+ "extra": []
+}

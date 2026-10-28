@@ -1,0 +1,29 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "corp.name", "label": "기업명", "from": "company.name"},
+   {"key": "account", "label": "퇴직연금계좌번호"},
+   {"key": "부담금등록가입자수", "label": "부담금등록가입자수"},
+   {"key": "목록.*.성명", "label": "성명"},
+   {"key": "목록.*.생년월일주1", "label": "생년월일주1"},
+   {"key": "목록.*.기업부담금", "label": "기업부담금"},
+   {"key": "목록.*.개인부담금", "label": "개인부담금"},
+   {"key": "date", "label": "작성일"},
+   {"key": "signer.name", "label": "기업명"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.신청구분", "label": "신청구분", "kind": "체크박스", "options": ["등록", "취소"]},
+   {"key": "check.부담금종류", "label": "부담금종류", "kind": "체크박스", "options": ["정기부담금", "잔여부담금(퇴직정산 후 부족액)", "경영성과급 부담금", "계약이전부담금", "개인부담금", "지연이자"]},
+   {"key": "check.납부방법", "label": "납부방법", "kind": "체크박스", "options": ["별도계좌입금", "즉시연동납부", "예약연동납부 [예약일"]},
+   {"key": "check.부담금등록구분", "label": "부담금등록구분", "kind": "체크박스", "options": ["일괄(파일) 신청", "개별 신청"]},
+   {"key": "seal.corp", "label": "기업명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "기업명", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "퇴직연금 부담금 등록 신청서(DC,기업형IRP)", "aliases": []},
+ "extra": []
+}

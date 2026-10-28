@@ -1,0 +1,27 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "한글", "label": "한글(한문)"},
+   {"key": "영문", "label": "영문"},
+   {"key": "무역업고유번호", "label": "무역업고유번호"},
+   {"key": "customer.phone", "label": "전화번호"},
+   {"key": "한글2", "label": "한글"},
+   {"key": "영문2", "label": "영문"},
+   {"key": "corp.ceo", "label": "대표자", "from": "company.ceo"},
+   {"key": "agent.name", "label": "대리인"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "본인", "from": "signer.name"},
+   {"key": "customer.address", "label": "주소"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "본인", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "본인", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "외국환거래용 인감(서명)신고서", "aliases": []},
+ "extra": []
+}

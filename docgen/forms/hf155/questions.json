@@ -1,0 +1,18 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "채무자(Obligor)"},
+   {"key": "특기사항", "label": "특기사항(Specialnote)"},
+   {"key": "date", "label": "작성일"},
+   {"key": "양도인주소", "label": "양도인(Assignor)주소(Address)"},
+   {"key": "corp.name", "label": "상호(TradeName)", "from": "company.name"},
+   {"key": "양수인주소", "label": "양수인(Assignee)주소(Address)"},
+   {"key": "미화", "label": "미화(USD)"},
+   {"key": "달러", "label": "달러"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "채권양도통지서(외국법인용)(K-biz파트너론)", "aliases": []},
+ "extra": []
+}

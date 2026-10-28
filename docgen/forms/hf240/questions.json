@@ -1,0 +1,35 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "상호또는성명", "label": "상호또는성명"},
+   {"key": "corp.address", "label": "소재지(주소)", "from": "company.address"},
+   {"key": "date", "label": "신고일자"},
+   {"key": "설립년월일", "label": "설립년월일"},
+   {"key": "신고번호", "label": "신고번호"},
+   {"key": "corp.name", "label": "법인명", "from": "company.name"},
+   {"key": "company.address2", "label": "소재지(주소)"},
+   {"key": "설립등기일", "label": "설립등기일"},
+   {"key": "납입자본금", "label": "납입자본금"},
+   {"key": "영업개시일", "label": "영업개시(예정)일"},
+   {"key": "결산일", "label": "결산일"},
+   {"key": "증권취득일", "label": "증권취득일(자본금출자일)"},
+   {"key": "액면가액합계", "label": "액면가액합계"},
+   {"key": "증권종류", "label": "증권종류"},
+   {"key": "취득가액합계", "label": "취득가액합계"},
+   {"key": "채권취득일", "label": "채권취득일"},
+   {"key": "이자율", "label": "이자율"},
+   {"key": "대부원금", "label": "대부원금"},
+   {"key": "대부기간", "label": "대부기간"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.투자자규모", "label": "투자자규모", "kind": "체크박스", "options": ["대기업", "중소기업", "개인사업자", "개인"]},
+   {"key": "check.법인형태", "label": "법인형태", "kind": "체크박스", "options": ["법인", "개인기업", "기타", "해외자원개발사업"]},
+   {"key": "check.투자형태주1", "label": "투자형태주1", "kind": "체크박스", "options": ["단독투자", "공동투자", "합작투자(한국측 투자비율"]},
+   {"key": "check.증권발행여부", "label": "증권발행여부", "kind": "체크박스", "options": ["증권발행", "증권미발행"]},
+   {"key": "check.원금회수방법", "label": "원금회수방법", "kind": "체크박스", "options": ["만기일시회수", "분할회수(", "기타"]},
+   {"key": "check.외화증권", "label": "외화증권", "kind": "체크박스", "options": ["외화증권", "외화채권"]}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "외화증권(채권)취득보고서(법인 및 개인기업 설립보고서 포함)", "aliases": []},
+ "extra": []
+}

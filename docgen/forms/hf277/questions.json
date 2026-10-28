@@ -1,0 +1,30 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "고객번호", "label": "고객번호"},
+   {"key": "거래번호", "label": "거래번호"},
+   {"key": "ForfaitingAmount", "label": "ForfaitingAmount"},
+   {"key": "LCNO", "label": "L/CNO."},
+   {"key": "LCIssuingBank", "label": "L/CIssuingBank"},
+   {"key": "Applicant", "label": "Applicant"},
+   {"key": "Tenor", "label": "Tenor"},
+   {"key": "ExpiryDate", "label": "ExpiryDate"},
+   {"key": "ShipmentDate", "label": "ShipmentDate"},
+   {"key": "account", "label": "입금계좌번호"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "본인", "from": "signer.name"},
+   {"key": "customer.address", "label": "주소"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.Forfaiting종류", "label": "Forfaiting종류(해당항목선택)", "kind": "체크박스", "options": ["인수후 비소구조건 매입", "소구조건 매입후 인수시 비소구조건 전환", "하이브리드 포페이팅 서비스", "Sight 비소구조건 매입"]},
+   {"key": "seal.customer", "label": "본인", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "본인", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "포페이팅 의뢰서", "aliases": []},
+ "extra": []
+}

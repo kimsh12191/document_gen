@@ -1,0 +1,29 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "agent.name", "label": "성명"},
+   {"key": "agent.address", "label": "주소"},
+   {"key": "agent.birth", "label": "생년월일"},
+   {"key": "agent.relation", "label": "본인과의관계"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "명:\b", "from": "signer.name"},
+   {"key": "해외영업점", "label": "해외영업점"},
+   {"key": "signer2.name", "label": "확인자"},
+   {"key": "비밀번호재등록", "label": "비밀번호재등록"},
+   {"key": "보안매체재발급", "label": "보안매체재발급(OTP/자물쇠카드)"},
+   {"key": "employer.position", "label": "직위"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "명:\b", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "명:\b", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "확인자", "kind": "도장"},
+   {"key": "sign.signer2", "label": "확인자", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "위임장(해외체류자 전자금융용)", "aliases": []},
+ "extra": []
+}

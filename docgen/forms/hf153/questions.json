@@ -1,0 +1,25 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "목록.*.종류", "label": "종류"},
+   {"key": "목록.*.기호", "label": "기호"},
+   {"key": "목록.*.번호", "label": "번호"},
+   {"key": "목록.*.액면금액", "label": "액면금액"},
+   {"key": "목록.*.매수", "label": "매수"},
+   {"key": "목록.*.총액", "label": "총액"},
+   {"key": "date", "label": "작성일"},
+   {"key": "date2", "label": "작성일"},
+   {"key": "customer.name", "label": "명", "from": "signer.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.주권", "label": "주권", "kind": "체크박스", "options": ["주 권"]},
+   {"key": "check.사채권", "label": "사채권", "kind": "체크박스", "options": ["사채권"]},
+   {"key": "check.증권", "label": "증권", "kind": "체크박스", "options": ["증 권"]},
+   {"key": "check.예금", "label": "예금", "kind": "체크박스", "options": ["예 금"]},
+   {"key": "seal.customer", "label": "명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "명", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "《기업》질권설정등록청구서", "aliases": []},
+ "extra": []
+}

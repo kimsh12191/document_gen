@@ -1,0 +1,43 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "current_term", "label": "당기"},
+   {"key": "bs_current_date", "label": "당기말"},
+   {"key": "prior_term", "label": "전기"},
+   {"key": "bs_prior_date", "label": "전기말"},
+   {"key": "corp.name", "label": "회사명", "from": "company_name"},
+   {"key": "unit", "label": "단위"},
+   {"key": "assets.*.account", "label": "과목"},
+   {"key": "assets.*.current", "label": "당기"},
+   {"key": "assets.*.prior", "label": "전기"},
+   {"key": "liabilities.*.account", "label": "과목"},
+   {"key": "liabilities.*.current", "label": "당기"},
+   {"key": "liabilities.*.prior", "label": "전기"},
+   {"key": "equity.*.account", "label": "과목"},
+   {"key": "equity.*.current", "label": "당기"},
+   {"key": "equity.*.prior", "label": "전기"},
+   {"key": "total_liabilities_equity.current", "label": "부채와자본총계(당기)"},
+   {"key": "total_liabilities_equity.prior", "label": "부채와자본총계(전기)"},
+   {"key": "is_current_period", "label": "당기회계기간"},
+   {"key": "is_prior_period", "label": "전기회계기간"},
+   {"key": "income_statement.*.account", "label": "과목"},
+   {"key": "income_statement.*.current", "label": "당기"},
+   {"key": "income_statement.*.prior", "label": "전기"},
+   {"key": "certify_date", "label": "확인일"},
+   {"key": "ceo", "label": "대표이사"},
+   {"key": "appropriation_date_current", "label": "처분일"},
+   {"key": "appropriation_date_prior", "label": "처분일"},
+   {"key": "appropriation.*.account", "label": "과목"},
+   {"key": "appropriation.*.current", "label": "당기"},
+   {"key": "appropriation.*.prior", "label": "전기"},
+   {"key": "manufacturing_cost.*.account", "label": "과목"},
+   {"key": "manufacturing_cost.*.current", "label": "당기"},
+   {"key": "manufacturing_cost.*.prior", "label": "전기"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.corp", "label": "법인인감", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "재무제표(재무상태표·손익계산서)", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,26 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "번호", "label": "번호"},
+   {"key": "금액", "label": "금액"},
+   {"key": "유효기일", "label": "유효기일"},
+   {"key": "취소신청금액", "label": "취소신청금액"},
+   {"key": "환급신청금액", "label": "환급신청금액"},
+   {"key": "account", "label": "입금계좌"},
+   {"key": "기타", "label": "기타"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "신청인", "from": "signer.name"},
+   {"key": "customer.address", "label": "주소"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "신청인", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "신청인", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "[서식관리프로그램] 수입신용장 취소 및 수입보증금 환급 신청서", "aliases": []},
+ "extra": []
+}

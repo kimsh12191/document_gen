@@ -1,0 +1,39 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "ReceiptNumber", "label": "ReceiptNumber"},
+   {"key": "DateofReceipt", "label": "DateofReceipt"},
+   {"key": "customer.name", "label": "Name"},
+   {"key": "Capital", "label": "Capital(ContributionAmount)"},
+   {"key": "value", "label": "(Korean)"},
+   {"key": "value2", "label": "(English)"},
+   {"key": "SPCYesNo", "label": "(*)SPC[]Yes[]No"},
+   {"key": "Headquarters", "label": "Headquarters"},
+   {"key": "MainFactory", "label": "MainFactory(MainPlaceofBusiness)"},
+   {"key": "Homepage", "label": "Homepage(website)"},
+   {"key": "customer.name2", "label": "Name"},
+   {"key": "customer.name3", "label": "Name"},
+   {"key": "customer.email", "label": "E-mail"},
+   {"key": "customer.nationality", "label": "Nationality"},
+   {"key": "customer.nationality2", "label": "Nationality"},
+   {"key": "customer.nationality3", "label": "Nationality"},
+   {"key": "AcquisitionPricewon", "label": "AcquisitionPrice:won(*USD)"},
+   {"key": "InvestmentandParValueofStocks", "label": "InvestmentandParValueofStocks"},
+   {"key": "DateofCompletion", "label": "DateofCompletion"},
+   {"key": "Investor", "label": "Investor"},
+   {"key": "customer.name4", "label": "Name"},
+   {"key": "Foreign", "label": "Foreign-"},
+   {"key": "Invested", "label": "Invested"},
+   {"key": "Changeof", "label": "Changeof"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"},
+   {"key": "check.agrees", "label": "agrees", "kind": "체크박스", "options": ["agrees", "doesn’t agree to receive a"]}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "외국인투자기업등록(변경등록)신청서(영문)", "aliases": []},
+ "extra": []
+}

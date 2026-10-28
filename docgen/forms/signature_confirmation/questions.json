@@ -1,0 +1,25 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "doc_no", "label": "문서확인번호"},
+   {"key": "customer.name", "label": "성명", "from": "signer.name"},
+   {"key": "customer.rrn", "label": "주민등록번호", "from": "signer.rrn"},
+   {"key": "customer.address", "label": "주소", "from": "signer.address"},
+   {"key": "counterparty.name", "label": "성명(법인명)"},
+   {"key": "counterparty.rrn", "label": "주민등록번호(법인등록번호)"},
+   {"key": "counterparty.address", "label": "주소"},
+   {"key": "signature", "label": "서명"},
+   {"key": "issue_date", "label": "발급일"},
+   {"key": "issuer", "label": "발급기관"},
+   {"key": "other_usage", "label": "그외의용도"},
+   {"key": "agent.name", "label": "성명", "from": "delegate.name"},
+   {"key": "agent.address", "label": "주소", "from": "delegate.address"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "real_estate_usage", "label": "부동산관련용도및자동차매도용도", "kind": "체크박스", "options": ["소유권 이전(매매, 증여 등)", "제한물권 설정(근저당권 설정, 전세권 설정 등)", "그 밖의 용도(가등기 설정, 가등기 말소 등)"]},
+   {"key": "seal.issuer", "label": "발급기관직인", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "본인서명사실확인서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,26 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "date", "label": "Date"},
+   {"key": "LCNo", "label": "L/CNo."},
+   {"key": "LCAmount", "label": "L/CAmount"},
+   {"key": "IssuingBank", "label": "IssuingBank"},
+   {"key": "TSNo", "label": "T/SNo"},
+   {"key": "TSAmount", "label": "T/SAmount"},
+   {"key": "Gentlemen", "label": "Gentlemen"},
+   {"key": "Amount", "label": "Amount"},
+   {"key": "Latestshippingdate", "label": "Latestshippingdate"},
+   {"key": "Expirydate", "label": "Expirydate"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.Amendment", "label": "Amendment", "kind": "체크박스", "options": ["Amendment"]},
+   {"key": "check.Cancellation", "label": "Cancellation", "kind": "체크박스", "options": ["Cancellation"]},
+   {"key": "check.amend", "label": "amend", "kind": "체크박스", "options": ["amend", "totally"]},
+   {"key": "check.cancel", "label": "cancel", "kind": "체크박스", "options": ["cancel", "partially"]},
+   {"key": "check.increasedby", "label": "increasedby", "kind": "체크박스", "options": ["increased by"]},
+   {"key": "check.decreasedby", "label": "decreasedby", "kind": "체크박스", "options": ["decreased by"]}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "「외국환서식관리프로그램」신용장 양도 조건변경/취소 신청서 (Amendment / Cancellation)", "aliases": []},
+ "extra": []
+}

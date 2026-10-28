@@ -1,0 +1,22 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "신고인성명", "from": "signer.name"},
+   {"key": "family.name", "label": "배우자성명*", "from": "signer2.name"},
+   {"key": "부동산취득자금송금후3개월이내", "label": "부동산취득자금송금후3개월이내"},
+   {"key": "부동산처분후3개월이내", "label": "부동산처분(변경)후3개월이내"},
+   {"key": "수시보고서", "label": "수시보고서*"},
+   {"key": "매2년마다보유사실입증서류", "label": "매2년마다보유사실입증서류"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "신고인성명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "신고인성명", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "배우자성명*", "kind": "도장"},
+   {"key": "sign.signer2", "label": "배우자성명*", "kind": "서명"},
+   {"key": "check.지정거래외국환은행의장으", "label": "지정거래외국환은행의장으로부터신고수리를받아외국주택을취득한자는외", "kind": "체크박스", "options": ["지정거래외국환은행의 장으로부터 신고수리를 받아 외국주택을 취득한 자는 외"]},
+   {"key": "check.사후보고서의제출등추가적", "label": "사후보고서의제출등추가적인문의사항이있거나,신고인의주소(해외체", "kind": "체크박스", "options": ["사후 보고서의 제출 등 추가적인 문의사항이 있거나, 신고인의 주소(해외체"]}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "서약서(개인의 외국주택 취득)", "aliases": []},
+ "extra": []
+}

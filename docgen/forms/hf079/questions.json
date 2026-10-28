@@ -1,0 +1,28 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "미결제통보번호", "label": "미결제통보번호"},
+   {"key": "추심의뢰일", "label": "추심의뢰일"},
+   {"key": "금융결제원어음번호", "label": "금융결제원어음번호"},
+   {"key": "어음금액", "label": "어음금액"},
+   {"key": "발행인", "label": "발행인"},
+   {"key": "사유", "label": "사유"},
+   {"key": "미결제확인번호", "label": "미결제확인번호"},
+   {"key": "Fax", "label": "Fax()-"},
+   {"key": "Fax2", "label": "Fax()-"},
+   {"key": "date", "label": "작성일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.signer", "label": "_____________________부(지점)", "kind": "도장"},
+   {"key": "sign.signer", "label": "_____________________부(지점)", "kind": "서명"},
+   {"key": "seal.signer2", "label": "_____________________부(지점)", "kind": "도장"},
+   {"key": "sign.signer2", "label": "_____________________부(지점)", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "정보교환 기업구매자금어음금 미결제통보확인서", "aliases": []},
+ "extra": []
+}

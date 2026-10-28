@@ -1,0 +1,38 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "ReceiptNumber", "label": "ReceiptNumber"},
+   {"key": "DateofReceipt", "label": "DateofReceipt"},
+   {"key": "customer.name", "label": "Name"},
+   {"key": "customer.address", "label": "Address"},
+   {"key": "customer.name2", "label": "Name"},
+   {"key": "customer.nationality", "label": "Nationality"},
+   {"key": "AcquisitionPriceWon", "label": "AcquisitionPrice:Won(USD)"},
+   {"key": "NotificationNo", "label": "NotificationNo"},
+   {"key": "DateofCompletion", "label": "DateofCompletion"},
+   {"key": "Changein", "label": "Changein"},
+   {"key": "Information", "label": "Information"},
+   {"key": "changed", "label": "changed"},
+   {"key": "ReceiptNumber2", "label": "ReceiptNumber"},
+   {"key": "DateofReceipt2", "label": "DateofReceipt"},
+   {"key": "customer.name3", "label": "Name"},
+   {"key": "customer.address2", "label": "Address"},
+   {"key": "customer.name4", "label": "Name"},
+   {"key": "customer.nationality2", "label": "Nationality"},
+   {"key": "AcquisitionPriceWon2", "label": "AcquisitionPrice:Won(USD)"},
+   {"key": "NotificationNo2", "label": "NotificationNo"},
+   {"key": "DateofCompletion2", "label": "DateofCompletion"},
+   {"key": "Changein2", "label": "Changein"},
+   {"key": "Information2", "label": "Information"},
+   {"key": "changed2", "label": "changed"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "주식등의 취득 또는 출연방식에 의한 외국인투자 내용변경 신고서, 허가신청서(영문)", "aliases": []},
+ "extra": []
+}

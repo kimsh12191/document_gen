@@ -1,0 +1,25 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "type", "label": "종류/Type"},
+   {"key": "country_code", "label": "발행국/Issuingcountry"},
+   {"key": "passport_no", "label": "여권번호/PassportNo."},
+   {"key": "surname", "label": "성/Surname"},
+   {"key": "given_names", "label": "이름/Givennames"},
+   {"key": "name_korean", "label": "한글성명"},
+   {"key": "customer.nationality", "label": "국적/Nationality", "from": "nationality"},
+   {"key": "customer.birth", "label": "생년월일/Dateofbirth", "from": "birth"},
+   {"key": "customer.gender", "label": "성별/Sex", "from": "gender"},
+   {"key": "personal_no", "label": "주민등록번호/PersonalNo."},
+   {"key": "date_of_issue", "label": "발급일/Dateofissue"},
+   {"key": "date_of_expiry", "label": "기간만료일/Dateofexpiry"},
+   {"key": "authority", "label": "발행관청/Authority"},
+   {"key": "mrz.line1", "label": "MRZ"},
+   {"key": "mrz.line2", "label": "MRZ"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "여권", "aliases": []},
+ "extra": []
+}

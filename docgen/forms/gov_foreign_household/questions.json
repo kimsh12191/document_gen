@@ -1,0 +1,14 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "property.location", "label": "대상건물소재지", "from": "official.address"},
+   {"key": "customer.name", "label": "성명", "from": "official.name"},
+   {"key": "official.moved", "label": "전입일자"},
+   {"key": "official.number", "label": "일련번호"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "외국인체류확인서", "aliases": []},
+ "extra": []
+}

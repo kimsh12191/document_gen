@@ -1,0 +1,17 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "일반개인정보", "label": "└일반개인정보"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "본인성명", "from": "signer.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.위금융거래정보제공에동의하십니까", "label": "위금융거래정보제공에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
+   {"key": "check.위개인정보제공에동의하십니까", "label": "위개인(신용)정보제공에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
+   {"key": "seal.customer", "label": "본인성명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "본인성명", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "개인(신용)정보 및 금융거래정보 제3자 제공동의서(모임통장서비스용)", "aliases": []},
+ "extra": []
+}

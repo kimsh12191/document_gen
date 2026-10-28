@@ -1,0 +1,27 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "상호또는성명", "label": "상호또는성명"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "corp.biz_no", "label": "사업자(주민)등록번호", "from": "company.biz_no"},
+   {"key": "지점명", "label": "지점명"},
+   {"key": "customer.address2", "label": "주소"},
+   {"key": "설치일", "label": "설치일"},
+   {"key": "설치국가", "label": "설치국가"},
+   {"key": "corp.biz_item", "label": "업종", "from": "company.biz_item"},
+   {"key": "총자산", "label": "총자산"},
+   {"key": "매출액", "label": "매출액"},
+   {"key": "순이익금", "label": "순이익(결손)금"},
+   {"key": "영업기금잔액", "label": "영업기금잔액"},
+   {"key": "영업손익금", "label": "영업손익금"},
+   {"key": "자금차입현황", "label": "자금차입현황"},
+   {"key": "자금대여현황", "label": "자금대여현황"},
+   {"key": "영업기금", "label": "영업기금"},
+   {"key": "본국파견명", "label": "본국파견:명"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "해외지점의 영업활동 보고서", "aliases": []},
+ "extra": []
+}

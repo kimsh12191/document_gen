@@ -1,0 +1,19 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "목록.*.주주명", "label": "주주명"},
+   {"key": "목록.*.생년월일", "label": "생년월일(YYYY-MM-DD)"},
+   {"key": "목록.*.주식의종류", "label": "주식의종류(보통주등)"},
+   {"key": "목록.*.지분율", "label": "지분율(%)"},
+   {"key": "목록.*.주식수", "label": "주식수(주)"},
+   {"key": "목록.*.주당액면가액", "label": "주당액면가액(원)"},
+   {"key": "목록.*.자본금액", "label": "자본금액(원)"},
+   {"key": "목록.*.국적", "label": "국적"},
+   {"key": "date", "label": "작성일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "주주명부(법인 비대면 실명확인 서비스 용)", "aliases": []},
+ "extra": []
+}

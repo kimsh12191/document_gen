@@ -1,0 +1,30 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "목록.*.대출실행일", "label": "대출실행일"},
+   {"key": "목록.*.대출신청금액", "label": "대출신청금액"},
+   {"key": "목록.*.의뢰일", "label": "의뢰일"},
+   {"key": "목록.*.발주번호", "label": "발주번호"},
+   {"key": "목록.*.발주금액", "label": "발주금액"},
+   {"key": "목록.*.납품기한", "label": "납품기한"},
+   {"key": "목록.*.대금지급일", "label": "대금지급일"},
+   {"key": "목록.*.대금지급확약비율", "label": "대금지급확약비율"},
+   {"key": "목록.*.구매기업사업자등록번호", "label": "구매기업사업자등록번호"},
+   {"key": "목록.*.구매기업명", "label": "구매기업명"},
+   {"key": "취급점", "label": "취급점"},
+   {"key": "date", "label": "작성일"},
+   {"key": "corp.biz_no", "label": "사업자등록번호", "from": "company.biz_no"},
+   {"key": "소", "label": "소"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.대리", "label": "대리", "kind": "도장"},
+   {"key": "sign.staff.대리", "label": "대리", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "미래채권 대출신청서(미래대,상생미래대용)", "aliases": []},
+ "extra": []
+}

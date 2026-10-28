@@ -1,0 +1,16 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "안전망대출II보증업무수행", "label": "안전망대출II보증업무수행"},
+   {"key": "신용도판단정보", "label": "■신용도판단정보"},
+   {"key": "customer.rrn", "label": "주민등록번호"},
+   {"key": "date", "label": "작성일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.위고유식별정보제공에동의하십니까", "label": "위고유식별정보제공에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
+   {"key": "check.위개인정보제공에동의하십니까", "label": "위개인(신용)정보제공에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "[필수] 개인(신용)정보 제3자 제공 동의서(안전망대출Ⅱ)", "aliases": []},
+ "extra": []
+}

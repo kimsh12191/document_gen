@@ -1,0 +1,20 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "총대출한도", "label": "총대출한도(A)"},
+   {"key": "기사용한도", "label": "기사용한도(B)"},
+   {"key": "분할실행신청액", "label": "분할실행신청액(C)"},
+   {"key": "미사용한도", "label": "미사용한도(A-B-C)"},
+   {"key": "비고", "label": "비고"},
+   {"key": "취급점", "label": "취급점"},
+   {"key": "분할실행신청액2", "label": "◦분할실행신청액"},
+   {"key": "customer.name", "label": "채무자", "from": "signer.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "채무자", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "채무자", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "대출금 분할실행 신청서(에듀큐론용)", "aliases": []},
+ "extra": []
+}

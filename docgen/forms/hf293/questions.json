@@ -1,0 +1,34 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "목록.*.신용장번호", "label": "신용장번호"},
+   {"key": "목록.*.통화", "label": "통화"},
+   {"key": "목록.*.금액", "label": "금액"},
+   {"key": "목록.*.선하증권", "label": "선하증권"},
+   {"key": "목록.*.항공화물운송장", "label": "항공화물운송장"},
+   {"key": "목록.*.상업송장보험서류", "label": "상업송장보험서류"},
+   {"key": "목록.*.선하증권번호항공화물운송장번호", "label": "선하증권번호/항공화물운송장번호"},
+   {"key": "목록.*.대도금액", "label": "대도금액"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "신청인", "from": "signer.name"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "구분", "label": "구분"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.선적서류수령증", "label": "선적서류수령증", "kind": "체크박스", "options": ["선적서류 수령증"]},
+   {"key": "check.수입화물대도신청서", "label": "수입화물대도(T/R)신청서", "kind": "체크박스", "options": ["수입화물 대도(T/R) 신청서"]},
+   {"key": "check.본인은아래신용장에의한선", "label": "본인은아래신용장에의한선적서류를정히수령하였습니다.", "kind": "체크박스", "options": ["본인은 아래 신용장에 의한 선적서류를 정히 수령하였습니다."]},
+   {"key": "check.본인은아래신용장등에의하", "label": "본인은아래신용장등에의하여도착된수입화물을대도(T/R)신청함에", "kind": "체크박스", "options": ["본인은 아래 신용장 등에 의하여 도착된 수입화물을 대도(T/R) 신청함에"]},
+   {"key": "seal.customer", "label": "신청인", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "신청인", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"},
+   {"key": "seal.staff.부점장", "label": "부점장", "kind": "도장"},
+   {"key": "sign.staff.부점장", "label": "부점장", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "「외국환서식관리프로그램」선적서류 수령증 및 수입화물 대도(T/R)신청서", "aliases": []},
+ "extra": []
+}

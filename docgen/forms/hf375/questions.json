@@ -1,0 +1,19 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.phone", "label": "휴대폰"},
+   {"key": "직위성명", "label": "직위/성명"},
+   {"key": "employer.address", "label": "회사주소"},
+   {"key": "date", "label": "작성일"},
+   {"key": "corp.ceo", "label": "대표이사", "from": "signer.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.corp", "label": "대표이사", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "대표이사", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "지점장", "kind": "도장"},
+   {"key": "sign.signer2", "label": "지점장", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "자금관리서비스 이용계약서", "aliases": []},
+ "extra": []
+}

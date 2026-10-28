@@ -9,6 +9,8 @@
     layout.json                          overlay: 기재 자리 (hf### 은 PDF 에서 자동 추출, img_* 는 가져올 때 만든 것)
     form.json                            복제·분석기 html 서식: 부모 서식·값 선언 (docgen/htmlform.py)
     regions.json                         사람 수정 (docgen/regions.py)
+    fields.json                          칸 목록 (docgen/formfields.py)
+    questions.json                       이 서식의 질문·답: 무엇을 어떤 항목명으로 묻나, 서식 전용 질문 (docgen/formquestions.py)
     variants/                            html 레이아웃 변형: variants.json, <변형>.html.j2 (docgen/template_variants.py)
 
   docgen/templates/                      여러 서식이 같이 쓰는 틀만: _base·_macros·_official_*·_real_form, 그룹 부품(_seal 등)
@@ -23,6 +25,7 @@ hf### 레이아웃의 "file"(원본을 내려받은 자리)과 form.json 의 sou
 서식 폴더 바로 아래의 template.html.j2·page_<n>.png)는 새 위치에 없을 때만 읽는다. 옮기기:
   python -m docgen.formdir migrate [--apply]     (기본은 목록만. 글 파일은 복사하고 예전 것을 <이름>.migrated 로, 그림·PDF 는 옮긴다)
   python -m docgen.formdir path <ID>             이 서식의 파일들
+  python -m docgen.formdir questions <ID>…|--all [--write] [--check]   질문·답 questions.json (docgen/formquestions.py)
 """
 from __future__ import annotations
 
@@ -505,7 +508,29 @@ def describe(doc_id: str) -> list[tuple[str, Path | None]]:
             rows += [("레이아웃 변형", vd)]
     from . import formfields
 
-    rows += [("칸 목록 (사람이 고치는 곳)", formfields.path(doc_id))]
+    from . import formquestions
+
+    rows += [("칸 목록 (사람이 고치는 곳)", formfields.path(doc_id)), ("질문·답 (questions.json)", formquestions.path(doc_id))]
+    return rows
+
+
+def questions(ids: list[str], write: bool = False, seeds: int = 8) -> list[dict]:
+    """서식의 questions.json 만들기: 없으면 지금 규칙 그대로 새로, 있으면 새로 생긴 칸만 더한다. [{id, status, added}]."""
+    from . import formquestions as FQ
+
+    rows = []
+    for doc_id in ids:
+        fresh = FQ.default(doc_id, seeds)
+        old = FQ.read(doc_id) if FQ.path(doc_id).exists() else None
+        if old is None:
+            body, added, status = fresh, [], "새로"
+        else:
+            body, added = FQ.add_new(old, fresh)
+            status = "더함" if added else "그대로"
+        if write and status != "그대로":
+            FQ.write(doc_id, body)
+        rows.append({"id": doc_id, "status": status, "added": added,
+                     "kie": len(body["kie"]["items"]), "marks": len(body["marks"]["items"])})
     return rows
 
 
@@ -517,6 +542,12 @@ def main(argv=None) -> int:
     dc.add_argument("ids", nargs="*")
     dc.add_argument("--apply", action="store_true")
     dc.add_argument("--seeds", type=int, default=24, help="그려 볼 seed 수 (조건부 칸을 찾으려면 늘린다)")
+    qs = sub.add_parser("questions", help="서식의 질문·답 questions.json 만들기(지금 규칙 그대로)·새 칸 더하기·검사")
+    qs.add_argument("ids", nargs="*")
+    qs.add_argument("--all", action="store_true", help="모든 서식")
+    qs.add_argument("--write", action="store_true", help="파일에 쓴다 (없으면 목록만)")
+    qs.add_argument("--check", action="store_true", help="지금 칸과 맞는지 검사 (없는 키·새 칸·항목명 차이)")
+    qs.add_argument("--seeds", type=int, default=8, help="그려 볼 seed 수 (평가·학습 범위에서 각각)")
     m = sub.add_parser("migrate", help="예전 자리의 서식 파일을 서식 폴더로 (사람 수정도 함께)")
     m.add_argument("--apply", action="store_true", help="실제로 옮긴다 (없으면 목록만)")
     a = ap.parse_args(argv)
@@ -531,6 +562,31 @@ def main(argv=None) -> int:
         for r in rows:
             print(f"{r['id']}: 칸 {r['keys']}개" + (f" (새로 {r['new']}개)" if a.apply else ""))
         print(f"코드 서식 {len(rows)}개" + ("" if a.apply else ". 목록만 보였습니다. 적으려면 --apply"))
+        return 0
+    if a.cmd == "questions":
+        ids = sorted(load_all()) if a.all else a.ids
+        if not ids:
+            ap.error("서식 ID 나 --all")
+        if a.check:
+            from . import formquestions as FQ
+
+            bad = 0
+            for i in ids:
+                r = FQ.check(i, a.seeds)
+                bad += bool(r["problems"])
+                for p in r["problems"]:
+                    print(f"문제  {i}: {p}")
+                for n in r["notes"]:
+                    print(f"참고  {i}: {n}")
+            print(f"서식 {len(ids)}개 검사, 문제 있는 서식 {bad}개")
+            return 1 if bad else 0
+        rows = questions(ids, a.write, a.seeds)
+        for r in rows:
+            if r["status"] != "그대로" or len(ids) == 1:
+                print(f"{r['status']}  {r['id']}: kie {r['kie']}칸, marks {r['marks']}칸"
+                      + (f", 새 칸 {', '.join(r['added'][:6])}" if r["added"] else ""))
+        n = sum(r["status"] != "그대로" for r in rows)
+        print(f"서식 {len(rows)}개 중 {n}개 " + ("씀" if a.write else "쓸 것 (목록만 보였습니다. 쓰려면 --write)"))
         return 0
     from . import regions
 

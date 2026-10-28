@@ -1,0 +1,18 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "목록.*.결제원어음번호", "label": "결제원어음번호"},
+   {"key": "목록.*.어음금액", "label": "어음금액"},
+   {"key": "목록.*.인수거절여부", "label": "인수거절여부"},
+   {"key": "목록.*.인수거절사유", "label": "인수거절사유"},
+   {"key": "목록.*.대출일", "label": "대출일"},
+   {"key": "목록.*.대출신청금액", "label": "대출신청금액"},
+   {"key": "목록.*.대출만기일", "label": "대출만기일"},
+   {"key": "customer.address", "label": "주소"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "기업구매자금어음 지급제시 명세", "aliases": []},
+ "extra": []
+}

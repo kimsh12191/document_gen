@@ -1,0 +1,23 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "corp.address", "label": "소재지", "from": "company.address"},
+   {"key": "보관장소명", "label": "보관장소명(주)"},
+   {"key": "목록.*.동산의명칭", "label": "동산의명칭"},
+   {"key": "목록.*.규격", "label": "규격"},
+   {"key": "목록.*.수량", "label": "수량(주1)"},
+   {"key": "목록.*.수량단위", "label": "수량단위"},
+   {"key": "목록.*.단가", "label": "단가(주2)"},
+   {"key": "목록.*.제조사", "label": "제조사"},
+   {"key": "목록.*.비고", "label": "비고"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "채무자(담보제공자)", "from": "signer.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "채무자(담보제공자)", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "채무자(담보제공자)", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "동산담보 제공 예정내역서(집합동산용)", "aliases": []},
+ "extra": []
+}

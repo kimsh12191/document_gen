@@ -1,0 +1,21 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "계정상대방", "label": "계정상대방"},
+   {"key": "대차기잔고", "label": "대차기잔고"},
+   {"key": "폐쇄사유", "label": "폐쇄사유"},
+   {"key": "기타", "label": "기타"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "명", "from": "signer.name"},
+   {"key": "date2", "label": "작성일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "명", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "은행장", "kind": "도장"},
+   {"key": "sign.signer2", "label": "은행장", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "상호계산계정 폐쇄 신고서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,24 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "employer.name", "label": "회사명"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "corp.ceo", "label": "대표이사", "from": "signer.name"},
+   {"key": "employer.name2", "label": "회사명"},
+   {"key": "customer.address2", "label": "주소"},
+   {"key": "signer2.name", "label": "대표이사"},
+   {"key": "customer.address3", "label": "주소"},
+   {"key": "signer3.name", "label": "대표이사"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.corp", "label": "대표이사", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "대표이사", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "대표이사", "kind": "도장"},
+   {"key": "sign.signer2", "label": "대표이사", "kind": "서명"},
+   {"key": "seal.signer3", "label": "대표이사", "kind": "도장"},
+   {"key": "sign.signer3", "label": "대표이사", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "기업관계사 서비스 이용계약서", "aliases": []},
+ "extra": []
+}

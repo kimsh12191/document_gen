@@ -2,6 +2,10 @@
 
   classify.py   서류 분류        ocr_page.py  전체 받아쓰기     ocr_field.py  값 칸 읽기
   kie.py        정보 추출        freetext.py  기타 칸 정리      marks.py      체크·도장·서명
+  form_qa.py    서식 전용 질문 (서식 폴더 questions.json 의 extra)
+
+공통은 여기, 서식마다 다른 것(무엇을 어떤 항목명으로 묻나, 서식 전용 질문)은 서식 폴더의 questions.json
+(docgen/formquestions.py). 과제 파일은 doc.q 로 그것을 읽어 따른다. 파일이 없는 서식은 공통 규칙 그대로.
 
 과제 파일의 꼴 (kie.py 를 견본으로 보면 된다)
   TASK, NAME          과제 ID, 이름
@@ -20,6 +24,7 @@ import random
 from pathlib import Path
 
 from ... import dictionary as DIC
+from ... import formquestions as FQ
 from .. import perturb
 from ..metrics import normalize_box
 
@@ -58,6 +63,7 @@ class Doc:
     meta, base 문항 meta / 문항에 공통으로 붙는 {"images", "meta"}
     rng        과제들이 차례로 같이 쓰는 난수
     out        세트 폴더 (잘라낸 그림을 저장할 곳)
+    q          이 서식의 질문·답 (서식 폴더의 questions.json, docgen/formquestions.py). 없으면 None = 공통 규칙 그대로
     """
 
     def __init__(self, r: dict, stem: str, out: Path, fields_per_doc: int, max_keys: int):
@@ -67,6 +73,7 @@ class Doc:
         self.base = {"images": r["images"], "meta": self.meta}
         self.rng = random.Random(f"bench:single:{stem}")
         self.sid = Path(stem).name
+        self.q = FQ.read(r["doc_id"])
         self.fields = DIC.apply(r["doc_id"], r["fields"])   # 공통 키로 정한 칸은 공통 키로 (3.0)
         raw_key = dict(zip(range(len(r["raw_keys"])), r["raw_keys"]))
         self.visible = [f for i, f in enumerate(self.fields)
@@ -93,9 +100,9 @@ class Doc:
         return fields
 
 
-from . import classify, freetext, kie, marks, ocr_field, ocr_page  # noqa: E402
+from . import classify, form_qa, freetext, kie, marks, ocr_field, ocr_page  # noqa: E402
 
-SINGLE = (classify, ocr_page, ocr_field, kie, freetext, marks)   # 만드는 차례 (난수를 이어 쓴다)
+SINGLE = (classify, ocr_page, ocr_field, kie, freetext, marks, form_qa)   # 만드는 차례 (난수를 이어 쓴다)
 
 
 def make_single(r: dict, stem: str, out: Path, fields_per_doc: int, max_keys: int) -> list[dict]:

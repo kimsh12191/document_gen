@@ -1,0 +1,32 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "고객명"},
+   {"key": "이용자ID", "label": "이용자ID"},
+   {"key": "customer.phone", "label": "전화번호"},
+   {"key": "employer.address", "label": "회사주소"},
+   {"key": "corp.biz_no", "label": "사업자등록번호", "from": "company.biz_no"},
+   {"key": "담당자", "label": "담당자(직위/성명)"},
+   {"key": "eMail주소", "label": "e-Mail주소"},
+   {"key": "통지은행명", "label": "통지은행명"},
+   {"key": "BankCode", "label": "BankCode(BIC)"},
+   {"key": "통지계좌_목록.*.통화", "label": "통화"},
+   {"key": "통지계좌_목록.*.계좌번호", "label": "계좌번호"},
+   {"key": "통지계좌_목록.*.예금주", "label": "예금주"},
+   {"key": "account", "label": "계좌번호"},
+   {"key": "date", "label": "작성일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "거래인감", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "거래인감", "from": "sign.signer", "kind": "서명"},
+   {"key": "check.신청종류", "label": "신청종류", "kind": "체크박스", "options": ["신규", "해지", "변경"]},
+   {"key": "check.이용채널", "label": "이용채널", "kind": "체크박스", "options": ["기업뱅킹(통합CMS)", "CMSiNet", "CMS Plus"]},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "해외은행 계좌정보 수신서비스(SWIFT MT940) 이용신청서", "aliases": []},
+ "extra": []
+}

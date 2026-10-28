@@ -1,0 +1,26 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "종류", "label": "종류"},
+   {"key": "수량", "label": "수량"},
+   {"key": "수출입금액", "label": "수출입금액"},
+   {"key": "대가결제방법", "label": "대가결제방법"},
+   {"key": "corp.name", "label": "상호", "from": "company.name"},
+   {"key": "corp.ceo", "label": "대표자", "from": "company.ceo"},
+   {"key": "corp.address", "label": "소재지", "from": "company.address"},
+   {"key": "기타", "label": "기타(또는변경내용)"},
+   {"key": "신고번호", "label": "신고번호"},
+   {"key": "신고금액", "label": "신고금액"},
+   {"key": "date", "label": "신고일자"},
+   {"key": "유효기간", "label": "유효기간"},
+   {"key": "처리기간", "label": "처리기간"},
+   {"key": "date2", "label": "작성일"},
+   {"key": "company.name2", "label": "상호"},
+   {"key": "company.ceo2", "label": "대표자"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "지급수단등의 수출입(변경)신고서", "aliases": []},
+ "extra": []
+}

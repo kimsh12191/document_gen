@@ -1,0 +1,20 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "corp.name", "label": "기업명", "from": "company.name"},
+   {"key": "corp.biz_no", "label": "사업자등록번호", "from": "company.biz_no"},
+   {"key": "사업장전화번호", "label": "사업장전화번호"},
+   {"key": "corp.address", "label": "사업장주소", "from": "company.address"},
+   {"key": "corp.ceo", "label": "대표자명", "from": "company.ceo"},
+   {"key": "담당자명", "label": "담당자명"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "신청인", "from": "signer.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "신청인", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "신청인", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "하나 sERP 상담신청서", "aliases": []},
+ "extra": []
+}

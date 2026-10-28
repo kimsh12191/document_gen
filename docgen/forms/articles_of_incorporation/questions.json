@@ -1,0 +1,28 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "corp.name", "label": "상호", "from": "company_name"},
+   {"key": "revision_history.*", "label": "제정·개정일"},
+   {"key": "company_name_en", "label": "영문상호"},
+   {"key": "purposes.*", "label": "목적"},
+   {"key": "head_office_city", "label": "본점소재지"},
+   {"key": "notice_method", "label": "공고방법"},
+   {"key": "authorized_shares", "label": "발행예정주식의총수"},
+   {"key": "par_value", "label": "1주의금액"},
+   {"key": "initial_shares", "label": "설립시발행주식총수"},
+   {"key": "effective_date", "label": "시행일"},
+   {"key": "revision_effective.*", "label": "시행일"},
+   {"key": "certify_date", "label": "증명일"},
+   {"key": "ceo", "label": "대표이사"},
+   {"key": "amended.purposes", "label": "개정일"},
+   {"key": "preferred", "label": "종류주식"},
+   {"key": "amended.share_types", "label": "개정일"},
+   {"key": "amended.company_name", "label": "개정일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.corp", "label": "법인인감", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "정관", "aliases": []},
+ "extra": []
+}

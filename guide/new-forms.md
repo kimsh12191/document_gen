@@ -181,7 +181,7 @@ assert H.ID_RX.fullmatch(form_id), "서식 ID 형식 (영어 소문자로 시작
 dest = formdir.new_dir(form_id, Path(root) if root else None)   # 이미 있으면 멈춤 (덮어쓰지 않음)
 shutil.copyfile(src / "template.html.j2", dest / "look" / formdir.TEMPLATE)
 H.write_form(dest, json.loads((src / "form.json").read_text(encoding="utf-8")))   # form.json + fields.json 으로 나눔
-for extra in ("source.png", "generate.py"):   # 원본 그림, 생성 스크립트 (있으면 — 스크립트는 읽고 확인한 것만)
+for extra in ("source.png", "generate.py", "questions.json"):   # 원본 그림, 생성 스크립트(읽고 확인한 것만), 질문·답 (있으면)
     if (src / extra).exists():
         shutil.copyfile(src / extra, dest / extra)
 print(dest)
@@ -199,6 +199,7 @@ EOF
 python -m docgen.formdir path <서식ID>                    # 파일 자리
 python -m docgen.regions check <서식ID>                   # 칸 목록 형식
 python -m docgen.preview <서식ID> --rows max --out work/<서식ID>
+python -m docgen.formdir questions <서식ID> --write        # 질문·답 파일 questions.json (지금 규칙 그대로) — 고치는 법 qa.md
 ```
 
 ---
@@ -215,6 +216,7 @@ python -m docgen.preview <서식ID> --rows max --out work/<서식ID>
 | **반복 표 안의 칸**, 표 구조, 인쇄 문구, 선 | **html 편집** (템플릿), 또는 모델에게 다시 맡기기 |
 | 키 이름 | `fields.json` 과 템플릿을 같이 (html 편집) |
 | 칸끼리 관계 (순서·합계·조건·표기) | 서식 폴더의 `generate.py` (파일로. 내용은 **파일** 탭에서 보임) |
+| 묻는 칸·질문의 항목명, 이 서식만의 질문 | 서식 폴더의 `questions.json` (파일로. **문항 Q/A** 탭에서 내용과 실제 문항을 봄, [qa.md](qa.md)) |
 
 - 영역 편집으로 그린 칸은 **쪽 위의 고정 위치**라 행 수가 바뀌어도 따라 움직이지 않습니다. 반복 표 안의 칸은 템플릿에서 고칩니다.
 - 이미 등록된 서식의 템플릿·`fields.json` 을 파일로 고친 것은 [서식 다시 읽기] 없이 다음 미리보기에 바로 나옵니다.

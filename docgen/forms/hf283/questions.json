@@ -1,0 +1,16 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "유효기간", "label": "유효기간"},
+   {"key": "한글", "label": "한글(한문)"},
+   {"key": "영문", "label": "영문"},
+   {"key": "date", "label": "작성일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "인감증번호", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "인감증번호", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "인감증(외국환업무)", "aliases": []},
+ "extra": []
+}

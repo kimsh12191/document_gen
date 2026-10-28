@@ -1,0 +1,24 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.birth", "label": "생년월일"},
+   {"key": "customer.email", "label": "전자우편주소"},
+   {"key": "개설점포", "label": "개설점포"},
+   {"key": "예금종별", "label": "예금종별"},
+   {"key": "customer.name", "label": "명의인"},
+   {"key": "date", "label": "작성일"},
+   {"key": "signer.name", "label": "신청인성명"},
+   {"key": "customer.phone", "label": "전화번호"},
+   {"key": "customer.phone2", "label": "휴대전화번호"},
+   {"key": "금융회사", "label": "금융회사"},
+   {"key": "지급정지", "label": "지급정지"},
+   {"key": "account", "label": "계좌번호"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "신청인성명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "신청인성명", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "이의제기 신청서", "aliases": []},
+ "extra": []
+}

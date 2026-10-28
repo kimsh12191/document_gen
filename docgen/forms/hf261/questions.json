@@ -1,0 +1,16 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "폐지사유", "label": "폐지사유"},
+   {"key": "corp.name", "label": "상호", "from": "company.name"},
+   {"key": "corp.ceo", "label": "대표자", "from": "company.ceo"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "corp.established", "label": "설립연월일", "from": "company.established"},
+   {"key": "date", "label": "작성일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "환전업무 폐지 신고서", "aliases": []},
+ "extra": []
+}

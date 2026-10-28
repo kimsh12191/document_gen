@@ -1,0 +1,28 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "변경사유", "label": "변경사유(요약)"},
+   {"key": "변경내용", "label": "변경내용"},
+   {"key": "변경후", "label": "변경후"},
+   {"key": "신고번호", "label": "신고(수리)번호"},
+   {"key": "신고금액", "label": "신고(수리)금액"},
+   {"key": "유효기간", "label": "유효기간"},
+   {"key": "customer.name", "label": "상호또는성명", "from": "signer.name"},
+   {"key": "주소또는소재지", "label": "주소또는소재지"},
+   {"key": "customer.phone", "label": "전화번호"},
+   {"key": "기신고사항", "label": "기신고(수리)사항"},
+   {"key": "나금액", "label": "나.금액"},
+   {"key": "date", "label": "작성일"},
+   {"key": "signer2.name", "label": "외국환은행의장"},
+   {"key": "가신고번호", "label": "가.신고(수리)번호"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "상호또는성명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "상호또는성명", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "외국환은행의장", "kind": "도장"},
+   {"key": "sign.signer2", "label": "외국환은행의장", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "( ) 변경신고(수리)서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,31 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "상호및대표자성명", "from": "signer.name"},
+   {"key": "corp.biz_item", "label": "업종(직업)", "from": "company.biz_item"},
+   {"key": "증권취득자", "label": "증권취득자"},
+   {"key": "증권취득상대방", "label": "증권취득상대방"},
+   {"key": "액면가액", "label": "액면가액"},
+   {"key": "수량", "label": "수량"},
+   {"key": "취득단가", "label": "취득단가"},
+   {"key": "취득가액", "label": "취득가액"},
+   {"key": "취득사유", "label": "취득사유"},
+   {"key": "신고번호", "label": "신고번호"},
+   {"key": "신고금액", "label": "신고금액"},
+   {"key": "date", "label": "신고일자"},
+   {"key": "유효기간", "label": "유효기간"},
+   {"key": "기타참고사항", "label": "기타참고사항"},
+   {"key": "처리기간", "label": "처리기간"},
+   {"key": "date2", "label": "작성일"},
+   {"key": "신고기관", "label": "신고기관"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "상호및대표자성명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "상호및대표자성명", "from": "sign.signer", "kind": "서명"},
+   {"key": "check.증권취득방법", "label": "증권취득방법", "kind": "체크박스", "options": ["보유증권대가 교환방식 (", "상장등록증권간 교환/", "기타 교환", "현금 매수방식", "기타("]},
+   {"key": "check.증권종류", "label": "증권종류", "kind": "체크박스", "options": ["직접기재(", "비거주자발행 1년미만 원화 또는 원화연계외화증권"]}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "증권취득 신고서", "aliases": []},
+ "extra": []
+}

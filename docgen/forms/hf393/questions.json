@@ -1,0 +1,25 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "여신과목", "label": "여신과목"},
+   {"key": "여신개시일", "label": "여신개시일"},
+   {"key": "여신금액", "label": "여신(한도)금액"},
+   {"key": "여신기간만료일", "label": "여신기간만료일"},
+   {"key": "거래일", "label": "거래일"},
+   {"key": "발효일", "label": "발효일"},
+   {"key": "지급고정금리", "label": "지급고정금리"},
+   {"key": "금액", "label": "금액"},
+   {"key": "종료일", "label": "종료일"},
+   {"key": "수취변동금리", "label": "수취변동금리"},
+   {"key": "account", "label": "출금계좌번호"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "신청인", "from": "signer.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "신청인", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "신청인", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "이자율스왑 연계 대출 분할상환 원금 및 이자율스왑 정산이자 출금서비스 특약", "aliases": []},
+ "extra": []
+}

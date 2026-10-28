@@ -1,0 +1,16 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "official.head", "label": "세대주"},
+   {"key": "customer.address", "label": "주소", "from": "official.address"},
+   {"key": "official.row", "label": "순번"},
+   {"key": "official.relation", "label": "세대주와의관계"},
+   {"key": "customer.name", "label": "성명", "from": "official.name"},
+   {"key": "customer.rrn", "label": "주민등록번호", "from": "official.rrn"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "주민등록표 등본", "aliases": ["주민등록표(등본)"]},
+ "extra": []
+}

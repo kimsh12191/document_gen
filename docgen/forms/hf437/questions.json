@@ -1,0 +1,24 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "매출채권보험추천등모집대행업무수행", "label": "▪매출채권보험추천등모집대행업무수행"},
+   {"key": "필수사항", "label": "필수사항"},
+   {"key": "필수사항2", "label": "필수사항"},
+   {"key": "corp.name", "label": "업체명", "from": "company.name"},
+   {"key": "corp.corp_reg_no", "label": "법인등록번호", "from": "company.corp_reg_no"},
+   {"key": "corp.biz_no", "label": "사업자등록번호", "from": "company.biz_no"},
+   {"key": "corp.ceo", "label": "대표자", "from": "signer.name"},
+   {"key": "customer.phone", "label": "연락처"},
+   {"key": "signer2.name", "label": "본인확인"},
+   {"key": "customer.phone2", "label": "연락처(전화번호,핸드폰,E-mail)"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.corp", "label": "대표자", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "대표자", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "본인확인", "kind": "도장"},
+   {"key": "sign.signer2", "label": "본인확인", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "고객정보 활용 동의서(매출채권보험_모집대행업무용)", "aliases": []},
+ "extra": []
+}

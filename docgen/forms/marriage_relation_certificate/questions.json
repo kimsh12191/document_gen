@@ -1,0 +1,38 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "cert_type", "label": "증명서종류"},
+   {"key": "reg_base", "label": "등록기준지"},
+   {"key": "customer.relation", "label": "구분", "from": "self.relation"},
+   {"key": "customer.name", "label": "성명", "from": "self.name"},
+   {"key": "customer.name_hanja", "label": "성명(한자)", "from": "self.name_hanja"},
+   {"key": "customer.birth", "label": "출생연월일", "from": "self.birth"},
+   {"key": "customer.rrn", "label": "주민등록번호", "from": "self.rrn"},
+   {"key": "customer.gender", "label": "성별", "from": "self.gender"},
+   {"key": "customer.bon", "label": "본", "from": "self.bon"},
+   {"key": "issue_date", "label": "발급일"},
+   {"key": "issuer", "label": "발급기관"},
+   {"key": "issue_time", "label": "발급시각"},
+   {"key": "officer", "label": "발급담당자"},
+   {"key": "officer_phone", "label": "전화"},
+   {"key": "applicant", "label": "신청인"},
+   {"key": "spouse.relation", "label": "구분"},
+   {"key": "family.name", "label": "성명", "from": "spouse.name"},
+   {"key": "spouse.name_hanja", "label": "성명(한자)"},
+   {"key": "spouse.birth", "label": "출생연월일"},
+   {"key": "spouse.rrn", "label": "주민등록번호"},
+   {"key": "spouse.gender", "label": "성별"},
+   {"key": "spouse.bon", "label": "본"},
+   {"key": "marriage.reported", "label": "신고일"},
+   {"key": "marriage.spouse_name", "label": "배우자"},
+   {"key": "marriage.spouse_rrn", "label": "배우자의주민등록번호"},
+   {"key": "marriage.office", "label": "처리관서"},
+   {"key": "doc_check_no", "label": "문서확인번호"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.issuer", "label": "발급기관직인", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "혼인관계증명서", "aliases": []},
+ "extra": []
+}

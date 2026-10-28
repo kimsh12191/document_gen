@@ -1,0 +1,32 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "성명"},
+   {"key": "account", "label": "퇴직연금계좌번호"},
+   {"key": "customer.birth", "label": "생년월일"},
+   {"key": "customer.phone", "label": "연락처"},
+   {"key": "금융기관명", "label": "금융기관명"},
+   {"key": "account2", "label": "계좌번호"},
+   {"key": "당해년도납입액", "label": "당해년도납입액"},
+   {"key": "퇴직금", "label": "퇴직금"},
+   {"key": "연금계좌의운용소득", "label": "연금계좌의운용소득"},
+   {"key": "date", "label": "작성일"},
+   {"key": "signer.name", "label": "신청인"},
+   {"key": "소득공제받은납입금액", "label": "소득(세액)공제받은납입금액"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.일반사유", "label": "일반사유", "kind": "체크박스", "options": ["일반 중도해지"]},
+   {"key": "check.부득이한사유", "label": "부득이한사유", "kind": "체크박스", "options": ["가입자의 사망", "해외이주", "개월 이상 요양", "개인회생 및 파산", "천재지변"]},
+   {"key": "seal.customer", "label": "신청인", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "신청인", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.staff.본인확인", "label": "본인확인", "kind": "도장"},
+   {"key": "sign.staff.본인확인", "label": "본인확인", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "퇴직연금 계약해지 신청서(개인형IRP)", "aliases": []},
+ "extra": []
+}

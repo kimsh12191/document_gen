@@ -1,0 +1,32 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "NumberofLG", "label": "NumberofL/G"},
+   {"key": "NumberofCredit", "label": "NumberofCredit"},
+   {"key": "LGAmount", "label": "L/GAmount"},
+   {"key": "NumberofBL", "label": "NumberofB/L"},
+   {"key": "VesselName", "label": "VesselName"},
+   {"key": "Gentlemen", "label": "Gentlemen"},
+   {"key": "NumberofLG2", "label": "NumberofL/G"},
+   {"key": "NumberofCredit2", "label": "NumberofCredit"},
+   {"key": "LGAmount2", "label": "L/GAmount"},
+   {"key": "NumberofBL2", "label": "NumberofB/L"},
+   {"key": "VesselName2", "label": "VesselName"},
+   {"key": "Gentlemen2", "label": "Gentlemen"},
+   {"key": "NumberofLG3", "label": "NumberofL/G"},
+   {"key": "NumberofCredit3", "label": "NumberofCredit"},
+   {"key": "LGAmount3", "label": "L/GAmount"},
+   {"key": "NumberofBL3", "label": "NumberofB/L"},
+   {"key": "VesselName3", "label": "VesselName"},
+   {"key": "Gentlemen3", "label": "Gentlemen"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "REDEMPTION OF OUR LETTERS OF GUARANTEE", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,21 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "용도", "label": "용도"},
+   {"key": "수령금액", "label": "수령금액"},
+   {"key": "customer.name", "label": "예금주"},
+   {"key": "date", "label": "작성일"},
+   {"key": "signer.name", "label": "수령위임인"},
+   {"key": "agent.name", "label": "수령위임인의대리인", "from": "signer2.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.차주와의관계", "label": "차주와의관계", "kind": "체크박스", "options": ["부동산담보대출의 경우 매도인", "전세자금대출의 경우 임대인", "차주를 대신하여 당타행 대출의 상환을 위임받은 자", "공사대금 수령업체", "상기 외 제3자 (관계기재)"]},
+   {"key": "seal.customer", "label": "수령위임인", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "수령위임인", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.agent", "label": "수령위임인의대리인", "from": "seal.signer2", "kind": "도장"},
+   {"key": "sign.agent", "label": "수령위임인의대리인", "from": "sign.signer2", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "대출금 수령위임동의서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,28 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "목록.*.번호", "label": "번호"},
+   {"key": "목록.*.종류", "label": "종류"},
+   {"key": "목록.*.통화코드", "label": "통화코드"},
+   {"key": "목록.*.매입금액", "label": "매입(추심)금액"},
+   {"key": "목록.*.판매대금추심의뢰서번호", "label": "판매대금추심의뢰서번호"},
+   {"key": "목록.*.매입점포코드", "label": "매입(추심)점포코드"},
+   {"key": "FAX", "label": "FAX()-"},
+   {"key": "FAX2", "label": "FAX()-"},
+   {"key": "date", "label": "작성일"},
+   {"key": "signer.name", "label": "부(지점)"},
+   {"key": "signer2.name", "label": "부(지점)"},
+   {"key": "추심의뢰", "label": "추심의뢰"},
+   {"key": "개설점포", "label": "개설점포"},
+   {"key": "점포", "label": "점포"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.signer", "label": "부(지점)", "kind": "도장"},
+   {"key": "sign.signer", "label": "부(지점)", "kind": "서명"},
+   {"key": "seal.signer2", "label": "부(지점)", "kind": "도장"},
+   {"key": "sign.signer2", "label": "부(지점)", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "판매대금추심의뢰서 매입(취소) 등록 요청/확인서", "aliases": []},
+ "extra": []
+}

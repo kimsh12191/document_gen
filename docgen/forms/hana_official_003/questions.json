@@ -1,0 +1,27 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "성명", "from": "official.name"},
+   {"key": "customer.birth", "label": "생년월일", "from": "official.birth"},
+   {"key": "customer.address", "label": "주소", "from": "official.address"},
+   {"key": "customer.name_en", "label": "영문명", "from": "official.name_en"},
+   {"key": "customer.phone", "label": "휴대폰", "from": "official.phone"},
+   {"key": "customer.email", "label": "이메일", "from": "official.email"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.signer", "label": "한도:₩..~..", "kind": "도장"},
+   {"key": "sign.signer", "label": "한도:₩..~..", "kind": "서명"},
+   {"key": "seal.signer2", "label": "한도:₩..~..", "kind": "도장"},
+   {"key": "sign.signer2", "label": "한도:₩..~..", "kind": "서명"},
+   {"key": "seal.signer3", "label": "한도:₩..~..", "kind": "도장"},
+   {"key": "sign.signer3", "label": "한도:₩..~..", "kind": "서명"},
+   {"key": "seal.signer4", "label": "고객정보변경없음", "kind": "도장"},
+   {"key": "sign.signer4", "label": "고객정보변경없음", "kind": "서명"},
+   {"key": "check.비과세종합저축재형저축", "label": "비과세종합저축/재형저축/주택청약상품의계약금액/한도/중복", "kind": "체크박스", "options": ["비과세종합저축 / 재형저축 / 주택청약상품의 계약금액 / 한도 / 중복 "]},
+   {"key": "check.귀행에대한제대출금보증채", "label": "귀행에대한제대출금,보증채무,신용카드채무에대하여변제기가도래하", "kind": "체크박스", "options": ["귀행에 대한 제 대출금, 보증채무, 신용카드채무에 대하여 변제기가 도래하"]},
+   {"key": "check.본인은금융지주회사법제4", "label": "본인은금융지주회사법제48조의2에근거하여하나금융그룹내지주사및자", "kind": "체크박스", "options": ["본인은 금융지주회사법 제48조의2에 근거하여 하나금융그룹내 지주사 및 자"]}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "예금거래신청서", "aliases": ["은행거래신청서"]},
+ "extra": []
+}

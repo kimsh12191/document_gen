@@ -1,0 +1,34 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "signer.name", "label": "성명(법인명)"},
+   {"key": "영업내용", "label": "영업내용"},
+   {"key": "지점명", "label": "지점명"},
+   {"key": "customer.address", "label": "주소(소재지)"},
+   {"key": "corp.biz_item", "label": "업종", "from": "company.biz_item"},
+   {"key": "영업기금", "label": "영업기금"},
+   {"key": "비독립채산지점_목록.*.value", "label": "(주소)(전화번호)(e-mail)"},
+   {"key": "value", "label": "(기본경비)"},
+   {"key": "value2", "label": "(기본경비)"},
+   {"key": "customer.rrn", "label": "주민(사업자)등록번호"},
+   {"key": "신고번호", "label": "신고번호"},
+   {"key": "유효기간", "label": "유효기간"},
+   {"key": "처리기간", "label": "처리기간"},
+   {"key": "date", "label": "작성일"},
+   {"key": "date2", "label": "작성일"},
+   {"key": "signer2.name", "label": "신고기관"},
+   {"key": "customer.name", "label": "성명(법인명)"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "성명(법인명)", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "성명(법인명)", "from": "sign.signer", "kind": "서명"},
+   {"key": "check.지점구분", "label": "지점구분", "kind": "체크박스", "options": ["독립채산지점", "비독립채산지점"]},
+   {"key": "check.비독립채산지점", "label": "비독립채산지점", "kind": "체크박스", "options": ["설 치 비"]},
+   {"key": "check.비독립채산지점2", "label": "비독립채산지점", "kind": "체크박스", "options": ["유지활동비"]},
+   {"key": "seal.signer2", "label": "신고기관", "kind": "도장"},
+   {"key": "sign.signer2", "label": "신고기관", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "북한지점 경비지급신고서", "aliases": []},
+ "extra": []
+}

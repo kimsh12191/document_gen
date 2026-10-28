@@ -1,0 +1,18 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "corp.name", "label": "상호", "from": "signer.name"},
+   {"key": "signer2.name", "label": "상호:주식회사하나은행"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.corp", "label": "상호", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "상호", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "상호:주식회사하나은행", "kind": "도장"},
+   {"key": "sign.signer2", "label": "상호:주식회사하나은행", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "파생상품거래 손실한도 감액통지서", "aliases": []},
+ "extra": []
+}

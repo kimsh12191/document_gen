@@ -1,0 +1,32 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "issue_no", "label": "발급번호"},
+   {"key": "taxpayer.corp_name", "label": "상호(법인명)"},
+   {"key": "customer.biz_no", "label": "사업자등록번호", "from": "taxpayer.biz_no"},
+   {"key": "customer.ceo", "label": "성명(대표자)", "from": "taxpayer.ceo"},
+   {"key": "customer.corp_reg_no", "label": "법인등록번호", "from": "taxpayer.corp_reg_no"},
+   {"key": "customer.address", "label": "주소(본점)", "from": "taxpayer.address"},
+   {"key": "valid_period", "label": "증명서유효기간"},
+   {"key": "valid_reason", "label": "유효기간을정한사유"},
+   {"key": "purpose", "label": "사용목적"},
+   {"key": "payer", "label": "대금지급자"},
+   {"key": "deferral", "label": "연장ㆍ유예명세"},
+   {"key": "arrears", "label": "체납액"},
+   {"key": "issue_date", "label": "발급일"},
+   {"key": "issuer", "label": "발급기관"},
+   {"key": "deferrals.*.kind", "label": "연장ㆍ유예종류"},
+   {"key": "deferrals.*.period", "label": "연장ㆍ유예기간"},
+   {"key": "deferrals.*.tax_period", "label": "과세기간"},
+   {"key": "deferrals.*.tax_item", "label": "세목"},
+   {"key": "deferrals.*.due", "label": "납부기한"},
+   {"key": "deferrals.*.amount", "label": "세액"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "purpose_type", "label": "사용목적", "kind": "체크박스", "options": ["대금 수령", "해외이주", "기타"]},
+   {"key": "seal.issuer", "label": "발급기관직인", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "납세증명서(법인)", "aliases": []},
+ "extra": []
+}

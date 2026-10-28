@@ -1,0 +1,19 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "성명", "from": "official.name"},
+   {"key": "customer.rrn", "label": "주민등록번호", "from": "official.rrn"},
+   {"key": "customer.address", "label": "주소", "from": "official.address"},
+   {"key": "corp.name", "label": "상호", "from": "official.company"},
+   {"key": "corp.biz_no", "label": "사업자등록번호", "from": "official.biz_no"},
+   {"key": "official.tax_year", "label": "귀속연도"},
+   {"key": "official.tax_kind", "label": "세목"},
+   {"key": "official.paid_on", "label": "납부일"},
+   {"key": "official.paid", "label": "납부금액"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "납부내역증명", "aliases": []},
+ "extra": []
+}

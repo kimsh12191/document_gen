@@ -1,0 +1,36 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "unique_no", "label": "고유번호"},
+   {"key": "drawing_no", "label": "도면번호"},
+   {"key": "issue_no", "label": "발급번호"},
+   {"key": "location", "label": "토지소재"},
+   {"key": "sheet_no", "label": "장번호"},
+   {"key": "processed_time", "label": "처리시각"},
+   {"key": "jibun", "label": "지번"},
+   {"key": "scale", "label": "축척"},
+   {"key": "issuer_name", "label": "발급자"},
+   {"key": "land.*.category", "label": "지목"},
+   {"key": "land.*.area", "label": "면적"},
+   {"key": "land.*.reason", "label": "사유"},
+   {"key": "owners.*.change_date", "label": "변동일자"},
+   {"key": "owners.*.change_cause", "label": "변동원인"},
+   {"key": "owners.*.address", "label": "주소"},
+   {"key": "owners.*.name", "label": "성명또는명칭"},
+   {"key": "owners.*.reg_no", "label": "등록번호"},
+   {"key": "owners.*.co_owners", "label": "공유자"},
+   {"key": "grades.*.date", "label": "등급수정년월일"},
+   {"key": "grades.*.grade", "label": "토지등급"},
+   {"key": "land_prices.*.base_date", "label": "개별공시지가기준일"},
+   {"key": "land_prices.*.price", "label": "개별공시지가"},
+   {"key": "zoning", "label": "용도지역"},
+   {"key": "issue_date", "label": "발급일"},
+   {"key": "issuer", "label": "발급기관"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.issuer", "label": "발급기관직인", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "토지대장", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,22 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "보증서담보대출입금전용계좌번호", "label": "▦보증서담보대출입금전용계좌번호"},
+   {"key": "date", "label": "작성일"},
+   {"key": "corp.name", "label": "법인명(채무자)", "from": "signer.name"},
+   {"key": "연대보증제도폐지에따른사후관리강화", "label": "▦연대보증제도폐지에따른사후관리강화"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.제공받는자", "label": "제공받는자", "kind": "체크박스", "options": ["신용보증기금", "기술보증기금", "지역신용보증재단"]},
+   {"key": "check.금융거래정보제공동의여부", "label": "금융거래정보제공동의여부", "kind": "체크박스", "options": ["동의함", "보기2"]},
+   {"key": "seal.corp", "label": "법인명(채무자)", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "법인명(채무자)", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "금융거래 정보제공 동의서(연대보증 면제 신용보증서 담보대출용)", "aliases": []},
+ "extra": []
+}

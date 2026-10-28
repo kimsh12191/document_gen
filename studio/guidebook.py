@@ -25,6 +25,7 @@ DOCUMENTS = {
     "agent-workflow.md": "agent 작업 절차 · 생성→학습→보고",
     "catalog.md": "서류별 추출 항목 · 연결 시나리오",
     "questions.md": "질문과 정답 형식",
+    "qa.md": "질문·답 관리 · 서식별 questions.json · 공통 과제 파일",
     "tasks.md": "실제 데이터 예시",
     "benchmark.md": "업무 과제 · 사례 · 채점",
     "benchmark-tracking.md": "벤치마크 구성 · 구분별 평가 추적",

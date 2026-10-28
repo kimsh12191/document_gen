@@ -1,0 +1,30 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "기타", "label": "기타"},
+   {"key": "설치장소", "label": "설치장소"},
+   {"key": "Server", "label": "Server"},
+   {"key": "PC", "label": "PC"},
+   {"key": "모니터", "label": "모니터"},
+   {"key": "목록.*.명세", "label": "명세"},
+   {"key": "HW_목록.*.수량", "label": "수량"},
+   {"key": "목록.*.수량", "label": "수량"},
+   {"key": "키보드마우스포함", "label": "키보드,마우스포함"},
+   {"key": "목록.*.키보드마우스포함", "label": "키보드,마우스포함"},
+   {"key": "customer.name", "label": ",예금주"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "customer.address2", "label": "주소"},
+   {"key": "date", "label": "작성일"},
+   {"key": "corp.ceo", "label": "대표이사", "from": "signer.name"},
+   {"key": "employer.name", "label": "회사명"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.corp", "label": "대표이사", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "대표이사", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "지점장", "kind": "도장"},
+   {"key": "sign.signer2", "label": "지점장", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "CMS Plus 이용계약서", "aliases": []},
+ "extra": []
+}

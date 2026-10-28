@@ -1,0 +1,17 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "성명"},
+   {"key": "customer.birth", "label": "생년월일"},
+   {"key": "customer.phone", "label": "연락처"},
+   {"key": "date", "label": "작성일"},
+   {"key": "signer.name", "label": "위임인(본인)"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "위임인(본인)", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "위임인(본인)", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "대출정보 열람청구, 상환 및 말소접수 위임장(주택담보대출 대출이동서비스)", "aliases": []},
+ "extra": []
+}

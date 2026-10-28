@@ -1,0 +1,13 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "property.location", "label": "토지소재", "from": "official.address"},
+   {"key": "official.owner", "label": "소유자"},
+   {"key": "official.rrn", "label": "등록번호"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "토지대장", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,32 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "판매기업에대한정보", "label": "판매기업에대한정보"},
+   {"key": "본인에대한정보", "label": "본인(구매기업)에대한정보"},
+   {"key": "판매기업명", "label": "판매기업명"},
+   {"key": "판매기업결제계좌", "label": "판매기업결제계좌"},
+   {"key": "employer.name", "label": "회사명"},
+   {"key": "corp.ceo", "label": "대표자", "from": "company.ceo"},
+   {"key": "담당부서", "label": "담당부서"},
+   {"key": "corp.biz_no", "label": "사업자등록번호", "from": "company.biz_no"},
+   {"key": "입금은행명", "label": "입금은행명"},
+   {"key": "company.biz_no2", "label": "사업자등록번호"},
+   {"key": "corp.corp_reg_no", "label": "법인등록번호", "from": "company.corp_reg_no"},
+   {"key": "customer.phone", "label": "전화번호"},
+   {"key": "목록.*.일련번호", "label": "일련번호"},
+   {"key": "목록.*.매출채권금액", "label": "매출채권금액"},
+   {"key": "목록.*.발생일", "label": "발생일"},
+   {"key": "목록.*.지급기일", "label": "지급기일"},
+   {"key": "목록.*.다른권리존재여부", "label": "다른권리존재여부"},
+   {"key": "목록.*.특기사항", "label": "특기사항"},
+   {"key": "date", "label": "작성일"},
+   {"key": "물품공급계약내용", "label": "물품공급계약내용["},
+   {"key": "계약일자", "label": "계약일자[..]"},
+   {"key": "지급이확정된미지급매출채권내용", "label": "지급이확정된미지급매출채권내용"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "매출채권 잔액 확인서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,35 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "신청인"},
+   {"key": "customer.phone", "label": "연락처"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "customer.birth", "label": "생년월일"},
+   {"key": "customer.email", "label": "E-mail"},
+   {"key": "customer.name2", "label": "신청인성명"},
+   {"key": "date", "label": "작성일"},
+   {"key": "서비스신청일로부터5년까지", "label": "-서비스신청일로부터5년까지"},
+   {"key": "신용거래정보", "label": "■신용거래정보"},
+   {"key": "date2", "label": "작성일"},
+   {"key": "signer.name", "label": "본인성명"},
+   {"key": "고객상담분쟁조정및민원처리", "label": "-고객상담,분쟁조정및민원처리"},
+   {"key": "성명연락처", "label": "성명,연락처"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.금융기관별조회", "label": "■금융기관별조회(※요청기관V체크)", "kind": "체크박스", "options": ["전체 금융기관", "전체 은행", "하나", "신한", "국민", "우리", "기업", "농협", "수협", "SC제일", "시티", "산업", "대구", "부산", "광주", "제주", "전북", "경남", "케이", "카카오", "기타 ("]},
+   {"key": "check.수령함", "label": "수령함", "kind": "체크박스", "options": ["수령함", "수령거절"]},
+   {"key": "seal.staff.본인확인", "label": "본인확인", "kind": "도장"},
+   {"key": "sign.staff.본인확인", "label": "본인확인", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"},
+   {"key": "check.위고유식별정보수집이용에동의하십니까", "label": "위고유식별정보수집·이용에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
+   {"key": "check.위개인정보수집이용에동의하십니까", "label": "위개인(신용)정보수집·이용에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
+   {"key": "seal.customer", "label": "본인성명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "본인성명", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "본인계좌 일괄지급정지 조회신청서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,32 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "doc_no", "label": "문서번호"},
+   {"key": "customer.name", "label": "성명", "from": "employee.name"},
+   {"key": "customer.rrn", "label": "주민등록번호", "from": "employee.rrn"},
+   {"key": "customer.address", "label": "주소", "from": "employee.address"},
+   {"key": "employer.name", "label": "회사명", "from": "company.name"},
+   {"key": "company.biz_no", "label": "사업자등록번호"},
+   {"key": "employer.address", "label": "소재지", "from": "company.address"},
+   {"key": "employer.department", "label": "소속", "from": "employment.department"},
+   {"key": "employer.position", "label": "직위", "from": "employment.position"},
+   {"key": "employer.period", "label": "재직기간", "from": "employment.period"},
+   {"key": "employment.duty", "label": "담당업무"},
+   {"key": "purpose", "label": "용도"},
+   {"key": "submit_to", "label": "제출처"},
+   {"key": "issue_date", "label": "발급일"},
+   {"key": "employer.phone", "label": "전화번호", "from": "company.phone"},
+   {"key": "company.ceo", "label": "대표이사"},
+   {"key": "employment.leave", "label": "휴직기간"},
+   {"key": "employment.annual_salary", "label": "급여(연봉)"},
+   {"key": "employment.employment_type", "label": "고용형태"},
+   {"key": "employment.contract_period", "label": "계약기간"},
+   {"key": "customer.birth", "label": "생년월일", "from": "employee.birth"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.company", "label": "회사직인", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "재직증명서", "aliases": []},
+ "extra": []
+}

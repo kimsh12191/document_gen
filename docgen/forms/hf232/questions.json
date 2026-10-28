@@ -1,0 +1,39 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "상호및대표자성명", "from": "signer.name"},
+   {"key": "corp.biz_item", "label": "업종(직업)", "from": "company.biz_item"},
+   {"key": "상호기타명칭", "label": "상호기타명칭"},
+   {"key": "증권종류", "label": "증권종류"},
+   {"key": "발행금액", "label": "발행금액"},
+   {"key": "계약체결시기및장소", "label": "계약체결시기및장소"},
+   {"key": "표면금리", "label": "표면금리"},
+   {"key": "만기", "label": "만기"},
+   {"key": "배당금지급시기및방법", "label": "배당금지급시기및방법"},
+   {"key": "원리금상환방법", "label": "원리금상환방법"},
+   {"key": "자금용도", "label": "자금용도"},
+   {"key": "발행관련기관", "label": "발행관련기관"},
+   {"key": "액면금액및수량", "label": "액면금액및수량"},
+   {"key": "발행시기및장소", "label": "발행시기및장소"},
+   {"key": "발행가격", "label": "발행가격"},
+   {"key": "해외판매여부", "label": "해외판매여부"},
+   {"key": "신고번호", "label": "신고번호"},
+   {"key": "신고금액", "label": "신고금액"},
+   {"key": "유효기간", "label": "유효기간"},
+   {"key": "처리기간", "label": "처리기간"},
+   {"key": "date", "label": "작성일"},
+   {"key": "신고조건", "label": "신고조건"},
+   {"key": "date2", "label": "작성일"},
+   {"key": "signer2.name", "label": "신고기관"},
+   {"key": "위의신청을다음과같이신고필함", "label": "위의신청을다음과같이신고필함."}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "상호및대표자성명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "상호및대표자성명", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "신고기관", "kind": "도장"},
+   {"key": "sign.signer2", "label": "신고기관", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "증권발행 신고(보고)서", "aliases": []},
+ "extra": []
+}

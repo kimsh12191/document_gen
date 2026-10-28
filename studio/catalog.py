@@ -291,6 +291,7 @@ def form_detail(doc_id: str) -> dict:
         "keys": _keys(doc_id),
         "files": files,
         "script": _script_source(doc_id) if spec.template.startswith("@form/") else None,
+        "questions": _questions_source(doc_id),
     }
 
 
@@ -300,6 +301,14 @@ def _script_source(doc_id: str) -> dict | None:
 
     p = script_path(doc_id)
     return {"path": _rel(p), "source": p.read_text(encoding="utf-8")[:200_000]} if p else None
+
+
+def _questions_source(doc_id: str) -> dict | None:
+    """이 서식의 질문·답 파일(questions.json) 내용 (문항 Q/A 탭에서 보고, 고치는 것은 파일로)."""
+    from docgen import formquestions
+
+    p = formquestions.path(doc_id)
+    return {"path": _rel(p), "source": p.read_text(encoding="utf-8")[:200_000]} if p.exists() else None
 
 
 def groups() -> list[dict]:

@@ -1,0 +1,27 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "고유식별정보", "label": "■고유식별정보"},
+   {"key": "일반개인정보", "label": "■일반개인정보"},
+   {"key": "수집이용목적", "label": "수집·이용목적"},
+   {"key": "제공일로부터5년이내보유이용", "label": "-제공일로부터5년이내보유·이용"},
+   {"key": "고유식별정보2", "label": "■고유식별정보"},
+   {"key": "일반개인정보2", "label": "■일반개인정보"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "본인성명", "from": "signer.name"},
+   {"key": "agent.name", "label": "대리인성명", "from": "signer2.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.위고유식별정보수집이용에동의하십니까", "label": "위고유식별정보수집☞이용에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
+   {"key": "check.위개인정보수집이용에동의하십니까", "label": "위개인(신용)정보수집☞이용에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
+   {"key": "check.위고유식별정보제공에동의하십니까", "label": "위고유식별정보제공에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
+   {"key": "check.위개인정보제공에동의하십니까", "label": "위개인(신용)정보제공에동의하십니까?", "kind": "체크박스", "options": ["동의하지 않음", "동의함"]},
+   {"key": "seal.customer", "label": "본인성명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "본인성명", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.agent", "label": "대리인성명", "from": "seal.signer2", "kind": "도장"},
+   {"key": "sign.agent", "label": "대리인성명", "from": "sign.signer2", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "[필수] 개인(신용)정보 수집·이용·제공 동의서 [공공마이데이터 사업자정보 조회용]", "aliases": []},
+ "extra": []
+}

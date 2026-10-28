@@ -37,6 +37,7 @@ from . import perturb
 from . import processing as PROCESS
 from .metrics import norm_text
 from .cases import CASES, OTHER_OK, Ctx
+from .. import formquestions as FQ
 from . import tasks as TASKS
 from .prompts import P_CROSS, P_DOC_CHECK, P_REVIEW
 from .tasks import MARK_TYPES, field_kind  # noqa: F401  (field_kind: 예전 import 자리 build.field_kind)
@@ -681,6 +682,7 @@ def build(args) -> None:
         info = {"recipe": rc["recipe"], "recipe_path": str(args.recipe), "generator_commit": meta["generator_commit"],
                 "version": VERSION, "created": meta["created"], "counts": meta["counts"], "split": split,
                 "form_hashes": {i: source_hash(i, common=False) for i in used if i in reg},
+                "question_hashes": FQ.hashes([i for i in used if i in reg]),   # 서식별 질문·답 파일 (그림은 안 바꾼다)
                 "scenario_processing": meta["scenario_processing"], "composition": tracking.result()}
         (out / "dataset.json").write_text(json.dumps(info, ensure_ascii=False, indent=1), encoding="utf-8")
     what = "학습 데이터" if split == "train" else "평가 세트"

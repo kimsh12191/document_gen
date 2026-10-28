@@ -1,0 +1,31 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "bank.name", "label": "은행명"},
+   {"key": "customer.name", "label": "성명(한글)", "from": "holder.name"},
+   {"key": "holder.surname_en", "label": "영문성"},
+   {"key": "holder.given_en", "label": "영문이름"},
+   {"key": "customer.birth", "label": "생년월일", "from": "holder.birth"},
+   {"key": "customer.mobile", "label": "연락처", "from": "holder.mobile"},
+   {"key": "holder.birth_place", "label": "출생국가"},
+   {"key": "customer.nationality", "label": "국적", "from": "holder.nationality"},
+   {"key": "customer.address", "label": "현재거주지주소", "from": "holder.address"},
+   {"key": "residence_category", "label": "해외거주자여부"},
+   {"key": "date", "label": "작성일"},
+   {"key": "signature", "label": "계좌보유자"},
+   {"key": "bank_use.branch", "label": "접수영업점"},
+   {"key": "bank_use.clerk", "label": "담당"},
+   {"key": "bank_use.manager", "label": "책임자"},
+   {"key": "residences.*.country", "label": "거주관할권"},
+   {"key": "residences.*.tin", "label": "납세자번호"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "계좌보유자", "from": "seal.holder", "kind": "도장"},
+   {"key": "sign.customer", "label": "계좌보유자", "from": "sign.holder", "kind": "서명"},
+   {"key": "seal.staff.clerk", "label": "담당", "kind": "도장"},
+   {"key": "seal.staff.manager", "label": "책임자", "kind": "도장"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "해외금융계좌 납세자 확인서(개인)", "aliases": ["본인확인서(FATCA CRS 개인,개인사업자용)(국문)"]},
+ "extra": []
+}

@@ -1,0 +1,13 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "성명", "from": "official.name"},
+   {"key": "customer.rrn", "label": "주민등록번호", "from": "official.rrn"},
+   {"key": "customer.address", "label": "주소", "from": "official.address"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "주민등록표 초본", "aliases": ["주민등록표(초본)"]},
+ "extra": []
+}

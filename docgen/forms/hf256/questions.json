@@ -1,0 +1,25 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "corp.name", "label": "상호(본점)", "from": "company.name"},
+   {"key": "corp.ceo", "label": "대표자(본점)", "from": "company.ceo"},
+   {"key": "본점소재지주", "label": "본점소재지주"},
+   {"key": "외국환업무의내용", "label": "외국환업무의내용"},
+   {"key": "자기자본", "label": "자기자본"},
+   {"key": "영업점수", "label": "영업점수"},
+   {"key": "외국환업무취급점", "label": "외국환업무취급점"},
+   {"key": "위험관리전산시스템명", "label": "위험관리전산시스템명"},
+   {"key": "corp.established", "label": "설립연월일", "from": "company.established"},
+   {"key": "customer.nationality", "label": "국적(대표자)"},
+   {"key": "납입자본", "label": "납입자본"},
+   {"key": "처리기간", "label": "처리기간"},
+   {"key": "도입시기", "label": "도입(개발)시기"},
+   {"key": "date", "label": "작성일"},
+   {"key": "인력현황", "label": "인력현황"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "외국환업무 등록 신청서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,29 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "상호또는성명", "label": "상호또는성명"},
+   {"key": "corp.biz_no", "label": "사업자(주민)등록번호", "from": "company.biz_no"},
+   {"key": "지사명", "label": "지사명"},
+   {"key": "corp.address", "label": "소재지(주소)", "from": "company.address"},
+   {"key": "설치일", "label": "설치일"},
+   {"key": "설치지역", "label": "설치지역"},
+   {"key": "corp.biz_item", "label": "업종", "from": "company.biz_item"},
+   {"key": "총자산", "label": "총자산"},
+   {"key": "매출액", "label": "매출액"},
+   {"key": "순이익금", "label": "순이익(결손)금"},
+   {"key": "영업기금잔액", "label": "영업기금잔액"},
+   {"key": "영업손익금", "label": "영업손익금"},
+   {"key": "자금차입현황", "label": "자금차입현황"},
+   {"key": "자금대여현황", "label": "자금대여현황"},
+   {"key": "영업기금", "label": "영업기금"},
+   {"key": "설치비", "label": "설치비"},
+   {"key": "유지활동비", "label": "유지활동비"},
+   {"key": "남한파견명", "label": "남한파견:명"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.구분", "label": "구분", "kind": "체크박스", "options": ["지점", "사무소"]}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "북한지사 등의 영업활동 보고서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,28 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "변경사항", "label": "변경사항"},
+   {"key": "변경사유", "label": "변경사유(요약)"},
+   {"key": "목록.*.변경후", "label": "변경후"},
+   {"key": "신고번호", "label": "신고번호"},
+   {"key": "customer.name", "label": "상호또는성명", "from": "signer.name"},
+   {"key": "변경대상현지법인명", "label": "변경대상현지법인명"},
+   {"key": "signer2.name", "label": "신고기관"},
+   {"key": "corp.biz_no", "label": "사업자(주민)번호", "from": "company.biz_no"},
+   {"key": "소재지또는주소", "label": "소재지또는주소"},
+   {"key": "전화", "label": "전화"},
+   {"key": "대상신고번호", "label": "대상신고번호"},
+   {"key": "date", "label": "신고일자"},
+   {"key": "신고금액", "label": "신고금액"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.현지법인내용변경", "label": "현지법인내용변경", "kind": "체크박스", "options": ["현지법인 내용변경", "기타"]},
+   {"key": "seal.customer", "label": "상호또는성명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "상호또는성명", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "신고기관", "kind": "도장"},
+   {"key": "sign.signer2", "label": "신고기관", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "해외직접투자 내용변경 신고(보고)서", "aliases": []},
+ "extra": []
+}

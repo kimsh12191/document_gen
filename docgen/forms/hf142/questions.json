@@ -1,0 +1,23 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "목록.*.일련번호", "label": "일련번호"},
+   {"key": "목록.*.발생일", "label": "발생일"},
+   {"key": "목록.*.만기일", "label": "만기일"},
+   {"key": "목록.*.채권금액", "label": "채권금액"},
+   {"key": "목록.*.비고", "label": "비고"},
+   {"key": "가계약내용", "label": "가.계약내용"},
+   {"key": "date", "label": "작성일"},
+   {"key": "signer.name", "label": "은행"},
+   {"key": "date2", "label": "작성일"},
+   {"key": "절취선", "label": "절취선"},
+   {"key": "절취선2", "label": "절취선"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.signer", "label": "은행", "kind": "도장"},
+   {"key": "sign.signer", "label": "은행", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "매출채권설정등기통지서", "aliases": []},
+ "extra": []
+}

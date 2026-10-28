@@ -1,0 +1,26 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "성명"},
+   {"key": "자택", "label": "자택"},
+   {"key": "employer.name", "label": "근무처"},
+   {"key": "모계좌계좌번호", "label": "모계좌(이체지정계좌)계좌번호"},
+   {"key": "customer.rrn", "label": "주민등록번호"},
+   {"key": "통장번호", "label": "통장번호"},
+   {"key": "date", "label": "작성일"},
+   {"key": "목록.*.일자", "label": "일자"},
+   {"key": "목록.*.내용", "label": "내용"},
+   {"key": "date2", "label": "일자"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"},
+   {"key": "seal.customer", "label": "변경인감", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "변경인감", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "목돈을 불리는 통장 거래신청서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,35 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "담당Prepare", "label": "담당Prepare"},
+   {"key": "책임자Approval", "label": "책임자Approval"},
+   {"key": "성명Name", "label": "성명Name"},
+   {"key": "성명Name2", "label": "성명Name"},
+   {"key": "customer.birth", "label": "생년월일DateofBirth"},
+   {"key": "해외주소OverseasAddress_목록.*.직장Company", "label": "직장Company"},
+   {"key": "자택House_목록.*.여권번호PassportNo", "label": "여권번호PassportNo."},
+   {"key": "직장Company_목록.*.여권번호PassportNo", "label": "여권번호PassportNo."},
+   {"key": "여권번호PassportNo", "label": "여권번호PassportNo."},
+   {"key": "인터넷뱅킹이용자IDInternetBankingUserID", "label": "인터넷뱅킹이용자IDInternetBankingUserID"},
+   {"key": "서비스이용계좌번호ACNo", "label": "서비스이용계좌번호A/CNo."},
+   {"key": "개설은행지점명BankBranch", "label": "개설은행/지점명Bank/Branch"},
+   {"key": "직장Company", "label": "직장Company"},
+   {"key": "customer.email", "label": "e-Mail", "from": "eMail"},
+   {"key": "signer2.name", "label": "실명확인자"},
+   {"key": "조회", "label": "‌\u0007조회"},
+   {"key": "조회2", "label": "‌\u0007조회"},
+   {"key": "조회3", "label": "‌\u0007조회"},
+   {"key": "Inquiry", "label": "Inquiry"},
+   {"key": "Inquiry2", "label": "Inquiry"},
+   {"key": "Inquiry3", "label": "Inquiry"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "서명/인감Signature", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "서명/인감Signature", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.signer2", "label": "실명확인자", "kind": "도장"},
+   {"key": "sign.signer2", "label": "실명확인자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "글로벌뱅킹서비스 이용,변경,해지 신청서", "aliases": []},
+ "extra": []
+}

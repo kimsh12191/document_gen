@@ -1,0 +1,35 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "bank.name", "label": "은행명"},
+   {"key": "providers.*.name", "label": "제공받는자"},
+   {"key": "providers.*.purpose", "label": "제공받는자의이용목적"},
+   {"key": "providers.*.items", "label": "제공하는항목"},
+   {"key": "providers.*.period", "label": "제공받는자의보유이용기간"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.birth", "label": "생년월일", "from": "applicant.birth"},
+   {"key": "customer.name", "label": "본인성명", "from": "applicant.name"},
+   {"key": "bank_use.clerk", "label": "본인확인"},
+   {"key": "marketing.channels.*", "label": "연락방법"},
+   {"key": "agent.name", "label": "법정대리인", "from": "legal_rep.name"},
+   {"key": "agent.relation", "label": "본인과의관계", "from": "legal_rep.relation"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "consent.collect", "label": "수집이용동의", "kind": "체크박스", "options": ["동의함", "동의하지 않음"]},
+   {"key": "consent.unique_id", "label": "고유식별정보처리동의", "kind": "체크박스", "options": ["동의함", "동의하지 않음"]},
+   {"key": "consent.provide", "label": "제공동의", "kind": "체크박스", "options": ["동의함", "동의하지 않음"]},
+   {"key": "consent.provide_unique_id", "label": "고유식별정보제공동의", "kind": "체크박스", "options": ["동의함", "동의하지 않음"]},
+   {"key": "consent.inquiry", "label": "조회동의", "kind": "체크박스", "options": ["동의함", "동의하지 않음"]},
+   {"key": "marketing.collect", "label": "마케팅수집이용동의", "kind": "체크박스", "options": ["동의함", "동의하지 않음"]},
+   {"key": "marketing.provide", "label": "마케팅제공동의", "kind": "체크박스", "options": ["동의함", "동의하지 않음"]},
+   {"key": "seal.customer", "label": "본인", "from": "seal.applicant", "kind": "도장"},
+   {"key": "sign.customer", "label": "본인", "from": "sign.applicant", "kind": "서명"},
+   {"key": "seal.staff.clerk", "label": "본인확인", "kind": "도장"},
+   {"key": "marketing.channels", "label": "연락방법", "kind": "복수 선택", "options": ["전화", "문자메시지", "이메일", "우편", "앱 푸시"]},
+   {"key": "seal.agent", "label": "법정대리인", "from": "seal.legal_rep", "kind": "도장"},
+   {"key": "sign.agent", "label": "법정대리인", "from": "sign.legal_rep", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "개인(신용)정보 수집·이용·제공·조회 동의서", "aliases": ["[필수] 개인(신용)정보 수집·이용·제공_동의서[가계여신_금융거래]"]},
+ "extra": []
+}

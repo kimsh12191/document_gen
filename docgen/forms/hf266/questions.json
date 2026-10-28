@@ -1,0 +1,22 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "RM", "label": "RM"},
+   {"key": "영업점장", "label": "영업점장"},
+   {"key": "고객번호", "label": "고객번호"},
+   {"key": "매입번호", "label": "매입번호"},
+   {"key": "상품명", "label": "상품명"},
+   {"key": "수출신고번호", "label": "수출신고번호"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "본인", "from": "signer.name"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "OATNET기타", "label": "OAT()/NET()/기타()"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "본인", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "본인", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "수출대금채권 매입의뢰서", "aliases": []},
+ "extra": []
+}

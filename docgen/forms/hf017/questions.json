@@ -1,0 +1,40 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "성명(회사명)"},
+   {"key": "customer.phone", "label": "전화번호"},
+   {"key": "Fax번호", "label": "Fax번호"},
+   {"key": "account", "label": "계좌번호"},
+   {"key": "입금금액", "label": "입금금액"},
+   {"key": "기간", "label": "기간(만기일)"},
+   {"key": "이율", "label": "이율"},
+   {"key": "지준입금액", "label": "지준입금액"},
+   {"key": "전금입금액", "label": "전금입금액"},
+   {"key": "계좌입금액", "label": "계좌입금액"},
+   {"key": "목록.*.계좌번호", "label": "계좌번호"},
+   {"key": "account2", "label": "계좌번호"},
+   {"key": "인출금액", "label": "인출금액"},
+   {"key": "목록.*.은행명", "label": "은행명"},
+   {"key": "목록.*.금액", "label": "금액"},
+   {"key": "date", "label": "작성일"},
+   {"key": "signer.name", "label": "신청인(예금주)"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.입금", "label": "입금", "kind": "체크박스", "options": ["입 금"]},
+   {"key": "check.예금종류", "label": "예금종류", "kind": "체크박스", "options": ["발행어음", "CMA"]},
+   {"key": "check.입금방법", "label": "입금방법", "kind": "체크박스", "options": ["지준", "전금", "계좌"]},
+   {"key": "check.당일출금", "label": "당일출금", "kind": "체크박스", "options": ["당일 출금", "익일 출금"]},
+   {"key": "check.예금종류2", "label": "예금종류", "kind": "체크박스", "options": ["발행어음", "CMA"]},
+   {"key": "check.이체방법", "label": "이체방법", "kind": "체크박스", "options": ["지준", "전금", "계좌"]},
+   {"key": "check.인출방법", "label": "인출방법", "kind": "체크박스", "options": ["부리식", "할인식"]},
+   {"key": "seal.customer", "label": "신청인(예금주)", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "신청인(예금주)", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "종합금융상품 ON-LINE_거래 (이체)신청서", "aliases": []},
+ "extra": []
+}

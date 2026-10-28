@@ -1,0 +1,32 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "상호및대표자성명", "from": "signer.name"},
+   {"key": "corp.biz_item", "label": "업종(직업)", "from": "company.biz_item"},
+   {"key": "보증채권자", "label": "보증채권자"},
+   {"key": "보증채무자", "label": "보증채무자"},
+   {"key": "보증수혜자", "label": "보증수혜자"},
+   {"key": "보증금액", "label": "보증금액"},
+   {"key": "보증기간", "label": "보증기간"},
+   {"key": "상환방법", "label": "상환방법"},
+   {"key": "신고번호", "label": "신고번호"},
+   {"key": "신고금액", "label": "신고금액"},
+   {"key": "유효기간", "label": "유효기간"},
+   {"key": "처리기간", "label": "처리기간"},
+   {"key": "date", "label": "작성일"},
+   {"key": "신고조건", "label": "신고조건"},
+   {"key": "date2", "label": "작성일"},
+   {"key": "signer2.name", "label": "신고기관"},
+   {"key": "위의신청을다음과같이신고필함", "label": "위의신청을다음과같이신고필함."}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "상호및대표자성명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "상호및대표자성명", "from": "sign.signer", "kind": "서명"},
+   {"key": "check.보증용도", "label": "보증용도", "kind": "체크박스", "options": ["해외교포등에 대한 여신과 관련한 원리금상환 보증", "거주자 및 거주자의 현지법인등의 현지금융에 대한 보증", "증권회사 현지법인의 현지차입에 대한 보증", "거주자의 현지법인의 해외리스에 대한 국내본사등의 보증", "국내 시설대여회사 현지법인의 현지차입에 대한 본사의 보증", "주채무계열 소속 30대계열기업체의 장기차입에 대한 보증", "기타("]},
+   {"key": "seal.signer2", "label": "신고기관", "kind": "도장"},
+   {"key": "sign.signer2", "label": "신고기관", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "보증계약신고(보고)서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,22 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "목록.*.약정일자", "label": "약정일자"},
+   {"key": "목록.*.거래약정서류명", "label": "거래약정서류명(또는어음채무내용)"},
+   {"key": "목록.*.채무한도액", "label": "채무한도액"},
+   {"key": "목록.*.보증종류", "label": "보증종류"},
+   {"key": "date", "label": "작성일"},
+   {"key": "구연대보증인의보증채무내용", "label": "○구연대보증인의보증채무내용"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.대리", "label": "대리", "kind": "도장"},
+   {"key": "sign.staff.대리", "label": "대리", "kind": "서명"},
+   {"key": "seal.staff.차장", "label": "차장", "kind": "도장"},
+   {"key": "sign.staff.차장", "label": "차장", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "《기업》연대보증인(교체·면제)증서", "aliases": []},
+ "extra": []
+}

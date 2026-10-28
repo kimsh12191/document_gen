@@ -1,0 +1,30 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "목록.*.상품명", "label": "상품명"},
+   {"key": "목록.*.중심업체코드", "label": "중심업체코드"},
+   {"key": "목록.*.한도승인번호", "label": "한도승인번호"},
+   {"key": "목록.*.정보제공내용", "label": "정보제공내용"},
+   {"key": "취급점", "label": "취급점"},
+   {"key": "신용거래정보의제공목적", "label": "■신용거래정보의제공목적"},
+   {"key": "신용거래정보의제공받을자", "label": "■신용거래정보의제공받을자"},
+   {"key": "제공할신용거래정보등의내용및범위", "label": "■제공할신용거래정보등의내용및범위"},
+   {"key": "date", "label": "작성일"},
+   {"key": "corp.name", "label": "동의자본인회사명", "from": "signer.name"},
+   {"key": "corp.biz_no", "label": "사업자등록번호", "from": "company.biz_no"},
+   {"key": "customer.phone", "label": "전화번호(선택항목)"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.corp", "label": "동의자본인회사명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "동의자본인회사명", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"},
+   {"key": "seal.staff.부점장", "label": "부점장", "kind": "도장"},
+   {"key": "sign.staff.부점장", "label": "부점장", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "신용정보 제공 동의서(외담대,e-안심팩토링,동반성장론 구매기업용)", "aliases": []},
+ "extra": []
+}

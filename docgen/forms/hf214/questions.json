@@ -1,0 +1,25 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "신청인"},
+   {"key": "customer.phone", "label": "연락처"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "customer.rrn", "label": "주민(사업자)번호"},
+   {"key": "customer.email", "label": "이메일주소"},
+   {"key": "date", "label": "작성일"},
+   {"key": "signer.name", "label": "신청인"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.거주자의미화5천만불이하", "label": "거주자의미화5천만불이하외화자금차입(증권발행포함)(규정제7-", "kind": "체크박스", "options": ["거주자의 미화 5천만불 이하 외화자금 차입(증권발행 포함) (규정 제7-"]},
+   {"key": "check.현지법인등의외화자금차입", "label": "현지법인등의외화자금차입(규정제7-14조의2,제7-18조)", "kind": "체크박스", "options": ["현지법인등의 외화자금 차입 (규정 제7-14조의2, 제7-18조)"]},
+   {"key": "check.현지법인에대한1년미만의", "label": "현지법인에대한1년미만의금전대여(규정제7-16조)", "kind": "체크박스", "options": ["현지법인에 대한 1년 미만의 금전대여 (규정 제7-16조)"]},
+   {"key": "check.거주자와비거주자간채무의", "label": "거주자와비거주자간채무의보증계약에따른자본거래(규정제7-18조)", "kind": "체크박스", "options": ["거주자와 비거주자간 채무의 보증계약에 따른 자본거래 (규정 제7-18조)"]},
+   {"key": "check.거주자의외국부동산시설물", "label": "거주자의외국부동산·시설물이용에관한권리취득(규정제7-21조", "kind": "체크박스", "options": ["거주자의 외국부동산 · 시설물 이용에 관한 권리 취득 (규정 제7-21조"]},
+   {"key": "check.거자와비거주자간임대차계", "label": "거자와비거주자간임대차계약(규정제7-46조)", "kind": "체크박스", "options": ["거자와 비거주자간 임대차 계약 (규정 제7-46조)"]},
+   {"key": "seal.customer", "label": "신청인", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "신청인", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "자본거래 사후보고 확인서", "aliases": []},
+ "extra": []
+}

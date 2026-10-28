@@ -1,0 +1,26 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "목록.*.사업자번호", "label": "사업자번호"},
+   {"key": "목록.*.사업자명", "label": "사업자명"},
+   {"key": "목록.*.추심금액", "label": "추심금액"},
+   {"key": "건", "label": "건"},
+   {"key": "목록.*.추심의뢰일", "label": "추심의뢰일"},
+   {"key": "목록.*.지급은행", "label": "지급은행"},
+   {"key": "목록.*.대표품명", "label": "대표품명"},
+   {"key": "목록.*.공급가액", "label": "공급가액"},
+   {"key": "목록.*.반환사유", "label": "반환사유"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.address", "label": "주소"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.아래의기업구매자금어음을", "label": "아래의기업구매자금어음을(", "kind": "체크박스", "options": ["추심취소", "반환) 하여 주시기 바랍니다."]},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "기업구매자금어음 추심취소 및 반환의뢰서", "aliases": []},
+ "extra": []
+}

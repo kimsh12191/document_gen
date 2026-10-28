@@ -19,15 +19,16 @@ from .metrics import (cer, is_null, loose_text, match, norm_text, parse_json, st
                       valid_box, value_match, yes_no)
 
 OCR_TASKS = list(OM.TASKS)   # 쪽 OCR (옛 1부): 문항마다가 아니라 과제 전체로 지표를 낸다 (CER = 틀린 글자 합 / 글자 합)
-TASK_ORDER = [*OCR_TASKS, "ocr_field", "ocr_page", "classify", "kie", "marks", "freetext", "doc_check", "cross_check", "review"]
+TASK_ORDER = [*OCR_TASKS, "ocr_field", "ocr_page", "classify", "kie", "marks", "freetext", "form_qa", "doc_check", "cross_check", "review"]
 TASK_TITLE = {"crop_ocr": "OCR - 칸 잘라 읽기", "bbox_ocr": "OCR - 좌표 → 글자", "region_ocr": "OCR - 영역 받아쓰기",
               "marked_ocr": "OCR - 그린 박스 → 글자", "grounding": "OCR - 글자 → 좌표", "spotting": "OCR - 글자 찾기(좌표+글자)",
               "relation": "OCR - 항목명 → 값(좌표+글자)", "marked_box": "OCR - 그린 박스 → 좌표",
               "ocr_field": "OCR - 값 칸 인식", "ocr_page": "OCR - 전체 받아쓰기", "classify": "서류 분류",
-              "kie": "정보 추출", "marks": "체크·도장·서명", "freetext": "기타 칸 정리", "doc_check": "서류 구비 확인",
+              "kie": "정보 추출", "marks": "체크·도장·서명", "freetext": "기타 칸 정리", "form_qa": "서식 전용 질문",
+              "doc_check": "서류 구비 확인",
               "cross_check": "서류 간 대조", "review": "심사 질의"}
 TASK_GROUP = {**{t: "ocr" for t in [*OCR_TASKS, "ocr_field", "ocr_page"]}, "classify": "doc", "kie": "doc", "marks": "doc",
-              "freetext": "doc", "doc_check": "work", "cross_check": "work", "review": "work"}
+              "freetext": "doc", "form_qa": "doc", "doc_check": "work", "cross_check": "work", "review": "work"}
 GROUP_TITLE = {"ocr": "OCR", "doc": "문서 이해", "work": "업무 처리"}
 WORST = {"cer": 1.0, "false_alarm": 1.0, "extra_key": 1.0}
 LOWER_IS_BETTER = {"cer", "false_alarm", "matched_label_cer", "extra_key"}
@@ -35,7 +36,7 @@ LOWER_IS_BETTER = {"cer", "false_alarm", "matched_label_cer", "extra_key"}
 MAIN = {"crop_ocr": "cer", "bbox_ocr": "em", "region_ocr": "cer", "marked_ocr": "em", "grounding": "f1_iou50",
         "spotting": "e2e_f1", "relation": "e2e_f1", "marked_box": "f1_iou75",
         "ocr_field": "exact", "ocr_page": "recall", "classify": "acc", "kie": "vl_f1", "marks": "vl_f1", "freetext": "f1",
-        "doc_check": "exact", "cross_check": "score", "review": "acc"}
+        "form_qa": "acc", "doc_check": "exact", "cross_check": "score", "review": "acc"}
 # 평가 세트 1.x 의 kie·marks 는 값만 답한다 → 주 지표가 값 점수 (f1 / acc). 2.0 부터 값+위치 (vl_f1).
 MAIN_V1 = {"kie": "f1", "marks": "acc"}
 
@@ -59,7 +60,8 @@ METRIC_TITLE = {"exact": "완전 일치", "cer": "CER(낮을수록 좋음)", "re
                 "approx_acc": "대략 표시 일치"}
 SLICES = {"ocr_field": ["writing", "condition", "kind", "corrected"], "ocr_page": ["condition", "writing", "group"],
           "classify": ["group", "condition"], "kie": ["group", "condition", "writing", "@kind"],
-          "marks": ["group", "condition", "@type"], "freetext": ["group", "writing", "level", "@key"], "doc_check": ["n_missing", "not_customer", "not_required", "scenario"],
+          "marks": ["group", "condition", "@type"], "freetext": ["group", "writing", "level", "@key"],
+          "form_qa": ["doc_type", "question"], "doc_check": ["n_missing", "not_customer", "not_required", "scenario"],
           "cross_check": ["category", "case", "perturbed", "scenario"], "review": ["skill", "rule"],
           **{t: ["view", "confidence", "size"] for t in OCR_TASKS}}
 
@@ -372,6 +374,14 @@ def s_review(item, out):
 
 
 
+def s_form_qa(item, out):
+    """서식 전용 질문 (서식 폴더 questions.json 의 extra): number·yesno 는 심사 질의와 같게, text 는 띄어쓰기·문장부호를 맞춰 같은지."""
+    if item["eval"]["answer_type"] in ("number", "yesno"):
+        return s_review(item, out)
+    p = strip_answer(out) if out is not None else ""
+    return {"metrics": {"acc": float(loose_text(p) == loose_text(str(item["answer"])))}}
+
+
 def _freetext_ok(key: str, pred, gt) -> bool:
     """기타 칸 정리: 금액·기간·날짜·보기는 정확히 같아야 맞음, memo 만 띄어쓰기·문장부호 차이 허용."""
     if is_null(pred):
@@ -407,7 +417,7 @@ def s_freetext(item, out):
 
 
 SCORERS = {"classify": s_classify, "ocr_field": s_ocr_field, "ocr_page": s_ocr_page, "kie": s_kie, "marks": s_marks,
-           "freetext": s_freetext,
+           "freetext": s_freetext, "form_qa": s_form_qa,
            "doc_check": s_doc_check, "cross_check": s_cross_check, "review": s_review}
 
 

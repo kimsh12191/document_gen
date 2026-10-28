@@ -1,0 +1,28 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.birth", "label": "생년월일"},
+   {"key": "customer.phone", "label": "전화번호"},
+   {"key": "customer.address", "label": "현주소"},
+   {"key": "agent.name", "label": "성명"},
+   {"key": "agent.address", "label": "주소"},
+   {"key": "영주권번호", "label": "영주권번호"},
+   {"key": "여권번호", "label": "여권번호"},
+   {"key": "agent.birth", "label": "생년월일"},
+   {"key": "agent.relation", "label": "본인과의관계"},
+   {"key": "대출금용도", "label": "대출금용도"},
+   {"key": "대출기간", "label": "대출기간"},
+   {"key": "customer.name", "label": "채무자(대출신청인)"},
+   {"key": "설정최고액", "label": "설정최고액(대출금액의120%기재)"},
+   {"key": "설정자", "label": "설정자(소유자)"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name2", "label": "성명(본인)"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "서명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "서명", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "《개인》위임장(해외체제자 담보대출용)", "aliases": []},
+ "extra": []
+}

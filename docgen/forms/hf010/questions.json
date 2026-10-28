@@ -1,0 +1,33 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "책임자", "label": "책임자(관리자)"},
+   {"key": "영업점장", "label": "영업점장"},
+   {"key": "date", "label": "납입기일"},
+   {"key": "주식수", "label": "주식수"},
+   {"key": "발행가액", "label": "발행가액(1주당)"},
+   {"key": "발행주식총수", "label": "발행주식총수"},
+   {"key": "주주배정", "label": "주주배정"},
+   {"key": "금액", "label": "금액"},
+   {"key": "액면가액", "label": "액면가액(1주당)"},
+   {"key": "기발행주식총수", "label": "기발행주식총수"},
+   {"key": "공모", "label": "공모"},
+   {"key": "corp.ceo", "label": "발기인대표(또는)대표이사", "from": "signer.name"},
+   {"key": "위탁회사주소", "label": "위탁회사주소"},
+   {"key": "employer.name", "label": "회사명"},
+   {"key": "취급점", "label": "취급점"},
+   {"key": "date2", "label": "작성일"},
+   {"key": "또는주주총회결의록사본", "label": "또는주주총회결의록사본"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "check.주식납입금수납", "label": "주식납입금수납", "kind": "체크박스", "options": ["설립", "신주발행"]},
+   {"key": "check.사채납입금수납", "label": "사채납입금수납", "kind": "체크박스", "options": ["사채발행"]},
+   {"key": "check.증명서종류", "label": "증명서종류", "kind": "체크박스", "options": ["보관증명서"]},
+   {"key": "check.증명서종류2", "label": "증명서종류", "kind": "체크박스", "options": ["보관증명서", "납입완료사실증명서"]},
+   {"key": "seal.corp", "label": "발기인대표(또는)대표이사", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "발기인대표(또는)대표이사", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "주식(사채)납입금 수납대행의뢰서(보관증명서 발급의뢰서 겸용)", "aliases": []},
+ "extra": []
+}

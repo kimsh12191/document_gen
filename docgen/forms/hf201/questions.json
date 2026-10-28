@@ -1,0 +1,16 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "Staff", "label": "Staff"},
+   {"key": "Manager", "label": "Manager"},
+   {"key": "PhoneNo", "label": "PhoneNo"},
+   {"key": "PhoneNo2", "label": "PhoneNo"},
+   {"key": "of", "label": "of"},
+   {"key": "Bank", "label": "Bank"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "거래외국환지정(변경)신청서(영문)", "aliases": []},
+ "extra": []
+}

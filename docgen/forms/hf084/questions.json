@@ -1,0 +1,22 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.address", "label": "주소"},
+   {"key": "date", "label": "작성일"},
+   {"key": "date2", "label": "작성일"},
+   {"key": "date3", "label": "작성일"},
+   {"key": "signer.name", "label": "주식회사하나은행"},
+   {"key": "customer.address2", "label": "주소"},
+   {"key": "signer2.name", "label": "주식회사하나은행"},
+   {"key": "customer.address3", "label": "주소"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.signer", "label": "주식회사하나은행", "kind": "도장"},
+   {"key": "sign.signer", "label": "주식회사하나은행", "kind": "서명"},
+   {"key": "seal.signer2", "label": "주식회사하나은행", "kind": "도장"},
+   {"key": "sign.signer2", "label": "주식회사하나은행", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "외상매출채권 양도통지서(장래채권양도통지용)", "aliases": []},
+ "extra": []
+}

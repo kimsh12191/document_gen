@@ -1,0 +1,24 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "목록.*.업체명", "label": "업체명"},
+   {"key": "목록.*.대표자", "label": "대표자"},
+   {"key": "목록.*.법인번호", "label": "법인번호"},
+   {"key": "목록.*.사업자번호", "label": "사업자번호"},
+   {"key": "총계", "label": "총계"},
+   {"key": "목록.*.최초거래일자", "label": "최초거래일자"},
+   {"key": "목록.*.납품실적", "label": "납품실적*"},
+   {"key": "목록.*.평균결제기간", "label": "평균결제기간*"},
+   {"key": "목록.*.주소", "label": "주소"},
+   {"key": "목록.*.전화", "label": "전화"},
+   {"key": "date", "label": "작성일"},
+   {"key": "corp.name", "label": "(회사명)", "from": "signer.name"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.corp", "label": "(회사명)", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "(회사명)", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "미래채권담보대출 협력기업 일괄추천서", "aliases": []},
+ "extra": []
+}

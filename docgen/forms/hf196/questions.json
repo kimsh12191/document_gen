@@ -1,0 +1,23 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "corp.name", "label": "기업명", "from": "company.name"},
+   {"key": "corp.biz_no", "label": "사업자번호", "from": "company.biz_no"},
+   {"key": "상시근로자수", "label": "(A)상시근로자수"},
+   {"key": "명", "label": "명"},
+   {"key": "기업형IRP가입대상근로자수", "label": "(C)=(A)-(B)기업형IRP가입대상근로자수"},
+   {"key": "date", "label": "작성일"},
+   {"key": "signer.name", "label": "기업명"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.corp", "label": "기업명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "기업명", "from": "sign.signer", "kind": "서명"},
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "기업형IRP 가입대상 근로자 확인서", "aliases": []},
+ "extra": []
+}

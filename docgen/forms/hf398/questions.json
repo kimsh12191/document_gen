@@ -1,0 +1,23 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "주식회사하나은행", "label": "주식회사하나은행"},
+   {"key": "거래정보저장소", "label": "거래정보저장소(한국거래소)"},
+   {"key": "법인명이름", "label": "법인명/이름"},
+   {"key": "명의인의인적사항사업자등록증번호생년월일", "label": "명의인의인적사항사업자등록증번호/생년월일"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "date", "label": "작성일"},
+   {"key": "명의인에대한정보", "label": "명의인에대한정보"},
+   {"key": "금융거래관련정보", "label": "금융거래관련정보"},
+   {"key": "법령및금융투자업규정에따른보고의무이행", "label": "법령및금융투자업규정에따른보고의무이행"},
+   {"key": "일로동의를철회할수있음", "label": "일로동의를철회할수있음"},
+   {"key": "으로봄", "label": "으로봄"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "서명또는", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "서명또는", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "금융거래정보이용제공동의서", "aliases": []},
+ "extra": []
+}

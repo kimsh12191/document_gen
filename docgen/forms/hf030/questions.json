@@ -1,0 +1,27 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "FilingNo", "label": "FilingNo."},
+   {"key": "ApplicantInformation", "label": "ApplicantInformation"},
+   {"key": "NameofCorporation", "label": "NameofCorporation"},
+   {"key": "NameofRepresentative", "label": "NameofRepresentative"},
+   {"key": "TaxpayerIdentificationNo", "label": "TaxpayerIdentificationNo."},
+   {"key": "DateofIncorporation", "label": "DateofIncorporation"},
+   {"key": "FilingDate", "label": "FilingDate"},
+   {"key": "customer.address", "label": "Address"},
+   {"key": "customer.address2", "label": "Address"},
+   {"key": "CountryofResidence", "label": "CountryofResidence"},
+   {"key": "CountryCode", "label": "CountryCode"},
+   {"key": "TelephoneNumber", "label": "TelephoneNumber"},
+   {"key": "AddressorLocation", "label": "AddressorLocation"},
+   {"key": "To", "label": "To"},
+   {"key": "Type", "label": "Type"},
+   {"key": "TaxAdministrator", "label": "[]TaxAdministrator"},
+   {"key": "Other", "label": "[]Other"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "국내원천소득 제한세율 적용신청서(외국법인용-영문)", "aliases": []},
+ "extra": []
+}

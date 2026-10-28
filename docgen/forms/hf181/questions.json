@@ -1,0 +1,21 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "목록.*.이전하는금융회사", "label": "이전하는금융회사(운용관리기관명)"},
+   {"key": "목록.*.운용관리기관명자산관리기관명", "label": "운용관리기관명자산관리기관명"},
+   {"key": "목록.*.성명", "label": "성명"},
+   {"key": "목록.*.주민번호", "label": "주민번호"},
+   {"key": "목록.*.연락처", "label": "연락처"},
+   {"key": "목록.*.실물이전여부1현금2실물", "label": "실물이전여부1.현금2.실물"},
+   {"key": "목록.*.서명날인", "label": "서명/날인"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "이전 가입자 명부(DC,기업형 IRP용)", "aliases": []},
+ "extra": []
+}

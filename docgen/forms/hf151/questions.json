@@ -1,0 +1,22 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "어음번호", "label": "어음번호"},
+   {"key": "년", "label": "년"},
+   {"key": "목록.*.월", "label": "월"},
+   {"key": "목록.*.일", "label": "일"},
+   {"key": "년2", "label": "년"},
+   {"key": "년3", "label": "년"},
+   {"key": "일", "label": "일"},
+   {"key": "년4", "label": "년"},
+   {"key": "지급기일", "label": "지급기일"},
+   {"key": "비", "label": "비"},
+   {"key": "선적기일할인료율", "label": "선적기일할인료율"},
+   {"key": "주소본인", "label": "주소:본인"}
+  ]},
+ "marks": {"others": "ask", "items": [
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "《기업》무역어음인수·할인신청서", "aliases": []},
+ "extra": []
+}

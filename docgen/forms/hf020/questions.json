@@ -1,0 +1,28 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "corp.name", "label": "기업명", "from": "company.name"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "employer.department", "label": "부서"},
+   {"key": "TEL", "label": "TEL"},
+   {"key": "corp.biz_no", "label": "사업자번호", "from": "company.biz_no"},
+   {"key": "customer.name", "label": "성명"},
+   {"key": "FAX", "label": "FAX"},
+   {"key": "account", "label": "계좌번호"},
+   {"key": "customer.name2", "label": "예금주"},
+   {"key": "원청기업사업자번호", "label": "원청기업사업자번호"},
+   {"key": "원청기업명", "label": "원청기업명"},
+   {"key": "date", "label": "작성일"},
+   {"key": "signer.name", "label": "(신청인)신청기업명"},
+   {"key": "청구서류", "label": "청구서류"},
+   {"key": "사업자등록증대표자실명확인증표", "label": "사업자등록증,대표자실명확인증표"},
+   {"key": "개인사업자", "label": "개인사업자"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.corp", "label": "(신청인)신청기업명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "(신청인)신청기업명", "from": "sign.signer", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "노무비닷컴계좌 개설 및 지급이체서비스 이용 신청서", "aliases": []},
+ "extra": []
+}

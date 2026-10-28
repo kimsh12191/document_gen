@@ -1,0 +1,19 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "목록.*.이전하는금융회사", "label": "이전하는금융회사(운용관리기관명)"},
+   {"key": "목록.*.운용관리기관명", "label": "운용관리기관명"},
+   {"key": "목록.*.자산관리기관명", "label": "자산관리기관명"},
+   {"key": "목록.*.적립금이전액", "label": "적립금이전액*"},
+   {"key": "목록.*.실물이전여부", "label": "실물이전여부"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.staff.담당", "label": "담당", "kind": "도장"},
+   {"key": "sign.staff.담당", "label": "담당", "kind": "서명"},
+   {"key": "seal.staff.책임자", "label": "책임자", "kind": "도장"},
+   {"key": "sign.staff.책임자", "label": "책임자", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "DB 적립금 이전 요청서", "aliases": []},
+ "extra": []
+}

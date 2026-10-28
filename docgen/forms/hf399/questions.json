@@ -1,0 +1,19 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "company.ceo", "label": "[수신]대표이사"},
+   {"key": "corp.name", "label": "상호", "from": "company.name"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "참조", "label": "참조"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.address2", "label": "주소"},
+   {"key": "signer.name", "label": "상호:주식회사하나은행"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.signer", "label": "상호:주식회사하나은행", "kind": "도장"},
+   {"key": "sign.signer", "label": "상호:주식회사하나은행", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "파생상품거래 손실한도 초과 및 증거담보 요청 통지서", "aliases": []},
+ "extra": []
+}

@@ -1,0 +1,26 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "목록.*.전자채권번호", "label": "전자채권번호"},
+   {"key": "목록.*.발행기업명", "label": "발행기업명(사업자등록번호)"},
+   {"key": "목록.*.금액", "label": "금액"},
+   {"key": "목록.*.발행일", "label": "발행일"},
+   {"key": "목록.*.만기일", "label": "만기일"},
+   {"key": "목록.*.미결제사유", "label": "미결제사유"},
+   {"key": "전자채권지급장소", "label": "전자채권지급장소"},
+   {"key": "발행은행지점", "label": "발행은행지점"},
+   {"key": "취급점", "label": "취급점"},
+   {"key": "date", "label": "작성일"},
+   {"key": "customer.name", "label": "의뢰인"},
+   {"key": "corp.biz_no", "label": "사업자등록번호", "from": "company.biz_no"},
+   {"key": "customer.address", "label": "주소"},
+   {"key": "date2", "label": "작성일"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.signer", "label": "지점", "kind": "도장"},
+   {"key": "sign.signer", "label": "지점", "kind": "서명"}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "전자채권미결제 확인의뢰서 및 확인서", "aliases": []},
+ "extra": []
+}

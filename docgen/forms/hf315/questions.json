@@ -1,0 +1,33 @@
+{
+ "kie": {"others": "ask", "items": [
+   {"key": "customer.name", "label": "상호또는성명", "from": "signer.name"},
+   {"key": "신고수리일자", "label": "신고수리일자"},
+   {"key": "설립년월일", "label": "설립년월일"},
+   {"key": "신고수리번호", "label": "신고수리번호"},
+   {"key": "corp.name", "label": "법인명", "from": "company.name"},
+   {"key": "설립등기일", "label": "설립등기일"},
+   {"key": "영업개시일", "label": "영업개시(예정)일"},
+   {"key": "결산일", "label": "결산일"},
+   {"key": "증권취득일", "label": "증권취득일(자본금출자일)"},
+   {"key": "액면가액합계", "label": "액면가액합계"},
+   {"key": "증권종류", "label": "증권종류"},
+   {"key": "취득가액합계", "label": "취득가액합계"},
+   {"key": "채권취득일", "label": "채권취득일"},
+   {"key": "이자율", "label": "이자율"},
+   {"key": "대부원금", "label": "대부원금"},
+   {"key": "대부기간", "label": "대부기간"},
+   {"key": "상호또는성명", "label": "상호또는성명"}
+  ]},
+ "marks": {"others": "ask", "items": [
+   {"key": "seal.customer", "label": "상호또는성명", "from": "seal.signer", "kind": "도장"},
+   {"key": "sign.customer", "label": "상호또는성명", "from": "sign.signer", "kind": "서명"},
+   {"key": "check.투자자규모", "label": "투자자규모", "kind": "체크박스", "options": ["대기업", "중소기업", "개인사업자", "개인"]},
+   {"key": "check.증권발행여부", "label": "증권발행여부", "kind": "체크박스", "options": ["증권발행", "증권미발행"]},
+   {"key": "check.원금회수방법", "label": "원금회수방법", "kind": "체크박스", "options": ["만기일시회수", "분할회수(총"]},
+   {"key": "check.증권", "label": "증권", "kind": "체크박스", "options": ["증권", "채권"]}
+  ]},
+ "ocr_field": {"exclude": []},
+ "ocr_page": {"exclude": []},
+ "classify": {"answer": "증권(채권)취득 보고서", "aliases": []},
+ "extra": []
+}
