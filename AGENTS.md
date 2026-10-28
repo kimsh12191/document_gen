@@ -29,8 +29,7 @@
 | 서식 모양(껍데기)만 원본에 맞게 고치기 (VLM 에게 맡길 때 넘길 문서) | [docgen/manual/FORM_SHELL_GUIDE.md](docgen/manual/FORM_SHELL_GUIDE.md) |
 | 새 서식 추가 절차 (대형 모델로 만들기 → 검사 → studio 에 넣기 → 검수) | [guide/new-forms.md](guide/new-forms.md), 결과물 형식 [docgen/manual/NEW_FORM_SPEC.md](docgen/manual/NEW_FORM_SPEC.md) |
 | 과제별 질문·정답 형식 | [guide/questions.md](guide/questions.md), 실제 예시 [guide/tasks.md](guide/tasks.md) |
-| **서식 관리**: 서식 폴더(카드 `FORM.md` 부터)·공통 폴더 `docgen/forms/_common/`·생성 과정·무엇을 고치면 어디가 바뀌나 | [guide/forms.md](guide/forms.md), `python -m docgen.formdir card <ID>` |
-| 서식별 질문·답 고치기 (`questions.json` — 기본과 다르게 할 것만: 질문 문장·항목 줄 틀·답 틀·서식 전용 질문; 칸마다 묻기·항목명은 `fields.json` 의 `q`), 정답이 만들어지는 곳 | [guide/qa.md](guide/qa.md), `python -m docgen.formdir questions <ID> --check` |
+| **서식 하나 고치기**: 서식 폴더(카드 `FORM.md` 부터)의 파일마다 할 일 — 칸·값·모양, 질문·답 모양(`questions.json`, 칸마다 `fields.json` 의 `q`), 이 서식만의 질문(`qa.py`), 채점, 고친 뒤 검사 | [docgen/forms/README.md](docgen/forms/README.md), `python -m docgen.formdir check <ID>` |
 | 과제·채점 규칙 | [guide/benchmark.md](guide/benchmark.md) |
 | studio 화면 기능 | [guide/studio.md](guide/studio.md), 전체 [studio/README.md](studio/README.md) |
 | 코드 설계 | [studio/DESIGN.md](studio/DESIGN.md), [docgen/README.md](docgen/README.md) |

@@ -1,7 +1,8 @@
 """서식의 질문 껍데기 questions.json (서식 폴더, docgen/formdir.py): 기본과 **다르게** 할 것만 적는다.
 
-질문·답 한 건 = 질문 문장(이 파일 ⊕ 공통) + 칸마다 한 줄(칸 목록 fields.json 의 칸, 질문 설정 "q") → 답(그린 칸의 값·위치를 답 꼴로).
-  - 서식 단위(문장·항목 줄 꼴·답 꼴·전용 질문·분류 정답)는 이 파일.
+질문·답 한 건 = 질문 문장(이 파일 ⊕ 공통) + 칸마다 한 줄(칸 목록 fields.json 의 칸, 질문 설정 "q") → 답(그린 칸의 값·위치를 답 틀로).
+  - 서식 단위(기본 과제의 질문 문장·항목 줄 틀·답 틀·분류 정답)는 이 파일.
+  - 이 서식만의 질문은 서식 폴더 qa.py (docgen/formqa.py).
   - 칸 단위(묻지 않기·질문의 항목명·괄호 설명·OCR 빼기)는 fields.json 의 그 칸 "q" (docgen/fieldinfo.py) — 칸 하나 = 한 줄.
 기본은 docgen/forms/_common/questions.json 과 칸의 항목명. 아무것도 바꾸지 않은 서식은 파일이 없다.
 합친 전체는 서식 카드 FORM.md (docgen/formcard.py) 와 python -m docgen.formdir questions <ID> --show.
@@ -10,16 +11,13 @@
              "item": "- {key}: {label}{note}",                     질문의 항목 한 줄 틀. {note} = " (괄호 설명)" 또는 빈칸
              "answer": {"key": "{key}", "value": "{value}"},       답 목록의 항목 하나 틀 (공통: + "bbox_2d": "{bbox_2d}", "page": "{page}")
              "answer_empty": {"key": "{key}", "value": null}},     빈 칸(값 없음)일 때의 항목 틀
+             (답 틀이 글자면 줄글 답: "answer": "{label}: {value}" → 칸마다 한 줄. 빈 칸 틀이 없으면 {value} 자리에 "없음")
    "marks": {"prompt", "item", "answer", "answer_empty"},          같은 꼴 (체크박스 value = 보기 글자, 도장·서명 = true/false)
    "ocr_field": {"prompt"?}, "ocr_page": {"prompt"?},
-   "classify":  {"prompt"?, "answer": "…", "aliases": [...]},       분류 정답·다른 이름 (없으면 키 사전의 문서명)
-   "extra": [{"id": "amount", "prompt": "대출 신청금액은 얼마입니까? 원 단위 숫자로만 답하세요.",
-              "type": "number", "answer": "{loan.amount}", "tol"?: 0},          서식 전용 질문 (과제 form_qa)
-             {"id": "guarantor", "prompt": "…", "type": "yesno", "when": "guarantor.name"},   적혀 있으면 예
-             {"id": "bank", "prompt": "…", "type": "text", "answer": "{bank} {branch}"}]}
+   "classify":  {"prompt"?, "answer": "…", "aliases": [...]}}      분류 정답·다른 이름 (없으면 키 사전의 문서명)
 
 - 정답 값·위치는 문서를 그릴 때마다 그 칸에서 온다 (파일에 적지 않는다).
-- 답 꼴을 바꾸면 질문 문장도 그 꼴로 고친다 (list 면 위치 이야기를 뺌). check 가 안 맞아 보이면 알려 준다.
+- 답 틀을 바꾸면 질문 문장도 그 꼴로 고친다 (위치를 빼면 위치 이야기도 뺌). check 가 안 맞아 보이면 알려 준다.
   python -m docgen.formdir check <ID>                 서식 검사 (질문 설정 포함)
   python -m docgen.formdir questions <ID> --show      합친 전체 (기본 / 이 서식에서 바꿈 표시)
   python -m docgen.formdir questions --all --slim [--write]   기본과 같은 것을 파일에서 지운다 (예전 꼴의 전체 사본 정리)
@@ -31,8 +29,7 @@ import re
 from pathlib import Path
 
 NAME = "questions.json"
-TOP = ("kie", "marks", "ocr_field", "ocr_page", "classify", "extra")
-EXTRA_TYPES = ("text", "number", "yesno")
+TOP = ("kie", "marks", "ocr_field", "ocr_page", "classify")
 WITH_ITEMS = ("kie", "marks")
 PLACES = ("key", "value", "bbox_2d", "page")   # 답 틀에 쓰는 자리 — "{key}" 처럼 값 칸 전체로
 TASK_KEYS = {"kie": ("prompt", "item", "answer", "answer_empty"), "marks": ("prompt", "item", "answer", "answer_empty"),
@@ -128,11 +125,73 @@ def prompt(q: dict | None, task: str, items: str | None = None) -> str:
     return text if items is None else text.replace("{items}", items)
 
 
-def shell(q: dict | None, task: str) -> tuple[str, dict, dict]:
-    """kie·marks 의 (질문 항목 줄 틀, 답 항목 틀, 빈 칸 답 항목 틀). 서식 파일에 없으면 공통."""
+OLD_SHAPES = ("list_box", "list", "object")   # 예전 꼴의 답 꼴 이름 (읽으면 기본 틀)
+TEXT_PLACES = ("key", "label", "value")       # 줄글 답 틀에 쓰는 자리
+
+
+def shell(q: dict | None, task: str) -> tuple[str, dict | str, dict | str]:
+    """kie·marks 의 (질문 항목 줄 틀, 답 항목 틀, 빈 칸 답 항목 틀). 서식 파일에 없으면 공통.
+    답 틀이 글자면 줄글 답: 칸마다 한 줄 ("{label}: {value}"). 빈 칸 틀이 없으면 {value} 자리에 "없음"."""
     spec, base = (q or {}).get(task) or {}, defaults(task)
-    tpl = lambda k: spec[k] if isinstance(spec.get(k), dict) else base[k]  # 예전 꼴 "answer": "list_box" 는 기본 틀
-    return spec.get("item") or spec.get("line") or base["item"], tpl("answer"), tpl("answer_empty")
+    item = spec.get("item") or spec.get("line") or base["item"]
+    ans = spec.get("answer")
+    if isinstance(ans, str) and ans not in OLD_SHAPES:
+        empty = spec.get("answer_empty")
+        return item, ans, empty if isinstance(empty, str) else ans.replace("{value}", "없음")
+    tpl = lambda k: spec[k] if isinstance(spec.get(k), dict) else base[k]
+    return item, tpl("answer"), tpl("answer_empty")
+
+
+def text_value(value) -> str:
+    """줄글 답에 넣는 값: true/false → 있음/없음 (도장·서명), 그 밖은 글자 그대로."""
+    return ("있음" if value else "없음") if isinstance(value, bool) else str(value)
+
+
+def fill_text(tpl: str, empty: str, key: str, label: str | None, value) -> str:
+    """줄글 답 한 줄: 틀의 {key}·{label}(없으면 -)·{value} 를 채운다. 값이 None 이면 빈 칸 틀."""
+    t = empty if value is None else tpl
+    t = t.replace("{key}", key).replace("{label}", label or "-")
+    return t if value is None else t.replace("{value}", text_value(value))
+
+
+def _line_rx(tpl: str, key: str, label: str | None) -> re.Pattern:
+    """줄글 틀 → 정규식 ({value} 자리를 잡는다, 띄어쓰기는 느슨하게). 줄 처음이나 문장 끝(. ! ?) 뒤에서 시작하는 것만
+    (항목명 '성명' 이 '대표자 성명' 줄에 맞지 않게)."""
+    parts = [p for p in re.split(r"(\{(?:key|label|value)\})", tpl.strip()) if p]
+    out = []
+    for i, part in enumerate(parts):
+        if part == "{value}":
+            out.append(r"(?P<v>.*?)" if i < len(parts) - 1 else r"(?P<v>[^\n]*?)[ \t]*$")
+        elif part in ("{key}", "{label}"):
+            out.append(re.escape(key if part == "{key}" else label or "-"))
+        else:
+            out.append(r"[ \t]*" + r"\s*".join(re.escape(w) for w in part.split()) + r"[ \t]*")   # 띄어쓰기 차이는 봐준다
+    return re.compile(r"(?:^|(?<=[.!?。])|(?<=[.!?。] ))[ \t]*" + "".join(out), re.M)
+
+
+def read_text(text: str, tpl: str, empty: str, labels: dict) -> list[dict]:
+    """줄글 답 → [{"key", "value"}] (채점이 JSON 답처럼 읽게). labels: 물은 키 → 항목명 (물은 차례).
+    빈 칸 틀에 맞으면 value None. 항목명이 같은 칸(반복 행)이 여럿이면 맞은 줄을 차례대로 하나씩,
+    하나뿐이면 맞은 줄 모두 (체크된 보기가 여럿인 칸)."""
+    groups: dict = {}
+    for key, label in labels.items():
+        groups.setdefault(label if "{key}" not in tpl else key, []).append(key)
+    out = []
+    for keys in groups.values():
+        k0, label = keys[0], labels[keys[0]]
+        hits = sorted([(m.start(), None) for m in _line_rx(empty, k0, label).finditer(text)]
+                      + [(m.start(), m.group("v").strip()) for m in _line_rx(tpl, k0, label).finditer(text)],
+                      key=lambda h: (h[0], h[1] is not None))
+        seen, vals = set(), []
+        for pos, v in hits:   # 빈 칸 틀과 답 틀이 같은 줄에 맞으면 (예: "비고: 없음") 빈 칸으로
+            if pos not in seen:
+                seen.add(pos)
+                vals.append(v)
+        if len(keys) == 1:
+            out += [{"key": k0, "value": v} for v in vals]
+        else:
+            out += [{"key": k, "value": v} for k, v in zip(keys, vals)]
+    return out
 
 
 def fill_answer(tpl: dict, empty: dict, key: str, value, where: dict) -> dict:
@@ -164,14 +223,6 @@ def excluded(q: dict | None, task: str, fields: list[dict], fq: dict | None = No
     if not fq:
         return fields
     return [f for f in fields if (field_q(fq, f) or {}).get("ocr") is not False]
-
-
-def field_value(fields: list[dict], key: str):
-    """extra 의 {키}: 질문 키(공통 키)나 서식의 원래 키(doc_key)로 찾은 칸."""
-    for f in fields:
-        if f["key"] == key or f.get("doc_key") == key:
-            return f
-    return None
 
 
 # ---------------------------------------------------------------------------
@@ -246,7 +297,8 @@ def resolved(doc_id: str, docs: list[list[dict]] | None = None, seeds: int = 8) 
             items.append({**r, "ask": it.get("ask", True),
                           "q_label": it.get("label") or r["label"], "note": it.get("note"),
                           "changed": sorted(k for k in ("label", "note", "ask") if k in it)})
-        out[task] = {**{k: mine.get(k) or base[k] for k in ("prompt", "item", "answer", "answer_empty")},
+        item, ans, empty = shell(q, task)
+        out[task] = {"prompt": mine.get("prompt") or base["prompt"], "item": item, "answer": ans, "answer_empty": empty,
                      "changed": sorted(k for k in ("prompt", "item", "answer", "answer_empty") if k in mine), "items": items}
     no_ocr = sorted(k for k, it in fq.items() if it.get("ocr") is False)
     for task in ("ocr_field", "ocr_page"):
@@ -257,7 +309,6 @@ def resolved(doc_id: str, docs: list[list[dict]] | None = None, seeds: int = 8) 
     mine = q.get("classify") or {}
     out["classify"] = {"prompt": mine.get("prompt") or defaults("classify")["prompt"], "answer": mine.get("answer") or name,
                        "aliases": mine.get("aliases", aliases), "changed": sorted(k for k in ("prompt", "answer", "aliases") if k in mine)}
-    out["extra"] = q.get("extra") or []
     return out
 
 
@@ -310,20 +361,25 @@ def slim(doc_id: str, body: dict, docs: list[list[dict]] | None = None) -> dict:
             spec.pop(k)
     if spec:
         out["classify"] = spec
-    if body.get("extra"):
-        out["extra"] = body["extra"]
+    for k, v in body.items():
+        if k not in TOP and v not in ([], {}, None, ""):   # 모르는 항목은 그대로 둔다 (check 가 알려 줌)
+            out[k] = v
     return out
 
 
 def hashes(ids) -> dict[str, str]:
-    """데이터셋 기록용: 서식마다 questions.json 내용 해시 (없는 서식은 빠짐). 그림을 바꾸지 않으므로 서식 해시와 따로 둔다."""
+    """데이터셋 기록용: 서식마다 questions.json·qa.py 내용 해시 (둘 다 없는 서식은 빠짐).
+    그림을 바꾸지 않으므로 서식 해시와 따로 둔다. qa.py 가 없으면 questions.json 만의 해시 (예전 기록과 같게)."""
     import hashlib
+
+    from . import formqa
 
     out = {}
     for i in ids:
-        p = path(i)
-        if p.exists():
-            out[i] = hashlib.sha256(p.read_bytes()).hexdigest()[:16]
+        p, qa = path(i), formqa.path(i)
+        data = (p.read_bytes() if p.exists() else b"") + (b"\0qa.py\0" + qa.read_bytes() if qa.exists() else b"")
+        if data:
+            out[i] = hashlib.sha256(data).hexdigest()[:16]
     return out
 
 
@@ -378,9 +434,11 @@ def check_body(body) -> list[str]:
     if not isinstance(body, dict):
         return ["questions.json 은 JSON 객체여야 합니다"]
     bad = []
-    unknown = [k for k in body if k not in TOP]
+    if "extra" in body:
+        bad.append("extra: 서식 전용 질문은 서식 폴더의 qa.py 에 함수로 적습니다 (견본: python -m docgen.formdir qa <ID> --new)")
+    unknown = [k for k in body if k not in TOP and k != "extra"]
     if unknown:
-        bad.append(f"모르는 항목 {unknown} (쓸 수 있는 것: {list(TOP)})")
+        bad.append(f"모르는 항목 {unknown} (쓸 수 있는 것: {list(TOP)}. 이 서식만의 질문은 qa.py)")
     for task, keys in TASK_KEYS.items():
         spec = body.get(task)
         if isinstance(spec, dict):
@@ -400,6 +458,18 @@ def check_body(body) -> list[str]:
             bad.append(f"{task}.prompt 에 항목 줄이 들어갈 자리 {{items}} 가 있어야 합니다")
         if "item" in spec and not (isinstance(spec["item"], str) and "{key}" in spec["item"]):
             bad.append(f"{task}.item 에 {{key}} 가 있어야 합니다 (답의 key 와 맞춰 볼 키)")
+        if isinstance(spec.get("answer"), str) and spec["answer"] not in OLD_SHAPES:   # 줄글 답 틀
+            for k in ("answer", "answer_empty"):
+                t = spec.get(k)
+                if t is None:
+                    continue
+                used = PLACE.findall(t) if isinstance(t, str) else []
+                if not isinstance(t, str) or not ({"key", "label"} & set(used)) or (k == "answer" and "value" not in used):
+                    bad.append(f'{task}.{k}: 줄글 답 틀은 글자이고 {{label}}(또는 {{key}})' + (" 와 {value}" if k == "answer" else "")
+                               + ' 가 있어야 합니다 (예: "{label}: {value}")')
+                elif set(used) - set(TEXT_PLACES):
+                    bad.append(f"{task}.{k}: 줄글 답 틀의 자리는 {{key}}·{{label}}·{{value}} 만 (위치는 넣을 수 없음)")
+            continue
         for k in ("answer", "answer_empty"):
             if k not in spec:
                 continue
@@ -428,26 +498,6 @@ def check_body(body) -> list[str]:
     if c is not None and not (isinstance(c, dict) and isinstance(c.get("answer", ""), str)
                               and isinstance(c.get("aliases", []), list)):
         bad.append('classify: {"answer": 문서명, "aliases": [다른 이름…]} 꼴이어야 합니다')
-    ids = []
-    for i, x in enumerate(body.get("extra") or []):
-        where = f"extra {i + 1}번째"
-        if not isinstance(x, dict):
-            bad.append(f"{where}: 객체여야 합니다")
-            continue
-        ids.append(x.get("id"))
-        if not x.get("id") or not re.fullmatch(r"[A-Za-z0-9_.-]+", str(x["id"])):
-            bad.append(f"{where}: id 가 없거나 영문·숫자·_.- 가 아닙니다")
-        if not x.get("prompt"):
-            bad.append(f"{where}: prompt(질문 문장)가 없습니다")
-        if x.get("type") not in EXTRA_TYPES:
-            bad.append(f"{where}: type 은 {'/'.join(EXTRA_TYPES)}")
-        elif x["type"] == "yesno" and not x.get("when"):
-            bad.append(f"{where}: yesno 는 when(적혀 있으면 예인 칸 키)이 있어야 합니다")
-        elif x["type"] != "yesno" and not (isinstance(x.get("answer"), str) and PLACE.search(x["answer"])):
-            bad.append(f"{where}: answer 에 {{칸 키}} 가 있어야 합니다 (예: \"{{loan.amount}}\")")
-    dup = sorted({i for i in ids if i and ids.count(i) > 1})
-    if dup:
-        bad.append(f"extra 에 같은 id 가 두 번: {dup}")
     return bad
 
 
@@ -470,7 +520,7 @@ def check(doc_id: str, seeds: int = 8, docs: list[list[dict]] | None = None) -> 
 
     body = read(doc_id)
     problems = (check_body(body) if body is not None else []) + fieldinfo.check_q(doc_id)
-    notes = [] if body is not None else ["questions.json 없음 (질문 문장·답 꼴은 모두 기본)"]
+    notes = [] if body is not None else ["questions.json 없음 (질문 문장·답 틀은 모두 기본)"]
     if problems:
         return {"problems": problems, "notes": notes}
     body = body or {}
@@ -480,12 +530,16 @@ def check(doc_id: str, seeds: int = 8, docs: list[list[dict]] | None = None) -> 
         v = view[task]
         if "prompt" in v["changed"]:
             notes.append(f"{task}: 질문 문장이 공통 문장과 다릅니다 (학습한 문장과 달라 점수가 흔들릴 수 있음)")
-        names = answer_fields(v["answer"])   # 자리 → 답 틀의 칸 이름
-        miss = [n for n in names.values() if f'"{n}"' not in v["prompt"]]
-        if miss:
-            problems.append(f"{task}: 답 틀의 칸 {miss} 이(가) 질문 문장에 없습니다 — 질문에 답 꼴을 같은 이름으로 적어야 모델이 그 꼴로 답합니다")
-        if "bbox_2d" not in names and "bbox_2d" in v["prompt"]:
-            problems.append(f"{task}: 답 틀에 위치(bbox_2d)가 없는데 질문이 bbox_2d(위치)를 요청합니다")
+        if isinstance(v["answer"], str):   # 줄글 답
+            if "bbox_2d" in v["prompt"]:
+                problems.append(f"{task}: 줄글 답에는 위치가 없는데 질문이 bbox_2d(위치)를 요청합니다")
+        else:
+            names = answer_fields(v["answer"])   # 자리 → 답 틀의 칸 이름
+            miss = [n for n in names.values() if f'"{n}"' not in v["prompt"]]
+            if miss:
+                problems.append(f"{task}: 답 틀의 칸 {miss} 이(가) 질문 문장에 없습니다 — 질문에 답 꼴을 같은 이름으로 적어야 모델이 그 꼴로 답합니다")
+            if "bbox_2d" not in names and "bbox_2d" in v["prompt"]:
+                problems.append(f"{task}: 답 틀에 위치(bbox_2d)가 없는데 질문이 bbox_2d(위치)를 요청합니다")
         relabel = [it for it in v["items"] if "label" in it["changed"]]
         if relabel:
             notes.append(f"{task}: 칸의 항목명과 다르게 묻는 칸 {len(relabel)}개: "
@@ -496,12 +550,11 @@ def check(doc_id: str, seeds: int = 8, docs: list[list[dict]] | None = None) -> 
     for task in ("ocr_field", "ocr_page", "classify"):
         if "prompt" in view[task]["changed"]:
             notes.append(f"{task}: 질문 문장이 공통 문장과 다릅니다")
-    keys = {f["key"] for fs in docs for f in fs} | {f.get("doc_key") for fs in docs for f in fs}
-    for x in body.get("extra") or []:
-        refs = PLACE.findall(x.get("answer") or "") + ([x["when"]] if x.get("when") else [])
-        miss = [r for r in refs if r not in keys]
-        if miss:
-            problems.append(f"extra {x.get('id')}: 칸에 없는 키 {miss}")
+    from . import formqa
+
+    qa = formqa.check(doc_id, docs)   # 서식 폴더 qa.py (이 서식만의 질문)
+    problems += qa["problems"]
+    notes += qa["notes"]
     if body and slim(doc_id, body, docs) != body:
         notes.append("questions.json 에 기본과 같은 줄이 있습니다 (정리: python -m docgen.formdir questions <ID> --slim --write)")
     return {"problems": problems, "notes": notes}

@@ -17,7 +17,7 @@ import tempfile
 from pathlib import Path
 
 NAME = "FORM.md"
-VERSION = "2"   # 카드 꼴이 바뀌면 올린다 (모든 카드가 오래됨)
+VERSION = "3"   # 카드 꼴이 바뀌면 올린다 (모든 카드가 오래됨)
 ROOT = Path(__file__).resolve().parents[1]
 SHARED = Path(__file__).resolve().parent / "forms" / "_common"
 TASK_TITLE = {"classify": "서류 분류", "ocr_page": "전체 받아쓰기", "ocr_field": "값 칸 읽기", "kie": "정보 추출",
@@ -46,7 +46,10 @@ def card_hash(doc_id: str) -> str:
     from .preview import source_hash
 
     shared = [SHARED / "questions.json", SHARED / "key_rules.json", *sorted((SHARED / "dictionary").glob("*.json"))]
-    return hashlib.sha1("|".join([VERSION, source_hash(doc_id, common=False), _digest([FQ.path(doc_id), formfields.path(doc_id)]),
+    from . import formqa
+
+    own = [FQ.path(doc_id), formfields.path(doc_id)] + ([formqa.path(doc_id)] if formqa.path(doc_id).exists() else [])
+    return hashlib.sha1("|".join([VERSION, source_hash(doc_id, common=False), _digest(own),
                                   _digest(shared)]).encode()).hexdigest()[:12]
 
 
@@ -199,6 +202,9 @@ def render_card(doc_id: str, builder) -> str:
     gen_text = gen.read_text(encoding="utf-8") if gen.exists() else None
     tpl_name = _rel(tpl_path).replace(_rel(folder) + "/", "") if tpl_path else "-"
     q_exists = FQ.path(doc_id).exists()
+    from . import formqa
+
+    qa = formqa.check(doc_id, docs)   # 서식 폴더 qa.py (이 서식만의 질문)
 
     L = [f"# {spec.name} (`{doc_id}`)", "",
          f"<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card {doc_id} · card-hash: {card_hash(doc_id)} -->", "",
@@ -208,6 +214,9 @@ def render_card(doc_id: str, builder) -> str:
          f"- **쓰이는 업무:** {', '.join(_scenarios(doc_id)) or '없음 (서류 한 건 과제에만)'}",
          "- **질문·답:** " + ("이 폴더의 `questions.json` 에서 바꾼 것이 있음 (아래 ← 바꿈)" if q_exists
                               else "모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`"),
+         "- **이 서식만의 질문:** " + (f"`qa.py` 의 {len(qa['rows'])}개 (아래)" if qa["rows"]
+                                   else f"없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa {doc_id} --new`)"),
+         "- **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지",
          ""]
     if spec.description:
         L += ["> " + spec.description.splitlines()[0], ""]
@@ -215,7 +224,8 @@ def render_card(doc_id: str, builder) -> str:
     # 파일
     L += ["## 파일", "", "| 파일 | 정하는 것 |", "|---|---|"]
     roles = {"look/template.html.j2": "모양·칸 자리 (`{{ f(\"키\", label=\"항목명\") }}`)", "fields.json": "칸 목록·값 출처",
-             "generate.py": "값 만들기 (코드 서식: 값 전부 / html 서식: adjust 로 칸끼리 관계)", "questions.json": "질문·답 (기본과 다른 것만)",
+             "generate.py": "값 만들기 (코드 서식: 값 전부 / html 서식: adjust 로 칸끼리 관계)", "questions.json": "기본 과제의 질문 문장·답 틀 (기본과 다른 것만)",
+             "qa.py": "이 서식만의 질문·정답 (함수 하나 = 질문 하나)",
              "form.json": "이름·그룹·출처", "layout.json": "원본에서 자동 추출한 칸 자리 (초안)", "look/original.pdf": "원본 PDF",
              "variants": "레이아웃 변형", "source.png": "원본 그림 (검수용)"}
     for rel, role in roles.items():
@@ -275,7 +285,7 @@ def render_card(doc_id: str, builder) -> str:
     for rec in recs:
         t = rec["task"]
         shown[t] = shown.get(t, 0) + 1
-        if shown[t] > (2 if t in ("ocr_field", "form_qa", "freetext") else 1):
+        if shown[t] > (2 if t in ("ocr_field", "freetext") else 1) or t == "form_qa":   # form_qa 는 아래 qa.py 절에
             continue
         L += [f"### {TASK_TITLE.get(t, t)} `{t}` · 채점 {MAIN.get(t, '-')}", ""]
         if t in ("kie", "marks"):
@@ -285,9 +295,26 @@ def render_card(doc_id: str, builder) -> str:
                   f"item:         {v['item']}{ch('item')}",
                   f"answer:       {json.dumps(v['answer'], ensure_ascii=False)}{ch('answer')}",
                   f"answer_empty: {json.dumps(v['answer_empty'], ensure_ascii=False)}{ch('answer_empty')}", "```", ""]
-        L += ["질문:", "", "```", rec["prompt"], "```", "", "답:", "", "```json", _answer_text(rec["answer"]), "```", ""]
-    if not q_exists:
-        L += ["이 서식에만 있는 질문(form_qa)은 없습니다 — `questions.json` 의 `extra` 로 더합니다.", ""]
+        prose = isinstance(rec["answer"], str) and "\n" in rec["answer"]   # 줄글 답은 글 그대로
+        L += ["질문:", "", "```", rec["prompt"], "```", "", "답:", "", "```" if prose else "```json",
+              rec["answer"] if prose else _answer_text(rec["answer"]), "```", ""]
+    L += ["## 이 서식만의 질문 `qa.py` (과제 form_qa)", ""]
+    if qa["rows"]:
+        L += ["함수 하나 = 질문 하나. 정답은 그린 문서의 칸 값으로 함수가 만든다. 채점은 정답 꼴로 기본 채점 "
+              "(다르게 하려면 `train/scorers` 의 채점 함수 — `meta.question` 으로 가름).", "",
+              "| 질문 (함수) | 묻는 문서 | 정답 꼴 → 기본 채점 | 예시 질문 | 예시 정답 |", "|---|---|---|---|---|"]
+        cell = lambda x: str(x).replace("|", "\\|").replace("\n", " ⏎ ")
+        for row in qa["rows"]:
+            ex = row["example"] or {}
+            L.append(f"| `{row['name']}` | {row['asked']}/{row['of']} | {row['kind'] or '-'} | {cell(ex.get('prompt', '-'))} | "
+                     f"{cell(json.dumps(ex['answer'], ensure_ascii=False) if 'answer' in ex else '-')} |")
+        L += ["", f"- **묻는 문서:** 여러 seed 로 그린 {qa['rows'][0]['of']}개 문서 중 이 질문이 나온 수 (칸이 빈 문서에서는 묻지 않음).",
+              "- **기본 채점:** number 숫자가 같은지 · yesno 예/아니오 · text 띄어쓰기·문장부호 무시하고 같은지 · json 칸마다 같은지.", ""]
+        L += [f"- 문제: {p}" for p in qa["problems"]] + ([""] if qa["problems"] else [])
+    else:
+        L += [f"없습니다. 더하려면 이 폴더에 `qa.py` 를 만들고 함수 하나에 질문 하나 (견본: `python -m docgen.formdir qa {doc_id} --new`):", "",
+              "```python", "def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: 값} (키는 위 표의 키)",
+              '    return "직위만 답하세요.", v["employer.position"]   # (질문, 정답) → 평가 세트·학습 데이터에 들어감', "```", ""]
 
     # 고치려면
     L += ["## 고치려면", "", "칸 하나에 관한 것(박스·키·값·질문)은 `fields.json` 의 그 칸, 질문 문장·답 꼴·전용 질문은 `questions.json`.",
@@ -314,11 +341,12 @@ def render_card(doc_id: str, builder) -> str:
           '| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |',
           '| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |',
           '| 질문 문장 | `questions.json`: `{"kie": {"prompt": "…\\n{items}"}}` | 필요 없음 |',
-          '| 답 모양 | `questions.json`: `{"kie": {"answer": {"key": "{key}", "value": "{value}"}}}` (답 항목 하나의 틀. 위 예는 위치 없이 — 질문 문장도 같은 꼴로) | 필요 없음 |',
-          '| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | 필요 없음 |',
+          '| 답 모양 (JSON) | `questions.json`: `{"kie": {"answer": {"key": "{key}", "value": "{value}"}}}` (답 항목 하나의 틀. 위 예는 위치 없이 — 질문 문장도 같은 꼴로) | 필요 없음 |',
+          '| 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |',
+          f'| 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa {doc_id} --new`) | 필요 없음 |',
           '| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |',
           "| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |", "",
-          "\"다시\" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json` 은 그림을 바꾸지 않아 검수 상태가 그대로입니다.",
+          "\"다시\" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.",
           f"확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions {doc_id} --show` · `python -m docgen.preview {doc_id} --out work/{doc_id}`", ""]
     return "\n".join(L)
 

@@ -170,6 +170,17 @@ def _no_loc(item, loc: dict) -> dict:
     return {} if names and "bbox_2d" not in names else loc
 
 
+def _from_text(item, out):
+    """줄글 답 문항 (서식 questions.json 의 답 틀이 글자, eval.text): 정답은 eval.gold, 모델 답은 틀로 줄글에서 값을 찾아
+    [{"key", "value"}] 로 — 그다음은 JSON 답과 같은 채점 (위치 점수 없음)."""
+    from .. import formquestions as FQ
+
+    t = item["eval"]["text"]
+    pred = FQ.read_text(out or "", t["answer"], t["answer_empty"], t["labels"]) if out is not None else None
+    item = {**item, "answer": item["eval"]["gold"], "eval": {**item["eval"], "answer_fields": {"key": "key", "value": "value"}}}
+    return item, (None if pred is None else json.dumps(pred, ensure_ascii=False))
+
+
 def _canonical(item, out):
     """서식의 답 틀이 칸 이름을 바꿨으면 (eval.answer_fields: {"key": "항목", …}) 정답·모델 답을 기본 이름으로 읽는다."""
     names = (item.get("eval") or {}).get("answer_fields")
@@ -188,6 +199,8 @@ def _canonical(item, out):
 
 
 def s_kie(item, out):
+    if (item.get("eval") or {}).get("text"):
+        return _s_kie2(*_from_text(item, out))
     item, out = _canonical(item, out)
     if isinstance(item["answer"], list):
         return _s_kie2(item, out)
@@ -266,6 +279,8 @@ def _bool(v):
 
 
 def s_marks(item, out):
+    if (item.get("eval") or {}).get("text"):
+        return _s_marks2(*_from_text(item, out))
     item, out = _canonical(item, out)
     if isinstance(item["answer"], list):
         return _s_marks2(item, out)
@@ -400,11 +415,40 @@ def s_review(item, out):
 
 
 def s_form_qa(item, out):
-    """서식 전용 질문 (서식 폴더 questions.json 의 extra): number·yesno 는 심사 질의와 같게, text 는 띄어쓰기·문장부호를 맞춰 같은지."""
-    if item["eval"]["answer_type"] in ("number", "yesno"):
+    """서식 전용 질문 (서식 폴더 qa.py, docgen/formqa.py): 정답 꼴(eval.answer_type)로 기본 채점.
+    number·yesno 는 심사 질의와 같게, text 는 띄어쓰기·문장부호를 맞춰 같은지, json 은 칸(목록은 항목)마다 같은지."""
+    kind = item["eval"]["answer_type"]
+    if kind in ("number", "yesno"):
         return s_review(item, out)
-    p = strip_answer(out) if out is not None else ""
-    return {"metrics": {"acc": float(loose_text(p) == loose_text(str(item["answer"])))}}
+    gt = item["answer"]
+    if kind == "json":
+        pred = parse_json(out)
+        if not isinstance(pred, (dict, list)):
+            return {"metrics": {"acc": 0.0}, "parse_fail": True}
+        if isinstance(gt, dict):
+            flat = pred if isinstance(pred, dict) else {}
+            oks = [_same_value(flat.get(k), v) for k, v in gt.items()]
+            extra = [k for k in flat if k not in gt]
+            return {"metrics": {"acc": sum(oks) / (len(oks) + len(extra)) if oks or extra else 1.0}}
+        ps = [json.dumps(x, ensure_ascii=False, sort_keys=True) for x in (pred if isinstance(pred, list) else [pred])]
+        gs = [json.dumps(x, ensure_ascii=False, sort_keys=True) for x in gt]
+        return {"metrics": {"acc": float(sorted(map(loose_text, ps)) == sorted(map(loose_text, gs)))}}
+    p = (out or "") if "\n" in str(gt) else strip_answer(out) if out is not None else ""
+    return {"metrics": {"acc": float(loose_text(p) == loose_text(str(gt)))}}
+
+
+def _same_value(p, g) -> bool:
+    """JSON 정답의 칸 하나: 숫자는 숫자로, 글은 띄어쓰기·문장부호를 맞춰, 그 밖(목록·객체)은 같은 꼴로."""
+    if isinstance(g, bool) or isinstance(p, bool):
+        return _bool(p) == _bool(g)
+    if isinstance(g, (int, float)):
+        n = to_number(p) if not isinstance(p, (int, float)) else p
+        return n is not None and abs(n - g) < 1e-9
+    if g is None:
+        return is_null(p)
+    if isinstance(g, (dict, list)):
+        return loose_text(json.dumps(p, ensure_ascii=False, sort_keys=True)) == loose_text(json.dumps(g, ensure_ascii=False, sort_keys=True))
+    return p is not None and loose_text(str(p)) == loose_text(str(g))
 
 
 def _freetext_ok(key: str, pred, gt) -> bool:

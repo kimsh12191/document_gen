@@ -5845,7 +5845,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 | 새 서류 대조 사례 | `docgen/bench/cases.py` 의 `CASES` 에 `Case(id, 제목, 분류, 근거, 함수)` 추가. 함수는 원본에서 관계가 맞는지 확인하고, 바꿀 서류·키·값과 짝 서류를 돌려줌 |
 | 새 심사 질의 규칙 | `docgen/bench/rules.py` 의 `RULES` 에 함수 추가. `{"question", "answer", "answer_type", "tol", "docs", "skill"}` 를 돌려줌 |
 | 업무와 필수 서류 | `docgen/registry.py` 의 `SCENARIOS` |
-| 서식마다 묻는 칸·항목명, 서식 전용 질문 | 서식 폴더의 `questions.json` (`guide/qa.md`) |
+| 서식마다 묻는 칸·항목명, 질문 문장·답 모양, 서식 전용 질문 | 칸의 `q`(`fields.json`), 서식 폴더의 `questions.json`·`qa.py` (`docgen/forms/README.md`) |
 | 서류 한 건 과제의 정답 만드는 방식·답 형식 | `docgen/bench/tasks/<과제>.py` (과제 하나 = 파일 하나: `make(doc)`, `ANSWER`·`EXAMPLE`·`NOTES`) |
 | 업무 묶음 문항 만드는 방식 (빼는 서류 수, 타인 서류 비율 등) | `docgen/bench/build.py` 의 `doc_check`, `cross_checks` |
 | 채점 | `docgen/bench/evaluate.py` (OCR 과제 포함, GRPO 보상도 같은 `evaluate.reward`: `train/reward_plugin.py`) |

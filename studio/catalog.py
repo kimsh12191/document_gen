@@ -319,6 +319,7 @@ def form_detail(doc_id: str) -> dict:
         "files": files,
         "script": _script_source(doc_id) if spec.template.startswith("@form/") else None,
         "questions": _questions_source(doc_id),
+        "qa": _qa_source(doc_id),
     }
 
 
@@ -335,6 +336,14 @@ def _questions_source(doc_id: str) -> dict | None:
     from docgen import formquestions
 
     p = formquestions.path(doc_id)
+    return {"path": _rel(p), "source": p.read_text(encoding="utf-8")[:200_000]} if p.exists() else None
+
+
+def _qa_source(doc_id: str) -> dict | None:
+    """이 서식만의 질문 qa.py 내용 (문항 Q/A 탭에서 보고, 고치는 것은 파일로)."""
+    from docgen import formqa
+
+    p = formqa.path(doc_id)
     return {"path": _rel(p), "source": p.read_text(encoding="utf-8")[:200_000]} if p.exists() else None
 
 

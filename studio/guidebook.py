@@ -25,8 +25,6 @@ DOCUMENTS = {
     "agent-workflow.md": "agent 작업 절차 · 생성→학습→보고",
     "catalog.md": "서류별 추출 항목 · 연결 시나리오",
     "questions.md": "질문과 정답 형식",
-    "forms.md": "서식 관리 · 서식 폴더·공통 폴더·카드 FORM.md·생성 과정",
-    "qa.md": "질문·답 관리 · 서식별 questions.json (바꿀 것만)",
     "tasks.md": "실제 데이터 예시",
     "benchmark.md": "업무 과제 · 사례 · 채점",
     "benchmark-tracking.md": "벤치마크 구성 · 구분별 평가 추적",
@@ -36,6 +34,7 @@ DOCUMENTS = {
 }
 # 서식 만들기 참고 문서 (docgen/manual, 저장소 기준 경로를 ID 로): 새 서식 가이드가 링크한다.
 MANUALS = {
+    "docgen/forms/README.md": "서식 폴더 설명서 · 칸·값·질문·답·qa.py·채점·검사",
     "docgen/manual/NEW_FORM_SPEC.md": "새 서식 결과물 형식 · 템플릿·칸 목록·키·생성 스크립트",
     "docgen/manual/FORM_SHELL_GUIDE.md": "서식 모양(껍데기)만 고치기 · VLM 에게 맡길 때",
     "docgen/manual/TEMPLATE_GUIDE.md": "서류 템플릿 작성 가이드",

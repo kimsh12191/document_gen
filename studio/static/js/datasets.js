@@ -18,7 +18,7 @@ const TASK_KO = {
 };
 // 이름만으로 헷갈리는 과제의 설명 (과제 이름에 마우스를 올리면 보임)
 const TASK_HINT = { freetext: "기타·비고·사유 칸의 자유 기재를 DB 칸(용도·금액·날짜…)으로 정리. 정보 추출(kie)은 적힌 그대로, 이건 정리한 값",
-  form_qa: "서식마다 사람이 정한 질문 (서식 폴더 questions.json 의 extra)" };
+  form_qa: "서식마다 사람이 정한 질문 (서식 폴더 qa.py)" };
 const LOWER_BETTER = new Set(["cer", "false_alarm", "matched_label_cer"]);
 const dsTag = d => (d.groups || []).map(g => `<span class="tag ${g === "ocr" ? "html" : g === "doc" ? "overlay" : ""}">${GROUP_NAME[g] || esc(g)}</span>`).join(" ");
 

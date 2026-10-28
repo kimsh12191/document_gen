@@ -18,9 +18,9 @@ A. 초안 폴더 (만들면서 검사할 때)            B. 등록 폴더 (studi
   form.json          이름·그룹 + 칸 목록        look/template.html.j2     A 의 template.html.j2 그대로
   source.png         (선택) 원본 그림           form.json                 이름·그룹·출처만
   generate.py        (선택) 생성 스크립트       fields.json               칸 목록 (A 의 form.json 에서 fields·lists)
-  questions.json     (선택) 서식 전용 질문      source.png                (선택) 원본 그림
+  qa.py              (선택) 서식 전용 질문      source.png                (선택) 원본 그림
                                                 generate.py               (선택) 생성 스크립트 (8절)
-                                                questions.json            질문·답 (등록 뒤 만듦, 10절)
+                                                qa.py                     (선택) 서식 전용 질문 (10절)
 ```
 
 - **A** 는 `python -m docgen.preview --dir <폴더>` 로 바로 그려 볼 수 있습니다. 만드는 도구가 고치고 그려 보기를 반복할 때 씁니다.
@@ -205,7 +205,7 @@ python -m docgen.preview --dir <초안 폴더> --rows max --out work/max
 <초안>/form.json 의 나머지     →  <서식ID>/form.json
 <초안>/source.png            →  <서식ID>/source.png
 <초안>/generate.py           →  <서식ID>/generate.py       (있으면. 사람이 읽고 옮긴다 — 8절)
-<초안>/questions.json        →  <서식ID>/questions.json    (있으면. 없으면 등록 뒤 만든다 — 10절)
+<초안>/qa.py                 →  <서식ID>/qa.py             (있으면. 사람이 읽고 옮긴다 — 10절)
 ```
 
 - **서식 ID**: 영어 소문자로 시작, 소문자·숫자·밑줄 3~51자 (`[a-z][a-z0-9_]{2,50}`). 이미 있는 ID 는 쓰지 않습니다 (`python -m docgen.formdir path <ID>` 로 확인). 기존 폴더를 덮어쓰지 않습니다.
@@ -365,30 +365,30 @@ B 꼴로 옮긴 뒤 `docgen.preview <ID>`, `docgen.regions check <ID>` 도 통�
 
 ---
 
-## 10. 질문·답 `questions.json` (선택) · 서식 카드 `FORM.md`
+## 10. 이 서식만의 질문 `qa.py` (선택) · 서식 카드 `FORM.md`
 
-**`questions.json` 은 기본과 다르게 할 것만 적는 파일입니다.** 없으면 모두 기본(공통 질문 문장 `docgen/forms/_common/questions.json`, 항목명은
-칸의 항목명)으로 묻습니다. 대부분의 서식은 이 파일이 없습니다. 자세한 설명은 [guide/qa.md](../../guide/qa.md).
+질문·답은 따로 적지 않아도 됩니다. 기본 과제(분류·받아쓰기·정보 추출·체크)는 칸 목록에서 자동으로 만들어집니다.
+이 서식에서만 묻고 싶은 질문이 있을 때만 초안 폴더에 `qa.py` 를 넣습니다. 함수 하나 = 질문 하나:
 
-모델에게 서식 전용 질문까지 맡길 때만 초안 폴더에 `questions.json` 을 넣습니다. 그때는 `extra` 만 적으면 됩니다:
+```python
+def 신청금액(v):                    # v = 그린 문서의 칸 값 {키: 값} (칸 목록의 키)
+    return "대출 신청금액은 얼마입니까? 원 단위 숫자로만 답하세요.", number(v["loan.amount"])
 
-```json
-{"extra": [
-  {"id": "amount", "prompt": "대출 신청금액은 얼마입니까? 원 단위 숫자로만 답하세요.", "type": "number", "answer": "{loan.amount}"},
-  {"id": "has_guarantor", "prompt": "보증인 성명이 적혀 있습니까? 예/아니오로 답하세요.", "type": "yesno", "when": "guarantor.name"},
-  {"id": "branch", "prompt": "취급 은행과 지점을 '은행 지점' 꼴로 답하세요.", "type": "text", "answer": "{bank} {branch}"}
-]}
+
+def 보증인(v):                      # True/False → 예/아니오
+    return "보증인 성명이 적혀 있습니까? 예/아니오로 답하세요.", v.get("guarantor.name") is not None
 ```
 
-- `id`: 영문·숫자·`_.-`. `type`: `number`(칸 값을 숫자로) / `yesno`(`when` 칸에 값이 있으면 예) / `text`(`{키}` 를 채운 글).
-- `{키}`·`when` 은 칸 목록에 있는 키만. 답 꼴(숫자만, 예/아니오)을 질문 문장에 적습니다.
-- 정답 **값**은 적지 않습니다 — 문서를 그릴 때마다 그 칸 값으로 정해집니다.
-- 질문 문장·질문 항목 줄·답 항목 모양까지 바꿀 때는 `kie`·`marks` 에 `prompt`·`item`·`answer`(답 항목 하나의 틀, 예 `{"항목": "{key}", "값": "{value}"}`)·`answer_empty` 를 적습니다 ([guide/qa.md 3절](../../guide/qa.md#3-서식의-질문-껍데기-questionsjson)). 보통은 적지 않습니다.
-- 칸 하나를 묻지 않거나 질문에서 다른 항목명을 쓰려면 칸 목록(`form.json`/`fields.json`)의 그 칸에 `"q": {"ask": false}` / `"q": {"label": "…"}` 를 적습니다 ([guide/qa.md](../../guide/qa.md)).
+- 파일 맨 위에 `from docgen.formqa import number, date, months` (도우미가 필요하면).
+- `(질문, 정답)` 을 돌려줍니다. 정답 **값**은 적지 않고 `v` 에서 꺼냅니다 — 문서를 그릴 때마다 그 칸 값으로 정해집니다.
+- 답 꼴(숫자만, 예/아니오, JSON 칸 이름)을 질문 문장에 적습니다. 채점은 정답 꼴로 정해집니다.
+- 자세한 규칙: [서식 폴더 설명서 5.3절](../forms/README.md#53-이-서식만의-질문-qapy).
+- 기본 과제의 질문 문장·답 모양을 바꾸는 `questions.json`, 칸마다 묻기·항목명을 정하는 칸의 `"q"` 는 보통 쓰지 않습니다
+  ([서식 폴더 설명서 5.1·5.2절](../forms/README.md#5-질문과-답-고치기)).
 
 **등록한 뒤** 서식 카드를 만듭니다. 카드는 항목·위치·정한 곳·실제 질문→답을 적은 읽는 문서입니다 (자동 생성, 직접 고치지 않음):
 
 ```bash
 python -m docgen.formdir card <ID>                  # docgen/forms/<ID>/FORM.md
-python -m docgen.formdir check <ID>                 # 서식 검사: 칸 목록·값 출처·질문 설정·questions.json
+python -m docgen.formdir check <ID>                 # 서식 검사: 칸 목록·값 출처·질문 설정·questions.json·qa.py
 ```

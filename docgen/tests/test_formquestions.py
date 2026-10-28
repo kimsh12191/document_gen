@@ -127,26 +127,84 @@ def test_slim_turns_an_old_full_copy_into_only_the_changes(form, tmp_path):
     assert FQ.write(ID, {}) is None and not (form / "questions.json").exists()
 
 
-def test_extra_questions_are_form_qa_items_answered_from_the_fields(form, tmp_path):
-    body = {}
-    body["extra"] = [
-        {"id": "amount", "prompt": "대출 신청금액은 얼마입니까? 숫자로만.", "type": "number", "answer": "{loan.amount}"},
-        {"id": "where", "prompt": "어느 은행 어느 지점입니까?", "type": "text", "answer": "{bank} {branch}"},
-        {"id": "has_memo", "prompt": "비고가 적혀 있습니까?", "type": "yesno", "when": "memo"},
-        {"id": "has_bank", "prompt": "은행명이 적혀 있습니까?", "type": "yesno", "when": "bank"},
-        {"id": "memo_text", "prompt": "비고 내용은?", "type": "text", "answer": "{memo}"},   # 빈 칸 → 이 문서에서는 묻지 않음
-    ]
-    _write(form, body)
+QA = """from docgen.formqa import number
+
+
+def amount(v):
+    return "대출 신청금액은 얼마입니까? 숫자로만.", number(v["loan.amount"])
+
+
+def where(v):
+    return "어느 은행 어느 지점입니까?", f"{v['bank']} {v['branch']}"
+
+
+def has_memo(v):
+    return "비고가 적혀 있습니까?", v.get("memo") is not None
+
+
+def has_bank(v):
+    return "은행명이 적혀 있습니까?", "bank" in v
+
+
+def memo_text(v):   # 빈 칸 → 이 문서에서는 묻지 않음
+    return "비고 내용은?", v["memo"]
+
+
+def both(v):
+    return '은행과 지점을 {"은행": …, "지점": …} 로.', {"은행": v["bank"], "지점": v["branch"]}
+
+
+def _helper(v):   # _ 로 시작하면 질문이 아님
+    return "x", 1
+"""
+
+
+def test_qa_py_questions_are_form_qa_items_answered_from_the_fields(form, tmp_path):
+    (form / "qa.py").write_text(QA, encoding="utf-8")
     qa = [x for x in T.make_single(*_args(tmp_path)) if x["task"] == "form_qa"]
     assert {x["meta"]["question"]: x["answer"] for x in qa} == {
-        "amount": 35000000, "where": "국민은행 센텀지점", "has_memo": "아니오", "has_bank": "예"}
+        f"{ID}.amount": 35000000, f"{ID}.where": "국민은행 센텀지점", f"{ID}.has_memo": "아니오", f"{ID}.has_bank": "예",
+        f"{ID}.both": {"은행": "국민은행", "지점": "센텀지점"}}
+    assert [x["eval"]["answer_type"] for x in qa] == ["number", "text", "yesno", "yesno", "json"]
     for x in qa:
         s = SCORERS["form_qa"](x, oracle_output(x))["metrics"]
         assert s[main_metric("form_qa", s)] == 1
-    wrong = next(x for x in qa if x["meta"]["question"] == "where")
-    assert SCORERS["form_qa"](wrong, "국민은행 해운대지점")["metrics"]["acc"] == 0
-    assert SCORERS["form_qa"](wrong, "국민은행  센텀지점.")["metrics"]["acc"] == 1
+    where = next(x for x in qa if x["meta"]["question"].endswith("where"))
+    assert SCORERS["form_qa"](where, "국민은행 해운대지점")["metrics"]["acc"] == 0
+    assert SCORERS["form_qa"](where, "국민은행  센텀지점.")["metrics"]["acc"] == 1
+    both = qa[-1]
+    assert SCORERS["form_qa"](both, '{"지점": "센텀 지점", "은행": "국민은행"}')["metrics"]["acc"] == 1
+    assert SCORERS["form_qa"](both, '{"은행": "국민은행"}')["metrics"]["acc"] == 0.5
+    r = FQ.check(ID, seeds=2)
+    assert r["problems"] == ["qa.py memo_text(): 그려 본 4개 문서에서 한 번도 묻지 않습니다 (칸이 늘 비었거나 None 을 돌려줌)"]
+    rows = {x["name"]: x for x in __import__("docgen.formqa", fromlist=["x"]).check(ID, FQ.seen_fields(ID, 2))["rows"]}
+    assert rows["amount"]["asked"] == 4 and rows["amount"]["kind"] == "number" and "_helper" not in rows
 
+
+def test_qa_py_problems_are_reported(form, tmp_path):
+    from docgen import formqa
+
+    (form / "qa.py").write_text(QA + "\n\ndef typo(v):\n    return 'x', v['nope']\n\n\ndef broken(v):\n    return 1 / 0\n",
+                                encoding="utf-8")
+    r = formqa.check(ID, FQ.seen_fields(ID, 2))
+    assert any("broken()" in p and "ZeroDivisionError" in p for p in r["problems"]), r
+    (form / "qa.py").write_text(QA + "\n\ndef typo(v):\n    return 'x', v['nope']\n", encoding="utf-8")
+    r = formqa.check(ID, FQ.seen_fields(ID, 2))
+    assert any("typo()" in p and "nope" in p for p in r["problems"]), r
+    assert any("memo_text()" in p for p in r["problems"])   # 그려 본 문서에서 비고가 늘 비어 한 번도 묻지 않음
+    (form / "qa.py").write_text("def x(v)\n    return 1\n", encoding="utf-8")
+    assert any("qa.py 문법 오류" in w for w in formqa.check_dir(form))
+    assert any(p["id"] == ID and "qa.py" in p["reason"] for p in refresh()["problems"])
+
+
+def test_qa_py_skeleton_uses_this_forms_keys(form, tmp_path):
+    from docgen import formdir
+
+    assert formdir.main(["qa", ID, "--new", "--seeds", "1"]) == 0
+    text = (form / "qa.py").read_text(encoding="utf-8")
+    assert '# def 은행명(v):' in text and 'v["bank"]' in text and "docgen/forms/README.md" in text
+    assert [x for x in T.make_single(*_args(tmp_path)) if x["task"] == "form_qa"] == []   # 견본은 주석이라 문항이 없다
+    assert formdir.main(["qa", ID, "--new"]) == 1   # 있으면 덮어쓰지 않음
 
 
 def test_checks_catch_bad_files_missing_keys_and_mismatches(form):
@@ -154,15 +212,14 @@ def test_checks_catch_bad_files_missing_keys_and_mismatches(form):
                                          encoding="utf-8")
     why = FQ.check_dir(form)
     assert any("모르는 항목" in w for w in why) and any("fields.json" in w and "q" in w for w in why)
-    assert any("id 가 없거나" in w for w in why) and any("type 은" in w for w in why)
+    assert any("extra" in w and "qa.py" in w for w in why)
     assert any(p["id"] == ID and "questions.json" in p["reason"] for p in refresh()["problems"])
 
     _set_q(form, {"bank": {"asked": 1}})
-    _write(form, {"extra": [{"id": "x", "prompt": "?", "type": "text", "answer": "{nope}"}]})
+    (form / "questions.json").unlink()
     assert any("모르는 칸 'asked'" in p and "fields.json:" in p for p in FQ.check(ID, seeds=2)["problems"])
     _set_q(form, {"bank": {"label": "거래은행"}, "memo": {"ask": False}})
     r = FQ.check(ID, seeds=2)
-    assert any("extra x" in p and "nope" in p for p in r["problems"])
     assert any("항목명과 다르게" in n and "거래은행" in n for n in r["notes"])
     assert any("묻지 않는 칸" in n and "memo" in n for n in r["notes"])
 
@@ -224,3 +281,50 @@ def test_marks_answer_with_renamed_fields_is_scored_like_the_default():
     assert SCORERS["marks"](item, oracle_output(item))["metrics"]["acc"] == 1
     wrong = json.dumps([{"항목": "consent", "선택": "부동의"}, {"항목": "seal", "선택": True}], ensure_ascii=False)
     assert SCORERS["marks"](item, wrong)["metrics"]["acc"] < 1
+
+
+def test_text_answer_template_gives_one_line_per_field_and_is_scored_on_values(form, tmp_path):
+    body = {"kie": {"prompt": "아래 항목을 한 줄에 하나씩 '항목명: 값' 으로 답하세요. 없으면 '없음'.\n{items}",
+                    "answer": "{label}: {value}"}}
+    assert FQ.check_dir(form) == [] and not FQ.check_body(body)
+    _write(form, body)
+    kie = _items(tmp_path)["kie"]
+    lines = kie["answer"].split("\n")
+    assert lines[0] == "은행명: 국민은행" and "비고: 없음" in lines and len(lines) == 6   # 빈 칸 틀은 {value} 자리에 "없음"
+    assert lines[4].startswith("출금: ") and lines[5].startswith("출금: ")   # 같은 항목명 칸(반복 행)은 차례대로 읽는다
+    assert kie["eval"]["gold"][0] == {"key": "bank", "value": "국민은행"}
+    s = SCORERS["kie"](kie, oracle_output(kie))["metrics"]
+    assert s["f1"] == 1 and "vl_f1" not in s and main_metric("kie", s) == "f1"
+    shuffled = "취급점 : 센텀지점\n은행명: 국민은행"   # 순서·띄어쓰기는 봐줌, 빠진 칸은 틀림
+    s = SCORERS["kie"](kie, shuffled)["metrics"]
+    assert 0 < s["f1"] < 1 and s["precision"] == 1
+    assert SCORERS["kie"](kie, "은행명: 신한은행")["metrics"]["f1"] == 0
+    assert not FQ.check(ID, seeds=2)["problems"]
+
+    _write(form, {"kie": {"answer": "{value}"}})
+    assert any("줄글 답 틀" in w for w in FQ.check_dir(form))
+    _write(form, {"kie": {"answer": "{label}: {value} {bbox_2d}"}})
+    assert any("위치는 넣을 수 없음" in w for w in FQ.check_dir(form))
+
+
+def test_text_answers_are_read_back_from_lines_or_one_paragraph():
+    t, e = "{label}은 {value}입니다.", "{label}은 적혀 있지 않습니다."
+    labels = {"a": "성명", "b": "대표자 성명", "c": "비고"}
+    text = "대표자 성명은 김철수입니다. 성명은 홍길동입니다. 비고은 적혀 있지 않습니다."
+    assert FQ.read_text(text, t, e, labels) == [{"key": "a", "value": "홍길동"}, {"key": "b", "value": "김철수"},
+                                                {"key": "c", "value": None}]
+    assert FQ.fill_text("{label}: {value}", "{label}: 없음", "seal", "직인", True) == "직인: 있음"
+
+
+def test_marks_text_answer_is_scored_like_the_list():
+    t, e = "{label}: {value}", "{label}: 없음"
+    gold = [{"key": "consent", "value": "동의"}, {"key": "seal", "value": False}, {"key": "multi", "value": "A"},
+            {"key": "multi", "value": "C"}]
+    labels = {"consent": "동의 여부", "seal": "직인", "multi": "선택"}
+    item = {"task": "marks", "answer": "\n".join(FQ.fill_text(t, e, g["key"], labels[g["key"]], g["value"]) for g in gold),
+            "eval": {"types": {"consent": "checkbox", "seal": "seal", "multi": "checkbox_multi"},
+                     "text": {"answer": t, "answer_empty": e, "labels": labels}, "gold": gold}}
+    assert item["answer"] == "동의 여부: 동의\n직인: 없음\n선택: A\n선택: C"
+    s = SCORERS["marks"](item, oracle_output(item))["metrics"]
+    assert s == {"acc": 1.0}
+    assert SCORERS["marks"](item, "동의 여부: 동의\n직인: 있음\n선택: A")["metrics"]["acc"] == 1 / 3

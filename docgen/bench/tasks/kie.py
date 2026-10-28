@@ -7,7 +7,9 @@
       빈 칸은 {"key": 키, "value": null} (위치 없음). 값·위치 모두 그릴 때 기록한 것 그대로 — 사람이 따로 단 정답이 아니다
       질문 전문(prompt)·질문 항목 줄 틀(item)·답 항목 틀(answer, answer_empty)은 서식 폴더 questions.json 의 kie (없으면 공통
       docgen/forms/_common/questions.json). 답 틀의 칸 이름이 기본과 다르면 eval.answer_fields 에 적어 채점이 거꾸로 읽는다.
-      답 틀에 위치(bbox_2d)가 없으면 값 점수(f1)가 주 지표
+      답 틀에 위치(bbox_2d)가 없으면 값 점수(f1)가 주 지표.
+      답 틀이 글자("{label}: {value}")면 줄글 답 — 칸마다 한 줄. eval.text 에 틀·항목명, eval.gold 에 [{"key", "value"}]
+      (채점은 틀로 줄글에서 값을 찾아 값 점수 f1)
 eval.fields: 키마다 타입(날짜·금액 등 표기를 맞춰 비교)·norm·값 종류
 채점: evaluate.s_kie, 주 지표 vl_f1 (값+위치), 값만은 f1
 """
@@ -45,6 +47,11 @@ def make(doc):
     lines = "\n".join(prompts.kie_line(doc.r["doc_id"], f["key"], f.get("label"), f.get("doc_key"), siblings=all_kf,
                                         note=f.get("_note"), line=item) for f in kf)
     ev = {"fields": {f["key"]: {"type": f["type"], "norm": f.get("norm"), "kind": field_kind(f)} for f in kf}}
+    if isinstance(tpl, str):   # 줄글 답
+        ev |= {"text": {"answer": tpl, "answer_empty": empty, "labels": {f["key"]: f.get("label") or "-" for f in kf}},
+               "gold": [{"key": f["key"], "value": f["value"]} for f in kf]}
+        ans = "\n".join(FQ.fill_text(tpl, empty, f["key"], f.get("label"), f["value"]) for f in kf)
+        return [{"id": f"kie/{doc.sid}", "task": TASK, "prompt": FQ.prompt(doc.q, TASK, lines), "answer": ans, "eval": ev, **doc.base}]
     names = FQ.answer_fields(tpl)
     if names != {p: p for p in FQ.PLACES}:   # 답 틀의 칸 이름이 기본과 다르면 채점이 거꾸로 읽게 적어 둔다
         ev["answer_fields"] = names

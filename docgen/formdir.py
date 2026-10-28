@@ -525,7 +525,10 @@ def describe(doc_id: str) -> list[tuple[str, Path | None]]:
 
     from . import formquestions
 
-    rows += [("칸 목록 (사람이 고치는 곳)", formfields.path(doc_id)), ("질문·답 (questions.json)", formquestions.path(doc_id))]
+    from . import formqa
+
+    rows += [("칸 목록 (사람이 고치는 곳)", formfields.path(doc_id)), ("질문·답 (questions.json)", formquestions.path(doc_id)),
+             ("서식 전용 질문 (qa.py)", formqa.path(doc_id))]
     return rows
 
 
@@ -629,7 +632,7 @@ def show_questions(doc_id: str, seeds: int = 8) -> str:
             seen = "" if it["seen"] == it["of"] else f"  (그린 {it['of']}번 중 {it['seen']}번 나옴)"
             out.append(f"  {'묻기' if it['ask'] else '안 묻기'}  {it['key']}: {it['q_label'] or '/'.join(map(str, it['labels']))}"
                        + (f" ({it['note']})" if it["note"] else "") + seen + ch)
-        if t["unknown"]:
+        if t.get("unknown"):
             out.append(f"  (지금 칸에 없는 키: {', '.join(t['unknown'])})")
     for task in ("classify", "ocr_field", "ocr_page"):
         t = v[task]
@@ -638,8 +641,15 @@ def show_questions(doc_id: str, seeds: int = 8) -> str:
             out.append(f"  정답: {t['answer']}{mark(task, 'answer')}" + (f" (다른 이름: {', '.join(t['aliases'])})" if t["aliases"] else ""))
         elif t["exclude"]:
             out.append(f"  뺄 칸: {', '.join(t['exclude'])}")
-    for x in v["extra"]:
-        out += [f"\n## form_qa {x['id']} ({x['type']})", f"  질문: {x['prompt']}", f"  정답: {x.get('answer') or '예/아니오: ' + x.get('when', '')}"]
+    from . import formqa
+
+    qa = formqa.check(doc_id, FQ.seen_fields(doc_id, seeds))
+    out.append("\n## form_qa (이 서식만의 질문, qa.py)" + ("" if qa["rows"] else ": 없음"))
+    for r in qa["rows"]:
+        ex = r["example"] or {}
+        out += [f"  {r['name']}()  — 그린 {r['of']}개 중 {r['asked']}개에서 물음, 정답 꼴 {r['kind'] or '-'}",
+                f"    질문: {ex.get('prompt', '-')}", f"    정답: {json.dumps(ex['answer'], ensure_ascii=False) if 'answer' in ex else '-'}"]
+    out += [f"  문제: {p}" for p in qa["problems"]]
     return "\n".join(out)
 
 
@@ -659,6 +669,10 @@ def main(argv=None) -> int:
     qs.add_argument("--slim", action="store_true", help="기본과 같은 것을 파일에서 지움 (예전 꼴의 전체 사본 정리)")
     qs.add_argument("--write", action="store_true", help="--slim 을 파일에 쓴다 (없으면 목록만)")
     qs.add_argument("--seeds", type=int, default=8, help="그려 볼 seed 수 (평가·학습 범위에서 각각)")
+    qa = sub.add_parser("qa", help="이 서식만의 질문 qa.py: 견본 만들기(--new)·보기")
+    qa.add_argument("id")
+    qa.add_argument("--new", action="store_true", help="견본 qa.py 를 만든다 (이 서식의 칸 키로 쓴 예시, 주석). 있으면 멈춤")
+    qa.add_argument("--seeds", type=int, default=8)
     ck = sub.add_parser("check", help="서식 검사 (고친 뒤 이것 하나): 칸 목록·박스·값 출처·질문 설정·questions.json·카드")
     ck.add_argument("ids", nargs="*")
     ck.add_argument("--all", action="store_true", help="모든 서식")
@@ -713,6 +727,22 @@ def main(argv=None) -> int:
                     print(f"참고  {i}: {n}")
         print(f"서식 {len(ids)}개 검사, 문제 있는 서식 {bad}개")
         return 1 if bad else 0
+    if a.cmd == "qa":
+        from . import formqa
+        from . import formquestions as FQ
+
+        p = formqa.path(a.id)
+        if a.new:
+            if p.exists():
+                print(f"이미 있습니다 (덮어쓰지 않음): {_rel(p)}")
+                return 1
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(formqa.skeleton(a.id, FQ.seen_fields(a.id, a.seeds)), encoding="utf-8")
+            print(f"만듦: {_rel(p)} — 주석을 풀고 고친 뒤 python -m docgen.formdir qa {a.id} 로 확인, 카드는 card {a.id}")
+            return 0
+        print("## form_qa" + show_questions(a.id, a.seeds).split("\n## form_qa", 1)[-1] if p.exists()
+              else f"{_rel(p)} 없음 — 견본: python -m docgen.formdir qa {a.id} --new")
+        return 0
     if a.cmd == "check":
         ids = sorted(load_all()) if a.all else a.ids
         if not ids:

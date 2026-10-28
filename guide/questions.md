@@ -3,7 +3,7 @@
 은행 업무 단계에서 학습한 모델에게 **어떻게 물으면 어떤 형식으로 답하는지** 정리한 문서입니다. 모델은 아래 질문 문장으로 학습했으므로 같은 문장으로 물을 때 가장 정확합니다. 문장을 바꾸면 답 형식이 흐트러질 수 있습니다.
 
 - 질문 문장은 `docgen/bench/prompts.py`와 같습니다(평가 세트, 학습 데이터, studio가 모두 이 파일을 씁니다). 테스트(`docgen/tests/test_bench.py`)가 이 문서와 코드가 같은지 확인합니다.
-- 문장 원본은 `docgen/forms/_common/questions.json` (모든 서식의 기본값)이고 `docgen/bench/prompts.py` 가 읽습니다. 서식마다 다르게 하는 법은 [qa.md](qa.md) (서식 폴더의 `questions.json` — 지금 545종 모두 기본 그대로). 정답 값은 서식을 그릴 때 칸마다 넣은 값·위치 그대로입니다.
+- 문장 원본은 `docgen/forms/_common/questions.json` (모든 서식의 기본값)이고 `docgen/bench/prompts.py` 가 읽습니다. 서식마다 다르게 하는 법은 [서식 폴더 설명서 5절](../docgen/forms/README.md#5-질문과-답-고치기) (서식 폴더의 `questions.json`·`qa.py` — 지금 545종 모두 기본 그대로). 정답 값은 서식을 그릴 때 칸마다 넣은 값·위치 그대로입니다.
 - OCR 과제(박스 찾기, 영역 읽기 등)의 질문은 [tasks.md](tasks.md#ocr-과제)에 있습니다(원본 `docgen/bench/ocr_tasks.py`의 `PROMPTS`). OCR 데이터를 섞어 함께 학습하므로 그 질문도 됩니다.
 - `{customer}`처럼 중괄호로 쓴 곳은 실제 값으로 바꿔 넣는 자리입니다.
 

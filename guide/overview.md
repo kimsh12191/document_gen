@@ -533,8 +533,9 @@ python -m train --config train/configs/pipeline.json     # 설정 예: train/con
 | `docgen/bench/rules.py` | 심사 질의 규칙 |
 | `docgen/bench/prompts.py` | 질문 문장 (평가·학습·studio 공용) — 원본은 `docgen/forms/_common/questions.json` |
 | `docgen/bench/tasks/<과제>.py` | 서류 한 건 과제(분류·받아쓰기·값 칸 읽기·정보 추출·기타 칸 정리·체크·도장·서명·서식 전용 질문)의 정답 만드는 법과 답 형식, 과제 하나에 파일 하나 |
-| `docgen/forms/<ID>/FORM.md` | 서식 카드 (자동): 항목·위치·정한 곳·질문→답 예시·고치는 곳 (`docgen/formcard.py`, [forms.md](forms.md)) |
-| `docgen/forms/<ID>/questions.json` | 서식마다 기본과 다르게 할 질문·답 (`docgen/formquestions.py`, [qa.md](qa.md)) |
+| `docgen/forms/<ID>/FORM.md` | 서식 카드 (자동): 항목·위치·정한 곳·질문→답 예시·고치는 곳 (`docgen/formcard.py`, [서식 폴더 설명서](../docgen/forms/README.md)) |
+| `docgen/forms/<ID>/questions.json` | 서식마다 기본과 다르게 할 질문 문장·답 모양 (`docgen/formquestions.py`) |
+| `docgen/forms/<ID>/qa.py` | 이 서식만의 질문·정답, 과제 form_qa (`docgen/formqa.py`, [서식 폴더 설명서](../docgen/forms/README.md)) |
 | `docgen/forms/_common/` | 모든 서식 공통: 기본 질문 문장, 키 사전, 바탕 틀, 값 종류 규칙, 표시 설정 |
 | `docgen/bench/evaluate.py` | 채점 (GRPO 보상도 이 코드를 그대로 씀) |
 | `docgen/bench/runner.py` | OpenAI 호환 서버로 모델 실행 |

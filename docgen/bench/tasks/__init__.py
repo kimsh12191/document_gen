@@ -2,9 +2,9 @@
 
   classify.py   서류 분류        ocr_page.py  전체 받아쓰기     ocr_field.py  값 칸 읽기
   kie.py        정보 추출        freetext.py  기타 칸 정리      marks.py      체크·도장·서명
-  form_qa.py    서식 전용 질문 (서식 폴더 questions.json 의 extra)
+  form_qa.py    서식 전용 질문 (서식 폴더 qa.py)
 
-공통은 여기, 서식마다 다른 것(무엇을 어떤 항목명으로 묻나, 서식 전용 질문)은 서식 폴더의 questions.json
+공통은 여기, 서식마다 다른 것은 서식 폴더 (칸마다 묻기·항목명 fields.json 의 q, 질문 문장·답 틀 questions.json, 서식 전용 질문 qa.py)
 (docgen/formquestions.py). 과제 파일은 doc.q 로 그것을 읽어 따른다. 파일이 없는 서식은 공통 규칙 그대로.
 
 과제 파일의 꼴 (kie.py 를 견본으로 보면 된다)

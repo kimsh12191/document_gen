@@ -203,7 +203,7 @@ def refresh() -> dict:
     - 폴더가 없어진 html·이미지 서식은 목록에서 뺀다 (검수 기록 catalog.json 은 그대로 — 폴더를 되돌리면 되살아난다).
     - 코드 서식(docs/*.py)과 하나은행 원본(hf###)은 건드리지 않는다. 레이아웃 파일은 다시 읽게 한다.
     템플릿·칸 목록의 내용은 원래 그릴 때마다 읽으므로 여기서 할 일이 없다.
-    모든 서식 폴더의 questions.json(질문·답) 형식도 검사해 problems 에 넣는다.
+    모든 서식 폴더의 questions.json(질문·답)·qa.py(서식 전용 질문) 형식도 검사해 problems 에 넣는다.
     → {"added", "updated", "removed": [ID…], "problems": [{"id", "reason"}],
        "with_script": 새로·바뀐 것 중 생성 스크립트(generate.py)가 있는 서식 — 사람이 읽고 넣었는지 확인용}"""
     from . import formdir, htmlform
@@ -256,11 +256,11 @@ def refresh() -> dict:
             continue
         put(doc_id, lambda d=d: RF.image_spec(d))
     RF.load_layout.cache_clear()
-    from . import formquestions
+    from . import formqa, formquestions
 
     for doc_id in reg:   # 서식의 질문·답 파일 형식 (서식은 그대로 쓰이고, 문항을 만들 때 오류가 난다)
         d = formdir.folder(doc_id) or formdir.copy_dir(doc_id)
-        for why in formquestions.check_dir(d) if d else ():
+        for why in [*formquestions.check_dir(d), *formqa.check_dir(d)] if d else ():
             out["problems"].append({"id": doc_id, "reason": why})
     out["with_script"] = [i for i in out["added"] + out["updated"] if i in html_dirs and (html_dirs[i] / htmlform.SCRIPT).exists()]
     for k in out:

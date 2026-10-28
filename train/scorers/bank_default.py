@@ -29,7 +29,8 @@ def freetext(item, output):
 
 
 def form_qa(item, output):
-    """서식 전용 질문 (서식 폴더 questions.json 의 extra): 숫자·예/아니오는 심사 질의와 같게, 글은 띄어쓰기를 맞춰 같은지. 주 지표 acc."""
+    """서식 전용 질문 (서식 폴더 qa.py): 정답 꼴로 — 숫자·예/아니오는 심사 질의와 같게, 글은 띄어쓰기·문장부호를 맞춰 같은지,
+    JSON 은 칸마다 같은지. 주 지표 acc. 질문 하나만 다르게 채점하려면 form_qa_example.py."""
     return E.s_form_qa(item, output)
 
 

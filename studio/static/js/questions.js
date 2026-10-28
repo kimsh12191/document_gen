@@ -57,13 +57,15 @@ async function tabQuestions(d) {
   const qf = d.questions;
   $("#tab").innerHTML = `<div class="sub">각 과제가 모델에 묻는 question은 실제 데이터의 <code>prompt</code>입니다.
       공통 형식과 선택한 고객의 문항을 함께 확인합니다.</div>
-    <details class="qa-contract"><summary>이 서식의 질문·답 바꾼 것 <span class="mono">${esc(qf ? qf.path : "questions.json 없음 — 모두 기본")}</span></summary>
+    <details class="qa-contract"><summary>이 서식의 질문·답 바꾼 것 <span class="mono">${esc(qf ? qf.path : "questions.json 없음 — 모두 기본")}${d.qa ? " · qa.py" : ""}</span></summary>
       <div class="sub">질문 문장·질문 항목 줄 틀(item)·답 항목 틀(answer)은 공통 <span class="mono">docgen/forms/_common/questions.json</span>, 항목명은 칸의 항목명이 기본입니다.
-        이 서식에서 다르게 할 것: 질문 문장 <code>prompt</code>·답 항목 틀 <code>answer</code>(예: <code>{"key": "{key}", "value": "{value}"}</code>)·서식 전용 질문 <code>extra</code>·분류 정답은 서식 폴더의 <span class="mono">questions.json</span>,
+        이 서식에서 다르게 할 것: 질문 문장 <code>prompt</code>·답 항목 틀 <code>answer</code>(JSON 틀 <code>{"key": "{key}", "value": "{value}"}</code> 또는 줄글 <code>"{label}: {value}"</code>)·분류 정답은 서식 폴더의 <span class="mono">questions.json</span>,
+        이 서식만의 질문(form_qa)은 서식 폴더의 <span class="mono">qa.py</span> (함수 하나 = 질문 하나, 견본 <span class="mono">python -m docgen.formdir qa ${esc(d.id)} --new</span>),
         칸마다(묻지 않기 <code>ask: false</code>, 항목명 <code>label</code>, 설명 <code>note</code>, OCR 빼기 <code>ocr: false</code>)는 칸 목록 <span class="mono">fields.json</span> 그 칸의 <code>"q"</code>.
         합친 전체와 고칠 줄은 <a href="#/forms/${encodeURIComponent(d.id)}/card">카드</a> 탭. 고친 뒤 아래에서 문항을 다시 만들어 확인합니다.
-        검사: <span class="mono">python -m docgen.formdir check ${esc(d.id)}</span> · 설명: <a href="#/guide/qa.md">질문·답 가이드</a></div>
-      ${qf ? `<pre class="ans mono" style="max-height:420px;overflow:auto">${esc(qf.source)}</pre>` : ""}</details>
+        검사: <span class="mono">python -m docgen.formdir check ${esc(d.id)}</span> · 설명: <a href="#/guide/${encodeURIComponent("docgen/forms/README.md")}">서식 폴더 설명서</a></div>
+      ${qf ? `<pre class="ans mono" style="max-height:420px;overflow:auto">${esc(qf.source)}</pre>` : ""}
+      ${d.qa ? `<div class="sub mono">${esc(d.qa.path)}</div><pre class="ans mono" style="max-height:420px;overflow:auto">${esc(d.qa.source)}</pre>` : ""}</details>
     <div class="bar">${optionBar(true, "qa")}
       <label>값 칸 OCR 문항 수 <input type="number" id="qa-fpd" value="6" min="0" max="50"></label>
       <label>최대 추출·표시 항목 수 <input type="number" id="qa-max" value="40" min="1" max="500"></label>
