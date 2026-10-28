@@ -1,4 +1,4 @@
-"""표준 키 사전 초안 docgen/keys.json 을 만든다 (studio 영역 편집기가 키를 고를 때 쓴다).
+"""표준 키 사전 초안 docgen/forms/_common/keys.json 을 만든다 (studio 영역 편집기가 키를 고를 때 쓴다).
 
   python docgen/scripts/build_keys.py
 
@@ -23,7 +23,7 @@ from docgen.realform import KEY_RULES  # noqa: E402
 from docgen.schema import LEAF_SYNONYMS  # noqa: E402
 
 FIELDS = ROOT / "guide" / "fields" / "fields.json"
-OUT = ROOT / "docgen" / "keys.json"
+OUT = ROOT / "docgen" / "forms" / "_common" / "keys.json"
 ASCII = re.compile(r"^[A-Za-z0-9_.]+$")
 
 # 사람이 확인한 이름 두 벌. decision 은 아직 정하지 않은 것은 null.

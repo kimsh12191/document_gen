@@ -20,7 +20,7 @@ from docgen.registry import load_all
 ITEM_TYPES = ("text", "check", "date", "sign", "copy", "staff")
 ADDABLE = ("text", "check", "sign", "copy", "staff")
 def value_kinds() -> list[str]:
-    """영역 편집기의 값 종류: 항목명 규칙의 종류 + 키 사전에서 더한 종류 (docgen/key_rules.json)."""
+    """영역 편집기의 값 종류: 항목명 규칙의 종류 + 키 사전에서 더한 종류 (docgen/forms/_common/key_rules.json)."""
     from docgen import keyrules as KR
 
     d = KR.load()

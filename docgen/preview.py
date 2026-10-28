@@ -40,10 +40,11 @@ _ENV = {"heavy": ("DOCGEN_HEAVY", {"on": "1", "off": "0"}),
         "special": ("DOCGEN_SPECIAL", {"on": "all", "off": "none"})}
 # 모든 서식이 함께 쓰는 렌더링 코드. 바뀌면 모든 미리보기를 새로 그린다.
 COMMON = ["docgen/render.py", "docgen/schema.py", "docgen/image.py", "docgen/paginate.js", "docgen/augment.py",
-          "docgen/realform.py", "docgen/keyrules.py", "docgen/key_rules.json", "docgen/entities.py", "docgen/korean.py", "docgen/banks.py", "docgen/docs/_common.py",
-          "docgen/marks.py", "docgen/overrides.py", "docgen/regions.py", "docgen/sources.py", "docgen/preview.py", "docgen/marks.json", "docgen/assets/marks/pools.json",
-          "docgen/templates/_base.html.j2", "docgen/templates/_macros.html.j2", "docgen/templates/_real_form.html.j2",
-          "docgen/templates/_official_base.html.j2", "docgen/templates/_official_values.html.j2",
+          "docgen/realform.py", "docgen/keyrules.py", "docgen/forms/_common/key_rules.json", "docgen/entities.py", "docgen/korean.py", "docgen/banks.py", "docgen/docs/_common.py",
+          "docgen/marks.py", "docgen/overrides.py", "docgen/regions.py", "docgen/sources.py", "docgen/preview.py", "docgen/forms/_common/marks.json", "docgen/assets/marks/pools.json",
+          "docgen/forms/_common/templates/_base.html.j2", "docgen/forms/_common/templates/_macros.html.j2",
+          "docgen/forms/_common/templates/_real_form.html.j2", "docgen/forms/_common/templates/_official_base.html.j2",
+          "docgen/forms/_common/templates/_official_values.html.j2",
           "docgen/html_regions.py", "docgen/html_regions.js", "docgen/template_variants.py"]
 
 
@@ -52,12 +53,21 @@ def _source_file(fn) -> str:
     return inspect.getsourcefile(fn)
 
 
+def generator_files(fn) -> list[Path]:
+    """값 만드는 함수의 파일. 서식 폴더의 generate.py(코드 서식)면 그것이 가져다 쓰는 그룹 도우미 모듈(docgen/docs/<그룹>.py)도."""
+    p = Path(_source_file(fn))
+    if p.name != "generate.py":
+        return [p]
+    groups = re.findall(r"^\s*from docgen\.docs\.(\w+) import", p.read_text(encoding="utf-8"), re.M)
+    return [p, *(ROOT / "docgen" / "docs" / f"{g}.py" for g in dict.fromkeys(groups) if g != "_common")]
+
+
 def source_files(doc_id: str, common: bool = True) -> list[Path]:
     """이 서식의 결과를 바꾸는 파일들 (서식 전용 + 공통). common=False 면 서식 전용만 (검수 후 바뀌었는지 볼 때)."""
     from . import formdir, formfields, regions
 
     spec = load_all()[doc_id]
-    files = [Path(_source_file(spec.generate)), *regions.hash_files(doc_id)]
+    files = [*generator_files(spec.generate), *regions.hash_files(doc_id)]
     if spec.template != "_real_form.html.j2":
         vd = formdir.variants_dir(doc_id)
         files += [vd/"variants.json"] + (sorted(vd.glob("*.html.j2")) + sorted(vd.glob("*.regions.json")) if vd.exists() else [])
@@ -70,7 +80,7 @@ def source_files(doc_id: str, common: bool = True) -> list[Path]:
             files.append(d / htmlform.SCRIPT)
         parent = (htmlform.load_form(doc_id) if d else {}).get("parent")
         if parent in load_all():
-            files.append(Path(_source_file(load_all()[parent].generate)))
+            files += generator_files(load_all()[parent].generate)
             if re.fullmatch(r"hf\d{3}", parent):
                 from .realform import layout_path
 
@@ -116,7 +126,17 @@ def source_hash(doc_id: str, common: bool = True) -> str:
         name = hash_label(p)   # 서식 폴더로 옮긴 파일은 예전 자리 이름으로 (옮겨도 해시가 그대로)
         h.update(str(name.relative_to(ROOT) if name.is_relative_to(ROOT) else name).encode())
         h.update(_file_digest(p))
-    return h.hexdigest()[:12]
+    out = h.hexdigest()[:12]
+    if not common:   # 파일을 옮기기만 한 서식은 옮기기 전 해시 (검수 기록·데이터셋 기록이 그대로 맞게). 고치면 새 해시
+        out = _moved().get(doc_id, {}).get(out, out)
+    return out
+
+
+@cache
+def _moved() -> dict:
+    """docgen/forms/_common/hash_moves.json: {서식ID: {옮긴 뒤 해시: 옮기기 전 해시}} — 내용을 바꾸지 않고 파일만 옮긴 서식."""
+    p = ROOT / "docgen" / "forms" / "_common" / "hash_moves.json"
+    return json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
 
 
 class Previewer:

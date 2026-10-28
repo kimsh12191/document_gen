@@ -57,14 +57,13 @@ async function tabQuestions(d) {
   const qf = d.questions;
   $("#tab").innerHTML = `<div class="sub">각 과제가 모델에 묻는 question은 실제 데이터의 <code>prompt</code>입니다.
       공통 형식과 선택한 고객의 문항을 함께 확인합니다.</div>
-    <details class="qa-contract"${qf ? "" : " open"}><summary>이 서식의 질문·답 파일 <span class="mono">${esc(qf ? qf.path : "questions.json (없음)")}</span></summary>
-      <div class="sub">이 서식의 질문 전문(<code>prompt</code>, kie·marks 는 <code>{items}</code> 자리에 항목 줄), 항목 한 줄 꼴(<code>line</code>),
-        답 꼴(<code>answer</code>: list_box · list · object), 묻는 칸(<code>items</code>: <code>ask: false</code> 면 묻지 않음, <code>label</code>·<code>note</code> 를 고치면 질문이 바뀜),
-        뺄 칸(<code>exclude</code>), 분류 정답(classify), 서식 전용 질문(extra → 과제 form_qa)을 이 파일에서 정합니다.
-        정답 값·위치는 그린 문서에서 옵니다. 고치는 것은 파일로 하고, 고친 뒤 아래에서 문항을 다시 만들어 확인합니다.
+    <details class="qa-contract"><summary>이 서식의 질문·답 바꾼 것 <span class="mono">${esc(qf ? qf.path : "questions.json 없음 — 모두 기본")}</span></summary>
+      <div class="sub">질문 문장·답 꼴·항목 줄 꼴은 공통 <span class="mono">docgen/forms/_common/questions.json</span>, 항목명은 칸의 항목명이 기본입니다.
+        이 서식에서 다르게 할 것만 서식 폴더의 <span class="mono">questions.json</span> 에 적습니다 (묻지 않기 <code>ask: false</code>, 항목명 <code>label</code>,
+        설명 <code>note</code>, 문장 <code>prompt</code>, 답 꼴 <code>answer</code>, 뺄 칸 <code>exclude</code>, 분류 정답, 서식 전용 질문 <code>extra</code>).
+        합친 전체는 <a href="#/forms/${encodeURIComponent(d.id)}/card">카드</a> 탭. 고친 뒤 아래에서 문항을 다시 만들어 확인합니다.
         검사: <span class="mono">python -m docgen.formdir questions ${esc(d.id)} --check</span> · 설명: <a href="#/guide/qa.md">질문·답 가이드</a></div>
-      ${qf ? `<pre class="ans mono" style="max-height:420px;overflow:auto">${esc(qf.source)}</pre>`
-        : `<p class="muted">파일이 없어 공통 규칙 그대로 묻습니다. 만들기: <span class="mono">python -m docgen.formdir questions ${esc(d.id)} --write</span></p>`}</details>
+      ${qf ? `<pre class="ans mono" style="max-height:420px;overflow:auto">${esc(qf.source)}</pre>` : ""}</details>
     <div class="bar">${optionBar(true, "qa")}
       <label>값 칸 OCR 문항 수 <input type="number" id="qa-fpd" value="6" min="0" max="50"></label>
       <label>최대 추출·표시 항목 수 <input type="number" id="qa-max" value="40" min="1" max="500"></label>

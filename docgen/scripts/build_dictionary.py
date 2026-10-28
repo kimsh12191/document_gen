@@ -1,8 +1,8 @@
-"""키 사전 자동 초안 docgen/dictionary/*.json (studio/DESIGN.md 16절). 다시 돌려도 사람이 정한 것(by: 사람, 합치기 결정)은 남는다.
+"""키 사전 자동 초안 docgen/forms/_common/dictionary/*.json (studio/DESIGN.md 16절). 다시 돌려도 사람이 정한 것(by: 사람, 합치기 결정)은 남는다.
 
   python docgen/scripts/build_dictionary.py
 
-- 재료: docgen/keys.json (키 목록·이름 두 벌), guide/fields/fields.json (서식별 키·항목명·체크 보기), docgen/key_rules.json,
+- 재료: docgen/forms/_common/keys.json (키 목록·이름 두 벌), guide/fields/fields.json (서식별 키·항목명·체크 보기), docgen/forms/_common/key_rules.json,
   docgen/document_roles.json·registry (문서 분류), docgen/scenarios.json (업무).
 - 필드 키 = 서류 속 역할.(세부.)속성. 역할 → 당사자는 아래 ROLE_PARTY 표(사람이 읽고 고친 첫 추정)로 정하고, 모르면 미정.
 - 생성 코드는 이 파일들을 읽지 않는다(첫판). 쓰는 쪽 연결은 DESIGN 16.5 K3.
@@ -18,7 +18,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-OUT = ROOT / "docgen" / "dictionary"
+OUT = ROOT / "docgen" / "forms" / "_common" / "dictionary"
 STD = re.compile(r"[a-z][a-z0-9_]*(\.[a-z0-9_*]+)*")
 HUMAN = "사람"
 
@@ -295,9 +295,9 @@ def build_relations(fields: dict, types: dict, tasks: dict, roles: dict, merges:
 
 
 def build() -> dict:
-    keys = json.loads((ROOT / "docgen" / "keys.json").read_text(encoding="utf-8"))
+    keys = json.loads((ROOT / "docgen" / "forms" / "_common" / "keys.json").read_text(encoding="utf-8"))
     fields = json.loads((ROOT / "guide" / "fields" / "fields.json").read_text(encoding="utf-8"))
-    rules = json.loads((ROOT / "docgen" / "key_rules.json").read_text(encoding="utf-8"))
+    rules = json.loads((ROOT / "docgen" / "forms" / "_common" / "key_rules.json").read_text(encoding="utf-8"))
     from docgen import realform as RF
     from docgen.registry import GROUPS, SCENARIOS, load_all
 

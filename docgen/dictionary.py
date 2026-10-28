@@ -1,4 +1,4 @@
-"""키 사전 풀이 (studio/DESIGN.md 16절). 파일은 docgen/dictionary/*.json (자동 초안: docgen/scripts/build_dictionary.py).
+"""키 사전 풀이 (studio/DESIGN.md 16절). 파일은 docgen/forms/_common/dictionary/*.json (자동 초안: docgen/scripts/build_dictionary.py).
 
 칸마다 키는 하나, 범위는 둘이다.
   공통 키   여러 문서에 나오고 서류끼리 대조·심사하는 값 (common.json, 예: customer.name 고객 성명)
@@ -20,7 +20,7 @@ import re
 import time
 from pathlib import Path
 
-DIR = Path(__file__).with_name("dictionary")
+DIR = Path(__file__).parent / "forms" / "_common" / "dictionary"
 FILES = ("parties", "roles", "attributes", "doc_types", "tasks", "options", "merges", "relations", "common", "form_keys")
 MARKS = ("seal", "sign")   # 무엇이 도장·서명이면 키는 seal.<누구> (resolve 의 party_key 와 같은 꼴)
 _cache: dict = {}
@@ -221,7 +221,7 @@ def set_field(form_id: str, key: str, who: str | None, what: str | None, by: str
     return set_fields(form_id, [key], who, what, by, clear)[0]
 
 
-FIELDS_JSON = DIR.parents[1] / "guide" / "fields" / "fields.json"   # html 서식의 칸 (서식마다 렌더링해 모은 키, build_schema.py)
+FIELDS_JSON = Path(__file__).resolve().parents[1] / "guide" / "fields" / "fields.json"   # html 서식의 칸 (서식마다 렌더링해 모은 키, build_schema.py)
 _cells: dict = {}
 
 

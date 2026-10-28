@@ -64,36 +64,50 @@ def _write(d, body):
     (d / "questions.json").write_text(FQ.dump(body), encoding="utf-8")
 
 
-def test_default_file_changes_nothing_and_edits_change_the_questions(form, tmp_path):
+def test_only_changes_are_written_and_they_change_the_questions(form, tmp_path):
     before = _items(tmp_path)
-    body = FQ.default(ID, seeds=2)
-    assert [it["key"] for it in body["kie"]["items"]] == ["bank", "branch", "loan.amount", "memo", "rows.*.out"]
-    _write(form, body)
-    assert json.loads((form / "questions.json").read_text(encoding="utf-8")) == body   # 한 줄에 항목 하나로 써도 같은 JSON
-    assert _items(tmp_path) == before
+    view = FQ.resolved(ID, seeds=2)
+    assert [it["key"] for it in view["kie"]["items"]] == ["bank", "branch", "loan.amount", "memo", "rows.*.out"]
+    assert view["kie"]["prompt"] == FQ.common_prompt("kie") and view["kie"]["answer"] == "list_box"
+    assert all(it["ask"] and not it["changed"] and it["q_label"] == it["label"] for it in view["kie"]["items"])
 
-    items = {it["key"]: it for it in body["kie"]["items"]}
-    items["memo"]["ask"] = False
-    items["loan.amount"]["label"] = "대출 신청금액"
-    items["rows.*.out"]["note"] = "거래 내역 출금액"
-    body["classify"] = {"answer": "질문 시험서", "aliases": ["시험 서식"]}
-    body["ocr_page"] = {"exclude": ["branch"]}
-    _write(form, body)
+    _write(form, {"kie": {"items": [{"key": "memo", "ask": False}, {"key": "loan.amount", "label": "대출 신청금액"},
+                                    {"key": "rows.*.out", "note": "거래 내역 출금액"}]},
+                  "classify": {"answer": "질문 시험서", "aliases": ["시험 서식"]}, "ocr_page": {"exclude": ["branch"]}})
     after = _items(tmp_path)
     kie = after["kie"]
     assert "- memo:" not in kie["prompt"] and "memo" not in {a["key"] for a in kie["answer"]}
-    assert "- loan.amount: 대출 신청금액" in kie["prompt"]
+    assert "- loan.amount: 대출 신청금액" in kie["prompt"] and "- bank: 은행명" in kie["prompt"]   # 안 적은 칸은 칸의 항목명
     assert "- rows.0.out: 출금 (거래 내역 출금액)" in kie["prompt"]
     assert after["classify"]["answer"] == "질문 시험서" and after["classify"]["eval"]["aliases"] == ["시험 서식"]
     assert "센텀지점" not in after["ocr_page"]["answer"] and "국민은행" in after["ocr_page"]["answer"]
+    view = {it["key"]: it for it in FQ.resolved(ID, seeds=2)["kie"]["items"]}
+    assert view["memo"]["ask"] is False and view["memo"]["changed"] == ["ask"]
+    assert view["loan.amount"]["q_label"] == "대출 신청금액" and view["loan.amount"]["label"] == "신청금액"
 
-    body["kie"] = {"others": "skip", "items": [{"key": "bank", "label": "은행명"}]}   # 목록에 없는 칸은 묻지 않는다
-    _write(form, body)
+    _write(form, {"kie": {"others": "skip", "items": [{"key": "bank"}]}})   # 목록에 없는 칸은 묻지 않는다
     assert [a["key"] for a in _items(tmp_path)["kie"]["answer"]] == ["bank"]
+    (form / "questions.json").unlink()
+    assert _items(tmp_path) == before
+
+
+def test_slim_turns_an_old_full_copy_into_only_the_changes(form, tmp_path):
+    before = _items(tmp_path)
+    full = {task: {"prompt": FQ.common_prompt(task), "line": "- {key}: {label}{note}", "answer": "list_box", "others": "ask",
+                   "items": [{"key": it["key"], "label": it["label"], "from": "x"} for it in FQ.resolved(ID, seeds=2)[task]["items"]]}
+            for task in ("kie", "marks")}
+    full |= {"ocr_field": {"prompt": FQ.common_prompt("ocr_field"), "exclude": []}, "ocr_page": {"prompt": FQ.common_prompt("ocr_page"), "exclude": []},
+             "classify": {"prompt": FQ.common_prompt("classify"), "answer": "질문 시험", "aliases": []}, "extra": []}
+    _write(form, full)
+    assert _items(tmp_path) == before   # 예전 꼴(전체 사본)도 그대로 읽힌다
+    assert FQ.slim(ID, full) == {}
+    full["kie"]["items"][1]["label"] = "지점"
+    assert FQ.slim(ID, full) == {"kie": {"items": [{"key": "branch", "label": "지점"}]}}
+    assert FQ.write(ID, {}) is None and not (form / "questions.json").exists()
 
 
 def test_extra_questions_are_form_qa_items_answered_from_the_fields(form, tmp_path):
-    body = FQ.default(ID, seeds=2)
+    body = {}
     body["extra"] = [
         {"id": "amount", "prompt": "대출 신청금액은 얼마입니까? 숫자로만.", "type": "number", "answer": "{loan.amount}"},
         {"id": "where", "prompt": "어느 은행 어느 지점입니까?", "type": "text", "answer": "{bank} {branch}"},
@@ -114,7 +128,7 @@ def test_extra_questions_are_form_qa_items_answered_from_the_fields(form, tmp_pa
 
 
 
-def test_checks_catch_bad_files_missing_keys_and_new_fields(form):
+def test_checks_catch_bad_files_missing_keys_and_mismatches(form):
     (form / "questions.json").write_text('{"kie": {"items": [{"label": "x"}]}, "extra": [{"id": "a b", "type": "date"}], "oops": 1}',
                                          encoding="utf-8")
     why = FQ.check_dir(form)
@@ -122,31 +136,21 @@ def test_checks_catch_bad_files_missing_keys_and_new_fields(form):
     assert any("id 가 없거나" in w for w in why) and any("type 은" in w for w in why)
     assert any(p["id"] == ID and "questions.json" in p["reason"] for p in refresh()["problems"])
 
-    body = FQ.default(ID, seeds=2)
-    body["kie"]["items"] = [it for it in body["kie"]["items"] if it["key"] != "memo"] + [{"key": "gone.key", "label": "없음"}]
-    body["kie"]["items"][0]["label"] = "거래은행"
-    body["extra"] = [{"id": "x", "prompt": "?", "type": "text", "answer": "{nope}"}]
-    _write(form, body)
+    _write(form, {"kie": {"items": [{"key": "gone.key", "label": "없음"}, {"key": "bank", "label": "거래은행"}]},
+                  "ocr_field": {"exclude": ["nope.key"]},
+                  "extra": [{"id": "x", "prompt": "?", "type": "text", "answer": "{nope}"}]})
     r = FQ.check(ID, seeds=2)
     assert any("지금 칸에 없는 키" in p and "gone.key" in p for p in r["problems"])
     assert any("extra x" in p and "nope" in p for p in r["problems"])
-    assert any("질문 목록에 없는 칸" in n and "memo" in n for n in r["notes"])
+    assert any("ocr_field.exclude" in p and "nope.key" in p for p in r["problems"])
     assert any("항목명과 다르게" in n and "거래은행" in n for n in r["notes"])
-
-    merged, added = FQ.add_new(body, FQ.default(ID, seeds=2))
-    assert added == ["kie:memo"] and merged["kie"]["items"][0]["label"] == "거래은행"   # 사람이 고친 줄은 그대로
 
 
 def test_question_and_answer_shells_come_from_the_form_file(form, tmp_path):
-    body = FQ.default(ID, seeds=2)
-    assert body["kie"]["prompt"] == FQ.common_prompt("kie") and "{items}" in body["kie"]["prompt"]
-    assert body["kie"]["answer"] == "list_box" and body["classify"]["prompt"] == FQ.common_prompt("classify")
-    body["kie"]["prompt"] = "이 증명서에서 아래 항목 값을 JSON 객체 {키: 값} 하나로 답하세요.\n{items}"
-    body["kie"]["line"] = "* {label} → {key}"
-    body["kie"]["answer"] = "object"
-    body["marks"]["answer"] = "list"
-    body["marks"]["prompt"] = "체크 상태를 [{\"key\", \"value\"}] 목록으로.\n{items}"
-    body["classify"]["prompt"] = "서류 이름만 답하세요."
+    body = {"kie": {"prompt": "이 증명서에서 아래 항목 값을 JSON 객체 {키: 값} 하나로 답하세요.\n{items}",
+                    "line": "* {label} → {key}", "answer": "object"},
+            "marks": {"answer": "list", "prompt": "체크 상태를 [{\"key\", \"value\"}] 목록으로.\n{items}"},
+            "classify": {"prompt": "서류 이름만 답하세요."}}
     _write(form, body)
     got = _items(tmp_path)
     kie = got["kie"]
@@ -169,9 +173,6 @@ def test_question_and_answer_shells_come_from_the_form_file(form, tmp_path):
     r = FQ.check(ID, seeds=2)
     assert any("list_box" in p and "bbox_2d" in p for p in r["problems"])
     assert any("kie: 질문 문장이 공통 문장과 다릅니다" in n for n in r["notes"])
-    back, changed = FQ.add_new(body, FQ.default(ID, seeds=2), common_prompts=True)
-    assert back["kie"]["prompt"] == FQ.common_prompt("kie") and back["kie"]["line"] == "- {key}: {label}{note}"
-    assert back["kie"]["answer"] == "list_box" and "kie.prompt (공통 문장으로)" in changed
 
     body["kie"]["prompt"] = "항목 자리 없음"
     body["kie"]["answer"] = "csv"

@@ -1,36 +1,31 @@
-"""서식의 질문·답 questions.json (서식 폴더, docgen/formdir.py). 이 서식의 질문 껍데기·답 껍데기·무엇을 어떤 항목명으로 묻는지.
+"""서식의 질문·답 questions.json (서식 폴더, docgen/formdir.py): 기본과 **다르게** 할 것만 적는다.
 
-질문 전문(prompt)·항목 줄 꼴(line)·답 꼴(answer)까지 서식마다 여기에 적힌다. 공통으로 남는 것은 새 서식의 기본값
-(docgen/bench/prompts.py 의 문장), 정답 값·위치를 그린 문서에서 꺼내는 코드(docgen/bench/tasks/<과제>.py), 채점(evaluate.py).
-파일이 없으면 공통 기본값 그대로 묻는다 (기본값으로 만든 파일과 결과가 같다).
+기본은 docgen/forms/_common/questions.json (모든 서식의 질문 문장·항목 줄 꼴·답 꼴)과 서식 자신의 칸(항목명은 칸의 항목명).
+여기 적은 것이 그 위에 덮인다. 아무것도 바꾸지 않은 서식은 파일이 없다. 합친 전체(실제로 쓰이는 것)는 서식 카드 FORM.md
+(docgen/formcard.py) 와 python -m docgen.formdir questions <ID> --show 로 본다.
 
-  {"kie":   {"prompt": "이 문서에서 아래 항목의 값과 위치를 … \n{items}",   질문 전문. {items} 자리에 항목 줄들
-             "line": "- {key}: {label}{note}",                     항목 한 줄 꼴. {note} = " (괄호 설명)" 또는 빈칸
-             "answer": "list_box",                                 답 꼴: list_box [{key, value, bbox_2d, page}] (값+위치 채점)
+  {"kie":   {"prompt": "이 증명서에서 … \\n{items}",                 질문 전문. {items} 자리에 항목 줄들 (없으면 공통)
+             "line": "* {label} → {key}",                          항목 한 줄 꼴. {note} = " (괄호 설명)" 또는 빈칸 (없으면 공통)
+             "answer": "object",                                   답 꼴: list_box [{key, value, bbox_2d, page}] (값+위치 채점, 공통)
                                                                           list [{key, value}] / object {키: 값} (값 채점)
-             "others": "ask",                                       목록에 없는 칸: ask 기본대로 묻기 | skip 묻지 않기
-             "items": [{"key": "customer.name",                     질문에 쓰는 키 (반복 행은 rows.*.amount)
-                        "label": "성명",                            질문의 항목명 (고치면 질문이 바뀜)
-                        "note"?: "고객 성명",                        괄호 설명 (없으면 키 사전에서 자동)
-                        "ask"?: false,                              이 칸은 묻지 않음
-                        "from"?: "applicant.name"}]},               (읽기용) 답을 가져오는 서식 칸 — 키 사전이 정한다
-   "marks": {"prompt", "line", "answer": "list_box"|"list", "others", "items": [{"key", "label", "ask"?, "kind", "options"}]},
-                                                                    kind·options 는 읽기용
-   "ocr_field": {"prompt": "…", "exclude": ["customer.rrn"]},       질문 전문, 값 칸 읽기에서 뺄 칸 (답 = 칸 글자)
-   "ocr_page":  {"prompt": "…", "exclude": []},                     질문 전문, 받아쓰기 정답에서 뺄 칸 (답 = 값 줄 목록)
-   "classify":  {"prompt": "…", "answer": "대출거래신청서", "aliases": [...]},   질문 전문, 분류 정답·다른 이름
+             "others": "skip",                                     items 에 없는 칸: ask 기본대로 묻기 (기본) | skip 묻지 않기
+             "items": [{"key": "customer.rrn", "ask": false},       이 칸은 묻지 않음 (반복 행은 rows.*.amount)
+                       {"key": "purpose", "label": "발급 용도"},     질문의 항목명 (없으면 칸의 항목명)
+                       {"key": "employer.period", "note": "재직 시작일 ~ 끝"}]},   괄호 설명 (없으면 키 사전에서 자동)
+   "marks": {"prompt", "line", "answer": "list_box"|"list", "others", "items": [{"key", "label"?, "note"?, "ask"?}]},
+   "ocr_field": {"prompt"?, "exclude": ["customer.rrn"]},           값 칸 읽기에서 뺄 칸
+   "ocr_page":  {"prompt"?, "exclude": […]},                        받아쓰기 정답에서 뺄 칸
+   "classify":  {"prompt"?, "answer": "…", "aliases": [...]},       분류 정답·다른 이름 (없으면 키 사전의 문서명)
    "extra": [{"id": "amount", "prompt": "대출 신청금액은 얼마입니까? 원 단위 숫자로만 답하세요.",
               "type": "number", "answer": "{loan.amount}", "tol"?: 0},          서식 전용 질문 (과제 form_qa)
-             {"id": "guarantor", "prompt": "보증인 성명이 적혀 있습니까? 예/아니오로 답하세요.",
-              "type": "yesno", "when": "guarantor.name"},                       적혀 있으면 예
+             {"id": "guarantor", "prompt": "…", "type": "yesno", "when": "guarantor.name"},   적혀 있으면 예
              {"id": "bank", "prompt": "…", "type": "text", "answer": "{bank} {branch}"}]}
 
-- 키의 숫자 칸은 * 로 (rows.0.amount, rows.1.amount → rows.*.amount). 정답 값·위치는 문서를 그릴 때마다 그 칸에서 온다.
+- 정답 값·위치는 문서를 그릴 때마다 그 칸에서 온다 (파일에 적지 않는다).
 - 답 꼴을 바꾸면 질문 문장도 그 꼴로 고친다 (list 면 위치 이야기를 뺌). --check 가 안 맞아 보이면 알려 준다.
-- 처음 만들기·새 칸 더하기: python -m docgen.formdir questions <ID>… | --all [--write]   (있는 파일은 새 칸·빠진 칸만 더함)
-  공통 문장으로 되돌리기:     python -m docgen.formdir questions <ID>… | --all --write --common-prompt
-  검사:                       python -m docgen.formdir questions <ID> --check
-- 질문 목록은 칸 목록(fields.json·템플릿)과 따로 적힌다. 칸의 항목명을 고쳐도 질문은 그대로이니 여기서도 고친다 (--check 가 알려 줌).
+  python -m docgen.formdir questions <ID> --show      합친 전체 (기본 / 이 서식에서 바꿈 표시)
+  python -m docgen.formdir questions <ID> --check     칸과 맞는지 (없는 키·답 꼴과 질문)
+  python -m docgen.formdir questions --all --slim [--write]   기본과 같은 것을 파일에서 지운다 (예전 꼴의 전체 사본 정리)
 """
 from __future__ import annotations
 
@@ -43,7 +38,7 @@ TOP = ("kie", "marks", "ocr_field", "ocr_page", "classify", "extra")
 EXTRA_TYPES = ("text", "number", "yesno")
 ANSWERS = {"kie": ("list_box", "list", "object"), "marks": ("list_box", "list")}   # 채점이 읽는 답 꼴
 WITH_ITEMS = ("kie", "marks")
-SHELL = ("prompt", "line", "answer")   # 과제 칸 안에서 질문·답 껍데기 (나머지는 묻는 칸)
+READ_ONLY = ("from", "kind", "options")   # 예전 꼴 파일의 읽기용 칸 (정리할 때 지움)
 PLACE = re.compile(r"\{([^{}]+)\}")
 _cache: dict = {}
 
@@ -79,6 +74,21 @@ def _match(key: str, keys) -> bool:
 
 
 # ---------------------------------------------------------------------------
+# 기본 (모든 서식 공통: docgen/forms/_common/questions.json)
+# ---------------------------------------------------------------------------
+
+def defaults(task: str) -> dict:
+    """과제의 기본 {"prompt", "line"?, "answer"?}. prompt 는 사람이 읽는 글 (kie·marks 는 {items} 자리)."""
+    from .bench.prompts import DEFAULTS
+
+    return DEFAULTS[task]
+
+
+def common_prompt(task: str) -> str:
+    return defaults(task)["prompt"]
+
+
+# ---------------------------------------------------------------------------
 # 과제가 쓰는 것 (docgen/bench/tasks)
 # ---------------------------------------------------------------------------
 
@@ -107,14 +117,6 @@ def pick(q: dict | None, task: str, fields: list[dict]) -> list[dict]:
     return out
 
 
-def common_prompt(task: str) -> str:
-    """공통 질문 문장 (새 서식의 기본값). kie·marks 는 {items} 자리가 있는 글."""
-    from .bench import prompts as P
-
-    return P.text_of({"kie": P.P_KIE, "marks": P.P_MARKS, "classify": P.P_CLASSIFY,
-                      "ocr_field": P.P_OCR_FIELD, "ocr_page": P.P_OCR_PAGE}[task])
-
-
 def prompt(q: dict | None, task: str, items: str | None = None) -> str:
     """이 서식의 질문 전문. 파일에 prompt 가 없으면 공통 문장. items 는 {items} 자리에 (글자 그대로 바꿔 넣음)."""
     text = ((q or {}).get(task) or {}).get("prompt") or common_prompt(task)
@@ -122,9 +124,9 @@ def prompt(q: dict | None, task: str, items: str | None = None) -> str:
 
 
 def shell(q: dict | None, task: str) -> tuple[str | None, str]:
-    """kie·marks 의 (항목 줄 꼴, 답 꼴). 없으면 (None = 공통 꼴, "list_box")."""
+    """kie·marks 의 (항목 줄 꼴, 답 꼴). 없으면 (None = 공통 꼴, 공통 답 꼴)."""
     spec = (q or {}).get(task) or {}
-    return spec.get("line"), spec.get("answer") or "list_box"
+    return spec.get("line"), spec.get("answer") or defaults(task).get("answer", "list_box")
 
 
 def excluded(q: dict | None, task: str, fields: list[dict]) -> list[dict]:
@@ -142,7 +144,7 @@ def field_value(fields: list[dict], key: str):
 
 
 # ---------------------------------------------------------------------------
-# 만들기 (지금 규칙 그대로)
+# 합친 전체 (서식 카드·--show·검사)
 # ---------------------------------------------------------------------------
 
 def seen_fields(doc_id: str, seeds: int = 8) -> list[list[dict]]:
@@ -163,77 +165,117 @@ def seen_fields(doc_id: str, seeds: int = 8) -> list[list[dict]]:
     return out
 
 
-def _items(task: str, docs: list[list[dict]]) -> list[dict]:
+MARK_KIND = {"checkbox": "체크박스", "checkbox_multi": "복수 선택", "seal": "도장", "signature": "서명"}
+
+
+def field_rows(task: str, docs: list[list[dict]]) -> list[dict]:
+    """여러 번 그린 문서에서 kie·marks 로 물을 수 있는 칸 (문서 순서, 반복 행은 *):
+    [{"key", "label"(그릴 때마다 같으면), "labels", "from"?, "kind"?, "options"?, "seen": 나온 문서 수, "of": 그린 수}]."""
     from .bench.tasks import kie, marks
 
     choose = {"kie": kie.items, "marks": marks.items}[task]
-    order, labels, extra = [], {}, {}
+    rows: dict[str, dict] = {}
     for fields in docs:
+        seen_here = set()
         for f in choose(fields):
             k = pattern(f["key"])
-            if k not in labels:
-                order.append(k)
-                labels[k] = set()
-                extra[k] = {}
-            labels[k].add(f.get("label"))
+            r = rows.setdefault(k, {"key": k, "labels": [], "seen": 0, "of": len(docs)})
+            if f.get("label") not in r["labels"]:
+                r["labels"].append(f.get("label"))
             if f.get("doc_key") and f["doc_key"] != f["key"]:
-                extra[k].setdefault("from", pattern(f["doc_key"]))
+                r.setdefault("from", pattern(f["doc_key"]))
             if task == "marks":
-                extra[k].setdefault("kind", {"checkbox": "체크박스", "checkbox_multi": "복수 선택", "seal": "도장",
-                                             "signature": "서명"}[f["type"]])
+                r.setdefault("kind", MARK_KIND[f["type"]])
                 if f.get("options"):
-                    extra[k].setdefault("options", [o["text"] for o in f["options"]])
-    rows = []
-    for k in order:
-        lab = labels[k]
-        # 그릴 때마다 항목명이 같은 칸만 적는다 (레이아웃 변형마다 다르면 비워 두고 그린 대로 묻는다)
-        rows.append({"key": k, **({"label": next(iter(lab))} if len(lab) == 1 and None not in lab else {}), **extra[k]})
-    return rows
+                    r.setdefault("options", [o["text"] for o in f["options"]])
+            if k not in seen_here:
+                r["seen"] += 1
+                seen_here.add(k)
+    for r in rows.values():
+        r["label"] = r["labels"][0] if len(r["labels"]) == 1 else None
+    return list(rows.values())
 
 
-def default(doc_id: str, seeds: int = 8, docs: list[list[dict]] | None = None) -> dict:
-    """지금 규칙 그대로의 questions.json (이 파일을 두어도 문항이 바뀌지 않는다)."""
+def resolved(doc_id: str, docs: list[list[dict]] | None = None, seeds: int = 8) -> dict:
+    """기본 + 이 서식에서 바꾼 것 = 실제로 쓰이는 전체. 값마다 "바꿈" 여부를 붙인다 (카드·--show)."""
     from . import dictionary as DIC
     from .registry import load_all
 
+    q = read(doc_id) or {}
     docs = docs if docs is not None else seen_fields(doc_id, seeds)
-    name, aliases = DIC.doc_name(doc_id, load_all()[doc_id].name)
-    from .bench.prompts import LINE
-
-    return {"kie": {"prompt": common_prompt("kie"), "line": LINE, "answer": "list_box", "others": "ask",
-                    "items": _items("kie", docs)},
-            "marks": {"prompt": common_prompt("marks"), "line": LINE, "answer": "list_box", "others": "ask",
-                      "items": _items("marks", docs)},
-            "ocr_field": {"prompt": common_prompt("ocr_field"), "exclude": []},
-            "ocr_page": {"prompt": common_prompt("ocr_page"), "exclude": []},
-            "classify": {"prompt": common_prompt("classify"), "answer": name, "aliases": aliases}, "extra": []}
-
-
-def add_new(body: dict, fresh: dict, common_prompts: bool = False) -> tuple[dict, list[str]]:
-    """있는 파일에 새로 생긴 칸과 빠진 칸(질문·답 껍데기 등)만 더한다 (사람이 고친 것은 그대로). → (새 본문, 더한 것).
-    common_prompts: 질문 문장(prompt)·항목 줄 꼴(line)을 지금 공통 문장으로 바꾼다 (답 꼴은 그대로)."""
-    out, added = json.loads(json.dumps(body)), []
-    for k in TOP:
-        if k not in out:
-            out[k] = fresh[k]
-            added.append(k)
-    for task in ("ocr_field", "ocr_page", "classify", *WITH_ITEMS):
-        spec = out[task]
-        for k, v in fresh[task].items():
-            if k not in spec:
-                spec[k] = v
-                added.append(f"{task}.{k}")
-            elif common_prompts and k in ("prompt", "line") and spec[k] != v:
-                spec[k] = v
-                added.append(f"{task}.{k} (공통 문장으로)")
-        out[task] = {**{k: spec[k] for k in fresh[task] if k in spec}, **spec}   # 칸 차례: 껍데기 먼저
+    out = {}
     for task in WITH_ITEMS:
-        have = {it["key"] for it in out[task]["items"]}
-        for it in fresh[task]["items"]:
-            if it["key"] not in have:
-                out[task]["items"].append(it)
-                added.append(f"{task}:{it['key']}")
-    return out, added
+        base, mine = defaults(task), q.get(task) or {}
+        by = {it.get("key"): it for it in mine.get("items", []) if isinstance(it, dict)}
+        items = []
+        for r in field_rows(task, docs):
+            it = by.get(r["key"], {})
+            items.append({**r, "ask": it.get("ask", mine.get("others", "ask") == "ask" or r["key"] in by),
+                          "q_label": it.get("label") or r["label"], "note": it.get("note"),
+                          "changed": sorted(k for k in ("label", "note", "ask") if k in it)})
+        out[task] = {"prompt": mine.get("prompt") or base["prompt"], "line": mine.get("line") or base.get("line"),
+                     "answer": mine.get("answer") or base.get("answer", "list_box"), "others": mine.get("others", "ask"),
+                     "changed": sorted(k for k in ("prompt", "line", "answer", "others") if k in mine),
+                     "items": items, "unknown": [k for k in by if k not in {r["key"] for r in items}]}
+    for task in ("ocr_field", "ocr_page"):
+        mine = q.get(task) or {}
+        out[task] = {"prompt": mine.get("prompt") or defaults(task)["prompt"], "exclude": mine.get("exclude", []),
+                     "changed": sorted(k for k in ("prompt", "exclude") if k in mine)}
+    name, aliases = DIC.doc_name(doc_id, load_all()[doc_id].name)
+    mine = q.get("classify") or {}
+    out["classify"] = {"prompt": mine.get("prompt") or defaults("classify")["prompt"], "answer": mine.get("answer") or name,
+                       "aliases": mine.get("aliases", aliases), "changed": sorted(k for k in ("prompt", "answer", "aliases") if k in mine)}
+    out["extra"] = q.get("extra") or []
+    return out
+
+
+def slim(doc_id: str, body: dict, docs: list[list[dict]] | None = None) -> dict:
+    """기본과 같은 것을 지운 본문 (예전 꼴의 전체 사본 → 바꾼 것만). 빈 dict 면 파일이 필요 없다."""
+    from . import dictionary as DIC
+    from .registry import load_all
+
+    out = {}
+    for task in WITH_ITEMS:
+        spec, base = dict(body.get(task) or {}), defaults(task)
+        for k, d in (("prompt", base["prompt"]), ("line", base.get("line")), ("answer", base.get("answer", "list_box")),
+                     ("others", "ask")):
+            if spec.get(k) == d:
+                spec.pop(k)
+        if spec.get("items"):
+            docs = docs if docs is not None else seen_fields(doc_id)
+            labels = {r["key"]: r["label"] for r in field_rows(task, docs)}
+            items = []
+            for it in spec["items"]:
+                it = {k: v for k, v in it.items() if k not in READ_ONLY}
+                if it.get("label") is not None and it["label"] == labels.get(it["key"]):
+                    it.pop("label")
+                if it.get("ask") is True:
+                    it.pop("ask")
+                if set(it) - {"key"}:
+                    items.append(it)
+            spec["items"] = items
+        if not spec.get("items"):
+            spec.pop("items", None)
+        if spec:
+            out[task] = spec
+    for task in ("ocr_field", "ocr_page"):
+        spec = dict(body.get(task) or {})
+        if spec.get("prompt") == defaults(task)["prompt"]:
+            spec.pop("prompt")
+        if not spec.get("exclude"):
+            spec.pop("exclude", None)
+        if spec:
+            out[task] = spec
+    spec = dict(body.get("classify") or {})
+    name, aliases = DIC.doc_name(doc_id, load_all()[doc_id].name)
+    for k, d in (("prompt", defaults("classify")["prompt"]), ("answer", name), ("aliases", aliases)):
+        if spec.get(k) == d:
+            spec.pop(k)
+    if spec:
+        out["classify"] = spec
+    if body.get("extra"):
+        out["extra"] = body["extra"]
+    return out
 
 
 def hashes(ids) -> dict[str, str]:
@@ -248,8 +290,13 @@ def hashes(ids) -> dict[str, str]:
     return out
 
 
-def write(doc_id: str, body: dict) -> Path:
+def write(doc_id: str, body: dict) -> Path | None:
+    """본문을 쓴다. 비었으면 (기본과 같으면) 파일을 지운다 → None."""
     p = path(doc_id)
+    if not body:
+        if p.exists():
+            p.unlink()
+        return None
     p.parent.mkdir(parents=True, exist_ok=True)
     tmp = p.with_suffix(".tmp")
     tmp.write_text(dump(body), encoding="utf-8")
@@ -297,12 +344,12 @@ def check_body(body) -> list[str]:
     unknown = [k for k in body if k not in TOP]
     if unknown:
         bad.append(f"모르는 항목 {unknown} (쓸 수 있는 것: {list(TOP)})")
-    for task in ("kie", "marks"):
+    for task in WITH_ITEMS:
         spec = body.get(task)
         if spec is None:
             continue
         if not isinstance(spec, dict) or not isinstance(spec.get("items", []), list):
-            bad.append(f"{task}: {{\"others\", \"items\": [...]}} 꼴이어야 합니다")
+            bad.append(f"{task}: {{\"prompt\"?, \"answer\"?, \"items\": [...]}} 꼴이어야 합니다")
             continue
         if spec.get("others", "ask") not in ("ask", "skip"):
             bad.append(f"{task}.others 는 ask 또는 skip")
@@ -321,7 +368,7 @@ def check_body(body) -> list[str]:
     for task in ("ocr_field", "ocr_page"):
         spec = body.get(task)
         if spec is not None and not (isinstance(spec, dict) and isinstance(spec.get("exclude", []), list)):
-            bad.append(f"{task}: {{\"prompt\": 질문, \"exclude\": [키…]}} 꼴이어야 합니다")
+            bad.append(f"{task}: {{\"prompt\"?, \"exclude\": [키…]}} 꼴이어야 합니다")
     for task in ("ocr_field", "ocr_page", "classify"):
         spec = body.get(task)
         if isinstance(spec, dict) and "prompt" in spec and not (isinstance(spec["prompt"], str) and spec["prompt"].strip()):
@@ -365,51 +412,44 @@ def check_dir(d: Path) -> list[str]:
     return [f"{NAME}: {b}" for b in check_body(body)]
 
 
-def check(doc_id: str, seeds: int = 8) -> dict:
+def check(doc_id: str, seeds: int = 8, docs: list[list[dict]] | None = None) -> dict:
     """형식 + 지금 칸과 맞는지: {"problems": [...], "notes": [...]}. problems 는 고쳐야 하는 것, notes 는 알아 둘 것."""
     body = read(doc_id)
     if body is None:
-        return {"problems": [], "notes": ["questions.json 이 없습니다 (공통 규칙 그대로 묻습니다)"]}
+        return {"problems": [], "notes": ["questions.json 이 없습니다 (모두 기본대로 묻습니다)"]}
     problems, notes = check_body(body), []
-    docs = seen_fields(doc_id, seeds)
-    fresh = default(doc_id, docs=docs)
-    for task in ("kie", "marks"):
-        now = {it["key"]: it for it in fresh[task]["items"]}
-        mine = {it["key"]: it for it in (body.get(task) or {}).get("items", []) if isinstance(it, dict)}
-        gone = [k for k in mine if k not in now]
-        if gone:
-            problems.append(f"{task}: 지금 칸에 없는 키 {len(gone)}개: {', '.join(gone[:8])}")
-        new = [k for k in now if k not in mine]
-        if new:
-            how = "묻지 않습니다 (others: skip)" if (body.get(task) or {}).get("others") == "skip" else "기본대로 묻습니다"
-            notes.append(f"{task}: 질문 목록에 없는 칸 {len(new)}개 — {how}: {', '.join(new[:8])}"
-                         " (더하려면 python -m docgen.formdir questions <ID> --write)")
-        diff = [k for k, it in mine.items() if k in now and it.get("label") and now[k].get("label")
-                and it["label"] != now[k]["label"]]
-        if diff:
-            notes.append(f"{task}: 칸의 항목명과 다르게 묻는 칸 {len(diff)}개: "
-                         + ", ".join(f"{k} ('{mine[k]['label']}' ← 칸 '{now[k]['label']}')" for k in diff[:5]))
-    for task in ("kie", "marks", "ocr_field", "ocr_page", "classify"):
-        spec = body.get(task) or {}
-        if spec.get("prompt") and spec["prompt"] != fresh[task]["prompt"]:
-            notes.append(f"{task}: 질문 문장이 공통 문장과 다릅니다 (학습한 문장과 달라 점수가 흔들릴 수 있음. "
-                         "되돌리기: --write --common-prompt)")
+    if problems:
+        return {"problems": problems, "notes": notes}
+    docs = docs if docs is not None else seen_fields(doc_id, seeds)
+    view = resolved(doc_id, docs)
     for task in WITH_ITEMS:
-        spec = body.get(task) or {}
-        boxed, text = spec.get("answer", "list_box") == "list_box", spec.get("prompt") or ""
-        if boxed and "bbox_2d" not in text:
+        v = view[task]
+        if v["unknown"]:
+            problems.append(f"{task}: 지금 칸에 없는 키 {len(v['unknown'])}개: {', '.join(v['unknown'][:8])}")
+        if "prompt" in v["changed"]:
+            notes.append(f"{task}: 질문 문장이 공통 문장과 다릅니다 (학습한 문장과 달라 점수가 흔들릴 수 있음)")
+        boxed = v["answer"] == "list_box"
+        if boxed and "bbox_2d" not in v["prompt"]:
             problems.append(f"{task}: 답 꼴이 list_box(위치 포함)인데 질문에 bbox_2d(위치) 요청이 없습니다")
-        elif not boxed and "bbox_2d" in text:
-            problems.append(f"{task}: 답 꼴이 {spec['answer']}(위치 없음)인데 질문이 bbox_2d(위치)를 요청합니다")
-    c = body.get("classify") or {}
-    if c.get("answer") and c["answer"] != fresh["classify"]["answer"]:
-        notes.append(f"classify: 정답 '{c['answer']}' 가 키 사전의 문서명 '{fresh['classify']['answer']}' 와 다릅니다")
+        elif not boxed and "bbox_2d" in v["prompt"]:
+            problems.append(f"{task}: 답 꼴이 {v['answer']}(위치 없음)인데 질문이 bbox_2d(위치)를 요청합니다")
+        relabel = [it for it in v["items"] if "label" in it["changed"]]
+        if relabel:
+            notes.append(f"{task}: 칸의 항목명과 다르게 묻는 칸 {len(relabel)}개: "
+                         + ", ".join(f"{it['key']} ('{it['q_label']}' ← 칸 '{it['label']}')" for it in relabel[:5]))
+    for task in ("ocr_field", "ocr_page", "classify"):
+        if "prompt" in view[task]["changed"]:
+            notes.append(f"{task}: 질문 문장이 공통 문장과 다릅니다")
     keys = {f["key"] for fs in docs for f in fs} | {f.get("doc_key") for fs in docs for f in fs}
+    for task in ("ocr_field", "ocr_page"):
+        miss = [k for k in view[task]["exclude"] if k not in keys and k not in {pattern(x) for x in keys if x}]
+        if miss:
+            problems.append(f"{task}.exclude: 칸에 없는 키 {miss}")
     for x in body.get("extra") or []:
-        if not isinstance(x, dict):
-            continue
         refs = PLACE.findall(x.get("answer") or "") + ([x["when"]] if x.get("when") else [])
         miss = [r for r in refs if r not in keys]
         if miss:
             problems.append(f"extra {x.get('id')}: 칸에 없는 키 {miss}")
+    if slim(doc_id, body, docs) != body:
+        notes.append("기본과 같은 줄이 있습니다 (정리: python -m docgen.formdir questions <ID> --slim --write)")
     return {"problems": problems, "notes": notes}

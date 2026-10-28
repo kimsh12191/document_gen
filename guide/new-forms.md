@@ -76,7 +76,7 @@
 키는 학습 데이터의 정답 키가 됩니다. 서식마다 제각각이면 학습 데이터가 흩어집니다.
 
 - 영어 소문자·숫자·밑줄, 점으로 나눈 "누구의 무엇": `applicant.name`, `account.number`, `lessor.address`.
-- **있는 키를 먼저**: `docgen/dictionary/common.json`(공통 키), `docgen/keys.json`(서식들이 쓰는 키), `docgen/dictionary/parties.json`(누구).
+- **있는 키를 먼저**: `docgen/forms/_common/dictionary/common.json`(공통 키), `docgen/forms/_common/keys.json`(서식들이 쓰는 키), `docgen/forms/_common/dictionary/parties.json`(누구).
 - `account` 와 `account.number` 처럼 한 키가 다른 키의 앞부분이면 안 됨. 도장·서명 키는 `seal.`·`sign.` 으로 시작.
 
 ### generate.py — 칸끼리 관계 (선택)
@@ -115,7 +115,7 @@ def adjust(d, p, rng):
 
 - 서식 그림 (여러 쪽이면 쪽마다)
 - [docgen/manual/NEW_FORM_SPEC.md](../docgen/manual/NEW_FORM_SPEC.md)
-- 키 사전: `docgen/dictionary/common.json`, `docgen/keys.json` (저장소를 열 수 있는 모델이면 경로만)
+- 키 사전: `docgen/forms/_common/dictionary/common.json`, `docgen/forms/_common/keys.json` (저장소를 열 수 있는 모델이면 경로만)
 
 ### 지시문 (그대로 붙여 넣기, `<…>` 만 바꿈)
 
@@ -127,7 +127,7 @@ def adjust(d, p, rng):
 - 사람이 쓰거나 출력되어 채워지는 자리는 모두 값 자리로 만든다: 글자 f(), 체크 m.choice, 도장 m.seal, 서명 m.sigspot.
   label 은 그림에 인쇄된 항목명 그대로.
 - 행 수가 바뀌는 표는 {% for r in d.<목록> %} 반복 행과 form.json lists(min = 그림에 보이는 행 수)로.
-- 키는 docgen/dictionary/common.json, docgen/keys.json 에 있는 것을 먼저 쓰고, 없으면 "누구의 무엇" 영어 키를 새로 짓는다.
+- 키는 docgen/forms/_common/dictionary/common.json, docgen/forms/_common/keys.json 에 있는 것을 먼저 쓰고, 없으면 "누구의 무엇" 영어 키를 새로 짓는다.
 - 값 출처(source)는 맞는 profile.* 이나 rule:* 를 고르고, 모르겠으면 rule:note.
 - 칸끼리 관계(시작일 ≤ 종료일, 합계 = 행의 합, 잔액, 조건부 칸, 금액 한글 표기)가 있으면 work/<이름>/generate.py 의
   adjust(d, p, rng) 로 맞춘다 (NEW_FORM_SPEC.md 8절: docgen.formkit 과 표준 라이브러리만, 난수는 rng 만, 새 키 금지).
@@ -199,7 +199,7 @@ EOF
 python -m docgen.formdir path <서식ID>                    # 파일 자리
 python -m docgen.regions check <서식ID>                   # 칸 목록 형식
 python -m docgen.preview <서식ID> --rows max --out work/<서식ID>
-python -m docgen.formdir questions <서식ID> --write        # 질문·답 파일 questions.json (지금 규칙 그대로) — 고치는 법 qa.md
+python -m docgen.formdir card <서식ID>                     # 서식 카드 FORM.md (항목·위치·질문→답 예시) — 서식 관리 forms.md
 ```
 
 ---
@@ -216,7 +216,7 @@ python -m docgen.formdir questions <서식ID> --write        # 질문·답 파�
 | **반복 표 안의 칸**, 표 구조, 인쇄 문구, 선 | **html 편집** (템플릿), 또는 모델에게 다시 맡기기 |
 | 키 이름 | `fields.json` 과 템플릿을 같이 (html 편집) |
 | 칸끼리 관계 (순서·합계·조건·표기) | 서식 폴더의 `generate.py` (파일로. 내용은 **파일** 탭에서 보임) |
-| 질문 문장·답 꼴, 묻는 칸·질문의 항목명, 이 서식만의 질문 | 서식 폴더의 `questions.json` (파일로. **문항 Q/A** 탭에서 내용과 실제 문항을 봄, [qa.md](qa.md)) |
+| 질문 문장·답 꼴, 묻는 칸·질문의 항목명, 이 서식만의 질문 | 서식 폴더의 `questions.json` — 기본과 다르게 할 것만 (**카드**·**문항 Q/A** 탭에서 전체와 실제 문항을 봄, [qa.md](qa.md)) |
 
 - 영역 편집으로 그린 칸은 **쪽 위의 고정 위치**라 행 수가 바뀌어도 따라 움직이지 않습니다. 반복 표 안의 칸은 템플릿에서 고칩니다.
 - 이미 등록된 서식의 템플릿·`fields.json` 을 파일로 고친 것은 [서식 다시 읽기] 없이 다음 미리보기에 바로 나옵니다.

@@ -7,7 +7,7 @@ docgen/docs/<그룹>.py                 @doc(...) 로 등록하는 생성 함수
 docgen/forms/<서류ID>/look/template.html.j2   Jinja2 HTML 템플릿 (registry 이름은 "<그룹>/<서류ID>.html.j2")
 ```
 
-예시: `docgen/docs/income.py`의 `employment_certificate`와 `docgen/forms/employment_certificate/look/template.html.j2`
+예시: `docgen/forms/employment_certificate/generate.py`(값)와 `docgen/forms/employment_certificate/look/template.html.j2`
 
 다 만들면 `python -m docgen.formdir declare <서류ID> --apply` 로 칸 목록 `docgen/forms/<서류ID>/fields.json` 에 칸을 적습니다
 (값은 생성 함수 그대로 `"source": "code"`, 키 하나만 값 출처를 바꿔 덮어쓸 수 있음 — docgen/README.md "서식 수정 파일").
@@ -66,7 +66,7 @@ def employment_certificate(p: Profile, rng: random.Random) -> dict:
 - 레이아웃 분기에 값이 필요하면 `val("경로")`나 `d.xxx`를 쓴다.
 - 라벨은 문서에 실제로 적힌 항목명으로 쓴다(공백은 자동 제거). 이 라벨은 GT의 `fields[].label`에 저장된다.
 
-주요 매크로 (`docgen/templates/_macros.html.j2`):
+주요 매크로 (`docgen/forms/_common/templates/_macros.html.j2`):
 
 | 매크로 | 용도 |
 |---|---|

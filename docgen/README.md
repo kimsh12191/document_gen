@@ -27,11 +27,17 @@ docgen/forms/<ID>/                 공개 서식 (실서류에서 만든 서식�
   layout.json                      overlay 자동 추출 초안 (hf### 은 PDF 에서 뽑은 것). fields.json 을 처음 만들 때만 썼다
   form.json                        복제·분석기 html 서식: 이름·그룹·부모 서식·출처
   variants/                        html 레이아웃 변형 (variants.json, <변형>.html.j2)
+  generate.py                      값 만들기: 코드 서식은 @doc 함수(값 전부), html 서식은 adjust(d, p, rng)(칸끼리 관계)
+  questions.json                   질문·답 — 기본(forms/_common/questions.json)과 다르게 할 것만. 없으면 모두 기본
+  FORM.md                          서식 카드 (자동 생성, 읽는 곳)
+docgen/forms/_common/              모든 서식 공통 (README.md)
 ```
 
 - **값이나 칸을 고치려면** → `fields.json` (studio ① 서식 › 영역 편집, 복제 서식의 값 선언은 html 편집)
 - **html 서식의 표·문구 모양을 고치려면** → `look/template.html.j2` (복제 서식은 studio html 편집). overlay 서식은 모양(원본 그림)을 바꾸지 않습니다.
-- 코드 서식 70종은 값을 `docgen/docs/<그룹>.py` 의 생성 함수가 만듭니다. 여러 서식이 같이 쓰는 틀(`_base`·`_macros`·`_real_form`, 그룹 부품)은 `docgen/templates/` 에 남습니다.
+- 코드 서식 70종은 값을 서식 폴더의 `generate.py`(@doc 함수)가 만듭니다. 같은 그룹 서식들이 같이 쓰는 도우미는 `docgen/docs/<그룹>.py` 에 있습니다.
+- **모든 서식이 같이 쓰는 것**(기본 질문, 키 사전, 바탕 틀 `_base`·`_macros`·`_real_form`·그룹 부품, 값 종류 규칙, 표시 설정)은 `docgen/forms/_common/` 한 곳에 있습니다 ([README](forms/_common/README.md)).
+- **서식 카드** `FORM.md`(서식 폴더마다, 자동): 항목·위치·정한 곳·질문→답 예시·고치는 곳. 서식 하나를 이해하려면 이것부터 (`python -m docgen.formdir card <ID>`).
 - 서식 하나의 파일을 모두 보려면 `python -m docgen.formdir path <ID>`.
 - 모양(껍데기)만 원본에 맞게 고치기 — 사람·VLM 공용 안내: [manual/FORM_SHELL_GUIDE.md](manual/FORM_SHELL_GUIDE.md)
 
@@ -242,7 +248,7 @@ python -m docgen generate --types hf169 --n 3 --png --out out    # 한 서식만
    - `대리인`·`받는 분` 구역의 성명·연락처는 대리인·해외 수취인 값으로 바뀝니다.
    - 나머지는 항목명 끝말로 종류(날짜·금액·비율·번호·상품명·회사명 …)를 정하고, 뜻을 모르는 칸은 비워 둡니다.
    - 표의 반복 행(상품명·매수비율 …)은 위에서부터 몇 줄만 채우고, 비율은 합이 100이 되게 나눕니다.
-3. **그리기** — [docgen/templates/\_real_form.html.j2](templates/_real_form.html.j2)가 쪽마다 PDF 이미지를 깔고 값을 절대 위치로 얹습니다.
+3. **그리기** — [docgen/forms/_common/templates/\_real_form.html.j2](forms/_common/templates/_real_form.html.j2)가 쪽마다 PDF 이미지를 깔고 값을 절대 위치로 얹습니다.
    - 글씨: 서류마다 손글씨(나눔손글씨 펜·붓, 하이멜로디, 감자꽃 — `docgen/fonts/`, OFL) 70%, 인쇄체 30%. 손글씨는 글자마다 조금씩 기울고 흔들립니다.
    - 체크: 손으로 그은 V(SVG), ■ 칠하기, ○ 중 하나. 도장·서명은 기존 서류와 같은 모양입니다.
    - 결재란: 은행이 접수·처리한 서류처럼 직원 도장·서명을 찍습니다. 서류의 85%는 처리된 서류로 보고, 그 안에서 칸마다 85% 확률로 찍습니다(나머지는 빈칸). 찍을 때는 직원 이름 원형 도장 50%, 사각 도장(직원 이름 또는 `확인`·`검인`) 20%, 서명 30%입니다. 같은 칸 이름은 한 서류 안에서 같은 직원입니다.
@@ -277,13 +283,15 @@ docgen/
   bench/                   은행 업무 벤치마크: 평가 세트·학습 데이터 만들기(build), 모델 실행(run), 채점(eval) — guide/benchmark.md
   bench/tasks/<과제>.py    서류 한 건 과제: 과제 하나 = 파일 하나 (질문, 정답 만드는 make(doc), 답 형식). 견본 kie.py
   formquestions.py         서식 폴더의 questions.json: 이 서식의 질문 문장·답 꼴·묻는 칸·항목명, 서식 전용 질문 (guide/qa.md)
-  docs/*.py                서류별 데이터 생성 함수 (그룹별 파일, docs/real_forms.py 가 원본 서식 전부를 등록)
-  scenarios.json, keys.json, marks.json, catalog.json   업무 시나리오, 표준 키 사전, 표시 설정, 서식 검수·배정 (studio 가 고침)
+  docs/<그룹>.py           같은 그룹 코드 서식들이 같이 쓰는 도우미 + 끝의 FORMS 차례로 서식 폴더의 generate.py 를 등록
+                           (docs/_common.py 모든 코드 서식의 도우미, docs/real_forms.py 원본 서식 전부를 등록)
+  formcard.py              서식 카드 FORM.md·공통 값 출처 목록 values.md 만들기
+  scenarios.json, catalog.json   업무 시나리오, 서식 검수·배정 (studio 가 고침)
 
-  forms/<ID>/               서식 폴더 545종 + 등록 안 되는 hf 레이아웃 (위 "서식 = 폴더 하나")
+  forms/<ID>/               서식 폴더 545종 + 등록 안 되는 hf 레이아웃 (위 "서식 = 폴더 하나"). FORM.md 카드부터 읽는다
+  forms/_common/            모든 서식 공통: questions.json(기본 질문), dictionary/(키 사전), templates/(바탕 틀·그룹 부품),
+                           key_rules.json(값 종류·항목명 규칙), keys.json(키 목록), marks.json(표시 설정), freetext_templates.json, values.md
   forms/하나은행_서식자료/  원본 다운로드 보관 (목록 csv·안내문, 레이아웃이 없는 파일). forms/official_sources/: 공식 원본 대조용 PDF
-  templates/               여러 서식이 같이 쓰는 Jinja2 틀만: _base·_macros(공통), _real_form(원본 서식 오버레이),
-                           _official_*(공식 대조 HTML), 그룹 부품(bank_form/_loan_parts.html.j2 등)
   assets/marks/            표시 요소 풀 (pools.json, 올린 체크·서명 이미지)
   fonts/                   손글씨 글꼴 (woff2, SIL OFL) + studio 표시 요소 화면에서 경로로 등록한 글꼴
   samples/                 서류별 대표 샘플 이미지·정답 (scripts/make_samples.py)

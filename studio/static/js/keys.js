@@ -1,6 +1,6 @@
 // 키 사전 (studio/DESIGN.md 16.0): 칸마다 키는 하나 — 공통 키(여러 서류에 나오고 서류끼리 대조하는 값) 또는 문서별 키(그 서식에만 있는 칸).
 // 칸의 누구의 · 무엇을 정하면 그 둘이 공통 키일 때 공통 키가 된다. 고르기 패널은 keypick.js (서식 미리보기·영역 편집과 같이 쓴다).
-// 서버: studio/api_dictionary.py (docgen/dictionary.py, docgen/dictionary/*.json), 값 종류·값 출처는 studio/api_keys.py (docgen/key_rules.json)
+// 서버: studio/api_dictionary.py (docgen/dictionary.py, docgen/forms/_common/dictionary/*.json), 값 종류·값 출처는 studio/api_keys.py (docgen/forms/_common/key_rules.json)
 "use strict";
 
 addRoute(/^#\/keys(?:\/(\w+))?$/, tab => viewKeys(tab || "common"), "keys");
@@ -311,7 +311,7 @@ function editTask(d, id) {
 }
 
 // ---------------------------------------------------------------------------
-// 값 종류 (docgen/key_rules.json): 코드 종류(설명만)와 데이터 종류(프로필 값·목록·틀)
+// 값 종류 (docgen/forms/_common/key_rules.json): 코드 종류(설명만)와 데이터 종류(프로필 값·목록·틀)
 // ---------------------------------------------------------------------------
 function kindsTab(d) {
   $("#kd-body").innerHTML = `

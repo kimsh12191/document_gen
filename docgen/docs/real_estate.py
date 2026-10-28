@@ -1,5 +1,8 @@
 """부동산 관련 서류: 등기사항전부증명서, 건축물대장, 토지대장, 매매계약서, 임대차계약서, 전입세대확인서.
 
+이 파일에는 그룹 서식들이 같이 쓰는 도우미만 있다. 서식마다 값 만드는 함수(@doc)는 서식 폴더
+docgen/forms/<ID>/generate.py 에 있고, 끝의 FORMS 차례로 등록한다.
+
 같은 프로필이면 서류 사이의 사실관계(매매일, 근저당, 소유권 이전 여부, 공유자 등)가 맞도록
 `_facts(p)`가 프로필 seed 로부터 결정론적으로 공통 사실을 만든다.
 매도인 = p.property.seller (기존 소유자), 매수인/임차인 = p.person.
@@ -11,8 +14,8 @@
 import re
 
 from ..entities import World
-from ..registry import doc
 from ._common import *  # noqa: F401,F403
+from ..registry import register_folder_forms
 
 # 은행 등기명의 (근저당권자 표시용)
 _BANK_LEGAL = {
@@ -60,13 +63,6 @@ def _rd(d: date) -> str:
     return f"{d.year}년{d.month}월{d.day}일"
 
 
-def _mask_name(name: str) -> str:
-    """홍길동 -> 홍*동, 김민 -> 김*, 남궁민수 -> 남**수"""
-    if len(name) <= 2:
-        return name[0] + "*"
-    return name[0] + "*" * (len(name) - 2) + name[-1]
-
-
 def _bank_legal(bank: str) -> tuple[str, str, str]:
     name, addr = _BANK_LEGAL.get(bank, (f"주식회사{bank}", "서울특별시 중구 세종대로 39"))
     return name, K.corp_reg_no(random.Random(f"bank:{bank}")), addr
@@ -97,11 +93,6 @@ def _iga(name: str) -> str:
     """이름 뒤 주격 조사: 받침이 있으면 '이', 없으면 '가'."""
     c = name[-1]
     return name + ("이" if "가" <= c <= "힣" and (ord(c) - 0xAC00) % 28 else "가")
-
-
-def _eun(name: str) -> str:
-    c = name[-1]
-    return name + ("은" if "가" <= c <= "힣" and (ord(c) - 0xAC00) % 28 else "는")
 
 
 def _between(r: random.Random, lo: date, hi: date) -> date | None:
@@ -617,14 +608,6 @@ def _compile(evs, eras, r, f, p, co_seller, co_buyer, H, sp) -> dict:
             "co_seller": co_seller, "co_buyer": co_buyer}
 
 
-def _unit_label(f: dict) -> str:
-    """'래미안아파트 제101동 제12층 제1203호'"""
-    s = f["bname"]
-    if f["dong_no"]:
-        s += f" 제{f['dong_no']}동"
-    return f"{s} 제{f['floor']}층 제{f['ho']}호"
-
-
 def _brokers(rng: random.Random, f: dict) -> list[dict]:
     """개업공인중개사 (공동중개면 매도인측·매수인측 2곳)."""
     out = [_broker(rng, f)]
@@ -653,259 +636,15 @@ def _broker(rng: random.Random, f: dict, other: bool = False) -> dict:
 # 등기사항전부증명서 (집합건물)
 # ---------------------------------------------------------------------------
 
-@doc("real_estate_registry", "등기사항전부증명서(집합건물)", "real_estate")
-def real_estate_registry(p: Profile, rng: random.Random) -> dict:
-    """등기사항전부증명서(말소사항 포함) - 집합건물. 표제부·갑구·을구.
-
-    이력이 많은 물건(소유권 이전·근저당 설정/말소 반복)은 갑구·을구가 길어져 여러 쪽이 된다.
-    말소된 사항은 빨간 실선으로 지우고, 말소 등기('3번근저당권설정등기말소')는 별도 순위번호로 적는다."""
-    f = _facts(p)
-    a, pr, hist = f["a"], f["pr"], f["hist"]
-    view_dt = p.issue_date
-    loc = f"{a.jibun_full} {f['bname']}" + (f" 제{f['dong_no']}동" if f["dong_no"] else "")
-    loc += f"\n[도로명주소]\n{a.region} {a.road} {a.building_no}"
-    nf = f["total_floors"]
-    under = rng.random() < 0.7
-    area1 = round(f["floor_area"] * rng.uniform(0.75, 0.95), 2)
-    detail = (f"{pr.structure}\n(철근)콘크리트지붕 {nf}층 {f['usage_full']}\n"
-              + (f"지하1층 {_area(round(f['floor_area'] * rng.uniform(0.6, 1.1), 2))}㎡\n" if under else "")
-              + f"1층 {_area(area1)}㎡\n"
-              + (f"2층 {_area(f['floor_area'])}㎡" if nf <= 2 else f"2층~{nf}층 각 {_area(f['floor_area'])}㎡"))
-    loc_old = f"{a.jibun_full} {f['bname']}" + (f" 제{f['dong_no']}동" if f["dong_no"] else "")
-    buildings = [_Row(display_no="1", receipt=_rd(f["preserve"]), location=loc_old if f["road_reg"] else loc,
-                      detail=detail, cause=f["drawing_no"])]
-    if f["road_reg"]:  # 도로명주소 직권 등기: 1번은 말소(실선), 2번에 도로명주소 추가
-        buildings[0].struck = True
-        buildings.append(_Row(display_no="2", location=loc, cause=f"도로명주소\n{_rd(f['road_reg'])} 등기"))
-    land = {"display_no": "1", "location": f"1. {a.jibun_full}", "category": "대",
-            "area": f"{_area(f['land_total'])}㎡", "cause": f"{_rd(f['preserve'])} 등기"}
-    unit = {"display_no": "1", "receipt": _rd(f["preserve"]), "unit_no": f"제{f['floor']}층 제{f['ho']}호",
-            "detail": f"{pr.structure}\n{_area(pr.exclusive_area)}㎡", "cause": f["drawing_no"]}
-    land_right = {"display_no": "1", "kind": "1 소유권대지권", "ratio": f"{_area(f['land_total'])}분의 {_area(pr.land_area)}",
-                  "cause": f"{_rd(f['land_right_date'])} 대지권\n{_rd(f['preserve'])} 등기"}
-    t = view_dt
-    hh, mm, ss = rng.randint(8, 18), rng.randint(0, 59), rng.randint(0, 59)
-    out = {
-        "unique_no": pr.unique_no,
-        "property": f"{a.jibun_full} {_unit_label(f)}",
-    }
-    rows = len(hist["gapgu"]) * 3 + len(hist["eulgu"]) * 5
-    pages = 1 + max(0, (rows - 30) // 70)  # 증명서 본문 쪽수 (요약 쪽 번호 표시용 어림)
-    summary = rng.random() < 0.18  # 마지막 장: 주요 등기사항 요약 (참고용)
-    if summary:
-        out["summary"] = _registry_summary(hist)
-        out["page_label"] = f"{pages + 1}/{pages + 1}"
-    else:
-        out.update({"registry_office": courthouse(a), "buildings": buildings, "land": land, "unit": unit, "land_right": land_right,
-                    "gapgu": hist["gapgu"], "eulgu": hist["eulgu"]})
-    if rng.random() < 0.5:
-        out["view_datetime"] = f"{t.year}년{t.month:02d}월{t.day:02d}일 {hh:02d}시{mm:02d}분{ss:02d}초"
-    else:
-        out["issue_no"] = "".join(str(rng.randint(0, 9)) for _ in range(20))
-        letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        out["confirm_no"] = "-".join("".join(rng.choice(letters) for _ in range(4)) for _ in range(2)) + f"-{rng.randint(0, 9999):04d}"
-        out["issue_date_short"] = f"{t.year}/{t.month:02d}/{t.day:02d}"
-        if not summary:
-            out["issue_date"] = f"{t.year}년 {t.month}월 {t.day}일"
-            out["fee"] = "1,000원"
-    return out
-
-
-def _registry_summary(hist: dict) -> dict:
-    """주요 등기사항 요약(참고용): 말소되지 않은 사항만."""
-    owners = []
-    for s in sorted(hist["state"], key=lambda s: s["pi"]["name"]):
-        pi = s["pi"]
-        owners.append({"name": f"{pi['name']} ({'소유자' if s['share'] == '단독소유' else '공유자'})", "reg_no": _reg_no(pi),
-                       "share": s["share"], "address": pi["addr"], "rank": s["rank"]})
-    target = ", ".join(hist["cur_names"]) if len(hist["cur_names"]) < 3 else f"{hist['cur_names'][0]} 등"
-
-    def main_text(e: dict) -> str:
-        row = e["row"]
-        if e["type"] == "mortgage":
-            mx = f"금{won(e['cur_max'])}" if e.get("cur_max") else row["max_amount"]
-            who = (e.get("cur_mortgagee") or row["mortgagee"]).split()[0]
-            return f"채권최고액 {mx}  근저당권자 {who}"
-        if e["type"] == "jeonse":
-            return f"전세금 {row['deposit']}  전세권자 {e['who']}"
-        if e["type"] == "lease":
-            return f"임차보증금 {row['deposit']}  임차권자 {e['who']}"
-        if "claim_amount" in row:
-            return f"청구금액 {row['claim_amount']}  채권자 {row['creditor'].split()[0]}"
-        if "right_holder" in row:
-            return f"권리자 {row['right_holder']}"
-        return f"채권자 {row.get('creditor', '').split()[0]}"
-
-    def items(evs: list) -> list:
-        return [{"rank": e["rank"], "purpose": e["row"]["purpose"], "receipt": e["row"]["receipt"].replace("\n", " "),
-                 "main": main_text(e), "target_owner": target} for e in sorted(evs, key=lambda e: int(e["rank"]))]
-    return {"owners": owners, "gapgu_rights": items(hist["open_gap"]), "rights": items(hist["open_eul"])}
-
 
 # ---------------------------------------------------------------------------
 # 집합건축물대장(전유부, 갑)
 # ---------------------------------------------------------------------------
 
-def _share_frac(share: str | None) -> str:
-    return {"2분의 1": "1/2", None: "1/1", "단독소유": "1/1"}.get(share, share)
-
-
-@doc("building_register", "집합건축물대장(전유부)", "real_estate", page="a4_landscape")
-def building_register(p: Profile, rng: random.Random) -> dict:
-    """집합건축물대장(전유부, 갑) 등본.
-
-    소유자 변동 이력이 많거나 공용부분이 많은 경우(heavy)는 표를 세로로 쌓아 여러 쪽이 된다."""
-    f = _facts(p)
-    a, pr, hist = f["a"], f["pr"], f["hist"]
-    long_doc = heavy(rng, 0.25)
-    common = [
-        {"kind": "주", "floor": "각층", "structure": pr.structure, "usage": "계단실,복도,승강기",
-         "area": f"{pr.exclusive_area * rng.uniform(0.18, 0.28):.2f}"},
-    ]
-    if f["is_apt"] or rng.random() < 0.5:
-        common.append({"kind": "주", "floor": "지1층", "structure": pr.structure, "usage": "주차장",
-                       "area": f"{pr.exclusive_area * rng.uniform(0.25, 0.45):.2f}"})
-    if f["is_apt"]:
-        common.append({"kind": "주", "floor": "지1층", "structure": pr.structure, "usage": "기계실,전기실",
-                       "area": f"{pr.exclusive_area * rng.uniform(0.02, 0.06):.2f}"})
-        if rng.random() < 0.5:
-            common.append({"kind": "부", "floor": "1층", "structure": pr.structure, "usage": "관리사무소,주민공동시설",
-                           "area": f"{pr.exclusive_area * rng.uniform(0.03, 0.08):.2f}"})
-    if long_doc:  # 공용부분을 층·용도별로 잘게 나눠 적은 대장
-        extra = ["경비실", "주민운동시설", "작은도서관", "어린이집", "경로당", "펌프실", "발전기실", "전기실", "쓰레기보관소",
-                 "자전거보관소", "옥탑", "물탱크실", "피트층", "방재실", "커뮤니티시설", "옥상"]
-        for u in rng.sample(extra, rng.randint(6, 12)):
-            fl = "옥탑1층" if u in ("옥탑", "옥상", "물탱크실") else rng.choice(["지1층", "지2층", "1층", "1층"])
-            common.append({"kind": rng.choice(["주", "부"]), "floor": fl, "structure": pr.structure, "usage": u,
-                           "area": f"{pr.exclusive_area * rng.uniform(0.005, 0.06):.2f}"})
-    # 공동주택가격: 매년 1월 1일 기준, 4월 말 공시
-    y = p.issue_date.year if p.issue_date >= date(p.issue_date.year, 4, 30) else p.issue_date.year - 1
-    prices, v = [], pr.official_price
-    for yy in range(y, y - (rng.randint(6, 9) if long_doc else rng.randint(3, 4)), -1):
-        prices.append({"base_date": f"{yy}.01.01", "price": won(v, "")})
-        v = K.round_to(v / rng.uniform(1.0, 1.12), 1_000_000)
-    ho_name = (f"{f['dong_no']}동 " if f["dong_no"] else "") + f"{f['ho']}호"
-
-    def row(pi: dict, share, d: date, cause: str, addr_d: date | None = None) -> dict:
-        return {"name": pi["name"], "rrn": pi["rrn"] if pi["corp"] else K.mask_rrn(pi["rrn"]),
-                "address": _addr_at(pi, addr_d or d), "share": _share_frac(share), "change_date": D(d, "dot"),
-                "change_cause": cause}
-    full = long_doc or special(rng, "owner_history", 0.3) or len(hist["state"]) > 1
-    owners = []
-    if full:  # 소유자 변동 이력 전체
-        cmap = {"소유권보존": "소유권보존", "소유권이전": "소유권이전", "소유권일부이전": "소유권일부이전", "주소변경": "등기명의인표시변경"}
-        for c in hist["chain"]:
-            for pi, share in c["owners"]:
-                owners.append(row(pi, share, c["date"], cmap[c["cause"]], c["date"] + timedelta(days=1) if c["cause"] == "주소변경" else None))
-        # 공유자 지분: 일부이전 뒤에는 기존 소유자 지분도 1/2 로 적힌다
-        for s in hist["state"]:
-            for o in owners:
-                if o["name"] == s["pi"]["name"]:
-                    o["share"] = _share_frac(s["share"])
-    else:
-        last = hist["chain"][-1]
-        for s in hist["state"]:
-            pi = s["pi"]
-            d = max(c["date"] for c in hist["chain"] if any(x[0]["name"] == pi["name"] for x in c["owners"]))
-            owners.append(row(pi, s["share"], d, "소유권이전" if last["cause"] != "소유권보존" else "소유권보존"))
-    out = {
-        "confirm_no": issue_no(rng, 16),
-        "unique_no": f"{f['dong_code']}-3-{f['bonbun']:04d}{f['bubun']:04d}",
-        "building_name": f["bname"] + (f" 제{f['dong_no']}동" if f["dong_no"] else ""),
-        "unit_name": ho_name,
-        "site_location": f"{a.region} {a.dong}",
-        "jibun": a.jibun,
-        "road_address": f"{a.region} {a.road} {a.building_no}",
-        "exclusive": [{"kind": "주", "floor": f"{f['floor']}층", "structure": pr.structure, "usage": f["usage"],
-                       "area": f"{pr.exclusive_area:.2f}"}],
-        "common": common,
-        "owners": owners,
-        "issue_date": D(p.issue_date, rng.choice(["kor", "kor_short"])),
-        "officer": f"{rng.choice(['건축과', '건축행정과', '민원여권과', '종합민원과'])}",
-        "officer_phone": K.landline(rng, a.sido),
-        "issuer": district_office(a),
-    }
-    if not full:
-        out["owners_note"] = "※ 이 건축물대장은 현소유자만 표시한 것입니다."
-    if special(rng, "violation", 0.08):  # 위반건축물 표시 (발코니 불법확장·무단증축 등)
-        out["violation"] = "위반건축물"
-    if pr.kind != "오피스텔":  # 오피스텔은 공동주택가격 공시 대상이 아님
-        out["house_prices"] = prices
-    return out
-
 
 # ---------------------------------------------------------------------------
 # 토지대장
 # ---------------------------------------------------------------------------
-
-@doc("land_register", "토지대장", "real_estate")
-def land_register(p: Profile, rng: random.Random) -> dict:
-    """토지대장 등본 (집합건물 대지). 소유자 변동 이력이 길면 여러 쪽."""
-    f = _facts(p)
-    a, pr, hist = f["a"], f["pr"], f["hist"]
-    land_rows = []
-    d0 = f["preserve"] - timedelta(days=rng.randint(200, 900))
-    if heavy(rng, 0.2):  # 분할·합병·지목변경이 거듭된 토지
-        dd = d0 - timedelta(days=rng.randint(4000, 9000))
-        area = f["land_total"] * rng.uniform(1.6, 2.4)
-        for _ in range(rng.randint(3, 6)):
-            dd += timedelta(days=rng.randint(200, 1500))
-            if dd >= d0:
-                break
-            area = area * rng.uniform(0.8, 1.05)
-            land_rows.append({"category": rng.choice(["(08)대", "(08)대", "(02)답", "(01)전", "(05)임야"]) if not land_rows else rng.choice(["(08)대", "(08)대", "(02)답"]),
-                              "area": _area(round(area, 1)),
-                              "reason": f"({rng.choice(['20', '30', '40', '42', '50'])}){D(dd, 'kor')}\n"
-                                        + rng.choice(["분할되어 본번에 -%d을 부함" % rng.randint(1, 60), "지목변경", "등록전환",
-                                                      "구획정리 완료", "합병", "면적정정", "행정구역명칭변경"])})
-    elif rng.random() < 0.5:
-        land_rows.append({"category": "(08)대", "area": _area(round(f["land_total"] * rng.uniform(1.05, 1.4), 1)),
-                          "reason": f"({rng.choice(['20', '40'])}){D(d0 - timedelta(days=rng.randint(300, 3000)), 'kor')}\n"
-                                    + rng.choice(["구획정리 완료", "지목변경", "등록전환"])})
-    land_rows.append({"category": "(08)대", "area": _area(f["land_total"]),
-                      "reason": f"(30){D(d0, 'kor')}\n분할되어 본번에 -{f['bubun'] or rng.randint(1, 30)}을 부함"
-                      if land_rows or rng.random() < 0.5 else f"(40){D(d0, 'kor')}\n구획정리 완료"})
-    code = {"소유권보존": "(01)소유권보존", "소유권이전": "(03)소유권이전", "소유권일부이전": "(04)소유권일부이전", "주소변경": "(11)주소변경"}
-    owners = []
-    for c in hist["chain"]:
-        for pi, _ in c["owners"]:
-            owners.append({"change_date": D(c["date"], "kor"), "change_cause": code[c["cause"]],
-                           "address": _addr_at(pi, c["date"] + timedelta(days=1 if c["cause"] == "주소변경" else 0)),
-                           "name": pi["name"], "reg_no": pi["rrn"] if pi["corp"] else K.mask_rrn(pi["rrn"])})
-    if f["is_apt"] or pr.kind == "오피스텔":
-        n = f["units"] - 1
-        for o in owners[1:]:
-            o["co_owners"] = f"외 {n:,}인"
-    # 개별공시지가 (원/㎡): 대지권 면적당 가치로 역산
-    base = pr.official_price * rng.uniform(0.45, 0.65) / max(pr.land_area, 1)
-    y = p.issue_date.year if p.issue_date >= date(p.issue_date.year, 5, 31) else p.issue_date.year - 1
-    prices = []
-    for yy in range(y, y - rng.choice([5, 6, 7, 7]), -1):  # 정부24 발급본은 최근 7년 기본 표시
-        prices.append({"base_date": f"{yy}/01/01", "price": won(K.round_to(base, 1000), "")})
-        base /= rng.uniform(1.0, 1.1)
-    prices.reverse()
-    grades = [{"date": f"{yy}.{mm:02d}.01. 수정", "grade": str(g)} for yy, mm, g in
-              [(1984, 7, f["land_grade"] - rng.randint(20, 40)), (1987, 7, f["land_grade"] - rng.randint(5, 18)),
-               (1990, 1, f["land_grade"])]]
-    t = p.issue_date
-    return {
-        "unique_no": f"{f['dong_code']}-1{f['bonbun']:04d}-{f['bubun']:04d}",
-        "drawing_no": str(rng.randint(1, 60)),
-        "issue_no": f"{t.year}{rng.randint(10000000, 99999999)}",
-        "location": f"{a.region} {a.dong}",
-        "sheet_no": f"{rng.randint(1, 3)}-{rng.randint(1, 2)}",
-        "processed_time": f"{rng.randint(9, 17):02d}시 {rng.randint(0, 59):02d}분 {rng.randint(0, 59):02d}초",
-        "jibun": a.jibun,
-        "scale": rng.choice(["수치", "1:1200", "1:600", "1:1000"]),
-        "issuer_name": rng.choice(["인터넷민원", "인터넷민원", "무인민원발급기"]),
-        "land": land_rows,
-        "owners": owners,
-        "grades": grades,
-        "zoning": f["zoning"],
-        "land_prices": prices,
-        "issue_date": D(t, rng.choice(["kor", "kor_short"])),
-        "issuer": district_office(a),
-    }
 
 
 # ---------------------------------------------------------------------------
@@ -942,250 +681,21 @@ def _open_specials(f: dict, d: date, who: str) -> list[str]:
     return out
 
 
-_EXTRA_SPECIALS = [
-    "잔금일 기준으로 관리비 및 제세공과금은 매도인이 정산한다.",
-    "매도인은 잔금일까지 임차인 없이 명도하기로 한다.",
-    "본 계약 이후 매도인은 추가 담보 설정이나 임대를 하지 않는다.",
-    "옵션(빌트인 가전 등)은 현 상태로 포함하여 매도한다.",
-    "누수 등 중대한 하자는 잔금일 이후 6개월 이내 매도인이 책임진다.",
-    "장기수선충당금은 매수인이 매도인에게 잔금일에 별도로 지급한다.",
-    "매수인의 대출이 금융기관 사정으로 부결될 경우 계약금은 반환하고 계약은 해제한다.",
-    "확장공사 부분 및 붙박이장, 시스템에어컨(거실·안방) 등은 매매대금에 포함한다.",
-    "매도인은 잔금일 전 매수인의 인테리어 공사를 위한 출입에 협조한다.",
-    "현관 도어락 비밀번호 및 공동현관 카드키 2개는 잔금일에 인계한다.",
-    "전입세대 열람 결과 매도인 세대 외 전입자가 있을 경우 매도인이 잔금일까지 전출시킨다.",
-    "주차장 지정 1대는 현 상태대로 승계한다.",
-    "매도인은 국세·지방세 완납증명서를 잔금일에 제시한다.",
-    "본 계약서에 명시되지 않은 사항은 민법 및 부동산 거래 관례에 따른다.",
-    "계약금 중 일부(금 일천만원정)는 가계약금으로 이미 수령하였음을 확인한다.",
-    "매수인은 잔금일 전 현장을 다시 확인할 수 있으며, 이때 발견된 하자는 쌍방 협의하여 처리한다.",
-    "베란다 결로·곰팡이 부분은 현 상태로 인정하고 매수한다.",
-    "매도인의 이사 일정상 잔금일은 쌍방 합의로 1주일 범위에서 조정할 수 있다.",
-]
-_HAND_SPECIALS = ["잔금일에 관리비 선수관리비 정산함.", "거실 에어컨 1대 두고 감.", "잔금일 오전 중 이사 완료 조건.",
-                  "중도금 없이 잔금 일시 지급.", "도배는 매수인이 진행함.", "보일러 점검 후 이상 시 매도인 수리."]
-
-
 # ---------------------------------------------------------------------------
 # 부동산(아파트) 매매계약서
 # ---------------------------------------------------------------------------
-
-@doc("sales_contract", "부동산 매매계약서", "real_estate")
-def sales_contract(p: Profile, rng: random.Random) -> dict:
-    """부동산(아파트) 매매계약서 (공인중개사 중개)."""
-    f = _facts(p)
-    a, pr, seller, hist = f["a"], f["pr"], f["pr"].seller, f["hist"]
-    dfmt = rng.choice(["kor", "kor_short"])
-    pay = {"price": _amount(f["price"]), "down": _amount(f["down"])}
-    if f["middle"]:
-        pay["middle"] = _amount(f["middle_amt"])
-        pay["middle_date"] = D(f["middle"], dfmt)
-    pay["balance"] = _amount(f["balance_amt"])
-    pay["balance_date"] = D(f["balance"], dfmt)
-    specials = ["현 시설물 상태의 계약이며, 매수인은 등기사항증명서 및 현장을 확인하고 계약함."]
-    specials += _open_specials(f, f["contract"], "매도인")
-    specials.append(f"매수인은 {p.bank} 주택담보대출로 잔금 일부를 지급할 예정이며, 매도인은 이에 협조한다.")
-    long_doc = heavy(rng, 0.25)  # 특약이 많아 여러 쪽이 되는 계약서
-    specials += rng.sample(_EXTRA_SPECIALS, rng.randint(9, 16) if long_doc else rng.randint(1, 2))
-    co_s, co_b = hist["co_seller"], hist["co_buyer"]
-    if co_s:
-        specials.append(f"본 부동산은 매도인 {seller.name}, {co_s.name}의 공유(각 2분의 1)이며, 공유자 전원이 계약한다.")
-    if co_b:
-        specials.append(f"매수인 {p.person.name}, {_eun(co_b.name)} 각 2분의 1 지분으로 공동 매수한다.")
-    out = {
-        "property": {
-            "location": a.road_full,
-            "land_category": "대",
-            "land_right": f"소유권대지권 {_area(f['land_total'])}분의 {_area(pr.land_area)}",
-            "land_area": f"{_area(pr.land_area)}㎡",
-            "structure": pr.structure,
-            "usage": f["usage_full"],
-            "building_area": f"{_area(pr.exclusive_area)}㎡",
-        },
-        "payment": pay,
-        "contract_date": D(f["contract"], dfmt),
-        "seller": _party(seller, f["seller_addr"]),
-        "buyer": _party(p.person, p.person.address.road_full),
-        "brokers": _brokers(rng, f),
-    }
-    if co_s:
-        out["co_seller"] = _party(co_s, f["seller_addr"])
-    if co_b:
-        out["co_buyer"] = _party(co_b, p.person.address.road_full)
-    if special(rng, "agent", 0.1):  # 매도인 대리 계약
-        ag = _agent(p, rng, seller)
-        out["seller_agent"] = {k: ag[k] for k in ("address", "rrn", "name")}
-        specials.append(f"매도인의 {ag['relation']} {_iga(ag['name'])} 매도인의 위임장 및 인감증명서를 지참하여 대리 계약하며, "
-                        "잔금일에 매도인 본인이 참석하여 확인한다.")
-    specials = [f"{i + 1}. {s}" for i, s in enumerate(specials)]
-    if special(rng, "hand_special", 0.12):  # 계약 현장에서 손으로 덧붙인 특약
-        specials.append(_Hand(f"{len(specials) + 1}. {rng.choice(_HAND_SPECIALS)}"))
-    out["specials"] = specials
-    return out
 
 
 # ---------------------------------------------------------------------------
 # 주택임대차표준계약서 (전세)
 # ---------------------------------------------------------------------------
 
-_LEASE_EXTRA = ["반려동물 사육은 임대인의 동의를 받아야 한다.", "벽걸이TV, 못 자국 등 경미한 훼손은 원상복구 대상에서 제외한다.",
-                "관리비는 실사용 기준으로 임차인이 부담한다.", "도배·장판은 잔금일 전까지 임대인이 교체하여 준다.",
-                "임대인은 임차인의 전세보증금반환보증 가입에 협조한다.", "임대인은 잔금일까지 국세·지방세 완납증명서를 임차인에게 제시한다.",
-                "계약기간 중 임대인이 주택을 매도하는 경우 임대인은 매수인에게 본 계약의 승계를 고지한다.",
-                "보일러·수전 등 노후로 인한 고장은 임대인이 수리하고, 임차인 과실로 인한 고장은 임차인이 부담한다.",
-                "임차인은 입주 전 시설 상태를 사진으로 촬영하여 임대인과 공유한다.",
-                "계약 만료 2개월 전까지 쌍방 의사표시가 없으면 동일 조건으로 갱신된 것으로 본다.",
-                "흡연은 세대 내 및 베란다에서 금지한다.", "현관 도어락 비밀번호는 입주일에 변경한다.",
-                "임대인은 보증금 반환 시 관리비 정산금을 공제할 수 있다.", "에어컨 실외기 설치 위치는 관리사무소 규정을 따른다.",
-                "임차인은 전입신고 및 확정일자를 잔금일 당일에 받기로 한다."]
-
-
-@doc("lease_contract", "주택임대차표준계약서", "real_estate")
-def lease_contract(p: Profile, rng: random.Random) -> dict:
-    """주택임대차표준계약서 (전세). 임대인 = 기존 소유자(seller), 임차인 = 본인."""
-    f = _facts(p)
-    a, pr, lord, hist = f["a"], f["pr"], f["pr"].seller, f["hist"]
-    r = random.Random(f"lease:{p.seed}")
-    cdate = p.issue_date - timedelta(days=r.randint(3, 25))
-    start = cdate + timedelta(days=r.randint(20, 60))
-    end = date(start.year + 2, start.month, start.day if not (start.month == 2 and start.day == 29) else 28) - timedelta(days=1)
-    dep = pr.lease_deposit
-    down = K.round_to(dep * rng.choice([0.05, 0.1, 0.1]), 1_000_000)
-    dfmt = rng.choice(["kor", "kor_short"])
-    stamp_d = cdate + timedelta(days=rng.randint(0, 5))
-    mort_d = start + timedelta(days=2)
-    specials = [
-        f"주택을 인도받은 임차인은 {D(start, 'kor_short')}까지 주민등록(전입신고)과 주택임대차계약서상 확정일자를 받기로 하고, "
-        f"임대인은 {D(mort_d, 'kor_short')}(최소한 임차인의 위 약정일자 이틀 후부터 가능)에 저당권 등 담보권을 설정할 수 있다.",
-        "임대인이 위 특약에 위반하여 임차주택에 저당권 등 담보권을 설정한 경우에는 임차인은 임대차계약을 해제 또는 해지할 수 있다.",
-        f"임차인은 {p.bank} 전세자금대출을 신청할 예정이며, 임대인은 이에 협조한다. "
-        "임차인의 귀책사유 없이 대출이 불가한 경우 본 계약은 무효로 하고 임대인은 계약금을 즉시 반환한다.",
-    ]
-    if rng.random() < 0.6:  # 2023 개정 표준계약서 권고 특약
-        specials.insert(2, "임대차계약 체결 이후 임대인이 사전에 고지하지 않은 선순위 임대차 정보나 미납·체납한 국세·지방세가 "
-                           "확인되는 경우, 임차인은 위약금 없이 임대차계약을 해제할 수 있다.")
-    if not f["transferred"]:
-        specials += [s.replace("잔금 지급일까지", "잔금일까지").replace(", 잔금으로 상환할 수 있다", "")
-                     .replace("매수인은 계약을 해제하고", "임차인은 계약을 해제하고") for s in _open_specials(f, cdate, "임대인")]
-    long_doc = heavy(rng, 0.2)
-    specials += rng.sample(_LEASE_EXTRA, rng.randint(8, 13) if long_doc else int(rng.random() < 0.3))
-    co_l = hist["co_seller"] if not f["transferred"] else None
-    out = {
-        "landlord_name": lord.name + (f", {co_l.name}" if co_l else ""), "tenant_name": p.person.name,
-        "house": {
-            "location": a.road_full,
-            "land_category": "대",
-            "land_area": f"{_area(f['land_total'])}㎡",
-            "structure_usage": f"{pr.structure} / {f['usage_full']}",
-            "building_area": f"{_area(pr.exclusive_area)}㎡",
-            "lease_part": f"전부 ({_area(pr.exclusive_area)}㎡)",
-        },
-        "contract_type": rng.choice(["신규 계약", "신규 계약", "신규 계약", "합의에 의한 재계약"]),
-        "management_fee": rng.choice(["세대별 사용량 및 관리규약에 따른 부과액(공용관리비 면적 비례)", "관리사무소 부과 고지서 기준 실비",
-                                      "관리규약에 따라 관리주체가 부과하는 금액"]),
-        "tax_arrears": "없음",
-        "prior_fixed_date": "해당 없음",
-        "deposit": _amount(dep),
-        "down_payment": _amount(down),
-        "balance": _amount(dep - down),
-        "balance_date": D(start, dfmt),
-        "handover_date": D(start, dfmt),
-        "end_date": D(end, dfmt),
-        "fixed_date": {"date": D(stamp_d, "dot"), "no": f"{stamp_d.year}-{rng.randint(100, 9999)}",
-                       "office": community_center(a).removesuffix("장") + "행정복지센터"},
-        "contract_date": D(cdate, dfmt),
-        "landlord": _party(lord, f["seller_addr"]),
-        "tenant": _party(p.person, p.person.address.road_full),
-        "brokers": _brokers(rng, f),
-    }
-    if co_l:
-        out["co_landlord"] = _party(co_l, f["seller_addr"])
-        specials.append(f"본 주택은 임대인 {lord.name}, {co_l.name}의 공유이며, 보증금 반환 의무는 공유자 전원이 연대하여 부담한다.")
-    if special(rng, "agent", 0.12):  # 임대인 대리 계약 (해외 거주·고령 등)
-        ag = _agent(p, rng, lord)
-        out["landlord_agent"] = {k: ag[k] for k in ("address", "rrn", "name")}
-        specials.append(f"임대인의 {ag['relation']} {_iga(ag['name'])} 임대인의 위임장 및 인감증명서를 지참하여 대리 계약하며, "
-                        "보증금은 임대인 명의 계좌로만 입금한다.")
-    specials = [f"{i + 1}. {s}" for i, s in enumerate(specials)]
-    if special(rng, "hand_special", 0.12):
-        specials.append(_Hand(f"{len(specials) + 1}. " + rng.choice(["입주청소 후 입주.", "잔금일 오전 중 열쇠 인계.",
-                                                                  "현관 센서등 교체해 줌.", "주차 1대 등록 가능."])))
-    out["specials"] = specials
-    return out
-
 
 # ---------------------------------------------------------------------------
 # 전입세대확인서
 # ---------------------------------------------------------------------------
 
-@doc("move_in_household_list", "전입세대확인서", "real_estate")
-def move_in_household_list(p: Profile, rng: random.Random) -> dict:
-    """전입세대확인서(열람). 해당 주소에 전입신고된 세대주 목록.
 
-    다세대·오피스텔을 건물 전체(동·호 없이)로 열람하면 여러 세대가 나오고, 많으면 여러 쪽이 된다."""
-    f = _facts(p)
-    a, pr, seller = f["a"], f["pr"], f["pr"].seller
-    rows = []
-    if f["transferred"]:
-        heads = [(p.person.name, f["balance"] + timedelta(days=rng.randint(0, 14)))]
-    elif f["seller_resident"]:
-        heads = [(seller.name, f["seller_acq"] + timedelta(days=rng.randint(0, 30)))]
-        if rng.random() < 0.15:
-            heads.append((_rand_person(rng), heads[0][1] + timedelta(days=rng.randint(200, 2000))))
-    else:
-        heads = [(_rand_person(rng), p.issue_date - timedelta(days=rng.randint(200, 1400)))]
-    long_doc = heavy(rng, 0.2)
-    multi = pr.kind != "아파트" and (long_doc or special(rng, "multi_household", 0.15))
-    cohab_case = special(rng, "cohabitant", 0.12)
-    unknown = special(rng, "unknown_resident", 0.05)  # 거주불명자 등록 세대
-    units = [(f["ho"], nm, d) for nm, d in heads]
-    if multi:  # 같은 건물 다른 호실 세대
-        n = rng.randint(14, 28) if long_doc else rng.randint(4, 9)
-        per_floor = max(2, f["units_per_floor"])
-        floors = max(2, f["total_floors"])
-        cand = [f"{fl}{i:02d}" for fl in range(1, floors + 1) for i in range(1, per_floor + 1)]
-        if pr.kind == "다세대주택" and rng.random() < 0.5:
-            cand += [f"B{i:02d}" for i in range(1, per_floor + 1)]
-        cand = [c for c in cand if c != f["ho"]]
-        for ho in rng.sample(cand, min(n, len(cand))):
-            units.append((ho, _rand_person(rng), p.issue_date - timedelta(days=rng.randint(10, 3600))))
-            if rng.random() < 0.1:  # 한 호실에 세대가 둘
-                units.append((ho, _rand_person(rng), p.issue_date - timedelta(days=rng.randint(10, 2000))))
-        units.sort(key=lambda u: (not u[0].startswith("B"), int(u[0].lstrip("B")), u[2]))
-    cohab = []
-    for i, (ho, nm, d) in enumerate(units):
-        first_same = rng.random() < 0.75
-        first_nm, first_d = (nm, d) if first_same else (_rand_person(rng), d - timedelta(days=rng.randint(0, 3)))
-        n_co = 1 if rng.random() < 0.15 else 0  # 주민등록표상 동거인(세대원 아님)은 드묾
-        if cohab_case and ho == f["ho"] and i == next(j for j, u in enumerate(units) if u[0] == f["ho"]):
-            n_co = rng.randint(1, 2)
-        reg = "거주불명자" if unknown and i == len(units) - 1 and len(units) > 1 else "거주자"
-        row = {"no": str(i + 1), "head_name": _mask_name(nm), "move_in_date": D(min(d, p.issue_date), "dash"),
-               "reg_type": reg, "first_name": _mask_name(first_nm), "first_date": D(min(first_d, p.issue_date), "dash"),
-               "first_reg_type": reg, "cohabitants": str(n_co)}
-        if multi:
-            row = {"no": row["no"], "unit": f"{ho}호", **{k: v for k, v in row.items() if k != "no"}}
-        rows.append(row)
-        for _ in range(n_co):
-            cd = min(d + timedelta(days=rng.randint(30, 900)), p.issue_date)
-            cohab.append({"no": str(len(cohab) + 1), "name": _mask_name(_rand_person(rng)), "move_in_date": D(cd, "dash"),
-                          "reg_type": "거주자"})
-    purpose = rng.choice(["금융기관 대출(주택담보대출)", "금융기관 제출", "전세자금대출 신청", "임대차계약 체결"])
-    jibun = f"{a.jibun_full} " + (f"{f['dong_no']}동 " if f["dong_no"] else "") + f"{f['ho']}호"
-    road = a.road_full
-    if multi:  # 건물 전체 열람: 동·호 없이
-        jibun = a.jibun_full
-        road = f"{a.region} {a.road} {a.building_no} ({a.dong}" + (f", {a.building_name})" if a.building_name else ")")
-    return {
-        "issue_no": issue_no(rng, 16),
-        "issue_date": D(p.issue_date, "dot"),
-        "address": road,
-        "jibun_address": jibun,
-        "households": rows,
-        **({"cohabitants": cohab} if cohab else {}),
-        "kind": rng.choice(["열람", "교부", "교부"]),
-        "applicant": {"name": p.person.name, "rrn": K.mask_rrn(p.person.rrn), "address": p.person.address.road_full,
-                      "purpose": purpose},
-        "view_date": D(p.issue_date, "kor"),
-        "issuer": community_center(a),
-    }
+# 이 그룹의 코드 서식. 값 만드는 함수는 서식 폴더 docgen/forms/<ID>/generate.py 에 있다 (여기는 같이 쓰는 도우미).
+FORMS = ('real_estate_registry', 'building_register', 'land_register', 'sales_contract', 'lease_contract', 'move_in_household_list',)
+register_folder_forms(__name__, FORMS)   # 예전 @doc 차례 그대로 등록 (서식 목록·데이터셋 순서)

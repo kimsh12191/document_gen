@@ -7,6 +7,7 @@ API
   GET  /api/groups                    서식 그룹
   GET  /api/forms                     서식 목록
   GET  /api/forms/{id}                서식 상세 (키 목록, 파일, 시나리오, 검수·배정·문제 표시)
+  GET/POST /api/forms/{id}/card       서식 카드 FORM.md 보기 / 다시 만들기 (docgen/formcard.py)
   POST /api/forms/{id}/render         미리보기 {seed, heavy, special, condition, force, draft?, extra?} → 라벨 + 이미지 주소
   POST /api/forms/{id}/questions      ① 문항 Q/A: 그 미리보기로 실제 생성기(Builder.single)가 만드는 문항 (studio/questions.py)
   GET  /api/question-formats          과제별 공통 질문·answer 형식 (docgen.bench.contracts)
@@ -19,7 +20,7 @@ API
   POST /api/forms/{id}/review         검수 완료 {done}
   POST /api/forms/{id}/meta           학습/평가 배정·메모 {split, note}
   POST /api/forms/{id}/issues         문제 표시 추가 · PATCH /api/forms/{id}/issues/{iid} 상태·메모·삭제
-  GET  /api/keys                      표준 키 사전 (docgen/keys.json)
+  GET  /api/keys                      표준 키 사전 (docgen/forms/_common/keys.json)
   GET  /api/sources                   값 출처 목록 (프로필 경로와 예시, 규칙)
   GET  /api/marks                     표시 요소 설정·풀 · PUT /api/marks/settings · PUT /api/marks/pools/{풀}
   POST /api/marks/pools/{풀}/upload   풀 이미지 올리기 · POST /api/marks/pools/{풀}/font 글꼴 · POST /api/marks/seal-template
@@ -210,6 +211,18 @@ def guide_form(doc_id: str):
 @app.get("/api/forms")
 def forms():
     return catalog.list_forms()
+
+
+@app.get("/api/forms/{doc_id}/card")
+def form_card(doc_id: str):
+    """서식 카드 FORM.md: 이 서식의 항목·위치·정의한 곳·질문→답 예시·고치는 곳 (docgen/formcard.py)."""
+    return guard(catalog.card, doc_id)
+
+
+@app.post("/api/forms/{doc_id}/card")
+def form_card_make(doc_id: str):
+    """카드 다시 만들기 (python -m docgen.formdir card <ID>)."""
+    return guard(catalog.make_card, doc_id)
 
 
 @app.post("/api/forms/refresh")
@@ -471,12 +484,12 @@ def patch_issue(doc_id: str, issue_id: str, req: IssuePatch):
 
 @lru_cache(maxsize=2)
 def _keys(mtime: float) -> dict:
-    return json.loads((ROOT / "docgen" / "keys.json").read_text(encoding="utf-8"))
+    return json.loads((ROOT / "docgen" / "forms" / "_common" / "keys.json").read_text(encoding="utf-8"))
 
 
 @app.get("/api/keys")
 def keys():
-    p = ROOT / "docgen" / "keys.json"
+    p = ROOT / "docgen" / "forms" / "_common" / "keys.json"
     if not p.exists():
         return {"keys": [], "duplicates": [], "synonyms": {}, "missing": True}
     return _keys(p.stat().st_mtime)

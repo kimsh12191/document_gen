@@ -146,13 +146,13 @@ def create_job(ws: Path, cfg: dict, kind: str, provider: str, images: list[str],
         refs = {"TEMPLATE_GUIDE.md": ROOT / "docgen" / "manual" / "TEMPLATE_GUIDE.md",
                 "example_simple.html.j2": formdir.template("employment_certificate"),
                 "example_rows.html.j2": formdir.template("bank_statement"),
-                "_macros.html.j2": ROOT / "docgen" / "templates" / "_macros.html.j2",
-                "keys.json": ROOT / "docgen" / "keys.json"}
+                "_macros.html.j2": ROOT / "docgen" / "forms" / "_common" / "templates" / "_macros.html.j2",
+                "keys.json": ROOT / "docgen" / "forms" / "_common" / "keys.json"}
     else:
         for k, im in enumerate(images):
             shutil.copyfile(im, d / "input" / f"page_{k}.png")
             sent.append(f"input/page_{k}.png")
-        refs = {"keys.json": ROOT / "docgen" / "keys.json"}
+        refs = {"keys.json": ROOT / "docgen" / "forms" / "_common" / "keys.json"}
         if target.get("texts"):   # 견본 그림 속 인쇄 글자 (가져온 이미지 서식의 OCR) — 항목명 찾기를 돕는다
             _write(d / "input" / "ocr_words.json", target["texts"])
             sent.append("input/ocr_words.json")

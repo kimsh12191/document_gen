@@ -118,9 +118,9 @@ OCR 종류는 모든 쪽의 `ocr/*.json`과 **`meta.json`의 `ocr_scope: "full_p
 | 영역·키·항목명·값 출처·배경 지우기 (overlay·html 공통) | 서식 폴더의 칸 목록 `docgen/forms/<ID>/fields.json` (실서류에서 만든 서식은 `private_forms_dir/<ID>/fields.json`). 서식 파일 전부 `python -m docgen.formdir path <ID>` | `docgen/formfields.py` → overlay `docgen/overrides.py`·`realform.py`, html `docgen/html_regions.py`·`htmlform.py` |
 | 가져온 서식 (공개 서식 묶음) | `docgen/forms/img_*/` (`layout.json`, `look/page_<n>.png`) — 실서류 묶음에서 만든 것은 `private_forms_dir/img_*/` (저장소 밖) | `docgen/realform.py` `register_images` |
 | 검수·배정·메모·문제 표시 | `docgen/catalog.json` | `docgen/bench/build.py` (학습 데이터에서 평가 전용 서식 빼기) |
-| 표시 요소 확률 | `docgen/marks.json` | `docgen/marks.py` |
+| 표시 요소 확률 | `docgen/forms/_common/marks.json` | `docgen/marks.py` |
 | 표시 요소 풀 | `docgen/assets/marks/pools.json`, `docgen/assets/marks/<풀>/` | `docgen/marks.py` → `realform.py`·`render.py` |
-| 표준 키 사전 (자동 생성) | `docgen/keys.json` (`python docgen/scripts/build_keys.py`) | studio 의 키 고르기 |
+| 표준 키 사전 (자동 생성) | `docgen/forms/_common/keys.json` (`python docgen/scripts/build_keys.py`) | studio 의 키 고르기 |
 
 저장소 밖에 두는 것: 가져온 묶음(`<workspace>/imports/<묶음>/`: `batch.json`, `pages.jsonl`, `formats.json`, 썸네일), OCR 캐시(설정 `ocr.cache_dir`, 기본 `studio_cache/ocr`), OCR 검수본(`real_data_dir/ocr_reviewed/`, 설정이 없으면 `<workspace>/real_data/` 에 두고 화면에 경고).
 

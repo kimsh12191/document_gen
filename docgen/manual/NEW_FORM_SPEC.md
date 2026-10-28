@@ -50,7 +50,7 @@ Jinja2 + HTML 입니다. 쪽은 **A4 세로 794 × 1123 px** 입니다.
 {% endblock %}
 ```
 
-- 첫 두 줄은 바꾸지 않습니다. 공통 틀(`docgen/templates/_base.html.j2`)이 글꼴·쪽 크기·쪽 나눔을 맡습니다.
+- 첫 두 줄은 바꾸지 않습니다. 공통 틀(`docgen/forms/_common/templates/_base.html.j2`)이 글꼴·쪽 크기·쪽 나눔을 맡습니다.
 - 내용이 한 쪽을 넘으면 **자동으로 다음 쪽으로 나뉩니다** (반복 표는 머리글이 다음 쪽에 다시 나옴). 쪽을 직접 나누지 않습니다.
 
 ### 값 자리: 반드시 이 문법으로
@@ -89,7 +89,7 @@ Jinja2 + HTML 입니다. 쪽은 **A4 세로 794 × 1123 px** 입니다.
 - 합친 칸은 `colspan`·`rowspan`. 덩어리 사이 간격은 margin px.
 - 쓸 수 있는 공통 클래스: `right` `center` `bold` `small` `tiny` `muted` `num`(숫자 오른쪽 정렬) `c`(가운데) `mt` `mb` `box` `note`, 표 `table.compact` `table.plain`.
 - 그 밖의 매크로: `m.title(제목)`, `m.kv([[라벨, 키], …], cols=2)`, `m.issuer(날짜키, org_text="…", seal_text="…")`, `m.doc_no(키)`.
-  전체 목록은 `docgen/templates/_macros.html.j2`, 설명은 [TEMPLATE_GUIDE.md 2절](TEMPLATE_GUIDE.md#2-템플릿).
+  전체 목록은 `docgen/forms/_common/templates/_macros.html.j2`, 설명은 [TEMPLATE_GUIDE.md 2절](TEMPLATE_GUIDE.md#2-템플릿).
 
 ### 넣지 않는 것
 
@@ -149,8 +149,8 @@ Jinja2 + HTML 입니다. 쪽은 **A4 세로 794 × 1123 px** 입니다.
 키는 학습 데이터의 정답 키가 됩니다. 사람마다 다르게 지으면 학습 데이터가 흩어지므로 가장 신경 쓸 곳입니다.
 
 - 영어 소문자·숫자·밑줄, 점으로 나눈 경로: `applicant.name`, `account.number`, `rows.0.date`.
-- **이미 있는 키를 먼저 씁니다.** 키 사전: `docgen/dictionary/common.json`(공통 키), `docgen/keys.json`(서식들이 쓰는 키),
-  `docgen/dictionary/parties.json`(누구: 신청인·대리인·임대인 …). "누구의 무엇"으로 짓습니다: `agent.name`, `lessor.address`.
+- **이미 있는 키를 먼저 씁니다.** 키 사전: `docgen/forms/_common/dictionary/common.json`(공통 키), `docgen/forms/_common/keys.json`(서식들이 쓰는 키),
+  `docgen/forms/_common/dictionary/parties.json`(누구: 신청인·대리인·임대인 …). "누구의 무엇"으로 짓습니다: `agent.name`, `lessor.address`.
 - 한 키가 다른 키의 앞부분이면 안 됩니다: `account` 와 `account.number` 를 함께 쓸 수 없음.
 - 반복 표 하위 키는 행 안의 이름만 (`date`, `out`). 템플릿에서는 `rows.<번호>.date` 로 씁니다.
 - 도장·서명 키는 `seal.`·`sign.` 으로 시작: `seal.bank`, `sign.applicant`.
@@ -365,15 +365,10 @@ B 꼴로 옮긴 뒤 `docgen.preview <ID>`, `docgen.regions check <ID>` 도 통�
 
 ---
 
-## 10. 질문·답 `questions.json` (선택)
+## 10. 질문·답 `questions.json` (선택) · 서식 카드 `FORM.md`
 
-이 서식의 **질문 문장·답 꼴**, **무엇을 어떤 항목명으로 묻는지**, **이 서식에만 있는 질문**을 적는 파일입니다. 자세한 설명은 [guide/qa.md](../../guide/qa.md).
-모델이 만들지 않아도 됩니다 — 등록 뒤 지금 규칙 그대로 만들고 사람이 고칩니다:
-
-```bash
-python -m docgen.formdir questions <ID> --write     # 만들기 (있으면 새 칸만 더함)
-python -m docgen.formdir questions <ID> --check     # 칸과 맞는지
-```
+**`questions.json` 은 기본과 다르게 할 것만 적는 파일입니다.** 없으면 모두 기본(공통 질문 문장 `docgen/forms/_common/questions.json`, 항목명은
+칸의 항목명)으로 묻습니다. 대부분의 서식은 이 파일이 없습니다. 자세한 설명은 [guide/qa.md](../../guide/qa.md).
 
 모델에게 서식 전용 질문까지 맡길 때만 초안 폴더에 `questions.json` 을 넣습니다. 그때는 `extra` 만 적으면 됩니다:
 
@@ -388,5 +383,10 @@ python -m docgen.formdir questions <ID> --check     # 칸과 맞는지
 - `id`: 영문·숫자·`_.-`. `type`: `number`(칸 값을 숫자로) / `yesno`(`when` 칸에 값이 있으면 예) / `text`(`{키}` 를 채운 글).
 - `{키}`·`when` 은 칸 목록에 있는 키만. 답 꼴(숫자만, 예/아니오)을 질문 문장에 적습니다.
 - 정답 **값**은 적지 않습니다 — 문서를 그릴 때마다 그 칸 값으로 정해집니다.
-- 그 뒤 `--write` 를 하면 질문 문장(공통 문장)·답 꼴·kie·marks 목록이 더해집니다 (적은 `extra` 는 그대로).
 
+**등록한 뒤** 서식 카드를 만듭니다. 카드는 항목·위치·정한 곳·실제 질문→답을 적은 읽는 문서입니다 (자동 생성, 직접 고치지 않음):
+
+```bash
+python -m docgen.formdir card <ID>                  # docgen/forms/<ID>/FORM.md
+python -m docgen.formdir questions <ID> --check     # questions.json 이 있으면: 칸과 맞는지
+```

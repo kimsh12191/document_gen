@@ -63,7 +63,8 @@ ssh -N -L 8765:localhost:8765 <계정>@<서버IP>
 | 학습 설정 만들기 | ⑥ › 학습 탭 → `train/configs/studio-<이름>.json` ([training.md](training.md)) |
 | OCR 8과제 예시 (데이터셋 없이) | **OCR 예시** 메뉴 |
 | 서식별 추출 항목·연결 업무 | ① 서식 › 추출·시나리오, 사용 가이드 › 카탈로그 ([catalog.md](catalog.md)) |
-| 실제로 나오는 질문·정답, 이 서식의 질문 파일 `questions.json` | ① 서식 › 문항 Q/A ([questions.md](questions.md), 고치기 [qa.md](qa.md)) |
+| 서식 하나 한눈에: 항목·위치·정한 곳·질문→답 예시·고치는 곳 | ① 서식 › **카드** (서식 폴더의 `FORM.md`, [다시 만들기]) — [forms.md](forms.md) |
+| 실제로 나오는 질문·정답, 이 서식에서 바꾼 질문 `questions.json` | ① 서식 › 문항 Q/A ([questions.md](questions.md), 고치기 [qa.md](qa.md)) |
 
 채점은 학습 보고서와 같은 함수(`docgen.bench.evaluate`)라 점수가 같습니다. 평가 세트에 채점 함수(`scorer`)를 붙인 경우는 학습 보고서 쪽 점수를 봅니다.
 

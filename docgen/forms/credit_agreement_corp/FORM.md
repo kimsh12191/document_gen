@@ -1,0 +1,288 @@
+# 여신거래약정서(기업용) (`credit_agreement_corp`)
+
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card credit_agreement_corp · card-hash: c80a6308b245 -->
+
+- **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
+- **그룹:** bank_form · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 여신거래약정서(기업용)
+- **쓰이는 업무:** 법인 여신
+- **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
+
+> 기업 여신거래약정서 첫 페이지.
+
+## 파일
+
+| 파일 | 정하는 것 |
+|---|---|
+| `look/template.html.j2` | 모양·칸 자리 (`{{ f("키", label="항목명") }}`) |
+| `fields.json` | 칸 목록·값 출처 |
+| `generate.py` | 값 만들기 (코드 서식: 값 전부 / html 서식: adjust 로 칸끼리 관계) |
+| `docgen/docs/bank_form_loan.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+
+## 추출 항목 (정보 추출 kie) — 37칸
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
+|---|---|---|---|---|---|---|---|
+| `bank` | 은행명 | text | 1쪽 [88, 41, 186, 64] | 늘 | generate.py | - | 묻기 |
+| `creditor` | 채권자 | text | 1쪽 [60, 131, 186, 143] | 늘 | generate.py | look/template.html.j2:20 | 묻기 |
+| `branch` | 취급점 | text | 1쪽 [269, 132, 328, 143] | 늘 | generate.py | look/template.html.j2:20 | 묻기 |
+| `customer.name` ← `debtor.name` | 상호(법인명) | text | 1쪽 [200, 222, 302, 234] | 늘 | generate.py | look/template.html.j2:26 | 묻기 |
+| `customer.biz_no` ← `debtor.biz_no` | 사업자등록번호 | biz_no | 1쪽 [200, 242, 287, 255] | 늘 | generate.py | look/template.html.j2:27 | 묻기 |
+| `customer.corp_reg_no` ← `debtor.corp_reg_no` | 법인등록번호 | corp_reg_no | 1쪽 [610, 242, 713, 255] | 늘 | generate.py | - | 묻기 |
+| `customer.ceo` ← `debtor.ceo` | 대표이사 | text | 1쪽 [200, 263, 261, 276] | 늘 | generate.py | look/template.html.j2:28 | 묻기 |
+| `customer.phone` ← `debtor.phone` | 전화번호 | phone | 1쪽 [610, 263, 696, 276] | 늘 | generate.py | look/template.html.j2:28 | 묻기 |
+| `customer.address` ← `debtor.address` | 본점소재지 | text | 1쪽 [200, 284, 634, 297] | 늘 | generate.py | look/template.html.j2:29 | 묻기 |
+| `loan.subject` | 여신과목 | text | 1쪽 [200, 327, 292, 340] | 늘 | generate.py | look/template.html.j2:35 | 묻기 |
+| `loan.product` | 상품명 | text | 1쪽 [684, 327, 806, 340] | 늘 | generate.py | look/template.html.j2:35 | 묻기 |
+| `loan.account_no` | 여신계좌번호 | account_no | 1쪽 [684, 348, 791, 361] | 늘 | generate.py | look/template.html.j2:36 | 묻기 |
+| `loan.amount_korean` | 여신(한도)금액(한글) | amount_korean | 1쪽 [200, 369, 311, 381] | 늘 | generate.py | look/template.html.j2:37 | 묻기 |
+| `loan.amount` | 여신(한도)금액 | amount | 1쪽 [323, 369, 426, 381] | 늘 | generate.py | look/template.html.j2:37 | 묻기 |
+| `loan.start_date` | 여신개시일 | date | 1쪽 [200, 390, 271, 402] | 늘 | generate.py | look/template.html.j2:38 | 묻기 |
+| `loan.maturity` | 여신기간만료일 | date | 1쪽 [684, 390, 755, 402] | 늘 | generate.py | look/template.html.j2:38 | 묻기 |
+| `loan.purpose` | 자금용도 | text | 1쪽 [200, 410, 295, 423] | 늘 | generate.py | look/template.html.j2:39 | 묻기 |
+| `loan.base_rate_name` | 기준금리종류 | text | 1쪽 [450, 454, 598, 466] | 늘 | generate.py | look/template.html.j2:45 | 묻기 |
+| `loan.base_rate` | 기준금리 | percent | 1쪽 [146, 496, 187, 508] | 늘 | generate.py | look/template.html.j2:48 | 묻기 |
+| `loan.spread` | 가산금리 | percent | 1쪽 [338, 496, 379, 508] | 늘 | generate.py | look/template.html.j2:48 | 묻기 |
+| `loan.pref_rate` | 우대금리 | percent | 1쪽 [562, 496, 603, 508] | 늘 | generate.py | look/template.html.j2:48 | 묻기 |
+| `loan.applied_rate` | 여신이자율 | percent | 1쪽 [798, 496, 861, 508] | 늘 | generate.py | look/template.html.j2:48 | 묻기 |
+| `loan.rate_reset` | 금리변동주기 | text | 1쪽 [200, 517, 238, 530] | 늘 | generate.py | look/template.html.j2:50 | 묻기 |
+| `loan.interest_pay` | 이자지급시기 | text | 1쪽 [573, 517, 637, 530] | 늘 | generate.py | look/template.html.j2:50 | 묻기 |
+| `loan.interest_calc` | 이자계산방법 | text | 1쪽 [200, 538, 523, 550] | 늘 | generate.py | look/template.html.j2:51 | 묻기 |
+| `loan.repayment` | 상환방법 | text | 1쪽 [200, 581, 429, 594] | 늘 | generate.py | look/template.html.j2:57 | 묻기 |
+| `loan.debit_account` | 자동이체계좌 | account_no | 1쪽 [200, 602, 372, 614] | 늘 | generate.py | look/template.html.j2:58 | 묻기 |
+| `loan.prepay_fee` | 중도상환해약금 | text | 1쪽 [71, 640, 526, 652] | 늘 | generate.py | look/template.html.j2:61 | 묻기 |
+| `loan.late_rate` | 지연배상금률 | text | 1쪽 [494, 688, 921, 700] | 늘 | generate.py | look/template.html.j2:63 | 묻기 |
+| `stamp_tax` | 인지세 | text | 1쪽 [159, 750, 435, 762] | 늘 | generate.py | look/template.html.j2:65 | 묻기 |
+| `contract_date` | 약정일 | date | 1쪽 [76, 826, 182, 839] | 늘 | generate.py | look/template.html.j2:76 | 묻기 |
+| `signature` | 대표이사 | text | 1쪽 [787, 837, 861, 851] | 늘 | generate.py | look/template.html.j2:11 | 묻기 |
+| `special_terms.*` | 특약사항 | - | - (1행) | 3/16 | generate.py | - | 묻기 |
+| `guarantors.*.name` | 연대보증인 | - | - (1행) | 1/16 | generate.py | look/template.html.j2:89 | 묻기 |
+| `guarantors.*.rrn` | 실명번호 | - | - (1행) | 1/16 | generate.py | look/template.html.j2:89 | 묻기 |
+| `guarantors.*.address` | 주소 | - | - (1행) | 1/16 | generate.py | look/template.html.j2:89 | 묻기 |
+| `guarantors.*.relation` | 채무자와의관계 | - | - (1행) | 1/16 | generate.py | look/template.html.j2:89 | 묻기 |
+
+## 체크·도장·서명 (marks) — 6칸
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
+|---|---|---|---|---|---|---|---|
+| `loan.method` | 거래방법 | checkbox (개별거래 / 한도거래) | 1쪽 [213, 348, 274, 361] | 늘 | generate.py | look/template.html.j2:36 | 묻기 |
+| `loan.rate_type` | 금리종류 | checkbox (고정금리 / 변동금리) | 1쪽 [300, 454, 361, 466] | 늘 | generate.py | look/template.html.j2:45 | 묻기 |
+| `explained` | 설명이해확인 | checkbox (예 / 아니오) | 1쪽 [183, 786, 197, 797] | 늘 | generate.py | look/template.html.j2:72 | 묻기 |
+| `seal.corp` | 법인인감 | seal | 1쪽 [858, 813, 949, 877] | 늘 | generate.py | - | 묻기 |
+| `seal.related` ← `seal.guarantor` | 보증인 | 도장 | - | 1/16 | generate.py | - | 묻기 |
+| `seal.guarantor2` | 보증인 | 도장 | - | 1/16 | generate.py | - | 묻기 |
+
+- **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
+- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함). **정한 곳:** 템플릿에서 그 칸 자리 (html·코드 서식) / 칸 목록의 그 칸 (원본 서식).
+
+## 질문 → 답 (seed 1000000 로 그린 실제 문항)
+
+질문은 모델에게 가는 글 전부, 답은 데이터의 정답 (그린 문서의 값·위치). 질문 문장·답 꼴은 공통 `docgen/forms/_common/questions.json`.
+
+### 서류 분류 `classify` · 채점 acc
+
+질문:
+
+```
+이 문서는 고객이 은행에 제출한 서류입니다. 서류의 정식 명칭(서류명)을 답하세요. 설명 없이 서류명만 한 줄로 답하세요.
+```
+
+답:
+
+```json
+"여신거래약정서(기업용)"
+```
+
+### 전체 받아쓰기 `ocr_page` · 채점 recall
+
+질문:
+
+```
+이 문서 이미지에 보이는 모든 글자를 빠짐없이 읽어 텍스트로 옮기세요. 위에서 아래, 왼쪽에서 오른쪽 순서로 쓰고, 표는 한 행을 한 줄로 쓰세요. 설명 없이 읽은 글자만 출력하세요.
+```
+
+답:
+
+```json
+[
+ "국민은행",
+ "주식회사 국민은행",
+ "센텀지점",
+ "(주)미래케미칼",
+ "702-81-38348",
+ "200112-7951835",
+ "남궁예태",
+ "064-756-8800",
+ "제주특별자치도 제주시 첨단로 381-19, 2층 (이도2동, 대성프라자)",
+ "시설자금대출",
+ "기업시설자금대출",
+ "713-61-4840-673",
+ "금 이십일억원整",
+ "2,100,000,000원",
+ "2025-04-14",
+ "2035-04-14",
+ "공장 신축자금",
+ "시장금리(MOR) 6개월",
+ "3.10%",
+ "2.98%",
+ "0.00%",
+ "연 6.08%",
+ "6개월",
+ "매월 15일",
+ "1년을 365일(윤년 366일)로 보고 1일 단위로 계산",
+ "2년 거치 후 8년 원금균등분할상환",
+ "국민은행 129-04-3353-660",
+ "중도상환금액 × 0.70% × 잔존일수 ÷ 대출기간일수 (3년 경과 시 면제)",
+ "대출이자율 + 연체가산이자율 연 3% (현재 연 9.08%, 최고 연 15%)",
+ "350,000원 (고객 175,000원 / 은행 175,000원)",
+ "2025년 4월 14일"
+]
+```
+
+### 값 칸 읽기 `ocr_field` · 채점 exact
+
+질문:
+
+```
+이미지에 적힌 글자를 그대로 읽어 옮기세요. 설명 없이 읽은 글자만 출력하세요.
+```
+
+답:
+
+```json
+"연 6.08%"
+```
+
+### 값 칸 읽기 `ocr_field` · 채점 exact
+
+질문:
+
+```
+이미지에 적힌 글자를 그대로 읽어 옮기세요. 설명 없이 읽은 글자만 출력하세요.
+```
+
+답:
+
+```json
+"2년 거치 후 8년 원금균등분할상환"
+```
+
+### 정보 추출 `kie` — 답 꼴 list_box · 채점 vl_f1 (값+위치)
+
+질문:
+
+```
+이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
+항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
+- bank: 은행명
+- creditor: 채권자
+- branch: 취급점
+- customer.name: 상호(법인명) (고객 성명)
+- customer.biz_no: 사업자등록번호 (고객 사업자등록번호)
+- customer.corp_reg_no: 법인등록번호 (고객 법인등록번호)
+- customer.ceo: 대표이사 (고객 대표자, 같은 항목명 중 1번째 칸)
+- customer.phone: 전화번호 (고객 연락처)
+- customer.address: 본점소재지 (고객 주소)
+- loan.subject: 여신과목
+- loan.product: 상품명
+- loan.account_no: 여신계좌번호
+- loan.amount_korean: 여신(한도)금액(한글)
+- loan.amount: 여신(한도)금액
+- loan.start_date: 여신개시일
+- loan.maturity: 여신기간만료일
+- loan.purpose: 자금용도
+- loan.base_rate_name: 기준금리종류
+- loan.base_rate: 기준금리
+- loan.spread: 가산금리
+- loan.pref_rate: 우대금리
+- loan.applied_rate: 여신이자율
+- loan.rate_reset: 금리변동주기
+- loan.interest_pay: 이자지급시기
+- loan.interest_calc: 이자계산방법
+- loan.repayment: 상환방법
+- loan.debit_account: 자동이체계좌
+- loan.prepay_fee: 중도상환해약금
+- loan.late_rate: 지연배상금률
+- stamp_tax: 인지세
+- contract_date: 약정일
+- signature: 대표이사 (같은 항목명 중 2번째 칸)
+```
+
+답:
+
+```json
+[{"key": "bank", "value": "국민은행", "bbox_2d": [88, 41, 186, 64], "page": 1},
+ {"key": "creditor", "value": "주식회사 국민은행", "bbox_2d": [60, 131, 186, 143], "page": 1},
+ {"key": "branch", "value": "센텀지점", "bbox_2d": [269, 132, 328, 143], "page": 1},
+ {"key": "customer.name", "value": "(주)미래케미칼", "bbox_2d": [200, 222, 302, 234], "page": 1},
+ {"key": "customer.biz_no", "value": "702-81-38348", "bbox_2d": [200, 242, 287, 255], "page": 1},
+ {"key": "customer.corp_reg_no", "value": "200112-7951835", "bbox_2d": [610, 242, 713, 255], "page": 1},
+ {"key": "customer.ceo", "value": "남궁예태", "bbox_2d": [200, 263, 261, 276], "page": 1},
+ {"key": "customer.phone", "value": "064-756-8800", "bbox_2d": [610, 263, 696, 276], "page": 1},
+ {"key": "customer.address", "value": "제주특별자치도 제주시 첨단로 381-19, 2층 (이도2동, 대성프라자)", "bbox_2d": [200, 284, 634, 297], "page": 1},
+ {"key": "loan.subject", "value": "시설자금대출", "bbox_2d": [200, 327, 292, 340], "page": 1},
+ {"key": "loan.product", "value": "기업시설자금대출", "bbox_2d": [684, 327, 806, 340], "page": 1},
+ {"key": "loan.account_no", "value": "713-61-4840-673", "bbox_2d": [684, 348, 791, 361], "page": 1},
+ {"key": "loan.amount_korean", "value": "금 이십일억원整", "bbox_2d": [200, 369, 311, 381], "page": 1},
+ {"key": "loan.amount", "value": "2,100,000,000원", "bbox_2d": [323, 369, 426, 381], "page": 1},
+ {"key": "loan.start_date", "value": "2025-04-14", "bbox_2d": [200, 390, 271, 402], "page": 1},
+ {"key": "loan.maturity", "value": "2035-04-14", "bbox_2d": [684, 390, 755, 402], "page": 1},
+ {"key": "loan.purpose", "value": "공장 신축자금", "bbox_2d": [200, 410, 295, 423], "page": 1},
+ {"key": "loan.base_rate_name", "value": "시장금리(MOR) 6개월", "bbox_2d": [450, 454, 598, 466], "page": 1},
+ {"key": "loan.base_rate", "value": "3.10%", "bbox_2d": [146, 496, 187, 508], "page": 1},
+ {"key": "loan.spread", "value": "2.98%", "bbox_2d": [338, 496, 379, 508], "page": 1},
+ {"key": "loan.pref_rate", "value": "0.00%", "bbox_2d": [562, 496, 603, 508], "page": 1},
+ {"key": "loan.applied_rate", "value": "연 6.08%", "bbox_2d": [798, 496, 861, 508], "page": 1},
+ {"key": "loan.rate_reset", "value": "6개월", "bbox_2d": [200, 517, 238, 530], "page": 1},
+ {"key": "loan.interest_pay", "value": "매월 15일", "bbox_2d": [573, 517, 637, 530], "page": 1},
+ {"key": "loan.interest_calc", "value": "1년을 365일(윤년 366일)로 보고 1일 단위로 계산", "bbox_2d": [200, 538, 523, 550], "page": 1},
+ {"key": "loan.repayment", "value": "2년 거치 후 8년 원금균등분할상환", "bbox_2d": [200, 581, 429, 594], "page": 1},
+ {"key": "loan.debit_account", "value": "국민은행 129-04-3353-660", "bbox_2d": [200, 602, 372, 614], "page": 1},
+ {"key": "loan.prepay_fee", "value": "중도상환금액 × 0.70% × 잔존일수 ÷ 대출기간일수 (3년 경과 시 면제)", "bbox_2d": [71, 640, 526, 652], "page": 1},
+ {"key": "loan.late_rate", "value": "대출이자율 + 연체가산이자율 연 3% (현재 연 9.08%, 최고 연 15%)", "bbox_2d": [494, 688, 921, 700], "page": 1},
+ {"key": "stamp_tax", "value": "350,000원 (고객 175,000원 / 은행 175,000원)", "bbox_2d": [159, 750, 435, 762], "page": 1},
+ {"key": "contract_date", "value": "2025년 4월 14일", "bbox_2d": [76, 826, 182, 839], "page": 1},
+ {"key": "signature", "value": "남궁예태", "bbox_2d": [787, 837, 861, 851], "page": 1}]
+```
+
+### 체크·도장·서명 `marks` — 답 꼴 list_box · 채점 vl_f1 (값+위치)
+
+질문:
+
+```
+이 문서의 체크박스·도장·서명 상태와 위치를 확인해 JSON 목록으로 답하세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 체크박스: 체크된 보기마다 {"key": 키, "value": 보기 글자, "bbox_2d": 체크된 □ 위치, "page": 쪽}. 체크된 것이 없으면 {"key": 키, "value": null}
+- 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)
+- 도장·서명: {"key": 키, "value": true 또는 false, "bbox_2d": 찍힌 자리, "page": 쪽} (비어 있으면 value 만 false)
+항목
+- loan.method: 거래방법 (체크박스, 보기: 개별거래 / 한도거래)
+- loan.rate_type: 금리종류 (체크박스, 보기: 고정금리 / 변동금리)
+- explained: 설명이해확인 (체크박스, 보기: 예 / 아니오)
+- seal.corp: 법인인감 (법인·사업자 도장, 도장)
+```
+
+답:
+
+```json
+[{"key": "loan.method", "value": "개별거래", "bbox_2d": [200, 348, 209, 361], "page": 1},
+ {"key": "loan.rate_type", "value": "변동금리", "bbox_2d": [287, 454, 296, 466], "page": 1},
+ {"key": "explained", "value": "예", "bbox_2d": [170, 786, 179, 797], "page": 1},
+ {"key": "seal.corp", "value": true, "bbox_2d": [858, 813, 949, 877], "page": 1}]
+```
+
+이 서식에만 있는 질문(form_qa)은 없습니다 — `questions.json` 의 `extra` 로 더합니다.
+
+## 고치려면
+
+| 하고 싶은 것 | 어디를 | 그다음 |
+|---|---|---|
+| 항목(칸) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `generate.py` 가 돌려주는 dict 에 그 키 값 | 미리보기로 확인 → 재검수 → 카드 다시 만들기 |
+| 칸 키·항목명 바꾸기 | `look/template.html.j2` 의 `f("키", label=…)` (질문만 바꾸려면 `questions.json`) | `questions … --check` |
+| 값이 이상함·칸끼리 안 맞음 | `generate.py` (값 만드는 함수) | 재검수 |
+| 모양·표·문구 | `look/template.html.j2` (studio html 편집) | 재검수 |
+| 질문의 항목명·묻지 않기 | `questions.json`: `{"kie": {"items": [{"key": "…", "label": "…"}, {"key": "…", "ask": false}]}}` | 검수 필요 없음 |
+| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | `questions … --check` |
+| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | |
+| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` | 모든 카드 다시 만들기 |
+
+확인: studio ① 서식 › 문항 Q/A · `python -m docgen.formdir questions credit_agreement_corp --show` · `python -m docgen.preview credit_agreement_corp --out work/credit_agreement_corp`

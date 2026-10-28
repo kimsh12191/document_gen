@@ -1,5 +1,5 @@
-"""키 사전 API (studio/DESIGN.md 15.7). 사람이 정하는 부분은 docgen/key_rules.json (docgen/keyrules.py),
-자동으로 모은 키 목록·이름 두 벌은 docgen/keys.json (docgen/scripts/build_keys.py).
+"""키 사전 API (studio/DESIGN.md 15.7). 사람이 정하는 부분은 docgen/forms/_common/key_rules.json (docgen/keyrules.py),
+자동으로 모은 키 목록·이름 두 벌은 docgen/forms/_common/keys.json (docgen/scripts/build_keys.py).
 
   GET  /api/keyrules                    키 목록(자동 목록 + 사전) · 값 종류(코드·데이터) · 이름 두 벌 · 동의어
   GET  /api/keyrules/sources            값 출처로 고를 수 있는 프로필 경로와 예시 값
@@ -18,7 +18,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 ROOT = Path(__file__).resolve().parents[1]
-KEYS_JSON = ROOT / "docgen" / "keys.json"
+KEYS_JSON = ROOT / "docgen" / "forms" / "_common" / "keys.json"
 
 
 def _auto() -> dict:

@@ -90,7 +90,7 @@ def test_builtin_template_loader_and_paths():
     assert p == formdir.folder("employment_certificate") / "look" / "template.html.j2"
     assert env().get_template("income/employment_certificate.html.j2").filename == str(p)
     assert formdir.jinja_source("corporate/_seal.html.j2") is None   # 그룹 부품은 templates/ 에 남는다
-    assert formdir.hash_label(p) == formdir.TEMPLATES / "income" / "employment_certificate.html.j2"
+    assert formdir.hash_label(p) == formdir.LEGACY_TEMPLATES / "income" / "employment_certificate.html.j2"
     assert formdir.variants_dir("employment_certificate") == formdir.folder("employment_certificate") / "variants"
     roles = dict(formdir.describe("gov_income"))
     assert roles["값 선언 (form.json)"] == formdir.folder("gov_income") / "form.json"

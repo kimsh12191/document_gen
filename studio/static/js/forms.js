@@ -86,9 +86,11 @@ function refreshNote(r) {
   const probs = r.problems.length ? `<div class="kr"><b>문제 ${r.problems.length}</b> (등록하지 않음)<ul>${r.problems.map(p =>
     `<li><span class="mono">${esc(p.id)}</span> — ${esc(p.reason)}</li>`).join("")}</ul></div>` : "";
   const none = !r.added.length && !r.updated.length && !r.removed.length && !r.problems.length;
+  const cards = (r.stale_cards || []).length ? `<div><b>카드가 없거나 오래됨 ${r.stale_cards.length}</b> <span class="muted">(서식 파일·질문을 고친 뒤 FORM.md 를 안 다시 만듦 — 서식의 카드 탭 또는 <span class="mono">python -m docgen.formdir card --all --stale --workers 4</span>)</span>
+    ${r.stale_cards.slice(0, 20).map(x => `<a class="mono" href="#/forms/${encodeURIComponent(x)}/card">${esc(x)}</a>`).join(" ")}${r.stale_cards.length > 20 ? " …" : ""}</div>` : "";
   return `<div class="box"><button data-close style="float:right" title="닫기">✕</button>${none ? `<span class="muted">서식 다시 읽기: 바뀐 것 없음</span>` :
     ids(r.added, "새로") + ids(r.updated, "이름·그룹 바뀜") +
-    `${(r.with_script || []).length ? `<div class="kr"><b>생성 스크립트 있음 ${r.with_script.length}</b> ${r.with_script.map(esc).join(" ")} <span class="muted">(값을 만든 뒤 실행되는 코드입니다. 사람이 내용을 읽고 넣었는지 확인하세요 — 파일 탭)</span></div>` : ""}` + `${r.removed.length ? `<div><b>빠짐 ${r.removed.length}</b> <span class="mono">${r.removed.map(esc).join(" ")}</span> <span class="muted">(폴더가 없어짐. 검수 기록은 남아 있어 폴더를 되돌리면 다시 나옵니다)</span></div>` : ""}` + probs}</div>`;
+    `${(r.with_script || []).length ? `<div class="kr"><b>생성 스크립트 있음 ${r.with_script.length}</b> ${r.with_script.map(esc).join(" ")} <span class="muted">(값을 만든 뒤 실행되는 코드입니다. 사람이 내용을 읽고 넣었는지 확인하세요 — 파일 탭)</span></div>` : ""}` + `${r.removed.length ? `<div><b>빠짐 ${r.removed.length}</b> <span class="mono">${r.removed.map(esc).join(" ")}</span> <span class="muted">(폴더가 없어짐. 검수 기록은 남아 있어 폴더를 되돌리면 다시 나옵니다)</span></div>` : ""}` + probs}${cards}</div>`;
 }
 
 function drawFormTable() {
@@ -149,7 +151,7 @@ async function formDetail(id, force = false) {
 async function viewForm(id, tab) {
   const d = await formDetail(id, tab === "review");
   const editable = d.kind === "overlay";
-  const tabs = [["preview", "미리보기"], ["guide", "추출·시나리오"], ["examples", "예시"], ["questions", "문항 Q/A"],
+  const tabs = [["preview", "미리보기"], ["card", "카드"], ["guide", "추출·시나리오"], ["examples", "예시"], ["questions", "문항 Q/A"],
     ["edit", "영역 편집"],
     ...(!editable ? [["templates", "레이아웃·샘플링"]] : []),
     ...(!editable && d.origin !== "builtin" ? [["html", "html 편집"]] : []),
@@ -193,6 +195,7 @@ async function viewForm(id, tab) {
     } catch (e) { toast(e.message, true); }
   };
   if (tab === "preview") return tabPreview(d);
+  if (tab === "card") return tabCard(d);
   if (tab === "guide") return tabGuide(d);
   if (tab === "examples") return tabExamples(d);
   if (tab === "questions") return tabQuestions(d);
@@ -203,6 +206,29 @@ async function viewForm(id, tab) {
   if (tab === "review") return tabReview(d);
   if (tab === "keys") return tabKeys(d);
   return tabFiles(d);
+}
+
+// 카드 탭: 서식 폴더의 FORM.md (docgen/formcard.py) — 항목·위치·정의한 곳·질문→답 예시·고치는 곳 ----------
+async function tabCard(d) {
+  const box = $("#tab");
+  const draw = c => {
+    if (!box.isConnected) return;
+    const md = (c.markdown || "").split("\n").filter(l => !l.startsWith("<!--")).join("\n");
+    box.innerHTML = `<div class="bar">
+        <span class="mono muted">${esc(c.path)}</span>
+        ${c.markdown == null ? `<span class="tag warn">카드 없음</span>` : c.stale ? `<span class="tag warn" title="이 서식의 파일·questions.json·공통 질문·키 사전이 카드를 만든 뒤 바뀌었습니다">오래됨</span>` : `<span class="tag ok">최신</span>`}
+        <button id="cd-make">${c.markdown == null ? "카드 만들기" : "카드 다시 만들기"}</button><span id="cd-status" class="muted" role="status"></span></div>
+      <div class="sub">이 서식 폴더만 보고 무엇을 어디서 뽑고, 어떻게 묻고, 답이 어떤 모양인지 알 수 있게 자동으로 만든 문서입니다. 직접 고치지 않고 아래 "고치려면" 표의 파일을 고칩니다.
+        명령줄: <span class="mono">python -m docgen.formdir card ${esc(d.id)}</span></div>
+      <div class="panel">${md ? guideMarkdown(md, "docgen/forms/" + d.id + "/FORM.md", []) : `<p class="muted">아직 카드가 없습니다.</p>`}</div>`;
+    $("#cd-make").onclick = async () => {
+      $("#cd-make").disabled = true; $("#cd-status").textContent = "그림을 그려 카드를 만드는 중…";
+      try { draw(await api(`/api/forms/${encodeURIComponent(d.id)}/card`, {})); toast("카드를 다시 만들었습니다"); }
+      catch (e) { toast(e.message, true); if (box.isConnected) { $("#cd-make").disabled = false; $("#cd-status").textContent = ""; } }
+    };
+  };
+  box.innerHTML = `<p class="muted">읽는 중…</p>`;
+  try { draw(await api(`/api/forms/${encodeURIComponent(d.id)}/card`)); } catch (e) { box.innerHTML = `<p class="kr">${esc(e.message)}</p>`; }
 }
 
 // 미리보기 탭 ---------------------------------------------------------------

@@ -9,6 +9,7 @@ import importlib
 import json
 import pkgutil
 import random
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
@@ -144,6 +145,31 @@ def doc(id: str, name: str, group: str, category: str = "external", page: str = 
         return fn
 
     return deco
+
+
+FORMS_DIR = Path(__file__).resolve().parent / "forms"
+
+
+def register_folder_forms(module: str, ids) -> None:
+    """코드 서식의 값 만드는 함수(서식 폴더 docgen/forms/<ID>/generate.py 의 @doc)를 등록한다.
+    그룹 모듈(docgen/docs/<그룹>.py) 끝에서 부른다 — 예전에 그 모듈 안에 @doc 이 있던 차례 그대로 (서식 목록·데이터셋 순서)."""
+    import importlib.util
+
+    for doc_id in ids:
+        if doc_id in REGISTRY:   # 같은 프로세스에서 두 번 불려도 (모듈 다시 읽기) 한 번만
+            continue
+        path = FORMS_DIR / doc_id / "generate.py"
+        name = f"docgen.forms_code.{doc_id}"
+        spec = importlib.util.spec_from_file_location(name, path)
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules[name] = mod
+        try:
+            spec.loader.exec_module(mod)
+        except Exception:
+            sys.modules.pop(name, None)
+            raise
+        if doc_id not in REGISTRY:
+            raise ValueError(f"{path}: @doc(\"{doc_id}\", …) 로 등록하지 않았습니다 ({module} 의 FORMS)")
 
 
 _EXTRA_DONE = False

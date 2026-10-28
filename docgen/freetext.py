@@ -1,6 +1,6 @@
 """기타 칸 정리(freetext) 과제: 비고·기타·사유·용도 칸에 사람이 대충 쓴 듯한 글과, 그 글을 DB 칸으로 정리한 정답.
 
-칸 종류(용도·사유·비고)별 문장 틀(docgen/freetext_templates.json, 130여 개)을 골라 자리({amount}, {date} …)를
+칸 종류(용도·사유·비고)별 문장 틀(docgen/forms/_common/freetext_templates.json, 130여 개)을 골라 자리({amount}, {date} …)를
 채운다. 정답 = 채운 값 + 틀에 정해 둔 값(set) → 글과 정답이 늘 맞는다.
   레코드 키: purpose(용도 보기), reason(사유 보기), amount(원 정수), date(YYYY-MM-DD), period_months(개월),
             request(요청 보기), memo(다른 키에 맞지 않는 말, 글에 적힌 그대로), approx(대략적인 값의 키 목록)
@@ -64,7 +64,7 @@ AMOUNTS = {
     "차량구입": [1000, 2000, 3000, 4000, 6000],
 }
 GENERAL = [100, 300, 500, 1000, 2000, 3000, 5000, 10000]
-TEMPLATES_PATH = Path(__file__).resolve().parent / "freetext_templates.json"
+TEMPLATES_PATH = Path(__file__).resolve().parent / "forms" / "_common" / "freetext_templates.json"
 VOCAB = {"purpose": PURPOSES, "reason": REASONS, "request": REQUESTS}
 
 # 칸 고르기 (항목명, 공백 뺀 것). 용도 칸 → purpose, 사유 칸 → reason, 비고·기타 칸 → 둘 다 올 수 있음
@@ -163,7 +163,7 @@ def _ro(word: str) -> str:
 
 @lru_cache(maxsize=1)
 def templates() -> dict[str, list[dict]]:
-    """칸 종류별 문장 틀 (docgen/freetext_templates.json)."""
+    """칸 종류별 문장 틀 (docgen/forms/_common/freetext_templates.json)."""
     out: dict[str, list[dict]] = {}
     for t in json.loads(TEMPLATES_PATH.read_text(encoding="utf-8"))["templates"]:
         out.setdefault(t["slot"], []).append(t)

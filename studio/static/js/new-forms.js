@@ -38,7 +38,7 @@ async function viewNewForms() {
     <div class="box kr" style="margin:8px 0">외부 모델(클로드 등)에는 <b>빈 서식·공개 서식 그림만</b> 보냅니다. 값이 적힌 실서류 견본은 사내 모델로만 (AGENTS.md 규칙 10).</div>
 
     ${step(1, "모델에게 맡기기", `
-      <p>넘길 것: 서식 그림, <a href="${spec}">NEW_FORM_SPEC.md</a>(통째로), 키 사전 <span class="mono">docgen/dictionary/common.json</span>·<span class="mono">docgen/keys.json</span>.
+      <p>넘길 것: 서식 그림, <a href="${spec}">NEW_FORM_SPEC.md</a>(통째로), 키 사전 <span class="mono">docgen/forms/_common/dictionary/common.json</span>·<span class="mono">docgen/forms/_common/keys.json</span>.
         아래 지시문의 <span class="mono">&lt;…&gt;</span> 만 바꿔 붙여 넣습니다.</p>
       <p>모델이 만드는 것:</p>
       <pre class="ans mono">&lt;이름&gt;/

@@ -33,7 +33,7 @@ def catalog(ws):
     attrs = DIC.load("attributes").get("attributes", {})
     rules = KR.load().get("keys", {})
     rows = {}
-    for row in RB.read(ROOT / "docgen/keys.json", {}).get("keys", []):
+    for row in RB.read(ROOT / "docgen/forms/_common/keys.json", {}).get("keys", []):
         key = row["key"]
         rule = rules.get(key, {})
         labels = list(dict.fromkeys(row.get("labels", []) + rule.get("labels", [])))

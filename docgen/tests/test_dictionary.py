@@ -1,6 +1,7 @@
 """키 사전 (docgen/dictionary.py, docgen/dictionary/*.json): 당사자 풀이, 업무별 역할, 합치기 결정, 분류·업무 이름 찾기."""
 import json
 import shutil
+from pathlib import Path
 
 import pytest
 
@@ -56,7 +57,7 @@ def test_every_role_has_a_known_party():
 def test_rebuild_keeps_human_decisions(tmp_path, monkeypatch):
     import importlib.util
 
-    spec = importlib.util.spec_from_file_location("build_dictionary", DIC.DIR.parent / "scripts" / "build_dictionary.py")
+    spec = importlib.util.spec_from_file_location("build_dictionary", Path(DIC.__file__).parent / "scripts" / "build_dictionary.py")
     B = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(B)
     out = tmp_path / "dictionary"

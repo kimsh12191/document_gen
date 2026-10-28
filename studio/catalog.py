@@ -231,7 +231,34 @@ def refresh() -> dict:
 
     res = rescan()
     _scenarios_of.cache_clear()
+    from docgen import formcard
+
+    res["stale_cards"] = sorted(i for i in load_all() if formcard.stale(i))   # 서식 카드 FORM.md 가 없거나 오래됨
     return res
+
+
+def card(doc_id: str) -> dict:
+    """서식 카드 FORM.md (docgen/formcard.py): 내용, 오래됐는지."""
+    from docgen import formcard
+
+    if doc_id not in load_all():
+        raise KeyError(doc_id)
+    p = formcard.path(doc_id)
+    return {"path": _rel(p), "markdown": p.read_text(encoding="utf-8") if p.exists() else None, "stale": formcard.stale(doc_id)}
+
+
+def make_card(doc_id: str) -> dict:
+    """카드를 다시 만든다 (그림을 그려 위치를 잰다 — 명령줄과 같은 python -m docgen.formdir card <ID>)."""
+    import subprocess
+    import sys
+
+    if doc_id not in load_all():
+        raise KeyError(doc_id)
+    r = subprocess.run([sys.executable, "-m", "docgen.formdir", "card", doc_id], cwd=Path(__file__).resolve().parents[1],
+                       capture_output=True, text=True, timeout=600)
+    if r.returncode:
+        raise ValueError(f"카드를 만들지 못했습니다: {(r.stderr or r.stdout).strip().splitlines()[-1:]}")
+    return card(doc_id)
 
 
 def list_forms() -> list[dict]:

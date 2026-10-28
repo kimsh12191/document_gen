@@ -1,4 +1,4 @@
-// ② 표시 요소: 확률 설정(docgen/marks.json)과 모양 풀(docgen/assets/marks/). 생성기 규칙은 docgen/marks.py
+// ② 표시 요소: 확률 설정(docgen/forms/_common/marks.json)과 모양 풀(docgen/assets/marks/). 생성기 규칙은 docgen/marks.py
 // 서버: studio/app.py (/api/marks…), studio/marks_admin.py
 "use strict";
 

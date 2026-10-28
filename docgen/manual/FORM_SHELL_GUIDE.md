@@ -22,7 +22,7 @@ docgen/forms/<ID>/
 |---|---|---|
 | ① 모양 | `look/original.pdf`(하나은행 원본) 또는 `look/page_0.png`(견본 사진). **그림이라 고치지 않는다** | `look/template.html.j2` (HTML 템플릿). **여기를 고친다** |
 | ② 칸 목록 | `fields.json` 의 `items` = 값이 놓일 사각형 좌표 전부. **칸 위치는 여기서 고친다** | `fields.json` 의 `fields`·`regions` = 템플릿 칸 위에 덮어쓰기. 칸 자리는 템플릿 안 `f("키")` 가 정한다 |
-| ③ 값 | 항목명 규칙 + 고객 정보 (`docgen/realform.py`) | 생성 함수(`docs/*.py`) 또는 `fields.json` 값 출처 |
+| ③ 값 | 항목명 규칙 + 고객 정보 (`docgen/realform.py`) | 생성 함수(서식 폴더 `generate.py`) 또는 `fields.json` 값 출처 |
 | "껍데기만 고친다" 는 | 칸 사각형(`rect`)을 원본 빈칸에 맞추기 | 템플릿의 표·문구·선·배치를 원본처럼 고치기 |
 
 한 줄로: **overlay 는 그림 위에 칸을 맞추고, html 은 칸을 품은 그림(템플릿)을 다시 그린다.**
@@ -77,7 +77,7 @@ python -m docgen.formdir path <ID>
   키 이름·개수를 바꾸지 말고, 원본에서 그 값이 들어가는 칸 안으로 옮기기만 한다.
 - {% for … %} … {% endfor %} 는 반복 행, {% if … %} 는 조건 칸이다. 감싼 구조를 지우지 말고 표 안의 위치만 맞춘다.
 - 첫 줄의 {% extends "…" %}, {% import "…" as m … %} 는 그대로 둔다.
-- 공통 틀(docgen/templates/_base.html.j2, _macros.html.j2 등)은 고치지 않는다.
+- 공통 틀(docgen/forms/_common/templates/_base.html.j2, _macros.html.j2 등)은 고치지 않는다.
 - 외부 그림·글꼴·스크립트(URL)를 넣지 않는다.
 
 할 일

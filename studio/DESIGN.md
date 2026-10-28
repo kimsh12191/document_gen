@@ -112,7 +112,7 @@ studio는 **은행 벤치마크 데이터를 만들고 관리하는 도구**다.
 
 | 종류 | origin | 뜻 |
 |---|---|---|
-| `html` | `builtin` | 기존 코드의 서식 (값은 `docgen/docs/*.py`, 모양은 `docgen/forms/<ID>/look/template.html.j2`) |
+| `html` | `builtin` | 기존 코드의 서식 (값은 서식 폴더의 `generate.py`, 그룹 도우미 `docgen/docs/<그룹>.py`, 모양은 `docgen/forms/<ID>/look/template.html.j2`) |
 | `html` | `copy` | 복제한 서식. 부모 서식의 생성 함수를 그대로 쓰고 템플릿만 사본 |
 | `html` | `analyzer` | 분석기가 이미지를 보고 만든 서식 |
 | `overlay` | `pdf` | 원본 PDF가 배경 (기존 406종) |
@@ -229,10 +229,10 @@ docgen/forms/<서식ID>/                  서식 하나 = 폴더 하나 (docgen/
   form.json                             html(copy·analyzer): 부모 서식, 이름, 그룹, 출처 (값 선언은 fields.json)
                                         (html 은 값 선언 fields·lists 와 칸 덮어쓰기 regions·variants)
   variants/                             html 레이아웃 변형
-docgen/templates/                       여러 서식이 같이 쓰는 틀만 (_base·_macros·_official_*·_real_form, 그룹 부품)
-docgen/keys.json                        표준 키 사전 (신규, 5절)
+docgen/forms/_common/templates/                       여러 서식이 같이 쓰는 틀만 (_base·_macros·_official_*·_real_form, 그룹 부품)
+docgen/forms/_common/keys.json                        표준 키 사전 (신규, 5절)
 docgen/catalog.json                     서식 목록표: 검수, 학습/평가 배정, 메모 (신규, 4.6)
-docgen/marks.json                       표시 설정: 손글씨·체크·도장·서명 기본값 (신규, 4.7)
+docgen/forms/_common/marks.json                       표시 설정: 손글씨·체크·도장·서명 기본값 (신규, 4.7)
 docgen/scenarios.json                   업무 시나리오 구성 (신규, registry.py 에서 옮김, 9.4)
 docgen/assets/marks/<풀>.json, <풀>/           표시 요소 풀: 체크·서명·도장 틀·글꼴 목록과 이미지 (신규, 4.7)
 docgen/recipes/<이름>.json            합성 데이터셋 레시피 (신규, 9.1). 만든 데이터셋 자체는 workspace_dir (git 제외)
@@ -299,7 +299,7 @@ overlay 서식의 기준은 서식 폴더의 칸 목록 `fields.json`이다(`doc
 
 studio에서는 **"어느 칸에 무엇이 나올지"(확률)와 "어떻게 생겼는지"(모양)를 나눈다.**
 
-**① 확률: 표시 설정 파일** (`docgen/marks.json`)
+**① 확률: 표시 설정 파일** (`docgen/forms/_common/marks.json`)
 
 - 코드 상수를 이 파일로 옮긴다. 전체 기본값을 두고 서식마다 덮어쓴다(서식 정보나 overlay 수정 파일의 `marks` 항목). 예: 이 서식은 손글씨 100%, 이 서명란은 항상 빈칸.
 - 영역 편집기에서 영역마다 고를 수도 있다. `text` 영역은 손글씨/인쇄체/서식 기본, `sign` 영역은 도장/서명/빈칸 비율.
@@ -348,7 +348,7 @@ studio에서는 **"어느 칸에 무엇이 나올지"(확률)와 "어떻게 생�
 ### 5.2 목표
 
 - **모든 키는 영어 표준 키다.** 형식은 지금 html 서식과 같다: snake_case, `역할.속성` (`applicant.name`, `loan.amount`), 반복 행은 `목록.번호.칸` (`products.0.name`).
-- **표준 키 사전**(`docgen/keys.json`)을 하나 둔다.
+- **표준 키 사전**(`docgen/forms/_common/keys.json`)을 하나 둔다.
   - 역할 목록: `customer`, `applicant`, `agent`, `employee`, `employer`, `company`, `loan`, `account` …
   - 속성 목록: `name`, `rrn`, `birth`, `address`, `phone`, `biz_no`, `corp_reg_no` …
   - 동의어와 한글 항목명 예시
@@ -962,8 +962,8 @@ OCR 데이터셋 (benchmark_tasks.jsonl, train_sft.jsonl …) → 등록부
 | overlay 영역(위치·키·타입·값 출처), 배경 지우기 | 칸 목록 `docgen/forms/<ID>/fields.json` (실서류에서 만든 서식은 `private_forms_dir/<ID>/fields.json`). html 영역은 `regions.json` | 그 서식이 나오는 모든 과제(OCR, 문서 이해, 은행 업무 묶음)의 이미지와 정답 |
 | html 서식 (복제·분석기) | `docgen/forms/<ID>/` | 위와 같음 (새 서식으로 추가) |
 | 템플릿으로 보낸 새 서식 | `docgen/forms/<ID>/` 또는 `private_forms_dir/<ID>/` | 위와 같음. 실서류에서 만든 서식은 내부망 빌드에서만 |
-| 표시 설정·표시 요소 풀 | `docgen/marks.json`, `docgen/assets/marks/` | 체크·도장·서명·손글씨가 들어가는 모든 이미지 |
-| 표준 키 사전·키 대응 | `docgen/keys.json` | 정답 키, 질문에 넣는 항목 목록 |
+| 표시 설정·표시 요소 풀 | `docgen/forms/_common/marks.json`, `docgen/assets/marks/` | 체크·도장·서명·손글씨가 들어가는 모든 이미지 |
+| 표준 키 사전·키 대응 | `docgen/forms/_common/keys.json` | 정답 키, 질문에 넣는 항목 목록 |
 | 검수 상태·학습/평가 배정 | `docgen/catalog.json` | 레시피의 서식 거르기(검수 완료만, 평가 전용 서식은 학습에서 뺌) |
 | 시나리오 구성·처리 설정 | `docgen/scenarios.json` (`docs`, `extra`, `processing`) | 다음 빌드의 은행 업무 묶음과 선택한 구비·대조·심사, 직접 지정한 추출·비교 문항 |
 | 레시피 | `docgen/recipes/<이름>.json` | 그 레시피로 만드는 데이터셋 |
@@ -1117,13 +1117,13 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 | 표시 요소 풀 | 신규 `docgen/marks.py`, `render.py`·`realform.py`·`_macros.html.j2` | 체크·서명은 풀 이미지에서, 도장은 틀에서 그린다. 지금 코드의 모양을 기본 항목으로 등록하고, 쓸 때마다 크기·회전·색을 조금씩 바꾼다 (4.7) |
 | 신규 서식 등록 | `docgen/registry.py` (`load_all`) | `docgen/forms/*/form.json`·`docgen/forms/img_*/layout.json`, 설정돼 있으면 `private_forms_dir`도 읽어 등록한다 (`docgen/formdir.py`) |
 | 단순 값 규칙 | 신규 `docgen/sources.py` | `source`(`profile.*`, `rule:*`)를 값으로 바꾼다 |
-| 표준 키 사전 | 신규 `docgen/keys.json` | html 서식 키에서 초안을 만든다. `realform.py`의 `KEY_RULES`도 이 사전을 따른다 |
+| 표준 키 사전 | 신규 `docgen/forms/_common/keys.json` | html 서식 키에서 초안을 만든다. `realform.py`의 `KEY_RULES`도 이 사전을 따른다 |
 | 학습/평가 배정 | `docgen/bench/build.py` | `docgen/catalog.json`의 `split`으로 서식을 나눈다 |
 | html 서식 정보 | `docgen/registry.py`, 신규 `docgen/sources.py` | `docgen/forms/<ID>/fields.json`(예전 `form.json`)의 `fields`(키·타입·값 출처)와 `lists`(반복 목록, 행 수 범위)로 생성 함수 없이 값을 만든다. `paginate`가 켜져 있으면 여러 쪽으로 나눈다 (4.3) |
 | studio 패키지 반입 | 신규 `studio/deps.py`, `studio/wheels/`, `docker/requirements.lock` | 이미지를 다시 만들지 않고 컨테이너 안 `studio_deps/`에 설치. 다음 이미지에는 포함 (3절 원칙 6) |
 | 미리보기 명령 | `docgen/preview.py` | `python -m docgen.preview <서식ID 또는 템플릿 폴더> --seed N --out <폴더>`: CLI 분석기가 작업 폴더 안에서 렌더링해 원본과 비교할 때 쓴다 (7.3) |
 | 미리보기 함수 | 신규 `docgen/preview.py` | 서식 하나, seed 하나, 변형·촬영 조건을 받아 이미지와 라벨을 돌려준다. 브라우저를 띄워 둔 `ImageRenderer`를 재사용한다 (이 PC에서 장당 0.4~1.3초, 캐시 0.01초. `docgen generate`가 느린 것은 시작할 때 476종 전체를 한 번 렌더링하는 키 목록 수집 때문이다) |
-| 표시 설정 | 신규 `docgen/marks.json`, `realform.py`·`render.py`·`_macros.html.j2` | 손글씨 비율·글꼴, 체크 모양, 도장·서명 확률 상수를 설정 파일로 옮기고 서식별 덮어쓰기를 읽는다. 라벨에 `render`(글꼴, 체크 모양, 도장/서명) 기록 (4.7) |
+| 표시 설정 | 신규 `docgen/forms/_common/marks.json`, `realform.py`·`render.py`·`_macros.html.j2` | 손글씨 비율·글꼴, 체크 모양, 도장·서명 확률 상수를 설정 파일로 옮기고 서식별 덮어쓰기를 읽는다. 라벨에 `render`(글꼴, 체크 모양, 도장/서명) 기록 (4.7) |
 | 시나리오 데이터화 | `docgen/registry.py`의 `SCENARIOS` → 신규 `docgen/scenarios.json` | 시나리오 구성을 데이터 파일에서 읽는다 (9.4) |
 | 시나리오 처리·근거 미리보기 | `docgen/bench/processing.py`, `studio/scenario_processing.py`, `studio/static/js/scenario-processing.js`, `scenario-preview.js` | 시나리오별 검사·대조·심사 선택, 직접 만든 추출·필드 비교를 저장하고 실제 빌드에 적용. 원본 정답으로 결과·근거 확인 (9.5.1) |
 | 레시피 빌드 | `docgen/bench/build.py`, `cli.py` | `--recipe <JSON>`으로 빌드, 결과 폴더에 `dataset.json`(버전 정보) 기록 (9.1) |
@@ -1164,7 +1164,7 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 | 키 | **정함.** 영어 표준 키가 기본. 표준 키 사전을 둔다 |
 | 검수 완료 | **정함.** 사람이 누른다. 자동 검사는 경고만 한다 |
 | 내부망 | **정함.** 같은 코드, 설정 파일만 다름. 분석기는 `openai`/`cli` 두 방식으로 무엇이든 붙인다 |
-| 두 벌인 영어 키 통일 | 초안. 사전 `docgen/keys.json`(`docgen/scripts/build_keys.py`)의 `duplicates`에 이름 두 벌 5건과 제안을 적었다(예: 직장은 `employer.*`, 고객인 법인은 `company.*`). `corp_no`→`corp_reg_no`는 이미 통일됨. 나머지 이름 바꾸기는 생성 결과가 바뀌므로 평가 세트 버전을 올릴 때 사용자 확인 후 한다 |
+| 두 벌인 영어 키 통일 | 초안. 사전 `docgen/forms/_common/keys.json`(`docgen/scripts/build_keys.py`)의 `duplicates`에 이름 두 벌 5건과 제안을 적었다(예: 직장은 `employer.*`, 고객인 법인은 `company.*`). `corp_no`→`corp_reg_no`는 이미 통일됨. 나머지 이름 바꾸기는 생성 결과가 바뀌므로 평가 세트 버전을 올릴 때 사용자 확인 후 한다 |
 | 내부망 분석기 | 미정. 내부망에서 쓸 수 있는 vLLM 주소와 CLI 종류 |
 | 실서류 저장 위치 | 미정. 내부망 담당과 정한다. 저장소에는 넣지 않는다 |
 | 사용자 수 | 처음에는 혼자. 여러 명이면 저장 때 파일 충돌 검사를 넣는다 |
@@ -1303,7 +1303,7 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 | 원본 데이터로 | 원본 이미지 + 추출값 → 표준 라벨 v1 폴더 (`gt: pseudo`), 검수하면 `reviewed` | 항상 켬. 양식이 제각각(장수 적음)이면 이것만 |
 | 건너뛰기 | 아무것도 하지 않음 | 장수 1~2 |
 
-**서식으로 — 값 출처 연결:** 추출 키를 표준 키 사전(`docgen/keys.json`)의 동의어로 프로필 값에 잇는다. 못 이으면 여러 문서의 값에서 종류(날짜·금액·통화·영문 이름·계좌번호·코드)를 추정해 그 종류의 무작위 값으로 채운다. 외환 문서에 필요한 통화 코드·SWIFT·영문 주소 값 종류는 생성기에 새로 더한다.
+**서식으로 — 값 출처 연결:** 추출 키를 표준 키 사전(`docgen/forms/_common/keys.json`)의 동의어로 프로필 값에 잇는다. 못 이으면 여러 문서의 값에서 종류(날짜·금액·통화·영문 이름·계좌번호·코드)를 추정해 그 종류의 무작위 값으로 채운다. 외환 문서에 필요한 통화 코드·SWIFT·영문 주소 값 종류는 생성기에 새로 더한다.
 **남은 개인정보:** 추출하지 않은 칸·서명·도장·메모가 배경에 남을 수 있다. 같은 양식끼리 달라지는 글자(`value_drafts`)를 지울 후보로 띄우고, 사람이 견본을 확인해 승인해야 서식이 된다. 승인 전·검수 전 서식은 데이터셋에 들어가지 않는다(8.5). 실서류 묶음의 서식은 `private_forms_dir`에만 쓴다.
 **첫판에서 뺌:** 같은 양식 여러 장을 각각 지워 배경 여러 장으로 돌려 쓰기(다음 판).
 
@@ -1379,7 +1379,7 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 
 | 무엇 | 어디 |
 |---|---|
-| 키 목록 1,915개 (항목명 예, 타입, 쓰는 서식 수) | `docgen/keys.json` — `build_keys.py`가 렌더링 결과로 자동 생성 |
+| 키 목록 1,915개 (항목명 예, 타입, 쓰는 서식 수) | `docgen/forms/_common/keys.json` — `build_keys.py`가 렌더링 결과로 자동 생성 |
 | 키 동의어 (`dob`→`birth` …) | `docgen/schema.py` `LEAF_SYNONYMS` |
 | 이름 두 벌 5건과 결정 | `keys.json` `duplicates` (결정은 다시 만들어도 유지) |
 | 항목명 → 표준 키 (`성명|이름|예금주…` → `customer.name`) 32개 | `docgen/realform.py` `KEY_RULES` |
@@ -1387,7 +1387,7 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 | 값 종류별 값 만들기 | `realform.py` `Values` (overlay), html 서식은 서식마다 생성 함수 |
 | 값 재료 | 프로필(`docgen/entities.py`). 외국 거래 상대(`foreign`: 영문 이름·주소·국가·은행·SWIFT·계좌)는 이미 있으나 overlay 값 종류에는 연결되어 있지 않다 |
 
-**바꿀 것:** 사람이 정하는 부분을 데이터 파일 `docgen/key_rules.json`으로 옮긴다(첫판은 지금 코드의 값을 그대로 옮겨 **생성 결과가 바뀌지 않게** 하고, 서식 표본을 렌더링해 옮기기 전후 값이 같은지 시험한다). `keys.json`은 지금처럼 자동 생성이고, 화면은 두 파일을 합쳐 보여 준다.
+**바꿀 것:** 사람이 정하는 부분을 데이터 파일 `docgen/forms/_common/key_rules.json`으로 옮긴다(첫판은 지금 코드의 값을 그대로 옮겨 **생성 결과가 바뀌지 않게** 하고, 서식 표본을 렌더링해 옮기기 전후 값이 같은지 시험한다). `keys.json`은 지금처럼 자동 생성이고, 화면은 두 파일을 합쳐 보여 준다.
 
 ```json
 {"keys": {"customer.name": {"meaning": "고객 성명", "kind": "person_name", "source": "profile.person.name",
@@ -1482,7 +1482,7 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 - **결정과 적용을 나눈다.** 결정(`accepted`)은 언제든 하고, 생성 라벨의 키 이름이 실제로 바뀌는 적용(`applied`)은 평가 세트 버전을 올릴 때 한 번에 한다. 적용 전에도 사전은 두 이름을 같은 것으로 풀어 주므로 시나리오 대조·서류 넣기·채점은 바로 혜택을 본다.
 - 후보는 자동으로 만든다: 같은 당사자·같은 속성의 다른 이름, 끝 이름 동의어 꼴(`_no`, `_name`, 단수·복수), 같은 항목명, 영어 표준꼴이 아닌 키의 항목명이 표준 키 규칙에 맞는 것. 사람이 일괄 승인·거절한다.
 
-### 16.3 파일 (`docgen/dictionary/`)
+### 16.3 파일 (`docgen/forms/_common/dictionary/`)
 
 | 파일 | 내용 |
 |---|---|
@@ -1519,7 +1519,7 @@ UI만으로는 안 되고 생성기가 새 파일을 읽어야 한다. 최소한
 
 | # | 범위 | 완료 기준 |
 |---|---|---|
-| K1 | 사전 틀·자동 초안·풀이 함수 | **끝남 (2026-10-21).** `docgen/dictionary/` 7개 파일, `docgen/dictionary.py`, `docgen/scripts/build_dictionary.py`. 역할 196개 모두 당사자에 붙음(미정 0, 확신 낮음 28 — 화면에서 확인), 속성 768, 문서 종류 474, 업무 12(대분류 4), 체크 보기 991, 합치기 후보 358(이름 두 벌 5 · 속성에 역할이 섞임 · 같은 항목명 · 표준꼴이 아닌 키 → 표준꼴). 생성 결과 그대로(overlay 406종 × seed 3 스냅샷 동일, 전체 테스트 835 통과) |
+| K1 | 사전 틀·자동 초안·풀이 함수 | **끝남 (2026-10-21).** `docgen/forms/_common/dictionary/` 7개 파일, `docgen/dictionary.py`, `docgen/scripts/build_dictionary.py`. 역할 196개 모두 당사자에 붙음(미정 0, 확신 낮음 28 — 화면에서 확인), 속성 768, 문서 종류 474, 업무 12(대분류 4), 체크 보기 991, 합치기 후보 358(이름 두 벌 5 · 속성에 역할이 섞임 · 같은 항목명 · 표준꼴이 아닌 키 → 표준꼴). 생성 결과 그대로(overlay 406종 × seed 3 스냅샷 동일, 전체 테스트 835 통과) |
 | K2 | 화면 (탭 여섯, 나무, 일괄 승인) | **끝남 (2026-10-21).** `studio/api_dictionary.py`, `static/js/keys.js`. 키 사전 탭: 필드 키(당사자 나무 → 역할 → 키·당사자 키, 업무별 당사자) · 표시 요소(도장·서명 당사자별, 체크 보기) · 문서 분류(대분류·이름·다른 이름) · 업무(대분류·다른 이름·역할 → 당사자) · 합치기 후보(일괄 합치기·안 합치기, 이름 두 벌 결정은 keys.json 에도) · 키 규칙 · 값 종류. 정한 것은 `by: 사람`으로 남고 다시 만들어도 유지(시험) |
 | K3 | 쓰는 쪽 연결 — 시나리오 대조·추출을 공통 키로, 영역 편집기 키 고르기(공통 키 먼저), 분류 문항 다른 이름 채점, 서류 넣기 키 대응 | **끝남 (2026-10-21).** 처리 작업의 `{"doc", "common": 공통 키}`는 고른 서식에서 이은 칸을 찾는다(`processing.by_common`, 다른 서식으로 바뀌어도 그대로). ③ 처리 설정: 항목 고르기에 공통 키 먼저, "서류끼리 대조할 공통 키로 비교 작업 추가"(도장·서명·주소는 뺌 — 주소는 서류마다 적는 방식이 달라 글자 비교가 의미 없음). 분류 채점은 정답 문서명 + 다른 이름. 서류 넣기용 `dictionary.match_extracted`. 실제 렌더링으로 확인하다 고친 잇기: `*_bank.name` → 상대 은행, consignee·notify → 고객(제안), 한 업무에서만 쓰는 문서는 그 업무의 뜻(해외송금 seller = 외국 상대), 신원·가족·소득·세금 서류의 역할 없는 name·rrn → 고객 |
 | K4 | 적용 — 공통 키에 이은 칸을 공통 키로 묻고 답함 (평가 세트 버전 올림) | **끝남 (2026-10-21, 평가 세트 3.0).** `dictionary.apply_common`을 출력 층에만 쓴다: kie·marks 문항(`Builder.single`), 처리 작업의 추출 문항, `docgen generate` 라벨·학습 레코드. 내부 필드(심사·대조 규칙이 읽는 서식 키)는 그대로라 규칙은 바뀌지 않는다. 이은(이음) 칸만, 한 문서 안에서 같은 공통 키가 겹치면 처음 것만. 원래 키는 `doc_key`. 분류 정답 = 문서명(`dictionary.doc_name`) + 다른 이름(`eval.aliases`). 라벨 검수의 검수 전 점수는 원래 추론의 키도 같은 키로 바꿔 채점. 작은 세트(서류 6종 + 해외송금 묶음 1)로 만들어 정답을 답으로 넣으면 모든 과제 100점 |

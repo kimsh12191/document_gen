@@ -4,7 +4,7 @@
 변형용 난수는 따로 쓴다(seed `fxv:{p.seed}`). 그래서 기존 값의 난수 흐름은 그대로이고, 같은 고객의 서류끼리 품목·수량·컨테이너·분할선적·신용장·중계무역이 서로 맞는다.
 유학 서류(입학허가서·학비 청구서)는 `_study(p)` 에서 seed `studyv:{p.seed}` 로 장학금·조건부 입학·입학 연기를 정한다(학비 청구서의 장학금 공제액 = 입학허가서 장학금).
 heavy()/special() 을 쓰므로 `DOCGEN_HEAVY`, `DOCGEN_SPECIAL` 강제 설정이 그대로 먹는다.
-영문 서류의 쪽 번호·계속 표시는 영문이다(`Page 1 of 3`, `Continued on next page` 등, `docgen/templates/fx/_fx.html.j2`). 둘째 쪽부터 맨 위에 서류명·번호 머리줄이 붙는다(.pg-repeat, 첫 쪽에서는 숨김).
+영문 서류의 쪽 번호·계속 표시는 영문이다(`Page 1 of 3`, `Continued on next page` 등, `docgen/forms/_common/templates/fx/_fx.html.j2`). 둘째 쪽부터 맨 위에 서류명·번호 머리줄이 붙는다(.pg-repeat, 첫 쪽에서는 숨김).
 템플릿 전용 표시 옵션(손으로 고친 줄, 부속 목록 여부 등)은 정답이 아니므로 `_Out.opt` 속성에 둔다(데이터 dict 의 키가 아니어서 정답·미표시 경고에 들어가지 않음).
 
 ## 프로필 단위 (`_shipment`, `_study`)
