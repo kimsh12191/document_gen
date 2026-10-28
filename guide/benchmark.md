@@ -9,7 +9,7 @@ docgen이 만드는 합성 서류로 **고정된 평가 세트**를 만들고, �
 이 세 가지를 따로 잽니다.
 
 ```bash
-# 1) 평가 세트 만들기 (기본: 서류 476종 x 1건 + 업무 12종 x 고객 4명, 약 16분, 약 600MB)
+# 1) 평가 세트 만들기 (기본: 서류 545종 x 1건 + 업무 12종 x 고객 4명. 476종일 때 약 16분, 약 600MB)
 python -m docgen.bench build --out bench_out
 
 # 2) 모델 돌리기 — OpenAI 호환 API (vLLM, SGLang, LMDeploy 서버 등)
@@ -63,6 +63,7 @@ docker exec -u docgen docgen bash -lc 'cd ~/document_gen && python -m docgen.ben
 | 문서 이해 | `kie` | 서류 + 항목 목록(키·항목명) → 값과 위치 목록 `[{key, value, bbox_2d, page}]` | 값+위치 F1 (값 F1·위치 F1·항목 정확도 함께) |
 | 문서 이해 | `marks` | 서류 + 체크박스·도장·서명 목록 → 상태와 위치 목록 | 값+위치 F1 (항목 정확도·위치 F1 함께) |
 | 문서 이해 | `freetext` | 서류 + 칸 이름·기준일 → 그 칸의 자유 기재를 DB 칸으로 정리한 JSON | F1 (지어낸 키 비율 함께) |
+| 문서 이해 | `form_qa` | 서류 + 서식 폴더 `qa.py` 가 정한 질문 → 숫자·예/아니오·글·JSON | 정확도 |
 | 은행 업무 | `doc_check` | 업무명 + 필수 서류 목록 + 제출 서류 첫 쪽들 → 빠진 서류·불필요 서류·타인 서류 | 완전 일치율 (F1 함께) |
 | 은행 업무 | `cross_check` | 서류 2~3건 → 불일치 여부와 문제 서류·항목 (불일치 사례 14종) | 종합 점수 (탐지·위치·오탐률 함께) |
 | 은행 업무 | `review` | 심사 질문 + 관련 서류 → 숫자 또는 예/아니오 | 정확도 |
@@ -91,6 +92,7 @@ docker exec -u docgen docgen bash -lc 'cd ~/document_gen && python -m docgen.ben
     - 그 밖: 대소문자·공백·문장부호 무시. 글자가 하나라도 다르면 틀림
   - 중첩 JSON(`{"loan": {"amount": ...}}`)으로 답해도 점 경로로 펴서 채점합니다.
   - 실서류처럼 비교 기준이 다른 평가 세트는 세트마다 채점 함수를 붙입니다 ([eval.md 2절](eval.md#2-채점)).
+  - 서식 폴더의 `questions.json` 에서 답 틀(`answer`)을 바꾼 서식은 그 꼴로 채점합니다. JSON 틀에 `{bbox_2d}` 가 없으면 위치 점수 없이 값 F1, 줄글 틀(`"{label}: {value}"`)이면 줄에서 값을 찾아 값 F1 ([서식 폴더 설명서 5절](../docgen/forms/README.md#5-질문과-답-고치기)). 지금은 모든 서식이 기본 틀입니다.
   - **위치:** 항목마다 `bbox_2d`(그 쪽 이미지 기준 0~1000 정수, OCR 과제와 같은 좌표)와 `page`(1부터)를 답합니다. 빈 칸은 `{"key", "value": null}`로 위치 없이 답합니다.
     - 값 점수(`f1`): 위치는 보지 않습니다. 위치를 못 내는 모델도 잽니다 (값만 담은 객체로 답해도 됨).
     - 위치 점수(`loc_f1`): 같은 키·같은 쪽에서 IoU 0.5 이상인 짝 (OCR 과제의 짝짓기와 같음).
@@ -105,6 +107,9 @@ docker exec -u docgen docgen bash -lc 'cd ~/document_gen && python -m docgen.ben
   - `extra_key`: 답한 키 중 정답에 없는 키(글에 없는 내용을 지어냄)의 비율. 낮을수록 좋습니다.
   - `approx_acc`: `approx` 목록이 정답과 같은 비율. `doc_exact`: 키·값·`approx`가 모두 맞은 비율.
   - 결과는 서식 그룹·글씨·난이도(`level`: `short` 값 나열 / `sentence` 문장 / `relative` 상대 날짜 / `approx` 대략)·키별로 나눠 봅니다.
+- **`form_qa`:** 서식 폴더의 `qa.py` 에 적은 함수 하나가 질문 하나입니다 (`qa.py` 가 있는 서식에서만 생김, 지금은 없음). 문항의 `meta.question` 은 `<서식ID>.<함수 이름>`.
+  - 정답 꼴로 채점합니다: 숫자는 숫자가 같은지, 예/아니오는 그대로, 글은 띄어쓰기·문장부호 무시, JSON은 칸마다. 주 지표 `acc`.
+  - 질문 몇 개만 다르게 채점하려면 `train/scorers/` 의 채점 함수를 평가 세트에 붙입니다 (견본 `train/scorers/form_qa_example.py`, [eval.md 2절](eval.md#2-채점)). 쓰는 법은 [서식 폴더 설명서 5절](../docgen/forms/README.md#5-질문과-답-고치기).
 
 ### 은행 업무 (업무 묶음)
 
@@ -175,7 +180,7 @@ docker exec -u docgen docgen bash -lc 'cd ~/document_gen && python -m docgen.ben
 
 ## 평가 세트
 
-기본 설정으로 만든 세트의 문항 수입니다.
+기본 설정으로 만든 세트의 문항 수입니다. 서식이 476종이고 `freetext` 과제가 없던 때(세트 버전 3.1 전)에 센 것이라, 지금(545종) 만들면 단일 서류 과제 문항이 더 많습니다.
 
 | ocr_field | ocr_page | classify | kie | marks | doc_check | cross_check | review |
 |---:|---:|---:|---:|---:|---:|---:|---:|
@@ -196,6 +201,8 @@ docker exec -u docgen docgen bash -lc 'cd ~/document_gen && python -m docgen.ben
 
 | 옵션 | 기본 | 뜻 |
 |---|---|---|
+| `--out` | bench_out | 만들 폴더. 비어 있지 않으면 멈춤 (`--force` 로 다시 만들기) |
+| `--recipe` | — | 레시피 JSON (`docgen/recipes/*.json`): 위 설정과 묶음 구성 규칙·빼는 서식(`exclude`)·검수 완료 서식만(`reviewed_only`) |
 | `--types` | all | 단일 서류 과제에 쓸 서류 (ID, 그룹명) |
 | `--per-doc` | 1 | 서류 종류마다 샘플 수 |
 | `--scenarios` | all | 업무 묶음 과제에 쓸 시나리오 |
@@ -230,7 +237,8 @@ docker exec -u docgen docgen bash -lc 'cd ~/document_gen && python -m docgen.ben
 | `--base-url`, `--model` | OpenAI 호환 서버 주소와 모델 이름 |
 | `--api-key-env` | API 키를 읽을 환경변수 (기본 `OPENAI_API_KEY`) |
 | `--max-side` | 이미지 긴 변을 이 픽셀 이하로 줄여 보냄 (토큰·비용 조절) |
-| `--workers` | 동시 요청 수 |
+| `--workers` | 동시 요청 수 (기본 4) |
+| `--temperature`, `--timeout` | 기본 0, 300초 |
 | `--tasks` | 일부 과제만 (`kie,review`) |
 | `--limit` | 과제마다 앞 N 문항만 |
 | `--system` | 시스템 프롬프트 |
@@ -251,7 +259,7 @@ python -m docgen.bench build --split train --out bank_train2 --per-doc 0 --bundl
 
 - **seed:** 단일 서류 `10,000,000`부터, 업무 묶음 `20,000,000`부터입니다. 평가 세트(`1,000,000`·`2,000,000`대), `generate`(0부터)와 겹치지 않습니다.
 - **출력:** 평가 세트와 같은 구조에 `swift/`가 더해집니다. `swift/<과제>.jsonl`, `swift/all.jsonl`이 ms-swift 학습 형식이고, 질문은 평가 프롬프트, 답은 정답을 모델 출력 형식(JSON 또는 글)으로 쓴 것입니다. `cross_check`의 채점용 `alt_documents`는 뺍니다.
-- **`--per-doc 0`:** 단일 서류 과제(`classify`, `ocr_page`, `ocr_field`, `kie`, `marks`)를 만들지 않습니다. 이 과제들도 평가 프롬프트 형식으로 학습하려면 `--per-doc 1` 이상을 주세요.
+- **`--per-doc 0`:** 단일 서류 과제(`classify`, `ocr_page`, `ocr_field`, `kie`, `marks`, `freetext`, `form_qa`)를 만들지 않습니다. 이 과제들도 평가 프롬프트 형식으로 학습하려면 `--per-doc 1` 이상을 주세요.
 - **문항 비율 (묶음 하나당 평균):** `review` 약 5, `cross_check` 약 4, `doc_check` 1. `cross_check`는 정상 55% 안팎, 변조 45% 안팎입니다.
 - **속도·용량:** 묶음 하나에 CPU 1코어로 약 10초, 약 6MB입니다.
 

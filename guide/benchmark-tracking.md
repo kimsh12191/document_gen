@@ -7,7 +7,7 @@
 | 과제 그룹 `task_group` | `ocr`, `doc`, `work` | OCR / 문서 이해 / 은행 업무 구분 |
 | 과제 `task` | `crop_ocr`, `kie`, `doc_check`, `cross_check`, `review` | 같은 채점 방식끼리 비교 |
 | 업무 시나리오 `scenario` | `mortgage`, `jeonse_loan` | 업무별 성능 |
-| 정답 구조 `label_format` | `text`, `text_boxes`, `key_values`, `mark_states`, `document_sets`, `consistency_issues`, `scalar`, `text_list` | 텍스트·좌표·추출·표시·업무 판단 구분 |
+| 정답 구조 `label_format` | `text`, `text_boxes`, `key_values`, `mark_states`, `record`, `document_sets`, `consistency_issues`, `scalar`, `text_list` | 텍스트·좌표·추출·표시·업무 판단 구분 (과제 → 정답 구조 대응은 `docgen/bench/tracking.py` 의 `FORMATS`. `record` 는 `freetext`, `scalar` 는 `review`·`form_qa`) |
 | 서식 `doc_type` | `employment_certificate` | 어떤 서식에서 틀리는지 |
 | 원본 데이터셋 `source_dataset` | `bench-a@<메타데이터 해시>` | 여러 폴더를 섞어도 출처 추적 |
 

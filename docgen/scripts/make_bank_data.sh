@@ -8,8 +8,8 @@
 #       bash docgen/scripts/make_bank_data.sh --fg                                 몇 분짜리 시험
 #
 # 만드는 것 (OUT 아래):
-#   bench/        평가 세트  : 서류 476종 x 1건 + 업무 12종 x 고객 BENCH_BUNDLES 명
-#   bank_train/   학습 데이터: 서류 476종 x TRAIN_PER_DOC 건 + 업무 12종 x 고객 TRAIN_BUNDLES 명 (--split train)
+#   bench/        평가 세트  : 서류 545종 x 1건 + 업무 12종 x 고객 BENCH_BUNDLES 명
+#   bank_train/   학습 데이터: 서류 545종 x TRAIN_PER_DOC 건 + 업무 12종 x 고객 TRAIN_BUNDLES 명 (--split train)
 #   logs/         단계별 로그
 # 이미 다 만든 폴더(meta.json 있음)는 건너뛰고, 중간에 멈춘 폴더는 다시 만든다.
 set -euo pipefail
@@ -43,7 +43,7 @@ if ! python -m docgen.bench build --help 2>/dev/null | grep -q -- '--split'; the
 fi
 
 # 필요한 디스크 (실측: 묶음 하나 약 6MB, 서류 한 건 약 0.7MB) + 여유 20%
-need_mb=$(( (TRAIN_BUNDLES * 12 + BENCH_BUNDLES * 12) * 6 + (TRAIN_PER_DOC + 1) * 476 * 7 / 10 ))
+need_mb=$(( (TRAIN_BUNDLES * 12 + BENCH_BUNDLES * 12) * 6 + (TRAIN_PER_DOC + 1) * 545 * 7 / 10 ))
 need_mb=$(( need_mb * 12 / 10 ))
 avail_mb=$(df -Pm "$OUT" | awk 'NR==2 {print $4}')
 say "설정: 학습 per-doc=$TRAIN_PER_DOC bundles=$TRAIN_BUNDLES / 평가 bundles=$BENCH_BUNDLES / workers=$WORKERS"

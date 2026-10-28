@@ -103,7 +103,7 @@ def adjust(d, p, rng):
 | 확인 | 내용 |
 |---|---|
 | **어떤 그림을 모델에 보내나** | 외부 대형 모델(클로드 등)에는 **빈 서식·공개 서식 그림만**. 값이 적힌 실서류 견본은 외부로 보내지 않습니다 (AGENTS.md 규칙 10). 실서류 견본뿐이면 사내 모델에 맡기거나, 빈 서식 그림을 구합니다 |
-| 서식 ID | 영어 소문자로 시작, 소문자·숫자·밑줄 3~51자. 겹치는지 `python -m docgen.formdir path <ID>` (없다고 나와야 함) |
+| 서식 ID | 영어 소문자로 시작, 소문자·숫자·밑줄 3~51자. 겹치는지 `python -m docgen.formdir path <ID>` (파일 목록이 나오면 이미 있는 ID. 새 ID 면 `KeyError: '<ID>'` 로 끝남) |
 | 같은 서식이 이미 있나 | studio ① 서식에서 이름 검색. 비슷한 html 서식이 있으면 새로 만들기보다 **복제** 후 고치는 편이 빠름 |
 | 넣을 곳 | 공개·빈 서식에서 만든 것: `docgen/forms/<ID>/` · 실서류에서 만든 것: 사내 서식 폴더 `$DOCGEN_PRIVATE_FORMS/<ID>/` |
 
@@ -197,7 +197,7 @@ EOF
 
 ```bash
 python -m docgen.formdir path <서식ID>                    # 파일 자리
-python -m docgen.regions check <서식ID>                   # 칸 목록 형식
+python -m docgen.formdir check <서식ID>                   # 서식 검사: 칸 목록·값 출처·질문 설정·카드 (형식 검사일 뿐 검수 아님)
 python -m docgen.preview <서식ID> --rows max --out work/<서식ID>
 python -m docgen.formdir card <서식ID>                     # 서식 카드 FORM.md (항목·위치·질문→답 예시) — 서식 폴더 설명서 docgen/forms/README.md
 ```
