@@ -151,3 +151,86 @@
 | `pl_accounts.non_op_income[].amount` | 금액 | amount | 27% | 584,199 |
 | `pl_accounts.non_op_expense[].account` | 계정과목 | text | 27% | 이자비용 |
 | `pl_accounts.non_op_expense[].amount` | 금액 | amount | 27% | 2,076,494 |
+
+## 사업자등록증명 (`gov_business_proof`) — 키 10개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.company` | 상호(법인명) | text | 100% | 동방학원 |
+| `official.biz_no` | 사업자등록번호 | biz_no | 100% | 860-11-55034 |
+| `official.name` | 대표자성명 | text | 100% | 박찬연 |
+| `official.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
+| `official.address` | 사업장소재지 | text | 100% | 울산광역시 남구 대학로 14, 11층 |
+| `official.opened` | 개업일 | date | 100% | 2020.03.21 |
+| `official.registered` | 사업자등록일 | date | 100% | 2020.03.21 |
+| `official.industry` | 업태 | text | 100% | 서비스업 |
+| `official.item` | 종목 | text | 100% | 학원 |
+| `official.number` | 발급번호 | text | 100% | 328739-0928843 |
+
+## 사업자등록증 (`gov_business_registration`) — 키 23개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.biz_no` | 등록번호 | biz_no | 100% | 860-11-55034 |
+| `official.company` | 상호 | text | 100% | 동방학원 |
+| `official.name` | 성명 | text | 100% | 박찬연 |
+| `official.address` | 사업장소재지 | text | 100% | 울산광역시 남구 대학로 14, 11층 |
+| `official.industry` | 업태 | text | 100% | 서비스업 |
+| `official.item` | 종목 | text | 100% | 학원 |
+| `official.taxpayer_type` | 과세유형 | text | 100% | 간이과세자 |
+| `official.opened0` | 개업연월일년 | number | 100% | 2020 |
+| `official.opened1` | 개업연월일월 | number | 100% | 03 |
+| `official.opened2` | 개업연월일일 | number | 100% | 21 |
+| `official.birth` | 생년월일 | date | 100% | 1990.02.10 |
+| `official.issue_reason` | 발급사유 | text | 100% | 재발급 |
+| `official.unit_tax_no` | 사업자단위과세적용여부부(V) | text | 100% | V |
+| `official.einvoice_email` | 전자세금계산서전용전자우편주소 | text | 100% | contact@dongbang.co.kr |
+| `official.issue0` | 발급일년 | number | 100% | 2026 |
+| `official.issue1` | 발급일월 | number | 100% | 01 |
+| `official.issue2` | 발급일일 | number | 100% | 31 |
+| `official.annex_biz_no0` | 부표사업자등록번호앞 | number | 100% | 860 |
+| `official.annex_biz_no1` | 부표사업자등록번호가운데 | number | 100% | 11 |
+| `official.annex_biz_no2` | 부표사업자등록번호뒤 | number | 100% | 55034 |
+| `official.annex_issue0` | 부표발급일년 | number | 100% | 2026 |
+| `official.annex_issue1` | 부표발급일월 | number | 100% | 01 |
+| `official.annex_issue2` | 부표발급일일 | number | 100% | 31 |
+
+## 사업자등록증(법인사업자) (`gov_business_registration_corp`) — 키 7개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.biz_no` | 등록번호 | biz_no | 100% | 264-82-36559 |
+| `official.company` | 상호 | text | 100% | (주)유니온무역 |
+| `official.name` | 성명 | text | 100% | 박찬연 |
+| `official.address` | 사업장소재지 | text | 100% | 서울특별시 중구 다산로 361, 6층 |
+| `official.industry` | 업태 | text | 100% | 도매 및 소매업 |
+| `official.item` | 종목 | text | 100% | 무역 |
+| `official.corp_reg_no` | 법인등록번호 | corp_reg_no | 100% | 200112-7448551 |
+
+## 표준재무제표증명 (`gov_financial_proof`) — 키 9개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.company` | 상호 | text | 100% | (주)유니온무역 |
+| `official.biz_no` | 사업자등록번호 | biz_no | 100% | 264-82-36559 |
+| `official.name` | 대표자 | text | 100% | 박찬연 |
+| `official.corp_reg_no` | 법인등록번호 | corp_reg_no | 100% | 200112-7448551 |
+| `official.industry` | 업태 | text | 100% | 도매 및 소매업 |
+| `official.item` | 종목 | text | 100% | 무역 |
+| `official.address` | 사업장 | text | 100% | 서울특별시 중구 다산로 361, 6층 |
+| `official.year` | 사업연도 | text | 100% | 2025.01.01 ~ 2025.12.31 |
+| `official.filing` | 신고구분 | text | 100% | 정기신고 |
+
+## 면세사업자 수입금액증명 (`gov_vat_exempt_income`) — 키 9개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.name` | 성명 | text | 100% | 박찬연 |
+| `official.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
+| `official.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `official.company` | 상호 | text | 100% | 동방학원 |
+| `official.biz_no` | 사업자등록번호 | biz_no | 100% | 860-11-55034 |
+| `official.biz_type` | 업태 | text | 100% | 서비스업 |
+| `official.biz_item` | 종목 | text | 100% | 학원 |
+| `official.period` | 과세기간 | text | 100% | 2025.01.01 ~ 2025.12.31 |
+| `official.income` | 수입금액 | amount | 100% | 2,840,000원 |

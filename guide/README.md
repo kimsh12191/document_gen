@@ -9,6 +9,7 @@
 | 데이터셋을 모아 학습하기, 설정을 바꾼 모델 여러 개를 한 번에(실험 묶음) | [training.md](training.md) |
 | 평가 세트 정하기, 채점 방식(채점 함수), 학습 없이 평가만, 다시 채점 | [eval.md](eval.md) |
 | 새 서식 추가 (대형 모델로 html·키 만들기 → studio 에 넣기 → 검수) | [new-forms.md](new-forms.md) |
+| 서식 하나 고치기: 칸·값·모양, 질문·답 모양, 이 서식만의 질문(`qa.py`) | [서식 폴더 설명서](../docgen/forms/README.md) |
 | 결과 보기·읽기, 여러 실험 한 화면 비교, 문항별 모델 답 | [results.md](results.md) |
 
 agent에게 일을 맡길 때는 저장소 최상위의 [AGENTS.md](../AGENTS.md)부터 읽게 하세요. 절차는 [agent-workflow.md](agent-workflow.md)입니다.
@@ -16,6 +17,8 @@ agent에게 일을 맡길 때는 저장소 최상위의 [AGENTS.md](../AGENTS.md
 ## 흐름
 
 ```text
+서식 폴더 docgen/forms/<ID>/ (모양·칸·값·질문)
+        │
 studio: 데이터셋 만들기 ─┐
 학습 서버: 내 이미지 OCR ─┼─▶ 학습 서버: python -m train (또는 sweep) ─▶ summary.html·answers.html·benchmark.html
 실서류 swift .jsonl ──────┘   (평가 세트로, 학습 데이터로도)
@@ -26,7 +29,7 @@ studio: 데이터셋 만들기 ─┐
 | 궁금한 것 | 문서 |
 |---|---|
 | 서류별 추출 항목·연결 업무 | [catalog.md](catalog.md) (기계용 [catalog.json](catalog.json)) |
-| 모델에게 묻는 질문 문장과 답 형식 | [questions.md](questions.md) |
+| 모델에게 묻는 질문 문장과 답 형식 (모든 서식 공통 기본) | [questions.md](questions.md) |
 | 모든 과제의 실제 데이터 예시 | [tasks.md](tasks.md) |
 | 과제별 채점 규칙, 업무 과제·대조 사례 | [benchmark.md](benchmark.md) |
 | 시나리오·서식별 구성과 점수 | [benchmark-tracking.md](benchmark-tracking.md) |

@@ -1,8 +1,8 @@
-# 서류 목록 (총 476종)
+# 서류 목록 (총 545종)
 
 `python -m docgen list --markdown > guide/documents.md` 로 자동 생성된 문서입니다. 서류별 항목은 [fields/](fields/README.md)에 있습니다.
 
-## 신원·신분 (6종)
+## 신원·신분 (8종)
 
 | ID | 서류명 | 구분 | 설명 |
 |---|---|---|---|
@@ -12,8 +12,10 @@
 | `alien_registration_card` | 외국인등록증 | 외부 발급 · 견본표시 | 외국인등록증(RESIDENCE CARD) 앞면. 프로필에 외국인이 없으므로 이 서류 안에서 외국인을 만든다. |
 | `seal_certificate` | 인감증명서 | 외부 발급 · 견본표시 | 인감증명서 (인감증명법 시행령 별지 제14호서식 / 전자발급 제14호의2서식). 일반용 / 부동산 매도용. |
 | `signature_confirmation` | 본인서명사실확인서 | 외부 발급 · 견본표시 | 본인서명사실확인서 (본인서명사실 확인 등에 관한 법률 시행령 별지 제2호서식). |
+| `gov_seal` | 인감증명서 | 외부 발급 | 인감증명서 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=145953337&bylClsCd=110202 인감 영역은 원본 직인·인감 이미지 없이 빈칸으로 유지한다. |
+| `gov_signature` | 본인서명사실확인서 | 외부 발급 | 본인서명사실확인서 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=145951719&bylClsCd=110202 본인 서명란은 빈칸으로 유지한다. |
 
-## 가족관계 (5종)
+## 가족관계 (8종)
 
 | ID | 서류명 | 구분 | 설명 |
 |---|---|---|---|
@@ -22,8 +24,11 @@
 | `family_relation_certificate` | 가족관계증명서 | 외부 발급 | 가족관계증명서 (일반/상세). 사망한 부모, 전혼 자녀, 입양(친생부모) 등. |
 | `basic_certificate` | 기본증명서 | 외부 발급 | 기본증명서 (일반/상세). 상세에는 개명·국적취득·성별정정 기록이 나온다. |
 | `marriage_relation_certificate` | 혼인관계증명서 | 외부 발급 | 혼인관계증명서 (일반/상세). 일반은 현재 혼인만, 상세는 이혼한 혼인(외국인 배우자 포함)까지 표시. |
+| `gov_foreign_household` | 외국인체류확인서 | 외부 발급 | 외국인체류확인서 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=169477471&bylClsCd=110202 외국인 체류자가 있는 대상 건물 예시이며 외국인 고객 프로필을 사용할 때 이름을 대조한다. |
+| `gov_resident_abstract` | 주민등록표(초본) | 외부 발급 | 주민등록표(초본) 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=167818367&bylClsCd=110202 |
+| `gov_resident_copy` | 주민등록표(등본) | 외부 발급 | 주민등록표(등본) 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=167818361&bylClsCd=110202 |
 
-## 소득·재직 (9종)
+## 소득·재직 (14종)
 
 | ID | 서류명 | 구분 | 설명 |
 |---|---|---|---|
@@ -36,8 +41,13 @@
 | `pension_enrollment_certificate` | 국민연금 가입자 가입증명 | 외부 발급 | 국민연금공단 발급 가입자 가입증명 — 국민연금법 시행규칙 [별지 제11호서식] 국민연금가입자증명서. |
 | `health_insurance_qualification` | 건강보험 자격득실확인서 | 외부 발급 | 국민건강보험공단 발급 건강보험 자격득실 확인서 (국민건강보험법 제11조 자격취득 등의 확인). |
 | `health_insurance_payment` | 건강보험료 납부확인서 | 외부 발급 | 국민건강보험공단 발급 건강보험료 납부확인서 (직장가입자 본인부담분, 월별 고지·납부 보험료를 건강/장기요양 구분). |
+| `gov_income` | 소득금액증명 | 외부 발급 | 소득금액증명 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?flSeq=155626737&flNm=%5B%EB%B3%84%EC%A7%80+15%5D+%EC%86%8C%EB%93%9D%EA%B8%88%EC%95%A1%EC%A6%9D%EB%AA%85%28%EA%B5%AD%EB%AC%B8%29&bylClsCd=200203 종합과세와 연말정산을 구분한 2024 개정 서식. 같은 근로소득을 두 구역에 중복 기재하지 않는다. |
+| `gov_pension` | 국민연금가입자 증명서 | 외부 발급 | 국민연금가입자 증명서 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=161706061&bylClsCd=110202 법령 별지 제11호 국민연금가입자 증명서로, 전자민원 가입증명서(국문)의 전체 이력 출력과는 다르다. |
+| `gov_pension_withholding` | 연금소득 원천징수영수증 | 외부 발급 | 연금소득 원천징수영수증 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/flDownload.do?gubun=&flSeq=150204063&bylClsCd=110202 |
+| `gov_retirement_withholding` | 퇴직소득 원천징수영수증 | 외부 발급 | 퇴직소득 원천징수영수증 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/flDownload.do?gubun=&flSeq=150204063&bylClsCd=110202 |
+| `gov_withholding` | 근로소득 원천징수영수증 | 외부 발급 | 근로소득 원천징수영수증 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/flDownload.do?gubun=&flSeq=150204063&bylClsCd=110202 |
 
-## 세금·보험 (6종)
+## 세금·보험 (12종)
 
 | ID | 서류명 | 구분 | 설명 |
 |---|---|---|---|
@@ -47,6 +57,12 @@
 | `local_tax_assessment` | 지방세 세목별 과세증명서 | 외부 발급 | 주소지 시·군·구청장이 발급하는 지방세 세목별 과세증명서 (재산세·자동차세·주민세 등). |
 | `vat_tax_base_certificate` | 부가가치세 과세표준증명 | 외부 발급 | 홈택스 발급 부가가치세 과세표준증명 (개인사업자). |
 | `income_tax_return` | 종합소득세 과세표준확정신고 및 납부계산서 | 외부 발급 | 종합소득세 확정신고서. 제1쪽(기본사항 + 환급금 계좌 + 세액의 계산)은 항상, 명세(제2·3쪽)는 소득이 여럿이거나 |
+| `gov_income_tax_return` | 종합소득세 과세표준확정신고 및 납부계산서(일반) | 외부 발급 | 국세청 종합소득세 일반 신고서 35쪽(본표·작성방법·부속명세) 원문 대조 HTML. 제40호(2)~(4)의 단순 신고서 변형은 제외. 기본사항만 합성값으로 채우며 전체 세액 계산이나 신고의 완결성을 의미하지 않는다. |
+| `gov_local_assessment` | 지방세 세목별 과세증명서 | 외부 발급 | 지방세 세목별 과세증명서 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=169943579&bylClsCd=110202 |
+| `gov_local_tax` | 지방세 납세증명(신청)서 | 외부 발급 | 지방세 납세증명(신청)서 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=169946943&bylClsCd=110202 앞쪽의 신청·증명 겸용 서식과 뒤쪽 확인사항을 모두 보존한다. |
+| `gov_national_tax` | 납세증명서 | 외부 발급 | 납세증명서 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/flDownload.do?bylClsCd=110202&flSeq=114053165&gubun= |
+| `gov_tax_payment_history` | 납부내역증명 | 외부 발급 | 납부내역증명 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?flSeq=155626763&flNm=%5B%EB%B3%84%EC%A7%80+19%5D+%EB%82%A9%EB%B6%80%EB%82%B4%EC%97%AD%EC%A6%9D%EB%AA%85%28%EA%B5%AD%EB%AC%B8%29&bylClsCd=200203 |
+| `gov_vat_base` | 부가가치세 과세표준증명 | 외부 발급 | 부가가치세 과세표준증명 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?flSeq=155626701&flNm=%5B%EB%B3%84%EC%A7%80+9%5D+%EB%B6%80%EA%B0%80%EA%B0%80%EC%B9%98%EC%84%B8%EA%B3%BC%EC%84%B8%ED%91%9C%EC%A4%80%EC%A6%9D%EB%AA%85%28%EA%B5%AD%EB%AC%B8%29&bylClsCd=200203 |
 
 ## 금융거래 (5종)
 
@@ -58,7 +74,7 @@
 | `debt_certificate` | 부채증명서 | 외부 발급 | 은행 발급 부채증명서 (대출 잔액). |
 | `card_statement` | 신용카드 이용대금명세서 | 외부 발급 | 카드사 신용카드 이용대금명세서 (일시불·할부·수수료 합계 일관). |
 
-## 부동산 (6종)
+## 부동산 (10종)
 
 | ID | 서류명 | 구분 | 설명 |
 |---|---|---|---|
@@ -68,8 +84,12 @@
 | `sales_contract` | 부동산 매매계약서 | 외부 발급 | 부동산(아파트) 매매계약서 (공인중개사 중개). |
 | `lease_contract` | 주택임대차표준계약서 | 외부 발급 | 주택임대차표준계약서 (전세). 임대인 = 기존 소유자(seller), 임차인 = 본인. |
 | `move_in_household_list` | 전입세대확인서 | 외부 발급 | 전입세대확인서(열람). 해당 주소에 전입신고된 세대주 목록. |
+| `gov_building_general` | 일반건축물대장(갑) | 외부 발급 | 일반건축물대장(갑) 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=155204859&bylClsCd=110202 |
+| `gov_building_unit` | 집합건축물대장(전유부, 갑) | 외부 발급 | 집합건축물대장(전유부, 갑) 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=155204921&bylClsCd=110202 전유부 갑·계속면·현황도 빈 양식을 모두 포함하며 평면도는 임의 생성하지 않는다. |
+| `gov_land` | 토지대장 | 외부 발급 | 토지대장 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=162454805&bylClsCd=110202 |
+| `gov_move_in` | 전입세대확인서 | 외부 발급 | 전입세대확인서 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=167818343&bylClsCd=110202 |
 
-## 개인사업자 (4종)
+## 개인사업자 (9종)
 
 | ID | 서류명 | 구분 | 설명 |
 |---|---|---|---|
@@ -77,6 +97,11 @@
 | `business_registration_certificate_corp` | 사업자등록증(법인사업자) | 외부 발급 | 세무서가 발급하는 법인사업자 사업자등록증. |
 | `business_registration_proof` | 사업자등록증명 | 외부 발급 | 홈택스에서 발급한 개인사업자 사업자등록증명. 부업종·공동사업자는 _biz_facts() 를 따른다. |
 | `standard_financial_statement_proof` | 표준재무제표증명 | 외부 발급 | 홈택스 발급 표준재무제표증명(개인): 표준재무상태표 + 표준손익계산서. |
+| `gov_business_proof` | 사업자등록증명 | 외부 발급 | 사업자등록증명 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?flSeq=155626677&flNm=%5B%EB%B3%84%EC%A7%80+5%5D+%EC%82%AC%EC%97%85%EC%9E%90%EB%93%B1%EB%A1%9D%EC%A6%9D%EB%AA%85%28%EA%B5%AD%EB%AC%B8%29&bylClsCd=200203 |
+| `gov_business_registration` | 사업자등록증 | 외부 발급 | 사업자등록증 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=162624673&bylClsCd=110202 개인사업자용 서식 및 종된 사업장 부표. 원본의 서식 규격 안내도 유지한다. |
+| `gov_business_registration_corp` | 사업자등록증(법인사업자) | 외부 발급 | 사업자등록증 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?gubun=&flSeq=162624673&bylClsCd=110202 법인사업자용 서식 및 종된 사업장 부표. 원본의 서식 규격 안내도 유지한다. |
+| `gov_financial_proof` | 표준재무제표증명 | 외부 발급 | 표준재무제표증명 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?flSeq=155626725&flNm=%5B%EB%B3%84%EC%A7%80+13%5D+%ED%91%9C%EC%A4%80%EC%9E%AC%EB%AC%B4%EC%A0%9C%ED%91%9C%EC%A6%9D%EB%AA%85%28%EA%B5%AD%EB%AC%B8%29&bylClsCd=200203 표준재무제표증명 표지 서식이며 첨부 재무제표 전체를 포함하지 않는다. |
+| `gov_vat_exempt_income` | 면세사업자 수입금액증명 | 외부 발급 | 면세사업자 수입금액증명 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://www.law.go.kr/LSW/flDownload.do?flSeq=155626713&flNm=%5B%EB%B3%84%EC%A7%80+11%5D+%EB%B6%80%EA%B0%80%EA%B0%80%EC%B9%98%EC%84%B8%EB%A9%B4%EC%84%B8%EC%82%AC%EC%97%85%EC%9E%90+%EC%88%98%EC%9E%85%EA%B8%88%EC%95%A1%EC%A6%9D%EB%AA%85%28%EA%B5%AD%EB%AC%B8%29&bylClsCd=200203 |
 
 ## 법인 (8종)
 
@@ -122,7 +147,7 @@
 | `overseas_remittance_application` | 해외송금신청서 | 은행 서식 | 당발송금(전신송금 T/T) 신청서 + 은행 사용란(환율/원화환산액). |
 | `fatca_crs` | 해외금융계좌 납세자 확인서(개인) | 은행 서식 | FATCA/CRS 본인확인서(개인/개인사업자용) — 국제조세조정법·금융정보자동교환 이행규정에 따른 자기확인서. |
 
-## 하나은행 서식(원본) (406종)
+## 하나은행 서식(원본) (450종)
 
 | ID | 서류명 | 구분 | 설명 |
 |---|---|---|---|
@@ -532,6 +557,50 @@
 | `hf405` | 외환파생상품 거래 금액 확인서 | 은행 서식 | 하나은행 공개 서식 No.405 (파생상품) 원본 위에 기재 |
 | `hf197` | 위임장(집합투자증권 및 연금저축계좌 투자용) | 은행 서식 | 하나은행 공개 서식 No.197 (펀드) 원본 위에 기재 |
 | `hf198` | 공모부동산집합투자증권 과세특례신청서 | 은행 서식 | 하나은행 공개 서식 No.198 (펀드) 원본 위에 기재 |
+| `hana_collateral_agreement` | 근저당권설정계약서(근담보용) | 은행 서식 | 근저당권설정계약서(근담보용) 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://image.kebhana.com/cont/download/documents/provide/0000000001049_20211126.pdf |
+| `hana_corporate_agreement` | 여신거래약정서(기업용) | 은행 서식 | 여신거래약정서(기업용) 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://image.kebhana.com/cont/download/documents/provide/0000003061032_20260630.pdf |
+| `hana_official_001` | 상속예금 명의변경(지급) 의뢰서 및 손해담보 확약서(상속예금 지급 위임장 겸용) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 상속예금 명의변경(지급) 의뢰서 및 손해담보 확약서(상속예금 지급 위임장 겸용). 기존 hf001 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070101/__icsFiles/afieldfile/2026/09/07/5-08-0084.pdf |
+| `hana_official_003` | 은행거래신청서 | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 은행거래신청서. 기존 hf003 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070101/__icsFiles/afieldfile/2026/06/19/3-08-1016.pdf |
+| `hana_official_006` | 자동이체 신청서 | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 자동이체 신청서. 기존 hf006 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070101/__icsFiles/afieldfile/2025/11/27/3-11-0012.pdf |
+| `hana_official_011` | 예금(신탁)잔액증명 의뢰서 | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 예금(신탁)잔액증명 의뢰서. 기존 hf011 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070101/__icsFiles/afieldfile/2025/01/07/5-08-0094.pdf |
+| `hana_official_015` | 통합제신고서 | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 통합제신고서. 기존 hf015 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070101/__icsFiles/afieldfile/2024/02/02/3-08-1280_240202.pdf |
+| `hana_official_024` | 금융거래정보제공(요구·동의)서 | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 금융거래정보제공(요구·동의)서. 기존 hf024 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070101/__icsFiles/afieldfile/2021/09/07/5-08-0016_200508.pdf |
+| `hana_official_028` | 위임장 | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 위임장. 기존 hf028 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070101/__icsFiles/afieldfile/2020/05/29/5_08_0041_20200601.pdf |
+| `hana_official_029` | 사용인감계(금융계좌개설용) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 사용인감계(금융계좌개설용). 기존 hf029 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070101/__icsFiles/afieldfile/2020/05/08/5-08-0056_200508.pdf |
+| `hana_official_047` | 대출상담 및 신청서(한국주택금융공사채권유동화목적 보금자리론용) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 대출상담 및 신청서(한국주택금융공사채권유동화목적 보금자리론용). 기존 hf047 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2026/07/30/3-06-1104.pdf |
+| `hana_official_048` | 가계형소호 여신차입신청서 | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 가계형소호 여신차입신청서. 기존 hf048 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2025/10/20/b000005060519_20251020.pdf |
+| `hana_official_049` | 《개인》대출신청서(가계용) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 《개인》대출신청서(가계용). 기존 hf049 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2025/10/20/5160178_20251020.pdf |
+| `hana_official_051` | 대출계약 철회신청서 | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 대출계약 철회신청서. 기존 hf051 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2025/06/30/5-06-0681.pdf |
+| `hana_official_052` | [필수] 개인(신용)정보 수집·이용·제공 및 조회 동의서(주택도시기금 주택전월세자금대출용) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. [필수] 개인(신용)정보 수집·이용·제공 및 조회 동의서(주택도시기금 주택전월세자금대출용). 기존 hf052 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2025/06/23/5-06-0920.pdf |
+| `hana_official_053` | [필수] 개인(신용)정보 수집·이용·제공 및 조회 동의서(주택도시기금 주택구입자금대출용) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. [필수] 개인(신용)정보 수집·이용·제공 및 조회 동의서(주택도시기금 주택구입자금대출용). 기존 hf053 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2025/06/23/5-06-0919.pdf |
+| `hana_official_054` | 주택도시기금 대출 신청서(가계용) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 주택도시기금 대출 신청서(가계용). 기존 hf054 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2025/06/23/5-16-0177.pdf |
+| `hana_official_055` | 주택도시기금 대출상담 및 신청서(내집마련 디딤돌 대출용) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 주택도시기금 대출상담 및 신청서(내집마련 디딤돌 대출용). 기존 hf055 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2025/06/23/5-16-0139.pdf |
+| `hana_official_058` | 융자상담 및 차입신청서(기업용) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 융자상담 및 차입신청서(기업용). 기존 hf058 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2024/10/10/3-06-0201_1.pdf |
+| `hana_official_059` | 개인(신용)정보 조회 동의서 | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 개인(신용)정보 조회 동의서. 기존 hf059 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2024/06/27/5-06-0548.pdf |
+| `hana_official_060` | [필수] 개인(신용)정보 수집이용 동의서(대출성상품 적합성적정성 판단용) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. [필수] 개인(신용)정보 수집이용 동의서(대출성상품 적합성적정성 판단용). 기존 hf060 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2024/06/14/3-06-0151.pdf |
+| `hana_official_061` | 적합성, 적정성 고객정보 확인서(개인 및 개인사업자용) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 적합성, 적정성 고객정보 확인서(개인 및 개인사업자용). 기존 hf061 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2024/06/14/5-06-0967.pdf |
+| `hana_official_062` | 적합성, 적정성 고객정보 확인서(법인용) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 적합성, 적정성 고객정보 확인서(법인용). 기존 hf062 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2024/06/14/5-06-0970.pdf |
+| `hana_official_064` | 대출정보 열람청구, 상환 및 말소접수 위임장(주택담보대출 대출이동서비스) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 대출정보 열람청구, 상환 및 말소접수 위임장(주택담보대출 대출이동서비스). 기존 hf064 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2023/12/08/5-16-0401.pdf |
+| `hana_official_065` | 국토교통부 주택소유확인 시스템 등 이용 관련 [필수] 개인(신용)정보 수집·이용·제공 동의서 | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 국토교통부 주택소유확인 시스템 등 이용 관련 [필수] 개인(신용)정보 수집·이용·제공 동의서. 기존 hf065 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2023/06/13/5-06-0893.pdf |
+| `hana_official_066` | 대출정보 열람청구 및 상환 위임장(대출이동서비스) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 대출정보 열람청구 및 상환 위임장(대출이동서비스). 기존 hf066 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2023/05/31/5-16-0365_230531.pdf |
+| `hana_official_067` | [필수] 개인(신용)정보 수집 · 이용 동의서[대출이동서비스] | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. [필수] 개인(신용)정보 수집 · 이용 동의서[대출이동서비스]. 기존 hf067 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2023/05/31/5-16-0364_230531.pdf |
+| `hana_official_118` | [필수] 개인(신용)정보 수집·이용·제공_동의서[가계여신_금융거래] | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. [필수] 개인(신용)정보 수집·이용·제공_동의서[가계여신_금융거래]. 기존 hf118 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2021/03/02/5-16-0179_20210302.pdf |
+| `hana_official_128` | 필수 개인(신용)정보 수집, 이용 및 제공 동의서(소호여신) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 필수 개인(신용)정보 수집, 이용 및 제공 동의서(소호여신). 기존 hf128 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2021/02/25/5_06_0724.pdf |
+| `hana_official_129` | 필수 개인(신용)정보 수집, 이용 및 제공 동의서(법인여신) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 필수 개인(신용)정보 수집, 이용 및 제공 동의서(법인여신). 기존 hf129 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2021/02/25/5-06-0734.pdf |
+| `hana_official_138` | 대출금 수령위임동의서 | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 대출금 수령위임동의서. 기존 hf138 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2016/07/07/5-06-0741_20150901.pdf |
+| `hana_official_139` | 《기업》 지급보증거래 신청서(서면.전자 지급보증 겸용) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 《기업》 지급보증거래 신청서(서면.전자 지급보증 겸용). 기존 hf139 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2016/07/07/5060703_20160707.pdf |
+| `hana_official_149` | 《기업》금융거래확인서 | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 《기업》금융거래확인서. 기존 hf149 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2016/07/07/5060189_20160707.pdf |
+| `hana_official_157` | 여신거래용 인감명판 등 신고서 | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 여신거래용 인감명판 등 신고서. 기존 hf157 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070102/__icsFiles/afieldfile/2016/07/07/5090002_20160707.pdf |
+| `hana_official_199` | 외화송금신청서 | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 외화송금신청서. 기존 hf199 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070103/__icsFiles/afieldfile/2026/06/02/3-09-0131_260602.pdf |
+| `hana_official_408` | 본인확인서(FATCA CRS 개인,개인사업자용)(국문) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 본인확인서(FATCA CRS 개인,개인사업자용)(국문). 기존 hf408 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070106/__icsFiles/afieldfile/2026/07/29/5-08-0334.pdf |
+| `hana_official_413` | 고객확인서(법인,고유번호나 납세번호가 있는 임의 단체용) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 고객확인서(법인,고유번호나 납세번호가 있는 임의 단체용). 기존 hf413 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070106/__icsFiles/afieldfile/2026/06/17/3-08-1301.pdf |
+| `hana_official_414` | [필수] 개인(신용)정보 수집·이용·제공 동의서 [공공마이데이터 주민등록 등·초본 조회용] | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. [필수] 개인(신용)정보 수집·이용·제공 동의서 [공공마이데이터 주민등록 등·초본 조회용]. 기존 hf414 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070106/__icsFiles/afieldfile/2026/06/10/7-08-0039.pdf |
+| `hana_official_416` | [필수] 개인(신용)정보 수집·이용·제공 동의서 [공공마이데이터 사업자정보 조회용] | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. [필수] 개인(신용)정보 수집·이용·제공 동의서 [공공마이데이터 사업자정보 조회용]. 기존 hf416 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070106/__icsFiles/afieldfile/2026/06/10/7-08-0035.pdf |
+| `hana_official_419` | [필수] 개인(신용)정보 수집 · 이용 동의서 (비여신 금융거래) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. [필수] 개인(신용)정보 수집 · 이용 동의서 (비여신 금융거래). 기존 hf419 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070106/__icsFiles/afieldfile/2025/08/20/3-08-1294.pdf |
+| `hana_official_420` | 비대면 계좌개설 안심차단 서비스 신청서 | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 비대면 계좌개설 안심차단 서비스 신청서. 기존 hf420 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070106/__icsFiles/afieldfile/2025/05/09/5-08-0737.pdf |
+| `hana_official_428` | 본인확인서(FATCA CRS 법인,임의단체용)(국문) | 은행 서식 | 하나은행 공개 원문을 대조한 HTML. 본인확인서(FATCA CRS 법인,임의단체용)(국문). 기존 hf428 PDF 배경 버전도 유지. 인쇄층은 HTML 글자·SVG 선, 고객 기재란은 기존 생성 규칙. 출처: https://image.kebhana.com/cont/customer/customer07/customer0701/customer070106/__icsFiles/afieldfile/2024/01/05/5-08-0335.pdf |
+| `hana_personal_agreement` | 대출거래약정서(가계용) | 은행 서식 | 대출거래약정서(가계용) 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://image.kebhana.com/cont/download/documents/provide/0000003061040_20210325.pdf |
+| `hana_specific_guarantee` | 보증서(특정채무보증용) | 은행 서식 | 보증서(특정채무보증용) 공식 공개 서식의 인쇄 문구·표 배치를 대조한 HTML 견본. 원본 이미지·QR·직인은 제외, 기재값은 합성. 출처: https://image.kebhana.com/cont/download/documents/provide/b000003061059_20210325.pdf |
 
 ## 업무 시나리오
 

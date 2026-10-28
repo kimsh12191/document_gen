@@ -171,3 +171,31 @@
 | `past_events[].office` | 처리관서 | text | 0% | 서울특별시 송파구 |
 | `past_events[].judgment_date` | 이혼판결확정일 | date | 0% | 2008년 04월 30일 |
 | `past_events[].court` | 법원 | text | 0% | 수원가정법원 |
+
+## 외국인체류확인서 (`gov_foreign_household`) — 키 4개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.address` | 대상건물소재지 | text | 100% | 경기도 수원시 영통구 매탄로 376, 115동 2104호 |
+| `official.name` | 성명 | text | 100% | PARK CHANYEON |
+| `official.moved` | 전입일자 | date | 100% | 2020.05.08 |
+| `official.number` | 일련번호 | number | 100% | 1 |
+
+## 주민등록표(초본) (`gov_resident_abstract`) — 키 3개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.name` | 성명 | text | 100% | 박찬연 |
+| `official.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
+| `official.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+
+## 주민등록표(등본) (`gov_resident_copy`) — 키 6개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.head` | 세대주 | text | 100% | 박찬연 |
+| `official.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `official.row` | 순번 | number | 100% | 1 |
+| `official.relation` | 세대주와의관계 | text | 100% | 본인 |
+| `official.name` | 성명 | text | 100% | 박찬연 |
+| `official.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |

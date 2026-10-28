@@ -110,3 +110,22 @@
 | `counterparty.address` | 주소 | text | 57% | 전라남도 여수시 시청로 126, 115동 1503호 |
 | `delegate.name` | 성명 | text | 10% | 엄주영 |
 | `delegate.address` | 주소 | text | 10% | 서울특별시 종로구 자하문로 92, 114동 504호 |
+
+## 인감증명서 (`gov_seal`) — 키 5개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.name` | 성명 | text | 100% | 박찬연 |
+| `official.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
+| `official.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `official.nationality` | 국적 | text | 100% | 대한민국 |
+| `official.purpose` | 일반용용도 | text | 100% | 금융기관 제출용 |
+
+## 본인서명사실확인서 (`gov_signature`) — 키 4개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.name` | 성명 | text | 100% | 박찬연 |
+| `official.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
+| `official.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `official.purpose` | 일반용도 | text | 100% | 금융기관 제출용 |

@@ -301,3 +301,43 @@
 | `cohabitants[].move_in_date` | 전입일자 | date | 33% | 2010-02-25 |
 | `cohabitants[].reg_type` | 등록구분 | text | 33% | 거주자 |
 | `households[].unit` | 동·호 | text | 3% | 101호 |
+
+## 일반건축물대장(갑) (`gov_building_general`) — 키 5개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.name` | 명칭 | text | 100% | 한신휴플러스에듀포레 |
+| `official.address` | 대지위치 | text | 100% | 경기도 수원시 영통구 원천동 87 |
+| `official.road` | 도로명주소 | text | 100% | 경기도 수원시 영통구 매탄로 376, 115동 2104호 |
+| `official.owner` | 소유자 | text | 100% | 박찬연 |
+| `official.structure` | 주구조 | text | 100% | 철근콘크리트구조 |
+
+## 집합건축물대장(전유부, 갑) (`gov_building_unit`) — 키 7개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.id` | 건물ID | text | 100% | 1792-2013-094176 |
+| `official.name` | 명칭 | text | 100% | 한신휴플러스에듀포레 |
+| `official.address` | 대지위치 | text | 100% | 경기도 수원시 영통구 원천동 87 |
+| `official.road` | 도로명주소 | text | 100% | 경기도 수원시 영통구 매탄로 376, 115동 2104호 |
+| `official.owner` | 소유자성명 | text | 100% | 박찬연 |
+| `official.rrn` | 소유자등록번호 | rrn | 100% | 900210-1659382 |
+| `official.area` | 전유면적 | number | 100% | 101.84 |
+
+## 토지대장 (`gov_land`) — 키 3개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.address` | 토지소재 | text | 100% | 경기도 수원시 영통구 원천동 87 |
+| `official.owner` | 소유자 | text | 100% | 박찬연 |
+| `official.rrn` | 등록번호 | rrn | 100% | 900210-1659382 |
+
+## 전입세대확인서 (`gov_move_in`) — 키 5개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.address` | 대상도로명주소 | text | 100% | 경기도 수원시 영통구 매탄로 376, 115동 2104호 |
+| `official.jibun` | 대상지번주소 | text | 100% | 경기도 수원시 영통구 원천동 87 |
+| `official.head` | 세대주 | text | 100% | 박찬연 |
+| `official.moved` | 전입일자 | date | 100% | 2020.05.08 |
+| `official.status` | 등록구분 | text | 100% | 거주자 |

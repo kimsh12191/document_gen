@@ -201,3 +201,74 @@
 | `penalty_items[].amount` | 금액 | amount | 3% | 681,530 |
 | `business_income.partner` | 공동사업자 | text | 3% | 김훈도 |
 | `business_income.share` | 손익분배비율 | percent | 3% | 60% |
+
+## 종합소득세 과세표준확정신고 및 납부계산서(일반) (`gov_income_tax_return`) — 키 4개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.name` | 성명 | text | 100% | 박찬연 |
+| `official.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
+| `official.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `official.mobile` | 휴대전화 | phone | 100% | 010-5907-7253 |
+
+## 지방세 세목별 과세증명서 (`gov_local_assessment`) — 키 8개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.name` | 성명 | text | 100% | 박찬연 |
+| `official.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
+| `official.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `official.company` | 상호 | text | 100% | 동방학원 |
+| `official.purpose` | 사용목적 | text | 100% | 금융기관 제출용 |
+| `official.tax` | 세목 | text | 100% | 재산세 |
+| `official.period` | 부과연월 | month | 100% | 2025.07 |
+| `official.amount` | 세액 | amount | 100% | 198,970,000 |
+
+## 지방세 납세증명(신청)서 (`gov_local_tax`) — 키 5개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.name` | 성명 | text | 100% | 박찬연 |
+| `official.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
+| `official.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `official.phone` | 전화번호 | phone | 100% | 010-5907-7253 |
+| `official.arrears` | 유예내역 | text | 100% | 해당 없음 |
+
+## 납세증명서 (`gov_national_tax`) — 키 5개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.name` | 성명 | text | 100% | 박찬연 |
+| `official.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
+| `official.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `official.purpose` | 사용목적(기타) | text | 100% | 금융기관 제출용 |
+| `official.arrears` | 연장·유예내역 | text | 100% | 해당 없음 |
+
+## 납부내역증명 (`gov_tax_payment_history`) — 키 9개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.name` | 성명 | text | 100% | 박찬연 |
+| `official.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
+| `official.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `official.company` | 상호 | text | 100% | 동방학원 |
+| `official.biz_no` | 사업자등록번호 | biz_no | 100% | 860-11-55034 |
+| `official.tax_year` | 귀속연도 | number | 100% | 2025 |
+| `official.tax_kind` | 세목 | text | 100% | 종합소득세 |
+| `official.paid_on` | 납부일 | date | 100% | 2026.05.31 |
+| `official.paid` | 납부금액 | number | 100% | 96,990,000 |
+
+## 부가가치세 과세표준증명 (`gov_vat_base`) — 키 10개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.name` | 성명 | text | 100% | 박찬연 |
+| `official.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
+| `official.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `official.company` | 상호 | text | 100% | 동방학원 |
+| `official.biz_no` | 사업자등록번호 | biz_no | 100% | 860-11-55034 |
+| `official.biz_type` | 업태 | text | 100% | 서비스업 |
+| `official.biz_item` | 종목 | text | 100% | 학원 |
+| `official.period_start` | 과세기간시작 | date | 100% | 2025.01.01 |
+| `official.period_end` | 과세기간종료 | date | 100% | 2025.06.30 |
+| `official.sales` | 매출과세표준 | number | 100% | 236,880,000원 |

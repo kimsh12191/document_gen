@@ -7,13 +7,14 @@
 
 | 키 | 항목명 | 타입 | 채움률 | 예시 |
 |---|---|---|---|---|
+| `company.name` | 회사명 | text | 100% | 주식회사 태평양무역 |
+| `company.address` | 소재지 | text | 100% | 충청북도 청주시 흥덕구 오송생명로 491-4, 10층 03호 |
+| `company.phone` | 전화번호 | phone | 100% | 043-783-2775 |
+| `company.biz_no` | 사업자등록번호 | biz_no | 100% | 501-82-42625 |
 | `doc_no` | 문서번호 | text | 100% | 제 2026-145 호 |
 | `employee.name` | 성명 | text | 100% | 박찬연 |
 | `employee.rrn` | 주민등록번호 | rrn | 77% | 900210-1659382 |
 | `employee.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 (방배동, 롯데캐슬센… |
-| `company.name` | 회사명 | text | 100% | 주식회사 태평양무역 |
-| `company.biz_no` | 사업자등록번호 | biz_no | 100% | 501-82-42625 |
-| `company.address` | 소재지 | text | 100% | 충청북도 청주시 흥덕구 오송생명로 491-4, 10층 03호 |
 | `employment.department` | 소속 | text | 100% | 구매팀 |
 | `employment.position` | 직위 | text | 100% | 대리 |
 | `employment.period` | 재직기간 | text | 100% | 2020.05.08 ~ 현재 |
@@ -21,7 +22,6 @@
 | `purpose` | 용도 | text | 100% | 금융기관 제출용 |
 | `submit_to` | 제출처 | text | 100% | 기업은행 |
 | `issue_date` | 발급일 | date | 100% | 2026년 1월 31일 |
-| `company.phone` | 전화번호 | phone | 100% | 043-783-2775 |
 | `company.ceo` | 대표이사 | text | 100% | 공정태 |
 | `seal.company` | 회사직인 | seal | 100% | 대표이사인 |
 | `employee.birth` | 생년월일 | date | 23% | 1994.09.26 |
@@ -257,13 +257,81 @@
 | `rows[].ltc` | 납부보험료(장기요양) | number | 100% | 17,720 |
 | `rows[].total` | 납부보험료(계) | amount | 100% | 156,120 |
 | `rows[].paid_date` | 납부일자 | date | 100% | 2023.09.11 |
-| `rows[].note` | 비고 | text | 93% | 정산 분할 1/10회 |
-| `sum.notice_health` | 고지보험료(건강보험)합계 | number | 100% | 4,596,080 |
-| `sum.notice_ltc` | 고지보험료(장기요양)합계 | number | 100% | 594,160 |
-| `sum.health` | 납부보험료(건강보험)합계 | number | 100% | 4,596,080 |
-| `sum.ltc` | 납부보험료(장기요양)합계 | number | 100% | 594,160 |
-| `sum.total` | 납부보험료(계)합계 | amount | 100% | 5,190,240 |
+| `sum.notice_health` | 고지보험료(건강보험)합계 | number | 100% | 4,198,640 |
+| `sum.notice_ltc` | 고지보험료(장기요양)합계 | number | 100% | 542,680 |
+| `sum.health` | 납부보험료(건강보험)합계 | number | 100% | 4,198,640 |
+| `sum.ltc` | 납부보험료(장기요양)합계 | number | 100% | 542,680 |
+| `sum.total` | 납부보험료(계)합계 | amount | 100% | 4,741,320 |
 | `purpose` | 용도 | text | 100% | 기타 |
 | `issue_date` | 발급일 | date | 100% | 2026년 1월 31일 |
 | `seal.issuer` | 발급기관직인 | seal | 100% | 국민건강보험공단이사장인 |
 | `person.rrn` | 주민등록번호 | rrn | 37% | 660812-2****** |
+| `rows[].note` | 비고 | text | 13% | 정산 분할 1/10회 |
+
+## 소득금액증명 (`gov_income`) — 키 23개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.name` | 성명 | text | 100% | 박찬연 |
+| `official.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
+| `official.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `official.company` | 근로소득발생처 | text | 100% | 주식회사 태평양무역 |
+| `official.biz_no` | 발생처사업자등록번호 | biz_no | 100% | 501-82-42625 |
+| `official.salary` | 지급받은총액 | amount | 100% | 48,570,000 |
+| `official.year` | 귀속연도 | number | 100% | 2024 |
+| `official.tax` | 총결정세액 | amount | 100% | 2,257,830 |
+| `official.number` | 발급번호 | text | 100% | 5748-861-1943-635 |
+| `official.office` | 관할지역 | text | 100% | 서초 |
+| `official.issue0` | 발급일년 | number | 100% | 2026 |
+| `official.issue1` | 발급일월 | number | 100% | 01 |
+| `official.issue2` | 발급일일 | number | 100% | 31 |
+| `official.salary_income` | 근로소득소득금액 | amount | 100% | 900,000 |
+| `official.period_from` | 납세자가신청한증명귀속연도시작 | number | 100% | 2022 |
+| `official.period_to` | 납세자가신청한증명귀속연도끝 | number | 100% | 2024 |
+| `official.receipt_no` | 접수번호 | text | 100% | 038516-5681192 |
+| `official.issuer_department` | 증명발급자담당부서 | text | 100% | 소득세과 |
+| `official.issuer_person` | 증명발급자담당자 | text | 100% | 이민윤 |
+| `official.issuer_phone` | 증명발급자연락처 | phone | 100% | 02-3424-1065 |
+| `official.tax_officer_department` | 세적담당자담당부서 | text | 100% | 부가가치세과 |
+| `official.tax_officer_person` | 세적담당자담당자 | text | 100% | 금진아 |
+| `official.tax_officer_phone` | 세적담당자연락처 | phone | 100% | 043-988-3147 |
+
+## 국민연금가입자 증명서 (`gov_pension`) — 키 6개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.name` | 성명 | text | 100% | 박찬연 |
+| `official.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
+| `official.issued` | 발급일자 | date | 100% | 2026.01.31 |
+| `official.first_joined` | 최초자격취득일 | date | 100% | 2020.05.08 |
+| `official.type` | 가입자종류 | text | 100% | 사업장가입자 |
+| `official.qual` | 자격취득일 | date | 100% | 2020.05.08 |
+
+## 연금소득 원천징수영수증 (`gov_pension_withholding`) — 키 4개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.name` | 성명 | text | 100% | 박찬연 |
+| `official.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
+| `official.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `official.amount` | 총연금액 | amount | 100% | 74,880,000 |
+
+## 퇴직소득 원천징수영수증 (`gov_retirement_withholding`) — 키 4개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.name` | 성명 | text | 100% | 박찬연 |
+| `official.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
+| `official.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `official.company` | 징수의무자상호 | text | 100% | 주식회사 태평양무역 |
+
+## 근로소득 원천징수영수증 (`gov_withholding`) — 키 6개
+
+| 키 | 항목명 | 타입 | 채움률 | 예시 |
+|---|---|---|---|---|
+| `official.company` | 징수의무자상호 | text | 100% | 주식회사 태평양무역 |
+| `official.biz_no` | 사업자등록번호 | biz_no | 100% | 501-82-42625 |
+| `official.name` | 성명 | text | 100% | 박찬연 |
+| `official.rrn` | 주민등록번호 | rrn | 100% | 900210-1659382 |
+| `official.address` | 주소 | text | 100% | 서울특별시 서초구 방배로 524, 110동 501호 |
+| `official.salary` | 급여 | amount | 100% | 54,600,000 |
