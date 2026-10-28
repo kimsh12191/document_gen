@@ -60,6 +60,17 @@ def _items(tmp_path):
     return {x["task"]: x for x in T.make_single(*_args(tmp_path))}
 
 
+def _set_q(d, q: dict):
+    """칸 목록 fields.json 의 칸마다 질문 설정 q (키 → q, 반복 행은 rows.out)."""
+    body = json.loads(json.dumps(FIELDS))
+    for k, v in q.items():
+        if k.startswith("rows."):
+            body["lists"]["rows"]["fields"][k.split(".", 1)[1]]["q"] = v
+        else:
+            body["fields"][k]["q"] = v
+    (d / "fields.json").write_text(json.dumps(body, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+
+
 def _write(d, body):
     (d / "questions.json").write_text(FQ.dump(body), encoding="utf-8")
 
@@ -71,9 +82,13 @@ def test_only_changes_are_written_and_they_change_the_questions(form, tmp_path):
     assert view["kie"]["prompt"] == FQ.common_prompt("kie") and view["kie"]["answer"] == "list_box"
     assert all(it["ask"] and not it["changed"] and it["q_label"] == it["label"] for it in view["kie"]["items"])
 
-    _write(form, {"kie": {"items": [{"key": "memo", "ask": False}, {"key": "loan.amount", "label": "대출 신청금액"},
-                                    {"key": "rows.*.out", "note": "거래 내역 출금액"}]},
-                  "classify": {"answer": "질문 시험서", "aliases": ["시험 서식"]}, "ocr_page": {"exclude": ["branch"]}})
+    from docgen.preview import source_hash
+
+    h = source_hash(ID, common=False)
+    _set_q(form, {"memo": {"ask": False}, "loan.amount": {"label": "대출 신청금액"}, "rows.out": {"note": "거래 내역 출금액"},
+                  "branch": {"ocr": False}})
+    assert source_hash(ID, common=False) == h   # 질문 설정 q 는 그림을 바꾸지 않아 서식 해시(재검수)에 안 들어간다
+    _write(form, {"classify": {"answer": "질문 시험서", "aliases": ["시험 서식"]}})
     after = _items(tmp_path)
     kie = after["kie"]
     assert "- memo:" not in kie["prompt"] and "memo" not in {a["key"] for a in kie["answer"]}
@@ -85,9 +100,14 @@ def test_only_changes_are_written_and_they_change_the_questions(form, tmp_path):
     assert view["memo"]["ask"] is False and view["memo"]["changed"] == ["ask"]
     assert view["loan.amount"]["q_label"] == "대출 신청금액" and view["loan.amount"]["label"] == "신청금액"
 
-    _write(form, {"kie": {"others": "skip", "items": [{"key": "bank"}]}})   # 목록에 없는 칸은 묻지 않는다
+    body = json.loads(json.dumps(FIELDS))
+    body["q"] = {"bank": {"label": "은행명"}}   # 칸 줄이 없거나(부모 값·체크·도장) 줄 밖에 적고 싶을 때: 맨 위 q 묶음
+    (form / "fields.json").write_text(json.dumps(body, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    assert source_hash(ID, common=False) == h
+    _write(form, {"kie": {"others": "skip"}})   # q 를 적은 칸만 묻는다
     assert [a["key"] for a in _items(tmp_path)["kie"]["answer"]] == ["bank"]
     (form / "questions.json").unlink()
+    _set_q(form, {})
     assert _items(tmp_path) == before
 
 
@@ -132,18 +152,18 @@ def test_checks_catch_bad_files_missing_keys_and_mismatches(form):
     (form / "questions.json").write_text('{"kie": {"items": [{"label": "x"}]}, "extra": [{"id": "a b", "type": "date"}], "oops": 1}',
                                          encoding="utf-8")
     why = FQ.check_dir(form)
-    assert any("모르는 항목" in w for w in why) and any('"key"' in w for w in why)
+    assert any("모르는 항목" in w for w in why) and any("fields.json" in w and "q" in w for w in why)
     assert any("id 가 없거나" in w for w in why) and any("type 은" in w for w in why)
     assert any(p["id"] == ID and "questions.json" in p["reason"] for p in refresh()["problems"])
 
-    _write(form, {"kie": {"items": [{"key": "gone.key", "label": "없음"}, {"key": "bank", "label": "거래은행"}]},
-                  "ocr_field": {"exclude": ["nope.key"]},
-                  "extra": [{"id": "x", "prompt": "?", "type": "text", "answer": "{nope}"}]})
+    _set_q(form, {"bank": {"asked": 1}})
+    _write(form, {"extra": [{"id": "x", "prompt": "?", "type": "text", "answer": "{nope}"}]})
+    assert any("모르는 칸 'asked'" in p and "fields.json:" in p for p in FQ.check(ID, seeds=2)["problems"])
+    _set_q(form, {"bank": {"label": "거래은행"}, "memo": {"ask": False}})
     r = FQ.check(ID, seeds=2)
-    assert any("지금 칸에 없는 키" in p and "gone.key" in p for p in r["problems"])
     assert any("extra x" in p and "nope" in p for p in r["problems"])
-    assert any("ocr_field.exclude" in p and "nope.key" in p for p in r["problems"])
     assert any("항목명과 다르게" in n and "거래은행" in n for n in r["notes"])
+    assert any("묻지 않는 칸" in n and "memo" in n for n in r["notes"])
 
 
 def test_question_and_answer_shells_come_from_the_form_file(form, tmp_path):
@@ -179,3 +199,16 @@ def test_question_and_answer_shells_come_from_the_form_file(form, tmp_path):
     _write(form, body)
     why = FQ.check_dir(form)
     assert any("{items}" in w for w in why) and any("kie.answer 는" in w for w in why)
+
+
+def test_editor_save_keeps_question_settings(form):
+    """html 편집기 저장(칸 선언을 통째로 바꿈)도 칸의 q 를 지우지 않는다."""
+    from docgen import formfields
+
+    _set_q(form, {"memo": {"ask": False}, "rows.out": {"note": "출금액"}})
+    plain = json.loads(json.dumps(FIELDS))
+    plain["fields"]["memo"]["label"] = "비고란"   # 편집기가 보낸 새 선언 (q 없음)
+    formfields.update(ID, {"fields": plain["fields"], "lists": plain["lists"]}, formfields.VALUE_KEYS)
+    body = json.loads((form / "fields.json").read_text(encoding="utf-8"))
+    assert body["fields"]["memo"] == {**plain["fields"]["memo"], "q": {"ask": False}}
+    assert body["lists"]["rows"]["fields"]["out"]["q"] == {"note": "출금액"}

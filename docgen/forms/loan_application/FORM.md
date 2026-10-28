@@ -1,6 +1,6 @@
 # 대출거래신청서 (`loan_application`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card loan_application · card-hash: 82e8021d9351 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card loan_application · card-hash: 7b1105bf43a6 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** bank_form · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 대출거래신청서 (다른 이름: 《개인》대출신청서(가계용))
@@ -21,79 +21,81 @@
 
 ## 추출 항목 (정보 추출 kie) — 47칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `bank` | 은행명 | text | 1쪽 [101, 39, 194, 61] | 늘 | generate.py | - | 묻기 |
-| `branch` | 취급점 | text | 1쪽 [725, 130, 780, 141] | 늘 | generate.py | look/template.html.j2:15 | 묻기 |
-| `customer.name` ← `applicant.name` | 성명 | text | 1쪽 [198, 172, 255, 183] | 늘 | generate.py | look/template.html.j2:11 | 묻기 |
-| `customer.rrn` ← `applicant.rrn` | 실명번호 | rrn | 1쪽 [644, 172, 742, 183] | 늘 | generate.py | look/template.html.j2:20 | 묻기 |
-| `applicant.zipcode` | 우편번호 | text | - | 늘 | generate.py | look/template.html.j2:21 | 묻기 |
-| `customer.address` ← `applicant.address` | 자택주소 | text | 1쪽 [229, 192, 723, 203] | 늘 | generate.py | look/template.html.j2:21 | 묻기 |
-| `customer.mobile` ← `applicant.mobile` | 휴대전화 | phone | 1쪽 [198, 212, 286, 223] | 늘 | generate.py | look/template.html.j2:22 | 묻기 |
-| `customer.home_phone` ← `applicant.home_phone` | 자택전화 | phone | - | 늘 | generate.py | look/template.html.j2:22 | 묻기 |
-| `customer.email` ← `applicant.email` | E-mail | text | - | 늘 | generate.py | look/template.html.j2:23 | 묻기 |
-| `applicant.work_phone` | 직장전화 | phone | - | 늘 | generate.py | look/template.html.j2:23 | 묻기 |
-| `employer.name` ← `workplace.name` | 직장명 | text | 1쪽 [198, 331, 316, 342] | 늘 | generate.py | look/template.html.j2:31 | 묻기 |
-| `employer.department` ← `workplace.department` | 근무부서 | text | 1쪽 [644, 331, 715, 342] | 늘 | generate.py | look/template.html.j2:31 | 묻기 |
-| `employer.position` ← `workplace.position` | 직위 | text | 1쪽 [198, 351, 226, 362] | 늘 | generate.py | look/template.html.j2:32 | 묻기 |
-| `employer.hire_date` ← `workplace.hire_date` | 입사년월일 | date | 1쪽 [644, 351, 711, 362] | 늘 | generate.py | look/template.html.j2:32 | 묻기 |
-| `workplace.annual_income` | 연소득(본인) | text | 1쪽 [198, 371, 259, 382] | 늘 | generate.py | look/template.html.j2:33 | 묻기 |
-| `employer.address` ← `workplace.address` | 직장주소 | text | 1쪽 [644, 371, 891, 382] | 늘 | generate.py | look/template.html.j2:33 | 묻기 |
-| `debts.*.lender` | 금융기관 | text | 1쪽 [96, 437, 153, 448] (1행) | 12/16 | generate.py | look/template.html.j2:42 | 묻기 |
-| `debts.*.kind` | 대출종류 | text | 1쪽 [196, 437, 253, 448] (1행) | 12/16 | generate.py | look/template.html.j2:42 | 묻기 |
-| `debts.*.balance` | 잔액 | amount | 1쪽 [288, 437, 352, 448] (1행) | 12/16 | generate.py | look/template.html.j2:42 | 묻기 |
-| `debts.*.maturity` | 만기일 | date | 1쪽 [373, 437, 440, 448] (1행) | 12/16 | generate.py | look/template.html.j2:42 | 묻기 |
-| `debts.*.refinance` | 상환여부 | text | 1쪽 [475, 437, 504, 448] (1행) | 12/16 | generate.py | look/template.html.j2:42 | 묻기 |
-| `assets.*.kind` | 종류 | text | 1쪽 [547, 437, 590, 448] (1행) | 14/16 | generate.py | look/template.html.j2:52 | 묻기 |
-| `assets.*.location` | 소재지 | text | 1쪽 [607, 437, 812, 448] (1행) | 14/16 | generate.py | look/template.html.j2:52 | 묻기 |
-| `assets.*.value` | 평가금액 | amount | 1쪽 [838, 437, 921, 448] (1행) | 14/16 | generate.py | look/template.html.j2:52 | 묻기 |
-| `loan.subject` | 대출과목 | text | 1쪽 [198, 502, 284, 513] | 늘 | generate.py | look/template.html.j2:78 | 묻기 |
-| `loan.product` | 상품명 | text | 1쪽 [644, 502, 730, 513] | 늘 | generate.py | look/template.html.j2:78 | 묻기 |
-| `loan.amount_korean` | 대출신청금액(한글) | amount_korean | 1쪽 [198, 522, 330, 533] | 늘 | generate.py | look/template.html.j2:79 | 묻기 |
-| `loan.amount` | 대출신청금액 | amount | 1쪽 [360, 522, 431, 533] | 늘 | generate.py | look/template.html.j2:79 | 묻기 |
-| `loan.term` | 대출기간 | text | 1쪽 [198, 542, 226, 553] | 늘 | generate.py | look/template.html.j2:80 | 묻기 |
-| `loan.hope_date` | 대출희망일 | date | 1쪽 [644, 542, 711, 553] | 늘 | generate.py | look/template.html.j2:80 | 묻기 |
-| `loan.interest_day` | 이자납입일 | text | 1쪽 [644, 582, 697, 593] | 늘 | generate.py | look/template.html.j2:82 | 묻기 |
-| `loan.purpose` | 세부용도 | text | 1쪽 [260, 616, 346, 626] | 늘 | generate.py | look/template.html.j2:83 | 묻기 |
-| `collateral_detail` | 담보내용 | text | 1쪽 [644, 636, 891, 660] | 늘 | generate.py | look/template.html.j2:84 | 묻기 |
-| `loan.debit_bank` | 이체은행 | text | 1쪽 [230, 676, 287, 687] | 늘 | generate.py | look/template.html.j2:85 | 묻기 |
-| `loan.debit_account` | 이체계좌번호 | account_no | 1쪽 [359, 676, 469, 687] | 늘 | generate.py | look/template.html.j2:85 | 묻기 |
-| `loan.debit_holder` | 예금주 | text | 1쪽 [526, 676, 584, 687] | 늘 | generate.py | look/template.html.j2:85 | 묻기 |
-| `apply_date` | 신청일 | date | 1쪽 [584, 780, 677, 791] | 늘 | generate.py | look/template.html.j2:118 | 묻기 |
-| `signature` | 신청인 | text | 1쪽 [759, 780, 817, 791] | 늘 | generate.py | look/template.html.j2:118 | 묻기 |
-| `agent.name` | 대리인성명 | - | - | 5/16 | generate.py | look/template.html.j2:101 | 묻기 |
-| `agent.rrn` | 대리인실명번호 | - | - | 5/16 | generate.py | look/template.html.j2:101 | 묻기 |
-| `agent.relation` | 본인과의관계 | - | - | 5/16 | generate.py | look/template.html.j2:102 | 묻기 |
-| `agent.phone` | 대리인연락처 | - | - | 5/16 | generate.py | look/template.html.j2:102 | 묻기 |
-| `related.name` ← `co_borrower.name` | 공동차주성명 | - | - | 2/16 | generate.py | look/template.html.j2:92 | 묻기 |
-| `related.rrn` ← `co_borrower.rrn` | 공동차주실명번호 | - | - | 2/16 | generate.py | look/template.html.j2:92 | 묻기 |
-| `co_borrower.relation` | 신청인과의관계 | - | - | 2/16 | generate.py | look/template.html.j2:93 | 묻기 |
-| `co_borrower.mobile` | 공동차주휴대전화 | - | - | 2/16 | generate.py | look/template.html.j2:93 | 묻기 |
-| `co_borrower.workplace` | 공동차주직장 | - | - | 2/16 | generate.py | look/template.html.j2:94 | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `bank` | 은행명 | text | 1쪽 [101, 39, 194, 61] | 늘 | 템플릿 | generate.py | fields.json:75 | 묻기 |
+| `branch` | 취급점 | text | 1쪽 [725, 130, 780, 141] | 늘 | 템플릿 | generate.py | look/template.html.j2:15 · fields.json:80 | 묻기 |
+| `customer.name` ← `applicant.name` | 성명 | text | 1쪽 [198, 172, 255, 183] | 늘 | 템플릿 | generate.py | look/template.html.j2:11 · fields.json:50 | 묻기 |
+| `customer.rrn` ← `applicant.rrn` | 실명번호 | rrn | 1쪽 [644, 172, 742, 183] | 늘 | 템플릿 | generate.py | look/template.html.j2:20 · fields.json:55 | 묻기 |
+| `applicant.zipcode` | 우편번호 | text | - | 늘 | 템플릿 | generate.py | look/template.html.j2:21 · fields.json:65 | 묻기 |
+| `customer.address` ← `applicant.address` | 자택주소 | text | 1쪽 [229, 192, 723, 203] | 늘 | 템플릿 | generate.py | look/template.html.j2:21 · fields.json:30 | 묻기 |
+| `customer.mobile` ← `applicant.mobile` | 휴대전화 | phone | 1쪽 [198, 212, 286, 223] | 늘 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:45 | 묻기 |
+| `customer.home_phone` ← `applicant.home_phone` | 자택전화 | phone | - | 늘 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:40 | 묻기 |
+| `customer.email` ← `applicant.email` | E-mail | text | - | 늘 | 템플릿 | generate.py | look/template.html.j2:23 · fields.json:35 | 묻기 |
+| `applicant.work_phone` | 직장전화 | phone | - | 늘 | 템플릿 | generate.py | look/template.html.j2:23 · fields.json:60 | 묻기 |
+| `employer.name` ← `workplace.name` | 직장명 | text | 1쪽 [198, 331, 316, 342] | 늘 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:270 | 묻기 |
+| `employer.department` ← `workplace.department` | 근무부서 | text | 1쪽 [644, 331, 715, 342] | 늘 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:255 | 묻기 |
+| `employer.position` ← `workplace.position` | 직위 | text | 1쪽 [198, 351, 226, 362] | 늘 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:275 | 묻기 |
+| `employer.hire_date` ← `workplace.hire_date` | 입사년월일 | date | 1쪽 [644, 351, 711, 362] | 늘 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:260 | 묻기 |
+| `workplace.annual_income` | 연소득(본인) | text | 1쪽 [198, 371, 259, 382] | 늘 | 템플릿 | generate.py | look/template.html.j2:33 · fields.json:250 | 묻기 |
+| `employer.address` ← `workplace.address` | 직장주소 | text | 1쪽 [644, 371, 891, 382] | 늘 | 템플릿 | generate.py | look/template.html.j2:33 · fields.json:245 | 묻기 |
+| `debts.*.lender` | 금융기관 | text | 1쪽 [96, 437, 153, 448] (1행) | 12/16 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:315 | 묻기 |
+| `debts.*.kind` | 대출종류 | text | 1쪽 [196, 437, 253, 448] (1행) | 12/16 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:310 | 묻기 |
+| `debts.*.balance` | 잔액 | amount | 1쪽 [288, 437, 352, 448] (1행) | 12/16 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:305 | 묻기 |
+| `debts.*.maturity` | 만기일 | date | 1쪽 [373, 437, 440, 448] (1행) | 12/16 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:320 | 묻기 |
+| `debts.*.refinance` | 상환여부 | text | 1쪽 [475, 437, 504, 448] (1행) | 12/16 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:325 | 묻기 |
+| `assets.*.kind` | 종류 | text | 1쪽 [547, 437, 590, 448] (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:285 | 묻기 |
+| `assets.*.location` | 소재지 | text | 1쪽 [607, 437, 812, 448] (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:290 | 묻기 |
+| `assets.*.value` | 평가금액 | amount | 1쪽 [838, 437, 921, 448] (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:295 | 묻기 |
+| `loan.subject` | 대출과목 | text | 1쪽 [198, 502, 284, 513] | 늘 | 템플릿 | generate.py | look/template.html.j2:78 · fields.json:195 | 묻기 |
+| `loan.product` | 상품명 | text | 1쪽 [644, 502, 730, 513] | 늘 | 템플릿 | generate.py | look/template.html.j2:78 · fields.json:170 | 묻기 |
+| `loan.amount_korean` | 대출신청금액(한글) | amount_korean | 1쪽 [198, 522, 330, 533] | 늘 | 템플릿 | generate.py | look/template.html.j2:79 · fields.json:140 | 묻기 |
+| `loan.amount` | 대출신청금액 | amount | 1쪽 [360, 522, 431, 533] | 늘 | 템플릿 | generate.py | look/template.html.j2:79 · fields.json:135 | 묻기 |
+| `loan.term` | 대출기간 | text | 1쪽 [198, 542, 226, 553] | 늘 | 템플릿 | generate.py | look/template.html.j2:80 · fields.json:200 | 묻기 |
+| `loan.hope_date` | 대출희망일 | date | 1쪽 [644, 542, 711, 553] | 늘 | 템플릿 | generate.py | look/template.html.j2:80 · fields.json:160 | 묻기 |
+| `loan.interest_day` | 이자납입일 | text | 1쪽 [644, 582, 697, 593] | 늘 | 템플릿 | generate.py | look/template.html.j2:82 · fields.json:165 | 묻기 |
+| `loan.purpose` | 세부용도 | text | 1쪽 [260, 616, 346, 626] | 늘 | 템플릿 | generate.py | look/template.html.j2:83 · fields.json:175 | 묻기 |
+| `collateral_detail` | 담보내용 | text | 1쪽 [644, 636, 891, 660] | 늘 | 템플릿 | generate.py | look/template.html.j2:84 · fields.json:115 | 묻기 |
+| `loan.debit_bank` | 이체은행 | text | 1쪽 [230, 676, 287, 687] | 늘 | 템플릿 | generate.py | look/template.html.j2:85 · fields.json:150 | 묻기 |
+| `loan.debit_account` | 이체계좌번호 | account_no | 1쪽 [359, 676, 469, 687] | 늘 | 템플릿 | generate.py | look/template.html.j2:85 · fields.json:145 | 묻기 |
+| `loan.debit_holder` | 예금주 | text | 1쪽 [526, 676, 584, 687] | 늘 | 템플릿 | generate.py | look/template.html.j2:85 · fields.json:155 | 묻기 |
+| `apply_date` | 신청일 | date | 1쪽 [584, 780, 677, 791] | 늘 | 템플릿 | generate.py | look/template.html.j2:118 · fields.json:70 | 묻기 |
+| `signature` | 신청인 | text | 1쪽 [759, 780, 817, 791] | 늘 | 템플릿 | generate.py | look/template.html.j2:118 · fields.json:240 | 묻기 |
+| `agent.name` | 대리인성명 | - | - | 5/16 | 템플릿 | generate.py | look/template.html.j2:101 · fields.json:5 | 묻기 |
+| `agent.rrn` | 대리인실명번호 | - | - | 5/16 | 템플릿 | generate.py | look/template.html.j2:101 · fields.json:25 | 묻기 |
+| `agent.relation` | 본인과의관계 | - | - | 5/16 | 템플릿 | generate.py | look/template.html.j2:102 · fields.json:20 | 묻기 |
+| `agent.phone` | 대리인연락처 | - | - | 5/16 | 템플릿 | generate.py | look/template.html.j2:102 · fields.json:10 | 묻기 |
+| `related.name` ← `co_borrower.name` | 공동차주성명 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:92 · fields.json:90 | 묻기 |
+| `related.rrn` ← `co_borrower.rrn` | 공동차주실명번호 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:92 · fields.json:100 | 묻기 |
+| `co_borrower.relation` | 신청인과의관계 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:93 · fields.json:95 | 묻기 |
+| `co_borrower.mobile` | 공동차주휴대전화 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:93 · fields.json:85 | 묻기 |
+| `co_borrower.workplace` | 공동차주직장 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:94 · fields.json:105 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 16칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `housing` | 주택소유구분 | checkbox (자가 / 전세 / 월세 / 기타) | 1쪽 [210, 259, 239, 269] | 늘 | generate.py | look/template.html.j2:24 | 묻기 |
-| `dwelling` | 주거형태 | checkbox (아파트 / 단독 / 다세대 / 연립·빌라 / 오피스텔 / 기타) | 1쪽 [656, 252, 699, 263] | 늘 | generate.py | look/template.html.j2:24 | 묻기 |
-| `workplace.job_type` | 직업구분 | checkbox (급여소득자 / 공무원 / 전문직 / 자영업자 / 기타) | 1쪽 [210, 311, 282, 322] | 늘 | generate.py | look/template.html.j2:30 | 묻기 |
-| `loan.repayment` | 상환방법 | checkbox (만기일시 / 원금균등분할 / 원리금균등분할 / 혼합) | 1쪽 [403, 562, 504, 573] | 늘 | generate.py | look/template.html.j2:81 | 묻기 |
-| `loan.rate_type` | 금리방식 | checkbox (고정 / 변동 / 혼합) | 1쪽 [317, 582, 346, 593] | 늘 | generate.py | look/template.html.j2:82 | 묻기 |
-| `loan.purpose_category` | 자금용도구분 | checkbox (주택구입 / 주택임차 / 부채상환 / 생활비 / 교육비 / 기타) | 1쪽 [457, 602, 500, 613] | 늘 | generate.py | look/template.html.j2:83 | 묻기 |
-| `collateral` | 담보구분 | checkbox (신용 / 부동산 / 보증) | 1쪽 [264, 642, 307, 653] | 늘 | generate.py | look/template.html.j2:84 | 묻기 |
-| `manual_received` | 설명서수령확인 | checkbox (예 / 아니오) | 1쪽 [336, 760, 350, 771] | 늘 | generate.py | look/template.html.j2:113 | 묻기 |
-| `consent` | 개인(신용)정보동의 | checkbox (동의함 / 동의하지 않음) | 1쪽 [640, 760, 681, 771] | 늘 | generate.py | look/template.html.j2:113 | 묻기 |
-| `seal.customer` ← `seal.applicant` | 신청인 | seal | 1쪽 [854, 766, 911, 806] | 늘 | generate.py | - | 묻기 |
-| `sign.customer` ← `sign.applicant` | 신청인 | signature | 1쪽 [839, 779, 927, 793] | 늘 | generate.py | - | 묻기 |
-| `agent.poa` | 위임장 | 체크박스 (첨부 / 미첨부) | - | 5/16 | generate.py | look/template.html.j2:103 | 묻기 |
-| `seal.agent` | 대리인 | 도장 | - | 5/16 | generate.py | - | 묻기 |
-| `sign.agent` | 대리인 | 서명 | - | 5/16 | generate.py | - | 묻기 |
-| `seal.related` ← `seal.co_borrower` | 공동차주 | 도장 | - | 2/16 | generate.py | - | 묻기 |
-| `sign.related` ← `sign.co_borrower` | 공동차주 | 서명 | - | 2/16 | generate.py | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `housing` | 주택소유구분 | checkbox (자가 / 전세 / 월세 / 기타) | 1쪽 [210, 259, 239, 269] | 늘 | 템플릿 | generate.py | look/template.html.j2:24 · fields.json:130 | 묻기 |
+| `dwelling` | 주거형태 | checkbox (아파트 / 단독 / 다세대 / 연립·빌라 / 오피스텔 / 기타) | 1쪽 [656, 252, 699, 263] | 늘 | 템플릿 | generate.py | look/template.html.j2:24 · fields.json:125 | 묻기 |
+| `workplace.job_type` | 직업구분 | checkbox (급여소득자 / 공무원 / 전문직 / 자영업자 / 기타) | 1쪽 [210, 311, 282, 322] | 늘 | 템플릿 | generate.py | look/template.html.j2:30 · fields.json:265 | 묻기 |
+| `loan.repayment` | 상환방법 | checkbox (만기일시 / 원금균등분할 / 원리금균등분할 / 혼합) | 1쪽 [403, 562, 504, 573] | 늘 | 템플릿 | generate.py | look/template.html.j2:81 · fields.json:190 | 묻기 |
+| `loan.rate_type` | 금리방식 | checkbox (고정 / 변동 / 혼합) | 1쪽 [317, 582, 346, 593] | 늘 | 템플릿 | generate.py | look/template.html.j2:82 · fields.json:185 | 묻기 |
+| `loan.purpose_category` | 자금용도구분 | checkbox (주택구입 / 주택임차 / 부채상환 / 생활비 / 교육비 / 기타) | 1쪽 [457, 602, 500, 613] | 늘 | 템플릿 | generate.py | look/template.html.j2:83 · fields.json:180 | 묻기 |
+| `collateral` | 담보구분 | checkbox (신용 / 부동산 / 보증) | 1쪽 [264, 642, 307, 653] | 늘 | 템플릿 | generate.py | look/template.html.j2:84 · fields.json:110 | 묻기 |
+| `manual_received` | 설명서수령확인 | checkbox (예 / 아니오) | 1쪽 [336, 760, 350, 771] | 늘 | 템플릿 | generate.py | look/template.html.j2:113 · fields.json:205 | 묻기 |
+| `consent` | 개인(신용)정보동의 | checkbox (동의함 / 동의하지 않음) | 1쪽 [640, 760, 681, 771] | 늘 | 템플릿 | generate.py | look/template.html.j2:113 · fields.json:120 | 묻기 |
+| `seal.customer` ← `seal.applicant` | 신청인 | seal | 1쪽 [854, 766, 911, 806] | 늘 | 템플릿 | generate.py | fields.json:215 | 묻기 |
+| `sign.customer` ← `sign.applicant` | 신청인 | signature | 1쪽 [839, 779, 927, 793] | 늘 | 템플릿 | generate.py | fields.json:230 | 묻기 |
+| `agent.poa` | 위임장 | 체크박스 (첨부 / 미첨부) | - | 5/16 | 템플릿 | generate.py | look/template.html.j2:103 · fields.json:15 | 묻기 |
+| `seal.agent` | 대리인 | 도장 | - | 5/16 | 템플릿 | generate.py | fields.json:210 | 묻기 |
+| `sign.agent` | 대리인 | 서명 | - | 5/16 | 템플릿 | generate.py | fields.json:225 | 묻기 |
+| `seal.related` ← `seal.co_borrower` | 공동차주 | 도장 | - | 2/16 | 템플릿 | generate.py | fields.json:220 | 묻기 |
+| `sign.related` ← `sign.co_borrower` | 공동차주 | 서명 | - | 2/16 | 템플릿 | generate.py | fields.json:235 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함). **정한 곳:** 템플릿에서 그 칸 자리 (html·코드 서식) / 칸 목록의 그 칸 (원본 서식).
+- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
+- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
@@ -330,15 +332,24 @@
 
 ## 고치려면
 
-| 하고 싶은 것 | 어디를 | 그다음 |
-|---|---|---|
-| 항목(칸) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `generate.py` 가 돌려주는 dict 에 그 키 값 | 미리보기로 확인 → 재검수 → 카드 다시 만들기 |
-| 칸 키·항목명 바꾸기 | `look/template.html.j2` 의 `f("키", label=…)` (질문만 바꾸려면 `questions.json`) | `questions … --check` |
-| 값이 이상함·칸끼리 안 맞음 | `generate.py` (값 만드는 함수) | 재검수 |
-| 모양·표·문구 | `look/template.html.j2` (studio html 편집) | 재검수 |
-| 질문의 항목명·묻지 않기 | `questions.json`: `{"kie": {"items": [{"key": "…", "label": "…"}, {"key": "…", "ask": false}]}}` | 검수 필요 없음 |
-| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | `questions … --check` |
-| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` | 모든 카드 다시 만들기 |
+칸 하나에 관한 것(박스·키·값·질문)은 `fields.json` 의 그 칸, 질문 문장·답 꼴·전용 질문은 `questions.json`.
+고친 뒤 `python -m docgen.formdir check loan_application` → `python -m docgen.formdir card loan_application` (실제 질문→답 확인).
 
-확인: studio ① 서식 › 문항 Q/A · `python -m docgen.formdir questions loan_application --show` · `python -m docgen.preview loan_application --out work/loan_application`
+| 바꾸고 싶은 것 (데이터에서) | 어디를 | 검수 |
+|---|---|---|
+| 칸(추출 항목) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `generate.py` 가 돌려주는 dict 에 그 키 값 | 다시 |
+| 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` | 다시 |
+| 답의 값 | `generate.py` (값 만드는 함수). 파이썬 대신 정하려면 `fields.json` 의 그 칸 `source` | 다시 |
+| 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
+| 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
+| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
+| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |
+| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | 필요 없음 |
+| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | 필요 없음 |
+| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+
+"다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json` 은 그림을 바꾸지 않아 검수 상태가 그대로입니다.
+확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions loan_application --show` · `python -m docgen.preview loan_application --out work/loan_application`

@@ -383,10 +383,11 @@ B 꼴로 옮긴 뒤 `docgen.preview <ID>`, `docgen.regions check <ID>` 도 통�
 - `id`: 영문·숫자·`_.-`. `type`: `number`(칸 값을 숫자로) / `yesno`(`when` 칸에 값이 있으면 예) / `text`(`{키}` 를 채운 글).
 - `{키}`·`when` 은 칸 목록에 있는 키만. 답 꼴(숫자만, 예/아니오)을 질문 문장에 적습니다.
 - 정답 **값**은 적지 않습니다 — 문서를 그릴 때마다 그 칸 값으로 정해집니다.
+- 칸 하나를 묻지 않거나 질문에서 다른 항목명을 쓰려면 칸 목록(`form.json`/`fields.json`)의 그 칸에 `"q": {"ask": false}` / `"q": {"label": "…"}` 를 적습니다 ([guide/qa.md](../../guide/qa.md)).
 
 **등록한 뒤** 서식 카드를 만듭니다. 카드는 항목·위치·정한 곳·실제 질문→답을 적은 읽는 문서입니다 (자동 생성, 직접 고치지 않음):
 
 ```bash
 python -m docgen.formdir card <ID>                  # docgen/forms/<ID>/FORM.md
-python -m docgen.formdir questions <ID> --check     # questions.json 이 있으면: 칸과 맞는지
+python -m docgen.formdir check <ID>                 # 서식 검사: 칸 목록·값 출처·질문 설정·questions.json
 ```

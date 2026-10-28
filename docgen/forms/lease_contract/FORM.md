@@ -1,6 +1,6 @@
 # 주택임대차표준계약서 (`lease_contract`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card lease_contract · card-hash: 3146dc4d0dcf -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card lease_contract · card-hash: 98c2dc5bb348 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** real_estate · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 주택임대차표준계약서
@@ -21,63 +21,65 @@
 
 ## 추출 항목 (정보 추출 kie) — 40칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `counterparty.name` ← `landlord_name` | 임대인 | text | 1쪽 [91, 62, 135, 73] | 늘 | generate.py | look/template.html.j2:27 | 묻기 |
-| `customer.name` ← `tenant_name` | 임차인 | text | 1쪽 [206, 62, 264, 73] | 늘 | generate.py | look/template.html.j2:27 | 묻기 |
-| `property.location` ← `house.location` | 소재지 | text | 1쪽 [224, 97, 723, 108] | 늘 | generate.py | look/template.html.j2:31 | 묻기 |
-| `house.land_category` | 지목 | text | 1쪽 [237, 113, 251, 124] | 늘 | generate.py | look/template.html.j2:32 | 묻기 |
-| `house.land_area` | 토지면적 | text | 1쪽 [884, 113, 950, 124] | 늘 | generate.py | look/template.html.j2:32 | 묻기 |
-| `house.structure_usage` | 구조·용도 | text | 1쪽 [237, 130, 504, 140] | 늘 | generate.py | look/template.html.j2:33 | 묻기 |
-| `house.building_area` | 건물면적 | text | 1쪽 [903, 130, 950, 140] | 늘 | generate.py | look/template.html.j2:33 | 묻기 |
-| `house.lease_part` | 임차할부분 | text | 1쪽 [423, 146, 513, 157] | 늘 | generate.py | look/template.html.j2:34 | 묻기 |
-| `tax_arrears` | 미납국세·지방세 | text | 1쪽 [63, 199, 91, 210] | 늘 | generate.py | look/template.html.j2:43 | 묻기 |
-| `prior_fixed_date` | 선순위확정일자현황 | text | 1쪽 [302, 199, 362, 210] | 늘 | generate.py | look/template.html.j2:44 | 묻기 |
-| `fixed_date.date` | 확정일자 | date | 1쪽 [855, 199, 916, 212] | 늘 | generate.py | look/template.html.j2:46 | 묻기 |
-| `fixed_date.no` | 확정일자번호 | text | 1쪽 [829, 212, 888, 225] | 늘 | generate.py | look/template.html.j2:46 | 묻기 |
-| `fixed_date.office` | 확정일자부여기관 | text | 1쪽 [778, 221, 941, 239] | 늘 | generate.py | look/template.html.j2:46 | 묻기 |
-| `deposit` | 보증금 | amount | 1쪽 [151, 277, 382, 288] | 늘 | generate.py | look/template.html.j2:52 | 묻기 |
-| `down_payment` | 계약금 | amount | 1쪽 [151, 294, 327, 304] | 늘 | generate.py | look/template.html.j2:53 | 묻기 |
-| `balance` | 잔금 | amount | 1쪽 [151, 326, 370, 337] | 늘 | generate.py | look/template.html.j2:55 | 묻기 |
-| `balance_date` | 잔금지급일 | date | 1쪽 [392, 326, 500, 337] | 늘 | generate.py | look/template.html.j2:55 | 묻기 |
-| `management_fee` | 관리비 | text | 1쪽 [446, 372, 850, 383] | 늘 | generate.py | look/template.html.j2:57 | 묻기 |
-| `handover_date` | 인도일 | date | 1쪽 [541, 389, 640, 399] | 늘 | generate.py | look/template.html.j2:60 | 묻기 |
-| `end_date` | 임대차종료일 | date | 1쪽 [43, 401, 139, 411] | 늘 | generate.py | look/template.html.j2:60 | 묻기 |
-| `specials.*` | 특약사항 | text | 1쪽 [54, 643, 939, 665] (1행) | 늘 | generate.py | - | 묻기 |
-| `contract_date` | 계약일 | date | 1쪽 [851, 760, 957, 771] | 늘 | generate.py | look/template.html.j2:77 | 묻기 |
-| `counterparty.address` ← `landlord.address` | 주소 | text | 1쪽 [222, 777, 707, 788] | 늘 | generate.py | - | 묻기 |
-| `landlord.rrn` | 주민등록번호 | rrn | 1쪽 [253, 793, 352, 804] | 늘 | generate.py | - | 묻기 |
-| `landlord.phone` | 전화 | phone | 1쪽 [465, 793, 554, 804] | 늘 | generate.py | - | 묻기 |
-| `landlord.name` | 성명 | text | 1쪽 [635, 793, 678, 804] | 늘 | generate.py | - | 묻기 |
-| `customer.address` ← `tenant.address` | 주소 | text | 1쪽 [222, 826, 720, 836] | 늘 | generate.py | - | 묻기 |
-| `customer.rrn` ← `tenant.rrn` | 주민등록번호 | rrn | 1쪽 [253, 842, 352, 853] | 늘 | generate.py | - | 묻기 |
-| `customer.phone` ← `tenant.phone` | 전화 | phone | 1쪽 [465, 842, 554, 853] | 늘 | generate.py | - | 묻기 |
-| `tenant.name` | 성명 | text | 1쪽 [635, 842, 693, 853] | 늘 | generate.py | look/template.html.j2:24 | 묻기 |
-| `brokers.*.office_address` | 사무소소재지 | text | 1쪽 [222, 877, 504, 887] (1행) | 늘 | generate.py | - | 묻기 |
-| `brokers.*.office_name` | 사무소명칭 | text | 1쪽 [222, 892, 394, 901] (1행) | 늘 | generate.py | - | 묻기 |
-| `brokers.*.representative` | 대표 | text | 1쪽 [222, 906, 259, 915] (1행) | 늘 | generate.py | - | 묻기 |
-| `brokers.*.reg_no` | 등록번호 | text | 1쪽 [222, 921, 316, 931] (1행) | 늘 | generate.py | - | 묻기 |
-| `brokers.*.phone` | 전화 | phone | 1쪽 [602, 921, 672, 931] (1행) | 늘 | generate.py | look/template.html.j2:85 | 묻기 |
-| `brokers.*.assistant` | 소속공인중개사 | - | - (1행) | 4/16 | generate.py | - | 묻기 |
-| `co_landlord.address` | 주소 | - | - | 3/16 | generate.py | - | 묻기 |
-| `co_landlord.rrn` | 주민등록번호 | - | - | 3/16 | generate.py | - | 묻기 |
-| `co_landlord.phone` | 전화 | - | - | 3/16 | generate.py | - | 묻기 |
-| `co_landlord.name` | 성명 | - | - | 3/16 | generate.py | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `counterparty.name` ← `landlord_name` | 임대인 | text | 1쪽 [91, 62, 135, 73] | 늘 | 템플릿 | generate.py | look/template.html.j2:27 · fields.json:145 | 묻기 |
+| `customer.name` ← `tenant_name` | 임차인 | text | 1쪽 [206, 62, 264, 73] | 늘 | 템플릿 | generate.py | look/template.html.j2:27 · fields.json:225 | 묻기 |
+| `property.location` ← `house.location` | 소재지 | text | 1쪽 [224, 97, 723, 108] | 늘 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:100 | 묻기 |
+| `house.land_category` | 지목 | text | 1쪽 [237, 113, 251, 124] | 늘 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:90 | 묻기 |
+| `house.land_area` | 토지면적 | text | 1쪽 [884, 113, 950, 124] | 늘 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:85 | 묻기 |
+| `house.structure_usage` | 구조·용도 | text | 1쪽 [237, 130, 504, 140] | 늘 | 템플릿 | generate.py | look/template.html.j2:33 · fields.json:105 | 묻기 |
+| `house.building_area` | 건물면적 | text | 1쪽 [903, 130, 950, 140] | 늘 | 템플릿 | generate.py | look/template.html.j2:33 · fields.json:80 | 묻기 |
+| `house.lease_part` | 임차할부분 | text | 1쪽 [423, 146, 513, 157] | 늘 | 템플릿 | generate.py | look/template.html.j2:34 · fields.json:95 | 묻기 |
+| `tax_arrears` | 미납국세·지방세 | text | 1쪽 [63, 199, 91, 210] | 늘 | 템플릿 | generate.py | look/template.html.j2:43 · fields.json:200 | 묻기 |
+| `prior_fixed_date` | 선순위확정일자현황 | text | 1쪽 [302, 199, 362, 210] | 늘 | 템플릿 | generate.py | look/template.html.j2:44 · fields.json:155 | 묻기 |
+| `fixed_date.date` | 확정일자 | date | 1쪽 [855, 199, 916, 212] | 늘 | 템플릿 | generate.py | look/template.html.j2:46 · fields.json:60 | 묻기 |
+| `fixed_date.no` | 확정일자번호 | text | 1쪽 [829, 212, 888, 225] | 늘 | 템플릿 | generate.py | look/template.html.j2:46 · fields.json:65 | 묻기 |
+| `fixed_date.office` | 확정일자부여기관 | text | 1쪽 [778, 221, 941, 239] | 늘 | 템플릿 | generate.py | look/template.html.j2:46 · fields.json:70 | 묻기 |
+| `deposit` | 보증금 | amount | 1쪽 [151, 277, 382, 288] | 늘 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:45 | 묻기 |
+| `down_payment` | 계약금 | amount | 1쪽 [151, 294, 327, 304] | 늘 | 템플릿 | generate.py | look/template.html.j2:53 · fields.json:50 | 묻기 |
+| `balance` | 잔금 | amount | 1쪽 [151, 326, 370, 337] | 늘 | 템플릿 | generate.py | look/template.html.j2:55 · fields.json:5 | 묻기 |
+| `balance_date` | 잔금지급일 | date | 1쪽 [392, 326, 500, 337] | 늘 | 템플릿 | generate.py | look/template.html.j2:55 · fields.json:10 | 묻기 |
+| `management_fee` | 관리비 | text | 1쪽 [446, 372, 850, 383] | 늘 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:150 | 묻기 |
+| `handover_date` | 인도일 | date | 1쪽 [541, 389, 640, 399] | 늘 | 템플릿 | generate.py | look/template.html.j2:60 · fields.json:75 | 묻기 |
+| `end_date` | 임대차종료일 | date | 1쪽 [43, 401, 139, 411] | 늘 | 템플릿 | generate.py | look/template.html.j2:60 · fields.json:55 | 묻기 |
+| `specials.*` | 특약사항 | text | 1쪽 [54, 643, 939, 665] (1행) | 늘 | 템플릿 | generate.py | - | 묻기 |
+| `contract_date` | 계약일 | date | 1쪽 [851, 760, 957, 771] | 늘 | 템플릿 | generate.py | look/template.html.j2:77 · fields.json:35 | 묻기 |
+| `counterparty.address` ← `landlord.address` | 주소 | text | 1쪽 [222, 777, 707, 788] | 늘 | 템플릿 | generate.py | fields.json:110 | 묻기 |
+| `landlord.rrn` | 주민등록번호 | rrn | 1쪽 [253, 793, 352, 804] | 늘 | 템플릿 | generate.py | fields.json:125 | 묻기 |
+| `landlord.phone` | 전화 | phone | 1쪽 [465, 793, 554, 804] | 늘 | 템플릿 | generate.py | fields.json:120 | 묻기 |
+| `landlord.name` | 성명 | text | 1쪽 [635, 793, 678, 804] | 늘 | 템플릿 | generate.py | fields.json:115 | 묻기 |
+| `customer.address` ← `tenant.address` | 주소 | text | 1쪽 [222, 826, 720, 836] | 늘 | 템플릿 | generate.py | fields.json:205 | 묻기 |
+| `customer.rrn` ← `tenant.rrn` | 주민등록번호 | rrn | 1쪽 [253, 842, 352, 853] | 늘 | 템플릿 | generate.py | fields.json:220 | 묻기 |
+| `customer.phone` ← `tenant.phone` | 전화 | phone | 1쪽 [465, 842, 554, 853] | 늘 | 템플릿 | generate.py | fields.json:215 | 묻기 |
+| `tenant.name` | 성명 | text | 1쪽 [635, 842, 693, 853] | 늘 | 템플릿 | generate.py | look/template.html.j2:24 · fields.json:210 | 묻기 |
+| `brokers.*.office_address` | 사무소소재지 | text | 1쪽 [222, 877, 504, 887] (1행) | 늘 | 템플릿 | generate.py | fields.json:240 | 묻기 |
+| `brokers.*.office_name` | 사무소명칭 | text | 1쪽 [222, 892, 394, 901] (1행) | 늘 | 템플릿 | generate.py | fields.json:245 | 묻기 |
+| `brokers.*.representative` | 대표 | text | 1쪽 [222, 906, 259, 915] (1행) | 늘 | 템플릿 | generate.py | fields.json:260 | 묻기 |
+| `brokers.*.reg_no` | 등록번호 | text | 1쪽 [222, 921, 316, 931] (1행) | 늘 | 템플릿 | generate.py | fields.json:255 | 묻기 |
+| `brokers.*.phone` | 전화 | phone | 1쪽 [602, 921, 672, 931] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:85 · fields.json:250 | 묻기 |
+| `brokers.*.assistant` | 소속공인중개사 | - | - (1행) | 4/16 | 템플릿 | generate.py | fields.json:235 | 묻기 |
+| `co_landlord.address` | 주소 | - | - | 3/16 | 템플릿 | generate.py | fields.json:15 | 묻기 |
+| `co_landlord.rrn` | 주민등록번호 | - | - | 3/16 | 템플릿 | generate.py | fields.json:30 | 묻기 |
+| `co_landlord.phone` | 전화 | - | - | 3/16 | 템플릿 | generate.py | fields.json:25 | 묻기 |
+| `co_landlord.name` | 성명 | - | - | 3/16 | 템플릿 | generate.py | fields.json:20 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 7칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `contract_type` | 계약의종류 | checkbox (신규 계약 / 합의에 의한 재계약 / 「주택임대차보호법」 제6조의3의 계약갱신요구권 행사에 의한 갱신계약) | 1쪽 [151, 165, 211, 176] | 늘 | generate.py | look/template.html.j2:38 | 묻기 |
-| `seal.landlord` | 임대인 | seal | 1쪽 [839, 793, 950, 806] | 늘 | generate.py | - | 묻기 |
-| `sign.landlord` | 임대인 | signature | 1쪽 [826, 780, 962, 815] | 늘 | generate.py | - | 묻기 |
-| `seal.customer` ← `seal.tenant` | 임차인 | seal | 1쪽 [866, 828, 923, 868] | 늘 | generate.py | - | 묻기 |
-| `sign.customer` ← `sign.tenant` | 임차인 | signature | 1쪽 [839, 841, 950, 854] | 늘 | generate.py | - | 묻기 |
-| `seal.co_landlord` | 공동임대인 | 도장 | - | 3/16 | generate.py | - | 묻기 |
-| `sign.co_landlord` | 공동임대인 | 서명 | - | 3/16 | generate.py | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `contract_type` | 계약의종류 | checkbox (신규 계약 / 합의에 의한 재계약 / 「주택임대차보호법」 제6조의3의 계약갱신요구권 행사에 의한 갱신계약) | 1쪽 [151, 165, 211, 176] | 늘 | 템플릿 | generate.py | look/template.html.j2:38 · fields.json:40 | 묻기 |
+| `seal.landlord` | 임대인 | seal | 1쪽 [839, 793, 950, 806] | 늘 | 템플릿 | generate.py | fields.json:165 | 묻기 |
+| `sign.landlord` | 임대인 | signature | 1쪽 [826, 780, 962, 815] | 늘 | 템플릿 | generate.py | fields.json:185 | 묻기 |
+| `seal.customer` ← `seal.tenant` | 임차인 | seal | 1쪽 [866, 828, 923, 868] | 늘 | 템플릿 | generate.py | fields.json:175 | 묻기 |
+| `sign.customer` ← `sign.tenant` | 임차인 | signature | 1쪽 [839, 841, 950, 854] | 늘 | 템플릿 | generate.py | fields.json:195 | 묻기 |
+| `seal.co_landlord` | 공동임대인 | 도장 | - | 3/16 | 템플릿 | generate.py | fields.json:160 | 묻기 |
+| `sign.co_landlord` | 공동임대인 | 서명 | - | 3/16 | 템플릿 | generate.py | fields.json:180 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함). **정한 곳:** 템플릿에서 그 칸 자리 (html·코드 서식) / 칸 목록의 그 칸 (원본 서식).
+- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
+- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
@@ -298,15 +300,24 @@
 
 ## 고치려면
 
-| 하고 싶은 것 | 어디를 | 그다음 |
-|---|---|---|
-| 항목(칸) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `generate.py` 가 돌려주는 dict 에 그 키 값 | 미리보기로 확인 → 재검수 → 카드 다시 만들기 |
-| 칸 키·항목명 바꾸기 | `look/template.html.j2` 의 `f("키", label=…)` (질문만 바꾸려면 `questions.json`) | `questions … --check` |
-| 값이 이상함·칸끼리 안 맞음 | `generate.py` (값 만드는 함수) | 재검수 |
-| 모양·표·문구 | `look/template.html.j2` (studio html 편집) | 재검수 |
-| 질문의 항목명·묻지 않기 | `questions.json`: `{"kie": {"items": [{"key": "…", "label": "…"}, {"key": "…", "ask": false}]}}` | 검수 필요 없음 |
-| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | `questions … --check` |
-| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` | 모든 카드 다시 만들기 |
+칸 하나에 관한 것(박스·키·값·질문)은 `fields.json` 의 그 칸, 질문 문장·답 꼴·전용 질문은 `questions.json`.
+고친 뒤 `python -m docgen.formdir check lease_contract` → `python -m docgen.formdir card lease_contract` (실제 질문→답 확인).
 
-확인: studio ① 서식 › 문항 Q/A · `python -m docgen.formdir questions lease_contract --show` · `python -m docgen.preview lease_contract --out work/lease_contract`
+| 바꾸고 싶은 것 (데이터에서) | 어디를 | 검수 |
+|---|---|---|
+| 칸(추출 항목) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `generate.py` 가 돌려주는 dict 에 그 키 값 | 다시 |
+| 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` | 다시 |
+| 답의 값 | `generate.py` (값 만드는 함수). 파이썬 대신 정하려면 `fields.json` 의 그 칸 `source` | 다시 |
+| 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
+| 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
+| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
+| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |
+| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | 필요 없음 |
+| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | 필요 없음 |
+| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+
+"다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json` 은 그림을 바꾸지 않아 검수 상태가 그대로입니다.
+확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions lease_contract --show` · `python -m docgen.preview lease_contract --out work/lease_contract`

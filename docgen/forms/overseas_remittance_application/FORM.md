@@ -1,6 +1,6 @@
 # 해외송금신청서 (`overseas_remittance_application`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card overseas_remittance_application · card-hash: 6c9f931bd531 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card overseas_remittance_application · card-hash: afae538a9712 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** bank_form · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 해외송금신청서 (다른 이름: 외화송금신청서)
@@ -21,68 +21,70 @@
 
 ## 추출 항목 (정보 추출 kie) — 43칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `bank.name` | 은행명 | text | 1쪽 [83, 38, 182, 57] | 늘 | generate.py | look/template.html.j2:73 | 묻기 |
-| `customer.name` ← `remitter.name` | 송금인성명 | text | 1쪽 [206, 165, 269, 178] | 늘 | generate.py | look/template.html.j2:11 | 묻기 |
-| `customer.name_en` ← `remitter.name_en` | 송금인영문명 | text | 1쪽 [608, 165, 755, 178] | 늘 | generate.py | look/template.html.j2:18 | 묻기 |
-| `customer.rrn` ← `remitter.rrn` | 실명번호 | rrn | 1쪽 [206, 194, 314, 207] | 늘 | generate.py | look/template.html.j2:19 | 묻기 |
-| `customer.phone` ← `remitter.phone` | 전화번호 | phone | 1쪽 [608, 194, 704, 207] | 늘 | generate.py | look/template.html.j2:19 | 묻기 |
-| `customer.address` ← `remitter.address` | 송금인주소 | text | 1쪽 [206, 224, 748, 236] | 늘 | generate.py | look/template.html.j2:20 | 묻기 |
-| `customer.company` ← `remitter.company` | 상호(사업자번호) | text | 1쪽 [206, 253, 373, 265] | 11/16 | generate.py | look/template.html.j2:21 | 묻기 |
-| `foreign.name` ← `beneficiary.name` | 수취인성명 | text | 1쪽 [206, 308, 387, 320] | 늘 | generate.py | look/template.html.j2:27 | 묻기 |
-| `foreign.address` ← `beneficiary.address` | 수취인주소 | text | 1쪽 [206, 337, 538, 349] | 늘 | generate.py | look/template.html.j2:28 | 묻기 |
-| `beneficiary.country` | 수취인국가 | text | 1쪽 [206, 366, 254, 379] | 늘 | generate.py | look/template.html.j2:29 | 묻기 |
-| `beneficiary.relationship` | 신청인과의관계 | text | 1쪽 [650, 366, 697, 379] | 늘 | generate.py | look/template.html.j2:29 | 묻기 |
-| `foreign.swift` ← `beneficiary.swift` | SWIFTBIC | text | 1쪽 [206, 421, 283, 433] | 늘 | generate.py | look/template.html.j2:34 | 묻기 |
-| `beneficiary.bank_name` | 수취은행명 | text | 1쪽 [206, 450, 292, 463] | 늘 | generate.py | look/template.html.j2:35 | 묻기 |
-| `beneficiary.bank_address` | 수취은행주소 | text | 1쪽 [206, 479, 543, 492] | 늘 | generate.py | look/template.html.j2:36 | 묻기 |
-| `beneficiary.account_no` | 수취인계좌번호 | account_no | 1쪽 [206, 509, 316, 521] | 늘 | generate.py | look/template.html.j2:37 | 묻기 |
-| `remittance.currency` | 송금통화 | text | 1쪽 [206, 562, 248, 577] | 늘 | generate.py | look/template.html.j2:42 | 묻기 |
-| `remittance.amount` | 송금금액 | amount | 1쪽 [596, 562, 680, 577] | 늘 | generate.py | look/template.html.j2:42 | 묻기 |
-| `remittance.purpose_code` | 지급사유코드 | number | 1쪽 [265, 603, 304, 615] | 12/16 | generate.py | look/template.html.j2:44 | 묻기 |
-| `remittance.message` | 송금메시지 | text | 1쪽 [206, 656, 411, 669] | 늘 | generate.py | look/template.html.j2:47 | 묻기 |
-| `remittance.documents` | 지급증빙서류 | text | 1쪽 [206, 686, 317, 698] | 늘 | generate.py | look/template.html.j2:48 | 묻기 |
-| `date` | 신청일 | date | 1쪽 [538, 784, 656, 797] | 늘 | generate.py | look/template.html.j2:69 | 묻기 |
-| `signature` | 신청인 | text | 1쪽 [755, 784, 818, 797] | 늘 | generate.py | look/template.html.j2:70 | 묻기 |
-| `bank_use.ref_no` | 참조번호 | text | 1쪽 [216, 848, 325, 860] | 늘 | generate.py | look/template.html.j2:79 | 묻기 |
-| `bank_use.branch` | 취급영업점 | text | 1쪽 [532, 848, 595, 860] | 늘 | generate.py | look/template.html.j2:79 | 묻기 |
-| `bank_use.rate` | 적용환율 | number | 1쪽 [216, 867, 271, 880] | 늘 | generate.py | look/template.html.j2:80 | 묻기 |
-| `bank_use.krw_amount` | 원화환산액 | amount | 1쪽 [573, 867, 659, 880] | 늘 | generate.py | look/template.html.j2:80 | 묻기 |
-| `bank_use.fee` | 송금수수료 | amount | 1쪽 [315, 887, 374, 899] | 늘 | generate.py | look/template.html.j2:81 | 묻기 |
-| `bank_use.cable_fee` | 전신료 | amount | 1쪽 [608, 887, 659, 899] | 늘 | generate.py | look/template.html.j2:81 | 묻기 |
-| `bank_use.total` | 합계 | amount | 1쪽 [573, 906, 659, 919] | 늘 | generate.py | look/template.html.j2:82 | 묻기 |
-| `bank_use.clerk` | 담당자 | text | 1쪽 [787, 895, 825, 907] | 늘 | generate.py | look/template.html.j2:84 | 묻기 |
-| `bank_use.manager` | 결재권자 | text | 1쪽 [870, 895, 909, 907] | 늘 | generate.py | look/template.html.j2:84 | 묻기 |
-| `batch_count` | 송금건수 | - | - | 2/16 | generate.py | look/template.html.j2:52 | 묻기 |
-| `batch.*.beneficiary` | 수취인 | - | - (1행) | 2/16 | generate.py | look/template.html.j2:57 | 묻기 |
-| `batch.*.message` | 송금메시지 | - | - (1행) | 2/16 | generate.py | look/template.html.j2:57 | 묻기 |
-| `batch.*.country` | 국가 | - | - (1행) | 2/16 | generate.py | look/template.html.j2:57 | 묻기 |
-| `batch.*.bank` | 수취은행 | - | - (1행) | 2/16 | generate.py | look/template.html.j2:57 | 묻기 |
-| `batch.*.account_no` | 계좌번호 | - | - (1행) | 2/16 | generate.py | look/template.html.j2:57 | 묻기 |
-| `batch.*.currency` | 통화 | - | - (1행) | 2/16 | generate.py | look/template.html.j2:57 | 묻기 |
-| `batch.*.amount` | 금액 | - | - (1행) | 2/16 | generate.py | look/template.html.j2:57 | 묻기 |
-| `agent.name` | 대리인성명 | - | - | 1/16 | generate.py | look/template.html.j2:22 | 묻기 |
-| `agent.relation` | 신청인과의관계 | - | - | 1/16 | generate.py | look/template.html.j2:22 | 묻기 |
-| `agent.rrn` | 대리인실명번호 | - | - | 1/16 | generate.py | look/template.html.j2:22 | 묻기 |
-| `agent.phone` | 대리인연락처 | - | - | 1/16 | generate.py | look/template.html.j2:22 | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `bank.name` | 은행명 | text | 1쪽 [83, 38, 182, 57] | 늘 | 템플릿 | generate.py | look/template.html.j2:73 · fields.json:25 | 묻기 |
+| `customer.name` ← `remitter.name` | 송금인성명 | text | 1쪽 [206, 165, 269, 178] | 늘 | 템플릿 | generate.py | look/template.html.j2:11 · fields.json:175 | 묻기 |
+| `customer.name_en` ← `remitter.name_en` | 송금인영문명 | text | 1쪽 [608, 165, 755, 178] | 늘 | 템플릿 | generate.py | look/template.html.j2:18 · fields.json:180 | 묻기 |
+| `customer.rrn` ← `remitter.rrn` | 실명번호 | rrn | 1쪽 [206, 194, 314, 207] | 늘 | 템플릿 | generate.py | look/template.html.j2:19 · fields.json:190 | 묻기 |
+| `customer.phone` ← `remitter.phone` | 전화번호 | phone | 1쪽 [608, 194, 704, 207] | 늘 | 템플릿 | generate.py | look/template.html.j2:19 · fields.json:185 | 묻기 |
+| `customer.address` ← `remitter.address` | 송금인주소 | text | 1쪽 [206, 224, 748, 236] | 늘 | 템플릿 | generate.py | look/template.html.j2:20 · fields.json:165 | 묻기 |
+| `customer.company` ← `remitter.company` | 상호(사업자번호) | text | 1쪽 [206, 253, 373, 265] | 11/16 | 템플릿 | generate.py | look/template.html.j2:21 · fields.json:170 | 묻기 |
+| `foreign.name` ← `beneficiary.name` | 수취인성명 | text | 1쪽 [206, 308, 387, 320] | 늘 | 템플릿 | generate.py | look/template.html.j2:27 · fields.json:105 | 묻기 |
+| `foreign.address` ← `beneficiary.address` | 수취인주소 | text | 1쪽 [206, 337, 538, 349] | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:85 | 묻기 |
+| `beneficiary.country` | 수취인국가 | text | 1쪽 [206, 366, 254, 379] | 늘 | 템플릿 | generate.py | look/template.html.j2:29 · fields.json:100 | 묻기 |
+| `beneficiary.relationship` | 신청인과의관계 | text | 1쪽 [650, 366, 697, 379] | 늘 | 템플릿 | generate.py | look/template.html.j2:29 · fields.json:110 | 묻기 |
+| `foreign.swift` ← `beneficiary.swift` | SWIFTBIC | text | 1쪽 [206, 421, 283, 433] | 늘 | 템플릿 | generate.py | look/template.html.j2:34 · fields.json:115 | 묻기 |
+| `beneficiary.bank_name` | 수취은행명 | text | 1쪽 [206, 450, 292, 463] | 늘 | 템플릿 | generate.py | look/template.html.j2:35 · fields.json:95 | 묻기 |
+| `beneficiary.bank_address` | 수취은행주소 | text | 1쪽 [206, 479, 543, 492] | 늘 | 템플릿 | generate.py | look/template.html.j2:36 · fields.json:90 | 묻기 |
+| `beneficiary.account_no` | 수취인계좌번호 | account_no | 1쪽 [206, 509, 316, 521] | 늘 | 템플릿 | generate.py | look/template.html.j2:37 · fields.json:80 | 묻기 |
+| `remittance.currency` | 송금통화 | text | 1쪽 [206, 562, 248, 577] | 늘 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:135 | 묻기 |
+| `remittance.amount` | 송금금액 | amount | 1쪽 [596, 562, 680, 577] | 늘 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:125 | 묻기 |
+| `remittance.purpose_code` | 지급사유코드 | number | 1쪽 [265, 603, 304, 615] | 12/16 | 템플릿 | generate.py | look/template.html.j2:44 · fields.json:160 | 묻기 |
+| `remittance.message` | 송금메시지 | text | 1쪽 [206, 656, 411, 669] | 늘 | 템플릿 | generate.py | look/template.html.j2:47 · fields.json:145 | 묻기 |
+| `remittance.documents` | 지급증빙서류 | text | 1쪽 [206, 686, 317, 698] | 늘 | 템플릿 | generate.py | look/template.html.j2:48 · fields.json:140 | 묻기 |
+| `date` | 신청일 | date | 1쪽 [538, 784, 656, 797] | 늘 | 템플릿 | generate.py | look/template.html.j2:69 · fields.json:120 | 묻기 |
+| `signature` | 신청인 | text | 1쪽 [755, 784, 818, 797] | 늘 | 템플릿 | generate.py | look/template.html.j2:70 · fields.json:225 | 묻기 |
+| `bank_use.ref_no` | 참조번호 | text | 1쪽 [216, 848, 325, 860] | 늘 | 템플릿 | generate.py | look/template.html.j2:79 · fields.json:65 | 묻기 |
+| `bank_use.branch` | 취급영업점 | text | 1쪽 [532, 848, 595, 860] | 늘 | 템플릿 | generate.py | look/template.html.j2:79 · fields.json:30 | 묻기 |
+| `bank_use.rate` | 적용환율 | number | 1쪽 [216, 867, 271, 880] | 늘 | 템플릿 | generate.py | look/template.html.j2:80 · fields.json:60 | 묻기 |
+| `bank_use.krw_amount` | 원화환산액 | amount | 1쪽 [573, 867, 659, 880] | 늘 | 템플릿 | generate.py | look/template.html.j2:80 · fields.json:50 | 묻기 |
+| `bank_use.fee` | 송금수수료 | amount | 1쪽 [315, 887, 374, 899] | 늘 | 템플릿 | generate.py | look/template.html.j2:81 · fields.json:45 | 묻기 |
+| `bank_use.cable_fee` | 전신료 | amount | 1쪽 [608, 887, 659, 899] | 늘 | 템플릿 | generate.py | look/template.html.j2:81 · fields.json:35 | 묻기 |
+| `bank_use.total` | 합계 | amount | 1쪽 [573, 906, 659, 919] | 늘 | 템플릿 | generate.py | look/template.html.j2:82 · fields.json:70 | 묻기 |
+| `bank_use.clerk` | 담당자 | text | 1쪽 [787, 895, 825, 907] | 늘 | 템플릿 | generate.py | look/template.html.j2:84 · fields.json:40 | 묻기 |
+| `bank_use.manager` | 결재권자 | text | 1쪽 [870, 895, 909, 907] | 늘 | 템플릿 | generate.py | look/template.html.j2:84 · fields.json:55 | 묻기 |
+| `batch_count` | 송금건수 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:75 | 묻기 |
+| `batch.*.beneficiary` | 수취인 | - | - (1행) | 2/16 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:250 | 묻기 |
+| `batch.*.message` | 송금메시지 | - | - (1행) | 2/16 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:265 | 묻기 |
+| `batch.*.country` | 국가 | - | - (1행) | 2/16 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:255 | 묻기 |
+| `batch.*.bank` | 수취은행 | - | - (1행) | 2/16 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:245 | 묻기 |
+| `batch.*.account_no` | 계좌번호 | - | - (1행) | 2/16 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:235 | 묻기 |
+| `batch.*.currency` | 통화 | - | - (1행) | 2/16 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:260 | 묻기 |
+| `batch.*.amount` | 금액 | - | - (1행) | 2/16 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:240 | 묻기 |
+| `agent.name` | 대리인성명 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:5 | 묻기 |
+| `agent.relation` | 신청인과의관계 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:15 | 묻기 |
+| `agent.rrn` | 대리인실명번호 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:20 | 묻기 |
+| `agent.phone` | 대리인연락처 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:10 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 9칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `remittance.purpose` | 송금사유 | checkbox (수입대금 / 유학생경비 / 해외체재비 / 증여성송금 / 해외이주비 / 국내보수송금 / 기타) | 1쪽 [220, 588, 282, 600] | 늘 | generate.py | look/template.html.j2:43 | 묻기 |
-| `remittance.charge` | 수수료부담 | checkbox (OUR / SHA / BEN) | 1쪽 [276, 627, 308, 640] | 늘 | generate.py | look/template.html.j2:45 | 묻기 |
-| `remittance.method` | 송금방법 | checkbox (전신송금(T/T) / 송금수표(D/D)) | 1쪽 [610, 627, 707, 640] | 늘 | generate.py | look/template.html.j2:46 | 묻기 |
-| `seal.customer` ← `seal.applicant` | 신청인 | seal | 1쪽 [867, 771, 924, 811] | 늘 | generate.py | - | 묻기 |
-| `sign.customer` ← `sign.applicant` | 신청인 | signature | 1쪽 [847, 783, 944, 798] | 늘 | generate.py | - | 묻기 |
-| `seal.staff.clerk` | 담당자 | seal | 1쪽 [779, 882, 833, 921] | 늘 | generate.py | - | 묻기 |
-| `seal.staff.manager` | 결재권자 | seal | 1쪽 [862, 882, 917, 921] | 늘 | generate.py | - | 묻기 |
-| `seal.agent` | 대리인 | 도장 | - | 1/16 | generate.py | - | 묻기 |
-| `sign.agent` | 대리인 | 서명 | - | 1/16 | generate.py | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `remittance.purpose` | 송금사유 | checkbox (수입대금 / 유학생경비 / 해외체재비 / 증여성송금 / 해외이주비 / 국내보수송금 / 기타) | 1쪽 [220, 588, 282, 600] | 늘 | 템플릿 | generate.py | look/template.html.j2:43 · fields.json:155 | 묻기 |
+| `remittance.charge` | 수수료부담 | checkbox (OUR / SHA / BEN) | 1쪽 [276, 627, 308, 640] | 늘 | 템플릿 | generate.py | look/template.html.j2:45 · fields.json:130 | 묻기 |
+| `remittance.method` | 송금방법 | checkbox (전신송금(T/T) / 송금수표(D/D)) | 1쪽 [610, 627, 707, 640] | 늘 | 템플릿 | generate.py | look/template.html.j2:46 · fields.json:150 | 묻기 |
+| `seal.customer` ← `seal.applicant` | 신청인 | seal | 1쪽 [867, 771, 924, 811] | 늘 | 템플릿 | generate.py | fields.json:200 | 묻기 |
+| `sign.customer` ← `sign.applicant` | 신청인 | signature | 1쪽 [847, 783, 944, 798] | 늘 | 템플릿 | generate.py | fields.json:220 | 묻기 |
+| `seal.staff.clerk` | 담당자 | seal | 1쪽 [779, 882, 833, 921] | 늘 | 템플릿 | generate.py | fields.json:205 | 묻기 |
+| `seal.staff.manager` | 결재권자 | seal | 1쪽 [862, 882, 917, 921] | 늘 | 템플릿 | generate.py | fields.json:210 | 묻기 |
+| `seal.agent` | 대리인 | 도장 | - | 1/16 | 템플릿 | generate.py | fields.json:195 | 묻기 |
+| `sign.agent` | 대리인 | 서명 | - | 1/16 | 템플릿 | generate.py | fields.json:215 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함). **정한 곳:** 템플릿에서 그 칸 자리 (html·코드 서식) / 칸 목록의 그 칸 (원본 서식).
+- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
+- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
@@ -286,15 +288,24 @@
 
 ## 고치려면
 
-| 하고 싶은 것 | 어디를 | 그다음 |
-|---|---|---|
-| 항목(칸) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `generate.py` 가 돌려주는 dict 에 그 키 값 | 미리보기로 확인 → 재검수 → 카드 다시 만들기 |
-| 칸 키·항목명 바꾸기 | `look/template.html.j2` 의 `f("키", label=…)` (질문만 바꾸려면 `questions.json`) | `questions … --check` |
-| 값이 이상함·칸끼리 안 맞음 | `generate.py` (값 만드는 함수) | 재검수 |
-| 모양·표·문구 | `look/template.html.j2` (studio html 편집) | 재검수 |
-| 질문의 항목명·묻지 않기 | `questions.json`: `{"kie": {"items": [{"key": "…", "label": "…"}, {"key": "…", "ask": false}]}}` | 검수 필요 없음 |
-| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | `questions … --check` |
-| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` | 모든 카드 다시 만들기 |
+칸 하나에 관한 것(박스·키·값·질문)은 `fields.json` 의 그 칸, 질문 문장·답 꼴·전용 질문은 `questions.json`.
+고친 뒤 `python -m docgen.formdir check overseas_remittance_application` → `python -m docgen.formdir card overseas_remittance_application` (실제 질문→답 확인).
 
-확인: studio ① 서식 › 문항 Q/A · `python -m docgen.formdir questions overseas_remittance_application --show` · `python -m docgen.preview overseas_remittance_application --out work/overseas_remittance_application`
+| 바꾸고 싶은 것 (데이터에서) | 어디를 | 검수 |
+|---|---|---|
+| 칸(추출 항목) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `generate.py` 가 돌려주는 dict 에 그 키 값 | 다시 |
+| 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` | 다시 |
+| 답의 값 | `generate.py` (값 만드는 함수). 파이썬 대신 정하려면 `fields.json` 의 그 칸 `source` | 다시 |
+| 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
+| 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
+| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
+| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |
+| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | 필요 없음 |
+| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | 필요 없음 |
+| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+
+"다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json` 은 그림을 바꾸지 않아 검수 상태가 그대로입니다.
+확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions overseas_remittance_application --show` · `python -m docgen.preview overseas_remittance_application --out work/overseas_remittance_application`

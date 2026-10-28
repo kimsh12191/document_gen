@@ -9,9 +9,9 @@ docgen/forms/
   <ID>/                    ← 서식 하나
     FORM.md                  카드 (자동): 항목·위치·정한 곳·질문→답 예시·고치는 곳
     look/template.html.j2    모양·칸 자리            (원본 서식은 look/original.pdf + layout.json)
-    fields.json              칸 목록·값 출처
+    fields.json              칸 목록 — 칸 하나 = 한 줄: 키·항목명·값 출처·박스·질문 설정 q
     generate.py              값 만들기 (코드 서식: @doc 함수 / html 서식: adjust 로 칸끼리 관계)
-    questions.json           질문·답 — 기본과 다르게 할 것만 (없으면 모두 기본)
+    questions.json           질문 껍데기 (문장·답 꼴·전용 질문) — 기본과 다르게 할 것만 (없으면 모두 기본)
     form.json, variants/ …
 ```
 
@@ -49,7 +49,7 @@ docgen/forms/
 
 ```bash
 python -m docgen.formdir card --all --stale --workers 4     # 오래된 카드 다시 만들기 (공통을 고쳤으면 전부)
-python -m docgen.formdir questions --all --check           # 서식별 questions.json 이 칸과 맞는지
+python -m docgen.formdir check --all                       # 모든 서식 검사 (칸 목록·박스·값 출처·질문 설정·questions.json·카드)
 python -m pytest docgen/tests                              # 카드가 최신인지도 검사함
 ```
 

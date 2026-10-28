@@ -1,6 +1,6 @@
 # 비대면 계좌개설 안심차단 서비스 신청서 (`hana_official_420`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hana_official_420 · card-hash: 5096148b98a4 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hana_official_420 · card-hash: 771da1eaf833 -->
 
 - **종류:** html 서식 (값은 fields.json 의 값 출처, 모양은 템플릿)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 비대면 계좌개설 안심차단 서비스 신청서
@@ -20,38 +20,40 @@
 
 ## 추출 항목 (정보 추출 kie) — 8칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `customer.name` | 성명 | text | 1쪽 [322, 191, 404, 210] | 늘 | - | - | 묻기 |
-| `customer.rrn` | 주민등록번호 | rrn | 1쪽 [321, 224, 477, 246] | 늘 | - | - | 묻기 |
-| `agent.name` | 성명 | text | 1쪽 [322, 256, 406, 276] | 늘 | - | - | 묻기 |
-| `agent.birth` | 생년월일 | date | 1쪽 [324, 283, 416, 303] | 늘 | - | - | 묻기 |
-| `신청인과의관계` | 신청인과의관계 | text | - | 늘 | - | - | 묻기 |
-| `date` | 작성일 | date | 1쪽 [728, 821, 924, 839] | 늘 | - | - | 묻기 |
-| `signer.name` | 신청인 | text | 1쪽 [692, 867, 775, 886] | 늘 | - | - | 묻기 |
-| `signer2.name` | 대리인 | text | 1쪽 [693, 893, 774, 911] | 늘 | - | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `customer.name` | 성명 | text | 1쪽 [322, 191, 404, 210] | 늘 | 템플릿 | - | - | 묻기 |
+| `customer.rrn` | 주민등록번호 | rrn | 1쪽 [321, 224, 477, 246] | 늘 | 템플릿 | - | - | 묻기 |
+| `agent.name` | 성명 | text | 1쪽 [322, 256, 406, 276] | 늘 | 템플릿 | - | - | 묻기 |
+| `agent.birth` | 생년월일 | date | 1쪽 [324, 283, 416, 303] | 늘 | 템플릿 | - | - | 묻기 |
+| `신청인과의관계` | 신청인과의관계 | text | - | 늘 | 템플릿 | - | - | 묻기 |
+| `date` | 작성일 | date | 1쪽 [728, 821, 924, 839] | 늘 | 템플릿 | - | - | 묻기 |
+| `signer.name` | 신청인 | text | 1쪽 [692, 867, 775, 886] | 늘 | 템플릿 | - | - | 묻기 |
+| `signer2.name` | 대리인 | text | 1쪽 [693, 893, 774, 911] | 늘 | 템플릿 | - | - | 묻기 |
 
 ## 체크·도장·서명 (marks) — 14칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `check.구분` | 구분 | checkbox (신청) | 1쪽 [323, 167, 369, 181] | 늘 | - | - | 묻기 |
-| `check.대리인정보` | 대리인정보 | checkbox (임의대리인 신청시에도 신청내역에 대한 안내는 신청인(본인)에게 통지됩니다) | 1쪽 [186, 319, 686, 333] | 늘 | - | - | 묻기 |
-| `check.해제` | 해제 | checkbox (해제) | 1쪽 [696, 167, 743, 181] | 늘 | - | - | 묻기 |
-| `check.휴대전화번호` | 휴대전화번호 | checkbox (신청내역 통지 동의) | 1쪽 [673, 219, 811, 234] | 늘 | - | - | 묻기 |
-| `seal.customer` ← `seal.signer` | 신청인 | seal | 1쪽 [833, 870, 926, 885] | 늘 | - | - | 묻기 |
-| `sign.customer` ← `sign.signer` | 신청인 | signature | 1쪽 [833, 870, 926, 885] | 늘 | - | - | 묻기 |
-| `seal.agent` ← `seal.signer2` | 대리인 | seal | 1쪽 [854, 883, 905, 919] | 늘 | - | - | 묻기 |
-| `sign.agent` ← `sign.signer2` | 대리인 | signature | 1쪽 [833, 893, 926, 909] | 늘 | - | - | 묻기 |
-| `seal.staff.본인확인` | 본인확인 | seal | 1쪽 [711, 35, 782, 77] | 늘 | - | - | 묻기 |
-| `sign.staff.본인확인` | 본인확인 | signature | 1쪽 [711, 35, 782, 77] | 늘 | - | - | 묻기 |
-| `seal.staff.담당` | 담당 | seal | 1쪽 [782, 35, 845, 77] | 늘 | - | - | 묻기 |
-| `sign.staff.담당` | 담당 | signature | 1쪽 [782, 35, 845, 77] | 늘 | - | - | 묻기 |
-| `seal.staff.책임자` | 책임자 | seal | 1쪽 [855, 38, 907, 74] | 늘 | - | - | 묻기 |
-| `sign.staff.책임자` | 책임자 | signature | 1쪽 [845, 35, 917, 77] | 늘 | - | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `check.구분` | 구분 | checkbox (신청) | 1쪽 [323, 167, 369, 181] | 늘 | 템플릿 | - | - | 묻기 |
+| `check.대리인정보` | 대리인정보 | checkbox (임의대리인 신청시에도 신청내역에 대한 안내는 신청인(본인)에게 통지됩니다) | 1쪽 [186, 319, 686, 333] | 늘 | 템플릿 | - | - | 묻기 |
+| `check.해제` | 해제 | checkbox (해제) | 1쪽 [696, 167, 743, 181] | 늘 | 템플릿 | - | - | 묻기 |
+| `check.휴대전화번호` | 휴대전화번호 | checkbox (신청내역 통지 동의) | 1쪽 [673, 219, 811, 234] | 늘 | 템플릿 | - | - | 묻기 |
+| `seal.customer` ← `seal.signer` | 신청인 | seal | 1쪽 [833, 870, 926, 885] | 늘 | 템플릿 | - | - | 묻기 |
+| `sign.customer` ← `sign.signer` | 신청인 | signature | 1쪽 [833, 870, 926, 885] | 늘 | 템플릿 | - | - | 묻기 |
+| `seal.agent` ← `seal.signer2` | 대리인 | seal | 1쪽 [854, 883, 905, 919] | 늘 | 템플릿 | - | - | 묻기 |
+| `sign.agent` ← `sign.signer2` | 대리인 | signature | 1쪽 [833, 893, 926, 909] | 늘 | 템플릿 | - | - | 묻기 |
+| `seal.staff.본인확인` | 본인확인 | seal | 1쪽 [711, 35, 782, 77] | 늘 | 템플릿 | - | - | 묻기 |
+| `sign.staff.본인확인` | 본인확인 | signature | 1쪽 [711, 35, 782, 77] | 늘 | 템플릿 | - | - | 묻기 |
+| `seal.staff.담당` | 담당 | seal | 1쪽 [782, 35, 845, 77] | 늘 | 템플릿 | - | - | 묻기 |
+| `sign.staff.담당` | 담당 | signature | 1쪽 [782, 35, 845, 77] | 늘 | 템플릿 | - | - | 묻기 |
+| `seal.staff.책임자` | 책임자 | seal | 1쪽 [855, 38, 907, 74] | 늘 | 템플릿 | - | - | 묻기 |
+| `sign.staff.책임자` | 책임자 | signature | 1쪽 [845, 35, 917, 77] | 늘 | 템플릿 | - | - | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함). **정한 곳:** 템플릿에서 그 칸 자리 (html·코드 서식) / 칸 목록의 그 칸 (원본 서식).
+- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
+- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
@@ -197,15 +199,24 @@
 
 ## 고치려면
 
-| 하고 싶은 것 | 어디를 | 그다음 |
-|---|---|---|
-| 항목(칸) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `fields.json` 의 `fields` 에 키·source | 미리보기로 확인 → 재검수 → 카드 다시 만들기 |
-| 칸 키·항목명 바꾸기 | `look/template.html.j2` 의 `f("키", label=…)` + `fields.json` (질문만 바꾸려면 `questions.json`) | `questions … --check` |
-| 값이 이상함 / 칸끼리 안 맞음 | `fields.json` 의 source / `generate.py` 의 `adjust(d, p, rng)` | 재검수 |
-| 모양·표·문구 | `look/template.html.j2` (studio html 편집) | 재검수 |
-| 질문의 항목명·묻지 않기 | `questions.json`: `{"kie": {"items": [{"key": "…", "label": "…"}, {"key": "…", "ask": false}]}}` | 검수 필요 없음 |
-| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | `questions … --check` |
-| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` | 모든 카드 다시 만들기 |
+칸 하나에 관한 것(박스·키·값·질문)은 `fields.json` 의 그 칸, 질문 문장·답 꼴·전용 질문은 `questions.json`.
+고친 뒤 `python -m docgen.formdir check hana_official_420` → `python -m docgen.formdir card hana_official_420` (실제 질문→답 확인).
 
-확인: studio ① 서식 › 문항 Q/A · `python -m docgen.formdir questions hana_official_420 --show` · `python -m docgen.preview hana_official_420 --out work/hana_official_420`
+| 바꾸고 싶은 것 (데이터에서) | 어디를 | 검수 |
+|---|---|---|
+| 칸(추출 항목) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `fields.json` 의 `fields` 에 키·source | 다시 |
+| 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` + `fields.json` 의 그 키 | 다시 |
+| 답의 값 | `fields.json` 의 그 칸 `source` ([값 출처 목록](../_common/values.md)) | 다시 |
+| 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` 의 `adjust(d, p, rng)` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
+| 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
+| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
+| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |
+| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | 필요 없음 |
+| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | 필요 없음 |
+| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+
+"다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json` 은 그림을 바꾸지 않아 검수 상태가 그대로입니다.
+확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions hana_official_420 --show` · `python -m docgen.preview hana_official_420 --out work/hana_official_420`

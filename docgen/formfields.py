@@ -102,8 +102,25 @@ def update(doc_id: str, values: dict, keys: tuple) -> Path:
         if v in (None, [], {}):
             cur.pop(k, None)
         else:
-            cur[k] = v
+            cur[k] = keep_q(cur.get(k), v) if k in ("fields", "lists") else v
     return write(doc_id, cur)
+
+
+def keep_q(old, new):
+    """칸 선언을 통째로 바꿀 때 (html 편집기 저장) 있던 칸의 질문 설정 "q" 는 남긴다 (새 값에 q 가 없으면).
+    fields {키: {…}} 와 lists {이름: {fields: {칸: {…}}}} 둘 다."""
+    if not isinstance(old, dict) or not isinstance(new, dict):
+        return new
+    out = {}
+    for k, v in new.items():
+        o = old.get(k)
+        if isinstance(v, dict) and isinstance(o, dict):
+            if "fields" in v and isinstance(v["fields"], dict):   # 반복 표
+                v = {**v, "fields": keep_q(o.get("fields"), v["fields"])}
+            elif "q" in o and "q" not in v:
+                v = {**v, "q": o["q"]}
+        out[k] = v
+    return out
 
 
 def merge_declared(doc_id: str, declared: dict) -> tuple[Path, int]:

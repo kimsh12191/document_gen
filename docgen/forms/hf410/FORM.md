@@ -1,6 +1,6 @@
 # 본인확인서(FATCA CRS 법인,임의단체용)(영문) (`hf410`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf410 · card-hash: 6b08ea73b796 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf410 · card-hash: 5750d33457e0 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 본인확인서(FATCA CRS 법인,임의단체용)(영문)
@@ -20,53 +20,55 @@
 
 ## 추출 항목 (정보 추출 kie) — 28칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `NameofEntity` | NameofEntity | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `BusinessRegistrationNo` | BusinessRegistrationNo. | biz_no | 1쪽 [707, 182, 825, 200] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `PhoneNo` | PhoneNo. | phone | 1쪽 [710, 203, 821, 220] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `TaxpayerIdentificationNo` | TaxpayerIdentificationNo | text | 1쪽 [372, 735, 509, 752] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `customer.address` | Address(HeadOffice'sAddress) | text | 1쪽 [373, 756, 782, 782] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `NameofEntity2` | NameofEntity | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `GIINKIINEINNO` | GIIN/KIIN/EINNO | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `JurisdictionofResidence` | JurisdictionofResidence | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `JurisdictionofResidence2` | JurisdictionofResidence | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `JurisdictionofResidence3` | JurisdictionofResidence | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `GivenName` | GivenName | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `TaxpayerIdentificationNO` | TaxpayerIdentificationNO | amount | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `Overseaaddress` | Overseaaddress | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `GivenName2` | GivenName | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `TaxpayerIdentificationNO2` | TaxpayerIdentificationNO | amount | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `Overseaaddress2` | Overseaaddress | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `GivenName3` | GivenName | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `TaxpayerIdentificationNO3` | TaxpayerIdentificationNO | amount | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `Overseaaddress3` | Overseaaddress | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `SareRatio` | SareRatio(%)* | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `Surname` | Surname | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:492 | 묻기 |
-| `SareRatio2` | SareRatio(%)* | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `Surname2` | Surname | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:516 | 묻기 |
-| `SareRatio3` | SareRatio(%)* | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `Surname3` | Surname | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:540 | 묻기 |
-| `customer.birth` | DateofBirth | date | 2쪽 [805, 646, 882, 661] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `customer.birth2` | DateofBirth | date | 2쪽 [807, 755, 884, 772] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `customer.birth3` | DateofBirth | date | 2쪽 [809, 867, 886, 882] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `NameofEntity` | NameofEntity | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:58 | 묻기 |
+| `BusinessRegistrationNo` | BusinessRegistrationNo. | biz_no | 1쪽 [707, 182, 825, 200] | 늘 | 항목명 그대로 | 값 종류 `biz_no` (항목명 자동) | fields.json:69 | 묻기 |
+| `PhoneNo` | PhoneNo. | phone | 1쪽 [710, 203, 821, 220] | 늘 | 항목명 그대로 | 값 종류 `phone` (항목명 자동) | fields.json:80 | 묻기 |
+| `TaxpayerIdentificationNo` | TaxpayerIdentificationNo | text | 1쪽 [372, 735, 509, 752] | 늘 | 표 행 (묶음·항목명 'Taxpayer Identification No') | 값 종류 `number` (항목명 자동) | fields.json:92 | 묻기 |
+| `customer.address` | Address(HeadOffice'sAddress) | text | 1쪽 [373, 756, 782, 782] | 늘 | 규칙: 'Address(Head Office's Address)' → `customer.address` | 고객 정보 (키 `customer.address`) | fields.json:104 | 묻기 |
+| `NameofEntity2` | NameofEntity | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:115 | 묻기 |
+| `GIINKIINEINNO` | GIIN/KIIN/EINNO | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:126 | 묻기 |
+| `JurisdictionofResidence` | JurisdictionofResidence | text | - | 늘 | 표 행 (묶음·항목명 'Jurisdiction of Residence') | 값 종류 `text` (항목명 자동) | fields.json:138 | 묻기 |
+| `JurisdictionofResidence2` | JurisdictionofResidence | text | - | 늘 | 표 행 (묶음·항목명 'Jurisdiction of Residence') | 값 종류 `text` (항목명 자동) | fields.json:152 | 묻기 |
+| `JurisdictionofResidence3` | JurisdictionofResidence | text | - | 늘 | 표 행 (묶음·항목명 'Jurisdiction of Residence') | 값 종류 `text` (항목명 자동) | fields.json:166 | 묻기 |
+| `GivenName` | GivenName | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:180 | 묻기 |
+| `TaxpayerIdentificationNO` | TaxpayerIdentificationNO | amount | - | 늘 | 표 행 (묶음·항목명 'Taxpayer Identification NO') | 값 종류 `text` (항목명 자동) | fields.json:192 | 묻기 |
+| `Overseaaddress` | Overseaaddress | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:206 | 묻기 |
+| `GivenName2` | GivenName | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:218 | 묻기 |
+| `TaxpayerIdentificationNO2` | TaxpayerIdentificationNO | amount | - | 늘 | 표 행 (묶음·항목명 'Taxpayer Identification NO') | 값 종류 `text` (항목명 자동) | fields.json:230 | 묻기 |
+| `Overseaaddress2` | Overseaaddress | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:244 | 묻기 |
+| `GivenName3` | GivenName | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:256 | 묻기 |
+| `TaxpayerIdentificationNO3` | TaxpayerIdentificationNO | amount | - | 늘 | 표 행 (묶음·항목명 'Taxpayer Identification NO') | 값 종류 `text` (항목명 자동) | fields.json:268 | 묻기 |
+| `Overseaaddress3` | Overseaaddress | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:282 | 묻기 |
+| `SareRatio` | SareRatio(%)* | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:477 | 묻기 |
+| `Surname` | Surname | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:489 | 묻기 |
+| `SareRatio2` | SareRatio(%)* | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:501 | 묻기 |
+| `Surname2` | Surname | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:513 | 묻기 |
+| `SareRatio3` | SareRatio(%)* | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:525 | 묻기 |
+| `Surname3` | Surname | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:537 | 묻기 |
+| `customer.birth` | DateofBirth | date | 2쪽 [805, 646, 882, 661] | 늘 | 규칙: 'Date of Birth' → `customer.birth` | 고객 정보 (키 `customer.birth`) | fields.json:549 | 묻기 |
+| `customer.birth2` | DateofBirth | date | 2쪽 [807, 755, 884, 772] | 늘 | 규칙: 'Date of Birth' → `customer.birth` | 고객 정보 (키 `customer.birth`) | fields.json:561 | 묻기 |
+| `customer.birth3` | DateofBirth | date | 2쪽 [809, 867, 886, 882] | 늘 | 규칙: 'Date of Birth' → `customer.birth` | 고객 정보 (키 `customer.birth`) | fields.json:573 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 9칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `seal.staff.본인확인` | 본인확인 | seal | 1쪽 [727, 40, 772, 72] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `sign.staff.본인확인` | 본인확인 | signature | 1쪽 [713, 34, 785, 78] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `seal.staff.담당` | 담당 | seal | 1쪽 [785, 34, 848, 78] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `sign.staff.담당` | 담당 | signature | 1쪽 [785, 34, 848, 78] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `seal.staff.책임자` | 책임자 | seal | 1쪽 [863, 40, 908, 72] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `sign.staff.책임자` | 책임자 | signature | 1쪽 [848, 34, 923, 78] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `check.Nonissuingc` | Non-issuingcountry | checkbox (Non-issuing country / Not required by tax authority / Not aqucired (write the reason) | 2쪽 [693, 684, 853, 695] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `check.Nonissuingc2` | Non-issuingcountry | checkbox (Non-issuing country / Not required by tax authority / Not aqucired (write the reason) | 2쪽 [505, 793, 620, 805] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `check.Nonissuingc3` | Non-issuingcountry | checkbox (Non-issuing country / Not required by tax authority / Not aqucired (write the reason) | 2쪽 [505, 914, 678, 926] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `seal.staff.본인확인` | 본인확인 | seal | 1쪽 [727, 40, 772, 72] | 늘 | - | - | - | 묻기 |
+| `sign.staff.본인확인` | 본인확인 | signature | 1쪽 [713, 34, 785, 78] | 늘 | - | - | - | 묻기 |
+| `seal.staff.담당` | 담당 | seal | 1쪽 [785, 34, 848, 78] | 늘 | - | - | - | 묻기 |
+| `sign.staff.담당` | 담당 | signature | 1쪽 [785, 34, 848, 78] | 늘 | - | - | - | 묻기 |
+| `seal.staff.책임자` | 책임자 | seal | 1쪽 [863, 40, 908, 72] | 늘 | - | - | - | 묻기 |
+| `sign.staff.책임자` | 책임자 | signature | 1쪽 [848, 34, 923, 78] | 늘 | - | - | - | 묻기 |
+| `check.Nonissuingc` | Non-issuingcountry | checkbox (Non-issuing country / Not required by tax authority / Not aqucired (write the reason) | 2쪽 [693, 684, 853, 695] | 늘 | 체크 (항목명) | 보기 중 고름: Non-issuing country / Not required by tax authority / Not aqucired (write the reason | fields.json:294 | 묻기 |
+| `check.Nonissuingc2` | Non-issuingcountry | checkbox (Non-issuing country / Not required by tax authority / Not aqucired (write the reason) | 2쪽 [505, 793, 620, 805] | 늘 | 체크 (항목명) | 보기 중 고름: Non-issuing country / Not required by tax authority / Not aqucired (write the reason | fields.json:355 | 묻기 |
+| `check.Nonissuingc3` | Non-issuingcountry | checkbox (Non-issuing country / Not required by tax authority / Not aqucired (write the reason) | 2쪽 [505, 914, 678, 926] | 늘 | 체크 (항목명) | 보기 중 고름: Non-issuing country / Not required by tax authority / Not aqucired (write the reason | fields.json:416 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함). **정한 곳:** 템플릿에서 그 칸 자리 (html·코드 서식) / 칸 목록의 그 칸 (원본 서식).
+- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
+- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
@@ -243,13 +245,23 @@
 
 ## 고치려면
 
-| 하고 싶은 것 | 어디를 | 그다음 |
-|---|---|---|
-| 항목(칸) 더하기·위치·항목명 | studio ① 서식 › 영역 편집 (저장하면 `fields.json` items) | 재검수 → 카드 다시 만들기 |
-| 값이 이상함 | 영역 편집에서 그 칸의 값 출처·값 종류 | 재검수 |
-| 질문의 항목명·묻지 않기 | `questions.json`: `{"kie": {"items": [{"key": "…", "label": "…"}, {"key": "…", "ask": false}]}}` | 검수 필요 없음 |
-| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | `questions … --check` |
-| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` | 모든 카드 다시 만들기 |
+칸 하나에 관한 것(박스·키·값·질문)은 `fields.json` 의 그 칸, 질문 문장·답 꼴·전용 질문은 `questions.json`.
+고친 뒤 `python -m docgen.formdir check hf410` → `python -m docgen.formdir card hf410` (실제 질문→답 확인).
 
-확인: studio ① 서식 › 문항 Q/A · `python -m docgen.formdir questions hf410 --show` · `python -m docgen.preview hf410 --out work/hf410`
+| 바꾸고 싶은 것 (데이터에서) | 어디를 | 검수 |
+|---|---|---|
+| 칸(추출 항목) 더하기 | studio ① 서식 › 영역 편집에서 그리기 (`fields.json` items 에 한 칸) | 다시 |
+| 답의 위치 (박스) | `fields.json` 그 칸의 `rect` [x0, y0, x1, y1] (pt) — 또는 영역 편집 | 다시 |
+| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 규칙이 항목명으로 정함 — 모든 서식 공통 규칙은 studio 키 사전) | 다시 |
+| 답의 값 | `fields.json` 그 칸에 `"source"` ([값 출처 목록](../_common/values.md)) 또는 값 종류 `"kind"` | 다시 |
+| 칸의 항목명 | `fields.json` 그 칸의 `label` | 다시 |
+| 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
+| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
+| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |
+| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | 필요 없음 |
+| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | 필요 없음 |
+| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+
+"다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json` 은 그림을 바꾸지 않아 검수 상태가 그대로입니다.
+확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions hf410 --show` · `python -m docgen.preview hf410 --out work/hf410`

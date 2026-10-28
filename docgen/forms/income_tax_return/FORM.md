@@ -1,6 +1,6 @@
 # 종합소득세 과세표준확정신고 및 납부계산서 (`income_tax_return`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card income_tax_return · card-hash: d4ece7466638 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card income_tax_return · card-hash: 3117404b5386 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** tax · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 종합소득세 과세표준확정신고 및 납부계산서 (다른 이름: 종합소득세 과세표준확정신고 및 납부계산서(일반))
@@ -21,84 +21,86 @@
 
 ## 추출 항목 (정보 추출 kie) — 62칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `tax_year` | 귀속연도 | number | 1쪽 [387, 90, 422, 103] | 늘 | generate.py | look/template.html.j2:50 | 묻기 |
-| `customer.name` ← `taxpayer.name` | 성명 | text | 1쪽 [255, 178, 313, 189] | 늘 | generate.py | look/template.html.j2:43 | 묻기 |
-| `customer.rrn` ← `taxpayer.rrn` | 주민등록번호 | rrn | 1쪽 [666, 178, 765, 189] | 늘 | generate.py | look/template.html.j2:62 | 묻기 |
-| `customer.address` ← `taxpayer.address` | 주소 | text | 1쪽 [255, 199, 754, 209] | 늘 | generate.py | look/template.html.j2:63 | 묻기 |
-| `customer.email` ← `taxpayer.email` | 전자우편주소 | text | 1쪽 [255, 219, 382, 229] | 늘 | generate.py | look/template.html.j2:64 | 묻기 |
-| `taxpayer.biz_phone` | 사업장전화번호 | phone | 1쪽 [255, 239, 337, 249] | 늘 | generate.py | look/template.html.j2:65 | 묻기 |
-| `customer.mobile` ← `taxpayer.mobile` | 휴대전화번호 | phone | 1쪽 [666, 239, 754, 249] | 늘 | generate.py | look/template.html.j2:65 | 묻기 |
-| `filing_type` | 신고유형 | text | 1쪽 [394, 260, 454, 272] | 늘 | generate.py | look/template.html.j2:66 | 묻기 |
-| `bookkeeping` | 기장의무 | text | 1쪽 [285, 298, 391, 310] | 늘 | generate.py | look/template.html.j2:67 | 묻기 |
-| `filing_kind` | 신고구분 | text | 1쪽 [292, 320, 352, 333] | 늘 | generate.py | look/template.html.j2:68 | 묻기 |
-| `refund_account.bank` | 금융기관/체신관서명 | text | 1쪽 [255, 371, 313, 382] | 11/16 | generate.py | look/template.html.j2:73 | 묻기 |
-| `refund_account.number` | 계좌번호 | text | 1쪽 [666, 371, 777, 382] | 11/16 | generate.py | look/template.html.j2:74 | 묻기 |
-| `national.total_income` | 종합소득금액 | amount | 1쪽 [656, 438, 721, 449] | 늘 | generate.py | look/template.html.j2:138 | 묻기 |
-| `national.deduction` | 소득공제 | amount | 1쪽 [663, 455, 721, 465] | 늘 | generate.py | look/template.html.j2:166 | 묻기 |
-| `national.base` | 과세표준 | amount | 1쪽 [656, 471, 721, 482] | 늘 | generate.py | - | 묻기 |
-| `national.rate` | 세율 | percent | 1쪽 [694, 488, 721, 498] | 늘 | generate.py | - | 묻기 |
-| `national.computed` | 산출세액 | number | 1쪽 [663, 504, 721, 515] | 늘 | generate.py | - | 묻기 |
-| `national.reduction` | 세액감면 | number | 1쪽 [714, 521, 721, 531] | 늘 | generate.py | - | 묻기 |
-| `national.credit` | 세액공제 | amount | 1쪽 [681, 537, 721, 548] | 늘 | generate.py | look/template.html.j2:174 | 묻기 |
-| `national.determined` | 결정세액 | number | 1쪽 [663, 554, 721, 564] | 늘 | generate.py | - | 묻기 |
-| `national.penalty` | 가산세 | number | 1쪽 [714, 570, 721, 581] | 늘 | generate.py | look/template.html.j2:182 | 묻기 |
-| `national.additional` | 추가납부세액 | number | 1쪽 [714, 587, 721, 597] | 늘 | generate.py | - | 묻기 |
-| `national.total` | 합계 | amount | 1쪽 [663, 603, 721, 614] | 늘 | generate.py | - | 묻기 |
-| `national.prepaid` | 기납부세액 | number | 1쪽 [663, 620, 721, 630] | 늘 | generate.py | look/template.html.j2:191 | 묻기 |
-| `national.payable` | 납부(환급)할총세액 | amount | 1쪽 [663, 636, 721, 647] | 늘 | generate.py | - | 묻기 |
-| `national.special_deduct` | 납부특례세액차감 | number | 1쪽 [714, 653, 721, 663] | 늘 | generate.py | - | 묻기 |
-| `national.special_add` | 납부특례세액가산 | number | 1쪽 [714, 669, 721, 680] | 늘 | generate.py | - | 묻기 |
-| `national.installment` | 분납할세액 | number | 1쪽 [714, 685, 721, 696] | 늘 | generate.py | - | 묻기 |
-| `national.due_payable` | 신고기한이내납부할세액 | amount | 1쪽 [663, 702, 721, 713] | 늘 | generate.py | - | 묻기 |
-| `filed_date` | 신고일 | date | 1쪽 [802, 754, 911, 764] | 늘 | generate.py | look/template.html.j2:45 | 묻기 |
-| `related.name` ← `tax_agent.name` | 세무대리인 | text | 1쪽 [771, 801, 814, 812] | 11/16 | generate.py | look/template.html.j2:108 | 묻기 |
-| `tax_agent.biz_no` | 세무대리인사업자등록번호 | biz_no | 1쪽 [297, 823, 383, 836] | 11/16 | generate.py | look/template.html.j2:111 | 묻기 |
-| `related.phone` ← `tax_agent.phone` | 세무대리인전화번호 | phone | 1쪽 [684, 823, 770, 836] | 11/16 | generate.py | look/template.html.j2:112 | 묻기 |
-| `tax_office` | 세무서장 | text | 1쪽 [89, 846, 203, 861] | 늘 | generate.py | look/template.html.j2:114 | 묻기 |
-| `incomes.*.type` | 소득구분 | - | - (1행) | 14/16 | generate.py | look/template.html.j2:134 | 묻기 |
-| `incomes.*.payer` | 소득의지급자 | - | - (1행) | 14/16 | generate.py | look/template.html.j2:134 | 묻기 |
-| `incomes.*.revenue` | 총수입금액 | - | - (1행) | 14/16 | generate.py | look/template.html.j2:135 | 묻기 |
-| `incomes.*.expense` | 필요경비 | - | - (1행) | 14/16 | generate.py | look/template.html.j2:135 | 묻기 |
-| `incomes.*.amount` | 소득금액 | - | - (1행) | 14/16 | generate.py | look/template.html.j2:136 | 묻기 |
-| `incomes.*.withheld` | 원천징수세액 | - | - (1행) | 14/16 | generate.py | look/template.html.j2:136 | 묻기 |
-| `business_income.address` | 사업장소재지 | - | - | 14/16 | generate.py | look/template.html.j2:143 | 묻기 |
-| `business_income.trade_name` | 상호 | - | - | 14/16 | generate.py | look/template.html.j2:144 | 묻기 |
-| `business_income.biz_no` | 사업자등록번호 | - | - | 14/16 | generate.py | look/template.html.j2:144 | 묻기 |
-| `business_income.code` | 업종코드 | - | - | 14/16 | generate.py | look/template.html.j2:145 | 묻기 |
-| `business_income.revenue` | 총수입금액 | - | - | 14/16 | generate.py | look/template.html.j2:145 | 묻기 |
-| `business_income.expense` | 필요경비 | - | - | 14/16 | generate.py | look/template.html.j2:146 | 묻기 |
-| `business_income.income` | 소득금액 | - | - | 14/16 | generate.py | look/template.html.j2:146 | 묻기 |
-| `dependents.*.relation` | 관계 | - | - (1행) | 14/16 | generate.py | look/template.html.j2:156 | 묻기 |
-| `dependents.*.name` | 성명 | - | - (1행) | 14/16 | generate.py | look/template.html.j2:156 | 묻기 |
-| `dependents.*.rrn` | 주민등록번호 | - | - (1행) | 14/16 | generate.py | look/template.html.j2:157 | 묻기 |
-| `dependents.*.basic` | 기본공제 | - | - (1행) | 14/16 | generate.py | look/template.html.j2:157 | 묻기 |
-| `dependents.*.extra` | 추가공제 | - | - (1행) | 14/16 | generate.py | look/template.html.j2:158 | 묻기 |
-| `deduction_items.*.item` | 소득공제항목 | - | - (1행) | 14/16 | generate.py | look/template.html.j2:125 | 묻기 |
-| `deduction_items.*.amount` | 금액 | - | - (1행) | 14/16 | generate.py | look/template.html.j2:125 | 묻기 |
-| `credit_items.*.item` | 세액공제항목 | - | - (1행) | 14/16 | generate.py | look/template.html.j2:125 | 묻기 |
-| `credit_items.*.amount` | 금액 | - | - (1행) | 14/16 | generate.py | look/template.html.j2:125 | 묻기 |
-| `prepaid_items.*.item` | 기납부세액항목 | - | - (1행) | 13/16 | generate.py | look/template.html.j2:125 | 묻기 |
-| `prepaid_items.*.amount` | 금액 | - | - (1행) | 13/16 | generate.py | look/template.html.j2:125 | 묻기 |
-| `business_income.partner` | 공동사업자 | - | - | 1/16 | generate.py | look/template.html.j2:148 | 묻기 |
-| `business_income.share` | 손익분배비율 | - | - | 1/16 | generate.py | look/template.html.j2:148 | 묻기 |
-| `penalty_items.*.item` | 가산세항목 | - | - (1행) | 1/16 | generate.py | look/template.html.j2:125 | 묻기 |
-| `penalty_items.*.amount` | 금액 | - | - (1행) | 1/16 | generate.py | look/template.html.j2:125 | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `tax_year` | 귀속연도 | number | 1쪽 [387, 90, 422, 103] | 늘 | 템플릿 | generate.py | look/template.html.j2:50 · fields.json:215 | 묻기 |
+| `customer.name` ← `taxpayer.name` | 성명 | text | 1쪽 [255, 178, 313, 189] | 늘 | 템플릿 | generate.py | look/template.html.j2:43 · fields.json:240 | 묻기 |
+| `customer.rrn` ← `taxpayer.rrn` | 주민등록번호 | rrn | 1쪽 [666, 178, 765, 189] | 늘 | 템플릿 | generate.py | look/template.html.j2:62 · fields.json:245 | 묻기 |
+| `customer.address` ← `taxpayer.address` | 주소 | text | 1쪽 [255, 199, 754, 209] | 늘 | 템플릿 | generate.py | look/template.html.j2:63 · fields.json:220 | 묻기 |
+| `customer.email` ← `taxpayer.email` | 전자우편주소 | text | 1쪽 [255, 219, 382, 229] | 늘 | 템플릿 | generate.py | look/template.html.j2:64 · fields.json:230 | 묻기 |
+| `taxpayer.biz_phone` | 사업장전화번호 | phone | 1쪽 [255, 239, 337, 249] | 늘 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:225 | 묻기 |
+| `customer.mobile` ← `taxpayer.mobile` | 휴대전화번호 | phone | 1쪽 [666, 239, 754, 249] | 늘 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:235 | 묻기 |
+| `filing_type` | 신고유형 | text | 1쪽 [394, 260, 454, 272] | 늘 | 템플릿 | generate.py | look/template.html.j2:66 · fields.json:65 | 묻기 |
+| `bookkeeping` | 기장의무 | text | 1쪽 [285, 298, 391, 310] | 늘 | 템플릿 | generate.py | look/template.html.j2:67 · fields.json:5 | 묻기 |
+| `filing_kind` | 신고구분 | text | 1쪽 [292, 320, 352, 333] | 늘 | 템플릿 | generate.py | look/template.html.j2:68 · fields.json:60 | 묻기 |
+| `refund_account.bank` | 금융기관/체신관서명 | text | 1쪽 [255, 371, 313, 382] | 11/16 | 템플릿 | generate.py | look/template.html.j2:73 · fields.json:160 | 묻기 |
+| `refund_account.number` | 계좌번호 | text | 1쪽 [666, 371, 777, 382] | 11/16 | 템플릿 | generate.py | look/template.html.j2:74 · fields.json:165 | 묻기 |
+| `national.total_income` | 종합소득금액 | amount | 1쪽 [656, 438, 721, 449] | 늘 | 템플릿 | generate.py | look/template.html.j2:138 · fields.json:150 | 묻기 |
+| `national.deduction` | 소득공제 | amount | 1쪽 [663, 455, 721, 465] | 늘 | 템플릿 | generate.py | look/template.html.j2:166 · fields.json:90 | 묻기 |
+| `national.base` | 과세표준 | amount | 1쪽 [656, 471, 721, 482] | 늘 | 템플릿 | generate.py | fields.json:75 | 묻기 |
+| `national.rate` | 세율 | percent | 1쪽 [694, 488, 721, 498] | 늘 | 템플릿 | generate.py | fields.json:125 | 묻기 |
+| `national.computed` | 산출세액 | number | 1쪽 [663, 504, 721, 515] | 늘 | 템플릿 | generate.py | fields.json:80 | 묻기 |
+| `national.reduction` | 세액감면 | number | 1쪽 [714, 521, 721, 531] | 늘 | 템플릿 | generate.py | fields.json:130 | 묻기 |
+| `national.credit` | 세액공제 | amount | 1쪽 [681, 537, 721, 548] | 늘 | 템플릿 | generate.py | look/template.html.j2:174 · fields.json:85 | 묻기 |
+| `national.determined` | 결정세액 | number | 1쪽 [663, 554, 721, 564] | 늘 | 템플릿 | generate.py | fields.json:95 | 묻기 |
+| `national.penalty` | 가산세 | number | 1쪽 [714, 570, 721, 581] | 늘 | 템플릿 | generate.py | look/template.html.j2:182 · fields.json:115 | 묻기 |
+| `national.additional` | 추가납부세액 | number | 1쪽 [714, 587, 721, 597] | 늘 | 템플릿 | generate.py | fields.json:70 | 묻기 |
+| `national.total` | 합계 | amount | 1쪽 [663, 603, 721, 614] | 늘 | 템플릿 | generate.py | fields.json:145 | 묻기 |
+| `national.prepaid` | 기납부세액 | number | 1쪽 [663, 620, 721, 630] | 늘 | 템플릿 | generate.py | look/template.html.j2:191 · fields.json:120 | 묻기 |
+| `national.payable` | 납부(환급)할총세액 | amount | 1쪽 [663, 636, 721, 647] | 늘 | 템플릿 | generate.py | fields.json:110 | 묻기 |
+| `national.special_deduct` | 납부특례세액차감 | number | 1쪽 [714, 653, 721, 663] | 늘 | 템플릿 | generate.py | fields.json:140 | 묻기 |
+| `national.special_add` | 납부특례세액가산 | number | 1쪽 [714, 669, 721, 680] | 늘 | 템플릿 | generate.py | fields.json:135 | 묻기 |
+| `national.installment` | 분납할세액 | number | 1쪽 [714, 685, 721, 696] | 늘 | 템플릿 | generate.py | fields.json:105 | 묻기 |
+| `national.due_payable` | 신고기한이내납부할세액 | amount | 1쪽 [663, 702, 721, 713] | 늘 | 템플릿 | generate.py | fields.json:100 | 묻기 |
+| `filed_date` | 신고일 | date | 1쪽 [802, 754, 911, 764] | 늘 | 템플릿 | generate.py | look/template.html.j2:45 · fields.json:55 | 묻기 |
+| `related.name` ← `tax_agent.name` | 세무대리인 | text | 1쪽 [771, 801, 814, 812] | 11/16 | 템플릿 | generate.py | look/template.html.j2:108 · fields.json:200 | 묻기 |
+| `tax_agent.biz_no` | 세무대리인사업자등록번호 | biz_no | 1쪽 [297, 823, 383, 836] | 11/16 | 템플릿 | generate.py | look/template.html.j2:111 · fields.json:195 | 묻기 |
+| `related.phone` ← `tax_agent.phone` | 세무대리인전화번호 | phone | 1쪽 [684, 823, 770, 836] | 11/16 | 템플릿 | generate.py | look/template.html.j2:112 · fields.json:205 | 묻기 |
+| `tax_office` | 세무서장 | text | 1쪽 [89, 846, 203, 861] | 늘 | 템플릿 | generate.py | look/template.html.j2:114 · fields.json:210 | 묻기 |
+| `incomes.*.type` | 소득구분 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:134 · fields.json:317 | 묻기 |
+| `incomes.*.payer` | 소득의지급자 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:134 · fields.json:325 | 묻기 |
+| `incomes.*.revenue` | 총수입금액 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:135 · fields.json:330 | 묻기 |
+| `incomes.*.expense` | 필요경비 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:135 · fields.json:320 | 묻기 |
+| `incomes.*.amount` | 소득금액 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:136 · fields.json:315 | 묻기 |
+| `incomes.*.withheld` | 원천징수세액 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:136 · fields.json:340 | 묻기 |
+| `business_income.address` | 사업장소재지 | - | - | 14/16 | 템플릿 | generate.py | look/template.html.j2:143 · fields.json:10 | 묻기 |
+| `business_income.trade_name` | 상호 | - | - | 14/16 | 템플릿 | generate.py | look/template.html.j2:144 · fields.json:50 | 묻기 |
+| `business_income.biz_no` | 사업자등록번호 | - | - | 14/16 | 템플릿 | generate.py | look/template.html.j2:144 · fields.json:15 | 묻기 |
+| `business_income.code` | 업종코드 | - | - | 14/16 | 템플릿 | generate.py | look/template.html.j2:145 · fields.json:20 | 묻기 |
+| `business_income.revenue` | 총수입금액 | - | - | 14/16 | 템플릿 | generate.py | look/template.html.j2:145 · fields.json:40 | 묻기 |
+| `business_income.expense` | 필요경비 | - | - | 14/16 | 템플릿 | generate.py | look/template.html.j2:146 · fields.json:25 | 묻기 |
+| `business_income.income` | 소득금액 | - | - | 14/16 | 템플릿 | generate.py | look/template.html.j2:146 · fields.json:30 | 묻기 |
+| `dependents.*.relation` | 관계 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:156 · fields.json:300 | 묻기 |
+| `dependents.*.name` | 성명 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:156 · fields.json:295 | 묻기 |
+| `dependents.*.rrn` | 주민등록번호 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:157 · fields.json:305 | 묻기 |
+| `dependents.*.basic` | 기본공제 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:157 · fields.json:285 | 묻기 |
+| `dependents.*.extra` | 추가공제 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:158 · fields.json:290 | 묻기 |
+| `deduction_items.*.item` | 소득공제항목 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:275 | 묻기 |
+| `deduction_items.*.amount` | 금액 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:270 | 묻기 |
+| `credit_items.*.item` | 세액공제항목 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:260 | 묻기 |
+| `credit_items.*.amount` | 금액 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:255 | 묻기 |
+| `prepaid_items.*.item` | 기납부세액항목 | - | - (1행) | 13/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:370 | 묻기 |
+| `prepaid_items.*.amount` | 금액 | - | - (1행) | 13/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:365 | 묻기 |
+| `business_income.partner` | 공동사업자 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:148 · fields.json:35 | 묻기 |
+| `business_income.share` | 손익분배비율 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:148 · fields.json:45 | 묻기 |
+| `penalty_items.*.item` | 가산세항목 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:355 | 묻기 |
+| `penalty_items.*.amount` | 금액 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:350 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 6칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `residency` | 거주구분 | checkbox (거주자 / 비거주자) | 1쪽 [742, 89, 785, 99] | 늘 | generate.py | look/template.html.j2:54 | 묻기 |
-| `customer.nationality` ← `nationality` | 내ㆍ외국인 | checkbox (내국인 / 외국인) | 1쪽 [742, 111, 785, 122] | 늘 | generate.py | look/template.html.j2:55 | 묻기 |
-| `seal.customer` ← `seal.taxpayer` | 신고인 | seal | 1쪽 [821, 767, 911, 781] | 늘 | generate.py | - | 묻기 |
-| `sign.customer` ← `sign.taxpayer` | 신고인 | signature | 1쪽 [821, 767, 911, 781] | 늘 | generate.py | - | 묻기 |
-| `seal.related` ← `seal.tax_agent` | 세무대리인 | seal | 1쪽 [821, 800, 911, 814] | 11/16 | generate.py | - | 묻기 |
-| `sign.related` ← `sign.tax_agent` | 세무대리인 | signature | 1쪽 [821, 800, 911, 814] | 11/16 | generate.py | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `residency` | 거주구분 | checkbox (거주자 / 비거주자) | 1쪽 [742, 89, 785, 99] | 늘 | 템플릿 | generate.py | look/template.html.j2:54 · fields.json:170 | 묻기 |
+| `customer.nationality` ← `nationality` | 내ㆍ외국인 | checkbox (내국인 / 외국인) | 1쪽 [742, 111, 785, 122] | 늘 | 템플릿 | generate.py | look/template.html.j2:55 · fields.json:155 | 묻기 |
+| `seal.customer` ← `seal.taxpayer` | 신고인 | seal | 1쪽 [821, 767, 911, 781] | 늘 | 템플릿 | generate.py | fields.json:180 | 묻기 |
+| `sign.customer` ← `sign.taxpayer` | 신고인 | signature | 1쪽 [821, 767, 911, 781] | 늘 | 템플릿 | generate.py | fields.json:190 | 묻기 |
+| `seal.related` ← `seal.tax_agent` | 세무대리인 | seal | 1쪽 [821, 800, 911, 814] | 11/16 | 템플릿 | generate.py | fields.json:175 | 묻기 |
+| `sign.related` ← `sign.tax_agent` | 세무대리인 | signature | 1쪽 [821, 800, 911, 814] | 11/16 | 템플릿 | generate.py | fields.json:185 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함). **정한 곳:** 템플릿에서 그 칸 자리 (html·코드 서식) / 칸 목록의 그 칸 (원본 서식).
+- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
+- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
@@ -303,15 +305,24 @@
 
 ## 고치려면
 
-| 하고 싶은 것 | 어디를 | 그다음 |
-|---|---|---|
-| 항목(칸) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `generate.py` 가 돌려주는 dict 에 그 키 값 | 미리보기로 확인 → 재검수 → 카드 다시 만들기 |
-| 칸 키·항목명 바꾸기 | `look/template.html.j2` 의 `f("키", label=…)` (질문만 바꾸려면 `questions.json`) | `questions … --check` |
-| 값이 이상함·칸끼리 안 맞음 | `generate.py` (값 만드는 함수) | 재검수 |
-| 모양·표·문구 | `look/template.html.j2` (studio html 편집) | 재검수 |
-| 질문의 항목명·묻지 않기 | `questions.json`: `{"kie": {"items": [{"key": "…", "label": "…"}, {"key": "…", "ask": false}]}}` | 검수 필요 없음 |
-| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | `questions … --check` |
-| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` | 모든 카드 다시 만들기 |
+칸 하나에 관한 것(박스·키·값·질문)은 `fields.json` 의 그 칸, 질문 문장·답 꼴·전용 질문은 `questions.json`.
+고친 뒤 `python -m docgen.formdir check income_tax_return` → `python -m docgen.formdir card income_tax_return` (실제 질문→답 확인).
 
-확인: studio ① 서식 › 문항 Q/A · `python -m docgen.formdir questions income_tax_return --show` · `python -m docgen.preview income_tax_return --out work/income_tax_return`
+| 바꾸고 싶은 것 (데이터에서) | 어디를 | 검수 |
+|---|---|---|
+| 칸(추출 항목) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `generate.py` 가 돌려주는 dict 에 그 키 값 | 다시 |
+| 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` | 다시 |
+| 답의 값 | `generate.py` (값 만드는 함수). 파이썬 대신 정하려면 `fields.json` 의 그 칸 `source` | 다시 |
+| 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
+| 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
+| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
+| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |
+| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | 필요 없음 |
+| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | 필요 없음 |
+| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+
+"다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json` 은 그림을 바꾸지 않아 검수 상태가 그대로입니다.
+확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions income_tax_return --show` · `python -m docgen.preview income_tax_return --out work/income_tax_return`

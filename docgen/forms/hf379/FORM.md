@@ -1,6 +1,6 @@
 # 주류구매전용카드 가맹점가입신청서 (`hf379`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf379 · card-hash: f5091a2444d8 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf379 · card-hash: c298521d9b56 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 주류구매전용카드 가맹점가입신청서
@@ -20,44 +20,46 @@
 
 ## 추출 항목 (정보 추출 kie) — 19칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `corp.name` ← `company.name` | 상호 | text | 1쪽 [360, 366, 475, 385] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:26 | 묻기 |
-| `corp.biz_no` ← `company.biz_no` | 사업자등록번호 | biz_no | 1쪽 [357, 390, 464, 411] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:38 | 묻기 |
-| `account` | 계좌번호 | account_no | 1쪽 [362, 480, 530, 505] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:159 | 묻기 |
-| `customer.name` | 성명 | text | 1쪽 [764, 376, 847, 398] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:170 | 묻기 |
-| `customer.name2` | 예금주 | text | 1쪽 [767, 480, 850, 503] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:182 | 묻기 |
-| `corp.established` ← `company.established` | 개업일 | date | 1쪽 [200, 521, 299, 545] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:193 | 묻기 |
-| `자본금` | 자본금 | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:204 | 묻기 |
-| `corp.biz_item` ← `company.biz_item` | 업종 | text | 1쪽 [480, 521, 559, 545] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:215 | 묻기 |
-| `매출액` | 매출액 | number | 1쪽 [503, 547, 584, 565] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:226 | 묻기 |
-| `취급품목` | 취급품목 | text | 1쪽 [765, 522, 882, 546] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:238 | 묻기 |
-| `종업원수` | 종업원수 | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:249 | 묻기 |
-| `employer.name` | 소속 | text | 1쪽 [569, 822, 680, 838] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:321 | 묻기 |
-| `employer.name2` | 소속 | text | 1쪽 [572, 848, 683, 864] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:332 | 묻기 |
-| `customer.name3` | 성명 | text | 1쪽 [768, 819, 852, 843] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:343 | 묻기 |
-| `customer.name4` | 성명 | text | 1쪽 [767, 844, 851, 867] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:354 | 묻기 |
-| `date` | 작성일 | date | 1쪽 [405, 691, 615, 705] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:404 | 묻기 |
-| `signer.name` | 신청인(상호) | text | 1쪽 [478, 716, 595, 735] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:430 | 묻기 |
-| `date2` | 작성일 | date | 2쪽 [757, 850, 926, 863] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:447 | 묻기 |
-| `signer2.name` | 가맹점신청인 | text | 2쪽 [769, 874, 837, 894] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `corp.name` ← `company.name` | 상호 | text | 1쪽 [360, 366, 475, 385] | 늘 | 규칙: '상호' → `company.name` | 고객 정보 (키 `company.name`) | fields.json:23 | 묻기 |
+| `corp.biz_no` ← `company.biz_no` | 사업자등록번호 | biz_no | 1쪽 [357, 390, 464, 411] | 늘 | 규칙: '사업자등록번호' → `company.biz_no` | 고객 정보 (키 `company.biz_no`) | fields.json:35 | 묻기 |
+| `account` | 계좌번호 | account_no | 1쪽 [362, 480, 530, 505] | 늘 | 규칙: '계좌번호' → `account` | 고객 정보 (키 `account`) | fields.json:156 | 묻기 |
+| `customer.name` | 성명 | text | 1쪽 [764, 376, 847, 398] | 늘 | 규칙: '성명' → `customer.name` | 고객 정보 (키 `customer.name`) | fields.json:167 | 묻기 |
+| `customer.name2` | 예금주 | text | 1쪽 [767, 480, 850, 503] | 늘 | 규칙: '예금주' → `customer.name` | 고객 정보 (키 `customer.name`) | fields.json:179 | 묻기 |
+| `corp.established` ← `company.established` | 개업일 | date | 1쪽 [200, 521, 299, 545] | 늘 | 규칙: '개업일' → `company.established` | 고객 정보 (키 `company.established`) | fields.json:190 | 묻기 |
+| `자본금` | 자본금 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:201 | 묻기 |
+| `corp.biz_item` ← `company.biz_item` | 업종 | text | 1쪽 [480, 521, 559, 545] | 늘 | 규칙: '업종' → `company.biz_item` | 고객 정보 (키 `company.biz_item`) | fields.json:212 | 묻기 |
+| `매출액` | 매출액 | number | 1쪽 [503, 547, 584, 565] | 늘 | 항목명 그대로 | 값 종류 `amount` (항목명 자동) | fields.json:223 | 묻기 |
+| `취급품목` | 취급품목 | text | 1쪽 [765, 522, 882, 546] | 늘 | 항목명 그대로 | 값 종류 `goods` (항목명 자동) | fields.json:235 | 묻기 |
+| `종업원수` | 종업원수 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:246 | 묻기 |
+| `employer.name` | 소속 | text | 1쪽 [569, 822, 680, 838] | 늘 | 규칙: '소속' → `employer.name` | 고객 정보 (키 `employer.name`) | fields.json:318 | 묻기 |
+| `employer.name2` | 소속 | text | 1쪽 [572, 848, 683, 864] | 늘 | 규칙: '소속' → `employer.name` | 고객 정보 (키 `employer.name`) | fields.json:329 | 묻기 |
+| `customer.name3` | 성명 | text | 1쪽 [768, 819, 852, 843] | 늘 | 규칙: '성명' → `customer.name` | 고객 정보 (키 `customer.name`) | fields.json:340 | 묻기 |
+| `customer.name4` | 성명 | text | 1쪽 [767, 844, 851, 867] | 늘 | 규칙: '성명' → `customer.name` | 고객 정보 (키 `customer.name`) | fields.json:351 | 묻기 |
+| `date` | 작성일 | date | 1쪽 [405, 691, 615, 705] | 늘 | 날짜 칸 (항목명) | 작성일 | fields.json:401 | 묻기 |
+| `signer.name` | 신청인(상호) | text | 1쪽 [478, 716, 595, 735] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:427 | 묻기 |
+| `date2` | 작성일 | date | 2쪽 [757, 850, 926, 863] | 늘 | 날짜 칸 (항목명) | 작성일 | fields.json:444 | 묻기 |
+| `signer2.name` | 가맹점신청인 | text | 2쪽 [769, 874, 837, 894] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:470 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 9칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `check.주소` | 주소 | checkbox (보기1 / 보기2 / - / 보기4 / 보기5 / 보기6) | 1쪽 [386, 423, 400, 434] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:50 | 묻기 |
-| `check.사업체구분` | 사업체구분 | checkbox (종합 / 수입 / 특정) | 1쪽 [557, 593, 599, 604] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:260 | 묻기 |
-| `check.주류구매전용카드가맹점가입신청서` | 주류구매전용카드가맹점가입신청서( | checkbox (보나뱅크(주) / (주)엔젤넷)) | 1쪽 [728, 101, 877, 122] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `seal.corp` ← `seal.signer` | 신청인(상호) | seal | 1쪽 [647, 720, 674, 732] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:430 | 묻기 |
-| `sign.customer` ← `sign.signer` | 신청인(상호) | signature | 1쪽 [647, 720, 674, 732] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `seal.customer` ← `seal.signer2` | 가맹점신청인 | seal | 2쪽 [904, 880, 927, 890] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `sign.signer2` | 가맹점신청인 | signature | 2쪽 [904, 880, 927, 890] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `seal.signer3` | 지점장 | seal | 2쪽 [904, 908, 927, 919] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:490 | 묻기 |
-| `sign.signer3` | 지점장 | signature | 2쪽 [904, 908, 927, 919] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `check.주소` | 주소 | checkbox (보기1 / 보기2 / - / 보기4 / 보기5 / 보기6) | 1쪽 [386, 423, 400, 434] | 늘 | 체크 (항목명) | 보기 중 고름: ? / ? / - / ? / ? / ? | fields.json:47 | 묻기 |
+| `check.사업체구분` | 사업체구분 | checkbox (종합 / 수입 / 특정) | 1쪽 [557, 593, 599, 604] | 늘 | 체크 (항목명) | 보기 중 고름: 종합 / 수입 / 특정 | fields.json:257 | 묻기 |
+| `check.주류구매전용카드가맹점가입신청서` | 주류구매전용카드가맹점가입신청서( | checkbox (보나뱅크(주) / (주)엔젤넷)) | 1쪽 [728, 101, 877, 122] | 늘 | 체크 (항목명) | 보기 중 고름: 보나뱅크(주) / (주)엔젤넷) | fields.json:362 | 묻기 |
+| `seal.corp` ← `seal.signer` | 신청인(상호) | seal | 1쪽 [647, 720, 674, 732] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:427 | 묻기 |
+| `sign.customer` ← `sign.signer` | 신청인(상호) | signature | 1쪽 [647, 720, 674, 732] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:427 | 묻기 |
+| `seal.customer` ← `seal.signer2` | 가맹점신청인 | seal | 2쪽 [904, 880, 927, 890] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:470 | 묻기 |
+| `sign.signer2` | 가맹점신청인 | signature | 2쪽 [904, 880, 927, 890] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:470 | 묻기 |
+| `seal.signer3` | 지점장 | seal | 2쪽 [904, 908, 927, 919] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:487 | 묻기 |
+| `sign.signer3` | 지점장 | signature | 2쪽 [904, 908, 927, 919] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:487 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함). **정한 곳:** 템플릿에서 그 칸 자리 (html·코드 서식) / 칸 목록의 그 칸 (원본 서식).
+- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
+- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
@@ -220,13 +222,23 @@
 
 ## 고치려면
 
-| 하고 싶은 것 | 어디를 | 그다음 |
-|---|---|---|
-| 항목(칸) 더하기·위치·항목명 | studio ① 서식 › 영역 편집 (저장하면 `fields.json` items) | 재검수 → 카드 다시 만들기 |
-| 값이 이상함 | 영역 편집에서 그 칸의 값 출처·값 종류 | 재검수 |
-| 질문의 항목명·묻지 않기 | `questions.json`: `{"kie": {"items": [{"key": "…", "label": "…"}, {"key": "…", "ask": false}]}}` | 검수 필요 없음 |
-| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | `questions … --check` |
-| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` | 모든 카드 다시 만들기 |
+칸 하나에 관한 것(박스·키·값·질문)은 `fields.json` 의 그 칸, 질문 문장·답 꼴·전용 질문은 `questions.json`.
+고친 뒤 `python -m docgen.formdir check hf379` → `python -m docgen.formdir card hf379` (실제 질문→답 확인).
 
-확인: studio ① 서식 › 문항 Q/A · `python -m docgen.formdir questions hf379 --show` · `python -m docgen.preview hf379 --out work/hf379`
+| 바꾸고 싶은 것 (데이터에서) | 어디를 | 검수 |
+|---|---|---|
+| 칸(추출 항목) 더하기 | studio ① 서식 › 영역 편집에서 그리기 (`fields.json` items 에 한 칸) | 다시 |
+| 답의 위치 (박스) | `fields.json` 그 칸의 `rect` [x0, y0, x1, y1] (pt) — 또는 영역 편집 | 다시 |
+| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 규칙이 항목명으로 정함 — 모든 서식 공통 규칙은 studio 키 사전) | 다시 |
+| 답의 값 | `fields.json` 그 칸에 `"source"` ([값 출처 목록](../_common/values.md)) 또는 값 종류 `"kind"` | 다시 |
+| 칸의 항목명 | `fields.json` 그 칸의 `label` | 다시 |
+| 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
+| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
+| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |
+| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | 필요 없음 |
+| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | 필요 없음 |
+| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+
+"다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json` 은 그림을 바꾸지 않아 검수 상태가 그대로입니다.
+확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions hf379 --show` · `python -m docgen.preview hf379 --out work/hf379`

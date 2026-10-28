@@ -1,6 +1,6 @@
 # 주민등록표 등본 (`resident_registration_copy`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card resident_registration_copy · card-hash: 9268d0578050 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card resident_registration_copy · card-hash: 3156f5e2a23d -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** family · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 주민등록표 등본 (다른 이름: 주민등록표(등본))
@@ -21,42 +21,44 @@
 
 ## 추출 항목 (정보 추출 kie) — 25칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `doc_no` | 발급번호 / 문서확인번호 | text | 1쪽 [150, 73, 216, 84] | 늘 | generate.py | - | 묻기 |
-| `officer` | 담당자 | text | 1쪽 [178, 186, 229, 199] | 8/16 | generate.py | - | 묻기 |
-| `officer_phone` | 전화 | phone | 1쪽 [294, 186, 390, 199] | 8/16 | generate.py | - | 묻기 |
-| `applicant` | 신청인 | text | 1쪽 [187, 205, 255, 218] | 늘 | generate.py | - | 묻기 |
-| `purpose` | 용도및목적 | text | 1쪽 [388, 205, 457, 218] | 늘 | generate.py | - | 묻기 |
-| `issue_date` | 발급일 | date | 1쪽 [780, 225, 919, 238] | 늘 | generate.py | - | 묻기 |
-| `issuer` | 발급기관 | text | 1쪽 [504, 247, 846, 266] | 늘 | generate.py | - | 묻기 |
-| `household_head.name` | 세대주성명 | text | 1쪽 [254, 305, 323, 319] | 늘 | generate.py | look/template.html.j2:11 | 묻기 |
-| `household_head.name_hanja` | 세대주성명(한자) | text | 1쪽 [333, 305, 401, 319] | 늘 | generate.py | look/template.html.j2:11 | 묻기 |
-| `household_formed.reason` | 세대구성사유 | text | 1쪽 [760, 296, 863, 310] | 늘 | generate.py | look/template.html.j2:12 | 묻기 |
-| `household_formed.date` | 세대구성일자 | date | 1쪽 [772, 314, 852, 327] | 늘 | generate.py | look/template.html.j2:12 | 묻기 |
-| `past_addresses.*.no` | 번호 | number | 1쪽 [119, 376, 127, 389] (1행) | 7/16 | generate.py | look/template.html.j2:18 | 묻기 |
-| `past_addresses.*.address` | 주소 | text | 1쪽 [174, 367, 610, 398] (1행) | 7/16 | generate.py | look/template.html.j2:18 | 묻기 |
-| `past_addresses.*.moved_in` | 전입일/변동일 | date | 1쪽 [679, 376, 758, 389] (1행) | 7/16 | generate.py | look/template.html.j2:18 | 묻기 |
-| `past_addresses.*.reason` | 변동사유 | text | 1쪽 [849, 376, 883, 389] (1행) | 7/16 | generate.py | look/template.html.j2:18 | 묻기 |
-| `customer.address` ← `current_address.address` | 현주소 | text | 1쪽 [174, 410, 612, 441] | 늘 | generate.py | look/template.html.j2:20 | 묻기 |
-| `current_address.moved_in` | 전입일/변동일 | date | 1쪽 [679, 419, 758, 432] | 늘 | generate.py | look/template.html.j2:20 | 묻기 |
-| `current_address.reason` | 변동사유 | text | 1쪽 [849, 419, 883, 432] | 늘 | generate.py | look/template.html.j2:20 | 묻기 |
-| `members.*.no` | 번호 | number | 1쪽 [106, 527, 114, 540] (1행) | 늘 | generate.py | look/template.html.j2:28 | 묻기 |
-| `members.*.relation` | 세대주관계 | text | 1쪽 [172, 527, 207, 540] (1행) | 늘 | generate.py | look/template.html.j2:29 | 묻기 |
-| `members.*.name` | 성명 | text | 1쪽 [356, 515, 424, 528] (1행) | 늘 | generate.py | look/template.html.j2:30 | 묻기 |
-| `members.*.name_hanja` | 한자 | text | 1쪽 [434, 515, 503, 528] (1행) | 늘 | generate.py | look/template.html.j2:30 | 묻기 |
-| `members.*.moved_in` | 전입일/변동일 | date | 1쪽 [679, 527, 758, 540] (1행) | 늘 | generate.py | look/template.html.j2:31 | 묻기 |
-| `members.*.reason` | 변동사유 | text | 1쪽 [849, 527, 883, 540] (1행) | 늘 | generate.py | look/template.html.j2:32 | 묻기 |
-| `members.*.rrn` | 주민등록번호 | rrn | 1쪽 [373, 539, 490, 552] (1행) | 늘 | generate.py | look/template.html.j2:34 | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `doc_no` | 발급번호 / 문서확인번호 | text | 1쪽 [150, 73, 216, 84] | 늘 | 템플릿 | generate.py | fields.json:25 | 묻기 |
+| `officer` | 담당자 | text | 1쪽 [178, 186, 229, 199] | 8/16 | 템플릿 | generate.py | fields.json:60 | 묻기 |
+| `officer_phone` | 전화 | phone | 1쪽 [294, 186, 390, 199] | 8/16 | 템플릿 | generate.py | fields.json:65 | 묻기 |
+| `applicant` | 신청인 | text | 1쪽 [187, 205, 255, 218] | 늘 | 템플릿 | generate.py | fields.json:5 | 묻기 |
+| `purpose` | 용도및목적 | text | 1쪽 [388, 205, 457, 218] | 늘 | 템플릿 | generate.py | fields.json:70 | 묻기 |
+| `issue_date` | 발급일 | date | 1쪽 [780, 225, 919, 238] | 늘 | 템플릿 | generate.py | fields.json:50 | 묻기 |
+| `issuer` | 발급기관 | text | 1쪽 [504, 247, 846, 266] | 늘 | 템플릿 | generate.py | fields.json:55 | 묻기 |
+| `household_head.name` | 세대주성명 | text | 1쪽 [254, 305, 323, 319] | 늘 | 템플릿 | generate.py | look/template.html.j2:11 · fields.json:40 | 묻기 |
+| `household_head.name_hanja` | 세대주성명(한자) | text | 1쪽 [333, 305, 401, 319] | 늘 | 템플릿 | generate.py | look/template.html.j2:11 · fields.json:45 | 묻기 |
+| `household_formed.reason` | 세대구성사유 | text | 1쪽 [760, 296, 863, 310] | 늘 | 템플릿 | generate.py | look/template.html.j2:12 · fields.json:35 | 묻기 |
+| `household_formed.date` | 세대구성일자 | date | 1쪽 [772, 314, 852, 327] | 늘 | 템플릿 | generate.py | look/template.html.j2:12 · fields.json:30 | 묻기 |
+| `past_addresses.*.no` | 번호 | number | 1쪽 [119, 376, 127, 389] (1행) | 7/16 | 템플릿 | generate.py | look/template.html.j2:18 · fields.json:135 | 묻기 |
+| `past_addresses.*.address` | 주소 | text | 1쪽 [174, 367, 610, 398] (1행) | 7/16 | 템플릿 | generate.py | look/template.html.j2:18 · fields.json:125 | 묻기 |
+| `past_addresses.*.moved_in` | 전입일/변동일 | date | 1쪽 [679, 376, 758, 389] (1행) | 7/16 | 템플릿 | generate.py | look/template.html.j2:18 · fields.json:130 | 묻기 |
+| `past_addresses.*.reason` | 변동사유 | text | 1쪽 [849, 376, 883, 389] (1행) | 7/16 | 템플릿 | generate.py | look/template.html.j2:18 · fields.json:140 | 묻기 |
+| `customer.address` ← `current_address.address` | 현주소 | text | 1쪽 [174, 410, 612, 441] | 늘 | 템플릿 | generate.py | look/template.html.j2:20 · fields.json:10 | 묻기 |
+| `current_address.moved_in` | 전입일/변동일 | date | 1쪽 [679, 419, 758, 432] | 늘 | 템플릿 | generate.py | look/template.html.j2:20 · fields.json:15 | 묻기 |
+| `current_address.reason` | 변동사유 | text | 1쪽 [849, 419, 883, 432] | 늘 | 템플릿 | generate.py | look/template.html.j2:20 · fields.json:20 | 묻기 |
+| `members.*.no` | 번호 | number | 1쪽 [106, 527, 114, 540] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:100 | 묻기 |
+| `members.*.relation` | 세대주관계 | text | 1쪽 [172, 527, 207, 540] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:29 · fields.json:110 | 묻기 |
+| `members.*.name` | 성명 | text | 1쪽 [356, 515, 424, 528] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:30 · fields.json:90 | 묻기 |
+| `members.*.name_hanja` | 한자 | text | 1쪽 [434, 515, 503, 528] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:30 · fields.json:95 | 묻기 |
+| `members.*.moved_in` | 전입일/변동일 | date | 1쪽 [679, 527, 758, 540] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:85 | 묻기 |
+| `members.*.reason` | 변동사유 | text | 1쪽 [849, 527, 883, 540] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:105 | 묻기 |
+| `members.*.rrn` | 주민등록번호 | rrn | 1쪽 [373, 539, 490, 552] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:34 · fields.json:115 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 1칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `seal.issuer` | 발급기관직인 | seal | 1쪽 [877, 237, 967, 301] | 늘 | generate.py | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `seal.issuer` | 발급기관직인 | seal | 1쪽 [877, 237, 967, 301] | 늘 | 템플릿 | generate.py | fields.json:75 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함). **정한 곳:** 템플릿에서 그 칸 자리 (html·코드 서식) / 칸 목록의 그 칸 (원본 서식).
+- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
+- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
@@ -223,15 +225,24 @@
 
 ## 고치려면
 
-| 하고 싶은 것 | 어디를 | 그다음 |
-|---|---|---|
-| 항목(칸) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `generate.py` 가 돌려주는 dict 에 그 키 값 | 미리보기로 확인 → 재검수 → 카드 다시 만들기 |
-| 칸 키·항목명 바꾸기 | `look/template.html.j2` 의 `f("키", label=…)` (질문만 바꾸려면 `questions.json`) | `questions … --check` |
-| 값이 이상함·칸끼리 안 맞음 | `generate.py` (값 만드는 함수) | 재검수 |
-| 모양·표·문구 | `look/template.html.j2` (studio html 편집) | 재검수 |
-| 질문의 항목명·묻지 않기 | `questions.json`: `{"kie": {"items": [{"key": "…", "label": "…"}, {"key": "…", "ask": false}]}}` | 검수 필요 없음 |
-| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | `questions … --check` |
-| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` | 모든 카드 다시 만들기 |
+칸 하나에 관한 것(박스·키·값·질문)은 `fields.json` 의 그 칸, 질문 문장·답 꼴·전용 질문은 `questions.json`.
+고친 뒤 `python -m docgen.formdir check resident_registration_copy` → `python -m docgen.formdir card resident_registration_copy` (실제 질문→답 확인).
 
-확인: studio ① 서식 › 문항 Q/A · `python -m docgen.formdir questions resident_registration_copy --show` · `python -m docgen.preview resident_registration_copy --out work/resident_registration_copy`
+| 바꾸고 싶은 것 (데이터에서) | 어디를 | 검수 |
+|---|---|---|
+| 칸(추출 항목) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `generate.py` 가 돌려주는 dict 에 그 키 값 | 다시 |
+| 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` | 다시 |
+| 답의 값 | `generate.py` (값 만드는 함수). 파이썬 대신 정하려면 `fields.json` 의 그 칸 `source` | 다시 |
+| 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
+| 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
+| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
+| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |
+| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | 필요 없음 |
+| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | 필요 없음 |
+| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+
+"다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json` 은 그림을 바꾸지 않아 검수 상태가 그대로입니다.
+확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions resident_registration_copy --show` · `python -m docgen.preview resident_registration_copy --out work/resident_registration_copy`

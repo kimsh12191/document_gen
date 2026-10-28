@@ -114,8 +114,25 @@ def _file_digest(p: Path) -> bytes:
     key = (str(p), st.st_mtime_ns, st.st_size)
     d = _DIGESTS.get(key)
     if d is None:
-        d = _DIGESTS[key] = hashlib.sha1(p.read_bytes()).digest()
+        d = _DIGESTS[key] = hashlib.sha1(_without_questions(p) if p.name == "fields.json" else p.read_bytes()).digest()
     return d
+
+
+def _without_questions(p: Path) -> bytes:
+    """칸 목록의 질문 설정 "q" 는 그림을 바꾸지 않으므로 서식 해시에서 뺀다 (q 만 고치면 재검수 필요로 바뀌지 않게).
+    q 가 없으면 파일 그대로, 있으면 q 를 뺀 내용을 칸 목록을 쓰는 꼴(json indent 1)로 다시 써서 잰다."""
+    raw = p.read_bytes()
+    if b'"q"' not in raw:
+        return raw
+    data = json.loads(raw)
+
+    def strip(v):
+        if isinstance(v, dict):
+            return {k: strip(x) for k, x in v.items() if not (k == "q" and isinstance(x, dict))}
+        if isinstance(v, list):
+            return [strip(x) for x in v]
+        return v
+    return (json.dumps(strip(data), ensure_ascii=False, indent=1) + "\n").encode("utf-8")
 
 
 def source_hash(doc_id: str, common: bool = True) -> str:

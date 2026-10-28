@@ -1,6 +1,6 @@
 # 차입신청서(무역금융용) (`hf154`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf154 · card-hash: 6005ba08bcce -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf154 · card-hash: 167e2f40c817 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 차입신청서(무역금융용)
@@ -20,108 +20,110 @@
 
 ## 추출 항목 (정보 추출 kie) — 84칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `related_list.*.name` | 성명 | text | 1쪽 [128, 472, 180, 484] (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `loan.basis_list.*.line` | 수량 | text | 1쪽 [129, 620, 203, 633] (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `bank.opinion_list.*.line` | 수량 | text | 1쪽 [126, 738, 200, 751] (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `loan.amount` | 금액 | amount | 1쪽 [440, 319, 527, 331] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `loan.interest_timing` | 이자지급시기 | text | 1쪽 [253, 425, 326, 437] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:323 | 묻기 |
-| `related_list.*.age` | 연령 | number | 1쪽 [267, 472, 286, 484] (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:338 | 묻기 |
-| `trade.lc_no` | L/C(계약서)No | rrn | 1쪽 [268, 519, 397, 532] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `trade.amount` | 금액 | amount | 1쪽 [272, 543, 366, 555] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `trade.goods` | 품목 | text | 1쪽 [268, 567, 376, 579] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `trade.quantity` | 수량 | number | 1쪽 [368, 594, 378, 606] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `related_list.*.job` | 직업및직위 | text | 1쪽 [312, 474, 376, 483] (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `related_list.*.relation` | 차주와의관계 | text | 1쪽 [388, 472, 457, 484] (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `related_list.*.monthly_income` | 월평균수입 | amount | 1쪽 [475, 473, 527, 483] (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:500 | 묻기 |
-| `related_list.*.net_assets` | 실자산 | amount | 1쪽 [569, 472, 646, 484] (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `trade.shipment_date` | 선적(납품)기일 | date | 1쪽 [630, 520, 744, 531] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:568 | 묻기 |
-| `trade.incoterms` | 가격조건 | text | 1쪽 [625, 543, 660, 555] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `trade.payment_terms` | 결제조건 | text | 1쪽 [627, 567, 729, 579] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `trade.special_terms` | 기타특수조건 | text | 1쪽 [626, 594, 700, 606] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:612 | 묻기 |
-| `loan.due_date` | 기한 | date | 1쪽 [656, 370, 744, 382] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `loan.repay` | 상환자원및방법 | text | 1쪽 [653, 425, 808, 437] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `related_list.*.address` | 주소(전화번호) | text | 1쪽 [656, 475, 889, 482] (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `bank.approval_date` | 승인일자 | date | 1쪽 [705, 691, 791, 703] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `bank.approval_expiry` | 승인기한 | date | 1쪽 [707, 715, 793, 727] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `bank.proper_limit_usd` | U$ | amount | 1쪽 [828, 738, 914, 751] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:814 | 묻기 |
-| `bank.used_usd` | U$ | amount | 1쪽 [861, 765, 914, 778] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:828 | 묻기 |
-| `bank.limit_remaining_usd` | U$ | amount | 1쪽 [820, 792, 914, 804] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:842 | 묻기 |
-| `trade.expiry_date` | 유효기일 | date | 1쪽 [841, 520, 911, 531] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:856 | 묻기 |
-| `date` | 작성일(년월일) | date | 1쪽 [396, 149, 464, 159] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `company.address` | 신청인주소 | text | 1쪽 [253, 222, 582, 234] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `company.name` | 신청인상호 | text | 1쪽 [258, 249, 373, 261] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `company.phone` | 신청인전화번호 | phone | 1쪽 [543, 251, 622, 260] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `company.ceo` | 신청인대표자 | text | 1쪽 [258, 271, 327, 284] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `loan.rate` | 이자율연이율(%) | number | 1쪽 [349, 401, 382, 413] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `loan.overdue_rate` | 지연배상금이율연(%) | number | 1쪽 [752, 401, 786, 413] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `bank.trade_limit` | 무역금융승인한도(천원) | amount | 1쪽 [807, 620, 894, 632] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `bank.trade_used` | 사용액(본건포함)(천원) | number | 1쪽 [817, 644, 894, 656] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `bank.trade_remaining` | 여유액(본건취급후)(천원) | amount | 1쪽 [800, 667, 894, 679] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `credit.trade.production` | 생산 | amount | 2쪽 [279, 121, 373, 133] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `credit.trade.raw_import` | 원자재수입 | number | 2쪽 [287, 154, 373, 166] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:886 | 묻기 |
-| `credit.trade.raw_purchase` | 원자재구매 | number | 2쪽 [287, 194, 373, 207] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:901 | 묻기 |
-| `credit.trade.product_purchase` | 완제품구매 | amount | 2쪽 [278, 228, 373, 238] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:916 | 묻기 |
-| `credit.trade.comprehensive` | 포괄금융 | number | 2쪽 [287, 252, 373, 265] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:931 | 묻기 |
-| `credit.trade.agri_export` | 농수산물수출준비 | number | 2쪽 [296, 278, 373, 290] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:946 | 묻기 |
-| `credit.trade.local_lc` | 내국신용장발행 | number | 2쪽 [287, 303, 373, 315] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:961 | 묻기 |
-| `credit.trade.import_lc` | 수입신용장발행 | number | 2쪽 [287, 328, 373, 340] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:976 | 묻기 |
-| `무역금융신청건포함명세_목록.*.당행` | 당행 | text | - (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `계` | 계 | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:1019 | 묻기 |
-| `credit.working.trade_finance` | 무역금융 | number | 2쪽 [296, 455, 373, 467] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `credit.working.general` | 일반자금대출 | amount | 2쪽 [279, 480, 373, 492] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:1046 | 묻기 |
-| `credit.working.overdraft` | 당좌대출 | number | 2쪽 [287, 505, 373, 517] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `credit.working.commercial_bill` | 상업어음 | number | 2쪽 [287, 530, 373, 543] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `운전자금_목록.*.당행` | 당행 | text | - (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `credit.facility.general` | 일반자금대출 | number | 2쪽 [287, 631, 373, 644] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:1119 | 묻기 |
-| `credit.facility.fx_loan` | 외화대출 | amount | 2쪽 [265, 657, 366, 669] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `시설자금_목록.*.당행` | 당행 | text | - (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `credit.guarantee.trade` | 무역금융관계 | number | 2쪽 [287, 783, 373, 795] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:1191 | 묻기 |
-| `credit.guarantee.other_krw` | 기타원화표시 | amount | 2쪽 [278, 809, 373, 820] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:1206 | 묻기 |
-| `credit.guarantee.other_fx` | 기타외화표시 | amount | 2쪽 [261, 834, 362, 846] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:1221 | 묻기 |
-| `당행` | 당행 | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `무역금융신청건포함명세_목록.*.타행` | 타행 | text | - (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `운전자금_목록.*.타행` | 타행 | text | - (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `시설자금_목록.*.타행` | 타행 | text | - (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `지급보증_목록.*.타행` | 타행 | text | - (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `타행` | 타행 | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `property.location` | 부동산 | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `collateral.other` | 기타 | text | 2쪽 [548, 808, 622, 820] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `deposit.savings_balance` | 보통예금 | amount | 2쪽 [658, 303, 721, 315] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:1682 | 묻기 |
-| `deposit.time_balance` | 정기예금 | amount | 2쪽 [658, 328, 721, 340] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:1697 | 묻기 |
-| `계2` | 계 | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:1712 | 묻기 |
-| `collateral.time_deposit` | 정기예금 | amount | 2쪽 [845, 455, 921, 467] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:1724 | 묻기 |
-| `collateral_list.i.property_amount` | 담보제공액 | amount | 2쪽 [825, 631, 921, 644] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:1739 | 묻기 |
-| `deposit_list.*.savings_pledged` | 담보제공액 | number | 2쪽 [764, 303, 840, 315] (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:1754 | 묻기 |
-| `deposit_list.*.time_pledged` | 담보제공액 | number | 2쪽 [778, 328, 840, 340] (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:1771 | 묻기 |
-| `deposit_list.*.savings_note` | 비고 | text | 2쪽 [852, 304, 918, 315] (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `deposit_list.*.time_note` | 비고 | text | 2쪽 [852, 329, 918, 340] (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `export.last_year` | 전년도실적 | amount | 2쪽 [645, 124, 718, 134] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `export.last_year_nego` | 전년도실적당행Nego액 | amount | 2쪽 [849, 124, 895, 130] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `export.past_year` | 과거1년간실적 | amount | 2쪽 [659, 145, 731, 153] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `export.past_year_nego` | 과거1년간당행Nego액 | amount | 2쪽 [850, 146, 900, 152] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `export.recent_3m` | 최근3개월실적 | amount | 2쪽 [659, 165, 726, 173] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `export.recent_3m_nego` | 최근3개월당행Nego액 | amount | 2쪽 [849, 167, 895, 172] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `export.this_year` | 금년도수출실적 | amount | 2쪽 [668, 186, 727, 194] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `export.this_year_nego` | 금년도당행Nego액 | amount | 2쪽 [850, 187, 894, 193] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `export.this_year_plan` | 금년도예정액 | amount | 2쪽 [836, 206, 893, 213] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `related_list.*.name` | 성명 | text | 1쪽 [128, 472, 180, 484] (1행) | 늘 | 파일 key | 값 종류 `person` (파일) | fields.json:58 | 묻기 |
+| `loan.basis_list.*.line` | 수량 | text | 1쪽 [129, 620, 203, 633] (1행) | 늘 | 파일 key | 값 종류 `note` (파일) | fields.json:92 | 묻기 |
+| `bank.opinion_list.*.line` | 수량 | text | 1쪽 [126, 738, 200, 751] (1행) | 늘 | 파일 key | 값 종류 `note` (파일) | fields.json:177 | 묻기 |
+| `loan.amount` | 금액 | amount | 1쪽 [440, 319, 527, 331] | 늘 | 파일 key | 고객 정보 (키 `loan.amount`) | fields.json:228 | 묻기 |
+| `loan.interest_timing` | 이자지급시기 | text | 1쪽 [253, 425, 326, 437] | 늘 | 파일 key | 고객 정보 (키 `loan.interest_timing`) | fields.json:320 | 묻기 |
+| `related_list.*.age` | 연령 | number | 1쪽 [267, 472, 286, 484] (1행) | 늘 | 파일 key | 값 종류 `age_years` (파일) | fields.json:335 | 묻기 |
+| `trade.lc_no` | L/C(계약서)No | rrn | 1쪽 [268, 519, 397, 532] | 늘 | 파일 key | 고객 정보 (키 `trade.lc_no`) | fields.json:369 | 묻기 |
+| `trade.amount` | 금액 | amount | 1쪽 [272, 543, 366, 555] | 늘 | 파일 key | 고객 정보 (키 `trade.amount`) | fields.json:384 | 묻기 |
+| `trade.goods` | 품목 | text | 1쪽 [268, 567, 376, 579] | 늘 | 파일 key | 고객 정보 (키 `trade.goods`) | fields.json:399 | 묻기 |
+| `trade.quantity` | 수량 | number | 1쪽 [368, 594, 378, 606] | 늘 | 파일 key | 고객 정보 (키 `trade.quantity`) | fields.json:414 | 묻기 |
+| `related_list.*.job` | 직업및직위 | text | 1쪽 [312, 474, 376, 483] (1행) | 늘 | 파일 key | 값 종류 `job_position` (파일) | fields.json:429 | 묻기 |
+| `related_list.*.relation` | 차주와의관계 | text | 1쪽 [388, 472, 457, 484] (1행) | 늘 | 파일 key | 값 종류 `guarantor_relation` (파일) | fields.json:463 | 묻기 |
+| `related_list.*.monthly_income` | 월평균수입 | amount | 1쪽 [475, 473, 527, 483] (1행) | 늘 | 파일 key | 값 종류 `amount` (파일) | fields.json:497 | 묻기 |
+| `related_list.*.net_assets` | 실자산 | amount | 1쪽 [569, 472, 646, 484] (1행) | 늘 | 파일 key | 값 종류 `amount` (파일) | fields.json:531 | 묻기 |
+| `trade.shipment_date` | 선적(납품)기일 | date | 1쪽 [630, 520, 744, 531] | 늘 | 파일 key | 고객 정보 (키 `trade.shipment_date`) | fields.json:565 | 묻기 |
+| `trade.incoterms` | 가격조건 | text | 1쪽 [625, 543, 660, 555] | 늘 | 파일 key | 고객 정보 (키 `trade.incoterms`) | fields.json:580 | 묻기 |
+| `trade.payment_terms` | 결제조건 | text | 1쪽 [627, 567, 729, 579] | 늘 | 파일 key | 고객 정보 (키 `trade.payment_terms`) | fields.json:594 | 묻기 |
+| `trade.special_terms` | 기타특수조건 | text | 1쪽 [626, 594, 700, 606] | 늘 | 파일 key | 고객 정보 (키 `trade.special_terms`) | fields.json:609 | 묻기 |
+| `loan.due_date` | 기한 | date | 1쪽 [656, 370, 744, 382] | 늘 | 파일 key | 고객 정보 (키 `loan.due_date`) | fields.json:717 | 묻기 |
+| `loan.repay` | 상환자원및방법 | text | 1쪽 [653, 425, 808, 437] | 늘 | 파일 key | 고객 정보 (키 `loan.repay`) | fields.json:732 | 묻기 |
+| `related_list.*.address` | 주소(전화번호) | text | 1쪽 [656, 475, 889, 482] (1행) | 늘 | 파일 key | 값 종류 `address` (파일) | fields.json:747 | 묻기 |
+| `bank.approval_date` | 승인일자 | date | 1쪽 [705, 691, 791, 703] | 늘 | 파일 key | 고객 정보 (키 `bank.approval_date`) | fields.json:781 | 묻기 |
+| `bank.approval_expiry` | 승인기한 | date | 1쪽 [707, 715, 793, 727] | 늘 | 파일 key | 고객 정보 (키 `bank.approval_expiry`) | fields.json:796 | 묻기 |
+| `bank.proper_limit_usd` | U$ | amount | 1쪽 [828, 738, 914, 751] | 늘 | 파일 key | 고객 정보 (키 `bank.proper_limit_usd`) | fields.json:811 | 묻기 |
+| `bank.used_usd` | U$ | amount | 1쪽 [861, 765, 914, 778] | 늘 | 파일 key | 고객 정보 (키 `bank.used_usd`) | fields.json:825 | 묻기 |
+| `bank.limit_remaining_usd` | U$ | amount | 1쪽 [820, 792, 914, 804] | 늘 | 파일 key | 고객 정보 (키 `bank.limit_remaining_usd`) | fields.json:839 | 묻기 |
+| `trade.expiry_date` | 유효기일 | date | 1쪽 [841, 520, 911, 531] | 늘 | 파일 key | 고객 정보 (키 `trade.expiry_date`) | fields.json:853 | 묻기 |
+| `date` | 작성일(년월일) | date | 1쪽 [396, 149, 464, 159] | 늘 | 파일 key | 고객 정보 (키 `date`) | fields.json:1834 | 묻기 |
+| `company.address` | 신청인주소 | text | 1쪽 [253, 222, 582, 234] | 늘 | 파일 key | 고객 정보 (키 `company.address`) | fields.json:1847 | 묻기 |
+| `company.name` | 신청인상호 | text | 1쪽 [258, 249, 373, 261] | 늘 | 파일 key | 고객 정보 (키 `company.name`) | fields.json:1860 | 묻기 |
+| `company.phone` | 신청인전화번호 | phone | 1쪽 [543, 251, 622, 260] | 늘 | 파일 key | `profile.corporation.phone` (파일) | fields.json:1873 | 묻기 |
+| `company.ceo` | 신청인대표자 | text | 1쪽 [258, 271, 327, 284] | 늘 | 파일 key | 고객 정보 (키 `company.ceo`) | fields.json:1887 | 묻기 |
+| `loan.rate` | 이자율연이율(%) | number | 1쪽 [349, 401, 382, 413] | 늘 | 파일 key | 고객 정보 (키 `loan.rate`) | fields.json:1900 | 묻기 |
+| `loan.overdue_rate` | 지연배상금이율연(%) | number | 1쪽 [752, 401, 786, 413] | 늘 | 파일 key | 고객 정보 (키 `loan.overdue_rate`) | fields.json:1914 | 묻기 |
+| `bank.trade_limit` | 무역금융승인한도(천원) | amount | 1쪽 [807, 620, 894, 632] | 늘 | 파일 key | 고객 정보 (키 `bank.trade_limit`) | fields.json:1928 | 묻기 |
+| `bank.trade_used` | 사용액(본건포함)(천원) | number | 1쪽 [817, 644, 894, 656] | 늘 | 파일 key | 고객 정보 (키 `bank.trade_used`) | fields.json:1942 | 묻기 |
+| `bank.trade_remaining` | 여유액(본건취급후)(천원) | amount | 1쪽 [800, 667, 894, 679] | 늘 | 파일 key | 고객 정보 (키 `bank.trade_remaining`) | fields.json:1956 | 묻기 |
+| `credit.trade.production` | 생산 | amount | 2쪽 [279, 121, 373, 133] | 늘 | 파일 key | 고객 정보 (키 `credit.trade.production`) | fields.json:868 | 묻기 |
+| `credit.trade.raw_import` | 원자재수입 | number | 2쪽 [287, 154, 373, 166] | 늘 | 파일 key | 고객 정보 (키 `credit.trade.raw_import`) | fields.json:883 | 묻기 |
+| `credit.trade.raw_purchase` | 원자재구매 | number | 2쪽 [287, 194, 373, 207] | 늘 | 파일 key | 고객 정보 (키 `credit.trade.raw_purchase`) | fields.json:898 | 묻기 |
+| `credit.trade.product_purchase` | 완제품구매 | amount | 2쪽 [278, 228, 373, 238] | 늘 | 파일 key | 고객 정보 (키 `credit.trade.product_purchase`) | fields.json:913 | 묻기 |
+| `credit.trade.comprehensive` | 포괄금융 | number | 2쪽 [287, 252, 373, 265] | 늘 | 파일 key | 고객 정보 (키 `credit.trade.comprehensive`) | fields.json:928 | 묻기 |
+| `credit.trade.agri_export` | 농수산물수출준비 | number | 2쪽 [296, 278, 373, 290] | 늘 | 파일 key | 고객 정보 (키 `credit.trade.agri_export`) | fields.json:943 | 묻기 |
+| `credit.trade.local_lc` | 내국신용장발행 | number | 2쪽 [287, 303, 373, 315] | 늘 | 파일 key | 고객 정보 (키 `credit.trade.local_lc`) | fields.json:958 | 묻기 |
+| `credit.trade.import_lc` | 수입신용장발행 | number | 2쪽 [287, 328, 373, 340] | 늘 | 파일 key | 고객 정보 (키 `credit.trade.import_lc`) | fields.json:973 | 묻기 |
+| `무역금융신청건포함명세_목록.*.당행` | 당행 | text | - (1행) | 늘 | 표 행 (묶음·항목명 '당 행') | 값 종류 `skip` (항목명 자동) | fields.json:988 | 묻기 |
+| `계` | 계 | text | - | 늘 | 항목명 그대로 | 값 종류 `skip` (항목명 자동) | fields.json:1016 | 묻기 |
+| `credit.working.trade_finance` | 무역금융 | number | 2쪽 [296, 455, 373, 467] | 늘 | 파일 key | 고객 정보 (키 `credit.working.trade_finance`) | fields.json:1028 | 묻기 |
+| `credit.working.general` | 일반자금대출 | amount | 2쪽 [279, 480, 373, 492] | 늘 | 파일 key | 고객 정보 (키 `credit.working.general`) | fields.json:1043 | 묻기 |
+| `credit.working.overdraft` | 당좌대출 | number | 2쪽 [287, 505, 373, 517] | 늘 | 파일 key | 고객 정보 (키 `credit.working.overdraft`) | fields.json:1058 | 묻기 |
+| `credit.working.commercial_bill` | 상업어음 | number | 2쪽 [287, 530, 373, 543] | 늘 | 파일 key | 고객 정보 (키 `credit.working.commercial_bill`) | fields.json:1073 | 묻기 |
+| `운전자금_목록.*.당행` | 당행 | text | - (1행) | 늘 | 표 행 (묶음·항목명 '당 행') | 값 종류 `skip` (항목명 자동) | fields.json:1088 | 묻기 |
+| `credit.facility.general` | 일반자금대출 | number | 2쪽 [287, 631, 373, 644] | 늘 | 파일 key | 고객 정보 (키 `credit.facility.general`) | fields.json:1116 | 묻기 |
+| `credit.facility.fx_loan` | 외화대출 | amount | 2쪽 [265, 657, 366, 669] | 늘 | 파일 key | 고객 정보 (키 `credit.facility.fx_loan`) | fields.json:1131 | 묻기 |
+| `시설자금_목록.*.당행` | 당행 | text | - (1행) | 늘 | 표 행 (묶음·항목명 '당 행') | 값 종류 `skip` (항목명 자동) | fields.json:1146 | 묻기 |
+| `credit.guarantee.trade` | 무역금융관계 | number | 2쪽 [287, 783, 373, 795] | 늘 | 파일 key | 고객 정보 (키 `credit.guarantee.trade`) | fields.json:1188 | 묻기 |
+| `credit.guarantee.other_krw` | 기타원화표시 | amount | 2쪽 [278, 809, 373, 820] | 늘 | 파일 key | 고객 정보 (키 `credit.guarantee.other_krw`) | fields.json:1203 | 묻기 |
+| `credit.guarantee.other_fx` | 기타외화표시 | amount | 2쪽 [261, 834, 362, 846] | 늘 | 파일 key | 고객 정보 (키 `credit.guarantee.other_fx`) | fields.json:1218 | 묻기 |
+| `당행` | 당행 | text | - | 늘 | 표 행 (묶음·항목명 '당 행') | 값 종류 `skip` (항목명 자동) | fields.json:1233 | 묻기 |
+| `무역금융신청건포함명세_목록.*.타행` | 타행 | text | - (1행) | 늘 | 표 행 (묶음·항목명 '타 행') | 값 종류 `skip` (항목명 자동) | fields.json:1247 | 묻기 |
+| `운전자금_목록.*.타행` | 타행 | text | - (1행) | 늘 | 표 행 (묶음·항목명 '타 행') | 값 종류 `skip` (항목명 자동) | fields.json:1401 | 묻기 |
+| `시설자금_목록.*.타행` | 타행 | text | - (1행) | 늘 | 표 행 (묶음·항목명 '타 행') | 값 종류 `skip` (항목명 자동) | fields.json:1499 | 묻기 |
+| `지급보증_목록.*.타행` | 타행 | text | - (1행) | 늘 | 표 행 (묶음·항목명 '타 행') | 값 종류 `skip` (항목명 자동) | fields.json:1583 | 묻기 |
+| `타행` | 타행 | text | - | 늘 | 표 행 (묶음·항목명 '타 행') | 값 종류 `skip` (항목명 자동) | fields.json:1639 | 묻기 |
+| `property.location` | 부동산 | text | - | 늘 | 파일 key | `rule:free_text` (파일) | fields.json:1651 | 묻기 |
+| `collateral.other` | 기타 | text | 2쪽 [548, 808, 622, 820] | 늘 | 파일 key | 고객 정보 (키 `collateral.other`) | fields.json:1665 | 묻기 |
+| `deposit.savings_balance` | 보통예금 | amount | 2쪽 [658, 303, 721, 315] | 늘 | 파일 key | 고객 정보 (키 `deposit.savings_balance`) | fields.json:1679 | 묻기 |
+| `deposit.time_balance` | 정기예금 | amount | 2쪽 [658, 328, 721, 340] | 늘 | 파일 key | 고객 정보 (키 `deposit.time_balance`) | fields.json:1694 | 묻기 |
+| `계2` | 계 | text | - | 늘 | 항목명 그대로 | 값 종류 `skip` (항목명 자동) | fields.json:1709 | 묻기 |
+| `collateral.time_deposit` | 정기예금 | amount | 2쪽 [845, 455, 921, 467] | 늘 | 파일 key | 고객 정보 (키 `collateral.time_deposit`) | fields.json:1721 | 묻기 |
+| `collateral_list.i.property_amount` | 담보제공액 | amount | 2쪽 [825, 631, 921, 644] | 늘 | 파일 key | 값 종류 `amount` (파일) | fields.json:1736 | 묻기 |
+| `deposit_list.*.savings_pledged` | 담보제공액 | number | 2쪽 [764, 303, 840, 315] (1행) | 늘 | 파일 key | 값 종류 `amount` (파일) | fields.json:1751 | 묻기 |
+| `deposit_list.*.time_pledged` | 담보제공액 | number | 2쪽 [778, 328, 840, 340] (1행) | 늘 | 파일 key | 값 종류 `amount` (파일) | fields.json:1768 | 묻기 |
+| `deposit_list.*.savings_note` | 비고 | text | 2쪽 [852, 304, 918, 315] (1행) | 늘 | 파일 key | 값 종류 `note` (파일) | fields.json:1785 | 묻기 |
+| `deposit_list.*.time_note` | 비고 | text | 2쪽 [852, 329, 918, 340] (1행) | 늘 | 파일 key | 값 종류 `note` (파일) | fields.json:1802 | 묻기 |
+| `export.last_year` | 전년도실적 | amount | 2쪽 [645, 124, 718, 134] | 늘 | 파일 key | 고객 정보 (키 `export.last_year`) | fields.json:1819 | 묻기 |
+| `export.last_year_nego` | 전년도실적당행Nego액 | amount | 2쪽 [849, 124, 895, 130] | 늘 | 파일 key | 고객 정보 (키 `export.last_year_nego`) | fields.json:1970 | 묻기 |
+| `export.past_year` | 과거1년간실적 | amount | 2쪽 [659, 145, 731, 153] | 늘 | 파일 key | 고객 정보 (키 `export.past_year`) | fields.json:1984 | 묻기 |
+| `export.past_year_nego` | 과거1년간당행Nego액 | amount | 2쪽 [850, 146, 900, 152] | 늘 | 파일 key | 고객 정보 (키 `export.past_year_nego`) | fields.json:1998 | 묻기 |
+| `export.recent_3m` | 최근3개월실적 | amount | 2쪽 [659, 165, 726, 173] | 늘 | 파일 key | 고객 정보 (키 `export.recent_3m`) | fields.json:2012 | 묻기 |
+| `export.recent_3m_nego` | 최근3개월당행Nego액 | amount | 2쪽 [849, 167, 895, 172] | 늘 | 파일 key | 고객 정보 (키 `export.recent_3m_nego`) | fields.json:2026 | 묻기 |
+| `export.this_year` | 금년도수출실적 | amount | 2쪽 [668, 186, 727, 194] | 늘 | 파일 key | 고객 정보 (키 `export.this_year`) | fields.json:2040 | 묻기 |
+| `export.this_year_nego` | 금년도당행Nego액 | amount | 2쪽 [850, 187, 894, 193] | 늘 | 파일 key | 고객 정보 (키 `export.this_year_nego`) | fields.json:2054 | 묻기 |
+| `export.this_year_plan` | 금년도예정액 | amount | 2쪽 [836, 206, 893, 213] | 늘 | 파일 key | 고객 정보 (키 `export.this_year_plan`) | fields.json:2068 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 8칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `check.과목` | 과목 | checkbox (무역어음대 / 수입신용장 발행 / 내국신용장 발행 / 보기4) | 1쪽 [256, 359, 348, 373] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `check.자금용도` | 자금용도 | checkbox (생산자금 / 원자재구매자금 / 원자재수입자금 / 완제품구매자금 / 포괄금융) | 1쪽 [656, 299, 734, 314] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:627 | 묻기 |
-| `seal.staff.담당` | 담당 | seal | 1쪽 [729, 101, 795, 144] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `sign.staff.담당` | 담당 | signature | 1쪽 [729, 101, 795, 144] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `seal.staff.팀장` | 팀장 | seal | 1쪽 [806, 107, 850, 138] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `sign.staff.팀장` | 팀장 | signature | 1쪽 [795, 101, 861, 144] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `seal.staff.부점장` | 부점장 | seal | 1쪽 [867, 105, 917, 140] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `sign.staff.부점장` | 부점장 | signature | 1쪽 [861, 101, 923, 144] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `check.과목` | 과목 | checkbox (무역어음대 / 수입신용장 발행 / 내국신용장 발행 / 보기4) | 1쪽 [256, 359, 348, 373] | 늘 | 체크 (항목명) | 보기 중 고름: 무역어음대 / 수입신용장 발행 / 내국신용장 발행 / ? | fields.json:243 | 묻기 |
+| `check.자금용도` | 자금용도 | checkbox (생산자금 / 원자재구매자금 / 원자재수입자금 / 완제품구매자금 / 포괄금융) | 1쪽 [656, 299, 734, 314] | 늘 | 체크 (항목명) | 보기 중 고름: 생산자금 / 원자재구매자금 / 원자재수입자금 / 완제품구매자금 / 포괄금융 | fields.json:624 | 묻기 |
+| `seal.staff.담당` | 담당 | seal | 1쪽 [729, 101, 795, 144] | 늘 | - | - | - | 묻기 |
+| `sign.staff.담당` | 담당 | signature | 1쪽 [729, 101, 795, 144] | 늘 | - | - | - | 묻기 |
+| `seal.staff.팀장` | 팀장 | seal | 1쪽 [806, 107, 850, 138] | 늘 | - | - | - | 묻기 |
+| `sign.staff.팀장` | 팀장 | signature | 1쪽 [795, 101, 861, 144] | 늘 | - | - | - | 묻기 |
+| `seal.staff.부점장` | 부점장 | seal | 1쪽 [867, 105, 917, 140] | 늘 | - | - | - | 묻기 |
+| `sign.staff.부점장` | 부점장 | signature | 1쪽 [861, 101, 923, 144] | 늘 | - | - | - | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함). **정한 곳:** 템플릿에서 그 칸 자리 (html·코드 서식) / 칸 목록의 그 칸 (원본 서식).
+- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
+- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
@@ -382,13 +384,23 @@
 
 ## 고치려면
 
-| 하고 싶은 것 | 어디를 | 그다음 |
-|---|---|---|
-| 항목(칸) 더하기·위치·항목명 | studio ① 서식 › 영역 편집 (저장하면 `fields.json` items) | 재검수 → 카드 다시 만들기 |
-| 값이 이상함 | 영역 편집에서 그 칸의 값 출처·값 종류 | 재검수 |
-| 질문의 항목명·묻지 않기 | `questions.json`: `{"kie": {"items": [{"key": "…", "label": "…"}, {"key": "…", "ask": false}]}}` | 검수 필요 없음 |
-| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | `questions … --check` |
-| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` | 모든 카드 다시 만들기 |
+칸 하나에 관한 것(박스·키·값·질문)은 `fields.json` 의 그 칸, 질문 문장·답 꼴·전용 질문은 `questions.json`.
+고친 뒤 `python -m docgen.formdir check hf154` → `python -m docgen.formdir card hf154` (실제 질문→답 확인).
 
-확인: studio ① 서식 › 문항 Q/A · `python -m docgen.formdir questions hf154 --show` · `python -m docgen.preview hf154 --out work/hf154`
+| 바꾸고 싶은 것 (데이터에서) | 어디를 | 검수 |
+|---|---|---|
+| 칸(추출 항목) 더하기 | studio ① 서식 › 영역 편집에서 그리기 (`fields.json` items 에 한 칸) | 다시 |
+| 답의 위치 (박스) | `fields.json` 그 칸의 `rect` [x0, y0, x1, y1] (pt) — 또는 영역 편집 | 다시 |
+| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 규칙이 항목명으로 정함 — 모든 서식 공통 규칙은 studio 키 사전) | 다시 |
+| 답의 값 | `fields.json` 그 칸에 `"source"` ([값 출처 목록](../_common/values.md)) 또는 값 종류 `"kind"` | 다시 |
+| 칸의 항목명 | `fields.json` 그 칸의 `label` | 다시 |
+| 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
+| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
+| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |
+| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | 필요 없음 |
+| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | 필요 없음 |
+| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+
+"다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json` 은 그림을 바꾸지 않아 검수 상태가 그대로입니다.
+확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions hf154 --show` · `python -m docgen.preview hf154 --out work/hf154`

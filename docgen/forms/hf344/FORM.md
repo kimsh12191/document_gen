@@ -1,6 +1,6 @@
 # 기업관계사 서비스 이용계약서(영문) (`hf344`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf344 · card-hash: 29f29e863fb4 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf344 · card-hash: ac181b1ce119 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 4 (seed 1000000 로 그린 것) · **분류 정답:** 기업관계사 서비스 이용계약서(영문)
@@ -20,24 +20,26 @@
 
 ## 추출 항목 (정보 추출 kie) — 13칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `Affiliate` | Affiliate | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:38 | 묻기 |
-| `Bank` | Bank | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:49 | 묻기 |
-| `corp.name` ← `company.name` | CompanyName | text | 4쪽 [409, 622, 541, 645] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `customer.address` | Address | text | 4쪽 [353, 642, 732, 669] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:71 | 묻기 |
-| `CEO` | CEO | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:82 | 묻기 |
-| `date` | Date | date | 4쪽 [332, 691, 495, 715] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:93 | 묻기 |
-| `company.name2` | CompanyName | text | 4쪽 [409, 724, 541, 745] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `customer.address2` | Address | text | 4쪽 [349, 747, 728, 769] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:115 | 묻기 |
-| `CEO2` | CEO | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:126 | 묻기 |
-| `date2` | Date | date | 4쪽 [332, 791, 495, 816] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:137 | 묻기 |
-| `customer.address3` | Address | text | 4쪽 [346, 846, 725, 870] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:148 | 묻기 |
-| `GeneralManager` | GeneralManager | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `date3` | Date | date | 4쪽 [327, 895, 489, 917] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:170 | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `Affiliate` | Affiliate | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:35 | 묻기 |
+| `Bank` | Bank | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:46 | 묻기 |
+| `corp.name` ← `company.name` | CompanyName | text | 4쪽 [409, 622, 541, 645] | 늘 | 규칙: 'Company Name' → `company.name` | 고객 정보 (키 `company.name`) | fields.json:57 | 묻기 |
+| `customer.address` | Address | text | 4쪽 [353, 642, 732, 669] | 늘 | 규칙: 'Address' → `customer.address` | 고객 정보 (키 `customer.address`) | fields.json:68 | 묻기 |
+| `CEO` | CEO | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:79 | 묻기 |
+| `date` | Date | date | 4쪽 [332, 691, 495, 715] | 늘 | 규칙: 'Date' → `date` | 고객 정보 (키 `date`) | fields.json:90 | 묻기 |
+| `company.name2` | CompanyName | text | 4쪽 [409, 724, 541, 745] | 늘 | 규칙: 'Company Name' → `company.name` | 고객 정보 (키 `company.name`) | fields.json:101 | 묻기 |
+| `customer.address2` | Address | text | 4쪽 [349, 747, 728, 769] | 늘 | 규칙: 'Address' → `customer.address` | 고객 정보 (키 `customer.address`) | fields.json:112 | 묻기 |
+| `CEO2` | CEO | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:123 | 묻기 |
+| `date2` | Date | date | 4쪽 [332, 791, 495, 816] | 늘 | 규칙: 'Date' → `date` | 고객 정보 (키 `date`) | fields.json:134 | 묻기 |
+| `customer.address3` | Address | text | 4쪽 [346, 846, 725, 870] | 늘 | 규칙: 'Address' → `customer.address` | 고객 정보 (키 `customer.address`) | fields.json:145 | 묻기 |
+| `GeneralManager` | GeneralManager | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:156 | 묻기 |
+| `date3` | Date | date | 4쪽 [327, 895, 489, 917] | 늘 | 규칙: 'Date' → `date` | 고객 정보 (키 `date`) | fields.json:167 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함). **정한 곳:** 템플릿에서 그 칸 자리 (html·코드 서식) / 칸 목록의 그 칸 (원본 서식).
+- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
+- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
@@ -147,13 +149,23 @@
 
 ## 고치려면
 
-| 하고 싶은 것 | 어디를 | 그다음 |
-|---|---|---|
-| 항목(칸) 더하기·위치·항목명 | studio ① 서식 › 영역 편집 (저장하면 `fields.json` items) | 재검수 → 카드 다시 만들기 |
-| 값이 이상함 | 영역 편집에서 그 칸의 값 출처·값 종류 | 재검수 |
-| 질문의 항목명·묻지 않기 | `questions.json`: `{"kie": {"items": [{"key": "…", "label": "…"}, {"key": "…", "ask": false}]}}` | 검수 필요 없음 |
-| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | `questions … --check` |
-| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` | 모든 카드 다시 만들기 |
+칸 하나에 관한 것(박스·키·값·질문)은 `fields.json` 의 그 칸, 질문 문장·답 꼴·전용 질문은 `questions.json`.
+고친 뒤 `python -m docgen.formdir check hf344` → `python -m docgen.formdir card hf344` (실제 질문→답 확인).
 
-확인: studio ① 서식 › 문항 Q/A · `python -m docgen.formdir questions hf344 --show` · `python -m docgen.preview hf344 --out work/hf344`
+| 바꾸고 싶은 것 (데이터에서) | 어디를 | 검수 |
+|---|---|---|
+| 칸(추출 항목) 더하기 | studio ① 서식 › 영역 편집에서 그리기 (`fields.json` items 에 한 칸) | 다시 |
+| 답의 위치 (박스) | `fields.json` 그 칸의 `rect` [x0, y0, x1, y1] (pt) — 또는 영역 편집 | 다시 |
+| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 규칙이 항목명으로 정함 — 모든 서식 공통 규칙은 studio 키 사전) | 다시 |
+| 답의 값 | `fields.json` 그 칸에 `"source"` ([값 출처 목록](../_common/values.md)) 또는 값 종류 `"kind"` | 다시 |
+| 칸의 항목명 | `fields.json` 그 칸의 `label` | 다시 |
+| 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
+| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
+| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |
+| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | 필요 없음 |
+| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | 필요 없음 |
+| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+
+"다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json` 은 그림을 바꾸지 않아 검수 상태가 그대로입니다.
+확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions hf344 --show` · `python -m docgen.preview hf344 --out work/hf344`

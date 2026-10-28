@@ -1,7 +1,7 @@
 """marks — 체크박스·도장·서명. 서류 한 건의 모든 쪽을 보고 체크된 보기, 도장·서명이 있는지와 그 위치를 답한다.
 
 질문: P_MARKS + 항목 줄 '- 키: 항목명 (종류, 보기: …)' (prompts.kie_line). 항목은 보기가 있는 체크박스와 도장·서명 자리,
-      max_keys 개를 넘으면 그만큼만 골라 문서 순서로. 어떤 칸을 어떤 항목명으로 묻나는 서식 폴더 questions.json 의 marks.items
+      max_keys 개를 넘으면 그만큼만 골라 문서 순서로. 어떤 칸을 어떤 항목명으로 묻나는 칸 목록 fields.json 의 그 칸 "q"
 정답: 체크박스 — 체크된 보기마다 {"key", "value": 보기 글자, "bbox_2d": 체크된 □ 위치, "page"}, 없으면 {"key", "value": null}
       도장·서명 — {"key", "value": true/false, 있으면 위치}. 모두 그릴 때 기록한 체크 상태·위치 그대로
 eval.types: 키마다 checkbox / checkbox_multi / seal / signature
@@ -28,7 +28,7 @@ def items(fields: list[dict]) -> list[dict]:
 
 
 def make(doc):
-    all_mf = FQ.pick(doc.q, TASK, items(doc.fields))   # 서식의 questions.json 대로
+    all_mf = FQ.pick(doc.q, TASK, items(doc.fields), doc.fq)   # 서식의 questions.json 대로
     mf = doc.sample(all_mf, doc.max_keys)
     if not mf:
         return []

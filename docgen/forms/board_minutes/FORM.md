@@ -1,6 +1,6 @@
 # 이사회의사록 (`board_minutes`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card board_minutes · card-hash: 95020c4ad2d9 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card board_minutes · card-hash: b82842005108 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** corporate · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 이사회의사록
@@ -21,56 +21,58 @@
 
 ## 추출 항목 (정보 추출 kie) — 34칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `datetime` | 일시 | text | 1쪽 [186, 102, 372, 112] | 늘 | generate.py | look/template.html.j2:25 | 묻기 |
-| `venue` | 장소 | text | 1쪽 [186, 118, 564, 128] | 늘 | generate.py | look/template.html.j2:26 | 묻기 |
-| `directors_total` | 이사총수 | text | 1쪽 [186, 134, 207, 144] | 늘 | generate.py | look/template.html.j2:27 | 묻기 |
-| `directors_present` | 출석이사수 | text | 1쪽 [342, 134, 363, 144] | 늘 | generate.py | look/template.html.j2:27 | 묻기 |
-| `remote_count` | 원격참석 | text | 1쪽 [371, 134, 486, 144] | 4/16 | generate.py | look/template.html.j2:27 | 묻기 |
-| `auditor_total` | 감사총수 | text | 1쪽 [186, 150, 207, 160] | 늘 | generate.py | look/template.html.j2:28 | 묻기 |
-| `auditor_present` | 출석감사수 | text | 1쪽 [342, 150, 363, 160] | 늘 | generate.py | look/template.html.j2:28 | 묻기 |
-| `remote_attendees` | 원격참석이사 | text | 1쪽 [98, 173, 308, 183] | 4/16 | generate.py | look/template.html.j2:30 | 묻기 |
-| `remote_method` | 원격참석방법 | text | 1쪽 [772, 173, 930, 183] | 4/16 | generate.py | look/template.html.j2:30 | 묻기 |
-| `chair` | 의장 | text | 1쪽 [249, 213, 305, 224] | 늘 | generate.py | look/template.html.j2:31 | 묻기 |
-| `loan.lender` | 차입은행 | text | 1쪽 [143, 256, 199, 267] | 늘 | generate.py | look/template.html.j2:33 | 묻기 |
-| `loan.bank` | 차입기관 | text | 1쪽 [264, 323, 384, 334] | 늘 | generate.py | look/template.html.j2:36 | 묻기 |
-| `loan.kind` | 대출과목 | text | 1쪽 [264, 343, 351, 354] | 늘 | generate.py | look/template.html.j2:37 | 묻기 |
-| `loan.amount` | 차입금액 | amount | 1쪽 [264, 363, 525, 375] | 늘 | generate.py | look/template.html.j2:38 | 묻기 |
-| `loan.period` | 차입기간 | text | 1쪽 [264, 383, 446, 395] | 늘 | generate.py | look/template.html.j2:39 | 묻기 |
-| `loan.purpose` | 자금용도 | text | 1쪽 [264, 403, 370, 415] | 늘 | generate.py | look/template.html.j2:40 | 묻기 |
-| `loan.rate` | 적용금리 | text | 1쪽 [264, 424, 322, 435] | 늘 | generate.py | look/template.html.j2:41 | 묻기 |
-| `loan.collateral` | 담보 | text | 1쪽 [264, 444, 399, 455] | 늘 | generate.py | look/template.html.j2:42 | 묻기 |
-| `agendas.*.no` | 의안번호 | text | 1쪽 [65, 474, 132, 484] (1행) | 늘 | generate.py | look/template.html.j2:46 | 묻기 |
-| `agendas.*.title` | 의안 | text | 1쪽 [144, 474, 329, 484] (1행) | 늘 | generate.py | look/template.html.j2:46 | 묻기 |
-| `agendas.*.body` | 결의내용 | text | 1쪽 [65, 497, 935, 523] (1행) | 늘 | generate.py | look/template.html.j2:47 | 묻기 |
-| `end_time` | 종료시각 | text | 1쪽 [730, 537, 814, 548] | 늘 | generate.py | look/template.html.j2:52 | 묻기 |
-| `minutes_date` | 작성일 | date | 1쪽 [451, 605, 549, 616] | 늘 | generate.py | look/template.html.j2:56 | 묻기 |
-| `corp.name` ← `company_name` | 상호 | text | 1쪽 [841, 632, 935, 643] | 늘 | generate.py | look/template.html.j2:57 | 묻기 |
-| `head_office` | 본점 | text | 1쪽 [687, 649, 935, 658] | 늘 | generate.py | look/template.html.j2:57 | 묻기 |
-| `signers.*.title` | 자격 | text | 1쪽 [431, 686, 523, 697] (1행) | 늘 | generate.py | look/template.html.j2:60 | 묻기 |
-| `signers.*.name` | 성명 | text | 1쪽 [582, 686, 649, 697] (1행) | 늘 | generate.py | look/template.html.j2:60 | 묻기 |
-| `signers.*.remote` | 비고 | text | 1쪽 [758, 729, 824, 739] (1행) | 4/16 | generate.py | look/template.html.j2:60 | 묻기 |
-| `notary.reg_no` | 등부번호 | text | 2쪽 [566, 70, 668, 82] | 2/16 | generate.py | look/template.html.j2:66 | 묻기 |
-| `notary.date` | 인증일 | date | 2쪽 [537, 133, 628, 145] | 2/16 | generate.py | look/template.html.j2:69 | 묻기 |
-| `notary.office` | 공증인 | text | 2쪽 [582, 148, 670, 159] | 2/16 | generate.py | look/template.html.j2:70 | 묻기 |
-| `notary.lawyer` | 공증담당변호사 | text | 2쪽 [639, 172, 681, 183] | 2/16 | generate.py | look/template.html.j2:71 | 묻기 |
-| `agendas.*.detail` | 세부내용 | - | - (1행) | 7/16 | generate.py | look/template.html.j2:48 | 묻기 |
-| `agendas.*.votes` | 표결결과 | - | - (1행) | 2/16 | generate.py | look/template.html.j2:49 | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `datetime` | 일시 | text | 1쪽 [186, 102, 372, 112] | 늘 | 템플릿 | generate.py | look/template.html.j2:25 · fields.json:25 | 묻기 |
+| `venue` | 장소 | text | 1쪽 [186, 118, 564, 128] | 늘 | 템플릿 | generate.py | look/template.html.j2:26 · fields.json:160 | 묻기 |
+| `directors_total` | 이사총수 | text | 1쪽 [186, 134, 207, 144] | 늘 | 템플릿 | generate.py | look/template.html.j2:27 · fields.json:35 | 묻기 |
+| `directors_present` | 출석이사수 | text | 1쪽 [342, 134, 363, 144] | 늘 | 템플릿 | generate.py | look/template.html.j2:27 · fields.json:30 | 묻기 |
+| `remote_count` | 원격참석 | text | 1쪽 [371, 134, 486, 144] | 4/16 | 템플릿 | generate.py | look/template.html.j2:27 · fields.json:120 | 묻기 |
+| `auditor_total` | 감사총수 | text | 1쪽 [186, 150, 207, 160] | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:10 | 묻기 |
+| `auditor_present` | 출석감사수 | text | 1쪽 [342, 150, 363, 160] | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:5 | 묻기 |
+| `remote_attendees` | 원격참석이사 | text | 1쪽 [98, 173, 308, 183] | 4/16 | 템플릿 | generate.py | look/template.html.j2:30 · fields.json:115 | 묻기 |
+| `remote_method` | 원격참석방법 | text | 1쪽 [772, 173, 930, 183] | 4/16 | 템플릿 | generate.py | look/template.html.j2:30 · fields.json:125 | 묻기 |
+| `chair` | 의장 | text | 1쪽 [249, 213, 305, 224] | 늘 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:15 | 묻기 |
+| `loan.lender` | 차입은행 | text | 1쪽 [143, 256, 199, 267] | 늘 | 템플릿 | generate.py | look/template.html.j2:33 · fields.json:70 | 묻기 |
+| `loan.bank` | 차입기관 | text | 1쪽 [264, 323, 384, 334] | 늘 | 템플릿 | generate.py | look/template.html.j2:36 · fields.json:55 | 묻기 |
+| `loan.kind` | 대출과목 | text | 1쪽 [264, 343, 351, 354] | 늘 | 템플릿 | generate.py | look/template.html.j2:37 · fields.json:65 | 묻기 |
+| `loan.amount` | 차입금액 | amount | 1쪽 [264, 363, 525, 375] | 늘 | 템플릿 | generate.py | look/template.html.j2:38 · fields.json:50 | 묻기 |
+| `loan.period` | 차입기간 | text | 1쪽 [264, 383, 446, 395] | 늘 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:75 | 묻기 |
+| `loan.purpose` | 자금용도 | text | 1쪽 [264, 403, 370, 415] | 늘 | 템플릿 | generate.py | look/template.html.j2:40 · fields.json:80 | 묻기 |
+| `loan.rate` | 적용금리 | text | 1쪽 [264, 424, 322, 435] | 늘 | 템플릿 | generate.py | look/template.html.j2:41 · fields.json:85 | 묻기 |
+| `loan.collateral` | 담보 | text | 1쪽 [264, 444, 399, 455] | 늘 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:60 | 묻기 |
+| `agendas.*.no` | 의안번호 | text | 1쪽 [65, 474, 132, 484] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:46 · fields.json:180 | 묻기 |
+| `agendas.*.title` | 의안 | text | 1쪽 [144, 474, 329, 484] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:46 · fields.json:185 | 묻기 |
+| `agendas.*.body` | 결의내용 | text | 1쪽 [65, 497, 935, 523] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:47 · fields.json:170 | 묻기 |
+| `end_time` | 종료시각 | text | 1쪽 [730, 537, 814, 548] | 늘 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:40 | 묻기 |
+| `minutes_date` | 작성일 | date | 1쪽 [451, 605, 549, 616] | 늘 | 템플릿 | generate.py | look/template.html.j2:56 · fields.json:90 | 묻기 |
+| `corp.name` ← `company_name` | 상호 | text | 1쪽 [841, 632, 935, 643] | 늘 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:20 | 묻기 |
+| `head_office` | 본점 | text | 1쪽 [687, 649, 935, 658] | 늘 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:45 | 묻기 |
+| `signers.*.title` | 자격 | text | 1쪽 [431, 686, 523, 697] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:60 · fields.json:210 | 묻기 |
+| `signers.*.name` | 성명 | text | 1쪽 [582, 686, 649, 697] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:60 · fields.json:200 | 묻기 |
+| `signers.*.remote` | 비고 | text | 1쪽 [758, 729, 824, 739] (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:60 · fields.json:205 | 묻기 |
+| `notary.reg_no` | 등부번호 | text | 2쪽 [566, 70, 668, 82] | 2/16 | 템플릿 | generate.py | look/template.html.j2:66 · fields.json:110 | 묻기 |
+| `notary.date` | 인증일 | date | 2쪽 [537, 133, 628, 145] | 2/16 | 템플릿 | generate.py | look/template.html.j2:69 · fields.json:95 | 묻기 |
+| `notary.office` | 공증인 | text | 2쪽 [582, 148, 670, 159] | 2/16 | 템플릿 | generate.py | look/template.html.j2:70 · fields.json:105 | 묻기 |
+| `notary.lawyer` | 공증담당변호사 | text | 2쪽 [639, 172, 681, 183] | 2/16 | 템플릿 | generate.py | look/template.html.j2:71 · fields.json:100 | 묻기 |
+| `agendas.*.detail` | 세부내용 | - | - (1행) | 7/16 | 템플릿 | generate.py | look/template.html.j2:48 · fields.json:175 | 묻기 |
+| `agendas.*.votes` | 표결결과 | - | - (1행) | 2/16 | 템플릿 | generate.py | look/template.html.j2:49 · fields.json:190 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 6칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `seal.corp` | 법인인감 | seal | 1쪽 [693, 666, 768, 718] | 늘 | generate.py | - | 묻기 |
-| `seal.signer2` | 서명인2 | seal | 1쪽 [705, 715, 761, 755] | 늘 | generate.py | - | 묻기 |
-| `seal.signer3` | 서명인3 | seal | 1쪽 [705, 758, 761, 798] | 늘 | generate.py | - | 묻기 |
-| `seal.signer4` | 서명인4 | seal | 1쪽 [705, 801, 761, 840] | 12/16 | generate.py | - | 묻기 |
-| `seal.notary` | 공증인직인 | seal | 2쪽 [681, 158, 738, 198] | 2/16 | generate.py | - | 묻기 |
-| `seal.signer5` | 서명인5 | 도장 | - | 5/16 | generate.py | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `seal.corp` | 법인인감 | seal | 1쪽 [693, 666, 768, 718] | 늘 | 템플릿 | generate.py | fields.json:130 | 묻기 |
+| `seal.signer2` | 서명인2 | seal | 1쪽 [705, 715, 761, 755] | 늘 | 템플릿 | generate.py | fields.json:140 | 묻기 |
+| `seal.signer3` | 서명인3 | seal | 1쪽 [705, 758, 761, 798] | 늘 | 템플릿 | generate.py | fields.json:145 | 묻기 |
+| `seal.signer4` | 서명인4 | seal | 1쪽 [705, 801, 761, 840] | 12/16 | 템플릿 | generate.py | fields.json:150 | 묻기 |
+| `seal.notary` | 공증인직인 | seal | 2쪽 [681, 158, 738, 198] | 2/16 | 템플릿 | generate.py | fields.json:135 | 묻기 |
+| `seal.signer5` | 서명인5 | 도장 | - | 5/16 | 템플릿 | generate.py | fields.json:155 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함). **정한 곳:** 템플릿에서 그 칸 자리 (html·코드 서식) / 칸 목록의 그 칸 (원본 서식).
+- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
+- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
@@ -291,15 +293,24 @@
 
 ## 고치려면
 
-| 하고 싶은 것 | 어디를 | 그다음 |
-|---|---|---|
-| 항목(칸) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `generate.py` 가 돌려주는 dict 에 그 키 값 | 미리보기로 확인 → 재검수 → 카드 다시 만들기 |
-| 칸 키·항목명 바꾸기 | `look/template.html.j2` 의 `f("키", label=…)` (질문만 바꾸려면 `questions.json`) | `questions … --check` |
-| 값이 이상함·칸끼리 안 맞음 | `generate.py` (값 만드는 함수) | 재검수 |
-| 모양·표·문구 | `look/template.html.j2` (studio html 편집) | 재검수 |
-| 질문의 항목명·묻지 않기 | `questions.json`: `{"kie": {"items": [{"key": "…", "label": "…"}, {"key": "…", "ask": false}]}}` | 검수 필요 없음 |
-| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | `questions … --check` |
-| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` | 모든 카드 다시 만들기 |
+칸 하나에 관한 것(박스·키·값·질문)은 `fields.json` 의 그 칸, 질문 문장·답 꼴·전용 질문은 `questions.json`.
+고친 뒤 `python -m docgen.formdir check board_minutes` → `python -m docgen.formdir card board_minutes` (실제 질문→답 확인).
 
-확인: studio ① 서식 › 문항 Q/A · `python -m docgen.formdir questions board_minutes --show` · `python -m docgen.preview board_minutes --out work/board_minutes`
+| 바꾸고 싶은 것 (데이터에서) | 어디를 | 검수 |
+|---|---|---|
+| 칸(추출 항목) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `generate.py` 가 돌려주는 dict 에 그 키 값 | 다시 |
+| 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` | 다시 |
+| 답의 값 | `generate.py` (값 만드는 함수). 파이썬 대신 정하려면 `fields.json` 의 그 칸 `source` | 다시 |
+| 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
+| 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
+| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
+| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |
+| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | 필요 없음 |
+| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | 필요 없음 |
+| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+
+"다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json` 은 그림을 바꾸지 않아 검수 상태가 그대로입니다.
+확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions board_minutes --show` · `python -m docgen.preview board_minutes --out work/board_minutes`

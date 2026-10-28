@@ -24,6 +24,7 @@ import random
 from pathlib import Path
 
 from ... import dictionary as DIC
+from ... import fieldinfo
 from ... import formquestions as FQ
 from .. import perturb
 from ..metrics import normalize_box
@@ -63,7 +64,8 @@ class Doc:
     meta, base 문항 meta / 문항에 공통으로 붙는 {"images", "meta"}
     rng        과제들이 차례로 같이 쓰는 난수
     out        세트 폴더 (잘라낸 그림을 저장할 곳)
-    q          이 서식의 질문·답 (서식 폴더의 questions.json, docgen/formquestions.py). 없으면 None = 공통 규칙 그대로
+    q          이 서식의 질문 껍데기 (서식 폴더의 questions.json: 문장·답 꼴·전용 질문). 없으면 None = 공통
+    fq         칸마다 질문 설정 {서식 키: {ask, label, note, ocr}} (칸 목록 fields.json 의 q, docgen/fieldinfo.py)
     """
 
     def __init__(self, r: dict, stem: str, out: Path, fields_per_doc: int, max_keys: int):
@@ -74,6 +76,7 @@ class Doc:
         self.rng = random.Random(f"bench:single:{stem}")
         self.sid = Path(stem).name
         self.q = FQ.read(r["doc_id"])
+        self.fq = fieldinfo.questions(r["doc_id"])   # 칸마다 질문 설정 (fields.json 의 q)
         self.fields = DIC.apply(r["doc_id"], r["fields"])   # 공통 키로 정한 칸은 공통 키로 (3.0)
         raw_key = dict(zip(range(len(r["raw_keys"])), r["raw_keys"]))
         self.visible = [f for i, f in enumerate(self.fields)

@@ -1,6 +1,6 @@
 # 기업 전자금융서비스 신청서(은행용)(영문) (`hf338`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf338 · card-hash: 2a4f24fe4ffa -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf338 · card-hash: a16a3e9ca864 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 기업 전자금융서비스 신청서(은행용)(영문)
@@ -20,54 +20,56 @@
 
 ## 추출 항목 (정보 추출 kie) — 43칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `Clerk` | Clerk | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:26 | 묻기 |
-| `Mgr` | Mgr | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:38 | 묻기 |
-| `GM` | GM | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:50 | 묻기 |
-| `NameCompanyName` | Name/CompanyName | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `customer.address` | Address | text | 1쪽 [179, 216, 547, 239] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:73 | 묻기 |
-| `OtherRequest` | OtherRequest | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `BusinessRegistrationNo` | BusinessRegistrationNo. | biz_no | 1쪽 [720, 174, 833, 191] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `DailyKRW` | DailyKRW, | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `KRW` | KRW | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:121 | 묻기 |
-| `OnetimeKRW` | One-timeKRW | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `OnetimeKRW2` | One-timeKRW | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `OnetimeKRW3` | One-timeKRW | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `목록.*.OverseasIPBlockingService` | OverseasIPBlockingService | text | - (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `OTP` | OTP | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:223 | 묻기 |
-| `목록.*.OfficeName` | OfficeName | text | - (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `PhoneNoforIdentityVerification` | PhoneNo.forIdentityVerification | phone | 1쪽 [266, 550, 377, 566] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `목록.*.BusinessRegistrationNo` | BusinessRegistrationNo. | text | - (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `RequestNotRequest` | RequestNotRequest | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `목록.*.CorporateRegistrationNo` | CorporateRegistrationNo. | text | 1쪽 [446, 638, 526, 654] (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `PostpaidFee` | Post-paidFee | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `RequestCancel` | Request(Account:)Cancel | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `OtherChange` | OtherChange | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `GeneralUser` | GeneralUser | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `OTP2` | OTP | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:382 | 묻기 |
-| `UserCategory` | UserCategory | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `RequestCancel2` | RequestCancel | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `DailyKRW2` | DailyKRW | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `OnetimeKRW4` | One-timeKRW | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `WithdrawalAccount` | WithdrawalAccount | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `WithdrawalAccount2` | WithdrawalAccount | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `WithdrawalAccount_목록.*.UserID` | UserID | text | 2쪽 [528, 740, 579, 746] (1행) | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `DailyKRW3` | DailyKRW | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `OnetimeKRW5` | One-timeKRW | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `DesignationofBeneficiaryAccount` | DesignationofBeneficiaryAccount | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `DesignationofBeneficiaryAccount2` | DesignationofBeneficiaryAccount | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `DesignationofBeneficiaryAccount3` | DesignationofBeneficiaryAccount | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `DesignationofBeneficiaryAccount4` | DesignationofBeneficiaryAccount | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `customer.name` | Name | text | 2쪽 [270, 856, 342, 873] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:570 | 묻기 |
-| `customer.address2` | Address | text | 2쪽 [269, 875, 637, 897] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:582 | 묻기 |
-| `Relationship` | Relationship | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:594 | 묻기 |
-| `customer.birth` | DateofBirth | date | 2쪽 [563, 855, 647, 872] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `Delegator` | Delegator | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:618 | 묻기 |
-| `DoNOTAgree` | DoNOTAgree | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `Clerk` | Clerk | text | - | 늘 | 표 행 (묶음·항목명 'Clerk') | 값 종류 `text` (항목명 자동) | fields.json:23 | 묻기 |
+| `Mgr` | Mgr | text | - | 늘 | 표 행 (묶음·항목명 'Mgr') | 값 종류 `text` (항목명 자동) | fields.json:35 | 묻기 |
+| `GM` | GM | text | - | 늘 | 표 행 (묶음·항목명 'GM') | 값 종류 `text` (항목명 자동) | fields.json:47 | 묻기 |
+| `NameCompanyName` | Name/CompanyName | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:59 | 묻기 |
+| `customer.address` | Address | text | 1쪽 [179, 216, 547, 239] | 늘 | 규칙: 'Address' → `customer.address` | 고객 정보 (키 `customer.address`) | fields.json:70 | 묻기 |
+| `OtherRequest` | OtherRequest | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:81 | 묻기 |
+| `BusinessRegistrationNo` | BusinessRegistrationNo. | biz_no | 1쪽 [720, 174, 833, 191] | 늘 | 항목명 그대로 | 값 종류 `biz_no` (항목명 자동) | fields.json:93 | 묻기 |
+| `DailyKRW` | DailyKRW, | text | - | 늘 | 표 행 (묶음·항목명 'Daily KRW ,') | 값 종류 `text` (항목명 자동) | fields.json:104 | 묻기 |
+| `KRW` | KRW | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:118 | 묻기 |
+| `OnetimeKRW` | One-timeKRW | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:130 | 묻기 |
+| `OnetimeKRW2` | One-timeKRW | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:142 | 묻기 |
+| `OnetimeKRW3` | One-timeKRW | text | - | 늘 | 표 행 (묶음·항목명 'One-time KRW') | 값 종류 `text` (항목명 자동) | fields.json:154 | 묻기 |
+| `목록.*.OverseasIPBlockingService` | OverseasIPBlockingService | text | - (1행) | 늘 | 표 행 (묶음·항목명 'Overseas IP Blocking Service') | 값 종류 `text` (항목명 자동) | fields.json:168 | 묻기 |
+| `OTP` | OTP | text | - | 늘 | 표 행 (묶음·항목명 'OTP') | 값 종류 `text` (항목명 자동) | fields.json:220 | 묻기 |
+| `목록.*.OfficeName` | OfficeName | text | - (1행) | 늘 | 표 행 (묶음·항목명 'Office Name') | 값 종류 `text` (항목명 자동) | fields.json:234 | 묻기 |
+| `PhoneNoforIdentityVerification` | PhoneNo.forIdentityVerification | phone | 1쪽 [266, 550, 377, 566] | 늘 | 항목명 그대로 | 값 종류 `phone` (항목명 자동) | fields.json:258 | 묻기 |
+| `목록.*.BusinessRegistrationNo` | BusinessRegistrationNo. | text | - (1행) | 늘 | 표 행 (묶음·항목명 'Business Registration No.') | 값 종류 `biz_no` (항목명 자동) | fields.json:269 | 묻기 |
+| `RequestNotRequest` | RequestNotRequest | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:293 | 묻기 |
+| `목록.*.CorporateRegistrationNo` | CorporateRegistrationNo. | text | 1쪽 [446, 638, 526, 654] (1행) | 늘 | 표 행 (묶음·항목명 'Corporate Registration No.') | 값 종류 `number` (항목명 자동) | fields.json:305 | 묻기 |
+| `PostpaidFee` | Post-paidFee | text | - | 늘 | 표 행 (묶음·항목명 'Post-paid Fee') | 값 종류 `text` (항목명 자동) | fields.json:329 | 묻기 |
+| `RequestCancel` | Request(Account:)Cancel | text | - | 늘 | 표 행 (묶음·항목명 'Request(Account: ) Cancel') | 값 종류 `text` (항목명 자동) | fields.json:342 | 묻기 |
+| `OtherChange` | OtherChange | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:355 | 묻기 |
+| `GeneralUser` | GeneralUser | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:367 | 묻기 |
+| `OTP2` | OTP | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:379 | 묻기 |
+| `UserCategory` | UserCategory | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:391 | 묻기 |
+| `RequestCancel2` | RequestCancel | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:402 | 묻기 |
+| `DailyKRW2` | DailyKRW | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:413 | 묻기 |
+| `OnetimeKRW4` | One-timeKRW | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:425 | 묻기 |
+| `WithdrawalAccount` | WithdrawalAccount | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:437 | 묻기 |
+| `WithdrawalAccount2` | WithdrawalAccount | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:449 | 묻기 |
+| `WithdrawalAccount_목록.*.UserID` | UserID | text | 2쪽 [528, 740, 579, 746] (1행) | 늘 | 표 행 (묶음·항목명 'User ID') | 값 종류 `number` (항목명 자동) | fields.json:461 | 묻기 |
+| `DailyKRW3` | DailyKRW | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:491 | 묻기 |
+| `OnetimeKRW5` | One-timeKRW | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:503 | 묻기 |
+| `DesignationofBeneficiaryAccount` | DesignationofBeneficiaryAccount | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:515 | 묻기 |
+| `DesignationofBeneficiaryAccount2` | DesignationofBeneficiaryAccount | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:528 | 묻기 |
+| `DesignationofBeneficiaryAccount3` | DesignationofBeneficiaryAccount | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:541 | 묻기 |
+| `DesignationofBeneficiaryAccount4` | DesignationofBeneficiaryAccount | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:554 | 묻기 |
+| `customer.name` | Name | text | 2쪽 [270, 856, 342, 873] | 늘 | 규칙: 'Name' → `customer.name` | 고객 정보 (키 `customer.name`) | fields.json:567 | 묻기 |
+| `customer.address2` | Address | text | 2쪽 [269, 875, 637, 897] | 늘 | 규칙: 'Address' → `customer.address` | 고객 정보 (키 `customer.address`) | fields.json:579 | 묻기 |
+| `Relationship` | Relationship | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:591 | 묻기 |
+| `customer.birth` | DateofBirth | date | 2쪽 [563, 855, 647, 872] | 늘 | 규칙: 'Date of Birth' → `customer.birth` | 고객 정보 (키 `customer.birth`) | fields.json:603 | 묻기 |
+| `Delegator` | Delegator | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:615 | 묻기 |
+| `DoNOTAgree` | DoNOTAgree | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:628 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함). **정한 곳:** 템플릿에서 그 칸 자리 (html·코드 서식) / 칸 목록의 그 칸 (원본 서식).
+- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
+- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
@@ -235,13 +237,23 @@
 
 ## 고치려면
 
-| 하고 싶은 것 | 어디를 | 그다음 |
-|---|---|---|
-| 항목(칸) 더하기·위치·항목명 | studio ① 서식 › 영역 편집 (저장하면 `fields.json` items) | 재검수 → 카드 다시 만들기 |
-| 값이 이상함 | 영역 편집에서 그 칸의 값 출처·값 종류 | 재검수 |
-| 질문의 항목명·묻지 않기 | `questions.json`: `{"kie": {"items": [{"key": "…", "label": "…"}, {"key": "…", "ask": false}]}}` | 검수 필요 없음 |
-| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | `questions … --check` |
-| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` | 모든 카드 다시 만들기 |
+칸 하나에 관한 것(박스·키·값·질문)은 `fields.json` 의 그 칸, 질문 문장·답 꼴·전용 질문은 `questions.json`.
+고친 뒤 `python -m docgen.formdir check hf338` → `python -m docgen.formdir card hf338` (실제 질문→답 확인).
 
-확인: studio ① 서식 › 문항 Q/A · `python -m docgen.formdir questions hf338 --show` · `python -m docgen.preview hf338 --out work/hf338`
+| 바꾸고 싶은 것 (데이터에서) | 어디를 | 검수 |
+|---|---|---|
+| 칸(추출 항목) 더하기 | studio ① 서식 › 영역 편집에서 그리기 (`fields.json` items 에 한 칸) | 다시 |
+| 답의 위치 (박스) | `fields.json` 그 칸의 `rect` [x0, y0, x1, y1] (pt) — 또는 영역 편집 | 다시 |
+| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 규칙이 항목명으로 정함 — 모든 서식 공통 규칙은 studio 키 사전) | 다시 |
+| 답의 값 | `fields.json` 그 칸에 `"source"` ([값 출처 목록](../_common/values.md)) 또는 값 종류 `"kind"` | 다시 |
+| 칸의 항목명 | `fields.json` 그 칸의 `label` | 다시 |
+| 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
+| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
+| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |
+| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | 필요 없음 |
+| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | 필요 없음 |
+| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+
+"다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json` 은 그림을 바꾸지 않아 검수 상태가 그대로입니다.
+확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions hf338 --show` · `python -m docgen.preview hf338 --out work/hf338`

@@ -1,6 +1,6 @@
 # 해외지점 설치(변경)신고서 (`hf220`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf220 · card-hash: 7a32c7f6d2f5 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf220 · card-hash: 2c5adce2d487 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 해외지점 설치(변경)신고서
@@ -20,38 +20,40 @@
 
 ## 추출 항목 (정보 추출 kie) — 16칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `corp.name` ← `signer.name` | 상호 | text | 1쪽 [298, 156, 455, 180] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `corp.biz_no` ← `company.biz_no` | 사업자(주민)번호 | biz_no | 1쪽 [273, 197, 405, 221] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:44 | 묻기 |
-| `corp.biz_item` ← `company.biz_item` | 업종 | text | 1쪽 [272, 292, 366, 315] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `value` | (표준산업분류코드5자리) | amount | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `설치사유` | 설치사유 | text | 1쪽 [271, 603, 365, 625] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `내용` | 내용 | text | 1쪽 [268, 642, 370, 664] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `사유` | 사유 | text | 1쪽 [273, 683, 575, 705] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `corp.ceo` ← `company.ceo` | 대표자 | text | 1쪽 [673, 157, 767, 180] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `corp.corp_reg_no` ← `company.corp_reg_no` | 법인등록번호 | corp_reg_no | 1쪽 [672, 198, 809, 218] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:233 | 묻기 |
-| `신고번호` | 신고번호 | text | 1쪽 [671, 786, 759, 808] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `유효기간` | 유효기간 | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `처리기간` | 처리기간 | text | - | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `date` | 작성일 | date | 1쪽 [689, 739, 909, 756] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:281 | 묻기 |
-| `date2` | 작성일 | date | 1쪽 [689, 866, 909, 882] | 늘 | 원본 칸 (항목명 → 값 종류) | fields.json:306 | 묻기 |
-| `signer2.name` | 신고(보고)기관 | text | 1쪽 [731, 889, 812, 909] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `company.name` | 상호 | text | 1쪽 [277, 157, 433, 177] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `corp.name` ← `signer.name` | 상호 | text | 1쪽 [298, 156, 455, 180] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:23 | 묻기 |
+| `corp.biz_no` ← `company.biz_no` | 사업자(주민)번호 | biz_no | 1쪽 [273, 197, 405, 221] | 늘 | 규칙: '사업자(주민)번호' → `company.biz_no` | 고객 정보 (키 `company.biz_no`) | fields.json:41 | 묻기 |
+| `corp.biz_item` ← `company.biz_item` | 업종 | text | 1쪽 [272, 292, 366, 315] | 늘 | 규칙: '업 종' → `company.biz_item` | 고객 정보 (키 `company.biz_item`) | fields.json:53 | 묻기 |
+| `value` | (표준산업분류코드5자리) | amount | - | 늘 | 항목명 그대로 | 값 종류 `skip` (항목명 자동) | fields.json:171 | 묻기 |
+| `설치사유` | 설치사유 | text | 1쪽 [271, 603, 365, 625] | 늘 | 항목명 그대로 | 값 종류 `reason` (항목명 자동) | fields.json:182 | 묻기 |
+| `내용` | 내용 | text | 1쪽 [268, 642, 370, 664] | 늘 | 항목명 그대로 | 값 종류 `note` (항목명 자동) | fields.json:194 | 묻기 |
+| `사유` | 사유 | text | 1쪽 [273, 683, 575, 705] | 늘 | 항목명 그대로 | 값 종류 `reason` (항목명 자동) | fields.json:206 | 묻기 |
+| `corp.ceo` ← `company.ceo` | 대표자 | text | 1쪽 [673, 157, 767, 180] | 늘 | 규칙: '대 표 자' → `company.ceo` | 고객 정보 (키 `company.ceo`) | fields.json:218 | 묻기 |
+| `corp.corp_reg_no` ← `company.corp_reg_no` | 법인등록번호 | corp_reg_no | 1쪽 [672, 198, 809, 218] | 늘 | 규칙: '법인등록번호' → `company.corp_no` | 고객 정보 (키 `company.corp_no`) | fields.json:230 | 묻기 |
+| `신고번호` | 신고번호 | text | 1쪽 [671, 786, 759, 808] | 늘 | 항목명 그대로 | 값 종류 `number` (항목명 자동) | fields.json:242 | 묻기 |
+| `유효기간` | 유효기간 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:253 | 묻기 |
+| `처리기간` | 처리기간 | text | - | 늘 | 표 행 (묶음·항목명 '처 리 기 간') | 값 종류 `skip` (항목명 자동) | fields.json:264 | 묻기 |
+| `date` | 작성일 | date | 1쪽 [689, 739, 909, 756] | 늘 | 날짜 칸 (항목명) | 작성일 | fields.json:278 | 묻기 |
+| `date2` | 작성일 | date | 1쪽 [689, 866, 909, 882] | 늘 | 날짜 칸 (항목명) | 작성일 | fields.json:303 | 묻기 |
+| `signer2.name` | 신고(보고)기관 | text | 1쪽 [731, 889, 812, 909] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:328 | 묻기 |
+| `company.name` | 상호 | text | 1쪽 [277, 157, 433, 177] | 늘 | 규칙: '상 호' → `company.name` | 고객 정보 (키 `company.name`) | fields.json:345 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 6칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `seal.corp` ← `seal.signer` | 상호 | seal | 1쪽 [486, 161, 510, 175] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `sign.customer` ← `sign.signer` | 상호 | signature | 1쪽 [486, 161, 510, 175] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `check.기업규모` | 기업규모 | checkbox (대기업 / 중소기업 / 개인사업자) | 1쪽 [461, 336, 551, 350] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `check.구분` | 구분 | checkbox (설치 / 변경) | 1쪽 [337, 376, 385, 391] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `seal.signer2` | 신고(보고)기관 | seal | 1쪽 [883, 881, 914, 917] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
-| `sign.signer2` | 신고(보고)기관 | signature | 1쪽 [887, 892, 911, 906] | 늘 | 원본 칸 (항목명 → 값 종류) | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `seal.corp` ← `seal.signer` | 상호 | seal | 1쪽 [486, 161, 510, 175] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:23 | 묻기 |
+| `sign.customer` ← `sign.signer` | 상호 | signature | 1쪽 [486, 161, 510, 175] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:23 | 묻기 |
+| `check.기업규모` | 기업규모 | checkbox (대기업 / 중소기업 / 개인사업자) | 1쪽 [461, 336, 551, 350] | 늘 | 체크 (항목명) | 보기 중 고름: 대기업 / 중소기업 / 개인사업자 | fields.json:65 | 묻기 |
+| `check.구분` | 구분 | checkbox (설치 / 변경) | 1쪽 [337, 376, 385, 391] | 늘 | 체크 (항목명) | 보기 중 고름: 설치 / 변경 | fields.json:126 | 묻기 |
+| `seal.signer2` | 신고(보고)기관 | seal | 1쪽 [883, 881, 914, 917] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:328 | 묻기 |
+| `sign.signer2` | 신고(보고)기관 | signature | 1쪽 [887, 892, 911, 906] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:328 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함). **정한 곳:** 템플릿에서 그 칸 자리 (html·코드 서식) / 칸 목록의 그 칸 (원본 서식).
+- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
+- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
@@ -228,13 +230,23 @@
 
 ## 고치려면
 
-| 하고 싶은 것 | 어디를 | 그다음 |
-|---|---|---|
-| 항목(칸) 더하기·위치·항목명 | studio ① 서식 › 영역 편집 (저장하면 `fields.json` items) | 재검수 → 카드 다시 만들기 |
-| 값이 이상함 | 영역 편집에서 그 칸의 값 출처·값 종류 | 재검수 |
-| 질문의 항목명·묻지 않기 | `questions.json`: `{"kie": {"items": [{"key": "…", "label": "…"}, {"key": "…", "ask": false}]}}` | 검수 필요 없음 |
-| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | `questions … --check` |
-| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` | 모든 카드 다시 만들기 |
+칸 하나에 관한 것(박스·키·값·질문)은 `fields.json` 의 그 칸, 질문 문장·답 꼴·전용 질문은 `questions.json`.
+고친 뒤 `python -m docgen.formdir check hf220` → `python -m docgen.formdir card hf220` (실제 질문→답 확인).
 
-확인: studio ① 서식 › 문항 Q/A · `python -m docgen.formdir questions hf220 --show` · `python -m docgen.preview hf220 --out work/hf220`
+| 바꾸고 싶은 것 (데이터에서) | 어디를 | 검수 |
+|---|---|---|
+| 칸(추출 항목) 더하기 | studio ① 서식 › 영역 편집에서 그리기 (`fields.json` items 에 한 칸) | 다시 |
+| 답의 위치 (박스) | `fields.json` 그 칸의 `rect` [x0, y0, x1, y1] (pt) — 또는 영역 편집 | 다시 |
+| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 규칙이 항목명으로 정함 — 모든 서식 공통 규칙은 studio 키 사전) | 다시 |
+| 답의 값 | `fields.json` 그 칸에 `"source"` ([값 출처 목록](../_common/values.md)) 또는 값 종류 `"kind"` | 다시 |
+| 칸의 항목명 | `fields.json` 그 칸의 `label` | 다시 |
+| 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
+| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
+| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |
+| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | 필요 없음 |
+| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | 필요 없음 |
+| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+
+"다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json` 은 그림을 바꾸지 않아 검수 상태가 그대로입니다.
+확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions hf220 --show` · `python -m docgen.preview hf220 --out work/hf220`

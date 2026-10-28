@@ -1,6 +1,6 @@
 # 소득금액증명 (`gov_income`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card gov_income · card-hash: 211ec78f51f5 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card gov_income · card-hash: b199b8b69ae9 -->
 
 - **종류:** html 서식 (값은 fields.json 의 값 출처, 모양은 템플릿)
 - **그룹:** income · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 소득금액증명원 (다른 이름: 소득금액증명)
@@ -20,34 +20,36 @@
 
 ## 추출 항목 (정보 추출 kie) — 23칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `customer.name` ← `official.name` | 성명 | text | 1쪽 [214, 169, 275, 184] | 늘 | `profile.person.name` | look/template.html.j2:140 · fields.json:5 | 묻기 |
-| `customer.rrn` ← `official.rrn` | 주민등록번호 | rrn | 1쪽 [670, 170, 784, 183] | 늘 | `profile.person.rrn` | look/template.html.j2:141 · fields.json:10 | 묻기 |
-| `customer.address` ← `official.address` | 주소 | text | 1쪽 [214, 188, 535, 203] | 늘 | `profile.person.address.road_short` | look/template.html.j2:142 · fields.json:15 | 묻기 |
-| `employer.name` ← `official.company` | 근로소득발생처 | text | 1쪽 [185, 469, 283, 481] | 늘 | `profile.employment.company.name` | look/template.html.j2:143 · fields.json:20 | 묻기 |
-| `official.biz_no` | 발생처사업자등록번호 | biz_no | 1쪽 [321, 478, 392, 487] | 늘 | `profile.employment.company.biz_no` | look/template.html.j2:144 · fields.json:25 | 묻기 |
-| `official.salary` | 지급받은총액 | amount | 1쪽 [431, 478, 490, 487] | 늘 | `parent.rows.0.amount` | look/template.html.j2:145 · fields.json:30 | 묻기 |
-| `official.year` | 귀속연도 | number | 1쪽 [385, 148, 415, 159] | 늘 | `parent.rows.0.year` | look/template.html.j2:146 · fields.json:35 | 묻기 |
-| `official.tax` | 총결정세액 | amount | 1쪽 [693, 478, 746, 487] | 늘 | `parent.rows.0.tax` | look/template.html.j2:147 · fields.json:41 | 묻기 |
-| `official.number` | 발급번호 | text | 1쪽 [105, 143, 193, 151] | 늘 | `parent.issue_no` | look/template.html.j2:148 · fields.json:46 | 묻기 |
-| `official.office` | 관할지역 | text | 1쪽 [601, 630, 627, 643] | 늘 | `parent.issuer` | look/template.html.j2:149 · fields.json:51 | 묻기 |
-| `official.issue0` | 발급일년 | number | 1쪽 [544, 607, 570, 616] | 늘 | `profile.issue_date` | look/template.html.j2:150 · fields.json:57 | 묻기 |
-| `official.issue1` | 발급일월 | number | 1쪽 [619, 607, 632, 616] | 늘 | `profile.issue_date` | look/template.html.j2:151 · fields.json:63 | 묻기 |
-| `official.issue2` | 발급일일 | number | 1쪽 [681, 607, 694, 616] | 늘 | `profile.issue_date` | look/template.html.j2:152 · fields.json:69 | 묻기 |
-| `official.salary_income` | 근로소득소득금액 | amount | 1쪽 [555, 478, 612, 487] | 늘 | `rule:amount` | look/template.html.j2:153 · fields.json:75 | 묻기 |
-| `official.period_from` | 납세자가신청한증명귀속연도시작 | number | 1쪽 [579, 548, 604, 557] | 늘 | `parent.period` | look/template.html.j2:154 · fields.json:80 | 묻기 |
-| `official.period_to` | 납세자가신청한증명귀속연도끝 | number | 1쪽 [636, 548, 661, 557] | 늘 | `parent.period` | look/template.html.j2:155 · fields.json:87 | 묻기 |
-| `official.receipt_no` | 접수번호 | text | 1쪽 [103, 905, 156, 914] | 늘 | `rule:number` | look/template.html.j2:156 · fields.json:94 | 묻기 |
-| `official.issuer_department` | 증명발급자담당부서 | text | 1쪽 [327, 893, 383, 907] | 늘 | `rule:choice` | look/template.html.j2:157 · fields.json:99 | 묻기 |
-| `official.issuer_person` | 증명발급자담당자 | text | 1쪽 [514, 893, 555, 907] | 늘 | `rule:other_person` | look/template.html.j2:158 · fields.json:109 | 묻기 |
-| `official.issuer_phone` | 증명발급자연락처 | phone | 1쪽 [668, 895, 755, 905] | 늘 | `rule:office_phone` | look/template.html.j2:159 · fields.json:114 | 묻기 |
-| `official.tax_officer_department` | 세적담당자담당부서 | text | 1쪽 [327, 911, 418, 926] | 늘 | `rule:choice` | look/template.html.j2:160 · fields.json:119 | 묻기 |
-| `official.tax_officer_person` | 세적담당자담당자 | text | 1쪽 [514, 911, 559, 926] | 늘 | `rule:other_person` | look/template.html.j2:161 · fields.json:129 | 묻기 |
-| `official.tax_officer_phone` | 세적담당자연락처 | phone | 1쪽 [668, 912, 763, 924] | 늘 | `rule:office_phone` | look/template.html.j2:162 · fields.json:134 | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `customer.name` ← `official.name` | 성명 | text | 1쪽 [214, 169, 275, 184] | 늘 | 템플릿 | `profile.person.name` | look/template.html.j2:140 · fields.json:5 | 묻기 |
+| `customer.rrn` ← `official.rrn` | 주민등록번호 | rrn | 1쪽 [670, 170, 784, 183] | 늘 | 템플릿 | `profile.person.rrn` | look/template.html.j2:141 · fields.json:10 | 묻기 |
+| `customer.address` ← `official.address` | 주소 | text | 1쪽 [214, 188, 535, 203] | 늘 | 템플릿 | `profile.person.address.road_short` | look/template.html.j2:142 · fields.json:15 | 묻기 |
+| `employer.name` ← `official.company` | 근로소득발생처 | text | 1쪽 [185, 469, 283, 481] | 늘 | 템플릿 | `profile.employment.company.name` | look/template.html.j2:143 · fields.json:20 | 묻기 |
+| `official.biz_no` | 발생처사업자등록번호 | biz_no | 1쪽 [321, 478, 392, 487] | 늘 | 템플릿 | `profile.employment.company.biz_no` | look/template.html.j2:144 · fields.json:25 | 묻기 |
+| `official.salary` | 지급받은총액 | amount | 1쪽 [431, 478, 490, 487] | 늘 | 템플릿 | `parent.rows.0.amount` | look/template.html.j2:145 · fields.json:30 | 묻기 |
+| `official.year` | 귀속연도 | number | 1쪽 [385, 148, 415, 159] | 늘 | 템플릿 | `parent.rows.0.year` | look/template.html.j2:146 · fields.json:35 | 묻기 |
+| `official.tax` | 총결정세액 | amount | 1쪽 [693, 478, 746, 487] | 늘 | 템플릿 | `parent.rows.0.tax` | look/template.html.j2:147 · fields.json:41 | 묻기 |
+| `official.number` | 발급번호 | text | 1쪽 [105, 143, 193, 151] | 늘 | 템플릿 | `parent.issue_no` | look/template.html.j2:148 · fields.json:46 | 묻기 |
+| `official.office` | 관할지역 | text | 1쪽 [601, 630, 627, 643] | 늘 | 템플릿 | `parent.issuer` | look/template.html.j2:149 · fields.json:51 | 묻기 |
+| `official.issue0` | 발급일년 | number | 1쪽 [544, 607, 570, 616] | 늘 | 템플릿 | `profile.issue_date` | look/template.html.j2:150 · fields.json:57 | 묻기 |
+| `official.issue1` | 발급일월 | number | 1쪽 [619, 607, 632, 616] | 늘 | 템플릿 | `profile.issue_date` | look/template.html.j2:151 · fields.json:63 | 묻기 |
+| `official.issue2` | 발급일일 | number | 1쪽 [681, 607, 694, 616] | 늘 | 템플릿 | `profile.issue_date` | look/template.html.j2:152 · fields.json:69 | 묻기 |
+| `official.salary_income` | 근로소득소득금액 | amount | 1쪽 [555, 478, 612, 487] | 늘 | 템플릿 | `rule:amount` | look/template.html.j2:153 · fields.json:75 | 묻기 |
+| `official.period_from` | 납세자가신청한증명귀속연도시작 | number | 1쪽 [579, 548, 604, 557] | 늘 | 템플릿 | `parent.period` | look/template.html.j2:154 · fields.json:80 | 묻기 |
+| `official.period_to` | 납세자가신청한증명귀속연도끝 | number | 1쪽 [636, 548, 661, 557] | 늘 | 템플릿 | `parent.period` | look/template.html.j2:155 · fields.json:87 | 묻기 |
+| `official.receipt_no` | 접수번호 | text | 1쪽 [103, 905, 156, 914] | 늘 | 템플릿 | `rule:number` | look/template.html.j2:156 · fields.json:94 | 묻기 |
+| `official.issuer_department` | 증명발급자담당부서 | text | 1쪽 [327, 893, 383, 907] | 늘 | 템플릿 | `rule:choice` | look/template.html.j2:157 · fields.json:99 | 묻기 |
+| `official.issuer_person` | 증명발급자담당자 | text | 1쪽 [514, 893, 555, 907] | 늘 | 템플릿 | `rule:other_person` | look/template.html.j2:158 · fields.json:109 | 묻기 |
+| `official.issuer_phone` | 증명발급자연락처 | phone | 1쪽 [668, 895, 755, 905] | 늘 | 템플릿 | `rule:office_phone` | look/template.html.j2:159 · fields.json:114 | 묻기 |
+| `official.tax_officer_department` | 세적담당자담당부서 | text | 1쪽 [327, 911, 418, 926] | 늘 | 템플릿 | `rule:choice` | look/template.html.j2:160 · fields.json:119 | 묻기 |
+| `official.tax_officer_person` | 세적담당자담당자 | text | 1쪽 [514, 911, 559, 926] | 늘 | 템플릿 | `rule:other_person` | look/template.html.j2:161 · fields.json:129 | 묻기 |
+| `official.tax_officer_phone` | 세적담당자연락처 | phone | 1쪽 [668, 912, 763, 924] | 늘 | 템플릿 | `rule:office_phone` | look/template.html.j2:162 · fields.json:134 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함). **정한 곳:** 템플릿에서 그 칸 자리 (html·코드 서식) / 칸 목록의 그 칸 (원본 서식).
+- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
+- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
@@ -196,15 +198,24 @@
 
 ## 고치려면
 
-| 하고 싶은 것 | 어디를 | 그다음 |
-|---|---|---|
-| 항목(칸) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `fields.json` 의 `fields` 에 키·source | 미리보기로 확인 → 재검수 → 카드 다시 만들기 |
-| 칸 키·항목명 바꾸기 | `look/template.html.j2` 의 `f("키", label=…)` + `fields.json` (질문만 바꾸려면 `questions.json`) | `questions … --check` |
-| 값이 이상함 / 칸끼리 안 맞음 | `fields.json` 의 source / `generate.py` 의 `adjust(d, p, rng)` | 재검수 |
-| 모양·표·문구 | `look/template.html.j2` (studio html 편집) | 재검수 |
-| 질문의 항목명·묻지 않기 | `questions.json`: `{"kie": {"items": [{"key": "…", "label": "…"}, {"key": "…", "ask": false}]}}` | 검수 필요 없음 |
-| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | `questions … --check` |
-| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` | 모든 카드 다시 만들기 |
+칸 하나에 관한 것(박스·키·값·질문)은 `fields.json` 의 그 칸, 질문 문장·답 꼴·전용 질문은 `questions.json`.
+고친 뒤 `python -m docgen.formdir check gov_income` → `python -m docgen.formdir card gov_income` (실제 질문→답 확인).
 
-확인: studio ① 서식 › 문항 Q/A · `python -m docgen.formdir questions gov_income --show` · `python -m docgen.preview gov_income --out work/gov_income`
+| 바꾸고 싶은 것 (데이터에서) | 어디를 | 검수 |
+|---|---|---|
+| 칸(추출 항목) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `fields.json` 의 `fields` 에 키·source | 다시 |
+| 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` + `fields.json` 의 그 키 | 다시 |
+| 답의 값 | `fields.json` 의 그 칸 `source` ([값 출처 목록](../_common/values.md)) | 다시 |
+| 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` 의 `adjust(d, p, rng)` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
+| 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
+| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
+| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |
+| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | 필요 없음 |
+| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | 필요 없음 |
+| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+
+"다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json` 은 그림을 바꾸지 않아 검수 상태가 그대로입니다.
+확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions gov_income --show` · `python -m docgen.preview gov_income --out work/gov_income`

@@ -1,6 +1,6 @@
 # 무역 매매계약서(Sales Contract) (`trade_contract`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card trade_contract · card-hash: 656662f3bdef -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card trade_contract · card-hash: 7867419d3190 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** fx · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 무역 매매계약서(Sales Contract)
@@ -21,58 +21,60 @@
 
 ## 추출 항목 (정보 추출 kie) — 38칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `foreign.name` ← `seller.name` | Seller | text | 1쪽 [357, 43, 643, 60] | 늘 | generate.py | look/template.html.j2:33 | 묻기 |
-| `foreign.address` ← `seller.address` | SellerAddress | text | 1쪽 [340, 63, 659, 73] | 늘 | generate.py | look/template.html.j2:33 | 묻기 |
-| `customer.name` ← `buyer.name` | Buyer | text | 1쪽 [111, 133, 301, 144] | 늘 | generate.py | look/template.html.j2:36 | 묻기 |
-| `customer.address` ← `buyer.address` | BuyerAddress | text | 1쪽 [65, 146, 551, 157] | 늘 | generate.py | look/template.html.j2:36 | 묻기 |
-| `contract_no` | ContractNo | text | 1쪽 [847, 133, 935, 144] | 늘 | generate.py | look/template.html.j2:32 | 묻기 |
-| `contract_date` | Date | date | 1쪽 [802, 146, 901, 157] | 늘 | generate.py | look/template.html.j2:32 | 묻기 |
-| `items.*.description` | Commodity&Description | text | 1쪽 [128, 233, 360, 243] (1행) | 늘 | generate.py | - | 묻기 |
-| `items.*.model` | Model | text | 1쪽 [464, 233, 514, 243] (1행) | 늘 | generate.py | - | 묻기 |
-| `items.*.quantity` | Quantity | text | 1쪽 [608, 233, 670, 243] (1행) | 늘 | generate.py | - | 묻기 |
-| `items.*.unit_price` | UnitPrice | amount | 1쪽 [728, 233, 781, 243] (1행) | 늘 | generate.py | - | 묻기 |
-| `items.*.amount` | Amount | amount | 1쪽 [851, 233, 927, 243] (1행) | 늘 | generate.py | - | 묻기 |
-| `total_amount` | TotalAmount | amount | 1쪽 [848, 290, 927, 300] | 늘 | generate.py | look/template.html.j2:48 | 묻기 |
-| `total_words` | TotalAmountinWords | text | 1쪽 [77, 309, 721, 318] | 늘 | generate.py | look/template.html.j2:49 | 묻기 |
-| `clauses.price_terms` | PriceTerms | text | 1쪽 [228, 333, 540, 343] | 늘 | generate.py | look/template.html.j2:52 | 묻기 |
-| `clauses.origin` | Origin | text | 1쪽 [228, 347, 258, 357] | 늘 | generate.py | look/template.html.j2:53 | 묻기 |
-| `clauses.packing` | Packing | text | 1쪽 [228, 362, 587, 372] | 늘 | generate.py | look/template.html.j2:55 | 묻기 |
-| `clauses.shipping_mark` | ShippingMark | text | 1쪽 [222, 376, 319, 424] | 늘 | generate.py | look/template.html.j2:56 | 묻기 |
-| `clauses.shipment` | Shipment | text | 1쪽 [228, 428, 673, 438] | 늘 | generate.py | look/template.html.j2:57 | 묻기 |
-| `clauses.port_of_shipment` | PortofShipment | text | 1쪽 [228, 443, 329, 453] | 늘 | generate.py | look/template.html.j2:58 | 묻기 |
-| `clauses.destination` | Destination | text | 1쪽 [228, 457, 324, 467] | 늘 | generate.py | look/template.html.j2:59 | 묻기 |
-| `clauses.payment` | Payment | text | 1쪽 [228, 472, 553, 482] | 늘 | generate.py | look/template.html.j2:60 | 묻기 |
-| `clauses.insurance` | Insurance | text | 1쪽 [228, 486, 697, 496] | 9/16 | generate.py | look/template.html.j2:61 | 묻기 |
-| `clauses.inspection` | Inspection | text | 1쪽 [228, 501, 780, 510] | 늘 | generate.py | look/template.html.j2:62 | 묻기 |
-| `clauses.arbitration` | Arbitration | text | 1쪽 [228, 515, 635, 525] | 늘 | generate.py | look/template.html.j2:63 | 묻기 |
-| `gtc_terms.qty_tolerance` | QuantityTolerance | percent | 1쪽 [361, 588, 377, 597] | 5/16 | generate.py | - | 묻기 |
-| `gtc_terms.late_penalty` | LateShipmentPenalty | percent | 1쪽 [567, 624, 582, 633] | 5/16 | generate.py | - | 묻기 |
-| `gtc_terms.inspection_days` | InspectionPeriod(days) | number | 1쪽 [414, 672, 426, 680] | 2/16 | generate.py | - | 묻기 |
-| `gtc_terms.claim_days` | ClaimPeriod(days) | number | 1쪽 [529, 695, 541, 704] | 5/16 | generate.py | - | 묻기 |
-| `gtc_terms.warranty` | WarrantyPeriod | text | 1쪽 [557, 719, 656, 728] | 4/16 | generate.py | - | 묻기 |
-| `gtc_terms.late_interest` | LatePaymentInterest | percent | 1쪽 [397, 768, 413, 777] | 2/16 | generate.py | - | 묻기 |
-| `gtc_terms.governing_law` | GoverningLaw | text | 1쪽 [545, 819, 635, 828] | 4/16 | generate.py | - | 묻기 |
-| `buyer.signer` | BuyerSignatory | text | 2쪽 [108, 143, 219, 155] | 늘 | generate.py | look/template.html.j2:30 | 묻기 |
-| `buyer.title` | BuyerTitle | text | 2쪽 [101, 157, 131, 168] | 늘 | generate.py | look/template.html.j2:80 | 묻기 |
-| `buyer.sign_date` | BuyerSigningDate | date | 2쪽 [102, 170, 182, 181] | 늘 | generate.py | look/template.html.j2:81 | 묻기 |
-| `seller.signer` | SellerSignatory | text | 2쪽 [578, 143, 636, 154] | 늘 | generate.py | look/template.html.j2:87 | 묻기 |
-| `seller.title` | SellerTitle | text | 2쪽 [571, 157, 665, 167] | 늘 | generate.py | look/template.html.j2:88 | 묻기 |
-| `seller.sign_date` | SellerSigningDate | date | 2쪽 [571, 170, 643, 181] | 늘 | generate.py | look/template.html.j2:89 | 묻기 |
-| `clauses.manufacturer` | Manufacturer | - | - | 2/16 | generate.py | look/template.html.j2:54 | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `foreign.name` ← `seller.name` | Seller | text | 1쪽 [357, 43, 643, 60] | 늘 | 템플릿 | generate.py | look/template.html.j2:33 · fields.json:150 | 묻기 |
+| `foreign.address` ← `seller.address` | SellerAddress | text | 1쪽 [340, 63, 659, 73] | 늘 | 템플릿 | generate.py | look/template.html.j2:33 · fields.json:145 | 묻기 |
+| `customer.name` ← `buyer.name` | Buyer | text | 1쪽 [111, 133, 301, 144] | 늘 | 템플릿 | generate.py | look/template.html.j2:36 · fields.json:10 | 묻기 |
+| `customer.address` ← `buyer.address` | BuyerAddress | text | 1쪽 [65, 146, 551, 157] | 늘 | 템플릿 | generate.py | look/template.html.j2:36 · fields.json:5 | 묻기 |
+| `contract_no` | ContractNo | text | 1쪽 [847, 133, 935, 144] | 늘 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:95 | 묻기 |
+| `contract_date` | Date | date | 1쪽 [802, 146, 901, 157] | 늘 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:90 | 묻기 |
+| `items.*.description` | Commodity&Description | text | 1쪽 [128, 233, 360, 243] (1행) | 늘 | 템플릿 | generate.py | fields.json:200 | 묻기 |
+| `items.*.model` | Model | text | 1쪽 [464, 233, 514, 243] (1행) | 늘 | 템플릿 | generate.py | fields.json:205 | 묻기 |
+| `items.*.quantity` | Quantity | text | 1쪽 [608, 233, 670, 243] (1행) | 늘 | 템플릿 | generate.py | fields.json:210 | 묻기 |
+| `items.*.unit_price` | UnitPrice | amount | 1쪽 [728, 233, 781, 243] (1행) | 늘 | 템플릿 | generate.py | fields.json:215 | 묻기 |
+| `items.*.amount` | Amount | amount | 1쪽 [851, 233, 927, 243] (1행) | 늘 | 템플릿 | generate.py | fields.json:195 | 묻기 |
+| `total_amount` | TotalAmount | amount | 1쪽 [848, 290, 927, 300] | 늘 | 템플릿 | generate.py | look/template.html.j2:48 · fields.json:180 | 묻기 |
+| `total_words` | TotalAmountinWords | text | 1쪽 [77, 309, 721, 318] | 늘 | 템플릿 | generate.py | look/template.html.j2:49 · fields.json:185 | 묻기 |
+| `clauses.price_terms` | PriceTerms | text | 1쪽 [228, 333, 540, 343] | 늘 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:75 | 묻기 |
+| `clauses.origin` | Origin | text | 1쪽 [228, 347, 258, 357] | 늘 | 템플릿 | generate.py | look/template.html.j2:53 · fields.json:55 | 묻기 |
+| `clauses.packing` | Packing | text | 1쪽 [228, 362, 587, 372] | 늘 | 템플릿 | generate.py | look/template.html.j2:55 · fields.json:60 | 묻기 |
+| `clauses.shipping_mark` | ShippingMark | text | 1쪽 [222, 376, 319, 424] | 늘 | 템플릿 | generate.py | look/template.html.j2:56 · fields.json:85 | 묻기 |
+| `clauses.shipment` | Shipment | text | 1쪽 [228, 428, 673, 438] | 늘 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:80 | 묻기 |
+| `clauses.port_of_shipment` | PortofShipment | text | 1쪽 [228, 443, 329, 453] | 늘 | 템플릿 | generate.py | look/template.html.j2:58 · fields.json:70 | 묻기 |
+| `clauses.destination` | Destination | text | 1쪽 [228, 457, 324, 467] | 늘 | 템플릿 | generate.py | look/template.html.j2:59 · fields.json:35 | 묻기 |
+| `clauses.payment` | Payment | text | 1쪽 [228, 472, 553, 482] | 늘 | 템플릿 | generate.py | look/template.html.j2:60 · fields.json:65 | 묻기 |
+| `clauses.insurance` | Insurance | text | 1쪽 [228, 486, 697, 496] | 9/16 | 템플릿 | generate.py | look/template.html.j2:61 · fields.json:45 | 묻기 |
+| `clauses.inspection` | Inspection | text | 1쪽 [228, 501, 780, 510] | 늘 | 템플릿 | generate.py | look/template.html.j2:62 · fields.json:40 | 묻기 |
+| `clauses.arbitration` | Arbitration | text | 1쪽 [228, 515, 635, 525] | 늘 | 템플릿 | generate.py | look/template.html.j2:63 · fields.json:30 | 묻기 |
+| `gtc_terms.qty_tolerance` | QuantityTolerance | percent | 1쪽 [361, 588, 377, 597] | 5/16 | 템플릿 | generate.py | fields.json:125 | 묻기 |
+| `gtc_terms.late_penalty` | LateShipmentPenalty | percent | 1쪽 [567, 624, 582, 633] | 5/16 | 템플릿 | generate.py | fields.json:120 | 묻기 |
+| `gtc_terms.inspection_days` | InspectionPeriod(days) | number | 1쪽 [414, 672, 426, 680] | 2/16 | 템플릿 | generate.py | fields.json:110 | 묻기 |
+| `gtc_terms.claim_days` | ClaimPeriod(days) | number | 1쪽 [529, 695, 541, 704] | 5/16 | 템플릿 | generate.py | fields.json:100 | 묻기 |
+| `gtc_terms.warranty` | WarrantyPeriod | text | 1쪽 [557, 719, 656, 728] | 4/16 | 템플릿 | generate.py | fields.json:130 | 묻기 |
+| `gtc_terms.late_interest` | LatePaymentInterest | percent | 1쪽 [397, 768, 413, 777] | 2/16 | 템플릿 | generate.py | fields.json:115 | 묻기 |
+| `gtc_terms.governing_law` | GoverningLaw | text | 1쪽 [545, 819, 635, 828] | 4/16 | 템플릿 | generate.py | fields.json:105 | 묻기 |
+| `buyer.signer` | BuyerSignatory | text | 2쪽 [108, 143, 219, 155] | 늘 | 템플릿 | generate.py | look/template.html.j2:30 · fields.json:20 | 묻기 |
+| `buyer.title` | BuyerTitle | text | 2쪽 [101, 157, 131, 168] | 늘 | 템플릿 | generate.py | look/template.html.j2:80 · fields.json:25 | 묻기 |
+| `buyer.sign_date` | BuyerSigningDate | date | 2쪽 [102, 170, 182, 181] | 늘 | 템플릿 | generate.py | look/template.html.j2:81 · fields.json:15 | 묻기 |
+| `seller.signer` | SellerSignatory | text | 2쪽 [578, 143, 636, 154] | 늘 | 템플릿 | generate.py | look/template.html.j2:87 · fields.json:160 | 묻기 |
+| `seller.title` | SellerTitle | text | 2쪽 [571, 157, 665, 167] | 늘 | 템플릿 | generate.py | look/template.html.j2:88 · fields.json:165 | 묻기 |
+| `seller.sign_date` | SellerSigningDate | date | 2쪽 [571, 170, 643, 181] | 늘 | 템플릿 | generate.py | look/template.html.j2:89 · fields.json:155 | 묻기 |
+| `clauses.manufacturer` | Manufacturer | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:54 · fields.json:50 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 4칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `seal.customer` ← `seal.buyer` | BuyerSignature | seal | - | 늘 | generate.py | - | 묻기 |
-| `sign.customer` ← `sign.buyer` | BuyerSignature | signature | 2쪽 [123, 115, 387, 134] | 늘 | generate.py | - | 묻기 |
-| `seal.seller` | SellerSignature | seal | - | 늘 | generate.py | - | 묻기 |
-| `sign.seller` | SellerSignature | signature | - | 늘 | generate.py | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `seal.customer` ← `seal.buyer` | BuyerSignature | seal | - | 늘 | 템플릿 | generate.py | fields.json:135 | 묻기 |
+| `sign.customer` ← `sign.buyer` | BuyerSignature | signature | 2쪽 [123, 115, 387, 134] | 늘 | 템플릿 | generate.py | fields.json:170 | 묻기 |
+| `seal.seller` | SellerSignature | seal | - | 늘 | 템플릿 | generate.py | fields.json:140 | 묻기 |
+| `sign.seller` | SellerSignature | signature | - | 늘 | 템플릿 | generate.py | fields.json:175 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함). **정한 곳:** 템플릿에서 그 칸 자리 (html·코드 서식) / 칸 목록의 그 칸 (원본 서식).
+- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
+- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
@@ -306,15 +308,24 @@
 
 ## 고치려면
 
-| 하고 싶은 것 | 어디를 | 그다음 |
-|---|---|---|
-| 항목(칸) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `generate.py` 가 돌려주는 dict 에 그 키 값 | 미리보기로 확인 → 재검수 → 카드 다시 만들기 |
-| 칸 키·항목명 바꾸기 | `look/template.html.j2` 의 `f("키", label=…)` (질문만 바꾸려면 `questions.json`) | `questions … --check` |
-| 값이 이상함·칸끼리 안 맞음 | `generate.py` (값 만드는 함수) | 재검수 |
-| 모양·표·문구 | `look/template.html.j2` (studio html 편집) | 재검수 |
-| 질문의 항목명·묻지 않기 | `questions.json`: `{"kie": {"items": [{"key": "…", "label": "…"}, {"key": "…", "ask": false}]}}` | 검수 필요 없음 |
-| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | `questions … --check` |
-| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` | 모든 카드 다시 만들기 |
+칸 하나에 관한 것(박스·키·값·질문)은 `fields.json` 의 그 칸, 질문 문장·답 꼴·전용 질문은 `questions.json`.
+고친 뒤 `python -m docgen.formdir check trade_contract` → `python -m docgen.formdir card trade_contract` (실제 질문→답 확인).
 
-확인: studio ① 서식 › 문항 Q/A · `python -m docgen.formdir questions trade_contract --show` · `python -m docgen.preview trade_contract --out work/trade_contract`
+| 바꾸고 싶은 것 (데이터에서) | 어디를 | 검수 |
+|---|---|---|
+| 칸(추출 항목) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `generate.py` 가 돌려주는 dict 에 그 키 값 | 다시 |
+| 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` | 다시 |
+| 답의 값 | `generate.py` (값 만드는 함수). 파이썬 대신 정하려면 `fields.json` 의 그 칸 `source` | 다시 |
+| 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
+| 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
+| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
+| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |
+| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | 필요 없음 |
+| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | 필요 없음 |
+| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+
+"다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json` 은 그림을 바꾸지 않아 검수 상태가 그대로입니다.
+확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions trade_contract --show` · `python -m docgen.preview trade_contract --out work/trade_contract`

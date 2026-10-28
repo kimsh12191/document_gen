@@ -1,6 +1,6 @@
 # 신용카드 이용대금명세서 (`card_statement`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card card_statement · card-hash: b5fe71efb445 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card card_statement · card-hash: a35e98ec1c36 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** finance · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 신용카드 이용대금명세서
@@ -21,41 +21,43 @@
 
 ## 추출 항목 (정보 추출 kie) — 30칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `company` | 카드사 | text | 1쪽 [77, 57, 198, 80] | 늘 | generate.py | look/template.html.j2:19 | 묻기 |
-| `statement_month` | 청구월 | month | 1쪽 [77, 86, 185, 104] | 늘 | generate.py | look/template.html.j2:19 | 묻기 |
-| `member` | 회원명 | text | 1쪽 [198, 125, 256, 136] | 늘 | generate.py | look/template.html.j2:19 | 묻기 |
-| `card_no` | 카드번호 | text | 1쪽 [495, 125, 626, 136] | 늘 | generate.py | look/template.html.j2:19 | 묻기 |
-| `pay_date` | 결제일 | date | 1쪽 [198, 146, 263, 157] | 늘 | generate.py | look/template.html.j2:24 | 묻기 |
-| `pay_account` | 결제계좌 | text | 1쪽 [495, 146, 668, 157] | 늘 | generate.py | look/template.html.j2:24 | 묻기 |
-| `usage_period` | 이용기간 | text | 1쪽 [198, 167, 343, 177] | 늘 | generate.py | look/template.html.j2:25 | 묻기 |
-| `summary.total` | 청구금액 | amount | 1쪽 [145, 218, 266, 241] | 늘 | generate.py | look/template.html.j2:27 | 묻기 |
-| `summary.lump` | 일시불 | number | 1쪽 [597, 197, 655, 208] | 늘 | generate.py | look/template.html.j2:30 | 묻기 |
-| `summary.installment` | 할부 | number | 1쪽 [858, 197, 916, 208] | 늘 | generate.py | look/template.html.j2:30 | 묻기 |
-| `summary.cash` | 현금서비스 | amount | 1쪽 [648, 217, 655, 228] | 늘 | generate.py | look/template.html.j2:31 | 묻기 |
-| `summary.fee` | 수수료(이자) | amount | 1쪽 [876, 217, 916, 228] | 늘 | generate.py | look/template.html.j2:31 | 묻기 |
-| `summary.next_month` | 다음달결제예정금액 | number | 1쪽 [597, 238, 655, 249] | 늘 | generate.py | look/template.html.j2:32 | 묻기 |
-| `summary.limit` | 이용한도 | amount | 1쪽 [850, 238, 916, 249] | 늘 | generate.py | look/template.html.j2:32 | 묻기 |
-| `summary.overdue` | 연체금액 | number | 1쪽 [597, 259, 655, 269] | 1/16 | generate.py | look/template.html.j2:33 | 묻기 |
-| `summary.overdue_fee` | 연체이자 | amount | 1쪽 [876, 259, 916, 269] | 1/16 | generate.py | look/template.html.j2:33 | 묻기 |
-| `rows.*.date` | 이용일자 | date | 1쪽 [98, 331, 158, 341] (1행) | 늘 | generate.py | look/template.html.j2:42 | 묻기 |
-| `rows.*.merchant` | 이용하신가맹점 | text | 1쪽 [185, 331, 251, 341] (1행) | 늘 | generate.py | look/template.html.j2:43 | 묻기 |
-| `rows.*.amount` | 이용금액 | amount | 1쪽 [401, 331, 444, 341] (1행) | 늘 | generate.py | look/template.html.j2:44 | 묻기 |
-| `rows.*.months` | 할부 | text | 1쪽 [468, 331, 507, 341] (1행) | 늘 | generate.py | look/template.html.j2:45 | 묻기 |
-| `rows.*.seq` | 회차 | text | 1쪽 [544, 331, 574, 341] (1행) | 늘 | generate.py | look/template.html.j2:46 | 묻기 |
-| `rows.*.principal` | 원금 | amount | 1쪽 [661, 331, 697, 341] (1행) | 늘 | generate.py | look/template.html.j2:47 | 묻기 |
-| `rows.*.fee` | 수수료(이자) | amount | 1쪽 [783, 331, 790, 341] (1행) | 늘 | generate.py | look/template.html.j2:48 | 묻기 |
-| `rows.*.after` | 결제후잔액 | number | 1쪽 [880, 331, 917, 341] (1행) | 늘 | generate.py | look/template.html.j2:49 | 묻기 |
-| `sum.amount` | 이용금액합계 | amount | 2쪽 [380, 348, 439, 357] | 늘 | generate.py | look/template.html.j2:52 | 묻기 |
-| `sum.principal` | 결제원금합계 | amount | 2쪽 [612, 348, 665, 357] | 늘 | generate.py | look/template.html.j2:53 | 묻기 |
-| `sum.fee` | 수수료합계 | amount | 2쪽 [756, 348, 793, 357] | 늘 | generate.py | look/template.html.j2:53 | 묻기 |
-| `fee_rate` | 할부수수료율 | percent | 2쪽 [204, 373, 254, 383] | 늘 | generate.py | look/template.html.j2:56 | 묻기 |
-| `fee_per_100.*.months` | 할부개월 | text | 2쪽 [393, 373, 426, 383] (1행) | 늘 | generate.py | look/template.html.j2:57 | 묻기 |
-| `fee_per_100.*.fee` | 100원당수수료 | amount | 2쪽 [429, 373, 465, 383] (1행) | 늘 | generate.py | look/template.html.j2:57 | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `company` | 카드사 | text | 1쪽 [77, 57, 198, 80] | 늘 | 템플릿 | generate.py | look/template.html.j2:19 · fields.json:10 | 묻기 |
+| `statement_month` | 청구월 | month | 1쪽 [77, 86, 185, 104] | 늘 | 템플릿 | generate.py | look/template.html.j2:19 · fields.json:35 | 묻기 |
+| `member` | 회원명 | text | 1쪽 [198, 125, 256, 136] | 늘 | 템플릿 | generate.py | look/template.html.j2:19 · fields.json:20 | 묻기 |
+| `card_no` | 카드번호 | text | 1쪽 [495, 125, 626, 136] | 늘 | 템플릿 | generate.py | look/template.html.j2:19 · fields.json:5 | 묻기 |
+| `pay_date` | 결제일 | date | 1쪽 [198, 146, 263, 157] | 늘 | 템플릿 | generate.py | look/template.html.j2:24 · fields.json:30 | 묻기 |
+| `pay_account` | 결제계좌 | text | 1쪽 [495, 146, 668, 157] | 늘 | 템플릿 | generate.py | look/template.html.j2:24 · fields.json:25 | 묻기 |
+| `usage_period` | 이용기간 | text | 1쪽 [198, 167, 343, 177] | 늘 | 템플릿 | generate.py | look/template.html.j2:25 · fields.json:100 | 묻기 |
+| `summary.total` | 청구금액 | amount | 1쪽 [145, 218, 266, 241] | 늘 | 템플릿 | generate.py | look/template.html.j2:27 · fields.json:95 | 묻기 |
+| `summary.lump` | 일시불 | number | 1쪽 [597, 197, 655, 208] | 늘 | 템플릿 | generate.py | look/template.html.j2:30 · fields.json:75 | 묻기 |
+| `summary.installment` | 할부 | number | 1쪽 [858, 197, 916, 208] | 늘 | 템플릿 | generate.py | look/template.html.j2:30 · fields.json:65 | 묻기 |
+| `summary.cash` | 현금서비스 | amount | 1쪽 [648, 217, 655, 228] | 늘 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:55 | 묻기 |
+| `summary.fee` | 수수료(이자) | amount | 1쪽 [876, 217, 916, 228] | 늘 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:60 | 묻기 |
+| `summary.next_month` | 다음달결제예정금액 | number | 1쪽 [597, 238, 655, 249] | 늘 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:80 | 묻기 |
+| `summary.limit` | 이용한도 | amount | 1쪽 [850, 238, 916, 249] | 늘 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:70 | 묻기 |
+| `summary.overdue` | 연체금액 | number | 1쪽 [597, 259, 655, 269] | 1/16 | 템플릿 | generate.py | look/template.html.j2:33 · fields.json:85 | 묻기 |
+| `summary.overdue_fee` | 연체이자 | amount | 1쪽 [876, 259, 916, 269] | 1/16 | 템플릿 | generate.py | look/template.html.j2:33 · fields.json:90 | 묻기 |
+| `rows.*.date` | 이용일자 | date | 1쪽 [98, 331, 158, 341] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:135 | 묻기 |
+| `rows.*.merchant` | 이용하신가맹점 | text | 1쪽 [185, 331, 251, 341] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:43 · fields.json:145 | 묻기 |
+| `rows.*.amount` | 이용금액 | amount | 1쪽 [401, 331, 444, 341] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:44 · fields.json:130 | 묻기 |
+| `rows.*.months` | 할부 | text | 1쪽 [468, 331, 507, 341] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:45 · fields.json:150 | 묻기 |
+| `rows.*.seq` | 회차 | text | 1쪽 [544, 331, 574, 341] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:46 · fields.json:160 | 묻기 |
+| `rows.*.principal` | 원금 | amount | 1쪽 [661, 331, 697, 341] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:47 · fields.json:155 | 묻기 |
+| `rows.*.fee` | 수수료(이자) | amount | 1쪽 [783, 331, 790, 341] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:48 · fields.json:140 | 묻기 |
+| `rows.*.after` | 결제후잔액 | number | 1쪽 [880, 331, 917, 341] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:49 · fields.json:125 | 묻기 |
+| `sum.amount` | 이용금액합계 | amount | 2쪽 [380, 348, 439, 357] | 늘 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:40 | 묻기 |
+| `sum.principal` | 결제원금합계 | amount | 2쪽 [612, 348, 665, 357] | 늘 | 템플릿 | generate.py | look/template.html.j2:53 · fields.json:50 | 묻기 |
+| `sum.fee` | 수수료합계 | amount | 2쪽 [756, 348, 793, 357] | 늘 | 템플릿 | generate.py | look/template.html.j2:53 · fields.json:45 | 묻기 |
+| `fee_rate` | 할부수수료율 | percent | 2쪽 [204, 373, 254, 383] | 늘 | 템플릿 | generate.py | look/template.html.j2:56 · fields.json:15 | 묻기 |
+| `fee_per_100.*.months` | 할부개월 | text | 2쪽 [393, 373, 426, 383] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:115 | 묻기 |
+| `fee_per_100.*.fee` | 100원당수수료 | amount | 2쪽 [429, 373, 465, 383] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:110 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함). **정한 곳:** 템플릿에서 그 칸 자리 (html·코드 서식) / 칸 목록의 그 칸 (원본 서식).
+- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
+- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
@@ -369,15 +371,24 @@
 
 ## 고치려면
 
-| 하고 싶은 것 | 어디를 | 그다음 |
-|---|---|---|
-| 항목(칸) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `generate.py` 가 돌려주는 dict 에 그 키 값 | 미리보기로 확인 → 재검수 → 카드 다시 만들기 |
-| 칸 키·항목명 바꾸기 | `look/template.html.j2` 의 `f("키", label=…)` (질문만 바꾸려면 `questions.json`) | `questions … --check` |
-| 값이 이상함·칸끼리 안 맞음 | `generate.py` (값 만드는 함수) | 재검수 |
-| 모양·표·문구 | `look/template.html.j2` (studio html 편집) | 재검수 |
-| 질문의 항목명·묻지 않기 | `questions.json`: `{"kie": {"items": [{"key": "…", "label": "…"}, {"key": "…", "ask": false}]}}` | 검수 필요 없음 |
-| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | `questions … --check` |
-| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` | 모든 카드 다시 만들기 |
+칸 하나에 관한 것(박스·키·값·질문)은 `fields.json` 의 그 칸, 질문 문장·답 꼴·전용 질문은 `questions.json`.
+고친 뒤 `python -m docgen.formdir check card_statement` → `python -m docgen.formdir card card_statement` (실제 질문→답 확인).
 
-확인: studio ① 서식 › 문항 Q/A · `python -m docgen.formdir questions card_statement --show` · `python -m docgen.preview card_statement --out work/card_statement`
+| 바꾸고 싶은 것 (데이터에서) | 어디를 | 검수 |
+|---|---|---|
+| 칸(추출 항목) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `generate.py` 가 돌려주는 dict 에 그 키 값 | 다시 |
+| 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` | 다시 |
+| 답의 값 | `generate.py` (값 만드는 함수). 파이썬 대신 정하려면 `fields.json` 의 그 칸 `source` | 다시 |
+| 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
+| 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
+| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
+| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |
+| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | 필요 없음 |
+| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | 필요 없음 |
+| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+
+"다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json` 은 그림을 바꾸지 않아 검수 상태가 그대로입니다.
+확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions card_statement --show` · `python -m docgen.preview card_statement --out work/card_statement`

@@ -2,7 +2,7 @@
 
 질문: P_KIE + 항목 줄 '- 키: 항목명 (설명)' (prompts.kie_line). 항목은 체크·도장·서명과 묶음 칸을 뺀 칸 전부,
       max_keys(기본 40)개를 넘으면 그만큼만 골라 문서 순서로.
-      어떤 칸을 어떤 항목명·설명으로 묻나는 서식 폴더 questions.json 의 kie.items (docgen/formquestions.py)
+      어떤 칸을 어떤 항목명·설명으로 묻나는 칸 목록 fields.json 의 그 칸 "q" (ask·label·note)
 정답: 항목마다 {"key": 키, "value": 서식을 그릴 때 넣은 값, "bbox_2d": 0~1000 좌표, "page": 쪽}.
       빈 칸은 {"key": 키, "value": null} (위치 없음). 값·위치 모두 그릴 때 기록한 것 그대로 — 사람이 따로 단 정답이 아니다
       질문 전문(prompt)·항목 줄 꼴(line)·답 꼴(answer: list_box 위 꼴 / list 위치 없이 / object {키: 값})은
@@ -35,7 +35,7 @@ def answer(doc, f, shape: str = "list_box") -> dict:
 
 
 def make(doc):
-    all_kf = FQ.pick(doc.q, TASK, items(doc.fields))   # 서식의 questions.json 대로. 같은 항목명 칸의 순번은 뽑기 전 전체에서 센다
+    all_kf = FQ.pick(doc.q, TASK, items(doc.fields), doc.fq)   # 서식의 questions.json 대로. 같은 항목명 칸의 순번은 뽑기 전 전체에서 센다
     kf = doc.sample(all_kf, doc.max_keys)
     if not kf:
         return []

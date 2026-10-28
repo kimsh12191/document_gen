@@ -1,6 +1,6 @@
 # 고객확인서(개인) (`customer_due_diligence`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card customer_due_diligence · card-hash: c065db6ef6ef -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card customer_due_diligence · card-hash: ec106bb5bef6 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** bank_form · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 고객확인서(개인)
@@ -21,65 +21,67 @@
 
 ## 추출 항목 (정보 추출 kie) — 31칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `bank.name` | 은행명 | text | 1쪽 [65, 26, 160, 44] | 늘 | generate.py | look/template.html.j2:96 | 묻기 |
-| `customer.name` | 성명(한글) | text | 1쪽 [280, 194, 386, 206] | 늘 | generate.py | look/template.html.j2:11 | 묻기 |
-| `customer.name_en` | 성명(영문) | text | - | 늘 | generate.py | look/template.html.j2:21 | 묻기 |
-| `customer.rrn` | 실명번호 | rrn | 1쪽 [171, 220, 270, 232] | 늘 | generate.py | look/template.html.j2:22 | 묻기 |
-| `customer.nationality` | 국적 | text | 1쪽 [654, 239, 726, 250] | 늘 | generate.py | look/template.html.j2:23 | 묻기 |
-| `customer.address` | 주소(거소) | text | 1쪽 [171, 257, 673, 269] | 늘 | generate.py | look/template.html.j2:24 | 묻기 |
-| `customer.mobile` | 휴대전화 | phone | 1쪽 [264, 276, 354, 287] | 늘 | generate.py | look/template.html.j2:25 | 묻기 |
-| `customer.email` | E-mail | text | - | 늘 | generate.py | look/template.html.j2:25 | 묻기 |
-| `job.company` | 직장명 | text | 1쪽 [259, 347, 379, 359] | 13/16 | generate.py | look/template.html.j2:33 | 묻기 |
-| `employer.department` ← `job.department` | 부서/직위 | text | 1쪽 [779, 347, 893, 359] | 13/16 | generate.py | look/template.html.j2:34 | 묻기 |
-| `job.industry` | 업종 | text | 1쪽 [259, 365, 354, 377] | 13/16 | generate.py | look/template.html.j2:35 | 묻기 |
-| `job.work_phone` | 직장전화 | phone | 1쪽 [779, 365, 861, 377] | 13/16 | generate.py | look/template.html.j2:36 | 묻기 |
-| `date` | 작성일 | date | 1쪽 [559, 753, 654, 764] | 늘 | generate.py | look/template.html.j2:92 | 묻기 |
-| `signature` | 고객성명 | text | 1쪽 [749, 753, 868, 764] | 늘 | generate.py | look/template.html.j2:93 | 묻기 |
-| `bank_use.branch` | 확인영업점 | text | 1쪽 [178, 853, 237, 864] | 늘 | generate.py | look/template.html.j2:104 | 묻기 |
-| `bank_use.clerk` | 담당 | text | 1쪽 [810, 842, 850, 852] | 늘 | generate.py | look/template.html.j2:106 | 묻기 |
-| `bank_use.manager` | 책임자 | text | 1쪽 [891, 842, 931, 852] | 늘 | generate.py | look/template.html.j2:106 | 묻기 |
-| `edd.annual_income` | 연간소득 | - | - | 2/16 | generate.py | look/template.html.j2:77 | 묻기 |
-| `edd.fund_detail` | 자금원천상세 | - | - | 2/16 | generate.py | look/template.html.j2:78 | 묻기 |
-| `edd.purpose_detail` | 거래목적상세 | - | - | 2/16 | generate.py | look/template.html.j2:79 | 묻기 |
-| `edd.cash_tx` | 고액현금거래 | - | - | 2/16 | generate.py | look/template.html.j2:80 | 묻기 |
-| `edd.overseas_tx` | 해외거래 | - | - | 2/16 | generate.py | look/template.html.j2:80 | 묻기 |
-| `edd.accounts.*.bank` | 금융회사 | - | - (1행) | 2/16 | generate.py | look/template.html.j2:86 | 묻기 |
-| `edd.accounts.*.kind` | 계좌종류 | - | - (1행) | 2/16 | generate.py | look/template.html.j2:86 | 묻기 |
-| `edd.accounts.*.purpose` | 주된용도 | - | - (1행) | 2/16 | generate.py | look/template.html.j2:86 | 묻기 |
-| `agent.name` | 대리인성명 | - | - | 1/16 | generate.py | look/template.html.j2:70 | 묻기 |
-| `agent.rrn` | 대리인실명번호 | - | - | 1/16 | generate.py | look/template.html.j2:70 | 묻기 |
-| `agent.relation` | 본인과의관계 | - | - | 1/16 | generate.py | look/template.html.j2:70 | 묻기 |
-| `owner.name` | 실제소유자성명 | - | - | 1/16 | generate.py | look/template.html.j2:58 | 묻기 |
-| `owner.birth` | 실제소유자생년월일 | - | - | 1/16 | generate.py | look/template.html.j2:58 | 묻기 |
-| `owner.nationality` | 실제소유자국적 | - | - | 1/16 | generate.py | look/template.html.j2:58 | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `bank.name` | 은행명 | text | 1쪽 [65, 26, 160, 44] | 늘 | 템플릿 | generate.py | look/template.html.j2:96 · fields.json:20 | 묻기 |
+| `customer.name` | 성명(한글) | text | 1쪽 [280, 194, 386, 206] | 늘 | 템플릿 | generate.py | look/template.html.j2:11 · fields.json:75 | 묻기 |
+| `customer.name_en` | 성명(영문) | text | - | 늘 | 템플릿 | generate.py | look/template.html.j2:21 · fields.json:80 | 묻기 |
+| `customer.rrn` | 실명번호 | rrn | 1쪽 [171, 220, 270, 232] | 늘 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:95 | 묻기 |
+| `customer.nationality` | 국적 | text | 1쪽 [654, 239, 726, 250] | 늘 | 템플릿 | generate.py | look/template.html.j2:23 · fields.json:85 | 묻기 |
+| `customer.address` | 주소(거소) | text | 1쪽 [171, 257, 673, 269] | 늘 | 템플릿 | generate.py | look/template.html.j2:24 · fields.json:55 | 묻기 |
+| `customer.mobile` | 휴대전화 | phone | 1쪽 [264, 276, 354, 287] | 늘 | 템플릿 | generate.py | look/template.html.j2:25 · fields.json:70 | 묻기 |
+| `customer.email` | E-mail | text | - | 늘 | 템플릿 | generate.py | look/template.html.j2:25 · fields.json:60 | 묻기 |
+| `job.company` | 직장명 | text | 1쪽 [259, 347, 379, 359] | 13/16 | 템플릿 | generate.py | look/template.html.j2:33 · fields.json:140 | 묻기 |
+| `employer.department` ← `job.department` | 부서/직위 | text | 1쪽 [779, 347, 893, 359] | 13/16 | 템플릿 | generate.py | look/template.html.j2:34 · fields.json:145 | 묻기 |
+| `job.industry` | 업종 | text | 1쪽 [259, 365, 354, 377] | 13/16 | 템플릿 | generate.py | look/template.html.j2:35 · fields.json:150 | 묻기 |
+| `job.work_phone` | 직장전화 | phone | 1쪽 [779, 365, 861, 377] | 13/16 | 템플릿 | generate.py | look/template.html.j2:36 · fields.json:165 | 묻기 |
+| `date` | 작성일 | date | 1쪽 [559, 753, 654, 764] | 늘 | 템플릿 | generate.py | look/template.html.j2:92 · fields.json:100 | 묻기 |
+| `signature` | 고객성명 | text | 1쪽 [749, 753, 868, 764] | 늘 | 템플릿 | generate.py | look/template.html.j2:93 · fields.json:220 | 묻기 |
+| `bank_use.branch` | 확인영업점 | text | 1쪽 [178, 853, 237, 864] | 늘 | 템플릿 | generate.py | look/template.html.j2:104 · fields.json:25 | 묻기 |
+| `bank_use.clerk` | 담당 | text | 1쪽 [810, 842, 850, 852] | 늘 | 템플릿 | generate.py | look/template.html.j2:106 · fields.json:30 | 묻기 |
+| `bank_use.manager` | 책임자 | text | 1쪽 [891, 842, 931, 852] | 늘 | 템플릿 | generate.py | look/template.html.j2:106 · fields.json:40 | 묻기 |
+| `edd.annual_income` | 연간소득 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:77 · fields.json:105 | 묻기 |
+| `edd.fund_detail` | 자금원천상세 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:78 · fields.json:120 | 묻기 |
+| `edd.purpose_detail` | 거래목적상세 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:79 · fields.json:130 | 묻기 |
+| `edd.cash_tx` | 고액현금거래 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:80 · fields.json:115 | 묻기 |
+| `edd.overseas_tx` | 해외거래 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:80 · fields.json:125 | 묻기 |
+| `edd.accounts.*.bank` | 금융회사 | - | - (1행) | 2/16 | 템플릿 | generate.py | look/template.html.j2:86 · fields.json:250 | 묻기 |
+| `edd.accounts.*.kind` | 계좌종류 | - | - (1행) | 2/16 | 템플릿 | generate.py | look/template.html.j2:86 · fields.json:255 | 묻기 |
+| `edd.accounts.*.purpose` | 주된용도 | - | - (1행) | 2/16 | 템플릿 | generate.py | look/template.html.j2:86 · fields.json:260 | 묻기 |
+| `agent.name` | 대리인성명 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:70 · fields.json:5 | 묻기 |
+| `agent.rrn` | 대리인실명번호 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:70 · fields.json:15 | 묻기 |
+| `agent.relation` | 본인과의관계 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:70 · fields.json:10 | 묻기 |
+| `owner.name` | 실제소유자성명 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:58 · fields.json:175 | 묻기 |
+| `owner.birth` | 실제소유자생년월일 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:58 · fields.json:170 | 묻기 |
+| `owner.nationality` | 실제소유자국적 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:58 · fields.json:180 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 18칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 값 출처 | 정한 곳 | 질문 |
-|---|---|---|---|---|---|---|---|
-| `customer.resident_type` | 구분 | checkbox (내국인 / 재외국민 / 외국인) | 1쪽 [813, 220, 857, 232] | 늘 | generate.py | look/template.html.j2:22 | 묻기 |
-| `customer.gender` | 성별 | checkbox (남 / 여) | 1쪽 [220, 239, 235, 250] | 늘 | generate.py | look/template.html.j2:23 | 묻기 |
-| `job.type` | 직업 | checkbox (급여소득자 / 개인사업자 / 전문직 / 공무원 / 연금소득자 / 주부 / 학생 / 무직 / 기타) | 1쪽 [183, 327, 256, 339] | 늘 | generate.py | look/template.html.j2:31 | 묻기 |
-| `transaction.purpose` | 거래목적 | checkbox (급여 및 생활비 / 저축 및 투자 / 보험료 납부결제 / 공과금 납부결제 / 카드대금 결제 / 대출원리금 상환결제 / 사업상 거래 / 기타) | 1쪽 [183, 446, 278, 457] | 늘 | generate.py | look/template.html.j2:47 | 묻기 |
-| `transaction.fund_source` | 자금의원천 | checkbox (근로 및 연금소득 / 퇴직소득 / 사업소득 / 부동산임대소득 / 부동산양도소득 / 금융소득(이자 및 배당) / 상속·증여 / 일시 재산양도로 인한 소득 / 기타) | 1쪽 [183, 482, 292, 494] | 늘 | generate.py | look/template.html.j2:48 | 묻기 |
-| `transaction.expected_amount` | 예상거래금액 | checkbox (1천만원 미만 / 1천만원~5천만원 / 5천만원~1억원 / 1억원 이상) | 1쪽 [422, 518, 518, 529] | 늘 | generate.py | look/template.html.j2:49 | 묻기 |
-| `transaction.frequency` | 예상거래빈도 | checkbox (월 5회 미만 / 월 5~10회 / 월 10~20회 / 월 20회 이상) | 1쪽 [464, 532, 534, 543] | 늘 | generate.py | look/template.html.j2:50 | 묻기 |
-| `beneficial_owner` | 실제소유자여부 | checkbox (예 / 아니오) | 1쪽 [862, 574, 876, 586] | 늘 | generate.py | look/template.html.j2:56 | 묻기 |
-| `pep` | 외국의정치적주요인물여부 | checkbox (예 / 아니오) | 1쪽 [865, 653, 908, 664] | 늘 | generate.py | look/template.html.j2:65 | 묻기 |
-| `seal.customer` | 고객 | seal | 1쪽 [888, 739, 945, 779] | 늘 | generate.py | - | 묻기 |
-| `sign.customer` | 고객 | signature | 1쪽 [872, 752, 962, 766] | 늘 | generate.py | - | 묻기 |
-| `bank_use.risk_grade` | 고객위험등급 | checkbox (저위험 / 중위험 / 고위험) | 1쪽 [323, 814, 367, 825] | 늘 | generate.py | look/template.html.j2:102 | 묻기 |
-| `bank_use.id_type` | 실명확인증표 | checkbox (주민등록증 / 운전면허증 / 여권 / 외국인등록증 / 모바일신분증) | 1쪽 [434, 833, 521, 845] | 늘 | generate.py | look/template.html.j2:103 | 묻기 |
-| `seal.staff.clerk` | 담당 | seal | 1쪽 [803, 828, 857, 867] | 늘 | generate.py | - | 묻기 |
-| `seal.staff.manager` | 책임자 | seal | 1쪽 [884, 828, 938, 867] | 늘 | generate.py | - | 묻기 |
-| `edd.assets` | 보유자산규모 | 체크박스 (5억원 미만 / 5억원~10억원 / 10억원~30억원 / 30억원 이상) | - | 2/16 | generate.py | look/template.html.j2:77 | 묻기 |
-| `seal.agent` | 대리인 | 도장 | - | 1/16 | generate.py | - | 묻기 |
-| `sign.agent` | 대리인 | 서명 | - | 1/16 | generate.py | - | 묻기 |
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `customer.resident_type` | 구분 | checkbox (내국인 / 재외국민 / 외국인) | 1쪽 [813, 220, 857, 232] | 늘 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:90 | 묻기 |
+| `customer.gender` | 성별 | checkbox (남 / 여) | 1쪽 [220, 239, 235, 250] | 늘 | 템플릿 | generate.py | look/template.html.j2:23 · fields.json:65 | 묻기 |
+| `job.type` | 직업 | checkbox (급여소득자 / 개인사업자 / 전문직 / 공무원 / 연금소득자 / 주부 / 학생 / 무직 / 기타) | 1쪽 [183, 327, 256, 339] | 늘 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:160 | 묻기 |
+| `transaction.purpose` | 거래목적 | checkbox (급여 및 생활비 / 저축 및 투자 / 보험료 납부결제 / 공과금 납부결제 / 카드대금 결제 / 대출원리금 상환결제 / 사업상 거래 / 기타) | 1쪽 [183, 446, 278, 457] | 늘 | 템플릿 | generate.py | look/template.html.j2:47 · fields.json:240 | 묻기 |
+| `transaction.fund_source` | 자금의원천 | checkbox (근로 및 연금소득 / 퇴직소득 / 사업소득 / 부동산임대소득 / 부동산양도소득 / 금융소득(이자 및 배당) / 상속·증여 / 일시 재산양도로 인한 소득 / 기타) | 1쪽 [183, 482, 292, 494] | 늘 | 템플릿 | generate.py | look/template.html.j2:48 · fields.json:235 | 묻기 |
+| `transaction.expected_amount` | 예상거래금액 | checkbox (1천만원 미만 / 1천만원~5천만원 / 5천만원~1억원 / 1억원 이상) | 1쪽 [422, 518, 518, 529] | 늘 | 템플릿 | generate.py | look/template.html.j2:49 · fields.json:225 | 묻기 |
+| `transaction.frequency` | 예상거래빈도 | checkbox (월 5회 미만 / 월 5~10회 / 월 10~20회 / 월 20회 이상) | 1쪽 [464, 532, 534, 543] | 늘 | 템플릿 | generate.py | look/template.html.j2:50 · fields.json:230 | 묻기 |
+| `beneficial_owner` | 실제소유자여부 | checkbox (예 / 아니오) | 1쪽 [862, 574, 876, 586] | 늘 | 템플릿 | generate.py | look/template.html.j2:56 · fields.json:50 | 묻기 |
+| `pep` | 외국의정치적주요인물여부 | checkbox (예 / 아니오) | 1쪽 [865, 653, 908, 664] | 늘 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:185 | 묻기 |
+| `seal.customer` | 고객 | seal | 1쪽 [888, 739, 945, 779] | 늘 | 템플릿 | generate.py | fields.json:195 | 묻기 |
+| `sign.customer` | 고객 | signature | 1쪽 [872, 752, 962, 766] | 늘 | 템플릿 | generate.py | fields.json:215 | 묻기 |
+| `bank_use.risk_grade` | 고객위험등급 | checkbox (저위험 / 중위험 / 고위험) | 1쪽 [323, 814, 367, 825] | 늘 | 템플릿 | generate.py | look/template.html.j2:102 · fields.json:45 | 묻기 |
+| `bank_use.id_type` | 실명확인증표 | checkbox (주민등록증 / 운전면허증 / 여권 / 외국인등록증 / 모바일신분증) | 1쪽 [434, 833, 521, 845] | 늘 | 템플릿 | generate.py | look/template.html.j2:103 · fields.json:35 | 묻기 |
+| `seal.staff.clerk` | 담당 | seal | 1쪽 [803, 828, 857, 867] | 늘 | 템플릿 | generate.py | fields.json:200 | 묻기 |
+| `seal.staff.manager` | 책임자 | seal | 1쪽 [884, 828, 938, 867] | 늘 | 템플릿 | generate.py | fields.json:205 | 묻기 |
+| `edd.assets` | 보유자산규모 | 체크박스 (5억원 미만 / 5억원~10억원 / 10억원~30억원 / 30억원 이상) | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:77 · fields.json:110 | 묻기 |
+| `seal.agent` | 대리인 | 도장 | - | 1/16 | 템플릿 | generate.py | fields.json:190 | 묻기 |
+| `sign.agent` | 대리인 | 서명 | - | 1/16 | 템플릿 | generate.py | fields.json:210 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함). **정한 곳:** 템플릿에서 그 칸 자리 (html·코드 서식) / 칸 목록의 그 칸 (원본 서식).
+- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
+- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
@@ -256,15 +258,24 @@
 
 ## 고치려면
 
-| 하고 싶은 것 | 어디를 | 그다음 |
-|---|---|---|
-| 항목(칸) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `generate.py` 가 돌려주는 dict 에 그 키 값 | 미리보기로 확인 → 재검수 → 카드 다시 만들기 |
-| 칸 키·항목명 바꾸기 | `look/template.html.j2` 의 `f("키", label=…)` (질문만 바꾸려면 `questions.json`) | `questions … --check` |
-| 값이 이상함·칸끼리 안 맞음 | `generate.py` (값 만드는 함수) | 재검수 |
-| 모양·표·문구 | `look/template.html.j2` (studio html 편집) | 재검수 |
-| 질문의 항목명·묻지 않기 | `questions.json`: `{"kie": {"items": [{"key": "…", "label": "…"}, {"key": "…", "ask": false}]}}` | 검수 필요 없음 |
-| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | `questions … --check` |
-| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` | 모든 카드 다시 만들기 |
+칸 하나에 관한 것(박스·키·값·질문)은 `fields.json` 의 그 칸, 질문 문장·답 꼴·전용 질문은 `questions.json`.
+고친 뒤 `python -m docgen.formdir check customer_due_diligence` → `python -m docgen.formdir card customer_due_diligence` (실제 질문→답 확인).
 
-확인: studio ① 서식 › 문항 Q/A · `python -m docgen.formdir questions customer_due_diligence --show` · `python -m docgen.preview customer_due_diligence --out work/customer_due_diligence`
+| 바꾸고 싶은 것 (데이터에서) | 어디를 | 검수 |
+|---|---|---|
+| 칸(추출 항목) 더하기 | `look/template.html.j2` 에 `{{ f("키", label="항목명") }}` + `generate.py` 가 돌려주는 dict 에 그 키 값 | 다시 |
+| 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` | 다시 |
+| 답의 값 | `generate.py` (값 만드는 함수). 파이썬 대신 정하려면 `fields.json` 의 그 칸 `source` | 다시 |
+| 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
+| 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
+| 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
+| 값 칸 읽기·받아쓰기에서 빼기 | `fields.json` 그 칸에 `"q": {"ocr": false}` | 필요 없음 |
+| 질문 문장·답 꼴 | `questions.json`: `{"kie": {"prompt": "…\n{items}", "answer": "list"}}` (답 꼴을 바꾸면 문장도) | 필요 없음 |
+| 이 서식만의 질문 | `questions.json`: `{"extra": [{"id", "prompt", "type": "number/yesno/text", "answer": "{키}"}]}` | 필요 없음 |
+| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+
+"다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json` 은 그림을 바꾸지 않아 검수 상태가 그대로입니다.
+확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions customer_due_diligence --show` · `python -m docgen.preview customer_due_diligence --out work/customer_due_diligence`

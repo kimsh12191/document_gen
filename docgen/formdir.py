@@ -31,6 +31,7 @@ hf### 레이아웃의 "file"(원본을 내려받은 자리)과 form.json 의 sou
   python -m docgen.formdir questions <ID>…|--all [--show|--check|--slim [--write]]   질문·답 questions.json (docgen/formquestions.py)
   python -m docgen.formdir card <ID>…|--all [--stale|--check] [--workers N]          서식 카드 FORM.md (docgen/formcard.py)
   python -m docgen.formdir values                                                    공통 값 출처 목록 forms/_common/values.md
+  python -m docgen.formdir check <ID>…|--all                                         서식 검사 (고친 뒤 이것 하나)
 """
 from __future__ import annotations
 
@@ -545,6 +546,71 @@ def questions_slim(ids: list[str], write: bool = False) -> list[dict]:
     return rows
 
 
+def check_form(doc_id: str, seeds: int = 4) -> dict:
+    """서식 하나 검사 — 고친 뒤 이것 하나: 칸 목록 형식·박스가 쪽 안·값 출처·그려지지 않는 선언·질문(questions.json·q)·카드.
+    {"problems": 고쳐야 하는 것, "notes": 알아 둘 것}."""
+    from . import formcard, formfields, regions
+    from . import formquestions as FQ
+    from . import sources as S
+    from .entities import make_profile
+    from .keyrules import load as rules
+
+    problems, notes = list(regions.check(doc_id)), []
+    body = formfields.read(doc_id) or {}
+    profiles = [make_profile(s) for s in range(8)]
+    kinds = set(S.RULE_KINDS) | set(S.SPECIAL_RULES) | set(rules().get("kinds", {})) | {"text"}
+    from .keyrules import CODE_KINDS
+
+    kinds |= set(CODE_KINDS)
+
+    def bad_source(src) -> str | None:
+        if src in (None, "code"):
+            return None
+        if not isinstance(src, str):
+            return "글자가 아님"
+        if src.startswith("profile."):   # 고객 8명 중 누구에게든 값이 있으면 맞는 경로 (조건부 정보: 사업자·외국인 …)
+            return None if any(S.lookup_profile(p, src) is not None for p in profiles) else "고객 정보에 없는 경로 (forms/_common/values.md)"
+        if src.startswith("parent."):   # 복제 서식: 부모 서식 생성 함수가 만든 값
+            return None
+        if src.startswith("rule:"):
+            return None if src[5:] in kinds else "모르는 값 종류 (forms/_common/values.md)"
+        return "profile.<경로>·rule:<종류>·parent.<경로>(복제 서식) 여야 합니다"
+    pages = body.get("pages") or []
+    for i, it in enumerate(body.get("items") or []):
+        why = bad_source(it.get("source"))
+        if why:
+            problems.append(f"items[{i}] '{it.get('label', '')}': source {it.get('source')!r} — {why}")
+        r, pg = it.get("rect"), it.get("page", 0)
+        if r and pg < len(pages) and (r[0] < 0 or r[1] < 0 or r[2] > pages[pg].get("width", 1e9) + 1 or r[3] > pages[pg].get("height", 1e9) + 1):
+            problems.append(f"items[{i}] '{it.get('label', '')}': 박스 {r} 가 {pg + 1}쪽 밖으로 나갑니다")
+    declared = dict(body.get("fields") or {})
+    for name, lst in (body.get("lists") or {}).items():
+        for sub, d in (lst.get("fields") or {}).items():
+            declared[f"{name}.*.{sub}"] = d
+    for k, d in declared.items():
+        why = bad_source(d.get("source"))
+        if why:
+            problems.append(f"fields.json '{k}': source {d.get('source')!r} — {why}")
+    docs = FQ.seen_fields(doc_id, seeds)
+    from .fieldinfo import pattern
+
+    drawn = {pattern(f.get("doc_key") or f["key"]) for fs in docs for f in fs}
+    stray = [k for k in (body.get("q") or {}) if pattern(k.replace("*", "0")) not in drawn]
+    if stray:
+        problems.append(f"fields.json 맨 위 \"q\" 의 키가 그린 칸에 없습니다 (오타·반복 행은 *): {', '.join(stray[:8])}")
+    if declared:
+        never = [k for k in declared if pattern(k.replace("*", "0")) not in drawn]
+        if never:
+            notes.append(f"fields.json 에 적었는데 {len(docs)}번 그려도 안 나온 칸 {len(never)}개 (템플릿에 f(\"키\") 가 없거나 드문 조건부 칸): "
+                         + ", ".join(never[:8]))
+    q = FQ.check(doc_id, seeds, docs)
+    problems += q["problems"]
+    notes += q["notes"]
+    if formcard.stale(doc_id):
+        notes.append(f"카드 FORM.md 가 없거나 오래됨 — python -m docgen.formdir card {doc_id}")
+    return {"problems": problems, "notes": notes}
+
+
 def show_questions(doc_id: str, seeds: int = 8) -> str:
     """합친 전체 (기본 + 이 서식에서 바꾼 것) 를 글로."""
     from . import formquestions as FQ
@@ -591,6 +657,9 @@ def main(argv=None) -> int:
     qs.add_argument("--slim", action="store_true", help="기본과 같은 것을 파일에서 지움 (예전 꼴의 전체 사본 정리)")
     qs.add_argument("--write", action="store_true", help="--slim 을 파일에 쓴다 (없으면 목록만)")
     qs.add_argument("--seeds", type=int, default=8, help="그려 볼 seed 수 (평가·학습 범위에서 각각)")
+    ck = sub.add_parser("check", help="서식 검사 (고친 뒤 이것 하나): 칸 목록·박스·값 출처·질문 설정·questions.json·카드")
+    ck.add_argument("ids", nargs="*")
+    ck.add_argument("--all", action="store_true", help="모든 서식")
     sub.add_parser("values", help="공통 값 출처 목록 docgen/forms/_common/values.md 다시 만들기")
     cd = sub.add_parser("card", help="서식 카드 FORM.md 만들기 (항목·위치·정의한 곳·질문→답 예시·고치는 곳)")
     cd.add_argument("ids", nargs="*")
@@ -641,6 +710,21 @@ def main(argv=None) -> int:
                 if FQ.path(i).exists() or len(ids) == 1:
                     print(f"참고  {i}: {n}")
         print(f"서식 {len(ids)}개 검사, 문제 있는 서식 {bad}개")
+        return 1 if bad else 0
+    if a.cmd == "check":
+        ids = sorted(load_all()) if a.all else a.ids
+        if not ids:
+            ap.error("서식 ID 나 --all")
+        bad = 0
+        for i in ids:
+            r = check_form(i)
+            bad += bool(r["problems"])
+            for p in r["problems"]:
+                print(f"문제  {i}: {p}")
+            if len(ids) == 1 or r["problems"]:
+                for n in r["notes"]:
+                    print(f"참고  {i}: {n}")
+        print(f"서식 {len(ids)}개 검사, 문제 있는 서식 {bad}개" + ("" if bad else " — 괜찮습니다"))
         return 1 if bad else 0
     if a.cmd == "values":
         from . import formcard

@@ -2,7 +2,7 @@
 
 질문: 서식 폴더 questions.json 의 ocr_field.prompt (없으면 공통 P_OCR_FIELD)
 정답: 그 칸에 넣은 값 (줄바꿈은 빈칸으로). 서류마다 위치가 있는 보이는 칸 중 fields_per_doc 개를 골라
-      칸 둘레를 조금 넓혀 잘라 crops/<서류>_<n>.png 로 저장한다. 서식 폴더 questions.json 의 ocr_field.exclude 칸은 고르지 않는다
+      칸 둘레를 조금 넓혀 잘라 crops/<서류>_<n>.png 로 저장한다. 칸 목록 fields.json 의 q 에 "ocr": false 인 칸은 고르지 않는다
 채점: evaluate.s_ocr_field, 주 지표 exact
 """
 from ... import formquestions as FQ
@@ -22,7 +22,7 @@ def make(doc):
     from PIL import Image
 
     r, out = doc.r, []
-    boxed = [f for f in FQ.excluded(doc.q, TASK, doc.visible) if f.get("bbox") and f.get("page", 0) < len(r["images"])]
+    boxed = [f for f in FQ.excluded(doc.q, TASK, doc.visible, doc.fq) if f.get("bbox") and f.get("page", 0) < len(r["images"])]
     # 칸 수가 적어도 sample 을 부른다 (난수를 쓰는 횟수가 세트를 정한다)
     for j, f in enumerate(sorted(doc.rng.sample(boxed, min(len(boxed), doc.fields_per_doc)), key=boxed.index)):
         img = Image.open(doc.out / r["images"][f.get("page", 0)])
