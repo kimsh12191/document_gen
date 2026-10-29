@@ -274,21 +274,32 @@ def template(doc_id: str) -> Path | None:
 _drafts = threading.local()
 
 
+def draft_key(doc_id: str, variant: str = "default") -> str:
+    return doc_id if variant == "default" else f"{doc_id}@{variant}"
+
+
+def template_draft_of(doc_id: str, variant: str = "default") -> str | None:
+    """이 스레드의 저장하지 않은 템플릿 (없으면 None). variant: 레이아웃 변형 (template_variants 가 읽음)."""
+    return (getattr(_drafts, "map", None) or {}).get(draft_key(doc_id, variant))
+
+
 @contextmanager
-def template_draft(doc_id: str, text: str):
-    """이 스레드에서 렌더링하는 동안 코드 서식 doc_id 의 템플릿을 text 로 (저장하지 않은 템플릿 미리보기, studio 자리·템플릿 화면)."""
+def template_draft(doc_id: str, text: str, variant: str = "default"):
+    """이 스레드에서 렌더링하는 동안 doc_id 의 템플릿을 text 로 (저장하지 않은 템플릿 미리보기, studio 자리·템플릿 화면).
+    variant 가 "default" 면 코드 서식의 look/template.html.j2, 아니면 레이아웃 변형 variants/<변형>.html.j2."""
     d = getattr(_drafts, "map", None)
     if d is None:
         d = _drafts.map = {}
-    old = d.get(doc_id)
-    d[doc_id] = text
+    key = draft_key(doc_id, variant)
+    old = d.get(key)
+    d[key] = text
     try:
         yield
     finally:
         if old is None:
-            d.pop(doc_id, None)
+            d.pop(key, None)
         else:
-            d[doc_id] = old
+            d[key] = old
 
 
 def jinja_source(name: str):

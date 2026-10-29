@@ -99,5 +99,8 @@ def choose(spec,seed,extra):
 def jinja_source(name):
     if not name.startswith("@layout/"):return None
     _,did,variant=name.split("/")
+    from .formdir import template_draft_of
+    text=template_draft_of(did,variant)   # 저장하지 않은 변형 템플릿 (studio 자리·템플릿)
+    if text is not None:return text,f"{did}/{variant} (저장 전 초안)",lambda:False
     p=folder(did)/(variant+".html.j2");mtime=p.stat().st_mtime_ns
-    return source(did,variant),str(p),lambda:p.exists() and p.stat().st_mtime_ns==mtime
+    return source(did,variant),str(p),lambda:p.exists() and p.stat().st_mtime_ns==mtime and template_draft_of(did,variant) is None

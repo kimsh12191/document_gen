@@ -187,6 +187,7 @@ class Previewer:
         html 서식(복제·분석기)이면 draft 는 {"template"?, "form"?} (저장하지 않은 템플릿·form.json), rows 는 반복 행 수
         "min" | "max" (없으면 서식대로 무작위). 코드 서식은 draft {"template"} (저장하지 않은 look/template.html.j2).
         draft 에 "blank": true 를 더하면 값 글자·도장·서명을 안 보이게 그린다 (자리·위치는 같음, studio 자리·템플릿 화면).
+        "texts": true 면 라벨에 쪽 전체 글자 박스 texts, "fields": 저장하지 않은 칸 목록, "variant": 그 레이아웃 변형의 템플릿 초안.
         first=True (화면 미리보기): 1쪽을 찍으면 바로 돌려주고 남은 쪽은 렌더러가 이어서 찍는다 (다른 요청이 오면 양보).
         그동안 폴더에 pending.json 이 있고, 남은 쪽 그림은 complete(폴더) 가 마저 만든다. first=False 면 늘 모든 쪽이 있다."""
         reg = load_all()
@@ -269,9 +270,10 @@ class Previewer:
 
         self._ensure_renderer()
         spec = load_all()[doc_id]
-        blank = bool((draft or {}).get("blank"))
+        blank, texts = bool((draft or {}).get("blank")), bool((draft or {}).get("texts"))
+        fields_draft, variant = (draft or {}).get("fields"), (draft or {}).get("variant") or "default"
         if draft is not None:
-            draft = {k: v for k, v in draft.items() if k != "blank"} or None
+            draft = {k: v for k, v in draft.items() if k not in ("blank", "texts", "fields", "variant")} or None
         folder.mkdir(parents=True, exist_ok=True)
         t0 = time.time()
         saved = {name: os.environ.get(var) for name, (var, _) in _ENV.items()}
@@ -282,7 +284,11 @@ class Previewer:
                     os.environ.pop(var, None)
                 else:
                     os.environ[var] = values[mode]
-            if spec.template.startswith("@form/"):
+            if variant != "default" and draft is not None and "template" in draft:   # 레이아웃 변형 템플릿 초안
+                from . import formdir
+
+                ctx = formdir.template_draft(doc_id, draft["template"], variant)
+            elif spec.template.startswith("@form/"):
                 from . import htmlform
 
                 ctx = htmlform.draft(doc_id, draft, rows)
@@ -294,13 +300,16 @@ class Previewer:
                 ctx = overrides.draft(doc_id, draft) if draft is not None else nullcontext()
             from . import html_regions
             region_draft = (draft or {}).get("html_regions")
-            with ctx, html_regions.draft(doc_id, region_draft):
+            from . import formfields
+            fctx = formfields.draft(doc_id, fields_draft) if fields_draft is not None else nullcontext()
+            with ctx, fctx, html_regions.draft(doc_id, region_draft):
                 profile = make_profile(seed)
                 profile.extra.update(extra or {})
                 html, raw, data = render(spec, profile, seed)
                 if blank:
                     html = html.replace("</head>", BLANK_CSS + "</head>", 1)
-                info = self._renderer.render(html, folder / "page.png", **({"first_only": True} if early else {}))
+                info = self._renderer.render(html, folder / "page.png", **({"texts": True} if texts else {}),
+                                             **({"first_only": True} if early else {}))
                 checks = None
                 if spec.template.startswith("@form/"):   # html 서식: 저장 전 검사 (선언·템플릿 키, 쪽 넘침)
                     checks = htmlform.check(htmlform.load_form(doc_id), raw, data, bool(info.get("overflow")), doc_id)
@@ -344,6 +353,7 @@ class Previewer:
             "visible": sorted(visible_keys(html)),
             "writing": "hand" if spec.group in ("hana", "imported") and (data or {}).get("style", {}).get("hand") else "print",
             "elapsed": round(time.time() - t0, 2),
+            **({"texts": info.get("texts", [])} if texts else {}),
             **({"checks": checks, "rows": rows or "auto"} if checks is not None else {}),
         }
         pending = folder / "pending.json"

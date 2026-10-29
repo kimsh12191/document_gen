@@ -380,6 +380,8 @@ class SpotsReq(BaseModel):
     seed: int = Field(default=0, ge=0, le=2147483647)
     heavy: str = "default"
     template: str | None = None     # 저장하지 않은 템플릿 (미리보기·키 전후 비교)
+    variant: str = "default"        # 레이아웃 변형
+    values: list[dict] | None = None   # 저장하지 않은 값 출처 [{pattern, source, text?, choices?}]
 
 
 @app.post("/api/forms/{doc_id}/spots")
@@ -390,7 +392,7 @@ def form_spots(doc_id: str, req: SpotsReq):
     if not BROWSER:
         raise HTTPException(503, "자리를 찾으려면 렌더링 브라우저가 필요합니다")
     try:
-        out = spots.spots(doc_id, previewer.render, req.seed, req.heavy, req.template)
+        out = spots.spots(doc_id, previewer.render, req.seed, req.heavy, req.template, req.variant, req.values)
     except KeyError as e:
         raise HTTPException(404, str(e))
     except ValueError as e:
@@ -402,17 +404,19 @@ def form_spots(doc_id: str, req: SpotsReq):
 
 
 class TemplateReq(BaseModel):
-    template: str
+    template: str | None = None
+    variant: str = "default"
+    values: list[dict] | None = None
 
 
 @app.put("/api/forms/{doc_id}/template")
 def form_template_save(doc_id: str, req: TemplateReq):
-    """html·코드 서식의 템플릿 저장 (look/template.html.j2). 문법·그리기 검사 뒤."""
+    """html·코드 서식: 템플릿(그 레이아웃)과 값 출처를 함께 저장. 문법·그리기 검사 뒤 (studio/spots.py)."""
     from . import spots
 
     if not BROWSER:
         raise HTTPException(503, "저장 전 그리기 검사에 렌더링 브라우저가 필요합니다")
-    return guard(spots.save_template, doc_id, req.template, previewer.render)
+    return guard(spots.save, doc_id, previewer.render, req.template, req.variant, req.values)
 
 
 class ValueReq(BaseModel):

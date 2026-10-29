@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import json
 import threading
+from contextlib import contextmanager
 from pathlib import Path
 
 NAME = "fields.json"
@@ -34,6 +35,28 @@ VALUE_KEYS = ("fields", "lists", "shared_copies")   # html 값 선언 (예전 fo
 REGION_KEYS = ("regions", "variants")              # html 칸 덮어쓰기 (예전 regions.json)
 UNIT = {"overlay": "pt", "html": "px"}
 _lock = threading.Lock()
+_drafts = threading.local()
+
+
+@contextmanager
+def draft(doc_id: str, body: dict):
+    """이 스레드에서 렌더링하는 동안 doc_id 의 칸 목록을 body 로 (저장하지 않은 값 출처 미리보기, studio 자리·템플릿)."""
+    d = getattr(_drafts, "map", None)
+    if d is None:
+        d = _drafts.map = {}
+    old = d.get(doc_id)
+    d[doc_id] = body
+    try:
+        yield
+    finally:
+        if old is None:
+            d.pop(doc_id, None)
+        else:
+            d[doc_id] = old
+
+
+def _draft(doc_id: str) -> dict | None:
+    return (getattr(_drafts, "map", None) or {}).get(doc_id)
 
 
 def path(doc_id: str) -> Path:
@@ -43,7 +66,10 @@ def path(doc_id: str) -> Path:
 
 
 def read(doc_id: str) -> dict | None:
-    """칸 목록 (engine·unit 칸 뺀 것). 아직 없으면 None."""
+    """칸 목록 (engine·unit 칸 뺀 것). 아직 없으면 None. 이 스레드에 초안이 있으면 초안."""
+    dr = _draft(doc_id)
+    if dr is not None:
+        return json.loads(json.dumps({k: v for k, v in dr.items() if k not in ("engine", "unit")}))
     p = path(doc_id)
     if not p.exists():
         return None
@@ -73,7 +99,7 @@ def hash_files(doc_id: str) -> list[Path]:
 
 
 def exists(doc_id: str) -> bool:
-    return path(doc_id).exists()
+    return _draft(doc_id) is not None or path(doc_id).exists()
 
 
 def write(doc_id: str, body: dict) -> Path:

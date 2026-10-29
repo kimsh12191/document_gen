@@ -15,24 +15,28 @@ ID = "employment_certificate"
 
 
 def fake_render(doc_id, seed=0, heavy="default", special="default", draft=None, extra=None, rows=None):
-    """Previewer.render 꼴. draft {"template"} 는 formdir.template_draft 로 (preview._render 와 같은 길). 기본 레이아웃으로."""
-    from contextlib import nullcontext
+    """Previewer.render 꼴. draft 의 template·variant·fields 는 preview._render 와 같은 길 (formdir·formfields 초안)."""
+    from contextlib import ExitStack
 
-    draft = {k: v for k, v in (draft or {}).items() if k != "blank"}
-    ctx = formdir.template_draft(doc_id, draft["template"]) if "template" in draft else nullcontext()
+    draft = dict(draft or {})
     prof = make_profile(seed)
     prof.extra.update(extra or {"template_variants": {doc_id: "default"}})
-    with ctx:
+    with ExitStack() as st:
+        if "template" in draft:
+            st.enter_context(formdir.template_draft(doc_id, draft["template"], draft.get("variant") or "default"))
+        if draft.get("fields") is not None:
+            st.enter_context(formfields.draft(doc_id, draft["fields"]))
         _, raw, _ = render(load_all()[doc_id], prof, seed)
     return {"raw_keys": [f["key"] for f in raw], "fields": raw, "scale": 2, "pages": [{"width": 1588, "height": 2246}],
             "images": ["x.png"], "anchors": [{"key": f["key"], "occurrence": 0, "target": "field", "page": 0,
                                               "bbox": [10, 10 + 30 * i, 200, 30 + 30 * i], "text": str(f.get("value") or "")}
-                                             for i, f in enumerate(raw)]}
+                                             for i, f in enumerate(raw)],
+            "texts": [{"page": 0, "text": "재직증명서", "blk": 0, "bbox": [100, 100, 300, 140]}] if draft.get("texts") else []}
 
 
 @pytest.fixture
 def sandbox(monkeypatch, tmp_path):
-    root = forms_sandbox(monkeypatch, tmp_path, ID)
+    root = forms_sandbox(monkeypatch, tmp_path, ID, variants=True)
     yield root
     env().cache.clear() if env().cache else None
 
@@ -125,3 +129,48 @@ def test_draft_wins_over_cached_saved_template(sandbox):
     out = SP.spots(ID, fake_render, template=draft)
     k = next(x for x in out["keys"] if x["pattern"] == "extra.memo")
     assert k["examples"] == ["메모"] and k["source"] == "rule:fixed" and out["diff"]["added"] == ["extra.memo"]
+
+
+def test_pending_values_preview_then_save_together(sandbox):
+    """값 출처는 저장 전 초안으로 그려 보고, [저장] 한 번에 템플릿과 함께 저장한다."""
+    a = '{{ f("employment.duty", label="담당업무") }}'
+    p = formdir.template(ID)
+    text = p.read_text(encoding="utf-8")
+    draft = text.replace(a, a + ' {{ f("extra.memo", label="비고") }}', 1)
+    values = [{"pattern": "extra.memo", "source": "rule:fixed", "text": "초안 메모"}]
+    before = formfields.path(ID).read_text(encoding="utf-8")
+    out = SP.spots(ID, fake_render, template=draft, values=values)
+    k = next(x for x in out["keys"] if x["pattern"] == "extra.memo")
+    assert k["examples"] == ["초안 메모"] and k["source"] == "rule:fixed"
+    assert out["label"]["texts"][0]["rect"] == [50.0, 50.0, 150.0, 70.0]   # 인쇄된 글자 박스 (css px)
+    assert p.read_text(encoding="utf-8") == text and formfields.path(ID).read_text(encoding="utf-8") == before   # 미리보기는 저장 안 함
+    with pytest.raises(ValueError, match="고정 글자"):
+        SP.save(ID, fake_render, draft, values=[{"pattern": "extra.memo", "source": "rule:fixed"}])
+    assert p.read_text(encoding="utf-8") == text   # 값 출처가 틀리면 템플릿도 저장 안 함
+    r = SP.save(ID, fake_render, draft, values=values)
+    assert r["saved"] and r["values"] == 1
+    assert p.read_text(encoding="utf-8") == draft
+    assert json.loads(formfields.path(ID).read_text(encoding="utf-8"))["fields"]["extra.memo"] == {"source": "rule:fixed", "text": "초안 메모"}
+    assert SP.save(ID, fake_render, draft)["saved"] is False   # 바뀐 것 없음
+
+
+def test_layout_variant_draft_save_and_missing_keys(sandbox):
+    """레이아웃 변형: 그 레이아웃의 템플릿을 그리고 고치며, 한 레이아웃에만 넣은 키는 다른 레이아웃에 없다고 알려 준다."""
+    lays = {x["id"] for x in SP.layouts(ID)}
+    assert {"default", "letter"} <= lays
+    vp = SP.template_file(ID, "letter")
+    assert vp.name == "letter.html.j2" and str(vp).startswith(str(sandbox))
+    text = vp.read_text(encoding="utf-8")
+    i = text.index("{% endblock %}")
+    draft = text[:i] + '{{ f("extra.memo", label="비고") }}\n' + text[i:]
+    values = [{"pattern": "extra.memo", "source": "rule:fixed", "text": "공문 메모"}]
+    out = SP.spots(ID, fake_render, template=draft, variant="letter", values=values)
+    k = next(x for x in out["keys"] if x["pattern"] == "extra.memo")
+    assert out["variant"] == "letter" and out["file"].endswith("variants/letter.html.j2")
+    assert k["examples"] == ["공문 메모"] and "구획 표형" in k["missing_in"]
+    assert out["diff"]["added"] == ["extra.memo"]
+    SP.save(ID, fake_render, draft, variant="letter", values=values)
+    assert vp.read_text(encoding="utf-8") == draft
+    assert formdir.template(ID).read_text(encoding="utf-8") != draft   # 기본 레이아웃은 그대로
+    with pytest.raises(ValueError, match="없는 레이아웃"):
+        SP.template_file(ID, "nope")
