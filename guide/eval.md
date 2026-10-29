@@ -1,7 +1,7 @@
 # 평가
 
-평가 세트를 정하고, 어떻게 채점할지 정하고, 학습 없이 평가만 하거나 다시 채점하는 방법입니다. 학습 서버에서 합니다.
-점수 읽는 법은 [results.md](results.md), 과제별 채점 규칙은 [benchmark.md](benchmark.md)에 있습니다.
+평가 세트를 정하고, 어떻게 채점할지 정하고, 학습 없이 평가만 하거나 다시 채점하는 방법입니다. 1~4절은 학습 서버(`python -m train`), 5절은 docgen 컨테이너.
+점수 읽는 법은 [results.md](results.md), 과제별 질문·답·채점 규칙은 [benchmark.md](benchmark.md)에 있습니다.
 
 ## 1. 평가 세트 정하기
 
@@ -130,3 +130,20 @@ python -m train rescore ../runs/E01           # 실험 묶음 결과 폴더: 모
 - 예전 보고서는 `reports/before-rescore-<시각>/`에 옮겨 두고, 과제별로 바뀐 점수를 출력합니다.
 - 채점 함수 경로는 섞을 때 문항에 적힙니다. 그 파일을 고치면 됩니다. 다른 파일로 바꾸거나 새로 붙이려면 새 `data.output_dir`로 다시 섞습니다.
 - 섞은 폴더는 `<workdir>/config.json`의 `data.output_dir`에서 찾습니다. 이 파일은 실험 묶음의 모델 폴더에만 생기므로, `python -m train`으로 돌린 workdir에는 `--data <섞은 폴더>`(설정의 `data.output_dir`)를 줍니다. 실험 묶음 결과 폴더는 모델마다 `<root>/<label>/data`를 씁니다.
+
+## 5. 다른 모델을 API 로 평가 (`docgen.bench`)
+
+학습 파이프라인 없이, OpenAI 호환 서버(vLLM·SGLang·사내 추론 서버)로 띄운 모델에 studio 평가 세트를 물어 채점합니다. docgen 컨테이너(`sh docker/studio.sh shell`)에서 됩니다.
+
+```bash
+vllm serve <모델> --port 8000 --limit-mm-per-prompt image=16          # 업무 묶음 문항은 이미지가 여러 장
+python -m docgen.bench run  --bench <평가 세트 폴더> --pred preds/<모델 이름> --base-url http://<서버IP>:8000/v1 --model <모델> --workers 8
+python -m docgen.bench eval --bench <평가 세트 폴더> --pred preds/<모델 이름>                    # → report.md, report.json
+python -m docgen.bench eval --bench <평가 세트 폴더> --pred preds/model_a --pred preds/model_b   # 모델 여러 개 비교표
+```
+
+- 컨테이너 안의 `localhost` 는 컨테이너 자신이라 서버의 내부망 IP 를 씁니다.
+- `run --limit 20` 은 과제마다 앞 20문항만, `--tasks kie,review` 는 일부 과제만. 끊기면 같은 명령으로 못 한 문항만 다시 보냅니다.
+- `--max-side` 로 이미지 긴 변을 줄여 보냅니다 (학습 때와 같은 해상도로). 그 밖: `--api-key-env`(기본 `OPENAI_API_KEY`), `--temperature`(0), `--timeout`(300), `--system`.
+- `run --oracle` 은 정답을 그대로 답으로 씁니다. 모든 과제가 100점이어야 합니다 (채점기 점검).
+- 다른 실행기를 쓰면 답을 `{"id": 문항 id, "output": "모델 출력"}` 꼴로 `<pred 폴더>/<과제>.jsonl` 에 저장한 뒤 `eval` 만 돌립니다.

@@ -31,7 +31,7 @@ def test_candidate_forms_inherit_role_operations(monkeypatch):
 
 
 def test_document_allowlist():
-    assert "agent-workflow.md" in G.DOCUMENTS
-    assert "remote_build.py" in G.document("agent-workflow.md")
+    assert "data.md" in G.DOCUMENTS
+    assert "remote_build.py" in G.document("data.md")
     with pytest.raises(KeyError):
         G.document("../studio/config.json")

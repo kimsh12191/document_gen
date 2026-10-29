@@ -1,5 +1,5 @@
 {
-  "about": "공식 원문을 확인해 별도로 추가한 HTML. 기존 서식은 보존. source_pages는 0부터. 전체 검수 상태는 OFFICIAL_HTML_AUDIT.md 참고.",
+  "about": "공식 원문을 확인해 별도로 추가한 HTML. 기존 서식은 보존. source_pages는 0부터. 전체 검수 상태는 archive/docgen/manual/OFFICIAL_HTML_AUDIT.md 참고.",
   "forms": [
     {
       "id": "hana_official_001",

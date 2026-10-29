@@ -13,8 +13,8 @@
 
 | 목록 | 쓰는 과제 | 위치 |
 |---|---|---|
-| 서류별 항목 키·항목명·타입 (545종) | `kie`의 `{items}` | [fields/](fields/README.md) (그룹별 파일), 기계용 [fields/fields.json](fields/fields.json) |
-| 체크박스 보기, 도장·서명 자리 | `marks`의 `{items}` | 같은 [fields/](fields/README.md) (타입 `checkbox`는 예시 칸에 보기 전체, `seal`·`signature`는 `seal.<자리>`·`sign.<자리>`) |
+| 서류별 항목 키·항목명·타입 (545종) | `kie`의 `{items}` | 서식 카드 `docgen/forms/<ID>/FORM.md`, 기계용 [fields/fields.json](fields/fields.json) |
+| 체크박스 보기, 도장·서명 자리 | `marks`의 `{items}` | 같은 카드 (타입 `checkbox`는 예시 칸에 보기 전체, `seal`·`signature`는 `seal.<자리>`·`sign.<자리>`) |
 | 서류 정식 명칭 (545종) | `classify`의 답, `doc_check`·`cross_check`·`review`의 서류명 | [documents.md](documents.md) |
 | 업무 12종과 업무별 필수 서류 | `doc_check`의 `{task}`·`{required}`, 나머지 과제의 `{task}` | [documents.md#업무-시나리오](documents.md#업무-시나리오) |
 

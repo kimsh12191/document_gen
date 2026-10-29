@@ -50,7 +50,7 @@ def test_job_folder_boundary_and_command(tmp_path, img):
                       {"real_data": True, "public": False, "label": "묶음 x"})
     job = json.loads((d / "job.json").read_text(encoding="utf-8"))
     assert job["kind"] == "html" and not job["external"] and "input/source.png" in job["sent"]
-    assert {"TEMPLATE_GUIDE.md", "example_rows.html.j2", "_macros.html.j2", "keys.json"} <= {p.name for p in (d / "input").iterdir()}
+    assert {"NEW_FORM_SPEC.md", "example_rows.html.j2", "_macros.html.j2", "keys.json"} <= {p.name for p in (d / "input").iterdir()}
     task = (d / "TASK.md").read_text(encoding="utf-8")
     assert "form_id: tx_a" in task and "python -m docgen.preview --dir output" in task and "{feedback}" not in task
     cmd = AZ.command(CFG, d)

@@ -1,11 +1,13 @@
-# 서류 생성기 (docgen)
+# 서류 생성기 (docgen) — 코드 설명
+
+> 개발자용 문서입니다. 데이터 만들기는 [guide/data.md](../guide/data.md), 서식 고치기는 [서식 고치기](forms/README.md), 새 서식은 [guide/new-forms.md](../guide/new-forms.md).
 
 고객이 은행에 제출하는 서류 **545종**(기존 HTML 70 + 공식 대조 HTML 69 + 하나은행 PDF 배경 406)에 가상 고객 데이터를 채워 **VLM 정보추출(Key Information Extraction) 학습 데이터**를 만듭니다. 기존 HTML은 합성용 양식이며 모두 공식 원문 재현본인 것은 아닙니다.
 
 - **외부 발급 서류 56종**: 신분증, 등·초본, 가족관계증명서, 소득금액증명원, 원천징수영수증, 등기부등본, 사업자등록증, 재무제표, 인보이스 등
 - **은행 서식 14종 (HTML 템플릿)**: 대출신청서, 여신거래약정서, 근저당권설정계약서, 고객확인서(KYC), 해외송금신청서 등
   - 은행별 표기(은행명·법인명칭·서식번호 줄·결재란·인쇄색·계좌번호)가 다르게 나옵니다.
-  - **하나은행**과 옛 은행 **KEB하나은행(2015~2020)**, **외환은행(~2015.8)** 서식도 만듭니다. 옛 은행 서식은 그 시기 날짜와 제도로 만들어집니다. → [docgen/manual/realism/bank_brands.md](manual/realism/bank_brands.md)
+  - **하나은행**과 옛 은행 **KEB하나은행(2015~2020)**, **외환은행(~2015.8)** 서식도 만듭니다. 옛 은행 서식은 그 시기 날짜와 제도로 만들어집니다. (조사 기록 [archive/…/bank_brands.md](../archive/docgen/manual/realism/bank_brands.md))
 - **하나은행 원본 서식 406종**: 하나은행 공개 서식 PDF를 그대로 배경으로 깔고 손님이 쓴 것처럼 값을 얹습니다. 서식 모양은 원본과 똑같습니다. → [하나은행 원본 서식](#하나은행-원본-서식-원본-pdf-오버레이)
 
 | | 종수 | 방식 |
@@ -14,7 +16,7 @@
 | **공식 대조 HTML** | 69 | 하나은행 44종·정부 별지 25종. 공식 PDF의 문구·표 배치를 HTML 글자·SVG 도형으로 옮기고 출처·개정 표기·원문 해시를 기록합니다. 기존 버전도 보존합니다. |
 | **원본 PDF 오버레이** | 406 | 원본 PDF가 배경이고, PDF에서 찾은 기재 자리에 손글씨/인쇄체로 값을 씁니다. |
 
-Studio의 ① 서식에서 `공식대조 HTML`로 검색하세요. 기존 70종 각각의 매칭 결과, 추가한 서식 목록, 공식 원문 링크, 아직 대조하지 못한 항목은 [공식 서식 대조표](manual/OFFICIAL_HTML_AUDIT.md)에 있습니다. 새 HTML도 생성값·라벨을 검수한 뒤 데이터셋에 사용합니다.
+Studio의 ① 서식에서 `공식대조 HTML`로 검색하세요. 대조 기록은 [archive/…/OFFICIAL_HTML_AUDIT.md](../archive/docgen/manual/OFFICIAL_HTML_AUDIT.md) (2026-10-20 시점). 새 HTML도 생성값·라벨을 검수한 뒤 데이터셋에 사용합니다.
 
 ### 서식 = 폴더 하나
 
@@ -44,7 +46,6 @@ docgen/forms/_common/              모든 서식 공통 (README.md)
 - 모양(껍데기)만 원본에 맞게 고치기 — 사람·VLM 공용 안내: [manual/FORM_SHELL_GUIDE.md](manual/FORM_SHELL_GUIDE.md)
 
 - 전체 목록: [guide/documents.md](../guide/documents.md)
-- 하나은행 공개 서식 441건 대응표: [docgen/manual/FORM_MAP.md](manual/FORM_MAP.md)
 - 서류별 샘플 이미지와 정답: [samples/](samples/)
 
 모든 데이터는 학습용 **합성 데이터**이며 실존 인물·사업자와 무관합니다.
@@ -165,7 +166,7 @@ out/
 - **값(`value`)과 정규화 값(`norm`):** `value`는 문서에 찍힌 그대로, `norm`은 날짜 `YYYY-MM-DD`, 금액 정수, 전화번호 숫자 등입니다. 빈 칸은 `null`입니다.
 - **체크박스:** 보기마다 체크 여부와 □/■ 칸 위치(`box_bbox`)가 있습니다. 정답 값은 체크된 보기입니다.
 - **도장·서명:** `seal.<자리>`, `sign.<자리>`. 서명란은 랜덤으로 도장 / 서명 / 빈 칸이 되고, 없을 때도 그 자리 위치가 기록됩니다.
-- **키 목록과 규칙:** 서류별 전체 키·항목명·타입은 [guide/fields/](../guide/fields/README.md)(기계용 `guide/fields/fields.json`)에 있습니다.
+- **키 목록과 규칙:** 서식마다 키는 그 서식 카드 `FORM.md`, 키 이름 규칙은 [forms/_common/README.md](forms/_common/README.md#키-이름-규칙), 기계용 전체 목록 `guide/fields/fields.json`.
 - **좌표 확인:** `python docgen/scripts/visualize_labels.py out/labels/<파일>.json` 으로 위치를 그린 이미지를 만듭니다.
 
 ### swift/*.jsonl (ms-swift 학습용)
@@ -200,10 +201,10 @@ cd out && swift sft --model <Qwen-VL 모델> --dataset swift/all.jsonl ...
 
 ## 서식 변형 (여러 쪽·특수 상황)
 
-서류마다 실제로 생기는 예외적인 경우가 정해진 확률로 섞여 나옵니다. 서류별 경우·확률·새 키는 [docgen/manual/variants/](manual/variants/)에 있습니다.
+서류마다 실제로 생기는 예외적인 경우가 정해진 확률로 섞여 나옵니다. 서류별 경우·확률·새 키의 기록은 [archive/docgen/manual/variants/](../archive/docgen/manual/variants/) (작성 시점 기준).
 
 - **내용이 많은 경우(heavy):** 서류마다 15~35% 확률입니다. 주소이력 20~40건, 거래 수백 줄, 품목 20~60개처럼 내용이 길어집니다.
-- **여러 쪽 나눔:** 브라우저에서 자동으로 합니다 ([docgen/paginate.js](../docgen/paginate.js)).
+- **여러 쪽 나눔:** 브라우저에서 자동으로 합니다 ([paginate.js](paginate.js)).
   - 표는 줄 단위로 자르고 머리글 줄을 다음 쪽에 반복합니다.
   - 발급번호 줄은 쪽마다 다시 찍힙니다.
   - 쪽 번호와 "다음 쪽에 계속"이 들어갑니다. 영문 서류는 "Page 1 of 3"입니다.
@@ -257,7 +258,7 @@ python -m docgen generate --types hf169 --n 3 --png --out out    # 한 서식만
    - 배경 PNG는 처음 쓸 때 PDF에서 만들어 `~/.cache/docgen/bg/`에 둡니다. 배경과 글꼴은 렌더러가 `https://docgen.local/` 주소로 넘겨 줍니다(HTML만 열면 배경이 보이지 않습니다).
 4. **정답** — 다른 서류와 같은 `f()` 규약이라 GT·위치·ms-swift 학습 데이터가 그대로 나옵니다. 키는 표준 항목은 영어 경로(`customer.name`, `account`, `agent.name`), 서식 고유 항목은 한글 항목명(`매수비율`), 표 행은 `기업부담금_목록.0.상품명` 꼴입니다. 결재란은 `seal.staff.<칸 이름>`·`sign.staff.<칸 이름>`(예: `seal.staff.책임자`)이고 `kind`가 `행원인`이라 고객 도장(`인감`)과 구분됩니다.
 
-서식별 등록 여부와 찾은 자리 수는 [docgen/manual/FORM_MAP.md](manual/FORM_MAP.md)에 있습니다 (`python docgen/scripts/form_map.py > docgen/manual/FORM_MAP.md`).
+서식별 등록 여부와 찾은 자리 수의 기록은 [archive/docgen/manual/FORM_MAP.md](../archive/docgen/manual/FORM_MAP.md).
 PDF가 바뀌거나 추출 규칙을 고치면 `python docgen/scripts/extract_form_layout.py`(전체) 또는 `--no 169`(한 건, 결과 요약 출력)로 다시 뽑습니다.
 
 ## 구조
@@ -304,12 +305,12 @@ docgen/
   fonts/                   손글씨 글꼴 (woff2, SIL OFL) + studio 표시 요소 화면에서 경로로 등록한 글꼴
   samples/                 서류별 대표 샘플 이미지·정답 (scripts/make_samples.py)
   recipes/                 데이터셋 레시피 (docgen.bench build --recipe, docgen.ocr_set build --recipe, studio 가 고침)
-  scripts/                 extract_form_layout.py(서식 PDF → 기재 자리), form_map.py(→ manual/FORM_MAP.md), make_samples.py,
-                           build_schema.py(→ guide/fields/), build_keys.py(→ keys.json), build_dictionary.py(→ 키 사전 초안),
-                           audit_form_values.py(→ manual/FORM_VALUE_AUDIT.md), build_official_html.py·verify_official_html.py(공식 대조 HTML),
-                           realism_status.py, visualize_labels.py, make_bank_data.sh(문서·업무 과제 데이터)
-  manual/                  TEMPLATE_GUIDE.md(코드 서식 추가), NEW_FORM_SPEC.md(새 서식 결과물 형식), FORM_SHELL_GUIDE.md(모양만 고치기),
-                           FORM_MAP.md, OFFICIAL_HTML_AUDIT.md·FORM_VALUE_AUDIT.md(점검 보고), REALISM_STATUS.md·realism/(현실성 점검), variants/(서식 변형)
+  scripts/                 extract_form_layout.py(서식 PDF → 기재 자리), make_samples.py,
+                           build_schema.py(→ guide/fields/fields.json), build_keys.py(→ keys.json), build_dictionary.py(→ 키 사전 초안),
+                           audit_form_values.py(값 점검), build_official_html.py·verify_official_html.py(공식 대조 HTML),
+                           visualize_labels.py, make_bank_data.sh(문서·업무 과제 데이터)
+  manual/                  NEW_FORM_SPEC.md(새 서식 결과물 형식, 코드 서식 12절), FORM_SHELL_GUIDE.md(모양만 고치기: VLM 에게 넘길 문서),
+                           official_html_sources.json (점검 보고·현실화 기록은 archive/docgen/manual/)
   tests/                   pytest (생성기·벤치마크)
   requirements.txt         생성기 파이썬 패키지 (도커 이미지는 docker/requirements.lock)
 ```
@@ -318,27 +319,22 @@ docgen/
 
 은행이 직접 쓰는 서식 그룹(`bank_form`)은 `registry.BANK_FORM_GROUPS`로 묶여 있습니다. 이 그룹의 서류는 렌더링할 때 서식을 낸 은행(옛 은행 포함)에 맞춰 프로필이 바뀌고, 템플릿에 서식 문맥 `bk`가 들어갑니다. 그룹을 새로 만들 때 이 집합에 넣어 주면 같은 동작을 받습니다.
 
-서식 하나를 고치는 방법은 [서식 폴더 설명서](forms/README.md), 새 서식을 더하는 절차는 [guide/new-forms.md](../guide/new-forms.md)(결과물 형식 [NEW_FORM_SPEC.md](manual/NEW_FORM_SPEC.md)), 코드 서식을 파이썬으로 새로 만드는 법은 [TEMPLATE_GUIDE.md](manual/TEMPLATE_GUIDE.md)를 보세요.
+서식 하나를 고치는 방법은 [서식 폴더 설명서](forms/README.md), 새 서식을 더하는 절차는 [guide/new-forms.md](../guide/new-forms.md)(결과물 형식 [NEW_FORM_SPEC.md](manual/NEW_FORM_SPEC.md)), 코드 서식을 파이썬으로 새로 만드는 법은 NEW_FORM_SPEC.md 12절을 보세요.
 
-## 서식 현실화 현황
+## 서식 현실화
 
-HTML 템플릿 70종을 실제 서식과 비교해 서식 번호, 항목 구성·순서, 라벨 문구, 고정 문구를 맞췄습니다. (하나은행 원본 서식 406종은 원본 PDF 자체를 쓰므로 해당 없음.) 비교 대상은 법령 별지 서식, 은행연합회 표준, 공공기관 발급본입니다. 서류별 근거, 출처, 수정 내용은 [docgen/manual/REALISM_STATUS.md](manual/REALISM_STATUS.md)에 있습니다. 담당 그룹별 원본과 메모는 `docgen/manual/realism/*.md`에 있습니다.
-
-- **반영(검색근거) 69종:** 웹 검색 결과를 두 곳 이상에서 교차 확인해 반영했습니다. 원본 서식 이미지·PDF를 직접 열어 대조하지는 못했습니다. 작업 환경의 네트워크 정책으로 law.go.kr, gov.kr, kfb.or.kr 등에 접속할 수 없었기 때문입니다.
-- **보류 1종(부채증명서):** 은행별 실제 표 구성을 확인하지 못해 기존 서식을 유지했습니다.
-- **원본 대조 방법:** 해당 도메인 접속을 허용하거나 실제 서류 스캔본을 주면 칸 배치까지 대조해 `반영(원본대조)`로 올릴 수 있습니다.
-
-현실화 과정에서 일부 GT 키가 바뀌었습니다. 예를 들어 위임장 `agent.rrn`은 `agent.birth`가 되었고, FATCA `us_person`은 `residence_category`가 되었습니다. 서류별 변경 내역은 `docgen/manual/realism/*.md`에 있습니다.
+HTML 템플릿 70종을 법령 별지 서식·은행연합회 표준·공공기관 발급본과 비교해 서식 번호, 항목 구성·순서, 라벨 문구, 고정 문구를 맞췄습니다 (웹 검색 교차 확인, 원본 칸 배치 대조는 못 함).
+그때 일부 정답 키가 바뀌었습니다 (예: 위임장 `agent.rrn` → `agent.birth`). 서류별 근거·출처·변경 기록은 [archive/docgen/manual/REALISM_STATUS.md](../archive/docgen/manual/REALISM_STATUS.md).
 
 ## 알려진 한계
 
-- **원본 서식의 기재 자리 인식:** PDF의 글자·선으로 자리를 찾으므로 복잡한 서식(은행거래신청서처럼 칸이 촘촘하고 색이 많은 것)은 일부 칸을 못 찾아 빈칸으로 남습니다. 표 인식이 칸을 잘못 나눈 곳은 값이 칸 경계에 걸치기도 합니다. 서식별 찾은 자리 수는 [docgen/manual/FORM_MAP.md](manual/FORM_MAP.md)에 있습니다.
+- **원본 서식의 기재 자리 인식:** PDF의 글자·선으로 자리를 찾으므로 복잡한 서식(은행거래신청서처럼 칸이 촘촘하고 색이 많은 것)은 일부 칸을 못 찾아 빈칸으로 남습니다. 표 인식이 칸을 잘못 나눈 곳은 값이 칸 경계에 걸치기도 합니다. 
 - **원본 서식의 값:** 성명·주소·계좌 등 표준 항목은 고객 프로필과 이어지지만, 서식 고유 항목(채권번호·HS코드 …)은 항목명으로 종류만 추론한 값이고 뜻을 모르는 칸은 비워 둡니다. 서식 고유 항목의 키는 한글 항목명입니다.
-- **원본 서식에서 빠진 것:** XLS·DOC·EXE 원본, 고객 기재란이 없는 인쇄물(약관·안내장 등), 글자 인코딩이 깨진 영문 서식 1종 등 35종은 넣지 않았습니다. [docgen/manual/FORM_MAP.md](manual/FORM_MAP.md)에 표시돼 있습니다.
+- **원본 서식에서 빠진 것:** XLS·DOC·EXE 원본, 고객 기재란이 없는 인쇄물(약관·안내장 등), 글자 인코딩이 깨진 영문 서식 1종 등 35종은 넣지 않았습니다. [FORM_MAP 기록](../archive/docgen/manual/FORM_MAP.md)에 표시돼 있습니다.
 - **확인하지 못한 세부 항목:** 표의 칸 배치, 일부 안내 문구, 서식 번호의 최신 개정일 등은 검색으로 확인하지 못했습니다. 은행 서식의 서식번호 일부는 형식만 실제와 같은 임의값입니다.
 - **긴 서류와 신분증:** 내용이 길면 여러 쪽으로 나오지만, 약정서 약관 전문처럼 매우 긴 고정 문구는 일부만 넣었습니다. 신분증은 앞면만 있습니다.
 - **필기 표현:** 서명은 선으로 그린 낙서 모양입니다. 원본 서식의 손글씨는 손글씨 글꼴 4종이라 사람마다 다른 필체의 다양성은 제한적입니다. HTML 템플릿 서류의 자필 기재란은 일반 폰트로 흉내 냈습니다.
-- **변형 문구:** 말소 표시 방식, 공증 문구, 감면 코드 등 일부 특수 상황의 문구는 실제 서식으로 확인하지 못한 추정입니다. 서류별 메모는 [docgen/manual/variants/](manual/variants/)에 있습니다.
+- **변형 문구:** 말소 표시 방식, 공증 문구, 감면 코드 등 일부 특수 상황의 문구는 실제 서식으로 확인하지 못한 추정입니다. 서류별 메모는 [archive/docgen/manual/variants/](../archive/docgen/manual/variants/).
 - **스캔·촬영 실제감:** 증강은 Pillow 기반의 단순한 효과입니다. 원근 왜곡이나 구겨짐은 없습니다.
 - **조합의 개연성:** 한 고객이 근로자이면서 개인사업자이자 법인 대표로 생성됩니다. 서류별로는 문제가 없지만 시나리오를 넘나들면 비현실적인 조합이 됩니다.
 
@@ -350,7 +346,7 @@ HTML 글자 값 영역은 Studio ①의 영역 편집에서 고칩니다. 서식
 
 현재는 알아낸 overlay 글자 칸을 무작위로 비우지 않고 표를 최소 한 행 채웁니다. 이전 방식은 프로필 값 `sparse_fields=true`로 선택합니다. 천원·만원·백만원·억원 칸은 단위에 맞춰 표시하고 라벨 `unit`·원 단위 `norm`을 기록합니다. HTML `fields`의 `parent.<경로>`는 부모 생성값을 참조하고, `shared_copies=true`인 약정의 `_copy` 값은 원본 기재값을 공유합니다. 생성 결과가 달라졌으므로 새 데이터셋 버전으로 만드세요.
 
-전체 545종·917쪽의 실제 이미지 자동 검사와 남은 빈 칸은 [FORM_VALUE_AUDIT.md](manual/FORM_VALUE_AUDIT.md)에 있습니다. 주요 칸만 연결한 정부·은행 HTML도 있으므로 이 검사를 모든 기재란 완성이나 사람 검수 완료로 해석하지 않습니다. 다시 검사하려면:
+전체 545종·917쪽의 실제 이미지 자동 검사 기록은 [archive/…/FORM_VALUE_AUDIT.md](../archive/docgen/manual/FORM_VALUE_AUDIT.md) (2026-10-21 시점). 주요 칸만 연결한 정부·은행 HTML도 있으므로 이 검사를 모든 기재란 완성이나 사람 검수 완료로 해석하지 않습니다. 다시 검사하려면:
 
 ```powershell
 python -m docgen.scripts.audit_form_values --out studio_cache/value_audit/final

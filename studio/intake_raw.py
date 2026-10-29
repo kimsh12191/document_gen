@@ -1,4 +1,4 @@
-"""④ 서류 넣기 — 원본 데이터로 (studio/DESIGN.md 15.4): 넣은 서류의 원본 이미지 + 추출값을 표준 라벨 v1 폴더(studio/LABEL_FORMAT.md)로
+"""④ 서류 넣기 — 원본 데이터로 (studio/DESIGN.md 15.4): 넣은 서류의 원본 이미지 + 추출값을 표준 라벨 v1 폴더(archive/studio/LABEL_FORMAT.md)로
 내보낸다. 정답은 추출값 그대로라 `gt: pseudo`(의사정답)이고, 학습/평가는 건 단위로 나눠 두 폴더로 쓴다. 두 폴더는 그대로
 ④ 라벨 있는 데이터의 경로로 넣어 데이터셋(평가는 split test, 학습은 train)을 만든다.
 

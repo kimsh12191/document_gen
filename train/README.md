@@ -39,7 +39,7 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 
 ## 단계와 결과
 
-평가 결과는 업무 시나리오·정답 구조·서식·원본 데이터셋별로도 추적합니다. 각 단계의 점수 JSON에 `composition`·`breakdowns`가 남고, 최종 보고서에 `benchmark.breakdowns.csv`·`.json`과 구분별 표가 추가됩니다. [분류 기준과 Studio 확인 방법](../guide/benchmark-tracking.md)을 참고하세요.
+평가 결과는 업무 시나리오·정답 구조·서식·원본 데이터셋별로도 추적합니다. 각 단계의 점수 JSON에 `composition`·`breakdowns`가 남고, 최종 보고서에 `benchmark.breakdowns.csv`·`.json`과 구분별 표가 추가됩니다. [분류 기준과 Studio 확인 방법](../guide/results.md#구분별-점수-업무시나리오정답-구조서식별)을 참고하세요.
 
 업무·과제 그룹별 점수도 같은 보고서에 포함합니다. 상세 CSV의 `unit: items`는 문항 수, `unit: fields`는 KIE·marks의 필드 항목 수이며 `field_kind` 행의 값 정확도와 문항 단위 위치 F1은 구분합니다. JSON에서는 필드별 점수를 `models[].field_type_scores`로 제공합니다. 합성 OCR과 직접 준비한 OCR의 명시적 서식·시나리오 정보, 이미 기록한 원본 데이터셋 출처는 혼합 후에도 유지합니다.
 

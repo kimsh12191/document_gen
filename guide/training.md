@@ -5,7 +5,7 @@
 
 | 어디서 | 무엇을 |
 |---|---|
-| **studio 컨테이너** | 데이터셋 만들기 ([studio.md](studio.md)) |
+| **studio 컨테이너** | 데이터셋 만들기 ([data.md](data.md)) |
 | **학습 서버** (GPU) | 내 이미지 OCR 준비 ([ocr.md](ocr.md)), 학습 (이 문서) |
 
 두 곳은 studio 저장 폴더를 공유합니다. 아래 명령은 모두 **학습 서버의 코드 폴더**(`document_gen/`)에서 실행합니다.
@@ -30,7 +30,7 @@ find <studio 저장 폴더>/workspace/datasets -maxdepth 3 -name meta.json
 
 - 나온 경로에서 `/meta.json`을 뺀 것이 데이터셋 경로입니다. OCR 데이터셋은 `.../<이름>/prepared`입니다.
 - **학습용**(split `train`)과 **평가용**(평가 세트)을 따로 만듭니다. 같은 데이터셋을 양쪽에 넣지 않습니다.
-- 데이터셋이 없으면 [studio.md 2절](studio.md#2-합성-데이터-만들기)로 만듭니다. 내 이미지로 OCR 데이터를 만들려면 [ocr.md](ocr.md).
+- 데이터셋이 없으면 [data.md](data.md)로 만듭니다. 내 이미지로 OCR 데이터를 만들려면 [ocr.md](ocr.md).
 
 ## 2. 설정 파일
 

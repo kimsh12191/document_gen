@@ -1,6 +1,6 @@
 """④ 가져오기 › 라벨 있는 데이터 API: 표준 라벨 v1 폴더 검사 → 확인 → 생성 작업·자동 등록 (DESIGN.md 9.7.2).
 
-검사·변환은 studio/labeled_data.py, 화면은 static/js/labeled-import.js, 규격은 studio/LABEL_FORMAT.md.
+검사·변환은 studio/labeled_data.py, 화면은 static/js/labeled-import.js, 규격은 archive/studio/LABEL_FORMAT.md.
 
   POST /api/labeled-imports/check {path}                   폴더 검사. 통과하면 token (검사 결과는 <workspace_dir>/labeled_imports/<token>/check.json)
   GET  /api/labeled-imports/{token}/image?doc=&page=       검사한 문서의 쪽 그림 (정답 미리보기)

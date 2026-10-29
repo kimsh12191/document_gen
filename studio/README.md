@@ -2,21 +2,21 @@
 
 > **서식 초안·실문서 벤치마크는 메뉴에서 숨겼습니다 (2026-10-26, 쓰지 않음).** 코드·API 는 남아 있고 주소(`#/form-draft`, `#/real-bench`)로는 열립니다. 아래 설명은 기록용.
 
-**실문서 벤치마크** 탭에서 이미지 등록 → OCR 포맷 묶기 → 사용자 정의 추출 항목 → vLLM 추론·검수 → 평가 세트 확정을 한 작업 안에서 진행합니다. 합성 서식 연결 없이 기존 가져오기·박스 편집·문항 생성·채점 기능을 재사용합니다. [사용법·연결 설정](../guide/studio.md#3-내-서류-넣기).
+**실문서 벤치마크** 탭에서 이미지 등록 → OCR 포맷 묶기 → 사용자 정의 추출 항목 → vLLM 추론·검수 → 평가 세트 확정을 한 작업 안에서 진행합니다. 합성 서식 연결 없이 기존 가져오기·박스 편집·문항 생성·채점 기능을 재사용합니다. [사용법·연결 설정](../guide/data.md#6-내-데이터).
 
 포맷별 **VLM으로 항목·키 제안**은 문서 표시명과 기존 키의 개념·목록을 함께 보내 기존 키를 연결하거나 새 키 초안을 만듭니다. 사람이 선택·수정·저장하며 공통 사전에는 자동 등록하지 않습니다.
 
-**데이터셋 → 구성·추적**에서 업무·시나리오·정답 구조별 수량과 평가 결과를 확인하고, 구성표의 수량을 눌러 해당 문항으로 이동합니다. **필드 타입 · 항목 단위**에서는 추출·표시 필드의 값 정확도를 봅니다. [분류 기준·원격 조회·train 보고서](../guide/benchmark-tracking.md)를 참고하세요.
+**데이터셋 → 구성·추적**에서 업무·시나리오·정답 구조별 수량과 평가 결과를 확인하고, 구성표의 수량을 눌러 해당 문항으로 이동합니다. **필드 타입 · 항목 단위**에서는 추출·표시 필드의 값 정확도를 봅니다. [분류 기준·원격 조회·train 보고서](../guide/results.md#구분별-점수-업무시나리오정답-구조서식별)를 참고하세요.
 
 **OCR 예시** 메뉴에서 데이터셋 생성·등록 전에도 OCR 8과제의 입력 이미지·질문·모델 답·채점 기준을 확인합니다. [같은 원본 예시](../guide/tasks.md#ocr-과제)를 참고하세요.
 
 **사용 설명서는 [guide/README.md](../guide/README.md)에 통합했습니다.** Studio의 **사용 가이드** 메뉴에서도 같은 문서를 읽습니다. **서식 → 추출·시나리오**에서 서류별 추출 항목·문항 키·연결 업무를 확인하고, **문항 Q/A**에서 실제 생성 결과를 확인합니다. 설정 변경 후 `python -m studio.guidebook`으로 문서 카탈로그를 갱신합니다.
 
-은행 벤치마크 데이터 생성·관리 웹 도구. 생성기(`docgen`)의 서식·라벨을 보고 고치고, OCR·은행 업무 벤치마크를 만들며 데이터셋·모델 답·점수를 한 화면에서 관리한다. 합성 데이터, 이미지·PDF OCR 가져오기, **생성기 공통 형식의 라벨 폴더 검사·문항 생성·자동 등록**을 지원한다. 사용자 정의 항목의 추론·라벨 수정은 실문서 벤치마크 탭에서 지원하며, 임의 모델 결과 형식은 별도 변환이 필요하다. 설계는 [DESIGN.md](DESIGN.md), 내 데이터 준비와 UI 순서는 [DATA_IMPORT.md](DATA_IMPORT.md), 정답 규격은 [LABEL_FORMAT.md](LABEL_FORMAT.md), 기존 모델 결과 보조 경로는 [RESULTS_FORMAT.md](RESULTS_FORMAT.md), 학습 연결은 [guide/training.md](../guide/training.md).
+은행 벤치마크 데이터 생성·관리 웹 도구. 생성기(`docgen`)의 서식·라벨을 보고 고치고, OCR·은행 업무 벤치마크를 만들며 데이터셋·모델 답·점수를 한 화면에서 관리한다. 합성 데이터, 이미지·PDF OCR 가져오기, **생성기 공통 형식의 라벨 폴더 검사·문항 생성·자동 등록**을 지원한다. 사용자 정의 항목의 추론·라벨 수정은 실문서 벤치마크 탭에서 지원하며, 임의 모델 결과 형식은 별도 변환이 필요하다. 설계는 [DESIGN.md](DESIGN.md), 내 데이터 준비와 UI 순서는 [DATA_IMPORT.md](../archive/studio/DATA_IMPORT.md), 정답 규격은 [LABEL_FORMAT.md](../archive/studio/LABEL_FORMAT.md), 기존 모델 결과 보조 경로는 [RESULTS_FORMAT.md](../archive/studio/RESULTS_FORMAT.md), 학습 연결은 [guide/training.md](../guide/training.md).
 
 ## 띄우기
 
-공식 원문을 대조해 추가한 HTML 69종은 ① 서식에서 `공식대조 HTML`로 검색합니다. 하나은행 44종·정부 별지 25종이며 기존 HTML 70종과 PDF 배경 서식은 그대로 있습니다. [항목별 대조표](../docgen/manual/OFFICIAL_HTML_AUDIT.md)에 공식 출처·매칭·미확보 사유를 정리했습니다. ③ 시나리오에서 새 서식을 선택할 수 있고, 기존 시나리오는 자동으로 바꾸지 않습니다. 추가 서식의 항목 목록도 문항 선택에 연결했습니다. 실행 중인 서버는 다시 띄워야 새 목록을 읽습니다.
+공식 원문을 대조해 추가한 HTML 69종은 ① 서식에서 `공식대조 HTML`로 검색합니다. 하나은행 44종·정부 별지 25종이며 기존 HTML 70종과 PDF 배경 서식은 그대로 있습니다. [항목별 대조표](../archive/docgen/manual/OFFICIAL_HTML_AUDIT.md)에 공식 출처·매칭·미확보 사유를 정리했습니다. ③ 시나리오에서 새 서식을 선택할 수 있고, 기존 시나리오는 자동으로 바꾸지 않습니다. 추가 서식의 항목 목록도 문항 선택에 연결했습니다. 실행 중인 서버는 다시 띄워야 새 목록을 읽습니다.
 
 저장소 루트에서:
 
@@ -35,7 +35,7 @@ python -m studio --host 0.0.0.0       # 서버에서 띄우고 다른 PC 브라�
   ```
   - 데이터셋은 `<저장 폴더>/workspace/datasets/<이름>/`, 실서류 검수 결과는 `<저장 폴더>/real_data/` 에 생긴다. 컨테이너에서는 `config.json` 이 필요 없다.
   - 코드는 마운트라 고치거나 새 코드 묶음을 풀면 studio 가 저절로 다시 뜬다 (컨테이너 그대로).
-  - 다른 컨테이너에서 파이썬으로 생성 맡기기: `docker/remote_build.py`, 절차 [guide/agent-workflow.md](../guide/agent-workflow.md).
+  - 다른 컨테이너에서 파이썬으로 생성 맡기기: `docker/remote_build.py`, 절차 [guide/data.md](../guide/data.md).
   - 학습은 별도 학습 컨테이너에서 저장 폴더를 공유해 읽는다. 그쪽 경로가 `/out` 과 다르면 `config.json` 의 `path_map` 하나만 적는다([guide/training.md](../guide/training.md)).
   - studio 패키지가 없는 옛 1.1 이미지에서는 `python -m studio.deps install` (설치 파일을 새로 받을 때는 인터넷 PC 에서 `python -m studio.deps download`).
 - **브라우저가 없을 때:** studio는 그대로 뜨고 렌더링(미리보기·합성 데이터 만들기)만 꺼진다. 등록부·평가·검수처럼 렌더링이 필요 없는 화면은 쓸 수 있다.
@@ -92,7 +92,7 @@ python -m studio --host 0.0.0.0       # 서버에서 띄우고 다른 PC 브라�
 
 ### 내가 가진 데이터로 시작하기
 
-**라벨 있는 데이터는 생성기의 원본 라벨 형식으로 고정한다.** `labels/<id>.json`에 `id`, `doc_type`, `doc_name`, `images`, `pages`, `fields`를 준비한다. 원본의 `page`는 **0부터**, `bbox`는 **이미지 픽셀**이다. 모델 정답의 `page` 1부터·`bbox_2d` 0~1000과 구분한다. 규격은 [LABEL_FORMAT.md](LABEL_FORMAT.md), 기계용 규격은 [document.schema.json](static/label-format/v1/document.schema.json), 실제 합성 이미지와 라벨은 [예제 ZIP](static/label-format/v1/example.zip)이다. ④ 가져오기에서도 다운로드한다. **ZIP은 먼저 압축을 풀고 폴더 경로를 입력한다.**
+**라벨 있는 데이터는 생성기의 원본 라벨 형식으로 고정한다.** `labels/<id>.json`에 `id`, `doc_type`, `doc_name`, `images`, `pages`, `fields`를 준비한다. 원본의 `page`는 **0부터**, `bbox`는 **이미지 픽셀**이다. 모델 정답의 `page` 1부터·`bbox_2d` 0~1000과 구분한다. 규격은 [LABEL_FORMAT.md](../archive/studio/LABEL_FORMAT.md), 기계용 규격은 [document.schema.json](static/label-format/v1/document.schema.json), 실제 합성 이미지와 라벨은 [예제 ZIP](static/label-format/v1/example.zip)이다. ④ 가져오기에서도 다운로드한다. **ZIP은 먼저 압축을 풀고 폴더 경로를 입력한다.**
 
 1. `meta.json`, `images/`, `labels/`를 한 폴더에 둔다. `meta.json`의 `format`은 `docgen-labels/1`, `gt`는 `reviewed`/`pseudo`/`exact`, `real_data`는 실서류 여부다. 생성 폴더도 이 반입 메타 파일을 추가한다.
 2. **④ 가져오기 → 라벨 있는 데이터 → 폴더 경로 → 폴더 검사**를 누른다. 서버/컨테이너에서 실행 중이면 서버가 읽을 수 있는 경로를 입력한다. `import_dir`이 설정돼 있으면 그 아래만 허용한다.
@@ -110,7 +110,7 @@ OCR 종류는 모든 쪽의 `ocr/*.json`과 **`meta.json`의 `ocr_scope: "full_p
 | 실제 문서의 항목 정답으로 데이터셋 | 생성기와 같은 `labels/*.json` + 문서 이미지 | ④ 라벨 있는 데이터 → 검사·미리보기·확인 → ⑥ 자동 등록. 라벨 수정은 원본 JSON에서 |
 | 실제 고객의 서류로 구비·직접 비교·계산 | 표준 라벨 + 접수별 `bundles.jsonl` + 시나리오 | 문서 연결을 읽어 저장된 처리 설정 적용. 구비는 명의 확인 목록 필요. 합성 변조 대조 사례 미적용 |
 
-파일 배치 예시, OCR 설정, 항목 JSON, Q/A 준비 범위는 [DATA_IMPORT.md](DATA_IMPORT.md)에 정리했다. ⑨는 적용 설정을 보는 화면이며, OCR 연결·저장 경로는 `studio/config.json`에서 설정한다. 이미지 폴더 옆에 OCR JSON을 두기만 해서는 현재 가져오기가 그 JSON을 읽지 않는다.
+파일 배치 예시, OCR 설정, 항목 JSON, Q/A 준비 범위는 [DATA_IMPORT.md](../archive/studio/DATA_IMPORT.md)에 정리했다. ⑨는 적용 설정을 보는 화면이며, OCR 연결·저장 경로는 `studio/config.json`에서 설정한다. 이미지 폴더 옆에 OCR JSON을 두기만 해서는 현재 가져오기가 그 JSON을 읽지 않는다.
 
 **고친 것이 저장되는 곳** (모두 저장소 안 파일, git diff 로 검토)
 
@@ -178,7 +178,7 @@ docgen/preview.py 서식 하나 렌더링 (브라우저 전용 스레드, 결과
 
 - **③ 시나리오·묶음**: 제출 역할마다 사용할 실제 서식을 고릅니다. 기존 HTML·공식 대조 HTML·PDF 배경 서식을 비교하고 하나를 선택해 저장합니다. 선택한 ID가 이미지·구비 검사·데이터셋 생성에 사용됩니다. 교체한 서식의 직접 추출·비교 작업은 꺼지므로 새 항목을 다시 골라 켜세요. 기본 대조·심사는 필요한 ID·키가 있을 때만 실행합니다.
 - **① 서식 → 영역 편집**: HTML의 글자 값 칸도 이미지 위에서 이동·크기 조절·추가할 수 있습니다. 오른쪽에서 값 출처·고정 값·글자 크기를 고치고 **변경 미리보기 → 저장**합니다. 저장 전에는 원본이 바뀌지 않습니다. 체크·도장·서명은 HTML 템플릿에서 편집합니다.
-- **① 서식 → 이미지 값 점검**: 전수 자동 검사의 빈 항목·위치·쪽 넘침과 미연결 기재란 안내를 봅니다. 자동 검사와 사람 검수 완료는 별개입니다. 남은 범위와 서식별 표는 [값 점검표](../docgen/manual/FORM_VALUE_AUDIT.md), 저장 구조·제약은 [DESIGN 14절](DESIGN.md)에 있습니다.
+- **① 서식 → 이미지 값 점검**: 전수 자동 검사의 빈 항목·위치·쪽 넘침과 미연결 기재란 안내를 봅니다. 자동 검사와 사람 검수 완료는 별개입니다. 남은 범위와 서식별 표는 [값 점검표](../archive/docgen/manual/FORM_VALUE_AUDIT.md), 저장 구조·제약은 [DESIGN 14절](DESIGN.md)에 있습니다.
 
 ## 서식 초안 (외주 작업: 예시 이미지 → html 서식 → 추출 키 추천)
 

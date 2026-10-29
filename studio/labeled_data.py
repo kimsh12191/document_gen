@@ -1,4 +1,4 @@
-"""④ 가져오기 › 라벨 있는 데이터: 생성기 공통 v1 라벨 검사와 데이터셋 변환 (DESIGN.md 9.7.1·9.7.2, studio/LABEL_FORMAT.md).
+"""④ 가져오기 › 라벨 있는 데이터: 생성기 공통 v1 라벨 검사와 데이터셋 변환 (DESIGN.md 9.7.1·9.7.2, archive/studio/LABEL_FORMAT.md).
 
 렌더링·OCR 서버 호출 없이 기존 정답을 쓴다. API 는 studio/api_labels.py, 규격 파일은 static/label-format/v1/*.schema.json.
 ⑤ 라벨 검수가 내보낸 폴더(<real_data_dir>/labels/<묶음>/)도 같은 입력이다.

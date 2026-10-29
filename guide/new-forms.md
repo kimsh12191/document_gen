@@ -18,83 +18,14 @@
 
 ## 1. 모델이 만들 결과물
 
-모델에게는 **폴더 하나에 파일 둘**을 만들게 합니다. 이 꼴이면 docgen·studio 가 그대로 받습니다.
+모델에게는 **폴더 하나에 파일 둘**(`template.html.j2` 모양 + 값 자리, `form.json` 이름·그룹 + 칸 목록)을 만들게 합니다.
+칸끼리 관계(합계·순서·조건)가 있으면 `generate.py`, 이 서식만의 질문이 있으면 `qa.py` 를 더합니다 (둘 다 선택).
 
-```text
-<이름>/
-  template.html.j2   모양 + 값 자리 (Jinja2 html)
-  form.json          서식 이름·그룹 + 칸 목록 (키마다 항목명·타입·값 출처)
-  source.png         (선택) 원본 그림 — studio 에서 겹쳐 보기용
-  generate.py        (선택) 생성 스크립트 — 칸끼리 관계(순서·합계·잔액·조건·표기)를 맞출 때
-```
+형식 전부(템플릿 문법, 칸 목록, 키 이름, 흔한 실수, 검사 통과한 전체 예시)는 [docgen/manual/NEW_FORM_SPEC.md](../docgen/manual/NEW_FORM_SPEC.md) 하나에 있습니다.
+**모델에게는 이 파일을 통째로 줍니다.** 사람이 꼭 알아 둘 것은 둘입니다.
 
-서식은 **템플릿 하나 + 칸 목록**으로, 고객 정보·행 수·글꼴을 바꿔 가며 문서를 계속 찍어 냅니다.
-그래서 템플릿에는 원본의 모양(표·문구·선)과 "어디에 어떤 키의 값이 들어가는지"만 있고, 원본에 적힌 개인 값은 없습니다.
-
-### template.html.j2 — 지킬 것
-
-```jinja
-{% extends "_base.html.j2" %}
-{% import "_macros.html.j2" as m with context %}
-{% block style %} .page { padding: 60px 56px; --fs: 12px; } table.t tr { height: 26px; } {% endblock %}
-{% block content %}
-  {{ m.title("거 래 내 역 확 인 서") }}
-  <table class="t"> … <td>{{ f("holder.name", label="예금주") }}</td> … </table>
-  {% for r in d.rows %}<tr><td>{{ f("rows." ~ loop.index0 ~ ".date", label="거래일") }}</td>…</tr>{% endfor %}
-  {{ m.choice("purpose", ["대출신청", "기타"], label="용도") }}
-  {{ m.seal("은행인", key="seal.bank", kind="직인") }}
-{% endblock %}
-```
-
-| 규칙 | 이유 |
-|---|---|
-| 첫 두 줄 그대로, 쪽은 794×1123px (A4) | 공통 틀이 글꼴·쪽 나눔을 맡음. 넘치면 자동으로 다음 쪽 |
-| **값 자리는 모두 `f("키", label="원본 항목명")`** (체크 `m.choice`, 도장 `m.seal`, 서명 `m.sigspot`) | `{{ d.x }}` 로 찍으면 그림엔 나와도 **정답 라벨에서 빠짐** |
-| 행 수가 바뀌는 표는 `{% for r in d.rows %}` + `f("rows." ~ loop.index0 ~ ".키")` | 행 수를 바꿔 가며 찍기 위해 |
-| 행 높이는 `tr { height: …px }` 로 직접, 열 너비는 `<colgroup>` % | padding 으로 맞추면 차이가 행마다 쌓임 |
-| 외부 URL·스크립트·실제 로고·관인 그림 없음 | 도장은 `m.seal` 글자 도장만 |
-
-### form.json — 칸 목록
-
-```json
-{"name": "거래내역확인서", "group": "finance", "category": "external", "page": "a4", "origin": "analyzer", "parent": null,
- "source_image": "source.png",
- "fields": {
-  "holder.name": {"label": "예금주", "type": "text",     "source": "profile.person.name"},
-  "purpose":     {"label": "용도",   "type": "checkbox", "source": "rule:choice", "choices": ["대출신청", "기타"]}},
- "lists": {
-  "rows": {"min": 5, "max": 30, "fields": {
-    "date": {"label": "거래일", "type": "date", "source": "rule:date_seq"}}}}}
-```
-
-- 템플릿의 키마다 한 줄. `type`: `text` `amount` `number` `date` `checkbox` `seal` `signature`.
-- `source`(값 출처): `profile.<경로>`(합성 고객 정보) · `rule:<종류>`(그럴듯한 값: `date` `amount` `account` `phone` `address` `company` `person` `branch` `note` …) · `rule:choice` · `rule:fixed` · `rule:date_seq`(행마다 늘어나는 날짜).
-- **값 출처는 나중에 studio 에서 고칠 수 있습니다.** 모델이 모르겠으면 `rule:note` 로 두게 합니다. 처음에 중요한 것은 **키와 위치**입니다.
-
-### 키 이름 — 가장 중요
-
-키는 학습 데이터의 정답 키가 됩니다. 서식마다 제각각이면 학습 데이터가 흩어집니다.
-
-- 영어 소문자·숫자·밑줄, 점으로 나눈 "누구의 무엇": `applicant.name`, `account.number`, `lessor.address`.
-- **있는 키를 먼저**: `docgen/forms/_common/dictionary/common.json`(공통 키), `docgen/forms/_common/keys.json`(서식들이 쓰는 키), `docgen/forms/_common/dictionary/parties.json`(누구).
-- `account` 와 `account.number` 처럼 한 키가 다른 키의 앞부분이면 안 됨. 도장·서명 키는 `seal.`·`sign.` 으로 시작.
-
-### generate.py — 칸끼리 관계 (선택)
-
-칸 목록은 칸마다 값을 따로 뽑습니다. "시작일 ≤ 종료일", "합계 = 행 금액의 합", "기타를 골랐을 때만 사유" 처럼 칸끼리 맞아야 하면
-`generate.py` 의 `adjust(d, p, rng)` 가 채운 값을 다듬습니다. 날짜·금액 계산 도우미는 `docgen.formkit`.
-
-```python
-from docgen.formkit import to_amount, amount_like, rows
-
-def adjust(d, p, rng):
-    d["total"]["out"] = amount_like(sum(to_amount(r["out"]) or 0 for r in rows(d, "rows")), d["total"]["out"])
-    return d
-```
-
-약속: 난수는 `rng` 만, 시간·파일·네트워크 금지, 키는 칸 목록에 있는 것만 (어기면 검사 경고). 그림마다 실행되는 코드라 **사람이 읽고 넣습니다** (5절).
-
-전체 규칙(매크로·CSS 클래스·값 출처 목록·생성 스크립트·흔한 실수·검사 통과한 전체 예시)은 [docgen/manual/NEW_FORM_SPEC.md](../docgen/manual/NEW_FORM_SPEC.md) 입니다. **모델에게는 이 파일을 통째로 줍니다.**
+- **값 자리는 모두 `f("키", label="원본 항목명")`** (체크 `m.choice`, 도장 `m.seal`, 서명 `m.sigspot`). `{{ d.x }}` 로 찍으면 그림엔 나와도 정답에서 빠집니다.
+- **키 이름이 가장 중요합니다.** 학습 정답의 키가 됩니다. 있는 키(`docgen/forms/_common/dictionary/common.json`, `keys.json`)를 먼저 쓰고, 없으면 "누구의 무엇" 영어 키 ([키 이름 규칙](../docgen/forms/_common/README.md#키-이름-규칙)).
 
 ---
 
@@ -229,8 +160,8 @@ python -m docgen.formdir card <서식ID>                     # 서식 카드 FOR
 
 1. **검수**: ① 서식 › 검수 탭. 미리보기를 원본과 나란히 보고(행 최소·최대, seed 몇 개) **검수 완료**. 학습/평가 배정도 여기서.
    형식 검사 통과는 검수 완료가 아닙니다 (AGENTS.md 규칙 7). 검수 뒤 서식 파일이 바뀌면 "재검수 필요"로 돌아갑니다.
-2. **업무에 넣기**: ③ 시나리오·묶음에서 그 서식이 제출되는 업무에 더합니다 ([studio.md](studio.md)).
-3. **데이터셋**: ⑥ 데이터셋 › 새로 만들기(레시피)에서 서식·시나리오를 고릅니다.
+2. **업무에 넣기**: ③ 시나리오·묶음에서 그 서식이 제출되는 업무에 더합니다.
+3. **데이터셋**: ⑥ 데이터셋 › 새로 만들기(레시피)에서 서식·시나리오를 고릅니다 ([data.md](data.md)).
    **html 서식은 검수 전이어도 레시피의 `"all"`·그룹 선택에 들어갑니다.** 검수한 서식만 쓰려면 레시피의 **검수 완료 서식만**(`reviewed_only`)을 켜거나, 검수가 끝날 때까지 `exclude` 에 그 ID 를 적어 둡니다.
 
 ---
@@ -243,7 +174,7 @@ python -m docgen.formdir card <서식ID>                     # 서식 카드 FOR
 | checks: `템플릿에 있는데 값이 없는 키` | 템플릿 키가 칸 목록에 없음 (오타 포함) |
 | 한 쪽 서식이 2쪽으로 | 높이·간격·글자 크기를 줄이게 모델에 다시 |
 | 아래쪽이 점점 밀림 | 행 높이를 px 로 직접 (padding 아님) |
-| `키 'a' 와 'a.b' 를 함께 쓸 수 없습니다` | 1절 키 이름 규칙 (한 키가 다른 키의 앞부분) |
+| `키 'a' 와 'a.b' 를 함께 쓸 수 없습니다` | 한 키가 다른 키의 앞부분 (NEW_FORM_SPEC 4절 키 이름) |
 | [서식 다시 읽기] 의 문제: `코드 서식과 ID 가 겹칩니다` | 다른 ID 로 폴더 이름을 바꾸고 다시 누르기 |
 | 5절 명령이 `FileExistsError` | 같은 ID 폴더가 이미 있음. 다른 ID 를 쓰거나, 기존 서식을 고칠 거면 6절로 |
 | `생성 스크립트 generate.py N번째 줄: …` | 그 줄의 오류. 이 서식만 그려지지 않음 |

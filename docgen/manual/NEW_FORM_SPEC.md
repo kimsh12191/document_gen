@@ -1,4 +1,4 @@
-# 새 html 서식 만들기: 결과물 형식
+# 새 서식 만들기: 결과물 형식
 
 이미지를 보고 html 서식을 만드는 도구(사람·VLM·직접 만든 스크립트 무엇이든)가 **무엇을 내놓으면 docgen·studio 가 그대로 받는지** 정리한 문서입니다.
 만드는 방법은 자유이고, 결과물만 이 꼴이면 됩니다. 아래 예시는 실제로 그려 보고 검사를 통과한 것입니다.
@@ -89,7 +89,7 @@ Jinja2 + HTML 입니다. 쪽은 **A4 세로 794 × 1123 px** 입니다.
 - 합친 칸은 `colspan`·`rowspan`. 덩어리 사이 간격은 margin px.
 - 쓸 수 있는 공통 클래스: `right` `center` `bold` `small` `tiny` `muted` `num`(숫자 오른쪽 정렬) `c`(가운데) `mt` `mb` `box` `note`, 표 `table.compact` `table.plain`.
 - 그 밖의 매크로: `m.title(제목)`, `m.kv([[라벨, 키], …], cols=2)`, `m.issuer(날짜키, org_text="…", seal_text="…")`, `m.doc_no(키)`.
-  전체 목록은 `docgen/forms/_common/templates/_macros.html.j2`, 설명은 [TEMPLATE_GUIDE.md 2절](TEMPLATE_GUIDE.md#2-템플릿).
+  전체 목록은 `docgen/forms/_common/templates/_macros.html.j2`, 설명은 [11절](#11-매크로css-전체).
 
 ### 넣지 않는 것
 
@@ -391,4 +391,109 @@ def 보증인(v):                      # True/False → 예/아니오
 ```bash
 python -m docgen.formdir card <ID>                  # docgen/forms/<ID>/FORM.md
 python -m docgen.formdir check <ID>                 # 서식 검사: 칸 목록·값 출처·질문 설정·questions.json·qa.py
+```
+
+---
+
+## 11. 매크로·CSS 전체
+
+주요 매크로 (`docgen/forms/_common/templates/_macros.html.j2`):
+
+| 매크로 | 용도 |
+|---|---|
+| `m.title(text, sub=None, boxed=False)` | 문서 제목 |
+| `m.kv(rows, cols=1, label_w=None)` | 라벨/값 표. `[라벨, 경로, True]`는 한 줄 전체를 차지한다 |
+| `m.grid(headers, list_path, keys, num_cols=[], widths=None, min_rows=0)` | 목록 표 |
+| `m.choice(path, options, label=None)` | ■/□ 선택 항목 (선택된 값만 GT로 기록) |
+| `m.agree(path, yes, no)` | 동의/미동의 체크 |
+| `m.seal(text, square=False, size="sm"\|"lg", over=False)` | 도장 |
+| `m.issuer(date_path, org_path=None, org_text=None, seal_text=None)` | 발급일 + 기관명 + 직인 |
+| `m.sign(label, path, mark="(서명 또는 인)")` | 서명란 |
+| `m.doc_no(path, label="발급번호")` | 상단 발급번호 |
+
+`_base.html.j2`의 CSS 클래스:
+- 배치: `row`, `between`
+- 정렬·글자: `right`, `center`, `bold`, `small`, `tiny`, `muted`, `accent`
+- 상자·안내문: `box`, `note`
+- 간격: `mt`, `mb`, `mt-l`
+- 표: `num`, `c`, `table.compact`, `table.outer`, `table.plain`
+- 조항 목록: `ol.clauses`
+- 사진 자리: `.photo`
+- 공문서 상단 줄: `.gov-head`
+- 글자가 많은 서류: `{% block page_class %} dense{% endblock %}`로 글자를 줄인다.
+
+`style.*` 변수(폰트, 테두리, 배경색)는 샘플마다 랜덤으로 바뀐다. 색과 폰트는 하드코딩하지 말고 CSS 변수(`var(--accent)`, `var(--border)`, `var(--label-bg)`, `var(--seal)`)를 쓴다. 신분증류처럼 고유 디자인이 필요할 때만 예외로 한다.
+
+---
+
+## 12. 코드 서식 (값을 파이썬 함수가 만드는 서식)
+
+html 서식은 칸 목록의 값 출처가 값을 만들고, **코드 서식**은 서식 폴더 `generate.py` 의 `@doc` 함수가 값 전부를 만듭니다 (지금 70종). 새로 만들 때는 보통 html 서식(1~10절)이 쉽고, 칸끼리 얽힌 계산이 많을 때만 코드 서식으로 만듭니다. 템플릿 규칙(2절)은 같습니다.
+
+코드 서식(값을 파이썬이 만드는 서식) 한 종을 추가하려면 서식 폴더에 **생성 함수 1개 + 템플릿 1개**를 만들고 그룹 모듈에 등록한다.
+
+```
+docgen/forms/<서류ID>/generate.py             @doc(...) 로 등록하는 생성 함수
+docgen/forms/<서류ID>/look/template.html.j2   Jinja2 HTML 템플릿 (registry 이름은 "<그룹>/<서류ID>.html.j2")
+docgen/docs/<그룹>.py                         끝의 FORMS 목록에 <서류ID> 를 더한다 (등록 차례 = 서식 목록·데이터셋 순서).
+                                              같은 그룹 서식들이 같이 쓰는 도우미도 여기
+```
+
+예시: `docgen/forms/employment_certificate/generate.py`(값)와 `docgen/forms/employment_certificate/look/template.html.j2`
+
+다 만들면 `python -m docgen.formdir declare <서류ID> --apply` 로 칸 목록 `docgen/forms/<서류ID>/fields.json` 에 칸을 적습니다
+(값은 생성 함수 그대로 `"source": "code"`, 키 하나만 값 출처를 바꿔 덮어쓸 수 있음 — docgen/README.md "서식 수정 파일").
+
+### 생성 함수
+
+```python
+# docgen/forms/<서류ID>/generate.py
+from docgen.docs._common import *  # D, won, K, special, issue_no, district_office, tax_office, courthouse, rand_date, date, timedelta ...
+from docgen.registry import doc
+
+@doc("employment_certificate", "재직증명서", "income")       # (id, 한글명, 그룹, category="external"|"internal", page="a4"|"a4_landscape"|"card"|"passport", sample_mark=False)
+def employment_certificate(p: Profile, rng: random.Random) -> dict:
+    """한 줄 설명."""
+    return {"employee": {"name": p.person.name, ...}, "items": [{"name": ..., "amount": won(1000)}], ...}
+```
+
+- `p: Profile`에는 고객 1명의 일관된 정보가 들어 있다. 자세한 내용은 `docgen/entities.py`를 본다.
+  - 본인·가족: `p.person`, `p.spouse`, `p.children`, `p.father`, `p.mother`, `p.address_history`
+  - 근무처: `p.employment` (`.company`, `.annual_salary` 등)
+  - 사업체: 개인사업체 `p.business`, 법인 `p.corporation`, 임원 `p.directors`, 주주 `p.shareholders`
+  - 부동산: `p.property`
+  - 금융: `p.accounts`, `p.bank`, `p.bank_branch`
+  - 해외 거래처: `p.foreign`
+  - 기준일: `p.issue_date`
+- **은행 서식(`bank_form` 그룹)은 서식을 낸 은행 기준 프로필을 받는다.** `p.bank`가 외환은행·KEB하나은행 같은 옛 은행이면 `p.issue_date`를 포함한 모든 날짜가 그 시기로 옮겨져 있다(`docgen/banks.py`).
+  - 시기에 따라 달라지는 제도(예금자보호한도, 금소법 문구 등)는 `banks.since(p.issue_date, "fsca")`처럼 날짜로 판단한다.
+  - 템플릿에는 `bk`(은행명·법인명칭·영문명·`bk.rev()` 개정년월·시기 플래그)가 넘어온다. 표시 전용이며 GT가 아니다. 다른 그룹 템플릿에서는 `bk`가 `None`이다.
+- **같은 고객의 다른 서류와 값이 맞아야 한다.** 예를 들어 소득금액증명원의 소득은 `p.employment.annual_salary`를 기준으로 계산한다. 이름, 주소, 주민번호, 회사 정보는 프로필 값을 그대로 쓴다.
+- 서류에만 필요한 값(발급번호, 월별 내역, 세부 금액 등)은 `rng`로 만든다. 프로필의 `World.rng`는 쓰지 않는다.
+- **반환 dict의 모든 값은 화면에 표시될 문자열**이다. 날짜와 금액은 함수 안에서 포맷한다.
+  - 날짜: `D(date, "dot"|"dash"|"kor"|"kor_short"|"slash"|"en"|"en_long")`
+  - 금액: `won(n)`는 `1,000원`, `won(n, "")`는 `1,000`, 한글 금액은 `K.won_korean(n)`
+  - 서류마다 실제로 쓰는 표기를 따르고, 여러 표기가 쓰이면 `rng.choice`로 다양화한다.
+- dict 키는 영어 snake_case를 쓴다. 이 키가 그대로 VLM 학습 정답(JSON)의 키가 된다.
+  - 의미가 드러나게 짓는다(`applicant.name`, `loan.amount`).
+  - 반복 항목은 리스트로 만든다(`items: [...]`).
+- 생성한 값은 모두 템플릿에 표시한다. 표시하지 않은 값이 있으면 `check`가 경고한다.
+- 개수가 변하는 리스트(거래내역, 가족 등)는 길이를 랜덤으로 하되 한 페이지 안에 들어가게 제한한다.
+
+### 사실성
+- 실제 서류의 **항목 구성, 순서, 표기 관행**을 최대한 따른다.
+  - 예: 정부24·홈택스 발급본의 발급번호와 "이 증명서는 인터넷으로 발급되었으며..." 문구
+  - 예: 등기부의 표제부·갑구·을구 구조
+- 실제 기관 로고, 바코드, 위변조 방지 패턴, 공식 관인 이미지는 넣지 않는다. 도장은 `m.seal`의 텍스트 도장만 쓴다.
+- 신분증, 인감증명서처럼 위조 위험이 큰 서류는 `sample_mark=True`로 등록한다. 그러면 "견본 SAMPLE" 워터마크가 항상 들어간다.
+- 한 장일 필요는 없다. A4 서류(`.page.a4`, 794×1123px)는 내용이 넘치면 `docgen/paginate.js` 가 다음 쪽으로 나눈다
+  (문단·표·섹션 단위, 표는 줄 단위, 표 머리글 반복, 쪽 번호, 최대 12쪽). 보통은 쪽을 직접 나누지 않는다. 원본이 한 쪽이면 한 쪽 안에 들어가게.
+- 나눌 수 없는 것이 넘치면 `docgen check` 가 "페이지 넘침"(`overflow`)으로 잡는다: 한 쪽보다 큰 블록 하나, rowspan 으로 묶인 줄들,
+  자동 나눔이 없는 고정 크기 서식(카드 540×340px 등). 블록을 나누거나 `dense` 로 글자를 줄인다.
+
+### 검증
+
+```bash
+python -m docgen check --types <서류ID,...> --png --tmp /tmp/check   # 예외, 미표시 값, 페이지 넘침 검사
+python -m docgen generate --types <서류ID> --n 3 --out /tmp/out --png  # 실제 이미지 확인
 ```

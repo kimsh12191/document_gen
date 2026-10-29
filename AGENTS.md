@@ -1,38 +1,36 @@
 # AGENTS.md
 
-이 저장소에서 일하는 agent가 먼저 읽는 안내입니다. 실제 수행 절차는 [guide/agent-workflow.md](guide/agent-workflow.md)에 있습니다.
-
-## 프로젝트
-
-은행 서류 VLM(Qwen3.5-9B)을 OCR·문서 이해·업무 처리 과제로 학습하고 평가합니다.
-
-| 폴더 | 하는 일 | 어디서 실행 |
-|---|---|---|
-| `docgen/` | 합성 서류·문항 생성, 채점(`docgen.bench.evaluate`), OCR 준비 | studio 컨테이너 (생성), 학습 서버 (OCR 준비) |
-| `studio/` | 웹 화면 + API: 데이터셋 생성·등록·채점, 학습 설정 내보내기 | studio 컨테이너 |
-| `train/` | `python -m train`: 섞기 → SFT → GRPO → 평가 → 비교표 | GPU 학습 서버 |
-| `docker/` | studio 컨테이너, 원격 생성 클라이언트 `remote_build.py` | |
-| `guide/` | 사용 설명서 | |
+이 저장소에서 일하는 agent(LLM)가 먼저 읽는 안내입니다. 무엇을 하는 저장소인지는 [README.md](README.md).
 
 ## 작업별 문서
 
+받은 일에 맞는 문서 하나를 끝까지 따릅니다.
+
 | 작업 | 문서 |
 |---|---|
-| 데이터 생성 → 학습 → 평가 → 보고 (전체 절차) | [guide/agent-workflow.md](guide/agent-workflow.md) |
-| 학습 설정·실행·실험 묶음(설정을 바꾼 모델 여러 개)·에러 | [guide/training.md](guide/training.md), 설정 칸 [train/README.md](train/README.md) |
+| 데이터셋 만들기 (평가 세트·학습 데이터, `docker/remote_build.py`) | [guide/data.md](guide/data.md) |
+| 학습 (설정·실행·실험 묶음·에러) | [guide/training.md](guide/training.md), 설정 칸 [train/README.md](train/README.md) |
 | 평가 세트·채점 함수, 학습 없이 평가만, 다시 채점 | [guide/eval.md](guide/eval.md) |
+| 결과 분석·보고 | [guide/results.md](guide/results.md), 아래 "보고" |
+| **서식 하나 고치기** (값·위치·모양·칸·질문·답·채점) | [docgen/forms/README.md](docgen/forms/README.md) 0절 표 → 그 서식의 카드 `docgen/forms/<ID>/FORM.md` |
+| 새 서식 추가 | 절차 [guide/new-forms.md](guide/new-forms.md), 결과물 형식 [docgen/manual/NEW_FORM_SPEC.md](docgen/manual/NEW_FORM_SPEC.md) |
+| 서식 모양(껍데기)만 원본에 맞게 | [docgen/manual/FORM_SHELL_GUIDE.md](docgen/manual/FORM_SHELL_GUIDE.md) |
 | 실서류 이미지 OCR 준비 | [guide/ocr.md](guide/ocr.md) |
-| 결과 보기·지표 해석, 여러 실험 한 화면, 문항별 모델 답 | [guide/results.md](guide/results.md) |
-| 실험 기록 (가설·설계·결과) | [experiments/README.md](experiments/README.md) |
-| 서식 ID·추출 항목·연결 업무 | [guide/catalog.json](guide/catalog.json), `remote_build.py catalog` |
-| 서식 파일 위치 (서식 하나 = 폴더 `docgen/forms/<ID>/` 하나) · 영역·키·값 출처 고치기 (칸 목록 `fields.json`) | [docgen/README.md](docgen/README.md#서식--폴더-하나), [서식 수정 파일](docgen/README.md#서식-수정-파일), `python -m docgen.formdir path <ID>`, `python -m docgen.regions show\|check <ID>` |
-| 서식 모양(껍데기)만 원본에 맞게 고치기 (VLM 에게 맡길 때 넘길 문서) | [docgen/manual/FORM_SHELL_GUIDE.md](docgen/manual/FORM_SHELL_GUIDE.md) |
-| 새 서식 추가 절차 (대형 모델로 만들기 → 검사 → studio 에 넣기 → 검수) | [guide/new-forms.md](guide/new-forms.md), 결과물 형식 [docgen/manual/NEW_FORM_SPEC.md](docgen/manual/NEW_FORM_SPEC.md) |
-| 과제별 질문·정답 형식 | [guide/questions.md](guide/questions.md), 실제 예시 [guide/tasks.md](guide/tasks.md) |
-| **서식 하나 고치기**: 서식 폴더(카드 `FORM.md` 부터)의 파일마다 할 일 — 칸·값·모양, 질문·답 모양(`questions.json`, 칸마다 `fields.json` 의 `q`), 이 서식만의 질문(`qa.py`), 채점, 고친 뒤 검사 | [docgen/forms/README.md](docgen/forms/README.md), 모든 서식에 같은 것(기본 질문·키 사전·바탕 틀) [docgen/forms/_common/README.md](docgen/forms/_common/README.md), `python -m docgen.formdir check <ID>` |
-| 과제·채점 규칙 | [guide/benchmark.md](guide/benchmark.md) |
-| studio 화면 기능 | [guide/studio.md](guide/studio.md), 전체 [studio/README.md](studio/README.md) |
-| 코드 설계 | [studio/DESIGN.md](studio/DESIGN.md), [docgen/README.md](docgen/README.md) |
+| 과제별 질문·답·채점 규칙 (참고) | [guide/benchmark.md](guide/benchmark.md), 질문 원문 [guide/questions.md](guide/questions.md) |
+| 실험 기록 | [experiments/README.md](experiments/README.md) |
+
+`archive/` 는 지난 기록입니다. 지금 절차로 읽지 않습니다.
+
+## 어디서 실행하나
+
+| | 하는 일 |
+|---|---|
+| **studio 컨테이너** | 데이터 생성. 다른 곳에서는 HTTP 로만 (`STUDIO_URL`, `python docker/remote_build.py`) |
+| **GPU 학습 서버** | 학습·평가 (`python -m train`), 실서류 OCR 준비. ms-swift·vLLM·GPU 가 있는 곳 |
+| **사람** | 그림·정답의 눈 확인, 검수 완료 표시. agent 는 요청하고 기다림 |
+
+시작할 때 필요한 곳에 닿는지 확인하고, 안 되는 것은 보고한 뒤 그 단계를 빼고 계획합니다
+(`python docker/remote_build.py recipes` · 학습 서버 `python -c "import swift, vllm, train; print('ok')"`, `nvidia-smi`).
 
 ## 규칙
 
@@ -47,11 +45,34 @@
 9. **실패는 두 번까지.** 같은 단계에서 같은 에러가 두 번 나면 멈추고 로그 끝과 함께 보고합니다.
 10. **실서류는 밖으로 보내지 않습니다.** 실서류 이미지를 외부 모델·서비스에 보내지 않습니다.
 
+## 설정으로 안 되는 것
+
+- 목록에 없는 서식 → 서식 추가 ([guide/new-forms.md](guide/new-forms.md)).
+- 서식 하나에만 묻는 질문 → 그 서식의 `qa.py` (과제 `form_qa`). 모든 서식에 같은 새 과제, 새 대조 사례·심사 규칙 → 생성·채점 코드 추가 (사람과 상의).
+- 특정 값·사건의 정확한 개수 → 레시피는 비율만 정함. 생성 후 골라냄.
+- 실제 고객 데이터 성능 → 합성 점수는 실서류보다 높게 나옴. 검수한 실서류 평가 세트로 따로 봄 ([guide/eval.md 1절](guide/eval.md#1-평가-세트-정하기)).
+
 ## 검증
 
 ```bash
-python -m pytest                    # 코드를 고쳤을 때 (docgen/tests, studio/tests, train/tests)
-python -m train --config <설정> --smoke   # 학습 설정을 만들었을 때
+python -m pytest                                  # 코드를 고쳤을 때 (docgen/tests, studio/tests, train/tests)
+python -m docgen.formdir check <ID>               # 서식을 고쳤을 때 (+ card <ID>)
+python -m train --config <설정> --smoke            # 학습 설정을 만들었을 때
 ```
 
-완료 보고 항목(데이터 버전, 설정, 모델, 점수, 경로)은 [agent-workflow.md 7절](guide/agent-workflow.md#7-결과-분석보고)에 있습니다.
+## 보고
+
+학습·평가를 맡았으면 끝날 때 아래를 적습니다. 결과는 `<workdir>/reports/summary.html` 부터 [results.md](guide/results.md) 의 읽는 순서로 봅니다
+(형식 오류율 → 출발 대비 변화 → 기준선·오차 → OCR 열 → 대표 오답).
+
+| 항목 | 예 |
+|---|---|
+| 요청 범위와 실제 실행한 단계 | SFT까지, `state.json` 의 `done` |
+| 데이터 | 데이터셋 이름·경로, 레시피, 생성기 커밋·버전(`dataset.json`), 과제별 문항 수 |
+| 설정 | 설정 파일 경로, 모델, GPU, `data.output_dir`, 바꾼 칸, 평가 세트별 채점 함수(`scorer`, 없으면 기본) |
+| 결과 | 과제별 주 지표 표 (출발/SFT/GRPO), 형식 오류율. 오차 범위 안의 차이는 "차이 없음" |
+| 확인 안 된 것 | 사람 검수를 받지 못한 것, 건너뛴 단계 |
+| 경로 | `<workdir>/reports/summary.html`·`benchmark.html`·`answers.html` (묶음은 `<root>/summary.html`·`compare.html`), 로그 폴더, 모델 `<workdir>/merged/…` |
+| 다음 제안 | 실행하지 않은 추가 실험 |
+
+서식을 고쳤으면: 바꾼 파일, `formdir check` 결과, 미리보기 그림 경로, 판단이 안 선 곳, 사람이 볼 것(그림·정답).

@@ -2,7 +2,7 @@
 API 는 studio/api_review.py, 화면은 static/js/labels.js. 추론 결과가 없는 문서는 빈 라벨에서 시작한다.
 
 흐름: 포맷마다 서식 정하기(④ 결정: 기존 서식과 같음·템플릿으로) → 키 대응(모델 키 → 그 서식의 표준 키, 포맷마다 한 번) →
-문서마다 값·위치를 고치고 확인 → 확인한 문서는 **표준 라벨 v1 폴더**(studio/LABEL_FORMAT.md)로 → ④ 라벨 있는 데이터로 데이터셋.
+문서마다 값·위치를 고치고 확인 → 확인한 문서는 **표준 라벨 v1 폴더**(archive/studio/LABEL_FORMAT.md)로 → ④ 라벨 있는 데이터로 데이터셋.
 
 저장 <real_data_dir>/labels/<묶음>/   (표준 라벨 v1 폴더 그대로: 그대로 ④ 라벨 있는 데이터의 경로로 쓴다)
   meta.json            {"format": "docgen-labels/1", "name", "real_data", "gt": "reviewed", "from_batch", "model"}

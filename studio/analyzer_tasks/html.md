@@ -39,7 +39,7 @@ python -m docgen.preview --dir output --rows min --out check      # 행을 최�
 
 ## 참고 파일 (`input/`)
 
-- `TEMPLATE_GUIDE.md`: 서식 작성 가이드 (생성 함수 부분은 이 작업에서는 form.json 이 대신한다)
+- `NEW_FORM_SPEC.md`: 결과물 형식 (템플릿 규칙·form.json·키 이름·흔한 실수·전체 예시)
 - `example_simple.html.j2`: 칸 위주 서식 예 (재직증명서), `example_rows.html.j2`: 반복 표 예 (거래내역)
 - `_macros.html.j2`: 제목·표·체크 보기·도장 매크로
 - `keys.json`: 표준 키 사전

@@ -65,7 +65,7 @@ def make_router(reg, jobs, guard, cfg: dict, real_root: Path) -> APIRouter:
     def create(req: CreateReq):
         if req.kind == "docgen":
             return guard(_from_docgen, req)
-        if req.kind == "results":   # 결과 폴더: 저장된 OCR·추론 결과 (studio/RESULTS_FORMAT.md)
+        if req.kind == "results":   # 결과 폴더: 저장된 OCR·추론 결과 (archive/studio/RESULTS_FORMAT.md)
             from . import results as RS
 
             b = guard(RS.create_batch, reg.ws, req.name, req.path, cfg.get("ocr"), cfg.get("import_dir"))

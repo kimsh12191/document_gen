@@ -1,57 +1,17 @@
-# OCR·은행업무 벤치마크
+# 과제와 채점 규칙 (참고)
 
-docgen이 만드는 합성 서류로 **고정된 평가 세트**를 만들고, 모델을 돌리고, 채점합니다. 코드는 [docgen/bench/](../docgen/bench/)에 있습니다.
+평가 세트·학습 데이터의 과제마다 **무엇을 묻고, 답이 어떤 꼴이고, 어떻게 채점하는지**입니다. 찾아볼 때 읽는 문서입니다.
+만들기는 [data.md](data.md), 평가 실행·채점 함수는 [eval.md](eval.md), 점수 읽기는 [results.md](results.md),
+질문 문장 원문은 [questions.md](questions.md), 과제별 실제 문항은 [tasks.md](tasks.md). 코드는 [docgen/bench/](../docgen/bench/).
+
+세 가지를 따로 잽니다.
 
 - **OCR:** 글자를 읽는 능력
 - **문서 이해:** 서류를 알아보고 값을 뽑는 능력
 - **은행 업무:** 고객 한 명이 낸 서류 묶음을 보고 심사 담당자처럼 판단하는 능력
 
-이 세 가지를 따로 잽니다.
-
-```bash
-# 1) 평가 세트 만들기 (기본: 서류 545종 x 1건 + 업무 12종 x 고객 4명. 476종일 때 약 16분, 약 600MB)
-python -m docgen.bench build --out bench_out
-
-# 2) 모델 돌리기 — OpenAI 호환 API (vLLM, SGLang, LMDeploy 서버 등)
-vllm serve Qwen/Qwen2.5-VL-7B-Instruct --port 8000 --limit-mm-per-prompt image=16
-python -m docgen.bench run --bench bench_out --pred preds/qwen25vl7b \
-    --base-url http://localhost:8000/v1 --model Qwen/Qwen2.5-VL-7B-Instruct --workers 8
-
-# 3) 채점 → preds/qwen25vl7b/report.md, report.json
-python -m docgen.bench eval --bench bench_out --pred preds/qwen25vl7b
-
-# 모델 여러 개 비교표
-python -m docgen.bench eval --bench bench_out --pred preds/model_a --pred preds/model_b
-```
-
-- **빠른 점검:** `run --limit 20`이면 과제마다 앞 20문항만 돌립니다.
-- **이어서 돌리기:** 중단되거나 오류가 난 문항은 같은 명령을 다시 실행하면 그것만 다시 보냅니다.
-- **예측 없음·파싱 실패:** 0점으로 셉니다(CER은 1). 빈 답이 빈 칸(null)이나 "도장 없음"을 우연히 맞히지 않게 하려는 것입니다. 보고서에 건수가 따로 나옵니다.
-- **생각 블록:** 답 앞의 `<think>…</think>`는 떼고 채점합니다.
-- **채점기 점검:** `run --oracle`은 정답을 그대로 출력으로 씁니다. 이때 모든 과제가 100점이어야 합니다.
-
-## 실행 환경
-
-데이터 생성기(`python -m docgen generate --png`)가 돌아가는 환경(같은 도커 이미지)이면 그대로 됩니다. 따로 설치할 것은 없습니다.
-
-| 단계 | 필요한 것 |
-|---|---|
-| `build` | 생성기 `--png --augment`와 같음: `docgen/requirements.txt`, Playwright Chromium, 한글 폰트(`fonts-nanum`, `fonts-noto-cjk`) |
-| `run` | Pillow, 그리고 컨테이너에서 모델 서버(vLLM 등) 주소로 나가는 네트워크 |
-| `eval` | 파이썬 표준 라이브러리만 (생성기 코드 import) |
-
-docgen 도커 컨테이너를 띄우는 방법은 [docker/README.md](../docker/README.md)에 있습니다. 서버에서 `sh docker/studio.sh shell` 로 컨테이너에 들어가면 코드 폴더에서 시작하고, 결과는 `/out`(서버 폴더와 연결)에 둡니다.
-
-```bash
-# 예: docgen 컨테이너 안에서 평가 세트 만들기
-python -m docgen.bench build --out /out/bench_out --workers 8
-# 같은 서버의 vLLM 서버로 예측. 컨테이너 안의 localhost 는 컨테이너 자신이라 서버의 내부망 IP 를 씀
-python -m docgen.bench run --bench /out/bench_out --pred /out/preds/my_model --base-url http://<서버IP>:8000/v1 --model <모델>
-# SSH 없이 서버 터미널에서
-docker exec -u docgen docgen bash -lc 'cd ~/document_gen && python -m docgen.bench build --out /out/bench_out'
-```
-
-평가 세트는 약 600MB이고, `build`는 CPU 코어 하나로 약 16분 걸립니다. 원본 서식 배경 이미지는 처음 렌더링할 때 `~/.cache/docgen/bg/`에 만들어지므로, 컨테이너를 여러 번 띄울 거면 이 경로도 볼륨으로 두면 빨라집니다.
+공통: 답 앞의 생각 블록(`<think>…</think>`)은 떼고 채점합니다. 답이 없거나 형식을 못 읽으면 0점(CER 은 1)이고 답 형식 오류로 따로 셉니다
+(빈 답이 빈 칸(null)이나 "도장 없음"을 우연히 맞히지 않게).
 
 ## 과제
 
@@ -113,7 +73,7 @@ docker exec -u docgen docgen bash -lc 'cd ~/document_gen && python -m docgen.ben
 
 ### 은행 업무 (업무 묶음)
 
-시나리오 12종([생성기 사용법](../docgen/README.md#사용법))마다 고객 4명분 서류 묶음을 만듭니다. 묶음 서류는 모두 현행 하나은행 서식이라 날짜가 서로 맞습니다.
+시나리오 12종([catalog.md](catalog.md))마다 고객 4명분 서류 묶음을 만듭니다. 묶음 서류는 모두 현행 하나은행 서식이라 날짜가 서로 맞습니다.
 
 - **`doc_check` — 서류 구비 확인**
   - 필수 서류 중 0~2건(30/50/20%)을 빼고, 나머지 첫 쪽만 순서를 섞어 줍니다. 질문에 고객 성명이 들어갑니다.
@@ -194,7 +154,7 @@ docker exec -u docgen docgen bash -lc 'cd ~/document_gen && python -m docgen.ben
 
 - **고정 seed:** 같은 설정이면 언제 만들어도 같은 세트가 나옵니다(같은 코드 기준). `--workers` 수와도 상관없습니다.
   - 단일 서류 과제는 고객 seed `1,000,000`부터, 업무 묶음은 `2,000,000`부터 씁니다.
-  - 학습 데이터(`python -m docgen generate --seed 0 …`)와 겹치지 않게 하려는 것입니다. **`generate`에는 seed 1,000,000 미만을 쓰세요.** 은행 업무 학습 데이터(`--split train`)는 따로 떨어진 seed를 씁니다([아래](#은행-업무-학습-데이터---split-train)).
+  - 학습 데이터(`python -m docgen generate --seed 0 …`)와 겹치지 않게 하려는 것입니다. **`generate`에는 seed 1,000,000 미만을 쓰세요.** 은행 업무 학습 데이터(`--split train`)는 단일 서류 `10,000,000`, 업무 묶음 `20,000,000` 부터 씁니다.
 - **세트 버전:** `meta.json`의 `version`이 다른 세트끼리는 점수를 바로 비교하지 않습니다 (서식·질문·정답 꼴이 바뀌었을 수 있음). 생성기 코드가 바뀌면 평가 세트와 학습 데이터를 같은 코드로 새로 만듭니다.
 - **촬영 조건:** 서류마다 깨끗한 원본 50%, 스캔 20%, 촬영 15%, 팩스 15%입니다. 위치 정답은 증강에 맞춰 옮깁니다.
 - **기록:** `meta.json`에 만든 설정, 생성기 커밋, 과제별 문항 수가 남습니다. 결과를 비교할 때는 같은 `meta.json`의 세트인지 확인하세요.
@@ -211,7 +171,7 @@ docker exec -u docgen docgen bash -lc 'cd ~/document_gen && python -m docgen.ben
 | `--max-keys` | 40 | `kie`·`marks` 한 문항에 묻는 최대 항목 수 |
 | `--scale` | 2.0 | 이미지 배율 (A4 한 쪽 약 1588×2246) |
 | `--workers` | 1 | 동시에 렌더링할 프로세스 수. 결과는 같고 빨라집니다 (프로세스마다 Chromium 하나) |
-| `--split` | test | `train`이면 학습 데이터 ([아래](#은행-업무-학습-데이터---split-train)) |
+| `--split` | test | `train`이면 학습 데이터 (seed 가 평가 세트와 겹치지 않음, `swift/` 도 만듦) |
 | `--start` | 0 | seed 시작 번호. 학습 데이터를 나중에 더 만들 때 씁니다 |
 
 ### 문항 형식 (`tasks/<과제>.jsonl`)
@@ -229,45 +189,6 @@ docker exec -u docgen docgen bash -lc 'cd ~/document_gen && python -m docgen.ben
 - `images`는 세트 폴더 기준 상대 경로이고, 질문 앞에 순서대로 넣습니다.
 - `answer`는 정답이고, `eval`은 채점에 쓰는 추가 정보입니다.
 - 다른 실행기(사내 추론 서버, ms-swift `infer` 등)를 쓰려면 예측을 `{"id": 문항 id, "output": "모델 출력"}` 꼴로 `<pred 폴더>/<과제>.jsonl`에 저장한 뒤 `eval`을 돌리면 됩니다.
-
-### 실행 옵션 (`run`)
-
-| 옵션 | 뜻 |
-|---|---|
-| `--base-url`, `--model` | OpenAI 호환 서버 주소와 모델 이름 |
-| `--api-key-env` | API 키를 읽을 환경변수 (기본 `OPENAI_API_KEY`) |
-| `--max-side` | 이미지 긴 변을 이 픽셀 이하로 줄여 보냄 (토큰·비용 조절) |
-| `--workers` | 동시 요청 수 (기본 4) |
-| `--temperature`, `--timeout` | 기본 0, 300초 |
-| `--tasks` | 일부 과제만 (`kie,review`) |
-| `--limit` | 과제마다 앞 N 문항만 |
-| `--system` | 시스템 프롬프트 |
-
-업무 묶음 문항은 이미지가 여러 장입니다(`doc_check`는 최대 12장, `cross_check`는 최대 10장). vLLM은 `--limit-mm-per-prompt image=16`처럼 한 요청의 이미지 수를 늘려 주세요.
-
-## 은행 업무 학습 데이터 (`--split train`)
-
-`python -m docgen generate`의 학습 데이터는 서류 한 건짜리 과제(정보 추출, 위치, 체크·도장·서명, 질의응답)만 있습니다. 은행 업무 과제(`doc_check`, `cross_check`, `review`)를 학습하려면 같은 `build`를 `--split train`으로 돌립니다.
-
-```bash
-# 업무 12종 × 고객 100명 = 묶음 1,200개 → 학습 레코드 약 12,000개, 약 7GB
-python -m docgen.bench build --split train --out bank_train --per-doc 0 --bundles 100 --workers 8
-
-# 나중에 더 만들 때: 앞에서 만든 고객 수만큼 --start 를 올려 다른 폴더에
-python -m docgen.bench build --split train --out bank_train2 --per-doc 0 --bundles 100 --start 100 --workers 8
-```
-
-- **seed:** 단일 서류 `10,000,000`부터, 업무 묶음 `20,000,000`부터입니다. 평가 세트(`1,000,000`·`2,000,000`대), `generate`(0부터)와 겹치지 않습니다.
-- **출력:** 평가 세트와 같은 구조에 `swift/`가 더해집니다. `swift/<과제>.jsonl`, `swift/all.jsonl`이 ms-swift 학습 형식이고, 질문은 평가 프롬프트, 답은 정답을 모델 출력 형식(JSON 또는 글)으로 쓴 것입니다. `cross_check`의 채점용 `alt_documents`는 뺍니다.
-- **`--per-doc 0`:** 단일 서류 과제(`classify`, `ocr_page`, `ocr_field`, `kie`, `marks`, `freetext`, `form_qa`)를 만들지 않습니다. 이 과제들도 평가 프롬프트 형식으로 학습하려면 `--per-doc 1` 이상을 주세요.
-- **문항 비율 (묶음 하나당 평균):** `review` 약 5, `cross_check` 약 4, `doc_check` 1. `cross_check`는 정상 55% 안팎, 변조 45% 안팎입니다.
-- **속도·용량:** 묶음 하나에 CPU 1코어로 약 10초, 약 6MB입니다.
-
-### 학습할 때
-
-- **이미지 수:** 한 레코드에 이미지가 최대 13장입니다. 원본 해상도(약 1600×2250)를 그대로 쓰면 Qwen2.5-VL 기준 장당 약 4,700토큰이라 길이가 넘칩니다. 학습할 때 이미지 크기를 제한하세요. 예: ms-swift `MAX_PIXELS=1003520` (장당 약 1,280토큰) + `--max_length 16384`.
-- **평가도 같은 해상도로:** 서버에서 같은 상한을 주세요. 예: vLLM `--mm-processor-kwargs '{"max_pixels": 1003520}'` 또는 `run --max-side`.
-- **잊어버림 방지:** 은행 업무 데이터만 학습하면 OCR·추출 능력이 떨어질 수 있습니다. 앞 단계 학습 데이터(`generate`의 `swift/all.jsonl`)를 일부 섞으세요. 학습 실행(`python -m train`)은 OCR 데이터셋을 `data.train`에 함께 적어 섞습니다([training.md 2절](training.md#2-설정-파일)).
 
 ## 해석할 때 주의
 

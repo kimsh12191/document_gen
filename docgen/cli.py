@@ -29,7 +29,7 @@ def cmd_list(args) -> None:
         by_group.setdefault(s.group, []).append(s)
     if args.markdown:
         print(f"# 서류 목록 (총 {len(reg)}종)\n")
-        print("`python -m docgen list --markdown > guide/documents.md` 로 자동 생성된 문서입니다. 서류별 항목은 [fields/](fields/README.md)에 있습니다.\n")
+        print("`python -m docgen list --markdown > guide/documents.md` 로 자동 생성된 문서입니다. 서식별 항목은 서식 카드 `docgen/forms/<ID>/FORM.md` 에 있습니다.\n")
         for g, title in GROUPS.items():
             specs = by_group.get(g, [])
             if not specs:

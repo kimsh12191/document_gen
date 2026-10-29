@@ -143,7 +143,7 @@ def create_job(ws: Path, cfg: dict, kind: str, provider: str, images: list[str],
         sent.append("input/source.png")
         from docgen import formdir
 
-        refs = {"TEMPLATE_GUIDE.md": ROOT / "docgen" / "manual" / "TEMPLATE_GUIDE.md",
+        refs = {"NEW_FORM_SPEC.md": ROOT / "docgen" / "manual" / "NEW_FORM_SPEC.md",
                 "example_simple.html.j2": formdir.template("employment_certificate"),
                 "example_rows.html.j2": formdir.template("bank_statement"),
                 "_macros.html.j2": ROOT / "docgen" / "forms" / "_common" / "templates" / "_macros.html.j2",

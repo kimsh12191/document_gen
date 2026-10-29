@@ -72,7 +72,7 @@ async function view_import() {
         <button class="primary" id="im-go">만들고 OCR·묶기</button>
         <div class="muted" style="margin-top:6px">폴더 안의 이미지 한 장 = 문서 하나, PDF 하나 = 문서 하나(쪽마다 그림).</div>
         <b style="margin-top:14px">결과 폴더에서 (저장된 OCR·추론 결과)</b>
-        <div class="muted">이미 OCR·모델 추론을 돌려 저장해 둔 폴더 (<span class="mono">meta.json · images/ · ocr/ · pred/</span>, studio/RESULTS_FORMAT.md).
+        <div class="muted">이미 OCR·모델 추론을 돌려 저장해 둔 폴더 (<span class="mono">meta.json · images/ · ocr/ · pred/</span>, archive/studio/RESULTS_FORMAT.md).
           저장된 OCR 로 묶고, 추론 결과는 ⑤ 라벨 검수의 출발점이 됩니다. 폴더에는 쓰지 않습니다.</div>
         <label class="fld">묶음 이름 <input type="text" id="rs-name"></label>
         <label class="fld">결과 폴더 경로 <input type="text" id="rs-path"></label>

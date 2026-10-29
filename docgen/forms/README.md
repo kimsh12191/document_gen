@@ -1,10 +1,51 @@
-# 서식 폴더 설명서
+# 서식 고치기 (서식 폴더 설명서)
 
-서식 하나 = 폴더 하나 (`docgen/forms/<ID>/`). 이 문서 하나에 서식 폴더의 파일마다 무엇이고, 무엇을 고치면 만들어지는 데이터가
-어떻게 바뀌는지를 모았습니다. 사람이든 코드를 읽는 LLM 이든 **그 서식의 카드 `FORM.md` 와 이 문서**만 읽으면 서식을 고칠 수 있습니다.
+서식 하나 = 폴더 하나 (`docgen/forms/<ID>/`). 서식을 고치면 다음에 만드는 데이터(그림·질문·정답)가 그대로 따라 바뀝니다.
+먼저 0절 표에서 하고 싶은 일을 찾고, 직접 하거나 LLM 에게 시킵니다. 1절부터는 찾아보는 참고입니다.
+서식 ID 는 [guide/documents.md](../../guide/documents.md) 에서 이름으로 찾고, 그 서식의 모든 것은 카드 `docgen/forms/<ID>/FORM.md` 에 있습니다
+(칸·위치·값을 정한 곳(파일:줄)·실제 질문→답). 새 서식을 더하는 것은 [guide/new-forms.md](../../guide/new-forms.md).
 
-> LLM 에게 맡길 때: "`docgen/forms/<ID>/FORM.md` 와 `docgen/forms/README.md` 를 읽고 …를 고쳐. 고친 뒤
-> `python -m docgen.formdir check <ID>` 와 `python -m docgen.formdir card <ID>`."
+## 0. 하고 싶은 일 → 고칠 곳
+
+카드 맨 위 **종류:** 줄로 서식 종류를 봅니다: 코드 서식(값을 `generate.py` 가 만듦) · html 서식(값을 `fields.json` 의 `source` 가 만듦) · 원본 서식(`hf###`·`img_*`, 원본 그림 위에 값).
+
+| 하고 싶은 일 | 고칠 곳 | 직접 하기 (studio ① 서식 › 그 서식) | LLM 지시문의 `<할 일>` |
+|---|---|---|---|
+| ① 값이 이상함 (형식·범위, 칸끼리 안 맞음) | html: `fields.json` 그 칸 `source`, 칸끼리 관계는 `generate.py` 의 `adjust` · 코드: `generate.py` · 원본: `fields.json` 그 칸 `source`·`kind` | 영역 편집 → 칸을 눌러 값 출처 ([값 출처 목록](_common/values.md)). `generate.py` 는 파일로 | `칸 <키> 의 값이 <증상>. 원본 서식처럼 나오게 값 만드는 곳을 고쳐라` |
+| ② 값 위치·박스가 어긋남 | 원본: `fields.json` 그 칸 `rect` · html·코드: 템플릿 배치 | 원본: 영역 편집에서 끌어 옮기기 · html: html 편집 | `칸 <키> 가 원본의 <어디> 칸에 오게 고쳐라`. 원본 서식은 [FORM_SHELL_GUIDE.md](../manual/FORM_SHELL_GUIDE.md) 4장을 같이 준다 |
+| ③ 모양(표·문구·선)이 원본과 다름 | html·코드: `look/template.html.j2` (원본 서식은 그림이라 안 고침) | html 편집 | [FORM_SHELL_GUIDE.md](../manual/FORM_SHELL_GUIDE.md) 3장 + 원본 그림을 주고 `키는 그대로 두고 모양만 원본처럼 고쳐라` |
+| ④ 칸(추출 항목) 더하기·빼기·키 바꾸기 | html: 템플릿 `f("키", label=…)` + `fields.json` · 코드: 템플릿 + `generate.py` (+ `formdir declare <ID> --apply`) · 원본: `fields.json` | 원본: 영역 편집에서 그리기·지우기 · html: html 편집 | `원본의 <항목명> 칸을 키 <키> 로 더하라` (키 이름은 [키 이름 규칙](_common/README.md#키-이름-규칙)) |
+| ⑤ 질문 문장·답 모양 바꾸기, 어떤 칸은 묻지 않기 | `questions.json` (기본과 다른 것만), 칸마다는 `fields.json` 그 칸의 `"q"` | 파일로 (문항 Q/A 화면에서 결과 확인) | `kie 질문을 <문장> 으로, 답을 <꼴> 로 바꿔라` / `칸 <키> 는 묻지 마라` (5.1·5.2절) |
+| ⑥ 이 서식만의 질문 더하기 (계산·판단) | `qa.py` (함수 하나 = 질문 하나) | 파일로. 견본 `python -m docgen.formdir qa <ID> --new` | `qa.py 에 <질문> 을 더하라. 정답은 칸 <키…> 로 계산` (5.3절) |
+| ⑦ 채점을 다르게 | 서식 폴더가 아니라 `train/scorers/` (평가 세트에 붙임) | — | `train/scorers/<견본> 을 복사해 <규칙> 으로 채점하게 하라` (5.4절) |
+| 새 서식 추가 | → [guide/new-forms.md](../../guide/new-forms.md) | 왼쪽 메뉴 **새 서식 추가** | |
+
+①~④ 는 그림이 바뀌어 그 서식이 "재검수 필요"가 됩니다. ⑤~⑦ 은 그림을 바꾸지 않습니다.
+
+### LLM 에게 시키기
+
+저장소를 열 수 있는 LLM(클로드 코드 등)에게 아래를 그대로 붙여 넣고 `<ID>`·`<할 일>` 만 바꿉니다.
+
+```text
+docgen/forms/<ID>/FORM.md 와 docgen/forms/README.md 를 읽어라. <할 일>.
+고칠 곳은 README 0절 표의 "고칠 곳" 파일뿐이다. 다른 서식, docgen/forms/_common/, 엔진 코드(docgen/*.py, docgen/bench/)는 고치지 않는다.
+키 이름은 바꾸라고 한 것만 바꾼다. 판단이 안 서는 칸은 고치지 말고 목록으로 보고한다.
+끝나면 아래를 돌리고, 바꾼 파일·check 결과·그림 경로·판단이 안 선 곳을 보고해라. check 통과를 "검수 완료"라고 하지 않는다.
+  python -m docgen.formdir check <ID>
+  python -m docgen.formdir card <ID>
+  python -m docgen.preview <ID> --rows max --out out/<ID>
+```
+
+- **원본 그림을 줄 때:** 실서류에서 만든 서식(`$DOCGEN_PRIVATE_FORMS/<ID>/`)의 그림은 외부 모델·서비스에 보내지 않습니다. 사내 모델에만 맡깁니다.
+- 채팅만 되는 모델이면 `FORM.md`, 이 문서, 고칠 파일을 붙여 넣고, 위 명령은 사람이 돌려 결과를 다시 줍니다.
+
+### 고친 뒤 확인 (직접 했든 LLM 이 했든)
+
+1. `python -m docgen.formdir check <ID>` — 형식 문제가 없어야 합니다 (7절 표).
+2. `python -m docgen.formdir card <ID>` — 카드를 다시 만들고, 카드의 **질문→답 예시**가 바라던 대로인지 봅니다.
+3. **사람이 그림을 봅니다:** studio ① 서식 › 미리보기(행 최소·최대, seed 몇 개)에서 값이 칸 안에 들어가고 원본과 같은지. 맞으면 검수 탭에서 **검수 완료**.
+   자동 검사 통과는 검수가 아닙니다.
+4. 이 서식만 데이터를 조금 만들어 봅니다: `python -m docgen.bench build --types <ID> --per-doc 2 --bundles 0 --out out/try_<ID>` → `tasks/*.jsonl`.
 
 ## 1. 무엇을 하는 곳인가
 
@@ -222,7 +263,7 @@ python -m pytest docgen/tests              # 코드를 고쳤으면. 오래된 �
 
 `docgen/forms/_common/` — 무엇이 어디에 영향을 주는지는 [_common/README](_common/README.md).
 기본 질문 문장(`_common/questions.json`)을 바꾸면 모든 서식의 문항이 바뀌므로 평가 세트 버전(`docgen/bench/build.py` 의 `VERSION`)을 올리고
-[guide/questions.md](../../guide/questions.md) 도 같이 고칩니다. 공통을 고친 뒤에는 카드를 모두 다시 만듭니다 (`card --all --stale --workers 4`).
+[guide/questions.md](../../guide/questions.md) 도 같이 고칩니다 (테스트가 둘을 맞춰 봄). 공통을 고친 뒤에는 카드를 모두 다시 만듭니다 (`card --all --stale --workers 4`).
 
 새 과제(모든 서식에 같은 새 질문 종류)는 엔진 일입니다: `docgen/bench/tasks/` 에 파일 하나 (`kie.py` 견본), `tasks/__init__.py` 의 `SINGLE` **끝에**
 붙이고, 채점 `docgen/bench/evaluate.py`, `build.py` 의 `VERSION` 을 올립니다.

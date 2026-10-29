@@ -61,7 +61,7 @@ python -m docgen.formdir path <ID>
 ### VLM 에게 줄 것
 
 - 원본 그림, 지금 렌더링 그림, `look/template.html.j2` 전체
-- 이 문서의 3장, `docgen/manual/TEMPLATE_GUIDE.md` 의 "2. 템플릿"
+- 이 문서의 3장, `docgen/manual/NEW_FORM_SPEC.md` 의 2절(템플릿)·11절(매크로)
 
 ### 지시문 (그대로 붙여 넣기)
 

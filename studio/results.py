@@ -1,4 +1,4 @@
-"""④ 가져오기 › 결과 폴더 (studio/RESULTS_FORMAT.md): 이미 OCR·추론을 돌려 저장해 둔 폴더를 읽어 묶음으로 만든다.
+"""④ 가져오기 › 결과 폴더 (archive/studio/RESULTS_FORMAT.md): 이미 OCR·추론을 돌려 저장해 둔 폴더를 읽어 묶음으로 만든다.
 API 는 studio/api_review.py (검사)·api_import.py (묶음 만들기 kind: results), 화면은 static/js/import.js.
 
 - 이미지·OCR 은 OCR 준비 단계와 같은 규칙 (docgen/bench/ocr_data.py 의 scan·find_saved_ocr·parse_ocr).
@@ -55,7 +55,7 @@ def check(path: str) -> dict:
     root = Path(path).expanduser().resolve()
     errors, warnings = [], []
     if not (root / "meta.json").is_file():
-        return {"ok": False, "errors": [f"{root}/meta.json 이 없습니다 (studio/RESULTS_FORMAT.md 2절)"], "warnings": [], "docs": []}
+        return {"ok": False, "errors": [f"{root}/meta.json 이 없습니다 (archive/studio/RESULTS_FORMAT.md 2절)"], "warnings": [], "docs": []}
     try:
         meta = json.loads((root / "meta.json").read_text(encoding="utf-8"))
     except json.JSONDecodeError as e:
@@ -169,7 +169,7 @@ def create_batch(ws: Path, name: str, path: str, ocr: dict | None, import_dir: s
 def main(argv=None) -> None:
     import argparse
 
-    ap = argparse.ArgumentParser(prog="studio.results", description="결과 폴더 검사 (studio/RESULTS_FORMAT.md)")
+    ap = argparse.ArgumentParser(prog="studio.results", description="결과 폴더 검사 (archive/studio/RESULTS_FORMAT.md)")
     sub = ap.add_subparsers(dest="cmd", required=True)
     c = sub.add_parser("check")
     c.add_argument("folder")

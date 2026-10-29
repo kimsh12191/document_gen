@@ -46,6 +46,21 @@ docgen/forms/
 | 업무 묶음 과제 | `docgen/bench/build.py`·`cases.py`·`rules.py`, `docgen/scenarios.json` | 개발자 / studio ③ 시나리오 |
 | 데이터셋 설정 | `docgen/recipes/*.json`, `docgen/catalog.json`(검수·배정) | studio |
 
+## 키 이름 규칙
+
+칸의 키(정답 JSON 의 키)를 새로 정할 때 지킵니다. 서식마다 쓰는 키는 그 서식 카드 `FORM.md`, 전체 목록은 `keys.json`·`guide/fields/fields.json`.
+
+- **형식:** 영어 snake_case, 점(.)으로 중첩, `역할.속성` 순서 (`applicant.name`, `company.biz_no`, `loan.amount`).
+- **반복 항목:** 순번이 들어감 (`rows.0.amount`, `rows.1.amount`).
+- **같은 뜻은 같은 속성 이름:** 성명 `name`, 주민번호 `rrn`, 생년월일 `birth`, 성별 `gender`, 주소 `address`, 전화 `phone`/`mobile`,
+  사업자번호 `biz_no`, 법인등록번호 `corp_reg_no`, 대표자 `ceo`, 발급일 `issue_date`, 발급기관 `issuer`, 발급번호 `issue_no`.
+- **도장·서명:** `seal.<자리>`, `sign.<자리>`. 정답은 있으면 `true`, 없으면 `false` (자리 예: `issuer` 발급기관 직인, `corp` 법인인감, `applicant` 신청인).
+- **빈 칸:** 항목명은 있는데 값이 비어 있으면 `null`.
+- **체크박스:** 정답은 체크된 보기의 글자 (없으면 `null`, 복수 선택은 리스트).
+
+값 타입: `text` 그대로 · `date`/`month` `YYYY-MM-DD`/`YYYY-MM` · `amount`/`number`/`percent` 숫자 · `amount_korean` 한글 금액을 숫자로 ·
+`rrn`/`biz_no`/`account_no` 표시값 그대로 (마스킹 `*` 포함) · `phone` 숫자만 · `checkbox` 체크된 보기 · `seal`/`signature` 있음 여부.
+
 ## 고친 뒤
 
 ```bash

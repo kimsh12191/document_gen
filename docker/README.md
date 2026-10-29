@@ -18,7 +18,7 @@ GPU 학습(`train/`, `python -m train`)은 이 컨테이너가 아니라 따로 
 | 파일 | 역할 |
 |---|---|
 | `docker/studio.sh` | **서버에서 직접 쓰는 것.** studio 컨테이너 만들기·켜기, 포트·여는 주소, 로그, 셸, 지우기 |
-| `docker/remote_build.py`, `guide/agent-workflow.md` | 다른 컨테이너·PC 에서 studio 에 데이터 생성을 맡기기, 그 매뉴얼 |
+| `docker/remote_build.py`, `guide/data.md` | 다른 컨테이너·PC 에서 studio 에 데이터 생성을 맡기기, 그 매뉴얼 |
 | `docker/build.sh` | 인터넷 되는 PC 에서 반입 파일 두 개 만들기 (이미지 빌드 + 코드 묶음 + 네트워크를 끊은 테스트) |
 | `docker/Dockerfile` | 이미지: 파이썬·글꼴·Chromium·studio 패키지·SSH 서버 |
 | `docker/requirements.lock` | 이미지에 넣는 파이썬 패키지 (판 고정) |
@@ -109,7 +109,7 @@ tar -xzf docgen-code-1.3.tar.gz -C ~/docgen
 
 - `studio/`·`docgen/` 의 `.py` 가 바뀌면 studio 가 몇 초 안에 다시 뜹니다. 화면 파일(`studio/static`)은 브라우저 새로고침만 하면 됩니다. 서버에서 파일을 직접 고쳐도 같습니다.
 - 다시 뜰 때 돌고 있던 ⑧ 작업은 "끊김"으로 표시됩니다 (생성은 끝까지 돌고, 끝난 데이터셋은 ⑥ 목록에서 자동 등록이 복구됨). 긴 빌드 중에는 코드 반입을 미루세요.
-- 풀어도 지워진 파일은 남습니다. 2026-10-20 재배치·2026-10-21 학습 통합(`ocr/`·`bank/` → `train/`) 전 코드에서 넘어왔다면 옛 폴더(`scripts/`, `templates/`, `training/`, `ocr/`, `bank/` …)가 남지만 쓰이지 않습니다. `training/` 아래 git 에 없는 데이터·결과를 옮기는 방법은 [저장소 README](../README.md#예전-구조에서-옮겨-올-때)에 있습니다.
+- 풀어도 지워진 파일은 남습니다. 2026-10-20 재배치·2026-10-21 학습 통합(`ocr/`·`bank/` → `train/`) 전 코드에서 넘어왔다면 옛 폴더(`scripts/`, `templates/`, `training/`, `ocr/`, `bank/` …)가 남지만 쓰이지 않습니다. `training/` 아래 git 에 없는 데이터·결과를 옮기는 방법은 [저장소 README](../archive/MIGRATION.md)에 있습니다.
 - 이미지는 `docker/Dockerfile`·`docker/requirements.lock`·`studio/requirements.txt` 가 바뀌었을 때만 새로 반입합니다. 반입 뒤 `sh docker/studio.sh rm` → `DOCGEN_IMAGE=docgen:<새 버전> sh docker/studio.sh`.
 
 ## 5. 명령줄로 데이터 만들기
@@ -128,7 +128,7 @@ python -m docgen.bench eval --bench /out/bench --pred /out/preds/m1
 ### 다른 컨테이너에서 생성 맡기기 (HTTP)
 
 studio 를 `--open` 으로 띄워 두면, 다른 컨테이너(학습 컨테이너 등)나 PC 에서 [`docker/remote_build.py`](remote_build.py) 로 생성을 맡기고 끝날 때까지 기다릴 수 있습니다. 포트는 studio 포트 하나로 됩니다.
-**무엇을 넣으면 무엇이 나오는지, studio 화면의 어디와 대응하는지는 [agent 작업 절차](../guide/agent-workflow.md) 에 있습니다.**
+**무엇을 넣으면 무엇이 나오는지, studio 화면의 어디와 대응하는지는 [데이터 만들기](../guide/data.md) 에 있습니다.**
 
 ```bash
 export STUDIO_URL=http://<서버IP>:8765
