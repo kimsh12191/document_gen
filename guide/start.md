@@ -73,6 +73,7 @@ SFT 까지만은 `--part sft`. 에러는 [training.md 6절](training.md#6-에러
 3. **찍어도 나오는 점수**(기준선)보다 충분히 높은지, 문항 수가 적은 과제는 오차가 큰지
 4. OCR 열이 출발 모델보다 크게 떨어지지 않았는지
 5. 이상한 칸은 `reports/answers.html` 에서 문항별 모델 답을 봅니다
+6. 실서류 한 장이나 궁금한 그림에 직접 물어보려면 학습 서버에서 `python -m playground` ([playground](../playground/README.md))
 
 자세히: [results.md](results.md)
 

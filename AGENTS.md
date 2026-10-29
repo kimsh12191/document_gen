@@ -12,6 +12,7 @@
 | 학습 (설정·실행·실험 묶음·에러) | [guide/training.md](guide/training.md), 설정 칸 [train/README.md](train/README.md) |
 | 평가 세트·채점 함수, 학습 없이 평가만, 다시 채점 | [guide/eval.md](guide/eval.md) |
 | 결과 분석·보고 | [guide/results.md](guide/results.md), 아래 "보고" |
+| 모델을 그림 한 장으로 써 보기 (사람이 보는 화면) | [playground/README.md](playground/README.md) |
 | **서식 하나 고치기** (값·위치·모양·칸·질문·답·채점) | [docgen/forms/README.md](docgen/forms/README.md) 0절 표 → 그 서식의 카드 `docgen/forms/<ID>/FORM.md` |
 | 새 서식 추가 | 절차 [guide/new-forms.md](guide/new-forms.md), 결과물 형식 [docgen/manual/NEW_FORM_SPEC.md](docgen/manual/NEW_FORM_SPEC.md) |
 | 서식 모양(껍데기)만 원본에 맞게 | [docgen/manual/FORM_SHELL_GUIDE.md](docgen/manual/FORM_SHELL_GUIDE.md) |

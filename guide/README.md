@@ -9,6 +9,7 @@
 | 학습하기, 설정을 바꾼 모델 여러 개 | [training.md](training.md) |
 | 평가 세트·채점 방식, 학습 없이 평가만, 다시 채점, 다른 모델을 API 로 평가 | [eval.md](eval.md) |
 | 결과 보기·읽기 | [results.md](results.md) |
+| 학습한 모델을 그림 한 장으로 써 보기 (GPU 고르기·모델 띄우기 화면) | [playground](../playground/README.md) |
 | 서식 고치기 (직접 또는 LLM 에게) | [서식 고치기](../docgen/forms/README.md) |
 | 새 서식 추가 | [new-forms.md](new-forms.md) |
 | 실서류 이미지로 OCR 데이터 | [ocr.md](ocr.md) |

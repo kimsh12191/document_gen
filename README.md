@@ -21,6 +21,7 @@
 | [`docgen/`](docgen/README.md) | 서식별 합성 데이터 생성기. 서식(서식 하나 = 폴더 `docgen/forms/<ID>/` 하나), 문항 만들기, 채점 | studio 컨테이너 (생성), 학습 서버 (채점) |
 | [`studio/`](studio/README.md) | 웹 화면: 서식 보기·고치기·검수, 데이터셋 만들기, 학습 설정 내보내기 | studio 도커 컨테이너 ([docker/README.md](docker/README.md)) |
 | [`train/`](train/README.md) | `python -m train`: 데이터 섞기 → SFT → GRPO → 평가 → 비교표. 채점 함수 견본 `train/scorers/` | GPU 학습 서버 |
+| [`playground/`](playground/README.md) | 웹 화면: GPU 를 보고 모델을 띄워, 그림 한 장에 벤치마크 질문이나 직접 쓴 질문을 물어 보기 | GPU 학습 서버 |
 | [`guide/`](guide/README.md) | 사용 설명서 | |
 
 문항 하나는 그림 + 질문 + 정답입니다. 예 (값 추출 `kie`):
@@ -65,5 +66,5 @@
 ## 테스트
 
 ```bash
-python -m pytest        # docgen/tests, studio/tests, train/tests (학습은 GPU 없이 리허설까지)
+python -m pytest        # docgen/tests, studio/tests, train/tests (학습은 GPU 없이 리허설까지), playground/tests
 ```

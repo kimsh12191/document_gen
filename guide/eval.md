@@ -131,7 +131,13 @@ python -m train rescore ../runs/E01           # 실험 묶음 결과 폴더: 모
 - 채점 함수 경로는 섞을 때 문항에 적힙니다. 그 파일을 고치면 됩니다. 다른 파일로 바꾸거나 새로 붙이려면 새 `data.output_dir`로 다시 섞습니다.
 - 섞은 폴더는 `<workdir>/config.json`의 `data.output_dir`에서 찾습니다. 이 파일은 실험 묶음의 모델 폴더에만 생기므로, `python -m train`으로 돌린 workdir에는 `--data <섞은 폴더>`(설정의 `data.output_dir`)를 줍니다. 실험 묶음 결과 폴더는 모델마다 `<root>/<label>/data`를 씁니다.
 
-## 5. 다른 모델을 API 로 평가 (`docgen.bench`)
+## 5. 그림 한 장으로 써 보기 (`playground`)
+
+점수 없이 눈으로 봅니다. 학습 서버에서 `python -m playground` → GPU 를 고르고 모델 경로를 적어 띄운 뒤(명령을 보고 고칠 수 있음),
+이미지 폴더의 그림에 벤치마크 질문(OCR·분류·`kie`·`marks`·`freetext`)을 고르거나 고쳐서 묻습니다. 모델 둘을 나란히 비교할 수 있습니다.
+질문 문장·그림 크기·요청은 평가와 같습니다. 자세히 [playground/README.md](../playground/README.md).
+
+## 6. 다른 모델을 API 로 평가 (`docgen.bench`)
 
 학습 파이프라인 없이, OpenAI 호환 서버(vLLM·SGLang·사내 추론 서버)로 띄운 모델에 studio 평가 세트를 물어 채점합니다. docgen 컨테이너(`sh docker/studio.sh shell`)에서 됩니다.
 
