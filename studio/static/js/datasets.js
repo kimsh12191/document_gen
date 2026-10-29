@@ -9,16 +9,21 @@ addRoute(/^#\/datasets\/([^/]+)(?:\/(\w+))?$/, (id, tab) => viewDataset(decodeUR
 const GROUP_NAME = { ocr: "OCR", doc: "문서 이해", work: "업무 처리" };   // 과제 묶음 (docgen.bench.evaluate.TASK_GROUP)
 const TASK_GROUP = { crop_ocr: "ocr", bbox_ocr: "ocr", region_ocr: "ocr", marked_ocr: "ocr", grounding: "ocr", spotting: "ocr",
   relation: "ocr", marked_box: "ocr", ocr_field: "ocr", ocr_page: "ocr", classify: "doc", kie: "doc", marks: "doc", freetext: "doc", form_qa: "doc",
+  table: "doc", table_read: "doc", table_find: "doc", table_qa: "doc",
   doc_check: "work", cross_check: "work", review: "work" };
 const TASK_KO = {
   crop_ocr: "잘라낸 글자 읽기", bbox_ocr: "박스 안 글자", region_ocr: "영역 받아쓰기", marked_ocr: "그린 박스 글자",
   grounding: "글자 위치 찾기", spotting: "전체 글자+위치", relation: "옆 글자 찾기", marked_box: "그린 박스 위치",
   ocr_field: "값 칸 인식", ocr_page: "전체 받아쓰기", classify: "서류 분류", kie: "정보 추출", marks: "체크·도장·서명", freetext: "기타 칸 정리", form_qa: "서식 전용 질문",
+  table: "표 추출", table_read: "표 그대로 옮기기", table_find: "표 찾기", table_qa: "표 질의",
   doc_check: "서류 구비", cross_check: "서류 대조", review: "심사 질의",
 };
 // 이름만으로 헷갈리는 과제의 설명 (과제 이름에 마우스를 올리면 보임)
 const TASK_HINT = { freetext: "기타·비고·사유 칸의 자유 기재를 DB 칸(용도·금액·날짜…)으로 정리. 정보 추출(kie)은 적힌 그대로, 이건 정리한 값",
-  form_qa: "서식마다 사람이 정한 질문 (서식 폴더 qa.py)" };
+  form_qa: "서식마다 사람이 정한 질문 (서식 폴더 qa.py)",
+  table: "표(행 수가 서류마다 다른 반복 목록)의 모든 행을 정해 준 열로. 행 수는 모델이 정함",
+  table_read: "표를 머리글까지 그대로 옮기기 (열을 정해 주지 않음)", table_find: "서류의 표를 모두 찾기 (머리글·위치·행 수)",
+  table_qa: "표를 보고 행 수·찾기·합계 등을 묻기" };
 const LOWER_BETTER = new Set(["cer", "false_alarm", "matched_label_cer"]);
 const dsTag = d => (d.groups || []).map(g => `<span class="tag ${g === "ocr" ? "html" : g === "doc" ? "overlay" : ""}">${GROUP_NAME[g] || esc(g)}</span>`).join(" ");
 

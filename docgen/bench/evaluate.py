@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import difflib
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -19,16 +20,20 @@ from .metrics import (cer, is_null, loose_text, match, norm_text, parse_json, st
                       valid_box, value_match, yes_no)
 
 OCR_TASKS = list(OM.TASKS)   # 쪽 OCR (옛 1부): 문항마다가 아니라 과제 전체로 지표를 낸다 (CER = 틀린 글자 합 / 글자 합)
-TASK_ORDER = [*OCR_TASKS, "ocr_field", "ocr_page", "classify", "kie", "marks", "freetext", "form_qa", "doc_check", "cross_check", "review"]
+TABLE_TASKS = ["table", "table_read", "table_find", "table_qa"]
+TASK_ORDER = [*OCR_TASKS, "ocr_field", "ocr_page", "classify", "kie", "marks", "freetext", "form_qa", *TABLE_TASKS,
+              "doc_check", "cross_check", "review"]
 TASK_TITLE = {"crop_ocr": "OCR - 칸 잘라 읽기", "bbox_ocr": "OCR - 좌표 → 글자", "region_ocr": "OCR - 영역 받아쓰기",
               "marked_ocr": "OCR - 그린 박스 → 글자", "grounding": "OCR - 글자 → 좌표", "spotting": "OCR - 글자 찾기(좌표+글자)",
               "relation": "OCR - 항목명 → 값(좌표+글자)", "marked_box": "OCR - 그린 박스 → 좌표",
               "ocr_field": "OCR - 값 칸 인식", "ocr_page": "OCR - 전체 받아쓰기", "classify": "서류 분류",
               "kie": "정보 추출", "marks": "체크·도장·서명", "freetext": "기타 칸 정리", "form_qa": "서식 전용 질문",
+              "table": "표 추출", "table_read": "표 그대로 옮기기", "table_find": "표 찾기", "table_qa": "표 질의",
               "doc_check": "서류 구비 확인",
               "cross_check": "서류 간 대조", "review": "심사 질의"}
 TASK_GROUP = {**{t: "ocr" for t in [*OCR_TASKS, "ocr_field", "ocr_page"]}, "classify": "doc", "kie": "doc", "marks": "doc",
-              "freetext": "doc", "form_qa": "doc", "doc_check": "work", "cross_check": "work", "review": "work"}
+              "freetext": "doc", "form_qa": "doc", **{t: "doc" for t in TABLE_TASKS},
+              "doc_check": "work", "cross_check": "work", "review": "work"}
 GROUP_TITLE = {"ocr": "OCR", "doc": "문서 이해", "work": "업무 처리"}
 WORST = {"cer": 1.0, "false_alarm": 1.0, "extra_key": 1.0}
 LOWER_IS_BETTER = {"cer", "false_alarm", "matched_label_cer", "extra_key"}
@@ -36,7 +41,8 @@ LOWER_IS_BETTER = {"cer", "false_alarm", "matched_label_cer", "extra_key"}
 MAIN = {"crop_ocr": "cer", "bbox_ocr": "em", "region_ocr": "cer", "marked_ocr": "em", "grounding": "f1_iou50",
         "spotting": "e2e_f1", "relation": "e2e_f1", "marked_box": "f1_iou75",
         "ocr_field": "exact", "ocr_page": "recall", "classify": "acc", "kie": "vl_f1", "marks": "vl_f1", "freetext": "f1",
-        "form_qa": "acc", "doc_check": "exact", "cross_check": "score", "review": "acc"}
+        "form_qa": "acc", "table": "cell_f1", "table_read": "cell_f1", "table_find": "f1_iou50", "table_qa": "acc",
+        "doc_check": "exact", "cross_check": "score", "review": "acc"}
 # 평가 세트 1.x 의 kie·marks 는 값만 답한다 → 주 지표가 값 점수 (f1 / acc). 2.0 부터 값+위치 (vl_f1).
 MAIN_V1 = {"kie": "f1", "marks": "acc"}
 
@@ -57,11 +63,15 @@ METRIC_TITLE = {"exact": "완전 일치", "cer": "CER(낮을수록 좋음)", "re
                 "precision_iou50": "위치 정밀도", "recall_iou50": "위치 재현율", "mean_iou_matched": "맞은 박스 평균 IoU",
                 "count_accuracy": "박스 수 일치", "negative_accuracy": "없음 정확도", "valid_json_rate": "형식 맞음",
                 "matched_label_cer": "맞은 박스 글자 CER", "extra_key": "지어낸 키 비율(낮을수록 좋음)",
-                "approx_acc": "대략 표시 일치"}
+                "approx_acc": "대략 표시 일치", "cell_f1": "칸 F1", "cell_precision": "칸 정밀도", "cell_recall": "칸 재현율",
+                "row_exact": "행 완전 일치", "count_acc": "행 수 일치", "header_f1": "머리글 F1", "rows_acc": "행 수 맞춤(찾은 표)",
+                "absent_null": "없는 열·칸 null 비율"}
 SLICES = {"ocr_field": ["writing", "condition", "kind", "corrected"], "ocr_page": ["condition", "writing", "group"],
           "classify": ["group", "condition"], "kie": ["group", "condition", "writing", "@kind"],
           "marks": ["group", "condition", "@type"], "freetext": ["group", "writing", "level", "@key"],
-          "form_qa": ["doc_type", "question"], "doc_check": ["n_missing", "not_customer", "not_required", "scenario"],
+          "form_qa": ["doc_type", "question"],
+          "table": ["group", "condition", "ref", "scope", "absent", "@kind"], "table_read": ["group", "condition", "ref", "scope"],
+          "table_find": ["group", "condition"], "table_qa": ["group", "kind"], "doc_check": ["n_missing", "not_customer", "not_required", "scenario"],
           "cross_check": ["category", "case", "perturbed", "scenario"], "review": ["skill", "rule"],
           **{t: ["view", "confidence", "size"] for t in OCR_TASKS}}
 
@@ -342,6 +352,221 @@ def _s_marks2(item, out):
     return {"metrics": {"acc": sum(oks) / len(oks), **_no_loc(item, loc)}, "parse_fail": fail, "sub": sub}
 
 
+# ---------------------------------------------------------------------------
+# 표 (docgen/bench/tasks/table*.py): 답 {"columns", "rows": [[…]], "row_boxes": [{"bbox_2d", "page"}]}
+# ---------------------------------------------------------------------------
+
+def _table_pred(pred, columns: list[str]):
+    """모델 답 → (행 [[정답 열 순서의 값]], 행 상자 [dict]). 읽을 수 없으면 None.
+    받는 꼴: {"columns", "rows": [[…]]} (열 이름으로 맞춤), 행마다 객체 {"rows": [{열: 값}]} 또는 [{열: 값}] 목록."""
+    if isinstance(pred, list):
+        pred = {"rows": pred}
+    if not isinstance(pred, dict) or not isinstance(pred.get("rows"), list):
+        return None
+    norm = {re.sub(r"\s+", "", str(c)).lower(): c for c in columns}
+    cols = pred.get("columns")
+    order = [norm.get(re.sub(r"\s+", "", str(c)).lower()) for c in cols] if isinstance(cols, list) else None
+    rows, boxes = [], []
+    for r in pred["rows"]:
+        if isinstance(r, dict):
+            m = {norm.get(re.sub(r"\s+", "", str(k)).lower()): v for k, v in r.items()}
+            rows.append([m.get(c) for c in columns])
+            boxes.append({"bbox_2d": r.get("bbox_2d"), "page": r.get("page")})
+        elif isinstance(r, list):
+            if order is not None:
+                m = {c: v for c, v in zip(order, r) if c}
+                rows.append([m.get(c) for c in columns])
+            else:
+                rows.append([r[i] if i < len(r) else None for i in range(len(columns))])
+        else:
+            return None
+    rb = pred.get("row_boxes")
+    if isinstance(rb, list):
+        boxes = [b if isinstance(b, dict) else {} for b in rb]
+    return rows, boxes
+
+
+def _align_rows(gold: list[list], pred: list[list], same) -> list[tuple[int, int]]:
+    """정답 행과 답한 행을 순서대로 짝짓기 (빠지거나 더 들어간 행 허용): 맞은 칸 비율의 합이 가장 큰 짝들.
+    same(i, j, c) → 칸이 맞는지. 맞은 칸이 하나도 없는 짝은 짓지 않는다."""
+    m, n = len(gold), len(pred)
+    if not m or not n:
+        return []
+    sc = [[0.0] * n for _ in range(m)]
+    for i in range(m):
+        want = [c for c, v in enumerate(gold[i]) if v is not None] or list(range(len(gold[i])))
+        for j in range(n):
+            sc[i][j] = sum(same(i, j, c) for c in want) / len(want)
+    best = [[0.0] * (n + 1) for _ in range(m + 1)]
+    for i in range(m - 1, -1, -1):
+        for j in range(n - 1, -1, -1):
+            best[i][j] = max(best[i + 1][j], best[i][j + 1], (sc[i][j] + best[i + 1][j + 1]) if sc[i][j] > 0 else 0.0)
+    pairs, i, j = [], 0, 0
+    while i < m and j < n:
+        if sc[i][j] > 0 and abs(best[i][j] - (sc[i][j] + best[i + 1][j + 1])) < 1e-9:
+            pairs.append((i, j))
+            i, j = i + 1, j + 1
+        elif best[i][j] == best[i + 1][j]:
+            i += 1
+        else:
+            j += 1
+    return pairs
+
+
+def _row_loc(gb: list[dict], pb: list[dict], pairs) -> float:
+    """행 위치 F1: 짝지은 행끼리 같은 쪽·IoU 0.5 이상. 상자가 없는 정답 행은 세지 않는다."""
+    from .metrics import iou
+
+    g = sum(1 for b in gb if valid_box((b or {}).get("bbox_2d")))
+    p = sum(1 for b in pb if valid_box((b or {}).get("bbox_2d")))
+    hit = 0
+    for i, j in pairs:
+        a, b = (gb[i] if i < len(gb) else {}) or {}, (pb[j] if j < len(pb) else {}) or {}
+        if valid_box(a.get("bbox_2d")) and valid_box(b.get("bbox_2d")) and _page(a) == _page(b) and iou(a["bbox_2d"], b["bbox_2d"]) >= 0.5:
+            hit += 1
+    if not g:
+        return None
+    prec = hit / p if p else 0.0
+    rec = hit / g
+    return 2 * prec * rec / (prec + rec) if prec + rec else 0.0
+
+
+def _cells(gold: list[list], pred: list[list], pairs, ok, kinds: list[str]):
+    """칸 단위 (tp, fp, fn, 행 완전 일치 수, sub). ok(i, j, c) → 그 칸이 맞는지 (정답 null 이면 답도 비어야 맞음)."""
+    tp = fp = fn = exact = 0
+    sub = []
+    got = {i: j for i, j in pairs}
+    used = set(got.values())
+    for i, grow in enumerate(gold):
+        j = got.get(i)
+        all_ok = j is not None
+        for c, g in enumerate(grow):
+            p = pred[j][c] if j is not None else None
+            good = ok(i, j, c) if j is not None else g is None
+            all_ok &= good
+            if g is not None:
+                tp += good
+                fn += not good
+                fp += (not good) and j is not None and not is_null(p)
+                sub.append(("kind", kinds[c], good))
+            elif j is not None and not is_null(p):
+                fp += 1
+                sub.append(("kind", kinds[c], False))
+        exact += all_ok
+    for j, prow in enumerate(pred):
+        if j not in used:
+            fp += sum(1 for v in prow if not is_null(v))
+    return tp, fp, fn, exact, sub
+
+
+def s_table(item, out):
+    """표 추출: 행을 순서대로 짝지은 뒤 칸 F1 (주 지표). 행 완전 일치, 행 수 일치, 행 위치 F1, 없는 열을 null 로 둔 비율."""
+    gold = item["answer"]
+    columns = gold["columns"]
+    info = item["eval"]["fields"]
+    parsed = _table_pred(parse_json(out), columns)
+    fail = parsed is None
+    prows, pboxes = parsed or ([], [])
+    grows = gold["rows"]
+
+    def ok(i, j, c):
+        k = columns[c]
+        return value_match(prows[j][c], grows[i][c], info[k]["type"], None, k)
+    pairs = _align_rows(grows, prows, lambda i, j, c: grows[i][c] is not None and ok(i, j, c))
+    tp, fp, fn, exact, sub = _cells(grows, prows, pairs, ok, [info[k].get("kind", "text") for k in columns])
+    prec = tp / (tp + fp) if tp + fp else 1.0
+    rec = tp / (tp + fn) if tp + fn else 1.0
+    m = {"cell_f1": 2 * prec * rec / (prec + rec) if prec + rec else 0.0, "cell_precision": prec, "cell_recall": rec,
+         "row_exact": exact / len(grows) if grows else float(not prows), "count_acc": float(len(prows) == len(grows))}
+    loc = _row_loc(gold.get("row_boxes") or [], pboxes, pairs)
+    if loc is not None:
+        m["loc_f1"] = loc
+    absent = (item.get("eval") or {}).get("absent") or []
+    if absent and prows:
+        idx = [columns.index(a) for a in absent if a in columns]
+        m["absent_null"] = sum(is_null(r[c]) for r in prows for c in idx) / (len(prows) * len(idx)) if idx else 1.0
+    return {"metrics": m, "parse_fail": fail, "sub": sub}
+
+
+def _head_key(h) -> str:
+    return norm_text(str(h or "")).replace(">", "")
+
+
+def s_table_read(item, out):
+    """표 그대로 옮기기: 머리글을 글자로 짝지은 뒤(같은 글자 → 비슷한 글자 → 같은 개수면 자리) table 과 같은 칸 F1. 머리글 F1 도."""
+    gold = item["answer"]
+    gcols = gold["columns"]
+    pred = parse_json(out)
+    pcols = pred.get("columns") if isinstance(pred, dict) and isinstance(pred.get("columns"), list) else None
+    names = [f"c{i}" for i in range(len(gcols))]
+    mapped = None
+    if pcols is not None:
+        gk = [_head_key(h) for h in gcols]
+        used, mapped = set(), []
+        for h in pcols:
+            k = _head_key(h)
+            j = next((j for j, x in enumerate(gk) if x == k and j not in used), None)
+            if j is None:
+                best = max(((difflib.SequenceMatcher(None, k, x).ratio(), j) for j, x in enumerate(gk) if j not in used), default=(0, None))
+                j = best[1] if best[0] >= 0.8 else None
+            if j is None and len(pcols) == len(gcols) and len(mapped) not in used:
+                j = len(mapped)
+            if j is not None:
+                used.add(j)
+            mapped.append(names[j] if j is not None else f"x{len(mapped)}")
+        pred = {**pred, "columns": mapped}
+        hit = len(used)
+        prec, rec = (hit / len(pcols) if pcols else 0.0), (hit / len(gcols) if gcols else 1.0)
+        head = 2 * prec * rec / (prec + rec) if prec + rec else 0.0
+    else:
+        head = 0.0
+    item2 = {**item, "answer": {**gold, "columns": names},
+             "eval": {"fields": {n: {"type": "text", "kind": "text"} for n in names}}}
+    r = s_table(item2, json.dumps(pred, ensure_ascii=False) if pred is not None else out)
+    r["metrics"]["header_f1"] = head
+    return r
+
+
+def s_table_find(item, out):
+    """표 찾기: 같은 쪽·IoU 0.5 이상 짝 F1 (주 지표), 표 수 일치, 짝지은 표의 행 수 일치, 머리글 F1(짝지은 표의 평균)."""
+    gold = item["answer"]
+    pred = parse_json(out)
+    fail = not isinstance(pred, list)
+    p = [x for x in (pred or []) if isinstance(x, dict) and valid_box(x.get("bbox_2d"))] if not fail else []
+    pairs = match(p, gold, lambda a, b, v: v >= 0.5 and _page(a) == _page(b))
+
+    def f1(hit):
+        prec = hit / len(p) if p else (1.0 if not gold else 0.0)
+        rec = hit / len(gold) if gold else (1.0 if not p else 0.0)
+        return 2 * prec * rec / (prec + rec) if prec + rec else 0.0
+    rows_ok = [to_number(p[i].get("n_rows")) == gold[j]["n_rows"] for i, j, _ in pairs]
+    heads = []
+    for i, j, _ in pairs:
+        g = {_head_key(h) for h in gold[j].get("columns") or []}
+        q = {_head_key(h) for h in p[i].get("columns") or []} if isinstance(p[i].get("columns"), list) else set()
+        hit = len(g & q)
+        heads.append(2 * hit / (len(g) + len(q)) if g or q else 1.0)
+    m = {"f1_iou50": f1(len(pairs)), "count_acc": float(len(p) == len(gold)),
+         "rows_acc": sum(rows_ok) / len(rows_ok) if rows_ok else (1.0 if not gold and not p else 0.0)}
+    if heads:
+        m["header_f1"] = sum(heads) / len(heads)
+    return {"metrics": m, "parse_fail": fail}
+
+
+def s_table_qa(item, out):
+    """표 질의: 숫자는 같은 수, 칸 값은 kie 와 같은 비교 (정답이 빈 칸이면 답도 비어야). 주 지표 acc."""
+    ev = item["eval"]
+    if out is None:
+        return {"metrics": {"acc": 0.0}, "parse_fail": True}
+    a = strip_answer(out) if isinstance(out, str) else out
+    if ev["answer_type"] == "number":
+        n = to_number(a)
+        ok = n is not None and abs(n - float(item["answer"])) < 1e-6
+    else:
+        ok = value_match(a, item["answer"], ev.get("type"), None, ev.get("key") or "")
+    return {"metrics": {"acc": float(ok)}}
+
+
 DOC_CHECK_KEYS = ("missing", "not_required", "not_customer")
 
 
@@ -486,7 +711,8 @@ def s_freetext(item, out):
 
 
 SCORERS = {"classify": s_classify, "ocr_field": s_ocr_field, "ocr_page": s_ocr_page, "kie": s_kie, "marks": s_marks,
-           "freetext": s_freetext, "form_qa": s_form_qa,
+           "freetext": s_freetext, "form_qa": s_form_qa, "table": s_table, "table_read": s_table_read,
+           "table_find": s_table_find, "table_qa": s_table_qa,
            "doc_check": s_doc_check, "cross_check": s_cross_check, "review": s_review}
 
 

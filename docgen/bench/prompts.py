@@ -31,6 +31,38 @@ P_CROSS = _fmt(DEFAULTS["cross_check"]["prompt"], ("customer", "task", "n", "pag
 P_FREETEXT = _fmt(DEFAULTS["freetext"]["prompt"], ("label", "basis", "purposes", "reasons", "requests"))
 P_REVIEW = _fmt(DEFAULTS["review"]["prompt"], ("task", "pages", "question"))
 LINE = DEFAULTS["kie"]["item"]   # 질문의 항목 한 줄 틀 (서식의 questions.json 의 item 으로 바꿀 수 있다)
+# 표(목록) 과제 (docgen/bench/tasks/table*.py). {target} 표를 가리키는 말, {scope} 범위 (없으면 빈칸), {columns} 열 줄들
+P_TABLE = _fmt(DEFAULTS["table"]["prompt"], ("target", "scope", "columns"))
+P_TABLE_READ = _fmt(DEFAULTS["table_read"]["prompt"], ("target", "scope"))
+P_TABLE_FIND = _fmt(DEFAULTS["table_find"]["prompt"])
+P_TABLE_QA = _fmt(DEFAULTS["table_qa"]["prompt"], ("target", "question"))
+COLUMN = DEFAULTS["table"]["column"]   # 열 한 줄 틀
+
+
+def table_target(how: str, title: str | None = None, labels: list[str] | None = None, box: list[int] | None = None,
+                 page: int | None = None) -> str:
+    """표를 가리키는 말. how: title (제목) / header (머리글 두어 개) / box (위치) / only (표가 하나뿐인 서류)."""
+    if how == "title":
+        return f"'{title}' 표"
+    if how == "header":
+        return "·".join(f"'{x}'" for x in labels) + " 열이 있는 표"
+    if how == "box":
+        return f"{page}쪽 bbox_2d={json.dumps(box)} 위치의 표"
+    return "표"
+
+
+def table_scope(page: int | None = None, first: int | None = None) -> str:
+    """범위: 그 쪽의 행만 / 앞에서부터 몇 행까지. 없으면 빈칸 (모든 행)."""
+    if page:
+        return f" (단, {page}쪽에 있는 행만)"
+    if first:
+        return f" (단, 앞에서부터 {first}행까지만)"
+    return ""
+
+
+def column_line(key: str, label: str | None, note: str | None = None) -> str:
+    """표 열 한 줄 '- 키: 항목명 (설명)'. 설명은 칸 목록 fields.json 의 그 열 칸 "q": {"note"} (없으면 뺌)."""
+    return COLUMN.replace("{key}", key).replace("{label}", label or "-").replace("{note}", f" ({note})" if note else "")
 
 
 def freetext_prompt(label: str, basis: str) -> str:

@@ -31,7 +31,7 @@ def test_every_task_file_has_its_parts_and_feeds_the_format_catalog():
         assert c[t.TASK] == {"name": t.NAME, "prompt_template": t.PROMPT, "answer_schema": t.ANSWER,
                              "example": t.EXAMPLE, "notes": t.NOTES}
     assert T.kie.PROMPT == prompts.P_KIE and [t.TASK for t in T.SINGLE] == [
-        "classify", "ocr_page", "ocr_field", "kie", "freetext", "marks", "form_qa"]
+        "classify", "ocr_page", "ocr_field", "kie", "freetext", "marks", "form_qa", "table", "table_find", "table_qa", "table_read"]
 
 
 def test_builder_single_is_the_task_files_in_order_and_answers_score_perfectly(tmp_path):

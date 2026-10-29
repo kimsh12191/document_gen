@@ -66,7 +66,7 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 | `grpo_a100x2.yaml` · `grpo_a100_40g_x2.yaml` | GRPO, `reward_funcs: ["docgen"]` |
 | `inference.json` | 평가 답 내기 (`max_tokens` 4096, `timeout` 600) |
 
-`grpo.tasks` 로 GRPO 후보 과제를 고릅니다 (기본: cross_check·review·doc_check·kie·grounding·spotting·relation), `grpo.max_images` 로 그림이 많은 문항을 뺍니다.
+`grpo.tasks` 로 GRPO 후보 과제를 고릅니다 (기본: cross_check·review·doc_check·kie·table·grounding·spotting·relation), `grpo.max_images` 로 그림이 많은 문항을 뺍니다.
 
 ## 그 밖의 명령
 

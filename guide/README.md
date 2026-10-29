@@ -26,6 +26,7 @@ agent 에게 맡길 때는 저장소 최상위의 [AGENTS.md](../AGENTS.md) 부�
 | 과제마다 묻는 것·답의 꼴·채점 규칙 | [benchmark.md](benchmark.md) |
 | 질문 문장 원문 (모든 서식 공통 기본) | [questions.md](questions.md) |
 | 모든 과제의 실제 문항 (그림·질문·정답) | [tasks.md](tasks.md) |
+| 표가 있는 서식 점검 (행 수·순서·합계·번호 붙은 반복 칸) | [table-audit.md](table-audit.md) |
 | 키 이름 규칙, 모든 서식에 같은 것 | [docgen/forms/_common/README.md](../docgen/forms/_common/README.md) |
 
 ## 문서 갱신 (개발자)
@@ -36,6 +37,7 @@ python docgen/scripts/build_schema.py                   # fields/fields.json (st
 python -m docgen list --markdown > guide/documents.md   # documents.md
 bash guide/examples/make_examples.sh <작업 폴더> --docs   # tasks.md, examples/img/ (약 10분)
 python -m docgen.formdir card --all --stale --workers 4 # 서식 카드 FORM.md
+python -m docgen.bench.table_audit --workers 4 --out guide/table-audit.md   # 표 점검 목록 (약 5분)
 ```
 
-`tasks.md`, `documents.md`, `fields/fields.json`, `catalog.*`, `FORM.md` 는 자동 생성 파일이라 직접 고치지 않습니다.
+`tasks.md`, `documents.md`, `fields/fields.json`, `catalog.*`, `FORM.md`, `table-audit.md` 는 자동 생성 파일이라 직접 고치지 않습니다.

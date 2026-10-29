@@ -287,3 +287,23 @@ def test_adapter_command_fills_after_merging(tmp_path):
     assert flat.index("swift export") < flat.index("train.fill_weights") < flat.index("swift deploy")
     import subprocess
     assert subprocess.run(["bash", "-n", "-c", text]).returncode == 0
+
+
+def test_table_questions_follow_the_benchmark():
+    """표 과제: 서식의 표 열, 표를 가리키는 말 넷, 표 질의 종류. kie 에는 표 칸(rows[].x)이 안 들어간다."""
+    from docgen.bench import prompts as P
+
+    t = Q.build({"task": "table", "form": "health_insurance_qualification", "target": "header"})
+    assert t["prompt"].startswith(P.P_TABLE.split("{target}")[0]) and "- kind: 가입자구분" in t["prompt"] and t["tables"] == ["rows"]
+    assert "'가입자구분'·'자격취득일' 열이 있는 표" in t["prompt"] or "'가입자구분'" in t["prompt"]
+    assert "rows[]" not in Q.build({"task": "kie", "form": "health_insurance_qualification", "max_keys": 0})["prompt"]
+    box = Q.build({"task": "table_read", "target": "box", "box": [100, 200, 900, 600], "size": [1000, 1000], "page": 2})
+    assert "2쪽 bbox_2d=[100, 200, 900, 600] 위치의 표를 머리글까지" in box["prompt"]
+    assert "'자격득실' 표" in Q.build({"task": "table_read", "target": "title", "title": "자격득실"})["prompt"]
+    with pytest.raises(ValueError, match="제목"):
+        Q.build({"task": "table", "target": "title"})
+    qa = Q.build({"task": "table_qa", "tableq": "sum"})
+    assert qa["prompt"] == P.P_TABLE_QA.format(target="표", question=Q.TABLE_QA["sum"])
+    assert Q.build({"task": "table_find"})["prompt"] == P.P_TABLE_FIND
+    assert A.read_answer("table", '{"columns": ["a"], "rows": [["1"]], "row_boxes": [{"bbox_2d": [1, 2, 3, 4], "page": 1}]}')["boxes"][0]["box"] == [1, 2, 3, 4]
+    assert A.read_answer("table", "표가 없음")["format_error"]

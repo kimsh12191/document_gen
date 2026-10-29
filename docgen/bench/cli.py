@@ -24,6 +24,8 @@ def main(argv=None) -> None:
     b.add_argument("--workers", type=int, default=1, help="동시에 렌더링할 프로세스 수 (결과는 작업 수와 상관없이 같음)")
     b.add_argument("--force", action="store_true", help="이미 있는 출력 폴더에 다시 만들기")
     b.add_argument("--recipe", help="레시피 JSON (docgen/recipes/*.json): 위 설정과 묶음 구성 규칙·직접 만든 묶음")
+    b.add_argument("--blank", type=float, help="비어 있기도 한 칸(용도·비고 …)을 비우는 비율 (기본 0.3, 0 이면 끔)")
+    b.add_argument("--mask", type=float, help="값 칸 1~3개를 검은 상자로 가리는 서류 비율 (기본 0.1, 0 이면 끔)")
 
     r = sub.add_parser("run", help="모델 예측 (OpenAI 호환 API)")
     r.add_argument("--bench", default="bench_out")

@@ -55,7 +55,7 @@ def read_answer(task: str, text: str) -> dict:
     """{"json"?, "boxes", "format_error"}: JSON 으로 답하는 과제인데 못 읽으면 형식 오류."""
     kind = BY_ID.get(task, {}).get("answer", "auto")
     obj = _json(text) if kind != "text" else None
-    out = {"boxes": _boxes(obj) if obj is not None else [], "format_error": kind in ("boxes", "entries", "json") and obj is None}
+    out = {"boxes": _boxes(obj) if obj is not None else [], "format_error": kind in ("boxes", "entries", "json", "table") and obj is None}
     if obj is not None:
         out["json"] = obj
     return out

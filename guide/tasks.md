@@ -885,7 +885,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 ## 은행 업무 과제
 
-예시는 `python -m docgen.bench build` 로 만든 실제 평가 세트 형식 그대로입니다 (세트 버전 1.1, 생성기 커밋 `4500618`). 학습 데이터(`--split train`)도 같은 형식이고, 고객만 다릅니다.
+예시는 `python -m docgen.bench build` 로 만든 실제 평가 세트 형식 그대로입니다 (세트 버전 4.0, 생성기 커밋 `7a1f927`). 학습 데이터(`--split train`)도 같은 형식이고, 고객만 다릅니다.
 
 ### 2-0. 세트 폴더와 문항 한 줄의 필드
 
@@ -938,6 +938,19 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 | `kind` | 값 종류 (이름·금액·날짜 …) |
 | `corrected` | 손글씨 정정(두 줄 긋고 고쳐 씀)이 있는 칸인지 |
 | `length` | 정답 글자 수 (공백 제외) |
+| `masked` | 검은 상자로 가린 값 칸 수 (정답 null) |
+| `table` | 표 묶음 이름 (키의 행 번호 앞, `rows.0.x` → `rows`) |
+| `ref` | 표를 가리킨 방법: title 제목 / header 머리글 / box 위치 / only 표가 하나뿐 |
+| `scope` | 범위: all 모든 행 / page 한 쪽 / first 앞 30행 |
+| `n_rows` | 표의 행 수 (물은 범위) |
+| `n_cols` | 열 수 (섞은 없는 열 포함) |
+| `absent` | 없는 열을 섞었는지 |
+| `n_tables` | 서류의 표 수 |
+| `n_segments` | 표 조각 수 (여러 쪽 표는 쪽마다) |
+| `segments` | 같은 표가 나뉜 쪽 수 |
+| `task_group` | 과제 묶음: ocr / doc 문서 이해 / work 업무 처리 (점수를 묶어 보는 구분) |
+| `label_format` | 정답 구조 (key_values, table_rows, scalar …) — 점수를 정답 꼴별로 나눠 볼 때 |
+| `template_variant` | 서식 레이아웃 변형 {id, name} |
 
 **eval 키**
 
@@ -951,6 +964,11 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 | `days` | 유효기간 문항: 발급일부터 신청일까지 일수 (정답 계산 근거) |
 | `fields` | 키마다 `type`(값 타입), `norm`(정규화 값: 날짜 YYYY-MM-DD, 금액 정수 …), `kind`(값 종류). 타입별로 표기 차이를 맞춰 비교 |
 | `types` | 키마다 `checkbox` / `checkbox_multi` / `seal` / `signature` |
+| `absent` | 섞은 없는 키·열 (서류에 없음, 정답 null) |
+| `group` | 표 묶음 이름 |
+| `type` | 표 질의: 물은 열의 값 타입 |
+| `key` | 표 질의: 물은 열 키 |
+| `aliases` | 분류: 정답으로 인정하는 다른 서류명 |
 
 ### 2-1. doc_check — 서류 구비 확인
 
@@ -960,9 +978,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (7장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/account_opening_application_p1_7c6cd821.jpg"><img src="examples/img/account_opening_application_p1_7c6cd821.jpg" width="220"></a> <a href="examples/img/fatca_crs_16e4ec86.jpg"><img src="examples/img/fatca_crs_16e4ec86.jpg" width="220"></a> <a href="examples/img/privacy_consent_57e9b89a.jpg"><img src="examples/img/privacy_consent_57e9b89a.jpg" width="220"></a> <a href="examples/img/customer_due_diligence_d5df3487.jpg"><img src="examples/img/customer_due_diligence_d5df3487.jpg" width="220"></a> <a href="examples/img/resident_id_card_other_7e1ab600.jpg"><img src="examples/img/resident_id_card_other_7e1ab600.jpg" width="220"></a> <a href="examples/img/financial_transaction_purpose_eecca3af.jpg"><img src="examples/img/financial_transaction_purpose_eecca3af.jpg" width="220"></a> <a href="examples/img/tax_payment_certificate_corp_extra_09075c8c.jpg"><img src="examples/img/tax_payment_certificate_corp_extra_09075c8c.jpg" width="220"></a></p>
+<p><a href="examples/img/account_opening_application_p1_7c6cd821.jpg"><img src="examples/img/account_opening_application_p1_7c6cd821.jpg" width="220"></a> <a href="examples/img/fatca_crs_b1b2b576.jpg"><img src="examples/img/fatca_crs_b1b2b576.jpg" width="220"></a> <a href="examples/img/privacy_consent_893d641f.jpg"><img src="examples/img/privacy_consent_893d641f.jpg" width="220"></a> <a href="examples/img/customer_due_diligence_fc8a9a9d.jpg"><img src="examples/img/customer_due_diligence_fc8a9a9d.jpg" width="220"></a> <a href="examples/img/resident_id_card_other_504c97ab.jpg"><img src="examples/img/resident_id_card_other_504c97ab.jpg" width="220"></a> <a href="examples/img/financial_transaction_purpose_3cc830f1.jpg"><img src="examples/img/financial_transaction_purpose_3cc830f1.jpg" width="220"></a> <a href="examples/img/local_tax_payment_certificate_extra_0489c132.jpg"><img src="examples/img/local_tax_payment_certificate_extra_0489c132.jpg" width="220"></a></p>
 
-1. `account_opening_application_p1.png` · 2. `fatca_crs.png` · 3. `privacy_consent.jpg` · 4. `customer_due_diligence.jpg` · 5. `resident_id_card_other.jpg` · 6. `financial_transaction_purpose.png` · 7. `tax_payment_certificate_corp_extra.jpg`
+1. `account_opening_application_p1.png` · 2. `fatca_crs.png` · 3. `privacy_consent.jpg` · 4. `customer_due_diligence.jpg` · 5. `resident_id_card_other.jpg` · 6. `financial_transaction_purpose.png` · 7. `local_tax_payment_certificate_extra.jpg`
 
 **질문** (`prompt`)
 
@@ -987,7 +1005,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 **정답** (`answer`)
 
 ```json
-{"missing": ["주민등록증", "재직증명서"], "not_required": ["납세증명서(법인)"], "not_customer": ["주민등록증"]}
+{"missing": ["주민등록증", "재직증명서"], "not_required": ["지방세 납세증명서"], "not_customer": ["주민등록증"]}
 ```
 
 **채점 정보** (`eval`)
@@ -1003,7 +1021,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "고객확인서(개인)",
   "개인(신용)정보 수집·이용·제공·조회 동의서",
   "해외금융계좌 납세자 확인서(개인)",
-  "납세증명서(법인)"
+  "지방세 납세증명서"
  ]
 }
 ```
@@ -1019,7 +1037,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "n_missing": 1,
  "not_customer": true,
  "not_required": true,
- "n_docs": 7
+ "n_docs": 7,
+ "task_group": "work",
+ "label_format": "document_sets"
 }
 ```
 
@@ -1038,10 +1058,10 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "images/bundles/account_opening_2000002/customer_due_diligence.jpg",
   "images/bundles/account_opening_2000002/resident_id_card_other.jpg",
   "images/bundles/account_opening_2000002/financial_transaction_purpose.png",
-  "images/bundles/account_opening_2000002/tax_payment_certificate_corp_extra.jpg"
+  "images/bundles/account_opening_2000002/local_tax_payment_certificate_extra.jpg"
  ],
  "prompt": "고객 '주하진' 님이 '개인 계좌개설' 업무를 위해 서류를 제출했습니다. 첨부 이미지는 제출된 서류의 첫 쪽입니다 (순서 무관).\n필수 제출 서류:\n1. 주민등록증\n2. 재직증명서\n3. 예금거래신청서\n4. 금융거래목적확인서\n5. 고객확인서(개인)\n6. 개인(신용)정보 수집·이용·제공·조회 동의서\n7. 해외금융계좌 납세자 확인서(개인)\n\n제출 서류를 확인해 다음을 JSON 으로 답하세요.\n- missing: 필수 서류 중 제출되지 않은 서류. 고객 본인 명의가 아닌 서류만 낸 경우도 제출되지 않은 것으로 봅니다.\n- not_required: 제출됐지만 필수 서류 목록에 없는 서류\n- not_customer: 고객 본인 명의가 아닌 서류\n{\"missing\": [\"서류명\", ...], \"not_required\": [...], \"not_customer\": [...]} 형식으로 답하고, 해당 없으면 빈 목록 [] 으로 두세요. 서류명은 목록에 있으면 목록 그대로, 없으면 서류에 적힌 제목대로 쓰세요.",
- "answer": {"missing": ["주민등록증", "재직증명서"], "not_required": ["납세증명서(법인)"], "not_customer": ["주민등록증"]},
+ "answer": {"missing": ["주민등록증", "재직증명서"], "not_required": ["지방세 납세증명서"], "not_customer": ["주민등록증"]},
  "eval": {
   "required": ["주민등록증", "재직증명서", "예금거래신청서", "금융거래목적확인서", "고객확인서(개인)", "개인(신용)정보 수집·이용·제공·조회 동의서", "해외금융계좌 납세자 확인서(개인)"],
   "names": [
@@ -1052,7 +1072,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
    "고객확인서(개인)",
    "개인(신용)정보 수집·이용·제공·조회 동의서",
    "해외금융계좌 납세자 확인서(개인)",
-   "납세증명서(법인)"
+   "지방세 납세증명서"
   ]
  },
  "meta": {
@@ -1063,7 +1083,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "n_missing": 1,
   "not_customer": true,
   "not_required": true,
-  "n_docs": 7
+  "n_docs": 7,
+  "task_group": "work",
+  "label_format": "document_sets"
  }
 }
 ```
@@ -1082,7 +1104,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "images/bundles/account_opening_2000002/customer_due_diligence.jpg",
   "images/bundles/account_opening_2000002/resident_id_card_other.jpg",
   "images/bundles/account_opening_2000002/financial_transaction_purpose.png",
-  "images/bundles/account_opening_2000002/tax_payment_certificate_corp_extra.jpg"
+  "images/bundles/account_opening_2000002/local_tax_payment_certificate_extra.jpg"
  ],
  "messages": [
   {
@@ -1091,7 +1113,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   },
   {
    "role": "assistant",
-   "content": "{\"missing\": [\"주민등록증\", \"재직증명서\"], \"not_required\": [\"납세증명서(법인)\"], \"not_customer\": [\"주민등록증\"]}"
+   "content": "{\"missing\": [\"주민등록증\", \"재직증명서\"], \"not_required\": [\"지방세 납세증명서\"], \"not_customer\": [\"주민등록증\"]}"
   }
  ]
 }
@@ -1105,7 +1127,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/lease_contract_39a79a48.jpg"><img src="examples/img/lease_contract_39a79a48.jpg" width="300"></a> <a href="examples/img/real_estate_registry_lease_owner_868611ae.jpg"><img src="examples/img/real_estate_registry_lease_owner_868611ae.jpg" width="300"></a></p>
+<p><a href="examples/img/lease_contract_5a89b782.jpg"><img src="examples/img/lease_contract_5a89b782.jpg" width="300"></a> <a href="examples/img/real_estate_registry_lease_owner_1412bcd2.jpg"><img src="examples/img/real_estate_registry_lease_owner_1412bcd2.jpg" width="300"></a></p>
 
 1. `lease_contract.png` · 2. `real_estate_registry_lease_owner.png`
 
@@ -1150,7 +1172,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "case": "lease_owner",
  "category": "logic",
  "perturbed": true,
- "n_docs": 2
+ "n_docs": 2,
+ "task_group": "work",
+ "label_format": "consistency_issues"
 }
 ```
 
@@ -1188,7 +1212,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "case": "lease_owner",
   "category": "logic",
   "perturbed": true,
-  "n_docs": 2
+  "n_docs": 2,
+  "task_group": "work",
+  "label_format": "consistency_issues"
  }
 }
 ```
@@ -1225,7 +1251,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_e179d459.jpg"><img src="examples/img/loan_application_e179d459.jpg" width="300"></a> <a href="examples/img/sales_contract_bf738685.jpg"><img src="examples/img/sales_contract_bf738685.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_10a3fd22.jpg"><img src="examples/img/loan_application_10a3fd22.jpg" width="300"></a> <a href="examples/img/sales_contract_b1706022.jpg"><img src="examples/img/sales_contract_b1706022.jpg" width="300"></a></p>
 
 1. `loan_application.jpg` · 2. `sales_contract.jpg`
 
@@ -1257,7 +1283,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "bundle": "mortgage_2002000",
  "customer": "엄태정",
  "rule": "ltv",
- "skill": "계산(비율)"
+ "skill": "계산(비율)",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -1282,7 +1310,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "bundle": "mortgage_2002000",
   "customer": "엄태정",
   "rule": "ltv",
-  "skill": "계산(비율)"
+  "skill": "계산(비율)",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -1310,53 +1340,43 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 ### 2-4. kie — 정보 추출
 
-**정답 형식:** `{키: 문서에 적힌 값 또는 null}`. 빈 칸은 null
+**정답 형식:** `[{"key", "value": 문서에 적힌 값, "bbox_2d", "page"}]`. 빈 칸·가린 칸·서류에 없는 항목은 `{"key", "value": null}`
 
-**채점:** 주 지표: F1 (값이 있는 칸 기준, 빈 칸에 값을 지어내면 감점). 날짜·금액·번호는 타입별로 표기를 맞춰 비교
+**채점:** 주 지표: 값+위치 F1 (값 F1·위치 F1 함께, 빈 칸에 값을 지어내면 감점). 날짜·금액·번호는 타입별로 표기를 맞춰 비교
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_49fcf226.jpg"><img src="examples/img/loan_application_1000000_49fcf226.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
 
 1. `loan_application_1000000.jpg`
 
 **질문** (`prompt`)
 
 ```
-이 문서에서 아래 항목의 값을 찾아 JSON 객체로 답하세요. 키는 그대로 쓰고, 값은 문서에 적힌 그대로 옮기세요. 문서에 비어 있거나 없는 항목은 null 로 답하세요.
-항목 (키: 항목명)
+이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
+항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
 - bank: 은행명
 - branch: 취급점
-- applicant.name: 성명
-- applicant.rrn: 실명번호
+- customer.name: 성명 (고객 성명)
+- customer.rrn: 실명번호 (고객 주민등록번호)
 - applicant.zipcode: 우편번호
-- applicant.address: 자택주소
-- applicant.mobile: 휴대전화
-- applicant.home_phone: 자택전화
-- applicant.email: E-mail
+- customer.address: 자택주소 (고객 주소)
+- customer.mobile: 휴대전화 (고객 휴대전화)
+- customer.home_phone: 자택전화 (고객 자택전화)
+- customer.email: E-mail (고객 이메일)
 - applicant.work_phone: 직장전화
-- workplace.name: 직장명
-- workplace.department: 근무부서
-- workplace.address: 직장주소
-- debts.0.lender: 금융기관
-- debts.0.kind: 대출종류
-- debts.0.balance: 잔액
-- debts.0.maturity: 만기일
-- debts.0.refinance: 상환여부
-- debts.1.lender: 금융기관
-- debts.1.kind: 대출종류
-- debts.1.balance: 잔액
-- debts.1.maturity: 만기일
-- debts.1.refinance: 상환여부
-- assets.0.location: 소재지
-- assets.0.value: 평가금액
-- assets.1.kind: 종류
-- assets.1.location: 소재지
-- assets.1.value: 평가금액
+- employer.name: 직장명 (직장 이름)
+- employer.department: 근무부서 (직장 부서)
+- employer.position: 직위 (직장 직위)
+- employer.hire_date: 입사년월일 (직장 입사일)
+- workplace.annual_income: 연소득(본인)
+- employer.address: 직장주소
 - loan.subject: 대출과목
 - loan.product: 상품명
 - loan.amount_korean: 대출신청금액(한글)
+- loan.amount: 대출신청금액
 - loan.term: 대출기간
+- loan.hope_date: 대출희망일
 - loan.interest_day: 이자납입일
 - loan.purpose: 세부용도
 - collateral_detail: 담보내용
@@ -1370,48 +1390,48 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 **정답** (`answer`)
 
 ```json
-{
- "bank": "국민은행",
- "branch": "센텀지점",
- "applicant.name": "남궁예태",
- "applicant.rrn": "850328-2******",
- "applicant.zipcode": null,
- "applicant.address": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)",
- "applicant.mobile": "010-6144-1173",
- "applicant.home_phone": null,
- "applicant.email": null,
- "applicant.work_phone": null,
- "workplace.name": "주식회사 다온패션",
- "workplace.department": "고객지원팀",
- "workplace.address": "부산광역시 해운대구 해운대로 326, 7층",
- "debts.0.lender": "농협은행",
- "debts.0.kind": "신용대출",
- "debts.0.balance": "12,500,000",
- "debts.0.maturity": "2028-01-19",
- "debts.0.refinance": "유지",
- "debts.1.lender": "새마을금고",
- "debts.1.kind": "학자금대출",
- "debts.1.balance": "13,100,000",
- "debts.1.maturity": "2030-04-13",
- "debts.1.refinance": "유지",
- "assets.0.location": "서울특별시 서초구 강남대로 357",
- "assets.0.value": "1,560,000,000",
- "assets.1.kind": "예금",
- "assets.1.location": "국민은행, 카카오뱅크",
- "assets.1.value": "70,700,000",
- "loan.subject": "주택담보대출",
- "loan.product": "주택담보대출",
- "loan.amount_korean": "일금 삼억일백만원정",
- "loan.term": "30년",
- "loan.interest_day": "매월 5일",
- "loan.purpose": "생활안정자금",
- "collateral_detail": "서울특별시 서초구 강남대로 357, 103동 1301호 (아파트, 전용 74.95㎡)",
- "loan.debit_bank": "국민은행",
- "loan.debit_account": "478303-40-826627",
- "loan.debit_holder": "남궁예태",
- "apply_date": "2025년 4월 1일",
- "signature": "남궁예태"
-}
+[
+ {"key": "bank", "value": "국민은행", "bbox_2d": [103, 39, 197, 61], "page": 1},
+ {"key": "branch", "value": "센텀지점", "bbox_2d": [725, 131, 780, 142], "page": 1},
+ {"key": "customer.name", "value": "남궁예태", "bbox_2d": [200, 172, 257, 183], "page": 1},
+ {"key": "customer.rrn", "value": "850328-2******", "bbox_2d": [644, 173, 742, 184], "page": 1},
+ {"key": "applicant.zipcode", "value": null},
+ {
+  "key": "customer.address",
+  "value": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)",
+  "bbox_2d": [231, 192, 723, 204],
+  "page": 1
+ },
+ {"key": "customer.mobile", "value": "010-6144-1173", "bbox_2d": [200, 212, 287, 223], "page": 1},
+ {"key": "customer.home_phone", "value": null},
+ {"key": "customer.email", "value": null},
+ {"key": "applicant.work_phone", "value": null},
+ {"key": "employer.name", "value": "주식회사 다온패션", "bbox_2d": [199, 331, 317, 342], "page": 1},
+ {"key": "employer.department", "value": "고객지원팀", "bbox_2d": [643, 332, 715, 343], "page": 1},
+ {"key": "employer.position", "value": "대리", "bbox_2d": [199, 351, 228, 362], "page": 1},
+ {"key": "employer.hire_date", "value": "2021-03-06", "bbox_2d": [643, 352, 710, 363], "page": 1},
+ {"key": "workplace.annual_income", "value": "5,170만원", "bbox_2d": [199, 371, 260, 382], "page": 1},
+ {"key": "employer.address", "value": "부산광역시 해운대구 해운대로 326, 7층", "bbox_2d": [643, 372, 890, 383], "page": 1},
+ {"key": "loan.subject", "value": "주택담보대출", "bbox_2d": [199, 502, 285, 512], "page": 1},
+ {"key": "loan.product", "value": "주택담보대출", "bbox_2d": [643, 502, 729, 513], "page": 1},
+ {"key": "loan.amount_korean", "value": "일금 삼억일백만원정", "bbox_2d": [199, 522, 331, 532], "page": 1},
+ {"key": "loan.amount", "value": "301,000,000", "bbox_2d": [360, 522, 431, 533], "page": 1},
+ {"key": "loan.term", "value": "30년", "bbox_2d": [199, 542, 227, 552], "page": 1},
+ {"key": "loan.hope_date", "value": "2025-04-10", "bbox_2d": [643, 542, 710, 553], "page": 1},
+ {"key": "loan.interest_day", "value": "매월 5일", "bbox_2d": [643, 582, 696, 593], "page": 1},
+ {"key": "loan.purpose", "value": "생활안정자금", "bbox_2d": [261, 615, 346, 626], "page": 1},
+ {
+  "key": "collateral_detail",
+  "value": "서울특별시 서초구 강남대로 357, 103동 1301호 (아파트, 전용 74.95㎡)",
+  "bbox_2d": [643, 635, 889, 660],
+  "page": 1
+ },
+ {"key": "loan.debit_bank", "value": "국민은행", "bbox_2d": [231, 675, 288, 686], "page": 1},
+ {"key": "loan.debit_account", "value": "478303-40-826627", "bbox_2d": [359, 675, 469, 686], "page": 1},
+ {"key": "loan.debit_holder", "value": "남궁예태", "bbox_2d": [526, 676, 583, 686], "page": 1},
+ {"key": "apply_date", "value": "2025년 4월 1일", "bbox_2d": [582, 780, 675, 791], "page": 1},
+ {"key": "signature", "value": "남궁예태", "bbox_2d": [758, 780, 815, 791], "page": 1}
+]
 ```
 
 **채점 정보** (`eval`)
@@ -1421,36 +1441,26 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "fields": {
   "bank": {"type": "text", "norm": "국민은행", "kind": "text"},
   "branch": {"type": "text", "norm": "센텀지점", "kind": "text"},
-  "applicant.name": {"type": "text", "norm": "남궁예태", "kind": "name"},
-  "applicant.rrn": {"type": "rrn", "norm": "850328-2******", "kind": "rrn"},
+  "customer.name": {"type": "text", "norm": "남궁예태", "kind": "name"},
+  "customer.rrn": {"type": "rrn", "norm": "850328-2******", "kind": "rrn"},
   "applicant.zipcode": {"type": "text", "norm": null, "kind": "text"},
-  "applicant.address": {"type": "text", "norm": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)", "kind": "address"},
-  "applicant.mobile": {"type": "phone", "norm": "01061441173", "kind": "phone"},
-  "applicant.home_phone": {"type": "phone", "norm": null, "kind": "phone"},
-  "applicant.email": {"type": "text", "norm": null, "kind": "text"},
+  "customer.address": {"type": "text", "norm": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)", "kind": "address"},
+  "customer.mobile": {"type": "phone", "norm": "01061441173", "kind": "phone"},
+  "customer.home_phone": {"type": "phone", "norm": null, "kind": "phone"},
+  "customer.email": {"type": "text", "norm": null, "kind": "text"},
   "applicant.work_phone": {"type": "phone", "norm": null, "kind": "phone"},
-  "workplace.name": {"type": "text", "norm": "주식회사 다온패션", "kind": "text"},
-  "workplace.department": {"type": "text", "norm": "고객지원팀", "kind": "text"},
-  "workplace.address": {"type": "text", "norm": "부산광역시 해운대구 해운대로 326, 7층", "kind": "address"},
-  "debts.0.lender": {"type": "text", "norm": "농협은행", "kind": "text"},
-  "debts.0.kind": {"type": "text", "norm": "신용대출", "kind": "text"},
-  "debts.0.balance": {"type": "amount", "norm": 12500000, "kind": "amount"},
-  "debts.0.maturity": {"type": "date", "norm": "2028-01-19", "kind": "date"},
-  "debts.0.refinance": {"type": "text", "norm": "유지", "kind": "text"},
-  "debts.1.lender": {"type": "text", "norm": "새마을금고", "kind": "text"},
-  "debts.1.kind": {"type": "text", "norm": "학자금대출", "kind": "text"},
-  "debts.1.balance": {"type": "amount", "norm": 13100000, "kind": "amount"},
-  "debts.1.maturity": {"type": "date", "norm": "2030-04-13", "kind": "date"},
-  "debts.1.refinance": {"type": "text", "norm": "유지", "kind": "text"},
-  "assets.0.location": {"type": "text", "norm": "서울특별시 서초구 강남대로 357", "kind": "address"},
-  "assets.0.value": {"type": "amount", "norm": 1560000000, "kind": "amount"},
-  "assets.1.kind": {"type": "text", "norm": "예금", "kind": "text"},
-  "assets.1.location": {"type": "text", "norm": "국민은행, 카카오뱅크", "kind": "address"},
-  "assets.1.value": {"type": "amount", "norm": 70700000, "kind": "amount"},
+  "employer.name": {"type": "text", "norm": "주식회사 다온패션", "kind": "text"},
+  "employer.department": {"type": "text", "norm": "고객지원팀", "kind": "text"},
+  "employer.position": {"type": "text", "norm": "대리", "kind": "text"},
+  "employer.hire_date": {"type": "date", "norm": "2021-03-06", "kind": "date"},
+  "workplace.annual_income": {"type": "text", "norm": "5,170만원", "kind": "text"},
+  "employer.address": {"type": "text", "norm": "부산광역시 해운대구 해운대로 326, 7층", "kind": "address"},
   "loan.subject": {"type": "text", "norm": "주택담보대출", "kind": "text"},
   "loan.product": {"type": "text", "norm": "주택담보대출", "kind": "text"},
   "loan.amount_korean": {"type": "amount_korean", "norm": 301000000, "kind": "amount"},
+  "loan.amount": {"type": "amount", "norm": 301000000, "kind": "amount"},
   "loan.term": {"type": "text", "norm": "30년", "kind": "text"},
+  "loan.hope_date": {"type": "date", "norm": "2025-04-10", "kind": "date"},
   "loan.interest_day": {"type": "text", "norm": "매월 5일", "kind": "text"},
   "loan.purpose": {"type": "text", "norm": "생활안정자금", "kind": "text"},
   "collateral_detail": {"type": "text", "norm": "서울특별시 서초구 강남대로 357, 103동 1301호 (아파트, 전용 74.95㎡)", "kind": "text"},
@@ -1472,7 +1482,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "group": "bank_form",
  "condition": "scan",
  "writing": "print",
- "n_pages": 1
+ "n_pages": 1,
+ "task_group": "doc",
+ "label_format": "key_values"
 }
 ```
 
@@ -1484,83 +1496,73 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 {
  "id": "kie/loan_application_1000000",
  "task": "kie",
- "prompt": "이 문서에서 아래 항목의 값을 찾아 JSON 객체로 답하세요. 키는 그대로 쓰고, 값은 문서에 적힌 그대로 옮기세요. 문서에 비어 있거나 없는 항목은 null 로 답하세요.\n항목 (키: 항목명)\n- bank: 은행명\n- branch: 취급점\n- applicant.name: 성명\n- applicant.rrn: 실명번호\n- applicant.zipcode: 우편번호\n- applicant.address: 자택주소\n- applicant.mobile: 휴대전화\n- applicant.home_phone: 자택전화\n- applicant.email: E-mail\n- applicant.work_phone: 직장전화\n- workplace.name: 직장명\n- workplace.department: 근무부서\n- workplace.address: 직장주소\n- debts.0.lender: 금융기관\n- debts.0.kind: 대출종류\n- debts.0.balance: 잔액\n- debts.0.maturity: 만기일\n- debts.0.refinance: 상환여부\n- debts.1.lender: 금융기관\n- debts.1.kind: 대출종류\n- debts.1.balance: 잔액\n- debts.1.maturity: 만기일\n- debts.1.refinance: 상환여부\n- assets.0.location: 소재지\n- assets.0.value: 평가금액\n- assets.1.kind: 종류\n- assets.1.location: 소재지\n- assets.1.value: 평가금액\n- loan.subject: 대출과목\n- loan.product: 상품명\n- loan.amount_korean: 대출신청금액(한글)\n- loan.term: 대출기간\n- loan.interest_day: 이자납입일\n- loan.purpose: 세부용도\n- collateral_detail: 담보내용\n- loan.debit_bank: 이체은행\n- loan.debit_account: 이체계좌번호\n- loan.debit_holder: 예금주\n- apply_date: 신청일\n- signature: 신청인",
- "answer": {
-  "bank": "국민은행",
-  "branch": "센텀지점",
-  "applicant.name": "남궁예태",
-  "applicant.rrn": "850328-2******",
-  "applicant.zipcode": null,
-  "applicant.address": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)",
-  "applicant.mobile": "010-6144-1173",
-  "applicant.home_phone": null,
-  "applicant.email": null,
-  "applicant.work_phone": null,
-  "workplace.name": "주식회사 다온패션",
-  "workplace.department": "고객지원팀",
-  "workplace.address": "부산광역시 해운대구 해운대로 326, 7층",
-  "debts.0.lender": "농협은행",
-  "debts.0.kind": "신용대출",
-  "debts.0.balance": "12,500,000",
-  "debts.0.maturity": "2028-01-19",
-  "debts.0.refinance": "유지",
-  "debts.1.lender": "새마을금고",
-  "debts.1.kind": "학자금대출",
-  "debts.1.balance": "13,100,000",
-  "debts.1.maturity": "2030-04-13",
-  "debts.1.refinance": "유지",
-  "assets.0.location": "서울특별시 서초구 강남대로 357",
-  "assets.0.value": "1,560,000,000",
-  "assets.1.kind": "예금",
-  "assets.1.location": "국민은행, 카카오뱅크",
-  "assets.1.value": "70,700,000",
-  "loan.subject": "주택담보대출",
-  "loan.product": "주택담보대출",
-  "loan.amount_korean": "일금 삼억일백만원정",
-  "loan.term": "30년",
-  "loan.interest_day": "매월 5일",
-  "loan.purpose": "생활안정자금",
-  "collateral_detail": "서울특별시 서초구 강남대로 357, 103동 1301호 (아파트, 전용 74.95㎡)",
-  "loan.debit_bank": "국민은행",
-  "loan.debit_account": "478303-40-826627",
-  "loan.debit_holder": "남궁예태",
-  "apply_date": "2025년 4월 1일",
-  "signature": "남궁예태"
- },
+ "prompt": "이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {\"key\": 키, \"value\": 문서에 적힌 값 그대로, \"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {\"key\": 키, \"value\": null} 로 답하세요.\n항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))\n- bank: 은행명\n- branch: 취급점\n- customer.name: 성명 (고객 성명)\n- customer.rrn: 실명번호 (고객 주민등록번호)\n- applicant.zipcode: 우편번호\n- customer.address: 자택주소 (고객 주소)\n- customer.mobile: 휴대전화 (고객 휴대전화)\n- customer.home_phone: 자택전화 (고객 자택전화)\n- customer.email: E-mail (고객 이메일)\n- applicant.work_phone: 직장전화\n- employer.name: 직장명 (직장 이름)\n- employer.department: 근무부서 (직장 부서)\n- employer.position: 직위 (직장 직위)\n- employer.hire_date: 입사년월일 (직장 입사일)\n- workplace.annual_income: 연소득(본인)\n- employer.address: 직장주소\n- loan.subject: 대출과목\n- loan.product: 상품명\n- loan.amount_korean: 대출신청금액(한글)\n- loan.amount: 대출신청금액\n- loan.term: 대출기간\n- loan.hope_date: 대출희망일\n- loan.interest_day: 이자납입일\n- loan.purpose: 세부용도\n- collateral_detail: 담보내용\n- loan.debit_bank: 이체은행\n- loan.debit_account: 이체계좌번호\n- loan.debit_holder: 예금주\n- apply_date: 신청일\n- signature: 신청인",
+ "answer": [
+  {"key": "bank", "value": "국민은행", "bbox_2d": [103, 39, 197, 61], "page": 1},
+  {"key": "branch", "value": "센텀지점", "bbox_2d": [725, 131, 780, 142], "page": 1},
+  {"key": "customer.name", "value": "남궁예태", "bbox_2d": [200, 172, 257, 183], "page": 1},
+  {"key": "customer.rrn", "value": "850328-2******", "bbox_2d": [644, 173, 742, 184], "page": 1},
+  {"key": "applicant.zipcode", "value": null},
+  {
+   "key": "customer.address",
+   "value": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)",
+   "bbox_2d": [231, 192, 723, 204],
+   "page": 1
+  },
+  {"key": "customer.mobile", "value": "010-6144-1173", "bbox_2d": [200, 212, 287, 223], "page": 1},
+  {"key": "customer.home_phone", "value": null},
+  {"key": "customer.email", "value": null},
+  {"key": "applicant.work_phone", "value": null},
+  {"key": "employer.name", "value": "주식회사 다온패션", "bbox_2d": [199, 331, 317, 342], "page": 1},
+  {"key": "employer.department", "value": "고객지원팀", "bbox_2d": [643, 332, 715, 343], "page": 1},
+  {"key": "employer.position", "value": "대리", "bbox_2d": [199, 351, 228, 362], "page": 1},
+  {"key": "employer.hire_date", "value": "2021-03-06", "bbox_2d": [643, 352, 710, 363], "page": 1},
+  {"key": "workplace.annual_income", "value": "5,170만원", "bbox_2d": [199, 371, 260, 382], "page": 1},
+  {"key": "employer.address", "value": "부산광역시 해운대구 해운대로 326, 7층", "bbox_2d": [643, 372, 890, 383], "page": 1},
+  {"key": "loan.subject", "value": "주택담보대출", "bbox_2d": [199, 502, 285, 512], "page": 1},
+  {"key": "loan.product", "value": "주택담보대출", "bbox_2d": [643, 502, 729, 513], "page": 1},
+  {"key": "loan.amount_korean", "value": "일금 삼억일백만원정", "bbox_2d": [199, 522, 331, 532], "page": 1},
+  {"key": "loan.amount", "value": "301,000,000", "bbox_2d": [360, 522, 431, 533], "page": 1},
+  {"key": "loan.term", "value": "30년", "bbox_2d": [199, 542, 227, 552], "page": 1},
+  {"key": "loan.hope_date", "value": "2025-04-10", "bbox_2d": [643, 542, 710, 553], "page": 1},
+  {"key": "loan.interest_day", "value": "매월 5일", "bbox_2d": [643, 582, 696, 593], "page": 1},
+  {"key": "loan.purpose", "value": "생활안정자금", "bbox_2d": [261, 615, 346, 626], "page": 1},
+  {
+   "key": "collateral_detail",
+   "value": "서울특별시 서초구 강남대로 357, 103동 1301호 (아파트, 전용 74.95㎡)",
+   "bbox_2d": [643, 635, 889, 660],
+   "page": 1
+  },
+  {"key": "loan.debit_bank", "value": "국민은행", "bbox_2d": [231, 675, 288, 686], "page": 1},
+  {"key": "loan.debit_account", "value": "478303-40-826627", "bbox_2d": [359, 675, 469, 686], "page": 1},
+  {"key": "loan.debit_holder", "value": "남궁예태", "bbox_2d": [526, 676, 583, 686], "page": 1},
+  {"key": "apply_date", "value": "2025년 4월 1일", "bbox_2d": [582, 780, 675, 791], "page": 1},
+  {"key": "signature", "value": "남궁예태", "bbox_2d": [758, 780, 815, 791], "page": 1}
+ ],
  "eval": {
   "fields": {
    "bank": {"type": "text", "norm": "국민은행", "kind": "text"},
    "branch": {"type": "text", "norm": "센텀지점", "kind": "text"},
-   "applicant.name": {"type": "text", "norm": "남궁예태", "kind": "name"},
-   "applicant.rrn": {"type": "rrn", "norm": "850328-2******", "kind": "rrn"},
+   "customer.name": {"type": "text", "norm": "남궁예태", "kind": "name"},
+   "customer.rrn": {"type": "rrn", "norm": "850328-2******", "kind": "rrn"},
    "applicant.zipcode": {"type": "text", "norm": null, "kind": "text"},
-   "applicant.address": {"type": "text", "norm": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)", "kind": "address"},
-   "applicant.mobile": {"type": "phone", "norm": "01061441173", "kind": "phone"},
-   "applicant.home_phone": {"type": "phone", "norm": null, "kind": "phone"},
-   "applicant.email": {"type": "text", "norm": null, "kind": "text"},
+   "customer.address": {"type": "text", "norm": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)", "kind": "address"},
+   "customer.mobile": {"type": "phone", "norm": "01061441173", "kind": "phone"},
+   "customer.home_phone": {"type": "phone", "norm": null, "kind": "phone"},
+   "customer.email": {"type": "text", "norm": null, "kind": "text"},
    "applicant.work_phone": {"type": "phone", "norm": null, "kind": "phone"},
-   "workplace.name": {"type": "text", "norm": "주식회사 다온패션", "kind": "text"},
-   "workplace.department": {"type": "text", "norm": "고객지원팀", "kind": "text"},
-   "workplace.address": {"type": "text", "norm": "부산광역시 해운대구 해운대로 326, 7층", "kind": "address"},
-   "debts.0.lender": {"type": "text", "norm": "농협은행", "kind": "text"},
-   "debts.0.kind": {"type": "text", "norm": "신용대출", "kind": "text"},
-   "debts.0.balance": {"type": "amount", "norm": 12500000, "kind": "amount"},
-   "debts.0.maturity": {"type": "date", "norm": "2028-01-19", "kind": "date"},
-   "debts.0.refinance": {"type": "text", "norm": "유지", "kind": "text"},
-   "debts.1.lender": {"type": "text", "norm": "새마을금고", "kind": "text"},
-   "debts.1.kind": {"type": "text", "norm": "학자금대출", "kind": "text"},
-   "debts.1.balance": {"type": "amount", "norm": 13100000, "kind": "amount"},
-   "debts.1.maturity": {"type": "date", "norm": "2030-04-13", "kind": "date"},
-   "debts.1.refinance": {"type": "text", "norm": "유지", "kind": "text"},
-   "assets.0.location": {"type": "text", "norm": "서울특별시 서초구 강남대로 357", "kind": "address"},
-   "assets.0.value": {"type": "amount", "norm": 1560000000, "kind": "amount"},
-   "assets.1.kind": {"type": "text", "norm": "예금", "kind": "text"},
-   "assets.1.location": {"type": "text", "norm": "국민은행, 카카오뱅크", "kind": "address"},
-   "assets.1.value": {"type": "amount", "norm": 70700000, "kind": "amount"},
+   "employer.name": {"type": "text", "norm": "주식회사 다온패션", "kind": "text"},
+   "employer.department": {"type": "text", "norm": "고객지원팀", "kind": "text"},
+   "employer.position": {"type": "text", "norm": "대리", "kind": "text"},
+   "employer.hire_date": {"type": "date", "norm": "2021-03-06", "kind": "date"},
+   "workplace.annual_income": {"type": "text", "norm": "5,170만원", "kind": "text"},
+   "employer.address": {"type": "text", "norm": "부산광역시 해운대구 해운대로 326, 7층", "kind": "address"},
    "loan.subject": {"type": "text", "norm": "주택담보대출", "kind": "text"},
    "loan.product": {"type": "text", "norm": "주택담보대출", "kind": "text"},
    "loan.amount_korean": {"type": "amount_korean", "norm": 301000000, "kind": "amount"},
+   "loan.amount": {"type": "amount", "norm": 301000000, "kind": "amount"},
    "loan.term": {"type": "text", "norm": "30년", "kind": "text"},
+   "loan.hope_date": {"type": "date", "norm": "2025-04-10", "kind": "date"},
    "loan.interest_day": {"type": "text", "norm": "매월 5일", "kind": "text"},
    "loan.purpose": {"type": "text", "norm": "생활안정자금", "kind": "text"},
    "collateral_detail": {"type": "text", "norm": "서울특별시 서초구 강남대로 357, 103동 1301호 (아파트, 전용 74.95㎡)", "kind": "text"},
@@ -1578,7 +1580,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "group": "bank_form",
   "condition": "scan",
   "writing": "print",
-  "n_pages": 1
+  "n_pages": 1,
+  "task_group": "doc",
+  "label_format": "key_values"
  }
 }
 ```
@@ -1594,11 +1598,11 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "messages": [
   {
    "role": "user",
-   "content": "<image>이 문서에서 아래 항목의 값을 찾아 JSON 객체로 답하세요. 키는 그대로 쓰고, 값은 문서에 적힌 그대로 옮기세요. 문서에 비어 있거나 없는 항목은 null 로 답하세요.\n항목 (키: 항목명)\n- bank: 은행명\n- branch: 취급점\n- applicant.name: 성명\n- applicant.rrn: 실명번호\n- applicant.zipcode: 우편번호\n- applicant.address: 자택주소\n- applicant.mobile: 휴대전화\n- applicant.home_phone: 자택전화\n- applicant.email: E-mail\n- applicant.work_phone: 직장전화\n- workplace.name: 직장명\n- workplace.department: 근무부서\n- workplace.address: 직장주소\n- debts.0.lender: 금융기관\n- debts.0.kind: 대출종류\n- debts.0.balance: 잔액\n- debts.0.maturity: 만기일\n- debts.0.refinance: 상환여부\n- debts.1.lender: 금융기관\n- debts.1.kind: 대출종류\n- debts.1.balance: 잔액\n- debts.1.maturity: 만기일\n- debts.1.refinance: 상환여부\n- assets.0.location: 소재지\n- assets.0.value: 평가금액\n- assets.1.kind: 종류\n- assets.1.location: 소재지\n- assets.1.value: 평가금액\n- loan.subject: 대출과목\n- loan.product: 상품명\n- loan.amount_korean: 대출신청금액(한글)\n- loan.term: 대출기간\n- loan.interest_day: 이자납입일\n- loan.purpose: 세부용도\n- collateral_detail: 담보내용\n- loan.debit_bank: 이체은행\n- loan.debit_account: 이체계좌번호\n- loan.debit_holder: 예금주\n- apply_date: 신청일\n- signature: 신청인"
+   "content": "<image>이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {\"key\": 키, \"value\": 문서에 적힌 값 그대로, \"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {\"key\": 키, \"value\": null} 로 답하세요.\n항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))\n- bank: 은행명\n- branch: 취급점\n- customer.name: 성명 (고객 성명)\n- customer.rrn: 실명번호 (고객 주민등록번호)\n- applicant.zipcode: 우편번호\n- customer.address: 자택주소 (고객 주소)\n- customer.mobile: 휴대전화 (고객 휴대전화)\n- customer.home_phone: 자택전화 (고객 자택전화)\n- customer.email: E-mail (고객 이메일)\n- applicant.work_phone: 직장전화\n- employer.name: 직장명 (직장 이름)\n- employer.department: 근무부서 (직장 부서)\n- employer.position: 직위 (직장 직위)\n- employer.hire_date: 입사년월일 (직장 입사일)\n- workplace.annual_income: 연소득(본인)\n- employer.address: 직장주소\n- loan.subject: 대출과목\n- loan.product: 상품명\n- loan.amount_korean: 대출신청금액(한글)\n- loan.amount: 대출신청금액\n- loan.term: 대출기간\n- loan.hope_date: 대출희망일\n- loan.interest_day: 이자납입일\n- loan.purpose: 세부용도\n- collateral_detail: 담보내용\n- loan.debit_bank: 이체은행\n- loan.debit_account: 이체계좌번호\n- loan.debit_holder: 예금주\n- apply_date: 신청일\n- signature: 신청인"
   },
   {
    "role": "assistant",
-   "content": "{\"bank\": \"국민은행\", \"branch\": \"센텀지점\", \"applicant.name\": \"남궁예태\", \"applicant.rrn\": \"850328-2******\", \"applicant.zipcode\": null, \"applicant.address\": \"서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)\", \"applicant.mobile\": \"010-6144-1173\", \"applicant.home_phone\": null, \"applicant.email\": null, \"applicant.work_phone\": null, \"workplace.name\": \"주식회사 다온패션\", \"workplace.department\": \"고객지원팀\", \"workplace.address\": \"부산광역시 해운대구 해운대로 326, 7층\", \"debts.0.lender\": \"농협은행\", \"debts.0.kind\": \"신용대출\", \"debts.0.balance\": \"12,500,000\", \"debts.0.maturity\": \"2028-01-19\", \"debts.0.refinance\": \"유지\", \"debts.1.lender\": \"새마을금고\", \"debts.1.kind\": \"학자금대출\", \"debts.1.balance\": \"13,100,000\", \"debts.1.maturity\": \"2030-04-13\", \"debts.1.refinance\": \"유지\", \"assets.0.location\": \"서울특별시 서초구 강남대로 357\", \"assets.0.value\": \"1,560,000,000\", \"assets.1.kind\": \"예금\", \"assets.1.location\": \"국민은행, 카카오뱅크\", \"assets.1.value\": \"70,700,000\", \"loan.subject\": \"주택담보대출\", \"loan.product\": \"주택담보대출\", \"loan.amount_korean\": \"일금 삼억일백만원정\", \"loan.term\": \"30년\", \"loan.interest_day\": \"매월 5일\", \"loan.purpose\": \"생활안정자금\", \"collateral_detail\": \"서울특별시 서초구 강남대로 357, 103동 1301호 (아파트, 전용 74.95㎡)\", \"loan.debit_bank\": \"국민은행\", \"loan.debit_account\": \"478303-40-826627\", \"loan.debit_holder\": \"남궁예태\", \"apply_date\": \"2025년 4월 1일\", \"signature\": \"남궁예태\"}"
+   "content": "[{\"key\": \"bank\", \"value\": \"국민은행\", \"bbox_2d\": [103, 39, 197, 61], \"page\": 1}, {\"key\": \"branch\", \"value\": \"센텀지점\", \"bbox_2d\": [725, 131, 780, 142], \"page\": 1}, {\"key\": \"customer.name\", \"value\": \"남궁예태\", \"bbox_2d\": [200, 172, 257, 183], \"page\": 1}, {\"key\": \"customer.rrn\", \"value\": \"850328-2******\", \"bbox_2d\": [644, 173, 742, 184], \"page\": 1}, {\"key\": \"applicant.zipcode\", \"value\": null}, {\"key\": \"customer.address\", \"value\": \"서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)\", \"bbox_2d\": [231, 192, 723, 204], \"page\": 1}, {\"key\": \"customer.mobile\", \"value\": \"010-6144-1173\", \"bbox_2d\": [200, 212, 287, 223], \"page\": 1}, {\"key\": \"customer.home_phone\", \"value\": null}, {\"key\": \"customer.email\", \"value\": null}, {\"key\": \"applicant.work_phone\", \"value\": null}, {\"key\": \"employer.name\", \"value\": \"주식회사 다온패션\", \"bbox_2d\": [199, 331, 317, 342], \"page\": 1}, {\"key\": \"employer.department\", \"value\": \"고객지원팀\", \"bbox_2d\": [643, 332, 715, 343], \"page\": 1}, {\"key\": \"employer.position\", \"value\": \"대리\", \"bbox_2d\": [199, 351, 228, 362], \"page\": 1}, {\"key\": \"employer.hire_date\", \"value\": \"2021-03-06\", \"bbox_2d\": [643, 352, 710, 363], \"page\": 1}, {\"key\": \"workplace.annual_income\", \"value\": \"5,170만원\", \"bbox_2d\": [199, 371, 260, 382], \"page\": 1}, {\"key\": \"employer.address\", \"value\": \"부산광역시 해운대구 해운대로 326, 7층\", \"bbox_2d\": [643, 372, 890, 383], \"page\": 1}, {\"key\": \"loan.subject\", \"value\": \"주택담보대출\", \"bbox_2d\": [199, 502, 285, 512], \"page\": 1}, {\"key\": \"loan.product\", \"value\": \"주택담보대출\", \"bbox_2d\": [643, 502, 729, 513], \"page\": 1}, {\"key\": \"loan.amount_korean\", \"value\": \"일금 삼억일백만원정\", \"bbox_2d\": [199, 522, 331, 532], \"page\": 1}, {\"key\": \"loan.amount\", \"value\": \"301,000,000\", \"bbox_2d\": [360, 522, 431, 533], \"page\": 1}, {\"key\": \"loan.term\", \"value\": \"30년\", \"bbox_2d\": [199, 542, 227, 552], \"page\": 1}, {\"key\": \"loan.hope_date\", \"value\": \"2025-04-10\", \"bbox_2d\": [643, 542, 710, 553], \"page\": 1}, {\"key\": \"loan.interest_day\", \"value\": \"매월 5일\", \"bbox_2d\": [643, 582, 696, 593], \"page\": 1}, {\"key\": \"loan.purpose\", \"value\": \"생활안정자금\", \"bbox_2d\": [261, 615, 346, 626], \"page\": 1}, {\"key\": \"collateral_detail\", \"value\": \"서울특별시 서초구 강남대로 357, 103동 1301호 (아파트, 전용 74.95㎡)\", \"bbox_2d\": [643, 635, 889, 660], \"page\": 1}, {\"key\": \"loan.debit_bank\", \"value\": \"국민은행\", \"bbox_2d\": [231, 675, 288, 686], \"page\": 1}, {\"key\": \"loan.debit_account\", \"value\": \"478303-40-826627\", \"bbox_2d\": [359, 675, 469, 686], \"page\": 1}, {\"key\": \"loan.debit_holder\", \"value\": \"남궁예태\", \"bbox_2d\": [526, 676, 583, 686], \"page\": 1}, {\"key\": \"apply_date\", \"value\": \"2025년 4월 1일\", \"bbox_2d\": [582, 780, 675, 791], \"page\": 1}, {\"key\": \"signature\", \"value\": \"남궁예태\", \"bbox_2d\": [758, 780, 815, 791], \"page\": 1}]"
   }
  ]
 }
@@ -1612,17 +1616,17 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_49fcf226.jpg"><img src="examples/img/loan_application_1000000_49fcf226.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
 
 1. `loan_application_1000000.jpg`
 
 **질문** (`prompt`)
 
 ```
-이 문서의 체크박스·도장·서명 상태를 확인해 JSON 객체로 답하세요.
-- 체크박스: 체크된 보기의 글자 (체크된 것이 없으면 null)
-- 복수 선택: 체크된 보기 글자의 목록 (없으면 [])
-- 도장·서명: 찍혀 있거나 서명되어 있으면 true, 비어 있으면 false
+이 문서의 체크박스·도장·서명 상태와 위치를 확인해 JSON 목록으로 답하세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 체크박스: 체크된 보기마다 {"key": 키, "value": 보기 글자, "bbox_2d": 체크된 □ 위치, "page": 쪽}. 체크된 것이 없으면 {"key": 키, "value": null}
+- 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)
+- 도장·서명: {"key": 키, "value": true 또는 false, "bbox_2d": 찍힌 자리, "page": 쪽} (비어 있으면 value 만 false)
 항목
 - housing: 주택소유구분 (체크박스, 보기: 자가 / 전세 / 월세 / 기타)
 - dwelling: 주거형태 (체크박스, 보기: 아파트 / 단독 / 다세대 / 연립·빌라 / 오피스텔 / 기타)
@@ -1633,26 +1637,26 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 - collateral: 담보구분 (체크박스, 보기: 신용 / 부동산 / 보증)
 - manual_received: 설명서수령확인 (체크박스, 보기: 예 / 아니오)
 - consent: 개인(신용)정보동의 (체크박스, 보기: 동의함 / 동의하지 않음)
-- seal.applicant: 신청인 (도장)
-- sign.applicant: 신청인 (서명)
+- seal.customer: 신청인 (고객 도장, 같은 항목명 중 1번째 칸, 도장)
+- sign.customer: 신청인 (고객 서명, 같은 항목명 중 2번째 칸, 서명)
 ```
 
 **정답** (`answer`)
 
 ```json
-{
- "housing": "자가",
- "dwelling": "아파트",
- "workplace.job_type": "급여소득자",
- "loan.repayment": "원리금균등분할",
- "loan.rate_type": "혼합",
- "loan.purpose_category": "생활비",
- "collateral": "부동산",
- "manual_received": "예",
- "consent": "동의함",
- "seal.applicant": true,
- "sign.applicant": false
-}
+[
+ {"key": "housing", "value": "자가", "bbox_2d": [199, 259, 208, 269], "page": 1},
+ {"key": "dwelling", "value": "아파트", "bbox_2d": [644, 253, 652, 263], "page": 1},
+ {"key": "workplace.job_type", "value": "급여소득자", "bbox_2d": [199, 311, 208, 322], "page": 1},
+ {"key": "loan.repayment", "value": "원리금균등분할", "bbox_2d": [391, 562, 400, 572], "page": 1},
+ {"key": "loan.rate_type", "value": "혼합", "bbox_2d": [305, 582, 314, 592], "page": 1},
+ {"key": "loan.purpose_category", "value": "생활비", "bbox_2d": [444, 602, 453, 612], "page": 1},
+ {"key": "collateral", "value": "부동산", "bbox_2d": [252, 642, 260, 652], "page": 1},
+ {"key": "manual_received", "value": "예", "bbox_2d": [324, 759, 333, 770], "page": 1},
+ {"key": "consent", "value": "동의함", "bbox_2d": [627, 760, 635, 770], "page": 1},
+ {"key": "seal.customer", "value": true, "bbox_2d": [852, 766, 909, 806], "page": 1},
+ {"key": "sign.customer", "value": false}
+]
 ```
 
 **채점 정보** (`eval`)
@@ -1669,8 +1673,8 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "collateral": "checkbox",
   "manual_received": "checkbox",
   "consent": "checkbox",
-  "seal.applicant": "seal",
-  "sign.applicant": "signature"
+  "seal.customer": "seal",
+  "sign.customer": "signature"
  }
 }
 ```
@@ -1684,7 +1688,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "group": "bank_form",
  "condition": "scan",
  "writing": "print",
- "n_pages": 1
+ "n_pages": 1,
+ "task_group": "doc",
+ "label_format": "mark_states"
 }
 ```
 
@@ -1696,20 +1702,20 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 {
  "id": "marks/loan_application_1000000",
  "task": "marks",
- "prompt": "이 문서의 체크박스·도장·서명 상태를 확인해 JSON 객체로 답하세요.\n- 체크박스: 체크된 보기의 글자 (체크된 것이 없으면 null)\n- 복수 선택: 체크된 보기 글자의 목록 (없으면 [])\n- 도장·서명: 찍혀 있거나 서명되어 있으면 true, 비어 있으면 false\n항목\n- housing: 주택소유구분 (체크박스, 보기: 자가 / 전세 / 월세 / 기타)\n- dwelling: 주거형태 (체크박스, 보기: 아파트 / 단독 / 다세대 / 연립·빌라 / 오피스텔 / 기타)\n- workplace.job_type: 직업구분 (체크박스, 보기: 급여소득자 / 공무원 / 전문직 / 자영업자 / 기타)\n- loan.repayment: 상환방법 (체크박스, 보기: 만기일시 / 원금균등분할 / 원리금균등분할 / 혼합)\n- loan.rate_type: 금리방식 (체크박스, 보기: 고정 / 변동 / 혼합)\n- loan.purpose_category: 자금용도구분 (체크박스, 보기: 주택구입 / 주택임차 / 부채상환 / 생활비 / 교육비 / 기타)\n- collateral: 담보구분 (체크박스, 보기: 신용 / 부동산 / 보증)\n- manual_received: 설명서수령확인 (체크박스, 보기: 예 / 아니오)\n- consent: 개인(신용)정보동의 (체크박스, 보기: 동의함 / 동의하지 않음)\n- seal.applicant: 신청인 (도장)\n- sign.applicant: 신청인 (서명)",
- "answer": {
-  "housing": "자가",
-  "dwelling": "아파트",
-  "workplace.job_type": "급여소득자",
-  "loan.repayment": "원리금균등분할",
-  "loan.rate_type": "혼합",
-  "loan.purpose_category": "생활비",
-  "collateral": "부동산",
-  "manual_received": "예",
-  "consent": "동의함",
-  "seal.applicant": true,
-  "sign.applicant": false
- },
+ "prompt": "이 문서의 체크박스·도장·서명 상태와 위치를 확인해 JSON 목록으로 답하세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.\n- 체크박스: 체크된 보기마다 {\"key\": 키, \"value\": 보기 글자, \"bbox_2d\": 체크된 □ 위치, \"page\": 쪽}. 체크된 것이 없으면 {\"key\": 키, \"value\": null}\n- 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)\n- 도장·서명: {\"key\": 키, \"value\": true 또는 false, \"bbox_2d\": 찍힌 자리, \"page\": 쪽} (비어 있으면 value 만 false)\n항목\n- housing: 주택소유구분 (체크박스, 보기: 자가 / 전세 / 월세 / 기타)\n- dwelling: 주거형태 (체크박스, 보기: 아파트 / 단독 / 다세대 / 연립·빌라 / 오피스텔 / 기타)\n- workplace.job_type: 직업구분 (체크박스, 보기: 급여소득자 / 공무원 / 전문직 / 자영업자 / 기타)\n- loan.repayment: 상환방법 (체크박스, 보기: 만기일시 / 원금균등분할 / 원리금균등분할 / 혼합)\n- loan.rate_type: 금리방식 (체크박스, 보기: 고정 / 변동 / 혼합)\n- loan.purpose_category: 자금용도구분 (체크박스, 보기: 주택구입 / 주택임차 / 부채상환 / 생활비 / 교육비 / 기타)\n- collateral: 담보구분 (체크박스, 보기: 신용 / 부동산 / 보증)\n- manual_received: 설명서수령확인 (체크박스, 보기: 예 / 아니오)\n- consent: 개인(신용)정보동의 (체크박스, 보기: 동의함 / 동의하지 않음)\n- seal.customer: 신청인 (고객 도장, 같은 항목명 중 1번째 칸, 도장)\n- sign.customer: 신청인 (고객 서명, 같은 항목명 중 2번째 칸, 서명)",
+ "answer": [
+  {"key": "housing", "value": "자가", "bbox_2d": [199, 259, 208, 269], "page": 1},
+  {"key": "dwelling", "value": "아파트", "bbox_2d": [644, 253, 652, 263], "page": 1},
+  {"key": "workplace.job_type", "value": "급여소득자", "bbox_2d": [199, 311, 208, 322], "page": 1},
+  {"key": "loan.repayment", "value": "원리금균등분할", "bbox_2d": [391, 562, 400, 572], "page": 1},
+  {"key": "loan.rate_type", "value": "혼합", "bbox_2d": [305, 582, 314, 592], "page": 1},
+  {"key": "loan.purpose_category", "value": "생활비", "bbox_2d": [444, 602, 453, 612], "page": 1},
+  {"key": "collateral", "value": "부동산", "bbox_2d": [252, 642, 260, 652], "page": 1},
+  {"key": "manual_received", "value": "예", "bbox_2d": [324, 759, 333, 770], "page": 1},
+  {"key": "consent", "value": "동의함", "bbox_2d": [627, 760, 635, 770], "page": 1},
+  {"key": "seal.customer", "value": true, "bbox_2d": [852, 766, 909, 806], "page": 1},
+  {"key": "sign.customer", "value": false}
+ ],
  "eval": {
   "types": {
    "housing": "checkbox",
@@ -1721,8 +1727,8 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
    "collateral": "checkbox",
    "manual_received": "checkbox",
    "consent": "checkbox",
-   "seal.applicant": "seal",
-   "sign.applicant": "signature"
+   "seal.customer": "seal",
+   "sign.customer": "signature"
   }
  },
  "images": ["images/loan_application_1000000.jpg"],
@@ -1732,7 +1738,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "group": "bank_form",
   "condition": "scan",
   "writing": "print",
-  "n_pages": 1
+  "n_pages": 1,
+  "task_group": "doc",
+  "label_format": "mark_states"
  }
 }
 ```
@@ -1748,11 +1756,11 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "messages": [
   {
    "role": "user",
-   "content": "<image>이 문서의 체크박스·도장·서명 상태를 확인해 JSON 객체로 답하세요.\n- 체크박스: 체크된 보기의 글자 (체크된 것이 없으면 null)\n- 복수 선택: 체크된 보기 글자의 목록 (없으면 [])\n- 도장·서명: 찍혀 있거나 서명되어 있으면 true, 비어 있으면 false\n항목\n- housing: 주택소유구분 (체크박스, 보기: 자가 / 전세 / 월세 / 기타)\n- dwelling: 주거형태 (체크박스, 보기: 아파트 / 단독 / 다세대 / 연립·빌라 / 오피스텔 / 기타)\n- workplace.job_type: 직업구분 (체크박스, 보기: 급여소득자 / 공무원 / 전문직 / 자영업자 / 기타)\n- loan.repayment: 상환방법 (체크박스, 보기: 만기일시 / 원금균등분할 / 원리금균등분할 / 혼합)\n- loan.rate_type: 금리방식 (체크박스, 보기: 고정 / 변동 / 혼합)\n- loan.purpose_category: 자금용도구분 (체크박스, 보기: 주택구입 / 주택임차 / 부채상환 / 생활비 / 교육비 / 기타)\n- collateral: 담보구분 (체크박스, 보기: 신용 / 부동산 / 보증)\n- manual_received: 설명서수령확인 (체크박스, 보기: 예 / 아니오)\n- consent: 개인(신용)정보동의 (체크박스, 보기: 동의함 / 동의하지 않음)\n- seal.applicant: 신청인 (도장)\n- sign.applicant: 신청인 (서명)"
+   "content": "<image>이 문서의 체크박스·도장·서명 상태와 위치를 확인해 JSON 목록으로 답하세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.\n- 체크박스: 체크된 보기마다 {\"key\": 키, \"value\": 보기 글자, \"bbox_2d\": 체크된 □ 위치, \"page\": 쪽}. 체크된 것이 없으면 {\"key\": 키, \"value\": null}\n- 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)\n- 도장·서명: {\"key\": 키, \"value\": true 또는 false, \"bbox_2d\": 찍힌 자리, \"page\": 쪽} (비어 있으면 value 만 false)\n항목\n- housing: 주택소유구분 (체크박스, 보기: 자가 / 전세 / 월세 / 기타)\n- dwelling: 주거형태 (체크박스, 보기: 아파트 / 단독 / 다세대 / 연립·빌라 / 오피스텔 / 기타)\n- workplace.job_type: 직업구분 (체크박스, 보기: 급여소득자 / 공무원 / 전문직 / 자영업자 / 기타)\n- loan.repayment: 상환방법 (체크박스, 보기: 만기일시 / 원금균등분할 / 원리금균등분할 / 혼합)\n- loan.rate_type: 금리방식 (체크박스, 보기: 고정 / 변동 / 혼합)\n- loan.purpose_category: 자금용도구분 (체크박스, 보기: 주택구입 / 주택임차 / 부채상환 / 생활비 / 교육비 / 기타)\n- collateral: 담보구분 (체크박스, 보기: 신용 / 부동산 / 보증)\n- manual_received: 설명서수령확인 (체크박스, 보기: 예 / 아니오)\n- consent: 개인(신용)정보동의 (체크박스, 보기: 동의함 / 동의하지 않음)\n- seal.customer: 신청인 (고객 도장, 같은 항목명 중 1번째 칸, 도장)\n- sign.customer: 신청인 (고객 서명, 같은 항목명 중 2번째 칸, 서명)"
   },
   {
    "role": "assistant",
-   "content": "{\"housing\": \"자가\", \"dwelling\": \"아파트\", \"workplace.job_type\": \"급여소득자\", \"loan.repayment\": \"원리금균등분할\", \"loan.rate_type\": \"혼합\", \"loan.purpose_category\": \"생활비\", \"collateral\": \"부동산\", \"manual_received\": \"예\", \"consent\": \"동의함\", \"seal.applicant\": true, \"sign.applicant\": false}"
+   "content": "[{\"key\": \"housing\", \"value\": \"자가\", \"bbox_2d\": [199, 259, 208, 269], \"page\": 1}, {\"key\": \"dwelling\", \"value\": \"아파트\", \"bbox_2d\": [644, 253, 652, 263], \"page\": 1}, {\"key\": \"workplace.job_type\", \"value\": \"급여소득자\", \"bbox_2d\": [199, 311, 208, 322], \"page\": 1}, {\"key\": \"loan.repayment\", \"value\": \"원리금균등분할\", \"bbox_2d\": [391, 562, 400, 572], \"page\": 1}, {\"key\": \"loan.rate_type\", \"value\": \"혼합\", \"bbox_2d\": [305, 582, 314, 592], \"page\": 1}, {\"key\": \"loan.purpose_category\", \"value\": \"생활비\", \"bbox_2d\": [444, 602, 453, 612], \"page\": 1}, {\"key\": \"collateral\", \"value\": \"부동산\", \"bbox_2d\": [252, 642, 260, 652], \"page\": 1}, {\"key\": \"manual_received\", \"value\": \"예\", \"bbox_2d\": [324, 759, 333, 770], \"page\": 1}, {\"key\": \"consent\", \"value\": \"동의함\", \"bbox_2d\": [627, 760, 635, 770], \"page\": 1}, {\"key\": \"seal.customer\", \"value\": true, \"bbox_2d\": [852, 766, 909, 806], \"page\": 1}, {\"key\": \"sign.customer\", \"value\": false}]"
   }
  ]
 }
@@ -1766,7 +1774,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_49fcf226.jpg"><img src="examples/img/loan_application_1000000_49fcf226.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
 
 1. `loan_application_1000000.jpg`
 
@@ -1782,6 +1790,12 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 대출거래신청서
 ```
 
+**채점 정보** (`eval`)
+
+```json
+{"aliases": ["《개인》대출신청서(가계용)"]}
+```
+
 **나눠 보기 정보** (`meta`)
 
 ```json
@@ -1791,7 +1805,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "group": "bank_form",
  "condition": "scan",
  "writing": "print",
- "n_pages": 1
+ "n_pages": 1,
+ "task_group": "doc",
+ "label_format": "text"
 }
 ```
 
@@ -1805,6 +1821,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "task": "classify",
  "prompt": "이 문서는 고객이 은행에 제출한 서류입니다. 서류의 정식 명칭(서류명)을 답하세요. 설명 없이 서류명만 한 줄로 답하세요.",
  "answer": "대출거래신청서",
+ "eval": {"aliases": ["《개인》대출신청서(가계용)"]},
  "images": ["images/loan_application_1000000.jpg"],
  "meta": {
   "doc_type": "loan_application",
@@ -1812,7 +1829,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "group": "bank_form",
   "condition": "scan",
   "writing": "print",
-  "n_pages": 1
+  "n_pages": 1,
+  "task_group": "doc",
+  "label_format": "text"
  }
 }
 ```
@@ -1840,7 +1859,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_49fcf226.jpg"><img src="examples/img/loan_application_1000000_49fcf226.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
 
 1. `loan_application_1000000.jpg`
 
@@ -1903,7 +1922,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "group": "bank_form",
  "condition": "scan",
  "writing": "print",
- "n_pages": 1
+ "n_pages": 1,
+ "task_group": "ocr",
+ "label_format": "text_list"
 }
 ```
 
@@ -1962,7 +1983,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "group": "bank_form",
   "condition": "scan",
   "writing": "print",
-  "n_pages": 1
+  "n_pages": 1,
+  "task_group": "ocr",
+  "label_format": "text_list"
  }
 }
 ```
@@ -2026,7 +2049,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "label": "취급점",
  "kind": "text",
  "corrected": false,
- "length": 4
+ "length": 4,
+ "task_group": "ocr",
+ "label_format": "text"
 }
 ```
 
@@ -2052,7 +2077,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "label": "취급점",
   "kind": "text",
   "corrected": false,
-  "length": 4
+  "length": 4,
+  "task_group": "ocr",
+  "label_format": "text"
  }
 }
 ```
@@ -2072,6 +2099,447 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 }
 ```
 
+### 2-9. table — 표 추출
+
+**정답 형식:** `{"columns": 질문의 열 키, "rows": [[값 …]], "row_boxes": [{"bbox_2d", "page"}]}`. 행은 보이는 순서, 빈 칸·없는 열은 null
+
+**채점:** 주 지표: 칸 F1 (정답 행과 답한 행을 순서대로 짝지은 뒤). 함께: 행 완전 일치, 행 수 일치, 행 위치 F1, 없는 열 null 비율
+
+**입력 이미지** (1장, 질문 앞에 이 순서로)
+
+<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
+
+1. `loan_application_1000000.jpg`
+
+**질문** (`prompt`)
+
+```
+이 문서에서 '금융기관'·'잔액' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- lender: 금융기관
+- kind: 대출종류
+- balance: 잔액
+- maturity: 만기일
+- refinance: 상환여부
+```
+
+**정답** (`answer`)
+
+```json
+{
+ "columns": ["lender", "kind", "balance", "maturity", "refinance"],
+ "rows": [["농협은행", "신용대출", "12,500,000", "2028-01-19", "유지"], ["새마을금고", "학자금대출", "13,100,000", "2030-04-13", "유지"]],
+ "row_boxes": [{"bbox_2d": [97, 436, 504, 448], "page": 1}, {"bbox_2d": [90, 454, 504, 465], "page": 1}]
+}
+```
+
+**채점 정보** (`eval`)
+
+```json
+{
+ "fields": {
+  "lender": {"type": "text", "norm": null, "kind": "text", "label": "금융기관"},
+  "kind": {"type": "text", "norm": null, "kind": "text", "label": "대출종류"},
+  "balance": {"type": "amount", "norm": null, "kind": "amount", "label": "잔액"},
+  "maturity": {"type": "date", "norm": null, "kind": "date", "label": "만기일"},
+  "refinance": {"type": "text", "norm": null, "kind": "text", "label": "상환여부"}
+ },
+ "group": "debts"
+}
+```
+
+**나눠 보기 정보** (`meta`)
+
+```json
+{
+ "doc_type": "loan_application",
+ "doc_name": "대출거래신청서",
+ "group": "bank_form",
+ "condition": "scan",
+ "writing": "print",
+ "n_pages": 1,
+ "table": "debts",
+ "ref": "header",
+ "scope": "all",
+ "n_rows": 2,
+ "n_cols": 5,
+ "absent": false,
+ "task_group": "doc",
+ "label_format": "table_rows"
+}
+```
+
+**문항 한 줄 전체** (`tasks/table.jsonl`)
+
+<details><summary>펼치기</summary>
+
+```json
+{
+ "id": "table/loan_application_1000000/debts",
+ "task": "table",
+ "prompt": "이 문서에서 '금융기관'·'잔액' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.\n꼴: {\"columns\": [열 키, …], \"rows\": [[값, …], …], \"row_boxes\": [{\"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호}, …]}\n- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.\n- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.\n- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.\n- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.\n- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.\n열 (키: 항목명)\n- lender: 금융기관\n- kind: 대출종류\n- balance: 잔액\n- maturity: 만기일\n- refinance: 상환여부",
+ "answer": {
+  "columns": ["lender", "kind", "balance", "maturity", "refinance"],
+  "rows": [["농협은행", "신용대출", "12,500,000", "2028-01-19", "유지"], ["새마을금고", "학자금대출", "13,100,000", "2030-04-13", "유지"]],
+  "row_boxes": [{"bbox_2d": [97, 436, 504, 448], "page": 1}, {"bbox_2d": [90, 454, 504, 465], "page": 1}]
+ },
+ "eval": {
+  "fields": {
+   "lender": {"type": "text", "norm": null, "kind": "text", "label": "금융기관"},
+   "kind": {"type": "text", "norm": null, "kind": "text", "label": "대출종류"},
+   "balance": {"type": "amount", "norm": null, "kind": "amount", "label": "잔액"},
+   "maturity": {"type": "date", "norm": null, "kind": "date", "label": "만기일"},
+   "refinance": {"type": "text", "norm": null, "kind": "text", "label": "상환여부"}
+  },
+  "group": "debts"
+ },
+ "images": ["images/loan_application_1000000.jpg"],
+ "meta": {
+  "doc_type": "loan_application",
+  "doc_name": "대출거래신청서",
+  "group": "bank_form",
+  "condition": "scan",
+  "writing": "print",
+  "n_pages": 1,
+  "table": "debts",
+  "ref": "header",
+  "scope": "all",
+  "n_rows": 2,
+  "n_cols": 5,
+  "absent": false,
+  "task_group": "doc",
+  "label_format": "table_rows"
+ }
+}
+```
+</details>
+
+**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
+
+```json
+{
+ "id": "table/loan_application_1000000/debts",
+ "task": "table",
+ "images": ["images/loan_application_1000000.jpg"],
+ "messages": [
+  {
+   "role": "user",
+   "content": "<image>이 문서에서 '금융기관'·'잔액' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.\n꼴: {\"columns\": [열 키, …], \"rows\": [[값, …], …], \"row_boxes\": [{\"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호}, …]}\n- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.\n- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.\n- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.\n- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.\n- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.\n열 (키: 항목명)\n- lender: 금융기관\n- kind: 대출종류\n- balance: 잔액\n- maturity: 만기일\n- refinance: 상환여부"
+  },
+  {
+   "role": "assistant",
+   "content": "{\"columns\": [\"lender\", \"kind\", \"balance\", \"maturity\", \"refinance\"], \"rows\": [[\"농협은행\", \"신용대출\", \"12,500,000\", \"2028-01-19\", \"유지\"], [\"새마을금고\", \"학자금대출\", \"13,100,000\", \"2030-04-13\", \"유지\"]], \"row_boxes\": [{\"bbox_2d\": [97, 436, 504, 448], \"page\": 1}, {\"bbox_2d\": [90, 454, 504, 465], \"page\": 1}]}"
+  }
+ ]
+}
+```
+
+### 2-10. table_read — 표 그대로 옮기기
+
+**정답 형식:** 같은 꼴, `columns` 는 머리글 글자 그대로 (여러 줄 머리글은 `위 > 아래`), 합계 행은 그대로
+
+**채점:** 주 지표: 칸 F1 (머리글을 글자로 짝지은 뒤). 함께: 머리글 F1
+
+**입력 이미지** (1장, 질문 앞에 이 순서로)
+
+<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
+
+1. `loan_application_1000000.jpg`
+
+**질문** (`prompt`)
+
+```
+이 문서에서 1쪽 bbox_2d=[75, 415, 524, 465] 위치의 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.
+꼴: {"columns": [머리글 글자, …], "rows": [[칸 글자, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 " > " 로 잇습니다.
+- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.
+- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+```
+
+**정답** (`answer`)
+
+```json
+{
+ "columns": ["금융기관", "대출종류", "잔액(원)", "만기일", "상환여부"],
+ "rows": [["농협은행", "신용대출", "12,500,000", "2028-01-19", "유지"], ["새마을금고", "학자금대출", "13,100,000", "2030-04-13", "유지"]],
+ "row_boxes": [{"bbox_2d": [75, 434, 524, 452], "page": 1}, {"bbox_2d": [75, 451, 524, 470], "page": 1}]
+}
+```
+
+**나눠 보기 정보** (`meta`)
+
+```json
+{
+ "doc_type": "loan_application",
+ "doc_name": "대출거래신청서",
+ "group": "bank_form",
+ "condition": "scan",
+ "writing": "print",
+ "n_pages": 1,
+ "table": "debts",
+ "ref": "box",
+ "scope": "all",
+ "n_rows": 2,
+ "n_cols": 5,
+ "segments": 1,
+ "task_group": "doc",
+ "label_format": "table_rows"
+}
+```
+
+**문항 한 줄 전체** (`tasks/table_read.jsonl`)
+
+<details><summary>펼치기</summary>
+
+```json
+{
+ "id": "table_read/loan_application_1000000/debts/0",
+ "task": "table_read",
+ "prompt": "이 문서에서 1쪽 bbox_2d=[75, 415, 524, 465] 위치의 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.\n꼴: {\"columns\": [머리글 글자, …], \"rows\": [[칸 글자, …], …], \"row_boxes\": [{\"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호}, …]}\n- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 \" > \" 로 잇습니다.\n- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.\n- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.\n- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.",
+ "answer": {
+  "columns": ["금융기관", "대출종류", "잔액(원)", "만기일", "상환여부"],
+  "rows": [["농협은행", "신용대출", "12,500,000", "2028-01-19", "유지"], ["새마을금고", "학자금대출", "13,100,000", "2030-04-13", "유지"]],
+  "row_boxes": [{"bbox_2d": [75, 434, 524, 452], "page": 1}, {"bbox_2d": [75, 451, 524, 470], "page": 1}]
+ },
+ "images": ["images/loan_application_1000000.jpg"],
+ "meta": {
+  "doc_type": "loan_application",
+  "doc_name": "대출거래신청서",
+  "group": "bank_form",
+  "condition": "scan",
+  "writing": "print",
+  "n_pages": 1,
+  "table": "debts",
+  "ref": "box",
+  "scope": "all",
+  "n_rows": 2,
+  "n_cols": 5,
+  "segments": 1,
+  "task_group": "doc",
+  "label_format": "table_rows"
+ }
+}
+```
+</details>
+
+**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
+
+```json
+{
+ "id": "table_read/loan_application_1000000/debts/0",
+ "task": "table_read",
+ "images": ["images/loan_application_1000000.jpg"],
+ "messages": [
+  {
+   "role": "user",
+   "content": "<image>이 문서에서 1쪽 bbox_2d=[75, 415, 524, 465] 위치의 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.\n꼴: {\"columns\": [머리글 글자, …], \"rows\": [[칸 글자, …], …], \"row_boxes\": [{\"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호}, …]}\n- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 \" > \" 로 잇습니다.\n- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.\n- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.\n- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다."
+  },
+  {
+   "role": "assistant",
+   "content": "{\"columns\": [\"금융기관\", \"대출종류\", \"잔액(원)\", \"만기일\", \"상환여부\"], \"rows\": [[\"농협은행\", \"신용대출\", \"12,500,000\", \"2028-01-19\", \"유지\"], [\"새마을금고\", \"학자금대출\", \"13,100,000\", \"2030-04-13\", \"유지\"]], \"row_boxes\": [{\"bbox_2d\": [75, 434, 524, 452], \"page\": 1}, {\"bbox_2d\": [75, 451, 524, 470], \"page\": 1}]}"
+  }
+ ]
+}
+```
+
+### 2-11. table_find — 표 찾기
+
+**정답 형식:** `[{"columns": 머리글, "bbox_2d", "page", "n_rows"}]` 표마다 (여러 쪽이면 쪽마다), 없으면 []
+
+**채점:** 주 지표: 같은 쪽·IoU 0.5 짝 F1. 함께: 표 수 일치, 행 수 일치, 머리글 F1
+
+**입력 이미지** (1장, 질문 앞에 이 순서로)
+
+<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
+
+1. `loan_application_1000000.jpg`
+
+**질문** (`prompt`)
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+**정답** (`answer`)
+
+```json
+[
+ {"columns": ["금융기관", "대출종류", "잔액", "만기일", "상환여부"], "bbox_2d": [75, 415, 524, 465], "page": 1, "n_rows": 2},
+ {"columns": ["종류", "소재지", "평가금액"], "bbox_2d": [535, 416, 925, 466], "page": 1, "n_rows": 2}
+]
+```
+
+**나눠 보기 정보** (`meta`)
+
+```json
+{
+ "doc_type": "loan_application",
+ "doc_name": "대출거래신청서",
+ "group": "bank_form",
+ "condition": "scan",
+ "writing": "print",
+ "n_pages": 1,
+ "n_tables": 2,
+ "n_segments": 2,
+ "task_group": "doc",
+ "label_format": "table_list"
+}
+```
+
+**문항 한 줄 전체** (`tasks/table_find.jsonl`)
+
+<details><summary>펼치기</summary>
+
+```json
+{
+ "id": "table_find/loan_application_1000000",
+ "task": "table_find",
+ "prompt": "이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.\n표마다 {{\"columns\": [머리글 글자, …], \"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호, \"n_rows\": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.",
+ "answer": [
+  {"columns": ["금융기관", "대출종류", "잔액", "만기일", "상환여부"], "bbox_2d": [75, 415, 524, 465], "page": 1, "n_rows": 2},
+  {"columns": ["종류", "소재지", "평가금액"], "bbox_2d": [535, 416, 925, 466], "page": 1, "n_rows": 2}
+ ],
+ "images": ["images/loan_application_1000000.jpg"],
+ "meta": {
+  "doc_type": "loan_application",
+  "doc_name": "대출거래신청서",
+  "group": "bank_form",
+  "condition": "scan",
+  "writing": "print",
+  "n_pages": 1,
+  "n_tables": 2,
+  "n_segments": 2,
+  "task_group": "doc",
+  "label_format": "table_list"
+ }
+}
+```
+</details>
+
+**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
+
+```json
+{
+ "id": "table_find/loan_application_1000000",
+ "task": "table_find",
+ "images": ["images/loan_application_1000000.jpg"],
+ "messages": [
+  {
+   "role": "user",
+   "content": "<image>이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.\n표마다 {{\"columns\": [머리글 글자, …], \"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호, \"n_rows\": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요."
+  },
+  {
+   "role": "assistant",
+   "content": "[{\"columns\": [\"금융기관\", \"대출종류\", \"잔액\", \"만기일\", \"상환여부\"], \"bbox_2d\": [75, 415, 524, 465], \"page\": 1, \"n_rows\": 2}, {\"columns\": [\"종류\", \"소재지\", \"평가금액\"], \"bbox_2d\": [535, 416, 925, 466], \"page\": 1, \"n_rows\": 2}]"
+  }
+ ]
+}
+```
+
+### 2-12. table_qa — 표 질의
+
+**정답 형식:** 숫자 하나 또는 칸 값 (비었으면 null)
+
+**채점:** 숫자는 같은 수, 칸 값은 kie 와 같은 비교 (빈 칸이면 답도 비어야)
+
+**입력 이미지** (1장, 질문 앞에 이 순서로)
+
+<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
+
+1. `loan_application_1000000.jpg`
+
+**질문** (`prompt`)
+
+```
+이 문서의 '만기일'·'상환여부' 열이 있는 표를 보고 답하세요. '잔액' 칸의 값을 모두 더하면 얼마입니까? 빈 칸은 0 으로 봅니다. (쉼표·단위 없이 숫자만 답하세요)
+```
+
+**정답** (`answer`)
+
+```json
+25600000
+```
+
+**채점 정보** (`eval`)
+
+```json
+{"answer_type": "number", "type": "amount", "key": "balance"}
+```
+
+**나눠 보기 정보** (`meta`)
+
+```json
+{
+ "doc_type": "loan_application",
+ "doc_name": "대출거래신청서",
+ "group": "bank_form",
+ "condition": "scan",
+ "writing": "print",
+ "n_pages": 1,
+ "table": "debts",
+ "kind": "sum",
+ "ref": "header",
+ "n_rows": 2,
+ "task_group": "doc",
+ "label_format": "scalar"
+}
+```
+
+**문항 한 줄 전체** (`tasks/table_qa.jsonl`)
+
+<details><summary>펼치기</summary>
+
+```json
+{
+ "id": "table_qa/loan_application_1000000/debts/0",
+ "task": "table_qa",
+ "prompt": "이 문서의 '만기일'·'상환여부' 열이 있는 표를 보고 답하세요. '잔액' 칸의 값을 모두 더하면 얼마입니까? 빈 칸은 0 으로 봅니다. (쉼표·단위 없이 숫자만 답하세요)",
+ "answer": 25600000,
+ "eval": {"answer_type": "number", "type": "amount", "key": "balance"},
+ "images": ["images/loan_application_1000000.jpg"],
+ "meta": {
+  "doc_type": "loan_application",
+  "doc_name": "대출거래신청서",
+  "group": "bank_form",
+  "condition": "scan",
+  "writing": "print",
+  "n_pages": 1,
+  "table": "debts",
+  "kind": "sum",
+  "ref": "header",
+  "n_rows": 2,
+  "task_group": "doc",
+  "label_format": "scalar"
+ }
+}
+```
+</details>
+
+**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
+
+```json
+{
+ "id": "table_qa/loan_application_1000000/debts/0",
+ "task": "table_qa",
+ "images": ["images/loan_application_1000000.jpg"],
+ "messages": [
+  {
+   "role": "user",
+   "content": "<image>이 문서의 '만기일'·'상환여부' 열이 있는 표를 보고 답하세요. '잔액' 칸의 값을 모두 더하면 얼마입니까? 빈 칸은 0 으로 봅니다. (쉼표·단위 없이 숫자만 답하세요)"
+  },
+  {"role": "assistant", "content": "25600000"}
+ ]
+}
+```
+
 ## 3부. 서류 대조 사례 14종 (cross_check 문항 하나씩)
 
 사례마다 원본 서류에서 그 관계가 맞는지 먼저 확인하고, 50% 확률로 값 하나를 바꿔 다시 렌더링합니다(변조 문항). 나머지는 같은 서류 조합 그대로 냅니다(정상 문항). 아래는 사례마다 변조 문항 하나입니다(`format_only` 는 항상 정상 문항). 예/아니오로 물을 수 있는 사례는 같은 이미지로 심사 질의 문항(`review`, rule `case:<사례>`)도 만듭니다.
@@ -2082,7 +2550,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (3장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/customer_due_diligence_d5df3487.jpg"><img src="examples/img/customer_due_diligence_d5df3487.jpg" width="300"></a> <a href="examples/img/fatca_crs_typo_c31cb323.jpg"><img src="examples/img/fatca_crs_typo_c31cb323.jpg" width="300"></a> <a href="examples/img/financial_transaction_purpose_eecca3af.jpg"><img src="examples/img/financial_transaction_purpose_eecca3af.jpg" width="300"></a></p>
+<p><a href="examples/img/customer_due_diligence_fc8a9a9d.jpg"><img src="examples/img/customer_due_diligence_fc8a9a9d.jpg" width="300"></a> <a href="examples/img/fatca_crs_typo_dfdccaa7.jpg"><img src="examples/img/fatca_crs_typo_dfdccaa7.jpg" width="300"></a> <a href="examples/img/financial_transaction_purpose_3cc830f1.jpg"><img src="examples/img/financial_transaction_purpose_3cc830f1.jpg" width="300"></a></p>
 
 1. `customer_due_diligence.jpg` · 2. `fatca_crs_typo.png` · 3. `financial_transaction_purpose.png`
 
@@ -2127,7 +2595,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "case": "typo",
  "category": "typo",
  "perturbed": true,
- "n_docs": 3
+ "n_docs": 3,
+ "task_group": "work",
+ "label_format": "consistency_issues"
 }
 ```
 
@@ -2166,7 +2636,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "case": "typo",
   "category": "typo",
   "perturbed": true,
-  "n_docs": 3
+  "n_docs": 3,
+  "task_group": "work",
+  "label_format": "consistency_issues"
  }
 }
 ```
@@ -2202,7 +2674,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/account_opening_application_a3a2f2d9.jpg"><img src="examples/img/account_opening_application_a3a2f2d9.jpg" width="300"></a> <a href="examples/img/resident_id_card_other_person_b99b03b3.jpg"><img src="examples/img/resident_id_card_other_person_b99b03b3.jpg" width="300"></a></p>
+<p><a href="examples/img/account_opening_application_965390df.jpg"><img src="examples/img/account_opening_application_965390df.jpg" width="300"></a> <a href="examples/img/resident_id_card_other_person_a9da32b8.jpg"><img src="examples/img/resident_id_card_other_person_a9da32b8.jpg" width="300"></a></p>
 
 1. `account_opening_application.png` · 2. `resident_id_card_other_person.png`
 
@@ -2239,7 +2711,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "case": "other_person",
  "category": "other_person",
  "perturbed": true,
- "n_docs": 2
+ "n_docs": 2,
+ "task_group": "work",
+ "label_format": "consistency_issues"
 }
 ```
 
@@ -2269,7 +2743,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "case": "other_person",
   "category": "other_person",
   "perturbed": true,
-  "n_docs": 2
+  "n_docs": 2,
+  "task_group": "work",
+  "label_format": "consistency_issues"
  }
 }
 ```
@@ -2304,7 +2780,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_88fc6342.jpg"><img src="examples/img/loan_application_88fc6342.jpg" width="300"></a> <a href="examples/img/credit_agreement_loan_vs_agreement_29d778ad.jpg"><img src="examples/img/credit_agreement_loan_vs_agreement_29d778ad.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_b96f2406.jpg"><img src="examples/img/loan_application_b96f2406.jpg" width="300"></a> <a href="examples/img/credit_agreement_loan_vs_agreement_db79cfa4.jpg"><img src="examples/img/credit_agreement_loan_vs_agreement_db79cfa4.jpg" width="300"></a></p>
 
 1. `loan_application.jpg` · 2. `credit_agreement_loan_vs_agreement.jpg`
 
@@ -2349,7 +2825,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "case": "loan_vs_agreement",
  "category": "amount",
  "perturbed": true,
- "n_docs": 2
+ "n_docs": 2,
+ "task_group": "work",
+ "label_format": "consistency_issues"
 }
 ```
 
@@ -2387,7 +2865,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "case": "loan_vs_agreement",
   "category": "amount",
   "perturbed": true,
-  "n_docs": 2
+  "n_docs": 2,
+  "task_group": "work",
+  "label_format": "consistency_issues"
  }
 }
 ```
@@ -2422,7 +2902,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/income_certificate_acfc99fc.jpg"><img src="examples/img/income_certificate_acfc99fc.jpg" width="300"></a> <a href="examples/img/withholding_receipt_income_inflated_d112844f.jpg"><img src="examples/img/withholding_receipt_income_inflated_d112844f.jpg" width="300"></a></p>
+<p><a href="examples/img/income_certificate_43655b9f.jpg"><img src="examples/img/income_certificate_43655b9f.jpg" width="300"></a> <a href="examples/img/withholding_receipt_income_inflated_db6bc1eb.jpg"><img src="examples/img/withholding_receipt_income_inflated_db6bc1eb.jpg" width="300"></a></p>
 
 1. `income_certificate.jpg` · 2. `withholding_receipt_income_inflated.png`
 
@@ -2467,7 +2947,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "case": "income_inflated",
  "category": "amount",
  "perturbed": true,
- "n_docs": 2
+ "n_docs": 2,
+ "task_group": "work",
+ "label_format": "consistency_issues"
 }
 ```
 
@@ -2505,7 +2987,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "case": "income_inflated",
   "category": "amount",
   "perturbed": true,
-  "n_docs": 2
+  "n_docs": 2,
+  "task_group": "work",
+  "label_format": "consistency_issues"
  }
 }
 ```
@@ -2540,7 +3024,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/lease_contract_39a79a48.jpg"><img src="examples/img/lease_contract_39a79a48.jpg" width="300"></a> <a href="examples/img/real_estate_registry_lease_owner_868611ae.jpg"><img src="examples/img/real_estate_registry_lease_owner_868611ae.jpg" width="300"></a></p>
+<p><a href="examples/img/lease_contract_5a89b782.jpg"><img src="examples/img/lease_contract_5a89b782.jpg" width="300"></a> <a href="examples/img/real_estate_registry_lease_owner_1412bcd2.jpg"><img src="examples/img/real_estate_registry_lease_owner_1412bcd2.jpg" width="300"></a></p>
 
 1. `lease_contract.png` · 2. `real_estate_registry_lease_owner.png`
 
@@ -2585,7 +3069,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "case": "lease_owner",
  "category": "logic",
  "perturbed": true,
- "n_docs": 2
+ "n_docs": 2,
+ "task_group": "work",
+ "label_format": "consistency_issues"
 }
 ```
 
@@ -2623,7 +3109,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "case": "lease_owner",
   "category": "logic",
   "perturbed": true,
-  "n_docs": 2
+  "n_docs": 2,
+  "task_group": "work",
+  "label_format": "consistency_issues"
  }
 }
 ```
@@ -2658,7 +3146,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/real_estate_registry_seller_owner_e41f55c0.jpg"><img src="examples/img/real_estate_registry_seller_owner_e41f55c0.jpg" width="300"></a> <a href="examples/img/sales_contract_9a10688a.jpg"><img src="examples/img/sales_contract_9a10688a.jpg" width="300"></a></p>
+<p><a href="examples/img/real_estate_registry_seller_owner_199a1edd.jpg"><img src="examples/img/real_estate_registry_seller_owner_199a1edd.jpg" width="300"></a> <a href="examples/img/sales_contract_9a10688a.jpg"><img src="examples/img/sales_contract_9a10688a.jpg" width="300"></a></p>
 
 1. `real_estate_registry_seller_owner.jpg` · 2. `sales_contract.jpg`
 
@@ -2703,7 +3191,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "case": "seller_owner",
  "category": "logic",
  "perturbed": true,
- "n_docs": 2
+ "n_docs": 2,
+ "task_group": "work",
+ "label_format": "consistency_issues"
 }
 ```
 
@@ -2741,7 +3231,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "case": "seller_owner",
   "category": "logic",
   "perturbed": true,
-  "n_docs": 2
+  "n_docs": 2,
+  "task_group": "work",
+  "label_format": "consistency_issues"
  }
 }
 ```
@@ -2776,7 +3268,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/health_insurance_qualification_13fc753f.jpg"><img src="examples/img/health_insurance_qualification_13fc753f.jpg" width="300"></a> <a href="examples/img/employment_certificate_hire_date_74583f72.jpg"><img src="examples/img/employment_certificate_hire_date_74583f72.jpg" width="300"></a></p>
+<p><a href="examples/img/health_insurance_qualification_2d3c39c0.jpg"><img src="examples/img/health_insurance_qualification_2d3c39c0.jpg" width="300"></a> <a href="examples/img/employment_certificate_hire_date_d3b1f6a2.jpg"><img src="examples/img/employment_certificate_hire_date_d3b1f6a2.jpg" width="300"></a></p>
 
 1. `health_insurance_qualification.png` · 2. `employment_certificate_hire_date.jpg`
 
@@ -2821,7 +3313,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "case": "hire_date",
  "category": "logic",
  "perturbed": true,
- "n_docs": 2
+ "n_docs": 2,
+ "task_group": "work",
+ "label_format": "consistency_issues"
 }
 ```
 
@@ -2859,7 +3353,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "case": "hire_date",
   "category": "logic",
   "perturbed": true,
-  "n_docs": 2
+  "n_docs": 2,
+  "task_group": "work",
+  "label_format": "consistency_issues"
  }
 }
 ```
@@ -2894,7 +3390,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (3장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_corp_p1_55e9dd3a.jpg"><img src="examples/img/loan_application_corp_p1_55e9dd3a.jpg" width="300"></a> <a href="examples/img/loan_application_corp_p2_0013477e.jpg"><img src="examples/img/loan_application_corp_p2_0013477e.jpg" width="300"></a> <a href="examples/img/corporate_seal_certificate_rep_director_fcbbfe89.jpg"><img src="examples/img/corporate_seal_certificate_rep_director_fcbbfe89.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_corp_p1_15596e83.jpg"><img src="examples/img/loan_application_corp_p1_15596e83.jpg" width="300"></a> <a href="examples/img/loan_application_corp_p2_7fe4d42f.jpg"><img src="examples/img/loan_application_corp_p2_7fe4d42f.jpg" width="300"></a> <a href="examples/img/corporate_seal_certificate_rep_director_8b0e0fe1.jpg"><img src="examples/img/corporate_seal_certificate_rep_director_8b0e0fe1.jpg" width="300"></a></p>
 
 1. `loan_application_corp_p1.jpg` · 2. `loan_application_corp_p2.jpg` · 3. `corporate_seal_certificate_rep_director.png`
 
@@ -2931,7 +3427,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "case": "rep_director",
  "category": "logic",
  "perturbed": true,
- "n_docs": 2
+ "n_docs": 2,
+ "task_group": "work",
+ "label_format": "consistency_issues"
 }
 ```
 
@@ -2962,7 +3460,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "case": "rep_director",
   "category": "logic",
   "perturbed": true,
-  "n_docs": 2
+  "n_docs": 2,
+  "task_group": "work",
+  "label_format": "consistency_issues"
  }
 }
 ```
@@ -2998,7 +3498,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/credit_agreement_contract_before_apply_2d08b8da.jpg"><img src="examples/img/credit_agreement_contract_before_apply_2d08b8da.jpg" width="300"></a> <a href="examples/img/loan_application_75801dc1.jpg"><img src="examples/img/loan_application_75801dc1.jpg" width="300"></a></p>
+<p><a href="examples/img/credit_agreement_contract_before_apply_b9e8bb9b.jpg"><img src="examples/img/credit_agreement_contract_before_apply_b9e8bb9b.jpg" width="300"></a> <a href="examples/img/loan_application_75801dc1.jpg"><img src="examples/img/loan_application_75801dc1.jpg" width="300"></a></p>
 
 1. `credit_agreement_contract_before_apply.jpg` · 2. `loan_application.png`
 
@@ -3043,7 +3543,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "case": "contract_before_apply",
  "category": "logic",
  "perturbed": true,
- "n_docs": 2
+ "n_docs": 2,
+ "task_group": "work",
+ "label_format": "consistency_issues"
 }
 ```
 
@@ -3081,7 +3583,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "case": "contract_before_apply",
   "category": "logic",
   "perturbed": true,
-  "n_docs": 2
+  "n_docs": 2,
+  "task_group": "work",
+  "label_format": "consistency_issues"
  }
 }
 ```
@@ -3116,7 +3620,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (3장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/credit_agreement_53d4771d.jpg"><img src="examples/img/credit_agreement_53d4771d.jpg" width="300"></a> <a href="examples/img/collateral_agreement_collateral_short_p1_24ea1874.jpg"><img src="examples/img/collateral_agreement_collateral_short_p1_24ea1874.jpg" width="300"></a> <a href="examples/img/collateral_agreement_collateral_short_p2_e2bf2b18.jpg"><img src="examples/img/collateral_agreement_collateral_short_p2_e2bf2b18.jpg" width="300"></a></p>
+<p><a href="examples/img/credit_agreement_d8d58a6f.jpg"><img src="examples/img/credit_agreement_d8d58a6f.jpg" width="300"></a> <a href="examples/img/collateral_agreement_collateral_short_p1_5fa36c75.jpg"><img src="examples/img/collateral_agreement_collateral_short_p1_5fa36c75.jpg" width="300"></a> <a href="examples/img/collateral_agreement_collateral_short_p2_c8435c7f.jpg"><img src="examples/img/collateral_agreement_collateral_short_p2_c8435c7f.jpg" width="300"></a></p>
 
 1. `credit_agreement.png` · 2. `collateral_agreement_collateral_short_p1.png` · 3. `collateral_agreement_collateral_short_p2.png`
 
@@ -3161,7 +3665,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "case": "collateral_short",
  "category": "logic",
  "perturbed": true,
- "n_docs": 2
+ "n_docs": 2,
+ "task_group": "work",
+ "label_format": "consistency_issues"
 }
 ```
 
@@ -3200,7 +3706,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "case": "collateral_short",
   "category": "logic",
   "perturbed": true,
-  "n_docs": 2
+  "n_docs": 2,
+  "task_group": "work",
+  "label_format": "consistency_issues"
  }
 }
 ```
@@ -3236,7 +3744,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/lease_contract_9496af91.jpg"><img src="examples/img/lease_contract_9496af91.jpg" width="300"></a> <a href="examples/img/loan_application_jeonse_over_778b95f8.jpg"><img src="examples/img/loan_application_jeonse_over_778b95f8.jpg" width="300"></a></p>
+<p><a href="examples/img/lease_contract_8fd8de80.jpg"><img src="examples/img/lease_contract_8fd8de80.jpg" width="300"></a> <a href="examples/img/loan_application_jeonse_over_778b95f8.jpg"><img src="examples/img/loan_application_jeonse_over_778b95f8.jpg" width="300"></a></p>
 
 1. `lease_contract.jpg` · 2. `loan_application_jeonse_over.png`
 
@@ -3281,7 +3789,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "case": "jeonse_over",
  "category": "logic",
  "perturbed": true,
- "n_docs": 2
+ "n_docs": 2,
+ "task_group": "work",
+ "label_format": "consistency_issues"
 }
 ```
 
@@ -3319,7 +3829,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "case": "jeonse_over",
   "category": "logic",
   "perturbed": true,
-  "n_docs": 2
+  "n_docs": 2,
+  "task_group": "work",
+  "label_format": "consistency_issues"
  }
 }
 ```
@@ -3354,7 +3866,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/sales_contract_sales_sum_be09ea05.jpg"><img src="examples/img/sales_contract_sales_sum_be09ea05.jpg" width="300"></a> <a href="examples/img/loan_application_e179d459.jpg"><img src="examples/img/loan_application_e179d459.jpg" width="300"></a></p>
+<p><a href="examples/img/sales_contract_sales_sum_f04734cd.jpg"><img src="examples/img/sales_contract_sales_sum_f04734cd.jpg" width="300"></a> <a href="examples/img/loan_application_10a3fd22.jpg"><img src="examples/img/loan_application_10a3fd22.jpg" width="300"></a></p>
 
 1. `sales_contract_sales_sum.jpg` · 2. `loan_application.jpg`
 
@@ -3399,7 +3911,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "case": "sales_sum",
  "category": "logic",
  "perturbed": true,
- "n_docs": 2
+ "n_docs": 2,
+ "task_group": "work",
+ "label_format": "consistency_issues"
 }
 ```
 
@@ -3437,7 +3951,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "case": "sales_sum",
   "category": "logic",
   "perturbed": true,
-  "n_docs": 2
+  "n_docs": 2,
+  "task_group": "work",
+  "label_format": "consistency_issues"
  }
 }
 ```
@@ -3472,7 +3988,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/overseas_remittance_application_fx_beneficiary_7ff2e859.jpg"><img src="examples/img/overseas_remittance_application_fx_beneficiary_7ff2e859.jpg" width="300"></a> <a href="examples/img/commercial_invoice_564bb4a1.jpg"><img src="examples/img/commercial_invoice_564bb4a1.jpg" width="300"></a></p>
+<p><a href="examples/img/overseas_remittance_application_fx_beneficiary_d44d885c.jpg"><img src="examples/img/overseas_remittance_application_fx_beneficiary_d44d885c.jpg" width="300"></a> <a href="examples/img/commercial_invoice_564bb4a1.jpg"><img src="examples/img/commercial_invoice_564bb4a1.jpg" width="300"></a></p>
 
 1. `overseas_remittance_application_fx_beneficiary.jpg` · 2. `commercial_invoice.jpg`
 
@@ -3517,7 +4033,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "case": "fx_beneficiary",
  "category": "logic",
  "perturbed": true,
- "n_docs": 2
+ "n_docs": 2,
+ "task_group": "work",
+ "label_format": "consistency_issues"
 }
 ```
 
@@ -3555,7 +4073,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "case": "fx_beneficiary",
   "category": "logic",
   "perturbed": true,
-  "n_docs": 2
+  "n_docs": 2,
+  "task_group": "work",
+  "label_format": "consistency_issues"
  }
 }
 ```
@@ -3590,7 +4110,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (3장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/financial_transaction_purpose_format_only_0e709fdb.jpg"><img src="examples/img/financial_transaction_purpose_format_only_0e709fdb.jpg" width="300"></a> <a href="examples/img/customer_due_diligence_4bba97a3.jpg"><img src="examples/img/customer_due_diligence_4bba97a3.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
+<p><a href="examples/img/financial_transaction_purpose_format_only_3e92695b.jpg"><img src="examples/img/financial_transaction_purpose_format_only_3e92695b.jpg" width="300"></a> <a href="examples/img/customer_due_diligence_2bbead29.jpg"><img src="examples/img/customer_due_diligence_2bbead29.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
 
 1. `financial_transaction_purpose_format_only.jpg` · 2. `customer_due_diligence.png` · 3. `account_opening_application.png`
 
@@ -3624,7 +4144,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "case": "format_only",
  "category": "format",
  "perturbed": false,
- "n_docs": 3
+ "n_docs": 3,
+ "task_group": "work",
+ "label_format": "consistency_issues"
 }
 ```
 
@@ -3652,7 +4174,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "case": "format_only",
   "category": "format",
   "perturbed": false,
-  "n_docs": 3
+  "n_docs": 3,
+  "task_group": "work",
+  "label_format": "consistency_issues"
  }
 }
 ```
@@ -3687,7 +4211,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_e179d459.jpg"><img src="examples/img/loan_application_e179d459.jpg" width="300"></a> <a href="examples/img/sales_contract_bf738685.jpg"><img src="examples/img/sales_contract_bf738685.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_10a3fd22.jpg"><img src="examples/img/loan_application_10a3fd22.jpg" width="300"></a> <a href="examples/img/sales_contract_b1706022.jpg"><img src="examples/img/sales_contract_b1706022.jpg" width="300"></a></p>
 
 1. `loan_application.jpg` · 2. `sales_contract.jpg`
 
@@ -3719,7 +4243,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "bundle": "mortgage_2002000",
  "customer": "엄태정",
  "rule": "ltv",
- "skill": "계산(비율)"
+ "skill": "계산(비율)",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -3744,7 +4270,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "bundle": "mortgage_2002000",
   "customer": "엄태정",
   "rule": "ltv",
-  "skill": "계산(비율)"
+  "skill": "계산(비율)",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -3774,7 +4302,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/collateral_agreement_b396c277.jpg"><img src="examples/img/collateral_agreement_b396c277.jpg" width="300"></a> <a href="examples/img/credit_agreement_69260e31.jpg"><img src="examples/img/credit_agreement_69260e31.jpg" width="300"></a></p>
+<p><a href="examples/img/collateral_agreement_c277e776.jpg"><img src="examples/img/collateral_agreement_c277e776.jpg" width="300"></a> <a href="examples/img/credit_agreement_785a59e0.jpg"><img src="examples/img/credit_agreement_785a59e0.jpg" width="300"></a></p>
 
 1. `collateral_agreement.png` · 2. `credit_agreement.jpg`
 
@@ -3806,7 +4334,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "bundle": "mortgage_2002000",
  "customer": "엄태정",
  "rule": "collateral_ratio",
- "skill": "계산(비율)"
+ "skill": "계산(비율)",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -3831,7 +4361,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "bundle": "mortgage_2002000",
   "customer": "엄태정",
   "rule": "collateral_ratio",
-  "skill": "계산(비율)"
+  "skill": "계산(비율)",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -3861,7 +4393,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_9ad08642.jpg"><img src="examples/img/loan_application_9ad08642.jpg" width="300"></a> <a href="examples/img/lease_contract_39a79a48.jpg"><img src="examples/img/lease_contract_39a79a48.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_9ad08642.jpg"><img src="examples/img/loan_application_9ad08642.jpg" width="300"></a> <a href="examples/img/lease_contract_5a89b782.jpg"><img src="examples/img/lease_contract_5a89b782.jpg" width="300"></a></p>
 
 1. `loan_application.png` · 2. `lease_contract.png`
 
@@ -3893,7 +4425,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "bundle": "jeonse_loan_2003000",
  "customer": "방하주",
  "rule": "jeonse_ratio",
- "skill": "계산(비율)"
+ "skill": "계산(비율)",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -3918,7 +4452,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "bundle": "jeonse_loan_2003000",
   "customer": "방하주",
   "rule": "jeonse_ratio",
-  "skill": "계산(비율)"
+  "skill": "계산(비율)",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -3948,7 +4484,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_88fc6342.jpg"><img src="examples/img/loan_application_88fc6342.jpg" width="300"></a> <a href="examples/img/withholding_receipt_aged_32f2a4c8.jpg"><img src="examples/img/withholding_receipt_aged_32f2a4c8.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_b96f2406.jpg"><img src="examples/img/loan_application_b96f2406.jpg" width="300"></a> <a href="examples/img/withholding_receipt_aged_c49b62bd.jpg"><img src="examples/img/withholding_receipt_aged_c49b62bd.jpg" width="300"></a></p>
 
 1. `loan_application.jpg` · 2. `withholding_receipt_aged.png`
 
@@ -3980,7 +4516,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "bundle": "personal_credit_loan_2001000",
  "customer": "강서찬",
  "rule": "income_multiple",
- "skill": "계산(비율)"
+ "skill": "계산(비율)",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -4005,7 +4543,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "bundle": "personal_credit_loan_2001000",
   "customer": "강서찬",
   "rule": "income_multiple",
-  "skill": "계산(비율)"
+  "skill": "계산(비율)",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -4035,7 +4575,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/resident_id_card_49ca32ad.jpg"><img src="examples/img/resident_id_card_49ca32ad.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
+<p><a href="examples/img/resident_id_card_0ab2ad93.jpg"><img src="examples/img/resident_id_card_0ab2ad93.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
 
 1. `resident_id_card.png` · 2. `account_opening_application.png`
 
@@ -4067,7 +4607,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "bundle": "account_opening_2000000",
  "customer": "김상정",
  "rule": "age",
- "skill": "날짜 계산"
+ "skill": "날짜 계산",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -4092,7 +4634,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "bundle": "account_opening_2000000",
   "customer": "김상정",
   "rule": "age",
-  "skill": "날짜 계산"
+  "skill": "날짜 계산",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -4122,7 +4666,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_88fc6342.jpg"><img src="examples/img/loan_application_88fc6342.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_b96f2406.jpg"><img src="examples/img/loan_application_b96f2406.jpg" width="300"></a></p>
 
 1. `loan_application.jpg`
 
@@ -4154,7 +4698,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "bundle": "personal_credit_loan_2001000",
  "customer": "강서찬",
  "rule": "tenure",
- "skill": "날짜 계산"
+ "skill": "날짜 계산",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -4176,7 +4722,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "bundle": "personal_credit_loan_2001000",
   "customer": "강서찬",
   "rule": "tenure",
-  "skill": "날짜 계산"
+  "skill": "날짜 계산",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -4235,7 +4783,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "bundle": "personal_credit_loan_2001000",
  "customer": "강서찬",
  "rule": "net_pay",
- "skill": "계산(합계)"
+ "skill": "계산(합계)",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -4260,7 +4810,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "bundle": "personal_credit_loan_2001000",
   "customer": "강서찬",
   "rule": "net_pay",
-  "skill": "계산(합계)"
+  "skill": "계산(합계)",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -4290,7 +4842,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/sales_contract_bf738685.jpg"><img src="examples/img/sales_contract_bf738685.jpg" width="300"></a></p>
+<p><a href="examples/img/sales_contract_b1706022.jpg"><img src="examples/img/sales_contract_b1706022.jpg" width="300"></a></p>
 
 1. `sales_contract.jpg`
 
@@ -4322,7 +4874,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "bundle": "mortgage_2002000",
  "customer": "엄태정",
  "rule": "sales_rest",
- "skill": "계산(합계)"
+ "skill": "계산(합계)",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -4344,7 +4898,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "bundle": "mortgage_2002000",
   "customer": "엄태정",
   "rule": "sales_rest",
-  "skill": "계산(합계)"
+  "skill": "계산(합계)",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -4403,7 +4959,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "bundle": "fx_remittance_2006000",
  "customer": "장수주",
  "rule": "invoice_sum",
- "skill": "표 계산"
+ "skill": "표 계산",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -4425,7 +4983,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "bundle": "fx_remittance_2006000",
   "customer": "장수주",
   "rule": "invoice_sum",
-  "skill": "표 계산"
+  "skill": "표 계산",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -4484,7 +5044,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "bundle": "study_abroad_remittance_2007000",
  "customer": "박재성",
  "rule": "tuition_due",
- "skill": "계산(합계)"
+ "skill": "계산(합계)",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -4506,7 +5068,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "bundle": "study_abroad_remittance_2007000",
   "customer": "박재성",
   "rule": "tuition_due",
-  "skill": "계산(합계)"
+  "skill": "계산(합계)",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -4565,7 +5129,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "bundle": "corporate_credit_2005000",
  "customer": "석석유",
  "rule": "debt_ratio",
- "skill": "표 계산"
+ "skill": "표 계산",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -4587,7 +5153,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "bundle": "corporate_credit_2005000",
   "customer": "석석유",
   "rule": "debt_ratio",
-  "skill": "표 계산"
+  "skill": "표 계산",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -4614,7 +5182,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/employment_certificate_aged_87afd9da.jpg"><img src="examples/img/employment_certificate_aged_87afd9da.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
+<p><a href="examples/img/employment_certificate_aged_781b138d.jpg"><img src="examples/img/employment_certificate_aged_781b138d.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
 
 1. `employment_certificate_aged.jpg` · 2. `account_opening_application.png`
 
@@ -4646,7 +5214,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "bundle": "account_opening_2000000",
  "customer": "김상정",
  "rule": "doc_valid",
- "skill": "날짜 계산"
+ "skill": "날짜 계산",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -4671,7 +5241,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "bundle": "account_opening_2000000",
   "customer": "김상정",
   "rule": "doc_valid",
-  "skill": "날짜 계산"
+  "skill": "날짜 계산",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -4701,7 +5273,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/employment_certificate_8090058a.jpg"><img src="examples/img/employment_certificate_8090058a.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
+<p><a href="examples/img/employment_certificate_b8df591b.jpg"><img src="examples/img/employment_certificate_b8df591b.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
 
 1. `employment_certificate.jpg` · 2. `account_opening_application.png`
 
@@ -4737,7 +5309,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "perturbed": false,
  "n_docs": 2,
  "rule": "case:other_person",
- "skill": "서류 대조"
+ "skill": "서류 대조",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -4766,7 +5340,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "perturbed": false,
   "n_docs": 2,
   "rule": "case:other_person",
-  "skill": "서류 대조"
+  "skill": "서류 대조",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -4796,7 +5372,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_88fc6342.jpg"><img src="examples/img/loan_application_88fc6342.jpg" width="300"></a> <a href="examples/img/credit_agreement_loan_vs_agreement_29d778ad.jpg"><img src="examples/img/credit_agreement_loan_vs_agreement_29d778ad.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_b96f2406.jpg"><img src="examples/img/loan_application_b96f2406.jpg" width="300"></a> <a href="examples/img/credit_agreement_loan_vs_agreement_db79cfa4.jpg"><img src="examples/img/credit_agreement_loan_vs_agreement_db79cfa4.jpg" width="300"></a></p>
 
 1. `loan_application.jpg` · 2. `credit_agreement_loan_vs_agreement.jpg`
 
@@ -4832,7 +5408,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "perturbed": true,
  "n_docs": 2,
  "rule": "case:loan_vs_agreement",
- "skill": "서류 대조"
+ "skill": "서류 대조",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -4861,7 +5439,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "perturbed": true,
   "n_docs": 2,
   "rule": "case:loan_vs_agreement",
-  "skill": "서류 대조"
+  "skill": "서류 대조",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -4891,7 +5471,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/income_certificate_acfc99fc.jpg"><img src="examples/img/income_certificate_acfc99fc.jpg" width="300"></a> <a href="examples/img/withholding_receipt_income_inflated_d112844f.jpg"><img src="examples/img/withholding_receipt_income_inflated_d112844f.jpg" width="300"></a></p>
+<p><a href="examples/img/income_certificate_43655b9f.jpg"><img src="examples/img/income_certificate_43655b9f.jpg" width="300"></a> <a href="examples/img/withholding_receipt_income_inflated_db6bc1eb.jpg"><img src="examples/img/withholding_receipt_income_inflated_db6bc1eb.jpg" width="300"></a></p>
 
 1. `income_certificate.jpg` · 2. `withholding_receipt_income_inflated.png`
 
@@ -4927,7 +5507,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "perturbed": true,
  "n_docs": 2,
  "rule": "case:income_inflated",
- "skill": "서류 대조"
+ "skill": "서류 대조",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -4956,7 +5538,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "perturbed": true,
   "n_docs": 2,
   "rule": "case:income_inflated",
-  "skill": "서류 대조"
+  "skill": "서류 대조",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -4986,7 +5570,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/lease_contract_39a79a48.jpg"><img src="examples/img/lease_contract_39a79a48.jpg" width="300"></a> <a href="examples/img/real_estate_registry_lease_owner_868611ae.jpg"><img src="examples/img/real_estate_registry_lease_owner_868611ae.jpg" width="300"></a></p>
+<p><a href="examples/img/lease_contract_5a89b782.jpg"><img src="examples/img/lease_contract_5a89b782.jpg" width="300"></a> <a href="examples/img/real_estate_registry_lease_owner_1412bcd2.jpg"><img src="examples/img/real_estate_registry_lease_owner_1412bcd2.jpg" width="300"></a></p>
 
 1. `lease_contract.png` · 2. `real_estate_registry_lease_owner.png`
 
@@ -5022,7 +5606,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "perturbed": true,
  "n_docs": 2,
  "rule": "case:lease_owner",
- "skill": "서류 대조"
+ "skill": "서류 대조",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -5051,7 +5637,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "perturbed": true,
   "n_docs": 2,
   "rule": "case:lease_owner",
-  "skill": "서류 대조"
+  "skill": "서류 대조",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -5081,7 +5669,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/sales_contract_bf738685.jpg"><img src="examples/img/sales_contract_bf738685.jpg" width="300"></a> <a href="examples/img/real_estate_registry_adf93d9e.jpg"><img src="examples/img/real_estate_registry_adf93d9e.jpg" width="300"></a></p>
+<p><a href="examples/img/sales_contract_b1706022.jpg"><img src="examples/img/sales_contract_b1706022.jpg" width="300"></a> <a href="examples/img/real_estate_registry_adf93d9e.jpg"><img src="examples/img/real_estate_registry_adf93d9e.jpg" width="300"></a></p>
 
 1. `sales_contract.jpg` · 2. `real_estate_registry.png`
 
@@ -5117,7 +5705,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "perturbed": false,
  "n_docs": 2,
  "rule": "case:seller_owner",
- "skill": "서류 대조"
+ "skill": "서류 대조",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -5146,7 +5736,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "perturbed": false,
   "n_docs": 2,
   "rule": "case:seller_owner",
-  "skill": "서류 대조"
+  "skill": "서류 대조",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -5176,7 +5768,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/employment_certificate_0080ffec.jpg"><img src="examples/img/employment_certificate_0080ffec.jpg" width="300"></a> <a href="examples/img/health_insurance_qualification_6d87fa17.jpg"><img src="examples/img/health_insurance_qualification_6d87fa17.jpg" width="300"></a></p>
+<p><a href="examples/img/employment_certificate_2a2674ca.jpg"><img src="examples/img/employment_certificate_2a2674ca.jpg" width="300"></a> <a href="examples/img/health_insurance_qualification_71184daf.jpg"><img src="examples/img/health_insurance_qualification_71184daf.jpg" width="300"></a></p>
 
 1. `employment_certificate.jpg` · 2. `health_insurance_qualification.png`
 
@@ -5212,7 +5804,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "perturbed": false,
  "n_docs": 2,
  "rule": "case:hire_date",
- "skill": "서류 대조"
+ "skill": "서류 대조",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -5241,7 +5835,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "perturbed": false,
   "n_docs": 2,
   "rule": "case:hire_date",
-  "skill": "서류 대조"
+  "skill": "서류 대조",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -5271,7 +5867,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_corp_cba527a6.jpg"><img src="examples/img/loan_application_corp_cba527a6.jpg" width="300"></a> <a href="examples/img/corporate_seal_certificate_5657c41b.jpg"><img src="examples/img/corporate_seal_certificate_5657c41b.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_corp_e2f515f8.jpg"><img src="examples/img/loan_application_corp_e2f515f8.jpg" width="300"></a> <a href="examples/img/corporate_seal_certificate_90aa67f7.jpg"><img src="examples/img/corporate_seal_certificate_90aa67f7.jpg" width="300"></a></p>
 
 1. `loan_application_corp.jpg` · 2. `corporate_seal_certificate.jpg`
 
@@ -5307,7 +5903,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "perturbed": false,
  "n_docs": 2,
  "rule": "case:rep_director",
- "skill": "서류 대조"
+ "skill": "서류 대조",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -5336,7 +5934,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "perturbed": false,
   "n_docs": 2,
   "rule": "case:rep_director",
-  "skill": "서류 대조"
+  "skill": "서류 대조",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -5366,7 +5966,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/credit_agreement_86d44845.jpg"><img src="examples/img/credit_agreement_86d44845.jpg" width="300"></a> <a href="examples/img/loan_application_88fc6342.jpg"><img src="examples/img/loan_application_88fc6342.jpg" width="300"></a></p>
+<p><a href="examples/img/credit_agreement_539884fb.jpg"><img src="examples/img/credit_agreement_539884fb.jpg" width="300"></a> <a href="examples/img/loan_application_b96f2406.jpg"><img src="examples/img/loan_application_b96f2406.jpg" width="300"></a></p>
 
 1. `credit_agreement.jpg` · 2. `loan_application.jpg`
 
@@ -5402,7 +6002,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "perturbed": false,
  "n_docs": 2,
  "rule": "case:contract_before_apply",
- "skill": "서류 대조"
+ "skill": "서류 대조",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -5431,7 +6033,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "perturbed": false,
   "n_docs": 2,
   "rule": "case:contract_before_apply",
-  "skill": "서류 대조"
+  "skill": "서류 대조",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -5461,7 +6065,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/collateral_agreement_b396c277.jpg"><img src="examples/img/collateral_agreement_b396c277.jpg" width="300"></a> <a href="examples/img/credit_agreement_69260e31.jpg"><img src="examples/img/credit_agreement_69260e31.jpg" width="300"></a></p>
+<p><a href="examples/img/collateral_agreement_c277e776.jpg"><img src="examples/img/collateral_agreement_c277e776.jpg" width="300"></a> <a href="examples/img/credit_agreement_785a59e0.jpg"><img src="examples/img/credit_agreement_785a59e0.jpg" width="300"></a></p>
 
 1. `collateral_agreement.png` · 2. `credit_agreement.jpg`
 
@@ -5497,7 +6101,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "perturbed": false,
  "n_docs": 2,
  "rule": "case:collateral_short",
- "skill": "서류 대조"
+ "skill": "서류 대조",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -5526,7 +6132,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "perturbed": false,
   "n_docs": 2,
   "rule": "case:collateral_short",
-  "skill": "서류 대조"
+  "skill": "서류 대조",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -5556,7 +6164,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/lease_contract_39a79a48.jpg"><img src="examples/img/lease_contract_39a79a48.jpg" width="300"></a> <a href="examples/img/loan_application_9ad08642.jpg"><img src="examples/img/loan_application_9ad08642.jpg" width="300"></a></p>
+<p><a href="examples/img/lease_contract_5a89b782.jpg"><img src="examples/img/lease_contract_5a89b782.jpg" width="300"></a> <a href="examples/img/loan_application_9ad08642.jpg"><img src="examples/img/loan_application_9ad08642.jpg" width="300"></a></p>
 
 1. `lease_contract.png` · 2. `loan_application.png`
 
@@ -5592,7 +6200,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "perturbed": false,
  "n_docs": 2,
  "rule": "case:jeonse_over",
- "skill": "서류 대조"
+ "skill": "서류 대조",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -5621,7 +6231,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "perturbed": false,
   "n_docs": 2,
   "rule": "case:jeonse_over",
-  "skill": "서류 대조"
+  "skill": "서류 대조",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -5651,7 +6263,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/sales_contract_sales_sum_be09ea05.jpg"><img src="examples/img/sales_contract_sales_sum_be09ea05.jpg" width="300"></a> <a href="examples/img/loan_application_e179d459.jpg"><img src="examples/img/loan_application_e179d459.jpg" width="300"></a></p>
+<p><a href="examples/img/sales_contract_sales_sum_f04734cd.jpg"><img src="examples/img/sales_contract_sales_sum_f04734cd.jpg" width="300"></a> <a href="examples/img/loan_application_10a3fd22.jpg"><img src="examples/img/loan_application_10a3fd22.jpg" width="300"></a></p>
 
 1. `sales_contract_sales_sum.jpg` · 2. `loan_application.jpg`
 
@@ -5687,7 +6299,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "perturbed": true,
  "n_docs": 2,
  "rule": "case:sales_sum",
- "skill": "서류 대조"
+ "skill": "서류 대조",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -5716,7 +6330,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "perturbed": true,
   "n_docs": 2,
   "rule": "case:sales_sum",
-  "skill": "서류 대조"
+  "skill": "서류 대조",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```
@@ -5746,7 +6362,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/overseas_remittance_application_fx_beneficiary_7ff2e859.jpg"><img src="examples/img/overseas_remittance_application_fx_beneficiary_7ff2e859.jpg" width="300"></a> <a href="examples/img/commercial_invoice_564bb4a1.jpg"><img src="examples/img/commercial_invoice_564bb4a1.jpg" width="300"></a></p>
+<p><a href="examples/img/overseas_remittance_application_fx_beneficiary_d44d885c.jpg"><img src="examples/img/overseas_remittance_application_fx_beneficiary_d44d885c.jpg" width="300"></a> <a href="examples/img/commercial_invoice_564bb4a1.jpg"><img src="examples/img/commercial_invoice_564bb4a1.jpg" width="300"></a></p>
 
 1. `overseas_remittance_application_fx_beneficiary.jpg` · 2. `commercial_invoice.jpg`
 
@@ -5782,7 +6398,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "perturbed": true,
  "n_docs": 2,
  "rule": "case:fx_beneficiary",
- "skill": "서류 대조"
+ "skill": "서류 대조",
+ "task_group": "work",
+ "label_format": "scalar"
 }
 ```
 
@@ -5811,7 +6429,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "perturbed": true,
   "n_docs": 2,
   "rule": "case:fx_beneficiary",
-  "skill": "서류 대조"
+  "skill": "서류 대조",
+  "task_group": "work",
+  "label_format": "scalar"
  }
 }
 ```

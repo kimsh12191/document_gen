@@ -46,6 +46,7 @@ def health_insurance_qualification(p: Profile, rng: random.Random) -> dict:
         rows.append(row)
     if p.person.birth.year < 1977:  # 전산 기록 이전 이력은 생략
         rows = rows[1:]
+    rows.reverse()  # 실서류처럼 최근 이력이 위 (1번 = 지금 자격)
     return {
         "issue_no": f"{rng.randint(1000, 9999)}-{rng.randint(1000, 9999)}-{rng.randint(1000, 9999)}-{rng.randint(1000, 9999)}",
         "person": {"name": p.person.name, "rrn": K.mask_rrn(p.person.rrn) if rng.random() < 0.6 else p.person.rrn},

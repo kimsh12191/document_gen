@@ -162,6 +162,43 @@ _JS_TEXTS = r"""
 """
 
 
+# 값 칸이 든 <table> 의 구조 (표 그대로 옮기기 table_read, docgen/bench/tasks/table_read.py). 겹친 표(표 안의 표)는 뺀다.
+#   [{page, bbox, rows: [{cells: [{text, rs, cs, th, keys: [칸 키], bbox}]}]}] — 쪽 나눔(paginate.js)으로 나뉜 표는 쪽마다 따로
+_JS_TABLES = r"""
+() => {
+  const pages = Array.from(document.querySelectorAll('.page'));
+  const bases = pages.map(p => p.getBoundingClientRect());
+  const box = el => {
+    const rects = Array.from(el.getClientRects()).filter(r => r.width > 0 && r.height > 0);
+    if (!rects.length) return null;
+    const page = pages.indexOf(el.closest('.page'));
+    if (page < 0) return null;
+    const b = bases[page];
+    return {page, bbox: [Math.min(...rects.map(r => r.left)) - b.left, Math.min(...rects.map(r => r.top)) - b.top,
+                         Math.max(...rects.map(r => r.right)) - b.left, Math.max(...rects.map(r => r.bottom)) - b.top]};
+  };
+  const out = [];
+  for (const table of document.querySelectorAll('table')) {
+    if (!table.querySelector('[data-field]') || table.querySelector('table') || table.parentElement.closest('table')) continue;
+    const t = box(table);
+    if (!t) continue;
+    const rows = [];
+    for (const tr of table.rows) {
+      const cells = [];
+      for (const c of tr.cells) {
+        const b = box(c);
+        cells.push({text: c.innerText.replace(/\s+/g, ' ').trim(), rs: c.rowSpan || 1, cs: c.colSpan || 1, th: c.tagName === 'TH',
+                    keys: Array.from(c.querySelectorAll('[data-field]')).map(e => e.dataset.field), bbox: b ? b.bbox : null});
+      }
+      rows.push({cells});
+    }
+    out.push({page: t.page, bbox: t.bbox, rows});
+  }
+  return out;
+}
+"""
+
+
 def _executable() -> str | None:
     env = os.environ.get("CHROMIUM_PATH")
     if env:
@@ -221,13 +258,14 @@ class ImageRenderer:
         self._browser.close()
         self._pw.stop()
 
-    def render(self, html: str, png_path: str | Path, texts: bool = False, first_only: bool = False) -> dict:
+    def render(self, html: str, png_path: str | Path, texts: bool = False, first_only: bool = False, tables: bool = False) -> dict:
         """PNG 저장 후 위치 정보를 돌려준다 (좌표는 이미지 픽셀, 각 쪽 왼쪽 위 기준).
 
         {'images': [경로...], 'pages': [{width, height}], 'fields'|'labels'|'boxes'|'marks': [{key, page, bbox}],
          'untagged_seals': [...], 'overflow': bool, 'width', 'height'(1쪽 크기)}
         texts=True 면 'texts': 쪽 전체 글자 단어 박스 [{page, text, kind, blk, bbox}] 도 (배경 그림 속 글자는 없음)
         first_only=True 면 1쪽 그림만 찍고, 남은 쪽은 info['rest'] 로 돌려준다 → 다른 html 을 넣기 전에 finish(info['rest'])
+        tables=True 면 'tables': 값 칸이 든 표의 구조 [{page, bbox, rows: [{cells: [{text, rs, cs, th, keys, bbox}]}]}]
         """
         self._page.set_content(html, wait_until="load")
         self._page.evaluate("document.fonts.ready")
@@ -236,6 +274,8 @@ class ImageRenderer:
         info = self._page.evaluate(_JS_COLLECT)
         if texts:
             info["texts"] = self._page.evaluate(_JS_TEXTS)
+        if tables:
+            info["tables"] = self._page.evaluate(_JS_TABLES)
         s = self.scale
         paths = page_paths(png_path, len(info["pages"]))
         for i, (el, path) in enumerate(zip(self._page.locator(".page").all(), paths)):
@@ -246,6 +286,11 @@ class ImageRenderer:
         for k in ("fields", "labels", "auto_labels", "boxes", "opts", "marks", "untagged_seals", "texts", "anchors"):
             for it in info.get(k, []):
                 it["bbox"] = [round(v * s, 1) for v in it["bbox"]]
+        for t in info.get("tables", []):
+            t["bbox"] = [round(v * s, 1) for v in t["bbox"]]
+            for row in t["rows"]:
+                for c in row["cells"]:
+                    c["bbox"] = c["bbox"] and [round(v * s, 1) for v in c["bbox"]]
         info["pages"] = [{"width": round(p["width"] * s), "height": round(p["height"] * s)} for p in info["pages"]]
         info["images"] = [str(p) for p in paths]
         info["width"], info["height"] = info["pages"][0]["width"], info["pages"][0]["height"]

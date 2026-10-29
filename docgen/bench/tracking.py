@@ -9,10 +9,12 @@ import hashlib
 import json
 
 GROUPS = {**{t: "ocr" for t in ("crop_ocr", "bbox_ocr", "region_ocr", "marked_ocr", "grounding", "spotting", "relation", "marked_box", "ocr_field", "ocr_page")},
-          "classify": "doc", "kie": "doc", "marks": "doc", "freetext": "doc", "form_qa": "doc", "doc_check": "work", "cross_check": "work", "review": "work"}
+          "classify": "doc", "kie": "doc", "marks": "doc", "freetext": "doc", "form_qa": "doc",
+          "table": "doc", "table_read": "doc", "table_find": "doc", "table_qa": "doc", "doc_check": "work", "cross_check": "work", "review": "work"}
 FORMATS = {**{t: "text" for t in ("crop_ocr", "bbox_ocr", "region_ocr", "marked_ocr", "ocr_field", "classify")},
            **{t: "text_boxes" for t in ("grounding", "spotting", "relation", "marked_box")},
            "ocr_page": "text_list", "kie": "key_values", "marks": "mark_states", "freetext": "record", "form_qa": "scalar",
+           "table": "table_rows", "table_read": "table_rows", "table_find": "table_list", "table_qa": "scalar",
            "doc_check": "document_sets", "cross_check": "consistency_issues", "review": "scalar"}
 DIMENSIONS = {"task_group": "업무·과제 그룹", "task": "과제", "scenario": "업무 시나리오",
               "label_format": "정답 구조", "doc_type": "서식", "source_dataset": "원본 데이터셋"}

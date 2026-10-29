@@ -28,12 +28,14 @@ MAX_SIDE = 1000
 EXAMPLES: list[dict] = []  # what the slides show: one entry per example, the same data as tasks.md
 
 OCR_TASKS = ["crop_ocr", "bbox_ocr", "grounding", "region_ocr", "spotting", "relation", "marked_ocr", "marked_box"]
-BANK_TASKS = ["doc_check", "cross_check", "review", "kie", "marks", "classify", "ocr_page", "ocr_field"]
+BANK_TASKS = ["doc_check", "cross_check", "review", "kie", "marks", "classify", "ocr_page", "ocr_field",
+              "table", "table_read", "table_find", "table_qa"]
 TITLE = {"crop_ocr": "잘라낸 글자 읽기", "bbox_ocr": "박스 안 글자 읽기", "grounding": "글자 위치 찾기",
          "region_ocr": "영역 안 글자 전부 읽기", "spotting": "전체 글자 + 위치", "relation": "옆 글자 찾기",
          "marked_ocr": "그린 박스 안 글자 읽기", "marked_box": "그린 박스의 좌표",
          "doc_check": "서류 구비 확인", "cross_check": "서류 대조", "review": "심사 질의", "kie": "정보 추출",
-         "marks": "체크박스·도장·서명", "classify": "서류 분류", "ocr_page": "전체 받아쓰기", "ocr_field": "값 칸 읽기"}
+         "marks": "체크박스·도장·서명", "classify": "서류 분류", "ocr_page": "전체 받아쓰기", "ocr_field": "값 칸 읽기",
+         "table": "표 추출", "table_read": "표 그대로 옮기기", "table_find": "표 찾기", "table_qa": "표 질의"}
 
 # -- field dictionaries: every key that appears in an example must be described here ----------------
 OCR_ROW = {
@@ -76,6 +78,13 @@ META = {
     "condition": "촬영 조건: clean 원본 / scan 스캔 / photo 촬영 / fax 팩스", "writing": "글씨: print 인쇄체 / hand 손글씨",
     "n_pages": "쪽 수", "key": "값 칸의 정답 키", "label": "값 칸의 항목명", "kind": "값 종류 (이름·금액·날짜 …)",
     "corrected": "손글씨 정정(두 줄 긋고 고쳐 씀)이 있는 칸인지", "length": "정답 글자 수 (공백 제외)",
+    "masked": "검은 상자로 가린 값 칸 수 (정답 null)", "table": "표 묶음 이름 (키의 행 번호 앞, `rows.0.x` → `rows`)",
+    "ref": "표를 가리킨 방법: title 제목 / header 머리글 / box 위치 / only 표가 하나뿐", "scope": "범위: all 모든 행 / page 한 쪽 / first 앞 30행",
+    "n_rows": "표의 행 수 (물은 범위)", "n_cols": "열 수 (섞은 없는 열 포함)", "absent": "없는 열을 섞었는지",
+    "n_tables": "서류의 표 수", "n_segments": "표 조각 수 (여러 쪽 표는 쪽마다)", "segments": "같은 표가 나뉜 쪽 수",
+    "task_group": "과제 묶음: ocr / doc 문서 이해 / work 업무 처리 (점수를 묶어 보는 구분)",
+    "label_format": "정답 구조 (key_values, table_rows, scalar …) — 점수를 정답 꼴별로 나눠 볼 때",
+    "template_variant": "서식 레이아웃 변형 {id, name}",
 }
 EVAL = {
     "required": "필수 서류 목록 (질문에 번호로 나열한 것)",
@@ -85,12 +94,19 @@ EVAL = {
     "days": "유효기간 문항: 발급일부터 신청일까지 일수 (정답 계산 근거)",
     "fields": "키마다 `type`(값 타입), `norm`(정규화 값: 날짜 YYYY-MM-DD, 금액 정수 …), `kind`(값 종류). 타입별로 표기 차이를 맞춰 비교",
     "types": "키마다 `checkbox` / `checkbox_multi` / `seal` / `signature`",
+    "absent": "섞은 없는 키·열 (서류에 없음, 정답 null)", "group": "표 묶음 이름",
+    "type": "표 질의: 물은 열의 값 타입", "key": "표 질의: 물은 열 키",
+    "aliases": "분류: 정답으로 인정하는 다른 서류명",
 }
 ANSWER = {
     "doc_check": "`missing` 빠진 필수 서류 (타인 서류만 낸 것 포함), `not_required` 필수 목록에 없는 서류, `not_customer` 고객 본인 명의가 아닌 서류. 세 목록이 모두 맞아야 완전 일치",
     "cross_check": "`consistent` 불일치가 없으면 true. `issues[]`: `document` 문제 서류, `field` 항목명, `value` 그 서류에 적힌 값, `expected` 다른 서류에 적힌(맞아야 할) 값, `alt_documents` 짝 서류(이 서류를 짚어도 정답 인정, 학습 레코드에서는 뺌)",
     "review": "숫자(문자열) 또는 `예` / `아니오`",
-    "kie": "`{키: 문서에 적힌 값 또는 null}`. 빈 칸은 null",
+    "kie": "`[{\"key\", \"value\": 문서에 적힌 값, \"bbox_2d\", \"page\"}]`. 빈 칸·가린 칸·서류에 없는 항목은 `{\"key\", \"value\": null}`",
+    "table": "`{\"columns\": 질문의 열 키, \"rows\": [[값 …]], \"row_boxes\": [{\"bbox_2d\", \"page\"}]}`. 행은 보이는 순서, 빈 칸·없는 열은 null",
+    "table_read": "같은 꼴, `columns` 는 머리글 글자 그대로 (여러 줄 머리글은 `위 > 아래`), 합계 행은 그대로",
+    "table_find": "`[{\"columns\": 머리글, \"bbox_2d\", \"page\", \"n_rows\"}]` 표마다 (여러 쪽이면 쪽마다), 없으면 []",
+    "table_qa": "숫자 하나 또는 칸 값 (비었으면 null)",
     "marks": "체크박스: 체크된 보기 글자 (없으면 null) · 복수 선택: 목록 · 도장/서명: true / false",
     "classify": "서류 정식 명칭",
     "ocr_page": "서류에 채워 넣은 값들 (한 줄에 하나). 채점은 이 값들이 받아쓴 글에 들어 있는 비율",
@@ -100,7 +116,11 @@ SCORE = {
     "doc_check": "주 지표: 완전 일치. 함께: 세 목록 합친 F1, 목록별 일치. 서류명은 후보(eval.names) 중 비슷한 이름으로 대응",
     "cross_check": "정상 문항: consistent=true 면 1. 변조 문항: consistent=false 이고 issues 에 문제 서류(또는 짝 서류)와 값·원래 값·항목명 중 하나를 맞게 짚으면 1. 함께: 탐지, 위치, 오탐률",
     "review": "숫자: 단위(%, 배, 원 …)를 떼고 tol 안이면 정답. 예/아니오: 네·아니요도 인정",
-    "kie": "주 지표: F1 (값이 있는 칸 기준, 빈 칸에 값을 지어내면 감점). 날짜·금액·번호는 타입별로 표기를 맞춰 비교",
+    "kie": "주 지표: 값+위치 F1 (값 F1·위치 F1 함께, 빈 칸에 값을 지어내면 감점). 날짜·금액·번호는 타입별로 표기를 맞춰 비교",
+    "table": "주 지표: 칸 F1 (정답 행과 답한 행을 순서대로 짝지은 뒤). 함께: 행 완전 일치, 행 수 일치, 행 위치 F1, 없는 열 null 비율",
+    "table_read": "주 지표: 칸 F1 (머리글을 글자로 짝지은 뒤). 함께: 머리글 F1",
+    "table_find": "주 지표: 같은 쪽·IoU 0.5 짝 F1. 함께: 표 수 일치, 행 수 일치, 머리글 F1",
+    "table_qa": "숫자는 같은 수, 칸 값은 kie 와 같은 비교 (빈 칸이면 답도 비어야)",
     "marks": "항목별 정확도",
     "classify": "공백·문장부호를 뺀 뒤 정식 명칭과 같으면 정답",
     "ocr_page": "값 재현율 (공백 무시). recall_fuzzy 는 값 길이 20% 까지 틀려도 인정",

@@ -56,7 +56,7 @@ DEFAULTS = {
     "sft": {"config": "sft.yaml"},
     "grpo": {"config": "grpo_a100x2.yaml", "select": "mine", "candidates": 3000, "count": 1000,
              "hard_fraction": 0.5, "seed": 42,
-             "tasks": ["cross_check", "review", "doc_check", "kie", "grounding", "spotting", "relation"], "max_images": 4},
+             "tasks": ["cross_check", "review", "doc_check", "kie", "table", "grounding", "spotting", "relation"], "max_images": 4},
     "eval": {
         "inference_config": "inference.json",
         "concurrency_per_server": 16,

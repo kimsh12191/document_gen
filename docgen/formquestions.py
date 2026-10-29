@@ -14,7 +14,9 @@
              (답 틀이 글자면 줄글 답: "answer": "{label}: {value}" → 칸마다 한 줄. 빈 칸 틀이 없으면 {value} 자리에 "없음")
    "marks": {"prompt", "item", "answer", "answer_empty"},          같은 꼴 (체크박스 value = 보기 글자, 도장·서명 = true/false)
    "ocr_field": {"prompt"?}, "ocr_page": {"prompt"?},
-   "classify":  {"prompt"?, "answer": "…", "aliases": [...]}}      분류 정답·다른 이름 (없으면 키 사전의 문서명)
+   "classify":  {"prompt"?, "answer": "…", "aliases": [...]},     분류 정답·다른 이름 (없으면 키 사전의 문서명)
+   "table":     {"<묶음>": {"title"?: "표 제목", "ask"?: false}}}  표(반복 묶음, 키의 행 번호 앞 이름 rows.0.x → rows)마다:
+                 질문에서 표를 가리킬 제목 / ask false = 개수가 정해진 격자라 표가 아니라 kie 로 묻기 (guide/benchmark.md 표의 정의)
 
 - 정답 값·위치는 문서를 그릴 때마다 그 칸에서 온다 (파일에 적지 않는다).
 - 답 틀을 바꾸면 질문 문장도 그 꼴로 고친다 (위치를 빼면 위치 이야기도 뺌). check 가 안 맞아 보이면 알려 준다.
@@ -29,7 +31,7 @@ import re
 from pathlib import Path
 
 NAME = "questions.json"
-TOP = ("kie", "marks", "ocr_field", "ocr_page", "classify")
+TOP = ("kie", "marks", "ocr_field", "ocr_page", "classify", "table")
 WITH_ITEMS = ("kie", "marks")
 PLACES = ("key", "value", "bbox_2d", "page")   # 답 틀에 쓰는 자리 — "{key}" 처럼 값 칸 전체로
 TASK_KEYS = {"kie": ("prompt", "item", "answer", "answer_empty"), "marks": ("prompt", "item", "answer", "answer_empty"),
@@ -361,6 +363,9 @@ def slim(doc_id: str, body: dict, docs: list[list[dict]] | None = None) -> dict:
             spec.pop(k)
     if spec:
         out["classify"] = spec
+    tables = {g: v for g, v in (body.get("table") or {}).items() if v}
+    if tables:
+        out["table"] = tables
     for k, v in body.items():
         if k not in TOP and v not in ([], {}, None, ""):   # 모르는 항목은 그대로 둔다 (check 가 알려 줌)
             out[k] = v
@@ -494,6 +499,19 @@ def check_body(body) -> list[str]:
         spec = body.get(task)
         if isinstance(spec, dict) and "prompt" in spec and not (isinstance(spec["prompt"], str) and spec["prompt"].strip()):
             bad.append(f"{task}.prompt 가 비었습니다")
+    t = body.get("table")
+    if t is not None:
+        if not isinstance(t, dict) or not all(isinstance(v, dict) for v in t.values()):
+            bad.append('table: {"<묶음>": {"title": "표 제목", "ask": false}} 꼴이어야 합니다 (묶음 = 키의 행 번호 앞 이름, rows.0.x → rows)')
+        else:
+            for g, v in t.items():
+                odd = set(v) - {"title", "ask"}
+                if odd:
+                    bad.append(f"table.{g}: 모르는 칸 {sorted(odd)} (쓸 수 있는 것: title, ask)")
+                if "title" in v and not (isinstance(v["title"], str) and v["title"].strip()):
+                    bad.append(f"table.{g}.title 은 표 제목 글자")
+                if "ask" in v and v["ask"] is not False:
+                    bad.append(f"table.{g}.ask 는 false 만 (표가 아니라 kie 로 물을 때)")
     c = body.get("classify")
     if c is not None and not (isinstance(c, dict) and isinstance(c.get("answer", ""), str)
                               and isinstance(c.get("aliases", []), list)):

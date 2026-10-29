@@ -292,8 +292,10 @@ def c_hire_date(ctx: Ctx, tamper, rng):
         return None
     comp = None
     if ctx.has("health_insurance_qualification"):
-        rows = sorted((int(k.split(".")[1]), k) for k in ctx.idx["health_insurance_qualification"]
-                      if re.fullmatch(r"rows\.\d+\.start", k))
+        # 지금 직장 = 자격취득일이 가장 늦은 행 (표는 최신순이라 보통 1행 — 행 차례에 기대지 않는다)
+        rows = [(ctx.date("health_insurance_qualification", k), k) for k in ctx.idx["health_insurance_qualification"]
+                if re.fullmatch(r"rows\.\d+\.start", k)]
+        rows = sorted((d, k) for d, k in rows if d)
         if rows and ctx.visible("health_insurance_qualification", rows[-1][1]):
             comp = ("health_insurance_qualification", rows[-1][1])
     if comp is None and ctx.has("loan_application") and ctx.visible("loan_application", "workplace.hire_date"):

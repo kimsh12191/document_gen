@@ -66,6 +66,7 @@ python docker/remote_build.py scenarios                   # 업무 ID 와 필요
 
 - **용도**(평가 세트 / 학습)를 꼭 확인합니다. 서식·업무·수량·촬영 조건·대조 사례는 레시피에서 고칩니다 (칸은 4절 표).
 - OCR 레시피는 OCR 준비까지 돌립니다. `<이름>/prepared/DONE.json` 이 생겨야 끝이고, 학습에는 `<이름>/prepared` 경로를 적습니다.
+- `bank-*` 레시피는 표 문항(`table` 표 추출, `table_read`, `table_find`, `table_qa`)도 만듭니다. 표(행 수가 서류마다 다른 반복 목록)는 `kie` 가 아니라 표 문항이 묻습니다 ([표의 정의](benchmark.md#표의-정의)). 일부 서류는 값 칸이 검은 상자로 가려져 있고(정답 null), 용도·비고 같은 칸이 비어 있기도 합니다 — 일부러 그런 것입니다.
 - `bank-*` 레시피는 `freetext` 문항도 만듭니다. 비고·기타 칸 일부에 `3천 정도 1년, 담달 말까지 서류 낼게요` 처럼 **일부러 대충 쓴 글**이 들어갑니다 (이상한 값이 아님).
 - 검수 완료 전의 가져온 서식은 레시피의 `"all"`·그룹 선택에 들어가지 않습니다.
 - **처음에는 작게** 만들어 5절대로 본 뒤 크게 만듭니다.
@@ -99,6 +100,7 @@ python docker/remote_build.py composition <이름> --out composition.json       
 | `fields_per_doc`, `max_keys` | bank: 값 칸 문항 수, kie·marks 한 문항의 최대 항목 수 |
 | `bundle` | bank: 빠진 서류 0/1/2건 비율, 타인·불필요 서류, 변조 확률 |
 | `cases` | bank: 대조 사례별 `{"enabled", "tamper"}` (사례는 [benchmark.md](benchmark.md#불일치-사례)) |
+| `nulls` | bank: 빈 답 배우기 `{"blank": 0.3, "mask": 0.1}` (기본값). 비어 있기도 한 칸(용도·비고 …) 비우는 비율, 값 칸을 검은 상자로 가리는 서류 비율. 0 이면 끔 ([benchmark.md](benchmark.md#빈-답-null-배우기)) |
 | `unit`, `heavy`, `special`, `prepare` | ocr: 정답 단위 `word`·`line`, 내용 많음·특수 상황, OCR 준비 설정 덮어쓰기 |
 
 예 (소득 서류 추출 학습, 소량):

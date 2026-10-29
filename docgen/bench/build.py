@@ -43,7 +43,7 @@ from .prompts import P_CROSS, P_DOC_CHECK, P_REVIEW
 from .tasks import MARK_TYPES, field_kind  # noqa: F401  (field_kind: 예전 import 자리 build.field_kind)
 from .rules import Bundle, questions, r_doc_valid, valid_candidates
 
-VERSION = "3.1"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
+VERSION = "4.0"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
 #                  2.0: kie·marks 답에 위치(bbox_2d 0~1000, page) — 값·위치·값+위치 점수. 건강보험료 납부확인서 정산 분할납부
 #                       변형이 정한 확률(15%)대로 나오게 고침
 #                  3.0: 키 사전(docgen/dictionary) 적용 — 공통 키에 이은 칸은 서식이 달라도 공통 키로 묻고 답함(customer.name …),
@@ -51,6 +51,10 @@ VERSION = "3.1"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순�
 #                       값 채우기 변경(빈 칸 무작위 비우기 끔, 금액 단위)도 이 판부터. 2.0 과 kie·marks·분류 점수는 바로 비교하지 않는다
 #                  3.1: 원본·가져온 서식의 기타·비고·사유·용도 칸 일부(40%)에 자유 기재 글 + freetext(기타 칸 정리) 과제
 #                       (docgen/freetext.py). 그 칸이 있는 서식의 이미지·kie 정답이 3.0 과 다르다
+#                  4.0: 표(반복 묶음)를 kie 에서 빼고 표 과제 넷(table 표 추출·table_read 표 그대로 옮기기·table_find 표 찾기·
+#                       table_qa 표 질의, guide/benchmark.md "표의 정의"). 빈 답 배우기: kie·table 에 없는 키·열 섞기,
+#                       비어 있기도 한 칸 비우기(blank), 값 칸 가림(mask) — NULLS. 서류 한 건 과제의 그림·kie 정답이 3.1 과 다르고
+#                       kie 점수는 표 칸이 빠져 3.1 과 바로 비교하지 않는다. 업무 묶음 과제는 그대로
 # 1.x 세트(값만 있는 답)도 같은 채점기로 채점된다 (evaluate.py 가 두 형식을 다 읽음). 값 점수는 1.x 와 뜻이 같다.
 SEED_SINGLE = 1_000_000   # 단일 서류 과제 고객 seed 시작
 SEED_BUNDLE = 2_000_000   # 업무 묶음 고객 seed 시작
@@ -68,9 +72,15 @@ BUNDLE_RULES = {
     "extra_doc": 0.35,            # 업무와 상관없는 서류를 끼울 확률
     "tamper": 0.5,                # 대조 사례마다 변조 문항일 확률 (format 사례는 늘 정상)
 }
+# 빈 답 배우기 (서류 한 건 과제만, 업무 묶음은 그대로): blank 비어 있기도 한 칸(용도·비고·발급번호 …, docgen/render.py
+# OPTIONAL_LABEL)을 칸마다 이 비율로 비움 / mask 서류를 이 비율로 골라 값 칸 1~3개를 검은 상자로 가리고 정답 null.
+# 없는 키·열 섞기는 과제 파일의 ABSENT_RATE (kie.py·table.py). 레시피의 "nulls": {"blank": …, "mask": …} 로 바꾼다 (0 이면 끔)
+NULLS = {"blank": 0.3, "mask": 0.1}
+MASK_FIELDS = (1, 3)
+MASK_KINDS = ("name", "rrn", "phone", "account_no", "address", "reg_no")   # 비식별 처리로 흔히 가리는 값 (먼저 고름)
 # 레시피(JSON)에서 읽는 항목. 나머지 명령줄 인자와 같은 이름은 그 인자를 덮어쓴다.
 RECIPE_KEYS = ("split", "types", "per_doc", "scenarios", "bundles", "fields_per_doc", "max_keys", "scale", "start",
-               "conditions", "bundle", "cases", "custom_bundles", "exclude", "reviewed_only")
+               "conditions", "bundle", "cases", "custom_bundles", "exclude", "reviewed_only", "nulls")
 
 
 
@@ -101,9 +111,52 @@ def pick_condition(key: str, conditions=None) -> str:
     return conds[0][0]
 
 
+def single_profile(seed: int, nulls: dict | None):
+    """서류 한 건 과제의 고객: 빈 칸 비우기 비율(nulls["blank"])을 profile.extra 로 렌더링에 넘긴다 (docgen/render.py)."""
+    p = make_profile(seed)
+    if nulls and nulls.get("blank"):
+        p.extra["blank_optional"] = nulls["blank"]
+    return p
+
+
+def mask_fields(fields: list[dict], paths: list[Path], key: str, data: dict | None, anchors: list[dict] | None = None) -> list[str]:
+    """값 칸 1~3개를 검은 상자로 가리고(그림) 정답을 null 로 (칸 dict 를 바꿈). 가린 키 목록.
+    비식별 처리에서 흔히 가리는 값(이름·주민번호·연락처·계좌·주소·등록번호)을 먼저, 자유 기재 글 칸은 빼고.
+    같은 칸이 여러 곳에 찍혔으면(anchors, 렌더러가 잰 칸마다의 자리) 모두 가린다 — 한 곳이라도 보이면 정답 null 이 틀리므로."""
+    from PIL import Image, ImageDraw
+
+    from .tasks import MARK_TYPES, field_kind
+
+    rng = random.Random(f"bench:mask:{key}")
+    written = (data or {}).get("_freetext") or {}
+    cand = [f for f in fields if f.get("value") is not None and f.get("bbox") and f["type"] not in MARK_TYPES
+            and not f.get("group") and f["value"] not in written and f.get("page", 0) < len(paths)]
+    if not cand:
+        return []
+    pref = [f for f in cand if field_kind(f) in MASK_KINDS] or cand
+    pick = rng.sample(pref, min(len(pref), rng.randint(*MASK_FIELDS)))
+    by_page: dict[int, list] = {}
+    for f in pick:
+        spots = [a for a in anchors or [] if a.get("target") == "field" and a.get("key") == f["key"] and a.get("bbox")]
+        for a in spots or [f]:
+            by_page.setdefault(a.get("page", 0), []).append(a["bbox"])
+    for pg, boxes in by_page.items():
+        if pg >= len(paths):
+            continue
+        img = Image.open(paths[pg]).convert("RGB")
+        d = ImageDraw.Draw(img)
+        for x0, y0, x1, y1 in boxes:
+            d.rectangle([x0 - 3, y0 - 3, x1 + 3, y1 + 3], fill=(0, 0, 0))
+        img.save(paths[pg])
+    for f in pick:
+        f["value"], f["masked"] = None, True
+        f.pop("norm", None)
+    return [f["key"] for f in pick]
+
+
 class Builder:
     exclude: frozenset = frozenset()
-
+    nulls: dict | None = None   # 빈 답 배우기 (NULLS). bench build 만 켠다 — 카드·studio 미리보기는 None
     def __init__(self, out: Path, scale: float, rules: dict | None = None):
         from ..image import ImageRenderer
 
@@ -112,6 +165,7 @@ class Builder:
         self.cases = (rules or {}).get("cases") or {}          # {사례ID: {"enabled": bool, "tamper": 확률}}
         self.conditions = tuple((rules or {}).get("conditions") or CONDITIONS)
         self.exclude = frozenset((rules or {}).get("exclude") or ())   # 레시피의 빼는 서식: 업무 묶음에서도 뺀다
+        self.nulls = (rules or {}).get("nulls")
         self.reg = load_all()
         self.renderer = ImageRenderer(scale=scale).__enter__()
         self.buf: list[dict] = []
@@ -132,8 +186,9 @@ class Builder:
 
     # ------------------------------------------------------------------
     def render_doc(self, doc_id: str, profile, seed: int, stem: str, cond: str, aug_key: str | None = None,
-                   html: str | None = None, raw: list | None = None, data: dict | None = None) -> dict:
-        """서류 한 건을 렌더링해 이미지(조건에 따라 증강)와 라벨 필드를 만든다."""
+                   html: str | None = None, raw: list | None = None, data: dict | None = None, single: bool = False) -> dict:
+        """서류 한 건을 렌더링해 이미지(조건에 따라 증강)와 라벨 필드를 만든다.
+        single=True (서류 한 건 과제): 표 구조(tables, table_read 과제)도 읽고, 가림 증강(mask)을 할 수 있다."""
         from PIL import Image
 
         from ..augment import augment
@@ -144,8 +199,12 @@ class Builder:
             html, raw, data = render(spec, profile, seed)
         png = self.out / f"{stem}.png"
         png.parent.mkdir(parents=True, exist_ok=True)
-        info = self.renderer.render(html, png)
+        info = self.renderer.render(html, png, tables=single)
         fields = build_fields(raw, info)
+        tables = info.get("tables") or []
+        masked = []
+        if single and self.nulls and random.Random(f"bench:maskdoc:{stem}").random() < self.nulls.get("mask", 0):
+            masked = mask_fields(fields, [Path(p) for p in info["images"]], stem, data, info.get("anchors"))
         paths = [Path(p) for p in info["images"]]
         sizes = [(pg["width"], pg["height"]) for pg in info["pages"]]
         if cond != "clean":
@@ -160,12 +219,13 @@ class Builder:
                 new_sizes.append(img.size)
                 tfs.append(tf)
             paths, sizes, fields = new_paths, new_sizes, _aug_fields(fields, tfs)
+            tables = _aug_tables(tables, tfs)
         hand = spec.group in ("hana", "imported") and bool((data or {}).get("style", {}).get("hand"))
         return {"doc_id": doc_id, "name": spec.name, "group": spec.group, "seed": seed, "condition": cond, "stem": stem,
                 "template_variant": (data or {}).get("_template_variant", {"id":"default","name":"기본 레이아웃"}),
-                "images": [str(p.relative_to(self.out)) for p in paths], "sizes": sizes, "fields": fields,
+                "images": [str(p.relative_to(self.out)) for p in paths], "sizes": sizes, "fields": fields, "tables": tables,
                 "raw": raw, "raw_keys": [r["key"] for r in raw], "visible": perturb.visible_keys(html),
-                "html": html, "data": data, "writing": "hand" if hand else "print",
+                "html": html, "data": data, "writing": "hand" if hand else "print", "masked": masked,
                 "bank": next((f["value"] for f in fields if f["key"] in ("bank", "bank.name")), None)}
 
     # ------------------------------------------------------------------
@@ -461,6 +521,19 @@ class Builder:
                            "meta": {**m, "rule": f"case:{case.id}", "skill": "서류 대조"}})
 
 
+def _aug_tables(tables: list[dict], tfs: list) -> list[dict]:
+    """증강 변환을 표 구조(표·칸 상자)에 적용한 사본 (docgen/cli._aug_fields 와 같게)."""
+    out = []
+    for t in tables:
+        tf = tfs[t["page"]] if t["page"] < len(tfs) else None
+        if not tf:
+            out.append(t)
+            continue
+        out.append({**t, "bbox": tf.bbox(t["bbox"]), "rows": [{**r, "cells": [{**c, "bbox": c["bbox"] and tf.bbox(c["bbox"])}
+                                                                              for c in r["cells"]]} for r in t["rows"]]})
+    return out
+
+
 def swift_record(rec: dict) -> dict:
     """문항 하나 → ms-swift 학습 레코드 (질문 = 평가 프롬프트, 답 = 정답을 모델 출력 형식으로)."""
     from .runner import oracle_output
@@ -489,7 +562,8 @@ def _job(job: tuple) -> list[dict]:
     if job[0] == "single":
         _, doc_id, seed, fields_per_doc, max_keys = job
         stem = f"images/{doc_id}_{seed}"
-        r = _BD.render_doc(doc_id, make_profile(seed), seed, stem, pick_condition(f"{doc_id}:{seed}", _BD.conditions))
+        r = _BD.render_doc(doc_id, single_profile(seed, _BD.nulls), seed, stem, pick_condition(f"{doc_id}:{seed}", _BD.conditions),
+                           single=True)
         _BD.single(r, stem, fields_per_doc, max_keys)
     else:
         _, sc, seed, *rest = job
@@ -525,6 +599,10 @@ def load_recipe(path: str | Path, args) -> dict:
     if rules["conditions"] and abs(sum(p for _, p in rules["conditions"]) - 1) > 1e-6:
         sys.exit("레시피 conditions 비율의 합은 1 이어야 합니다")
     rules["exclude"] = sorted(recipe.get("exclude") or [])
+    nulls = recipe.get("nulls") or {}
+    if not isinstance(nulls, dict) or set(nulls) - set(NULLS) or not all(isinstance(v, (int, float)) and 0 <= v <= 1 for v in nulls.values()):
+        sys.exit(f'레시피 nulls 는 {{"blank": 0~1, "mask": 0~1}} 꼴이어야 합니다 (기본 {NULLS})')
+    rules["nulls"] = nulls
     return {"recipe": recipe, "rules": rules, "custom": recipe.get("custom_bundles") or [],
             "exclude": set(recipe.get("exclude") or []), "reviewed_only": bool(recipe.get("reviewed_only"))}
 
@@ -542,7 +620,9 @@ def build(args) -> None:
     if out.exists() and any(out.iterdir()) and not args.force:
         sys.exit(f"{out} 가 비어 있지 않습니다. 다시 만들려면 --force")
     rc = load_recipe(args.recipe, args) if getattr(args, "recipe", None) else None
-    rules = rc["rules"] if rc else None
+    rules = dict(rc["rules"]) if rc else {}
+    rules["nulls"] = {**NULLS, **(rules.get("nulls") or {}),
+                      **{k: v for k, v in (("blank", getattr(args, "blank", None)), ("mask", getattr(args, "mask", None))) if v is not None}}
     reg = load_all()
     if args.types == "all":
         ids = list(reg)
@@ -656,7 +736,8 @@ def build(args) -> None:
             "settings": {"types": args.types, "n_doc_types": len(ids), "per_doc": args.per_doc, "scenarios": scenarios,
                          "bundles": args.bundles, "start": start, "fields_per_doc": args.fields_per_doc,
                          "max_keys": args.max_keys, "scale": args.scale, "seed_single": seed_single,
-                         "seed_bundle": seed_bundle, "conditions": dict(CONDITIONS), "held_out_test_only": held_out},
+                         "seed_bundle": seed_bundle, "conditions": dict(CONDITIONS), "held_out_test_only": held_out,
+                         "nulls": rules["nulls"]},
             "counts": dict(sorted(counts.items())), "composition": tracking.result(),
             "doc_names": {i: reg[i].name for i in ids}}
     if rc and rc["exclude"]:

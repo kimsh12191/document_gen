@@ -92,6 +92,15 @@
           <label><input id="q-coords" type="checkbox"> 좌표도 같이 적기</label>
           <span class="muted small">색을 고르고 그림에서 끕니다 (색마다 하나, 셋까지). 묻는 것은 고른 색 상자.</span>
         </div>
+        <div id="w-target" class="hidden">
+          <label>표 가리키기 <select id="q-target"><option value="only">"표" (표가 하나뿐)</option><option value="title">제목</option>
+            <option value="header">머리글 두어 개</option><option value="box">그림에서 네모</option></select></label>
+          <label id="w-title" class="hidden">제목 <input id="q-title" placeholder="예: 자격득실 확인 내역"></label>
+          <label id="w-headers" class="hidden">머리글 <input id="q-headers" placeholder="서식을 고르면 열 이름, 아니면 '가입자구분, 자격취득일'"></label>
+          <label id="w-table" class="hidden">표 <select id="q-table"></select></label>
+        </div>
+        <label id="w-tableq" class="hidden">질의 종류 <select id="q-tableq"><option value="count">행 수</option><option value="count_if">조건에 맞는 행 수</option>
+          <option value="lookup">찾기</option><option value="nth">몇 번째 행</option><option value="last">마지막 행</option><option value="sum">합계</option></select></label>
         <div id="w-field" class="hidden">
           <label>칸 이름 <input id="q-label" value="비고"></label>
           <label>기준일 <input id="q-basis" type="date"></label>
@@ -113,6 +122,6 @@
     </section>
   </div>
 </main>
-<script src="app.js?v=2"></script>
+<script src="app.js?v=3"></script>
 </body>
 </html>

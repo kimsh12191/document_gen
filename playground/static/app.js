@@ -229,12 +229,12 @@ function showCurrent() {
 // ---------------------------------------------------------------- ② 그림에 네모 끌기
 function drawMode() {
   const t = S.byTask[$("#q-task").value] || { needs: [] };
-  if (t.needs.includes("box")) return "box";
+  if (t.needs.includes("box") || (t.needs.includes("target") && $("#q-target").value === "box")) return "box";
   if (t.needs.includes("anchor")) return "anchor";
   if (t.needs.includes("marker")) return "marker";
   return null;
 }
-const HINT = { box: "그림에서 네모를 끌어 영역을 정합니다 (다시 끌면 바뀜).", anchor: "기준 글자를 적거나, 그림에서 기준 글자에 네모를 끕니다.",
+const HINT = { box: "그림에서 네모를 끌어 영역(표 과제는 그 표)을 정합니다 (다시 끌면 바뀜).", anchor: "기준 글자를 적거나, 그림에서 기준 글자에 네모를 끕니다.",
   marker: "색을 고르고 글자 둘레에 네모를 끕니다. 벤치마크와 같은 굵기·여백으로 그려 보냅니다." };
 function pct(box) { const [w, h] = S.size; return `left:${100 * box[0] / w}%;top:${100 * box[1] / h}%;width:${100 * (box[2] - box[0]) / w}%;height:${100 * (box[3] - box[1]) / h}%`; }
 function drawShapes() {
@@ -282,35 +282,52 @@ function taskChanged() {
   const t = S.byTask[$("#q-task").value];
   const n = t.needs;
   $("#w-lang").classList.toggle("hidden", t.group !== "OCR");
-  $("#w-form").classList.toggle("hidden", !(n.includes("form") || ["classify", "ocr_page", "ocr_field"].includes(t.id)));
-  $("#w-maxkeys").classList.toggle("hidden", !n.includes("form"));
+  $("#w-maxkeys").classList.toggle("hidden", !n.includes("form") || t.group === "표");
+  $("#w-form").classList.toggle("hidden", !(n.includes("form") || n.includes("target") || ["classify", "ocr_page", "ocr_field"].includes(t.id)));
+  $("#w-target").classList.toggle("hidden", !n.includes("target"));
+  $("#w-tableq").classList.toggle("hidden", !n.includes("tableq"));
+  targetChanged();
   $("#w-text").classList.toggle("hidden", !n.includes("text"));
   $("#w-anchor").classList.toggle("hidden", !n.includes("anchor"));
   $("#w-marker").classList.toggle("hidden", !n.includes("marker"));
   $("#w-field").classList.toggle("hidden", !n.includes("field"));
   S.promptEdited = false; newConversation(); drawShapes(); refreshQuestion();
 }
+function targetChanged() {
+  const v = $("#q-target").value;
+  $("#w-title").classList.toggle("hidden", v !== "title");
+  $("#w-headers").classList.toggle("hidden", v !== "header");
+}
 function spec() {
   const task = $("#q-task").value;
   const formIn = $("#q-form").value.trim();
+  const ci = Math.max(0, S.picked.findIndex((x) => S.cur && keyOf(x) === keyOf(S.cur)));
   return { task, lang: $("#q-lang").value, form: formIn || null, max_keys: Number($("#q-maxkeys").value || 0), size: S.size,
     box: S.shapes.box, text: $("#q-text").value, anchor_text: $("#q-anchor").value.trim(), anchor_box: S.shapes.anchor,
     direction: $("#q-dir").value, marker: { color: $("#q-color").value, box: S.shapes.markers[$("#q-color").value] },
-    coords: $("#q-coords").checked, label: $("#q-label").value, basis: $("#q-basis").value };
+    coords: $("#q-coords").checked, label: $("#q-label").value, basis: $("#q-basis").value,
+    target: $("#q-target").value, title: $("#q-title").value.trim(), headers: $("#q-headers").value, table: $("#q-table").value || null,
+    tableq: $("#q-tableq").value, page: ci + 1 };
 }
 const refreshQuestion = debounce(async () => {
   const note = $("#q-note");
   try {
     const j = await api("/api/question", spec());
     note.textContent = j.note || ""; note.classList.remove("warn");
+    if (j.tables) {   // 서식의 표가 여럿이면 고르기
+      const cur = $("#q-table").value;
+      $("#q-table").innerHTML = j.tables.map((g) => `<option value="${esc(g)}" ${g === (cur || j.table) ? "selected" : ""}>${esc(g)}</option>`).join("");
+      $("#w-table").classList.toggle("hidden", j.tables.length < 2);
+    }
     S.basePrompt = j.prompt;
     if (!S.promptEdited) $("#q-prompt").value = j.prompt;
     $("#q-reset").classList.toggle("hidden", !S.promptEdited || $("#q-prompt").value === S.basePrompt);
   } catch (e) { note.textContent = e.message; note.classList.add("warn"); }
 }, 250);
 $("#q-task").onchange = taskChanged;
-["#q-lang", "#q-dir", "#q-coords", "#q-basis"].forEach((s) => $(s).addEventListener("change", () => refreshQuestion()));
-["#q-form", "#q-maxkeys", "#q-text", "#q-anchor", "#q-label"].forEach((s) => $(s).addEventListener("input", () => refreshQuestion()));
+["#q-lang", "#q-dir", "#q-coords", "#q-basis", "#q-table", "#q-tableq"].forEach((s) => $(s).addEventListener("change", () => refreshQuestion()));
+["#q-form", "#q-maxkeys", "#q-text", "#q-anchor", "#q-label", "#q-title", "#q-headers"].forEach((s) => $(s).addEventListener("input", () => refreshQuestion()));
+$("#q-target").addEventListener("change", () => { targetChanged(); drawShapes(); refreshQuestion(); });
 $("#q-color").onchange = () => { drawShapes(); refreshQuestion(); };
 $("#q-prompt").addEventListener("input", () => { S.promptEdited = $("#q-prompt").value !== S.basePrompt; $("#q-reset").classList.toggle("hidden", !S.promptEdited); });
 $("#q-reset").onclick = () => { $("#q-prompt").value = S.basePrompt; S.promptEdited = false; $("#q-reset").classList.add("hidden"); };
@@ -361,6 +378,14 @@ function answerBoxesOnCurrent() {
   for (const [id, r] of Object.entries(S.last.results)) for (const b of r.boxes || []) if ((b.page || 1) === page) out.push({ ...b, color: colorOf(id) });
   return out;
 }
+function tableHTML(j) {   // 표 답 {columns, rows} 는 표로 보여 준다
+  if (!j || !Array.isArray(j.rows) || !j.rows.length) return "";
+  const cols = Array.isArray(j.columns) ? j.columns : (j.rows[0] && !Array.isArray(j.rows[0]) ? Object.keys(j.rows[0]) : []);
+  const cell = (v) => v === null || v === undefined ? `<span class="muted">null</span>` : esc(typeof v === "object" ? JSON.stringify(v) : v);
+  const body = j.rows.map((r, i) => `<tr><td class="muted">${i + 1}</td>${(Array.isArray(r) ? r : cols.map((c) => r[c])).map((v) => `<td>${cell(v)}</td>`).join("")}</tr>`).join("");
+  return `<div class="tablebox"><table class="ans"><thead><tr><th>#</th>${cols.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${body}</tbody></table>
+    <div class="muted small">${j.rows.length}행</div></div>`;
+}
 function renderAnswers() {
   const hist = S.turns.slice(0, -1).map((t, i) => `<div class="turn"><b>Q${i + 1}</b> ${esc(t.prompt.slice(0, 300))}${t.prompt.length > 300 ? "…" : ""}
     ${Object.entries(t.answers).map(([id, a]) => `<br><span class="chip" style="background:${colorOf(id)}"></span>${esc(a.slice(0, 300))}`).join("")}</div>`).join("");
@@ -374,6 +399,7 @@ function renderAnswers() {
       <div class="shapes">${(r.boxes || []).filter((b) => (b.page || 1) === i + 1).map((b) => `<div class="shape ans" style="${pctN(b.box)};border-color:${colorOf(id)}"></div>`).join("")}</div></div>`).join("");
     return `<div class="card"><h3><span class="chip" style="background:${colorOf(id)}"></span>${esc(m?.name || r.model || id)} ${badges}</h3>
       ${r.error ? `<pre class="light bad">${esc(r.error)}</pre>` : `<pre class="light">${esc(r.text)}</pre>`}
+      ${tableHTML(r.json)}
       ${r.json !== undefined ? `<details><summary>JSON 으로 읽은 결과</summary><pre class="light">${esc(JSON.stringify(r.json, null, 1))}</pre></details>` : ""}
       <details ${S.last.image ? "open" : ""}><summary>보낸 그림 ${(r.sent || []).length}장 (${(r.sent || []).map((s) => s.size.join("×")).join(", ")})</summary>${sent}</details></div>`;
   }).join("");

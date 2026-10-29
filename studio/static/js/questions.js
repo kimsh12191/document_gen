@@ -52,7 +52,7 @@ async function showQuestionQA(task, items = [], title = "", note = "") {
 async function tabQuestions(d) {
   const formats = await loadQuestionFormats();
   if (!$("#tab") || location.hash !== `#/forms/${encodeURIComponent(d.id)}/questions`) return;
-  const tasks = ["classify", "ocr_field", "ocr_page", "kie", "marks", "freetext", "form_qa"];
+  const tasks = ["classify", "ocr_field", "ocr_page", "kie", "marks", "freetext", "form_qa", "table", "table_read", "table_find", "table_qa"];
   let items = null, request = 0;
   const qf = d.questions;
   $("#tab").innerHTML = `<div class="sub">각 과제가 모델에 묻는 question은 실제 데이터의 <code>prompt</code>입니다.

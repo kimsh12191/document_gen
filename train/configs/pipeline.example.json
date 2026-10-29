@@ -43,15 +43,19 @@
     "output_dir": "../data/mixed-exp1",
     "sft_max_examples": 20000,
     "task_mix": {
-      "cross_check": 0.2,
-      "review": 0.2,
+      "cross_check": 0.18,
+      "review": 0.18,
       "doc_check": 0.1,
-      "kie": 0.15,
-      "marks": 0.08,
+      "kie": 0.12,
+      "marks": 0.07,
       "freetext": 0.05,
-      "classify": 0.07,
-      "ocr_page": 0.05,
-      "ocr_field": 0.1
+      "classify": 0.06,
+      "ocr_page": 0.04,
+      "ocr_field": 0.07,
+      "table": 0.07,
+      "table_qa": 0.03,
+      "table_read": 0.02,
+      "table_find": 0.01
     },
     "max_image_tokens_per_sample": 12000,
     "sft_max_length": 16384
@@ -71,6 +75,7 @@
       "review",
       "doc_check",
       "kie",
+      "table",
       "grounding",
       "spotting",
       "relation"

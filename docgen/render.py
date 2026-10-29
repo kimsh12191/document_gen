@@ -40,6 +40,11 @@ def lookup(data: Any, path: str) -> Any:
     return cur
 
 
+# 서류마다 비어 있기도 한 칸의 항목명 (공백 없앤 글자). 평가 세트·학습 데이터의 서류 한 건 과제에서 일정 비율로 비운다
+# (profile.extra["blank_optional"] = 비율, docgen/bench/build.py) — 물어도 없으면 null 을 배우게. 미리보기·카드에는 없음
+OPTIONAL_LABEL = re.compile(r"^(용도|비고|메모|참고|참고사항|특기사항|기타|기타사항|발급번호|문서번호|문서확인번호|팩스|팩스번호|fax|"
+                            r"이메일|e-?mail|전자우편|홈페이지|자택전화|자택전화번호|직장전화|직장전화번호|영문성명|영문명)$", re.I)
+
 # 도장·서명 자리의 기본 항목명 (템플릿에서 label 을 주지 않았을 때)
 MARK_LABELS = {
     "issuer": "발급기관 직인", "corp": "법인인감", "registered": "등록 인감", "company": "회사 직인",
@@ -67,6 +72,7 @@ class FieldRecorder:
         self.rng = rng or random.Random(0)
         self._auto = 0
         self.corr_name: str | None = None  # 정정 도장에 찍을 이름
+        self.blank_rate, self._blank = 0.0, {}   # 비어 있기도 한 칸 비우기 (OPTIONAL_LABEL, render 가 정함)
 
     def set_corr_name(self, name: str | None) -> str:
         """템플릿용: 정정 도장 글자(보통 작성자 이름)를 정한다. {{ f.set_corr_name(val("applicant.name")) }}"""
@@ -87,6 +93,8 @@ class FieldRecorder:
         text = None if v is None or (isinstance(v, str) and not v.strip()) else str(v)
         if label:
             label = re.sub(r"[\s\u3000]+", "", str(label))
+        if text and self.blank_rate and self._blank_this(path, label, text):
+            text = None
         rec = self.fields.get(path)
         if rec is None:
             rec = self.fields[path] = {"key": path, "label": label, "value": text}
@@ -105,6 +113,14 @@ class FieldRecorder:
                 return Markup(f'<span class="corr"><s class="corr-old">{escape(wrong)}</s> {span}'
                               f'<span class="seal sm corr-seal">{escape(who[:3])}</span></span>')
         return span
+
+    def _blank_this(self, path: str, label: str | None, text: str) -> bool:
+        """이 칸을 비울지 (칸마다 한 번 정하고 같은 칸이 또 나오면 같게). 자유 기재 글이 들어간 칸(freetext 과제)은 비우지 않는다."""
+        if path not in self._blank:
+            lab = label or (self.fields.get(path) or {}).get("label")
+            ok = bool(lab and OPTIONAL_LABEL.match(lab)) and text not in (self.data.get("_freetext") or {})
+            self._blank[path] = ok and self.blank_rng.random() < self.blank_rate
+        return self._blank[path]
 
     def has(self, path: str) -> bool:
         try:
@@ -372,6 +388,8 @@ def render(spec: DocSpec, profile: Profile, seed: int | str, sample_mark: bool |
             accent = brand_accent(profile.bank, random.Random(f"accent:{seed}:{spec.id}"))
             style["accent"] = accent or style["accent"]
     rec = FieldRecorder(data, random.Random(f"marks:{seed}:{spec.id}"))
+    rec.blank_rate = float(profile.extra.get("blank_optional") or 0)   # 평가·학습 데이터에서만 (docgen/bench/build.py)
+    rec.blank_rng = random.Random(f"blank:{seed}:{spec.id}")
     from .template_variants import choose
     variant = choose(spec,seed,profile.extra)
     data["_template_variant"] = {k:variant[k] for k in ("id","name")}

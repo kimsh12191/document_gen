@@ -17,13 +17,15 @@ import tempfile
 from pathlib import Path
 
 NAME = "FORM.md"
-VERSION = "3"   # 카드 꼴이 바뀌면 올린다 (모든 카드가 오래됨)
+VERSION = "4"   # 카드 꼴이 바뀌면 올린다 (모든 카드가 오래됨). 4: 표(반복 묶음)를 kie 와 따로, 표 과제 넷
 ROOT = Path(__file__).resolve().parents[1]
 SHARED = Path(__file__).resolve().parent / "forms" / "_common"
 TASK_TITLE = {"classify": "서류 분류", "ocr_page": "전체 받아쓰기", "ocr_field": "값 칸 읽기", "kie": "정보 추출",
-              "freetext": "기타 칸 정리", "marks": "체크·도장·서명", "form_qa": "서식 전용 질문"}
+              "freetext": "기타 칸 정리", "marks": "체크·도장·서명", "form_qa": "서식 전용 질문",
+              "table": "표 추출", "table_read": "표 그대로 옮기기", "table_find": "표 찾기", "table_qa": "표 질의"}
 MAIN = {"classify": "acc", "ocr_page": "recall", "ocr_field": "exact", "kie": "vl_f1 (값+위치)", "freetext": "f1",
-        "marks": "vl_f1 (값+위치)", "form_qa": "acc"}
+        "marks": "vl_f1 (값+위치)", "form_qa": "acc", "table": "cell_f1 (칸)", "table_read": "cell_f1 (칸)",
+        "table_find": "f1_iou50 (위치)", "table_qa": "acc"}
 
 
 def path(doc_id: str) -> Path:
@@ -182,8 +184,13 @@ def render_card(doc_id: str, builder) -> str:
     folder = path(doc_id).parent
     seed = SPLITS["test"][0]
     stem = f"images/{doc_id}_{seed}"
-    r = builder.render_doc(doc_id, make_profile(seed), seed, stem, "clean")
+    r = builder.render_doc(doc_id, make_profile(seed), seed, stem, "clean", single=True)
     recs = T.make_single(r, stem, builder.out, 2, 40)
+    tcfg = (FQ.read(doc_id) or {}).get("table") or {}
+
+    def table_group(key: str) -> str | None:   # 표 칸이면 묶음 (rows.*.kind → rows). ask false 인 묶음은 kie
+        tc = T.table_cell(key.replace("*", "0"))
+        return tc[0] if tc and tc[1] >= 0 and (tcfg.get(tc[0]) or {}).get("ask") is not False else None
     docs = FQ.seen_fields(doc_id)
     view = FQ.resolved(doc_id, docs)
     fields = {f["key"]: f for f in DIC.apply(doc_id, r["fields"])}
@@ -238,15 +245,31 @@ def render_card(doc_id: str, builder) -> str:
     L += ["| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |", ""]
 
     # 추출 항목
+    sections = []
     for task in ("kie", "marks"):
         v = view[task]
-        if not v["items"]:
+        if task == "kie":
+            plain = [it for it in v["items"] if not table_group(it["key"])]
+            sections.append(("추출 항목 (정보 추출 kie)", "칸", plain))
+            groups: dict = {}
+            for it in v["items"]:
+                if table_group(it["key"]):
+                    groups.setdefault(table_group(it["key"]), []).append(it)
+            for g, its in groups.items():
+                title = (tcfg.get(g) or {}).get("title")
+                sections.append((f"표 `{g}`" + (f" '{title}'" if title else "") + " (표 과제 table·table_read·table_find·table_qa)", "열", its))
+        else:
+            sections.append(("체크·도장·서명 (marks)", "칸", v["items"]))
+    for title, unit, its in sections:
+        if not its:
             continue
-        title = "추출 항목 (정보 추출 kie)" if task == "kie" else "체크·도장·서명 (marks)"
-        L += [f"## {title} — {sum(it['ask'] for it in v['items'])}칸", "",
-              "| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |", "|---|---|---|---|---|---|---|---|---|"]
+        task = "marks" if title.startswith("체크") else "kie"
+        L += [f"## {title} — {sum(it['ask'] for it in its)}{unit}", ""]
+        if unit == "열":
+            L += ["행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.", ""]
+        L += ["| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |", "|---|---|---|---|---|---|---|---|---|"]
         label_seen: dict = {}
-        for it in v["items"]:
+        for it in its:
             f = by_pattern.get(it["key"])
             key = f"`{it['key']}`" + (f" ← `{it['from']}`" if it.get("from") else "")
             first_label = (it["labels"] or [None])[0]
@@ -285,7 +308,7 @@ def render_card(doc_id: str, builder) -> str:
     for rec in recs:
         t = rec["task"]
         shown[t] = shown.get(t, 0) + 1
-        if shown[t] > (2 if t in ("ocr_field", "freetext") else 1) or t == "form_qa":   # form_qa 는 아래 qa.py 절에
+        if shown[t] > (2 if t in ("ocr_field", "freetext", "table_qa") else 1) or t == "form_qa":   # form_qa 는 아래 qa.py 절에
             continue
         L += [f"### {TASK_TITLE.get(t, t)} `{t}` · 채점 {MAIN.get(t, '-')}", ""]
         if t in ("kie", "marks"):
@@ -345,6 +368,8 @@ def render_card(doc_id: str, builder) -> str:
           '| 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |',
           f'| 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa {doc_id} --new`) | 필요 없음 |',
           '| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |',
+          '| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |',
+          '| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |',
           "| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |", "",
           "\"다시\" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.",
           f"확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions {doc_id} --show` · `python -m docgen.preview {doc_id} --out work/{doc_id}`", ""]

@@ -16,6 +16,7 @@
 | ③ 모양(표·문구·선)이 원본과 다름 | html·코드: `look/template.html.j2` (원본 서식은 그림이라 안 고침) | **자리·템플릿** (템플릿 고치기 → 미리보기 → 저장) | [FORM_SHELL_GUIDE.md](../manual/FORM_SHELL_GUIDE.md) 3장 + 원본 그림을 주고 `키는 그대로 두고 모양만 원본처럼 고쳐라` |
 | ④ 칸(추출 항목) 더하기·빼기·키 바꾸기 | html: 템플릿 `f("키", label=…)` + `fields.json` · 코드: 템플릿 + `generate.py` (+ `formdir declare <ID> --apply`) · 원본: `fields.json` | 원본: 영역 편집에서 그리기·지우기 · html·코드: **자리·템플릿** — 빈칸을 누르고 **[자리 넣기]** (키·항목명·값 출처), 빼기는 템플릿에서 그 줄을 지움. 저장 전 키 전후 비교 | `원본의 <항목명> 칸을 키 <키> 로 더하라` (키 이름은 [키 이름 규칙](_common/README.md#키-이름-규칙)) |
 | ⑤ 질문 문장·답 모양 바꾸기, 어떤 칸은 묻지 않기 | `questions.json` (기본과 다른 것만), 칸마다는 `fields.json` 그 칸의 `"q"` | 파일로 (문항 Q/A 화면에서 결과 확인) | `kie 질문을 <문장> 으로, 답을 <꼴> 로 바꿔라` / `칸 <키> 는 묻지 마라` (5.1·5.2절) |
+| ⑤-1 표: 제목 정하기, 정해진 격자를 표가 아니라 kie 로, 행 순서 | `questions.json` 의 `table` (제목·`ask: false`), 행 순서는 `generate.py` | 파일로. 서식 카드의 "표" 절에서 묶음 이름 확인 | `표 <묶음> 의 제목을 <제목> 으로` / `<묶음> 은 개수가 정해진 격자라 kie 로 묻게` / `표 <묶음> 을 최신순으로` (5.5절) |
 | ⑥ 이 서식만의 질문 더하기 (계산·판단) | `qa.py` (함수 하나 = 질문 하나) | 파일로. 견본 `python -m docgen.formdir qa <ID> --new` | `qa.py 에 <질문> 을 더하라. 정답은 칸 <키…> 로 계산` (5.3절) |
 | ⑦ 채점을 다르게 | 서식 폴더가 아니라 `train/scorers/` (평가 세트에 붙임) | — | `train/scorers/<견본> 을 복사해 <규칙> 으로 채점하게 하라` (5.4절) |
 | 새 서식 추가 | → [guide/new-forms.md](../../guide/new-forms.md) | 왼쪽 메뉴 **새 서식 추가** | |
@@ -111,6 +112,7 @@ studio ⑥ 데이터셋 › 만들기와 명령줄 `python -m docgen.bench build
 | `marks` | 체크박스·도장·서명 | kie 와 같음 |
 | `freetext` | 기타·비고 칸의 자유 기재 정리 | 문장: `_common/questions.json` 의 `freetext` (서식별로 못 바꿈) / 칸에 적히는 글·정답 틀: `_common/freetext_templates.json` |
 | `form_qa` | **이 서식만의 질문** | `qa.py` |
+| `table` · `table_read` · `table_find` · `table_qa` | **표** (행 수가 서류마다 다른 반복 목록): 모든 행 · 머리글까지 그대로 · 표 찾기 · 표 질의 | 표 제목·표가 아님: `questions.json` 의 `table` / 열의 항목명·묻지 않기: `fields.json` 그 열 칸의 `q` (5.5절) |
 
 결과 폴더: `images/`, `tasks/<과제>.jsonl`(한 줄 = 그림·질문·정답·채점 정보), 학습용이면 `swift/all.jsonl`.
 과제가 만드는 문항은 모두 평가 세트와 학습 데이터에 같이 들어갑니다 (어느 쪽인지는 데이터셋을 만들 때 `split` 으로).
@@ -222,6 +224,27 @@ docgen 데이터셋을 학습 데이터(`data.train`)로 쓸 때는 채점 함�
 - `qa.py` 질문 몇 개만 다르게: 견본 [`train/scorers/form_qa_example.py`](../../train/scorers/form_qa_example.py) (`meta.question` 으로 가르고 나머지는 기본 채점).
 - 과제 전체를 다르게: [`train/scorers/bank_default.py`](../../train/scorers/bank_default.py) (과제마다 함수 하나). 규칙은 [guide/eval.md](../../guide/eval.md).
 - 경로는 설정 파일 기준, `:함수` 를 빼면 `score`. 고친 뒤 학습 없이 다시 채점: `python -m train rescore <workdir>`.
+
+### 5.5 표: `questions.json` 의 `table`
+
+**표**는 항목 묶음(열)은 서식이 정하고 행 수가 서류마다 다른 반복 목록입니다 ([표의 정의](../../guide/benchmark.md#표의-정의)).
+키에 행 번호가 든 칸(`rows.0.kind` → 묶음 `rows`, 열 `kind`)이 표 칸이고, 표 칸은 kie 가 묻지 않고 표 과제(`table` 등)가 묻습니다.
+서식 카드(FORM.md)에 묶음마다 "표 `<묶음>`" 절이 있습니다.
+
+```json
+{"table": {"rows": {"title": "자격득실 확인 내역"},
+           "approvals": {"ask": false}}}
+```
+
+| 칸 | 뜻 |
+|---|---|
+| `title` | 질문에서 표를 가리킬 제목 (없으면 머리글·위치로 가리킴) |
+| `ask: false` | 개수가 정해진 격자(결재란, 늘 3년치인 칸)라 표가 아님 → kie 가 칸마다 묻는다 |
+
+- 열의 항목명·괄호 설명·묻지 않기는 kie 칸과 같은 곳 — `fields.json` 그 열 칸의 `"q"` (5.1절).
+- **행 순서**는 데이터를 만드는 곳(`generate.py`, html 서식은 템플릿)에서 정합니다. 실서류와 같은 순서로 (이력·내역은 최신순인 경우가 많음).
+- **표로 묶이지 않는 반복:** 키 이름에 번호를 붙인 칸(`guarantor1.name`, 원본 서식의 `Fund2`)은 표가 아니라 kie 칸으로 묻습니다. 표로 하려면 키를 `<묶음>.0.<열>` 꼴로 바꿉니다 (템플릿·`fields.json`, 그림은 그대로라도 키가 바뀌면 재검수).
+- 서식마다 점검할 것(행 수가 늘 같은 표, 오래된 순 표, 표 안 합계, 번호 붙은 반복 칸)은 [표 점검 목록](../../guide/table-audit.md) (`python -m docgen.bench.table_audit`).
 
 ## 6. 칸·모양·값 고치기
 

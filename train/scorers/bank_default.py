@@ -60,7 +60,8 @@ def ocr_page(item, output):
 
 
 TASKS = {"classify": classify, "kie": kie, "marks": marks, "freetext": freetext, "form_qa": form_qa, "doc_check": doc_check,
-         "cross_check": cross_check, "review": review, "ocr_field": ocr_field, "ocr_page": ocr_page}
+         "cross_check": cross_check, "review": review, "ocr_field": ocr_field, "ocr_page": ocr_page,
+         **{t: E.SCORERS[t] for t in ("table", "table_read", "table_find", "table_qa")}}   # 표 과제는 기본 채점 그대로
 
 
 def score(item, output):

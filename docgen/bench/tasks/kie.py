@@ -1,7 +1,9 @@
 """kie — 정보 추출. 서류 한 건의 모든 쪽을 보고, 질문에 적은 항목마다 값과 위치를 답한다.
 
-질문: P_KIE + 항목 줄 '- 키: 항목명 (설명)' (prompts.kie_line). 항목은 체크·도장·서명과 묶음 칸을 뺀 칸 전부,
-      max_keys(기본 40)개를 넘으면 그만큼만 골라 문서 순서로.
+질문: P_KIE + 항목 줄 '- 키: 항목명 (설명)' (prompts.kie_line). 항목은 체크·도장·서명과 묶음 칸, 표 칸(table 과제가 묻는다,
+      Doc.table_keys)을 뺀 칸 전부, max_keys(기본 40)개를 넘으면 그만큼만 골라 문서 순서로.
+      일부 문항(ABSENT_RATE)에는 이 서류에 없는 칸 1~3개를 아무 자리에나 섞는다 (같은 그룹 다른 서식의 칸, 정답 null —
+      docgen/bench/absent.py).
       어떤 칸을 어떤 항목명·설명으로 묻나는 칸 목록 fields.json 의 그 칸 "q" (ask·label·note)
 정답: 항목마다 {"key": 키, "value": 서식을 그릴 때 넣은 값, "bbox_2d": 0~1000 좌표, "page": 쪽}.
       빈 칸은 {"key": 키, "value": null} (위치 없음). 값·위치 모두 그릴 때 기록한 것 그대로 — 사람이 따로 단 정답이 아니다
@@ -16,6 +18,9 @@ eval.fields: 키마다 타입(날짜·금액 등 표기를 맞춰 비교)·norm�
 from ... import formquestions as FQ
 from .. import prompts
 from . import ENTRY, MARK_TYPES, field_kind
+
+ABSENT_RATE = 0.3   # 없는 칸을 섞는 문항 비율
+ABSENT_N = (1, 3)   # 섞는 개수
 
 TASK = "kie"
 NAME = "정보 추출"
@@ -39,14 +44,24 @@ def answer(doc, f, tpl: dict, empty: dict) -> dict:
 
 
 def make(doc):
-    all_kf = FQ.pick(doc.q, TASK, items(doc.fields), doc.fq)   # 서식의 questions.json 대로. 같은 항목명 칸의 순번은 뽑기 전 전체에서 센다
+    from ..absent import absent_keys
+
+    mine = [f for f in items(doc.fields) if f["key"] not in doc.table_keys]   # 표 칸은 table 과제가 묻는다
+    all_kf = FQ.pick(doc.q, TASK, mine, doc.fq)   # 서식의 questions.json 대로. 같은 항목명 칸의 순번은 뽑기 전 전체에서 센다
     kf = doc.sample(all_kf, doc.max_keys)
     if not kf:
         return []
+    if doc.rng.random() < ABSENT_RATE:   # 이 서류에 없는 칸 (정답 null)
+        kf = list(kf)
+        for f in absent_keys(doc, doc.rng.randint(*ABSENT_N)):
+            kf.insert(doc.rng.randrange(len(kf) + 1), f)
     item, tpl, empty = FQ.shell(doc.q, TASK)   # 질문 항목 줄 틀·답 항목 틀·빈 칸 틀 (서식 questions.json, 없으면 공통)
-    lines = "\n".join(prompts.kie_line(doc.r["doc_id"], f["key"], f.get("label"), f.get("doc_key"), siblings=all_kf,
+    lines = "\n".join(prompts.kie_line(f.get("_absent") or doc.r["doc_id"], f["key"], f.get("label"), f.get("doc_key"), siblings=all_kf,
                                         note=f.get("_note"), line=item) for f in kf)
-    ev = {"fields": {f["key"]: {"type": f["type"], "norm": f.get("norm"), "kind": field_kind(f)} for f in kf}}
+    ev = {"fields": {f["key"]: {"type": f["type"], "norm": f.get("norm"), "kind": "absent" if f.get("_absent") else field_kind(f)}
+                     for f in kf}}
+    if any(f.get("_absent") for f in kf):
+        ev["absent"] = [f["key"] for f in kf if f.get("_absent")]
     if isinstance(tpl, str):   # 줄글 답
         ev |= {"text": {"answer": tpl, "answer_empty": empty, "labels": {f["key"]: f.get("label") or "-" for f in kf}},
                "gold": [{"key": f["key"], "value": f["value"]} for f in kf]}

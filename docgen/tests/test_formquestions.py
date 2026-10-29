@@ -40,6 +40,8 @@ def form(tmp_path, monkeypatch):
     (d / "form.json").write_text(json.dumps(FORM, ensure_ascii=False), encoding="utf-8")
     (d / "fields.json").write_text(json.dumps(FIELDS, ensure_ascii=False), encoding="utf-8")
     monkeypatch.setenv("DOCGEN_PRIVATE_FORMS", str(tmp_path / "private"))
+    monkeypatch.setattr(T.kie, "ABSENT_RATE", 0)     # 없는 칸 섞기는 test_bench_tables 에서 따로 본다
+    monkeypatch.setattr(T.table, "ABSENT_RATE", 0)
     assert refresh()["added"] == [ID]
     yield d
     reg.pop(ID, None)
@@ -93,7 +95,8 @@ def test_only_changes_are_written_and_they_change_the_questions(form, tmp_path):
     kie = after["kie"]
     assert "- memo:" not in kie["prompt"] and "memo" not in {a["key"] for a in kie["answer"]}
     assert "- loan.amount: 대출 신청금액" in kie["prompt"] and "- bank: 은행명" in kie["prompt"]   # 안 적은 칸은 칸의 항목명
-    assert "- rows.0.out: 출금 (거래 내역 출금액)" in kie["prompt"]
+    assert "rows.0.out" not in kie["prompt"]   # 표(반복 행)는 kie 가 아니라 table 과제가 묻는다
+    assert "- out: 출금 (거래 내역 출금액)" in after["table"]["prompt"]   # 열의 설명도 칸의 q 대로
     assert after["classify"]["answer"] == "질문 시험서" and after["classify"]["eval"]["aliases"] == ["시험 서식"]
     assert "센텀지점" not in after["ocr_page"]["answer"] and "국민은행" in after["ocr_page"]["answer"]
     view = {it["key"]: it for it in FQ.resolved(ID, seeds=2)["kie"]["items"]}
@@ -290,8 +293,8 @@ def test_text_answer_template_gives_one_line_per_field_and_is_scored_on_values(f
     _write(form, body)
     kie = _items(tmp_path)["kie"]
     lines = kie["answer"].split("\n")
-    assert lines[0] == "은행명: 국민은행" and "비고: 없음" in lines and len(lines) == 6   # 빈 칸 틀은 {value} 자리에 "없음"
-    assert lines[4].startswith("출금: ") and lines[5].startswith("출금: ")   # 같은 항목명 칸(반복 행)은 차례대로 읽는다
+    assert lines[0] == "은행명: 국민은행" and "비고: 없음" in lines and len(lines) == 4   # 빈 칸 틀은 {value} 자리에 "없음"
+    assert not any(x.startswith("출금: ") for x in lines)   # 반복 행(표)은 table 과제
     assert kie["eval"]["gold"][0] == {"key": "bank", "value": "국민은행"}
     s = SCORERS["kie"](kie, oracle_output(kie))["metrics"]
     assert s["f1"] == 1 and "vl_f1" not in s and main_metric("kie", s) == "f1"
