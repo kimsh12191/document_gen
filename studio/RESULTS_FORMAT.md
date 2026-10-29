@@ -1,6 +1,6 @@
 # 결과 폴더 형식 (OCR·추론 결과가 이미 있을 때)
 
-> 구현 상태 (2026-10-20, studio 9단계): **④ 가져오기 › 결과 폴더에서**(검사 → 만들고 묶기) → **⑤ 검수 › 라벨 검수**(포맷의 서식 정하기, 키 대응, 문서마다 고쳐 확인, 같은 자리 모아 보기, 의심 먼저, 검수 전 점수, 업무 묶음) → 확인한 문서가 [LABEL_FORMAT.md](LABEL_FORMAT.md)의 표준 라벨 v1 폴더가 되어 **④ 라벨 있는 데이터**로 데이터셋을 만든다. 명령줄 검사는 `python -m studio.results check <폴더>`. 코드: `studio/results.py`, `studio/label_review.py`.
+> 구현 상태 (2026-10-20, studio 9단계): **④ 가져오기 › 결과 폴더에서**(검사 → 만들고 묶기) → **⑤ 검수 › 라벨 검수**(포맷의 서식 정하기, 키 대응, 문서마다 고쳐 확인, 같은 자리 모아 보기, 의심 먼저, 검수 전 점수, 업무 묶음) → 확인한 문서가 [LABEL_FORMAT.md](LABEL_FORMAT.md)의 표준 라벨 v1 폴더가 되어 **④ 라벨 있는 데이터**로 데이터셋을 만든다. 명령줄 검사는 `python -m studio.results check <폴더>`. 코드: `studio/results.py`, `studio/label_review.py`. ④·⑤는 지금 왼쪽 메뉴에 없고 주소 `#/import`, `#/review` 로 연다.
 
 **이미 정답 라벨이 있는 데이터는 [LABEL_FORMAT.md](LABEL_FORMAT.md)의 생성기 공통 표준 v1을 사용한다.** 이 문서의 `pred/*.json`·임의 키 매핑은 기존 모델 추론 결과를 보존하는 보조 경로다. 정답 라벨의 `fields`·픽셀 `bbox`·0부터 시작하는 `page`와 추론/모델 답의 `items`·`bbox_2d`·1부터 시작하는 `page`를 구분한다.
 
@@ -68,7 +68,7 @@
 - **찾는 규칙 (`docgen.bench.ocr_data.find_saved_ocr`와 같음):** 이미지 `images/A/page_1.png`의 OCR은 `ocr/A/page_1.json`, `ocr/A/page_1.png.json`, `ocr/page_1.json`, `ocr/page_1.png.json` 순서로 찾는다.
 - **내용:** OCR 서버가 돌려준 원본 응답 그대로. 사내 OCR이면 `{"success": "Y", "data": {"basicData": [...]}}`. 다른 OCR이면 `meta.json`의 `mapping`으로 글자·박스·신뢰도 위치를 알려 준다 (`docgen.bench.ocr_data.parse_ocr`와 같은 해석).
 - **좌표:** 그 이미지 파일의 픽셀. EXIF 회전 정보가 있는 이미지는 저장된 OCR 좌표와 어긋날 수 있으므로 OCR 준비와 같이 쓰지 않고, 설정된 OCR로 다시 읽는다.
-- OCR 파일이 없는 이미지는 studio가 설정된 `ocr_callable`로 읽는다. OCR 준비와 같은 캐시 키를 쓰므로 이미 돌린 이미지는 다시 부르지 않는다.
+- OCR 파일이 없는 이미지는 studio가 설정된 OCR(`studio/config.json` 의 `ocr.callable`)로 읽는다. OCR 준비와 같은 캐시 키를 쓰므로 이미 돌린 이미지는 다시 부르지 않는다.
 
 ## 4. 추론 결과 `pred/<문서ID>.json`
 

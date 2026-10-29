@@ -20,7 +20,7 @@ docgen/forms/
 
 | 파일 | 정하는 것 | 고치면 바뀌는 것 | 고치는 법 |
 |---|---|---|---|
-| `questions.json` | **기본 질문 문장·질문 항목 줄 틀(`item`)·답 항목 틀(`answer`, `answer_empty` — JSON 틀이나 줄글)** (과제마다). 서식의 `questions.json` 에 없으면 이것 | 모든 서식의 문항 → 평가 세트가 달라짐 (`docgen/bench/build.py` 의 `VERSION` 을 올림), 모든 카드 오래됨 | 파일로. `guide/questions.md` 도 같이 고침 (테스트가 둘을 맞춰 봄) |
+| `questions.json` | **기본 질문 문장·질문 항목 줄 틀(`item`)·답 항목 틀(`answer`, `answer_empty` — JSON 틀이나 줄글)** (과제마다). 서식의 `questions.json` 에 없으면 이것. freetext·업무 묶음 과제(doc_check·cross_check·review)의 문장도 여기 (서식별로 못 바꿈). 읽는 곳 `docgen/bench/prompts.py` | 모든 서식의 문항 → 평가 세트가 달라짐 (`docgen/bench/build.py` 의 `VERSION` 을 올림), 모든 카드 오래됨 | 파일로. `guide/questions.md` 도 같이 고침 (테스트가 둘을 맞춰 봄) |
 | `dictionary/` | **키 사전**: 공통 키(`common.json`), 서식 칸 → 누구의·무엇(`form_keys.json`), 문서명 = 분류 정답(`doc_types.json`), 당사자·속성(`parties.json`·`attributes.json`) … | 질문·정답의 키(공통 키로 묻기), 괄호 설명, 분류 정답 | studio 키 사전 화면. 자동 초안 `python docgen/scripts/build_dictionary.py` (사람이 정한 것은 남음) |
 | `key_rules.json` | 항목명 → 표준 키 규칙, 값 종류(`rule:<종류>`)의 정의 | 원본 서식(overlay)의 칸 키·값 | studio 키 사전 화면 |
 | `keys.json` | 서식들이 쓰는 키 목록 (영역 편집기가 키를 고를 때) | 키 고르기 목록 | 자동: `python docgen/scripts/build_keys.py` |

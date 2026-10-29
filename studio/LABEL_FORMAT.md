@@ -2,7 +2,7 @@
 
 **입력 라벨은 `docgen generate --png`의 `labels/*.json`과 같은 형태로 고정한다.** 사용자는 이 규격에 맞춰 이미지와 정답을 준비한다. 데이터마다 키·구조를 새로 협의하지 않는다. 기존 모델의 추론 결과 `pred/*.json`은 별도 후보 입력이며 정답 라벨과 구분한다.
 
-규격 파일: [document.schema.json](static/label-format/v1/document.schema.json). 예제 전체: [example.zip](static/label-format/v1/example.zip). 예제는 저장소의 합성 주민등록증 이미지와 실제 생성 라벨을 사용한다. **예제 ZIP을 풀어 ④ 가져오기 → 라벨 있는 데이터에 폴더 경로를 넣으면 검사·확인 후 데이터셋을 생성해 ⑥에 자동 등록한다.** 원본 라벨을 편집하는 기능은 아직 없으며 오류·수정은 원본 JSON에 반영하고 다시 검사한다.
+규격 파일: [document.schema.json](static/label-format/v1/document.schema.json). 예제 전체: [example.zip](static/label-format/v1/example.zip). 예제는 저장소의 합성 주민등록증 이미지와 실제 생성 라벨을 사용한다. **예제 ZIP을 풀어 ④ 가져오기(메뉴에 없음, 주소 `#/import`) → 라벨 있는 데이터에 폴더 경로를 넣으면 검사·확인 후 데이터셋을 생성해 ⑥에 자동 등록한다.** 원본 라벨을 편집하는 기능은 아직 없으며 오류·수정은 원본 JSON에 반영하고 다시 검사한다.
 
 ## 1. 준비할 폴더
 
@@ -88,7 +88,7 @@ studio가 내보낸 폴더(⑤ 라벨 검수, ④ 서류 넣기의 원본 데이
 
 타입: `text`, `date`, `month`, `datetime`, `amount`, `amount_korean`, `number`, `percent`, `rrn`, `biz_no`, `corp_reg_no`, `phone`, `account_no`, `checkbox`, `checkbox_multi`, `seal`, `signature`.
 
-서식별 정확한 키·타입은 [guide/fields/README.md](../guide/fields/README.md)와 [guide/fields/fields.json](../guide/fields/fields.json)을 따른다. 새 서식은 먼저 키를 정의하고 그 키를 라벨·추출 질문·비교 작업에서 함께 쓴다. `rows[].amount` 같은 사전 표기는 실제 라벨에서 `rows.0.amount`처럼 순번을 사용한다.
+서식별 정확한 키·타입은 [guide/fields/README.md](../guide/fields/README.md)와 [guide/fields/fields.json](../guide/fields/fields.json)(렌더링 집계 스냅샷), 서식 하나는 그 서식의 카드 `docgen/forms/<ID>/FORM.md`(키·항목명·위치)를 따른다. 새 서식은 먼저 키를 정의하고 그 키를 라벨·추출 질문·비교 작업에서 함께 쓴다. `rows[].amount` 같은 사전 표기는 실제 라벨에서 `rows.0.amount`처럼 순번을 사용한다.
 
 ## 3. 체크박스·도장·서명
 

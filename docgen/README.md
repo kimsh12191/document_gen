@@ -18,7 +18,8 @@ Studio의 ① 서식에서 `공식대조 HTML`로 검색하세요. 기존 70종 
 
 ### 서식 = 폴더 하나
 
-서식 하나는 폴더 하나입니다. 서식 종류(원본 PDF·견본 그림·HTML)에 따라 다른 것은 `look/` 안의 모양 파일뿐입니다.
+서식 하나는 폴더 하나입니다. 폴더 꼴은 같고, 서식 종류(코드·html·원본)에 따라 모양 파일(`look/`)과 값을 만드는 곳이 다릅니다.
+**서식 하나를 고치는 법(파일마다 할 일·질문·답·`qa.py`·검사)은 [서식 폴더 설명서 docgen/forms/README.md](forms/README.md) 한 곳에 있습니다.**
 
 ```
 docgen/forms/<ID>/                 공개 서식 (실서류에서 만든 서식은 $DOCGEN_PRIVATE_FORMS/<ID>/ 에 같은 꼴)
@@ -29,11 +30,12 @@ docgen/forms/<ID>/                 공개 서식 (실서류에서 만든 서식�
   variants/                        html 레이아웃 변형 (variants.json, <변형>.html.j2)
   generate.py                      값 만들기: 코드 서식은 @doc 함수(값 전부), html 서식은 adjust(d, p, rng)(칸끼리 관계)
   questions.json                   질문·답 — 기본(forms/_common/questions.json)과 다르게 할 것만. 없으면 모두 기본
+  qa.py                            (있으면) 이 서식만의 질문·정답: 함수 하나 = 질문 하나 → 과제 form_qa (docgen/formqa.py)
   FORM.md                          서식 카드 (자동 생성, 읽는 곳)
 docgen/forms/_common/              모든 서식 공통 (README.md)
 ```
 
-- **값이나 칸을 고치려면** → `fields.json` (studio ① 서식 › 영역 편집, 복제 서식의 값 선언은 html 편집)
+- **값이나 칸을 고치려면** → `fields.json` (studio ① 서식 › 영역 편집, 복제 서식의 값 선언은 html 편집). 코드 서식의 값은 `generate.py`
 - **html 서식의 표·문구 모양을 고치려면** → `look/template.html.j2` (복제 서식은 studio html 편집). overlay 서식은 모양(원본 그림)을 바꾸지 않습니다.
 - 코드 서식 70종은 값을 서식 폴더의 `generate.py`(@doc 함수)가 만듭니다. 같은 그룹 서식들이 같이 쓰는 도우미는 `docgen/docs/<그룹>.py` 에 있습니다.
 - **모든 서식이 같이 쓰는 것**(기본 질문, 키 사전, 바탕 틀 `_base`·`_macros`·`_real_form`·그룹 부품, 값 종류 규칙, 표시 설정)은 `docgen/forms/_common/` 한 곳에 있습니다 ([README](forms/_common/README.md)).
@@ -79,7 +81,7 @@ Chromium을 이미 설치했다면 `CHROMIUM_PATH=/path/to/chrome`으로 지정�
 # 서류·시나리오 목록
 python -m docgen list
 
-# 전 서류 x 고객 100명 → HTML + 정답 JSON (476종 x 100명이라 오래 걸립니다)
+# 전 서류 x 고객 100명 → HTML + 정답 JSON (545종 x 100명이라 오래 걸립니다)
 python -m docgen generate --n 100 --out out
 
 # 이미지(PNG) + 위치 + ms-swift 학습 jsonl 까지
@@ -94,7 +96,7 @@ python -m docgen generate --types corporate,fx --n 50 --out out --png
 
 # 은행 서식을 특정 은행으로 (하나은행, KEB하나은행, 외환은행, 국민은행, ...)
 python -m docgen generate --types bank_form --bank 하나은행 --n 50 --out out --png
-python -m docgen generate --types hana --n 30 --out out --png              # 하나은행 원본 서식 406종
+python -m docgen generate --types hana --n 30 --out out --png              # hana 그룹 450종 (원본 서식 406 + 공식 대조 HTML hana_* 44)
 python -m docgen generate --bank 외환은행 --n 50 --out out --png   # 옛 은행: 은행 서식만 생성
 
 # 업무 시나리오 단위 (같은 고객의 제출 서류 묶음)
@@ -233,7 +235,7 @@ DOCGEN_SPECIAL=all python -m docgen generate ...      # 특수 상황을 모두 
 하나은행 공개 서식 PDF(서식 폴더의 `look/original.pdf`, 내려받은 목록·안내문은 `docgen/forms/하나은행_서식자료/`)는 **원본을 그대로 배경으로 깔고 값만 얹어** 만듭니다. HTML로 서식을 다시 그리지 않으므로 이미지 속 서식은 원본과 똑같습니다. 서류 ID는 `hf<No>`(No는 엑셀 목록 번호), 그룹은 `hana`입니다.
 
 ```bash
-python -m docgen generate --types hana --n 1 --png --out out     # 원본 서식 전부
+python -m docgen generate --types hana --n 1 --png --out out     # 원본 서식 전부 (hana 그룹이라 공식 대조 HTML hana_* 44종도 같이)
 python -m docgen generate --types hf169 --n 3 --png --out out    # 한 서식만
 ```
 
@@ -283,22 +285,31 @@ docgen/
   bench/                   은행 업무 벤치마크: 평가 세트·학습 데이터 만들기(build), 모델 실행(run), 채점(eval) — guide/benchmark.md
   bench/tasks/<과제>.py    서류 한 건 과제: 과제 하나 = 파일 하나 (질문, 정답 만드는 make(doc), 답 형식). 견본 kie.py
   formquestions.py         서식 폴더의 questions.json: 질문 문장·질문 항목 줄 틀·답 항목 틀, 분류 정답 (docgen/forms/README.md)
+  formqa.py                서식 폴더의 qa.py (서식 전용 질문 → 과제 form_qa)와 qa.py 도우미 number·date·months
+  fieldinfo.py, formkit.py 칸마다 정의한 곳·질문 설정 q (카드·검사), html 서식 generate.py(adjust)의 도우미
+  dictionary.py, keyrules.py   키 사전(forms/_common/dictionary/)·키 규칙(forms/_common/key_rules.json) 읽기
+  freetext.py              기타 칸 글과 정답 (freetext 과제, forms/_common/freetext_templates.json)
+  roles.py, document_roles.json, template_variants.py   제출 역할 → 실제 서식, html 레이아웃 변형
   docs/<그룹>.py           같은 그룹 코드 서식들이 같이 쓰는 도우미 + 끝의 FORMS 차례로 서식 폴더의 generate.py 를 등록
                            (docs/_common.py 모든 코드 서식의 도우미, docs/real_forms.py 원본 서식 전부를 등록)
   formcard.py              서식 카드 FORM.md·공통 값 출처 목록 values.md 만들기
-  scenarios.json, catalog.json   업무 시나리오, 서식 검수·배정 (studio 가 고침)
+  scenarios.json, catalog.json   업무 시나리오, 서식 검수·배정 (studio 가 고침. catalog.json 은 처음 검수할 때 생김)
 
-  forms/<ID>/               서식 폴더 545종 + 등록 안 되는 hf 레이아웃 (위 "서식 = 폴더 하나"). FORM.md 카드부터 읽는다
+  forms/<ID>/               서식 폴더 545종 + 등록 안 되는 hf 레이아웃 (위 "서식 = 폴더 하나"). FORM.md 카드부터, 고치는 법은 forms/README.md
   forms/_common/            모든 서식 공통: questions.json(기본 질문), dictionary/(키 사전), templates/(바탕 틀·그룹 부품),
-                           key_rules.json(값 종류·항목명 규칙), keys.json(키 목록), marks.json(표시 설정), freetext_templates.json, values.md
+                           key_rules.json(값 종류·항목명 규칙), keys.json(키 목록), marks.json(표시 설정), freetext_templates.json, values.md,
+                           hash_moves.json — 무엇이 어디에 영향을 주는지는 forms/_common/README.md
   forms/하나은행_서식자료/  원본 다운로드 보관 (목록 csv·안내문, 레이아웃이 없는 파일). forms/official_sources/: 공식 원본 대조용 PDF
   assets/marks/            표시 요소 풀 (pools.json, 올린 체크·서명 이미지)
   fonts/                   손글씨 글꼴 (woff2, SIL OFL) + studio 표시 요소 화면에서 경로로 등록한 글꼴
   samples/                 서류별 대표 샘플 이미지·정답 (scripts/make_samples.py)
   recipes/                 데이터셋 레시피 (docgen.bench build --recipe, docgen.ocr_set build --recipe, studio 가 고침)
   scripts/                 extract_form_layout.py(서식 PDF → 기재 자리), form_map.py(→ manual/FORM_MAP.md), make_samples.py,
-                           build_schema.py(→ guide/fields/), build_keys.py(→ keys.json), visualize_labels.py, make_bank_data.sh(문서·업무 과제 데이터)
-  manual/                  TEMPLATE_GUIDE.md(서식 추가 방법), FORM_MAP.md, REALISM_STATUS.md·realism/(현실성 점검), variants/(서식 변형)
+                           build_schema.py(→ guide/fields/), build_keys.py(→ keys.json), build_dictionary.py(→ 키 사전 초안),
+                           audit_form_values.py(→ manual/FORM_VALUE_AUDIT.md), build_official_html.py·verify_official_html.py(공식 대조 HTML),
+                           realism_status.py, visualize_labels.py, make_bank_data.sh(문서·업무 과제 데이터)
+  manual/                  TEMPLATE_GUIDE.md(코드 서식 추가), NEW_FORM_SPEC.md(새 서식 결과물 형식), FORM_SHELL_GUIDE.md(모양만 고치기),
+                           FORM_MAP.md, OFFICIAL_HTML_AUDIT.md·FORM_VALUE_AUDIT.md(점검 보고), REALISM_STATUS.md·realism/(현실성 점검), variants/(서식 변형)
   tests/                   pytest (생성기·벤치마크)
   requirements.txt         생성기 파이썬 패키지 (도커 이미지는 docker/requirements.lock)
 ```
@@ -307,7 +318,7 @@ docgen/
 
 은행이 직접 쓰는 서식 그룹(`bank_form`)은 `registry.BANK_FORM_GROUPS`로 묶여 있습니다. 이 그룹의 서류는 렌더링할 때 서식을 낸 은행(옛 은행 포함)에 맞춰 프로필이 바뀌고, 템플릿에 서식 문맥 `bk`가 들어갑니다. 그룹을 새로 만들 때 이 집합에 넣어 주면 같은 동작을 받습니다.
 
-서류를 추가하거나 수정하는 방법은 [docgen/manual/TEMPLATE_GUIDE.md](manual/TEMPLATE_GUIDE.md)를 보세요.
+서식 하나를 고치는 방법은 [서식 폴더 설명서](forms/README.md), 새 서식을 더하는 절차는 [guide/new-forms.md](../guide/new-forms.md)(결과물 형식 [NEW_FORM_SPEC.md](manual/NEW_FORM_SPEC.md)), 코드 서식을 파이썬으로 새로 만드는 법은 [TEMPLATE_GUIDE.md](manual/TEMPLATE_GUIDE.md)를 보세요.
 
 ## 서식 현실화 현황
 
@@ -335,7 +346,7 @@ HTML 템플릿 70종을 실제 서식과 비교해 서식 번호, 항목 구성�
 
 Studio ③은 `document_roles.json`의 제출 역할마다 실제 서식 하나를 선택합니다. 기존 HTML·공식 HTML·overlay를 같은 역할의 변형으로 묶되 신청서/증명서·개인/법인·증명 범위는 구분합니다. `scenarios.json.docs`에는 선택한 실제 ID가 저장되며 CLI 빌드도 그 선택을 사용합니다. 역할과 필드 스키마는 별개라, 교체 후 직접 추출·비교 키를 다시 선택해야 합니다.
 
-HTML 글자 값 영역은 Studio ①의 영역 편집에서 고칩니다. overlay와 같은 수정 파일 `forms/<ID>/regions.json`(아래 "서식 수정 파일")에 CSS px 좌표와 값 출처를 저장합니다. 원본 템플릿은 유지하고 `render.py`·`image.py`가 수정층을 적용하므로 미리보기·CLI·은행 업무·OCR 생성 결과에 공통 반영됩니다. 체크·서명·도장의 HTML 영역 편집은 아직 템플릿에서 합니다. 동적 페이지는 다른 seed에서도 확인하세요.
+HTML 글자 값 영역은 Studio ①의 영역 편집에서 고칩니다. 서식 폴더의 칸 목록 `fields.json` 의 `regions`(아래 "서식 수정 파일")에 CSS px 좌표와 값 출처를 저장합니다. 원본 템플릿은 유지하고 `render.py`·`image.py`가 수정층을 적용하므로 미리보기·CLI·은행 업무·OCR 생성 결과에 공통 반영됩니다. 체크·서명·도장의 HTML 영역 편집은 아직 템플릿에서 합니다. 동적 페이지는 다른 seed에서도 확인하세요.
 
 현재는 알아낸 overlay 글자 칸을 무작위로 비우지 않고 표를 최소 한 행 채웁니다. 이전 방식은 프로필 값 `sparse_fields=true`로 선택합니다. 천원·만원·백만원·억원 칸은 단위에 맞춰 표시하고 라벨 `unit`·원 단위 `norm`을 기록합니다. HTML `fields`의 `parent.<경로>`는 부모 생성값을 참조하고, `shared_copies=true`인 약정의 `_copy` 값은 원본 기재값을 공유합니다. 생성 결과가 달라졌으므로 새 데이터셋 버전으로 만드세요.
 
@@ -363,14 +374,14 @@ python -m docgen.scripts.audit_form_values --out studio_cache/value_audit/final
 - 이 파일을 고치면 다음에 생성하는 이미지와 정답(키·항목명·값 출처·위치·뺀 칸)에 반영됩니다. 이미 만든 데이터셋은 그대로입니다.
 - **overlay:** 자동 추출 레이아웃(`layout.json`)과 예전 사람 수정을 합쳐 한 번 만든 것이 기준입니다. 자동 추출을 다시 해도 칸 목록은 바뀌지 않습니다(새로 뽑은 `layout.json`은 비교용 초안). 영역 편집기는 고친 것을 보내고 서버가 칸 목록에 바로 합칩니다. 사람이 고친 칸은 `"edited": true`, 더한 칸은 `"added": true`, 뺀 자동 영역은 `"dropped"`에 남습니다.
 - **html:** 템플릿이 칸을 만들고, 칸 목록은 그 위에 값을 정하고 덮어씁니다. 템플릿 칸은 칸 목록에 적지 않아도 나오고, 빼려면 `regions`에 그 키로 `"drop": true`. 복제·분석기 서식은 예전 `form.json`의 `fields`·`lists`가 여기로 왔습니다.
-- **코드 서식(html 70종):** 값은 생성 함수(`docs/<그룹>.py`)가 만들고, 칸 목록에는 그 칸이 모두 `"source": "code"`로 적혀 있습니다(키·항목명·종류, 반복 행은 `lists`). `"code"`는 생성 함수 값 그대로라 결과를 바꾸지 않습니다. 키 하나의 `source`를 `profile.…`·`rule:…`로 바꾸면 그 칸만 덮어쓰고, 반복 행 하위 칸은 행마다 덮어씁니다(행 수는 생성 함수 그대로). 칸 목록은 여러 seed로 그려 나온 칸이라, 드물게 나오는 조건 칸이 빠졌으면 `python -m docgen.formdir declare <ID> --seeds 100 --apply`로 더합니다(바꾼 칸은 그대로 둠).
+- **코드 서식(html 70종):** 값은 서식 폴더의 생성 함수(`generate.py` 의 @doc)가 만들고, 칸 목록에는 그 칸이 모두 `"source": "code"`로 적혀 있습니다(키·항목명·종류, 반복 행은 `lists`). `"code"`는 생성 함수 값 그대로라 결과를 바꾸지 않습니다. 키 하나의 `source`를 `profile.…`·`rule:…`로 바꾸면 그 칸만 덮어쓰고, 반복 행 하위 칸은 행마다 덮어씁니다(행 수는 생성 함수 그대로). 칸 목록은 여러 seed로 그려 나온 칸이라, 드물게 나오는 조건 칸이 빠졌으면 `python -m docgen.formdir declare <ID> --seeds 100 --apply`로 더합니다(바꾼 칸은 그대로 둠).
 - `engine`이 서식 종류와 다르면 조용히 무시하지 않고 에러로 멈춥니다.
 - studio에서 고치면 검증·미리보기가 같이 됩니다. 손으로 고쳤으면 아래 `check`.
 
 ```bash
 python -m docgen.formdir path <ID>             # 이 서식의 파일들 (모양·칸 목록·값 생성 코드)
 python -m docgen.formdir declare [<ID>…] [--apply]   # 코드 서식의 칸을 칸 목록에 적기 (source "code")
-python -m docgen.regions path <ID>             # 이 서식의 수정 파일 위치
+python -m docgen.regions path <ID>             # 예전 수정 파일(regions.json) 자리 (지금 html 수정은 fields.json 의 regions 에 씀)
 python -m docgen.regions show <ID>             # 최종 값 칸 목록 (자동 추출·템플릿 칸 + 수정)
 python -m docgen.regions check <ID>            # 형식·서식 종류·쪽 번호·깨진 수정·남은 예전 파일 (--all: 칸 목록·수정이 있는 서식 전부)
 python -m docgen.regions migrate [--apply]     # 예전 위치의 수정 파일을 새 파일로 (기본은 목록만)

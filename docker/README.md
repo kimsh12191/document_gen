@@ -68,6 +68,7 @@ sh docker/studio.sh                                   # 그다음부터: 정한 
   workspace/datasets/<이름>/      만든 데이터셋 (⑥ 새로 만들기, remote_build.py)
   workspace/registry.json, jobs/  ⑥ 데이터셋 목록, ⑧ 작업 기록
   real_data/                      실서류 검수 결과
+  bench/, bank_train/, logs/      명령줄로 만든 은행 업무 데이터 (5절 make_bank_data.sh)
 ```
 
 윈도우 PC 에서 (PowerShell). 이 창을 켜 둔 동안 브라우저에서 `http://localhost:8765` 로 들어갑니다. `studio.sh` 가 끝에 맞는 명령을 보여 줍니다.
@@ -147,7 +148,7 @@ tail -f /out/logs/make_bank_data.log           # "전부 완료" 가 나오면 �
 
 양·출력 위치(`OUT`, `TRAIN_BUNDLES`, `BENCH_BUNDLES` …)는 `docgen/scripts/make_bank_data.sh` 맨 위 주석에 있습니다. 컨테이너의 `/out` 은 저장 폴더이므로, 학습 설정(`data.train`·`data.benchmark`)에는 서버 경로(예: `/database/docgen_studio/bench`)를 씁니다 ([guide/training.md](../guide/training.md)).
 
-결과 파일을 윈도우로 가져오기: `scp -r <서버 계정>@<서버IP>:docgen/data/bench_out .\` (WinSCP 도 SFTP 로 접속 가능).
+결과 파일을 윈도우로 가져오기: `scp -r <서버 계정>@<서버IP>:<저장 폴더>/bench .\` (컨테이너의 `/out/bench`. 저장 폴더를 안 정했으면 `~/docgen/data`. WinSCP 도 SFTP 로 접속 가능).
 
 ## 6. (선택) 컨테이너에 SSH 로 바로 들어가기
 

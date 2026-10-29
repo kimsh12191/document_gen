@@ -45,15 +45,16 @@ python -m studio --host 0.0.0.0       # 서버에서 띄우고 다른 PC 브라�
 
 | 메뉴 | 기능 |
 |---|---|
-| ① 서식 | 476종 목록 (검색, 그룹·종류·검수·문제 표시·사람 수정 필터, 한글 키·값 없는 칸 수, 쓰이는 시나리오, 배정). **서식 다시 읽기**: 서식 폴더를 다시 훑어 새 폴더 등록·이름·그룹 다시 읽기·지운 폴더 빼기, 깨진 폴더는 이유만 (`POST /api/forms/refresh`, `docgen.registry.refresh`) |
+| ① 서식 | 545종 목록 (코드 70·html 69·원본 406. 검색, 그룹·종류·검수·문제 표시·사람 수정 필터, 한글 키·값 없는 칸 수, 쓰이는 시나리오, 배정). **서식 다시 읽기**: 서식 폴더를 다시 훑어 새 폴더 등록·이름·그룹 다시 읽기·지운 폴더 빼기, 깨진 폴더는 이유만. 서식 폴더의 `questions.json`·`qa.py` 형식 문제와 카드(`FORM.md`)가 없거나 오래된 서식도 알려 준다 (`POST /api/forms/refresh`, `docgen.registry.refresh`) |
+| | **카드**: 서식 폴더의 `FORM.md`(뽑는 칸·위치·값을 정한 곳·질문→답 예시·고치는 곳, 자동 생성), 최신·오래됨 표시, [카드 다시 만들기] (= `python -m docgen.formdir card <ID>`). 고치는 법은 [서식 폴더 설명서](../docgen/forms/README.md). **추출·시나리오**: 서류별 추출 항목·연결 업무 |
 | | **미리보기**: seed·내용 많음·특수 상황·촬영 조건을 바꿔 즉석 렌더링, 쪽 넘기기, 값·항목명·체크박스·도장·서명 박스를 층별로 겹쳐 보기, 박스나 표를 누르면 항목 정보. **문제 표시**를 켜고 그림을 누르면 메모가 남는다 |
 | | **예시**: seed 여러 개(기본 8장)를 격자로, 같은 층 표시. 카드를 누르면 그 seed 로 미리보기 |
-| | **영역 편집** (overlay): 값 영역 고르기·옮기기·크기 바꾸기·빼기·되살리기, 새 칸 그리기(글자·체크 보기·서명·결재란), 키(사전 후보)·값 종류·값 출처, 배경 지우기(흰색·주변색), "지운 자리를 값 영역으로", 깨진 수정 표시, **수정 전후 비교**(같은 seed 로 저장본과 고친 것을 나란히, 바뀐 키·값 목록) |
+| | **영역 편집** (overlay. html 서식은 글자 값 칸만 — 아래 [역할별 서식 선택·HTML 영역 편집](#역할별-서식-선택html-영역-편집)): 값 영역 고르기·옮기기·크기 바꾸기·빼기·되살리기, 새 칸 그리기(글자·체크 보기·서명·결재란), 키(사전 후보)·값 종류·값 출처, 배경 지우기(흰색·주변색), "지운 자리를 값 영역으로", 깨진 수정 표시, **수정 전후 비교**(같은 seed 로 저장본과 고친 것을 나란히, 바뀐 키·값 목록) |
 | | **검수**: 자동 검사(한글 키, 값 영역 겹침, 영역 안 인쇄 글자, 깨진 수정, 안 채워지는 칸 — 경고만), 검수 완료 버튼(누른 사람·날짜, 서식 파일이 바뀌면 "재검수 필요"), 학습/평가 배정, 메모, 문제 표시 목록 |
-| | **문항 Q/A**: 과제별 공통 질문·answer JSON Schema, 실제 생성기의 고객별 문항(입력 이미지·질문 전문·정답 JSON·모델 출력 예시·채점 조건). 시나리오 작업에서도 같은 Q/A 보기 사용 ([DESIGN.md](DESIGN.md) 9.3.1) |
-| | 키 목록(30번 렌더링 기준 채움률·예시, 한글 키 표시), 파일(이 서식을 정하는 파일) |
-| | **복제** (html 서식): 템플릿을 사본으로 `docgen/forms/<ID>/` 에 만들고 html 편집기로. 값은 부모 생성 함수 + form.json |
-| | **html 편집** (복제·분석기 서식): 템플릿·form.json 고치기, 저장 전 미리보기(Ctrl+Enter), 행 수 서식대로/최소/최대, 원본 그림 겹쳐 보기, 검사(선언·템플릿 키, 쪽 넘침), 미리보기 박스 → 템플릿의 그 키, "분석기에 다시 고쳐" |
+| | **문항 Q/A**: 과제별 공통 질문·answer JSON Schema, 이 서식에서 바꾼 질문·답(서식 폴더의 `questions.json`)과 이 서식만의 질문(`qa.py`, 과제 `form_qa`), 실제 생성기의 고객별 문항(입력 이미지·질문 전문·정답 JSON·모델 출력 예시·채점 조건). 보기만 하고 고치는 것은 파일로. 시나리오 작업에서도 같은 Q/A 보기 사용 ([DESIGN.md](DESIGN.md) 9.3.1) |
+| | **키**: 칸마다 누구의·무엇 → 공통 키 (키 사전과 같은 고르기), **레이아웃·샘플링**(html·코드 서식: 배치가 다른 템플릿 변형과 가중치), **파일**(이 서식을 정하는 파일) |
+| | **복제** (html 서식): 템플릿을 사본으로 `docgen/forms/<ID>/` 에 만들고 html 편집기로. 값은 부모 생성 함수 + 칸 목록 `fields.json` (이름·그룹은 `form.json`) |
+| | **html 편집** (복제·분석기 서식): 템플릿·값 선언(`fields.json`) 고치기, 저장 전 미리보기(Ctrl+Enter), 행 수 서식대로/최소/최대, 원본 그림 겹쳐 보기, 검사(선언·템플릿 키, 쪽 넘침), 미리보기 박스 → 템플릿의 그 키, "분석기에 다시 고쳐" |
 | ② 표시 요소 | 확률(손글씨 비율, 결재란, 서명·도장 자리), 풀(체크 표시·서명 이미지 올리기, 도장 틀, 손글씨·인쇄체 글꼴)의 가중치·켜기, 샘플 서식에 적용해 보기 |
 | ⑥ 데이터셋 | **새로 만들기 → 생성 현황 → 완료 후 아래 목록에 자동 등록**. 생성 중에도 같은 화면에서 확인하며, 목록만 갱신해 입력 중인 이름·설정은 유지. 서버 재시작으로 등록이 누락된 완성 결과도 복구. 명령줄로 만든 과제 폴더는 경로로 등록(읽기만, tasks/ 없는 옛 OCR 준비 폴더는 등록 때 tasks/ 를 만듦). 과제 묶음(OCR·문서 이해·업무 처리) 태그, 출처·정답 종류·실서류 표시, 고정 |
 | | **설명서**: 구성·점수·쓴 학습은 자동, 목적·쓰면 안 되는 곳·한계는 사람이 (studio 가 만든 데이터셋은 폴더의 `DATASET.md`, 등록만 한 폴더는 `<workspace>/cards/<ID>.md`) |
@@ -121,6 +122,8 @@ OCR 종류는 모든 쪽의 `ocr/*.json`과 **`meta.json`의 `ocr_scope: "full_p
 | 표시 요소 확률 | `docgen/forms/_common/marks.json` | `docgen/marks.py` |
 | 표시 요소 풀 | `docgen/assets/marks/pools.json`, `docgen/assets/marks/<풀>/` | `docgen/marks.py` → `realform.py`·`render.py` |
 | 표준 키 사전 (자동 생성) | `docgen/forms/_common/keys.json` (`python docgen/scripts/build_keys.py`) | studio 의 키 고르기 |
+| 키 사전 (칸의 누구의·무엇, 문서명, 키 규칙·값 종류) | `docgen/forms/_common/dictionary/*.json`, `docgen/forms/_common/key_rules.json` | `docgen/dictionary.py`, `docgen/keyrules.py` |
+| 질문·답 (studio 는 보기만, 파일로 고침) | 칸마다 `fields.json` 의 `q`, 이 서식만 다르게 `docgen/forms/<ID>/questions.json`, 이 서식만의 질문 `qa.py`, 기본 `docgen/forms/_common/questions.json` ([서식 폴더 설명서 5절](../docgen/forms/README.md#5-질문과-답-고치기)) | `docgen/bench/prompts.py`, `docgen/bench/tasks/<과제>.py` |
 
 저장소 밖에 두는 것: 가져온 묶음(`<workspace>/imports/<묶음>/`: `batch.json`, `pages.jsonl`, `formats.json`, 썸네일), OCR 캐시(설정 `ocr.cache_dir`, 기본 `studio_cache/ocr`), OCR 검수본(`real_data_dir/ocr_reviewed/`, 설정이 없으면 `<workspace>/real_data/` 에 두고 화면에 경고).
 
@@ -130,6 +133,9 @@ OCR 종류는 모든 쪽의 `ocr/*.json`과 **`meta.json`의 `ocr_scope: "full_p
 
 메뉴는 일의 흐름 순서다: ① 서식 → ② 표시 요소 → ③ 시나리오·묶음 (합성 재료) → ④ 가져오기 → ⑤ 검수 (실서류·기존 결과) → ⑥ 데이터셋 → ⑦ 평가 (두 벤치마크를 출처와 상관없이 같은 화면에서) → ⑧ 작업 → ⑨ 설정.
 
+> 번호는 예전 메뉴 번호다. 지금 왼쪽 메뉴에는 번호 없이 사용 가이드 · OCR 예시 · 서식 · 새 서식 추가 · 키 사전 · 표시 요소 · 시나리오·묶음 · 데이터셋만 있다 (2026-10-22부터).
+> ④ 가져오기·⑤ 검수·⑦ 평가·⑧ 작업·⑨ 설정은 메뉴에서 빠졌고 주소로 연다: `#/import`, `#/review`, `#/eval`, `#/jobs`, `#/settings`.
+
 미리보기는 `studio_cache/preview/` 에 저장된다(git 제외). 서식 파일(템플릿·생성 함수·레이아웃)이나 공통 렌더링 코드가 바뀌면 자동으로 다시 그린다. 렌더링 코드는 [docgen/preview.py](../docgen/preview.py).
 
 ## 구조
@@ -138,8 +144,11 @@ OCR 종류는 모든 쪽의 `ocr/*.json`과 **`meta.json`의 `ocr_scope: "full_p
 studio/
   __main__.py     python -m studio (uvicorn 실행)
   app.py          FastAPI: /api/* 와 정적 파일
-  catalog.py      서식 목록·상세, 검수·배정·문제 표시 (docgen/catalog.json)
+  catalog.py      서식 목록·상세, 검수·배정·문제 표시 (docgen/catalog.json), 서식 다시 읽기, 카드 FORM.md
   config.py       설정 읽기, 렌더링 브라우저 찾기
+  questions.py    ① 문항 Q/A: 실제 생성기로 만든 문항과 모델 답 예시
+  guidebook.py    사용 가이드 화면의 문서 목록(DOCUMENTS·MANUALS)과 카탈로그 (python -m studio.guidebook)
+  api_dictionary.py·api_keys.py  키 사전 API (docgen/forms/_common/dictionary/, key_rules.json)
   editor.py       overlay 영역 편집기: 레이아웃 보기, 사람 수정 검사·저장, 검수 전 자동 검사
   marks_admin.py  표시 요소 확률·풀 읽고 쓰기
   datasets.py     데이터셋 등록부, 문항 보기, 모델 답, 채점, 설명서 (api_datasets.py 가 API)
@@ -156,6 +165,9 @@ studio/
   labeled_data.py 표준 라벨 검사·원본 해시/복사·은행 업무/OCR 변환 (api_labels.py가 API)
   labeled_bundles.py 실제 라벨 묶음의 구비·직접 추출/비교·계산 문항 (합성 변조 없음)
   jobs.py         백그라운드 작업 (명령줄과 같은 명령, <workspace>/jobs/)
+  build_registration.py  ⑥ 생성 현황: 끝난 데이터셋 자동 등록
+  scenario_processing.py ③ 처리 설정 예시 실행
+  intake*.py      ④ 서류 넣기 (만드는 중, 아래)   form_draft.py·real_benchmark.py  숨긴 메뉴 (서식 초안·실문서 벤치마크)
   deps.py         내부망 컨테이너용 패키지 설치 (python -m studio.deps download | install)
   wheels/         그 설치 파일 (Linux, 파이썬 3.12)
   static/         화면 (index.html, style.css, js/<메뉴>.js — 빌드 없음, 외부 CDN 없음)

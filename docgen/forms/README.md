@@ -23,12 +23,14 @@
 ```
 docgen/forms/<ID>/
   FORM.md            카드 (자동 생성 — 읽는 곳): 뽑는 칸·위치·값 출처·정한 곳(파일:줄)·질문→답 실제 예시·고치는 곳
-  look/template.html.j2   모양과 칸 자리 {{ f("키", label="항목명") }}       (원본 서식: look/original.pdf + layout.json)
+  look/template.html.j2   모양과 칸 자리 {{ f("키", label="항목명") }}       (원본 서식: look/original.pdf + 폴더 바로 아래 layout.json)
   fields.json        칸 목록 — 칸 하나 = 한 줄: 키·항목명·값 출처(source)·박스(원본 서식 rect)·질문 설정(q)
   generate.py        값 만들기 — 코드 서식: @doc 함수가 값 전부 / html 서식: adjust(d, p, rng) 로 칸끼리 관계 (없어도 됨)
   questions.json     기본 과제의 질문 문장·답 모양을 이 서식만 다르게 (없으면 기본) — 5.2절
   qa.py              이 서식만의 질문과 정답 (없으면 없음) — 5.3절
-  form.json, variants/, source.png …   이름·그룹, 레이아웃 변형, 원본 그림
+  form.json          (html 서식만) 이름·그룹·공식 원본 출처
+  layout.json        (원본 서식만) 원본 PDF 에서 뽑은 기재 자리 (자동)
+  variants/          (있으면) 레이아웃 변형 variants.json + <변형>.html.j2
 
 docgen/forms/_common/      모든 서식이 같이 쓰는 것 (README.md): 기본 질문(questions.json), 키 사전(dictionary/),
                            바탕 틀(templates/), 키 규칙(key_rules.json), 체크·도장 확률(marks.json), 값 출처 목록(values.md)
@@ -44,8 +46,8 @@ docgen/forms/_common/      모든 서식이 같이 쓰는 것 (README.md): 기�
 | 종류 | 모양 | 값 | 칸 더하기·고치기 |
 |---|---|---|---|
 | 코드 서식 (70) | `look/template.html.j2` | `generate.py` 의 @doc 함수 | 템플릿 + `generate.py` |
-| html 서식 (69, 공식 대조·복제·새로 추가) | `look/template.html.j2` | `fields.json` 의 `source` (+ `generate.py` 의 adjust) | 템플릿 + `fields.json` |
-| 원본 서식 (406, 하나은행 `hf###`·`hana_*`, 가져온 그림 `img_*`) | 원본 PDF·그림 | 칸 자리의 항목명 → 값 종류 (키 규칙) | studio 영역 편집 (`fields.json` items) |
+| html 서식 (69, 공식 대조·하나은행 `hana_*`·복제·새로 추가) | `look/template.html.j2` | `fields.json` 의 `source` (+ `generate.py` 의 adjust) | 템플릿 + `fields.json` |
+| 원본 서식 (406, 하나은행 원본 PDF `hf###`. studio 에서 그림으로 가져온 `img_*` 도 이 종류) | 원본 PDF·그림 | 칸 자리의 항목명 → 값 종류 (키 규칙) | studio 영역 편집 (`fields.json` items) |
 
 ## 4. 데이터가 만들어지는 길
 
@@ -66,7 +68,7 @@ studio ⑥ 데이터셋 › 만들기와 명령줄 `python -m docgen.bench build
 | `ocr_page` · `ocr_field` | 전체 받아쓰기 · 값 칸 하나 읽기 | 문장: `questions.json`. 뺄 칸: `fields.json` 칸의 `q.ocr` |
 | `kie` | 칸마다 값과 위치 | 문장·항목 줄·답 틀: `questions.json` / 묻는 칸·항목명: `fields.json` 칸의 `q` |
 | `marks` | 체크박스·도장·서명 | kie 와 같음 |
-| `freetext` | 기타·비고 칸의 자유 기재 정리 | `_common/freetext_templates.json` |
+| `freetext` | 기타·비고 칸의 자유 기재 정리 | 문장: `_common/questions.json` 의 `freetext` (서식별로 못 바꿈) / 칸에 적히는 글·정답 틀: `_common/freetext_templates.json` |
 | `form_qa` | **이 서식만의 질문** | `qa.py` |
 
 결과 폴더: `images/`, `tasks/<과제>.jsonl`(한 줄 = 그림·질문·정답·채점 정보), 학습용이면 `swift/all.jsonl`.
@@ -169,7 +171,8 @@ def 재직개월(v):                                    # 계산: 재직기간 "
 
 ### 5.4 채점을 다르게: `train/scorers`
 
-채점은 서식 폴더가 아니라 **`train/scorers` 의 채점 함수 한 곳**에서 정합니다. 평가 세트(또는 학습 데이터)에 붙이면 평가 점수와 GRPO 보상이 그 함수로 계산됩니다.
+채점은 서식 폴더가 아니라 **`train/scorers` 의 채점 함수 한 곳**에서 정합니다. 학습 설정의 평가 세트(`data.benchmark`)에 붙이면 그 세트의 평가 점수가 그 함수로 계산됩니다.
+docgen 데이터셋을 학습 데이터(`data.train`)로 쓸 때는 채점 함수를 붙일 수 없고 GRPO 보상은 기본 채점입니다 (`scorer` 는 swift `.jsonl` 학습 데이터만, `train/benchmarks.py`).
 
 ```json
 {"id": "syn", "paths": ["<데이터셋>"], "scorer": "../scorers/my_form_qa.py:score"}
@@ -177,16 +180,17 @@ def 재직개월(v):                                    # 계산: 재직기간 "
 
 - `qa.py` 질문 몇 개만 다르게: 견본 [`train/scorers/form_qa_example.py`](../../train/scorers/form_qa_example.py) (`meta.question` 으로 가르고 나머지는 기본 채점).
 - 과제 전체를 다르게: [`train/scorers/bank_default.py`](../../train/scorers/bank_default.py) (과제마다 함수 하나). 규칙은 [guide/eval.md](../../guide/eval.md).
+- 경로는 설정 파일 기준, `:함수` 를 빼면 `score`. 고친 뒤 학습 없이 다시 채점: `python -m train rescore <workdir>`.
 
 ## 6. 칸·모양·값 고치기
 
 | 하고 싶은 것 | 코드 서식 | html 서식 | 원본 서식 | 재검수 |
 |---|---|---|---|---|
-| 칸(추출 항목) 더하기 | 템플릿에 `{{ f("키", label="항목명") }}` + `generate.py` 가 그 키 값 | 템플릿에 `f(…)` + `fields.json` `fields` 에 키·source | studio 영역 편집에서 칸 그리기 | 다시 |
+| 칸(추출 항목) 더하기 | 템플릿에 `{{ f("키", label="항목명") }}` + `generate.py` 가 그 키 값. `fields.json` 줄은 `python -m docgen.formdir declare <ID> --apply` | 템플릿에 `f(…)` + `fields.json` `fields` 에 키·source | studio 영역 편집에서 칸 그리기 | 다시 |
 | 칸 키·항목명 | 템플릿의 `f("키", label=…)` | 템플릿 + `fields.json` | 영역 편집 (`fields.json` 그 칸 `key`·`label`) | 다시 |
 | 값 | `generate.py` | `fields.json` 의 `source` ([값 출처 목록](_common/values.md)) | 값 출처·값 종류 (`source`·`kind`) | 다시 |
 | 칸끼리 관계 (합계·날짜 순서) | `generate.py` | `generate.py` 의 `adjust(d, p, rng)` | — | 다시 |
-| 모양·표·문구 | 템플릿 (studio html 편집) | 같음 | 바꾸지 않음 | 다시 |
+| 모양·표·문구 | 템플릿 파일 `look/template.html.j2` | 템플릿 (studio html 편집 또는 파일) | 바꾸지 않음 | 다시 |
 | 답의 위치 (박스) | 템플릿 배치 | 같음 | `fields.json` 그 칸 `rect` | 다시 |
 | 질문 설정·질문 문장·답 모양·전용 질문 | 5절 | 5절 | 5절 | 필요 없음 |
 
@@ -209,7 +213,7 @@ python -m pytest docgen/tests              # 코드를 고쳤으면. 오래된 �
 | 문제: source … · 박스가 쪽 밖 | 값 출처([목록](_common/values.md))·`rect` |
 | 문제: 답 틀 형식 · 칸 이름이 질문 문장에 없음 | 5.2절 |
 | 문제: qa.py 함수 오류 · 한 번도 묻지 않음(없는 키) · 정답을 답으로 넣어도 만점이 아님 | 5.3절 |
-| 문제: `extra`·`line`·`others`·`items` (예전 이름) | `extra` → `qa.py`, `line` → `item`, `others`·`items` → 칸의 `q` |
+| 문제: `extra`·`line`·`others`·`items`·`exclude`, 답 꼴 이름 `list_box`·`list`·`object` (예전 이름) | `extra` → `qa.py`, `line` → `item`, `others`·`items` → 칸의 `q`, `exclude` → 칸의 `q.ocr`, 답 꼴 이름 → JSON 틀 (5.2절) |
 | 참고: 묻지 않는 칸·항목명을 바꾼 칸·문장이 공통과 다름·일부 문서에서만 묻는 질문 | 일부러 바꾼 것인지 확인 |
 
 검사 통과는 형식 확인일 뿐 **검수가 아닙니다.** 그림과 정답이 맞는지는 studio ① 서식 › 검수에서 사람이 봅니다.
@@ -231,9 +235,10 @@ python -m docgen.formdir check <ID> | --all                # 서식 검사
 python -m docgen.formdir card <ID> | --all --stale --workers 4   # 카드 FORM.md
 python -m docgen.formdir questions <ID> --show             # 질문·답 전체 (기본 + 이 서식에서 바꾼 것 + qa.py)
 python -m docgen.formdir qa <ID> [--new]                   # 이 서식만의 질문 보기 / 견본 만들기
+python -m docgen.formdir declare <ID> [--apply]            # 코드 서식: 그려서 나온 칸을 fields.json 에 적기 (없으면 목록만)
 python -m docgen.formdir values                            # 값 출처 목록 _common/values.md 다시 만들기
-python -m docgen.preview <ID> --rows max --out work/<ID>   # 그려 보기
-python -m docgen.bench build --types <ID> --per-doc 2 --bundles 0 --out work/qa_<ID>   # 이 서식만 데이터 만들어 보기
+python -m docgen.preview <ID> --rows max --out out/<ID>    # 그려 보기 (쪽 그림·칸 검사)
+python -m docgen.bench build --types <ID> --per-doc 2 --bundles 0 --out out/qa_<ID>   # 이 서식만 데이터 만들어 보기 (tasks/*.jsonl)
 ```
 
 studio: ① 서식 › 카드 · 미리보기 · 문항 Q/A(질문 파일과 qa.py 도 보임) · 영역 편집 · html 편집 · 검수 · 파일.
