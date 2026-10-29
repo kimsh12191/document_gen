@@ -19,14 +19,23 @@ sys.path.insert(0, str(ROOT))
 from docgen.registry import GROUPS, load_all  # noqa: E402
 
 DIR = ROOT / "docgen" / "manual" / "realism"
+
+
+def _forms(module: str) -> tuple:
+    import importlib
+
+    return importlib.import_module(f"docgen.docs.{module}").FORMS
+
+
 OWNERS = {  # 담당 파일 → 서류 ID 목록 결정 규칙
     "identity_family": lambda s: s.group in ("identity", "family"),
     "income_finance": lambda s: s.group in ("income", "finance"),
     "tax_business": lambda s: s.group in ("tax", "business"),
     "realestate_fx": lambda s: s.group in ("real_estate", "fx"),
     "corporate": lambda s: s.group == "corporate",
-    "bank_loan": lambda s: s.group == "bank_form" and "bank_form_loan" in s.generate.__module__,
-    "bank_account": lambda s: s.group == "bank_form" and "bank_form_account" in s.generate.__module__,
+    # 은행 서식은 그룹 모듈의 FORMS 로 가른다 (값 함수는 서식 폴더 generate.py 라 모듈 이름으로는 못 가름)
+    "bank_loan": lambda s: s.group == "bank_form" and s.id in _forms("bank_form_loan"),
+    "bank_account": lambda s: s.group == "bank_form" and s.id in _forms("bank_form_account"),
 }
 HEADER = "| 서류 | ID | 근거 서식·출처 | 상태 | 주요 수정 |\n|---|---|---|---|---|\n"
 STATES = ["반영(원본대조)", "반영(검색근거)", "조사중", "보류", "대기"]

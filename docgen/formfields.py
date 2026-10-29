@@ -20,7 +20,7 @@ html 서식 (템플릿이 칸을 만든다 — 반복 행·조건 칸·레이아
    "regions": [{"key", "occurrence"?, "label"?, "source"?, "rect"?, "drop"?, …}],   칸 하나씩 덮어쓰기: 항목명·값·위치·빼기·새 칸
    "variants": {"<변형 ID>": {"regions": [...]}}}                          레이아웃 변형별 덮어쓰기 (docgen/html_regions.py)
 - 복제·분석기 서식은 예전 form.json 의 fields·lists 가 여기로 왔다 (form.json 에는 이름·그룹·부모·출처만 남는다).
-- 코드 서식은 값을 생성 함수(docgen/docs/*.py)가 만들고, fields·lists 를 적으면 그 위에 덮어쓴다.
+- 코드 서식은 값을 서식 폴더의 생성 함수(generate.py 의 @doc)가 만들고, fields·lists 를 적으면 그 위에 덮어쓴다.
 - 처음 한 번 예전 자리(regions.json, form.json 의 값 선언)를 모아 만든다 (adopt, python -m docgen.formdir migrate).
 """
 from __future__ import annotations

@@ -20,7 +20,7 @@
   docgen/forms/하나은행_서식자료/        원본 다운로드 보관 (목록 csv·안내문, 레이아웃이 없는 파일)
   docgen/forms/official_sources/         공식 원본 대조용 PDF (여러 서식이 같이 쓰므로 보관소에 둔다)
 
-코드 서식(docgen/docs/*.py 의 @doc)은 값을 파이썬이 만든다. spec.template("<그룹>/<ID>.html.j2")은 이름으로 남고,
+코드 서식(서식 폴더 generate.py 의 @doc)은 값을 파이썬이 만든다. spec.template("<그룹>/<ID>.html.j2")은 이름으로 남고,
 render 의 로더가 그 이름을 이 폴더의 look/template.html.j2 로 찾는다.
 hf### 레이아웃의 "file"(원본을 내려받은 자리)과 form.json 의 source.source_file 은 기록으로 두고, 파일은 source_path() 로 찾는다.
 
