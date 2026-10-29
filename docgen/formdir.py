@@ -306,7 +306,9 @@ def jinja_source(name: str):
     if p is None or not p.exists():
         return None
     mtime = p.stat().st_mtime_ns
-    return p.read_text(encoding="utf-8"), str(p), lambda: p.exists() and p.stat().st_mtime_ns == mtime
+    # 이 스레드에 초안이 생기면 캐시에 있던 저장본은 낡은 것으로 (초안이 바로 쓰이게)
+    return p.read_text(encoding="utf-8"), str(p), lambda: (p.exists() and p.stat().st_mtime_ns == mtime
+                                                            and doc_id not in (getattr(_drafts, "map", None) or {}))
 
 
 def variants_dir(doc_id: str) -> Path:

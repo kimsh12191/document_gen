@@ -15,13 +15,15 @@ ID = "employment_certificate"
 
 
 def fake_render(doc_id, seed=0, heavy="default", special="default", draft=None, extra=None, rows=None):
-    """Previewer.render 꼴. draft {"template"} 는 formdir.template_draft 로 (preview._render 와 같은 길)."""
+    """Previewer.render 꼴. draft {"template"} 는 formdir.template_draft 로 (preview._render 와 같은 길). 기본 레이아웃으로."""
     from contextlib import nullcontext
 
     draft = {k: v for k, v in (draft or {}).items() if k != "blank"}
     ctx = formdir.template_draft(doc_id, draft["template"]) if "template" in draft else nullcontext()
+    prof = make_profile(seed)
+    prof.extra.update(extra or {"template_variants": {doc_id: "default"}})
     with ctx:
-        _, raw, _ = render(load_all()[doc_id], make_profile(seed), seed)
+        _, raw, _ = render(load_all()[doc_id], prof, seed)
     return {"raw_keys": [f["key"] for f in raw], "fields": raw, "scale": 2, "pages": [{"width": 1588, "height": 2246}],
             "images": ["x.png"], "anchors": [{"key": f["key"], "occurrence": 0, "target": "field", "page": 0,
                                               "bbox": [10, 10 + 30 * i, 200, 30 + 30 * i], "text": str(f.get("value") or "")}
@@ -106,3 +108,20 @@ def test_blank_css_hides_values_only():
     from docgen.preview import BLANK_CSS
 
     assert ".fv{color:transparent" in BLANK_CSS and ".seal" in BLANK_CSS
+
+
+def test_draft_wins_over_cached_saved_template(sandbox):
+    """저장본을 한 번 그린 뒤(템플릿 캐시에 있음) 초안을 그려도 초안이 쓰인다. 새 키는 값 출처를 정하면 값이 나온다."""
+    a = '{{ f("employment.duty", label="담당업무") }}'
+    draft = formdir.template(ID).read_text(encoding="utf-8").replace(a, a + ' {{ f("extra.memo", label="비고") }}', 1)
+    assert "extra.memo" not in fake_render(ID)["raw_keys"]
+    prof = make_profile(0)
+    prof.extra.update({"template_variants": {ID: "default"}})
+    with formdir.template_draft(ID, draft):
+        _, raw, _ = render(load_all()[ID], prof, 0)
+    assert any(f["key"] == "extra.memo" for f in raw)
+    assert "extra.memo" not in fake_render(ID)["raw_keys"]   # 초안이 끝나면 다시 저장본
+    SP.set_value(ID, "extra.memo", "rule:fixed", text="메모")
+    out = SP.spots(ID, fake_render, template=draft)
+    k = next(x for x in out["keys"] if x["pattern"] == "extra.memo")
+    assert k["examples"] == ["메모"] and k["source"] == "rule:fixed" and out["diff"]["added"] == ["extra.memo"]
