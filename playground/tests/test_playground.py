@@ -84,7 +84,7 @@ def test_lora_checkpoint_is_merged_first_into_a_new_folder(tmp_path):
     assert r["info"]["kind"] == "adapter" and r["info"]["base"] == str(base)
     flat = r["command"].replace(" \\\n    ", " ")
     assert flat.startswith("CUDA_VISIBLE_DEVICES=1 swift export") and f"--adapters {ck}" in flat and f"--output_dir {merged}" in flat
-    assert " &&\n" in r["command"] and f"--model {merged}" in flat.split("&&")[1]
+    assert " &&\n" in r["command"] and f"--model {merged}" in flat.split("&&")[-1]
     merged.mkdir()
     (merged / "config.json").write_text("{}")
     again = M.command(str(ck), [1], 8130)["command"]
@@ -251,3 +251,39 @@ def test_web_api_and_static(tmp_path):
         assert models["models"] == [] and models["next_port"] >= M.PORT_BASE
     finally:
         httpd.shutdown()
+
+
+def test_merged_folder_missing_weights_warns_and_fills_a_copy(tmp_path):
+    """합친 모델에 출발 모델의 가중치(MTP mtp.*)가 빠졌으면 알려 주고, [채운 사본 만들기] 는 <경로>-filled 새 폴더."""
+    from train.tests.test_fill_weights import read_st, write_st
+    from train import fill_weights as FW
+
+    base, merged = _model(tmp_path, "base"), _model(tmp_path, "merged")
+    write_st(base / "model.safetensors", {"model.a": b"AAAA", "mtp.fc": b"FCFC"})
+    write_st(merged / "model.safetensors", {"model.a": b"aaaa"})
+    (merged / "args.json").write_text(json.dumps({"model": str(base)}))   # swift export 가 남기는 출발 모델 경로
+    info = M.inspect(str(merged))
+    assert info["missing"] == {"mtp": 1} and info["fillable"]
+    assert any("mtp 1개" in w and "채운 사본" in w for w in M.command(str(merged), [0], 8140)["warnings"])
+    r = M.fill_copy(str(merged))
+    out = tmp_path / "merged-filled"
+    assert r["written"] == str(out) and read_st(out / FW.FILLED) == {"mtp.fc": b"FCFC"}
+    assert sorted(p.name for p in merged.iterdir()) == ["args.json", "config.json", "model.safetensors"]   # 원본 그대로
+    assert M.inspect(str(out)) == {"path": str(out), "kind": "model", "filled": True}
+    assert not M.command(str(out), [0], 8141)["warnings"]
+    with pytest.raises(ValueError, match="이미 있습니다"):
+        M.fill_copy(str(merged))
+
+
+def test_adapter_command_fills_after_merging(tmp_path):
+    base = _model(tmp_path, "base")
+    ck = tmp_path / "out" / "checkpoint-9"
+    ck.mkdir(parents=True)
+    (ck / "adapter_config.json").write_text("{}")
+    (ck.parent / "args.json").write_text(json.dumps({"model": str(base)}))
+    text = M.command(str(ck), [2], 8150)["command"]
+    flat = text.replace(" \\\n    ", " ")
+    assert f"-m train.fill_weights {base} {ck.parent / 'checkpoint-9-merged'} --in-place || echo" in flat
+    assert flat.index("swift export") < flat.index("train.fill_weights") < flat.index("swift deploy")
+    import subprocess
+    assert subprocess.run(["bash", "-n", "-c", text]).returncode == 0

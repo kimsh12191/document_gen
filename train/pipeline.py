@@ -71,6 +71,8 @@ DEFAULTS = {
                            "--vllm_gpu_memory_utilization", "0.9", "--host", "127.0.0.1", "--port", "{port}",
                            "--served_model_name", "docgen", "--enable_thinking", "false", "--max_new_tokens", "4096"],
         "health_path": "/v1/models",
+        # 합친 뒤 출발 모델에만 있는 가중치(예: Qwen3.5 MTP 머리 mtp.*)를 채운다 (train/fill_weights.py). 평가 답은 그대로
+        "fill_from_base": True,
         "compare_models": [],
         "skip_start": False,   # 출발 모델 평가를 건너뜀 (train/sweep.py: 첫 모델만 평가)
     },
@@ -370,7 +372,23 @@ class Runner:
         cmd = [p.format(model=self.model, model_type=self.cfg["model_type"], adapter=adapter, output=output)
                for p in self.cfg["eval"]["merge_command"]]
         self.run(cmd, f"merge-{name}.log", env={**os.environ, "CUDA_VISIBLE_DEVICES": self.gpus[0]})
+        if self.cfg["eval"].get("fill_from_base", True) and not self.dry:
+            self.fill_from_base(output)
         return str(output)
+
+    def fill_from_base(self, output):
+        """합치기가 버린 가중치를 출발 모델에서 채운다. 못 채워도 평가는 계속한다 (MTP 같은 추측용 부분만 빠짐)."""
+        from .fill_weights import fill
+
+        try:
+            r = fill(self.model, output, in_place=True)
+        except (ValueError, OSError) as exc:
+            log(f"WARNING: 빠진 가중치 채우기를 건너뜀 ({output}): {exc}")
+            return
+        if r["filled"]:
+            log(f"출발 모델에만 있던 가중치 {r['filled']}개를 채움 ({', '.join(f'{g} {n}' for g, n in r['missing'].items())}) → {output}")
+        elif r.get("blocked"):
+            log(f"WARNING: {output}: {r['blocked']} 빠진 것 {r['missing']}, 합친 모델에만 있는 것 {r['extra']}")
 
     def predict(self, tasks, endpoints, run_id, out):
         concurrency = self.cfg["eval"]["concurrency_per_server"] * len(self.gpus)

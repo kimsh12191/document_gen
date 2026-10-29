@@ -77,9 +77,19 @@ const remake = debounce(async (force) => {
     const busy = [...S.gpuSel].filter((i) => { const g = S.gpus.find((x) => x.index === i); return g && !g.free; });
     const w = [...j.warnings, ...(busy.length ? [`GPU ${busy.join(", ")} 은(는) 사용 중입니다. 메모리가 모자라면 뜨다가 멈춥니다 (--vllm_gpu_memory_utilization 을 낮추거나 다른 GPU)`] : [])];
     const info = j.info.kind === "adapter" ? `LoRA 체크포인트 · 출발 모델 ${j.info.base || "?"}` : j.info.kind === "model" ? "모델 폴더" : "";
-    warn.innerHTML = (info ? `<li class="muted">${esc(info)}</li>` : "") + w.map((x) => `<li>${esc(x)}</li>`).join("");
+    warn.innerHTML = (info ? `<li class="muted">${esc(info)}</li>` : "") + w.map((x) => `<li>${esc(x)}</li>`).join("")
+      + (j.info.fillable ? `<li><button id="m-fill" class="small">채운 사본 만들기 → ${esc(j.info.path)}-filled</button></li>` : "");
+    $("#m-fill")?.addEventListener("click", fillCopy);
   } catch (e) { warn.innerHTML = `<li>${esc(e.message)}</li>`; }
 }, 300);
+async function fillCopy() {
+  const b = $("#m-fill"); b.disabled = true; b.textContent = "채우는 중…";
+  try {
+    const r = await api("/api/models/fill", { path: $("#m-path").value.trim() });
+    toast(`가중치 ${r.filled}개를 채운 새 폴더: ${r.written}`, true);
+    $("#m-path").value = r.written; remake();
+  } catch (e) { toast(e.message); b.disabled = false; b.textContent = "채운 사본 만들기"; }
+}
 ["#m-path", "#m-type", "#m-port"].forEach((s) => $(s).addEventListener("input", () => remake()));
 $("#m-engine").onchange = () => remake();
 $("#m-cmd").addEventListener("input", () => { S.cmdEdited = true; });

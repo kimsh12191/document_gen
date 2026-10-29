@@ -49,10 +49,10 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 | prepare | 섞기 (`train/mix.py`) | `data.output_dir/`: `train_sft.jsonl`, `val_sft.jsonl`, `train_grpo.jsonl`, `benchmark_tasks.jsonl`·`benchmark_items.jsonl`, `DONE.json` |
 | eval_base | 출발 모델 평가 (`eval.compare_models` 도) | `predictions/start.jsonl`, `reports/start.json` |
 | sft | SFT (`python -m train.launch sft`) | `sft/…/checkpoint-N` |
-| eval_sft | SFT 병합·평가, GRPO 후보에 답 | `reports/sft.json` |
+| eval_sft | SFT 병합·평가, GRPO 후보에 답. 병합 뒤 출발 모델에만 있는 가중치(예: MTP `mtp.*`)를 채움 (`eval.fill_from_base`, 아래 그 밖의 명령) | `merged/sft-…/`, `reports/sft.json` |
 | select | GRPO 문항 고르기: `mine`(반은 SFT 보상이 낮은 것) · `random` · `all` | `grpo_train.jsonl` |
 | grpo | GRPO, 보상 = `docgen.bench.evaluate.reward` (`train/reward_plugin.py`; swift 학습 데이터는 그 `scorer`) | `grpo/…/checkpoint-N` |
-| eval_grpo | GRPO 병합·평가 | `reports/grpo-<체크포인트>.json` |
+| eval_grpo | GRPO 병합(빠진 가중치 채움 같음)·평가 | `merged/grpo-…/`, `reports/grpo-<체크포인트>.json` |
 | report | 한 화면(평가 세트·과제별 주 지표, 출발 모델 대비 %p), 자세한 비교표 | `reports/summary.html`, `reports/benchmark.{csv,md,html}` — 읽는 법 [guide/results.md](../guide/results.md) |
 
 평가는 GPU 마다 vLLM 서버를 하나씩 띄우고 같은 그림의 질문을 같은 서버로 보냅니다. 끝나면(report) studio 학습 기록이 평가 세트마다 모델 답으로 붙여 ⑦ 평가에 점수가 뜹니다.
@@ -75,6 +75,7 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 | `python -m train sweep --config <묶음.json>` | 평가 세트를 고정하고 학습 설정을 모델마다 바꿔 여러 개를 차례로·동시에 → `<root>/summary.html`·`compare.html`·`answers.html` (코드 `sweep.py`) | [training.md 4절](../guide/training.md#4-여러-모델을-한-번에-실험-묶음) |
 | `python -m train answers <결과 폴더 또는 workdir>` | 문항별 모델 답 페이지 (`--per-task N`, `--all`; 코드 `answers.py`) | [results.md](../guide/results.md#어디서-보나) |
 | `python -m train summary <결과 폴더> ... --out <html>` | 여러 실험을 한 화면에 (코드 `summary.py`) | [results.md](../guide/results.md#여러-실험을-한-화면에) |
+| `python -m train.fill_weights <출발 모델> <합친 폴더> [--out <새 폴더>]` | 합친 모델에 빠진 가중치를 출발 모델에서 채움. ms-swift 는 transformers 로 읽어 학습·병합하므로 그 구조에 없는 가중치(Qwen3.5 의 MTP 머리 `mtp.*`)가 병합 결과에서 빠지고, vLLM 에서 MTP(speculative decoding)를 켜면 에러가 남. 채운 MTP 는 출발 모델 것이라 답은 그대로, 빨라지는 정도만 줄 수 있음. `--out` 없이는 빠진 것만 보여 줌. 학습 실행은 병합 직후 자동(`eval.fill_from_base`, 기본 켬). 그 전에 합친 폴더는 이 명령으로 새 폴더를 만듦. 합친 모델에만 있는 이름이 있으면(이름 규칙이 바뀐 것일 수 있음) 채우지 않고 알려 줌 → `--prefix mtp` 로 직접 고름 (코드 `fill_weights.py`) | |
 | `python -m train rescore <workdir 또는 묶음 결과 폴더>` | 저장된 답으로 다시 채점, 추론 없이 (코드 `rescore.py`). 묶음 밖 workdir 는 `--data <섞은 폴더>` | [eval.md 4절](../guide/eval.md#4-저장된-답으로-다시-채점-rescore) |
 
 채점은 모두 `docgen.bench.evaluate` 하나입니다 (보고서·studio·GRPO 보상). 평가 세트마다 채점 함수를 붙일 수 있고(`data.benchmark[].scorer`, 견본 `scorers/`), 그 세트의 평가 점수에만 씁니다. GRPO 보상까지 그 함수로 내는 것은 swift `.jsonl` 학습 데이터의 `data.train[].scorer` 뿐입니다 ([eval.md 2절](../guide/eval.md#2-채점)).

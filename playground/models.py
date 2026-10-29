@@ -10,6 +10,7 @@ import shlex
 import signal
 import socket
 import subprocess
+import sys
 import threading
 import time
 import uuid
@@ -17,6 +18,7 @@ from pathlib import Path
 from urllib.error import URLError
 from urllib.request import Request, urlopen
 
+from train import fill_weights as FW
 from train.pipeline import DEFAULTS
 from train.settings import image_tokens, image_tokens_for
 
@@ -53,12 +55,41 @@ def inspect(path: str) -> dict:
                 break
         base = base or (_read(p / "adapter_config.json") or {}).get("base_model_name_or_path")
         merged = p.parent / f"{p.name}-merged"
-        return {"path": str(p), "kind": "adapter", "base": base, "merged": str(merged),
-                "merged_ready": (merged / "config.json").exists(),
+        ready = (merged / "config.json").exists()
+        return {"path": str(p), "kind": "adapter", "base": base, "merged": str(merged), "merged_ready": ready,
+                **({k: v for k, v in _dropped(merged, base).items() if k != "base"} if ready else {}),
                 **({} if base else {"problem": "출발 모델 경로를 못 찾았습니다 (args.json). 명령의 --model 을 직접 고치세요"})}
     if (p / "config.json").exists():
-        return {"path": str(p), "kind": "model"}
+        return {"path": str(p), "kind": "model", **_dropped(p)}
     return {"path": str(p), "kind": None, "problem": "config.json 도 adapter_config.json 도 없습니다"}
+
+
+def _dropped(p: Path, base: str | None = None) -> dict:
+    """합친 모델이면 출발 모델(swift export 가 남긴 args.json 의 model)과 비교해 빠진 가중치 (예: MTP mtp.*).
+    {"base", "missing": {묶음: 개수}, "fillable", "blocked"?} 또는 {} (출발 모델을 모르거나 빠진 것 없음, 이미 채움)."""
+    if (p / FW.RECORD).exists():
+        return {"filled": True}
+    base = (_read(p / "args.json") or {}).get("model") or base
+    if not base or not Path(base).is_dir() or Path(base).resolve() == p.resolve():
+        return {}
+    try:
+        plan = FW.plan(Path(base), p)
+    except (ValueError, OSError):
+        return {}
+    if not plan["missing"]:
+        return {}
+    return {"base": base, "missing": plan["missing"], "fillable": bool(plan["fill"]), **({"blocked": plan["blocked"]} if plan.get("blocked") else {})}
+
+
+def fill_copy(path: str) -> dict:
+    """빠진 가중치를 채운 새 폴더 <경로>-filled (원본은 그대로, 파일은 링크)."""
+    info = inspect(path)
+    if info["kind"] != "model" or not info.get("fillable"):
+        raise ValueError("채울 것이 없거나 출발 모델을 모릅니다 (python -m train.fill_weights 로 직접)")
+    out = Path(info["path"] + "-filled")
+    if out.exists():
+        raise ValueError(f"{out} 가 이미 있습니다. 그 폴더를 쓰세요")
+    return FW.fill(info["base"], info["path"], out=out)
 
 
 def bindable(port: int) -> bool:
@@ -105,8 +136,15 @@ def command(path: str, gpus: list[int], port: int, model_type: str | None = None
         if not info["merged_ready"]:
             merge = [p.format(model=info.get("base") or "<출발 모델 경로>", model_type=model_type, adapter=info["path"], output=model)
                      for p in PIPE["eval"]["merge_command"]]
-            pre = f"CUDA_VISIBLE_DEVICES={gpus[0]} {_lines(merge)} &&\n"   # 평가처럼 GPU 하나로 합침
+            fill = [sys.executable, "-m", "train.fill_weights", info.get("base") or "<출발 모델 경로>", model, "--in-place"]
+            # 평가처럼 GPU 하나로 합치고, 빠진 가중치를 채운다 (채우기가 실패해도 띄움)
+            pre = (f"CUDA_VISIBLE_DEVICES={gpus[0]} {_lines(merge)} &&\n"
+                   f"{{ {_lines(fill)} || echo '빠진 가중치 채우기 실패: 그대로 띄웁니다'; }} &&\n")
             warnings.append(f"LoRA 체크포인트라 먼저 합칩니다 → {model} (몇 분 걸림, 다음부터는 합친 것을 바로 씀)")
+    if info.get("missing"):
+        groups = ", ".join(f"{g} {n}개" for g, n in info["missing"].items())
+        warnings.append(f"합친 모델에 출발 모델의 가중치가 빠져 있습니다 ({groups}). MTP(speculative) 같은 옵션을 켜면 에러가 납니다"
+                        + (". [채운 사본 만들기] 로 새 폴더를 만들어 쓰세요" if info.get("fillable") else f". {info.get('blocked', '')}"))
     tokens, factor = _tokens(info.get("base") if info["kind"] == "adapter" else model)
     env = {"CUDA_VISIBLE_DEVICES": ",".join(str(g) for g in gpus), "IMAGE_MAX_TOKEN_NUM": str(tokens),
            "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1"}

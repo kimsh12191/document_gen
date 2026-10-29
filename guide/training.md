@@ -94,7 +94,7 @@ python -m train --config train/configs/pipeline.json --part grpo      # 위 SFT�
 
 - 경로가 틀리면 시작하자마자 틀린 칸을 모두 알려 주고 멈춥니다.
 - 중간에 멈추면 **같은 명령을 다시** 실행합니다. 끝난 단계는 건너뜁니다.
-- 학습한 모델은 `<workdir>/merged/`에 있습니다.
+- 학습한 모델은 `<workdir>/merged/`에 있습니다. 병합할 때 빠진 가중치(Qwen3.5 의 MTP 머리)는 출발 모델에서 채워 둡니다. vLLM 에서 MTP 를 켜도 됩니다. 이 기능 전에 합친 폴더는 `python -m train.fill_weights <출발 모델> <합친 폴더> --out <새 폴더>` ([train/README.md](../train/README.md#그-밖의-명령)).
 
 ## 4. 여러 모델을 한 번에 (실험 묶음)
 

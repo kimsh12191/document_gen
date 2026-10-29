@@ -11,7 +11,7 @@ from urllib.parse import parse_qs, urlparse
 
 from . import gpus as G, images as IM, questions as Q
 from .ask import Asker
-from .models import ENGINES, Models, command
+from .models import ENGINES, Models, command, fill_copy
 
 STATIC = Path(__file__).resolve().parent / "static"
 
@@ -67,6 +67,8 @@ class App:
                 self.recent("model", body["path"])
             return self.models.start(body.get("name") or "", body.get("path") or "", body.get("command") or "",
                                      [int(g) for g in body.get("gpus") or []], int(body.get("factor") or 32))
+        if path == "/api/models/fill":
+            return fill_copy(body.get("path") or "")
         if path == "/api/models/attach":
             return self.models.attach(body.get("name") or "", body.get("endpoint") or "", int(body.get("factor") or 32))
         if path.startswith("/api/models/") and path.endswith("/stop"):
