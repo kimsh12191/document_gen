@@ -20,7 +20,7 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 
 | 만드는 곳 | 과제 |
 |---|---|
-| `python -m docgen.bench build` (`bash docgen/scripts/make_bank_data.sh`), studio 레시피 bank-* | 문서 이해(classify·kie·marks·freetext), 업무 처리(doc_check·cross_check·review), 값 칸 OCR(ocr_field·ocr_page) |
+| `python -m docgen.bench build` (`bash docgen/scripts/make_bank_data.sh`), studio 레시피 bank-* | 문서 이해(classify·kie·marks·freetext, 서식 폴더 `qa.py` 가 있는 서식은 form_qa), 업무 처리(doc_check·cross_check·review), 값 칸 OCR(ocr_field·ocr_page) |
 | `python -m docgen.ocr_set build` (합성), 설정의 `ocr_prepare` 단계·`python -m docgen.bench.ocr_prepare` (실서류 + 사내 OCR), studio 레시피 ocr-*·가져오기 | 쪽 OCR 8과제 (crop_ocr·bbox_ocr·region_ocr·marked_ocr·grounding·spotting·relation·marked_box) |
 | studio ④ 라벨 있는 데이터·서류 넣기(원본 데이터로) | 위 과제 중 고른 것 |
 
@@ -75,9 +75,9 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 | `python -m train sweep --config <묶음.json>` | 평가 세트를 고정하고 학습 설정을 모델마다 바꿔 여러 개를 차례로·동시에 → `<root>/summary.html`·`compare.html`·`answers.html` (코드 `sweep.py`) | [training.md 4절](../guide/training.md#4-여러-모델을-한-번에-실험-묶음) |
 | `python -m train answers <결과 폴더 또는 workdir>` | 문항별 모델 답 페이지 (`--per-task N`, `--all`; 코드 `answers.py`) | [results.md](../guide/results.md#어디서-보나) |
 | `python -m train summary <결과 폴더> ... --out <html>` | 여러 실험을 한 화면에 (코드 `summary.py`) | [results.md](../guide/results.md#여러-실험을-한-화면에) |
-| `python -m train rescore <workdir 또는 묶음 결과 폴더>` | 저장된 답으로 다시 채점, 추론 없이 (코드 `rescore.py`) | [eval.md 4절](../guide/eval.md#4-저장된-답으로-다시-채점-rescore) |
+| `python -m train rescore <workdir 또는 묶음 결과 폴더>` | 저장된 답으로 다시 채점, 추론 없이 (코드 `rescore.py`). 묶음 밖 workdir 는 `--data <섞은 폴더>` | [eval.md 4절](../guide/eval.md#4-저장된-답으로-다시-채점-rescore) |
 
-채점은 모두 `docgen.bench.evaluate` 하나입니다 (보고서·studio·GRPO 보상). 평가 세트마다 채점 함수를 붙일 수 있고(`data.benchmark[].scorer`, 견본 `scorers/`), 평가에만 씁니다 ([eval.md 2절](../guide/eval.md#2-채점)).
+채점은 모두 `docgen.bench.evaluate` 하나입니다 (보고서·studio·GRPO 보상). 평가 세트마다 채점 함수를 붙일 수 있고(`data.benchmark[].scorer`, 견본 `scorers/`), 그 세트의 평가 점수에만 씁니다. GRPO 보상까지 그 함수로 내는 것은 swift `.jsonl` 학습 데이터의 `data.train[].scorer` 뿐입니다 ([eval.md 2절](../guide/eval.md#2-채점)).
 
 ## 하나씩 돌리기 (`python -m train.cli`)
 

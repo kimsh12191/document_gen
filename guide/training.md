@@ -109,7 +109,7 @@ python -m train sweep --config train/configs/E02.sweep.json --status   # 진행 
 
 ### 묶음 파일
 
-`base`(2절의 `pipeline.json`)가 공통 설정이고, `runs`에는 모델마다 **바꿀 칸만** 적습니다.
+`base`(2절의 `pipeline.json`)가 공통 설정이고, `runs`에는 모델마다 **바꿀 칸만** 적습니다. 상대 경로는 묶음 파일이 있는 폴더 기준입니다 (`base` 안의 경로는 `base` 파일 기준).
 
 ```jsonc
 {
@@ -153,7 +153,8 @@ python -m train sweep --config train/configs/E02.sweep.json --status   # 진행 
 - yaml의 기본값은 [`train/configs/sft.yaml`](../train/configs/sft.yaml), [`grpo_a100x2.yaml`](../train/configs/grpo_a100x2.yaml)에 있습니다. 모델을 바꾸면 yaml의 `model_type`은 `model_type` 칸 값으로 덮어씁니다 (기본 `qwen3_5`).
 
 **모델마다 못 바꾸는 것 (평가 고정)**
-- `data.benchmark`(평가 세트·채점 함수), `eval.inference_config`(답 내기 설정), `eval.compare_models`는 `base`에서만 정합니다. `set`·`data`로 바꾸면 시작 전에 멈춥니다.
+- `data.benchmark`(평가 세트·채점 함수), `eval.inference_config`(답 내기 설정), `eval.compare_models`, `eval.skip_start`는 `base`에서만 정합니다. `set`·`data`로 바꾸면 시작 전에 멈춥니다.
+- `workdir`와 `data.output_dir`도 적지 않습니다. 묶음이 모델마다 `<root>/<label>/`, `<root>/<label>/data/`로 정합니다.
 - 평가 그림은 `base`의 그림 예산으로 만듭니다. 모델마다 `data.image_max_size`를 바꿔도 학습 그림만 바뀝니다.
 - 출발 모델 계열이 달라 그림 조각 크기가 다르면(예: 32px, 28px) 평가 그림 크기가 조금 다릅니다. 문항은 같아서 표에 넣고 비교표 위에 메모를 붙입니다.
 
@@ -213,7 +214,7 @@ python -c "from train import sweep as S; print(S.compare(S.load('train/configs/<
 | 다른 실험의 SFT에서 GRPO | `--part grpo --sft-checkpoint <폴더>` |
 | GRPO 설정을 바꿔 다시 | `--from grpo` (앞 GRPO 점수도 표에 남음) |
 | SFT부터 다시 | `--from sft` |
-| 한 단계만 | `--only <단계>` (`prepare` `eval_base` `sft` `eval_sft` `select` `grpo` `eval_grpo` `report`) |
+| 한 단계만 | `--only <단계>` (`ocr_prepare` `prepare` `eval_base` `sft` `eval_sft` `select` `grpo` `eval_grpo` `report`) |
 | 명령만 보기 | `--dry-run` |
 | 학습 없이 평가만, 다시 채점 | [eval.md](eval.md) |
 | 생성기 코드가 바뀜 | 데이터셋을 새 이름으로 다시 만들고 `data` 경로·`output_dir`·`workdir`을 새로. 옛 세트와 점수는 직접 비교하지 않음 |
@@ -229,10 +230,10 @@ python -c "from train import sweep as S; print(S.compare(S.load('train/configs/<
 | `swift .jsonl 은 "format": "swift-fields" 와 함께` | `train`·`benchmark` 의 `.jsonl` 칸에 `"format": "swift-fields"` 를 적기 |
 | `채점 함수(…)가 정답을 읽지 못한 N줄을 …` (경고) | 그 줄은 빠짐. 줄 수가 많으면 정답 꼴에 맞는 `scorer` 를 붙이기 ([eval.md 2절](eval.md#2-채점)) |
 | `Reference answers do not score 1.0` | 데이터를 만든 코드와 지금 코드가 다름(같은 코드로 데이터 다시 만들기), 또는 붙인 채점 함수가 정답에 만점을 주지 않음 |
-| `Server on port … exited` / `not ready in time` | 평가 서버(vLLM)가 못 뜸. `logs/<단계>-server0.log` 끝과 `nvidia-smi` 확인 |
+| `Server on port … exited` / `not ready in time` | 평가 서버(vLLM)가 못 뜸. `logs/<모델>-server0.log`(`start`·`sft`·`grpo`) 끝과 `nvidia-smi` 확인 |
 | `Port … is already in use` | 예전 평가 서버를 끄거나 `eval.port_base` 변경 |
 | `WARNING: 평가 문항 N개는 …` | 그림이 서버 한도(기본 16장)보다 많은 문항을 빼고 `<workdir>/benchmark_over_image_limit.jsonl`에 남김 |
-| `Prediction run settings or input changed` | 끊긴 평가의 답 파일이 지금 평가 문항과 다름. `predictions/<run>.jsonl`과 `.meta.json`을 다른 이름으로 옮기고 같은 명령 |
+| `Prediction run settings or input changed` | 끊긴 평가의 답 파일이 지금 평가 문항과 다름. `predictions/<run>.jsonl`과 `predictions/<run>.jsonl.meta.json`을 다른 이름으로 옮기고 같은 명령 |
 | `Multiple possible model types found` | `model_type`이 `qwen3_5`인지 |
 
-로그는 `<workdir>/logs/<단계>.log`에 있습니다.
+로그는 `<workdir>/logs/`에 명령마다 있습니다: `prepare.log`, `train-sft.log`·`train-grpo.log`, `merge-<sft|grpo>.log`, `predict-<실행>.log`, `score-<모델>.log`, `mine.log`, `report.log`, 평가 서버 `<모델>-server<N>.log`.

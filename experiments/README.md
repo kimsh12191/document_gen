@@ -1,6 +1,6 @@
 # 실험 기록
 
-실험 하나에 파일 하나: `experiments/E<번호>-<짧은이름>.md` (예: `E01-realgap.md`). 새 실험은 [_template.md](_template.md)를 복사해 시작합니다.
+실험 하나에 파일 하나: `experiments/E<번호>-<짧은이름>.md` (예: `E01-realgap.md`; E01 은 예전 꼴 `E01_add-realocr.md` 그대로 둠). 새 실험은 [_template.md](_template.md)를 복사해 시작합니다.
 
 ## 목록
 
@@ -15,7 +15,7 @@
 | 대상 | 꼴 | 예 |
 |---|---|---|
 | 실험 | `E<번호>-<짧은이름>` | `E01-realgap` |
-| 모델 (= `workdir`, 비교표 라벨) | `e<번호>-<팔>-<데이터>`, seed 여러 번이면 `-s1` | `e01-a2-synreal` |
+| 모델 (= 묶음의 `label`·비교표 라벨, `workdir`는 `<root>/<label>/`) | `<팔>-<데이터>` (묶음 밖 단독 실행은 `e<번호>-<팔>-<데이터>`), seed 여러 번이면 `-s1` | `a2-synreal`, `e01-a2-synreal` |
 | 학습 데이터셋 | `<종류>-v<버전>` | `syn-v1`, `real-masked-v1` |
 | 평가 세트 | `eval-<종류>-v<버전>` (실험 간 고정) | `eval-real-v1` |
 

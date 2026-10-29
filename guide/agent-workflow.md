@@ -47,6 +47,7 @@ ls <paths 의 서버 경로>                       # 학습 서버에서 데이�
 | 서류 분류 | bank / `classify` | `types`, `per_doc` |
 | 항목 값·위치 추출 | bank / `kie` | `types`, `per_doc`, `max_keys` |
 | 체크·도장·서명 | bank / `marks` | 그 표시가 있는 `types` |
+| 서식 전용 질문 (계산·판단 등) | bank / `form_qa` | 서식 폴더에 `qa.py`가 있는 `types` ([docgen/forms/README.md](../docgen/forms/README.md) 5.3절) |
 | 값 칸 글자 읽기 | bank / `ocr_field`, `ocr_page` | `types`, `fields_per_doc` |
 | 제출 서류 구비 확인 | bank / `doc_check` | `scenarios`, `bundles`, `bundle` |
 | 서류 간 불일치 | bank / `cross_check` | `scenarios`, `bundles`, `cases` |
@@ -66,7 +67,7 @@ python docker/remote_build.py scenarios                   # 업무 ID와 필요 
 - 학습용과 평가용은 따로 만듭니다 (`split`: bank `train`/`test`, ocr `train`/`benchmark`).
 - 이미 있는 평가 세트가 있으면 새로 만들지 않고 그것을 씁니다 (실험끼리 비교하려면 고정).
 
-**완료 조건:** 과제, 서식·업무 ID, 학습/평가 구분, 수량이 정해짐. 지원되지 않는 요구(아래 7절)는 보고에 적음.
+**완료 조건:** 과제, 서식·업무 ID, 학습/평가 구분, 수량이 정해짐. 지원되지 않는 요구(아래 8절)는 보고에 적음.
 
 ## 3. 레시피 정하기
 
@@ -166,7 +167,7 @@ python -m train --config train/configs/<실험>.json --smoke
 | 학습 없이 평가만 (학습한 모델, 새 평가 세트) | 새 `workdir`에 `eval.compare_models` + `--only prepare` → `--only eval_base` → `--only report` ([eval.md 3절](eval.md#3-학습-없이-평가만-하기)) |
 | 설정을 바꾼 모델 여러 개 (데이터·학습률·출발 모델·GRPO, 평가 세트 고정) | `python -m train sweep --config <묶음.json>` ([training.md 4절](training.md#4-여러-모델을-한-번에-실험-묶음)) |
 
-- 진행: `<workdir>/state.json`의 `done`(끝난 단계), `timings`(시간). 로그는 `<workdir>/logs/<단계>.log`.
+- 진행: `<workdir>/state.json`의 `done`(끝난 단계), `timings`(시간). 로그는 `<workdir>/logs/` (파일 이름은 [training.md 6절](training.md#6-에러) 끝).
 - 멈췄으면 **같은 명령을 다시** 실행합니다 (끝난 단계는 건너뜀). 다시 실행해도 같은 단계에서 같은 에러면 멈추고 보고.
 - 결과가 아쉬워도 요청에 없는 GRPO, 추가 학습, 데이터 재생성을 시작하지 않습니다. 제안으로 보고합니다.
 
@@ -182,7 +183,7 @@ python -m train --config train/configs/<실험>.json --smoke
 4. OCR 열이 출발 모델보다 크게 떨어졌는지.
 5. 대표 오답 몇 개: `reports/*.json`과 **[사람]** studio ⑥ › 모델 답에 `<workdir>`를 붙여 확인 요청.
 6. 다른 실험과 비교해야 하면 `python -m train summary <결과 폴더> ... --out <새 이름>.html`로 한 화면을 만듭니다 ([results.md](results.md#여러-실험을-한-화면에)). 끝난 보고서만 읽으므로 요청 범위 안에서 해도 됩니다. `†` 칸은 평가 문항이 달라 비교하지 않습니다.
-7. 맞는 답이 틀림으로 채점된 것 같으면 대표 오답으로 확인해 보고합니다. 채점 함수(`scorer`)를 만들거나 바꾸는 것은 요청받았을 때만 하고, 바꿨으면 `python -m train rescore <workdir>`로 다시 채점합니다 ([eval.md 2·4절](eval.md#2-채점)).
+7. 맞는 답이 틀림으로 채점된 것 같으면 대표 오답으로 확인해 보고합니다. 채점 함수(`scorer`)를 만들거나 바꾸는 것은 요청받았을 때만 하고, 바꿨으면 `python -m train rescore <workdir> --data <섞은 폴더>`(실험 묶음은 `<root>`만)로 다시 채점합니다 ([eval.md 2·4절](eval.md#2-채점)).
 
 **보고에 넣을 것:**
 
@@ -198,8 +199,8 @@ python -m train --config train/configs/<실험>.json --smoke
 
 ## 8. 설정으로 안 되는 것
 
-- **목록에 없는 서류 양식:** 서식 추가가 필요 ([docgen/manual/TEMPLATE_GUIDE.md](../docgen/manual/TEMPLATE_GUIDE.md), studio ④ 포맷 열기 › 템플릿으로).
-- **새 심사 질문·대조 규칙:** 생성·채점 코드 추가가 필요.
+- **목록에 없는 서류 양식:** 서식 추가가 필요 ([new-forms.md](new-forms.md), 서식 폴더 설명서 [docgen/forms/README.md](../docgen/forms/README.md), studio ④ 가져오기 › 포맷 열기 › 템플릿으로).
+- **새 심사 질문·대조 규칙:** 생성·채점 코드 추가가 필요. 서식 하나에만 묻는 질문은 그 서식 폴더의 `qa.py`(과제 `form_qa`)로 됨 ([docgen/forms/README.md](../docgen/forms/README.md) 5.3절).
 - **특정 값·사건의 정확한 개수:** 레시피는 비율만 정함. 생성 후 골라내거나 코드 확장.
 - **다른 학습 포맷:** 생성 후 변환. 이미지 경로와 좌표 의미를 보존.
 - **실제 고객 데이터 성능:** 합성 데이터 점수는 실서류보다 높게 나옴. 검수한 실서류 파일을 평가 세트로 넣어 따로 봄 ([eval.md 1절](eval.md#1-평가-세트-정하기)).

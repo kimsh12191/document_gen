@@ -29,7 +29,7 @@ python temp/swift_to_kie_v3_tmp.py convert <eval_qa_PO_kie.jsonl> <eval_qa_PO_ki
 ```
 
 - 원본은 고치지 않습니다. 바꿀 수 없는 줄은 건너뛰고 수를 알려 줍니다.
-- 바꾼 파일을 평가 세트로 쓸 때는 `"format": "swift-fields"`에 채점 함수 [`train/scorers/swift_kie_scorer.py`](../train/scorers/swift_kie_scorer.py)를 붙입니다. 예시는 [`train/configs/pipeline.example.json`](../train/configs/pipeline.example.json)의 `real_po_kie`입니다.
+- v1·v2로 바꾼 파일을 평가 세트로 쓸 때는 `"format": "swift-fields"`에 채점 함수 [`train/scorers/swift_kie_scorer.py`](../train/scorers/swift_kie_scorer.py)를 붙입니다. 예시는 [`train/configs/pipeline.example.json`](../train/configs/pipeline.example.json)의 `real_po_kie`입니다.
 
   ```json
   {"id": "real_po_kie", "format": "swift-fields", "paths": ["<바꾼 .jsonl>"], "scorer": "../scorers/swift_kie_scorer.py:score"}

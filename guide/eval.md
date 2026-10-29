@@ -37,18 +37,20 @@
 - 답 앞의 생각 블록(`<think>…</think>`)은 떼고 채점합니다.
 - 답이 없거나 형식을 못 읽으면 그 문항은 0점(CER은 최댓값)이고, 답 형식 오류로 따로 셉니다.
 - 과제마다 주 지표가 하나 있습니다. 규칙은 [benchmark.md](benchmark.md#과제).
+- 서식 폴더의 `questions.json`으로 kie·marks 답 틀을 바꾼 문항(칸 이름을 바꾼 JSON 틀은 `eval.answer_fields`, 줄글 틀은 `eval.text`·`eval.gold`)도 기본 채점이 읽습니다. 틀에 `{bbox_2d}`가 없으면 위치 점수를 빼고 주 지표가 값 `f1`(marks는 `acc`)입니다 ([docgen/forms/README.md](../docgen/forms/README.md) 5.2절).
+- 서식 폴더 `qa.py`의 서식 전용 질문(과제 `form_qa`)은 정답 꼴(숫자·예/아니오·글·JSON)대로 채점하고 주 지표는 `acc`입니다.
 
 ### 세트마다 채점 함수 붙이기 (`scorer`)
 
 실서류처럼 맞음의 기준이 세트마다 다르면 그 세트에 채점 함수를 붙입니다.
 
 ```json
-{"id": "real-po", …, "format": "swift-fields", "paths": ["…/eval_qa_PO.jsonl"], "scorer": "scorers/po.py:score"}
+{"id": "real-po", …, "format": "swift-fields", "paths": ["…/eval_qa_PO.jsonl"], "scorer": "../scorers/po.py:score"}
 ```
 
-- 경로는 설정 파일 기준이고, `:함수`를 빼면 `score`입니다. 설정 예시는 [`pipeline.example.json`](../train/configs/pipeline.example.json)의 `real_po_kie`(kie 꼴로 바꾼 swift 세트에 `swift_kie_scorer.py`를 붙임)입니다.
+- 경로는 설정 파일 기준이고(`train/configs/`의 설정이면 `../scorers/…`), `:함수`를 빼면 `score`입니다. 설정 예시는 [`pipeline.example.json`](../train/configs/pipeline.example.json)의 `real_po_kie`(kie 꼴로 바꾼 swift 세트에 `swift_kie_scorer.py`를 붙임)입니다.
 - 돌리기 전에 파일·함수가 있는지 보고, 섞을 때 정답을 답으로 넣어 그 함수로 만점인지 확인합니다. 함수가 정답을 못 읽는 swift 줄은 경고와 함께 건너뜁니다.
-- 평가에만 씁니다. 학습 데이터와 GRPO 보상은 그대로입니다.
+- 그 세트의 평가 점수에만 씁니다. 학습 데이터와 GRPO 보상은 그대로입니다. GRPO 보상까지 바꾸는 것은 swift `.jsonl` 학습 데이터(`data.train`)에 붙인 `scorer`뿐입니다 (studio 데이터셋 폴더인 학습 데이터에는 붙일 수 없음).
 
 **견본** (`train/scorers/`): 모두 기본 채점과 같은 점수를 냅니다. 복사해서 고쳐 씁니다.
 
@@ -59,6 +61,7 @@
 | [`kie_list_scorer.py`](../train/scorers/kie_list_scorer.py) | `temp/swift_to_kie_v3_tmp.py`로 **합성 kie 와 같은 꼴**(같은 질문, `[{"key", "value"}]` 정답)로 바꾼 `.jsonl`. 합성과 같은 값 채점, 위치 정답이 없으니 주 지표 `f1` | `score` |
 | [`kie_default.py`](../train/scorers/kie_default.py) | 값만 보는 정보 추출 | 위쪽 `FIELD_TYPES`에 항목별 비교 기준(`text`·`amount`·`date`·`digits`) |
 | [`bank_default.py`](../train/scorers/bank_default.py) | 합성 은행 서류 세트 | 과제마다 함수 하나 (`classify`, `kie` …) |
+| [`form_qa_example.py`](../train/scorers/form_qa_example.py) | 합성 은행 서류 세트에서 서식 전용 질문(`form_qa`) 몇 개만 다르게 | `RULES` (`meta.question` = `"<서식ID>.<qa.py 함수 이름>"` → 채점 함수). 나머지 문항은 기본 채점 |
 | [`ocr_default.py`](../train/scorers/ocr_default.py) | 합성 OCR·OCR 준비 폴더 | `page_ocr` |
 
 - `swift_default.py`: 질문의 `in order: ["필드", …]`와 답 배열(또는 `{키: 값}` 객체)을 짝지어 필드마다 비교합니다. 대소문자·공백·문장부호는 무시합니다.
@@ -119,10 +122,10 @@ python -m train --config train/configs/E01-reeval.json --only report      # 보�
 채점 코드나 채점 함수를 고쳤을 때, 추론 없이 저장된 모델 답(`predictions/*.jsonl`)으로 다시 채점합니다. GPU가 필요 없습니다.
 
 ```bash
-python -m train rescore ../runs/exp1          # workdir 하나: reports/*.json·benchmark.html·summary.html
+python -m train rescore ../runs/exp1 --data ../data/mixed-exp1   # workdir 하나: reports/*.json·benchmark.html·summary.html
 python -m train rescore ../runs/E01           # 실험 묶음 결과 폴더: 모델마다 + compare.html·summary.html
 ```
 
 - 예전 보고서는 `reports/before-rescore-<시각>/`에 옮겨 두고, 과제별로 바뀐 점수를 출력합니다.
 - 채점 함수 경로는 섞을 때 문항에 적힙니다. 그 파일을 고치면 됩니다. 다른 파일로 바꾸거나 새로 붙이려면 새 `data.output_dir`로 다시 섞습니다.
-- 섞은 폴더는 `<workdir>/config.json`의 `data.output_dir`에서 찾습니다. 없으면 `--data <섞은 폴더>`.
+- 섞은 폴더는 `<workdir>/config.json`의 `data.output_dir`에서 찾습니다. 이 파일은 실험 묶음의 모델 폴더에만 생기므로, `python -m train`으로 돌린 workdir에는 `--data <섞은 폴더>`(설정의 `data.output_dir`)를 줍니다. 실험 묶음 결과 폴더는 모델마다 `<root>/<label>/data`를 씁니다.
