@@ -1,10 +1,13 @@
 # 서류 템플릿 작성 가이드
 
-서류 한 종을 추가하려면 **생성 함수 1개 + 템플릿 1개**를 만든다.
+코드 서식(값을 파이썬이 만드는 서식) 한 종을 추가하려면 서식 폴더에 **생성 함수 1개 + 템플릿 1개**를 만들고 그룹 모듈에 등록한다.
+이미 있는 서식을 고치는 법은 [서식 폴더 설명서](../forms/README.md), html·원본 서식을 새로 넣는 절차는 [guide/new-forms.md](../../guide/new-forms.md).
 
 ```
-docgen/docs/<그룹>.py                 @doc(...) 로 등록하는 생성 함수
+docgen/forms/<서류ID>/generate.py             @doc(...) 로 등록하는 생성 함수
 docgen/forms/<서류ID>/look/template.html.j2   Jinja2 HTML 템플릿 (registry 이름은 "<그룹>/<서류ID>.html.j2")
+docgen/docs/<그룹>.py                         끝의 FORMS 목록에 <서류ID> 를 더한다 (등록 차례 = 서식 목록·데이터셋 순서).
+                                              같은 그룹 서식들이 같이 쓰는 도우미도 여기
 ```
 
 예시: `docgen/forms/employment_certificate/generate.py`(값)와 `docgen/forms/employment_certificate/look/template.html.j2`
@@ -15,8 +18,9 @@ docgen/forms/<서류ID>/look/template.html.j2   Jinja2 HTML 템플릿 (registry 
 ## 1. 생성 함수
 
 ```python
-from ..registry import doc
-from ._common import *  # D, won, K, issue_no, district_office, tax_office, courthouse, rand_date, date, timedelta ...
+# docgen/forms/<서류ID>/generate.py
+from docgen.docs._common import *  # D, won, K, special, issue_no, district_office, tax_office, courthouse, rand_date, date, timedelta ...
+from docgen.registry import doc
 
 @doc("employment_certificate", "재직증명서", "income")       # (id, 한글명, 그룹, category="external"|"internal", page="a4"|"a4_landscape"|"card"|"passport", sample_mark=False)
 def employment_certificate(p: Profile, rng: random.Random) -> dict:

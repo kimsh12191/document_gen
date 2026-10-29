@@ -183,8 +183,8 @@ A(초안 폴더)에서는 여기에 `"fields"`·`"lists"` 를 같이 넣습니�
 **1) 초안 폴더 검사** — 행 최소·최대 둘 다:
 
 ```bash
-python -m docgen.preview --dir <초안 폴더> --rows min --out work/min
-python -m docgen.preview --dir <초안 폴더> --rows max --out work/max
+python -m docgen.preview --dir <초안 폴더> --rows min --out out/min
+python -m docgen.preview --dir <초안 폴더> --rows max --out out/max
 # 마지막 줄 JSON: {"images": [...], "pages": 1, "fields": 28, "empty": 4, "overflow": false, "checks": []}
 ```
 
@@ -217,8 +217,8 @@ python -m docgen.preview --dir <초안 폴더> --rows max --out work/max
 
 ```bash
 python -m docgen.formdir path <ID>                         # 파일 자리
-python -m docgen.regions check <ID>                        # 칸 목록 형식
-python -m docgen.preview <ID> --rows max --out work/<ID>   # 등록된 서식으로 그리기
+python -m docgen.formdir check <ID>                        # 서식 검사 (칸 목록·박스·값 출처·질문·qa.py·카드)
+python -m docgen.preview <ID> --rows max --out out/<ID>    # 등록된 서식으로 그리기
 ```
 
 등록된 서식은 **검수 전** 상태입니다. studio ① 서식에서 사람이 원본과 비교해 검수 완료를 누릅니다.

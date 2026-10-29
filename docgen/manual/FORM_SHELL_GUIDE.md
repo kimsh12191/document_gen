@@ -15,7 +15,7 @@ VLM 에게 맡길 때는 이 파일과 아래 "VLM 에게 줄 것"을 함께 넘
 docgen/forms/<ID>/
   look/          ① 모양 (껍데기)   — 서류가 어떻게 생겼나
   fields.json    ② 칸 목록         — 어디에 무슨 값이 들어가나 (키·항목명·값 출처·위치)
-  (값 만들기)    ③ 값              — 고객 정보로 실제 값을 만든다 (코드 서식은 docgen/docs/<그룹>.py)
+  (값 만들기)    ③ 값              — 고객 정보로 실제 값을 만든다 (코드 서식은 서식 폴더 generate.py)
 ```
 
 | | overlay 서식 (`hf###`, `img_*`) | html 서식 (그 밖의 ID) |
@@ -45,12 +45,12 @@ python -m docgen.formdir path <ID>
    - html 코드 서식: 원본 그림이 없다. 참고할 실물 서식 그림을 따로 준비한다.
 2. **지금 렌더링 그림**
    ```bash
-   python -m docgen.preview <ID> --out work/before          # work/before/<ID>/<해시>/page_p1.png …
+   python -m docgen.preview <ID> --out out/before          # out/before/<ID>/<해시>/page_p1.png …
    ```
    마지막 줄 JSON 의 `pages`(쪽 수)·`fields`(칸 수)·`overflow`·`checks` 를 적어 둔다.
 3. **지금 칸 키 목록** (끝나고 비교용)
    ```bash
-   python -m docgen.regions show <ID> > work/keys_before.txt
+   python -m docgen.regions show <ID> > out/keys_before.txt
    ```
 4. **고칠 파일 백업**: `cp <고칠 파일> <고칠 파일>.bak`
 
@@ -88,9 +88,11 @@ python -m docgen.formdir path <ID>
 ### 끝나고 확인
 
 ```bash
-python -m docgen.preview <ID> --out work/after
-python -m docgen.regions show <ID> > work/keys_after.txt
-diff work/keys_before.txt work/keys_after.txt      # 키가 빠지거나 생겼으면 껍데기만 고친 게 아니다
+python -m docgen.preview <ID> --out out/after
+python -m docgen.regions show <ID> > out/keys_after.txt
+diff out/keys_before.txt out/keys_after.txt      # 키가 빠지거나 생겼으면 껍데기만 고친 게 아니다
+python -m docgen.formdir check <ID>                # 서식 검사
+python -m docgen.formdir card <ID>                 # 카드 FORM.md 다시 만들기 (위치가 바뀜)
 ```
 
 - `overflow` 가 `false`, `checks` 가 비어 있어야 한다. 쪽 수가 바뀌었으면 원본과 같은지 본다.
@@ -135,9 +137,10 @@ fields.json
 ### 끝나고 확인
 
 ```bash
-python -m docgen.regions check <ID>                 # 형식·쪽 번호
-python -m docgen.preview <ID> --out work/after      # 값이 빈칸 안에 들어갔는지 눈으로
-python -m docgen.regions show <ID> > work/keys_after.txt && diff work/keys_before.txt work/keys_after.txt
+python -m docgen.formdir check <ID>                 # 형식·쪽 번호·박스가 쪽 안인지·값 출처
+python -m docgen.preview <ID> --out out/after      # 값이 빈칸 안에 들어갔는지 눈으로
+python -m docgen.regions show <ID> > out/keys_after.txt && diff out/keys_before.txt out/keys_after.txt
+python -m docgen.formdir card <ID>                  # 카드 FORM.md 다시 만들기
 ```
 
 - 지운 칸·추가한 칸만큼만 키가 달라져야 한다.

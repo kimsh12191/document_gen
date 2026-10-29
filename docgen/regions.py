@@ -410,7 +410,7 @@ def migrate(apply: bool = False, ids: list[str] | None = None) -> list[dict]:
 
 
 def main(argv=None) -> int:
-    ap = argparse.ArgumentParser(prog="python -m docgen.regions", description="서식 수정 파일 (regions/<ID>.json)")
+    ap = argparse.ArgumentParser(prog="python -m docgen.regions", description="서식 수정 파일 (서식 폴더의 칸 목록 fields.json)")
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("path", help="수정 파일 위치").add_argument("id")
     sub.add_parser("show", help="최종 칸 목록").add_argument("id")

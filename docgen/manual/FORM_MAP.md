@@ -2,7 +2,7 @@
 
 `python docgen/scripts/form_map.py > docgen/manual/FORM_MAP.md` 로 자동 생성된다.
 
-모든 서식은 **원본 PDF 를 그대로 배경으로 깔고** 손님이 쓴 것처럼 값을 얹는다 ([docgen/realform.py](../realform.py)). 그래서 이미지 속 서식은 원본과 똑같다. 값을 쓸 자리는 [docgen/scripts/extract_form_layout.py](../scripts/extract_form_layout.py) 가 PDF 의 글자·선에서 뽑아 `docgen/forms/layouts/` 에 둔다.
+모든 서식은 **원본 PDF 를 그대로 배경으로 깔고** 손님이 쓴 것처럼 값을 얹는다 ([docgen/realform.py](../realform.py)). 그래서 이미지 속 서식은 원본과 똑같다. 값을 쓸 자리는 [docgen/scripts/extract_form_layout.py](../scripts/extract_form_layout.py) 가 PDF 의 글자·선에서 뽑아 `docgen/forms/hf<No>/layout.json` 에 둔다.
 
 - 등록: **406종** (서류 ID `hf<No>`, 그룹 `hana`)
 - 제외: 35종
