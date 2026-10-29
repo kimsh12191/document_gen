@@ -172,3 +172,41 @@ def test_swift_kie_scorer_reads_converted_file_and_jsonl_line(tmp_path):
     assert res["main"] == "f1" and res["metrics"]["f1"] == 1.0
     with pytest.raises(ValueError, match="키: 값"):
         fn({"answer": "", "eval": {"prompt": ""}}, '{"a": 1}')
+
+
+VQA = str(Path(__file__).resolve().parents[1] / "scorers" / "vqa_scorer.py")
+VQA_OBJ = '{"보험료 납부": "[날인]", "보증인 성명": "", "지점": "센텀"}'
+
+
+@pytest.mark.parametrize("answer,output,f1,fail", [
+    (VQA_OBJ, VQA_OBJ, 1.0, False),
+    (VQA_OBJ, '{"지점": "센텀", "보험료 납부": "[날인]", "보증인 성명": ""}', 1.0, False),   # 키 순서는 무시
+    (VQA_OBJ, '{"보험료 납부": "[날인]", "보증인 성명": "", "지점": "해운대"}', 2 / 3, False),
+    (VQA_OBJ, "```json\n" + VQA_OBJ + "\n```", 1.0, False),
+    (VQA_OBJ, "답: " + VQA_OBJ, 0.0, True),                       # 객체 정답에 JSON 이 아닌 답 = 못 읽음
+    (VQA_OBJ, "", 0.0, True),
+    ('["a", "b"]', '["b", "a"]', 0.0, False),                     # 배열 순서는 지킨다
+    ("[]", "[]", 1.0, False), ("[]", "{}", 0.0, False),
+    ('"정례 지원형"', '"정례 지원형"', 1.0, False),
+    ('"정례 지원형"', "정례 지원형", 1.0, False),                    # 하나짜리 글 정답: 따옴표 없이 답해도 맞음
+    ("3", "3개", 0.0, False),                                      # 틀림이지 못 읽음이 아님
+    ('{"a": 1.0}', '{"a": 1}', 0.0, False),                       # 타입 구분
+    ("2023년 5월 20일 현재", "2023년  5월 20일 현재", 1.0, False),   # 그냥 글: 공백만 맞춤
+    ("보증인", '"보증인"', 1.0, False), ("Seal", "seal", 0.0, False),
+    ("", "", 1.0, False),
+])
+def test_vqa_scorer_compares_text_and_json_answers(answer, output, f1, fail):
+    r = E.load_scorer(VQA)({"task": "kie", "answer": answer, "eval": {}}, output)
+    assert r["main"] == "f1" and r["metrics"]["f1"] == pytest.approx(f1) and r["parse_fail"] is fail
+
+
+def test_vqa_scorer_passes_the_training_data_check_and_gives_the_reward():
+    """학습 데이터에 붙여도: 정답을 답으로 넣으면 만점 (깨진 줄 거르기 통과), GRPO 보상은 f1."""
+    from train.mix import perfect
+
+    for answer in (VQA_OBJ, "[]", '"정례 지원형"', "그냥 글", ""):
+        item = {"task": "kie", "answer": answer, "eval": {"scorer": VQA}}
+        assert perfect(item)
+        assert E.reward("kie", answer, item) == 1.0
+    item = {"task": "kie", "answer": VQA_OBJ, "eval": {"scorer": VQA}}
+    assert E.reward("kie", "모름", item) == 0.0
