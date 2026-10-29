@@ -38,6 +38,8 @@ CONDITIONS = ("clean", "scan", "photo", "fax", "clean_jpeg")   # clean 외에는
 MODES = ("default", "on", "off")
 _ENV = {"heavy": ("DOCGEN_HEAVY", {"on": "1", "off": "0"}),
         "special": ("DOCGEN_SPECIAL", {"on": "all", "off": "none"})}
+# 공란으로 그리기: 값 글자는 투명(자리·크기는 그대로), 도장·서명은 숨김.
+BLANK_CSS = "<style>.fv{color:transparent!important}.seal,.scribble,.sigimg{visibility:hidden!important}</style>"
 # 모든 서식이 함께 쓰는 렌더링 코드. 바뀌면 모든 미리보기를 새로 그린다.
 COMMON = ["docgen/render.py", "docgen/schema.py", "docgen/image.py", "docgen/paginate.js", "docgen/augment.py",
           "docgen/realform.py", "docgen/keyrules.py", "docgen/forms/_common/key_rules.json", "docgen/entities.py", "docgen/korean.py", "docgen/banks.py", "docgen/docs/_common.py",
@@ -183,7 +185,8 @@ class Previewer:
         draft: 저장하지 않은 overlay 수정 (docgen/overrides.py). 주면 파일 대신 그것으로 그린다 (수정 전후 비교).
         extra: 시나리오 미리보기의 Profile.extra. 캐시에도 반영한다.
         html 서식(복제·분석기)이면 draft 는 {"template"?, "form"?} (저장하지 않은 템플릿·form.json), rows 는 반복 행 수
-        "min" | "max" (없으면 서식대로 무작위).
+        "min" | "max" (없으면 서식대로 무작위). 코드 서식은 draft {"template"} (저장하지 않은 look/template.html.j2).
+        draft 에 "blank": true 를 더하면 값 글자·도장·서명을 안 보이게 그린다 (자리·위치는 같음, studio 자리·템플릿 화면).
         first=True (화면 미리보기): 1쪽을 찍으면 바로 돌려주고 남은 쪽은 렌더러가 이어서 찍는다 (다른 요청이 오면 양보).
         그동안 폴더에 pending.json 이 있고, 남은 쪽 그림은 complete(폴더) 가 마저 만든다. first=False 면 늘 모든 쪽이 있다."""
         reg = load_all()
@@ -266,6 +269,9 @@ class Previewer:
 
         self._ensure_renderer()
         spec = load_all()[doc_id]
+        blank = bool((draft or {}).get("blank"))
+        if draft is not None:
+            draft = {k: v for k, v in draft.items() if k != "blank"} or None
         folder.mkdir(parents=True, exist_ok=True)
         t0 = time.time()
         saved = {name: os.environ.get(var) for name, (var, _) in _ENV.items()}
@@ -280,6 +286,10 @@ class Previewer:
                 from . import htmlform
 
                 ctx = htmlform.draft(doc_id, draft, rows)
+            elif draft is not None and "template" in draft:
+                from . import formdir
+
+                ctx = formdir.template_draft(doc_id, draft["template"])
             else:
                 ctx = overrides.draft(doc_id, draft) if draft is not None else nullcontext()
             from . import html_regions
@@ -288,6 +298,8 @@ class Previewer:
                 profile = make_profile(seed)
                 profile.extra.update(extra or {})
                 html, raw, data = render(spec, profile, seed)
+                if blank:
+                    html = html.replace("</head>", BLANK_CSS + "</head>", 1)
                 info = self._renderer.render(html, folder / "page.png", **({"first_only": True} if early else {}))
                 checks = None
                 if spec.template.startswith("@form/"):   # html 서식: 저장 전 검사 (선언·템플릿 키, 쪽 넘침)

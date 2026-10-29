@@ -37,8 +37,8 @@ docgen/forms/<ID>/                 공개 서식 (실서류에서 만든 서식�
 docgen/forms/_common/              모든 서식 공통 (README.md)
 ```
 
-- **값이나 칸을 고치려면** → `fields.json` (studio ① 서식 › 영역 편집, 복제 서식의 값 선언은 html 편집). 코드 서식의 값은 `generate.py`
-- **html 서식의 표·문구 모양을 고치려면** → `look/template.html.j2` (복제 서식은 studio html 편집). overlay 서식은 모양(원본 그림)을 바꾸지 않습니다.
+- **값이나 칸을 고치려면** → `fields.json` (studio ① 서식 › 영역 편집(원본 서식) · 자리·템플릿(html·코드 서식)). 코드 서식의 값은 `generate.py`
+- **html 서식의 표·문구 모양을 고치려면** → `look/template.html.j2` (studio 자리·템플릿). overlay 서식은 모양(원본 그림)을 바꾸지 않습니다.
 - 코드 서식 70종은 값을 서식 폴더의 `generate.py`(@doc 함수)가 만듭니다. 같은 그룹 서식들이 같이 쓰는 도우미는 `docgen/docs/<그룹>.py` 에 있습니다.
 - **모든 서식이 같이 쓰는 것**(기본 질문, 키 사전, 바탕 틀 `_base`·`_macros`·`_real_form`·그룹 부품, 값 종류 규칙, 표시 설정)은 `docgen/forms/_common/` 한 곳에 있습니다 ([README](forms/_common/README.md)).
 - **서식 카드** `FORM.md`(서식 폴더마다, 자동): 항목·위치·정한 곳·질문→답 예시·고치는 곳. 서식 하나를 이해하려면 이것부터 (`python -m docgen.formdir card <ID>`).
@@ -342,7 +342,7 @@ HTML 템플릿 70종을 법령 별지 서식·은행연합회 표준·공공기�
 
 Studio ③은 `document_roles.json`의 제출 역할마다 실제 서식 하나를 선택합니다. 기존 HTML·공식 HTML·overlay를 같은 역할의 변형으로 묶되 신청서/증명서·개인/법인·증명 범위는 구분합니다. `scenarios.json.docs`에는 선택한 실제 ID가 저장되며 CLI 빌드도 그 선택을 사용합니다. 역할과 필드 스키마는 별개라, 교체 후 직접 추출·비교 키를 다시 선택해야 합니다.
 
-HTML 글자 값 영역은 Studio ①의 영역 편집에서 고칩니다. 서식 폴더의 칸 목록 `fields.json` 의 `regions`(아래 "서식 수정 파일")에 CSS px 좌표와 값 출처를 저장합니다. 원본 템플릿은 유지하고 `render.py`·`image.py`가 수정층을 적용하므로 미리보기·CLI·은행 업무·OCR 생성 결과에 공통 반영됩니다. 체크·서명·도장의 HTML 영역 편집은 아직 템플릿에서 합니다. 동적 페이지는 다른 seed에서도 확인하세요.
+HTML 서식의 자리·값 출처·템플릿은 Studio ①의 자리·템플릿 화면에서 고칩니다 (자리는 템플릿이 정함, 값 출처는 칸 목록 `fields.json`). 칸 목록의 `regions`(쪽 위 고정 위치 덮어쓰기, 아래 "서식 수정 파일")는 예전에 그린 것을 읽기만 하고 새로 그리지 않습니다. `render.py`·`image.py`가 수정층을 적용하므로 미리보기·CLI·은행 업무·OCR 생성 결과에 공통 반영됩니다.
 
 현재는 알아낸 overlay 글자 칸을 무작위로 비우지 않고 표를 최소 한 행 채웁니다. 이전 방식은 프로필 값 `sparse_fields=true`로 선택합니다. 천원·만원·백만원·억원 칸은 단위에 맞춰 표시하고 라벨 `unit`·원 단위 `norm`을 기록합니다. HTML `fields`의 `parent.<경로>`는 부모 생성값을 참조하고, `shared_copies=true`인 약정의 `_copy` 값은 원본 기재값을 공유합니다. 생성 결과가 달라졌으므로 새 데이터셋 버전으로 만드세요.
 

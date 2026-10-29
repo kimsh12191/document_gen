@@ -7,7 +7,7 @@ async function viewTemplateVariants(d) {
   $('#tab').innerHTML=`<div class="sub">한 서식의 문서 종류·값 생성·항목 키를 유지하면서 배치가 다른 HTML을 여러 개 둡니다. 샘플링은 고객 seed로 재현되며, 영역 수정은 레이아웃마다 따로 저장합니다.</div>
     <div class="bar"><label>생성 방식 <select id="tv-mode"><option value="sample">가중치로 하나 샘플링</option><option value="fixed">한 레이아웃 고정</option></select></label>
     <label>고정 레이아웃 <select id="tv-fixed"></select></label><button id="tv-save">샘플링 설정 저장</button><button id="tv-add">레이아웃 변형 추가</button><span id="tv-stat"></span></div>
-    <div id="tv-list"></div><div class="bar"><label>편집·미리보기 <select id="tv-current"></select></label><label>고객 seed <input type="number" id="tv-seed" min="0" value="0"></label><button id="tv-show">이 레이아웃 보기</button><button id="tv-auto">샘플링 결과 보기</button><button id="tv-region">이 레이아웃 영역 편집</button></div>
+    <div id="tv-list"></div><div class="bar"><label>편집·미리보기 <select id="tv-current"></select></label><label>고객 seed <input type="number" id="tv-seed" min="0" value="0"></label><button id="tv-show">이 레이아웃 보기</button><button id="tv-auto">샘플링 결과 보기</button><button id="tv-region">자리·템플릿 (기본 레이아웃)</button></div>
     <details><summary>HTML 원본 편집</summary><textarea id="tv-source" class="mono he-text" spellcheck="false"></textarea><button id="tv-source-save">이 변형 HTML 저장</button></details><div class="bar" id="tv-pages"></div><div class="stage" id="tv-preview"></div>`;
   const mark=()=>{configDirty=true;$('#tv-stat').textContent='설정 저장 안 됨';};
   const loadSource=async()=>{const s=await api(url+'/'+encodeURIComponent(current));$('#tv-source').value=s.template;$('#tv-source').readOnly=!s.editable;$('#tv-source-save').disabled=!s.editable;};
@@ -34,6 +34,6 @@ async function viewTemplateVariants(d) {
   $('#tv-source').oninput=()=>{sourceDirty=true;$('#tv-stat').textContent='HTML 저장 안 됨';};
   $('#tv-source-save').onclick=async()=>{try{await api(url+'/'+encodeURIComponent(current),{template:$('#tv-source').value},'PUT');sourceDirty=false;await show();}catch(e){toast(e.message,true);}};
   $('#tv-show').onclick=()=>show();$('#tv-auto').onclick=()=>show(true);
-  $('#tv-region').onclick=()=>{if(!dirty()||confirm('저장하지 않은 수정을 버리고 영역 편집으로 갈까요?')){configDirty=false;sourceDirty=false;viewHtmlRegions(d,current);}};
+  $('#tv-region').onclick=()=>{if(!dirty()||confirm('저장하지 않은 수정을 버리고 자리·템플릿 화면으로 갈까요?')){configDirty=false;sourceDirty=false;location.hash=`#/forms/${encodeURIComponent(d.id)}/edit`;}};
   draw();await loadSource();await show();
 }

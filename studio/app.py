@@ -376,6 +376,60 @@ def html_regions_save(doc_id: str, req: RegionsReq):
     return guard(html_regions.save, doc_id, value, req.template_variant)
 
 
+class SpotsReq(BaseModel):
+    seed: int = Field(default=0, ge=0, le=2147483647)
+    heavy: str = "default"
+    template: str | None = None     # 저장하지 않은 템플릿 (미리보기·키 전후 비교)
+
+
+@app.post("/api/forms/{doc_id}/spots")
+def form_spots(doc_id: str, req: SpotsReq):
+    """html·코드 서식: 값이 나올 수 있는 모든 자리와 정한 곳 (studio/spots.py)."""
+    from . import spots
+
+    if not BROWSER:
+        raise HTTPException(503, "자리를 찾으려면 렌더링 브라우저가 필요합니다")
+    try:
+        out = spots.spots(doc_id, previewer.render, req.seed, req.heavy, req.template)
+    except KeyError as e:
+        raise HTTPException(404, str(e))
+    except ValueError as e:
+        raise HTTPException(400, str(e))
+    except Exception as e:  # noqa: BLE001  템플릿 실행 오류도 화면에 그대로
+        raise HTTPException(400, f"그리기 오류: {type(e).__name__}: {e}")
+    out["label"] = {**out["label"], "image_urls": [f"/preview/{p}" for p in out["label"]["images"]]}
+    return out
+
+
+class TemplateReq(BaseModel):
+    template: str
+
+
+@app.put("/api/forms/{doc_id}/template")
+def form_template_save(doc_id: str, req: TemplateReq):
+    """html·코드 서식의 템플릿 저장 (look/template.html.j2). 문법·그리기 검사 뒤."""
+    from . import spots
+
+    if not BROWSER:
+        raise HTTPException(503, "저장 전 그리기 검사에 렌더링 브라우저가 필요합니다")
+    return guard(spots.save_template, doc_id, req.template, previewer.render)
+
+
+class ValueReq(BaseModel):
+    pattern: str
+    source: str
+    text: str | None = None
+    choices: list[str] | None = None
+
+
+@app.put("/api/forms/{doc_id}/value")
+def form_value_save(doc_id: str, req: ValueReq):
+    """html·코드 서식: 키 하나의 값 출처를 칸 목록 fields.json 에 (studio/spots.py)."""
+    from . import spots
+
+    return guard(spots.set_value, doc_id, req.pattern, req.source, req.text, req.choices)
+
+
 @app.get("/api/forms/{doc_id}/layout")
 def layout(doc_id: str):
     return guard(editor.layout_view, doc_id)

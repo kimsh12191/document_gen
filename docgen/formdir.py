@@ -42,6 +42,8 @@ import os
 import re
 import shutil
 import sys
+import threading
+from contextlib import contextmanager
 from functools import lru_cache
 from pathlib import Path
 
@@ -269,13 +271,36 @@ def template(doc_id: str) -> Path | None:
     return p if p.exists() else None
 
 
+_drafts = threading.local()
+
+
+@contextmanager
+def template_draft(doc_id: str, text: str):
+    """이 스레드에서 렌더링하는 동안 코드 서식 doc_id 의 템플릿을 text 로 (저장하지 않은 템플릿 미리보기, studio 자리·템플릿 화면)."""
+    d = getattr(_drafts, "map", None)
+    if d is None:
+        d = _drafts.map = {}
+    old = d.get(doc_id)
+    d[doc_id] = text
+    try:
+        yield
+    finally:
+        if old is None:
+            d.pop(doc_id, None)
+        else:
+            d[doc_id] = old
+
+
 def jinja_source(name: str):
-    """render 의 로더: 코드 서식 템플릿 이름 "<그룹>/<ID>.html.j2" → 서식 폴더의 look/template.html.j2."""
+    """render 의 로더: 코드 서식 템플릿 이름 "<그룹>/<ID>.html.j2" → 서식 폴더의 look/template.html.j2 (초안이 있으면 초안)."""
     if name.startswith("@") or "/" not in name or not name.endswith(".html.j2"):
         return None
     doc_id = name.rsplit("/", 1)[1][:-len(".html.j2")]
     if doc_id.startswith("_"):
         return None   # 그룹 부품 (forms/_common/templates/ 에 있다)
+    text = (getattr(_drafts, "map", None) or {}).get(doc_id)
+    if text is not None:
+        return text, f"{doc_id} (저장 전 초안)", lambda: False
     d = folder(doc_id)
     p = d / "look" / TEMPLATE if d else None
     if p is None or not p.exists():

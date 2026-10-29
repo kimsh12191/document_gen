@@ -1,5 +1,5 @@
 // ① 서식: 목록, 상세(미리보기·예시·문항 Q/A·편집·검수·키 목록·파일), html 서식 복제.
-// 탭 중 문항 Q/A 는 questions.js, 영역 편집(overlay)은 editor.js, html 편집은 htmled.js 가 그린다.
+// 탭 중 문항 Q/A 는 questions.js, 영역 편집(원본 서식)은 editor.js, 자리·템플릿(html·코드 서식)은 html-spots.js, html 편집(복제 서식의 form.json·분석기)은 htmled.js 가 그린다.
 // 서버: studio/app.py (/api/forms…), studio/catalog.py, 복제는 studio/api_html.py
 "use strict";
 
@@ -152,7 +152,7 @@ async function viewForm(id, tab) {
   const d = await formDetail(id, tab === "review");
   const editable = d.kind === "overlay";
   const tabs = [["preview", "미리보기"], ["card", "카드"], ["guide", "추출·시나리오"], ["examples", "예시"], ["questions", "문항 Q/A"],
-    ["edit", "영역 편집"],
+    ["edit", editable ? "영역 편집" : "자리·템플릿"],
     ...(!editable ? [["templates", "레이아웃·샘플링"]] : []),
     ...(!editable && d.origin !== "builtin" ? [["html", "html 편집"]] : []),
     ["review", `검수${d.issues.filter(x => x.status === "open").length ? ` · 문제 ${d.issues.filter(x => x.status === "open").length}` : ""}`],
@@ -200,7 +200,7 @@ async function viewForm(id, tab) {
   if (tab === "examples") return tabExamples(d);
   if (tab === "questions") return tabQuestions(d);
   if (tab === "edit" && editable) return viewEditor(d);
-  if (tab === "edit") return viewHtmlRegions(d);
+  if (tab === "edit") return viewHtmlSpots(d);
   if (tab === "templates") return viewTemplateVariants(d);
   if (tab === "html" && typeof viewHtmlEditor === "function") return viewHtmlEditor(d);
   if (tab === "review") return tabReview(d);

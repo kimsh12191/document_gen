@@ -11,10 +11,10 @@
 
 | 하고 싶은 일 | 고칠 곳 | 직접 하기 (studio ① 서식 › 그 서식) | LLM 지시문의 `<할 일>` |
 |---|---|---|---|
-| ① 값이 이상함 (형식·범위, 칸끼리 안 맞음) | html: `fields.json` 그 칸 `source`, 칸끼리 관계는 `generate.py` 의 `adjust` · 코드: `generate.py` · 원본: `fields.json` 그 칸 `source`·`kind` | 영역 편집 → 칸을 눌러 값 출처 ([값 출처 목록](_common/values.md)). `generate.py` 는 파일로 | `칸 <키> 의 값이 <증상>. 원본 서식처럼 나오게 값 만드는 곳을 고쳐라` |
-| ② 값 위치·박스가 어긋남 | 원본: `fields.json` 그 칸 `rect` · html·코드: 템플릿 배치 | 원본: 영역 편집에서 끌어 옮기기 · html: html 편집 | `칸 <키> 가 원본의 <어디> 칸에 오게 고쳐라`. 원본 서식은 [FORM_SHELL_GUIDE.md](../manual/FORM_SHELL_GUIDE.md) 4장을 같이 준다 |
-| ③ 모양(표·문구·선)이 원본과 다름 | html·코드: `look/template.html.j2` (원본 서식은 그림이라 안 고침) | html 편집 | [FORM_SHELL_GUIDE.md](../manual/FORM_SHELL_GUIDE.md) 3장 + 원본 그림을 주고 `키는 그대로 두고 모양만 원본처럼 고쳐라` |
-| ④ 칸(추출 항목) 더하기·빼기·키 바꾸기 | html: 템플릿 `f("키", label=…)` + `fields.json` · 코드: 템플릿 + `generate.py` (+ `formdir declare <ID> --apply`) · 원본: `fields.json` | 원본: 영역 편집에서 그리기·지우기 · html: html 편집 | `원본의 <항목명> 칸을 키 <키> 로 더하라` (키 이름은 [키 이름 규칙](_common/README.md#키-이름-규칙)) |
+| ① 값이 이상함 (형식·범위, 칸끼리 안 맞음) | html: `fields.json` 그 칸 `source`, 칸끼리 관계는 `generate.py` 의 `adjust` · 코드: `generate.py` · 원본: `fields.json` 그 칸 `source`·`kind` | 원본: 영역 편집 → 칸을 눌러 값 출처 · html·코드: **자리·템플릿** → 자리를 눌러 값 출처 ([값 출처 목록](_common/values.md)). `generate.py` 는 파일로 | `칸 <키> 의 값이 <증상>. 원본 서식처럼 나오게 값 만드는 곳을 고쳐라` |
+| ② 값 위치·박스가 어긋남 | 원본: `fields.json` 그 칸 `rect` · html·코드: 템플릿 배치 | 원본: 영역 편집에서 끌어 옮기기 · html·코드: **자리·템플릿** (자리를 누르면 템플릿 그 줄로) | `칸 <키> 가 원본의 <어디> 칸에 오게 고쳐라`. 원본 서식은 [FORM_SHELL_GUIDE.md](../manual/FORM_SHELL_GUIDE.md) 4장을 같이 준다 |
+| ③ 모양(표·문구·선)이 원본과 다름 | html·코드: `look/template.html.j2` (원본 서식은 그림이라 안 고침) | **자리·템플릿** (템플릿 고치기 → 미리보기 → 저장) | [FORM_SHELL_GUIDE.md](../manual/FORM_SHELL_GUIDE.md) 3장 + 원본 그림을 주고 `키는 그대로 두고 모양만 원본처럼 고쳐라` |
+| ④ 칸(추출 항목) 더하기·빼기·키 바꾸기 | html: 템플릿 `f("키", label=…)` + `fields.json` · 코드: 템플릿 + `generate.py` (+ `formdir declare <ID> --apply`) · 원본: `fields.json` | 원본: 영역 편집에서 그리기·지우기 · html·코드: **자리·템플릿** (템플릿에 `f()` 더하기·빼기, 저장 전 키 전후 비교) | `원본의 <항목명> 칸을 키 <키> 로 더하라` (키 이름은 [키 이름 규칙](_common/README.md#키-이름-규칙)) |
 | ⑤ 질문 문장·답 모양 바꾸기, 어떤 칸은 묻지 않기 | `questions.json` (기본과 다른 것만), 칸마다는 `fields.json` 그 칸의 `"q"` | 파일로 (문항 Q/A 화면에서 결과 확인) | `kie 질문을 <문장> 으로, 답을 <꼴> 로 바꿔라` / `칸 <키> 는 묻지 마라` (5.1·5.2절) |
 | ⑥ 이 서식만의 질문 더하기 (계산·판단) | `qa.py` (함수 하나 = 질문 하나) | 파일로. 견본 `python -m docgen.formdir qa <ID> --new` | `qa.py 에 <질문> 을 더하라. 정답은 칸 <키…> 로 계산` (5.3절) |
 | ⑦ 채점을 다르게 | 서식 폴더가 아니라 `train/scorers/` (평가 세트에 붙임) | — | `train/scorers/<견본> 을 복사해 <규칙> 으로 채점하게 하라` (5.4절) |
@@ -231,7 +231,7 @@ docgen 데이터셋을 학습 데이터(`data.train`)로 쓸 때는 채점 함�
 | 칸 키·항목명 | 템플릿의 `f("키", label=…)` | 템플릿 + `fields.json` | 영역 편집 (`fields.json` 그 칸 `key`·`label`) | 다시 |
 | 값 | `generate.py` | `fields.json` 의 `source` ([값 출처 목록](_common/values.md)) | 값 출처·값 종류 (`source`·`kind`) | 다시 |
 | 칸끼리 관계 (합계·날짜 순서) | `generate.py` | `generate.py` 의 `adjust(d, p, rng)` | — | 다시 |
-| 모양·표·문구 | 템플릿 파일 `look/template.html.j2` | 템플릿 (studio html 편집 또는 파일) | 바꾸지 않음 | 다시 |
+| 모양·표·문구 | 템플릿 파일 `look/template.html.j2` | 템플릿 (studio 자리·템플릿 또는 파일) | 바꾸지 않음 | 다시 |
 | 답의 위치 (박스) | 템플릿 배치 | 같음 | `fields.json` 그 칸 `rect` | 다시 |
 | 질문 설정·질문 문장·답 모양·전용 질문 | 5절 | 5절 | 5절 | 필요 없음 |
 
@@ -282,5 +282,7 @@ python -m docgen.preview <ID> --rows max --out out/<ID>    # 그려 보기 (쪽 
 python -m docgen.bench build --types <ID> --per-doc 2 --bundles 0 --out out/qa_<ID>   # 이 서식만 데이터 만들어 보기 (tasks/*.jsonl)
 ```
 
-studio: ① 서식 › 카드 · 미리보기 · 문항 Q/A(질문 파일과 qa.py 도 보임) · 영역 편집 · html 편집 · 검수 · 파일.
+studio: ① 서식 › 카드 · 미리보기 · 문항 Q/A(질문 파일과 qa.py 도 보임) · 영역 편집(원본 서식) 또는 자리·템플릿(html·코드 서식) · 검수 · 파일.
+자리·템플릿 화면은 값이 나올 수 있는 모든 자리를 공란 그림 위에 보이고 (고객 여러 명·내용 많음으로 그려 봐서 조건 칸까지), 자리를 누르면 그 자리를 정한 템플릿 줄로 갑니다.
+html 서식의 위치는 템플릿이 정하므로 그림 위에 고정 위치 칸을 그리지 않습니다.
 [서식 다시 읽기]는 새 폴더 등록과 함께 `questions.json`·`qa.py` 형식 문제, 카드가 없거나 오래된 서식을 알려 줍니다.
