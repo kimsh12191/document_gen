@@ -1,4 +1,6 @@
-"""서식 수정 파일: 서식 하나 = 파일 하나 = 서식 폴더의 regions.json (docgen/formdir.py).
+"""서식 수정 (사람이 고친 칸 자리·값·항목명): 지금은 두 종류 모두 서식 폴더의 칸 목록 fields.json 에 저장된다
+(overlay: items, html: regions·variants — docgen/formfields.py). 아래 regions.json 은 칸 목록이 생기기 전의 꼴로,
+남아 있으면 칸 목록이 없을 때만 읽는다.
 
   공개 서식 (저장소)             docgen/forms/<ID>/regions.json
   사내 서식 (실서류에서 만든 것) $DOCGEN_PRIVATE_FORMS/<ID>/regions.json   (수정도 저장소 밖에 둔다)
@@ -16,7 +18,7 @@ forms/html_regions/<ID>.json, 이미지 서식 폴더의 overrides.json, 레이�
 새 파일이 없을 때만 읽는다. 저장하면 새 파일로 쓰고 예전 파일은 <이름>.migrated 로 바꿔 둔다.
 한꺼번에 옮기기: python -m docgen.formdir migrate [--apply] (서식 파일과 함께) 또는 python -m docgen.regions migrate.
 
-  python -m docgen.regions path <ID>          이 서식의 수정 파일 위치 (예전 파일이 남았으면 함께)
+  python -m docgen.regions path <ID>          사람이 고치는 곳 (칸 목록 fields.json) + 남아 있는 예전 수정 파일
   python -m docgen.regions show <ID>          최종 칸 목록 (자동 추출·템플릿 칸 + 수정)
   python -m docgen.regions check [<ID>…|--all] 형식·종류·깨진 수정·예전 파일 검사
   python -m docgen.regions migrate [--apply]  예전 파일을 새 파일로 (기본은 목록만)
@@ -267,6 +269,21 @@ def write(doc_id: str, body: dict) -> Path:
 # 명령
 # ---------------------------------------------------------------------------
 
+def where(doc_id: str) -> list[str]:
+    """사람이 고치는 곳 (첫 줄) + 남아 있는 예전 수정 파일. 지금은 두 종류 모두 칸 목록 fields.json 에 저장된다."""
+    from . import formfields
+
+    eng, fp = engine(doc_id), formfields.path(doc_id)
+    what = "regions·variants: 템플릿 칸 위의 수정" if eng == "html" else "items: 칸 하나 = 한 줄"
+    out = [f"{_rel(fp)}  ({eng}, 칸 목록의 {what}, {'있음' if fp.exists() else '아직 없음 — 처음 저장할 때 생김'})"]
+    olds = ([path(doc_id)] if path(doc_id).exists() else []) + list(legacy(doc_id).values())
+    used = not fp.exists() or (eng == "html" and not _html_fields(doc_id))
+    for f in olds:
+        out.append(f"  예전 수정 파일: {_rel(f)}  ← " + ("칸 목록이 없어 이것을 읽음" if used else "안 읽음")
+                   + " (옮기기: python -m docgen.formdir migrate --apply)")
+    return out
+
+
 def _rel(p: Path) -> str:
     try:
         return str(p.resolve().relative_to(DOCGEN.parent))
@@ -420,15 +437,23 @@ def main(argv=None) -> int:
     m = sub.add_parser("migrate", help="예전 위치의 수정 파일을 새 파일로")
     m.add_argument("--apply", action="store_true", help="실제로 옮긴다 (없으면 목록만)")
     a = ap.parse_args(argv)
+    for i in [getattr(a, "id", None), *(getattr(a, "ids", None) or [])]:
+        if i is None:
+            continue
+        try:
+            engine(i)
+        except KeyError:
+            from .formdir import unknown_id
+
+            print(unknown_id(i), file=sys.stderr)
+            return 2
     if a.cmd == "path":
-        p = path(a.id)
-        print(f"{_rel(p)}  ({engine(a.id)}, {'있음' if p.exists() else '아직 없음'})")
-        for vid, f in legacy(a.id).items():
-            print(f"  예전 파일{' (' + vid + ')' if vid else ''}: {_rel(f)}" + ("  ← 새 파일이 없어 이것을 읽음" if not p.exists() else "  ← 안 읽음"))
+        for line in where(a.id):
+            print(line)
         return 0
     if a.cmd == "show":
         rows = show(a.id)
-        print(f"{a.id} ({engine(a.id)}) 칸 {len(rows)}개 · 수정 파일 {_rel(path(a.id))}")
+        print(f"{a.id} ({engine(a.id)}) 칸 {len(rows)}개 · 고치는 곳 {where(a.id)[0].split('  ')[0]}")
         for r in rows:
             print(f"  [{r['how']}] p{r['page']} {r['key'] or '(키 없음)'}  {r['label']}  {r['kind']}" + (f"  ← {r['source']}" if r["source"] else ""))
         return 0

@@ -276,7 +276,7 @@ docgen/
   realform.py              하나은행 원본 서식 오버레이 (레이아웃 → 값 → 렌더링 지시, 배경·글꼴), 가져온 이미지 서식
   formdir.py               서식 폴더 (서식 하나 = 폴더 하나): 파일 자리를 여기서만 정함, 예전 자리 읽기·옮기기
   formfields.py, overrides.py   overlay 칸 목록(fields.json)과 영역 편집기가 고친 것을 합쳐 쓰기
-  regions.py, html_regions.py   html 사람 수정 파일(regions.json)과 html 수정층
+  regions.py, html_regions.py   사람 수정 (지금은 칸 목록 fields.json 에 저장: overlay items, html regions·variants)과 html 수정층
   sources.py, marks.py     값 출처 규칙, 표시 요소(손글씨·체크·도장·서명)
   htmlform.py              화면에서 만든 html 서식 (복제·분석기, 서식 폴더의 look/template.html.j2 + form.json)
   preview.py               서식 하나 미리보기 (studio 가 씀). 명령줄: python -m docgen.preview <서식ID>|--dir <폴더> [--rows max] --out <폴더>
@@ -381,7 +381,7 @@ python -m docgen.scripts.audit_form_values --out studio_cache/value_audit/final
 ```bash
 python -m docgen.formdir path <ID>             # 이 서식의 파일들 (모양·칸 목록·값 생성 코드)
 python -m docgen.formdir declare [<ID>…] [--apply]   # 코드 서식의 칸을 칸 목록에 적기 (source "code")
-python -m docgen.regions path <ID>             # 예전 수정 파일(regions.json) 자리 (지금 html 수정은 fields.json 의 regions 에 씀)
+python -m docgen.regions path <ID>             # 사람이 고치는 곳 (칸 목록 fields.json) + 남아 있는 예전 수정 파일
 python -m docgen.regions show <ID>             # 최종 값 칸 목록 (자동 추출·템플릿 칸 + 수정)
 python -m docgen.regions check <ID>            # 형식·서식 종류·쪽 번호·깨진 수정·남은 예전 파일 (--all: 칸 목록·수정이 있는 서식 전부)
 python -m docgen.regions migrate [--apply]     # 예전 위치의 수정 파일을 새 파일로 (기본은 목록만)

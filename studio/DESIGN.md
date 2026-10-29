@@ -1,6 +1,6 @@
 # docgen studio 설계서
 
-- 지금 구조 (2026-10-29, 아래 본문보다 우선): 서식 하나 = 폴더 `docgen/forms/<ID>/`(카드 `FORM.md`, `look/`, 칸 목록 `fields.json`, `generate.py`, 있으면 `questions.json`·`qa.py`), 모든 서식에 같은 것은 `docgen/forms/_common/`(4.4). 서식 작업 설명서는 [docgen/forms/README.md](../docgen/forms/README.md). 1부·2부 코드(`ocr/`·`bank/`)는 없다: OCR 준비 `docgen.bench.ocr_prepare`, 채점 `docgen.bench.evaluate`, 학습 `train/`(17절). 왼쪽 메뉴는 번호 없이 8개이고 ④ 가져오기·⑤ 검수·⑦ 평가·⑧ 작업·⑨ 설정은 주소(`#/import`, `#/review`, `#/eval`, `#/jobs`, `#/settings`)로 연다(6절).
+- 지금 구조 (2026-10-29, 아래 본문보다 우선): 서식 하나 = 폴더 `docgen/forms/<ID>/`(카드 `FORM.md`, `look/`, 칸 목록 `fields.json`, `generate.py`, 있으면 `questions.json`·`qa.py`), 모든 서식에 같은 것은 `docgen/forms/_common/`(4.4). 서식 작업 설명서는 [docgen/forms/README.md](../docgen/forms/README.md). 1부·2부 코드(`ocr/`·`bank/`)는 없다: OCR 준비 `docgen.bench.ocr_prepare`, 채점 `docgen.bench.evaluate`, 학습 `train/`(17절). 왼쪽 메뉴는 번호 없이 8개이고, 복잡하거나 자주 쓰지 않는 ④ 가져오기·⑤ 검수·⑦ 평가·⑧ 작업·⑨ 설정은 일부러 숨겨 주소(`#/import`, `#/review`, `#/eval`, `#/jobs`, `#/settings`)로 연다(6절).
 - 추가 결정 (2026-10-26): **실문서 벤치마크**·**서식 초안** 메뉴를 숨긴다 (쓰지 않음, 실서류 평가 세트는 밖에서 검수한 파일을 `data.benchmark`로). 코드·API·주소는 남긴다.
 - 추가 결정 (2026-10-22): 별도 **실문서 벤치마크** 탭에서 가져오기·포맷 묶기·사용자 정의 항목·외부 vLLM 추론·검수·버전 확정을 이어 준다. 아래 11판의 'Studio 안 모델 추론 제외'에서 외부 추론 서버 호출은 이 탭에 한해 허용하며 모델 로드는 맡지 않는다. 기존 합성 서식 등록에 의존하지 않는다. 설계·저장은 [실문서 벤치마크 사용법](../guide/studio.md#3-내-서류-넣기).
 
@@ -372,7 +372,7 @@ studio에서는 **"어느 칸에 무엇이 나올지"(확률)와 "어떻게 생�
 
 **메뉴** (일의 흐름 순서): ① 서식 → ② 표시 요소 → ③ 시나리오·묶음 → ④ 가져오기 → ⑤ 검수 → ⑥ 데이터셋 → ⑦ 평가 → ⑧ 작업 → ⑨ 설정
 
-> 2026-10-22부터 왼쪽 메뉴는 번호 없이 사용 가이드 · OCR 예시 · 서식 · 새 서식 추가 · 키 사전 · 표시 요소 · 시나리오·묶음 · 데이터셋이다. ④·⑤·⑦·⑧·⑨는 주소 `#/import`, `#/review`, `#/eval`, `#/jobs`, `#/settings`로 연다. 서식 상세의 탭은 미리보기 · 카드(`FORM.md`) · 추출·시나리오 · 예시 · 문항 Q/A · 영역 편집 · (html) 레이아웃·샘플링 · html 편집 · 검수 · 키 · 파일 ([README.md](README.md)).
+> 2026-10-22부터 왼쪽 메뉴는 번호 없이 사용 가이드 · OCR 예시 · 서식 · 새 서식 추가 · 키 사전 · 표시 요소 · 시나리오·묶음 · 데이터셋이다. ④·⑤·⑦·⑧·⑨는 일부러 숨겼고 (복잡하거나 자주 쓰지 않음, 기능은 그대로) 주소 `#/import`, `#/review`, `#/eval`, `#/jobs`, `#/settings`로 연다. 서식 상세의 탭은 미리보기 · 카드(`FORM.md`) · 추출·시나리오 · 예시 · 문항 Q/A · 영역 편집 · (html) 레이아웃·샘플링 · html 편집 · 검수 · 키 · 파일 ([README.md](README.md)).
 
 - ①~③은 합성 데이터의 재료(서식, 표시 요소, 업무 시나리오)를 다룬다.
 - ④·⑤는 실서류와 이미 있는 결과를 들여와 검수한다.

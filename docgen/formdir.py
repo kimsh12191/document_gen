@@ -495,6 +495,17 @@ def _rel(p: Path) -> str:
         return str(p)
 
 
+def unknown_id(doc_id: str) -> str:
+    """없는 서식 ID 안내 (비슷한 ID 와 목록 보는 법)."""
+    import difflib
+
+    from .registry import load_all
+
+    near = difflib.get_close_matches(doc_id, list(load_all()), n=5, cutoff=0.6)
+    return (f"서식 ID '{doc_id}' 가 없습니다 (새 서식이면 쓸 수 있는 ID)." + (f" 비슷한 ID: {', '.join(near)}." if near else "")
+            + " 목록: python -m docgen list")
+
+
 def describe(doc_id: str) -> list[tuple[str, Path | None]]:
     from . import regions
     from .registry import load_all
@@ -687,6 +698,12 @@ def main(argv=None) -> int:
     m.add_argument("--apply", action="store_true", help="실제로 옮긴다 (없으면 목록만)")
     a = ap.parse_args(argv)
     from .registry import load_all
+
+    known = load_all()
+    for i in [getattr(a, "id", None), *(getattr(a, "ids", None) or [])]:
+        if i is not None and i not in known:
+            print(unknown_id(i), file=sys.stderr)
+            return 2
 
     if a.cmd == "path":
         for role, p in describe(a.id):
