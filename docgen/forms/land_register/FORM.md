@@ -1,6 +1,6 @@
 # 토지대장 (`land_register`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card land_register · card-hash: 60481d0c19aa -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card land_register · card-hash: fa59e35c6136 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** real_estate · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 토지대장
@@ -21,7 +21,7 @@
 | `docgen/docs/real_estate.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 25칸
+## 추출 항목 (정보 추출 kie) — 12칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -34,22 +34,50 @@
 | `jibun` | 지번 | number | 1쪽 [152, 158, 174, 168] | 늘 | 템플릿 | generate.py | look/template.html.j2:34 · fields.json:30 | 묻기 |
 | `scale` | 축척 | text | 1쪽 [600, 158, 629, 168] | 늘 | 템플릿 | generate.py | look/template.html.j2:35 · fields.json:45 | 묻기 |
 | `issuer_name` | 발급자 | text | 1쪽 [761, 158, 863, 168] | 늘 | 템플릿 | generate.py | look/template.html.j2:36 · fields.json:25 | 묻기 |
+| `zoning` | 용도지역 | text | 1쪽 [806, 689, 929, 700] | 늘 | 템플릿 | generate.py | look/template.html.j2:71 · fields.json:65 | 묻기 |
+| `issue_date` | 발급일 | date | 1쪽 [437, 751, 563, 764] | 늘 | 템플릿 | generate.py | look/template.html.j2:75 · fields.json:10 | 묻기 |
+| `issuer` | 발급기관 | text | 1쪽 [319, 783, 659, 804] | 늘 | 템플릿 | generate.py | look/template.html.j2:74 · fields.json:20 | 묻기 |
+
+## 표 `land` (표 과제 table·table_read·table_find·table_qa) — 3열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `land.*.category` | 지목 | text | 1쪽 [74, 243, 113, 254] (1행) | 늘 | 템플릿 | generate.py | fields.json:95 | 묻기 |
 | `land.*.area` | 면적 | number | 1쪽 [165, 243, 216, 254] (1행) | 늘 | 템플릿 | generate.py | fields.json:90 | 묻기 |
 | `land.*.reason` | 사유 | text | 1쪽 [230, 243, 363, 268] (1행) | 늘 | 템플릿 | generate.py | fields.json:100 | 묻기 |
+
+## 표 `owners` (표 과제 table·table_read·table_find·table_qa) — 6열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `owners.*.change_date` | 변동일자 | date | 1쪽 [428, 243, 537, 254] (1행) | 늘 | 템플릿 | generate.py | fields.json:135 | 묻기 |
 | `owners.*.change_cause` | 변동원인 | text | 1쪽 [434, 257, 531, 268] (1행) | 늘 | 템플릿 | generate.py | fields.json:130 | 묻기 |
 | `owners.*.address` | 주소 | text | 1쪽 [560, 243, 744, 254] (1행) | 늘 | 템플릿 | generate.py | fields.json:125 | 묻기 |
 | `owners.*.name` | 성명또는명칭 | text | 1쪽 [805, 243, 935, 268] (1행) | 늘 | 템플릿 | generate.py | fields.json:145 | 묻기 |
 | `owners.*.reg_no` | 등록번호 | corp_reg_no | 1쪽 [821, 271, 919, 282] (1행) | 늘 | 템플릿 | generate.py | fields.json:150 | 묻기 |
 | `owners.*.co_owners` | 공유자 | text | 1쪽 [861, 291, 926, 302] (1행) | 12/16 | 템플릿 | generate.py | fields.json:140 | 묻기 |
+
+## 표 `grades` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `grades.*.date` | 등급수정년월일 | text | 1쪽 [279, 570, 381, 581] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:63 · fields.json:75 | 묻기 |
 | `grades.*.grade` | 토지등급 | number | 1쪽 [320, 604, 341, 615] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:64 · fields.json:80 | 묻기 |
+
+## 표 `land_prices` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `land_prices.*.base_date` | 개별공시지가기준일 | date | 1쪽 [216, 636, 282, 647] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:68 · fields.json:110 | 묻기 |
 | `land_prices.*.price` | 개별공시지가 | amount | 1쪽 [226, 663, 284, 673] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:69 · fields.json:115 | 묻기 |
-| `zoning` | 용도지역 | text | 1쪽 [806, 689, 929, 700] | 늘 | 템플릿 | generate.py | look/template.html.j2:71 · fields.json:65 | 묻기 |
-| `issue_date` | 발급일 | date | 1쪽 [437, 751, 563, 764] | 늘 | 템플릿 | generate.py | look/template.html.j2:75 · fields.json:10 | 묻기 |
-| `issuer` | 발급기관 | text | 1쪽 [319, 783, 659, 804] | 늘 | 템플릿 | generate.py | look/template.html.j2:74 · fields.json:20 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 1칸
 
@@ -198,42 +226,14 @@ answer_empty: {"key": "{key}", "value": null}
 - drawing_no: 도면번호
 - issue_no: 발급번호
 - location: 토지소재
+- sheet_no: 장번호
+- processed_time: 처리시각
 - jibun: 지번
 - scale: 축척
 - issuer_name: 발급자
-- land.0.category: 지목 (1행)
-- land.0.area: 면적 (1행)
-- owners.0.change_date: 변동일자 (1행)
-- owners.0.address: 주소 (1행)
-- owners.0.name: 성명또는명칭 (1행)
-- owners.0.reg_no: 등록번호 (1행)
-- owners.1.change_date: 변동일자 (2행)
-- owners.1.change_cause: 변동원인 (2행)
-- owners.1.address: 주소 (2행)
-- owners.1.name: 성명또는명칭 (2행)
-- owners.2.change_cause: 변동원인 (3행)
-- owners.2.name: 성명또는명칭 (3행)
-- owners.2.co_owners: 공유자 (3행)
-- owners.3.change_cause: 변동원인 (4행)
-- owners.3.name: 성명또는명칭 (4행)
-- owners.3.co_owners: 공유자 (4행)
-- owners.3.reg_no: 등록번호 (4행)
-- owners.4.change_cause: 변동원인 (5행)
-- owners.4.address: 주소 (5행)
-- owners.4.co_owners: 공유자 (5행)
-- owners.4.reg_no: 등록번호 (5행)
-- grades.0.date: 등급수정년월일 (1행)
-- grades.1.date: 등급수정년월일 (2행)
-- grades.2.date: 등급수정년월일 (3행)
-- grades.0.grade: 토지등급 (1행)
-- land_prices.2.base_date: 개별공시지가기준일 (3행)
-- land_prices.3.base_date: 개별공시지가기준일 (4행)
-- land_prices.4.base_date: 개별공시지가기준일 (5행)
-- land_prices.5.base_date: 개별공시지가기준일 (6행)
-- land_prices.1.price: 개별공시지가 (2행)
-- land_prices.4.price: 개별공시지가 (5행)
-- land_prices.5.price: 개별공시지가 (6행)
+- zoning: 용도지역
 - issue_date: 발급일
+- issuer: 발급기관
 ```
 
 답:
@@ -243,42 +243,14 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "drawing_no", "value": "23", "bbox_2d": [607, 105, 622, 115], "page": 1},
  {"key": "issue_no", "value": "202531326690", "bbox_2d": [761, 105, 848, 115], "page": 1},
  {"key": "location", "value": "서울특별시 서초구 반포동", "bbox_2d": [152, 131, 318, 142], "page": 1},
+ {"key": "sheet_no", "value": "1-2", "bbox_2d": [605, 131, 624, 142], "page": 1},
+ {"key": "processed_time", "value": "10시 29분 19초", "bbox_2d": [761, 131, 855, 142], "page": 1},
  {"key": "jibun", "value": "661", "bbox_2d": [152, 158, 174, 168], "page": 1},
  {"key": "scale", "value": "수치", "bbox_2d": [600, 158, 629, 168], "page": 1},
  {"key": "issuer_name", "value": "무인민원발급기", "bbox_2d": [761, 158, 863, 168], "page": 1},
- {"key": "land.0.category", "value": "(08)대", "bbox_2d": [74, 243, 113, 254], "page": 1},
- {"key": "land.0.area", "value": "46,962.2", "bbox_2d": [165, 243, 216, 254], "page": 1},
- {"key": "owners.0.change_date", "value": "1993년 06월 28일", "bbox_2d": [428, 243, 537, 254], "page": 1},
- {"key": "owners.0.address", "value": "서울특별시 서초구 시청로 60", "bbox_2d": [560, 243, 744, 254], "page": 1},
- {"key": "owners.0.name", "value": "주식회사한양종합건설", "bbox_2d": [805, 243, 935, 268], "page": 1},
- {"key": "owners.0.reg_no", "value": "131111-2362356", "bbox_2d": [821, 271, 919, 282], "page": 1},
- {"key": "owners.1.change_date", "value": "2004년 02월 17일", "bbox_2d": [428, 291, 537, 302], "page": 1},
- {"key": "owners.1.change_cause", "value": "(03)소유권이전", "bbox_2d": [434, 305, 531, 315], "page": 1},
- {"key": "owners.1.address", "value": "서울특별시 노원구 노원로 459-15, 116동 2102호 (중계동, SK뷰리버뷰아파트)", "bbox_2d": [560, 291, 778, 329], "page": 1},
- {"key": "owners.1.name", "value": "임채영", "bbox_2d": [814, 291, 857, 302], "page": 1},
- {"key": "owners.2.change_cause", "value": "(03)소유권이전", "bbox_2d": [434, 352, 531, 363], "page": 1},
- {"key": "owners.2.name", "value": "하나자산신탁주식회사", "bbox_2d": [805, 339, 935, 363], "page": 1},
- {"key": "owners.2.co_owners", "value": "외 1,395인", "bbox_2d": [846, 352, 912, 363], "page": 1},
- {"key": "owners.3.change_cause", "value": "(03)소유권이전", "bbox_2d": [434, 400, 531, 411], "page": 1},
- {"key": "owners.3.name", "value": "임채영", "bbox_2d": [814, 386, 857, 397], "page": 1},
- {"key": "owners.3.co_owners", "value": "외 1,395인", "bbox_2d": [861, 386, 926, 397], "page": 1},
- {"key": "owners.3.reg_no", "value": "501031-2******", "bbox_2d": [821, 400, 919, 411], "page": 1},
- {"key": "owners.4.change_cause", "value": "(03)소유권이전", "bbox_2d": [434, 448, 531, 459], "page": 1},
- {"key": "owners.4.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)", "bbox_2d": [560, 434, 782, 472], "page": 1},
- {"key": "owners.4.co_owners", "value": "외 1,395인", "bbox_2d": [868, 434, 933, 445], "page": 1},
- {"key": "owners.4.reg_no", "value": "850328-2******", "bbox_2d": [821, 448, 919, 459], "page": 1},
- {"key": "grades.0.date", "value": "1984.07.01. 수정", "bbox_2d": [279, 570, 381, 581], "page": 1},
- {"key": "grades.1.date", "value": "1987.07.01. 수정", "bbox_2d": [524, 570, 626, 581], "page": 1},
- {"key": "grades.2.date", "value": "1990.01.01. 수정", "bbox_2d": [769, 570, 871, 581], "page": 1},
- {"key": "grades.0.grade", "value": "211", "bbox_2d": [320, 604, 341, 615], "page": 1},
- {"key": "land_prices.2.base_date", "value": "2020/01/01", "bbox_2d": [384, 636, 449, 647], "page": 1},
- {"key": "land_prices.3.base_date", "value": "2021/01/01", "bbox_2d": [467, 636, 533, 647], "page": 1},
- {"key": "land_prices.4.base_date", "value": "2022/01/01", "bbox_2d": [551, 636, 616, 647], "page": 1},
- {"key": "land_prices.5.base_date", "value": "2023/01/01", "bbox_2d": [634, 636, 700, 647], "page": 1},
- {"key": "land_prices.1.price", "value": "10,001,000", "bbox_2d": [303, 663, 368, 673], "page": 1},
- {"key": "land_prices.4.price", "value": "11,697,000", "bbox_2d": [554, 663, 618, 673], "page": 1},
- {"key": "land_prices.5.price", "value": "12,017,000", "bbox_2d": [637, 663, 702, 673], "page": 1},
- {"key": "issue_date", "value": "2025년 04월 01일", "bbox_2d": [437, 751, 563, 764], "page": 1}]
+ {"key": "zoning", "value": "제3종일반주거지역", "bbox_2d": [806, 689, 929, 700], "page": 1},
+ {"key": "issue_date", "value": "2025년 04월 01일", "bbox_2d": [437, 751, 563, 764], "page": 1},
+ {"key": "issuer", "value": "서울특별시 서초구청장", "bbox_2d": [319, 783, 659, 804], "page": 1}]
 ```
 
 ### 체크·도장·서명 `marks` · 채점 vl_f1 (값+위치)
@@ -306,6 +278,100 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```json
 [{"key": "seal.issuer", "value": true, "bbox_2d": [647, 762, 736, 825], "page": 1}]
+```
+
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 '지목'·'면적' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- category: 지목
+- area: 면적
+- reason: 사유
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "category",
+  "area",
+  "reason"
+ ],
+ "rows": [
+  [
+   "(08)대",
+   "46,962.2",
+   "(40)1992년 09월 14일 구획정리 완료"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    74,
+    243,
+    363,
+    268
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["지목", "면적", "사유"], "bbox_2d": [74, 199, 943, 268], "page": 1, "n_rows": 1},
+ {"columns": ["변동일자", "변동원인", "주소", "성명또는명칭", "등록번호", "공유자"], "bbox_2d": [412, 199, 943, 472], "page": 1, "n_rows": 5},
+ {"columns": ["등급수정년월일", "토지등급"], "bbox_2d": [57, 559, 871, 627], "page": 1, "n_rows": 3},
+ {"columns": ["개별공시지가기준일", "개별공시지가"], "bbox_2d": [57, 629, 785, 682], "page": 1, "n_rows": 7}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 '지목'·'면적' 열이 있는 표를 보고 답하세요. 표의 행은 모두 몇 개입니까? 머리글·합계 행과 모두 빈 행은 세지 않습니다. (숫자만 답하세요)
+```
+
+답:
+
+```json
+1
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 '지목'·'면적' 열이 있는 표를 보고 답하세요. '지목' 칸이 '(08)대'인 행의 '면적' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"46,962.2"
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -338,6 +404,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa land_register --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

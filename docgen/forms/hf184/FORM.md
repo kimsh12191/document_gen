@@ -1,6 +1,6 @@
 # 퇴직연금 계약해지 신청서(개인형IRP) (`hf184`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf184 · card-hash: 9e9c4a08e40b -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf184 · card-hash: 0201e23699df -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 퇴직연금 계약해지 신청서(개인형IRP)
@@ -147,8 +147,11 @@ answer_empty: {"key": "{key}", "value": null}
 - 금융기관명: 금융기관명
 - account2: 계좌번호
 - 당해년도납입액: 당해년도납입액
+- deposit.withdraw_account: 출금계좌[
+- 법인성격: 법인성격
 - 퇴직금: 퇴직금
 - 연금계좌의운용소득: 연금계좌의운용소득
+- 변경사유: 변경사유(요약)
 - date: 작성일
 - signer.name: 신청인 (고객 본인의 성명)
 - 소득공제받은납입금액: 소득(세액)공제받은납입금액
@@ -164,8 +167,11 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "금융기관명", "value": "농협은행", "bbox_2d": [214, 445, 297, 464], "page": 1},
  {"key": "account2", "value": "540-121210-96628", "bbox_2d": [208, 472, 375, 491], "page": 1},
  {"key": "당해년도납입액", "value": null},
+ {"key": "deposit.withdraw_account", "value": null},
+ {"key": "법인성격", "value": null},
  {"key": "퇴직금", "value": null},
  {"key": "연금계좌의운용소득", "value": "660,000", "bbox_2d": [439, 744, 511, 762], "page": 1},
+ {"key": "변경사유", "value": null},
  {"key": "date", "value": "2025년 4월 1일", "bbox_2d": [738, 213, 923, 230], "page": 1},
  {"key": "signer.name", "value": "남궁예태", "bbox_2d": [446, 919, 520, 936], "page": 1},
  {"key": "소득공제받은납입금액", "value": "940,000", "bbox_2d": [441, 720, 513, 738], "page": 1}]
@@ -245,6 +251,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf184 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

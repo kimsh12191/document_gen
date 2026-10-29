@@ -1,6 +1,6 @@
 # 송금(투자)보고서 (`hf333`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf333 · card-hash: 32f5f5495b17 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf333 · card-hash: 97024ab71d47 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 송금(투자)보고서
@@ -127,8 +127,10 @@ answer_empty: {"key": "{key}", "value": null}
 - 투자방법: 투자방법
 - 비고: 비고(현지화)
 - 가신고일자및신고번호: 가.신고일자및신고번호
+- credit.trade.product_purchase: 완제품구매
 - 나투자국명: 나.투자국명
 - 다투자업종: 다.투자업종
+- 대출신청이거절되는경우: 대출신청이거절되는경우,
 - 라현지법인명: 라.현지법인명
 - 가수취인: 가.수취인
 - 나구좌번호: 나.구좌번호
@@ -142,8 +144,10 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "투자방법", "value": null},
  {"key": "비고", "value": "해당 없음", "bbox_2d": [741, 629, 846, 656], "page": 1},
  {"key": "가신고일자및신고번호", "value": "2024.06.01", "bbox_2d": [286, 267, 392, 290], "page": 1},
+ {"key": "credit.trade.product_purchase", "value": null},
  {"key": "나투자국명", "value": "영국", "bbox_2d": [201, 285, 238, 307], "page": 1},
  {"key": "다투자업종", "value": null},
+ {"key": "대출신청이거절되는경우", "value": null},
  {"key": "라현지법인명", "value": "(주)미래케미칼", "bbox_2d": [215, 321, 356, 344], "page": 1},
  {"key": "가수취인", "value": "다온시스템즈", "bbox_2d": [199, 375, 304, 398], "page": 1},
  {"key": "나구좌번호", "value": "114-326320-06397", "bbox_2d": [203, 391, 396, 417], "page": 1}]
@@ -178,6 +182,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf333 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

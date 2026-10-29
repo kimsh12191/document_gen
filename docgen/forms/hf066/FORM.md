@@ -1,6 +1,6 @@
 # 대출정보 열람청구 및 상환 위임장(대출이동서비스) (`hf066`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf066 · card-hash: 55328c1c3d41 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf066 · card-hash: a15d45db781f -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 대출정보 열람청구 및 상환 위임장(대출이동서비스)
@@ -127,7 +127,10 @@ answer_empty: {"key": "{key}", "value": null}
 - customer.birth: 생년월일 (고객 생년월일)
 - customer.address: 주소 (고객 주소)
 - customer.phone: 연락처 (고객 연락처)
+- 건물가격: (가)건물가격
+- 거래목적: 거래목적
 - date: 작성일
+- PhoneBanking: PhoneBanking
 - signer.name: 위임자(본인) (고객 본인의 성명)
 ```
 
@@ -138,7 +141,10 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "customer.birth", "value": "1985.03.28", "bbox_2d": [576, 552, 654, 563], "page": 1},
  {"key": "customer.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [576, 596, 875, 606], "page": 1},
  {"key": "customer.phone", "value": "010-6144-1173", "bbox_2d": [578, 640, 682, 651], "page": 1},
+ {"key": "건물가격", "value": null},
+ {"key": "거래목적", "value": null},
  {"key": "date", "value": "2025년 4월 1일", "bbox_2d": [724, 698, 927, 715], "page": 1},
+ {"key": "PhoneBanking", "value": null},
  {"key": "signer.name", "value": "남궁예태", "bbox_2d": [728, 748, 790, 758], "page": 1}]
 ```
 
@@ -200,6 +206,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf066 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

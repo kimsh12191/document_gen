@@ -1,6 +1,6 @@
 # 외국환거래 UMS통지서비스 (변경)신청서 (`hf243`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf243 · card-hash: de2ef8311c7e -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf243 · card-hash: 91b759014ee1 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 외국환거래 UMS통지서비스 (변경)신청서
@@ -157,13 +157,16 @@ answer_empty: {"key": "{key}", "value": null}
 - 당발송금: 당발송금
 - 타발송금내도통지: 타발송금내도통지
 - 타발송금입금통지: 타발송금입금통지
+- 고객상담분쟁조정및민원처리: -고객상담,분쟁조정및민원처리
 - 외화수표추심: 외화수표추심
+- 가신고번호: 가.신고(수리)번호
 - 로칼서류접수: 로칼서류접수
 - 수출네고특사번호통지: 수출네고특사번호통지
 - customer.name: 고객명 (고객 성명)
 - customer.address: 주소 (고객 주소)
 - corp.biz_no: 사업자등록번호(생년월일) (법인·사업자 사업자등록번호)
 - SMS수신전화번호: SMS수신전화번호
+- 하나연금닥터AI연금투자솔루션: 하나연금닥터AI연금투자솔루션
 - FAX번호: FAX번호
 - customer.email: E-MAIL주소 (고객 이메일)
 - 취급점: 취급점
@@ -179,13 +182,16 @@ answer_empty: {"key": "{key}", "value": null}
 [{"key": "당발송금", "value": null},
  {"key": "타발송금내도통지", "value": null},
  {"key": "타발송금입금통지", "value": null},
+ {"key": "고객상담분쟁조정및민원처리", "value": null},
  {"key": "외화수표추심", "value": "CNY 174,300", "bbox_2d": [198, 515, 296, 534], "page": 1},
+ {"key": "가신고번호", "value": null},
  {"key": "로칼서류접수", "value": null},
  {"key": "수출네고특사번호통지", "value": "6926-9662", "bbox_2d": [265, 589, 343, 606], "page": 1},
  {"key": "customer.name", "value": "남궁예태", "bbox_2d": [183, 319, 262, 337], "page": 1},
  {"key": "customer.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [183, 390, 409, 402], "page": 1},
  {"key": "corp.biz_no", "value": "702-81-38348", "bbox_2d": [638, 297, 750, 316], "page": 1},
  {"key": "SMS수신전화번호", "value": "010-6144-1173", "bbox_2d": [641, 342, 754, 361], "page": 1},
+ {"key": "하나연금닥터AI연금투자솔루션", "value": null},
  {"key": "FAX번호", "value": "051-509-1176", "bbox_2d": [638, 375, 738, 393], "page": 1},
  {"key": "customer.email", "value": "yetae741@gmail.com", "bbox_2d": [640, 397, 802, 418], "page": 1},
  {"key": "취급점", "value": "센텀지점", "bbox_2d": [149, 204, 229, 224], "page": 1},
@@ -254,6 +260,21 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "sign.staff.책임자", "value": true, "bbox_2d": [862, 40, 923, 84], "page": 1}]
 ```
 
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[]
+```
+
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
 
 없습니다. 더하려면 이 폴더에 `qa.py` 를 만들고 함수 하나에 질문 하나 (견본: `python -m docgen.formdir qa hf243 --new`):
@@ -283,6 +304,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf243 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

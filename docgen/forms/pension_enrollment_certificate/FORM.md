@@ -1,6 +1,6 @@
 # 국민연금 가입자 가입증명 (`pension_enrollment_certificate`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card pension_enrollment_certificate · card-hash: b0b8a0b1cdc6 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card pension_enrollment_certificate · card-hash: f0536ef03a12 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** income · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 국민연금 가입자 가입증명
@@ -21,7 +21,7 @@
 | `docgen/docs/income.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 14칸
+## 추출 항목 (정보 추출 kie) — 8칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -31,13 +31,20 @@
 | `customer.rrn` ← `person.rrn` | 주민등록번호 | rrn | 1쪽 [686, 193, 797, 206] | 늘 | 템플릿 | generate.py | look/template.html.j2:16 · fields.json:30 | 묻기 |
 | `first_acquired` | 최초자격취득일 | date | 1쪽 [292, 260, 366, 273] | 늘 | 템플릿 | generate.py | look/template.html.j2:21 · fields.json:5 | 묻기 |
 | `total_months` | 가입기간합계 | text | 1쪽 [711, 260, 768, 273] | 늘 | 템플릿 | generate.py | look/template.html.j2:21 · fields.json:45 | 묻기 |
+| `purpose` | 용도 | text | 1쪽 [242, 498, 328, 512] | 늘 | 템플릿 | generate.py | look/template.html.j2:44 · fields.json:35 | 묻기 |
+| `issue_date` | 발급일 | date | 1쪽 [442, 653, 558, 667] | 늘 | 템플릿 | generate.py | look/template.html.j2:53 · fields.json:10 | 묻기 |
+
+## 표 `rows` (표 과제 table·table_read·table_find·table_qa) — 6열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `rows.*.kind` | 가입자종류 | text | 1쪽 [155, 324, 250, 336] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:60 | 묻기 |
 | `rows.*.workplace` | 사업장명칭 | text | 1쪽 [342, 324, 447, 336] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:80 | 묻기 |
 | `rows.*.start` | 자격취득일 | date | 1쪽 [547, 324, 618, 336] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:33 · fields.json:70 | 묻기 |
 | `rows.*.end` | 자격상실일 | date | 1쪽 [673, 324, 744, 336] (1행) | 11/16 | 템플릿 | generate.py | look/template.html.j2:34 · fields.json:55 | 묻기 |
 | `rows.*.wage` | 기준소득월액 | amount | 1쪽 [846, 324, 909, 336] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:35 · fields.json:75 | 묻기 |
-| `purpose` | 용도 | text | 1쪽 [242, 498, 328, 512] | 늘 | 템플릿 | generate.py | look/template.html.j2:44 · fields.json:35 | 묻기 |
-| `issue_date` | 발급일 | date | 1쪽 [442, 653, 558, 667] | 늘 | 템플릿 | generate.py | look/template.html.j2:53 · fields.json:10 | 묻기 |
 | `rows.*.note` | 비고 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:36 · fields.json:65 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 1칸
@@ -147,15 +154,6 @@ answer_empty: {"key": "{key}", "value": null}
 - customer.rrn: 주민등록번호 (고객 주민등록번호)
 - first_acquired: 최초자격취득일
 - total_months: 가입기간합계
-- rows.0.kind: 가입자종류 (1행)
-- rows.0.workplace: 사업장명칭 (1행)
-- rows.0.start: 자격취득일 (1행)
-- rows.0.end: 자격상실일 (1행)
-- rows.0.wage: 기준소득월액 (1행)
-- rows.1.kind: 가입자종류 (2행)
-- rows.1.workplace: 사업장명칭 (2행)
-- rows.1.start: 자격취득일 (2행)
-- rows.1.wage: 기준소득월액 (2행)
 - purpose: 용도
 - issue_date: 발급일
 ```
@@ -169,15 +167,6 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "customer.rrn", "value": "850328-2******", "bbox_2d": [686, 193, 797, 206], "page": 1},
  {"key": "first_acquired", "value": "2012.07.01", "bbox_2d": [292, 260, 366, 273], "page": 1},
  {"key": "total_months", "value": "154개월", "bbox_2d": [711, 260, 768, 273], "page": 1},
- {"key": "rows.0.kind", "value": "사업장가입자", "bbox_2d": [155, 324, 250, 336], "page": 1},
- {"key": "rows.0.workplace", "value": "(주)새한메디칼", "bbox_2d": [342, 324, 447, 336], "page": 1},
- {"key": "rows.0.start", "value": "2012.07.01", "bbox_2d": [547, 324, 618, 336], "page": 1},
- {"key": "rows.0.end", "value": "2021.03.06", "bbox_2d": [673, 324, 744, 336], "page": 1},
- {"key": "rows.0.wage", "value": "1,484,000", "bbox_2d": [846, 324, 909, 336], "page": 1},
- {"key": "rows.1.kind", "value": "사업장가입자", "bbox_2d": [155, 352, 250, 364], "page": 1},
- {"key": "rows.1.workplace", "value": "주식회사 다온패션", "bbox_2d": [330, 352, 460, 364], "page": 1},
- {"key": "rows.1.start", "value": "2021.03.06", "bbox_2d": [547, 352, 618, 364], "page": 1},
- {"key": "rows.1.wage", "value": "4,108,000", "bbox_2d": [846, 352, 909, 364], "page": 1},
  {"key": "purpose", "value": "은행 제출용", "bbox_2d": [242, 498, 328, 512], "page": 1},
  {"key": "issue_date", "value": "2025년 4월 1일", "bbox_2d": [442, 653, 558, 667], "page": 1}]
 ```
@@ -207,6 +196,185 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```json
 [{"key": "seal.issuer", "value": true, "bbox_2d": [625, 665, 715, 729], "page": 1}]
+```
+
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 1쪽 bbox_2d=[135, 288, 921, 364] 위치의 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- kind: 가입자종류
+- workplace: 사업장명칭
+- start: 자격취득일
+- end: 자격상실일
+- wage: 기준소득월액
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "kind",
+  "workplace",
+  "start",
+  "end",
+  "wage"
+ ],
+ "rows": [
+  [
+   "사업장가입자",
+   "(주)새한메디칼",
+   "2012.07.01",
+   "2021.03.06",
+   "1,484,000"
+  ],
+  [
+   "사업장가입자",
+   "주식회사 다온패션",
+   "2021.03.06",
+   null,
+   "4,108,000"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    155,
+    324,
+    909,
+    336
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    155,
+    352,
+    909,
+    364
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["가입자종류", "사업장명칭", "자격취득일", "자격상실일", "기준소득월액"], "bbox_2d": [135, 288, 921, 364], "page": 1, "n_rows": 2}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 표를 보고 답하세요. 위에서 2번째 행의 '사업장명칭' 값은 무엇입니까? 머리글은 세지 않습니다. (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"주식회사 다온패션"
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 표를 보고 답하세요. 표의 행은 모두 몇 개입니까? 머리글·합계 행과 모두 빈 행은 세지 않습니다. (숫자만 답하세요)
+```
+
+답:
+
+```json
+2
+```
+
+### 표 그대로 옮기기 `table_read` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 1쪽 bbox_2d=[135, 288, 921, 364] 위치의 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.
+꼴: {"columns": [머리글 글자, …], "rows": [[칸 글자, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 " > " 로 잇습니다.
+- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.
+- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "순번",
+  "가입자 종류",
+  "사업장 명칭",
+  "자격취득일",
+  "자격상실일",
+  "기준소득월액(원)"
+ ],
+ "rows": [
+  [
+   "1",
+   "사업장가입자",
+   "(주)새한메디칼",
+   "2012.07.01",
+   "2021.03.06",
+   "1,484,000"
+  ],
+  [
+   "2",
+   "사업장가입자",
+   "주식회사 다온패션",
+   "2021.03.06",
+   "-",
+   "4,108,000"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    79,
+    316,
+    921,
+    344
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    79,
+    344,
+    921,
+    372
+   ],
+   "page": 1
+  }
+ ]
+}
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -239,6 +407,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa pension_enrollment_certificate --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

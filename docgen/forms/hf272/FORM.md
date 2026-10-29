@@ -1,6 +1,6 @@
 # REDEMPTION OF OUR LETTERS OF GUARANTEE (`hf272`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf272 · card-hash: 1b2cdd8f86e5 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf272 · card-hash: 69e69f6b915b -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 3 (seed 1000000 로 그린 것) · **분류 정답:** REDEMPTION OF OUR LETTERS OF GUARANTEE
@@ -159,7 +159,9 @@ answer_empty: {"key": "{key}", "value": null}
 - Gentlemen2: Gentlemen (같은 항목명 중 2번째 칸)
 - NumberofLG3: NumberofL/G (같은 항목명 중 3번째 칸)
 - NumberofCredit3: NumberofCredit (같은 항목명 중 3번째 칸)
+- 기호및번호: 기호및번호
 - LGAmount3: L/GAmount (같은 항목명 중 3번째 칸)
+- 어음금액: 어음금액
 - NumberofBL3: NumberofB/L (같은 항목명 중 3번째 칸)
 - VesselName3: VesselName (같은 항목명 중 3번째 칸)
 - Gentlemen3: Gentlemen (같은 항목명 중 3번째 칸)
@@ -182,7 +184,9 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "Gentlemen2", "value": null},
  {"key": "NumberofLG3", "value": "3511-7000", "bbox_2d": [81, 557, 179, 578], "page": 3},
  {"key": "NumberofCredit3", "value": "3158-6842", "bbox_2d": [248, 556, 350, 579], "page": 3},
+ {"key": "기호및번호", "value": null},
  {"key": "LGAmount3", "value": "8,260,000", "bbox_2d": [492, 557, 580, 578], "page": 3},
+ {"key": "어음금액", "value": null},
  {"key": "NumberofBL3", "value": "762-877733-67440", "bbox_2d": [588, 558, 758, 577], "page": 3},
  {"key": "VesselName3", "value": null},
  {"key": "Gentlemen3", "value": null}]
@@ -250,6 +254,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf272 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

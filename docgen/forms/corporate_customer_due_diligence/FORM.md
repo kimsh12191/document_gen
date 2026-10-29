@@ -1,6 +1,6 @@
 # 고객확인서(법인·단체) (`corporate_customer_due_diligence`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card corporate_customer_due_diligence · card-hash: 3aa1037697c5 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card corporate_customer_due_diligence · card-hash: 335ea5b0acb7 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** bank_form · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 고객확인서(법인·단체) (다른 이름: 고객확인서(법인,고유번호나 납세번호가 있는 임의 단체용))
@@ -21,7 +21,7 @@
 | `docgen/docs/bank_form_account.py`, `docgen/docs/bank_form_loan.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 33칸
+## 추출 항목 (정보 추출 kie) — 22칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -40,19 +40,40 @@
 | `rep.name_en` | 대표자영문성명 | text | 1쪽 [535, 369, 677, 382] | 늘 | 템플릿 | generate.py | look/template.html.j2:33 · fields.json:135 | 묻기 |
 | `rep.birth` | 대표자생년월일 | date | 1쪽 [182, 388, 250, 401] | 늘 | 템플릿 | generate.py | look/template.html.j2:34 · fields.json:125 | 묻기 |
 | `rep.nationality` | 대표자국적 | text | 1쪽 [535, 388, 596, 401] | 늘 | 템플릿 | generate.py | look/template.html.j2:34 · fields.json:140 | 묻기 |
-| `owners.*.name` | 성명 | text | 1쪽 [234, 572, 295, 584] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:53 · fields.json:190 | 묻기 |
-| `owners.*.birth` | 생년월일 | date | 1쪽 [478, 572, 546, 584] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:53 · fields.json:185 | 묻기 |
-| `owners.*.nationality` | 국적 | text | 1쪽 [614, 572, 675, 584] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:54 · fields.json:195 | 묻기 |
-| `owners.*.ratio` | 지분율 | percent | 1쪽 [737, 572, 784, 584] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:54 · fields.json:200 | 묻기 |
-| `owners.*.relation` | 법인과의관계 | text | 1쪽 [852, 572, 913, 584] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:54 · fields.json:205 | 묻기 |
 | `date` | 작성일 | date | 1쪽 [839, 750, 952, 763] | 늘 | 템플릿 | generate.py | look/template.html.j2:85 · fields.json:110 | 묻기 |
-| `bank_use.documents.*` | 징구서류 | text | 1쪽 [200, 875, 291, 887] (1행) | 늘 | 템플릿 | generate.py | - | 묻기 |
 | `bank_use.branch` | 확인영업점 | text | 1쪽 [187, 894, 248, 907] | 늘 | 템플릿 | generate.py | look/template.html.j2:101 · fields.json:25 | 묻기 |
 | `bank_use.clerk` | 담당 | text | 1쪽 [801, 883, 840, 895] | 늘 | 템플릿 | generate.py | look/template.html.j2:103 · fields.json:30 | 묻기 |
 | `bank_use.manager` | 책임자 | text | 1쪽 [882, 883, 921, 895] | 늘 | 템플릿 | generate.py | look/template.html.j2:103 · fields.json:40 | 묻기 |
 | `agent.name` | 거래담당자성명 | - | - | 3/16 | 템플릿 | generate.py | look/template.html.j2:79 · fields.json:5 | 묻기 |
 | `agent.rrn` | 거래담당자실명번호 | - | - | 3/16 | 템플릿 | generate.py | look/template.html.j2:79 · fields.json:15 | 묻기 |
 | `agent.position` | 직위관계 | - | - | 3/16 | 템플릿 | generate.py | look/template.html.j2:79 · fields.json:10 | 묻기 |
+
+## 표 `owners` (표 과제 table·table_read·table_find·table_qa) — 5열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `owners.*.name` | 성명 | text | 1쪽 [234, 572, 295, 584] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:53 · fields.json:190 | 묻기 |
+| `owners.*.birth` | 생년월일 | date | 1쪽 [478, 572, 546, 584] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:53 · fields.json:185 | 묻기 |
+| `owners.*.nationality` | 국적 | text | 1쪽 [614, 572, 675, 584] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:54 · fields.json:195 | 묻기 |
+| `owners.*.ratio` | 지분율 | percent | 1쪽 [737, 572, 784, 584] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:54 · fields.json:200 | 묻기 |
+| `owners.*.relation` | 법인과의관계 | text | 1쪽 [852, 572, 913, 584] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:54 · fields.json:205 | 묻기 |
+
+## 표 `bank_use.documents` (표 과제 table·table_read·table_find·table_qa) — 1열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `bank_use.documents.*` | 징구서류 | text | 1쪽 [200, 875, 291, 887] (1행) | 늘 | 템플릿 | generate.py | - | 묻기 |
+
+## 표 `shareholders` (표 과제 table·table_read·table_find·table_qa) — 5열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `shareholders.*.name` | 주주명 | - | - (1행) | 3/16 | 템플릿 | generate.py | look/template.html.j2:53 · fields.json:220 | 묻기 |
 | `shareholders.*.birth` | 생년월일 | - | - (1행) | 3/16 | 템플릿 | generate.py | look/template.html.j2:53 · fields.json:215 | 묻기 |
 | `shareholders.*.shares` | 소유주식수 | - | - (1행) | 3/16 | 템플릿 | generate.py | look/template.html.j2:64 · fields.json:235 | 묻기 |
@@ -196,11 +217,6 @@ answer_empty: {"key": "{key}", "value": null}
 - rep.name_en: 대표자영문성명 (법인·사업자의 영문명)
 - rep.birth: 대표자생년월일
 - rep.nationality: 대표자국적
-- owners.0.name: 성명 (1행)
-- owners.0.birth: 생년월일 (1행)
-- owners.0.nationality: 국적 (1행)
-- owners.0.ratio: 지분율 (1행)
-- owners.0.relation: 법인과의관계 (1행)
 - date: 작성일
 - bank_use.documents.0: 징구서류 (1번째)
 - bank_use.documents.1: 징구서류 (2번째)
@@ -229,11 +245,6 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "rep.name_en", "value": "NAMGOONG YETAE", "bbox_2d": [535, 369, 677, 382], "page": 1},
  {"key": "rep.birth", "value": "1985.03.28", "bbox_2d": [182, 388, 250, 401], "page": 1},
  {"key": "rep.nationality", "value": "대한민국", "bbox_2d": [535, 388, 596, 401], "page": 1},
- {"key": "owners.0.name", "value": "남궁예태", "bbox_2d": [234, 572, 295, 584], "page": 1},
- {"key": "owners.0.birth", "value": "1985.03.28", "bbox_2d": [478, 572, 546, 584], "page": 1},
- {"key": "owners.0.nationality", "value": "대한민국", "bbox_2d": [614, 572, 675, 584], "page": 1},
- {"key": "owners.0.ratio", "value": "66.77%", "bbox_2d": [737, 572, 784, 584], "page": 1},
- {"key": "owners.0.relation", "value": "대표이사", "bbox_2d": [852, 572, 913, 584], "page": 1},
  {"key": "date", "value": "2025년 04월 01일", "bbox_2d": [839, 750, 952, 763], "page": 1},
  {"key": "bank_use.documents.0", "value": "사업자등록증", "bbox_2d": [200, 875, 291, 887], "page": 1},
  {"key": "bank_use.documents.1", "value": "법인등기사항전부증명서", "bbox_2d": [314, 875, 480, 887], "page": 1},
@@ -294,6 +305,186 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "bank_use.documents", "value": "정관", "bbox_2d": [574, 875, 583, 887], "page": 1}]
 ```
 
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- name: 성명
+- birth: 생년월일
+- nationality: 국적
+- ratio: 지분율
+- relation: 법인과의관계
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "name",
+  "birth",
+  "nationality",
+  "ratio",
+  "relation"
+ ],
+ "rows": [
+  [
+   "남궁예태",
+   "1985.03.28",
+   "대한민국",
+   "66.77%",
+   "대표이사"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    234,
+    572,
+    913,
+    584
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["성명", "생년월일", "국적", "지분율", "법인과의관계"], "bbox_2d": [86, 550, 952, 584], "page": 1, "n_rows": 1}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[86, 550, 952, 584] 위치의 표를 보고 답하세요. '성명' 칸이 '남궁예태'인 행의 '생년월일' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"1985.03.28"
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[86, 550, 952, 584] 위치의 표를 보고 답하세요. '지분율' 칸의 값을 모두 더하면 얼마입니까? 빈 칸은 0 으로 봅니다. (쉼표·단위 없이 숫자만 답하세요)
+```
+
+답:
+
+```json
+66.77
+```
+
+### 표 그대로 옮기기 `table_read` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.
+꼴: {"columns": [머리글 글자, …], "rows": [[칸 글자, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 " > " 로 잇습니다.
+- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.
+- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "No",
+  "실제소유자 성명",
+  "생년월일",
+  "국적",
+  "지분율",
+  "법인과의 관계"
+ ],
+ "rows": [
+  [
+   "1",
+   "남궁예태",
+   "1985.03.28",
+   "대한민국",
+   "66.77%",
+   "대표이사"
+  ],
+  [
+   "2",
+   null,
+   null,
+   null,
+   null,
+   null
+  ],
+  [
+   "3",
+   null,
+   null,
+   null,
+   null,
+   null
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    48,
+    569,
+    952,
+    588
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    48,
+    588,
+    952,
+    606
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    48,
+    606,
+    952,
+    625
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
 
 없습니다. 더하려면 이 폴더에 `qa.py` 를 만들고 함수 하나에 질문 하나 (견본: `python -m docgen.formdir qa corporate_customer_due_diligence --new`):
@@ -324,6 +515,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa corporate_customer_due_diligence --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

@@ -1,6 +1,6 @@
 # 퇴직연금_거래신청서(DB) (`hf186`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf186 · card-hash: ca63aedf27f5 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf186 · card-hash: b22a4234da84 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 퇴직연금_거래신청서(DB)
@@ -203,6 +203,7 @@ answer_empty: {"key": "{key}", "value": null}
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
 - corp.name: 기업명 (법인·사업자 상호, 같은 항목명 중 1번째 칸)
+- CorporateRegistrationNo: CorporateRegistrationNo.
 - corp.biz_no: 사업자등록번호 (법인·사업자 사업자등록번호)
 - date: 제도시행일
 - customer.name: 이름 (고객 성명, 같은 항목명 중 1번째 칸)
@@ -217,6 +218,7 @@ answer_empty: {"key": "{key}", "value": null}
 - 사원번호이메일: -사원번호:-이메일:󠇧 (같은 항목명 중 1번째 칸)
 - 성명2: -성명 (같은 항목명 중 3번째 칸)
 - 직원임원촉탁정년초과2: 직원󠇧임원󠇧촉탁󠇧정년초과 (같은 항목명 중 2번째 칸)
+- 퇴직소득원천징수영수증: 퇴직소득원천징수영수증
 - 주민등록번호2: -주민등록번호 (같은 항목명 중 2번째 칸)
 - 입사일중간정산일자2: -입사일:-중간정산일자 (같은 항목명 중 2번째 칸)
 - 사원번호이메일2: -사원번호:-이메일:󠇧 (같은 항목명 중 2번째 칸)
@@ -239,6 +241,7 @@ answer_empty: {"key": "{key}", "value": null}
 - 주민등록번호8: -주민등록번호 (같은 항목명 중 8번째 칸)
 - 주민등록번호9: -주민등록번호 (같은 항목명 중 9번째 칸)
 - 입사일중간정산일자9: -입사일:-중간정산일자 (같은 항목명 중 9번째 칸)
+- LGAmount: L/GAmount
 - 사원번호이메일9: -사원번호:-이메일:󠇧 (같은 항목명 중 9번째 칸)
 - 성명10: -성명 (같은 항목명 중 11번째 칸)
 - 입사일중간정산일자10: -입사일:-중간정산일자 (같은 항목명 중 10번째 칸)
@@ -248,6 +251,7 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```json
 [{"key": "corp.name", "value": "(주)미래케미칼", "bbox_2d": [180, 222, 284, 233], "page": 1},
+ {"key": "CorporateRegistrationNo", "value": null},
  {"key": "corp.biz_no", "value": "702-81-38348", "bbox_2d": [465, 222, 563, 233], "page": 1},
  {"key": "date", "value": "2025년 4월 1일", "bbox_2d": [248, 297, 416, 311], "page": 1},
  {"key": "customer.name", "value": "남궁예태", "bbox_2d": [319, 613, 382, 624], "page": 1},
@@ -262,6 +266,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "사원번호이메일", "value": null},
  {"key": "성명2", "value": null},
  {"key": "직원임원촉탁정년초과2", "value": null},
+ {"key": "퇴직소득원천징수영수증", "value": null},
  {"key": "주민등록번호2", "value": null},
  {"key": "입사일중간정산일자2", "value": null},
  {"key": "사원번호이메일2", "value": null},
@@ -284,6 +289,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "주민등록번호8", "value": null},
  {"key": "주민등록번호9", "value": null},
  {"key": "입사일중간정산일자9", "value": null},
+ {"key": "LGAmount", "value": null},
  {"key": "사원번호이메일9", "value": null},
  {"key": "성명10", "value": null},
  {"key": "입사일중간정산일자10", "value": null}]
@@ -359,6 +365,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf186 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

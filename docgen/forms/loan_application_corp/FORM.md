@@ -1,6 +1,6 @@
 # 기업여신 신청서 (`loan_application_corp`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card loan_application_corp · card-hash: 1c002a0370de -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card loan_application_corp · card-hash: e90b73ad711b -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** bank_form · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 기업여신 신청서 (다른 이름: 융자상담 및 차입신청서(기업용))
@@ -21,7 +21,7 @@
 | `docgen/docs/bank_form_loan.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 40칸
+## 추출 항목 (정보 추출 kie) — 36칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -54,10 +54,6 @@
 | `loan.purpose` | 자금용도 | text | 1쪽 [443, 512, 533, 523] | 늘 | 템플릿 | generate.py | look/template.html.j2:40 · fields.json:175 | 묻기 |
 | `loan.deposit_account` | 대출금입금계좌 | account_no | 1쪽 [207, 532, 368, 543] | 늘 | 템플릿 | generate.py | look/template.html.j2:41 · fields.json:155 | 묻기 |
 | `loan.collateral_detail` | 담보/보증내용 | text | 1쪽 [207, 572, 447, 583] | 늘 | 템플릿 | generate.py | look/template.html.j2:43 · fields.json:150 | 묻기 |
-| `other_loans.*.lender` | 금융기관 | text | 1쪽 [146, 638, 221, 651] (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:51 · fields.json:245 | 묻기 |
-| `other_loans.*.kind` | 여신종류 | text | 1쪽 [370, 638, 459, 651] (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:51 · fields.json:240 | 묻기 |
-| `other_loans.*.balance` | 잔액 | amount | 1쪽 [675, 638, 697, 651] (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:51 · fields.json:230 | 묻기 |
-| `other_loans.*.collateral` | 담보 | text | 1쪽 [801, 638, 831, 651] (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:51 · fields.json:235 | 묻기 |
 | `other_loans_total` | 합계 | amount | 1쪽 [663, 873, 697, 885] | 4/16 | 템플릿 | generate.py | look/template.html.j2:54 · fields.json:200 | 묻기 |
 | `apply_date` | 신청일 | date | 2쪽 [72, 82, 165, 93] | 늘 | 템플릿 | generate.py | look/template.html.j2:72 · fields.json:25 | 묻기 |
 | `signature` | 대표이사 | text | 2쪽 [808, 99, 878, 112] | 늘 | 템플릿 | generate.py | look/template.html.j2:7 · fields.json:220 | 묻기 |
@@ -65,6 +61,17 @@
 | `agent.position` | 대리인직위 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:61 · fields.json:15 | 묻기 |
 | `agent.rrn` | 대리인실명번호 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:61 · fields.json:20 | 묻기 |
 | `agent.phone` | 대리인연락처 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:62 · fields.json:10 | 묻기 |
+
+## 표 `other_loans` (표 과제 table·table_read·table_find·table_qa) — 4열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `other_loans.*.lender` | 금융기관 | text | 1쪽 [146, 638, 221, 651] (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:51 · fields.json:245 | 묻기 |
+| `other_loans.*.kind` | 여신종류 | text | 1쪽 [370, 638, 459, 651] (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:51 · fields.json:240 | 묻기 |
+| `other_loans.*.balance` | 잔액 | amount | 1쪽 [675, 638, 697, 651] (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:51 · fields.json:230 | 묻기 |
+| `other_loans.*.collateral` | 담보 | text | 1쪽 [801, 638, 831, 651] (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:51 · fields.json:235 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 8칸
 
@@ -221,90 +228,76 @@ answer_empty: {"key": "{key}", "value": null}
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
 - bank: 은행명
+- branch: 취급점
 - corp.name: 기업명 (법인·사업자 상호)
 - corp.name_en: 영문명 (법인·사업자 영문 상호)
+- corp.biz_no: 사업자등록번호 (법인·사업자 사업자등록번호)
+- corp.corp_reg_no: 법인등록번호 (법인·사업자 법인등록번호)
+- corp.ceo: 대표자 (법인·사업자 대표자)
+- corp.established: 설립일 (법인·사업자 설립일)
 - corp.industry: 업태/종목 (법인·사업자 업태·종목)
+- company.employees: 종업원수
 - company.capital: 자본금
+- company.revenue: 매출액
 - company.revenue_year: 결산연도
 - corp.address: 본점소재지 (법인·사업자 주소)
 - corp.phone: 전화번호 (법인·사업자 연락처)
+- loan.prepay_fee: 중도상환해약금
 - company.fax: 팩스번호
 - contact.name: 담당자
 - contact.position: 부서/직위
 - contact.phone: 연락처
+- contact.email: E-mail
 - loan.product: 상품명
 - loan.amount_korean: 신청금액(한글)
 - loan.amount: 신청금액
+- loan.term: 여신기간
 - loan.hope_date: 대출희망일
+- loan.repayment: 상환방법
 - loan.purpose: 자금용도
 - loan.deposit_account: 대출금입금계좌
 - loan.collateral_detail: 담보/보증내용
-- other_loans.0.balance: 잔액 (1행)
-- other_loans.1.kind: 여신종류 (2행)
-- other_loans.1.balance: 잔액 (2행)
-- other_loans.1.collateral: 담보 (2행)
-- other_loans.2.balance: 잔액 (3행)
-- other_loans.2.collateral: 담보 (3행)
-- other_loans.3.lender: 금융기관 (4행)
-- other_loans.3.balance: 잔액 (4행)
-- other_loans.4.balance: 잔액 (5행)
-- other_loans.4.collateral: 담보 (5행)
-- other_loans.5.lender: 금융기관 (6행)
-- other_loans.5.balance: 잔액 (6행)
-- other_loans.6.balance: 잔액 (7행)
-- other_loans.7.kind: 여신종류 (8행)
-- other_loans.8.lender: 금융기관 (9행)
-- other_loans.8.balance: 잔액 (9행)
-- other_loans.8.collateral: 담보 (9행)
-- other_loans.9.lender: 금융기관 (10행)
-- other_loans.9.balance: 잔액 (10행)
-- other_loans.10.balance: 잔액 (11행)
+- other_loans_total: 합계
 - apply_date: 신청일
+- signature: 대표이사
 ```
 
 답:
 
 ```json
 [{"key": "bank", "value": "국민은행", "bbox_2d": [99, 39, 193, 61], "page": 1},
+ {"key": "branch", "value": "센텀지점", "bbox_2d": [648, 130, 703, 141], "page": 1},
  {"key": "corp.name", "value": "(주)미래케미칼", "bbox_2d": [207, 173, 302, 183], "page": 1},
  {"key": "corp.name_en", "value": null},
+ {"key": "corp.biz_no", "value": "702-81-38348", "bbox_2d": [207, 193, 288, 203], "page": 1},
+ {"key": "corp.corp_reg_no", "value": "200112-7951835", "bbox_2d": [646, 193, 744, 203], "page": 1},
+ {"key": "corp.ceo", "value": "남궁예태", "bbox_2d": [207, 213, 264, 223], "page": 1},
+ {"key": "corp.established", "value": "2020.06.15", "bbox_2d": [646, 213, 711, 223], "page": 1},
  {"key": "corp.industry", "value": "제조업 / 화학제품", "bbox_2d": [207, 233, 318, 243], "page": 1},
+ {"key": "company.employees", "value": null},
  {"key": "company.capital", "value": "300,000,000원", "bbox_2d": [296, 272, 382, 283], "page": 1},
+ {"key": "company.revenue", "value": "73,589,000,000원", "bbox_2d": [646, 277, 750, 287], "page": 1},
  {"key": "company.revenue_year", "value": "2024년", "bbox_2d": [758, 277, 800, 287], "page": 1},
  {"key": "corp.address", "value": "제주특별자치도 제주시 첨단로 381-19, 2층 (이도2동, 대성프라자)", "bbox_2d": [207, 301, 615, 311], "page": 1},
  {"key": "corp.phone", "value": "064-756-8800", "bbox_2d": [207, 321, 288, 331], "page": 1},
+ {"key": "loan.prepay_fee", "value": null},
  {"key": "company.fax", "value": null},
  {"key": "contact.name", "value": "방훈원", "bbox_2d": [207, 367, 250, 377], "page": 1},
  {"key": "contact.position", "value": "경영지원팀 차장", "bbox_2d": [258, 367, 362, 377], "page": 1},
  {"key": "contact.phone", "value": "010-8349-3877", "bbox_2d": [521, 367, 610, 377], "page": 1},
+ {"key": "contact.email", "value": "contact@mirae.co.kr", "bbox_2d": [761, 367, 881, 377], "page": 1},
  {"key": "loan.product", "value": "기업시설자금대출", "bbox_2d": [207, 432, 321, 443], "page": 1},
  {"key": "loan.amount_korean", "value": "금 이십일억원정", "bbox_2d": [207, 452, 311, 463], "page": 1},
  {"key": "loan.amount", "value": "2,100,000,000원", "bbox_2d": [323, 452, 419, 463], "page": 1},
+ {"key": "loan.term", "value": "120개월", "bbox_2d": [207, 472, 257, 483], "page": 1},
  {"key": "loan.hope_date", "value": "2025.04.14", "bbox_2d": [647, 472, 712, 483], "page": 1},
+ {"key": "loan.repayment", "value": "2년 거치 후 8년 원금균등분할상환", "bbox_2d": [207, 492, 422, 503], "page": 1},
  {"key": "loan.purpose", "value": "공장 신축자금", "bbox_2d": [443, 512, 533, 523], "page": 1},
  {"key": "loan.deposit_account", "value": "국민은행 129-04-3353-660", "bbox_2d": [207, 532, 368, 543], "page": 1},
  {"key": "loan.collateral_detail", "value": "기술보증기금 보증서 (보증비율 100%)", "bbox_2d": [207, 572, 447, 583], "page": 1},
- {"key": "other_loans.0.balance", "value": "800", "bbox_2d": [675, 638, 697, 651], "page": 1},
- {"key": "other_loans.1.kind", "value": "운전자금대출", "bbox_2d": [370, 659, 459, 671], "page": 1},
- {"key": "other_loans.1.balance", "value": "480", "bbox_2d": [675, 659, 697, 671], "page": 1},
- {"key": "other_loans.1.collateral", "value": "부동산", "bbox_2d": [794, 659, 839, 671], "page": 1},
- {"key": "other_loans.2.balance", "value": "160", "bbox_2d": [675, 679, 697, 692], "page": 1},
- {"key": "other_loans.2.collateral", "value": "부동산", "bbox_2d": [794, 679, 839, 692], "page": 1},
- {"key": "other_loans.3.lender", "value": "SC제일은행", "bbox_2d": [144, 700, 223, 712], "page": 1},
- {"key": "other_loans.3.balance", "value": "230", "bbox_2d": [675, 700, 697, 712], "page": 1},
- {"key": "other_loans.4.balance", "value": "960", "bbox_2d": [675, 720, 697, 733], "page": 1},
- {"key": "other_loans.4.collateral", "value": "신용보증기금", "bbox_2d": [771, 720, 861, 733], "page": 1},
- {"key": "other_loans.5.lender", "value": "신한은행", "bbox_2d": [154, 741, 213, 754], "page": 1},
- {"key": "other_loans.5.balance", "value": "580", "bbox_2d": [675, 741, 697, 754], "page": 1},
- {"key": "other_loans.6.balance", "value": "1,470", "bbox_2d": [663, 762, 697, 774], "page": 1},
- {"key": "other_loans.7.kind", "value": "팩토링", "bbox_2d": [392, 782, 437, 795], "page": 1},
- {"key": "other_loans.8.lender", "value": "iM뱅크", "bbox_2d": [160, 803, 207, 815], "page": 1},
- {"key": "other_loans.8.balance", "value": "1,320", "bbox_2d": [663, 803, 697, 815], "page": 1},
- {"key": "other_loans.8.collateral", "value": "예금", "bbox_2d": [801, 803, 831, 815], "page": 1},
- {"key": "other_loans.9.lender", "value": "부산은행", "bbox_2d": [154, 828, 213, 840], "page": 1},
- {"key": "other_loans.9.balance", "value": "750", "bbox_2d": [644, 823, 667, 836], "page": 1},
- {"key": "other_loans.10.balance", "value": "1,330", "bbox_2d": [663, 852, 697, 865], "page": 1},
- {"key": "apply_date", "value": "2025년 4월 1일", "bbox_2d": [72, 82, 165, 93], "page": 2}]
+ {"key": "other_loans_total", "value": "8,840", "bbox_2d": [663, 873, 697, 885], "page": 1},
+ {"key": "apply_date", "value": "2025년 4월 1일", "bbox_2d": [72, 82, 165, 93], "page": 2},
+ {"key": "signature", "value": "남궁예태", "bbox_2d": [808, 99, 878, 112], "page": 2}]
 ```
 
 ### 체크·도장·서명 `marks` · 채점 vl_f1 (값+위치)
@@ -344,6 +337,250 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "seal.corp", "value": true, "bbox_2d": [861, 75, 952, 139], "page": 2}]
 ```
 
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 1쪽 bbox_2d=[72, 614, 928, 865] 위치의 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- lender: 금융기관
+- kind: 여신종류
+- balance: 잔액
+- collateral: 담보
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "lender",
+  "kind",
+  "balance",
+  "collateral"
+ ],
+ "rows": [
+  [
+   "수출입은행",
+   "운전자금대출",
+   "800",
+   "신용"
+  ],
+  [
+   "신한은행",
+   "운전자금대출",
+   "480",
+   "부동산"
+  ],
+  [
+   "현대캐피탈",
+   "당좌대출",
+   "160",
+   "부동산"
+  ],
+  [
+   "SC제일은행",
+   "할인어음",
+   "230",
+   "예금"
+  ],
+  [
+   "수출입은행",
+   "시설자금대출",
+   "960",
+   "신용보증기금"
+  ],
+  [
+   "신한은행",
+   "구매자금대출",
+   "580",
+   "기술보증기금"
+  ],
+  [
+   "우리은행",
+   "팩토링",
+   "1,470",
+   "신용"
+  ],
+  [
+   "신한은행",
+   "팩토링",
+   "760",
+   "신용보증기금"
+  ],
+  [
+   "iM뱅크",
+   "당좌대출",
+   "1,320",
+   "예금"
+  ],
+  [
+   "부산은행",
+   "무역금융",
+   "750",
+   "부동산"
+  ],
+  [
+   "농협은행",
+   "수입신용장(L/C)",
+   "1,330",
+   "부동산"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    146,
+    638,
+    831,
+    651
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    154,
+    659,
+    839,
+    671
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    146,
+    679,
+    839,
+    692
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    144,
+    700,
+    831,
+    712
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    146,
+    720,
+    861,
+    733
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    154,
+    741,
+    861,
+    754
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    154,
+    762,
+    831,
+    774
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    154,
+    782,
+    861,
+    795
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    160,
+    803,
+    831,
+    815
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    154,
+    823,
+    839,
+    840
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    154,
+    852,
+    839,
+    865
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["금융기관", "여신종류", "잔액", "담보"], "bbox_2d": [72, 614, 928, 865], "page": 1, "n_rows": 11}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 표를 보고 답하세요. 위에서 5번째 행의 '여신종류' 값은 무엇입니까? 머리글은 세지 않습니다. (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"시설자금대출"
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 표를 보고 답하세요. '담보' 칸이 '부동산'인 행은 몇 개입니까? (숫자만 답하세요)
+```
+
+답:
+
+```json
+4
+```
+
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
 
 없습니다. 더하려면 이 폴더에 `qa.py` 를 만들고 함수 하나에 질문 하나 (견본: `python -m docgen.formdir qa loan_application_corp --new`):
@@ -374,6 +611,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa loan_application_corp --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

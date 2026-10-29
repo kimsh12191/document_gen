@@ -1,6 +1,6 @@
 # 선하증권(B/L) (`bill_of_lading`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card bill_of_lading · card-hash: 8df8f5a90247 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card bill_of_lading · card-hash: 5c12f25004bc -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** fx · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 선하증권(B/L)
@@ -21,7 +21,7 @@
 | `docgen/docs/fx.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 44칸
+## 추출 항목 (정보 추출 kie) — 32칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -41,9 +41,6 @@
 | `port_of_loading` | PortofLoading | text | 1쪽 [299, 240, 399, 250] | 늘 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:135 | 묻기 |
 | `port_of_discharge` | PortofDischarge | text | 1쪽 [57, 266, 151, 275] | 늘 | 템플릿 | generate.py | look/template.html.j2:68 · fields.json:130 | 묻기 |
 | `place_of_delivery` | PlaceofDelivery | text | 1쪽 [299, 266, 364, 275] | 늘 | 템플릿 | generate.py | look/template.html.j2:69 · fields.json:120 | 묻기 |
-| `containers.*.no` | ContainerNo | text | 1쪽 [57, 306, 138, 316] (1행) | 늘 | 템플릿 | generate.py | fields.json:225 | 묻기 |
-| `containers.*.type` | ContainerType | text | 1쪽 [148, 306, 179, 316] (1행) | 늘 | 템플릿 | generate.py | fields.json:217 | 묻기 |
-| `containers.*.seal` | SealNo | text | 1쪽 [96, 318, 149, 328] (1행) | 늘 | 템플릿 | generate.py | fields.json:235 | 묻기 |
 | `marks` | MarksandNumbers | text | 1쪽 [57, 337, 153, 382] | 늘 | 템플릿 | generate.py | look/template.html.j2:78 · fields.json:80 | 묻기 |
 | `container_count` | No.ofContainers | text | 1쪽 [293, 306, 346, 316] | 늘 | 템플릿 | generate.py | look/template.html.j2:79 · fields.json:30 | 묻기 |
 | `packages` | No.ofPackages | text | 1쪽 [295, 329, 344, 339] | 늘 | 템플릿 | generate.py | look/template.html.j2:79 · fields.json:115 | 묻기 |
@@ -57,18 +54,35 @@
 | `issue_date` | DateofIssue | date | 1쪽 [796, 671, 870, 681] | 늘 | 템플릿 | generate.py | look/template.html.j2:99 · fields.json:65 | 묻기 |
 | `originals` | NumberofOriginalB/L | text | 1쪽 [57, 696, 120, 706] | 늘 | 템플릿 | generate.py | look/template.html.j2:100 · fields.json:110 | 묻기 |
 | `on_board_date` | OnBoardDate | date | 1쪽 [435, 696, 510, 706] | 늘 | 템플릿 | generate.py | look/template.html.j2:85 · fields.json:100 | 묻기 |
+| `consignee.address` | ConsigneeAddress | - | - | 5/16 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:20 | 묻기 |
+| `document_type` | DocumentType | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:46 · fields.json:40 | 묻기 |
+| `lc_no` | L/CNo | - | - | 6/16 | 템플릿 | generate.py | look/template.html.j2:81 · fields.json:75 | 묻기 |
+
+## 표 `containers` (표 과제 table·table_read·table_find·table_qa) — 6열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `containers.*.no` | ContainerNo | text | 1쪽 [57, 306, 138, 316] (1행) | 늘 | 템플릿 | generate.py | fields.json:225 | 묻기 |
+| `containers.*.type` | ContainerType | text | 1쪽 [148, 306, 179, 316] (1행) | 늘 | 템플릿 | generate.py | fields.json:217 | 묻기 |
+| `containers.*.seal` | SealNo | text | 1쪽 [96, 318, 149, 328] (1행) | 늘 | 템플릿 | generate.py | fields.json:235 | 묻기 |
+| `containers.*.packages` | ContainerPackages | - | - (1행) | 6/16 | 템플릿 | generate.py | fields.json:230 | 묻기 |
+| `containers.*.gross_weight` | ContainerGrossWeight | - | - (1행) | 6/16 | 템플릿 | generate.py | fields.json:215 | 묻기 |
+| `containers.*.measurement` | ContainerMeasurement | - | - (1행) | 6/16 | 템플릿 | generate.py | fields.json:220 | 묻기 |
+
+## 표 `charges` (표 과제 table·table_read·table_find·table_qa) — 6열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `charges.*.name` | Charge | text | 1쪽 [57, 761, 158, 771] (1행) | 6/16 | 템플릿 | generate.py | fields.json:185 | 묻기 |
 | `charges.*.quantity` | RevenueTons | number | 1쪽 [462, 761, 484, 771] (1행) | 6/16 | 템플릿 | generate.py | fields.json:200 | 묻기 |
 | `charges.*.rate` | Rate | number | 1쪽 [548, 761, 583, 771] (1행) | 6/16 | 템플릿 | generate.py | fields.json:205 | 묻기 |
 | `charges.*.per` | Per | text | 1쪽 [621, 761, 655, 771] (1행) | 6/16 | 템플릿 | generate.py | fields.json:190 | 묻기 |
 | `charges.*.prepaid` | Prepaid | amount | 1쪽 [736, 761, 800, 771] (1행) | 6/16 | 템플릿 | generate.py | fields.json:195 | 묻기 |
 | `charges.*.collect` | Collect | - | - (1행) | 3/16 | 템플릿 | generate.py | fields.json:180 | 묻기 |
-| `consignee.address` | ConsigneeAddress | - | - | 5/16 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:20 | 묻기 |
-| `containers.*.packages` | ContainerPackages | - | - (1행) | 6/16 | 템플릿 | generate.py | fields.json:230 | 묻기 |
-| `containers.*.gross_weight` | ContainerGrossWeight | - | - (1행) | 6/16 | 템플릿 | generate.py | fields.json:215 | 묻기 |
-| `containers.*.measurement` | ContainerMeasurement | - | - (1행) | 6/16 | 템플릿 | generate.py | fields.json:220 | 묻기 |
-| `document_type` | DocumentType | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:46 · fields.json:40 | 묻기 |
-| `lc_no` | L/CNo | - | - | 6/16 | 템플릿 | generate.py | look/template.html.j2:81 · fields.json:75 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
 - **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
@@ -201,6 +215,7 @@ answer_empty: {"key": "{key}", "value": null}
 - booking_no: BookingNo
 - bl_no: B/LNo
 - carrier: Carrier
+- forwarder: ForwardingAgent
 - consignee.name: Consignee
 - notify.name: NotifyParty
 - notify.address: NotifyPartyAddress
@@ -211,8 +226,6 @@ answer_empty: {"key": "{key}", "value": null}
 - port_of_loading: PortofLoading
 - port_of_discharge: PortofDischarge
 - place_of_delivery: PlaceofDelivery
-- containers.0.no: ContainerNo (1행)
-- containers.0.type: ContainerType (1행)
 - marks: MarksandNumbers
 - container_count: No.ofContainers
 - packages: No.ofPackages
@@ -220,22 +233,12 @@ answer_empty: {"key": "{key}", "value": null}
 - freight: Freight
 - gross_weight: GrossWeight
 - measurement: Measurement
+- total_words: TotalNumberinWords
 - freight_payable_at: FreightPayableat
 - issue_place: PlaceofIssue
 - issue_date: DateofIssue
+- originals: NumberofOriginalB/L
 - on_board_date: OnBoardDate
-- charges.0.name: Charge (1행)
-- charges.0.quantity: RevenueTons (1행)
-- charges.0.rate: Rate (1행)
-- charges.0.per: Per (1행)
-- charges.1.name: Charge (2행)
-- charges.1.quantity: RevenueTons (2행)
-- charges.1.per: Per (2행)
-- charges.1.prepaid: Prepaid (2행)
-- charges.2.name: Charge (3행)
-- charges.2.quantity: RevenueTons (3행)
-- charges.2.rate: Rate (3행)
-- charges.2.prepaid: Prepaid (3행)
 ```
 
 답:
@@ -246,6 +249,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "booking_no", "value": "BKG4066755", "bbox_2d": [543, 48, 615, 58], "page": 1},
  {"key": "bl_no", "value": "HBSC80990647", "bbox_2d": [827, 44, 943, 57], "page": 1},
  {"key": "carrier", "value": "HANBADA SHIPPING CO., LTD.", "bbox_2d": [574, 63, 913, 80], "page": 1},
+ {"key": "forwarder", "value": "Daon Logistics Co., Ltd.", "bbox_2d": [543, 190, 670, 200], "page": 1},
  {"key": "consignee.name", "value": "TO ORDER", "bbox_2d": [57, 108, 125, 118], "page": 1},
  {"key": "notify.name", "value": "MIRAE CHEMICAL CO., LTD.", "bbox_2d": [57, 151, 236, 161], "page": 1},
  {"key": "notify.address", "value": "2F, DAESUNG PLAZA, 381-19 CHEOMDAN-RO, JEJU-SI, JEJU-DO 63431, KOREA", "bbox_2d": [57, 163, 515, 173], "page": 1},
@@ -256,8 +260,6 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "port_of_loading", "value": "NAGOYA, JAPAN", "bbox_2d": [299, 240, 399, 250], "page": 1},
  {"key": "port_of_discharge", "value": "BUSAN, KOREA", "bbox_2d": [57, 266, 151, 275], "page": 1},
  {"key": "place_of_delivery", "value": "BUSAN CY", "bbox_2d": [299, 266, 364, 275], "page": 1},
- {"key": "containers.0.no", "value": "HBDU6890876", "bbox_2d": [57, 306, 138, 316], "page": 1},
- {"key": "containers.0.type", "value": "20'GP", "bbox_2d": [148, 306, 179, 316], "page": 1},
  {"key": "marks", "value": "MIRAE\nBUSAN, KOREA\nC/NO. 1-69\nMADE IN JAPAN", "bbox_2d": [57, 337, 153, 382], "page": 1},
  {"key": "container_count", "value": "1 X 20'GP", "bbox_2d": [293, 306, 346, 316], "page": 1},
  {"key": "packages", "value": "69 CTNS", "bbox_2d": [295, 329, 344, 339], "page": 1},
@@ -265,22 +267,190 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "freight", "value": "FREIGHT PREPAID", "bbox_2d": [381, 377, 499, 387], "page": 1},
  {"key": "gross_weight", "value": "565.92 KGS", "bbox_2d": [772, 306, 836, 316], "page": 1},
  {"key": "measurement", "value": "2.070 CBM", "bbox_2d": [883, 306, 943, 316], "page": 1},
+ {"key": "total_words", "value": "SAY: ONE (1) CONTAINER ONLY", "bbox_2d": [381, 628, 577, 638], "page": 1},
  {"key": "freight_payable_at", "value": "NAGOYA", "bbox_2d": [599, 659, 653, 669], "page": 1},
  {"key": "issue_place", "value": "NAGOYA", "bbox_2d": [806, 659, 860, 669], "page": 1},
  {"key": "issue_date", "value": "05 MAR 2025", "bbox_2d": [796, 671, 870, 681], "page": 1},
- {"key": "on_board_date", "value": "05 MAR 2025", "bbox_2d": [435, 696, 510, 706], "page": 1},
- {"key": "charges.0.name", "value": "OCEAN FREIGHT", "bbox_2d": [57, 761, 158, 771], "page": 1},
- {"key": "charges.0.quantity", "value": "1.00", "bbox_2d": [462, 761, 484, 771], "page": 1},
- {"key": "charges.0.rate", "value": "450.00", "bbox_2d": [548, 761, 583, 771], "page": 1},
- {"key": "charges.0.per", "value": "CNTR", "bbox_2d": [621, 761, 655, 771], "page": 1},
- {"key": "charges.1.name", "value": "BUNKER ADJUSTMENT FACTOR (BAF)", "bbox_2d": [57, 778, 285, 787], "page": 1},
- {"key": "charges.1.quantity", "value": "1.00", "bbox_2d": [462, 778, 484, 787], "page": 1},
- {"key": "charges.1.per", "value": "CNTR", "bbox_2d": [621, 778, 655, 787], "page": 1},
- {"key": "charges.1.prepaid", "value": "USD 100.00", "bbox_2d": [736, 778, 800, 787], "page": 1},
- {"key": "charges.2.name", "value": "TERMINAL HANDLING CHARGE (ORIGIN)", "bbox_2d": [57, 794, 306, 804], "page": 1},
- {"key": "charges.2.quantity", "value": "1.00", "bbox_2d": [462, 794, 484, 804], "page": 1},
- {"key": "charges.2.rate", "value": "220.00", "bbox_2d": [548, 794, 583, 804], "page": 1},
- {"key": "charges.2.prepaid", "value": "USD 220.00", "bbox_2d": [736, 794, 800, 804], "page": 1}]
+ {"key": "originals", "value": "THREE (3)", "bbox_2d": [57, 696, 120, 706], "page": 1},
+ {"key": "on_board_date", "value": "05 MAR 2025", "bbox_2d": [435, 696, 510, 706], "page": 1}]
+```
+
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 'SealNo'·'ContainerType' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- origin: 원산지
+- no: ContainerNo
+- seal: SealNo
+- type: ContainerType
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "origin",
+  "no",
+  "seal",
+  "type"
+ ],
+ "rows": [
+  [
+   null,
+   "HBDU6890876",
+   "SL292105",
+   "20'GP"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    57,
+    306,
+    179,
+    328
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["ContainerNo", "SealNo", "ContainerType"], "bbox_2d": [49, 280, 265, 328], "page": 1, "n_rows": 1},
+ {"columns": ["Charge", "RevenueTons", "Rate", "Per", "Prepaid"], "bbox_2d": [49, 745, 807, 804], "page": 1, "n_rows": 3}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[49, 280, 265, 328] 위치의 표를 보고 답하세요. 'ContainerNo' 칸이 'HBDU6890876'인 행의 'SealNo' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"SL292105"
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[49, 280, 265, 328] 위치의 표를 보고 답하세요. 표의 행은 모두 몇 개입니까? 머리글·합계 행과 모두 빈 행은 세지 않습니다. (숫자만 답하세요)
+```
+
+답:
+
+```json
+1
+```
+
+### 표 그대로 옮기기 `table_read` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 'Rate'·'Per' 열이 있는 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.
+꼴: {"columns": [머리글 글자, …], "rows": [[칸 글자, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 " > " 로 잇습니다.
+- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.
+- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "Freight & Charges",
+  "Revenue Tons",
+  "Rate",
+  "Per",
+  "Prepaid",
+  "Collect"
+ ],
+ "rows": [
+  [
+   "OCEAN FREIGHT",
+   "1.00",
+   "450.00",
+   "CNTR",
+   "USD 450.00",
+   null
+  ],
+  [
+   "BUNKER ADJUSTMENT FACTOR (BAF)",
+   "1.00",
+   "100.00",
+   "CNTR",
+   "USD 100.00",
+   null
+  ],
+  [
+   "TERMINAL HANDLING CHARGE (ORIGIN)",
+   "1.00",
+   "220.00",
+   "CNTR",
+   "USD 220.00",
+   null
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    49,
+    758,
+    951,
+    774
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    49,
+    774,
+    951,
+    791
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    49,
+    791,
+    951,
+    807
+   ],
+   "page": 1
+  }
+ ]
+}
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -313,6 +483,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa bill_of_lading --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

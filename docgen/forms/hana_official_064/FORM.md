@@ -1,6 +1,6 @@
 # 대출정보 열람청구, 상환 및 말소접수 위임장(주택담보대출 대출이동서비스) (`hana_official_064`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hana_official_064 · card-hash: 02939f944f8a -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hana_official_064 · card-hash: fd736c50d073 -->
 
 - **종류:** html 서식 (값은 fields.json 의 값 출처, 모양은 템플릿)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 대출정보 열람청구, 상환 및 말소접수 위임장(주택담보대출 대출이동서비스)
@@ -121,21 +121,25 @@ answer_empty: {"key": "{key}", "value": null}
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
+- Home: Home
 - customer.name: 성명 (고객 성명)
 - customer.birth: 생년월일 (고객 생년월일)
 - customer.phone: 연락처 (고객 연락처)
 - date: 작성일
 - signer.name: 위임인(본인) (고객 본인의 성명)
+- official.maturity_date_check_copy: 대출기간만료일날짜지정(고객교부용)
 ```
 
 답:
 
 ```json
-[{"key": "customer.name", "value": "남궁예태", "bbox_2d": [388, 679, 470, 698], "page": 1},
+[{"key": "Home", "value": null},
+ {"key": "customer.name", "value": "남궁예태", "bbox_2d": [388, 679, 470, 698], "page": 1},
  {"key": "customer.birth", "value": "850328", "bbox_2d": [386, 712, 443, 730], "page": 1},
  {"key": "customer.phone", "value": "010-6144-1173", "bbox_2d": [387, 743, 504, 764], "page": 1},
  {"key": "date", "value": "2025년 4월 1일", "bbox_2d": [692, 812, 927, 829], "page": 1},
- {"key": "signer.name", "value": "남궁예태", "bbox_2d": [705, 847, 787, 867], "page": 1}]
+ {"key": "signer.name", "value": "남궁예태", "bbox_2d": [705, 847, 787, 867], "page": 1},
+ {"key": "official.maturity_date_check_copy", "value": null}]
 ```
 
 ### 체크·도장·서명 `marks` · 채점 vl_f1 (값+위치)
@@ -197,6 +201,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hana_official_064 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

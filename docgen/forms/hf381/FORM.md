@@ -1,6 +1,6 @@
 # 장외파생상품 일반투자자 (부)적정성 판단보고서 (`hf381`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf381 · card-hash: aa4c5cdb4111 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf381 · card-hash: 7ad04a84507d -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 3 (seed 1000000 로 그린 것) · **분류 정답:** 장외파생상품 일반투자자 (부)적정성 판단보고서
@@ -169,6 +169,7 @@ answer_empty: {"key": "{key}", "value": null}
 - customer.birth: 생년월일및나이 (고객 생년월일)
 - 고객유형: 고객유형
 - 미성년자고령초고령구분: 미성년자/고령/초고령구분
+- 인수거절통보번호: 인수거절통보번호
 - 고객등급: 고객등급
 - 거래가능상품의위험등급: 거래가능상품의위험등급
 - 거래목적위험회피목적여부: 거래목적-위험회피목적여부 (같은 항목명 중 1번째 칸)
@@ -191,6 +192,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "customer.birth", "value": "1985년 3월 28일", "bbox_2d": [245, 225, 365, 237], "page": 1},
  {"key": "고객유형", "value": null},
  {"key": "미성년자고령초고령구분", "value": null},
+ {"key": "인수거절통보번호", "value": null},
  {"key": "고객등급", "value": null},
  {"key": "거래가능상품의위험등급", "value": "하나 정기예금", "bbox_2d": [654, 861, 756, 872], "page": 1},
  {"key": "거래목적위험회피목적여부", "value": "투자 목적", "bbox_2d": [314, 524, 384, 535], "page": 1},
@@ -318,6 +320,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf381 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

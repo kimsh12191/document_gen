@@ -1,6 +1,6 @@
 # 거래내역확인서 (`bank_statement`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card bank_statement · card-hash: 72c069724368 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card bank_statement · card-hash: a7f2cda96a51 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** finance · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 거래내역확인서
@@ -21,7 +21,7 @@
 | `docgen/docs/finance.py`, `docgen/docs/income.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 20칸
+## 추출 항목 (정보 추출 kie) — 14칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -32,12 +32,6 @@
 | `product` | 상품명 | text | 1쪽 [751, 163, 812, 175] | 늘 | 템플릿 | generate.py | look/template.html.j2:16 · fields.json:50 | 묻기 |
 | `period` | 조회기간 | text | 1쪽 [233, 188, 387, 200] | 늘 | 템플릿 | generate.py | look/template.html.j2:17 · fields.json:45 | 묻기 |
 | `opening_balance` | 조회기간전잔액 | amount | 1쪽 [751, 188, 812, 200] | 늘 | 템플릿 | generate.py | look/template.html.j2:17 · fields.json:35 | 묻기 |
-| `rows.*.datetime` | 거래일시 | datetime | 1쪽 [98, 250, 210, 260] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:27 · fields.json:90 | 묻기 |
-| `rows.*.type` | 적요 | text | 1쪽 [259, 250, 305, 260] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:87 | 묻기 |
-| `rows.*.memo` | 기재내용 | text | 1쪽 [336, 250, 381, 260] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:29 · fields.json:100 | 묻기 |
-| `rows.*.out` | 찾으신금액 | number | 1쪽 [552, 250, 596, 260] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:30 · fields.json:105 | 묻기 |
-| `rows.*.in` | 맡기신금액 | number | 1쪽 [700, 250, 707, 260] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:95 | 묻기 |
-| `rows.*.balance` | 거래후잔액 | amount | 1쪽 [867, 250, 921, 260] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:85 | 묻기 |
 | `summary.count` | 거래건수 | text | 1쪽 [269, 545, 295, 556] | 늘 | 템플릿 | generate.py | look/template.html.j2:35 · fields.json:65 | 묻기 |
 | `summary.out` | 찾으신금액합계 | number | 1쪽 [542, 545, 596, 556] | 늘 | 템플릿 | generate.py | look/template.html.j2:36 · fields.json:75 | 묻기 |
 | `summary.in` | 맡기신금액합계 | number | 1쪽 [653, 545, 707, 556] | 늘 | 템플릿 | generate.py | look/template.html.j2:36 · fields.json:70 | 묻기 |
@@ -45,6 +39,19 @@
 | `issue_date` | 발급일 | date | 1쪽 [462, 658, 538, 670] | 늘 | 템플릿 | generate.py | look/template.html.j2:44 · fields.json:20 | 묻기 |
 | `issuer` | 발급점 | text | 1쪽 [361, 692, 616, 712] | 늘 | 템플릿 | generate.py | look/template.html.j2:43 · fields.json:30 | 묻기 |
 | `overdraft_limit` | 대출한도 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:18 · fields.json:40 | 묻기 |
+
+## 표 `rows` (표 과제 table·table_read·table_find·table_qa) — 6열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `rows.*.datetime` | 거래일시 | datetime | 1쪽 [98, 250, 210, 260] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:27 · fields.json:90 | 묻기 |
+| `rows.*.type` | 적요 | text | 1쪽 [259, 250, 305, 260] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:87 | 묻기 |
+| `rows.*.memo` | 기재내용 | text | 1쪽 [336, 250, 381, 260] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:29 · fields.json:100 | 묻기 |
+| `rows.*.out` | 찾으신금액 | number | 1쪽 [552, 250, 596, 260] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:30 · fields.json:105 | 묻기 |
+| `rows.*.in` | 맡기신금액 | number | 1쪽 [700, 250, 707, 260] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:95 | 묻기 |
+| `rows.*.balance` | 거래후잔액 | amount | 1쪽 [867, 250, 921, 260] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:85 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 1칸
 
@@ -203,91 +210,37 @@ answer_empty: {"key": "{key}", "value": null}
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
+- issue_no: 발급번호
+- holder: 예금주
 - birth: 생년월일
-- rows.0.datetime: 거래일시 (1행)
-- rows.0.in: 맡기신금액 (1행)
-- rows.1.type: 적요 (2행)
-- rows.1.memo: 기재내용 (2행)
-- rows.2.in: 맡기신금액 (3행)
-- rows.2.balance: 거래후잔액 (3행)
-- rows.3.type: 적요 (4행)
-- rows.3.memo: 기재내용 (4행)
-- rows.3.in: 맡기신금액 (4행)
-- rows.3.balance: 거래후잔액 (4행)
-- rows.4.datetime: 거래일시 (5행)
-- rows.4.in: 맡기신금액 (5행)
-- rows.5.datetime: 거래일시 (6행)
-- rows.5.memo: 기재내용 (6행)
-- rows.5.in: 맡기신금액 (6행)
-- rows.6.memo: 기재내용 (7행)
-- rows.6.in: 맡기신금액 (7행)
-- rows.7.out: 찾으신금액 (8행)
-- rows.8.type: 적요 (9행)
-- rows.8.memo: 기재내용 (9행)
-- rows.8.in: 맡기신금액 (9행)
-- rows.8.balance: 거래후잔액 (9행)
-- rows.9.type: 적요 (10행)
-- rows.9.in: 맡기신금액 (10행)
-- rows.9.balance: 거래후잔액 (10행)
-- rows.10.memo: 기재내용 (11행)
-- rows.10.out: 찾으신금액 (11행)
-- rows.10.in: 맡기신금액 (11행)
-- rows.10.balance: 거래후잔액 (11행)
-- rows.11.datetime: 거래일시 (12행)
-- rows.11.type: 적요 (12행)
-- rows.11.in: 맡기신금액 (12행)
-- rows.12.datetime: 거래일시 (13행)
-- rows.12.type: 적요 (13행)
-- rows.13.type: 적요 (14행)
-- rows.13.out: 찾으신금액 (14행)
-- rows.13.in: 맡기신금액 (14행)
+- account_no: 계좌번호
+- product: 상품명
+- period: 조회기간
+- opening_balance: 조회기간전잔액
 - summary.count: 거래건수
+- summary.out: 찾으신금액합계
 - summary.in: 맡기신금액합계
+- summary.balance: 최종잔액
+- issue_date: 발급일
+- issuer: 발급점
 ```
 
 답:
 
 ```json
-[{"key": "birth", "value": "1985.03.28", "bbox_2d": [751, 138, 820, 150], "page": 1},
- {"key": "rows.0.datetime", "value": "2025.02.15 21:50:21", "bbox_2d": [98, 250, 210, 260], "page": 1},
- {"key": "rows.0.in", "value": "0", "bbox_2d": [700, 250, 707, 260], "page": 1},
- {"key": "rows.1.type", "value": "자동이체", "bbox_2d": [255, 271, 309, 282], "page": 1},
- {"key": "rows.1.memo", "value": "LGU+통신요금", "bbox_2d": [336, 271, 425, 282], "page": 1},
- {"key": "rows.2.in", "value": "0", "bbox_2d": [700, 292, 707, 303], "page": 1},
- {"key": "rows.2.balance", "value": "5,760,123", "bbox_2d": [867, 292, 921, 303], "page": 1},
- {"key": "rows.3.type", "value": "펌뱅킹", "bbox_2d": [262, 313, 302, 324], "page": 1},
- {"key": "rows.3.memo", "value": "다온패션급여", "bbox_2d": [336, 313, 417, 324], "page": 1},
- {"key": "rows.3.in", "value": "3,957,870", "bbox_2d": [653, 313, 707, 324], "page": 1},
- {"key": "rows.3.balance", "value": "9,717,993", "bbox_2d": [867, 313, 921, 324], "page": 1},
- {"key": "rows.4.datetime", "value": "2025.02.27 19:37:26", "bbox_2d": [98, 334, 210, 345], "page": 1},
- {"key": "rows.4.in", "value": "0", "bbox_2d": [700, 334, 707, 345], "page": 1},
- {"key": "rows.5.datetime", "value": "2025.02.28 20:32:59", "bbox_2d": [98, 355, 210, 366], "page": 1},
- {"key": "rows.5.memo", "value": "GS칼텍스", "bbox_2d": [336, 355, 393, 366], "page": 1},
- {"key": "rows.5.in", "value": "0", "bbox_2d": [700, 355, 707, 366], "page": 1},
- {"key": "rows.6.memo", "value": "토스", "bbox_2d": [336, 376, 363, 387], "page": 1},
- {"key": "rows.6.in", "value": "0", "bbox_2d": [700, 376, 707, 387], "page": 1},
- {"key": "rows.7.out", "value": "22,340", "bbox_2d": [559, 397, 596, 408], "page": 1},
- {"key": "rows.8.type", "value": "자동이체", "bbox_2d": [255, 419, 309, 429], "page": 1},
- {"key": "rows.8.memo", "value": "LGU+통신요금", "bbox_2d": [336, 419, 425, 429], "page": 1},
- {"key": "rows.8.in", "value": "0", "bbox_2d": [700, 419, 707, 429], "page": 1},
- {"key": "rows.8.balance", "value": "9,210,193", "bbox_2d": [867, 419, 921, 429], "page": 1},
- {"key": "rows.9.type", "value": "결산", "bbox_2d": [269, 440, 295, 450], "page": 1},
- {"key": "rows.9.in", "value": "1,193", "bbox_2d": [677, 440, 707, 450], "page": 1},
- {"key": "rows.9.balance", "value": "9,211,386", "bbox_2d": [867, 440, 921, 450], "page": 1},
- {"key": "rows.10.memo", "value": "롯데카드", "bbox_2d": [336, 461, 390, 471], "page": 1},
- {"key": "rows.10.out", "value": "518,040", "bbox_2d": [552, 461, 596, 471], "page": 1},
- {"key": "rows.10.in", "value": "0", "bbox_2d": [700, 461, 707, 471], "page": 1},
- {"key": "rows.10.balance", "value": "8,693,346", "bbox_2d": [867, 461, 921, 471], "page": 1},
- {"key": "rows.11.datetime", "value": "2025.03.25 17:20:18", "bbox_2d": [98, 482, 210, 492], "page": 1},
- {"key": "rows.11.type", "value": "펌뱅킹", "bbox_2d": [262, 482, 302, 492], "page": 1},
- {"key": "rows.11.in", "value": "4,196,230", "bbox_2d": [653, 482, 707, 492], "page": 1},
- {"key": "rows.12.datetime", "value": "2025.03.25 20:35:38", "bbox_2d": [98, 503, 210, 514], "page": 1},
- {"key": "rows.12.type", "value": "자동이체", "bbox_2d": [255, 503, 309, 514], "page": 1},
- {"key": "rows.13.type", "value": "CD출금", "bbox_2d": [259, 524, 305, 535], "page": 1},
- {"key": "rows.13.out", "value": "100,000", "bbox_2d": [552, 524, 596, 535], "page": 1},
- {"key": "rows.13.in", "value": "0", "bbox_2d": [700, 524, 707, 535], "page": 1},
+[{"key": "issue_no", "value": "20250401-142112", "bbox_2d": [133, 53, 227, 62], "page": 1},
+ {"key": "holder", "value": "남궁예태", "bbox_2d": [233, 138, 294, 150], "page": 1},
+ {"key": "birth", "value": "1985.03.28", "bbox_2d": [751, 138, 820, 150], "page": 1},
+ {"key": "account_no", "value": "478303-40-826627", "bbox_2d": [233, 163, 351, 175], "page": 1},
+ {"key": "product", "value": "저축예금", "bbox_2d": [751, 163, 812, 175], "page": 1},
+ {"key": "period", "value": "2025.01.29 ~ 2025.03.31", "bbox_2d": [233, 188, 387, 200], "page": 1},
+ {"key": "opening_balance", "value": "6,531,023", "bbox_2d": [751, 188, 812, 200], "page": 1},
  {"key": "summary.count", "value": "14건", "bbox_2d": [269, 545, 295, 556], "page": 1},
- {"key": "summary.in", "value": "8,155,293", "bbox_2d": [653, 545, 707, 556], "page": 1}]
+ {"key": "summary.out", "value": "2,142,650", "bbox_2d": [542, 545, 596, 556], "page": 1},
+ {"key": "summary.in", "value": "8,155,293", "bbox_2d": [653, 545, 707, 556], "page": 1},
+ {"key": "summary.balance", "value": "12,543,666", "bbox_2d": [860, 545, 921, 556], "page": 1},
+ {"key": "issue_date", "value": "2025.04.01", "bbox_2d": [462, 658, 538, 670], "page": 1},
+ {"key": "issuer", "value": "국민은행 센텀지점", "bbox_2d": [361, 692, 616, 712], "page": 1}]
 ```
 
 ### 체크·도장·서명 `marks` · 채점 vl_f1 (값+위치)
@@ -315,6 +268,343 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```json
 [{"key": "seal.issuer", "value": true, "bbox_2d": [604, 669, 694, 733], "page": 1}]
+```
+
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- datetime: 거래일시
+- type: 적요
+- memo: 기재내용
+- out: 찾으신금액
+- amount: 대출금액
+- in: 맡기신금액
+- balance: 거래후잔액
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "datetime",
+  "type",
+  "memo",
+  "out",
+  "amount",
+  "in",
+  "balance"
+ ],
+ "rows": [
+  [
+   "2025.02.15 21:50:21",
+   "CD출금",
+   "CD출금",
+   "200,000",
+   null,
+   "0",
+   "6,331,023"
+  ],
+  [
+   "2025.02.20 14:00:51",
+   "자동이체",
+   "LGU+통신요금",
+   "111,060",
+   null,
+   "0",
+   "6,219,963"
+  ],
+  [
+   "2025.02.25 14:29:14",
+   "자동이체",
+   "롯데카드",
+   "459,840",
+   null,
+   "0",
+   "5,760,123"
+  ],
+  [
+   "2025.02.25 19:45:25",
+   "펌뱅킹",
+   "다온패션급여",
+   "0",
+   null,
+   "3,957,870",
+   "9,717,993"
+  ],
+  [
+   "2025.02.27 19:37:26",
+   "자동이체",
+   "아파트관리비",
+   "150,590",
+   null,
+   "0",
+   "9,567,403"
+  ],
+  [
+   "2025.02.28 20:32:59",
+   "체크카드",
+   "GS칼텍스",
+   "104,720",
+   null,
+   "0",
+   "9,462,683"
+  ],
+  [
+   "2025.03.14 13:40:36",
+   "모바일",
+   "토스",
+   "169,460",
+   null,
+   "0",
+   "9,293,223"
+  ],
+  [
+   "2025.03.14 14:25:08",
+   "체크카드",
+   "카카오T",
+   "22,340",
+   null,
+   "0",
+   "9,270,883"
+  ],
+  [
+   "2025.03.21 08:58:00",
+   "자동이체",
+   "LGU+통신요금",
+   "60,690",
+   null,
+   "0",
+   "9,210,193"
+  ],
+  [
+   "2025.03.21 20:56:58",
+   "결산",
+   "예금결산이자",
+   "0",
+   null,
+   "1,193",
+   "9,211,386"
+  ],
+  [
+   "2025.03.25 14:37:57",
+   "자동이체",
+   "롯데카드",
+   "518,040",
+   null,
+   "0",
+   "8,693,346"
+  ],
+  [
+   "2025.03.25 17:20:18",
+   "펌뱅킹",
+   "다온패션",
+   "0",
+   null,
+   "4,196,230",
+   "12,889,576"
+  ],
+  [
+   "2025.03.25 20:35:38",
+   "자동이체",
+   "아파트관리비",
+   "245,910",
+   null,
+   "0",
+   "12,643,666"
+  ],
+  [
+   "2025.03.31 12:54:30",
+   "CD출금",
+   "CD출금",
+   "100,000",
+   null,
+   "0",
+   "12,543,666"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    98,
+    250,
+    921,
+    260
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    98,
+    271,
+    921,
+    282
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    98,
+    292,
+    921,
+    303
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    98,
+    313,
+    921,
+    324
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    98,
+    334,
+    921,
+    345
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    98,
+    355,
+    921,
+    366
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    98,
+    376,
+    921,
+    387
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    98,
+    397,
+    921,
+    408
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    98,
+    419,
+    921,
+    429
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    98,
+    440,
+    921,
+    450
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    98,
+    461,
+    921,
+    471
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    98,
+    482,
+    921,
+    492
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    98,
+    503,
+    921,
+    514
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    98,
+    524,
+    921,
+    535
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["거래일시", "적요", "기재내용", "찾으신금액", "맡기신금액", "거래후잔액"], "bbox_2d": [72, 224, 928, 535], "page": 1, "n_rows": 14}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 '찾으신금액'·'맡기신금액' 열이 있는 표를 보고 답하세요. '맡기신금액' 칸이 '4,196,230'인 행은 몇 개입니까? (숫자만 답하세요)
+```
+
+답:
+
+```json
+1
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 '찾으신금액'·'맡기신금액' 열이 있는 표를 보고 답하세요. 위에서 6번째 행의 '맡기신금액' 값은 무엇입니까? 머리글은 세지 않습니다. (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"0"
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -347,6 +637,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa bank_statement --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

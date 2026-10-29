@@ -1,6 +1,6 @@
 # 금융결제원CMS 이용계약서 (`hf380`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf380 · card-hash: 788b547ddddc -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf380 · card-hash: 0ff9b3ee1e1e -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 금융결제원CMS 이용계약서
@@ -20,13 +20,12 @@
 | `look/original.pdf` | 원본 PDF |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 12칸
+## 추출 항목 (정보 추출 kie) — 11칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `출금이체` | 출금이체 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:23 | 묻기 |
 | `입금이체` | 입금이체 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:34 | 묻기 |
-| `목록.*.예금주명` | 예금주명 | text | - (1행) | 늘 | 표 행 (묶음·항목명 '예금주명') | 값 종류 `text` (항목명 자동) | fields.json:45 | 묻기 |
 | `원` | 원 | text | - | 늘 | 항목명 그대로 | 값 종류 `skip` (항목명 자동) | fields.json:69 | 묻기 |
 | `이체건당` | 이체건당 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:80 | 묻기 |
 | `원2` | 원 | text | - | 늘 | 항목명 그대로 | 값 종류 `skip` (항목명 자동) | fields.json:92 | 묻기 |
@@ -36,6 +35,14 @@
 | `corp.biz_no` ← `company.biz_no` | 사업자등록번호 | biz_no | 2쪽 [462, 655, 509, 660] | 늘 | 규칙: '사업자등록번호' → `company.biz_no` | 고객 정보 (키 `company.biz_no`) | fields.json:138 | 묻기 |
 | `signer.name` | 지점장 | text | - | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:149 | 묻기 |
 | `corp.ceo` ← `signer2.name` | 대표자 | text | 2쪽 [644, 605, 707, 617] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:166 | 묻기 |
+
+## 표 `목록` (표 과제 table·table_read·table_find·table_qa) — 1열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `목록.*.예금주명` | 예금주명 | text | - (1행) | 늘 | 표 행 (묶음·항목명 '예금주명') | 값 종류 `text` (항목명 자동) | fields.json:45 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 4칸
 
@@ -132,8 +139,6 @@ answer_empty: {"key": "{key}", "value": null}
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
 - 출금이체: 출금이체
 - 입금이체: 입금이체
-- 목록.0.예금주명: 예금주명 (목록 1행)
-- 목록.1.예금주명: 예금주명 (목록 2행)
 - 원: 원 (같은 항목명 중 1번째 칸)
 - 이체건당: 이체건당
 - 원2: 원 (같은 항목명 중 2번째 칸)
@@ -141,6 +146,7 @@ answer_empty: {"key": "{key}", "value": null}
 - 원4: 원 (같은 항목명 중 4번째 칸)
 - 계약지점코드: 계약지점코드
 - corp.biz_no: 사업자등록번호 (법인·사업자 사업자등록번호)
+- 상환방법: 상환방법
 - signer.name: 지점장 (은행·직원의 성명)
 - corp.ceo: 대표자 (법인·사업자 대표자)
 ```
@@ -150,8 +156,6 @@ answer_empty: {"key": "{key}", "value": null}
 ```json
 [{"key": "출금이체", "value": null},
  {"key": "입금이체", "value": null},
- {"key": "목록.0.예금주명", "value": null},
- {"key": "목록.1.예금주명", "value": null},
  {"key": "원", "value": null},
  {"key": "이체건당", "value": null},
  {"key": "원2", "value": null},
@@ -159,6 +163,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "원4", "value": null},
  {"key": "계약지점코드", "value": "7416", "bbox_2d": [663, 508, 692, 517], "page": 2},
  {"key": "corp.biz_no", "value": "702-81-38348", "bbox_2d": [462, 655, 509, 660], "page": 2},
+ {"key": "상환방법", "value": null},
  {"key": "signer.name", "value": null},
  {"key": "corp.ceo", "value": "남궁예태", "bbox_2d": [644, 605, 707, 617], "page": 2}]
 ```
@@ -225,6 +230,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf380 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

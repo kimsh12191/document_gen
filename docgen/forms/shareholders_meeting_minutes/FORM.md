@@ -1,6 +1,6 @@
 # 임시주주총회의사록 (`shareholders_meeting_minutes`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card shareholders_meeting_minutes · card-hash: 7367e0b8b814 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card shareholders_meeting_minutes · card-hash: 1ea0dcbf42a5 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** corporate · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 임시주주총회의사록
@@ -21,7 +21,7 @@
 | `docgen/docs/corporate.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 30칸
+## 추출 항목 (정보 추출 kie) — 19칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -33,28 +33,49 @@
 | `shareholders_present` | 출석주주의수 | text | 1쪽 [294, 202, 316, 213] | 늘 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:100 | 묻기 |
 | `shares_present` | 출석주주의주식수 | text | 1쪽 [674, 202, 728, 213] | 늘 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:110 | 묻기 |
 | `present_ratio` | 출석비율 | percent | 1쪽 [736, 202, 787, 213] | 늘 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:65 | 묻기 |
-| `attendees.*.name` | 주주명 | text | 1쪽 [259, 263, 316, 274] (1행) | 6/16 | 템플릿 | generate.py | look/template.html.j2:61 · fields.json:165 | 묻기 |
-| `attendees.*.shares` | 소유주식수 | number | 1쪽 [499, 263, 539, 274] (1행) | 6/16 | 템플릿 | generate.py | fields.json:175 | 묻기 |
-| `attendees.*.method` | 출석구분 | text | 1쪽 [578, 263, 635, 274] (1행) | 6/16 | 템플릿 | generate.py | fields.json:160 | 묻기 |
-| `attendees.*.proxy` | 대리인 | text | - (1행) | 6/16 | 템플릿 | generate.py | fields.json:170 | 묻기 |
 | `chair` | 의장 | text | 1쪽 [204, 330, 259, 341] | 늘 | 템플릿 | generate.py | look/template.html.j2:44 · fields.json:5 | 묻기 |
-| `agendas.*.no` | 의안번호 | text | 1쪽 [87, 373, 152, 384] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:47 · fields.json:140 | 묻기 |
-| `agendas.*.title` | 의안 | text | 1쪽 [163, 373, 382, 384] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:47 · fields.json:145 | 묻기 |
-| `agendas.*.body` | 결의내용 | text | 1쪽 [87, 396, 913, 422] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:48 · fields.json:130 | 묻기 |
-| `agendas.*.detail` | 세부내용 | text | 1쪽 [144, 507, 410, 518] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:49 · fields.json:135 | 묻기 |
 | `end_time` | 종료시각 | text | 1쪽 [740, 836, 829, 847] | 늘 | 템플릿 | generate.py | look/template.html.j2:53 · fields.json:20 | 묻기 |
 | `minutes_date` | 작성일 | date | 2쪽 [452, 73, 548, 84] | 늘 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:40 | 묻기 |
 | `corp.name` ← `company_name` | 상호 | text | 2쪽 [822, 99, 913, 110] | 늘 | 템플릿 | generate.py | look/template.html.j2:58 · fields.json:10 | 묻기 |
 | `head_office` | 본점 | text | 2쪽 [670, 116, 913, 126] | 늘 | 템플릿 | generate.py | look/template.html.j2:58 · fields.json:25 | 묻기 |
-| `signers.*.title` | 자격 | text | 2쪽 [409, 154, 500, 164] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:61 · fields.json:190 | 묻기 |
-| `signers.*.name` | 성명 | text | 2쪽 [560, 154, 626, 164] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:61 · fields.json:185 | 묻기 |
 | `proxy_count` | 대리출석 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:70 | 묻기 |
 | `treasury_shares` | 자기주식수 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:33 · fields.json:115 | 묻기 |
 | `notary.reg_no` | 등부번호 | - | - | 3/16 | 템플릿 | generate.py | look/template.html.j2:67 · fields.json:60 | 묻기 |
 | `notary.date` | 인증일 | - | - | 3/16 | 템플릿 | generate.py | look/template.html.j2:70 · fields.json:45 | 묻기 |
 | `notary.office` | 공증인 | - | - | 3/16 | 템플릿 | generate.py | look/template.html.j2:71 · fields.json:55 | 묻기 |
 | `notary.lawyer` | 공증담당변호사 | - | - | 3/16 | 템플릿 | generate.py | look/template.html.j2:72 · fields.json:50 | 묻기 |
+
+## 표 `attendees` (표 과제 table·table_read·table_find·table_qa) — 4열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `attendees.*.name` | 주주명 | text | 1쪽 [259, 263, 316, 274] (1행) | 6/16 | 템플릿 | generate.py | look/template.html.j2:61 · fields.json:165 | 묻기 |
+| `attendees.*.shares` | 소유주식수 | number | 1쪽 [499, 263, 539, 274] (1행) | 6/16 | 템플릿 | generate.py | fields.json:175 | 묻기 |
+| `attendees.*.method` | 출석구분 | text | 1쪽 [578, 263, 635, 274] (1행) | 6/16 | 템플릿 | generate.py | fields.json:160 | 묻기 |
+| `attendees.*.proxy` | 대리인 | text | - (1행) | 6/16 | 템플릿 | generate.py | fields.json:170 | 묻기 |
+
+## 표 `agendas` (표 과제 table·table_read·table_find·table_qa) — 5열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `agendas.*.no` | 의안번호 | text | 1쪽 [87, 373, 152, 384] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:47 · fields.json:140 | 묻기 |
+| `agendas.*.title` | 의안 | text | 1쪽 [163, 373, 382, 384] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:47 · fields.json:145 | 묻기 |
+| `agendas.*.body` | 결의내용 | text | 1쪽 [87, 396, 913, 422] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:48 · fields.json:130 | 묻기 |
+| `agendas.*.detail` | 세부내용 | text | 1쪽 [144, 507, 410, 518] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:49 · fields.json:135 | 묻기 |
 | `agendas.*.votes` | 표결결과 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:50 · fields.json:150 | 묻기 |
+
+## 표 `signers` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `signers.*.title` | 자격 | text | 2쪽 [409, 154, 500, 164] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:61 · fields.json:190 | 묻기 |
+| `signers.*.name` | 성명 | text | 2쪽 [560, 154, 626, 164] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:61 · fields.json:185 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 5칸
 
@@ -191,41 +212,14 @@ answer_empty: {"key": "{key}", "value": null}
 - venue: 장소
 - shareholders_total: 주주의총수
 - issued_shares: 발행주식의총수
+- shareholders_present: 출석주주의수
 - shares_present: 출석주주의주식수
-- attendees.0.name: 주주명 (1행)
-- attendees.0.method: 출석구분 (1행)
-- attendees.0.proxy: 대리인 (1행)
-- attendees.1.name: 주주명 (2행)
-- attendees.1.shares: 소유주식수 (2행)
-- attendees.2.name: 주주명 (3행)
-- attendees.2.shares: 소유주식수 (3행)
-- attendees.2.method: 출석구분 (3행)
-- attendees.2.proxy: 대리인 (3행)
-- agendas.0.no: 의안번호 (1행)
-- agendas.0.title: 의안 (1행)
-- agendas.0.body: 결의내용 (1행)
-- agendas.1.title: 의안 (2행)
-- agendas.1.body: 결의내용 (2행)
-- agendas.1.detail: 세부내용 (2행)
-- agendas.2.title: 의안 (3행)
-- agendas.2.body: 결의내용 (3행)
-- agendas.2.detail: 세부내용 (3행)
-- agendas.3.no: 의안번호 (4행)
-- agendas.3.body: 결의내용 (4행)
-- agendas.3.detail: 세부내용 (4행)
-- agendas.4.no: 의안번호 (5행)
-- agendas.4.title: 의안 (5행)
-- agendas.4.body: 결의내용 (5행)
-- agendas.4.detail: 세부내용 (5행)
+- present_ratio: 출석비율
+- chair: 의장
 - end_time: 종료시각
 - minutes_date: 작성일
 - corp.name: 상호 (법인·사업자 상호)
 - head_office: 본점
-- signers.0.title: 자격 (1행)
-- signers.0.name: 성명 (1행)
-- signers.2.name: 성명 (3행)
-- signers.3.title: 자격 (4행)
-- signers.3.name: 성명 (4행)
 ```
 
 답:
@@ -236,41 +230,14 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "venue", "value": "본점 소회의실 (제주특별자치도 제주시 첨단로 381-19, 2층)", "bbox_2d": [241, 134, 594, 144], "page": 1},
  {"key": "shareholders_total", "value": "3명", "bbox_2d": [294, 176, 316, 186], "page": 1},
  {"key": "issued_shares", "value": "60,000주", "bbox_2d": [674, 176, 728, 186], "page": 1},
+ {"key": "shareholders_present", "value": "3명", "bbox_2d": [294, 202, 316, 213], "page": 1},
  {"key": "shares_present", "value": "60,000주", "bbox_2d": [674, 202, 728, 213], "page": 1},
- {"key": "attendees.0.name", "value": "남궁예태", "bbox_2d": [259, 263, 316, 274], "page": 1},
- {"key": "attendees.0.method", "value": "본인출석", "bbox_2d": [578, 263, 635, 274], "page": 1},
- {"key": "attendees.0.proxy", "value": null},
- {"key": "attendees.1.name", "value": "노도수", "bbox_2d": [266, 283, 309, 294], "page": 1},
- {"key": "attendees.1.shares", "value": "8,278", "bbox_2d": [506, 283, 539, 294], "page": 1},
- {"key": "attendees.2.name", "value": "원승호", "bbox_2d": [266, 303, 309, 314], "page": 1},
- {"key": "attendees.2.shares", "value": "11,661", "bbox_2d": [500, 303, 539, 314], "page": 1},
- {"key": "attendees.2.method", "value": "본인출석", "bbox_2d": [578, 303, 635, 314], "page": 1},
- {"key": "attendees.2.proxy", "value": null},
- {"key": "agendas.0.no", "value": "제1호 의안", "bbox_2d": [87, 373, 152, 384], "page": 1},
- {"key": "agendas.0.title", "value": "제5기(2024년도) 재무제표 승인의 건", "bbox_2d": [163, 373, 382, 384], "page": 1},
- {"key": "agendas.0.body", "value": "의장은 제출된 재무상태표, 손익계산서 및 이익잉여금처분계산서(안)의 내용을 설명하고 그 승인을 물은바, 출석주주 전원이 이의 없이 찬성하여 원안대로 승인 가결하다.", "bbox_2d": [87, 396, 913, 422], "page": 1},
- {"key": "agendas.1.title", "value": "감사 보수한도 승인의 건", "bbox_2d": [163, 439, 311, 449], "page": 1},
- {"key": "agendas.1.body", "value": "의장은 당해 사업연도 감사 보수한도액을 아래와 같이 정하고자 함을 설명하고 그 승인을 물은바, 출석주주 전원의 찬성으로 원안대로 승인 가결하다.", "bbox_2d": [87, 462, 913, 488], "page": 1},
- {"key": "agendas.1.detail", "value": "감사 보수한도액: 금 오천만원 (₩50,000,000)", "bbox_2d": [144, 507, 410, 518], "page": 1},
- {"key": "agendas.2.title", "value": "이사 보수한도 승인의 건", "bbox_2d": [163, 539, 311, 549], "page": 1},
- {"key": "agendas.2.body", "value": "의장은 당해 사업연도 이사 보수한도액을 아래와 같이 정하고자 함을 설명하고 그 승인을 물은바, 출석주주 전원이 이의 없이 찬성하여 원안대로 승인 가결하다.", "bbox_2d": [87, 562, 913, 588], "page": 1},
- {"key": "agendas.2.detail", "value": "이사 보수한도액: 금 십이억오천만원 (₩1,250,000,000)", "bbox_2d": [144, 607, 468, 618], "page": 1},
- {"key": "agendas.3.no", "value": "제4호 의안", "bbox_2d": [87, 639, 152, 649], "page": 1},
- {"key": "agendas.3.body", "value": "의장은 사내이사 노도수의 임기가 만료됨에 따라 이사를 선임할 필요가 있음을 설명하고 동인을 사내이사로 중임할 것을 물은바, 출석주주 전원의 찬성으로 이를 승인 가결하다. 피선임자는 즉석에서 그 취임을 승낙하다.", "bbox_2d": [87, 662, 913, 688], "page": 1},
- {"key": "agendas.3.detail", "value": "사내이사  노도수 (1983년 1월 20일생)  중임", "bbox_2d": [144, 707, 396, 718], "page": 1},
- {"key": "agendas.4.no", "value": "제5호 의안", "bbox_2d": [87, 739, 152, 749], "page": 1},
- {"key": "agendas.4.title", "value": "감사 선임의 건", "bbox_2d": [163, 739, 253, 749], "page": 1},
- {"key": "agendas.4.body", "value": "의장은 감사 원순수의 임기 만료로 감사를 선임하여야 함을 설명하고 그 선임을 물은바, 출석주주 전원의 찬성으로 아래 사람을 감사로 선임하다. 피선임자는 즉석에서 취임을 승낙하다.", "bbox_2d": [87, 762, 913, 788], "page": 1},
- {"key": "agendas.4.detail", "value": "감사  원순수 (1991년 6월 16일생)  중임", "bbox_2d": [144, 807, 369, 818], "page": 1},
+ {"key": "present_ratio", "value": "100.00%", "bbox_2d": [736, 202, 787, 213], "page": 1},
+ {"key": "chair", "value": "남궁예태", "bbox_2d": [204, 330, 259, 341], "page": 1},
  {"key": "end_time", "value": "오전 10시 55분", "bbox_2d": [740, 836, 829, 847], "page": 1},
  {"key": "minutes_date", "value": "2025년 3월 27일", "bbox_2d": [452, 73, 548, 84], "page": 2},
  {"key": "corp.name", "value": "(주)미래케미칼", "bbox_2d": [822, 99, 913, 110], "page": 2},
- {"key": "head_office", "value": "제주특별자치도 제주시 첨단로 381-19, 2층", "bbox_2d": [670, 116, 913, 126], "page": 2},
- {"key": "signers.0.title", "value": "의장 대표이사", "bbox_2d": [409, 154, 500, 164], "page": 2},
- {"key": "signers.0.name", "value": "남궁예태", "bbox_2d": [560, 154, 626, 164], "page": 2},
- {"key": "signers.2.name", "value": "원승호", "bbox_2d": [560, 239, 610, 250], "page": 2},
- {"key": "signers.3.title", "value": "사내이사", "bbox_2d": [409, 282, 467, 292], "page": 2},
- {"key": "signers.3.name", "value": "하혁승", "bbox_2d": [560, 282, 610, 292], "page": 2}]
+ {"key": "head_office", "value": "제주특별자치도 제주시 첨단로 381-19, 2층", "bbox_2d": [670, 116, 913, 126], "page": 2}]
 ```
 
 ### 체크·도장·서명 `marks` · 채점 vl_f1 (값+위치)
@@ -306,6 +273,211 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "seal.signer4", "value": true, "bbox_2d": [684, 268, 740, 307], "page": 2}]
 ```
 
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 '출석구분'·'대리인' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- name: 주주명
+- shares: 소유주식수
+- method: 출석구분
+- proxy: 대리인
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "name",
+  "shares",
+  "method",
+  "proxy"
+ ],
+ "rows": [
+  [
+   "남궁예태",
+   "40,061",
+   "본인출석",
+   null
+  ],
+  [
+   "노도수",
+   "8,278",
+   "본인출석",
+   null
+  ],
+  [
+   "원승호",
+   "11,661",
+   "본인출석",
+   null
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    259,
+    263,
+    635,
+    274
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    266,
+    283,
+    635,
+    294
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    266,
+    303,
+    635,
+    314
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["주주명", "소유주식수", "출석구분", "대리인"], "bbox_2d": [181, 240, 879, 314], "page": 1, "n_rows": 3},
+ {"columns": ["의안번호", "결의내용", "세부내용", "의안"], "bbox_2d": [87, 373, 913, 818], "page": 1, "n_rows": 5},
+ {"columns": ["자격", "성명"], "bbox_2d": [409, 154, 626, 292], "page": 2, "n_rows": 4}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 '소유주식수'·'대리인' 열이 있는 표를 보고 답하세요. '주주명' 칸이 '원승호'인 행의 '대리인' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+null
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 '소유주식수'·'대리인' 열이 있는 표를 보고 답하세요. '소유주식수' 칸의 값을 모두 더하면 얼마입니까? 빈 칸은 0 으로 봅니다. (쉼표·단위 없이 숫자만 답하세요)
+```
+
+답:
+
+```json
+60000
+```
+
+### 표 그대로 옮기기 `table_read` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 1쪽 bbox_2d=[181, 240, 879, 314] 위치의 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.
+꼴: {"columns": [머리글 글자, …], "rows": [[칸 글자, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 " > " 로 잇습니다.
+- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.
+- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "번호",
+  "주주명",
+  "소유주식수",
+  "출석구분",
+  "대리인"
+ ],
+ "rows": [
+  [
+   "1",
+   "남궁예태",
+   "40,061",
+   "본인출석",
+   null
+  ],
+  [
+   "2",
+   "노도수",
+   "8,278",
+   "본인출석",
+   null
+  ],
+  [
+   "3",
+   "원승호",
+   "11,661",
+   "본인출석",
+   null
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    121,
+    259,
+    879,
+    279
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    121,
+    279,
+    879,
+    299
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    121,
+    299,
+    879,
+    319
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
 
 없습니다. 더하려면 이 폴더에 `qa.py` 를 만들고 함수 하나에 질문 하나 (견본: `python -m docgen.formdir qa shareholders_meeting_minutes --new`):
@@ -336,6 +508,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa shareholders_meeting_minutes --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

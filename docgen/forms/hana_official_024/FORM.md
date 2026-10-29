@@ -1,6 +1,6 @@
 # 금융거래정보제공(요구·동의)서 (`hana_official_024`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hana_official_024 · card-hash: 1f2babcae891 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hana_official_024 · card-hash: df8a0e6cad20 -->
 
 - **종류:** html 서식 (값은 fields.json 의 값 출처, 모양은 템플릿)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 금융거래정보제공(요구·동의)서
@@ -167,6 +167,7 @@ answer_empty: {"key": "{key}", "value": null}
 - customer.phone2: 연락처 (같은 항목명 중 2번째 칸)
 - customer.birth2: 생년월일(사업자번호) (같은 항목명 중 2번째 칸)
 - 반출신청email: 반출신청e-mail
+- 전자방식외상매출채권전자어음구매전용카드: ()전자방식외상매출채권()전자어음()구매전용카드
 - 취급점: 취급점
 - signer2.name: 예금주 (고객 본인의 성명)
 - date: 작성일
@@ -185,6 +186,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "customer.phone2", "value": "010-6144-1173", "bbox_2d": [277, 827, 418, 853], "page": 1},
  {"key": "customer.birth2", "value": "850328", "bbox_2d": [692, 794, 764, 819], "page": 1},
  {"key": "반출신청email", "value": null},
+ {"key": "전자방식외상매출채권전자어음구매전용카드", "value": null},
  {"key": "취급점", "value": "센텀지점", "bbox_2d": [156, 112, 240, 135], "page": 1},
  {"key": "signer2.name", "value": "남궁예태", "bbox_2d": [748, 446, 825, 469], "page": 1},
  {"key": "date", "value": "2025년 4월 1일", "bbox_2d": [385, 761, 576, 778], "page": 1}]
@@ -297,6 +299,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hana_official_024 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

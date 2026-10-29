@@ -1,6 +1,6 @@
 # 전자어음 교부 신청서 (`hf373`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf373 · card-hash: fee617e95bef -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf373 · card-hash: 543867eab524 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 전자어음 교부 신청서
@@ -144,9 +144,11 @@ answer_empty: {"key": "{key}", "value": null}
 - 당좌계좌번호: 당좌계좌번호
 - 교부신청매수: 교부신청매수
 - corp.ceo: 대표자명 (법인·사업자 대표자)
+- 보증: 보증
 - customer.birth: 생년월일(개인/개인사업자) (고객 생년월일)
 - 회수신청매수: 회수신청매수
 - 취급점: 취급점
+- 본점소재지주: 본점소재지주
 - date: 작성일
 - customer.name: 신청인 (고객 성명)
 ```
@@ -159,9 +161,11 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "당좌계좌번호", "value": "681-969188-27560", "bbox_2d": [267, 319, 453, 344], "page": 1},
  {"key": "교부신청매수", "value": "1", "bbox_2d": [376, 355, 385, 377], "page": 1},
  {"key": "corp.ceo", "value": "남궁예태", "bbox_2d": [697, 251, 782, 275], "page": 1},
+ {"key": "보증", "value": null},
  {"key": "customer.birth", "value": "1985년 3월 28일", "bbox_2d": [702, 284, 858, 307], "page": 1},
  {"key": "회수신청매수", "value": "12", "bbox_2d": [796, 353, 816, 376], "page": 1},
  {"key": "취급점", "value": "센텀지점", "bbox_2d": [217, 167, 293, 189], "page": 1},
+ {"key": "본점소재지주", "value": null},
  {"key": "date", "value": "2025년 4월 1일", "bbox_2d": [375, 537, 558, 552], "page": 1},
  {"key": "customer.name", "value": "남궁예태", "bbox_2d": [470, 579, 549, 600], "page": 1}]
 ```
@@ -240,6 +244,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf373 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

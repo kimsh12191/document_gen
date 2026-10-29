@@ -1,6 +1,6 @@
 # 입학허가서(Letter of Admission) (`admission_letter`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card admission_letter · card-hash: 3a95c6fe76bc -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card admission_letter · card-hash: 7cc0ef28896c -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** fx · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 입학허가서(Letter of Admission)
@@ -21,7 +21,7 @@
 | `docgen/docs/fx.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 29칸
+## 추출 항목 (정보 추출 kie) — 28칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -47,13 +47,20 @@
 | `signer_title` | Title | text | 1쪽 [88, 877, 243, 890] | 늘 | 템플릿 | generate.py | look/template.html.j2:92 · fields.json:85 | 묻기 |
 | `admission_type` | AdmissionType | - | - | 5/16 | 템플릿 | generate.py | look/template.html.j2:37 · fields.json:5 | 묻기 |
 | `condition_deadline` | ConditionDeadline | - | - | 5/16 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:10 | 묻기 |
-| `conditions.*` | Condition | - | - (1행) | 5/16 | 템플릿 | generate.py | - | 묻기 |
 | `cost.tuition` | EstimatedTuition | - | - | 7/16 | 템플릿 | generate.py | look/template.html.j2:63 · fields.json:35 | 묻기 |
 | `cost.living` | EstimatedLivingExpenses | - | - | 7/16 | 템플릿 | generate.py | look/template.html.j2:64 · fields.json:25 | 묻기 |
 | `cost.insurance` | EstimatedHealthInsurance | - | - | 7/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:20 | 묻기 |
 | `cost.books` | EstimatedBooksandSupplies | - | - | 7/16 | 템플릿 | generate.py | look/template.html.j2:66 · fields.json:15 | 묻기 |
 | `cost.total` | TotalEstimatedCost | - | - | 7/16 | 템플릿 | generate.py | look/template.html.j2:67 · fields.json:30 | 묻기 |
 | `deferred_from` | DeferredFrom | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:40 | 묻기 |
+
+## 표 `conditions` (표 과제 table·table_read·table_find·table_qa) — 1열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `conditions.*` | Condition | - | - (1행) | 5/16 | 템플릿 | generate.py | - | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
 - **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
@@ -172,6 +179,7 @@ answer_empty: {"key": "{key}", "value": null}
 - start_date: ClassesBegin
 - duration: Duration
 - scholarship.name: Scholarship
+- customer.address: 납세의무자주소 (고객 주소)
 - scholarship.amount: ScholarshipAmount
 - deposit_deadline: DepositDeadline
 - signer: Signedby
@@ -197,6 +205,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "start_date", "value": "August 23, 2025", "bbox_2d": [395, 522, 505, 536], "page": 1},
  {"key": "duration", "value": "2 years (full-time)", "bbox_2d": [395, 550, 516, 563], "page": 1},
  {"key": "scholarship.name", "value": "Presidential Scholarship", "bbox_2d": [619, 585, 793, 598], "page": 1},
+ {"key": "customer.address", "value": null},
  {"key": "scholarship.amount", "value": "$4,060.00 per semester", "bbox_2d": [88, 603, 255, 616], "page": 1},
  {"key": "deposit_deadline", "value": "March 13, 2025", "bbox_2d": [156, 663, 268, 676], "page": 1},
  {"key": "signer", "value": "David L. Morgan", "bbox_2d": [88, 859, 211, 873], "page": 1},
@@ -233,6 +242,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa admission_letter --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

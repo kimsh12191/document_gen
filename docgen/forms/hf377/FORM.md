@@ -1,6 +1,6 @@
 # 해외영업점 계좌개설 신청서 (`hf377`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf377 · card-hash: 5fc565df59a0 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf377 · card-hash: 9938cc00bb8e -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 해외영업점 계좌개설 신청서
@@ -20,7 +20,7 @@
 | `look/original.pdf` | 원본 PDF |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 20칸
+## 추출 항목 (정보 추출 kie) — 18칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -30,9 +30,7 @@
 | `성명Name2` | 성명Name | text | 1쪽 [406, 180, 474, 192] | 늘 | 항목명 그대로 | 값 종류 `person` (항목명 자동) | fields.json:54 | 묻기 |
 | `customer.birth` | 생년월일DateofBirth | number | 1쪽 [406, 208, 463, 220] | 늘 | 규칙: '생년월일 Date of Birth' → `customer.birth` | 고객 정보 (키 `customer.birth`) | fields.json:67 | 묻기 |
 | `여권번호PassportNo` | 여권번호PassportNo. | text | 1쪽 [406, 240, 496, 252] | 늘 | 항목명 그대로 | 값 종류 `passport` (항목명 자동) | fields.json:79 | 묻기 |
-| `국내주소DomesticAddress_목록.*.여권유효기일DateofExpiry` | 여권유효기일DateofExpiry | date | 1쪽 [405, 267, 490, 279] (1행) | 늘 | 표 행 (묶음·항목명 '여권유효기일 Date of Expiry') | 값 종류 `date` (항목명 자동) | fields.json:91 | 묻기 |
 | `국내주소DomesticAddress` | 국내주소DomesticAddress | text | 1쪽 [373, 323, 534, 328] | 늘 | 항목명 그대로 | 값 종류 `address` (항목명 자동) | fields.json:121 | 묻기 |
-| `해외주소OverseasAddress_목록.*.여권유효기일DateofExpiry` | 여권유효기일DateofExpiry | date | 1쪽 [405, 348, 492, 360] (1행) | 늘 | 표 행 (묶음·항목명 '여권유효기일 Date of Expiry') | 값 종류 `date` (항목명 자동) | fields.json:134 | 묻기 |
 | `국적Nationality` | 국적Nationality | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:224 | 묻기 |
 | `여권유효기일DateofExpiry` | 여권유효기일DateofExpiry | date | 1쪽 [762, 240, 889, 252] | 늘 | 항목명 그대로 | 값 종류 `date` (항목명 자동) | fields.json:236 | 묻기 |
 | `개설신청은행지점명OpeningBankBranch` | 개설신청은행/지점명OpeningBank/Branch | text | 1쪽 [408, 458, 476, 470] | 늘 | 항목명 그대로 | 값 종류 `bank` (항목명 자동) | fields.json:248 | 묻기 |
@@ -44,6 +42,22 @@
 | `date` | 신청일자(Date) | date | 1쪽 [238, 570, 323, 582] | 늘 | 규칙: '신청일자(Date)' → `date` | 고객 정보 (키 `date`) | fields.json:399 | 묻기 |
 | `signer.name` | 담당자(직,성명) | text | - | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:410 | 묻기 |
 | `signer3.name` | 담당자(직,성명) | text | - | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:439 | 묻기 |
+
+## 표 `국내주소DomesticAddress_목록` (표 과제 table·table_read·table_find·table_qa) — 1열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `국내주소DomesticAddress_목록.*.여권유효기일DateofExpiry` | 여권유효기일DateofExpiry | date | 1쪽 [405, 267, 490, 279] (1행) | 늘 | 표 행 (묶음·항목명 '여권유효기일 Date of Expiry') | 값 종류 `date` (항목명 자동) | fields.json:91 | 묻기 |
+
+## 표 `해외주소OverseasAddress_목록` (표 과제 table·table_read·table_find·table_qa) — 1열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `해외주소OverseasAddress_목록.*.여권유효기일DateofExpiry` | 여권유효기일DateofExpiry | date | 1쪽 [405, 348, 492, 360] (1행) | 늘 | 표 행 (묶음·항목명 '여권유효기일 Date of Expiry') | 값 종류 `date` (항목명 자동) | fields.json:134 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 9칸
 
@@ -159,17 +173,9 @@ answer_empty: {"key": "{key}", "value": null}
 - 성명Name2: 성명Name (같은 항목명 중 2번째 칸)
 - customer.birth: 생년월일DateofBirth (고객 생년월일)
 - 여권번호PassportNo: 여권번호PassportNo.
-- 국내주소DomesticAddress_목록.0.여권유효기일DateofExpiry: 여권유효기일DateofExpiry (국내주소DomesticAddress 목록 1행)
-- 국내주소DomesticAddress_목록.1.여권유효기일DateofExpiry: 여권유효기일DateofExpiry (국내주소DomesticAddress 목록 2행)
 - 국내주소DomesticAddress: 국내주소DomesticAddress
-- 해외주소OverseasAddress_목록.0.여권유효기일DateofExpiry: 여권유효기일DateofExpiry (해외주소OverseasAddress 목록 1행)
-- 해외주소OverseasAddress_목록.1.여권유효기일DateofExpiry: 여권유효기일DateofExpiry (해외주소OverseasAddress 목록 2행)
-- 해외주소OverseasAddress_목록.2.여권유효기일DateofExpiry: 여권유효기일DateofExpiry (해외주소OverseasAddress 목록 3행)
-- 해외주소OverseasAddress_목록.3.여권유효기일DateofExpiry: 여권유효기일DateofExpiry (해외주소OverseasAddress 목록 4행)
-- 국내주소DomesticAddress_목록.2.여권유효기일DateofExpiry: 여권유효기일DateofExpiry (국내주소DomesticAddress 목록 3행)
-- 국내주소DomesticAddress_목록.3.여권유효기일DateofExpiry: 여권유효기일DateofExpiry (국내주소DomesticAddress 목록 4행)
 - 국적Nationality: 국적Nationality
-- 여권유효기일DateofExpiry: 여권유효기일DateofExpiry (같은 항목명 중 9번째 칸)
+- 여권유효기일DateofExpiry: 여권유효기일DateofExpiry
 - 개설신청은행지점명OpeningBankBranch: 개설신청은행/지점명OpeningBank/Branch
 - 개설통화Currency: 개설통화Currency
 - 접수은행지점명BankBranch: 접수은행/지점명Bank/Branch
@@ -190,15 +196,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "성명Name2", "value": "남궁예태", "bbox_2d": [406, 180, 474, 192], "page": 1},
  {"key": "customer.birth", "value": "850328", "bbox_2d": [406, 208, 463, 220], "page": 1},
  {"key": "여권번호PassportNo", "value": "M77365463", "bbox_2d": [406, 240, 496, 252], "page": 1},
- {"key": "국내주소DomesticAddress_목록.0.여권유효기일DateofExpiry", "value": "2026.06.24", "bbox_2d": [405, 267, 490, 279], "page": 1},
- {"key": "국내주소DomesticAddress_목록.1.여권유효기일DateofExpiry", "value": null},
  {"key": "국내주소DomesticAddress", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [373, 323, 534, 328], "page": 1},
- {"key": "해외주소OverseasAddress_목록.0.여권유효기일DateofExpiry", "value": "2028-06-17", "bbox_2d": [405, 348, 492, 360], "page": 1},
- {"key": "해외주소OverseasAddress_목록.1.여권유효기일DateofExpiry", "value": "2026-06-01", "bbox_2d": [410, 372, 496, 384], "page": 1},
- {"key": "해외주소OverseasAddress_목록.2.여권유효기일DateofExpiry", "value": null},
- {"key": "해외주소OverseasAddress_목록.3.여권유효기일DateofExpiry", "value": null},
- {"key": "국내주소DomesticAddress_목록.2.여권유효기일DateofExpiry", "value": null},
- {"key": "국내주소DomesticAddress_목록.3.여권유효기일DateofExpiry", "value": null},
  {"key": "국적Nationality", "value": null},
  {"key": "여권유효기일DateofExpiry", "value": "2029년 4월 30일", "bbox_2d": [762, 240, 889, 252], "page": 1},
  {"key": "개설신청은행지점명OpeningBankBranch", "value": "우리은행", "bbox_2d": [408, 458, 476, 470], "page": 1},
@@ -255,6 +253,95 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "sign.signer3", "value": false}]
 ```
 
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 '여권유효기일DateofExpiry' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- 여권유효기일DateofExpiry: 여권유효기일DateofExpiry
+- 선입금가능일자: 선입금가능일자
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "여권유효기일DateofExpiry",
+  "선입금가능일자"
+ ],
+ "rows": [
+  [
+   "2026.06.24",
+   null
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    405,
+    267,
+    490,
+    279
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["여권유효기일DateofExpiry"], "bbox_2d": [405, 267, 490, 279], "page": 1, "n_rows": 1},
+ {"columns": ["여권유효기일DateofExpiry"], "bbox_2d": [405, 348, 496, 384], "page": 1, "n_rows": 2}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[405, 267, 490, 279] 위치의 표를 보고 답하세요. 표의 행은 모두 몇 개입니까? 머리글·합계 행과 모두 빈 행은 세지 않습니다. (숫자만 답하세요)
+```
+
+답:
+
+```json
+1
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 '여권유효기일DateofExpiry' 열이 있는 표를 보고 답하세요. 표의 행은 모두 몇 개입니까? 머리글·합계 행과 모두 빈 행은 세지 않습니다. (숫자만 답하세요)
+```
+
+답:
+
+```json
+2
+```
+
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
 
 없습니다. 더하려면 이 폴더에 `qa.py` 를 만들고 함수 하나에 질문 하나 (견본: `python -m docgen.formdir qa hf377 --new`):
@@ -284,6 +371,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf377 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

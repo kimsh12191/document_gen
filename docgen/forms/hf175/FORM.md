@@ -1,6 +1,6 @@
 # 퇴직연금 AI 포트폴리오 설계(신규 리밸런싱)신청서 (`hf175`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf175 · card-hash: 0b017d875a60 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf175 · card-hash: 982312f3912a -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 퇴직연금 AI 포트폴리오 설계(신규 리밸런싱)신청서
@@ -138,7 +138,9 @@ answer_empty: {"key": "{key}", "value": null}
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
 - customer.name: 성명 (고객 성명)
 - customer.birth: 생년월일 (고객 생년월일)
+- IssuingBank: IssuingBank
 - 계좌번호또는회사명: 계좌번호또는회사명
+- written.year: 작성연도
 - 하나연금닥터AI연금투자솔루션: 하나연금닥터AI연금투자솔루션
 - 상승: 상승+(
 - 하락: )%하락–(
@@ -153,7 +155,9 @@ answer_empty: {"key": "{key}", "value": null}
 ```json
 [{"key": "customer.name", "value": "남궁예태", "bbox_2d": [204, 227, 280, 248], "page": 1},
  {"key": "customer.birth", "value": "850328", "bbox_2d": [611, 228, 671, 249], "page": 1},
+ {"key": "IssuingBank", "value": null},
  {"key": "계좌번호또는회사명", "value": "241-813114-72117", "bbox_2d": [614, 254, 754, 277], "page": 1},
+ {"key": "written.year", "value": null},
  {"key": "하나연금닥터AI연금투자솔루션", "value": null},
  {"key": "상승", "value": null},
  {"key": "하락", "value": null},
@@ -239,6 +243,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf175 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

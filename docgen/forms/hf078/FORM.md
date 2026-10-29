@@ -1,6 +1,6 @@
 # 통화전환 옵션부 외화대출 원화대출 전환신청서 (`hf078`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf078 · card-hash: 97d85958b1a7 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf078 · card-hash: 011219177d9b -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 통화전환 옵션부 외화대출 원화대출 전환신청서
@@ -148,6 +148,7 @@ answer_empty: {"key": "{key}", "value": null}
 - 주3: 주3
 - date6: 작성일
 - customer.name: 채무자본인 (고객 성명)
+- NET12: NET12
 ```
 
 답:
@@ -166,7 +167,8 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "date5", "value": "2025년 04월 01일", "bbox_2d": [649, 774, 827, 802], "page": 1},
  {"key": "주3", "value": null},
  {"key": "date6", "value": "2025년 4월 1일", "bbox_2d": [666, 256, 864, 275], "page": 1},
- {"key": "customer.name", "value": "남궁예태", "bbox_2d": [663, 325, 753, 350], "page": 1}]
+ {"key": "customer.name", "value": "남궁예태", "bbox_2d": [663, 325, 753, 350], "page": 1},
+ {"key": "NET12", "value": null}]
 ```
 
 ### 체크·도장·서명 `marks` · 채점 vl_f1 (값+위치)
@@ -227,6 +229,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf078 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

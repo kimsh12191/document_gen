@@ -1,6 +1,6 @@
 # 납세증명서 (`gov_national_tax`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card gov_national_tax · card-hash: e230e25b7ea1 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card gov_national_tax · card-hash: 339e21bfbde5 -->
 
 - **종류:** html 서식 (값은 fields.json 의 값 출처, 모양은 템플릿)
 - **그룹:** tax · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 납세증명서(국세완납증명) (다른 이름: 납세증명서)
@@ -119,6 +119,8 @@ answer_empty: {"key": "{key}", "value": null}
 - customer.name: 성명 (고객 성명)
 - customer.rrn: 주민등록번호 (고객 주민등록번호)
 - customer.address: 주소 (고객 주소)
+- national.additional: 추가납부세액
+- related.name: 세무대리인 (보증인·공동 성명)
 - official.purpose: 사용목적(기타)
 - official.arrears: 연장·유예내역
 ```
@@ -129,6 +131,8 @@ answer_empty: {"key": "{key}", "value": null}
 [{"key": "customer.name", "value": "남궁예태", "bbox_2d": [308, 195, 369, 210], "page": 1},
  {"key": "customer.rrn", "value": "850328-2489940", "bbox_2d": [794, 196, 894, 208], "page": 1},
  {"key": "customer.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [308, 230, 629, 245], "page": 1},
+ {"key": "national.additional", "value": null},
+ {"key": "related.name", "value": null},
  {"key": "official.purpose", "value": "금융기관 제출용", "bbox_2d": [308, 324, 418, 339], "page": 1},
  {"key": "official.arrears", "value": "해당 없음", "bbox_2d": [206, 487, 270, 502], "page": 1}]
 ```
@@ -163,6 +167,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa gov_national_tax --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

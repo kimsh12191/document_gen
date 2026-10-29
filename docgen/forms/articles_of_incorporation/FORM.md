@@ -1,6 +1,6 @@
 # 정관 (`articles_of_incorporation`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card articles_of_incorporation · card-hash: bc85c35d9244 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card articles_of_incorporation · card-hash: 3e3615b0e795 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** corporate · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 정관
@@ -21,27 +21,48 @@
 | `docgen/docs/corporate.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 17칸
+## 추출 항목 (정보 추출 kie) — 14칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `corp.name` ← `company_name` | 상호 | text | 1쪽 [409, 80, 591, 95] | 늘 | 템플릿 | generate.py | look/template.html.j2:26 · fields.json:30 | 묻기 |
-| `revision_history.*` | 제정·개정일 | text | 1쪽 [381, 107, 489, 119] (1행) | 늘 | 템플릿 | generate.py | - | 묻기 |
 | `company_name_en` | 영문상호 | text | 1쪽 [633, 149, 791, 162] | 늘 | 템플릿 | generate.py | look/template.html.j2:30 · fields.json:35 | 묻기 |
-| `purposes.*` | 목적 | text | 1쪽 [88, 185, 249, 198] (1행) | 늘 | 템플릿 | generate.py | - | 묻기 |
 | `head_office_city` | 본점소재지 | text | 1쪽 [472, 252, 630, 264] | 늘 | 템플릿 | generate.py | look/template.html.j2:34 · fields.json:45 | 묻기 |
 | `notice_method` | 공고방법 | text | 1쪽 [296, 287, 733, 299] | 늘 | 템플릿 | generate.py | look/template.html.j2:36 · fields.json:55 | 묻기 |
 | `authorized_shares` | 발행예정주식의총수 | text | 1쪽 [476, 330, 541, 342] | 늘 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:15 | 묻기 |
 | `par_value` | 1주의금액 | amount | 1쪽 [449, 349, 518, 362] | 늘 | 템플릿 | generate.py | look/template.html.j2:40 · fields.json:60 | 묻기 |
 | `initial_shares` | 설립시발행주식총수 | text | 1쪽 [634, 368, 683, 381] | 늘 | 템플릿 | generate.py | look/template.html.j2:41 · fields.json:50 | 묻기 |
 | `effective_date` | 시행일 | date | 1쪽 [326, 663, 434, 676] | 늘 | 템플릿 | generate.py | look/template.html.j2:124 · fields.json:40 | 묻기 |
-| `revision_effective.*` | 시행일 | date | 1쪽 [137, 702, 245, 715] (1행) | 14/16 | 템플릿 | generate.py | - | 묻기 |
 | `certify_date` | 증명일 | date | 1쪽 [448, 762, 551, 775] | 13/16 | 템플릿 | generate.py | look/template.html.j2:134 · fields.json:25 | 묻기 |
 | `ceo` | 대표이사 | text | 1쪽 [539, 790, 598, 802] | 13/16 | 템플릿 | generate.py | fields.json:20 | 묻기 |
 | `amended.purposes` | 개정일 | - | - | 2/16 | 템플릿 | generate.py | fields.json:10 | 묻기 |
 | `preferred` | 종류주식 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:43 | 묻기 |
 | `amended.share_types` | 개정일 | - | - | 2/16 | 템플릿 | generate.py | - | 묻기 |
 | `amended.company_name` | 개정일 | - | - | 3/16 | 템플릿 | generate.py | fields.json:5 | 묻기 |
+
+## 표 `revision_history` (표 과제 table·table_read·table_find·table_qa) — 1열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `revision_history.*` | 제정·개정일 | text | 1쪽 [381, 107, 489, 119] (1행) | 늘 | 템플릿 | generate.py | - | 묻기 |
+
+## 표 `purposes` (표 과제 table·table_read·table_find·table_qa) — 1열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `purposes.*` | 목적 | text | 1쪽 [88, 185, 249, 198] (1행) | 늘 | 템플릿 | generate.py | - | 묻기 |
+
+## 표 `revision_effective` (표 과제 table·table_read·table_find·table_qa) — 1열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `revision_effective.*` | 시행일 | date | 1쪽 [137, 702, 245, 715] (1행) | 14/16 | 템플릿 | generate.py | - | 묻기 |
 
 ## 체크·도장·서명 (marks) — 1칸
 
@@ -151,23 +172,14 @@ answer_empty: {"key": "{key}", "value": null}
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
 - corp.name: 상호 (법인·사업자 상호)
-- revision_history.0: 제정·개정일 (1번째)
-- revision_history.1: 제정·개정일 (2번째)
+- corp_reg_no: 등록번호
 - company_name_en: 영문상호
-- purposes.0: 목적 (1번째)
-- purposes.1: 목적 (2번째)
-- purposes.2: 목적 (3번째)
-- purposes.3: 목적 (4번째)
-- purposes.4: 목적 (5번째)
-- purposes.5: 목적 (6번째)
-- purposes.6: 목적 (7번째)
 - head_office_city: 본점소재지
 - notice_method: 공고방법
 - authorized_shares: 발행예정주식의총수
 - par_value: 1주의금액
 - initial_shares: 설립시발행주식총수
-- effective_date: 시행일 (같은 항목명 중 1번째 칸)
-- revision_effective.0: 시행일 (1번째)
+- effective_date: 시행일
 - certify_date: 증명일
 - ceo: 대표이사
 ```
@@ -176,23 +188,14 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```json
 [{"key": "corp.name", "value": "주식회사 미래케미칼", "bbox_2d": [409, 80, 591, 95], "page": 1},
- {"key": "revision_history.0", "value": "제정 2020.06.15", "bbox_2d": [381, 107, 489, 119], "page": 1},
- {"key": "revision_history.1", "value": "개정 2023.10.01", "bbox_2d": [511, 107, 619, 119], "page": 1},
+ {"key": "corp_reg_no", "value": null},
  {"key": "company_name_en", "value": "Mirae Chemical Co., Ltd.", "bbox_2d": [633, 149, 791, 162], "page": 1},
- {"key": "purposes.0", "value": "1. 기초 화학물질 제조업", "bbox_2d": [88, 185, 249, 198], "page": 1},
- {"key": "purposes.1", "value": "2. 합성수지 및 플라스틱 제품 제조업", "bbox_2d": [88, 201, 333, 213], "page": 1},
- {"key": "purposes.2", "value": "3. 화학제품 도소매업", "bbox_2d": [88, 217, 229, 229], "page": 1},
- {"key": "purposes.3", "value": "4. 도료 및 접착제 제조업", "bbox_2d": [88, 233, 253, 245], "page": 1},
- {"key": "purposes.4", "value": "5. 화학제품 수출입업", "bbox_2d": [524, 185, 666, 198], "page": 1},
- {"key": "purposes.5", "value": "6. 환경 관련 약품 제조 및 판매업", "bbox_2d": [524, 201, 742, 213], "page": 1},
- {"key": "purposes.6", "value": "7. 위 각 호와 관련된 부대사업 일체", "bbox_2d": [524, 217, 758, 229], "page": 1},
  {"key": "head_office_city", "value": "제주특별자치도 제주시", "bbox_2d": [472, 252, 630, 264], "page": 1},
  {"key": "notice_method", "value": "제주특별자치도 내에서 발행되는 일간 서울경제신문에 게재한다.", "bbox_2d": [296, 287, 733, 299], "page": 1},
  {"key": "authorized_shares", "value": "600,000주", "bbox_2d": [476, 330, 541, 342], "page": 1},
  {"key": "par_value", "value": "금 5,000원", "bbox_2d": [449, 349, 518, 362], "page": 1},
  {"key": "initial_shares", "value": "6,000주", "bbox_2d": [634, 368, 683, 381], "page": 1},
  {"key": "effective_date", "value": "2020년 6월 15일", "bbox_2d": [326, 663, 434, 676], "page": 1},
- {"key": "revision_effective.0", "value": "2023년 10월 1일", "bbox_2d": [137, 702, 245, 715], "page": 1},
  {"key": "certify_date", "value": "2025년 3월 26일", "bbox_2d": [448, 762, 551, 775], "page": 1},
  {"key": "ceo", "value": "남궁예태", "bbox_2d": [539, 790, 598, 802], "page": 1}]
 ```
@@ -222,6 +225,105 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```json
 [{"key": "seal.corp", "value": true, "bbox_2d": [597, 770, 670, 821], "page": 1}]
+```
+
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 '제정·개정일' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- value: 제정·개정일
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "value"
+ ],
+ "rows": [
+  [
+   "제정 2020.06.15"
+  ],
+  [
+   "개정 2023.10.01"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    381,
+    107,
+    489,
+    119
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    511,
+    107,
+    619,
+    119
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["제정·개정일"], "bbox_2d": [381, 107, 619, 119], "page": 1, "n_rows": 2},
+ {"columns": ["목적"], "bbox_2d": [63, 169, 758, 245], "page": 1, "n_rows": 7},
+ {"columns": ["시행일"], "bbox_2d": [137, 702, 245, 715], "page": 1, "n_rows": 1}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 '제정·개정일' 열이 있는 표를 보고 답하세요. 마지막 행의 '제정·개정일' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"개정 2023.10.01"
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 '제정·개정일' 열이 있는 표를 보고 답하세요. 위에서 2번째 행의 '제정·개정일' 값은 무엇입니까? 머리글은 세지 않습니다. (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"개정 2023.10.01"
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -254,6 +356,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa articles_of_incorporation --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

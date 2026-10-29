@@ -1,6 +1,6 @@
 # 본인확인서(FATCA CRS 개인,개인사업자용)(영문) (`hf429`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf429 · card-hash: 6df047364a01 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf429 · card-hash: 4f297cd2e9cf -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 본인확인서(FATCA CRS 개인,개인사업자용)(영문)
@@ -20,17 +20,14 @@
 | `look/original.pdf` | 원본 PDF |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 21칸
+## 추출 항목 (정보 추출 kie) — 17칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `CustomerProfile` | CustomerProfile | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:52 | 묻기 |
-| `목록.*.value` | (CapitalLetter)* / (TIN) | amount | - (1행) | 늘 | 표 행 (묶음·항목명 '(Capital Letter)*') | 값 종류 `skip` (항목명 자동) | fields.json:63 | 묻기 |
 | `WhetherOverseasResidentorNot` | WhetherOverseasResidentorNot | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:75 | 묻기 |
 | `IdentificationNumberetc` | IdentificationNumber(TIN),etc. | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:86 | 묻기 |
 | `Reportingcountry` | Reportingcountry | text | - | 늘 | 표 행 (묶음·항목명 'Reporting country') | 값 종류 `text` (항목명 자동) | fields.json:97 | 묻기 |
-| `목록.*.FATCA` | FATCA | text | - (1행) | 늘 | 표 행 (묶음·항목명 'FATCA') | 값 종류 `text` (항목명 자동) | fields.json:121 | 묻기 |
-| `목록.*.CRS` | CRS | text | - (1행) | 늘 | 표 행 (묶음·항목명 'CRS') | 값 종류 `text` (항목명 자동) | fields.json:145 | 묻기 |
 | `NA` | N/A | text | - | 늘 | 표 행 (묶음·항목명 'N/A') | 값 종류 `text` (항목명 자동) | fields.json:169 | 묻기 |
 | `Surname` | Surname(성) | text | - | 늘 | 표 행 (묶음·항목명 'Surname(성)') | 값 종류 `text` (항목명 자동) | fields.json:181 | 묻기 |
 | `Surname2` | Surname(성) | text | - | 늘 | 표 행 (묶음·항목명 'Surname(성)') | 값 종류 `text` (항목명 자동) | fields.json:195 | 묻기 |
@@ -42,9 +39,19 @@
 | `GivenName2` | GivenName(이름) | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:408 | 묻기 |
 | `customer.birth` | DateofBirth | number | 1쪽 [519, 189, 549, 196] | 늘 | 표 행 (묶음·항목명 'Date of Birth') | 값 종류 `date` (항목명 자동) | fields.json:419 | 묻기 |
 | `customer.birth2` | DateofBirth | number | 1쪽 [516, 199, 544, 206] | 늘 | 표 행 (묶음·항목명 'Date of Birth') | 값 종류 `date` (항목명 자동) | fields.json:433 | 묻기 |
-| `목록.*.PhoneNo` | PhoneNo. | phone | 1쪽 [516, 223, 574, 230] (1행) | 늘 | 표 행 (묶음·항목명 'Phone No.') | 값 종류 `phone` (항목명 자동) | fields.json:447 | 묻기 |
 | `customer.birth3` | DateofBirth | number | 1쪽 [694, 176, 736, 185] | 늘 | 규칙: 'Date of Birth' → `customer.birth` | 고객 정보 (키 `customer.birth`) | fields.json:593 | 묻기 |
 | `PhoneNo` | PhoneNo. | phone | 1쪽 [699, 210, 783, 219] | 늘 | 항목명 그대로 | 값 종류 `phone` (항목명 자동) | fields.json:604 | 묻기 |
+
+## 표 `목록` (표 과제 table·table_read·table_find·table_qa) — 4열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `목록.*.value` | (CapitalLetter)* / (TIN) | amount | - (1행) | 늘 | 표 행 (묶음·항목명 '(Capital Letter)*') | 값 종류 `skip` (항목명 자동) | fields.json:63 | 묻기 |
+| `목록.*.FATCA` | FATCA | text | - (1행) | 늘 | 표 행 (묶음·항목명 'FATCA') | 값 종류 `text` (항목명 자동) | fields.json:121 | 묻기 |
+| `목록.*.CRS` | CRS | text | - (1행) | 늘 | 표 행 (묶음·항목명 'CRS') | 값 종류 `text` (항목명 자동) | fields.json:145 | 묻기 |
+| `목록.*.PhoneNo` | PhoneNo. | phone | 1쪽 [516, 223, 574, 230] (1행) | 늘 | 표 행 (묶음·항목명 'Phone No.') | 값 종류 `phone` (항목명 자동) | fields.json:447 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 11칸
 
@@ -147,62 +154,42 @@ answer_empty: {"key": "{key}", "value": null}
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
 - CustomerProfile: CustomerProfile
-- 목록.0.value: (CapitalLetter)* (목록 1행)
 - WhetherOverseasResidentorNot: WhetherOverseasResidentorNot
 - IdentificationNumberetc: IdentificationNumber(TIN),etc.
 - Reportingcountry: Reportingcountry
-- 목록.1.value: (CapitalLetter)* (목록 2행)
-- 목록.0.FATCA: FATCA (목록 1행)
-- 목록.1.FATCA: FATCA (목록 2행)
-- 목록.0.CRS: CRS (목록 1행)
-- 목록.1.CRS: CRS (목록 2행)
 - NA: N/A
 - Surname: Surname(성) (같은 항목명 중 1번째 칸)
 - Surname2: Surname(성) (같은 항목명 중 2번째 칸)
 - GivenName: GivenName(이름) (같은 항목명 중 1번째 칸)
 - Jurisdictionof: Jurisdictionof
 - Country: Country*(2)
-- 목록.2.value: (TIN) (목록 3행)
 - OverseaEnglishaddress: OverseaEnglishaddress
-- 목록.3.value: (TIN) (목록 4행)
 - Surname3: Surname(성) (같은 항목명 중 3번째 칸)
 - GivenName2: GivenName(이름) (같은 항목명 중 2번째 칸)
 - customer.birth: DateofBirth (고객 생년월일, 같은 항목명 중 1번째 칸)
 - customer.birth2: DateofBirth (같은 항목명 중 2번째 칸)
-- 목록.0.PhoneNo: PhoneNo. (목록 1행)
-- 목록.1.PhoneNo: PhoneNo. (목록 2행)
 - customer.birth3: DateofBirth (같은 항목명 중 3번째 칸)
-- PhoneNo: PhoneNo. (같은 항목명 중 3번째 칸)
+- PhoneNo: PhoneNo.
 ```
 
 답:
 
 ```json
 [{"key": "CustomerProfile", "value": null},
- {"key": "목록.0.value", "value": null},
  {"key": "WhetherOverseasResidentorNot", "value": null},
  {"key": "IdentificationNumberetc", "value": null},
  {"key": "Reportingcountry", "value": null},
- {"key": "목록.1.value", "value": null},
- {"key": "목록.0.FATCA", "value": null},
- {"key": "목록.1.FATCA", "value": null},
- {"key": "목록.0.CRS", "value": null},
- {"key": "목록.1.CRS", "value": null},
  {"key": "NA", "value": null},
  {"key": "Surname", "value": null},
  {"key": "Surname2", "value": null},
  {"key": "GivenName", "value": null},
  {"key": "Jurisdictionof", "value": null},
  {"key": "Country", "value": "베트남", "bbox_2d": [209, 608, 255, 619], "page": 1},
- {"key": "목록.2.value", "value": null},
  {"key": "OverseaEnglishaddress", "value": null},
- {"key": "목록.3.value", "value": null},
  {"key": "Surname3", "value": null},
  {"key": "GivenName2", "value": null},
  {"key": "customer.birth", "value": "850328", "bbox_2d": [519, 189, 549, 196], "page": 1},
  {"key": "customer.birth2", "value": "850328", "bbox_2d": [516, 199, 544, 206], "page": 1},
- {"key": "목록.0.PhoneNo", "value": "010-6144-1173", "bbox_2d": [516, 223, 574, 230], "page": 1},
- {"key": "목록.1.PhoneNo", "value": "010-6144-1173", "bbox_2d": [515, 650, 618, 661], "page": 1},
  {"key": "customer.birth3", "value": "850328", "bbox_2d": [694, 176, 736, 185], "page": 1},
  {"key": "PhoneNo", "value": "010-6144-1173", "bbox_2d": [699, 210, 783, 219], "page": 1}]
 ```
@@ -254,6 +241,119 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "sign.staff.책임자", "value": false}]
 ```
 
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- PhoneNo: PhoneNo.
+- value: (CapitalLetter)*
+- FATCA: FATCA
+- 주당액면가액: 주당액면가액(원)
+- CRS: CRS
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "PhoneNo",
+  "value",
+  "FATCA",
+  "주당액면가액",
+  "CRS"
+ ],
+ "rows": [
+  [
+   "010-6144-1173",
+   null,
+   null,
+   null,
+   null
+  ],
+  [
+   "010-6144-1173",
+   null,
+   null,
+   null,
+   null
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    516,
+    223,
+    574,
+    230
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    515,
+    650,
+    618,
+    661
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["PhoneNo.", "(CapitalLetter)*", "FATCA", "CRS"], "bbox_2d": [515, 223, 618, 661], "page": 1, "n_rows": 2}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 표를 보고 답하세요. 위에서 2번째 행의 'PhoneNo.' 값은 무엇입니까? 머리글은 세지 않습니다. (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"010-6144-1173"
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 표를 보고 답하세요. 마지막 행의 'PhoneNo.' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"010-6144-1173"
+```
+
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
 
 없습니다. 더하려면 이 폴더에 `qa.py` 를 만들고 함수 하나에 질문 하나 (견본: `python -m docgen.formdir qa hf429 --new`):
@@ -283,6 +383,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf429 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

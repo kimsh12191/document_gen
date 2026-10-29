@@ -1,6 +1,6 @@
 # 사업자등록증 (`gov_business_registration`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card gov_business_registration · card-hash: e04090364423 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card gov_business_registration · card-hash: 4c35b3547272 -->
 
 - **종류:** html 서식 (값은 fields.json 의 값 출처, 모양은 템플릿)
 - **그룹:** business · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 사업자등록증
@@ -152,6 +152,7 @@ answer_empty: {"key": "{key}", "value": null}
 - corp.name: 상호 (법인·사업자 상호)
 - customer.name: 성명 (고객 성명)
 - corp.address: 사업장소재지 (법인·사업자 주소)
+- income_statement.revenue: 매출액
 - official.industry: 업태
 - corp.biz_item: 종목 (법인·사업자 업종)
 - official.taxpayer_type: 과세유형
@@ -164,6 +165,7 @@ answer_empty: {"key": "{key}", "value": null}
 - official.einvoice_email: 전자세금계산서전용전자우편주소
 - official.issue0: 발급일년
 - official.issue1: 발급일월
+- income_statement.cogs: 매출원가
 - official.issue2: 발급일일
 - official.annex_biz_no0: 부표사업자등록번호앞
 - official.annex_biz_no1: 부표사업자등록번호가운데
@@ -180,6 +182,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "corp.name", "value": "새한커피", "bbox_2d": [221, 232, 282, 247], "page": 1},
  {"key": "customer.name", "value": "남궁예태", "bbox_2d": [718, 232, 779, 247], "page": 1},
  {"key": "corp.address", "value": "부산광역시 해운대구 좌동순환로 237, 7층", "bbox_2d": [300, 325, 581, 340], "page": 1},
+ {"key": "income_statement.revenue", "value": null},
  {"key": "official.industry", "value": "음식점업", "bbox_2d": [308, 401, 369, 416], "page": 1},
  {"key": "corp.biz_item", "value": "커피전문점", "bbox_2d": [491, 401, 567, 416], "page": 1},
  {"key": "official.taxpayer_type", "value": "간이과세자", "bbox_2d": [398, 168, 474, 183], "page": 1},
@@ -192,6 +195,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "official.einvoice_email", "value": "admin@saehan.co.kr", "bbox_2d": [530, 624, 674, 636], "page": 1},
  {"key": "official.issue0", "value": "2025", "bbox_2d": [527, 714, 561, 726], "page": 1},
  {"key": "official.issue1", "value": "04", "bbox_2d": [653, 714, 670, 726], "page": 1},
+ {"key": "income_statement.cogs", "value": null},
  {"key": "official.issue2", "value": "01", "bbox_2d": [776, 714, 793, 726], "page": 1},
  {"key": "official.annex_biz_no0", "value": "133", "bbox_2d": [505, 143, 530, 156], "page": 2},
  {"key": "official.annex_biz_no1", "value": "64", "bbox_2d": [551, 143, 568, 156], "page": 2},
@@ -199,6 +203,21 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "official.annex_issue0", "value": "2025", "bbox_2d": [636, 785, 670, 797], "page": 2},
  {"key": "official.annex_issue1", "value": "04", "bbox_2d": [711, 785, 728, 797], "page": 2},
  {"key": "official.annex_issue2", "value": "01", "bbox_2d": [784, 785, 801, 797], "page": 2}]
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[]
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -231,6 +250,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa gov_business_registration --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

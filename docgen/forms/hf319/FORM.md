@@ -1,6 +1,6 @@
 # 증권취득 신고서 (`hf319`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf319 · card-hash: 62b7e0e63b07 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf319 · card-hash: eaec5b84c55a -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 증권취득 신고서
@@ -145,10 +145,13 @@ answer_empty: {"key": "{key}", "value": null}
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
 - customer.name: 상호및대표자성명 (고객 성명)
 - corp.biz_item: 업종(직업) (법인·사업자 업종)
+- customer.home_phone: 자택전화번호 (고객 자택전화)
 - 증권취득자: 증권취득자
+- 이전방식: 이전방식
 - 증권취득상대방: 증권취득상대방
 - 액면가액: 액면가액
 - 수량: 수량
+- 근저당권설정내역: 근저당권설정내역
 - 취득단가: 취득단가
 - 취득가액: 취득가액
 - 취득사유: 취득사유
@@ -167,10 +170,13 @@ answer_empty: {"key": "{key}", "value": null}
 ```json
 [{"key": "customer.name", "value": "남궁예태", "bbox_2d": [536, 187, 613, 209], "page": 1},
  {"key": "corp.biz_item", "value": "화학제품", "bbox_2d": [319, 271, 392, 293], "page": 1},
+ {"key": "customer.home_phone", "value": null},
  {"key": "증권취득자", "value": null},
+ {"key": "이전방식", "value": null},
  {"key": "증권취득상대방", "value": null},
  {"key": "액면가액", "value": "3,640,000", "bbox_2d": [840, 434, 926, 455], "page": 1},
  {"key": "수량", "value": "12", "bbox_2d": [614, 459, 631, 480], "page": 1},
+ {"key": "근저당권설정내역", "value": null},
  {"key": "취득단가", "value": "6,920,000", "bbox_2d": [839, 487, 925, 509], "page": 1},
  {"key": "취득가액", "value": "300,000원", "bbox_2d": [842, 514, 927, 535], "page": 1},
  {"key": "취득사유", "value": "사업자금", "bbox_2d": [321, 541, 391, 562], "page": 1},
@@ -246,6 +252,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf319 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

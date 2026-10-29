@@ -1,6 +1,6 @@
 # 상업송장(Commercial Invoice) (`commercial_invoice`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card commercial_invoice · card-hash: 800bc5c755e9 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card commercial_invoice · card-hash: b85a125f89d3 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** fx · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 상업송장(Commercial Invoice)
@@ -21,7 +21,7 @@
 | `docgen/docs/fx.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 37칸
+## 추출 항목 (정보 추출 kie) — 32칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -40,11 +40,6 @@
 | `carrier` | Carrier | text | 1쪽 [68, 269, 234, 279] | 늘 | 템플릿 | generate.py | look/template.html.j2:61 · fields.json:20 | 묻기 |
 | `sailing_date` | Sailingonorabout | date | 1쪽 [314, 269, 404, 279] | 늘 | 템플릿 | generate.py | look/template.html.j2:62 · fields.json:120 | 묻기 |
 | `marks` | MarksandNumbers | text | 1쪽 [67, 327, 159, 373] | 늘 | 템플릿 | generate.py | look/template.html.j2:71 · fields.json:80 | 묻기 |
-| `items.*.description` | DescriptionofGoods | text | 1쪽 [251, 327, 504, 338] (1행) | 늘 | 템플릿 | generate.py | fields.json:175 | 묻기 |
-| `items.*.model` | Model | text | 1쪽 [306, 341, 358, 352] (1행) | 늘 | 템플릿 | generate.py | fields.json:180 | 묻기 |
-| `items.*.quantity` | Quantity/Unit | text | 1쪽 [593, 327, 661, 338] (1행) | 늘 | 템플릿 | generate.py | fields.json:185 | 묻기 |
-| `items.*.unit_price` | Unit-price | amount | 1쪽 [717, 327, 775, 338] (1행) | 늘 | 템플릿 | generate.py | fields.json:190 | 묻기 |
-| `items.*.amount` | Amount | amount | 1쪽 [850, 327, 933, 338] (1행) | 늘 | 템플릿 | generate.py | fields.json:170 | 묻기 |
 | `total_quantity` | TotalPackages | text | 1쪽 [473, 641, 528, 652] | 늘 | 템플릿 | generate.py | look/template.html.j2:84 · fields.json:160 | 묻기 |
 | `total_amount` | TotalAmount | amount | 1쪽 [848, 641, 933, 652] | 늘 | 템플릿 | generate.py | look/template.html.j2:85 · fields.json:155 | 묻기 |
 | `signed_by` | Signedby | text | 1쪽 [564, 697, 732, 707] | 늘 | 템플릿 | generate.py | look/template.html.j2:89 · fields.json:135 | 묻기 |
@@ -62,6 +57,18 @@
 | `lc.no` | L/CNo | - | - | 6/16 | 템플릿 | generate.py | look/template.html.j2:37 · fields.json:65 | 묻기 |
 | `lc.date` | L/CDate | - | - | 6/16 | 템플릿 | generate.py | look/template.html.j2:37 · fields.json:60 | 묻기 |
 | `lc.bank` | L/CIssuingBank | - | - | 6/16 | 템플릿 | generate.py | look/template.html.j2:40 · fields.json:55 | 묻기 |
+
+## 표 `items` (표 과제 table·table_read·table_find·table_qa) — 5열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `items.*.description` | DescriptionofGoods | text | 1쪽 [251, 327, 504, 338] (1행) | 늘 | 템플릿 | generate.py | fields.json:175 | 묻기 |
+| `items.*.model` | Model | text | 1쪽 [306, 341, 358, 352] (1행) | 늘 | 템플릿 | generate.py | fields.json:180 | 묻기 |
+| `items.*.quantity` | Quantity/Unit | text | 1쪽 [593, 327, 661, 338] (1행) | 늘 | 템플릿 | generate.py | fields.json:185 | 묻기 |
+| `items.*.unit_price` | Unit-price | amount | 1쪽 [717, 327, 775, 338] (1행) | 늘 | 템플릿 | generate.py | fields.json:190 | 묻기 |
+| `items.*.amount` | Amount | amount | 1쪽 [850, 327, 933, 338] (1행) | 늘 | 템플릿 | generate.py | fields.json:170 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
 - **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
@@ -194,21 +201,6 @@ answer_empty: {"key": "{key}", "value": null}
 - carrier: Carrier
 - sailing_date: Sailingonorabout
 - marks: MarksandNumbers
-- items.0.description: DescriptionofGoods (1행)
-- items.0.model: Model (1행)
-- items.0.quantity: Quantity/Unit (1행)
-- items.0.unit_price: Unit-price (1행)
-- items.0.amount: Amount (1행)
-- items.1.description: DescriptionofGoods (2행)
-- items.1.model: Model (2행)
-- items.1.quantity: Quantity/Unit (2행)
-- items.1.unit_price: Unit-price (2행)
-- items.1.amount: Amount (2행)
-- items.2.description: DescriptionofGoods (3행)
-- items.2.model: Model (3행)
-- items.2.quantity: Quantity/Unit (3행)
-- items.2.unit_price: Unit-price (3행)
-- items.2.amount: Amount (3행)
 - total_quantity: TotalPackages
 - total_amount: TotalAmount
 - signed_by: Signedby
@@ -233,25 +225,144 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "carrier", "value": "NORTHERN LIGHT V.094E", "bbox_2d": [68, 269, 234, 279], "page": 1},
  {"key": "sailing_date", "value": "March 05, 2025", "bbox_2d": [314, 269, 404, 279], "page": 1},
  {"key": "marks", "value": "MIRAE\nBUSAN, KOREA\nC/NO. 1-69\nMADE IN JAPAN", "bbox_2d": [67, 327, 159, 373], "page": 1},
- {"key": "items.0.description", "value": "Board-to-Board Connector 0.5mm Pitch 40P", "bbox_2d": [251, 327, 504, 338], "page": 1},
- {"key": "items.0.model", "value": "BB-649B", "bbox_2d": [306, 341, 358, 352], "page": 1},
- {"key": "items.0.quantity", "value": "42,000 PCS", "bbox_2d": [593, 327, 661, 338], "page": 1},
- {"key": "items.0.unit_price", "value": "JPY 38.29", "bbox_2d": [717, 327, 775, 338], "page": 1},
- {"key": "items.0.amount", "value": "JPY 1,608,180", "bbox_2d": [850, 327, 933, 338], "page": 1},
- {"key": "items.1.description", "value": "Thick Film Chip Resistor 0603 10K OHM 1%", "bbox_2d": [251, 381, 513, 391], "page": 1},
- {"key": "items.1.model", "value": "RC-843", "bbox_2d": [306, 395, 349, 405], "page": 1},
- {"key": "items.1.quantity", "value": "4,700,000 PCS", "bbox_2d": [576, 381, 661, 391], "page": 1},
- {"key": "items.1.unit_price", "value": "JPY 0.21", "bbox_2d": [724, 381, 775, 391], "page": 1},
- {"key": "items.1.amount", "value": "JPY 987,000", "bbox_2d": [861, 381, 933, 391], "page": 1},
- {"key": "items.2.description", "value": "LED Driver IC, SOP-8", "bbox_2d": [251, 414, 381, 425], "page": 1},
- {"key": "items.2.model", "value": "LD-392B", "bbox_2d": [306, 428, 358, 439], "page": 1},
- {"key": "items.2.quantity", "value": "20,000 PCS", "bbox_2d": [593, 414, 661, 425], "page": 1},
- {"key": "items.2.unit_price", "value": "JPY 86.02", "bbox_2d": [717, 414, 775, 425], "page": 1},
- {"key": "items.2.amount", "value": "JPY 1,720,400", "bbox_2d": [850, 414, 933, 425], "page": 1},
  {"key": "total_quantity", "value": "69 CTNS", "bbox_2d": [473, 641, 528, 652], "page": 1},
  {"key": "total_amount", "value": "JPY 4,315,580", "bbox_2d": [848, 641, 933, 652], "page": 1},
  {"key": "signed_by", "value": "Tokyo Seimitsu Kogyo K.K.", "bbox_2d": [564, 697, 732, 707], "page": 1},
  {"key": "signer", "value": "Kenji Sato", "bbox_2d": [564, 746, 624, 757], "page": 1}]
+```
+
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- measurement: Measurement
+- description: DescriptionofGoods
+- model: Model
+- quantity: Quantity/Unit
+- unit_price: Unit-price
+- amount: Amount
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "measurement",
+  "description",
+  "model",
+  "quantity",
+  "unit_price",
+  "amount"
+ ],
+ "rows": [
+  [
+   null,
+   "Board-to-Board Connector 0.5mm Pitch 40P",
+   "BB-649B",
+   "42,000 PCS",
+   "JPY 38.29",
+   "JPY 1,608,180"
+  ],
+  [
+   null,
+   "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "RC-843",
+   "4,700,000 PCS",
+   "JPY 0.21",
+   "JPY 987,000"
+  ],
+  [
+   null,
+   "LED Driver IC, SOP-8",
+   "LD-392B",
+   "20,000 PCS",
+   "JPY 86.02",
+   "JPY 1,720,400"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    251,
+    327,
+    933,
+    352
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    251,
+    381,
+    933,
+    405
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    251,
+    414,
+    933,
+    439
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["DescriptionofGoods", "Model", "Quantity/Unit", "Unit-price", "Amount"], "bbox_2d": [244, 287, 941, 439], "page": 1, "n_rows": 3}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 표를 보고 답하세요. 'Unit-price' 칸의 값을 모두 더하면 얼마입니까? 빈 칸은 0 으로 봅니다. (쉼표·단위 없이 숫자만 답하세요)
+```
+
+답:
+
+```json
+124.52
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 표를 보고 답하세요. 'Amount' 칸이 'JPY 987,000'인 행은 몇 개입니까? (숫자만 답하세요)
+```
+
+답:
+
+```json
+1
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -284,6 +395,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa commercial_invoice --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

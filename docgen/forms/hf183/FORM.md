@@ -1,6 +1,6 @@
 # 퇴직연금 통지서비스 신청서(가입자용) (`hf183`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf183 · card-hash: e105c5736a05 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf183 · card-hash: e3b8770295d9 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 퇴직연금 통지서비스 신청서(가입자용)
@@ -20,11 +20,10 @@
 | `look/original.pdf` | 원본 PDF |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 12칸
+## 추출 항목 (정보 추출 kie) — 11칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `목록.*.은행사용란` | 은행사용란 | text | - (1행) | 늘 | 표 행 (묶음·항목명 '은행 사용란') | 값 종류 `skip` (항목명 자동) | fields.json:64 | 묻기 |
 | `customer.name` | 성명(업체명) | text | 1쪽 [605, 175, 675, 187] | 늘 | 규칙: '성명(업체명)' → `customer.name` | 고객 정보 (키 `customer.name`) | fields.json:174 | 묻기 |
 | `customer.birth` | 생년월일 | date | 1쪽 [630, 200, 826, 214] | 늘 | 날짜 칸 (항목명) | 작성일 | fields.json:185 | 묻기 |
 | `customer.email` | E-mail주소 | text | 1쪽 [597, 276, 921, 302] | 늘 | 규칙: 'E-mail 주소' → `customer.email` | 고객 정보 (키 `customer.email`) | fields.json:271 | 묻기 |
@@ -36,6 +35,14 @@
 | `목표수익률에도달하면펀드자동환매` | 목표수익률에도달하면펀드자동환매 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:498 | 묻기 |
 | `date` | 작성일 | date | 1쪽 [719, 110, 927, 124] | 늘 | 날짜 칸 (항목명) | 작성일 | fields.json:978 | 묻기 |
 | `signer.name` | 가입자 | text | 2쪽 [477, 314, 543, 325] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:1109 | 묻기 |
+
+## 표 `목록` (표 과제 table·table_read·table_find·table_qa) — 1열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `목록.*.은행사용란` | 은행사용란 | text | - (1행) | 늘 | 표 행 (묶음·항목명 '은행 사용란') | 값 종류 `skip` (항목명 자동) | fields.json:64 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 23칸
 
@@ -150,15 +157,6 @@ answer_empty: {"key": "{key}", "value": null}
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
-- 목록.0.은행사용란: 은행사용란 (목록 1행)
-- 목록.1.은행사용란: 은행사용란 (목록 2행)
-- 목록.2.은행사용란: 은행사용란 (목록 3행)
-- 목록.3.은행사용란: 은행사용란 (목록 4행)
-- 목록.4.은행사용란: 은행사용란 (목록 5행)
-- 목록.5.은행사용란: 은행사용란 (목록 6행)
-- 목록.6.은행사용란: 은행사용란 (목록 7행)
-- 목록.7.은행사용란: 은행사용란 (목록 8행)
-- 목록.8.은행사용란: 은행사용란 (목록 9행)
 - customer.name: 성명(업체명) (고객 성명)
 - customer.birth: 생년월일 (고객 생년월일)
 - customer.email: E-mail주소 (고객 이메일)
@@ -175,16 +173,7 @@ answer_empty: {"key": "{key}", "value": null}
 답:
 
 ```json
-[{"key": "목록.0.은행사용란", "value": null},
- {"key": "목록.1.은행사용란", "value": null},
- {"key": "목록.2.은행사용란", "value": null},
- {"key": "목록.3.은행사용란", "value": null},
- {"key": "목록.4.은행사용란", "value": null},
- {"key": "목록.5.은행사용란", "value": null},
- {"key": "목록.6.은행사용란", "value": null},
- {"key": "목록.7.은행사용란", "value": null},
- {"key": "목록.8.은행사용란", "value": null},
- {"key": "customer.name", "value": "남궁예태", "bbox_2d": [605, 175, 675, 187], "page": 1},
+[{"key": "customer.name", "value": "남궁예태", "bbox_2d": [605, 175, 675, 187], "page": 1},
  {"key": "customer.birth", "value": "2025년 4월 1일", "bbox_2d": [630, 200, 826, 214], "page": 1},
  {"key": "customer.email", "value": "yetae741@gmail.com", "bbox_2d": [597, 276, 921, 302], "page": 1},
  {"key": "자택", "value": null},
@@ -297,6 +286,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf183 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

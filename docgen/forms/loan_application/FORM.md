@@ -1,6 +1,6 @@
 # 대출거래신청서 (`loan_application`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card loan_application · card-hash: ba6cbec90ea3 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card loan_application · card-hash: 6bf693fda001 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** bank_form · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 대출거래신청서 (다른 이름: 《개인》대출신청서(가계용))
@@ -21,7 +21,7 @@
 | `docgen/docs/bank_form_loan.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 47칸
+## 추출 항목 (정보 추출 kie) — 39칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -41,14 +41,6 @@
 | `employer.hire_date` ← `workplace.hire_date` | 입사년월일 | date | 1쪽 [644, 351, 711, 362] | 늘 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:260 | 묻기 |
 | `workplace.annual_income` | 연소득(본인) | text | 1쪽 [198, 371, 259, 382] | 늘 | 템플릿 | generate.py | look/template.html.j2:33 · fields.json:250 | 묻기 |
 | `employer.address` ← `workplace.address` | 직장주소 | text | 1쪽 [644, 371, 891, 382] | 늘 | 템플릿 | generate.py | look/template.html.j2:33 · fields.json:245 | 묻기 |
-| `debts.*.lender` | 금융기관 | text | 1쪽 [96, 437, 153, 448] (1행) | 12/16 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:315 | 묻기 |
-| `debts.*.kind` | 대출종류 | text | 1쪽 [196, 437, 253, 448] (1행) | 12/16 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:310 | 묻기 |
-| `debts.*.balance` | 잔액 | amount | 1쪽 [288, 437, 352, 448] (1행) | 12/16 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:305 | 묻기 |
-| `debts.*.maturity` | 만기일 | date | 1쪽 [373, 437, 440, 448] (1행) | 12/16 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:320 | 묻기 |
-| `debts.*.refinance` | 상환여부 | text | 1쪽 [475, 437, 504, 448] (1행) | 12/16 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:325 | 묻기 |
-| `assets.*.kind` | 종류 | text | 1쪽 [547, 437, 590, 448] (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:285 | 묻기 |
-| `assets.*.location` | 소재지 | text | 1쪽 [607, 437, 812, 448] (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:290 | 묻기 |
-| `assets.*.value` | 평가금액 | amount | 1쪽 [838, 437, 921, 448] (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:295 | 묻기 |
 | `loan.subject` | 대출과목 | text | 1쪽 [198, 502, 284, 513] | 늘 | 템플릿 | generate.py | look/template.html.j2:78 · fields.json:195 | 묻기 |
 | `loan.product` | 상품명 | text | 1쪽 [644, 502, 730, 513] | 늘 | 템플릿 | generate.py | look/template.html.j2:78 · fields.json:170 | 묻기 |
 | `loan.amount_korean` | 대출신청금액(한글) | amount_korean | 1쪽 [198, 522, 330, 533] | 늘 | 템플릿 | generate.py | look/template.html.j2:79 · fields.json:140 | 묻기 |
@@ -72,6 +64,28 @@
 | `co_borrower.relation` | 신청인과의관계 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:93 · fields.json:95 | 묻기 |
 | `co_borrower.mobile` | 공동차주휴대전화 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:93 · fields.json:85 | 묻기 |
 | `co_borrower.workplace` | 공동차주직장 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:94 · fields.json:105 | 묻기 |
+
+## 표 `debts` (표 과제 table·table_read·table_find·table_qa) — 5열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `debts.*.lender` | 금융기관 | text | 1쪽 [96, 437, 153, 448] (1행) | 12/16 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:315 | 묻기 |
+| `debts.*.kind` | 대출종류 | text | 1쪽 [196, 437, 253, 448] (1행) | 12/16 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:310 | 묻기 |
+| `debts.*.balance` | 잔액 | amount | 1쪽 [288, 437, 352, 448] (1행) | 12/16 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:305 | 묻기 |
+| `debts.*.maturity` | 만기일 | date | 1쪽 [373, 437, 440, 448] (1행) | 12/16 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:320 | 묻기 |
+| `debts.*.refinance` | 상환여부 | text | 1쪽 [475, 437, 504, 448] (1행) | 12/16 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:325 | 묻기 |
+
+## 표 `assets` (표 과제 table·table_read·table_find·table_qa) — 3열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `assets.*.kind` | 종류 | text | 1쪽 [547, 437, 590, 448] (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:285 | 묻기 |
+| `assets.*.location` | 소재지 | text | 1쪽 [607, 437, 812, 448] (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:290 | 묻기 |
+| `assets.*.value` | 평가금액 | amount | 1쪽 [838, 437, 921, 448] (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:295 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 16칸
 
@@ -224,21 +238,11 @@ answer_empty: {"key": "{key}", "value": null}
 - applicant.work_phone: 직장전화
 - employer.name: 직장명 (직장 이름)
 - employer.department: 근무부서 (직장 부서)
+- employer.position: 직위 (직장 직위)
+- employer.hire_date: 입사년월일 (직장 입사일)
+- workplace.annual_income: 연소득(본인)
 - employer.address: 직장주소
-- debts.0.lender: 금융기관 (1행)
-- debts.0.kind: 대출종류 (1행)
-- debts.0.balance: 잔액 (1행)
-- debts.0.maturity: 만기일 (1행)
-- debts.0.refinance: 상환여부 (1행)
-- debts.1.lender: 금융기관 (2행)
-- debts.1.kind: 대출종류 (2행)
-- debts.1.balance: 잔액 (2행)
-- debts.1.maturity: 만기일 (2행)
-- assets.0.kind: 종류 (1행)
-- assets.0.value: 평가금액 (1행)
-- assets.1.kind: 종류 (2행)
-- assets.1.location: 소재지 (2행)
-- assets.1.value: 평가금액 (2행)
+- loan.subject: 대출과목
 - loan.product: 상품명
 - loan.amount_korean: 대출신청금액(한글)
 - loan.amount: 대출신청금액
@@ -269,21 +273,11 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "applicant.work_phone", "value": null},
  {"key": "employer.name", "value": "주식회사 다온패션", "bbox_2d": [198, 331, 316, 342], "page": 1},
  {"key": "employer.department", "value": "고객지원팀", "bbox_2d": [644, 331, 715, 342], "page": 1},
+ {"key": "employer.position", "value": "대리", "bbox_2d": [198, 351, 226, 362], "page": 1},
+ {"key": "employer.hire_date", "value": "2021-03-06", "bbox_2d": [644, 351, 711, 362], "page": 1},
+ {"key": "workplace.annual_income", "value": "5,170만원", "bbox_2d": [198, 371, 259, 382], "page": 1},
  {"key": "employer.address", "value": "부산광역시 해운대구 해운대로 326, 7층", "bbox_2d": [644, 371, 891, 382], "page": 1},
- {"key": "debts.0.lender", "value": "농협은행", "bbox_2d": [96, 437, 153, 448], "page": 1},
- {"key": "debts.0.kind", "value": "신용대출", "bbox_2d": [196, 437, 253, 448], "page": 1},
- {"key": "debts.0.balance", "value": "12,500,000", "bbox_2d": [288, 437, 352, 448], "page": 1},
- {"key": "debts.0.maturity", "value": "2028-01-19", "bbox_2d": [373, 437, 440, 448], "page": 1},
- {"key": "debts.0.refinance", "value": "유지", "bbox_2d": [475, 437, 504, 448], "page": 1},
- {"key": "debts.1.lender", "value": "새마을금고", "bbox_2d": [89, 455, 160, 465], "page": 1},
- {"key": "debts.1.kind", "value": "학자금대출", "bbox_2d": [188, 455, 260, 465], "page": 1},
- {"key": "debts.1.balance", "value": "13,100,000", "bbox_2d": [288, 455, 352, 465], "page": 1},
- {"key": "debts.1.maturity", "value": "2030-04-13", "bbox_2d": [373, 455, 440, 465], "page": 1},
- {"key": "assets.0.kind", "value": "아파트", "bbox_2d": [547, 437, 590, 448], "page": 1},
- {"key": "assets.0.value", "value": "1,560,000,000", "bbox_2d": [838, 437, 921, 448], "page": 1},
- {"key": "assets.1.kind", "value": "예금", "bbox_2d": [554, 455, 583, 465], "page": 1},
- {"key": "assets.1.location", "value": "국민은행, 카카오뱅크", "bbox_2d": [607, 455, 744, 465], "page": 1},
- {"key": "assets.1.value", "value": "70,700,000", "bbox_2d": [856, 455, 921, 465], "page": 1},
+ {"key": "loan.subject", "value": "주택담보대출", "bbox_2d": [198, 502, 284, 513], "page": 1},
  {"key": "loan.product", "value": "주택담보대출", "bbox_2d": [644, 502, 730, 513], "page": 1},
  {"key": "loan.amount_korean", "value": "일금 삼억일백만원정", "bbox_2d": [198, 522, 330, 533], "page": 1},
  {"key": "loan.amount", "value": "301,000,000", "bbox_2d": [360, 522, 431, 533], "page": 1},
@@ -346,6 +340,183 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "sign.customer", "value": false}]
 ```
 
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 '금융기관'·'잔액' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- lender: 금융기관
+- kind: 대출종류
+- balance: 잔액
+- maturity: 만기일
+- refinance: 상환여부
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "lender",
+  "kind",
+  "balance",
+  "maturity",
+  "refinance"
+ ],
+ "rows": [
+  [
+   "농협은행",
+   "신용대출",
+   "12,500,000",
+   "2028-01-19",
+   "유지"
+  ],
+  [
+   "새마을금고",
+   "학자금대출",
+   "13,100,000",
+   "2030-04-13",
+   "유지"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    96,
+    437,
+    504,
+    448
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    89,
+    455,
+    504,
+    465
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["금융기관", "대출종류", "잔액", "만기일", "상환여부"], "bbox_2d": [74, 416, 524, 465], "page": 1, "n_rows": 2},
+ {"columns": ["종류", "소재지", "평가금액"], "bbox_2d": [535, 416, 926, 465], "page": 1, "n_rows": 2}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[74, 416, 524, 465] 위치의 표를 보고 답하세요. '금융기관' 칸이 '새마을금고'인 행의 '잔액' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"13,100,000"
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[74, 416, 524, 465] 위치의 표를 보고 답하세요. 마지막 행의 '금융기관' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"새마을금고"
+```
+
+### 표 그대로 옮기기 `table_read` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 '금융기관'·'대출종류' 열이 있는 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.
+꼴: {"columns": [머리글 글자, …], "rows": [[칸 글자, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 " > " 로 잇습니다.
+- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.
+- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "금융기관",
+  "대출종류",
+  "잔액(원)",
+  "만기일",
+  "상환여부"
+ ],
+ "rows": [
+  [
+   "농협은행",
+   "신용대출",
+   "12,500,000",
+   "2028-01-19",
+   "유지"
+  ],
+  [
+   "새마을금고",
+   "학자금대출",
+   "13,100,000",
+   "2030-04-13",
+   "유지"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    74,
+    434,
+    524,
+    452
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    74,
+    452,
+    524,
+    470
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
 
 없습니다. 더하려면 이 폴더에 `qa.py` 를 만들고 함수 하나에 질문 하나 (견본: `python -m docgen.formdir qa loan_application --new`):
@@ -376,6 +547,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa loan_application --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

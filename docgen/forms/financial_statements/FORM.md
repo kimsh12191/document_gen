@@ -1,6 +1,6 @@
 # 재무제표(재무상태표·손익계산서) (`financial_statements`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card financial_statements · card-hash: 885965f87837 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card financial_statements · card-hash: 4519936b2297 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** corporate · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 재무제표(재무상태표·손익계산서)
@@ -21,7 +21,7 @@
 | `docgen/docs/corporate.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 32칸
+## 추출 항목 (정보 추출 kie) — 14칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -31,29 +31,71 @@
 | `bs_prior_date` | 전기말 | text | 1쪽 [463, 70, 612, 83] | 늘 | 템플릿 | generate.py | look/template.html.j2:38 · fields.json:20 | 묻기 |
 | `corp.name` ← `company_name` | 회사명 | text | 1쪽 [124, 89, 226, 101] | 늘 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:35 | 묻기 |
 | `unit` | 단위 | text | 1쪽 [850, 89, 933, 101] | 늘 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:75 | 묻기 |
-| `assets.*.account` | 과목 | text | 1쪽 [76, 144, 156, 156] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:105 | 묻기 |
-| `assets.*.current` | 당기 | amount | 1쪽 [582, 144, 648, 156] (1행) | 늘 | 템플릿 | generate.py | fields.json:110 | 묻기 |
-| `assets.*.prior` | 전기 | number | 1쪽 [859, 144, 924, 156] (1행) | 늘 | 템플릿 | generate.py | fields.json:115 | 묻기 |
-| `liabilities.*.account` | 과목 | text | 1쪽 [76, 418, 156, 429] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:165 | 묻기 |
-| `liabilities.*.current` | 당기 | amount | 1쪽 [582, 418, 648, 429] (1행) | 늘 | 템플릿 | generate.py | fields.json:170 | 묻기 |
-| `liabilities.*.prior` | 전기 | number | 1쪽 [866, 418, 924, 429] (1행) | 늘 | 템플릿 | generate.py | fields.json:175 | 묻기 |
-| `equity.*.account` | 과목 | text | 1쪽 [76, 542, 141, 554] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:125 | 묻기 |
-| `equity.*.current` | 당기 | amount | 1쪽 [600, 542, 648, 554] (1행) | 늘 | 템플릿 | generate.py | fields.json:130 | 묻기 |
-| `equity.*.prior` | 전기 | number | 1쪽 [877, 542, 924, 554] (1행) | 늘 | 템플릿 | generate.py | fields.json:135 | 묻기 |
 | `total_liabilities_equity.current` | 부채와자본총계(당기) | amount | 1쪽 [582, 606, 648, 618] | 늘 | 템플릿 | generate.py | look/template.html.j2:50 · fields.json:65 | 묻기 |
 | `total_liabilities_equity.prior` | 부채와자본총계(전기) | number | 1쪽 [859, 606, 924, 618] | 늘 | 템플릿 | generate.py | look/template.html.j2:50 · fields.json:70 | 묻기 |
 | `is_current_period` | 당기회계기간 | text | 1쪽 [391, 657, 684, 669] | 늘 | 템플릿 | generate.py | look/template.html.j2:54 · fields.json:45 | 묻기 |
 | `is_prior_period` | 전기회계기간 | text | 1쪽 [391, 671, 684, 683] | 늘 | 템플릿 | generate.py | look/template.html.j2:54 · fields.json:50 | 묻기 |
-| `income_statement.*.account` | 과목 | text | 1쪽 [76, 732, 141, 744] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:145 | 묻기 |
-| `income_statement.*.current` | 당기 | amount | 1쪽 [582, 732, 648, 744] (1행) | 늘 | 템플릿 | generate.py | fields.json:150 | 묻기 |
-| `income_statement.*.prior` | 전기 | number | 1쪽 [859, 732, 924, 744] (1행) | 늘 | 템플릿 | generate.py | fields.json:155 | 묻기 |
 | `certify_date` | 확인일 | - | - | 4/16 | 템플릿 | generate.py | look/template.html.j2:78 · fields.json:30 | 묻기 |
 | `ceo` | 대표이사 | - | - | 4/16 | 템플릿 | generate.py | fields.json:25 | 묻기 |
 | `appropriation_date_current` | 처분일 | - | - | 4/16 | 템플릿 | generate.py | look/template.html.j2:74 · fields.json:5 | 묻기 |
 | `appropriation_date_prior` | 처분일 | - | - | 4/16 | 템플릿 | generate.py | look/template.html.j2:74 · fields.json:10 | 묻기 |
+
+## 표 `assets` (표 과제 table·table_read·table_find·table_qa) — 3열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `assets.*.account` | 과목 | text | 1쪽 [76, 144, 156, 156] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:105 | 묻기 |
+| `assets.*.current` | 당기 | amount | 1쪽 [582, 144, 648, 156] (1행) | 늘 | 템플릿 | generate.py | fields.json:110 | 묻기 |
+| `assets.*.prior` | 전기 | number | 1쪽 [859, 144, 924, 156] (1행) | 늘 | 템플릿 | generate.py | fields.json:115 | 묻기 |
+
+## 표 `liabilities` (표 과제 table·table_read·table_find·table_qa) — 3열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `liabilities.*.account` | 과목 | text | 1쪽 [76, 418, 156, 429] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:165 | 묻기 |
+| `liabilities.*.current` | 당기 | amount | 1쪽 [582, 418, 648, 429] (1행) | 늘 | 템플릿 | generate.py | fields.json:170 | 묻기 |
+| `liabilities.*.prior` | 전기 | number | 1쪽 [866, 418, 924, 429] (1행) | 늘 | 템플릿 | generate.py | fields.json:175 | 묻기 |
+
+## 표 `equity` (표 과제 table·table_read·table_find·table_qa) — 3열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `equity.*.account` | 과목 | text | 1쪽 [76, 542, 141, 554] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:125 | 묻기 |
+| `equity.*.current` | 당기 | amount | 1쪽 [600, 542, 648, 554] (1행) | 늘 | 템플릿 | generate.py | fields.json:130 | 묻기 |
+| `equity.*.prior` | 전기 | number | 1쪽 [877, 542, 924, 554] (1행) | 늘 | 템플릿 | generate.py | fields.json:135 | 묻기 |
+
+## 표 `income_statement` (표 과제 table·table_read·table_find·table_qa) — 3열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `income_statement.*.account` | 과목 | text | 1쪽 [76, 732, 141, 744] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:145 | 묻기 |
+| `income_statement.*.current` | 당기 | amount | 1쪽 [582, 732, 648, 744] (1행) | 늘 | 템플릿 | generate.py | fields.json:150 | 묻기 |
+| `income_statement.*.prior` | 전기 | number | 1쪽 [859, 732, 924, 744] (1행) | 늘 | 템플릿 | generate.py | fields.json:155 | 묻기 |
+
+## 표 `appropriation` (표 과제 table·table_read·table_find·table_qa) — 3열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `appropriation.*.account` | 과목 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:85 | 묻기 |
 | `appropriation.*.current` | 당기 | - | - (1행) | 4/16 | 템플릿 | generate.py | fields.json:90 | 묻기 |
 | `appropriation.*.prior` | 전기 | - | - (1행) | 4/16 | 템플릿 | generate.py | fields.json:95 | 묻기 |
+
+## 표 `manufacturing_cost` (표 과제 table·table_read·table_find·table_qa) — 3열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `manufacturing_cost.*.account` | 과목 | - | - (1행) | 2/16 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:185 | 묻기 |
 | `manufacturing_cost.*.current` | 당기 | - | - (1행) | 2/16 | 템플릿 | generate.py | fields.json:190 | 묻기 |
 | `manufacturing_cost.*.prior` | 전기 | - | - (1행) | 2/16 | 템플릿 | generate.py | fields.json:195 | 묻기 |
@@ -285,91 +327,409 @@ answer_empty: {"key": "{key}", "value": null}
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
-- current_term: 당기 (같은 항목명 중 1번째 칸)
+- issue_no: 발행번호
+- current_term: 당기
+- bs_current_date: 당기말
+- prior_term: 전기
+- bs_prior_date: 전기말
 - corp.name: 회사명 (법인·사업자 상호)
-- assets.0.current: 당기 (1행)
-- assets.2.account: 과목 (3행)
-- assets.7.prior: 전기 (8행)
-- assets.8.prior: 전기 (9행)
-- assets.9.prior: 전기 (10행)
-- assets.10.prior: 전기 (11행)
-- assets.11.current: 당기 (12행)
-- assets.12.current: 당기 (13행)
-- assets.13.account: 과목 (14행)
-- assets.14.current: 당기 (15행)
-- assets.16.account: 과목 (17행)
-- assets.19.current: 당기 (20행)
-- assets.20.current: 당기 (21행)
-- liabilities.1.account: 과목 (2행)
-- liabilities.1.prior: 전기 (2행)
-- liabilities.2.account: 과목 (3행)
-- liabilities.2.prior: 전기 (3행)
-- liabilities.3.account: 과목 (4행)
-- liabilities.5.account: 과목 (6행)
-- liabilities.6.current: 당기 (7행)
-- liabilities.6.prior: 전기 (7행)
-- liabilities.8.current: 당기 (9행)
-- equity.0.account: 과목 (1행)
-- equity.1.account: 과목 (2행)
-- equity.2.current: 당기 (3행)
-- equity.4.prior: 전기 (5행)
+- unit: 단위
+- issue_scope: 증명서구분
+- total_liabilities_equity.current: 부채와자본총계(당기)
 - total_liabilities_equity.prior: 부채와자본총계(전기)
 - is_current_period: 당기회계기간
 - is_prior_period: 전기회계기간
-- income_statement.1.account: 과목 (2행)
-- income_statement.1.current: 당기 (2행)
-- income_statement.2.prior: 전기 (3행)
-- income_statement.4.account: 과목 (5행)
-- income_statement.7.account: 과목 (8행)
-- income_statement.8.current: 당기 (9행)
-- income_statement.10.current: 당기 (11행)
-- income_statement.10.prior: 전기 (11행)
-- income_statement.11.prior: 전기 (12행)
 ```
 
 답:
 
 ```json
-[{"key": "current_term", "value": "제 5(당)기", "bbox_2d": [388, 56, 456, 69], "page": 1},
+[{"key": "issue_no", "value": null},
+ {"key": "current_term", "value": "제 5(당)기", "bbox_2d": [388, 56, 456, 69], "page": 1},
+ {"key": "bs_current_date", "value": "2024년 12월 31일 현재", "bbox_2d": [463, 56, 612, 69], "page": 1},
+ {"key": "prior_term", "value": "제 4(전)기", "bbox_2d": [388, 70, 456, 83], "page": 1},
+ {"key": "bs_prior_date", "value": "2023년 12월 31일 현재", "bbox_2d": [463, 70, 612, 83], "page": 1},
  {"key": "corp.name", "value": "(주)미래케미칼", "bbox_2d": [124, 89, 226, 101], "page": 1},
- {"key": "assets.0.current", "value": "17,074,325", "bbox_2d": [582, 144, 648, 156], "page": 1},
- {"key": "assets.2.account", "value": "현금및현금성자산", "bbox_2d": [106, 169, 223, 181], "page": 1},
- {"key": "assets.7.prior", "value": "1,439,997", "bbox_2d": [728, 231, 786, 242], "page": 1},
- {"key": "assets.8.prior", "value": "518,837", "bbox_2d": [739, 243, 786, 255], "page": 1},
- {"key": "assets.9.prior", "value": "15,694,024", "bbox_2d": [859, 256, 924, 267], "page": 1},
- {"key": "assets.10.prior", "value": "13,826,976", "bbox_2d": [859, 268, 924, 280], "page": 1},
- {"key": "assets.11.current", "value": "12,399,243", "bbox_2d": [443, 280, 509, 292], "page": 1},
- {"key": "assets.12.current", "value": "8,008,061", "bbox_2d": [451, 293, 509, 304], "page": 1},
- {"key": "assets.13.account", "value": "감가상각누계액", "bbox_2d": [106, 305, 208, 317], "page": 1},
- {"key": "assets.14.current", "value": "7,874,678", "bbox_2d": [451, 318, 509, 329], "page": 1},
- {"key": "assets.16.account", "value": "(2) 무형자산", "bbox_2d": [86, 342, 165, 354], "page": 1},
- {"key": "assets.19.current", "value": "7,768,185", "bbox_2d": [451, 380, 509, 391], "page": 1},
- {"key": "assets.20.current", "value": "50,102,962", "bbox_2d": [582, 393, 648, 404], "page": 1},
- {"key": "liabilities.1.account", "value": "매입채무", "bbox_2d": [106, 430, 164, 441], "page": 1},
- {"key": "liabilities.1.prior", "value": "3,417,666", "bbox_2d": [728, 430, 786, 441], "page": 1},
- {"key": "liabilities.2.account", "value": "미지급금", "bbox_2d": [106, 442, 164, 454], "page": 1},
- {"key": "liabilities.2.prior", "value": "817,239", "bbox_2d": [739, 442, 786, 454], "page": 1},
- {"key": "liabilities.3.account", "value": "예수금", "bbox_2d": [106, 455, 150, 466], "page": 1},
- {"key": "liabilities.5.account", "value": "Ⅱ. 비유동부채", "bbox_2d": [76, 480, 171, 491], "page": 1},
- {"key": "liabilities.6.current", "value": "12,680,737", "bbox_2d": [443, 492, 509, 503], "page": 1},
- {"key": "liabilities.6.prior", "value": "6,050,458", "bbox_2d": [728, 492, 786, 503], "page": 1},
- {"key": "liabilities.8.current", "value": "32,339,625", "bbox_2d": [582, 518, 648, 529], "page": 1},
- {"key": "equity.0.account", "value": "Ⅰ. 자본금", "bbox_2d": [76, 542, 141, 554], "page": 1},
- {"key": "equity.1.account", "value": "보통주자본금", "bbox_2d": [106, 555, 193, 566], "page": 1},
- {"key": "equity.2.current", "value": "17,463,337", "bbox_2d": [582, 567, 648, 579], "page": 1},
- {"key": "equity.4.prior", "value": "10,458,771", "bbox_2d": [859, 593, 924, 604], "page": 1},
+ {"key": "unit", "value": "(단위 : 천원)", "bbox_2d": [850, 89, 933, 101], "page": 1},
+ {"key": "issue_scope", "value": null},
+ {"key": "total_liabilities_equity.current", "value": "50,102,962", "bbox_2d": [582, 606, 648, 618], "page": 1},
  {"key": "total_liabilities_equity.prior", "value": "26,295,261", "bbox_2d": [859, 606, 924, 618], "page": 1},
  {"key": "is_current_period", "value": "2024년 01월 01일부터 2024년 12월 31일까지", "bbox_2d": [391, 657, 684, 669], "page": 1},
- {"key": "is_prior_period", "value": "2023년 01월 01일부터 2023년 12월 31일까지", "bbox_2d": [391, 671, 684, 683], "page": 1},
- {"key": "income_statement.1.account", "value": "제품매출", "bbox_2d": [106, 745, 164, 756], "page": 1},
- {"key": "income_statement.1.current", "value": "73,589,000", "bbox_2d": [443, 745, 509, 756], "page": 1},
- {"key": "income_statement.2.prior", "value": "53,190,998", "bbox_2d": [859, 757, 924, 769], "page": 1},
- {"key": "income_statement.4.account", "value": "Ⅳ. 판매비와관리비", "bbox_2d": [76, 782, 200, 794], "page": 1},
- {"key": "income_statement.7.account", "value": "이자수익", "bbox_2d": [106, 819, 164, 831], "page": 1},
- {"key": "income_statement.8.current", "value": "1,162,609", "bbox_2d": [589, 832, 648, 843], "page": 1},
- {"key": "income_statement.10.current", "value": "8,027,837", "bbox_2d": [589, 856, 648, 868], "page": 1},
- {"key": "income_statement.10.prior", "value": "2,707,246", "bbox_2d": [866, 856, 924, 868], "page": 1},
- {"key": "income_statement.11.prior", "value": "281,105", "bbox_2d": [877, 869, 924, 880], "page": 1}]
+ {"key": "is_prior_period", "value": "2023년 01월 01일부터 2023년 12월 31일까지", "bbox_2d": [391, 671, 684, 683], "page": 1}]
+```
+
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 1쪽 bbox_2d=[76, 105, 933, 404] 위치의 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- account: 과목
+- current: 당기
+- prior: 전기
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "account",
+  "current",
+  "prior"
+ ],
+ "rows": [
+  [
+   "Ⅰ. 유동자산",
+   "17,074,325",
+   "10,601,237"
+  ],
+  [
+   "(1) 당좌자산",
+   "11,506,187",
+   "8,642,403"
+  ],
+  [
+   "현금및현금성자산",
+   "7,122,285",
+   "5,072,999"
+  ],
+  [
+   "매출채권",
+   "2,914,042",
+   "1,328,659"
+  ],
+  [
+   "대손충당금",
+   "(17,065)",
+   "(8,831)"
+  ],
+  [
+   "선급금",
+   "1,486,925",
+   "2,249,576"
+  ],
+  [
+   "(2) 재고자산",
+   "5,568,138",
+   "1,958,834"
+  ],
+  [
+   "제품",
+   "4,299,887",
+   "1,439,997"
+  ],
+  [
+   "원재료",
+   "1,268,251",
+   "518,837"
+  ],
+  [
+   "Ⅱ. 비유동자산",
+   "33,028,637",
+   "15,694,024"
+  ],
+  [
+   "(1) 유형자산",
+   "23,858,427",
+   "13,826,976"
+  ],
+  [
+   "토지",
+   "12,399,243",
+   "5,206,078"
+  ],
+  [
+   "기계장치",
+   "8,008,061",
+   "4,579,669"
+  ],
+  [
+   "감가상각누계액",
+   "(1,583,564)",
+   "(1,197,862)"
+  ],
+  [
+   "차량운반구",
+   "7,874,678",
+   "7,409,148"
+  ],
+  [
+   "감가상각누계액",
+   "(2,839,991)",
+   "(2,170,057)"
+  ],
+  [
+   "(2) 무형자산",
+   "1,402,025",
+   "475,748"
+  ],
+  [
+   "개발비",
+   "1,402,025",
+   "475,748"
+  ],
+  [
+   "(3) 기타비유동자산",
+   "7,768,185",
+   "1,391,300"
+  ],
+  [
+   "임차보증금",
+   "7,768,185",
+   "1,391,300"
+  ],
+  [
+   "자산총계",
+   "50,102,962",
+   "26,295,261"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    76,
+    144,
+    924,
+    156
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    86,
+    157,
+    924,
+    168
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    106,
+    169,
+    786,
+    181
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    106,
+    181,
+    786,
+    193
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    106,
+    194,
+    786,
+    205
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    106,
+    206,
+    786,
+    218
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    86,
+    219,
+    924,
+    230
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    106,
+    231,
+    786,
+    242
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    106,
+    243,
+    786,
+    255
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    76,
+    256,
+    924,
+    267
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    86,
+    268,
+    924,
+    280
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    106,
+    280,
+    786,
+    292
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    106,
+    293,
+    786,
+    304
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    106,
+    305,
+    786,
+    317
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    106,
+    318,
+    786,
+    329
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    106,
+    330,
+    786,
+    342
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    86,
+    342,
+    924,
+    354
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    106,
+    355,
+    786,
+    366
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    86,
+    367,
+    924,
+    379
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    106,
+    380,
+    786,
+    391
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    76,
+    393,
+    924,
+    404
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["과목", "당기", "전기"], "bbox_2d": [76, 105, 933, 404], "page": 1, "n_rows": 21},
+ {"columns": ["과목", "당기", "전기"], "bbox_2d": [76, 105, 933, 529], "page": 1, "n_rows": 9},
+ {"columns": ["과목", "당기", "전기"], "bbox_2d": [76, 105, 933, 604], "page": 1, "n_rows": 5},
+ {"columns": ["과목", "당기", "전기"], "bbox_2d": [76, 706, 933, 893], "page": 1, "n_rows": 13}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 '과목'·'당기' 열이 있는 표를 보고 답하세요. 마지막 행의 '과목' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"자산총계"
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 '과목'·'당기' 열이 있는 표를 보고 답하세요. '전기' 칸의 값을 모두 더하면 얼마입니까? 빈 칸은 0 으로 봅니다. (쉼표·단위 없이 숫자만 답하세요)
+```
+
+답:
+
+```json
+111934544
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -402,6 +762,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa financial_statements --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

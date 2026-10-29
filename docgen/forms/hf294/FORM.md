@@ -1,6 +1,6 @@
 # 「외국환서식관리프로그램」선적서류 (일부)매입(추심) 의뢰서(2D용) (`hf294`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf294 · card-hash: ebc39c3eee5d -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf294 · card-hash: 209c949b5cc4 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 「외국환서식관리프로그램」선적서류 (일부)매입(추심) 의뢰서(2D용)
@@ -20,7 +20,7 @@
 | `look/original.pdf` | 원본 PDF |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 40칸
+## 추출 항목 (정보 추출 kie) — 29칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -40,19 +40,8 @@
 | `HSCODE` | H.S.CODE | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:162 | 묻기 |
 | `BENEFICIARY` | BENEFICIARY(drawer) | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:173 | 묻기 |
 | `FOB금액` | FOB금액 | number | 1쪽 [833, 395, 917, 416] | 늘 | 항목명 그대로 | 값 종류 `amount` (항목명 자동) | fields.json:184 | 묻기 |
-| `TOISSUINGBANK_목록.*.BENE` | BENE | text | - (1행) | 늘 | 표 행 (묶음·항목명 'BENE') | 값 종류 `text` (항목명 자동) | fields.json:195 | 묻기 |
 | `TOREIMBANK` | TOREIM.BANK | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:223 | 묻기 |
-| `TOISSUINGBANK_목록.*.BANK` | BANK | text | - (1행) | 늘 | 표 행 (묶음·항목명 'BANK') | 값 종류 `text` (항목명 자동) | fields.json:234 | 묻기 |
 | `BANK` | BANK | text | - | 늘 | 표 행 (묶음·항목명 'BANK') | 값 종류 `text` (항목명 자동) | fields.json:262 | 묻기 |
-| `TOISSUINGBANK_목록.*.COMM` | COMM | text | - (1행) | 늘 | 표 행 (묶음·항목명 'COMM') | 값 종류 `text` (항목명 자동) | fields.json:274 | 묻기 |
-| `TOISSUINGBANK_목록.*.CUST` | CUST | text | - (1행) | 늘 | 표 행 (묶음·항목명 'CUST') | 값 종류 `text` (항목명 자동) | fields.json:302 | 묻기 |
-| `TOISSUINGBANK_목록.*.BL` | B/L | text | - (1행) | 늘 | 표 행 (묶음·항목명 'B/L') | 값 종류 `text` (항목명 자동) | fields.json:330 | 묻기 |
-| `TOISSUINGBANK_목록.*.AWB` | AWB | text | - (1행) | 늘 | 표 행 (묶음·항목명 'AWB') | 값 종류 `text` (항목명 자동) | fields.json:358 | 묻기 |
-| `TOISSUINGBANK_목록.*.PL` | P/L | text | - (1행) | 늘 | 표 행 (묶음·항목명 'P/L') | 값 종류 `text` (항목명 자동) | fields.json:386 | 묻기 |
-| `TOISSUINGBANK_목록.*.IP` | I/P | text | - (1행) | 늘 | 표 행 (묶음·항목명 'I/P') | 값 종류 `text` (항목명 자동) | fields.json:414 | 묻기 |
-| `TOISSUINGBANK_목록.*.CO` | C/O | text | - (1행) | 늘 | 표 행 (묶음·항목명 'C/O') | 값 종류 `text` (항목명 자동) | fields.json:442 | 묻기 |
-| `TOISSUINGBANK_목록.*.IC` | I/C | text | - (1행) | 늘 | 표 행 (묶음·항목명 'I/C') | 값 종류 `text` (항목명 자동) | fields.json:470 | 묻기 |
-| `TOISSUINGBANK_목록.*.BENECERT` | BENECERT | text | - (1행) | 늘 | 표 행 (묶음·항목명 'BENE CERT') | 값 종류 `text` (항목명 자동) | fields.json:498 | 묻기 |
 | `BENECERT` | BENECERT | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:526 | 묻기 |
 | `외화계정대체` | 외화계정대체 | amount | 1쪽 [233, 587, 344, 610] | 늘 | 항목명 그대로 | 값 종류 `fx_amount` (항목명 자동) | fields.json:537 | 묻기 |
 | `원화계정대체` | 원화계정대체 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:548 | 묻기 |
@@ -64,6 +53,24 @@
 | `MAILTO` | MAILTO | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:637 | 묻기 |
 | `NO` | NO | rrn | 1쪽 [280, 288, 362, 302] | 늘 | 항목명 그대로 | 값 종류 `number` (항목명 자동) | fields.json:649 | 묻기 |
 | `FROM` | FROM | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:661 | 묻기 |
+
+## 표 `TOISSUINGBANK_목록` (표 과제 table·table_read·table_find·table_qa) — 11열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `TOISSUINGBANK_목록.*.BENE` | BENE | text | - (1행) | 늘 | 표 행 (묶음·항목명 'BENE') | 값 종류 `text` (항목명 자동) | fields.json:195 | 묻기 |
+| `TOISSUINGBANK_목록.*.BANK` | BANK | text | - (1행) | 늘 | 표 행 (묶음·항목명 'BANK') | 값 종류 `text` (항목명 자동) | fields.json:234 | 묻기 |
+| `TOISSUINGBANK_목록.*.COMM` | COMM | text | - (1행) | 늘 | 표 행 (묶음·항목명 'COMM') | 값 종류 `text` (항목명 자동) | fields.json:274 | 묻기 |
+| `TOISSUINGBANK_목록.*.CUST` | CUST | text | - (1행) | 늘 | 표 행 (묶음·항목명 'CUST') | 값 종류 `text` (항목명 자동) | fields.json:302 | 묻기 |
+| `TOISSUINGBANK_목록.*.BL` | B/L | text | - (1행) | 늘 | 표 행 (묶음·항목명 'B/L') | 값 종류 `text` (항목명 자동) | fields.json:330 | 묻기 |
+| `TOISSUINGBANK_목록.*.AWB` | AWB | text | - (1행) | 늘 | 표 행 (묶음·항목명 'AWB') | 값 종류 `text` (항목명 자동) | fields.json:358 | 묻기 |
+| `TOISSUINGBANK_목록.*.PL` | P/L | text | - (1행) | 늘 | 표 행 (묶음·항목명 'P/L') | 값 종류 `text` (항목명 자동) | fields.json:386 | 묻기 |
+| `TOISSUINGBANK_목록.*.IP` | I/P | text | - (1행) | 늘 | 표 행 (묶음·항목명 'I/P') | 값 종류 `text` (항목명 자동) | fields.json:414 | 묻기 |
+| `TOISSUINGBANK_목록.*.CO` | C/O | text | - (1행) | 늘 | 표 행 (묶음·항목명 'C/O') | 값 종류 `text` (항목명 자동) | fields.json:442 | 묻기 |
+| `TOISSUINGBANK_목록.*.IC` | I/C | text | - (1행) | 늘 | 표 행 (묶음·항목명 'I/C') | 값 종류 `text` (항목명 자동) | fields.json:470 | 묻기 |
+| `TOISSUINGBANK_목록.*.BENECERT` | BENECERT | text | - (1행) | 늘 | 표 행 (묶음·항목명 'BENE CERT') | 값 종류 `text` (항목명 자동) | fields.json:498 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 2칸
 
@@ -164,38 +171,27 @@ answer_empty: {"key": "{key}", "value": null}
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
+- RM: RM
 - 영업점장: 영업점장
 - 고객번호: 고객번호
 - 매입번호: 매입번호
 - 일부매입금액: 일부매입금액
+- 일부추심금액: 일부추심금액
 - AMOUNT: AMOUNT
 - COMMODITY: COMMODITY
 - ACCOUNTEE: ACCOUNTEE(drawee)
 - PRICETERM: PRICETERM
 - 수출상대국: 수출상대국
+- 수출신고번호: 수출신고번호
 - TENORMATURITY: TENOR&MATURITY
 - HSCODE: H.S.CODE
 - BENEFICIARY: BENEFICIARY(drawer)
-- TOISSUINGBANK_목록.0.BENE: BENE (TOISSUINGBANK 목록 1행)
-- TOISSUINGBANK_목록.1.BENE: BENE (TOISSUINGBANK 목록 2행)
+- FOB금액: FOB금액
 - TOREIMBANK: TOREIM.BANK
-- TOISSUINGBANK_목록.0.BANK: BANK (TOISSUINGBANK 목록 1행)
-- TOISSUINGBANK_목록.1.BANK: BANK (TOISSUINGBANK 목록 2행)
-- BANK: BANK (같은 항목명 중 3번째 칸)
-- TOISSUINGBANK_목록.1.COMM: COMM (TOISSUINGBANK 목록 2행)
-- TOISSUINGBANK_목록.0.CUST: CUST (TOISSUINGBANK 목록 1행)
-- TOISSUINGBANK_목록.0.BL: B/L (TOISSUINGBANK 목록 1행)
-- TOISSUINGBANK_목록.1.BL: B/L (TOISSUINGBANK 목록 2행)
-- TOISSUINGBANK_목록.0.AWB: AWB (TOISSUINGBANK 목록 1행)
-- TOISSUINGBANK_목록.0.PL: P/L (TOISSUINGBANK 목록 1행)
-- TOISSUINGBANK_목록.1.PL: P/L (TOISSUINGBANK 목록 2행)
-- TOISSUINGBANK_목록.0.IP: I/P (TOISSUINGBANK 목록 1행)
-- TOISSUINGBANK_목록.0.CO: C/O (TOISSUINGBANK 목록 1행)
-- TOISSUINGBANK_목록.0.IC: I/C (TOISSUINGBANK 목록 1행)
-- TOISSUINGBANK_목록.1.IC: I/C (TOISSUINGBANK 목록 2행)
-- TOISSUINGBANK_목록.1.BENECERT: BENECERT (TOISSUINGBANK 목록 2행)
-- BENECERT: BENECERT (같은 항목명 중 3번째 칸)
+- BANK: BANK
+- BENECERT: BENECERT
 - 외화계정대체: 외화계정대체
+- 원화계정대체: 원화계정대체
 - A: A
 - B: B
 - 수입보증금: 수입보증금
@@ -209,38 +205,27 @@ answer_empty: {"key": "{key}", "value": null}
 답:
 
 ```json
-[{"key": "영업점장", "value": null},
+[{"key": "RM", "value": null},
+ {"key": "영업점장", "value": null},
  {"key": "고객번호", "value": "1296-8572", "bbox_2d": [764, 164, 851, 185], "page": 1},
  {"key": "매입번호", "value": "5706-3377", "bbox_2d": [763, 187, 850, 208], "page": 1},
  {"key": "일부매입금액", "value": "5,430,000원", "bbox_2d": [473, 218, 578, 240], "page": 1},
+ {"key": "일부추심금액", "value": "5,290,000", "bbox_2d": [831, 219, 918, 240], "page": 1},
  {"key": "AMOUNT", "value": "127,180,000", "bbox_2d": [399, 254, 495, 275], "page": 1},
  {"key": "COMMODITY", "value": null},
  {"key": "ACCOUNTEE", "value": null},
  {"key": "PRICETERM", "value": null},
  {"key": "수출상대국", "value": null},
+ {"key": "수출신고번호", "value": "792133-7070952", "bbox_2d": [508, 396, 624, 414], "page": 1},
  {"key": "TENORMATURITY", "value": null},
  {"key": "HSCODE", "value": null},
  {"key": "BENEFICIARY", "value": null},
- {"key": "TOISSUINGBANK_목록.0.BENE", "value": null},
- {"key": "TOISSUINGBANK_목록.1.BENE", "value": null},
+ {"key": "FOB금액", "value": "1,450,000", "bbox_2d": [833, 395, 917, 416], "page": 1},
  {"key": "TOREIMBANK", "value": null},
- {"key": "TOISSUINGBANK_목록.0.BANK", "value": null},
- {"key": "TOISSUINGBANK_목록.1.BANK", "value": null},
  {"key": "BANK", "value": null},
- {"key": "TOISSUINGBANK_목록.1.COMM", "value": null},
- {"key": "TOISSUINGBANK_목록.0.CUST", "value": null},
- {"key": "TOISSUINGBANK_목록.0.BL", "value": null},
- {"key": "TOISSUINGBANK_목록.1.BL", "value": null},
- {"key": "TOISSUINGBANK_목록.0.AWB", "value": null},
- {"key": "TOISSUINGBANK_목록.0.PL", "value": null},
- {"key": "TOISSUINGBANK_목록.1.PL", "value": null},
- {"key": "TOISSUINGBANK_목록.0.IP", "value": null},
- {"key": "TOISSUINGBANK_목록.0.CO", "value": null},
- {"key": "TOISSUINGBANK_목록.0.IC", "value": null},
- {"key": "TOISSUINGBANK_목록.1.IC", "value": null},
- {"key": "TOISSUINGBANK_목록.1.BENECERT", "value": null},
  {"key": "BENECERT", "value": null},
  {"key": "외화계정대체", "value": "CNY 134,400", "bbox_2d": [233, 587, 344, 610], "page": 1},
+ {"key": "원화계정대체", "value": null},
  {"key": "A", "value": null},
  {"key": "B", "value": null},
  {"key": "수입보증금", "value": "11,850,000", "bbox_2d": [409, 704, 495, 725], "page": 1},
@@ -309,6 +294,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf294 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

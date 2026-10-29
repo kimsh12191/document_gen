@@ -1,6 +1,6 @@
 # 표준재무제표증명 (`standard_financial_statement_proof`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card standard_financial_statement_proof · card-hash: ec5da81e1503 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card standard_financial_statement_proof · card-hash: c6bc599aa6cc -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** business · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 표준재무제표증명
@@ -21,7 +21,7 @@
 | `docgen/docs/business.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 68칸
+## 추출 항목 (정보 추출 kie) — 42칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -67,30 +67,121 @@
 | `income_statement.non_op_income` | 영업외수익 | amount | 1쪽 [860, 659, 924, 671] | 늘 | 템플릿 | generate.py | fields.json:120 | 묻기 |
 | `income_statement.non_op_expense` | 영업외비용 | amount | 1쪽 [860, 680, 924, 693] | 늘 | 템플릿 | generate.py | fields.json:115 | 묻기 |
 | `income_statement.net` | 당기순이익 | number | 1쪽 [853, 702, 924, 714] | 늘 | 템플릿 | generate.py | fields.json:110 | 묻기 |
+
+## 표 `bs_accounts.quick` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `bs_accounts.quick.*.account` | 계정과목 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:320 | 묻기 |
 | `bs_accounts.quick.*.amount` | 금액 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:325 | 묻기 |
+
+## 표 `bs_accounts.inventory` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `bs_accounts.inventory.*.account` | 계정과목 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:260 | 묻기 |
 | `bs_accounts.inventory.*.amount` | 금액 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:265 | 묻기 |
+
+## 표 `bs_accounts.investment` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `bs_accounts.investment.*.account` | 계정과목 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:275 | 묻기 |
 | `bs_accounts.investment.*.amount` | 금액 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:280 | 묻기 |
+
+## 표 `bs_accounts.tangible` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `bs_accounts.tangible.*.account` | 계정과목 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:335 | 묻기 |
 | `bs_accounts.tangible.*.amount` | 금액 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:340 | 묻기 |
+
+## 표 `bs_accounts.intangible` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `bs_accounts.intangible.*.account` | 계정과목 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:245 | 묻기 |
 | `bs_accounts.intangible.*.amount` | 금액 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:250 | 묻기 |
+
+## 표 `bs_accounts.other_noncurrent` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `bs_accounts.other_noncurrent.*.account` | 계정과목 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:305 | 묻기 |
 | `bs_accounts.other_noncurrent.*.amount` | 금액 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:310 | 묻기 |
+
+## 표 `bs_accounts.current_liab` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `bs_accounts.current_liab.*.account` | 계정과목 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:230 | 묻기 |
 | `bs_accounts.current_liab.*.amount` | 금액 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:235 | 묻기 |
+
+## 표 `bs_accounts.noncurrent_liab` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `bs_accounts.noncurrent_liab.*.account` | 계정과목 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:290 | 묻기 |
 | `bs_accounts.noncurrent_liab.*.amount` | 금액 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:295 | 묻기 |
+
+## 표 `pl_accounts.revenue` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `pl_accounts.revenue.*.account` | 계정과목 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:395 | 묻기 |
 | `pl_accounts.revenue.*.amount` | 금액 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:400 | 묻기 |
+
+## 표 `pl_accounts.cogs` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `pl_accounts.cogs.*.account` | 계정과목 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:350 | 묻기 |
 | `pl_accounts.cogs.*.amount` | 금액 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:355 | 묻기 |
+
+## 표 `pl_accounts.sga` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `pl_accounts.sga.*.account` | 계정과목 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:101 · fields.json:410 | 묻기 |
 | `pl_accounts.sga.*.amount` | 금액 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:101 · fields.json:415 | 묻기 |
+
+## 표 `pl_accounts.non_op_income` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `pl_accounts.non_op_income.*.account` | 계정과목 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:380 | 묻기 |
 | `pl_accounts.non_op_income.*.amount` | 금액 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:385 | 묻기 |
+
+## 표 `pl_accounts.non_op_expense` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `pl_accounts.non_op_expense.*.account` | 계정과목 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:365 | 묻기 |
 | `pl_accounts.non_op_expense.*.amount` | 금액 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:370 | 묻기 |
 
@@ -368,6 +459,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa standard_financial_statement_proof --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

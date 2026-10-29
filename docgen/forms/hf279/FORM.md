@@ -1,6 +1,6 @@
 # 추심의뢰서(Renego) (`hf279`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf279 · card-hash: 42d7f28c462e -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf279 · card-hash: 9d8346335ac9 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 추심의뢰서(Renego)
@@ -20,21 +20,28 @@
 | `look/original.pdf` | 원본 PDF |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 11칸
+## 추출 항목 (정보 추출 kie) — 7칸
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `수신` | 수신 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:167 | 묻기 |
+| `참조` | 참조 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:178 | 묻기 |
+| `발신` | 발신 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:189 | 묻기 |
+| `To` | To | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:344 | 묻기 |
+| `Attn` | Attn | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:355 | 묻기 |
+| `From` | From | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:366 | 묻기 |
+| `date` | Date | date | 2쪽 [140, 259, 242, 281] | 늘 | 규칙: 'Date' → `date` | 고객 정보 (키 `date`) | fields.json:377 | 묻기 |
+
+## 표 `목록` (표 과제 table·table_read·table_find·table_qa) — 4열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `목록.*.OurRefNo` | OurRef.No. | rrn | 1쪽 [76, 409, 228, 433] (1행) | 늘 | 표 행 (묶음·항목명 'Our Ref. No.') | 값 종류 `number` (항목명 자동) | fields.json:23 | 묻기 |
 | `목록.*.Amount` | Amount | amount | 1쪽 [432, 409, 525, 434] (1행) | 늘 | 표 행 (묶음·항목명 'Amount') | 값 종류 `amount` (항목명 자동) | fields.json:71 | 묻기 |
 | `목록.*.사유` | 사유(하자내용등) | text | 1쪽 [531, 411, 627, 434] (1행) | 늘 | 표 행 (묶음·항목명 '사 유 (하자내용 등)') | 값 종류 `reason` (항목명 자동) | fields.json:119 | 묻기 |
-| `수신` | 수신 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:167 | 묻기 |
-| `참조` | 참조 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:178 | 묻기 |
-| `발신` | 발신 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:189 | 묻기 |
 | `목록.*.Discrepancies` | Discrepancies | text | - (1행) | 늘 | 표 행 (묶음·항목명 'Discrepancies') | 값 종류 `text` (항목명 자동) | fields.json:296 | 묻기 |
-| `To` | To | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:344 | 묻기 |
-| `Attn` | Attn | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:355 | 묻기 |
-| `From` | From | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:366 | 묻기 |
-| `date` | Date | date | 2쪽 [140, 259, 242, 281] | 늘 | 규칙: 'Date' → `date` | 고객 정보 (키 `date`) | fields.json:377 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
 - **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
@@ -124,25 +131,9 @@ answer_empty: {"key": "{key}", "value": null}
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
-- 목록.0.OurRefNo: OurRef.No. (목록 1행)
-- 목록.1.OurRefNo: OurRef.No. (목록 2행)
-- 목록.2.OurRefNo: OurRef.No. (목록 3행)
-- 목록.3.OurRefNo: OurRef.No. (목록 4행)
-- 목록.0.Amount: Amount (목록 1행)
-- 목록.1.Amount: Amount (목록 2행)
-- 목록.2.Amount: Amount (목록 3행)
-- 목록.3.Amount: Amount (목록 4행)
-- 목록.0.사유: 사유(하자내용등) (목록 1행)
-- 목록.1.사유: 사유(하자내용등) (목록 2행)
-- 목록.2.사유: 사유(하자내용등) (목록 3행)
-- 목록.3.사유: 사유(하자내용등) (목록 4행)
 - 수신: 수신
 - 참조: 참조
 - 발신: 발신
-- 목록.0.Discrepancies: Discrepancies (목록 1행)
-- 목록.1.Discrepancies: Discrepancies (목록 2행)
-- 목록.2.Discrepancies: Discrepancies (목록 3행)
-- 목록.3.Discrepancies: Discrepancies (목록 4행)
 - To: To
 - Attn: Attn
 - From: From
@@ -152,29 +143,126 @@ answer_empty: {"key": "{key}", "value": null}
 답:
 
 ```json
-[{"key": "목록.0.OurRefNo", "value": "536806-8591244", "bbox_2d": [76, 409, 228, 433], "page": 1},
- {"key": "목록.1.OurRefNo", "value": "895-421382-65889", "bbox_2d": [81, 445, 253, 467], "page": 1},
- {"key": "목록.2.OurRefNo", "value": null},
- {"key": "목록.3.OurRefNo", "value": null},
- {"key": "목록.0.Amount", "value": "700,000원", "bbox_2d": [432, 409, 525, 434], "page": 1},
- {"key": "목록.1.Amount", "value": "8,720,000", "bbox_2d": [429, 444, 522, 467], "page": 1},
- {"key": "목록.2.Amount", "value": null},
- {"key": "목록.3.Amount", "value": null},
- {"key": "목록.0.사유", "value": "계좌 정리", "bbox_2d": [531, 411, 627, 434], "page": 1},
- {"key": "목록.1.사유", "value": "학자금", "bbox_2d": [534, 444, 588, 467], "page": 1},
- {"key": "목록.2.사유", "value": null},
- {"key": "목록.3.사유", "value": null},
- {"key": "수신", "value": null},
+[{"key": "수신", "value": null},
  {"key": "참조", "value": null},
  {"key": "발신", "value": null},
- {"key": "목록.0.Discrepancies", "value": null},
- {"key": "목록.1.Discrepancies", "value": null},
- {"key": "목록.2.Discrepancies", "value": null},
- {"key": "목록.3.Discrepancies", "value": null},
  {"key": "To", "value": null},
  {"key": "Attn", "value": null},
  {"key": "From", "value": null},
  {"key": "date", "value": "2025.04.01", "bbox_2d": [140, 259, 242, 281], "page": 2}]
+```
+
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- OurRefNo: OurRef.No.
+- Amount: Amount
+- 변동2: 변동2
+- 사유: 사유(하자내용등)
+- Discrepancies: Discrepancies
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "OurRefNo",
+  "Amount",
+  "변동2",
+  "사유",
+  "Discrepancies"
+ ],
+ "rows": [
+  [
+   "536806-8591244",
+   "700,000원",
+   null,
+   "계좌 정리",
+   null
+  ],
+  [
+   "895-421382-65889",
+   "8,720,000",
+   null,
+   "학자금",
+   null
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    76,
+    409,
+    627,
+    434
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    81,
+    444,
+    588,
+    467
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["OurRef.No.", "Amount", "사유(하자내용등)", "Discrepancies"], "bbox_2d": [76, 409, 627, 467], "page": 1, "n_rows": 2}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[76, 409, 627, 467] 위치의 표를 보고 답하세요. 표의 행은 모두 몇 개입니까? 머리글·합계 행과 모두 빈 행은 세지 않습니다. (숫자만 답하세요)
+```
+
+답:
+
+```json
+2
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[76, 409, 627, 467] 위치의 표를 보고 답하세요. 'OurRef.No.' 칸이 '536806-8591244'인 행의 '사유(하자내용등)' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"계좌 정리"
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -206,6 +294,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf279 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

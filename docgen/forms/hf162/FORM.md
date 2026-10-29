@@ -1,6 +1,6 @@
 # ISA계약만기연장 확인서 (`hf162`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf162 · card-hash: 5d8d5d6f776d -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf162 · card-hash: 42e6585b202e -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** ISA계약만기연장 확인서
@@ -146,6 +146,7 @@ answer_empty: {"key": "{key}", "value": null}
 - ISA계좌번호2: ISA계좌번호 (같은 항목명 중 2번째 칸)
 - 연장전계약만기일2: 연장전계약만기일 (같은 항목명 중 2번째 칸)
 - 둥록점명2: 둥록점명(등록점번호) (같은 항목명 중 2번째 칸)
+- 납부자번호: 납부자번호(동,호수,수용가번호,등)
 - 연장후계약만기일2: 연장후계약만기일 (같은 항목명 중 2번째 칸)
 - 상담직원명2: 상담직원명(직원번호) (같은 항목명 중 2번째 칸)
 ```
@@ -163,6 +164,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "ISA계좌번호2", "value": "657-027199-57875", "bbox_2d": [161, 171, 312, 192], "page": 2},
  {"key": "연장전계약만기일2", "value": "2027.07.04", "bbox_2d": [517, 141, 631, 165], "page": 2},
  {"key": "둥록점명2", "value": null},
+ {"key": "납부자번호", "value": null},
  {"key": "연장후계약만기일2", "value": "2028.07.22", "bbox_2d": [835, 141, 944, 166], "page": 2},
  {"key": "상담직원명2", "value": null}]
 ```
@@ -233,6 +235,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf162 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

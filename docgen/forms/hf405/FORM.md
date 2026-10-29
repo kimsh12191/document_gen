@@ -1,6 +1,6 @@
 # 외환파생상품 거래 금액 확인서 (`hf405`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf405 · card-hash: 2adf8dd25a74 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf405 · card-hash: 7ef4dec7d092 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 외환파생상품 거래 금액 확인서
@@ -129,6 +129,7 @@ answer_empty: {"key": "{key}", "value": null}
 - 통화선도: 통화선도(외환스왑,NDF포함) (같은 항목명 중 1번째 칸)
 - 통화옵션: 통화옵션 (같은 항목명 중 1번째 칸)
 - 통화스왑: 통화스왑 (같은 항목명 중 1번째 칸)
+- 미성년자고령초고령구분: 미성년자/고령/초고령구분
 - 환변동보험: 환변동보험 (같은 항목명 중 1번째 칸)
 - 통화선도2: 통화선도(외환스왑,NDF포함) (같은 항목명 중 2번째 칸)
 - 통화옵션2: 통화옵션 (같은 항목명 중 2번째 칸)
@@ -138,6 +139,8 @@ answer_empty: {"key": "{key}", "value": null}
 - 기체결외환파생거래금액: 기체결외환파생거래금액(b)
 - 금번거래예정금액: 금번거래예정금액(c)
 - 위험헤지비율100: 위험헤지비율((b+c)/(a)*100)
+- 갋: 갋
+- 가계약내용: 가.계약내용
 - date: 작성일
 ```
 
@@ -147,6 +150,7 @@ answer_empty: {"key": "{key}", "value": null}
 [{"key": "통화선도", "value": "CNY", "bbox_2d": [512, 228, 551, 248], "page": 1},
  {"key": "통화옵션", "value": "JPY", "bbox_2d": [514, 249, 553, 270], "page": 1},
  {"key": "통화스왑", "value": "CNY", "bbox_2d": [513, 273, 553, 293], "page": 1},
+ {"key": "미성년자고령초고령구분", "value": null},
  {"key": "환변동보험", "value": null},
  {"key": "통화선도2", "value": "CAD", "bbox_2d": [511, 417, 548, 438], "page": 1},
  {"key": "통화옵션2", "value": "CAD", "bbox_2d": [514, 440, 551, 461], "page": 1},
@@ -156,6 +160,8 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "기체결외환파생거래금액", "value": "6,100,000", "bbox_2d": [413, 886, 497, 908], "page": 1},
  {"key": "금번거래예정금액", "value": "55,210,000", "bbox_2d": [616, 888, 711, 909], "page": 1},
  {"key": "위험헤지비율100", "value": "100", "bbox_2d": [805, 888, 833, 908], "page": 1},
+ {"key": "갋", "value": null},
+ {"key": "가계약내용", "value": null},
  {"key": "date", "value": "2025년 4월 1일", "bbox_2d": [158, 566, 371, 583], "page": 1}]
 ```
 
@@ -188,6 +194,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf405 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

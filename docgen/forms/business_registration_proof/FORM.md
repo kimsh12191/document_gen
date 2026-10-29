@@ -1,6 +1,6 @@
 # 사업자등록증명 (`business_registration_proof`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card business_registration_proof · card-hash: ad7ce4f35c15 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card business_registration_proof · card-hash: cd9f373a1570 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** business · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 사업자등록증명
@@ -21,7 +21,7 @@
 | `docgen/docs/business.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 22칸
+## 추출 항목 (정보 추출 kie) — 14칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -35,14 +35,28 @@
 | `registered` | 사업자등록일 | date | 1쪽 [708, 226, 780, 239] | 늘 | 템플릿 | generate.py | look/template.html.j2:34 · fields.json:55 | 묻기 |
 | `kind` | 과세유형 | text | 1쪽 [315, 260, 392, 273] | 늘 | 템플릿 | generate.py | look/template.html.j2:35 · fields.json:35 | 묻기 |
 | `joint` | 공동사업자 | text | 1쪽 [708, 260, 770, 273] | 늘 | 템플릿 | generate.py | look/template.html.j2:36 · fields.json:30 | 묻기 |
-| `kinds.*.biz_type` | 업태 | text | 1쪽 [172, 357, 234, 370] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:54 · fields.json:115 | 묻기 |
-| `kinds.*.biz_item` | 종목 | text | 1쪽 [420, 357, 497, 370] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:54 · fields.json:110 | 묻기 |
-| `kinds.*.code` | 업종코드 | number | 1쪽 [658, 357, 704, 370] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:55 · fields.json:120 | 묻기 |
-| `kinds.*.main` | 구분 | text | 1쪽 [815, 357, 861, 370] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:55 · fields.json:125 | 묻기 |
 | `purpose` | 사용목적 | text | 1쪽 [315, 395, 381, 407] | 늘 | 템플릿 | generate.py | look/template.html.j2:60 · fields.json:50 | 묻기 |
 | `submit_to` | 제출처 | text | 1쪽 [671, 395, 797, 407] | 늘 | 템플릿 | generate.py | look/template.html.j2:60 · fields.json:70 | 묻기 |
 | `issue_date` | 발급일 | date | 1쪽 [437, 491, 563, 503] | 늘 | 템플릿 | generate.py | look/template.html.j2:64 · fields.json:15 | 묻기 |
 | `issuer` | 발급기관 | text | 1쪽 [382, 525, 595, 544] | 늘 | 템플릿 | generate.py | look/template.html.j2:64 · fields.json:25 | 묻기 |
+
+## 표 `kinds` (표 과제 table·table_read·table_find·table_qa) — 4열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `kinds.*.biz_type` | 업태 | text | 1쪽 [172, 357, 234, 370] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:54 · fields.json:115 | 묻기 |
+| `kinds.*.biz_item` | 종목 | text | 1쪽 [420, 357, 497, 370] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:54 · fields.json:110 | 묻기 |
+| `kinds.*.code` | 업종코드 | number | 1쪽 [658, 357, 704, 370] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:55 · fields.json:120 | 묻기 |
+| `kinds.*.main` | 구분 | text | 1쪽 [815, 357, 861, 370] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:55 · fields.json:125 | 묻기 |
+
+## 표 `co_owners` (표 과제 table·table_read·table_find·table_qa) — 4열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `co_owners.*.name` | 성명 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:44 · fields.json:85 | 묻기 |
 | `co_owners.*.rrn` | 주민등록번호 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:44 · fields.json:95 | 묻기 |
 | `co_owners.*.share` | 지분율 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:45 · fields.json:100 | 묻기 |
@@ -163,10 +177,6 @@ answer_empty: {"key": "{key}", "value": null}
 - registered: 사업자등록일
 - kind: 과세유형
 - joint: 공동사업자
-- kinds.0.biz_type: 업태 (1행)
-- kinds.0.biz_item: 종목 (1행)
-- kinds.0.code: 업종코드 (1행)
-- kinds.0.main: 구분 (1행)
 - purpose: 사용목적
 - submit_to: 제출처
 - issue_date: 발급일
@@ -186,10 +196,6 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "registered", "value": "2018-04-18", "bbox_2d": [708, 226, 780, 239], "page": 1},
  {"key": "kind", "value": "일반과세자", "bbox_2d": [315, 260, 392, 273], "page": 1},
  {"key": "joint", "value": "해당없음", "bbox_2d": [708, 260, 770, 273], "page": 1},
- {"key": "kinds.0.biz_type", "value": "음식점업", "bbox_2d": [172, 357, 234, 370], "page": 1},
- {"key": "kinds.0.biz_item", "value": "커피전문점", "bbox_2d": [420, 357, 497, 370], "page": 1},
- {"key": "kinds.0.code", "value": "552303", "bbox_2d": [658, 357, 704, 370], "page": 1},
- {"key": "kinds.0.main", "value": "주업종", "bbox_2d": [815, 357, 861, 370], "page": 1},
  {"key": "purpose", "value": "은행 제출", "bbox_2d": [315, 395, 381, 407], "page": 1},
  {"key": "submit_to", "value": "국민은행 센텀지점", "bbox_2d": [671, 395, 797, 407], "page": 1},
  {"key": "issue_date", "value": "2025년 04월 01일", "bbox_2d": [437, 491, 563, 503], "page": 1},
@@ -223,6 +229,148 @@ answer_empty: {"key": "{key}", "value": null}
 [{"key": "seal.issuer", "value": true, "bbox_2d": [583, 502, 673, 566], "page": 1}]
 ```
 
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 1쪽 bbox_2d=[88, 319, 912, 370] 위치의 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- biz_type: 업태
+- amount: 금액
+- biz_item: 종목
+- code: 업종코드
+- main: 구분
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "biz_type",
+  "amount",
+  "biz_item",
+  "code",
+  "main"
+ ],
+ "rows": [
+  [
+   "음식점업",
+   null,
+   "커피전문점",
+   "552303",
+   "주업종"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    172,
+    357,
+    861,
+    370
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["업태", "종목", "업종코드", "구분"], "bbox_2d": [88, 319, 912, 370], "page": 1, "n_rows": 1}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 표를 보고 답하세요. '업종코드' 칸의 값을 모두 더하면 얼마입니까? 빈 칸은 0 으로 봅니다. (쉼표·단위 없이 숫자만 답하세요)
+```
+
+답:
+
+```json
+552303
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 표를 보고 답하세요. '업태' 칸이 '음식점업'인 행의 '구분' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"주업종"
+```
+
+### 표 그대로 옮기기 `table_read` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 1쪽 bbox_2d=[88, 319, 912, 370] 위치의 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.
+꼴: {"columns": [머리글 글자, …], "rows": [[칸 글자, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 " > " 로 잇습니다.
+- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.
+- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "업 태",
+  "종 목",
+  "업종코드",
+  "구 분"
+ ],
+ "rows": [
+  [
+   "음식점업",
+   "커피전문점",
+   "552303",
+   "주업종"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    88,
+    349,
+    912,
+    379
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
 
 없습니다. 더하려면 이 폴더에 `qa.py` 를 만들고 함수 하나에 질문 하나 (견본: `python -m docgen.formdir qa business_registration_proof --new`):
@@ -253,6 +401,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa business_registration_proof --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

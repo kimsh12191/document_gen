@@ -1,6 +1,6 @@
 # 등기사항전부증명서(집합건물) (`real_estate_registry`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card real_estate_registry · card-hash: 00e14fe23135 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card real_estate_registry · card-hash: e6c4784441f4 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** real_estate · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 등기사항전부증명서(집합건물)
@@ -21,17 +21,12 @@
 | `docgen/docs/real_estate.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 82칸
+## 추출 항목 (정보 추출 kie) — 29칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `property` | 부동산의표시 | text | 1쪽 [122, 68, 618, 79] | 늘 | 템플릿 | generate.py | look/template.html.j2:43 · fields.json:80 | 묻기 |
 | `unique_no` | 고유번호 | text | 1쪽 [839, 68, 950, 79] | 늘 | 템플릿 | generate.py | look/template.html.j2:44 · fields.json:95 | 묻기 |
-| `buildings.*.display_no` | 표시번호 | number | 1쪽 [80, 124, 87, 135] (1행) | 15/16 | 템플릿 | generate.py | fields.json:145 | 묻기 |
-| `buildings.*.receipt` | 접수 | date | 1쪽 [121, 124, 209, 135] (1행) | 15/16 | 템플릿 | generate.py | fields.json:155 | 묻기 |
-| `buildings.*.location` | 소재지번,건물명칭및번호 | text | 1쪽 [242, 124, 480, 147] (1행) | 15/16 | 템플릿 | generate.py | fields.json:150 | 묻기 |
-| `buildings.*.detail` | 건물내역 | text | 1쪽 [494, 124, 750, 182] (1행) | 15/16 | 템플릿 | generate.py | fields.json:140 | 묻기 |
-| `buildings.*.cause` | 등기원인및기타사항 | text | 1쪽 [791, 124, 934, 147] (1행) | 15/16 | 템플릿 | generate.py | fields.json:135 | 묻기 |
 | `land.display_no` | 표시번호 | number | 1쪽 [80, 272, 87, 283] | 15/16 | 템플릿 | generate.py | look/template.html.j2:121 · fields.json:45 | 묻기 |
 | `property.location` ← `land.location` | 소재지번 | text | 1쪽 [121, 272, 315, 283] | 15/16 | 템플릿 | generate.py | look/template.html.j2:122 · fields.json:50 | 묻기 |
 | `land.category` | 지목 | text | 1쪽 [615, 272, 628, 283] | 15/16 | 템플릿 | generate.py | look/template.html.j2:123 · fields.json:35 | 묻기 |
@@ -46,6 +41,38 @@
 | `property.kind` ← `land_right.kind` | 대지권종류 | text | 1쪽 [121, 388, 213, 398] | 15/16 | 템플릿 | generate.py | look/template.html.j2:147 · fields.json:65 | 묻기 |
 | `land_right.ratio` | 대지권비율 | text | 1쪽 [471, 388, 580, 398] | 15/16 | 템플릿 | generate.py | look/template.html.j2:148 · fields.json:70 | 묻기 |
 | `land_right.cause` | 등기원인및기타사항 | text | 1쪽 [753, 388, 886, 410] | 15/16 | 템플릿 | generate.py | look/template.html.j2:149 · fields.json:55 | 묻기 |
+| `registry_office` | 관할등기소 | text | 1쪽 [120, 806, 269, 815] | 15/16 | 템플릿 | generate.py | look/template.html.j2:232 · fields.json:85 | 묻기 |
+| `view_datetime` | 열람일시 | datetime | 1쪽 [111, 979, 277, 988] | 8/16 | 템플릿 | generate.py | look/template.html.j2:246 · fields.json:125 | 묻기 |
+| `fee` | 수수료 | - | - | 7/16 | 템플릿 | generate.py | look/template.html.j2:232 · fields.json:10 | 묻기 |
+| `issue_date` | 발행일 | - | - | 7/16 | 템플릿 | generate.py | look/template.html.j2:238 · fields.json:15 | 묻기 |
+| `issue_no` | 발행번호 | - | - | 8/16 | 템플릿 | generate.py | look/template.html.j2:248 · fields.json:25 | 묻기 |
+| `confirm_no` | 발급확인번호 | - | - | 8/16 | 템플릿 | generate.py | look/template.html.j2:249 · fields.json:5 | 묻기 |
+| `issue_date_short` | 발행일 | - | - | 8/16 | 템플릿 | generate.py | look/template.html.j2:249 · fields.json:20 | 묻기 |
+| `page_label` | 쪽번호 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:251 · fields.json:75 | 묻기 |
+| `gapgu.*.holders.*.role` | 권리자구분 | - | - (1행) | 3/16 | 템플릿 | generate.py | - | 묻기 |
+| `gapgu.*.holders.*.share` | 지분 | - | - (1행) | 3/16 | 템플릿 | generate.py | - | 묻기 |
+| `gapgu.*.holders.*.name` | 공유자 | - | - (1행) | 3/16 | 템플릿 | generate.py | - | 묻기 |
+| `gapgu.*.holders.*.reg_no` | 등록번호 | - | - (1행) | 3/16 | 템플릿 | generate.py | - | 묻기 |
+| `gapgu.*.holders.*.address` | 주소 | - | - (1행) | 3/16 | 템플릿 | generate.py | - | 묻기 |
+
+## 표 `buildings` (표 과제 table·table_read·table_find·table_qa) — 5열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `buildings.*.display_no` | 표시번호 | number | 1쪽 [80, 124, 87, 135] (1행) | 15/16 | 템플릿 | generate.py | fields.json:145 | 묻기 |
+| `buildings.*.receipt` | 접수 | date | 1쪽 [121, 124, 209, 135] (1행) | 15/16 | 템플릿 | generate.py | fields.json:155 | 묻기 |
+| `buildings.*.location` | 소재지번,건물명칭및번호 | text | 1쪽 [242, 124, 480, 147] (1행) | 15/16 | 템플릿 | generate.py | fields.json:150 | 묻기 |
+| `buildings.*.detail` | 건물내역 | text | 1쪽 [494, 124, 750, 182] (1행) | 15/16 | 템플릿 | generate.py | fields.json:140 | 묻기 |
+| `buildings.*.cause` | 등기원인및기타사항 | text | 1쪽 [791, 124, 934, 147] (1행) | 15/16 | 템플릿 | generate.py | fields.json:135 | 묻기 |
+
+## 표 `gapgu` (표 과제 table·table_read·table_find·table_qa) — 16열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `gapgu.*.rank` | 순위번호 | number | 1쪽 [80, 451, 87, 462] (1행) | 15/16 | 템플릿 | generate.py | fields.json:370 | 묻기 |
 | `gapgu.*.purpose` | 등기목적 | text | 1쪽 [121, 451, 189, 462] (1행) | 15/16 | 템플릿 | generate.py | fields.json:365 | 묻기 |
 | `gapgu.*.receipt` | 접수 | text | 1쪽 [244, 451, 333, 473] (1행) | 15/16 | 템플릿 | generate.py | fields.json:375 | 묻기 |
@@ -56,6 +83,19 @@
 | `gapgu.*.cause` | 등기원인 | text | 1쪽 [398, 477, 493, 500] (1행) | 15/16 | 템플릿 | generate.py | fields.json:285 | 묻기 |
 | `gapgu.*.trust_no` | 신탁원부 | text | 1쪽 [552, 541, 696, 552] (1행) | 1/16 | 템플릿 | generate.py | fields.json:385 | 묻기 |
 | `gapgu.*.holder.note` | 거래가액 | text | 1쪽 [552, 643, 715, 654] (1행) | 14/16 | 템플릿 | generate.py | fields.json:320 | 묻기 |
+| `gapgu.*.claim_amount` | 청구금액 | - | - (1행) | 5/16 | 템플릿 | generate.py | fields.json:295 | 묻기 |
+| `gapgu.*.creditor` | 채권자 | - | - (1행) | 5/16 | 템플릿 | generate.py | fields.json:300 | 묻기 |
+| `gapgu.*.creditor_address` | 채권자주소 | - | - (1행) | 5/16 | 템플릿 | generate.py | fields.json:305 | 묻기 |
+| `gapgu.*.change` | 변경사항 | - | - (1행) | 2/16 | 템플릿 | generate.py | fields.json:290 | 묻기 |
+| `gapgu.*.note` | 거래가액 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:360 | 묻기 |
+| `gapgu.*.right_holder` | 권리자 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:380 | 묻기 |
+
+## 표 `eulgu` (표 과제 table·table_read·table_find·table_qa) — 22열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `eulgu.*.rank` | 순위번호 | number | 1쪽 [80, 695, 87, 705] (1행) | 14/16 | 템플릿 | generate.py | fields.json:250 | 묻기 |
 | `eulgu.*.purpose` | 등기목적 | text | 1쪽 [121, 695, 203, 705] (1행) | 14/16 | 템플릿 | generate.py | fields.json:245 | 묻기 |
 | `eulgu.*.receipt` | 접수 | text | 1쪽 [244, 695, 326, 717] (1행) | 14/16 | 템플릿 | generate.py | fields.json:255 | 묻기 |
@@ -65,34 +105,7 @@
 | `eulgu.*.debtor_address` | 채무자주소 | text | 1쪽 [552, 718, 930, 741] (1행) | 14/16 | 템플릿 | generate.py | fields.json:185 | 묻기 |
 | `eulgu.*.mortgagee` | 근저당권자 | text | 1쪽 [626, 742, 831, 752] (1행) | 14/16 | 템플릿 | generate.py | fields.json:225 | 묻기 |
 | `eulgu.*.mortgagee_address` | 근저당권자주소 | text | 1쪽 [552, 753, 790, 776] (1행) | 14/16 | 템플릿 | generate.py | fields.json:230 | 묻기 |
-| `registry_office` | 관할등기소 | text | 1쪽 [120, 806, 269, 815] | 15/16 | 템플릿 | generate.py | look/template.html.j2:232 · fields.json:85 | 묻기 |
-| `view_datetime` | 열람일시 | datetime | 1쪽 [111, 979, 277, 988] | 8/16 | 템플릿 | generate.py | look/template.html.j2:246 · fields.json:125 | 묻기 |
-| `gapgu.*.claim_amount` | 청구금액 | - | - (1행) | 5/16 | 템플릿 | generate.py | fields.json:295 | 묻기 |
-| `gapgu.*.creditor` | 채권자 | - | - (1행) | 5/16 | 템플릿 | generate.py | fields.json:300 | 묻기 |
-| `gapgu.*.creditor_address` | 채권자주소 | - | - (1행) | 5/16 | 템플릿 | generate.py | fields.json:305 | 묻기 |
 | `eulgu.*.change` | 변경사항 | - | - (1행) | 3/16 | 템플릿 | generate.py | fields.json:170 | 묻기 |
-| `fee` | 수수료 | - | - | 7/16 | 템플릿 | generate.py | look/template.html.j2:232 · fields.json:10 | 묻기 |
-| `issue_date` | 발행일 | - | - | 7/16 | 템플릿 | generate.py | look/template.html.j2:238 · fields.json:15 | 묻기 |
-| `issue_no` | 발행번호 | - | - | 8/16 | 템플릿 | generate.py | look/template.html.j2:248 · fields.json:25 | 묻기 |
-| `confirm_no` | 발급확인번호 | - | - | 8/16 | 템플릿 | generate.py | look/template.html.j2:249 · fields.json:5 | 묻기 |
-| `issue_date_short` | 발행일 | - | - | 8/16 | 템플릿 | generate.py | look/template.html.j2:249 · fields.json:20 | 묻기 |
-| `gapgu.*.change` | 변경사항 | - | - (1행) | 2/16 | 템플릿 | generate.py | fields.json:290 | 묻기 |
-| `summary.owners.*.name` | 등기명의인 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:400 | 묻기 |
-| `summary.owners.*.reg_no` | (주민)등록번호 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:410 | 묻기 |
-| `summary.owners.*.share` | 최종지분 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:415 | 묻기 |
-| `summary.owners.*.address` | 주소 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:395 | 묻기 |
-| `summary.owners.*.rank` | 순위번호 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:405 | 묻기 |
-| `summary.rights.*.rank` | 순위번호 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:435 | 묻기 |
-| `summary.rights.*.purpose` | 등기목적 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:430 | 묻기 |
-| `summary.rights.*.receipt` | 접수정보 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:440 | 묻기 |
-| `summary.rights.*.main` | 주요등기사항 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:425 | 묻기 |
-| `summary.rights.*.target_owner` | 대상소유자 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:445 | 묻기 |
-| `page_label` | 쪽번호 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:251 · fields.json:75 | 묻기 |
-| `gapgu.*.holders.*.role` | 권리자구분 | - | - (1행) | 3/16 | 템플릿 | generate.py | - | 묻기 |
-| `gapgu.*.holders.*.share` | 지분 | - | - (1행) | 3/16 | 템플릿 | generate.py | - | 묻기 |
-| `gapgu.*.holders.*.name` | 공유자 | - | - (1행) | 3/16 | 템플릿 | generate.py | - | 묻기 |
-| `gapgu.*.holders.*.reg_no` | 등록번호 | - | - (1행) | 3/16 | 템플릿 | generate.py | - | 묻기 |
-| `gapgu.*.holders.*.address` | 주소 | - | - (1행) | 3/16 | 템플릿 | generate.py | - | 묻기 |
 | `eulgu.*.deposit` | 임차보증금 / 전세금 | - | - (1행) | 2/16 | 템플릿 | generate.py | fields.json:190 | 묻기 |
 | `eulgu.*.rent` | 차임 | - | - (1행) | 2/16 | 템플릿 | generate.py | fields.json:260 | 묻기 |
 | `eulgu.*.scope` | 범위 | - | - (1행) | 2/16 | 템플릿 | generate.py | fields.json:270 | 묻기 |
@@ -105,8 +118,30 @@
 | `eulgu.*.period` | 존속기간 | - | - (1행) | 2/16 | 템플릿 | generate.py | fields.json:235 | 묻기 |
 | `eulgu.*.jeonse_holder` | 전세권자 | - | - (1행) | 2/16 | 템플릿 | generate.py | fields.json:200 | 묻기 |
 | `eulgu.*.jeonse_holder_address` | 전세권자주소 | - | - (1행) | 2/16 | 템플릿 | generate.py | fields.json:205 | 묻기 |
-| `gapgu.*.note` | 거래가액 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:360 | 묻기 |
-| `gapgu.*.right_holder` | 권리자 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:380 | 묻기 |
+
+## 표 `summary.owners` (표 과제 table·table_read·table_find·table_qa) — 5열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `summary.owners.*.name` | 등기명의인 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:400 | 묻기 |
+| `summary.owners.*.reg_no` | (주민)등록번호 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:410 | 묻기 |
+| `summary.owners.*.share` | 최종지분 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:415 | 묻기 |
+| `summary.owners.*.address` | 주소 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:395 | 묻기 |
+| `summary.owners.*.rank` | 순위번호 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:405 | 묻기 |
+
+## 표 `summary.rights` (표 과제 table·table_read·table_find·table_qa) — 5열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `summary.rights.*.rank` | 순위번호 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:435 | 묻기 |
+| `summary.rights.*.purpose` | 등기목적 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:430 | 묻기 |
+| `summary.rights.*.receipt` | 접수정보 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:440 | 묻기 |
+| `summary.rights.*.main` | 주요등기사항 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:425 | 묻기 |
+| `summary.rights.*.target_owner` | 대상소유자 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:445 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 1칸
 
@@ -267,44 +302,22 @@ answer_empty: {"key": "{key}", "value": null}
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
 - property: 부동산의표시
 - unique_no: 고유번호
-- buildings.0.detail: 건물내역 (1행)
-- buildings.1.display_no: 표시번호 (2행)
-- buildings.1.location: 소재지번,건물명칭및번호 (2행)
-- buildings.1.cause: 등기원인및기타사항 (2행)
+- land.display_no: 표시번호 (같은 항목명 중 1번째 칸)
+- property.location: 소재지번 (물건 소재지)
+- land.category: 지목
 - land.area: 면적
-- land.cause: 등기원인및기타사항 (같은 항목명 중 3번째 칸)
-- land_right.display_no: 표시번호 (같은 항목명 중 5번째 칸)
+- land.cause: 등기원인및기타사항 (같은 항목명 중 1번째 칸)
+- unit.display_no: 표시번호 (같은 항목명 중 2번째 칸)
+- unit.receipt: 접수
+- unit.unit_no: 건물번호
+- unit.detail: 건물내역
+- unit.cause: 등기원인및기타사항 (같은 항목명 중 2번째 칸)
+- land_right.display_no: 표시번호 (같은 항목명 중 3번째 칸)
 - property.kind: 대지권종류 (물건 종류)
 - land_right.ratio: 대지권비율
-- gapgu.0.rank: 순위번호 (1행)
-- gapgu.0.holder.name: 소유자 (1행)
-- gapgu.1.rank: 순위번호 (2행)
-- gapgu.1.holder.reg_no: 등록번호 (2행)
-- gapgu.1.holder.address: 주소 (2행)
-- gapgu.2.rank: 순위번호 (3행)
-- gapgu.2.purpose: 등기목적 (3행)
-- gapgu.2.receipt: 접수 (3행)
-- gapgu.2.cause: 등기원인 (3행)
-- gapgu.2.holder.role: 권리자구분 (3행)
-- gapgu.2.holder.name: 소유자 (3행)
-- gapgu.2.holder.reg_no: 등록번호 (3행)
-- gapgu.2.holder.address: 주소 (3행)
-- gapgu.4.rank: 순위번호 (5행)
-- gapgu.4.purpose: 등기목적 (5행)
-- gapgu.4.receipt: 접수 (5행)
-- gapgu.4.cause: 등기원인 (5행)
-- gapgu.4.holder.role: 권리자구분 (5행)
-- gapgu.4.holder.name: 소유자 (5행)
-- gapgu.4.holder.address: 주소 (5행)
-- gapgu.5.purpose: 등기목적 (6행)
-- gapgu.6.receipt: 접수 (7행)
-- gapgu.6.holder.role: 권리자구분 (7행)
-- gapgu.6.holder.name: 소유자 (7행)
-- gapgu.6.holder.address: 주소 (7행)
-- gapgu.6.holder.note: 거래가액 (7행)
-- eulgu.0.max_amount: 채권최고액 (1행)
-- eulgu.0.mortgagee_address: 근저당권자주소 (1행)
+- land_right.cause: 등기원인및기타사항 (같은 항목명 중 3번째 칸)
 - registry_office: 관할등기소
+- view_datetime: 열람일시
 ```
 
 답:
@@ -312,44 +325,200 @@ answer_empty: {"key": "{key}", "value": null}
 ```json
 [{"key": "property", "value": "서울특별시 서초구 반포동 661 힐스테이트2차아파트 제103동 제13층 제1301호", "bbox_2d": [122, 68, 618, 79], "page": 1},
  {"key": "unique_no", "value": "2268-2012-072040", "bbox_2d": [839, 68, 950, 79], "page": 1},
- {"key": "buildings.0.detail", "value": "철근콘크리트벽식구조\n(철근)콘크리트지붕 15층 공동주택(아파트)\n지하1층 157.94㎡\n1층 179.36㎡\n2층~15층 각 202.4㎡", "bbox_2d": [494, 124, 750, 182], "page": 1},
- {"key": "buildings.1.display_no", "value": "2", "bbox_2d": [80, 186, 87, 196], "page": 1},
- {"key": "buildings.1.location", "value": "서울특별시 서초구 반포동 661 힐스테이트2차아파트 제103동\n[도로명주소]\n서울특별시 서초구 강남대로 357", "bbox_2d": [242, 186, 480, 231], "page": 1},
- {"key": "buildings.1.cause", "value": "도로명주소\n2012년4월16일 등기", "bbox_2d": [791, 186, 910, 208], "page": 1},
+ {"key": "land.display_no", "value": "1", "bbox_2d": [80, 272, 87, 283], "page": 1},
+ {"key": "property.location", "value": "1. 서울특별시 서초구 반포동 661", "bbox_2d": [121, 272, 315, 283], "page": 1},
+ {"key": "land.category", "value": "대", "bbox_2d": [615, 272, 628, 283], "page": 1},
  {"key": "land.area", "value": "46,962.2㎡", "bbox_2d": [718, 272, 780, 283], "page": 1},
  {"key": "land.cause", "value": "1993년6월28일 등기", "bbox_2d": [791, 272, 910, 283], "page": 1},
+ {"key": "unit.display_no", "value": "1", "bbox_2d": [80, 324, 87, 335], "page": 1},
+ {"key": "unit.receipt", "value": "1993년6월28일", "bbox_2d": [121, 324, 209, 335], "page": 1},
+ {"key": "unit.unit_no", "value": "제13층 제1301호", "bbox_2d": [242, 324, 340, 335], "page": 1},
+ {"key": "unit.detail", "value": "철근콘크리트벽식구조\n74.95㎡", "bbox_2d": [431, 324, 567, 347], "page": 1},
+ {"key": "unit.cause", "value": "도면편철장 제9책 제655장", "bbox_2d": [791, 324, 934, 347], "page": 1},
  {"key": "land_right.display_no", "value": "1", "bbox_2d": [80, 388, 87, 398], "page": 1},
  {"key": "property.kind", "value": "1 소유권대지권", "bbox_2d": [121, 388, 213, 398], "page": 1},
  {"key": "land_right.ratio", "value": "46,962.2분의 46.94", "bbox_2d": [471, 388, 580, 398], "page": 1},
- {"key": "gapgu.0.rank", "value": "1", "bbox_2d": [80, 451, 87, 462], "page": 1},
- {"key": "gapgu.0.holder.name", "value": "주식회사한양종합건설", "bbox_2d": [599, 451, 735, 462], "page": 1},
- {"key": "gapgu.1.rank", "value": "2", "bbox_2d": [80, 477, 87, 488], "page": 1},
- {"key": "gapgu.1.holder.reg_no", "value": "501031-*******", "bbox_2d": [647, 477, 740, 488], "page": 1},
- {"key": "gapgu.1.holder.address", "value": "서울특별시 노원구 노원로 459-15, 116동 2102호 (중계동, SK뷰리버뷰아파트)", "bbox_2d": [552, 489, 938, 511], "page": 1},
- {"key": "gapgu.2.rank", "value": "3", "bbox_2d": [80, 515, 87, 526], "page": 1},
- {"key": "gapgu.2.purpose", "value": "소유권이전", "bbox_2d": [121, 515, 189, 526], "page": 1},
- {"key": "gapgu.2.receipt", "value": "2022년6월3일\n제19108호", "bbox_2d": [244, 515, 326, 537], "page": 1},
- {"key": "gapgu.2.cause", "value": "2022년6월3일\n신탁", "bbox_2d": [398, 515, 480, 537], "page": 1},
- {"key": "gapgu.2.holder.role", "value": "수탁자", "bbox_2d": [552, 515, 592, 526], "page": 1},
- {"key": "gapgu.2.holder.name", "value": "하나자산신탁주식회사", "bbox_2d": [599, 515, 735, 526], "page": 1},
- {"key": "gapgu.2.holder.reg_no", "value": "135011-8178151", "bbox_2d": [742, 515, 834, 526], "page": 1},
- {"key": "gapgu.2.holder.address", "value": "서울특별시 강남구 테헤란로 132", "bbox_2d": [555, 527, 749, 537], "page": 1},
- {"key": "gapgu.4.rank", "value": "4", "bbox_2d": [80, 556, 87, 566], "page": 1},
- {"key": "gapgu.4.purpose", "value": "소유권이전", "bbox_2d": [121, 556, 189, 566], "page": 1},
- {"key": "gapgu.4.receipt", "value": "2023년10월23일\n제23771호", "bbox_2d": [244, 556, 340, 578], "page": 1},
- {"key": "gapgu.4.cause", "value": "2023년10월23일\n신탁재산의귀속", "bbox_2d": [398, 556, 493, 578], "page": 1},
- {"key": "gapgu.4.holder.role", "value": "소유자", "bbox_2d": [552, 556, 592, 566], "page": 1},
- {"key": "gapgu.4.holder.name", "value": "임채영", "bbox_2d": [599, 556, 640, 566], "page": 1},
- {"key": "gapgu.4.holder.address", "value": "서울특별시 노원구 노원로 459-15, 116동 2102호 (중계동, SK뷰리버뷰아파트)", "bbox_2d": [552, 567, 938, 590], "page": 1},
- {"key": "gapgu.5.purpose", "value": "3번신탁등기말소", "bbox_2d": [121, 593, 223, 604], "page": 1},
- {"key": "gapgu.6.receipt", "value": "2025년3월2일\n제58118호", "bbox_2d": [244, 608, 326, 630], "page": 1},
- {"key": "gapgu.6.holder.role", "value": "소유자", "bbox_2d": [552, 608, 592, 618], "page": 1},
- {"key": "gapgu.6.holder.name", "value": "남궁예태", "bbox_2d": [599, 608, 654, 618], "page": 1},
- {"key": "gapgu.6.holder.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)", "bbox_2d": [552, 620, 930, 642], "page": 1},
- {"key": "gapgu.6.holder.note", "value": "거래가액 금1,560,000,000원", "bbox_2d": [552, 643, 715, 654], "page": 1},
- {"key": "eulgu.0.max_amount", "value": "금1,000,800,000원", "bbox_2d": [626, 695, 732, 705], "page": 1},
- {"key": "eulgu.0.mortgagee_address", "value": "서울특별시 영등포구 국제금융로8길 26\n(센텀지점)", "bbox_2d": [552, 753, 790, 776], "page": 1},
- {"key": "registry_office", "value": "서울중앙지방법원 등기국", "bbox_2d": [120, 806, 269, 815], "page": 1}]
+ {"key": "land_right.cause", "value": "1993년6월12일 대지권\n1993년6월28일 등기", "bbox_2d": [753, 388, 886, 410], "page": 1},
+ {"key": "registry_office", "value": "서울중앙지방법원 등기국", "bbox_2d": [120, 806, 269, 815], "page": 1},
+ {"key": "view_datetime", "value": "2025년04월01일 13시01분56초", "bbox_2d": [111, 979, 277, 988], "page": 1}]
+```
+
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 '접수'·'등기원인및기타사항' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- display_no: 표시번호
+- receipt: 접수
+- location: 소재지번,건물명칭및번호
+- detail: 건물내역
+- cause: 등기원인및기타사항
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "display_no",
+  "receipt",
+  "location",
+  "detail",
+  "cause"
+ ],
+ "rows": [
+  [
+   "1",
+   "1993년6월28일",
+   "서울특별시 서초구 반포동 661 힐스테이트2차아파트 제103동",
+   "철근콘크리트벽식구조 (철근)콘크리트지붕 15층 공동주택(아파트) 지하1층 157.94㎡ 1층 179.36㎡ 2층~15층 각 202.4㎡",
+   "도면편철장 제9책 제655장"
+  ],
+  [
+   "2",
+   null,
+   "서울특별시 서초구 반포동 661 힐스테이트2차아파트 제103동 [도로명주소] 서울특별시 서초구 강남대로 357",
+   null,
+   "도로명주소 2012년4월16일 등기"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    80,
+    124,
+    934,
+    182
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    80,
+    186,
+    910,
+    231
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["표시번호", "접수", "소재지번,건물명칭및번호", "건물내역", "등기원인및기타사항"], "bbox_2d": [51, 107, 949, 231], "page": 1, "n_rows": 2},
+ {"columns": ["순위번호", "등기목적", "접수", "등기원인", "권리자구분", "주소", "신탁원부", "거래가액", "소유자", "등록번호"], "bbox_2d": [51, 434, 949, 654], "page": 1, "n_rows": 7},
+ {"columns": ["순위번호", "등기목적", "접수", "등기원인", "채무자주소", "근저당권자주소", "채무자", "채권최고액", "근저당권자"], "bbox_2d": [51, 677, 949, 776], "page": 1, "n_rows": 1}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[51, 107, 949, 231] 위치의 표를 보고 답하세요. '표시번호' 칸의 값을 모두 더하면 얼마입니까? 빈 칸은 0 으로 봅니다. (쉼표·단위 없이 숫자만 답하세요)
+```
+
+답:
+
+```json
+3
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[51, 107, 949, 231] 위치의 표를 보고 답하세요. 위에서 2번째 행의 '등기원인및기타사항' 값은 무엇입니까? 머리글은 세지 않습니다. (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"도로명주소 2012년4월16일 등기"
+```
+
+### 표 그대로 옮기기 `table_read` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 1쪽 bbox_2d=[51, 107, 949, 231] 위치의 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.
+꼴: {"columns": [머리글 글자, …], "rows": [[칸 글자, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 " > " 로 잇습니다.
+- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.
+- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "【 표 제 부 】 ( 1동의 건물의 표시 ) > 표시번호",
+  "【 표 제 부 】 ( 1동의 건물의 표시 ) > 접 수",
+  "【 표 제 부 】 ( 1동의 건물의 표시 ) > 소재지번,건물명칭 및 번호",
+  "【 표 제 부 】 ( 1동의 건물의 표시 ) > 건 물 내 역",
+  "【 표 제 부 】 ( 1동의 건물의 표시 ) > 등기원인 및 기타사항"
+ ],
+ "rows": [
+  [
+   "1",
+   "1993년6월28일",
+   "서울특별시 서초구 반포동 661 힐스테이트2차아파트 제103동",
+   "철근콘크리트벽식구조 (철근)콘크리트지붕 15층 공동주택(아파트) 지하1층 157.94㎡ 1층 179.36㎡ 2층~15층 각 202.4㎡",
+   "도면편철장 제9책 제655장"
+  ],
+  [
+   "2",
+   null,
+   "서울특별시 서초구 반포동 661 힐스테이트2차아파트 제103동 [도로명주소] 서울특별시 서초구 강남대로 357",
+   null,
+   "도로명주소 2012년4월16일 등기"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    51,
+    123,
+    949,
+    184
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    51,
+    184,
+    949,
+    234
+   ],
+   "page": 1
+  }
+ ]
+}
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -382,6 +551,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa real_estate_registry --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

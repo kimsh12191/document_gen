@@ -1,6 +1,6 @@
 # 국민연금가입자 증명서 (`gov_pension`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card gov_pension · card-hash: d125d5b236c1 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card gov_pension · card-hash: 707d3053c636 -->
 
 - **종류:** html 서식 (값은 fields.json 의 값 출처, 모양은 템플릿)
 - **그룹:** income · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 국민연금가입자 증명서
@@ -123,6 +123,9 @@ answer_empty: {"key": "{key}", "value": null}
 - official.first_joined: 최초자격취득일
 - official.type: 가입자종류
 - official.qual: 자격취득일
+- title_month: 귀속연월
+- total_period: 총근무기간
+- pay_date: 지급일
 ```
 
 답:
@@ -133,7 +136,10 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "official.issued", "value": "2025.04.01", "bbox_2d": [644, 201, 720, 213], "page": 1},
  {"key": "official.first_joined", "value": "2021.03.06", "bbox_2d": [227, 268, 303, 280], "page": 1},
  {"key": "official.type", "value": "사업장가입자", "bbox_2d": [83, 409, 174, 424], "page": 1},
- {"key": "official.qual", "value": "2021.03.06", "bbox_2d": [380, 411, 456, 423], "page": 1}]
+ {"key": "official.qual", "value": "2021.03.06", "bbox_2d": [380, 411, 456, 423], "page": 1},
+ {"key": "title_month", "value": null},
+ {"key": "total_period", "value": null},
+ {"key": "pay_date", "value": null}]
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -166,6 +172,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa gov_pension --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

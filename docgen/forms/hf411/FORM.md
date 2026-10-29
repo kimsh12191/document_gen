@@ -1,6 +1,6 @@
 # [필수]본인 행정정보 제공 요구서(공공마이데이터 수신 묶음정보用 - 주민등록표 등·초본 조회) (`hf411`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf411 · card-hash: 9258e28bb17a -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf411 · card-hash: 810d268324a3 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** [필수]본인 행정정보 제공 요구서(공공마이데이터 수신 묶음정보用 - 주민등록표 등·초본 조회)
@@ -141,6 +141,7 @@ answer_empty: {"key": "{key}", "value": null}
 - customer.phone: 연락처 (고객 연락처, 같은 항목명 중 1번째 칸)
 - 이용기관: 이용기관
 - 제공유형: 제공유형
+- 배우자주민번호앞6자리: 배우자주민번호앞6자리
 - customer.name2: 성명 (같은 항목명 중 2번째 칸)
 - customer.birth2: 생년월일 (같은 항목명 중 2번째 칸)
 - customer.phone2: 연락처 (같은 항목명 중 2번째 칸)
@@ -151,6 +152,7 @@ answer_empty: {"key": "{key}", "value": null}
 - signer.name: 본인성명 (고객 본인의 성명)
 - 금융수신: ¶금융수신
 - 금융거래의설정유지이행관리: -금융거래의설정·유지·이행·관리
+- 구매기업명: 구매기업명
 - 본인정보에관한사항: [별지]본인정보에관한사항(상세항목)
 ```
 
@@ -162,6 +164,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "customer.phone", "value": "010-6144-1173", "bbox_2d": [242, 284, 327, 299], "page": 1},
  {"key": "이용기관", "value": null},
  {"key": "제공유형", "value": null},
+ {"key": "배우자주민번호앞6자리", "value": null},
  {"key": "customer.name2", "value": "남궁예태", "bbox_2d": [375, 210, 460, 235], "page": 1},
  {"key": "customer.birth2", "value": "1985.03.28", "bbox_2d": [373, 246, 469, 269], "page": 1},
  {"key": "customer.phone2", "value": "010-6144-1173", "bbox_2d": [374, 280, 503, 303], "page": 1},
@@ -172,6 +175,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "signer.name", "value": "남궁예태", "bbox_2d": [747, 874, 831, 898], "page": 1},
  {"key": "금융수신", "value": null},
  {"key": "금융거래의설정유지이행관리", "value": null},
+ {"key": "구매기업명", "value": null},
  {"key": "본인정보에관한사항", "value": null}]
 ```
 
@@ -239,6 +243,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf411 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

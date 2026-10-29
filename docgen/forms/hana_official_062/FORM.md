@@ -1,6 +1,6 @@
 # 적합성, 적정성 고객정보 확인서(법인용) (`hana_official_062`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hana_official_062 · card-hash: 9454e66f1a44 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hana_official_062 · card-hash: 3d249d789ba2 -->
 
 - **종류:** html 서식 (값은 fields.json 의 값 출처, 모양은 템플릿)
 - **그룹:** hana · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 적합성, 적정성 고객정보 확인서(법인용)
@@ -164,6 +164,7 @@ answer_empty: {"key": "{key}", "value": null}
 - customer.email: E-mail (고객 이메일)
 - 업력: 업력
 - 기거래건전성: 기거래건전성
+- account2: 입금계좌번호
 - 신용상태: 신용상태
 - 상환능력및변제계획: 상환능력및변제계획
 - signer.name: 신청인 (고객 본인의 성명, 같은 항목명 중 1번째 칸)
@@ -184,6 +185,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "customer.email", "value": "yetae741@gmail.com", "bbox_2d": [781, 268, 887, 281], "page": 1},
  {"key": "업력", "value": "1", "bbox_2d": [323, 441, 328, 457], "page": 1},
  {"key": "기거래건전성", "value": null},
+ {"key": "account2", "value": null},
  {"key": "신용상태", "value": null},
  {"key": "상환능력및변제계획", "value": null},
  {"key": "signer.name", "value": "남궁예태", "bbox_2d": [787, 753, 858, 769], "page": 1},
@@ -291,6 +293,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hana_official_062 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

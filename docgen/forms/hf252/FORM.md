@@ -1,6 +1,6 @@
 # 외국환 신고(확인)필증 (`hf252`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf252 · card-hash: f807b8735f25 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf252 · card-hash: b920c54a5d8c -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 외국환 신고(확인)필증
@@ -20,27 +20,14 @@
 | `look/original.pdf` | 원본 PDF |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 27칸
+## 추출 항목 (정보 추출 kie) — 14칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `반출입구분` | 반출입구분(ExorImport) | text | - | 늘 | 표 행 (묶음·항목명 '반출입구분(Ex or Import)') | 값 종류 `text` (항목명 자동) | fields.json:17 | 묻기 |
-| `휴대_목록.*.통화종류CodeofCurrency` | 통화종류CodeofCurrency | text | 1쪽 [240, 361, 276, 381] (1행) | 늘 | 표 행 (묶음·항목명 '통화종류 Code of Currency') | 값 종류 `currency` (항목명 자동) | fields.json:29 | 묻기 |
 | `송금` | 송금(Remitted) | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:57 | 묻기 |
 | `기타` | 기타(FromOthereligiblesources) | text | 1쪽 [235, 469, 286, 480] | 늘 | 항목명 그대로 | 값 종류 `note` (항목명 자동) | fields.json:68 | 묻기 |
-| `휴대_목록.*.형태Form` | 형태Form | text | - (1행) | 늘 | 표 행 (묶음·항목명 '형태 Form') | 값 종류 `text` (항목명 자동) | fields.json:79 | 묻기 |
-| `목록.*.형태Form` | 형태Form | text | - (1행) | 늘 | 표 행 (묶음·항목명 '형태 Form') | 값 종류 `text` (항목명 자동) | fields.json:107 | 묻기 |
-| `휴대_목록.*.통화별금액AmountineachCurrency` | 통화별금액AmountineachCurrency | amount | 1쪽 [401, 361, 485, 382] (1행) | 늘 | 표 행 (묶음·항목명 '통화별금액 Amount in each Currency') | 값 종류 `amount` (항목명 자동) | fields.json:131 | 묻기 |
-| `목록.*.통화별금액AmountineachCurrency` | 통화별금액AmountineachCurrency | number | 1쪽 [416, 423, 483, 440] (1행) | 늘 | 표 행 (묶음·항목명 '통화별금액 Amount in each Currency') | 값 종류 `amount` (항목명 자동) | fields.json:159 | 묻기 |
-| `휴대_목록.*.합계Sum` | 합계(미화상당)Sum(US$equiv) | number | 1쪽 [547, 361, 618, 382] (1행) | 늘 | 표 행 (묶음·항목명 '합계(미화상당) Sum (US$ equiv)') | 값 종류 `amount` (항목명 자동) | fields.json:183 | 묻기 |
-| `목록.*.합계Sum` | 합계(미화상당)Sum(US$equiv) | number | 1쪽 [539, 424, 614, 440] (1행) | 늘 | 표 행 (묶음·항목명 '합계(미화상당) Sum (US$ equiv)') | 값 종류 `amount` (항목명 자동) | fields.json:211 | 묻기 |
-| `휴대_목록.*.반출입용도Use` | 반출입용도Use | text | 1쪽 [627, 362, 694, 377] (1행) | 늘 | 표 행 (묶음·항목명 '반출입 용도 Use') | 값 종류 `reason` (항목명 자동) | fields.json:235 | 묻기 |
-| `목록.*.반출입용도Use` | 반출입용도Use | text | 1쪽 [628, 426, 695, 439] (1행) | 늘 | 표 행 (묶음·항목명 '반출입 용도 Use') | 값 종류 `reason` (항목명 자동) | fields.json:263 | 묻기 |
-| `휴대_목록.*.비고` | 비고(Note)(수표번호등) | text | 1쪽 [707, 360, 804, 381] (1행) | 늘 | 표 행 (묶음·항목명 '비 고(Note) (수표번호 등)') | 값 종류 `note` (항목명 자동) | fields.json:287 | 묻기 |
-| `목록.*.비고` | 비고(Note)(수표번호등) | text | 1쪽 [707, 422, 804, 442] (1행) | 늘 | 표 행 (묶음·항목명 '비 고(Note) (수표번호 등)') | 값 종류 `note` (항목명 자동) | fields.json:315 | 묻기 |
 | `국적Nationality` | 국적Nationality | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:339 | 묻기 |
-| `목록.*.일자Date` | 일자Date | date | 1쪽 [128, 684, 160, 691] (1행) | 늘 | 표 행 (묶음·항목명 '일자 Date') | 값 종류 `date` (항목명 자동) | fields.json:351 | 묻기 |
-| `목록.*.금액Amount` | 금액Amount | number | 1쪽 [204, 682, 253, 692] (1행) | 늘 | 표 행 (묶음·항목명 '금액 Amount') | 값 종류 `amount` (항목명 자동) | fields.json:363 | 묻기 |
 | `확인ResponsibleOfficial` | 확인ResponsibleOfficial | text | - | 늘 | 표 행 (묶음·항목명 '확 인 Responsible Official') | 값 종류 `text` (항목명 자동) | fields.json:375 | 묻기 |
 | `통화종류CodeofCurrency` | 통화종류CodeofCurrency | text | 1쪽 [214, 824, 252, 844] | 늘 | 표 행 (묶음·항목명 '통화종류 Code of Currency') | 값 종류 `currency` (항목명 자동) | fields.json:399 | 묻기 |
 | `확인기관ConfirmationOffice` | 확인기관ConfirmationOffice | text | - | 늘 | 표 행 (묶음·항목명 '확인기관 Confirmation Office') | 값 종류 `text` (항목명 자동) | fields.json:423 | 묻기 |
@@ -51,6 +38,33 @@
 | `customer.rrn` | 주민등록번호 | rrn | 1쪽 [241, 236, 401, 258] | 늘 | 규칙: '주민등록번호' → `customer.rrn` | 고객 정보 (키 `customer.rrn`) | fields.json:495 | 묻기 |
 | `PassportNo` | PassportNo. | text | 1쪽 [239, 249, 324, 270] | 늘 | 항목명 그대로 | 값 종류 `passport` (항목명 자동) | fields.json:507 | 묻기 |
 | `ExpectedTermofStayTo` | ExpectedTermofStayTo | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:519 | 묻기 |
+
+## 표 `휴대_목록` (표 과제 table·table_read·table_find·table_qa) — 6열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `휴대_목록.*.통화종류CodeofCurrency` | 통화종류CodeofCurrency | text | 1쪽 [240, 361, 276, 381] (1행) | 늘 | 표 행 (묶음·항목명 '통화종류 Code of Currency') | 값 종류 `currency` (항목명 자동) | fields.json:29 | 묻기 |
+| `휴대_목록.*.형태Form` | 형태Form | text | - (1행) | 늘 | 표 행 (묶음·항목명 '형태 Form') | 값 종류 `text` (항목명 자동) | fields.json:79 | 묻기 |
+| `휴대_목록.*.통화별금액AmountineachCurrency` | 통화별금액AmountineachCurrency | amount | 1쪽 [401, 361, 485, 382] (1행) | 늘 | 표 행 (묶음·항목명 '통화별금액 Amount in each Currency') | 값 종류 `amount` (항목명 자동) | fields.json:131 | 묻기 |
+| `휴대_목록.*.합계Sum` | 합계(미화상당)Sum(US$equiv) | number | 1쪽 [547, 361, 618, 382] (1행) | 늘 | 표 행 (묶음·항목명 '합계(미화상당) Sum (US$ equiv)') | 값 종류 `amount` (항목명 자동) | fields.json:183 | 묻기 |
+| `휴대_목록.*.반출입용도Use` | 반출입용도Use | text | 1쪽 [627, 362, 694, 377] (1행) | 늘 | 표 행 (묶음·항목명 '반출입 용도 Use') | 값 종류 `reason` (항목명 자동) | fields.json:235 | 묻기 |
+| `휴대_목록.*.비고` | 비고(Note)(수표번호등) | text | 1쪽 [707, 360, 804, 381] (1행) | 늘 | 표 행 (묶음·항목명 '비 고(Note) (수표번호 등)') | 값 종류 `note` (항목명 자동) | fields.json:287 | 묻기 |
+
+## 표 `목록` (표 과제 table·table_read·table_find·table_qa) — 7열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `목록.*.형태Form` | 형태Form | text | - (1행) | 늘 | 표 행 (묶음·항목명 '형태 Form') | 값 종류 `text` (항목명 자동) | fields.json:107 | 묻기 |
+| `목록.*.통화별금액AmountineachCurrency` | 통화별금액AmountineachCurrency | number | 1쪽 [416, 423, 483, 440] (1행) | 늘 | 표 행 (묶음·항목명 '통화별금액 Amount in each Currency') | 값 종류 `amount` (항목명 자동) | fields.json:159 | 묻기 |
+| `목록.*.합계Sum` | 합계(미화상당)Sum(US$equiv) | number | 1쪽 [539, 424, 614, 440] (1행) | 늘 | 표 행 (묶음·항목명 '합계(미화상당) Sum (US$ equiv)') | 값 종류 `amount` (항목명 자동) | fields.json:211 | 묻기 |
+| `목록.*.반출입용도Use` | 반출입용도Use | text | 1쪽 [628, 426, 695, 439] (1행) | 늘 | 표 행 (묶음·항목명 '반출입 용도 Use') | 값 종류 `reason` (항목명 자동) | fields.json:263 | 묻기 |
+| `목록.*.비고` | 비고(Note)(수표번호등) | text | 1쪽 [707, 422, 804, 442] (1행) | 늘 | 표 행 (묶음·항목명 '비 고(Note) (수표번호 등)') | 값 종류 `note` (항목명 자동) | fields.json:315 | 묻기 |
+| `목록.*.일자Date` | 일자Date | date | 1쪽 [128, 684, 160, 691] (1행) | 늘 | 표 행 (묶음·항목명 '일자 Date') | 값 종류 `date` (항목명 자동) | fields.json:351 | 묻기 |
+| `목록.*.금액Amount` | 금액Amount | number | 1쪽 [204, 682, 253, 692] (1행) | 늘 | 표 행 (묶음·항목명 '금액 Amount') | 값 종류 `amount` (항목명 자동) | fields.json:363 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 2칸
 
@@ -155,37 +169,11 @@ answer_empty: {"key": "{key}", "value": null}
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
 - 반출입구분: 반출입구분(ExorImport)
-- 휴대_목록.0.통화종류CodeofCurrency: 통화종류CodeofCurrency (휴대 목록 1행)
-- 휴대_목록.1.통화종류CodeofCurrency: 통화종류CodeofCurrency (휴대 목록 2행)
 - 송금: 송금(Remitted)
 - 기타: 기타(FromOthereligiblesources)
-- 휴대_목록.0.형태Form: 형태Form (휴대 목록 1행)
-- 휴대_목록.1.형태Form: 형태Form (휴대 목록 2행)
-- 목록.0.형태Form: 형태Form (목록 1행)
-- 목록.1.형태Form: 형태Form (목록 2행)
-- 휴대_목록.0.통화별금액AmountineachCurrency: 통화별금액AmountineachCurrency (휴대 목록 1행)
-- 휴대_목록.1.통화별금액AmountineachCurrency: 통화별금액AmountineachCurrency (휴대 목록 2행)
-- 목록.0.통화별금액AmountineachCurrency: 통화별금액AmountineachCurrency (목록 1행)
-- 목록.1.통화별금액AmountineachCurrency: 통화별금액AmountineachCurrency (목록 2행)
-- 휴대_목록.0.합계Sum: 합계(미화상당)Sum(US$equiv) (휴대 목록 1행)
-- 휴대_목록.1.합계Sum: 합계(미화상당)Sum(US$equiv) (휴대 목록 2행)
-- 목록.0.합계Sum: 합계(미화상당)Sum(US$equiv) (목록 1행)
-- 목록.1.합계Sum: 합계(미화상당)Sum(US$equiv) (목록 2행)
-- 휴대_목록.0.반출입용도Use: 반출입용도Use (휴대 목록 1행)
-- 휴대_목록.1.반출입용도Use: 반출입용도Use (휴대 목록 2행)
-- 목록.0.반출입용도Use: 반출입용도Use (목록 1행)
-- 목록.1.반출입용도Use: 반출입용도Use (목록 2행)
-- 휴대_목록.0.비고: 비고(Note)(수표번호등) (휴대 목록 1행)
-- 휴대_목록.1.비고: 비고(Note)(수표번호등) (휴대 목록 2행)
-- 목록.0.비고: 비고(Note)(수표번호등) (목록 1행)
-- 목록.1.비고: 비고(Note)(수표번호등) (목록 2행)
 - 국적Nationality: 국적Nationality
-- 목록.0.일자Date: 일자Date (목록 1행)
-- 목록.0.금액Amount: 금액Amount (목록 1행)
 - 확인ResponsibleOfficial: 확인ResponsibleOfficial
-- 목록.1.일자Date: 일자Date (목록 2행)
-- 통화종류CodeofCurrency: 통화종류CodeofCurrency (같은 항목명 중 3번째 칸)
-- 목록.1.금액Amount: 금액Amount (목록 2행)
+- 통화종류CodeofCurrency: 통화종류CodeofCurrency
 - 확인기관ConfirmationOffice: 확인기관ConfirmationOffice
 - 확인자Signature: 확인자Signature
 - customer.name: 성명 (고객 성명)
@@ -200,37 +188,11 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```json
 [{"key": "반출입구분", "value": null},
- {"key": "휴대_목록.0.통화종류CodeofCurrency", "value": "USD", "bbox_2d": [240, 361, 276, 381], "page": 1},
- {"key": "휴대_목록.1.통화종류CodeofCurrency", "value": null},
  {"key": "송금", "value": null},
  {"key": "기타", "value": "해당 없음", "bbox_2d": [235, 469, 286, 480], "page": 1},
- {"key": "휴대_목록.0.형태Form", "value": null},
- {"key": "휴대_목록.1.형태Form", "value": null},
- {"key": "목록.0.형태Form", "value": null},
- {"key": "목록.1.형태Form", "value": null},
- {"key": "휴대_목록.0.통화별금액AmountineachCurrency", "value": "60,000원", "bbox_2d": [401, 361, 485, 382], "page": 1},
- {"key": "휴대_목록.1.통화별금액AmountineachCurrency", "value": null},
- {"key": "목록.0.통화별금액AmountineachCurrency", "value": "1,310,000", "bbox_2d": [416, 423, 483, 440], "page": 1},
- {"key": "목록.1.통화별금액AmountineachCurrency", "value": null},
- {"key": "휴대_목록.0.합계Sum", "value": "790,000", "bbox_2d": [547, 361, 618, 382], "page": 1},
- {"key": "휴대_목록.1.합계Sum", "value": null},
- {"key": "목록.0.합계Sum", "value": "193,310,000", "bbox_2d": [539, 424, 614, 440], "page": 1},
- {"key": "목록.1.합계Sum", "value": null},
- {"key": "휴대_목록.0.반출입용도Use", "value": "급여 수령", "bbox_2d": [627, 362, 694, 377], "page": 1},
- {"key": "휴대_목록.1.반출입용도Use", "value": null},
- {"key": "목록.0.반출입용도Use", "value": "본인 요청", "bbox_2d": [628, 426, 695, 439], "page": 1},
- {"key": "목록.1.반출입용도Use", "value": null},
- {"key": "휴대_목록.0.비고", "value": "해당 없음", "bbox_2d": [707, 360, 804, 381], "page": 1},
- {"key": "휴대_목록.1.비고", "value": null},
- {"key": "목록.0.비고", "value": "해당 없음", "bbox_2d": [707, 422, 804, 442], "page": 1},
- {"key": "목록.1.비고", "value": null},
  {"key": "국적Nationality", "value": null},
- {"key": "목록.0.일자Date", "value": "2024.10.13", "bbox_2d": [128, 684, 160, 691], "page": 1},
- {"key": "목록.0.금액Amount", "value": "87,760,000", "bbox_2d": [204, 682, 253, 692], "page": 1},
  {"key": "확인ResponsibleOfficial", "value": null},
- {"key": "목록.1.일자Date", "value": null},
  {"key": "통화종류CodeofCurrency", "value": "AUD", "bbox_2d": [214, 824, 252, 844], "page": 1},
- {"key": "목록.1.금액Amount", "value": null},
  {"key": "확인기관ConfirmationOffice", "value": null},
  {"key": "확인자Signature", "value": null},
  {"key": "customer.name", "value": "남궁예태", "bbox_2d": [179, 172, 269, 194], "page": 1},
@@ -270,6 +232,107 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "sign.customer", "value": false}]
 ```
 
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 '통화종류CodeofCurrency'·'합계(미화상당)Sum(US$equiv)' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- 통화종류CodeofCurrency: 통화종류CodeofCurrency
+- 통화별금액AmountineachCurrency: 통화별금액AmountineachCurrency
+- 합계Sum: 합계(미화상당)Sum(US$equiv)
+- 반출입용도Use: 반출입용도Use
+- 비고: 비고(Note)(수표번호등)
+- 형태Form: 형태Form
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "통화종류CodeofCurrency",
+  "통화별금액AmountineachCurrency",
+  "합계Sum",
+  "반출입용도Use",
+  "비고",
+  "형태Form"
+ ],
+ "rows": [
+  [
+   "USD",
+   "60,000원",
+   "790,000",
+   "급여 수령",
+   "해당 없음",
+   null
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    240,
+    360,
+    804,
+    382
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["통화종류CodeofCurrency", "통화별금액AmountineachCurrency", "합계(미화상당)Sum(US$equiv)", "반출입용도Use", "비고(Note)(수표번호등)", "형태Form"], "bbox_2d": [240, 360, 804, 382], "page": 1, "n_rows": 1},
+ {"columns": ["일자Date", "금액Amount", "통화별금액AmountineachCurrency", "합계(미화상당)Sum(US$equiv)", "반출입용도Use", "비고(Note)(수표번호등)", "형태Form"], "bbox_2d": [128, 422, 804, 692], "page": 1, "n_rows": 1}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[240, 360, 804, 382] 위치의 표를 보고 답하세요. '통화별금액AmountineachCurrency' 칸의 값을 모두 더하면 얼마입니까? 빈 칸은 0 으로 봅니다. (쉼표·단위 없이 숫자만 답하세요)
+```
+
+답:
+
+```json
+60000
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[240, 360, 804, 382] 위치의 표를 보고 답하세요. '통화종류CodeofCurrency' 칸이 'USD'인 행의 '통화별금액AmountineachCurrency' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"60,000원"
+```
+
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
 
 없습니다. 더하려면 이 폴더에 `qa.py` 를 만들고 함수 하나에 질문 하나 (견본: `python -m docgen.formdir qa hf252 --new`):
@@ -299,6 +362,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf252 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

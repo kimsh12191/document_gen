@@ -1,6 +1,6 @@
 # 퇴직소득 원천징수영수증 (`gov_retirement_withholding`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card gov_retirement_withholding · card-hash: 8b99a3a754af -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card gov_retirement_withholding · card-hash: b1c0d7c1416d -->
 
 - **종류:** html 서식 (값은 fields.json 의 값 출처, 모양은 템플릿)
 - **그룹:** income · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 퇴직소득 원천징수영수증
@@ -116,6 +116,7 @@ answer_empty: {"key": "{key}", "value": null}
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
 - customer.name: 성명 (고객 성명)
 - customer.rrn: 주민등록번호 (고객 주민등록번호)
+- official.receipt_no: 접수번호
 - customer.address: 주소 (고객 주소)
 - employer.name: 징수의무자상호 (직장 이름)
 ```
@@ -125,6 +126,7 @@ answer_empty: {"key": "{key}", "value": null}
 ```json
 [{"key": "customer.name", "value": "남궁예태", "bbox_2d": [224, 186, 285, 201], "page": 1},
  {"key": "customer.rrn", "value": "850328-2489940", "bbox_2d": [666, 188, 781, 200], "page": 1},
+ {"key": "official.receipt_no", "value": null},
  {"key": "customer.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [224, 211, 545, 226], "page": 1},
  {"key": "employer.name", "value": "주식회사 다온패션", "bbox_2d": [508, 140, 606, 151], "page": 1}]
 ```
@@ -159,6 +161,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa gov_retirement_withholding --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

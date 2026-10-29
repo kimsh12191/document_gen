@@ -1,6 +1,6 @@
 # 해외송금신청서 (`overseas_remittance_application`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card overseas_remittance_application · card-hash: 1d5262236f00 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card overseas_remittance_application · card-hash: 44096b40ff3d -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** bank_form · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 해외송금신청서 (다른 이름: 외화송금신청서)
@@ -21,7 +21,7 @@
 | `docgen/docs/bank_form_account.py`, `docgen/docs/bank_form_loan.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 43칸
+## 추출 항목 (정보 추출 kie) — 36칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -57,6 +57,17 @@
 | `bank_use.clerk` | 담당자 | text | 1쪽 [787, 895, 825, 907] | 늘 | 템플릿 | generate.py | look/template.html.j2:84 · fields.json:40 | 묻기 |
 | `bank_use.manager` | 결재권자 | text | 1쪽 [870, 895, 909, 907] | 늘 | 템플릿 | generate.py | look/template.html.j2:84 · fields.json:55 | 묻기 |
 | `batch_count` | 송금건수 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:75 | 묻기 |
+| `agent.name` | 대리인성명 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:5 | 묻기 |
+| `agent.relation` | 신청인과의관계 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:15 | 묻기 |
+| `agent.rrn` | 대리인실명번호 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:20 | 묻기 |
+| `agent.phone` | 대리인연락처 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:10 | 묻기 |
+
+## 표 `batch` (표 과제 table·table_read·table_find·table_qa) — 7열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `batch.*.beneficiary` | 수취인 | - | - (1행) | 2/16 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:250 | 묻기 |
 | `batch.*.message` | 송금메시지 | - | - (1행) | 2/16 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:265 | 묻기 |
 | `batch.*.country` | 국가 | - | - (1행) | 2/16 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:255 | 묻기 |
@@ -64,10 +75,6 @@
 | `batch.*.account_no` | 계좌번호 | - | - (1행) | 2/16 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:235 | 묻기 |
 | `batch.*.currency` | 통화 | - | - (1행) | 2/16 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:260 | 묻기 |
 | `batch.*.amount` | 금액 | - | - (1행) | 2/16 | 템플릿 | generate.py | look/template.html.j2:57 · fields.json:240 | 묻기 |
-| `agent.name` | 대리인성명 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:5 | 묻기 |
-| `agent.relation` | 신청인과의관계 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:15 | 묻기 |
-| `agent.rrn` | 대리인실명번호 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:20 | 묻기 |
-| `agent.phone` | 대리인연락처 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:10 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 9칸
 
@@ -332,6 +339,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa overseas_remittance_application --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

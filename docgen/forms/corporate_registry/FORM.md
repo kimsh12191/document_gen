@@ -1,6 +1,6 @@
 # 법인 등기사항전부증명서(현재 유효사항) (`corporate_registry`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card corporate_registry · card-hash: f1c71e7795dc -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card corporate_registry · card-hash: 3893801734f9 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** corporate · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 법인 등기사항전부증명서(현재 유효사항)
@@ -21,7 +21,7 @@
 | `docgen/docs/corporate.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 60칸
+## 추출 항목 (정보 추출 kie) — 34칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -30,32 +30,17 @@
 | `reg_no` | 등기번호 | number | 1쪽 [179, 106, 227, 119] | 늘 | 템플릿 | generate.py | look/template.html.j2:47 · fields.json:145 | 묻기 |
 | `corp_reg_no` | 등록번호 | corp_reg_no | 1쪽 [179, 128, 288, 140] | 늘 | 템플릿 | generate.py | look/template.html.j2:48 · fields.json:50 | 묻기 |
 | `corp.name` ← `company_name` | 상호 | text | 1쪽 [271, 157, 413, 170] | 늘 | 템플릿 | generate.py | look/template.html.j2:56 · fields.json:30 | 묻기 |
-| `office_history.*.address` | 본점 | text | 1쪽 [271, 178, 724, 191] (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:59 · fields.json:230 | 묻기 |
 | `head_office` | 본점 | text | 1쪽 [271, 204, 709, 217] | 늘 | 템플릿 | generate.py | look/template.html.j2:61 · fields.json:65 | 묻기 |
 | `head_office_change.changed` | 변경연월일 | text | 1쪽 [806, 198, 896, 209] | 2/16 | 템플릿 | generate.py | fields.json:70 | 묻기 |
 | `head_office_change.registered` | 등기연월일 | text | 1쪽 [806, 211, 896, 221] | 2/16 | 템플릿 | generate.py | fields.json:75 | 묻기 |
 | `notice_method` | 공고방법 | text | 1쪽 [271, 230, 709, 243] | 늘 | 템플릿 | generate.py | look/template.html.j2:62 · fields.json:115 | 묻기 |
 | `par_value` | 1주의금액 | amount | 1쪽 [271, 251, 344, 264] | 늘 | 템플릿 | generate.py | look/template.html.j2:63 · fields.json:130 | 묻기 |
 | `authorized_shares` | 발행할주식의총수 | text | 1쪽 [271, 272, 340, 285] | 늘 | 템플릿 | generate.py | look/template.html.j2:64 · fields.json:5 | 묻기 |
-| `capital_history.*.issued_shares` | 발행주식의총수 | text | 1쪽 [206, 330, 260, 343] (1행) | 6/16 | 템플릿 | generate.py | fields.json:205 | 묻기 |
-| `capital_history.*.common_shares` | 보통주식 | text | 1쪽 [183, 345, 237, 357] (1행) | 6/16 | 템플릿 | generate.py | fields.json:200 | 묻기 |
-| `capital_history.*.capital` | 자본금의액 | amount | 1쪽 [564, 338, 672, 350] (1행) | 6/16 | 템플릿 | generate.py | fields.json:190 | 묻기 |
 | `issued_shares` | 발행주식의총수 | text | 1쪽 [206, 366, 267, 378] | 늘 | 템플릿 | generate.py | look/template.html.j2:69 · fields.json:105 | 묻기 |
 | `common_shares` | 보통주식 | text | 1쪽 [183, 380, 244, 393] | 늘 | 템플릿 | generate.py | look/template.html.j2:69 · fields.json:25 | 묻기 |
 | `capital` | 자본금의액 | amount | 1쪽 [560, 373, 676, 386] | 늘 | 템플릿 | generate.py | look/template.html.j2:70 · fields.json:10 | 묻기 |
 | `capital_change.changed` | 변경연월일 | text | 1쪽 [786, 367, 877, 378] | 10/16 | 템플릿 | generate.py | fields.json:15 | 묻기 |
 | `capital_change.registered` | 등기연월일 | text | 1쪽 [786, 380, 877, 390] | 10/16 | 템플릿 | generate.py | fields.json:20 | 묻기 |
-| `purposes.*` | 목적 | text | 1쪽 [83, 423, 244, 436] (1행) | 늘 | 템플릿 | generate.py | - | 묻기 |
-| `officers.*.position` | 직위 | text | 1쪽 [83, 549, 114, 562] (1행) | 늘 | 템플릿 | generate.py | fields.json:285 | 묻기 |
-| `officers.*.name` | 성명 | text | 1쪽 [122, 549, 168, 562] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:54 · fields.json:280 | 묻기 |
-| `officers.*.rrn` | 주민등록번호 | rrn | 1쪽 [175, 549, 280, 562] (1행) | 늘 | 템플릿 | generate.py | fields.json:295 | 묻기 |
-| `officers.*.appointed` | 취임일 | date | 1쪽 [234, 563, 356, 575] (1행) | 늘 | 템플릿 | generate.py | fields.json:255 | 묻기 |
-| `officers.*.appointment_type` | 취임구분 | text | 1쪽 [359, 563, 389, 575] (1행) | 늘 | 템플릿 | generate.py | fields.json:260 | 묻기 |
-| `officers.*.registered` | 등기일 | date | 1쪽 [411, 563, 532, 575] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:290 | 묻기 |
-| `officers.*.ended` | 퇴임일 | date | 1쪽 [234, 576, 356, 588] (1행) | 7/16 | 템플릿 | generate.py | fields.json:275 | 묻기 |
-| `officers.*.end_type` | 퇴임구분 | text | 1쪽 [359, 576, 389, 588] (1행) | 7/16 | 템플릿 | generate.py | fields.json:270 | 묻기 |
-| `officers.*.end_registered` | 등기일 | date | 1쪽 [411, 576, 532, 588] (1행) | 7/16 | 템플릿 | generate.py | fields.json:265 | 묻기 |
-| `officers.*.address` | 주소 | text | 1쪽 [334, 622, 862, 635] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:59 · fields.json:250 | 묻기 |
 | `established` | 회사성립연월일 | date | 2쪽 [271, 50, 398, 62] | 늘 | 템플릿 | generate.py | look/template.html.j2:117 · fields.json:55 | 묻기 |
 | `opening_reason` | 등기기록개설사유 | text | 2쪽 [271, 78, 302, 91] | 늘 | 템플릿 | generate.py | look/template.html.j2:118 · fields.json:125 | 묻기 |
 | `opening_date` | 등기기록개설일 | date | 2쪽 [318, 78, 444, 91] | 늘 | 템플릿 | generate.py | look/template.html.j2:118 · fields.json:120 | 묻기 |
@@ -66,22 +51,79 @@
 | `confirm_no` | 발급확인번호 | text | 2쪽 [519, 258, 632, 268] | 10/16 | 템플릿 | generate.py | look/template.html.j2:135 · fields.json:45 | 묻기 |
 | `issue_date_short` | 발행일 | date | 2쪽 [865, 258, 929, 268] | 10/16 | 템플릿 | generate.py | look/template.html.j2:135 · fields.json:85 | 묻기 |
 | `viewed_at` | 열람일시 | - | - | 6/16 | 템플릿 | generate.py | look/template.html.j2:42 · fields.json:155 | 묻기 |
-| `capital_history.*.changed` | 변경연월일 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:195 | 묻기 |
-| `capital_history.*.registered` | 등기연월일 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:210 | 묻기 |
-| `branches.*.no` | 지점번호 | - | - (1행) | 4/16 | 템플릿 | generate.py | fields.json:170 | 묻기 |
-| `branches.*.address` | 지점소재지 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:59 · fields.json:165 | 묻기 |
-| `branches.*.opened` | 설치일 | - | - (1행) | 4/16 | 템플릿 | generate.py | fields.json:175 | 묻기 |
-| `branches.*.opened_registered` | 등기일 | - | - (1행) | 4/16 | 템플릿 | generate.py | fields.json:180 | 묻기 |
 | `preferred_shares` | 상환전환우선주식 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:69 | 묻기 |
 | `purpose_history.*.purposes.*` | 목적 | - | - (1행) | 2/16 | 템플릿 | generate.py | - | 묻기 |
 | `purpose_change.changed` | 변경연월일 | - | - | 2/16 | 템플릿 | generate.py | fields.json:135 | 묻기 |
 | `purpose_change.registered` | 등기연월일 | - | - | 2/16 | 템플릿 | generate.py | fields.json:140 | 묻기 |
-| `branches.*.closed` | 폐지일 | - | - (1행) | 1/16 | 템플릿 | generate.py | - | 묻기 |
-| `branches.*.closed_registered` | 등기일 | - | - (1행) | 1/16 | 템플릿 | generate.py | - | 묻기 |
 | `company_name_change.changed` | 변경연월일 | - | - | 3/16 | 템플릿 | generate.py | fields.json:35 | 묻기 |
 | `company_name_change.registered` | 등기연월일 | - | - | 3/16 | 템플릿 | generate.py | fields.json:40 | 묻기 |
 | `joint_representation` | 공동대표 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:98 | 묻기 |
 | `joint_registered` | 등기일 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:99 | 묻기 |
+
+## 표 `office_history` (표 과제 table·table_read·table_find·table_qa) — 1열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `office_history.*.address` | 본점 | text | 1쪽 [271, 178, 724, 191] (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:59 · fields.json:230 | 묻기 |
+
+## 표 `capital_history` (표 과제 table·table_read·table_find·table_qa) — 5열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `capital_history.*.issued_shares` | 발행주식의총수 | text | 1쪽 [206, 330, 260, 343] (1행) | 6/16 | 템플릿 | generate.py | fields.json:205 | 묻기 |
+| `capital_history.*.common_shares` | 보통주식 | text | 1쪽 [183, 345, 237, 357] (1행) | 6/16 | 템플릿 | generate.py | fields.json:200 | 묻기 |
+| `capital_history.*.capital` | 자본금의액 | amount | 1쪽 [564, 338, 672, 350] (1행) | 6/16 | 템플릿 | generate.py | fields.json:190 | 묻기 |
+| `capital_history.*.changed` | 변경연월일 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:195 | 묻기 |
+| `capital_history.*.registered` | 등기연월일 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:210 | 묻기 |
+
+## 표 `purposes` (표 과제 table·table_read·table_find·table_qa) — 1열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `purposes.*` | 목적 | text | 1쪽 [83, 423, 244, 436] (1행) | 늘 | 템플릿 | generate.py | - | 묻기 |
+
+## 표 `officers` (표 과제 table·table_read·table_find·table_qa) — 10열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `officers.*.position` | 직위 | text | 1쪽 [83, 549, 114, 562] (1행) | 늘 | 템플릿 | generate.py | fields.json:285 | 묻기 |
+| `officers.*.name` | 성명 | text | 1쪽 [122, 549, 168, 562] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:54 · fields.json:280 | 묻기 |
+| `officers.*.rrn` | 주민등록번호 | rrn | 1쪽 [175, 549, 280, 562] (1행) | 늘 | 템플릿 | generate.py | fields.json:295 | 묻기 |
+| `officers.*.appointed` | 취임일 | date | 1쪽 [234, 563, 356, 575] (1행) | 늘 | 템플릿 | generate.py | fields.json:255 | 묻기 |
+| `officers.*.appointment_type` | 취임구분 | text | 1쪽 [359, 563, 389, 575] (1행) | 늘 | 템플릿 | generate.py | fields.json:260 | 묻기 |
+| `officers.*.registered` | 등기일 | date | 1쪽 [411, 563, 532, 575] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:290 | 묻기 |
+| `officers.*.ended` | 퇴임일 | date | 1쪽 [234, 576, 356, 588] (1행) | 7/16 | 템플릿 | generate.py | fields.json:275 | 묻기 |
+| `officers.*.end_type` | 퇴임구분 | text | 1쪽 [359, 576, 389, 588] (1행) | 7/16 | 템플릿 | generate.py | fields.json:270 | 묻기 |
+| `officers.*.end_registered` | 등기일 | date | 1쪽 [411, 576, 532, 588] (1행) | 7/16 | 템플릿 | generate.py | fields.json:265 | 묻기 |
+| `officers.*.address` | 주소 | text | 1쪽 [334, 622, 862, 635] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:59 · fields.json:250 | 묻기 |
+
+## 표 `branches` (표 과제 table·table_read·table_find·table_qa) — 6열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `branches.*.no` | 지점번호 | - | - (1행) | 4/16 | 템플릿 | generate.py | fields.json:170 | 묻기 |
+| `branches.*.address` | 지점소재지 | - | - (1행) | 4/16 | 템플릿 | generate.py | look/template.html.j2:59 · fields.json:165 | 묻기 |
+| `branches.*.opened` | 설치일 | - | - (1행) | 4/16 | 템플릿 | generate.py | fields.json:175 | 묻기 |
+| `branches.*.opened_registered` | 등기일 | - | - (1행) | 4/16 | 템플릿 | generate.py | fields.json:180 | 묻기 |
+| `branches.*.closed` | 폐지일 | - | - (1행) | 1/16 | 템플릿 | generate.py | - | 묻기 |
+| `branches.*.closed_registered` | 등기일 | - | - (1행) | 1/16 | 템플릿 | generate.py | - | 묻기 |
+
+## 표 `name_history` (표 과제 table·table_read·table_find·table_qa) — 3열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `name_history.*.name` | 상호 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:54 · fields.json:220 | 묻기 |
 | `name_history.*.changed` | 변경연월일 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:39 | 묻기 |
 | `name_history.*.registered` | 등기연월일 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:39 | 묻기 |
@@ -244,91 +286,61 @@ answer_empty: {"key": "{key}", "value": null}
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
+- issue_type: 발급구분
 - issue_scope: 증명서구분
+- reg_no: 등기번호
 - corp_reg_no: 등록번호
 - corp.name: 상호 (법인·사업자 상호)
-- office_history.0.address: 본점 (1행)
+- head_office: 본점
 - head_office_change.changed: 변경연월일 (같은 항목명 중 1번째 칸)
+- head_office_change.registered: 등기연월일 (같은 항목명 중 1번째 칸)
 - notice_method: 공고방법
 - par_value: 1주의금액
-- capital_history.0.common_shares: 보통주식 (1행)
-- purposes.2: 목적 (3번째)
-- purposes.4: 목적 (5번째)
-- purposes.6: 목적 (7번째)
-- officers.0.registered: 등기일 (1행)
-- officers.1.registered: 등기일 (2행)
-- officers.2.rrn: 주민등록번호 (3행)
-- officers.2.appointment_type: 취임구분 (3행)
-- officers.2.registered: 등기일 (3행)
-- officers.3.position: 직위 (4행)
-- officers.3.appointment_type: 취임구분 (4행)
-- officers.3.registered: 등기일 (4행)
-- officers.4.name: 성명 (5행)
-- officers.4.rrn: 주민등록번호 (5행)
-- officers.5.appointed: 취임일 (6행)
-- officers.6.appointed: 취임일 (7행)
-- officers.6.appointment_type: 취임구분 (7행)
-- officers.7.name: 성명 (8행)
-- officers.7.rrn: 주민등록번호 (8행)
-- officers.7.appointed: 취임일 (8행)
-- officers.7.registered: 등기일 (8행)
-- officers.8.name: 성명 (9행)
-- officers.8.rrn: 주민등록번호 (9행)
-- officers.8.appointed: 취임일 (9행)
-- officers.9.rrn: 주민등록번호 (10행)
-- officers.9.registered: 등기일 (10행)
-- officers.10.appointed: 취임일 (11행)
-- officers.10.registered: 등기일 (11행)
-- officers.11.name: 성명 (12행)
-- officers.11.appointed: 취임일 (12행)
-- officers.11.appointment_type: 취임구분 (12행)
-- officers.11.registered: 등기일 (12행)
+- authorized_shares: 발행할주식의총수
+- issued_shares: 발행주식의총수
+- common_shares: 보통주식
+- capital: 자본금의액
+- capital_change.changed: 변경연월일 (같은 항목명 중 2번째 칸)
+- capital_change.registered: 등기연월일 (같은 항목명 중 2번째 칸)
 - established: 회사성립연월일
+- opening_reason: 등기기록개설사유
+- opening_date: 등기기록개설일
+- fee: 수수료
+- jurisdiction: 관할등기소
+- issue_date: 발행일 (같은 항목명 중 1번째 칸)
+- issue_no: 발행번호
+- confirm_no: 발급확인번호
+- issue_date_short: 발행일 (같은 항목명 중 2번째 칸)
 ```
 
 답:
 
 ```json
-[{"key": "issue_scope", "value": "말소사항 포함", "bbox_2d": [546, 67, 760, 91], "page": 1},
+[{"key": "issue_type", "value": "제출용", "bbox_2d": [869, 47, 913, 59], "page": 1},
+ {"key": "issue_scope", "value": "말소사항 포함", "bbox_2d": [546, 67, 760, 91], "page": 1},
+ {"key": "reg_no", "value": "287744", "bbox_2d": [179, 106, 227, 119], "page": 1},
  {"key": "corp_reg_no", "value": "200112-7951835", "bbox_2d": [179, 128, 288, 140], "page": 1},
  {"key": "corp.name", "value": "주식회사 미래케미칼", "bbox_2d": [271, 157, 413, 170], "page": 1},
- {"key": "office_history.0.address", "value": "제주특별자치도 제주시 중앙로 81-2, 20층 (아라동, 글로벌오피스텔)", "bbox_2d": [271, 178, 724, 191], "page": 1},
+ {"key": "head_office", "value": "제주특별자치도 제주시 첨단로 381-19, 2층 (이도2동, 대성프라자)", "bbox_2d": [271, 204, 709, 217], "page": 1},
  {"key": "head_office_change.changed", "value": "2023.10.09 이전", "bbox_2d": [806, 198, 896, 209], "page": 1},
+ {"key": "head_office_change.registered", "value": "2023.10.12 등기", "bbox_2d": [806, 211, 896, 221], "page": 1},
  {"key": "notice_method", "value": "제주특별자치도 내에서 발행되는 일간 서울경제신문에 게재한다.", "bbox_2d": [271, 230, 709, 243], "page": 1},
  {"key": "par_value", "value": "금 5,000 원", "bbox_2d": [271, 251, 344, 264], "page": 1},
- {"key": "capital_history.0.common_shares", "value": "6,000 주", "bbox_2d": [183, 345, 237, 357], "page": 1},
- {"key": "purposes.2", "value": "3. 화학제품 도소매업", "bbox_2d": [83, 451, 225, 464], "page": 1},
- {"key": "purposes.4", "value": "5. 화학제품 수출입업", "bbox_2d": [83, 480, 225, 492], "page": 1},
- {"key": "purposes.6", "value": "7. 위 각 호와 관련된 부대사업 일체", "bbox_2d": [83, 508, 317, 520], "page": 1},
- {"key": "officers.0.registered", "value": "2020 년 06 월 17 일", "bbox_2d": [411, 563, 532, 575], "page": 1},
- {"key": "officers.1.registered", "value": "2020 년 06 월 19 일", "bbox_2d": [411, 606, 532, 618], "page": 1},
- {"key": "officers.2.rrn", "value": "850328-*******", "bbox_2d": [221, 622, 326, 635], "page": 1},
- {"key": "officers.2.appointment_type", "value": "취임", "bbox_2d": [359, 636, 389, 648], "page": 1},
- {"key": "officers.2.registered", "value": "2020 년 06 월 22 일", "bbox_2d": [411, 636, 532, 648], "page": 1},
- {"key": "officers.3.position", "value": "사내이사", "bbox_2d": [83, 652, 145, 665], "page": 1},
- {"key": "officers.3.appointment_type", "value": "취임", "bbox_2d": [359, 666, 389, 678], "page": 1},
- {"key": "officers.3.registered", "value": "2020 년 06 월 25 일", "bbox_2d": [411, 666, 532, 678], "page": 1},
- {"key": "officers.4.name", "value": "원순수", "bbox_2d": [122, 682, 168, 695], "page": 1},
- {"key": "officers.4.rrn", "value": "910616-*******", "bbox_2d": [175, 682, 280, 695], "page": 1},
- {"key": "officers.5.appointed", "value": "2021 년 11 월 04 일", "bbox_2d": [234, 726, 355, 737], "page": 1},
- {"key": "officers.6.appointed", "value": "2022 년 05 월 26 일", "bbox_2d": [234, 756, 356, 767], "page": 1},
- {"key": "officers.6.appointment_type", "value": "취임", "bbox_2d": [359, 756, 389, 767], "page": 1},
- {"key": "officers.7.name", "value": "하혁승", "bbox_2d": [152, 772, 198, 784], "page": 1},
- {"key": "officers.7.rrn", "value": "820702-*******", "bbox_2d": [206, 772, 311, 784], "page": 1},
- {"key": "officers.7.appointed", "value": "2023 년 06 월 15 일", "bbox_2d": [234, 786, 356, 797], "page": 1},
- {"key": "officers.7.registered", "value": "2023 년 06 월 18 일", "bbox_2d": [411, 786, 532, 797], "page": 1},
- {"key": "officers.8.name", "value": "남궁예태", "bbox_2d": [152, 802, 214, 814], "page": 1},
- {"key": "officers.8.rrn", "value": "850328-*******", "bbox_2d": [221, 802, 326, 814], "page": 1},
- {"key": "officers.8.appointed", "value": "2023 년 06 월 15 일", "bbox_2d": [234, 816, 356, 827], "page": 1},
- {"key": "officers.9.rrn", "value": "850328-*******", "bbox_2d": [221, 832, 326, 844], "page": 1},
- {"key": "officers.9.registered", "value": "2023 년 06 월 22 일", "bbox_2d": [411, 846, 532, 857], "page": 1},
- {"key": "officers.10.appointed", "value": "2024 년 10 월 02 일", "bbox_2d": [234, 875, 356, 887], "page": 1},
- {"key": "officers.10.registered", "value": "2024 년 10 월 14 일", "bbox_2d": [411, 875, 532, 887], "page": 1},
- {"key": "officers.11.name", "value": "원승호", "bbox_2d": [152, 891, 198, 904], "page": 1},
- {"key": "officers.11.appointed", "value": "2024 년 11 월 04 일", "bbox_2d": [234, 905, 355, 917], "page": 1},
- {"key": "officers.11.appointment_type", "value": "중임", "bbox_2d": [359, 905, 388, 917], "page": 1},
- {"key": "officers.11.registered", "value": "2024 년 11 월 07 일", "bbox_2d": [410, 905, 531, 917], "page": 1},
- {"key": "established", "value": "2020 년 06 월 15 일", "bbox_2d": [271, 50, 398, 62], "page": 2}]
+ {"key": "authorized_shares", "value": "600,000 주", "bbox_2d": [271, 272, 340, 285], "page": 1},
+ {"key": "issued_shares", "value": "60,000 주", "bbox_2d": [206, 366, 267, 378], "page": 1},
+ {"key": "common_shares", "value": "60,000 주", "bbox_2d": [183, 380, 244, 393], "page": 1},
+ {"key": "capital", "value": "금 300,000,000 원", "bbox_2d": [560, 373, 676, 386], "page": 1},
+ {"key": "capital_change.changed", "value": "2021.03.20 변경", "bbox_2d": [786, 367, 877, 378], "page": 1},
+ {"key": "capital_change.registered", "value": "2021.03.26 등기", "bbox_2d": [786, 380, 877, 390], "page": 1},
+ {"key": "established", "value": "2020 년 06 월 15 일", "bbox_2d": [271, 50, 398, 62], "page": 2},
+ {"key": "opening_reason", "value": "설립", "bbox_2d": [271, 78, 302, 91], "page": 2},
+ {"key": "opening_date", "value": "2020 년 06 월 15 일", "bbox_2d": [318, 78, 444, 91], "page": 2},
+ {"key": "fee", "value": "1,000원", "bbox_2d": [116, 128, 162, 139], "page": 2},
+ {"key": "jurisdiction", "value": "제주지방법원 등기과", "bbox_2d": [513, 128, 644, 139], "page": 2},
+ {"key": "issue_date", "value": "서기 2025년 03월 26일", "bbox_2d": [425, 163, 575, 176], "page": 2},
+ {"key": "issue_no", "value": "8065263136035593", "bbox_2d": [130, 258, 243, 268], "page": 2},
+ {"key": "confirm_no", "value": "DJHS-S1CW-K9C1", "bbox_2d": [519, 258, 632, 268], "page": 2},
+ {"key": "issue_date_short", "value": "2025/03/26", "bbox_2d": [865, 258, 929, 268], "page": 2}]
 ```
 
 ### 체크·도장·서명 `marks` · 채점 vl_f1 (값+위치)
@@ -356,6 +368,135 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```json
 [{"key": "seal.issuer", "value": true, "bbox_2d": [756, 163, 812, 202], "page": 2}]
+```
+
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 '본점' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- address: 본점
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "address"
+ ],
+ "rows": [
+  [
+   "제주특별자치도 제주시 중앙로 81-2, 20층 (아라동, 글로벌오피스텔)"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    271,
+    178,
+    724,
+    191
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["본점"], "bbox_2d": [72, 174, 724, 226], "page": 1, "n_rows": 1},
+ {"columns": ["보통주식", "발행주식의총수", "자본금의액"], "bbox_2d": [72, 291, 736, 357], "page": 1, "n_rows": 1},
+ {"columns": ["목적"], "bbox_2d": [72, 399, 928, 520], "page": 1, "n_rows": 7},
+ {"columns": ["직위", "성명", "주민등록번호", "취임일", "퇴임일", "주소", "취임구분", "퇴임구분", "등기일", "등기일"], "bbox_2d": [72, 527, 928, 917], "page": 1, "n_rows": 12}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[72, 174, 724, 226] 위치의 표를 보고 답하세요. 표의 행은 모두 몇 개입니까? 머리글·합계 행과 모두 빈 행은 세지 않습니다. (숫자만 답하세요)
+```
+
+답:
+
+```json
+1
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 '발행주식의총수'·'자본금의액' 열이 있는 표를 보고 답하세요. '보통주식' 칸이 '6,000 주'인 행의 '발행주식의총수' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"6,000 주"
+```
+
+### 표 그대로 옮기기 `table_read` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 1쪽 bbox_2d=[72, 399, 928, 520] 위치의 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.
+꼴: {"columns": [머리글 글자, …], "rows": [[칸 글자, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 " > " 로 잇습니다.
+- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.
+- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "목 적",
+  "목 적"
+ ],
+ "rows": [
+  [
+   "1. 기초 화학물질 제조업 2. 합성수지 및 플라스틱 제품 제조업 3. 화학제품 도소매업 4. 도료 및 접착제 제조업 5. 화학제품 수출입업 6. 환경 관련 약품 제조 및 판매업 7. 위 각 호와 관련된 부대사업 일체",
+   null
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    72,
+    420,
+    928,
+    526
+   ],
+   "page": 1
+  }
+ ]
+}
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -388,6 +529,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa corporate_registry --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

@@ -1,6 +1,6 @@
 # 개인(신용)정보 조회 동의서 (`hana_official_059`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hana_official_059 · card-hash: 9d2d2fc06903 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hana_official_059 · card-hash: 62c6f96b1238 -->
 
 - **종류:** html 서식 (값은 fields.json 의 값 출처, 모양은 템플릿)
 - **그룹:** hana · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 개인(신용)정보 조회 동의서
@@ -160,6 +160,7 @@ answer_empty: {"key": "{key}", "value": null}
 - agent.name: 대리인성명
 - 이용목적2: 이용목적 (같은 항목명 중 2번째 칸)
 - 재산채무소득의총액납세실적등: 재산·채무·소득의총액,납세실적등
+- 명의인에대한정보: 명의인에대한정보
 ```
 
 답:
@@ -177,7 +178,8 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "date", "value": "2025년 4월 1일", "bbox_2d": [327, 911, 546, 928], "page": 2},
  {"key": "agent.name", "value": null},
  {"key": "이용목적2", "value": "급여 수령", "bbox_2d": [193, 314, 237, 323], "page": 2},
- {"key": "재산채무소득의총액납세실적등", "value": "109,500,000", "bbox_2d": [811, 734, 917, 754], "page": 2}]
+ {"key": "재산채무소득의총액납세실적등", "value": "109,500,000", "bbox_2d": [811, 734, 917, 754], "page": 2},
+ {"key": "명의인에대한정보", "value": null}]
 ```
 
 ### 체크·도장·서명 `marks` · 채점 vl_f1 (값+위치)
@@ -267,6 +269,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hana_official_059 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

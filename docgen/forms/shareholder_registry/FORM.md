@@ -1,6 +1,6 @@
 # 주주명부 (`shareholder_registry`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card shareholder_registry · card-hash: c916b99edc21 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card shareholder_registry · card-hash: 11ec66cf4a6f -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** corporate · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 주주명부
@@ -21,7 +21,7 @@
 | `docgen/docs/corporate.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 23칸
+## 추출 항목 (정보 추출 kie) — 13칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -33,6 +33,18 @@
 | `head_office` | 본점소재지 | text | 1쪽 [214, 177, 518, 190] | 늘 | 템플릿 | generate.py | look/template.html.j2:21 · fields.json:40 | 묻기 |
 | `par_value` | 1주의금액 | amount | 1쪽 [214, 204, 267, 217] | 늘 | 템플릿 | generate.py | look/template.html.j2:21 · fields.json:45 | 묻기 |
 | `capital` | 자본금 | amount | 1쪽 [648, 204, 746, 217] | 늘 | 템플릿 | generate.py | look/template.html.j2:21 · fields.json:15 | 묻기 |
+| `sum_shares` | 합계주식수 | amount | 1쪽 [580, 440, 618, 451] | 늘 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:65 | 묻기 |
+| `sum_amount` | 합계금액 | amount | 1쪽 [645, 440, 714, 451] | 늘 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:55 | 묻기 |
+| `sum_ratio` | 합계지분율 | percent | 1쪽 [723, 440, 775, 451] | 늘 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:60 | 묻기 |
+| `certify_date` | 확인일 | date | 1쪽 [442, 535, 558, 549] | 늘 | 템플릿 | generate.py | look/template.html.j2:43 · fields.json:25 | 묻기 |
+| `ceo` | 대표이사 | text | 1쪽 [468, 609, 547, 624] | 늘 | 템플릿 | generate.py | look/template.html.j2:45 · fields.json:20 | 묻기 |
+
+## 표 `shareholders` (표 과제 table·table_read·table_find·table_qa) — 10열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `shareholders.*.no` | 번호 | number | 1쪽 [82, 285, 89, 295] (1행) | 늘 | 템플릿 | generate.py | fields.json:105 | 묻기 |
 | `shareholders.*.name` | 주주명 | text | 1쪽 [119, 285, 174, 295] (1행) | 늘 | 템플릿 | generate.py | fields.json:100 | 묻기 |
 | `shareholders.*.id_no` | 주민등록번호(사업자번호) | rrn | 1쪽 [199, 285, 294, 295] (1행) | 늘 | 템플릿 | generate.py | fields.json:95 | 묻기 |
@@ -43,11 +55,6 @@
 | `shareholders.*.ratio` | 지분율 | percent | 1쪽 [732, 285, 775, 295] (1행) | 늘 | 템플릿 | generate.py | fields.json:115 | 묻기 |
 | `shareholders.*.acquired` | 취득일 | date | 1쪽 [792, 285, 854, 295] (1행) | 늘 | 템플릿 | generate.py | fields.json:80 | 묻기 |
 | `shareholders.*.note` | 비고 | text | 1쪽 [874, 285, 929, 295] (1행) | 늘 | 템플릿 | generate.py | fields.json:110 | 묻기 |
-| `sum_shares` | 합계주식수 | amount | 1쪽 [580, 440, 618, 451] | 늘 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:65 | 묻기 |
-| `sum_amount` | 합계금액 | amount | 1쪽 [645, 440, 714, 451] | 늘 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:55 | 묻기 |
-| `sum_ratio` | 합계지분율 | percent | 1쪽 [723, 440, 775, 451] | 늘 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:60 | 묻기 |
-| `certify_date` | 확인일 | date | 1쪽 [442, 535, 558, 549] | 늘 | 템플릿 | generate.py | look/template.html.j2:43 · fields.json:25 | 묻기 |
-| `ceo` | 대표이사 | text | 1쪽 [468, 609, 547, 624] | 늘 | 템플릿 | generate.py | look/template.html.j2:45 · fields.json:20 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 1칸
 
@@ -179,36 +186,9 @@ answer_empty: {"key": "{key}", "value": null}
 - corp_reg_no: 법인등록번호
 - biz_no: 사업자등록번호
 - total_shares: 발행주식총수
+- head_office: 본점소재지
 - par_value: 1주의금액
 - capital: 자본금
-- shareholders.0.no: 번호 (1행)
-- shareholders.0.name: 주주명 (1행)
-- shareholders.0.id_no: 주민등록번호(사업자번호) (1행)
-- shareholders.0.address: 주소 (1행)
-- shareholders.0.share_type: 주식종류 (1행)
-- shareholders.0.shares: 소유주식수 (1행)
-- shareholders.0.amount: 금액 (1행)
-- shareholders.0.acquired: 취득일 (1행)
-- shareholders.0.note: 비고 (1행)
-- shareholders.1.no: 번호 (2행)
-- shareholders.1.id_no: 주민등록번호(사업자번호) (2행)
-- shareholders.1.address: 주소 (2행)
-- shareholders.1.share_type: 주식종류 (2행)
-- shareholders.1.shares: 소유주식수 (2행)
-- shareholders.1.amount: 금액 (2행)
-- shareholders.1.ratio: 지분율 (2행)
-- shareholders.1.acquired: 취득일 (2행)
-- shareholders.1.note: 비고 (2행)
-- shareholders.2.no: 번호 (3행)
-- shareholders.2.name: 주주명 (3행)
-- shareholders.2.id_no: 주민등록번호(사업자번호) (3행)
-- shareholders.2.address: 주소 (3행)
-- shareholders.2.share_type: 주식종류 (3행)
-- shareholders.2.shares: 소유주식수 (3행)
-- shareholders.2.amount: 금액 (3행)
-- shareholders.2.ratio: 지분율 (3행)
-- shareholders.2.acquired: 취득일 (3행)
-- shareholders.2.note: 비고 (3행)
 - sum_shares: 합계주식수
 - sum_amount: 합계금액
 - sum_ratio: 합계지분율
@@ -224,36 +204,9 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "corp_reg_no", "value": "200112-7951835", "bbox_2d": [648, 122, 759, 135], "page": 1},
  {"key": "biz_no", "value": "702-81-38348", "bbox_2d": [214, 149, 307, 163], "page": 1},
  {"key": "total_shares", "value": "60,000주", "bbox_2d": [648, 149, 710, 163], "page": 1},
+ {"key": "head_office", "value": "제주특별자치도 제주시 첨단로 381-19, 2층", "bbox_2d": [214, 177, 518, 190], "page": 1},
  {"key": "par_value", "value": "5,000원", "bbox_2d": [214, 204, 267, 217], "page": 1},
  {"key": "capital", "value": "300,000,000원", "bbox_2d": [648, 204, 746, 217], "page": 1},
- {"key": "shareholders.0.no", "value": "1", "bbox_2d": [82, 285, 89, 295], "page": 1},
- {"key": "shareholders.0.name", "value": "남궁예태", "bbox_2d": [119, 285, 174, 295], "page": 1},
- {"key": "shareholders.0.id_no", "value": "850328-2******", "bbox_2d": [199, 285, 294, 295], "page": 1},
- {"key": "shareholders.0.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [312, 279, 478, 301], "page": 1},
- {"key": "shareholders.0.share_type", "value": "보통주", "bbox_2d": [505, 285, 547, 295], "page": 1},
- {"key": "shareholders.0.shares", "value": "40,061", "bbox_2d": [580, 285, 618, 295], "page": 1},
- {"key": "shareholders.0.amount", "value": "200,305,000", "bbox_2d": [645, 285, 714, 295], "page": 1},
- {"key": "shareholders.0.acquired", "value": "2020.06.15", "bbox_2d": [792, 285, 854, 295], "page": 1},
- {"key": "shareholders.0.note", "value": "대표이사", "bbox_2d": [874, 285, 929, 295], "page": 1},
- {"key": "shareholders.1.no", "value": "2", "bbox_2d": [82, 317, 89, 327], "page": 1},
- {"key": "shareholders.1.id_no", "value": "830120-*******", "bbox_2d": [199, 317, 294, 327], "page": 1},
- {"key": "shareholders.1.address", "value": "충청남도 천안시 서북구 봉정로 505-12, 114동 2201호", "bbox_2d": [312, 311, 494, 333], "page": 1},
- {"key": "shareholders.1.share_type", "value": "보통주", "bbox_2d": [505, 317, 547, 327], "page": 1},
- {"key": "shareholders.1.shares", "value": "8,278", "bbox_2d": [587, 317, 618, 327], "page": 1},
- {"key": "shareholders.1.amount", "value": "41,390,000", "bbox_2d": [652, 317, 714, 327], "page": 1},
- {"key": "shareholders.1.ratio", "value": "13.80%", "bbox_2d": [732, 317, 775, 327], "page": 1},
- {"key": "shareholders.1.acquired", "value": "2020.06.15", "bbox_2d": [792, 317, 854, 327], "page": 1},
- {"key": "shareholders.1.note", "value": "사내이사", "bbox_2d": [874, 317, 929, 327], "page": 1},
- {"key": "shareholders.2.no", "value": "3", "bbox_2d": [82, 349, 89, 360], "page": 1},
- {"key": "shareholders.2.name", "value": "원승호", "bbox_2d": [126, 349, 167, 360], "page": 1},
- {"key": "shareholders.2.id_no", "value": "671016-1******", "bbox_2d": [199, 349, 294, 360], "page": 1},
- {"key": "shareholders.2.address", "value": "경기도 성남시 분당구 분당로 72-27, 117동 1403호", "bbox_2d": [312, 344, 481, 366], "page": 1},
- {"key": "shareholders.2.share_type", "value": "보통주", "bbox_2d": [505, 349, 547, 360], "page": 1},
- {"key": "shareholders.2.shares", "value": "11,661", "bbox_2d": [580, 349, 618, 360], "page": 1},
- {"key": "shareholders.2.amount", "value": "58,305,000", "bbox_2d": [652, 349, 714, 360], "page": 1},
- {"key": "shareholders.2.ratio", "value": "19.43%", "bbox_2d": [732, 349, 775, 360], "page": 1},
- {"key": "shareholders.2.acquired", "value": "2023.12.11", "bbox_2d": [792, 349, 854, 360], "page": 1},
- {"key": "shareholders.2.note", "value": "사내이사", "bbox_2d": [874, 349, 929, 360], "page": 1},
  {"key": "sum_shares", "value": "60,000", "bbox_2d": [580, 440, 618, 451], "page": 1},
  {"key": "sum_amount", "value": "300,000,000", "bbox_2d": [645, 440, 714, 451], "page": 1},
  {"key": "sum_ratio", "value": "100.00%", "bbox_2d": [723, 440, 775, 451], "page": 1},
@@ -288,6 +241,160 @@ answer_empty: {"key": "{key}", "value": null}
 [{"key": "seal.corp", "value": true, "bbox_2d": [562, 575, 693, 668], "page": 1}]
 ```
 
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 '소유주식수'·'지분율' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- no: 번호
+- name: 주주명
+- id_no: 주민등록번호(사업자번호)
+- address: 주소
+- share_type: 주식종류
+- shares: 소유주식수
+- amount: 금액
+- ratio: 지분율
+- acquired: 취득일
+- note: 비고
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "no",
+  "name",
+  "id_no",
+  "address",
+  "share_type",
+  "shares",
+  "amount",
+  "ratio",
+  "acquired",
+  "note"
+ ],
+ "rows": [
+  [
+   "1",
+   "남궁예태",
+   "850328-2******",
+   "서울특별시 서초구 강남대로 357, 103동 1301호",
+   "보통주",
+   "40,061",
+   "200,305,000",
+   "66.77%",
+   "2020.06.15",
+   "대표이사"
+  ],
+  [
+   "2",
+   "노도수",
+   "830120-*******",
+   "충청남도 천안시 서북구 봉정로 505-12, 114동 2201호",
+   "보통주",
+   "8,278",
+   "41,390,000",
+   "13.80%",
+   "2020.06.15",
+   "사내이사"
+  ],
+  [
+   "3",
+   "원승호",
+   "671016-1******",
+   "경기도 성남시 분당구 분당로 72-27, 117동 1403호",
+   "보통주",
+   "11,661",
+   "58,305,000",
+   "19.43%",
+   "2023.12.11",
+   "사내이사"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    82,
+    279,
+    929,
+    301
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    82,
+    311,
+    929,
+    333
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    82,
+    344,
+    929,
+    366
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["번호", "주주명", "주민등록번호(사업자번호)", "주소", "주식종류", "소유주식수", "금액", "지분율", "취득일", "비고"], "bbox_2d": [64, 242, 936, 366], "page": 1, "n_rows": 3}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[64, 242, 936, 366] 위치의 표를 보고 답하세요. '번호' 칸이 '3'인 행의 '주민등록번호(사업자번호)' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"671016-1******"
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[64, 242, 936, 366] 위치의 표를 보고 답하세요. '소유주식수' 칸이 '8,278'인 행은 몇 개입니까? (숫자만 답하세요)
+```
+
+답:
+
+```json
+1
+```
+
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
 
 없습니다. 더하려면 이 폴더에 `qa.py` 를 만들고 함수 하나에 질문 하나 (견본: `python -m docgen.formdir qa shareholder_registry --new`):
@@ -318,6 +425,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa shareholder_registry --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

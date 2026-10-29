@@ -1,6 +1,6 @@
 # 상호계산계정 결산대차기잔액처분(변경)신고서 (`hf215`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf215 · card-hash: fb9732c8e836 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf215 · card-hash: 8d11459962ae -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 상호계산계정 결산대차기잔액처분(변경)신고서
@@ -134,6 +134,7 @@ answer_empty: {"key": "{key}", "value": null}
 - 송금은행: 송금은행
 - 신고번호: 신고번호
 - 유효기간: 유효기간
+- 배우자: 배우자
 - date: 작성일 (같은 항목명 중 1번째 칸)
 - customer.name: 명 (고객 성명)
 - date2: 작성일 (같은 항목명 중 2번째 칸)
@@ -148,6 +149,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "송금은행", "value": "우리은행", "bbox_2d": [469, 503, 536, 514], "page": 1},
  {"key": "신고번호", "value": "8285-0708", "bbox_2d": [675, 624, 755, 636], "page": 1},
  {"key": "유효기간", "value": null},
+ {"key": "배우자", "value": null},
  {"key": "date", "value": "2025년 4월 1일", "bbox_2d": [678, 207, 916, 227], "page": 1},
  {"key": "customer.name", "value": "남궁예태", "bbox_2d": [376, 277, 443, 289], "page": 1},
  {"key": "date2", "value": "2025년 4월 1일", "bbox_2d": [678, 758, 916, 777], "page": 1}]
@@ -215,6 +217,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf215 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

@@ -1,6 +1,6 @@
 # 초고령투자자확인서(장외파생상품용) (`hf392`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf392 · card-hash: 20b3e6826305 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf392 · card-hash: 1b98d75ac7c1 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 초고령투자자확인서(장외파생상품용)
@@ -110,6 +110,7 @@ answer_empty: {"key": "{key}", "value": null}
 - date: 작성일
 - 조력자연락처작성: ■[조력자방문]조력자연락처작성
 - 조력자와고객과의관계: 조력자와고객과의관계
+- 만기일시원리금균등분할원금균등분할: ▢만기일시▢원리금균등분할▢원금균등분할
 - 장외파생상품거래불가: ■[조력자미방문]장외파생상품거래불가
 - 거래목적및숙려기간제외대상사전확인: ■거래목적및숙려기간제외대상사전확인
 ```
@@ -121,6 +122,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "date", "value": "2025년 4월 1일", "bbox_2d": [418, 928, 582, 947], "page": 1},
  {"key": "조력자연락처작성", "value": null},
  {"key": "조력자와고객과의관계", "value": null},
+ {"key": "만기일시원리금균등분할원금균등분할", "value": null},
  {"key": "장외파생상품거래불가", "value": null},
  {"key": "거래목적및숙려기간제외대상사전확인", "value": null}]
 ```
@@ -183,6 +185,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf392 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

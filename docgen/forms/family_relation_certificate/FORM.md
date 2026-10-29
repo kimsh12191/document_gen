@@ -1,6 +1,6 @@
 # 가족관계증명서 (`family_relation_certificate`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card family_relation_certificate · card-hash: 56e251e43dca -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card family_relation_certificate · card-hash: bf07042e63fd -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** family · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 가족관계증명서
@@ -21,7 +21,7 @@
 | `docgen/docs/family.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 24칸
+## 추출 항목 (정보 추출 kie) — 16칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -34,13 +34,6 @@
 | `customer.rrn` ← `self.rrn` | 주민등록번호 | rrn | 1쪽 [614, 221, 718, 233] | 늘 | 템플릿 | generate.py | fields.json:85 | 묻기 |
 | `customer.gender` ← `self.gender` | 성별 | text | 1쪽 [799, 221, 814, 233] | 늘 | 템플릿 | generate.py | fields.json:65 | 묻기 |
 | `customer.bon` ← `self.bon` | 본 | text | 1쪽 [864, 221, 895, 233] | 늘 | 템플릿 | generate.py | fields.json:60 | 묻기 |
-| `family.*.relation` | 구분 | text | 1쪽 [115, 319, 130, 332] (1행) | 늘 | 템플릿 | generate.py | fields.json:120 | 묻기 |
-| `family.*.name` | 성명 | text | 1쪽 [208, 319, 269, 332] (1행) | 늘 | 템플릿 | generate.py | fields.json:110 | 묻기 |
-| `family.*.name_hanja` | 성명(한자) | text | 1쪽 [274, 319, 335, 332] (1행) | 늘 | 템플릿 | generate.py | fields.json:115 | 묻기 |
-| `family.*.birth` | 출생연월일 | date | 1쪽 [412, 319, 526, 332] (1행) | 늘 | 템플릿 | generate.py | fields.json:95 | 묻기 |
-| `family.*.rrn` | 주민등록번호 | rrn | 1쪽 [614, 319, 718, 332] (1행) | 늘 | 템플릿 | generate.py | fields.json:125 | 묻기 |
-| `family.*.gender` | 성별 | text | 1쪽 [799, 319, 814, 332] (1행) | 늘 | 템플릿 | generate.py | fields.json:105 | 묻기 |
-| `family.*.bon` | 본 | text | 1쪽 [864, 319, 895, 332] (1행) | 늘 | 템플릿 | generate.py | fields.json:100 | 묻기 |
 | `issue_date` | 발급일 | date | 1쪽 [438, 446, 562, 459] | 늘 | 템플릿 | generate.py | fields.json:20 | 묻기 |
 | `issuer` | 발급기관 | text | 1쪽 [257, 481, 721, 497] | 늘 | 템플릿 | generate.py | fields.json:30 | 묻기 |
 | `issue_time` | 발급시각 | text | 1쪽 [191, 527, 251, 537] | 늘 | 템플릿 | generate.py | fields.json:25 | 묻기 |
@@ -48,6 +41,20 @@
 | `doc_check_no` | 문서확인번호 | text | 1쪽 [160, 945, 269, 955] | 4/16 | 템플릿 | generate.py | fields.json:15 | 묻기 |
 | `officer` | 발급담당자 | - | - | 12/16 | 템플릿 | generate.py | fields.json:35 | 묻기 |
 | `officer_phone` | 전화 | - | - | 12/16 | 템플릿 | generate.py | fields.json:40 | 묻기 |
+
+## 표 `family` (표 과제 table·table_read·table_find·table_qa) — 8열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `family.*.relation` | 구분 | text | 1쪽 [115, 319, 130, 332] (1행) | 늘 | 템플릿 | generate.py | fields.json:120 | 묻기 |
+| `family.*.name` | 성명 | text | 1쪽 [208, 319, 269, 332] (1행) | 늘 | 템플릿 | generate.py | fields.json:110 | 묻기 |
+| `family.*.name_hanja` | 성명(한자) | text | 1쪽 [274, 319, 335, 332] (1행) | 늘 | 템플릿 | generate.py | fields.json:115 | 묻기 |
+| `family.*.birth` | 출생연월일 | date | 1쪽 [412, 319, 526, 332] (1행) | 늘 | 템플릿 | generate.py | fields.json:95 | 묻기 |
+| `family.*.rrn` | 주민등록번호 | rrn | 1쪽 [614, 319, 718, 332] (1행) | 늘 | 템플릿 | generate.py | fields.json:125 | 묻기 |
+| `family.*.gender` | 성별 | text | 1쪽 [799, 319, 814, 332] (1행) | 늘 | 템플릿 | generate.py | fields.json:105 | 묻기 |
+| `family.*.bon` | 본 | text | 1쪽 [864, 319, 895, 332] (1행) | 늘 | 템플릿 | generate.py | fields.json:100 | 묻기 |
 | `family.*.status` | 사망 | - | - (1행) | 2/16 | 템플릿 | generate.py | fields.json:130 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 1칸
@@ -164,27 +171,13 @@ answer_empty: {"key": "{key}", "value": null}
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
 - cert_type: 증명서종류
 - reg_base: 등록기준지
-- customer.relation: 구분 (고객 관계, 같은 항목명 중 1번째 칸)
-- customer.name: 성명 (고객 성명, 같은 항목명 중 1번째 칸)
-- customer.name_hanja: 성명(한자) (고객 한자 성명, 같은 항목명 중 1번째 칸)
-- customer.birth: 출생연월일 (고객 생년월일, 같은 항목명 중 1번째 칸)
-- customer.rrn: 주민등록번호 (고객 주민등록번호, 같은 항목명 중 1번째 칸)
-- customer.gender: 성별 (고객 성별, 같은 항목명 중 1번째 칸)
-- customer.bon: 본 (고객 본관, 같은 항목명 중 1번째 칸)
-- family.0.relation: 구분 (1행)
-- family.0.name: 성명 (1행)
-- family.0.name_hanja: 성명(한자) (1행)
-- family.0.birth: 출생연월일 (1행)
-- family.0.rrn: 주민등록번호 (1행)
-- family.0.gender: 성별 (1행)
-- family.0.bon: 본 (1행)
-- family.1.relation: 구분 (2행)
-- family.1.name: 성명 (2행)
-- family.1.name_hanja: 성명(한자) (2행)
-- family.1.birth: 출생연월일 (2행)
-- family.1.rrn: 주민등록번호 (2행)
-- family.1.gender: 성별 (2행)
-- family.1.bon: 본 (2행)
+- customer.relation: 구분 (고객 관계)
+- customer.name: 성명 (고객 성명)
+- customer.name_hanja: 성명(한자) (고객 한자 성명)
+- customer.birth: 출생연월일 (고객 생년월일)
+- customer.rrn: 주민등록번호 (고객 주민등록번호)
+- customer.gender: 성별 (고객 성별)
+- customer.bon: 본 (고객 본관)
 - issue_date: 발급일
 - issuer: 발급기관
 - issue_time: 발급시각
@@ -204,20 +197,6 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "customer.rrn", "value": "850328-2489940", "bbox_2d": [614, 221, 718, 233], "page": 1},
  {"key": "customer.gender", "value": "여", "bbox_2d": [799, 221, 814, 233], "page": 1},
  {"key": "customer.bon", "value": "咸悅", "bbox_2d": [864, 221, 895, 233], "page": 1},
- {"key": "family.0.relation", "value": "부", "bbox_2d": [115, 319, 130, 332], "page": 1},
- {"key": "family.0.name", "value": "남궁찬윤", "bbox_2d": [208, 319, 269, 332], "page": 1},
- {"key": "family.0.name_hanja", "value": "南宮讚允", "bbox_2d": [274, 319, 335, 332], "page": 1},
- {"key": "family.0.birth", "value": "1952년 10월 28일", "bbox_2d": [412, 319, 526, 332], "page": 1},
- {"key": "family.0.rrn", "value": "521028-1401146", "bbox_2d": [614, 319, 718, 332], "page": 1},
- {"key": "family.0.gender", "value": "남", "bbox_2d": [799, 319, 814, 332], "page": 1},
- {"key": "family.0.bon", "value": "咸悅", "bbox_2d": [864, 319, 895, 332], "page": 1},
- {"key": "family.1.relation", "value": "모", "bbox_2d": [115, 350, 130, 363], "page": 1},
- {"key": "family.1.name", "value": "방옥주", "bbox_2d": [223, 350, 269, 363], "page": 1},
- {"key": "family.1.name_hanja", "value": "方玉宙", "bbox_2d": [274, 350, 320, 363], "page": 1},
- {"key": "family.1.birth", "value": "1953년 03월 28일", "bbox_2d": [412, 350, 526, 363], "page": 1},
- {"key": "family.1.rrn", "value": "530328-2814528", "bbox_2d": [614, 350, 718, 363], "page": 1},
- {"key": "family.1.gender", "value": "여", "bbox_2d": [799, 350, 814, 363], "page": 1},
- {"key": "family.1.bon", "value": "溫陽", "bbox_2d": [864, 350, 895, 363], "page": 1},
  {"key": "issue_date", "value": "2025년 04월 01일", "bbox_2d": [438, 446, 562, 459], "page": 1},
  {"key": "issuer", "value": "법원행정처 전산정보중앙관리소 전산운영책임관", "bbox_2d": [257, 481, 721, 497], "page": 1},
  {"key": "issue_time", "value": "06시 41분", "bbox_2d": [191, 527, 251, 537], "page": 1},
@@ -252,6 +231,193 @@ answer_empty: {"key": "{key}", "value": null}
 [{"key": "seal.issuer", "value": true, "bbox_2d": [708, 459, 798, 522], "page": 1}]
 ```
 
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 1쪽 bbox_2d=[79, 280, 921, 363] 위치의 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- relation: 구분
+- name: 성명
+- name_hanja: 성명(한자)
+- birth: 출생연월일
+- rrn: 주민등록번호
+- gender: 성별
+- bon: 본
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "relation",
+  "name",
+  "name_hanja",
+  "birth",
+  "rrn",
+  "gender",
+  "bon"
+ ],
+ "rows": [
+  [
+   "부",
+   "남궁찬윤",
+   "南宮讚允",
+   "1952년 10월 28일",
+   "521028-1401146",
+   "남",
+   "咸悅"
+  ],
+  [
+   "모",
+   "방옥주",
+   "方玉宙",
+   "1953년 03월 28일",
+   "530328-2814528",
+   "여",
+   "溫陽"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    115,
+    319,
+    895,
+    332
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    115,
+    350,
+    895,
+    363
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["구분", "성명", "성명(한자)", "출생연월일", "주민등록번호", "성별", "본"], "bbox_2d": [79, 280, 921, 363], "page": 1, "n_rows": 2}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 표를 보고 답하세요. 표의 행은 모두 몇 개입니까? 머리글·합계 행과 모두 빈 행은 세지 않습니다. (숫자만 답하세요)
+```
+
+답:
+
+```json
+2
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 표를 보고 답하세요. '구분' 칸이 '부'인 행의 '성명(한자)' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"南宮讚允"
+```
+
+### 표 그대로 옮기기 `table_read` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.
+꼴: {"columns": [머리글 글자, …], "rows": [[칸 글자, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 " > " 로 잇습니다.
+- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.
+- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "구분",
+  "성 명",
+  "출생연월일",
+  "주민등록번호",
+  "성별",
+  "본"
+ ],
+ "rows": [
+  [
+   "부",
+   "남궁찬윤(南宮讚允)",
+   "1952년 10월 28일",
+   "521028-1401146",
+   "남",
+   "咸悅"
+  ],
+  [
+   "모",
+   "방옥주(方玉宙)",
+   "1953년 03월 28일",
+   "530328-2814528",
+   "여",
+   "溫陽"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    79,
+    311,
+    921,
+    342
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    79,
+    342,
+    921,
+    372
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
 
 없습니다. 더하려면 이 폴더에 `qa.py` 를 만들고 함수 하나에 질문 하나 (견본: `python -m docgen.formdir qa family_relation_certificate --new`):
@@ -282,6 +448,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa family_relation_certificate --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

@@ -1,6 +1,6 @@
 # 근저당권설정계약서 (`collateral_agreement`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card collateral_agreement · card-hash: ada4821ec30c -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card collateral_agreement · card-hash: 63b6b222deae -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** bank_form · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 근저당권설정계약서 (다른 이름: 근저당권설정계약서(근담보용))
@@ -21,7 +21,7 @@
 | `docgen/docs/bank_form_loan.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 38칸
+## 추출 항목 (정보 추출 kie) — 33칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -49,11 +49,6 @@
 | `property.exclusive_area` | 전용면적 | text | 1쪽 [336, 662, 386, 675] | 늘 | 템플릿 | generate.py | look/template.html.j2:66 · fields.json:90 | 묻기 |
 | `property.land_right` | 대지권 | text | 1쪽 [336, 683, 553, 695] | 늘 | 템플릿 | generate.py | look/template.html.j2:67 · fields.json:105 | 묻기 |
 | `property.unique_no` | 고유번호 | text | 1쪽 [220, 704, 337, 716] | 늘 | 템플릿 | generate.py | look/template.html.j2:68 · fields.json:125 | 묻기 |
-| `joint_collateral.*.kind` | 종류 | text | 1쪽 [140, 768, 172, 781] (1행) | 6/16 | 템플릿 | generate.py | look/template.html.j2:76 · fields.json:205 | 묻기 |
-| `joint_collateral.*.location` | 소재지번 | text | 1쪽 [198, 768, 429, 781] (1행) | 6/16 | 템플릿 | generate.py | look/template.html.j2:76 · fields.json:210 | 묻기 |
-| `joint_collateral.*.detail` | 지목면적 | text | 1쪽 [490, 768, 561, 781] (1행) | 6/16 | 템플릿 | generate.py | look/template.html.j2:76 · fields.json:200 | 묻기 |
-| `joint_collateral.*.unique_no` | 고유번호 | text | 1쪽 [771, 768, 893, 781] (1행) | 6/16 | 템플릿 | generate.py | look/template.html.j2:76 · fields.json:215 | 묻기 |
-| `special_terms.*` | 특약사항 | text | 2쪽 [98, 509, 762, 520] (1행) | 6/16 | 템플릿 | generate.py | - | 묻기 |
 | `scope_handwritten` | 자필기재(피담보채무범위) | text | - | 늘 | 템플릿 | generate.py | look/template.html.j2:89 · fields.json:145 | 묻기 |
 | `handwritten_confirm` | 자필기재(확인) | text | 2쪽 [480, 618, 694, 635] | 늘 | 템플릿 | generate.py | look/template.html.j2:90 · fields.json:55 | 묻기 |
 | `contract_date` | 계약일 | date | 2쪽 [88, 664, 187, 676] | 늘 | 템플릿 | generate.py | look/template.html.j2:94 · fields.json:30 | 묻기 |
@@ -63,6 +58,25 @@
 | `co_mortgagor.share` | 지분 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:27 · fields.json:25 | 묻기 |
 | `co_mortgagor.rrn` | 공동설정자실명번호 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:27 · fields.json:20 | 묻기 |
 | `co_mortgagor.address` | 공동설정자주소 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:10 | 묻기 |
+
+## 표 `joint_collateral` (표 과제 table·table_read·table_find·table_qa) — 4열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `joint_collateral.*.kind` | 종류 | text | 1쪽 [140, 768, 172, 781] (1행) | 6/16 | 템플릿 | generate.py | look/template.html.j2:76 · fields.json:205 | 묻기 |
+| `joint_collateral.*.location` | 소재지번 | text | 1쪽 [198, 768, 429, 781] (1행) | 6/16 | 템플릿 | generate.py | look/template.html.j2:76 · fields.json:210 | 묻기 |
+| `joint_collateral.*.detail` | 지목면적 | text | 1쪽 [490, 768, 561, 781] (1행) | 6/16 | 템플릿 | generate.py | look/template.html.j2:76 · fields.json:200 | 묻기 |
+| `joint_collateral.*.unique_no` | 고유번호 | text | 1쪽 [771, 768, 893, 781] (1행) | 6/16 | 템플릿 | generate.py | look/template.html.j2:76 · fields.json:215 | 묻기 |
+
+## 표 `special_terms` (표 과제 table·table_read·table_find·table_qa) — 1열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `special_terms.*` | 특약사항 | text | 2쪽 [98, 509, 762, 520] (1행) | 6/16 | 템플릿 | generate.py | - | 묻기 |
 
 ## 체크·도장·서명 (marks) — 4칸
 
@@ -213,41 +227,30 @@ answer_empty: {"key": "{key}", "value": null}
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
+- bank: 은행명
 - counterparty.name: 채권자겸근저당권자 (상대방 성명)
+- creditor.branch: 취급점
+- related.name: 근저당권설정자 (보증인·공동 성명, 같은 항목명 중 1번째 칸)
 - related.rrn: 실명번호 (보증인·공동 주민등록번호)
+- related.address: 설정자주소 (보증인·공동 주소)
+- customer.name: 채무자 (고객 성명, 같은 항목명 중 1번째 칸)
+- customer.address: 채무자주소 (고객 주소)
+- rank: 순위
+- max_amount_korean: 채권최고액(한글)
+- max_amount: 채권최고액
+- scope: 피담보채무의범위
 - secured_debt: 피담보채무
+- settlement_type: 결산기유형
 - settlement: 결산기
 - property.location: 소재지 (물건 소재지)
 - property.road_address: 도로명주소
+- property.structure: 구조 (물건 구조)
+- property.floors: 층수
+- property.unit: 건물번호
 - property.kind: 건물종류 (물건 종류)
+- property.exclusive_area: 전용면적
 - property.land_right: 대지권 (물건 대지권)
-- joint_collateral.0.location: 소재지번 (1행)
-- joint_collateral.0.detail: 지목면적 (1행)
-- joint_collateral.0.unique_no: 고유번호 (1행)
-- joint_collateral.1.kind: 종류 (2행)
-- joint_collateral.1.location: 소재지번 (2행)
-- joint_collateral.1.detail: 지목면적 (2행)
-- joint_collateral.2.kind: 종류 (3행)
-- joint_collateral.2.location: 소재지번 (3행)
-- joint_collateral.2.detail: 지목면적 (3행)
-- joint_collateral.3.location: 소재지번 (4행)
-- joint_collateral.3.detail: 지목면적 (4행)
-- joint_collateral.3.unique_no: 고유번호 (4행)
-- joint_collateral.4.kind: 종류 (5행)
-- joint_collateral.4.location: 소재지번 (5행)
-- joint_collateral.5.location: 소재지번 (6행)
-- joint_collateral.5.unique_no: 고유번호 (6행)
-- joint_collateral.6.kind: 종류 (7행)
-- joint_collateral.6.location: 소재지번 (7행)
-- joint_collateral.6.detail: 지목면적 (7행)
-- joint_collateral.7.unique_no: 고유번호 (8행)
-- joint_collateral.8.location: 소재지번 (9행)
-- joint_collateral.9.kind: 종류 (10행)
-- joint_collateral.9.location: 소재지번 (10행)
-- joint_collateral.9.detail: 지목면적 (10행)
-- joint_collateral.9.unique_no: 고유번호 (10행)
-- special_terms.1: 특약사항 (2번째)
-- special_terms.3: 특약사항 (4번째)
+- property.unique_no: 고유번호
 - scope_handwritten: 자필기재(피담보채무범위)
 - handwritten_confirm: 자필기재(확인)
 - contract_date: 계약일
@@ -258,41 +261,30 @@ answer_empty: {"key": "{key}", "value": null}
 답:
 
 ```json
-[{"key": "counterparty.name", "value": "주식회사 국민은행", "bbox_2d": [73, 134, 199, 147], "page": 1},
+[{"key": "bank", "value": "국민은행", "bbox_2d": [101, 41, 198, 64], "page": 1},
+ {"key": "counterparty.name", "value": "주식회사 국민은행", "bbox_2d": [73, 134, 199, 147], "page": 1},
+ {"key": "creditor.branch", "value": "센텀지점", "bbox_2d": [282, 135, 340, 147], "page": 1},
+ {"key": "related.name", "value": "남궁예태", "bbox_2d": [286, 207, 349, 221], "page": 1},
  {"key": "related.rrn", "value": "850328-2489940", "bbox_2d": [491, 208, 595, 220], "page": 1},
+ {"key": "related.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [286, 227, 624, 243], "page": 1},
+ {"key": "customer.name", "value": "남궁예태", "bbox_2d": [286, 249, 349, 262], "page": 1},
+ {"key": "customer.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [491, 248, 828, 263], "page": 1},
+ {"key": "rank", "value": "1", "bbox_2d": [724, 272, 732, 284], "page": 1},
+ {"key": "max_amount_korean", "value": "금 삼억육천일백만원정", "bbox_2d": [449, 325, 671, 344], "page": 1},
+ {"key": "max_amount", "value": "361,000,000", "bbox_2d": [732, 331, 808, 343], "page": 1},
+ {"key": "scope", "value": "특정근담보", "bbox_2d": [234, 360, 310, 372], "page": 1},
  {"key": "secured_debt", "value": "2025년 4월 7일자 대출거래약정서(가계용)", "bbox_2d": [251, 387, 550, 403], "page": 1},
+ {"key": "settlement_type", "value": "장래지정형", "bbox_2d": [93, 526, 166, 538], "page": 1},
  {"key": "settlement", "value": "정하지 아니함", "bbox_2d": [378, 540, 469, 552], "page": 1},
  {"key": "property.location", "value": "서울특별시 서초구 반포동 661 힐스테이트2차아파트", "bbox_2d": [336, 579, 687, 592], "page": 1},
  {"key": "property.road_address", "value": "서울특별시 서초구 강남대로 357", "bbox_2d": [336, 600, 553, 612], "page": 1},
+ {"key": "property.structure", "value": "철근콘크리트벽식구조", "bbox_2d": [336, 621, 489, 633], "page": 1},
+ {"key": "property.floors", "value": "15층", "bbox_2d": [801, 621, 831, 633], "page": 1},
+ {"key": "property.unit", "value": "103동 1301호", "bbox_2d": [336, 641, 424, 654], "page": 1},
  {"key": "property.kind", "value": "아파트", "bbox_2d": [801, 641, 846, 654], "page": 1},
+ {"key": "property.exclusive_area", "value": "74.95㎡", "bbox_2d": [336, 662, 386, 675], "page": 1},
  {"key": "property.land_right", "value": "소유권대지권 14,114.0분의 46.94", "bbox_2d": [336, 683, 553, 695], "page": 1},
- {"key": "joint_collateral.0.location", "value": "서울특별시 서초구 반포동 669-21", "bbox_2d": [198, 768, 429, 781], "page": 1},
- {"key": "joint_collateral.0.detail", "value": "대 211.0㎡", "bbox_2d": [490, 768, 561, 781], "page": 1},
- {"key": "joint_collateral.0.unique_no", "value": "2759-2002-054633", "bbox_2d": [771, 768, 893, 781], "page": 1},
- {"key": "joint_collateral.1.kind", "value": "토지", "bbox_2d": [140, 790, 172, 802], "page": 1},
- {"key": "joint_collateral.1.location", "value": "서울특별시 서초구 반포동 677-13", "bbox_2d": [198, 790, 429, 802], "page": 1},
- {"key": "joint_collateral.1.detail", "value": "전 904.6㎡", "bbox_2d": [490, 790, 561, 802], "page": 1},
- {"key": "joint_collateral.2.kind", "value": "토지", "bbox_2d": [140, 811, 172, 824], "page": 1},
- {"key": "joint_collateral.2.location", "value": "서울특별시 서초구 반포동 665-37", "bbox_2d": [198, 811, 429, 824], "page": 1},
- {"key": "joint_collateral.2.detail", "value": "대 936.6㎡", "bbox_2d": [490, 811, 561, 824], "page": 1},
- {"key": "joint_collateral.3.location", "value": "서울특별시 서초구 반포동 668", "bbox_2d": [198, 833, 408, 845], "page": 1},
- {"key": "joint_collateral.3.detail", "value": "답 536.5㎡", "bbox_2d": [490, 833, 561, 845], "page": 1},
- {"key": "joint_collateral.3.unique_no", "value": "1361-2014-086596", "bbox_2d": [771, 833, 893, 845], "page": 1},
- {"key": "joint_collateral.4.kind", "value": "토지", "bbox_2d": [140, 854, 172, 866], "page": 1},
- {"key": "joint_collateral.4.location", "value": "서울특별시 서초구 반포동 632", "bbox_2d": [198, 854, 408, 866], "page": 1},
- {"key": "joint_collateral.5.location", "value": "서울특별시 서초구 반포동 668", "bbox_2d": [198, 890, 408, 903], "page": 1},
- {"key": "joint_collateral.5.unique_no", "value": "2371-2023-035325", "bbox_2d": [771, 887, 893, 899], "page": 1},
- {"key": "joint_collateral.6.kind", "value": "토지", "bbox_2d": [140, 920, 172, 932], "page": 1},
- {"key": "joint_collateral.6.location", "value": "서울특별시 서초구 반포동 645-31", "bbox_2d": [198, 920, 429, 932], "page": 1},
- {"key": "joint_collateral.6.detail", "value": "답 702.1㎡", "bbox_2d": [490, 920, 561, 932], "page": 1},
- {"key": "joint_collateral.7.unique_no", "value": "2824-2015-028833", "bbox_2d": [772, 88, 893, 100], "page": 2},
- {"key": "joint_collateral.8.location", "value": "서울특별시 서초구 반포동 653", "bbox_2d": [213, 109, 423, 121], "page": 2},
- {"key": "joint_collateral.9.kind", "value": "토지", "bbox_2d": [156, 130, 188, 143], "page": 2},
- {"key": "joint_collateral.9.location", "value": "서울특별시 서초구 반포동 640", "bbox_2d": [213, 130, 423, 143], "page": 2},
- {"key": "joint_collateral.9.detail", "value": "답 867.9㎡", "bbox_2d": [521, 130, 592, 143], "page": 2},
- {"key": "joint_collateral.9.unique_no", "value": "1673-2016-024539", "bbox_2d": [772, 130, 893, 143], "page": 2},
- {"key": "special_terms.1", "value": "설정자는 담보물건의 재건축·리모델링 등 사업계획이 확정된 경우 지체 없이 은행에 통지한다.", "bbox_2d": [98, 524, 698, 535], "page": 2},
- {"key": "special_terms.3", "value": "이 근저당권은 공동담보로서 각 담보물건은 피담보채무 전액을 담보하며, 일부 담보물건의 해지는 은행의 승낙을 받아야 한다.", "bbox_2d": [98, 567, 901, 579], "page": 2},
+ {"key": "property.unique_no", "value": "2268-2012-072040", "bbox_2d": [220, 704, 337, 716], "page": 1},
  {"key": "scope_handwritten", "value": null},
  {"key": "handwritten_confirm", "value": "충분히 설명듣고 이해함", "bbox_2d": [480, 618, 694, 635], "page": 2},
  {"key": "contract_date", "value": "2025년 4월 7일", "bbox_2d": [88, 664, 187, 676], "page": 2},
@@ -331,6 +323,392 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "seal.related", "value": true, "bbox_2d": [860, 650, 951, 714], "page": 2}]
 ```
 
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 1쪽 bbox_2d=[122, 743, 926, 932] 위치의 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- kind: 종류
+- location: 소재지번
+- ratio: 지분율
+- detail: 지목면적
+- unique_no: 고유번호
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "kind",
+  "location",
+  "ratio",
+  "detail",
+  "unique_no"
+ ],
+ "rows": [
+  [
+   "토지",
+   "서울특별시 서초구 반포동 669-21",
+   null,
+   "대 211.0㎡",
+   "2759-2002-054633"
+  ],
+  [
+   "토지",
+   "서울특별시 서초구 반포동 677-13",
+   null,
+   "전 904.6㎡",
+   "2114-2023-048770"
+  ],
+  [
+   "토지",
+   "서울특별시 서초구 반포동 665-37",
+   null,
+   "대 936.6㎡",
+   "1942-2010-039093"
+  ],
+  [
+   "토지",
+   "서울특별시 서초구 반포동 668",
+   null,
+   "답 536.5㎡",
+   "1361-2014-086596"
+  ],
+  [
+   "토지",
+   "서울특별시 서초구 반포동 632",
+   null,
+   "답 622.7㎡",
+   "1204-2006-037636"
+  ],
+  [
+   "건물",
+   "서울특별시 서초구 반포동 668",
+   null,
+   "경량철골조 근린생활시설 194.85㎡",
+   "2371-2023-035325"
+  ],
+  [
+   "토지",
+   "서울특별시 서초구 반포동 645-31",
+   null,
+   "답 702.1㎡",
+   "1168-1990-093548"
+  ],
+  [
+   "토지",
+   "서울특별시 서초구 반포동 677",
+   null,
+   "대 772.6㎡",
+   "2824-2015-028833"
+  ],
+  [
+   "토지",
+   "서울특별시 서초구 반포동 653",
+   null,
+   "임야 91.4㎡",
+   "1840-1998-012736"
+  ],
+  [
+   "토지",
+   "서울특별시 서초구 반포동 640",
+   null,
+   "답 867.9㎡",
+   "1673-2016-024539"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    140,
+    768,
+    893,
+    781
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    140,
+    790,
+    892,
+    802
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    140,
+    811,
+    893,
+    824
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    140,
+    833,
+    893,
+    845
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    140,
+    854,
+    893,
+    866
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    140,
+    879,
+    893,
+    907
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    140,
+    920,
+    892,
+    932
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    156,
+    88,
+    893,
+    100
+   ],
+   "page": 2
+  },
+  {
+   "bbox_2d": [
+    156,
+    109,
+    893,
+    121
+   ],
+   "page": 2
+  },
+  {
+   "bbox_2d": [
+    156,
+    130,
+    893,
+    143
+   ],
+   "page": 2
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["종류", "소재지번", "지목면적", "고유번호"], "bbox_2d": [122, 743, 926, 932], "page": 1, "n_rows": 7},
+ {"columns": ["종류", "소재지번", "지목면적", "고유번호"], "bbox_2d": [139, 62, 926, 143], "page": 2, "n_rows": 3},
+ {"columns": ["특약사항"], "bbox_2d": [98, 509, 919, 579], "page": 2, "n_rows": 4}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[122, 743, 926, 932] 위치의 표를 보고 답하세요. 표의 행은 모두 몇 개입니까? 머리글·합계 행과 모두 빈 행은 세지 않습니다. (숫자만 답하세요)
+```
+
+답:
+
+```json
+10
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[122, 743, 926, 932] 위치의 표를 보고 답하세요. '종류' 칸이 '토지'인 행은 몇 개입니까? (숫자만 답하세요)
+```
+
+답:
+
+```json
+9
+```
+
+### 표 그대로 옮기기 `table_read` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 1쪽 bbox_2d=[74, 764, 926, 937] 위치의 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.
+꼴: {"columns": [머리글 글자, …], "rows": [[칸 글자, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 " > " 로 잇습니다.
+- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.
+- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "번호",
+  "종류",
+  "소재지번",
+  "지목·면적 / 구조·용도",
+  "부동산 고유번호"
+ ],
+ "rows": [
+  [
+   "2",
+   "토지",
+   "서울특별시 서초구 반포동 669-21",
+   "대 211.0㎡",
+   "2759-2002-054633"
+  ],
+  [
+   "3",
+   "토지",
+   "서울특별시 서초구 반포동 677-13",
+   "전 904.6㎡",
+   "2114-2023-048770"
+  ],
+  [
+   "4",
+   "토지",
+   "서울특별시 서초구 반포동 665-37",
+   "대 936.6㎡",
+   "1942-2010-039093"
+  ],
+  [
+   "5",
+   "토지",
+   "서울특별시 서초구 반포동 668",
+   "답 536.5㎡",
+   "1361-2014-086596"
+  ],
+  [
+   "6",
+   "토지",
+   "서울특별시 서초구 반포동 632",
+   "답 622.7㎡",
+   "1204-2006-037636"
+  ],
+  [
+   "7",
+   "건물",
+   "서울특별시 서초구 반포동 868 서울특별시 서초구 반포동 668남궁예",
+   "경량철골조 근린생활시설 194.85㎡",
+   "2371-2023-035325"
+  ],
+  [
+   "8",
+   "토지",
+   "서울특별시 서초구 반포동 645-31",
+   "답 702.1㎡",
+   "1168-1990-093548"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    74,
+    764,
+    926,
+    786
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    74,
+    786,
+    926,
+    807
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    74,
+    807,
+    926,
+    828
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    74,
+    828,
+    926,
+    850
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    74,
+    850,
+    926,
+    871
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    74,
+    871,
+    926,
+    916
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    74,
+    916,
+    926,
+    937
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
 
 없습니다. 더하려면 이 폴더에 `qa.py` 를 만들고 함수 하나에 질문 하나 (견본: `python -m docgen.formdir qa collateral_agreement --new`):
@@ -361,6 +739,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa collateral_agreement --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

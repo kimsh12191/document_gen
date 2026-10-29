@@ -1,6 +1,6 @@
 # 기업관계사 서비스 이용계약서(영문) (`hf344`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf344 · card-hash: c638626f4f95 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf344 · card-hash: 21ec2fb006fe -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 4 (seed 1000000 로 그린 것) · **분류 정답:** 기업관계사 서비스 이용계약서(영문)
@@ -124,12 +124,15 @@ answer_empty: {"key": "{key}", "value": null}
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
 - Affiliate: Affiliate
 - Bank: Bank
+- 계좌번호또는회사명: 계좌번호또는회사명
 - corp.name: CompanyName (법인·사업자 상호, 같은 항목명 중 1번째 칸)
 - customer.address: Address (고객 주소, 같은 항목명 중 1번째 칸)
 - CEO: CEO (같은 항목명 중 1번째 칸)
 - date: Date (같은 항목명 중 1번째 칸)
 - company.name2: CompanyName (같은 항목명 중 2번째 칸)
 - customer.address2: Address (같은 항목명 중 2번째 칸)
+- 신용보험센터: 신용보험센터
+- NameofRepresentative: NameofRepresentative
 - CEO2: CEO (같은 항목명 중 2번째 칸)
 - date2: Date (같은 항목명 중 2번째 칸)
 - customer.address3: Address (같은 항목명 중 3번째 칸)
@@ -142,12 +145,15 @@ answer_empty: {"key": "{key}", "value": null}
 ```json
 [{"key": "Affiliate", "value": null},
  {"key": "Bank", "value": null},
+ {"key": "계좌번호또는회사명", "value": null},
  {"key": "corp.name", "value": "(주)미래케미칼", "bbox_2d": [409, 622, 541, 645], "page": 4},
  {"key": "customer.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [353, 642, 732, 669], "page": 4},
  {"key": "CEO", "value": null},
  {"key": "date", "value": "2025년 04월 01일", "bbox_2d": [332, 691, 495, 715], "page": 4},
  {"key": "company.name2", "value": "(주)미래케미칼", "bbox_2d": [409, 724, 541, 745], "page": 4},
  {"key": "customer.address2", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [349, 747, 728, 769], "page": 4},
+ {"key": "신용보험센터", "value": null},
+ {"key": "NameofRepresentative", "value": null},
  {"key": "CEO2", "value": null},
  {"key": "date2", "value": "2025년 04월 01일", "bbox_2d": [332, 791, 495, 816], "page": 4},
  {"key": "customer.address3", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [346, 846, 725, 870], "page": 4},
@@ -184,6 +190,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf344 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

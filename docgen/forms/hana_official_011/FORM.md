@@ -1,6 +1,6 @@
 # 예금(신탁)잔액증명 의뢰서 (`hana_official_011`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hana_official_011 · card-hash: 7072e489685e -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hana_official_011 · card-hash: dc8cdd389e5e -->
 
 - **종류:** html 서식 (값은 fields.json 의 값 출처, 모양은 템플릿)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 예금(신탁)잔액증명 의뢰서
@@ -20,7 +20,7 @@
 | `form.json` | 이름·그룹·출처 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 21칸
+## 추출 항목 (정보 추출 kie) — 20칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -30,7 +30,6 @@
 | `발급기준일` | 발급기준일 | date | 1쪽 [638, 142, 790, 163] | 늘 | 템플릿 | - | - | 묻기 |
 | `국문` | 국문 | number | 1쪽 [662, 169, 683, 190] | 늘 | 템플릿 | - | - | 묻기 |
 | `매` | 매 | number | 1쪽 [670, 191, 681, 211] | 늘 | 템플릿 | - | - | 묻기 |
-| `계좌번호_목록.*.value` | (통화코드:) | amount | - (1행) | 늘 | 템플릿 | - | - | 묻기 |
 | `발급부수` | 발급부수 | text | - | 늘 | 템플릿 | - | - | 묻기 |
 | `발급부수2` | 발급부수 | text | - | 늘 | 템플릿 | - | - | 묻기 |
 | `customer.name` ← `signer.name` | 성명(상호명) | text | 1쪽 [310, 690, 387, 712] | 늘 | 템플릿 | - | - | 묻기 |
@@ -45,6 +44,14 @@
 | `agent.phone` | 연락처 | phone | 1쪽 [637, 818, 774, 838] | 늘 | 템플릿 | - | - | 묻기 |
 | `취급점` | 취급점 | text | 1쪽 [257, 106, 331, 128] | 늘 | 템플릿 | - | - | 묻기 |
 | `date` | 작성일 | date | 1쪽 [375, 646, 586, 663] | 늘 | 템플릿 | - | - | 묻기 |
+
+## 표 `계좌번호_목록` (표 과제 table·table_read·table_find·table_qa) — 1열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `계좌번호_목록.*.value` | (통화코드:) | amount | - (1행) | 늘 | 템플릿 | - | - | 묻기 |
 
 ## 체크·도장·서명 (marks) — 20칸
 
@@ -172,9 +179,6 @@ answer_empty: {"key": "{key}", "value": null}
 - 발급기준일: 발급기준일
 - 국문: 국문
 - 매: 매
-- 계좌번호_목록.0.value: (통화코드:) (계좌번호 목록 1행)
-- 계좌번호_목록.1.value: (통화코드:) (계좌번호 목록 2행)
-- 계좌번호_목록.2.value: (통화코드:) (계좌번호 목록 3행)
 - 발급부수: 발급부수 (같은 항목명 중 1번째 칸)
 - 발급부수2: 발급부수 (같은 항목명 중 2번째 칸)
 - customer.name: 성명(상호명) (고객 성명)
@@ -183,8 +187,10 @@ answer_empty: {"key": "{key}", "value": null}
 - customer.birth: 생년월일(사업자번호) (고객 생년월일)
 - customer.phone: 연락처 (고객 연락처, 같은 항목명 중 1번째 칸)
 - agent.name: 대리인성명
+- 수취인: 수취인
 - agent.relation: 본인과의관계 (대리인 관계)
 - agent.address: 주소 (대리인 주소, 같은 항목명 중 2번째 칸)
+- 당행: 당행
 - agent.birth: 생년월일 (대리인 생년월일)
 - agent.phone: 연락처 (대리인 연락처, 같은 항목명 중 2번째 칸)
 - 취급점: 취급점
@@ -200,9 +206,6 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "발급기준일", "value": "2024년 3월 20일", "bbox_2d": [638, 142, 790, 163], "page": 1},
  {"key": "국문", "value": "36", "bbox_2d": [662, 169, 683, 190], "page": 1},
  {"key": "매", "value": "6", "bbox_2d": [670, 191, 681, 211], "page": 1},
- {"key": "계좌번호_목록.0.value", "value": null},
- {"key": "계좌번호_목록.1.value", "value": null},
- {"key": "계좌번호_목록.2.value", "value": null},
  {"key": "발급부수", "value": null},
  {"key": "발급부수2", "value": null},
  {"key": "customer.name", "value": "남궁예태", "bbox_2d": [310, 690, 387, 712], "page": 1},
@@ -211,8 +214,10 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "customer.birth", "value": "1985.03.28", "bbox_2d": [638, 690, 728, 711], "page": 1},
  {"key": "customer.phone", "value": "010-6144-1173", "bbox_2d": [636, 719, 779, 741], "page": 1},
  {"key": "agent.name", "value": "남궁찬윤", "bbox_2d": [256, 792, 322, 813], "page": 1},
+ {"key": "수취인", "value": null},
  {"key": "agent.relation", "value": "부", "bbox_2d": [261, 818, 278, 839], "page": 1},
  {"key": "agent.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [258, 842, 628, 867], "page": 1},
+ {"key": "당행", "value": null},
  {"key": "agent.birth", "value": "1952.10.28", "bbox_2d": [640, 793, 728, 813], "page": 1},
  {"key": "agent.phone", "value": "010-7568-9115", "bbox_2d": [637, 818, 774, 838], "page": 1},
  {"key": "취급점", "value": "센텀지점", "bbox_2d": [257, 106, 331, 128], "page": 1},
@@ -314,6 +319,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hana_official_011 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

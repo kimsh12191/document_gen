@@ -1,6 +1,6 @@
 # 개인(신용)정보 수집·이용·제공·조회 동의서 (`privacy_consent`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card privacy_consent · card-hash: 266d3471eab9 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card privacy_consent · card-hash: 473d65f3ab48 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** bank_form · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 개인(신용)정보 수집·이용·제공·조회 동의서 (다른 이름: [필수] 개인(신용)정보 수집·이용·제공_동의서[가계여신_금융거래])
@@ -21,22 +21,36 @@
 | `docgen/docs/bank_form_account.py`, `docgen/docs/bank_form_loan.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 12칸
+## 추출 항목 (정보 추출 kie) — 7칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `bank.name` | 은행명 | text | 1쪽 [76, 33, 166, 49] | 늘 | 템플릿 | generate.py | look/template.html.j2:19 · fields.json:15 | 묻기 |
-| `providers.*.name` | 제공받는자 | text | 1쪽 [73, 359, 244, 368] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:40 · fields.json:125 | 묻기 |
-| `providers.*.purpose` | 제공받는자의이용목적 | text | 1쪽 [276, 354, 508, 373] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:40 · fields.json:135 | 묻기 |
-| `providers.*.items` | 제공하는항목 | text | 1쪽 [526, 354, 761, 373] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:41 · fields.json:120 | 묻기 |
-| `providers.*.period` | 제공받는자의보유이용기간 | text | 1쪽 [782, 359, 938, 368] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:41 · fields.json:130 | 묻기 |
 | `date` | 작성일 | date | 1쪽 [442, 713, 534, 722] | 늘 | 템플릿 | generate.py | look/template.html.j2:69 · fields.json:50 | 묻기 |
 | `customer.birth` ← `applicant.birth` | 생년월일 | date | 1쪽 [608, 713, 663, 722] | 늘 | 템플릿 | generate.py | look/template.html.j2:70 · fields.json:5 | 묻기 |
 | `customer.name` ← `applicant.name` | 본인성명 | text | 1쪽 [793, 708, 842, 718] | 늘 | 템플릿 | generate.py | look/template.html.j2:16 · fields.json:10 | 묻기 |
 | `bank_use.clerk` | 본인확인 | text | 1쪽 [890, 777, 929, 789] | 늘 | 템플릿 | generate.py | look/template.html.j2:84 · fields.json:20 | 묻기 |
-| `marketing.channels.*` | 연락방법 | - | - (1행) | 8/16 | 템플릿 | generate.py | - | 묻기 |
 | `agent.name` ← `legal_rep.name` | 법정대리인 | - | - | 3/16 | 템플릿 | generate.py | look/template.html.j2:16 · fields.json:55 | 묻기 |
 | `agent.relation` ← `legal_rep.relation` | 본인과의관계 | - | - | 3/16 | 템플릿 | generate.py | look/template.html.j2:74 · fields.json:60 | 묻기 |
+
+## 표 `providers` (표 과제 table·table_read·table_find·table_qa) — 4열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `providers.*.name` | 제공받는자 | text | 1쪽 [73, 359, 244, 368] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:40 · fields.json:125 | 묻기 |
+| `providers.*.purpose` | 제공받는자의이용목적 | text | 1쪽 [276, 354, 508, 373] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:40 · fields.json:135 | 묻기 |
+| `providers.*.items` | 제공하는항목 | text | 1쪽 [526, 354, 761, 373] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:41 · fields.json:120 | 묻기 |
+| `providers.*.period` | 제공받는자의보유이용기간 | text | 1쪽 [782, 359, 938, 368] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:41 · fields.json:130 | 묻기 |
+
+## 표 `marketing.channels` (표 과제 table·table_read·table_find·table_qa) — 1열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `marketing.channels.*` | 연락방법 | - | - (1행) | 8/16 | 템플릿 | generate.py | - | 묻기 |
 
 ## 체크·도장·서명 (marks) — 13칸
 
@@ -155,18 +169,6 @@ answer_empty: {"key": "{key}", "value": null}
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
 - bank.name: 은행명
-- providers.0.name: 제공받는자 (1행)
-- providers.0.purpose: 제공받는자의이용목적 (1행)
-- providers.0.items: 제공하는항목 (1행)
-- providers.0.period: 제공받는자의보유이용기간 (1행)
-- providers.1.name: 제공받는자 (2행)
-- providers.1.purpose: 제공받는자의이용목적 (2행)
-- providers.1.items: 제공하는항목 (2행)
-- providers.1.period: 제공받는자의보유이용기간 (2행)
-- providers.2.name: 제공받는자 (3행)
-- providers.2.purpose: 제공받는자의이용목적 (3행)
-- providers.2.items: 제공하는항목 (3행)
-- providers.2.period: 제공받는자의보유이용기간 (3행)
 - date: 작성일
 - customer.birth: 생년월일 (고객 생년월일)
 - customer.name: 본인성명 (고객 성명)
@@ -177,18 +179,6 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```json
 [{"key": "bank.name", "value": "국민은행", "bbox_2d": [76, 33, 166, 49], "page": 1},
- {"key": "providers.0.name", "value": "신용정보집중기관(한국신용정보원)", "bbox_2d": [73, 359, 244, 368], "page": 1},
- {"key": "providers.0.purpose", "value": "본인의 신용을 판단하기 위한 자료로 활용하거나 공공기관에서 정책자료로 활용", "bbox_2d": [276, 354, 508, 373], "page": 1},
- {"key": "providers.0.items", "value": "개인식별정보, 신용거래정보, 신용도판단정보, 신용능력정보, 공공정보", "bbox_2d": [526, 354, 761, 373], "page": 1},
- {"key": "providers.0.period", "value": "관련 법령 및 규약에서 정한 기간", "bbox_2d": [782, 359, 938, 368], "page": 1},
- {"key": "providers.1.name", "value": "개인신용평가회사(NICE평가정보, 코리아크레딧뷰로)", "bbox_2d": [59, 377, 258, 395], "page": 1},
- {"key": "providers.1.purpose", "value": "개인신용평가, 본인 실명 및 신용도 확인", "bbox_2d": [296, 381, 488, 390], "page": 1},
- {"key": "providers.1.items", "value": "개인식별정보, 신용거래정보, 신용도판단정보", "bbox_2d": [534, 381, 753, 390], "page": 1},
- {"key": "providers.1.period", "value": "제공 목적 달성 시까지", "bbox_2d": [806, 381, 913, 390], "page": 1},
- {"key": "providers.2.name", "value": "지역신용보증재단, 서울보증보험", "bbox_2d": [79, 399, 238, 407], "page": 1},
- {"key": "providers.2.purpose", "value": "보증심사 및 보증서 발급·관리", "bbox_2d": [321, 399, 464, 407], "page": 1},
- {"key": "providers.2.items", "value": "개인식별정보, 신용거래정보, 신용능력정보", "bbox_2d": [540, 399, 748, 407], "page": 1},
- {"key": "providers.2.period", "value": "보증거래 종료일로부터 5년", "bbox_2d": [794, 399, 925, 407], "page": 1},
  {"key": "date", "value": "2025년 04월 01일", "bbox_2d": [442, 713, 534, 722], "page": 1},
  {"key": "customer.birth", "value": "1985.03.28", "bbox_2d": [608, 713, 663, 722], "page": 1},
  {"key": "customer.name", "value": "남궁예태", "bbox_2d": [793, 708, 842, 718], "page": 1},
@@ -242,6 +232,210 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "marketing.channels", "value": null}]
 ```
 
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 1쪽 bbox_2d=[51, 341, 949, 407] 위치의 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- nationality: 국적
+- name: 제공받는자
+- purpose: 제공받는자의이용목적
+- items: 제공하는항목
+- period: 제공받는자의보유이용기간
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "nationality",
+  "name",
+  "purpose",
+  "items",
+  "period"
+ ],
+ "rows": [
+  [
+   null,
+   "신용정보집중기관(한국신용정보원)",
+   "본인의 신용을 판단하기 위한 자료로 활용하거나 공공기관에서 정책자료로 활용",
+   "개인식별정보, 신용거래정보, 신용도판단정보, 신용능력정보, 공공정보",
+   "관련 법령 및 규약에서 정한 기간"
+  ],
+  [
+   null,
+   "개인신용평가회사(NICE평가정보, 코리아크레딧뷰로)",
+   "개인신용평가, 본인 실명 및 신용도 확인",
+   "개인식별정보, 신용거래정보, 신용도판단정보",
+   "제공 목적 달성 시까지"
+  ],
+  [
+   null,
+   "지역신용보증재단, 서울보증보험",
+   "보증심사 및 보증서 발급·관리",
+   "개인식별정보, 신용거래정보, 신용능력정보",
+   "보증거래 종료일로부터 5년"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    73,
+    354,
+    938,
+    373
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    59,
+    377,
+    913,
+    395
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    79,
+    399,
+    925,
+    407
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["제공받는자", "제공받는자의이용목적", "제공하는항목", "제공받는자의보유이용기간"], "bbox_2d": [51, 341, 949, 407], "page": 1, "n_rows": 3}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[51, 341, 949, 407] 위치의 표를 보고 답하세요. 표의 행은 모두 몇 개입니까? 머리글·합계 행과 모두 빈 행은 세지 않습니다. (숫자만 답하세요)
+```
+
+답:
+
+```json
+3
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[51, 341, 949, 407] 위치의 표를 보고 답하세요. 마지막 행의 '제공하는항목' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"개인식별정보, 신용거래정보, 신용능력정보"
+```
+
+### 표 그대로 옮기기 `table_read` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.
+꼴: {"columns": [머리글 글자, …], "rows": [[칸 글자, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 " > " 로 잇습니다.
+- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.
+- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "제공받는 자",
+  "제공받는 자의 이용 목적",
+  "제공하는 항목",
+  "제공받는 자의 보유·이용 기간"
+ ],
+ "rows": [
+  [
+   "신용정보집중기관(한국신용정보원)",
+   "본인의 신용을 판단하기 위한 자료로 활용하거나 공공기관에서 정책자료로 활용",
+   "개인식별정보, 신용거래정보, 신용도판단정보, 신용능력정보, 공공정보",
+   "관련 법령 및 규약에서 정한 기간"
+  ],
+  [
+   "개인신용평가회사(NICE평가정보, 코리아크레딧뷰로)",
+   "개인신용평가, 본인 실명 및 신용도 확인",
+   "개인식별정보, 신용거래정보, 신용도판단정보",
+   "제공 목적 달성 시까지"
+  ],
+  [
+   "지역신용보증재단, 서울보증보험",
+   "보증심사 및 보증서 발급·관리",
+   "개인식별정보, 신용거래정보, 신용능력정보",
+   "보증거래 종료일로부터 5년"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    51,
+    353,
+    949,
+    375
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    51,
+    375,
+    949,
+    397
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    51,
+    397,
+    949,
+    410
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
 
 없습니다. 더하려면 이 폴더에 `qa.py` 를 만들고 함수 하나에 질문 하나 (견본: `python -m docgen.formdir qa privacy_consent --new`):
@@ -272,6 +466,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa privacy_consent --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

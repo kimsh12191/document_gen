@@ -1,6 +1,6 @@
 # 학비 청구서(Tuition Invoice) (`tuition_invoice`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card tuition_invoice · card-hash: 6d51727bd6ba -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card tuition_invoice · card-hash: c5772e01e406 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** fx · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 학비 청구서(Tuition Invoice)
@@ -21,7 +21,7 @@
 | `docgen/docs/fx.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 29칸
+## 추출 항목 (정보 추출 kie) — 22칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -34,10 +34,6 @@
 | `invoice_no` | InvoiceNo | text | 1쪽 [798, 130, 909, 142] | 늘 | 템플릿 | generate.py | look/template.html.j2:37 · fields.json:55 | 묻기 |
 | `invoice_date` | InvoiceDate | date | 1쪽 [798, 148, 914, 160] | 늘 | 템플릿 | generate.py | look/template.html.j2:51 · fields.json:50 | 묻기 |
 | `term` | Term | text | 1쪽 [798, 166, 858, 178] | 늘 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:90 | 묻기 |
-| `items.*.date` | Date | date | 1쪽 [86, 218, 157, 231] (1행) | 늘 | 템플릿 | generate.py | fields.json:150 | 묻기 |
-| `items.*.description` | Description | text | 1쪽 [212, 218, 328, 231] (1행) | 늘 | 템플릿 | generate.py | fields.json:155 | 묻기 |
-| `items.*.charge` | Charges | amount | 1쪽 [680, 218, 751, 231] (1행) | 늘 | 템플릿 | generate.py | fields.json:140 | 묻기 |
-| `items.*.credit` | Payments/Credits | amount | 1쪽 [851, 339, 914, 352] (1행) | 13/16 | 템플릿 | generate.py | fields.json:145 | 묻기 |
 | `summary.previous_balance` | PreviousBalance | amount | 1쪽 [879, 370, 914, 382] | 늘 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:85 | 묻기 |
 | `summary.charges` | NewCharges | amount | 1쪽 [844, 394, 914, 406] | 늘 | 템플릿 | generate.py | look/template.html.j2:66 · fields.json:75 | 묻기 |
 | `summary.credits` | Payments/Credits | amount | 1쪽 [851, 418, 914, 430] | 늘 | 템플릿 | generate.py | look/template.html.j2:67 · fields.json:80 | 묻기 |
@@ -51,6 +47,24 @@
 | `bank.routing` | RoutingNumber | number | 1쪽 [331, 608, 402, 621] | 늘 | 템플릿 | generate.py | look/template.html.j2:91 · fields.json:30 | 묻기 |
 | `bank.reference` | PaymentReference | text | 1쪽 [331, 626, 526, 639] | 늘 | 템플릿 | generate.py | look/template.html.j2:92 · fields.json:25 | 묻기 |
 | `amount_due_now` | AmountDueNow | - | - | 4/16 | 템플릿 | generate.py | look/template.html.j2:75 · fields.json:5 | 묻기 |
+
+## 표 `items` (표 과제 table·table_read·table_find·table_qa) — 4열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `items.*.date` | Date | date | 1쪽 [86, 218, 157, 231] (1행) | 늘 | 템플릿 | generate.py | fields.json:150 | 묻기 |
+| `items.*.description` | Description | text | 1쪽 [212, 218, 328, 231] (1행) | 늘 | 템플릿 | generate.py | fields.json:155 | 묻기 |
+| `items.*.charge` | Charges | amount | 1쪽 [680, 218, 751, 231] (1행) | 늘 | 템플릿 | generate.py | fields.json:140 | 묻기 |
+| `items.*.credit` | Payments/Credits | amount | 1쪽 [851, 339, 914, 352] (1행) | 13/16 | 템플릿 | generate.py | fields.json:145 | 묻기 |
+
+## 표 `installments` (표 과제 table·table_read·table_find·table_qa) — 3열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `installments.*.no` | InstallmentNo | - | - (1행) | 4/16 | 템플릿 | generate.py | fields.json:130 | 묻기 |
 | `installments.*.due_date` | InstallmentDueDate | - | - (1행) | 4/16 | 템플릿 | generate.py | fields.json:125 | 묻기 |
 | `installments.*.amount` | InstallmentAmount | - | - (1행) | 4/16 | 템플릿 | generate.py | fields.json:120 | 묻기 |
@@ -179,27 +193,9 @@ answer_empty: {"key": "{key}", "value": null}
 - invoice_no: InvoiceNo
 - invoice_date: InvoiceDate
 - term: Term
-- items.0.date: Date (1행)
-- items.0.description: Description (1행)
-- items.0.charge: Charges (1행)
-- items.1.date: Date (2행)
-- items.1.description: Description (2행)
-- items.1.charge: Charges (2행)
-- items.2.date: Date (3행)
-- items.2.description: Description (3행)
-- items.2.charge: Charges (3행)
-- items.3.date: Date (4행)
-- items.3.description: Description (4행)
-- items.3.charge: Charges (4행)
-- items.4.date: Date (5행)
-- items.4.description: Description (5행)
-- items.4.charge: Charges (5행)
-- items.5.date: Date (6행)
-- items.5.description: Description (6행)
-- items.5.credit: Payments/Credits (6행)
 - summary.previous_balance: PreviousBalance
 - summary.charges: NewCharges
-- summary.credits: Payments/Credits (같은 항목명 중 2번째 칸)
+- summary.credits: Payments/Credits
 - total: TotalAmountDue
 - due_date: DueDate
 - bank.beneficiary: Beneficiary
@@ -223,24 +219,6 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "invoice_no", "value": "INV-2025797204", "bbox_2d": [798, 130, 909, 142], "page": 1},
  {"key": "invoice_date", "value": "February 19, 2025", "bbox_2d": [798, 148, 914, 160], "page": 1},
  {"key": "term", "value": "Fall 2025", "bbox_2d": [798, 166, 858, 178], "page": 1},
- {"key": "items.0.date", "value": "02/18/2025", "bbox_2d": [86, 218, 157, 231], "page": 1},
- {"key": "items.0.description", "value": "Tuition - Graduate", "bbox_2d": [212, 218, 328, 231], "page": 1},
- {"key": "items.0.charge", "value": "$27,090.00", "bbox_2d": [680, 218, 751, 231], "page": 1},
- {"key": "items.1.date", "value": "02/19/2025", "bbox_2d": [86, 243, 157, 255], "page": 1},
- {"key": "items.1.description", "value": "Student Activity Fee", "bbox_2d": [212, 243, 341, 255], "page": 1},
- {"key": "items.1.charge", "value": "$352.00", "bbox_2d": [699, 243, 751, 255], "page": 1},
- {"key": "items.2.date", "value": "02/16/2025", "bbox_2d": [86, 267, 157, 279], "page": 1},
- {"key": "items.2.description", "value": "Technology Fee", "bbox_2d": [212, 267, 312, 279], "page": 1},
- {"key": "items.2.charge", "value": "$305.00", "bbox_2d": [699, 267, 751, 279], "page": 1},
- {"key": "items.3.date", "value": "02/19/2025", "bbox_2d": [86, 291, 157, 303], "page": 1},
- {"key": "items.3.description", "value": "Student Health Insurance Plan", "bbox_2d": [212, 291, 403, 303], "page": 1},
- {"key": "items.3.charge", "value": "$2,400.00", "bbox_2d": [688, 291, 751, 303], "page": 1},
- {"key": "items.4.date", "value": "02/19/2025", "bbox_2d": [86, 315, 157, 328], "page": 1},
- {"key": "items.4.description", "value": "International Student Service Fee", "bbox_2d": [212, 315, 422, 328], "page": 1},
- {"key": "items.4.charge", "value": "$162.00", "bbox_2d": [699, 315, 751, 328], "page": 1},
- {"key": "items.5.date", "value": "02/16/2025", "bbox_2d": [86, 339, 157, 352], "page": 1},
- {"key": "items.5.description", "value": "Presidential Scholarship", "bbox_2d": [212, 339, 364, 352], "page": 1},
- {"key": "items.5.credit", "value": "$4,060.00", "bbox_2d": [851, 339, 914, 352], "page": 1},
  {"key": "summary.previous_balance", "value": "$0.00", "bbox_2d": [879, 370, 914, 382], "page": 1},
  {"key": "summary.charges", "value": "$30,309.00", "bbox_2d": [844, 394, 914, 406], "page": 1},
  {"key": "summary.credits", "value": "$4,060.00", "bbox_2d": [851, 418, 914, 430], "page": 1},
@@ -253,6 +231,295 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "bank.routing_label", "value": "ABA Routing No.", "bbox_2d": [92, 608, 210, 621], "page": 1},
  {"key": "bank.routing", "value": "024679354", "bbox_2d": [331, 608, 402, 621], "page": 1},
  {"key": "bank.reference", "value": "M67186886 Yetae Namgoong", "bbox_2d": [331, 626, 526, 639], "page": 1}]
+```
+
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 1쪽 bbox_2d=[76, 188, 924, 352] 위치의 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- date: Date
+- description: Description
+- charge: Charges
+- credit: Payments/Credits
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "date",
+  "description",
+  "charge",
+  "credit"
+ ],
+ "rows": [
+  [
+   "02/18/2025",
+   "Tuition - Graduate",
+   "$27,090.00",
+   null
+  ],
+  [
+   "02/19/2025",
+   "Student Activity Fee",
+   "$352.00",
+   null
+  ],
+  [
+   "02/16/2025",
+   "Technology Fee",
+   "$305.00",
+   null
+  ],
+  [
+   "02/19/2025",
+   "Student Health Insurance Plan",
+   "$2,400.00",
+   null
+  ],
+  [
+   "02/19/2025",
+   "International Student Service Fee",
+   "$162.00",
+   null
+  ],
+  [
+   "02/16/2025",
+   "Presidential Scholarship",
+   null,
+   "$4,060.00"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    86,
+    218,
+    751,
+    231
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    86,
+    243,
+    751,
+    255
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    86,
+    267,
+    751,
+    279
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    86,
+    291,
+    751,
+    303
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    86,
+    315,
+    751,
+    328
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    86,
+    339,
+    914,
+    352
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["Date", "Description", "Charges", "Payments/Credits"], "bbox_2d": [76, 188, 924, 352], "page": 1, "n_rows": 6}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 'Charges'·'Payments/Credits' 열이 있는 표를 보고 답하세요. 'Date' 칸이 '02/16/2025'인 행은 몇 개입니까? (숫자만 답하세요)
+```
+
+답:
+
+```json
+2
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 'Charges'·'Payments/Credits' 열이 있는 표를 보고 답하세요. 'Charges' 칸의 값을 모두 더하면 얼마입니까? 빈 칸은 0 으로 봅니다. (쉼표·단위 없이 숫자만 답하세요)
+```
+
+답:
+
+```json
+30309
+```
+
+### 표 그대로 옮기기 `table_read` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 'Description'·'Payments/Credits' 열이 있는 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.
+꼴: {"columns": [머리글 글자, …], "rows": [[칸 글자, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 " > " 로 잇습니다.
+- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.
+- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "Date",
+  "Description",
+  "Charges",
+  "Payments/Credits"
+ ],
+ "rows": [
+  [
+   "02/18/2025",
+   "Tuition - Graduate",
+   "$27,090.00",
+   null
+  ],
+  [
+   "02/19/2025",
+   "Student Activity Fee",
+   "$352.00",
+   null
+  ],
+  [
+   "02/16/2025",
+   "Technology Fee",
+   "$305.00",
+   null
+  ],
+  [
+   "02/19/2025",
+   "Student Health Insurance Plan",
+   "$2,400.00",
+   null
+  ],
+  [
+   "02/19/2025",
+   "International Student Service Fee",
+   "$162.00",
+   null
+  ],
+  [
+   "02/16/2025",
+   "Presidential Scholarship",
+   null,
+   "$4,060.00"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    76,
+    213,
+    924,
+    237
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    76,
+    237,
+    924,
+    261
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    76,
+    261,
+    924,
+    285
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    76,
+    285,
+    924,
+    309
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    76,
+    309,
+    924,
+    333
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    76,
+    333,
+    924,
+    358
+   ],
+   "page": 1
+  }
+ ]
+}
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -285,6 +552,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa tuition_invoice --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

@@ -1,6 +1,6 @@
 # 지방세 납세증명서 (`local_tax_payment_certificate`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card local_tax_payment_certificate · card-hash: c6752e8e7eea -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card local_tax_payment_certificate · card-hash: 68eac8730a17 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** tax · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 지방세 납세증명서 (다른 이름: 지방세 납세증명(신청)서)
@@ -21,7 +21,7 @@
 | `docgen/docs/tax.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 17칸
+## 추출 항목 (정보 추출 kie) — 12칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -37,6 +37,13 @@
 | `issuer` | 발급기관 | text | 1쪽 [319, 573, 658, 594] | 늘 | 템플릿 | generate.py | look/template.html.j2:55 · fields.json:25 | 묻기 |
 | `customer.trade_name` ← `taxpayer.trade_name` | 상호 | - | - | 8/16 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:60 | 묻기 |
 | `customer.biz_no` ← `taxpayer.biz_no` | 사업자등록번호 | - | - | 8/16 | 템플릿 | generate.py | look/template.html.j2:33 · fields.json:45 | 묻기 |
+
+## 표 `deferrals` (표 과제 table·table_read·table_find·table_qa) — 5열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `deferrals.*.tax_year` | 과세연도 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:43 · fields.json:95 | 묻기 |
 | `deferrals.*.tax_item` | 세목 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:43 · fields.json:90 | 묻기 |
 | `deferrals.*.due` | 납부기한 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:44 · fields.json:80 | 묻기 |
@@ -140,6 +147,8 @@ answer_empty: {"key": "{key}", "value": null}
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
+- related.phone: 세무대리인전화번호 (보증인·공동 연락처)
+- official.biz_type: 업태
 - issue_no: 발급번호
 - customer.name: 성명(법인명) (고객 성명)
 - customer.rrn: 주민등록번호(법인등록번호) (고객 주민등록번호)
@@ -150,12 +159,15 @@ answer_empty: {"key": "{key}", "value": null}
 - arrears: 체납액
 - issue_date: 발급일
 - issuer: 발급기관
+- official.period_end: 과세기간종료
 ```
 
 답:
 
 ```json
-[{"key": "issue_no", "value": "5038-7344-4678-6904", "bbox_2d": [78, 96, 221, 108], "page": 1},
+[{"key": "related.phone", "value": null},
+ {"key": "official.biz_type", "value": null},
+ {"key": "issue_no", "value": "5038-7344-4678-6904", "bbox_2d": [78, 96, 221, 108], "page": 1},
  {"key": "customer.name", "value": "남궁예태", "bbox_2d": [305, 136, 374, 150], "page": 1},
  {"key": "customer.rrn", "value": "850328-2******", "bbox_2d": [724, 136, 841, 150], "page": 1},
  {"key": "customer.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)", "bbox_2d": [305, 208, 895, 221], "page": 1},
@@ -164,7 +176,8 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "deferral", "value": "해당없음", "bbox_2d": [468, 375, 532, 387], "page": 1},
  {"key": "arrears", "value": "없음", "bbox_2d": [305, 419, 340, 432], "page": 1},
  {"key": "issue_date", "value": "2025년 04월 01일", "bbox_2d": [430, 538, 570, 551], "page": 1},
- {"key": "issuer", "value": "서울특별시 서초구청장", "bbox_2d": [319, 573, 658, 594], "page": 1}]
+ {"key": "issuer", "value": "서울특별시 서초구청장", "bbox_2d": [319, 573, 658, 594], "page": 1},
+ {"key": "official.period_end", "value": null}]
 ```
 
 ### 체크·도장·서명 `marks` · 채점 vl_f1 (값+위치)
@@ -224,6 +237,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa local_tax_payment_certificate --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

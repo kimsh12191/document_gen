@@ -1,6 +1,6 @@
 # 국내원천소득 제한세율 적용신청서(비거주자용-영문) (`hf033`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf033 · card-hash: e935114e80db -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf033 · card-hash: 924127bc25fe -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 국내원천소득 제한세율 적용신청서(비거주자용-영문)
@@ -20,7 +20,7 @@
 | `look/original.pdf` | 원본 PDF |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 11칸
+## 추출 항목 (정보 추출 kie) — 9칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -30,11 +30,18 @@
 | `CountryofResidence` | CountryofResidence | text | 1쪽 [258, 271, 295, 296] | 늘 | 항목명 그대로 | 값 종류 `country` (항목명 자동) | fields.json:56 | 묻기 |
 | `customer.birth` | DateofBirth | number | 1쪽 [673, 247, 748, 272] | 늘 | 규칙: 'Date of Birth' → `customer.birth` | 고객 정보 (키 `customer.birth`) | fields.json:67 | 묻기 |
 | `CountryCode` | CountryCode | text | 1쪽 [669, 271, 703, 296] | 늘 | 항목명 그대로 | 값 종류 `country` (항목명 자동) | fields.json:78 | 묻기 |
-| `목록.*.Yes` | Yes | text | - (1행) | 늘 | 표 행 (묶음·항목명 'Yes') | 값 종류 `skip` (항목명 자동) | fields.json:89 | 묻기 |
-| `목록.*.No` | No | rrn | 1쪽 [861, 497, 922, 506] (1행) | 늘 | 표 행 (묶음·항목명 'No') | 값 종류 `number` (항목명 자동) | fields.json:185 | 묻기 |
 | `AddressorLocation` | AddressorLocation | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:269 | 묻기 |
 | `NameofIndividualorCorporation` | NameofIndividualorCorporation | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:281 | 묻기 |
 | `Applicant` | Applicant | text | 1쪽 [666, 919, 761, 941] | 늘 | 항목명 그대로 | 값 종류 `company` (항목명 자동) | fields.json:293 | 묻기 |
+
+## 표 `목록` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `목록.*.Yes` | Yes | text | - (1행) | 늘 | 표 행 (묶음·항목명 'Yes') | 값 종류 `skip` (항목명 자동) | fields.json:89 | 묻기 |
+| `목록.*.No` | No | rrn | 1쪽 [861, 497, 922, 506] (1행) | 늘 | 표 행 (묶음·항목명 'No') | 값 종류 `number` (항목명 자동) | fields.json:185 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
 - **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
@@ -128,27 +135,14 @@ answer_empty: {"key": "{key}", "value": null}
 항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
 - FilingNo: FilingNo.
 - FilingDate: FilingDate
+- 이자지급기일: 이자지급기일
 - TaxpayerIdentificationNo: TaxpayerIdentificationNo.
 - CountryofResidence: CountryofResidence
 - customer.birth: DateofBirth (고객 생년월일)
 - CountryCode: CountryCode
-- 목록.0.Yes: Yes (목록 1행)
-- 목록.1.Yes: Yes (목록 2행)
-- 목록.2.Yes: Yes (목록 3행)
-- 목록.3.Yes: Yes (목록 4행)
-- 목록.4.Yes: Yes (목록 5행)
-- 목록.5.Yes: Yes (목록 6행)
-- 목록.6.Yes: Yes (목록 7행)
-- 목록.7.Yes: Yes (목록 8행)
-- 목록.0.No: No (목록 1행)
-- 목록.1.No: No (목록 2행)
-- 목록.2.No: No (목록 3행)
-- 목록.3.No: No (목록 4행)
-- 목록.4.No: No (목록 5행)
-- 목록.5.No: No (목록 6행)
-- 목록.6.No: No (목록 7행)
 - AddressorLocation: AddressorLocation
 - NameofIndividualorCorporation: NameofIndividualorCorporation
+- 부도통보번호: 부도통보번호
 - Applicant: Applicant
 ```
 
@@ -157,28 +151,116 @@ answer_empty: {"key": "{key}", "value": null}
 ```json
 [{"key": "FilingNo", "value": "532-733653-79964", "bbox_2d": [231, 125, 454, 153], "page": 1},
  {"key": "FilingDate", "value": "2024.09.18", "bbox_2d": [663, 126, 776, 150], "page": 1},
+ {"key": "이자지급기일", "value": null},
  {"key": "TaxpayerIdentificationNo", "value": "717-062999-88907", "bbox_2d": [261, 248, 479, 273], "page": 1},
  {"key": "CountryofResidence", "value": "일본", "bbox_2d": [258, 271, 295, 296], "page": 1},
  {"key": "customer.birth", "value": "850328", "bbox_2d": [673, 247, 748, 272], "page": 1},
  {"key": "CountryCode", "value": "중국", "bbox_2d": [669, 271, 703, 296], "page": 1},
- {"key": "목록.0.Yes", "value": null},
- {"key": "목록.1.Yes", "value": null},
- {"key": "목록.2.Yes", "value": null},
- {"key": "목록.3.Yes", "value": null},
- {"key": "목록.4.Yes", "value": null},
- {"key": "목록.5.Yes", "value": null},
- {"key": "목록.6.Yes", "value": null},
- {"key": "목록.7.Yes", "value": null},
- {"key": "목록.0.No", "value": "390865-4400292", "bbox_2d": [861, 497, 922, 506], "page": 1},
- {"key": "목록.1.No", "value": "839-994355-55009", "bbox_2d": [860, 522, 920, 529], "page": 1},
- {"key": "목록.2.No", "value": null},
- {"key": "목록.3.No", "value": null},
- {"key": "목록.4.No", "value": null},
- {"key": "목록.5.No", "value": null},
- {"key": "목록.6.No", "value": null},
  {"key": "AddressorLocation", "value": null},
  {"key": "NameofIndividualorCorporation", "value": null},
+ {"key": "부도통보번호", "value": null},
  {"key": "Applicant", "value": "(주)가온무역", "bbox_2d": [666, 919, 761, 941], "page": 1}]
+```
+
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- No: No
+- Yes: Yes
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "No",
+  "Yes"
+ ],
+ "rows": [
+  [
+   "390865-4400292",
+   null
+  ],
+  [
+   "839-994355-55009",
+   null
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    861,
+    497,
+    922,
+    506
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    860,
+    522,
+    920,
+    529
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["No", "Yes"], "bbox_2d": [860, 497, 922, 529], "page": 1, "n_rows": 2}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[860, 497, 922, 529] 위치의 표를 보고 답하세요. 'No' 칸이 '839-994355-55009'인 행의 'Yes' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+null
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 1쪽 bbox_2d=[860, 497, 922, 529] 위치의 표를 보고 답하세요. 표의 행은 모두 몇 개입니까? 머리글·합계 행과 모두 빈 행은 세지 않습니다. (숫자만 답하세요)
+```
+
+답:
+
+```json
+2
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -210,6 +292,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf033 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

@@ -1,6 +1,6 @@
 # 보호예수품 반환 의뢰서 (`hf004`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf004 · card-hash: 9276e0fb2cb0 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf004 · card-hash: 375e6437e72d -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 보호예수품 반환 의뢰서
@@ -152,6 +152,7 @@ answer_empty: {"key": "{key}", "value": null}
 - customer.address: 주소 (고객 주소)
 - customer.birth: 생년월일(사업자등록번호) (고객 생년월일)
 - customer.phone: 연락처 (고객 연락처)
+- 금융수신: ¶금융수신
 - 취급점: 취급점
 - date: 작성일
 ```
@@ -168,6 +169,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "customer.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [238, 907, 469, 923], "page": 1},
  {"key": "customer.birth", "value": "850328", "bbox_2d": [655, 873, 722, 896], "page": 1},
  {"key": "customer.phone", "value": "010-6144-1173", "bbox_2d": [654, 904, 810, 929], "page": 1},
+ {"key": "금융수신", "value": null},
  {"key": "취급점", "value": "센텀지점", "bbox_2d": [210, 170, 291, 193], "page": 1},
  {"key": "date", "value": "2025년 4월 1일", "bbox_2d": [356, 830, 579, 848], "page": 1}]
 ```
@@ -248,6 +250,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf004 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

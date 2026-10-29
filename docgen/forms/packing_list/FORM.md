@@ -1,6 +1,6 @@
 # 포장명세서(Packing List) (`packing_list`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card packing_list · card-hash: 80ada201abc5 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card packing_list · card-hash: 88d60fefbafa -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** fx · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 포장명세서(Packing List)
@@ -21,7 +21,7 @@
 | `docgen/docs/fx.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 36칸
+## 추출 항목 (정보 추출 kie) — 23칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -37,13 +37,6 @@
 | `carrier` | Carrier | text | 1쪽 [68, 280, 228, 290] | 늘 | 템플릿 | generate.py | look/template.html.j2:51 · fields.json:5 | 묻기 |
 | `sailing_date` | Sailingonorabout | date | 1쪽 [314, 280, 401, 290] | 늘 | 템플릿 | generate.py | look/template.html.j2:52 · fields.json:75 | 묻기 |
 | `marks` | MarksandNumbers | text | 1쪽 [65, 332, 158, 382] | 늘 | 템플릿 | generate.py | look/template.html.j2:61 · fields.json:55 | 묻기 |
-| `items.*.ctn_no` | C/TNo | text | 1쪽 [237, 332, 260, 342] (1행) | 늘 | 템플릿 | generate.py | fields.json:160 | 묻기 |
-| `items.*.description` | DescriptionofGoods | text | 1쪽 [294, 332, 493, 355] (1행) | 늘 | 템플릿 | generate.py | fields.json:165 | 묻기 |
-| `items.*.packages` | Packages | text | 1쪽 [536, 332, 582, 342] (1행) | 늘 | 템플릿 | generate.py | fields.json:185 | 묻기 |
-| `items.*.quantity` | Quantity | text | 1쪽 [621, 332, 679, 342] (1행) | 늘 | 템플릿 | generate.py | fields.json:190 | 묻기 |
-| `items.*.net_weight` | NetWeight | number | 1쪽 [734, 332, 768, 342] (1행) | 늘 | 템플릿 | generate.py | fields.json:180 | 묻기 |
-| `items.*.gross_weight` | GrossWeight | number | 1쪽 [822, 332, 856, 342] (1행) | 늘 | 템플릿 | generate.py | fields.json:170 | 묻기 |
-| `items.*.measurement` | Measurement | number | 1쪽 [907, 332, 935, 342] (1행) | 늘 | 템플릿 | generate.py | fields.json:175 | 묻기 |
 | `total.packages` | TotalPackages | text | 1쪽 [534, 633, 582, 643] | 늘 | 템플릿 | generate.py | look/template.html.j2:80 · fields.json:115 | 묻기 |
 | `total.net_weight` | TotalNetWeight | text | 1쪽 [705, 633, 768, 643] | 늘 | 템플릿 | generate.py | look/template.html.j2:81 · fields.json:110 | 묻기 |
 | `total.gross_weight` | TotalGrossWeight | text | 1쪽 [793, 633, 856, 643] | 늘 | 템플릿 | generate.py | look/template.html.j2:82 · fields.json:100 | 묻기 |
@@ -54,13 +47,34 @@
 | `partial_shipment` | PartialShipment | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:40 · fields.json:65 | 묻기 |
 | `manufacturer.name` | Manufacturer | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:41 · fields.json:50 | 묻기 |
 | `manufacturer.address` | ManufacturerAddress | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:41 · fields.json:45 | 묻기 |
+| `lc_no` | L/CNo | - | - | 6/16 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:40 | 묻기 |
+
+## 표 `items` (표 과제 table·table_read·table_find·table_qa) — 7열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `items.*.ctn_no` | C/TNo | text | 1쪽 [237, 332, 260, 342] (1행) | 늘 | 템플릿 | generate.py | fields.json:160 | 묻기 |
+| `items.*.description` | DescriptionofGoods | text | 1쪽 [294, 332, 493, 355] (1행) | 늘 | 템플릿 | generate.py | fields.json:165 | 묻기 |
+| `items.*.packages` | Packages | text | 1쪽 [536, 332, 582, 342] (1행) | 늘 | 템플릿 | generate.py | fields.json:185 | 묻기 |
+| `items.*.quantity` | Quantity | text | 1쪽 [621, 332, 679, 342] (1행) | 늘 | 템플릿 | generate.py | fields.json:190 | 묻기 |
+| `items.*.net_weight` | NetWeight | number | 1쪽 [734, 332, 768, 342] (1행) | 늘 | 템플릿 | generate.py | fields.json:180 | 묻기 |
+| `items.*.gross_weight` | GrossWeight | number | 1쪽 [822, 332, 856, 342] (1행) | 늘 | 템플릿 | generate.py | fields.json:170 | 묻기 |
+| `items.*.measurement` | Measurement | number | 1쪽 [907, 332, 935, 342] (1행) | 늘 | 템플릿 | generate.py | fields.json:175 | 묻기 |
+
+## 표 `containers` (표 과제 table·table_read·table_find·table_qa) — 6열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `containers.*.no` | ContainerNo | - | - (1행) | 2/16 | 템플릿 | generate.py | fields.json:140 | 묻기 |
 | `containers.*.seal` | SealNo | - | - (1행) | 2/16 | 템플릿 | generate.py | fields.json:150 | 묻기 |
 | `containers.*.packages` | ContainerPackages | - | - (1행) | 2/16 | 템플릿 | generate.py | fields.json:145 | 묻기 |
 | `containers.*.net_weight` | ContainerNetWeight | - | - (1행) | 2/16 | 템플릿 | generate.py | fields.json:135 | 묻기 |
 | `containers.*.gross_weight` | ContainerGrossWeight | - | - (1행) | 2/16 | 템플릿 | generate.py | fields.json:125 | 묻기 |
 | `containers.*.measurement` | ContainerMeasurement | - | - (1행) | 2/16 | 템플릿 | generate.py | fields.json:130 | 묻기 |
-| `lc_no` | L/CNo | - | - | 6/16 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:40 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
 - **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
@@ -195,27 +209,6 @@ answer_empty: {"key": "{key}", "value": null}
 - carrier: Carrier
 - sailing_date: Sailingonorabout
 - marks: MarksandNumbers
-- items.0.ctn_no: C/TNo (1행)
-- items.0.description: DescriptionofGoods (1행)
-- items.0.packages: Packages (1행)
-- items.0.quantity: Quantity (1행)
-- items.0.net_weight: NetWeight (1행)
-- items.0.gross_weight: GrossWeight (1행)
-- items.0.measurement: Measurement (1행)
-- items.1.ctn_no: C/TNo (2행)
-- items.1.description: DescriptionofGoods (2행)
-- items.1.packages: Packages (2행)
-- items.1.quantity: Quantity (2행)
-- items.1.net_weight: NetWeight (2행)
-- items.1.gross_weight: GrossWeight (2행)
-- items.1.measurement: Measurement (2행)
-- items.2.ctn_no: C/TNo (3행)
-- items.2.description: DescriptionofGoods (3행)
-- items.2.packages: Packages (3행)
-- items.2.quantity: Quantity (3행)
-- items.2.net_weight: NetWeight (3행)
-- items.2.gross_weight: GrossWeight (3행)
-- items.2.measurement: Measurement (3행)
 - total.packages: TotalPackages
 - total.net_weight: TotalNetWeight
 - total.gross_weight: TotalGrossWeight
@@ -239,33 +232,156 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "carrier", "value": "NORTHERN LIGHT V.094E", "bbox_2d": [68, 280, 228, 290], "page": 1},
  {"key": "sailing_date", "value": "March 05, 2025", "bbox_2d": [314, 280, 401, 290], "page": 1},
  {"key": "marks", "value": "MIRAE\nBUSAN, KOREA\nC/NO. 1-69\nMADE IN JAPAN", "bbox_2d": [65, 332, 158, 382], "page": 1},
- {"key": "items.0.ctn_no", "value": "1-21", "bbox_2d": [237, 332, 260, 342], "page": 1},
- {"key": "items.0.description", "value": "Board-to-Board Connector 0.5mm Pitch 40P", "bbox_2d": [294, 332, 493, 355], "page": 1},
- {"key": "items.0.packages", "value": "21 CTNS", "bbox_2d": [536, 332, 582, 342], "page": 1},
- {"key": "items.0.quantity", "value": "42,000 PCS", "bbox_2d": [621, 332, 679, 342], "page": 1},
- {"key": "items.0.net_weight", "value": "189.00", "bbox_2d": [734, 332, 768, 342], "page": 1},
- {"key": "items.0.gross_weight", "value": "204.12", "bbox_2d": [822, 332, 856, 342], "page": 1},
- {"key": "items.0.measurement", "value": "0.630", "bbox_2d": [907, 332, 935, 342], "page": 1},
- {"key": "items.1.ctn_no", "value": "22-68", "bbox_2d": [234, 392, 263, 401], "page": 1},
- {"key": "items.1.description", "value": "Thick Film Chip Resistor 0603 10K OHM 1%", "bbox_2d": [294, 392, 472, 415], "page": 1},
- {"key": "items.1.packages", "value": "47 CTNS", "bbox_2d": [536, 392, 582, 401], "page": 1},
- {"key": "items.1.quantity", "value": "4,700,000 PCS", "bbox_2d": [605, 392, 679, 401], "page": 1},
- {"key": "items.1.net_weight", "value": "329.00", "bbox_2d": [734, 392, 768, 401], "page": 1},
- {"key": "items.1.gross_weight", "value": "355.32", "bbox_2d": [822, 392, 856, 401], "page": 1},
- {"key": "items.1.measurement", "value": "1.410", "bbox_2d": [907, 392, 935, 401], "page": 1},
- {"key": "items.2.ctn_no", "value": "69", "bbox_2d": [243, 424, 255, 434], "page": 1},
- {"key": "items.2.description", "value": "LED Driver IC, SOP-8", "bbox_2d": [294, 424, 408, 434], "page": 1},
- {"key": "items.2.packages", "value": "1 CTNS", "bbox_2d": [542, 424, 582, 434], "page": 1},
- {"key": "items.2.quantity", "value": "20,000 PCS", "bbox_2d": [621, 424, 679, 434], "page": 1},
- {"key": "items.2.net_weight", "value": "6.00", "bbox_2d": [746, 424, 768, 434], "page": 1},
- {"key": "items.2.gross_weight", "value": "6.48", "bbox_2d": [834, 424, 856, 434], "page": 1},
- {"key": "items.2.measurement", "value": "0.030", "bbox_2d": [907, 424, 935, 434], "page": 1},
  {"key": "total.packages", "value": "69 CTNS", "bbox_2d": [534, 633, 582, 643], "page": 1},
  {"key": "total.net_weight", "value": "524.00 KGS", "bbox_2d": [705, 633, 768, 643], "page": 1},
  {"key": "total.gross_weight", "value": "565.92 KGS", "bbox_2d": [793, 633, 856, 643], "page": 1},
  {"key": "total.measurement", "value": "2.070 CBM", "bbox_2d": [875, 633, 935, 643], "page": 1},
  {"key": "signed_by", "value": "Tokyo Seimitsu Kogyo K.K.", "bbox_2d": [564, 690, 726, 700], "page": 1},
  {"key": "signer", "value": "Kenji Sato", "bbox_2d": [564, 740, 622, 751], "page": 1}]
+```
+
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 1쪽 bbox_2d=[209, 298, 941, 434] 위치의 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- ctn_no: C/TNo
+- no: ContainerNo
+- description: DescriptionofGoods
+- packages: Packages
+- quantity: Quantity
+- net_weight: NetWeight
+- gross_weight: GrossWeight
+- measurement: Measurement
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "ctn_no",
+  "no",
+  "description",
+  "packages",
+  "quantity",
+  "net_weight",
+  "gross_weight",
+  "measurement"
+ ],
+ "rows": [
+  [
+   "1-21",
+   null,
+   "Board-to-Board Connector 0.5mm Pitch 40P",
+   "21 CTNS",
+   "42,000 PCS",
+   "189.00",
+   "204.12",
+   "0.630"
+  ],
+  [
+   "22-68",
+   null,
+   "Thick Film Chip Resistor 0603 10K OHM 1%",
+   "47 CTNS",
+   "4,700,000 PCS",
+   "329.00",
+   "355.32",
+   "1.410"
+  ],
+  [
+   "69",
+   null,
+   "LED Driver IC, SOP-8",
+   "1 CTNS",
+   "20,000 PCS",
+   "6.00",
+   "6.48",
+   "0.030"
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    237,
+    332,
+    935,
+    355
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    234,
+    392,
+    935,
+    415
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    243,
+    424,
+    935,
+    434
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["C/TNo", "DescriptionofGoods", "Packages", "Quantity", "NetWeight", "GrossWeight", "Measurement"], "bbox_2d": [209, 298, 941, 434], "page": 1, "n_rows": 3}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 'C/TNo'·'Quantity' 열이 있는 표를 보고 답하세요. 'GrossWeight' 칸이 '6.48'인 행은 몇 개입니까? (숫자만 답하세요)
+```
+
+답:
+
+```json
+1
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 'C/TNo'·'Quantity' 열이 있는 표를 보고 답하세요. 위에서 2번째 행의 'Quantity' 값은 무엇입니까? 머리글은 세지 않습니다. (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"4,700,000 PCS"
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -298,6 +414,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa packing_list --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

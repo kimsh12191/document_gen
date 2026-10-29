@@ -1,6 +1,6 @@
 # 종합소득세 과세표준확정신고 및 납부계산서 (`income_tax_return`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card income_tax_return · card-hash: 78611ba0ff86 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card income_tax_return · card-hash: 9787298fd6ec -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** tax · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 종합소득세 과세표준확정신고 및 납부계산서 (다른 이름: 종합소득세 과세표준확정신고 및 납부계산서(일반))
@@ -21,7 +21,7 @@
 | `docgen/docs/business.py`, `docgen/docs/tax.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 62칸
+## 추출 항목 (정보 추출 kie) — 43칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -59,12 +59,6 @@
 | `tax_agent.biz_no` | 세무대리인사업자등록번호 | biz_no | 1쪽 [297, 823, 383, 836] | 11/16 | 템플릿 | generate.py | look/template.html.j2:111 · fields.json:195 | 묻기 |
 | `related.phone` ← `tax_agent.phone` | 세무대리인전화번호 | phone | 1쪽 [684, 823, 770, 836] | 11/16 | 템플릿 | generate.py | look/template.html.j2:112 · fields.json:205 | 묻기 |
 | `tax_office` | 세무서장 | text | 1쪽 [89, 846, 203, 861] | 늘 | 템플릿 | generate.py | look/template.html.j2:114 · fields.json:210 | 묻기 |
-| `incomes.*.type` | 소득구분 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:134 · fields.json:317 | 묻기 |
-| `incomes.*.payer` | 소득의지급자 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:134 · fields.json:325 | 묻기 |
-| `incomes.*.revenue` | 총수입금액 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:135 · fields.json:330 | 묻기 |
-| `incomes.*.expense` | 필요경비 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:135 · fields.json:320 | 묻기 |
-| `incomes.*.amount` | 소득금액 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:136 · fields.json:315 | 묻기 |
-| `incomes.*.withheld` | 원천징수세액 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:136 · fields.json:340 | 묻기 |
 | `business_income.address` | 사업장소재지 | - | - | 14/16 | 템플릿 | generate.py | look/template.html.j2:143 · fields.json:10 | 묻기 |
 | `business_income.trade_name` | 상호 | - | - | 14/16 | 템플릿 | generate.py | look/template.html.j2:144 · fields.json:50 | 묻기 |
 | `business_income.biz_no` | 사업자등록번호 | - | - | 14/16 | 템플릿 | generate.py | look/template.html.j2:144 · fields.json:15 | 묻기 |
@@ -72,19 +66,67 @@
 | `business_income.revenue` | 총수입금액 | - | - | 14/16 | 템플릿 | generate.py | look/template.html.j2:145 · fields.json:40 | 묻기 |
 | `business_income.expense` | 필요경비 | - | - | 14/16 | 템플릿 | generate.py | look/template.html.j2:146 · fields.json:25 | 묻기 |
 | `business_income.income` | 소득금액 | - | - | 14/16 | 템플릿 | generate.py | look/template.html.j2:146 · fields.json:30 | 묻기 |
+| `business_income.partner` | 공동사업자 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:148 · fields.json:35 | 묻기 |
+| `business_income.share` | 손익분배비율 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:148 · fields.json:45 | 묻기 |
+
+## 표 `incomes` (표 과제 table·table_read·table_find·table_qa) — 6열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `incomes.*.type` | 소득구분 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:134 · fields.json:317 | 묻기 |
+| `incomes.*.payer` | 소득의지급자 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:134 · fields.json:325 | 묻기 |
+| `incomes.*.revenue` | 총수입금액 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:135 · fields.json:330 | 묻기 |
+| `incomes.*.expense` | 필요경비 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:135 · fields.json:320 | 묻기 |
+| `incomes.*.amount` | 소득금액 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:136 · fields.json:315 | 묻기 |
+| `incomes.*.withheld` | 원천징수세액 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:136 · fields.json:340 | 묻기 |
+
+## 표 `dependents` (표 과제 table·table_read·table_find·table_qa) — 5열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `dependents.*.relation` | 관계 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:156 · fields.json:300 | 묻기 |
 | `dependents.*.name` | 성명 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:156 · fields.json:295 | 묻기 |
 | `dependents.*.rrn` | 주민등록번호 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:157 · fields.json:305 | 묻기 |
 | `dependents.*.basic` | 기본공제 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:157 · fields.json:285 | 묻기 |
 | `dependents.*.extra` | 추가공제 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:158 · fields.json:290 | 묻기 |
+
+## 표 `deduction_items` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `deduction_items.*.item` | 소득공제항목 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:275 | 묻기 |
 | `deduction_items.*.amount` | 금액 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:270 | 묻기 |
+
+## 표 `credit_items` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `credit_items.*.item` | 세액공제항목 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:260 | 묻기 |
 | `credit_items.*.amount` | 금액 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:255 | 묻기 |
+
+## 표 `prepaid_items` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `prepaid_items.*.item` | 기납부세액항목 | - | - (1행) | 13/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:370 | 묻기 |
 | `prepaid_items.*.amount` | 금액 | - | - (1행) | 13/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:365 | 묻기 |
-| `business_income.partner` | 공동사업자 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:148 · fields.json:35 | 묻기 |
-| `business_income.share` | 손익분배비율 | - | - | 1/16 | 템플릿 | generate.py | look/template.html.j2:148 · fields.json:45 | 묻기 |
+
+## 표 `penalty_items` (표 과제 table·table_read·table_find·table_qa) — 2열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `penalty_items.*.item` | 가산세항목 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:355 | 묻기 |
 | `penalty_items.*.amount` | 금액 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:350 | 묻기 |
 
@@ -349,6 +391,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa income_tax_return --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

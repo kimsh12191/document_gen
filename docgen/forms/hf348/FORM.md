@@ -1,6 +1,6 @@
 # 기업관계사 서비스 이용신청서(영문) (`hf348`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf348 · card-hash: 175172e22793 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf348 · card-hash: e0a8fa235502 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 기업관계사 서비스 이용신청서(영문)
@@ -20,7 +20,7 @@
 | `look/original.pdf` | 원본 PDF |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 26칸
+## 추출 항목 (정보 추출 kie) — 22칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -39,10 +39,6 @@
 | `GlobalClientNo` | GlobalClientNo. | rrn | 1쪽 [694, 255, 800, 270] | 늘 | 항목명 그대로 | 값 종류 `number` (항목명 자동) | fields.json:275 | 묻기 |
 | `Representative2` | Representative | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:288 | 묻기 |
 | `Fax` | Fax | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:300 | 묻기 |
-| `목록.*.ExecutorID` | ExecutorID* | text | 1쪽 [189, 575, 241, 585] (1행) | 늘 | 표 행 (묶음·항목명 'Executor ID*') | 값 종류 `number` (항목명 자동) | fields.json:591 | 묻기 |
-| `목록.*.Currency` | Currency | text | 1쪽 [278, 573, 304, 587] (1행) | 늘 | 표 행 (묶음·항목명 'Currency') | 값 종류 `currency` (항목명 자동) | fields.json:615 | 묻기 |
-| `목록.*.AccountNo` | AccountNo. | text | 1쪽 [335, 573, 407, 586] (1행) | 늘 | 표 행 (묶음·항목명 'Account No.') | 값 종류 `number` (항목명 자동) | fields.json:639 | 묻기 |
-| `목록.*.RegisteredSealSign` | RegisteredSeal/Sign | text | - (1행) | 늘 | 표 행 (묶음·항목명 'Registered Seal/Sign') | 값 종류 `text` (항목명 자동) | fields.json:663 | 묻기 |
 | `customer.name` | Name | text | 2쪽 [317, 872, 383, 887] | 늘 | 규칙: 'Name' → `customer.name` | 고객 정보 (키 `customer.name`) | fields.json:888 | 묻기 |
 | `customer.address3` | Address | text | 2쪽 [317, 887, 654, 909] | 늘 | 규칙: 'Address' → `customer.address` | 고객 정보 (키 `customer.address`) | fields.json:900 | 묻기 |
 | `Relationship` | Relationship | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:912 | 묻기 |
@@ -50,6 +46,17 @@
 | `customer.birth` | DateofBirth | date | 2쪽 [693, 870, 778, 886] | 늘 | 규칙: 'Date of Birth' → `customer.birth` | 고객 정보 (키 `customer.birth`) | fields.json:935 | 묻기 |
 | `Delegator` | Delegator | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:947 | 묻기 |
 | `Representative3` | Representative | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:959 | 묻기 |
+
+## 표 `목록` (표 과제 table·table_read·table_find·table_qa) — 4열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
+| `목록.*.ExecutorID` | ExecutorID* | text | 1쪽 [189, 575, 241, 585] (1행) | 늘 | 표 행 (묶음·항목명 'Executor ID*') | 값 종류 `number` (항목명 자동) | fields.json:591 | 묻기 |
+| `목록.*.Currency` | Currency | text | 1쪽 [278, 573, 304, 587] (1행) | 늘 | 표 행 (묶음·항목명 'Currency') | 값 종류 `currency` (항목명 자동) | fields.json:615 | 묻기 |
+| `목록.*.AccountNo` | AccountNo. | text | 1쪽 [335, 573, 407, 586] (1행) | 늘 | 표 행 (묶음·항목명 'Account No.') | 값 종류 `number` (항목명 자동) | fields.json:639 | 묻기 |
+| `목록.*.RegisteredSealSign` | RegisteredSeal/Sign | text | - (1행) | 늘 | 표 행 (묶음·항목명 'Registered Seal/Sign') | 값 종류 `text` (항목명 자동) | fields.json:663 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 8칸
 
@@ -177,20 +184,6 @@ answer_empty: {"key": "{key}", "value": null}
 - GlobalClientNo: GlobalClientNo.
 - Representative2: Representative (같은 항목명 중 2번째 칸)
 - Fax: Fax
-- 목록.0.ExecutorID: ExecutorID* (목록 1행)
-- 목록.1.ExecutorID: ExecutorID* (목록 2행)
-- 목록.0.Currency: Currency (목록 1행)
-- 목록.1.Currency: Currency (목록 2행)
-- 목록.0.AccountNo: AccountNo. (목록 1행)
-- 목록.1.AccountNo: AccountNo. (목록 2행)
-- 목록.0.RegisteredSealSign: RegisteredSeal/Sign (목록 1행)
-- 목록.1.RegisteredSealSign: RegisteredSeal/Sign (목록 2행)
-- 목록.2.Currency: Currency (목록 3행)
-- 목록.3.Currency: Currency (목록 4행)
-- 목록.2.AccountNo: AccountNo. (목록 3행)
-- 목록.3.AccountNo: AccountNo. (목록 4행)
-- 목록.2.RegisteredSealSign: RegisteredSeal/Sign (목록 3행)
-- 목록.3.RegisteredSealSign: RegisteredSeal/Sign (목록 4행)
 - customer.name: Name (고객 성명)
 - customer.address3: Address (같은 항목명 중 3번째 칸)
 - Relationship: Relationship
@@ -218,20 +211,6 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "GlobalClientNo", "value": "621914-9099347", "bbox_2d": [694, 255, 800, 270], "page": 1},
  {"key": "Representative2", "value": null},
  {"key": "Fax", "value": null},
- {"key": "목록.0.ExecutorID", "value": "1253-0730", "bbox_2d": [189, 575, 241, 585], "page": 1},
- {"key": "목록.1.ExecutorID", "value": "312-223443-87111", "bbox_2d": [193, 593, 241, 599], "page": 1},
- {"key": "목록.0.Currency", "value": "EUR", "bbox_2d": [278, 573, 304, 587], "page": 1},
- {"key": "목록.1.Currency", "value": "CAD", "bbox_2d": [278, 590, 305, 603], "page": 1},
- {"key": "목록.0.AccountNo", "value": "9763-8503", "bbox_2d": [335, 573, 407, 586], "page": 1},
- {"key": "목록.1.AccountNo", "value": "833-205043-06707", "bbox_2d": [333, 589, 452, 603], "page": 1},
- {"key": "목록.0.RegisteredSealSign", "value": null},
- {"key": "목록.1.RegisteredSealSign", "value": null},
- {"key": "목록.2.Currency", "value": null},
- {"key": "목록.3.Currency", "value": null},
- {"key": "목록.2.AccountNo", "value": null},
- {"key": "목록.3.AccountNo", "value": null},
- {"key": "목록.2.RegisteredSealSign", "value": null},
- {"key": "목록.3.RegisteredSealSign", "value": null},
  {"key": "customer.name", "value": "남궁예태", "bbox_2d": [317, 872, 383, 887], "page": 2},
  {"key": "customer.address3", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [317, 887, 654, 909], "page": 2},
  {"key": "Relationship", "value": null},
@@ -282,6 +261,115 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "check.Affiliate", "value": "Consent to the Users under Control", "bbox_2d": [172, 675, 185, 688], "page": 2}]
 ```
 
+### 표 추출 `table` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
+- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
+- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
+열 (키: 항목명)
+- ExecutorID: ExecutorID*
+- Currency: Currency
+- AccountNo: AccountNo.
+- RegisteredSealSign: RegisteredSeal/Sign
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "ExecutorID",
+  "Currency",
+  "AccountNo",
+  "RegisteredSealSign"
+ ],
+ "rows": [
+  [
+   "1253-0730",
+   "EUR",
+   "9763-8503",
+   null
+  ],
+  [
+   "312-223443-87111",
+   "CAD",
+   "833-205043-06707",
+   null
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    189,
+    573,
+    407,
+    587
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    193,
+    589,
+    452,
+    603
+   ],
+   "page": 1
+  }
+ ]
+}
+```
+
+### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
+
+질문:
+
+```
+이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
+표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
+```
+
+답:
+
+```json
+[{"columns": ["ExecutorID*", "Currency", "AccountNo.", "RegisteredSeal/Sign"], "bbox_2d": [189, 573, 452, 603], "page": 1, "n_rows": 2}]
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 'ExecutorID*'·'Currency' 열이 있는 표를 보고 답하세요. 표의 행은 모두 몇 개입니까? 머리글·합계 행과 모두 빈 행은 세지 않습니다. (숫자만 답하세요)
+```
+
+답:
+
+```json
+2
+```
+
+### 표 질의 `table_qa` · 채점 acc
+
+질문:
+
+```
+이 문서의 'ExecutorID*'·'Currency' 열이 있는 표를 보고 답하세요. 'ExecutorID*' 칸이 '1253-0730'인 행의 'AccountNo.' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
+```
+
+답:
+
+```json
+"9763-8503"
+```
+
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
 
 없습니다. 더하려면 이 폴더에 `qa.py` 를 만들고 함수 하나에 질문 하나 (견본: `python -m docgen.formdir qa hf348 --new`):
@@ -311,6 +399,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa hf348 --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

@@ -1,6 +1,6 @@
 # 납세증명서(법인) (`tax_payment_certificate_corp`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card tax_payment_certificate_corp · card-hash: badaff950844 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card tax_payment_certificate_corp · card-hash: 2d143e1e04a2 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** tax · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 납세증명서(법인)
@@ -21,7 +21,7 @@
 | `docgen/docs/business.py`, `docgen/docs/tax.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 20칸
+## 추출 항목 (정보 추출 kie) — 14칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -39,6 +39,13 @@
 | `arrears` | 체납액 | text | 1쪽 [307, 452, 337, 464] | 늘 | 템플릿 | generate.py | fields.json:5 | 묻기 |
 | `issue_date` | 발급일 | date | 1쪽 [437, 584, 563, 597] | 늘 | 템플릿 | generate.py | fields.json:15 | 묻기 |
 | `issuer` | 발급기관 | text | 1쪽 [397, 616, 580, 636] | 늘 | 템플릿 | generate.py | fields.json:25 | 묻기 |
+
+## 표 `deferrals` (표 과제 table·table_read·table_find·table_qa) — 6열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `deferrals.*.kind` | 연장ㆍ유예종류 | - | - (1행) | 1/16 | 템플릿 | generate.py | - | 묻기 |
 | `deferrals.*.period` | 연장ㆍ유예기간 | - | - (1행) | 1/16 | 템플릿 | generate.py | - | 묻기 |
 | `deferrals.*.tax_period` | 과세기간 | - | - (1행) | 1/16 | 템플릿 | generate.py | - | 묻기 |
@@ -150,6 +157,7 @@ answer_empty: {"key": "{key}", "value": null}
 - issue_no: 발급번호
 - taxpayer.corp_name: 상호(법인명)
 - customer.biz_no: 사업자등록번호 (고객 사업자등록번호)
+- national.payable: 납부(환급)할총세액
 - customer.ceo: 성명(대표자) (고객 대표자)
 - customer.corp_reg_no: 법인등록번호 (고객 법인등록번호)
 - customer.address: 주소(본점) (고객 주소)
@@ -169,6 +177,7 @@ answer_empty: {"key": "{key}", "value": null}
 [{"key": "issue_no", "value": "5793-194-4684-328", "bbox_2d": [79, 100, 192, 111], "page": 1},
  {"key": "taxpayer.corp_name", "value": "(주)미래케미칼", "bbox_2d": [307, 129, 409, 141], "page": 1},
  {"key": "customer.biz_no", "value": "702-81-38348", "bbox_2d": [722, 129, 809, 141], "page": 1},
+ {"key": "national.payable", "value": null},
  {"key": "customer.ceo", "value": "남궁예태", "bbox_2d": [307, 165, 368, 177], "page": 1},
  {"key": "customer.corp_reg_no", "value": "200112-7951835", "bbox_2d": [722, 165, 827, 177], "page": 1},
  {"key": "customer.address", "value": "제주특별자치도 제주시 첨단로 381-19, 2층 (이도2동, 대성프라자)", "bbox_2d": [307, 200, 744, 213], "page": 1},
@@ -241,6 +250,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa tax_payment_certificate_corp --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.

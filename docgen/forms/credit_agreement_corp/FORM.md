@@ -1,6 +1,6 @@
 # 여신거래약정서(기업용) (`credit_agreement_corp`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card credit_agreement_corp · card-hash: 53caadaf2312 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card credit_agreement_corp · card-hash: 624af8cfb32c -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** bank_form · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 여신거래약정서(기업용)
@@ -21,7 +21,7 @@
 | `docgen/docs/bank_form_loan.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
 | `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
 
-## 추출 항목 (정보 추출 kie) — 37칸
+## 추출 항목 (정보 추출 kie) — 32칸
 
 | 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
@@ -57,7 +57,21 @@
 | `stamp_tax` | 인지세 | text | 1쪽 [159, 750, 435, 762] | 늘 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:190 | 묻기 |
 | `contract_date` | 약정일 | date | 1쪽 [76, 826, 182, 839] | 늘 | 템플릿 | generate.py | look/template.html.j2:76 · fields.json:15 | 묻기 |
 | `signature` | 대표이사 | text | 1쪽 [787, 837, 861, 851] | 늘 | 템플릿 | generate.py | look/template.html.j2:11 · fields.json:185 | 묻기 |
+
+## 표 `special_terms` (표 과제 table·table_read·table_find·table_qa) — 1열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `special_terms.*` | 특약사항 | - | - (1행) | 3/16 | 템플릿 | generate.py | - | 묻기 |
+
+## 표 `guarantors` (표 과제 table·table_read·table_find·table_qa) — 4열
+
+행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
+
+| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+|---|---|---|---|---|---|---|---|---|
 | `guarantors.*.name` | 연대보증인 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:89 · fields.json:205 | 묻기 |
 | `guarantors.*.rrn` | 실명번호 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:89 · fields.json:215 | 묻기 |
 | `guarantors.*.address` | 주소 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:89 · fields.json:200 | 묻기 |
@@ -320,6 +334,8 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답 모양 (줄글) | `questions.json`: `{"kie": {"answer": "{label}: {value}"}}` (칸마다 한 줄) | 필요 없음 |
 | 이 서식만의 질문 | 이 폴더 `qa.py` 에 함수 하나 = 질문 하나 (견본 `python -m docgen.formdir qa credit_agreement_corp --new`) | 필요 없음 |
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
+| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
+| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
 | 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
