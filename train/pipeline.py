@@ -28,6 +28,7 @@ import argparse
 import json
 import os
 import random
+import re
 import shutil
 import signal
 import socket
@@ -76,6 +77,44 @@ DEFAULTS = {
     "smoke": {"train_steps": 5, "benchmark_per_task": 8, "grpo_candidates": 40, "grpo_count": 8},
 }
 LABELS = {"start": "출발 모델", "sft": "SFT", "grpo": "GRPO"}
+# 평가 서버 포트: swift deploy 는 --port 에 bind 가 안 되면 말없이 다음 포트로 뜬다 (ms-swift find_free_port).
+# 앞 서버를 끈 직후에는 그 포트의 연결이 TIME_WAIT(리눅스 60초)로 남아 bind 가 안 되므로, 비기를 기다렸다 띄운다.
+PORT_FREE_WAIT = 180   # 초
+RUNNING = re.compile(r"Uvicorn running on https?://\S+?:(\d+)")
+WAIT_NOTE = 5 * 60     # 서버를 기다리는 동안 이만큼마다 알림 (초)
+
+
+def port_bindable(port: int) -> bool:
+    """swift deploy 의 빈 포트 검사와 같게: SO_REUSEADDR 없이 bind 가 되는지."""
+    with socket.socket() as sock:
+        try:
+            sock.bind(("", port))
+            return True
+        except OSError:
+            return False
+
+
+def wait_port_free(port: int, limit: float | None = None) -> None:
+    """포트에 bind 가 될 때까지 기다린다 (앞 서버 연결의 TIME_WAIT). limit 초 안에 안 비면 RuntimeError."""
+    limit = PORT_FREE_WAIT if limit is None else limit
+    if port_bindable(port):
+        return
+    log(f"port {port} is not free yet (connections of the previous server in TIME_WAIT); waiting up to {limit:.0f}s")
+    deadline = time.monotonic() + limit
+    while not port_bindable(port):
+        if time.monotonic() > deadline:
+            raise RuntimeError(f"Port {port} is still not free after {limit:.0f}s; check `ss -tanp | grep :{port}` "
+                               "or set eval.port_base to other ports")
+        time.sleep(2)
+    log(f"port {port} is free")
+
+
+def _tail(path, n: int = 15) -> str:
+    try:
+        lines = Path(path).read_text(encoding="utf-8", errors="replace").splitlines()[-n:]
+    except OSError:
+        return ""
+    return "\n".join("    " + x for x in lines)
 # sft·grpo 칸에서 파이프라인이 쓰는 칸. 나머지는 ms-swift 옵션으로 yaml(config) 위에 덮어쓴다 (launch.py --options)
 OWN_KEYS = {"sft": {"config"}, "grpo": {"config", "select", "candidates", "count", "hard_fraction", "seed", "tasks", "max_images"}}
 
@@ -254,6 +293,8 @@ class Runner:
             with socket.socket() as sock:
                 if sock.connect_ex(("127.0.0.1", port)) == 0 and not self.dry:
                     raise RuntimeError(f"Port {port} is already in use; stop the old server so the wrong model is not evaluated")
+            if not self.dry:
+                wait_port_free(port)   # 안 그러면 swift 가 다른 포트로 띄우고, 여기서는 이 포트만 기다리게 된다
             cmd = [part.format(model=model_path, model_type=self.cfg["model_type"], port=port) for part in ev["deploy_command"]]
             env = {**os.environ, "CUDA_VISIBLE_DEVICES": gpu, "IMAGE_MAX_TOKEN_NUM": str(tokens),
                    "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1"}
@@ -265,19 +306,31 @@ class Runner:
                 procs.append((subprocess.Popen(cmd, env=env, stdout=out, stderr=subprocess.STDOUT, cwd=ROOT,
                                                start_new_session=True), out, port))
         try:
-            deadline = time.monotonic() + ev["server_start_timeout_minutes"] * 60
+            started = time.monotonic()
+            deadline = started + ev["server_start_timeout_minutes"] * 60
             for proc, out, port in procs:
+                seen, note = 0, started + WAIT_NOTE
                 while True:
                     if proc.poll() is not None:
-                        raise RuntimeError(f"Server on port {port} exited; see {out.name}")
+                        raise RuntimeError(f"Server on port {port} exited; see {out.name}\n{_tail(out.name)}")
                     try:
                         with urlopen(f"http://127.0.0.1:{port}{ev['health_path']}", timeout=5) as response:
                             if response.status == 200:
                                 break
                     except (URLError, OSError):
                         pass
-                    if time.monotonic() > deadline:
-                        raise RuntimeError(f"Server on port {port} not ready in time; see {out.name}")
+                    seen, actual = self._listening_port(out.name, seen)
+                    if actual is not None and actual != port:
+                        raise RuntimeError(f"Server for port {port} started on port {actual} instead (swift deploy moves to the "
+                                           f"next free port when {port} cannot be bound); see {out.name}")
+                    now = time.monotonic()
+                    if now > deadline:
+                        raise RuntimeError(f"Server on port {port} not ready in time "
+                                           f"({ev['server_start_timeout_minutes']} min, eval.server_start_timeout_minutes); "
+                                           f"see {out.name}\n{_tail(out.name)}")
+                    if now > note:
+                        log(f"waiting for server on port {port}: {(now - started) / 60:.0f} min (log {out.name})")
+                        note = now + WAIT_NOTE
                     time.sleep(3)
                 log(f"server on port {port} ready")
             yield ",".join(endpoints)
@@ -291,6 +344,19 @@ class Runner:
                 except subprocess.TimeoutExpired:
                     os.killpg(proc.pid, signal.SIGKILL)
                 out.close()
+
+    @staticmethod
+    def _listening_port(log_path, offset):
+        """서버 로그에서 새로 쓰인 부분의 'Uvicorn running on http://…:<포트>' → (읽은 끝 위치, 포트 또는 None)."""
+        try:
+            with open(log_path, "rb") as f:
+                f.seek(offset)
+                chunk = f.read()
+        except OSError:
+            return offset, None
+        cut = chunk.rfind(b"\n") + 1   # 줄 끝까지만 읽은 것으로 (반쪽 줄은 다음에)
+        m = RUNNING.search(chunk[:cut].decode("utf-8", "replace"))
+        return offset + cut, (int(m.group(1)) if m else None)
 
     @staticmethod
     def tag(checkpoint):

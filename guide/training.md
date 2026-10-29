@@ -231,6 +231,9 @@ python -c "from train import sweep as S; print(S.compare(S.load('train/configs/<
 | `채점 함수(…)가 정답을 읽지 못한 N줄을 …` (경고) | 그 줄은 빠짐. 줄 수가 많으면 정답 꼴에 맞는 `scorer` 를 붙이기 ([eval.md 2절](eval.md#2-채점)) |
 | `Reference answers do not score 1.0` | 데이터를 만든 코드와 지금 코드가 다름(같은 코드로 데이터 다시 만들기), 또는 붙인 채점 함수가 정답에 만점을 주지 않음 |
 | `Server on port … exited` / `not ready in time` | 평가 서버(vLLM)가 못 뜸. `logs/<모델>-server0.log`(`start`·`sft`·`grpo`) 끝과 `nvidia-smi` 확인 |
+| `port … is not free yet … waiting` (안내) | 바로 앞 모델의 평가 서버를 끈 직후라 그 포트의 연결이 TIME_WAIT(약 60초)로 남음. 비면 같은 포트로 띄움 (최대 3분). swift deploy 는 포트가 안 비면 말없이 다음 포트로 떠서, 예전에는 `not ready in time` 으로 40분 뒤 멈췄음 |
+| `Server for port … started on port … instead` | swift deploy 가 다른 포트로 뜸 (그 포트를 다른 프로그램이 잡음). `ss -tanp \| grep :<포트>` 로 확인하거나 `eval.port_base` 를 바꿈 |
+| `Port … is still not free after 180s` | 3분 지나도 포트에 bind 가 안 됨. 위와 같이 확인 |
 | `Port … is already in use` | 예전 평가 서버를 끄거나 `eval.port_base` 변경 |
 | `WARNING: 평가 문항 N개는 …` | 그림이 서버 한도(기본 16장)보다 많은 문항을 빼고 `<workdir>/benchmark_over_image_limit.jsonl`에 남김 |
 | `Prediction run settings or input changed` | 끊긴 평가의 답 파일이 지금 평가 문항과 다름. `predictions/<run>.jsonl`과 `predictions/<run>.jsonl.meta.json`을 다른 이름으로 옮기고 같은 명령 |

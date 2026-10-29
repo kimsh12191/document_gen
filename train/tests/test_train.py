@@ -572,3 +572,85 @@ def test_pipeline_dry_run_and_grpo_rerun_report(tmp_path, mixed, model):
     subprocess.run(cmd, check=True, capture_output=True, cwd=REPO)
     rows = (reports / "benchmark.csv").read_text(encoding="utf-8-sig").splitlines()
     assert [r.split(",")[0] for r in rows[1:]] == ["start", "sft", "grpo-v0-1-checkpoint-500", "grpo-v1-2-checkpoint-500"]
+
+
+FAKE_SERVER = r'''
+import sys, time
+from http.server import BaseHTTPRequestHandler, HTTPServer
+port, mode = int(sys.argv[1]), sys.argv[2]
+if mode == "moved":   # swift deploy 가 포트를 못 잡아 다음 포트로 뜬 것처럼
+    print(f"INFO:     Uvicorn running on http://127.0.0.1:{port + 2} (Press CTRL+C to quit)", flush=True)
+    time.sleep(60)
+class H(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200); self.end_headers(); self.wfile.write(b"{}")
+    def log_message(self, *a):
+        pass
+srv = HTTPServer(("127.0.0.1", port), H)
+print(f"INFO:     Uvicorn running on http://127.0.0.1:{port} (Press CTRL+C to quit)", flush=True)
+srv.serve_forever()
+'''
+
+
+def _free_port():
+    import socket
+
+    with socket.socket() as s:
+        s.bind(("127.0.0.1", 0))
+        return s.getsockname()[1]
+
+
+def _serve_runner(tmp_path, mixed, model, mode):
+    from train import pipeline as P
+
+    config = tmp_path / "pipeline.json"
+    write_json(config, {"workdir": "runs", "model": model, "data": {"train": [str(tmp_path / "train")], "output_dir": "prep",
+                                                                     "benchmark": [str(tmp_path / "bench")]}})
+    script = tmp_path / "fake_server.py"
+    script.write_text(FAKE_SERVER, encoding="utf-8")
+    cfg = P.merged(P.DEFAULTS, read_json(config))
+    cfg["gpus"] = [0]
+    cfg["eval"] |= {"port_base": _free_port(), "deploy_command": [sys.executable, str(script), "{port}", mode],
+                    "server_start_timeout_minutes": 1}
+    runner = P.Runner(cfg, config, False, False)
+    (runner.workdir / "logs").mkdir(parents=True, exist_ok=True)
+    return runner, cfg["eval"]["port_base"]
+
+
+def test_eval_server_waits_until_the_port_is_free(tmp_path, mixed, model):
+    """앞 서버를 끈 직후처럼 포트에 bind 가 안 되면 (TIME_WAIT), 빌 때까지 기다렸다 그 포트로 띄운다.
+    그냥 띄우면 swift deploy 는 말없이 다음 포트로 떠서 이 포트만 기다리다 시간이 다 간다."""
+    import socket
+
+    runner, port = _serve_runner(tmp_path, mixed, model, "ok")
+    held = socket.socket()
+    held.bind(("", port))   # bind 만 (listen 안 함): 연결은 안 되지만 새 bind 는 실패 — TIME_WAIT 와 같은 상황
+    threading.Timer(2.0, held.close).start()
+    with contextlib.redirect_stdout(io.StringIO()) as out, runner.serve("model", "t") as endpoints:
+        assert endpoints == f"http://127.0.0.1:{port}/v1"
+    assert f"port {port} is not free yet" in out.getvalue() and f"server on port {port} ready" in out.getvalue()
+
+
+def test_eval_server_on_another_port_stops_at_once(tmp_path, mixed, model):
+    import time
+
+    runner, port = _serve_runner(tmp_path, mixed, model, "moved")
+    started = time.monotonic()
+    with pytest.raises(RuntimeError, match=f"started on port {port + 2} instead"), \
+            contextlib.redirect_stdout(io.StringIO()), runner.serve("model", "t"):
+        pass
+    assert time.monotonic() - started < 30   # 40분(시간 한도)을 기다리지 않는다
+
+
+def test_port_that_never_frees_is_reported():
+    import socket
+
+    from train import pipeline as P
+
+    with socket.socket() as held:
+        held.bind(("", 0))
+        port = held.getsockname()[1]
+        assert not P.port_bindable(port)
+        with pytest.raises(RuntimeError, match="still not free"), contextlib.redirect_stdout(io.StringIO()):
+            P.wait_port_free(port, limit=1)
+    assert P.port_bindable(port)
