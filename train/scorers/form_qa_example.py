@@ -3,7 +3,8 @@
 서식 폴더에는 질문·정답만 두고, 채점은 여기(train/scorers) 한 곳에서 정한다. 이 파일을 복사해 RULES 를 고친다.
 설정 (data.benchmark 의 평가 세트 하나에, 경로는 설정 파일 기준):
   {"id": "syn", "paths": ["<bank 데이터셋>"], "scorer": "../scorers/my_form_qa.py:score"}
-학습 데이터(data.train)에 같은 scorer 를 붙이면 GRPO 보상도 이 함수로 계산된다.
+이 함수는 그 세트의 평가 점수(보고서·studio)에 쓰인다. GRPO 보상은 studio 데이터셋 학습 데이터면 기본 채점 그대로다
+(채점 함수로 보상을 바꾸는 것은 swift .jsonl 학습 데이터에만 — guide/eval.md 2절).
 고친 뒤 학습 없이 다시 채점: python -m train rescore <workdir> (guide/eval.md).
 
 문항에서 쓸 것
