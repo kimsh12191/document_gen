@@ -6,6 +6,7 @@
 |---|---|
 | `swift_to_kie_tmp.py` | swift 추출 `.jsonl`의 질문·답을 kie 꼴(한국어 질문, `{키: 값}` 객체 답)로 바꾼 새 `.jsonl`을 만듦. 키는 질문의 `in order: [...]`에서 자동으로 뽑음 |
 | `swift_to_kie_v3_tmp.py` | v3: **합성 kie 와 같은 꼴**로 바꿈. 질문은 `docgen/bench/prompts.py` 의 `P_KIE` 그대로 + `- 키: 항목명`, 정답은 `[{"key", "value"}]` 목록 (위치 없음), 항목 40개마다 나눔. 채점 `train/scorers/kie_list_scorer.py` (합성과 같은 값 채점, 주 지표 f1) |
+| `pairs_to_swift_kie_tmp.py` | 그림 + 라벨 json 쌍 폴더(`007009.jpg` ↔ `007009.json`, `{항목명: 값}`)를 ms-swift `.jsonl`로. 정답은 v3 와 같은 `[{"key", "value"}]` 목록, 빈 값은 null, 항목 40개마다 나눔. 질문은 기본 값만 묻는 문장(`--prompt value`, 학습용), `--prompt synthetic` 이면 v3 와 같은 `P_KIE` |
 | `swift_to_kie_v2_tmp.py` | v2: 질문 문장만 고쳐 다시 씀 (그림·정답 그대로). 답 꼴 예시를 그 문항의 실제 키로(`{"HSCODE": "…", …}`, 예시 베끼기 방지), 키 옆에 한국어 항목명(`--labels` 표). 입력은 v1 변환본이나 swift 원본 |
 
 ```bash
@@ -36,3 +37,9 @@ python temp/swift_to_kie_v3_tmp.py convert <eval_qa_PO_kie.jsonl> <eval_qa_PO_ki
   ```
 
   경로는 설정 파일 기준입니다 (`train/configs/`에서는 `../scorers/…`). 채점 함수를 붙이지 않으면 `swift_default.py`로 채점합니다. 이 함수는 `{키: 값}` 답만 읽고, 값만 담은 배열 답은 형식 오류(0점)로 셉니다. 질문의 키 줄에서 순서를 읽는 `swift_kie_scorer.py`는 배열 답도 채점합니다.
+
+```bash
+# 그림 + 라벨 json 쌍 폴더 → swift .jsonl (하위 폴더까지는 --recursive)
+python temp/pairs_to_swift_kie_tmp.py <폴더> <출력.jsonl>
+python temp/pairs_to_swift_kie_tmp.py keys <폴더> > labels.json   # 키에 항목명을 따로 붙일 때만 (--labels labels.json)
+```
