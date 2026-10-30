@@ -24,7 +24,8 @@
     513.0,
     70.7
    ],
-   "row": true
+   "row": true,
+   "group": "RM"
   },
   {
    "t": "text",
@@ -36,7 +37,8 @@
     549.0,
     70.7
    ],
-   "row": true
+   "row": true,
+   "group": "RM"
   },
   {
    "t": "text",
@@ -269,7 +271,8 @@
     193.3,
     455.1
    ],
-   "row": true
+   "row": true,
+   "group": "COMM"
   },
   {
    "t": "text",

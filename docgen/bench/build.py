@@ -43,7 +43,7 @@ from .prompts import P_CROSS, P_DOC_CHECK, P_REVIEW
 from .tasks import MARK_TYPES, field_kind  # noqa: F401  (field_kind: 예전 import 자리 build.field_kind)
 from .rules import Bundle, questions, r_doc_valid, valid_candidates
 
-VERSION = "4.0"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
+VERSION = "4.1"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
 #                  2.0: kie·marks 답에 위치(bbox_2d 0~1000, page) — 값·위치·값+위치 점수. 건강보험료 납부확인서 정산 분할납부
 #                       변형이 정한 확률(15%)대로 나오게 고침
 #                  3.0: 키 사전(docgen/dictionary) 적용 — 공통 키에 이은 칸은 서식이 달라도 공통 키로 묻고 답함(customer.name …),
@@ -55,6 +55,9 @@ VERSION = "4.0"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순�
 #                       table_qa 표 질의, guide/benchmark.md "표의 정의"). 빈 답 배우기: kie·table 에 없는 키·열 섞기,
 #                       비어 있기도 한 칸 비우기(blank), 값 칸 가림(mask) — NULLS. 서류 한 건 과제의 그림·kie 정답이 3.1 과 다르고
 #                       kie 점수는 표 칸이 빠져 3.1 과 바로 비교하지 않는다. 업무 묶음 과제는 그대로
+#                  4.1: 원본 서식(hf·img)과 그것을 옮긴 공식 대조 html 서식: 한 묶음(목록)으로 섞이던 표 77종을 표마다 나눔
+#                       (키 <묶음>_목록.<행>.<열>), 표가 인쇄된 줄을 넘치면 별지(계속) 쪽에 이어 적음 (realform MORE_ROWS).
+#                       그 서식들의 표 문항·쪽 수가 4.0 과 다르다
 # 1.x 세트(값만 있는 답)도 같은 채점기로 채점된다 (evaluate.py 가 두 형식을 다 읽음). 값 점수는 1.x 와 뜻이 같다.
 SEED_SINGLE = 1_000_000   # 단일 서류 과제 고객 seed 시작
 SEED_BUNDLE = 2_000_000   # 업무 묶음 고객 seed 시작

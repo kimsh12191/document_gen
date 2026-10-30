@@ -76,7 +76,8 @@
     105.8,
     214.9
    ],
-   "row": true
+   "row": true,
+   "group": "고객정보"
   },
   {
    "t": "text",
@@ -88,7 +89,8 @@
     105.8,
     238.6
    ],
-   "row": true
+   "row": true,
+   "group": "법인명"
   },
   {
    "t": "text",
@@ -111,7 +113,8 @@
     226.5,
     238.6
    ],
-   "row": true
+   "row": true,
+   "group": "법인명"
   },
   {
    "t": "text",
@@ -156,7 +159,8 @@
     304.9,
     576.4
    ],
-   "row": true
+   "row": true,
+   "group": "납세자번호"
   },
   {
    "t": "text",
@@ -245,7 +249,8 @@
     84.5,
     336.0
    ],
-   "row": true
+   "row": true,
+   "group": "c"
   },
   {
    "t": "text",
@@ -257,7 +262,8 @@
     84.5,
     368.2
    ],
-   "row": true
+   "row": true,
+   "group": "d"
   },
   {
    "t": "text",
@@ -280,7 +286,8 @@
     113.2,
     617.7
    ],
-   "row": true
+   "row": true,
+   "group": "이름"
   },
   {
    "t": "text",
@@ -292,7 +299,8 @@
     113.2,
     652.4
    ],
-   "row": true
+   "row": true,
+   "group": "이름"
   },
   {
    "t": "text",
@@ -304,7 +312,8 @@
     113.2,
     698.0
    ],
-   "row": true
+   "row": true,
+   "group": "이름"
   },
   {
    "t": "text",
@@ -316,7 +325,8 @@
     113.2,
     732.7
    ],
-   "row": true
+   "row": true,
+   "group": "이름"
   },
   {
    "t": "text",
@@ -328,7 +338,8 @@
     113.2,
     777.7
    ],
-   "row": true
+   "row": true,
+   "group": "이름"
   },
   {
    "t": "text",
@@ -340,7 +351,8 @@
     183.8,
     603.1
    ],
-   "row": true
+   "row": true,
+   "group": "이름"
   },
   {
    "t": "text",
@@ -352,7 +364,8 @@
     183.8,
     683.4
    ],
-   "row": true
+   "row": true,
+   "group": "이름"
   },
   {
    "t": "text",
@@ -364,7 +377,8 @@
     183.8,
     763.7
    ],
-   "row": true
+   "row": true,
+   "group": "이름"
   },
   {
    "t": "text",
@@ -387,7 +401,8 @@
     297.6,
     603.1
    ],
-   "row": true
+   "row": true,
+   "group": "이름"
   },
   {
    "t": "text",
@@ -410,7 +425,8 @@
     297.6,
     683.4
    ],
-   "row": true
+   "row": true,
+   "group": "이름"
   },
   {
    "t": "text",
@@ -433,7 +449,8 @@
     297.6,
     763.7
    ],
-   "row": true
+   "row": true,
+   "group": "이름"
   },
   {
    "t": "text",

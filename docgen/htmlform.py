@@ -285,9 +285,10 @@ def make_generate(doc_id: str):
             if re.fullmatch(r"hf\d{3}", form["parent"]):
                 # 공식 PDF를 HTML로 옮긴 사본: 부모의 빈 칸도 값 선언에 남긴다.
                 # items의 value를 직접 쓰는 템플릿에서 null을 누락된 키로 오인하지 않게 한다.
-                for item in data.get("items", []):
+                cont = [c for t in data.get("extra_rows") or [] for r in t["rows"] for c in r["cells"]]   # 별지에 이어 적은 표 행
+                for item in [*data.get("items", []), *cont]:
                     key = item.get("key")
-                    if item.get("t") != "mark" and key and key.split(".")[0] not in {"items", "pages", "style", "class", "name", "doc_id", "no", "fonts"}:
+                    if item.get("t") != "mark" and key and key.split(".")[0] not in {"items", "pages", "style", "class", "name", "doc_id", "no", "fonts", "extra_rows"}:
                         _set(data, key, item.get("value"))
         return run_script(doc_id, fill(form, p, rng, data), p, rng)
     generate.__doc__ = f"화면에서 만든 html 서식 {doc_id} (docgen/htmlform.py)"

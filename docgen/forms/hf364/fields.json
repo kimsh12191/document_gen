@@ -24,7 +24,8 @@
     146.6,
     340.5
    ],
-   "row": true
+   "row": true,
+   "group": "제공받는자"
   },
   {
    "t": "text",
@@ -36,7 +37,8 @@
     146.6,
     347.2
    ],
-   "row": true
+   "row": true,
+   "group": "제공받는자"
   },
   {
    "t": "text",
@@ -48,7 +50,8 @@
     146.6,
     382.5
    ],
-   "row": true
+   "row": true,
+   "group": "이용목적"
   },
   {
    "t": "text",
@@ -60,7 +63,8 @@
     146.6,
     414.4
    ],
-   "row": true
+   "row": true,
+   "group": "이용목적"
   },
   {
    "t": "text",
@@ -72,7 +76,8 @@
     146.6,
     459.3
    ],
-   "row": true
+   "row": true,
+   "group": "이용목적2"
   },
   {
    "t": "text",
@@ -84,7 +89,8 @@
     146.6,
     587.5
    ],
-   "row": true
+   "row": true,
+   "group": "제공항목"
   },
   {
    "t": "text",
@@ -96,7 +102,8 @@
     146.6,
     656.3
    ],
-   "row": true
+   "row": true,
+   "group": "개인정보"
   },
   {
    "t": "text",
@@ -108,7 +115,8 @@
     146.6,
     625.4
    ],
-   "row": true
+   "row": true,
+   "group": "고유식별정보"
   },
   {
    "t": "check",

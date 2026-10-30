@@ -14,11 +14,16 @@ OVERLAY = sorted(i for i, s in REG.items() if s.template == "_real_form.html.j2"
 
 @pytest.mark.parametrize("seed", [0, 7])
 def test_editor_keys_match_rendered_keys(seed):
+    """별지(인쇄된 줄을 넘친 표 행)의 칸은 편집기에 영역이 없다 — 같은 표·같은 열의 인쇄된 칸 키와 행 번호만 다르면 된다."""
+    from docgen.formquestions import pattern
+
     bad = {}
     for doc_id in OVERLAY:
         keys = {k for v in RF.layout_keys(doc_id).values() for k in v["keys"]}
-        _, fields, _ = render(REG[doc_id], make_profile(seed), seed)
-        extra = {f["key"] for f in fields} - keys
+        _, fields, data = render(REG[doc_id], make_profile(seed), seed)
+        cont = {c["key"] for t in data.get("extra_rows") or [] for r in t["rows"] for c in r["cells"]}
+        extra = {f["key"] for f in fields} - keys - cont
+        extra |= {k for k in cont if pattern(k) not in {pattern(x) for x in keys}}
         if extra:
             bad[doc_id] = sorted(extra)[:5]
     assert not bad, bad

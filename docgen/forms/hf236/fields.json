@@ -82,7 +82,8 @@
     170.1,
     356.0
    ],
-   "row": true
+   "row": true,
+   "group": "외국환은행"
   },
   {
    "t": "text",
@@ -94,7 +95,8 @@
     297.6,
     356.0
    ],
-   "row": true
+   "row": true,
+   "group": "외국환은행"
   },
   {
    "t": "text",
@@ -106,7 +108,8 @@
     425.2,
     356.0
    ],
-   "row": true
+   "row": true,
+   "group": "외국환은행"
   },
   {
    "t": "text",
@@ -118,7 +121,8 @@
     549.9,
     356.0
    ],
-   "row": true
+   "row": true,
+   "group": "외국환은행"
   },
   {
    "t": "text",
@@ -131,7 +135,8 @@
     686.0
    ],
    "unit": ")",
-   "row": true
+   "row": true,
+   "group": "연중입금액"
   },
   {
    "t": "text",
@@ -223,7 +228,8 @@
     498.9
    ],
    "unit": ")",
-   "row": true
+   "row": true,
+   "group": "건수"
   },
   {
    "t": "text",
@@ -332,7 +338,8 @@
     498.9
    ],
    "unit": ")",
-   "row": true
+   "row": true,
+   "group": "건수"
   },
   {
    "t": "text",
@@ -345,7 +352,8 @@
     686.0
    ],
    "unit": ")",
-   "row": true
+   "row": true,
+   "group": "연중입금액"
   },
   {
    "t": "text",
@@ -358,7 +366,8 @@
     686.0
    ],
    "unit": ")",
-   "row": true
+   "row": true,
+   "group": "연중입금액"
   },
   {
    "t": "date",

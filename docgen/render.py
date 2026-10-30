@@ -306,6 +306,15 @@ def seal_style(tpl: dict) -> str:
     return ";".join(out)
 
 
+def seal_img(rng: random.Random) -> dict | None:
+    """html 템플릿 서식의 개인 도장: 도장 풀에 올린 사진이 켜져 있으면 코드 도장과 사진 중 하나를 고른다 → {url, id}.
+    도장 틀은 overlay 서식만 쓰므로 여기서는 뺀다. 사진이 없으면 고를 것이 하나라 난수를 쓰지 않는다 (예전 결과 그대로)."""
+    from . import marks as M
+
+    it = M.pick(rng, [x for x in M.pools()["seal"] if x.get("builtin") or x.get("file")])
+    return {"url": M.image_url(it), "id": it["id"]} if it and it.get("file") else None
+
+
 def scribble(name: str, rng: random.Random) -> Markup:
     """손 서명 흉내: 이름 길이에 맞춘 이어진 곡선 (SVG). 글자로 읽히지 않는 서명 모양.
     서명 풀(docgen/marks.py)에 이미지가 켜져 있으면 풀에서 하나를 고른다 (기본 풀이면 난수를 쓰지 않는다)."""
@@ -361,7 +370,7 @@ def env() -> Environment:
                                                 FileSystemLoader(str(TEMPLATE_DIR))]), undefined=StrictUndefined,
                            autoescape=True, trim_blocks=True, lstrip_blocks=True)
         _env.globals.update(kv_layout=kv_layout, checkmark=checkmark, seal_lines=seal_lines, seal_font=seal_font, scribble=scribble,
-                           seal_style=seal_style,
+                           seal_style=seal_style, seal_img=seal_img,
                            BR=Markup("<br>"))
     return _env
 

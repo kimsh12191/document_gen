@@ -76,7 +76,8 @@
     377.0,
     702.4
    ],
-   "row": true
+   "row": true,
+   "group": "생년월일"
   },
   {
    "t": "text",
@@ -89,7 +90,8 @@
     702.4
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "생년월일"
   },
   {
    "t": "text",
@@ -518,7 +520,8 @@
     178.5
    ],
    "hint": "자필기재 (인/서명)",
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -531,7 +534,8 @@
     215.4
    ],
    "hint": "자필기재 (인/서명)",
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -544,7 +548,8 @@
     252.2
    ],
    "hint": "자필기재 (인/서명)",
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -557,7 +562,8 @@
     289.1
    ],
    "hint": "자필기재 (인/서명)",
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -570,7 +576,8 @@
     325.9
    ],
    "hint": "자필기재 (인/서명)",
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -583,7 +590,8 @@
     362.8
    ],
    "hint": "자필기재 (인/서명)",
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -596,7 +604,8 @@
     399.6
    ],
    "hint": "자필기재 (인/서명)",
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -609,7 +618,8 @@
     436.5
    ],
    "hint": "자필기재 (인/서명)",
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -622,7 +632,8 @@
     473.3
    ],
    "hint": "자필기재 (인/서명)",
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -634,7 +645,8 @@
     463.1,
     178.5
    ],
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -646,7 +658,8 @@
     463.1,
     215.4
    ],
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -658,7 +671,8 @@
     463.1,
     252.2
    ],
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -670,7 +684,8 @@
     463.1,
     289.1
    ],
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -682,7 +697,8 @@
     463.1,
     325.9
    ],
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -694,7 +710,8 @@
     463.1,
     362.8
    ],
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -706,7 +723,8 @@
     463.1,
     399.6
    ],
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -718,7 +736,8 @@
     463.1,
     436.5
    ],
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -730,7 +749,8 @@
     463.1,
     473.3
    ],
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -743,7 +763,8 @@
     178.5
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -756,7 +777,8 @@
     215.4
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -769,7 +791,8 @@
     252.2
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -782,7 +805,8 @@
     289.1
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -795,7 +819,8 @@
     325.9
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -808,7 +833,8 @@
     362.8
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -821,7 +847,8 @@
     399.6
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -834,7 +861,8 @@
     436.5
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "성명"
   },
   {
    "t": "text",
@@ -847,7 +875,8 @@
     473.3
    ],
    "hint": "선택",
-   "row": true
+   "row": true,
+   "group": "성명"
   }
  ]
 }

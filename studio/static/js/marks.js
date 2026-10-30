@@ -32,6 +32,8 @@ async function viewMarks() {
     <div class="bar"><button class="primary" id="mk-save">확률 저장</button><button id="mk-reset">기본값으로</button></div></div>
     <h2>풀</h2>
     <div class="sub">항목마다 가중치(뽑힐 비율)와 켜기를 정합니다. 체크·서명은 투명 배경 PNG(또는 SVG)를 올립니다.
+      도장은 종이에 찍은 사진(JPG·PNG)을 올리면 배경을 지우고 인주만 남겨 잘라 줍니다 (여러 장 한꺼번에 가능).
+      사진 도장은 새겨진 글자 그대로라 서류의 이름과 다를 수 있습니다.
       <b>실서류에서 잘라 온 서명·도장은 여기 올리지 마세요</b> (저장소에 들어갑니다).</div>
     <div id="mk-pools"></div>
     <h2>미리보기</h2>
@@ -90,7 +92,7 @@ function drawPools(m) {
     <div class="panel pool" data-pool="${name}">
       <div class="bar"><b>${esc(m.names[name])}</b> <span class="muted">${items.filter(x => x.enabled !== false && x.weight > 0).length}/${items.length} 켜짐</span>
         <span class="sep"></span>
-        ${m.image_pools.includes(name) ? `<input type="file" accept=".png,.svg" data-up="${name}"> <button data-upgo="${name}">올리기</button>` : ""}
+        ${m.image_pools.includes(name) ? `<input type="file" multiple accept="${name === "seal" ? ".png,.jpg,.jpeg,.webp,.svg" : ".png,.svg"}" data-up="${name}"> <button data-upgo="${name}">올리기</button>` : ""}
         ${name === "seal" ? `<select data-shape>${m.seal_shapes.map(s => `<option>${s}</option>`).join("")}</select>
           <label>테두리 <input type="number" data-border value="2" min="1" max="6" style="width:50px"></label>
           <label><input type="checkbox" data-double> 겹선</label>
@@ -122,10 +124,15 @@ function drawPools(m) {
         await api(`/api/marks/pools/${name}`, items, "PUT");
         toast("저장했습니다"); viewMarks();
       } else if (e.target.dataset.upgo) {
-        const f = $(`[data-up="${name}"]`, box).files[0];
-        if (!f) { toast("파일을 고르세요", true); return; }
-        await apiUpload(`/api/marks/pools/${name}/upload`, f, { label: f.name });
-        toast("올렸습니다"); viewMarks();
+        const files = [...$(`[data-up="${name}"]`, box).files];
+        if (!files.length) { toast("파일을 고르세요", true); return; }
+        const bad = [];
+        for (const f of files) {
+          try { await apiUpload(`/api/marks/pools/${name}/upload`, f, { label: f.name }); } catch (err) { bad.push(`${f.name}: ${err.message}`); }
+        }
+        if (bad.length) toast(`${files.length - bad.length}개 올림, ${bad.length}개 실패 — ${bad.join(" / ")}`, true);
+        else toast(`${files.length}개 올렸습니다`);
+        viewMarks();
       } else if (e.target.dataset.del) {
         if (!confirm("이 항목을 지울까요?")) return;
         await api(`/api/marks/pools/${name}/${encodeURIComponent(e.target.dataset.del)}`, undefined, "DELETE");

@@ -175,13 +175,30 @@ def _scenarios_of() -> dict[str, list[dict]]:
     return out
 
 
-def _key_stats(keys: list[dict]) -> dict:
+def _tables(doc_id: str, text: list[dict]) -> list[str]:
+    """표(반복 묶음) 이름. 표 과제와 같은 규칙 (docgen.bench.tasks.Doc._scan_tables): 겹친 목록·도장·서명 칸, questions.json 에서 ask false 인 묶음은 뺌."""
+    from docgen import formquestions as FQ
+    from docgen.bench.tasks import table_cell
+
+    cfg = (FQ.read(doc_id) or {}).get("table") or {}
+    out = []
+    for k in text:
+        if k["key"].startswith(("seal.", "sign.")):
+            continue
+        tc = table_cell(k["key"].replace("[]", ".0"))
+        if tc and tc[1] >= 0 and tc[0] not in out and (cfg.get(tc[0]) or {}).get("ask") is not False:
+            out.append(tc[0])
+    return out
+
+
+def _key_stats(doc_id: str, keys: list[dict]) -> dict:
     text = [k for k in keys if k.get("type") not in MARK_TYPES]
     return {
         "n_keys": len(keys),
         "n_marks": len(keys) - len(text),
         "n_korean_keys": sum(1 for k in keys if not _ASCII_KEY.match(k["key"].replace("[]", ""))),
         "n_empty": sum(1 for k in text if not k.get("example")),
+        "tables": _tables(doc_id, text),
     }
 
 
@@ -221,7 +238,7 @@ def _summary(spec, entry: dict, audit: bool = False) -> dict:
         "reviewed": entry.get("reviewed"), "split": entry.get("split", "unassigned"),
         "open_issues": sum(1 for x in issues if x.get("status") == "open"),
         "edited": _edited(spec.id),
-        **_key_stats(keys),
+        **_key_stats(spec.id, keys),
     }
 
 
@@ -245,6 +262,44 @@ def card(doc_id: str) -> dict:
         raise KeyError(doc_id)
     p = formcard.path(doc_id)
     return {"path": _rel(p), "markdown": p.read_text(encoding="utf-8") if p.exists() else None, "stale": formcard.stale(doc_id)}
+
+
+def overview(doc_id: str) -> dict:
+    """개요 탭: 이 서식이 만드는 과제마다 무엇을 묻는지 + 질문 검사. 카드(docgen/formcard.py)와 같은 함수로 센다
+    (고객 16명으로 그려 본 칸, formquestions.resolved). 표 칸은 kie 가 아니라 표 과제가 묻는다 (table_cell)."""
+    from docgen import formcard, fieldinfo, formqa
+    from docgen import formquestions as FQ
+    from docgen.bench.tasks import table_cell
+
+    if doc_id not in load_all():
+        raise KeyError(doc_id)
+    docs = FQ.seen_fields(doc_id)
+    view = FQ.resolved(doc_id, docs)
+    tcfg = (FQ.read(doc_id) or {}).get("table") or {}
+    kie, nested, tables = [], [], {}
+    for it in view["kie"]["items"]:
+        tc = table_cell(it["key"].replace("*", "0"))
+        if tc and tc[1] < 0:
+            nested.append(it)
+        elif tc and (tcfg.get(tc[0]) or {}).get("ask") is not False:
+            t = tables.setdefault(tc[0], {"group": tc[0], "title": (tcfg.get(tc[0]) or {}).get("title"), "columns": [], "seen": 0})
+            t["columns"].append({**it, "column": tc[2]})
+            t["seen"] = max(t["seen"], it["seen"])
+        else:
+            kie.append(it)
+    check = FQ.check(doc_id, docs=docs)
+    return {
+        "docs": len(docs),
+        "classify": view["classify"],
+        "kie": kie, "nested": nested, "tables": list(tables.values()),
+        "marks": view["marks"]["items"],
+        "ocr_exclude": view["ocr_page"]["exclude"],
+        "ocr_off": sorted(k for k, it in fieldinfo.questions(doc_id).items() if it.get("ocr") is False),
+        "form_qa": formqa.check(doc_id, docs)["rows"],
+        "changed": {t: view[t]["changed"] for t in ("kie", "marks", "classify", "ocr_page", "ocr_field")},
+        "problems": check["problems"], "notes": check["notes"],
+        "card_stale": formcard.stale(doc_id), "card_exists": formcard.path(doc_id).exists(),
+    }
 
 
 def make_card(doc_id: str) -> dict:
@@ -332,7 +387,7 @@ def _script_source(doc_id: str) -> dict | None:
 
 
 def _questions_source(doc_id: str) -> dict | None:
-    """이 서식의 질문·답 파일(questions.json) 내용 (문항 Q/A 탭에서 보고, 고치는 것은 파일로)."""
+    """이 서식의 질문·답 파일(questions.json) 내용 (질문·답 › 실제 문항에서 보고, 고치는 것은 파일로)."""
     from docgen import formquestions
 
     p = formquestions.path(doc_id)
@@ -340,7 +395,7 @@ def _questions_source(doc_id: str) -> dict | None:
 
 
 def _qa_source(doc_id: str) -> dict | None:
-    """이 서식만의 질문 qa.py 내용 (문항 Q/A 탭에서 보고, 고치는 것은 파일로)."""
+    """이 서식만의 질문 qa.py 내용 (질문·답 › 실제 문항에서 보고, 고치는 것은 파일로)."""
     from docgen import formqa
 
     p = formqa.path(doc_id)

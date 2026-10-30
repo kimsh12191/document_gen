@@ -20,12 +20,13 @@ font-family:{{ (d.get('style') or {}).get('font', "'Malgun Gothic'")|safe }},san
 .box .mk.fill {width:70%;height:70%;background:currentColor;transform:translate(-50%,-50%)}
 .box .mk.ring {width:160%;height:160%;border:1.6px solid currentColor;border-radius:50%;transform:translate(-50%,-50%)}
 .mark {position:absolute;display:flex;align-items:center;justify-content:center}
-.seal {display:inline-flex;align-items:center;justify-content:center;text-align:center;width:40px;height:40px;border:2px solid #c22;color:#c22;border-radius:50%;font:700 10px/1.1 'Malgun Gothic',sans-serif;opacity:.82;word-break:keep-all}.seal.sq {border-radius:4px}
+.seal {display:inline-flex;align-items:center;justify-content:center;text-align:center;width:40px;height:40px;border:2px solid #c22;color:#c22;border-radius:50%;font:700 10px/1.1 'Malgun Gothic',sans-serif;opacity:.82;word-break:keep-all}.seal.sq {border-radius:4px}.seal.img {border:none;opacity:.9}.seal.img img {width:100%;height:100%;object-fit:contain}
 .scribble svg {display:block;overflow:visible}.scribble.fit {display:flex;width:100%;height:100%}.scribble.fit svg {max-width:86%;max-height:80%;width:auto;height:auto;margin:auto}
 .scribble img,.box img.ckimg {display:block;max-width:100%;max-height:100%;margin:auto}.box img.ckimg {position:absolute;left:-15%;top:-25%;width:130%;height:130%;object-fit:contain}
 @media print {.page{margin:0;break-after:page}}
 </style></head><body>
 {% block pages %}{% endblock %}
+{% include "_extra_rows.html.j2" %}
 <script>
 // Match the original printed span width after fallback fonts finish loading.
 document.fonts.ready.then(() => {

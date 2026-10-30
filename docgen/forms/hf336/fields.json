@@ -110,7 +110,8 @@
     550.4,
     126.3
    ],
-   "row": true
+   "row": true,
+   "group": "Clerk"
   },
   {
    "t": "text",
@@ -122,7 +123,8 @@
     508.2,
     126.3
    ],
-   "row": true
+   "row": true,
+   "group": "Clerk"
   },
   {
    "t": "text",
@@ -134,7 +136,8 @@
     474.1,
     126.3
    ],
-   "row": true
+   "row": true,
+   "group": "Clerk"
   },
   {
    "t": "text",
@@ -146,7 +149,8 @@
     378.5,
     402.1
    ],
-   "row": true
+   "row": true,
+   "group": "BankName"
   },
   {
    "t": "text",
@@ -158,7 +162,8 @@
     378.5,
     427.9
    ],
-   "row": true
+   "row": true,
+   "group": "BankName"
   },
   {
    "t": "text",
@@ -170,7 +175,8 @@
     443.1,
     402.1
    ],
-   "row": true
+   "row": true,
+   "group": "BankName"
   },
   {
    "t": "text",
@@ -182,7 +188,8 @@
     443.1,
     427.9
    ],
-   "row": true
+   "row": true,
+   "group": "BankName"
   },
   {
    "t": "text",
@@ -194,7 +201,8 @@
     493.9,
     402.1
    ],
-   "row": true
+   "row": true,
+   "group": "BankName"
   },
   {
    "t": "text",
@@ -206,7 +214,8 @@
     493.9,
     427.9
    ],
-   "row": true
+   "row": true,
+   "group": "BankName"
   },
   {
    "t": "text",
@@ -438,7 +447,8 @@
     378.5,
     402.1
    ],
-   "row": true
+   "row": true,
+   "group": "BankName2"
   },
   {
    "t": "text",
@@ -450,7 +460,8 @@
     378.5,
     427.9
    ],
-   "row": true
+   "row": true,
+   "group": "BankName2"
   },
   {
    "t": "text",
@@ -462,7 +473,8 @@
     443.1,
     402.1
    ],
-   "row": true
+   "row": true,
+   "group": "BankName2"
   },
   {
    "t": "text",
@@ -474,7 +486,8 @@
     443.1,
     427.9
    ],
-   "row": true
+   "row": true,
+   "group": "BankName2"
   },
   {
    "t": "text",
@@ -486,7 +499,8 @@
     493.9,
     402.1
    ],
-   "row": true
+   "row": true,
+   "group": "BankName2"
   },
   {
    "t": "text",
@@ -498,7 +512,8 @@
     493.9,
     427.9
    ],
-   "row": true
+   "row": true,
+   "group": "BankName2"
   },
   {
    "t": "text",

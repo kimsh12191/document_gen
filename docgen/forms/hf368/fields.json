@@ -92,7 +92,8 @@
     545.9,
     618.4
    ],
-   "row": true
+   "row": true,
+   "group": "예금주"
   },
   {
    "t": "text",
@@ -104,7 +105,8 @@
     545.9,
     638.3
    ],
-   "row": true
+   "row": true,
+   "group": "예금주"
   },
   {
    "t": "date",
@@ -261,7 +263,8 @@
     549.8,
     407.9
    ],
-   "row": true
+   "row": true,
+   "group": "비고"
   },
   {
    "t": "check",

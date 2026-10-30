@@ -9754,28 +9754,28 @@
     "label": "가입자구분",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "직장피부양자"
-   },
-   {
-    "key": "rows[].start",
-    "label": "자격취득일",
-    "type": "date",
-    "fill_rate": 1.0,
-    "example": "1990.02.10"
-   },
-   {
-    "key": "rows[].end",
-    "label": "자격상실일",
-    "type": "date",
-    "fill_rate": 1.0,
-    "example": "2018.03.15"
+    "example": "직장가입자"
    },
    {
     "key": "rows[].workplace",
     "label": "사업장명칭",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "(주)우진오토텍"
+    "example": "주식회사 태평양무역"
+   },
+   {
+    "key": "rows[].start",
+    "label": "자격취득일",
+    "type": "date",
+    "fill_rate": 1.0,
+    "example": "2020.05.08"
+   },
+   {
+    "key": "rows[].end",
+    "label": "자격상실일",
+    "type": "date",
+    "fill_rate": 1.0,
+    "example": "2020.04.08"
    },
    {
     "key": "purpose",
@@ -16780,7 +16780,7 @@
   "group": "hana",
   "keys": [
    {
-    "key": "목록[].사업장",
+    "key": "주소_목록[].사업장",
     "label": "사업장(국내)",
     "type": "text",
     "fill_rate": 1.0,
@@ -16900,7 +16900,7 @@
     ]
    },
    {
-    "key": "목록[].영문명",
+    "key": "대표자정보_목록[].영문명",
     "label": "영문명",
     "type": "text",
     "fill_rate": 1.0,
@@ -16925,7 +16925,7 @@
     "label": "설립목적(비영리법인,단체)",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "의료비"
+    "example": "계좌 정리"
    },
    {
     "key": "FAX2",
@@ -16953,18 +16953,18 @@
     "label": "국내",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "유가증권시장",
+    "example": "코스닥시장",
     "options": [
      "유가증권시장",
      "코스닥시장"
     ]
    },
    {
-    "key": "목록[].생년월일",
-    "label": "생년월일(사업자번호)",
-    "type": "text",
+    "key": "대표자정보_목록[].생년월일",
+    "label": "생년월일",
+    "type": "date",
     "fill_rate": 1.0,
-    "example": "2025.05.28"
+    "example": "2025년 10월 18일"
    },
    {
     "key": "company.corp_reg_no",
@@ -16974,8 +16974,8 @@
     "example": "200112-7448551"
    },
    {
-    "key": "목록[].국적",
-    "label": "국적(본점소재지)",
+    "key": "대표자정보_목록[].국적",
+    "label": "국적",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
@@ -16985,7 +16985,7 @@
     "label": "일회성거래(무통장입금,수표발행☞지급등)",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "상속 / 증여성거래",
+    "example": "물품 등 사업상 대금결제",
     "options": [
      "물품 등 사업상 대금결제",
      "차입 / 부채상환",
@@ -17022,7 +17022,7 @@
     "label": "홍콩증권거래소",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "홍콩증권거래소",
+    "example": "기타 (",
     "options": [
      "홍콩증권거래소",
      "기타 ("
@@ -17044,7 +17044,7 @@
     "label": "계좌개설",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "공과금 납부결제",
+    "example": "급여 및 운영비",
     "options": [
      "급여 및 운영비",
      "저축 및 투자",
@@ -17070,7 +17070,7 @@
     "label": "사업소득",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "부동산 임대소득",
+    "example": "사업소득",
     "options": [
      "사업소득",
      "부동산 임대소득",
@@ -17113,7 +17113,7 @@
     "label": "필요업종",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "공인회계사업",
+    "example": "경영컨설팅업",
     "options": [
      "법무사업",
      "공인회계사업",
@@ -17137,7 +17137,7 @@
     "label": "거래목적",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "의료비"
+    "example": "투자 목적"
    },
    {
     "key": "25이상의결권이있는주식출자지분을보유한사람",
@@ -17175,11 +17175,32 @@
     "example": null
    },
    {
-    "key": "목록[].한글명",
-    "label": "한글명(상호명)",
+    "key": "실제소유자_목록[].한글명",
+    "label": "한글명",
     "type": "text",
     "fill_rate": 1.0,
     "example": "박찬연"
+   },
+   {
+    "key": "실제소유자_목록[].영문명",
+    "label": "영문명",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": null
+   },
+   {
+    "key": "실제소유자_목록[].생년월일",
+    "label": "생년월일",
+    "type": "date",
+    "fill_rate": 1.0,
+    "example": "2025년 1월 15일"
+   },
+   {
+    "key": "실제소유자_목록[].국적",
+    "label": "국적",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": null
    },
    {
     "key": "check.25이상의결권이있는주식출자지분을보유한사람",
@@ -17232,11 +17253,11 @@
     ]
    },
    {
-    "key": "목록[].지분율",
+    "key": "실제소유자_목록[].지분율",
     "label": "지분율",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "20"
+    "example": "5"
    },
    {
     "key": "항목",
@@ -17246,14 +17267,14 @@
     "example": null
    },
    {
-    "key": "목록[].Y",
+    "key": "Y_목록[].Y",
     "label": "Y",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].N",
+    "key": "Y_목록[].N",
     "label": "N",
     "type": "text",
     "fill_rate": 1.0,
@@ -17267,7 +17288,7 @@
     "example": null
    },
    {
-    "key": "목록[].지배형태",
+    "key": "실제소유자_목록[].지배형태",
     "label": "지배형태",
     "type": "text",
     "fill_rate": 1.0,
@@ -17313,7 +17334,7 @@
     "label": "국가또는지방자치단체1",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "사업보고서 제출대상 법인 (상장법인 1) 등)",
+    "example": "공공단체 1",
     "options": [
      "국가 또는 지방자치단체 1",
      "공공단체 1",
@@ -17357,7 +17378,7 @@
     "label": "법인/단체명",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "주식회사 한빛패션"
+    "example": "주식회사 대성패션"
    },
    {
     "key": "check.작성자",
@@ -18382,52 +18403,52 @@
     "label": "본인확인",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "정혁은"
+    "example": "검인"
    },
    {
     "key": "sign.staff.본인확인",
     "label": "본인확인",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "최건정"
+    "example": "김태하"
    },
    {
     "key": "seal.staff.담당",
     "label": "담당",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "확인"
+    "example": "왕도원"
    },
    {
     "key": "sign.staff.담당",
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "민예빈"
+    "example": "송미승"
    },
    {
     "key": "seal.staff.책임자",
     "label": "책임자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "추철현"
+    "example": "검인"
    },
    {
     "key": "sign.staff.책임자",
     "label": "책임자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "박건지"
+    "example": "옥윤예"
    },
    {
-    "key": "목록[].고유식별정보",
+    "key": "제공항목_목록[].고유식별정보",
     "label": "■고유식별정보",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].공공정보등",
+    "key": "일반개인정보2_목록[].공공정보등",
     "label": "■공공정보등",
     "type": "text",
     "fill_rate": 1.0,
@@ -18517,7 +18538,7 @@
     "label": "대리인성명",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "강석호"
+    "example": "이도민"
    },
    {
     "key": "sign.signer2",
@@ -18540,7 +18561,7 @@
   "group": "hana",
   "keys": [
    {
-    "key": "목록[].고유식별정보",
+    "key": "수집이용항목_목록[].고유식별정보",
     "label": "■고유식별정보",
     "type": "text",
     "fill_rate": 1.0,
@@ -18637,6 +18658,13 @@
     "type": "signature",
     "fill_rate": 1.0,
     "example": "하형현"
+   },
+   {
+    "key": "제공항목_목록[].고유식별정보",
+    "label": "■고유식별정보",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": null
    },
    {
     "key": "check.위고유식별정보제공에동의하십니까2",
@@ -19432,23 +19460,23 @@
     ]
    },
    {
-    "key": "목록[].성명",
+    "key": "성명_목록[].성명",
     "label": "성명",
     "type": "text",
     "fill_rate": 1.0,
     "example": "여형지"
    },
    {
-    "key": "목록[].생년월일",
+    "key": "성명_목록[].생년월일",
     "label": "생년월일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.08.25"
    },
    {
-    "key": "목록[].연락처",
+    "key": "성명_목록[].연락처",
     "label": "연락처",
-    "type": "text",
+    "type": "phone",
     "fill_rate": 1.0,
     "example": "010-5907-7253"
    }
@@ -19610,7 +19638,7 @@
     "label": "책임자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "엄규민"
+    "example": "원용재"
    },
    {
     "key": "c",
@@ -19634,14 +19662,14 @@
     "example": "해당 없음"
    },
    {
-    "key": "목록[].실질지배자",
+    "key": "이름_목록[].실질지배자",
     "label": "실질지배자(1)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].거주관할권",
+    "key": "이름_목록[].거주관할권",
     "label": "거주관할권(국가)",
     "type": "text",
     "fill_rate": 1.0,
@@ -19655,7 +19683,7 @@
     "example": "박찬연"
    },
    {
-    "key": "목록[].납세자번호",
+    "key": "이름_목록[].납세자번호",
     "label": "납세자번호(TIN)",
     "type": "text",
     "fill_rate": 1.0,
@@ -19827,7 +19855,7 @@
     "example": null
    },
    {
-    "key": "목록[].value",
+    "key": "Name_목록[].value",
     "label": "(CapitalLetter)*",
     "type": "amount",
     "fill_rate": 1.0,
@@ -19855,14 +19883,14 @@
     "example": null
    },
    {
-    "key": "목록[].FATCA",
+    "key": "FATCA_목록[].FATCA",
     "label": "FATCA",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].CRS",
+    "key": "FATCA2_목록[].CRS",
     "label": "CRS",
     "type": "text",
     "fill_rate": 1.0,
@@ -19940,7 +19968,14 @@
     "label": "Country*(2)",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "영국"
+    "example": "호주"
+   },
+   {
+    "key": "표7_목록[].value",
+    "label": "(TIN)",
+    "type": "amount",
+    "fill_rate": 1.0,
+    "example": null
    },
    {
     "key": "OverseaEnglishaddress",
@@ -19968,17 +20003,17 @@
     "label": "DateofBirth",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "1990년 2월 10일"
+    "example": "1990-02-10"
    },
    {
     "key": "customer.birth2",
     "label": "DateofBirth",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "1990년 2월 10일"
+    "example": "1990-02-10"
    },
    {
-    "key": "목록[].PhoneNo",
+    "key": "GivenName_목록[].PhoneNo",
     "label": "PhoneNo.",
     "type": "phone",
     "fill_rate": 1.0,
@@ -19989,7 +20024,7 @@
     "label": "Non-issuingcountry",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "Not requested by tax authority",
+    "example": "Not acquired",
     "options": [
      "Non-issuing country",
      "Not requested by tax authority",
@@ -20013,7 +20048,7 @@
     "label": "DateofBirth",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "1990년 2월 10일"
+    "example": "1990-02-10"
    },
    {
     "key": "PhoneNo",
@@ -20027,28 +20062,28 @@
     "label": "본인확인",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "김서현"
+    "example": "확인"
    },
    {
     "key": "sign.staff.본인확인",
     "label": "본인확인",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "제갈형성"
+    "example": "손호윤"
    },
    {
     "key": "seal.staff.담당",
     "label": "담당",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "문민성"
+    "example": "확인"
    },
    {
     "key": "sign.staff.담당",
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "기환린"
+    "example": "김연정"
    },
    {
     "key": "seal.staff.책임자",
@@ -20062,7 +20097,7 @@
     "label": "책임자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "선우규인"
+    "example": "확인"
    }
   ]
  },
@@ -20071,7 +20106,7 @@
   "group": "hana",
   "keys": [
    {
-    "key": "목록[].기타",
+    "key": "전화_목록[].기타",
     "label": "기타",
     "type": "text",
     "fill_rate": 1.0,
@@ -21171,7 +21206,7 @@
     "example": "박찬연"
    },
    {
-    "key": "목록[].출입국사실증명원또는여권사본",
+    "key": "출입국사실증명원또는여권사본_목록[].출입국사실증명원또는여권사본",
     "label": "출입국사실증명원또는여권사본",
     "type": "text",
     "fill_rate": 1.0,
@@ -22182,7 +22217,7 @@
     "label": "생년월일(YYYY-MM-DD)",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025년 7월 1일"
+    "example": "2026.01.10"
    },
    {
     "key": "목록[].주식의종류",
@@ -22196,7 +22231,7 @@
     "label": "지분율(%)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "70"
+    "example": "5"
    },
    {
     "key": "목록[].주식수",
@@ -22208,16 +22243,16 @@
    {
     "key": "목록[].주당액면가액",
     "label": "주당액면가액(원)",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
-    "example": "6,510,000"
+    "example": "5,860,000"
    },
    {
     "key": "목록[].자본금액",
     "label": "자본금액(원)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "19,100,000"
+    "example": "6,570,000원"
    },
    {
     "key": "목록[].국적",
@@ -22611,7 +22646,7 @@
    {
     "key": "목록[].금액",
     "label": "금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "4,990,000"
    },
@@ -26105,7 +26140,7 @@
     "example": "4.49"
    },
    {
-    "key": "목록[].임차보증금",
+    "key": "담보종류_목록[].임차보증금",
     "label": "임차보증금",
     "type": "number",
     "fill_rate": 1.0,
@@ -26116,35 +26151,35 @@
     "label": "본인",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "6.17"
+    "example": "0.57"
    },
    {
     "key": "자기자금",
     "label": "자기자금",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "3.9"
+    "example": "19.24"
    },
    {
     "key": "방수",
     "label": "방수",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "3"
+    "example": "4"
    },
    {
-    "key": "목록[].소액보증금",
+    "key": "담보종류_목록[].소액보증금",
     "label": "소액보증금",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "7,210,000"
+    "example": "67,680,000"
    },
    {
     "key": "customer.birth",
     "label": "생년월일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "900210"
+    "example": "1990.02.10"
    },
    {
     "key": "employer.department",
@@ -26158,63 +26193,63 @@
     "label": "월세보증금",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "200.52"
+    "example": "31.88"
    },
    {
     "key": "월세보증금2",
     "label": "월세보증금",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "31.88"
+    "example": "0.48"
    },
    {
     "key": "만기일시원리금균등분할원금균등분할",
     "label": "▢만기일시▢원리금균등분할▢원금균등분할",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2026-06-15"
+    "example": "2030.01.21"
    },
    {
     "key": "소액보증금",
     "label": "소액보증금",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "7,230,000"
+    "example": "52,500,000원"
    },
    {
     "key": "배우자",
     "label": "배우자",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "21.71"
+    "example": "6.01"
    },
    {
     "key": "본건대출",
     "label": "본건대출(기금)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "130.27"
+    "example": "91.55"
    },
    {
     "key": "배우자직장번호",
     "label": "배우자직장번호(핸드폰번호)",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "808-618126-47914"
+    "example": "812647-9140455"
    },
    {
     "key": "대출희망일",
     "label": "대출희망일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2026.01.22"
+    "example": "2025.10.18"
    },
    {
-    "key": "목록[].금액",
+    "key": "부채현황_목록[].금액",
     "label": "금액",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "2,810,000"
+    "example": "6,810,000원"
    },
    {
     "key": "customer.phone",
@@ -26245,18 +26280,18 @@
     "example": "대리"
    },
    {
-    "key": "목록[].자금용도",
+    "key": "부채현황_목록[].자금용도",
     "label": "자금용도",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "생활자금"
+    "example": "만기 해지"
    },
    {
     "key": "고객번호",
     "label": "고객번호",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "7457-2721"
+    "example": "5778-8159"
    },
    {
     "key": "check.우편물수령처",
@@ -26274,21 +26309,21 @@
     "label": "월임대료",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "675"
+    "example": "2,892"
    },
    {
     "key": "주거방수",
     "label": "주거방수",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "2"
+    "example": "4"
    },
    {
     "key": "월임대료2",
     "label": "월임대료",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "4,256"
+    "example": "9,971"
    },
    {
     "key": "employer.phone",
@@ -26302,21 +26337,21 @@
     "label": "가구총소득",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "253.85"
+    "example": "6.97"
    },
    {
     "key": "기타조달",
     "label": "기타조달",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "290.1"
+    "example": "114.3"
    },
    {
     "key": "결혼일",
     "label": "결혼(예정)일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025년 8월 12일"
+    "example": "2025.01.11"
    },
    {
     "key": "employer.hire_date",
@@ -26326,7 +26361,7 @@
     "example": "2020.05.08"
    },
    {
-    "key": "목록[].담보종류",
+    "key": "부채현황_목록[].담보종류",
     "label": "담보종류",
     "type": "text",
     "fill_rate": 1.0,
@@ -26379,28 +26414,28 @@
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "김건윤"
+    "example": "확인"
    },
    {
     "key": "seal.staff.책임자",
     "label": "책임자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "확인"
+    "example": "노승찬"
    },
    {
     "key": "sign.staff.책임자",
     "label": "책임자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "이주호"
+    "example": "변규현"
    },
    {
     "key": "seal.staff.부점장",
     "label": "부점장",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "검인"
+    "example": "황보태수"
    },
    {
     "key": "sign.staff.부점장",
@@ -26433,7 +26468,7 @@
     "label": "신청대출승인완료시안내문자통지",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "동의함",
+    "example": "원치않음",
     "options": [
      "동의함",
      "원치않음"
@@ -26444,7 +26479,7 @@
     "label": "동의함(",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "원치않음",
+    "example": "동의함(",
     "options": [
      "동의함(",
      "문자",
@@ -26480,7 +26515,7 @@
     "label": "문자",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "동의함",
+    "example": "원치않음",
     "options": [
      "동의함",
      "원치않음"
@@ -26502,14 +26537,14 @@
     "label": "대출금입금(실행)계좌",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "238-494411-44946"
+    "example": "411-449461-07296"
    },
    {
     "key": "check.예금담보등상계후잔액반환계좌번호",
     "label": "예금담보등상계후잔액반환계좌번호(담보제공자기준)",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "자동이체 결제 계좌",
+    "example": "별도 지정(은행명",
     "options": [
      "대출금 입금 계좌",
      "자동이체 결제 계좌",
@@ -26531,7 +26566,7 @@
     "label": "대출신청이거절되는경우,거절사유에대해안내를받으시겠습니까?",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "구두",
+    "example": "이메일",
     "options": [
      "구두",
      "이메일",
@@ -26551,7 +26586,7 @@
     "label": "•접수번호(등기부등본을구기준)",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "2312-1376"
+    "example": "022-981909-35670"
    },
    {
     "key": "signer.name",
@@ -26572,7 +26607,7 @@
     "label": "(담보제공자기준)",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "강순준"
+    "example": "현예지"
    },
    {
     "key": "대출부수거래충족여부안내통지",
@@ -26600,7 +26635,7 @@
     "label": "거절사유에대해안내를받으시겠습니까?",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "주택구입"
+    "example": "해외 이주"
    },
    {
     "key": "채권최고액",
@@ -27478,7 +27513,7 @@
     "label": "종류",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "하나 MMF"
+    "example": "하나 TDF 2040"
    },
    {
     "key": "employer.name",
@@ -27492,14 +27527,14 @@
     "label": "금액",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "140,000원"
+    "example": "1,750,000"
    },
    {
     "key": "수량",
     "label": "수량",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "24"
+    "example": "36"
    },
    {
     "key": "차주와의관계",
@@ -27520,7 +27555,7 @@
     "label": "추정가액",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "3,460,000"
+    "example": "182,450,000"
    },
    {
     "key": "실재산",
@@ -27548,7 +27583,7 @@
     "label": "자금용도",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "투자 목적"
+    "example": "학자금"
    },
    {
     "key": "신청인과의관계",
@@ -27576,7 +27611,7 @@
     "label": "담당",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "송현하"
+    "example": "검인"
    },
    {
     "key": "sign.staff.담당",
@@ -27590,7 +27625,7 @@
     "label": "책임자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "이기유"
+    "example": "검인"
    },
    {
     "key": "sign.staff.책임자",
@@ -27604,7 +27639,7 @@
     "label": "관리자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "안건지"
+    "example": "서형혜"
    },
    {
     "key": "sign.staff.관리자",
@@ -27632,7 +27667,7 @@
     "label": "신규처리시안내",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "이메일",
+    "example": "원치않음",
     "options": [
      "문자",
      "이메일",
@@ -27685,7 +27720,7 @@
     "label": "확인서(담보제공자용)",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "해당",
+    "example": "미해당",
     "options": [
      "해당",
      "미해당"
@@ -27707,14 +27742,14 @@
     "label": "대출금입금(실행)계좌",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "295-702848-88938"
+    "example": "702-848889-38162"
    },
    {
     "key": "원금및이자자동이체결제계좌",
     "label": "원(리)금및이자자동이체결제계좌",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "42,900,000"
+    "example": "13,650,000원"
    },
    {
     "key": "설정순위",
@@ -27728,7 +27763,7 @@
     "label": "부동산담보대출●접수번호(등기부등본기준)",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "782446-6734277"
+    "example": "244667-3427754"
    }
   ]
  },
@@ -30723,14 +30758,14 @@
    {
     "key": "목록[].중심업체코드",
     "label": "중심업체코드",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "263651"
    },
    {
     "key": "목록[].판매기업사업자번호",
     "label": "판매기업사업자번호",
-    "type": "text",
+    "type": "biz_no",
     "fill_rate": 1.0,
     "example": "264-82-36559"
    },
@@ -30744,14 +30779,14 @@
    {
     "key": "목록[].채권발행일자채권만기일자",
     "label": "채권발행일자채권만기일자",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2029.05.05"
    },
    {
     "key": "목록[].채권금액",
     "label": "채권금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "390,000"
    },
@@ -30765,14 +30800,14 @@
    {
     "key": "목록[].세금계산서합계금액",
     "label": "세금계산서합계금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "170,760,000"
    },
    {
     "key": "목록[].세금계산서작성일자",
     "label": "세금계산서작성일자",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025년 7월 9일"
    }
@@ -31167,7 +31202,7 @@
     "label": "동의자본인회사명",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "(주)대한시스템즈"
+    "example": "주식회사 새한소프트"
    },
    {
     "key": "sign.signer",
@@ -31195,7 +31230,7 @@
     "label": "담당",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "이욱연"
+    "example": "확인"
    },
    {
     "key": "sign.staff.담당",
@@ -31209,7 +31244,7 @@
     "label": "책임자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "선우미주"
+    "example": "검인"
    },
    {
     "key": "sign.staff.책임자",
@@ -31262,7 +31297,7 @@
    {
     "key": "목록[].사업자번호",
     "label": "사업자번호",
-    "type": "text",
+    "type": "biz_no",
     "fill_rate": 1.0,
     "example": "498-59-90099"
    },
@@ -31276,7 +31311,7 @@
    {
     "key": "목록[].최초거래일자",
     "label": "최초거래일자",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.09.23"
    },
@@ -31304,7 +31339,7 @@
    {
     "key": "목록[].전화",
     "label": "전화",
-    "type": "text",
+    "type": "phone",
     "fill_rate": 1.0,
     "example": "010-5907-7253"
    },
@@ -31463,7 +31498,7 @@
    {
     "key": "목록[].사업자번호",
     "label": "사업자번호",
-    "type": "text",
+    "type": "biz_no",
     "fill_rate": 1.0,
     "example": "865-34-26760"
    },
@@ -31477,7 +31512,7 @@
    {
     "key": "목록[].추심금액",
     "label": "추심금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "180,000"
    },
@@ -31491,7 +31526,7 @@
    {
     "key": "목록[].추심의뢰일",
     "label": "추심의뢰일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025년 4월 23일"
    },
@@ -31512,7 +31547,7 @@
    {
     "key": "목록[].공급가액",
     "label": "공급가액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "1,730,000"
    },
@@ -31560,14 +31595,14 @@
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "검인"
+    "example": "박영빈"
    },
    {
     "key": "seal.staff.책임자",
     "label": "책임자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "김욱혜"
+    "example": "남연경"
    },
    {
     "key": "sign.staff.책임자",
@@ -31790,7 +31825,7 @@
     "label": "대리",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "이도아"
+    "example": "김민서"
    },
    {
     "key": "seal.staff.책임자",
@@ -31809,7 +31844,7 @@
    {
     "key": "목록[].선입금신청금액",
     "label": "선입금신청금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "160,000"
    },
@@ -31823,35 +31858,35 @@
    {
     "key": "목록[].채권금액",
     "label": "채권금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "140,000원"
    },
    {
     "key": "목록[].발행일",
     "label": "발행일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025년 11월 1일"
    },
    {
     "key": "목록[].결제일",
     "label": "결제일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025-06-24"
    },
    {
     "key": "목록[].중심업체코드",
     "label": "중심업체코드",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "5289"
    },
    {
     "key": "목록[].구매기업사업자번호",
     "label": "구매기업사업자번호",
-    "type": "text",
+    "type": "biz_no",
     "fill_rate": 1.0,
     "example": "264-82-36559"
    },
@@ -32129,14 +32164,14 @@
    {
     "key": "목록[].외상매출채권번호",
     "label": "외상매출채권번호",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "5,040,000"
    },
    {
     "key": "목록[].채권양도인사업자번호",
     "label": "채권양도인사업자번호",
-    "type": "text",
+    "type": "biz_no",
     "fill_rate": 1.0,
     "example": "155-56-40221"
    },
@@ -32150,21 +32185,21 @@
    {
     "key": "목록[].채권양도금액",
     "label": "채권양도금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "23,080,000원"
    },
    {
     "key": "목록[].채권발행일",
     "label": "채권발행일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.06.03"
    },
    {
     "key": "목록[].채권지급일",
     "label": "채권지급일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025년 2월 26일"
    },
@@ -32198,28 +32233,28 @@
    {
     "key": "목록[].발행일",
     "label": "발행일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.06.11"
    },
    {
     "key": "목록[].만기일",
     "label": "만기일(미결제일)",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.08.21"
    },
    {
     "key": "목록[].입금액",
     "label": "입금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "210,000"
    },
    {
     "key": "목록[].입금일",
     "label": "입금일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.02.06"
    },
@@ -32421,28 +32456,28 @@
    {
     "key": "목록[].사업자등록번호",
     "label": "사업자등록번호",
-    "type": "text",
+    "type": "biz_no",
     "fill_rate": 1.0,
     "example": "153-37-79452"
    },
    {
     "key": "목록[].원청채권금액",
     "label": "원청채권금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "74,630,000"
    },
    {
     "key": "목록[].원청채권발행일",
     "label": "원청채권발행일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025-09-18"
    },
    {
     "key": "목록[].원청채권만기일",
     "label": "원청채권만기일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2026-12-02"
    },
@@ -32456,14 +32491,14 @@
    {
     "key": "목록[].승인금액",
     "label": "승인금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "4,550,000원"
    },
    {
     "key": "목록[].선입금가능일",
     "label": "선입금가능일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2024.12.29"
    },
@@ -32477,14 +32512,14 @@
    {
     "key": "목록[].세금계산서합계금액",
     "label": "세금계산서합계금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "4,340,000"
    },
    {
     "key": "목록[].세금계산서작성일자",
     "label": "세금계산서작성일자",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025년 6월 7일"
    },
@@ -32511,28 +32546,28 @@
    {
     "key": "목록[].사업자등록번호",
     "label": "사업자등록번호",
-    "type": "text",
+    "type": "biz_no",
     "fill_rate": 1.0,
     "example": "264-82-36559"
    },
    {
     "key": "목록[].벤더승인금액",
     "label": "벤더승인금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "440,000"
    },
    {
     "key": "목록[].세금계산서발행일",
     "label": "세금계산서발행일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025년 8월 28일"
    },
    {
     "key": "목록[].세금계산서발행금액",
     "label": "세금계산서발행금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "2,070,000"
    },
@@ -32825,7 +32860,7 @@
    {
     "key": "목록[].사업자등록번호",
     "label": "사업자등록번호",
-    "type": "text",
+    "type": "biz_no",
     "fill_rate": 1.0,
     "example": "264-82-36559"
    },
@@ -32839,28 +32874,28 @@
    {
     "key": "목록[].발주금액",
     "label": "발주금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "100,000"
    },
    {
     "key": "목록[].납품기한",
     "label": "납품기한",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2027-11-18"
    },
    {
     "key": "목록[].대금지급일",
     "label": "대금지급일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.02.03"
    },
    {
     "key": "목록[].대금지급확약비율",
     "label": "대금지급확약비율",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "90"
    },
@@ -32887,21 +32922,21 @@
    {
     "key": "목록[].대출실행일",
     "label": "대출실행일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025-07-29"
    },
    {
     "key": "목록[].대출신청금액",
     "label": "대출신청금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "10,990,000"
    },
    {
     "key": "목록[].의뢰일",
     "label": "의뢰일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.11.09"
    },
@@ -32915,35 +32950,35 @@
    {
     "key": "목록[].발주금액",
     "label": "발주금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "33,370,000"
    },
    {
     "key": "목록[].납품기한",
     "label": "납품기한",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2028-03-29"
    },
    {
     "key": "목록[].대금지급일",
     "label": "대금지급일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.01.05"
    },
    {
     "key": "목록[].대금지급확약비율",
     "label": "대금지급확약비율",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "100"
    },
    {
     "key": "목록[].구매기업사업자등록번호",
     "label": "구매기업사업자등록번호",
-    "type": "text",
+    "type": "biz_no",
     "fill_rate": 1.0,
     "example": "174-15-09742"
    },
@@ -33001,7 +33036,7 @@
     "label": "대리",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "검인"
+    "example": "진훈연"
    },
    {
     "key": "sign.staff.대리",
@@ -33040,7 +33075,7 @@
    {
     "key": "목록[].어음금액",
     "label": "어음금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "4,720,000"
    },
@@ -33061,21 +33096,21 @@
    {
     "key": "목록[].대출일",
     "label": "대출일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025-01-31"
    },
    {
     "key": "목록[].대출신청금액",
     "label": "대출신청금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "6,360,000"
    },
    {
     "key": "목록[].대출만기일",
     "label": "대출만기일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2030년 2월 21일"
    },
@@ -33228,7 +33263,7 @@
    {
     "key": "목록[].판매기업사업자번호",
     "label": "판매기업사업자번호",
-    "type": "text",
+    "type": "biz_no",
     "fill_rate": 1.0,
     "example": "264-82-36559"
    },
@@ -33242,28 +33277,28 @@
    {
     "key": "목록[].구매기업결제일자",
     "label": "구매기업결제일자",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.02.09"
    },
    {
     "key": "목록[].판매기업입금일자",
     "label": "판매기업입금일자",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.01.23"
    },
    {
     "key": "목록[].승인금액",
     "label": "승인금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "8,500,000"
    },
    {
     "key": "목록[].선입금가능일자",
     "label": "선입금가능일자",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.04.04"
    },
@@ -33277,14 +33312,14 @@
    {
     "key": "목록[].세금계산서합계금액",
     "label": "세금계산서합계금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "7,350,000"
    },
    {
     "key": "목록[].세금계산서작성일자",
     "label": "세금계산서작성일자",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025년 12월 26일"
    },
@@ -33707,46 +33742,46 @@
     "example": "국민은행"
    },
    {
-    "key": "목록[].주주명",
+    "key": "관계_목록[].주주명",
     "label": "주주명",
     "type": "text",
     "fill_rate": 1.0,
     "example": "홍채혜"
    },
    {
-    "key": "목록[].소유주식수",
+    "key": "관계_목록[].소유주식수",
     "label": "소유주식수",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].지분율",
+    "key": "관계_목록[].지분율",
     "label": "지분율",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
-    "example": "85"
+    "example": "8"
    },
    {
-    "key": "목록[].대주주와의관계",
+    "key": "관계_목록[].대주주와의관계",
     "label": "대주주와의관계",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].회사와의관계",
+    "key": "관계_목록[].회사와의관계",
     "label": "회사와의관계",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].성명",
+    "key": "대표자_목록[].성명",
     "label": "성명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "박찬연"
+    "example": "김태은"
    },
    {
     "key": "customer.name",
@@ -33784,35 +33819,35 @@
     "example": null
    },
    {
-    "key": "목록[].직위",
+    "key": "대표자_목록[].직위",
     "label": "직위",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].관계",
+    "key": "대표자_목록[].관계",
     "label": "관계",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].주요경력",
+    "key": "대표자_목록[].주요경력",
     "label": "주요경력",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].연월일",
+    "key": "연월일_목록[].연월일",
     "label": "연월일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
-    "example": "2025.12.23"
+    "example": "2025-01-14"
    },
    {
-    "key": "목록[].내용",
+    "key": "연월일_목록[].내용",
     "label": "내용",
     "type": "text",
     "fill_rate": 1.0,
@@ -33823,7 +33858,7 @@
     "label": "제품명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "식품 원재료"
+    "example": "플라스틱 원료"
    },
    {
     "key": "판매처",
@@ -33833,7 +33868,7 @@
     "example": null
    },
    {
-    "key": "목록[].년",
+    "key": "연간판매금액_목록[].년",
     "label": "년",
     "type": "text",
     "fill_rate": 1.0,
@@ -34062,49 +34097,49 @@
   "group": "hana",
   "keys": [
    {
-    "key": "목록[].사업자번호",
+    "key": "기업구매자금어음내용_목록[].사업자번호",
     "label": "사업자번호",
-    "type": "text",
+    "type": "biz_no",
     "fill_rate": 1.0,
     "example": "765-60-22314"
    },
    {
-    "key": "목록[].사업자명",
+    "key": "기업구매자금어음내용_목록[].사업자명",
     "label": "사업자명",
     "type": "text",
     "fill_rate": 1.0,
     "example": "주식회사 가온산업"
    },
    {
-    "key": "목록[].어음금액",
+    "key": "기업구매자금어음내용_목록[].어음금액",
     "label": "어음금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "9,980,000"
    },
    {
-    "key": "목록[].발행일",
+    "key": "기업구매자금어음내용_목록[].발행일",
     "label": "발행일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.06.29"
    },
    {
-    "key": "목록[].대표품명",
+    "key": "기업구매자금어음내용_목록[].대표품명",
     "label": "대표품명",
     "type": "text",
     "fill_rate": 1.0,
     "example": "냉동 수산물"
    },
    {
-    "key": "목록[].공급가액",
+    "key": "기업구매자금어음내용_목록[].공급가액",
     "label": "공급가액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "5,210,000"
    },
    {
-    "key": "목록[].지급은행",
+    "key": "기업구매자금어음내용_목록[].지급은행",
     "label": "지급은행",
     "type": "text",
     "fill_rate": 1.0,
@@ -34317,7 +34352,7 @@
     "label": "지점",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "김경인"
+    "example": "송훈하"
    },
    {
     "key": "sign.signer",
@@ -34383,28 +34418,28 @@
    {
     "key": "목록[].대출금액",
     "label": "대출금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "2,310,000"
    },
    {
     "key": "목록[].대출취급일",
     "label": "대출취급일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025년 9월 8일"
    },
    {
     "key": "목록[].당초만기일",
     "label": "당초만기일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2028.06.24"
    },
    {
     "key": "목록[].기한연장일",
     "label": "기한연장일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2026.10.13"
    },
@@ -34490,7 +34525,7 @@
     "label": "관리자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "윤경린"
+    "example": "이정윤"
    },
    {
     "key": "seal.staff.부점장",
@@ -34515,21 +34550,21 @@
    {
     "key": "목록[].대출실행일",
     "label": "대출실행일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.10.27"
    },
    {
     "key": "목록[].대출신청금액",
     "label": "대출신청금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "285,940,000원"
    },
    {
     "key": "목록[].의뢰일",
     "label": "의뢰일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025년 4월 25일"
    },
@@ -34543,21 +34578,21 @@
    {
     "key": "목록[].매출금액",
     "label": "매출금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "225,780,000원"
    },
    {
     "key": "목록[].지급기일",
     "label": "지급기일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2028.12.17"
    },
    {
     "key": "목록[].구매기업사업자번호",
     "label": "구매기업사업자번호",
-    "type": "text",
+    "type": "biz_no",
     "fill_rate": 1.0,
     "example": "622-32-65823"
    },
@@ -34571,21 +34606,21 @@
    {
     "key": "목록[].발행일",
     "label": "발행일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.06.01"
    },
    {
     "key": "목록[].공급금액",
     "label": "공급금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "44,380,000"
    },
    {
     "key": "목록[].총공급금액",
     "label": "총공급금액(세금포함)",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "119,790,000"
    },
@@ -34783,28 +34818,28 @@
    {
     "key": "목록[].판매기업사업자번호",
     "label": "판매기업사업자번호",
-    "type": "text",
+    "type": "biz_no",
     "fill_rate": 1.0,
     "example": "264-82-36559"
    },
    {
     "key": "목록[].발행일",
     "label": "발행일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2026.01.26"
    },
    {
     "key": "목록[].만기일",
     "label": "만기일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2027년 11월 6일"
    },
    {
     "key": "목록[].채권금액",
     "label": "채권금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "580,000"
    },
@@ -34918,7 +34953,7 @@
     "label": "책임자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "황보순지"
+    "example": "김성도"
    }
   ]
  },
@@ -38641,23 +38676,23 @@
    {
     "key": "목록[].매출채권금액",
     "label": "매출채권금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
-    "example": "980,000"
+    "example": "35,940,000원"
    },
    {
     "key": "목록[].발생일",
     "label": "발생일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
-    "example": "2025-02-13"
+    "example": "2025년 8월 2일"
    },
    {
     "key": "목록[].지급기일",
     "label": "지급기일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
-    "example": "2029.01.06"
+    "example": "2027.12.26"
    },
    {
     "key": "목록[].다른권리존재여부",
@@ -38685,14 +38720,14 @@
     "label": "물품공급계약내용[",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "기계 부품"
+    "example": "산업용 펌프"
    },
    {
     "key": "계약일자",
     "label": "계약일자[..]",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2026-01-10"
+    "example": "2025년 11월 18일"
    },
    {
     "key": "지급이확정된미지급매출채권내용",
@@ -38801,28 +38836,28 @@
    {
     "key": "목록[].매출채권금액",
     "label": "매출채권금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "24,240,000"
    },
    {
     "key": "목록[].발생일",
     "label": "발생(예정)일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025년 1월 31일"
    },
    {
     "key": "목록[].지급기일",
     "label": "지급기일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2027-03-12"
    },
    {
     "key": "목록[].매출채권확정여부",
     "label": "매출채권확정여부",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "48,230,000"
    },
@@ -38928,7 +38963,7 @@
     "label": "은행",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "서훈정"
+    "example": "최지수"
    },
    {
     "key": "sign.signer",
@@ -38990,21 +39025,21 @@
     "label": "식별번호(주)",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "801-156779-86345"
+    "example": "1156-7798"
    },
    {
     "key": "목록[].모델명",
     "label": "모델명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "전자부품"
+    "example": "의류 원단"
    },
    {
     "key": "목록[].제조사",
     "label": "제조사",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "플라스틱 원료"
+    "example": "산업용 펌프"
    },
    {
     "key": "목록[].제조년월",
@@ -39046,7 +39081,7 @@
     "label": "채무자(담보제공자)",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "박찬연"
+    "example": "최우빈"
    }
   ]
  },
@@ -39085,21 +39120,21 @@
    {
     "key": "목록[].수량",
     "label": "수량(주1)",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "1"
    },
    {
     "key": "목록[].수량단위",
     "label": "수량단위",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "2"
    },
    {
     "key": "목록[].단가",
     "label": "단가(주2)",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "1,180,000"
    },
@@ -39143,7 +39178,7 @@
     "label": "채무자(담보제공자)",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "현예지"
+    "example": "강순준"
    }
   ]
  },
@@ -39168,35 +39203,35 @@
    {
     "key": "목록[].이율",
     "label": "이율",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "25"
    },
    {
     "key": "목록[].일자",
     "label": "일자",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.04.11"
    },
    {
     "key": "목록[].금액",
     "label": "금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "74,930,000"
    },
    {
     "key": "목록[].잔액",
     "label": "잔액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "147,790,000"
    },
    {
     "key": "목록[].대출기한",
     "label": "대출기한",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2028.02.11"
    },
@@ -39273,7 +39308,7 @@
    {
     "key": "목록[].수량",
     "label": "수량",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "6"
    },
@@ -39287,7 +39322,7 @@
    {
     "key": "목록[].감정일자",
     "label": "감정일자",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025-04-30"
    },
@@ -39689,8 +39724,15 @@
     "example": null
    },
    {
-    "key": "목록[].월",
+    "key": "월_목록[].월",
     "label": "월",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": null
+   },
+   {
+    "key": "일_목록[].일",
+    "label": "일",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
@@ -39714,7 +39756,7 @@
     "label": "년",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "100"
+    "example": "70"
    },
    {
     "key": "일",
@@ -39735,7 +39777,7 @@
     "label": "지급기일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2030년 1월 3일"
+    "example": "2028-03-07"
    },
    {
     "key": "비",
@@ -39749,7 +39791,7 @@
     "label": "선적기일할인료율",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "20"
+    "example": "60"
    },
    {
     "key": "주소본인",
@@ -39781,9 +39823,9 @@
    {
     "key": "목록[].채무한도액",
     "label": "채무한도액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
-    "example": "76,090,000"
+    "example": "1,500,000"
    },
    {
     "key": "목록[].보증종류",
@@ -39811,14 +39853,14 @@
     "label": "담당",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "검인"
+    "example": "확인"
    },
    {
     "key": "sign.staff.담당",
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "최혜은"
+    "example": "정경찬"
    },
    {
     "key": "seal.staff.대리",
@@ -39832,21 +39874,21 @@
     "label": "대리",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "확인"
+    "example": "위재승"
    },
    {
     "key": "seal.staff.차장",
     "label": "차장",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "여호태"
+    "example": "추우빈"
    },
    {
     "key": "sign.staff.차장",
     "label": "차장",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "이미호"
+    "example": "손용원"
    }
   ]
  },
@@ -39878,21 +39920,21 @@
    {
     "key": "목록[].액면금액",
     "label": "액면금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "340,000"
    },
    {
     "key": "목록[].매수",
     "label": "매수",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "12"
    },
    {
     "key": "목록[].총액",
     "label": "총액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "32,610,000원"
    },
@@ -40268,21 +40310,21 @@
     "label": "담당",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "검인"
+    "example": "김우혜"
    },
    {
     "key": "sign.staff.담당",
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "김서은"
+    "example": "류용예"
    },
    {
     "key": "seal.staff.팀장",
     "label": "팀장",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "검인"
+    "example": "박현진"
    },
    {
     "key": "sign.staff.팀장",
@@ -40296,7 +40338,7 @@
     "label": "부점장",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "배건성"
+    "example": "확인"
    },
    {
     "key": "sign.staff.부점장",
@@ -41706,23 +41748,23 @@
     "example": "2025.02.18"
    },
    {
-    "key": "목록[].상품명",
+    "key": "지급계좌_목록[].상품명",
     "label": "상품명",
     "type": "text",
     "fill_rate": 1.0,
     "example": "하나의정기예금"
    },
    {
-    "key": "목록[].계좌번호",
+    "key": "지급계좌_목록[].계좌번호",
     "label": "계좌번호",
     "type": "text",
     "fill_rate": 1.0,
     "example": "022-588859-42883"
    },
    {
-    "key": "목록[].금액",
+    "key": "지급계좌_목록[].금액",
     "label": "금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "710,000"
    },
@@ -41812,28 +41854,28 @@
     "label": "담당",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "김규준"
+    "example": "확인"
    },
    {
     "key": "sign.staff.담당",
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "배석도"
+    "example": "송민윤"
    },
    {
     "key": "seal.staff.책임자",
     "label": "책임자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "확인"
+    "example": "검인"
    },
    {
     "key": "sign.staff.책임자",
     "label": "책임자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "성연은"
+    "example": "남궁순유"
    },
    {
     "key": "seal.staff.부점장",
@@ -41847,7 +41889,7 @@
     "label": "부점장",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "최석주"
+    "example": "이호서"
    },
    {
     "key": "check.주된상속인",
@@ -41916,42 +41958,56 @@
     ]
    },
    {
-    "key": "목록[].성명",
+    "key": "상속인_목록[].성명",
     "label": "성명",
     "type": "text",
     "fill_rate": 1.0,
     "example": "강민도"
    },
    {
-    "key": "목록[].생년월일",
+    "key": "상속인_목록[].생년월일",
     "label": "생년월일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
-    "example": "2025-05-23"
+    "example": "2025.12.19"
    },
    {
-    "key": "목록[].연락처",
+    "key": "상속인_목록[].연락처",
     "label": "연락처",
-    "type": "text",
+    "type": "phone",
     "fill_rate": 1.0,
     "example": "010-5907-7253"
    },
    {
-    "key": "목록[].예금잔액",
-    "label": "예금잔액",
+    "key": "미지급계좌_목록[].상품명",
+    "label": "상품명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "70,740,000"
+    "example": "하나 적금"
    },
    {
-    "key": "목록[].미지급사유주1",
+    "key": "미지급계좌_목록[].계좌번호",
+    "label": "계좌번호",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": "354-344132-62349"
+   },
+   {
+    "key": "미지급계좌_목록[].예금잔액",
+    "label": "예금잔액",
+    "type": "number",
+    "fill_rate": 1.0,
+    "example": "87,470,000원"
+   },
+   {
+    "key": "미지급계좌_목록[].미지급사유주1",
     "label": "미지급사유주1",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "만기 해지"
+    "example": "해외 이주"
    },
    {
-    "key": "목록[].상속인확인",
+    "key": "미지급계좌_목록[].상속인확인",
     "label": "상속인확인",
     "type": "text",
     "fill_rate": 1.0,
@@ -41962,28 +42018,28 @@
     "label": "확인담당자",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "류상빈"
+    "example": "정철빈"
    },
    {
     "key": "seal.signer",
     "label": "확인담당자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "김철찬"
+    "example": "박진찬"
    },
    {
     "key": "sign.signer",
     "label": "확인담당자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "류상빈"
+    "example": "정철빈"
    },
    {
     "key": "signer2.name",
     "label": "확인책임자",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "이호서"
+    "example": "김도혜"
    },
    {
     "key": "seal.signer2",
@@ -41997,7 +42053,7 @@
     "label": "확인책임자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "김규호"
+    "example": "김도혜"
    }
   ]
  },
@@ -42097,7 +42153,7 @@
     "example": null
    },
    {
-    "key": "목록[].FixedFloating",
+    "key": "Floating_목록[].FixedFloating",
     "label": "FixedFloating(mth)",
     "type": "text",
     "fill_rate": 1.0,
@@ -42504,7 +42560,7 @@
     "example": "852-218961-86830"
    },
    {
-    "key": "목록[].갋",
+    "key": "자유_목록[].갋",
     "label": "갋",
     "type": "text",
     "fill_rate": 1.0,
@@ -42536,28 +42592,28 @@
     "label": "확정형연동형(개월)",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "15일"
+    "example": "25일"
    },
    {
     "key": "seal.signer",
     "label": "한도:₩..~..",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "강순준"
+    "example": "박찬연"
    },
    {
     "key": "sign.signer",
     "label": "한도:₩..~..",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "박찬연"
+    "example": "이욱유"
    },
    {
     "key": "seal.signer2",
     "label": "한도:₩..~..",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "강순준"
+    "example": "이민빈"
    },
    {
     "key": "sign.signer2",
@@ -42578,7 +42634,7 @@
     "label": "한도:₩..~..",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "박찬연"
+    "example": "현예지"
    },
    {
     "key": "customer.name_en",
@@ -42641,35 +42697,35 @@
     "label": "고객정보변경없음",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "현예지"
+    "example": "최우빈"
    },
    {
     "key": "bank.auto_transfer_account",
     "label": "자동이체계좌번호",
     "type": "account_no",
     "fill_rate": 1.0,
-    "example": "695-630925-11217"
+    "example": "309-251121-71640"
    },
    {
     "key": "bank.subject",
     "label": "과목명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "하나의정기예금"
+    "example": "청년도약계좌"
    },
    {
     "key": "bank.contract_amount",
     "label": "계약(확인)금액",
     "type": "amount",
     "fill_rate": 1.0,
-    "example": "8,670,000"
+    "example": "7,200,000"
    },
    {
     "key": "bank.pay_date",
     "label": "지급기일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2029.03.18"
+    "example": "2028.12.20"
    },
    {
     "key": "check.비과세종합저축재형저축",
@@ -42713,7 +42769,7 @@
     "label": "연원가식",
     "type": "amount",
     "fill_rate": 1.0,
-    "example": "6,370,000원"
+    "example": "29,510,000"
    },
    {
     "key": "deposit.withdraw_account",
@@ -42741,35 +42797,35 @@
     "label": "최초거래일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025년 4월 7일"
+    "example": "2025.07.05"
    },
    {
     "key": "bank.open_date",
     "label": "신규일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025.07.05"
+    "example": "2025.12.19"
    },
    {
     "key": "bank.deposit_amount",
     "label": "입금(수탁)액",
     "type": "amount",
     "fill_rate": 1.0,
-    "example": "2,050,000"
+    "example": "380,000"
    },
    {
     "key": "bank.kind",
     "label": "종별",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "급여하나 통장"
+    "example": "하나 정기예금"
    },
    {
     "key": "bank.staff_no",
     "label": "권유직원번호",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "1543-9646"
+    "example": "998-513753-06864"
    },
    {
     "key": "customer.name7",
@@ -42804,14 +42860,14 @@
     "label": "상품명1",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "급여하나 통장"
+    "example": "하나 적금"
    },
    {
     "key": "deposit_list[].amount",
     "label": "가입금액1",
     "type": "amount",
     "fill_rate": 1.0,
-    "example": "530,000"
+    "example": "9,260,000"
    },
    {
     "key": "deposit_list[].period",
@@ -42825,35 +42881,35 @@
     "label": "이체금액1",
     "type": "amount",
     "fill_rate": 1.0,
-    "example": "179,700,000"
+    "example": "7,120,000원"
    },
    {
     "key": "deposit_list[].transfer_end",
     "label": "이체기간(만료일)1",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025-02-28"
+    "example": "2025년 10월 3일"
    },
    {
     "key": "deposit_list[].funding_amount",
     "label": "출금금액①",
     "type": "amount",
     "fill_rate": 1.0,
-    "example": "5,070,000원"
+    "example": "279,930,000원"
    },
    {
     "key": "date2",
     "label": "작성일(년월일)",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2026.01.31"
+    "example": "2026년 01월 31일"
    },
    {
     "key": "ebank.user_id",
     "label": "이용자ID",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "leewk1025"
+    "example": "parkjy77"
    },
    {
     "key": "company.name",
@@ -42923,35 +42979,35 @@
     "label": "자동이체계좌번호",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "392-645706-50333"
+    "example": "065-033373-85484"
    },
    {
     "key": "bank.subject2",
     "label": "과목명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "하나 적금"
+    "example": "청년도약계좌"
    },
    {
     "key": "bank.contract_amount2",
     "label": "계약(확인)금액",
     "type": "amount",
     "fill_rate": 1.0,
-    "example": "196,780,000"
+    "example": "29,060,000"
    },
    {
     "key": "bank.pay_date2",
     "label": "지급기일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2027.08.02"
+    "example": "2026.05.22"
    },
    {
     "key": "ebank.phone_limit_once",
     "label": "원)(1회",
     "type": "amount",
     "fill_rate": 1.0,
-    "example": "250,000"
+    "example": "290,730,000"
    },
    {
     "key": "customer.name2",
@@ -42972,14 +43028,14 @@
     "label": "아니오(실제소유자성명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "서서예"
+    "example": "김민현"
    },
    {
     "key": "redeposit_list[].product",
     "label": "[신청상품]1",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "청년도약계좌"
+    "example": "하나의정기예금"
    },
    {
     "key": "customer.name4",
@@ -43021,70 +43077,70 @@
     "label": "최초거래일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025년 1월 31일"
+    "example": "2025.08.27"
    },
    {
     "key": "bank.open_date2",
     "label": "신규일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025.11.09"
+    "example": "2025년 5월 7일"
    },
    {
     "key": "bank.deposit_amount2",
     "label": "입금(수탁)액",
     "type": "amount",
     "fill_rate": 1.0,
-    "example": "52,410,000"
+    "example": "240,000"
    },
    {
     "key": "bank.kind2",
     "label": "종별",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "청년도약계좌"
+    "example": "급여하나 통장"
    },
    {
     "key": "bank.staff_no2",
     "label": "권유직원번호",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "054561-0220146"
+    "example": "102-201467-73053"
    },
    {
     "key": "related.rrn",
     "label": "실명번호:",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "532403-4667905"
+    "example": "667905-9274350"
    },
    {
     "key": "ebank.internet_limit_day",
     "label": "인터넷/스마트폰뱅킹1일한도",
     "type": "amount",
     "fill_rate": 1.0,
-    "example": "9,650,000"
+    "example": "4,810,000"
    },
    {
     "key": "ebank.internet_limit_once",
     "label": "인터넷/스마트폰뱅킹1회한도",
     "type": "amount",
     "fill_rate": 1.0,
-    "example": "3,580,000"
+    "example": "7,300,000"
    },
    {
     "key": "ebank.phone_limit_day",
     "label": "폰뱅킹1일한도",
     "type": "amount",
     "fill_rate": 1.0,
-    "example": "44,370,000"
+    "example": "3,280,000"
    },
    {
     "key": "ebank.passbook_memo",
     "label": "전자통장설명문구(한글6자)",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "만기 해지"
+    "example": "전화 확인"
    },
    {
     "key": "customer.name_en2",
@@ -43098,7 +43154,7 @@
     "label": "갱신횟수",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "1"
+    "example": "12"
    }
   ]
  },
@@ -43576,7 +43632,7 @@
     ]
    },
    {
-    "key": "목록[].예금주명",
+    "key": "예금주명_목록[].예금주명",
     "label": "예금주명",
     "type": "text",
     "fill_rate": 1.0,
@@ -43594,21 +43650,21 @@
     ]
    },
    {
-    "key": "목록[].이체일",
+    "key": "예금주명_목록[].이체일",
     "label": "이체일",
     "type": "date",
     "fill_rate": 1.0,
     "example": "2025.12.01"
    },
    {
-    "key": "목록[].이체주기",
+    "key": "예금주명_목록[].이체주기",
     "label": "이체주기(일☞주☞월☞년)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].이체금액",
+    "key": "예금주명_목록[].이체금액",
     "label": "이체금액",
     "type": "number",
     "fill_rate": 1.0,
@@ -43771,28 +43827,28 @@
     "label": "납부자번호(동,호수,수용가번호,등)",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "028927-2699202"
+    "example": "199125-7997364"
    },
    {
     "key": "관리비지로공과금기타_목록[].지로번호기관코드",
     "label": "지로번호/기관코드",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "59199"
+    "example": "60962"
    },
    {
     "key": "지로번호기관코드",
     "label": "지로번호/기관코드",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "609622"
+    "example": "0603"
    },
    {
     "key": "관리비지로공과금기타_목록[].납부희망일",
     "label": "납부희망일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025년 3월 9일"
+    "example": "2025.02.06"
    },
    {
     "key": "date5",
@@ -43806,7 +43862,7 @@
     "label": "계좌간자동이체(",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "당행 자동이체",
+    "example": "납부자 자동이체",
     "options": [
      "당행 자동이체",
      "타행 자동이체",
@@ -43819,7 +43875,7 @@
     "label": "만기해지자동이체(",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "신규",
+    "example": "변경",
     "options": [
      "신규",
      "변경",
@@ -43831,7 +43887,7 @@
     "label": "자동갱신(재예치)자동이체(",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "신규",
+    "example": "해지",
     "options": [
      "신규",
      "변경",
@@ -43843,7 +43899,7 @@
     "label": "기타자동이체(",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "신규",
+    "example": "변경",
     "options": [
      "신규",
      "변경",
@@ -43866,7 +43922,7 @@
     "label": "조회",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "조회",
+    "example": "일괄해지 1",
     "options": [
      "조회",
      "일괄해지 1"
@@ -43908,35 +43964,35 @@
     "label": "계좌번호",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "526-608893-10332"
+    "example": "266-088931-03327"
    },
    {
     "key": "목록[].예금액",
     "label": "예금액",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "33,170,000"
+    "example": "6,050,000"
    },
    {
     "key": "목록[].만기일주1",
     "label": "만기일주1",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2027-12-13"
+    "example": "2027.12.30"
    },
    {
     "key": "목록[].질권설정금액",
     "label": "질권설정금액",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "2,130,000"
+    "example": "260,000원"
    },
    {
     "key": "목록[].변제기일주1",
     "label": "변제기일주1",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2027.10.01"
+    "example": "2029년 7월 9일"
    },
    {
     "key": "signer.name",
@@ -43964,7 +44020,7 @@
     "label": "생년월일(사업자등록번호)",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "1990.02.10"
+    "example": "900210"
    },
    {
     "key": "customer.address",
@@ -43999,56 +44055,56 @@
     "label": "본인확인인감대조",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "검인"
+    "example": "박은경"
    },
    {
     "key": "sign.staff.본인확인인감대조",
     "label": "본인확인인감대조",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "김현인"
+    "example": "검인"
    },
    {
     "key": "seal.staff.담당",
     "label": "담당",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "연서유"
+    "example": "장선주"
    },
    {
     "key": "sign.staff.담당",
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "선영인"
+    "example": "확인"
    },
    {
     "key": "seal.staff.책임자",
     "label": "책임자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "위환연"
+    "example": "검인"
    },
    {
     "key": "sign.staff.책임자",
     "label": "책임자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "검인"
+    "example": "나하경"
    },
    {
     "key": "seal.staff.지점장",
     "label": "지점장",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "검인"
+    "example": "박하인"
    },
    {
     "key": "sign.staff.지점장",
     "label": "지점장",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "성환도"
+    "example": "최예인"
    }
   ]
  },
@@ -44431,7 +44487,7 @@
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "배재인"
+    "example": "김미아"
    },
    {
     "key": "seal.staff.책임자",
@@ -45925,7 +45981,7 @@
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "강하영"
+    "example": "조다빈"
    },
    {
     "key": "seal.staff.책임자",
@@ -45939,7 +45995,7 @@
     "label": "책임자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "엄하진"
+    "example": "정채도"
    }
   ]
  },
@@ -46212,7 +46268,7 @@
    {
     "key": "목록[].거래금액",
     "label": "거래금액(원)",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "70,000"
    },
@@ -48150,14 +48206,14 @@
     "example": null
    },
    {
-    "key": "목록[].예금종별",
+    "key": "예금종별_목록[].예금종별",
     "label": "예금종별",
     "type": "text",
     "fill_rate": 1.0,
     "example": "청년도약계좌"
    },
    {
-    "key": "목록[].계좌번호",
+    "key": "예금종별_목록[].계좌번호",
     "label": "계좌번호",
     "type": "text",
     "fill_rate": 1.0,
@@ -48182,7 +48238,7 @@
     "label": "예금주",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "강순준"
+    "example": "이욱유"
    },
    {
     "key": "sign.signer",
@@ -48590,7 +48646,7 @@
    {
     "key": "목록[].위탁일자",
     "label": "위탁일자",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.06.27"
    },
@@ -48632,14 +48688,14 @@
    {
     "key": "목록[].만기일",
     "label": "만기일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2029년 3월 1일"
    },
    {
     "key": "목록[].금액",
     "label": "금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "2,580,000"
    },
@@ -48773,42 +48829,42 @@
     "label": "번호",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "975405-1428869"
+    "example": "3694-5540"
    },
    {
     "key": "목록[].발행일",
     "label": "발행일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
-    "example": "2025년 7월 30일"
+    "example": "2025.08.31"
    },
    {
     "key": "목록[].지급일",
     "label": "지급일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
-    "example": "2025.06.08"
+    "example": "2025년 2월 12일"
    },
    {
     "key": "목록[].금액",
     "label": "금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
-    "example": "289,650,000"
+    "example": "190,000"
    },
    {
     "key": "목록[].수취인",
     "label": "수취인",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "제일메디칼"
+    "example": "누리무역"
    },
    {
     "key": "목록[].용도",
     "label": "용도",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "자녀 교육비"
+    "example": "사업자금"
    },
    {
     "key": "목록[].확인여부",
@@ -48843,21 +48899,21 @@
     "label": "상호및대표자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "박찬연"
+    "example": "현예지"
    },
    {
     "key": "sign.signer",
     "label": "상호및대표자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "강순준"
+    "example": "박찬연"
    },
    {
     "key": "seal.staff.담당",
     "label": "담당",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "확인"
+    "example": "이우준"
    },
    {
     "key": "sign.staff.담당",
@@ -48871,7 +48927,7 @@
     "label": "책임자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "검인"
+    "example": "박규원"
    },
    {
     "key": "sign.staff.책임자",
@@ -48885,28 +48941,28 @@
     "label": "관리자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "진옥아"
+    "example": "선우하승"
    },
    {
     "key": "sign.staff.관리자",
     "label": "관리자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "정희아"
+    "example": "기찬유"
    },
    {
     "key": "seal.staff.부점장",
     "label": "부점장",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "석정율"
+    "example": "김훈재"
    },
    {
     "key": "sign.staff.부점장",
     "label": "부점장",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "기영수"
+    "example": "전찬경"
    }
   ]
  },
@@ -49215,14 +49271,14 @@
     "example": "환전 50,000,000원, 여행 경비"
    },
    {
-    "key": "목록[].예금주",
+    "key": "사채원리금출금계좌_목록[].예금주",
     "label": "예금주",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].계좌번호",
+    "key": "사채원리금출금계좌_목록[].계좌번호",
     "label": "계좌번호",
     "type": "text",
     "fill_rate": 1.0,
@@ -50169,35 +50225,35 @@
     "label": "지급은행",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "하나은행"
+    "example": "우리은행"
    },
    {
     "key": "목록[].수표번호",
     "label": "수표번호",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "사바21877925"
+    "example": "바다24518563"
    },
    {
     "key": "목록[].발행일자",
     "label": "발행일자",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
-    "example": "2025년 1월 1일"
+    "example": "2025-10-01"
    },
    {
     "key": "목록[].지급일자",
     "label": "지급일자",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
-    "example": "2025-04-21"
+    "example": "2025-03-22"
    },
    {
     "key": "목록[].발행인",
     "label": "발행인",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "(주)유니온무역"
+    "example": "주식회사 신영메디칼"
    },
    {
     "key": "목록[].비고",
@@ -50287,12 +50343,12 @@
     "label": "책임자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "차성경"
+    "example": "검인"
    },
    {
     "key": "목록[].일자",
     "label": "일자",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025-10-23"
    },
@@ -52462,14 +52518,14 @@
     "example": "133,280,000"
    },
    {
-    "key": "목록[].금기말",
+    "key": "금액_목록[].금기말",
     "label": "금기말",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].전기말",
+    "key": "금액_목록[].전기말",
     "label": "전기말",
     "type": "text",
     "fill_rate": 1.0,
@@ -52483,7 +52539,7 @@
     "example": null
    },
    {
-    "key": "목록[].이자",
+    "key": "금액_목록[].이자",
     "label": "이자",
     "type": "number",
     "fill_rate": 1.0,
@@ -52532,7 +52588,7 @@
     "example": null
    },
    {
-    "key": "목록[].차입처",
+    "key": "코드_목록[].차입처",
     "label": "차입처",
     "type": "text",
     "fill_rate": 1.0,
@@ -52546,21 +52602,21 @@
     "example": "미래메디칼"
    },
    {
-    "key": "목록[].코드1",
+    "key": "코드_목록[].코드1",
     "label": "코드1",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "8241"
    },
    {
-    "key": "목록[].차입금액",
+    "key": "코드_목록[].차입금액",
     "label": "차입금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "920,000"
    },
    {
-    "key": "목록[].보증자",
+    "key": "코드_목록[].보증자",
     "label": "보증자",
     "type": "text",
     "fill_rate": 1.0,
@@ -52574,35 +52630,35 @@
     "example": "주식회사 우진전자"
    },
    {
-    "key": "목록[].년미만",
+    "key": "코드_목록[].년미만",
     "label": "년미만",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].년이상",
+    "key": "코드_목록[].년이상",
     "label": "년이상",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].변동2",
+    "key": "코드_목록[].변동2",
     "label": "변동2",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].고정",
+    "key": "코드_목록[].고정",
     "label": "고정",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].용도3",
+    "key": "코드_목록[].용도3",
     "label": "용도3",
     "type": "text",
     "fill_rate": 1.0,
@@ -52623,28 +52679,28 @@
     "example": null
    },
    {
-    "key": "목록[].기타",
+    "key": "현지판매_목록[].기타",
     "label": "기타",
     "type": "text",
     "fill_rate": 1.0,
     "example": "해당 없음"
    },
    {
-    "key": "목록[].한국투자자앞",
+    "key": "현지판매_목록[].한국투자자앞",
     "label": "한국투자자앞",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].관계회사앞",
+    "key": "현지판매_목록[].관계회사앞",
     "label": "관계회사앞",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].계",
+    "key": "현지판매_목록[].계",
     "label": "계",
     "type": "text",
     "fill_rate": 1.0,
@@ -52655,7 +52711,7 @@
     "label": "금액",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "540,000"
+    "example": "6,270,000원"
    },
    {
     "key": "비중2",
@@ -52665,7 +52721,7 @@
     "example": null
    },
    {
-    "key": "목록[].전기",
+    "key": "항목_목록[].전기",
     "label": "전기",
     "type": "text",
     "fill_rate": 1.0,
@@ -52679,7 +52735,7 @@
     "example": null
    },
    {
-    "key": "목록[].금기",
+    "key": "항목_목록[].금기",
     "label": "금기",
     "type": "text",
     "fill_rate": 1.0,
@@ -52711,7 +52767,7 @@
     "label": "현지법인운영상애로사항(복수선택가능)",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "기타",
+    "example": "현지국 정부의 간섭(과도한 준조세/현지기업과의 차별 등)",
     "options": [
      "인사/노무관련 요인(고용/현지종업원 또는 노동조합과의 불화 등)",
      "생산관련 요인(노동생산성/부품·원자재 조달)",
@@ -52761,7 +52817,7 @@
     "label": "국가명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "미국"
+    "example": "일본"
    }
   ]
  },
@@ -52986,14 +53042,14 @@
     "example": null
    },
    {
-    "key": "목록[].금기말",
+    "key": "금액_목록[].금기말",
     "label": "금기말",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].전기말",
+    "key": "금액_목록[].전기말",
     "label": "전기말",
     "type": "text",
     "fill_rate": 1.0,
@@ -53049,7 +53105,7 @@
     "example": null
    },
    {
-    "key": "목록[].차입처",
+    "key": "코드_목록[].차입처",
     "label": "차입처",
     "type": "text",
     "fill_rate": 1.0,
@@ -53063,21 +53119,21 @@
     "example": "(주)유니온무역"
    },
    {
-    "key": "목록[].코드1",
+    "key": "코드_목록[].코드1",
     "label": "코드1",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "410779"
    },
    {
-    "key": "목록[].차입금액",
+    "key": "코드_목록[].차입금액",
     "label": "차입금액",
     "type": "number",
     "fill_rate": 1.0,
     "example": "20,600,000"
    },
    {
-    "key": "목록[].보증자",
+    "key": "코드_목록[].보증자",
     "label": "보증자",
     "type": "text",
     "fill_rate": 1.0,
@@ -53091,35 +53147,35 @@
     "example": "주식회사 우진푸드"
    },
    {
-    "key": "목록[].년미만",
+    "key": "코드_목록[].년미만",
     "label": "년미만",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].년이상",
+    "key": "코드_목록[].년이상",
     "label": "년이상",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].변동2",
+    "key": "코드_목록[].변동2",
     "label": "변동2",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].고정",
+    "key": "코드_목록[].고정",
     "label": "고정",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].용도3",
+    "key": "코드_목록[].용도3",
     "label": "용도3",
     "type": "text",
     "fill_rate": 1.0,
@@ -53140,28 +53196,28 @@
     "example": null
    },
    {
-    "key": "목록[].기타",
+    "key": "현지판매_목록[].기타",
     "label": "기타",
     "type": "text",
     "fill_rate": 1.0,
     "example": "해당 없음"
    },
    {
-    "key": "목록[].한국투자자앞",
+    "key": "현지판매_목록[].한국투자자앞",
     "label": "한국투자자앞",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].관계회사앞",
+    "key": "현지판매_목록[].관계회사앞",
     "label": "관계회사앞",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].계",
+    "key": "현지판매_목록[].계",
     "label": "계",
     "type": "text",
     "fill_rate": 1.0,
@@ -53172,7 +53228,7 @@
     "label": "금액",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "5,700,000원"
+    "example": "45,980,000"
    },
    {
     "key": "비중2",
@@ -53182,7 +53238,7 @@
     "example": null
    },
    {
-    "key": "목록[].전기",
+    "key": "항목_목록[].전기",
     "label": "전기",
     "type": "text",
     "fill_rate": 1.0,
@@ -53196,7 +53252,7 @@
     "example": null
    },
    {
-    "key": "목록[].금기",
+    "key": "항목_목록[].금기",
     "label": "금기",
     "type": "text",
     "fill_rate": 1.0,
@@ -53228,7 +53284,7 @@
     "label": "현지법인운영상애로사항(복수선택가능)",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "기타",
+    "example": "공장부지 확보 등 토지관련 분야",
     "options": [
      "인사/노무관련 요인(고용/현지종업원 또는 노동조합과의 불화 등)",
      "생산관련 요인(노동생산성/부품·원자재 조달)",
@@ -53278,7 +53334,7 @@
     "label": "국가명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "영국"
+    "example": "일본"
    }
   ]
  },
@@ -53474,7 +53530,7 @@
     "example": "2026.01.31"
    },
    {
-    "key": "목록[].투자자",
+    "key": "합계_목록[].투자자",
     "label": "투자자",
     "type": "text",
     "fill_rate": 1.0,
@@ -53488,7 +53544,7 @@
     "example": null
    },
    {
-    "key": "목록[].현지법인명",
+    "key": "합계_목록[].현지법인명",
     "label": "현지법인명",
     "type": "text",
     "fill_rate": 1.0,
@@ -53523,7 +53579,7 @@
     "example": "40"
    },
    {
-    "key": "목록[].현금",
+    "key": "합계_목록[].현금",
     "label": "현금",
     "type": "text",
     "fill_rate": 1.0,
@@ -53565,14 +53621,14 @@
     "example": "해당 없음"
    },
    {
-    "key": "목록[].신고일자",
+    "key": "합계_목록[].신고일자",
     "label": "신고일자",
     "type": "date",
     "fill_rate": 1.0,
     "example": "2025년 6월 21일"
    },
    {
-    "key": "목록[].신고금액",
+    "key": "합계_목록[].신고금액",
     "label": "신고금액",
     "type": "number",
     "fill_rate": 1.0,
@@ -53625,14 +53681,21 @@
     "label": "취득일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025년 6월 2일"
+    "example": "2025.08.17"
    },
    {
     "key": "취득금액",
     "label": "취득금액",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "3,840,000"
+    "example": "92,950,000"
+   },
+   {
+    "key": "투자자_목록[].투자자",
+    "label": "투자자",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": null
    },
    {
     "key": "date2",
@@ -53642,18 +53705,32 @@
     "example": "2026.01.31"
    },
    {
+    "key": "투자자_목록[].신고금액",
+    "label": "신고금액",
+    "type": "number",
+    "fill_rate": 1.0,
+    "example": "35,870,000원"
+   },
+   {
+    "key": "투자자_목록[].현지법인명",
+    "label": "현지법인명",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": "유니온전자"
+   },
+   {
     "key": "외환매입일자",
     "label": "외환매입일자",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025.03.25"
+    "example": "2025.10.29"
    },
    {
     "key": "매입금액",
     "label": "매입금액",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "1,270,000"
+    "example": "440,000"
    },
    {
     "key": "투자국",
@@ -53688,7 +53765,7 @@
     "label": "비율",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "10"
+    "example": "50"
    },
    {
     "key": "회수내역주",
@@ -54151,37 +54228,37 @@
    {
     "key": "한국측_목록[].금액",
     "label": "금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "2,140,000"
    },
    {
     "key": "목록[].금액",
     "label": "금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
-    "example": "640,000"
+    "example": "2,410,000"
    },
    {
     "key": "합계",
     "label": "합계(1+2+3)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "62,420,000"
+    "example": "1,090,000"
    },
    {
     "key": "한국측_목록[].비율",
     "label": "비율(%)",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
-    "example": "5"
+    "example": "32"
    },
    {
     "key": "목록[].비율",
     "label": "비율(%)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "100"
+    "example": "35"
    },
    {
     "key": "대부액",
@@ -54195,14 +54272,14 @@
     "label": "이율",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "10"
+    "example": "50"
    },
    {
     "key": "원금상환방법",
     "label": "원금상환방법",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "7,130,000"
+    "example": "7,120,000원"
    },
    {
     "key": "자기자금",
@@ -54216,7 +54293,7 @@
     "label": "자금용도",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "결혼자금"
+    "example": "만기 해지"
    },
    {
     "key": "기간",
@@ -54230,7 +54307,7 @@
     "label": "이자징수방법",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "7,460,000"
+    "example": "39,010,000"
    },
    {
     "key": "차입금",
@@ -55668,14 +55745,14 @@
     "example": "2026.01.31"
    },
    {
-    "key": "목록[].신고자",
+    "key": "해외지사신고명세_목록[].신고자",
     "label": "신고자",
     "type": "text",
     "fill_rate": 1.0,
     "example": "주식회사 제일푸드"
    },
    {
-    "key": "목록[].사업자번호",
+    "key": "해외지사신고명세_목록[].사업자번호",
     "label": "사업자(주민)번호",
     "type": "biz_no",
     "fill_rate": 1.0,
@@ -55689,14 +55766,14 @@
     "example": null
    },
    {
-    "key": "목록[].지사명",
+    "key": "해외지사신고명세_목록[].지사명",
     "label": "지사명",
     "type": "text",
     "fill_rate": 1.0,
     "example": "청솔물산"
    },
    {
-    "key": "목록[].설치국가",
+    "key": "해외지사신고명세_목록[].설치국가",
     "label": "설치국가",
     "type": "text",
     "fill_rate": 1.0,
@@ -55743,6 +55820,20 @@
     "type": "date",
     "fill_rate": 1.0,
     "example": "2026.01.31"
+   },
+   {
+    "key": "해외지사폐쇄내역_목록[].신고자",
+    "label": "신고자",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": "(주)유니온무역"
+   },
+   {
+    "key": "해외지사폐쇄내역_목록[].사업자번호",
+    "label": "사업자(주민)번호",
+    "type": "biz_no",
+    "fill_rate": 1.0,
+    "example": "264-82-36559"
    },
    {
     "key": "해외지사명",
@@ -56637,7 +56728,7 @@
     "label": "지점",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "금은현"
+    "example": "우형우"
    },
    {
     "key": "기재사항3",
@@ -57192,200 +57283,200 @@
   "group": "hana",
   "keys": [
    {
-    "key": "목록[].차주명",
+    "key": "차주명_목록[].차주명",
     "label": "차주명",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].사업자등록번호",
+    "key": "차주명_목록[].사업자등록번호",
     "label": "사업자등록번호",
     "type": "biz_no",
     "fill_rate": 1.0,
     "example": "264-82-36559"
    },
    {
-    "key": "목록[].담당자성명",
+    "key": "차주명_목록[].담당자성명",
     "label": "담당자성명",
     "type": "text",
     "fill_rate": 1.0,
     "example": "최환정"
    },
    {
-    "key": "목록[].담당자전화번호",
+    "key": "차주명_목록[].담당자전화번호",
     "label": "담당자전화번호",
     "type": "phone",
     "fill_rate": 1.0,
     "example": "010-5907-7253"
    },
    {
-    "key": "목록[].대주명",
+    "key": "차주명_목록[].대주명",
     "label": "대주명",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].대주소재국",
+    "key": "차주명_목록[].대주소재국",
     "label": "대주소재국",
     "type": "text",
     "fill_rate": 1.0,
     "example": "서울특별시 서초구 방배로 524, 110동 501호"
    },
    {
-    "key": "목록[].차입근거법1",
+    "key": "외국환은행지점명_목록[].차입근거법1",
     "label": "차입근거법1",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].신고번호",
+    "key": "외국환은행지점명_목록[].신고번호",
     "label": "신고번호",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "607-006507-98562"
+    "example": "006-507985-62917"
    },
    {
-    "key": "목록[].지정거래외국환은행지점명",
+    "key": "외국환은행지점명_목록[].지정거래외국환은행지점명",
     "label": "지정거래외국환은행지점명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "기업은행"
+    "example": "카카오뱅크"
    },
    {
-    "key": "목록[].자금용도",
+    "key": "외국환은행지점명_목록[].자금용도",
     "label": "자금용도",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "만기 해지"
+    "example": "전세자금"
    },
    {
-    "key": "목록[].계약통화",
+    "key": "외국환은행지점명_목록[].계약통화",
     "label": "계약통화",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "JPY"
+    "example": "CAD"
    },
    {
-    "key": "목록[].계약금액",
+    "key": "외국환은행지점명_목록[].계약금액",
     "label": "계약금액(A)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "8,270,000"
+    "example": "14,000,000"
    },
    {
-    "key": "목록[].최초차입일자",
+    "key": "외국환은행지점명_목록[].최초차입일자",
     "label": "최초차입일자",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025.09.29"
+    "example": "2025년 10월 11일"
    },
    {
-    "key": "목록[].만기일자",
+    "key": "외국환은행지점명_목록[].만기일자",
     "label": "만기일자",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2028-03-04"
+    "example": "2026.06.16"
    },
    {
-    "key": "목록[].기차입액",
+    "key": "외국환은행지점명_목록[].기차입액",
     "label": "기차입액(B)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].당월차입일자",
+    "key": "외국환은행지점명_목록[].당월차입일자",
     "label": "당월차입일자",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025년 11월 4일"
+    "example": "2025.01.10"
    },
    {
-    "key": "목록[].당월차입액",
+    "key": "외국환은행지점명_목록[].당월차입액",
     "label": "당월차입액(국내예치액)(C)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].차입누계",
+    "key": "예치일자_목록[].차입누계",
     "label": "차입누계(D=B+C+L)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].미차입액",
+    "key": "예치일자_목록[].미차입액",
     "label": "미차입액(E=A-D)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].기원금상환액",
+    "key": "예치일자_목록[].기원금상환액",
     "label": "기원금상환액(F)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "510,000"
+    "example": "2,120,000"
    },
    {
-    "key": "목록[].당월상환일자",
+    "key": "예치일자_목록[].당월상환일자",
     "label": "당월상환일자",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2026-01-15"
+    "example": "2025년 8월 14일"
    },
    {
-    "key": "목록[].당월원금상환액",
+    "key": "예치일자_목록[].당월원금상환액",
     "label": "당월원금상환액(해외송금분)(G)",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
-    "example": "23,210,000"
+    "example": "5,790,000"
    },
    {
-    "key": "목록[].상환잔액",
+    "key": "예치일자_목록[].상환잔액",
     "label": "상환잔액(I=D-F-G-H)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "162,980,000원"
+    "example": "224,940,000원"
    },
    {
-    "key": "목록[].당월이자상환액",
+    "key": "예치일자_목록[].당월이자상환액",
     "label": "당월이자상환액",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "5,690,000"
+    "example": "241,360,000"
    },
    {
-    "key": "목록[].해외예치일자",
+    "key": "예치일자_목록[].해외예치일자",
     "label": "해외예치일자",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025.07.08"
+    "example": "2025-11-09"
    },
    {
-    "key": "목록[].해외예치은행명",
+    "key": "예치일자_목록[].해외예치은행명",
     "label": "해외예치은행명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "국민은행"
+    "example": "카카오뱅크"
    },
    {
-    "key": "목록[].해외예치은행BIC코드",
+    "key": "예치일자_목록[].해외예치은행BIC코드",
     "label": "해외예치은행BIC코드",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "033090"
+    "example": "13609"
    },
    {
-    "key": "목록[].전월말예치잔액",
+    "key": "예치일자_목록[].전월말예치잔액",
     "label": "전월말예치잔액(J)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "8,790,000"
+    "example": "5,360,000"
    },
    {
     "key": "제출자",
@@ -57395,130 +57486,137 @@
     "example": null
    },
    {
-    "key": "목록[].당월예치액",
+    "key": "차입액_목록[].당월예치액",
     "label": "당월예치액(K=L+M)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].당월예치이자",
+    "key": "차입액_목록[].당월차입액",
+    "label": "당월차입액(L)",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": null
+   },
+   {
+    "key": "차입액_목록[].당월예치이자",
     "label": "당월예치이자(M)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "1,940,000"
+    "example": "12,780,000"
    },
    {
-    "key": "목록[].당월인출액",
+    "key": "차입액_목록[].당월인출액",
     "label": "당월인출액(N=O+P)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].국내입금액",
+    "key": "차입액_목록[].국내입금액",
     "label": "국내입금액(O)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "880,000원"
+    "example": "63,970,000"
    },
    {
-    "key": "목록[].해외사용액",
+    "key": "차입액_목록[].해외사용액",
     "label": "해외사용액(P)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].당월예치잔액",
+    "key": "차입액_목록[].당월예치잔액",
     "label": "당월예치잔액(Q=J+K-N)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "3,250,000"
+    "example": "51,750,000"
    },
    {
-    "key": "목록[].이자유형2",
+    "key": "차입액_목록[].이자유형2",
     "label": "이자유형2",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "91,740,000"
+    "example": "10,730,000"
    },
    {
-    "key": "목록[].변동금리구분3",
+    "key": "차입액_목록[].변동금리구분3",
     "label": "변동금리구분3",
     "type": "number",
     "fill_rate": 1.0,
     "example": "95"
    },
    {
-    "key": "목록[].금리통화",
+    "key": "차입액_목록[].금리통화",
     "label": "금리통화",
     "type": "number",
     "fill_rate": 1.0,
     "example": "95"
    },
    {
-    "key": "목록[].금리수준4",
+    "key": "차입액_목록[].금리수준4",
     "label": "금리수준4",
     "type": "number",
     "fill_rate": 1.0,
     "example": "95"
    },
    {
-    "key": "목록[].금리스프레드5",
+    "key": "차입액_목록[].금리스프레드5",
     "label": "금리스프레드(변동금리)5)",
     "type": "number",
     "fill_rate": 1.0,
     "example": "95"
    },
    {
-    "key": "목록[].이자지급주기6",
+    "key": "차입액_목록[].이자지급주기6",
     "label": "이자지급주기6",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "34,240,000"
+    "example": "98,050,000"
    },
    {
-    "key": "목록[].Option종류7",
+    "key": "Option종류7_목록[].Option종류7",
     "label": "Option종류7",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].Option행사일",
+    "key": "Option종류7_목록[].Option행사일",
     "label": "Option행사일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2026.01.02"
+    "example": "2025.04.20"
    },
    {
-    "key": "목록[].상환방법",
+    "key": "Option종류7_목록[].상환방법",
     "label": "상환방법",
     "type": "text",
     "fill_rate": 1.0,
     "example": "혼합상환"
    },
    {
-    "key": "목록[].지급보증기관8",
+    "key": "Option종류7_목록[].지급보증기관8",
     "label": "지급보증기관8",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].지급보증기관본점국적국",
+    "key": "Option종류7_목록[].지급보증기관본점국적국",
     "label": "지급보증기관본점국적국",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].지급보증기관명",
+    "key": "Option종류7_목록[].지급보증기관명",
     "label": "지급보증기관명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "우리은행"
+    "example": "농협은행"
    }
   ]
  },
@@ -57527,193 +57625,193 @@
   "group": "hana",
   "keys": [
    {
-    "key": "목록[].발행자명",
+    "key": "발행자명_목록[].발행자명",
     "label": "발행자명",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].사업자등록번호",
+    "key": "발행자명_목록[].사업자등록번호",
     "label": "사업자등록번호",
     "type": "biz_no",
     "fill_rate": 1.0,
     "example": "549-35-19291"
    },
    {
-    "key": "목록[].담당자성명",
+    "key": "발행자명_목록[].담당자성명",
     "label": "담당자성명",
     "type": "text",
     "fill_rate": 1.0,
     "example": "조채재"
    },
    {
-    "key": "목록[].담당자전화번호",
+    "key": "발행자명_목록[].담당자전화번호",
     "label": "담당자전화번호",
     "type": "phone",
     "fill_rate": 1.0,
     "example": "010-5907-7253"
    },
    {
-    "key": "목록[].대주명",
+    "key": "발행자명_목록[].대주명",
     "label": "대주명",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].대주소재국",
+    "key": "발행자명_목록[].대주소재국",
     "label": "대주소재국",
     "type": "text",
     "fill_rate": 1.0,
     "example": "서울특별시 서초구 방배로 524, 110동 501호"
    },
    {
-    "key": "목록[].신고번호",
+    "key": "외국환은행지점명_목록[].신고번호",
     "label": "신고번호",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "331792-1441248"
+    "example": "7921-4412"
    },
    {
-    "key": "목록[].지정거래외국환은행지점명",
+    "key": "외국환은행지점명_목록[].지정거래외국환은행지점명",
     "label": "지정거래외국환은행지점명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "국민은행"
+    "example": "농협은행"
    },
    {
-    "key": "목록[].발행일자",
+    "key": "외국환은행지점명_목록[].발행일자",
     "label": "발행일자",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025.10.25"
+    "example": "2025.03.08"
    },
    {
-    "key": "목록[].발행시장소재국",
+    "key": "외국환은행지점명_목록[].발행시장소재국",
     "label": "발행시장소재국",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].자금용도",
+    "key": "외국환은행지점명_목록[].자금용도",
     "label": "자금용도",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "생활자금"
+    "example": "주택구입"
    },
    {
-    "key": "목록[].증권종류1",
+    "key": "외국환은행지점명_목록[].증권종류1",
     "label": "증권종류1",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].발행통화",
+    "key": "외국환은행지점명_목록[].발행통화",
     "label": "발행통화",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "AUD"
+    "example": "GBP"
    },
    {
-    "key": "목록[].발행금액",
+    "key": "외국환은행지점명_목록[].발행금액",
     "label": "발행금액(A)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "40,980,000"
+    "example": "144,650,000원"
    },
    {
-    "key": "목록[].만기일자",
+    "key": "외국환은행지점명_목록[].만기일자",
     "label": "만기일자",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2027-05-04"
+    "example": "2029-07-08"
    },
    {
-    "key": "목록[].당월국내예치일자",
+    "key": "외국환은행지점명_목록[].당월국내예치일자",
     "label": "당월국내예치일자",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025.09.05"
+    "example": "2025년 7월 5일"
    },
    {
-    "key": "목록[].당월국내예치액",
+    "key": "외국환은행지점명_목록[].당월국내예치액",
     "label": "당월국내예치액",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].기원금상환액",
+    "key": "예치일자_목록[].기원금상환액",
     "label": "기원금상환액(B)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "8,860,000"
+    "example": "750,000원"
    },
    {
-    "key": "목록[].당월상환일자",
+    "key": "예치일자_목록[].당월상환일자",
     "label": "당월상환일자",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025-04-16"
+    "example": "2025.08.05"
    },
    {
-    "key": "목록[].상환잔액",
+    "key": "예치일자_목록[].상환잔액",
     "label": "상환잔액(E=A-B-C-D)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "1,970,000"
+    "example": "4,910,000"
    },
    {
-    "key": "목록[].당월이자상환액",
+    "key": "예치일자_목록[].당월이자상환액",
     "label": "당월이자상환액",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "292,360,000"
+    "example": "33,480,000"
    },
    {
-    "key": "목록[].당월주식전환액2",
+    "key": "예치일자_목록[].당월주식전환액2",
     "label": "당월주식전환액2",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].당월말주식전환누계액3",
+    "key": "예치일자_목록[].당월말주식전환누계액3",
     "label": "당월말주식전환누계액3",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].해외예치일자",
+    "key": "예치일자_목록[].해외예치일자",
     "label": "해외예치일자",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025년 9월 11일"
+    "example": "2025년 11월 3일"
    },
    {
-    "key": "목록[].해외예치은행명",
+    "key": "예치일자_목록[].해외예치은행명",
     "label": "해외예치은행명",
     "type": "text",
     "fill_rate": 1.0,
     "example": "국민은행"
    },
    {
-    "key": "목록[].해외예치은행BIC코드",
+    "key": "예치일자_목록[].해외예치은행BIC코드",
     "label": "해외예치은행BIC코드",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "732312"
+    "example": "9385"
    },
    {
-    "key": "목록[].전월말예치잔액",
+    "key": "예치일자_목록[].전월말예치잔액",
     "label": "전월말예치잔액(F)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "70,420,000"
+    "example": "68,680,000"
    },
    {
     "key": "제출자",
@@ -57723,161 +57821,161 @@
     "example": null
    },
    {
-    "key": "목록[].당월예치액",
+    "key": "금리_목록[].당월예치액",
     "label": "당월예치액(G=H+I)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].당월발행대금",
+    "key": "금리_목록[].당월발행대금",
     "label": "당월발행대금(H)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "910,000"
+    "example": "10,950,000"
    },
    {
-    "key": "목록[].당월예치이자",
+    "key": "금리_목록[].당월예치이자",
     "label": "당월예치이자(I)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "10,270,000원"
+    "example": "29,640,000"
    },
    {
-    "key": "목록[].당월인출액",
+    "key": "금리_목록[].당월인출액",
     "label": "당월인출액(J=K+L)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].국내입금액",
+    "key": "금리_목록[].국내입금액",
     "label": "국내입금액(K)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "86,920,000원"
+    "example": "9,880,000"
    },
    {
-    "key": "목록[].해외사용액",
+    "key": "금리_목록[].해외사용액",
     "label": "해외사용액(L)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].당월말예치잔액",
+    "key": "금리_목록[].당월말예치잔액",
     "label": "당월말예치잔액(M=F+G-J)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "49,240,000"
+    "example": "54,320,000"
    },
    {
-    "key": "목록[].표면금리",
+    "key": "금리_목록[].표면금리",
     "label": "표면금리",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "20"
+    "example": "45"
    },
    {
-    "key": "목록[].발행비용",
+    "key": "금리_목록[].발행비용",
     "label": "발행비용(%)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].이자유형4",
+    "key": "금리_목록[].이자유형4",
     "label": "이자유형4",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "2,360,000"
+    "example": "1,640,000"
    },
    {
-    "key": "목록[].변동금리구분5",
+    "key": "금리_목록[].변동금리구분5",
     "label": "변동금리구분5",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "20"
+    "example": "45"
    },
    {
-    "key": "목록[].금리통화",
+    "key": "금리_목록[].금리통화",
     "label": "금리통화",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "20"
+    "example": "45"
    },
    {
-    "key": "목록[].금리수준6",
+    "key": "금리_목록[].금리수준6",
     "label": "금리수준6",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "20"
+    "example": "45"
    },
    {
-    "key": "목록[].금리스프레드7",
+    "key": "주기8_목록[].금리스프레드7",
     "label": "금리스프레드(변동금리)7)",
     "type": "number",
     "fill_rate": 1.0,
     "example": "20"
    },
    {
-    "key": "목록[].이자지급주기8",
+    "key": "주기8_목록[].이자지급주기8",
     "label": "이자지급주기8",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "130,000"
+    "example": "6,620,000"
    },
    {
-    "key": "목록[].Option종류9",
+    "key": "주기8_목록[].Option종류9",
     "label": "Option종류9",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].Option행사일10",
+    "key": "주기8_목록[].Option행사일10",
     "label": "Option행사일10",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].SWAP종류11",
+    "key": "주기8_목록[].SWAP종류11",
     "label": "SWAP종류11",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].권리행사일12",
+    "key": "주기8_목록[].권리행사일12",
     "label": "권리행사일(CB,BW)12)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].상환방법",
+    "key": "주기8_목록[].상환방법",
     "label": "상환방법",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "원금균등분할상환"
+    "example": "원리금균등분할상환"
    },
    {
-    "key": "목록[].지급보증기관13",
+    "key": "주기8_목록[].지급보증기관13",
     "label": "지급보증기관13",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].지급보증기관본점국적국",
+    "key": "주기8_목록[].지급보증기관본점국적국",
     "label": "지급보증기관본점국적국",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].지급보증기관명",
+    "key": "주기8_목록[].지급보증기관명",
     "label": "지급보증기관명",
     "type": "text",
     "fill_rate": 1.0,
@@ -58390,21 +58488,21 @@
    {
     "key": "목록[].차입구분4외화증권5",
     "label": "차입구분4)외화증권5",
-    "type": "text",
+    "type": "amount",
     "fill_rate": 1.0,
     "example": "GBP 58,400"
    },
    {
     "key": "목록[].차입잔액6",
     "label": "차입잔액6",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "4,350,000"
    },
    {
     "key": "목록[].금리7",
     "label": "금리7)(bp)",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "30"
    },
@@ -58418,7 +58516,7 @@
    {
     "key": "목록[].만기일8",
     "label": "만기일8",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2028-07-01"
    },
@@ -59400,9 +59498,9 @@
     "example": "CAD 199,600"
    },
    {
-    "key": "목록[].금액",
+    "key": "건수_목록[].금액",
     "label": "금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "34,060,000"
    },
@@ -59710,7 +59808,7 @@
     "example": "2026년 01월 31일"
    },
    {
-    "key": "목록[].원금",
+    "key": "원금_목록[].원금",
     "label": "원금",
     "type": "number",
     "fill_rate": 1.0,
@@ -59756,14 +59854,14 @@
     "example": "2026.09.27"
    },
    {
-    "key": "목록[].구분회수일자",
+    "key": "회수일자_목록[].구분회수일자",
     "label": "구분회수일자",
     "type": "date",
     "fill_rate": 1.0,
     "example": "2025.02.07"
    },
    {
-    "key": "목록[].회수재산의종류",
+    "key": "회수일자_목록[].회수재산의종류",
     "label": "회수재산의종류",
     "type": "text",
     "fill_rate": 1.0,
@@ -59777,14 +59875,14 @@
     "example": null
    },
    {
-    "key": "목록[].금액",
+    "key": "회수일자_목록[].금액",
     "label": "금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "31,430,000"
    },
    {
-    "key": "목록[].비고",
+    "key": "회수일자_목록[].비고",
     "label": "비고",
     "type": "text",
     "fill_rate": 1.0,
@@ -62809,7 +62907,7 @@
     "example": null
    },
    {
-    "key": "목록[].형태Form",
+    "key": "Currency_목록[].형태Form",
     "label": "형태Form",
     "type": "text",
     "fill_rate": 1.0,
@@ -62823,7 +62921,7 @@
     "example": "41,540,000"
    },
    {
-    "key": "목록[].통화별금액AmountineachCurrency",
+    "key": "Currency_목록[].통화별금액AmountineachCurrency",
     "label": "통화별금액AmountineachCurrency",
     "type": "number",
     "fill_rate": 1.0,
@@ -62837,7 +62935,7 @@
     "example": "9,280,000원"
    },
    {
-    "key": "목록[].합계Sum",
+    "key": "Currency_목록[].합계Sum",
     "label": "합계(미화상당)Sum(US$equiv)",
     "type": "number",
     "fill_rate": 1.0,
@@ -62851,7 +62949,7 @@
     "example": "해외 이주"
    },
    {
-    "key": "목록[].반출입용도Use",
+    "key": "Currency_목록[].반출입용도Use",
     "label": "반출입용도Use",
     "type": "text",
     "fill_rate": 1.0,
@@ -62865,7 +62963,7 @@
     "example": "해당 없음"
    },
    {
-    "key": "목록[].비고",
+    "key": "Currency_목록[].비고",
     "label": "비고(Note)(수표번호등)",
     "type": "text",
     "fill_rate": 1.0,
@@ -62879,18 +62977,18 @@
     "example": null
    },
    {
-    "key": "목록[].일자Date",
+    "key": "Date_목록[].일자Date",
     "label": "일자Date",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025-10-12"
+    "example": "2025년 1월 21일"
    },
    {
-    "key": "목록[].금액Amount",
+    "key": "Date_목록[].금액Amount",
     "label": "금액Amount",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "480,000"
+    "example": "1,870,000원"
    },
    {
     "key": "확인ResponsibleOfficial",
@@ -62904,7 +63002,7 @@
     "label": "통화종류CodeofCurrency",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "GBP"
+    "example": "CNY"
    },
    {
     "key": "확인기관ConfirmationOffice",
@@ -62925,14 +63023,14 @@
     "label": "신고인서명",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "현예지"
+    "example": "박찬연"
    },
    {
     "key": "sign.signer",
     "label": "신고인서명",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "박찬연"
+    "example": "이민빈"
    },
    {
     "key": "customer.name",
@@ -62967,7 +63065,7 @@
     "label": "PassportNo.",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "M52059472"
+    "example": "M54978726"
    },
    {
     "key": "ExpectedTermofStayTo",
@@ -63541,7 +63639,7 @@
    {
     "key": "한국측_목록[].금액",
     "label": "금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "4,430,000"
    },
@@ -63555,7 +63653,7 @@
    {
     "key": "목록[].금액",
     "label": "금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "49,620,000"
    },
@@ -63569,16 +63667,16 @@
    {
     "key": "한국측_목록[].비율",
     "label": "비율(%)",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "100"
    },
    {
     "key": "목록[].비율",
     "label": "비율(%)",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
-    "example": "45"
+    "example": "20"
    },
    {
     "key": "토지건물기계설비운영자금",
@@ -65801,14 +65899,14 @@
    {
     "key": "목록[].매입금액",
     "label": "매입(추심)금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "7,420,000원"
    },
    {
     "key": "목록[].판매대금추심의뢰서번호",
     "label": "판매대금추심의뢰서번호",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "2,850,000원"
    },
@@ -65910,25 +66008,25 @@
   "group": "hana",
   "keys": [
    {
-    "key": "목록[].OurRefNo",
+    "key": "OurRefNo_목록[].OurRefNo",
     "label": "OurRef.No.",
     "type": "text",
     "fill_rate": 1.0,
     "example": "683-418491-97938"
    },
    {
-    "key": "목록[].Amount",
+    "key": "OurRefNo_목록[].Amount",
     "label": "Amount",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "96,800,000원"
+    "example": "82,940,000"
    },
    {
-    "key": "목록[].사유",
+    "key": "OurRefNo_목록[].사유",
     "label": "사유(하자내용등)",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "자녀 교육비"
+    "example": "사업자금"
    },
    {
     "key": "수신",
@@ -65952,7 +66050,21 @@
     "example": null
    },
    {
-    "key": "목록[].Discrepancies",
+    "key": "OurRefNo2_목록[].OurRefNo",
+    "label": "OurRef.No.",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": "557-194355-37110"
+   },
+   {
+    "key": "OurRefNo2_목록[].Amount",
+    "label": "Amount",
+    "type": "number",
+    "fill_rate": 1.0,
+    "example": "7,270,000"
+   },
+   {
+    "key": "OurRefNo2_목록[].Discrepancies",
     "label": "Discrepancies",
     "type": "text",
     "fill_rate": 1.0,
@@ -67540,7 +67652,7 @@
    {
     "key": "목록[].금액",
     "label": "금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "9,140,000"
    },
@@ -67575,7 +67687,7 @@
    {
     "key": "목록[].대도금액",
     "label": "대도금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "560,000"
    },
@@ -67673,7 +67785,7 @@
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "김소성"
+    "example": "우미유"
    },
    {
     "key": "seal.staff.책임자",
@@ -69523,7 +69635,7 @@
    {
     "key": "한국측_목록[].금액",
     "label": "금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "5,650,000"
    },
@@ -69537,7 +69649,7 @@
    {
     "key": "목록[].금액",
     "label": "금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "28,880,000"
    },
@@ -69551,14 +69663,14 @@
    {
     "key": "한국측_목록[].비율",
     "label": "비율(%)",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "100"
    },
    {
     "key": "목록[].비율",
     "label": "비율(%)",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "80"
    },
@@ -69896,7 +70008,7 @@
     "example": "2026년 01월 31일"
    },
    {
-    "key": "목록[].원금",
+    "key": "원금_목록[].원금",
     "label": "원금",
     "type": "number",
     "fill_rate": 1.0,
@@ -69956,14 +70068,14 @@
     "example": null
    },
    {
-    "key": "목록[].구분회수일자",
+    "key": "회수일자_목록[].구분회수일자",
     "label": "구분회수일자",
     "type": "date",
     "fill_rate": 1.0,
     "example": "2025-05-12"
    },
    {
-    "key": "목록[].회수재산의종류",
+    "key": "회수일자_목록[].회수재산의종류",
     "label": "회수재산의종류",
     "type": "text",
     "fill_rate": 1.0,
@@ -69977,14 +70089,14 @@
     "example": null
    },
    {
-    "key": "목록[].금액",
+    "key": "회수일자_목록[].금액",
     "label": "금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "20,010,000"
    },
    {
-    "key": "목록[].비고",
+    "key": "회수일자_목록[].비고",
     "label": "비고",
     "type": "text",
     "fill_rate": 1.0,
@@ -70170,7 +70282,7 @@
     "example": "2026년 01월 31일"
    },
    {
-    "key": "목록[].신고자",
+    "key": "북한지사신고명세_목록[].신고자",
     "label": "신고자",
     "type": "text",
     "fill_rate": 1.0,
@@ -70184,14 +70296,14 @@
     "example": null
    },
    {
-    "key": "목록[].지사명",
+    "key": "북한지사신고명세_목록[].지사명",
     "label": "지사명",
     "type": "text",
     "fill_rate": 1.0,
     "example": "(주)신영무역"
    },
    {
-    "key": "목록[].설치지역",
+    "key": "북한지사신고명세_목록[].설치지역",
     "label": "설치지역",
     "type": "text",
     "fill_rate": 1.0,
@@ -70212,7 +70324,7 @@
     "example": null
    },
    {
-    "key": "목록[].신고금액",
+    "key": "북한지사신고명세_목록[].신고금액",
     "label": "신고금액",
     "type": "number",
     "fill_rate": 1.0,
@@ -70275,6 +70387,13 @@
     "example": null
    },
    {
+    "key": "신고자_목록[].신고자",
+    "label": "신고자",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": "(주)유니온무역"
+   },
+   {
     "key": "지사명",
     "label": "지사명",
     "type": "text",
@@ -70331,11 +70450,11 @@
     "example": "2026년 01월 31일"
    },
    {
-    "key": "목록[].북한지사명",
+    "key": "구분주_목록[].북한지사명",
     "label": "북한지사명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "(주)대성테크"
+    "example": "(주)신영로지스"
    },
    {
     "key": "주구분",
@@ -70359,6 +70478,13 @@
     "example": "2026년 01월 31일"
    },
    {
+    "key": "신고자",
+    "label": "신고자",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": "주식회사 우진테크"
+   },
+   {
     "key": "설치지역",
     "label": "설치지역",
     "type": "text",
@@ -70370,7 +70496,7 @@
     "label": "신고금액",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "210,000"
+    "example": "17,990,000"
    },
    {
     "key": "회수구분주",
@@ -70384,7 +70510,7 @@
     "label": "회수금액",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "299,060,000"
+    "example": "8,070,000"
    },
    {
     "key": "비고",
@@ -70405,7 +70531,7 @@
     "label": "변경일자",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025-04-06"
+    "example": "2025년 7월 18일"
    },
    {
     "key": "변경전",
@@ -74017,21 +74143,21 @@
     "example": null
    },
    {
-    "key": "목록[].BankName",
+    "key": "BankName_목록[].BankName",
     "label": "BankName",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].AccountNo",
+    "key": "BankName_목록[].AccountNo",
     "label": "AccountNo.",
     "type": "text",
     "fill_rate": 1.0,
     "example": "250843-2802292"
    },
    {
-    "key": "목록[].SpeedDialNumberforPhoneBanking",
+    "key": "BankName_목록[].SpeedDialNumberforPhoneBanking",
     "label": "SpeedDialNumberforPhoneBanking",
     "type": "text",
     "fill_rate": 1.0,
@@ -74164,6 +74290,27 @@
     "example": null
    },
    {
+    "key": "BankName2_목록[].BankName",
+    "label": "BankName",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": null
+   },
+   {
+    "key": "BankName2_목록[].AccountNo",
+    "label": "AccountNo.",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": "609-079501-41089"
+   },
+   {
+    "key": "BankName2_목록[].SpeedDialNumberforPhoneBanking",
+    "label": "SpeedDialNumberforPhoneBanking",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": null
+   },
+   {
     "key": "customer.name4",
     "label": "Name",
     "type": "text",
@@ -74289,28 +74436,28 @@
     "example": "010-5907-7253"
    },
    {
-    "key": "목록[].은행명",
+    "key": "단축번호_목록[].은행명",
     "label": "은행명",
     "type": "text",
     "fill_rate": 1.0,
     "example": "하나은행"
    },
    {
-    "key": "목록[].계좌번호",
+    "key": "단축번호_목록[].계좌번호",
     "label": "계좌번호",
     "type": "text",
     "fill_rate": 1.0,
     "example": "853-996761-31226"
    },
    {
-    "key": "목록[].폰뱅킹단축번호",
+    "key": "단축번호_목록[].폰뱅킹단축번호",
     "label": "폰뱅킹단축번호",
     "type": "text",
     "fill_rate": 1.0,
     "example": "349-599247-65257"
    },
    {
-    "key": "목록[].통장인감서명",
+    "key": "단축번호_목록[].통장인감서명",
     "label": "통장인감/서명",
     "type": "text",
     "fill_rate": 1.0,
@@ -74459,7 +74606,7 @@
    {
     "key": "이용자ID2",
     "label": "이용자ID",
-    "type": "text",
+    "type": "rrn",
     "fill_rate": 1.0,
     "example": "1624-0366"
    },
@@ -74483,6 +74630,34 @@
     "type": "phone",
     "fill_rate": 1.0,
     "example": "010-5907-7253"
+   },
+   {
+    "key": "단축번호2_목록[].은행명",
+    "label": "은행명",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": "카카오뱅크"
+   },
+   {
+    "key": "단축번호2_목록[].계좌번호",
+    "label": "계좌번호",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": "943-591066-22525"
+   },
+   {
+    "key": "단축번호2_목록[].폰뱅킹단축번호",
+    "label": "폰뱅킹단축번호",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": "6302-7428"
+   },
+   {
+    "key": "단축번호2_목록[].통장인감서명",
+    "label": "통장인감/서명",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": null
    },
    {
     "key": "agent.name2",
@@ -74666,7 +74841,7 @@
     "example": null
    },
    {
-    "key": "목록[].OverseasIPBlockingService",
+    "key": "DailyKRW_목록[].OverseasIPBlockingService",
     "label": "OverseasIPBlockingService",
     "type": "text",
     "fill_rate": 1.0,
@@ -74680,7 +74855,7 @@
     "example": null
    },
    {
-    "key": "목록[].OfficeName",
+    "key": "Service_목록[].OfficeName",
     "label": "OfficeName",
     "type": "text",
     "fill_rate": 1.0,
@@ -74694,11 +74869,11 @@
     "example": "010-5907-7253"
    },
    {
-    "key": "목록[].BusinessRegistrationNo",
+    "key": "Service_목록[].BusinessRegistrationNo",
     "label": "BusinessRegistrationNo.",
-    "type": "text",
+    "type": "biz_no",
     "fill_rate": 1.0,
-    "example": "264-82-36559"
+    "example": "689-09-36828"
    },
    {
     "key": "RequestNotRequest",
@@ -74708,11 +74883,11 @@
     "example": null
    },
    {
-    "key": "목록[].CorporateRegistrationNo",
+    "key": "Service_목록[].CorporateRegistrationNo",
     "label": "CorporateRegistrationNo.",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "965-283639-91822"
+    "example": "6399-1822"
    },
    {
     "key": "PostpaidFee",
@@ -74998,14 +75173,14 @@
     "label": "법인등록번호",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "671518-5579757"
+    "example": "557975-7938573"
    },
    {
     "key": "수수료후취",
     "label": "수수료후취",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "244,400,000원"
+    "example": "213,790,000원"
    },
    {
     "key": "신청해지",
@@ -75040,7 +75215,7 @@
     "label": "확인자명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "곽수혜"
+    "example": "선우호예"
    },
    {
     "key": "seal.signer2",
@@ -75054,7 +75229,7 @@
     "label": "확인자명",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "손경주"
+    "example": "선우호예"
    },
    {
     "key": "signer3.name",
@@ -75082,7 +75257,7 @@
     "label": "확인자명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "이선승"
+    "example": "이다우"
    },
    {
     "key": "seal.signer4",
@@ -75131,14 +75306,14 @@
     "label": "대리인",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "이도민"
+    "example": "박영준"
    },
    {
     "key": "seal.signer6",
     "label": "대리인",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "이도민"
+    "example": "박영준"
    },
    {
     "key": "sign.signer6",
@@ -75152,7 +75327,7 @@
     "label": "대리인",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "강석호"
+    "example": "박영준"
    },
    {
     "key": "seal.signer7",
@@ -75166,7 +75341,7 @@
     "label": "대리인",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "강석호"
+    "example": "박영준"
    },
    {
     "key": "OTP2",
@@ -75180,7 +75355,7 @@
     "label": "담당",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "검인"
+    "example": "이민빈"
    },
    {
     "key": "sign.staff.담당",
@@ -75194,7 +75369,7 @@
     "label": "책임자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "권민수"
+    "example": "황찬하"
    },
    {
     "key": "sign.staff.책임자",
@@ -75208,14 +75383,14 @@
     "label": "지점장",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "천옥경"
+    "example": "김재도"
    },
    {
     "key": "sign.staff.지점장",
     "label": "지점장",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "강주하"
+    "example": "이영주"
    },
    {
     "key": "사용자구분",
@@ -75243,35 +75418,35 @@
     "label": "대량이체한도iNet*CMS에한함",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "2,660,000"
+    "example": "2,360,000"
    },
    {
     "key": "입금계좌지정",
     "label": "입금계좌지정",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "987-677266-08893"
+    "example": "830-499701-93919"
    },
    {
     "key": "입금계좌지정2",
     "label": "입금계좌지정",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "476-729413-08304"
+    "example": "964-400203-01281"
    },
    {
     "key": "입금계좌지정3",
     "label": "입금계좌지정",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "194-363196-96440"
+    "example": "619-479173-76728"
    },
    {
     "key": "입금계좌지정4",
     "label": "입금계좌지정",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "281-625316-19479"
+    "example": "160-129917-71943"
    },
    {
     "key": "agent.name",
@@ -75299,7 +75474,7 @@
     "label": "생년월일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "1962년 12월 19일"
+    "example": "1962.12.19"
    },
    {
     "key": "agent.name2",
@@ -75458,7 +75633,7 @@
     "label": "거래인감",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "이민빈"
+    "example": "김나우"
    },
    {
     "key": "check.신청종류",
@@ -75503,7 +75678,7 @@
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "양미인"
+    "example": "확인"
    },
    {
     "key": "seal.staff.책임자",
@@ -76763,42 +76938,42 @@
     "example": "878060-4596178"
    },
    {
-    "key": "목록[].통화",
+    "key": "실행자아이디_목록[].통화",
     "label": "통화",
     "type": "text",
     "fill_rate": 1.0,
     "example": "CAD"
    },
    {
-    "key": "목록[].계좌번호",
+    "key": "실행자아이디_목록[].계좌번호",
     "label": "계좌번호",
     "type": "text",
     "fill_rate": 1.0,
     "example": "434-166029-82392"
    },
    {
-    "key": "목록[].예금주명",
+    "key": "실행자아이디_목록[].예금주명",
     "label": "예금주명",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].인감서명",
+    "key": "실행자아이디_목록[].인감서명",
     "label": "인감/서명",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].실행자아이디",
+    "key": "실행자아이디_목록[].실행자아이디",
     "label": "실행자아이디(ID)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].개설점",
+    "key": "실행자아이디_목록[].개설점",
     "label": "개설점",
     "type": "text",
     "fill_rate": 1.0,
@@ -76926,7 +77101,7 @@
     ]
    },
    {
-    "key": "목록[].value",
+    "key": "실행자_목록[].value",
     "label": "(영문+숫자혼합6~10자리)",
     "type": "amount",
     "fill_rate": 1.0,
@@ -76940,25 +77115,39 @@
     "example": null
    },
    {
-    "key": "목록[].지사의실행자아이디",
+    "key": "출금계좌_목록[].지사의실행자아이디",
     "label": "지사의실행자아이디(ID)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].통장인감",
+    "key": "출금계좌_목록[].계좌번호",
+    "label": "계좌번호",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": "689-552901-77646"
+   },
+   {
+    "key": "출금계좌_목록[].통장인감",
     "label": "통장인감",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
+    "key": "출금계좌_목록[].개설점",
+    "label": "개설점",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": "범어지점"
+   },
+   {
     "key": "등록일자",
     "label": "등록일자",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2026년 1월 12일"
+    "example": "2025.12.09"
    },
    {
     "key": "agent.name",
@@ -76972,7 +77161,7 @@
     "label": "생년월일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025.10.03"
+    "example": "2025년 2월 23일"
    },
    {
     "key": "agent.relation",
@@ -77465,7 +77654,7 @@
     ]
    },
    {
-    "key": "목록[].value",
+    "key": "혼합610자리_목록[].value",
     "label": "(영문+숫자혼합6~10자리)",
     "type": "amount",
     "fill_rate": 1.0,
@@ -77515,35 +77704,35 @@
     "example": null
    },
    {
-    "key": "목록[].일련번호",
+    "key": "일련번호_목록[].일련번호",
     "label": "일련번호(은행영업점직원이기입)",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "075-336134-80286"
+    "example": "336-134802-86724"
    },
    {
-    "key": "목록[].실행자아이디",
+    "key": "출금계좌_목록[].실행자아이디",
     "label": "실행자아이디(ID)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].계좌번호",
+    "key": "출금계좌_목록[].계좌번호",
     "label": "계좌번호",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "265-437394-56041"
+    "example": "749-755625-96459"
    },
    {
-    "key": "목록[].통장인감",
+    "key": "출금계좌_목록[].통장인감",
     "label": "통장인감",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].개설점",
+    "key": "출금계좌_목록[].개설점",
     "label": "개설점",
     "type": "text",
     "fill_rate": 1.0,
@@ -77554,21 +77743,21 @@
     "label": "입금계좌(",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "지정",
+    "example": "미지정",
     "options": [
      "지정",
      "미지정"
     ]
    },
    {
-    "key": "목록[].은행",
+    "key": "출금계좌_목록[].은행",
     "label": "은행",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "하나은행"
+    "example": "농협은행"
    },
    {
-    "key": "목록[].예금주",
+    "key": "출금계좌_목록[].예금주",
     "label": "예금주",
     "type": "text",
     "fill_rate": 1.0,
@@ -77579,7 +77768,7 @@
     "label": "등록일자",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025년 4월 14일"
+    "example": "2025.11.05"
    },
    {
     "key": "agent.name",
@@ -77593,7 +77782,7 @@
     "label": "생년월일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025.02.25"
+    "example": "2025-05-29"
    },
    {
     "key": "agent.relation",
@@ -77614,7 +77803,7 @@
     "label": "생년월일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "1962.12.19"
+    "example": "1962년 12월 19일"
    },
    {
     "key": "date",
@@ -77922,14 +78111,14 @@
     "label": "담당",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "검인"
+    "example": "이주유"
    },
    {
     "key": "sign.staff.담당",
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "확인"
+    "example": "석다준"
    },
    {
     "key": "seal.staff.책임자",
@@ -77971,7 +78160,7 @@
     "label": "부서장",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "김경지"
+    "example": "검인"
    }
   ]
  },
@@ -78389,7 +78578,7 @@
   "group": "hana",
   "keys": [
    {
-    "key": "목록[].수집이용목적",
+    "key": "수집이용목적_목록[].수집이용목적",
     "label": "수집·이용목적",
     "type": "text",
     "fill_rate": 1.0,
@@ -78403,21 +78592,21 @@
     "example": null
    },
    {
-    "key": "목록[].고유식별정보",
+    "key": "수집이용항목_목록[].고유식별정보",
     "label": "고유식별정보",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].개인정보",
+    "key": "고유식별정보_목록[].개인정보",
     "label": "개인(신용)정보",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].일반개인정보",
+    "key": "개인정보_목록[].일반개인정보",
     "label": "일반개인정보",
     "type": "text",
     "fill_rate": 1.0,
@@ -78457,14 +78646,14 @@
     "label": "본인성명",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "이욱유"
+    "example": "박찬연"
    },
    {
     "key": "sign.signer",
     "label": "본인성명",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "박찬연"
+    "example": "이민빈"
    },
    {
     "key": "date",
@@ -78478,21 +78667,21 @@
     "label": "일",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "나우준"
+    "example": "표현준"
    },
    {
     "key": "seal.signer2",
     "label": "일",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "나우준"
+    "example": "김옥하"
    },
    {
     "key": "sign.signer2",
     "label": "일",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "마민재"
+    "example": "표현준"
    },
    {
     "key": "customer.name",
@@ -78522,18 +78711,18 @@
   "group": "hana",
   "keys": [
    {
-    "key": "목록[].제공받는자",
+    "key": "제공받는자_목록[].제공받는자",
     "label": "제공받는자",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].이용목적",
+    "key": "이용목적_목록[].이용목적",
     "label": "이용목적",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "타행 이체"
+    "example": "전세자금"
    },
    {
     "key": "보유및이용기간",
@@ -78568,7 +78757,7 @@
     "label": "위고유식별정보제공에동의하십니까?",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "동의함",
+    "example": "동의하지 않음",
     "options": [
      "동의하지 않음",
      "동의함"
@@ -78579,7 +78768,7 @@
     "label": "위개인신용정보제공에동의하십니까?",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "동의함",
+    "example": "동의하지 않음",
     "options": [
      "동의하지 않음",
      "동의함"
@@ -78604,7 +78793,7 @@
     "label": "본인성명",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "현예지"
+    "example": "박찬연"
    },
    {
     "key": "date",
@@ -78618,21 +78807,21 @@
     "label": "대리인성명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "박영준"
+    "example": "강석호"
    },
    {
     "key": "seal.signer2",
     "label": "대리인성명",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "장민인"
+    "example": "김순우"
    },
    {
     "key": "sign.signer2",
     "label": "대리인성명",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "박영준"
+    "example": "강석호"
    },
    {
     "key": "불이익",
@@ -79243,7 +79432,7 @@
     "example": null
    },
    {
-    "key": "목록[].예금주",
+    "key": "예금주_목록[].예금주",
     "label": "예금주",
     "type": "text",
     "fill_rate": 1.0,
@@ -79409,14 +79598,14 @@
     "example": "6,750,000"
    },
    {
-    "key": "목록[].계좌번호",
+    "key": "계좌번호_목록[].계좌번호",
     "label": "계좌번호",
     "type": "text",
     "fill_rate": 1.0,
     "example": "538-483819-71934"
    },
    {
-    "key": "목록[].예금주",
+    "key": "계좌번호_목록[].예금주",
     "label": "예금주",
     "type": "text",
     "fill_rate": 1.0,
@@ -79670,7 +79859,7 @@
     "label": "대표이사",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "강순준"
+    "example": "현예지"
    },
    {
     "key": "customer.address2",
@@ -79684,7 +79873,7 @@
     "label": "지점장",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "김동도"
+    "example": "나주승"
    },
    {
     "key": "sign.signer2",
@@ -80476,21 +80665,21 @@
     "label": "담당자(직,성명)",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "이석영"
+    "example": "나지혜"
    },
    {
     "key": "seal.signer",
     "label": "담당자(직,성명)",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "염지인"
+    "example": "나지혜"
    },
    {
     "key": "sign.signer",
     "label": "담당자(직,성명)",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "이석영"
+    "example": "추욱우"
    },
    {
     "key": "seal.signer2",
@@ -80504,7 +80693,7 @@
     "label": "지점장",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "김윤민"
+    "example": "박정예"
    },
    {
     "key": "signer3.name",
@@ -80518,7 +80707,7 @@
     "label": "담당자(직,성명)",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "이영승"
+    "example": "성현은"
    },
    {
     "key": "sign.signer3",
@@ -81694,23 +81883,23 @@
     ]
    },
    {
-    "key": "목록[].가입자명",
+    "key": "이전가입자_목록[].가입자명",
     "label": "가입자명*",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].생년월일",
+    "key": "이전가입자_목록[].생년월일",
     "label": "생년월일(주민번호)",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2026.01.03"
    },
    {
-    "key": "목록[].제도전환전출일자",
+    "key": "이전가입자_목록[].제도전환전출일자",
     "label": "제도전환/전출일자",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.07.23"
    },
@@ -81736,46 +81925,46 @@
     "example": "강순준"
    },
    {
-    "key": "목록[].서명또는",
+    "key": "이전가입자_목록[].서명또는",
     "label": "서명또는(인)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].지급요청금액",
+    "key": "이전가입자_목록[].지급요청금액",
     "label": "지급요청금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "48,440,000"
    },
    {
-    "key": "목록[].매도순위",
+    "key": "DB매도상품지정_목록[].매도순위",
     "label": "매도순위",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].상품명",
+    "key": "DB매도상품지정_목록[].상품명",
     "label": "상품명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "이율보증형 보험(GIC) 1년"
+    "example": "MMF 증권투자신탁"
    },
    {
-    "key": "목록[].상품계좌번호",
+    "key": "DB매도상품지정_목록[].상품계좌번호",
     "label": "상품계좌번호",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "679-952971-59380"
+    "example": "799-529715-93804"
    },
    {
-    "key": "목록[].매도금액",
+    "key": "DB매도상품지정_목록[].매도금액",
     "label": "매도금액(원/좌)",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
-    "example": "2,690,000"
+    "example": "1,740,000"
    },
    {
     "key": "date",
@@ -81789,35 +81978,35 @@
     "label": "담당",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "확인"
+    "example": "최호우"
    },
    {
     "key": "sign.staff.담당",
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "염호린"
+    "example": "왕희주"
    },
    {
     "key": "seal.staff.책임자",
     "label": "책임자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "구윤우"
+    "example": "권혜도"
    },
    {
     "key": "sign.staff.책임자",
     "label": "책임자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "이우원"
+    "example": "이민준"
    },
    {
     "key": "매도상품_목록[].상품명",
     "label": "상품명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "인덱스(KOSPI200) 증권자투자신탁"
+    "example": "MMF 증권투자신탁"
    },
    {
     "key": "입금비율",
@@ -81859,21 +82048,21 @@
     "label": "상품계좌번호",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "139-403266-70575"
+    "example": "044-215169-76034"
    },
    {
     "key": "매도상품_목록[].만기일",
     "label": "만기일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
-    "example": "2027.06.20"
+    "example": "2028-04-18"
    },
    {
     "key": "이전받는금융기관_목록[].만기일",
     "label": "만기일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
-    "example": "2028년 8월 1일"
+    "example": "2027.04.16"
    },
    {
     "key": "signer2.name",
@@ -81887,14 +82076,14 @@
     "label": "기업명",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "(주)삼정전자"
+    "example": "주식회사 한빛패션"
    },
    {
     "key": "sign.signer2",
     "label": "기업명",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "주식회사 한빛패션"
+    "example": "(주)유니온무역"
    },
    {
     "key": "signer3.name",
@@ -81908,7 +82097,7 @@
     "label": "기업명",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "주식회사 한빛패션"
+    "example": "(주)대한시스템즈"
    },
    {
     "key": "sign.signer3",
@@ -81922,21 +82111,21 @@
     "label": "신탁관리인",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "공환성"
+    "example": "옥옥승"
    },
    {
     "key": "seal.signer4",
     "label": "신탁관리인",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "성미아"
+    "example": "옥옥승"
    },
    {
     "key": "sign.signer4",
     "label": "신탁관리인",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "공환성"
+    "example": "이예현"
    },
    {
     "key": "value",
@@ -82079,7 +82268,7 @@
     ]
    },
    {
-    "key": "목록[].가입자성명",
+    "key": "현물이전_목록[].가입자성명",
     "label": "가입자성명",
     "type": "text",
     "fill_rate": 1.0,
@@ -82107,23 +82296,23 @@
     "example": "강순준"
    },
    {
-    "key": "목록[].서명또는",
+    "key": "현물이전_목록[].서명또는",
     "label": "서명또는(인)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].생년월일",
+    "key": "현물이전_목록[].생년월일",
     "label": "생년월일(주민번호)",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2026.01.24"
    },
    {
-    "key": "목록[].제도전환전출일자",
+    "key": "현물이전_목록[].제도전환전출일자",
     "label": "제도전환/전출일자",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.04.15"
    },
@@ -82205,7 +82394,7 @@
     ]
    },
    {
-    "key": "목록[].현물이전유의사항확인",
+    "key": "현물이전_목록[].현물이전유의사항확인",
     "label": "현물이전유의사항확인",
     "type": "text",
     "fill_rate": 1.0,
@@ -82832,14 +83021,14 @@
    {
     "key": "기업부담금_목록[].매수비율",
     "label": "매수비율(%)",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "100"
    },
    {
     "key": "개인부담금_목록[].매수비율",
     "label": "매수비율(%)",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "100"
    },
@@ -82855,35 +83044,35 @@
     "label": "본인확인",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "나성윤"
+    "example": "장찬은"
    },
    {
     "key": "sign.staff.본인확인",
     "label": "본인확인",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "석나지"
+    "example": "김형원"
    },
    {
     "key": "seal.staff.판매직원",
     "label": "판매직원",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "강용예"
+    "example": "박진호"
    },
    {
     "key": "sign.staff.판매직원",
     "label": "판매직원",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "안우찬"
+    "example": "김우민"
    },
    {
     "key": "seal.staff.담당",
     "label": "담당",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "황보우지"
+    "example": "성건성"
    },
    {
     "key": "sign.staff.담당",
@@ -82897,7 +83086,7 @@
     "label": "책임자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "구정서"
+    "example": "성성영"
    },
    {
     "key": "sign.staff.책임자",
@@ -83076,7 +83265,7 @@
     "label": "가입자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "강순준"
+    "example": "현예지"
    },
    {
     "key": "signer2.name",
@@ -83090,7 +83279,7 @@
     "label": "대리인",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "김순우"
+    "example": "강석호"
    },
    {
     "key": "sign.signer2",
@@ -83652,14 +83841,14 @@
    {
     "key": "기업부담금_목록[].매수비율",
     "label": "매수비율(%)",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "10"
    },
    {
     "key": "개인부담금_목록[].매수비율",
     "label": "매수비율(%)",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "35"
    },
@@ -84818,7 +85007,7 @@
    {
     "key": "목록[].생년월일",
     "label": "생년월일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025년 1월 30일"
    },
@@ -84834,7 +85023,7 @@
     "label": "생년월일",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "현예지"
+    "example": "강순준"
    },
    {
     "key": "sign.signer",
@@ -85053,7 +85242,7 @@
     "label": "동의",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "동의",
+    "example": "미동의",
     "options": [
      "동의",
      "미동의"
@@ -85089,7 +85278,7 @@
     "label": "생년월일",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "강순준"
+    "example": "이욱유"
    },
    {
     "key": "signer3.name",
@@ -85103,7 +85292,7 @@
     "label": "대표자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "강순준"
+    "example": "김소윤"
    },
    {
     "key": "sign.signer3",
@@ -85151,14 +85340,14 @@
     "label": "기업명",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "(주)대한시스템즈"
+    "example": "주식회사 한빛패션"
    },
    {
     "key": "sign.signer4",
     "label": "기업명",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "주식회사 한빛패션"
+    "example": "주식회사 대성패션"
    },
    {
     "key": "company.ceo",
@@ -85172,7 +85361,7 @@
     "label": "담당",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "박지인"
+    "example": "검인"
    },
    {
     "key": "sign.staff.담당",
@@ -86300,7 +86489,7 @@
     "label": "책임자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "원용지"
+    "example": "최지율"
    }
   ]
  },
@@ -86387,7 +86576,7 @@
    {
     "key": "개인부담금_목록[].매수비율",
     "label": "매수비율(%)",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "85"
    },
@@ -86515,7 +86704,7 @@
     "label": "판매직원",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "선수정"
+    "example": "검인"
    },
    {
     "key": "seal.staff.담당",
@@ -86529,7 +86718,7 @@
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "임건태"
+    "example": "현나희"
    },
    {
     "key": "seal.staff.책임자",
@@ -86543,7 +86732,7 @@
     "label": "책임자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "홍소서"
+    "example": "확인"
    },
    {
     "key": "check.약관및상품설명서",
@@ -86615,14 +86804,14 @@
     "label": "대리인",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "강석호"
+    "example": "이도민"
    },
    {
     "key": "seal.signer2",
     "label": "대리인",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "강석호"
+    "example": "김순우"
    },
    {
     "key": "sign.signer2",
@@ -86802,7 +86991,7 @@
     "label": "계좌번호",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "976-032344-29141"
+    "example": "042-984261-67032"
    },
    {
     "key": "목록[].매도금액",
@@ -86869,7 +87058,7 @@
     "label": "기업명",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "(주)삼정전자"
+    "example": "주식회사 한빛패션"
    },
    {
     "key": "sign.signer2",
@@ -86890,7 +87079,7 @@
     "label": "가입자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "전영경"
+    "example": "강순준"
    },
    {
     "key": "sign.signer3",
@@ -86978,7 +87167,7 @@
    {
     "key": "목록[].적립금이전액",
     "label": "적립금이전액*",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "3,590,000원"
    },
@@ -86994,7 +87183,7 @@
     "label": "담당",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "검인"
+    "example": "임호승"
    },
    {
     "key": "sign.staff.담당",
@@ -87008,7 +87197,7 @@
     "label": "책임자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "박혁현"
+    "example": "검인"
    },
    {
     "key": "sign.staff.책임자",
@@ -87054,7 +87243,7 @@
    {
     "key": "목록[].연락처",
     "label": "연락처",
-    "type": "text",
+    "type": "phone",
     "fill_rate": 1.0,
     "example": "010-5907-7253"
    },
@@ -87381,7 +87570,7 @@
   "group": "hana",
   "keys": [
    {
-    "key": "목록[].은행사용란",
+    "key": "년월일_목록[].은행사용란",
     "label": "은행사용란",
     "type": "text",
     "fill_rate": 1.0,
@@ -87946,7 +88135,7 @@
    {
     "key": "목록[].생년월일",
     "label": "생년월일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025-09-26"
    },
@@ -87960,7 +88149,7 @@
    {
     "key": "목록[].원",
     "label": "원",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "2,120,000원"
    },
@@ -88032,7 +88221,7 @@
     "label": "책임자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "김용혜"
+    "example": "류동원"
    }
   ]
  },
@@ -89421,21 +89610,21 @@
    {
     "key": "목록[].생년월일주1",
     "label": "생년월일주1",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025-05-02"
    },
    {
     "key": "목록[].기업부담금",
     "label": "기업부담금",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "190,000"
    },
    {
     "key": "목록[].개인부담금",
     "label": "개인부담금",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "15,180,000"
    },
@@ -89558,7 +89747,7 @@
     ]
    },
    {
-    "key": "목록[].성명",
+    "key": "지급신청_목록[].성명",
     "label": "성명",
     "type": "text",
     "fill_rate": 1.0,
@@ -89636,7 +89825,7 @@
     "example": "박찬연"
    },
    {
-    "key": "목록[].서명또는",
+    "key": "지급신청_목록[].서명또는",
     "label": "서명또는(인)",
     "type": "text",
     "fill_rate": 1.0,
@@ -89686,32 +89875,32 @@
     ]
    },
    {
-    "key": "목록[].생년월일",
+    "key": "지급신청_목록[].생년월일",
     "label": "생년월일",
     "type": "date",
     "fill_rate": 1.0,
     "example": "2025-06-28"
    },
    {
-    "key": "목록[].입사일자",
+    "key": "지급신청_목록[].입사일자",
     "label": "입사일자",
     "type": "date",
     "fill_rate": 1.0,
     "example": "2025.12.15"
    },
    {
-    "key": "목록[].잔여부담금",
+    "key": "입사일자_목록[].잔여부담금",
     "label": "잔여부담금(DC형만기재)",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "8,240,000"
+    "example": "4,590,000"
    },
    {
     "key": "check.기업반환",
     "label": "기업반환(기업반환계좌로반환)",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "퇴직소득세",
+    "example": "계속근로기간 1년 미만",
     "options": [
      "퇴직소득세",
      "국민연금전환금",
@@ -89723,7 +89912,7 @@
     "label": "기업반환(기업반환계좌로반환)",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "퇴직소득세",
+    "example": "계속근로기간 1년 미만",
     "options": [
      "퇴직소득세",
      "국민연금전환금",
@@ -89731,11 +89920,11 @@
     ]
    },
    {
-    "key": "목록[].중간정산일자",
+    "key": "지급신청_목록[].중간정산일자",
     "label": "중간정산일자",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025-11-12"
+    "example": "2025.01.08"
    },
    {
     "key": "check.적용",
@@ -89753,18 +89942,18 @@
     "label": "적용",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "적용",
+    "example": "미적용",
     "options": [
      "적용",
      "미적용"
     ]
    },
    {
-    "key": "목록[].퇴직일자",
+    "key": "지급신청_목록[].퇴직일자",
     "label": "퇴직일자",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025년 4월 19일"
+    "example": "2026.01.09"
    },
    {
     "key": "date",
@@ -89785,28 +89974,28 @@
     "label": "기업명",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "(주)유니온무역"
+    "example": "(주)스마트에프앤비"
    },
    {
     "key": "sign.signer3",
     "label": "기업명",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "주식회사 한빛패션"
+    "example": "(주)유니온무역"
    },
    {
     "key": "seal.staff.담당",
     "label": "담당",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "확인"
+    "example": "박예하"
    },
    {
     "key": "sign.staff.담당",
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "확인"
+    "example": "김숙린"
    },
    {
     "key": "seal.staff.책임자",
@@ -89820,7 +90009,7 @@
     "label": "책임자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "최채빈"
+    "example": "명민우"
    }
   ]
  },
@@ -93344,7 +93533,7 @@
    {
     "key": "목록[].전화번호",
     "label": "전화번호",
-    "type": "text",
+    "type": "phone",
     "fill_rate": 1.0,
     "example": "010-5907-7253"
    },
@@ -94145,7 +94334,7 @@
    {
     "key": "목록[].생년월일",
     "label": "생년월일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025.09.06"
    },
@@ -94166,7 +94355,7 @@
    {
     "key": "목록[].전화번호팩스번호",
     "label": "전화번호&팩스번호",
-    "type": "text",
+    "type": "phone",
     "fill_rate": 1.0,
     "example": "043-783-2775"
    },
@@ -97727,23 +97916,23 @@
     "example": "2025.04.21"
    },
    {
-    "key": "목록[].상품명",
+    "key": "지급계좌_목록[].상품명",
     "label": "상품명",
     "type": "text",
     "fill_rate": 1.0,
     "example": "청년도약계좌"
    },
    {
-    "key": "목록[].계좌번호",
+    "key": "지급계좌_목록[].계좌번호",
     "label": "계좌번호",
     "type": "text",
     "fill_rate": 1.0,
     "example": "324-375150-71588"
    },
    {
-    "key": "목록[].금액",
+    "key": "지급계좌_목록[].금액",
     "label": "금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "32,350,000원"
    },
@@ -97833,42 +98022,42 @@
     "label": "담당",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "김원경"
+    "example": "민원윤"
    },
    {
     "key": "sign.staff.담당",
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "천은윤"
+    "example": "원태진"
    },
    {
     "key": "seal.staff.책임자",
     "label": "책임자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "현민은"
+    "example": "진주윤"
    },
    {
     "key": "sign.staff.책임자",
     "label": "책임자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "검인"
+    "example": "확인"
    },
    {
     "key": "seal.staff.부점장",
     "label": "부점장",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "류원주"
+    "example": "검인"
    },
    {
     "key": "sign.staff.부점장",
     "label": "부점장",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "이정영"
+    "example": "이철준"
    },
    {
     "key": "check.주된상속인",
@@ -97937,42 +98126,56 @@
     ]
    },
    {
-    "key": "목록[].성명",
+    "key": "상속인_목록[].성명",
     "label": "성명",
     "type": "text",
     "fill_rate": 1.0,
     "example": "왕규희"
    },
    {
-    "key": "목록[].생년월일",
+    "key": "상속인_목록[].생년월일",
     "label": "생년월일",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
-    "example": "2025년 4월 3일"
+    "example": "2025.07.22"
    },
    {
-    "key": "목록[].연락처",
+    "key": "상속인_목록[].연락처",
     "label": "연락처",
-    "type": "text",
+    "type": "phone",
     "fill_rate": 1.0,
     "example": "010-5907-7253"
    },
    {
-    "key": "목록[].예금잔액",
-    "label": "예금잔액",
+    "key": "미지급계좌_목록[].상품명",
+    "label": "상품명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "750,000원"
+    "example": "하나의정기예금"
    },
    {
-    "key": "목록[].미지급사유주1",
+    "key": "미지급계좌_목록[].계좌번호",
+    "label": "계좌번호",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": "628-682875-05002"
+   },
+   {
+    "key": "미지급계좌_목록[].예금잔액",
+    "label": "예금잔액",
+    "type": "number",
+    "fill_rate": 1.0,
+    "example": "760,000"
+   },
+   {
+    "key": "미지급계좌_목록[].미지급사유주1",
     "label": "미지급사유주1",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "만기 해지"
+    "example": "전세자금"
    },
    {
-    "key": "목록[].상속인확인",
+    "key": "미지급계좌_목록[].상속인확인",
     "label": "상속인확인",
     "type": "text",
     "fill_rate": 1.0,
@@ -97983,42 +98186,42 @@
     "label": "확인담당자",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "김주우"
+    "example": "왕원린"
    },
    {
     "key": "seal.signer",
     "label": "확인담당자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "김주우"
+    "example": "왕원린"
    },
    {
     "key": "sign.signer",
     "label": "확인담당자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "김민빈"
+    "example": "이환민"
    },
    {
     "key": "signer2.name",
     "label": "확인책임자",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "이우승"
+    "example": "김희재"
    },
    {
     "key": "seal.signer2",
     "label": "확인책임자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "채규도"
+    "example": "김희재"
    },
    {
     "key": "sign.signer2",
     "label": "확인책임자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "이우승"
+    "example": "이미혜"
    }
   ]
  },
@@ -98031,14 +98234,14 @@
     "label": "한도:₩..~..",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "강순준"
+    "example": "이욱유"
    },
    {
     "key": "sign.signer",
     "label": "한도:₩..~..",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "박찬연"
+    "example": "강순준"
    },
    {
     "key": "seal.signer2",
@@ -98052,7 +98255,7 @@
     "label": "한도:₩..~..",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "이욱유"
+    "example": "이민빈"
    },
    {
     "key": "seal.signer3",
@@ -98066,14 +98269,14 @@
     "label": "한도:₩..~..",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "이욱유"
+    "example": "강순준"
    },
    {
     "key": "seal.signer4",
     "label": "고객정보변경없음",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "강순준"
+    "example": "위나아"
    },
    {
     "key": "sign.signer4",
@@ -98153,6 +98356,27 @@
     "type": "text",
     "fill_rate": 1.0,
     "example": "chanyeon363@naver.com"
+   },
+   {
+    "key": "자유_목록[].갋",
+    "label": "갋",
+    "type": "text",
+    "fill_rate": 0.17,
+    "example": null
+   },
+   {
+    "key": "deposit_list[].interest_account",
+    "label": "통장발행",
+    "type": "account_no",
+    "fill_rate": 0.27,
+    "example": "099-461165-21646"
+   },
+   {
+    "key": "deposit_list_list[][].transfer_day",
+    "label": "확정형연동형(개월)",
+    "type": "text",
+    "fill_rate": 0.27,
+    "example": "5일"
    }
   ]
  },
@@ -98288,7 +98512,7 @@
     ]
    },
    {
-    "key": "목록[].예금주명",
+    "key": "예금주명_목록[].예금주명",
     "label": "예금주명",
     "type": "text",
     "fill_rate": 1.0,
@@ -98306,21 +98530,21 @@
     ]
    },
    {
-    "key": "목록[].이체일",
+    "key": "예금주명_목록[].이체일",
     "label": "이체일",
     "type": "date",
     "fill_rate": 1.0,
     "example": "2025.04.29"
    },
    {
-    "key": "목록[].이체주기",
+    "key": "예금주명_목록[].이체주기",
     "label": "이체주기(일☞주☞월☞년)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].이체금액",
+    "key": "예금주명_목록[].이체금액",
     "label": "이체금액",
     "type": "number",
     "fill_rate": 1.0,
@@ -98483,28 +98707,28 @@
     "label": "납부자번호(동,호수,수용가번호,등)",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "2407-9826"
+    "example": "3310-0276"
    },
    {
     "key": "관리비지로공과금기타_목록[].지로번호기관코드",
     "label": "지로번호/기관코드",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "062638"
+    "example": "8204"
    },
    {
     "key": "지로번호기관코드",
     "label": "지로번호/기관코드",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "131690"
+    "example": "21556"
    },
    {
     "key": "관리비지로공과금기타_목록[].납부희망일",
     "label": "납부희망일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025.12.05"
+    "example": "2025.01.31"
    },
    {
     "key": "date5",
@@ -98518,7 +98742,7 @@
     "label": "계좌간자동이체(",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "납부자 자동이체",
+    "example": "타행 자동이체",
     "options": [
      "당행 자동이체",
      "타행 자동이체",
@@ -98555,7 +98779,7 @@
     "label": "기타자동이체(",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "변경",
+    "example": "해지",
     "options": [
      "신규",
      "변경",
@@ -98567,7 +98791,7 @@
     "label": "계좌번호",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "적용",
+    "example": "미적용",
     "options": [
      "적용",
      "미적용"
@@ -98578,7 +98802,7 @@
     "label": "조회",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "조회",
+    "example": "일괄해지 1",
     "options": [
      "조회",
      "일괄해지 1"
@@ -98589,7 +98813,7 @@
     "label": "고객명",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "적용",
+    "example": "미적용",
     "options": [
      "적용",
      "미적용"
@@ -102794,7 +103018,7 @@
     "example": "4.71"
    },
    {
-    "key": "목록[].임차보증금",
+    "key": "담보종류_목록[].임차보증금",
     "label": "임차보증금",
     "type": "number",
     "fill_rate": 1.0,
@@ -102822,7 +103046,7 @@
     "example": "4"
    },
    {
-    "key": "목록[].소액보증금",
+    "key": "담보종류_목록[].소액보증금",
     "label": "소액보증금",
     "type": "number",
     "fill_rate": 1.0,
@@ -102899,11 +103123,11 @@
     "example": "2025.04.11"
    },
    {
-    "key": "목록[].금액",
+    "key": "부채현황_목록[].금액",
     "label": "금액",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "80,710,000원"
+    "example": "970,000"
    },
    {
     "key": "customer.phone",
@@ -102934,25 +103158,25 @@
     "example": "대리"
    },
    {
-    "key": "목록[].자금용도",
+    "key": "부채현황_목록[].자금용도",
     "label": "자금용도",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "결혼자금"
+    "example": "계좌 정리"
    },
    {
     "key": "고객번호",
     "label": "고객번호",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "0503-6661"
+    "example": "036-661420-09024"
    },
    {
     "key": "check.우편물수령처",
     "label": "우편물수령처",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "자택",
+    "example": "직장",
     "options": [
      "자택",
      "직장"
@@ -102963,21 +103187,21 @@
     "label": "월임대료",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "2,607"
+    "example": "2,575"
    },
    {
     "key": "주거방수",
     "label": "주거방수",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "4"
+    "example": "1"
    },
    {
     "key": "월임대료2",
     "label": "월임대료",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "2,789"
+    "example": "85"
    },
    {
     "key": "employer.phone",
@@ -102991,21 +103215,21 @@
     "label": "가구총소득",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "7.76"
+    "example": "0.48"
    },
    {
     "key": "기타조달",
     "label": "기타조달",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "0.48"
+    "example": "115.61"
    },
    {
     "key": "결혼일",
     "label": "결혼(예정)일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "2025년 2월 2일"
+    "example": "2025.03.02"
    },
    {
     "key": "employer.hire_date",
@@ -103015,7 +103239,7 @@
     "example": "2020.05.08"
    },
    {
-    "key": "목록[].담보종류",
+    "key": "부채현황_목록[].담보종류",
     "label": "담보종류",
     "type": "text",
     "fill_rate": 1.0,
@@ -103061,42 +103285,42 @@
     "label": "담당",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "검인"
+    "example": "도훈유"
    },
    {
     "key": "sign.staff.담당",
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "박태유"
+    "example": "김지예"
    },
    {
     "key": "seal.staff.책임자",
     "label": "책임자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "확인"
+    "example": "검인"
    },
    {
     "key": "sign.staff.책임자",
     "label": "책임자",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "김규하"
+    "example": "김용정"
    },
    {
     "key": "seal.staff.부점장",
     "label": "부점장",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "마성혜"
+    "example": "문기도"
    },
    {
     "key": "sign.staff.부점장",
     "label": "부점장",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "백정윤"
+    "example": "임형호"
    },
    {
     "key": "신청대출승인완료시안내문자통지",
@@ -103133,7 +103357,7 @@
     "label": "동의함(",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "문자",
+    "example": "동의함(",
     "options": [
      "동의함(",
      "문자",
@@ -103146,7 +103370,7 @@
     "label": "중도상환해약금면제시점도래안내문자통지",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "원치않음",
+    "example": "동의함",
     "options": [
      "동의함",
      "원치않음"
@@ -103157,7 +103381,7 @@
     "label": "우편",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "원치않음",
+    "example": "직장",
     "options": [
      "자택",
      "직장",
@@ -103180,7 +103404,7 @@
     "label": "이메일",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "동의함",
+    "example": "원치않음",
     "options": [
      "동의함",
      "원치않음"
@@ -103191,14 +103415,14 @@
     "label": "대출금입금(실행)계좌",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "112-110846-04076"
+    "example": "076-013868-16981"
    },
    {
     "key": "check.예금담보등상계후잔액반환계좌번호",
     "label": "예금담보등상계후잔액반환계좌번호(담보제공자기준)",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "대출금 입금 계좌",
+    "example": "자동이체 결제 계좌",
     "options": [
      "대출금 입금 계좌",
      "자동이체 결제 계좌",
@@ -103240,7 +103464,7 @@
     "label": "•접수번호(등기부등본을구기준)",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "051303-0772719"
+    "example": "7727-1959"
    },
    {
     "key": "signer.name",
@@ -103261,7 +103485,7 @@
     "label": "(담보제공자기준)",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "강순준"
+    "example": "박찬연"
    },
    {
     "key": "대출부수거래충족여부안내통지",
@@ -103289,7 +103513,7 @@
     "label": "거절사유에대해안내를받으시겠습니까?",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "생활자금"
+    "example": "계좌 정리"
    },
    {
     "key": "채권최고액",
@@ -103904,7 +104128,7 @@
     "label": "종류",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "하나 정기예금"
+    "example": "하나 MMF"
    },
    {
     "key": "employer.name",
@@ -103916,16 +104140,16 @@
    {
     "key": "부채현황_목록[].금액",
     "label": "금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
-    "example": "45,130,000"
+    "example": "91,710,000"
    },
    {
     "key": "수량",
     "label": "수량",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "3"
+    "example": "24"
    },
    {
     "key": "차주와의관계",
@@ -103946,7 +104170,7 @@
     "label": "추정가액",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "105,540,000"
+    "example": "76,600,000"
    },
    {
     "key": "실재산",
@@ -103974,7 +104198,7 @@
     "label": "자금용도",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "계좌 정리"
+    "example": "해외 이주"
    },
    {
     "key": "신청인과의관계",
@@ -104002,21 +104226,21 @@
     "label": "담당",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "김형호"
+    "example": "김현주"
    },
    {
     "key": "sign.staff.담당",
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "손태연"
+    "example": "현동태"
    },
    {
     "key": "seal.staff.책임자",
     "label": "책임자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "염수주"
+    "example": "노찬민"
    },
    {
     "key": "sign.staff.책임자",
@@ -104030,7 +104254,7 @@
     "label": "관리자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "이진예"
+    "example": "검인"
    },
    {
     "key": "sign.staff.관리자",
@@ -104044,7 +104268,7 @@
     "label": "부점장",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "허서주"
+    "example": "공하혜"
    },
    {
     "key": "sign.staff.부점장",
@@ -104058,7 +104282,7 @@
     "label": "신규처리시안내",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "원치않음",
+    "example": "문자",
     "options": [
      "문자",
      "이메일",
@@ -104084,7 +104308,7 @@
     "label": "동의함(",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "원치않음",
+    "example": "문자",
     "options": [
      "동의함 (",
      "문자",
@@ -104111,7 +104335,7 @@
     "label": "확인서(담보제공자용)",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "미해당",
+    "example": "해당",
     "options": [
      "해당",
      "미해당"
@@ -104133,14 +104357,14 @@
     "label": "대출금입금(실행)계좌",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "416-192946-55723"
+    "example": "304-491758-12995"
    },
    {
     "key": "원금및이자자동이체결제계좌",
     "label": "원(리)금및이자자동이체결제계좌",
     "type": "number",
     "fill_rate": 1.0,
-    "example": "830,000"
+    "example": "5,680,000원"
    },
    {
     "key": "설정순위",
@@ -104154,7 +104378,7 @@
     "label": "부동산담보대출●접수번호(등기부등본기준)",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "581299-5538092"
+    "example": "9225-8781"
    }
   ]
  },
@@ -106352,35 +106576,35 @@
    {
     "key": "목록[].이율",
     "label": "이율",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "15"
    },
    {
     "key": "목록[].일자",
     "label": "일자",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025년 11월 9일"
    },
    {
     "key": "목록[].금액",
     "label": "금액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "96,990,000"
    },
    {
     "key": "목록[].잔액",
     "label": "잔액",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "9,890,000"
    },
    {
     "key": "목록[].대출기한",
     "label": "대출기한",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2028-10-25"
    },
@@ -106457,7 +106681,7 @@
    {
     "key": "목록[].수량",
     "label": "수량",
-    "type": "text",
+    "type": "number",
     "fill_rate": 1.0,
     "example": "1"
    },
@@ -106471,7 +106695,7 @@
    {
     "key": "목록[].감정일자",
     "label": "감정일자",
-    "type": "text",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2025년 1월 16일"
    },
@@ -107361,7 +107585,7 @@
     "label": "본인확인",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "황보숙윤"
+    "example": "안유예"
    },
    {
     "key": "sign.staff.본인확인",
@@ -107389,7 +107613,7 @@
     "label": "책임자",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "도상아"
+    "example": "오동승"
    },
    {
     "key": "sign.staff.책임자",
@@ -107405,7 +107629,7 @@
   "group": "hana",
   "keys": [
    {
-    "key": "목록[].사업장",
+    "key": "주소_목록[].사업장",
     "label": "사업장(국내)",
     "type": "text",
     "fill_rate": 1.0,
@@ -107525,7 +107749,7 @@
     ]
    },
    {
-    "key": "목록[].영문명",
+    "key": "대표자정보_목록[].영문명",
     "label": "영문명",
     "type": "text",
     "fill_rate": 1.0,
@@ -107550,7 +107774,7 @@
     "label": "설립목적(비영리법인,단체)",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "전세자금"
+    "example": "사업자금"
    },
    {
     "key": "FAX2",
@@ -107585,9 +107809,9 @@
     ]
    },
    {
-    "key": "목록[].생년월일",
-    "label": "생년월일(사업자번호)",
-    "type": "text",
+    "key": "대표자정보_목록[].생년월일",
+    "label": "생년월일",
+    "type": "date",
     "fill_rate": 1.0,
     "example": "2026년 1월 21일"
    },
@@ -107599,8 +107823,8 @@
     "example": "200112-7448551"
    },
    {
-    "key": "목록[].국적",
-    "label": "국적(본점소재지)",
+    "key": "대표자정보_목록[].국적",
+    "label": "국적",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
@@ -107610,7 +107834,7 @@
     "label": "일회성거래(무통장입금,수표발행☞지급등)",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "기타 (",
+    "example": "상속 / 증여성거래",
     "options": [
      "물품 등 사업상 대금결제",
      "차입 / 부채상환",
@@ -107623,7 +107847,7 @@
     "label": "대표자정보",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "공동대표",
+    "example": "단독대표",
     "options": [
      "단독대표",
      "공동대표",
@@ -107647,7 +107871,7 @@
     "label": "홍콩증권거래소",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "홍콩증권거래소",
+    "example": "기타 (",
     "options": [
      "홍콩증권거래소",
      "기타 ("
@@ -107658,7 +107882,7 @@
     "label": "예(비영리단체)",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "아니오(비영리단체 해당안됨)",
+    "example": "예(비영리단체)",
     "options": [
      "예(비영리단체)",
      "아니오(비영리단체 해당안됨)"
@@ -107683,7 +107907,7 @@
     "label": "(예금,대출등)",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "대출원리금 상환 결제",
+    "example": "기타 (",
     "options": [
      "대출원리금 상환 결제",
      "사업상 거래",
@@ -107695,7 +107919,7 @@
     "label": "사업소득",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "부동산 양도소득",
+    "example": "부동산 임대소득",
     "options": [
      "사업소득",
      "부동산 임대소득",
@@ -107708,7 +107932,7 @@
     "label": "상속/증여",
     "type": "checkbox",
     "fill_rate": 1.0,
-    "example": "기타 (",
+    "example": "상속 / 증여",
     "options": [
      "상속 / 증여",
      "일시 재산 양도로 인한 소득",
@@ -107800,11 +108024,32 @@
     "example": null
    },
    {
-    "key": "목록[].한글명",
-    "label": "한글명(상호명)",
+    "key": "실제소유자_목록[].한글명",
+    "label": "한글명",
     "type": "text",
     "fill_rate": 1.0,
     "example": "천숙준"
+   },
+   {
+    "key": "실제소유자_목록[].영문명",
+    "label": "영문명",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": null
+   },
+   {
+    "key": "실제소유자_목록[].생년월일",
+    "label": "생년월일",
+    "type": "date",
+    "fill_rate": 1.0,
+    "example": "2025.05.14"
+   },
+   {
+    "key": "실제소유자_목록[].국적",
+    "label": "국적",
+    "type": "text",
+    "fill_rate": 1.0,
+    "example": null
    },
    {
     "key": "check.25이상의결권이있는주식출자지분을보유한사람",
@@ -107857,7 +108102,7 @@
     ]
    },
    {
-    "key": "목록[].지분율",
+    "key": "실제소유자_목록[].지분율",
     "label": "지분율",
     "type": "number",
     "fill_rate": 1.0,
@@ -107871,14 +108116,14 @@
     "example": null
    },
    {
-    "key": "목록[].Y",
+    "key": "Y_목록[].Y",
     "label": "Y",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].N",
+    "key": "Y_목록[].N",
     "label": "N",
     "type": "text",
     "fill_rate": 1.0,
@@ -107892,7 +108137,7 @@
     "example": null
    },
    {
-    "key": "목록[].지배형태",
+    "key": "실제소유자_목록[].지배형태",
     "label": "지배형태",
     "type": "text",
     "fill_rate": 1.0,
@@ -107917,7 +108162,7 @@
     "label": "생년월일",
     "type": "date",
     "fill_rate": 1.0,
-    "example": "1962.12.19"
+    "example": "1962년 12월 19일"
    },
    {
     "key": "agent.address",
@@ -107965,7 +108210,7 @@
     "label": "법인/단체명",
     "type": "seal",
     "fill_rate": 1.0,
-    "example": "주식회사 대성패션"
+    "example": "(주)삼정전자"
    },
    {
     "key": "sign.signer",
@@ -108737,7 +108982,7 @@
     "label": "담당",
     "type": "signature",
     "fill_rate": 1.0,
-    "example": "왕혜현"
+    "example": "백영도"
    },
    {
     "key": "seal.staff.책임자",
@@ -108775,14 +109020,14 @@
     "example": "해당 없음"
    },
    {
-    "key": "목록[].실질지배자",
+    "key": "이름_목록[].실질지배자",
     "label": "실질지배자(1)",
     "type": "text",
     "fill_rate": 1.0,
     "example": null
    },
    {
-    "key": "목록[].거주관할권",
+    "key": "이름_목록[].거주관할권",
     "label": "거주관할권(국가)",
     "type": "text",
     "fill_rate": 1.0,
@@ -108796,7 +109041,7 @@
     "example": "박찬연"
    },
    {
-    "key": "목록[].납세자번호",
+    "key": "이름_목록[].납세자번호",
     "label": "납세자번호(TIN)",
     "type": "text",
     "fill_rate": 1.0,

@@ -36,7 +36,8 @@
     302.6
    ],
    "unit": "월",
-   "row": true
+   "row": true,
+   "group": "년"
   },
   {
    "t": "text",
@@ -48,7 +49,8 @@
     196.0,
     325.2
    ],
-   "row": true
+   "row": true,
+   "group": "월"
   },
   {
    "t": "text",
@@ -61,7 +63,8 @@
     347.9
    ],
    "unit": "일",
-   "row": true
+   "row": true,
+   "group": "월"
   },
   {
    "t": "text",
@@ -73,7 +76,8 @@
     196.0,
     370.6
    ],
-   "row": true
+   "row": true,
+   "group": "일"
   },
   {
    "t": "text",
@@ -85,7 +89,8 @@
     196.0,
     393.4
    ],
-   "row": true
+   "row": true,
+   "group": "일"
   },
   {
    "t": "text",
@@ -188,7 +193,8 @@
     470.0,
     393.4
    ],
-   "row": true
+   "row": true,
+   "group": "일"
   },
   {
    "t": "text",
@@ -211,7 +217,8 @@
     537.6,
     393.4
    ],
-   "row": true
+   "row": true,
+   "group": "일"
   },
   {
    "t": "text",

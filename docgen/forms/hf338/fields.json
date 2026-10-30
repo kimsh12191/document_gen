@@ -30,7 +30,8 @@
     477.5,
     62.6
    ],
-   "row": true
+   "row": true,
+   "group": "Clerk"
   },
   {
    "t": "text",
@@ -42,7 +43,8 @@
     507.7,
     62.6
    ],
-   "row": true
+   "row": true,
+   "group": "Clerk"
   },
   {
    "t": "text",
@@ -54,7 +56,8 @@
     552.3,
     62.6
    ],
-   "row": true
+   "row": true,
+   "group": "Clerk"
   },
   {
    "t": "text",
@@ -113,7 +116,8 @@
    ],
    "unit": "(",
    "hint": "Account No.",
-   "row": true
+   "row": true,
+   "group": "DailyKRW"
   },
   {
    "t": "text",
@@ -163,7 +167,8 @@
    ],
    "unit": "(",
    "hint": "Account No.",
-   "row": true
+   "row": true,
+   "group": "DailyKRW"
   },
   {
    "t": "text",
@@ -176,7 +181,8 @@
     351.3
    ],
    "hint": "Bank name",
-   "row": true
+   "row": true,
+   "group": "DailyKRW"
   },
   {
    "t": "text",
@@ -189,7 +195,8 @@
     369.7
    ],
    "hint": "Bank name",
-   "row": true
+   "row": true,
+   "group": "DailyKRW"
   },
   {
    "t": "text",
@@ -202,7 +209,8 @@
     389.1
    ],
    "hint": "Bank name",
-   "row": true
+   "row": true,
+   "group": "DailyKRW"
   },
   {
    "t": "text",
@@ -215,7 +223,8 @@
     406.5
    ],
    "hint": "Bank name",
-   "row": true
+   "row": true,
+   "group": "DailyKRW"
   },
   {
    "t": "text",
@@ -229,7 +238,8 @@
    ],
    "unit": "(",
    "hint": "Account No.",
-   "row": true
+   "row": true,
+   "group": "DailyKRW"
   },
   {
    "t": "text",
@@ -241,7 +251,8 @@
     177.8,
     553.0
    ],
-   "row": true
+   "row": true,
+   "group": "Service"
   },
   {
    "t": "text",
@@ -253,7 +264,8 @@
     177.8,
     571.8
    ],
-   "row": true
+   "row": true,
+   "group": "Service"
   },
   {
    "t": "text",
@@ -276,7 +288,8 @@
     262.3,
     553.0
    ],
-   "row": true
+   "row": true,
+   "group": "Service"
   },
   {
    "t": "text",
@@ -288,7 +301,8 @@
     262.3,
     571.8
    ],
-   "row": true
+   "row": true,
+   "group": "Service"
   },
   {
    "t": "text",
@@ -312,7 +326,8 @@
     344.1,
     553.0
    ],
-   "row": true
+   "row": true,
+   "group": "Service"
   },
   {
    "t": "text",
@@ -324,7 +339,8 @@
     344.1,
     571.8
    ],
-   "row": true
+   "row": true,
+   "group": "Service"
   },
   {
    "t": "text",
@@ -337,7 +353,8 @@
     497.9
    ],
    "hint": "Bankbook seal",
-   "row": true
+   "row": true,
+   "group": "Fee"
   },
   {
    "t": "text",
@@ -350,7 +367,8 @@
     497.9
    ],
    "hint": "Account No.",
-   "row": true
+   "row": true,
+   "group": "Fee"
   },
   {
    "t": "text",

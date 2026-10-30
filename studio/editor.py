@@ -86,7 +86,7 @@ def layout_view(doc_id: str) -> dict:
         iid = OV.item_id(m)
         o = by_id.get(iid)
         merged = {**_public(it), **copy.deepcopy((o or {}).get("set", {}))}
-        for k in ("key", "kind", "source", "choices", "text", "note"):
+        for k in ("key", "kind", "source", "choices", "text", "note", "group"):
             if o and o.get(k) not in (None, ""):
                 merged[k] = o[k]
         status = "auto" if not o else "dropped" if o.get("drop") else "edited"

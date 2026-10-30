@@ -46,7 +46,7 @@ COMMON = ["docgen/render.py", "docgen/schema.py", "docgen/image.py", "docgen/pag
           "docgen/marks.py", "docgen/overrides.py", "docgen/regions.py", "docgen/sources.py", "docgen/preview.py", "docgen/forms/_common/marks.json", "docgen/assets/marks/pools.json",
           "docgen/forms/_common/templates/_base.html.j2", "docgen/forms/_common/templates/_macros.html.j2",
           "docgen/forms/_common/templates/_real_form.html.j2", "docgen/forms/_common/templates/_official_base.html.j2",
-          "docgen/forms/_common/templates/_official_values.html.j2",
+          "docgen/forms/_common/templates/_official_values.html.j2", "docgen/forms/_common/templates/_extra_rows.html.j2",
           "docgen/html_regions.py", "docgen/html_regions.js", "docgen/template_variants.py"]
 
 

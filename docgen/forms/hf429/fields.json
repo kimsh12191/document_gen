@@ -70,7 +70,8 @@
     106.4,
     195.0
    ],
-   "row": true
+   "row": true,
+   "group": "Name"
   },
   {
    "t": "text",
@@ -104,7 +105,8 @@
     170.2,
     426.3
    ],
-   "row": true
+   "row": true,
+   "group": "Reportingcountry"
   },
   {
    "t": "text",
@@ -116,7 +118,8 @@
     106.4,
     262.4
    ],
-   "row": true
+   "row": true,
+   "group": "Name"
   },
   {
    "t": "text",
@@ -128,7 +131,8 @@
     106.4,
     291.9
    ],
-   "row": true
+   "row": true,
+   "group": "FATCA"
   },
   {
    "t": "text",
@@ -140,7 +144,8 @@
     106.4,
     303.9
    ],
-   "row": true
+   "row": true,
+   "group": "FATCA"
   },
   {
    "t": "text",
@@ -152,7 +157,8 @@
     106.4,
     327.6
    ],
-   "row": true
+   "row": true,
+   "group": "FATCA2"
   },
   {
    "t": "text",
@@ -164,7 +170,8 @@
     106.4,
     339.6
    ],
-   "row": true
+   "row": true,
+   "group": "FATCA2"
   },
   {
    "t": "text",
@@ -176,7 +183,8 @@
     106.4,
     363.4
    ],
-   "row": true
+   "row": true,
+   "group": "CRS"
   },
   {
    "t": "text",
@@ -216,7 +224,8 @@
     184.4,
     195.0
    ],
-   "row": true
+   "row": true,
+   "group": "GivenName"
   },
   {
    "t": "check",
@@ -369,7 +378,8 @@
     304.9,
     467.7
    ],
-   "row": true
+   "row": true,
+   "group": "표7"
   },
   {
    "t": "text",
@@ -392,7 +402,8 @@
     304.9,
     537.5
    ],
-   "row": true
+   "row": true,
+   "group": "표7"
   },
   {
    "t": "text",
@@ -454,7 +465,8 @@
     411.2,
     195.0
    ],
-   "row": true
+   "row": true,
+   "group": "GivenName"
   },
   {
    "t": "check",
@@ -588,7 +600,8 @@
     546.9,
     566.5
    ],
-   "row": true
+   "row": true,
+   "group": "GivenName"
   },
   {
    "t": "text",

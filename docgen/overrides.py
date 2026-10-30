@@ -214,7 +214,7 @@ def apply(lay: dict, ov: dict) -> tuple[dict, list[dict]]:
             drop_items.add(id(it))
             continue
         it.update(copy.deepcopy(o.get("set", {})))
-        for k in ("key", "kind", "source", "choices", "text"):
+        for k in ("key", "kind", "source", "choices", "text", "group"):   # group: 표 묶음 (줄 칸)
             if o.get(k) not in (None, ""):
                 it[k] = o[k]
         it["edited"] = True

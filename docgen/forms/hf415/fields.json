@@ -35,7 +35,8 @@
     152.6,
     546.7
    ],
-   "row": true
+   "row": true,
+   "group": "제공항목"
   },
   {
    "t": "text",
@@ -47,7 +48,8 @@
     152.6,
     694.1
    ],
-   "row": true
+   "row": true,
+   "group": "공공정보등"
   },
   {
    "t": "check",

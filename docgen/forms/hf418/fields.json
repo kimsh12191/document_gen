@@ -24,7 +24,8 @@
     152.6,
     486.2
    ],
-   "row": true
+   "row": true,
+   "group": "수집이용항목"
   },
   {
    "t": "text",
@@ -36,7 +37,8 @@
     152.6,
     557.5
    ],
-   "row": true
+   "row": true,
+   "group": "개인정보"
   },
   {
    "t": "check",

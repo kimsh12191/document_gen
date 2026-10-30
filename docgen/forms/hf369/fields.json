@@ -64,7 +64,8 @@
     453.2,
     597.0
    ],
-   "row": true
+   "row": true,
+   "group": "계좌번호"
   },
   {
    "t": "text",
@@ -76,7 +77,8 @@
     453.2,
     624.0
    ],
-   "row": true
+   "row": true,
+   "group": "계좌번호"
   },
   {
    "t": "text",
@@ -88,7 +90,8 @@
     546.8,
     597.0
    ],
-   "row": true
+   "row": true,
+   "group": "계좌번호"
   },
   {
    "t": "text",
@@ -100,7 +103,8 @@
     546.8,
     624.0
    ],
-   "row": true
+   "row": true,
+   "group": "계좌번호"
   },
   {
    "t": "date",
@@ -257,7 +261,8 @@
     549.8,
     407.9
    ],
-   "row": true
+   "row": true,
+   "group": "비고"
   },
   {
    "t": "check",

@@ -71,7 +71,8 @@
     276.4,
     163.8
    ],
-   "row": true
+   "row": true,
+   "group": "년월일"
   },
   {
    "t": "text",
@@ -83,7 +84,8 @@
     276.4,
     186.5
    ],
-   "row": true
+   "row": true,
+   "group": "년월일"
   },
   {
    "t": "text",
@@ -95,7 +97,8 @@
     276.4,
     209.2
    ],
-   "row": true
+   "row": true,
+   "group": "년월일"
   },
   {
    "t": "text",
@@ -108,7 +111,8 @@
     231.9
    ],
    "hint": "은행에 등록된",
-   "row": true
+   "row": true,
+   "group": "년월일"
   },
   {
    "t": "text",
@@ -121,7 +125,8 @@
     254.5
    ],
    "hint": "고객님의 정보입니다.",
-   "row": true
+   "row": true,
+   "group": "년월일"
   },
   {
    "t": "text",
@@ -133,7 +138,8 @@
     276.4,
     294.2
    ],
-   "row": true
+   "row": true,
+   "group": "년월일"
   },
   {
    "t": "text",
@@ -145,7 +151,8 @@
     276.4,
     316.9
    ],
-   "row": true
+   "row": true,
+   "group": "년월일"
   },
   {
    "t": "text",
@@ -157,7 +164,8 @@
     276.4,
     339.6
    ],
-   "row": true
+   "row": true,
+   "group": "년월일"
   },
   {
    "t": "text",
@@ -169,7 +177,8 @@
     276.4,
     362.2
    ],
-   "row": true
+   "row": true,
+   "group": "년월일"
   },
   {
    "t": "text",
@@ -493,7 +502,8 @@
     79.7,
     687.0
    ],
-   "row": true
+   "row": true,
+   "group": "필수통지"
   },
   {
    "t": "text",

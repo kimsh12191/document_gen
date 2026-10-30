@@ -46,7 +46,8 @@
     152.5,
     553.5
    ],
-   "row": true
+   "row": true,
+   "group": "제공항목"
   },
   {
    "t": "text",
@@ -58,7 +59,8 @@
     152.5,
     638.9
    ],
-   "row": true
+   "row": true,
+   "group": "개인정보"
   },
   {
    "t": "check",

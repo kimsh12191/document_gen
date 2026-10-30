@@ -76,7 +76,8 @@
     152.6,
     548.5
    ],
-   "row": true
+   "row": true,
+   "group": "개인정보"
   },
   {
    "t": "check",
@@ -201,7 +202,8 @@
     152.0,
     167.0
    ],
-   "row": true
+   "row": true,
+   "group": "개인정보2"
   },
   {
    "t": "check",
@@ -325,7 +327,8 @@
     152.0,
     682.1
    ],
-   "row": true
+   "row": true,
+   "group": "신용능력정보"
   },
   {
    "t": "check",

@@ -3,7 +3,7 @@
 // 서버: studio/app.py (/api/forms…), studio/catalog.py, 복제는 studio/api_html.py
 "use strict";
 
-addRoute(/^#\/forms\/([^/]+)(?:\/(\w+))?$/, (id, tab) => viewForm(decodeURIComponent(id), tab || "preview"), "forms");
+addRoute(/^#\/forms\/([^/]+)(?:\/(\w+))?$/, (id, tab) => viewForm(decodeURIComponent(id), tab || "overview"), "forms");
 addRoute(/^#\/forms$/, () => viewForms(), "forms");
 
 const REVIEW_TAG = {
@@ -35,6 +35,7 @@ async function viewForms() {
       <select id="f-review">${[["", "검수 전체"], ["no", "미검수"], ["yes", "검수 완료"]].map(([v, n]) =>
         `<option value="${v}" ${f.review === v ? "selected" : ""}>${n}</option>`).join("")}</select>
       <label><input type="checkbox" id="f-korean" ${f.korean ? "checked" : ""}> 한글 키 있음</label>
+      <label title="행 수가 서류마다 달라지는 반복 묶음 (rows[].kind) — 표 과제 table·table_read·table_find·table_qa 가 묻는다"><input type="checkbox" id="f-tables" ${f.tables ? "checked" : ""}> 표 있음</label>
       <label><input type="checkbox" id="f-scenario" ${f.scenario ? "checked" : ""}> 업무 시나리오에 쓰임</label>
       <label><input type="checkbox" id="f-issues" ${f.issues ? "checked" : ""}> 문제 표시 있음</label>
       <label><input type="checkbox" id="f-edited" ${f.edited ? "checked" : ""}> 사람 수정 있음</label>
@@ -65,11 +66,11 @@ async function viewForms() {
   });
   state.showRefreshed = false;   // 다시 읽기 결과는 누른 직후에만 (목록을 가리지 않게)
   $("#f-refreshed").addEventListener("click", e => { if (e.target.closest("[data-close]")) $("#f-refreshed").innerHTML = ""; });
-  const ids = ["#f-q", "#f-group", "#f-kind", "#f-review", "#f-korean", "#f-scenario", "#f-issues", "#f-edited"];
+  const ids = ["#f-q", "#f-group", "#f-kind", "#f-review", "#f-korean", "#f-tables", "#f-scenario", "#f-issues", "#f-edited"];
   const update = () => {
     Object.assign(f, {
       q: $("#f-q").value.trim(), group: $("#f-group").value, kind: $("#f-kind").value, review: $("#f-review").value,
-      korean: $("#f-korean").checked, scenario: $("#f-scenario").checked, issues: $("#f-issues").checked,
+      korean: $("#f-korean").checked, tables: $("#f-tables").checked, scenario: $("#f-scenario").checked, issues: $("#f-issues").checked,
       edited: $("#f-edited").checked,
     });
     store.set("filter", f);
@@ -100,7 +101,7 @@ function drawFormTable() {
       (x.official_source && ("공식대조 HTML " + x.official_source.publisher).toLowerCase().includes(q))) &&
     (!f.group || x.group === f.group) && (!f.kind || x.kind === f.kind) &&
     (!f.review || (f.review === "yes") === !!x.reviewed) &&
-    (!f.korean || x.n_korean_keys > 0) && (!f.scenario || x.scenarios.length > 0) &&
+    (!f.korean || x.n_korean_keys > 0) && (!f.tables || x.tables.length > 0) && (!f.scenario || x.scenarios.length > 0) &&
     (!f.issues || x.open_issues > 0) && (!f.edited || x.edited));
   const { key, dir } = state.sort;
   rows = rows.slice().sort((a, b) => {
@@ -109,7 +110,7 @@ function drawFormTable() {
   });
   $("#f-count").textContent = `${rows.length}종`;
   const cols = [["id", "ID"], ["name", "서식명"], ["group_name", "그룹"], ["kind", "종류"], ["n_keys", "키", 1],
-    ["n_korean_keys", "한글 키", 1], ["n_empty", "값 없는 칸", 1], ["n_marks", "체크·도장·서명", 1],
+    ["n_korean_keys", "한글 키", 1], ["n_empty", "값 없는 칸", 1], ["n_marks", "체크·도장·서명", 1], ["tables", "표", 1],
     ["scenarios", "시나리오"], ["split", "배정"], ["open_issues", "문제", 1], ["reviewed", "검수"]];
   $("#f-table").innerHTML = `<table><thead><tr>${cols.map(([k, n, num]) =>
     `<th data-k="${k}" class="${num ? "num" : ""}">${n}${state.sort.key === k ? (dir > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}
@@ -121,6 +122,7 @@ function drawFormTable() {
       <td class="num">${x.n_keys}</td>
       <td class="num ${x.n_korean_keys ? "kr" : ""}">${x.n_korean_keys || ""}</td>
       <td class="num">${x.n_empty || ""}</td><td class="num">${x.n_marks || ""}</td>
+      <td class="num" title="${esc(x.tables.join(", "))}">${x.tables.length || ""}</td>
       <td>${x.scenarios.map(s => `<span class="tag">${esc(s)}</span>`).join("")}</td>
       <td class="nw">${x.split === "unassigned" ? `<span class="muted">-</span>` : esc(SPLIT_NAME[x.split] || x.split)}</td>
       <td class="num ${x.open_issues ? "kr" : ""}">${x.open_issues || ""}</td>
@@ -148,15 +150,30 @@ async function formDetail(id, force = false) {
   return formCache[id];
 }
 
+// 서식 상세는 할 일 넷으로 나눈다: 무엇을 하나(개요) · 그림이 맞나(그림·검수) · 어떻게 묻고 답하나(질문·답) · 고치기.
+// 아래 줄은 그 일 안의 화면. 주소는 화면 이름 그대로 (#/forms/<ID>/card 등) 라 다른 화면의 링크가 그대로 맞다.
+function formTabs(d) {
+  const editable = d.kind === "overlay";
+  const open = d.issues.filter(x => x.status === "open").length;
+  return [
+    ["개요", "이 서식이 무엇을 묻는지와 상태", [["overview", "요약"], ["card", "카드 원문"], ["guide", "업무·시나리오"]]],
+    ["그림·검수", "그린 그림과 정답이 맞는지 눈으로 보고 검수", [["preview", "미리보기"], ["examples", "여러 장 보기"],
+      ["review", `검수${open ? ` · 문제 ${open}` : ""}`]]],
+    ["질문·답", "과제마다 실제 질문·정답·채점, 칸이 누구의 무엇인지", [["questions", "실제 문항"], ["keys", `키 (${d.keys.length})`]]],
+    ["고치기", "값·위치·모양·칸·질문 설정", [["edit", editable ? "영역 편집" : "자리·템플릿"],
+      ...(!editable ? [["templates", "레이아웃·샘플링"]] : []),
+      ...(!editable && d.origin !== "builtin" ? [["html", "html 편집"]] : []),
+      ["files", "파일"]]],
+  ];
+}
+
 async function viewForm(id, tab) {
   const d = await formDetail(id, tab === "review");
   const editable = d.kind === "overlay";
-  const tabs = [["preview", "미리보기"], ["card", "카드"], ["guide", "추출·시나리오"], ["examples", "예시"], ["questions", "문항 Q/A"],
-    ["edit", editable ? "영역 편집" : "자리·템플릿"],
-    ...(!editable ? [["templates", "레이아웃·샘플링"]] : []),
-    ...(!editable && d.origin !== "builtin" ? [["html", "html 편집"]] : []),
-    ["review", `검수${d.issues.filter(x => x.status === "open").length ? ` · 문제 ${d.issues.filter(x => x.status === "open").length}` : ""}`],
-    ["keys", `키 (${d.keys.length})`], ["files", "파일"]];
+  const groups = formTabs(d);
+  const group = groups.find(g => g[2].some(([t]) => t === tab)) || groups[0];
+  if (!group[2].some(([t]) => t === tab)) tab = group[2][0][0];
+  const href = t => `#/forms/${encodeURIComponent(id)}/${t}`;
   main().innerHTML = `
     <div class="muted"><a href="#/forms">서식</a> › ${esc(d.group_name)}</div>
     <h1>${esc(d.name)} <span class="mono muted">${esc(d.id)}</span></h1>
@@ -174,15 +191,11 @@ async function viewForm(id, tab) {
     ${d.description ? `<div class="sub" style="margin-top:6px">${esc(d.description)}</div>` : ""}
     ${d.document_role ? `<div class="sub">제출 역할: <b>${esc(d.document_role.name)}</b> · 같은 역할 서식 ${d.document_role.forms.length}종
       ${d.document_role.forms.filter(x => x !== d.id).map(x => `<a href="#/forms/${encodeURIComponent(x)}">${esc(x)}</a>`).join(' · ')}</div>` : ""}
-    ${d.value_audit ? `<details class="panel"><summary>이미지 값 점검 · ${d.value_audit.checked_at} · seed ${d.value_audit.seed}
-      · 채운 값 ${d.value_audit.filled}/${d.value_audit.text_fields}${d.value_audit.stale ? ' · 수정 후 다시 검사 필요' : ''}</summary>
-      <p>자동 이미지 검사입니다. 사람 검수 완료와 별개입니다. 빈 값에는 미사용 행·기재 대상이 아닌 칸·출처가 없는 칸이 포함됩니다.</p>
-      <p>${esc(d.value_audit.coverage_note || '')}</p><p>쪽 넘침: ${d.value_audit.overflow ? '있음':'없음'} · 값 위치 누락 ${d.value_audit.missing_positions?.length || 0} · 페이지 밖 ${d.value_audit.offpage?.length || 0}</p>
-      <div>${(d.value_audit.empty || []).map(f=>`<span class="tag">${esc(f.label || f.key)} · ${esc(f.key)}</span>`).join('')}</div>
-      <a href="#/forms/${encodeURIComponent(d.id)}/edit">영역·값 출처 편집</a></details>` : ''}
     ${d.official_source ? `<div class="sub">${esc(d.official_source.publisher)} · ${esc(d.official_source.revision || "")} · <a href="${esc(d.official_source.url)}" target="_blank" rel="noopener noreferrer">공식 원문 보기</a></div>` : ""}
-    <div class="tabs">${tabs.map(([t, n]) =>
-      `<a href="#/forms/${encodeURIComponent(id)}/${t}" class="${t === tab ? "on" : ""}">${n}</a>`).join("")}</div>
+    <div class="tabs">${groups.map(g =>
+      `<a href="${href(g[2][0][0])}" class="${g === group ? "on" : ""}" title="${esc(g[1])}">${esc(g[0])}</a>`).join("")}</div>
+    ${group[2].length > 1 ? `<div class="subtabs">${group[2].map(([t, n]) =>
+      `<a href="${href(t)}" class="${t === tab ? "on" : ""}">${esc(n)}</a>`).join("")}</div>` : ""}
     <div id="tab"></div>`;
   if ($("#f-clone")) $("#f-clone").onclick = async () => {
     const nid = (prompt("새 서식 ID (영어 소문자·숫자·밑줄)", `${d.id}_copy`) || "").trim();
@@ -194,6 +207,7 @@ async function viewForm(id, tab) {
       location.hash = `#/forms/${encodeURIComponent(nid)}/html`;
     } catch (e) { toast(e.message, true); }
   };
+  if (tab === "overview") return tabOverview(d);
   if (tab === "preview") return tabPreview(d);
   if (tab === "card") return tabCard(d);
   if (tab === "guide") return tabGuide(d);
@@ -206,6 +220,72 @@ async function viewForm(id, tab) {
   if (tab === "review") return tabReview(d);
   if (tab === "keys") return tabKeys(d);
   return tabFiles(d);
+}
+
+// 개요 › 요약: 상태 한 줄 + 과제마다 무엇을 묻는지 (GET /api/forms/{id}/overview, studio/catalog.py overview) ----------
+async function tabOverview(d) {
+  const box = $("#tab"), id = encodeURIComponent(d.id);
+  const open = d.issues.filter(x => x.status === "open").length;
+  const a = d.value_audit;
+  box.innerHTML = `<div class="ov-status">
+      <div><span class="muted">검수</span> ${REVIEW_TAG[d.review_state] || ""} <a href="#/forms/${id}/review">검수 화면</a></div>
+      <div><span class="muted">문제 표시</span> ${open ? `<a class="kr" href="#/forms/${id}/review">남은 ${open}개</a>` : "없음"}</div>
+      <div><span class="muted">배정</span> ${esc(SPLIT_NAME[d.split] || d.split)}</div>
+      <div><span class="muted">질문 검사</span> <span id="ov-check" class="muted">…</span></div>
+      <div><span class="muted">카드</span> <span id="ov-card" class="muted">…</span></div>
+    </div>
+    ${a ? `<details class="panel"><summary>이미지 값 점검 · ${a.checked_at} · seed ${a.seed}
+      · 채운 값 ${a.filled}/${a.text_fields}${a.stale ? ' · 수정 후 다시 검사 필요' : ''}</summary>
+      <p>자동 이미지 검사입니다. 사람 검수 완료와 별개입니다. 빈 값에는 미사용 행·기재 대상이 아닌 칸·출처가 없는 칸이 포함됩니다.</p>
+      <p>${esc(a.coverage_note || '')}</p><p>쪽 넘침: ${a.overflow ? '있음' : '없음'} · 값 위치 누락 ${a.missing_positions?.length || 0} · 페이지 밖 ${a.offpage?.length || 0}</p>
+      <div>${(a.empty || []).map(f => `<span class="tag">${esc(f.label || f.key)} · ${esc(f.key)}</span>`).join('')}</div>
+      <a href="#/forms/${id}/edit">영역·값 출처 편집</a></details>` : ''}
+    <h2>이 서식이 묻는 것</h2>
+    <div class="sub">이 서식으로 데이터를 만들면 아래 과제마다 문항이 생깁니다. 고객 여러 명으로 그려 본 칸으로 셉니다 (카드와 같은 계산).
+      행 번호가 있는 칸(<span class="mono">rows.*.kind</span>)은 표로 묶여 kie 가 아니라 표 과제가 묻습니다.
+      고치는 곳 설명: <a href="#/guide/${encodeURIComponent("docgen/forms/README.md")}">서식 폴더 설명서</a></div>
+    <div id="ov-tasks"><p class="spin">그려 보며 세는 중…</p></div>`;
+  let o, formats;
+  try { [o, formats] = await Promise.all([api(`/api/forms/${id}/overview`), loadQuestionFormats()]); }
+  catch (e) { if (box.isConnected) $("#ov-tasks").innerHTML = `<p class="kr">${esc(e.message)}</p>`; return; }
+  if (!box.isConnected || !$("#ov-tasks")) return;
+  $("#ov-check").innerHTML = o.problems.length ? `<span class="kr">문제 ${o.problems.length} (아래)</span>` : `<span class="tag ok">통과</span>`;
+  $("#ov-card").innerHTML = !o.card_exists ? `<a class="kr" href="#/forms/${id}/card">없음</a>`
+    : o.card_stale ? `<a class="kr" href="#/forms/${id}/card" title="서식 파일·질문·공통 설정이 카드를 만든 뒤 바뀜">오래됨</a>` : `<a href="#/forms/${id}/card">최신</a>`;
+  const name = t => formats[t]?.name || t;
+  const seen = it => it.seen < it.of ? ` <span class="muted" title="그려 본 ${it.of}장 중 이 칸이 나온 장 수">${it.seen}/${it.of}장</span>` : "";
+  const label = it => esc(it.q_label || it.label || (it.labels || []).filter(Boolean).join(" / ") || "-");
+  const keyList = items => `<table class="ov-keys"><thead><tr><th>키</th><th>항목명 (질문에 쓰는 이름)</th><th></th></tr></thead><tbody>${items.map(it =>
+    `<tr class="${it.ask === false ? "muted" : ""}"><td class="mono">${esc(it.column || it.key)}</td><td>${label(it)}${it.note ? ` <span class="muted">(${esc(it.note)})</span>` : ""}${seen(it)}</td>
+      <td>${it.ask === false ? `<span class="tag">묻지 않음</span>` : ""}${(it.changed || []).length ? ` <span class="tag warn" title="fields.json 그 칸의 q">바꿈: ${esc(it.changed.join(", "))}</span>` : ""}</td></tr>`).join("")}</tbody></table>`;
+  const asked = items => items.filter(it => it.ask !== false).length;
+  const go = (tasks, text = "실제 문항") => `<a href="#/forms/${id}/questions" data-task="${tasks[0]}">${text}</a>`;
+  const changed = t => (o.changed[t] || []).length ? ` <span class="tag warn" title="questions.json 에서 바꿈">바꿈: ${esc(o.changed[t].join(", "))}</span>` : "";
+  const rows = [
+    [name("classify") + changed("classify"), `무슨 서류인가 → 정답 <b>${esc(o.classify.answer)}</b>${o.classify.aliases?.length ? ` <span class="muted">(다른 이름 ${o.classify.aliases.map(esc).join(", ")})</span>` : ""}`,
+      go(["classify"]), "<span class=mono>questions.json</span> 의 classify"],
+    [`${name("ocr_page")} · ${name("ocr_field")}${changed("ocr_page")}`, `보이는 글자 전체 받아쓰기 · 값 칸 하나 읽기${o.ocr_off.length ? ` <span class="muted">— 뺀 칸 ${o.ocr_off.length}: ${o.ocr_off.map(esc).join(", ")}</span>` : ""}`,
+      go(["ocr_page"]), "뺄 칸: <span class=mono>fields.json</span> 그 칸 <code>q.ocr</code>"],
+    [name("kie") + changed("kie"), `<details><summary>칸 <b>${asked(o.kie)}</b>개의 값·위치${o.kie.length - asked(o.kie) ? ` <span class="muted">(묻지 않음 ${o.kie.length - asked(o.kie)})</span>` : ""}</summary>${keyList(o.kie)}</details>`,
+      go(["kie"]), "묻는 칸·항목명: <span class=mono>fields.json</span> 그 칸 <code>q</code> · 문장·답 틀: <span class=mono>questions.json</span>"],
+    ...o.tables.map(t => [`표 <span class="mono">${esc(t.group)}</span>${t.title ? ` '${esc(t.title)}'` : ""}`,
+      `<details><summary>열 <b>${asked(t.columns)}</b>개, 행 수는 서류마다 다름 · ${["table", "table_read", "table_find", "table_qa"].map(name).join(" · ")}${t.seen < o.docs ? ` <span class="muted">· ${o.docs}장 중 ${t.seen}장에 행 있음</span>` : ""}</summary>${keyList(t.columns)}</details>`,
+      go(["table"]), "제목·표 아님: <span class=mono>questions.json</span> 의 <code>table</code> · 열: <span class=mono>fields.json</span> <code>q</code> · 행 순서: 값 만드는 곳"]),
+    ...(o.nested.length ? [["겹친 목록", `<details><summary>칸 ${o.nested.length}개 — 목록 안의 목록이라 표로도 kie 로도 묻지 않음</summary>${keyList(o.nested)}</details>`, "", "키를 <span class=mono>&lt;묶음&gt;.N.&lt;열&gt;</span> 꼴로"]] : []),
+    [name("marks") + changed("marks"), o.marks.length ? `<details><summary>칸 <b>${asked(o.marks)}</b>개 (체크박스·도장·서명)</summary>${keyList(o.marks)}</details>` : `<span class="muted">없음</span>`,
+      o.marks.length ? go(["marks"]) : "", "kie 와 같음"],
+    [name("form_qa"), o.form_qa.length ? o.form_qa.map(r => `<span class="tag" title="${esc(r.kind || "")}">${esc(r.name)}</span>${r.asked < r.of ? ` <span class="muted">${r.asked}/${r.of}장</span>` : ""}`).join(" ")
+      : `<span class="muted">없음 — 견본 <span class="mono">python -m docgen.formdir qa ${esc(d.id)} --new</span></span>`,
+      o.form_qa.length ? go(["form_qa"]) : "", "<span class=mono>qa.py</span> (함수 하나 = 질문 하나)"],
+    ["업무 묶음", d.scenario_names.length ? d.scenario_names.map(s => `<span class="tag">${esc(s.name)}</span>`).join(" ") + ` <span class="muted">— 구비 확인·대조·심사 문항에 쓰임</span>`
+      : `<span class="muted">없음 (서류 한 건 과제에만)</span>`, d.scenario_names.length ? `<a href="#/forms/${id}/guide">업무·시나리오</a>` : "", "③ 시나리오"],
+  ];
+  $("#ov-tasks").innerHTML = `<table class="ov-tasks"><thead><tr><th>과제</th><th>묻는 것</th><th></th><th>고치는 곳</th></tr></thead><tbody>${rows.map(([t, w, l, f]) =>
+      `<tr><td class="nw">${t}</td><td>${w}</td><td class="nw">${l}</td><td class="muted">${f}</td></tr>`).join("")}</tbody></table>
+    ${o.problems.length ? `<h3 id="ov-problems" class="kr">질문 검사 문제 ${o.problems.length}</h3><ul>${o.problems.map(p => `<li>${esc(p)}</li>`).join("")}</ul>` : ""}
+    ${o.notes.length ? `<details><summary class="muted">참고 ${o.notes.length}</summary><ul>${o.notes.map(p => `<li>${esc(p)}</li>`).join("")}</ul></details>` : ""}
+    <div class="sub">질문 검사는 질문 설정(questions.json·칸의 q·qa.py)만 봅니다. 칸·값 출처·박스까지 보려면 <span class="mono">python -m docgen.formdir check ${esc(d.id)}</span>.</div>`;
+  $("#ov-tasks").onclick = e => { const t = e.target.closest("[data-task]")?.dataset.task; if (t) state.qaTask = t; };
 }
 
 // 카드 탭: 서식 폴더의 FORM.md (docgen/formcard.py) — 항목·위치·정의한 곳·질문→답 예시·고치는 곳 ----------

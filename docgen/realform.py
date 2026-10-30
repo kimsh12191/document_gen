@@ -548,9 +548,13 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
         if it["t"] == "text" and it.get("row"):
             k = (it["page"], it.get("group") or "", norm(it["label"]))
             rows[k] = rows.get(k, 0) + 1
+    cap: dict[tuple, int] = {}   # 묶음마다 인쇄된 줄 수
+    for (pg, grp, _), n in rows.items():
+        cap[(pg, grp)] = max(cap.get((pg, grp), 0), n)
     fill_rows: dict[tuple, int] = {}
     pct_plan: dict[tuple, list[int]] = {}
     row_idx: dict[tuple, int] = {}
+    row_cols: dict[tuple, dict] = {}   # 묶음마다 열(항목명 → 첫 줄 칸): 별지에 이어 적을 때 쓴다
 
     for it in lay["items"]:
         t, page = it["t"], it["page"]
@@ -564,17 +568,16 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
                 if gk not in fill_rows:
                     fill_rows[gk] = rng.choice([0, 1, 1, 2, 2, 3] if p.extra.get("sparse_fields") else [1, 1, 2, 2, 3]) if rng.random() < 0.85 else n_rows
                     fill_rows[gk] = min(fill_rows[gk], n_rows)
+                    more = _more_rows(p, doc_id, gk, cap[gk])
+                    if more:   # 인쇄된 줄을 다 채우고 남은 줄은 별지에 (extra_rows)
+                        fill_rows[gk] = cap[gk] + more
+                row_cols.setdefault(gk, {}).setdefault(norm(label), it)
                 key = _row_key(it, i)
                 kind = it.get("kind") or kind_of(label, it.get("unit"), it.get("hint"))
                 if i >= fill_rows[gk]:
                     value = None
-                elif it.get("source"):
-                    value = SRC.value(it["source"], p, rng, {**it, "class": cls}, vals, row=i)
-                elif kind == "percent":
-                    plan = pct_plan.setdefault(gk, _split100(rng, max(1, fill_rows[gk])))
-                    value = str(plan[i])
                 else:
-                    value = vals.by_kind(kind, label)
+                    value = _row_value(it, i, gk, p, rng, vals, cls, fill_rows, pct_plan)
             else:
                 skey, kind = _text_key(it)
                 if kind == "seal" and not skey:   # '인감', '서명/날인' 칸 → 도장·서명 자리
@@ -618,18 +621,7 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
             align = "right" if (it.get("unit") in ("원", "천원", "만원", "백만원") or kind == "amount") else \
                 "center" if (it["rect"][2] - it["rect"][0]) < 70 or kind in ("percent", "count") else "left"
             unit = it.get("unit")
-            if value is not None and unit in ("천원", "만원", "백만원", "억원") and it.get("source") != "rule:fixed":
-                from .schema import korean_number
-
-                amount = korean_number(str(value))
-                if amount is None:
-                    try:
-                        amount = float(re.sub(r"[^0-9.+-]", "", str(value)))
-                    except ValueError:
-                        amount = None
-                if amount is not None:
-                    factor = {"천원": 1000, "만원": 10000, "백만원": 1000000, "억원": 100000000}[unit]
-                    value = f"{amount / factor:,.4f}".rstrip("0").rstrip(".")
+            value = _in_unit(value, it)
             out.append({**_visible(key, value, it["rect"], page, style, rng, label=label, align=align), "unit": unit})
         elif t == "check":
             opts = [o for o in it["options"]]
@@ -678,6 +670,23 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
             out.append(_visible(uniq(it["key"] if it.get("key") else "handwritten"), it["text"] if filled else None,
                                 it["rect"], page, {**style, "hand": True, "font": f"'{hf}'", "scale": hfont.get("scale", 1.0)}, rng,
                                 label=label or "자필기재", align="center"))
+    # 인쇄된 줄보다 많은 행: 별지(계속) 쪽에 같은 열로 이어 적는다 (_extra_rows.html.j2, 넘치면 paginate.js 가 쪽을 늘림)
+    extra_rows = []
+    for gk, total in fill_rows.items():
+        if total <= cap[gk]:
+            continue
+        cols = sorted(row_cols[gk].values(), key=lambda c: c["rect"][0])
+        body = []
+        for i in range(cap[gk], total):
+            cells = []
+            for c in cols:
+                v = _in_unit(_row_value(c, i, gk, p, rng, vals, cls, fill_rows, pct_plan), c)
+                kind = c.get("kind") or kind_of(c.get("label") or "", c.get("unit"), c.get("hint"))
+                cells.append({"key": _row_key(c, i), "value": v, "label": c.get("label") or "",
+                              "align": "right" if (c.get("unit") in ("원", "천원", "만원", "백만원") or kind == "amount") else "left"})
+            body.append({"no": i + 1, "cells": cells})
+        extra_rows.append({"page": gk[0], "title": gk[1] or "", "columns": [c.get("label") or "" for c in cols],
+                           "units": [c.get("unit") or "" for c in cols], "rows": body})
     # 결재란: 은행이 접수·처리한 서류에는 직원 도장·서명이 있다. 같은 칸 이름은 서류 안에서 같은 직원.
     cells = [(i, c) for i, pg in enumerate(lay["pages"]) for c in pg.get("staff", [])]
     if cells:
@@ -705,7 +714,48 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
         pages.append({"w": round(pg["width"] * PX, 1), "h": round(pg["height"] * PX, 1), "bg": bg})
     fonts = M.font_faces(pools)
     return {"no": no, "doc_id": doc_id, "pages": pages, "items": out, "style": style, "class": lay.get("class", ""),
-            "name": lay.get("name", doc_id), "fonts": fonts}
+            "name": lay.get("name", doc_id), "fonts": fonts, "extra_rows": extra_rows}
+
+
+MORE_ROWS = 0.15   # 표 하나가 인쇄된 줄을 넘쳐 별지로 이어지는 비율 (DOCGEN_HEAVY=1 이면 늘, 0 이면 없음 — 미리보기 '내용 많음')
+
+
+def _more_rows(p: Profile, doc_id: str, gk: tuple, cap: int) -> int:
+    """인쇄된 줄(cap)보다 더 적을 행 수 (0 이면 넘치지 않음). 다른 값의 난수를 흔들지 않게 따로 난수를 쓴다."""
+    from .docs._common import heavy
+
+    r = random.Random(f"rows:{p.seed}:{doc_id}:{gk}")
+    return r.randint(1, max(4, 3 * cap)) if heavy(r, MORE_ROWS) else 0
+
+
+def _row_value(it: dict, i: int, gk: tuple, p: Profile, rng: random.Random, vals: "Values", cls: str,
+               fill_rows: dict, pct_plan: dict):
+    """표 행 칸 하나의 값 (i 번째 줄)."""
+    label = it.get("label") or ""
+    kind = it.get("kind") or kind_of(label, it.get("unit"), it.get("hint"))
+    if it.get("source"):
+        return SRC.value(it["source"], p, rng, {**it, "class": cls}, vals, row=i)
+    if kind == "percent":
+        plan = pct_plan.setdefault(gk, _split100(rng, max(1, fill_rows[gk])))
+        return str(plan[i])
+    return vals.by_kind(kind, label)
+
+
+def _in_unit(value, it: dict):
+    """칸에 단위(천원·만원 …)가 인쇄돼 있으면 금액을 그 단위로 나눈 글자로."""
+    unit = it.get("unit")
+    if value is None or unit not in ("천원", "만원", "백만원", "억원") or it.get("source") == "rule:fixed":
+        return value
+    from .schema import korean_number
+
+    amount = korean_number(str(value))
+    if amount is None:
+        try:
+            amount = float(re.sub(r"[^0-9.+-]", "", str(value)))
+        except ValueError:
+            return value
+    factor = {"천원": 1000, "만원": 10000, "백만원": 1000000, "억원": 100000000}[unit]
+    return f"{amount / factor:,.4f}".rstrip("0").rstrip(".")
 
 
 def _signer_name(role: str, label: str, it: dict, fk: dict, vals: "Values", rng: random.Random) -> str | None:
@@ -738,7 +788,10 @@ def _pooled(mk: dict, pools: dict, rng: random.Random) -> dict:
     if mk["seal"]:
         it = M.pick(rng, pools["seal"])
         if it and not it.get("builtin"):
-            mk["seal_tpl"] = it
+            if it.get("file"):   # 올린 도장 사진 (글자는 사진 그대로, 이름이 서류와 다를 수 있다)
+                mk["seal_img"] = M.image_url(it)
+            else:
+                mk["seal_tpl"] = it
             render["seal"] = it["id"]
     if render:
         mk["render"] = render

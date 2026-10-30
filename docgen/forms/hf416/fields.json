@@ -30,7 +30,8 @@
     152.5,
     533.2
    ],
-   "row": true
+   "row": true,
+   "group": "수집이용항목"
   },
   {
    "t": "text",
@@ -42,7 +43,8 @@
     152.5,
     607.0
    ],
-   "row": true
+   "row": true,
+   "group": "개인정보"
   },
   {
    "t": "check",
@@ -167,7 +169,8 @@
     152.5,
     405.9
    ],
-   "row": true
+   "row": true,
+   "group": "제공항목"
   },
   {
    "t": "text",
@@ -179,7 +182,8 @@
     152.5,
     479.6
    ],
-   "row": true
+   "row": true,
+   "group": "개인정보2"
   },
   {
    "t": "check",

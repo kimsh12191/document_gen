@@ -427,7 +427,9 @@ function edSide(ed) {
       <label class="fld">값 출처 <select id="ed-source">${sourceOptions(c.source || "")}</select></label>
       ${c.source === "rule:choice" ? `<label class="fld">보기 (한 줄에 하나) <textarea id="ed-choices" rows="3">${esc((c.choices || []).join("\n"))}</textarea></label>` : ""}
       ${c.source === "rule:fixed" ? `<label class="fld">고정 글자 <input type="text" id="ed-fixed" value="${esc(c.text || "")}"></label>` : ""}
-      ${c.row ? `<div class="muted" style="font-size:12px">표 반복 행입니다. 키에 <span class="mono">{i}</span>를 쓰면 행 번호가 들어갑니다 (예: products.{i}.name)</div>` : ""}` : ""}
+      ${c.row ? `<label class="fld">표 묶음 <input type="text" id="ed-group" value="${esc(c.group || "")}" placeholder="(없음: 목록)"></label>
+        <div class="muted" style="font-size:12px">표 반복 행입니다. 같은 표의 칸은 같은 묶음, 다른 표는 다른 묶음 (키 <span class="mono">&lt;묶음&gt;_목록.&lt;행&gt;.&lt;항목명&gt;</span>).
+          키에 <span class="mono">{i}</span>를 쓰면 행 번호가 들어갑니다 (예: products.{i}.name)</div>` : ""}` : ""}
       ${c.t === "copy" ? `<label class="fld">따라 쓸 문구 <input type="text" id="ed-copytext" value="${esc(c.text || "")}"></label>` : ""}
       ${c.t === "check" ? `<div class="fld">보기 ${(c.options || []).map((o, j) => `<div class="optrow"><input type="text" data-opt="${j}" value="${esc(o.text || "")}"
         ${ed.sel.sub === `opt:${j}` ? `class="cur"` : ""}></div>`).join("")}
@@ -474,6 +476,7 @@ function edSide(ed) {
   on("#ed-label", "change", e => { setProp(ed, it, "label", e.target.value.trim()); redraw(); });
   on("#ed-key", "change", e => { setProp(ed, it, "key", e.target.value.trim()); redraw(); });
   on("#ed-kind", "change", e => { setProp(ed, it, "kind", e.target.value); redraw(); });
+  on("#ed-group", "change", e => { setProp(ed, it, "group", e.target.value.trim()); redraw(); });
   on("#ed-source", "change", e => { setProp(ed, it, "source", e.target.value); redraw(); });
   on("#ed-choices", "change", e => { setProp(ed, it, "choices", e.target.value.split("\n").map(s => s.trim()).filter(Boolean)); redraw(); });
   on("#ed-fixed", "change", e => { setProp(ed, it, "text", e.target.value); redraw(); });

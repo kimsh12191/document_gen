@@ -42,7 +42,8 @@
     543.0,
     351.4
    ],
-   "row": true
+   "row": true,
+   "group": "전화"
   },
   {
    "t": "text",
@@ -54,7 +55,8 @@
     543.0,
     369.8
    ],
-   "row": true
+   "row": true,
+   "group": "전화"
   },
   {
    "t": "text",
@@ -66,7 +68,8 @@
     543.0,
     388.2
    ],
-   "row": true
+   "row": true,
+   "group": "전화"
   },
   {
    "t": "text",
@@ -78,7 +81,8 @@
     543.0,
     406.7
    ],
-   "row": true
+   "row": true,
+   "group": "전화"
   },
   {
    "t": "text",
@@ -90,7 +94,8 @@
     543.0,
     425.1
    ],
-   "row": true
+   "row": true,
+   "group": "전화"
   },
   {
    "t": "text",
@@ -102,7 +107,8 @@
     543.0,
     443.5
    ],
-   "row": true
+   "row": true,
+   "group": "전화"
   },
   {
    "t": "text",
@@ -114,7 +120,8 @@
     543.0,
     461.9
    ],
-   "row": true
+   "row": true,
+   "group": "전화"
   },
   {
    "t": "text",
@@ -126,7 +133,8 @@
     543.0,
     480.4
    ],
-   "row": true
+   "row": true,
+   "group": "전화"
   },
   {
    "t": "text",
@@ -138,7 +146,8 @@
     543.0,
     498.8
    ],
-   "row": true
+   "row": true,
+   "group": "전화"
   },
   {
    "t": "text",
@@ -150,7 +159,8 @@
     543.0,
     517.2
    ],
-   "row": true
+   "row": true,
+   "group": "전화"
   },
   {
    "t": "text",
@@ -162,7 +172,8 @@
     543.0,
     535.6
    ],
-   "row": true
+   "row": true,
+   "group": "전화"
   },
   {
    "t": "text",
@@ -174,7 +185,8 @@
     543.0,
     554.1
    ],
-   "row": true
+   "row": true,
+   "group": "전화"
   },
   {
    "t": "text",
@@ -186,7 +198,8 @@
     543.0,
     572.5
    ],
-   "row": true
+   "row": true,
+   "group": "전화"
   },
   {
    "t": "text",
@@ -198,7 +211,8 @@
     543.0,
     590.9
    ],
-   "row": true
+   "row": true,
+   "group": "전화"
   },
   {
    "t": "text",
@@ -210,7 +224,8 @@
     543.0,
     609.3
    ],
-   "row": true
+   "row": true,
+   "group": "전화"
   },
   {
    "t": "text",
@@ -222,7 +237,8 @@
     543.0,
     627.8
    ],
-   "row": true
+   "row": true,
+   "group": "전화"
   },
   {
    "t": "text",
@@ -348,7 +364,8 @@
     150.6,
     666.2
    ],
-   "row": true
+   "row": true,
+   "group": "일반개인정보"
   },
   {
    "t": "check",
@@ -450,7 +467,8 @@
     150.7,
     548.1
    ],
-   "row": true
+   "row": true,
+   "group": "일반개인정보2"
   },
   {
    "t": "check",

@@ -30,7 +30,8 @@
     152.7,
     673.6
    ],
-   "row": true
+   "row": true,
+   "group": "개인정보"
   },
   {
    "t": "check",
@@ -155,7 +156,8 @@
     152.3,
     519.5
    ],
-   "row": true
+   "row": true,
+   "group": "개인정보2"
   },
   {
    "t": "check",

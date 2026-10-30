@@ -50,6 +50,13 @@ td.nw { white-space: nowrap; }
 .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line); margin: 14px 0 12px; }
 .tabs a { padding: 7px 14px; color: var(--muted); border-bottom: 2px solid transparent; }
 .tabs a.on { color: var(--text); border-color: var(--accent); font-weight: 600; }
+.subtabs { display: flex; flex-wrap: wrap; gap: 4px; margin: -6px 0 12px; }
+.subtabs a { padding: 3px 10px; border-radius: 12px; color: var(--muted); font-size: 13px; }
+.subtabs a.on { background: var(--line); color: var(--text); font-weight: 600; }
+.ov-status { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-bottom: 10px; }
+.ov-tasks td { vertical-align: top; }
+.ov-tasks details summary { cursor: pointer; }
+.ov-keys { margin: 6px 0; font-size: 13px; }
 
 .layers { display: flex; gap: 10px; flex-wrap: wrap; }
 .layers label { display: flex; align-items: center; gap: 4px; font-size: 13px; color: var(--text); }
@@ -249,6 +256,11 @@ pre.log { max-height: 420px; }
 .qa-item pre.ans { max-height: 330px; }
 .qa-images { display: flex; flex-wrap: wrap; gap: 10px; padding: 10px 0; }
 .qa-images img { max-height: 220px; max-width: 100%; background: white; border: 1px solid var(--line); }
+.qa-page { position: relative; display: inline-block; line-height: 0; }
+.qa-page img { display: block; max-height: 420px; }
+.qa-page svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.qa-page svg rect { fill: rgba(220, 38, 38, .12); stroke: #dc2626; stroke-width: 2; vector-effect: non-scaling-stroke; pointer-events: all; }
+.qa-pno { position: absolute; left: 4px; top: 4px; line-height: 1.4; font-size: 11px; background: rgba(0, 0, 0, .6); color: white; padding: 0 5px; border-radius: 3px; }
 .qa-dialog { width: min(1120px, 95vw); max-width: 95vw; max-height: 94vh; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--text); }
 .qa-dialog::backdrop { background: #101a2db3; }
 .qa-dialog h2 { margin: 0; flex: 1; font-size: 17px; }

@@ -59,7 +59,7 @@
 | [`swift_default.py`](../train/scorers/swift_default.py) | swift `.jsonl` (안 적으면 이것) | `score` |
 | [`swift_kie_scorer.py`](../train/scorers/swift_kie_scorer.py) | `temp/swift_to_kie_tmp.py`(v1)·`swift_to_kie_v2_tmp.py`(v2)로 kie 꼴로 바꾼 swift `.jsonl` | `score` |
 | [`kie_list_scorer.py`](../train/scorers/kie_list_scorer.py) | `temp/swift_to_kie_v3_tmp.py`로 **합성 kie 와 같은 꼴**(같은 질문, `[{"key", "value"}]` 정답)로 바꾼 `.jsonl`. 합성과 같은 값 채점, 위치 정답이 없으니 주 지표 `f1` | `score` |
-| [`vqa_scorer.py`](../train/scorers/vqa_scorer.py) | VQA 꼴 swift `.jsonl` (정답이 글·JSON 객체·배열·스칼라). JSON 은 말단 값마다 경로로 비교(키 순서 무시, 배열 순서 지킴), 대소문자·문장부호·마스킹·타입 구분, 주 지표 `f1` | `score` (비교 규칙은 파일 맨 위) |
+| [`vqa_scorer.py`](../train/scorers/vqa_scorer.py) | `qa_to_swift`로 만든 VQA 꼴 swift `.jsonl` (정답이 글·JSON 객체·배열·스칼라, [설정](qa-to-swift.md#pipeline-채점-함수-연결)). JSON 은 말단 값마다 경로로 비교(키 순서 무시, 배열 순서 지킴), 대소문자·문장부호·마스킹·타입 구분, 주 지표 `f1` | `score` (비교 규칙은 파일 맨 위) |
 | [`kie_default.py`](../train/scorers/kie_default.py) | 값만 보는 정보 추출 | 위쪽 `FIELD_TYPES`에 항목별 비교 기준(`text`·`amount`·`date`·`digits`) |
 | [`bank_default.py`](../train/scorers/bank_default.py) | 합성 은행 서류 세트 | 과제마다 함수 하나 (`classify`, `kie` …) |
 | [`form_qa_example.py`](../train/scorers/form_qa_example.py) | 합성 은행 서류 세트에서 서식 전용 질문(`form_qa`) 몇 개만 다르게 | `RULES` (`meta.question` = `"<서식ID>.<qa.py 함수 이름>"` → 채점 함수). 나머지 문항은 기본 채점 |

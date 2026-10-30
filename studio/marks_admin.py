@@ -12,8 +12,9 @@ from pathlib import Path
 
 from docgen import marks as M
 
-IMAGE_POOLS = ("check", "sign")
+IMAGE_POOLS = ("check", "sign", "seal")
 SEAL_SHAPES = ("circle", "square", "oval")
+PHOTO_EXTS = ("jpg", "jpeg", "webp")   # 도장 풀만: 사진도 받아 clean_seal 로 배경을 지운다
 
 
 def view() -> dict:
@@ -162,11 +163,90 @@ def add_seal_template(t: dict) -> dict:
     return save_pool("seal", pools["seal"] + [{k: v for k, v in item.items() if v not in (None, "")}])
 
 
+def _percentile(im, q: float, mask=None) -> int:
+    hist, acc = im.histogram(mask), 0
+    total = sum(hist)
+    for v, c in enumerate(hist):
+        acc += c
+        if acc >= total * q:
+            return v
+    return 255
+
+
+def clean_seal(data: bytes) -> bytes:
+    """도장 사진 → 배경을 지우고 인주만 남겨 도장 둘레로 자른 투명 PNG.
+
+    - 이미 투명 배경인 PNG 는 그대로 두고 자르기·줄이기만 한다.
+    - 붉은 인주가 보이면 '빨강 정도(R - max(G, B))', 아니면(검정·파랑 도장) 배경보다 어두운 정도로 인주를 고른다.
+    - 인주 색은 진하게 찍힌 칸의 평균 한 가지로 칠한다 (가장자리에 섞인 종이색이 남지 않게).
+    """
+    from PIL import Image, ImageChops, ImageFilter, ImageOps, ImageStat
+
+    try:
+        im = ImageOps.exif_transpose(Image.open(io.BytesIO(data)))
+        im.load()
+    except Exception as e:  # noqa: BLE001
+        raise ValueError(f"이미지를 읽을 수 없습니다: {e}") from e
+    im = im.convert("RGBA")
+    im.thumbnail((1200, 1200))
+    if max(im.size) < 600:   # 작게 찍힌 도장: 키운 뒤 처리해야 잡티 필터가 가는 획을 지우지 않는다
+        k = 600 / max(im.size)
+        im = im.resize((round(im.width * k), round(im.height * k)), Image.LANCZOS)
+    alpha = im.getchannel("A")
+    if alpha.getextrema()[0] < 128 and ImageStat.Stat(alpha).mean[0] < 230:   # 이미 투명 배경
+        out = im
+    else:
+        rgb = im.convert("RGB")
+        r, g, b = rgb.split()
+        red = ImageChops.subtract(r, ImageChops.lighter(g, b))
+        noise, peak = _percentile(red, 0.5), _percentile(red, 0.99)   # 종이·배경의 빨강 정도, 인주의 빨강 정도
+        if peak - noise >= 18:   # 흐린 분홍 인주도 잡히게 사진마다 문턱을 정한다
+            # JPEG 는 색을 밝기보다 거칠게 저장한다: 색으로는 '인주가 있는 곳'만 정하고, 획 모양은 밝기(제 해상도)로 잡는다
+            near = red.point(lambda v: 255 if v > noise + (peak - noise) * 0.3 else 0).filter(ImageFilter.MaxFilter(9))
+            dark = ImageOps.invert(rgb.convert("L"))
+            sure = red.point(lambda v: 255 if v > noise + (peak - noise) * 0.5 else 0)   # 확실히 인주인 칸
+            paper, inked = _percentile(dark, 0.2, near), _percentile(dark, 0.9, sure)
+            if inked - paper < 12:
+                score, lo, hi = red, noise + (peak - noise) * 0.15, noise + (peak - noise) * 0.6
+            else:
+                # 인주보다 훨씬 어두운 칸은 종이 밖 배경·검은 인쇄 글자 → 뺀다
+                cut = inked + max(30, (inked - paper) // 2)
+                score = ImageChops.multiply(dark.point(lambda v: 0 if v > cut else v), near)
+                lo, hi = paper + (inked - paper) * 0.2, paper + (inked - paper) * 0.7
+        else:
+            dark = ImageOps.invert(rgb.convert("L"))
+            w, h = dark.size
+            edge = [dark.getpixel((x, y)) for x in range(0, w, max(1, w // 40)) for y in (0, h - 1)]
+            bg = sorted(edge)[len(edge) // 2]   # 테두리 중앙값 = 종이 어둡기
+            score, lo, hi = dark, bg + 30, bg + 120
+        a = score.point(lambda v: 0 if v <= lo else 255 if v >= hi else int((v - lo) * 255 / (hi - lo)))
+        a = a.filter(ImageFilter.MedianFilter(3))   # 종이 얼룩·잡티
+        solid = a.point(lambda v: 255 if v >= 200 else 0)
+        if not solid.getbbox():
+            raise ValueError("도장(인주)을 찾지 못했습니다. 도장이 크게 나오게 찍은 사진을 올려 주세요")
+        ink = tuple(int(c) for c in ImageStat.Stat(rgb, solid).mean)
+        out = Image.new("RGBA", rgb.size, ink + (255,))
+        out.putalpha(a)
+    box = out.getchannel("A").point(lambda v: 255 if v > 40 else 0).getbbox()
+    if not box:
+        raise ValueError("도장(인주)을 찾지 못했습니다")
+    pad = max(2, int(max(box[2] - box[0], box[3] - box[1]) * 0.04))
+    out = out.crop((max(0, box[0] - pad), max(0, box[1] - pad), min(out.width, box[2] + pad), min(out.height, box[3] + pad)))
+    out.thumbnail((320, 320))
+    buf = io.BytesIO()
+    out.save(buf, "PNG", optimize=True)
+    return buf.getvalue()
+
+
 def upload(name: str, filename: str, data: bytes, label: str = "") -> dict:
-    """체크·서명 풀에 투명 배경 PNG(또는 SVG)를 올린다."""
+    """체크·서명 풀에 투명 배경 PNG(또는 SVG)를 올린다. 도장 풀은 사진(JPG·PNG·WEBP)도 받아 clean_seal 로 처리한다."""
     if name not in IMAGE_POOLS:
         raise ValueError(f"이미지를 올릴 수 있는 풀: {IMAGE_POOLS}")
     ext = filename.rsplit(".", 1)[-1].lower() if "." in filename else ""
+    if len(data) > 20_000_000:
+        raise ValueError("20MB 이하 이미지만")
+    if name == "seal" and ext in PHOTO_EXTS + ("png",):
+        data, ext = clean_seal(data), "png"
     if ext == "svg":
         head = data[:200].decode("utf-8", "ignore").lstrip()
         if not (head.startswith("<svg") or head.startswith("<?xml")):

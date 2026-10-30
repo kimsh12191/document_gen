@@ -62,7 +62,8 @@
     145.6,
     538.4
    ],
-   "row": true
+   "row": true,
+   "group": "NumberofLG"
   },
   {
    "t": "text",
@@ -74,7 +75,8 @@
     247.0,
     538.4
    ],
-   "row": true
+   "row": true,
+   "group": "NumberofLG"
   },
   {
    "t": "text",
@@ -86,7 +88,8 @@
     348.3,
     538.4
    ],
-   "row": true
+   "row": true,
+   "group": "NumberofLG"
   },
   {
    "t": "text",
@@ -98,7 +101,8 @@
     451.9,
     538.4
    ],
-   "row": true
+   "row": true,
+   "group": "NumberofLG"
   },
   {
    "t": "text",
@@ -110,7 +114,8 @@
     545.5,
     538.4
    ],
-   "row": true
+   "row": true,
+   "group": "NumberofLG"
   },
   {
    "t": "text",
@@ -133,7 +138,8 @@
     145.6,
     538.4
    ],
-   "row": true
+   "row": true,
+   "group": "NumberofLG2"
   },
   {
    "t": "text",
@@ -145,7 +151,8 @@
     247.0,
     538.4
    ],
-   "row": true
+   "row": true,
+   "group": "NumberofLG2"
   },
   {
    "t": "text",
@@ -157,7 +164,8 @@
     348.3,
     538.4
    ],
-   "row": true
+   "row": true,
+   "group": "NumberofLG2"
   },
   {
    "t": "text",
@@ -169,7 +177,8 @@
     451.9,
     538.4
    ],
-   "row": true
+   "row": true,
+   "group": "NumberofLG2"
   },
   {
    "t": "text",
@@ -181,7 +190,8 @@
     546.5,
     538.4
    ],
-   "row": true
+   "row": true,
+   "group": "NumberofLG2"
   },
   {
    "t": "text",
@@ -204,7 +214,8 @@
     145.6,
     538.4
    ],
-   "row": true
+   "row": true,
+   "group": "NumberofLG3"
   },
   {
    "t": "text",
@@ -216,7 +227,8 @@
     247.0,
     538.4
    ],
-   "row": true
+   "row": true,
+   "group": "NumberofLG3"
   },
   {
    "t": "text",
@@ -228,7 +240,8 @@
     348.3,
     538.4
    ],
-   "row": true
+   "row": true,
+   "group": "NumberofLG3"
   },
   {
    "t": "text",
@@ -240,7 +253,8 @@
     451.9,
     538.4
    ],
-   "row": true
+   "row": true,
+   "group": "NumberofLG3"
   },
   {
    "t": "text",
@@ -252,7 +266,8 @@
     545.5,
     538.4
    ],
-   "row": true
+   "row": true,
+   "group": "NumberofLG3"
   },
   {
    "t": "text",

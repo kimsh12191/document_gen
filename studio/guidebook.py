@@ -87,7 +87,7 @@ def cell(value) -> str:
 def markdown(data: dict, form_id: str | None = None) -> str:
     lines = ["# 업무별 서류·대조 사례·심사 규칙" if form_id is None else "# 서류별 추출 항목과 연결 업무", "",
              "이 문서는 `python -m studio.guidebook`으로 현재 등록부·필드 스키마·시나리오 설정에서 생성합니다. 직접 수정하지 않습니다.", "",
-             "Studio의 **사용 가이드 → 서류·추출 카탈로그**와 서식 상세의 **추출·시나리오** 탭은 같은 구조의 현재 데이터를 보여 줍니다. 이 파일과 catalog.json은 갱신 시점의 스냅샷입니다.", "",
+             "Studio의 **사용 가이드 → 서류·추출 카탈로그**와 서식 상세의 **개요 › 업무·시나리오** 화면은 같은 구조의 현재 데이터를 보여 줍니다. 이 파일과 catalog.json은 갱신 시점의 스냅샷입니다.", "",
              "단일 서류 KIE는 해당 서식의 필드를 사용합니다. 업무 시나리오의 명시적 추출·비교 작업은 별도 설정입니다. 작업이 없더라도 켜진 기본 구비·대조·심사 과제는 유효한 서류·규칙에 따라 생성됩니다.", ""]
     if form_id is None:
         lines += ["## 업무별 서류와 처리 설정", ""]
@@ -99,7 +99,7 @@ def markdown(data: dict, form_id: str | None = None) -> str:
         lines += [f"| {c['id']} | {cell(c['title'])} | {cell(c['basis'])} |" for c in data["cases"]]
         lines += ["", "## 기본 심사 규칙", "", "| ID | 계산·판단 |", "|---|---|"]
         lines += [f"| {k} | {cell(v)} |" for k, v in data["rules"].items()]
-        lines += ["", "서류별 추출 항목은 서식마다 카드 `docgen/forms/<ID>/FORM.md` 와 studio 서식 상세의 **추출·시나리오** 탭에 있습니다 (기계용 catalog.json).", ""]
+        lines += ["", "서류별 추출 항목은 서식마다 카드 `docgen/forms/<ID>/FORM.md` 와 studio 서식 상세의 **개요** 탭에 있습니다 (기계용 catalog.json).", ""]
         return "\n".join(lines)
     for f in data["forms"]:
         if form_id is not None and f["id"] != form_id:
@@ -107,7 +107,7 @@ def markdown(data: dict, form_id: str | None = None) -> str:
         lines += [f"### {f['id']} · {f['name']}", "", f"그룹: {f['group_name']} (`{f['group']}`)", "", cell(f["description"]), "",
                   "연결 업무: " + (", ".join(f"{s['name']} ({s['id']})" for s in f["scenarios"]) or "없음 · 단일 서류 과제로 사용 가능"), ""]
         if not f["schema_available"]:
-            lines += ["필드 목록 미수집. Studio 문항 Q/A로 실제 문항을 확인하고 필드 스키마를 갱신하세요.", ""]
+            lines += ["필드 목록 미수집. Studio 서식 › 질문·답 › 실제 문항으로 실제 문항을 확인하고 필드 스키마를 갱신하세요.", ""]
         else:
             lines += ["| 원본 필드 키 | 문항 키 | 항목명 | 타입 | 값 예시 |", "|---|---|---|---|---|"]
             lines += ["| " + " | ".join(cell(x.get(k)) for k in ("key", "question_key", "label", "type", "example")) + " |" for x in f["fields"]]

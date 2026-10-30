@@ -250,7 +250,8 @@
     128.4,
     363.3
    ],
-   "row": true
+   "row": true,
+   "group": "지급신청"
   },
   {
    "t": "check",
@@ -329,7 +330,8 @@
     128.4,
     499.4
    ],
-   "row": true
+   "row": true,
+   "group": "지급신청"
   },
   {
    "t": "check",
@@ -426,7 +428,8 @@
     363.3
    ],
    "hint": "서명 또는 (인)",
-   "row": true
+   "row": true,
+   "group": "지급신청"
   },
   {
    "t": "sign",
@@ -456,7 +459,8 @@
     499.4
    ],
    "hint": "서명 또는 (인)",
-   "row": true
+   "row": true,
+   "group": "지급신청"
   },
   {
    "t": "check",
@@ -558,7 +562,8 @@
     298.3,
     363.3
    ],
-   "row": true
+   "row": true,
+   "group": "지급신청"
   },
   {
    "t": "text",
@@ -570,7 +575,8 @@
     298.3,
     499.4
    ],
-   "row": true
+   "row": true,
+   "group": "지급신청"
   },
   {
    "t": "text",
@@ -582,7 +588,8 @@
     382.5,
     363.3
    ],
-   "row": true
+   "row": true,
+   "group": "지급신청"
   },
   {
    "t": "text",
@@ -594,7 +601,8 @@
     382.5,
     499.4
    ],
-   "row": true
+   "row": true,
+   "group": "지급신청"
   },
   {
    "t": "text",
@@ -606,7 +614,8 @@
     424.6,
     405.9
    ],
-   "row": true
+   "row": true,
+   "group": "입사일자"
   },
   {
    "t": "check",
@@ -679,7 +688,8 @@
     424.6,
     541.9
    ],
-   "row": true
+   "row": true,
+   "group": "입사일자"
   },
   {
    "t": "check",
@@ -752,7 +762,8 @@
     467.2,
     363.3
    ],
-   "row": true
+   "row": true,
+   "group": "지급신청"
   },
   {
    "t": "text",
@@ -764,7 +775,8 @@
     467.2,
     499.4
    ],
-   "row": true
+   "row": true,
+   "group": "지급신청"
   },
   {
    "t": "check",
@@ -866,7 +878,8 @@
     548.5,
     363.3
    ],
-   "row": true
+   "row": true,
+   "group": "지급신청"
   },
   {
    "t": "text",
@@ -878,7 +891,8 @@
     548.5,
     499.4
    ],
-   "row": true
+   "row": true,
+   "group": "지급신청"
   },
   {
    "t": "date",

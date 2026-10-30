@@ -156,7 +156,8 @@
     499.2,
     641.2
    ],
-   "row": true
+   "row": true,
+   "group": "예"
   },
   {
    "t": "text",
@@ -252,7 +253,8 @@
     545.5,
     641.2
    ],
-   "row": true
+   "row": true,
+   "group": "예"
   },
   {
    "t": "check",
@@ -311,7 +313,8 @@
     499.5,
     139.3
    ],
-   "row": true
+   "row": true,
+   "group": "아니오"
   },
   {
    "t": "text",

@@ -130,7 +130,8 @@
     240.9
    ],
    "hint": "Registered seal",
-   "row": true
+   "row": true,
+   "group": "Nochangeincustomerinformation"
   },
   {
    "t": "text",
@@ -186,7 +187,8 @@
     332.4,
     395.3
    ],
-   "row": true
+   "row": true,
+   "group": "Floating"
   },
   {
    "t": "text",
@@ -198,7 +200,8 @@
     332.4,
     455.1
    ],
-   "row": true
+   "row": true,
+   "group": "Floating"
   },
   {
    "t": "text",
@@ -210,7 +213,8 @@
     332.4,
     517.0
    ],
-   "row": true
+   "row": true,
+   "group": "Floating"
   },
   {
    "t": "text",
@@ -518,7 +522,8 @@
     92.6
    ],
    "hint": "(6 to 15 characters, in English or English + numbers)",
-   "row": true
+   "row": true,
+   "group": "NewWithdrawalAccountAddition"
   },
   {
    "t": "text",

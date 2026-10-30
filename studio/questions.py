@@ -1,4 +1,4 @@
-"""① 서식 › 문항 Q/A (DESIGN.md 9.3.1): 미리보기 한 건으로 실제 생성기(Builder.single)가 만드는 문항과 모델 답 예시.
+"""① 서식 › 질문·답 › 실제 문항 (DESIGN.md 9.3.1): 미리보기 한 건으로 실제 생성기(Builder.single)가 만드는 문항과 모델 답 예시.
 
 API 는 POST /api/forms/{id}/questions (studio/app.py), 화면은 static/js/questions.js. 문항 이미지·잘라낸 칸은
 미리보기 캐시의 _questions/<키>/ 에 두고 /preview/... 주소로 보낸다. model_answer 는 정답을 답 형식으로 바꾼 것(oracle_output)이다.

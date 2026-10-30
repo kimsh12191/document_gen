@@ -33,6 +33,7 @@ html, body { margin: 0; padding: 0; background: #fff; }
         font-size: 10px; line-height: 1.1; font-weight: 700; opacity: .82;
         font-family: 'Nanum Myeongjo', 'Noto Serif CJK KR', serif; word-break: keep-all; }
 .seal.sq { border-radius: 4px; }
+.seal.img { border: none; opacity: .9; } .seal.img img { width: 100%; height: 100%; object-fit: contain; }
 .scribble svg { display: block; overflow: visible; }
 .scribble.fit { display: flex; width: 100%; height: 100%; }
 .scribble.fit svg { max-width: 86%; max-height: 80%; width: auto; height: auto; margin: auto; }
@@ -77,14 +78,15 @@ html, body { margin: 0; padding: 0; background: #fff; }
 {% set tpl = it.get("seal_tpl") %}
 {# 찍힌 도장·서명은 그 모양 자체가 위치, 없는 쪽은 자리(div)가 위치 #}
 <div class="mark"{% if not it.seal %} data-mark="{{ ks }}"{% endif %}{% if not it.sign %} data-mark2="{{ kg }}"{% endif %} style="left:{{ x0 }}px;top:{{ y0 }}px;width:{{ x1 - x0 }}px;height:{{ y1 - y0 }}px">
-{%- if it.seal %}<span class="seal{{ ' sq' if it.get("square") }}" data-mark="{{ ks }}" style="transform:rotate({{ it.rot }}deg)
+{%- if it.seal %}<span class="seal{{ ' sq' if it.get("square") }}{{ ' img' if it.get("seal_img") }}" data-mark="{{ ks }}" style="transform:rotate({{ it.rot }}deg)
 {%- if it.get("size") %};width:{{ it.size }}px;height:{{ it.size }}px;font-size:{{ (it.size * 0.26)|round(1) }}px{% endif %}
-{%- if tpl %};{{ seal_style(tpl) }}{% endif %}">{{ seal_lines(it.name)|join(BR) }}</span>
+{%- if tpl %};{{ seal_style(tpl) }}{% endif %}">{% if it.get("seal_img") %}<img src="{{ it.seal_img }}" alt="">{% else %}{{ seal_lines(it.name)|join(BR) }}{% endif %}</span>
 {%- elif it.sign and it.get("sign_img") %}<span class="scribble fit" data-mark="{{ kg }}"><img src="{{ it.sign_img }}" alt=""></span>
 {%- elif it.sign %}<span class="scribble fit" data-mark="{{ kg }}">{{ scribble(it.name, f.rng) }}</span>{% endif %}</div>
 {% endif %}
 {% endfor %}
 </div>
 {% endfor %}
+{% include "_extra_rows.html.j2" %}
 </body>
 </html>

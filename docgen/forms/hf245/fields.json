@@ -223,7 +223,8 @@
     548.5,
     414.3
    ],
-   "row": true
+   "row": true,
+   "group": "InformationAfterChange"
   },
   {
    "t": "text",
@@ -437,7 +438,8 @@
     548.1,
     414.3
    ],
-   "row": true
+   "row": true,
+   "group": "InformationAfterChange2"
   },
   {
    "t": "text",

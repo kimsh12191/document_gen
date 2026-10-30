@@ -24,7 +24,8 @@
     524.6,
     138.1
    ],
-   "row": true
+   "row": true,
+   "group": "반출입구분"
   },
   {
    "t": "text",
@@ -114,7 +115,8 @@
     219.8,
     378.4
    ],
-   "row": true
+   "row": true,
+   "group": "Currency"
   },
   {
    "t": "text",
@@ -126,7 +128,8 @@
     219.8,
     420.9
    ],
-   "row": true
+   "row": true,
+   "group": "Currency"
   },
   {
    "t": "text",
@@ -166,7 +169,8 @@
     290.7,
     378.4
    ],
-   "row": true
+   "row": true,
+   "group": "Currency"
   },
   {
    "t": "text",
@@ -178,7 +182,8 @@
     290.7,
     420.9
    ],
-   "row": true
+   "row": true,
+   "group": "Currency"
   },
   {
    "t": "text",
@@ -218,7 +223,8 @@
     368.7,
     378.4
    ],
-   "row": true
+   "row": true,
+   "group": "Currency"
   },
   {
    "t": "text",
@@ -230,7 +236,8 @@
     368.7,
     420.9
    ],
-   "row": true
+   "row": true,
+   "group": "Currency"
   },
   {
    "t": "text",
@@ -270,7 +277,8 @@
     418.3,
     378.4
    ],
-   "row": true
+   "row": true,
+   "group": "Currency"
   },
   {
    "t": "text",
@@ -282,7 +290,8 @@
     418.3,
     420.9
    ],
-   "row": true
+   "row": true,
+   "group": "Currency"
   },
   {
    "t": "text",
@@ -322,7 +331,8 @@
     524.6,
     378.4
    ],
-   "row": true
+   "row": true,
+   "group": "Currency"
   },
   {
    "t": "text",
@@ -334,7 +344,8 @@
     524.6,
     420.9
    ],
-   "row": true
+   "row": true,
+   "group": "Currency"
   },
   {
    "t": "text",
@@ -358,7 +369,8 @@
     104.1,
     598.5
    ],
-   "row": true
+   "row": true,
+   "group": "Date"
   },
   {
    "t": "text",
@@ -370,7 +382,8 @@
     152.9,
     598.5
    ],
-   "row": true
+   "row": true,
+   "group": "Date"
   },
   {
    "t": "text",
@@ -382,7 +395,8 @@
     524.6,
     598.5
    ],
-   "row": true
+   "row": true,
+   "group": "Date"
   },
   {
    "t": "text",
@@ -394,7 +408,8 @@
     109.7,
     722.0
    ],
-   "row": true
+   "row": true,
+   "group": "Date"
   },
   {
    "t": "text",
@@ -406,7 +421,8 @@
     167.1,
     722.0
    ],
-   "row": true
+   "row": true,
+   "group": "Date"
   },
   {
    "t": "text",
@@ -418,7 +434,8 @@
     259.6,
     722.0
    ],
-   "row": true
+   "row": true,
+   "group": "Date"
   },
   {
    "t": "text",
@@ -430,7 +447,8 @@
     400.8,
     722.0
    ],
-   "row": true
+   "row": true,
+   "group": "Date"
   },
   {
    "t": "text",
@@ -442,7 +460,8 @@
     524.6,
     722.0
    ],
-   "row": true
+   "row": true,
+   "group": "Date"
   },
   {
    "t": "sign",

@@ -71,9 +71,10 @@
 #}
 {% macro seal(text, square=False, size="", over=False, key=None, kind=None, anchor=None, label=None, p=1.0) -%}
 {% set present = p >= 1 or f.chance(p) %}
-{% set k = f.mark(key or ("issuer" if over else None), "seal", present, text if present else None, label=label, kind=kind or ("직인" if square else "도장"), anchor=anchor) %}
+{% set si = seal_img(f.rng) if present and not square else none %}{# 개인 도장만 올린 사진으로 (사각 직인은 늘 코드) #}
+{% set k = f.mark(key or ("issuer" if over else None), "seal", present, text if present else None, label=label, kind=kind or ("직인" if square else "도장"), anchor=anchor, render=si.id if si else none) %}
 {% if not present %}<span class="seal-missing{{ ' ' ~ size if size }}" data-mark="{{ k }}"></span>{% else %}
-<span class="seal{{ ' square' if square }}{{ ' ' ~ size if size }}{{ ' over' if over }}" data-mark="{{ k }}" style="{{ seal_font(text) }}">{{ seal_lines(text)|join(BR) }}</span>{% endif %}
+<span class="seal{{ ' square' if square }}{{ ' ' ~ size if size }}{{ ' over' if over }}{{ ' img' if si }}" data-mark="{{ k }}" style="{{ seal_font(text) }}">{% if si %}<img src="{{ si.url }}" alt="">{% else %}{{ seal_lines(text)|join(BR) }}{% endif %}</span>{% endif %}
 {%- endmacro %}
 
 {#
@@ -83,10 +84,11 @@
 #}
 {% macro sigspot(key, name, mark="(서명 또는 인)", p_seal=0.45, p_sign=0.45, label=None, anchor=None, size="sm") -%}
 {% set x = f.rng.random() %}{% set has_seal = x < p_seal %}{% set has_sign = not has_seal and x < p_seal + p_sign %}
-{% set ks = f.mark(key, "seal", has_seal, name if has_seal else None, label=label, kind="인감", anchor=anchor) %}
+{% set si = seal_img(f.rng) if has_seal else none %}
+{% set ks = f.mark(key, "seal", has_seal, name if has_seal else None, label=label, kind="인감", anchor=anchor, render=si.id if si else none) %}
 {% set kg = f.mark(key, "signature", has_sign, name if has_sign else None, label=label, anchor=anchor) %}
 <span class="inmark"{% if not has_seal %} data-mark="{{ ks }}"{% endif %}{% if not has_sign %} data-mark2="{{ kg }}"{% endif %}>{{ mark }}
-{%- if has_seal %}<span class="seal {{ size }} onmark" data-mark="{{ ks }}" style="{{ seal_font(name) }}">{{ seal_lines(name)|join(BR) }}</span>{% endif %}
+{%- if has_seal %}<span class="seal {{ size }} onmark{{ ' img' if si }}" data-mark="{{ ks }}" style="{{ seal_font(name) }}">{% if si %}<img src="{{ si.url }}" alt="">{% else %}{{ seal_lines(name)|join(BR) }}{% endif %}</span>{% endif %}
 {%- if has_sign %}<span class="scribble" data-mark="{{ kg }}">{{ scribble(name, f.rng) }}</span>{% endif %}</span>
 {%- endmacro %}
 
