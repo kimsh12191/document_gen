@@ -5,7 +5,8 @@
 {"table": {"<묶음>": {"ask": false}}} 로 kie 에 남긴다. 표 제목은 {"title": "…"} (없으면 머리글·위치로 가리킨다).
 
 질문: P_TABLE (target 표를 가리키는 말 — 제목 / 머리글 두어 개 / 위치 / 표가 하나뿐이면 "표", scope 범위, columns 열 줄)
-      긴 표(MAX_ROWS 행 넘음)와 여러 쪽 표의 일부는 범위를 준다: "N쪽에 있는 행만" 또는 "앞에서부터 N행까지만".
+      넣은 이미지에 보이는 행은 늘 전부 묻는다 (4.2 부터. 행을 잘라 묻으면 정답이 보이는 표와 어긋난다).
+      한 쪽만 묻는 것은 그 쪽 이미지만 넣는 view "page" 문항 (tasks/__init__.py make_single).
       일부 문항(ABSENT_RATE)에는 이 표에 없는 열을 하나 섞는다 (같은 그룹 다른 서식의 열, 정답은 그 열 전부 null).
 정답: {"columns": [열 키], "rows": [[값 또는 null]], "row_boxes": [{"bbox_2d", "page"}]} — 행은 보이는 순서 (쪽, 위),
       모두 빈 행은 뺌, 칸 안의 줄바꿈은 공백 하나. 값·위치는 그릴 때 기록한 것 그대로.
@@ -31,8 +32,6 @@ EXAMPLE = {"columns": ["kind", "workplace", "start", "end"],
            "row_boxes": [{"bbox_2d": [40, 600, 960, 640], "page": 1}, {"bbox_2d": [40, 640, 960, 700], "page": 1}]}
 NOTES = ("행 수는 모델이 정합니다. columns 는 질문의 열 키 그대로, rows 는 행마다 같은 순서의 값(빈 칸·없는 열은 null), "
          "row_boxes 는 행마다 상자 하나입니다. 합계·소계 행, 다시 나온 머리글 행, 모두 빈 행은 뺍니다.")
-MAX_ROWS = 30        # 한 질문에 답할 행 수의 한도 (넘으면 범위를 준다)
-PART_RATE = 0.0      # 여러 쪽 표에서 한 쪽만 묻는 비율 (4.2 부터 0: 한 쪽은 view "page" 문항이 따로 묻는다. 난수는 그대로 쓴다)
 ABSENT_RATE = 0.3    # 없는 열을 하나 섞는 문항 비율 (docgen/bench/absent.py 의 열 후보가 있을 때)
 
 
@@ -102,18 +101,8 @@ def choose_target(doc, t: dict, cols: list[tuple[str, dict]], rows: list[dict]) 
 
 
 def choose_scope(doc, rows: list[dict]) -> tuple[str, list[dict], str]:
-    """(범위 이름, 묻는 행, 범위 말). 긴 표는 한 쪽 또는 앞 MAX_ROWS 행, 여러 쪽 표는 PART_RATE 만큼 한 쪽만."""
-    pages = sorted({row_page(r) for r in rows})
-    by_page = {p: [r for r in rows if row_page(r) == p] for p in pages}
-    fit = [p for p in pages if len(by_page[p]) <= MAX_ROWS]
-    if len(rows) > MAX_ROWS:
-        if len(pages) > 1 and fit:
-            p = doc.rng.choice(fit)
-            return "page", by_page[p], prompts.table_scope(page=p + 1)
-        return "first", rows[:MAX_ROWS], prompts.table_scope(first=MAX_ROWS)
-    if len(pages) > 1 and doc.rng.random() < PART_RATE:
-        p = doc.rng.choice(pages)
-        return "page", by_page[p], prompts.table_scope(page=p + 1)
+    """(범위 이름, 묻는 행, 범위 말). 4.2 부터 늘 모든 행 — 4.1 까지는 30행 넘는 표·여러 쪽 표 일부를 "N쪽에 있는 행만"·
+    "앞에서부터 30행까지만" 으로 잘라 물었다. 범위 말(prompts.table_scope)은 예전 세트를 읽을 때를 위해 남긴다."""
     return "all", rows, ""
 
 

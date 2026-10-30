@@ -5,13 +5,13 @@
          맨 위에 머리글 줄(값 칸이 없는 줄)이 있어야 한다. 쪽 나눔으로 나뉜 표는 쪽마다 따로 (위치로 가리킨다).
 정답 꼴: {"columns": [머리글], "rows": [[칸 글자]], "row_boxes"} — 머리글 줄이 여럿이면 위·아래 글자를 " > " 로,
          여러 행에 걸친 칸(rowspan)은 행마다 같은 글자, 여러 열에 걸친 칸(colspan)은 첫 열에만, 빈 칸 null, 모두 빈 행은 뺌.
-         합계·소계 행은 그대로 둔다 (table 과제와 다름). 행이 MAX_ROWS 를 넘으면 앞에서부터 그만큼.
+         합계·소계 행은 그대로 둔다 (table 과제와 다름). 행은 늘 전부 (4.1 까지는 30행 넘으면 앞에서부터 30행).
 채점: evaluate.s_table_read — 머리글을 글자로 짝지은 뒤 table 과 같은 칸 F1 (주 지표), 머리글 F1
 """
 from .. import prompts
 from ..metrics import normalize_box
 from . import table_cell
-from .table import BOX, MAX_ROWS, choose_target, columns
+from .table import BOX, choose_target, columns
 
 TASK = "table_read"
 NAME = "표 그대로 옮기기"
@@ -109,9 +109,6 @@ def make(doc):
                 continue
             rows, boxes = x["rows"], x["boxes"]
             scope_text, scope = "", "all"
-            if len(rows) > MAX_ROWS:
-                rows, boxes, scope = rows[:MAX_ROWS], boxes[:MAX_ROWS], "first"
-                scope_text = prompts.table_scope(first=MAX_ROWS)
             if len(segs) > 1:   # 쪽마다 나뉜 표: 그 쪽 표를 위치로
                 bs = [b for b in boxes if b]
                 if not bs:

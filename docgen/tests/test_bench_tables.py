@@ -73,11 +73,14 @@ def test_table_item_and_oracle(monkeypatch):
     assert SCORERS["table"](it, oracle_output(it))["metrics"]["cell_f1"] == 1
 
 
-def test_long_and_multi_page_tables_get_a_scope():
+def test_long_and_multi_page_tables_are_asked_whole():
+    """행을 잘라 묻지 않는다: 45행·2쪽 표도 모든 행, 범위 말 없음 (한 쪽만은 view "page" 문항)."""
     rows = [f(f"rows.{i}.v", f"값{i}", 100, 10 + i, page=0 if i < 20 else 1) for i in range(45)]
     d = doc(rows)
     scope, chosen, text = T.table.choose_scope(d, d.tables["rows"]["rows"])
-    assert scope in ("page", "first") and len(chosen) <= T.table.MAX_ROWS and text
+    assert scope == "all" and len(chosen) == 45 and text == ""
+    it = next(x for x in T.table.make(d))
+    assert len(it["answer"]["rows"]) == 45 and "쪽에 있는 행만" not in it["prompt"] and "행까지만" not in it["prompt"]
 
 
 def test_absent_column_and_keys(monkeypatch):
