@@ -83,7 +83,7 @@ class Doc:
     visible    이미지에 보이고 값이 있는 칸 (체크·도장·서명, 묶음 칸 제외) — 받아쓰기·값 칸 읽기의 정답 재료
     meta, base 문항 meta / 문항에 공통으로 붙는 {"images", "meta"}
     rng        과제들이 차례로 같이 쓰는 난수
-    out        세트 폴더 (잘라낸 그림을 저장할 곳)
+    out        세트 폴더 (잘라낸 그림을 저장할 곳). 한 쪽만 묻는 문항(make_single 의 view "page")은 r 이 page_view 의 한 쪽짜리
     q          이 서식의 질문 껍데기 (서식 폴더의 questions.json: 문장·답 꼴·전용 질문). 없으면 None = 공통
     fq         칸마다 질문 설정 {서식 키: {ask, label, note, ocr}} (칸 목록 fields.json 의 q, docgen/fieldinfo.py)
     """
@@ -191,9 +191,32 @@ from . import classify, form_qa, freetext, kie, marks, ocr_field, ocr_page, tabl
 SINGLE = (classify, ocr_page, ocr_field, kie, freetext, marks, form_qa, table, table_find, table_qa, table_read)   # 만드는 차례 (난수를 이어 쓴다)
 
 
-def make_single(r: dict, stem: str, out: Path, fields_per_doc: int, max_keys: int) -> list[dict]:
-    """서류 한 건의 모든 과제 문항."""
-    doc = Doc(r, stem, out, fields_per_doc, max_keys)
+PAGE_VIEW = 0.5   # 여러 쪽 서류에서 한 쪽만 넣고 그 쪽만 묻는 비율 (나머지는 모든 쪽을 넣고 모두 묻는다). 레시피 "page_view"
+
+
+def page_view(r: dict, p: int) -> dict:
+    """p 쪽(0부터)만 보이는 한 쪽짜리 서류: 그 쪽 이미지·칸·표만 남기고 쪽 번호를 0 으로. 어느 쪽인지 모르는 칸(page 없음)은 뺀다."""
+    keep = [i for i, f in enumerate(r["fields"]) if f.get("page") == p]
+    raw = r["raw_keys"]
+    fields = [{**r["fields"][i], "page": 0} for i in keep]
+    return {**r, "images": [r["images"][p]], "sizes": [r["sizes"][p]], "fields": fields,
+            "raw_keys": [raw[i] if i < len(raw) else None for i in keep],
+            "tables": [{**t, "page": 0} for t in r.get("tables") or [] if t.get("page", 0) == p],
+            "masked": [k for k in r.get("masked") or [] if any(f["key"] == k for f in fields)]}
+
+
+def make_single(r: dict, stem: str, out: Path, fields_per_doc: int, max_keys: int, page_rate: float = PAGE_VIEW) -> list[dict]:
+    """서류 한 건의 모든 과제 문항. 여러 쪽 서류는 page_rate 만큼 한 쪽만(view "page": 그 쪽 이미지 하나, 정답도 그 쪽만),
+    나머지는 모든 쪽(view "all"). 한 쪽 서류는 늘 "all". 한 쪽 문항의 ID 는 <서류>_p<쪽>."""
+    n = len(r["images"])
+    rng = random.Random(f"bench:view:{stem}")
+    if n > 1 and rng.random() < page_rate:
+        p = rng.randrange(n)
+        doc = Doc(page_view(r, p), f"{stem}_p{p + 1}", out, fields_per_doc, max_keys)
+        doc.meta.update(view="page", page=p + 1, n_pages_doc=n)
+    else:
+        doc = Doc(r, stem, out, fields_per_doc, max_keys)
+        doc.meta["view"] = "all"
     return [rec for t in SINGLE for rec in t.make(doc)]
 
 

@@ -17,8 +17,9 @@ FORMATS = {**{t: "text" for t in ("crop_ocr", "bbox_ocr", "region_ocr", "marked_
            "table": "table_rows", "table_read": "table_rows", "table_find": "table_list", "table_qa": "scalar",
            "doc_check": "document_sets", "cross_check": "consistency_issues", "review": "scalar"}
 DIMENSIONS = {"task_group": "업무·과제 그룹", "task": "과제", "scenario": "업무 시나리오",
-              "label_format": "정답 구조", "doc_type": "서식", "source_dataset": "원본 데이터셋"}
-SCORE_DIMENSIONS = ("task_group", "scenario", "label_format", "doc_type", "source_dataset")
+              "label_format": "정답 구조", "doc_type": "서식", "source_dataset": "원본 데이터셋",
+              "view": "넣은 쪽 (page 한 쪽만 / all 모든 쪽)"}
+SCORE_DIMENSIONS = ("task_group", "scenario", "label_format", "doc_type", "source_dataset", "view")
 PROVENANCE_KEYS = ("doc_type", "scenario", "scenario_name", "condition", "template_variant", "source_dataset")
 
 
@@ -29,7 +30,8 @@ def facets(item: dict) -> dict[str, str]:
             "scenario": str(meta.get("scenario") or ("unknown" if group == "work" else "not_applicable")),
             "label_format": str(meta.get("label_format") or FORMATS.get(task, "unknown")),
             "doc_type": str(meta.get("doc_type") or "unknown"),
-            "source_dataset": str(meta.get("source_dataset") or "unknown")}
+            "source_dataset": str(meta.get("source_dataset") or "unknown"),
+            "view": str(meta.get("view") or "not_applicable")}
 
 
 def enrich(item: dict, source_dataset: str | None = None) -> dict:

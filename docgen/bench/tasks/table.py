@@ -32,7 +32,7 @@ EXAMPLE = {"columns": ["kind", "workplace", "start", "end"],
 NOTES = ("행 수는 모델이 정합니다. columns 는 질문의 열 키 그대로, rows 는 행마다 같은 순서의 값(빈 칸·없는 열은 null), "
          "row_boxes 는 행마다 상자 하나입니다. 합계·소계 행, 다시 나온 머리글 행, 모두 빈 행은 뺍니다.")
 MAX_ROWS = 30        # 한 질문에 답할 행 수의 한도 (넘으면 범위를 준다)
-PART_RATE = 0.25     # 여러 쪽 표에서 한 쪽만 묻는 비율
+PART_RATE = 0.0      # 여러 쪽 표에서 한 쪽만 묻는 비율 (4.2 부터 0: 한 쪽은 view "page" 문항이 따로 묻는다. 난수는 그대로 쓴다)
 ABSENT_RATE = 0.3    # 없는 열을 하나 섞는 문항 비율 (docgen/bench/absent.py 의 열 후보가 있을 때)
 
 

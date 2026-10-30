@@ -100,6 +100,7 @@ python docker/remote_build.py composition <이름> --out composition.json       
 | `fields_per_doc`, `max_keys` | bank: 값 칸 문항 수, kie·marks 한 문항의 최대 항목 수 |
 | `bundle` | bank: 빠진 서류 0/1/2건 비율, 타인·불필요 서류, 변조 확률 |
 | `cases` | bank: 대조 사례별 `{"enabled", "tamper"}` (사례는 [benchmark.md](benchmark.md#불일치-사례)) |
+| `page_view` | bank: 여러 쪽 서류에서 한 쪽만 넣고 그 쪽만 묻는 비율 (기본 0.5, 0 이면 늘 모든 쪽). 문항 `meta.view` 가 `page`/`all` ([benchmark.md](benchmark.md#여러-쪽-서류-한-쪽만--모든-쪽)) |
 | `nulls` | bank: 빈 답 배우기 `{"blank": 0.3, "mask": 0.1}` (기본값). 비어 있기도 한 칸(용도·비고 …) 비우는 비율, 값 칸을 검은 상자로 가리는 서류 비율. 0 이면 끔 ([benchmark.md](benchmark.md#빈-답-null-배우기)) |
 | `unit`, `heavy`, `special`, `prepare` | ocr: 정답 단위 `word`·`line`, 내용 많음·특수 상황, OCR 준비 설정 덮어쓰기 |
 

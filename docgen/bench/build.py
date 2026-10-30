@@ -43,7 +43,7 @@ from .prompts import P_CROSS, P_DOC_CHECK, P_REVIEW
 from .tasks import MARK_TYPES, field_kind  # noqa: F401  (field_kind: 예전 import 자리 build.field_kind)
 from .rules import Bundle, questions, r_doc_valid, valid_candidates
 
-VERSION = "4.1"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
+VERSION = "4.2"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
 #                  2.0: kie·marks 답에 위치(bbox_2d 0~1000, page) — 값·위치·값+위치 점수. 건강보험료 납부확인서 정산 분할납부
 #                       변형이 정한 확률(15%)대로 나오게 고침
 #                  3.0: 키 사전(docgen/dictionary) 적용 — 공통 키에 이은 칸은 서식이 달라도 공통 키로 묻고 답함(customer.name …),
@@ -58,6 +58,9 @@ VERSION = "4.1"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순�
 #                  4.1: 원본 서식(hf·img)과 그것을 옮긴 공식 대조 html 서식: 한 묶음(목록)으로 섞이던 표 77종을 표마다 나눔
 #                       (키 <묶음>_목록.<행>.<열>), 표가 인쇄된 줄을 넘치면 별지(계속) 쪽에 이어 적음 (realform MORE_ROWS).
 #                       그 서식들의 표 문항·쪽 수가 4.0 과 다르다
+#                  4.2: 여러 쪽 서류의 서류 한 건 과제를 두 경우로 나눔 — 한 쪽만(view "page": 그 쪽 이미지 하나, 정답도 그 쪽만,
+#                       레시피 page_view 비율, 기본 0.5)과 모든 쪽(view "all"). 모든 쪽 표 문항에서 "N쪽에 있는 행만" 을 무작위로
+#                       묻던 것(PART_RATE)은 끔 (30행 넘는 표의 범위는 그대로). 한 쪽 서류의 문항은 4.1 과 같다
 # 1.x 세트(값만 있는 답)도 같은 채점기로 채점된다 (evaluate.py 가 두 형식을 다 읽음). 값 점수는 1.x 와 뜻이 같다.
 SEED_SINGLE = 1_000_000   # 단일 서류 과제 고객 seed 시작
 SEED_BUNDLE = 2_000_000   # 업무 묶음 고객 seed 시작
@@ -83,7 +86,7 @@ MASK_FIELDS = (1, 3)
 MASK_KINDS = ("name", "rrn", "phone", "account_no", "address", "reg_no")   # 비식별 처리로 흔히 가리는 값 (먼저 고름)
 # 레시피(JSON)에서 읽는 항목. 나머지 명령줄 인자와 같은 이름은 그 인자를 덮어쓴다.
 RECIPE_KEYS = ("split", "types", "per_doc", "scenarios", "bundles", "fields_per_doc", "max_keys", "scale", "start",
-               "conditions", "bundle", "cases", "custom_bundles", "exclude", "reviewed_only", "nulls")
+               "conditions", "bundle", "cases", "custom_bundles", "exclude", "reviewed_only", "nulls", "page_view")
 
 
 
@@ -160,6 +163,7 @@ def mask_fields(fields: list[dict], paths: list[Path], key: str, data: dict | No
 class Builder:
     exclude: frozenset = frozenset()
     nulls: dict | None = None   # 빈 답 배우기 (NULLS). bench build 만 켠다 — 카드·studio 미리보기는 None
+    page_view: float = 0.0      # 여러 쪽 서류에서 한 쪽만 묻는 비율 (tasks.PAGE_VIEW). bench build 만 켠다 — 카드·미리보기는 모든 쪽
     def __init__(self, out: Path, scale: float, rules: dict | None = None):
         from ..image import ImageRenderer
 
@@ -169,6 +173,7 @@ class Builder:
         self.conditions = tuple((rules or {}).get("conditions") or CONDITIONS)
         self.exclude = frozenset((rules or {}).get("exclude") or ())   # 레시피의 빼는 서식: 업무 묶음에서도 뺀다
         self.nulls = (rules or {}).get("nulls")
+        self.page_view = (rules or {}).get("page_view", 0.0)
         self.reg = load_all()
         self.renderer = ImageRenderer(scale=scale).__enter__()
         self.buf: list[dict] = []
@@ -236,7 +241,7 @@ class Builder:
     # ------------------------------------------------------------------
     def single(self, r: dict, stem: str, fields_per_doc: int, max_keys: int):
         """서류 한 건의 과제 문항: 과제 파일(docgen/bench/tasks/<과제>.py)을 차례로 부른다. 질문·정답 만드는 법은 그 파일에."""
-        for rec in TASKS.make_single(r, stem, self.out, fields_per_doc, max_keys):
+        for rec in TASKS.make_single(r, stem, self.out, fields_per_doc, max_keys, self.page_view):
             self.emit(rec)
 
     # ------------------------------------------------------------------
@@ -606,6 +611,11 @@ def load_recipe(path: str | Path, args) -> dict:
     if not isinstance(nulls, dict) or set(nulls) - set(NULLS) or not all(isinstance(v, (int, float)) and 0 <= v <= 1 for v in nulls.values()):
         sys.exit(f'레시피 nulls 는 {{"blank": 0~1, "mask": 0~1}} 꼴이어야 합니다 (기본 {NULLS})')
     rules["nulls"] = nulls
+    if "page_view" in recipe:
+        pv = recipe["page_view"]
+        if not isinstance(pv, (int, float)) or isinstance(pv, bool) or not 0 <= pv <= 1:
+            sys.exit(f"레시피 page_view 는 0~1 이어야 합니다 (여러 쪽 서류에서 한 쪽만 묻는 비율, 기본 {TASKS.PAGE_VIEW})")
+        rules["page_view"] = pv
     return {"recipe": recipe, "rules": rules, "custom": recipe.get("custom_bundles") or [],
             "exclude": set(recipe.get("exclude") or []), "reviewed_only": bool(recipe.get("reviewed_only"))}
 
@@ -626,6 +636,7 @@ def build(args) -> None:
     rules = dict(rc["rules"]) if rc else {}
     rules["nulls"] = {**NULLS, **(rules.get("nulls") or {}),
                       **{k: v for k, v in (("blank", getattr(args, "blank", None)), ("mask", getattr(args, "mask", None))) if v is not None}}
+    rules.setdefault("page_view", TASKS.PAGE_VIEW)
     reg = load_all()
     if args.types == "all":
         ids = list(reg)
@@ -740,7 +751,7 @@ def build(args) -> None:
                          "bundles": args.bundles, "start": start, "fields_per_doc": args.fields_per_doc,
                          "max_keys": args.max_keys, "scale": args.scale, "seed_single": seed_single,
                          "seed_bundle": seed_bundle, "conditions": dict(CONDITIONS), "held_out_test_only": held_out,
-                         "nulls": rules["nulls"]},
+                         "nulls": rules["nulls"], "page_view": rules["page_view"]},
             "counts": dict(sorted(counts.items())), "composition": tracking.result(),
             "doc_names": {i: reg[i].name for i in ids}}
     if rc and rc["exclude"]:

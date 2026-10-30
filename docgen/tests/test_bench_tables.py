@@ -226,7 +226,7 @@ def test_mask_fields_blacks_out_and_nulls(tmp_path):
 
 
 def test_build_settings_have_nulls():
-    assert B.NULLS == {"blank": 0.3, "mask": 0.1} and B.VERSION == "4.1"
+    assert B.NULLS == {"blank": 0.3, "mask": 0.1} and B.VERSION == "4.2"
     p = B.single_profile(1_000_000, {"blank": 0.5})
     assert p.extra["blank_optional"] == 0.5 and "blank_optional" not in B.single_profile(1, None).extra
 
@@ -261,3 +261,44 @@ def test_table_audit_lists_what_a_person_decides():
     assert t["order"] == "desc" and t["min"] >= 1 and set(t["columns"]) >= {"kind", "start", "end"}   # 최신순으로 고쳤음
     md = TA.markdown([r, {"id": "x", "name": "이름[필수](용)", "group": "g", "tables": {}, "numbered": ["aN.b"], "nested": []}], 4)
     assert "표가 있는 서식 1종" in md and "이름\\[필수\\](용)" in md   # 서식 이름의 [ ] 는 링크로 읽히지 않게
+
+
+def two_pages(tmp_path):
+    """2쪽 서류: 1쪽에 이름·표 첫 행, 2쪽에 표 둘째 행·주소."""
+    for n in ("p1.png", "p2.png"):
+        Image.new("RGB", (1000, 1000), "white").save(tmp_path / n)
+    fields = [f("name", "홍길동", 10, 10, 0, "성명"), f("rows.0.kind", "직장", 10, 100, 0, "구분"), f("rows.0.start", "2020-01-01", 200, 100, 0, "취득일"),
+              f("rows.1.kind", "지역", 10, 100, 1, "구분"), f("rows.1.start", "2021-01-01", 200, 100, 1, "취득일"), f("addr", "서울", 10, 500, 1, "주소")]
+    return {"doc_id": "t_doc", "name": "시험 서류", "group": "income", "condition": "clean", "writing": "print",
+            "images": ["p1.png", "p2.png"], "sizes": [(1000, 1000), (1000, 1000)], "fields": fields,
+            "raw_keys": [x["key"] for x in fields], "visible": {x["key"] for x in fields}, "tables": []}
+
+
+def test_multi_page_doc_is_asked_whole_or_one_page_only(tmp_path):
+    """여러 쪽 서류: view "all" 은 모든 쪽 이미지·모든 쪽 정답, view "page" 는 한 쪽 이미지·그 쪽 정답만 (위치의 쪽은 1)."""
+    r = two_pages(tmp_path)
+    whole = T.make_single(r, "images/t_doc_1", tmp_path, 0, 40, page_rate=0)
+    assert whole and all(x["images"] == ["p1.png", "p2.png"] and x["meta"]["view"] == "all" for x in whole)
+    kie = next(x for x in whole if x["task"] == "kie")
+    assert {"name", "addr"} <= {a["key"] for a in kie["answer"]}
+    table = next(x for x in whole if x["task"] == "table")
+    assert len(table["answer"]["rows"]) == 2
+
+    one = T.make_single(r, "images/t_doc_1", tmp_path, 0, 40, page_rate=1)
+    page = one[0]["meta"]["page"]
+    assert all(x["images"] == [f"p{page}.png"] and x["meta"]["view"] == "page" and x["meta"]["n_pages"] == 1
+               and x["meta"]["n_pages_doc"] == 2 and f"t_doc_1_p{page}" in x["id"] for x in one)
+    keys = {a["key"] for x in one if x["task"] == "kie" for a in x["answer"] if a.get("value") is not None}
+    assert keys <= ({"name"} if page == 1 else {"addr"})
+    table = next(x for x in one if x["task"] == "table")
+    assert table["answer"]["rows"] == [["직장", "2020-01-01"] if page == 1 else ["지역", "2021-01-01"]] or table["eval"].get("absent")
+    boxes = [b for x in one if x["task"] in ("kie", "table") for b in (x["answer"] if x["task"] == "kie" else x["answer"]["row_boxes"])]
+    assert all(b.get("page", 1) == 1 for b in boxes)
+
+
+def test_one_page_doc_is_always_whole_and_page_view_needs_a_build(tmp_path):
+    r = two_pages(tmp_path)
+    r = {**r, "images": ["p1.png"], "sizes": [(1000, 1000)], "fields": [x for x in r["fields"] if x["page"] == 0]}
+    r["raw_keys"] = [x["key"] for x in r["fields"]]
+    assert all(x["meta"]["view"] == "all" for x in T.make_single(r, "images/t_doc_1", tmp_path, 0, 40, page_rate=1))
+    assert B.Builder.page_view == 0.0 and T.PAGE_VIEW == 0.5   # 카드·미리보기는 모든 쪽, bench build 만 레시피 page_view (기본 0.5)
