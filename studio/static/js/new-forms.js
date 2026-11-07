@@ -120,17 +120,22 @@ async function createDrawn() {
   fd.append("form_id", id);
   fd.append("name", name);
   fd.append("real_data", $("#nf-real").checked ? "true" : "false");
-  const b = $("#nf-create");
+  const b = $("#nf-create"), out = $("#nf-draw-out");
   b.disabled = true;
+  out.innerHTML = `<p class="spin">서식을 만드는 중… (${files.length}개 파일)</p>`;
   try {
     const r = await fetch("/api/forms/new-image", { method: "POST", body: fd });
     const data = await r.json().catch(() => ({}));
-    if (!r.ok) throw new Error(typeof data.detail === "string" ? data.detail : `${r.status}`);
+    if (r.status === 404 || r.status === 405)   // 화면(js)만 새것이고 서버는 예전 코드
+      throw new Error(`서버에 이 기능이 없습니다 (${r.status}). git pull 뒤 studio 서버를 다시 띄우세요 (도커면 컨테이너 재시작)`);
+    if (!r.ok) throw new Error(typeof data.detail === "string" ? data.detail : `${r.status} ${r.statusText}`);
+    out.innerHTML = `<p>만들었습니다: <a href="#/forms/${encodeURIComponent(data.form_id)}/edit">${esc(data.form_id)} 영역 편집</a></p>`;
     state.forms = null;
     toast(`만들었습니다: ${data.form_id} (${data.pages}쪽${data.private ? ", 사내 서식 폴더" : ""})`);
     location.hash = `#/forms/${encodeURIComponent(data.form_id)}/edit`;
   } catch (e) {
-    $("#nf-draw-out").innerHTML = `<p class="err">${esc(e.message)}</p>`;
+    out.innerHTML = `<p class="err">만들지 못했습니다: ${esc(e.message)}</p>`;
+    out.scrollIntoView({ block: "center" });
     toast(e.message, true);
   } finally {
     b.disabled = false;
