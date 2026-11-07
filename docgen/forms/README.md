@@ -89,7 +89,7 @@ docgen/forms/_common/      모든 서식이 같이 쓰는 것 (README.md): 기�
 |---|---|---|---|
 | 코드 서식 (70) | `look/template.html.j2` | `generate.py` 의 @doc 함수 | 템플릿 + `generate.py` |
 | html 서식 (69, 공식 대조·하나은행 `hana_*`·복제·새로 추가) | `look/template.html.j2` | `fields.json` 의 `source` (+ `generate.py` 의 adjust) | 템플릿 + `fields.json` |
-| 원본 서식 (406, 하나은행 원본 PDF `hf###`. studio 에서 그림으로 가져온 `img_*` 도 이 종류) | 원본 PDF·그림 | 칸 자리의 항목명 → 값 종류 (키 규칙) | studio 영역 편집 (`fields.json` items) |
+| 원본 서식 (406, 하나은행 원본 PDF `hf###`. studio 에서 그림으로 가져오거나 그림 위에 그려 만든 `img_*` 도 이 종류) | 원본 PDF·그림 | 칸 자리의 항목명 → 값 종류 (키 규칙) | studio 영역 편집 (`fields.json` items) |
 
 ## 4. 데이터가 만들어지는 길
 

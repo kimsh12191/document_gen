@@ -33,8 +33,29 @@ async function viewNewForms() {
   const code = (id, text) => `<div class="bar"><button data-copy="${id}">복사</button></div><pre class="ans mono" id="${id}" style="max-height:320px;overflow:auto">${esc(text)}</pre>`;
   main().innerHTML = `
     <h1>새 서식 추가</h1>
+    <div class="sub">두 길이 있습니다. <b>A. 그림 위에 그려서</b>: 서식 그림을 올리고 칸을 직접 그립니다 (모양은 그림 그대로, 칸 수 고정).
+      <b>B. 대형 모델로 html 서식</b>: 모델이 그림과 똑같은 html 을 만듭니다 (글꼴·행 수가 바뀌는 서식).
+      자세한 설명은 <a href="#/guide/new-forms.md">새 서식 추가 가이드</a>.</div>
+
+    <div class="box" style="margin:8px 0" id="nf-draw">
+      <h2 style="margin:0 0 6px">A. 그림 위에 그려서 만들기 (overlay)</h2>
+      <p>그림을 배경으로 하는 서식 <span class="mono">img_*</span> 를 만들고 바로 <b>영역 편집</b>으로 갑니다. 사내 OCR 이 필요 없습니다.
+        영역 편집에서 칸을 그리고 <b>항목명</b>(그림에 인쇄된 이름)·키·값 출처를 붙이면 분류·내용 추출(kie)·체크·표 질문이 공통 규칙으로 만들어집니다.</p>
+      <div class="bar" style="flex-wrap:wrap;gap:8px">
+        <label>그림 (PNG·JPG·PDF, 여러 쪽이면 쪽 순서대로) <input type="file" id="nf-files" multiple accept=".png,.jpg,.jpeg,.tif,.tiff,.bmp,.webp,.pdf"></label>
+        <label>서식 ID <input type="text" id="nf-id" placeholder="img_payslip_a" size="22" class="mono"></label>
+        <label>서식 이름 <input type="text" id="nf-name" placeholder="급여명세서" size="22"></label>
+        <label title="값이 적힌 실제 서류에서 가져온 그림이면 켭니다. 사내 서식 폴더(private_forms_dir)에만 만듭니다"><input type="checkbox" id="nf-real" checked> 실서류 견본 (값이 적힌 서류)</label>
+        <button class="primary" id="nf-create">만들고 영역 편집으로</button>
+      </div>
+      <div class="muted" style="font-size:12px">서식 이름 = 문서 분류의 정답입니다. 실서류 견본이면 남아 있는 값을 영역 편집의 <b>지우기</b>로 덮어야 합니다 (안 지우면 그 값이 생성 그림마다 복제됨).
+        이 길로 만든 서식은 배경 글자 정보가 없어 <b>합성 OCR 세트</b>(쪽 전체 받아쓰기 정답)에는 들어가지 않습니다.</div>
+      <div id="nf-draw-out"></div>
+    </div>
+
+    <h2 style="margin:16px 0 6px">B. 대형 모델로 html 서식</h2>
     <div class="sub">서식 그림 한 장 → <b>대형 모델</b>이 html 서식과 키를 만들고 → 사람이 검사해 넣고 → studio 에서 손보고 검수합니다.
-      자세한 설명은 <a href="#/guide/new-forms.md">새 서식 추가 가이드</a>, 결과물 형식은 <a href="${spec}">NEW_FORM_SPEC</a>.</div>
+      결과물 형식은 <a href="${spec}">NEW_FORM_SPEC</a>.</div>
     <div class="box kr" style="margin:8px 0">외부 모델(클로드 등)에는 <b>빈 서식·공개 서식 그림만</b> 보냅니다. 값이 적힌 실서류 견본은 사내 모델로만 (AGENTS.md 규칙 10).</div>
 
     ${step(1, "모델에게 맡기기", `
@@ -69,6 +90,7 @@ async function viewNewForms() {
       </tbody></table>
       <p class="muted">html 서식은 검수 전이어도 레시피의 "all"·그룹 선택에 들어갑니다. 검수한 것만 쓰려면 레시피의 <b>검수 완료 서식만</b>을 켭니다.</p>`)}`;
   $("#nf-refreshed").addEventListener("click", e => { if (e.target.closest("[data-close]")) $("#nf-refreshed").innerHTML = ""; });
+  $("#nf-create").onclick = () => createDrawn();
   main().querySelectorAll("[data-copy]").forEach(b => { b.onclick = () => copyText($(`#${b.dataset.copy}`).textContent); });
   $("#nf-refresh").onclick = async () => {
     const b = $("#nf-refresh");
@@ -85,4 +107,32 @@ async function viewNewForms() {
       b.disabled = false;
     }
   };
+}
+
+// A. 그림 위에 그려서: 그림 → 빈 overlay 서식 img_* (studio/drawn.py) → 영역 편집
+async function createDrawn() {
+  const files = [...$("#nf-files").files], id = $("#nf-id").value.trim(), name = $("#nf-name").value.trim();
+  if (!files.length) return toast("서식 그림을 고르세요", true);
+  if (!/^img_[a-z0-9_]{2,40}$/.test(id)) return toast("서식 ID 는 img_ 로 시작하는 영어 소문자·숫자·밑줄 (예: img_payslip_a)", true);
+  if (!name) return toast("서식 이름을 적으세요 (문서 분류의 정답)", true);
+  const fd = new FormData();
+  files.forEach(f => fd.append("files", f));
+  fd.append("form_id", id);
+  fd.append("name", name);
+  fd.append("real_data", $("#nf-real").checked ? "true" : "false");
+  const b = $("#nf-create");
+  b.disabled = true;
+  try {
+    const r = await fetch("/api/forms/new-image", { method: "POST", body: fd });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(typeof data.detail === "string" ? data.detail : `${r.status}`);
+    state.forms = null;
+    toast(`만들었습니다: ${data.form_id} (${data.pages}쪽${data.private ? ", 사내 서식 폴더" : ""})`);
+    location.hash = `#/forms/${encodeURIComponent(data.form_id)}/edit`;
+  } catch (e) {
+    $("#nf-draw-out").innerHTML = `<p class="err">${esc(e.message)}</p>`;
+    toast(e.message, true);
+  } finally {
+    b.disabled = false;
+  }
 }

@@ -238,6 +238,16 @@ def forms_refresh():
     return guard(catalog.refresh)
 
 
+@app.post("/api/forms/new-image")
+async def forms_new_image(form_id: str = Form(...), name: str = Form(...), real_data: bool = Form(True),
+                          files: list[UploadFile] = File(...)):
+    """새 서식 추가 › 그림 위에 그려서 만들기: 서식 그림(PNG·JPG·PDF) → 빈 overlay(image) 서식 img_* (OCR 없음). studio/drawn.py."""
+    from . import drawn
+
+    got = [(Path(f.filename or "file").name, await f.read()) for f in files]
+    return guard(drawn.create, got, form_id, name, real_data, os.environ.get("DOCGEN_PRIVATE_FORMS"))   # 설정 private_forms_dir (위에서 절대 경로로)
+
+
 def host_path(p: str | Path) -> str | None:
     """컨테이너 안 경로 → 서버(도커 호스트)에서 보이는 경로. docker/studio.sh 가 DOCGEN_HOST_CODE·DOCGEN_HOST_DATA 로 넘긴다"""
     p = Path(p).as_posix()

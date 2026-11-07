@@ -80,7 +80,24 @@ def select_ids(recipe: dict) -> list[str]:
     if recipe.get("reviewed_only"):
         ok = _reviewed()
         ids = [i for i in ids if i in ok]
+    drawn = [i for i in ids if _drawn_without_texts(i)]   # 그려서 만든 서식: 배경 글자가 없어 쪽 전체 정답을 못 만든다
+    if drawn:
+        if types != "all" and any(i in drawn for i in lst):
+            raise SystemExit(f"그려서 만든 서식은 배경 글자(쪽 전체 OCR 정답)가 없어 합성 OCR 세트에 넣을 수 없습니다: {[i for i in lst if i in drawn]}")
+        print(f"그려서 만든 서식 {len(drawn)}종은 배경 글자가 없어 뺍니다: {drawn}", file=sys.stderr)
+        ids = [i for i in ids if i not in drawn]
     return ids
+
+
+def _drawn_without_texts(doc_id: str) -> bool:
+    """studio 새 서식 추가 › 그림 위에 그려서 만든 overlay 서식(layout.json origin=drawn)이고 배경 글자(texts)가 없는가."""
+    from . import realform as RF
+
+    d = RF.image_form_dir(doc_id)
+    if d is None:
+        return False
+    lay = json.loads((d / "layout.json").read_text(encoding="utf-8"))
+    return lay.get("origin") == "drawn" and not lay.get("texts")
 
 
 def _reviewed() -> set[str]:

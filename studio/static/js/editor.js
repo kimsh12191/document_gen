@@ -407,16 +407,18 @@ function edSide(ed) {
       <div class="muted" style="font-size:12px">값을 지운 자리는 대개 값이 들어갈 자리입니다. "값 영역으로"를 누르면 같은 자리에 글자 칸을 만듭니다.</div></div>`;
   } else if (it) {
     const c = cur(ed, it), st = statusOf(ed, it), cands = keyCandidates(c.label);
-    const auto = it.auto || {};
+    const auto = it.auto || {}, added = it.status === "added";
     html = `<div class="detail-box panel">
       <div><b>${esc(ED_T[c.t] || c.t)}</b> <span class="tag st-${st}">${ED_STATUS[st]}</span> <span class="muted mono" style="font-size:11px">${esc(it.id)}</span></div>
       ${st === "dropped" ? `<p class="muted">이 영역은 뺐습니다. 생성기가 값을 쓰지 않습니다.</p><button id="ed-undrop">되살리기</button>` : `
       ${c.t === "staff" ? `<div class="fld muted">결재란은 은행·직원 칸입니다 (문서별 키).</div>` : `
       <div class="fld">${it.cell && !ed.dirty ? `<div>키 ${kpKeyCell(it.cell)}</div><div id="ed-kp"></div>`
         : `<div class="muted">${it.cell ? "저장하면" : "저장한 뒤"} 이 칸의 키(누구의 · 무엇)를 정합니다.</div>`}</div>`}
-      <div class="muted" style="font-size:12px">서식에 인쇄된 글자: ${esc(c.label || "(없음)")}</div>
-      <details class="fld"><summary class="muted">자세히 — 인쇄된 글자를 잘못 읽었을 때만 고칩니다</summary>
-      <label class="fld">인쇄된 글자 <input type="text" id="ed-label" value="${esc(c.label || "")}"></label>
+      ${added ? `<label class="fld"><b>항목명</b> <span class="muted" style="font-size:12px">그림에 인쇄된 이름 그대로 — 질문(무엇을 읽을지)과 자동 키에 쓰입니다</span>
+        <input type="text" id="ed-label" value="${esc(c.label || "")}" placeholder="예: 성명, 지급총액"></label>`
+        : `<div class="muted" style="font-size:12px">서식에 인쇄된 글자: ${esc(c.label || "(없음)")}</div>`}
+      <details class="fld"><summary class="muted">${added ? "자세히 — 키를 직접 적기" : "자세히 — 인쇄된 글자를 잘못 읽었을 때만 고칩니다"}</summary>
+      ${added ? "" : `<label class="fld">인쇄된 글자 <input type="text" id="ed-label" value="${esc(c.label || "")}"></label>`}
       ${c.t === "staff" ? "</details>" : `
       <label class="fld">서식의 키 <input type="text" id="ed-key" list="ed-keylist" value="${esc(c.key || "")}" placeholder="${esc(auto.key || "(자동: 인쇄된 글자로)")}"></label>
       <datalist id="ed-keylist">${(edKeys?.common || []).map(k => `<option value="${esc(k.key)}">공통 키 · ${esc(k.name)}</option>`).join("")}${(edKeys?.keys || []).filter(k => !(edKeys?.common || []).some(c => c.key === k.key)).slice(0, 4000).map(k => `<option value="${esc(k.key)}">${esc(k.labels[0] || "")}</option>`).join("")}</datalist>
@@ -427,9 +429,14 @@ function edSide(ed) {
       <label class="fld">값 출처 <select id="ed-source">${sourceOptions(c.source || "")}</select></label>
       ${c.source === "rule:choice" ? `<label class="fld">보기 (한 줄에 하나) <textarea id="ed-choices" rows="3">${esc((c.choices || []).join("\n"))}</textarea></label>` : ""}
       ${c.source === "rule:fixed" ? `<label class="fld">고정 글자 <input type="text" id="ed-fixed" value="${esc(c.text || "")}"></label>` : ""}
+      ${added && c.t === "text" ? `<label class="fld"><input type="checkbox" id="ed-row" ${c.row ? "checked" : ""}> 표의 반복 행 칸 <span class="muted" style="font-size:12px">(행마다 같은 항목을 적는 표 — 표 질문으로 묻습니다)</span></label>` : ""}
       ${c.row ? `<label class="fld">표 묶음 <input type="text" id="ed-group" value="${esc(c.group || "")}" placeholder="(없음: 목록)"></label>
         <div class="muted" style="font-size:12px">표 반복 행입니다. 같은 표의 칸은 같은 묶음, 다른 표는 다른 묶음 (키 <span class="mono">&lt;묶음&gt;_목록.&lt;행&gt;.&lt;항목명&gt;</span>).
-          키에 <span class="mono">{i}</span>를 쓰면 행 번호가 들어갑니다 (예: products.{i}.name)</div>` : ""}` : ""}
+          키에 <span class="mono">{i}</span>를 쓰면 행 번호가 들어갑니다 (예: products.{i}.name)</div>
+        ${added ? `<div class="bar" style="flex-wrap:wrap">아래로 <input type="number" id="ed-rown" value="4" min="1" max="50" style="width:4em"> 행,
+          행 간격 <input type="number" id="ed-rowh" value="${r1(c.rect[3] - c.rect[1])}" min="1" step="0.5" style="width:5em"> pt <button id="ed-rowdup">이 행 복제</button></div>
+          <div class="muted" style="font-size:12px">첫 행의 칸을 모두 그리고(각 칸: 항목명 + 표의 반복 행 + 같은 표 묶음) 누릅니다. 이 칸과 같은 높이에 있는 같은 묶음의 칸을 함께 복제합니다.
+            표 행이 둘 이상이어야 표가 됩니다 (한 행뿐이면 보통 칸).</div>` : ""}` : ""}` : ""}
       ${c.t === "copy" ? `<label class="fld">따라 쓸 문구 <input type="text" id="ed-copytext" value="${esc(c.text || "")}"></label>` : ""}
       ${c.t === "check" ? `<div class="fld">보기 ${(c.options || []).map((o, j) => `<div class="optrow"><input type="text" data-opt="${j}" value="${esc(o.text || "")}"
         ${ed.sel.sub === `opt:${j}` ? `class="cur"` : ""}></div>`).join("")}
@@ -477,6 +484,8 @@ function edSide(ed) {
   on("#ed-key", "change", e => { setProp(ed, it, "key", e.target.value.trim()); redraw(); });
   on("#ed-kind", "change", e => { setProp(ed, it, "kind", e.target.value); redraw(); });
   on("#ed-group", "change", e => { setProp(ed, it, "group", e.target.value.trim()); redraw(); });
+  on("#ed-row", "change", e => { setProp(ed, it, "row", e.target.checked ? true : null); redraw(); });
+  on("#ed-rowdup", "click", () => edDupRows(ed, it, +$("#ed-rown").value, +$("#ed-rowh").value));
   on("#ed-source", "change", e => { setProp(ed, it, "source", e.target.value); redraw(); });
   on("#ed-choices", "change", e => { setProp(ed, it, "choices", e.target.value.split("\n").map(s => s.trim()).filter(Boolean)); redraw(); });
   on("#ed-fixed", "change", e => { setProp(ed, it, "text", e.target.value); redraw(); });
@@ -489,6 +498,29 @@ function edSide(ed) {
     setGeom(ed, it, { options: opts });
     redraw();
   });
+}
+
+// 표 행 복제: 고른 칸과 같은 높이·같은 쪽·같은 표 묶음의 추가한 반복 행 칸들을 n 행 아래로 (행 간격 gap pt)
+function edDupRows(ed, it, n, gap) {
+  if (!(n >= 1 && n <= 50) || !(gap > 0)) { toast("행 수(1~50)와 행 간격을 확인하세요", true); return; }
+  const c = it.ref, grp = c.group || "", y0 = c.rect[1], y1 = c.rect[3];
+  const mid = r => (r[1] + r[3]) / 2;
+  const row = ed.items.filter(x => x.status === "added" && x.ref.t === "text" && x.ref.row && x.page === it.page && x.ref.rect
+    && (x.ref.group || "") === grp && mid(x.ref.rect) >= y0 && mid(x.ref.rect) <= y1);
+  if (row.some(x => !x.ref.label)) { toast("이 행에 항목명이 없는 칸이 있습니다. 항목명을 먼저 적으세요 (같은 항목명끼리 한 열)", true); return; }
+  const H = ed.view.pages[it.page].h;
+  let made = 0, cut = 0;
+  for (let k = 1; k <= n; k++) for (const x of row) {
+    const r = x.ref.rect, rect = [r[0], r1(r[1] + k * gap), r[2], r1(r[3] + k * gap)];
+    if (rect[3] > H) { cut++; continue; }
+    const a = { ...clone(x.ref), rect };
+    ed.ov.add.push(a);
+    ed.items.push({ id: `add:${ed.ov.add.length - 1}:${Date.now()}:${made}`, status: "added", page: it.page, ref: a, auto: { key: null, kind: null } });
+    made++;
+  }
+  ed.dirty = true;
+  toast(`${row.length}열 × ${n}행 → ${made}칸을 더했습니다${cut ? ` (쪽을 넘는 ${cut}칸은 뺌)` : ""}. 저장해야 남습니다`);
+  edDraw(ed);
 }
 
 // ---------------------------------------------------------------------------
