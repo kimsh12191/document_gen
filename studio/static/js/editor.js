@@ -4,7 +4,7 @@
 "use strict";
 
 const ED_TOOLS = [
-  ["select", "선택·옮기기", "V"], ["text", "글자 칸 그리기", "T"], ["check", "체크 보기 그리기", "C"],
+  ["select", "선택·옮기기", "V"], ["text", "글자 칸 그리기", "T"], ["table", "표 그리기", "B"], ["check", "체크 보기 그리기", "C"],
   ["sign", "서명·도장 자리", "S"], ["staff", "결재란 칸", "R"], ["erase", "지우기: 흰색", "E"], ["erase_auto", "지우기: 주변색", "A"],
 ];
 const ED_STATUS = { auto: "자동", edited: "수정", added: "추가", dropped: "뺌" };
@@ -209,6 +209,13 @@ function edDraw(ed) {
       }
     }
   }
+  if (ed.tableDraft && ed.tableDraft.page === ed.page) {   // 표 초안: 바깥 + 열·행 나눔 미리보기
+    const t = ed.tableDraft, [x0, y0, x1, y1] = t.rect;
+    const nc = Math.max(1, edTableCols(t.cols).length), nr = Math.max(1, +t.rows || 1);
+    rects.push(`<rect class="ghost" x="${x0}" y="${y0}" width="${x1 - x0}" height="${y1 - y0}"></rect>`);
+    for (let c = 1; c < nc; c++) { const x = x0 + (x1 - x0) * c / nc; rects.push(`<rect class="ghost" x="${x}" y="${y0}" width="0.3" height="${y1 - y0}"></rect>`); }
+    for (let r = 1; r < nr; r++) { const y = y0 + (y1 - y0) * r / nr; rects.push(`<rect class="ghost" x="${x0}" y="${y}" width="${x1 - x0}" height="0.3"></rect>`); }
+  }
   if (ed.ghost) {
     const [x0, y0, x1, y1] = ed.ghost;
     rects.push(`<rect class="ghost" x="${Math.min(x0, x1)}" y="${Math.min(y0, y1)}" width="${Math.abs(x1 - x0)}" height="${Math.abs(y1 - y0)}"></rect>`);
@@ -224,7 +231,7 @@ function edDraw(ed) {
   svg.setAttribute("viewBox", `0 0 ${pg.w} ${pg.h}`);
   svg.setAttribute("preserveAspectRatio", "none");
   svg.innerHTML = rects.join("");
-  edSide(ed);
+  if (!ed.keepSide) edSide(ed);
 }
 
 function edBindStage(ed) {
@@ -313,6 +320,14 @@ function edBindStage(ed) {
 
 function edCreate(ed, box) {
   const page = ed.page;
+  if (ed.tool === "table") {   // 표: 끈 영역을 열 × 행 칸으로 나눌 초안 (오른쪽에서 열 이름·행 수를 정하고 만든다)
+    const t = ed.tableDraft || {};
+    ed.tableDraft = { page, rect: box, cols: t.cols || "", rows: t.rows || 5, group: t.group || "" };
+    ed.sel = null; ed.tool = "select";
+    edDraw(ed);
+    setTimeout(() => $("#ed-tb-cols")?.focus(), 0);
+    return;
+  }
   if (ed.tool === "erase" || ed.tool === "erase_auto") {
     ed.ov.erase.push({ page, rect: box, fill: ed.tool === "erase_auto" ? "auto" : "white" });
     ed.sel = { id: `erase:${ed.ov.erase.length - 1}`, sub: "rect" };
@@ -365,7 +380,7 @@ function edKey(ed, e) {
   if (e.target.closest("input, select, textarea")) return;
   const tool = ED_TOOLS.find(t => t[2] === e.key.toUpperCase());
   if (tool && !e.ctrlKey && !e.metaKey) { ed.tool = tool[0]; edDraw(ed); return; }
-  if (e.key === "Escape") { ed.sel = null; ed.tool = "select"; edDraw(ed); return; }
+  if (e.key === "Escape") { ed.sel = null; ed.tool = "select"; ed.tableDraft = null; edDraw(ed); return; }
   if ((e.key === "Delete" || e.key === "Backspace") && ed.sel) { e.preventDefault(); edDelete(ed); return; }
   if (e.key === "s" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); edSave(ed); return; }
   const dir = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
@@ -434,7 +449,8 @@ function edSide(ed) {
         <div class="muted" style="font-size:12px">표 반복 행입니다. 같은 표의 칸은 같은 묶음, 다른 표는 다른 묶음 (키 <span class="mono">&lt;묶음&gt;_목록.&lt;행&gt;.&lt;항목명&gt;</span>).
           키에 <span class="mono">{i}</span>를 쓰면 행 번호가 들어갑니다 (예: products.{i}.name)</div>
         ${added ? `<div class="bar" style="flex-wrap:wrap">아래로 <input type="number" id="ed-rown" value="4" min="1" max="50" style="width:4em"> 행,
-          행 간격 <input type="number" id="ed-rowh" value="${r1(c.rect[3] - c.rect[1])}" min="1" step="0.5" style="width:5em"> pt <button id="ed-rowdup">이 행 복제</button></div>
+          행 간격 <input type="number" id="ed-rowh" value="${r1(c.rect[3] - c.rect[1])}" min="1" step="0.5" style="width:5em"> pt <button id="ed-rowdup">이 행 복제</button>
+          <button id="ed-colfit" title="같은 표 묶음·같은 항목명(같은 열)의 모든 행 칸을 이 칸과 같은 가로 위치·폭으로">이 열 폭을 모든 행에</button></div>
           <div class="muted" style="font-size:12px">첫 행의 칸을 모두 그리고(각 칸: 항목명 + 표의 반복 행 + 같은 표 묶음) 누릅니다. 이 칸과 같은 높이에 있는 같은 묶음의 칸을 함께 복제합니다.
             표 행이 둘 이상이어야 표가 됩니다 (한 행뿐이면 보통 칸).</div>` : ""}` : ""}` : ""}
       ${c.t === "copy" ? `<label class="fld">따라 쓸 문구 <input type="text" id="ed-copytext" value="${esc(c.text || "")}"></label>` : ""}
@@ -447,6 +463,7 @@ function edSide(ed) {
         ${st === "edited" && edEntry(ed, it, false) ? `<button id="ed-revert">이번 수정 되돌리기</button>` : ""}</div>`}
     </div>`;
   }
+  if (ed.tableDraft) html = edTableForm(ed) + html;
   const list = edPageItems(ed).filter(x => x.kind !== "erase");
   const nEdited = ed.items.filter(x => statusOf(ed, x) !== "auto").length;
   html += `<div class="muted" style="margin:6px 0 4px">이 쪽 영역 ${list.length}개 · 지우기 ${ed.ov.erase.filter(e => e.page === ed.page).length}개 · 전체 수정 ${nEdited}개</div>
@@ -464,6 +481,7 @@ function edSide(ed) {
     const x = id && edFind(ed, id);
     if (x) { ed.sel = { id, sub: subsOf(ed, x)[0]?.name }; edDraw(ed); }
   };
+  if (ed.tableDraft) edTableBind(ed);
   if (!it) return;
   const redraw = () => edDraw(ed);
   const on = (sel, ev, fn) => { const el = $(sel); if (el) el.addEventListener(ev, fn); };
@@ -486,6 +504,7 @@ function edSide(ed) {
   on("#ed-group", "change", e => { setProp(ed, it, "group", e.target.value.trim()); redraw(); });
   on("#ed-row", "change", e => { setProp(ed, it, "row", e.target.checked ? true : null); redraw(); });
   on("#ed-rowdup", "click", () => edDupRows(ed, it, +$("#ed-rown").value, +$("#ed-rowh").value));
+  on("#ed-colfit", "click", () => edFitColumn(ed, it));
   on("#ed-source", "change", e => { setProp(ed, it, "source", e.target.value); redraw(); });
   on("#ed-choices", "change", e => { setProp(ed, it, "choices", e.target.value.split("\n").map(s => s.trim()).filter(Boolean)); redraw(); });
   on("#ed-fixed", "change", e => { setProp(ed, it, "text", e.target.value); redraw(); });
@@ -498,6 +517,71 @@ function edSide(ed) {
     setGeom(ed, it, { options: opts });
     redraw();
   });
+}
+
+// 표 그리기 (도구 B): 끈 영역 = 표의 값 행들 (머리글 줄 빼고). 열 항목명·행 수·표 묶음을 정하면 열 × 행 글자 칸을 한 번에 만든다
+const edTableCols = text => (text || "").split("\n").map(x => x.trim()).filter(Boolean);
+
+function edTableForm(ed) {
+  const t = ed.tableDraft;
+  return `<div class="detail-box panel"><b>표 만들기</b> · ${t.page + 1}쪽
+    <div class="muted" style="font-size:12px">끈 영역 = 표에서 값이 적히는 행들 (머리글 줄은 빼고). 열은 같은 폭으로 나눕니다.
+      만든 뒤 첫 행 칸의 폭을 고치고 <b>이 열 폭을 모든 행에</b>로 맞춥니다. 영역을 다시 끌면 초안을 바꿉니다.</div>
+    <label class="fld">열 항목명 <span class="muted" style="font-size:12px">(한 줄에 하나, 왼쪽부터 — 그림의 머리글 그대로)</span>
+      <textarea id="ed-tb-cols" rows="4" placeholder="거래일&#10;적요&#10;금액">${esc(t.cols)}</textarea></label>
+    <label class="fld">행 수 <input type="number" id="ed-tb-rows" min="2" max="60" value="${t.rows}" style="width:5em"></label>
+    <label class="fld">표 묶음 이름 <input type="text" id="ed-tb-group" value="${esc(t.group)}" placeholder="예: 거래 (서식 안의 표마다 다르게)"></label>
+    <div class="bar"><button class="primary" id="ed-tb-make">표 칸 만들기</button><button id="ed-tb-cancel">취소</button></div></div>`;
+}
+
+function edTableBind(ed) {
+  const t = ed.tableDraft;
+  const read = () => { t.cols = $("#ed-tb-cols").value; t.rows = +$("#ed-tb-rows").value; t.group = $("#ed-tb-group").value.trim(); };
+  const preview = () => { read(); ed.keepSide = true; try { edDraw(ed); } finally { ed.keepSide = false; } };   // 나눔 미리보기 (입력 칸은 그대로)
+  $("#ed-tb-cols").oninput = $("#ed-tb-rows").oninput = preview;
+  $("#ed-tb-group").oninput = read;
+  $("#ed-tb-cancel").onclick = () => { ed.tableDraft = null; edDraw(ed); };
+  $("#ed-tb-make").onclick = () => { read(); edMakeTable(ed); };
+}
+
+function edMakeTable(ed) {
+  const t = ed.tableDraft, cols = edTableCols(t.cols), n = t.rows;
+  if (!cols.length) { toast("열 항목명을 한 줄에 하나씩 적으세요", true); return; }
+  if (new Set(cols).size !== cols.length) { toast("열 항목명이 겹칩니다 (같은 이름 = 같은 열)", true); return; }
+  if (!(n >= 2 && n <= 60)) { toast("행 수는 2~60 (한 행뿐이면 표가 아니라 보통 칸)", true); return; }
+  const used = new Set(ed.items.filter(x => x.status === "added" && x.ref.row).map(x => x.ref.group || ""));
+  let group = t.group;
+  if (!group) { let k = 1; while (used.has(`표${k}`)) k++; group = `표${k}`; }
+  else if (used.has(group) && !confirm(`표 묶음 '${group}' 이 이미 있습니다. 같은 표에 더할까요? (다른 표면 취소하고 이름을 바꾸세요)`)) return;
+  const [x0, y0, x1, y1] = t.rect, w = (x1 - x0) / cols.length, h = (y1 - y0) / n, pad = Math.min(1, h * 0.1);
+  let first = null;
+  for (let r = 0; r < n; r++) cols.forEach((label, c) => {
+    const a = { t: "text", page: t.page, label, row: true, group,
+      rect: [r1(x0 + c * w + pad), r1(y0 + r * h + pad), r1(x0 + (c + 1) * w - pad), r1(y0 + (r + 1) * h - pad)] };
+    ed.ov.add.push(a);
+    const x = { id: `add:${ed.ov.add.length - 1}:${Date.now()}:${r}:${c}`, status: "added", page: t.page, ref: a, auto: { key: null, kind: null } };
+    ed.items.push(x);
+    first = first || x;
+  });
+  ed.tableDraft = null;
+  ed.sel = { id: first.id, sub: "rect" };
+  ed.dirty = true;
+  toast(`표 '${group}': ${cols.length}열 × ${n}행 = ${cols.length * n}칸. 열 폭이 그림과 다르면 첫 행 칸을 고치고 [이 열 폭을 모든 행에]. 저장해야 남습니다`);
+  edDraw(ed);
+}
+
+// 같은 표 묶음·같은 항목명(= 같은 열)의 추가한 표 칸을 이 칸의 가로 위치·폭으로
+function edFitColumn(ed, it) {
+  const c = it.ref, grp = c.group || "";
+  let n = 0;
+  for (const x of ed.items) {
+    if (x === it || x.status !== "added" || x.ref.t !== "text" || !x.ref.row || x.page !== it.page || (x.ref.group || "") !== grp || x.ref.label !== c.label) continue;
+    x.ref.rect = [c.rect[0], x.ref.rect[1], c.rect[2], x.ref.rect[3]];
+    n++;
+  }
+  ed.dirty = true;
+  toast(n ? `'${c.label}' 열 ${n}칸을 맞췄습니다` : "같은 열(같은 묶음·항목명)의 다른 칸이 없습니다", !n);
+  edDraw(ed);
 }
 
 // 표 행 복제: 고른 칸과 같은 높이·같은 쪽·같은 표 묶음의 추가한 반복 행 칸들을 n 행 아래로 (행 간격 gap pt)
