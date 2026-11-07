@@ -575,7 +575,10 @@ def _sources() -> dict:
     from docgen import sources as SRC
     from docgen.entities import make_profile
 
-    return {"profile": SRC.profile_paths(make_profile(0)), "rules": SRC.RULE_KINDS, "special": SRC.SPECIAL_RULES}
+    from docgen.keyrules import CODE_KINDS
+
+    return {"profile": SRC.profile_paths(make_profile(0)), "rules": SRC.RULE_KINDS, "special": SRC.SPECIAL_RULES,
+            "rule_names": {k: CODE_KINDS.get(k, k) for k in SRC.RULE_KINDS}}   # 화면의 생성 방법 이름
 
 
 @app.get("/api/sources")

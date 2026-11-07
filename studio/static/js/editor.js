@@ -59,7 +59,7 @@ function cur(ed, it) {
   if (it.status === "added") return it.ref;
   const e = edEntry(ed, it, false) || {};
   const out = { ...it.base, ...(e.set || {}) };
-  for (const k of ["key", "kind", "source", "choices", "text", "note"]) if (e[k] !== undefined && e[k] !== "") out[k] = e[k];
+  for (const k of ["key", "kind", "source", "choices", "text", "note", "group"]) if (e[k] !== undefined && e[k] !== "") out[k] = e[k];
   return out;
 }
 
@@ -402,12 +402,19 @@ function keyCandidates(label) {
   return edKeys.keys.filter(k => k.labels.some(l => l.replace(/[\s()·:*]/g, "") === n)).sort((a, b) => b.forms - a.forms).slice(0, 8);
 }
 
-function sourceOptions(curSrc) {
-  const o = [`<option value="">(자동: 키·값 종류로 정함)</option>`];
-  const prof = (edSources?.profile || []).map(s => `<option value="${esc(s.source)}" ${s.source === curSrc ? "selected" : ""}>${esc(s.source)}${s.example ? ` — ${esc(String(s.example).slice(0, 24))}` : ""}</option>`);
-  const rules = (edSources?.rules || []).map(r => `<option value="rule:${r}" ${`rule:${r}` === curSrc ? "selected" : ""}>rule:${r}</option>`);
-  const sp = (edSources?.special || []).map(r => `<option value="rule:${r}" ${`rule:${r}` === curSrc ? "selected" : ""}>rule:${r}</option>`);
-  return o.join("") + `<optgroup label="고객 프로필">${prof.join("")}</optgroup><optgroup label="값 종류 규칙">${rules.join("")}</optgroup><optgroup label="특별 규칙">${sp.join("")}</optgroup>`;
+// 생성 방법 (값 출처 source) 고르기: 이름은 사람이 읽는 말, 값은 fields.json 의 source 그대로 (docgen/sources.py)
+const ED_SPECIAL = { choice: "보기 중 하나 (아래에 보기 목록)", fixed: "늘 같은 글자 (아래에 글자)", free_text: "짧은 자유 문장 (가끔 빈 칸)",
+  empty: "늘 빈 칸", date_seq: "행마다 늘어나는 날짜 (표의 날짜 열)" };
+function sourceOptions(curSrc, autoText = "") {
+  const sel = v => v === curSrc ? "selected" : "";
+  const o = [`<option value="" ${sel("")}>자동 — 항목명으로 정함${autoText ? ` (${esc(autoText)})` : ""}</option>`];
+  const names = edSources?.rule_names || {};
+  const rules = (edSources?.rules || []).map(r => `<option value="rule:${r}" ${sel(`rule:${r}`)}>${esc(names[r] || r)}</option>`);
+  const sp = (edSources?.special || []).map(r => `<option value="rule:${r}" ${sel(`rule:${r}`)}>${esc(ED_SPECIAL[r] || r)}</option>`);
+  const prof = (edSources?.profile || []).map(s => `<option value="${esc(s.source)}" ${sel(s.source)}>${esc(s.source.replace(/^profile\./, ""))}${s.example ? ` — 예: ${esc(String(s.example).slice(0, 24))}` : ""}</option>`);
+  return o.join("") + `<optgroup label="종류에 맞는 그럴듯한 값 (문서마다 새로)">${rules.join("")}</optgroup>`
+    + `<optgroup label="특별">${sp.join("")}</optgroup>`
+    + `<optgroup label="고객 정보 (같은 고객의 다른 서류와 같은 값)">${prof.join("")}</optgroup>`;
 }
 
 function edSide(ed) {
@@ -422,7 +429,7 @@ function edSide(ed) {
       <div class="muted" style="font-size:12px">값을 지운 자리는 대개 값이 들어갈 자리입니다. "값 영역으로"를 누르면 같은 자리에 글자 칸을 만듭니다.</div></div>`;
   } else if (it) {
     const c = cur(ed, it), st = statusOf(ed, it), cands = keyCandidates(c.label);
-    const auto = it.auto || {}, added = it.status === "added";
+    const auto = it.auto || {}, added = it.status === "added" || ed.view.origin === "drawn";   // 그려서 만든 서식은 저장한 칸도 그린 칸처럼
     html = `<div class="detail-box panel">
       <div><b>${esc(ED_T[c.t] || c.t)}</b> <span class="tag st-${st}">${ED_STATUS[st]}</span> <span class="muted mono" style="font-size:11px">${esc(it.id)}</span></div>
       ${st === "dropped" ? `<p class="muted">이 영역은 뺐습니다. 생성기가 값을 쓰지 않습니다.</p><button id="ed-undrop">되살리기</button>` : `
@@ -439,16 +446,17 @@ function edSide(ed) {
       <datalist id="ed-keylist">${(edKeys?.common || []).map(k => `<option value="${esc(k.key)}">공통 키 · ${esc(k.name)}</option>`).join("")}${(edKeys?.keys || []).filter(k => !(edKeys?.common || []).some(c => c.key === k.key)).slice(0, 4000).map(k => `<option value="${esc(k.key)}">${esc(k.labels[0] || "")}</option>`).join("")}</datalist>
       ${cands.length ? `<div class="cands">사전 후보: ${cands.map(k => `<a href="#" data-key="${esc(k.key)}" class="mono">${esc(k.key)}</a> <span class="muted">(${k.forms})</span>`).join(" · ")}</div>` : ""}
       ${auto.key ? `<div class="muted" style="font-size:12px">자동 키: <span class="mono">${esc(auto.key)}</span></div>` : ""}</details>
-      ${c.t === "text" ? `<label class="fld">값 종류 <select id="ed-kind"><option value="">(자동: ${esc(auto.kind || "text")})</option>${ed.view.kinds.map(k =>
+      ${c.t === "text" ? `<div class="fld" style="margin-top:8px"><b>값 만들기</b> <span class="muted" style="font-size:12px">문서를 만들 때마다 이 칸에 넣을 값${added && c.row ? " — 같은 열의 모든 행에 같이 적용" : ""}</span></div>
+      <label class="fld">생성 방법 <select id="ed-source">${sourceOptions(c.source || "", auto.kind ? (edSources?.rule_names || {})[auto.kind] || auto.kind : "")}</select></label>
+      <label class="fld">값 종류 <span class="muted" style="font-size:12px">(자동 생성과 채점 비교에 씀)</span> <select id="ed-kind"><option value="">(자동: ${esc(auto.kind || "text")})</option>${ed.view.kinds.map(k =>
         `<option value="${k}" ${c.kind === k ? "selected" : ""}>${k}</option>`).join("")}</select></label>
-      <label class="fld">값 출처 <select id="ed-source">${sourceOptions(c.source || "")}</select></label>
       ${c.source === "rule:choice" ? `<label class="fld">보기 (한 줄에 하나) <textarea id="ed-choices" rows="3">${esc((c.choices || []).join("\n"))}</textarea></label>` : ""}
       ${c.source === "rule:fixed" ? `<label class="fld">고정 글자 <input type="text" id="ed-fixed" value="${esc(c.text || "")}"></label>` : ""}
       ${added && c.t === "text" ? `<label class="fld"><input type="checkbox" id="ed-row" ${c.row ? "checked" : ""}> 표의 반복 행 칸 <span class="muted" style="font-size:12px">(행마다 같은 항목을 적는 표 — 표 질문으로 묻습니다)</span></label>` : ""}
       ${c.row ? `<label class="fld">표 묶음 <input type="text" id="ed-group" value="${esc(c.group || "")}" placeholder="(없음: 목록)"></label>
         <div class="muted" style="font-size:12px">표 반복 행입니다. 같은 표의 칸은 같은 묶음, 다른 표는 다른 묶음 (키 <span class="mono">&lt;묶음&gt;_목록.&lt;행&gt;.&lt;항목명&gt;</span>).
           키에 <span class="mono">{i}</span>를 쓰면 행 번호가 들어갑니다 (예: products.{i}.name)</div>
-        ${added ? `<div class="bar" style="flex-wrap:wrap">아래로 <input type="number" id="ed-rown" value="4" min="1" max="50" style="width:4em"> 행,
+        ${c.rect ? `<div class="bar" style="flex-wrap:wrap">아래로 <input type="number" id="ed-rown" value="4" min="1" max="50" style="width:4em"> 행,
           행 간격 <input type="number" id="ed-rowh" value="${r1(c.rect[3] - c.rect[1])}" min="1" step="0.5" style="width:5em"> pt <button id="ed-rowdup">이 행 복제</button>
           <button id="ed-colfit" title="같은 표 묶음·같은 항목명(같은 열)의 모든 행 칸을 이 칸과 같은 가로 위치·폭으로">이 열 폭을 모든 행에</button></div>
           <div class="muted" style="font-size:12px">첫 행의 칸을 모두 그리고(각 칸: 항목명 + 표의 반복 행 + 같은 표 묶음) 누릅니다. 이 칸과 같은 높이에 있는 같은 묶음의 칸을 함께 복제합니다.
@@ -500,14 +508,19 @@ function edSide(ed) {
   if ($("#ed-kp")) kpPanel($("#ed-kp"), ed.d.id, it.cell, () => viewEditor(ed.d, { page: ed.page, tool: ed.tool, sel: ed.sel }), { label: false, image: false });
   on("#ed-label", "change", e => { setProp(ed, it, "label", e.target.value.trim()); redraw(); });
   on("#ed-key", "change", e => { setProp(ed, it, "key", e.target.value.trim()); redraw(); });
-  on("#ed-kind", "change", e => { setProp(ed, it, "kind", e.target.value); redraw(); });
+  const setCol = (k, v) => { for (const x of colPeers(ed, it)) setProp(ed, x, k, v); };   // 표 칸이면 같은 열 전체
+  on("#ed-kind", "change", e => { setCol("kind", e.target.value); redraw(); });
   on("#ed-group", "change", e => { setProp(ed, it, "group", e.target.value.trim()); redraw(); });
-  on("#ed-row", "change", e => { setProp(ed, it, "row", e.target.checked ? true : null); redraw(); });
+  on("#ed-row", "change", e => {
+    if (it.status === "added") setProp(ed, it, "row", e.target.checked ? true : null);
+    else setGeom(ed, it, { row: e.target.checked });
+    redraw();
+  });
   on("#ed-rowdup", "click", () => edDupRows(ed, it, +$("#ed-rown").value, +$("#ed-rowh").value));
   on("#ed-colfit", "click", () => edFitColumn(ed, it));
-  on("#ed-source", "change", e => { setProp(ed, it, "source", e.target.value); redraw(); });
-  on("#ed-choices", "change", e => { setProp(ed, it, "choices", e.target.value.split("\n").map(s => s.trim()).filter(Boolean)); redraw(); });
-  on("#ed-fixed", "change", e => { setProp(ed, it, "text", e.target.value); redraw(); });
+  on("#ed-source", "change", e => { setCol("source", e.target.value); redraw(); });
+  on("#ed-choices", "change", e => { setCol("choices", e.target.value.split("\n").map(s => s.trim()).filter(Boolean)); redraw(); });
+  on("#ed-fixed", "change", e => { setCol("text", e.target.value); redraw(); });
   on("#ed-copytext", "change", e => { setProp(ed, it, "text", e.target.value); redraw(); });
   on("#ed-note", "change", e => { setProp(ed, it, "note", e.target.value.trim()); redraw(); });
   $$("#ed-side [data-key]").forEach(a => a.onclick = e => { e.preventDefault(); setProp(ed, it, "key", a.dataset.key); redraw(); });
@@ -549,7 +562,7 @@ function edMakeTable(ed) {
   if (!cols.length) { toast("열 항목명을 한 줄에 하나씩 적으세요", true); return; }
   if (new Set(cols).size !== cols.length) { toast("열 항목명이 겹칩니다 (같은 이름 = 같은 열)", true); return; }
   if (!(n >= 2 && n <= 60)) { toast("행 수는 2~60 (한 행뿐이면 표가 아니라 보통 칸)", true); return; }
-  const used = new Set(ed.items.filter(x => x.status === "added" && x.ref.row).map(x => x.ref.group || ""));
+  const used = new Set(ed.items.filter(x => x.kind !== "erase" && cur(ed, x).row).map(x => cur(ed, x).group || ""));
   let group = t.group;
   if (!group) { let k = 1; while (used.has(`표${k}`)) k++; group = `표${k}`; }
   else if (used.has(group) && !confirm(`표 묶음 '${group}' 이 이미 있습니다. 같은 표에 더할까요? (다른 표면 취소하고 이름을 바꾸세요)`)) return;
@@ -570,34 +583,55 @@ function edMakeTable(ed) {
   edDraw(ed);
 }
 
-// 같은 표 묶음·같은 항목명(= 같은 열)의 추가한 표 칸을 이 칸의 가로 위치·폭으로
+// 이 칸과 같은 열의 추가한 표 칸들 (자신 포함). 표 칸이 아니면 자신만
+function colPeers(ed, it) {
+  const c = cur(ed, it);
+  if (it.kind === "erase" || c.t !== "text" || !c.row) return [it];
+  return ed.items.filter(x => {
+    if (x === it) return true;
+    if (x.kind === "erase" || x.page !== it.page || statusOf(ed, x) === "dropped") return false;
+    const y = cur(ed, x);
+    return y.t === "text" && y.row && (y.group || "") === (c.group || "") && y.label === c.label;
+  });
+}
+
+// 같은 표 묶음·같은 항목명(= 같은 열)의 표 칸을 이 칸의 가로 위치·폭으로
 function edFitColumn(ed, it) {
-  const c = it.ref, grp = c.group || "";
+  const r = cur(ed, it).rect;
   let n = 0;
-  for (const x of ed.items) {
-    if (x === it || x.status !== "added" || x.ref.t !== "text" || !x.ref.row || x.page !== it.page || (x.ref.group || "") !== grp || x.ref.label !== c.label) continue;
-    x.ref.rect = [c.rect[0], x.ref.rect[1], c.rect[2], x.ref.rect[3]];
+  for (const x of colPeers(ed, it)) {
+    if (x === it) continue;
+    const y = cur(ed, x).rect;
+    setGeom(ed, x, { rect: [r[0], y[1], r[2], y[3]] });
     n++;
   }
-  ed.dirty = true;
-  toast(n ? `'${c.label}' 열 ${n}칸을 맞췄습니다` : "같은 열(같은 묶음·항목명)의 다른 칸이 없습니다", !n);
+  toast(n ? `'${cur(ed, it).label}' 열 ${n}칸을 맞췄습니다` : "같은 열(같은 묶음·항목명)의 다른 칸이 없습니다", !n);
   edDraw(ed);
 }
 
-// 표 행 복제: 고른 칸과 같은 높이·같은 쪽·같은 표 묶음의 추가한 반복 행 칸들을 n 행 아래로 (행 간격 gap pt)
+// 표 행 복제: 고른 칸과 같은 높이·같은 쪽·같은 표 묶음의 표 칸들을 n 행 아래로 (행 간격 gap pt). 복제한 칸은 새로 더한 칸
 function edDupRows(ed, it, n, gap) {
   if (!(n >= 1 && n <= 50) || !(gap > 0)) { toast("행 수(1~50)와 행 간격을 확인하세요", true); return; }
-  const c = it.ref, grp = c.group || "", y0 = c.rect[1], y1 = c.rect[3];
+  const c = cur(ed, it), grp = c.group || "", y0 = c.rect[1], y1 = c.rect[3];
   const mid = r => (r[1] + r[3]) / 2;
-  const row = ed.items.filter(x => x.status === "added" && x.ref.t === "text" && x.ref.row && x.page === it.page && x.ref.rect
-    && (x.ref.group || "") === grp && mid(x.ref.rect) >= y0 && mid(x.ref.rect) <= y1);
-  if (row.some(x => !x.ref.label)) { toast("이 행에 항목명이 없는 칸이 있습니다. 항목명을 먼저 적으세요 (같은 항목명끼리 한 열)", true); return; }
-  const H = ed.view.pages[it.page].h;
+  const row = ed.items.filter(x => {
+    if (x.kind === "erase" || x.page !== it.page || statusOf(ed, x) === "dropped") return false;
+    const y = cur(ed, x);
+    return y.t === "text" && y.row && y.rect && (y.group || "") === grp && mid(y.rect) >= y0 && mid(y.rect) <= y1;
+  });
+  if (row.some(x => !cur(ed, x).label)) { toast("이 행에 항목명이 없는 칸이 있습니다. 항목명을 먼저 적으세요 (같은 항목명끼리 한 열)", true); return; }
+  const H = ed.view.pages[it.page].h, KEEP = ["t", "page", "label", "row", "group", "key", "kind", "source", "choices", "text", "note"];
+  const taken = ed.items.filter(x => x.kind !== "erase" && x.page === it.page && statusOf(ed, x) !== "dropped" && cur(ed, x).rect).map(x => cur(ed, x).rect);
+  const over = (a, b) => Math.max(0, Math.min(a[2], b[2]) - Math.max(a[0], b[0])) * Math.max(0, Math.min(a[3], b[3]) - Math.max(a[1], b[1]))
+    > 0.5 * Math.min((a[2] - a[0]) * (a[3] - a[1]), (b[2] - b[0]) * (b[3] - b[1]));
+  const first = row.map(x => { const r = cur(ed, x).rect; return [r[0], r[1] + gap, r[2], r[3] + gap]; });
+  if (first.some(r => taken.some(t => over(r, t)))) { toast("바로 아래 자리에 이미 칸이 있습니다. 표의 마지막 행에서 복제하세요", true); return; }
   let made = 0, cut = 0;
   for (let k = 1; k <= n; k++) for (const x of row) {
-    const r = x.ref.rect, rect = [r[0], r1(r[1] + k * gap), r[2], r1(r[3] + k * gap)];
+    const y = cur(ed, x), r = y.rect, rect = [r[0], r1(r[1] + k * gap), r[2], r1(r[3] + k * gap)];
     if (rect[3] > H) { cut++; continue; }
-    const a = { ...clone(x.ref), rect };
+    const a = { rect };
+    for (const key of KEEP) if (y[key] !== undefined && y[key] !== "") a[key] = clone(y[key]);
     ed.ov.add.push(a);
     ed.items.push({ id: `add:${ed.ov.add.length - 1}:${Date.now()}:${made}`, status: "added", page: it.page, ref: a, auto: { key: null, kind: null } });
     made++;

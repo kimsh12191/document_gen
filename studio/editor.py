@@ -98,7 +98,7 @@ def layout_view(doc_id: str) -> dict:
     found = {OV.item_id(m) for _, m in OV.matches(raw)}
     broken = [o for o in ov.get("items", []) if OV.item_id({"n": 0, **o["match"]}) not in found]
     pages = [{"w": pg["width"], "h": pg["height"]} for pg in raw["pages"]]
-    return {"doc_id": doc_id, "name": raw.get("name"), "pages": pages, "scale": RF.BG_ZOOM, "items": items,
+    return {"doc_id": doc_id, "name": raw.get("name"), "origin": raw.get("origin"), "pages": pages, "scale": RF.BG_ZOOM, "items": items,
             "overrides": ov, "broken": broken, "kinds": value_kinds(), "item_types": ITEM_TYPES, "addable": ADDABLE}
 
 
