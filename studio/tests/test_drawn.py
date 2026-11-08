@@ -222,3 +222,15 @@ def test_usergen_errors(tmp_path, monkeypatch):
     import os
     os.utime(bad, ns=(1, 2))   # 다시 읽게
     assert "3번째 줄" in usergen.error()
+
+
+def test_formdir_check_and_paths_know_drawn_extras(roots):
+    """서식 검사가 직접 만든 생성기(rule:<함수>)를 모르는 값 종류로 잡지 않고, 파일 목록에 칸끼리 관계 generate.py 가 나온다."""
+    from docgen import formdir as FD
+
+    _, priv = roots
+    drawn.create([("a.png", png())], "img_drawn_j", "확인서", True, str(priv))
+    editor.save("img_drawn_j", {"add": [{"t": "text", "page": 0, "label": "카드", "rect": [100, 100, 300, 120], "source": "rule:card_masked"}]}, "test")
+    res = FD.check_form("img_drawn_j")
+    assert not [x for x in res["problems"] if "card_masked" in x], res["problems"]
+    assert "칸끼리 관계 (generate.py)" in [r for r, _ in FD.describe("img_drawn_j")]

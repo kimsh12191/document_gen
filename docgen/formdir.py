@@ -556,6 +556,9 @@ def describe(doc_id: str) -> list[tuple[str, Path | None]]:
         else:
             d = image_dir(doc_id)
             rows += [("기재 자리", d / "layout.json" if d else None), ("모양 (견본 그림)", page_png(doc_id, 0) if d else None)]
+        d = folder(doc_id)   # 칸끼리 관계 (overlay 도 서식 폴더 generate.py 의 adjust)
+        if d is not None:
+            rows += [("칸끼리 관계 (generate.py)", d / "generate.py")]
     else:
         rows += [("모양 (템플릿)", template(doc_id))]
         if copy_dir(doc_id):
@@ -614,6 +617,12 @@ def check_form(doc_id: str, seeds: int = 4) -> dict:
     from .keyrules import CODE_KINDS
 
     kinds |= set(CODE_KINDS)
+    from . import usergen
+
+    try:
+        kinds |= set(usergen.all_generators())   # 직접 만든 생성기 (docgen/forms/_common/generators.py)
+    except ValueError as e:
+        problems.append(f"직접 만든 생성기 파일 오류: {e}")
 
     def bad_source(src) -> str | None:
         if src in (None, "code"):
