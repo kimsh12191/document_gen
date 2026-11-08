@@ -50,7 +50,8 @@ html, body { margin: 0; padding: 0; background: #fff; }
 {% for it in d["items"] if it.page == pno %}
 {% set x0, y0, x1, y1 = it.get("rect") or (0, 0, 0, 0) %}
 {% if it.t == "text" %}
-<div class="ov {{ it.align }}" style="left:{{ x0 + (it.pad if it.align == 'left' else 0) }}px;top:{{ y0 }}px;width:{{ x1 - x0 - (it.pad if it.align == 'left' else 0) - (3 if it.align == 'right' else 0) }}px;height:{{ y1 - y0 }}px;font-size:{{ it.size }}px">
+<div class="ov {{ it.align }}" style="left:{{ x0 + (it.pad if it.align == 'left' else 0) }}px;top:{{ y0 }}px;width:{{ x1 - x0 - (it.pad if it.align == 'left' else 0) - (3 if it.align == 'right' else 0) }}px;height:{{ y1 - y0 }}px;font-size:{{ it.size }}px
+{%- if it.get("font") %};font-family:{{ it.font|safe }}{% endif %}{% if it.get("color") %};color:{{ it.color }}{% endif %}">
 {%- if it.key %}<span style="{{ it.css|safe }}">{{ f(it.key, value=it.value, label=it.label) }}</span>
 {%- else %}<span class="tx" style="{{ it.css|safe }}">{{ it.value or "" }}</span>{% endif %}</div>
 {% elif it.t == "hidden" %}
@@ -73,14 +74,15 @@ html, body { margin: 0; padding: 0; background: #fff; }
 {% endif %}
 {{ f.opts(it.key, it.options|map(attribute="text")|list, it.selected, it.label) }}
 {% elif it.t == "mark" %}
-{% set ks = f.mark(it.key, "seal", it.seal, it.name if it.seal else None, label=it.label, kind="행원인" if it.get("staff") else "인감", render=it.get("render", {}).get("seal")) %}
-{% set kg = f.mark(it.key, "signature", it.sign, it.name if it.sign else None, label=it.label, kind="행원인" if it.get("staff") else None, render=it.get("render", {}).get("sign")) %}
+{% set ks = f.mark(it.key, "seal", it.seal, it.name if it.seal else None, label=it.label, kind=it.get("kind") or ("행원인" if it.get("staff") else "인감"), render=it.get("render", {}).get("seal")) %}
+{% set kg = none if it.get("no_sign") else f.mark(it.key, "signature", it.sign, it.name if it.sign else None, label=it.label, kind="행원인" if it.get("staff") else None, render=it.get("render", {}).get("sign")) %}
 {% set tpl = it.get("seal_tpl") %}
 {# 찍힌 도장·서명은 그 모양 자체가 위치, 없는 쪽은 자리(div)가 위치 #}
-<div class="mark"{% if not it.seal %} data-mark="{{ ks }}"{% endif %}{% if not it.sign %} data-mark2="{{ kg }}"{% endif %} style="left:{{ x0 }}px;top:{{ y0 }}px;width:{{ x1 - x0 }}px;height:{{ y1 - y0 }}px">
+<div class="mark"{% if not it.seal %} data-mark="{{ ks }}"{% endif %}{% if not it.sign and kg %} data-mark2="{{ kg }}"{% endif %} style="left:{{ x0 }}px;top:{{ y0 }}px;width:{{ x1 - x0 }}px;height:{{ y1 - y0 }}px">
 {%- if it.seal %}<span class="seal{{ ' sq' if it.get("square") }}{{ ' img' if it.get("seal_img") }}" data-mark="{{ ks }}" style="transform:rotate({{ it.rot }}deg)
 {%- if it.get("size") %};width:{{ it.size }}px;height:{{ it.size }}px;font-size:{{ (it.size * 0.26)|round(1) }}px{% endif %}
-{%- if tpl %};{{ seal_style(tpl) }}{% endif %}">{% if it.get("seal_img") %}<img src="{{ it.seal_img }}" alt="">{% else %}{{ seal_lines(it.name)|join(BR) }}{% endif %}</span>
+{%- if it.get("fs") %};font-size:{{ it.fs }}px{% endif %}{% if it.get("color") %};border-color:{{ it.color }};color:{{ it.color }}{% endif %}
+{%- if tpl %};{{ seal_style(tpl) }}{% endif %}">{% if it.get("seal_img") %}<img src="{{ it.seal_img }}" alt="">{% elif it.get("float") %}{{ it.name.split("\n")|join(BR) }}{% else %}{{ seal_lines(it.name)|join(BR) }}{% endif %}</span>
 {%- elif it.sign and it.get("sign_img") %}<span class="scribble fit" data-mark="{{ kg }}"><img src="{{ it.sign_img }}" alt=""></span>
 {%- elif it.sign %}<span class="scribble fit" data-mark="{{ kg }}">{{ scribble(it.name, f.rng) }}</span>{% endif %}</div>
 {% endif %}

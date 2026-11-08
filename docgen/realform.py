@@ -306,6 +306,12 @@ def layout_keys(doc_id: str) -> dict[str, dict]:
             ks = ([f"{role}.name"] if it.get("name") else []) + mark(role)
         elif t == "copy":
             ks = [uniq(it["key"] if it.get("key") else "handwritten")]
+        elif t == "float":
+            from . import floats as FL
+
+            c = FL.preset(it)
+            k = uniq(c["key"])
+            ks = [f"seal.{k}"] + ([k] if c.get("answer") else []) if c["type"] == "stamp" else [k]
         out[it.get("_id") or f"item:{len(out)}"] = {"t": t, "label": label, "keys": ks}
     for pg in lay["pages"]:
         for c in pg.get("staff", []):
@@ -712,6 +718,7 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
                   "name": text, "seal": on and x < ss["seal_below"], "sign": on and x >= ss["seal_below"], "rect": rect,
                   "rot": round(rng.uniform(-12, 8), 1), "staff": True, "square": square, "size": round(size, 1)}
             out.append(_pooled(mk, pools, rng))
+    out += _floats(doc_id, lay, S, p, vals, cls, style, pools, uniq)   # 자유 위치 도장·번호 (docgen/floats.py)
     pages = []
     for i, pg in enumerate(lay["pages"]):
         bg = f"{HOST}bg/{no}/{i}.png" if no is not None else f"{HOST}bgi/{doc_id}/{i}.png"
@@ -836,6 +843,79 @@ def adjust(d, p, rng):
     #     put(d, "<종료일 키>", date_like(add_days(s, rng.randint(30, 365)), get(d, "<종료일 키>")))
     return d
 '''
+
+
+def _spots(it: dict) -> list[list[float]]:
+    """칸 하나가 차지하는 상자들 (pt): 값 자리·체크 보기·서명·날짜 칸."""
+    out = [it[k] for k in ("rect", "mark", "name") if isinstance(it.get(k), list) and it["t"] != "float"]
+    out += [v for v in (it.get("parts") or {}).values() if isinstance(v, list)]
+    out += [o.get("rect") or o.get("box") for o in it.get("options") or [] if o.get("rect") or o.get("box")]
+    return out
+
+
+def _floats(doc_id: str, lay: dict, S: dict, p: Profile, vals: "Values", cls: str, style: dict, pools: dict, uniq) -> list[dict]:
+    """자유 위치 요소 (docgen/floats.py): 서식의 float 칸 + 모든 서식 설정(marks.json floats). 요소마다 따로 난수
+    (나올지·자리·회전·값) — 다른 칸의 값을 흔들지 않고, 요소가 없으면 결과가 예전과 같다."""
+    from . import floats as FL
+
+    els = [it for it in lay["items"] if it["t"] == "float"]
+    els += [{**g, "page": None, "_global": True} for g in (S.get("floats") or [])]
+    if not els:
+        return []
+    busy: dict[int, list] = {}
+    for it in lay["items"]:
+        busy.setdefault(it["page"], []).extend(_spots(it))
+    out = []
+    for j, el in enumerate(els):
+        r = random.Random(f"float:{p.seed}:{doc_id}:{j}")
+        c = FL.preset(el)
+        page = el["page"] if el.get("page") is not None else r.randrange(len(lay["pages"]))
+        pg = lay["pages"][page]
+        if el.get("_global"):
+            a = FL.AREAS[c.get("area") or "any"]
+            area = [a[0] * pg["width"], a[1] * pg["height"], a[2] * pg["width"], a[3] * pg["height"]]
+        else:
+            area = el["rect"]
+        show = r.random() < float(c.get("p", 0.5))
+        key, label = uniq(c["key"]), el.get("label") or c["name"]
+        if c["type"] == "stamp":
+            size = float(c.get("size") or 50)
+            rect = FL.place((size, size), area, busy.get(page, []), r) if show else [round(v, 1) for v in area]
+            text = FL.stamp_text(c, p, r) if show else ""
+            lines = [ln for ln in text.split("\n") if ln.strip()] or [""]
+            spx = size * PX
+            ems = max(sum(1.0 if ord(ch) > 0x2E80 else 0.56 for ch in ln) for ln in lines) or 1   # 숫자·점은 반 글자 폭
+            fs = min(spx * 0.24, spx * 0.78 / ems, spx * 0.7 / (len(lines) * 1.12))
+            mk = {"t": "mark", "page": page, "key": key, "label": label, "name": text, "seal": show, "sign": False,
+                  "rect": _px(rect), "rot": round(r.uniform(-25, 25), 1), "square": c.get("shape") == "square",
+                  "size": round(spx, 1), "fs": round(fs, 1), "no_sign": True, "float": True, "kind": c["name"].split(" ")[0]}
+            if c.get("color"):
+                mk["color"] = FL.COLORS[c["color"]]
+            out.append(mk)
+            if show and c.get("answer"):   # 도장 글자도 정답 (kie): 줄바꿈은 띄어쓰기로
+                out.append(_hidden(key, label, rect, " ".join(text.split()), page))
+        elif show:
+            v = FL.text_value(c, p, r, el, cls, vals)
+            if v in (None, ""):
+                continue
+            fs = r.uniform(8.5, 11.0)
+            rect = FL.place(FL.text_size(str(v), fs), area, busy.get(page, []), r)
+            st = c.get("style") or "print"
+            hand = st == "hand"
+            font = (style["font"] if style["hand"] else f"'{r.choice(_pool(pools, 'hand_fonts'))['id']}'") if hand \
+                else r.choice(_pool(pools, "print_fonts"))["id"]
+            item = _visible(key, str(v), rect, page, {**style, "hand": hand, "scale": 1.0}, r, label=label, align="left")
+            item["font"] = font
+            if st == "print":   # 전산으로 찍힌 번호는 검은색 (손글씨 서류의 펜 색이 아니라)
+                item["color"] = "#1a1a1a"
+            if st == "stamp":
+                item["color"] = FL.COLORS[c.get("color") or "blue"]
+                item["css"] = (item["css"] or "") + f"transform: rotate({r.uniform(-8, 8):.1f}deg);"
+            out.append(item)
+        else:
+            continue
+        busy.setdefault(page, []).append(rect)
+    return out
 
 
 def _date_value(it: dict, p: Profile, rng: random.Random, vals: "Values", cls: str):

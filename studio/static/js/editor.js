@@ -4,11 +4,11 @@
 "use strict";
 
 const ED_TOOLS = [
-  ["select", "선택·옮기기", "V"], ["text", "글자 칸 그리기", "T"], ["table", "표 그리기", "B"], ["check", "체크 보기 그리기", "C"], ["date", "날짜 칸 (년·월·일)", "D"],
+  ["select", "선택·옮기기", "V"], ["text", "글자 칸 그리기", "T"], ["table", "표 그리기", "B"], ["check", "체크 보기 그리기", "C"], ["date", "날짜 칸 (년·월·일)", "D"], ["float", "자유 위치 (도장·번호)", "F"],
   ["sign", "서명·도장 자리", "S"], ["staff", "결재란 칸", "R"], ["erase", "지우기: 흰색", "E"], ["erase_auto", "지우기: 주변색", "A"],
 ];
 const ED_STATUS = { auto: "자동", edited: "수정", added: "추가", dropped: "뺌" };
-const ED_T = { text: "글자", check: "체크", date: "날짜", sign: "서명·도장", copy: "자필", staff: "결재란" };
+const ED_T = { text: "글자", check: "체크", date: "날짜", sign: "서명·도장", copy: "자필", staff: "결재란", float: "자유 위치" };
 let edKeys = null, edSources = null, edGens = null;
 
 async function viewEditor(d, keep = null) {
@@ -368,6 +368,15 @@ function edCreate(ed, box) {
       ed.dirty = true; edDraw(ed); return;
     }
   }
+  if (ed.tool === "float") {   // 자유 위치 도장·번호: 끈 사각형 = 문서마다 이 안 어딘가에 찍힘 (docgen/floats.py)
+    const a = { t: "float", page, rect: box, label: "", preset: "received", p: 0.5 };
+    ed.ov.add.push(a);
+    const x = { id: `add:${ed.ov.add.length - 1}:${Date.now()}`, status: "added", page, ref: a, auto: { key: null, kind: null } };
+    ed.items.push(x);
+    ed.sel = { id: x.id, sub: "rect" }; ed.tool = "select";
+    ed.dirty = true; edDraw(ed);
+    return;
+  }
   if (ed.tool === "date") {
     const it = ed.sel && edFind(ed, ed.sel.id);
     const next = it && it.status === "added" && it.ref.t === "date" && it.page === page && ["y", "m", "d"].find(k => !it.ref.parts[k]);
@@ -575,6 +584,7 @@ function edSide(ed) {
             표 행이 둘 이상이어야 표가 됩니다 (한 행뿐이면 보통 칸).</div>` : ""}` : ""}` : ""}
       ${c.t === "copy" ? `<label class="fld">따라 쓸 문구 <input type="text" id="ed-copytext" value="${esc(c.text || "")}"></label>` : ""}
       ${c.t === "date" ? dateSettings(ed, it, c) : ""}
+      ${c.t === "float" ? floatSettings(ed, it, c) : ""}
       ${c.t === "check" ? `<div class="fld">보기 ${(c.options || []).map((o, j) => `<div class="optrow"><input type="text" data-opt="${j}" value="${esc(o.text || "")}"
         ${ed.sel.sub === `opt:${j}` ? `class="cur"` : ""}></div>`).join("")}
         <div class="muted" style="font-size:12px">${it.status === "added" ? "체크 도구로 끌면 보기를 더합니다. 보기를 고르고 Delete 로 뺍니다." : ""}</div></div>` : ""}`}
@@ -594,7 +604,7 @@ function edSide(ed) {
         <td class="nw">${esc(ED_T[c.t] || c.t)}</td>
         <td>${x.cell ? kpKeyCell(x.cell) : `<span class="mono muted">${esc(c.key || x.auto?.key || "")}</span>`}
           <div class="muted" style="font-size:11px">${esc(c.label || "")}</div></td>
-        <td class="nw" style="font-size:12px">${c.t === "date" ? (c.source ? esc(genName(c.source)) : `<span class="muted">서류 날짜</span>`)
+        <td class="nw" style="font-size:12px">${c.t === "float" ? `${esc(floatPreset(c).name)} · ${Math.round((c.p ?? 0.5) * 100)}%` : c.t === "date" ? (c.source ? esc(genName(c.source)) : `<span class="muted">서류 날짜</span>`)
           : c.t !== "text" ? "" : c.source ? esc(genName(c.source))
           : !("auto_example" in x) ? `<span class="muted">자동</span>` : x.auto_example == null ? `<span class="err" title="자동으로는 빈 칸이 나옵니다">자동 → 빈 칸</span>`
           : `<span class="muted" title="자동으로 나올 값의 예">자동: ${esc(String(x.auto_example).slice(0, 14))}</span>`}</td></tr>`;
@@ -637,6 +647,21 @@ function edSide(ed) {
   on("#ed-colfit", "click", () => edFitColumn(ed, it));
   on("#ed-source", "change", e => { setCol("source", e.target.value); redraw(); });
   on("#ed-gen", "click", () => genPicker(ed, it, src => { setCol("source", src); redraw(); }));
+  const setF = (k, v) => {   // 자유 위치 설정: 새 칸은 칸에, 저장된 칸은 고친 것(set)에
+    const empty = v === "" || v === null || v === undefined;
+    if (it.status === "added") setProp(ed, it, k, empty ? null : v); else setGeom(ed, it, { [k]: empty ? null : v });
+    redraw();
+  };
+  on("#ed-fl-preset", "change", e => setF("preset", e.target.value));
+  on("#ed-fl-p", "change", e => setF("p", Math.max(0, Math.min(1, +e.target.value))));
+  on("#ed-fl-answer", "change", e => setF("answer", e.target.checked));
+  on("#ed-fl-text", "change", e => setF("text", e.target.value.trim().replace(/\n/g, "\\n")));
+  on("#ed-fl-shape", "change", e => setF("shape", e.target.value));
+  on("#ed-fl-color", "change", e => setF("color", e.target.value));
+  on("#ed-fl-size", "change", e => setF("size", +e.target.value || null));
+  on("#ed-fl-style", "change", e => setF("style", e.target.value));
+  on("#ed-fl-pattern", "change", e => setF("pattern", e.target.value.trim()));
+  on("#ed-fl-gen", "click", () => genPicker(ed, it, src => setF("source", src)));
   on("#ed-date-gen", "click", () => genPicker(ed, it, src => { setProp(ed, it, "source", src); redraw(); }));
   on("#ed-yy", "change", e => {
     if (it.status === "added") setProp(ed, it, "yy", e.target.checked ? true : null); else setGeom(ed, it, { yy: e.target.checked });
@@ -729,6 +754,36 @@ function edMakeTable(ed) {
   ed.dirty = true;
   toast(`표 '${group}': ${cols.length}열 × ${n}행 = ${cols.length * n}칸. 열 폭이 그림과 다르면 첫 행 칸을 고치고 [이 열 폭을 모든 행에]. 저장해야 남습니다`);
   edDraw(ed);
+}
+
+// 자유 위치 도장·번호 (docgen/floats.py): 종류·나올 확률·정답에 글자·모양
+function floatPreset(c) {
+  const ps = edGens?.floats?.presets || [];
+  return ps.find(x => x.id === c.preset) || ps[0] || { id: c.preset, name: c.preset, type: "stamp" };
+}
+function floatSettings(ed, it, c) {
+  const F = edGens?.floats || { presets: [], colors: {}, styles: {} }, pr = floatPreset(c), stamp = pr.type === "stamp";
+  const answer = c.answer ?? pr.answer;
+  const opt = (v, cur, label) => `<option value="${esc(v)}" ${v === cur ? "selected" : ""}>${esc(label)}</option>`;
+  return `<div class="box" style="margin:6px 0;padding:6px 8px"><span style="font-weight:700">자유 위치 ${stamp ? "도장" : "글자·번호"}</span>
+    <div class="muted" style="font-size:12px">끈 사각형 안 어딘가에 문서마다 다른 자리·기울기로 찍힙니다 (값 칸과 많이 겹치지 않게).</div>
+    <label class="fld">종류 <select id="ed-fl-preset">${F.presets.map(x => opt(x.id, c.preset, x.name)).join("")}</select></label>
+    <label class="fld">나올 확률 <input type="number" id="ed-fl-p" min="0" max="1" step="0.05" value="${c.p ?? 0.5}" style="width:5em">
+      <span class="muted" style="font-size:12px">(1 = 늘, 0.3 = 서류 10장 중 3장쯤)</span></label>
+    ${stamp ? `<label class="fld">도장 글자 <span class="muted" style="font-size:12px">줄바꿈 \\n, 자리 {date} {bank} {branch} {name}${pr.text ? ` — 비우면 기본: ${esc(pr.text.replace(/\n/g, " / "))}` : ""}</span>
+        <input type="text" id="ed-fl-text" class="mono" value="${esc((c.text || "").replace(/\n/g, "\\n"))}" placeholder="${esc((pr.text || "접 수\\n{date}").replace(/\n/g, "\\n"))}"></label>
+      <label class="fld"><input type="checkbox" id="ed-fl-answer" ${answer ? "checked" : ""}> 도장 글자를 정답에 (내용 추출 — 날짜·번호처럼 바뀌는 글자일 때)</label>
+      <div class="muted" style="font-size:12px">끄면 체크·도장 과제에 찍혔는지와 위치만 묻습니다.</div>
+      <div class="bar" style="flex-wrap:wrap"><label>모양 <select id="ed-fl-shape">${opt("round", c.shape || pr.shape, "원형")}${opt("square", c.shape || pr.shape, "사각")}</select></label>
+        <label>색 <select id="ed-fl-color">${opt("", c.color || "", "기본 (빨강)")}${Object.entries(F.colors).map(([k, n]) => opt(k, c.color, n)).join("")}</select></label>
+        <label>지름 <input type="number" id="ed-fl-size" min="20" max="140" value="${c.size || pr.size || 50}" style="width:4.5em"> pt</label></div>`
+      : `<div class="fld gen-cur"><span>생성 방법</span> <b>${esc(c.source ? genName(c.source) : "틀")}</b> <button id="ed-fl-gen">고르기…</button></div>
+      ${!c.source || c.source === "rule:pattern" ? `<label class="fld">틀 <span class="muted" style="font-size:12px"># 숫자 · A 대문자 · {가|나}</span>
+        <input type="text" id="ed-fl-pattern" class="mono" value="${esc(c.pattern || "")}" placeholder="${esc(pr.pattern || "No. ####-####")}"></label>` : ""}
+      <div class="muted" style="font-size:12px">글자·번호는 늘 정답(내용 추출)에 들어갑니다.</div>
+      <div class="bar" style="flex-wrap:wrap"><label>모양 <select id="ed-fl-style">${Object.entries(F.styles).map(([k, n]) => opt(k, c.style || pr.style, n)).join("")}</select></label>
+        ${(c.style || pr.style) === "stamp" ? `<label>색 <select id="ed-fl-color">${Object.entries(F.colors).map(([k, n]) => opt(k, c.color || "blue", n)).join("")}</select></label>` : ""}</div>`}
+  </div>`;
 }
 
 // 날짜 칸 (년·월·일): 그린 칸 진행, 생성 방법 (기본 = 서류 날짜), 연도 2자리

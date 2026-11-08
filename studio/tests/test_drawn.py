@@ -1,6 +1,7 @@
 """새 서식 추가 › 그림 위에 그려서 만들기 (studio/drawn.py): 그림 → 빈 overlay 서식 → 칸·표 행 추가 → 키. 브라우저·OCR 없이."""
 import io
 import json
+import re
 
 import pytest
 from PIL import Image
@@ -274,3 +275,57 @@ def test_dup_key_warning(roots):
                                         {"t": "text", "page": 0, "label": "성명", "rect": [100, 200, 300, 220], "key": "applicant.name"}],
                                 "erase": [{"page": 0, "rect": [1, 1, 5, 5]}]}, "test")
     assert not [c for c in editor.checks("img_drawn_m") if c["code"] == "dup_key"]
+
+
+def test_floats_per_form_and_global(roots, tmp_path, monkeypatch):
+    """자유 위치 도장·번호 (docgen/floats.py): 서식의 float 칸 + 모든 서식 설정. 도장 글자 정답 켜기·끄기, 안 나온 도장은 '없음'."""
+    import random
+
+    from docgen import marks as M
+    from docgen.entities import make_profile
+
+    _, priv = roots
+    drawn.create([("a.png", png())], "img_drawn_n", "신청서", True, str(priv))
+    with pytest.raises(ValueError, match="자유 위치 종류"):
+        editor.validate("img_drawn_n", {"add": [{"t": "float", "page": 0, "rect": [10, 10, 200, 200], "preset": "nope"}]})
+    with pytest.raises(ValueError, match="도장 글자"):
+        editor.validate("img_drawn_n", {"add": [{"t": "float", "page": 0, "rect": [10, 10, 200, 200], "preset": "stamp"}]})
+    area = [300, 300, 560, 500]
+    editor.save("img_drawn_n", {"add": [
+        {"t": "text", "page": 0, "label": "성명", "rect": [100, 100, 300, 120]},
+        {"t": "float", "page": 0, "rect": area, "label": "접수인", "preset": "received", "p": 1},
+        {"t": "float", "page": 0, "rect": area, "label": "원본대조필", "preset": "certified", "p": 0},
+        {"t": "float", "page": 0, "rect": [50, 20, 400, 80], "label": "문서번호", "preset": "ref_no", "p": 1, "pattern": "HN-####"},
+        {"t": "float", "page": 0, "rect": area, "label": "확인", "preset": "confirm", "p": 1, "answer": True}],
+        "erase": [{"page": 0, "rect": [1, 1, 5, 5]}]}, "test")
+    settings = tmp_path / "marks.json"
+    settings.write_text(json.dumps({"floats": [{"preset": "dated", "p": 1, "area": "bottom"}]}), encoding="utf-8")
+    monkeypatch.setattr(M, "SETTINGS", settings)
+    p = make_profile(5)
+    d = RF.build_form("img_drawn_n", p, random.Random(5))
+    marks = {i["key"]: i for i in d["items"] if i["t"] == "mark"}
+    vals = {i["key"]: i["value"] for i in d["items"] if i["t"] in ("text", "hidden") and i.get("key")}
+    assert marks["stamp_received"]["seal"] and p.bank_branch in marks["stamp_received"]["name"]
+    assert "stamp_received" in vals and vals["stamp_received"].startswith("접 수")          # 정답에 글자 (기본 켬)
+    assert not marks["stamp_certified"]["seal"] and "stamp_certified" not in vals           # p=0 → 찍히지 않음 ('없음')
+    assert re.fullmatch(r"HN-\d{4}", vals["ref_no"])
+    assert vals["stamp_confirm"] == "확 인"                                                  # 기본은 끔, 켠 것만 정답
+    assert marks["stamp_dated"]["seal"] and vals["stamp_dated"].startswith(p.bank)           # 모든 서식 설정
+    st = marks["stamp_received"]
+    x0, y0, x1, y1 = [v / RF.PX for v in st["rect"]]
+    assert area[0] - 1 <= x0 and x1 <= area[2] + 1 and area[1] - 1 <= y0 and y1 <= area[3] + 1   # 영역 안
+    d2 = RF.build_form("img_drawn_n", make_profile(5), random.Random(5))
+    assert d2["items"] == d["items"]   # 같은 seed → 같은 자리
+
+
+def test_floats_global_settings_saved(tmp_path, monkeypatch):
+    from docgen import marks as M
+    from studio import marks_admin
+
+    monkeypatch.setattr(M, "SETTINGS", tmp_path / "marks.json")
+    view = marks_admin.save_settings({**M.DEFAULTS, "floats": [{"preset": "certified", "p": 0.2, "area": "top_right", "answer": False}]})
+    assert view["settings"]["floats"][0]["preset"] == "certified" and len(view["floats"]["presets"]) == len(__import__("docgen.floats", fromlist=["x"]).PRESETS)
+    with pytest.raises(ValueError, match="영역"):
+        marks_admin.save_settings({**M.DEFAULTS, "floats": [{"preset": "certified", "p": 0.2, "area": "middle"}]})
+    marks_admin.save_settings(M.DEFAULTS)
+    assert not (tmp_path / "marks.json").exists()   # 기본값이면 파일 없음

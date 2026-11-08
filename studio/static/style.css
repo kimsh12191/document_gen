@@ -364,3 +364,5 @@ div.warn { color: var(--warn); }
 .gen-ex { font-size: 12px; color: var(--muted, #667); overflow-wrap: anywhere; }
 .gen-note { font-size: 11px; }
 .gen-h { margin: 14px 0 6px; font-size: 14px; }
+
+.ed-stage svg rect.t-float { stroke: #c026d3; stroke-dasharray: 6 3; fill: rgba(192, 38, 211, .05); }

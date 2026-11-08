@@ -27,7 +27,13 @@ def view() -> dict:
                 ff = M.font_file(name, it)
                 it["face"] = f"/fonts/{ff}" if ff else None
     return {"settings": M.settings(), "saved": saved, "defaults": M.DEFAULTS, "pools": pools, "names": M.POOL_NAMES,
-            "image_pools": IMAGE_POOLS, "seal_shapes": SEAL_SHAPES}
+            "image_pools": IMAGE_POOLS, "seal_shapes": SEAL_SHAPES, "floats": _floats()}
+
+
+def _floats() -> dict:
+    from .generators import _floats as F
+
+    return F()
 
 
 def _prob(v, where):
@@ -41,6 +47,15 @@ def save_settings(new: dict) -> dict:
     out = {}
     for k, dv in M.DEFAULTS.items():
         if k not in new:
+            continue
+        if k == "floats":   # 모든 overlay 서식의 자유 위치 도장·번호 (docgen/floats.py)
+            from docgen import floats as FL
+
+            fl = [{kk: v for kk, v in el.items() if v not in (None, "")} for el in (new[k] or [])]
+            for i, el in enumerate(fl):
+                FL.check(el, f"자유 위치 {i + 1}")
+            if fl:
+                out[k] = fl
             continue
         if isinstance(dv, dict):
             sub = {kk: _prob(new[k][kk], f"{k}.{kk}") for kk in dv if kk in new[k] and new[k][kk] != dv[kk]}

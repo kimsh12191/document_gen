@@ -30,6 +30,7 @@ DEFAULTS = {
     "sign_spot": {"seal_below": 0.4, "sign_below": 0.88},   # overlay "(서명 또는 인)": 난수 < 0.4 도장, < 0.88 서명, 나머지 빈칸
     "seal_spot": {"seal_below": 0.5, "sign_below": 0.8},    # overlay "인감·서명/날인" 칸
     "staff_spot": {"square_below": 0.2, "seal_below": 0.7},  # 결재란: 사각 도장 비율, 도장(나머지는 서명)
+    "floats": [],   # 모든 overlay 서식의 자유 위치 도장·번호 [{preset, p, area, answer, …}] (docgen/floats.py)
 }
 
 DEFAULT_POOLS = {

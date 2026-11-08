@@ -137,4 +137,13 @@ def catalog() -> dict:
                                  for name, k in kinds.items()]})
     return {"groups": groups, "auto": {"name": AUTO[0], "source": AUTO[1], "note": AUTO[2]}, "howto": HOWTO,
             "formats": [{"id": k, "name": v[0], "example": v[1]} for k, v in FORMATS.items()],
-            "fills": [{"id": k, "name": v} for k, v in FILLS.items()], "generator_error": gen_error}
+            "fills": [{"id": k, "name": v} for k, v in FILLS.items()], "generator_error": gen_error,
+            "floats": _floats()}
+
+
+def _floats() -> dict:
+    """자유 위치 도장·번호의 종류·영역·색 (docgen/floats.py) — 영역 편집기·표시 요소 화면."""
+    from docgen import floats as FL
+
+    return {"presets": [{"id": k, **v} for k, v in FL.PRESETS.items()], "areas": [{"id": k, "name": FL.AREA_NAMES[k]} for k in FL.AREAS],
+            "colors": {"red": "빨강", "blue": "파랑"}, "styles": {"print": "인쇄", "stamp": "스탬프 (색·기울기)", "hand": "손글씨"}}

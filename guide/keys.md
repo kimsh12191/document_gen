@@ -107,6 +107,7 @@
 | 서명·도장 자리 | `seal.signer` · `sign.signer` | 누구의 자리인지 키에 적습니다: `customer` → `seal.customer`·`sign.customer` (대리인 `agent`, 보증인 `related`) |
 | 결재란 | `seal.staff.<칸 이름>` | 그대로 둡니다 (은행 직원 칸) |
 | 날짜 칸 (년·월·일) | 항목명 자동 또는 `date` | 뜻이 있으면 직접: `apply_date`, `issue_date`, `customer.birth` |
+| 자유 위치 도장·번호 | 종류의 기본 키: `stamp_received`(접수인)·`stamp_dated`(일부인)·`stamp_certified`·`ref_no`·`receipt_no` | 대개 그대로. 도장은 `seal.<키>`(찍혔는지), 글자를 정답에 켜면 `<키>`(도장 글자) |
 
 ## 6. 같은 값이 두 칸에 나올 때 (`name2`)
 

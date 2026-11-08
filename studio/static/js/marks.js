@@ -30,6 +30,12 @@ async function viewMarks() {
         <td class="muted num">${get(m.defaults, k, kk)}</td><td class="muted">${desc}</td></tr>`).join("")}
     </tbody></table>
     <div class="bar"><button class="primary" id="mk-save">확률 저장</button><button id="mk-reset">기본값으로</button></div></div>
+    <h2>자유 위치 도장·번호 <span class="muted" style="font-weight:400;font-size:13px">(모든 원본·그린 서식 — 서식마다는 영역 편집기의 자유 위치 도구)</span></h2>
+    <div class="sub">접수인·일부인·원본대조필 같은 도장, 문서번호·접수번호를 서류마다 쪽의 아무 데나 찍습니다. 줄마다 종류·나올 확률·영역·도장 글자를 정답에 넣을지.
+      html 서식에는 아직 안 들어갑니다.</div>
+    <div class="panel"><table class="mk-fl"><thead><tr><th>종류</th><th>나올 확률</th><th>영역</th><th>도장 글자를 정답에</th><th>색</th><th></th></tr></thead>
+      <tbody>${(m.settings.floats || []).map((el, i) => floatRow(m, el, i)).join("")}</tbody></table>
+      <div class="bar"><button id="mk-fl-add">줄 더하기</button><button class="primary" id="mk-fl-save">자유 위치 저장</button></div></div>
     <h2>풀</h2>
     <div class="sub">항목마다 가중치(뽑힐 비율)와 켜기를 정합니다. 체크·서명은 투명 배경 PNG(또는 SVG)를 올립니다.
       도장은 종이에 찍은 사진(JPG·PNG)을 올리면 배경을 지우고 인주만 남겨 잘라 줍니다 (여러 장 한꺼번에 가능).
@@ -52,6 +58,24 @@ async function viewMarks() {
   $("#mk-reset").onclick = async () => {
     if (!confirm("확률을 모두 기본값으로 되돌릴까요?")) return;
     try { await api("/api/marks/settings", m.defaults, "PUT"); viewMarks(); } catch (e) { toast(e.message, true); }
+  };
+  $("#mk-fl-add").onclick = () => {
+    const tb = $(".mk-fl tbody");
+    tb.insertAdjacentHTML("beforeend", floatRow(m, { preset: "received", p: 0.1, area: "any" }, tb.children.length));
+  };
+  $(".mk-fl").onclick = e => { if (e.target.dataset.del !== undefined) e.target.closest("tr").remove(); };
+  $("#mk-fl-save").onclick = async () => {
+    const floats = $$(".mk-fl tbody tr").map(tr => {
+      const v = n => tr.querySelector(`[data-f="${n}"]`);
+      const el = { preset: v("preset").value, p: +v("p").value, area: v("area").value };
+      const pr = m.floats.presets.find(x => x.id === el.preset);
+      if (pr.type === "stamp") el.answer = v("answer").checked;
+      if (v("color").value) el.color = v("color").value;
+      return el;
+    });
+    const out = JSON.parse(JSON.stringify(m.settings));
+    out.floats = floats;
+    try { await api("/api/marks/settings", out, "PUT"); toast("저장했습니다. 다음 렌더링부터 모든 원본·그린 서식에 들어갑니다"); viewMarks(); } catch (e) { toast(e.message, true); }
   };
   drawPools(m);
   $("#mk-preview").onclick = async () => {
@@ -150,4 +174,16 @@ function drawPools(m) {
       }
     } catch (err) { toast(err.message, true); }
   };
+}
+
+// 모든 서식의 자유 위치 한 줄 (docgen/floats.py, marks.json floats)
+function floatRow(m, el, i) {
+  const F = m.floats, pr = F.presets.find(x => x.id === el.preset) || F.presets[0];
+  const opt = (v, cur, label) => `<option value="${esc(v)}" ${v === cur ? "selected" : ""}>${esc(label)}</option>`;
+  return `<tr><td><select data-f="preset">${F.presets.filter(x => x.id !== "stamp" && x.id !== "text").map(x => opt(x.id, el.preset, x.name)).join("")}</select></td>
+    <td><input type="number" data-f="p" min="0" max="1" step="0.05" value="${el.p ?? 0.1}" style="width:5em"></td>
+    <td><select data-f="area">${F.areas.map(a => opt(a.id, el.area || "any", a.name)).join("")}</select></td>
+    <td>${pr.type === "stamp" ? `<input type="checkbox" data-f="answer" ${(el.answer ?? pr.answer) ? "checked" : ""}>` : `<span class="muted">늘 (번호)</span><input type="checkbox" data-f="answer" hidden>`}</td>
+    <td><select data-f="color">${opt("", el.color || "", "기본")}${opt("red", el.color, "빨강")}${opt("blue", el.color, "파랑")}</select></td>
+    <td><button data-del>빼기</button></td></tr>`;
 }

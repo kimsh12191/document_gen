@@ -18,7 +18,7 @@ from docgen import sources as SRC
 from docgen.registry import load_all
 
 ITEM_TYPES = ("text", "check", "date", "sign", "copy", "staff")
-ADDABLE = ("text", "check", "date", "sign", "copy", "staff")
+ADDABLE = ("text", "check", "date", "sign", "copy", "staff", "float")
 def value_kinds() -> list[str]:
     """영역 편집기의 값 종류: 항목명 규칙의 종류 + 키 사전에서 더한 종류 (docgen/forms/_common/key_rules.json)."""
     from docgen import keyrules as KR
@@ -140,7 +140,8 @@ def _auto_example(it: dict, cls: str, p) -> str | None:
 
 def _public(it: dict) -> dict:
     keep = ("t", "page", "label", "rect", "options", "parts", "mark", "name", "text", "unit", "row", "group", "section",
-            "pick", "key", "kind", "source", "choices", "note", "fmt", "pattern", "fill", "yy")
+            "pick", "key", "kind", "source", "choices", "note", "fmt", "pattern", "fill", "yy",
+            "preset", "p", "answer", "shape", "color", "size", "style")
     return {k: copy.deepcopy(it[k]) for k in keep if k in it}
 
 
@@ -269,6 +270,11 @@ def validate(doc_id: str, ov: dict) -> dict:
                 raise ValueError(f"추가 {i + 1}: 날짜 칸 '{a.get('label') or '날짜'}' 은 년·월·일 세 칸이 필요합니다 (없음: {'·'.join(miss)})")
             a["parts"] = {k: _box(parts[k], f"추가 {i + 1} {n} 칸") for k, n in (("y", "년"), ("m", "월"), ("d", "일"))}
             a.pop("rect", None)
+        elif a["t"] == "float":   # 자유 위치 도장·번호: rect = 나올 수 있는 영역 (docgen/floats.py)
+            from docgen import floats as FL
+
+            a["rect"] = _box(a.get("rect"), f"추가 {i + 1} 자유 위치 영역")
+            FL.check(a, f"추가 {i + 1}")
         elif a["t"] == "sign":
             a["mark"] = _box(a.get("mark") or a.get("rect"), f"추가 {i + 1} 서명 자리")
             a.pop("rect", None)
