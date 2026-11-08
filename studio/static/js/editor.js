@@ -9,7 +9,7 @@ const ED_TOOLS = [
 ];
 const ED_STATUS = { auto: "자동", edited: "수정", added: "추가", dropped: "뺌" };
 const ED_T = { text: "글자", check: "체크", date: "날짜", sign: "서명·도장", copy: "자필", staff: "결재란" };
-let edKeys = null, edSources = null;
+let edKeys = null, edSources = null, edGens = null;
 
 async function viewEditor(d, keep = null) {
   $("#tab").innerHTML = `<p class="spin">레이아웃을 읽는 중…</p>`;
@@ -18,6 +18,7 @@ async function viewEditor(d, keep = null) {
     edKeys ? null : Promise.all([api("/api/keys"), api("/api/dictionary/keys?scope=common").catch(() => ({ rows: [] }))])
       .then(([k, c]) => { edKeys = { ...k, common: c.rows }; }),   // 키 고르기: 공통 키(키 사전) 먼저
     edSources ? null : api("/api/sources").then(s => { edSources = s; }),
+    edGens ? null : api("/api/generators").then(g => { edGens = g; }).catch(() => { edGens = { groups: [], howto: [] }; }),
     kpLoad().catch(() => null),   // 공통 키 이름 (키 칸 표시)
   ]);
   const ed = {
@@ -402,6 +403,59 @@ function keyCandidates(label) {
   return edKeys.keys.filter(k => k.labels.some(l => l.replace(/[\s()·:*]/g, "") === n)).sort((a, b) => b.forms - a.forms).slice(0, 8);
 }
 
+// 생성 방법 고르기 창: 묶음별 카드 (이름 + 예시 값), 새 생성 방법 만드는 곳 안내 (studio/generators.py, GET /api/generators)
+function genFind(src) {
+  for (const g of edGens?.groups || []) for (const x of g.items) if (x.source === src) return x;
+  return null;
+}
+function genName(src) {
+  if (!src) return "자동 (항목명으로)";
+  const x = genFind(src);
+  if (x) return x.name;
+  if (src.startsWith("profile.")) return `고객 정보: ${src.slice(8)}`;
+  return (edSources?.rule_names || {})[src.slice(5)] || ED_SPECIAL[src.slice(5)] || src;
+}
+function genExamples(src) {
+  const x = src && genFind(src);
+  if (x) return x.examples.slice(0, 2);
+  const pf = src && src.startsWith("profile.") && (edSources?.profile || []).find(p => p.source === src);
+  return pf && pf.example !== undefined ? [String(pf.example)] : [];
+}
+
+function genPicker(ed, it, apply) {
+  const c = cur(ed, it), peers = colPeers(ed, it).length;
+  const dlg = document.createElement("dialog");
+  dlg.className = "qa-dialog gen-dialog";
+  const card = x => `<button type="button" class="gen-card ${x.source === (c.source || "") ? "cur" : ""}" data-src="${esc(x.source)}">
+      <b>${esc(x.name)}</b>${x.examples && x.examples.length ? `<span class="gen-ex">${x.examples.map(esc).join(" · ")}</span>` : ""}
+      ${x.note ? `<span class="muted gen-note">${esc(x.note)}</span>` : ""}</button>`;
+  const auto = edGens?.auto || { name: "자동", source: "", note: "" };
+  dlg.innerHTML = `<div class="bar"><h2>생성 방법 — '${esc(c.label || "(항목명 없음)")}' 칸${peers > 1 ? ` (같은 열 ${peers}칸에 같이)` : ""}</h2>
+      <input type="search" id="gen-q" placeholder="찾기 (예: 날짜, 계좌)" style="width:16em"><button type="button" class="gen-close">닫기 ×</button></div>
+    <p class="muted" style="margin:4px 0 10px">문서를 만들 때마다 이 칸에 넣을 값을 어떻게 만들지 고릅니다. 회색 글자가 실제로 나오는 값의 예입니다.</p>
+    <div class="gen-grid">${card({ ...auto, examples: [] })}</div>
+    ${(edGens?.groups || []).map(g => `<h3 class="gen-h">${esc(g.name)}</h3><div class="gen-grid">${g.items.map(card).join("")}</div>`).join("")}
+    <details class="gen-howto" style="margin-top:14px"><summary><b>원하는 생성 방법이 없으면 — 새로 만드는 곳</b></summary>
+      ${(edGens?.howto || []).map(h => `<div class="box" style="margin:8px 0"><b>${esc(h.title)}</b><div class="mono" style="font-size:12px;margin:4px 0">${esc(h.where)}</div><div>${esc(h.how)}</div></div>`).join("")}
+      <div class="muted" style="font-size:12px">자세히: <a href="#/guide/new-forms.md">새 서식 추가 가이드</a> 0절, 값 출처 목록 <span class="mono">docgen/forms/_common/values.md</span></div></details>`;
+  document.body.appendChild(dlg);
+  dlg.addEventListener("close", () => dlg.parentNode && dlg.parentNode.removeChild(dlg));
+  $(".gen-close", dlg).onclick = () => dlg.close();
+  dlg.onclick = e => {
+    const b = e.target.closest(".gen-card");
+    if (!b) return;
+    apply(b.dataset.src);
+    dlg.close();
+    if (b.dataset.src === "rule:choice" || b.dataset.src === "rule:fixed") setTimeout(() => $(b.dataset.src === "rule:choice" ? "#ed-choices" : "#ed-fixed")?.focus(), 0);
+  };
+  $("#gen-q", dlg).oninput = e => {
+    const q = e.target.value.trim();
+    $$(".gen-card", dlg).forEach(b => { b.style.display = !q || b.textContent.includes(q) ? "" : "none"; });
+  };
+  dlg.showModal();
+  $("#gen-q", dlg).focus();
+}
+
 // 생성 방법 (값 출처 source) 고르기: 이름은 사람이 읽는 말, 값은 fields.json 의 source 그대로 (docgen/sources.py)
 const ED_SPECIAL = { choice: "보기 중 하나 (아래에 보기 목록)", fixed: "늘 같은 글자 (아래에 글자)", free_text: "짧은 자유 문장 (가끔 빈 칸)",
   empty: "늘 빈 칸", date_seq: "행마다 늘어나는 날짜 (표의 날짜 열)" };
@@ -447,7 +501,14 @@ function edSide(ed) {
       ${cands.length ? `<div class="cands">사전 후보: ${cands.map(k => `<a href="#" data-key="${esc(k.key)}" class="mono">${esc(k.key)}</a> <span class="muted">(${k.forms})</span>`).join(" · ")}</div>` : ""}
       ${auto.key ? `<div class="muted" style="font-size:12px">자동 키: <span class="mono">${esc(auto.key)}</span></div>` : ""}</details>
       ${c.t === "text" ? `<div class="fld" style="margin-top:8px"><b>값 만들기</b> <span class="muted" style="font-size:12px">문서를 만들 때마다 이 칸에 넣을 값${added && c.row ? " — 같은 열의 모든 행에 같이 적용" : ""}</span></div>
-      <label class="fld">생성 방법 <select id="ed-source">${sourceOptions(c.source || "", auto.kind ? (edSources?.rule_names || {})[auto.kind] || auto.kind : "")}</select></label>
+      <div class="fld gen-cur"><span>생성 방법</span> <b>${esc(genName(c.source))}</b>
+        ${genExamples(c.source).length ? `<span class="muted" style="font-size:12px">예: ${genExamples(c.source).map(esc).join(" · ")}</span>` : ""}
+        <button id="ed-gen" class="primary">고르기…</button></div>
+      ${c.source ? "" : !("auto_example" in it) ? `<div class="muted" style="font-size:12px">저장하면 '자동'으로 나올 값의 예가 보입니다.</div>`
+        : it.auto_example == null ? `<div class="err" style="font-size:12px">'자동'으로는 이 칸이 <b>빈 칸</b>으로 나옵니다 (항목명으로 값 종류를 못 정함). 생성 방법을 고르세요.</div>`
+        : `<div class="muted" style="font-size:12px">'자동'으로 나올 값의 예: <b>${esc(it.auto_example)}</b> — 아니면 생성 방법을 고르세요.</div>`}
+      <details class="fld"><summary class="muted">전체 목록에서 고르기 (고객 정보의 모든 항목)</summary>
+        <select id="ed-source">${sourceOptions(c.source || "", auto.kind ? (edSources?.rule_names || {})[auto.kind] || auto.kind : "")}</select></details>
       <label class="fld">값 종류 <span class="muted" style="font-size:12px">(자동 생성과 채점 비교에 씀)</span> <select id="ed-kind"><option value="">(자동: ${esc(auto.kind || "text")})</option>${ed.view.kinds.map(k =>
         `<option value="${k}" ${c.kind === k ? "selected" : ""}>${k}</option>`).join("")}</select></label>
       ${c.source === "rule:choice" ? `<label class="fld">보기 (한 줄에 하나) <textarea id="ed-choices" rows="3">${esc((c.choices || []).join("\n"))}</textarea></label>` : ""}
@@ -475,12 +536,15 @@ function edSide(ed) {
   const list = edPageItems(ed).filter(x => x.kind !== "erase");
   const nEdited = ed.items.filter(x => statusOf(ed, x) !== "auto").length;
   html += `<div class="muted" style="margin:6px 0 4px">이 쪽 영역 ${list.length}개 · 지우기 ${ed.ov.erase.filter(e => e.page === ed.page).length}개 · 전체 수정 ${nEdited}개</div>
-    <table class="ed-list"><thead><tr><th>상태</th><th>종류</th><th>키</th></tr></thead><tbody>${list.map(x => {
+    <table class="ed-list"><thead><tr><th>상태</th><th>종류</th><th>키</th><th>생성</th></tr></thead><tbody>${list.map(x => {
       const c = cur(ed, x), st = statusOf(ed, x);
       return `<tr class="click ${ed.sel && ed.sel.id === x.id ? "sel" : ""}" data-id="${esc(x.id)}"><td><span class="tag st-${st}">${ED_STATUS[st]}</span></td>
         <td class="nw">${esc(ED_T[c.t] || c.t)}</td>
         <td>${x.cell ? kpKeyCell(x.cell) : `<span class="mono muted">${esc(c.key || x.auto?.key || "")}</span>`}
-          <div class="muted" style="font-size:11px">${esc(c.label || "")}</div></td></tr>`;
+          <div class="muted" style="font-size:11px">${esc(c.label || "")}</div></td>
+        <td class="nw" style="font-size:12px">${c.t !== "text" ? "" : c.source ? esc(genName(c.source))
+          : !("auto_example" in x) ? `<span class="muted">자동</span>` : x.auto_example == null ? `<span class="err" title="자동으로는 빈 칸이 나옵니다">자동 → 빈 칸</span>`
+          : `<span class="muted" title="자동으로 나올 값의 예">자동: ${esc(String(x.auto_example).slice(0, 14))}</span>`}</td></tr>`;
     }).join("")}</tbody></table>`;
   $("#ed-side").innerHTML = html;
   scrollRowIntoView($("#ed-side"), $("#ed-side tr.sel"));
@@ -519,6 +583,7 @@ function edSide(ed) {
   on("#ed-rowdup", "click", () => edDupRows(ed, it, +$("#ed-rown").value, +$("#ed-rowh").value));
   on("#ed-colfit", "click", () => edFitColumn(ed, it));
   on("#ed-source", "change", e => { setCol("source", e.target.value); redraw(); });
+  on("#ed-gen", "click", () => genPicker(ed, it, src => { setCol("source", src); redraw(); }));
   on("#ed-choices", "change", e => { setCol("choices", e.target.value.split("\n").map(s => s.trim()).filter(Boolean)); redraw(); });
   on("#ed-fixed", "change", e => { setCol("text", e.target.value); redraw(); });
   on("#ed-copytext", "change", e => { setProp(ed, it, "text", e.target.value); redraw(); });

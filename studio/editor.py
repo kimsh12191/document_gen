@@ -67,6 +67,25 @@ def _auto(it: dict) -> dict:
     return {"key": None, "kind": None}
 
 
+def _auto_example(it: dict, cls: str, p) -> str | None:
+    """생성 방법이 '자동'(source 없음)인 글자 칸에 실제로 나올 값의 예 (seed 0 고객). None = 빈 칸으로 나옴.
+    build_form 과 같은 규칙: 표 행은 값 종류, 그 밖은 표준 키 → 값 종류 (자유 기재 글·채움 비율은 빼고)."""
+    import random
+
+    vals = RF.Values(p, random.Random(0), cls)
+    label = it.get("label") or ""
+    try:
+        if it.get("row"):
+            return vals.by_kind(it.get("kind") or RF.kind_of(label, it.get("unit"), it.get("hint")), label)
+        skey, kind = RF._text_key(it)
+        if skey:
+            v = vals.std(skey)
+            return v if v is not None or not it.get("key") else vals.by_kind(kind, label)
+        return vals.by_kind(kind, label)
+    except Exception:  # noqa: BLE001 — 예시를 못 만들면 표시만 안 한다
+        return None
+
+
 def _public(it: dict) -> dict:
     keep = ("t", "page", "label", "rect", "options", "parts", "mark", "name", "text", "unit", "row", "group", "section",
             "pick", "key", "kind", "source", "choices", "note")
@@ -95,6 +114,12 @@ def layout_view(doc_id: str) -> dict:
                       "cell": cells.get(iid), **merged})
     for k, a in enumerate(ov.get("add", [])):
         items.append({"id": f"add:{k}", "status": "added", "auto": {"key": None, "kind": None}, "cell": cells.get(f"add:{k}"), **_public(a)})
+    from docgen.entities import make_profile
+
+    prof, cls = make_profile(0), (raw.get("class") or "기본").split("/")[0]
+    for x in items:   # '자동' 글자 칸에 나올 값의 예 (화면: 생성 방법 옆, 빈 칸이면 경고)
+        if x.get("t") == "text" and not x.get("source") and x.get("status") != "dropped":
+            x["auto_example"] = _auto_example(x, cls, prof)
     found = {OV.item_id(m) for _, m in OV.matches(raw)}
     broken = [o for o in ov.get("items", []) if OV.item_id({"n": 0, **o["match"]}) not in found]
     pages = [{"w": pg["width"], "h": pg["height"]} for pg in raw["pages"]]
@@ -122,6 +147,10 @@ def _check_source(src: str | None, where: str):
     if src.startswith("profile."):
         return
     if src.startswith("rule:") and src[5:] in SRC.RULE_KINDS + SRC.SPECIAL_RULES:
+        return
+    from docgen import keyrules as KR
+
+    if src.startswith("rule:") and src[5:] in KR.load()["kinds"]:   # 키 사전에서 더한 값 종류 (코드 없이)
         return
     raise ValueError(f"{where}: 알 수 없는 값 출처 {src!r}")
 

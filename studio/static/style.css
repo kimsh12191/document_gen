@@ -353,3 +353,14 @@ div.warn { color: var(--warn); }
 .ocr-example-image { display:block; max-width:100%; height:auto; margin:12px auto; }
 .ocr-example-layout pre { white-space:pre-wrap; overflow-wrap:anywhere; }
 @media(max-width:900px) { .ocr-example-layout { grid-template-columns:minmax(0,1fr); } }
+
+/* 영역 편집 › 생성 방법 고르기 (editor.js genPicker) */
+.gen-cur { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.gen-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
+.gen-card { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left; padding: 8px 10px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--text); cursor: pointer; }
+.gen-card:hover { border-color: var(--accent, #2563eb); }
+.gen-card.cur { border: 2px solid var(--accent, #2563eb); background: var(--accent-soft, #eef4ff); }
+.gen-ex { font-size: 12px; color: var(--muted, #667); overflow-wrap: anywhere; }
+.gen-note { font-size: 11px; }
+.gen-h { margin: 14px 0 6px; font-size: 14px; }

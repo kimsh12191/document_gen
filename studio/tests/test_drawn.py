@@ -85,3 +85,30 @@ def test_ocr_set_skips_drawn(roots, monkeypatch):
     assert "img_drawn_d" not in ocr_set.select_ids({"types": "imported"})
     with pytest.raises(SystemExit, match="배경 글자"):
         ocr_set.select_ids({"types": ["img_drawn_d"]})
+
+
+def test_generator_catalog_sources_are_saveable():
+    """생성 방법 고르기의 모든 항목은 저장 검사(editor._check_source)를 통과하고, 빈 칸 말고는 예시 값이 있다."""
+    from studio import generators as G
+
+    cat = G.catalog()
+    items = [i for g in cat["groups"] for i in g["items"]]
+    assert len({i["source"] for i in items}) == len(items)   # 같은 생성 방법이 두 번 나오지 않는다
+    for i in items:
+        editor._check_source(i["source"], i["name"])
+        assert i["examples"] or i["source"] == "rule:empty", i
+    assert any(i["source"].startswith("rule:") and i["source"][5:] in __import__("docgen.keyrules", fromlist=["x"]).load()["kinds"] for i in items)
+    assert cat["howto"]
+
+
+def test_auto_example_warns_empty(roots):
+    _, priv = roots
+    drawn.create([("a.png", png())], "img_drawn_e", "확인서", True, str(priv))
+    add = [{"t": "text", "page": 0, "label": "성명", "rect": [100, 100, 300, 120]},
+           {"t": "text", "page": 0, "label": "적요", "rect": [100, 130, 300, 150]},
+           {"t": "text", "page": 0, "label": "적요", "rect": [100, 160, 300, 180], "source": "rule:choice", "choices": ["이체"]}]
+    v = editor.save("img_drawn_e", {"add": add}, "test")
+    got = {(i["label"], i.get("source")): i for i in v["items"]}
+    assert got[("성명", None)]["auto_example"]                         # 자동 → 고객 이름
+    assert got[("적요", None)]["auto_example"] is None                 # 자동 → 빈 칸 (화면이 경고)
+    assert "auto_example" not in got[("적요", "rule:choice")]          # 고른 칸은 예시 계산 안 함

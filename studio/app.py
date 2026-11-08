@@ -586,6 +586,14 @@ def sources():
     return _sources()
 
 
+@app.get("/api/generators")
+def generators():
+    """영역 편집기의 생성 방법 고르기: 묶음별 이름·source·예시 값 + 새 생성 방법 만드는 곳 (studio/generators.py)."""
+    from . import generators as G
+
+    return G.catalog()
+
+
 @app.get("/api/marks")
 def marks_view():
     return marks_admin.view()
