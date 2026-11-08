@@ -722,6 +722,9 @@ def main(argv=None) -> int:
     qa.add_argument("id")
     qa.add_argument("--new", action="store_true", help="견본 qa.py 를 만든다 (이 서식의 칸 키로 쓴 예시, 주석). 있으면 멈춤")
     qa.add_argument("--seeds", type=int, default=8)
+    ad = sub.add_parser("adjust", help="칸끼리 관계 generate.py (overlay 서식): 견본 만들기(--new)")
+    ad.add_argument("id")
+    ad.add_argument("--new", action="store_true", help="견본 generate.py 를 만든다 (이 서식의 칸 키를 주석으로). 있으면 멈춤")
     ck = sub.add_parser("check", help="서식 검사 (고친 뒤 이것 하나): 칸 목록·박스·값 출처·질문 설정·questions.json·카드")
     ck.add_argument("ids", nargs="*")
     ck.add_argument("--all", action="store_true", help="모든 서식")
@@ -782,6 +785,23 @@ def main(argv=None) -> int:
                     print(f"참고  {i}: {n}")
         print(f"서식 {len(ids)}개 검사, 문제 있는 서식 {bad}개")
         return 1 if bad else 0
+    if a.cmd == "adjust":
+        from . import realform as RF
+
+        d = folder(a.id)
+        if d is None or not (d / "layout.json").exists() and RF.form_no(a.id) is None:
+            print("overlay(원본·그린) 서식만 됩니다. html 서식의 generate.py 는 docgen/manual/NEW_FORM_SPEC.md 8절", file=sys.stderr)
+            return 2
+        p = d / "generate.py"
+        if not a.new:
+            print(_rel(p) if p.exists() else f"없음: {_rel(p)} — 견본: python -m docgen.formdir adjust {a.id} --new")
+            return 0
+        if p.exists():
+            print(f"이미 있습니다 (덮어쓰지 않음): {_rel(p)}")
+            return 1
+        p.write_text(RF.adjust_skeleton(a.id), encoding="utf-8")
+        print(f"만듦: {_rel(p)} — adjust 를 고친 뒤 영역 편집의 수정 전후 비교, check {a.id} 로 확인")
+        return 0
     if a.cmd == "qa":
         from . import formqa
         from . import formquestions as FQ

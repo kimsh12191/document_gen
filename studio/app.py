@@ -586,6 +586,41 @@ def sources():
     return _sources()
 
 
+class TableTitleReq(BaseModel):
+    prefix: str
+    title: str = ""
+
+
+@app.put("/api/forms/{doc_id}/table-title")
+def table_title(doc_id: str, req: TableTitleReq):
+    """표 제목 (서식 questions.json 의 table.<표 키>.title). 영역 편집기의 표 칸에서."""
+    return guard(editor.set_table_title, doc_id, req.prefix, req.title)
+
+
+@app.post("/api/forms/{doc_id}/read-texts")
+def read_texts(doc_id: str, replace: bool = False):
+    """그린 서식의 배경 글자를 사내 OCR 로 읽는다 (studio/drawn.py read_texts) → 합성 OCR 세트에 들어갈 수 있다."""
+    from . import drawn
+
+    return guard(drawn.read_texts, doc_id, CFG.get("ocr"), replace)
+
+
+@app.post("/api/forms/{doc_id}/adjust-skeleton")
+def adjust_skeleton(doc_id: str):
+    """overlay 서식의 견본 generate.py (칸끼리 관계). 있으면 덮어쓰지 않는다. = python -m docgen.formdir adjust <ID> --new"""
+    from docgen import formdir
+    from docgen import realform as RF
+
+    d = formdir.folder(doc_id)
+    if d is None or RF.form_no(doc_id) is None and RF.image_form_dir(doc_id) is None:
+        raise HTTPException(400, "overlay(원본·그린) 서식만 됩니다")
+    p = d / "generate.py"
+    if p.exists():
+        raise HTTPException(400, f"이미 있습니다 (덮어쓰지 않음): {p}")
+    p.write_text(guard(RF.adjust_skeleton, doc_id), encoding="utf-8")
+    return {"path": str(p)}
+
+
 @app.get("/api/generators")
 def generators():
     """영역 편집기의 생성 방법 고르기: 묶음별 이름·source·예시 값 + 새 생성 방법 만드는 곳 (studio/generators.py)."""

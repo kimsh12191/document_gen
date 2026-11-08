@@ -67,6 +67,58 @@ def _auto(it: dict) -> dict:
     return {"key": None, "kind": None}
 
 
+def table_prefix(it: dict) -> str:
+    """표 칸의 표 키 (표 과제·questions.json 의 table 묶음 이름): 키의 행 번호 앞 (거래_목록.0.금액 → 거래_목록)."""
+    k = RF._row_key(it, 0)
+    return k.split(".0.", 1)[0] if ".0." in k else k.rsplit(".0", 1)[0]
+
+
+def table_info(doc_id: str, items: list[dict]) -> dict:
+    """{쪽|표 묶음: {prefix, title, fill, cols}}: 영역 편집기의 표 설정 (제목은 서식 questions.json 의 table)."""
+    from docgen import formquestions as FQ
+
+    q = ((FQ.read(doc_id) or {}).get("table") or {})
+    out: dict = {}
+    for it in items:
+        if it.get("t") != "text" or not it.get("row") or it.get("status") == "dropped":
+            continue
+        g = f"{it['page']}|{it.get('group') or ''}"
+        t = out.setdefault(g, {"prefix": table_prefix(it), "fill": None, "cols": []})
+        t["fill"] = t["fill"] or it.get("fill")
+        if (it.get("label") or "") not in t["cols"]:
+            t["cols"].append(it.get("label") or "")
+    for t in out.values():
+        t["title"] = (q.get(t["prefix"]) or {}).get("title")
+    return out
+
+
+def set_table_title(doc_id: str, prefix: str, title: str) -> dict:
+    """표 제목을 서식 questions.json 의 {"table": {표 키: {"title"}}} 에 쓴다 (빈 글자면 지운다)."""
+    from docgen import formquestions as FQ
+
+    if not prefix:
+        raise ValueError("표 키가 없습니다")
+    body = json_copy(FQ.read(doc_id) or {})
+    tab = body.setdefault("table", {})
+    cur = tab.setdefault(prefix, {})
+    if title.strip():
+        cur["title"] = title.strip()
+    else:
+        cur.pop("title", None)
+    if not cur:
+        tab.pop(prefix)
+    if not tab:
+        body.pop("table")
+    FQ.write(doc_id, body)
+    return {"prefix": prefix, "title": title.strip() or None}
+
+
+def json_copy(x):
+    import json
+
+    return json.loads(json.dumps(x))
+
+
 def _auto_example(it: dict, cls: str, p) -> str | None:
     """생성 방법이 '자동'(source 없음)인 글자 칸에 실제로 나올 값의 예 (seed 0 고객). None = 빈 칸으로 나옴.
     build_form 과 같은 규칙: 표 행은 값 종류, 그 밖은 표준 키 → 값 종류 (자유 기재 글·채움 비율은 빼고)."""
@@ -88,7 +140,7 @@ def _auto_example(it: dict, cls: str, p) -> str | None:
 
 def _public(it: dict) -> dict:
     keep = ("t", "page", "label", "rect", "options", "parts", "mark", "name", "text", "unit", "row", "group", "section",
-            "pick", "key", "kind", "source", "choices", "note")
+            "pick", "key", "kind", "source", "choices", "note", "fmt", "pattern", "fill")
     return {k: copy.deepcopy(it[k]) for k in keep if k in it}
 
 
@@ -105,7 +157,7 @@ def layout_view(doc_id: str) -> dict:
         iid = OV.item_id(m)
         o = by_id.get(iid)
         merged = {**_public(it), **copy.deepcopy((o or {}).get("set", {}))}
-        for k in ("key", "kind", "source", "choices", "text", "note", "group"):
+        for k in ("key", "kind", "source", "choices", "text", "note", "group", "fmt", "pattern", "fill"):
             if o and o.get(k) not in (None, ""):
                 merged[k] = o[k]
         status = "auto" if not o else "dropped" if o.get("drop") else "edited"
@@ -119,11 +171,16 @@ def layout_view(doc_id: str) -> dict:
     prof, cls = make_profile(0), (raw.get("class") or "기본").split("/")[0]
     for x in items:   # '자동' 글자 칸에 나올 값의 예 (화면: 생성 방법 옆, 빈 칸이면 경고)
         if x.get("t") == "text" and not x.get("source") and x.get("status") != "dropped":
-            x["auto_example"] = _auto_example(x, cls, prof)
+            from docgen.formkit import fmt
+
+            x["auto_example"] = fmt(_auto_example(x, cls, prof), x.get("fmt"))   # 표기를 정했으면 그 꼴로
     found = {OV.item_id(m) for _, m in OV.matches(raw)}
     broken = [o for o in ov.get("items", []) if OV.item_id({"n": 0, **o["match"]}) not in found]
     pages = [{"w": pg["width"], "h": pg["height"]} for pg in raw["pages"]]
-    return {"doc_id": doc_id, "name": raw.get("name"), "origin": raw.get("origin"), "pages": pages, "scale": RF.BG_ZOOM, "items": items,
+    script = RF.script_path(doc_id)
+    return {"doc_id": doc_id, "name": raw.get("name"), "origin": raw.get("origin"), "pages": pages,
+            "tables": table_info(doc_id, items), "script": str(script) if script else None,
+            "texts": len(raw.get("texts") or []) if RF.form_no(doc_id) is None else None, "private": bool(raw.get("private")), "scale": RF.BG_ZOOM, "items": items,
             "overrides": ov, "broken": broken, "kinds": value_kinds(), "item_types": ITEM_TYPES, "addable": ADDABLE}
 
 
@@ -152,7 +209,23 @@ def _check_source(src: str | None, where: str):
 
     if src.startswith("rule:") and src[5:] in KR.load()["kinds"]:   # 키 사전에서 더한 값 종류 (코드 없이)
         return
+    from docgen import usergen
+
+    if src.startswith("rule:") and usergen.get(src[5:]):   # docgen/forms/_common/generators.py 의 생성기
+        return
     raise ValueError(f"{where}: 알 수 없는 값 출처 {src!r}")
+
+
+def _check_extra(o: dict, where: str):
+    """표기(fmt)·틀(pattern)·표 채움(fill)."""
+    from docgen.formkit import FORMATS
+
+    if o.get("fmt") and o["fmt"] not in FORMATS:
+        raise ValueError(f"{where}: 모르는 표기 {o['fmt']!r}")
+    if o.get("source") == "rule:pattern" and not (o.get("pattern") or "").strip():
+        raise ValueError(f"{where}: 틀로 만들기는 틀(pattern)이 필요합니다 (예: HN-####-{{A|B}})")
+    if o.get("fill") and o["fill"] not in RF.FILLS:
+        raise ValueError(f"{where}: 표 채움은 {list(RF.FILLS)} 중 하나")
 
 
 def validate(doc_id: str, ov: dict) -> dict:
@@ -172,6 +245,7 @@ def validate(doc_id: str, ov: dict) -> dict:
             o["set"]["rect"] = _box(o["set"]["rect"], f"수정 {i + 1} rect")
         _check_key(o.get("key"), f"수정 {i + 1}")
         _check_source(o.get("source"), f"수정 {i + 1}")
+        _check_extra(o, f"수정 {i + 1}")
         if len(o) > 1:
             items.append(o)
     adds = []
@@ -199,6 +273,7 @@ def validate(doc_id: str, ov: dict) -> dict:
             raise ValueError(f"추가 {i + 1}: 자필 기재란은 따라 쓸 문구(text)가 필요합니다")
         _check_key(a.get("key"), f"추가 {i + 1}")
         _check_source(a.get("source"), f"추가 {i + 1}")
+        _check_extra(a, f"추가 {i + 1}")
         adds.append(a)
     erases = []
     for i, e in enumerate(ov.get("erase", [])):
@@ -276,6 +351,11 @@ def checks(doc_id: str, label: dict | None = None, fields_keys: list[dict] | Non
     if spec.template != "_real_form.html.j2":
         return out
     view = layout_view(doc_id)
+    if view.get("private") and view.get("origin") in ("drawn", None) and RF.form_no(doc_id) is None \
+            and not (view["overrides"].get("erase") or []):
+        out.append({"level": "warn", "code": "no_erase",
+                    "text": "실서류 견본에서 만든 서식인데 지운 곳이 없습니다. 그림에 남은 값(이름·번호·금액)은 생성 그림마다 복제됩니다 — "
+                            "영역 편집의 지우기로 덮고 '지운 배경만 보기'로 확인하세요"})
     if view["broken"]:
         out.append({"level": "warn", "code": "broken",
                     "text": f"깨진 수정 {len(view['broken'])}개: 레이아웃을 다시 추출해 대상 영역을 못 찾음 "

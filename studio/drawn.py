@@ -96,3 +96,50 @@ def create(files: list[tuple[str, bytes]], form_id: str, name: str, real_data: b
     RF.register_images()   # 바로 서식 목록·영역 편집기에 나오게
     return {"form_id": form_id, "dir": str(dest), "private": root is not None, "pages": len(pages)}
 
+
+
+def read_texts(doc_id: str, ocr: dict | None, replace: bool = False) -> dict:
+    """그린 서식의 배경 그림을 사내 OCR 로 읽어 layout.json 의 texts (배경 글자) 를 채운다 → 합성 OCR 세트에 들어갈 수 있다.
+    가져오기(studio/importer.py)와 같은 OCR 설정·캐시. 지운 곳의 글자는 정답에서 빠진다 (docgen/ocr_export.background_words).
+    실서류 견본 그림이면 사내 OCR 로만 (외부로 보내지 않음, AGENTS.md 규칙 10)."""
+    import os
+
+    from docgen import realform as RF
+    from docgen.bench.ocr_data import canonical_image, digest, dumps, load_callable, parse_ocr, write_json
+
+    from . import importer as IM
+
+    d = RF.image_form_dir(doc_id)
+    if d is None:
+        raise KeyError(doc_id)
+    lay = json.loads((d / "layout.json").read_text(encoding="utf-8"))
+    if lay.get("texts") and not replace:
+        raise ValueError(f"이미 배경 글자가 있습니다 ({len(lay['texts'])}개). 다시 읽으려면 바꾸기를 고르세요")
+    o = IM._ocr_settings({"ocr": ocr or {}})
+    if not o.get("revision"):
+        raise ValueError("사내 OCR 설정이 없습니다 (studio 설정의 ocr.callable·revision). 사내 OCR 은 내부망에서만 쓸 수 있습니다")
+    if o.get("base_url"):
+        os.environ.setdefault("INTERNAL_OCR_BASE_URL", o["base_url"])
+    adapter = load_callable(o["callable"])
+    cache = Path(o["cache_dir"])
+    texts = []
+    for k, _ in enumerate(lay["pages"]):
+        img = d / "look" / f"page_{k}.png"
+        im = canonical_image(str(img))
+        sha = digest(str(im.size).encode() + im.tobytes())
+        cached = cache / "ocr" / f"{digest(dumps([sha, o['callable'], o['revision']]).encode())}.json"
+        if cached.exists():
+            raw = json.loads(cached.read_text(encoding="utf-8"))
+        else:
+            raw = adapter(str(img))
+            if raw is None:
+                raise ValueError(f"OCR 실패: {k + 1}쪽")
+            write_json(cached, raw)
+        for w in parse_ocr(raw, im.width, im.height, o["mapping"]):
+            texts.append({"page": k, "text": w["text"], "rect": [round(v / RF.BG_ZOOM, 2) for v in w["bbox"]],
+                          "line": w.get("line_num") or 0})
+        im.close()
+    lay["texts"] = texts
+    lay["texts_from"] = {"ocr": o["callable"], "revision": o["revision"], "at": time.strftime("%Y-%m-%d %H:%M")}
+    (d / "layout.json").write_text(json.dumps(lay, ensure_ascii=False, indent=1), encoding="utf-8")
+    return {"form_id": doc_id, "texts": len(texts), "pages": len(lay["pages"])}

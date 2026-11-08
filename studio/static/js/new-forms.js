@@ -49,7 +49,7 @@ async function viewNewForms() {
         <button class="primary" id="nf-create">만들고 영역 편집으로</button>
       </div>
       <div class="muted" style="font-size:12px">서식 이름 = 문서 분류의 정답입니다. 실서류 견본이면 남아 있는 값을 영역 편집의 <b>지우기</b>로 덮어야 합니다 (안 지우면 그 값이 생성 그림마다 복제됨).
-        이 길로 만든 서식은 배경 글자 정보가 없어 <b>합성 OCR 세트</b>(쪽 전체 받아쓰기 정답)에는 들어가지 않습니다.</div>
+        배경 글자(그림 속 인쇄 글자)는 영역 편집에서 <b>사내 OCR 로 읽기</b>를 해야 <b>합성 OCR 세트</b>(쪽 전체 받아쓰기 정답)에 들어갑니다. 칸끼리 관계(합계·날짜 순서)는 영역 편집의 <b>칸끼리 관계 견본 만들기</b>.</div>
       <div id="nf-draw-out"></div>
     </div>
 

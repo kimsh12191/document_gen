@@ -47,7 +47,8 @@ COMMON = ["docgen/render.py", "docgen/schema.py", "docgen/image.py", "docgen/pag
           "docgen/forms/_common/templates/_base.html.j2", "docgen/forms/_common/templates/_macros.html.j2",
           "docgen/forms/_common/templates/_real_form.html.j2", "docgen/forms/_common/templates/_official_base.html.j2",
           "docgen/forms/_common/templates/_official_values.html.j2", "docgen/forms/_common/templates/_extra_rows.html.j2",
-          "docgen/html_regions.py", "docgen/html_regions.js", "docgen/template_variants.py"]
+          "docgen/html_regions.py", "docgen/html_regions.js", "docgen/template_variants.py",
+          "docgen/formkit.py", "docgen/usergen.py", "docgen/forms/_common/generators.py"]   # 표기·직접 만든 생성기
 
 
 @cache
@@ -101,6 +102,11 @@ def source_files(doc_id: str, common: bool = True) -> list[Path]:
             files += formfields.hash_files(doc_id)
         if no is None:
             files += formdir.image_files(doc_id)
+        from .realform import script_path
+
+        sp = script_path(doc_id)   # overlay 의 칸끼리 관계 generate.py (없는 서식은 해시가 예전 그대로)
+        if sp is not None:
+            files.append(sp)
     return files + ([ROOT / c for c in COMMON] if common else [])
 
 

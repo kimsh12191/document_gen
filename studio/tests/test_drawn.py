@@ -112,3 +112,113 @@ def test_auto_example_warns_empty(roots):
     assert got[("성명", None)]["auto_example"]                         # 자동 → 고객 이름
     assert got[("적요", None)]["auto_example"] is None                 # 자동 → 빈 칸 (화면이 경고)
     assert "auto_example" not in got[("적요", "rule:choice")]          # 고른 칸은 예시 계산 안 함
+
+
+def test_format_pattern_fill_and_usergen(roots):
+    """표기(fmt)·틀(pattern)·표 채움(fill)·코드 생성기(rule:<함수>)가 그린 서식 값에 들어간다."""
+    import random
+
+    from docgen.entities import make_profile
+
+    _, priv = roots
+    drawn.create([("a.png", png())], "img_drawn_f", "확인서", True, str(priv))
+    add = [{"t": "text", "page": 0, "label": "생년월일", "rect": [100, 100, 300, 120], "fmt": "date.yyyymmdd"},
+           {"t": "text", "page": 0, "label": "관리번호", "rect": [100, 130, 300, 150], "source": "rule:pattern", "pattern": "HN-####-{A|B}"},
+           {"t": "text", "page": 0, "label": "카드", "rect": [100, 160, 300, 180], "source": "rule:card_masked"}]
+    for r in range(4):
+        for lab, x0, k in (("거래일", 60, "date"), ("금액", 300, "amount")):
+            add.append({"t": "text", "page": 0, "label": lab, "rect": [x0, 300 + r * 20, x0 + 200, 318 + r * 20], "row": True, "group": "거래",
+                        "key": f"deals.{{i}}.{k}", "fill": "full", **({"fmt": "amount.won"} if k == "amount" else {})})
+    editor.save("img_drawn_f", {"add": add}, "test")
+    with pytest.raises(ValueError, match="표기"):
+        editor.validate("img_drawn_f", {"add": [{**add[0], "fmt": "nope"}]})
+    with pytest.raises(ValueError, match="틀"):
+        editor.validate("img_drawn_f", {"add": [{**add[1], "pattern": ""}]})
+    for seed in range(3):
+        d = RF.build_form("img_drawn_f", make_profile(seed), random.Random(seed))
+        v = {i["key"]: i["value"] for i in d["items"] if i.get("key")}
+        assert v["customer.birth"].isdigit() and len(v["customer.birth"]) == 8
+        assert __import__("re").fullmatch(r"HN-\d{4}-[AB]", v["관리번호"])
+        assert "**-****-" in v["카드"]
+        amounts = [v[f"deals.{i}.amount"] for i in range(4)]
+        assert all(a and a.endswith("원") for a in amounts)   # fill full: 모든 행, 표기 원
+
+
+def test_overlay_adjust_script(roots):
+    """그린 서식도 서식 폴더 generate.py 의 adjust 로 칸끼리 관계를 맞춘다 (합계 = 행의 합). 견본은 formdir adjust --new."""
+    import random
+
+    from docgen import formdir as FD
+    from docgen.entities import make_profile
+    from docgen.formkit import to_amount
+
+    _, priv = roots
+    drawn.create([("a.png", png())], "img_drawn_g", "확인서", True, str(priv))
+    add = [{"t": "text", "page": 0, "label": "합계", "rect": [100, 100, 300, 120], "key": "total"}]
+    for r in range(3):
+        add.append({"t": "text", "page": 0, "label": "금액", "rect": [60, 300 + r * 20, 260, 318 + r * 20], "row": True, "key": "deals.{i}.amount"})
+    editor.save("img_drawn_g", {"add": add}, "test")
+    assert FD.main(["adjust", "img_drawn_g", "--new"]) == 0
+    sk = (priv / "img_drawn_g" / "generate.py").read_text(encoding="utf-8")
+    assert 'rows(d, "deals")' in sk and "# total = " in sk
+    assert FD.main(["adjust", "img_drawn_g", "--new"]) == 1   # 덮어쓰지 않는다
+    (priv / "img_drawn_g" / "generate.py").write_text(
+        "from docgen.formkit import rows, to_amount, amount_like\n\n\ndef adjust(d, p, rng):\n"
+        "    d['total'] = amount_like(sum(to_amount(r.get('amount')) or 0 for r in rows(d, 'deals')), '1,000')\n    return d\n",
+        encoding="utf-8")
+    for seed in range(4):
+        d = RF.build_form("img_drawn_g", make_profile(seed), random.Random(seed))
+        v = {i["key"]: i["value"] for i in d["items"] if i.get("key")}
+        rows = [to_amount(v.get(f"deals.{i}.amount")) or 0 for i in range(3)]
+        rows += [to_amount(c["value"]) or 0 for g in d["extra_rows"] for r in g["rows"] for c in r["cells"]]
+        assert to_amount(v["total"]) == sum(rows)
+
+
+def test_nest_flatten_roundtrip():
+    f = {"customer.name": "a", "deals.0.amount": "1", "deals.1.amount": "2", "deals.0.date": "x", "date": "d", "date.x": "q"}
+    n = RF.nest(f)
+    assert n["deals"][1] == {"amount": "2"} and n["customer"] == {"name": "a"} and n["date.x"] == "q"
+    assert RF.flatten(n) == f
+
+
+def test_read_texts_with_fake_ocr(roots, monkeypatch):
+    """배경 글자를 사내 OCR(가짜)로 읽어 layout.json texts 에 → 합성 OCR 세트에서 빠지지 않는다."""
+    from docgen import ocr_set
+    from docgen.bench import ocr_data
+    from docgen.ocr_export import item, page_document
+
+    _, priv = roots
+    drawn.create([("a.png", png())], "img_drawn_h", "확인서", True, str(priv))
+    with pytest.raises(ValueError, match="OCR 설정"):
+        drawn.read_texts("img_drawn_h", None)
+    fake = lambda path: page_document([item("거래 확인서", [500, 100, 800, 150], 0.99), item("성명", [100, 300, 180, 340], 0.98, 1)], "p.png")  # noqa: E731
+    monkeypatch.setattr(ocr_data, "load_callable", lambda spec: fake)
+    cfg = {"callable": "x:y", "revision": "test", "cache_dir": str(priv.parent / "ocr_cache")}
+    res = drawn.read_texts("img_drawn_h", cfg)
+    assert res["texts"] == 2
+    lay = json.loads((priv / "img_drawn_h" / "layout.json").read_text(encoding="utf-8"))
+    assert {t["text"] for t in lay["texts"]} == {"거래 확인서", "성명"} and lay["texts_from"]["revision"] == "test"
+    with pytest.raises(ValueError, match="이미 배경 글자"):
+        drawn.read_texts("img_drawn_h", cfg)
+    assert not ocr_set._drawn_without_texts("img_drawn_h")
+
+
+def test_no_erase_warning_for_real_sample(roots):
+    _, priv = roots
+    drawn.create([("a.png", png())], "img_drawn_i", "확인서", True, str(priv))
+    assert "no_erase" in [c["code"] for c in editor.checks("img_drawn_i")]
+    editor.save("img_drawn_i", {"erase": [{"page": 0, "rect": [10, 10, 50, 50]}]}, "test")
+    assert "no_erase" not in [c["code"] for c in editor.checks("img_drawn_i")]
+
+
+def test_usergen_errors(tmp_path, monkeypatch):
+    from docgen import usergen
+
+    bad = tmp_path / "generators.py"
+    monkeypatch.setattr(usergen, "path", lambda: bad)
+    bad.write_text("from docgen.usergen import generator\n\n@generator('x')\ndef date(p, rng, item, row):\n    return '1'\n", encoding="utf-8")
+    assert "이미 있는 값 종류" in usergen.error()
+    bad.write_text("from docgen.usergen import generator\n\nraise RuntimeError('boom')\n", encoding="utf-8")
+    import os
+    os.utime(bad, ns=(1, 2))   # 다시 읽게
+    assert "3번째 줄" in usergen.error()

@@ -19,7 +19,8 @@ from datetime import date, timedelta
 
 from .korean import won_korean   # noqa: F401  (스크립트가 여기서 가져다 쓴다: 120000000 → '일억이천만')
 
-__all__ = ["to_date", "date_like", "date_style", "to_amount", "amount_like", "won_korean", "rows", "add_days", "get", "put"]
+__all__ = ["to_date", "date_like", "date_style", "to_amount", "amount_like", "won_korean", "rows", "add_days", "get", "put",
+           "FORMATS", "fmt"]
 
 _DATE = re.compile(r"(\d{4})\s*[.\-/년]\s*(\d{1,2})\s*[.\-/월]\s*(\d{1,2})")
 
@@ -111,3 +112,55 @@ def put(d: dict, key: str, value) -> None:
             nxt = cur[k] = {}
         cur = nxt
     cur[parts[-1]] = value
+
+
+# 칸의 표기 형식 (영역 편집기의 '표기', fields.json 칸의 "fmt"). 값이 그 꼴로 읽히지 않으면 그대로 둔다.
+FORMATS = {
+    "date.dot": ("날짜 2025.01.31", "2025.01.31"), "date.dash": ("날짜 2025-01-31", "2025-01-31"),
+    "date.slash": ("날짜 2025/01/31", "2025/01/31"), "date.kor": ("날짜 2025년 01월 31일", "2025년 01월 31일"),
+    "date.kor_short": ("날짜 2025년 1월 31일", "2025년 1월 31일"), "date.yymmdd": ("날짜 250131 (6자리)", "250131"),
+    "date.yyyymmdd": ("날짜 20250131 (8자리)", "20250131"), "date.yy_dot": ("날짜 25.01.31", "25.01.31"),
+    "amount.comma": ("금액 1,234,000", "1,234,000"), "amount.won": ("금액 1,234,000원", "1,234,000원"),
+    "amount.plain": ("금액 1234000 (쉼표 없음)", "1234000"), "amount.korean": ("금액 일백이십삼만사천원", "일백이십삼만사천원"),
+    "amount.korean_full": ("금액 일금 일백이십삼만사천원정", "일금 일백이십삼만사천원정"),
+    "digits.plain": ("숫자만 (- 빼기: 01012345678)", "01012345678"),
+    "text.upper": ("영문 대문자", "HONG GILDONG"),
+}
+
+
+def fmt(value, style: str | None):
+    """값을 표기 형식으로 (FORMATS). 빈 값·모르는 형식·읽지 못하는 값은 그대로."""
+    if value in (None, "") or not style or style not in FORMATS:
+        return value
+    s = str(value)
+    if style.startswith("date."):
+        d = to_date(s) or _compact_date(s)
+        if not d:
+            return value
+        return {"date.dot": f"{d:%Y.%m.%d}", "date.dash": f"{d:%Y-%m-%d}", "date.slash": f"{d:%Y/%m/%d}",
+                "date.kor": f"{d.year}년 {d.month:02d}월 {d.day:02d}일", "date.kor_short": f"{d.year}년 {d.month}월 {d.day}일",
+                "date.yymmdd": f"{d:%y%m%d}", "date.yyyymmdd": f"{d:%Y%m%d}", "date.yy_dot": f"{d:%y.%m.%d}"}[style]
+    if style.startswith("amount."):
+        n = to_amount(s)
+        if n is None:
+            return value
+        return {"amount.comma": f"{n:,}", "amount.won": f"{n:,}원", "amount.plain": str(n),
+                "amount.korean": f"{won_korean(abs(n))}원", "amount.korean_full": f"일금 {won_korean(abs(n))}원정"}[style]
+    if style == "digits.plain":
+        return re.sub(r"[^0-9]", "", s) or value
+    if style == "text.upper":
+        return s.upper()
+    return value
+
+
+def _compact_date(s: str) -> date | None:
+    """'20250131' · '250131' → date (생년월일 6자리는 앞 두 자리로 세기를 고른다)."""
+    m = re.fullmatch(r"\s*(\d{8}|\d{6})\s*", s)
+    if not m:
+        return None
+    t = m.group(1)
+    y, rest = (int(t[:4]), t[4:]) if len(t) == 8 else ((1900 if int(t[:2]) > 30 else 2000) + int(t[:2]), t[2:])
+    try:
+        return date(y, int(rest[:2]), int(rest[2:]))
+    except ValueError:
+        return None

@@ -1,14 +1,15 @@
 """영역 편집기의 생성 방법 고르기: 칸에 넣을 값을 어떻게 만들지 사람이 읽는 이름·예시 값으로 보여 준다.
 
 고르면 칸 목록 fields.json 의 "source" 가 된다 (docgen/sources.py). 여기는 고르기 쉬운 목록과 예시만 만들고,
-값을 실제로 만드는 코드는 아래 셋이다 (화면의 "새 생성 방법 만들기" 안내와 같은 내용, guide/new-forms.md 0절).
+새 생성 방법을 더하는 길 (화면의 "원하는 생성 방법이 없으면" 안내와 같은 내용, guide/new-forms.md 0절):
 
-  코드 없이   키 사전 화면의 값 종류 (docgen/forms/_common/key_rules.json "kinds": 보기 목록·틀·프로필 경로)
-              → 이 목록의 "키 사전에서 더한 것" 묶음에 나온다 (source = rule:<종류>)
-  코드로      docgen/realform.py Values.by_kind 에 종류 하나 (if kind == "<이름>": return …)
-              + docgen/sources.py RULE_KINDS 에 이름 + docgen/keyrules.py CODE_KINDS 에 설명 → "종류" 묶음에 나온다
-  칸끼리 관계 (합계 = 행의 합, 시작일 ≤ 종료일 …) 는 생성 방법이 아니라 서식 폴더의 generate.py — html 서식만.
-              overlay(그린 서식)는 아직 없다: docgen/realform.py build_form 이 값을 만들면서 바로 칸에 맞춰 배치하기 때문
+  칸에서 바로    보기 중 하나 (rule:choice + choices), 틀로 만들기 (rule:pattern + pattern: # 숫자, A 대문자, {가|나} 고르기)
+  다시 쓰게 저장 그 보기·틀을 키 사전의 값 종류로 저장 (PUT /api/keyrules/kinds/<이름>, key_rules.json "kinds")
+                 → 이 목록의 "키 사전에서 더한 것" 묶음 (source = rule:<종류>)
+  코드로         docgen/forms/_common/generators.py 에 @generator 함수 하나 (docgen/usergen.py)
+                 → "직접 만든 생성기 (코드)" 묶음 (source = rule:<함수 이름>)
+  칸끼리 관계    (합계 = 행의 합, 시작일 ≤ 종료일 …) 는 칸 하나의 생성 방법이 아니라 서식 폴더의 generate.py 의 adjust
+                 (html·overlay 모두. overlay 견본: python -m docgen.formdir adjust <ID> --new)
 """
 from __future__ import annotations
 
@@ -61,26 +62,33 @@ PRESETS = [
     ("직접 정하기", [
         ("보기 중 하나", "rule:choice", "보기 목록을 적습니다 (예: 이체·입금·출금)"),
         ("늘 같은 글자", "rule:fixed", "글자를 적습니다"),
+        ("틀로 만들기", "rule:pattern", "틀을 적습니다: # 숫자, A 대문자, a 소문자, {가|나} 하나 고르기 (예: HN-####-{A|B})"),
         ("늘 빈 칸", "rule:empty", "인쇄만 있고 값을 쓰지 않는 칸"),
     ]),
 ]
 AUTO = ("자동", "", "항목명으로 값 종류를 추정해 만듭니다. 추정 못 하면 빈 칸")
 HOWTO = [
-    {"title": "코드 없이 — 키 사전의 값 종류",
-     "where": "studio 키 사전 화면 › 값 종류 (docgen/forms/_common/key_rules.json 의 \"kinds\")",
-     "how": "이름·뜻과 만드는 법 하나: 보기 목록(가중치), 틀(# = 숫자, {A|B} = 하나 고르기), 프로필 경로. 저장하면 이 목록의 '키 사전에서 더한 것'에 나옵니다."},
-    {"title": "코드로 — 새 값 종류",
-     "where": "docgen/realform.py 의 Values.by_kind",
-     "how": "if kind == \"<이름>\": return <값> 을 더하고 (난수는 self.r, 고객은 self.p), docgen/sources.py 의 RULE_KINDS 에 이름, "
-            "docgen/keyrules.py 의 CODE_KINDS 에 설명을 넣습니다. studio 를 다시 띄우면 '날짜·금액·숫자' 등과 같이 나옵니다 (이름은 CODE_KINDS 설명)."},
-    {"title": "칸끼리 관계 — 합계·순서·조건 (html 서식만)",
-     "where": "서식 폴더의 generate.py (html 서식)",
-     "how": "합계 = 행의 합, 시작일 ≤ 종료일, 잔액 같은 관계는 칸 하나의 생성 방법으로 안 됩니다. html 서식은 서식 폴더 generate.py 의 adjust 로 맞추고, "
-            "그린 서식(overlay)은 아직 맞추는 곳이 없습니다. 관계가 중요한 서식이면 새 서식 추가 B(html 서식)로 만듭니다."},
+    {"title": "1. 코드 없이 이 칸에서 — 보기 중 하나 · 틀로 만들기",
+     "where": "이 창의 '직접 정하기'",
+     "how": "보기 목록(한 줄에 하나)이나 틀(# 숫자, A 대문자, a 소문자, {가|나} 하나 고르기 — 예: HN-####-{A|B})을 적습니다. "
+            "칸 오른쪽의 [값 종류로 저장]을 누르면 다른 칸·다른 서식에서도 고를 수 있게 됩니다."},
+    {"title": "2. 코드 없이 다시 쓰게 — 키 사전의 값 종류",
+     "where": "studio 키 사전 › 값 종류 (docgen/forms/_common/key_rules.json 의 \"kinds\")",
+     "how": "이름·뜻 + 만드는 법 하나: 보기 목록(가중치), 틀, 프로필 경로. 이 창의 '키 사전에서 더한 것'에 나옵니다."},
+    {"title": "3. 코드로 — 직접 만든 생성기",
+     "where": "docgen/forms/_common/generators.py (설명 docgen/usergen.py)",
+     "how": "@generator(\"화면 이름\") 를 붙인 함수 def 이름(p, rng, item, row): return 값 — p 고객 프로필, rng 난수(이것만), item 칸 정보, row 표 행 번호. "
+            "파일을 저장하면 studio 를 다시 띄우지 않아도 이 창의 '직접 만든 생성기'에 나옵니다. 예시 함수 3개가 들어 있습니다."},
+    {"title": "4. 칸끼리 관계 — 합계·순서·조건",
+     "where": "서식 폴더의 generate.py (adjust 함수)",
+     "how": "합계 = 행의 합, 시작일 ≤ 종료일, 잔액 같은 관계는 칸 하나의 생성 방법으로 안 됩니다. 영역 편집 위의 [칸끼리 관계 견본 만들기] "
+            "(= python -m docgen.formdir adjust <ID> --new)로 이 서식의 칸 키가 적힌 견본을 만들고 adjust 를 고칩니다."},
 ]
 
 
 def _examples(source: str, n: int = 3) -> list[str]:
+    if source == "rule:pattern":
+        return ["HN-4821-B", "HN-0937-A"]
     from docgen import sources as SRC
     from docgen.entities import make_profile
 
@@ -110,9 +118,23 @@ def catalog() -> dict:
     if more:   # 코드로 새로 더한 값 종류 (Values.by_kind + RULE_KINDS)
         groups.append({"name": "그 밖의 값 종류 (코드)", "items": [{"name": KR.CODE_KINDS.get(k, k), "source": f"rule:{k}", "note": k,
                                                                   "examples": _examples(f"rule:{k}")} for k in more]})
+    from docgen import usergen
+    from docgen.formkit import FORMATS
+    from docgen.realform import FILLS
+
+    try:
+        gens = usergen.all_generators()
+        gen_error = None
+    except ValueError as e:
+        gens, gen_error = {}, str(e)
+    groups.append({"name": "직접 만든 생성기 (코드: docgen/forms/_common/generators.py)", "file": str(usergen.path()),
+                   "items": [{"name": g["name"], "source": f"rule:{name}", "note": g["note"] or name, "examples": _examples(f"rule:{name}")}
+                             for name, g in gens.items()]})
     kinds = KR.load()["kinds"]
     if kinds:
         groups.append({"name": "키 사전에서 더한 것 (코드 없이 만든 값 종류)",
                        "items": [{"name": k.get("meaning") or name, "source": f"rule:{name}", "note": name, "examples": _examples(f"rule:{name}")}
                                  for name, k in kinds.items()]})
-    return {"groups": groups, "auto": {"name": AUTO[0], "source": AUTO[1], "note": AUTO[2]}, "howto": HOWTO}
+    return {"groups": groups, "auto": {"name": AUTO[0], "source": AUTO[1], "note": AUTO[2]}, "howto": HOWTO,
+            "formats": [{"id": k, "name": v[0], "example": v[1]} for k, v in FORMATS.items()],
+            "fills": [{"id": k, "name": v} for k, v in FILLS.items()], "generator_error": gen_error}

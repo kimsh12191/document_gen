@@ -3,7 +3,8 @@
 <!-- 자동 생성: python -m docgen.formdir values · 코드(docgen/sources.py, docgen/keyrules.py, docgen/entities.py)에서 만든다 -->
 
 서식 칸 목록 `fields.json` 의 `"source"` 에 쓰는 것. 칸 하나의 값을 문서를 그릴 때마다 여기서 만든다.
-칸끼리 관계(합계·날짜 순서·조건)는 값 출처가 아니라 서식 폴더의 `generate.py` 로 맞춘다.
+칸끼리 관계(합계·날짜 순서·조건)는 값 출처가 아니라 서식 폴더의 `generate.py` 로 맞춘다 (html·overlay 모두, overlay 견본 `python -m docgen.formdir adjust <ID> --new`).
+날짜·금액의 표기는 칸의 `"fmt"` (아래 '표기'), 표 묶음의 채우는 행 수는 표 칸의 `"fill"` (few·half·full·any).
 
 ## 특별한 것
 
@@ -14,6 +15,7 @@
 | `rule:free_text` | 짧은 자유 기재 문장 (가끔 빈 칸) |
 | `rule:empty` | 늘 빈 칸 |
 | `rule:date_seq` | 반복 행에서 행마다 늘어나는 날짜 (`span_days`, `step_days`) |
+| `rule:pattern` | 칸의 `pattern` 틀로: `#` 숫자, `A` 대문자, `a` 소문자, `{가\|나}` 하나 고르기 (예: `HN-####-{A\|B}`) |
 | `code` | (코드 서식) 값 만드는 함수 generate.py 가 만든 값 그대로 |
 
 ## 값 종류 `rule:<종류>` — 코드로 만드는 것 (docgen/realform.py Values.by_kind)
@@ -73,6 +75,34 @@
 | `rule:payment_terms` | 결제조건 | 보기 L/C AT SIGHT, USANCE L/C 90 DAYS, D/P, D/A 60 DAYS, T/T IN ADVANCE |
 | `rule:relation_en` | 본인과의 관계(영문) | 보기 Spouse, Son, Daughter, Parent, Sibling |
 | `rule:poa_power_en` | 위임 업무 상세(영문) | 보기 Inquiry of account balance and transaction history, Reissue of bankbook, Issuance of balance certificate, Withdrawal of deposit |
+
+## 직접 만든 생성기 `rule:<함수>` — 코드 (docgen/forms/_common/generators.py, 설명 docgen/usergen.py)
+
+| source | 뜻 | 설명 |
+|---|---|---|
+| `rule:card_masked` | 카드번호 (가운데 가림) | 1234-56**-****-7890 꼴 |
+| `rule:txn_memo` | 거래 적요 | 입출금 내역의 적요 (이체·급여·카드대금 …), 고객 이름이 들어가기도 |
+| `rule:rrn_masked` | 주민등록번호 (뒷자리 가림) | 900210-1****** 꼴, 고객 본인 |
+
+## 표기 (칸의 `fmt`) — 값을 이 꼴로 바꿔 적는다 (읽지 못하는 값은 그대로)
+
+| fmt | 뜻 | 예 |
+|---|---|---|
+| `date.dot` | 날짜 2025.01.31 | 2025.01.31 |
+| `date.dash` | 날짜 2025-01-31 | 2025-01-31 |
+| `date.slash` | 날짜 2025/01/31 | 2025/01/31 |
+| `date.kor` | 날짜 2025년 01월 31일 | 2025년 01월 31일 |
+| `date.kor_short` | 날짜 2025년 1월 31일 | 2025년 1월 31일 |
+| `date.yymmdd` | 날짜 250131 (6자리) | 250131 |
+| `date.yyyymmdd` | 날짜 20250131 (8자리) | 20250131 |
+| `date.yy_dot` | 날짜 25.01.31 | 25.01.31 |
+| `amount.comma` | 금액 1,234,000 | 1,234,000 |
+| `amount.won` | 금액 1,234,000원 | 1,234,000원 |
+| `amount.plain` | 금액 1234000 (쉼표 없음) | 1234000 |
+| `amount.korean` | 금액 일백이십삼만사천원 | 일백이십삼만사천원 |
+| `amount.korean_full` | 금액 일금 일백이십삼만사천원정 | 일금 일백이십삼만사천원정 |
+| `digits.plain` | 숫자만 (- 빼기: 01012345678) | 01012345678 |
+| `text.upper` | 영문 대문자 | HONG GILDONG |
 
 ## 고객 프로필 `profile.<경로>` (예시 값은 seed 0 고객)
 

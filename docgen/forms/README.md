@@ -11,7 +11,7 @@
 
 | 하고 싶은 일 | 고칠 곳 | 직접 하기 (studio ① 서식 › 그 서식) | LLM 지시문의 `<할 일>` |
 |---|---|---|---|
-| ① 값이 이상함 (형식·범위, 칸끼리 안 맞음) | html: `fields.json` 그 칸 `source`, 칸끼리 관계는 `generate.py` 의 `adjust` · 코드: `generate.py` · 원본: `fields.json` 그 칸 `source`·`kind` | 원본: 영역 편집 → 칸을 눌러 값 출처 · html·코드: **자리·템플릿** → 자리를 눌러 값 출처 ([값 출처 목록](_common/values.md)). `generate.py` 는 파일로 | `칸 <키> 의 값이 <증상>. 원본 서식처럼 나오게 값 만드는 곳을 고쳐라` |
+| ① 값이 이상함 (형식·범위, 칸끼리 안 맞음) | html: `fields.json` 그 칸 `source`, 칸끼리 관계는 `generate.py` 의 `adjust` · 코드: `generate.py` · 원본·그린: `fields.json` 그 칸 `source`·`kind`·`fmt`(표기), 칸끼리 관계는 `generate.py` 의 `adjust` (견본 `python -m docgen.formdir adjust <ID> --new`) | 원본: 영역 편집 → 칸을 눌러 값 출처 · html·코드: **자리·템플릿** → 자리를 눌러 값 출처 ([값 출처 목록](_common/values.md)). `generate.py` 는 파일로 | `칸 <키> 의 값이 <증상>. 원본 서식처럼 나오게 값 만드는 곳을 고쳐라` |
 | ② 값 위치·박스가 어긋남 | 원본: `fields.json` 그 칸 `rect` · html·코드: 템플릿 배치 | 원본: 영역 편집에서 끌어 옮기기 · html·코드: **자리·템플릿** (자리를 누르면 템플릿 그 줄로) | `칸 <키> 가 원본의 <어디> 칸에 오게 고쳐라`. 원본 서식은 [FORM_SHELL_GUIDE.md](../manual/FORM_SHELL_GUIDE.md) 4장을 같이 준다 |
 | ③ 모양(표·문구·선)이 원본과 다름 | html·코드: `look/template.html.j2` (원본 서식은 그림이라 안 고침) | **자리·템플릿** (템플릿 고치기 → 미리보기 → 저장) | [FORM_SHELL_GUIDE.md](../manual/FORM_SHELL_GUIDE.md) 3장 + 원본 그림을 주고 `키는 그대로 두고 모양만 원본처럼 고쳐라` |
 | ④ 칸(추출 항목) 더하기·빼기·키 바꾸기 | html: 템플릿 `f("키", label=…)` + `fields.json` · 코드: 템플릿 + `generate.py` (+ `formdir declare <ID> --apply`) · 원본: `fields.json` | 원본: 영역 편집에서 그리기·지우기 · html·코드: **자리·템플릿** — 빈칸을 누르고 **[자리 넣기]** (키·항목명·값 출처), 빼기는 템플릿에서 그 줄을 지움. 저장 전 키 전후 비교 | `원본의 <항목명> 칸을 키 <키> 로 더하라` (키 이름은 [키 이름 규칙](_common/README.md#키-이름-규칙)) |

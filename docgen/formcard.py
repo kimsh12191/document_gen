@@ -439,11 +439,13 @@ def values_md() -> str:
     L = ["# 값 출처 (fields.json 의 source)", "",
          "<!-- 자동 생성: python -m docgen.formdir values · 코드(docgen/sources.py, docgen/keyrules.py, docgen/entities.py)에서 만든다 -->", "",
          "서식 칸 목록 `fields.json` 의 `\"source\"` 에 쓰는 것. 칸 하나의 값을 문서를 그릴 때마다 여기서 만든다.",
-         "칸끼리 관계(합계·날짜 순서·조건)는 값 출처가 아니라 서식 폴더의 `generate.py` 로 맞춘다.", "",
+         "칸끼리 관계(합계·날짜 순서·조건)는 값 출처가 아니라 서식 폴더의 `generate.py` 로 맞춘다 (html·overlay 모두, overlay 견본 `python -m docgen.formdir adjust <ID> --new`).",
+         "날짜·금액의 표기는 칸의 `\"fmt\"` (아래 '표기'), 표 묶음의 채우는 행 수는 표 칸의 `\"fill\"` (few·half·full·any).", "",
          "## 특별한 것", "", "| source | 값 |", "|---|---|",
          "| `rule:choice` | 칸의 `choices` 목록에서 하나 |", "| `rule:fixed` | 칸의 `text` 그대로 |",
          "| `rule:free_text` | 짧은 자유 기재 문장 (가끔 빈 칸) |", "| `rule:empty` | 늘 빈 칸 |",
          "| `rule:date_seq` | 반복 행에서 행마다 늘어나는 날짜 (`span_days`, `step_days`) |",
+         "| `rule:pattern` | 칸의 `pattern` 틀로: `#` 숫자, `A` 대문자, `a` 소문자, `{가\\|나}` 하나 고르기 (예: `HN-####-{A\\|B}`) |",
          "| `code` | (코드 서식) 값 만드는 함수 generate.py 가 만든 값 그대로 |", "",
          "## 값 종류 `rule:<종류>` — 코드로 만드는 것 (docgen/realform.py Values.by_kind)", "", "| source | 값 |", "|---|---|"]
     L += [f"| `rule:{k}` | {v} |" for k, v in R.CODE_KINDS.items() if k not in ("skip", "seal")]
@@ -456,6 +458,20 @@ def values_md() -> str:
             what = {"source": f"프로필 `{v.get('source')}`", "pattern": f"틀 `{v.get('pattern')}`",
                     "choices": "보기 " + ", ".join(list(v.get("choices", {}))[:6])}.get(how, how or "-")
             L.append(f"| `rule:{k}` | {v.get('meaning', '')} | {what} |")
+    from . import usergen
+    from .formkit import FORMATS
+
+    try:
+        gens = usergen.all_generators()
+    except ValueError as e:
+        gens = {}
+        L += ["", f"직접 만든 생성기 파일 오류: {e}"]
+    if gens:
+        L += ["", "## 직접 만든 생성기 `rule:<함수>` — 코드 (docgen/forms/_common/generators.py, 설명 docgen/usergen.py)", "",
+              "| source | 뜻 | 설명 |", "|---|---|---|"]
+        L += [f"| `rule:{k}` | {g['name']} | {g['note']} |" for k, g in gens.items()]
+    L += ["", "## 표기 (칸의 `fmt`) — 값을 이 꼴로 바꿔 적는다 (읽지 못하는 값은 그대로)", "", "| fmt | 뜻 | 예 |", "|---|---|---|"]
+    L += [f"| `{k}` | {n} | {ex} |" for k, (n, ex) in FORMATS.items()]
     L += ["", "## 고객 프로필 `profile.<경로>` (예시 값은 seed 0 고객)", "",
           "한 문서·한 업무 묶음 안에서 같은 사람의 값이 서로 맞아야 하면 이쪽 (성명·주민번호·주소·직장 …).", "",
           "| source | 예시 |", "|---|---|"]

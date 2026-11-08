@@ -32,6 +32,7 @@ from . import freetext as FT
 from . import keyrules as KR
 from . import korean as K
 from . import marks as M
+from . import formkit as FK
 from . import overrides as OV
 from . import sources as SRC
 from .entities import Profile
@@ -552,6 +553,10 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
     for (pg, grp, _), n in rows.items():
         cap[(pg, grp)] = max(cap.get((pg, grp), 0), n)
     fill_rows: dict[tuple, int] = {}
+    fills = {}   # 묶음마다 채우는 행 수 설정 (영역 편집기 표 칸의 fill: few·half·full·any)
+    for it in lay["items"]:
+        if it["t"] == "text" and it.get("row") and it.get("fill"):
+            fills.setdefault((it["page"], it.get("group") or ""), it["fill"])
     pct_plan: dict[tuple, list[int]] = {}
     row_idx: dict[tuple, int] = {}
     row_cols: dict[tuple, dict] = {}   # 묶음마다 열(항목명 → 첫 줄 칸): 별지에 이어 적을 때 쓴다
@@ -566,8 +571,7 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
             gk = (page, it.get("group") or "")
             if n_rows > 1:
                 if gk not in fill_rows:
-                    fill_rows[gk] = rng.choice([0, 1, 1, 2, 2, 3] if p.extra.get("sparse_fields") else [1, 1, 2, 2, 3]) if rng.random() < 0.85 else n_rows
-                    fill_rows[gk] = min(fill_rows[gk], n_rows)
+                    fill_rows[gk] = _fill_count(fills.get(gk), n_rows, p, rng)
                     more = _more_rows(p, doc_id, gk, cap[gk])
                     if more:   # 인쇄된 줄을 다 채우고 남은 줄은 별지에 (extra_rows)
                         fill_rows[gk] = cap[gk] + more
@@ -577,7 +581,7 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
                 if i >= fill_rows[gk]:
                     value = None
                 else:
-                    value = _row_value(it, i, gk, p, rng, vals, cls, fill_rows, pct_plan)
+                    value = FK.fmt(_row_value(it, i, gk, p, rng, vals, cls, fill_rows, pct_plan), it.get("fmt"))
             else:
                 skey, kind = _text_key(it)
                 if kind == "seal" and not skey:   # '인감', '서명/날인' 칸 → 도장·서명 자리
@@ -606,6 +610,7 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
                     value = FT.fill(label, f"{p.seed}:{doc_id}:{page}:{it['rect']}", p.issue_date,
                                     lambda s: _fit(s, x1 - x0 - 6, y1 - y0, style["hand"], style["base"],
                                                    style.get("scale", 1.0)) >= FT_MIN_SIZE) or value
+                value = FK.fmt(value, it.get("fmt"))
                 if value is not None and rng.random() > style["fill"] and skey not in ("customer.name", "date"):
                     value = None
             if it.get("at") and value and "@" in value:
@@ -680,13 +685,14 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
         for i in range(cap[gk], total):
             cells = []
             for c in cols:
-                v = _in_unit(_row_value(c, i, gk, p, rng, vals, cls, fill_rows, pct_plan), c)
+                v = _in_unit(FK.fmt(_row_value(c, i, gk, p, rng, vals, cls, fill_rows, pct_plan), c.get("fmt")), c)
                 kind = c.get("kind") or kind_of(c.get("label") or "", c.get("unit"), c.get("hint"))
                 cells.append({"key": _row_key(c, i), "value": v, "label": c.get("label") or "",
                               "align": "right" if (c.get("unit") in ("원", "천원", "만원", "백만원") or kind == "amount") else "left"})
             body.append({"no": i + 1, "cells": cells})
         extra_rows.append({"page": gk[0], "title": gk[1] or "", "columns": [c.get("label") or "" for c in cols],
                            "units": [c.get("unit") or "" for c in cols], "rows": body})
+    _adjust(doc_id, out, extra_rows, p, style)   # 서식 폴더 generate.py 의 adjust(d, p, rng): 칸끼리 관계 (합계·순서)
     # 결재란: 은행이 접수·처리한 서류에는 직원 도장·서명이 있다. 같은 칸 이름은 서류 안에서 같은 직원.
     cells = [(i, c) for i, pg in enumerate(lay["pages"]) for c in pg.get("staff", [])]
     if cells:
@@ -715,6 +721,136 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
     fonts = M.font_faces(pools)
     return {"no": no, "doc_id": doc_id, "pages": pages, "items": out, "style": style, "class": lay.get("class", ""),
             "name": lay.get("name", doc_id), "fonts": fonts, "extra_rows": extra_rows}
+
+
+def script_path(doc_id: str) -> Path | None:
+    """overlay 서식의 생성 스크립트: 서식 폴더의 generate.py (adjust 가 있는 것만. html 서식과 같은 약속)."""
+    from . import formdir
+
+    d = formdir.folder(doc_id)
+    f = d / "generate.py" if d else None
+    return f if f is not None and f.exists() and re.search(r"^def adjust\(", f.read_text(encoding="utf-8"), re.M) else None
+
+
+def nest(flat: dict) -> dict:
+    """{"customer.name": v, "deals.0.amount": w} → {"customer": {"name": v}, "deals": [{"amount": w}]}.
+    숫자 마디는 표 행 목록 (행 번호 순서). 다른 키와 부딪히는 키는 점 경로 그대로 맨 위에 둔다."""
+    d: dict = {}
+    for key in sorted(flat, key=lambda k: [int(x) if x.isdigit() else -1 for x in k.split(".")]):
+        parts, cur, ok = key.split("."), d, True
+        for j, k in enumerate(parts[:-1]):
+            nxt_list = parts[j + 1].isdigit()
+            if isinstance(cur, list):
+                i = int(k)
+                while len(cur) <= i:
+                    cur.append({})
+                cur = cur[i]
+                continue
+            if k.isdigit() or (k in cur and not isinstance(cur[k], (list if nxt_list else dict))):
+                ok = False
+                break
+            cur = cur.setdefault(k, [] if nxt_list else {})
+        last = parts[-1]
+        if ok and isinstance(cur, list) and last.isdigit():
+            ok = False
+        if ok and isinstance(cur, dict) and last not in cur:
+            cur[last] = flat[key]
+        else:
+            d[key] = flat[key]
+    return d
+
+
+def flatten(d, prefix: str = "") -> dict:
+    """nest 의 반대."""
+    out = {}
+    if isinstance(d, dict):
+        for k, v in d.items():
+            out.update(flatten(v, f"{prefix}{k}."))
+    elif isinstance(d, list):
+        for i, v in enumerate(d):
+            out.update(flatten(v, f"{prefix}{i}."))
+    else:
+        out[prefix[:-1]] = d
+    return out
+
+
+def _adjust(doc_id: str, out: list[dict], extra_rows: list[dict], p: Profile, style: dict) -> None:
+    """generate.py 의 adjust(d, p, rng) 로 글자 칸 값을 다듬는다 (없으면 그대로). d 는 칸 키의 점 경로를 중첩한 dict —
+    표 행은 목록 (formkit.rows(d, "<묶음>")). 값을 바꾼 칸은 글자 크기를 다시 맞춘다. 새 키는 정답에 없다 (검사 경고).
+    난수는 따로 (rng 를 같이 쓰면 스크립트를 더하기만 해도 다른 칸 값이 바뀐다)."""
+    path = script_path(doc_id)
+    if path is None:
+        return
+    from . import htmlform as HF
+
+    flat = {it["key"]: it["value"] for it in out if it["t"] == "text" and it.get("key")}
+    for g in extra_rows:
+        for row in g["rows"]:
+            for c in row["cells"]:
+                flat[c["key"]] = c["value"]
+    new = flatten(HF.run_script(doc_id, nest(flat), p, random.Random(f"adjust:{p.seed}:{doc_id}"), path))
+    for it in out:
+        if it["t"] == "text" and it.get("key") and it["key"] in new and new[it["key"]] != it["value"]:
+            v = new[it["key"]]
+            it["value"] = None if v in (None, "") else str(v)
+            x0, y0, x1, y1 = it["rect"]
+            it["size"] = _fit(it["value"], x1 - x0 - 6, y1 - y0, style["hand"], style["base"], style.get("scale", 1.0)) if it["value"] else 10
+    for g in extra_rows:
+        for row in g["rows"]:
+            for c in row["cells"]:
+                if c["key"] in new and new[c["key"]] != c["value"]:
+                    c["value"] = None if new[c["key"]] in (None, "") else str(new[c["key"]])
+
+
+def adjust_skeleton(doc_id: str) -> str:
+    """overlay 서식의 견본 generate.py: 이 서식의 칸(seed 0 으로 그린 값)을 d 의 꼴로 주석에 적고, 흔한 관계 예시."""
+    from .entities import make_profile
+
+    d0 = build_form(doc_id, make_profile(0), random.Random(0))
+    flat = {it["key"]: it["value"] for it in d0["items"] if it["t"] == "text" and it.get("key")}
+    d = nest(flat)
+    tables = [k for k, v in d.items() if isinstance(v, list)]
+    lines = [f"# {k} = {v!r}" for k, v in flatten({k: (v[:1] if isinstance(v, list) else v) for k, v in d.items()}).items()]
+    t = tables[0] if tables else "<표 묶음>"
+    return f'''"""{doc_id} 생성 스크립트: 칸끼리 관계를 맞춘다 (합계 = 행의 합, 시작일 ≤ 종료일, 잔액 …).
+
+값 하나하나는 영역 편집의 '생성 방법'이 만들고, 이 함수는 그 값을 받아 서로 맞게 고친다.
+d = 이 서식의 칸 키(점 경로)를 중첩한 dict. 표 행은 목록: rows(d, "{t}") → [{{열: 값}}, …] (빈 행은 값이 None).
+약속: 난수는 rng 만, 파일·네트워크·시간 금지, 새 키 금지 (정답에 없음). 확인: 영역 편집 › 수정 전후 비교, python -m docgen.formdir check {doc_id}
+도우미: docgen/formkit.py (to_date·date_like·to_amount·amount_like·won_korean·rows·get·put·add_days)
+
+seed 0 의 칸 (표는 첫 행만):
+{chr(10).join(lines)}
+"""
+from docgen.formkit import add_days, amount_like, date_like, get, put, rows, to_amount, to_date  # noqa: F401
+
+
+def adjust(d, p, rng):
+    # 예: 표 금액 열의 합계 → 합계 칸
+    # total = sum(to_amount(r.get("금액")) or 0 for r in rows(d, "{t}"))
+    # put(d, "<합계 칸 키>", amount_like(total, get(d, "<합계 칸 키>") or "1,000"))
+    #
+    # 예: 시작일 ≤ 종료일
+    # s, e = to_date(get(d, "<시작일 키>")), to_date(get(d, "<종료일 키>"))
+    # if s and e and s > e:
+    #     put(d, "<종료일 키>", date_like(add_days(s, rng.randint(30, 365)), get(d, "<종료일 키>")))
+    return d
+'''
+
+
+FILLS = {"few": "1~3행 (기본)", "half": "절반쯤", "full": "모든 행", "any": "1행 ~ 모든 행 고르게"}
+
+
+def _fill_count(mode: str | None, n_rows: int, p: Profile, rng: random.Random) -> int:
+    """표 묶음 하나에 채울 행 수. 기본(few)은 예전 그대로: 대개 1~3행, 15% 는 모든 행."""
+    if mode == "full":
+        return n_rows
+    if mode == "half":
+        return max(1, min(n_rows, round(n_rows * rng.uniform(0.35, 0.65))))
+    if mode == "any":
+        return rng.randint(1, n_rows)
+    n = rng.choice([0, 1, 1, 2, 2, 3] if p.extra.get("sparse_fields") else [1, 1, 2, 2, 3]) if rng.random() < 0.85 else n_rows
+    return min(n, n_rows)
 
 
 MORE_ROWS = 0.15   # 표 하나가 인쇄된 줄을 넘쳐 별지로 이어지는 비율 (DOCGEN_HEAVY=1 이면 늘, 0 이면 없음 — 미리보기 '내용 많음')

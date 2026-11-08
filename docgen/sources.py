@@ -13,6 +13,8 @@
   rule:free_text        짧은 자유 기재 문장 (가끔 비어 있음)
   rule:empty            늘 빈 칸
   rule:date_seq         반복 행에서 행마다 늘어나는 날짜 (html 서식의 거래내역 등)
+  rule:pattern          칸 정보의 pattern 틀로 (# 숫자, A 대문자, a 소문자, {가|나} 하나 고르기 — keyrules.from_pattern)
+  rule:<코드 생성기>     docgen/forms/_common/generators.py 에 @generator 로 적은 함수 (docgen/usergen.py)
 """
 from __future__ import annotations
 
@@ -25,7 +27,7 @@ from . import korean as K
 RULE_KINDS = ["date", "amount", "fx_amount", "percent", "rate", "currency", "account", "phone", "number", "count",
               "biz_no", "passport", "check_no", "product", "goods", "reason", "bank", "branch", "country", "email",
               "address", "company", "person", "note", "loan_subject", "repay", "check_kind", "other_person", "office_phone"]
-SPECIAL_RULES = ["choice", "fixed", "free_text", "empty", "date_seq"]
+SPECIAL_RULES = ["choice", "fixed", "free_text", "empty", "date_seq", "pattern"]
 FREE_TEXT = ["해당 없음", "본인 요청", "만기 해지", "계좌 정리", "생활자금", "추가 서류 제출 예정", "담당자 확인 완료",
              "전화 확인", "기존 계좌 유지", "주소 변경"]
 
@@ -80,9 +82,20 @@ def value(source: str, p, rng: random.Random, item: dict | None = None, values=N
         return rng.choice(choices) if choices else None
     if rule == "free_text":
         return rng.choice(FREE_TEXT) if rng.random() < 0.6 else None
+    if rule == "pattern":
+        from .keyrules import from_pattern
+
+        return from_pattern(item["pattern"], rng) if item.get("pattern") else None
     if rule == "date_seq":
         start = p.issue_date - timedelta(days=item.get("span_days", 90))
         return K.fmt_date(start + timedelta(days=row * item.get("step_days", 1) + rng.randint(0, 1)), "dot")
+    if rule not in RULE_KINDS:   # 사람이 코드로 더한 생성기 (docgen/forms/_common/generators.py), 아니면 키 사전 값 종류
+        from . import usergen
+
+        gen = usergen.get(rule)
+        if gen is not None:
+            v = gen["fn"](p, rng, item, row)
+            return None if v in (None, "") else str(v)
     if values is None:
         from .realform import Values
 
