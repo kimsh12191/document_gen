@@ -414,6 +414,13 @@ def render(spec: DocSpec, profile: Profile, seed: int | str, sample_mark: bool |
     )
     if regions and regions["regions"]:
         html = html_regions.attach(html, regions, rec, profile, seed)
+    if spec.template != "_real_form.html.j2":   # 모든 서식의 자유 위치 도장·번호 (overlay 는 realform 이 그린다)
+        from . import floats as FL
+        from . import marks as M
+
+        block = FL.html_block(spec.id, profile, seed, rec, M.settings())
+        if block:
+            html = html.replace("</body>", block + "</body>", 1) if "</body>" in html else html + block
     for item in data.get("items", []):
         if item.get("unit") and item.get("key") in rec.fields:
             rec.fields[item["key"]]["unit"] = item["unit"]

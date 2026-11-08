@@ -30,9 +30,9 @@ async function viewMarks() {
         <td class="muted num">${get(m.defaults, k, kk)}</td><td class="muted">${desc}</td></tr>`).join("")}
     </tbody></table>
     <div class="bar"><button class="primary" id="mk-save">확률 저장</button><button id="mk-reset">기본값으로</button></div></div>
-    <h2>자유 위치 도장·번호 <span class="muted" style="font-weight:400;font-size:13px">(모든 원본·그린 서식 — 서식마다는 영역 편집기의 자유 위치 도구)</span></h2>
+    <h2>자유 위치 도장·번호 <span class="muted" style="font-weight:400;font-size:13px">(모든 서식 — 원본·그린·html. 서식마다는 영역 편집기의 자유 위치 도구)</span></h2>
     <div class="sub">접수인·일부인·원본대조필 같은 도장, 문서번호·접수번호를 서류마다 쪽의 아무 데나 찍습니다. 줄마다 종류·나올 확률·영역·도장 글자를 정답에 넣을지.
-      html 서식에는 아직 안 들어갑니다.</div>
+      값 칸은 피하고 인쇄 글자 위에는 겹쳐 찍습니다.</div>
     <div class="panel"><table class="mk-fl"><thead><tr><th>종류</th><th>나올 확률</th><th>영역</th><th>도장 글자를 정답에</th><th>색</th><th></th></tr></thead>
       <tbody>${(m.settings.floats || []).map((el, i) => floatRow(m, el, i)).join("")}</tbody></table>
       <div class="bar"><button id="mk-fl-add">줄 더하기</button><button class="primary" id="mk-fl-save">자유 위치 저장</button></div></div>

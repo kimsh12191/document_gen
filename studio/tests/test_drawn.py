@@ -329,3 +329,45 @@ def test_floats_global_settings_saved(tmp_path, monkeypatch):
         marks_admin.save_settings({**M.DEFAULTS, "floats": [{"preset": "certified", "p": 0.2, "area": "middle"}]})
     marks_admin.save_settings(M.DEFAULTS)
     assert not (tmp_path / "marks.json").exists()   # 기본값이면 파일 없음
+
+
+def test_floats_on_html_forms(tmp_path, monkeypatch):
+    """html 서식: 모든 서식 설정의 자유 위치 도장·번호를 정답에 기록하고, 쪽 나눔 뒤 브라우저가 자리를 고른다 (값 칸은 피함)."""
+    from docgen import marks as M
+    from docgen.entities import make_profile
+    from docgen.registry import load_all
+    from docgen.render import render
+
+    settings = tmp_path / "marks.json"
+    settings.write_text(json.dumps({"floats": [{"preset": "received", "p": 1}, {"preset": "certified", "p": 0},
+                                               {"preset": "ref_no", "p": 1, "area": "top"}]}), encoding="utf-8")
+    monkeypatch.setattr(M, "SETTINGS", settings)
+    spec = load_all()["employment_certificate"]
+    html, fields, _ = render(spec, make_profile(2), 2)
+    f = {x["key"]: x for x in fields}
+    assert f["seal.stamp_received"]["present"] and f["stamp_received"]["value"].startswith("접 수")
+    assert not f["seal.stamp_certified"]["present"] and f["ref_no"]["value"].startswith("Ref. No.")
+    assert 'id="dg-floats"' in html
+    pytest.importorskip("playwright")
+    from docgen.image import ImageRenderer
+
+    try:
+        r = ImageRenderer(scale=1.0).__enter__()
+    except Exception:  # noqa: BLE001
+        pytest.skip("브라우저 없음")
+    try:
+        info = r.render(html, tmp_path / "a.png")
+    finally:
+        r.__exit__(None, None, None)
+    boxes = {x["key"]: x["bbox"] for x in info["fields"]}
+    marks = {x["key"]: x["bbox"] for x in info["marks"]}
+    assert "seal.stamp_received" in marks and "ref_no" in boxes
+    sb = boxes["stamp_received"]
+    assert sb[2] - sb[0] > 30   # 도장 글자 정답 칸이 도장 자리를 덮음
+    rn = boxes["ref_no"]
+    for k, b in boxes.items():   # 번호가 값 칸을 덮지 않음
+        if k in ("ref_no", "stamp_received"):
+            continue
+        ix = max(0, min(rn[2], b[2]) - max(rn[0], b[0]))
+        iy = max(0, min(rn[3], b[3]) - max(rn[1], b[1]))
+        assert ix * iy <= 0.25 * max(1, min((rn[2] - rn[0]) * (rn[3] - rn[1]), (b[2] - b[0]) * (b[3] - b[1]))), k

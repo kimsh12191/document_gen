@@ -1,8 +1,10 @@
 """자유 위치 요소: 접수인·일부인·원본대조필 같은 도장, Ref No·접수번호 같은 번호처럼 서류마다 아무 데나 찍히는 것.
 
-overlay 서식(원본 hf###·그린 img_*)에 두 곳에서 정한다.
-  서식마다   칸 목록 fields.json 의 칸 {"t": "float", "page", "rect"(나올 수 있는 영역, pt), "preset", ...} — studio 영역 편집기의 자유 위치 도구
-  모든 서식  표시 설정 docgen/forms/_common/marks.json 의 "floats": [{"preset", "p", "area", ...}] — studio 표시 요소 화면
+두 곳에서 정한다.
+  서식마다   overlay 서식(원본 hf###·그린 img_*)의 칸 목록 fields.json 칸 {"t": "float", "page", "rect"(나올 수 있는 영역, pt), "preset", ...}
+             — studio 영역 편집기의 자유 위치 도구
+  모든 서식  표시 설정 docgen/forms/_common/marks.json 의 "floats": [{"preset", "p", "area", ...}] — studio 표시 요소 화면.
+             overlay 는 realform.py 가 자리까지 정하고, html 서식은 html_block 이 정답을 기록하고 floats.js 가 쪽 나눔 뒤 자리를 고른다
 
 요소 하나의 설정 (둘 다 같은 칸)
   preset   종류 (아래 PRESETS)               p       나올 확률 (0~1, 기본 0.5)
@@ -92,7 +94,8 @@ def text_value(c: dict, p, rng: random.Random, item: dict, cls: str, vals) -> st
 
 
 def place(size: tuple[float, float], area: list[float], busy: list[list[float]], rng: random.Random) -> list[float]:
-    """영역 안에서 (w, h) 상자 자리를 뽑는다. 값 칸(busy)과 25% 넘게 겹치면 다시 (20번까지, 못 찾으면 덜 겹친 자리)."""
+    """영역 안에서 (w, h) 상자 자리를 뽑는다. 값 칸(busy)과 겹치면 다시 (둘 중 작은 상자의 25% 넘게, 20번까지,
+    못 찾으면 덜 겹친 자리). 인쇄 글자와는 겹쳐도 된다 (실제 서류처럼)."""
     w, h = size
     x0, y0, x1, y1 = area
     best, best_ov = None, None
@@ -109,12 +112,75 @@ def place(size: tuple[float, float], area: list[float], busy: list[list[float]],
 
 
 def _overlap(a, b) -> float:
+    """겹친 넓이 / 둘 중 작은 상자 넓이 — 긴 번호가 짧은 값을 덮어도 크게 잡힌다."""
     ix = max(0.0, min(a[2], b[2]) - max(a[0], b[0]))
     iy = max(0.0, min(a[3], b[3]) - max(a[1], b[1]))
-    area = (a[2] - a[0]) * (a[3] - a[1]) or 1
+    area = min((a[2] - a[0]) * (a[3] - a[1]), (b[2] - b[0]) * (b[3] - b[1])) or 1
     return ix * iy / area
 
 
 def text_size(text: str, fs: float) -> tuple[float, float]:
     em = sum(1.0 if ord(ch) > 0x2E80 else 0.6 for ch in text) or 1
     return round(em * fs + 6, 1), round(fs * 1.6, 1)
+
+
+# ---------------------------------------------------------------------------
+# html 서식: 모든 서식 설정(marks.json floats)만. 쪽 나눔이 렌더링 중에 정해지므로 자리는 브라우저가 고른다
+# (docgen/floats.js — image.py 가 쪽 나눔 뒤에 부른다). 여기서는 나올지·글자·정답 기록만 하고, 숨긴 상자로 html 끝에 붙인다.
+# ---------------------------------------------------------------------------
+
+def html_block(spec_id: str, p, seed, rec, settings: dict) -> str:
+    """html 서식 끝에 붙일 숨긴 자유 위치 요소들 (<div id="dg-floats">). 없으면 "" (html 이 예전과 같다).
+    rec: render.FieldRecorder — 도장은 rec.mark (seal.<키>), 정답 글자·번호는 rec(<키>) 로 기록한다."""
+    from markupsafe import escape
+
+    els = settings.get("floats") or []
+    if not els:
+        return ""
+    parts = []
+    for j, el in enumerate(els):
+        r = random.Random(f"float:{seed}:{spec_id}:{j}")
+        c = preset(el)
+        show = r.random() < float(c.get("p", 0.5))
+        area = c.get("area") or "any"
+        jseed = r.randrange(1, 2 ** 31)
+        key, label = c["key"], c["name"]
+        if c["type"] == "stamp":
+            text = stamp_text(c, p, r) if show else ""
+            size = round(float(c.get("size") or 50) * 96 / 72, 1)
+            ks = rec.mark(key, "seal", show, text if show else None, label=label, kind=c["name"].split(" ")[0])
+            color = COLORS.get(c.get("color") or "red")
+            lines = [ln for ln in text.split("\n") if ln.strip()] or [""]
+            ems = max(sum(1.0 if ord(ch) > 0x2E80 else 0.56 for ch in ln) for ln in lines) or 1
+            fs = round(min(size * 0.24, size * 0.78 / ems, size * 0.7 / (len(lines) * 1.12)), 1)
+            radius = "4px" if c.get("shape") == "square" else "50%"
+            inner = "<br>".join(str(escape(ln)) for ln in lines)
+            body = (f'<span data-mark="{escape(ks)}" style="display:flex;align-items:center;justify-content:center;text-align:center;'
+                    f'width:{size}px;height:{size}px;border:2px solid {color};border-radius:{radius};color:{color};opacity:.82;'
+                    f"font:700 {fs}px/1.12 'Nanum Myeongjo','Noto Serif CJK KR',serif;transform:rotate({r.uniform(-25, 25):.1f}deg)\">{inner}</span>"
+                    if show else "")
+            ans = ""
+            if show and c.get("answer"):   # 도장 글자도 정답 (kie): 도장 자리를 덮는 투명 글자
+                ans = (f'<span class="dg-ans" style="position:absolute;inset:0;color:transparent;font-size:1px;overflow:hidden">'
+                       f'{rec(key, value=" ".join(text.split()), label=label)}</span>')
+            mark_attr = "" if show else f' data-mark="{escape(ks)}"'
+            parts.append(f'<div class="dg-float" data-seed="{jseed}" data-area="{area}"{mark_attr} '
+                         f'style="position:absolute;width:{size}px;height:{size}px">{body}{ans}</div>')
+        elif show:
+            v = text_value(c, p, r, el, "기본", None)
+            if v in (None, ""):
+                continue
+            st = c.get("style") or "print"
+            color = COLORS[c.get("color") or "blue"] if st == "stamp" else "#1a1a1a"
+            rot = f"transform:rotate({r.uniform(-8, 8):.1f}deg);" if st == "stamp" else ""
+            fs = round(r.uniform(11, 14.5), 1)
+            parts.append(f'<div class="dg-float" data-seed="{jseed}" data-area="{area}" style="position:absolute;white-space:nowrap;'
+                         f'font-size:{fs}px;color:{color};{rot}">{rec(key, value=str(v), label=label)}</div>')
+    if not parts:
+        return ""
+    areas = {k: list(v) for k, v in AREAS.items()}
+    import json
+
+    # 도장 글자 정답 칸(.dg-ans .fv)이 도장 자리를 다 덮게. style 은 숨긴 상자 밖에 둔다 (상자는 자리를 정한 뒤 지워짐)
+    return (f'<style>.dg-ans .fv{{display:block;width:100%;height:100%}}</style>'
+            f'<div id="dg-floats" data-areas=\'{json.dumps(areas)}\' style="display:none">{"".join(parts)}</div>')

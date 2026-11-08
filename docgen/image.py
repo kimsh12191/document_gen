@@ -12,6 +12,7 @@ from pathlib import Path
 
 _PAGINATE_JS = (Path(__file__).resolve().parent / "paginate.js").read_text(encoding="utf-8")
 _HTML_REGIONS_JS = (Path(__file__).resolve().parent / "html_regions.js").read_text(encoding="utf-8")
+_FLOATS_JS = (Path(__file__).resolve().parent / "floats.js").read_text(encoding="utf-8")   # html 서식의 자유 위치 도장·번호
 
 _JS_COLLECT = """
 () => {
@@ -271,6 +272,7 @@ class ImageRenderer:
         self._page.evaluate("document.fonts.ready")
         self._page.evaluate("(" + _PAGINATE_JS + ")()")  # 넘친 쪽 나누기
         self._page.evaluate("(" + _HTML_REGIONS_JS + ")()")
+        self._page.evaluate("(" + _FLOATS_JS + ")()")   # 쪽이 정해진 뒤 자리 (없으면 아무것도 안 함)
         info = self._page.evaluate(_JS_COLLECT)
         if texts:
             info["texts"] = self._page.evaluate(_JS_TEXTS)
