@@ -48,7 +48,7 @@ docgen/forms/
 
 ## 키 이름 규칙
 
-칸의 키(정답 JSON 의 키)를 새로 정할 때 지킵니다. 서식마다 쓰는 키는 그 서식 카드 `FORM.md`, 전체 목록은 `keys.json`·`guide/fields/fields.json`.
+칸의 키(정답 JSON 의 키)를 새로 정할 때 지킵니다. 새 서식에 칸을 그리며 정하는 순서·예시는 [guide/keys.md](../../../guide/keys.md). 서식마다 쓰는 키는 그 서식 카드 `FORM.md`, 전체 목록은 `keys.json`·`guide/fields/fields.json`.
 
 - **형식:** 영어 snake_case, 점(.)으로 중첩, `역할.속성` 순서 (`applicant.name`, `company.biz_no`, `loan.amount`).
 - **반복 항목:** 순번이 들어감 (`rows.0.amount`, `rows.1.amount`).

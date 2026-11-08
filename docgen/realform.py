@@ -300,7 +300,7 @@ def layout_keys(doc_id: str) -> dict[str, dict]:
         elif t == "check" and it.get("options"):
             ks = [uniq(_check_key(it))]
         elif t == "date":
-            ks = [uniq(key_of(label) or "date") if label else uniq("date")]
+            ks = [uniq(it["key"]) if it.get("key") else uniq(key_of(label) or "date") if label else uniq("date")]
         elif t == "sign":
             role = uniq(it["key"] if it.get("key") else "signer")
             ks = ([f"{role}.name"] if it.get("name") else []) + mark(role)
@@ -647,12 +647,12 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
                         "union": _px([min(o["box"][0] for o in opts), min(o["rect"][1] for o in opts),
                                       max(o["rect"][2] for o in opts), max(o["rect"][3] for o in opts)])})
         elif t == "date":
-            d0 = p.issue_date
+            d0 = _date_value(it, p, rng, vals, cls)
             pr = it["parts"]
             y = f"{d0.year % 100:02d}" if it.get("yy") else (
                 str(d0.year) if (pr["y"][2] - pr["y"][0]) > 18 or rng.random() < 0.3 else f"{d0.year % 100:02d}")
             m, dd = (str(d0.month), str(d0.day)) if rng.random() < 0.6 else (f"{d0.month:02d}", f"{d0.day:02d}")
-            key = uniq(key_of(label) or "date") if label else uniq("date")
+            key = uniq(it["key"]) if it.get("key") else uniq(key_of(label) or "date") if label else uniq("date")
             union = [pr["y"][0], pr["y"][1], pr["d"][2] + 9, pr["d"][3]]
             out.append(_hidden(key, label or "작성일", union, f"{d0.year}년 {d0.month}월 {d0.day}일", page))
             for part, txt in (("y", y), ("m", m), ("d", dd)):
@@ -836,6 +836,16 @@ def adjust(d, p, rng):
     #     put(d, "<종료일 키>", date_like(add_days(s, rng.randint(30, 365)), get(d, "<종료일 키>")))
     return d
 '''
+
+
+def _date_value(it: dict, p: Profile, rng: random.Random, vals: "Values", cls: str):
+    """년·월·일 칸의 날짜: 생성 방법(source)이 있으면 그 값을 날짜로 읽고, 없거나 못 읽으면 서류 날짜(발급·작성일)."""
+    if it.get("source"):
+        v = SRC.value(it["source"], p, rng, {**it, "class": cls}, vals)
+        d = FK.to_date(v) or FK._compact_date(str(v or ""))
+        if d:
+            return d
+    return p.issue_date
 
 
 FILLS = {"few": "1~3행 (기본)", "half": "절반쯤", "full": "모든 행", "any": "1행 ~ 모든 행 고르게"}

@@ -14,7 +14,7 @@
 | 결과 분석·보고 | [guide/results.md](guide/results.md), 아래 "보고" |
 | 모델을 그림 한 장으로 써 보기 (사람이 보는 화면) | [playground/README.md](playground/README.md) |
 | **서식 하나 고치기** (값·위치·모양·칸·질문·답·채점) | [docgen/forms/README.md](docgen/forms/README.md) 0절 표 → 그 서식의 카드 `docgen/forms/<ID>/FORM.md` |
-| 새 서식 추가 | 절차 [guide/new-forms.md](guide/new-forms.md), 결과물 형식 [docgen/manual/NEW_FORM_SPEC.md](docgen/manual/NEW_FORM_SPEC.md) |
+| 새 서식 추가 | 절차 [guide/new-forms.md](guide/new-forms.md), 결과물 형식 [docgen/manual/NEW_FORM_SPEC.md](docgen/manual/NEW_FORM_SPEC.md), 칸의 키 [guide/keys.md](guide/keys.md) |
 | 서식 모양(껍데기)만 원본에 맞게 | [docgen/manual/FORM_SHELL_GUIDE.md](docgen/manual/FORM_SHELL_GUIDE.md) |
 | 실서류 이미지 OCR 준비 | [guide/ocr.md](guide/ocr.md) |
 | 과제별 질문·답·채점 규칙 (참고) | [guide/benchmark.md](guide/benchmark.md), 질문 원문 [guide/questions.md](guide/questions.md) |

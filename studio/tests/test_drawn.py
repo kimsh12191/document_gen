@@ -234,3 +234,43 @@ def test_formdir_check_and_paths_know_drawn_extras(roots):
     res = FD.check_form("img_drawn_j")
     assert not [x for x in res["problems"] if "card_masked" in x], res["problems"]
     assert "칸끼리 관계 (generate.py)" in [r for r, _ in FD.describe("img_drawn_j")]
+
+
+def test_date_cell_parts_source_and_key(roots):
+    """날짜 칸(년·월·일): 세 칸이 다 있어야 저장, 생성 방법이 없으면 서류 날짜, 있으면 그 날짜 (생년월일 등), 키를 정하면 그 키."""
+    import random
+
+    from docgen.entities import make_profile
+
+    _, priv = roots
+    drawn.create([("a.png", png())], "img_drawn_k", "신청서", True, str(priv))
+    with pytest.raises(ValueError, match="년·월·일"):
+        editor.validate("img_drawn_k", {"add": [{"t": "date", "page": 0, "label": "신청일", "parts": {"y": [10, 10, 40, 20]}}]})
+    parts = lambda y: {"y": [100, y, 140, y + 15], "m": [150, y, 170, y + 15], "d": [180, y, 200, y + 15]}  # noqa: E731
+    editor.save("img_drawn_k", {"add": [
+        {"t": "date", "page": 0, "label": "신청일", "parts": parts(100), "key": "apply_date"},
+        {"t": "date", "page": 0, "label": "생년월일", "parts": parts(140), "source": "profile.person.birth", "yy": True}]}, "test")
+    p = make_profile(3)
+    d = RF.build_form("img_drawn_k", p, random.Random(3))
+    hid = {i["key"]: i["value"] for i in d["items"] if i["t"] == "hidden"}
+    i0 = p.issue_date
+    assert hid["apply_date"] == f"{i0.year}년 {i0.month}월 {i0.day}일"
+    b = p.person.birth
+    assert hid["customer.birth"] == f"{b.year}년 {b.month}월 {b.day}일"
+    vis = [i["value"] for i in d["items"] if i["t"] == "text" and i["key"] is None]
+    assert f"{b.year % 100:02d}" in vis   # 연도 2자리
+
+
+def test_dup_key_warning(roots):
+    _, priv = roots
+    drawn.create([("a.png", png())], "img_drawn_l", "신청서", True, str(priv))
+    editor.save("img_drawn_l", {"add": [{"t": "text", "page": 0, "label": "성명", "rect": [100, 100, 300, 120]},
+                                        {"t": "text", "page": 0, "label": "성명", "rect": [100, 200, 300, 220]}],
+                                "erase": [{"page": 0, "rect": [1, 1, 5, 5]}]}, "test")
+    w = [c for c in editor.checks("img_drawn_l") if c["code"] == "dup_key"]
+    assert w and "customer.name2" in w[0]["text"]
+    drawn.create([("a.png", png())], "img_drawn_m", "신청서", True, str(priv))   # 뒤 칸에 역할 키를 주면 경고 없음
+    editor.save("img_drawn_m", {"add": [{"t": "text", "page": 0, "label": "성명", "rect": [100, 100, 300, 120]},
+                                        {"t": "text", "page": 0, "label": "성명", "rect": [100, 200, 300, 220], "key": "applicant.name"}],
+                                "erase": [{"page": 0, "rect": [1, 1, 5, 5]}]}, "test")
+    assert not [c for c in editor.checks("img_drawn_m") if c["code"] == "dup_key"]

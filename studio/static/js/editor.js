@@ -4,7 +4,7 @@
 "use strict";
 
 const ED_TOOLS = [
-  ["select", "선택·옮기기", "V"], ["text", "글자 칸 그리기", "T"], ["table", "표 그리기", "B"], ["check", "체크 보기 그리기", "C"],
+  ["select", "선택·옮기기", "V"], ["text", "글자 칸 그리기", "T"], ["table", "표 그리기", "B"], ["check", "체크 보기 그리기", "C"], ["date", "날짜 칸 (년·월·일)", "D"],
   ["sign", "서명·도장 자리", "S"], ["staff", "결재란 칸", "R"], ["erase", "지우기: 흰색", "E"], ["erase_auto", "지우기: 주변색", "A"],
 ];
 const ED_STATUS = { auto: "자동", edited: "수정", added: "추가", dropped: "뺌" };
@@ -368,6 +368,24 @@ function edCreate(ed, box) {
       ed.dirty = true; edDraw(ed); return;
     }
   }
+  if (ed.tool === "date") {
+    const it = ed.sel && edFind(ed, ed.sel.id);
+    const next = it && it.status === "added" && it.ref.t === "date" && it.page === page && ["y", "m", "d"].find(k => !it.ref.parts[k]);
+    if (next) {
+      it.ref.parts[next] = box;
+      ed.sel = { id: it.id, sub: `part:${next}` };
+      if (next === "d") ed.tool = "select";
+      ed.dirty = true; edDraw(ed); return;
+    }
+    const a = { t: "date", page, label: "", parts: { y: box } };
+    ed.ov.add.push(a);
+    const x = { id: `add:${ed.ov.add.length - 1}:${Date.now()}`, status: "added", page, ref: a, auto: { key: null, kind: null } };
+    ed.items.push(x);
+    ed.sel = { id: x.id, sub: "part:y" };
+    ed.dirty = true; edDraw(ed);
+    setTimeout(() => $("#ed-label")?.focus(), 0);
+    return;
+  }
   const a = { t: ed.tool, page, label: "" };
   if (ed.tool === "check") {
     const h = Math.min(box[3] - box[1], 10);
@@ -556,6 +574,7 @@ function edSide(ed) {
           <div class="muted" style="font-size:12px">첫 행의 칸을 모두 그리고(각 칸: 항목명 + 표의 반복 행 + 같은 표 묶음) 누릅니다. 이 칸과 같은 높이에 있는 같은 묶음의 칸을 함께 복제합니다.
             표 행이 둘 이상이어야 표가 됩니다 (한 행뿐이면 보통 칸).</div>` : ""}` : ""}` : ""}
       ${c.t === "copy" ? `<label class="fld">따라 쓸 문구 <input type="text" id="ed-copytext" value="${esc(c.text || "")}"></label>` : ""}
+      ${c.t === "date" ? dateSettings(ed, it, c) : ""}
       ${c.t === "check" ? `<div class="fld">보기 ${(c.options || []).map((o, j) => `<div class="optrow"><input type="text" data-opt="${j}" value="${esc(o.text || "")}"
         ${ed.sel.sub === `opt:${j}` ? `class="cur"` : ""}></div>`).join("")}
         <div class="muted" style="font-size:12px">${it.status === "added" ? "체크 도구로 끌면 보기를 더합니다. 보기를 고르고 Delete 로 뺍니다." : ""}</div></div>` : ""}`}
@@ -575,7 +594,8 @@ function edSide(ed) {
         <td class="nw">${esc(ED_T[c.t] || c.t)}</td>
         <td>${x.cell ? kpKeyCell(x.cell) : `<span class="mono muted">${esc(c.key || x.auto?.key || "")}</span>`}
           <div class="muted" style="font-size:11px">${esc(c.label || "")}</div></td>
-        <td class="nw" style="font-size:12px">${c.t !== "text" ? "" : c.source ? esc(genName(c.source))
+        <td class="nw" style="font-size:12px">${c.t === "date" ? (c.source ? esc(genName(c.source)) : `<span class="muted">서류 날짜</span>`)
+          : c.t !== "text" ? "" : c.source ? esc(genName(c.source))
           : !("auto_example" in x) ? `<span class="muted">자동</span>` : x.auto_example == null ? `<span class="err" title="자동으로는 빈 칸이 나옵니다">자동 → 빈 칸</span>`
           : `<span class="muted" title="자동으로 나올 값의 예">자동: ${esc(String(x.auto_example).slice(0, 14))}</span>`}</td></tr>`;
     }).join("")}</tbody></table>`;
@@ -617,6 +637,11 @@ function edSide(ed) {
   on("#ed-colfit", "click", () => edFitColumn(ed, it));
   on("#ed-source", "change", e => { setCol("source", e.target.value); redraw(); });
   on("#ed-gen", "click", () => genPicker(ed, it, src => { setCol("source", src); redraw(); }));
+  on("#ed-date-gen", "click", () => genPicker(ed, it, src => { setProp(ed, it, "source", src); redraw(); }));
+  on("#ed-yy", "change", e => {
+    if (it.status === "added") setProp(ed, it, "yy", e.target.checked ? true : null); else setGeom(ed, it, { yy: e.target.checked });
+    redraw();
+  });
   on("#ed-choices", "change", e => { setCol("choices", e.target.value.split("\n").map(s => s.trim()).filter(Boolean)); redraw(); });
   on("#ed-fixed", "change", e => { setCol("text", e.target.value); redraw(); });
   on("#ed-pattern", "change", e => { setCol("pattern", e.target.value.trim()); redraw(); });
@@ -704,6 +729,19 @@ function edMakeTable(ed) {
   ed.dirty = true;
   toast(`표 '${group}': ${cols.length}열 × ${n}행 = ${cols.length * n}칸. 열 폭이 그림과 다르면 첫 행 칸을 고치고 [이 열 폭을 모든 행에]. 저장해야 남습니다`);
   edDraw(ed);
+}
+
+// 날짜 칸 (년·월·일): 그린 칸 진행, 생성 방법 (기본 = 서류 날짜), 연도 2자리
+function dateSettings(ed, it, c) {
+  const parts = c.parts || {}, names = { y: "년", m: "월", d: "일" };
+  const next = ["y", "m", "d"].find(k => !parts[k]);
+  return `<div class="box" style="margin:6px 0;padding:6px 8px"><span style="font-weight:700">날짜 칸</span>
+    <div style="font-size:13px;margin:4px 0">${["y", "m", "d"].map(k => `${names[k]} ${parts[k] ? "✓" : "–"}`).join(" · ")}
+      ${next ? `<div class="err" style="font-size:12px">다음: <span style="font-weight:700">${names[next]}</span> 숫자가 들어갈 빈칸을 날짜 칸 도구(D)로 끄세요 (이 칸을 고른 채로)</div>` : ""}</div>
+    <div class="fld gen-cur"><span>생성 방법</span> <b>${esc(c.source ? genName(c.source) : "서류 날짜 (발급·작성·신청일)")}</b>
+      <button id="ed-date-gen">고르기…</button></div>
+    <div class="muted" style="font-size:12px">신청일·작성일·발급일은 그대로 두면 됩니다. 생년월일·입사일·만기일처럼 다른 날짜면 그 생성 방법을 고릅니다 (날짜로 읽히는 값).</div>
+    <label class="fld"><input type="checkbox" id="ed-yy" ${c.yy ? "checked" : ""}> 연도를 늘 2자리로 (칸이 좁을 때)</label></div>`;
 }
 
 // 틀 미리보기 (docgen/keyrules.py from_pattern 과 같은 규칙)

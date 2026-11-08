@@ -18,7 +18,7 @@ from docgen import sources as SRC
 from docgen.registry import load_all
 
 ITEM_TYPES = ("text", "check", "date", "sign", "copy", "staff")
-ADDABLE = ("text", "check", "sign", "copy", "staff")
+ADDABLE = ("text", "check", "date", "sign", "copy", "staff")
 def value_kinds() -> list[str]:
     """영역 편집기의 값 종류: 항목명 규칙의 종류 + 키 사전에서 더한 종류 (docgen/forms/_common/key_rules.json)."""
     from docgen import keyrules as KR
@@ -140,7 +140,7 @@ def _auto_example(it: dict, cls: str, p) -> str | None:
 
 def _public(it: dict) -> dict:
     keep = ("t", "page", "label", "rect", "options", "parts", "mark", "name", "text", "unit", "row", "group", "section",
-            "pick", "key", "kind", "source", "choices", "note", "fmt", "pattern", "fill")
+            "pick", "key", "kind", "source", "choices", "note", "fmt", "pattern", "fill", "yy")
     return {k: copy.deepcopy(it[k]) for k in keep if k in it}
 
 
@@ -262,6 +262,13 @@ def validate(doc_id: str, ov: dict) -> dict:
                 op["box"] = _box(op.get("box"), f"추가 {i + 1} 보기 {j + 1} □")
                 op["rect"] = _box(op.get("rect") or op["box"], f"추가 {i + 1} 보기 {j + 1}")
                 op["text"] = op.get("text") or f"보기{j + 1}"
+        elif a["t"] == "date":   # 년·월·일 세 칸 (영역 편집기의 날짜 칸 도구로 차례로 끈다)
+            parts = a.get("parts") or {}
+            miss = [n for k, n in (("y", "년"), ("m", "월"), ("d", "일")) if k not in parts]
+            if miss:
+                raise ValueError(f"추가 {i + 1}: 날짜 칸 '{a.get('label') or '날짜'}' 은 년·월·일 세 칸이 필요합니다 (없음: {'·'.join(miss)})")
+            a["parts"] = {k: _box(parts[k], f"추가 {i + 1} {n} 칸") for k, n in (("y", "년"), ("m", "월"), ("d", "일"))}
+            a.pop("rect", None)
         elif a["t"] == "sign":
             a["mark"] = _box(a.get("mark") or a.get("rect"), f"추가 {i + 1} 서명 자리")
             a.pop("rect", None)
@@ -338,7 +345,7 @@ def checks(doc_id: str, label: dict | None = None, fields_keys: list[dict] | Non
         kr = sorted({f["key"] for f in label["fields"] if not _ASCII.match(f["key"])})
         if kr:
             out.append({"level": "warn", "code": "korean_key",
-                        "text": f"한글 키 {len(kr)}개: {', '.join(kr[:8])}{' …' if len(kr) > 8 else ''}"})
+                        "text": f"한글 키 {len(kr)}개: {', '.join(kr[:8])}{' …' if len(kr) > 8 else ''} — 영문 키로 (guide/keys.md)"})
         if label.get("overflow"):
             out.append({"level": "warn", "code": "overflow", "text": "내용이 쪽 밖으로 넘칩니다"})
     if fields_keys:
@@ -351,6 +358,12 @@ def checks(doc_id: str, label: dict | None = None, fields_keys: list[dict] | Non
     if spec.template != "_real_form.html.j2":
         return out
     view = layout_view(doc_id)
+    keys = [k for c in RF.layout_keys(doc_id).values() for k in c["keys"]] if RF.form_no(doc_id) is None else []   # 이미지 서식만 (hf### 은 자동 추출)
+    dup = sorted({k for k in keys if (m := re.fullmatch(r"(.*\D)(\d+)", k)) and m.group(1) in keys and not k.startswith(("seal.", "sign."))})
+    if dup:   # 같은 키를 두 칸에 쓰면 뒤 칸은 name2 처럼 번호가 붙는다 (guide/keys.md 6절)
+        out.append({"level": "warn", "code": "dup_key",
+                    "text": f"같은 키를 여러 칸이 씁니다 → 뒤 칸에 번호가 붙음: {', '.join(dup[:6])}. 뒤 칸은 역할 키로 "
+                            "(예: 신청인 성명 → applicant.name) — guide/keys.md 6절"})
     if view.get("private") and view.get("origin") in ("drawn", None) and RF.form_no(doc_id) is None \
             and not (view["overrides"].get("erase") or []):
         out.append({"level": "warn", "code": "no_erase",
