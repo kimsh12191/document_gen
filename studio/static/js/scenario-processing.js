@@ -202,7 +202,7 @@ class ScenarioProcessing {
     });
     $$("[data-qa]", out).forEach(btn => btn.onclick = () => {
       const row = result.rows[+btn.dataset.qa], task = { extract: "kie", compare: "review", case: "cross_check", rule: "review", doc_check: "doc_check" }[row.kind];
-      showQuestionQA(task, row.qa || [], row.name, "현재 고객의 원본 정답을 사용하는 Q/A 예시입니다. 변조·빠짐·타인 서류가 적용된 최종 문항은 데이터셋 생성 후 ⑥에서 확인합니다.").catch(e => toast(e.message, true));
+      showQuestionQA(task, row.qa || [], row.name, "현재 고객의 원본 정답을 사용하는 Q/A 예시입니다. 변조·빠짐·타인 서류가 적용된 최종 문항은 데이터셋 생성 후 데이터셋 메뉴에서 확인합니다.").catch(e => toast(e.message, true));
     });
   }
 }

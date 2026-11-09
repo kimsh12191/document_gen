@@ -282,7 +282,7 @@ async function view_eval() {
     <div class="panel" style="margin-bottom:12px">${r.datasets.length ? r.datasets.map(d => `<label style="margin-right:12px">
       <input type="checkbox" data-ds="${esc(d.id)}" ${sel.includes(d.id) ? "checked" : ""}> ${dsTag(d)} ${esc(d.name)}
       <span class="muted">(${esc(d.source)}·${esc(d.gt)}${d.real_data ? "·실서류" : ""}, 점수 ${d.n_scores})</span></label>`).join("")
-      : `<span class="muted">등록된 데이터셋이 없습니다 (⑥ 데이터셋).</span>`}</div>
+      : `<span class="muted">등록된 데이터셋이 없습니다 (데이터셋 메뉴에서 만들기).</span>`}</div>
     <div id="ev-out"></div>`;
   const draw = async () => {
     const ids = $$("[data-ds]").filter(x => x.checked).map(x => x.dataset.ds);

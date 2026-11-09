@@ -83,10 +83,10 @@ async function viewNewForms() {
 
     ${step(4, "손보고 검수", `
       <table><tbody>
-        <tr><td>값 출처, 단독 칸 추가·위치</td><td>① 서식 › <b>영역 편집</b></td></tr>
-        <tr><td>체크·도장·서명, 반복 표 안의 칸, 표 구조·문구</td><td>① 서식 › <b>html 편집</b> (템플릿)</td></tr>
+        <tr><td>생성 방법, 칸 더하기·위치</td><td>서식 › 고치기 › <b>자리·템플릿</b></td></tr>
+        <tr><td>체크·도장·서명, 반복 표 안의 칸, 표 구조·문구</td><td>서식 › 고치기 › <b>html 편집</b> (템플릿)</td></tr>
         <tr><td>칸끼리 관계</td><td>서식 폴더의 <span class="mono">generate.py</span> (파일 탭에서 내용 확인)</td></tr>
-        <tr><td>원본과 나란히 보고 확인</td><td>① 서식 › <b>검수</b> › 검수 완료</td></tr>
+        <tr><td>원본과 나란히 보고 확인</td><td>서식 › 그림·검수 › <b>검수</b> › 검수 완료</td></tr>
       </tbody></table>
       <p class="muted">html 서식은 검수 전이어도 레시피의 "all"·그룹 선택에 들어갑니다. 검수한 것만 쓰려면 레시피의 <b>검수 완료 서식만</b>을 켭니다.</p>`)}`;
   $("#nf-refreshed").addEventListener("click", e => { if (e.target.closest("[data-close]")) $("#nf-refreshed").innerHTML = ""; });

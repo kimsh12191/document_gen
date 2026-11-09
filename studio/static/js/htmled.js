@@ -34,7 +34,7 @@ async function viewHtmlEditor(d) {
             <select id="he-prov">${prov.map(p => `<option value="${esc(p.name)}">${esc(p.name)} (${p.kind}${p.external ? ", 외부" : ""})</option>`).join("")}</select>
             <input type="text" id="he-comment" placeholder="고칠 점 (예: 표 열 너비를 원본처럼, 합계 행 추가)" style="flex:1">
             <button id="he-redo" ${prov.length ? "" : "disabled"}>맡기기</button></div>
-            <div class="muted">지금 편집 중인 템플릿·form.json 과 원본 그림, 의견을 함께 보냅니다. 결과는 ⑧ 작업에서 보고 승인하면 이 서식이 바뀝니다.
+            <div class="muted">지금 편집 중인 템플릿·form.json 과 원본 그림, 의견을 함께 보냅니다. 결과는 작업 화면(#/jobs)에서 보고 승인하면 이 서식이 바뀝니다.
               ${prov.length ? "" : "설정에 분석기(providers)가 없습니다."}</div>`
             : `<div class="muted">원본 그림이 없는 서식(코드 서식을 복제한 것)은 분석기에 맡기지 않습니다.</div>`}
         </div>
@@ -136,7 +136,7 @@ async function heSave(he) {
   try {
     await api(`/api/forms/${q(he.d.id)}/html`, { template: he.template, form }, "PUT");
     he.dirty = false; $("#he-state").textContent = "저장됨";
-    toast("저장했습니다. 이 서식은 검수 전 상태입니다 (① 서식 › 검수)");
+    toast("저장했습니다. 이 서식은 검수 전 상태입니다 (그림·검수 › 검수)");
     state.forms = null;
   } catch (e) { toast(e.message, true); }
 }
@@ -147,7 +147,7 @@ async function heRedo(he) {
   const p = $("#he-prov").value;
   try {
     const r = await api(`/api/forms/${q(he.d.id)}/html/redo`, { provider: p, comment: $("#he-comment").value, template: he.template, form });
-    toast("분석기에 맡겼습니다 (⑧ 작업)");
+    toast("분석기에 맡겼습니다 (작업 화면 #/jobs)");
     location.hash = `#/jobs/analyzer/${q(r.analyzer)}`;
   } catch (e) { toast(e.message, true); }
 }

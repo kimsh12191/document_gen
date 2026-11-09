@@ -20,7 +20,7 @@ async function view_scenarios() {
       <div class="sub">업무마다 고객이 내는 필수 서류입니다. 은행 업무 데이터셋을 만들 때 시나리오마다 고객 묶음을 만들고, 묶음에서
         서류 구비·대조·심사 문항이 나옵니다. 저장하면 <span class="mono">docgen/scenarios.json</span>에 씁니다.
         서류 이미지를 펼치면 같은 고객으로 구성한 필수 서류를 보고, 눌러서 확대할 수 있습니다.
-        <b>이미 있던 시나리오의 순서는 바꾸지 않습니다</b> (순서가 고객 seed 를 정함). 만든 묶음은 ⑥ 데이터셋 › 묶음 탭에서 봅니다.</div>
+        <b>이미 있던 시나리오의 순서는 바꾸지 않습니다</b> (순서가 고객 seed 를 정함). 만든 묶음은 데이터셋 › 그 데이터셋 › <b>업무 묶음</b> 탭에서 봅니다.</div>
       <div class="bar"><button class="primary" id="sc-save" ${dirty ? "" : "disabled"}>저장</button><button id="sc-add">새 시나리오</button>
         <span id="sc-dirty" class="${dirty ? "kr" : "muted"}">${dirty ? "저장 안 됨" : ""}</span></div>
       <datalist id="sc-forms">${forms.map(f => `<option value="${esc(f.id)}">${esc(f.name)}</option>`).join("")}</datalist>

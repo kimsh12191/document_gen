@@ -278,7 +278,7 @@ async function tabOverview(d) {
       : `<span class="muted">없음 — 견본 <span class="mono">python -m docgen.formdir qa ${esc(d.id)} --new</span></span>`,
       o.form_qa.length ? go(["form_qa"]) : "", "<span class=mono>qa.py</span> (함수 하나 = 질문 하나)"],
     ["업무 묶음", d.scenario_names.length ? d.scenario_names.map(s => `<span class="tag">${esc(s.name)}</span>`).join(" ") + ` <span class="muted">— 구비 확인·대조·심사 문항에 쓰임</span>`
-      : `<span class="muted">없음 (서류 한 건 과제에만)</span>`, d.scenario_names.length ? `<a href="#/forms/${id}/guide">업무·시나리오</a>` : "", "③ 시나리오"],
+      : `<span class="muted">없음 (서류 한 건 과제에만)</span>`, d.scenario_names.length ? `<a href="#/forms/${id}/guide">업무·시나리오</a>` : "", "시나리오·묶음 메뉴"],
   ];
   $("#ov-tasks").innerHTML = `<table class="ov-tasks"><thead><tr><th>과제</th><th>묻는 것</th><th></th><th>고치는 곳</th></tr></thead><tbody>${rows.map(([t, w, l, f]) =>
       `<tr><td class="nw">${t}</td><td>${w}</td><td class="nw">${l}</td><td class="muted">${f}</td></tr>`).join("")}</tbody></table>
