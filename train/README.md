@@ -1,6 +1,6 @@
 # train — 학습 하나 (OCR · 문서 이해 · 업무 처리)
 
-studio 데이터셋(과제 폴더)을 섞어 SFT·GRPO 로 학습하고, 같은 평가 세트로 출발·SFT·GRPO 모델을 비교합니다. 예전의 1부 OCR(`ocr/`)·2부 은행 업무(`bank/`) 학습을 하나로 합친 것입니다 ([studio/DESIGN.md 17절](../studio/DESIGN.md)).
+studio 데이터셋(과제 폴더)을 섞어 SFT·GRPO 로 학습하고, 같은 평가 세트로 출발·SFT·GRPO 모델을 비교합니다. 이 문서는 코드 지도입니다 — 학습을 돌리는 절차는 [guide/training.md](../guide/training.md), 평가는 [guide/eval.md](../guide/eval.md).
 
 ```bash
 # 학습 컨테이너, 저장소 최상위에서
@@ -12,7 +12,7 @@ python -m train --config train/configs/<이름>.json --from grpo # GRPO 다시 (
 python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보기
 ```
 
-설정은 studio ⑥ 데이터셋 › 학습 탭이 `train/configs/studio-<이름>.json` 으로 만들어 줍니다 ([guide/training.md](../guide/training.md)). 손으로 쓸 때는 [configs/pipeline.example.json](configs/pipeline.example.json) 을 복사합니다.
+설정은 studio 데이터셋 › 학습 탭이 `train/configs/studio-<이름>.json` 으로 만들어 줍니다 ([guide/training.md](../guide/training.md)). 손으로 쓸 때는 [configs/pipeline.example.json](configs/pipeline.example.json) 을 복사합니다.
 
 ## 데이터: 과제 폴더 섞기
 
@@ -22,7 +22,7 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 |---|---|
 | `python -m docgen.bench build` (`bash docgen/scripts/make_bank_data.sh`), studio 레시피 bank-* | 문서 이해(classify·kie·marks·freetext, 서식 폴더 `qa.py` 가 있는 서식은 form_qa), 업무 처리(doc_check·cross_check·review), 값 칸 OCR(ocr_field·ocr_page) |
 | `python -m docgen.ocr_set build` (합성), 설정의 `ocr_prepare` 단계·`python -m docgen.bench.ocr_prepare` (실서류 + 사내 OCR), studio 레시피 ocr-*·가져오기 | 쪽 OCR 8과제 (crop_ocr·bbox_ocr·region_ocr·marked_ocr·grounding·spotting·relation·marked_box) |
-| studio ④ 라벨 있는 데이터·서류 넣기(원본 데이터로) | 위 과제 중 고른 것 |
+| 숨긴 가져오기 화면(라벨 있는 데이터·서류 넣기, 원본 데이터로) | 위 과제 중 고른 것 |
 
 설정의 `data` 칸 (상대 경로는 설정 파일 기준):
 
@@ -55,7 +55,7 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 | eval_grpo | GRPO 병합(빠진 가중치 채움 같음)·평가 | `merged/grpo-…/`, `reports/grpo-<체크포인트>.json` |
 | report | 한 화면(평가 세트·과제별 주 지표, 출발 모델 대비 %p), 자세한 비교표 | `reports/summary.html`, `reports/benchmark.{csv,md,html}` — 읽는 법 [guide/results.md](../guide/results.md) |
 
-평가는 GPU 마다 vLLM 서버를 하나씩 띄우고 같은 그림의 질문을 같은 서버로 보냅니다. 끝나면(report) studio 학습 기록이 평가 세트마다 모델 답으로 붙여 ⑦ 평가에 점수가 뜹니다.
+평가는 GPU 마다 vLLM 서버를 하나씩 띄우고 같은 그림의 질문을 같은 서버로 보냅니다. 끝나면(report) studio 학습 기록이 평가 세트마다 모델 답으로 붙여 데이터셋 › 모델 답 탭에 점수가 뜹니다.
 
 ## 설정 파일 (`train/configs/`)
 
@@ -76,6 +76,7 @@ python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보
 | `python -m train answers <결과 폴더 또는 workdir>` | 문항별 모델 답 페이지 (`--per-task N`, `--all`; 코드 `answers.py`) | [results.md](../guide/results.md#어디서-보나) |
 | `python -m train summary <결과 폴더> ... --out <html>` | 여러 실험을 한 화면에 (코드 `summary.py`) | [results.md](../guide/results.md#여러-실험을-한-화면에) |
 | `python -m train.fill_weights <출발 모델> <합친 폴더> [--out <새 폴더>]` | 합친 모델에 빠진 가중치를 출발 모델에서 채움. ms-swift 는 transformers 로 읽어 학습·병합하므로 그 구조에 없는 가중치(Qwen3.5 의 MTP 머리 `mtp.*`)가 병합 결과에서 빠지고, vLLM 에서 MTP(speculative decoding)를 켜면 에러가 남. 채운 MTP 는 출발 모델 것이라 답은 그대로, 빨라지는 정도만 줄 수 있음. `--out` 없이는 빠진 것만 보여 줌. 학습 실행은 병합 직후 자동(`eval.fill_from_base`, 기본 켬). 그 전에 합친 폴더는 이 명령으로 새 폴더를 만듦. 합친 모델에만 있는 이름이 있으면(이름 규칙이 바뀐 것일 수 있음) 채우지 않고 알려 줌 → `--prefix mtp` 로 직접 고름 (코드 `fill_weights.py`) | |
+| `python -m train.qa_to_swift <입력 폴더> <출력.jsonl> --image-root <기준 폴더>` | image/qa JSON 폴더 → ms-swift `.jsonl` (실서류 VQA 평가 세트, 채점 `scorers/vqa_scorer.py`. 코드 `qa_to_swift.py`) | [qa-to-swift.md](../guide/qa-to-swift.md) |
 | `python -m train rescore <workdir 또는 묶음 결과 폴더>` | 저장된 답으로 다시 채점, 추론 없이 (코드 `rescore.py`). 묶음 밖 workdir 는 `--data <섞은 폴더>` | [eval.md 4절](../guide/eval.md#4-저장된-답으로-다시-채점-rescore) |
 
 채점은 모두 `docgen.bench.evaluate` 하나입니다 (보고서·studio·GRPO 보상). 평가 세트마다 채점 함수를 붙일 수 있고(`data.benchmark[].scorer`, 견본 `scorers/`), 그 세트의 평가 점수에만 씁니다. GRPO 보상까지 그 함수로 내는 것은 swift `.jsonl` 학습 데이터의 `data.train[].scorer` 뿐입니다 ([eval.md 2절](../guide/eval.md#2-채점)).

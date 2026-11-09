@@ -24,12 +24,12 @@ A. 초안 폴더 (만들면서 검사할 때)            B. 등록 폴더 (studi
 ```
 
 - **A** 는 `python -m docgen.preview --dir <폴더>` 로 바로 그려 볼 수 있습니다. 만드는 도구가 고치고 그려 보기를 반복할 때 씁니다.
-- **B** 는 폴더를 그 자리에 두기만 하면 등록됩니다 (studio ① 서식 › **서식 다시 읽기** 를 누르면 목록에 나옴). 따로 등록 명령이나 목록 파일 수정은 없습니다.
+- **B** 는 폴더를 그 자리에 두기만 하면 등록됩니다 (studio 서식 › **서식 다시 읽기** 를 누르면 목록에 나옴). 따로 등록 명령이나 목록 파일 수정은 없습니다.
 - A → B 는 파일을 옮기고 `form.json` 의 `fields`·`lists` 를 `fields.json` 으로 떼어 내면 끝입니다 (6절).
   B 에 `fields.json` 없이 A 의 `form.json` 을 그대로 둬도 읽습니다 (예전 꼴). 그래도 B 꼴로 두는 것을 권합니다.
 
 서식이 문서를 만드는 원리: **템플릿 하나 + 칸 목록**으로, 고객 정보·행 수·글꼴·선 굵기를 바꿔 가며 문서를 계속 찍어 냅니다.
-템플릿은 모양과 "어디에 어떤 키의 값이 들어가는지"만 갖고, 실제 값은 칸 목록의 값 출처(`source`)가 매번 만듭니다.
+템플릿은 모양과 "어디에 어떤 키의 값이 들어가는지"만 갖고, 실제 값은 칸 목록의 생성 방법(`source`)가 매번 만듭니다.
 
 ---
 
@@ -120,17 +120,17 @@ Jinja2 + HTML 입니다. 쪽은 **A4 세로 794 × 1123 px** 입니다.
 |---|---|
 | `label` | 원본 항목명 |
 | `type` | `text` `amount` `number` `date` `checkbox` `seal` `signature` |
-| `source` | 값 출처 (아래) |
+| `source` | 생성 방법 (아래) |
 | `choices` | `rule:choice` 일 때 보기 목록 (템플릿 `m.choice` 의 보기와 같게) |
 | `text` | `rule:fixed` 일 때 늘 쓸 글자 |
 | `description` | (선택) 항목 설명 |
 | `lists.<이름>.min`·`max` | 반복 표 행 수 범위. min = 원본에 보이는 행 수가 무난 |
 
-**값 출처 `source`** (`docgen/sources.py`)
+**생성 방법 `source`** (`docgen/sources.py`)
 
 | 쓰는 법 | 값 |
 |---|---|
-| `profile.<경로>` | 합성 고객 프로필. 예: `profile.person.name`, `profile.person.rrn`, `profile.person.address.road_short`, `profile.person.phone`, `profile.employment.company.name`. 한 문서 안에서 서로 맞는 값(같은 사람)이 필요하면 이쪽 |
+| `profile.<경로>` | 합성 고객 프로필. 예: `profile.person.name`, `profile.person.rrn`, `profile.person.address.road_short`, `profile.person.mobile`, `profile.employment.company.name`. 한 문서 안에서 서로 맞는 값(같은 사람)이 필요하면 이쪽 |
 | `rule:<종류>` | 종류에 맞는 그럴듯한 값: `date` `amount` `fx_amount` `percent` `rate` `currency` `account` `phone` `number` `count` `biz_no` `passport` `check_no` `product` `goods` `reason` `bank` `branch` `country` `email` `address` `company` `person` `note` … |
 | `rule:choice` | `choices` 중 하나 |
 | `rule:fixed` | `text` 그대로 |
@@ -140,7 +140,7 @@ Jinja2 + HTML 입니다. 쪽은 **A4 세로 794 × 1123 px** 입니다.
 
 `rule:` 값은 칸마다 따로 뽑습니다 (예: 합계가 행 금액의 합과 다름, 발급일이 조회기간보다 앞섬). 같은 사람의 값은 `profile.` 로 맞추고,
 **칸끼리 관계(순서·합계·잔액·조건·표기)는 생성 스크립트 `generate.py` 로 맞춥니다 (8절).**
-값 출처를 다 정하지 못했으면 `rule:note`(아무 글자) 로 두고 studio ① 서식에서 고쳐도 됩니다. **키와 위치만 맞으면 값 출처는 나중에 고칠 수 있습니다.**
+생성 방법을 다 정하지 못했으면 `rule:note`(아무 글자) 로 두고 studio 서식 메뉴에서 고쳐도 됩니다. **키와 위치만 맞으면 생성 방법은 나중에 고칠 수 있습니다.**
 
 ---
 
@@ -210,18 +210,18 @@ python -m docgen.preview --dir <초안 폴더> --rows max --out out/max
 
 - **서식 ID**: 영어 소문자로 시작, 소문자·숫자·밑줄 3~51자 (`[a-z][a-z0-9_]{2,50}`). 이미 있는 ID 는 쓰지 않습니다 (`python -m docgen.formdir path <ID>` 로 확인). 기존 폴더를 덮어쓰지 않습니다.
 - **어디에**: 공개·빈 서식에서 만든 것은 `docgen/forms/<ID>/`, **실서류에서 만든 것은 `$DOCGEN_PRIVATE_FORMS/<ID>/`** (studio `private_forms_dir`).
-- studio ① 서식 목록 위의 **서식 다시 읽기** 를 누르면 목록에 나옵니다 (다시 띄우지 않아도 됨). 폴더가 깨져 있으면 등록하지 않고 이유를 보여 줍니다 (JSON·템플릿 문법·ID 형식·코드 서식과 ID 겹침).
+- studio 서식 목록 위의 **서식 다시 읽기** 를 누르면 목록에 나옵니다 (다시 띄우지 않아도 됨). 폴더가 깨져 있으면 등록하지 않고 이유를 보여 줍니다 (JSON·템플릿 문법·ID 형식·코드 서식과 ID 겹침).
 - 이미 등록된 서식의 템플릿·칸 목록을 고친 것은 누르지 않아도 다음 미리보기부터 반영됩니다. 버튼은 새 폴더, 지운 폴더, `form.json` 의 이름·그룹을 바꿨을 때 누릅니다.
 
 **3) 등록 뒤 확인**
 
 ```bash
 python -m docgen.formdir path <ID>                         # 파일 자리
-python -m docgen.formdir check <ID>                        # 서식 검사 (칸 목록·박스·값 출처·질문·qa.py·카드)
+python -m docgen.formdir check <ID>                        # 서식 검사 (칸 목록·박스·생성 방법·질문·qa.py·카드)
 python -m docgen.preview <ID> --rows max --out out/<ID>    # 등록된 서식으로 그리기
 ```
 
-등록된 서식은 **검수 전** 상태입니다. studio ① 서식에서 사람이 원본과 비교해 검수 완료를 누릅니다.
+등록된 서식은 **검수 전** 상태입니다. studio 서식 메뉴에서 사람이 원본과 비교해 검수 완료를 누릅니다.
 **html 서식은 검수 전이어도 레시피의 `"all"`·그룹 선택에 들어갑니다.** 검수한 서식만 쓰려면 레시피에서 **검수 완료 서식만**(`reviewed_only`)을 켭니다 (검수 전에는 자동으로 빠지는 것은 가져온 이미지 서식 `img_*` 뿐).
 형식 검사 통과는 검수 완료가 아닙니다 (AGENTS.md 규칙 7).
 
@@ -245,7 +245,7 @@ python -m docgen.preview <ID> --rows max --out out/<ID>    # 등록된 서식으
 
 그림 위에 그린 서식(overlay)의 `generate.py` 는 같은 약속에 고칠 수 있는 칸이 다릅니다: [guide/generators.md 3절](../../guide/generators.md#3-칸끼리-관계-맞추기-서식-폴더의-generatepy).
 
-칸 목록의 값 출처는 칸마다 값을 따로 뽑습니다. 칸끼리 관계가 있으면 서식 폴더에 `generate.py` 를 두고 **값을 다 채운 뒤 다듬습니다.**
+칸 목록의 생성 방법은 칸마다 값을 따로 뽑습니다. 칸끼리 관계가 있으면 서식 폴더에 `generate.py` 를 두고 **값을 다 채운 뒤 다듬습니다.**
 
 ```
 칸 목록(fields)으로 값을 채운다 → generate.py 의 adjust(d, p, rng) → 템플릿에 넣어 그린다 → 정답 라벨
@@ -392,7 +392,7 @@ def 보증인(v):                      # True/False → 예/아니오
 
 ```bash
 python -m docgen.formdir card <ID>                  # docgen/forms/<ID>/FORM.md
-python -m docgen.formdir check <ID>                 # 서식 검사: 칸 목록·값 출처·질문 설정·questions.json·qa.py
+python -m docgen.formdir check <ID>                 # 서식 검사: 칸 목록·생성 방법·질문 설정·questions.json·qa.py
 ```
 
 ---
@@ -430,7 +430,7 @@ python -m docgen.formdir check <ID>                 # 서식 검사: 칸 목록�
 
 ## 12. 코드 서식 (값을 파이썬 함수가 만드는 서식)
 
-html 서식은 칸 목록의 값 출처가 값을 만들고, **코드 서식**은 서식 폴더 `generate.py` 의 `@doc` 함수가 값 전부를 만듭니다 (지금 70종). 새로 만들 때는 보통 html 서식(1~10절)이 쉽고, 칸끼리 얽힌 계산이 많을 때만 코드 서식으로 만듭니다. 템플릿 규칙(2절)은 같습니다.
+html 서식은 칸 목록의 생성 방법이 값을 만들고, **코드 서식**은 서식 폴더 `generate.py` 의 `@doc` 함수가 값 전부를 만듭니다 (지금 70종). 새로 만들 때는 보통 html 서식(1~10절)이 쉽고, 칸끼리 얽힌 계산이 많을 때만 코드 서식으로 만듭니다. 템플릿 규칙(2절)은 같습니다.
 
 코드 서식(값을 파이썬이 만드는 서식) 한 종을 추가하려면 서식 폴더에 **생성 함수 1개 + 템플릿 1개**를 만들고 그룹 모듈에 등록한다.
 
@@ -444,7 +444,7 @@ docgen/docs/<그룹>.py                         끝의 FORMS 목록에 <서류ID
 예시: `docgen/forms/employment_certificate/generate.py`(값)와 `docgen/forms/employment_certificate/look/template.html.j2`
 
 다 만들면 `python -m docgen.formdir declare <서류ID> --apply` 로 칸 목록 `docgen/forms/<서류ID>/fields.json` 에 칸을 적습니다
-(값은 생성 함수 그대로 `"source": "code"`, 키 하나만 값 출처를 바꿔 덮어쓸 수 있음 — docgen/README.md "서식 수정 파일").
+(값은 생성 함수 그대로 `"source": "code"`, 키 하나만 생성 방법을 바꿔 덮어쓸 수 있음 — docgen/README.md "서식 수정 파일").
 
 ### 생성 함수
 

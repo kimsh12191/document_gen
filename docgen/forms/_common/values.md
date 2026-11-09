@@ -1,9 +1,9 @@
-# 값 출처 (fields.json 의 source)
+# 생성 방법 목록 (fields.json 의 source)
 
 <!-- 자동 생성: python -m docgen.formdir values · 코드(docgen/sources.py, docgen/keyrules.py, docgen/entities.py)에서 만든다 -->
 
 서식 칸 목록 `fields.json` 의 `"source"` 에 쓰는 것. 칸 하나의 값을 문서를 그릴 때마다 여기서 만든다.
-칸끼리 관계(합계·날짜 순서·조건)는 값 출처가 아니라 서식 폴더의 `generate.py` 로 맞춘다 (html·overlay 모두, overlay 견본 `python -m docgen.formdir adjust <ID> --new`).
+칸끼리 관계(합계·날짜 순서·조건)는 생성 방법이 아니라 서식 폴더의 `generate.py` 로 맞춘다 (html·overlay 모두, overlay 견본 `python -m docgen.formdir adjust <ID> --new`).
 날짜·금액의 표기는 칸의 `"fmt"` (아래 '표기'), 표 묶음의 채우는 행 수는 표 칸의 `"fill"` (few·half·full·any).
 
 ## 특별한 것

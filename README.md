@@ -38,23 +38,19 @@
 - **문서 이해:** 서류 분류 `classify`, 값·위치 추출 `kie`, 체크·도장·서명 `marks`, 기타 칸 정리 `freetext`, 서식 전용 질문 `form_qa`
 - **업무 처리** (한 고객의 서류 묶음): 서류 구비 확인 `doc_check`, 서류 대조 `cross_check`, 심사 질의 `review`
 
-## 시작
+## 누구시면 어디부터
 
-| 하려는 일 | 문서 |
-|---|---|
-| **처음이면: 데이터 만들기부터 학습·결과까지 한 번** | [guide/start.md](guide/start.md) |
-| **studio 화면 쓰기** (서식 · 새 서식 추가 · 데이터셋) | [guide/studio.md](guide/studio.md) |
-| 데이터셋 만들기 (평가 세트·학습 데이터) | [guide/data.md](guide/data.md) |
-| 학습하기, 설정을 바꾼 모델 여러 개 | [guide/training.md](guide/training.md) |
-| 평가 세트·채점 방식, 학습 없이 평가만, 다시 채점 | [guide/eval.md](guide/eval.md) |
-| 결과 보기·읽기 | [guide/results.md](guide/results.md) |
-| **서식 고치기** (값·위치·모양·칸·질문·답) — 직접 또는 LLM 에게 | [docgen/forms/README.md](docgen/forms/README.md) |
-| 새 서식 추가 | [guide/new-forms.md](guide/new-forms.md) |
-| agent(LLM)에게 일 맡기기 | [AGENTS.md](AGENTS.md) |
+| 누구 | 하는 일 | 먼저 읽을 것 |
+|---|---|---|
+| **처음 오신 분 · 관리자** | 무엇을 하는 저장소인지, 결과가 어떤지 | 이 문서 → [용어 한 장](guide/terms.md) → [결과 읽는 법](guide/results.md) |
+| **studio 사용자** (서식 검수, 데이터셋 만들기) | 웹 화면에서 서식을 보고 고치고 검수, 데이터셋 만들기 | [studio 사용법](guide/studio.md) |
+| **새 서식을 맡은 외주 개발자** | 서식 그림에서 새 서식을 만들어 넘기기 | [새 서식 추가](guide/new-forms.md) (맨 위 "외주 체크리스트") |
+| **학습 담당** (GPU 서버) | 학습·평가 돌리고 결과 보고 | [처음부터 끝까지 한 번](guide/start.md) → [학습](guide/training.md) |
+| **agent (LLM)** | 위 일을 맡아서 | [AGENTS.md](AGENTS.md) |
+| **코드 개발자** | 생성기·studio·학습 코드 고치기 | [docgen/README.md](docgen/README.md) · [studio/README.md](studio/README.md) · [train/README.md](train/README.md) |
+| **설치 담당** | 내부망 서버에 studio 컨테이너 띄우기 | [docker/README.md](docker/README.md) |
 
-그 밖에: 실서류 이미지로 OCR 데이터 [guide/ocr.md](guide/ocr.md), 내부망 반입·설치 [docker/README.md](docker/README.md),
-전체 문서 목록·찾아보는 자료(서류 목록·질문 원문·실제 문항) [guide/README.md](guide/README.md), 코드 구조 [docgen/README.md](docgen/README.md)·[studio/DESIGN.md](studio/DESIGN.md)·[train/README.md](train/README.md),
-실험 기록 [experiments/](experiments/README.md), 지난 작업 기록 [archive/](archive/README.md).
+전체 문서 목록은 [guide/README.md](guide/README.md). 실험 기록 [experiments/](experiments/README.md), 지난 작업 기록 [archive/](archive/README.md).
 
 ## 알아 둘 점
 
@@ -63,9 +59,3 @@
 - **합성 데이터 점수는 실서류보다 높게 나옵니다.** 학습과 평가가 같은 생성기라 고객만 다르기 때문입니다. 실서류 성능은 검수한 실서류 평가 세트로 따로 봅니다.
 - **찍어도 나오는 점수가 있습니다.** 서류 대조는 항상 "문제없음"이라고 해도 약 60%. 점수는 [results.md](guide/results.md) 의 기준선과 함께 봅니다.
 - **실서류 이미지는 외부 모델·서비스에 보내지 않습니다.** 모든 합성 데이터는 실존 인물·사업자와 무관합니다.
-
-## 테스트
-
-```bash
-python -m pytest        # docgen/tests, studio/tests, train/tests (학습은 GPU 없이 리허설까지), playground/tests
-```

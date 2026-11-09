@@ -1,6 +1,6 @@
 // 키 사전 (studio/DESIGN.md 16.0): 칸마다 키는 하나 — 공통 키(여러 서류에 나오고 서류끼리 대조하는 값) 또는 문서별 키(그 서식에만 있는 칸).
 // 칸의 누구의 · 무엇을 정하면 그 둘이 공통 키일 때 공통 키가 된다. 고르기 패널은 keypick.js (서식 미리보기·영역 편집과 같이 쓴다).
-// 서버: studio/api_dictionary.py (docgen/dictionary.py, docgen/forms/_common/dictionary/*.json), 값 종류·값 출처는 studio/api_keys.py (docgen/forms/_common/key_rules.json)
+// 서버: studio/api_dictionary.py (docgen/dictionary.py, docgen/forms/_common/dictionary/*.json), 값 종류·생성 방법은 studio/api_keys.py (docgen/forms/_common/key_rules.json)
 "use strict";
 
 addRoute(/^#\/keys(?:\/(\w+))?$/, tab => viewKeys(tab || "common"), "keys");
@@ -70,7 +70,7 @@ async function editCommon(ck) {
     <label>이름 <input type="text" id="ce-name" value="${esc(k.name)}" style="width:100%"></label>
     <div class="bar"><label>값 종류 <select id="ce-kind">${[...new Set([k.kind, ...rules.kinds.map(x => x.name)])].map(n =>
       `<option ${n === (rule.kind || k.kind) ? "selected" : ""}>${esc(n)}</option>`).join("")}</select></label>
-      <label>가짜 값 출처 <select id="ce-src"><option value="">(값 종류로 만듦)</option>${src.sources.map(x =>
+      <label>가짜 생성 방법 <select id="ce-src"><option value="">(값 종류로 만듦)</option>${src.sources.map(x =>
         `<option value="${esc(x.path)}" ${x.path === rule.source ? "selected" : ""}>${esc(x.path)} — ${esc(String(x.example).slice(0, 20))}</option>`).join("")}</select></label></div>
     <label>다른 이름 (외부 추출 결과의 키, 쉼표) <input type="text" id="ce-alias" value="${esc((rule.aliases || []).join(", "))}" style="width:100%"></label>
     <div class="bar"><button class="primary" id="ce-save">저장</button></div>

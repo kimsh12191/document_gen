@@ -1,7 +1,7 @@
 // ① 서식 › 자리·템플릿 (html·코드 서식): 값이 나올 수 있는 모든 자리를 공란 그림 위에 보이고, 자리를 누르면 그 자리를 정한
 // 템플릿 줄로 간다. 위치·항목명·모양은 템플릿에서 고치고 (문서마다 글꼴·행 수가 바뀌어 위치를 다시 계산하므로 끌어 옮기지 않음),
-// 값 출처는 칸 목록 fields.json 에. 빈칸을 누르면 근처 인쇄 글자가 있는 템플릿 줄로, [자리 넣기] 는 커서 자리에 f() 줄과 값 출처를.
-// 템플릿·값 출처 고친 것은 모아 두었다가 [저장] 한 번에. 레이아웃 변형이 있으면 골라서 그 템플릿을.
+// 생성 방법은 칸 목록 fields.json 에. 빈칸을 누르면 근처 인쇄 글자가 있는 템플릿 줄로, [자리 넣기] 는 커서 자리에 f() 줄과 생성 방법을.
+// 템플릿·생성 방법 고친 것은 모아 두었다가 [저장] 한 번에. 레이아웃 변형이 있으면 골라서 그 템플릿을.
 // 서버: studio/spots.py (/api/forms/{id}/spots · template)
 "use strict";
 
@@ -17,7 +17,7 @@ async function viewHtmlSpots(d) {
                saved: null, pending: new Map(), diff: null, regions: [], near: null, caret: null };
   const dirtyText = () => $("#hs-text") && $("#hs-text").value !== hs.saved;
   const dirty = () => dirtyText() || hs.pending.size > 0;
-  state.leave = unload => !dirty() || (unload ? false : confirm("저장하지 않은 템플릿·값 출처 수정이 있습니다. 버릴까요?"));
+  state.leave = unload => !dirty() || (unload ? false : confirm("저장하지 않은 템플릿·생성 방법 수정이 있습니다. 버릴까요?"));
   $("#tab").innerHTML = `
     <div class="sub">html 서식의 값 자리는 템플릿의 <span class="mono">f("키")</span> 가 정합니다. 문서마다 글꼴·행 수·쪽이 바뀌어 위치를 다시 계산하므로
       자리를 끌어 옮기지 않고 <b>템플릿</b>에서 고칩니다. 상자를 누르면 그 자리를 정한 줄로, <b>빈칸</b>을 누르면 근처 인쇄 글자가 있는 줄로 갑니다.
@@ -49,14 +49,14 @@ async function viewHtmlSpots(d) {
   const tstatus = () => {
     const el = $("#hs-tstatus");
     if (!el) return;
-    const parts = [dirtyText() ? "템플릿 고침" : "", hs.pending.size ? `값 출처 ${hs.pending.size}개 (${[...hs.pending.keys()].join(", ")})` : ""].filter(Boolean);
+    const parts = [dirtyText() ? "템플릿 고침" : "", hs.pending.size ? `생성 방법 ${hs.pending.size}개 (${[...hs.pending.keys()].join(", ")})` : ""].filter(Boolean);
     el.textContent = parts.length ? `저장 안 됨: ${parts.join(" · ")} — 미리보기로 확인하고 [저장]` : "";
   };
   ta.oninput = tstatus;
   const keepCaret = () => { hs.caret = ta.selectionEnd; };
   ta.onkeyup = keepCaret; ta.onmouseup = keepCaret; ta.onblur = keepCaret;
 
-  // 그리기: fresh 면 저장본으로 (편집기 글도 저장본으로), 아니면 지금 초안(템플릿·값 출처)으로
+  // 그리기: fresh 면 저장본으로 (편집기 글도 저장본으로), 아니면 지금 초안(템플릿·생성 방법)으로
   const load = async (fresh = false) => {
     status("모든 자리를 찾는 중 (고객 여러 명·내용 많음·다른 레이아웃으로 그려 봅니다)…");
     const body = { seed: hs.seed, heavy: hs.heavy, variant: hs.variant };
@@ -224,8 +224,8 @@ async function viewHtmlSpots(d) {
           ${k.template_line ? `<a href="#" id="hs-jump">템플릿 ${k.template_line}줄</a>` : `<span class="muted">템플릿 줄을 못 찾음 (매크로 안)</span>`}
           ${k.fields_line ? ` · <span class="mono">${esc(k.fields_line)}</span>` : ""}</div>
         ${k.value_from ? `<div class="muted" style="font-size:12px">값: ${esc(k.value_from.replace(/`/g, ""))}${k.key_from ? ` · 키: ${esc(k.key_from.replace(/`/g, ""))}` : ""}</div>` : ""}
-        <details style="margin-top:6px" ${k.status === "never" ? "" : "open"}><summary>값 출처 바꾸기 (fields.json)${hs.pending.has(k.pattern) ? " · 저장 안 됨" : ""}</summary>
-          <label class="fld">값 출처 ${sourceSelect(hs.pending.get(k.pattern)?.source || k.source, code)}</label>
+        <details style="margin-top:6px" ${k.status === "never" ? "" : "open"}><summary>생성 방법 바꾸기 (fields.json)${hs.pending.has(k.pattern) ? " · 저장 안 됨" : ""}</summary>
+          <label class="fld">생성 방법 ${sourceSelect(hs.pending.get(k.pattern)?.source || k.source, code)}</label>
           ${extraFields("hs")}
           <div class="bar"><button id="hs-src-set">바꾸고 미리보기</button>${hs.pending.has(k.pattern) ? `<button id="hs-src-undo">바꾼 것 취소</button>` : ""}</div>
         </details>
@@ -269,13 +269,13 @@ async function viewHtmlSpots(d) {
     if (p) { $("#hs-fixed").value = p.text || ""; $("#hs-choices").value = (p.choices || []).join("\n"); }
     $("#hs-src-set").onclick = () => {
       const v = valueOf(k.pattern, "#hs-src", "hs");
-      if (!v.source) return toast("값 출처를 고르세요", true);
+      if (!v.source) return toast("생성 방법을 고르세요", true);
       hs.pending.set(k.pattern, v); load();
     };
     if ($("#hs-src-undo")) $("#hs-src-undo").onclick = () => { hs.pending.delete(k.pattern); load(); };
   };
 
-  // [자리 넣기]: 커서 자리에 종류에 맞는 줄 + (글자·체크 보기) 값 출처를 모아 둠 → 미리보기
+  // [자리 넣기]: 커서 자리에 종류에 맞는 줄 + (글자·체크 보기) 생성 방법을 모아 둠 → 미리보기
   const openInsert = (label = "") => {
     const code = hs.data.kind === "code";
     const names = hs.data.keys.map(k => k.pattern).filter(p => /(^|\.)name$/.test(p));
@@ -289,7 +289,7 @@ async function viewHtmlSpots(d) {
         <span class="muted" style="font-size:12px">키는 영어 소문자·숫자·밑줄을 점으로 이은 "누구의.무엇". 도장·서명은 자리 이름만 (seal.·sign. 이 붙음)</span></div></div>`;
     const more = () => {
       const kind = $("#hi-kind").value;
-      $("#hi-more").innerHTML = kind === "field" ? `<label class="fld">값 출처 ${sourceSelect(code ? "code" : "", code, "hi-src")}</label>${extraFields("hi")}`
+      $("#hi-more").innerHTML = kind === "field" ? `<label class="fld">생성 방법 ${sourceSelect(code ? "code" : "", code, "hi-src")}</label>${extraFields("hi")}`
         : kind === "choice" ? `<label class="fld">보기 (한 줄에 하나, 고객마다 하나가 체크됨) <textarea id="hi-opts" rows="3"></textarea></label>`
         : kind === "sigspot" ? `<label class="fld">서명·도장 할 사람의 이름 키 <input id="hi-name" list="hi-names" value="${esc(names[0] || "")}"></label>
             <datalist id="hi-names">${names.map(n => `<option value="${esc(n)}">`).join("")}</datalist>`
@@ -312,9 +312,9 @@ async function viewHtmlSpots(d) {
       if (kind === "field") {
         snippet = `{{ f("${q(key)}", label="${q(lab)}") }}`;
         const v = valueOf(key, "#hi-src", "hi");
-        if (!v.source) return toast("값 출처를 고르세요", true);
+        if (!v.source) return toast("생성 방법을 고르세요", true);
         if (!(code && v.source === "code")) value = v;
-        else if (!have.includes(key)) return toast("코드 서식의 새 키는 생성 함수가 값을 만들지 않으니 값 출처를 고르세요 (고객 프로필·규칙)", true);
+        else if (!have.includes(key)) return toast("코드 서식의 새 키는 생성 함수가 값을 만들지 않으니 생성 방법을 고르세요 (고객 프로필·규칙)", true);
       } else if (kind === "choice") {
         const opts = $("#hi-opts").value.split("\n").map(s => s.trim()).filter(Boolean);
         if (opts.length < 2) return toast("보기를 두 개 이상 적으세요", true);
@@ -344,20 +344,20 @@ async function viewHtmlSpots(d) {
     const d = hs.diff;
     $("#hs-diff").innerHTML = !d ? "" : (d.lost.length || d.added.length)
       ? `<div class="box warnbox">${d.lost.length ? `<div><b>빠지는 키 ${d.lost.length}</b>: ${d.lost.map(x => `<span class="mono">${esc(x)}</span>`).join(", ")} — 그 칸의 정답이 데이터에서 없어집니다</div>` : ""}
-         ${d.added.length ? `<div><b>새로 생기는 키 ${d.added.length}</b>: ${d.added.map(x => `<span class="mono">${esc(x)}</span>`).join(", ")} — 값 출처를 정했는지 확인하세요</div>` : ""}</div>`
+         ${d.added.length ? `<div><b>새로 생기는 키 ${d.added.length}</b>: ${d.added.map(x => `<span class="mono">${esc(x)}</span>`).join(", ")} — 생성 방법을 정했는지 확인하세요</div>` : ""}</div>`
       : `<div class="muted">키는 저장본과 같습니다.</div>`;
   };
 
   $("#hs-go").onclick = () => { hs.seed = Math.max(0, +$("#hs-seed").value || 0); hs.heavy = $("#hs-heavy").value; load(); };
   $("#hs-lay").onchange = e => {
-    if (dirtyText() && !confirm("이 레이아웃의 템플릿 수정을 버리고 다른 레이아웃으로 갈까요? (값 출처 바꾼 것은 그대로)")) { e.target.value = hs.variant; return; }
+    if (dirtyText() && !confirm("이 레이아웃의 템플릿 수정을 버리고 다른 레이아웃으로 갈까요? (생성 방법 바꾼 것은 그대로)")) { e.target.value = hs.variant; return; }
     hs.variant = e.target.value; hs.sel = null; hs.near = null; hs.page = 0; load(true);
   };
   $("#hs-values").onchange = e => { hs.values = e.target.checked; store.set("hs.values", hs.values); draw(); };
   $("#hs-pages").onclick = e => { if (e.target.dataset.p !== undefined) { hs.page = +e.target.dataset.p; hs.near = null; draw(); } };
   $("#hs-ins-open").onclick = () => openInsert(hs.near?.label || "");
   $("#hs-preview").onclick = () => load();
-  $("#hs-revert").onclick = async () => { if (!dirty() || confirm("저장하지 않은 수정(템플릿·값 출처)을 버릴까요?")) { hs.pending.clear(); hs.diff = null; await load(true); } };
+  $("#hs-revert").onclick = async () => { if (!dirty() || confirm("저장하지 않은 수정(템플릿·생성 방법)을 버릴까요?")) { hs.pending.clear(); hs.diff = null; await load(true); } };
   $("#hs-save").onclick = async () => {
     if (!dirty()) return toast("바뀐 것이 없습니다");
     $("#hs-tstatus").textContent = "저장 전 검사 중…";
@@ -366,7 +366,7 @@ async function viewHtmlSpots(d) {
       if (hs.diff?.lost.length && !confirm(`빠지는 키가 ${hs.diff.lost.length}개 있습니다 (${hs.diff.lost.join(", ")}). 그래도 저장할까요?`)) return tstatus();
       const r = await api(url + "/template", { template: dirtyText() ? ta.value : null, variant: hs.variant,
                                                 values: hs.pending.size ? [...hs.pending.values()] : null }, "PUT");
-      toast(`저장했습니다: ${r.file}${r.values ? ` · 값 출처 ${r.values}개` : ""}`); state.forms = null; delete formCache[hs.d.id];
+      toast(`저장했습니다: ${r.file}${r.values ? ` · 생성 방법 ${r.values}개` : ""}`); state.forms = null; delete formCache[hs.d.id];
       hs.pending.clear(); hs.diff = null; await load(true);
     } catch (e) { $("#hs-tstatus").textContent = e.message; toast(e.message, true); }
   };

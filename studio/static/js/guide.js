@@ -12,9 +12,10 @@ function guideMarkdown(text, name, documents) {
     s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
       if (/^https?:\/\//.test(href)) return hold(`<a href="${href}" target="_blank" rel="noopener">${label}</a>`);
       const base = /^(docgen|docker)\//.test(name) ? `https://guide.local/${name}` : `https://guide.local/guide/${name}`;   // docgen/manual 문서는 저장소 기준 경로
-      const path = decodeURIComponent(new URL(href, base).pathname);
+      const url = new URL(href, base), path = decodeURIComponent(url.pathname);
       const target = path.startsWith("/guide/") ? path.slice(7) : path.slice(1);
-      if (documents.some(d => d.id === target)) return hold(`<a href="#/guide/${encodeURIComponent(target)}">${label}</a>`);
+      const at = url.hash ? "#" + decodeURIComponent(url.hash.slice(1)) : "";   // 문서 안 절로
+      if (documents.some(d => d.id === target)) return hold(`<a href="#/guide/${encodeURIComponent(target)}${at}">${label}</a>`);
       if (target === "catalog.json") return hold(`<a href="/api/guide/catalog" target="_blank" rel="noopener">${label} (현재 JSON)</a>`);
       return `${label} <span class="muted">(${href})</span>`;
     });
@@ -30,9 +31,10 @@ function guideMarkdown(text, name, documents) {
       continue;
     }
     if (code !== null) { code.push(line); continue; }
-    if (line.startsWith("|") && line.trimEnd().endsWith("|")) {
-      if (/^\|[\s:|\-]+\|$/.test(line)) continue;
-      const cells = line.slice(1, line.lastIndexOf("|")).split(/(?<!\\)\|/).map(x => inline(x.trim().replace(/\\\|/g, "|")));
+    if (line.trimStart().startsWith("|") && line.trimEnd().endsWith("|")) {   // 목록 안에 들여 쓴 표도
+      const row = line.trim();
+      if (/^\|[\s:|\-]+\|$/.test(row)) continue;
+      const cells = row.slice(1, row.lastIndexOf("|")).split(/(?<!\\)\|/).map(x => inline(x.trim().replace(/\\\|/g, "|")));
       if (!table) { out.push("<div style='overflow:auto'><table>"); table = true; }
       out.push(`<tr>${cells.map(c => `<td>${c}</td>`).join("")}</tr>`);
       continue;
@@ -40,14 +42,22 @@ function guideMarkdown(text, name, documents) {
     if (table) { out.push("</table></div>"); table = false; }
     const h = line.match(/^(#{1,6})\s+(.+)$/);
     if (/^-{3,}$/.test(line.trim())) out.push("<hr>");
-    else if (h) out.push(`<h${h[1].length}>${inline(h[2])}</h${h[1].length}>`);
+    else if (h) out.push(`<h${h[1].length} id="${esc(guideSlug(h[2]))}">${inline(h[2])}</h${h[1].length}>`);
     else if (line.trim()) out.push(`<p>${inline(line)}</p>`);
   }
   if (table) out.push("</table></div>");
   return out.join("");
 }
 
+// 제목 → 링크 이름 (GitHub 과 같은 규칙: 소문자, 글자·숫자·한글·-·공백만 남기고 공백은 -)
+function guideSlug(title) {
+  return title.replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[`*]/g, "").trim().toLowerCase()
+    .replace(/[^\w\- 가-힣]/g, "").replace(/ /g, "-");
+}
+
 async function viewGuide(name) {
+  const [docName, anchor] = name.split("#");
+  name = docName;
   const docs = await api("/api/guide");
   main().innerHTML = `<h1>사용 가이드</h1><div class="sub">처음이면 <a href="#/guide/studio.md">studio 사용법</a> (서식 · 새 서식 추가 · 데이터셋). 전체 문서 목록은 <a href="#/guide/README.md">사용 설명서</a>.</div>
     <div class="bar"><select id="guide-page">${docs.map(d => `<option value="${esc(d.id)}" ${d.id === name ? "selected" : ""}>${esc(d.title)}</option>`).join("")}</select>
@@ -66,6 +76,8 @@ async function viewGuide(name) {
   } else {
     const doc = await api(`/api/guide/document?name=${encodeURIComponent(name)}`);
     $("#guide-body").innerHTML = guideMarkdown(doc.markdown, name, docs);
+    const at = anchor && document.getElementById(anchor);
+    if (at) at.scrollIntoView();
   }
 }
 

@@ -70,7 +70,7 @@ cp train/configs/pipeline.example.json train/configs/pipeline.json
 - **40GB GPU**면 `"sft": {"config": "sft_a100_40g_x2.yaml"}`, `"grpo": {"config": "grpo_a100_40g_x2.yaml", …}`.
 - 다른 칸(`task_mix`, `grpo`, `eval`)은 [train/README.md](../train/README.md)에 있습니다. 처음에는 그대로 둡니다.
 - 학습률 같은 yaml 값은 yaml을 복사하지 않고 `"sft": {"config": "sft.yaml", "learning_rate": 5e-5}`처럼 칸 하나씩 덮어쓸 수 있습니다 (4절 표).
-- studio ⑥ 데이터셋 › 학습 탭에서 데이터셋을 고르면 이 파일을 `train/configs/studio-<이름>.json`으로 써 줍니다. 그때는 `model`·`gpus`만 확인합니다. 학습 서버에서 저장 폴더가 `/out`이 아닌 경로로 보이면 studio `config.json`에 `{"path_map": {"/out": "<학습 서버 경로>"}}`를 둡니다.
+- studio 데이터셋 › 학습 탭에서 데이터셋을 고르면 이 파일을 `train/configs/studio-<이름>.json`으로 써 줍니다. 그때는 `model`·`gpus`만 확인합니다. 학습 서버에서 저장 폴더가 `/out`이 아닌 경로로 보이면 studio `config.json`에 `{"path_map": {"/out": "<학습 서버 경로>"}}`를 둡니다.
 
 ## 3. 실행
 

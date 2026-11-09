@@ -23,7 +23,7 @@ async function viewMarks() {
     <h1>표시 요소</h1>
     <div class="sub">손글씨·체크·도장·서명이 <b>어느 칸에 얼마나</b> 나올지(확률)와 <b>어떻게 생겼는지</b>(풀)를 정합니다.
       기본값은 지금 생성기와 같아서, 바꾸지 않으면 생성 결과도 그대로입니다. 바꾸면 그다음 렌더링부터 모든 서식에 반영됩니다.</div>
-    <h2>확률 <span class="muted" style="font-weight:400;font-size:13px">(서식마다 다르게 하려면 영역 편집기의 수정 파일 marks 항목)</span></h2>
+    <h2>확률 <span class="muted" style="font-weight:400;font-size:13px">(모든 서식 공통. 서식 하나만 다르게 하려면 그 서식 fields.json 의 marks)</span></h2>
     <div class="panel"><table class="mk-set"><thead><tr><th>항목</th><th>값</th><th class="muted">기본</th><th>뜻</th></tr></thead><tbody>
       ${MARK_SETTINGS.map(([k, kk, n, desc]) => `<tr><td class="nw">${n}</td>
         <td><input type="number" step="0.01" min="0" max="1" data-k="${k}" data-kk="${kk || ""}" value="${get(m.settings, k, kk)}"></td>

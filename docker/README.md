@@ -65,8 +65,8 @@ sh docker/studio.sh                                   # 그다음부터: 정한 
 
 ```
 /database/docgen_studio/          (컨테이너 안에서는 /out)
-  workspace/datasets/<이름>/      만든 데이터셋 (⑥ 새로 만들기, remote_build.py)
-  workspace/registry.json, jobs/  ⑥ 데이터셋 목록, ⑧ 작업 기록
+  workspace/datasets/<이름>/      만든 데이터셋 (데이터셋 › 새로 만들기, remote_build.py)
+  workspace/registry.json, jobs/  데이터셋 목록, 생성 작업 기록
   real_data/                      실서류 검수 결과
   bench/, bank_train/, logs/      명령줄로 만든 은행 업무 데이터 (5절 make_bank_data.sh)
 ```
@@ -108,11 +108,14 @@ tar -xzf docgen-code-1.3.tar.gz -C ~/docgen
 ```
 
 - `studio/`·`docgen/` 의 `.py` 가 바뀌면 studio 가 몇 초 안에 다시 뜹니다. 화면 파일(`studio/static`)은 브라우저 새로고침만 하면 됩니다. 서버에서 파일을 직접 고쳐도 같습니다.
-- 다시 뜰 때 돌고 있던 ⑧ 작업은 "끊김"으로 표시됩니다 (생성은 끝까지 돌고, 끝난 데이터셋은 ⑥ 목록에서 자동 등록이 복구됨). 긴 빌드 중에는 코드 반입을 미루세요.
+- 다시 뜰 때 돌고 있던 생성 작업은 (데이터셋 › 생성 현황) "끊김"으로 표시됩니다 (생성은 끝까지 돌고, 끝난 데이터셋은 데이터셋 목록을 열면 자동 등록이 복구됨). 긴 빌드 중에는 코드 반입을 미루세요.
 - 풀어도 지워진 파일은 남습니다. 2026-10-20 재배치·2026-10-21 학습 통합(`ocr/`·`bank/` → `train/`) 전 코드에서 넘어왔다면 옛 폴더(`scripts/`, `templates/`, `training/`, `ocr/`, `bank/` …)가 남지만 쓰이지 않습니다. `training/` 아래 git 에 없는 데이터·결과를 옮기는 방법은 [저장소 README](../archive/MIGRATION.md)에 있습니다.
 - 이미지는 `docker/Dockerfile`·`docker/requirements.lock`·`studio/requirements.txt` 가 바뀌었을 때만 새로 반입합니다. 반입 뒤 `sh docker/studio.sh rm` → `DOCGEN_IMAGE=docgen:<새 버전> sh docker/studio.sh`.
 
 ## 5. 명령줄로 데이터 만들기
+
+> **보통은 이 절이 필요 없습니다.** 데이터셋은 studio **데이터셋 › 새로 만들기**(레시피)나 아래 `remote_build.py` 로 만들면 목록에 저절로 등록됩니다.
+> 이 절의 직접 명령·`make_bank_data.sh` 결과는 등록되지 않으니 **데이터셋 › 폴더 등록**으로 넣습니다. 모델 평가는 학습 서버의 `python -m train` 이 정식 길입니다 ([guide/eval.md](../guide/eval.md)); `bench run/eval` 은 API 모델을 따로 잴 때만.
 
 같은 컨테이너에서 합니다. `sh docker/studio.sh shell` 로 들어가면 코드 폴더에서 시작하고, 결과는 `/out` (저장 폴더)에 둡니다.
 

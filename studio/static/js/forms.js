@@ -239,7 +239,7 @@ async function tabOverview(d) {
       <p>자동 이미지 검사입니다. 사람 검수 완료와 별개입니다. 빈 값에는 미사용 행·기재 대상이 아닌 칸·출처가 없는 칸이 포함됩니다.</p>
       <p>${esc(a.coverage_note || '')}</p><p>쪽 넘침: ${a.overflow ? '있음' : '없음'} · 값 위치 누락 ${a.missing_positions?.length || 0} · 페이지 밖 ${a.offpage?.length || 0}</p>
       <div>${(a.empty || []).map(f => `<span class="tag">${esc(f.label || f.key)} · ${esc(f.key)}</span>`).join('')}</div>
-      <a href="#/forms/${id}/edit">영역·값 출처 편집</a></details>` : ''}
+      <a href="#/forms/${id}/edit">영역·생성 방법 편집</a></details>` : ''}
     <h2>이 서식이 묻는 것</h2>
     <div class="sub">이 서식으로 데이터를 만들면 아래 과제마다 문항이 생깁니다. 고객 여러 명으로 그려 본 칸으로 셉니다 (카드와 같은 계산).
       행 번호가 있는 칸(<span class="mono">rows.*.kind</span>)은 표로 묶여 kie 가 아니라 표 과제가 묻습니다.
@@ -284,7 +284,7 @@ async function tabOverview(d) {
       `<tr><td class="nw">${t}</td><td>${w}</td><td class="nw">${l}</td><td class="muted">${f}</td></tr>`).join("")}</tbody></table>
     ${o.problems.length ? `<h3 id="ov-problems" class="kr">질문 검사 문제 ${o.problems.length}</h3><ul>${o.problems.map(p => `<li>${esc(p)}</li>`).join("")}</ul>` : ""}
     ${o.notes.length ? `<details><summary class="muted">참고 ${o.notes.length}</summary><ul>${o.notes.map(p => `<li>${esc(p)}</li>`).join("")}</ul></details>` : ""}
-    <div class="sub">질문 검사는 질문 설정(questions.json·칸의 q·qa.py)만 봅니다. 칸·값 출처·박스까지 보려면 <span class="mono">python -m docgen.formdir check ${esc(d.id)}</span>.</div>`;
+    <div class="sub">질문 검사는 질문 설정(questions.json·칸의 q·qa.py)만 봅니다. 칸·생성 방법·박스까지 보려면 <span class="mono">python -m docgen.formdir check ${esc(d.id)}</span>.</div>`;
   $("#ov-tasks").onclick = e => { const t = e.target.closest("[data-task]")?.dataset.task; if (t) state.qaTask = t; };
 }
 
@@ -533,7 +533,7 @@ async function tabReview(d) {
         <h2>배정</h2>
         <select id="rv-split">${Object.entries(SPLIT_NAME).map(([k, n]) =>
           `<option value="${k}" ${d.split === k ? "selected" : ""}>${n}</option>`).join("")}</select>
-        <div class="muted" style="font-size:12px;margin-top:4px">평가 전용: 학습 데이터(<span class="mono">--split train</span>)를 만들 때 이 서식을 뺍니다.</div>
+        <div class="muted" style="font-size:12px;margin-top:4px">평가 전용: 학습 데이터를 만들 때 이 서식을 빼고 평가 세트에만 씁니다 (모델이 처음 보는 서식으로 재 보기).</div>
         <h2>메모</h2>
         <textarea id="rv-note" rows="4" style="width:100%">${esc(d.note || "")}</textarea>
         <div class="bar"><button id="rv-save">배정·메모 저장</button></div>

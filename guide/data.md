@@ -9,20 +9,9 @@
 
 ## 1. studio 띄우기·접속
 
-내부망 Linux 서버의 코드 폴더에서 (처음 설치는 [docker/README.md](../docker/README.md) 1·2절):
-
-```bash
-sh docker/studio.sh --data /database/docgen_studio    # 처음 한 번: 저장 폴더를 정해 띄우기
-sh docker/studio.sh                                   # 다음부터
-sh docker/studio.sh --open                            # 다른 컨테이너에서 API(remote_build.py)로 쓸 때 (로그인 없음. 실서류를 다룰 때는 --local)
-```
-
-윈도우 PC에서 터널을 열고 브라우저로 `http://localhost:8765` 에 들어갑니다: `ssh -N -L 8765:localhost:8765 <계정>@<서버IP>`.
-
-- 데이터셋은 `<저장 폴더>/workspace/datasets/<이름>/` 에 생깁니다 (컨테이너 안에서는 `/out/...`). 학습 서버와 이 폴더를 공유합니다.
-- 왼쪽 메뉴: 사용 가이드 · OCR 예시 · 서식 · 새 서식 추가 · 키 사전 · 표시 요소 · 시나리오·묶음 · 데이터셋.
-  복잡하거나 자주 쓰지 않는 화면(가져오기 · 검수 · 평가 · 작업 · 설정)은 일부러 메뉴에서 숨겼습니다 (기능은 그대로, 주소 `#/import` `#/review` `#/eval` `#/jobs` `#/settings`).
-  문서와 코드 주석의 ①~⑨ 는 예전 메뉴 번호입니다: ① 서식 ② 표시 요소 ③ 시나리오·묶음 ④ 가져오기 ⑤ 검수 ⑥ 데이터셋 ⑦ 평가 ⑧ 작업 ⑨ 설정.
+접속은 [studio.md](studio.md#접속), 띄우기·설치는 [docker/README.md](../docker/README.md) 3절. 화면 쓰는 법은 [studio.md](studio.md).
+데이터셋은 `<저장 폴더>/workspace/datasets/<이름>/` 에 생기고 (컨테이너 안에서는 `/out/...`), 학습 서버와 이 폴더를 공유합니다.
+다른 컨테이너에서 명령으로 만들려면 studio 를 `sh docker/studio.sh --open` 으로 띄우고 4절 `remote_build.py` (로그인 없음. 실서류를 다룰 때는 `--local`).
 
 ## 2. 무엇을 만들지 정하기
 

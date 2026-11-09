@@ -64,6 +64,9 @@ function toast(msg, bad = false) {
 // ---------------------------------------------------------------------------
 const routes = [];
 const addRoute = (rx, fn, menu) => routes.push([rx, fn, menu]);
+// 메뉴마다 "이 화면 도움말" 이 여는 설명서 자리 (guide/studio.md 의 절)
+const HELP = { forms: "studio.md#1-서식", "new-forms": "studio.md#2-새-서식-추가", datasets: "studio.md#3-데이터셋",
+  scenarios: "studio.md#4-돕는-메뉴", keys: "keys.md", marks: "studio.md#4-돕는-메뉴", "ocr-examples": "benchmark.md", guide: "README.md" };
 const leaveGuards = [];   // 저장 안 한 편집이 있으면 화면을 떠나기 전에 묻는다
 
 window.addEventListener("keydown", e => state.keyHandler && state.keyHandler(e));
@@ -76,6 +79,7 @@ async function route() {
     const m = h.match(rx);
     if (m) {
       $$("#nav a").forEach(a => a.classList.toggle("on", a.dataset.menu === menu));
+      if ($("#nav-help")) $("#nav-help").href = "#/guide/" + (HELP[menu] || "studio.md");
       try { await fn(...m.slice(1)); } catch (e) { main().innerHTML = `<p class="err">${esc(e.message)}</p>`; console.error(e); }
       return;
     }

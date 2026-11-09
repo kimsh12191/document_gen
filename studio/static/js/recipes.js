@@ -60,6 +60,7 @@ async function viewRecipe(name) {
     <h1>${esc(name)} <span class="muted mono" style="font-size:13px">docgen/recipes/${esc(name)}.json</span></h1>
     <div class="bar"><button class="primary" id="rc-save">저장</button><button id="rc-raw">JSON 으로 보기·고치기</button>
       <button id="rc-del">지우기</button><span class="muted">평가 세트 버전 ${esc(opts.version)}</span></div>
+    ${["bank-bench", "bank-train", "ocr-bench", "ocr-train"].includes(name) ? `<div class="warnbox panel" style="font-size:13px;margin:4px 0">기본 레시피입니다. 저장하면 저장소 파일 <span class="mono">docgen/recipes/${esc(name)}.json</span> 이 바뀌고, 다음에 이 레시피로 만드는 평가 세트·학습 데이터가 모두 달라집니다. 시험이나 다른 설정은 <a href="#/datasets">데이터셋</a> › <b>틀에서 새 레시피</b>로 따로 만드세요 (<span class="mono">bank-try</span> = 몇 분짜리 시험).</div>` : ""}
     <div class="muted" style="font-size:12px;margin:4px 0">서식 문항(분류·정보 추출·체크·기타 칸 정리·값 칸 OCR·표 추출·표 질의)은 늘 같이 만들어집니다. 일부 서류는 값 칸을 검은 상자로 가리고 용도·비고 같은 칸을 비워(정답 null) "없으면 null" 을 배우게 합니다 (레시피 nulls). 학습에 어떤 과제를 얼마나 쓸지는 학습 설정 task_mix 로 정합니다. 기타 칸 정리: 원본 서식의 비고·기타·사유 칸 일부에 일부러 대충 쓴 글을 넣고 DB 칸으로 정리한 것이 정답.</div>
     <div class="rc-grid">
       <div class="panel"><b>무엇을</b>

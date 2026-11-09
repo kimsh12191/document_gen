@@ -40,7 +40,7 @@ async function viewNewForms() {
     <div class="box" style="margin:8px 0" id="nf-draw">
       <h2 style="margin:0 0 6px">A. 그림 위에 그려서 만들기 (overlay)</h2>
       <p>그림을 배경으로 하는 서식 <span class="mono">img_*</span> 를 만들고 바로 <b>영역 편집</b>으로 갑니다. 사내 OCR 이 필요 없습니다.
-        영역 편집에서 칸을 그리고(표는 <b>표 그리기</b>로 열 × 행을 한 번에) <b>항목명</b>(그림에 인쇄된 이름)·키·값 출처를 붙이면 분류·내용 추출(kie)·체크·표 질문이 공통 규칙으로 만들어집니다.</p>
+        영역 편집에서 칸을 그리고(표는 <b>표 그리기</b>로 열 × 행을 한 번에) <b>항목명</b>(그림에 인쇄된 이름)·키·생성 방법을 붙이면 분류·내용 추출(kie)·체크·표 질문이 공통 규칙으로 만들어집니다.</p>
       <div class="bar" style="flex-wrap:wrap;gap:8px">
         <label>그림 (PNG·JPG·PDF, 여러 쪽이면 쪽 순서대로) <input type="file" id="nf-files" multiple accept=".png,.jpg,.jpeg,.tif,.tiff,.bmp,.webp,.pdf"></label>
         <label>서식 ID <input type="text" id="nf-id" placeholder="img_payslip_a" size="22" class="mono"></label>
@@ -64,7 +64,7 @@ async function viewNewForms() {
       <p>모델이 만드는 것:</p>
       <pre class="ans mono">&lt;이름&gt;/
   template.html.j2   모양 + 값 자리 — 값은 모두 f("키", label="원본 항목명")
-  form.json          서식 이름·그룹 + 칸 목록 (키마다 항목명·타입·값 출처, 반복 표 행 수)
+  form.json          서식 이름·그룹 + 칸 목록 (키마다 항목명·타입·생성 방법, 반복 표 행 수)
   generate.py        (선택) 칸끼리 관계 맞추기: 시작일 ≤ 종료일, 합계, 잔액, 조건부 칸
   source.png         (선택) 원본 그림</pre>
       ${prompt ? code("nf-prompt", prompt) : `<p class="muted">지시문을 문서에서 찾지 못했습니다 — 가이드 3절을 보세요.</p>`}`)}

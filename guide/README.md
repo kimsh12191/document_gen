@@ -1,6 +1,6 @@
 # 사용 설명서
 
-하려는 일에 맞는 문서 하나를 끝까지 따릅니다. 처음이면 [start.md](start.md)(만들기 → 학습 → 결과를 한 번) 부터.
+하려는 일에 맞는 문서 하나를 끝까지 따릅니다. 처음이면 [start.md](start.md)(만들기 → 학습 → 결과를 한 번) 부터, 말 뜻은 [terms.md](terms.md)(용어 한 장).
 
 ## studio 에서 하는 일 (서식 · 새 서식 추가 · 데이터셋)
 
@@ -34,7 +34,7 @@ agent 에게 맡길 때는 저장소 최상위의 [AGENTS.md](../AGENTS.md) 부�
 | 과제마다 묻는 것·답의 꼴·채점 규칙 | [benchmark.md](benchmark.md) |
 | 질문 문장 원문 (모든 서식 공통 기본) | [questions.md](questions.md) |
 | 모든 과제의 실제 문항 (그림·질문·정답) | [tasks.md](tasks.md) |
-| 값 만드는 방법(생성 방법) 전체 목록 | [값 출처 목록](../docgen/forms/_common/values.md) |
+| 값 만드는 방법(생성 방법) 전체 목록 | [생성 방법 목록](../docgen/forms/_common/values.md) |
 | 키 이름 규칙 전체, 모든 서식에 같은 것 | [docgen/forms/_common/README.md](../docgen/forms/_common/README.md) |
 | 표가 있는 서식 점검 목록 | [table-audit.md](table-audit.md) |
 | image/qa JSON 폴더 → ms-swift JSONL 변환 | [qa-to-swift.md](qa-to-swift.md) |
@@ -47,15 +47,4 @@ agent 에게 맡길 때는 저장소 최상위의 [AGENTS.md](../AGENTS.md) 부�
 | 설치·내부망 반입 | [docker/README.md](../docker/README.md) |
 | 새 서식 결과물 형식 (html) | [NEW_FORM_SPEC.md](../docgen/manual/NEW_FORM_SPEC.md), 모양만 고치기 [FORM_SHELL_GUIDE.md](../docgen/manual/FORM_SHELL_GUIDE.md) |
 
-자동 생성 문서 갱신:
-
-```bash
-python -m studio.guidebook                              # catalog.md·catalog.json
-python docgen/scripts/build_schema.py                   # fields/fields.json (studio 카탈로그의 재료)
-python -m docgen list --markdown > guide/documents.md   # documents.md
-bash guide/examples/make_examples.sh <작업 폴더> --docs   # tasks.md, examples/img/ (약 10분)
-python -m docgen.formdir card --all --stale --workers 4 # 서식 카드 FORM.md
-python -m docgen.bench.table_audit --workers 4 --out guide/table-audit.md   # 표 점검 목록 (약 5분)
-```
-
-`tasks.md`, `documents.md`, `fields/fields.json`, `catalog.*`, `FORM.md`, `table-audit.md` 는 자동 생성 파일이라 직접 고치지 않습니다.
+자동 생성 문서(`tasks.md`, `documents.md`, `catalog.*`, `table-audit.md`, 서식 카드 `FORM.md`, `values.md`)는 손으로 고치지 않습니다. 다시 만드는 명령은 [docgen/README.md](../docgen/README.md) "문서 자동 생성".

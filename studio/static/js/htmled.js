@@ -26,7 +26,7 @@ async function viewHtmlEditor(d) {
       <div>
         <textarea id="he-text" class="mono he-text" spellcheck="false"></textarea>
         <div class="muted he-help">값은 <span class="mono">{{ f("키", label="항목명") }}</span>, 반복 행은
-          <span class="mono">{% for r in d.rows %} … f("rows." ~ loop.index0 ~ ".date") {% endfor %}</span>. 값 출처·반복 행 수는 form.json.
+          <span class="mono">{% for r in d.rows %} … f("rows." ~ loop.index0 ~ ".date") {% endfor %}</span>. 생성 방법·반복 행 수는 form.json.
           미리보기의 박스를 누르면 템플릿에서 그 키를 찾습니다.</div>
         <div class="panel" style="margin-top:8px">
           <b>분석기에 다시 고쳐</b>

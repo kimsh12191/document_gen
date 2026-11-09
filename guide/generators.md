@@ -69,7 +69,7 @@ def my_value(p, rng, item, row):        # 함수 이름: 영어 소문자·숫�
 | `row` | 표의 몇 번째 행인지 (0부터, 표가 아니면 0) | `f"{row + 1}회"` |
 | `item` | 이 칸 정보 | `item["label"]` 항목명 |
 
-고객 정보 전체 경로는 [값 출처 목록](../docgen/forms/_common/values.md)의 "고객 프로필" 절 (`profile.` 를 뺀 뒤가 `p.` 뒤). 날짜는 `date` 이므로 꼴은 직접: `f"{d:%Y.%m.%d}"`.
+고객 정보 전체 경로는 [생성 방법 목록](../docgen/forms/_common/values.md)의 "고객 프로필" 절 (`profile.` 를 뺀 뒤가 `p.` 뒤). 날짜는 `date` 이므로 꼴은 직접: `f"{d:%Y.%m.%d}"`.
 
 ### 예
 

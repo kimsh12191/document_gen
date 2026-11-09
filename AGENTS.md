@@ -1,6 +1,6 @@
 # AGENTS.md
 
-이 저장소에서 일하는 agent(LLM)가 먼저 읽는 안내입니다. 무엇을 하는 저장소인지는 [README.md](README.md).
+이 저장소에서 일하는 agent(LLM)가 먼저 읽는 안내입니다. 무엇을 하는 저장소인지는 [README.md](README.md), 말 뜻은 [guide/terms.md](guide/terms.md) (같은 것의 여러 이름 정리).
 
 ## 작업별 문서
 
@@ -42,7 +42,7 @@
 4. **덮어쓰지 않습니다.** 평가 세트, 원본 서류, 기존 데이터셋·`workdir`·`output_dir`은 지우거나 덮어쓰지 않습니다. 새 결과는 새 이름으로.
 5. **있는 것은 재사용합니다.** 만들기 전에 같은 데이터셋·결과가 있는지 확인합니다 (`remote_build.py jobs`, `find … -name meta.json`, `<workdir>/state.json`). 평가 세트는 실험 간 비교를 위해 고정합니다.
 6. **평가 세트를 학습에 넣지 않습니다.** `data.train`과 `data.benchmark`에 같은 데이터셋을 넣지 않습니다 (실서류 OCR 준비 폴더는 예외: 안에서 나뉨).
-7. **사람 검수와 자동 검사를 구분합니다.** 형식 검사 통과를 "검수 완료"로 보고하지 않습니다. 이미지·정답의 시각적 확인은 사람에게 요청합니다.
+7. **사람 검수와 자동 검사를 구분합니다.** 형식 검사 통과를 "검수 완료"로 보고하지 않습니다. 이미지·정답의 시각적 확인은 사람에게 요청합니다 — 요청할 때 화면을 적습니다: 서식은 studio **서식 › <서식> › 그림·검수 › 미리보기/검수**, 데이터셋은 **데이터셋 › <이름> › 문항**.
 8. **ID는 조회합니다.** 서식·업무·데이터셋 ID를 추측하지 않고 `remote_build.py types|scenarios|jobs`로 확인합니다.
 9. **실패는 두 번까지.** 같은 단계에서 같은 에러가 두 번 나면 멈추고 로그 끝과 함께 보고합니다.
 10. **실서류는 밖으로 보내지 않습니다.** 실서류 이미지를 외부 모델·서비스에 보내지 않습니다.
@@ -52,12 +52,13 @@
 - 목록에 없는 서식 → 서식 추가 ([guide/new-forms.md](guide/new-forms.md)).
 - 서식 하나에만 묻는 질문 → 그 서식의 `qa.py` (과제 `form_qa`). 모든 서식에 같은 새 과제, 새 대조 사례·심사 규칙 → 생성·채점 코드 추가 (사람과 상의).
 - 특정 값·사건의 정확한 개수 → 레시피는 비율만 정함. 생성 후 골라냄.
+- 고르기 창에 없는 칸 값 → 보기·틀(화면) 먼저. 함수가 필요하면 `docgen/forms/_common/generators.py` 에 **함수를 더하는 것만** 허용 (모든 서식에 영향 — 기존 함수는 고치지 않고, 더한 함수를 보고). 칸끼리 관계는 그 서식 폴더의 `generate.py` ([guide/generators.md](guide/generators.md)).
 - 실제 고객 데이터 성능 → 합성 점수는 실서류보다 높게 나옴. 검수한 실서류 평가 세트로 따로 봄 ([guide/eval.md 1절](guide/eval.md#1-평가-세트-정하기)).
 
 ## 검증
 
 ```bash
-python -m pytest                                  # 코드를 고쳤을 때 (docgen/tests, studio/tests, train/tests)
+python -m pytest                                  # 코드를 고쳤을 때 (docgen/tests, studio/tests, train/tests, playground/tests)
 python -m docgen.formdir check <ID>               # 서식을 고쳤을 때 (+ card <ID>)
 python -m train --config <설정> --smoke            # 학습 설정을 만들었을 때
 ```

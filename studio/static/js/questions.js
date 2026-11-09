@@ -10,8 +10,8 @@ const qaJSON = value => JSON.stringify(value, null, 2);
 
 function questionContractHTML(c) {
   return `<p class="sub">${esc(c.notes)}</p>
-    <details class="qa-contract"><summary>공통 question 템플릿 (데이터의 prompt)</summary><pre class="ans mono">${esc(c.prompt_template)}</pre></details>
-    <details class="qa-contract"><summary>answer JSON Schema · 형식 예시</summary>
+    <details class="qa-contract"><summary>모든 서식 공통 질문 문장 (데이터의 <code>prompt</code>)</summary><pre class="ans mono">${esc(c.prompt_template)}</pre></details>
+    <details class="qa-contract"><summary>정답의 꼴 (JSON Schema) · 예시</summary>
       <pre class="ans mono">${esc(qaJSON(c.answer_schema))}</pre><div class="muted">형식 설명용 예시</div><pre class="ans mono">${esc(qaJSON(c.example))}</pre></details>`;
 }
 
@@ -87,8 +87,7 @@ async function tabQuestions(d) {
   const first = tasks.includes(state.qaTask) ? state.qaTask : "kie";   // 개요에서 과제를 눌러 왔으면 그 과제
   state.qaTask = null;
   const qf = d.questions;
-  $("#tab").innerHTML = `<div class="sub">각 과제가 모델에 묻는 question은 실제 데이터의 <code>prompt</code>입니다.
-      공통 형식과 선택한 고객의 문항을 함께 확인합니다.</div>
+  $("#tab").innerHTML = `<div class="sub">과제마다 모델이 실제로 받는 질문과 정답입니다. 가짜 고객(seed)·촬영 조건을 고르고 <b>실제 문항 예시 만들기</b>를 누릅니다 (한 번 그려서 만듦).</div>
     <details class="qa-contract"><summary>이 서식의 질문·답 바꾼 것 <span class="mono">${esc(qf ? qf.path : "questions.json 없음 — 모두 기본")}${d.qa ? " · qa.py" : ""}</span></summary>
       <div class="sub">질문 문장·질문 항목 줄 틀(item)·답 항목 틀(answer)은 공통 <span class="mono">docgen/forms/_common/questions.json</span>, 항목명은 칸의 항목명이 기본입니다.
         이 서식에서 다르게 할 것: 질문 문장 <code>prompt</code>·답 항목 틀 <code>answer</code>(JSON 틀 <code>{"key": "{key}", "value": "{value}"}</code> 또는 줄글 <code>"{label}: {value}"</code>)·분류 정답은 서식 폴더의 <span class="mono">questions.json</span>,

@@ -12,13 +12,13 @@
 
 ```bash
 python -m train.qa_to_swift \
-  /share/ben/research/bank-kie-valid/vqa/first_masking_1 \
-  /share/ben/research/bank-kie-valid/first_masking_1_swift.jsonl \
-  --image-root /share/ben/research/bank-kie-valid \
+  <작업 폴더>/vqa/first_masking_1 \
+  <작업 폴더>/first_masking_1_swift.jsonl \
+  --image-root <작업 폴더> \
   --check-images
 ```
 
-`--image-root`는 입력의 `data/images/...`가 실제로 들어 있는 기준 폴더로 바꾸세요. 위 예는 이미지가 `/share/ben/research/bank-kie-valid/data/images/...`에 있을 때입니다. 절대 경로 이미지는 기준 폴더를 붙이지 않습니다. 해당 서버의 Python으로 실행해야 서버 절대 경로를 올바르게 만들 수 있습니다.
+`--image-root`는 입력의 `data/images/...`가 실제로 들어 있는 기준 폴더로 바꾸세요. 위 예는 이미지가 `<작업 폴더>/data/images/...`에 있을 때입니다. 절대 경로 이미지는 기준 폴더를 붙이지 않습니다. 해당 서버의 Python으로 실행해야 서버 절대 경로를 올바르게 만들 수 있습니다.
 
 스크립트 파일만 서버에 복사한 경우 `python qa_to_swift.py <입력폴더> <새출력.jsonl> ...`로도 실행할 수 있습니다.
 
@@ -32,7 +32,7 @@ python -m train.qa_to_swift \
 출력 한 줄의 구조:
 
 ```json
-{"messages": [{"role": "user", "content": "<image>항목들을 추출하세요."}, {"role": "assistant", "content": "{\"항목\": \"값\"}"}], "images": ["/share/ben/research/bank-kie-valid/data/images/first_masking_1/example.png"]}
+{"messages": [{"role": "user", "content": "<image>항목들을 추출하세요."}, {"role": "assistant", "content": "{\"항목\": \"값\"}"}], "images": ["<작업 폴더>/data/images/first_masking_1/example.png"]}
 ```
 
 이 명령은 변환만 수행하며 학습·평가나 데이터 분할은 하지 않습니다.
@@ -49,7 +49,7 @@ python -m train.qa_to_swift \
   "name": "실서류 VQA first_masking_1",
   "group": "real",
   "format": "swift-fields",
-  "paths": ["/share/ben/research/bank-kie-valid/first_masking_1_swift.jsonl"],
+  "paths": ["<작업 폴더>/first_masking_1_swift.jsonl"],
   "scorer": "../scorers/vqa_scorer.py:score"
 }
 ```

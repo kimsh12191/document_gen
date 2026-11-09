@@ -21,7 +21,7 @@ class ScenarioPreviews {
           <span class="muted sc-preview-status" role="status" aria-live="polite"></span>
         </div>
         <div class="sub">고객 1명의 필수 서류 구성 예시입니다. 이미지를 누르면 확대하고 모든 쪽을 넘겨 볼 수 있습니다.
-          서류 빠짐·타인 서류·변조가 적용된 결과는 ⑥ 데이터셋의 업무 묶음에서 확인합니다.</div>
+          서류 빠짐·타인 서류·변조가 적용된 결과는 데이터셋 › 그 데이터셋 › 업무 묶음 탭에서 확인합니다.</div>
         <div class="sc-preview-grid"></div>
       </div>
     </details>`;

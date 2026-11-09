@@ -15,7 +15,7 @@ OCR 결과 JSON을 이미 갖고 있으면 건너뜁니다 (4절).
 
 ```bash
 # 터미널 1: 켜 둔 채로. 학습에 안 쓸 GPU를 고름
-cd /share/mond/ocr_api && GPU_ID=7 SERVER_PORT=30107 python server.py
+cd <사내 OCR 서버 폴더> && GPU_ID=7 SERVER_PORT=30107 python server.py
 ```
 ```bash
 # 터미널 2: 이후 명령을 실행할 곳
@@ -49,7 +49,7 @@ python -m docgen.bench.ocr_prepare ocr_config.json
 ```
 
 `data/ocr-v1/DONE.json`이 생기면 끝입니다. 안의 `page_counts`에 `train`·`val`·`benchmark` 쪽 수가 있습니다.
-studio ⑥ 데이터셋 › 폴더 등록에 이 경로를 넣으면 문항·그림을 화면에서 볼 수 있습니다 (선택).
+studio 데이터셋 › 폴더 등록 (맨 아래)에 이 경로를 넣으면 문항·그림을 화면에서 볼 수 있습니다 (선택).
 
 ## 4. 경우별
 

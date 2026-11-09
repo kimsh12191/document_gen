@@ -374,3 +374,6 @@ div.warn { color: var(--warn); }
 
 /* 왼쪽 메뉴: 핵심 셋(서식·새 서식 추가·데이터셋)과 돕는 메뉴 사이 */
 #nav .nav-sep { color: #7d8799; font-size: 11px; padding: 14px 18px 4px; border-top: 1px solid #2a3344; margin-top: 8px; }
+
+/* 왼쪽 메뉴 아래 "이 화면 도움말" (core.js 의 HELP 가 메뉴마다 설명서 절로) */
+#nav .nav-help { margin-top: 14px; border-top: 1px solid #2a3344; font-size: 13px; color: #9fb4d8; }

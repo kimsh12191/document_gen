@@ -17,6 +17,7 @@ from docgen.registry import GROUPS, load_all, load_scenarios, SCENARIOS, SCENARI
 ROOT = Path(__file__).resolve().parents[1]
 DOCUMENTS = {
     "studio.md": "studio 사용법 · 서식 / 새 서식 추가 / 데이터셋",
+    "terms.md": "용어 한 장 · 같은 것의 여러 이름",
     "README.md": "사용 설명서 · 전체 문서 목록",
     "start.md": "처음부터 끝까지 한 번 · 만들기 → 학습 → 결과",
     "data.md": "데이터셋 만들기 · studio 화면·remote_build.py·레시피",
@@ -38,7 +39,7 @@ MANUALS = {
     "docgen/forms/README.md": "서식 폴더 설명서 · 칸·값·질문·답·qa.py·채점·검사",
     "docgen/manual/NEW_FORM_SPEC.md": "새 서식 결과물 형식 · 템플릿·칸 목록·키·생성 스크립트",
     "docgen/manual/FORM_SHELL_GUIDE.md": "서식 모양(껍데기)만 고치기 · VLM 에게 맡길 때",
-    "docker/README.md": "설치·내부망 반입 · studio·학습 컨테이너 띄우기",
+    "docker/README.md": "설치·내부망 반입 · studio 컨테이너 띄우기",
 }
 DOCUMENTS.update({k: v for k, v in MANUALS.items() if (ROOT / k).exists()})
 # 추가 참고 문서도 guide 내부에서 이동할 수 있다. 경로는 서버가 수집한 목록만 허용한다.

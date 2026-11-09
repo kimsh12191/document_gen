@@ -1,5 +1,9 @@
 # docgen studio 설계서
 
+> **이 문서는 설계 이력입니다 (11판, 2026-10-20 기준, 아래 메모는 그 뒤 결정).** 본문의 ①~⑨ 메뉴 번호, `ocr/`·`bank/` 폴더, "476종", 서식 상세 탭 이름은 옛것입니다.
+> 지금 것은: 화면 쓰는 법 [guide/studio.md](../guide/studio.md) · 화면 ↔ 코드·저장 파일 [studio/README.md](README.md) · 서식 폴더 [docgen/forms/README.md](../docgen/forms/README.md) · 생성기 [docgen/README.md](../docgen/README.md) · 학습 [train/README.md](../train/README.md) · 말 [guide/terms.md](../guide/terms.md).
+> 지금 메뉴: 서식 · 새 서식 추가 · 데이터셋 | 시나리오·묶음 · 키 사전 · 표시 요소 · OCR 예시 · 사용 가이드 (옛 번호: ① 서식 ② 표시 요소 ③ 시나리오·묶음 ④ 가져오기 ⑤ 검수 ⑥ 데이터셋 ⑦ 평가 ⑧ 작업 ⑨ 설정 — ④⑤⑦⑧⑨ 는 숨김). 지금도 맞는 절: 4.2·4.3(서식 칸), 7(분석기 설정), 16(키 사전), 17.3·17.4(과제 형식·채점).
+
 - 지금 구조 (2026-10-29, 아래 본문보다 우선): 서식 하나 = 폴더 `docgen/forms/<ID>/`(카드 `FORM.md`, `look/`, 칸 목록 `fields.json`, `generate.py`, 있으면 `questions.json`·`qa.py`), 모든 서식에 같은 것은 `docgen/forms/_common/`(4.4). 서식 작업 설명서는 [docgen/forms/README.md](../docgen/forms/README.md). 1부·2부 코드(`ocr/`·`bank/`)는 없다: OCR 준비 `docgen.bench.ocr_prepare`, 채점 `docgen.bench.evaluate`, 학습 `train/`(17절). 왼쪽 메뉴는 번호 없이 8개이고, 복잡하거나 자주 쓰지 않는 ④ 가져오기·⑤ 검수·⑦ 평가·⑧ 작업·⑨ 설정은 일부러 숨겨 주소(`#/import`, `#/review`, `#/eval`, `#/jobs`, `#/settings`)로 연다(6절).
 - 추가 결정 (2026-10-26): **실문서 벤치마크**·**서식 초안** 메뉴를 숨긴다 (쓰지 않음, 실서류 평가 세트는 밖에서 검수한 파일을 `data.benchmark`로). 코드·API·주소는 남긴다.
 - 추가 결정 (2026-10-22): 별도 **실문서 벤치마크** 탭에서 가져오기·포맷 묶기·사용자 정의 항목·외부 vLLM 추론·검수·버전 확정을 이어 준다. 아래 11판의 'Studio 안 모델 추론 제외'에서 외부 추론 서버 호출은 이 탭에 한해 허용하며 모델 로드는 맡지 않는다. 기존 합성 서식 등록에 의존하지 않는다. 설계·저장은 [실문서 벤치마크 사용법](../guide/data.md#6-내-데이터).

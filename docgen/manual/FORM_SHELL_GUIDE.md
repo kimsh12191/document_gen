@@ -14,15 +14,15 @@ VLM 에게 맡길 때는 이 파일과 아래 "VLM 에게 줄 것"을 함께 넘
 ```
 docgen/forms/<ID>/
   look/          ① 모양 (껍데기)   — 서류가 어떻게 생겼나
-  fields.json    ② 칸 목록         — 어디에 무슨 값이 들어가나 (키·항목명·값 출처·위치)
+  fields.json    ② 칸 목록         — 어디에 무슨 값이 들어가나 (키·항목명·생성 방법·위치)
   (값 만들기)    ③ 값              — 고객 정보로 실제 값을 만든다 (코드 서식은 서식 폴더 generate.py)
 ```
 
 | | overlay 서식 (`hf###`, `img_*`) | html 서식 (그 밖의 ID) |
 |---|---|---|
 | ① 모양 | `look/original.pdf`(하나은행 원본) 또는 `look/page_0.png`(견본 사진). **그림이라 고치지 않는다** | `look/template.html.j2` (HTML 템플릿). **여기를 고친다** |
-| ② 칸 목록 | `fields.json` 의 `items` = 값이 놓일 사각형 좌표 전부. **칸 위치는 여기서 고친다** | `fields.json` 의 `fields`·`regions` = 템플릿 칸 위에 덮어쓰기. 칸 자리는 템플릿 안 `f("키")` 가 정한다 |
-| ③ 값 | 항목명 규칙 + 고객 정보 (`docgen/realform.py`) | 생성 함수(서식 폴더 `generate.py`) 또는 `fields.json` 값 출처 |
+| ② 칸 목록 | `fields.json` 의 `items` = 값이 놓일 사각형 좌표 전부. **칸 위치는 여기서 고친다** | `fields.json` 의 `fields` = 칸마다 생성 방법 (예전 `regions` 덮어쓰기는 읽기만). 칸 자리는 템플릿 안 `f("키")` 가 정한다 |
+| ③ 값 | `fields.json` 칸마다 생성 방법(`source`, 없으면 항목명으로 자동)·표기(`fmt`) + 칸끼리 관계 `generate.py` | 생성 함수(서식 폴더 `generate.py`) 또는 `fields.json` 생성 방법 |
 | "껍데기만 고친다" 는 | 칸 사각형(`rect`)을 원본 빈칸에 맞추기 | 템플릿의 표·문구·선·배치를 원본처럼 고치기 |
 
 한 줄로: **overlay 는 그림 위에 칸을 맞추고, html 은 칸을 품은 그림(템플릿)을 다시 그린다.**
@@ -97,7 +97,7 @@ python -m docgen.formdir card <ID>                 # 카드 FORM.md 다시 만�
 
 - `overflow` 가 `false`, `checks` 가 비어 있어야 한다. 쪽 수가 바뀌었으면 원본과 같은지 본다.
 - 반복 행이 많은 서식은 `--rows max` 로도 그려 쪽 나눔을 본다.
-- 레이아웃 변형이 있으면 변형마다 확인한다 (studio ① 서식 › 레이아웃·샘플링).
+- 레이아웃 변형이 있으면 변형마다 확인한다 (studio 서식 › 레이아웃·샘플링).
 
 ---
 
@@ -118,7 +118,7 @@ python -m docgen.formdir card <ID>                 # 카드 FORM.md 다시 만�
 
 fields.json
 - items[]: 값이 놓일 칸 하나.
-  t: text(글자) · check(□ 보기, options[].box) · date(년월일, parts) · sign(서명·도장, mark) · copy(따라 쓰기)
+  t: text(글자) · check(□ 보기, options[].box) · date(년월일, parts) · sign(서명·도장, mark) · copy(따라 쓰기) · staff(결재란) · float(자유 위치 도장·번호)
   page: 쪽 번호(0부터), rect: [x0, y0, x1, y1] 사각형, label: 그 칸의 항목명, key: 정답 키
 - pages[i].staff[]: 결재란 도장 칸 {role, rect}
 - erase[]: 원본 배경에 원래 적혀 있던 값을 지울 사각형 {page, rect, fill: "white"|"auto"}
@@ -137,14 +137,14 @@ fields.json
 ### 끝나고 확인
 
 ```bash
-python -m docgen.formdir check <ID>                 # 형식·쪽 번호·박스가 쪽 안인지·값 출처
+python -m docgen.formdir check <ID>                 # 형식·쪽 번호·박스가 쪽 안인지·생성 방법
 python -m docgen.preview <ID> --out out/after      # 값이 빈칸 안에 들어갔는지 눈으로
 python -m docgen.regions show <ID> > out/keys_after.txt && diff out/keys_before.txt out/keys_after.txt
 python -m docgen.formdir card <ID>                  # 카드 FORM.md 다시 만들기
 ```
 
 - 지운 칸·추가한 칸만큼만 키가 달라져야 한다.
-- 사람이 하면 studio ① 서식 › 영역 편집이 더 빠르다 (끌어서 옮기기·그리기, 저장하면 `fields.json` 에 바로 들어간다).
+- 사람이 하면 studio 서식 › 고치기 › 영역 편집이 더 빠르다 (끌어서 옮기기·그리기, 저장하면 `fields.json` 에 바로 들어간다).
 
 ---
 

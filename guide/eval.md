@@ -1,6 +1,6 @@
 # 평가
 
-평가 세트를 정하고, 어떻게 채점할지 정하고, 학습 없이 평가만 하거나 다시 채점하는 방법입니다. 1~4절은 학습 서버(`python -m train`), 5절은 docgen 컨테이너.
+평가 세트를 정하고, 어떻게 채점할지 정하고, 학습 없이 평가만 하거나 다시 채점하는 방법입니다. 1~5절은 학습 서버(`python -m train`, `python -m playground`), 6절은 studio 컨테이너.
 점수 읽는 법은 [results.md](results.md), 과제별 질문·답·채점 규칙은 [benchmark.md](benchmark.md)에 있습니다.
 
 ## 1. 평가 세트 정하기
@@ -29,6 +29,7 @@
 - swift `.jsonl` 은 학습 데이터(`data.train`)에도 같은 `format`·`scorer` 로 넣을 수 있습니다 ([training.md 2절](training.md#2-설정-파일)).
 - 평가 세트와 같은 고객·문서가 학습 데이터에 있으면 섞기에서 멈춥니다. swift 는 같은 그림 파일인지도 봅니다.
 - 실험끼리 비교하려면 평가 세트를 고정합니다.
+- **실서류 파일 만들기:** image/qa JSON 폴더 → swift `.jsonl` 은 [qa-to-swift.md](qa-to-swift.md) (`python -m train.qa_to_swift`), swift 추출 `.jsonl` → kie 꼴(v1~v3)·그림+라벨 쌍 → `.jsonl` 은 [temp/README.md](../temp/README.md). 만든 파일에 맞는 채점 함수는 2절 견본 표.
 
 ## 2. 채점
 
