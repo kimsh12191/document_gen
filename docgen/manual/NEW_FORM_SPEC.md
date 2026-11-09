@@ -243,6 +243,8 @@ python -m docgen.preview <ID> --rows max --out out/<ID>    # 등록된 서식으
 
 ## 8. 생성 스크립트 `generate.py` (선택)
 
+그림 위에 그린 서식(overlay)의 `generate.py` 는 같은 약속에 고칠 수 있는 칸이 다릅니다: [guide/generators.md 2절](../../guide/generators.md#2-칸끼리-관계-서식-폴더-generatepy-의-adjust).
+
 칸 목록의 값 출처는 칸마다 값을 따로 뽑습니다. 칸끼리 관계가 있으면 서식 폴더에 `generate.py` 를 두고 **값을 다 채운 뒤 다듬습니다.**
 
 ```

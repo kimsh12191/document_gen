@@ -76,11 +76,11 @@ HOWTO = [
      "where": "studio 키 사전 › 값 종류 (docgen/forms/_common/key_rules.json 의 \"kinds\")",
      "how": "이름·뜻 + 만드는 법 하나: 보기 목록(가중치), 틀, 프로필 경로. 이 창의 '키 사전에서 더한 것'에 나옵니다."},
     {"title": "3. 코드로 — 직접 만든 생성기",
-     "where": "docgen/forms/_common/generators.py (설명 docgen/usergen.py)",
+     "where": "docgen/forms/_common/generators.py (설명 guide/generators.md 1절)",
      "how": "@generator(\"화면 이름\") 를 붙인 함수 def 이름(p, rng, item, row): return 값 — p 고객 프로필, rng 난수(이것만), item 칸 정보, row 표 행 번호. "
             "파일을 저장하면 studio 를 다시 띄우지 않아도 이 창의 '직접 만든 생성기'에 나옵니다. 예시 함수 3개가 들어 있습니다."},
     {"title": "4. 칸끼리 관계 — 합계·순서·조건",
-     "where": "서식 폴더의 generate.py (adjust 함수)",
+     "where": "서식 폴더의 generate.py (adjust 함수, 설명 guide/generators.md 2절)",
      "how": "합계 = 행의 합, 시작일 ≤ 종료일, 잔액 같은 관계는 칸 하나의 생성 방법으로 안 됩니다. 영역 편집 위의 [칸끼리 관계 견본 만들기] "
             "(= python -m docgen.formdir adjust <ID> --new)로 이 서식의 칸 키가 적힌 견본을 만들고 adjust 를 고칩니다."},
 ]

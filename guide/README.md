@@ -11,7 +11,7 @@
 | 결과 보기·읽기 | [results.md](results.md) |
 | 학습한 모델을 그림 한 장으로 써 보기 (GPU 고르기·모델 띄우기 화면) | [playground](../playground/README.md) |
 | 서식 고치기 (직접 또는 LLM 에게) | [서식 고치기](../docgen/forms/README.md) |
-| 새 서식 추가 | [new-forms.md](new-forms.md), 칸의 키 이름 [keys.md](keys.md) |
+| 새 서식 추가 | [new-forms.md](new-forms.md), 칸의 키 이름 [keys.md](keys.md), 값 만드는 코드(생성기·칸끼리 관계) [generators.md](generators.md) |
 | 실서류 이미지로 OCR 데이터 | [ocr.md](ocr.md) |
 
 agent 에게 맡길 때는 저장소 최상위의 [AGENTS.md](../AGENTS.md) 부터 읽게 하세요.

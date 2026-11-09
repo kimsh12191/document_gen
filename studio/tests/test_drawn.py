@@ -371,3 +371,22 @@ def test_floats_on_html_forms(tmp_path, monkeypatch):
         ix = max(0, min(rn[2], b[2]) - max(rn[0], b[0]))
         iy = max(0, min(rn[3], b[3]) - max(rn[1], b[1]))
         assert ix * iy <= 0.25 * max(1, min((rn[2] - rn[0]) * (rn[3] - rn[1]), (b[2] - b[0]) * (b[3] - b[1]))), k
+
+
+def test_formdir_check_overlay_script(roots):
+    """서식 검사가 그린 서식의 generate.py 오류(몇 번째 줄)·같은 seed 두 번 다름·새 키를 문제로 보인다 (guide/generators.md)."""
+    from docgen import formdir as FD
+
+    _, priv = roots
+    drawn.create([("a.png", png())], "img_drawn_o", "신청서", True, str(priv))
+    editor.save("img_drawn_o", {"add": [{"t": "text", "page": 0, "label": "성명", "rect": [100, 100, 300, 120]}],
+                                "erase": [{"page": 0, "rect": [1, 1, 5, 5]}]}, "test")
+    script = priv / "img_drawn_o" / "generate.py"
+    script.write_text("def adjust(d, p, rng):\n    x = d['nope']\n    return d\n", encoding="utf-8")
+    assert any("2번째 줄" in x for x in FD.check_form("img_drawn_o")["problems"])
+    script.write_text("import random\ndef adjust(d, p, rng):\n    d['customer']['name'] = str(random.random())\n    d['brand_new'] = 'x'\n    return d\n",
+                      encoding="utf-8")
+    probs = FD.check_form("img_drawn_o")["problems"]
+    assert any("같은 seed" in x for x in probs) and any("brand_new" in x for x in probs)
+    script.write_text("def adjust(d, p, rng):\n    return d\n", encoding="utf-8")
+    assert not FD.check_form("img_drawn_o")["problems"]

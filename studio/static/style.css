@@ -366,3 +366,8 @@ div.warn { color: var(--warn); }
 .gen-h { margin: 14px 0 6px; font-size: 14px; }
 
 .ed-stage svg rect.t-float { stroke: #c026d3; stroke-dasharray: 6 3; fill: rgba(192, 38, 211, .05); }
+
+/* 영역 편집 › 항목명 추천 (editor.js showLabelSugg) */
+.lbl-sugg { display: flex; flex-direction: column; gap: 2px; margin: -4px 0 6px; }
+.lbl-sugg .sl { text-align: left; padding: 4px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--text); cursor: pointer; font-size: 12px; }
+.lbl-sugg .sl:hover { border-color: var(--accent, #2563eb); }

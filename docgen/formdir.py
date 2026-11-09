@@ -652,7 +652,29 @@ def check_form(doc_id: str, seeds: int = 4) -> dict:
         why = bad_source(d.get("source"))
         if why:
             problems.append(f"fields.json '{k}': source {d.get('source')!r} — {why}")
-    docs = FQ.seen_fields(doc_id, seeds)
+    from . import realform as RF
+
+    if RF.script_path(doc_id) is not None:   # overlay 의 칸끼리 관계 generate.py: 오류·같은 seed 두 번·새 키 (guide/generators.md)
+        import random
+
+        from . import htmlform as HF
+
+        for s in range(min(seeds, 3)):
+            try:
+                a = RF.build_form(doc_id, make_profile(s), random.Random(s))
+                b = RF.build_form(doc_id, make_profile(s), random.Random(s))
+            except ValueError as e:
+                problems.append(str(e))
+                return {"problems": problems, "notes": notes}
+            if a["items"] != b["items"]:
+                problems.append("generate.py: 같은 seed 로 두 번 그렸는데 값이 다릅니다 (난수는 넘겨받은 rng 만, 시간·파일을 읽지 않음)")
+                break
+        problems += [w for w in HF.script_warnings(doc_id) if "칸 목록에 없는 키" in w]
+    try:
+        docs = FQ.seen_fields(doc_id, seeds)
+    except ValueError as e:   # 생성 스크립트·생성기 오류 (몇 번째 줄인지 담겨 있음)
+        problems.append(str(e))
+        return {"problems": problems, "notes": notes}
     from .fieldinfo import pattern
 
     drawn = {pattern(f.get("doc_key") or f["key"]) for fs in docs for f in fs}

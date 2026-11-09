@@ -448,6 +448,38 @@ function edKey(ed, e) {
 // ---------------------------------------------------------------------------
 // 오른쪽: 고른 영역의 정보와 이 쪽의 영역 목록
 // ---------------------------------------------------------------------------
+// 항목명 추천: 지금 있는 서식들의 항목명(키 사전 keys.json, 서식 수)과 공통 키 이름. 일부만 쳐도 (앞부분 먼저, 많이 쓰인 순)
+let _labelIndex = null;
+function labelIndex() {
+  if (_labelIndex || !edKeys) return _labelIndex || [];
+  const common = new Map((edKeys.common || []).map(c => [c.key, c]));
+  const seen = new Map();
+  const add = (label, key, forms, isCommon) => {
+    if (!label || !/^[a-z][a-z0-9_.]*$/.test(key)) return;   // 영어 키만 (한글·번호 키는 추천하지 않음)
+    const id = label + "|" + key, old = seen.get(id);
+    if (old) old.forms = Math.max(old.forms, forms);
+    else seen.set(id, { label, key, forms, common: isCommon || common.has(key) });
+  };
+  for (const k of edKeys.keys || []) for (const l of k.labels) add(l, k.key, k.forms, false);
+  for (const c of edKeys.common || []) add(c.name.replace(/^(고객|대리인|직장|법인·사업자|보증인·공동|상대방|가족) /, ""), c.key, c.docs || 0, true);
+  _labelIndex = [...seen.values()];
+  return _labelIndex;
+}
+function showLabelSugg(text) {
+  const box = $("#ed-label-sugg");
+  if (!box) return;
+  const q = (text || "").replace(/[\s()·:*]/g, "");
+  if (q.length < 1) { box.innerHTML = ""; return; }
+  const norm = l => l.replace(/[\s()·:*]/g, "");
+  const all = labelIndex().map((x, i) => ({ ...x, i, n: norm(x.label) }));
+  const hit = all.filter(x => x.n.includes(q))
+    .sort((a, b) => (b.n.startsWith(q) - a.n.startsWith(q)) || (b.common - a.common) || (b.forms - a.forms) || (a.n.length - b.n.length))
+    .slice(0, 8);
+  box.innerHTML = hit.length ? hit.map(x => `<button type="button" class="sl" data-sl="${x.i}" title="누르면 항목명과 키를 함께 넣습니다">
+      <span style="font-weight:700">${esc(x.label)}</span> <span class="mono">${esc(x.key)}</span>${x.common ? ` <span class="tag ok">공통</span>` : ""} <span class="muted">${x.forms}개 서식</span></button>`).join("")
+    : `<div class="muted" style="font-size:12px">비슷한 항목명이 없습니다 — 새 항목이면 키를 직접 (guide/keys.md)</div>`;
+}
+
 function keyCandidates(label) {
   if (!edKeys || !label) return [];
   const n = label.replace(/[\s()·:*]/g, "");
@@ -543,7 +575,8 @@ function edSide(ed) {
       <div class="fld">${it.cell && !ed.dirty ? `<div>키 ${kpKeyCell(it.cell)}</div><div id="ed-kp"></div>`
         : `<div class="muted">${it.cell ? "저장하면" : "저장한 뒤"} 이 칸의 키(누구의 · 무엇)를 정합니다.</div>`}</div>`}
       ${added ? `<label class="fld"><b>항목명</b> <span class="muted" style="font-size:12px">그림에 인쇄된 이름 그대로 — 질문(무엇을 읽을지)과 자동 키에 쓰입니다</span>
-        <input type="text" id="ed-label" value="${esc(c.label || "")}" placeholder="예: 성명, 지급총액"></label>`
+        <input type="text" id="ed-label" value="${esc(c.label || "")}" placeholder="예: 성명, 지급총액 — 일부만 쳐도 비슷한 항목명을 추천" autocomplete="off"></label>
+        <div id="ed-label-sugg" class="lbl-sugg"></div>`
         : `<div class="muted" style="font-size:12px">서식에 인쇄된 글자: ${esc(c.label || "(없음)")}</div>`}
       <details class="fld"><summary class="muted">${added ? "자세히 — 키를 직접 적기" : "자세히 — 인쇄된 글자를 잘못 읽었을 때만 고칩니다"}</summary>
       ${added ? "" : `<label class="fld">인쇄된 글자 <input type="text" id="ed-label" value="${esc(c.label || "")}"></label>`}
@@ -634,6 +667,16 @@ function edSide(ed) {
   }
   if ($("#ed-kp")) kpPanel($("#ed-kp"), ed.d.id, it.cell, () => viewEditor(ed.d, { page: ed.page, tool: ed.tool, sel: ed.sel }), { label: false, image: false });
   on("#ed-label", "change", e => { setProp(ed, it, "label", e.target.value.trim()); redraw(); });
+  on("#ed-label", "input", e => showLabelSugg(e.target.value));
+  if ($("#ed-label-sugg")) $("#ed-label-sugg").onmousedown = e => {   // blur(change) 보다 먼저
+    const b = e.target.closest("[data-sl]");
+    if (!b) return;
+    e.preventDefault();
+    const x = labelIndex()[+b.dataset.sl];
+    setProp(ed, it, "label", x.label);
+    if (it.status === "added" || ed.view.origin === "drawn") setProp(ed, it, "key", x.key);
+    redraw();
+  };
   on("#ed-key", "change", e => { setProp(ed, it, "key", e.target.value.trim()); redraw(); });
   const setCol = (k, v) => { for (const x of colPeers(ed, it)) setProp(ed, x, k, v); };   // 표 칸이면 같은 열 전체
   on("#ed-kind", "change", e => { setCol("kind", e.target.value); redraw(); });
