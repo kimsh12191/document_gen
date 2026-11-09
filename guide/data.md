@@ -56,6 +56,8 @@ python docker/remote_build.py scenarios                   # 업무 ID 와 필요
 
 ## 3. studio 화면으로 만들기
 
+화면 전체 흐름은 [studio.md 3절](studio.md#3-데이터셋).
+
 **데이터셋 › 새로 만들기**에서 레시피를 고르고 이름을 정해 **만들기**를 누릅니다. 끝나면 목록에 자동으로 등록됩니다.
 
 | 레시피 | 만드는 것 |

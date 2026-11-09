@@ -371,3 +371,6 @@ div.warn { color: var(--warn); }
 .lbl-sugg { display: flex; flex-direction: column; gap: 2px; margin: -4px 0 6px; }
 .lbl-sugg .sl { text-align: left; padding: 4px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--text); cursor: pointer; font-size: 12px; }
 .lbl-sugg .sl:hover { border-color: var(--accent, #2563eb); }
+
+/* 왼쪽 메뉴: 핵심 셋(서식·새 서식 추가·데이터셋)과 돕는 메뉴 사이 */
+#nav .nav-sep { color: #7d8799; font-size: 11px; padding: 14px 18px 4px; border-top: 1px solid #2a3344; margin-top: 8px; }

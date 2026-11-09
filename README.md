@@ -19,7 +19,7 @@
 | 폴더 | 하는 일 | 어디서 실행 |
 |---|---|---|
 | [`docgen/`](docgen/README.md) | 서식별 합성 데이터 생성기. 서식(서식 하나 = 폴더 `docgen/forms/<ID>/` 하나), 문항 만들기, 채점 | studio 컨테이너 (생성), 학습 서버 (채점) |
-| [`studio/`](studio/README.md) | 웹 화면: 서식 보기·고치기·검수, 데이터셋 만들기, 학습 설정 내보내기 | studio 도커 컨테이너 ([docker/README.md](docker/README.md)) |
+| [`studio/`](guide/studio.md) | 웹 화면: **서식** 보기·고치기·검수, **새 서식 추가**, **데이터셋** 만들기 (+ 학습 설정 내보내기). 사용법 [guide/studio.md](guide/studio.md), 개발 [studio/README.md](studio/README.md) | studio 도커 컨테이너 ([docker/README.md](docker/README.md)) |
 | [`train/`](train/README.md) | `python -m train`: 데이터 섞기 → SFT → GRPO → 평가 → 비교표. 채점 함수 견본 `train/scorers/` | GPU 학습 서버 |
 | [`playground/`](playground/README.md) | 웹 화면: GPU 를 보고 모델을 띄워, 그림 한 장에 벤치마크 질문이나 직접 쓴 질문을 물어 보기 | GPU 학습 서버 |
 | [`guide/`](guide/README.md) | 사용 설명서 | |
@@ -43,6 +43,7 @@
 | 하려는 일 | 문서 |
 |---|---|
 | **처음이면: 데이터 만들기부터 학습·결과까지 한 번** | [guide/start.md](guide/start.md) |
+| **studio 화면 쓰기** (서식 · 새 서식 추가 · 데이터셋) | [guide/studio.md](guide/studio.md) |
 | 데이터셋 만들기 (평가 세트·학습 데이터) | [guide/data.md](guide/data.md) |
 | 학습하기, 설정을 바꾼 모델 여러 개 | [guide/training.md](guide/training.md) |
 | 평가 세트·채점 방식, 학습 없이 평가만, 다시 채점 | [guide/eval.md](guide/eval.md) |
@@ -52,7 +53,7 @@
 | agent(LLM)에게 일 맡기기 | [AGENTS.md](AGENTS.md) |
 
 그 밖에: 실서류 이미지로 OCR 데이터 [guide/ocr.md](guide/ocr.md), 내부망 반입·설치 [docker/README.md](docker/README.md),
-찾아보는 자료(서류 목록·질문 원문·실제 문항) [guide/README.md](guide/README.md), 코드 구조 [docgen/README.md](docgen/README.md)·[studio/DESIGN.md](studio/DESIGN.md)·[train/README.md](train/README.md),
+전체 문서 목록·찾아보는 자료(서류 목록·질문 원문·실제 문항) [guide/README.md](guide/README.md), 코드 구조 [docgen/README.md](docgen/README.md)·[studio/DESIGN.md](studio/DESIGN.md)·[train/README.md](train/README.md),
 실험 기록 [experiments/](experiments/README.md), 지난 작업 기록 [archive/](archive/README.md).
 
 ## 알아 둘 점

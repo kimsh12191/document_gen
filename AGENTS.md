@@ -8,6 +8,7 @@
 
 | 작업 | 문서 |
 |---|---|
+| studio 화면이 무엇을 하는지 (서식 · 새 서식 추가 · 데이터셋) | [guide/studio.md](guide/studio.md) |
 | 데이터셋 만들기 (평가 세트·학습 데이터, `docker/remote_build.py`) | [guide/data.md](guide/data.md) |
 | 학습 (설정·실행·실험 묶음·에러) | [guide/training.md](guide/training.md), 설정 칸 [train/README.md](train/README.md) |
 | 평가 세트·채점 함수, 학습 없이 평가만, 다시 채점 | [guide/eval.md](guide/eval.md) |

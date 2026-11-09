@@ -10,4 +10,5 @@
 | 합쳐서 없어진 안내서 원본 | [guide/agent-workflow.md](guide/agent-workflow.md) (→ AGENTS.md·guide/data.md), [guide/studio.md](guide/studio.md) (→ guide/data.md), [guide/benchmark-tracking.md](guide/benchmark-tracking.md) (→ guide/results.md), [docgen/manual/TEMPLATE_GUIDE.md](docgen/manual/TEMPLATE_GUIDE.md) (→ NEW_FORM_SPEC.md 11·12절), [docker/REMOTE_BUILD.md](docker/REMOTE_BUILD.md) |
 | 서식 점검 기록 | [docgen/manual/OFFICIAL_HTML_AUDIT.md](docgen/manual/OFFICIAL_HTML_AUDIT.md), [docgen/manual/FORM_VALUE_AUDIT.md](docgen/manual/FORM_VALUE_AUDIT.md) |
 | 서식 현실화·변형 기록, 하나은행 서식 대응표 | [docgen/manual/REALISM_STATUS.md](docgen/manual/REALISM_STATUS.md), [docgen/manual/realism/](docgen/manual/realism/), [docgen/manual/variants/](docgen/manual/variants/), [docgen/manual/FORM_MAP.md](docgen/manual/FORM_MAP.md) (만든 스크립트 [docgen/scripts/](docgen/scripts/)) |
+| 예전 studio 설명서 전체 (숨긴 화면 포함) | [studio/README_2026-11.md](studio/README_2026-11.md) |
 | 숨긴 studio 기능의 형식 (가져오기) | [studio/LABEL_FORMAT.md](studio/LABEL_FORMAT.md) (정답 라벨 v1), [studio/RESULTS_FORMAT.md](studio/RESULTS_FORMAT.md) (결과 폴더), [studio/DATA_IMPORT.md](studio/DATA_IMPORT.md) |

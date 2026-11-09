@@ -32,10 +32,14 @@ async function view_datasets() {
   if (location.hash !== "#/datasets") return;
   main().innerHTML = `
     <h1>데이터셋</h1>
-    <div class="sub">OCR·문서 이해·업무 처리 과제를 같은 형식(과제 폴더)으로, 출처와 정답 종류와 함께 한 목록으로 관리합니다.
-      명령줄로 만든 폴더도 경로만 등록하면 됩니다 (studio 는 읽기만 합니다). 등록부: <span class="mono">${esc(r.workspace)}/registry.json</span></div>
-    <div class="panel" style="margin-bottom:12px">
-      <b>폴더 등록</b>
+    <div class="sub">레시피로 평가 세트·학습 데이터를 만들고(<b>새로 만들기</b>), 끝나면 아래 목록에서 문항을 보고 학습 설정을 씁니다.
+      <a href="#/guide/studio.md">studio 사용법 3절</a> · 등록부 <span class="mono">${esc(r.workspace)}/registry.json</span></div>
+    ${recipes}
+    <div id="dataset-build-jobs"></div>
+    <section id="ds-registry"><div class="bar"><h2>등록된 데이터셋</h2><span id="ds-reg-status" class="muted">${r.datasets.length}개 등록</span>
+      <button type="button" id="ds-refresh">목록 새로고침</button></div><div id="ds-list">${datasetRegistryHTML(r)}</div></section>
+    <details class="panel" style="margin:12px 0">
+      <summary><b>폴더 등록</b> <span class="muted">— studio 밖(명령줄)에서 만든 데이터셋 폴더를 목록에 넣을 때만</span></summary>
       <div class="bar" style="margin-top:6px">
         <input type="text" id="dr-path" placeholder="폴더 경로 (과제 폴더: docgen.bench build · OCR 준비 결과)" style="width:520px">
         <input type="text" id="dr-name" placeholder="이름 (비우면 폴더 이름)" style="width:200px">
@@ -44,11 +48,7 @@ async function view_datasets() {
         <label><input type="checkbox" id="dr-real"> 실서류</label>
         <button class="primary" id="dr-go">등록</button>
       </div>
-    </div>
-    ${recipes}
-    <div id="dataset-build-jobs"></div>
-    <section id="ds-registry"><div class="bar"><h2>등록된 데이터셋</h2><span id="ds-reg-status" class="muted">${r.datasets.length}개 등록</span>
-      <button type="button" id="ds-refresh">목록 새로고침</button></div><div id="ds-list">${datasetRegistryHTML(r)}</div></section>
+    </details>
     ${trainings}`;
   bindRecipesPanel();
   $("#dr-go").onclick = async () => {

@@ -1,7 +1,7 @@
 // guide 원문과 현재 생성 설정을 함께 읽는 사용 설명서.
 "use strict";
 
-addRoute(/^#\/guide(?:\/([^/]+))?$/, name => viewGuide(name ? decodeURIComponent(name) : "README.md"), "guide");
+addRoute(/^#\/guide(?:\/([^/]+))?$/, name => viewGuide(name ? decodeURIComponent(name) : "studio.md"), "guide");
 
 // 외부 HTML을 실행하지 않고 문서의 제목·표·코드·링크를 표시한다.
 function guideMarkdown(text, name, documents) {
@@ -11,7 +11,7 @@ function guideMarkdown(text, name, documents) {
     let s = esc(value).replace(/`([^`]+)`/g, (_, code) => hold(`<code>${code}</code>`));
     s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
       if (/^https?:\/\//.test(href)) return hold(`<a href="${href}" target="_blank" rel="noopener">${label}</a>`);
-      const base = name.startsWith("docgen/") ? `https://guide.local/${name}` : `https://guide.local/guide/${name}`;   // docgen/manual 문서는 저장소 기준 경로
+      const base = /^(docgen|docker)\//.test(name) ? `https://guide.local/${name}` : `https://guide.local/guide/${name}`;   // docgen/manual 문서는 저장소 기준 경로
       const path = decodeURIComponent(new URL(href, base).pathname);
       const target = path.startsWith("/guide/") ? path.slice(7) : path.slice(1);
       if (documents.some(d => d.id === target)) return hold(`<a href="#/guide/${encodeURIComponent(target)}">${label}</a>`);
@@ -39,7 +39,8 @@ function guideMarkdown(text, name, documents) {
     }
     if (table) { out.push("</table></div>"); table = false; }
     const h = line.match(/^(#{1,6})\s+(.+)$/);
-    if (h) out.push(`<h${h[1].length}>${inline(h[2])}</h${h[1].length}>`);
+    if (/^-{3,}$/.test(line.trim())) out.push("<hr>");
+    else if (h) out.push(`<h${h[1].length}>${inline(h[2])}</h${h[1].length}>`);
     else if (line.trim()) out.push(`<p>${inline(line)}</p>`);
   }
   if (table) out.push("</table></div>");
@@ -48,7 +49,7 @@ function guideMarkdown(text, name, documents) {
 
 async function viewGuide(name) {
   const docs = await api("/api/guide");
-  main().innerHTML = `<h1>사용 가이드</h1><div class="sub">생성 범위 → 서류·추출 항목 → 생성 요청 → 결과 사용 순서로 확인하세요. 문서와 Studio가 같은 카탈로그를 사용합니다.</div>
+  main().innerHTML = `<h1>사용 가이드</h1><div class="sub">처음이면 <a href="#/guide/studio.md">studio 사용법</a> (서식 · 새 서식 추가 · 데이터셋). 전체 문서 목록은 <a href="#/guide/README.md">사용 설명서</a>.</div>
     <div class="bar"><select id="guide-page">${docs.map(d => `<option value="${esc(d.id)}" ${d.id === name ? "selected" : ""}>${esc(d.title)}</option>`).join("")}</select>
     <a href="#/guide/catalog.md">서류·추출 카탈로그</a><a href="#/ocr-examples">OCR 이미지·질문·정답 예시</a><a href="/api/guide/catalog" target="_blank" rel="noopener">현재 카탈로그 JSON</a></div><div id="guide-body"></div>`;
   $("#guide-page").onchange = e => { location.hash = `#/guide/${encodeURIComponent(e.target.value)}`; };
