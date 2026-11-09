@@ -157,7 +157,7 @@ function edLayout(ed) {
       ${v.broken.map(o => `<span class="tag warn">${esc(o.match.page + 1)}쪽 ${esc(ED_T[o.match.t] || o.match.t)} '${esc(o.match.label)}'</span>`).join("")}
       <button id="ed-drop-broken">깨진 수정 지우기</button></div>` : ""}
     <div class="bar ed-extra" style="flex-wrap:wrap;gap:12px;margin:4px 0;font-size:13px">
-      <span title="칸끼리 관계 (합계 = 행의 합, 시작일 ≤ 종료일, 잔액 …): 서식 폴더 generate.py 의 adjust">칸끼리 관계:
+      <span title="칸마다 따로 만든 값을 서로 맞춤 (합계 = 행의 합, 시작일 ≤ 종료일, 잔액 …): 서식 폴더 generate.py 의 adjust. guide/generators.md 3절">칸끼리 관계 (합계·날짜 순서):
         ${v.script ? `<span class="mono">generate.py</span> 있음 <span class="muted mono" style="font-size:11px">${esc(v.script)}</span>`
           : `없음 <button id="ed-adjust-new" title="이 서식의 칸 키가 주석으로 적힌 견본 generate.py 를 서식 폴더에 만듭니다 (= python -m docgen.formdir adjust ${esc(d.id)} --new)">견본 만들기</button>`}</span>
       ${v.texts === null ? "" : `<span title="그림 속 인쇄 글자: 합성 OCR 세트(쪽 전체 받아쓰기 정답)에 씀">배경 글자: ${v.texts ? `${v.texts}개` : "없음 (합성 OCR 세트에서 빠짐)"}
@@ -520,8 +520,9 @@ function genPicker(ed, it, apply) {
     <div class="gen-grid">${card({ ...auto, examples: [] })}</div>
     ${(edGens?.groups || []).map(g => `<h3 class="gen-h">${esc(g.name)}</h3><div class="gen-grid">${g.items.map(card).join("")}</div>`).join("")}
     <details class="gen-howto" style="margin-top:14px"><summary><b>원하는 생성 방법이 없으면 — 새로 만드는 곳</b></summary>
-      ${(edGens?.howto || []).map(h => `<div class="box" style="margin:8px 0"><b>${esc(h.title)}</b><div class="mono" style="font-size:12px;margin:4px 0">${esc(h.where)}</div><div>${esc(h.how)}</div></div>`).join("")}
-      <div class="muted" style="font-size:12px">자세히: <a href="#/guide/new-forms.md">새 서식 추가 가이드</a> 0절, 값 출처 목록 <span class="mono">docgen/forms/_common/values.md</span></div></details>`;
+      ${(edGens?.howto || []).map(h => `<div class="box" style="margin:8px 0"><b>${esc(h.title)}</b> <span class="muted">— ${esc(h.when || "")}</span>
+        ${h.example ? `<pre class="mono" style="font-size:12px;margin:4px 0;white-space:pre-wrap">${esc(h.example)}</pre>` : ""}<div>${esc(h.how)}</div></div>`).join("")}
+      <div class="muted" style="font-size:12px">자세히: <a href="#/guide/generators.md">원하는 값이 고르기 창에 없을 때</a> (guide/generators.md)</div></details>`;
   document.body.appendChild(dlg);
   dlg.addEventListener("close", () => dlg.parentNode && dlg.parentNode.removeChild(dlg));
   $(".gen-close", dlg).onclick = () => dlg.close();
@@ -602,7 +603,7 @@ function edSide(ed) {
         <input type="text" id="ed-pattern" class="mono" value="${esc(c.pattern || "")}" placeholder="HN-####-{A|B}"></label>
         ${c.pattern ? `<div class="muted" style="font-size:12px">예: ${[0, 1, 2].map(() => esc(patternSample(c.pattern))).join(" · ")}</div>` : ""}` : ""}
       ${(c.source === "rule:choice" && (c.choices || []).length) || (c.source === "rule:pattern" && c.pattern)
-        ? `<div class="bar"><button id="ed-savekind" title="이 보기·틀을 키 사전의 값 종류로 저장 → 다른 칸·다른 서식의 생성 방법 고르기에 나옵니다">값 종류로 저장 (다시 쓰기)</button></div>` : ""}
+        ? `<div class="bar"><button id="ed-savekind" title="이 보기·틀을 키 사전의 값 종류로 저장 → 다른 칸·다른 서식의 생성 방법 고르기에 나옵니다">다른 서식에서도 쓰게 저장</button></div>` : ""}
       <label class="fld">표기 <span class="muted" style="font-size:12px">(날짜·금액을 서식에 적힌 꼴로)</span> <select id="ed-fmt"><option value="">(그대로)</option>${(edGens?.formats || []).map(f =>
         `<option value="${esc(f.id)}" ${c.fmt === f.id ? "selected" : ""}>${esc(f.name)}</option>`).join("")}</select></label>
       ${added && c.t === "text" ? `<label class="fld"><input type="checkbox" id="ed-row" ${c.row ? "checked" : ""}> 표의 반복 행 칸 <span class="muted" style="font-size:12px">(행마다 같은 항목을 적는 표 — 표 질문으로 묻습니다)</span></label>` : ""}

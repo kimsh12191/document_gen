@@ -1,15 +1,15 @@
 """영역 편집기의 생성 방법 고르기: 칸에 넣을 값을 어떻게 만들지 사람이 읽는 이름·예시 값으로 보여 준다.
 
 고르면 칸 목록 fields.json 의 "source" 가 된다 (docgen/sources.py). 여기는 고르기 쉬운 목록과 예시만 만들고,
-새 생성 방법을 더하는 길 (화면의 "원하는 생성 방법이 없으면" 안내와 같은 내용, guide/new-forms.md 0절):
+원하는 것이 없을 때 (화면의 "원하는 생성 방법이 없으면" 안내와 같은 내용, guide/generators.md):
 
-  칸에서 바로    보기 중 하나 (rule:choice + choices), 틀로 만들기 (rule:pattern + pattern: # 숫자, A 대문자, {가|나} 고르기)
-  다시 쓰게 저장 그 보기·틀을 키 사전의 값 종류로 저장 (PUT /api/keyrules/kinds/<이름>, key_rules.json "kinds")
-                 → 이 목록의 "키 사전에서 더한 것" 묶음 (source = rule:<종류>)
-  코드로         docgen/forms/_common/generators.py 에 @generator 함수 하나 (docgen/usergen.py)
-                 → "직접 만든 생성기 (코드)" 묶음 (source = rule:<함수 이름>)
-  칸끼리 관계    (합계 = 행의 합, 시작일 ≤ 종료일 …) 는 칸 하나의 생성 방법이 아니라 서식 폴더의 generate.py 의 adjust
-                 (html·overlay 모두. overlay 견본: python -m docgen.formdir adjust <ID> --new)
+  1. 고르기 창에서 적기   보기 중 하나 (rule:choice + choices), 틀로 만들기 (rule:pattern + pattern)
+                          [다른 서식에서도 쓰게 저장] → 키 사전 값 종류 (PUT /api/keyrules/kinds/<이름>, key_rules.json "kinds")
+                          → "키 사전에서 더한 것" 묶음 (source = rule:<종류>)
+  2. 값 하나를 만드는 함수 docgen/forms/_common/generators.py 에 @generator 함수 (docgen/usergen.py)
+                          → "직접 만든 생성기" 묶음 (source = rule:<함수 이름>)
+  3. 칸끼리 관계 맞추기   합계 = 행의 합, 시작일 ≤ 종료일 … 은 칸 하나의 생성 방법이 아니라 서식 폴더 generate.py 의 adjust
+                          (html·overlay 모두. overlay 견본: python -m docgen.formdir adjust <ID> --new)
 """
 from __future__ import annotations
 
@@ -68,21 +68,24 @@ PRESETS = [
 ]
 AUTO = ("자동", "", "항목명으로 값 종류를 추정해 만듭니다. 추정 못 하면 빈 칸")
 HOWTO = [
-    {"title": "1. 코드 없이 이 칸에서 — 보기 중 하나 · 틀로 만들기",
-     "where": "이 창의 '직접 정하기'",
-     "how": "보기 목록(한 줄에 하나)이나 틀(# 숫자, A 대문자, a 소문자, {가|나} 하나 고르기 — 예: HN-####-{A|B})을 적습니다. "
-            "칸 오른쪽의 [값 종류로 저장]을 누르면 다른 칸·다른 서식에서도 고를 수 있게 됩니다."},
-    {"title": "2. 코드 없이 다시 쓰게 — 키 사전의 값 종류",
-     "where": "studio 키 사전 › 값 종류 (docgen/forms/_common/key_rules.json 의 \"kinds\")",
-     "how": "이름·뜻 + 만드는 법 하나: 보기 목록(가중치), 틀, 프로필 경로. 이 창의 '키 사전에서 더한 것'에 나옵니다."},
-    {"title": "3. 코드로 — 직접 만든 생성기",
-     "where": "docgen/forms/_common/generators.py (설명 guide/generators.md 1절)",
-     "how": "@generator(\"화면 이름\") 를 붙인 함수 def 이름(p, rng, item, row): return 값 — p 고객 프로필, rng 난수(이것만), item 칸 정보, row 표 행 번호. "
-            "파일을 저장하면 studio 를 다시 띄우지 않아도 이 창의 '직접 만든 생성기'에 나옵니다. 예시 함수 3개가 들어 있습니다."},
-    {"title": "4. 칸끼리 관계 — 합계·순서·조건",
-     "where": "서식 폴더의 generate.py (adjust 함수, 설명 guide/generators.md 2절)",
-     "how": "합계 = 행의 합, 시작일 ≤ 종료일, 잔액 같은 관계는 칸 하나의 생성 방법으로 안 됩니다. 영역 편집 위의 [칸끼리 관계 견본 만들기] "
-            "(= python -m docgen.formdir adjust <ID> --new)로 이 서식의 칸 키가 적힌 견본을 만들고 adjust 를 고칩니다."},
+    {"title": "1. 고르기 창에서 적기 (코드 없음)",
+     "when": "몇 개 중 하나, 정해진 꼴의 번호",
+     "example": "보기 중 하나: 이체 / 입금 / 출금 · 틀로 만들기: HN-####-{A|B} → HN-4821-B",
+     "how": "위 '직접 정하기' 묶음에서 고르고 칸 오른쪽에 보기 목록(한 줄에 하나)이나 틀(# 숫자, A 대문자, a 소문자, {가|나} 하나)을 적습니다. "
+            "다른 서식에서도 쓰려면 칸 오른쪽 [다른 서식에서도 쓰게 저장] → 다음부터 '키 사전에서 더한 것' 묶음에 나옵니다 (선택)."},
+    {"title": "2. 값 하나를 만드는 함수 (코드)",
+     "when": "계산이 들어간 값 하나 — 가린 계좌번호, 행마다 1회·2회, 비율을 정한 보기",
+     "example": "@generator(\"상환 회차\")\ndef repay_round(p, rng, item, row):\n    return f\"{row + 1}회\"",
+     "how": "docgen/forms/_common/generators.py 끝에 함수 하나를 붙이고 저장 → studio 재시작 없이 이 창의 '직접 만든 생성기'에 나옵니다. "
+            "난수는 rng 만, 고객 값은 p 에서. 순서·빈 틀·예: guide/generators.md 2절."},
+    {"title": "3. 칸끼리 관계 맞추기 (코드, 이 서식만)",
+     "when": "여러 칸이 서로 맞아야 할 때 — 합계 = 행의 합, 시작일 ≤ 종료일, 잔액",
+     "example": "def adjust(d, p, rng):   # 값을 칸마다 다 만든 뒤 한 번 불림\n"
+                "    total = sum(to_amount(r.get(\"in\")) or 0 for r in rows(d, \"deals\"))\n"
+                "    put(d, \"total.in\", amount_like(total, \"1,000\"))   # 합계 = 행의 합\n"
+                "    return d",
+     "how": "칸 하나의 생성 방법으로는 안 됩니다. 영역 편집 위 '칸끼리 관계: [견본 만들기]' → 서식 폴더에 generate.py (이 서식의 칸 키가 적힘) → "
+            "adjust(d, p, rng) 를 채웁니다. 설명·예: guide/generators.md 3절."},
 ]
 
 

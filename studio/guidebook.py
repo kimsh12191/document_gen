@@ -23,6 +23,8 @@ DOCUMENTS = {
     "eval.md": "평가 세트·채점 함수·평가만·다시 채점",
     "results.md": "결과 해석",
     "new-forms.md": "새 서식 추가 · 대형 모델로 html·키 만들기 → studio 에 넣기 → 검수",
+    "keys.md": "칸의 키 이름 정하기 · 새 서식·외주용",
+    "generators.md": "원하는 값이 고르기 창에 없을 때 · 보기·틀 / 값 하나 함수 / 칸끼리 관계",
     "ocr.md": "내 이미지로 OCR 데이터 준비",
     "catalog.md": "업무별 서류 · 대조 사례 · 심사 규칙",
     "benchmark.md": "과제와 채점 규칙",
