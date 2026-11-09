@@ -9,6 +9,7 @@ studio/config.json
 studio_cache/
 studio_jobs/
 studio_workspace/
+studio_private_forms/
 studio_deps/
 train/configs/studio-*.json
 train/runs/
