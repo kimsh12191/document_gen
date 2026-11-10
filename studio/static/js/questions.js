@@ -138,7 +138,7 @@ async function tabQuestions(d) {
         이 서식만의 질문(form_qa)은 서식 폴더의 <span class="mono">qa.py</span> (함수 하나 = 질문 하나, 견본 <span class="mono">python -m docgen.formdir qa ${esc(d.id)} --new</span>),
         칸마다(묻지 않기 <code>ask: false</code>, 키 설명 <code>label</code>, 설명 <code>note</code>, OCR 빼기 <code>ocr: false</code>)는 칸 목록 <span class="mono">fields.json</span> 그 칸의 <code>"q"</code>.
         과제마다 묻는 칸은 <a href="#/forms/${encodeURIComponent(d.id)}/overview">개요</a>, 합친 전체와 고칠 줄은 <a href="#/forms/${encodeURIComponent(d.id)}/card">카드 원문</a>. 고친 뒤 아래에서 문항을 다시 만들어 확인합니다.
-        검사: <span class="mono">python -m docgen.formdir check ${esc(d.id)}</span> · 설명: <a href="#/guide/${encodeURIComponent("docgen/forms/README.md")}">서식 폴더 설명서</a></div>
+        검사: <span class="mono">python -m docgen.formdir check ${esc(d.id)}</span> · 설명: 저장소 <span class="mono">docgen/forms/README.md</span></div>
       ${qf ? `<pre class="ans mono" style="max-height:420px;overflow:auto">${esc(qf.source)}</pre>` : ""}
       ${d.qa ? `<div class="sub mono">${esc(d.qa.path)}</div><pre class="ans mono" style="max-height:420px;overflow:auto">${esc(d.qa.source)}</pre>` : ""}</details>
     <div class="bar">${optionBar(true, "qa")}

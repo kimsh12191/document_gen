@@ -26,7 +26,7 @@ async function view_datasets() {
   if (location.hash !== "#/datasets") return;
   main().innerHTML = `
     <h1>데이터셋</h1>
-    <div class="sub">레시피로 평가 세트·학습 데이터를 만들고(<b>새로 만들기</b>), 끝나면 아래 목록에서 문항을 봅니다. 학습·평가는 학습 서버에서 (<a href="#/guide/training.md">training.md</a>).
+    <div class="sub">레시피로 평가 세트·학습 데이터를 만들고(<b>새로 만들기</b>), 끝나면 아래 목록에서 문항을 봅니다. 학습·평가는 학습 서버에서 합니다 (저장소 <span class="mono">guide/training.md</span>).
       <a href="#/guide/studio.md">studio 사용법 3절</a> · 등록부 <span class="mono">${esc(r.workspace)}/registry.json</span></div>
     ${recipes}
     <div id="dataset-build-jobs"></div>

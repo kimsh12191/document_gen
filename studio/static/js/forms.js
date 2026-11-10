@@ -221,7 +221,7 @@ async function tabOverview(d) {
     <h2>이 서식이 묻는 것</h2>
     <div class="sub">이 서식으로 데이터를 만들면 아래 과제마다 문항이 생깁니다. 고객 여러 명으로 그려 본 칸으로 셉니다 (카드와 같은 계산).
       행 번호가 있는 칸(<span class="mono">rows.*.kind</span>)은 표로 묶여 kie 가 아니라 표 과제가 묻습니다.
-      고치는 곳 설명: <a href="#/guide/${encodeURIComponent("docgen/forms/README.md")}">서식 폴더 설명서</a></div>
+      파일로 고치는 곳: 저장소 <span class="mono">docgen/forms/README.md</span> (서식 폴더 설명서)</div>
     <div id="ov-tasks"><p class="spin">그려 보며 세는 중…</p></div>`;
   let o, formats;
   try { [o, formats] = await Promise.all([api(`/api/forms/${id}/overview`), loadQuestionFormats()]); }
@@ -313,7 +313,7 @@ function tabPreview(d, opt = {}) {
   $("#tab").innerHTML = `${opt.spots ? `<div class="sub">html 서식은 화면에서 고치지 않습니다. 아래는 가짜 고객 한 명으로 그린 그림에 <b>값이 나오는 자리와 그 키</b>를 겹친 것입니다
       (seed 를 바꾸면 값·표 행 수·선택 칸이 달라집니다). 자리는 서식 폴더 <span class="mono">look/template.html.j2</span> 의 <span class="mono">f('키')</span> 가 정하고,
       값은 <span class="mono">generate.py</span>·칸 목록 <span class="mono">fields.json</span> 이 정합니다 — <a href="#/forms/${encodeURIComponent(d.id)}/files">파일</a>,
-      <a href="#/guide/${encodeURIComponent("docgen/manual/NEW_FORM_SPEC.md")}">파일 꼴</a>.</div>` : ""}
+      파일 꼴 <span class="mono">docgen/manual/NEW_FORM_SPEC.md</span>.</div>` : ""}
     <div class="bar">${optionBar(true)}
       <button class="primary" id="o-go">렌더링</button>
       <button id="o-prev" title="이전 seed">◀</button><button id="o-next" title="다음 seed">▶</button>

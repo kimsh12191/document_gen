@@ -65,8 +65,8 @@ function toast(msg, bad = false) {
 const routes = [];
 const addRoute = (rx, fn, menu) => routes.push([rx, fn, menu]);
 // 메뉴마다 "이 화면 도움말" 이 여는 설명서 자리 (guide/studio.md 의 절)
-const HELP = { forms: "studio.md#1-서식", "new-forms": "studio.md#2-새-서식-추가", datasets: "studio.md#3-데이터셋",
-  marks: "studio.md#4-돕는-메뉴", "ocr-examples": "benchmark.md", guide: "README.md" };
+const HELP = { forms: "studio.md#서식-화면-탭-한눈에", "new-forms": "new-forms.md", datasets: "studio.md#5-데이터셋-만들고-확인하기",
+  marks: "studio.md#6-모든-서식에-공통인-표시-바꾸기", "ocr-examples": "studio.md#메뉴", guide: "studio.md" };
 
 // 화면 단축키: 고르기 창(dialog)이 열려 있거나 입력 칸에서 누른 키는 화면에 넘기지 않는다 (Backspace 로 뒤의 칸이 빠지지 않게)
 window.addEventListener("keydown", e => {

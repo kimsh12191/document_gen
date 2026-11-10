@@ -10,6 +10,9 @@ async function viewNewForms() {
     <div class="sub">서식 그림을 올리면 그 그림을 배경으로 하는 서식 <span class="mono">img_*</span> 를 만들고 바로 <b>영역 편집</b>으로 갑니다.
       영역 편집에서 칸을 그리고(표는 <b>표 그리기</b>로 열 × 행을 한 번에) 칸마다 <b>키</b> · <b>키 설명</b> · <b>생성 방법</b>을 정하면
       분류·내용 추출(kie)·체크·표·OCR 문항이 생깁니다. 자세한 설명은 <a href="#/guide/new-forms.md">새 서식 추가 가이드</a>.</div>
+    <div class="box" style="margin:8px 0"><b>html 서식으로 만들려면</b> — 화면이 없습니다. 저장소의 <span class="mono">docgen/manual/NEW_FORM_SPEC.md</span> 를 서식 그림과 함께
+      LLM(클로드 코드 등)에게 주고 <span class="mono">docgen/forms/&lt;새 ID&gt;/</span> 폴더를 그 꼴로 만들게 하세요. 폴더가 생기면
+      <a href="#/forms">서식</a> 목록의 <b>[서식 다시 읽기]</b> → 미리보기·검수. 원본 그림이 실서류면 사내 모델에만 줍니다.</div>
     <div class="box" style="margin:8px 0" id="nf-draw">
       <div class="bar" style="flex-wrap:wrap;gap:8px">
         <label>그림 (PNG·JPG·PDF, 여러 쪽이면 쪽 순서대로) <input type="file" id="nf-files" multiple accept=".png,.jpg,.jpeg,.tif,.tiff,.bmp,.webp,.pdf"></label>
