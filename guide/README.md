@@ -45,6 +45,6 @@ agent 에게 맡길 때는 저장소 최상위의 [AGENTS.md](../AGENTS.md) 부�
 |---|---|
 | 코드 구조 | [docgen/README.md](../docgen/README.md) (생성기) · [studio/README.md](../studio/README.md) (화면 ↔ 코드·저장 파일) · [studio/DESIGN.md](../studio/DESIGN.md) · [train/README.md](../train/README.md) |
 | 설치·내부망 반입 | [docker/README.md](../docker/README.md) |
-| 새 서식 결과물 형식 (html) | [NEW_FORM_SPEC.md](../docgen/manual/NEW_FORM_SPEC.md), 모양만 고치기 [FORM_SHELL_GUIDE.md](../docgen/manual/FORM_SHELL_GUIDE.md) |
+| html 서식 파일 형식 (코드로 고칠 때) | [NEW_FORM_SPEC.md](../docgen/manual/NEW_FORM_SPEC.md), 모양만 고치기 [FORM_SHELL_GUIDE.md](../docgen/manual/FORM_SHELL_GUIDE.md) |
 
 자동 생성 문서(`tasks.md`, `documents.md`, `catalog.*`, `table-audit.md`, 서식 카드 `FORM.md`, `values.md`)는 손으로 고치지 않습니다. 다시 만드는 명령은 [docgen/README.md](../docgen/README.md) "문서 자동 생성".
