@@ -4,10 +4,11 @@
 묻는 표: 값 칸이 한 표(반복 묶음, Doc.tables)의 칸뿐인 <table> 하나 (그 밖의 칸이 섞인 표·겹친 표는 묻지 않는다),
          맨 위에 머리글 줄(값 칸이 없는 줄)이 있어야 한다. 쪽 나눔으로 나뉜 표는 쪽마다 따로 (위치로 가리킨다).
 정답 꼴: {"columns": [머리글], "rows": [[칸 글자]], "row_boxes"} — 머리글 줄이 여럿이면 위·아래 글자를 " > " 로,
-         여러 행에 걸친 칸(rowspan)은 행마다 같은 글자, 여러 열에 걸친 칸(colspan)은 첫 열에만, 빈 칸 null, 모두 빈 행은 뺌.
+         여러 행에 걸친 칸(rowspan)은 행마다 같은 글자, 여러 열에 걸친 칸(colspan)은 첫 열에만, 빈 칸·가린 칸(mask) null, 모두 빈 행은 뺌.
          합계·소계 행은 그대로 둔다 (table 과제와 다름). 행은 늘 전부 (4.1 까지는 30행 넘으면 앞에서부터 30행).
 채점: evaluate.s_table_read — 머리글을 글자로 짝지은 뒤 table 과 같은 칸 F1 (주 지표), 머리글 F1
 """
+from ...schema import canonical_key
 from .. import prompts
 from ..metrics import normalize_box
 from . import table_cell
@@ -48,8 +49,9 @@ def grid(rows: list[dict]) -> list[list[dict | None]]:
     return [r + [None] * (width - len(r)) for r in g]
 
 
-def transcribe(t: dict, groups: set[str]) -> dict | None:
-    """DOM 표 하나 → {"group", "columns", "rows": [[글자]], "boxes": [[픽셀 상자]]} 또는 None (물을 수 없는 표)."""
+def transcribe(t: dict, groups: set[str], masked: set[str] = frozenset()) -> dict | None:
+    """DOM 표 하나 → {"group", "columns", "rows": [[글자]], "boxes": [[픽셀 상자]]} 또는 None (물을 수 없는 표).
+    masked: 가림(mask)으로 검은 상자를 씌운 키 — 그 칸은 그림에 안 보이므로 null."""
     keys = [k for r in t["rows"] for c in r["cells"] for k in c["keys"]]
     cells = [table_cell(k) for k in keys]
     if not keys or any(tc is None or tc[1] < 0 for tc in cells):
@@ -82,7 +84,8 @@ def transcribe(t: dict, groups: set[str]) -> dict | None:
             if e is None or not e["first_col"]:
                 vals.append(None)
                 continue
-            vals.append(e["cell"]["text"] or None)   # rowspan 은 아래 행에도 같은 글자
+            hidden = any(canonical_key(k) in masked for k in e["cell"]["keys"])   # 가린 키는 라벨 키(schema.build_fields)
+            vals.append(None if hidden else e["cell"]["text"] or None)   # rowspan 은 아래 행에도 같은 글자
             if e["origin"] and e["cell"]["bbox"]:
                 bs.append(e["cell"]["bbox"])
         if all(v is None for v in vals):
@@ -96,7 +99,8 @@ def transcribe(t: dict, groups: set[str]) -> dict | None:
 
 def make(doc):
     groups = set(doc.tables)
-    found = [x for x in (transcribe(t, groups) for t in doc.r.get("tables") or []) if x]
+    masked = set(doc.r.get("masked") or [])
+    found = [x for x in (transcribe(t, groups, masked) for t in doc.r.get("tables") or []) if x]
     segments = {}
     for x in found:
         segments.setdefault(x["group"], []).append(x)

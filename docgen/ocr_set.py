@@ -21,8 +21,9 @@ prepare 는 python -m docgen.bench.ocr_prepare 로 돈다 (--no-prepare 면 이�
    "merge_manifests": [다른 manifest 경로 (실서류 등)],
    "prepare": {OCR 준비 설정 덮어쓰기: tasks_per_view, filters, benchmark_fraction …}}
 - split="benchmark": 모든 쪽이 평가용 (benchmark_only). split="train": 문서 benchmark_fraction 만큼을 평가로 떼어 둔다.
-- seed 범위: 평가 3,000,000~, 학습 30,000,000~. docgen generate(0~)·docgen.bench 평가 세트(1,000,000~ / 2,000,000~)와는
-  겹치지 않는다. docgen.bench 학습 묶음(20,000,000 + 시나리오 번호 × 1,000,000)은 11번째 시나리오부터 학습 seed 와 겹친다.
+- seed 범위: 평가 3,000,000~, 학습 30,000,000~. docgen generate(0~)·docgen.bench(평가 1,000,000~ / 학습 10,000,000~)와
+  겹치지 않는다. 고객은 seed 와 서식 ID 로 정한다 (entities.doc_seed — 같은 순번이라도 서식마다 다른 고객).
+  ocr_revision v2 부터 (v1 은 같은 순번의 모든 서식이 같은 고객).
 - 견본 표시·도장 안 글자·정정으로 그은 글자는 신뢰도 0.3 으로 적고, OCR 준비 필터(기본: 평가 0.5, 학습 0.95)가 그 자리를 뺀다.
 """
 from __future__ import annotations
@@ -133,7 +134,7 @@ def _one(job: tuple) -> list[dict]:
     from PIL import Image
 
     from .augment import augment
-    from .entities import make_profile
+    from .entities import doc_seed, make_profile
     from .ocr_export import background_words, page_document, page_items, transform_texts
     from .registry import load_all
     from .render import render
@@ -147,7 +148,7 @@ def _one(job: tuple) -> list[dict]:
                 os.environ[var] = values[mode]
             else:
                 os.environ.pop(var, None)
-        html, raw, data = render(spec, make_profile(seed), seed)
+        html, raw, data = render(spec, make_profile(doc_seed(seed, doc_id)), seed)   # 서식마다 다른 고객
     finally:
         for k, (v, _) in _ENV.items():
             if saved[k] is None:
@@ -256,7 +257,7 @@ def build(args) -> None:
                                ensure_ascii=False) + "\n")
     cfg = json.loads((ROOT / "docgen" / "bench" / "ocr_config.example.json").read_text(encoding="utf-8"))
     cfg.update({"manifest": str((out / "manifest.jsonl").resolve()), "output_dir": str((out / "prepared").resolve()),
-                "cache_dir": str((out / "ocr_cache").resolve()), "ocr_revision": f"docgen-synthetic-{unit}-v1"})
+                "cache_dir": str((out / "ocr_cache").resolve()), "ocr_revision": f"docgen-synthetic-{unit}-v2"})
     for k, v in PREPARE_DEFAULTS.items():
         cfg[k] = v
     for k, v in (recipe.get("prepare") or {}).items():

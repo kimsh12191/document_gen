@@ -393,3 +393,11 @@ def _roman_prefix(name: str) -> str:
 def make_profile(seed: int, bank: str | None = None) -> Profile:
     """bank: 주거래은행 고정 (None 이면 랜덤)."""
     return World(seed).profile(bank)
+
+
+def doc_seed(seed: int, doc_id: str) -> int:
+    """데이터셋에서 서류 한 건의 고객 seed: 같은 순번(seed)이라도 서식마다 다른 고객이 나오게 서식 ID 를 섞는다.
+    seed × 100,000 + 서식 해시라, seed 범위(평가·학습)가 겹치지 않으면 고객 seed 도 겹치지 않는다."""
+    import zlib
+
+    return seed * 100_000 + zlib.crc32(doc_id.encode("utf-8")) % 100_000

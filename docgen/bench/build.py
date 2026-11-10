@@ -27,16 +27,16 @@ import sys
 import time
 from pathlib import Path
 
-from ..entities import make_profile
+from ..entities import doc_seed, make_profile
 from ..registry import GROUPS, load_all
 from ..render import render
 from ..schema import build_fields
-from . import perturb
+from . import absent, perturb
 from .. import formquestions as FQ
 from . import tasks as TASKS
 from .tasks import MARK_TYPES, field_kind  # noqa: F401  (field_kind: 예전 import 자리 build.field_kind)
 
-VERSION = "5.0"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
+VERSION = "5.1"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
 #                  2.0: kie·marks 답에 위치(bbox_2d 0~1000, page) — 값·위치·값+위치 점수. 건강보험료 납부확인서 정산 분할납부
 #                       변형이 정한 확률(15%)대로 나오게 고침
 #                  3.0: 키 사전(docgen/dictionary) 적용 — 공통 키에 이은 칸은 서식이 달라도 공통 키로 묻고 답함(customer.name …),
@@ -57,9 +57,12 @@ VERSION = "5.0"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순�
 #                       표의 문항이 4.1 과 다르다
 #                  5.0: 키는 서식의 키 그대로 (공통 키·키 사전 없앰 — 3.0 에서 공통 키로 바꾸던 칸이 서식의 키로 돌아감).
 #                       질문 항목 줄의 괄호는 키 설명이 아니라 표의 행·같은 설명 칸 순번만 ("누구의 무엇" 설명 없앰)
+#                  5.1: 서식마다 다른 가짜 고객 (5.0 까지는 같은 순번 k 의 모든 서식이 같은 고객 — entities.doc_seed).
+#                       키 동의어 통일(tel→phone, dob→birth 등 6개) 없앰 — 정답 키가 서식 키 그대로. 가린 표 칸(mask)은
+#                       table_read 정답에서도 null. 모든 문항의 값이 5.0 과 다르다
 # 1.x 세트(값만 있는 답)도 같은 채점기로 채점된다 (evaluate.py 가 두 형식을 다 읽음). 값 점수는 1.x 와 뜻이 같다.
 SEED_SINGLE = 1_000_000   # 평가 세트 서류의 고객 seed 시작
-# split → (고객 seed 시작,). 서류 k 번째 건의 고객 seed = 시작 + start + k
+# split → (seed 시작,). 서식마다 k 번째 건의 seed = 시작 + start + k, 고객은 그 seed 와 서식 ID 로 (entities.doc_seed)
 SPLITS = {"test": (SEED_SINGLE,), "train": (10_000_000,)}
 
 # 촬영 조건 비율: 절반은 깨끗한 원본, 나머지는 스캔·촬영·팩스 증강 (docgen/augment.py)
@@ -103,9 +106,10 @@ def pick_condition(key: str, conditions=None) -> str:
     return conds[0][0]
 
 
-def single_profile(seed: int, nulls: dict | None):
-    """서류 한 건 과제의 고객: 빈 칸 비우기 비율(nulls["blank"])을 profile.extra 로 렌더링에 넘긴다 (docgen/render.py)."""
-    p = make_profile(seed)
+def single_profile(seed: int, nulls: dict | None, doc_id: str):
+    """서류 한 건 과제의 고객 (서식마다 다른 고객: entities.doc_seed). 빈 칸 비우기 비율(nulls["blank"])을
+    profile.extra 로 렌더링에 넘긴다 (docgen/render.py)."""
+    p = make_profile(doc_seed(seed, doc_id))
     if nulls and nulls.get("blank"):
         p.extra["blank_optional"] = nulls["blank"]
     return p
@@ -177,8 +181,7 @@ class Builder:
         return out
 
     # ------------------------------------------------------------------
-    def render_doc(self, doc_id: str, profile, seed: int, stem: str, cond: str, aug_key: str | None = None,
-                   html: str | None = None, raw: list | None = None, data: dict | None = None, single: bool = False) -> dict:
+    def render_doc(self, doc_id: str, profile, seed: int, stem: str, cond: str, single: bool = False) -> dict:
         """서류 한 건을 렌더링해 이미지(조건에 따라 증강)와 라벨 필드를 만든다.
         single=True (서류 한 건 과제): 표 구조(tables, table_read 과제)도 읽고, 가림 증강(mask)을 할 수 있다."""
         from PIL import Image
@@ -187,8 +190,7 @@ class Builder:
         from ..cli import _aug_fields
 
         spec = self.reg[doc_id]
-        if html is None:
-            html, raw, data = render(spec, profile, seed)
+        html, raw, data = render(spec, profile, seed)
         png = self.out / f"{stem}.png"
         png.parent.mkdir(parents=True, exist_ok=True)
         info = self.renderer.render(html, png, tables=single)
@@ -200,7 +202,7 @@ class Builder:
         paths = [Path(p) for p in info["images"]]
         sizes = [(pg["width"], pg["height"]) for pg in info["pages"]]
         if cond != "clean":
-            arng = random.Random(f"bench:aug:{aug_key or stem}")
+            arng = random.Random(f"bench:aug:{stem}")
             new_paths, new_sizes, tfs = [], [], []
             for p in paths:
                 img, _, tf = augment(Image.open(p), arng, cond, with_transform=True)
@@ -217,8 +219,7 @@ class Builder:
                 "template_variant": (data or {}).get("_template_variant", {"id":"default","name":"기본 레이아웃"}),
                 "images": [str(p.relative_to(self.out)) for p in paths], "sizes": sizes, "fields": fields, "tables": tables,
                 "raw": raw, "raw_keys": [r["key"] for r in raw], "visible": perturb.visible_keys(html),
-                "html": html, "data": data, "writing": "hand" if hand else "print", "masked": masked,
-                "bank": next((f["value"] for f in fields if f["key"] in ("bank", "bank.name")), None)}
+                "html": html, "data": data, "writing": "hand" if hand else "print", "masked": masked}
 
     # ------------------------------------------------------------------
     # 단일 서류 과제
@@ -265,7 +266,7 @@ def _job(job: tuple) -> list[dict]:
     """작업 하나(서류 한 건)를 만들고 그 문항들을 돌려준다."""
     _, doc_id, seed, fields_per_doc, max_keys = job
     stem = f"images/{doc_id}_{seed}"
-    r = _BD.render_doc(doc_id, single_profile(seed, _BD.nulls), seed, stem, pick_condition(f"{doc_id}:{seed}", _BD.conditions),
+    r = _BD.render_doc(doc_id, single_profile(seed, _BD.nulls, doc_id), seed, stem, pick_condition(f"{doc_id}:{seed}", _BD.conditions),
                        single=True)
     _BD.single(r, stem, fields_per_doc, max_keys)
     return _BD.take()
@@ -424,6 +425,7 @@ def build(args) -> None:
                 "version": VERSION, "created": meta["created"], "counts": meta["counts"], "split": split,
                 "form_hashes": {i: source_hash(i, common=False) for i in used if i in reg},
                 "question_hashes": FQ.hashes([i for i in used if i in reg]),   # 서식별 질문·답 파일 (그림은 안 바꾼다)
+                "absent_catalog_hash": absent.catalog_hash(),   # 없는 키·열 후보 (guide/fields/fields.json)
                 "composition": tracking.result()}
         (out / "dataset.json").write_text(json.dumps(info, ensure_ascii=False, indent=1), encoding="utf-8")
     what = "학습 데이터" if split == "train" else "평가 세트"

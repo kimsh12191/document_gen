@@ -1,6 +1,6 @@
 {
- "about": "표준 키 사전 중 사람이 정하는 부분 (studio/DESIGN.md 15.7). studio 키 사전 화면이 고친다. 자동으로 모은 키 목록은 docgen/keys.json. labels 는 overlay 항목명 → 이 키 (켜면 그 항목명이 있는 overlay 서식의 생성 값이 바뀐다 — 평가 세트 버전을 올릴 때 켠다). label_suggestions 는 켜기 전 제안.",
- "synonyms": {"dob": "birth", "date_of_birth": "birth", "sex": "gender", "corp_no": "corp_reg_no", "ceo_name": "ceo", "tel": "phone"},
+ "about": "서식 공통으로 쓰는 값 규칙. keys = 값 출처(프로필 경로)나 값 종류를 정해 둔 키 (realform 이 그 키의 값을 만든다), kinds = 공통 값 종류 (영역 편집 고르기 창의 '공통 값 종류'). synonyms 는 비워 둔다 (키는 서식의 키 그대로 — bench 5.1 부터). label_rules·kind_rules 는 키 사전 시절 규칙 (지금은 값 종류 이름 목록에만 쓰임, 고쳐도 생성 값은 안 바뀐다).",
+ "synonyms": {},
  "label_rules": [
   ["^(주민등록지|현거주지)$", "customer.address"],
   ["^배우자성명$", "spouse.name"],

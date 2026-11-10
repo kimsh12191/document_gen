@@ -1,7 +1,8 @@
 """서류에 없는 키·열 (정답 null): kie·table 질문의 일부에 섞어 "물어도 없으면 null" 을 배우게 한다.
 
 후보는 같은 그룹(registry group) 다른 서식의 칸 — 서식 카탈로그 guide/fields/fields.json (python docgen/scripts/build_schema.py
-가 만드는 자동 생성 파일, 그리지 않고 읽음). 카탈로그가 없으면 후보가 없어 섞지 않는다.
+가 만드는 자동 생성 파일, 그리지 않고 읽음). 카탈로그가 없으면 후보가 없어 섞지 않는다. 서식을 더하거나 키를 바꾸면
+다시 만든다 — 데이터셋 dataset.json 의 absent_catalog_hash 에 어떤 카탈로그로 만들었는지 남는다.
 이 서류에 같은 키, 같은 항목명(공백·문장부호 무시), 한쪽이 다른 쪽을 품는 항목명(대출금액 ↔ 대출신청금액)이 있으면
 후보에서 뺀다 — 비슷한 칸이 서류에 있으면 null 이 정답인지 흔들리므로. 주민번호로 알 수 있는 생년월일·나이·성별처럼
 문서의 다른 값으로 짐작할 수 있는 항목명도 뺀다 (없는 칸이지만 답이 흔들리지 않게).
@@ -52,6 +53,16 @@ def _pools(group: str, mtime: float) -> tuple[list, list]:
             else:
                 keys.append((form, key, label, t))
     return keys, cols
+
+
+def catalog_hash() -> str | None:
+    """후보 카탈로그 파일의 해시 (데이터셋 dataset.json 에 남김 — 카탈로그가 바뀌면 같은 레시피라도 없는 키 문항이 달라진다)."""
+    import hashlib
+
+    try:
+        return hashlib.sha1(CATALOG.read_bytes()).hexdigest()[:12]
+    except OSError:
+        return None
 
 
 def pools(group: str) -> tuple[list, list]:

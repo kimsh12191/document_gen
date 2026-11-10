@@ -229,9 +229,12 @@ def test_mask_fields_blacks_out_and_nulls(tmp_path):
 
 
 def test_build_settings_have_nulls():
-    assert B.NULLS == {"blank": 0.3, "mask": 0.1} and B.VERSION == "5.0"
-    p = B.single_profile(1_000_000, {"blank": 0.5})
-    assert p.extra["blank_optional"] == 0.5 and "blank_optional" not in B.single_profile(1, None).extra
+    assert B.NULLS == {"blank": 0.3, "mask": 0.1} and B.VERSION == "5.1"
+    p = B.single_profile(1_000_000, {"blank": 0.5}, "a")
+    assert p.extra["blank_optional"] == 0.5 and "blank_optional" not in B.single_profile(1, None, "a").extra
+    # 같은 순번이라도 서식마다 다른 고객
+    assert B.single_profile(1_000_000, None, "a").person.name != B.single_profile(1_000_000, None, "b").person.name or \
+        B.single_profile(1_000_000, None, "a").person.rrn != B.single_profile(1_000_000, None, "b").person.rrn
 
 
 def test_real_render_gives_every_table_task_and_oracle_scores_full(tmp_path):
