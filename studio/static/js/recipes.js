@@ -99,7 +99,11 @@ async function viewRecipe(name) {
   $("#rc-save").onclick = () => { try { save(collect()); } catch (e) { toast(e.message, true); } };
   $("#rc-raw").onclick = () => { $("#rc-rawbox").style.display = "block"; $("#rc-json").value = JSON.stringify(r, null, 1); };
   $("#rc-rawsave").onclick = () => { try { save(JSON.parse($("#rc-json").value)); } catch (e) { toast(e.message, true); } };
-  $("#rc-del").onclick = async () => { if (confirm("레시피를 지울까요? (만든 데이터셋은 그대로)")) { await api(`/api/recipes/${encodeURIComponent(name)}`, undefined, "DELETE"); location.hash = "#/datasets"; } };
+  $("#rc-del").onclick = async () => {
+    if (!confirm("레시피를 지울까요? (만든 데이터셋은 그대로)")) return;
+    try { await api(`/api/recipes/${encodeURIComponent(name)}`, undefined, "DELETE"); location.hash = "#/datasets"; }
+    catch (e) { toast(e.message, true); }
+  };
 }
 
 
@@ -157,7 +161,11 @@ function viewOcrRecipe(name, r, opts) {
       toast("저장했습니다"); viewRecipe(name);
     } catch (e) { toast(e.message, true); }
   };
-  $("#rc-del").onclick = async () => { if (confirm("레시피를 지울까요?")) { await api(`/api/recipes/${encodeURIComponent(name)}`, undefined, "DELETE"); location.hash = "#/datasets"; } };
+  $("#rc-del").onclick = async () => {
+    if (!confirm("레시피를 지울까요?")) return;
+    try { await api(`/api/recipes/${encodeURIComponent(name)}`, undefined, "DELETE"); location.hash = "#/datasets"; }
+    catch (e) { toast(e.message, true); }
+  };
 }
 
 

@@ -44,7 +44,7 @@ const state = {
 };
 
 const LAYERS = [
-  ["value", "값", "--l-value"], ["label", "항목명", "--l-label"], ["check", "체크박스", "--l-check"],
+  ["value", "값", "--l-value"], ["label", "키 설명", "--l-label"], ["check", "체크박스", "--l-check"],
   ["seal", "도장", "--l-seal"], ["sign", "서명", "--l-sign"],
 ];
 const MODE_NAME = { default: "기본 확률", on: "항상", off: "끔" };
@@ -67,9 +67,13 @@ const addRoute = (rx, fn, menu) => routes.push([rx, fn, menu]);
 // 메뉴마다 "이 화면 도움말" 이 여는 설명서 자리 (guide/studio.md 의 절)
 const HELP = { forms: "studio.md#1-서식", "new-forms": "studio.md#2-새-서식-추가", datasets: "studio.md#3-데이터셋",
   marks: "studio.md#4-돕는-메뉴", "ocr-examples": "benchmark.md", guide: "README.md" };
-const leaveGuards = [];   // 저장 안 한 편집이 있으면 화면을 떠나기 전에 묻는다
 
-window.addEventListener("keydown", e => state.keyHandler && state.keyHandler(e));
+// 화면 단축키: 고르기 창(dialog)이 열려 있거나 입력 칸에서 누른 키는 화면에 넘기지 않는다 (Backspace 로 뒤의 칸이 빠지지 않게)
+window.addEventListener("keydown", e => {
+  if (!state.keyHandler || document.querySelector("dialog[open]")) return;
+  if (e.target.closest && e.target.closest("input, select, textarea, [contenteditable], dialog")) return;
+  state.keyHandler(e);
+});
 
 async function route() {
   state.keyHandler = null;   // 화면마다 자기 단축키를 다시 건다
@@ -249,5 +253,3 @@ function table(rows, cols, rowAttr = () => "") {
   return `<table><thead><tr>${cols.map(c => `<th class="${c[3] ? "num" : ""}">${c[1]}</th>`).join("")}</tr></thead><tbody>${rows.map((r, i) =>
     `<tr ${rowAttr(r, i)}>${cols.map(c => `<td class="${c[3] ? "num" : ""}">${c[2] ? c[2](r, i) : esc(r[c[0]] ?? "")}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
 }
-
-const pct = v => v === null || v === undefined ? "-" : (v * 100).toFixed(1);

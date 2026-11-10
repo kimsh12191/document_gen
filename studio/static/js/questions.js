@@ -70,7 +70,7 @@ async function tabQuestions(d) {
   const qf = d.questions;
   $("#tab").innerHTML = `<div class="sub">과제마다 모델이 실제로 받는 질문과 정답입니다. 가짜 고객(seed)·촬영 조건을 고르고 <b>실제 문항 예시 만들기</b>를 누릅니다 (한 번 그려서 만듦).</div>
     <details class="qa-contract"><summary>이 서식의 질문·답 바꾼 것 <span class="mono">${esc(qf ? qf.path : "questions.json 없음 — 모두 기본")}${d.qa ? " · qa.py" : ""}</span></summary>
-      <div class="sub">질문 문장·질문 항목 줄 틀(item)·답 항목 틀(answer)은 공통 <span class="mono">docgen/forms/_common/questions.json</span>, 항목명은 칸의 항목명이 기본입니다.
+      <div class="sub">질문 문장·질문 항목 줄 틀(item)·답 항목 틀(answer)은 공통 <span class="mono">docgen/forms/_common/questions.json</span>, 키 설명은 칸의 키 설명이 기본입니다.
         이 서식에서 다르게 할 것: 질문 문장 <code>prompt</code>·답 항목 틀 <code>answer</code>(JSON 틀 <code>{"key": "{key}", "value": "{value}"}</code> 또는 줄글 <code>"{label}: {value}"</code>)·분류 정답은 서식 폴더의 <span class="mono">questions.json</span>,
         이 서식만의 질문(form_qa)은 서식 폴더의 <span class="mono">qa.py</span> (함수 하나 = 질문 하나, 견본 <span class="mono">python -m docgen.formdir qa ${esc(d.id)} --new</span>),
         칸마다(묻지 않기 <code>ask: false</code>, 키 설명 <code>label</code>, 설명 <code>note</code>, OCR 빼기 <code>ocr: false</code>)는 칸 목록 <span class="mono">fields.json</span> 그 칸의 <code>"q"</code>.

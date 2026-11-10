@@ -344,19 +344,22 @@ function tabPreview(d) {
     if (f && (f.page || 0) !== view.page) view.page = f.page || 0;
     draw(true);
   };
+  let req = 0;
   const go = async (force = false) => {
-    const o = readOptions(true);
-    $("#o-stat").textContent = "렌더링 중…";
+    const o = readOptions(true), stat = $("#o-stat"), my = ++req;
+    const stale = () => my !== req || !stat.isConnected;   // 그 사이 다시 눌렀거나 다른 화면으로 넘어감
+    stat.textContent = "렌더링 중…";
     try {
       const t = performance.now();
-      view.label = await renderOne(d.id, o, force);
-      if (!$("#o-stat")) return;   // 렌더링하는 사이 다른 화면으로 넘어감
-      view.page = Math.min(view.page, view.label.pages.length - 1);
+      const L = await renderOne(d.id, o, force);
+      if (stale()) return;
+      view.label = L;
+      view.page = Math.min(view.page, L.pages.length - 1);
       view.sel = -1;
-      $("#o-stat").textContent = `seed ${o.seed} · ${((performance.now() - t) / 1000).toFixed(1)}초`;
+      stat.textContent = `seed ${o.seed} · ${((performance.now() - t) / 1000).toFixed(1)}초`;
       draw();
     } catch (e) {
-      $("#o-stat").innerHTML = `<span class="err">${esc(e.message)}</span>`;
+      if (!stale()) stat.innerHTML = `<span class="err">${esc(e.message)}</span>`;
     }
   };
   const markIssue = async (i, p) => {
@@ -373,7 +376,7 @@ function tabPreview(d) {
       const fresh = await formDetail(d.id, true);
       d.issues = fresh.issues;
       toast("문제를 남겼습니다 (검수 탭에서 봅니다)");
-      draw();
+      if (stageEl.isConnected) draw();
     } catch (e) { toast(e.message, true); }
   };
   $("#o-go").onclick = () => go();
@@ -387,7 +390,8 @@ function tabPreview(d) {
     $("#o-issue").textContent = view.issueMode ? "문제 표시 중 (끄기)" : "문제 표시";
   };
   $("#v-pages").onclick = e => { const p = e.target.dataset.p; if (p !== undefined) { view.page = +p; draw(); } };
-  const stage = bindStage($("#v-stage"), () => view.label, () => view.page, (i, p) => {
+  const stageEl = $("#v-stage");
+  const stage = bindStage(stageEl, () => view.label, () => view.page, (i, p) => {
     if (view.issueMode) return markIssue(i, p);
     view.sel = i; draw();
   });
@@ -438,8 +442,10 @@ function tabExamples(d) {
     <div class="bar">${layerBar()}</div>
     <div class="sub">같은 seed 는 늘 같은 고객·같은 값입니다. 카드를 누르면 그 seed 로 미리보기를 엽니다.</div>
     <div class="grid" id="ex-grid"></div>`;
-  let labels = [];
+  let labels = [], run = 0;
+  const grid = $("#ex-grid");
   const drawCards = () => {
+    if (!grid.isConnected) return;
     $("#ex-grid").innerHTML = labels.map((L, k) => L && !L.error ? `
       <div class="card" data-seed="${L.seed}">
         <div class="stage">${stageHTML(L, 0, -1)}</div>
@@ -449,13 +455,16 @@ function tabExamples(d) {
   const go = async () => {
     const s = Math.max(0, parseInt($("#ex-start").value || "0", 10)), n = Math.min(48, Math.max(1, parseInt($("#ex-count").value || "8", 10)));
     store.set("ex.start", s); store.set("ex.count", n);
-    const o = readOptions(false);
+    const o = readOptions(false), my = ++run;
     labels = new Array(n).fill(null);
     drawCards();
     $("#ex-go").disabled = true;
     for (let k = 0; k < n; k++) {   // 렌더러가 하나라 차례로 만든다. 다 된 것부터 보인다.
       $("#ex-stat").textContent = `${k + 1}/${n}`;
-      try { labels[k] = await renderOne(d.id, { ...o, seed: s + k }); } catch (e) { labels[k] = { error: e.message }; }
+      let L;
+      try { L = await renderOne(d.id, { ...o, seed: s + k }); } catch (e) { L = { error: e.message }; }
+      if (my !== run || !grid.isConnected) return;   // 다른 화면으로 넘어가면 그만 만든다
+      labels[k] = L;
       drawCards();
     }
     $("#ex-stat").textContent = `${n}장`;
@@ -531,8 +540,12 @@ async function tabReview(d) {
       viewForm(d.id, "review");
     } catch (err) { toast(err.message, true); }
   };
+  // 배정·메모를 고친 채 [검수 완료]를 눌러도 적은 것이 사라지지 않게 먼저 저장한다
+  const split0 = $("#rv-split").value, note0 = $("#rv-note").value;
+  const saveMeta = () => api(`/api/forms/${encodeURIComponent(d.id)}/meta`, { split: $("#rv-split").value, note: $("#rv-note").value });
   const setReview = async done => {
     try {
+      if ($("#rv-split").value !== split0 || $("#rv-note").value !== note0) await saveMeta();
       await api(`/api/forms/${encodeURIComponent(d.id)}/review`, { done });
       state.forms = null;
       toast(done ? "검수 완료로 표시했습니다" : "검수를 취소했습니다");
@@ -543,7 +556,7 @@ async function tabReview(d) {
   if ($("#rv-undo")) $("#rv-undo").onclick = () => setReview(false);
   $("#rv-save").onclick = async () => {
     try {
-      await api(`/api/forms/${encodeURIComponent(d.id)}/meta`, { split: $("#rv-split").value, note: $("#rv-note").value });
+      await saveMeta();
       state.forms = null;
       toast("저장했습니다");
       viewForm(d.id, "review");

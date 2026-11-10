@@ -43,8 +43,6 @@ async function createDrawn() {
   try {
     const r = await fetch("/api/forms/new-image", { method: "POST", body: fd });
     const data = await r.json().catch(() => ({}));
-    if (r.status === 404 || r.status === 405)   // 화면(js)만 새것이고 서버는 예전 코드
-      throw new Error(`서버에 이 기능이 없습니다 (${r.status}). git pull 뒤 studio 서버를 다시 띄우세요 (도커면 컨테이너 재시작)`);
     if (!r.ok) throw new Error(typeof data.detail === "string" ? data.detail : `${r.status} ${r.statusText}`);
     out.innerHTML = `<p>만들었습니다: <a href="#/forms/${encodeURIComponent(data.form_id)}/edit">${esc(data.form_id)} 영역 편집</a></p>`;
     state.forms = null;

@@ -16,7 +16,6 @@ function datasetRegistryHTML(r, added = new Set()) {
     ["version", "버전", d => esc(d.version || "-")],
     ["counts", "문항", d => esc(Object.entries(d.counts || {}).filter(([k]) => !/train|val|pages|documents/.test(k) || k === "benchmark_tasks")
       .reduce((a, [, v]) => a + (+v || 0), 0) || "-")],
-    ["runs", "모델 답", d => d.n_runs || ""], ["scores", "점수", d => d.n_scores || ""],
     ["frozen", "고정", d => d.frozen ? `<span class="tag ok">고정</span>` : ""],
     ["exists", "", d => d.exists ? "" : `<span class="tag warn">폴더 없음</span>`],
   ], d => added.has(d.id) ? `class="ds-new"` : "");

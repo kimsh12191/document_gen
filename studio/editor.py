@@ -236,7 +236,7 @@ def validate(doc_id: str, ov: dict) -> dict:
         m = o.get("match") or {}
         if m.get("t") not in ITEM_TYPES or not isinstance(m.get("page"), int):
             raise ValueError(f"수정 {i + 1}: match 에 page·t 가 필요합니다")
-        o = {k: v for k, v in o.items() if v not in (None, "", [], {})}
+        o = {k: v for k, v in o.items() if v not in (None, "", [], {})}   # set 안의 null 은 '저장된 값 지우기'로 그대로 둔다
         o["match"] = {"page": m["page"], "t": m["t"], "label": m.get("label") or "", "n": int(m.get("n", 0))}
         if "set" in o and "rect" in o["set"]:
             o["set"]["rect"] = _box(o["set"]["rect"], f"수정 {i + 1} rect")
@@ -308,7 +308,28 @@ def save(doc_id: str, ov: dict, by: str = "") -> dict:
     if clean:
         clean["updated"] = {"by": by or "studio", "at": time.strftime("%Y-%m-%d %H:%M")}
     OV.save(doc_id, clean)
+    _drop_nulls(doc_id)
     return layout_view(doc_id)
+
+
+CLEARABLE = ("key", "kind", "source", "choices", "text", "note", "group", "fmt", "pattern", "fill", "row", "yy",
+             "preset", "p", "answer", "shape", "color", "size", "style")   # 화면에서 비울 수 있는 칸 정보
+
+
+def _drop_nulls(doc_id: str) -> None:
+    """화면에서 비운 칸 정보(set 의 null: 생성 방법·키·보기·표기·메모 …)는 합친 뒤 null 로 남으므로 칸 목록에서 아예 뺀다."""
+    from docgen import formfields
+
+    body = formfields.read(doc_id)
+    if not body:
+        return
+    hit = False
+    for it in body.get("items", []):
+        for k in [k for k in CLEARABLE if k in it and it[k] is None]:
+            del it[k]
+            hit = True
+    if hit:
+        formfields.write(doc_id, body)
 
 
 # ---------------------------------------------------------------------------
@@ -386,7 +407,7 @@ def checks(doc_id: str, label: dict | None = None, fields_keys: list[dict] | Non
         words = _pdf_words(doc_id)
     except Exception:  # noqa: BLE001  PDF 를 못 읽으면 이 검사만 건너뛴다
         words = {}
-    printed: dict[tuple, dict] = {}   # 같은 항목명(표의 여러 행)은 한 줄로 모은다
+    printed: dict[tuple, dict] = {}   # 같은 키 설명(표의 여러 행)은 한 줄로 모은다
     for it in live:
         r = _rect_of(it)
         if not r or it["t"] != "text":
@@ -406,6 +427,6 @@ def checks(doc_id: str, label: dict | None = None, fields_keys: list[dict] | Non
             and (it.get("kind") or "text") == "text"]
     if junk:
         out.append({"level": "info", "code": "fragment",
-                    "text": f"뜻을 모르는 짧은 항목명 {len(junk)}개 (문장 조각일 수 있음): "
+                    "text": f"뜻을 모르는 짧은 키 설명 {len(junk)}개 (문장 조각일 수 있음): "
                             f"{', '.join(it['label'] for it in junk[:8])}"})
     return out

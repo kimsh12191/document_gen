@@ -7,9 +7,6 @@ addRoute(/^#\/datasets$/, () => view_datasets(), "datasets");
 addRoute(/^#\/datasets\/([^/]+)(?:\/(\w+))?$/, (id, tab) => viewDataset(decodeURIComponent(id), tab || "card"), "datasets");
 
 const GROUP_NAME = { ocr: "OCR", doc: "문서 이해" };   // 과제 묶음 (docgen.bench.evaluate.TASK_GROUP)
-const TASK_GROUP = { crop_ocr: "ocr", bbox_ocr: "ocr", region_ocr: "ocr", marked_ocr: "ocr", grounding: "ocr", spotting: "ocr",
-  relation: "ocr", marked_box: "ocr", ocr_field: "ocr", ocr_page: "ocr", classify: "doc", kie: "doc", marks: "doc", freetext: "doc", form_qa: "doc",
-  table: "doc", table_read: "doc", table_find: "doc", table_qa: "doc" };
 const TASK_KO = {
   crop_ocr: "잘라낸 글자 읽기", bbox_ocr: "박스 안 글자", region_ocr: "영역 받아쓰기", marked_ocr: "그린 박스 글자",
   grounding: "글자 위치 찾기", spotting: "전체 글자+위치", relation: "옆 글자 찾기", marked_box: "그린 박스 위치",
@@ -72,11 +69,14 @@ async function viewDataset(id, tab) {
     <div class="sub mono" style="margin-top:4px">${esc(d.path)}</div>
     <div class="tabs">${tabs.map(([t, n]) => `<a href="#/datasets/${encodeURIComponent(id)}/${t}" class="${t === tab ? "on" : ""}">${n}</a>`).join("")}</div>
     <div id="tab"></div>`;
-  $("#ds-freeze").onclick = async () => { await api(`/api/datasets/${encodeURIComponent(id)}/freeze`, { frozen: !d.frozen }); viewDataset(id, tab); };
+  $("#ds-freeze").onclick = async () => {
+    try { await api(`/api/datasets/${encodeURIComponent(id)}/freeze`, { frozen: !d.frozen }); viewDataset(id, tab); }
+    catch (e) { toast(e.message, true); }
+  };
   $("#ds-unreg").onclick = async () => {
     if (!confirm("등록부에서만 지웁니다 (폴더와 파일은 그대로). 지울까요?")) return;
-    await api(`/api/datasets/${encodeURIComponent(id)}`, undefined, "DELETE");
-    location.hash = "#/datasets";
+    try { await api(`/api/datasets/${encodeURIComponent(id)}`, undefined, "DELETE"); location.hash = "#/datasets"; }
+    catch (e) { toast(e.message, true); }
   };
   if (tab === "items") return dsItems(d);
   if (tab === "tracking") return dsTracking(d);
@@ -147,7 +147,7 @@ async function dsItems(d) {
   const summary = await api(`/api/datasets/${encodeURIComponent(d.id)}/composition`).catch(() => null);
   st.filters ||= {};
   $("#tab").innerHTML = `
-    ${summary ? '' : '<p class="warn">현재 서버에는 구성·추적 API가 없습니다. Studio를 재시작하면 구분별 필터를 사용할 수 있습니다.</p>'}
+    ${summary ? "" : `<p class="muted">구성 정보를 읽지 못해 구분별 필터를 끕니다.</p>`}
     <div class="bar">
       <select id="it-task"><option value="" ${st.task === "" ? "selected" : ""}>과제 전체</option>${tasks.map(([t, n]) => `<option value="${t}" title="${esc(TASK_HINT[t] || "")}" ${t === st.task ? "selected" : ""}>${esc(TASK_KO[t] || t)} (${t}) · ${n}</option>`).join("")}</select>
       <input type="text" id="it-q" placeholder="문항 안 글자 검색" style="width:180px">

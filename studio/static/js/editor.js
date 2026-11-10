@@ -1,5 +1,5 @@
 // ① 서식 › 영역 편집 (overlay): 값 영역 그리기·옮기기·크기 바꾸기·빼기, 키·키 설명·생성 방법, 배경 지우기, 수정 전후 비교.
-// 고친 것은 서식 폴더의 사람 수정 파일(docgen/forms/<ID>/regions.json, 실서류에서 만든 서식은 private_forms_dir/<ID>/regions.json)에 저장한다.
+// 고친 것은 서식 폴더의 칸 목록(docgen/forms/<ID>/fields.json, 실서류에서 만든 서식은 private_forms_dir/<ID>/fields.json)에 합쳐 저장한다 (docgen/overrides.py).
 // 좌표는 레이아웃과 같은 PDF pt. 서버: studio/app.py (/api/forms/{id}/layout·overrides·bg·checks), studio/editor.py
 "use strict";
 
@@ -58,6 +58,7 @@ function cur(ed, it) {
   const e = edEntry(ed, it, false) || {};
   const out = { ...it.base, ...(e.set || {}) };
   for (const k of ["key", "kind", "source", "choices", "text", "note", "group", "fmt", "pattern", "fill"]) if (e[k] !== undefined && e[k] !== "") out[k] = e[k];
+  for (const k of Object.keys(out)) if (out[k] === null) delete out[k];   // set 의 null = 저장된 값을 지움
   return out;
 }
 
@@ -81,11 +82,19 @@ function setGeom(ed, it, patch) {
   ed.dirty = true;
 }
 
+const isEmptyVal = v => v === "" || v === null || v === undefined || (Array.isArray(v) && !v.length);
+
 function setProp(ed, it, k, v) {
-  const empty = v === "" || v === null || v === undefined || (Array.isArray(v) && !v.length);
+  const empty = isEmptyVal(v);
   if (it.status === "added") { if (empty) delete it.ref[k]; else it.ref[k] = v; }
   else if (k === "label") { setGeom(ed, it, { label: v }); return; }
-  else { const e = edEntry(ed, it, true); if (empty) delete e[k]; else e[k] = v; tidyEntry(ed, it); }
+  else {
+    // 비우면 저장된 값(base)도 지우도록 set 에 null 을 둔다 (서버가 fields.json 에서 그 칸을 뺀다)
+    const e = edEntry(ed, it, true), had = !isEmptyVal(it.base?.[k]);
+    if (empty) { delete e[k]; if (had) e.set = { ...(e.set || {}), [k]: null }; else if (e.set) delete e.set[k]; }
+    else { e[k] = v; if (e.set) delete e.set[k]; }
+    tidyEntry(ed, it);
+  }
   ed.dirty = true;
 }
 
@@ -139,6 +148,7 @@ function edFind(ed, id) {
 // ---------------------------------------------------------------------------
 function edLayout(ed) {
   const v = ed.view, d = ed.d;
+  const ocrReady = !state.info || (state.info.ocr_configured ?? !!state.info.ocr?.revision);   // /api/info 의 ocr_configured (studio/drawn.py)
   $("#tab").innerHTML = `
     <div class="bar ed-bar">
       <span class="pages" id="ed-pages"></span>
@@ -158,7 +168,9 @@ function edLayout(ed) {
         ${v.script ? `<span class="mono">generate.py</span> 있음 <span class="muted mono" style="font-size:11px">${esc(v.script)}</span>`
           : `없음 <button id="ed-adjust-new" title="이 서식의 칸 키가 주석으로 적힌 견본 generate.py 를 서식 폴더에 만듭니다 (= python -m docgen.formdir adjust ${esc(d.id)} --new)">견본 만들기</button>`}</span>
       ${v.texts === null ? "" : `<span title="그림 속 인쇄 글자: 합성 OCR 세트(쪽 전체 받아쓰기 정답)에 씀">배경 글자: ${v.texts ? `${v.texts}개` : "없음 (합성 OCR 세트에서 빠짐)"}
-        <button id="ed-read-texts">${v.texts ? "사내 OCR 로 다시 읽기" : "사내 OCR 로 읽기"}</button></span>`}
+        ${ocrReady ? `<button id="ed-read-texts">${v.texts ? "사내 OCR 로 다시 읽기" : "사내 OCR 로 읽기"}</button>`
+          : `<button disabled title="studio 설정의 ocr(callable·revision)이 없습니다. 사내 OCR 은 내부망에서만 씁니다">사내 OCR 로 읽기</button>
+             <span class="muted" style="font-size:11px">사내 OCR 설정 없음 (<a href="#/settings">설정</a>)</span>`}</span>`}
     </div>
     <div class="keys-help" style="margin-bottom:6px">칸을 눌러 고르고 끌어서 옮깁니다. 모서리를 끌면 크기, <kbd>Shift</kbd>+끌기는 영역 전체 이동,
       <kbd>←↑→↓</kbd> 0.5pt (<kbd>Shift</kbd> 5pt), <kbd>Delete</kbd> 빼기, <kbd>Esc</kbd> 해제. 그리기 도구는 끌어서 새 칸을 만듭니다.</div>

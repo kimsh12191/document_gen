@@ -64,6 +64,12 @@ async function viewMarks() {
     tb.insertAdjacentHTML("beforeend", floatRow(m, { preset: "received", p: 0.1, area: "any" }, tb.children.length));
   };
   $(".mk-fl").onclick = e => { if (e.target.dataset.del !== undefined) e.target.closest("tr").remove(); };
+  $(".mk-fl").onchange = e => {   // 종류를 바꾸면 그 종류의 기본값(도장 글자를 정답에)으로 줄을 다시 그린다
+    if (e.target.dataset.f !== "preset") return;
+    const tr = e.target.closest("tr"), v = n => tr.querySelector(`[data-f="${n}"]`);
+    const el = { preset: e.target.value, p: +v("p").value, area: v("area").value, color: v("color").value || undefined };
+    tr.outerHTML = floatRow(m, el, [...tr.parentNode.children].indexOf(tr));
+  };
   $("#mk-fl-save").onclick = async () => {
     const floats = $$(".mk-fl tbody tr").map(tr => {
       const v = n => tr.querySelector(`[data-f="${n}"]`);
