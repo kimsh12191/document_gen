@@ -1,7 +1,6 @@
 {
   "workdir": "../runs/exp1",
   "cache_dir": "../runs/_cache",
-  "ocr_prepare": "../../ocr_config.json",
   "model": "/share/cv_share/qwen3.5/9b",
   "model_type": "qwen3_5",
   "gpus": [

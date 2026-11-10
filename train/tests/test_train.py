@@ -222,7 +222,7 @@ def test_sweep_runs_models_shares_start_eval_and_reports(tmp_path):
     def runner(config, log_path, smoke, env=None):   # 학습 실행을 같은 프로세스에서, SFT 만 가짜 체크포인트로
         cfg = read_json(config)
         run = pipeline.Run(cfg, smoke)
-        for st in ("ocr_prepare", "prepare", "eval_start"):
+        for st in ("prepare", "eval_start"):
             getattr(run, "stage_" + st)()
             run.state["done"].append(st)
         starts.append(cfg["data"]["prepared_sets"])

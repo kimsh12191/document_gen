@@ -19,7 +19,7 @@
   sft                  "config"(yaml 파일) + yaml 안의 ms-swift 옵션을 칸 하나씩 (learning_rate, lora_rank …)
   gpus                 이 모델만 쓸 GPU · deploy: 평가 서버 명령(eval.deploy_command) · set: 그 밖의 설정 칸 덮어쓰기
 - 평가는 고정: data.benchmark(채점 함수 포함)·eval.inference_config 는 모델마다 바꿀 수 없고, 평가 세트는 돌리기 전에 base 의
-  그림 예산·출발 모델로 한 번 준비해 모든 모델이 같은 문항·그림으로 잰다. OCR 준비(ocr_prepare)도 돌리기 전에 한 번.
+  그림 예산·출발 모델로 한 번 준비해 모든 모델이 같은 문항·그림으로 잰다.
 - gpu_groups 를 적으면 비는 GPU 묶음에 다음 모델을 넣어 동시에 돌린다 (평가 서버 포트·MASTER_PORT 는 묶음마다 다르게).
   없으면 하나씩. 모델의 gpus 를 적으면 그 GPU 가 모두 빌 때 들어간다.
 - baseline: 보고서 괄호 %p 의 기준 모델 label (기본 첫 모델). 출발 모델도 줄로 들어간다.
@@ -93,13 +93,10 @@ def base_config(sw):
     """base 파일을 절대 경로로 (평가 세트·OCR 준비·cache_dir 는 모든 모델이 이것)."""
     from .pipeline import resolve
 
+    from .pipeline import drop_removed
+
     path = (sw["_dir"] / sw["base"]).resolve()
-    raw = load_settings(path)
-    old = [k for k in ("grpo",) if k in raw] + [f"eval.{k}" for k in ("compare_models", "skip_start") if k in (raw.get("eval") or {})]
-    if old:
-        log(f"WARNING: base 의 {', '.join(old)} 는 이제 쓰지 않습니다 (GRPO 는 뺐고, 다른 모델 평가는 python -m train eval)")
-    raw = {k: v for k, v in raw.items() if k != "grpo"}
-    raw["eval"] = {k: v for k, v in (raw.get("eval") or {}).items() if k not in ("compare_models", "skip_start")}
+    raw = drop_removed(load_settings(path))
     raw.setdefault("workdir", str(sw["_root"] / "_base"))
     cfg = resolve(raw, path.parent)
     if not load_settings(path).get("cache_dir"):
@@ -178,17 +175,15 @@ def finished(sw, run, smoke):
 def preflight(sw, base):
     """돌리기 전에 모든 모델의 설정을 한꺼번에 검사한다. 틀린 것이 있으면 하나도 돌리지 않는다."""
     from .benchmarks import normalize, train_entries
-    from .pipeline import ocr_output
+    from .pipeline import FOLDER_HINT
 
     problems = []
-    later = {str(ocr_output(c)) for c in base["ocr_prepare"] if Path(c).is_file()}   # ocr_prepare 가 만들 폴더
-    problems += [f"base 의 ocr_prepare 설정이 없습니다: {c}" for c in base["ocr_prepare"] if not Path(c).is_file()]
     try:
         for b in normalize(base["data"]["benchmark"]):
             for p in b["paths"]:
-                ok = p in later or (Path(p).is_file() if b.get("format") else (Path(p) / "meta.json").is_file() and (Path(p) / "tasks").is_dir())
+                ok = (Path(p).is_file() if b.get("format") else (Path(p) / "meta.json").is_file() and (Path(p) / "tasks").is_dir())
                 if not ok:
-                    problems.append(f"base 의 data.benchmark {b['id']}: 경로가 없습니다: {p}")
+                    problems.append(f"base 의 data.benchmark {b['id']}: 경로가 없거나 {FOLDER_HINT} 가 아닙니다: {p}")
     except ValueError as exc:
         problems.append(f"base 의 data.benchmark: {exc}")
     for r in sw["runs"]:
@@ -205,9 +200,9 @@ def preflight(sw, base):
             problems.append(f"{label}: sft.config 파일이 없습니다: {cfg['sft']['config']}")
         for e in entries:
             p = e["path"]
-            ok = p in later or (Path(p).is_file() if e.get("format") else (Path(p) / "meta.json").is_file() and (Path(p) / "tasks").is_dir())
+            ok = (Path(p).is_file() if e.get("format") else (Path(p) / "meta.json").is_file() and (Path(p) / "tasks").is_dir())
             if not ok:
-                problems.append(f"{label}: train 경로가 없거나 데이터셋 폴더(meta.json + tasks/)가 아닙니다: {p}")
+                problems.append(f"{label}: train 경로가 없거나 {FOLDER_HINT} 가 아닙니다: {p}")
         if r.get("gpus") and sw.get("gpu_groups") and not set(r["gpus"]) <= {g for grp in sw["gpu_groups"] for g in grp}:
             problems.append(f"{label}: gpus {r['gpus']} 가 gpu_groups 밖에 있습니다")
     problems = list(dict.fromkeys(problems))
@@ -217,7 +212,7 @@ def preflight(sw, base):
 
 
 def run(sweep_path, smoke=False, runner=default_runner):
-    from .pipeline import benchmark_sets, ocr_prepare
+    from .pipeline import benchmark_sets
 
     sw = load(sweep_path)
     base = base_config(sw)
@@ -244,9 +239,7 @@ def run(sweep_path, smoke=False, runner=default_runner):
         write_json(status_path, status)
 
     try:
-        # 모든 모델이 같이 쓰는 것을 먼저 한 번: OCR 준비, 평가 세트
-        ocr_prepare(base["ocr_prepare"], root / "logs")
-        sets = benchmark_sets(base)
+        sets = benchmark_sets(base)   # 모든 모델이 같이 쓰는 평가 세트를 먼저 한 번
         log(f"평가 세트 {len(sets)}개: " + ", ".join(Path(d).name for d in sets.values()))
 
         def launch(i, r, cfg, gpus, pool):

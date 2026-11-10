@@ -44,15 +44,13 @@ cp docgen/bench/ocr_config.example.json ocr_config.json
 
 ## 3. 실행
 
-따로 한 번:
+학습(실험 묶음)과 상관없이 **한 번만** 돌립니다.
 
 ```bash
 python -m docgen.bench.ocr_prepare ocr_config.json
 ```
 
-또는 학습 설정(`pipeline.json`)에 `"ocr_prepare": "ocr_config.json"` (여러 개면 목록)을 적으면 실험 묶음이 시작할 때 만듭니다.
-어느 쪽이든 결과 폴더에 `DONE.json` 이 있으면 다시 만들지 않으므로, **실험마다 설정을 복사하지 말고 같은 설정 파일을 가리키면** 한 번만 만듭니다.
-결과 폴더(`output_dir`)는 `data.train`·`data.benchmark` 에 경로로 적어 둡니다 (아직 없어도 됨).
+만든 결과 폴더(`output_dir`)를 학습 설정의 `data.train`·`data.benchmark` 에 경로로 적습니다. 실험마다 다시 만들지 않습니다.
 
 `data/ocr-v1/DONE.json`이 생기면 끝입니다. 안의 `page_counts`에 `train`·`val`·`benchmark` 쪽 수가 있습니다.
 studio 데이터셋 › 폴더 등록 (맨 아래)에 이 경로를 넣으면 문항·그림을 화면에서 볼 수 있습니다 (선택).

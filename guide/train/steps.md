@@ -8,7 +8,7 @@
 | 단계 하나만 · 어느 단계부터 다시 | `--only <단계>` · `--from <단계>` (1절) |
 | 학습 없이 모델들 평가만 | `python -m train eval --config eval.json` (2절) |
 | 저장된 답으로 보고서 다시 · 채점 규칙을 고친 뒤 다시 채점 | `python -m train report <결과 폴더> [--rescore]` (3절) |
-| 실서류 OCR 데이터 만들기 | [ocr.md](ocr.md) |
+| 실서류 이미지로 OCR 데이터 만들기 (학습 전에 한 번) | `python -m docgen.bench.ocr_prepare <설정>` — [ocr.md](ocr.md) |
 | 섞은 데이터로 ms-swift 만 | `python -m train.launch …` (4절) |
 
 ## 1. 학습 실행 하나 (`python -m train`)
@@ -23,7 +23,7 @@ python -m train --config train/configs/pipeline.json --only prepare      # 평�
 python -m train --config train/configs/pipeline.json --from eval_sft     # SFT 평가부터 다시
 ```
 
-단계: `ocr_prepare` → `prepare`(평가 세트 준비 + 섞기) → `eval_start`(출발 모델 평가) → `sft` → `eval_sft`(병합·평가) → `report`.
+단계: `prepare`(평가 세트 준비 + 섞기) → `eval_start`(출발 모델 평가) → `sft` → `eval_sft`(병합·평가) → `report`.
 끝난 단계는 `<workdir>/state.json` 에 적혀 다시 치면 건너뜁니다. 결과는 `<workdir>/report.html`·`answers.html`·`scores.csv`·`results.json`.
 
 - 섞은 데이터는 `<workdir>/data` (`data.output_dir` 로 바꿀 수 있음). 학습 데이터를 바꿨으면 `data/` 를 지우거나 새 `workdir` 로.

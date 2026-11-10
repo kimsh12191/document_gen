@@ -48,7 +48,9 @@ def load(path):
     if raw.get("base"):   # 학습 설정에서 물려받기
         bpath = (here / raw["base"]).resolve()
         b = load_settings(bpath)
-        b = resolve_pipeline({**{k: v for k, v in b.items() if k != "grpo"}, "workdir": b.get("workdir") or "."}, bpath.parent)
+        from .pipeline import drop_removed
+
+        b = resolve_pipeline({**drop_removed(b), "workdir": b.get("workdir") or "."}, bpath.parent)
         cfg.update({k: b[k] for k in ("gpus", "model_type", "eval")})
         cfg["benchmark"] = b["data"]["benchmark"]
         cfg["image_max_size"] = b["data"].get("image_max_size")

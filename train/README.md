@@ -4,14 +4,14 @@
 
 ```text
 python -m train sweep --config sweep.json      sweep.py      모델마다 아래 학습 실행을 (차례로 / GPU 묶음마다 동시에), 보고서 하나
-python -m train --config pipeline.json         pipeline.py   학습 실행 하나: ocr_prepare → prepare → eval_start → sft → eval_sft → report
+python -m train --config pipeline.json         pipeline.py   학습 실행 하나: prepare → eval_start → sft → eval_sft → report
 python -m train eval --config eval.json        evaluate.py   학습 없이 모델 경로들 평가
 python -m train report <결과 폴더>             report.py     저장된 답으로 report.html · scores.csv (+ answers.py → answers.html)
 ```
 
 | 파일 | 하는 일 |
 |---|---|
-| `pipeline.py` | 학습 설정 읽기(`resolve`), 단계, OCR 준비 한 번(`ocr_prepare`), 평가 세트 준비(`benchmark_sets`) |
+| `pipeline.py` | 학습 설정 읽기(`resolve`, 없어진 칸 알림 `drop_removed`), 단계, 평가 세트 준비(`benchmark_sets`) |
 | `sweep.py` | 묶음 파일 검사(`load`·`preflight`), 모델마다 설정(`run_config`), GPU 나누기, `results.json`·보고서 |
 | `evaluate.py` | 평가만 하기: 모델 목록(`{"sweep": …}`·LoRA 체크포인트 합치기), 평가 세트 |
 | `benchmarks.py` | `data.benchmark`·`data.train` 칸 검사 (`normalize`, `train_entries`, 상대 경로 `resolve`) |

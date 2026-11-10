@@ -1,7 +1,10 @@
 # 실험 묶음으로 학습·평가 (sweep)
 
 평가 세트는 고정하고 학습 쪽 설정(데이터·학습률·LoRA·출발 모델)을 바꾼 모델 여러 개를 학습하고, 한 보고서로 비교합니다.
-GPU 학습 서버의 저장소 최상위(`document_gen/`)에서 실행합니다. 단계를 하나씩 따로 돌리는 법은 [steps.md](steps.md), 실서류 OCR 데이터는 [ocr.md](ocr.md).
+GPU 학습 서버의 저장소 최상위(`document_gen/`)에서 실행합니다. 단계를 하나씩 따로 돌리는 법은 [steps.md](steps.md).
+
+묶음은 **이미 만들어 둔 데이터의 경로**만 받습니다: studio 데이터셋 폴더, OCR 준비 결과 폴더, ms-swift `.jsonl`.
+실서류 이미지로 OCR 데이터를 만드는 것(OCR 준비)은 묶음과 상관없이 학습 전에 따로 한 번 합니다 ([ocr.md](ocr.md)).
 
 ```bash
 python -m train sweep --config train/configs/sweep.json --smoke    # 리허설: 모델마다 5 step, 평가 세트·과제마다 8문항
@@ -22,7 +25,6 @@ python -m train sweep --config train/configs/sweep.json --status   # 진행 상�
 | `data.image_max_size` · `max_image_tokens_per_sample` · `sft_max_length` | 그림 하나·문항 하나의 토큰 예산, SFT 최대 길이 (`sft.yaml` 의 `max_length` 와 같게) |
 | `sft` | `{"config": "sft.yaml"}` + yaml 위에 덮어쓸 ms-swift 옵션 (`learning_rate`, `lora_rank` …). 40GB GPU 는 `sft_a100_40g_x2.yaml` |
 | `eval` | 평가 서버 칸 (`concurrency_per_server`, `port_base`, `deploy_command` …). 보통 그대로 |
-| `ocr_prepare` | (선택) 실서류 OCR 준비 설정. 묶음이 시작할 때 한 번 만든다 ([ocr.md](ocr.md)) |
 | `cache_dir` | (선택) 평가 세트·줄인 그림·모델 답 캐시. 기본 `<root 의 부모>/_cache`. 실험끼리 같은 곳을 쓰면 같은 것을 다시 만들지 않음 |
 
 **`sweep.json`**: 모델 목록. 예시 [sweep.example.json](../../train/configs/sweep.example.json).
@@ -81,24 +83,23 @@ python -m train sweep --config train/configs/sweep.json --status   # 진행 상�
 
 ```jsonc
 "train": ["<studio 학습용 데이터셋 폴더>",
-          {"path": "<OCR 준비 폴더>", "count": 20000},
+          {"path": "<OCR 준비 결과 폴더>", "count": 20000},
           {"path": "/share/…/my_swift_train.jsonl", "format": "swift", "count": 5000}]
 ```
 
-- 폴더: studio 데이터셋 (`meta.json` + `tasks/`). 문항 `meta.split` 이 `train` 이면 학습, `val` 이면 검증.
+- 폴더: studio 데이터셋, 또는 OCR 준비 결과 폴더 (둘 다 `meta.json` + `tasks/`). 문항 `meta.split` 이 `train` 이면 학습, `val` 이면 검증 (OCR 준비 폴더는 안에서 학습·평가가 나뉘어 있어 `data.benchmark` 에도 같은 경로를 적을 수 있음).
 - `"format": "swift"`: 밖에서 가져온 ms-swift `.jsonl`. 줄(`messages`, `images`)을 **그대로** 학습합니다 (system·여러 턴도). 그림만 예산에 맞춰 줄입니다. 과제 이름은 `swift:<파일 이름>` 이라 `task_mix` 에 그 이름으로 비율을 줄 수 있습니다.
 - `count`: 그 데이터에서 무작위로 쓸 문항 수.
 
 ## 4. 무엇이 어떻게 도나
 
 ```text
-묶음 시작 ─ OCR 준비(설정마다 한 번) ─ 평가 세트 준비(한 번, cache_dir/sets)
+묶음 시작 ─ 평가 세트 준비 (한 번, cache_dir/sets)
    └ 모델마다:  학습 데이터 섞기 → 출발 모델 평가 → SFT → 병합·SFT 평가 → 보고서 갱신
 ```
 
 | 단계 | 하는 일 | 다시 하지 않는 조건 |
 |---|---|---|
-| OCR 준비 | 사내 OCR 로 OCR 데이터 ([ocr.md](ocr.md)) | 그 설정의 `output_dir` 에 `DONE.json` |
 | 평가 세트 준비 | 세트마다 질문·정답·줄인 그림 → `<cache_dir>/sets/<id>-<지문>/` | 원본 파일·채점 함수·그림 예산이 같으면 그 폴더를 씀 (다른 실험도) |
 | 섞기 | `<root>/<label>/data/train_sft.jsonl` · `val_sft.jsonl`. 줄인 그림은 `<cache_dir>/images` | `data/DONE.json` |
 | 출발 모델 평가 | GPU 마다 vLLM 서버, 세트마다 답 | 같은 모델·같은 세트의 답이 캐시에 있으면 추론 없이 (다른 묶음에서 낸 것도) |
@@ -131,8 +132,9 @@ python -m train sweep --config train/configs/sweep.json --status   # 진행 상�
 
 | 증상 | 할 일 |
 |---|---|
-| `돌리기 전에 고칠 것` 목록 | 경로·칸을 고칩니다. 아무 모델도 시작하지 않은 상태 |
+| `돌리기 전에 고칠 것` 목록 | 경로·칸을 고칩니다. 아무 모델도 시작하지 않은 상태. OCR 준비 폴더가 아직 없으면 [ocr.md](ocr.md) 로 먼저 만듭니다 |
 | `없어진 칸 … part / from_sft / start_from` | GRPO 는 이 브랜치에 없습니다. 칸을 지웁니다 (출발 모델 평가 공유는 캐시가 대신) |
+| `설정의 ocr_prepare 는 쓰지 않습니다` | 경고만 하고 넘어갑니다. 칸을 지우고, 결과 폴더가 없으면 [ocr.md](ocr.md) 로 따로 만듭니다 |
 | `정답을 답으로 넣어도 만점이 아닙니다` | 데이터를 만든 docgen 코드와 다르거나, 붙인 채점 함수가 정답을 못 읽음 |
 | `학습 문항 … 평가 세트와 같은 문서·그림` | 학습 데이터에서 평가 문서를 빼거나 따로 만듭니다 |
 | `Port … is already in use` · 서버가 안 뜸 | 남은 서버를 끄거나 `eval.port_base` 를 바꿉니다. 서버 로그 `<root>/<label>/logs/server-*.log` |

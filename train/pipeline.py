@@ -3,8 +3,6 @@
   python -m train --config <설정.json> [--smoke | --dry-run | --from <단계> | --only <단계>]
 
 단계 (<workdir>/state.json 에 끝난 것을 적고, 다시 돌리면 이어서):
-  ocr_prepare  (설정에 ocr_prepare 가 있을 때만) 가진 이미지를 사내 OCR 해 OCR 학습·평가 데이터로 (docgen.bench.ocr_prepare).
-               그 설정의 output_dir 에 DONE.json 이 있으면 건너뜀 → 같은 OCR 설정 파일을 가리키는 실험은 한 번만 만든다
   prepare      평가 세트 준비 (<cache_dir>/sets/, 같은 세트는 실험끼리 같이 씀) + 학습 데이터 섞기 (data.output_dir)
   eval_start   출발 모델 평가 (같은 모델·같은 평가 세트의 답이 캐시에 있으면 추론 없이)
   sft          SFT (launch.py → ms-swift), 마지막 체크포인트를 적어 둠
@@ -13,7 +11,7 @@
 평가는 GPU 마다 vLLM 서버 하나를 띄우고 요청을 나눠 보낸다 (같은 그림의 질문은 같은 서버로). 여러 모델은 python -m train sweep.
 
 설정 (상대 경로는 설정 파일 기준):
-  workdir, cache_dir(기본 <workdir 의 부모>/_cache), model, model_type, gpus, ocr_prepare(하나 또는 목록),
+  workdir, cache_dir(기본 <workdir 의 부모>/_cache), model, model_type, gpus,
   data: train · benchmark · output_dir(기본 <workdir>/data) · task_mix · sft_max_examples · image_max_size ·
         max_image_tokens_per_sample · sft_max_length · val_count · pack_turns · seed  (train/mix.py)
   sft:  config(yaml) + yaml 위에 덮어쓸 ms-swift 옵션 (learning_rate, lora_rank …)
@@ -30,10 +28,14 @@ from pathlib import Path
 
 from docgen.bench.ocr_data import read_json, write_json
 
-from .settings import load_settings, locked, log, merged, pixel_factor
+from .settings import load_settings, log, merged, pixel_factor
 
 ROOT = Path(__file__).resolve().parents[1]   # 저장소 최상위: 하위 명령은 여기서 python -m train.… 으로
-STAGES = ["ocr_prepare", "prepare", "eval_start", "sft", "eval_sft", "report"]
+STAGES = ["prepare", "eval_start", "sft", "eval_sft", "report"]
+FOLDER_HINT = ("데이터셋 폴더 (meta.json + tasks/): studio 데이터셋, 또는 OCR 준비 결과 폴더 — OCR 준비는 학습 전에 따로 한 번 "
+               "python -m docgen.bench.ocr_prepare <설정> (guide/train/ocr.md)")
+REMOVED = {"grpo": "GRPO 는 이 브랜치에서 뺐습니다",
+           "ocr_prepare": "OCR 준비는 학습 전에 따로 한 번 python -m docgen.bench.ocr_prepare <설정> 으로 하고, 결과 폴더를 data.train·data.benchmark 에 적습니다"}
 DEFAULTS = {
     "model_type": "qwen3_5",
     "gpus": [0, 1],
@@ -41,6 +43,16 @@ DEFAULTS = {
     "eval": {},
     "smoke": {"train_steps": 5, "benchmark_per_task": 8},
 }
+
+
+def drop_removed(raw: dict) -> dict:
+    """없어진 칸(grpo · ocr_prepare · eval.compare_models · eval.skip_start)은 알리고 뺀다."""
+    for k in [k for k in raw if k in REMOVED]:
+        log(f"WARNING: 설정의 {k} 는 쓰지 않습니다: {REMOVED[k]}")
+    ev = {k: v for k, v in (raw.get("eval") or {}).items() if k not in ("compare_models", "skip_start")}
+    if len(ev) < len(raw.get("eval") or {}):
+        log("WARNING: eval.compare_models · eval.skip_start 는 쓰지 않습니다 (다른 모델 평가는 python -m train eval)")
+    return {**{k: v for k, v in raw.items() if k not in REMOVED}, **({"eval": ev} if "eval" in raw else {})}
 
 
 def resolve(cfg: dict, base: Path) -> dict:
@@ -56,8 +68,6 @@ def resolve(cfg: dict, base: Path) -> dict:
     cfg["workdir"] = res(cfg["workdir"])
     cfg["cache_dir"] = res(cfg.get("cache_dir")) or str(Path(cfg["workdir"]).parent / "_cache")
     cfg["model"] = res(cfg["model"]) if cfg["model"].startswith(".") else cfg["model"]
-    ocr = cfg.get("ocr_prepare") or []
-    cfg["ocr_prepare"] = [res(p) for p in (ocr if isinstance(ocr, list) else [ocr])]
     d = dict(cfg["data"])
     d["train"] = res_entries(d.get("train") or [], base)
     d["benchmark"] = res_entries(d.get("benchmark") or [], base)
@@ -83,23 +93,6 @@ def sh(cmd, log_path, env=None, dry=False):
             sys.stdout.write(line)
         if proc.wait():
             raise RuntimeError(f"명령 실패 ({proc.returncode}); see {log_path}")
-
-
-def ocr_output(conf) -> Path:
-    return (Path(conf).parent / read_json(conf)["output_dir"]).resolve()
-
-
-def ocr_prepare(configs, logs: Path, dry=False):
-    """OCR 준비 설정마다 한 번: 결과 폴더에 DONE.json 이 있으면 건너뛰고, 다른 실행이 만드는 중이면 기다린다."""
-    for n, conf in enumerate(configs):
-        out = ocr_output(conf)
-        if (out / "DONE.json").exists():
-            log(f"OCR 준비 결과가 있습니다: {out}")
-            continue
-        with locked(out, "OCR 준비"):
-            if (out / "DONE.json").exists():
-                continue
-            sh([sys.executable, "-m", "docgen.bench.ocr_prepare", conf], logs / f"ocr_prepare{n or ''}.log", dry=dry)
 
 
 def benchmark_sets(cfg, dry=False) -> dict:
@@ -146,26 +139,18 @@ class Run:
                 problems.append(f"  {key}: {path}\n      {hint}")
 
         need(Path(self.model, "config.json").is_file(), "model", self.model, "출발 모델 폴더 (config.json 이 있는 폴더)")
-        later = set()   # ocr_prepare 단계가 만들 폴더
-        for conf in self.cfg["ocr_prepare"]:
-            need(Path(conf).is_file(), "ocr_prepare", conf, "OCR 준비 설정 (docgen/bench/ocr_config.example.json 꼴)")
-            if Path(conf).is_file():
-                later.add(str(ocr_output(conf)))
         need(Path(self.cfg["sft"]["config"]).is_file(), "sft.config", self.cfg["sft"]["config"], "ms-swift 학습 설정 yaml")
         benches = normalize(d["benchmark"]) if d.get("benchmark") else []
         need(bool(benches), "data.benchmark", "(비어 있음)", "평가 세트를 하나 이상 적으세요")
         for b in benches:
             for p in b["paths"]:
-                if p not in later:
-                    ok = Path(p).is_file() if b.get("format") == "swift-fields" else Path(p, "meta.json").is_file() and Path(p, "tasks").is_dir()
-                    need(ok, f"data.benchmark {b['id']}", p, "swift .jsonl" if b.get("format") else "studio 데이터셋 폴더 (meta.json + tasks/)")
+                ok = Path(p).is_file() if b.get("format") == "swift-fields" else Path(p, "meta.json").is_file() and Path(p, "tasks").is_dir()
+                need(ok, f"data.benchmark {b['id']}", p, "swift .jsonl" if b.get("format") else FOLDER_HINT)
         if not (self.data / "DONE.json").is_file():
             for e in train_entries(d["train"]):
-                if e["path"] in later:
-                    continue
                 ok = Path(e["path"]).is_file() if e.get("format") == "swift" else \
                     Path(e["path"], "meta.json").is_file() and Path(e["path"], "tasks").is_dir()
-                need(ok, "data.train", e["path"], "ms-swift .jsonl" if e.get("format") else "studio 데이터셋 폴더 (meta.json + tasks/)")
+                need(ok, "data.train", e["path"], "ms-swift .jsonl" if e.get("format") else FOLDER_HINT)
         if problems:
             sys.exit("설정의 경로를 확인하세요. 상대 경로는 설정 파일이 있는 폴더 기준입니다.\n" + "\n".join(problems))
 
@@ -186,11 +171,6 @@ class Run:
         return self.state["sets"]
 
     # -- 단계 --------------------------------------------------------------------------------
-    def stage_ocr_prepare(self):
-        if not self.cfg["ocr_prepare"]:
-            log("ocr_prepare 설정 없음")
-        ocr_prepare(self.cfg["ocr_prepare"], self.workdir / "logs", self.dry)
-
     def stage_prepare(self):
         from .mix import mix
 
@@ -258,11 +238,7 @@ def main(argv=None):
     p.add_argument("--dry-run", action="store_true", help="명령만 보여 주고 실행하지 않음")
     a = p.parse_args(argv)
     path = Path(a.config).resolve()
-    raw = load_settings(path)
-    old = [k for k in ("grpo",) if k in raw] + [f"eval.{k}" for k in ("compare_models", "skip_start") if k in (raw.get("eval") or {})]
-    if old:
-        log(f"WARNING: {', '.join(old)} 는 이제 쓰지 않습니다 (GRPO 는 뺐고, 다른 모델 평가는 python -m train eval)")
-    cfg = resolve(raw, path.parent)
+    cfg = resolve(drop_removed(load_settings(path)), path.parent)
     run = Run(cfg, a.smoke, a.dry_run)
     stages = [a.only] if a.only else STAGES[STAGES.index(a.start):] if a.start else STAGES
     if a.start or a.only:
