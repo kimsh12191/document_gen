@@ -543,7 +543,7 @@
     "example": "264-82-36559"
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -1235,7 +1235,7 @@
     "example": "264-82-36559"
    },
    {
-    "key": "debtor.corp_reg_no",
+    "key": "debtor.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -2803,7 +2803,7 @@
     "example": "264-82-36559"
    },
    {
-    "key": "corp.corp_reg_no",
+    "key": "corp.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -6051,7 +6051,7 @@
     "example": "2026년 1월 24일"
    },
    {
-    "key": "ceo",
+    "key": "ceo_name",
     "label": "대표이사",
     "type": "text",
     "fill_rate": 0.8,
@@ -6253,7 +6253,7 @@
     "example": "2026년 1월 31일"
    },
    {
-    "key": "ceo",
+    "key": "ceo_name",
     "label": "대표이사",
     "type": "text",
     "fill_rate": 1.0,
@@ -6469,7 +6469,7 @@
     "example": "2025년 08월 21일"
    },
    {
-    "key": "ceo",
+    "key": "ceo_name",
     "label": "대표이사",
     "type": "text",
     "fill_rate": 0.27,
@@ -12528,7 +12528,7 @@
     "example": "Fall 2026"
    },
    {
-    "key": "student.birth",
+    "key": "student.dob",
     "label": "DateofBirth",
     "type": "date",
     "fill_rate": 1.0,
@@ -13084,14 +13084,14 @@
     "example": "REPUBLIC OF KOREA"
    },
    {
-    "key": "birth",
+    "key": "date_of_birth",
     "label": "생년월일/Dateofbirth",
     "type": "text",
     "fill_rate": 1.0,
     "example": "10 FEB 1990"
    },
    {
-    "key": "gender",
+    "key": "sex",
     "label": "성별/Sex",
     "type": "text",
     "fill_rate": 1.0,
@@ -13167,7 +13167,7 @@
     "example": "VIETNAM"
    },
    {
-    "key": "gender",
+    "key": "sex",
     "label": "성별",
     "type": "text",
     "fill_rate": 1.0,
@@ -16967,7 +16967,7 @@
     "example": "2025년 10월 18일"
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -22303,7 +22303,7 @@
     "example": "(주)유니온무역"
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -22386,7 +22386,7 @@
     "example": "(주)유니온무역"
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -27335,7 +27335,7 @@
     "label": "배우자성명",
     "type": "text",
     "fill_rate": 1.0,
-    "example": "이건빈"
+    "example": "이도민"
    },
    {
     "key": "date2",
@@ -29619,7 +29619,7 @@
     "example": "264-82-36559"
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호(법인의경우)",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -30881,7 +30881,7 @@
     "example": "264-82-36559"
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호(법인인경우)",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -31953,7 +31953,7 @@
     "example": "264-82-36559"
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -33714,7 +33714,7 @@
     "example": null
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -38653,7 +38653,7 @@
     "example": "264-82-36559"
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -38813,7 +38813,7 @@
     "example": "264-82-36559"
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -54063,7 +54063,7 @@
     "example": "264-82-36559"
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -54407,7 +54407,7 @@
     "example": "264-82-36559"
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -55486,7 +55486,7 @@
     "example": "박찬연"
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -55662,7 +55662,7 @@
     "example": "박찬연"
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -64588,7 +64588,7 @@
     "example": "박찬연"
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -71320,7 +71320,7 @@
     "example": "264-82-36559"
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -73415,7 +73415,7 @@
     "example": "chanyeon363@naver.com"
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -75955,7 +75955,7 @@
     ]
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -76869,7 +76869,7 @@
     ]
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -77420,7 +77420,7 @@
     "example": "주식회사 태평양무역"
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -77819,7 +77819,7 @@
   "group": "hana",
   "keys": [
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -79051,7 +79051,7 @@
   "group": "hana",
   "keys": [
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호*",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -94388,7 +94388,7 @@
     "example": "박찬연"
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -96476,7 +96476,7 @@
     "example": "무역"
    },
    {
-    "key": "official.corp_reg_no",
+    "key": "official.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -96510,7 +96510,7 @@
     "example": "박찬연"
    },
    {
-    "key": "official.corp_reg_no",
+    "key": "official.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
@@ -107816,7 +107816,7 @@
     "example": "2026년 1월 21일"
    },
    {
-    "key": "company.corp_reg_no",
+    "key": "company.corp_no",
     "label": "법인등록번호",
     "type": "corp_reg_no",
     "fill_rate": 1.0,
