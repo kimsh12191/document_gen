@@ -1,10 +1,10 @@
-"""⑥ 데이터셋의 서버 쪽: 데이터셋 등록부, 문항 보기, 데이터셋 설명서. 모델 답·채점은 학습 서버의 python -m train (guide/eval.md).
+"""⑥ 데이터셋의 서버 쪽: 데이터셋 등록부, 문항 보기, 데이터셋 설명서. 모델 답·채점은 학습 서버의 python -m train (guide/train/steps.md).
 API 는 studio/api_datasets.py, 화면은 static/js/datasets.js·dataset-builds.js.
 
 등록부 <workspace_dir>/registry.json
   {"datasets": {"<ID>": {groups, kind, source, gt, real_data, path, format, name, created, frozen, split, card: {...}}}}
 
-형식은 하나 (studio/DESIGN.md 17절): docgen-tasks — meta.json + tasks/<과제>.jsonl, 문항 {id, task, images, prompt, answer, eval, meta}.
+형식은 하나 (archive/studio/DESIGN.md 17절): docgen-tasks — meta.json + tasks/<과제>.jsonl, 문항 {id, task, images, prompt, answer, eval, meta}.
   docgen.bench build(문서 이해 과제), OCR 준비(docgen.bench.ocr_prepare: 쪽 OCR 8과제, 문항 meta.split 이 train·val·benchmark),
   모두 이 형식을 쓴다. tasks/ 가 없는 옛 OCR 준비 폴더는 등록할 때, 이미 등록된 것은 studio 를 띄울 때(Registry.migrate) tasks/ 를 만든다.
   과제 묶음(groups: ocr·doc)은 들어 있는 과제로 정한다 (옛 track 대신).

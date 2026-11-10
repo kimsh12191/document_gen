@@ -23,8 +23,8 @@
 
 ## 적는 원칙
 
-- 설정을 바꾼 모델 여러 개는 실험 묶음으로 돌립니다 ([training.md 4절](../guide/training.md#4-여러-모델을-한-번에-실험-묶음)). 묶음 파일의 `name`은 실험 ID, `record`는 이 폴더의 기록 파일로 적고, 결과는 `<root>/summary.html`·`compare.md`에서 옮깁니다. 여러 실험 비교는 [results.md](../guide/results.md#여러-실험을-한-화면에).
-- 결과에는 데이터 버전·설정 파일·모델·`workdir` 경로를 함께 적습니다 ([AGENTS.md 보고](../AGENTS.md#보고)).
-- 점수는 `<workdir>/reports/*.json`에서 옮깁니다. 지표 해석은 [guide/results.md](../guide/results.md).
-- 평가에서 빠진 문항(그림 한도 초과 `benchmark_over_image_limit.jsonl`, 건너뛴 묶음 `skipped_bundles.jsonl`)이 있으면 수를 적습니다.
+- 설정을 바꾼 모델 여러 개는 실험 묶음으로 돌립니다 ([sweep.md](../guide/train/sweep.md)). 묶음 파일의 `name`은 실험 ID, `record`는 이 폴더의 기록 파일로 적고, 결과는 `<root>/report.html`·`scores.csv`에서 옮깁니다. 여러 실험 비교는 평가만 하기에 묶음 결과 폴더를 같이 적습니다 ([steps.md 2절](../guide/train/steps.md#2-평가만-하기-python--m-train-eval)).
+- 결과에는 데이터 버전·설정 파일·모델 경로(`results.json`)를 함께 적습니다 ([AGENTS.md 보고](../AGENTS.md#보고)).
+- 점수는 `<root>/scores.csv`에서 옮깁니다. 지표 해석은 [guide/train/sweep.md](../guide/train/sweep.md#5-결과).
+- 평가에서 빠진 문항(그림이 서버 한도보다 많은 문항, 보고서 알림)이 있으면 수를 적습니다.
 - 사람이 본 것(검수)과 자동 검사를 구분해 적습니다.

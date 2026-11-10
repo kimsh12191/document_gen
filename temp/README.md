@@ -1,6 +1,6 @@
 # temp
 
-일회성으로 시작한 변환 스크립트 모음입니다. 파이프라인 코드(`train/`, `docgen/`, `studio/`)는 이 폴더를 불러오지 않고 테스트도 없지만, **실서류 평가 세트 변환**([guide/eval.md](../guide/eval.md) 1·2절의 채점 견본 `swift_kie_scorer.py`·`kie_list_scorer.py`)이 아래 스크립트로 만든 파일을 전제로 하므로 지우지 않습니다.
+일회성으로 시작한 변환 스크립트 모음입니다. 파이프라인 코드(`train/`, `docgen/`, `studio/`)는 이 폴더를 불러오지 않고 테스트도 없지만, **실서류 평가 세트 변환**([guide/train/steps.md](../guide/train/steps.md) 1·2절의 채점 견본 `swift_kie_scorer.py`·`kie_list_scorer.py`)이 아래 스크립트로 만든 파일을 전제로 하므로 지우지 않습니다.
 
 | 파일 | 하는 일 |
 |---|---|

@@ -11,7 +11,7 @@ swift 세트는 정답(assistant) 글이 그대로 item["answer"] 로 오고, �
   필드마다 대소문자·공백·문장부호를 빼고 같으면 맞음 (NO:ILHLR… = NO.ILHLR…). 빈 값("" 또는 null)은 빈 답이어야 맞음.
   f1 (주 지표) = 정밀도(쓴 값 중 맞은 것)·재현율(정답 값 중 맞힌 것)의 조화평균, field_acc 맞은 필드 비율,
   doc_exact 문항 전체 일치, field_exact 글자 하나까지 같은 필드 비율.
-다른 기준이 필요하면 이 파일을 복사해 고치고 그 세트에 "scorer": "<복사한 파일>:score" (guide/eval.md 2절).
+다른 기준이 필요하면 이 파일을 복사해 고치고 그 세트에 "scorer": "<복사한 파일>:score" (guide/train/steps.md 2절).
 """
 import json
 import re

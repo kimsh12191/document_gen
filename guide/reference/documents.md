@@ -1,6 +1,6 @@
 # 서류 목록 (총 545종)
 
-`python -m docgen list --markdown > guide/documents.md` 로 자동 생성된 문서입니다. 서식별 항목은 서식 카드 `docgen/forms/<ID>/FORM.md` 에 있습니다.
+`python -m docgen list --markdown > guide/reference/documents.md` 로 자동 생성된 문서입니다. 서식별 항목은 서식 카드 `docgen/forms/<ID>/FORM.md` 에 있습니다.
 
 ## 신원·신분 (8종)
 

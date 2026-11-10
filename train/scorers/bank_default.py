@@ -2,7 +2,7 @@
 
 과제마다 함수 하나 (아래 TASKS). 한 과제만 바꾸려면 이 파일을 복사해 그 함수만 고친다. 고치지 않은 과제는 기본 채점과 같은 점수.
   {"id": "syn", "paths": ["<bank 데이터셋>"], "scorer": "scorers/my_bank.py:score"}
-꼴·규칙은 train/scorers/kie_default.py 맨 위, guide/eval.md 2절 '채점'. 쪽 OCR 8과제는 ocr_default.py.
+꼴·규칙은 train/scorers/kie_default.py 맨 위, guide/train/steps.md 2절 '채점'. 쪽 OCR 8과제는 ocr_default.py.
 """
 from docgen.bench import evaluate as E
 

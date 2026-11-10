@@ -68,7 +68,7 @@ def my_value(p, rng, item, row):        # 함수 이름: 영어 소문자·숫�
 | `row` | 표의 몇 번째 행인지 (0부터, 표가 아니면 0) | `f"{row + 1}회"` |
 | `item` | 이 칸 정보 | `item["label"]` 키 설명 |
 
-고객 정보 전체 경로는 [생성 방법 목록](../docgen/forms/_common/values.md)의 "고객 프로필" 절 (`profile.` 를 뺀 뒤가 `p.` 뒤). 날짜는 `date` 이므로 꼴은 직접: `f"{d:%Y.%m.%d}"`.
+고객 정보 전체 경로는 [생성 방법 목록](../../docgen/forms/_common/values.md)의 "고객 프로필" 절 (`profile.` 를 뺀 뒤가 `p.` 뒤). 날짜는 `date` 이므로 꼴은 직접: `f"{d:%Y.%m.%d}"`.
 
 ### 예
 
@@ -189,7 +189,7 @@ def adjust(d, p, rng):
 난수는 `rng` 만 (2절과 같은 약속). 바뀐 칸은 글자 크기가 다시 맞춰집니다.
 `formdir check` 가 seed 몇 개로 돌려 **오류(몇 번째 줄)·같은 seed 인데 값이 다름·새 키**를 잡습니다 (studio 검수 탭에는 아직 안 나옴).
 
-html 서식의 `generate.py` 도 같은 약속입니다 ([NEW_FORM_SPEC 8절](../docgen/manual/NEW_FORM_SPEC.md)).
+html 서식의 `generate.py` 도 같은 약속입니다 ([NEW_FORM_SPEC 8절](../../docgen/manual/NEW_FORM_SPEC.md)).
 
 ---
 

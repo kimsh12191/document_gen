@@ -3,7 +3,7 @@
 문장 원본은 docgen/forms/_common/questions.json (모든 서식의 기본값 — 서식 폴더의 questions.json 에 없으면 이것).
 여기서는 그 글을 읽어 format 용 틀(P_KIE 등, JSON 중괄호는 {{ }})로 바꿔 둔다. 문장은 그 JSON 에서 고친다.
 표준 라이브러리만 쓰므로 렌더링 환경(jinja2·Playwright)이 없어도 import 된다.
-문장을 바꾸면 guide/questions.md 도 같이 고친다 (docgen/tests/test_bench.py 가 둘이 같은지 본다).
+문장을 바꾸면 guide/reference/questions.md 도 같이 고친다 (docgen/tests/test_bench.py 가 둘이 같은지 본다).
 """
 import json
 import re

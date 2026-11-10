@@ -16,7 +16,7 @@ prepare 는 python -m docgen.bench.ocr_prepare 로 돈다 (--no-prepare 면 이�
   {"track": "ocr", "name", "about", "split": "benchmark" | "train",
    "types": "all" | [서식ID·그룹], "per_doc": 서식당 고객 수, "start": seed 시작 오프셋, "exclude": [...], "reviewed_only": false,
    "conditions": {"clean": .5, "scan": .2, "photo": .15, "fax": .15},
-   "unit": "word" | "line",     정답 한 항목의 단위 (사내 OCR 에 맞춘다: studio/DESIGN.md 12절)
+   "unit": "word" | "line",     정답 한 항목의 단위 (사내 OCR 에 맞춘다: archive/studio/DESIGN.md 12절)
    "heavy": "default"|"on"|"off", "special": "default"|"on"|"off",
    "merge_manifests": [다른 manifest 경로 (실서류 등)],
    "prepare": {OCR 준비 설정 덮어쓰기: tasks_per_view, filters, benchmark_fraction …}}

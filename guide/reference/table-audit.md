@@ -1,6 +1,6 @@
 # 표 점검 목록
 
-<!-- 자동 생성 — python -m docgen.bench.table_audit --seeds 12 --out guide/table-audit.md -->
+<!-- 자동 생성 — python -m docgen.bench.table_audit --seeds 12 --out guide/reference/table-audit.md -->
 
 표(반복 묶음)의 정의와 질문은 [benchmark.md](benchmark.md#표의-정의). 이 목록은 사람이 보고 정할 것만 모읍니다 — 아무것도 고치지 않았습니다.
 서식 545종 중 표가 있는 서식 214종, 표 묶음 328개 (seed 12개로 그려 봄).

@@ -1,4 +1,4 @@
-// ⑥ 데이터셋 (등록부·설명서·구성·문항 보기). 평가·채점·학습은 학습 서버의 python -m train (guide/eval.md).
+// ⑥ 데이터셋 (등록부·설명서·구성·문항 보기). 평가·채점·학습은 학습 서버의 python -m train (guide/train/steps.md).
 // 생성 현황 목록은 dataset-builds.js, 새로 만들기(레시피)는 recipes.js.
 // 서버: studio/api_datasets.py·datasets.py (등록부), studio/api_bank.py·bank_data.py (레시피·빌드)
 "use strict";
@@ -26,7 +26,7 @@ async function view_datasets() {
   if (location.hash !== "#/datasets") return;
   main().innerHTML = `
     <h1>데이터셋</h1>
-    <div class="sub">레시피로 평가 세트·학습 데이터를 만들고(<b>새로 만들기</b>), 끝나면 아래 목록에서 문항을 봅니다. 학습·평가는 학습 서버에서 합니다 (저장소 <span class="mono">guide/training.md</span>).
+    <div class="sub">레시피로 평가 세트·학습 데이터를 만들고(<b>새로 만들기</b>), 끝나면 아래 목록에서 문항을 봅니다. 학습·평가는 학습 서버에서 합니다 (저장소 <span class="mono">guide/train/sweep.md</span>).
       <a href="#/guide/studio.md">studio 사용법 3절</a> · 등록부 <span class="mono">${esc(r.workspace)}/registry.json</span></div>
     ${recipes}
     <div id="dataset-build-jobs"></div>
@@ -154,7 +154,7 @@ async function dsItems(d) {
       <span class="muted" id="it-stat"></span>
     </div>
     <div class="bar">${["task_group", "label_format", "doc_type"].map(key => `<label>${TRACKING_TITLE[key]} <select data-track-filter="${key}" ${summary?'':'disabled'}><option value="">전체</option>${Object.keys(summary?.all.by[key] || {}).map(v => `<option value="${esc(v)}" ${st.filters[key] === v ? "selected" : ""}>${esc(trackName(v))}</option>`).join("")}</select></label>`).join("")}<label><input type="checkbox" id="it-evaluation-only" ${summary?'':'disabled'} ${st.evaluationOnly?'checked':''}> 평가 문항만</label><button id="it-clear-filters">필터 초기화</button></div>
-    <div class="keys-help">초록 박스 = 정답, 파랑 점선 = 질문 영역. 모델 답과 점수는 학습 서버 결과의 answers.html 에서 봅니다 (guide/results.md).</div>
+    <div class="keys-help">초록 박스 = 정답, 파랑 점선 = 질문 영역. 모델 답과 점수는 학습 서버 결과의 answers.html 에서 봅니다 (guide/train/sweep.md).</div>
     <div id="it-list"></div>
     <div class="bar"><button id="it-prev">◀ 이전</button><button id="it-next">다음 ▶</button></div>`;
   let offset = 0;

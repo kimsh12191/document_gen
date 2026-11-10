@@ -1,5 +1,5 @@
 // 새 서식 추가: 서식 그림을 올려 그림 위에 칸을 그리는 overlay 서식(img_*)을 만든다 (studio/drawn.py → 영역 편집).
-// 자세한 절차는 guide/new-forms.md. 이미 있는 html 서식은 코드로 고친다 (docgen/forms/README.md).
+// 자세한 절차는 guide/studio/new-forms.md. 이미 있는 html 서식은 코드로 고친다 (docgen/forms/README.md).
 "use strict";
 
 addRoute(/^#\/new-forms$/, () => viewNewForms(), "new-forms");

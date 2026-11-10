@@ -1,4 +1,4 @@
-"""OCR 문항 만들기의 입출력 (studio/DESIGN.md 17절, 옛 1부 bank_ocr/data.py 그대로): 사내 OCR 응답 읽기(parse_ocr, mapping),
+"""OCR 문항 만들기의 입출력 (archive/studio/DESIGN.md 17절, 옛 1부 bank_ocr/data.py 그대로): 사내 OCR 응답 읽기(parse_ocr, mapping),
 저장된 OCR 찾기(find_saved_ocr), 이미지 폴더 훑기(scan), 문서 단위 학습/평가 나누기(assign_splits), EXIF 회전을 적용한 그림
 (canonical_image), 0~1000 좌표(normalize_box)."""
 import hashlib

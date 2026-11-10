@@ -8,8 +8,8 @@ async function dsTracking(d) {
   let summary;
   try { summary = await api(`/api/datasets/${encodeURIComponent(d.id)}/composition`); }
   catch(e) { $("#tab").innerHTML=`<p class="warn">구성 정보를 읽지 못했습니다.</p><p>${esc(e.message)}</p><a href="#/datasets/${encodeURIComponent(d.id)}/items">기존 문항 보기</a>`; return; }
-  $("#tab").innerHTML = `<h2>생성 구성</h2><p>과제·정답 구조별 문항 수입니다. 같은 구분의 점수는 학습 서버 결과 보고서에서 봅니다 (guide/results.md).</p>
-    <div class="bar"><label>범위 <select id="tracking-scope"><option value="all">전체 문항 (${summary.all.n})</option><option value="evaluation">평가 문항 (${summary.evaluation.n})</option></select></label><span class="muted" style="font-size:12px">결과 보고서는 학습 서버에서 (<span class="mono">guide/results.md</span>)</span></div>
+  $("#tab").innerHTML = `<h2>생성 구성</h2><p>과제·정답 구조별 문항 수입니다. 같은 구분의 점수는 학습 서버 결과 보고서에서 봅니다 (guide/train/sweep.md).</p>
+    <div class="bar"><label>범위 <select id="tracking-scope"><option value="all">전체 문항 (${summary.all.n})</option><option value="evaluation">평가 문항 (${summary.evaluation.n})</option></select></label><span class="muted" style="font-size:12px">결과 보고서는 학습 서버에서 (<span class="mono">guide/train/sweep.md</span>)</span></div>
     <div id="tracking-composition"></div>
     <details class="panel"><summary>생성 레시피·버전·서식 해시</summary><pre class="ans mono">${esc(JSON.stringify(summary.provenance,null,2))}</pre></details>`;
   const draw = () => {

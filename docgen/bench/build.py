@@ -45,7 +45,7 @@ VERSION = "5.1"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순�
 #                  3.1: 원본·가져온 서식의 기타·비고·사유·용도 칸 일부(40%)에 자유 기재 글 + freetext(기타 칸 정리) 과제
 #                       (docgen/freetext.py). 그 칸이 있는 서식의 이미지·kie 정답이 3.0 과 다르다
 #                  4.0: 표(반복 묶음)를 kie 에서 빼고 표 과제 넷(table 표 추출·table_read 표 그대로 옮기기·table_find 표 찾기·
-#                       table_qa 표 질의, guide/benchmark.md "표의 정의"). 빈 답 배우기: kie·table 에 없는 키·열 섞기,
+#                       table_qa 표 질의, guide/reference/benchmark.md "표의 정의"). 빈 답 배우기: kie·table 에 없는 키·열 섞기,
 #                       비어 있기도 한 칸 비우기(blank), 값 칸 가림(mask) — NULLS. 서류 한 건 과제의 그림·kie 정답이 3.1 과 다르고
 #                       kie 점수는 표 칸이 빠져 3.1 과 바로 비교하지 않는다. 업무 묶음 과제는 그대로
 #                  4.1: 원본 서식(hf·img)과 그것을 옮긴 공식 대조 html 서식: 한 묶음(목록)으로 섞이던 표 77종을 표마다 나눔

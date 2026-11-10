@@ -2,8 +2,8 @@
 
 서식 하나 = 폴더 하나 (`docgen/forms/<ID>/`). 서식을 고치면 다음에 만드는 데이터(그림·질문·정답)가 그대로 따라 바뀝니다.
 먼저 0절 표에서 하고 싶은 일을 찾고, 직접 하거나 LLM 에게 시킵니다. 1절부터는 찾아보는 참고입니다.
-서식 ID 는 [guide/documents.md](../../guide/documents.md) 에서 이름으로 찾고, 그 서식의 모든 것은 카드 `docgen/forms/<ID>/FORM.md` 에 있습니다
-(칸·위치·값을 정한 곳(파일:줄)·실제 질문→답). 새 서식을 더하는 것은 그림 서식이면 [guide/new-forms.md](../../guide/new-forms.md) (studio),
+서식 ID 는 [guide/reference/documents.md](../../guide/reference/documents.md) 에서 이름으로 찾고, 그 서식의 모든 것은 카드 `docgen/forms/<ID>/FORM.md` 에 있습니다
+(칸·위치·값을 정한 곳(파일:줄)·실제 질문→답). 새 서식을 더하는 것은 그림 서식이면 [guide/studio/new-forms.md](../../guide/studio/new-forms.md) (studio),
 html 서식이면 이 폴더에 새 폴더를 [NEW_FORM_SPEC.md](../manual/NEW_FORM_SPEC.md) 꼴로 만듭니다 (코드로, 0절 마지막 줄).
 
 **html·코드 서식은 studio 화면에서 고치지 않습니다.** 아래 표의 "고칠 곳" 파일을 직접 고치거나 LLM 에게 시킵니다. studio 는 그려 보기(미리보기)·검수만 합니다.
@@ -17,12 +17,12 @@ html 서식이면 이 폴더에 새 폴더를 [NEW_FORM_SPEC.md](../manual/NEW_F
 | ① 값이 이상함 (형식·범위, 칸끼리 안 맞음) | html: `fields.json` 그 칸 `source`, 칸끼리 관계는 `generate.py` 의 `adjust` · 코드: `generate.py` · 원본·그린: `fields.json` 그 칸 `source`·`kind`·`fmt`(표기), 칸끼리 관계는 `generate.py` 의 `adjust` (견본 `python -m docgen.formdir adjust <ID> --new`) | 영역 편집 → 칸을 눌러 생성 방법. html·코드는 파일로 ([생성 방법 목록](_common/values.md)) | `칸 <키> 의 값이 <증상>. 원본 서식처럼 나오게 값 만드는 곳을 고쳐라` |
 | ② 값 위치·박스가 어긋남 | 원본: `fields.json` 그 칸 `rect` · html·코드: 템플릿 배치 | 영역 편집에서 끌어 옮기기. html·코드는 파일로 | `칸 <키> 가 원본의 <어디> 칸에 오게 고쳐라`. 원본 서식은 [FORM_SHELL_GUIDE.md](../manual/FORM_SHELL_GUIDE.md) 4장을 같이 준다 |
 | ③ 모양(표·문구·선)이 원본과 다름 | html·코드: `look/template.html.j2` (원본 서식은 그림이라 안 고침) | — (html·코드만 해당, 파일로) | [FORM_SHELL_GUIDE.md](../manual/FORM_SHELL_GUIDE.md) 3장 + 원본 그림을 주고 `키는 그대로 두고 모양만 원본처럼 고쳐라` |
-| ④ 칸(추출 항목) 더하기·빼기·키 바꾸기 | html: 템플릿 `f("키", label=…)` + `fields.json` · 코드: 템플릿 + `generate.py` (+ `formdir declare <ID> --apply`) · 원본: `fields.json` | 영역 편집에서 그리기·지우기. html·코드는 파일로 (빼기는 템플릿에서 그 줄을 지움) | `원본의 <키 설명> 칸을 키 <키> 로 더하라` (키 이름은 [키 이름 정하기](../../guide/keys.md)) |
+| ④ 칸(추출 항목) 더하기·빼기·키 바꾸기 | html: 템플릿 `f("키", label=…)` + `fields.json` · 코드: 템플릿 + `generate.py` (+ `formdir declare <ID> --apply`) · 원본: `fields.json` | 영역 편집에서 그리기·지우기. html·코드는 파일로 (빼기는 템플릿에서 그 줄을 지움) | `원본의 <키 설명> 칸을 키 <키> 로 더하라` (키 이름은 [키 이름 정하기](../../guide/studio/keys.md)) |
 | ⑤ 질문 문장·답 모양 바꾸기, 어떤 칸은 묻지 않기 | `questions.json` (기본과 다른 것만), 칸마다는 `fields.json` 그 칸의 `"q"` | 파일로 (질문·답 › 실제 문항에서 결과 확인) | `kie 질문을 <문장> 으로, 답을 <꼴> 로 바꿔라` / `칸 <키> 는 묻지 마라` (5.1·5.2절) |
 | ⑤-1 표: 제목 정하기, 정해진 격자를 표가 아니라 kie 로, 행 순서 | `questions.json` 의 `table` (제목·`ask: false`), 행 순서는 `generate.py` | 파일로. 개요의 표 줄(또는 카드의 "표" 절)에서 묶음 이름 확인 | `표 <묶음> 의 제목을 <제목> 으로` / `<묶음> 은 개수가 정해진 격자라 kie 로 묻게` / `표 <묶음> 을 최신순으로` (5.5절) |
 | ⑥ 이 서식만의 질문 더하기 (계산·판단) | `qa.py` (함수 하나 = 질문 하나) | 파일로. 견본 `python -m docgen.formdir qa <ID> --new` | `qa.py 에 <질문> 을 더하라. 정답은 칸 <키…> 로 계산` (5.3절) |
 | ⑦ 채점을 다르게 | 서식 폴더가 아니라 `train/scorers/` (평가 세트에 붙임) | — | `train/scorers/<견본> 을 복사해 <규칙> 으로 채점하게 하라` (5.4절) |
-| 새 서식 추가 (그림 위에 칸) | → [guide/new-forms.md](../../guide/new-forms.md) | 왼쪽 메뉴 **새 서식 추가** | |
+| 새 서식 추가 (그림 위에 칸) | → [guide/studio/new-forms.md](../../guide/studio/new-forms.md) | 왼쪽 메뉴 **새 서식 추가** | |
 | 새 html 서식 추가 (코드로) | 새 폴더 `docgen/forms/<새 ID>/` 를 [NEW_FORM_SPEC.md](../manual/NEW_FORM_SPEC.md) 꼴로 (`form.json`·`fields.json`·`look/template.html.j2`, 선택 `generate.py`·`qa.py`). 비슷한 서식 폴더를 복사해 시작해도 됨 | 폴더를 두고 서식 목록의 **[서식 다시 읽기]** → 미리보기·검수 | `docgen/manual/NEW_FORM_SPEC.md 를 읽고, 이 그림의 서식을 docgen/forms/<새 ID>/ 에 그 꼴로 만들어라` (원본 그림은 사내 모델에만) |
 
 ①~④ 는 그림이 바뀌어 그 서식이 "재검수 필요"가 됩니다. ⑤~⑦ 은 그림을 바꾸지 않습니다.
@@ -34,7 +34,7 @@ html 서식이면 이 폴더에 새 폴더를 [NEW_FORM_SPEC.md](../manual/NEW_F
 ```text
 docgen/forms/<ID>/FORM.md 와 docgen/forms/README.md 를 읽어라. <할 일>.
 고칠 곳은 README 0절 표의 "고칠 곳" 파일뿐이다. 다른 서식, docgen/forms/_common/, 엔진 코드(docgen/*.py, docgen/bench/)는 고치지 않는다.
-단, 맞는 생성 방법이 없어 함수가 꼭 필요하면 docgen/forms/_common/generators.py 에 함수를 더하는 것만 하고 (guide/generators.md 2절), 기존 함수는 고치지 않으며 더한 것을 보고한다.
+단, 맞는 생성 방법이 없어 함수가 꼭 필요하면 docgen/forms/_common/generators.py 에 함수를 더하는 것만 하고 (guide/studio/generators.md 2절), 기존 함수는 고치지 않으며 더한 것을 보고한다.
 키 이름은 바꾸라고 한 것만 바꾼다. 판단이 안 서는 칸은 고치지 말고 목록으로 보고한다.
 끝나면 아래를 돌리고, 바꾼 파일·check 결과·그림 경로·판단이 안 선 곳을 보고해라. check 통과를 "검수 완료"라고 하지 않는다.
   python -m docgen.formdir check <ID>
@@ -60,7 +60,7 @@ docgen/forms/<ID>/FORM.md 와 docgen/forms/README.md 를 읽어라. <할 일>.
 
 ```
 서식 폴더 (이 문서)          생성 (studio 데이터셋 / python -m docgen.bench build)        학습·평가 (train/)
-  모양·칸·값·질문   ──────►   서식 × 고객마다: 그리기 → 칸(키·값·위치) → 과제별 질문·정답  ──────►  SFT·GRPO, 채점·비교표
+  모양·칸·값·질문   ──────►   서식 × 고객마다: 그리기 → 칸(키·값·위치) → 과제별 질문·정답  ──────►  SFT, 채점·비교표
 ```
 
 정답은 사람이 적지 않습니다. **그릴 때 넣은 값과 잰 위치가 곧 정답**입니다. 그래서 파일에는 "값을 어디서 채우나"만 있고, 정답 값은 없습니다.
@@ -219,19 +219,18 @@ def 재직개월(v):                                    # 계산: 재직기간 "
 ### 5.4 채점을 다르게: `train/scorers`
 
 채점은 서식 폴더가 아니라 **`train/scorers` 의 채점 함수 한 곳**에서 정합니다. 학습 설정의 평가 세트(`data.benchmark`)에 붙이면 그 세트의 평가 점수가 그 함수로 계산됩니다.
-docgen 데이터셋을 학습 데이터(`data.train`)로 쓸 때는 채점 함수를 붙일 수 없고 GRPO 보상은 기본 채점입니다 (`scorer` 는 swift `.jsonl` 학습 데이터만, `train/benchmarks.py`).
 
 ```json
 {"id": "syn", "paths": ["<데이터셋>"], "scorer": "../scorers/my_form_qa.py:score"}
 ```
 
 - `qa.py` 질문 몇 개만 다르게: 견본 [`train/scorers/form_qa_example.py`](../../train/scorers/form_qa_example.py) (`meta.question` 으로 가르고 나머지는 기본 채점).
-- 과제 전체를 다르게: [`train/scorers/bank_default.py`](../../train/scorers/bank_default.py) (과제마다 함수 하나). 규칙은 [guide/eval.md](../../guide/eval.md).
-- 경로는 설정 파일 기준, `:함수` 를 빼면 `score`. 고친 뒤 학습 없이 다시 채점: `python -m train rescore <workdir>`.
+- 과제 전체를 다르게: [`train/scorers/bank_default.py`](../../train/scorers/bank_default.py) (과제마다 함수 하나). 붙이는 법은 [guide/train/sweep.md 2절](../../guide/train/sweep.md#2-평가-세트-databenchmark).
+- 경로는 설정 파일 기준, `:함수` 를 빼면 `score`. 고친 뒤 학습 없이 다시 채점: `python -m train report <결과 폴더> --rescore`.
 
 ### 5.5 표: `questions.json` 의 `table`
 
-**표**는 항목 묶음(열)은 서식이 정하고 행 수가 서류마다 다른 반복 목록입니다 ([표의 정의](../../guide/benchmark.md#표의-정의)).
+**표**는 항목 묶음(열)은 서식이 정하고 행 수가 서류마다 다른 반복 목록입니다 ([표의 정의](../../guide/reference/benchmark.md#표의-정의)).
 키에 행 번호가 든 칸(`rows.0.kind` → 묶음 `rows`, 열 `kind`)이 표 칸이고, 표 칸은 kie 가 묻지 않고 표 과제(`table` 등)가 묻습니다.
 서식 카드(FORM.md)에 묶음마다 "표 `<묶음>`" 절이 있습니다.
 
@@ -254,7 +253,7 @@ docgen 데이터셋을 학습 데이터(`data.train`)로 쓸 때는 채점 함�
   **별지(계속)** 쪽에 같은 열로 이어 적는다 (`docgen/forms/_common/templates/_extra_rows.html.j2`, 비율은 `docgen/realform.py` 의 `MORE_ROWS`).
   행이 많으면 별지가 여러 쪽이 된다. 별지 칸의 키는 인쇄된 칸에 이어지는 행 번호 (`지급계좌_목록.10.상품명`).
 - **표로 묶이지 않는 반복:** 키 이름에 번호를 붙인 칸(`guarantor1.name`, 원본 서식의 `Fund2`)은 표가 아니라 kie 칸으로 묻습니다. 표로 하려면 키를 `<묶음>.0.<열>` 꼴로 바꿉니다 (템플릿·`fields.json`, 그림은 그대로라도 키가 바뀌면 재검수).
-- 서식마다 점검할 것(행 수가 늘 같은 표, 오래된 순 표, 표 안 합계, 번호 붙은 반복 칸)은 [표 점검 목록](../../guide/table-audit.md) (`python -m docgen.bench.table_audit`).
+- 서식마다 점검할 것(행 수가 늘 같은 표, 오래된 순 표, 표 안 합계, 번호 붙은 반복 칸)은 [표 점검 목록](../../guide/reference/table-audit.md) (`python -m docgen.bench.table_audit`).
 
 ## 6. 칸·모양·값 고치기
 
@@ -269,7 +268,7 @@ docgen 데이터셋을 학습 데이터(`data.train`)로 쓸 때는 채점 함�
 | 질문 설정·질문 문장·답 모양·전용 질문 | 5절 | 5절 | 5절 | 필요 없음 |
 
 - **그림을 바꾸는 것**을 고치면 그 서식이 "재검수 필요"로 바뀝니다. 질문(`q`·`questions.json`·`qa.py`)은 그림을 바꾸지 않아 검수 상태가 그대로입니다.
-- 새 서식을 처음부터: 그림 서식은 [guide/new-forms.md](../../guide/new-forms.md) (studio), html 서식은 [NEW_FORM_SPEC.md](../manual/NEW_FORM_SPEC.md) 꼴로 폴더를 만듦 (코드).
+- 새 서식을 처음부터: 그림 서식은 [guide/studio/new-forms.md](../../guide/studio/new-forms.md) (studio), html 서식은 [NEW_FORM_SPEC.md](../manual/NEW_FORM_SPEC.md) 꼴로 폴더를 만듦 (코드).
 
 ## 7. 고친 뒤
 
@@ -296,7 +295,7 @@ python -m pytest docgen/tests              # 코드를 고쳤으면. 오래된 �
 
 `docgen/forms/_common/` — 무엇이 어디에 영향을 주는지는 [_common/README](_common/README.md).
 기본 질문 문장(`_common/questions.json`)을 바꾸면 모든 서식의 문항이 바뀌므로 평가 세트 버전(`docgen/bench/build.py` 의 `VERSION`)을 올리고
-[guide/questions.md](../../guide/questions.md) 도 같이 고칩니다 (테스트가 둘을 맞춰 봄). 공통을 고친 뒤에는 카드를 모두 다시 만듭니다 (`card --all --stale --workers 4`).
+[guide/reference/questions.md](../../guide/reference/questions.md) 도 같이 고칩니다 (테스트가 둘을 맞춰 봄). 공통을 고친 뒤에는 카드를 모두 다시 만듭니다 (`card --all --stale --workers 4`).
 
 새 과제(모든 서식에 같은 새 질문 종류)는 엔진 일입니다: `docgen/bench/tasks/` 에 파일 하나 (`kie.py` 견본), `tasks/__init__.py` 의 `SINGLE` **끝에**
 붙이고, 채점 `docgen/bench/evaluate.py`, `build.py` 의 `VERSION` 을 올립니다.

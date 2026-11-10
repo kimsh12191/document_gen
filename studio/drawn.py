@@ -1,5 +1,5 @@
 """그려서 만드는 overlay 서식: 서식 그림(PNG·JPG·PDF)을 올리면 OCR 없이 그 그림을 배경으로 하는 image 서식 img_* 를 만든다.
-칸은 비어 있고, 사람이 영역 편집기에서 칸을 그리고 항목명·키·값 출처를 붙인다 (guide/new-forms.md "그림 위에 그려서 만들기").
+칸은 비어 있고, 사람이 영역 편집기에서 칸을 그리고 항목명·키·값 출처를 붙인다 (guide/studio/new-forms.md "그림 위에 그려서 만들기").
 
 서식 폴더 꼴은 image 서식 img_* 그대로다. 다른 점:
   - 만들 때 OCR 을 부르지 않는다. 배경 글자(layout.json texts)는 영역 편집기에서 사내 OCR 로 읽어 채운다 (아래 read_texts).

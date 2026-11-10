@@ -1,6 +1,6 @@
-"""표 점검 목록: 서식마다 표(반복 묶음)를 여러 seed 로 그려 보고 사람이 정할 것을 모은다 (guide/benchmark.md 표의 정의).
+"""표 점검 목록: 서식마다 표(반복 묶음)를 여러 seed 로 그려 보고 사람이 정할 것을 모은다 (guide/reference/benchmark.md 표의 정의).
 
-  python -m docgen.bench.table_audit [--seeds 12] [--workers 4] [--out guide/table-audit.md]
+  python -m docgen.bench.table_audit [--seeds 12] [--workers 4] [--out guide/reference/table-audit.md]
 
 그림은 그리지 않는다 (템플릿만 렌더링해 칸 키·값을 본다). 서식마다 표 묶음별로:
   - 행 수 (seed 마다 최소~최대). 늘 같으면 "개수 고정" — 정해진 격자면 questions.json {"table": {"<묶음>": {"ask": false}}} 로 kie 에
@@ -116,7 +116,7 @@ def markdown(res: list[dict], seeds: int) -> str:
     nested = [r for r in res if r.get("nested")]
     errors = [r for r in res if r.get("error")]
     L = ["# 표 점검 목록", "",
-         f"<!-- 자동 생성 — python -m docgen.bench.table_audit --seeds {seeds} --out guide/table-audit.md -->", "",
+         f"<!-- 자동 생성 — python -m docgen.bench.table_audit --seeds {seeds} --out guide/reference/table-audit.md -->", "",
          "표(반복 묶음)의 정의와 질문은 [benchmark.md](benchmark.md#표의-정의). 이 목록은 사람이 보고 정할 것만 모읍니다 — 아무것도 고치지 않았습니다.",
          f"서식 {len(res)}종 중 표가 있는 서식 {len(with_tables)}종, 표 묶음 {sum(len(r['tables']) for r in with_tables)}개 "
          f"(seed {seeds}개로 그려 봄).", "",

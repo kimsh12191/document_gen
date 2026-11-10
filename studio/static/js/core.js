@@ -1,5 +1,5 @@
 // docgen studio 화면 공통: 도우미, 라우터, 그림 위 박스(겹쳐 보기·누르기). 빌드 없는 순수 JS (외부 CDN 없음).
-// 메뉴마다 js/<메뉴>.js 가 addRoute 로 화면을 등록하고, main.js 가 마지막에 시작한다. 설계: studio/DESIGN.md
+// 메뉴마다 js/<메뉴>.js 가 addRoute 로 화면을 등록하고, main.js 가 마지막에 시작한다. 설계: archive/studio/DESIGN.md
 "use strict";
 
 const $ = (sel, el = document) => el.querySelector(sel);
@@ -64,7 +64,7 @@ function toast(msg, bad = false) {
 // ---------------------------------------------------------------------------
 const routes = [];
 const addRoute = (rx, fn, menu) => routes.push([rx, fn, menu]);
-// 메뉴마다 "이 화면 도움말" 이 여는 설명서 자리 (guide/studio.md 의 절)
+// 메뉴마다 "이 화면 도움말" 이 여는 설명서 자리 (guide/studio/studio.md 의 절)
 const HELP = { forms: "studio.md#서식-화면-탭-한눈에", "new-forms": "new-forms.md", datasets: "studio.md#5-데이터셋-만들고-확인하기",
   marks: "studio.md#6-모든-서식에-공통인-표시-바꾸기", "ocr-examples": "studio.md#메뉴", guide: "studio.md" };
 

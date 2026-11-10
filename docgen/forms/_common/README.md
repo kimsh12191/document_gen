@@ -20,13 +20,13 @@ docgen/forms/
 
 | 파일 | 정하는 것 | 고치면 바뀌는 것 | 고치는 법 |
 |---|---|---|---|
-| `questions.json` | **기본 질문 문장·질문 항목 줄 틀(`item`)·답 항목 틀(`answer`, `answer_empty` — JSON 틀이나 줄글)** (과제마다). 서식의 `questions.json` 에 없으면 이것. freetext 과제의 문장도 여기 (서식별로 못 바꿈). 읽는 곳 `docgen/bench/prompts.py` | 모든 서식의 문항 → 평가 세트가 달라짐 (`docgen/bench/build.py` 의 `VERSION` 을 올림), 모든 카드 오래됨 | 파일로. `guide/questions.md` 도 같이 고침 (테스트가 둘을 맞춰 봄) |
+| `questions.json` | **기본 질문 문장·질문 항목 줄 틀(`item`)·답 항목 틀(`answer`, `answer_empty` — JSON 틀이나 줄글)** (과제마다). 서식의 `questions.json` 에 없으면 이것. freetext 과제의 문장도 여기 (서식별로 못 바꿈). 읽는 곳 `docgen/bench/prompts.py` | 모든 서식의 문항 → 평가 세트가 달라짐 (`docgen/bench/build.py` 의 `VERSION` 을 올림), 모든 카드 오래됨 | 파일로. `guide/reference/questions.md` 도 같이 고침 (테스트가 둘을 맞춰 봄) |
 | `key_rules.json` | 값 규칙: `keys` = 값 출처(고객 정보 경로)나 값 종류를 정해 둔 키 (`foreign.swift` …), `kinds` = 공통 값 종류 `rule:<종류>` (영역 편집 고르기 창의 "공통 값 종류"). `synonyms` 는 비워 둠 (키 바꿔 쓰기 없음, 평가 세트 5.1부터). `label_rules`·`kind_rules` 는 예전 규칙이라 고쳐도 생성 값이 안 바뀜 | 그 키·값 종류를 쓰는 원본 서식(overlay) 칸의 값 | 파일로 (조심) |
 | `keys.json` | 예전 키 목록 초안 (`python docgen/scripts/build_keys.py`). 지금 화면·생성 코드는 읽지 않음 | — | 고치지 않음 |
 | `marks.json` | 체크·도장·서명 표시 확률 | 모든 서식의 체크·도장 그림 | studio 표시 요소 |
 | `freetext_templates.json` | 기타·비고 칸의 자유 기재 문장 틀 (freetext 과제) | 그 칸의 글과 정답 | 파일로 |
 | `templates/` | **바탕 틀**: `_base.html.j2`(쪽·글꼴), `_macros.html.j2`(`f()`·`m.check`·`m.seal` …), `_official_*`, `_real_form.html.j2`(원본 서식), 그룹 부품(`bank_form/`, `corporate/_seal` …) | 모든 html·코드 서식의 그림 → 재검수 | 파일로 (조심) |
-| `generators.py` | **사람이 더하는 생성 방법**: `@generator` 함수 하나 = 생성 방법 `rule:<함수 이름>` 하나 (고르기 창 "직접 만든 생성기") | 그 생성 방법을 고른 모든 칸 | 파일로 — 함수를 더하기만, 기존 함수는 고치지 않음 ([guide/generators.md](../../../guide/generators.md) 2절) |
+| `generators.py` | **사람이 더하는 생성 방법**: `@generator` 함수 하나 = 생성 방법 `rule:<함수 이름>` 하나 (고르기 창 "직접 만든 생성기") | 그 생성 방법을 고른 모든 칸 | 파일로 — 함수를 더하기만, 기존 함수는 고치지 않음 ([guide/studio/generators.md](../../../guide/studio/generators.md) 2절) |
 | `values.md` | 생성 방법 목록 (`fields.json` 의 `source` 에 쓰는 것) | — | 자동: `python -m docgen.formdir values` |
 | `hash_moves.json` | 파일을 옮기기만 한 서식의 예전 서식 해시 (검수 기록이 그대로 맞게) | — | 고치지 않음 |
 
@@ -47,7 +47,7 @@ docgen/forms/
 
 ## 키 이름 규칙
 
-> 새 서식에 키를 붙일 때의 기준 문서는 [guide/keys.md](../../../guide/keys.md) 입니다 (예시·순서·표·체크·서명).
+> 새 서식에 키를 붙일 때의 기준 문서는 [guide/studio/keys.md](../../../guide/studio/keys.md) 입니다 (예시·순서·표·체크·서명).
 
 모든 서식이 같이 쓰는 키 사전·공통 키는 없습니다. 칸의 키(정답 JSON 의 키)는 **그 서식 파일에 적힌 그대로** 질문·정답에 나갑니다.
 서식마다 쓰는 키는 그 서식 카드 `FORM.md`, 모든 서식의 칸 목록은 `guide/fields/fields.json` (자동, `python docgen/scripts/build_schema.py`. 없는 키·열 후보로도 씀).

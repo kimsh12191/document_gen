@@ -1,5 +1,5 @@
 """표 과제 (table·table_read·table_find·table_qa)와 빈 답 배우기 (없는 키·열, 빈 칸 비우기, 가림).
-표의 정의: 항목 묶음은 서식이 정하고 행 수가 서류마다 다른 것 (guide/benchmark.md "표의 정의"). 표 칸은 kie 가 묻지 않는다."""
+표의 정의: 항목 묶음은 서식이 정하고 행 수가 서류마다 다른 것 (guide/reference/benchmark.md "표의 정의"). 표 칸은 kie 가 묻지 않는다."""
 import json
 import random
 from pathlib import Path

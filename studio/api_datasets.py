@@ -1,4 +1,4 @@
-"""⑥ 데이터셋 API (studio/datasets.py 를 부른다). 모델 답·채점은 학습 서버의 python -m train (guide/eval.md).
+"""⑥ 데이터셋 API (studio/datasets.py 를 부른다). 모델 답·채점은 학습 서버의 python -m train (guide/train/steps.md).
 
   GET    /api/datasets                       등록부 목록 (읽기만. 놓친 자동 등록 복구·옛 줄 고치기는 띄울 때 한 번, app.py)
   POST   /api/datasets                       폴더 등록 {path, name, source?, gt?, real_data?} (설명서도 쓴다)

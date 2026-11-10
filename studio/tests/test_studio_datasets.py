@@ -1,5 +1,5 @@
 """studio 데이터셋 등록부·채점 시험: 손으로 만든 작은 OCR 준비(옛 형식)·docgen.bench 폴더로, 명령줄 채점 함수와 같은 숫자가 나오는지.
-과제 형식은 하나(docgen-tasks)이고, tasks/ 가 없는 옛 OCR 준비 폴더는 등록할 때 tasks/ 를 만든다 (studio/DESIGN.md 17절)."""
+과제 형식은 하나(docgen-tasks)이고, tasks/ 가 없는 옛 OCR 준비 폴더는 등록할 때 tasks/ 를 만든다 (archive/studio/DESIGN.md 17절)."""
 import json
 
 import pytest

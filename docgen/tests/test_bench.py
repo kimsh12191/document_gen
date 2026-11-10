@@ -55,7 +55,7 @@ def test_kie_line_explains_key():
 
 
 def test_guide_quotes_every_benchmark_prompt():
-    """guide/questions.md 는 사용자가 베껴 쓰는 문서라 학습·평가 질문과 같아야 한다 (옛 bank/tests 에서 옮김)."""
+    """guide/reference/questions.md 는 사용자가 베껴 쓰는 문서라 학습·평가 질문과 같아야 한다 (옛 bank/tests 에서 옮김)."""
     from pathlib import Path
 
     from docgen.bench import prompts

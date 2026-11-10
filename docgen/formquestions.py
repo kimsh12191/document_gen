@@ -16,7 +16,7 @@
    "ocr_field": {"prompt"?}, "ocr_page": {"prompt"?},
    "classify":  {"prompt"?, "answer": "…", "aliases": [...]},     분류 정답·다른 이름 (없으면 키 사전의 문서명)
    "table":     {"<묶음>": {"title"?: "표 제목", "ask"?: false}}}  표(반복 묶음, 키의 행 번호 앞 이름 rows.0.x → rows)마다:
-                 질문에서 표를 가리킬 제목 / ask false = 개수가 정해진 격자라 표가 아니라 kie 로 묻기 (guide/benchmark.md 표의 정의)
+                 질문에서 표를 가리킬 제목 / ask false = 개수가 정해진 격자라 표가 아니라 kie 로 묻기 (guide/reference/benchmark.md 표의 정의)
 
 - 정답 값·위치는 문서를 그릴 때마다 그 칸에서 온다 (파일에 적지 않는다).
 - 답 틀을 바꾸면 질문 문장도 그 꼴로 고친다 (위치를 빼면 위치 이야기도 뺌). check 가 안 맞아 보이면 알려 준다.

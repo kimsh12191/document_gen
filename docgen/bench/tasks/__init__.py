@@ -5,7 +5,7 @@
   form_qa.py    서식 전용 질문 (서식 폴더 qa.py)
   table.py      표 추출 (열을 정해 모든 행)    table_find.py 표 찾기    table_qa.py 표에 대해 묻기    table_read.py 표 그대로 옮기기
 
-표(목록)와 kie 의 경계 (guide/benchmark.md "표의 정의"): 항목 묶음(열 구성)은 서식이 정하고 그 묶음이 몇 번 나오는지가 서류마다
+표(목록)와 kie 의 경계 (guide/reference/benchmark.md "표의 정의"): 항목 묶음(열 구성)은 서식이 정하고 그 묶음이 몇 번 나오는지가 서류마다
 다른 것만 표다. 키에 행 번호가 들어간 칸(rows.0.kind → 묶음 rows, 열 kind)이 표 칸이고, 표 칸은 kie 가 묻지 않는다.
 개수가 서식에서 정해진 격자는 서식의 questions.json 에 {"table": {"<묶음>": {"ask": false}}} 로 적어 kie 로 묻는다.
 
@@ -14,7 +14,7 @@
 
 과제 파일의 꼴 (kie.py 를 견본으로 보면 된다)
   TASK, NAME          과제 ID, 이름
-  PROMPT              질문 문장 (원본은 prompts.py — guide/questions.md 와 같은지 테스트가 본다)
+  PROMPT              질문 문장 (원본은 prompts.py — guide/reference/questions.md 와 같은지 테스트가 본다)
   ANSWER, EXAMPLE, NOTES   답 형식(JSON schema)·예시·설명 — studio 질문 형식 화면(contracts.py)이 그대로 보여 준다
   make(doc)           서류 한 건(Doc) → 문항 목록 [{"id", "task", "prompt", "answer", "eval"?, "images", "meta"}]
                       정답은 서식을 그릴 때 칸마다 넣은 값·위치(doc.fields)에서 만든다

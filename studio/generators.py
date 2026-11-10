@@ -1,7 +1,7 @@
 """영역 편집기의 생성 방법 고르기: 칸에 넣을 값을 어떻게 만들지 사람이 읽는 이름·예시 값으로 보여 준다.
 
 고르면 칸 목록 fields.json 의 "source" 가 된다 (docgen/sources.py). 여기는 고르기 쉬운 목록과 예시만 만들고,
-원하는 것이 없을 때 (화면의 "원하는 생성 방법이 없으면" 안내와 같은 내용, guide/generators.md):
+원하는 것이 없을 때 (화면의 "원하는 생성 방법이 없으면" 안내와 같은 내용, guide/studio/generators.md):
 
   1. 고르기 창에서 적기   보기 중 하나 (rule:choice + choices), 틀로 만들기 (rule:pattern + pattern) — 그 칸에만
                           (예전에 key_rules.json "kinds" 에 저장한 공통 값 종류는 "공통 값 종류" 묶음으로 계속 나옴)
@@ -76,7 +76,7 @@ HOWTO = [
      "when": "계산이 들어간 값 하나 — 가린 계좌번호, 행마다 1회·2회, 비율을 정한 보기",
      "example": "@generator(\"상환 회차\")\ndef repay_round(p, rng, item, row):\n    return f\"{row + 1}회\"",
      "how": "docgen/forms/_common/generators.py 끝에 함수 하나를 붙이고 저장 → studio 재시작 없이 이 창의 '직접 만든 생성기'에 나옵니다. "
-            "난수는 rng 만, 고객 값은 p 에서. 순서·빈 틀·예: guide/generators.md 2절."},
+            "난수는 rng 만, 고객 값은 p 에서. 순서·빈 틀·예: guide/studio/generators.md 2절."},
     {"title": "3. 칸끼리 관계 맞추기 (코드, 이 서식만)",
      "when": "여러 칸이 서로 맞아야 할 때 — 합계 = 행의 합, 시작일 ≤ 종료일, 잔액",
      "example": "def adjust(d, p, rng):   # 값을 칸마다 다 만든 뒤 한 번 불림\n"
@@ -84,7 +84,7 @@ HOWTO = [
                 "    put(d, \"total.in\", amount_like(total, \"1,000\"))   # 합계 = 행의 합\n"
                 "    return d",
      "how": "칸 하나의 생성 방법으로는 안 됩니다. 영역 편집 위 '칸끼리 관계: [견본 만들기]' → 서식 폴더에 generate.py (이 서식의 칸 키가 적힘) → "
-            "adjust(d, p, rng) 를 채웁니다. 설명·예: guide/generators.md 3절."},
+            "adjust(d, p, rng) 를 채웁니다. 설명·예: guide/studio/generators.md 3절."},
 ]
 
 

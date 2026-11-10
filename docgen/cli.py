@@ -1,6 +1,6 @@
 """명령줄 진입점 (python -m docgen).
 
-  python -m docgen list [--markdown]                               서류·시나리오 목록 (--markdown 은 guide/documents.md)
+  python -m docgen list [--markdown]                               서류·시나리오 목록 (--markdown 은 guide/reference/documents.md)
   python -m docgen generate --types all --n 20 --out out --png     HTML·정답 라벨 (+ PNG·위치·ms-swift jsonl)
   python -m docgen generate --types income --n 5 --out out --png
   python -m docgen check --png                                     템플릿 검증 (예외, 표시하지 않은 값, 페이지 넘침)
@@ -28,7 +28,7 @@ def cmd_list(args) -> None:
         by_group.setdefault(s.group, []).append(s)
     if args.markdown:
         print(f"# 서류 목록 (총 {len(reg)}종)\n")
-        print("`python -m docgen list --markdown > guide/documents.md` 로 자동 생성된 문서입니다. 서식별 항목은 서식 카드 `docgen/forms/<ID>/FORM.md` 에 있습니다.\n")
+        print("`python -m docgen list --markdown > guide/reference/documents.md` 로 자동 생성된 문서입니다. 서식별 항목은 서식 카드 `docgen/forms/<ID>/FORM.md` 에 있습니다.\n")
         for g, title in GROUPS.items():
             specs = by_group.get(g, [])
             if not specs:

@@ -11,4 +11,5 @@
 | 서식 점검 기록 | [docgen/manual/OFFICIAL_HTML_AUDIT.md](docgen/manual/OFFICIAL_HTML_AUDIT.md), [docgen/manual/FORM_VALUE_AUDIT.md](docgen/manual/FORM_VALUE_AUDIT.md) |
 | 서식 현실화·변형 기록, 하나은행 서식 대응표 | [docgen/manual/REALISM_STATUS.md](docgen/manual/REALISM_STATUS.md), [docgen/manual/realism/](docgen/manual/realism/), [docgen/manual/variants/](docgen/manual/variants/), [docgen/manual/FORM_MAP.md](docgen/manual/FORM_MAP.md) (만든 스크립트 [docgen/scripts/](docgen/scripts/)) |
 | 예전 studio 설명서 전체 (숨긴 화면 포함) | [studio/README_2026-11.md](studio/README_2026-11.md) |
+| studio 설계서·구현 기록 (업무 묶음·GRPO 시절 포함) | [studio/DESIGN.md](studio/DESIGN.md) |
 | 숨긴 studio 기능의 형식 (가져오기) | [studio/LABEL_FORMAT.md](studio/LABEL_FORMAT.md) (정답 라벨 v1), [studio/RESULTS_FORMAT.md](studio/RESULTS_FORMAT.md) (결과 폴더), [studio/DATA_IMPORT.md](studio/DATA_IMPORT.md) |

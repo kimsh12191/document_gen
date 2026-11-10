@@ -1,7 +1,7 @@
 # 모델 써 보기 (playground)
 
 학습한 모델에 그림 한 장(또는 여러 쪽)을 넣고, 벤치마크와 같은 질문을 고르거나 고쳐서 물어 답을 눈으로 봅니다.
-점수는 내지 않습니다. 점수는 평가 세트로 봅니다 ([guide/eval.md](../guide/eval.md)).
+점수는 내지 않습니다. 점수는 평가 세트로 봅니다 ([guide/train/steps.md](../guide/train/steps.md)).
 
 **GPU 학습 컨테이너**에서 띄웁니다. 그 컨테이너 안에서 모델(vLLM)을 띄우고 내리기 때문입니다.
 실서류 이미지도 이 컨테이너 안의 모델로만 갑니다.
@@ -27,7 +27,7 @@ python -m playground --port 7860 --open            # 다른 PC 의 브라우저�
    - 기본은 학습 평가 때와 같은 `swift deploy` 명령입니다 (`train/pipeline.py` 의 `eval.deploy_command`, `IMAGE_MAX_TOKEN_NUM` 도 같은 계산).
    - GPU 를 둘 이상 고르면 `--vllm_tensor_parallel_size` 가 붙습니다.
    - **LoRA 체크포인트**(`adapter_config.json` 이 있는 `checkpoint-*`)면 평가 때처럼 먼저 합칩니다: `swift export … --output_dir <체크포인트>-merged && python -m train.fill_weights … --in-place && swift deploy …`. 출발 모델 경로는 `args.json` 에서 읽습니다. 합친 폴더가 이미 있으면 바로 띄웁니다.
-   - **빠진 가중치**: ms-swift 로 합친 모델에는 출발 모델의 MTP 머리(`mtp.*`)처럼 transformers 구조에 없는 가중치가 빠져 있어, vLLM 에서 MTP(speculative decoding)를 켜면 에러가 납니다. 합친 폴더의 `args.json` 으로 출발 모델을 찾아 비교하고, 빠졌으면 경고와 **[채운 사본 만들기]** 버튼(`<경로>-filled` 새 폴더, 원본은 그대로)을 띄웁니다. 출발 모델을 못 찾으면 `python -m train.fill_weights <출발 모델> <합친 폴더> --out <새 폴더>` ([train/README.md](../train/README.md#그-밖의-명령)). 학습 실행(`python -m train`)이 이제 합친 폴더는 병합할 때 채워 둡니다.
+   - **빠진 가중치**: ms-swift 로 합친 모델에는 출발 모델의 MTP 머리(`mtp.*`)처럼 transformers 구조에 없는 가중치가 빠져 있어, vLLM 에서 MTP(speculative decoding)를 켜면 에러가 납니다. 합친 폴더의 `args.json` 으로 출발 모델을 찾아 비교하고, 빠졌으면 경고와 **[채운 사본 만들기]** 버튼(`<경로>-filled` 새 폴더, 원본은 그대로)을 띄웁니다. 출발 모델을 못 찾으면 `python -m train.fill_weights <출발 모델> <합친 폴더> --out <새 폴더>` ([guide/train/steps.md](../guide/train/steps.md#4-ms-swift-만-python--m-trainlaunch)). 학습 실행(`python -m train`)이 이제 합친 폴더는 병합할 때 채워 둡니다.
    - 방식 `vllm serve` 로 바꿀 수 있습니다. 포트는 학습 평가(8000~)와 겹치지 않게 8100 부터 빈 것.
 3. 명령은 **고쳐도 됩니다**. [띄우기] 를 누르면 보이는 글자 그대로 `bash` 로 실행합니다. 고친 뒤 위 입력을 바꾸면 덮어쓰지 않고 [명령 다시 만들기] 를 띄웁니다.
 4. **떠 있는 모델**: 상태(준비 중 몇 분 / 준비됨 / 끝남), [로그], [내리기].
@@ -82,7 +82,6 @@ python -m playground --port 7860 --open            # 다른 PC 의 브라우저�
 ## 안 하는 것
 
 - 점수 매기기: 정답이 없는 그림이라 눈으로 봅니다. 점수는 평가 세트로.
-- 업무 묶음 과제(`doc_check`·`cross_check`·`review`): 서류 여러 건이 필요해서 고르기 목록에 없습니다. "직접 쓰기"에 질문을 붙여 넣고 그림을 여러 장 고르면 물어볼 수는 있습니다.
 - 사내 OCR 결과와 나란히 보기: 사내 OCR 연결은 studio 쪽에 있습니다.
 
 ## 코드

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# guide/tasks.md 의 예시 데이터를 처음부터 다시 만듭니다.
+# guide/reference/tasks.md 의 예시 데이터를 처음부터 다시 만듭니다.
 #   bash guide/examples/make_examples.sh <작업 폴더>          # 데이터만 (1~5단계)
 #   bash guide/examples/make_examples.sh <작업 폴더> --docs   # + tasks.md, 이미지 갱신
 # 저장소 맨 위에서, docgen 의존성이 깔린 환경에서 실행합니다. 약 10분, 디스크 약 0.5GB.
@@ -35,5 +35,5 @@ python -m docgen.bench build --out "$W/bench" --types loan_application --bundles
 # 5) 끝. 아래는 --docs 일 때만
 [ "${2:-}" = "--docs" ] || { echo "데이터: $W  (문서 갱신은 --docs)"; exit 0; }
 
-# 6) 과제별 예시 고르기 → guide/tasks.md, guide/examples/img/ (examples.json 은 옛 발표 자료 archive/guide/slides/ 의 재료)
+# 6) 과제별 예시 고르기 → guide/reference/tasks.md, guide/examples/img/ (examples.json 은 옛 발표 자료 archive/guide/slides/ 의 재료)
 python guide/examples/make_catalog.py --bench "$W/bench" --ocr "$W/ocr_prepared" --ocr-json "$W/ocr_json" --dump "$W/examples.json"

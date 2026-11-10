@@ -1,4 +1,4 @@
-"""채점 — OCR 8과제(ocr_metrics)와 은행 업무 8과제 모두 여기서 (studio/DESIGN.md 17절). GRPO 보상도 reward() 하나.
+"""채점 — OCR 8과제(ocr_metrics)와 은행 업무 8과제 모두 여기서 (archive/studio/DESIGN.md 17절). GRPO 보상도 reward() 하나.
 
   python -m docgen.bench eval --bench bench_out --pred preds/model_a [--pred preds/model_b ...]
 

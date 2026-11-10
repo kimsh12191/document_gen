@@ -394,7 +394,7 @@ def checks(doc_id: str, label: dict | None = None, fields_keys: list[dict] | Non
         kr = sorted({f["key"] for f in label["fields"] if not _ASCII.match(f["key"])})
         if kr:
             out.append({"level": "warn", "code": "korean_key",
-                        "text": f"한글 키 {len(kr)}개: {', '.join(kr[:8])}{' …' if len(kr) > 8 else ''} — 영문 키로 (guide/keys.md)"})
+                        "text": f"한글 키 {len(kr)}개: {', '.join(kr[:8])}{' …' if len(kr) > 8 else ''} — 영문 키로 (guide/studio/keys.md)"})
         if label.get("overflow"):
             out.append({"level": "warn", "code": "overflow", "text": "내용이 쪽 밖으로 넘칩니다"})
     if fields_keys:
@@ -409,10 +409,10 @@ def checks(doc_id: str, label: dict | None = None, fields_keys: list[dict] | Non
     view = layout_view(doc_id)
     keys = [k for c in RF.layout_keys(doc_id).values() for k in c["keys"]] if RF.form_no(doc_id) is None else []   # 이미지 서식만 (hf### 은 자동 추출)
     dup = sorted({k for k in keys if (m := re.fullmatch(r"(.*\D)(\d+)", k)) and m.group(1) in keys and not k.startswith(("seal.", "sign."))})
-    if dup:   # 같은 키를 두 칸에 쓰면 뒤 칸은 name2 처럼 번호가 붙는다 (guide/keys.md 6절)
+    if dup:   # 같은 키를 두 칸에 쓰면 뒤 칸은 name2 처럼 번호가 붙는다 (guide/studio/keys.md 6절)
         out.append({"level": "warn", "code": "dup_key",
                     "text": f"같은 키를 여러 칸이 씁니다 → 뒤 칸에 번호가 붙음: {', '.join(dup[:6])}. 뒤 칸은 역할 키로 "
-                            "(예: 신청인 성명 → applicant.name) — guide/keys.md 6절"})
+                            "(예: 신청인 성명 → applicant.name) — guide/studio/keys.md 6절"})
     if view.get("private") and view.get("origin") in ("drawn", None) and RF.form_no(doc_id) is None \
             and not (view["overrides"].get("erase") or []):
         out.append({"level": "warn", "code": "no_erase",

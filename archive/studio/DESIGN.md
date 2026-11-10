@@ -1,7 +1,7 @@
 # docgen studio 설계서
 
 > **이 문서는 설계 이력입니다 (11판, 2026-10-20 기준).** 본문의 ①~⑨ 메뉴 번호, `ocr/`·`bank/` 폴더, 서식 수("476종" 등), 서식 상세 탭 이름은 옛것입니다.
-> 지금 것은: 화면 쓰는 법 [guide/studio.md](../guide/studio.md) · 화면 ↔ 코드·저장 파일 [studio/README.md](README.md) · 서식 폴더 [docgen/forms/README.md](../docgen/forms/README.md) · 생성기 [docgen/README.md](../docgen/README.md) · 학습 [train/README.md](../train/README.md) · 말 [guide/terms.md](../guide/terms.md).
+> 지금 것은: 화면 쓰는 법 [guide/studio/studio.md](../guide/studio/studio.md) · 화면 ↔ 코드·저장 파일 [studio/README.md](README.md) · 서식 폴더 [docgen/forms/README.md](../docgen/forms/README.md) · 생성기 [docgen/README.md](../docgen/README.md) · 학습 [train/README.md](../train/README.md) · 말 [guide/reference/terms.md](../guide/reference/terms.md).
 > **2026-11 정리:** studio 에 남은 것은 서식(overlay 영역 편집·미리보기·검수) · 새 서식 추가(overlay) · 표시 요소 · 데이터셋(레시피·생성·작업·등록부·OCR 데이터셋)이다. 시나리오·업무 묶음, 키 사전, html 서식 화면 편집, 가져오기·검수, 채점·평가·학습 화면, 외부 분석기는 없앴고 그 절은 한 줄 메모만 남겼다 (지난 본문은 git 기록). 1~3절·10~13절의 해당 부분도 옛 기록으로 읽는다. 지금도 맞는 절: 4.2(overlay 칸), 4.6·4.7(검수·표시 요소), 8.2(OCR 캐시 규칙), 9.1~9.3(등록부·OCR 세트·좌표), 17.3·17.4(과제 형식·채점).
 
 - 지금 구조 (2026-10-29): 서식 하나 = 폴더 `docgen/forms/<ID>/`(카드 `FORM.md`, `look/`, 칸 목록 `fields.json`, `generate.py`, 있으면 `questions.json`·`qa.py`), 모든 서식에 같은 것은 `docgen/forms/_common/`(4.4). 서식 작업 설명서는 [docgen/forms/README.md](../docgen/forms/README.md). 1부·2부 코드(`ocr/`·`bank/`)는 없다: OCR 준비 `docgen.bench.ocr_prepare`, 채점 `docgen.bench.evaluate`, 학습 `train/`(17절).
@@ -10,7 +10,7 @@
 - 위치: `studio/` — 이 설계서와 구현 코드를 함께 둔다. 브랜치 `claude/docgen-studio`.
 - 관련 문서: [RESULTS_FORMAT.md](../archive/studio/RESULTS_FORMAT.md) — 이미 만든 OCR·추론 결과를 가져올 때의 폴더 형식
 - 내부망 배치(2026-10-20 정함): studio는 기존 docgen 도커 컨테이너에서 띄우고, 학습은 폴더를 공유하는 별도 학습 컨테이너에서 한다(3절 원칙 6, 9.9).
-- 11판에서 바뀐 것: 범위를 줄였다(studio 안 모델 추론, 표시 요소 그리기·도장 틀 편집기, 영역 하나 제안 작업을 뺌). html 서식은 CLI로 이미지에서 만들고 화면에서 고치는 것으로 키웠다(4.3). 학습 연결(9.9, [guide/training.md](../guide/training.md))과 데이터셋 설명서(9.1)를 더했다.
+- 11판에서 바뀐 것: 범위를 줄였다(studio 안 모델 추론, 표시 요소 그리기·도장 틀 편집기, 영역 하나 제안 작업을 뺌). html 서식은 CLI로 이미지에서 만들고 화면에서 고치는 것으로 키웠다(4.3). 학습 연결(9.9, [guide/train/sweep.md](../guide/train/sweep.md))과 데이터셋 설명서(9.1)를 더했다.
 - 10판에서 바뀐 것: studio를 **벤치마크 데이터 생성·관리기**로 다시 정의했다(1절). OCR 벤치마크는 1부 형식으로 통일하고(9.2), 데이터셋 등록부·결과 보기·채점(9.1, 9.8), OCR 검수(8.7), 실서류 업무 묶음(9.7)을 더했다.
 
 ## 1. 목적
@@ -281,11 +281,11 @@ studio에서는 **"어느 칸에 무엇이 나올지"(확률)와 "어떻게 생�
 
 ## 5. 키 규칙
 
-(지움 2026-11: 키 사전·항목명 → 키 공통 규칙은 없앴다. 원본 서식 키·값 종류는 서식 파일 `fields.json` 에 고정한다 — [guide/keys.md](../guide/keys.md).)
+(지움 2026-11: 키 사전·항목명 → 키 공통 규칙은 없앴다. 원본 서식 키·값 종류는 서식 파일 `fields.json` 에 고정한다 — [guide/studio/keys.md](../guide/studio/keys.md).)
 
 ## 6. 화면
 
-지금 메뉴 (2026-11): 사용 가이드 · OCR 예시 · 서식 · 새 서식 추가 · 표시 요소 · 데이터셋. 화면마다 코드는 [README.md](README.md) "화면 ↔ 코드", 쓰는 법은 [guide/studio.md](../guide/studio.md).
+지금 메뉴 (2026-11): 사용 가이드 · OCR 예시 · 서식 · 새 서식 추가 · 표시 요소 · 데이터셋. 화면마다 코드는 [README.md](README.md) "화면 ↔ 코드", 쓰는 법은 [guide/studio/studio.md](../guide/studio/studio.md).
 
 | 화면 | 내용 |
 |---|---|
@@ -302,7 +302,7 @@ studio에서는 **"어느 칸에 무엇이 나올지"(확률)와 "어떻게 생�
 
 ## 8. 가져오기
 
-(지움 2026-11: 이미지 묶음·결과 폴더 가져오기, 포맷 묶기, OCR 검수는 없앴다. 실서류 OCR 준비는 학습 서버에서 [guide/ocr.md](../guide/ocr.md).)
+(지움 2026-11: 이미지 묶음·결과 폴더 가져오기, 포맷 묶기, OCR 검수는 없앴다. 실서류 OCR 준비는 학습 서버에서 [guide/train/ocr.md](../guide/train/ocr.md).)
 
 ### 8.2 OCR 캐시 규칙 (남은 것)
 
@@ -536,15 +536,15 @@ OCR 데이터셋 (benchmark_tasks.jsonl, train_sft.jsonl …) → 등록부
 
 ### 9.7 실서류 평가 세트
 
-(지움 2026-11: studio 안의 실서류 라벨 폴더 검사·업무 묶음·라벨 있는 데이터 생성은 없앴다. 실서류 평가 세트는 밖에서 검수한 파일을 학습 설정 `data.benchmark` 로 — [guide/eval.md](../guide/eval.md).)
+(지움 2026-11: studio 안의 실서류 라벨 폴더 검사·업무 묶음·라벨 있는 데이터 생성은 없앴다. 실서류 평가 세트는 밖에서 검수한 파일을 학습 설정 `data.benchmark` 로 — [guide/train/steps.md](../guide/train/steps.md).)
 
 ### 9.8 결과 보기·채점·비교
 
-(지움 2026-11: studio 의 모델 답·점수·비교 화면은 없앴다. 채점·보고는 학습 서버의 `python -m train` — [guide/eval.md](../guide/eval.md), [guide/results.md](../guide/results.md).)
+(지움 2026-11: studio 의 모델 답·점수·비교 화면은 없앴다. 채점·보고는 학습 서버의 `python -m train` — [guide/train/steps.md](../guide/train/steps.md), [guide/train/sweep.md](../guide/train/sweep.md#5-결과).)
 
 ### 9.9 학습으로 이어 쓰기
 
-(지움 2026-11: 학습 설정 내보내기는 없앴다. 학습 설정은 손으로 — [guide/training.md](../guide/training.md). 설정 `path_map` 은 다른 곳에서 만든 문항의 이미지 경로를 찾을 때만 쓴다.)
+(지움 2026-11: 학습 설정 내보내기는 없앴다. 학습 설정은 손으로 — [guide/train/sweep.md](../guide/train/sweep.md). 설정 `path_map` 은 다른 곳에서 만든 문항의 이미지 경로를 찾을 때만 쓴다.)
 
 ## 10. 생성기·학습 코드 쪽 변경
 

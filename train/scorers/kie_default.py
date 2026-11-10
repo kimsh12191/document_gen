@@ -5,7 +5,7 @@
 설정 (data.benchmark 의 평가 세트 하나에):
   {"id": "real-fx-po", "format": "swift-fields", "paths": ["…/eval_qa_PO.jsonl"],
    "scorer": "scorers/my_po.py:score"}          ← 설정 파일 기준 상대 경로, ':함수' 를 빼면 score
-고친 뒤에는 학습 없이 다시 채점: python -m train report <결과 폴더> --rescore (guide/eval.md).
+고친 뒤에는 학습 없이 다시 채점: python -m train report <결과 폴더> --rescore (guide/train/steps.md).
 
 함수 꼴
   score(item, output) -> {"metrics": {이름: 0~1, …}, "main": 주 지표 이름, "parse_fail": bool}

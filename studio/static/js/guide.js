@@ -58,7 +58,7 @@ async function viewGuide(name) {
   const [docName, anchor] = name.split("#");
   name = docName;
   const docs = await api("/api/guide");
-  main().innerHTML = `<h1>사용 가이드</h1><div class="sub">화면 쓰는 법만 모았습니다. 처음이면 <a href="#/guide/studio.md">studio 사용법</a> (할 일별로). 학습·평가·OCR 준비는 학습 서버 쪽 문서(저장소 <span class="mono">guide/</span>)에 있습니다.</div>
+  main().innerHTML = `<h1>사용 가이드</h1><div class="sub">화면 쓰는 법만 모았습니다. 처음이면 <a href="#/guide/studio.md">studio 사용법</a> (할 일별로). 학습·평가·OCR 준비는 학습 서버 쪽 문서(저장소 <span class="mono">guide/train/</span>)에 있습니다.</div>
     <div class="bar"><select id="guide-page">${docs.map(d => `<option value="${esc(d.id)}" ${d.id === name ? "selected" : ""}>${esc(d.title)}</option>`).join("")}</select>
     <a href="#/ocr-examples">OCR 이미지·질문·정답 예시</a></div><div id="guide-body"></div>`;
   $("#guide-page").onchange = e => { location.hash = `#/guide/${encodeURIComponent(e.target.value)}`; };

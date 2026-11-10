@@ -20,7 +20,7 @@
 
 **① 페이지 이미지** (원본, 1장)
 
-<p><a href="examples/img/loan_application_000000_p1_b632a7d4.jpg"><img src="examples/img/loan_application_000000_p1_b632a7d4.jpg" width="420"></a></p>
+<p><a href="examples/img/loan_application_000000_p1_b632a7d4.jpg"><img src="../examples/img/loan_application_000000_p1_b632a7d4.jpg" width="420"></a></p>
 
 **② 사내 OCR 결과 JSON** (`loan_application_000000_p1.json`, 이 페이지 전체. 실제 사내 OCR 응답과 같은 키)
 
@@ -341,7 +341,7 @@
 
 **입력 이미지** (왼쪽) 
 
-<p><a href="examples/img/d6cecc2b9d432b628bc11304_v1_90_1d985a36.jpg"><img src="examples/img/d6cecc2b9d432b628bc11304_v1_90_1d985a36.jpg" width="360"></a></p>
+<p><a href="examples/img/d6cecc2b9d432b628bc11304_v1_90_1d985a36.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v1_90_1d985a36.jpg" width="360"></a></p>
 
 **질문** (`messages[0].content`)
 
@@ -394,7 +394,7 @@
 
 **입력 이미지** (왼쪽) · 정답 박스 초록, 질문에 준 박스 파랑 (오른쪽)
 
-<p><a href="examples/img/d6cecc2b9d432b628bc11304_v1_17b871c9.jpg"><img src="examples/img/d6cecc2b9d432b628bc11304_v1_17b871c9.jpg" width="360"></a> <a href="examples/img/d6cecc2b9d432b628bc11304_v1_bbox_ocr_2255bea6.jpg"><img src="examples/img/d6cecc2b9d432b628bc11304_v1_bbox_ocr_2255bea6.jpg" width="360"></a></p>
+<p><a href="examples/img/d6cecc2b9d432b628bc11304_v1_17b871c9.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v1_17b871c9.jpg" width="360"></a> <a href="examples/img/d6cecc2b9d432b628bc11304_v1_bbox_ocr_2255bea6.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v1_bbox_ocr_2255bea6.jpg" width="360"></a></p>
 
 **질문** (`messages[0].content`)
 
@@ -452,7 +452,7 @@ bbox_2d=[346, 460, 392, 473] 영역 안의 글자를 그대로 읽으세요. 좌
 
 **입력 이미지** (왼쪽) · 정답 박스 초록, 질문에 준 박스 파랑 (오른쪽)
 
-<p><a href="examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg"><img src="examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg" width="360"></a> <a href="examples/img/d6cecc2b9d432b628bc11304_v0_grounding_0302c30c.jpg"><img src="examples/img/d6cecc2b9d432b628bc11304_v0_grounding_0302c30c.jpg" width="360"></a></p>
+<p><a href="examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg" width="360"></a> <a href="examples/img/d6cecc2b9d432b628bc11304_v0_grounding_0302c30c.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_grounding_0302c30c.jpg" width="360"></a></p>
 
 **질문** (`messages[0].content`)
 
@@ -510,7 +510,7 @@ bbox_2d=[346, 460, 392, 473] 영역 안의 글자를 그대로 읽으세요. 좌
 
 **입력 이미지** (왼쪽) · 정답 박스 초록, 질문에 준 박스 파랑 (오른쪽)
 
-<p><a href="examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg"><img src="examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg" width="360"></a> <a href="examples/img/d6cecc2b9d432b628bc11304_v0_region_ocr_2a8116fb.jpg"><img src="examples/img/d6cecc2b9d432b628bc11304_v0_region_ocr_2a8116fb.jpg" width="360"></a></p>
+<p><a href="examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg" width="360"></a> <a href="examples/img/d6cecc2b9d432b628bc11304_v0_region_ocr_2a8116fb.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_region_ocr_2a8116fb.jpg" width="360"></a></p>
 
 **질문** (`messages[0].content`)
 
@@ -572,7 +572,7 @@ bbox_2d=[274, 441, 458, 528] 영역 안의 모든 글자를 읽는 순서대로 
 
 **입력 이미지** (왼쪽) · 정답 박스 초록, 질문에 준 박스 파랑 (오른쪽)
 
-<p><a href="examples/img/d6cecc2b9d432b628bc11304_v0_0_071d42c4.jpg"><img src="examples/img/d6cecc2b9d432b628bc11304_v0_0_071d42c4.jpg" width="360"></a> <a href="examples/img/d6cecc2b9d432b628bc11304_v0_0_spotting_147013dd.jpg"><img src="examples/img/d6cecc2b9d432b628bc11304_v0_0_spotting_147013dd.jpg" width="360"></a></p>
+<p><a href="examples/img/d6cecc2b9d432b628bc11304_v0_0_071d42c4.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_0_071d42c4.jpg" width="360"></a> <a href="examples/img/d6cecc2b9d432b628bc11304_v0_0_spotting_147013dd.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_0_spotting_147013dd.jpg" width="360"></a></p>
 
 **질문** (`messages[0].content`)
 
@@ -643,7 +643,7 @@ Detect every piece of text in the image in reading order. Coordinates are 0-1000
 
 **입력 이미지** (왼쪽) · 정답 박스 초록, 질문에 준 박스 파랑 (오른쪽)
 
-<p><a href="examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg"><img src="examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg" width="360"></a> <a href="examples/img/d6cecc2b9d432b628bc11304_v0_relation_683587c8.jpg"><img src="examples/img/d6cecc2b9d432b628bc11304_v0_relation_683587c8.jpg" width="360"></a></p>
+<p><a href="examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg" width="360"></a> <a href="examples/img/d6cecc2b9d432b628bc11304_v0_relation_683587c8.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_relation_683587c8.jpg" width="360"></a></p>
 
 **질문** (`messages[0].content`)
 
@@ -701,7 +701,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (왼쪽) 
 
-<p><a href="examples/img/d6cecc2b9d432b628bc11304_v0_1a3a3858.jpg"><img src="examples/img/d6cecc2b9d432b628bc11304_v0_1a3a3858.jpg" width="360"></a></p>
+<p><a href="examples/img/d6cecc2b9d432b628bc11304_v0_1a3a3858.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_1a3a3858.jpg" width="360"></a></p>
 
 **질문** (`messages[0].content`)
 
@@ -754,7 +754,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (왼쪽) · 정답 박스 초록, 질문에 준 박스 파랑 (오른쪽)
 
-<p><a href="examples/img/d6cecc2b9d432b628bc11304_v0_1a3a3858.jpg"><img src="examples/img/d6cecc2b9d432b628bc11304_v0_1a3a3858.jpg" width="360"></a> <a href="examples/img/d6cecc2b9d432b628bc11304_v0_marked_box_db2a69d2.jpg"><img src="examples/img/d6cecc2b9d432b628bc11304_v0_marked_box_db2a69d2.jpg" width="360"></a></p>
+<p><a href="examples/img/d6cecc2b9d432b628bc11304_v0_1a3a3858.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_1a3a3858.jpg" width="360"></a> <a href="examples/img/d6cecc2b9d432b628bc11304_v0_marked_box_db2a69d2.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_marked_box_db2a69d2.jpg" width="360"></a></p>
 
 **질문** (`messages[0].content`)
 
@@ -927,7 +927,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 | `perturbed` | 값을 바꾼 변조 문항인지 (false = 같은 서류 조합의 정상 문항) |
 | `rule` | 심사 질의 규칙 ID (`case:<사례>` = 서류 대조 사례에서 만든 예/아니오 질문) |
 | `skill` | 능력 분류: 계산(비율) / 계산(합계) / 날짜 계산 / 표 계산 / 서류 대조 |
-| `doc_type` | 서류 ID (guide/documents.md) |
+| `doc_type` | 서류 ID (guide/reference/documents.md) |
 | `doc_name` | 서류 정식 명칭 |
 | `group` | 서류 그룹 |
 | `condition` | 촬영 조건: clean 원본 / scan 스캔 / photo 촬영 / fax 팩스 |
@@ -978,7 +978,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (7장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/account_opening_application_p1_7c6cd821.jpg"><img src="examples/img/account_opening_application_p1_7c6cd821.jpg" width="220"></a> <a href="examples/img/fatca_crs_b1b2b576.jpg"><img src="examples/img/fatca_crs_b1b2b576.jpg" width="220"></a> <a href="examples/img/privacy_consent_893d641f.jpg"><img src="examples/img/privacy_consent_893d641f.jpg" width="220"></a> <a href="examples/img/customer_due_diligence_fc8a9a9d.jpg"><img src="examples/img/customer_due_diligence_fc8a9a9d.jpg" width="220"></a> <a href="examples/img/resident_id_card_other_504c97ab.jpg"><img src="examples/img/resident_id_card_other_504c97ab.jpg" width="220"></a> <a href="examples/img/financial_transaction_purpose_3cc830f1.jpg"><img src="examples/img/financial_transaction_purpose_3cc830f1.jpg" width="220"></a> <a href="examples/img/local_tax_payment_certificate_extra_0489c132.jpg"><img src="examples/img/local_tax_payment_certificate_extra_0489c132.jpg" width="220"></a></p>
+<p><a href="examples/img/account_opening_application_p1_7c6cd821.jpg"><img src="../examples/img/account_opening_application_p1_7c6cd821.jpg" width="220"></a> <a href="examples/img/fatca_crs_b1b2b576.jpg"><img src="../examples/img/fatca_crs_b1b2b576.jpg" width="220"></a> <a href="examples/img/privacy_consent_893d641f.jpg"><img src="../examples/img/privacy_consent_893d641f.jpg" width="220"></a> <a href="examples/img/customer_due_diligence_fc8a9a9d.jpg"><img src="../examples/img/customer_due_diligence_fc8a9a9d.jpg" width="220"></a> <a href="examples/img/resident_id_card_other_504c97ab.jpg"><img src="../examples/img/resident_id_card_other_504c97ab.jpg" width="220"></a> <a href="examples/img/financial_transaction_purpose_3cc830f1.jpg"><img src="../examples/img/financial_transaction_purpose_3cc830f1.jpg" width="220"></a> <a href="examples/img/local_tax_payment_certificate_extra_0489c132.jpg"><img src="../examples/img/local_tax_payment_certificate_extra_0489c132.jpg" width="220"></a></p>
 
 1. `account_opening_application_p1.png` · 2. `fatca_crs.png` · 3. `privacy_consent.jpg` · 4. `customer_due_diligence.jpg` · 5. `resident_id_card_other.jpg` · 6. `financial_transaction_purpose.png` · 7. `local_tax_payment_certificate_extra.jpg`
 
@@ -1127,7 +1127,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/lease_contract_5a89b782.jpg"><img src="examples/img/lease_contract_5a89b782.jpg" width="300"></a> <a href="examples/img/real_estate_registry_lease_owner_1412bcd2.jpg"><img src="examples/img/real_estate_registry_lease_owner_1412bcd2.jpg" width="300"></a></p>
+<p><a href="examples/img/lease_contract_5a89b782.jpg"><img src="../examples/img/lease_contract_5a89b782.jpg" width="300"></a> <a href="examples/img/real_estate_registry_lease_owner_1412bcd2.jpg"><img src="../examples/img/real_estate_registry_lease_owner_1412bcd2.jpg" width="300"></a></p>
 
 1. `lease_contract.png` · 2. `real_estate_registry_lease_owner.png`
 
@@ -1251,7 +1251,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_10a3fd22.jpg"><img src="examples/img/loan_application_10a3fd22.jpg" width="300"></a> <a href="examples/img/sales_contract_b1706022.jpg"><img src="examples/img/sales_contract_b1706022.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_10a3fd22.jpg"><img src="../examples/img/loan_application_10a3fd22.jpg" width="300"></a> <a href="examples/img/sales_contract_b1706022.jpg"><img src="../examples/img/sales_contract_b1706022.jpg" width="300"></a></p>
 
 1. `loan_application.jpg` · 2. `sales_contract.jpg`
 
@@ -1346,7 +1346,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="../examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
 
 1. `loan_application_1000000.jpg`
 
@@ -1616,7 +1616,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="../examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
 
 1. `loan_application_1000000.jpg`
 
@@ -1774,7 +1774,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="../examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
 
 1. `loan_application_1000000.jpg`
 
@@ -1859,7 +1859,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="../examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
 
 1. `loan_application_1000000.jpg`
 
@@ -2019,7 +2019,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_0_d743f248.jpg"><img src="examples/img/loan_application_1000000_0_d743f248.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_1000000_0_d743f248.jpg"><img src="../examples/img/loan_application_1000000_0_d743f248.jpg" width="300"></a></p>
 
 1. `loan_application_1000000_0.png`
 
@@ -2107,7 +2107,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="../examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
 
 1. `loan_application_1000000.jpg`
 
@@ -2248,7 +2248,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="../examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
 
 1. `loan_application_1000000.jpg`
 
@@ -2357,7 +2357,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="../examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
 
 1. `loan_application_1000000.jpg`
 
@@ -2452,7 +2452,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="../examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
 
 1. `loan_application_1000000.jpg`
 
@@ -2550,7 +2550,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (3장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/customer_due_diligence_fc8a9a9d.jpg"><img src="examples/img/customer_due_diligence_fc8a9a9d.jpg" width="300"></a> <a href="examples/img/fatca_crs_typo_dfdccaa7.jpg"><img src="examples/img/fatca_crs_typo_dfdccaa7.jpg" width="300"></a> <a href="examples/img/financial_transaction_purpose_3cc830f1.jpg"><img src="examples/img/financial_transaction_purpose_3cc830f1.jpg" width="300"></a></p>
+<p><a href="examples/img/customer_due_diligence_fc8a9a9d.jpg"><img src="../examples/img/customer_due_diligence_fc8a9a9d.jpg" width="300"></a> <a href="examples/img/fatca_crs_typo_dfdccaa7.jpg"><img src="../examples/img/fatca_crs_typo_dfdccaa7.jpg" width="300"></a> <a href="examples/img/financial_transaction_purpose_3cc830f1.jpg"><img src="../examples/img/financial_transaction_purpose_3cc830f1.jpg" width="300"></a></p>
 
 1. `customer_due_diligence.jpg` · 2. `fatca_crs_typo.png` · 3. `financial_transaction_purpose.png`
 
@@ -2674,7 +2674,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/account_opening_application_965390df.jpg"><img src="examples/img/account_opening_application_965390df.jpg" width="300"></a> <a href="examples/img/resident_id_card_other_person_a9da32b8.jpg"><img src="examples/img/resident_id_card_other_person_a9da32b8.jpg" width="300"></a></p>
+<p><a href="examples/img/account_opening_application_965390df.jpg"><img src="../examples/img/account_opening_application_965390df.jpg" width="300"></a> <a href="examples/img/resident_id_card_other_person_a9da32b8.jpg"><img src="../examples/img/resident_id_card_other_person_a9da32b8.jpg" width="300"></a></p>
 
 1. `account_opening_application.png` · 2. `resident_id_card_other_person.png`
 
@@ -2780,7 +2780,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_b96f2406.jpg"><img src="examples/img/loan_application_b96f2406.jpg" width="300"></a> <a href="examples/img/credit_agreement_loan_vs_agreement_db79cfa4.jpg"><img src="examples/img/credit_agreement_loan_vs_agreement_db79cfa4.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_b96f2406.jpg"><img src="../examples/img/loan_application_b96f2406.jpg" width="300"></a> <a href="examples/img/credit_agreement_loan_vs_agreement_db79cfa4.jpg"><img src="../examples/img/credit_agreement_loan_vs_agreement_db79cfa4.jpg" width="300"></a></p>
 
 1. `loan_application.jpg` · 2. `credit_agreement_loan_vs_agreement.jpg`
 
@@ -2902,7 +2902,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/income_certificate_43655b9f.jpg"><img src="examples/img/income_certificate_43655b9f.jpg" width="300"></a> <a href="examples/img/withholding_receipt_income_inflated_db6bc1eb.jpg"><img src="examples/img/withholding_receipt_income_inflated_db6bc1eb.jpg" width="300"></a></p>
+<p><a href="examples/img/income_certificate_43655b9f.jpg"><img src="../examples/img/income_certificate_43655b9f.jpg" width="300"></a> <a href="examples/img/withholding_receipt_income_inflated_db6bc1eb.jpg"><img src="../examples/img/withholding_receipt_income_inflated_db6bc1eb.jpg" width="300"></a></p>
 
 1. `income_certificate.jpg` · 2. `withholding_receipt_income_inflated.png`
 
@@ -3024,7 +3024,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/lease_contract_5a89b782.jpg"><img src="examples/img/lease_contract_5a89b782.jpg" width="300"></a> <a href="examples/img/real_estate_registry_lease_owner_1412bcd2.jpg"><img src="examples/img/real_estate_registry_lease_owner_1412bcd2.jpg" width="300"></a></p>
+<p><a href="examples/img/lease_contract_5a89b782.jpg"><img src="../examples/img/lease_contract_5a89b782.jpg" width="300"></a> <a href="examples/img/real_estate_registry_lease_owner_1412bcd2.jpg"><img src="../examples/img/real_estate_registry_lease_owner_1412bcd2.jpg" width="300"></a></p>
 
 1. `lease_contract.png` · 2. `real_estate_registry_lease_owner.png`
 
@@ -3146,7 +3146,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/real_estate_registry_seller_owner_199a1edd.jpg"><img src="examples/img/real_estate_registry_seller_owner_199a1edd.jpg" width="300"></a> <a href="examples/img/sales_contract_9a10688a.jpg"><img src="examples/img/sales_contract_9a10688a.jpg" width="300"></a></p>
+<p><a href="examples/img/real_estate_registry_seller_owner_199a1edd.jpg"><img src="../examples/img/real_estate_registry_seller_owner_199a1edd.jpg" width="300"></a> <a href="examples/img/sales_contract_9a10688a.jpg"><img src="../examples/img/sales_contract_9a10688a.jpg" width="300"></a></p>
 
 1. `real_estate_registry_seller_owner.jpg` · 2. `sales_contract.jpg`
 
@@ -3268,7 +3268,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/health_insurance_qualification_2d3c39c0.jpg"><img src="examples/img/health_insurance_qualification_2d3c39c0.jpg" width="300"></a> <a href="examples/img/employment_certificate_hire_date_d3b1f6a2.jpg"><img src="examples/img/employment_certificate_hire_date_d3b1f6a2.jpg" width="300"></a></p>
+<p><a href="examples/img/health_insurance_qualification_2d3c39c0.jpg"><img src="../examples/img/health_insurance_qualification_2d3c39c0.jpg" width="300"></a> <a href="examples/img/employment_certificate_hire_date_d3b1f6a2.jpg"><img src="../examples/img/employment_certificate_hire_date_d3b1f6a2.jpg" width="300"></a></p>
 
 1. `health_insurance_qualification.png` · 2. `employment_certificate_hire_date.jpg`
 
@@ -3390,7 +3390,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (3장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_corp_p1_15596e83.jpg"><img src="examples/img/loan_application_corp_p1_15596e83.jpg" width="300"></a> <a href="examples/img/loan_application_corp_p2_7fe4d42f.jpg"><img src="examples/img/loan_application_corp_p2_7fe4d42f.jpg" width="300"></a> <a href="examples/img/corporate_seal_certificate_rep_director_8b0e0fe1.jpg"><img src="examples/img/corporate_seal_certificate_rep_director_8b0e0fe1.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_corp_p1_15596e83.jpg"><img src="../examples/img/loan_application_corp_p1_15596e83.jpg" width="300"></a> <a href="examples/img/loan_application_corp_p2_7fe4d42f.jpg"><img src="../examples/img/loan_application_corp_p2_7fe4d42f.jpg" width="300"></a> <a href="examples/img/corporate_seal_certificate_rep_director_8b0e0fe1.jpg"><img src="../examples/img/corporate_seal_certificate_rep_director_8b0e0fe1.jpg" width="300"></a></p>
 
 1. `loan_application_corp_p1.jpg` · 2. `loan_application_corp_p2.jpg` · 3. `corporate_seal_certificate_rep_director.png`
 
@@ -3498,7 +3498,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/credit_agreement_contract_before_apply_b9e8bb9b.jpg"><img src="examples/img/credit_agreement_contract_before_apply_b9e8bb9b.jpg" width="300"></a> <a href="examples/img/loan_application_75801dc1.jpg"><img src="examples/img/loan_application_75801dc1.jpg" width="300"></a></p>
+<p><a href="examples/img/credit_agreement_contract_before_apply_b9e8bb9b.jpg"><img src="../examples/img/credit_agreement_contract_before_apply_b9e8bb9b.jpg" width="300"></a> <a href="examples/img/loan_application_75801dc1.jpg"><img src="../examples/img/loan_application_75801dc1.jpg" width="300"></a></p>
 
 1. `credit_agreement_contract_before_apply.jpg` · 2. `loan_application.png`
 
@@ -3620,7 +3620,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (3장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/credit_agreement_d8d58a6f.jpg"><img src="examples/img/credit_agreement_d8d58a6f.jpg" width="300"></a> <a href="examples/img/collateral_agreement_collateral_short_p1_5fa36c75.jpg"><img src="examples/img/collateral_agreement_collateral_short_p1_5fa36c75.jpg" width="300"></a> <a href="examples/img/collateral_agreement_collateral_short_p2_c8435c7f.jpg"><img src="examples/img/collateral_agreement_collateral_short_p2_c8435c7f.jpg" width="300"></a></p>
+<p><a href="examples/img/credit_agreement_d8d58a6f.jpg"><img src="../examples/img/credit_agreement_d8d58a6f.jpg" width="300"></a> <a href="examples/img/collateral_agreement_collateral_short_p1_5fa36c75.jpg"><img src="../examples/img/collateral_agreement_collateral_short_p1_5fa36c75.jpg" width="300"></a> <a href="examples/img/collateral_agreement_collateral_short_p2_c8435c7f.jpg"><img src="../examples/img/collateral_agreement_collateral_short_p2_c8435c7f.jpg" width="300"></a></p>
 
 1. `credit_agreement.png` · 2. `collateral_agreement_collateral_short_p1.png` · 3. `collateral_agreement_collateral_short_p2.png`
 
@@ -3744,7 +3744,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/lease_contract_8fd8de80.jpg"><img src="examples/img/lease_contract_8fd8de80.jpg" width="300"></a> <a href="examples/img/loan_application_jeonse_over_778b95f8.jpg"><img src="examples/img/loan_application_jeonse_over_778b95f8.jpg" width="300"></a></p>
+<p><a href="examples/img/lease_contract_8fd8de80.jpg"><img src="../examples/img/lease_contract_8fd8de80.jpg" width="300"></a> <a href="examples/img/loan_application_jeonse_over_778b95f8.jpg"><img src="../examples/img/loan_application_jeonse_over_778b95f8.jpg" width="300"></a></p>
 
 1. `lease_contract.jpg` · 2. `loan_application_jeonse_over.png`
 
@@ -3866,7 +3866,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/sales_contract_sales_sum_f04734cd.jpg"><img src="examples/img/sales_contract_sales_sum_f04734cd.jpg" width="300"></a> <a href="examples/img/loan_application_10a3fd22.jpg"><img src="examples/img/loan_application_10a3fd22.jpg" width="300"></a></p>
+<p><a href="examples/img/sales_contract_sales_sum_f04734cd.jpg"><img src="../examples/img/sales_contract_sales_sum_f04734cd.jpg" width="300"></a> <a href="examples/img/loan_application_10a3fd22.jpg"><img src="../examples/img/loan_application_10a3fd22.jpg" width="300"></a></p>
 
 1. `sales_contract_sales_sum.jpg` · 2. `loan_application.jpg`
 
@@ -3988,7 +3988,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/overseas_remittance_application_fx_beneficiary_d44d885c.jpg"><img src="examples/img/overseas_remittance_application_fx_beneficiary_d44d885c.jpg" width="300"></a> <a href="examples/img/commercial_invoice_564bb4a1.jpg"><img src="examples/img/commercial_invoice_564bb4a1.jpg" width="300"></a></p>
+<p><a href="examples/img/overseas_remittance_application_fx_beneficiary_d44d885c.jpg"><img src="../examples/img/overseas_remittance_application_fx_beneficiary_d44d885c.jpg" width="300"></a> <a href="examples/img/commercial_invoice_564bb4a1.jpg"><img src="../examples/img/commercial_invoice_564bb4a1.jpg" width="300"></a></p>
 
 1. `overseas_remittance_application_fx_beneficiary.jpg` · 2. `commercial_invoice.jpg`
 
@@ -4110,7 +4110,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (3장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/financial_transaction_purpose_format_only_3e92695b.jpg"><img src="examples/img/financial_transaction_purpose_format_only_3e92695b.jpg" width="300"></a> <a href="examples/img/customer_due_diligence_2bbead29.jpg"><img src="examples/img/customer_due_diligence_2bbead29.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
+<p><a href="examples/img/financial_transaction_purpose_format_only_3e92695b.jpg"><img src="../examples/img/financial_transaction_purpose_format_only_3e92695b.jpg" width="300"></a> <a href="examples/img/customer_due_diligence_2bbead29.jpg"><img src="../examples/img/customer_due_diligence_2bbead29.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="../examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
 
 1. `financial_transaction_purpose_format_only.jpg` · 2. `customer_due_diligence.png` · 3. `account_opening_application.png`
 
@@ -4211,7 +4211,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_10a3fd22.jpg"><img src="examples/img/loan_application_10a3fd22.jpg" width="300"></a> <a href="examples/img/sales_contract_b1706022.jpg"><img src="examples/img/sales_contract_b1706022.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_10a3fd22.jpg"><img src="../examples/img/loan_application_10a3fd22.jpg" width="300"></a> <a href="examples/img/sales_contract_b1706022.jpg"><img src="../examples/img/sales_contract_b1706022.jpg" width="300"></a></p>
 
 1. `loan_application.jpg` · 2. `sales_contract.jpg`
 
@@ -4302,7 +4302,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/collateral_agreement_c277e776.jpg"><img src="examples/img/collateral_agreement_c277e776.jpg" width="300"></a> <a href="examples/img/credit_agreement_785a59e0.jpg"><img src="examples/img/credit_agreement_785a59e0.jpg" width="300"></a></p>
+<p><a href="examples/img/collateral_agreement_c277e776.jpg"><img src="../examples/img/collateral_agreement_c277e776.jpg" width="300"></a> <a href="examples/img/credit_agreement_785a59e0.jpg"><img src="../examples/img/credit_agreement_785a59e0.jpg" width="300"></a></p>
 
 1. `collateral_agreement.png` · 2. `credit_agreement.jpg`
 
@@ -4393,7 +4393,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_9ad08642.jpg"><img src="examples/img/loan_application_9ad08642.jpg" width="300"></a> <a href="examples/img/lease_contract_5a89b782.jpg"><img src="examples/img/lease_contract_5a89b782.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_9ad08642.jpg"><img src="../examples/img/loan_application_9ad08642.jpg" width="300"></a> <a href="examples/img/lease_contract_5a89b782.jpg"><img src="../examples/img/lease_contract_5a89b782.jpg" width="300"></a></p>
 
 1. `loan_application.png` · 2. `lease_contract.png`
 
@@ -4484,7 +4484,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_b96f2406.jpg"><img src="examples/img/loan_application_b96f2406.jpg" width="300"></a> <a href="examples/img/withholding_receipt_aged_c49b62bd.jpg"><img src="examples/img/withholding_receipt_aged_c49b62bd.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_b96f2406.jpg"><img src="../examples/img/loan_application_b96f2406.jpg" width="300"></a> <a href="examples/img/withholding_receipt_aged_c49b62bd.jpg"><img src="../examples/img/withholding_receipt_aged_c49b62bd.jpg" width="300"></a></p>
 
 1. `loan_application.jpg` · 2. `withholding_receipt_aged.png`
 
@@ -4575,7 +4575,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/resident_id_card_0ab2ad93.jpg"><img src="examples/img/resident_id_card_0ab2ad93.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
+<p><a href="examples/img/resident_id_card_0ab2ad93.jpg"><img src="../examples/img/resident_id_card_0ab2ad93.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="../examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
 
 1. `resident_id_card.png` · 2. `account_opening_application.png`
 
@@ -4666,7 +4666,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_b96f2406.jpg"><img src="examples/img/loan_application_b96f2406.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_b96f2406.jpg"><img src="../examples/img/loan_application_b96f2406.jpg" width="300"></a></p>
 
 1. `loan_application.jpg`
 
@@ -4751,7 +4751,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/pay_stub_p1_5398461e.jpg"><img src="examples/img/pay_stub_p1_5398461e.jpg" width="300"></a> <a href="examples/img/pay_stub_p2_2d3c610a.jpg"><img src="examples/img/pay_stub_p2_2d3c610a.jpg" width="300"></a></p>
+<p><a href="examples/img/pay_stub_p1_5398461e.jpg"><img src="../examples/img/pay_stub_p1_5398461e.jpg" width="300"></a> <a href="examples/img/pay_stub_p2_2d3c610a.jpg"><img src="../examples/img/pay_stub_p2_2d3c610a.jpg" width="300"></a></p>
 
 1. `pay_stub_p1.png` · 2. `pay_stub_p2.png`
 
@@ -4842,7 +4842,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/sales_contract_b1706022.jpg"><img src="examples/img/sales_contract_b1706022.jpg" width="300"></a></p>
+<p><a href="examples/img/sales_contract_b1706022.jpg"><img src="../examples/img/sales_contract_b1706022.jpg" width="300"></a></p>
 
 1. `sales_contract.jpg`
 
@@ -4927,7 +4927,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/commercial_invoice_564bb4a1.jpg"><img src="examples/img/commercial_invoice_564bb4a1.jpg" width="300"></a></p>
+<p><a href="examples/img/commercial_invoice_564bb4a1.jpg"><img src="../examples/img/commercial_invoice_564bb4a1.jpg" width="300"></a></p>
 
 1. `commercial_invoice.jpg`
 
@@ -5012,7 +5012,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/tuition_invoice_9c987358.jpg"><img src="examples/img/tuition_invoice_9c987358.jpg" width="300"></a></p>
+<p><a href="examples/img/tuition_invoice_9c987358.jpg"><img src="../examples/img/tuition_invoice_9c987358.jpg" width="300"></a></p>
 
 1. `tuition_invoice.png`
 
@@ -5097,7 +5097,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/financial_statements_a3657a13.jpg"><img src="examples/img/financial_statements_a3657a13.jpg" width="300"></a></p>
+<p><a href="examples/img/financial_statements_a3657a13.jpg"><img src="../examples/img/financial_statements_a3657a13.jpg" width="300"></a></p>
 
 1. `financial_statements.jpg`
 
@@ -5182,7 +5182,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/employment_certificate_aged_781b138d.jpg"><img src="examples/img/employment_certificate_aged_781b138d.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
+<p><a href="examples/img/employment_certificate_aged_781b138d.jpg"><img src="../examples/img/employment_certificate_aged_781b138d.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="../examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
 
 1. `employment_certificate_aged.jpg` · 2. `account_opening_application.png`
 
@@ -5273,7 +5273,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/employment_certificate_b8df591b.jpg"><img src="examples/img/employment_certificate_b8df591b.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
+<p><a href="examples/img/employment_certificate_b8df591b.jpg"><img src="../examples/img/employment_certificate_b8df591b.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="../examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
 
 1. `employment_certificate.jpg` · 2. `account_opening_application.png`
 
@@ -5372,7 +5372,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_b96f2406.jpg"><img src="examples/img/loan_application_b96f2406.jpg" width="300"></a> <a href="examples/img/credit_agreement_loan_vs_agreement_db79cfa4.jpg"><img src="examples/img/credit_agreement_loan_vs_agreement_db79cfa4.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_b96f2406.jpg"><img src="../examples/img/loan_application_b96f2406.jpg" width="300"></a> <a href="examples/img/credit_agreement_loan_vs_agreement_db79cfa4.jpg"><img src="../examples/img/credit_agreement_loan_vs_agreement_db79cfa4.jpg" width="300"></a></p>
 
 1. `loan_application.jpg` · 2. `credit_agreement_loan_vs_agreement.jpg`
 
@@ -5471,7 +5471,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/income_certificate_43655b9f.jpg"><img src="examples/img/income_certificate_43655b9f.jpg" width="300"></a> <a href="examples/img/withholding_receipt_income_inflated_db6bc1eb.jpg"><img src="examples/img/withholding_receipt_income_inflated_db6bc1eb.jpg" width="300"></a></p>
+<p><a href="examples/img/income_certificate_43655b9f.jpg"><img src="../examples/img/income_certificate_43655b9f.jpg" width="300"></a> <a href="examples/img/withholding_receipt_income_inflated_db6bc1eb.jpg"><img src="../examples/img/withholding_receipt_income_inflated_db6bc1eb.jpg" width="300"></a></p>
 
 1. `income_certificate.jpg` · 2. `withholding_receipt_income_inflated.png`
 
@@ -5570,7 +5570,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/lease_contract_5a89b782.jpg"><img src="examples/img/lease_contract_5a89b782.jpg" width="300"></a> <a href="examples/img/real_estate_registry_lease_owner_1412bcd2.jpg"><img src="examples/img/real_estate_registry_lease_owner_1412bcd2.jpg" width="300"></a></p>
+<p><a href="examples/img/lease_contract_5a89b782.jpg"><img src="../examples/img/lease_contract_5a89b782.jpg" width="300"></a> <a href="examples/img/real_estate_registry_lease_owner_1412bcd2.jpg"><img src="../examples/img/real_estate_registry_lease_owner_1412bcd2.jpg" width="300"></a></p>
 
 1. `lease_contract.png` · 2. `real_estate_registry_lease_owner.png`
 
@@ -5669,7 +5669,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/sales_contract_b1706022.jpg"><img src="examples/img/sales_contract_b1706022.jpg" width="300"></a> <a href="examples/img/real_estate_registry_adf93d9e.jpg"><img src="examples/img/real_estate_registry_adf93d9e.jpg" width="300"></a></p>
+<p><a href="examples/img/sales_contract_b1706022.jpg"><img src="../examples/img/sales_contract_b1706022.jpg" width="300"></a> <a href="examples/img/real_estate_registry_adf93d9e.jpg"><img src="../examples/img/real_estate_registry_adf93d9e.jpg" width="300"></a></p>
 
 1. `sales_contract.jpg` · 2. `real_estate_registry.png`
 
@@ -5768,7 +5768,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/employment_certificate_2a2674ca.jpg"><img src="examples/img/employment_certificate_2a2674ca.jpg" width="300"></a> <a href="examples/img/health_insurance_qualification_71184daf.jpg"><img src="examples/img/health_insurance_qualification_71184daf.jpg" width="300"></a></p>
+<p><a href="examples/img/employment_certificate_2a2674ca.jpg"><img src="../examples/img/employment_certificate_2a2674ca.jpg" width="300"></a> <a href="examples/img/health_insurance_qualification_71184daf.jpg"><img src="../examples/img/health_insurance_qualification_71184daf.jpg" width="300"></a></p>
 
 1. `employment_certificate.jpg` · 2. `health_insurance_qualification.png`
 
@@ -5867,7 +5867,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_corp_e2f515f8.jpg"><img src="examples/img/loan_application_corp_e2f515f8.jpg" width="300"></a> <a href="examples/img/corporate_seal_certificate_90aa67f7.jpg"><img src="examples/img/corporate_seal_certificate_90aa67f7.jpg" width="300"></a></p>
+<p><a href="examples/img/loan_application_corp_e2f515f8.jpg"><img src="../examples/img/loan_application_corp_e2f515f8.jpg" width="300"></a> <a href="examples/img/corporate_seal_certificate_90aa67f7.jpg"><img src="../examples/img/corporate_seal_certificate_90aa67f7.jpg" width="300"></a></p>
 
 1. `loan_application_corp.jpg` · 2. `corporate_seal_certificate.jpg`
 
@@ -5966,7 +5966,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/credit_agreement_539884fb.jpg"><img src="examples/img/credit_agreement_539884fb.jpg" width="300"></a> <a href="examples/img/loan_application_b96f2406.jpg"><img src="examples/img/loan_application_b96f2406.jpg" width="300"></a></p>
+<p><a href="examples/img/credit_agreement_539884fb.jpg"><img src="../examples/img/credit_agreement_539884fb.jpg" width="300"></a> <a href="examples/img/loan_application_b96f2406.jpg"><img src="../examples/img/loan_application_b96f2406.jpg" width="300"></a></p>
 
 1. `credit_agreement.jpg` · 2. `loan_application.jpg`
 
@@ -6065,7 +6065,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/collateral_agreement_c277e776.jpg"><img src="examples/img/collateral_agreement_c277e776.jpg" width="300"></a> <a href="examples/img/credit_agreement_785a59e0.jpg"><img src="examples/img/credit_agreement_785a59e0.jpg" width="300"></a></p>
+<p><a href="examples/img/collateral_agreement_c277e776.jpg"><img src="../examples/img/collateral_agreement_c277e776.jpg" width="300"></a> <a href="examples/img/credit_agreement_785a59e0.jpg"><img src="../examples/img/credit_agreement_785a59e0.jpg" width="300"></a></p>
 
 1. `collateral_agreement.png` · 2. `credit_agreement.jpg`
 
@@ -6164,7 +6164,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/lease_contract_5a89b782.jpg"><img src="examples/img/lease_contract_5a89b782.jpg" width="300"></a> <a href="examples/img/loan_application_9ad08642.jpg"><img src="examples/img/loan_application_9ad08642.jpg" width="300"></a></p>
+<p><a href="examples/img/lease_contract_5a89b782.jpg"><img src="../examples/img/lease_contract_5a89b782.jpg" width="300"></a> <a href="examples/img/loan_application_9ad08642.jpg"><img src="../examples/img/loan_application_9ad08642.jpg" width="300"></a></p>
 
 1. `lease_contract.png` · 2. `loan_application.png`
 
@@ -6263,7 +6263,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/sales_contract_sales_sum_f04734cd.jpg"><img src="examples/img/sales_contract_sales_sum_f04734cd.jpg" width="300"></a> <a href="examples/img/loan_application_10a3fd22.jpg"><img src="examples/img/loan_application_10a3fd22.jpg" width="300"></a></p>
+<p><a href="examples/img/sales_contract_sales_sum_f04734cd.jpg"><img src="../examples/img/sales_contract_sales_sum_f04734cd.jpg" width="300"></a> <a href="examples/img/loan_application_10a3fd22.jpg"><img src="../examples/img/loan_application_10a3fd22.jpg" width="300"></a></p>
 
 1. `sales_contract_sales_sum.jpg` · 2. `loan_application.jpg`
 
@@ -6362,7 +6362,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (2장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/overseas_remittance_application_fx_beneficiary_d44d885c.jpg"><img src="examples/img/overseas_remittance_application_fx_beneficiary_d44d885c.jpg" width="300"></a> <a href="examples/img/commercial_invoice_564bb4a1.jpg"><img src="examples/img/commercial_invoice_564bb4a1.jpg" width="300"></a></p>
+<p><a href="examples/img/overseas_remittance_application_fx_beneficiary_d44d885c.jpg"><img src="../examples/img/overseas_remittance_application_fx_beneficiary_d44d885c.jpg" width="300"></a> <a href="examples/img/commercial_invoice_564bb4a1.jpg"><img src="../examples/img/commercial_invoice_564bb4a1.jpg" width="300"></a></p>
 
 1. `overseas_remittance_application_fx_beneficiary.jpg` · 2. `commercial_invoice.jpg`
 
@@ -6461,7 +6461,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 | 바꾸고 싶은 것 | 고칠 곳 |
 |---|---|
-| 질문 문장 | `docgen/bench/prompts.py` (평가·학습·studio 가 같이 씀. `guide/questions.md` 와 테스트도 같이 고침) |
+| 질문 문장 | `docgen/bench/prompts.py` (평가·학습·studio 가 같이 씀. `guide/reference/questions.md` 와 테스트도 같이 고침) |
 | 새 서류 대조 사례 | `docgen/bench/cases.py` 의 `CASES` 에 `Case(id, 제목, 분류, 근거, 함수)` 추가. 함수는 원본에서 관계가 맞는지 확인하고, 바꿀 서류·키·값과 짝 서류를 돌려줌 |
 | 새 심사 질의 규칙 | `docgen/bench/rules.py` 의 `RULES` 에 함수 추가. `{"question", "answer", "answer_type", "tol", "docs", "skill"}` 를 돌려줌 |
 | 업무와 필수 서류 | `docgen/registry.py` 의 `SCENARIOS` |

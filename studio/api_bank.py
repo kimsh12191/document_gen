@@ -1,6 +1,6 @@
 """⑥ 데이터셋 만들기(은행 서류·합성 OCR), ⑧ 작업 API.
 
-서버 쪽 일은 studio/bank_data.py(은행 서류), studio/ocr_data.py(합성 OCR)가 한다. 학습 설정은 손으로 (guide/training.md).
+서버 쪽 일은 studio/bank_data.py(은행 서류), studio/ocr_data.py(합성 OCR)가 한다. 학습 설정은 손으로 (guide/train/sweep.md).
 
   GET    /api/recipes                     레시피 목록 · GET /api/recipes/options 편집용 목록(그룹·촬영 조건·서식틀)
   GET/PUT/DELETE /api/recipes/{이름}       레시피 하나

@@ -374,7 +374,7 @@ def test_floats_on_html_forms(tmp_path, monkeypatch):
 
 
 def test_formdir_check_overlay_script(roots):
-    """서식 검사가 그린 서식의 generate.py 오류(몇 번째 줄)·같은 seed 두 번 다름·새 키를 문제로 보인다 (guide/generators.md)."""
+    """서식 검사가 그린 서식의 generate.py 오류(몇 번째 줄)·같은 seed 두 번 다름·새 키를 문제로 보인다 (guide/studio/generators.md)."""
     from docgen import formdir as FD
 
     _, priv = roots

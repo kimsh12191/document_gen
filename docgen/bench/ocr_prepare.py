@@ -1,4 +1,4 @@
-"""OCR 준비 (studio/DESIGN.md 17절, 옛 1부 bank_ocr prepare 그대로): manifest + OCR(저장된 JSON 또는 설정의 OCR 함수, 캐시)
+"""OCR 준비 (archive/studio/DESIGN.md 17절, 옛 1부 bank_ocr prepare 그대로): manifest + OCR(저장된 JSON 또는 설정의 OCR 함수, 캐시)
 → 준비 폴더 (쪽 그림, 문항, DONE.json). 문항은 과제 형식 docgen-tasks/1(tasks/<과제>.jsonl + meta.json)로도 써서 studio 데이터셋·
 채점(docgen.bench.evaluate)·학습 섞기(train/)가 OCR·업무 과제를 같은 형식으로 다룬다.
 

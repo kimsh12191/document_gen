@@ -1,7 +1,7 @@
 """다른 컨테이너·PC 에서 studio 에 데이터 생성을 맡긴다 (파이썬 표준 라이브러리만 씀. 이 파일만 복사해 가도 된다).
 
 studio 를 sh docker/studio.sh --open 으로 띄워 두고, URL 은 --url 또는 환경변수 STUDIO_URL (예: http://10.0.0.5:8765).
-사용 설명서: guide/README.md · 데이터 만들기 절차: guide/data.md · agent 규칙: AGENTS.md
+사용 설명서: guide/README.md · 데이터 만들기 절차: guide/studio/data.md · agent 규칙: AGENTS.md
 서식별 추출 항목: 서식 카드 docgen/forms/<ID>/FORM.md
 
 보기

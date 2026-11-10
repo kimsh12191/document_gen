@@ -1,6 +1,6 @@
 # 서류 생성기 (docgen) — 코드 설명
 
-> 개발자용 문서입니다. 데이터 만들기는 [guide/data.md](../guide/data.md), 서식 고치기는 [서식 고치기](forms/README.md), 새 서식은 [guide/new-forms.md](../guide/new-forms.md). 말 뜻은 [용어 한 장](../guide/terms.md).
+> 개발자용 문서입니다. 데이터 만들기는 [guide/studio/data.md](../guide/studio/data.md), 서식 고치기는 [서식 고치기](forms/README.md), 새 서식은 [guide/studio/new-forms.md](../guide/studio/new-forms.md). 말 뜻은 [용어 한 장](../guide/reference/terms.md).
 
 ## 진입점 (명령)
 
@@ -8,23 +8,23 @@
 
 | 명령 | 하는 일 |
 |---|---|
-| `python -m docgen.bench build --recipe <레시피> --out <폴더>` | 서류 한 건 과제(문서 이해·값 칸 OCR) 데이터셋 (`tasks/<과제>.jsonl`). `run`·`eval` 은 API 모델 평가 ([guide/eval.md 6절](../guide/eval.md)) |
+| `python -m docgen.bench build --recipe <레시피> --out <폴더>` | 서류 한 건 과제(문서 이해·값 칸 OCR) 데이터셋 (`tasks/<과제>.jsonl`). `run`·`eval` 은 API 모델 평가 ([guide/train/steps.md 6절](../guide/train/steps.md)) |
 | `python -m docgen.ocr_set build --recipe <레시피> --out <폴더>` | 합성 쪽 OCR 데이터셋 (OCR 준비까지) |
 | `python -m docgen.formdir check\|card\|path\|questions\|qa\|adjust\|declare\|values <ID>` | 서식 폴더: 검사(**고친 뒤 이것 하나**)·카드·파일 목록·질문 보기·`qa.py` 견본·`generate.py` 견본·코드 서식 칸 적기·생성 방법 목록 |
 | `python -m docgen.preview <ID> --out <폴더>` | 서식 하나 그려 보기 (`--rows max`, `--dir <초안 폴더>`) |
 | `python -m docgen.regions show\|path <ID>` | 최종 칸 목록·사람이 고친 곳 |
 | `python -m docgen list` · `generate` · `check` | 서류 목록, 샘플 만들기(아래 "샘플 만들기"), 템플릿 검사 |
-| `python -m docgen.bench.table_audit` | 표가 있는 서식 점검 목록 (→ guide/table-audit.md) |
+| `python -m docgen.bench.table_audit` | 표가 있는 서식 점검 목록 (→ guide/reference/table-audit.md) |
 
 **문서 자동 생성** (손으로 고치지 않는 문서들):
 
 ```bash
 python docgen/scripts/build_schema.py                   # guide/fields/fields.json (studio 카탈로그의 재료)
-python -m docgen list --markdown > guide/documents.md   # documents.md
-bash guide/examples/make_examples.sh <작업 폴더> --docs   # guide/tasks.md, examples/img/ (약 10분)
+python -m docgen list --markdown > guide/reference/documents.md   # documents.md
+bash guide/examples/make_examples.sh <작업 폴더> --docs   # guide/reference/tasks.md, examples/img/ (약 10분)
 python -m docgen.formdir card --all --stale --workers 4 # 서식 카드 FORM.md
 python -m docgen.formdir values                         # 생성 방법 목록 forms/_common/values.md
-python -m docgen.bench.table_audit --workers 4 --out guide/table-audit.md   # 표 점검 목록 (약 5분)
+python -m docgen.bench.table_audit --workers 4 --out guide/reference/table-audit.md   # 표 점검 목록 (약 5분)
 ```
 
 생성기·과제·질문이 바뀌면(세트 버전이 오르면) `tasks.md`·`FORM.md`·`values.md` 를 다시 만듭니다.
@@ -72,7 +72,7 @@ docgen/forms/_common/              모든 서식 공통 (README.md)
 - 서식 하나의 파일을 모두 보려면 `python -m docgen.formdir path <ID>`.
 - 모양(껍데기)만 원본에 맞게 고치기 — 사람·VLM 공용 안내: [manual/FORM_SHELL_GUIDE.md](manual/FORM_SHELL_GUIDE.md)
 
-- 전체 목록: [guide/documents.md](../guide/documents.md)
+- 전체 목록: [guide/reference/documents.md](../guide/reference/documents.md)
 - 서류별 샘플 이미지와 정답: [samples/](samples/)
 
 모든 데이터는 학습용 **합성 데이터**이며 실존 인물·사업자와 무관합니다.
@@ -135,7 +135,7 @@ python -m docgen check --png
 
 ## 벤치마크 (OCR·문서 이해)
 
-같은 생성기로 **고정된 평가 세트**를 만들어 모델을 잽니다. 과제는 OCR(값 칸 인식, 전체 받아쓰기), 문서 이해(분류, 정보 추출, 체크·도장·서명, 표 `table`·`table_read`·`table_find`·`table_qa`, 기타 칸 정리 `freetext`, 서식 전용 질문 `form_qa`)이고 모두 서류 한 건으로 묻습니다. 과제 하나 = `bench/tasks/<과제>.py` 하나. 자세한 내용은 [guide/benchmark.md](../guide/benchmark.md)에 있습니다.
+같은 생성기로 **고정된 평가 세트**를 만들어 모델을 잽니다. 과제는 OCR(값 칸 인식, 전체 받아쓰기), 문서 이해(분류, 정보 추출, 체크·도장·서명, 표 `table`·`table_read`·`table_find`·`table_qa`, 기타 칸 정리 `freetext`, 서식 전용 질문 `form_qa`)이고 모두 서류 한 건으로 묻습니다. 과제 하나 = `bench/tasks/<과제>.py` 하나. 자세한 내용은 [guide/reference/benchmark.md](../guide/reference/benchmark.md)에 있습니다.
 
 내부망 서버에서 Docker 로 돌리고 윈도우에서 SSH 로 접속해 쓰는 방법은 [docker/README.md](../docker/README.md)에 있습니다.
 
@@ -302,13 +302,13 @@ docgen/
   formfields.py, overrides.py   overlay 칸 목록(fields.json)과 영역 편집기가 고친 것을 합쳐 쓰기
   regions.py, html_regions.py   사람 수정 (지금은 칸 목록 fields.json 에 저장: overlay items, html regions·variants)과 html 수정층
   sources.py, marks.py     생성 방법 규칙, 표시 요소(손글씨·체크·도장·서명)
-  usergen.py               사람이 더하는 생성 방법 rule:<함수> (forms/_common/generators.py 를 읽음, guide/generators.md)
+  usergen.py               사람이 더하는 생성 방법 rule:<함수> (forms/_common/generators.py 를 읽음, guide/studio/generators.md)
   floats.py, floats.js     자유 위치 도장·번호 (그림 서식은 realform, html 서식은 쪽 나눔 뒤 floats.js 가 자리 고름)
   htmlform.py              예전에 화면에서 만든 html 서식 (복제·분석기, 서식 폴더의 look/template.html.j2 + form.json). 지금 studio 에는 html 고치는 화면이 없음
   preview.py               서식 하나 미리보기 (studio 가 씀). 명령줄: python -m docgen.preview <서식ID>|--dir <폴더> [--rows max] --out <폴더>
   ocr_export.py, ocr_set.py   생성 정답 → 사내 OCR 형식, 합성 OCR 세트 (OCR 준비 → 과제 폴더)
   cli.py                   list / generate / check
-  bench/                   벤치마크: 평가 세트·학습 데이터 만들기(build), 모델 실행(run), 채점(eval) — guide/benchmark.md
+  bench/                   벤치마크: 평가 세트·학습 데이터 만들기(build), 모델 실행(run), 채점(eval) — guide/reference/benchmark.md
                            evaluate.py(채점 하나, 학습 보상과 같음), tracking.py(구분별 점수), ocr_prepare.py·ocr_*(OCR 준비), table_audit.py
   bench/tasks/<과제>.py    서류 한 건 과제: 과제 하나 = 파일 하나 (질문, 정답 만드는 make(doc), 답 형식). 견본 kie.py
   formquestions.py         서식 폴더의 questions.json: 질문 문장·질문 항목 줄 틀·답 항목 틀, 분류 정답 (docgen/forms/README.md)
@@ -341,11 +341,11 @@ docgen/
   requirements.txt         생성기 파이썬 패키지 (도커 이미지는 docker/requirements.lock)
 ```
 
-학습은 옆 폴더 `train/`(`python -m train`)에서 합니다. 이 생성기의 평가 세트·학습 데이터와 OCR 준비 결과를 studio 데이터셋으로 등록해 섞어 씁니다. 채점·GRPO 보상은 모두 `docgen/bench/evaluate.py` 입니다.
+학습은 옆 폴더 `train/`(`python -m train`)에서 합니다. 이 생성기의 평가 세트·학습 데이터와 OCR 준비 결과를 studio 데이터셋으로 등록해 섞어 씁니다. 채점은 모두 `docgen/bench/evaluate.py` 입니다.
 
 은행이 직접 쓰는 서식 그룹(`bank_form`)은 `registry.BANK_FORM_GROUPS`로 묶여 있습니다. 이 그룹의 서류는 렌더링할 때 서식을 낸 은행(옛 은행 포함)에 맞춰 프로필이 바뀌고, 템플릿에 서식 문맥 `bk`가 들어갑니다. 그룹을 새로 만들 때 이 집합에 넣어 주면 같은 동작을 받습니다.
 
-서식 하나를 고치는 방법은 [서식 폴더 설명서](forms/README.md), 새 서식을 더하는 절차는 [guide/new-forms.md](../guide/new-forms.md)(결과물 형식 [NEW_FORM_SPEC.md](manual/NEW_FORM_SPEC.md)), 코드 서식을 파이썬으로 새로 만드는 법은 NEW_FORM_SPEC.md 12절을 보세요.
+서식 하나를 고치는 방법은 [서식 폴더 설명서](forms/README.md), 새 서식을 더하는 절차는 [guide/studio/new-forms.md](../guide/studio/new-forms.md)(결과물 형식 [NEW_FORM_SPEC.md](manual/NEW_FORM_SPEC.md)), 코드 서식을 파이썬으로 새로 만드는 법은 NEW_FORM_SPEC.md 12절을 보세요.
 
 ## 서식 현실화
 

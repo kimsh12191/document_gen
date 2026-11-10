@@ -1,4 +1,4 @@
-"""OCR 문항 만들기(docgen/bench/ocr_*): 사내 OCR 응답 읽기·나누기·채점/보상·쪽 그림 변형·과제 만들기·준비 전체 (studio/DESIGN.md 17절).
+"""OCR 문항 만들기(docgen/bench/ocr_*): 사내 OCR 응답 읽기·나누기·채점/보상·쪽 그림 변형·과제 만들기·준비 전체 (archive/studio/DESIGN.md 17절).
 옛 1부 ocr/tests/test_pipeline.py 에서 옮김 (학습·답 내기·골라 뽑기 시험은 train/tests)."""
 import io
 import json

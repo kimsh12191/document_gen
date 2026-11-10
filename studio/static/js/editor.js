@@ -164,7 +164,7 @@ function edLayout(ed) {
       ${v.broken.map(o => `<span class="tag warn">${esc(o.match.page + 1)}쪽 ${esc(ED_T[o.match.t] || o.match.t)} '${esc(o.match.label)}'</span>`).join("")}
       <button id="ed-drop-broken">깨진 수정 지우기</button></div>` : ""}
     <div class="bar ed-extra" style="flex-wrap:wrap;gap:12px;margin:4px 0;font-size:13px">
-      <span title="칸마다 따로 만든 값을 서로 맞춤 (합계 = 행의 합, 시작일 ≤ 종료일, 잔액 …): 서식 폴더 generate.py 의 adjust. guide/generators.md 3절">칸끼리 관계 (합계·날짜 순서):
+      <span title="칸마다 따로 만든 값을 서로 맞춤 (합계 = 행의 합, 시작일 ≤ 종료일, 잔액 …): 서식 폴더 generate.py 의 adjust. guide/studio/generators.md 3절">칸끼리 관계 (합계·날짜 순서):
         ${v.script ? `<span class="mono">generate.py</span> 있음 <span class="muted mono" style="font-size:11px">${esc(v.script)}</span>`
           : `없음 <button id="ed-adjust-new" title="이 서식의 칸 키가 주석으로 적힌 견본 generate.py 를 서식 폴더에 만듭니다 (= python -m docgen.formdir adjust ${esc(d.id)} --new)">견본 만들기</button>`}</span>
       ${v.texts === null ? "" : `<span title="그림 속 인쇄 글자: 합성 OCR 세트(쪽 전체 받아쓰기 정답)에 씀">배경 글자: ${v.texts ? `${v.texts}개` : "없음 (합성 OCR 세트에서 빠짐)"}
@@ -502,7 +502,7 @@ function genPicker(ed, it, apply) {
     <details class="gen-howto" style="margin-top:14px"><summary><b>원하는 생성 방법이 없으면 — 새로 만드는 곳</b></summary>
       ${(edGens?.howto || []).map(h => `<div class="box" style="margin:8px 0"><b>${esc(h.title)}</b> <span class="muted">— ${esc(h.when || "")}</span>
         ${h.example ? `<pre class="mono" style="font-size:12px;margin:4px 0;white-space:pre-wrap">${esc(h.example)}</pre>` : ""}<div>${esc(h.how)}</div></div>`).join("")}
-      <div class="muted" style="font-size:12px">자세히: <a href="#/guide/generators.md">원하는 값이 고르기 창에 없을 때</a> (guide/generators.md)</div></details>`;
+      <div class="muted" style="font-size:12px">자세히: <a href="#/guide/generators.md">원하는 값이 고르기 창에 없을 때</a> (guide/studio/generators.md)</div></details>`;
   document.body.appendChild(dlg);
   dlg.addEventListener("close", () => dlg.parentNode && dlg.parentNode.removeChild(dlg));
   $(".gen-close", dlg).onclick = () => dlg.close();
@@ -539,7 +539,7 @@ function edSide(ed) {
       ${st === "dropped" ? `<p class="muted">이 영역은 뺐습니다. 생성기가 값을 쓰지 않습니다.</p><button id="ed-undrop">되살리기</button>` : `
       ${c.t === "staff" ? `<div class="fld muted">결재란은 은행·직원 칸입니다 (키는 staff.&lt;칸 이름&gt;).</div>
       <label class="fld">칸 이름 <input type="text" id="ed-label" value="${esc(c.label || "")}"></label>` : `
-      <label class="fld"><b>키</b> <span class="muted" style="font-size:12px">질문·정답에 나가는 이름. 이 서식 안에서만 정합니다 (영어 소문자·숫자·_·. — guide/keys.md)</span>
+      <label class="fld"><b>키</b> <span class="muted" style="font-size:12px">질문·정답에 나가는 이름. 이 서식 안에서만 정합니다 (영어 소문자·숫자·_·. — guide/studio/keys.md)</span>
         <input type="text" id="ed-key" value="${esc(c.key || "")}" placeholder="${esc(auto.key || "예: customer.name")}" autocomplete="off"></label>
       ${!c.key && auto.key ? `<div class="muted" style="font-size:12px">지금 키: <span class="mono">${esc(auto.key)}</span> (적지 않으면 이 키)</div>` : ""}
       <label class="fld"><b>키 설명</b> <span class="muted" style="font-size:12px">무엇을 읽는 칸인지 — 질문에 '- 키: 설명' 으로 나갑니다. 보통 서식에 인쇄된 칸 이름</span>

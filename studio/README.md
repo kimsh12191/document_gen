@@ -1,8 +1,8 @@
 # studio — 개발자용
 
-**화면 쓰는 법은 [guide/studio.md](../guide/studio.md)** (서식 · 새 서식 추가 · 데이터셋). 이 문서는 띄우는 법, 화면 ↔ 코드, 고친 것이 저장되는 파일입니다.
+**화면 쓰는 법은 [guide/studio/studio.md](../guide/studio/studio.md)** (서식 · 새 서식 추가 · 데이터셋). 이 문서는 띄우는 법, 화면 ↔ 코드, 고친 것이 저장되는 파일입니다.
 지금 남은 화면은 서식(overlay 영역 편집·미리보기·검수), 새 서식 추가(overlay), 표시 요소, 데이터셋(레시피·생성·작업·등록부·OCR 데이터셋)입니다.
-설계 기록은 [DESIGN.md](DESIGN.md), 예전 이 문서 전체(숨긴 화면 설명 포함)는 [archive/studio/README_2026-11.md](../archive/studio/README_2026-11.md).
+설계·구현 기록은 [archive/studio/DESIGN.md](../archive/studio/DESIGN.md), 예전 이 문서 전체(숨긴 화면 설명 포함)는 [archive/studio/README_2026-11.md](../archive/studio/README_2026-11.md).
 
 ## 띄우기
 
@@ -16,7 +16,7 @@ sh docker/studio.sh --data /database/docgen_studio   # 내부망 도커 (처음 
 - **설정:** `studio/config.json` (git 제외, 없어도 됨, 다른 파일은 `STUDIO_CONFIG=<파일>`). 사내 OCR 연결, 브라우저 경로, `private_forms_dir`, 학습 컨테이너 `path_map` 처럼 환경마다 다른 것만. 예시 [config.example.json](config.example.json).
 - **사내 OCR:** 설정 `ocr` 에 `revision` 이 있어야 켜집니다 (`/api/info` 의 `ocr_configured`, 없으면 화면이 [사내 OCR 로 읽기]를 숨김). 응답 캐시는 `<ocr.cache_dir>/ocr/<키>.json` — OCR 준비(`docgen.bench.ocr_prepare`)의 `cache_dir` 와 같은 뜻이라 같은 폴더를 쓰면 이미 읽은 그림을 다시 부르지 않습니다. 기본 `studio_cache` (예전 기본값이 만든 `studio_cache/ocr/ocr/` 도 읽음).
 - **렌더링 브라우저:** Playwright Chromium → 설정 `browser` → `CHROMIUM_PATH` → 이 PC 의 Chrome·Edge 순. 없으면 렌더링(미리보기·생성)만 꺼짐.
-- **도커:** 데이터셋은 `<저장 폴더>/workspace/datasets/<이름>/`. 코드는 마운트라 고치면 studio 가 저절로 다시 뜸. 다른 컨테이너에서 생성 맡기기 `docker/remote_build.py` ([guide/data.md](../guide/data.md)).
+- **도커:** 데이터셋은 `<저장 폴더>/workspace/datasets/<이름>/`. 코드는 마운트라 고치면 studio 가 저절로 다시 뜸. 다른 컨테이너에서 생성 맡기기 `docker/remote_build.py` ([guide/studio/data.md](../guide/studio/data.md)).
 - 이 PC 에서 만든 그림은 글꼴이 서버와 다를 수 있습니다. 학습·평가 데이터는 서버나 도커에서 만듭니다.
 - 미리보기 캐시 `studio_cache/preview/` (git 제외). 서식 파일·공통 렌더링 코드가 바뀌면 다시 그림.
 - **띄울 때 한 번:** 옛 등록부 줄을 과제 형식으로 고치고(tasks/ 없는 옛 OCR 준비 폴더는 tasks/ 를 만듦), 재시작으로 놓친 생성 완료 등록을 복구합니다 (`app.py` `startup_once`). GET 요청은 파일을 쓰지 않습니다 (미리보기 그림 캐시만 예외).

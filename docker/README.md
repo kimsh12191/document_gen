@@ -18,7 +18,7 @@ GPU 학습(`train/`, `python -m train`)은 이 컨테이너가 아니라 따로 
 | 파일 | 역할 |
 |---|---|
 | `docker/studio.sh` | **서버에서 직접 쓰는 것.** studio 컨테이너 만들기·켜기, 포트·여는 주소, 로그, 셸, 지우기 |
-| `docker/remote_build.py`, `guide/data.md` | 다른 컨테이너·PC 에서 studio 에 데이터 생성을 맡기기, 그 매뉴얼 |
+| `docker/remote_build.py`, `guide/studio/data.md` | 다른 컨테이너·PC 에서 studio 에 데이터 생성을 맡기기, 그 매뉴얼 |
 | `docker/build.sh` | 인터넷 되는 PC 에서 반입 파일 두 개 만들기 (이미지 빌드 + 코드 묶음 + 네트워크를 끊은 테스트) |
 | `docker/Dockerfile` | 이미지: 파이썬·글꼴·Chromium·studio 패키지·SSH 서버 |
 | `docker/requirements.lock` | 이미지에 넣는 파이썬 패키지 (판 고정) |
@@ -115,7 +115,7 @@ tar -xzf docgen-code-1.3.tar.gz -C ~/docgen
 ## 5. 명령줄로 데이터 만들기
 
 > **보통은 이 절이 필요 없습니다.** 데이터셋은 studio **데이터셋 › 새로 만들기**(레시피)나 아래 `remote_build.py` 로 만들면 목록에 저절로 등록됩니다.
-> 이 절의 직접 명령·`make_bank_data.sh` 결과는 등록되지 않으니 **데이터셋 › 폴더 등록**으로 넣습니다. 모델 평가는 학습 서버의 `python -m train` 이 정식 길입니다 ([guide/eval.md](../guide/eval.md)); `bench run/eval` 은 API 모델을 따로 잴 때만.
+> 이 절의 직접 명령·`make_bank_data.sh` 결과는 등록되지 않으니 **데이터셋 › 폴더 등록**으로 넣습니다. 모델 평가는 학습 서버의 `python -m train` 이 정식 길입니다 ([guide/train/steps.md](../guide/train/steps.md)); `bench run/eval` 은 API 모델을 따로 잴 때만.
 
 같은 컨테이너에서 합니다. `sh docker/studio.sh shell` 로 들어가면 코드 폴더에서 시작하고, 결과는 `/out` (저장 폴더)에 둡니다.
 
@@ -131,13 +131,12 @@ python -m docgen.bench eval --bench /out/bench --pred /out/preds/m1
 ### 다른 컨테이너에서 생성 맡기기 (HTTP)
 
 studio 를 `--open` 으로 띄워 두면, 다른 컨테이너(학습 컨테이너 등)나 PC 에서 [`docker/remote_build.py`](remote_build.py) 로 생성을 맡기고 끝날 때까지 기다릴 수 있습니다. 포트는 studio 포트 하나로 됩니다.
-**무엇을 넣으면 무엇이 나오는지, studio 화면의 어디와 대응하는지는 [데이터 만들기](../guide/data.md) 에 있습니다.**
+**무엇을 넣으면 무엇이 나오는지, studio 화면의 어디와 대응하는지는 [데이터 만들기](../guide/studio/data.md) 에 있습니다.**
 
 ```bash
 export STUDIO_URL=http://<서버IP>:8765
 python remote_build.py build --name bench-1021 --recipe bank-bench                     # 평가 세트 통째
 python remote_build.py build --name id-5 --types resident_id_card,hf169 --per-doc 5     # 특정 서식만
-python remote_build.py build --name loan-20 --scenarios mortgage --bundles 20           # 특정 업무만
 ```
 
 ### 은행 업무 데이터 만들기
@@ -149,7 +148,7 @@ bash docgen/scripts/make_bank_data.sh          # 백그라운드로 시작. 셸�
 tail -f /out/logs/make_bank_data.log           # "전부 완료" 가 나오면 끝
 ```
 
-양·출력 위치(`OUT`, `TRAIN_BUNDLES`, `BENCH_BUNDLES` …)는 `docgen/scripts/make_bank_data.sh` 맨 위 주석에 있습니다. 컨테이너의 `/out` 은 저장 폴더이므로, 학습 설정(`data.train`·`data.benchmark`)에는 서버 경로(예: `/database/docgen_studio/bench`)를 씁니다 ([guide/training.md](../guide/training.md)).
+양·출력 위치(`OUT`, `TRAIN_BUNDLES`, `BENCH_BUNDLES` …)는 `docgen/scripts/make_bank_data.sh` 맨 위 주석에 있습니다. 컨테이너의 `/out` 은 저장 폴더이므로, 학습 설정(`data.train`·`data.benchmark`)에는 서버 경로(예: `/database/docgen_studio/bench`)를 씁니다 ([guide/train/sweep.md](../guide/train/sweep.md)).
 
 결과 파일을 윈도우로 가져오기: `scp -r <서버 계정>@<서버IP>:<저장 폴더>/bench .\` (컨테이너의 `/out/bench`. 저장 폴더를 안 정했으면 `~/docgen/data`. WinSCP 도 SFTP 로 접속 가능).
 

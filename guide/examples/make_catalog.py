@@ -1,8 +1,8 @@
-"""guide/tasks.md: every task with a real example, its full question, answer and fields.
+"""guide/reference/tasks.md: every task with a real example, its full question, answer and fields.
 
 Reads a docgen benchmark folder (`python -m docgen.bench build`) and an OCR prepared folder
 (`python -m docgen.bench.ocr_prepare`), picks one example per task, per cross_check case and per review
-rule, copies the images it needs into guide/examples/img/ and writes guide/tasks.md.
+rule, copies the images it needs into guide/examples/img/ and writes guide/reference/tasks.md.
 
   python guide/examples/make_catalog.py --bench <bench 폴더> --ocr <prepared 폴더> [--ocr-json <OCR JSON 폴더>]
 
@@ -22,7 +22,7 @@ from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT), str(ROOT / "ocr"), str(ROOT / "bank")]
-OUT_MD = ROOT / "guide" / "tasks.md"
+OUT_MD = ROOT / "guide" / "reference" / "tasks.md"
 IMG = ROOT / "guide" / "examples" / "img"
 MAX_SIDE = 1000
 EXAMPLES: list[dict] = []  # what the slides show: one entry per example, the same data as tasks.md
@@ -74,7 +74,7 @@ META = {
     "perturbed": "값을 바꾼 변조 문항인지 (false = 같은 서류 조합의 정상 문항)",
     "rule": "심사 질의 규칙 ID (`case:<사례>` = 서류 대조 사례에서 만든 예/아니오 질문)",
     "skill": "능력 분류: 계산(비율) / 계산(합계) / 날짜 계산 / 표 계산 / 서류 대조",
-    "doc_type": "서류 ID (guide/documents.md)", "doc_name": "서류 정식 명칭", "group": "서류 그룹",
+    "doc_type": "서류 ID (guide/reference/documents.md)", "doc_name": "서류 정식 명칭", "group": "서류 그룹",
     "condition": "촬영 조건: clean 원본 / scan 스캔 / photo 촬영 / fax 팩스", "writing": "글씨: print 인쇄체 / hand 손글씨",
     "n_pages": "쪽 수", "key": "값 칸의 정답 키", "label": "값 칸의 항목명", "kind": "값 종류 (이름·금액·날짜 …)",
     "corrected": "손글씨 정정(두 줄 긋고 고쳐 씀)이 있는 칸인지", "length": "정답 글자 수 (공백 제외)",
@@ -182,7 +182,7 @@ def copy_image(src: Path, tag: str = "") -> str:
             im = im.convert("RGB")
             im.thumbnail((MAX_SIDE, MAX_SIDE), Image.LANCZOS)
             im.save(dst, quality=82)
-    return f"examples/img/{name}"
+    return f"../examples/img/{name}"
 
 
 def overlay(src: Path, boxes: list[list[int]], query: list[int] | None, tag: str) -> str:
@@ -202,7 +202,7 @@ def overlay(src: Path, boxes: list[list[int]], query: list[int] | None, tag: str
                 d.rectangle(sc(b), outline=(20, 170, 60), width=lw)
             im.thumbnail((MAX_SIDE, MAX_SIDE), Image.LANCZOS)
             im.save(dst, quality=82)
-    return f"examples/img/{dst.name}"
+    return f"../examples/img/{dst.name}"
 
 
 def imgs_html(paths: list[str], width: int = 300) -> str:
@@ -257,7 +257,7 @@ def ocr_section(prep: Path, ocr_json: Path | None) -> str:
     blocks.append((f"pages.jsonl 한 줄 (ocr {len(page['ocr'])}개 중 앞 {head}개)", jdump({**page, "ocr": page["ocr"][:head]}, width=150)))
     EXAMPLES.append({"part": "OCR", "no": "1-0", "title": "입력 데이터: 페이지 이미지 + 사내 OCR JSON → manifest → pages.jsonl",
                      "images": [copy_image(src_img)],
-                     "notes": [("전체 목록", "guide/tasks.md 1-0 에 이 페이지의 OCR 결과 JSON 과 pages.jsonl 전체가 있습니다")],
+                     "notes": [("전체 목록", "guide/reference/tasks.md 1-0 에 이 페이지의 OCR 결과 JSON 과 pages.jsonl 전체가 있습니다")],
                      "blocks": blocks})
     out.append("### 1-1. 문항 한 줄의 필드 (`*_tasks.jsonl`, 모든 OCR 과제 공통)\n")
     out.append(table(list(OCR_ROW.items())))
@@ -462,7 +462,7 @@ HOWTO = """## 5부. 비슷한 문제를 새로 정의하려면
 
 | 바꾸고 싶은 것 | 고칠 곳 |
 |---|---|
-| 질문 문장 | `docgen/bench/prompts.py` (평가·학습·studio 가 같이 씀. `guide/questions.md` 와 테스트도 같이 고침) |
+| 질문 문장 | `docgen/bench/prompts.py` (평가·학습·studio 가 같이 씀. `guide/reference/questions.md` 와 테스트도 같이 고침) |
 | 새 서류 대조 사례 | `docgen/bench/cases.py` 의 `CASES` 에 `Case(id, 제목, 분류, 근거, 함수)` 추가. 함수는 원본에서 관계가 맞는지 확인하고, 바꿀 서류·키·값과 짝 서류를 돌려줌 |
 | 새 심사 질의 규칙 | `docgen/bench/rules.py` 의 `RULES` 에 함수 추가. `{"question", "answer", "answer_type", "tol", "docs", "skill"}` 를 돌려줌 |
 | 업무와 필수 서류 | `docgen/registry.py` 의 `SCENARIOS` |

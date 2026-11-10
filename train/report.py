@@ -228,7 +228,7 @@ def write(results, out_dir, rescore=False, per_task=30, take_all=False):
         parts.append("".join(block) + "</details>")
     if notes:
         parts.append("<h2>알림</h2><ul>" + "".join(f"<li>{e(n)}</li>" for n in notes) + "</ul>")
-    parts.append("<p>합성 서류 평가는 학습 데이터와 같은 생성기라 실서류보다 높게 나옵니다. 읽는 법: guide/results.md</p>")
+    parts.append("<p>합성 서류 평가는 학습 데이터와 같은 생성기라 실서류보다 높게 나옵니다. 읽는 법: guide/train/sweep.md</p>")
     out_dir.mkdir(parents=True, exist_ok=True)
     page = out_dir / "report.html"
     page.write_text("<!doctype html><html lang='ko'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>"

@@ -1,11 +1,11 @@
 # OCR 데이터 준비 (내 이미지)
 
 가진 서류 이미지를 사내 OCR에 돌려 OCR 학습·평가 데이터(글자·위치 읽기 8과제)를 만듭니다.
-결과 폴더는 studio 데이터셋과 같은 형식이라 학습([training.md](training.md))에 경로만 적으면 됩니다.
+결과 폴더는 studio 데이터셋과 같은 형식이라 학습 설정의 `data.train`·`data.benchmark` 에 경로만 적으면 됩니다 ([sweep.md](sweep.md)).
 
 - 정답은 **사내 OCR이 읽은 값**입니다. 그래서 점수는 "정확도"가 아니라 "사내 OCR과 얼마나 같게 읽나"입니다.
-- 합성 서류로 OCR 데이터를 만들 때는 이 문서가 필요 없습니다. studio `ocr-bench`·`ocr-train` 레시피가 OCR 준비까지 해서 `<이름>/prepared`로 내놓습니다 ([data.md 3절](data.md#3-studio-화면으로-만들기)).
-- 8과제의 질문·정답 예시는 studio **OCR 예시** 메뉴나 [tasks.md](tasks.md#ocr-과제)에 있습니다.
+- 합성 서류로 OCR 데이터를 만들 때는 이 문서가 필요 없습니다. studio `ocr-bench`·`ocr-train` 레시피가 OCR 준비까지 해서 `<이름>/prepared`로 내놓습니다 ([데이터셋 만들기](../studio/data.md#1-화면으로-만들기)).
+- 8과제의 질문·정답 예시는 studio **OCR 예시** 메뉴나 [tasks.md](../reference/tasks.md#ocr-과제)에 있습니다.
 
 아래 명령은 학습 서버의 코드 폴더(`document_gen/`)에서 실행합니다.
 
@@ -44,9 +44,15 @@ cp docgen/bench/ocr_config.example.json ocr_config.json
 
 ## 3. 실행
 
+따로 한 번:
+
 ```bash
 python -m docgen.bench.ocr_prepare ocr_config.json
 ```
+
+또는 학습 설정(`pipeline.json`)에 `"ocr_prepare": "ocr_config.json"` (여러 개면 목록)을 적으면 실험 묶음이 시작할 때 만듭니다.
+어느 쪽이든 결과 폴더에 `DONE.json` 이 있으면 다시 만들지 않으므로, **실험마다 설정을 복사하지 말고 같은 설정 파일을 가리키면** 한 번만 만듭니다.
+결과 폴더(`output_dir`)는 `data.train`·`data.benchmark` 에 경로로 적어 둡니다 (아직 없어도 됨).
 
 `data/ocr-v1/DONE.json`이 생기면 끝입니다. 안의 `page_counts`에 `train`·`val`·`benchmark` 쪽 수가 있습니다.
 studio 데이터셋 › 폴더 등록 (맨 아래)에 이 경로를 넣으면 문항·그림을 화면에서 볼 수 있습니다 (선택).
@@ -55,7 +61,7 @@ studio 데이터셋 › 폴더 등록 (맨 아래)에 이 경로를 넣으면 �
 
 | 경우 | 방법 |
 |---|---|
-| 학습용 이미지와 평가용 이미지가 따로 있음 | 설정을 두 개 만듦: 학습용(그대로) + 평가용(`"split": "benchmark"`). 학습 설정의 `train`에는 학습용 폴더, `benchmark`에는 평가용 폴더 |
+| 학습용 이미지와 평가용 이미지가 따로 있음 | 설정을 두 개 만듦: 학습용(그대로) + 평가용(`"split": "benchmark"`). `data.train` 에는 학습용 폴더, `data.benchmark` 에는 평가용 폴더 |
 | 이미지를 더 넣음 | `output_dir`만 새 이름으로 다시 실행. 이미 OCR한 그림은 캐시에서 다시 씀 |
 | 사내 OCR이 바뀜 | `ocr_revision`과 `output_dir`을 바꿔 다시 실행 |
 | OCR JSON이 이미 있음 | manifest 방식으로 (아래) |

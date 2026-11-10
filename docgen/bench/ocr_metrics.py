@@ -1,4 +1,4 @@
-"""OCR 8과제(crop_ocr·bbox_ocr·region_ocr·marked_ocr·grounding·spotting·relation·marked_box)의 채점·GRPO 보상 (studio/DESIGN.md 17절).
+"""OCR 8과제(crop_ocr·bbox_ocr·region_ocr·marked_ocr·grounding·spotting·relation·marked_box)의 채점·GRPO 보상 (archive/studio/DESIGN.md 17절).
 옛 1부 bank_ocr/metrics.py 를 그대로 옮긴 것이라 점수가 같다. 과제 형식(docgen-tasks/1)의 OCR 문항은 answer 가
 {"text": …} 또는 {"boxes": [{"bbox_2d", "label"}]} 이고, 옛 target(JSON 문자열)도 그대로 받는다. 채점 진입점은 docgen.bench.evaluate.
 

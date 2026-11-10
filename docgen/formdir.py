@@ -654,7 +654,7 @@ def check_form(doc_id: str, seeds: int = 4) -> dict:
             problems.append(f"fields.json '{k}': source {d.get('source')!r} — {why}")
     from . import realform as RF
 
-    if RF.script_path(doc_id) is not None:   # overlay 의 칸끼리 관계 generate.py: 오류·같은 seed 두 번·새 키 (guide/generators.md)
+    if RF.script_path(doc_id) is not None:   # overlay 의 칸끼리 관계 generate.py: 오류·같은 seed 두 번·새 키 (guide/studio/generators.md)
         import random
 
         from . import htmlform as HF

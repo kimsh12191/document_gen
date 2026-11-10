@@ -5,9 +5,9 @@ from studio import guidebook as G
 
 
 def test_document_allowlist():
-    assert set(G.DOCUMENTS) == {"studio.md", "new-forms.md", "keys.md", "generators.md"}
+    assert set(G.DOCUMENTS) == {"studio.md", "new-forms.md", "keys.md", "generators.md", "data.md"}
     for name in G.DOCUMENTS:
         assert G.document(name).startswith("# ")
-    for bad in ("training.md", "data.md", "../studio/config.json"):
+    for bad in ("training.md", "../train/sweep.md", "../../studio/config.json"):
         with pytest.raises(KeyError):
             G.document(bad)
