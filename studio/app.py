@@ -410,6 +410,17 @@ def sources():
     return _sources()
 
 
+class ClassifyReq(BaseModel):
+    answer: str
+    aliases: list[str] = []
+
+
+@app.put("/api/forms/{doc_id}/classify")
+def form_classify(doc_id: str, req: ClassifyReq):
+    """문서 분류 정답(문서명)·다른 이름 (서식 questions.json 의 classify). 개요 탭에서."""
+    return guard(editor.set_classify, doc_id, req.answer, req.aliases)
+
+
 class TableTitleReq(BaseModel):
     prefix: str
     title: str = ""

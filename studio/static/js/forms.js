@@ -148,18 +148,18 @@ async function formDetail(id, force = false) {
   return formCache[id];
 }
 
-// 서식 상세는 할 일 넷으로 나눈다: 무엇을 하나(개요) · 그림이 맞나(그림·검수) · 어떻게 묻고 답하나(질문·답) · 고치기.
+// 서식 상세는 할 일 넷으로 나눈다: 무엇을 하나(개요) · 만들어 보면 어떤가(생성 사례·검수) · 어떻게 묻고 답하나(질문·답) · 고치기.
 // 아래 줄은 그 일 안의 화면. 주소는 화면 이름 그대로 (#/forms/<ID>/card 등) 라 다른 화면의 링크가 그대로 맞다.
 function formTabs(d) {
   const editable = d.kind === "overlay";
   const open = d.issues.filter(x => x.status === "open").length;
   return [
     ["개요", "이 서식이 무엇을 묻는지와 상태", [["overview", "요약"], ["card", "카드 원문"]]],
-    ["그림·검수", "그린 그림과 정답이 맞는지 눈으로 보고 검수", [["preview", "미리보기"], ["examples", "여러 장 보기"],
+    ["생성 사례", "가짜 고객으로 만들어 본 서류와 정답 — 눈으로 보고 검수", [["preview", "미리보기"], ["examples", "여러 장 보기"],
       ["review", `검수${open ? ` · 문제 ${open}` : ""}`]]],
     ["질문·답", "과제마다 실제 질문·정답·채점", [["questions", "실제 문항"]]],
-    ["고치기", editable ? "값·위치·모양·칸 설정" : "html 서식은 코드로 고침 (파일 목록·안내)",
-      [...(editable ? [["edit", "영역 편집"]] : []), ["files", "파일"]]],
+    ["고치기", editable ? "값·위치·모양·칸 설정" : "html 서식은 코드로 고침 — 어느 자리에 어떤 키가 나오는지와 파일",
+      [...(editable ? [["edit", "영역 편집"]] : [["spots", "영역·키 보기"]]), ["files", "파일"]]],
   ];
 }
 
@@ -191,6 +191,7 @@ async function viewForm(id, tab) {
     <div id="tab"></div>`;
   if (tab === "overview") return tabOverview(d);
   if (tab === "preview") return tabPreview(d);
+  if (tab === "spots") return tabPreview(d, { spots: true });
   if (tab === "card") return tabCard(d);
   if (tab === "examples") return tabExamples(d);
   if (tab === "questions") return tabQuestions(d);
@@ -239,7 +240,14 @@ async function tabOverview(d) {
   const go = (tasks, text = "실제 문항") => `<a href="#/forms/${id}/questions" data-task="${tasks[0]}">${text}</a>`;
   const changed = t => (o.changed[t] || []).length ? ` <span class="tag warn" title="questions.json 에서 바꿈">바꿈: ${esc(o.changed[t].join(", "))}</span>` : "";
   const rows = [
-    [name("classify") + changed("classify"), `무슨 서류인가 → 정답 <b>${esc(o.classify.answer)}</b>${o.classify.aliases?.length ? ` <span class="muted">(다른 이름 ${o.classify.aliases.map(esc).join(", ")})</span>` : ""}`,
+    [name("classify") + changed("classify"), `무슨 서류인가 → 정답 <b>${esc(o.classify.answer)}</b>${o.classify.aliases?.length ? ` <span class="muted">(다른 이름 ${o.classify.aliases.map(esc).join(", ")})</span>` : ""}
+      <button type="button" id="ov-cls-edit" style="margin-left:6px">바꾸기</button>
+      <div id="ov-cls-form" hidden style="margin-top:6px">
+        <label class="fld">분류 정답 (문서명) <input type="text" id="ov-cls-answer" value="${esc(o.classify.answer)}" placeholder="${esc(d.name)}"></label>
+        <label class="fld">다른 이름도 정답 <span class="muted" style="font-size:12px">(쉼표로. 같은 서류를 부르는 다른 이름)</span>
+          <input type="text" id="ov-cls-aliases" value="${esc((o.classify.aliases || []).join(", "))}"></label>
+        <div class="bar"><button type="button" class="primary" id="ov-cls-save">저장</button><button type="button" id="ov-cls-cancel">취소</button>
+          <span class="muted" style="font-size:12px">서식 폴더 questions.json 의 classify 에 저장. 서식 이름(${esc(d.name)})과 같으면 기본으로 되돌립니다.</span></div></div>`,
       go(["classify"]), "<span class=mono>questions.json</span> 의 classify"],
     [`${name("ocr_page")} · ${name("ocr_field")}${changed("ocr_page")}`, `보이는 글자 전체 받아쓰기 · 값 칸 하나 읽기${o.ocr_off.length ? ` <span class="muted">— 뺀 칸 ${o.ocr_off.length}: ${o.ocr_off.map(esc).join(", ")}</span>` : ""}`,
       go(["ocr_page"]), "뺄 칸: <span class=mono>fields.json</span> 그 칸 <code>q.ocr</code>"],
@@ -261,6 +269,18 @@ async function tabOverview(d) {
     ${o.notes.length ? `<details><summary class="muted">참고 ${o.notes.length}</summary><ul>${o.notes.map(p => `<li>${esc(p)}</li>`).join("")}</ul></details>` : ""}
     <div class="sub">질문 검사는 질문 설정(questions.json·칸의 q·qa.py)만 봅니다. 칸·생성 방법·박스까지 보려면 <span class="mono">python -m docgen.formdir check ${esc(d.id)}</span>.</div>`;
   $("#ov-tasks").onclick = e => { const t = e.target.closest("[data-task]")?.dataset.task; if (t) state.qaTask = t; };
+  const clsForm = $("#ov-cls-form");
+  $("#ov-cls-edit").onclick = () => { clsForm.hidden = false; $("#ov-cls-edit").hidden = true; $("#ov-cls-answer").focus(); };
+  $("#ov-cls-cancel").onclick = () => { clsForm.hidden = true; $("#ov-cls-edit").hidden = false; };
+  $("#ov-cls-save").onclick = async () => {
+    try {
+      await api(`/api/forms/${id}/classify`, { answer: $("#ov-cls-answer").value,
+        aliases: $("#ov-cls-aliases").value.split(",").map(s => s.trim()).filter(Boolean) }, "PUT");
+      toast("분류 정답을 저장했습니다");
+      await formDetail(d.id, true);
+      if (box.isConnected) viewForm(d.id, "overview");
+    } catch (e) { toast(e.message, true); }
+  };
 }
 
 // 카드 탭: 서식 폴더의 FORM.md (docgen/formcard.py) — 항목·위치·정의한 곳·질문→답 예시·고치는 곳 ----------
@@ -287,9 +307,13 @@ async function tabCard(d) {
 }
 
 // 미리보기 탭 ---------------------------------------------------------------
-function tabPreview(d) {
+function tabPreview(d, opt = {}) {
   const view = { label: null, page: 0, sel: -1, zoom: false, issueMode: false };
-  $("#tab").innerHTML = `
+  if (opt.spots) { state.layers.keyname = true; state.layers.value = true; }   // 영역·키 보기: 키 이름을 켜고 시작 (저장은 안 함)
+  $("#tab").innerHTML = `${opt.spots ? `<div class="sub">html 서식은 화면에서 고치지 않습니다. 아래는 가짜 고객 한 명으로 그린 그림에 <b>값이 나오는 자리와 그 키</b>를 겹친 것입니다
+      (seed 를 바꾸면 값·표 행 수·선택 칸이 달라집니다). 자리는 서식 폴더 <span class="mono">look/template.html.j2</span> 의 <span class="mono">f('키')</span> 가 정하고,
+      값은 <span class="mono">generate.py</span>·칸 목록 <span class="mono">fields.json</span> 이 정합니다 — <a href="#/forms/${encodeURIComponent(d.id)}/files">파일</a>,
+      <a href="#/guide/${encodeURIComponent("docgen/manual/NEW_FORM_SPEC.md")}">파일 꼴</a>.</div>` : ""}
     <div class="bar">${optionBar(true)}
       <button class="primary" id="o-go">렌더링</button>
       <button id="o-prev" title="이전 seed">◀</button><button id="o-next" title="다음 seed">▶</button>

@@ -14,14 +14,19 @@ function questionContractHTML(c) {
       <pre class="ans mono">${esc(qaJSON(c.answer_schema))}</pre><div class="muted">형식 설명용 예시</div><pre class="ans mono">${esc(qaJSON(c.example))}</pre></details>`;
 }
 
-// 정답 안의 위치 (kie·marks 칸, 표 행 row_boxes, 표 찾기): [{bbox (0~1000), page (1부터), title}]
+// 정답 안의 위치 (kie·marks 칸, 표 행 row_boxes, 표 찾기): [{bbox (0~1000), page (1부터), title, value}]
+const boxValue = x => {   // 상자와 같이 적힌 값 (위치 칸은 빼고)
+  const rest = Object.fromEntries(Object.entries(x).filter(([k]) => !["bbox_2d", "page", "key", "row_boxes"].includes(k)));
+  if ("value" in rest && Object.keys(rest).length === 1) return rest.value == null ? "(빈 값)" : String(rest.value);
+  return Object.keys(rest).length ? JSON.stringify(rest) : "";
+};
 function answerBoxes(answer) {
   const out = [];
   const walk = (x, title) => {
     if (Array.isArray(x)) return x.forEach((y, i) => walk(y, title));
     if (!x || typeof x !== "object") return;
     if (Array.isArray(x.bbox_2d) && x.bbox_2d.length === 4)
-      out.push({ bbox: x.bbox_2d, page: x.page || 1, title: x.key ?? (x.columns ? `표 (${x.columns.join(", ")})` : title ?? "") });
+      out.push({ bbox: x.bbox_2d, page: x.page || 1, title: x.key ?? (x.columns ? `표 (${x.columns.join(", ")})` : title ?? ""), value: boxValue(x) });
     if (Array.isArray(x.row_boxes)) x.row_boxes.forEach((b, i) => walk(b, `${i + 1}행`));
     for (const [k, v] of Object.entries(x)) if (k !== "row_boxes" && typeof v === "object") walk(v, title);
   };
@@ -29,12 +34,12 @@ function answerBoxes(answer) {
   return out;
 }
 
-// 입력 그림을 그대로 보이고 정답 위치를 겹친다 (누르면 원본 크기로 새 창)
-function questionImagesHTML(item) {
+// 입력 그림을 그대로 보이고 정답 위치를 겹친다 (누르면 크게 보는 창: 상자마다 키·값)
+function questionImagesHTML(item, n) {
   const boxes = answerBoxes(item.answer);
   return `<div class="qa-images">${item.image_urls.map((url, i) => {
     const mine = boxes.filter(b => b.page === i + 1);
-    return `<a class="qa-page" href="${esc(url)}" target="_blank" rel="noopener" title="${item.image_urls.length > 1 ? `${i + 1}쪽 · ` : ""}원본 크기로 보기">
+    return `<a class="qa-page" href="${esc(url)}" data-qa-item="${n}" data-qa-page="${i}" title="${item.image_urls.length > 1 ? `${i + 1}쪽 · ` : ""}크게 보기 (상자마다 키·값)">
       <img src="${esc(url)}" alt="문항 입력 이미지 ${i + 1}" loading="lazy">
       ${mine.length ? `<svg viewBox="0 0 1000 1000" preserveAspectRatio="none">${mine.map(b => {
         const [x0, y0, x1, y1] = b.bbox;
@@ -42,15 +47,51 @@ function questionImagesHTML(item) {
       }).join("")}</svg>` : ""}
       ${item.image_urls.length > 1 ? `<span class="qa-pno">${i + 1}쪽</span>` : ""}</a>`;
   }).join("")}</div>
-  ${boxes.length ? `<div class="muted" style="font-size:12px">빨간 상자 = 정답 위치 ${boxes.length}개 (마우스를 올리면 키·행)</div>` : ""}`;
+  ${boxes.length ? `<div class="muted" style="font-size:12px">빨간 상자 = 정답 위치 ${boxes.length}개 (마우스를 올리면 키·행, 그림을 누르면 크게 보며 키·값)</div>` : ""}`;
+}
+
+// 문항 그림 크게 보기: 왼쪽 그림 + 정답 상자와 키, 오른쪽 키·값 목록 (상자·줄을 누르면 서로 강조)
+function questionImageDialog(item, page = 0) {
+  const boxes = answerBoxes(item.answer);
+  const dlg = document.createElement("dialog");
+  dlg.className = "qa-dialog qa-view";
+  let sel = -1;
+  const draw = () => {
+    const mine = boxes.map((b, i) => ({ ...b, i })).filter(b => b.page === page + 1);
+    dlg.innerHTML = `<div class="bar"><h2><span class="tag">${esc(item.task)}</span> <span class="mono" style="font-size:13px">${esc(item.id)}</span></h2>
+        ${item.image_urls.length > 1 ? item.image_urls.map((_, i) => `<button type="button" data-pg="${i}" class="${i === page ? "primary" : ""}">${i + 1}쪽</button>`).join("") : ""}
+        <a href="${esc(item.image_urls[page])}" target="_blank" rel="noopener">원본 크기</a><button type="button" class="qv-close">닫기 ×</button></div>
+      <div class="qv-body"><div class="qv-stage"><img src="${esc(item.image_urls[page])}" alt="">
+        <svg viewBox="0 0 1000 1000" preserveAspectRatio="none">${mine.map(b => {
+          const [x0, y0, x1, y1] = b.bbox;
+          return `<rect data-b="${b.i}" class="${b.i === sel ? "sel" : ""}" x="${x0}" y="${y0}" width="${Math.max(2, x1 - x0)}" height="${Math.max(2, y1 - y0)}"></rect>`;
+        }).join("")}</svg>
+        ${mine.map(b => `<span class="qv-key ${b.i === sel ? "sel" : ""}" style="left:${b.bbox[0] / 10}%;top:${b.bbox[1] / 10}%">${esc(b.title)}</span>`).join("")}</div>
+        <div class="qv-side">${boxes.length ? `<table><thead><tr><th>쪽</th><th>키</th><th>값</th></tr></thead><tbody>${boxes.map((b, i) =>
+          `<tr class="click ${i === sel ? "sel" : ""}" data-b="${i}"><td>${b.page}</td><td class="mono">${esc(b.title)}</td><td>${esc(b.value)}</td></tr>`).join("")}</tbody></table>`
+          : `<p class="muted">이 과제의 정답에는 위치가 없습니다.</p>`}
+          <details><summary>정답 전체</summary><pre class="ans mono">${esc(qaJSON(item.answer))}</pre></details></div></div>`;
+    dlg.querySelector(".qv-side tr.sel")?.scrollIntoView({ block: "nearest" });
+  };
+  dlg.onclick = e => {
+    if (e.target === dlg || e.target.closest(".qv-close")) { dlg.close(); return; }
+    const pg = e.target.closest("[data-pg]")?.dataset.pg;
+    if (pg !== undefined) { page = +pg; draw(); return; }
+    const b = e.target.closest("[data-b]")?.dataset.b;
+    if (b !== undefined) { sel = +b; if (boxes[sel].page !== page + 1) page = boxes[sel].page - 1; draw(); }
+  };
+  dlg.addEventListener("close", () => dlg.remove());
+  document.body.appendChild(dlg);
+  draw();
+  dlg.showModal();
 }
 
 function questionItemsHTML(items) {
-  return items.map(item => {
+  return items.map((item, n) => {
     const record = Object.fromEntries(["id", "task", "images", "prompt", "answer", "eval", "meta"].filter(k => k in item).map(k => [k, item[k]]));
     return `<article class="panel qa-item">
       <div class="bar"><span class="tag">${esc(item.task)}</span><span class="mono">${esc(item.id)}</span></div>
-      ${questionImagesHTML(item)}
+      ${questionImagesHTML(item, n)}
       <div class="qa-columns"><div><b>question → prompt</b><pre class="ans mono qa-prompt">${esc(item.prompt)}</pre></div>
         <div><b>answer (데이터 정답)</b><pre class="ans mono">${esc(qaJSON(item.answer))}</pre>
           <b>모델이 출력할 답 예시</b><pre class="ans mono">${esc(item.model_answer)}</pre></div></div>
@@ -92,6 +133,13 @@ async function tabQuestions(d) {
       : `<p class="muted">위 버튼을 누르면 실제 생성기가 만드는 질문 전문과 정답·채점 조건이 나타납니다.</p>`;
   };
   $("#qa-task").onchange = draw;
+  $("#qa-examples").onclick = e => {   // 그림을 누르면 크게 보는 창 (새 탭 대신)
+    const a = e.target.closest("[data-qa-item]");
+    if (!a || e.ctrlKey || e.metaKey) return;
+    e.preventDefault();
+    const shown = items.filter(item => item.task === $("#qa-task").value);
+    questionImageDialog(shown[+a.dataset.qaItem], +a.dataset.qaPage);
+  };
   $$("input, select", $("#tab")).filter(el => el.id !== "qa-task").forEach(el => el.addEventListener("change", () => {
     request++; items = null; $("#qa-status").textContent = "생성 조건이 바뀌었습니다. 문항 예시를 다시 만들어 주세요.";
     $("#qa-build").disabled = false; draw();

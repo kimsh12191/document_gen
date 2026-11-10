@@ -76,6 +76,8 @@ td.nw { white-space: nowrap; }
 .keys-help { font-size: 12px; color: var(--muted); }
 .keys-help kbd { border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; background: #fff; font: 11px Consolas, monospace; }
 .stage svg rect.l-value { stroke: var(--l-value); }
+.stage svg text.keyname { fill: #0b3fa8; font-family: ui-monospace, monospace; font-weight: 600; paint-order: stroke; stroke: #fff; stroke-width: 3px; stroke-linejoin: round; }
+.stage svg text.keyname.sel { fill: #c0362c; }
 .stage svg rect.l-label { stroke: var(--l-label); stroke-dasharray: 4 3; }
 .stage svg rect.l-check { stroke: var(--l-check); }
 .stage svg rect.l-check.checked { fill: rgba(217, 119, 6, .35); }
@@ -189,6 +191,18 @@ pre.log { max-height: 420px; }
 .qa-pno { position: absolute; left: 4px; top: 4px; line-height: 1.4; font-size: 11px; background: rgba(0, 0, 0, .6); color: white; padding: 0 5px; border-radius: 3px; }
 .qa-dialog { width: min(1120px, 95vw); max-width: 95vw; max-height: 94vh; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--text); }
 .qa-dialog::backdrop { background: #101a2db3; }
+.qa-view { width: 96vw; max-width: 96vw; }
+.qv-body { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 12px; align-items: start; }
+.qv-stage { position: relative; line-height: 0; border: 1px solid var(--line); background: white; }
+.qv-stage img { display: block; width: 100%; }
+.qv-stage svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.qv-stage svg rect { fill: rgba(220, 38, 38, .10); stroke: #dc2626; stroke-width: 2; vector-effect: non-scaling-stroke; cursor: pointer; }
+.qv-stage svg rect.sel { fill: rgba(47, 111, 221, .25); stroke: #0b3fa8; stroke-width: 3; }
+.qv-key { position: absolute; transform: translateY(-100%); font: 600 11px/1.2 ui-monospace, monospace; color: #b91c1c; background: rgba(255, 255, 255, .85); padding: 0 2px; white-space: nowrap; pointer-events: none; }
+.qv-key.sel { color: #0b3fa8; z-index: 1; }
+.qv-side { max-height: 80vh; overflow: auto; font-size: 12.5px; }
+.qv-side tr.sel td { background: var(--accent-soft); }
+@media (max-width: 900px) { .qv-body { grid-template-columns: 1fr; } }
 .qa-dialog h2 { margin: 0; flex: 1; font-size: 17px; }
 .ds-build-panel { margin-bottom: 16px; overflow: auto; }
 .ds-build-panel h2, #ds-registry h2 { margin: 0; }

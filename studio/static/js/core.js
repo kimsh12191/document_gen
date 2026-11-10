@@ -124,7 +124,8 @@ function readOptions(withSeed, prefix = "o") {
 function layerBar() {
   return `<div class="layers">${LAYERS.map(([k, n, c]) =>
     `<label><input type="checkbox" data-layer="${k}" ${state.layers[k] ? "checked" : ""}>
-     <span class="sw" style="background:var(${c})"></span>${n}</label>`).join("")}</div>`;
+     <span class="sw" style="background:var(${c})"></span>${n}</label>`).join("")}
+    <label title="그림의 칸마다 정답 키(태그 이름)를 글자로 겹쳐 보입니다"><input type="checkbox" data-layer="keyname" ${state.layers.keyname ? "checked" : ""}> 키 이름</label></div>`;
 }
 
 function bindLayers(redraw) {
@@ -172,6 +173,14 @@ function stageHTML(label, page, sel, extra = []) {
         width="${Math.max(1, x1 - x0)}" height="${Math.max(1, y1 - y0)}"></rect>`);
     }
   });
+  if (state.layers.keyname) {   // 칸마다 키 이름 (박스 왼쪽 위)
+    const fs = Math.max(8, pg.width * 0.0105);
+    label.fields.forEach((f, i) => {
+      if ((f.page || 0) !== page) return;
+      const b = boxesOf(f).find(x => x.layer !== "label" && state.layers[x.layer]);
+      if (b) rects.push(`<text class="keyname ${i === sel ? "sel" : ""}" x="${b.bbox[0]}" y="${Math.max(fs, b.bbox[1] - fs * 0.25)}" font-size="${fs}">${esc(f.key)}</text>`);
+    });
+  }
   for (const x of extra) {
     const [x0, y0, x1, y1] = x.bbox;
     rects.push(`<rect class="${x.cls || ""}" x="${x0}" y="${y0}" width="${Math.max(1, x1 - x0)}" height="${Math.max(1, y1 - y0)}"><title>${esc(x.title || "")}</title></rect>`);

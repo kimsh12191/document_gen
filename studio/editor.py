@@ -113,6 +113,32 @@ def set_table_title(doc_id: str, prefix: str, title: str) -> dict:
     return {"prefix": prefix, "title": title.strip() or None}
 
 
+def set_classify(doc_id: str, answer: str, aliases: list[str]) -> dict:
+    """문서 분류 정답(문서명)·다른 이름을 서식 questions.json 의 classify 에 쓴다. 서식 이름과 같고 다른 이름이 없으면 지운다 (기본)."""
+    from docgen import formquestions as FQ
+    from docgen.registry import load_all
+
+    name = load_all()[doc_id].name
+    answer = (answer or "").strip()
+    if not answer:
+        raise ValueError("분류 정답(문서명)을 적으세요")
+    aliases = list(dict.fromkeys(a.strip() for a in aliases if a and a.strip() and a.strip() != answer))
+    body = json_copy(FQ.read(doc_id) or {})
+    cur = dict(body.get("classify") or {})
+    cur.pop("answer", None)
+    cur.pop("aliases", None)
+    if answer != name:
+        cur["answer"] = answer
+    if aliases:
+        cur["aliases"] = aliases
+    if cur:
+        body["classify"] = cur
+    else:
+        body.pop("classify", None)
+    FQ.write(doc_id, body)
+    return {"answer": answer, "aliases": aliases, "default": name}
+
+
 def json_copy(x):
     import json
 
