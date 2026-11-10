@@ -12,10 +12,10 @@
     첫 점 없이 꼭짓점만 있거나 [x1, y1, x2, y2] 네 수만 있어도 된다 (그때 크기는 그림 파일에서).
 
 한 줄: {"messages": [{"role": "user", "content": "<image>질문"}, {"role": "assistant", "content": "[{…}, …]"}], "images": ["/절대/경로.png"]}
-  질문: 합성 kie 와 같은 문장 (docgen/bench/prompts.py 의 P_KIE: 값과 위치를 묻는다) + '- 키: 항목명' 줄.
+  질문: 합성 kie 와 같은 문장 (document_gen 의 P_KIE 를 이 파일에 옮겨 둠: 값과 위치를 묻는다) + '- 키: 항목명' 줄.
         묻는 항목은 그 그림의 라벨에 있는 태그만 (그림마다 다르다). 40개를 넘으면 40개씩 나눠 여러 줄 (합성 kie 와 같음).
   정답: [{"key": 태그, "value": 글자, "bbox_2d": [x1, y1, x2, y2], "page": 1}, …] — 좌표는 그 그림 기준 0~1000 정수
-        (Qwen2-VL·Qwen3-VL 방식, 합성 데이터와 같은 변환 docgen.bench.metrics.normalize_box). 글자가 빈 태그는 {"key": 태그, "value": null}.
+        (Qwen2-VL·Qwen3-VL 방식, 합성 데이터와 같은 변환). 글자가 빈 태그는 {"key": 태그, "value": null}.
         한 태그에 칸이 여럿이면 (기본 --multi join) 글자를 공백으로 이어 한 값, 위치는 칸들을 감싸는 박스.
         --multi number 면 칸마다 따로: 태그, 태그#2, … (같은 항목명 중 n번째 칸 — pairs_to_swift_kie_tmp.py·합성 kie 와 같은 표기)
   채점 (평가 세트로 쓸 때): train/scorers/kie_list_scorer.py — 정답에 위치가 있으므로 값+위치 점수 vl_f1 이 주 지표
@@ -32,17 +32,40 @@
 - --no-check-images: 그림 파일을 열지 않는다 (없는 그림도 그대로 적고, 크기는 bbox_2d 첫 점). 기본은 열어서 크기를 확인하고,
   없는 그림은 건너뛰고 수와 예를 알려 준다.
 - 출력 파일이 이미 있으면 멈춘다 (덮어쓰지 않음). 실서류 그림은 이 컴퓨터 안에서만 읽는다 (어디에도 보내지 않음).
+
+혼자 도는 파일: 표준 라이브러리 + Pillow(그림 크기 확인용, 없으면 --no-check-images 로 라벨의 크기만 씀).
 """
 import hashlib
 import json
+import math
 import sys
 from collections import Counter
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))   # 저장소 최상위 (docgen)
+# 아래 질문 문장·항목 줄·좌표 변환은 document_gen 저장소의 것을 그대로 옮겨 둔 것 (이 파일 하나로 돈다, 저장소 없이)
+#   P_KIE: docgen/forms/_common/questions.json 의 kie.prompt (format 틀이라 JSON 중괄호는 {{ }})
+#   LINE:  같은 파일의 kie.item,  normalize_box: docgen/bench/metrics.py
+P_KIE = '이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {{"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {{"key": 키, "value": null}} 로 답하세요.\n항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))\n{items}'
+LINE = '- {key}: {label}{note}'
 
-from docgen.bench.metrics import normalize_box  # noqa: E402
-from docgen.bench.prompts import P_KIE, item_line  # noqa: E402
+
+def item_line(key, label, note=""):
+    return LINE.replace("{key}", key).replace("{label}", label or "-").replace("{note}", f" ({note})" if note else "")
+
+
+def normalize_box(box, width, height):
+    """픽셀 [x1, y1, x2, y2] → 그 이미지 기준 0~1000 정수 (Qwen-VL bbox_2d). 반올림으로 폭·높이가 0 이 되면 넓힌다."""
+    scaled = [v / (width if i % 2 == 0 else height) * 1000 for i, v in enumerate(box)]
+    scaled = [min(1000.0, max(0.0, v)) for v in scaled]
+    out = [round(v) for v in scaled]
+    for axis in (0, 1):
+        if out[axis] == out[axis + 2]:
+            out[axis], out[axis + 2] = math.floor(scaled[axis]), math.ceil(scaled[axis + 2])
+            if out[axis] == out[axis + 2]:
+                out[axis + 2] += 1
+            if out[axis + 2] > 1000:
+                out[axis], out[axis + 2] = 999, 1000
+    return out
 
 MAX_ITEMS = 40
 
