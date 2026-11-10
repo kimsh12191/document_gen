@@ -1,11 +1,9 @@
-import csv
 import json
 
 import pytest
 
 from docgen.bench.tracking import composition, enrich, evaluate_groups
 from train.score import score
-from train.report import build
 
 
 def text_item(ident, text, scenario=None):
@@ -35,7 +33,7 @@ def test_missing_scenario_and_field_units_are_explicit():
     assert enriched["meta"]["source_dataset"] == "dataset-a"
 
 
-def test_tracking_survives_train_mix_and_report(tmp_path):
+def test_tracking_survives_train_mix_and_score(tmp_path):
     from train.mix import load_folder
 
     root = tmp_path / "evaluation"
@@ -45,20 +43,10 @@ def test_tracking_survives_train_mix_and_report(tmp_path):
     (root / "tasks/crop_ocr.jsonl").write_text("\n".join(json.dumps(x) for x in raw))
     _, items = load_folder(root)
     assert all(it["meta"]["source_dataset"].startswith("evaluation@") for it in items)
-    paths = []
-    for label, predictions in (("start", {"m": "abc", "j": "xxx"}), ("sft", {"m": "abc", "j": "def"})):
-        path = tmp_path / f"{label}.json"
-        path.write_text(json.dumps({"label": label, "role": label, **score(items, predictions)}))
-        paths.append(path)
-    output = tmp_path / "benchmark.csv"
-    build(paths, output)
-    rows = list(csv.DictReader((tmp_path / "benchmark.breakdowns.csv").open(encoding="utf-8-sig")))
-    row = next(r for r in rows if r["dimension"] == "scenario" and r["group"] == "jeonse_loan" and r["model"] == "sft")
-    assert float(row["value"]) == 0
-    assert float(row["delta_pp"]) == -100
-    assert row["lower_is_better"] == "True"
-    assert "mortgage" in output.with_suffix(".md").read_text(encoding="utf-8")
-    assert (tmp_path / "benchmark.breakdowns.json").is_file()
+    result = score(items, {"m": "abc", "j": "xxx"})
+    (group,) = result["breakdowns"]["source_dataset"]
+    assert group.startswith("evaluation@") and result["breakdowns"]["source_dataset"][group]["n"] == 2
+    assert result["tasks"]["crop_ocr"]["n"] == 2
 
 
 def test_studio_respects_folder_train_split_without_row_split(tmp_path):
@@ -93,17 +81,8 @@ def test_ocr_provenance_survives_manifest_task_and_common_format(tmp_path, monke
     assert enrich(common, "container-source")["meta"]["source_dataset"] == "original-source"
 
 
-def test_field_type_report_export_distinguishes_count_units(tmp_path):
+def test_field_type_scores_count_fields_not_items():
     items = [{"id": "kie", "task": "kie", "answer": {"name": "Alice"},
               "eval": {"fields": {"name": {"type": "text", "kind": "name"}}}, "meta": {"group": "income", "condition": "clean"}}]
     report = score(items, {"kie": '{"name":"Alice"}'})
-    path = tmp_path / "score.json"
-    path.write_text(json.dumps({"label": "sft", **report}), encoding="utf-8")
-    build([path], tmp_path / "report.csv")
-    with (tmp_path / "report.breakdowns.csv").open(encoding="utf-8-sig") as f:
-        rows = list(csv.DictReader(f))
-    field = next(r for r in rows if r["dimension"] == "field_kind")
-    assert (field["group"], field["n"], field["unit"], field["value"]) == ("name", "1", "fields", "1.0")
-    assert all(r["unit"] == "items" for r in rows if r["dimension"] != "field_kind")
-    data = json.loads((tmp_path / "report.breakdowns.json").read_text(encoding="utf-8"))
-    assert data["models"][0]["field_type_scores"]["kie"]["name"]["acc"] == 1
+    assert report["tasks"]["kie"]["slices"]["kind"]["name"] == {"n": 1, "acc": 1.0}   # 보고서의 'kie · kind별' 표 (항목 단위)

@@ -20,12 +20,13 @@ from urllib.request import Request, urlopen
 
 from train import fill_weights as FW
 from train.pipeline import DEFAULTS
+from train.serve import EVAL_DEFAULTS
 from train.settings import image_tokens, image_tokens_for
 
 from .images import IMAGE_MAX_SIZE
 
 ROOT = Path(__file__).resolve().parents[1]
-PIPE = copy.deepcopy(DEFAULTS)   # 평가 설정의 기본값 (model_type, eval.deploy_command·merge_command). 읽을 때의 사본
+PIPE = copy.deepcopy({**DEFAULTS, "eval": EVAL_DEFAULTS})   # 평가 설정의 기본값 (model_type, eval.deploy_command·merge_command). 읽을 때의 사본
 INFERENCE = json.loads((ROOT / "train" / "configs" / "inference.json").read_text(encoding="utf-8"))
 PORT_BASE = 8100   # 학습 평가 서버(8000~)와 겹치지 않게
 RUNNING = re.compile(r"Uvicorn running on https?://\S+?:(\d+)")

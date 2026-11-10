@@ -1,9 +1,8 @@
-"""채점 함수 견본: VQA 꼴 swift .jsonl (qa_to_swift 로 만든 것, data.benchmark·data.train 의 "format": "swift-fields").
+"""채점 함수 견본: VQA 꼴 swift .jsonl (qa_to_swift 로 만든 것, data.benchmark 의 "format": "swift-fields").
 정답(assistant)이 글, JSON 객체·배열·스칼라 어느 것이든 그대로 비교한다.
 
 설정 (경로는 설정 파일 기준, train/configs/ 의 설정이면 ../scorers/…):
   {"id": "vqa-valid", "format": "swift-fields", "paths": ["<vqa .jsonl>"], "scorer": "../scorers/vqa_scorer.py:score"}
-학습 데이터(data.train)의 swift .jsonl 에 붙이면 깨진 줄 거르기와 GRPO 보상도 이 함수로 (guide/eval.md 2절).
 
 비교 규칙
   - 정답이 JSON 으로 읽히면 말단 값마다 경로(객체 키·배열 번호)로 비교한다. 객체 키 순서는 무시, 배열 순서는 지킨다.

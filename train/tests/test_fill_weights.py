@@ -2,12 +2,11 @@
 config 의 빠진 칸을 더하며, 원본 폴더는 건드리지 않는다. 이름 규칙이 바뀐 것 같으면 채우지 않는다. torch 없이 가짜 safetensors 로."""
 import json
 import struct
-from types import SimpleNamespace
 
 import pytest
 
 from train import fill_weights as FW
-from train import pipeline as P
+from train import serve as S
 
 
 def write_st(path, tensors: dict[str, bytes]):
@@ -95,8 +94,8 @@ def test_in_place_and_cli(models, capsys):
 
 def test_pipeline_fills_after_merge_and_never_fails(models, tmp_path, capsys):
     base, merged = models
-    P.Runner.fill_from_base(SimpleNamespace(model=str(base)), merged)
+    S.fill_from_base(str(base), merged)
     assert FW.plan(base, merged)["missing"] == {} and "2개를 채움" in capsys.readouterr().out
-    P.Runner.fill_from_base(SimpleNamespace(model=str(tmp_path / "nothing")), merged)   # 출발 모델을 못 읽어도 평가는 계속
+    S.fill_from_base(str(tmp_path / "nothing"), merged)   # 출발 모델을 못 읽어도 평가는 계속
     assert "WARNING" in capsys.readouterr().out
-    assert P.DEFAULTS["eval"]["fill_from_base"] is True
+    assert S.EVAL_DEFAULTS["fill_from_base"] is True

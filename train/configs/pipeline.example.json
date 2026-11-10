@@ -1,5 +1,6 @@
 {
   "workdir": "../runs/exp1",
+  "cache_dir": "../runs/_cache",
   "ocr_prepare": "../../ocr_config.json",
   "model": "/share/cv_share/qwen3.5/9b",
   "model_type": "qwen3_5",
@@ -15,6 +16,11 @@
       {
         "path": "../../data/prepared-v2",
         "count": 20000
+      },
+      {
+        "path": "/share/…/external/my_swift_train.jsonl",
+        "format": "swift",
+        "count": 5000
       }
     ],
     "benchmark": [
@@ -22,13 +28,17 @@
         "id": "bank_synthetic_v1",
         "name": "합성 은행 서류",
         "group": "synthetic_bank",
-        "paths": ["/share/studio_workspace/datasets/bank-bench"]
+        "paths": [
+          "/share/studio_workspace/datasets/bank-bench"
+        ]
       },
       {
         "id": "ocr_real_v1",
         "name": "실문서 OCR",
         "group": "real_ocr",
-        "paths": ["../../data/prepared-v2"]
+        "paths": [
+          "../../data/prepared-v2"
+        ]
       },
       {
         "id": "real_po_kie",
@@ -36,7 +46,9 @@
         "group": "real",
         "format": "swift-fields",
         "gt": "reviewed",
-        "paths": ["/share/…/FE_eval/eval_qa_PO.kie.jsonl"],
+        "paths": [
+          "/share/…/FE_eval/eval_qa_PO.kie.jsonl"
+        ],
         "scorer": "../scorers/swift_kie_scorer.py:score"
       },
       {
@@ -44,11 +56,12 @@
         "name": "실서류 VQA first_masking_1",
         "group": "real",
         "format": "swift-fields",
-        "paths": ["/share/ben/research/bank-kie-valid/first_masking_1_swift.jsonl"],
+        "paths": [
+          "/share/ben/research/bank-kie-valid/first_masking_1_swift.jsonl"
+        ],
         "scorer": "../scorers/vqa_scorer.py:score"
       }
     ],
-    "output_dir": "../data/mixed-exp1",
     "sft_max_examples": 20000,
     "task_mix": {
       "kie": 0.22,
@@ -68,28 +81,10 @@
   "sft": {
     "config": "sft.yaml"
   },
-  "grpo": {
-    "config": "grpo_a100x2.yaml",
-    "select": "mine",
-    "candidates": 3000,
-    "count": 1000,
-    "hard_fraction": 0.5,
-    "seed": 42,
-    "tasks": [
-      "kie",
-      "table",
-      "marks",
-      "grounding",
-      "spotting",
-      "relation"
-    ],
-    "max_images": 4
-  },
   "eval": {
     "inference_config": "inference.json",
     "concurrency_per_server": 16,
     "port_base": 8000,
-    "server_start_timeout_minutes": 40,
-    "compare_models": []
+    "server_start_timeout_minutes": 40
   }
 }

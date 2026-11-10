@@ -1,0 +1,16 @@
+{
+ "name": "E03-real-po",
+ "about": "실서류 매입추심에서 출발 모델·E02 모델들·따로 학습한 모델 비교",
+ "root": "../runs/E03-real-po",
+ "base": "pipeline.example.json",
+ "baseline": "출발 모델",
+ "models": [
+  {"sweep": "../runs/E02-tune"},
+  {"label": "other-sft", "path": "/share/…/other_run/merged/sft-v0-…-checkpoint-800", "about": "따로 학습한 모델"},
+  {"label": "a4-ckpt300", "path": "../runs/E02-tune/a4-lr/sft/v0-…/checkpoint-300", "about": "a4 중간 체크포인트 (LoRA, 합쳐서 평가)"}
+ ],
+ "benchmark": [
+  {"id": "real_po_kie", "name": "실서류 매입추심 (kie 꼴로 바꾼 swift)", "group": "real", "format": "swift-fields", "gt": "reviewed",
+   "paths": ["/share/…/FE_eval/eval_qa_PO.kie.jsonl"], "scorer": "../scorers/swift_kie_scorer.py:score"}
+ ]
+}

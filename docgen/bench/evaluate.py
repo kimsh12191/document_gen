@@ -771,7 +771,7 @@ def score_task(task: str, items: list[dict], preds: dict[str, str]) -> dict:
 
 
 def reward(task: str, output: str | None, item: dict) -> float:
-    """GRPO 보상 [0, 1] — 모든 과제 하나 (train/reward_plugin.py). 답이 없거나 읽을 수 없으면 0.
+    """문항 점수 [0, 1] — 모든 과제 하나 (train/mix.py 의 정답 만점 검사). 답이 없거나 읽을 수 없으면 0.
 
     OCR 과제: 옛 1부 보상 그대로 (글자 유사도 + 숫자, 박스는 IoU 부드러운 F1).
     그 밖: ocr_field 1 − CER,  ocr_page 오차 20% 허용 재현율,  나머지는 주 지표 (kie·marks 값+위치 F1, classify 정확도)
