@@ -1,0 +1,409 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "♣ 신청 정보",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "♣ 신청인 정보",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "♣ 선적 정보",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "♣ 송금 수취인 및 수취은행 정보",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "영문(English)",
+    "n": 0
+   },
+   "key": "company.name_en",
+   "source": "profile.corporation.name_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "한글(Korean)",
+    "n": 0
+   },
+   "key": "company.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "TEL No",
+    "n": 0
+   },
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화 ( ), 금액",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     259.9,
+     292.9,
+     323.6,
+     313.1
+    ]
+   },
+   "key": "remit.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "SWIFT Code",
+    "n": 0
+   },
+   "key": "remit.accept_bank_swift",
+   "kind": "swift"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계약서 번호",
+    "n": 0
+   },
+   "key": "trade.contract_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상품명세",
+    "n": 0
+   },
+   "key": "trade.goods",
+   "kind": "goods"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "가격조건",
+    "n": 0
+   },
+   "key": "trade.incoterms"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "원산지",
+    "n": 0
+   },
+   "key": "trade.origin",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "운송서류번호(B/L No 등) *사후송금 방식인 경우 작성",
+    "n": 0
+   },
+   "key": "trade.bl_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "(예정)선적항 (또는 공항)",
+    "n": 0
+   },
+   "key": "trade.port_of_loading"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "(예정)도착항 (또는 공항)",
+    "n": 0
+   },
+   "key": "trade.port_of_discharge"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "HS코드",
+    "n": 0
+   },
+   "key": "trade.hs_code"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수출국",
+    "n": 0
+   },
+   "key": "trade.export_country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "선적국가",
+    "n": 0
+   },
+   "key": "trade.loading_country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "도착국가",
+    "n": 0
+   },
+   "key": "trade.arrival_country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수취인명",
+    "n": 0
+   },
+   "key": "foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수취인 주소 및 전화번호",
+    "n": 0
+   },
+   "key": "foreign.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수취인 주소 및 전화번호",
+    "n": 1
+   },
+   "key": "foreign.phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수취인 계좌번호",
+    "n": 0
+   },
+   "key": "foreign.account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수취은행 BIC",
+    "n": 0
+   },
+   "key": "foreign.swift"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수취은행명",
+    "n": 0
+   },
+   "key": "foreign.bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자명",
+    "n": 0
+   },
+   "key": "customer.name"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "는 주 소",
+   "rect": [
+    170.6,
+    224.6,
+    420.8,
+    237.3
+   ],
+   "key": "company.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "사업자번호(I.D No.)",
+   "rect": [
+    171.8,
+    205.9,
+    311.2,
+    223.1
+   ],
+   "key": "company.biz_no"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "송금인계좌번호(A/C)",
+   "rect": [
+    390.0,
+    205.9,
+    549.4,
+    223.1
+   ],
+   "key": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "휴대폰(Mobile Phone)",
+   "rect": [
+    260.6,
+    252.0,
+    360.0,
+    269.6
+   ],
+   "key": "customer.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "통화( )",
+   "rect": [
+    198.0,
+    292.9,
+    225.0,
+    312.0
+   ],
+   "key": "remit.currency",
+   "kind": "currency"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "송금 희망일",
+   "rect": [
+    171.8,
+    340.9,
+    207.8,
+    358.1
+   ],
+   "key": "remit.wish_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "인수은행명",
+   "rect": [
+    218.6,
+    360.8,
+    360.0,
+    378.0
+   ],
+   "key": "remit.accept_bank",
+   "kind": "accept_bank"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "( ) days after payment date",
+   "rect": [
+    397.5,
+    380.6,
+    440.6,
+    397.9
+   ],
+   "key": "remit.usance_days",
+   "kind": "usance_days"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "선적(예정)일",
+   "rect": [
+    429.0,
+    503.2,
+    476.2,
+    523.1
+   ],
+   "key": "trade.shipment_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    176.2,
+    777.8,
+    240.0,
+    789.4
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인",
+   "rect": [
+    378.8,
+    777.8,
+    480.0,
+    789.4
+   ],
+   "key": "company.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

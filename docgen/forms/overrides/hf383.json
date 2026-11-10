@@ -1,0 +1,134 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "고객등급",
+    "n": 0
+   },
+   "key": "customer.derivative_grade",
+   "kind": "derivative_grade"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "거래가능 상품의 위험등급",
+    "n": 0
+   },
+   "key": "customer.allowed_risk_level",
+   "kind": "allowed_risk_level"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "거래희망 상품명",
+    "n": 0
+   },
+   "key": "derivative.product",
+   "kind": "otc_derivative"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "거래희망 상품의 위험등급",
+    "n": 0
+   },
+   "key": "derivative.risk_level",
+   "kind": "desired_risk_level"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "본인",
+    "n": 0
+   },
+   "key": "confirm.self_judgment",
+   "kind": "copy_self_judgment"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "담당자 (파생상품투자권유 자문인력)",
+    "n": 0
+   },
+   "key": "bank.staff_name",
+   "kind": "other_person"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "자필 확인문구 (받지 않았으며)",
+   "rect": [
+    316.9,
+    715.5,
+    367.9,
+    732.0
+   ],
+   "key": "confirm.no_solicit",
+   "kind": "copy_no_solicit"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "자필 확인문구 (수령)",
+   "rect": [
+    207.0,
+    322.5,
+    225.4,
+    337.5
+   ],
+   "key": "confirm.received",
+   "kind": "copy_received"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "자필 확인문구 (내용)",
+   "rect": [
+    277.9,
+    322.5,
+    303.0,
+    337.5
+   ],
+   "key": "confirm.content",
+   "kind": "copy_content"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "자필 확인문구 (설명)",
+   "rect": [
+    334.5,
+    322.5,
+    355.1,
+    337.5
+   ],
+   "key": "confirm.explained",
+   "kind": "copy_explained"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "고객확인 작성일자(년 월 일)",
+   "rect": [
+    256.5,
+    351.8,
+    371.2,
+    368.2
+   ],
+   "key": "date"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

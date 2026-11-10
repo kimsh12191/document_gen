@@ -1,0 +1,248 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "FAX",
+    "n": 0
+   },
+   "key": "company.fax",
+   "source": "profile.corporation.fax"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "유효기일",
+    "n": 0
+   },
+   "key": "lc.expiry_before",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "제시기일",
+    "n": 0
+   },
+   "key": "lc.presentation_before",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "선적기일",
+    "n": 0
+   },
+   "key": "lc.shipment_before",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "부보비율",
+    "n": 0
+   },
+   "key": "lc.insurance_ratio_before",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "변경후",
+    "n": 0
+   },
+   "key": "lc_list.{i}.expiry_after",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "변경후",
+    "n": 1
+   },
+   "key": "lc_list.{i}.presentation_after",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "변경후",
+    "n": 2
+   },
+   "key": "lc_list.{i}.shipment_after",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "변경후",
+    "n": 3
+   },
+   "key": "lc_list.{i}.insurance_ratio_after",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기발행 SKY T/S번호",
+    "n": 0
+   },
+   "key": "lc.sky_ts_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "본건 양도후 신용장잔액",
+    "n": 0
+   },
+   "key": "lc.balance_after",
+   "kind": "fx_amount"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "원 신용장 번호",
+   "rect": [
+    162.0,
+    209.2,
+    294.4,
+    226.1
+   ],
+   "key": "lc.no",
+   "kind": "number"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "금액 변경전",
+   "rect": [
+    148.5,
+    251.6,
+    347.6,
+    268.5
+   ],
+   "key": "lc.amount_before",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "단가 변경전",
+   "rect": [
+    148.5,
+    278.2,
+    347.6,
+    296.2
+   ],
+   "key": "lc.unit_price_before",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "금액 변경후",
+   "rect": [
+    350.2,
+    251.6,
+    549.4,
+    268.5
+   ],
+   "key": "lc.amount_after",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "단가 변경후",
+   "rect": [
+    350.2,
+    278.2,
+    549.4,
+    296.2
+   ],
+   "key": "lc.unit_price_after",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "기타 신청내역",
+   "rect": [
+    56.2,
+    431.2,
+    547.5,
+    450.0
+   ],
+   "key": "lc.other_request",
+   "source": "rule:free_text"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "조건변경회차",
+   "rect": [
+    162.0,
+    509.2,
+    472.5,
+    522.0
+   ],
+   "key": "lc.amend_count",
+   "kind": "count"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "본건포함 기양도액",
+   "rect": [
+    147.0,
+    540.8,
+    532.5,
+    555.0
+   ],
+   "key": "lc.transferred_total",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청일( . . )",
+   "rect": [
+    450.0,
+    650.6,
+    543.8,
+    663.8
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인",
+   "rect": [
+    410.6,
+    667.5,
+    519.4,
+    680.6
+   ],
+   "key": "company.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

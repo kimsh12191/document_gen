@@ -102,7 +102,7 @@ def test_judge_decide_and_draft(testset, tmp_path, monkeypatch):
     assert j[known["id"]]["suggest"]["kind"] == "existing" and j[known["id"]]["suggest"]["form_id"] == "employment_certificate"
     other = next(f for f in fx["formats"] if form_of(f) == "commercial_invoice")
     assert j[other["id"]]["suggest"]["kind"] == "new" and j[other["id"]]["keys"]
-    assert any(k["common"] == "foreign.name" for k in j[other["id"]]["keys"])          # shipper.name → 외국 상대 이름
+    assert any((k["common"] or "").startswith("foreign.") for k in j[other["id"]]["keys"])   # shipper.* → 외국 상대 (이름·주소)
     IJ.decide(d, {other["id"]: {"kind": "new", "name": "상업송장(새)", "uses": {"template": True, "raw": True},
                                 "keymap": {"invoice_no": None}}})
     saved = next(x for x in IJ.judge(d) if x["id"] == other["id"])["decision"]

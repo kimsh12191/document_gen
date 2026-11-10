@@ -1,0 +1,264 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "부동산의종류",
+    "n": 0
+   },
+   "key": "property.kind",
+   "source": "rule:free_text"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소 재 지",
+    "n": 0
+   },
+   "key": "property.location",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "면 적",
+    "n": 0
+   },
+   "key": "property.area",
+   "kind": "property_area"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취 득 기 간",
+    "n": 0
+   },
+   "key": "property.acquisition_due",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취 득 사 유",
+    "n": 0
+   },
+   "key": "property.reason",
+   "kind": "reason"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취 득 가 액",
+    "n": 0
+   },
+   "key": "property.acquisition_amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소( 소재지)",
+    "n": 0
+   },
+   "key": "company.address",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신고(수리)번호",
+    "n": 0
+   },
+   "key": "bank.report_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신고(수리)금액",
+    "n": 0
+   },
+   "key": "bank.report_amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "유 효 기 간",
+    "n": 0
+   },
+   "key": "bank.valid_until",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신고수리 조건",
+    "n": 0
+   },
+   "key": "bank.condition",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "위의 신고를 다음과 같이 신고수리함.",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "(전화번호)",
+   "rect": [
+    452.0,
+    188.3,
+    520.6,
+    203.5
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "(취득단가)",
+   "rect": [
+    452.0,
+    383.0,
+    520.6,
+    405.7
+   ],
+   "key": "property.unit_price",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "상호",
+   "rect": [
+    188.6,
+    163.1,
+    326.2,
+    183.0
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대표자 성명",
+   "rect": [
+    330.0,
+    163.1,
+    465.0,
+    183.0
+   ],
+   "key": "company.ceo"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "취득인 (성명)",
+   "rect": [
+    225.0,
+    231.0,
+    345.0,
+    249.4
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "취득인 (전화번호)",
+   "rect": [
+    397.5,
+    231.0,
+    521.2,
+    249.4
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "취득인 (주소)",
+   "rect": [
+    225.0,
+    252.4,
+    551.6,
+    271.1
+   ],
+   "key": "company.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "취득상대방 (성명)",
+   "rect": [
+    225.0,
+    273.8,
+    345.0,
+    292.5
+   ],
+   "key": "foreign.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "취득상대방 (전화번호)",
+   "rect": [
+    397.5,
+    273.8,
+    521.2,
+    292.5
+   ],
+   "key": "foreign.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "취득상대방 (주소)",
+   "rect": [
+    225.0,
+    295.1,
+    551.6,
+    313.5
+   ],
+   "key": "foreign.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고일(년 월 일)",
+   "rect": [
+    371.2,
+    500.6,
+    424.5,
+    516.8
+   ],
+   "key": "date"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

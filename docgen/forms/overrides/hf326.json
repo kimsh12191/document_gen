@@ -1,0 +1,257 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매매대상물종류",
+    "n": 0
+   },
+   "key": "deal.object",
+   "kind": "deal_object"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매 매 금 액",
+    "n": 0
+   },
+   "key": "deal.amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매 매 사 유",
+    "n": 0
+   },
+   "key": "deal.reason",
+   "kind": "reason"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신 고 번 호",
+    "n": 0
+   },
+   "key": "bank.report_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신 고 금 액",
+    "n": 0
+   },
+   "key": "bank.report_amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "유 효 기 간",
+    "n": 0
+   },
+   "key": "bank.valid_until",
+   "kind": "date"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "( )매매 대상(제목)",
+   "rect": [
+    159.4,
+    120.8,
+    255.0,
+    136.9
+   ],
+   "key": "deal.object",
+   "kind": "deal_object"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "상호",
+   "rect": [
+    185.6,
+    153.0,
+    337.5,
+    173.2
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대표자 성명",
+   "rect": [
+    341.2,
+    153.0,
+    498.8,
+    173.2
+   ],
+   "key": "company.ceo"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "주소(소재지)",
+   "rect": [
+    185.6,
+    175.9,
+    358.1,
+    195.8
+   ],
+   "key": "company.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 전화번호",
+   "rect": [
+    408.8,
+    175.9,
+    551.6,
+    195.8
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "매각인 성명",
+   "rect": [
+    221.2,
+    221.2,
+    551.6,
+    239.2
+   ],
+   "key": "foreign.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "매각인 주소",
+   "rect": [
+    221.2,
+    243.8,
+    358.1,
+    257.2
+   ],
+   "key": "foreign.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "매각인 전화번호",
+   "rect": [
+    408.8,
+    243.8,
+    551.6,
+    257.2
+   ],
+   "key": "deal.seller_phone",
+   "kind": "office_phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "매입인 성명",
+   "rect": [
+    221.2,
+    266.6,
+    551.6,
+    284.6
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "매입인 주소",
+   "rect": [
+    221.2,
+    288.8,
+    358.1,
+    302.2
+   ],
+   "key": "company.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "매입인 전화번호",
+   "rect": [
+    408.8,
+    288.8,
+    551.6,
+    302.2
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "미불화 상당액",
+   "rect": [
+    405.0,
+    334.5,
+    551.6,
+    354.4
+   ],
+   "key": "deal.usd_equiv",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "원화금액",
+   "rect": [
+    185.6,
+    357.4,
+    335.6,
+    377.2
+   ],
+   "key": "deal.krw_amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "원화환율",
+   "rect": [
+    398.2,
+    357.4,
+    551.6,
+    377.2
+   ],
+   "key": "deal.krw_rate",
+   "kind": "rate"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고일(년 월 일)",
+   "rect": [
+    348.8,
+    453.8,
+    503.6,
+    468.8
+   ],
+   "key": "date"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

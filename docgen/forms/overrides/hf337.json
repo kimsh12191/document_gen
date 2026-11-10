@@ -1,0 +1,774 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이용자 I D",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     115.1,
+     211.1,
+     364.1,
+     225.8
+    ]
+   },
+   "key": "ebank.user_id",
+   "kind": "user_id"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "\u0000 자물쇠카드 (일련번호",
+    "n": 0
+   },
+   "key": "ebank.lock_card_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": ") \u0000 OTP (제조업체",
+    "n": 0
+   },
+   "key": "ebank.otp_maker",
+   "kind": "otp_maker"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": ", 일련번호",
+    "n": 0
+   },
+   "key": "ebank.otp_serial",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "구 분",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "\u0000 3시간지연, \u0000 4시간지연",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "은행명",
+    "n": 0
+   },
+   "key": "transfer_list.{i}.bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "은행명",
+    "n": 1
+   },
+   "key": "transfer_list.{i}.bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 0
+   },
+   "key": "transfer_list.{i}.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 1
+   },
+   "key": "transfer_list.{i}.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "폰뱅킹 단축번호",
+    "n": 0
+   },
+   "key": "transfer_list.{i}.short_no",
+   "kind": "phone_short_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "폰뱅킹 단축번호",
+    "n": 1
+   },
+   "key": "transfer_list.{i}.short_no",
+   "kind": "phone_short_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성 명",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "명",
+    "n": 0
+   },
+   "key": "agent.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소",
+    "n": 0
+   },
+   "key": "agent.address",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "이용자 I D",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     115.1,
+     211.1,
+     364.1,
+     225.8
+    ]
+   },
+   "key": "ebank.user_id",
+   "kind": "user_id"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "\u0000 자물쇠카드 (일련번호",
+    "n": 0
+   },
+   "key": "ebank.lock_card_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": ") \u0000 OTP (제조업체",
+    "n": 0
+   },
+   "key": "ebank.otp_maker",
+   "kind": "otp_maker"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": ", 일련번호",
+    "n": 0
+   },
+   "key": "ebank.otp_serial",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "구 분",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "\u0000 3시간지연, \u0000 4시간지연",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "은행명",
+    "n": 0
+   },
+   "key": "transfer_list.{i}.bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "은행명",
+    "n": 1
+   },
+   "key": "transfer_list.{i}.bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 0
+   },
+   "key": "transfer_list.{i}.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 1
+   },
+   "key": "transfer_list.{i}.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "폰뱅킹 단축번호",
+    "n": 0
+   },
+   "key": "transfer_list.{i}.short_no",
+   "kind": "phone_short_no"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "폰뱅킹 단축번호",
+    "n": 1
+   },
+   "key": "transfer_list.{i}.short_no",
+   "kind": "phone_short_no"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "성 명",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "명",
+    "n": 0
+   },
+   "key": "agent.name"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "소",
+    "n": 0
+   },
+   "key": "agent.address",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지점장",
+    "n": 0
+   },
+   "key": "bank.branch",
+   "kind": "branch"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "실명확인증표 사본",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 2,
+   "label": "관 계",
+   "rect": [
+    135.7,
+    685.2,
+    311.2,
+    700.5
+   ],
+   "key": "agent.relation"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "OTP수수료 출금 계좌번호",
+   "rect": [
+    324.4,
+    267.4,
+    412.5,
+    282.0
+   ],
+   "key": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "1일이체한도 인터넷/스마트폰뱅킹(원)",
+   "rect": [
+    184.1,
+    284.2,
+    341.2,
+    300.0
+   ],
+   "key": "ebank.internet_limit_day",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "1일이체한도 폰뱅킹(원)",
+   "rect": [
+    374.6,
+    284.2,
+    526.9,
+    300.0
+   ],
+   "key": "ebank.phone_limit_day",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "1회이체한도 인터넷/스마트폰뱅킹(원)",
+   "rect": [
+    184.1,
+    302.2,
+    341.2,
+    317.2
+   ],
+   "key": "ebank.internet_limit_once",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "1회이체한도 폰뱅킹(원)",
+   "rect": [
+    374.6,
+    302.2,
+    526.9,
+    317.2
+   ],
+   "key": "ebank.phone_limit_once",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "미지정계좌 이체한도 인터넷/스마트폰뱅킹(원)",
+   "rect": [
+    246.8,
+    319.5,
+    339.4,
+    336.0
+   ],
+   "key": "ebank.unassigned_limit_internet",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "미지정계좌 이체한도 폰뱅킹(원)",
+   "rect": [
+    381.4,
+    319.5,
+    482.6,
+    336.0
+   ],
+   "key": "ebank.unassigned_limit_phone",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "폰뱅킹 지정전화번호 1",
+   "rect": [
+    254.2,
+    463.9,
+    318.0,
+    481.1
+   ],
+   "key": "customer.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "폰뱅킹 지정전화번호 2",
+   "rect": [
+    331.9,
+    463.9,
+    393.8,
+    481.1
+   ],
+   "key": "customer.home_phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "1회용 인증번호 발급(개)",
+   "rect": [
+    313.1,
+    526.9,
+    348.8,
+    543.0
+   ],
+   "key": "ebank.otp_count",
+   "kind": "small_count"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대리인 생년월일",
+   "rect": [
+    374.6,
+    654.4,
+    461.2,
+    668.2
+   ],
+   "key": "agent.birth"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대리인 고객번호",
+   "rect": [
+    497.6,
+    654.4,
+    540.0,
+    668.2
+   ],
+   "key": "agent.customer_no",
+   "kind": "number"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    52.5,
+    757.5,
+    110.6,
+    771.8
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청 및 수령인",
+   "rect": [
+    303.4,
+    758.2,
+    418.1,
+    772.5
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "(법정)대리인 1",
+   "rect": [
+    88.1,
+    783.8,
+    199.5,
+    798.0
+   ],
+   "key": "agent.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "(법정)대리인 2",
+   "rect": [
+    306.8,
+    783.8,
+    418.1,
+    798.0
+   ],
+   "key": "family.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대리인 관계",
+   "rect": [
+    136.5,
+    686.2,
+    309.8,
+    698.6
+   ],
+   "key": "agent.relation"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "OTP수수료 출금 계좌번호",
+   "rect": [
+    324.4,
+    267.4,
+    412.5,
+    282.0
+   ],
+   "key": "account"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "1일이체한도 인터넷/스마트폰뱅킹(원)",
+   "rect": [
+    184.1,
+    284.2,
+    341.2,
+    300.0
+   ],
+   "key": "ebank.internet_limit_day",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "1일이체한도 폰뱅킹(원)",
+   "rect": [
+    374.6,
+    284.2,
+    526.9,
+    300.0
+   ],
+   "key": "ebank.phone_limit_day",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "1회이체한도 인터넷/스마트폰뱅킹(원)",
+   "rect": [
+    184.1,
+    302.2,
+    341.2,
+    317.2
+   ],
+   "key": "ebank.internet_limit_once",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "1회이체한도 폰뱅킹(원)",
+   "rect": [
+    374.6,
+    302.2,
+    526.9,
+    317.2
+   ],
+   "key": "ebank.phone_limit_once",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "미지정계좌 이체한도 인터넷/스마트폰뱅킹(원)",
+   "rect": [
+    246.8,
+    319.5,
+    339.4,
+    336.0
+   ],
+   "key": "ebank.unassigned_limit_internet",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "미지정계좌 이체한도 폰뱅킹(원)",
+   "rect": [
+    381.4,
+    319.5,
+    482.6,
+    336.0
+   ],
+   "key": "ebank.unassigned_limit_phone",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "폰뱅킹 지정전화번호 1",
+   "rect": [
+    254.2,
+    463.9,
+    318.0,
+    481.1
+   ],
+   "key": "customer.phone"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "폰뱅킹 지정전화번호 2",
+   "rect": [
+    331.9,
+    463.9,
+    393.8,
+    481.1
+   ],
+   "key": "customer.home_phone"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "1회용 인증번호 발급(개)",
+   "rect": [
+    313.1,
+    526.9,
+    348.8,
+    543.0
+   ],
+   "key": "ebank.otp_count",
+   "kind": "small_count"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "대리인 생년월일",
+   "rect": [
+    374.6,
+    654.4,
+    461.2,
+    668.2
+   ],
+   "key": "agent.birth"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "대리인 고객번호",
+   "rect": [
+    497.6,
+    654.4,
+    540.0,
+    668.2
+   ],
+   "key": "agent.customer_no",
+   "kind": "number"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    52.5,
+    757.5,
+    110.6,
+    771.8
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "신청 및 수령인",
+   "rect": [
+    303.4,
+    758.2,
+    418.1,
+    772.5
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "(법정)대리인 1",
+   "rect": [
+    88.1,
+    783.8,
+    199.5,
+    798.0
+   ],
+   "key": "agent.name"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "(법정)대리인 2",
+   "rect": [
+    306.8,
+    783.8,
+    418.1,
+    798.0
+   ],
+   "key": "family.name"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "지점장(지점명)",
+   "rect": [
+    193.1,
+    110.6,
+    431.2,
+    125.6
+   ],
+   "key": "bank.branch",
+   "kind": "branch"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

@@ -1,0 +1,105 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취급점",
+    "n": 0
+   },
+   "key": "bank.branch",
+   "kind": "branch"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "◦ 분할실행 신청액",
+    "n": 0
+   },
+   "key": "loan.split_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "총대출한도 (A)",
+    "n": 0
+   },
+   "key": "loan.limit",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기사용한도 (B)",
+    "n": 0
+   },
+   "key": "loan.used_limit",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "분 할 실 행 신청액(C)",
+    "n": 0
+   },
+   "key": "loan.split_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "미사용한도 (A-B-C)",
+    "n": 0
+   },
+   "key": "loan.unused_limit",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 0
+   },
+   "key": "loan.remark",
+   "kind": "note"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대출거래약정 일자(년 월 일)",
+   "rect": [
+    96.8,
+    244.5,
+    123.0,
+    260.2
+   ],
+   "key": "loan.contract_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "채무자",
+   "rect": [
+    361.9,
+    717.0,
+    530.6,
+    733.5
+   ],
+   "key": "customer.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

@@ -1,0 +1,180 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "보 증 채 권 자",
+    "n": 0
+   },
+   "key": "guarantee.creditor",
+   "source": "profile.foreign.bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "보 증 채 무 자",
+    "n": 0
+   },
+   "key": "guarantee.debtor",
+   "source": "profile.foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "보 증 수 혜 자",
+    "n": 0
+   },
+   "key": "guarantee.beneficiary",
+   "source": "profile.foreign.bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "보 증 금 액",
+    "n": 0
+   },
+   "key": "guarantee.amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "보 증 기 간",
+    "n": 0
+   },
+   "key": "guarantee.period",
+   "kind": "guarantee_period"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상 환 방 법",
+    "n": 0
+   },
+   "key": "guarantee.repay",
+   "kind": "repay"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신고번호",
+    "n": 0
+   },
+   "key": "bank.report_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신고금액",
+    "n": 0
+   },
+   "key": "bank.report_amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "유효기간",
+    "n": 0
+   },
+   "key": "bank.valid_until",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신고조건",
+    "n": 0
+   },
+   "key": "bank.report_condition",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "위의 신청을 다음과 같이 신고필함.",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "상호",
+   "rect": [
+    188.2,
+    163.9,
+    318.8,
+    182.6
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대표자 성명",
+   "rect": [
+    322.5,
+    163.9,
+    457.5,
+    182.6
+   ],
+   "key": "company.ceo"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "주소(소재지)",
+   "rect": [
+    188.2,
+    185.2,
+    543.8,
+    206.2
+   ],
+   "key": "company.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "전화번호",
+   "rect": [
+    343.1,
+    208.1,
+    474.4,
+    222.0
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고일(년 월 일)",
+   "rect": [
+    348.8,
+    558.8,
+    498.8,
+    573.0
+   ],
+   "key": "date"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

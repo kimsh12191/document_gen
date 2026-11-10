@@ -1,0 +1,145 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "고객유형",
+    "n": 0
+   },
+   "key": "customer.investor_type",
+   "kind": "investor_customer_type"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "미성년자/고령/초고령 구분",
+    "n": 0
+   },
+   "key": "customer.age_group",
+   "kind": "age_group"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "고객등급",
+    "n": 0
+   },
+   "key": "customer.derivatives_grade",
+   "kind": "derivatives_grade"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "거래가능 상품의 위험등급",
+    "n": 0
+   },
+   "key": "customer.allowed_risk_grade",
+   "kind": "product_risk_grade"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "거래목적-위험회피 목적 여부",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "위험의 속성 및 규모에 따른 적합 여부",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "장외파생상품에 대한 지식 보유 정도",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "장외파생상품을 취득·처분한 경험",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "담당자 (파생상품투자권유 자문인력)",
+    "n": 0
+   },
+   "key": "bank.staff",
+   "kind": "other_person"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 1,
+   "label": "고객확인 작성일자(년 월 일)",
+   "rect": [
+    256.1,
+    261.4,
+    370.1,
+    274.5
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "고객명 (서명/인)",
+   "kind": "seal",
+   "rect": [
+    397.5,
+    292.5,
+    463.5,
+    333.8
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "은행확인 작성일자(년 월 일)",
+   "rect": [
+    256.1,
+    505.1,
+    370.1,
+    518.2
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "지점/부서명",
+   "rect": [
+    225.0,
+    536.6,
+    409.5,
+    577.5
+   ],
+   "key": "bank.branch",
+   "kind": "branch"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

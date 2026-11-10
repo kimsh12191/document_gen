@@ -1,0 +1,217 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상품명",
+    "n": 0
+   },
+   "key": "info_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상품명",
+    "n": 1
+   },
+   "key": "info_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상품명",
+    "n": 2
+   },
+   "key": "info_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "중심업체코드",
+    "n": 0
+   },
+   "key": "info_list.{i}.anchor_code",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "중심업체코드",
+    "n": 1
+   },
+   "key": "info_list.{i}.anchor_code",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "중심업체코드",
+    "n": 2
+   },
+   "key": "info_list.{i}.anchor_code",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "한도승인번호",
+    "n": 0
+   },
+   "key": "info_list.{i}.approval_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "한도승인번호",
+    "n": 1
+   },
+   "key": "info_list.{i}.approval_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "한도승인번호",
+    "n": 2
+   },
+   "key": "info_list.{i}.approval_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "정보제공내용",
+    "n": 0
+   },
+   "key": "info_list.{i}.content",
+   "kind": "credit_info_content"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "정보제공내용",
+    "n": 1
+   },
+   "key": "info_list.{i}.content",
+   "kind": "credit_info_content"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "정보제공내용",
+    "n": 2
+   },
+   "key": "info_list.{i}.content",
+   "kind": "credit_info_content"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취급점",
+    "n": 0
+   },
+   "key": "bank.branch",
+   "kind": "branch"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "■신용거래정보의 제공 목적",
+    "n": 0
+   },
+   "key": "consent.purpose",
+   "kind": "credit_info_purpose"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "■신용거래정보의 제공 받을 자",
+    "n": 0
+   },
+   "key": "consent.recipient",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "■제공할 신용거래정보 등의 내용 및 범위",
+    "n": 0
+   },
+   "key": "consent.scope",
+   "kind": "credit_info_content"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화번호(선택항목)",
+    "n": 0
+   },
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신용정보 제공 동의서 유효기간(까지)",
+   "rect": [
+    238.1,
+    502.5,
+    318.8,
+    517.5
+   ],
+   "key": "consent.valid_until",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    451.9,
+    535.5,
+    480.8,
+    554.2
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "동의자 본인 회사명",
+   "rect": [
+    127.5,
+    565.5,
+    228.8,
+    584.2
+   ],
+   "key": "company.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

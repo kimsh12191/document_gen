@@ -1,0 +1,144 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "변경 전",
+    "n": 0
+   },
+   "key": "pension.change_before",
+   "source": "rule:free_text"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "변경 후",
+    "n": 0
+   },
+   "key": "pension.change_after",
+   "source": "rule:free_text"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성명",
+    "n": 0
+   },
+   "key": "trustee.name",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일",
+    "n": 0
+   },
+   "key": "trustee.birth",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성명",
+    "n": 1
+   },
+   "key": "company_manager.name",
+   "source": "profile.directors.0.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "휴대폰번호",
+    "n": 0
+   },
+   "key": "company_manager.phone",
+   "source": "profile.directors.0.mobile"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일",
+    "n": 1
+   },
+   "key": "company_manager.birth",
+   "source": "profile.directors.0.birth"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이메일주소",
+    "n": 0
+   },
+   "key": "company_manager.email",
+   "source": "profile.directors.0.email"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기업담당자 성명",
+    "n": 0
+   },
+   "key": "company_manager.name",
+   "source": "profile.directors.0.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기업담당자 휴대폰번호",
+    "n": 0
+   },
+   "key": "company_manager.phone",
+   "source": "profile.directors.0.mobile"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "근로자 앞 문자 발송요청일",
+    "n": 0
+   },
+   "key": "pension.sms_request_date",
+   "kind": "date"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    202.5,
+    710.6,
+    251.2,
+    727.5
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인",
+   "rect": [
+    236.2,
+    748.1,
+    335.6,
+    763.1
+   ],
+   "key": "customer.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

@@ -27,7 +27,10 @@ RULE_KINDS = ["date", "amount", "fx_amount", "percent", "rate", "currency", "acc
               "address", "company", "person", "note", "loan_subject", "repay", "check_kind", "other_person", "office_phone"]
 SPECIAL_RULES = ["choice", "fixed", "free_text", "empty", "date_seq"]
 FREE_TEXT = ["해당 없음", "본인 요청", "만기 해지", "계좌 정리", "생활자금", "추가 서류 제출 예정", "담당자 확인 완료",
-             "전화 확인", "기존 계좌 유지", "주소 변경"]
+             "전화 확인", "기존 계좌 유지", "주소 변경", "연락처 변경", "대리인 방문", "원본 대조 완료", "사본 첨부",
+             "고객 요청으로 재발급", "분실 신고 후 재발급", "법인 인감 확인", "등기부등본 확인", "급여 이체 변경",
+             "자동이체 해지 요청", "만기 자동 재예치", "통장 미발행", "인터넷뱅킹 신규", "OTP 발급", "체크카드 동시 신청",
+             "보증인 연대 서명", "가족 대리 수령", "해외 체류 중", "추후 보완", "-"]
 
 
 def lookup_profile(p, path: str):

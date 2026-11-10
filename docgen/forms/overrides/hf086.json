@@ -1,0 +1,1574 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "업체명",
+    "n": 0
+   },
+   "key": "partner_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "업체명",
+    "n": 1
+   },
+   "key": "partner_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "업체명",
+    "n": 2
+   },
+   "key": "partner_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "업체명",
+    "n": 3
+   },
+   "key": "partner_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "업체명",
+    "n": 4
+   },
+   "key": "partner_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "업체명",
+    "n": 5
+   },
+   "key": "partner_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "업체명",
+    "n": 6
+   },
+   "key": "partner_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "업체명",
+    "n": 7
+   },
+   "key": "partner_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "업체명",
+    "n": 8
+   },
+   "key": "partner_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "업체명",
+    "n": 9
+   },
+   "key": "partner_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "업체명",
+    "n": 10
+   },
+   "key": "partner_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "업체명",
+    "n": 11
+   },
+   "key": "partner_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "업체명",
+    "n": 12
+   },
+   "key": "partner_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "업체명",
+    "n": 13
+   },
+   "key": "partner_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표자",
+    "n": 0
+   },
+   "key": "partner_list.{i}.ceo",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표자",
+    "n": 1
+   },
+   "key": "partner_list.{i}.ceo",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표자",
+    "n": 2
+   },
+   "key": "partner_list.{i}.ceo",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표자",
+    "n": 3
+   },
+   "key": "partner_list.{i}.ceo",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표자",
+    "n": 4
+   },
+   "key": "partner_list.{i}.ceo",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표자",
+    "n": 5
+   },
+   "key": "partner_list.{i}.ceo",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표자",
+    "n": 6
+   },
+   "key": "partner_list.{i}.ceo",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표자",
+    "n": 7
+   },
+   "key": "partner_list.{i}.ceo",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표자",
+    "n": 8
+   },
+   "key": "partner_list.{i}.ceo",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표자",
+    "n": 9
+   },
+   "key": "partner_list.{i}.ceo",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표자",
+    "n": 10
+   },
+   "key": "partner_list.{i}.ceo",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표자",
+    "n": 11
+   },
+   "key": "partner_list.{i}.ceo",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표자",
+    "n": 12
+   },
+   "key": "partner_list.{i}.ceo",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표자",
+    "n": 13
+   },
+   "key": "partner_list.{i}.ceo",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "법인번호",
+    "n": 0
+   },
+   "key": "partner_list.{i}.corp_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "법인번호",
+    "n": 1
+   },
+   "key": "partner_list.{i}.corp_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "법인번호",
+    "n": 2
+   },
+   "key": "partner_list.{i}.corp_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "법인번호",
+    "n": 3
+   },
+   "key": "partner_list.{i}.corp_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "법인번호",
+    "n": 4
+   },
+   "key": "partner_list.{i}.corp_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "법인번호",
+    "n": 5
+   },
+   "key": "partner_list.{i}.corp_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "법인번호",
+    "n": 6
+   },
+   "key": "partner_list.{i}.corp_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "법인번호",
+    "n": 7
+   },
+   "key": "partner_list.{i}.corp_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "법인번호",
+    "n": 8
+   },
+   "key": "partner_list.{i}.corp_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "법인번호",
+    "n": 9
+   },
+   "key": "partner_list.{i}.corp_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "법인번호",
+    "n": 10
+   },
+   "key": "partner_list.{i}.corp_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "법인번호",
+    "n": 11
+   },
+   "key": "partner_list.{i}.corp_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "법인번호",
+    "n": 12
+   },
+   "key": "partner_list.{i}.corp_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "법인번호",
+    "n": 13
+   },
+   "key": "partner_list.{i}.corp_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자번호",
+    "n": 0
+   },
+   "key": "partner_list.{i}.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자번호",
+    "n": 1
+   },
+   "key": "partner_list.{i}.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자번호",
+    "n": 2
+   },
+   "key": "partner_list.{i}.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자번호",
+    "n": 3
+   },
+   "key": "partner_list.{i}.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자번호",
+    "n": 4
+   },
+   "key": "partner_list.{i}.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자번호",
+    "n": 5
+   },
+   "key": "partner_list.{i}.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자번호",
+    "n": 6
+   },
+   "key": "partner_list.{i}.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자번호",
+    "n": 7
+   },
+   "key": "partner_list.{i}.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자번호",
+    "n": 8
+   },
+   "key": "partner_list.{i}.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자번호",
+    "n": 9
+   },
+   "key": "partner_list.{i}.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자번호",
+    "n": 10
+   },
+   "key": "partner_list.{i}.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자번호",
+    "n": 11
+   },
+   "key": "partner_list.{i}.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자번호",
+    "n": 12
+   },
+   "key": "partner_list.{i}.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자번호",
+    "n": 13
+   },
+   "key": "partner_list.{i}.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "최초거래일자",
+    "n": 0
+   },
+   "key": "partner_list.{i}.first_trade_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "최초거래일자",
+    "n": 1
+   },
+   "key": "partner_list.{i}.first_trade_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "최초거래일자",
+    "n": 2
+   },
+   "key": "partner_list.{i}.first_trade_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "최초거래일자",
+    "n": 3
+   },
+   "key": "partner_list.{i}.first_trade_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "최초거래일자",
+    "n": 4
+   },
+   "key": "partner_list.{i}.first_trade_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "최초거래일자",
+    "n": 5
+   },
+   "key": "partner_list.{i}.first_trade_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "최초거래일자",
+    "n": 6
+   },
+   "key": "partner_list.{i}.first_trade_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "최초거래일자",
+    "n": 7
+   },
+   "key": "partner_list.{i}.first_trade_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "최초거래일자",
+    "n": 8
+   },
+   "key": "partner_list.{i}.first_trade_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "최초거래일자",
+    "n": 9
+   },
+   "key": "partner_list.{i}.first_trade_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "최초거래일자",
+    "n": 10
+   },
+   "key": "partner_list.{i}.first_trade_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "최초거래일자",
+    "n": 11
+   },
+   "key": "partner_list.{i}.first_trade_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "최초거래일자",
+    "n": 12
+   },
+   "key": "partner_list.{i}.first_trade_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "최초거래일자",
+    "n": 13
+   },
+   "key": "partner_list.{i}.first_trade_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "납품실적*",
+    "n": 0
+   },
+   "key": "partner_list.{i}.delivery_amount",
+   "kind": "amount_million"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "납품실적*",
+    "n": 1
+   },
+   "key": "partner_list.{i}.delivery_amount",
+   "kind": "amount_million"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "납품실적*",
+    "n": 2
+   },
+   "key": "partner_list.{i}.delivery_amount",
+   "kind": "amount_million"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "납품실적*",
+    "n": 3
+   },
+   "key": "partner_list.{i}.delivery_amount",
+   "kind": "amount_million"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "납품실적*",
+    "n": 4
+   },
+   "key": "partner_list.{i}.delivery_amount",
+   "kind": "amount_million"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "납품실적*",
+    "n": 5
+   },
+   "key": "partner_list.{i}.delivery_amount",
+   "kind": "amount_million"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "납품실적*",
+    "n": 6
+   },
+   "key": "partner_list.{i}.delivery_amount",
+   "kind": "amount_million"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "납품실적*",
+    "n": 7
+   },
+   "key": "partner_list.{i}.delivery_amount",
+   "kind": "amount_million"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "납품실적*",
+    "n": 8
+   },
+   "key": "partner_list.{i}.delivery_amount",
+   "kind": "amount_million"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "납품실적*",
+    "n": 9
+   },
+   "key": "partner_list.{i}.delivery_amount",
+   "kind": "amount_million"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "납품실적*",
+    "n": 10
+   },
+   "key": "partner_list.{i}.delivery_amount",
+   "kind": "amount_million"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "납품실적*",
+    "n": 11
+   },
+   "key": "partner_list.{i}.delivery_amount",
+   "kind": "amount_million"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "납품실적*",
+    "n": 12
+   },
+   "key": "partner_list.{i}.delivery_amount",
+   "kind": "amount_million"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "납품실적*",
+    "n": 13
+   },
+   "key": "partner_list.{i}.delivery_amount",
+   "kind": "amount_million"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "평균결제기간*",
+    "n": 0
+   },
+   "key": "partner_list.{i}.avg_pay_period",
+   "kind": "pay_period_days"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "평균결제기간*",
+    "n": 1
+   },
+   "key": "partner_list.{i}.avg_pay_period",
+   "kind": "pay_period_days"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "평균결제기간*",
+    "n": 2
+   },
+   "key": "partner_list.{i}.avg_pay_period",
+   "kind": "pay_period_days"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "평균결제기간*",
+    "n": 3
+   },
+   "key": "partner_list.{i}.avg_pay_period",
+   "kind": "pay_period_days"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "평균결제기간*",
+    "n": 4
+   },
+   "key": "partner_list.{i}.avg_pay_period",
+   "kind": "pay_period_days"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "평균결제기간*",
+    "n": 5
+   },
+   "key": "partner_list.{i}.avg_pay_period",
+   "kind": "pay_period_days"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "평균결제기간*",
+    "n": 6
+   },
+   "key": "partner_list.{i}.avg_pay_period",
+   "kind": "pay_period_days"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "평균결제기간*",
+    "n": 7
+   },
+   "key": "partner_list.{i}.avg_pay_period",
+   "kind": "pay_period_days"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "평균결제기간*",
+    "n": 8
+   },
+   "key": "partner_list.{i}.avg_pay_period",
+   "kind": "pay_period_days"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "평균결제기간*",
+    "n": 9
+   },
+   "key": "partner_list.{i}.avg_pay_period",
+   "kind": "pay_period_days"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "평균결제기간*",
+    "n": 10
+   },
+   "key": "partner_list.{i}.avg_pay_period",
+   "kind": "pay_period_days"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "평균결제기간*",
+    "n": 11
+   },
+   "key": "partner_list.{i}.avg_pay_period",
+   "kind": "pay_period_days"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "평균결제기간*",
+    "n": 12
+   },
+   "key": "partner_list.{i}.avg_pay_period",
+   "kind": "pay_period_days"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "평균결제기간*",
+    "n": 13
+   },
+   "key": "partner_list.{i}.avg_pay_period",
+   "kind": "pay_period_days"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주소",
+    "n": 0
+   },
+   "key": "partner_list.{i}.address",
+   "source": "profile.business.address.road_short"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주소",
+    "n": 1
+   },
+   "key": "partner_list.{i}.address",
+   "source": "profile.business.address.road_short"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주소",
+    "n": 2
+   },
+   "key": "partner_list.{i}.address",
+   "source": "profile.business.address.road_short"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주소",
+    "n": 3
+   },
+   "key": "partner_list.{i}.address",
+   "source": "profile.business.address.road_short"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주소",
+    "n": 4
+   },
+   "key": "partner_list.{i}.address",
+   "source": "profile.business.address.road_short"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주소",
+    "n": 5
+   },
+   "key": "partner_list.{i}.address",
+   "source": "profile.business.address.road_short"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주소",
+    "n": 6
+   },
+   "key": "partner_list.{i}.address",
+   "source": "profile.business.address.road_short"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주소",
+    "n": 7
+   },
+   "key": "partner_list.{i}.address",
+   "source": "profile.business.address.road_short"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주소",
+    "n": 8
+   },
+   "key": "partner_list.{i}.address",
+   "source": "profile.business.address.road_short"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주소",
+    "n": 9
+   },
+   "key": "partner_list.{i}.address",
+   "source": "profile.business.address.road_short"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주소",
+    "n": 10
+   },
+   "key": "partner_list.{i}.address",
+   "source": "profile.business.address.road_short"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주소",
+    "n": 11
+   },
+   "key": "partner_list.{i}.address",
+   "source": "profile.business.address.road_short"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주소",
+    "n": 12
+   },
+   "key": "partner_list.{i}.address",
+   "source": "profile.business.address.road_short"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주소",
+    "n": 13
+   },
+   "key": "partner_list.{i}.address",
+   "source": "profile.business.address.road_short"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화",
+    "n": 0
+   },
+   "key": "partner_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화",
+    "n": 1
+   },
+   "key": "partner_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화",
+    "n": 2
+   },
+   "key": "partner_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화",
+    "n": 3
+   },
+   "key": "partner_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화",
+    "n": 4
+   },
+   "key": "partner_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화",
+    "n": 5
+   },
+   "key": "partner_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화",
+    "n": 6
+   },
+   "key": "partner_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화",
+    "n": 7
+   },
+   "key": "partner_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화",
+    "n": 8
+   },
+   "key": "partner_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화",
+    "n": 9
+   },
+   "key": "partner_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화",
+    "n": 10
+   },
+   "key": "partner_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화",
+    "n": 11
+   },
+   "key": "partner_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화",
+    "n": 12
+   },
+   "key": "partner_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화",
+    "n": 13
+   },
+   "key": "partner_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "업체명",
+    "n": 14
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표자",
+    "n": 14
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "총 계",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "최초거래일자",
+    "n": 14
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "평균결제기간*",
+    "n": 14
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주소",
+    "n": 14
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화",
+    "n": 14
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "납품실적*",
+    "n": 14
+   },
+   "key": "partner_total_list.{i}.delivery_amount",
+   "kind": "amount_million"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "rect": [
+    730.8,
+    102.1,
+    782.3,
+    123.4
+   ],
+   "key": "partner_list.0.manager",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "rect": [
+    730.8,
+    123.4,
+    782.3,
+    144.6
+   ],
+   "key": "partner_list.1.manager",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "rect": [
+    730.8,
+    144.6,
+    782.3,
+    165.9
+   ],
+   "key": "partner_list.2.manager",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "rect": [
+    730.8,
+    165.9,
+    782.3,
+    187.1
+   ],
+   "key": "partner_list.3.manager",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "rect": [
+    730.8,
+    187.1,
+    782.3,
+    208.4
+   ],
+   "key": "partner_list.4.manager",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "rect": [
+    730.8,
+    208.4,
+    782.3,
+    229.7
+   ],
+   "key": "partner_list.5.manager",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "rect": [
+    730.8,
+    229.7,
+    782.3,
+    250.9
+   ],
+   "key": "partner_list.6.manager",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "rect": [
+    730.8,
+    250.9,
+    782.3,
+    272.2
+   ],
+   "key": "partner_list.7.manager",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "rect": [
+    730.8,
+    272.2,
+    782.3,
+    293.4
+   ],
+   "key": "partner_list.8.manager",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "rect": [
+    730.8,
+    293.4,
+    782.3,
+    314.7
+   ],
+   "key": "partner_list.9.manager",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "rect": [
+    730.8,
+    314.7,
+    782.3,
+    335.9
+   ],
+   "key": "partner_list.10.manager",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "rect": [
+    730.8,
+    335.9,
+    782.3,
+    357.2
+   ],
+   "key": "partner_list.11.manager",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "rect": [
+    730.8,
+    357.2,
+    782.3,
+    378.5
+   ],
+   "key": "partner_list.12.manager",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "rect": [
+    730.8,
+    378.5,
+    782.3,
+    399.7
+   ],
+   "key": "partner_list.13.manager",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    326.2,
+    481.9,
+    444.8,
+    496.9
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "(회사명)",
+   "rect": [
+    110.6,
+    526.9,
+    266.2,
+    543.8
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "담당자",
+   "rect": [
+    360.8,
+    526.9,
+    446.2,
+    543.8
+   ],
+   "key": "company.manager",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "부서",
+   "rect": [
+    475.1,
+    526.9,
+    560.6,
+    543.8
+   ],
+   "key": "company.manager_dept",
+   "kind": "department"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "연락처",
+   "rect": [
+    598.9,
+    526.9,
+    733.1,
+    543.8
+   ],
+   "key": "company.manager_phone",
+   "kind": "office_phone"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

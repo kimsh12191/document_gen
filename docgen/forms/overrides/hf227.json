@@ -1,0 +1,1623 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발 행 자 명",
+    "n": 0
+   },
+   "key": "bond_list.{i}.issuer",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발 행 자 명",
+    "n": 1
+   },
+   "key": "bond_list.{i}.issuer",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발 행 자 명",
+    "n": 2
+   },
+   "key": "bond_list.{i}.issuer",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자등록번호",
+    "n": 0
+   },
+   "key": "bond_list.{i}.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자등록번호",
+    "n": 1
+   },
+   "key": "bond_list.{i}.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자등록번호",
+    "n": 2
+   },
+   "key": "bond_list.{i}.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자 성명",
+    "n": 0
+   },
+   "key": "bond_list.{i}.contact_name",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자 성명",
+    "n": 1
+   },
+   "key": "bond_list.{i}.contact_name",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자 성명",
+    "n": 2
+   },
+   "key": "bond_list.{i}.contact_name",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자 전화번호",
+    "n": 0
+   },
+   "key": "bond_list.{i}.contact_phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자 전화번호",
+    "n": 1
+   },
+   "key": "bond_list.{i}.contact_phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자 전화번호",
+    "n": 2
+   },
+   "key": "bond_list.{i}.contact_phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대 주 명",
+    "n": 0
+   },
+   "key": "bond_list.{i}.lender",
+   "kind": "foreign_lender"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대 주 명",
+    "n": 1
+   },
+   "key": "bond_list.{i}.lender",
+   "kind": "foreign_lender"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대 주 명",
+    "n": 2
+   },
+   "key": "bond_list.{i}.lender",
+   "kind": "foreign_lender"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대주소재국",
+    "n": 0
+   },
+   "key": "bond_list.{i}.lender_country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대주소재국",
+    "n": 1
+   },
+   "key": "bond_list.{i}.lender_country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대주소재국",
+    "n": 2
+   },
+   "key": "bond_list.{i}.lender_country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신고번호",
+    "n": 0
+   },
+   "key": "bond_list.{i}.report_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신고번호",
+    "n": 1
+   },
+   "key": "bond_list.{i}.report_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신고번호",
+    "n": 2
+   },
+   "key": "bond_list.{i}.report_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지정거래 외국환은행 지점명",
+    "n": 0
+   },
+   "key": "bond_list.{i}.bank_branch",
+   "kind": "branch"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지정거래 외국환은행 지점명",
+    "n": 1
+   },
+   "key": "bond_list.{i}.bank_branch",
+   "kind": "branch"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지정거래 외국환은행 지점명",
+    "n": 2
+   },
+   "key": "bond_list.{i}.bank_branch",
+   "kind": "branch"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발행일자",
+    "n": 0
+   },
+   "key": "bond_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발행일자",
+    "n": 1
+   },
+   "key": "bond_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발행일자",
+    "n": 2
+   },
+   "key": "bond_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발행시장 소재국",
+    "n": 0
+   },
+   "key": "bond_list.{i}.market_country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발행시장 소재국",
+    "n": 1
+   },
+   "key": "bond_list.{i}.market_country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발행시장 소재국",
+    "n": 2
+   },
+   "key": "bond_list.{i}.market_country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "자금용도",
+    "n": 0
+   },
+   "key": "bond_list.{i}.fund_use",
+   "kind": "bond_fund_use"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "자금용도",
+    "n": 1
+   },
+   "key": "bond_list.{i}.fund_use",
+   "kind": "bond_fund_use"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "자금용도",
+    "n": 2
+   },
+   "key": "bond_list.{i}.fund_use",
+   "kind": "bond_fund_use"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "증권종류 1",
+    "n": 0
+   },
+   "key": "bond_list.{i}.security_type",
+   "kind": "security_code"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "증권종류 1",
+    "n": 1
+   },
+   "key": "bond_list.{i}.security_type",
+   "kind": "security_code"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "증권종류 1",
+    "n": 2
+   },
+   "key": "bond_list.{i}.security_type",
+   "kind": "security_code"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발행 통화",
+    "n": 0
+   },
+   "key": "bond_list.{i}.currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발행 통화",
+    "n": 1
+   },
+   "key": "bond_list.{i}.currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발행 통화",
+    "n": 2
+   },
+   "key": "bond_list.{i}.currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발행금액(A)",
+    "n": 0
+   },
+   "key": "bond_list.{i}.issue_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발행금액(A)",
+    "n": 1
+   },
+   "key": "bond_list.{i}.issue_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발행금액(A)",
+    "n": 2
+   },
+   "key": "bond_list.{i}.issue_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "만기일자",
+    "n": 0
+   },
+   "key": "bond_list.{i}.maturity_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "만기일자",
+    "n": 1
+   },
+   "key": "bond_list.{i}.maturity_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "만기일자",
+    "n": 2
+   },
+   "key": "bond_list.{i}.maturity_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월국내 예치일자",
+    "n": 0
+   },
+   "key": "bond_list.{i}.domestic_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월국내 예치일자",
+    "n": 1
+   },
+   "key": "bond_list.{i}.domestic_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월국내 예치일자",
+    "n": 2
+   },
+   "key": "bond_list.{i}.domestic_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당 월 국내예치액",
+    "n": 0
+   },
+   "key": "bond_list.{i}.domestic_deposit_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당 월 국내예치액",
+    "n": 1
+   },
+   "key": "bond_list.{i}.domestic_deposit_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당 월 국내예치액",
+    "n": 2
+   },
+   "key": "bond_list.{i}.domestic_deposit_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기원금 상환액(B)",
+    "n": 0
+   },
+   "key": "bond_list.{i}.principal_repaid",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기원금 상환액(B)",
+    "n": 1
+   },
+   "key": "bond_list.{i}.principal_repaid",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기원금 상환액(B)",
+    "n": 2
+   },
+   "key": "bond_list.{i}.principal_repaid",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당 월 상환일자",
+    "n": 0
+   },
+   "key": "bond_list.{i}.repay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당 월 상환일자",
+    "n": 1
+   },
+   "key": "bond_list.{i}.repay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당 월 상환일자",
+    "n": 2
+   },
+   "key": "bond_list.{i}.repay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상환잔액 (E=A-B-C-D)",
+    "n": 0
+   },
+   "key": "bond_list.{i}.balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상환잔액 (E=A-B-C-D)",
+    "n": 1
+   },
+   "key": "bond_list.{i}.balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상환잔액 (E=A-B-C-D)",
+    "n": 2
+   },
+   "key": "bond_list.{i}.balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월이자 상 환 액",
+    "n": 0
+   },
+   "key": "bond_list.{i}.interest_repaid",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월이자 상 환 액",
+    "n": 1
+   },
+   "key": "bond_list.{i}.interest_repaid",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월이자 상 환 액",
+    "n": 2
+   },
+   "key": "bond_list.{i}.interest_repaid",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월주식 전환액 2",
+    "n": 0
+   },
+   "key": "bond_list.{i}.share_converted",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월주식 전환액 2",
+    "n": 1
+   },
+   "key": "bond_list.{i}.share_converted",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월주식 전환액 2",
+    "n": 2
+   },
+   "key": "bond_list.{i}.share_converted",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월말주식 전환누계액 3",
+    "n": 0
+   },
+   "key": "bond_list.{i}.share_converted_total",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월말주식 전환누계액 3",
+    "n": 1
+   },
+   "key": "bond_list.{i}.share_converted_total",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월말주식 전환누계액 3",
+    "n": 2
+   },
+   "key": "bond_list.{i}.share_converted_total",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해 외 예치일자",
+    "n": 0
+   },
+   "key": "bond_list.{i}.overseas_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해 외 예치일자",
+    "n": 1
+   },
+   "key": "bond_list.{i}.overseas_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해 외 예치일자",
+    "n": 2
+   },
+   "key": "bond_list.{i}.overseas_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해 외 예치은행명",
+    "n": 0
+   },
+   "key": "bond_list.{i}.overseas_bank",
+   "kind": "foreign_bank_name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해 외 예치은행명",
+    "n": 1
+   },
+   "key": "bond_list.{i}.overseas_bank",
+   "kind": "foreign_bank_name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해 외 예치은행명",
+    "n": 2
+   },
+   "key": "bond_list.{i}.overseas_bank",
+   "kind": "foreign_bank_name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해외예치은 행 BIC코드",
+    "n": 0
+   },
+   "key": "bond_list.{i}.overseas_bank_bic",
+   "kind": "swift"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해외예치은 행 BIC코드",
+    "n": 1
+   },
+   "key": "bond_list.{i}.overseas_bank_bic",
+   "kind": "swift"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해외예치은 행 BIC코드",
+    "n": 2
+   },
+   "key": "bond_list.{i}.overseas_bank_bic",
+   "kind": "swift"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전 월 말 예치잔액(F)",
+    "n": 0
+   },
+   "key": "bond_list.{i}.prev_balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전 월 말 예치잔액(F)",
+    "n": 1
+   },
+   "key": "bond_list.{i}.prev_balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전 월 말 예치잔액(F)",
+    "n": 2
+   },
+   "key": "bond_list.{i}.prev_balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당 월 예치액 (G=H+I)",
+    "n": 0
+   },
+   "key": "bond_list.{i}.deposit_month",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당 월 예치액 (G=H+I)",
+    "n": 1
+   },
+   "key": "bond_list.{i}.deposit_month",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당 월 예치액 (G=H+I)",
+    "n": 2
+   },
+   "key": "bond_list.{i}.deposit_month",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당월 발행대금 (H)",
+    "n": 0
+   },
+   "key": "bond_list.{i}.issue_proceeds",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당월 발행대금 (H)",
+    "n": 1
+   },
+   "key": "bond_list.{i}.issue_proceeds",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당월 발행대금 (H)",
+    "n": 2
+   },
+   "key": "bond_list.{i}.issue_proceeds",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당월 예치이자 (I)",
+    "n": 0
+   },
+   "key": "bond_list.{i}.deposit_interest",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당월 예치이자 (I)",
+    "n": 1
+   },
+   "key": "bond_list.{i}.deposit_interest",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당월 예치이자 (I)",
+    "n": 2
+   },
+   "key": "bond_list.{i}.deposit_interest",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당월 인출액 (J=K+L)",
+    "n": 0
+   },
+   "key": "bond_list.{i}.withdrawal",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당월 인출액 (J=K+L)",
+    "n": 1
+   },
+   "key": "bond_list.{i}.withdrawal",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당월 인출액 (J=K+L)",
+    "n": 2
+   },
+   "key": "bond_list.{i}.withdrawal",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "국내입금액(K)",
+    "n": 0
+   },
+   "key": "bond_list.{i}.domestic_transfer",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "국내입금액(K)",
+    "n": 1
+   },
+   "key": "bond_list.{i}.domestic_transfer",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "국내입금액(K)",
+    "n": 2
+   },
+   "key": "bond_list.{i}.domestic_transfer",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "해외사용액 (L)",
+    "n": 0
+   },
+   "key": "bond_list.{i}.overseas_use",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "해외사용액 (L)",
+    "n": 1
+   },
+   "key": "bond_list.{i}.overseas_use",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "해외사용액 (L)",
+    "n": 2
+   },
+   "key": "bond_list.{i}.overseas_use",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당월말 예치잔액 (M=F+G-J)",
+    "n": 0
+   },
+   "key": "bond_list.{i}.month_end_balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당월말 예치잔액 (M=F+G-J)",
+    "n": 1
+   },
+   "key": "bond_list.{i}.month_end_balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당월말 예치잔액 (M=F+G-J)",
+    "n": 2
+   },
+   "key": "bond_list.{i}.month_end_balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "표면 금리",
+    "n": 0
+   },
+   "key": "bond_list.{i}.coupon_rate",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "표면 금리",
+    "n": 1
+   },
+   "key": "bond_list.{i}.coupon_rate",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "표면 금리",
+    "n": 2
+   },
+   "key": "bond_list.{i}.coupon_rate",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "발행비용 (%)",
+    "n": 0
+   },
+   "key": "bond_list.{i}.issue_cost_pct",
+   "kind": "issue_cost_pct"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "발행비용 (%)",
+    "n": 1
+   },
+   "key": "bond_list.{i}.issue_cost_pct",
+   "kind": "issue_cost_pct"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "발행비용 (%)",
+    "n": 2
+   },
+   "key": "bond_list.{i}.issue_cost_pct",
+   "kind": "issue_cost_pct"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "이자 유형 4",
+    "n": 0
+   },
+   "key": "bond_list.{i}.interest_type",
+   "kind": "interest_type_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "이자 유형 4",
+    "n": 1
+   },
+   "key": "bond_list.{i}.interest_type",
+   "kind": "interest_type_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "이자 유형 4",
+    "n": 2
+   },
+   "key": "bond_list.{i}.interest_type",
+   "kind": "interest_type_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "변동금리 구분 5",
+    "n": 0
+   },
+   "key": "bond_list.{i}.float_index",
+   "kind": "float_index_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "변동금리 구분 5",
+    "n": 1
+   },
+   "key": "bond_list.{i}.float_index",
+   "kind": "float_index_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "변동금리 구분 5",
+    "n": 2
+   },
+   "key": "bond_list.{i}.float_index",
+   "kind": "float_index_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금리 통화",
+    "n": 0
+   },
+   "key": "bond_list.{i}.rate_currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금리 통화",
+    "n": 1
+   },
+   "key": "bond_list.{i}.rate_currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금리 통화",
+    "n": 2
+   },
+   "key": "bond_list.{i}.rate_currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금리 수준 6",
+    "n": 0
+   },
+   "key": "bond_list.{i}.rate_level",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금리 수준 6",
+    "n": 1
+   },
+   "key": "bond_list.{i}.rate_level",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금리 수준 6",
+    "n": 2
+   },
+   "key": "bond_list.{i}.rate_level",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금리스프레드 (변동금리) 7)",
+    "n": 0
+   },
+   "key": "bond_list.{i}.spread_bp",
+   "kind": "spread_bp"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금리스프레드 (변동금리) 7)",
+    "n": 1
+   },
+   "key": "bond_list.{i}.spread_bp",
+   "kind": "spread_bp"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금리스프레드 (변동금리) 7)",
+    "n": 2
+   },
+   "key": "bond_list.{i}.spread_bp",
+   "kind": "spread_bp"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "이자지급 주기 8",
+    "n": 0
+   },
+   "key": "bond_list.{i}.interest_cycle",
+   "kind": "interest_cycle_months"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "이자지급 주기 8",
+    "n": 1
+   },
+   "key": "bond_list.{i}.interest_cycle",
+   "kind": "interest_cycle_months"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "이자지급 주기 8",
+    "n": 2
+   },
+   "key": "bond_list.{i}.interest_cycle",
+   "kind": "interest_cycle_months"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Option 종류 9",
+    "n": 0
+   },
+   "key": "bond_list.{i}.option_type",
+   "kind": "option_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Option 종류 9",
+    "n": 1
+   },
+   "key": "bond_list.{i}.option_type",
+   "kind": "option_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Option 종류 9",
+    "n": 2
+   },
+   "key": "bond_list.{i}.option_type",
+   "kind": "option_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Option 행사일 10",
+    "n": 0
+   },
+   "key": "bond_list.{i}.option_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Option 행사일 10",
+    "n": 1
+   },
+   "key": "bond_list.{i}.option_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Option 행사일 10",
+    "n": 2
+   },
+   "key": "bond_list.{i}.option_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "SWAP 종류 11",
+    "n": 0
+   },
+   "key": "bond_list.{i}.swap_type",
+   "kind": "swap_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "SWAP 종류 11",
+    "n": 1
+   },
+   "key": "bond_list.{i}.swap_type",
+   "kind": "swap_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "SWAP 종류 11",
+    "n": 2
+   },
+   "key": "bond_list.{i}.swap_type",
+   "kind": "swap_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "권리행사일 (CB, BW) 12)",
+    "n": 0
+   },
+   "key": "bond_list.{i}.exercise_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "권리행사일 (CB, BW) 12)",
+    "n": 1
+   },
+   "key": "bond_list.{i}.exercise_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "권리행사일 (CB, BW) 12)",
+    "n": 2
+   },
+   "key": "bond_list.{i}.exercise_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상환방법",
+    "n": 0
+   },
+   "key": "bond_list.{i}.repay_method",
+   "kind": "repay"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상환방법",
+    "n": 1
+   },
+   "key": "bond_list.{i}.repay_method",
+   "kind": "repay"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상환방법",
+    "n": 2
+   },
+   "key": "bond_list.{i}.repay_method",
+   "kind": "repay"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "지급보증 기관 13",
+    "n": 0
+   },
+   "key": "bond_list.{i}.guarantor_type",
+   "kind": "guarantor_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "지급보증 기관 13",
+    "n": 1
+   },
+   "key": "bond_list.{i}.guarantor_type",
+   "kind": "guarantor_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "지급보증 기관 13",
+    "n": 2
+   },
+   "key": "bond_list.{i}.guarantor_type",
+   "kind": "guarantor_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "지급보증기관 본점국적국",
+    "n": 0
+   },
+   "key": "bond_list.{i}.guarantor_country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "지급보증기관 본점국적국",
+    "n": 1
+   },
+   "key": "bond_list.{i}.guarantor_country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "지급보증기관 본점국적국",
+    "n": 2
+   },
+   "key": "bond_list.{i}.guarantor_country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "지급보증기관명",
+    "n": 0
+   },
+   "key": "bond_list.{i}.guarantor_name",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "지급보증기관명",
+    "n": 1
+   },
+   "key": "bond_list.{i}.guarantor_name",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "지급보증기관명",
+    "n": 2
+   },
+   "key": "bond_list.{i}.guarantor_name",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "제출자",
+    "n": 0
+   },
+   "key": "company.name"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "당월원금상환액(해외송금분)(C) 1",
+   "rect": [
+    148.1,
+    485.6,
+    223.1,
+    505.9
+   ],
+   "key": "bond_list.0.repaid_overseas",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "당월원금상환액(기타상환)(D) 1",
+   "rect": [
+    225.0,
+    485.6,
+    298.9,
+    505.9
+   ],
+   "key": "bond_list.0.repaid_other",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "당월원금상환액(해외송금분)(C) 2",
+   "rect": [
+    148.1,
+    507.0,
+    223.1,
+    529.1
+   ],
+   "key": "bond_list.1.repaid_overseas",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "당월원금상환액(기타상환)(D) 2",
+   "rect": [
+    225.0,
+    507.0,
+    298.9,
+    529.1
+   ],
+   "key": "bond_list.1.repaid_other",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "당월원금상환액(해외송금분)(C) 3",
+   "rect": [
+    148.1,
+    530.2,
+    223.1,
+    553.5
+   ],
+   "key": "bond_list.2.repaid_overseas",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "당월원금상환액(기타상환)(D) 3",
+   "rect": [
+    225.0,
+    530.2,
+    298.9,
+    553.5
+   ],
+   "key": "bond_list.2.repaid_other",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "보고 년도",
+   "rect": [
+    331.9,
+    89.2,
+    394.9,
+    102.0
+   ],
+   "key": "report.year",
+   "kind": "report_year"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "보고 분기",
+   "rect": [
+    405.8,
+    89.2,
+    453.8,
+    102.0
+   ],
+   "key": "report.quarter",
+   "kind": "quarter_no"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

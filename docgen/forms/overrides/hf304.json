@@ -1,0 +1,240 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "증명발급번호",
+    "n": 0
+   },
+   "key": "bank.cert_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발급용도",
+    "n": 0
+   },
+   "key": "cert.purpose",
+   "kind": "export_cert_purpose"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신청인(상호, 주소 성명)",
+    "n": 0
+   },
+   "key": "company.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비고",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 주소",
+   "rect": [
+    58.1,
+    220.5,
+    296.6,
+    235.5
+   ],
+   "key": "company.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 성명(대표자)",
+   "rect": [
+    58.1,
+    239.2,
+    240.0,
+    254.2
+   ],
+   "key": "company.ceo"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "확인일(년 월 일)",
+   "rect": [
+    369.4,
+    705.0,
+    406.9,
+    719.2
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "수출(입금)일자 1",
+   "rect": [
+    43.9,
+    305.6,
+    166.9,
+    322.5
+   ],
+   "key": "export_list.0.date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "매입번호 1",
+   "rect": [
+    172.5,
+    305.6,
+    268.1,
+    322.5
+   ],
+   "key": "export_list.0.nego_no",
+   "kind": "number"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "품명 1",
+   "rect": [
+    270.0,
+    305.6,
+    348.8,
+    322.5
+   ],
+   "key": "export_list.0.goods",
+   "kind": "goods"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "수출실적 1",
+   "rect": [
+    350.6,
+    305.6,
+    444.4,
+    322.5
+   ],
+   "key": "export_list.0.amount",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "수출(입금)일자 2",
+   "rect": [
+    43.9,
+    326.2,
+    166.9,
+    343.1
+   ],
+   "key": "export_list.1.date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "매입번호 2",
+   "rect": [
+    172.5,
+    326.2,
+    268.1,
+    343.1
+   ],
+   "key": "export_list.1.nego_no",
+   "kind": "number"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "품명 2",
+   "rect": [
+    270.0,
+    326.2,
+    348.8,
+    343.1
+   ],
+   "key": "export_list.1.goods",
+   "kind": "goods"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "수출실적 2",
+   "rect": [
+    350.6,
+    326.2,
+    444.4,
+    343.1
+   ],
+   "key": "export_list.1.amount",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "수출(입금)일자 3",
+   "rect": [
+    43.9,
+    346.9,
+    166.9,
+    363.8
+   ],
+   "key": "export_list.2.date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "매입번호 3",
+   "rect": [
+    172.5,
+    346.9,
+    268.1,
+    363.8
+   ],
+   "key": "export_list.2.nego_no",
+   "kind": "number"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "품명 3",
+   "rect": [
+    270.0,
+    346.9,
+    348.8,
+    363.8
+   ],
+   "key": "export_list.2.goods",
+   "kind": "goods"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "수출실적 3",
+   "rect": [
+    350.6,
+    346.9,
+    444.4,
+    363.8
+   ],
+   "key": "export_list.2.amount",
+   "kind": "fx_amount"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

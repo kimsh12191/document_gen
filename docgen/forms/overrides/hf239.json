@@ -1,0 +1,203 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "처분(변경)전 부동산 명의인",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "가. 성명 또는 법인명",
+    "n": 0
+   },
+   "key": "customer.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "나. 주민등록번호(사업자등록번호)",
+    "n": 0
+   },
+   "key": "customer.rrn"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "다. 주소 또는 소재지",
+    "n": 0
+   },
+   "key": "customer.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "가. 성명 또는 법인명",
+    "n": 1
+   },
+   "key": "related.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "나. 주민등록번호(사업자등록번호)",
+    "n": 1
+   },
+   "key": "related.rrn",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "다. 주소 또는 소재지",
+    "n": 1
+   },
+   "key": "related.address",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "가. 부동산의 명세(종류, 수량, 가격 등)",
+    "n": 0
+   },
+   "key": "property.overseas_detail",
+   "kind": "overseas_property"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "나. 부동산의 소재지",
+    "n": 0
+   },
+   "key": "property.overseas_address",
+   "source": "profile.foreign.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "가. 부동산 처분 등기일",
+    "n": 0
+   },
+   "key": "disposal.reg_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "나. 처분가격",
+    "n": 0
+   },
+   "key": "disposal.price",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "다. 기타 지급비용",
+    "n": 0
+   },
+   "key": "disposal.other_cost",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "라. 국내 회수금액",
+    "n": 0
+   },
+   "key": "disposal.repatriated",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "바. 신고인과 국내 회수금액 수취인과의 관계",
+    "n": 0
+   },
+   "key": "disposal.recipient_relation",
+   "kind": "recipient_relation"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해외부동산 변경내용",
+    "n": 0
+   },
+   "key": "property.change_detail",
+   "kind": "note"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고인",
+   "rect": [
+    220.5,
+    158.6,
+    294.4,
+    173.6
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "전화",
+   "rect": [
+    327.4,
+    158.6,
+    412.5,
+    173.6
+   ],
+   "key": "customer.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "국내 회수금액 수취인 성명",
+   "rect": [
+    256.1,
+    538.1,
+    388.1,
+    552.0
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "수취인 주민등록번호( )",
+   "rect": [
+    393.8,
+    538.1,
+    523.1,
+    552.0
+   ],
+   "key": "customer.rrn"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

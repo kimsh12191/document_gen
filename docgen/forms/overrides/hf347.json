@@ -1,0 +1,132 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "회사명",
+    "n": 0
+   },
+   "key": "company.name"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "주 소",
+    "n": 0
+   },
+   "key": "company.address"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "회사명",
+    "n": 1
+   },
+   "key": "affiliate.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "주 소",
+    "n": 1
+   },
+   "key": "affiliate.address",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "주 소",
+    "n": 2
+   },
+   "key": "bank.branch_address",
+   "kind": "address"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 3,
+   "label": "일 자 :",
+   "rect": [
+    293.4,
+    207.0,
+    406.0,
+    244.8
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 3,
+   "label": "일 자 :",
+   "rect": [
+    293.4,
+    352.8,
+    406.0,
+    390.6
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 3,
+   "label": "일 자 :",
+   "rect": [
+    293.4,
+    498.6,
+    406.0,
+    520.6
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 3,
+   "label": "주계약사 대표이사",
+   "rect": [
+    211.9,
+    180.8,
+    382.5,
+    196.9
+   ],
+   "key": "company.ceo"
+  },
+  {
+   "t": "text",
+   "page": 3,
+   "label": "관계사 대표이사",
+   "rect": [
+    211.9,
+    326.2,
+    382.5,
+    342.0
+   ],
+   "key": "affiliate.ceo",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 3,
+   "label": "(주)하나은행 (부)지점",
+   "rect": [
+    213.8,
+    402.0,
+    371.2,
+    417.0
+   ],
+   "key": "bank.branch",
+   "kind": "branch"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

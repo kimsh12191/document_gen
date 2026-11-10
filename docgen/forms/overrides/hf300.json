@@ -1,0 +1,181 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "RM",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "(무) 신용장 번호",
+    "n": 0
+   },
+   "key": "trade.lc_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신용장 유효기일",
+    "n": 0
+   },
+   "key": "trade.lc_expiry",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수출상 (Beneficiary)",
+    "n": 0
+   },
+   "key": "foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "L/G 번호",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     200.6,
+     441.4,
+     360.0,
+     461.2
+    ]
+   },
+   "key": "trade.lg_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "L/G 금액",
+    "n": 0
+   },
+   "key": "trade.lg_amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "L/G 발행일자",
+    "n": 0
+   },
+   "key": "trade.lg_issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "B/L 번호 및 선적 일자",
+    "n": 0
+   },
+   "key": "trade.bl_info",
+   "kind": "bl_info"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "L/G 보증금 금액",
+    "n": 0
+   },
+   "key": "trade.lg_deposit",
+   "kind": "fx_amount"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "L/G 발급회차",
+   "rect": [
+    436.9,
+    441.4,
+    501.8,
+    461.2
+   ],
+   "key": "trade.lg_seq",
+   "kind": "count"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "보증금 적립일(20 . . 자로)",
+   "rect": [
+    426.4,
+    272.6,
+    495.0,
+    286.1
+   ],
+   "key": "trade.deposit_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "수입보증금 USD",
+   "rect": [
+    114.4,
+    288.8,
+    180.8,
+    300.8
+   ],
+   "key": "trade.lg_deposit_usd",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청일",
+   "rect": [
+    397.5,
+    605.6,
+    502.5,
+    619.9
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "본인",
+   "rect": [
+    223.1,
+    668.2,
+    352.5,
+    682.5
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "주소",
+   "rect": [
+    226.9,
+    690.0,
+    429.8,
+    704.2
+   ],
+   "key": "customer.address"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

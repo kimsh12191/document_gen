@@ -1,0 +1,100 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "TEL",
+    "n": 0
+   },
+   "key": "employer.phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "FAX",
+    "n": 0
+   },
+   "key": "company.fax",
+   "kind": "phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "원청기업 사업자번호",
+    "n": 0
+   },
+   "key": "contractor.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "원청기업명",
+    "n": 0
+   },
+   "key": "contractor.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "청구서류",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자등록증, 대표자 실명확인증표",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "개인사업자",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    390.0,
+    725.6,
+    436.9,
+    742.5
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "(신청인) 신청기업명",
+   "rect": [
+    442.5,
+    748.1,
+    534.4,
+    765.0
+   ],
+   "key": "company.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

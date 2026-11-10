@@ -1,0 +1,129 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금 액",
+    "n": 0
+   },
+   "key": "remit.amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "송 금 처",
+    "n": 0
+   },
+   "key": "foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "송 금 방 법",
+    "n": 0
+   },
+   "key": "remit.method",
+   "kind": "remit_method"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "송 금 은 행",
+    "n": 0
+   },
+   "key": "foreign.bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신고번호",
+    "n": 0
+   },
+   "key": "bank.report_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "유효기간",
+    "n": 0
+   },
+   "key": "bank.valid_until",
+   "kind": "date"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고일(년 월 일)",
+   "rect": [
+    375.0,
+    173.2,
+    443.2,
+    189.4
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 주소",
+   "rect": [
+    187.5,
+    199.5,
+    431.2,
+    213.0
+   ],
+   "key": "company.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 상호",
+   "rect": [
+    435.0,
+    199.5,
+    543.0,
+    213.0
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 성명(대표자)",
+   "rect": [
+    184.9,
+    227.6,
+    300.0,
+    241.1
+   ],
+   "key": "company.ceo"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 전화번호",
+   "rect": [
+    411.8,
+    227.6,
+    543.8,
+    241.1
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

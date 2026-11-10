@@ -1,0 +1,17 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성명, 주소, 전화번호, 직장정보",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

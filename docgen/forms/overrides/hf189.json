@@ -1,0 +1,496 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "부담금 등록 가입자수",
+    "n": 0
+   },
+   "key": "pension.member_count",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성명",
+    "n": 0
+   },
+   "key": "pension_member_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성명",
+    "n": 1
+   },
+   "key": "pension_member_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성명",
+    "n": 2
+   },
+   "key": "pension_member_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성명",
+    "n": 3
+   },
+   "key": "pension_member_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성명",
+    "n": 4
+   },
+   "key": "pension_member_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성명",
+    "n": 5
+   },
+   "key": "pension_member_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성명",
+    "n": 6
+   },
+   "key": "pension_member_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성명",
+    "n": 7
+   },
+   "key": "pension_member_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성명",
+    "n": 8
+   },
+   "key": "pension_member_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성명",
+    "n": 9
+   },
+   "key": "pension_member_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일 주1",
+    "n": 0
+   },
+   "key": "pension_member_list.{i}.birth",
+   "kind": "birth_date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일 주1",
+    "n": 1
+   },
+   "key": "pension_member_list.{i}.birth",
+   "kind": "birth_date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일 주1",
+    "n": 2
+   },
+   "key": "pension_member_list.{i}.birth",
+   "kind": "birth_date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일 주1",
+    "n": 3
+   },
+   "key": "pension_member_list.{i}.birth",
+   "kind": "birth_date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일 주1",
+    "n": 4
+   },
+   "key": "pension_member_list.{i}.birth",
+   "kind": "birth_date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일 주1",
+    "n": 5
+   },
+   "key": "pension_member_list.{i}.birth",
+   "kind": "birth_date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일 주1",
+    "n": 6
+   },
+   "key": "pension_member_list.{i}.birth",
+   "kind": "birth_date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일 주1",
+    "n": 7
+   },
+   "key": "pension_member_list.{i}.birth",
+   "kind": "birth_date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일 주1",
+    "n": 8
+   },
+   "key": "pension_member_list.{i}.birth",
+   "kind": "birth_date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일 주1",
+    "n": 9
+   },
+   "key": "pension_member_list.{i}.birth",
+   "kind": "birth_date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기업부담금",
+    "n": 0
+   },
+   "key": "pension_member_list.{i}.company_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기업부담금",
+    "n": 1
+   },
+   "key": "pension_member_list.{i}.company_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기업부담금",
+    "n": 2
+   },
+   "key": "pension_member_list.{i}.company_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기업부담금",
+    "n": 3
+   },
+   "key": "pension_member_list.{i}.company_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기업부담금",
+    "n": 4
+   },
+   "key": "pension_member_list.{i}.company_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기업부담금",
+    "n": 5
+   },
+   "key": "pension_member_list.{i}.company_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기업부담금",
+    "n": 6
+   },
+   "key": "pension_member_list.{i}.company_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기업부담금",
+    "n": 7
+   },
+   "key": "pension_member_list.{i}.company_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기업부담금",
+    "n": 8
+   },
+   "key": "pension_member_list.{i}.company_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기업부담금",
+    "n": 9
+   },
+   "key": "pension_member_list.{i}.company_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "개인부담금",
+    "n": 0
+   },
+   "key": "pension_member_list.{i}.personal_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "개인부담금",
+    "n": 1
+   },
+   "key": "pension_member_list.{i}.personal_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "개인부담금",
+    "n": 2
+   },
+   "key": "pension_member_list.{i}.personal_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "개인부담금",
+    "n": 3
+   },
+   "key": "pension_member_list.{i}.personal_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "개인부담금",
+    "n": 4
+   },
+   "key": "pension_member_list.{i}.personal_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "개인부담금",
+    "n": 5
+   },
+   "key": "pension_member_list.{i}.personal_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "개인부담금",
+    "n": 6
+   },
+   "key": "pension_member_list.{i}.personal_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "개인부담금",
+    "n": 7
+   },
+   "key": "pension_member_list.{i}.personal_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "개인부담금",
+    "n": 8
+   },
+   "key": "pension_member_list.{i}.personal_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "개인부담금",
+    "n": 9
+   },
+   "key": "pension_member_list.{i}.personal_amount",
+   "kind": "amount"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    453.8,
+    178.9,
+    536.2,
+    192.8
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "부담금 입금액",
+   "rect": [
+    340.5,
+    285.8,
+    481.9,
+    296.6
+   ],
+   "key": "pension.deposit_total",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "기업부담금",
+   "rect": [
+    393.8,
+    298.9,
+    481.9,
+    310.5
+   ],
+   "key": "pension.company_amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "개인부담금",
+   "rect": [
+    393.8,
+    312.8,
+    481.9,
+    324.8
+   ],
+   "key": "pension.personal_amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "예약일(년 월 일)",
+   "rect": [
+    208.1,
+    345.0,
+    318.8,
+    355.5
+   ],
+   "key": "pension.reserved_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "기업명(서명)",
+   "rect": [
+    241.9,
+    762.4,
+    322.5,
+    774.8
+   ],
+   "key": "company.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

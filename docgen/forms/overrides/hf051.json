@@ -1,0 +1,101 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상품명",
+    "n": 0
+   },
+   "key": "loan.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "실행일",
+    "n": 0
+   },
+   "key": "loan.exec_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금액",
+    "n": 0
+   },
+   "key": "loan.amount",
+   "kind": "amount"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "철회신청 작성일(년 월 일)",
+   "rect": [
+    378.8,
+    492.0,
+    451.9,
+    507.0
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "철회신청 신청인",
+   "rect": [
+    376.9,
+    512.2,
+    483.8,
+    526.9
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "취소사유 기타( )",
+   "rect": [
+    102.0,
+    681.8,
+    240.0,
+    694.9
+   ],
+   "key": "loan.withdraw_cancel_reason",
+   "source": "rule:free_text"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "철회신청 취소 작성일(년 월 일)",
+   "rect": [
+    378.8,
+    744.0,
+    451.9,
+    759.0
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "철회신청 취소 신청인",
+   "rect": [
+    376.9,
+    764.2,
+    483.8,
+    779.2
+   ],
+   "key": "customer.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

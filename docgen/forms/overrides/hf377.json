@@ -1,0 +1,232 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당 Prepare",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "책임자 Approval",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성 명 Name",
+    "n": 0
+   },
+   "key": "customer.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성 명 Name",
+    "n": 1
+   },
+   "key": "customer.name_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "여권번호 Passport No.",
+    "n": 0
+   },
+   "key": "customer.passport",
+   "kind": "passport"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "국 적 Nationality",
+    "n": 0
+   },
+   "key": "customer.nationality"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "여권유효기일 Date of Expiry",
+    "n": 8
+   },
+   "key": "customer.passport_expiry",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "여권유효기일 Date of Expiry",
+    "n": 0
+   },
+   "key": "customer_list.{i}.address",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "여권유효기일 Date of Expiry",
+    "n": 1
+   },
+   "key": "customer_list.{i}.address_en",
+   "kind": "address_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "국내주소 Domestic Address",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "여권유효기일 Date of Expiry",
+    "n": 6
+   },
+   "set": {
+    "rect": [
+     367.5,
+     261.4,
+     417.0,
+     273.4
+    ]
+   },
+   "key": "customer_list.{i}.phone",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "여권유효기일 Date of Expiry",
+    "n": 7
+   },
+   "set": {
+    "rect": [
+     338.6,
+     275.2,
+     547.5,
+     286.5
+    ]
+   },
+   "key": "customer_list.{i}.email",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "여권유효기일 Date of Expiry",
+    "n": 2
+   },
+   "key": "foreign_list.{i}.address",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "여권유효기일 Date of Expiry",
+    "n": 3
+   },
+   "key": "foreign_list.{i}.address",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "여권유효기일 Date of Expiry",
+    "n": 4
+   },
+   "key": "foreign_list.{i}.phone",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "여권유효기일 Date of Expiry",
+    "n": 5
+   },
+   "key": "customer_list.{i}.overseas_institution",
+   "kind": "overseas_institution"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "개설 신청 은행/지점명 Opening Bank/Branch",
+    "n": 0
+   },
+   "key": "overseas.branch",
+   "kind": "overseas_branch"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "개설통화 Currency",
+    "n": 0
+   },
+   "key": "overseas.currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "접수 은행/지점명 Bank/Branch",
+    "n": 0
+   },
+   "key": "bank.branch",
+   "kind": "branch"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "제출 서류(Document)",
+    "n": 0
+   },
+   "key": "notice.documents",
+   "kind": "submit_docs"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인(Applicant) 서명란 성명",
+   "rect": [
+    147.0,
+    497.6,
+    260.6,
+    510.4
+   ],
+   "key": "customer.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

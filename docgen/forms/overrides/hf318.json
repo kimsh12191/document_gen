@@ -1,0 +1,238 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "투 자 업 종",
+    "n": 0
+   },
+   "key": "invest.industry",
+   "kind": "nk_invest_industry"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주 요 제 품",
+    "n": 0
+   },
+   "key": "invest.main_product",
+   "kind": "goods"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신고수리번호",
+    "n": 0
+   },
+   "key": "bank.accept_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "(U$)",
+    "n": 0
+   },
+   "key": "bank.accept_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "현금 (U$)",
+    "n": 0
+   },
+   "key": "invest.securities_cash",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "현물 (U$)",
+    "n": 0
+   },
+   "key": "invest.securities_inkind",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "합계 (U$)",
+    "n": 0
+   },
+   "key": "invest.securities_total",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대부투자",
+    "n": 0
+   },
+   "key": "invest_list.{i}.loan_cash",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대부투자",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대부투자",
+    "n": 2
+   },
+   "key": "invest_list.{i}.loan_total",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "총투자액",
+    "n": 0
+   },
+   "key": "invest_list.{i}.total_cash",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "총투자액",
+    "n": 1
+   },
+   "key": "invest_list.{i}.total_inkind",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "총투자액",
+    "n": 2
+   },
+   "key": "invest_list.{i}.total",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "현지법인명",
+    "n": 0
+   },
+   "key": "invest.local_corp",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "위의 신고를 다음과 같이 신고필함.",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "유 효 기 간",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     403.9,
+     657.8,
+     450.0,
+     677.6
+    ]
+   },
+   "key": "bank.valid_until",
+   "kind": "date"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "주소(소재지) (주소)",
+   "rect": [
+    195.0,
+    234.4,
+    551.6,
+    248.2
+   ],
+   "key": "company.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "(전화번호)",
+   "rect": [
+    211.9,
+    250.5,
+    322.5,
+    268.1
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "(e-mail)",
+   "rect": [
+    357.8,
+    250.5,
+    551.6,
+    268.1
+   ],
+   "key": "customer.email"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "현지법인 자본금 USD",
+   "rect": [
+    353.2,
+    477.4,
+    438.8,
+    492.0
+   ],
+   "key": "invest.local_capital",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고일(년 월 일)",
+   "rect": [
+    410.6,
+    565.5,
+    450.0,
+    582.0
+   ],
+   "key": "date"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

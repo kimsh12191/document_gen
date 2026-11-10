@@ -1,0 +1,365 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "명( 법인명)",
+    "n": 0
+   },
+   "key": "customer.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "업 종 ( 직 업 )",
+    "n": 0
+   },
+   "key": "customer.job"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소 재 지",
+    "n": 0
+   },
+   "key": "overseas_property.address",
+   "source": "profile.foreign.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "면 적",
+    "n": 0
+   },
+   "key": "overseas_property.area",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취 득 가 액",
+    "n": 0
+   },
+   "key": "overseas_property.price",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "총취득금액(A = B + C )",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "총취득금액(A = B + C )",
+    "n": 1
+   },
+   "key": "acquisition.total_local",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "미달러 환산액",
+    "n": 0
+   },
+   "key": "acquisition.total_usd",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취득자금 국내송금액",
+    "n": 0
+   },
+   "key": "domestic_remit_list.0.local",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "모기지론(원리금상환송금예정금액)",
+    "n": 0
+   },
+   "key": "domestic_remit_list.1.local",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "미달러 환산액",
+    "n": 1
+   },
+   "key": "domestic_remit_list.{i}.usd",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "미달러 환산액",
+    "n": 2
+   },
+   "key": "domestic_remit_list.{i}.usd",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "모기지론(원리금상환현지조달금액)",
+    "n": 0
+   },
+   "key": "local_fund_list.0.local",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기 타 : ( )",
+    "n": 0
+   },
+   "key": "local_fund_list.1.local",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "미달러 환산액",
+    "n": 3
+   },
+   "key": "local_fund_list.{i}.usd",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "미달러 환산액",
+    "n": 4
+   },
+   "key": "local_fund_list.{i}.usd",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 취 인 명",
+    "n": 0
+   },
+   "key": "foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 취 인 명",
+    "n": 1
+   },
+   "key": "recipient.amount_local",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "미달러 환산액",
+    "n": 5
+   },
+   "key": "recipient.amount_usd",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신고인과의 관계",
+    "n": 0
+   },
+   "key": "recipient.relation",
+   "kind": "payee_relation"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신 고 ( 수 리 ) 번 호",
+    "n": 0
+   },
+   "key": "bank.report_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신 고 ( 수 리 ) 금 액",
+    "n": 0
+   },
+   "key": "bank.report_amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "유 효 기 간",
+    "n": 0
+   },
+   "key": "bank.valid_until",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "위의 신고를 다음과 같이 신고수리함.",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 (주소)",
+   "rect": [
+    192.4,
+    175.5,
+    551.2,
+    191.2
+   ],
+   "key": "customer.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 (전화번호)",
+   "rect": [
+    209.6,
+    195.8,
+    343.1,
+    208.5
+   ],
+   "key": "customer.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 (e-mail)",
+   "rect": [
+    384.4,
+    195.8,
+    551.2,
+    208.5
+   ],
+   "key": "customer.email"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "취득인 (성명)",
+   "rect": [
+    192.4,
+    238.1,
+    296.2,
+    254.2
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "취득인 (주민/사업자등록번호)",
+   "rect": [
+    385.9,
+    238.1,
+    551.2,
+    254.2
+   ],
+   "key": "customer.rrn"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "취득인 (주소)",
+   "rect": [
+    192.4,
+    258.8,
+    339.4,
+    270.8
+   ],
+   "key": "customer.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "취득인 (전화번호)",
+   "rect": [
+    385.5,
+    258.8,
+    551.2,
+    270.8
+   ],
+   "key": "customer.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "취득상대방 (성명)",
+   "rect": [
+    192.4,
+    277.5,
+    551.2,
+    293.2
+   ],
+   "key": "foreign.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "취득상대방 (주소)",
+   "rect": [
+    192.4,
+    298.1,
+    551.2,
+    310.5
+   ],
+   "key": "foreign.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고일(년 월 일)",
+   "rect": [
+    390.0,
+    608.2,
+    534.4,
+    622.5
+   ],
+   "key": "date"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

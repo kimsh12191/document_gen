@@ -1,0 +1,202 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "증 권 취 득 자",
+    "n": 0
+   },
+   "key": "company.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "증권취득상대방",
+    "n": 0
+   },
+   "key": "foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "액 면 가 액",
+    "n": 0
+   },
+   "key": "securities.face_value",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 량",
+    "n": 0
+   },
+   "key": "securities.quantity",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취 득 단 가",
+    "n": 0
+   },
+   "key": "securities.unit_price",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취 득 가 액",
+    "n": 0
+   },
+   "key": "securities.acquisition_amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취 득 사 유",
+    "n": 0
+   },
+   "key": "securities.reason",
+   "kind": "reason"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신고번호",
+    "n": 0
+   },
+   "key": "bank.report_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신고금액",
+    "n": 0
+   },
+   "key": "bank.report_amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "유효기간",
+    "n": 0
+   },
+   "key": "bank.valid_until",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기타 참고사항",
+    "n": 0
+   },
+   "key": "bank.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신 고 기 관",
+    "n": 0
+   },
+   "key": "bank.report_office",
+   "kind": "branch"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "상호",
+   "rect": [
+    188.6,
+    153.0,
+    330.0,
+    181.5
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대표자 성명",
+   "rect": [
+    333.8,
+    153.0,
+    487.5,
+    181.5
+   ],
+   "key": "company.ceo"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "주소(소재지)",
+   "rect": [
+    188.6,
+    184.5,
+    360.0,
+    224.2
+   ],
+   "key": "company.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "전화번호",
+   "rect": [
+    416.2,
+    196.9,
+    538.1,
+    210.8
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "E-mail",
+   "rect": [
+    408.8,
+    211.1,
+    538.1,
+    224.2
+   ],
+   "key": "company.email",
+   "source": "profile.corporation.ceo.email"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고일(년 월 일)",
+   "rect": [
+    330.0,
+    493.1,
+    383.2,
+    509.2
+   ],
+   "key": "date"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

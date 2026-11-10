@@ -1,0 +1,303 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "약 정 일 자",
+    "n": 0
+   },
+   "key": "guarantee_list.{i}.contract_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "약 정 일 자",
+    "n": 1
+   },
+   "key": "guarantee_list.{i}.contract_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "약 정 일 자",
+    "n": 2
+   },
+   "key": "guarantee_list.{i}.contract_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "거래약정서류명(또는 어음채무내용)",
+    "n": 0
+   },
+   "key": "guarantee_list.{i}.document",
+   "kind": "loan_document"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "거래약정서류명(또는 어음채무내용)",
+    "n": 1
+   },
+   "key": "guarantee_list.{i}.document",
+   "kind": "loan_document"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "거래약정서류명(또는 어음채무내용)",
+    "n": 2
+   },
+   "key": "guarantee_list.{i}.document",
+   "kind": "loan_document"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채 무 한 도 액",
+    "n": 0
+   },
+   "key": "guarantee_list.{i}.limit_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채 무 한 도 액",
+    "n": 1
+   },
+   "key": "guarantee_list.{i}.limit_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채 무 한 도 액",
+    "n": 2
+   },
+   "key": "guarantee_list.{i}.limit_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "보 증 종 류",
+    "n": 0
+   },
+   "key": "guarantee_list.{i}.guarantee_type",
+   "kind": "guarantee_type"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "보 증 종 류",
+    "n": 1
+   },
+   "key": "guarantee_list.{i}.guarantee_type",
+   "kind": "guarantee_type"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "보 증 종 류",
+    "n": 2
+   },
+   "key": "guarantee_list.{i}.guarantee_type",
+   "kind": "guarantee_type"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "○구 연대보증인의 보증채무 내용",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    435.0,
+    125.6,
+    525.0,
+    140.6
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "구 연대보증인",
+   "rect": [
+    67.5,
+    322.5,
+    288.8,
+    352.5
+   ],
+   "key": "guarantor.old_name",
+   "source": "profile.father.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신 연대보증인",
+   "rect": [
+    307.5,
+    322.5,
+    528.8,
+    352.5
+   ],
+   "key": "related.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "연대보증인(신)",
+   "rect": [
+    210.0,
+    538.9,
+    352.5,
+    553.1
+   ],
+   "key": "related.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "연대보증인(신) 주소",
+   "rect": [
+    210.0,
+    559.1,
+    352.5,
+    573.4
+   ],
+   "key": "related.address",
+   "source": "profile.directors.0.address.road_short"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "채무자",
+   "rect": [
+    210.0,
+    579.0,
+    352.5,
+    593.2
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "채무자 주소",
+   "rect": [
+    210.0,
+    599.2,
+    352.5,
+    613.5
+   ],
+   "key": "company.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "연대보증인1",
+   "rect": [
+    240.0,
+    628.9,
+    352.5,
+    643.1
+   ],
+   "key": "related_list.0.name",
+   "source": "profile.spouse.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "연대보증인1 주소",
+   "rect": [
+    240.0,
+    649.1,
+    352.5,
+    663.4
+   ],
+   "key": "related_list.0.address",
+   "source": "profile.spouse.address.road_short"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "연대보증인2",
+   "rect": [
+    240.0,
+    669.0,
+    352.5,
+    683.2
+   ],
+   "key": "related_list.1.name",
+   "source": "profile.mother.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "연대보증인2 주소",
+   "rect": [
+    240.0,
+    688.9,
+    352.5,
+    703.1
+   ],
+   "key": "related_list.1.address",
+   "source": "profile.mother.address.road_short"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "연대보증인3",
+   "rect": [
+    240.0,
+    709.1,
+    352.5,
+    723.4
+   ],
+   "key": "related_list.2.name",
+   "source": "profile.father.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "연대보증인3 주소",
+   "rect": [
+    240.0,
+    729.0,
+    352.5,
+    743.2
+   ],
+   "key": "related_list.2.address",
+   "source": "profile.father.address.road_short"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

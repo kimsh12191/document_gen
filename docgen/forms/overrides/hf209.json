@@ -1,0 +1,203 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "송금인",
+    "n": 0
+   },
+   "key": "foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "송금인과관계",
+    "n": 0
+   },
+   "key": "foreign.relation",
+   "kind": "remitter_relation"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "무역",
+    "n": 0
+   },
+   "key": "receipt.class_trade",
+   "kind": "mark_v"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "용역 및 서비스",
+    "n": 0
+   },
+   "key": "receipt.class_service",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "증여",
+    "n": 0
+   },
+   "key": "receipt.class_gift",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기타",
+    "n": 0
+   },
+   "key": "receipt.class_other",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주민번호(사업자등록번호)",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     363.0,
+     189.4,
+     549.4,
+     204.4
+    ]
+   },
+   "key": "customer.rrn",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화번호",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     412.5,
+     206.6,
+     549.4,
+     222.4
+    ]
+   },
+   "key": "customer.phone"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(20 . . .)",
+   "rect": [
+    448.1,
+    151.9,
+    543.8,
+    168.8
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "영수인",
+   "rect": [
+    78.8,
+    189.4,
+    230.6,
+    204.4
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "주소",
+   "rect": [
+    78.8,
+    208.1,
+    354.4,
+    222.4
+   ],
+   "key": "customer.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "영수금액",
+   "rect": [
+    123.4,
+    282.0,
+    365.6,
+    305.6
+   ],
+   "key": "receipt.amount",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "USD상당금액",
+   "rect": [
+    191.2,
+    311.2,
+    350.6,
+    333.0
+   ],
+   "key": "receipt.usd_equiv",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "영수사유(구체적 기재)",
+   "rect": [
+    71.2,
+    412.5,
+    543.8,
+    476.2
+   ],
+   "key": "receipt.reason",
+   "kind": "reason"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "확인일(년 월 일)",
+   "rect": [
+    375.0,
+    645.8,
+    448.1,
+    661.9
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "영수인(서명란)",
+   "rect": [
+    358.1,
+    678.8,
+    513.8,
+    697.9
+   ],
+   "key": "customer.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

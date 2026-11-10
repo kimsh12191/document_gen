@@ -1,0 +1,485 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자명",
+    "n": 0
+   },
+   "key": "contact_list.{i}.name",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "부서 및 직급",
+    "n": 0
+   },
+   "key": "contact_list.{i}.dept_position",
+   "kind": "dept_position"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화번호",
+    "n": 0
+   },
+   "key": "contact_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자명",
+    "n": 1
+   },
+   "key": "contact_list.{i}.name",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "부서 및 직급",
+    "n": 1
+   },
+   "key": "contact_list.{i}.dept_position",
+   "kind": "dept_position"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화번호",
+    "n": 1
+   },
+   "key": "contact_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자명",
+    "n": 2
+   },
+   "key": "contact_list.{i}.name",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "부서 및 직급",
+    "n": 2
+   },
+   "key": "contact_list.{i}.dept_position",
+   "kind": "dept_position"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화번호",
+    "n": 2
+   },
+   "key": "contact_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자명",
+    "n": 3
+   },
+   "key": "contact_list.{i}.name",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "부서 및 직급",
+    "n": 3
+   },
+   "key": "contact_list.{i}.dept_position",
+   "kind": "dept_position"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화번호",
+    "n": 3
+   },
+   "key": "contact_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자명",
+    "n": 4
+   },
+   "key": "contact_list.{i}.name",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "부서 및 직급",
+    "n": 4
+   },
+   "key": "contact_list.{i}.dept_position",
+   "kind": "dept_position"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화번호",
+    "n": 4
+   },
+   "key": "contact_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자명",
+    "n": 5
+   },
+   "key": "contact_list.{i}.name",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "부서 및 직급",
+    "n": 5
+   },
+   "key": "contact_list.{i}.dept_position",
+   "kind": "dept_position"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화번호",
+    "n": 5
+   },
+   "key": "contact_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자명",
+    "n": 6
+   },
+   "key": "contact_list.{i}.name",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "부서 및 직급",
+    "n": 6
+   },
+   "key": "contact_list.{i}.dept_position",
+   "kind": "dept_position"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화번호",
+    "n": 6
+   },
+   "key": "contact_list.{i}.phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "팩 스 (선택)",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     121.9,
+     515.6,
+     494.2,
+     528.8
+    ]
+   },
+   "key": "customer.fax",
+   "source": "profile.business.fax"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이메일 (선택)",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     127.5,
+     530.6,
+     494.2,
+     545.6
+    ]
+   },
+   "key": "customer.email",
+   "kind": "email"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "(법인등록번호/생년월일)",
+    "n": 0
+   },
+   "key": "customer.birth",
+   "kind": "date"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "거래확인서 발송 팩스 1",
+   "rect": [
+    298.9,
+    249.8,
+    380.6,
+    267.0
+   ],
+   "key": "contact_list.0.fax",
+   "source": "profile.business.fax"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "거래확인서 발송 이메일 1",
+   "rect": [
+    383.2,
+    249.8,
+    465.0,
+    267.0
+   ],
+   "key": "contact_list.0.email",
+   "source": "profile.business.email"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "거래확인서 발송 팩스 2",
+   "rect": [
+    298.9,
+    269.6,
+    380.6,
+    286.9
+   ],
+   "key": "contact_list.1.fax",
+   "source": "profile.business.fax"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "거래확인서 발송 이메일 2",
+   "rect": [
+    383.2,
+    269.6,
+    465.0,
+    286.9
+   ],
+   "key": "contact_list.1.email",
+   "source": "profile.business.email"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "거래확인서 발송 팩스 3",
+   "rect": [
+    298.9,
+    289.5,
+    380.6,
+    306.8
+   ],
+   "key": "contact_list.2.fax",
+   "source": "profile.business.fax"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "거래확인서 발송 이메일 3",
+   "rect": [
+    383.2,
+    289.5,
+    465.0,
+    306.8
+   ],
+   "key": "contact_list.2.email",
+   "source": "profile.business.email"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "거래확인서 발송 팩스 4",
+   "rect": [
+    298.9,
+    309.4,
+    380.6,
+    326.6
+   ],
+   "key": "contact_list.3.fax",
+   "source": "profile.business.fax"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "거래확인서 발송 이메일 4",
+   "rect": [
+    383.2,
+    309.4,
+    465.0,
+    326.6
+   ],
+   "key": "contact_list.3.email",
+   "source": "profile.business.email"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "거래확인서 발송 팩스 5",
+   "rect": [
+    298.9,
+    329.2,
+    380.6,
+    346.5
+   ],
+   "key": "contact_list.4.fax",
+   "source": "profile.business.fax"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "거래확인서 발송 이메일 5",
+   "rect": [
+    383.2,
+    329.2,
+    465.0,
+    346.5
+   ],
+   "key": "contact_list.4.email",
+   "source": "profile.business.email"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "거래확인서 발송 팩스 6",
+   "rect": [
+    298.9,
+    349.1,
+    380.6,
+    366.4
+   ],
+   "key": "contact_list.5.fax",
+   "source": "profile.business.fax"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "거래확인서 발송 이메일 6",
+   "rect": [
+    383.2,
+    349.1,
+    465.0,
+    366.4
+   ],
+   "key": "contact_list.5.email",
+   "source": "profile.business.email"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "거래확인서 발송 팩스 7",
+   "rect": [
+    298.9,
+    369.0,
+    380.6,
+    385.9
+   ],
+   "key": "contact_list.6.fax",
+   "source": "profile.business.fax"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "거래확인서 발송 이메일 7",
+   "rect": [
+    383.2,
+    369.0,
+    465.0,
+    385.9
+   ],
+   "key": "contact_list.6.email",
+   "source": "profile.business.email"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(20 년 월 일)",
+   "rect": [
+    458.2,
+    580.5,
+    479.2,
+    594.4
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "고객명",
+   "rect": [
+    409.5,
+    601.1,
+    510.0,
+    614.2
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "고객번호",
+   "rect": [
+    84.4,
+    770.6,
+    183.8,
+    783.8
+   ],
+   "key": "customer.customer_no",
+   "kind": "number"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

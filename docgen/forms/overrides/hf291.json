@@ -1,0 +1,337 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Name",
+    "n": 0
+   },
+   "key": "customer.name_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Title",
+    "n": 0
+   },
+   "key": "customer.title_en",
+   "kind": "title_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Name",
+    "n": 1
+   },
+   "key": "foreign.contact",
+   "source": "profile.foreign.contact"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Title",
+    "n": 1
+   },
+   "key": "foreign.title",
+   "kind": "title_en"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "이름",
+    "n": 1
+   },
+   "key": "foreign.contact",
+   "source": "profile.foreign.contact"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "직위",
+    "n": 1
+   },
+   "key": "foreign.title",
+   "kind": "title_en"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "SALES CONTRACT NO",
+   "rect": [
+    180.0,
+    169.5,
+    327.4,
+    181.1
+   ],
+   "key": "trade.contract_no",
+   "kind": "number"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "DATED",
+   "rect": [
+    363.0,
+    169.5,
+    444.4,
+    181.1
+   ],
+   "key": "trade.contract_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "designated ___ (the bank)",
+   "rect": [
+    316.5,
+    281.2,
+    405.4,
+    292.9
+   ],
+   "key": "trade.assignee_bank",
+   "kind": "bank"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "on or after ___",
+   "rect": [
+    69.4,
+    314.2,
+    154.9,
+    325.1
+   ],
+   "key": "trade.effective_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "through its account no.",
+   "rect": [
+    158.6,
+    345.0,
+    348.8,
+    357.0
+   ],
+   "key": "trade.assignee_account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "with ___ New York",
+   "rect": [
+    375.8,
+    345.0,
+    543.8,
+    357.0
+   ],
+   "key": "trade.correspondent_bank",
+   "kind": "bank"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Seller By (signature)",
+   "kind": "seal",
+   "rect": [
+    298.1,
+    487.5,
+    336.4,
+    501.0
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "___ (the Seller)",
+   "rect": [
+    44.2,
+    658.9,
+    296.2,
+    670.1
+   ],
+   "key": "company.name_en",
+   "source": "profile.corporation.name_en"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "sales contract(No.)",
+   "rect": [
+    285.8,
+    673.9,
+    420.0,
+    686.2
+   ],
+   "key": "trade.contract_no",
+   "kind": "number"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "dated",
+   "rect": [
+    456.8,
+    673.9,
+    546.0,
+    686.2
+   ],
+   "key": "trade.contract_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Buyer By (signature)",
+   "kind": "seal",
+   "rect": [
+    298.1,
+    720.8,
+    336.4,
+    734.2
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "계약서번호",
+   "rect": [
+    126.8,
+    169.5,
+    268.1,
+    181.1
+   ],
+   "key": "trade.contract_no",
+   "kind": "number"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "(일자)",
+   "rect": [
+    302.2,
+    169.5,
+    384.4,
+    181.1
+   ],
+   "key": "trade.contract_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "계약서에 따라 ___ 전후하여",
+   "rect": [
+    144.0,
+    281.2,
+    226.9,
+    292.9
+   ],
+   "key": "trade.effective_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "양수인으로서 ___ (은행)",
+   "rect": [
+    153.0,
+    297.4,
+    278.6,
+    309.0
+   ],
+   "key": "trade.assignee_bank",
+   "kind": "bank"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "뉴욕의 ___",
+   "rect": [
+    386.2,
+    313.5,
+    549.4,
+    325.1
+   ],
+   "key": "trade.correspondent_bank",
+   "kind": "bank"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "[계좌번호]",
+   "rect": [
+    90.4,
+    330.0,
+    250.9,
+    340.9
+   ],
+   "key": "trade.assignee_account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "수출상 (서명)",
+   "kind": "seal",
+   "rect": [
+    310.9,
+    473.2,
+    348.8,
+    484.9
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "당사와 ___ (수출상)",
+   "rect": [
+    88.5,
+    641.2,
+    345.4,
+    654.4
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "간에 ___ 체결한(계약일)",
+   "rect": [
+    482.6,
+    641.2,
+    549.4,
+    654.4
+   ],
+   "key": "trade.contract_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "수입상 (서명)",
+   "kind": "seal",
+   "rect": [
+    310.9,
+    706.1,
+    348.8,
+    718.1
+   ]
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

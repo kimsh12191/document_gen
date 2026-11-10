@@ -1,0 +1,44 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "전국 대표번호 | 1599-1111, 1588-1111",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "기업모바일뱅킹",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "기업인터넷뱅킹",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "해외 이용시 | 82-42-520-2500",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

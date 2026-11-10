@@ -198,13 +198,20 @@ PRODUCTS = {
     "퇴직연금": ["정기예금 (1년)", "정기예금 (3년)", "이율보증형 보험(GIC) 1년", "하나 IRP 정기예금 3년",
               "하나 TDF 2045 증권투자신탁", "인덱스(KOSPI200) 증권자투자신탁", "국내채권형 증권자투자신탁",
               "미국S&P500 인덱스 증권투자신탁", "MMF 증권투자신탁", "하나 단기채 증권투자신탁", "원리금보장 ELB 1년"],
-    "예금": ["하나 정기예금", "주거래하나 통장", "하나 적금", "급여하나 통장", "하나의정기예금", "청년도약계좌"],
+    "예금": ["하나 정기예금", "주거래하나 통장", "하나 적금", "급여하나 통장", "하나의정기예금", "청년도약계좌",
+           "달달 하나 적금", "하나 청년 주택드림 청약통장", "주택청약종합저축", "하나 외화 정기예금", "영하나 플러스 통장",
+           "하나 원큐 적금", "3·6·9 정기예금", "하나 가족 적금", "내맘대로 적금", "하나 수퍼플러스 통장"],
     "신탁": ["특정금전신탁(정기예금형)", "ISA 중개형", "하나 지수연동 신탁", "MMT"],
-    "기본": ["하나 정기예금", "하나 적금", "하나 TDF 2040", "하나 MMF", "하나 단기채 펀드"],
+    "기본": ["하나 정기예금", "하나 적금", "하나 TDF 2040", "하나 MMF", "하나 단기채 펀드", "주택청약종합저축",
+           "하나 외화 정기예금", "하나 원큐 적금", "하나 직장인 신용대출", "하나 주택담보대출", "하나 전세자금대출"],
 }
 REASONS = ["생활자금", "주택구입", "사업자금", "학자금", "의료비", "만기 해지", "해외 이주", "타행 이체", "급여 수령",
-           "본인 요청", "계좌 정리", "결혼자금", "전세자금", "투자 목적", "자녀 교육비"]
-COUNTRIES = ["미국", "일본", "중국", "베트남", "독일", "싱가포르", "캐나다", "호주", "영국", "필리핀"]
+           "본인 요청", "계좌 정리", "결혼자금", "전세자금", "투자 목적", "자녀 교육비", "운전자금", "시설자금", "대환",
+           "주택 수리비", "차량 구입", "부모님 생활비", "해외 송금", "유학 경비", "상속 정리", "이사 비용", "카드대금 결제",
+           "적금 만기 재예치", "법인 자금 관리", "거래처 대금 결제", "세금 납부"]
+COUNTRIES = ["미국", "일본", "중국", "베트남", "독일", "싱가포르", "캐나다", "호주", "영국", "필리핀", "태국", "인도네시아",
+             "말레이시아", "인도", "대만", "홍콩", "프랑스", "이탈리아", "네덜란드", "뉴질랜드", "몽골", "우즈베키스탄",
+             "멕시코", "아랍에미리트"]
 CURRENCIES = ["USD", "USD", "USD", "EUR", "JPY", "CNY", "GBP", "CAD", "AUD"]
 BANKS = ["하나은행", "국민은행", "신한은행", "우리은행", "농협은행", "기업은행", "카카오뱅크"]
 
@@ -215,7 +222,9 @@ FOREIGN_SEC = re.compile(r"받는|받으실|수취|Beneficiary|BENEFICIARY|상�
 
 
 GOODS = ["전자부품", "반도체 소자", "자동차 부품", "의류 원단", "냉동 수산물", "화장품", "산업용 펌프", "LED 모듈",
-         "플라스틱 원료", "커피 원두", "PCB 기판", "포장재", "식품 원재료", "기계 부품", "철강 코일"]
+         "플라스틱 원료", "커피 원두", "PCB 기판", "포장재", "식품 원재료", "기계 부품", "철강 코일", "리튬이온 배터리",
+         "의료기기", "의약품 원료", "목재 펠릿", "가구", "농산물(과일)", "합성수지", "광학 렌즈", "섬유 원사", "타이어",
+         "건축 자재", "태양광 모듈", "공작기계", "냉동 육류", "제지 원료"]
 _CO_A = ["한빛", "대성", "미래", "세진", "동방", "새한", "청솔", "우진", "다온", "누리", "가온", "신영", "제일", "삼정", "유니온"]
 _CO_B = ["전자", "산업", "무역", "상사", "테크", "물산", "정밀", "화학", "로지스", "시스템즈", "푸드", "메디칼"]
 
@@ -333,6 +342,30 @@ def _acct(r: random.Random) -> str:
     return "".join(str(r.randint(0, 9)) if c == "#" else c for c in "###-######-#####")
 
 
+_ALIEN_KO = {"VIETNAM": "베트남", "CHINA": "중국", "UNITED STATES OF AMERICA": "미국", "PHILIPPINES": "필리핀",
+             "UZBEKISTAN": "우즈베키스탄", "INDONESIA": "인도네시아", "NEPAL": "네팔", "THAILAND": "태국", "MONGOLIA": "몽골",
+             "JAPAN": "일본", "INDIA": "인도", "CANADA": "캐나다"}
+_ALIEN_W = {"CHINA": 30, "VIETNAM": 20, "UNITED STATES OF AMERICA": 8, "THAILAND": 8, "UZBEKISTAN": 6, "PHILIPPINES": 5,
+            "INDONESIA": 5, "NEPAL": 4, "MONGOLIA": 4, "JAPAN": 4, "INDIA": 3, "CANADA": 3}
+
+
+def _alien(p: Profile) -> dict | None:
+    """은행 원본 서식 한 장만 만들 때(업무 묶음이 아닐 때) 6% 는 외국인 고객 (이름·외국인등록번호·국적).
+    따로 쓰는 난수라 다른 값은 그대로다. 묶음은 서류끼리 같은 고객이어야 해서 늘 내국인 (예전: 국적이 늘 대한민국)."""
+    if p.extra:
+        return None
+    r = random.Random(f"alien:{p.seed}")
+    if r.random() >= 0.06:
+        return None
+    from .docs.identity import _FOREIGNERS
+
+    country = r.choices(list(_ALIEN_W), weights=list(_ALIEN_W.values()))[0]
+    males, females, surnames = _FOREIGNERS[country]
+    g = p.person.gender
+    name = f"{r.choice(surnames)} {r.choice(males if g == 'M' else females)}"
+    return {"name": name, "rrn": K.rrn(r, p.person.birth, g, foreigner=True), "nationality": _ALIEN_KO[country]}
+
+
 class Values:
     """한 서류 안에서 값을 만든다. 같은 표준 키는 같은 값 (표에 두 번 나와도 일치)."""
 
@@ -341,6 +374,7 @@ class Values:
         self.cache: dict[str, str] = {}
         self.home_phone = K.landline(r, p.person.address.sido)
         self.acct = p.accounts[0].number if p.accounts and p.accounts[0].bank == BANK else _acct(r)
+        self.alien = _alien(p)
 
     def std(self, key: str) -> str | None:
         p, r = self.p, self.r
@@ -350,17 +384,17 @@ class Values:
         v = {
             "spouse.name": lambda: p.spouse.name if p.spouse else None,
             "spouse.rrn": lambda: p.spouse.rrn[:6] if p.spouse else None,
-            "customer.name": lambda: p.person.name,
-            "customer.name_en": lambda: p.person.name_en.upper(),
+            "customer.name": lambda: self.alien["name"] if self.alien else p.person.name,
+            "customer.name_en": lambda: self.alien["name"] if self.alien else p.person.name_en.upper(),
             "customer.birth": lambda: D(p.person.birth, r.choice(["dot", "dot", "kor_short", "dash"]))
             if r.random() < 0.8 else p.person.birth.strftime("%y%m%d"),
-            "customer.rrn": lambda: K.mask_rrn(p.person.rrn) if r.random() < 0.4 else p.person.rrn,
+            "customer.rrn": lambda: (lambda v: K.mask_rrn(v) if r.random() < 0.4 else v)(self.alien["rrn"] if self.alien else p.person.rrn),
             "customer.phone": lambda: p.person.mobile,
             "customer.home_phone": lambda: self.home_phone,
             "customer.email": lambda: p.person.email,
             "customer.address": lambda: p.person.address.road_short,
             "customer.job": lambda: e.job,
-            "customer.nationality": lambda: p.person.nationality,
+            "customer.nationality": lambda: self.alien["nationality"] if self.alien else p.person.nationality,
             "customer.zipcode": lambda: p.person.address.zipcode,
             "employer.address": lambda: f"{e.company.address.road_short} {e.company.name} {e.department}",
             "employer.phone": lambda: e.company.phone,
@@ -409,8 +443,11 @@ class Values:
         p, r = self.p, self.r
         if kind in ("skip", "seal"):
             return None
-        if kind == "note":
-            return (r.choice(REASONS) if r.random() < 0.15 else None) if p.extra.get("sparse_fields") else "해당 없음"
+        if kind == "note":   # 비고: 실제로는 대부분 비어 있고, 가끔 짧은 메모 (예전: 늘 '해당 없음')
+            if p.extra.get("sparse_fields"):
+                return r.choice(REASONS) if r.random() < 0.15 else None
+            x = r.random()
+            return None if x < 0.5 else "해당 없음" if x < 0.75 else r.choice(SRC.FREE_TEXT + REASONS)
         if kind == "date":
             back = r.randint(0, 400) if not re.search(r"만기|기한|기일|종료|유효", label) else -r.randint(30, 1500)
             return D(p.issue_date - timedelta(days=back), r.choice(["dot", "dot", "kor_short", "dash"]))
@@ -581,7 +618,7 @@ def build_form(doc_id: str, p: Profile, rng: random.Random) -> dict:
                 skey, kind = _text_key(it)
                 if kind == "seal" and not skey:   # '인감', '서명/날인' 칸 → 도장·서명 자리
                     x = rng.random()
-                    nm = p.person.name
+                    nm = vals.std("customer.name")
                     sp = S["seal_spot"]
                     mk = {"t": "mark", "page": page, "key": uniq("signer"), "label": label, "name": nm,
                           "seal": x < sp["seal_below"], "sign": sp["seal_below"] <= x < sp["sign_below"],
@@ -719,10 +756,10 @@ def _signer_name(role: str, label: str, it: dict, fk: dict, vals: "Values", rng:
     if who in ("agent", "family", "related"):
         return vals.std(f"{who}.name") if rng.random() < 0.6 else None   # 함께 오지 않으면 빈칸
     if who == "customer":
-        return p.person.name
+        return vals.std("customer.name")
     n = norm(label)
     is_agent = bool(re.search(r"대리인|수임인|보호자|법정대리", n)) or bool(AGENT_SEC.search(norm(it.get("section") or "")))
-    return None if is_agent and rng.random() < 0.85 else (p.corporation.name if re.search(r"법인|상호|회사", n) else p.person.name)
+    return None if is_agent and rng.random() < 0.85 else (p.corporation.name if re.search(r"법인|상호|회사", n) else vals.std("customer.name"))
 
 
 def _pooled(mk: dict, pools: dict, rng: random.Random) -> dict:

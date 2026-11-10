@@ -1,0 +1,363 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 출 (투자포함)",
+    "n": 0
+   },
+   "key": "hedge_list.{i}.export.past_basis",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 입 (조달포함)",
+    "n": 0
+   },
+   "key": "hedge_list.{i}.import.past_basis",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 0
+   },
+   "key": "hedge_list.{i}.note.past_basis",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 출 (투자포함)",
+    "n": 1
+   },
+   "key": "hedge_list.{i}.export.per_contract",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 입 (조달포함)",
+    "n": 1
+   },
+   "key": "hedge_list.{i}.import.per_contract",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 1
+   },
+   "key": "hedge_list.{i}.note.per_contract",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 출 (투자포함)",
+    "n": 2
+   },
+   "key": "hedge.export.other",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 입 (조달포함)",
+    "n": 2
+   },
+   "key": "hedge_list.{i}.import.other",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 2
+   },
+   "key": "hedge_list.{i}.note.other",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "헤지대상 금액 합계 (헤지비율 분모에 해당)",
+    "n": 0
+   },
+   "key": "hedge.export.target_total",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 입 (조달포함)",
+    "n": 3
+   },
+   "key": "hedge_list.{i}.import.target_total",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 3
+   },
+   "key": "hedge_list.{i}.note.target_total",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화선도 (외환스왑, NDF 포함)",
+    "n": 0
+   },
+   "key": "hedge.export.forward",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 입 (조달포함)",
+    "n": 4
+   },
+   "key": "hedge_list.{i}.import.forward",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 4
+   },
+   "key": "hedge_list.{i}.note.forward",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화옵션",
+    "n": 0
+   },
+   "key": "hedge.export.option",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 입 (조달포함)",
+    "n": 5
+   },
+   "key": "hedge_list.{i}.import.option",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 5
+   },
+   "key": "hedge_list.{i}.note.option",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화스왑",
+    "n": 0
+   },
+   "key": "hedge.export.swap",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 입 (조달포함)",
+    "n": 6
+   },
+   "key": "hedge_list.{i}.import.swap",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 6
+   },
+   "key": "hedge_list.{i}.note.swap",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "환변동보험 및 기타( )",
+    "n": 0
+   },
+   "key": "hedge.export.fx_insurance",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 입 (조달포함)",
+    "n": 7
+   },
+   "key": "hedge_list.{i}.import.fx_insurance",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 7
+   },
+   "key": "hedge_list.{i}.note.fx_insurance",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기헤지거래 금액 합계(헤지비율 분자에 해당)",
+    "n": 0
+   },
+   "key": "hedge.export.hedged_total",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 입 (조달포함)",
+    "n": 8
+   },
+   "key": "hedge_list.{i}.import.hedged_total",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 8
+   },
+   "key": "hedge_list.{i}.note.hedged_total",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "거래금액",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "하나은행 ___ 지점/부 앞",
+   "rect": [
+    116.2,
+    117.0,
+    211.9,
+    129.4
+   ],
+   "key": "bank.branch",
+   "kind": "branch"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "___년 외환파생상품거래 헤지 수요 현황",
+   "rect": [
+    48.8,
+    149.2,
+    117.0,
+    161.2
+   ],
+   "key": "hedge.year",
+   "kind": "hedge_year"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "확인일자(년 월 일)",
+   "rect": [
+    101.2,
+    528.8,
+    205.1,
+    543.8
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "기업명",
+   "rect": [
+    99.4,
+    564.4,
+    217.5,
+    579.4
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "법인등록번호",
+   "rect": [
+    285.8,
+    564.4,
+    405.0,
+    579.4
+   ],
+   "key": "company.corp_no"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "대표이사",
+   "rect": [
+    99.4,
+    600.0,
+    217.5,
+    615.0
+   ],
+   "key": "company.ceo"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

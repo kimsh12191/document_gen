@@ -1,0 +1,119 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "한 글(한문)",
+    "n": 0
+   },
+   "key": "company.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "영 문",
+    "n": 0
+   },
+   "key": "company.name_en",
+   "source": "profile.corporation.name_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "무역업고유번호",
+    "n": 0
+   },
+   "key": "company.trade_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화번호",
+    "n": 0
+   },
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "한 글",
+    "n": 0
+   },
+   "key": "company.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "영 문",
+    "n": 1
+   },
+   "key": "company.address_en",
+   "kind": "address_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표자",
+    "n": 0
+   },
+   "kind": "seal"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대리인",
+    "n": 0
+   },
+   "kind": "seal"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주 소",
+    "n": 0
+   },
+   "key": "company.address"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고일(년 월 일)",
+   "rect": [
+    318.8,
+    462.8,
+    439.9,
+    477.8
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "본인",
+   "rect": [
+    307.5,
+    492.0,
+    425.6,
+    508.1
+   ],
+   "key": "company.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

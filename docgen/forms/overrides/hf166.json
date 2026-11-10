@@ -1,0 +1,443 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "서류확인 및 접수확인자",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "예약지급일*",
+    "n": 0
+   },
+   "key": "pension.scheduled_pay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이전받는 금융기관",
+    "n": 0
+   },
+   "key": "pension.transfer_admin_bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "자산관리기관",
+    "n": 0
+   },
+   "key": "pension.transfer_custody_bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금융기관",
+    "n": 0
+   },
+   "key": "pension.transfer_bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 0
+   },
+   "key": "pension.transfer_account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "예금주",
+    "n": 0
+   },
+   "key": "pension.transfer_holder",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "가입자 성명",
+    "n": 0
+   },
+   "key": "pension_member_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "가입자 성명",
+    "n": 1
+   },
+   "key": "pension_member_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "가입자 성명",
+    "n": 2
+   },
+   "key": "pension_member_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "가입자 성명",
+    "n": 3
+   },
+   "key": "pension_member_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "가입자 성명",
+    "n": 4
+   },
+   "key": "pension_member_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "가입자 성명",
+    "n": 5
+   },
+   "key": "pension_member_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "가입자 성명",
+    "n": 6
+   },
+   "key": "pension_member_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일(주민번호)",
+    "n": 0
+   },
+   "key": "pension_member_list.{i}.birth",
+   "kind": "birth_date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일(주민번호)",
+    "n": 1
+   },
+   "key": "pension_member_list.{i}.birth",
+   "kind": "birth_date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일(주민번호)",
+    "n": 2
+   },
+   "key": "pension_member_list.{i}.birth",
+   "kind": "birth_date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일(주민번호)",
+    "n": 3
+   },
+   "key": "pension_member_list.{i}.birth",
+   "kind": "birth_date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일(주민번호)",
+    "n": 4
+   },
+   "key": "pension_member_list.{i}.birth",
+   "kind": "birth_date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일(주민번호)",
+    "n": 5
+   },
+   "key": "pension_member_list.{i}.birth",
+   "kind": "birth_date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일(주민번호)",
+    "n": 6
+   },
+   "key": "pension_member_list.{i}.birth",
+   "kind": "birth_date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "제도전환/전출일자",
+    "n": 0
+   },
+   "key": "pension_member_list.{i}.transfer_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "제도전환/전출일자",
+    "n": 1
+   },
+   "key": "pension_member_list.{i}.transfer_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "제도전환/전출일자",
+    "n": 2
+   },
+   "key": "pension_member_list.{i}.transfer_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "제도전환/전출일자",
+    "n": 3
+   },
+   "key": "pension_member_list.{i}.transfer_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "제도전환/전출일자",
+    "n": 4
+   },
+   "key": "pension_member_list.{i}.transfer_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "제도전환/전출일자",
+    "n": 5
+   },
+   "key": "pension_member_list.{i}.transfer_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "제도전환/전출일자",
+    "n": 6
+   },
+   "key": "pension_member_list.{i}.transfer_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "현물이전 유의사항 확인",
+    "n": 0
+   },
+   "key": "pension_member_list.{i}.confirm_text",
+   "kind": "confirm_phrase"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "현물이전 유의사항 확인",
+    "n": 1
+   },
+   "key": "pension_member_list.{i}.confirm_text",
+   "kind": "confirm_phrase"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "현물이전 유의사항 확인",
+    "n": 2
+   },
+   "key": "pension_member_list.{i}.confirm_text",
+   "kind": "confirm_phrase"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "현물이전 유의사항 확인",
+    "n": 3
+   },
+   "key": "pension_member_list.{i}.confirm_text",
+   "kind": "confirm_phrase"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "현물이전 유의사항 확인",
+    "n": 4
+   },
+   "key": "pension_member_list.{i}.confirm_text",
+   "kind": "confirm_phrase"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "현물이전 유의사항 확인",
+    "n": 5
+   },
+   "key": "pension_member_list.{i}.confirm_text",
+   "kind": "confirm_phrase"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "현물이전 유의사항 확인",
+    "n": 6
+   },
+   "key": "pension_member_list.{i}.confirm_text",
+   "kind": "confirm_phrase"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이전 받는 기업의 법인인감증명서 징구",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    468.8,
+    177.0,
+    540.0,
+    189.8
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "이전하는 기업명",
+   "rect": [
+    49.5,
+    689.2,
+    147.0,
+    705.0
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "이전받는 기업명",
+   "rect": [
+    164.2,
+    689.2,
+    262.5,
+    705.0
+   ],
+   "key": "pension.receiving_company",
+   "kind": "company"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "이전받는 기업",
+   "rect": [
+    369.4,
+    708.0,
+    470.6,
+    721.1
+   ],
+   "key": "pension.receiving_company",
+   "kind": "company"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "기업명(서명)",
+   "rect": [
+    101.2,
+    763.1,
+    225.0,
+    776.2
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신탁관리인",
+   "rect": [
+    352.5,
+    763.1,
+    472.5,
+    776.2
+   ],
+   "key": "pension.trustee",
+   "kind": "other_person"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

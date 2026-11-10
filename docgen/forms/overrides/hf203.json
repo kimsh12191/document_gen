@@ -1,0 +1,921 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Number of Receipt",
+    "n": 0
+   },
+   "key": "bank.receipt_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Number of Receipt",
+    "n": 0
+   },
+   "key": "bank.receipt_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Date of Receipt",
+    "n": 0
+   },
+   "key": "bank.receipt_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Date of Receipt",
+    "n": 0
+   },
+   "key": "bank.receipt_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Date of Completion",
+    "n": 0
+   },
+   "key": "bank.completion_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Date of Completion",
+    "n": 0
+   },
+   "key": "bank.completion_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Address",
+    "n": 0
+   },
+   "key": "foreign.address"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Address",
+    "n": 0
+   },
+   "key": "foreign.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Nationality",
+    "n": 0
+   },
+   "key": "foreign.nationality"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Nationality",
+    "n": 0
+   },
+   "key": "foreign.nationality"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "(Korean)",
+    "n": 0
+   },
+   "key": "company.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "(Korean)",
+    "n": 0
+   },
+   "key": "company.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "(English)",
+    "n": 0
+   },
+   "key": "company.name_en",
+   "source": "profile.corporation.name_en"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "(English)",
+    "n": 0
+   },
+   "key": "company.name_en",
+   "source": "profile.corporation.name_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Headquarter",
+    "n": 0
+   },
+   "key": "company.address"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Headquarter",
+    "n": 0
+   },
+   "key": "company.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Main factory (Main place of business)",
+    "n": 0
+   },
+   "key": "company.factory_address",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Main factory (Main place of business)",
+    "n": 0
+   },
+   "key": "company.factory_address",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "won",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "won",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Capital",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Capital",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "won(USD",
+    "n": 0
+   },
+   "key": "investment.total_usd",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "won(USD",
+    "n": 0
+   },
+   "key": "investment.total_usd",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Acquisition Price : won(USD )",
+    "n": 0
+   },
+   "key": "investment.share_percent",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Acquisition Price : won(USD )",
+    "n": 0
+   },
+   "key": "investment.share_percent",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Notification No",
+    "n": 0
+   },
+   "key": "bank.notification_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Notification No",
+    "n": 0
+   },
+   "key": "bank.notification_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "Delegated",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "Delegated",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "Delegated",
+    "n": 2
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Name or Trade Name (English)",
+   "rect": [
+    234.0,
+    94.5,
+    386.6,
+    103.5
+   ],
+   "key": "foreign.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Business Registration No. (Headquarter)",
+   "rect": [
+    453.8,
+    153.8,
+    548.2,
+    175.9
+   ],
+   "key": "company.biz_no"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Investment location",
+   "rect": [
+    160.5,
+    234.4,
+    393.8,
+    244.5
+   ],
+   "key": "company.investment_location",
+   "kind": "address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Intended Business/Present business",
+   "rect": [
+    252.0,
+    246.8,
+    550.1,
+    258.8
+   ],
+   "key": "company.business_en",
+   "kind": "business_en"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Sub-Class of KSIC",
+   "rect": [
+    283.1,
+    261.0,
+    550.1,
+    270.0
+   ],
+   "key": "company.ksic",
+   "kind": "ksic_code"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Capital where acquiring outstanding stocks (won)",
+   "rect": [
+    296.2,
+    272.2,
+    436.5,
+    284.2
+   ],
+   "key": "company.capital",
+   "source": "profile.corporation.capital"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Capital before acquisition (won)",
+   "rect": [
+    246.0,
+    296.2,
+    361.1,
+    306.0
+   ],
+   "key": "investment.capital_before",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Capital after acquisition (won)",
+   "rect": [
+    394.9,
+    296.2,
+    501.8,
+    306.0
+   ],
+   "key": "investment.capital_after",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Seller of stocks trade name",
+   "rect": [
+    192.4,
+    489.4,
+    415.5,
+    501.4
+   ],
+   "key": "investment.seller",
+   "kind": "company"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Seller phone no.",
+   "rect": [
+    464.2,
+    489.4,
+    541.9,
+    501.4
+   ],
+   "key": "investment.seller_phone",
+   "kind": "office_phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Cash Amount won",
+   "rect": [
+    373.1,
+    503.6,
+    438.8,
+    515.2
+   ],
+   "key": "investment.cash_krw",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Cash Amount USD",
+   "rect": [
+    472.9,
+    503.6,
+    541.9,
+    515.2
+   ],
+   "key": "investment.cash_usd",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Total acquisition won",
+   "rect": [
+    315.0,
+    546.0,
+    440.2,
+    560.6
+   ],
+   "key": "investment.total_krw",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Shares type",
+   "rect": [
+    214.9,
+    562.9,
+    243.8,
+    571.1
+   ],
+   "key": "investment.share_type",
+   "kind": "share_type_en"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Par Value per Stock(B)",
+   "rect": [
+    339.4,
+    562.9,
+    370.5,
+    571.1
+   ],
+   "key": "investment.par_value",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Acquisition Price per Stock(C)",
+   "rect": [
+    498.4,
+    562.9,
+    550.1,
+    571.1
+   ],
+   "key": "investment.price_per_share",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Total Acquisition Price(AxC)",
+   "rect": [
+    496.5,
+    582.8,
+    550.1,
+    591.0
+   ],
+   "key": "investment.total_price",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "After acquisition Acquisition Price won",
+   "rect": [
+    315.0,
+    602.6,
+    382.9,
+    613.1
+   ],
+   "key": "investment.after_price_krw",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "After acquisition Acquisition Price USD",
+   "rect": [
+    416.2,
+    602.6,
+    472.5,
+    613.1
+   ],
+   "key": "investment.after_price_usd",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "After acquisition Par Value of All Stocks won",
+   "rect": [
+    333.8,
+    619.9,
+    455.6,
+    630.0
+   ],
+   "key": "investment.after_par_total",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Number of Jobs to be Created",
+   "rect": [
+    232.9,
+    636.8,
+    361.1,
+    651.4
+   ],
+   "key": "investment.jobs",
+   "kind": "count"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Date (Year Month Day)",
+   "rect": [
+    420.0,
+    701.6,
+    468.4,
+    714.0
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Applicant or Reporting Person",
+   "rect": [
+    331.9,
+    715.1,
+    489.4,
+    725.2
+   ],
+   "key": "foreign.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Applicant Phone Number",
+   "rect": [
+    432.8,
+    726.8,
+    546.0,
+    735.8
+   ],
+   "key": "foreign.phone"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Name or Trade Name (English)",
+   "rect": [
+    234.0,
+    94.5,
+    386.6,
+    103.5
+   ],
+   "key": "foreign.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Business Registration No. (Headquarter)",
+   "rect": [
+    453.8,
+    153.8,
+    548.2,
+    175.9
+   ],
+   "key": "company.biz_no"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Investment location",
+   "rect": [
+    160.5,
+    234.4,
+    393.8,
+    244.5
+   ],
+   "key": "company.investment_location",
+   "kind": "address"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Intended Business/Present business",
+   "rect": [
+    252.0,
+    246.8,
+    550.1,
+    258.8
+   ],
+   "key": "company.business_en",
+   "kind": "business_en"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Sub-Class of KSIC",
+   "rect": [
+    283.1,
+    261.0,
+    550.1,
+    270.0
+   ],
+   "key": "company.ksic",
+   "kind": "ksic_code"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Capital where acquiring outstanding stocks (won)",
+   "rect": [
+    296.2,
+    272.2,
+    436.5,
+    284.2
+   ],
+   "key": "company.capital",
+   "source": "profile.corporation.capital"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Capital before acquisition (won)",
+   "rect": [
+    246.0,
+    296.2,
+    361.1,
+    306.0
+   ],
+   "key": "investment.capital_before",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Capital after acquisition (won)",
+   "rect": [
+    394.9,
+    296.2,
+    501.8,
+    306.0
+   ],
+   "key": "investment.capital_after",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Seller of stocks trade name",
+   "rect": [
+    192.4,
+    489.4,
+    415.5,
+    501.4
+   ],
+   "key": "investment.seller",
+   "kind": "company"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Seller phone no.",
+   "rect": [
+    464.2,
+    489.4,
+    541.9,
+    501.4
+   ],
+   "key": "investment.seller_phone",
+   "kind": "office_phone"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Cash Amount won",
+   "rect": [
+    373.1,
+    503.6,
+    438.8,
+    515.2
+   ],
+   "key": "investment.cash_krw",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Cash Amount USD",
+   "rect": [
+    472.9,
+    503.6,
+    541.9,
+    515.2
+   ],
+   "key": "investment.cash_usd",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Total acquisition won",
+   "rect": [
+    315.0,
+    546.0,
+    440.2,
+    560.6
+   ],
+   "key": "investment.total_krw",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Shares type",
+   "rect": [
+    214.9,
+    562.9,
+    243.8,
+    571.1
+   ],
+   "key": "investment.share_type",
+   "kind": "share_type_en"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Par Value per Stock(B)",
+   "rect": [
+    339.4,
+    562.9,
+    370.5,
+    571.1
+   ],
+   "key": "investment.par_value",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Acquisition Price per Stock(C)",
+   "rect": [
+    498.4,
+    562.9,
+    550.1,
+    571.1
+   ],
+   "key": "investment.price_per_share",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Total Acquisition Price(AxC)",
+   "rect": [
+    496.5,
+    582.8,
+    550.1,
+    591.0
+   ],
+   "key": "investment.total_price",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "After acquisition Acquisition Price won",
+   "rect": [
+    315.0,
+    602.6,
+    382.9,
+    613.1
+   ],
+   "key": "investment.after_price_krw",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "After acquisition Acquisition Price USD",
+   "rect": [
+    416.2,
+    602.6,
+    472.5,
+    613.1
+   ],
+   "key": "investment.after_price_usd",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "After acquisition Par Value of All Stocks won",
+   "rect": [
+    333.8,
+    619.9,
+    455.6,
+    630.0
+   ],
+   "key": "investment.after_par_total",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Number of Jobs to be Created",
+   "rect": [
+    232.9,
+    636.8,
+    361.1,
+    651.4
+   ],
+   "key": "investment.jobs",
+   "kind": "count"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Date (Year Month Day)",
+   "rect": [
+    420.0,
+    701.6,
+    468.4,
+    714.0
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Applicant or Reporting Person",
+   "rect": [
+    331.9,
+    715.1,
+    489.4,
+    725.2
+   ],
+   "key": "foreign.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Applicant Phone Number",
+   "rect": [
+    432.8,
+    726.8,
+    546.0,
+    735.8
+   ],
+   "key": "foreign.phone"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

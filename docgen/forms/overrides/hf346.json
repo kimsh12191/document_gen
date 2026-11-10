@@ -1,0 +1,475 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "회사명",
+    "n": 0
+   },
+   "key": "company.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주 소",
+    "n": 0
+   },
+   "key": "company.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "법인등록번호",
+    "n": 1
+   },
+   "key": "affiliate.corp_no",
+   "source": "profile.employment.company.corp_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "거래은행/영업점",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "글로벌고객번호",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "회사명",
+    "n": 1
+   },
+   "key": "affiliate.name",
+   "source": "profile.employment.company.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주 소",
+    "n": 1
+   },
+   "key": "affiliate.address",
+   "source": "profile.employment.company.address.road_short"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화번호",
+    "n": 0
+   },
+   "key": "affiliate.phone",
+   "source": "profile.employment.company.phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "e-mail",
+    "n": 0
+   },
+   "key": "affiliate.email",
+   "source": "profile.employment.company.email"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자등록번호",
+    "n": 1
+   },
+   "key": "affiliate.biz_no",
+   "source": "profile.employment.company.biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대 표 자",
+    "n": 1
+   },
+   "key": "affiliate.ceo",
+   "source": "profile.employment.company.ceo.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Fax",
+    "n": 0
+   },
+   "key": "affiliate.fax",
+   "source": "profile.employment.company.fax"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "실행자ID*",
+    "n": 0
+   },
+   "key": "pay_list.{i}.user_id",
+   "kind": "user_id"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "실행자ID*",
+    "n": 1
+   },
+   "key": "pay_list.{i}.user_id",
+   "kind": "user_id"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화",
+    "n": 0
+   },
+   "key": "pay_list.{i}.currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화",
+    "n": 1
+   },
+   "key": "pay_list.{i}.currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 0
+   },
+   "key": "pay_list.{i}.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 1
+   },
+   "key": "pay_list.{i}.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화",
+    "n": 2
+   },
+   "key": "pay_list.{i}.currency_b",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화",
+    "n": 3
+   },
+   "key": "pay_list.{i}.currency_b",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 2
+   },
+   "key": "pay_list.{i}.account_b",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 3
+   },
+   "key": "pay_list.{i}.account_b",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "회사명",
+    "n": 0
+   },
+   "key": "company.name"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "주 소",
+    "n": 0
+   },
+   "key": "agent.address",
+   "source": "profile.directors.0.address.road_short"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "조회서비스 통화1",
+   "rect": [
+    109.1,
+    407.2,
+    149.2,
+    424.9
+   ],
+   "key": "inquiry_list.0.currency",
+   "kind": "currency"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "조회서비스 계좌번호1",
+   "rect": [
+    151.5,
+    407.2,
+    257.2,
+    424.9
+   ],
+   "key": "inquiry_list.0.account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "조회서비스 예금주명1",
+   "rect": [
+    259.5,
+    407.2,
+    322.5,
+    424.9
+   ],
+   "key": "inquiry_list.0.holder",
+   "source": "profile.employment.company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "조회서비스 통화2",
+   "rect": [
+    109.1,
+    427.1,
+    149.2,
+    444.4
+   ],
+   "key": "inquiry_list.1.currency",
+   "kind": "currency"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "조회서비스 계좌번호2",
+   "rect": [
+    151.5,
+    427.1,
+    257.2,
+    444.4
+   ],
+   "key": "inquiry_list.1.account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "조회서비스 예금주명2",
+   "rect": [
+    259.5,
+    427.1,
+    322.5,
+    444.4
+   ],
+   "key": "inquiry_list.1.holder",
+   "source": "profile.employment.company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "조회서비스 통화3",
+   "rect": [
+    327.8,
+    407.2,
+    367.9,
+    424.9
+   ],
+   "key": "inquiry_list.2.currency",
+   "kind": "currency"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "조회서비스 계좌번호3",
+   "rect": [
+    370.1,
+    407.2,
+    475.5,
+    424.9
+   ],
+   "key": "inquiry_list.2.account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "조회서비스 예금주명3",
+   "rect": [
+    477.8,
+    407.2,
+    543.8,
+    424.9
+   ],
+   "key": "inquiry_list.2.holder",
+   "source": "profile.employment.company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "조회서비스 통화4",
+   "rect": [
+    327.8,
+    427.1,
+    367.9,
+    444.4
+   ],
+   "key": "inquiry_list.3.currency",
+   "kind": "currency"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "조회서비스 계좌번호4",
+   "rect": [
+    370.1,
+    427.1,
+    475.5,
+    444.4
+   ],
+   "key": "inquiry_list.3.account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "조회서비스 예금주명4",
+   "rect": [
+    477.8,
+    427.1,
+    543.8,
+    444.4
+   ],
+   "key": "inquiry_list.3.holder",
+   "source": "profile.employment.company.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "주계약사 동의 회사명",
+   "rect": [
+    187.5,
+    485.6,
+    301.9,
+    502.1
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "주계약사 동의 대표자",
+   "rect": [
+    329.6,
+    485.6,
+    444.4,
+    502.1
+   ],
+   "key": "company.ceo"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "관계사 동의 회사명",
+   "rect": [
+    188.6,
+    602.6,
+    301.9,
+    619.1
+   ],
+   "key": "affiliate.name",
+   "source": "profile.employment.company.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "관계사 동의 대표자",
+   "rect": [
+    330.8,
+    602.6,
+    444.4,
+    619.1
+   ],
+   "key": "affiliate.ceo",
+   "source": "profile.employment.company.ceo.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "신청일(년 월 일)",
+   "rect": [
+    210.0,
+    661.1,
+    337.5,
+    676.1
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "신청인",
+   "rect": [
+    219.4,
+    681.8,
+    360.0,
+    695.6
+   ],
+   "key": "company.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

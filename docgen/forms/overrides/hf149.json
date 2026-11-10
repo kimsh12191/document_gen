@@ -1,0 +1,1770 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 별",
+    "n": 0
+   },
+   "key": "loan_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 별",
+    "n": 1
+   },
+   "key": "loan_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 별",
+    "n": 2
+   },
+   "key": "loan_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 별",
+    "n": 3
+   },
+   "key": "loan_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 별",
+    "n": 4
+   },
+   "key": "loan_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 별",
+    "n": 5
+   },
+   "key": "loan_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 별",
+    "n": 6
+   },
+   "key": "loan_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 별",
+    "n": 7
+   },
+   "key": "loan_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 별",
+    "n": 8
+   },
+   "key": "loan_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 별",
+    "n": 9
+   },
+   "key": "loan_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 별",
+    "n": 10
+   },
+   "key": "loan_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 별",
+    "n": 11
+   },
+   "key": "loan_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "용도",
+    "n": 0
+   },
+   "key": "loan_list.{i}.purpose",
+   "kind": "loan_use"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "용도",
+    "n": 1
+   },
+   "key": "loan_list.{i}.purpose",
+   "kind": "loan_use"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "용도",
+    "n": 2
+   },
+   "key": "loan_list.{i}.purpose",
+   "kind": "loan_use"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "용도",
+    "n": 3
+   },
+   "key": "loan_list.{i}.purpose",
+   "kind": "loan_use"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "용도",
+    "n": 4
+   },
+   "key": "loan_list.{i}.purpose",
+   "kind": "loan_use"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "용도",
+    "n": 5
+   },
+   "key": "loan_list.{i}.purpose",
+   "kind": "loan_use"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "용도",
+    "n": 6
+   },
+   "key": "loan_list.{i}.purpose",
+   "kind": "loan_use"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "용도",
+    "n": 7
+   },
+   "key": "loan_list.{i}.purpose",
+   "kind": "loan_use"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "용도",
+    "n": 8
+   },
+   "key": "loan_list.{i}.purpose",
+   "kind": "loan_use"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "용도",
+    "n": 9
+   },
+   "key": "loan_list.{i}.purpose",
+   "kind": "loan_use"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "용도",
+    "n": 10
+   },
+   "key": "loan_list.{i}.purpose",
+   "kind": "loan_use"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "용도",
+    "n": 11
+   },
+   "key": "loan_list.{i}.purpose",
+   "kind": "loan_use"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이율",
+    "n": 0
+   },
+   "key": "loan_list.{i}.rate",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이율",
+    "n": 1
+   },
+   "key": "loan_list.{i}.rate",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이율",
+    "n": 2
+   },
+   "key": "loan_list.{i}.rate",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이율",
+    "n": 3
+   },
+   "key": "loan_list.{i}.rate",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이율",
+    "n": 4
+   },
+   "key": "loan_list.{i}.rate",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이율",
+    "n": 5
+   },
+   "key": "loan_list.{i}.rate",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이율",
+    "n": 6
+   },
+   "key": "loan_list.{i}.rate",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이율",
+    "n": 7
+   },
+   "key": "loan_list.{i}.rate",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이율",
+    "n": 8
+   },
+   "key": "loan_list.{i}.rate",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이율",
+    "n": 9
+   },
+   "key": "loan_list.{i}.rate",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이율",
+    "n": 10
+   },
+   "key": "loan_list.{i}.rate",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이율",
+    "n": 11
+   },
+   "key": "loan_list.{i}.rate",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "일 자",
+    "n": 0
+   },
+   "key": "loan_list.{i}.start_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "일 자",
+    "n": 1
+   },
+   "key": "loan_list.{i}.start_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "일 자",
+    "n": 2
+   },
+   "key": "loan_list.{i}.start_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "일 자",
+    "n": 3
+   },
+   "key": "loan_list.{i}.start_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "일 자",
+    "n": 4
+   },
+   "key": "loan_list.{i}.start_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "일 자",
+    "n": 5
+   },
+   "key": "loan_list.{i}.start_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "일 자",
+    "n": 6
+   },
+   "key": "loan_list.{i}.start_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "일 자",
+    "n": 7
+   },
+   "key": "loan_list.{i}.start_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "일 자",
+    "n": 8
+   },
+   "key": "loan_list.{i}.start_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "일 자",
+    "n": 9
+   },
+   "key": "loan_list.{i}.start_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "일 자",
+    "n": 10
+   },
+   "key": "loan_list.{i}.start_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "일 자",
+    "n": 11
+   },
+   "key": "loan_list.{i}.start_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금 액",
+    "n": 0
+   },
+   "key": "loan_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금 액",
+    "n": 1
+   },
+   "key": "loan_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금 액",
+    "n": 2
+   },
+   "key": "loan_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금 액",
+    "n": 3
+   },
+   "key": "loan_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금 액",
+    "n": 4
+   },
+   "key": "loan_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금 액",
+    "n": 5
+   },
+   "key": "loan_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금 액",
+    "n": 6
+   },
+   "key": "loan_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금 액",
+    "n": 7
+   },
+   "key": "loan_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금 액",
+    "n": 8
+   },
+   "key": "loan_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금 액",
+    "n": 9
+   },
+   "key": "loan_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금 액",
+    "n": 10
+   },
+   "key": "loan_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금 액",
+    "n": 11
+   },
+   "key": "loan_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "잔 액",
+    "n": 0
+   },
+   "key": "loan_list.{i}.balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "잔 액",
+    "n": 1
+   },
+   "key": "loan_list.{i}.balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "잔 액",
+    "n": 2
+   },
+   "key": "loan_list.{i}.balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "잔 액",
+    "n": 3
+   },
+   "key": "loan_list.{i}.balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "잔 액",
+    "n": 4
+   },
+   "key": "loan_list.{i}.balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "잔 액",
+    "n": 5
+   },
+   "key": "loan_list.{i}.balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "잔 액",
+    "n": 6
+   },
+   "key": "loan_list.{i}.balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "잔 액",
+    "n": 7
+   },
+   "key": "loan_list.{i}.balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "잔 액",
+    "n": 8
+   },
+   "key": "loan_list.{i}.balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "잔 액",
+    "n": 9
+   },
+   "key": "loan_list.{i}.balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "잔 액",
+    "n": 10
+   },
+   "key": "loan_list.{i}.balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "잔 액",
+    "n": 11
+   },
+   "key": "loan_list.{i}.balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대출기한",
+    "n": 0
+   },
+   "key": "loan_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대출기한",
+    "n": 1
+   },
+   "key": "loan_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대출기한",
+    "n": 2
+   },
+   "key": "loan_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대출기한",
+    "n": 3
+   },
+   "key": "loan_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대출기한",
+    "n": 4
+   },
+   "key": "loan_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대출기한",
+    "n": 5
+   },
+   "key": "loan_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대출기한",
+    "n": 6
+   },
+   "key": "loan_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대출기한",
+    "n": 7
+   },
+   "key": "loan_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대출기한",
+    "n": 8
+   },
+   "key": "loan_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대출기한",
+    "n": 9
+   },
+   "key": "loan_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대출기한",
+    "n": 10
+   },
+   "key": "loan_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대출기한",
+    "n": 11
+   },
+   "key": "loan_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 0
+   },
+   "key": "loan_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 1
+   },
+   "key": "loan_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 2
+   },
+   "key": "loan_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 3
+   },
+   "key": "loan_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 4
+   },
+   "key": "loan_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 5
+   },
+   "key": "loan_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 6
+   },
+   "key": "loan_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 7
+   },
+   "key": "loan_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 8
+   },
+   "key": "loan_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 9
+   },
+   "key": "loan_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 10
+   },
+   "key": "loan_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 11
+   },
+   "key": "loan_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 류",
+    "n": 0
+   },
+   "key": "company.credit_grade",
+   "kind": "credit_grade"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "선정일자",
+    "n": 0
+   },
+   "key": "company.credit_grade_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "유효기간",
+    "n": 0
+   },
+   "key": "company.credit_grade_expiry",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "어 음",
+    "n": 0
+   },
+   "key": "company.unpaid_bills",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 표",
+    "n": 0
+   },
+   "key": "company.unpaid_checks",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소 재 지",
+    "n": 0
+   },
+   "key": "collateral_list.{i}.location",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소 재 지",
+    "n": 1
+   },
+   "key": "collateral_list.{i}.location",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소 재 지",
+    "n": 2
+   },
+   "key": "collateral_list.{i}.location",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소 재 지",
+    "n": 3
+   },
+   "key": "collateral_list.{i}.location",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소 재 지",
+    "n": 4
+   },
+   "key": "collateral_list.{i}.location",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소 재 지",
+    "n": 5
+   },
+   "key": "collateral_list.{i}.location",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소유자",
+    "n": 0
+   },
+   "key": "collateral_list.{i}.owner",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소유자",
+    "n": 1
+   },
+   "key": "collateral_list.{i}.owner",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소유자",
+    "n": 2
+   },
+   "key": "collateral_list.{i}.owner",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소유자",
+    "n": 3
+   },
+   "key": "collateral_list.{i}.owner",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소유자",
+    "n": 4
+   },
+   "key": "collateral_list.{i}.owner",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소유자",
+    "n": 5
+   },
+   "key": "collateral_list.{i}.owner",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채무자와 의 관계",
+    "n": 0
+   },
+   "key": "collateral_list.{i}.relation",
+   "kind": "owner_relation"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채무자와 의 관계",
+    "n": 1
+   },
+   "key": "collateral_list.{i}.relation",
+   "kind": "owner_relation"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채무자와 의 관계",
+    "n": 2
+   },
+   "key": "collateral_list.{i}.relation",
+   "kind": "owner_relation"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채무자와 의 관계",
+    "n": 3
+   },
+   "key": "collateral_list.{i}.relation",
+   "kind": "owner_relation"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채무자와 의 관계",
+    "n": 4
+   },
+   "key": "collateral_list.{i}.relation",
+   "kind": "owner_relation"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채무자와 의 관계",
+    "n": 5
+   },
+   "key": "collateral_list.{i}.relation",
+   "kind": "owner_relation"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 류",
+    "n": 1
+   },
+   "key": "collateral_list.{i}.kind",
+   "kind": "collateral_kind"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 류",
+    "n": 2
+   },
+   "key": "collateral_list.{i}.kind",
+   "kind": "collateral_kind"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 류",
+    "n": 3
+   },
+   "key": "collateral_list.{i}.kind",
+   "kind": "collateral_kind"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 류",
+    "n": 4
+   },
+   "key": "collateral_list.{i}.kind",
+   "kind": "collateral_kind"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 류",
+    "n": 5
+   },
+   "key": "collateral_list.{i}.kind",
+   "kind": "collateral_kind"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 류",
+    "n": 6
+   },
+   "key": "collateral_list.{i}.kind",
+   "kind": "collateral_kind"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 량",
+    "n": 0
+   },
+   "key": "collateral_list.{i}.quantity",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 량",
+    "n": 1
+   },
+   "key": "collateral_list.{i}.quantity",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 량",
+    "n": 2
+   },
+   "key": "collateral_list.{i}.quantity",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 량",
+    "n": 3
+   },
+   "key": "collateral_list.{i}.quantity",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 량",
+    "n": 4
+   },
+   "key": "collateral_list.{i}.quantity",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 량",
+    "n": 5
+   },
+   "key": "collateral_list.{i}.quantity",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "감정가격",
+    "n": 0
+   },
+   "key": "collateral_list.{i}.appraisal",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "감정가격",
+    "n": 1
+   },
+   "key": "collateral_list.{i}.appraisal",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "감정가격",
+    "n": 2
+   },
+   "key": "collateral_list.{i}.appraisal",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "감정가격",
+    "n": 3
+   },
+   "key": "collateral_list.{i}.appraisal",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "감정가격",
+    "n": 4
+   },
+   "key": "collateral_list.{i}.appraisal",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "감정가격",
+    "n": 5
+   },
+   "key": "collateral_list.{i}.appraisal",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "감정일자",
+    "n": 0
+   },
+   "key": "collateral_list.{i}.appraisal_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "감정일자",
+    "n": 1
+   },
+   "key": "collateral_list.{i}.appraisal_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "감정일자",
+    "n": 2
+   },
+   "key": "collateral_list.{i}.appraisal_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "감정일자",
+    "n": 3
+   },
+   "key": "collateral_list.{i}.appraisal_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "감정일자",
+    "n": 4
+   },
+   "key": "collateral_list.{i}.appraisal_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "감정일자",
+    "n": 5
+   },
+   "key": "collateral_list.{i}.appraisal_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "설정내용 (순위,금액)",
+    "n": 0
+   },
+   "key": "collateral_list.{i}.lien",
+   "kind": "lien_setting"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "설정내용 (순위,금액)",
+    "n": 1
+   },
+   "key": "collateral_list.{i}.lien",
+   "kind": "lien_setting"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "설정내용 (순위,금액)",
+    "n": 2
+   },
+   "key": "collateral_list.{i}.lien",
+   "kind": "lien_setting"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "설정내용 (순위,금액)",
+    "n": 3
+   },
+   "key": "collateral_list.{i}.lien",
+   "kind": "lien_setting"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "설정내용 (순위,금액)",
+    "n": 4
+   },
+   "key": "collateral_list.{i}.lien",
+   "kind": "lien_setting"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "설정내용 (순위,금액)",
+    "n": 5
+   },
+   "key": "collateral_list.{i}.lien",
+   "kind": "lien_setting"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 12
+   },
+   "key": "collateral_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 13
+   },
+   "key": "collateral_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 14
+   },
+   "key": "collateral_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 15
+   },
+   "key": "collateral_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 16
+   },
+   "key": "collateral_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 17
+   },
+   "key": "collateral_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대 출 종 별",
+    "n": 0
+   },
+   "key": "overdue.loan_kind",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "연체 발생일",
+    "n": 0
+   },
+   "key": "overdue.start_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "연체 발생일",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "원 금",
+    "n": 0
+   },
+   "key": "overdue.principal",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이 자",
+    "n": 0
+   },
+   "key": "overdue.interest",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "연체 정리일",
+    "n": 0
+   },
+   "key": "overdue.settle_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "연 체 일 수",
+    "n": 0
+   },
+   "key": "overdue.days",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비 고",
+    "n": 18
+   },
+   "key": "overdue_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기업체명",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     146.2,
+     731.2,
+     296.2,
+     743.2
+    ]
+   },
+   "key": "company.name"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "바랍니다.(용도:",
+   "rect": [
+    147.2,
+    690.1,
+    189.3,
+    704.4
+   ],
+   "key": "confirm.purpose",
+   "kind": "submit_purpose"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "기준일(20 . . .)",
+   "rect": [
+    273.4,
+    71.2,
+    374.2,
+    83.2
+   ],
+   "key": "confirm.base_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "하나은행 (부)점장 귀하",
+   "rect": [
+    99.4,
+    98.2,
+    221.2,
+    112.9
+   ],
+   "key": "bank.branch",
+   "kind": "branch"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "연체 명세 기산일(20 . . .)",
+   "rect": [
+    466.9,
+    583.5,
+    545.6,
+    594.0
+   ],
+   "key": "overdue.base_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청일(20 . . .)",
+   "rect": [
+    142.5,
+    711.0,
+    225.0,
+    722.2
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 주소",
+   "rect": [
+    142.5,
+    718.5,
+    330.0,
+    730.5
+   ],
+   "key": "company.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대표자명",
+   "rect": [
+    146.2,
+    744.4,
+    258.8,
+    755.6
+   ],
+   "key": "company.ceo"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "확인일(20 . . .)",
+   "rect": [
+    397.5,
+    711.0,
+    483.8,
+    722.2
+   ],
+   "key": "bank.confirm_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "하나은행 (부)점장 (확인)",
+   "rect": [
+    391.9,
+    743.2,
+    448.1,
+    755.6
+   ],
+   "key": "bank.branch",
+   "kind": "branch"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

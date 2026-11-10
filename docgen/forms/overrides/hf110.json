@@ -1,0 +1,442 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "구매기업 : 주 소",
+    "n": 0
+   },
+   "key": "company.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "업체명",
+    "n": 1
+   },
+   "key": "seller.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채권번호",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.bond_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채권번호",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.bond_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채권번호",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.bond_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채권번호",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.bond_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채권번호",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.bond_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발행일",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발행일",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발행일",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발행일",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발행일",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "만기일",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "만기일",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "만기일",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "만기일",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "만기일",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채권금액",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채권금액",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채권금액",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채권금액",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채권금액",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취소 사유",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.cancel_reason",
+   "kind": "cancel_reason"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취소 사유",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.cancel_reason",
+   "kind": "cancel_reason"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취소 사유",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.cancel_reason",
+   "kind": "cancel_reason"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취소 사유",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.cancel_reason",
+   "kind": "cancel_reason"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취소 사유",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.cancel_reason",
+   "kind": "cancel_reason"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(구매기업)",
+   "rect": [
+    243.8,
+    376.9,
+    350.6,
+    390.8
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "구매기업 대표자",
+   "rect": [
+    300.0,
+    444.4,
+    431.2,
+    459.4
+   ],
+   "key": "company.ceo"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "동의일(판매기업)",
+   "rect": [
+    243.8,
+    615.0,
+    350.6,
+    629.2
+   ],
+   "key": "seller.consent_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "판매기업 주소",
+   "rect": [
+    300.0,
+    642.0,
+    484.5,
+    657.0
+   ],
+   "key": "seller.address",
+   "kind": "address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "판매기업 대표자",
+   "rect": [
+    300.0,
+    682.5,
+    431.2,
+    697.5
+   ],
+   "key": "seller.ceo",
+   "kind": "other_person"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

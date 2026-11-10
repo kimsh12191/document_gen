@@ -1,0 +1,118 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성명, 생년월일, 주소, 전화번호",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "성명, 생년월일, 주소, 전화번호",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "성명, 생년월일, 주소, 전화번호",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "성명, 생년월일, 주소, 전화번호",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 1,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    142.5,
+    674.2,
+    206.2,
+    689.2
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "본인 성명",
+   "rect": [
+    425.6,
+    645.8,
+    521.2,
+    660.8
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "대리인 성명",
+   "rect": [
+    425.6,
+    674.2,
+    521.2,
+    689.2
+   ],
+   "key": "agent.name"
+  },
+  {
+   "t": "text",
+   "page": 3,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    142.5,
+    632.2,
+    206.2,
+    646.5
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 3,
+   "label": "본인 성명",
+   "rect": [
+    425.6,
+    603.8,
+    521.2,
+    618.0
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 3,
+   "label": "대리인 성명",
+   "rect": [
+    425.6,
+    632.2,
+    521.2,
+    646.5
+   ],
+   "key": "agent.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

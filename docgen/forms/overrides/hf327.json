@@ -1,0 +1,211 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담 보 소 재 지",
+    "n": 0
+   },
+   "key": "property.location",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 량",
+    "n": 0
+   },
+   "key": "collateral.quantity",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담 보 가 액",
+    "n": 0
+   },
+   "key": "collateral.value",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담보 제공기간",
+    "n": 0
+   },
+   "key": "collateral.period",
+   "kind": "loan_period"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신 고 번 호",
+    "n": 0
+   },
+   "key": "bank.report_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신 고 금 액",
+    "n": 0
+   },
+   "key": "bank.report_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "유 효 기 간",
+    "n": 0
+   },
+   "key": "bank.valid_until",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기타 참고사항",
+    "n": 0
+   },
+   "key": "bank.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신 고 기 관",
+    "n": 0
+   },
+   "key": "bank.report_office",
+   "kind": "branch"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "상호",
+   "rect": [
+    185.6,
+    157.5,
+    337.5,
+    176.2
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대표자 성명",
+   "rect": [
+    341.2,
+    157.5,
+    498.8,
+    176.2
+   ],
+   "key": "company.ceo"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "주소(소재지)",
+   "rect": [
+    185.6,
+    192.0,
+    360.0,
+    217.5
+   ],
+   "key": "company.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "전화번호",
+   "rect": [
+    414.4,
+    196.9,
+    541.9,
+    208.9
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "E-mail",
+   "rect": [
+    406.9,
+    210.0,
+    541.9,
+    224.2
+   ],
+   "key": "company.email",
+   "source": "profile.corporation.email"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "담보제공자",
+   "rect": [
+    185.6,
+    249.4,
+    436.9,
+    269.6
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "담보취득자",
+   "rect": [
+    185.6,
+    272.2,
+    436.9,
+    292.1
+   ],
+   "key": "foreign.bank"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "담보제공 수혜자",
+   "rect": [
+    185.6,
+    294.8,
+    436.9,
+    315.0
+   ],
+   "key": "collateral.beneficiary",
+   "kind": "company"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고일(년 월 일)",
+   "rect": [
+    348.8,
+    514.1,
+    464.2,
+    529.1
+   ],
+   "key": "date"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

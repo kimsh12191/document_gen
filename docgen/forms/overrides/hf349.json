@@ -1,0 +1,45 @@
+{
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "이용기관( )",
+   "rect": [
+    179.2,
+    309.4,
+    262.5,
+    325.1
+   ],
+   "key": "firmbanking.institution",
+   "kind": "company"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    195.0,
+    607.5,
+    245.6,
+    623.2
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인",
+   "rect": [
+    346.9,
+    668.2,
+    466.9,
+    684.4
+   ],
+   "key": "customer.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

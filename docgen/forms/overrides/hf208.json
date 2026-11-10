@@ -1,0 +1,113 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지 급 사 유",
+    "n": 0
+   },
+   "key": "remit.reason",
+   "kind": "gift_remit_reason"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 취 인",
+    "n": 0
+   },
+   "key": "foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수취인과의 관계",
+    "n": 0
+   },
+   "key": "foreign.relation",
+   "kind": "donee_relation"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(20 . . .)",
+   "rect": [
+    446.2,
+    91.9,
+    547.5,
+    106.9
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인",
+   "rect": [
+    75.0,
+    127.5,
+    240.0,
+    142.5
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "주소",
+   "rect": [
+    69.4,
+    151.1,
+    307.5,
+    166.1
+   ],
+   "key": "customer.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "지급금액",
+   "rect": [
+    123.0,
+    226.1,
+    365.6,
+    258.0
+   ],
+   "key": "remit.amount",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "USD상당금액",
+   "rect": [
+    187.5,
+    260.6,
+    352.5,
+    274.5
+   ],
+   "key": "remit.usd_amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인(서명란)",
+   "rect": [
+    399.4,
+    455.6,
+    519.4,
+    470.6
+   ],
+   "key": "customer.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

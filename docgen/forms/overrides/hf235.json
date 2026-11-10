@@ -1,0 +1,466 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "처리기간 1일",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상호 또는 명칭(영문)",
+    "n": 0
+   },
+   "key": "foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "국적",
+    "n": 0
+   },
+   "key": "foreign.nationality"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "(국문)",
+    "n": 0
+   },
+   "key": "company.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "(영문)",
+    "n": 0
+   },
+   "key": "company.name_en",
+   "source": "profile.corporation.name_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "(*) SPC 여부 [ ] 예 [ ] 아니오",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "본사",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     211.9,
+     219.8,
+     543.8,
+     231.8
+    ]
+   },
+   "key": "company.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주공장(주사업장)소재지",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     279.4,
+     245.2,
+     543.8,
+     256.5
+    ]
+   },
+   "key": "company.factory_address",
+   "source": "profile.corporation.address.road_short"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "홈페이지",
+    "n": 0
+   },
+   "key": "company.homepage",
+   "kind": "homepage"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표 E-mail",
+    "n": 0
+   },
+   "key": "company.email",
+   "source": "profile.corporation.email"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "투자기업",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "투자기업",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "<신규등록인 경우>",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상당",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신고(허가)된 사업명",
+    "n": 0
+   },
+   "key": "company.biz_item"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "자본금(출연금)",
+    "n": 0
+   },
+   "key": "company.capital",
+   "source": "profile.corporation.capital"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "액면총액",
+    "n": 0
+   },
+   "key": "investment.face_total",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "액면총액",
+    "n": 1
+   },
+   "key": "investment.ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "등록 후 예상규모(신규 및 변경등록)",
+    "n": 0
+   },
+   "key": "company.employees_after",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상호 또는 명칭(영문)",
+    "n": 1
+   },
+   "key": "transfer.from_name",
+   "source": "profile.foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "국적",
+    "n": 1
+   },
+   "key": "transfer.from_nationality",
+   "source": "profile.foreign.country"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상호 또는 명칭(영문)",
+    "n": 2
+   },
+   "key": "transfer.to_name",
+   "kind": "foreign_company_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "국적",
+    "n": 2
+   },
+   "key": "transfer.to_nationality",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "양도 또는 감소할",
+    "n": 0
+   },
+   "key": "transfer.share_kind",
+   "kind": "share_kind"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "액면총액(A×B)",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     313.1,
+     631.9,
+     423.8,
+     651.0
+    ]
+   },
+   "key": "transfer.face_total",
+   "kind": "amount"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "④ 사업자등록번호(본사)",
+   "rect": [
+    426.0,
+    168.8,
+    549.4,
+    203.2
+   ],
+   "key": "company.biz_no"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "본사 전화번호",
+   "rect": [
+    373.1,
+    230.2,
+    453.8,
+    243.0
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "본사 FAX",
+   "rect": [
+    475.5,
+    230.2,
+    543.8,
+    243.0
+   ],
+   "key": "company.fax",
+   "source": "profile.corporation.fax"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "주공장 전화번호",
+   "rect": [
+    373.1,
+    255.8,
+    453.8,
+    268.5
+   ],
+   "key": "company.factory_phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "주공장 FAX",
+   "rect": [
+    475.5,
+    255.8,
+    543.8,
+    268.5
+   ],
+   "key": "company.factory_fax",
+   "source": "profile.corporation.fax"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "취득총액(원)",
+   "rect": [
+    225.0,
+    347.2,
+    337.5,
+    365.6
+   ],
+   "key": "investment.acquired_total",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "취득총액(USD 상당)",
+   "rect": [
+    369.4,
+    347.2,
+    423.8,
+    365.6
+   ],
+   "key": "investment.acquired_usd",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "상시 근로자 수 기존",
+   "rect": [
+    243.8,
+    398.2,
+    339.4,
+    415.5
+   ],
+   "key": "company.employees_before",
+   "kind": "count"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "1주(좌)당 액면가액(B)",
+   "rect": [
+    313.1,
+    597.0,
+    423.8,
+    616.9
+   ],
+   "key": "transfer.face_value",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "1주(좌)당 양도 또는 감소가액(C)",
+   "rect": [
+    426.0,
+    597.0,
+    549.4,
+    616.9
+   ],
+   "key": "transfer.price_per_share",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "수량(A)",
+   "rect": [
+    257.6,
+    631.9,
+    310.9,
+    651.0
+   ],
+   "key": "transfer.quantity",
+   "kind": "count"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "양도 또는 감소 총액(A×C)",
+   "rect": [
+    426.0,
+    631.9,
+    549.4,
+    651.0
+   ],
+   "key": "transfer.total",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청일(년 월 일)",
+   "rect": [
+    416.2,
+    708.8,
+    547.5,
+    723.8
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고인 또는 신청인",
+   "rect": [
+    373.1,
+    731.2,
+    496.9,
+    747.4
+   ],
+   "key": "company.ceo"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 전화번호",
+   "rect": [
+    421.9,
+    746.2,
+    545.6,
+    760.5
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

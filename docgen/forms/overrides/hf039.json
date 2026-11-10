@@ -1,0 +1,113 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "추심대전 입금계좌번호",
+    "n": 0
+   },
+   "key": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취급점",
+    "n": 0
+   },
+   "key": "bank.branch",
+   "kind": "branch"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    360.0,
+    258.8,
+    408.8,
+    275.6
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "주소 자택",
+   "rect": [
+    195.0,
+    367.5,
+    550.1,
+    383.2
+   ],
+   "key": "customer.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "주소 직장",
+   "rect": [
+    195.0,
+    385.1,
+    550.1,
+    399.0
+   ],
+   "key": "employer.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "연락처 자택",
+   "rect": [
+    196.9,
+    415.5,
+    368.2,
+    429.4
+   ],
+   "key": "customer.home_phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "연락처 직장",
+   "rect": [
+    196.9,
+    431.2,
+    368.2,
+    445.1
+   ],
+   "key": "employer.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "연락처 휴대폰",
+   "rect": [
+    208.1,
+    447.0,
+    368.2,
+    461.2
+   ],
+   "key": "customer.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "연락처 이메일",
+   "rect": [
+    208.1,
+    463.1,
+    368.2,
+    477.0
+   ],
+   "key": "customer.email"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

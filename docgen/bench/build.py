@@ -41,12 +41,14 @@ from .cases import CASES, OTHER_OK, Ctx
 from .prompts import P_CLASSIFY, P_CROSS, P_DOC_CHECK, P_KIE, P_MARKS, P_OCR_FIELD, P_OCR_PAGE, P_REVIEW
 from .rules import Bundle, questions, r_doc_valid, valid_candidates
 
-VERSION = "3.0"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
+VERSION = "3.1"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
 #                  2.0: kie·marks 답에 위치(bbox_2d 0~1000, page) — 값·위치·값+위치 점수. 건강보험료 납부확인서 정산 분할납부
 #                       변형이 정한 확률(15%)대로 나오게 고침
 #                  3.0: 키 사전(docgen/dictionary) 적용 — 공통 키에 이은 칸은 서식이 달라도 공통 키로 묻고 답함(customer.name …),
 #                       분류 정답 = 문서명(같은 문서의 서식이 여러 개여도 하나, 다른 이름도 맞음). 10단계의 공식 대조 html 69종·
 #                       값 채우기 변경(빈 칸 무작위 비우기 끔, 금액 단위)도 이 판부터. 2.0 과 kie·marks·분류 점수는 바로 비교하지 않는다
+#                  3.1: 단일 서류 과제의 고객 seed 를 서식마다 다르게 (doc_seed: 예전엔 서식 476종이 seed 하나 = 고객 한 명),
+#                       원본 서식·공식 대조 html 의 빈 값 칸 키 지정, 값 목록 다양화(이름·주소·직업·외국 거래처 …)
 # 1.x 세트(값만 있는 답)도 같은 채점기로 채점된다 (evaluate.py 가 두 형식을 다 읽음). 값 점수는 1.x 와 뜻이 같다.
 SEED_SINGLE = 1_000_000   # 단일 서류 과제 고객 seed 시작
 SEED_BUNDLE = 2_000_000   # 업무 묶음 고객 seed 시작
@@ -54,6 +56,14 @@ SEED_BUNDLE = 2_000_000   # 업무 묶음 고객 seed 시작
 # 다른 고객(타인 서류)은 그 seed + 500,000. 학습용은 묶음 수가 많아도 시나리오끼리 겹치지 않게 간격을 넓힌다.
 SPLITS = {"test": (SEED_SINGLE, SEED_BUNDLE, 1000), "train": (10_000_000, 20_000_000, 1_000_000)}
 OTHER_OFFSET = 500_000
+DOC_SLOT = 100_000   # 단일 서류 seed: 시작 + (start + k) × DOC_SLOT + 서식 ID 해시 (서식마다 다른 고객, 서식 목록과 무관하게 같은 값)
+
+
+def doc_seed(base: int, k: int, doc_id: str) -> int:
+    """단일 서류 과제·OCR 세트의 고객 seed. 같은 k 에서 서식마다 다른 고객 (예전: 모든 서식이 같은 seed)."""
+    import hashlib
+
+    return base + k * DOC_SLOT + int(hashlib.sha1(doc_id.encode()).hexdigest()[:8], 16) % DOC_SLOT
 
 # 촬영 조건 비율: 절반은 깨끗한 원본, 나머지는 스캔·촬영·팩스 증강 (docgen/augment.py)
 CONDITIONS = (("clean", 0.5), ("scan", 0.2), ("photo", 0.15), ("fax", 0.15))
@@ -664,12 +674,14 @@ def build(args) -> None:
     per_sc = getattr(args, "bundles_per", None) or {}
     if start + max([args.bundles, *per_sc.values()]) > min(stride, OTHER_OFFSET):
         sys.exit(f"--start + --bundles 는 {min(stride, OTHER_OFFSET)} 이하여야 합니다 (seed 범위)")
+    if (start + args.per_doc) * DOC_SLOT > seed_bundle - seed_single:
+        sys.exit(f"--start + --per-doc 는 {(seed_bundle - seed_single) // DOC_SLOT} 이하여야 합니다 (단일 서류 seed 범위)")
     out.mkdir(parents=True, exist_ok=True)
     for d in ("tasks", "swift"):
         for t in (out / d).glob("*.jsonl") if (out / d).exists() else []:
             t.unlink()
 
-    jobs = [("single", doc_id, seed_single + start + k, args.fields_per_doc, args.max_keys)
+    jobs = [("single", doc_id, doc_seed(seed_single, start + k, doc_id), args.fields_per_doc, args.max_keys)
             for k in range(args.per_doc) for doc_id in ids]
     jobs += [("bundle", sc, seed_bundle + list(SCENARIOS).index(sc) * stride + start + b)
              for sc in scenarios for b in range(per_sc.get(sc, args.bundles))]

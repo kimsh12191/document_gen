@@ -1,0 +1,214 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "예치( 처분) 금 액",
+    "n": 0
+   },
+   "key": "fx_deposit.amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "예치( 처분) 후잔액",
+    "n": 0
+   },
+   "key": "fx_deposit.balance_after",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "예치( 처분) 사유",
+    "n": 0
+   },
+   "key": "fx_deposit.reason",
+   "kind": "reason"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "송 금 은 행",
+    "n": 0
+   },
+   "key": "fx_deposit.remit_bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신 고 번 호",
+    "n": 0
+   },
+   "key": "bank.report_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신 고 금 액",
+    "n": 0
+   },
+   "key": "bank.report_amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "유 효 기 간",
+    "n": 0
+   },
+   "key": "bank.valid_until",
+   "kind": "date"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 상호",
+   "rect": [
+    194.2,
+    163.1,
+    330.0,
+    183.0
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 대표자 성명",
+   "rect": [
+    333.8,
+    163.1,
+    463.1,
+    183.0
+   ],
+   "key": "company.ceo"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 (인)",
+   "kind": "seal",
+   "rect": [
+    465.0,
+    163.1,
+    489.4,
+    183.0
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 주소(소재지)",
+   "rect": [
+    194.2,
+    185.6,
+    348.8,
+    205.9
+   ],
+   "key": "company.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 (전화번호)",
+   "rect": [
+    400.5,
+    185.6,
+    551.2,
+    205.9
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "예금(신탁)개설인 (성명)",
+   "rect": [
+    229.5,
+    231.0,
+    348.8,
+    248.2
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "예금(신탁)개설인 (전화번호)",
+   "rect": [
+    402.0,
+    231.0,
+    551.2,
+    248.2
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "예금(신탁)개설인 (주소)",
+   "rect": [
+    229.5,
+    251.2,
+    551.2,
+    268.1
+   ],
+   "key": "company.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "지급상대방 (성명)",
+   "rect": [
+    229.5,
+    339.0,
+    551.2,
+    355.5
+   ],
+   "key": "foreign.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "지급상대방 (주소)",
+   "rect": [
+    229.5,
+    358.9,
+    551.2,
+    375.8
+   ],
+   "key": "foreign.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고일(년 월 일)",
+   "rect": [
+    210.0,
+    448.9,
+    367.5,
+    463.1
+   ],
+   "key": "date"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

@@ -1,0 +1,147 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "L/C No.",
+    "n": 0
+   },
+   "key": "trade.lc_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Dated",
+    "n": 0
+   },
+   "key": "trade.lc_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Issuing Bank",
+    "n": 0
+   },
+   "key": "trade.issuing_bank",
+   "source": "profile.foreign.bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Amount",
+    "n": 0
+   },
+   "key": "trade.lc_amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Beneficiary",
+    "n": 0
+   },
+   "key": "company.name_en",
+   "source": "profile.corporation.name_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Accountee",
+    "n": 0
+   },
+   "key": "foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Gentlemen",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Amount to be transferred",
+    "n": 0
+   },
+   "key": "transfer.amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Latest shipping date",
+    "n": 0
+   },
+   "key": "trade.latest_shipping_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Expiry date",
+    "n": 0
+   },
+   "key": "trade.expiry_date",
+   "kind": "date"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Description of commodities and other conditions",
+   "rect": [
+    45.0,
+    420.0,
+    547.5,
+    442.5
+   ],
+   "key": "trade.goods_desc",
+   "kind": "goods_en"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Name of Second beneficiary",
+   "rect": [
+    44.2,
+    693.8,
+    181.9,
+    715.9
+   ],
+   "key": "transferee.name",
+   "kind": "company_en"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Name of First beneficiary",
+   "rect": [
+    412.5,
+    693.8,
+    549.4,
+    715.9
+   ],
+   "key": "company.name_en",
+   "source": "profile.corporation.name_en"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

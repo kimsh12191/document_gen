@@ -1,0 +1,64 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "서울보증보험(주) (www.sgic.co.kr)",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이용 목적",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    165.0,
+    661.9,
+    208.1,
+    680.6
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "본인 성명",
+   "rect": [
+    425.6,
+    637.5,
+    521.2,
+    656.2
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대리인 성명",
+   "rect": [
+    425.6,
+    661.9,
+    521.2,
+    680.6
+   ],
+   "key": "agent.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

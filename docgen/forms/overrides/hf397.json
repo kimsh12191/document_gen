@@ -1,0 +1,104 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Name/Name of the Corporation",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     311.2,
+     126.4,
+     543.4,
+     144.4
+    ]
+   },
+   "key": "customer.name_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Customer Who Consents",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     339.4,
+     145.5,
+     543.4,
+     159.4
+    ]
+   },
+   "key": "customer.birth"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Financial Companies,",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "etc. Which Will Provide",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "KEB Hana Bank",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "to Which Transaction",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Consented by",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     118.1,
+     693.8,
+     292.5,
+     706.9
+    ]
+   },
+   "key": "customer.name_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Signed on",
+    "n": 0
+   },
+   "key": "date"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

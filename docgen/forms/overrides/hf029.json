@@ -1,0 +1,58 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취급점",
+    "n": 0
+   },
+   "key": "bank.branch",
+   "kind": "branch"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주 소 (선택항목)",
+    "n": 1
+   },
+   "key": "company.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대 표 자 명",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     225.0,
+     615.0,
+     341.2,
+     631.9
+    ]
+   },
+   "key": "company.ceo"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    326.2,
+    516.8,
+    388.1,
+    530.6
+   ],
+   "key": "date"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

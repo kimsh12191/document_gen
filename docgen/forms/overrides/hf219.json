@@ -1,0 +1,250 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "(표준산업분류코드 5자리)",
+    "n": 0
+   },
+   "key": "company.industry_code",
+   "kind": "ksic_code"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "설 치 사 유",
+    "n": 0
+   },
+   "key": "overseas_office.reason",
+   "kind": "reason"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "내 용",
+    "n": 0
+   },
+   "key": "overseas_office.change_content",
+   "source": "rule:free_text"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사 유",
+    "n": 0
+   },
+   "key": "overseas_office.change_reason",
+   "kind": "reason"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신 고 번 호",
+    "n": 0
+   },
+   "key": "bank.report_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "유 효 기 간",
+    "n": 0
+   },
+   "key": "bank.valid_until",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "위의 신청을 다음과 같이 신고필함.",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상 호",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     162.8,
+     153.0,
+     286.9,
+     174.8
+    ]
+   },
+   "key": "company.name"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "주소",
+   "rect": [
+    202.5,
+    201.0,
+    551.2,
+    217.5
+   ],
+   "key": "company.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "전화번호",
+   "rect": [
+    217.5,
+    222.4,
+    318.8,
+    238.5
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "e-mail",
+   "rect": [
+    360.0,
+    222.4,
+    551.2,
+    238.5
+   ],
+   "key": "company.email",
+   "source": "profile.corporation.email"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "담당자",
+   "rect": [
+    404.2,
+    240.8,
+    551.2,
+    262.5
+   ],
+   "key": "company.contact_name",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "사무소명(국문)",
+   "rect": [
+    197.2,
+    328.5,
+    551.2,
+    343.1
+   ],
+   "key": "overseas_office.name_ko",
+   "kind": "office_name_ko"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "사무소명(영문)",
+   "rect": [
+    197.2,
+    349.9,
+    551.2,
+    361.1
+   ],
+   "key": "overseas_office.name_en",
+   "kind": "office_name_en"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "소재지(국가명)",
+   "rect": [
+    210.0,
+    368.2,
+    551.2,
+    382.5
+   ],
+   "key": "overseas_office.country",
+   "source": "profile.foreign.country"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "소재지(세부주소)",
+   "rect": [
+    217.5,
+    388.9,
+    551.2,
+    401.2
+   ],
+   "key": "overseas_office.address",
+   "source": "profile.foreign.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "주재원수 본국파견(명)",
+   "rect": [
+    216.4,
+    432.0,
+    252.0,
+    447.0
+   ],
+   "key": "overseas_office.staff_dispatched",
+   "kind": "count"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "주재원수 현지채용(명)",
+   "rect": [
+    310.9,
+    432.0,
+    345.0,
+    447.0
+   ],
+   "key": "overseas_office.staff_local",
+   "kind": "count"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고일(년 월 일)",
+   "rect": [
+    405.0,
+    554.2,
+    459.4,
+    567.0
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고필 일자(년 월 일)",
+   "rect": [
+    405.0,
+    667.5,
+    459.4,
+    680.6
+   ],
+   "key": "bank.report_date",
+   "kind": "date"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

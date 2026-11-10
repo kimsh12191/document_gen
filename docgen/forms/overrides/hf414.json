@@ -1,0 +1,55 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수집 · 이용 목적",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 1,
+   "label": "작성일(20 년 월 일)",
+   "rect": [
+    243.8,
+    570.0,
+    279.4,
+    585.0
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "본인 성명",
+   "rect": [
+    424.1,
+    609.4,
+    519.4,
+    623.6
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "대리인 성명",
+   "rect": [
+    424.1,
+    636.4,
+    519.4,
+    650.6
+   ],
+   "key": "agent.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

@@ -1,0 +1,298 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Filing No.",
+    "n": 0
+   },
+   "key": "bank.filing_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Filing Date",
+    "n": 0
+   },
+   "key": "bank.filing_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Applicant Information",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Name of Corporation",
+    "n": 0
+   },
+   "key": "foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Name of Representative",
+    "n": 0
+   },
+   "key": "foreign.ceo_en",
+   "kind": "person_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Taxpayer Identification No.",
+    "n": 0
+   },
+   "key": "foreign.tax_id",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Date of Incorporation",
+    "n": 0
+   },
+   "key": "foreign.established",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Address",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Address",
+    "n": 1
+   },
+   "key": "foreign.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Country of Residence",
+    "n": 0
+   },
+   "key": "foreign.nationality"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Country Code",
+    "n": 0
+   },
+   "key": "foreign.country_code",
+   "kind": "country_code"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Telephone Number",
+    "n": 0
+   },
+   "key": "foreign.phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "To",
+    "n": 0
+   },
+   "key": "withholding_agent.name_en",
+   "kind": "withholding_agent_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Type",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "[ ] Tax Administrator",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "[ ] Other",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Address or Location",
+    "n": 0
+   },
+   "key": "attorney.address",
+   "source": "profile.business.address.road_short"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Tax Treaty between Korea and (country)",
+   "rect": [
+    163.1,
+    359.2,
+    208.1,
+    373.1
+   ],
+   "key": "foreign.nationality"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Article 1",
+   "rect": [
+    241.9,
+    363.0,
+    261.8,
+    373.5
+   ],
+   "key": "treaty.0.article",
+   "kind": "count"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Paragraph 1",
+   "rect": [
+    298.5,
+    363.0,
+    321.4,
+    373.5
+   ],
+   "key": "treaty.0.paragraph",
+   "kind": "treaty_sub"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Subparagraph 1",
+   "rect": [
+    372.0,
+    363.0,
+    395.6,
+    373.5
+   ],
+   "key": "treaty.0.subparagraph",
+   "kind": "treaty_sub"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Type of Income 1",
+   "rect": [
+    453.0,
+    363.0,
+    474.4,
+    373.5
+   ],
+   "key": "treaty.0.income_type",
+   "kind": "income_type_en"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Tax Rate 1 (%)",
+   "rect": [
+    507.0,
+    363.0,
+    526.9,
+    373.5
+   ],
+   "key": "treaty.0.tax_rate",
+   "kind": "treaty_rate"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Date",
+   "rect": [
+    343.1,
+    664.5,
+    487.5,
+    676.9
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Applicant",
+   "rect": [
+    343.1,
+    681.8,
+    474.4,
+    694.5
+   ],
+   "key": "foreign.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Attorney-in-Fact Name of Individual or Corporation",
+   "rect": [
+    270.4,
+    746.2,
+    438.0,
+    765.8
+   ],
+   "key": "attorney.name",
+   "source": "profile.business.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Attorney-in-Fact Taxpayer ID No.",
+   "rect": [
+    440.2,
+    753.0,
+    551.2,
+    765.8
+   ],
+   "key": "attorney.tax_id",
+   "source": "profile.business.biz_no"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

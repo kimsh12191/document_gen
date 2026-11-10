@@ -1,0 +1,80 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "▪ 매출채권보험 추천 등 모집대행업무 수행",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "필 수 사 항",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "필 수 사 항",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "연락처(전화번호, 핸드폰, E-mail)",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "연 락 처",
+    "n": 0
+   },
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(20 . . .)",
+   "rect": [
+    453.8,
+    695.6,
+    481.9,
+    709.5
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대표자",
+   "rect": [
+    375.4,
+    718.9,
+    525.0,
+    739.1
+   ],
+   "key": "company.ceo"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

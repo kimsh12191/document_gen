@@ -1,0 +1,179 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "종 류",
+    "n": 0
+   },
+   "key": "means.kind",
+   "kind": "payment_means_kind"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 량",
+    "n": 0
+   },
+   "key": "means.quantity",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 출 입 금 액",
+    "n": 0
+   },
+   "key": "means.amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대 가 결 제 방 법",
+    "n": 0
+   },
+   "key": "means.settlement",
+   "kind": "settle_method"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상 호",
+    "n": 0
+   },
+   "key": "foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대 표 자",
+    "n": 0
+   },
+   "key": "foreign.ceo",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소 재 지",
+    "n": 0
+   },
+   "key": "foreign.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기 타(또는 변 경 내 용)",
+    "n": 0
+   },
+   "key": "means.other",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신 고 번 호",
+    "n": 0
+   },
+   "key": "customs.report_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신 고 금 액",
+    "n": 0
+   },
+   "key": "customs.report_amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "유 효 기 간",
+    "n": 0
+   },
+   "key": "customs.valid_until",
+   "kind": "date"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고일(년 월 일)",
+   "rect": [
+    408.8,
+    443.2,
+    451.9,
+    459.4
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고인 주소",
+   "rect": [
+    168.8,
+    459.4,
+    369.4,
+    474.4
+   ],
+   "key": "company.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고인 (전화 : )",
+   "rect": [
+    408.8,
+    459.4,
+    528.8,
+    474.4
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고인 (E-mail : )",
+   "rect": [
+    420.0,
+    476.2,
+    528.8,
+    490.5
+   ],
+   "key": "customer.email"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대표자 (전화 )",
+   "rect": [
+    145.9,
+    525.0,
+    268.5,
+    538.5
+   ],
+   "key": "customer.phone"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

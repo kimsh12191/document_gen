@@ -1,0 +1,145 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "RM",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신용장 번호",
+    "n": 0
+   },
+   "key": "trade.lc_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "개 설 은 행 (SWIFT CODE)",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     172.9,
+     249.0,
+     543.8,
+     265.1
+    ]
+   },
+   "key": "foreign.bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신청통화 및 금액",
+    "n": 0
+   },
+   "key": "trade.amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신용장 유효기일",
+    "n": 0
+   },
+   "key": "trade.lc_expiry",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자명",
+    "n": 0
+   },
+   "key": "company.contact_name",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화번호",
+    "n": 0
+   },
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "FAX 번호",
+    "n": 0
+   },
+   "key": "company.fax",
+   "source": "profile.corporation.fax"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "개설은행 SWIFT CODE",
+   "rect": [
+    172.9,
+    266.2,
+    543.8,
+    280.1
+   ],
+   "key": "foreign.swift"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(20 년 월 일)",
+   "rect": [
+    252.0,
+    406.9,
+    273.8,
+    421.9
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인명",
+   "rect": [
+    363.0,
+    447.0,
+    491.2,
+    460.5
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "하자사항",
+   "rect": [
+    50.6,
+    628.1,
+    549.4,
+    654.4
+   ],
+   "key": "trade.discrepancy",
+   "source": "rule:free_text"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

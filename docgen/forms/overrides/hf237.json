@@ -1,0 +1,204 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "개설인명",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     43.5,
+     332.6,
+     97.5,
+     354.4
+    ]
+   },
+   "key": "customer.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주민등록번호 (사업자등록번호)",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     100.5,
+     332.6,
+     154.5,
+     354.4
+    ]
+   },
+   "key": "customer.rrn"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "입금일자",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     157.1,
+     332.6,
+     211.1,
+     354.4
+    ]
+   },
+   "key": "overseas_deposit.date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "예금종류 2",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     213.8,
+     332.6,
+     267.8,
+     354.4
+    ]
+   },
+   "key": "overseas_deposit.type",
+   "kind": "overseas_deposit_type"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "예금 기관명",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     270.4,
+     332.6,
+     324.4,
+     354.4
+    ]
+   },
+   "key": "foreign.bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     327.0,
+     332.6,
+     381.0,
+     354.4
+    ]
+   },
+   "key": "foreign.account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "입금액 3",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     384.0,
+     332.6,
+     438.0,
+     354.4
+    ]
+   },
+   "key": "overseas_deposit.amount_kusd",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "입금재원 4",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     440.6,
+     332.6,
+     495.0,
+     354.4
+    ]
+   },
+   "key": "overseas_deposit.fund_source",
+   "kind": "overseas_deposit_fund"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "국가명 5",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     502.5,
+     332.6,
+     544.5,
+     354.4
+    ]
+   },
+   "key": "overseas_deposit.country",
+   "kind": "country"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대표자 성명",
+   "rect": [
+    150.0,
+    201.4,
+    232.5,
+    216.8
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "보고자 직위",
+   "rect": [
+    312.0,
+    201.4,
+    358.1,
+    216.8
+   ],
+   "key": "employer.position"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    416.2,
+    688.1,
+    465.0,
+    705.0
+   ],
+   "key": "date"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

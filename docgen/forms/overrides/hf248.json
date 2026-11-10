@@ -1,0 +1,632 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Receipt Number",
+    "n": 0
+   },
+   "key": "bank.receipt_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Date of Receipt",
+    "n": 0
+   },
+   "key": "bank.receipt_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Date of Completion",
+    "n": 0
+   },
+   "key": "bank.completion_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Name",
+    "n": 0
+   },
+   "key": "company.name_en",
+   "source": "profile.corporation.name_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Address",
+    "n": 0
+   },
+   "key": "company.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Name",
+    "n": 1
+   },
+   "key": "foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Nationality",
+    "n": 0
+   },
+   "key": "foreign.nationality"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Acquisition Price: Won (USD )",
+    "n": 0
+   },
+   "key": "investment.share_percent",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Notification No",
+    "n": 0
+   },
+   "key": "bank.notification_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Change in",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     103.1,
+     315.0,
+     194.2,
+     327.4
+    ]
+   },
+   "key": "change_list.0.item",
+   "kind": "change_item_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Information",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     103.1,
+     328.9,
+     194.2,
+     341.2
+    ]
+   },
+   "key": "change_list.1.item",
+   "kind": "change_item_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "changed",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Receipt Number",
+    "n": 0
+   },
+   "key": "bank.receipt_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Date of Receipt",
+    "n": 0
+   },
+   "key": "bank.receipt_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Date of Completion",
+    "n": 0
+   },
+   "key": "bank.completion_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Name",
+    "n": 0
+   },
+   "key": "company.name_en",
+   "source": "profile.corporation.name_en"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Address",
+    "n": 0
+   },
+   "key": "company.address"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Name",
+    "n": 1
+   },
+   "key": "foreign.name"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Nationality",
+    "n": 0
+   },
+   "key": "foreign.nationality"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Acquisition Price: Won (USD )",
+    "n": 0
+   },
+   "key": "investment.share_percent",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Notification No",
+    "n": 0
+   },
+   "key": "bank.notification_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Change in",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     103.1,
+     315.0,
+     194.2,
+     327.4
+    ]
+   },
+   "key": "change_list.0.item",
+   "kind": "change_item_en"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Information",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     103.1,
+     328.9,
+     194.2,
+     341.2
+    ]
+   },
+   "key": "change_list.1.item",
+   "kind": "change_item_en"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "changed",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Items to Change 3",
+   "rect": [
+    103.1,
+    342.4,
+    194.2,
+    354.8
+   ],
+   "key": "change_list.2.item",
+   "kind": "change_item_en"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Information Prior to Change 1",
+   "rect": [
+    196.5,
+    315.0,
+    372.8,
+    327.4
+   ],
+   "key": "change_list.0.before",
+   "source": "rule:free_text"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Information After Change 1",
+   "rect": [
+    375.0,
+    315.0,
+    550.5,
+    327.4
+   ],
+   "key": "change_list.0.after",
+   "source": "rule:free_text"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Information Prior to Change 2",
+   "rect": [
+    196.5,
+    328.9,
+    372.8,
+    341.2
+   ],
+   "key": "change_list.1.before",
+   "source": "rule:free_text"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Information After Change 2",
+   "rect": [
+    375.0,
+    328.9,
+    550.5,
+    341.2
+   ],
+   "key": "change_list.1.after",
+   "source": "rule:free_text"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Information Prior to Change 3",
+   "rect": [
+    196.5,
+    342.4,
+    372.8,
+    354.8
+   ],
+   "key": "change_list.2.before",
+   "source": "rule:free_text"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Information After Change 3",
+   "rect": [
+    375.0,
+    342.4,
+    550.5,
+    354.8
+   ],
+   "key": "change_list.2.after",
+   "source": "rule:free_text"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Date of Notification(Authorization)",
+   "rect": [
+    256.9,
+    117.8,
+    550.1,
+    128.2
+   ],
+   "key": "investment.notified_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Acquisition Price Won",
+   "rect": [
+    270.8,
+    242.6,
+    444.4,
+    256.9
+   ],
+   "key": "investment.amount_krw",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Acquisition Price USD",
+   "rect": [
+    349.5,
+    258.8,
+    462.0,
+    274.1
+   ],
+   "key": "investment.amount_usd",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Business of intent/Present business",
+   "rect": [
+    256.9,
+    276.4,
+    550.1,
+    285.8
+   ],
+   "key": "company.business_en",
+   "kind": "business_en"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Date (Year Month Day)",
+   "rect": [
+    361.1,
+    391.9,
+    409.5,
+    405.0
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Applicant (or Power of Attorney)",
+   "rect": [
+    287.6,
+    412.5,
+    483.8,
+    423.8
+   ],
+   "key": "foreign.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Applicant Phone Number",
+   "rect": [
+    411.8,
+    432.0,
+    546.0,
+    443.2
+   ],
+   "key": "foreign.phone"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Items to Change 3",
+   "rect": [
+    103.1,
+    342.4,
+    194.2,
+    354.8
+   ],
+   "key": "change_list.2.item",
+   "kind": "change_item_en"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Information Prior to Change 1",
+   "rect": [
+    196.5,
+    315.0,
+    372.8,
+    327.4
+   ],
+   "key": "change_list.0.before",
+   "source": "rule:free_text"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Information After Change 1",
+   "rect": [
+    375.0,
+    315.0,
+    550.5,
+    327.4
+   ],
+   "key": "change_list.0.after",
+   "source": "rule:free_text"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Information Prior to Change 2",
+   "rect": [
+    196.5,
+    328.9,
+    372.8,
+    341.2
+   ],
+   "key": "change_list.1.before",
+   "source": "rule:free_text"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Information After Change 2",
+   "rect": [
+    375.0,
+    328.9,
+    550.5,
+    341.2
+   ],
+   "key": "change_list.1.after",
+   "source": "rule:free_text"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Information Prior to Change 3",
+   "rect": [
+    196.5,
+    342.4,
+    372.8,
+    354.8
+   ],
+   "key": "change_list.2.before",
+   "source": "rule:free_text"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Information After Change 3",
+   "rect": [
+    375.0,
+    342.4,
+    550.5,
+    354.8
+   ],
+   "key": "change_list.2.after",
+   "source": "rule:free_text"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Date of Notification(Authorization)",
+   "rect": [
+    256.9,
+    117.8,
+    550.1,
+    128.2
+   ],
+   "key": "investment.notified_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Acquisition Price Won",
+   "rect": [
+    270.8,
+    242.6,
+    444.4,
+    256.9
+   ],
+   "key": "investment.amount_krw",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Acquisition Price USD",
+   "rect": [
+    349.5,
+    258.8,
+    462.0,
+    274.1
+   ],
+   "key": "investment.amount_usd",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Business of intent/Present business",
+   "rect": [
+    256.9,
+    276.4,
+    550.1,
+    285.8
+   ],
+   "key": "company.business_en",
+   "kind": "business_en"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Date (Year Month Day)",
+   "rect": [
+    361.1,
+    391.9,
+    409.5,
+    405.0
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Applicant (or Power of Attorney)",
+   "rect": [
+    287.6,
+    412.5,
+    483.8,
+    423.8
+   ],
+   "key": "foreign.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Applicant Phone Number",
+   "rect": [
+    411.8,
+    432.0,
+    546.0,
+    443.2
+   ],
+   "key": "foreign.phone"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

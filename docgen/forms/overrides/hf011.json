@@ -1,0 +1,214 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취급점",
+    "n": 0
+   },
+   "key": "bank.branch",
+   "kind": "branch"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발급기준일",
+    "n": 0
+   },
+   "key": "certificate.base_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "국문",
+    "n": 0
+   },
+   "key": "certificate.copies_ko",
+   "kind": "copies"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매",
+    "n": 0
+   },
+   "key": "certificate.copies_en",
+   "kind": "copies"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발급부수",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발급부수",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 1
+   },
+   "key": "account_list.1.number",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 2
+   },
+   "key": "account_list.2.number",
+   "kind": "account"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "성명(상호명)",
+   "rect": [
+    150.8,
+    578.2,
+    262.5,
+    601.9
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    202.5,
+    543.8,
+    264.4,
+    556.9
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "발급용도",
+   "rect": [
+    388.1,
+    200.6,
+    549.8,
+    215.2
+   ],
+   "key": "certificate.purpose",
+   "kind": "cert_purpose"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "수수료 출금계좌",
+   "rect": [
+    332.2,
+    217.5,
+    487.5,
+    229.5
+   ],
+   "key": "certificate.fee_account",
+   "source": "profile.accounts.0.number"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "통화코드",
+   "rect": [
+    427.5,
+    181.1,
+    528.8,
+    198.4
+   ],
+   "key": "certificate.currency",
+   "kind": "currency"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "수령방법 E-mail",
+   "rect": [
+    354.4,
+    249.0,
+    540.0,
+    264.8
+   ],
+   "key": "customer.email"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "정기발급 기준일자(매월 일)",
+   "rect": [
+    185.6,
+    331.1,
+    243.8,
+    347.6
+   ],
+   "key": "regular.base_day",
+   "kind": "day_of_month"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "정기발급 유효기간 시작",
+   "rect": [
+    158.6,
+    357.0,
+    189.4,
+    372.4
+   ],
+   "key": "regular.start_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "정기발급 유효기간 종료",
+   "rect": [
+    262.5,
+    357.0,
+    292.5,
+    372.4
+   ],
+   "key": "regular.end_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "위임인(예금주)",
+   "rect": [
+    375.0,
+    763.1,
+    508.1,
+    776.2
+   ],
+   "key": "customer.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

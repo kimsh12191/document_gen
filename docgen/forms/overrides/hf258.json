@@ -1,0 +1,119 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주 소",
+    "n": 0
+   },
+   "key": "company.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "환전업시작일",
+    "n": 0
+   },
+   "key": "fx_exchange.start_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기 타",
+    "n": 0
+   },
+   "key": "fx_exchange.other_scope",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "근거법령",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "행정정보 공동",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대표자",
+   "rect": [
+    141.8,
+    204.4,
+    401.2,
+    226.9
+   ],
+   "key": "company.ceo"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대표자 생년월일( 년 월 일)",
+   "rect": [
+    410.6,
+    208.1,
+    455.6,
+    225.0
+   ],
+   "key": "company.ceo_birth",
+   "source": "profile.corporation.ceo.birth"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청일(년 월 일)",
+   "rect": [
+    386.2,
+    535.5,
+    453.8,
+    549.4
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고인",
+   "rect": [
+    378.8,
+    562.5,
+    502.5,
+    577.5
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고인 전화",
+   "rect": [
+    369.4,
+    579.4,
+    526.9,
+    594.4
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

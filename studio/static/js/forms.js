@@ -180,7 +180,7 @@ function tabPreview(d) {
   $("#tab").innerHTML = `
     <div class="bar">${optionBar(true)}
       <button class="primary" id="o-go">렌더링</button>
-      <button id="o-prev" title="이전 seed">◀</button><button id="o-next" title="다음 seed">▶</button>
+      <button id="o-prev" title="이전 seed">◀</button><button id="o-next" title="다음 seed">▶</button><button id="o-rand" title="무작위 seed: 다른 고객으로">다른 고객</button>
       <button id="o-force" title="캐시를 무시하고 다시 그림">다시 그리기</button>
       <span class="muted" id="o-stat"></span>
     </div>
@@ -275,6 +275,7 @@ function tabPreview(d) {
   $("#o-force").onclick = () => go(true);
   $("#o-prev").onclick = () => { $("#o-seed").value = Math.max(0, +$("#o-seed").value - 1); go(); };
   $("#o-next").onclick = () => { $("#o-seed").value = +$("#o-seed").value + 1; go(); };
+  $("#o-rand").onclick = () => { $("#o-seed").value = Math.floor(Math.random() * 1000000); go(); };
   $("#o-zoom").onclick = () => { view.zoom = !view.zoom; $("#o-zoom").textContent = view.zoom ? "폭에 맞춤" : "원래 크기"; draw(); };
   $("#o-issue").onclick = () => {
     view.issueMode = !view.issueMode;
@@ -328,6 +329,7 @@ function tabExamples(d) {
       <label>seed <input type="number" id="ex-start" value="${start}" min="0">부터</label>
       <label><input type="number" id="ex-count" value="${count}" min="1" max="48"> 장</label>
       ${optionBar(false)}
+      <button id="ex-rand" title="시작 seed 를 무작위로: 늘 같은 고객만 보지 않게">다른 고객들</button>
       <button class="primary" id="ex-go">만들기</button><span class="muted" id="ex-stat"></span>
     </div>
     <div class="bar">${layerBar()}</div>
@@ -357,6 +359,7 @@ function tabExamples(d) {
     $("#ex-go").disabled = false;
   };
   $("#ex-go").onclick = go;
+  $("#ex-rand").onclick = () => { $("#ex-start").value = Math.floor(Math.random() * 1000000); go(); };
   $("#ex-grid").onclick = e => {
     const seed = e.target.closest(".card")?.dataset.seed;
     if (seed === undefined) return;

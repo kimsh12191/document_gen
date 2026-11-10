@@ -1,0 +1,138 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "연락처(선택)",
+    "n": 0
+   },
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표자/생년월일",
+    "n": 0
+   },
+   "key": "company.ceo"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주소(선택)",
+    "n": 0
+   },
+   "key": "company.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "약정상품명",
+    "n": 0
+   },
+   "key": "agreement.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "약정번호",
+    "n": 0
+   },
+   "key": "agreement.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "변경내용",
+    "n": 0
+   },
+   "key": "change.before",
+   "source": "rule:free_text"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "변경후",
+    "n": 0
+   },
+   "key": "change.after",
+   "source": "rule:free_text"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "연락처",
+    "n": 0
+   },
+   "key": "agent.phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "위임내용",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     375.0,
+     577.9,
+     545.6,
+     592.5
+    ]
+   },
+   "key": "agent.delegation_scope",
+   "source": "rule:free_text"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일",
+    "n": 0
+   },
+   "key": "agent.birth"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    256.9,
+    661.9,
+    345.8,
+    676.1
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "업체명(하단 서명)",
+   "rect": [
+    423.8,
+    691.9,
+    511.9,
+    708.8
+   ],
+   "key": "company.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

@@ -1,0 +1,142 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "RM",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "거래 형태",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "거래번 호(추심번호)",
+    "n": 0
+   },
+   "key": "trade.collection_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "추심의뢰 일자",
+    "n": 0
+   },
+   "key": "trade.collection_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "추심금액",
+    "n": 0
+   },
+   "key": "trade.collection_amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "예정(확정)만기일",
+    "n": 0
+   },
+   "key": "trade.maturity_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신용장 번호",
+    "n": 0
+   },
+   "key": "trade.lc_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신용장 개설은행",
+    "n": 0
+   },
+   "key": "foreign.bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신용장 개설의뢰인",
+    "n": 0
+   },
+   "key": "foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주 소",
+    "n": 0
+   },
+   "key": "company.address"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "거래형태 신용장( )",
+   "rect": [
+    245.6,
+    360.4,
+    316.9,
+    376.1
+   ],
+   "key": "trade.lc_tenor",
+   "kind": "lc_tenor"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청일",
+   "rect": [
+    397.5,
+    546.8,
+    504.4,
+    562.5
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "본인(상호)",
+   "rect": [
+    233.2,
+    609.4,
+    352.5,
+    625.5
+   ],
+   "key": "company.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

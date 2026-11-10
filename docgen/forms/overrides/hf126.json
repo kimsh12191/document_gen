@@ -1,0 +1,89 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "국토교통부",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "이용 목적",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 1,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    228.8,
+    675.0,
+    343.1,
+    690.0
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "본인 성명",
+   "rect": [
+    431.2,
+    643.1,
+    517.5,
+    658.9
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "배우자 성명",
+   "rect": [
+    431.2,
+    680.6,
+    517.5,
+    696.8
+   ],
+   "key": "spouse.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "기타 세대원 성명1",
+   "rect": [
+    431.2,
+    720.8,
+    517.5,
+    736.9
+   ],
+   "key": "family.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "기타 세대원 성명2",
+   "rect": [
+    431.2,
+    759.4,
+    517.5,
+    775.5
+   ],
+   "key": "household.1.name",
+   "source": "profile.mother.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

@@ -1,0 +1,82 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "체결 · 유지 · 관리목적",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "보험계약 관련 분쟁 대응, 민원 처리",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "질권통지업무 수행",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "정보 등 기타 보험계약 운영상 필요 정보",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 2,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    165.0,
+    412.5,
+    221.2,
+    427.5
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "본인 성명",
+   "rect": [
+    427.5,
+    384.4,
+    519.4,
+    399.4
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "생년월일",
+   "rect": [
+    425.6,
+    412.5,
+    547.5,
+    428.2
+   ],
+   "key": "customer.birth"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

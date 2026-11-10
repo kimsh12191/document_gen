@@ -1,0 +1,191 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화선도(외환스왑, NDF포함)",
+    "n": 0
+   },
+   "key": "deriv.sell_forward",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화선도(외환스왑, NDF포함)",
+    "n": 1
+   },
+   "key": "deriv.buy_forward",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화옵션",
+    "n": 0
+   },
+   "key": "deriv.sell_option",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화옵션",
+    "n": 1
+   },
+   "key": "deriv.buy_option",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화스왑",
+    "n": 0
+   },
+   "key": "deriv.sell_swap",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화스왑",
+    "n": 1
+   },
+   "key": "deriv.buy_swap",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "환변동보험",
+    "n": 0
+   },
+   "key": "deriv.sell_fx_insurance",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "환변동보험",
+    "n": 1
+   },
+   "key": "deriv.buy_fx_insurance",
+   "kind": "usd_thousand"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "헤지거래 한도 (a)",
+    "n": 0
+   },
+   "key": "bank.hedge_limit",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기체결 외환파생거래금액 (b)",
+    "n": 0
+   },
+   "key": "bank.deriv_contracted",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금번 거래 예정금액 (c)",
+    "n": 0
+   },
+   "key": "bank.deriv_planned",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "위험헤지비율 ((b+c)/(a) *100)",
+    "n": 0
+   },
+   "key": "bank.hedge_ratio",
+   "kind": "percent"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "기준일(년 월 일)",
+   "rect": [
+    86.2,
+    131.2,
+    140.6,
+    147.0
+   ],
+   "key": "deriv.base_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "확인일자(년 월 일)",
+   "rect": [
+    84.4,
+    474.4,
+    138.8,
+    489.4
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "기업명",
+   "rect": [
+    88.1,
+    495.8,
+    251.2,
+    509.2
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "(법인번호: - )",
+   "rect": [
+    300.0,
+    495.8,
+    483.8,
+    509.2
+   ],
+   "key": "company.corp_no"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대표이사",
+   "rect": [
+    88.1,
+    515.6,
+    251.2,
+    528.8
+   ],
+   "key": "company.ceo"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

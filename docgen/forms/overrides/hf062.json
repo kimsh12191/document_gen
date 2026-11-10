@@ -1,0 +1,140 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "연락처",
+    "n": 0
+   },
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표자 연락처",
+    "n": 0
+   },
+   "key": "company.ceo_phone",
+   "source": "profile.corporation.ceo.mobile"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상시근로자 수",
+    "n": 0
+   },
+   "key": "company.employees",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "업력",
+    "n": 0
+   },
+   "key": "company.years_in_business",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기거래 건전성",
+    "n": 0
+   },
+   "key": "bank.diag.trade_history",
+   "kind": "diag_result"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신용 상태",
+    "n": 0
+   },
+   "key": "bank.diag.credit",
+   "kind": "diag_result"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상환능력 및 변제계획",
+    "n": 0
+   },
+   "key": "bank.diag.repay_ability",
+   "kind": "diag_result"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "rect": [
+    401.3,
+    695.4,
+    496.4,
+    729.4
+   ],
+   "key": "bank.diag_no",
+   "kind": "number"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(20 . . .)",
+   "rect": [
+    320.6,
+    633.8,
+    386.2,
+    648.8
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인",
+   "rect": [
+    451.9,
+    633.8,
+    528.8,
+    648.8
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "진단결과 수령일(20 . . .)",
+   "rect": [
+    320.6,
+    777.0,
+    386.2,
+    794.6
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인(진단결과 수령)",
+   "rect": [
+    451.9,
+    777.0,
+    528.8,
+    794.6
+   ],
+   "key": "company.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

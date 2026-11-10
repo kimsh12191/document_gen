@@ -1,0 +1,135 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "비밀번호재등록",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "보안매체 재발급(OTP/자물쇠카드)",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해외 영업점",
+    "n": 0
+   },
+   "key": "bank.overseas_branch",
+   "kind": "branch"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "직위",
+    "n": 0
+   },
+   "key": "bank.confirmer_position",
+   "kind": "bank_staff_position"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "귀행( )지점",
+   "rect": [
+    453.8,
+    288.8,
+    505.1,
+    300.0
+   ],
+   "key": "bank.branch",
+   "kind": "branch"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(20 년 월 일)",
+   "rect": [
+    240.0,
+    345.0,
+    351.4,
+    360.0
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "위임자(본인) 주소",
+   "rect": [
+    150.0,
+    383.2,
+    336.8,
+    396.4
+   ],
+   "key": "customer.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "위임자 (FAX)",
+   "rect": [
+    360.4,
+    383.2,
+    505.5,
+    395.6
+   ],
+   "key": "customer.fax",
+   "kind": "phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "위임자 성명",
+   "rect": [
+    150.0,
+    406.1,
+    313.1,
+    420.0
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "위임자 (인)",
+   "kind": "seal",
+   "rect": [
+    315.0,
+    405.0,
+    336.4,
+    420.8
+   ]
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "해외영업점 확인자",
+   "rect": [
+    210.8,
+    661.9,
+    315.0,
+    675.0
+   ],
+   "key": "bank.confirmer",
+   "kind": "other_person"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

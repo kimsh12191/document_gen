@@ -1,0 +1,80 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성 명",
+    "n": 0
+   },
+   "key": "agent.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일",
+    "n": 0
+   },
+   "key": "agent.birth"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주 소",
+    "n": 0
+   },
+   "key": "agent.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "연 락 처",
+    "n": 0
+   },
+   "key": "agent.phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신규 외 기타 위임거래를 구체적으로 명시",
+    "n": 0
+   },
+   "key": "agent.other_scope",
+   "kind": "note"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(20 년 월 일)",
+   "rect": [
+    315.0,
+    614.2,
+    437.2,
+    628.1
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "본인(위임인) 성명(법인명)",
+   "rect": [
+    279.4,
+    643.1,
+    435.0,
+    658.1
+   ],
+   "key": "customer.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

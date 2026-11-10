@@ -1,0 +1,722 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성명/업체명",
+    "n": 0
+   },
+   "key": "company.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주소",
+    "n": 0
+   },
+   "key": "company.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기타 신청사항",
+    "n": 0
+   },
+   "key": "ebank.other_request",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일(법인등록번호)",
+    "n": 0
+   },
+   "key": "company.corp_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기업뱅킹 업체총이체한도(1일)",
+    "n": 0
+   },
+   "key": "ebank.company_limit_day",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "OTP",
+    "n": 1
+   },
+   "set": {
+    "rect": [
+     102.4,
+     295.5,
+     262.5,
+     311.6
+    ]
+   },
+   "key": "ebank.user_id",
+   "kind": "user_id"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "일 원,",
+    "n": 0
+   },
+   "key": "ebank.withdraw_list.0.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "회 원",
+    "n": 0
+   },
+   "key": "ebank.withdraw_list.1.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "출금계좌지정 (괄호는 폰뱅킹 단축번호 *** )",
+    "n": 0
+   },
+   "key": "ebank.withdraw_list.2.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해외 IP 차단",
+    "n": 0
+   },
+   "key": "ebank.deposit_list.{i}.bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해외 IP 차단",
+    "n": 1
+   },
+   "key": "ebank.deposit_list.{i}.bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해외 IP 차단",
+    "n": 2
+   },
+   "key": "ebank.deposit_list.{i}.bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해외 IP 차단",
+    "n": 3
+   },
+   "key": "ebank.deposit_list.{i}.bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "OTP",
+    "n": 0
+   },
+   "key": "ebank.deposit_list.0.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "본인인증전화번호",
+    "n": 0
+   },
+   "key": "customer.phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신청 미신청",
+    "n": 0
+   },
+   "key": "ebank.designated_account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수수료후취",
+    "n": 0
+   },
+   "kind": "seal"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신청(계좌 : ) 해지",
+    "n": 0
+   },
+   "key": "ebank.designated_account_2",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지사명",
+    "n": 0
+   },
+   "key": "branch_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지사명",
+    "n": 1
+   },
+   "key": "branch_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자번호",
+    "n": 0
+   },
+   "key": "branch_list.{i}.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자번호",
+    "n": 1
+   },
+   "key": "branch_list.{i}.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "법인등록번호",
+    "n": 0
+   },
+   "key": "branch_list.{i}.corp_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "법인등록번호",
+    "n": 1
+   },
+   "key": "branch_list.{i}.corp_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "사용자구분",
+    "n": 0
+   },
+   "key": "ebank.add_user.type",
+   "kind": "ebank_user_type"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "해지",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "대량이체한도 iNet *CMS 에 한함",
+    "n": 0
+   },
+   "kind": "seal"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "대량이체한도 iNet *CMS 에 한함",
+    "n": 1
+   },
+   "kind": "seal"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "입금계좌 지정",
+    "n": 0
+   },
+   "key": "ebank.add_user.deposit_list.0.bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "입금계좌 지정",
+    "n": 1
+   },
+   "key": "ebank.add_user.deposit_list.1.bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "입금계좌 지정",
+    "n": 2
+   },
+   "key": "ebank.add_user.deposit_list.2.bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "입금계좌 지정",
+    "n": 3
+   },
+   "key": "ebank.add_user.deposit_list.3.bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "주소",
+    "n": 0
+   },
+   "key": "agent.address",
+   "source": "profile.directors.0.address.road_short"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "위임인",
+    "n": 0
+   },
+   "key": "company.name"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "연락처",
+   "rect": [
+    100.5,
+    181.5,
+    251.2,
+    197.6
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "이체한도 1일",
+   "rect": [
+    120.0,
+    313.9,
+    208.1,
+    330.0
+   ],
+   "key": "ebank.limit_day",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "이체한도 1회",
+   "rect": [
+    244.9,
+    313.9,
+    333.8,
+    330.0
+   ],
+   "key": "ebank.limit_once",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대량한도 1일",
+   "rect": [
+    120.0,
+    332.2,
+    208.1,
+    348.4
+   ],
+   "key": "ebank.bulk_limit_day",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대량한도 1회",
+   "rect": [
+    244.9,
+    332.2,
+    333.8,
+    348.4
+   ],
+   "key": "ebank.bulk_limit_once",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "출금계좌지정 계좌번호4",
+   "rect": [
+    229.5,
+    387.8,
+    292.5,
+    422.2
+   ],
+   "key": "ebank.withdraw_list.3.account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "입금계좌 계좌번호2",
+   "rect": [
+    456.8,
+    369.0,
+    525.0,
+    385.5
+   ],
+   "key": "ebank.deposit_list.1.account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "입금계좌 계좌번호3",
+   "rect": [
+    456.8,
+    387.8,
+    525.0,
+    403.9
+   ],
+   "key": "ebank.deposit_list.2.account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "입금계좌 계좌번호4",
+   "rect": [
+    456.8,
+    406.1,
+    525.0,
+    422.2
+   ],
+   "key": "ebank.deposit_list.3.account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "수수료후취 계좌",
+   "rect": [
+    435.0,
+    479.2,
+    510.0,
+    495.4
+   ],
+   "key": "ebank.fee_account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "지사대표자1",
+   "rect": [
+    370.5,
+    552.8,
+    425.6,
+    568.9
+   ],
+   "key": "branch_list.0.ceo",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "지사대표자2",
+   "rect": [
+    370.5,
+    571.1,
+    425.6,
+    587.2
+   ],
+   "key": "branch_list.1.ceo",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "OTP 일괄교부 개수",
+   "rect": [
+    403.1,
+    589.5,
+    450.0,
+    606.0
+   ],
+   "key": "ebank.otp_count",
+   "kind": "count"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "OTP 발급수수료 계좌번호",
+   "rect": [
+    258.8,
+    645.0,
+    401.2,
+    663.8
+   ],
+   "key": "ebank.otp_fee_account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "OTP 발급수수료 예금주",
+   "rect": [
+    431.2,
+    645.0,
+    504.4,
+    663.8
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청일(년 월 일)",
+   "rect": [
+    210.0,
+    717.8,
+    337.5,
+    732.8
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청 및 수령인",
+   "rect": [
+    236.2,
+    740.6,
+    393.8,
+    755.6
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대리인",
+   "rect": [
+    204.4,
+    754.5,
+    271.9,
+    768.8
+   ],
+   "key": "agent.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "사용자 추가 사용자ID",
+   "rect": [
+    358.9,
+    537.8,
+    500.6,
+    555.0
+   ],
+   "key": "ebank.add_user.id",
+   "kind": "user_id"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "사용자 추가 이체한도 1일",
+   "rect": [
+    116.2,
+    577.1,
+    268.1,
+    594.8
+   ],
+   "key": "ebank.add_user.limit_day",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "사용자 추가 이체한도 1회",
+   "rect": [
+    112.5,
+    597.0,
+    268.1,
+    614.2
+   ],
+   "key": "ebank.add_user.limit_once",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "사용자 추가 대량이체한도 1일",
+   "rect": [
+    380.6,
+    577.1,
+    530.6,
+    594.8
+   ],
+   "key": "ebank.add_user.bulk_limit_day",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "사용자 추가 대량이체한도 1회",
+   "rect": [
+    378.8,
+    597.0,
+    530.6,
+    614.2
+   ],
+   "key": "ebank.add_user.bulk_limit_once",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "사용자 추가 출금계좌2",
+   "rect": [
+    226.5,
+    616.5,
+    309.8,
+    649.1
+   ],
+   "key": "ebank.add_user.account_2",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "사용자 추가 출금계좌4",
+   "rect": [
+    226.5,
+    651.4,
+    309.8,
+    684.4
+   ],
+   "key": "ebank.add_user.account_4",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "사용자 추가 입금계좌1",
+   "rect": [
+    451.1,
+    616.5,
+    551.2,
+    631.9
+   ],
+   "key": "ebank.add_user.deposit_list.0.account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "사용자 추가 입금계좌2",
+   "rect": [
+    451.1,
+    634.1,
+    551.2,
+    649.1
+   ],
+   "key": "ebank.add_user.deposit_list.1.account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "사용자 추가 입금계좌3",
+   "rect": [
+    451.1,
+    651.4,
+    551.2,
+    666.8
+   ],
+   "key": "ebank.add_user.deposit_list.2.account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "사용자 추가 입금계좌4",
+   "rect": [
+    451.1,
+    669.0,
+    551.2,
+    684.4
+   ],
+   "key": "ebank.add_user.deposit_list.3.account",
+   "kind": "account"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

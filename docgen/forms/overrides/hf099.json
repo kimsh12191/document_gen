@@ -1,0 +1,1652 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "중심기업명",
+    "n": 0
+   },
+   "key": "anchor_company.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "중심기업 사업자등록번호",
+    "n": 0
+   },
+   "key": "anchor_company.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "총 처리금액",
+    "n": 0
+   },
+   "key": "loan.total_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취급점",
+    "n": 0
+   },
+   "key": "bank.branch",
+   "kind": "branch"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "호",
+    "n": 0
+   },
+   "key": "company.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소",
+    "n": 0
+   },
+   "key": "company.address",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "연 락 처",
+    "n": 0
+   },
+   "key": "agent.phone"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 0
+   },
+   "key": "approval_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 1
+   },
+   "key": "approval_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 2
+   },
+   "key": "approval_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 3
+   },
+   "key": "approval_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 4
+   },
+   "key": "approval_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 5
+   },
+   "key": "approval_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 6
+   },
+   "key": "approval_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 7
+   },
+   "key": "approval_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 8
+   },
+   "key": "approval_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 9
+   },
+   "key": "approval_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 10
+   },
+   "key": "approval_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 11
+   },
+   "key": "approval_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 12
+   },
+   "key": "approval_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 13
+   },
+   "key": "approval_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 14
+   },
+   "key": "approval_list.{i}.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 0
+   },
+   "key": "approval_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 1
+   },
+   "key": "approval_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 2
+   },
+   "key": "approval_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 3
+   },
+   "key": "approval_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 4
+   },
+   "key": "approval_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 5
+   },
+   "key": "approval_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 6
+   },
+   "key": "approval_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 7
+   },
+   "key": "approval_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 8
+   },
+   "key": "approval_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 9
+   },
+   "key": "approval_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 10
+   },
+   "key": "approval_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 11
+   },
+   "key": "approval_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 12
+   },
+   "key": "approval_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 13
+   },
+   "key": "approval_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 14
+   },
+   "key": "approval_list.{i}.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "구매기업 결제일자",
+    "n": 0
+   },
+   "key": "approval_list.{i}.buyer_pay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "구매기업 결제일자",
+    "n": 1
+   },
+   "key": "approval_list.{i}.buyer_pay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "구매기업 결제일자",
+    "n": 2
+   },
+   "key": "approval_list.{i}.buyer_pay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "구매기업 결제일자",
+    "n": 3
+   },
+   "key": "approval_list.{i}.buyer_pay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "구매기업 결제일자",
+    "n": 4
+   },
+   "key": "approval_list.{i}.buyer_pay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "구매기업 결제일자",
+    "n": 5
+   },
+   "key": "approval_list.{i}.buyer_pay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "구매기업 결제일자",
+    "n": 6
+   },
+   "key": "approval_list.{i}.buyer_pay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "구매기업 결제일자",
+    "n": 7
+   },
+   "key": "approval_list.{i}.buyer_pay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "구매기업 결제일자",
+    "n": 8
+   },
+   "key": "approval_list.{i}.buyer_pay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "구매기업 결제일자",
+    "n": 9
+   },
+   "key": "approval_list.{i}.buyer_pay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "구매기업 결제일자",
+    "n": 10
+   },
+   "key": "approval_list.{i}.buyer_pay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "구매기업 결제일자",
+    "n": 11
+   },
+   "key": "approval_list.{i}.buyer_pay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "구매기업 결제일자",
+    "n": 12
+   },
+   "key": "approval_list.{i}.buyer_pay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "구매기업 결제일자",
+    "n": 13
+   },
+   "key": "approval_list.{i}.buyer_pay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "구매기업 결제일자",
+    "n": 14
+   },
+   "key": "approval_list.{i}.buyer_pay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 입금일자",
+    "n": 0
+   },
+   "key": "approval_list.{i}.seller_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 입금일자",
+    "n": 1
+   },
+   "key": "approval_list.{i}.seller_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 입금일자",
+    "n": 2
+   },
+   "key": "approval_list.{i}.seller_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 입금일자",
+    "n": 3
+   },
+   "key": "approval_list.{i}.seller_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 입금일자",
+    "n": 4
+   },
+   "key": "approval_list.{i}.seller_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 입금일자",
+    "n": 5
+   },
+   "key": "approval_list.{i}.seller_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 입금일자",
+    "n": 6
+   },
+   "key": "approval_list.{i}.seller_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 입금일자",
+    "n": 7
+   },
+   "key": "approval_list.{i}.seller_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 입금일자",
+    "n": 8
+   },
+   "key": "approval_list.{i}.seller_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 입금일자",
+    "n": 9
+   },
+   "key": "approval_list.{i}.seller_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 입금일자",
+    "n": 10
+   },
+   "key": "approval_list.{i}.seller_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 입금일자",
+    "n": 11
+   },
+   "key": "approval_list.{i}.seller_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 입금일자",
+    "n": 12
+   },
+   "key": "approval_list.{i}.seller_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 입금일자",
+    "n": 13
+   },
+   "key": "approval_list.{i}.seller_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "판매기업 입금일자",
+    "n": 14
+   },
+   "key": "approval_list.{i}.seller_deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "승인금액",
+    "n": 0
+   },
+   "key": "approval_list.{i}.approved_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "승인금액",
+    "n": 1
+   },
+   "key": "approval_list.{i}.approved_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "승인금액",
+    "n": 2
+   },
+   "key": "approval_list.{i}.approved_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "승인금액",
+    "n": 3
+   },
+   "key": "approval_list.{i}.approved_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "승인금액",
+    "n": 4
+   },
+   "key": "approval_list.{i}.approved_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "승인금액",
+    "n": 5
+   },
+   "key": "approval_list.{i}.approved_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "승인금액",
+    "n": 6
+   },
+   "key": "approval_list.{i}.approved_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "승인금액",
+    "n": 7
+   },
+   "key": "approval_list.{i}.approved_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "승인금액",
+    "n": 8
+   },
+   "key": "approval_list.{i}.approved_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "승인금액",
+    "n": 9
+   },
+   "key": "approval_list.{i}.approved_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "승인금액",
+    "n": 10
+   },
+   "key": "approval_list.{i}.approved_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "승인금액",
+    "n": 11
+   },
+   "key": "approval_list.{i}.approved_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "승인금액",
+    "n": 12
+   },
+   "key": "approval_list.{i}.approved_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "승인금액",
+    "n": 13
+   },
+   "key": "approval_list.{i}.approved_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "승인금액",
+    "n": 14
+   },
+   "key": "approval_list.{i}.approved_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "선입금 가능일자",
+    "n": 0
+   },
+   "key": "approval_list.{i}.prepay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "선입금 가능일자",
+    "n": 1
+   },
+   "key": "approval_list.{i}.prepay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "선입금 가능일자",
+    "n": 2
+   },
+   "key": "approval_list.{i}.prepay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "선입금 가능일자",
+    "n": 3
+   },
+   "key": "approval_list.{i}.prepay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "선입금 가능일자",
+    "n": 4
+   },
+   "key": "approval_list.{i}.prepay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "선입금 가능일자",
+    "n": 5
+   },
+   "key": "approval_list.{i}.prepay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "선입금 가능일자",
+    "n": 6
+   },
+   "key": "approval_list.{i}.prepay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "선입금 가능일자",
+    "n": 7
+   },
+   "key": "approval_list.{i}.prepay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "선입금 가능일자",
+    "n": 8
+   },
+   "key": "approval_list.{i}.prepay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "선입금 가능일자",
+    "n": 9
+   },
+   "key": "approval_list.{i}.prepay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "선입금 가능일자",
+    "n": 10
+   },
+   "key": "approval_list.{i}.prepay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "선입금 가능일자",
+    "n": 11
+   },
+   "key": "approval_list.{i}.prepay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "선입금 가능일자",
+    "n": 12
+   },
+   "key": "approval_list.{i}.prepay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "선입금 가능일자",
+    "n": 13
+   },
+   "key": "approval_list.{i}.prepay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "선입금 가능일자",
+    "n": 14
+   },
+   "key": "approval_list.{i}.prepay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 승인번호",
+    "n": 0
+   },
+   "key": "approval_list.{i}.tax_invoice_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 승인번호",
+    "n": 1
+   },
+   "key": "approval_list.{i}.tax_invoice_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 승인번호",
+    "n": 2
+   },
+   "key": "approval_list.{i}.tax_invoice_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 승인번호",
+    "n": 3
+   },
+   "key": "approval_list.{i}.tax_invoice_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 승인번호",
+    "n": 4
+   },
+   "key": "approval_list.{i}.tax_invoice_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 승인번호",
+    "n": 5
+   },
+   "key": "approval_list.{i}.tax_invoice_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 승인번호",
+    "n": 6
+   },
+   "key": "approval_list.{i}.tax_invoice_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 승인번호",
+    "n": 7
+   },
+   "key": "approval_list.{i}.tax_invoice_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 승인번호",
+    "n": 8
+   },
+   "key": "approval_list.{i}.tax_invoice_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 승인번호",
+    "n": 9
+   },
+   "key": "approval_list.{i}.tax_invoice_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 승인번호",
+    "n": 10
+   },
+   "key": "approval_list.{i}.tax_invoice_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 승인번호",
+    "n": 11
+   },
+   "key": "approval_list.{i}.tax_invoice_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 승인번호",
+    "n": 12
+   },
+   "key": "approval_list.{i}.tax_invoice_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 승인번호",
+    "n": 13
+   },
+   "key": "approval_list.{i}.tax_invoice_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 승인번호",
+    "n": 14
+   },
+   "key": "approval_list.{i}.tax_invoice_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 합계금액",
+    "n": 0
+   },
+   "key": "approval_list.{i}.tax_invoice_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 합계금액",
+    "n": 1
+   },
+   "key": "approval_list.{i}.tax_invoice_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 합계금액",
+    "n": 2
+   },
+   "key": "approval_list.{i}.tax_invoice_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 합계금액",
+    "n": 3
+   },
+   "key": "approval_list.{i}.tax_invoice_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 합계금액",
+    "n": 4
+   },
+   "key": "approval_list.{i}.tax_invoice_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 합계금액",
+    "n": 5
+   },
+   "key": "approval_list.{i}.tax_invoice_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 합계금액",
+    "n": 6
+   },
+   "key": "approval_list.{i}.tax_invoice_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 합계금액",
+    "n": 7
+   },
+   "key": "approval_list.{i}.tax_invoice_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 합계금액",
+    "n": 8
+   },
+   "key": "approval_list.{i}.tax_invoice_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 합계금액",
+    "n": 9
+   },
+   "key": "approval_list.{i}.tax_invoice_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 합계금액",
+    "n": 10
+   },
+   "key": "approval_list.{i}.tax_invoice_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 합계금액",
+    "n": 11
+   },
+   "key": "approval_list.{i}.tax_invoice_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 합계금액",
+    "n": 12
+   },
+   "key": "approval_list.{i}.tax_invoice_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 합계금액",
+    "n": 13
+   },
+   "key": "approval_list.{i}.tax_invoice_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 합계금액",
+    "n": 14
+   },
+   "key": "approval_list.{i}.tax_invoice_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 작성일자",
+    "n": 0
+   },
+   "key": "approval_list.{i}.tax_invoice_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 작성일자",
+    "n": 1
+   },
+   "key": "approval_list.{i}.tax_invoice_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 작성일자",
+    "n": 2
+   },
+   "key": "approval_list.{i}.tax_invoice_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 작성일자",
+    "n": 3
+   },
+   "key": "approval_list.{i}.tax_invoice_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 작성일자",
+    "n": 4
+   },
+   "key": "approval_list.{i}.tax_invoice_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 작성일자",
+    "n": 5
+   },
+   "key": "approval_list.{i}.tax_invoice_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 작성일자",
+    "n": 6
+   },
+   "key": "approval_list.{i}.tax_invoice_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 작성일자",
+    "n": 7
+   },
+   "key": "approval_list.{i}.tax_invoice_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 작성일자",
+    "n": 8
+   },
+   "key": "approval_list.{i}.tax_invoice_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 작성일자",
+    "n": 9
+   },
+   "key": "approval_list.{i}.tax_invoice_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 작성일자",
+    "n": 10
+   },
+   "key": "approval_list.{i}.tax_invoice_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 작성일자",
+    "n": 11
+   },
+   "key": "approval_list.{i}.tax_invoice_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 작성일자",
+    "n": 12
+   },
+   "key": "approval_list.{i}.tax_invoice_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 작성일자",
+    "n": 13
+   },
+   "key": "approval_list.{i}.tax_invoice_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "세금계산서 작성일자",
+    "n": 14
+   },
+   "key": "approval_list.{i}.tax_invoice_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "품목명",
+    "n": 0
+   },
+   "key": "approval_list.{i}.goods",
+   "kind": "goods"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "품목명",
+    "n": 1
+   },
+   "key": "approval_list.{i}.goods",
+   "kind": "goods"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "품목명",
+    "n": 2
+   },
+   "key": "approval_list.{i}.goods",
+   "kind": "goods"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "품목명",
+    "n": 3
+   },
+   "key": "approval_list.{i}.goods",
+   "kind": "goods"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "품목명",
+    "n": 4
+   },
+   "key": "approval_list.{i}.goods",
+   "kind": "goods"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "품목명",
+    "n": 5
+   },
+   "key": "approval_list.{i}.goods",
+   "kind": "goods"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "품목명",
+    "n": 6
+   },
+   "key": "approval_list.{i}.goods",
+   "kind": "goods"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "품목명",
+    "n": 7
+   },
+   "key": "approval_list.{i}.goods",
+   "kind": "goods"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "품목명",
+    "n": 8
+   },
+   "key": "approval_list.{i}.goods",
+   "kind": "goods"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "품목명",
+    "n": 9
+   },
+   "key": "approval_list.{i}.goods",
+   "kind": "goods"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "품목명",
+    "n": 10
+   },
+   "key": "approval_list.{i}.goods",
+   "kind": "goods"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "품목명",
+    "n": 11
+   },
+   "key": "approval_list.{i}.goods",
+   "kind": "goods"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "품목명",
+    "n": 12
+   },
+   "key": "approval_list.{i}.goods",
+   "kind": "goods"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "품목명",
+    "n": 13
+   },
+   "key": "approval_list.{i}.goods",
+   "kind": "goods"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "품목명",
+    "n": 14
+   },
+   "key": "approval_list.{i}.goods",
+   "kind": "goods"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "총 처리건수",
+   "rect": [
+    210.0,
+    356.2,
+    251.2,
+    373.1
+   ],
+   "key": "loan.total_count",
+   "kind": "count"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(20 년 월 일)",
+   "rect": [
+    255.0,
+    412.5,
+    277.1,
+    425.6
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 대표자",
+   "rect": [
+    316.9,
+    508.1,
+    457.5,
+    522.0
+   ],
+   "key": "company.ceo"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대리인 성명",
+   "rect": [
+    316.9,
+    579.4,
+    457.5,
+    593.2
+   ],
+   "key": "agent.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대리인 생년월일",
+   "rect": [
+    316.9,
+    598.1,
+    457.5,
+    612.0
+   ],
+   "key": "agent.birth"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "첨부 지급승인명세 ( )부",
+   "rect": [
+    110.6,
+    652.5,
+    132.0,
+    664.5
+   ],
+   "key": "attach.count",
+   "kind": "count"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

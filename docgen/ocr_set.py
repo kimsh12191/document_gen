@@ -20,7 +20,7 @@ prepare 는 python -m docgen.bench.ocr_prepare 로 돈다 (--no-prepare 면 이�
    "merge_manifests": [다른 manifest 경로 (실서류 등)],
    "prepare": {OCR 준비 설정 덮어쓰기: tasks_per_view, filters, benchmark_fraction …}}
 - split="benchmark": 모든 쪽이 평가용 (benchmark_only). split="train": 문서 benchmark_fraction 만큼을 평가로 떼어 둔다.
-- seed 범위: 평가 3,000,000~, 학습 30,000,000~. docgen generate(0~)·docgen.bench 평가 세트(1,000,000~ / 2,000,000~)와는
+- seed 범위: 평가 3,000,000~, 학습 30,000,000~ (서식마다 다른 고객: docgen.bench.build.doc_seed). docgen generate(0~)·docgen.bench 평가 세트(1,000,000~ / 2,000,000~)와는
   겹치지 않는다. docgen.bench 학습 묶음(20,000,000 + 시나리오 번호 × 1,000,000)은 11번째 시나리오부터 학습 seed 와 겹친다.
 - 견본 표시·도장 안 글자·정정으로 그은 글자는 신뢰도 0.3 으로 적고, OCR 준비 필터(기본: 평가 0.5, 학습 0.95)가 그 자리를 뺀다.
 """
@@ -178,8 +178,11 @@ def build(args) -> None:
     per = int(recipe.get("per_doc", 1))
     for d in ("images", "ocr_json"):
         (out / d).mkdir(parents=True, exist_ok=True)
-    start = SEEDS[split] + int(recipe.get("start", 0))
-    jobs = [(doc_id, start + k, pick(f"{doc_id}:{start + k}", conditions), str(out), unit, recipe.get("heavy", "default"),
+    from .bench.build import doc_seed
+
+    start = int(recipe.get("start", 0))
+    seeds = {(doc_id, k): doc_seed(SEEDS[split], start + k, doc_id) for k in range(per) for doc_id in ids}   # 서식마다 다른 고객
+    jobs = [(doc_id, seeds[doc_id, k], pick(f"{doc_id}:{seeds[doc_id, k]}", conditions), str(out), unit, recipe.get("heavy", "default"),
              recipe.get("special", "default"), split, args.scale) for k in range(per) for doc_id in ids]
     t0 = time.time()
     rows: list[dict] = []

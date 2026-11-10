@@ -1,0 +1,631 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "판매기업에 대한 정보",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "본인(구매기업)에 대한 정보",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지급이 확정된 미지급 매출채권 내용",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "판매기업명",
+    "n": 0
+   },
+   "key": "seller.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자등록번호",
+    "n": 0
+   },
+   "key": "seller.biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "판매기업 결제계좌",
+    "n": 0
+   },
+   "key": "seller.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "입금은행명",
+    "n": 0
+   },
+   "key": "seller.bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "회사명",
+    "n": 0
+   },
+   "key": "company.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당부서",
+    "n": 0
+   },
+   "key": "company.manager_dept",
+   "kind": "department"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화번호",
+    "n": 0
+   },
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "물품공급 계약내용 [",
+    "n": 0
+   },
+   "key": "supply.contract",
+   "kind": "goods"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계약일자 [ . . ]",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     92.2,
+     301.9,
+     191.2,
+     316.1
+    ]
+   },
+   "key": "supply.contract_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "일련번호",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "일련번호",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "일련번호",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "일련번호",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "일련번호",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "일련번호",
+    "n": 5
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매출채권금액",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매출채권금액",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매출채권금액",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매출채권금액",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매출채권금액",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매출채권금액",
+    "n": 5
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발생일",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발생일",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발생일",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발생일",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발생일",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발생일",
+    "n": 5
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지급기일",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지급기일",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지급기일",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지급기일",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지급기일",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지급기일",
+    "n": 5
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "다른 권리 존재여부",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.other_right",
+   "kind": "exists_yn"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "다른 권리 존재여부",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.other_right",
+   "kind": "exists_yn"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "다른 권리 존재여부",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.other_right",
+   "kind": "exists_yn"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "다른 권리 존재여부",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.other_right",
+   "kind": "exists_yn"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "다른 권리 존재여부",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.other_right",
+   "kind": "exists_yn"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "다른 권리 존재여부",
+    "n": 5
+   },
+   "key": "receivable_list.{i}.other_right",
+   "kind": "exists_yn"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "특기사항",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "특기사항",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "특기사항",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "특기사항",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "특기사항",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "특기사항",
+    "n": 5
+   },
+   "key": "receivable_list.{i}.note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발생일",
+    "n": 6
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지급기일",
+    "n": 6
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "다른 권리 존재여부",
+    "n": 6
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "특기사항",
+    "n": 6
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "주식회사 ___ 은행 귀하",
+   "rect": [
+    88.1,
+    129.4,
+    193.1,
+    141.8
+   ],
+   "key": "bank.name",
+   "kind": "bank"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "공급기간 시작",
+   "rect": [
+    305.2,
+    301.9,
+    404.2,
+    316.1
+   ],
+   "key": "supply.period_start",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "공급기간 종료",
+   "rect": [
+    421.1,
+    301.9,
+    520.1,
+    316.1
+   ],
+   "key": "supply.period_end",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "합계 매출채권금액",
+   "rect": [
+    108.8,
+    475.1,
+    232.9,
+    491.6
+   ],
+   "key": "receivable_total.amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "본인은 판매기업 ___",
+   "rect": [
+    121.9,
+    507.0,
+    210.0,
+    519.8
+   ],
+   "key": "seller.name",
+   "kind": "company"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    398.2,
+    633.8,
+    517.5,
+    648.8
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "(본인) 회사명",
+   "rect": [
+    267.0,
+    675.0,
+    420.0,
+    689.2
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대표자",
+   "rect": [
+    267.0,
+    690.8,
+    420.0,
+    705.0
+   ],
+   "key": "company.ceo"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

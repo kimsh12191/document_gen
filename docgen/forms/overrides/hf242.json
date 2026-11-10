@@ -1,0 +1,391 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "FAX or E-MAIL",
+    "n": 0
+   },
+   "key": "company.email",
+   "source": "profile.corporation.email"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Expiry Date(년/월/일)",
+    "n": 0
+   },
+   "key": "guarantee.expiry_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Applicant",
+    "n": 0
+   },
+   "key": "company.name_en",
+   "source": "profile.corporation.name_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Beneficiary",
+    "n": 0
+   },
+   "key": "foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Beneficiary",
+    "n": 1
+   },
+   "key": "guarantee.indirect_beneficiary",
+   "source": "profile.foreign.bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Beneficiary",
+    "n": 2
+   },
+   "key": "foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Advising Bank",
+    "n": 0
+   },
+   "key": "foreign.bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Undertaking Amount (보증금액)",
+    "n": 0
+   },
+   "key": "guarantee.amount",
+   "kind": "fx_amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Undertaking terms and Conditions",
+    "n": 0
+   },
+   "key": "guarantee.terms",
+   "source": "rule:free_text"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": ":",
+   "rect": [
+    203.9,
+    712.5,
+    506.1,
+    729.3
+   ],
+   "key": "guarantee.additional_amount",
+   "kind": "note"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": ":",
+   "rect": [
+    203.9,
+    750.4,
+    506.1,
+    767.3
+   ],
+   "key": "guarantee.loan_amount",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "1. 보증방식",
+   "rect": [
+    108.8,
+    219.4,
+    159.4,
+    233.2
+   ],
+   "key": "guarantee.method",
+   "kind": "guarantee_method"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "2. Form Undertaking",
+   "rect": [
+    159.4,
+    237.8,
+    228.8,
+    251.2
+   ],
+   "key": "guarantee.form",
+   "kind": "undertaking_form"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "3. Applicable Rules",
+   "rect": [
+    148.1,
+    256.9,
+    217.5,
+    270.8
+   ],
+   "key": "guarantee.rules",
+   "kind": "applicable_rules"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "직접보증 국가",
+   "rect": [
+    198.8,
+    426.8,
+    393.8,
+    440.6
+   ],
+   "key": "guarantee.direct_country",
+   "source": "profile.foreign.country"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "간접보증 BIC CODE",
+   "rect": [
+    229.5,
+    483.8,
+    382.5,
+    497.2
+   ],
+   "key": "foreign.swift"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "현지보증 국가",
+   "rect": [
+    198.8,
+    560.2,
+    360.8,
+    573.8
+   ],
+   "key": "guarantee.local_country",
+   "source": "profile.foreign.country"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "통지은행 BIC CODE",
+   "rect": [
+    244.5,
+    598.1,
+    385.1,
+    611.6
+   ],
+   "key": "foreign.swift"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "1) 보증금액",
+   "rect": [
+    127.5,
+    636.0,
+    228.8,
+    649.5
+   ],
+   "key": "guarantee.amount",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "보증금액 과부족 +%",
+   "rect": [
+    301.9,
+    636.0,
+    341.2,
+    649.5
+   ],
+   "key": "guarantee.tolerance_plus",
+   "kind": "tolerance_pct"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "보증금액 과부족 -%",
+   "rect": [
+    371.2,
+    636.0,
+    412.5,
+    649.5
+   ],
+   "key": "guarantee.tolerance_minus",
+   "kind": "tolerance_pct"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "2) 현지보증금액",
+   "rect": [
+    78.8,
+    673.5,
+    180.0,
+    687.0
+   ],
+   "key": "guarantee.local_amount",
+   "kind": "fx_amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "현지보증 과부족 +%",
+   "rect": [
+    252.0,
+    673.5,
+    298.1,
+    687.0
+   ],
+   "key": "guarantee.local_tolerance_plus",
+   "kind": "tolerance_pct"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "현지보증 과부족 -%",
+   "rect": [
+    320.6,
+    673.5,
+    370.5,
+    687.0
+   ],
+   "key": "guarantee.local_tolerance_minus",
+   "kind": "tolerance_pct"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "11. Charges for",
+   "rect": [
+    192.0,
+    768.0,
+    259.5,
+    782.2
+   ],
+   "key": "guarantee.charges_for",
+   "kind": "charges_for"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "12. 보증 종류",
+   "rect": [
+    118.1,
+    197.6,
+    170.6,
+    211.9
+   ],
+   "key": "guarantee.bond_type",
+   "kind": "bond_type"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "13. Confirmation",
+   "rect": [
+    146.2,
+    311.2,
+    226.9,
+    325.5
+   ],
+   "key": "guarantee.confirmation",
+   "kind": "confirmation_code"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "at the expense of",
+   "rect": [
+    241.9,
+    330.0,
+    325.5,
+    344.2
+   ],
+   "key": "guarantee.confirm_charges",
+   "kind": "charges_for"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "14. Confirmation Party BIC CODE",
+   "rect": [
+    292.5,
+    348.8,
+    386.2,
+    363.0
+   ],
+   "key": "guarantee.confirm_bic",
+   "kind": "swift"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "신청일(년 월 일)",
+   "rect": [
+    416.2,
+    524.2,
+    543.8,
+    538.5
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "신청인",
+   "rect": [
+    345.0,
+    561.4,
+    519.4,
+    576.4
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 2,
+   "label": "주소",
+   "rect": [
+    345.0,
+    594.8,
+    551.2,
+    609.8
+   ],
+   "key": "company.address"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

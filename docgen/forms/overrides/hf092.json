@@ -1,0 +1,2686 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발신인주소",
+    "n": 0
+   },
+   "key": "company.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발 신 인",
+    "n": 0
+   },
+   "key": "company.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수신인주소",
+    "n": 0
+   },
+   "key": "debtor.address",
+   "source": "profile.employment.company.address.road_short"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 신 인",
+    "n": 0
+   },
+   "key": "debtor.name",
+   "source": "profile.employment.company.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주소",
+    "n": 0
+   },
+   "key": "bank.hq_address",
+   "kind": "bank_hq_address"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 5
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 6
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 7
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 8
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 9
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 10
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 11
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 12
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 13
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 14
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 15
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 16
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 17
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 18
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 19
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 20
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 21
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 22
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 23
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 24
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 25
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 26
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 27
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 28
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 29
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 30
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 31
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 32
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 33
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 34
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 35
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "외상매출채권번호",
+    "n": 36
+   },
+   "key": "receivable_list.{i}.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 5
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 6
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 7
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 8
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 9
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 10
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 11
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 12
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 13
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 14
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 15
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 16
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 17
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 18
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 19
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 20
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 21
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 22
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 23
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 24
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 25
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 26
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 27
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 28
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 29
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 30
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 31
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 32
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 33
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 34
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 35
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인 사업자번호",
+    "n": 36
+   },
+   "key": "receivable_list.{i}.assignor_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 5
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 6
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 7
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 8
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 9
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 10
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 11
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 12
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 13
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 14
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 15
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 16
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 17
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 18
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 19
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 20
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 21
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 22
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 23
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 24
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 25
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 26
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 27
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 28
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 29
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 30
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 31
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 32
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 33
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 34
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 35
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도인",
+    "n": 36
+   },
+   "key": "receivable_list.{i}.assignor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 5
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 6
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 7
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 8
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 9
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 10
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 11
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 12
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 13
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 14
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 15
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 16
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 17
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 18
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 19
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 20
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 21
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 22
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 23
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 24
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 25
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 26
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 27
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 28
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 29
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 30
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 31
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 32
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 33
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 34
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 35
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권양도금액",
+    "n": 36
+   },
+   "key": "receivable_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 5
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 6
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 7
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 8
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 9
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 10
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 11
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 12
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 13
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 14
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 15
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 16
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 17
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 18
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 19
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 20
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 21
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 22
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 23
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 24
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 25
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 26
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 27
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 28
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 29
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 30
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 31
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 32
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 33
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 34
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 35
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권발행일",
+    "n": 36
+   },
+   "key": "receivable_list.{i}.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 5
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 6
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 7
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 8
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 9
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 10
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 11
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 12
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 13
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 14
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 15
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 16
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 17
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 18
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 19
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 20
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 21
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 22
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 23
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 24
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 25
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 26
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 27
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 28
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 29
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 30
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 31
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 32
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 33
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 34
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 35
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "채권지급일",
+    "n": 36
+   },
+   "key": "receivable_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 0
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 1
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 2
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 3
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 4
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 5
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 6
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 7
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 8
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 9
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 10
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 11
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 12
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 13
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 14
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 15
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 16
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 17
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 18
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 19
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 20
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 21
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 22
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 23
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 24
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 25
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 26
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 27
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 28
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 29
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 30
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 31
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 32
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 33
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 34
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 35
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "비고",
+    "n": 36
+   },
+   "key": "receivable_list.{i}.remark",
+   "source": "rule:empty"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "제 - 호 (문서번호)",
+   "rect": [
+    51.4,
+    150.0,
+    112.5,
+    165.0
+   ],
+   "key": "bank.notice_no",
+   "kind": "number"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    202.5,
+    521.2,
+    255.0,
+    535.5
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "관리영업점",
+   "rect": [
+    241.9,
+    657.0,
+    399.4,
+    669.4
+   ],
+   "key": "bank.branch",
+   "kind": "branch"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

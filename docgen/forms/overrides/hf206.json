@@ -1,0 +1,2268 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "투자자명 담 당 자",
+    "n": 0
+   },
+   "key": "company.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계열명",
+    "n": 0
+   },
+   "key": "company.group_name",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화",
+    "n": 0
+   },
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "자기자본",
+    "n": 0
+   },
+   "key": "company.equity",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사후관리은행",
+    "n": 0
+   },
+   "key": "fdi.manage_bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "법인명 1",
+    "n": 0
+   },
+   "key": "subsidiary.name",
+   "source": "profile.foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대표자",
+    "n": 0
+   },
+   "key": "subsidiary.ceo",
+   "source": "profile.foreign.contact"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소재지(국가,주,성) 2)",
+    "n": 0
+   },
+   "key": "subsidiary.address",
+   "source": "profile.foreign.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "투자업종 3",
+    "n": 0
+   },
+   "key": "subsidiary.industry",
+   "kind": "overseas_industry"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주요취급품목 4",
+    "n": 0
+   },
+   "key": "subsidiary.goods",
+   "kind": "goods"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "설립등기일",
+    "n": 0
+   },
+   "key": "subsidiary.established",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "영업개시일",
+    "n": 0
+   },
+   "key": "subsidiary.open_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "임원",
+    "n": 0
+   },
+   "key": "subsidiary.staff_exec",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "국가",
+    "n": 0
+   },
+   "key": "shareholder_list.{i}.country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "국가",
+    "n": 1
+   },
+   "key": "shareholder_list.{i}.country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "국가",
+    "n": 2
+   },
+   "key": "shareholder_list.{i}.country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "국가",
+    "n": 3
+   },
+   "key": "shareholder_list.{i}.country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "국가",
+    "n": 4
+   },
+   "key": "shareholder_list.{i}.country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "국가",
+    "n": 5
+   },
+   "key": "shareholder_list.{i}.country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "국가",
+    "n": 6
+   },
+   "key": "shareholder_list.{i}.country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상호 또는 성명",
+    "n": 0
+   },
+   "key": "shareholder_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상호 또는 성명",
+    "n": 1
+   },
+   "key": "shareholder_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상호 또는 성명",
+    "n": 2
+   },
+   "key": "shareholder_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상호 또는 성명",
+    "n": 3
+   },
+   "key": "shareholder_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상호 또는 성명",
+    "n": 4
+   },
+   "key": "shareholder_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상호 또는 성명",
+    "n": 5
+   },
+   "key": "shareholder_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상호 또는 성명",
+    "n": 6
+   },
+   "key": "shareholder_list.{i}.name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상호 또는 성명",
+    "n": 7
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금기말",
+    "n": 0
+   },
+   "key": "shareholder_list.{i}.share_pct",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금기말",
+    "n": 1
+   },
+   "key": "shareholder_list.{i}.share_pct",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금기말",
+    "n": 2
+   },
+   "key": "shareholder_list.{i}.share_pct",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금기말",
+    "n": 3
+   },
+   "key": "shareholder_list.{i}.share_pct",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금기말",
+    "n": 4
+   },
+   "key": "shareholder_list.{i}.share_pct",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금기말",
+    "n": 5
+   },
+   "key": "shareholder_list.{i}.share_pct",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금기말",
+    "n": 6
+   },
+   "key": "shareholder_list.{i}.share_pct",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "전기말",
+    "n": 0
+   },
+   "key": "shareholder_list.{i}.net_invest_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "전기말",
+    "n": 1
+   },
+   "key": "shareholder_list.{i}.net_invest_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "전기말",
+    "n": 2
+   },
+   "key": "shareholder_list.{i}.net_invest_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "전기말",
+    "n": 3
+   },
+   "key": "shareholder_list.{i}.net_invest_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "전기말",
+    "n": 4
+   },
+   "key": "shareholder_list.{i}.net_invest_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "전기말",
+    "n": 5
+   },
+   "key": "shareholder_list.{i}.net_invest_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "전기말",
+    "n": 6
+   },
+   "key": "shareholder_list.{i}.net_invest_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금기말",
+    "n": 7
+   },
+   "key": "shareholder_list.{i}.net_invest_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금기말",
+    "n": 8
+   },
+   "key": "shareholder_list.{i}.net_invest_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금기말",
+    "n": 9
+   },
+   "key": "shareholder_list.{i}.net_invest_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금기말",
+    "n": 10
+   },
+   "key": "shareholder_list.{i}.net_invest_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금기말",
+    "n": 11
+   },
+   "key": "shareholder_list.{i}.net_invest_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금기말",
+    "n": 12
+   },
+   "key": "shareholder_list.{i}.net_invest_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금기말",
+    "n": 13
+   },
+   "key": "shareholder_list.{i}.net_invest_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "계열여부",
+    "n": 0
+   },
+   "key": "shareholder_list.{i}.affiliate",
+   "kind": "affiliate_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "계열여부",
+    "n": 1
+   },
+   "key": "shareholder_list.{i}.affiliate",
+   "kind": "affiliate_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "계열여부",
+    "n": 2
+   },
+   "key": "shareholder_list.{i}.affiliate",
+   "kind": "affiliate_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "계열여부",
+    "n": 3
+   },
+   "key": "shareholder_list.{i}.affiliate",
+   "kind": "affiliate_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "계열여부",
+    "n": 4
+   },
+   "key": "shareholder_list.{i}.affiliate",
+   "kind": "affiliate_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "계열여부",
+    "n": 5
+   },
+   "key": "shareholder_list.{i}.affiliate",
+   "kind": "affiliate_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "계열여부",
+    "n": 6
+   },
+   "key": "shareholder_list.{i}.affiliate",
+   "kind": "affiliate_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "계열여부",
+    "n": 7
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "한국투자자 지분율 합(B)",
+    "n": 0
+   },
+   "key": "equity.korean_share_prev",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "천미불",
+    "n": 0
+   },
+   "key": "equity.korean_share_cur",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "기 타",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "기 타",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "채권인수 (단위 : 천미불)",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "합계(A+B)",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "이 자",
+    "n": 1
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "- 지분율 10% 이상 투자자",
+    "n": 0
+   },
+   "key": "lending.loan_over10_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "주투자자 관계사 1",
+    "n": 0
+   },
+   "key": "lending.loan_affil_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "기 타",
+    "n": 2
+   },
+   "key": "lending.loan_other_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "- 지분율 10% 이상 투자자",
+    "n": 1
+   },
+   "key": "lending.bond_over10_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "주투자자 관계사 1",
+    "n": 1
+   },
+   "key": "lending.bond_affil_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "기 타",
+    "n": 3
+   },
+   "key": "lending.bond_other_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "금기말",
+    "n": 0
+   },
+   "key": "lending_list.{i}.loan_over10_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "금기말",
+    "n": 1
+   },
+   "key": "lending_list.{i}.loan_affil_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "금기말",
+    "n": 2
+   },
+   "key": "lending_list.{i}.loan_other_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "금기말",
+    "n": 4
+   },
+   "key": "lending_list.{i}.bond_over10_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "금기말",
+    "n": 5
+   },
+   "key": "lending_list.{i}.bond_affil_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "금기말",
+    "n": 6
+   },
+   "key": "lending_list.{i}.bond_other_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "지분투자",
+    "n": 0
+   },
+   "key": "reverse.equity_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "대부투자 (대여금 및 채권인수)",
+    "n": 0
+   },
+   "key": "reverse.loan_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "매출채권",
+    "n": 0
+   },
+   "key": "reverse.receivable_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "금기말",
+    "n": 9
+   },
+   "key": "reverse_list.{i}.equity_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "금기말",
+    "n": 10
+   },
+   "key": "reverse_list.{i}.loan_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "금기말",
+    "n": 11
+   },
+   "key": "reverse_list.{i}.receivable_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "배당금",
+    "n": 0
+   },
+   "key": "reverse.dividend",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "이 자",
+    "n": 0
+   },
+   "key": "reverse_list.{i}.interest",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "전기말",
+    "n": 0
+   },
+   "key": "reverse_list.{i}.share_prev",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "금기말",
+    "n": 13
+   },
+   "key": "reverse_list.{i}.share_cur",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "지급총액",
+    "n": 0
+   },
+   "key": "payment.total",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "한국투자자앞 지급액",
+    "n": 0
+   },
+   "key": "payment.korea_dividend",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "한국투자자앞 대부이자지급액",
+    "n": 0
+   },
+   "key": "payment.korea_interest",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "한국투자자앞 로얄티 등 기타 지급액",
+    "n": 0
+   },
+   "key": "payment.korea_royalty",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 2,
+    "t": "text",
+    "label": "한국인근로자앞 임금지급액",
+    "n": 0
+   },
+   "key": "payment.korean_wage",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "차입처",
+    "n": 4
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "보증자",
+    "n": 4
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "차입처",
+    "n": 0
+   },
+   "key": "borrow_list.{i}.lender",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "차입처",
+    "n": 1
+   },
+   "key": "borrow_list.{i}.lender",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "차입처",
+    "n": 2
+   },
+   "key": "borrow_list.{i}.lender",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "차입처",
+    "n": 3
+   },
+   "key": "borrow_list.{i}.lender",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "코드 1",
+    "n": 0
+   },
+   "key": "borrow_list.{i}.lender_code",
+   "kind": "lender_code"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "코드 1",
+    "n": 1
+   },
+   "key": "borrow_list.{i}.lender_code",
+   "kind": "lender_code"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "코드 1",
+    "n": 2
+   },
+   "key": "borrow_list.{i}.lender_code",
+   "kind": "lender_code"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "코드 1",
+    "n": 3
+   },
+   "key": "borrow_list.{i}.lender_code",
+   "kind": "lender_code"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "차입 금액",
+    "n": 0
+   },
+   "key": "borrow_list.{i}.amount",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "차입 금액",
+    "n": 1
+   },
+   "key": "borrow_list.{i}.amount",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "차입 금액",
+    "n": 2
+   },
+   "key": "borrow_list.{i}.amount",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "차입 금액",
+    "n": 3
+   },
+   "key": "borrow_list.{i}.amount",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "보증자",
+    "n": 0
+   },
+   "key": "borrow_list.{i}.guarantor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "보증자",
+    "n": 1
+   },
+   "key": "borrow_list.{i}.guarantor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "보증자",
+    "n": 2
+   },
+   "key": "borrow_list.{i}.guarantor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "보증자",
+    "n": 3
+   },
+   "key": "borrow_list.{i}.guarantor",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "코드 1",
+    "n": 4
+   },
+   "key": "borrow_list.{i}.guarantor_code",
+   "kind": "guarantor_code"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "코드 1",
+    "n": 5
+   },
+   "key": "borrow_list.{i}.guarantor_code",
+   "kind": "guarantor_code"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "코드 1",
+    "n": 6
+   },
+   "key": "borrow_list.{i}.guarantor_code",
+   "kind": "guarantor_code"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "코드 1",
+    "n": 7
+   },
+   "key": "borrow_list.{i}.guarantor_code",
+   "kind": "guarantor_code"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "년미만",
+    "n": 0
+   },
+   "key": "borrow_list.{i}.term_short",
+   "kind": "term_mark"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "년미만",
+    "n": 1
+   },
+   "key": "borrow_list.{i}.term_short",
+   "kind": "term_mark"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "년미만",
+    "n": 2
+   },
+   "key": "borrow_list.{i}.term_short",
+   "kind": "term_mark"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "년미만",
+    "n": 3
+   },
+   "key": "borrow_list.{i}.term_short",
+   "kind": "term_mark"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "년이상",
+    "n": 0
+   },
+   "key": "borrow_list.{i}.term_long",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "년이상",
+    "n": 1
+   },
+   "key": "borrow_list.{i}.term_long",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "년이상",
+    "n": 2
+   },
+   "key": "borrow_list.{i}.term_long",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "년이상",
+    "n": 3
+   },
+   "key": "borrow_list.{i}.term_long",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "변동 2",
+    "n": 0
+   },
+   "key": "borrow_list.{i}.float_rate",
+   "kind": "float_rate"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "변동 2",
+    "n": 1
+   },
+   "key": "borrow_list.{i}.float_rate",
+   "kind": "float_rate"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "변동 2",
+    "n": 2
+   },
+   "key": "borrow_list.{i}.float_rate",
+   "kind": "float_rate"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "변동 2",
+    "n": 3
+   },
+   "key": "borrow_list.{i}.float_rate",
+   "kind": "float_rate"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "용도 3",
+    "n": 0
+   },
+   "key": "borrow_list.{i}.use_code",
+   "kind": "use_code"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "용도 3",
+    "n": 1
+   },
+   "key": "borrow_list.{i}.use_code",
+   "kind": "use_code"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "용도 3",
+    "n": 2
+   },
+   "key": "borrow_list.{i}.use_code",
+   "kind": "use_code"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "용도 3",
+    "n": 3
+   },
+   "key": "borrow_list.{i}.use_code",
+   "kind": "use_code"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "금액",
+    "n": 0
+   },
+   "key": "sales.local_affil_amount",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "비중",
+    "n": 0
+   },
+   "key": "sales.local_affil_ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "금액",
+    "n": 1
+   },
+   "key": "purchase.local_affil_amount",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "비중",
+    "n": 1
+   },
+   "key": "purchase.local_affil_ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "기 타",
+    "n": 0
+   },
+   "key": "sales_list.{i}.local_other_amount",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "기 타",
+    "n": 1
+   },
+   "key": "sales_list.{i}.local_other_ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "기 타",
+    "n": 6
+   },
+   "key": "purchase_list.{i}.local_other_amount",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "기 타",
+    "n": 7
+   },
+   "key": "purchase_list.{i}.local_other_ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "한국투자자앞",
+    "n": 0
+   },
+   "key": "sales_list.{i}.korea_investor_amount",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "한국투자자앞",
+    "n": 1
+   },
+   "key": "sales_list.{i}.korea_investor_ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "한국투자자앞",
+    "n": 2
+   },
+   "key": "purchase_list.{i}.korea_investor_amount",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "한국투자자앞",
+    "n": 3
+   },
+   "key": "purchase_list.{i}.korea_investor_ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "기 타",
+    "n": 2
+   },
+   "key": "sales_list.{i}.korea_other_amount",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "기 타",
+    "n": 3
+   },
+   "key": "sales_list.{i}.korea_other_ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "기 타",
+    "n": 8
+   },
+   "key": "purchase_list.{i}.korea_other_amount",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "기 타",
+    "n": 9
+   },
+   "key": "purchase_list.{i}.korea_other_ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "관계회사앞",
+    "n": 0
+   },
+   "key": "sales_list.{i}.third_affil_amount",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "관계회사앞",
+    "n": 1
+   },
+   "key": "sales_list.{i}.third_affil_ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "관계회사앞",
+    "n": 2
+   },
+   "key": "purchase_list.{i}.third_affil_amount",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "관계회사앞",
+    "n": 3
+   },
+   "key": "purchase_list.{i}.third_affil_ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "기 타",
+    "n": 4
+   },
+   "key": "sales_list.{i}.third_other_amount",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "기 타",
+    "n": 5
+   },
+   "key": "sales_list.{i}.third_other_ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "기 타",
+    "n": 10
+   },
+   "key": "purchase_list.{i}.third_other_amount",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 3,
+    "t": "text",
+    "label": "기 타",
+    "n": 11
+   },
+   "key": "purchase_list.{i}.third_other_ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 4,
+    "t": "text",
+    "label": "자산총계",
+    "n": 0
+   },
+   "key": "bs.total_assets_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 4,
+    "t": "text",
+    "label": "금 기",
+    "n": 1
+   },
+   "key": "bs_list.{i}.total_assets_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 4,
+    "t": "text",
+    "label": "부채총계",
+    "n": 0
+   },
+   "key": "bs.total_liab_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 4,
+    "t": "text",
+    "label": "금 기",
+    "n": 3
+   },
+   "key": "bs_list.{i}.total_liab_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 4,
+    "t": "text",
+    "label": "자본총계",
+    "n": 0
+   },
+   "key": "bs.total_equity_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 4,
+    "t": "text",
+    "label": "금 기",
+    "n": 5
+   },
+   "key": "bs_list.{i}.total_equity_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 4,
+    "t": "text",
+    "label": "부채 및 자본 총계",
+    "n": 0
+   },
+   "key": "bs.total_liab_equity_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 4,
+    "t": "text",
+    "label": "금 기",
+    "n": 6
+   },
+   "key": "bs_list.{i}.total_liab_equity_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "match": {
+    "page": 5,
+    "t": "text",
+    "label": "철 수",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 5,
+    "t": "text",
+    "label": "투자축소",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 5,
+    "t": "text",
+    "label": "현상유지",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 5,
+    "t": "text",
+    "label": "국가명",
+    "n": 0
+   },
+   "key": "plan.target_country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 5,
+    "t": "text",
+    "label": "대 정부 건의사항",
+    "n": 0
+   },
+   "key": "plan.suggestion",
+   "kind": "note"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "결산기 시작(년 월 일)",
+   "rect": [
+    208.1,
+    148.1,
+    306.4,
+    161.2
+   ],
+   "key": "fdi.fiscal_start",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "결산기 종료(년 월 일)",
+   "rect": [
+    322.5,
+    148.1,
+    416.6,
+    161.2
+   ],
+   "key": "fdi.fiscal_end",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "담당자 소속부서",
+   "rect": [
+    183.8,
+    236.6,
+    277.5,
+    256.9
+   ],
+   "key": "company.staff_department",
+   "kind": "staff_dept"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "담당자 직성명",
+   "rect": [
+    313.1,
+    236.6,
+    391.9,
+    256.9
+   ],
+   "key": "company.staff_name",
+   "kind": "other_person"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "관리직 인원",
+   "rect": [
+    260.6,
+    524.2,
+    294.4,
+    543.8
+   ],
+   "key": "subsidiary.staff_admin",
+   "kind": "count"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "생산직 인원",
+   "rect": [
+    350.6,
+    524.2,
+    385.5,
+    543.8
+   ],
+   "key": "subsidiary.staff_prod",
+   "kind": "count"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "영업직 인원",
+   "rect": [
+    440.6,
+    524.2,
+    476.2,
+    543.8
+   ],
+   "key": "subsidiary.staff_sales",
+   "kind": "count"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "현지법인 자본현황 capital 전기말",
+   "rect": [
+    265.1,
+    365.6,
+    369.4,
+    380.6
+   ],
+   "key": "local_capital.capital_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "현지법인 자본현황 capital 금기말",
+   "rect": [
+    409.1,
+    365.6,
+    511.9,
+    380.6
+   ],
+   "key": "local_capital.capital_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "현지법인 자본현황 capital_surplus 전기말",
+   "rect": [
+    265.1,
+    388.1,
+    369.4,
+    403.1
+   ],
+   "key": "local_capital.capital_surplus_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "현지법인 자본현황 capital_surplus 금기말",
+   "rect": [
+    409.1,
+    388.1,
+    511.9,
+    403.1
+   ],
+   "key": "local_capital.capital_surplus_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "현지법인 자본현황 capital_adjust 전기말",
+   "rect": [
+    265.1,
+    410.6,
+    369.4,
+    425.6
+   ],
+   "key": "local_capital.capital_adjust_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "현지법인 자본현황 capital_adjust 금기말",
+   "rect": [
+    409.1,
+    410.6,
+    511.9,
+    425.6
+   ],
+   "key": "local_capital.capital_adjust_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "현지법인 자본현황 oci 전기말",
+   "rect": [
+    265.1,
+    433.5,
+    369.4,
+    448.5
+   ],
+   "key": "local_capital.oci_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "현지법인 자본현황 oci 금기말",
+   "rect": [
+    409.1,
+    433.5,
+    511.9,
+    448.5
+   ],
+   "key": "local_capital.oci_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "현지법인 자본현황 retained 전기말",
+   "rect": [
+    265.1,
+    456.0,
+    369.4,
+    471.0
+   ],
+   "key": "local_capital.retained_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "현지법인 자본현황 retained 금기말",
+   "rect": [
+    409.1,
+    456.0,
+    511.9,
+    471.0
+   ],
+   "key": "local_capital.retained_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "bs.current_assets 전기",
+   "rect": [
+    180.8,
+    168.4,
+    237.8,
+    180.4
+   ],
+   "key": "bs.current_assets_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "bs.current_assets 금기",
+   "rect": [
+    240.0,
+    168.4,
+    297.4,
+    180.4
+   ],
+   "key": "bs.current_assets_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "bs.noncurrent_assets 전기",
+   "rect": [
+    180.8,
+    266.2,
+    237.8,
+    278.2
+   ],
+   "key": "bs.noncurrent_assets_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "bs.noncurrent_assets 금기",
+   "rect": [
+    240.0,
+    266.2,
+    297.4,
+    278.2
+   ],
+   "key": "bs.noncurrent_assets_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "bs.current_liab 전기",
+   "rect": [
+    436.5,
+    165.4,
+    492.8,
+    177.4
+   ],
+   "key": "bs.current_liab_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "bs.current_liab 금기",
+   "rect": [
+    495.0,
+    165.4,
+    543.8,
+    177.4
+   ],
+   "key": "bs.current_liab_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "bs.noncurrent_liab 전기",
+   "rect": [
+    436.5,
+    263.6,
+    492.8,
+    275.6
+   ],
+   "key": "bs.noncurrent_liab_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "bs.noncurrent_liab 금기",
+   "rect": [
+    495.0,
+    263.6,
+    543.8,
+    275.6
+   ],
+   "key": "bs.noncurrent_liab_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "bs.equity 전기",
+   "rect": [
+    436.5,
+    375.4,
+    492.8,
+    387.4
+   ],
+   "key": "bs.equity_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "bs.equity 금기",
+   "rect": [
+    495.0,
+    375.4,
+    543.8,
+    387.4
+   ],
+   "key": "bs.equity_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.sales 전기",
+   "rect": [
+    180.8,
+    606.4,
+    237.8,
+    622.5
+   ],
+   "key": "pl.sales_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.sales 금기",
+   "rect": [
+    240.0,
+    606.4,
+    297.4,
+    622.5
+   ],
+   "key": "pl.sales_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.cost_of_sales 전기",
+   "rect": [
+    180.8,
+    624.8,
+    237.8,
+    636.8
+   ],
+   "key": "pl.cost_of_sales_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.cost_of_sales 금기",
+   "rect": [
+    240.0,
+    624.8,
+    297.4,
+    636.8
+   ],
+   "key": "pl.cost_of_sales_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.gross_profit 전기",
+   "rect": [
+    180.8,
+    652.5,
+    237.8,
+    664.5
+   ],
+   "key": "pl.gross_profit_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.gross_profit 금기",
+   "rect": [
+    240.0,
+    652.5,
+    297.4,
+    664.5
+   ],
+   "key": "pl.gross_profit_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.sga 전기",
+   "rect": [
+    180.8,
+    666.8,
+    237.8,
+    678.8
+   ],
+   "key": "pl.sga_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.sga 금기",
+   "rect": [
+    240.0,
+    666.8,
+    297.4,
+    678.8
+   ],
+   "key": "pl.sga_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.operating_income 전기",
+   "rect": [
+    180.8,
+    680.6,
+    237.8,
+    692.6
+   ],
+   "key": "pl.operating_income_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.operating_income 금기",
+   "rect": [
+    240.0,
+    680.6,
+    297.4,
+    692.6
+   ],
+   "key": "pl.operating_income_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.nonop_income 전기",
+   "rect": [
+    180.8,
+    694.5,
+    237.8,
+    706.5
+   ],
+   "key": "pl.nonop_income_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.nonop_income 금기",
+   "rect": [
+    240.0,
+    694.5,
+    297.4,
+    706.5
+   ],
+   "key": "pl.nonop_income_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.nonop_expense 전기",
+   "rect": [
+    436.5,
+    606.4,
+    492.8,
+    622.5
+   ],
+   "key": "pl.nonop_expense_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.nonop_expense 금기",
+   "rect": [
+    495.0,
+    606.4,
+    543.8,
+    622.5
+   ],
+   "key": "pl.nonop_expense_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.pretax_income 전기",
+   "rect": [
+    436.5,
+    680.6,
+    492.8,
+    692.6
+   ],
+   "key": "pl.pretax_income_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.pretax_income 금기",
+   "rect": [
+    495.0,
+    680.6,
+    543.8,
+    692.6
+   ],
+   "key": "pl.pretax_income_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.income_tax 전기",
+   "rect": [
+    436.5,
+    694.5,
+    492.8,
+    706.5
+   ],
+   "key": "pl.income_tax_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.income_tax 금기",
+   "rect": [
+    495.0,
+    694.5,
+    543.8,
+    706.5
+   ],
+   "key": "pl.income_tax_cur",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.net_income 전기",
+   "rect": [
+    436.5,
+    708.8,
+    492.8,
+    720.8
+   ],
+   "key": "pl.net_income_prev",
+   "kind": "kusd_amount"
+  },
+  {
+   "t": "text",
+   "page": 4,
+   "label": "pl.net_income 금기",
+   "rect": [
+    495.0,
+    708.8,
+    543.8,
+    720.8
+   ],
+   "key": "pl.net_income_cur",
+   "kind": "kusd_amount"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

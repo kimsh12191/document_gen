@@ -1,0 +1,203 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해지사유",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성명",
+    "n": 0
+   },
+   "key": "payee_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성명",
+    "n": 1
+   },
+   "key": "payee_list.{i}.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일",
+    "n": 0
+   },
+   "key": "payee_list.{i}.birth",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일",
+    "n": 1
+   },
+   "key": "payee_list.{i}.birth",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "입사일자",
+    "n": 0
+   },
+   "key": "payee_list.{i}.hire_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "입사일자",
+    "n": 1
+   },
+   "key": "payee_list.{i}.hire_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "중간정산일자",
+    "n": 0
+   },
+   "key": "payee_list.{i}.interim_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "중간정산일자",
+    "n": 1
+   },
+   "key": "payee_list.{i}.interim_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "퇴직일자",
+    "n": 0
+   },
+   "key": "payee_list.{i}.retire_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "퇴직일자",
+    "n": 1
+   },
+   "key": "payee_list.{i}.retire_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "잔여부담금 (DC형만 기재)",
+    "n": 0
+   },
+   "key": "payee_list.{i}.remaining_contribution",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "잔여부담금 (DC형만 기재)",
+    "n": 1
+   },
+   "key": "payee_list.{i}.remaining_contribution",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금융기관명",
+    "n": 0
+   },
+   "key": "payee_list.0.bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금융기관명",
+    "n": 1
+   },
+   "key": "payee_list.1.bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 0
+   },
+   "key": "payee_list.0.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 1
+   },
+   "key": "payee_list.1.account",
+   "kind": "account"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청일(20 년 월 일)",
+   "rect": [
+    458.2,
+    184.5,
+    476.2,
+    198.8
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "확인 기업명",
+   "rect": [
+    408.8,
+    747.4,
+    491.2,
+    762.0
+   ],
+   "key": "company.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

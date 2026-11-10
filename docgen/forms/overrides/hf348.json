@@ -1,0 +1,627 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Corporate Registration No.",
+    "n": 0
+   },
+   "key": "company.corp_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Business Registration No.",
+    "n": 0
+   },
+   "key": "company.biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Representative",
+    "n": 0
+   },
+   "key": "company.ceo_en",
+   "source": "profile.corporation.ceo.name_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Company Name",
+    "n": 0
+   },
+   "key": "company.name_en",
+   "source": "profile.corporation.name_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Address",
+    "n": 0
+   },
+   "key": "company.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Corporate Registration No.",
+    "n": 1
+   },
+   "key": "affiliate.corp_no",
+   "source": "profile.employment.company.corp_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Business Registration No.",
+    "n": 1
+   },
+   "key": "affiliate.biz_no",
+   "source": "profile.employment.company.biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Bank/Branch",
+    "n": 0
+   },
+   "key": "affiliate.bank_branch",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Global Client No.",
+    "n": 0
+   },
+   "key": "affiliate.global_client_no",
+   "source": "rule:empty"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Company Name",
+    "n": 1
+   },
+   "key": "affiliate.name_en",
+   "source": "profile.employment.company.name_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Representative",
+    "n": 1
+   },
+   "key": "affiliate.ceo_en",
+   "source": "profile.employment.company.ceo.name_en"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Address",
+    "n": 1
+   },
+   "key": "affiliate.address",
+   "source": "profile.employment.company.address.road_short"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Phone No.",
+    "n": 0
+   },
+   "key": "affiliate.phone",
+   "source": "profile.employment.company.phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Fax",
+    "n": 0
+   },
+   "key": "affiliate.fax",
+   "source": "profile.employment.company.fax"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "e-mail",
+    "n": 0
+   },
+   "key": "affiliate.email",
+   "source": "profile.employment.company.email"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Executor ID*",
+    "n": 0
+   },
+   "key": "withdraw_list_list.{i}.0.executor_id",
+   "kind": "user_id"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Executor ID*",
+    "n": 1
+   },
+   "key": "withdraw_list_list.{i}.1.executor_id",
+   "kind": "user_id"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Currency",
+    "n": 0
+   },
+   "key": "withdraw_list_list.{i}.0.currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Currency",
+    "n": 1
+   },
+   "key": "withdraw_list_list.{i}.1.currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Account No.",
+    "n": 0
+   },
+   "key": "withdraw_list_list.{i}.0.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Account No.",
+    "n": 1
+   },
+   "key": "withdraw_list_list.{i}.1.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Registered Seal/Sign",
+    "n": 0
+   },
+   "kind": "seal"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Registered Seal/Sign",
+    "n": 1
+   },
+   "kind": "seal"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Currency",
+    "n": 2
+   },
+   "key": "withdraw_list_list.{i}.2.currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Currency",
+    "n": 3
+   },
+   "key": "withdraw_list_list.{i}.3.currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Account No.",
+    "n": 2
+   },
+   "key": "withdraw_list_list.{i}.2.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Account No.",
+    "n": 3
+   },
+   "key": "withdraw_list_list.{i}.3.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Registered Seal/Sign",
+    "n": 2
+   },
+   "kind": "seal"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Registered Seal/Sign",
+    "n": 3
+   },
+   "kind": "seal"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Name",
+    "n": 0
+   },
+   "key": "agent.name_en"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Address",
+    "n": 0
+   },
+   "key": "agent.address"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Relationship",
+    "n": 0
+   },
+   "key": "agent.relation",
+   "kind": "proxy_relation_en"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Company Name",
+    "n": 0
+   },
+   "key": "company.name_en",
+   "source": "profile.corporation.name_en"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Date of Birth",
+    "n": 0
+   },
+   "key": "agent.birth"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Delegator",
+    "n": 0
+   },
+   "key": "company.ceo_en",
+   "source": "profile.corporation.ceo.name_en"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Representative",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     412.1,
+     779.6,
+     451.9,
+     793.1
+    ]
+   },
+   "key": "company.ceo_en",
+   "source": "profile.corporation.ceo.name_en"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "ID",
+   "rect": [
+    184.8,
+    682.6,
+    326.0,
+    699.9
+   ],
+   "key": "affiliate.user_id",
+   "kind": "user_id"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Inquiry Currency 1",
+   "rect": [
+    106.5,
+    383.6,
+    160.9,
+    395.2
+   ],
+   "key": "inquiry_list.0.currency",
+   "kind": "currency"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Inquiry Account No. 1",
+   "rect": [
+    163.1,
+    383.6,
+    228.8,
+    395.2
+   ],
+   "key": "inquiry_list.0.account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Inquiry Account Holder 1",
+   "rect": [
+    231.0,
+    383.6,
+    322.5,
+    395.2
+   ],
+   "key": "inquiry_list.0.holder",
+   "source": "profile.employment.company.name_en"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Inquiry Currency 2",
+   "rect": [
+    106.5,
+    397.5,
+    160.9,
+    409.5
+   ],
+   "key": "inquiry_list.1.currency",
+   "kind": "currency"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Inquiry Account No. 2",
+   "rect": [
+    163.1,
+    397.5,
+    228.8,
+    409.5
+   ],
+   "key": "inquiry_list.1.account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Inquiry Account Holder 2",
+   "rect": [
+    231.0,
+    397.5,
+    322.5,
+    409.5
+   ],
+   "key": "inquiry_list.1.holder",
+   "source": "profile.employment.company.name_en"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Affiliate ID Transfer Limit per transfer (KRW)",
+   "rect": [
+    206.2,
+    700.9,
+    274.5,
+    712.9
+   ],
+   "key": "affiliate.limit_once",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Affiliate ID Transfer Limit per day (KRW)",
+   "rect": [
+    206.2,
+    715.1,
+    274.5,
+    726.8
+   ],
+   "key": "affiliate.limit_day",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Affiliate ID Bulk Transfer Limit per transfer (KRW)",
+   "rect": [
+    425.6,
+    700.9,
+    493.9,
+    712.9
+   ],
+   "key": "affiliate.bulk_limit_once",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Affiliate ID Bulk Transfer Limit per day (KRW)",
+   "rect": [
+    425.6,
+    715.1,
+    493.9,
+    726.8
+   ],
+   "key": "affiliate.bulk_limit_day",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "Affiliate ID Withdrawal Acct No.",
+   "rect": [
+    235.5,
+    729.4,
+    304.1,
+    741.0
+   ],
+   "key": "affiliate.withdraw_account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "OTP fee Account No.",
+   "rect": [
+    168.8,
+    756.8,
+    241.9,
+    771.4
+   ],
+   "key": "affiliate.otp_fee_account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "OTP fee Account Holder",
+   "rect": [
+    298.9,
+    756.8,
+    385.1,
+    771.4
+   ],
+   "key": "affiliate.name_en",
+   "source": "profile.employment.company.name_en"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Consent Principal Company Name",
+   "rect": [
+    210.0,
+    485.2,
+    273.8,
+    498.4
+   ],
+   "key": "company.name_en",
+   "source": "profile.corporation.name_en"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Consent Principal Representative",
+   "rect": [
+    335.6,
+    485.2,
+    399.8,
+    498.4
+   ],
+   "key": "company.ceo_en",
+   "source": "profile.corporation.ceo.name_en"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Consent Affiliate Company Name",
+   "rect": [
+    210.0,
+    597.0,
+    273.8,
+    609.8
+   ],
+   "key": "affiliate.name_en",
+   "source": "profile.employment.company.name_en"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Consent Affiliate Representative",
+   "rect": [
+    335.6,
+    597.0,
+    399.8,
+    609.8
+   ],
+   "key": "affiliate.ceo_en",
+   "source": "profile.employment.company.ceo.name_en"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Date (MM DD YYYY)",
+   "rect": [
+    262.5,
+    660.0,
+    333.8,
+    671.2
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "Applicant",
+   "rect": [
+    192.0,
+    683.2,
+    320.6,
+    695.6
+   ],
+   "key": "company.name_en",
+   "source": "profile.corporation.name_en"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

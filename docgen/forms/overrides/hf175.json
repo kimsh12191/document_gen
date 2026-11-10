@@ -1,0 +1,81 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호 또는 회사명",
+    "n": 0
+   },
+   "key": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "하나연금닥터 AI 연금투자 솔루션",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상승 + (",
+    "n": 0
+   },
+   "key": "pension.target_up",
+   "kind": "target_return_pct"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": ")% 하락 – (",
+    "n": 0
+   },
+   "key": "pension.target_down",
+   "kind": "target_return_pct"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "에 도달할 경우 통지",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청일자(년 월 일)",
+   "rect": [
+    395.2,
+    738.0,
+    448.1,
+    753.8
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인(본인) 서명란 성명",
+   "rect": [
+    403.1,
+    765.0,
+    525.0,
+    778.1
+   ],
+   "key": "customer.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

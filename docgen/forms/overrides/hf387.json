@@ -1,0 +1,239 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취급점",
+    "n": 0
+   },
+   "key": "bank.branch",
+   "kind": "branch"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주 소",
+    "n": 0
+   },
+   "key": "company.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화",
+    "n": 0
+   },
+   "key": "krw_account_list.{i}.currency",
+   "kind": "krw_currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화",
+    "n": 1
+   },
+   "key": "krw_account_list.{i}.currency",
+   "kind": "krw_currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화",
+    "n": 2
+   },
+   "key": "krw_account_list.{i}.currency",
+   "kind": "krw_currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화",
+    "n": 3
+   },
+   "key": "fx_account_list.{i}.currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화",
+    "n": 4
+   },
+   "key": "fx_account_list.{i}.currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화",
+    "n": 5
+   },
+   "key": "fx_account_list.{i}.currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화",
+    "n": 6
+   },
+   "key": "fx_account_list.{i}.currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화",
+    "n": 7
+   },
+   "key": "fx_account_list.{i}.currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 0
+   },
+   "key": "krw_account_list.{i}.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 1
+   },
+   "key": "krw_account_list.{i}.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 2
+   },
+   "key": "krw_account_list.{i}.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 3
+   },
+   "key": "fx_account_list.{i}.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 4
+   },
+   "key": "fx_account_list.{i}.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 5
+   },
+   "key": "fx_account_list.{i}.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 6
+   },
+   "key": "fx_account_list.{i}.account",
+   "kind": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호",
+    "n": 7
+   },
+   "key": "fx_account_list.{i}.account",
+   "kind": "account"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청일(년 월 일)",
+   "rect": [
+    221.2,
+    242.6,
+    337.5,
+    256.1
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "전화",
+   "rect": [
+    198.8,
+    288.8,
+    330.0,
+    302.2
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "e-mail",
+   "rect": [
+    209.2,
+    304.9,
+    330.0,
+    318.4
+   ],
+   "key": "company.email",
+   "source": "profile.corporation.email"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "예금주",
+   "rect": [
+    76.9,
+    335.6,
+    288.8,
+    349.9
+   ],
+   "key": "company.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

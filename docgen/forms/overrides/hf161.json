@@ -1,0 +1,115 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성 명",
+    "n": 0
+   },
+   "key": "agent.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일",
+    "n": 0
+   },
+   "key": "agent.birth"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주 소",
+    "n": 0
+   },
+   "key": "agent.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "연 락 처",
+    "n": 0
+   },
+   "key": "agent.phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소",
+    "n": 0
+   },
+   "key": "customer.address",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "처",
+    "n": 0
+   },
+   "key": "customer.phone",
+   "kind": "phone"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    243.8,
+    620.6,
+    360.0,
+    639.4
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "본인(위임인) 성명",
+   "rect": [
+    266.2,
+    660.0,
+    397.5,
+    676.9
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "본인 생년월일/사업자번호",
+   "rect": [
+    266.2,
+    680.6,
+    481.1,
+    697.5
+   ],
+   "key": "customer.birth"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "기타 위임거래 1.",
+   "rect": [
+    67.5,
+    425.6,
+    495.0,
+    442.5
+   ],
+   "key": "delegation.other_list.0.item",
+   "kind": "note"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

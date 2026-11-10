@@ -1,0 +1,792 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "회계결산월",
+    "n": 0
+   },
+   "key": "company.fiscal_month",
+   "kind": "fiscal_month"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "이름",
+    "n": 0
+   },
+   "key": "trustee.name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일",
+    "n": 0
+   },
+   "key": "trustee.birth",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성명",
+    "n": 0
+   },
+   "key": "company.ceo"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "생년월일",
+    "n": 2
+   },
+   "key": "company.ceo_birth",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금융기관",
+    "n": 0
+   },
+   "key": "company.refund_bank",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "예금주",
+    "n": 0
+   },
+   "key": "company.name"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "가입자수",
+    "n": 0
+   },
+   "key": "pension.member_count",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "기업부담금 합계",
+    "n": 0
+   },
+   "key": "pension.employer_contribution_total",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "이체개시일",
+    "n": 0
+   },
+   "key": "pension.transfer_start",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "이체종료일",
+    "n": 0
+   },
+   "key": "pension.transfer_end",
+   "kind": "date"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(20 년 월 일)",
+   "rect": [
+    441.8,
+    79.5,
+    471.8,
+    94.9
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "기업반환계좌 계좌번호",
+   "rect": [
+    333.8,
+    445.5,
+    431.2,
+    463.1
+   ],
+   "key": "company.refund_account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "제도시행일",
+   "rect": [
+    385.5,
+    259.9,
+    454.5,
+    274.5
+   ],
+   "key": "pension.start_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "규약 수리통보일",
+   "rect": [
+    385.5,
+    320.6,
+    454.5,
+    335.2
+   ],
+   "key": "pension.notice_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "[혼합형] DB 비율 %",
+   "rect": [
+    403.1,
+    337.5,
+    450.0,
+    352.5
+   ],
+   "key": "pension.db_ratio",
+   "kind": "percent"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "[혼합형] DC 비율 %",
+   "rect": [
+    487.5,
+    337.5,
+    526.9,
+    352.5
+   ],
+   "key": "pension.dc_ratio",
+   "kind": "percent"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "이체일 매월 ( )일",
+   "rect": [
+    200.6,
+    490.9,
+    219.4,
+    508.5
+   ],
+   "key": "pension.transfer_day",
+   "kind": "day_num"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "기업명(서명란)",
+   "rect": [
+    245.6,
+    764.2,
+    365.6,
+    779.2
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자1 성명",
+   "rect": [
+    80.6,
+    115.1,
+    258.8,
+    130.1
+   ],
+   "key": "member_list.0.name",
+   "kind": "person"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자1 주민등록번호",
+   "rect": [
+    110.6,
+    131.2,
+    258.8,
+    144.0
+   ],
+   "key": "member_list.0.rrn",
+   "kind": "rrn_masked"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자1 입사일자",
+   "rect": [
+    94.5,
+    145.1,
+    149.2,
+    157.9
+   ],
+   "key": "member_list.0.hire_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자1 중간정산일자",
+   "rect": [
+    210.0,
+    145.1,
+    264.4,
+    157.9
+   ],
+   "key": "member_list.0.interim_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자1 사원번호",
+   "rect": [
+    94.5,
+    159.0,
+    149.2,
+    175.1
+   ],
+   "key": "member_list.0.emp_no",
+   "kind": "number"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자1 신규시 기업부담금액",
+   "rect": [
+    398.6,
+    137.6,
+    473.6,
+    147.0
+   ],
+   "key": "member_list.0.contribution",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자1 자동이체금액",
+   "rect": [
+    489.8,
+    137.6,
+    529.9,
+    147.0
+   ],
+   "key": "member_list.0.transfer_amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자1 임금총액 1)",
+   "rect": [
+    319.1,
+    115.1,
+    373.9,
+    126.0
+   ],
+   "key": "member_list.0.wage_0",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자1 임금총액 2)",
+   "rect": [
+    319.1,
+    128.2,
+    373.9,
+    139.9
+   ],
+   "key": "member_list.0.wage_1",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자1 임금총액 3)",
+   "rect": [
+    319.1,
+    142.1,
+    373.9,
+    154.1
+   ],
+   "key": "member_list.0.wage_2",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자1 임금총액 4)",
+   "rect": [
+    319.1,
+    156.4,
+    373.9,
+    168.0
+   ],
+   "key": "member_list.0.wage_3",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자2 성명",
+   "rect": [
+    80.6,
+    177.4,
+    258.8,
+    192.4
+   ],
+   "key": "member_list.1.name",
+   "kind": "person"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자2 주민등록번호",
+   "rect": [
+    110.6,
+    193.5,
+    258.8,
+    206.2
+   ],
+   "key": "member_list.1.rrn",
+   "kind": "rrn_masked"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자2 입사일자",
+   "rect": [
+    94.5,
+    207.4,
+    149.2,
+    220.1
+   ],
+   "key": "member_list.1.hire_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자2 중간정산일자",
+   "rect": [
+    210.0,
+    207.4,
+    264.4,
+    220.1
+   ],
+   "key": "member_list.1.interim_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자2 사원번호",
+   "rect": [
+    94.5,
+    221.2,
+    149.2,
+    237.4
+   ],
+   "key": "member_list.1.emp_no",
+   "kind": "number"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자2 신규시 기업부담금액",
+   "rect": [
+    398.6,
+    199.9,
+    473.6,
+    209.2
+   ],
+   "key": "member_list.1.contribution",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자2 자동이체금액",
+   "rect": [
+    489.8,
+    199.9,
+    529.9,
+    209.2
+   ],
+   "key": "member_list.1.transfer_amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자2 임금총액 1)",
+   "rect": [
+    319.1,
+    177.4,
+    373.9,
+    188.2
+   ],
+   "key": "member_list.1.wage_0",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자2 임금총액 2)",
+   "rect": [
+    319.1,
+    190.5,
+    373.9,
+    202.5
+   ],
+   "key": "member_list.1.wage_1",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자2 임금총액 3)",
+   "rect": [
+    319.1,
+    204.8,
+    373.9,
+    216.4
+   ],
+   "key": "member_list.1.wage_2",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자2 임금총액 4)",
+   "rect": [
+    319.1,
+    218.6,
+    373.9,
+    230.2
+   ],
+   "key": "member_list.1.wage_3",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자3 성명",
+   "rect": [
+    80.6,
+    239.6,
+    258.8,
+    254.6
+   ],
+   "key": "member_list.2.name",
+   "kind": "person"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자3 주민등록번호",
+   "rect": [
+    110.6,
+    255.8,
+    258.8,
+    268.5
+   ],
+   "key": "member_list.2.rrn",
+   "kind": "rrn_masked"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자3 입사일자",
+   "rect": [
+    94.5,
+    269.6,
+    149.2,
+    282.4
+   ],
+   "key": "member_list.2.hire_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자3 중간정산일자",
+   "rect": [
+    210.0,
+    269.6,
+    264.4,
+    282.4
+   ],
+   "key": "member_list.2.interim_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자3 사원번호",
+   "rect": [
+    94.5,
+    283.5,
+    149.2,
+    300.0
+   ],
+   "key": "member_list.2.emp_no",
+   "kind": "number"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자3 신규시 기업부담금액",
+   "rect": [
+    398.6,
+    262.1,
+    473.6,
+    271.9
+   ],
+   "key": "member_list.2.contribution",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자3 자동이체금액",
+   "rect": [
+    489.8,
+    262.1,
+    529.9,
+    271.9
+   ],
+   "key": "member_list.2.transfer_amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자3 임금총액 1)",
+   "rect": [
+    319.1,
+    239.6,
+    373.9,
+    250.9
+   ],
+   "key": "member_list.2.wage_0",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자3 임금총액 2)",
+   "rect": [
+    319.1,
+    253.1,
+    373.9,
+    264.8
+   ],
+   "key": "member_list.2.wage_1",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자3 임금총액 3)",
+   "rect": [
+    319.1,
+    267.0,
+    373.9,
+    278.6
+   ],
+   "key": "member_list.2.wage_2",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자3 임금총액 4)",
+   "rect": [
+    319.1,
+    280.9,
+    373.9,
+    292.9
+   ],
+   "key": "member_list.2.wage_3",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자4 성명",
+   "rect": [
+    80.6,
+    302.2,
+    258.8,
+    316.9
+   ],
+   "key": "member_list.3.name",
+   "kind": "person"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자4 주민등록번호",
+   "rect": [
+    110.6,
+    318.0,
+    258.8,
+    330.8
+   ],
+   "key": "member_list.3.rrn",
+   "kind": "rrn_masked"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자4 입사일자",
+   "rect": [
+    94.5,
+    331.9,
+    149.2,
+    344.6
+   ],
+   "key": "member_list.3.hire_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자4 중간정산일자",
+   "rect": [
+    210.0,
+    331.9,
+    264.4,
+    344.6
+   ],
+   "key": "member_list.3.interim_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자4 사원번호",
+   "rect": [
+    94.5,
+    345.8,
+    149.2,
+    362.2
+   ],
+   "key": "member_list.3.emp_no",
+   "kind": "number"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자4 신규시 기업부담금액",
+   "rect": [
+    398.6,
+    324.4,
+    473.6,
+    334.1
+   ],
+   "key": "member_list.3.contribution",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자4 자동이체금액",
+   "rect": [
+    489.8,
+    324.4,
+    529.9,
+    334.1
+   ],
+   "key": "member_list.3.transfer_amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자4 임금총액 1)",
+   "rect": [
+    319.1,
+    302.2,
+    373.9,
+    313.1
+   ],
+   "key": "member_list.3.wage_0",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자4 임금총액 2)",
+   "rect": [
+    319.1,
+    315.4,
+    373.9,
+    327.0
+   ],
+   "key": "member_list.3.wage_1",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자4 임금총액 3)",
+   "rect": [
+    319.1,
+    329.2,
+    373.9,
+    341.2
+   ],
+   "key": "member_list.3.wage_2",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자4 임금총액 4)",
+   "rect": [
+    319.1,
+    343.5,
+    373.9,
+    355.1
+   ],
+   "key": "member_list.3.wage_3",
+   "kind": "amount"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

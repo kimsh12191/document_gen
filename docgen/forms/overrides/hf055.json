@@ -1,0 +1,495 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전세보증금",
+    "n": 0
+   },
+   "key": "housing.jeonse_deposit",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "방수",
+    "n": 0
+   },
+   "key": "housing.rooms",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "월세보증금",
+    "n": 0
+   },
+   "key": "housing.monthly_deposit",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "월임대료",
+    "n": 0
+   },
+   "key": "housing.monthly_rent",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "방수",
+    "n": 1
+   },
+   "key": "property.rooms",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "선순위설정금액",
+    "n": 0
+   },
+   "key": "property.senior_lien_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "임대방수",
+    "n": 0
+   },
+   "key": "property.rented_rooms",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "임대보증금",
+    "n": 0
+   },
+   "key": "property.lease_deposit",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "부서명",
+    "n": 0
+   },
+   "key": "employer.department",
+   "kind": "text"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전화번호",
+    "n": 0
+   },
+   "key": "customer.home_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "본인",
+    "n": 0
+   },
+   "key": "customer.annual_income",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "배우자",
+    "n": 0
+   },
+   "key": "spouse.annual_income",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "가구총소득",
+    "n": 0
+   },
+   "key": "household.annual_income",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "본인",
+    "n": 1
+   },
+   "key": "customer.total_debt",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "배우자",
+    "n": 1
+   },
+   "key": "spouse.total_debt",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "제외부채",
+    "n": 0
+   },
+   "key": "household.excluded_debt",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "자기자금",
+    "n": 0
+   },
+   "key": "fund.own",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "본건대출",
+    "n": 0
+   },
+   "key": "fund.this_loan",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기타조달",
+    "n": 0
+   },
+   "key": "fund.other",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대출희망일",
+    "n": 0
+   },
+   "key": "loan.desired_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "원리금 자동이체 계좌번호",
+    "n": 0
+   },
+   "key": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대출신청금액",
+    "n": 0
+   },
+   "key": "loan.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대출과목",
+    "n": 0
+   },
+   "key": "loan.subject",
+   "kind": "loan_subject"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "차입기관명",
+    "n": 0
+   },
+   "key": "debt_list.{i}.lender",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금액",
+    "n": 0
+   },
+   "key": "debt_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "자금용도",
+    "n": 0
+   },
+   "key": "debt_list.{i}.purpose",
+   "kind": "loan_purpose"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담보종류",
+    "n": 0
+   },
+   "key": "debt_list.{i}.collateral",
+   "kind": "collateral_type"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "차입기관명",
+    "n": 1
+   },
+   "key": "new_debt_list.{i}.lender",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금액",
+    "n": 1
+   },
+   "key": "new_debt_list.{i}.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "자금용도",
+    "n": 1
+   },
+   "key": "new_debt_list.{i}.purpose",
+   "kind": "loan_purpose"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담보종류",
+    "n": 1
+   },
+   "key": "new_debt_list.{i}.collateral",
+   "kind": "collateral_type"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상담자(직위/성명)",
+    "n": 0
+   },
+   "key": "bank.counselor",
+   "kind": "other_person"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "신청대출 승인완료시 안내 문자통지",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "대출 부수거래 충족여부 안내 통지(문자만)",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "중도상환해약금 면제시점 도래 안내 문자통지",
+    "n": 0
+   },
+   "drop": true
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "가구원수 자녀(명)",
+   "rect": [
+    355.9,
+    136.5,
+    372.0,
+    148.1
+   ],
+   "key": "household.children",
+   "kind": "count"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "가구원수 부모(명)",
+   "rect": [
+    411.4,
+    136.5,
+    417.4,
+    148.1
+   ],
+   "key": "household.parents",
+   "kind": "count"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "가구원수 기타 동거인(명)",
+   "rect": [
+    525.0,
+    136.5,
+    537.0,
+    148.1
+   ],
+   "key": "household.others",
+   "kind": "count"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "현 주거규모(전용) m2",
+   "rect": [
+    121.5,
+    183.0,
+    176.2,
+    195.0
+   ],
+   "key": "housing.area",
+   "kind": "number"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "구입물건 주거규모(전용) m2",
+   "rect": [
+    121.5,
+    271.9,
+    176.2,
+    290.6
+   ],
+   "key": "property.area",
+   "kind": "number"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "주택가격(백만원)",
+   "rect": [
+    392.2,
+    271.9,
+    523.1,
+    285.0
+   ],
+   "key": "property.price",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대출희망기관 은행",
+   "rect": [
+    121.5,
+    713.6,
+    185.6,
+    726.0
+   ],
+   "key": "loan.bank",
+   "kind": "bank"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대출희망기관 지점",
+   "rect": [
+    203.2,
+    713.6,
+    243.8,
+    726.0
+   ],
+   "key": "loan.branch",
+   "kind": "branch"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(20 년 월 일)",
+   "rect": [
+    240.0,
+    761.2,
+    339.4,
+    774.4
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인(본인) 서명(날인)",
+   "kind": "seal",
+   "rect": [
+    491.2,
+    758.2,
+    554.6,
+    774.4
+   ]
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "신청인 성명",
+   "rect": [
+    408.8,
+    646.9,
+    530.6,
+    661.1
+   ],
+   "key": "customer.name"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

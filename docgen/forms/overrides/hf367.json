@@ -1,0 +1,109 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "교육기관 명",
+    "n": 0
+   },
+   "key": "company.name"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "“고객”",
+    "n": 0
+   },
+   "kind": "seal"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "주 소",
+    "n": 0
+   },
+   "key": "company.address"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "주 소",
+    "n": 1
+   },
+   "key": "bank.branch_address",
+   "source": "rule:empty"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "고객(교육기관명)",
+   "rect": [
+    50.6,
+    113.2,
+    166.9,
+    126.4
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "계약일(년 월 일)",
+   "rect": [
+    416.2,
+    553.1,
+    529.9,
+    567.4
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "대표자(학교장)",
+   "rect": [
+    183.8,
+    596.2,
+    373.1,
+    610.5
+   ],
+   "key": "company.ceo"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "(부)지점",
+   "rect": [
+    158.6,
+    691.9,
+    343.1,
+    709.9
+   ],
+   "key": "bank.branch",
+   "kind": "branch"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "지점장",
+   "rect": [
+    148.1,
+    712.5,
+    373.1,
+    726.8
+   ],
+   "key": "bank.manager",
+   "kind": "other_person"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

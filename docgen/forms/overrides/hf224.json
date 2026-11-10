@@ -1,0 +1,220 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "♣ 신청인 정보",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주소",
+    "n": 0
+   },
+   "key": "company.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "Usance송금 번호",
+    "n": 0
+   },
+   "key": "usance.remit_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "통화 금액",
+    "n": 0
+   },
+   "key": "usance.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수취인명",
+    "n": 0
+   },
+   "key": "foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수취인 주소 및 전화번호",
+    "n": 0
+   },
+   "key": "foreign.address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수취인 주소 및 전화번호",
+    "n": 1
+   },
+   "key": "foreign.phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수취인 계좌번호",
+    "n": 0
+   },
+   "key": "foreign.account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수취은행 BIC",
+    "n": 0
+   },
+   "key": "foreign.swift"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기타",
+    "n": 0
+   },
+   "key": "usance.change_note",
+   "kind": "note"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수취은행명",
+    "n": 0
+   },
+   "key": "foreign.bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "영문(English)",
+    "n": 0
+   },
+   "key": "company.name_en",
+   "source": "profile.corporation.name_en"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신 청 사업자번호 (I.D 주소 No.)",
+   "rect": [
+    170.6,
+    279.6,
+    316.2,
+    313.5
+   ],
+   "key": "company.biz_no"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "성명 한글(Korean)",
+   "rect": [
+    231.8,
+    258.0,
+    326.2,
+    277.9
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "송금인계좌번호(A/C)",
+   "rect": [
+    404.2,
+    280.9,
+    549.4,
+    304.9
+   ],
+   "key": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "송금액 통화",
+   "rect": [
+    192.8,
+    352.9,
+    277.5,
+    372.8
+   ],
+   "key": "usance.currency",
+   "kind": "currency"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "만기 Fixed due date (년 월 일)",
+   "rect": [
+    265.5,
+    523.1,
+    355.9,
+    540.8
+   ],
+   "key": "usance.new_due_date",
+   "kind": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청일(년 월 일)",
+   "rect": [
+    176.2,
+    642.0,
+    238.1,
+    655.5
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인",
+   "rect": [
+    379.5,
+    642.0,
+    480.0,
+    655.5
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 주소",
+   "rect": [
+    380.6,
+    661.9,
+    549.4,
+    677.6
+   ],
+   "key": "company.address"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

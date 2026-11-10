@@ -1,0 +1,145 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "취급점",
+    "n": 0
+   },
+   "key": "bank.branch",
+   "kind": "branch"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전자채권번호",
+    "n": 0
+   },
+   "key": "ebond.no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "발 행 일",
+    "n": 0
+   },
+   "key": "ebond.issue_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "판매기업 기업명",
+    "n": 0
+   },
+   "key": "ebond.seller_name",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담보금 입금유무",
+    "n": 0
+   },
+   "key": "ebond.deposit_paid",
+   "kind": "yes_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사고신고(취하) 사 유",
+    "n": 0
+   },
+   "key": "ebond.accident_reason",
+   "kind": "reason"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "금 액",
+    "n": 0
+   },
+   "key": "ebond.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "만 기 일",
+    "n": 0
+   },
+   "key": "ebond.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "판매기업 사업자번호",
+    "n": 0
+   },
+   "key": "ebond.seller_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주 소",
+    "n": 0
+   },
+   "key": "company.address"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(20 년 월 일)",
+   "rect": [
+    240.0,
+    391.9,
+    346.9,
+    406.9
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "발행인",
+   "rect": [
+    241.9,
+    441.8,
+    343.1,
+    457.5
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "발행인 (인)",
+   "kind": "seal",
+   "rect": [
+    346.9,
+    440.6,
+    369.4,
+    458.2
+   ]
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

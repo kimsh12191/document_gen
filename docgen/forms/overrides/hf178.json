@@ -1,0 +1,295 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계좌번호 또는 회사명",
+    "n": 0
+   },
+   "key": "account"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상품명",
+    "n": 0
+   },
+   "key": "pension_corp_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상품명",
+    "n": 1
+   },
+   "key": "pension_corp_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상품명",
+    "n": 2
+   },
+   "key": "pension_corp_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상품명",
+    "n": 3
+   },
+   "key": "pension_corp_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상품명",
+    "n": 4
+   },
+   "key": "pension_corp_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매수비율(%)",
+    "n": 0
+   },
+   "key": "pension_corp_list.{i}.ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매수비율(%)",
+    "n": 1
+   },
+   "key": "pension_corp_list.{i}.ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매수비율(%)",
+    "n": 2
+   },
+   "key": "pension_corp_list.{i}.ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매수비율(%)",
+    "n": 3
+   },
+   "key": "pension_corp_list.{i}.ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매수비율(%)",
+    "n": 4
+   },
+   "key": "pension_corp_list.{i}.ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상품명",
+    "n": 5
+   },
+   "key": "pension_personal_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상품명",
+    "n": 6
+   },
+   "key": "pension_personal_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상품명",
+    "n": 7
+   },
+   "key": "pension_personal_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상품명",
+    "n": 8
+   },
+   "key": "pension_personal_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상품명",
+    "n": 9
+   },
+   "key": "pension_personal_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매수비율(%)",
+    "n": 5
+   },
+   "key": "pension_personal_list.{i}.ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매수비율(%)",
+    "n": 6
+   },
+   "key": "pension_personal_list.{i}.ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매수비율(%)",
+    "n": 7
+   },
+   "key": "pension_personal_list.{i}.ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매수비율(%)",
+    "n": 8
+   },
+   "key": "pension_personal_list.{i}.ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매수비율(%)",
+    "n": 9
+   },
+   "key": "pension_personal_list.{i}.ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상품명",
+    "n": 10
+   },
+   "key": "pension_once_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상품명",
+    "n": 11
+   },
+   "key": "pension_once_list.{i}.product",
+   "kind": "product"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매수비율(%)",
+    "n": 10
+   },
+   "key": "pension_once_list.{i}.ratio",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매수비율(%)",
+    "n": 11
+   },
+   "key": "pension_once_list.{i}.ratio",
+   "kind": "percent"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(20 년 월 일)",
+   "rect": [
+    393.8,
+    160.1,
+    534.0,
+    176.6
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자(기업명)",
+   "rect": [
+    391.1,
+    681.8,
+    485.6,
+    696.8
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 1,
+   "label": "가입자 서명 또는 (인)",
+   "kind": "seal",
+   "rect": [
+    487.5,
+    681.8,
+    540.4,
+    696.8
+   ]
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

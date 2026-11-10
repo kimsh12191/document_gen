@@ -1,0 +1,291 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "채권매입금액",
+    "n": 0
+   },
+   "key": "bond.amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "성명 / 법인명",
+    "n": 0
+   },
+   "key": "customer.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "주민등록번호",
+    "n": 0
+   },
+   "set": {
+    "rect": [
+     398.2,
+     200.2,
+     550.5,
+     217.5
+    ]
+   },
+   "key": "agent.rrn"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "징 구 기 관",
+    "n": 0
+   },
+   "key": "bond.requesting_agency",
+   "kind": "bond_agency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "연락처",
+    "n": 1
+   },
+   "key": "bond.agency_phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "위탁",
+    "n": 0
+   },
+   "drop": true
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "증서번호",
+    "n": 0
+   },
+   "key": "bank.bond_cert_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매출일자",
+    "n": 0
+   },
+   "key": "bank.sale_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "매출점",
+    "n": 0
+   },
+   "key": "bank.sale_branch",
+   "kind": "branch"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수납금액",
+    "n": 0
+   },
+   "key": "bank.received_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소 득 세",
+    "n": 0
+   },
+   "key": "tax.income_tax",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "법 인 세",
+    "n": 0
+   },
+   "key": "tax.corp_tax",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지방소득세",
+    "n": 0
+   },
+   "key": "tax.local_income_tax",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "농특세",
+    "n": 0
+   },
+   "key": "tax.agri_tax",
+   "kind": "amount"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "원정 (₩ )",
+   "rect": [
+    423.8,
+    125.6,
+    538.1,
+    142.5
+   ],
+   "key": "bond.amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "하나은행 계좌번호 ( )",
+   "rect": [
+    430.5,
+    314.2,
+    537.4,
+    331.9
+   ],
+   "key": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "하나금융투자 계좌번호 ( )",
+   "rect": [
+    442.5,
+    334.1,
+    537.4,
+    351.8
+   ],
+   "key": "bond.securities_account",
+   "kind": "account"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "용도",
+   "rect": [
+    103.1,
+    403.9,
+    300.0,
+    420.0
+   ],
+   "key": "bond.purpose",
+   "kind": "bond_purpose"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "실명번호",
+   "rect": [
+    103.1,
+    420.8,
+    303.0,
+    433.5
+   ],
+   "key": "customer.rrn"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "성명(법인명)",
+   "rect": [
+    103.1,
+    434.2,
+    302.6,
+    446.2
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "금액",
+   "rect": [
+    103.1,
+    465.8,
+    300.0,
+    480.8
+   ],
+   "key": "bond.amount",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "작성일(년 월 일)",
+   "rect": [
+    210.0,
+    694.5,
+    260.6,
+    710.6
+   ],
+   "key": "date"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인",
+   "rect": [
+    172.5,
+    728.2,
+    285.8,
+    741.8
+   ],
+   "key": "customer.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "(대리인 : )",
+   "rect": [
+    172.5,
+    748.1,
+    285.8,
+    761.2
+   ],
+   "key": "agent.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대리인 연락처",
+   "rect": [
+    369.4,
+    748.1,
+    483.0,
+    761.2
+   ],
+   "key": "agent.phone"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

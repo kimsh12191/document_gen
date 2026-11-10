@@ -1,0 +1,230 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "임대차물종류",
+    "n": 0
+   },
+   "key": "lease.object_kind",
+   "kind": "lease_object"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "소 재 지",
+    "n": 0
+   },
+   "key": "property.location",
+   "kind": "address"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "수 량",
+    "n": 0
+   },
+   "key": "lease.quantity",
+   "kind": "count"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "임대차기간",
+    "n": 0
+   },
+   "key": "lease.period",
+   "kind": "lease_period"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "임대차사유",
+    "n": 0
+   },
+   "key": "lease.reason",
+   "kind": "lease_reason"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신 고 번 호",
+    "n": 0
+   },
+   "key": "bank.report_no",
+   "kind": "number"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "상호",
+   "rect": [
+    180.0,
+    155.2,
+    322.5,
+    178.1
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "대표자성명",
+   "rect": [
+    326.2,
+    155.2,
+    453.8,
+    178.1
+   ],
+   "key": "company.ceo"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "주소(소재지)",
+   "rect": [
+    180.0,
+    180.8,
+    371.2,
+    203.6
+   ],
+   "key": "company.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신청인 전화번호",
+   "rect": [
+    420.0,
+    180.8,
+    551.6,
+    203.6
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "임대인 성명",
+   "rect": [
+    214.1,
+    231.8,
+    331.9,
+    249.0
+   ],
+   "key": "foreign.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "임대인 전화번호",
+   "rect": [
+    382.5,
+    231.8,
+    551.6,
+    249.0
+   ],
+   "key": "foreign.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "임대인 주소",
+   "rect": [
+    214.1,
+    253.1,
+    551.6,
+    267.0
+   ],
+   "key": "foreign.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "임차인 성명",
+   "rect": [
+    214.1,
+    274.1,
+    331.9,
+    291.0
+   ],
+   "key": "company.name"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "임차인 전화번호",
+   "rect": [
+    382.5,
+    274.1,
+    551.6,
+    291.0
+   ],
+   "key": "company.phone",
+   "source": "profile.corporation.phone"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "임차인 주소",
+   "rect": [
+    214.1,
+    295.1,
+    551.6,
+    309.0
+   ],
+   "key": "company.address"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "임대차물가액",
+   "rect": [
+    180.0,
+    393.4,
+    331.9,
+    416.2
+   ],
+   "key": "lease.object_value",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "임대차료",
+   "rect": [
+    382.5,
+    393.4,
+    551.6,
+    416.2
+   ],
+   "key": "lease.rent",
+   "kind": "amount"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "신고일(년 월 일)",
+   "rect": [
+    330.0,
+    521.2,
+    399.4,
+    536.2
+   ],
+   "key": "date"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}

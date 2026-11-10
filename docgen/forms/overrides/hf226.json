@@ -1,0 +1,1485 @@
+{
+ "items": [
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "차 주 명",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.borrower",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "차 주 명",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.borrower",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "차 주 명",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.borrower",
+   "kind": "company"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자등록번호",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.borrower_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자등록번호",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.borrower_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "사업자등록번호",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.borrower_biz_no",
+   "kind": "biz_no"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자 성명",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.contact_name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자 성명",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.contact_name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자 성명",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.contact_name",
+   "kind": "person"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자 전화번호",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.contact_phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자 전화번호",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.contact_phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "담당자 전화번호",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.contact_phone",
+   "kind": "office_phone"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대 주 명",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.lender",
+   "source": "profile.foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대 주 명",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.lender",
+   "source": "profile.foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대 주 명",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.lender",
+   "source": "profile.foreign.name"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대주소재국",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.lender_country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대주소재국",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.lender_country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "대주소재국",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.lender_country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "차입 근거법 1",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.basis_law",
+   "kind": "borrow_basis_code"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "차입 근거법 1",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.basis_law",
+   "kind": "borrow_basis_code"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "차입 근거법 1",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.basis_law",
+   "kind": "borrow_basis_code"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신고번호",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.report_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신고번호",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.report_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "신고번호",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.report_no",
+   "kind": "number"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지정거래 외국환은행 지점명",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.bank_branch",
+   "kind": "branch"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지정거래 외국환은행 지점명",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.bank_branch",
+   "kind": "branch"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "지정거래 외국환은행 지점명",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.bank_branch",
+   "kind": "branch"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "자금용도",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.purpose",
+   "kind": "fx_loan_purpose"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "자금용도",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.purpose",
+   "kind": "fx_loan_purpose"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "자금용도",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.purpose",
+   "kind": "fx_loan_purpose"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계약 통화",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계약 통화",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계약 통화",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계약금액 (A)",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.contract_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계약금액 (A)",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.contract_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "계약금액 (A)",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.contract_amount",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "최초차입일자",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.first_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "최초차입일자",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.first_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "최초차입일자",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.first_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "만기일자",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "만기일자",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "만기일자",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.due_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기차입액 (B)",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.prev_borrowed",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기차입액 (B)",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.prev_borrowed",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기차입액 (B)",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.prev_borrowed",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당 월 차입일자",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.month_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당 월 차입일자",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.month_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당 월 차입일자",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.month_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월차입액 (국내예치액)(C)",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.month_borrowed",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월차입액 (국내예치액)(C)",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.month_borrowed",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월차입액 (국내예치액)(C)",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.month_borrowed",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "차입누계 (D=B+C+L)",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.total_borrowed",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "차입누계 (D=B+C+L)",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.total_borrowed",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "차입누계 (D=B+C+L)",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.total_borrowed",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "미차입액 (E=A-D)",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.unborrowed",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "미차입액 (E=A-D)",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.unborrowed",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "미차입액 (E=A-D)",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.unborrowed",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기원금상환액 (F)",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.prev_repaid",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기원금상환액 (F)",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.prev_repaid",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "기원금상환액 (F)",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.prev_repaid",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당 월 상환일자",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.repay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당 월 상환일자",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.repay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당 월 상환일자",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.repay_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월원금상환액 (해외송금분)(G)",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.repay_remit",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월원금상환액 (해외송금분)(G)",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.repay_remit",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월원금상환액 (해외송금분)(G)",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.repay_remit",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월원금상환액 (기타상환)(H)",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.repay_other",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월원금상환액 (기타상환)(H)",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.repay_other",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월원금상환액 (기타상환)(H)",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.repay_other",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상환잔액 (I=D-F-G-H)",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상환잔액 (I=D-F-G-H)",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "상환잔액 (I=D-F-G-H)",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월이자 상 환 액",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.interest_paid",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월이자 상 환 액",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.interest_paid",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "당월이자 상 환 액",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.interest_paid",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해 외 예치일자",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해 외 예치일자",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해 외 예치일자",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.deposit_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해 외 예치은행명",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.deposit_bank",
+   "source": "profile.foreign.bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해 외 예치은행명",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.deposit_bank",
+   "source": "profile.foreign.bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해 외 예치은행명",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.deposit_bank",
+   "source": "profile.foreign.bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해외예치은행 BIC코드",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.deposit_bic",
+   "kind": "swift"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해외예치은행 BIC코드",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.deposit_bic",
+   "kind": "swift"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "해외예치은행 BIC코드",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.deposit_bic",
+   "kind": "swift"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전 월 말 예치잔액(J)",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.prev_deposit_balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전 월 말 예치잔액(J)",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.prev_deposit_balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "전 월 말 예치잔액(J)",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.prev_deposit_balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당 월 예 치 액 (K=L+M)",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.month_deposit",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당 월 예 치 액 (K=L+M)",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.month_deposit",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당 월 예 치 액 (K=L+M)",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.month_deposit",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당 월 차입액(L)",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.month_borrowed_l",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당 월 차입액(L)",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.month_borrowed_l",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당 월 차입액(L)",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.month_borrowed_l",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당 월 예치이자 (M)",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.deposit_interest",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당 월 예치이자 (M)",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.deposit_interest",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당 월 예치이자 (M)",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.deposit_interest",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당 월 인출액 (N=O+P)",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.withdrawn",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당 월 인출액 (N=O+P)",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.withdrawn",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당 월 인출액 (N=O+P)",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.withdrawn",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "국내입금액 (O)",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.domestic_in",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "국내입금액 (O)",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.domestic_in",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "국내입금액 (O)",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.domestic_in",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "해외사용액 (P)",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.overseas_used",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "해외사용액 (P)",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.overseas_used",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "해외사용액 (P)",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.overseas_used",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당월예치 잔 액 (Q=J+K-N)",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.deposit_balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당월예치 잔 액 (Q=J+K-N)",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.deposit_balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "당월예치 잔 액 (Q=J+K-N)",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.deposit_balance",
+   "kind": "amount"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "이자 유형 2",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.rate_type",
+   "kind": "rate_type_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "이자 유형 2",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.rate_type",
+   "kind": "rate_type_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "이자 유형 2",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.rate_type",
+   "kind": "rate_type_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "변동금리 구분 3",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.float_index",
+   "kind": "float_index_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "변동금리 구분 3",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.float_index",
+   "kind": "float_index_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "변동금리 구분 3",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.float_index",
+   "kind": "float_index_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금리 통화",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.rate_currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금리 통화",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.rate_currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금리 통화",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.rate_currency",
+   "kind": "currency"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금리 수준 4",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.rate_level",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금리 수준 4",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.rate_level",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금리 수준 4",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.rate_level",
+   "kind": "percent"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금리스프레드 (변동금리) 5)",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.spread",
+   "kind": "spread_bp"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금리스프레드 (변동금리) 5)",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.spread",
+   "kind": "spread_bp"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "금리스프레드 (변동금리) 5)",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.spread",
+   "kind": "spread_bp"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "이자 지급주기 6",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.interest_cycle",
+   "kind": "interest_cycle_months"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "이자 지급주기 6",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.interest_cycle",
+   "kind": "interest_cycle_months"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "이자 지급주기 6",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.interest_cycle",
+   "kind": "interest_cycle_months"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Option 종류 7",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.option_type",
+   "kind": "option_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Option 종류 7",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.option_type",
+   "kind": "option_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Option 종류 7",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.option_type",
+   "kind": "option_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Option 행사일",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.option_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Option 행사일",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.option_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "Option 행사일",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.option_date",
+   "kind": "date"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상환방법",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.repay_method",
+   "kind": "repay"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상환방법",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.repay_method",
+   "kind": "repay"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "상환방법",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.repay_method",
+   "kind": "repay"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "지급보증 기관 8",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.guarantor_type",
+   "kind": "guarantor_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "지급보증 기관 8",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.guarantor_type",
+   "kind": "guarantor_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "지급보증 기관 8",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.guarantor_type",
+   "kind": "guarantor_code"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "지급보증기관 본점국적국",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.guarantor_country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "지급보증기관 본점국적국",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.guarantor_country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "지급보증기관 본점국적국",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.guarantor_country",
+   "kind": "country"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "지급보증기관명",
+    "n": 0
+   },
+   "key": "fx_borrow_list.{i}.guarantor_name",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "지급보증기관명",
+    "n": 1
+   },
+   "key": "fx_borrow_list.{i}.guarantor_name",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 1,
+    "t": "text",
+    "label": "지급보증기관명",
+    "n": 2
+   },
+   "key": "fx_borrow_list.{i}.guarantor_name",
+   "kind": "bank"
+  },
+  {
+   "match": {
+    "page": 0,
+    "t": "text",
+    "label": "제출자",
+    "n": 0
+   },
+   "key": "company.name"
+  }
+ ],
+ "add": [
+  {
+   "t": "text",
+   "page": 0,
+   "label": "보고 기간 ( 년)",
+   "rect": [
+    330.0,
+    89.2,
+    390.0,
+    102.0
+   ],
+   "key": "report.year",
+   "kind": "report_year"
+  },
+  {
+   "t": "text",
+   "page": 0,
+   "label": "보고 기간 ( 분기 중)",
+   "rect": [
+    402.0,
+    89.2,
+    450.4,
+    102.0
+   ],
+   "key": "report.quarter",
+   "kind": "quarter_no"
+  }
+ ],
+ "updated": {
+  "by": "claude-keys",
+  "at": "2026-10-21 22:35"
+ }
+}
