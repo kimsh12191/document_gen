@@ -50,15 +50,21 @@ function questionImagesHTML(item, n) {
   ${boxes.length ? `<div class="muted" style="font-size:12px">빨간 상자 = 정답 위치 ${boxes.length}개 (마우스를 올리면 키·행, 그림을 누르면 크게 보며 키·값)</div>` : ""}`;
 }
 
-// 문항 그림 크게 보기: 왼쪽 그림 + 정답 상자와 키, 오른쪽 키·값 목록 (상자·줄을 누르면 서로 강조)
-function questionImageDialog(item, page = 0) {
-  const boxes = answerBoxes(item.answer);
+// 문항 그림 크게 보기: 왼쪽 그림 + 정답 상자와 키, 오른쪽 질문·답·키·값 목록 (상자·줄을 누르면 서로 강조).
+// list: 만든 문항 전부 — 위 고르기·◀▶ 로 다른 과제(표·도장 …)의 문항으로 바꿔 본다. taskName: 과제 → 이름
+function questionImageDialog(list, index, page = 0, taskName = t => t) {
   const dlg = document.createElement("dialog");
   dlg.className = "qa-dialog qa-view";
   let sel = -1;
   const draw = () => {
+    const item = list[index], boxes = answerBoxes(item.answer);
+    page = Math.min(page, item.image_urls.length - 1);
     const mine = boxes.map((b, i) => ({ ...b, i })).filter(b => b.page === page + 1);
-    dlg.innerHTML = `<div class="bar"><h2><span class="tag">${esc(item.task)}</span> <span class="mono" style="font-size:13px">${esc(item.id)}</span></h2>
+    dlg.innerHTML = `<div class="bar">
+        <button type="button" data-step="-1" title="이전 문항" ${index ? "" : "disabled"}>◀</button>
+        <select class="qv-pick">${list.map((x, k) => `<option value="${k}" ${k === index ? "selected" : ""}>${esc(taskName(x.task))} · ${esc(x.id)}</option>`).join("")}</select>
+        <button type="button" data-step="1" title="다음 문항" ${index < list.length - 1 ? "" : "disabled"}>▶</button>
+        <span class="muted" style="font-size:12px">${index + 1}/${list.length}</span><span style="flex:1"></span>
         ${item.image_urls.length > 1 ? item.image_urls.map((_, i) => `<button type="button" data-pg="${i}" class="${i === page ? "primary" : ""}">${i + 1}쪽</button>`).join("") : ""}
         <a href="${esc(item.image_urls[page])}" target="_blank" rel="noopener">원본 크기</a><button type="button" class="qv-close">닫기 ×</button></div>
       <div class="qv-body"><div class="qv-stage"><img src="${esc(item.image_urls[page])}" alt="">
@@ -67,19 +73,35 @@ function questionImageDialog(item, page = 0) {
           return `<rect data-b="${b.i}" class="${b.i === sel ? "sel" : ""}" x="${x0}" y="${y0}" width="${Math.max(2, x1 - x0)}" height="${Math.max(2, y1 - y0)}"></rect>`;
         }).join("")}</svg>
         ${mine.map(b => `<span class="qv-key ${b.i === sel ? "sel" : ""}" style="left:${b.bbox[0] / 10}%;top:${b.bbox[1] / 10}%">${esc(b.title)}</span>`).join("")}</div>
-        <div class="qv-side">${boxes.length ? `<table><thead><tr><th>쪽</th><th>키</th><th>값</th></tr></thead><tbody>${boxes.map((b, i) =>
-          `<tr class="click ${i === sel ? "sel" : ""}" data-b="${i}"><td>${b.page}</td><td class="mono">${esc(b.title)}</td><td>${esc(b.value)}</td></tr>`).join("")}</tbody></table>`
-          : `<p class="muted">이 과제의 정답에는 위치가 없습니다.</p>`}
-          <details><summary>정답 전체</summary><pre class="ans mono">${esc(qaJSON(item.answer))}</pre></details></div></div>`;
+        <div class="qv-side">
+          <b>질문</b><pre class="ans mono qv-q">${esc(item.prompt)}</pre>
+          <b>답</b> <span class="muted" style="font-size:12px">(모델이 낼 답)</span><pre class="ans mono qv-a">${esc(item.model_answer ?? qaJSON(item.answer))}</pre>
+          ${boxes.length ? `<b>정답 위치</b><table><thead><tr><th>쪽</th><th>키</th><th>값</th></tr></thead><tbody>${boxes.map((b, i) =>
+            `<tr class="click ${i === sel ? "sel" : ""}" data-b="${i}"><td>${b.page}</td><td class="mono">${esc(b.title)}</td><td>${esc(b.value)}</td></tr>`).join("")}</tbody></table>`
+            : `<p class="muted">이 과제의 정답에는 위치가 없습니다.</p>`}
+          <details><summary>정답 전체 (데이터)</summary><pre class="ans mono">${esc(qaJSON(item.answer))}</pre></details>
+          <details><summary>채점 조건 eval</summary><pre class="ans mono">${esc(qaJSON(item.eval || {}))}</pre></details></div></div>`;
     dlg.querySelector(".qv-side tr.sel")?.scrollIntoView({ block: "nearest" });
+    dlg.querySelector(".qv-pick").onchange = e => go(+e.target.value);
   };
+  const go = k => { index = Math.max(0, Math.min(list.length - 1, k)); sel = -1; page = 0; draw(); };
   dlg.onclick = e => {
     if (e.target === dlg || e.target.closest(".qv-close")) { dlg.close(); return; }
+    const step = e.target.closest("[data-step]")?.dataset.step;
+    if (step !== undefined) { go(index + +step); return; }
     const pg = e.target.closest("[data-pg]")?.dataset.pg;
     if (pg !== undefined) { page = +pg; draw(); return; }
     const b = e.target.closest("[data-b]")?.dataset.b;
-    if (b !== undefined) { sel = +b; if (boxes[sel].page !== page + 1) page = boxes[sel].page - 1; draw(); }
+    if (b !== undefined) {
+      const boxes = answerBoxes(list[index].answer);
+      sel = +b; if (boxes[sel].page !== page + 1) page = boxes[sel].page - 1; draw();
+    }
   };
+  dlg.addEventListener("keydown", e => {   // ←→ 이전·다음 문항 (고르기 칸에서는 그대로)
+    if (e.target.closest("select")) return;
+    if (e.key === "ArrowRight") { e.preventDefault(); go(index + 1); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); go(index - 1); }
+  });
   dlg.addEventListener("close", () => dlg.remove());
   document.body.appendChild(dlg);
   draw();
@@ -137,8 +159,8 @@ async function tabQuestions(d) {
     const a = e.target.closest("[data-qa-item]");
     if (!a || e.ctrlKey || e.metaKey) return;
     e.preventDefault();
-    const shown = items.filter(item => item.task === $("#qa-task").value);
-    questionImageDialog(shown[+a.dataset.qaItem], +a.dataset.qaPage);
+    const shown = items.filter(item => item.task === $("#qa-task").value);   // 창에서는 모든 과제의 문항을 오간다
+    questionImageDialog(items, items.indexOf(shown[+a.dataset.qaItem]), +a.dataset.qaPage, t => formats[t]?.name || t);
   };
   $$("input, select", $("#tab")).filter(el => el.id !== "qa-task").forEach(el => el.addEventListener("change", () => {
     request++; items = null; $("#qa-status").textContent = "생성 조건이 바뀌었습니다. 문항 예시를 다시 만들어 주세요.";

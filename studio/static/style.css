@@ -201,6 +201,9 @@ pre.log { max-height: 420px; }
 .qv-key { position: absolute; transform: translateY(-100%); font: 600 11px/1.2 ui-monospace, monospace; color: #b91c1c; background: rgba(255, 255, 255, .85); padding: 0 2px; white-space: nowrap; pointer-events: none; }
 .qv-key.sel { color: #0b3fa8; z-index: 1; }
 .qv-side { max-height: 80vh; overflow: auto; font-size: 12.5px; }
+.qv-side pre.qv-q { max-height: 28vh; overflow: auto; white-space: pre-wrap; }
+.qv-side pre.qv-a { max-height: 20vh; overflow: auto; white-space: pre-wrap; }
+.qv-pick { max-width: 420px; }
 .qv-side tr.sel td { background: var(--accent-soft); }
 @media (max-width: 900px) { .qv-body { grid-template-columns: 1fr; } }
 .qa-dialog h2 { margin: 0; flex: 1; font-size: 17px; }
