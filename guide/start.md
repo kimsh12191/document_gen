@@ -35,12 +35,16 @@ studio **데이터셋 › 새로 만들기** 표에서 레시피 `bank-bench` �
 
 ## 4. 학습 설정 만들기
 
-studio **데이터셋 › (평가 세트 하나) › 학습** 탭에서 학습 데이터와 평가 세트를 고르고 **설정 파일 쓰기** → studio 쪽 코드 폴더에 `train/configs/studio-<이름>.json` 이 생깁니다.
-학습 서버가 같은 코드 폴더를 보면 그대로 쓰고, 아니면 이 파일을 학습 서버 코드 폴더의 `train/configs/` 로 복사합니다 (데이터 경로는 저장 폴더를 가리키므로 파일만 옮기면 됨. 학습 서버에서 저장 폴더가 `/out` 이 아닌 경로면 [training.md 2절](training.md#2-설정-파일)의 `path_map`).
-학습 서버에서 그 파일의 `model`(출발 모델 폴더)·`gpus` 만 확인하고 리허설합니다.
+studio 에는 학습 설정 화면이 없습니다. 학습 서버에서 견본을 복사해 손으로 고칩니다.
 
 ```bash
-python -m train --config train/configs/studio-<이름>.json --smoke     # 몇 분. <workdir>/smoke/reports/benchmark.html 이 생기면 됨
+cp train/configs/pipeline.example.json train/configs/<이름>.json
+```
+
+`data.train` 에 학습 데이터 경로, `data.benchmark` 에 평가 세트 경로(학습 서버에서 보이는 `<저장 폴더>/workspace/datasets/<이름>`), `workdir`·`model`(출발 모델 폴더)·`gpus` 를 적고 리허설합니다.
+
+```bash
+python -m train --config train/configs/<이름>.json --smoke     # 몇 분. <workdir>/smoke/reports/benchmark.html 이 생기면 됨
 ```
 
 - 실서류 추출 데이터(`.jsonl`)를 평가 세트로 더하거나 채점 방식을 바꾸려면 [eval.md 1·2절](eval.md#1-평가-세트-정하기).
@@ -49,7 +53,7 @@ python -m train --config train/configs/studio-<이름>.json --smoke     # 몇 �
 ## 5. 학습
 
 ```bash
-nohup python -m train --config train/configs/studio-<이름>.json > <이름>.log 2>&1 &
+nohup python -m train --config train/configs/<이름>.json > <이름>.log 2>&1 &
 ```
 
 섞기 → 출발 모델 평가 → SFT → 평가 → GRPO → 평가 → 보고서까지 한 번에 돕니다. 멈추면 **같은 명령을 다시** 실행합니다 (끝난 단계는 건너뜀).

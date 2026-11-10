@@ -28,14 +28,13 @@ agent 에게 맡길 때는 저장소 최상위의 [AGENTS.md](../AGENTS.md) 부�
 
 | 궁금한 것 | 문서 |
 |---|---|
-| 서류 이름 → 서식 ID, 업무별 필수 서류 | [documents.md](documents.md) |
-| 업무 12종의 서류·대조 사례·심사 규칙 | [catalog.md](catalog.md) (기계용 [catalog.json](catalog.json)) |
+| 서류 이름 → 서식 ID | [documents.md](documents.md) |
 | 서식 하나의 칸·위치·질문→답 | 그 서식의 카드 `docgen/forms/<ID>/FORM.md` (studio 서식 › 개요 › 카드 원문) |
 | 과제마다 묻는 것·답의 꼴·채점 규칙 | [benchmark.md](benchmark.md) |
 | 질문 문장 원문 (모든 서식 공통 기본) | [questions.md](questions.md) |
 | 모든 과제의 실제 문항 (그림·질문·정답) | [tasks.md](tasks.md) |
 | 값 만드는 방법(생성 방법) 전체 목록 | [생성 방법 목록](../docgen/forms/_common/values.md) |
-| 키 이름 규칙 전체, 모든 서식에 같은 것 | [docgen/forms/_common/README.md](../docgen/forms/_common/README.md) |
+| 모든 서식이 같이 쓰는 것 (기본 질문·바탕 틀·값 규칙) | [docgen/forms/_common/README.md](../docgen/forms/_common/README.md) |
 | 표가 있는 서식 점검 목록 | [table-audit.md](table-audit.md) |
 | image/qa JSON 폴더 → ms-swift JSONL 변환 | [qa-to-swift.md](qa-to-swift.md) |
 
@@ -47,4 +46,4 @@ agent 에게 맡길 때는 저장소 최상위의 [AGENTS.md](../AGENTS.md) 부�
 | 설치·내부망 반입 | [docker/README.md](../docker/README.md) |
 | html 서식 파일 형식 (코드로 고칠 때) | [NEW_FORM_SPEC.md](../docgen/manual/NEW_FORM_SPEC.md), 모양만 고치기 [FORM_SHELL_GUIDE.md](../docgen/manual/FORM_SHELL_GUIDE.md) |
 
-자동 생성 문서(`tasks.md`, `documents.md`, `catalog.*`, `table-audit.md`, 서식 카드 `FORM.md`, `values.md`)는 손으로 고치지 않습니다. 다시 만드는 명령은 [docgen/README.md](../docgen/README.md) "문서 자동 생성".
+자동 생성 문서(`tasks.md`, `documents.md`, `table-audit.md`, 서식 카드 `FORM.md`, `values.md`)는 손으로 고치지 않습니다. 다시 만드는 명령은 [docgen/README.md](../docgen/README.md) "문서 자동 생성".

@@ -17,7 +17,7 @@ html 서식이면 이 폴더에 새 폴더를 [NEW_FORM_SPEC.md](../manual/NEW_F
 | ① 값이 이상함 (형식·범위, 칸끼리 안 맞음) | html: `fields.json` 그 칸 `source`, 칸끼리 관계는 `generate.py` 의 `adjust` · 코드: `generate.py` · 원본·그린: `fields.json` 그 칸 `source`·`kind`·`fmt`(표기), 칸끼리 관계는 `generate.py` 의 `adjust` (견본 `python -m docgen.formdir adjust <ID> --new`) | 영역 편집 → 칸을 눌러 생성 방법. html·코드는 파일로 ([생성 방법 목록](_common/values.md)) | `칸 <키> 의 값이 <증상>. 원본 서식처럼 나오게 값 만드는 곳을 고쳐라` |
 | ② 값 위치·박스가 어긋남 | 원본: `fields.json` 그 칸 `rect` · html·코드: 템플릿 배치 | 영역 편집에서 끌어 옮기기. html·코드는 파일로 | `칸 <키> 가 원본의 <어디> 칸에 오게 고쳐라`. 원본 서식은 [FORM_SHELL_GUIDE.md](../manual/FORM_SHELL_GUIDE.md) 4장을 같이 준다 |
 | ③ 모양(표·문구·선)이 원본과 다름 | html·코드: `look/template.html.j2` (원본 서식은 그림이라 안 고침) | — (html·코드만 해당, 파일로) | [FORM_SHELL_GUIDE.md](../manual/FORM_SHELL_GUIDE.md) 3장 + 원본 그림을 주고 `키는 그대로 두고 모양만 원본처럼 고쳐라` |
-| ④ 칸(추출 항목) 더하기·빼기·키 바꾸기 | html: 템플릿 `f("키", label=…)` + `fields.json` · 코드: 템플릿 + `generate.py` (+ `formdir declare <ID> --apply`) · 원본: `fields.json` | 영역 편집에서 그리기·지우기. html·코드는 파일로 (빼기는 템플릿에서 그 줄을 지움) | `원본의 <항목명> 칸을 키 <키> 로 더하라` (키 이름은 [키 이름 규칙](_common/README.md#키-이름-규칙)) |
+| ④ 칸(추출 항목) 더하기·빼기·키 바꾸기 | html: 템플릿 `f("키", label=…)` + `fields.json` · 코드: 템플릿 + `generate.py` (+ `formdir declare <ID> --apply`) · 원본: `fields.json` | 영역 편집에서 그리기·지우기. html·코드는 파일로 (빼기는 템플릿에서 그 줄을 지움) | `원본의 <키 설명> 칸을 키 <키> 로 더하라` (키 이름은 [키 이름 정하기](../../guide/keys.md)) |
 | ⑤ 질문 문장·답 모양 바꾸기, 어떤 칸은 묻지 않기 | `questions.json` (기본과 다른 것만), 칸마다는 `fields.json` 그 칸의 `"q"` | 파일로 (질문·답 › 실제 문항에서 결과 확인) | `kie 질문을 <문장> 으로, 답을 <꼴> 로 바꿔라` / `칸 <키> 는 묻지 마라` (5.1·5.2절) |
 | ⑤-1 표: 제목 정하기, 정해진 격자를 표가 아니라 kie 로, 행 순서 | `questions.json` 의 `table` (제목·`ask: false`), 행 순서는 `generate.py` | 파일로. 개요의 표 줄(또는 카드의 "표" 절)에서 묶음 이름 확인 | `표 <묶음> 의 제목을 <제목> 으로` / `<묶음> 은 개수가 정해진 격자라 kie 로 묻게` / `표 <묶음> 을 최신순으로` (5.5절) |
 | ⑥ 이 서식만의 질문 더하기 (계산·판단) | `qa.py` (함수 하나 = 질문 하나) | 파일로. 견본 `python -m docgen.formdir qa <ID> --new` | `qa.py 에 <질문> 을 더하라. 정답은 칸 <키…> 로 계산` (5.3절) |
@@ -70,8 +70,8 @@ docgen/forms/<ID>/FORM.md 와 docgen/forms/README.md 를 읽어라. <할 일>.
 ```
 docgen/forms/<ID>/
   FORM.md            카드 (자동 생성 — 읽는 곳): 뽑는 칸·위치·생성 방법·정한 곳(파일:줄)·질문→답 실제 예시·고치는 곳
-  look/template.html.j2   모양과 칸 자리 {{ f("키", label="항목명") }}       (원본 서식: look/original.pdf + 폴더 바로 아래 layout.json)
-  fields.json        칸 목록 — 칸 하나 = 한 줄: 키·항목명·생성 방법(source)·박스(원본 서식 rect)·질문 설정(q)
+  look/template.html.j2   모양과 칸 자리 {{ f("키", label="키 설명") }}       (원본 서식: look/original.pdf + 폴더 바로 아래 layout.json)
+  fields.json        칸 목록 — 칸 하나 = 한 줄: 키·키 설명(label)·생성 방법(source)·박스(원본 서식 rect)·질문 설정(q)
   generate.py        값 만들기 — 코드 서식: @doc 함수가 값 전부 / html 서식: adjust(d, p, rng) 로 칸끼리 관계 (없어도 됨)
   questions.json     기본 과제의 질문 문장·답 모양을 이 서식만 다르게 (없으면 기본) — 5.2절
   qa.py              이 서식만의 질문과 정답 (없으면 없음) — 5.3절
@@ -79,12 +79,12 @@ docgen/forms/<ID>/
   layout.json        (원본 서식만) 원본 PDF 에서 뽑은 기재 자리 (자동)
   variants/          (있으면) 레이아웃 변형 variants.json + <변형>.html.j2
 
-docgen/forms/_common/      모든 서식이 같이 쓰는 것 (README.md): 기본 질문(questions.json), 키 사전(dictionary/),
-                           바탕 틀(templates/), 키 규칙(key_rules.json), 체크·도장 확률(marks.json), 생성 방법 목록(values.md)
+docgen/forms/_common/      모든 서식이 같이 쓰는 것 (README.md): 기본 질문(questions.json),
+                           바탕 틀(templates/), 값 규칙(key_rules.json), 체크·도장 확률(marks.json), 생성 방법 목록(values.md)
 ```
 
 폴더 밖에서 서식이 쓰는 코드는 둘뿐입니다: `docgen/docs/<그룹>.py`(같은 그룹 코드 서식의 도우미, 끝의 `FORMS` = 코드 서식 등록 차례), `docgen/docs/_common.py`(날짜·금액 표기 도우미).
-그 밖(그리기·채점·업무 묶음)은 엔진이라 서식 작업에서 보지 않습니다 ([_common/README](_common/README.md)).
+그 밖(그리기·채점)은 엔진이라 서식 작업에서 보지 않습니다 ([_common/README](_common/README.md)).
 
 ## 3. 서식 종류
 
@@ -98,26 +98,25 @@ docgen/forms/_common/      모든 서식이 같이 쓰는 것 (README.md): 기�
 
 ## 4. 데이터가 만들어지는 길
 
-studio 데이터셋 › 새로 만들기와 명령줄 `python -m docgen.bench build` 는 같은 코드입니다. 서식 하나·고객 하나(seed)마다:
+studio 데이터셋 › 새로 만들기와 명령줄 `python -m docgen.bench build` 는 같은 코드입니다. 서식 하나·서류 한 건(seed)마다:
 
 ```
-① 고객   make_profile(seed): 한 사람의 이름·주민번호·주소·직장·소득·계좌 (서로 맞음)
-② 값     코드 서식: generate.py / html 서식: fields.json 의 source → generate.py 의 adjust / 그림 서식: fields.json 의 source (없으면 항목명으로 자동) → generate.py 의 adjust
+① 고객   make_profile(doc_seed(seed, 서식 ID)): 한 사람의 이름·주민번호·주소·직장·소득·계좌 (서로 맞음). 서류 한 건마다 다른 고객
+② 값     코드 서식: generate.py / html 서식: fields.json 의 source → generate.py 의 adjust / 그림 서식: fields.json 의 source (없으면 자동: 고객 정보 키면 그 값, 아니면 값 종류 kind 대로) → generate.py 의 adjust
 ③ 그림   템플릿에 값을 넣어 그리고, 칸마다 위치(쪽·박스)를 잰다 → 촬영 조건(스캔·사진·팩스)으로 흔든다
-④ 칸     {키, 항목명, 타입, 값, 위치}. 키 사전으로 공통 키로 (employee.name → customer.name)
+④ 칸     {키, 키 설명, 타입, 값, 위치}. 키는 서식의 키 그대로 (바꿔 쓰는 규칙 없음)
 ⑤ 문항   과제마다 질문·정답 (docgen/bench/tasks/<과제>.py) — 아래 표
-⑥ 묶음   한 고객의 서류 여러 장 → 구비 확인·대조·심사 (서식 하나를 넘는 업무 과제, docgen/bench/build.py)
 ```
 
 | 과제 | 묻는 것 | 질문·답 모양을 정하는 곳 |
 |---|---|---|
-| `classify` | 무슨 서류인가 | 문장: `questions.json` / 정답(문서명): 키 사전 또는 `questions.json` 의 `classify` |
+| `classify` | 무슨 서류인가 | 문장: `questions.json` / 정답(문서명): 서식 이름, 다르게 하려면 `questions.json` 의 `classify` |
 | `ocr_page` · `ocr_field` | 전체 받아쓰기 · 값 칸 하나 읽기 | 문장: `questions.json`. 뺄 칸: `fields.json` 칸의 `q.ocr` |
-| `kie` | 칸마다 값과 위치 | 문장·항목 줄·답 틀: `questions.json` / 묻는 칸·항목명: `fields.json` 칸의 `q` |
+| `kie` | 칸마다 값과 위치 | 문장·항목 줄·답 틀: `questions.json` / 묻는 칸·키 설명: `fields.json` 칸의 `q` |
 | `marks` | 체크박스·도장·서명 | kie 와 같음 |
 | `freetext` | 기타·비고 칸의 자유 기재 정리 | 문장: `_common/questions.json` 의 `freetext` (서식별로 못 바꿈) / 칸에 적히는 글·정답 틀: `_common/freetext_templates.json` |
 | `form_qa` | **이 서식만의 질문** | `qa.py` |
-| `table` · `table_read` · `table_find` · `table_qa` | **표** (행 수가 서류마다 다른 반복 목록): 모든 행 · 머리글까지 그대로 · 표 찾기 · 표 질의 | 표 제목·표가 아님: `questions.json` 의 `table` / 열의 항목명·묻지 않기: `fields.json` 그 열 칸의 `q` (5.5절) |
+| `table` · `table_read` · `table_find` · `table_qa` | **표** (행 수가 서류마다 다른 반복 목록): 모든 행 · 머리글까지 그대로 · 표 찾기 · 표 질의 | 표 제목·표가 아님: `questions.json` 의 `table` / 열의 키 설명·묻지 않기: `fields.json` 그 열 칸의 `q` (5.5절) |
 
 결과 폴더: `images/`, `tasks/<과제>.jsonl`(한 줄 = 그림·질문·정답·채점 정보), 학습용이면 `swift/all.jsonl`.
 과제가 만드는 문항은 모두 평가 세트와 학습 데이터에 같이 들어갑니다 (어느 쪽인지는 데이터셋을 만들 때 `split` 으로).
@@ -136,8 +135,8 @@ studio 데이터셋 › 새로 만들기와 명령줄 `python -m docgen.bench bu
 | `q` 안 | 뜻 |
 |---|---|
 | `ask: false` | kie·marks 질문과 정답에서 뺌 |
-| `label` | 질문의 항목명 (없으면 칸의 항목명) |
-| `note` | 괄호 설명 (없으면 키 사전에서 자동: 누구의 무엇·몇 행) |
+| `label` | 질문의 키 설명 (없으면 칸의 키 설명) |
+| `note` | 괄호 설명 (없으면 자동: 표의 몇 번째 행, 키 설명이 같은 칸이 또 있으면 몇 번째 칸) |
 | `ocr: false` | 값 칸 읽기(ocr_field)에서 고르지 않고, 받아쓰기(ocr_page) 정답에서 뺌 |
 
 - html·코드 서식에서 `fields.json` 에 줄이 없는 칸(부모 서식 값, 체크·도장·서명)은 맨 위 `"q"` 묶음에 키로: `"q": {"seal.company": {"label": "회사 직인"}}`.
@@ -210,7 +209,7 @@ def 재직개월(v):                                    # 계산: 재직기간 "
 ```
 
 - **돌려주기:** `(질문, 정답)`. `None` 이면 그 문서에서는 묻지 않습니다. `_` 로 시작하는 함수는 질문이 아니라 도우미입니다.
-- **v:** 질문 키(공통 키)와 서식의 원래 키 둘 다로 읽힙니다. 체크박스는 체크된 보기 글자(복수 선택은 목록), 도장·서명은 True/False.
+- **v:** 서식의 키로 읽습니다 (카드의 키 열, 질문·정답의 키와 같음). 체크박스는 체크된 보기 글자(복수 선택은 목록), 도장·서명은 True/False.
   **빈 칸은 v 에 없습니다** — `v["키"]` 로 읽으면 그 칸이 빈 문서에서는 그 질문을 묻지 않고, 있는지 물으려면 `v.get("키")`.
 - **데이터:** 만들 때 자동으로 과제 `form_qa` 문항이 되어 평가 세트·학습 데이터에 들어갑니다. 문항의 `meta.question` = `"<서식ID>.<함수 이름>"`.
 - **기본 채점 (정답 꼴로):** 숫자 → 숫자가 같은지 · 예/아니오 → 그대로 · 글 → 띄어쓰기·문장부호 무시하고 같은지 · JSON → 칸마다 같은지. 주 지표 acc.
@@ -246,7 +245,7 @@ docgen 데이터셋을 학습 데이터(`data.train`)로 쓸 때는 채점 함�
 | `title` | 질문에서 표를 가리킬 제목 (없으면 머리글·위치로 가리킴) |
 | `ask: false` | 개수가 정해진 격자(결재란, 늘 3년치인 칸)라 표가 아님 → kie 가 칸마다 묻는다 |
 
-- 열의 항목명·괄호 설명·묻지 않기는 kie 칸과 같은 곳 — `fields.json` 그 열 칸의 `"q"` (5.1절).
+- 열의 키 설명·괄호 설명·묻지 않기는 kie 칸과 같은 곳 — `fields.json` 그 열 칸의 `"q"` (5.1절).
 - **행 순서**는 데이터를 만드는 곳(`generate.py`, html 서식은 템플릿)에서 정합니다. 실서류와 같은 순서로 (이력·내역은 최신순인 경우가 많음).
 - **원본 서식(`hf###`·`img_*`)과 그것을 옮긴 공식 대조 html(`hana_official_*`)의 표:** 영역 편집에서 줄 칸(`row`)에 **묶음(`group`)**을 정하면 키가 `<묶음>_목록.<행>.<열>` 이 된다.
   같은 쪽의 표가 둘 이상이면 표마다 묶음을 다르게 정한다 — 묶음이 없으면 모두 `목록` 하나로 섞인다 (4.1 에서 77종을 표 위 인쇄 제목·첫 열 이름으로 나눔).
@@ -261,8 +260,8 @@ docgen 데이터셋을 학습 데이터(`data.train`)로 쓸 때는 채점 함�
 
 | 하고 싶은 것 | 코드 서식 | html 서식 | 원본 서식 | 재검수 |
 |---|---|---|---|---|
-| 칸(추출 항목) 더하기 | 템플릿에 `{{ f("키", label="항목명") }}` + `generate.py` 가 그 키 값. `fields.json` 줄은 `python -m docgen.formdir declare <ID> --apply` | 템플릿에 `f(…)` + `fields.json` `fields` 에 키·source | studio 영역 편집에서 칸 그리기 | 다시 |
-| 칸 키·항목명 | 템플릿의 `f("키", label=…)` | 템플릿 + `fields.json` | 영역 편집 (`fields.json` 그 칸 `key`·`label`) | 다시 |
+| 칸(추출 항목) 더하기 | 템플릿에 `{{ f("키", label="키 설명") }}` + `generate.py` 가 그 키 값. `fields.json` 줄은 `python -m docgen.formdir declare <ID> --apply` | 템플릿에 `f(…)` + `fields.json` `fields` 에 키·source | studio 영역 편집에서 칸 그리기 | 다시 |
+| 칸 키·키 설명 | 템플릿의 `f("키", label=…)` | 템플릿 + `fields.json` | 영역 편집 (`fields.json` 그 칸 `key`·`label`) | 다시 |
 | 값 | `generate.py` | `fields.json` 의 `source` ([생성 방법 목록](_common/values.md)) | 영역 편집의 생성 방법 [고르기…] (`source`) | 다시 |
 | 칸끼리 관계 (합계·날짜 순서) | `generate.py` | `generate.py` 의 `adjust(d, p, rng)` | — | 다시 |
 | 모양·표·문구 | 템플릿 파일 `look/template.html.j2` | 템플릿 파일 | 바꾸지 않음 | 다시 |
@@ -289,7 +288,7 @@ python -m pytest docgen/tests              # 코드를 고쳤으면. 오래된 �
 | 문제: 답 틀 형식 · 칸 이름이 질문 문장에 없음 | 5.2절 |
 | 문제: qa.py 함수 오류 · 한 번도 묻지 않음(없는 키) · 정답을 답으로 넣어도 만점이 아님 | 5.3절 |
 | 문제: `extra`·`line`·`others`·`items`·`exclude`, 답 꼴 이름 `list_box`·`list`·`object` (예전 이름) | `extra` → `qa.py`, `line` → `item`, `others`·`items` → 칸의 `q`, `exclude` → 칸의 `q.ocr`, 답 꼴 이름 → JSON 틀 (5.2절) |
-| 참고: 묻지 않는 칸·항목명을 바꾼 칸·문장이 공통과 다름·일부 문서에서만 묻는 질문 | 일부러 바꾼 것인지 확인 |
+| 참고: 묻지 않는 칸·키 설명을 바꾼 칸·문장이 공통과 다름·일부 문서에서만 묻는 질문 | 일부러 바꾼 것인지 확인 |
 
 검사 통과는 형식 확인일 뿐 **검수가 아닙니다.** 그림과 정답이 맞는지는 studio 서식 › 검수에서 사람이 봅니다.
 
@@ -313,14 +312,9 @@ python -m docgen.formdir qa <ID> [--new]                   # 이 서식만의 �
 python -m docgen.formdir declare <ID> [--apply]            # 코드 서식: 그려서 나온 칸을 fields.json 에 적기 (없으면 목록만)
 python -m docgen.formdir values                            # 생성 방법 목록 _common/values.md 다시 만들기
 python -m docgen.preview <ID> --rows max --out out/<ID>    # 그려 보기 (쪽 그림·칸 검사)
-python -m docgen.bench build --types <ID> --per-doc 2 --bundles 0 --out out/qa_<ID>   # 이 서식만 데이터 만들어 보기 (tasks/*.jsonl)
+python -m docgen.bench build --types <ID> --per-doc 2 --out out/qa_<ID>   # 이 서식만 데이터 만들어 보기 (tasks/*.jsonl)
 ```
 
-studio: 서식 › **개요**(과제마다 묻는 것 — kie 칸·표·체크·qa.py, 상태·질문 검사 · 카드 원문) · **그림·검수**(미리보기·여러 장·검수) · **질문·답**(실제 문항·키) · **고치기**(그림 서식: 영역 편집 · 파일 / html·코드 서식: 자리·템플릿 · 레이아웃·샘플링 · html 편집(복제·새 html) · 파일).
-자리·템플릿 화면은 값이 나올 수 있는 모든 자리를 공란 그림 위에 보입니다 (고객 여러 명·내용 많음으로 그려 봐서 조건 칸까지).
-- 상자를 누르면 그 자리를 정한 템플릿 줄로, 빈칸을 누르면 근처 인쇄 글자가 있는 줄로 갑니다 (좌표로 자리를 적는 공식 대조 서식은 누른 곳에 자리를 만듦).
-- **[자리 넣기]**: 종류(글자·체크 보기·도장·서명·도장 자리)·키·항목명·생성 방법을 적으면 템플릿에 그 줄을 넣고 바로 다시 그립니다.
-- 템플릿과 생성 방법 고친 것은 모아 두었다가 **[저장]** 한 번에 (문법·그리기 검사, 빠지거나 생기는 키 확인).
-- 레이아웃 변형이 있으면 위에서 골라 그 템플릿을 고칩니다. 한 레이아웃에만 있는 키는 "…에 없음"으로 표시됩니다.
-html 서식의 위치는 템플릿이 정하므로 그림 위에 고정 위치 칸을 그리지 않습니다.
+studio: 서식 › **개요**(과제마다 묻는 것 — kie 칸·표·체크·qa.py, 상태·질문 검사 · 카드 원문) · **그림·검수**(미리보기·여러 장·검수) · **질문·답**(실제 문항·키) · **고치기**(그림 서식: 영역 편집 · 파일 / html·코드 서식: 파일 목록과 안내만).
+html·코드 서식은 studio 화면에서 고치지 않습니다. 0절 표의 파일을 직접 고치거나 LLM 에게 시키고, studio 에서는 미리보기·검수만 합니다.
 [서식 다시 읽기]는 새 폴더 등록과 함께 `questions.json`·`qa.py` 형식 문제, 카드가 없거나 오래된 서식을 알려 줍니다.

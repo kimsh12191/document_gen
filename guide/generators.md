@@ -64,9 +64,9 @@ def my_value(p, rng, item, row):        # 함수 이름: 영어 소문자·숫�
 | 받는 것 | 무엇 | 자주 쓰는 것 |
 |---|---|---|
 | `rng` | 난수 | `rng.randint(10, 99)`, `rng.choice(["가", "나"])`, `rng.choices(["입금", "출금"], weights=[6, 4])[0]`, `rng.random() < 0.3` |
-| `p` | 이 서류의 고객 (같은 묶음 서류는 같은 고객) | `p.person.name`, `p.person.birth` (date), `p.person.rrn`, `p.person.mobile`, `p.employment.company.name`, `p.accounts[0].number`, `p.issue_date` (서류 날짜) |
+| `p` | 이 서류의 가짜 고객 (서류 한 건마다 한 명) | `p.person.name`, `p.person.birth` (date), `p.person.rrn`, `p.person.mobile`, `p.employment.company.name`, `p.accounts[0].number`, `p.issue_date` (서류 날짜) |
 | `row` | 표의 몇 번째 행인지 (0부터, 표가 아니면 0) | `f"{row + 1}회"` |
-| `item` | 이 칸 정보 | `item["label"]` 항목명 |
+| `item` | 이 칸 정보 | `item["label"]` 키 설명 |
 
 고객 정보 전체 경로는 [생성 방법 목록](../docgen/forms/_common/values.md)의 "고객 프로필" 절 (`profile.` 를 뺀 뒤가 `p.` 뒤). 날짜는 `date` 이므로 꼴은 직접: `f"{d:%Y.%m.%d}"`.
 
@@ -99,7 +99,7 @@ def txn_kind(p, rng, item, row):
 ### 지킬 것
 
 - **난수는 `rng` 만.** `import random`·현재 시각·파일·네트워크를 쓰지 않습니다. 같은 seed 면 같은 값이 나와야 평가 세트를 다시 만들 수 있습니다.
-- **고객 본인 값**(이름·주민번호·주소·직장 …)은 지어내지 말고 `p` 에서 꺼냅니다. 다른 서류와 같아야 서류 대조 과제가 됩니다.
+- **고객 본인 값**(이름·주민번호·주소·직장 …)은 지어내지 말고 `p` 에서 꺼냅니다. 그래야 한 서류 안의 다른 칸(같은 고객의 이름·생년월일 …)과 맞습니다.
 - 다른 칸 값이 필요하면(합계 등) 이 함수로는 안 됩니다 → 3절.
 
 ### 명령으로 확인
