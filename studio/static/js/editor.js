@@ -4,7 +4,7 @@
 "use strict";
 
 const ED_TOOLS = [
-  ["select", "선택·옮기기", "V"], ["text", "글자 칸 그리기", "T"], ["table", "표 그리기", "B"], ["check", "체크 보기 그리기", "C"], ["date", "날짜 칸 (년·월·일)", "D"], ["float", "자유 위치 (도장·번호)", "F"],
+  ["select", "선택·옮기기", "V"], ["text", "글자 칸 그리기", "T"], ["table", "표 그리기", "B"], ["check", "체크 보기 그리기", "C"], ["date", "날짜 칸 (년·월·일)", "D"], ["float", "자유 위치 (도장·글자)", "F"],
   ["sign", "서명·도장 자리", "S"], ["staff", "결재란 칸", "R"], ["erase", "지우기: 흰색", "E"], ["erase_auto", "지우기: 주변색", "A"],
 ];
 const ED_STATUS = { auto: "자동", edited: "수정", added: "추가", dropped: "뺌" };
@@ -595,8 +595,13 @@ function edSide(ed) {
           : !("auto_example" in x) ? `<span class="muted">자동</span>` : x.auto_example == null ? `<span class="err" title="자동으로는 빈 칸이 나옵니다">자동 → 빈 칸</span>`
           : `<span class="muted" title="자동으로 나올 값의 예">자동: ${esc(String(x.auto_example).slice(0, 14))}</span>`}</td></tr>`;
     }).join("")}</tbody></table>`;
-  $("#ed-side").innerHTML = html;
-  scrollRowIntoView($("#ed-side"), $("#ed-side tr.sel"));
+  // 같은 칸을 고치는 중이면 패널 스크롤을 그대로 (값을 고칠 때마다 아래 목록으로 내려가지 않게), 다른 칸을 고르면 맨 위(칸 정보)로
+  const side = $("#ed-side"), selId = ed.sel?.id || null, keep = side.dataset.sel === String(selId), top = side.scrollTop;
+  const focusId = keep && side.contains(document.activeElement) ? document.activeElement.id : "";   // Tab 으로 옮긴 입력 칸도 그대로
+  side.innerHTML = html;
+  side.dataset.sel = String(selId);
+  side.scrollTop = keep ? top : 0;
+  if (focusId) setTimeout(() => { const el = document.getElementById(focusId); if (el) el.focus({ preventScroll: true }); }, 0);
   $("#ed-side .ed-list").onclick = e => {
     const id = e.target.closest("tr")?.dataset.id;
     const x = id && edFind(ed, id);
@@ -604,7 +609,8 @@ function edSide(ed) {
   };
   if (ed.tableDraft) edTableBind(ed);
   if (!it) return;
-  const redraw = () => edDraw(ed);
+  // 한 박자 늦게 다시 그린다: Tab 으로 다음 입력 칸에 간 뒤에 그려야 그 칸에 커서가 남는다 (edSide 가 포커스를 되살림)
+  const redraw = () => setTimeout(() => edDraw(ed), 0);
   const on = (sel, ev, fn) => { const el = $(sel); if (el) el.addEventListener(ev, fn); };
   on("#ed-del", "click", () => edDelete(ed));
   on("#ed-undrop", "click", () => { const e = edEntry(ed, it, false); if (e) { delete e.drop; tidyEntry(ed, it); ed.dirty = true; redraw(); } });
@@ -749,6 +755,7 @@ function floatSettings(ed, it, c) {
   return `<div class="box" style="margin:6px 0;padding:6px 8px"><span style="font-weight:700">자유 위치 ${stamp ? "도장" : "글자·번호"}</span>
     <div class="muted" style="font-size:12px">끈 사각형 안 어딘가에 문서마다 다른 자리·기울기로 찍힙니다 (값 칸과 많이 겹치지 않게).</div>
     <label class="fld">종류 <select id="ed-fl-preset">${F.presets.map(x => opt(x.id, c.preset, x.name)).join("")}</select></label>
+    ${stamp ? `<div class="muted" style="font-size:12px">글자(이름·금액·번호 …)를 이 영역 아무 자리에 쓰려면 종류를 <b>직접 만든 글자·번호</b>로 바꾸고 생성 방법을 고릅니다.</div>` : ""}
     <label class="fld">나올 확률 <input type="number" id="ed-fl-p" min="0" max="1" step="0.05" value="${c.p ?? 0.5}" style="width:5em">
       <span class="muted" style="font-size:12px">(1 = 늘, 0.3 = 서류 10장 중 3장쯤)</span></label>
     ${stamp ? `<label class="fld">도장 글자 <span class="muted" style="font-size:12px">줄바꿈 \\n, 자리 {date} {bank} {branch} {name}${pr.text ? ` — 비우면 기본: ${esc(pr.text.replace(/\n/g, " / "))}` : ""}</span>
