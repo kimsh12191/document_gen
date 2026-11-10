@@ -49,7 +49,7 @@ docgen/forms/<ID>/FORM.md 와 docgen/forms/README.md 를 읽어라. <할 일>.
 
 1. `python -m docgen.formdir check <ID>` — 형식 문제가 없어야 합니다 (7절 표).
 2. `python -m docgen.formdir card <ID>` — 카드를 다시 만들고, 카드의 **질문→답 예시**가 바라던 대로인지 봅니다.
-3. **사람이 그림을 봅니다:** studio 서식 › 그림·검수 › 미리보기(행 최소·최대, seed 몇 개)에서 값이 칸 안에 들어가고 원본과 같은지. 맞으면 검수 탭에서 **검수 완료**.
+3. **사람이 그림을 봅니다:** studio 서식 › 생성 사례 › 미리보기(행 최소·최대, seed 몇 개)에서 값이 칸 안에 들어가고 원본과 같은지. 맞으면 검수 탭에서 **검수 완료**.
    자동 검사 통과는 검수가 아닙니다.
 4. 이 서식만 데이터를 조금 만들어 봅니다: `python -m docgen.bench build --types <ID> --per-doc 2 --out out/try_<ID>` → `tasks/*.jsonl`.
 
@@ -315,6 +315,6 @@ python -m docgen.preview <ID> --rows max --out out/<ID>    # 그려 보기 (쪽 
 python -m docgen.bench build --types <ID> --per-doc 2 --out out/qa_<ID>   # 이 서식만 데이터 만들어 보기 (tasks/*.jsonl)
 ```
 
-studio: 서식 › **개요**(과제마다 묻는 것 — kie 칸·표·체크·qa.py, 상태·질문 검사 · 카드 원문) · **그림·검수**(미리보기·여러 장·검수) · **질문·답**(실제 문항·키) · **고치기**(그림 서식: 영역 편집 · 파일 / html·코드 서식: 파일 목록과 안내만).
+studio: 서식 › **개요**(과제마다 묻는 것 — kie 칸·표·체크·qa.py, 상태·질문 검사 · 카드 원문) · **생성 사례**(미리보기·여러 장·검수) · **질문·답**(실제 문항·키) · **고치기**(그림 서식: 영역 편집 · 파일 / html·코드 서식: 영역·키 보기 · 파일).
 html·코드 서식은 studio 화면에서 고치지 않습니다. 0절 표의 파일을 직접 고치거나 LLM 에게 시키고, studio 에서는 미리보기·검수만 합니다.
 [서식 다시 읽기]는 새 폴더 등록과 함께 `questions.json`·`qa.py` 형식 문제, 카드가 없거나 오래된 서식을 알려 줍니다.

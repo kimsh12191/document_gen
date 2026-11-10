@@ -12,7 +12,7 @@ python -m train --config train/configs/<이름>.json --from grpo # GRPO 다시 (
 python -m train --config train/configs/<이름>.json --dry-run   # 명령만 보기
 ```
 
-설정은 studio 데이터셋 › 학습 탭이 `train/configs/studio-<이름>.json` 으로 만들어 줍니다 ([guide/training.md](../guide/training.md)). 손으로 쓸 때는 [configs/pipeline.example.json](configs/pipeline.example.json) 을 복사합니다.
+설정은 [configs/pipeline.example.json](configs/pipeline.example.json) 을 복사해 씁니다 ([guide/training.md](../guide/training.md)). studio 에는 학습 화면이 없습니다.
 
 ## 데이터: 과제 폴더 섞기
 
