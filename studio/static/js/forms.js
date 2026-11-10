@@ -1,6 +1,6 @@
-// ① 서식: 목록, 상세(미리보기·예시·문항 Q/A·편집·검수·키 목록·파일), html 서식 복제.
-// 탭 중 문항 Q/A 는 questions.js, 영역 편집(원본 서식)은 editor.js, 자리·템플릿(html·코드 서식)은 html-spots.js, html 편집(복제 서식의 form.json·분석기)은 htmled.js 가 그린다.
-// 서버: studio/app.py (/api/forms…), studio/catalog.py, 복제는 studio/api_html.py
+// ① 서식: 목록, 상세(개요·미리보기·예시·문항·검수·영역 편집·파일).
+// 탭 중 문항은 questions.js, 영역 편집(overlay 서식)은 editor.js 가 그린다. html 서식은 화면에서 고치지 않고 코드로 고친다
+// (docgen/manual/NEW_FORM_SPEC.md, docgen/forms/README.md). 서버: studio/app.py (/api/forms…), studio/catalog.py
 "use strict";
 
 addRoute(/^#\/forms\/([^/]+)(?:\/(\w+))?$/, (id, tab) => viewForm(decodeURIComponent(id), tab || "overview"), "forms");
@@ -158,10 +158,8 @@ function formTabs(d) {
     ["그림·검수", "그린 그림과 정답이 맞는지 눈으로 보고 검수", [["preview", "미리보기"], ["examples", "여러 장 보기"],
       ["review", `검수${open ? ` · 문제 ${open}` : ""}`]]],
     ["질문·답", "과제마다 실제 질문·정답·채점", [["questions", "실제 문항"]]],
-    ["고치기", "값·위치·모양·칸·질문 설정", [["edit", editable ? "영역 편집" : "자리·템플릿"],
-      ...(!editable ? [["templates", "레이아웃·샘플링"]] : []),
-      ...(!editable && d.origin !== "builtin" ? [["html", "html 편집"]] : []),
-      ["files", "파일"]]],
+    ["고치기", editable ? "값·위치·모양·칸 설정" : "html 서식은 코드로 고침 (파일 목록·안내)",
+      [...(editable ? [["edit", "영역 편집"]] : []), ["files", "파일"]]],
   ];
 }
 
@@ -183,36 +181,20 @@ async function viewForm(id, tab) {
       <span class="tag">배정: ${esc(SPLIT_NAME[d.split] || d.split)}</span>
       ${d.edited ? `<span class="tag ok">사람 수정 있음</span>` : ""}
       ${d.n_korean_keys ? `<span class="tag warn">한글 키 ${d.n_korean_keys}</span>` : ""}
-      ${d.kind === "html" ? `<button id="f-clone" title="템플릿을 사본으로 만들어 html 편집기에서 고칩니다 (값은 부모 생성 함수 + 칸 목록 fields.json)">복제</button>` : ""}
     </div>
     ${d.description ? `<div class="sub" style="margin-top:6px">${esc(d.description)}</div>` : ""}
-    ${d.document_role ? `<div class="sub">제출 역할: <b>${esc(d.document_role.name)}</b> · 같은 역할 서식 ${d.document_role.forms.length}종
-      ${d.document_role.forms.filter(x => x !== d.id).map(x => `<a href="#/forms/${encodeURIComponent(x)}">${esc(x)}</a>`).join(' · ')}</div>` : ""}
     ${d.official_source ? `<div class="sub">${esc(d.official_source.publisher)} · ${esc(d.official_source.revision || "")} · <a href="${esc(d.official_source.url)}" target="_blank" rel="noopener noreferrer">공식 원문 보기</a></div>` : ""}
     <div class="tabs">${groups.map(g =>
       `<a href="${href(g[2][0][0])}" class="${g === group ? "on" : ""}" title="${esc(g[1])}">${esc(g[0])}</a>`).join("")}</div>
     ${group[2].length > 1 ? `<div class="subtabs">${group[2].map(([t, n]) =>
       `<a href="${href(t)}" class="${t === tab ? "on" : ""}">${esc(n)}</a>`).join("")}</div>` : ""}
     <div id="tab"></div>`;
-  if ($("#f-clone")) $("#f-clone").onclick = async () => {
-    const nid = (prompt("새 서식 ID (영어 소문자·숫자·밑줄)", `${d.id}_copy`) || "").trim();
-    if (!nid) return;
-    const name = (prompt("새 서식 이름", `${d.name} (복제)`) || "").trim();
-    try {
-      await api(`/api/forms/${encodeURIComponent(d.id)}/clone`, { new_id: nid, name });
-      state.forms = null; toast("복제했습니다. html 편집기로 갑니다");
-      location.hash = `#/forms/${encodeURIComponent(nid)}/html`;
-    } catch (e) { toast(e.message, true); }
-  };
   if (tab === "overview") return tabOverview(d);
   if (tab === "preview") return tabPreview(d);
   if (tab === "card") return tabCard(d);
   if (tab === "examples") return tabExamples(d);
   if (tab === "questions") return tabQuestions(d);
   if (tab === "edit" && editable) return viewEditor(d);
-  if (tab === "edit") return viewHtmlSpots(d);
-  if (tab === "templates") return viewTemplateVariants(d);
-  if (tab === "html" && typeof viewHtmlEditor === "function") return viewHtmlEditor(d);
   if (tab === "review") return tabReview(d);
   return tabFiles(d);
 }
@@ -234,7 +216,7 @@ async function tabOverview(d) {
       <p>자동 이미지 검사입니다. 사람 검수 완료와 별개입니다. 빈 값에는 미사용 행·기재 대상이 아닌 칸·출처가 없는 칸이 포함됩니다.</p>
       <p>${esc(a.coverage_note || '')}</p><p>쪽 넘침: ${a.overflow ? '있음' : '없음'} · 값 위치 누락 ${a.missing_positions?.length || 0} · 페이지 밖 ${a.offpage?.length || 0}</p>
       <div>${(a.empty || []).map(f => `<span class="tag">${esc(f.label || f.key)} · ${esc(f.key)}</span>`).join('')}</div>
-      <a href="#/forms/${id}/edit">영역·생성 방법 편집</a></details>` : ''}
+      ${d.kind === "overlay" ? `<a href="#/forms/${id}/edit">영역·생성 방법 편집</a>` : ""}</details>` : ''}
     <h2>이 서식이 묻는 것</h2>
     <div class="sub">이 서식으로 데이터를 만들면 아래 과제마다 문항이 생깁니다. 고객 여러 명으로 그려 본 칸으로 셉니다 (카드와 같은 계산).
       행 번호가 있는 칸(<span class="mono">rows.*.kind</span>)은 표로 묶여 kie 가 아니라 표 과제가 묻습니다.
@@ -580,7 +562,12 @@ async function tabReview(d) {
 
 function tabFiles(d) {
   $("#tab").innerHTML = `
-    <div class="sub">이 서식의 결과를 정하는 파일입니다 (저장소 기준 경로). 영역 편집기·html 편집기에서 고친 것도 이 파일들에 저장됩니다.</div>
+    <div class="sub">이 서식의 결과를 정하는 파일입니다 (저장소 기준 경로).${d.kind === "overlay" ? " 영역 편집기에서 고친 것도 이 파일들에 저장됩니다." : ""}</div>
+    ${d.kind === "html" ? `<div class="panel"><b>html 서식은 화면에서 고치지 않고 이 파일들을 코드로 고칩니다.</b>
+      고칠 곳은 <span class="mono">docgen/forms/README.md</span> 0절 표 → 이 서식 카드 <span class="mono">docgen/forms/${esc(d.id)}/FORM.md</span>,
+      파일 꼴은 <span class="mono">docgen/manual/NEW_FORM_SPEC.md</span>, 모양만은 <span class="mono">docgen/manual/FORM_SHELL_GUIDE.md</span>.
+      새 html 서식은 <span class="mono">docgen/forms/&lt;새 ID&gt;/</span> 폴더를 같은 꼴로 만들고 <b>서식 다시 읽기</b>.
+      고친 뒤 <span class="mono">python -m docgen.formdir check ${esc(d.id)}</span> 와 미리보기로 확인합니다.</div>` : ""}
     <table><thead><tr><th>역할</th><th>경로</th></tr></thead><tbody>${d.files.map(f =>
       `<tr><td>${esc(f.role)}</td><td class="mono">${esc(f.path)}</td></tr>`).join("")}</tbody></table>
     ${d.script ? `<h3>생성 스크립트 <span class="mono muted">${esc(d.script.path)}</span></h3>

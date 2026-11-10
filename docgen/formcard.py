@@ -337,7 +337,7 @@ def render_card(doc_id: str, builder) -> str:
               "| 답의 값 | " + ("`generate.py` (값 만드는 함수). 파이썬 대신 정하려면 `fields.json` 의 그 칸 `source`" if kind == "code"
                               else "`fields.json` 의 그 칸 `source` ([값 출처 목록](../_common/values.md))") + " | 다시 |",
               "| 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py`" + ("" if kind == "code" else " 의 `adjust(d, p, rng)`") + " | 다시 |",
-              f"| 답의 위치 (박스) | `{tpl_name}` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |"]
+              f"| 답의 위치 (박스) | `{tpl_name}` 배치 (파일로). 숫자로 고정하려면 `fields.json` `regions` | 다시 |"]
     else:
         L += ["| 칸(추출 항목) 더하기 | studio ① 서식 › 영역 편집에서 그리기 (`fields.json` items 에 한 칸) | 다시 |",
               "| 답의 위치 (박스) | `fields.json` 그 칸의 `rect` [x0, y0, x1, y1] (pt) — 또는 영역 편집 | 다시 |",

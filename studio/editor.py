@@ -33,7 +33,7 @@ def _overlay(doc_id: str):
     if spec is None:
         raise KeyError(doc_id)
     if spec.template != "_real_form.html.j2":
-        raise ValueError("영역 편집기는 overlay 서식만 씁니다 (html 서식은 html 편집기)")
+        raise ValueError("영역 편집기는 overlay 서식만 씁니다 (html 서식은 코드로 고침: docgen/manual/NEW_FORM_SPEC.md)")
     return spec
 
 

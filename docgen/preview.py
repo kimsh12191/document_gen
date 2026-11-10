@@ -192,7 +192,7 @@ class Previewer:
         extra: 시나리오 미리보기의 Profile.extra. 캐시에도 반영한다.
         html 서식(복제·분석기)이면 draft 는 {"template"?, "form"?} (저장하지 않은 템플릿·form.json), rows 는 반복 행 수
         "min" | "max" (없으면 서식대로 무작위). 코드 서식은 draft {"template"} (저장하지 않은 look/template.html.j2).
-        draft 에 "blank": true 를 더하면 값 글자·도장·서명을 안 보이게 그린다 (자리·위치는 같음, studio 자리·템플릿 화면).
+        draft 에 "blank": true 를 더하면 값 글자·도장·서명을 안 보이게 그린다 (자리·위치는 같음).
         "texts": true 면 라벨에 쪽 전체 글자 박스 texts, "fields": 저장하지 않은 칸 목록, "variant": 그 레이아웃 변형의 템플릿 초안.
         first=True (화면 미리보기): 1쪽을 찍으면 바로 돌려주고 남은 쪽은 렌더러가 이어서 찍는다 (다른 요청이 오면 양보).
         그동안 폴더에 pending.json 이 있고, 남은 쪽 그림은 complete(폴더) 가 마저 만든다. first=False 면 늘 모든 쪽이 있다."""

@@ -15,7 +15,6 @@ API
   GET  /api/forms/{id}/layout        overlay 영역 편집기: 영역(자동/수정/추가/뺌), 사람 수정, 깨진 수정
   PUT  /api/forms/{id}/overrides      사람 수정 저장 {overrides}
   GET  /api/forms/{id}/bg/{page}      지우기 전 배경 그림
-  GET  /api/forms/{id}/cell-image?keys=a,b   칸 자리 그림 (seed 0 미리보기에서 그 칸 둘레를 잘라 빨간 테두리) — 키 사전에서 칸이 누구 것인지 볼 때
   GET  /api/forms/{id}/checks         검수 전 자동 검사 (경고)
   POST /api/forms/{id}/review         검수 완료 {done}
   POST /api/forms/{id}/meta           학습/평가 배정·메모 {split, note}
@@ -26,7 +25,7 @@ API
                                       · DELETE /api/marks/pools/{풀}/{id}
   GET  /preview/...                   미리보기 이미지 · /marks-img/... 풀 이미지 · /fonts/... 손글씨 글꼴
   (⑥⑦ 등록부·채점: api_datasets.py, ③⑥⑧ 레시피·빌드·작업·업무 묶음·학습 설정: api_bank.py,
-   값 종류: api_keys.py, ① html 편집·복제: api_html.py)
+   값 종류: api_keys.py). html 서식은 화면에서 고치지 않는다 (코드로: docgen/manual/NEW_FORM_SPEC.md)
 """
 from __future__ import annotations
 
@@ -46,7 +45,7 @@ from pydantic import BaseModel, Field
 from docgen import marks as M
 from docgen.preview import CONDITIONS, MODES, Previewer
 
-from . import api_bank, api_datasets, api_html, api_keys, catalog, editor, marks_admin
+from . import api_bank, api_datasets, api_keys, catalog, editor, marks_admin
 from . import datasets as DS
 from .jobs import Jobs
 from .config import ROOT, load, resolve_path, setup_browser
@@ -132,7 +131,6 @@ REGISTRY = DS.Registry(resolve_path(CFG["workspace_dir"]), CFG.get("path_map") o
 JOBS = Jobs(REGISTRY.ws, ROOT)
 app.include_router(api_datasets.make_router(REGISTRY, guard, JOBS))
 app.include_router(api_bank.make_router(REGISTRY, JOBS, guard))
-app.include_router(api_html.make_router(REGISTRY, JOBS, guard, CFG, previewer, lambda p: f"/preview/{p}"))   # html 편집·복제
 app.include_router(api_keys.make_router(guard))   # 값 종류 저장 (영역 편집기의 "다른 서식에서도 쓰게 저장")
 app.mount("/fonts", StaticFiles(directory=ROOT / "docgen" / "fonts"), name="fonts")   # 손글씨 글꼴 (화면의 글꼴 미리보기)
 
@@ -271,13 +269,7 @@ def render(doc_id: str, req: RenderReq):
                                  "studio 를 띄우거나 설정의 browser 를 지정하세요. 렌더링이 필요 없는 화면은 그대로 씁니다.")
     # 일반 def 라서 FastAPI 가 스레드에서 돌린다. 실제 렌더링은 Previewer 의 전용 스레드 하나에서 차례로 한다.
     try:
-        if req.draft is not None and set(req.draft) == {"html_regions"}:
-            from docgen import html_regions
-
-            html_regions.path(doc_id)
-            draft = {"html_regions": html_regions.validate(req.draft["html_regions"])}
-        else:
-            draft = editor.validate(doc_id, req.draft) if req.draft is not None else None
+        draft = editor.validate(doc_id, req.draft) if req.draft is not None else None
         # first: 1쪽이 나오면 바로 돌려주고 남은 쪽은 이어서 (그 쪽 그림은 /preview/ 가 다 될 때까지 기다려 준다)
         label = previewer.render(doc_id, req.seed, req.heavy, req.special, req.condition, req.force, draft, extra=req.extra, first=True)
     except KeyError as e:
@@ -312,91 +304,8 @@ def form_questions(doc_id: str, req: FormQuestionsReq):
 
 
 # ---------------------------------------------------------------------------
-# 2단계: overlay 영역 편집기, 검수·배정·문제 표시, 키 사전, 값 출처, 표시 요소
+# 2단계: overlay 영역 편집기, 검수·배정·문제 표시, 값 출처, 표시 요소
 # ---------------------------------------------------------------------------
-
-@app.get("/api/forms/{doc_id}/regions")
-def html_regions_get(doc_id: str, variant: str = "default"):
-    from docgen import html_regions
-
-    return guard(html_regions.load, doc_id, variant)
-
-
-class RegionsReq(BaseModel):
-    regions: list[dict]
-    seed: int = 0
-    template_variant: str = "default"
-
-
-@app.put("/api/forms/{doc_id}/regions")
-def html_regions_save(doc_id: str, req: RegionsReq):
-    from docgen import html_regions
-
-    value = guard(html_regions.validate, {"regions": req.regions})
-    guard(html_regions.path, doc_id, req.template_variant)
-    if not BROWSER:
-        raise HTTPException(503, "저장 전 이미지 검사를 위해 렌더링 브라우저가 필요합니다")
-    guard(previewer.render, doc_id, req.seed, draft={"html_regions": value}, extra={"template_variants":{doc_id:req.template_variant}})
-    return guard(html_regions.save, doc_id, value, req.template_variant)
-
-
-class SpotsReq(BaseModel):
-    seed: int = Field(default=0, ge=0, le=2147483647)
-    heavy: str = "default"
-    template: str | None = None     # 저장하지 않은 템플릿 (미리보기·키 전후 비교)
-    variant: str = "default"        # 레이아웃 변형
-    values: list[dict] | None = None   # 저장하지 않은 값 출처 [{pattern, source, text?, choices?}]
-
-
-@app.post("/api/forms/{doc_id}/spots")
-def form_spots(doc_id: str, req: SpotsReq):
-    """html·코드 서식: 값이 나올 수 있는 모든 자리와 정한 곳 (studio/spots.py)."""
-    from . import spots
-
-    if not BROWSER:
-        raise HTTPException(503, "자리를 찾으려면 렌더링 브라우저가 필요합니다")
-    try:
-        out = spots.spots(doc_id, previewer.render, req.seed, req.heavy, req.template, req.variant, req.values)
-    except KeyError as e:
-        raise HTTPException(404, str(e))
-    except ValueError as e:
-        raise HTTPException(400, str(e))
-    except Exception as e:  # noqa: BLE001  템플릿 실행 오류도 화면에 그대로
-        raise HTTPException(400, f"그리기 오류: {type(e).__name__}: {e}")
-    out["label"] = {**out["label"], "image_urls": [f"/preview/{p}" for p in out["label"]["images"]]}
-    return out
-
-
-class TemplateReq(BaseModel):
-    template: str | None = None
-    variant: str = "default"
-    values: list[dict] | None = None
-
-
-@app.put("/api/forms/{doc_id}/template")
-def form_template_save(doc_id: str, req: TemplateReq):
-    """html·코드 서식: 템플릿(그 레이아웃)과 값 출처를 함께 저장. 문법·그리기 검사 뒤 (studio/spots.py)."""
-    from . import spots
-
-    if not BROWSER:
-        raise HTTPException(503, "저장 전 그리기 검사에 렌더링 브라우저가 필요합니다")
-    return guard(spots.save, doc_id, previewer.render, req.template, req.variant, req.values)
-
-
-class ValueReq(BaseModel):
-    pattern: str
-    source: str
-    text: str | None = None
-    choices: list[str] | None = None
-
-
-@app.put("/api/forms/{doc_id}/value")
-def form_value_save(doc_id: str, req: ValueReq):
-    """html·코드 서식: 키 하나의 값 출처를 칸 목록 fields.json 에 (studio/spots.py)."""
-    from . import spots
-
-    return guard(spots.set_value, doc_id, req.pattern, req.source, req.text, req.choices)
-
 
 @app.get("/api/forms/{doc_id}/layout")
 def layout(doc_id: str):
@@ -417,38 +326,6 @@ def background(doc_id: str, page: int):
     from docgen.realform import raw_background
 
     return Response(guard(raw_background, doc_id, page), media_type="image/png")
-
-
-@app.get("/api/forms/{doc_id}/cell-image")
-def cell_image(doc_id: str, keys: str):
-    """칸(서식의 키 하나 이상)의 자리: seed 0 미리보기 그림에서 그 칸 둘레를 잘라 테두리를 그린다. 위치가 없으면 404."""
-    if not BROWSER:
-        raise HTTPException(503, "렌더링 브라우저가 없어 칸 그림을 만들 수 없습니다")
-    from io import BytesIO
-
-    from PIL import Image, ImageDraw
-
-    want = [k for k in keys.split(",") if k]
-    try:
-        label = previewer.render(doc_id, 0, "default", "default", "clean")
-    except KeyError as e:
-        raise HTTPException(404, str(e))
-    hits = [f for k in want for f in label["fields"] if f["key"] == k and f.get("bbox")]
-    if not hits:
-        raise HTTPException(404, "이 칸은 그림에 위치가 없습니다")
-    page = hits[0].get("page") or 0
-    bs = [f["bbox"] for f in hits if (f.get("page") or 0) == page]
-    box = [min(b[0] for b in bs), min(b[1] for b in bs), max(b[2] for b in bs), max(b[3] for b in bs)]
-    img = Image.open(PREVIEW_DIR / label["images"][page]).convert("RGB")
-    mx, my = 420, 170   # 둘레: 이름표·옆 칸이 보이게
-    crop = (max(0, int(box[0] - mx)), max(0, int(box[1] - my)), min(img.width, int(box[2] + mx)), min(img.height, int(box[3] + my)))
-    out = img.crop(crop)
-    ImageDraw.Draw(out).rectangle([box[0] - crop[0] - 4, box[1] - crop[1] - 4, box[2] - crop[0] + 4, box[3] - crop[1] + 4], outline=(220, 30, 30), width=4)
-    if out.width > 900:
-        out = out.resize((900, round(out.height * 900 / out.width)))
-    buf = BytesIO()
-    out.save(buf, "PNG")
-    return Response(buf.getvalue(), media_type="image/png", headers={"Cache-Control": "max-age=600"})
 
 
 @app.get("/api/forms/{doc_id}/checks")

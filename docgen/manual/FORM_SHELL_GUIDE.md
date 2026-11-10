@@ -97,7 +97,7 @@ python -m docgen.formdir card <ID>                 # 카드 FORM.md 다시 만�
 
 - `overflow` 가 `false`, `checks` 가 비어 있어야 한다. 쪽 수가 바뀌었으면 원본과 같은지 본다.
 - 반복 행이 많은 서식은 `--rows max` 로도 그려 쪽 나눔을 본다.
-- 레이아웃 변형이 있으면 변형마다 확인한다 (studio 서식 › 레이아웃·샘플링).
+- 레이아웃 변형이 있으면 (서식 폴더 `variants/variants.json`) 변형마다 확인한다.
 
 ---
 

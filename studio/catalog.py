@@ -342,7 +342,8 @@ def form_detail(doc_id: str) -> dict:
     from docgen import formfields, regions
 
     op = formfields.path(doc_id)
-    files.append({"role": "칸 목록 (영역 편집기·html 편집기가 고침)", "path": _rel(op) + ("" if op.exists() else " (아직 없음)")})
+    if not any(f["path"].startswith(_rel(op)) for f in files):   # formdir.describe 에 이미 있으면 한 번만
+        files.append({"role": "칸 목록 (사람이 고치는 곳)", "path": _rel(op) + ("" if op.exists() else " (아직 없음)")})
     for f in [regions.path(doc_id), *regions.legacy(doc_id).values()]:
         if f.exists():
             files.append({"role": "예전 수정 파일",

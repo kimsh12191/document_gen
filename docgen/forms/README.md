@@ -3,23 +3,27 @@
 서식 하나 = 폴더 하나 (`docgen/forms/<ID>/`). 서식을 고치면 다음에 만드는 데이터(그림·질문·정답)가 그대로 따라 바뀝니다.
 먼저 0절 표에서 하고 싶은 일을 찾고, 직접 하거나 LLM 에게 시킵니다. 1절부터는 찾아보는 참고입니다.
 서식 ID 는 [guide/documents.md](../../guide/documents.md) 에서 이름으로 찾고, 그 서식의 모든 것은 카드 `docgen/forms/<ID>/FORM.md` 에 있습니다
-(칸·위치·값을 정한 곳(파일:줄)·실제 질문→답). 새 서식을 더하는 것은 [guide/new-forms.md](../../guide/new-forms.md).
+(칸·위치·값을 정한 곳(파일:줄)·실제 질문→답). 새 서식을 더하는 것은 그림 서식이면 [guide/new-forms.md](../../guide/new-forms.md) (studio),
+html 서식이면 이 폴더에 새 폴더를 [NEW_FORM_SPEC.md](../manual/NEW_FORM_SPEC.md) 꼴로 만듭니다 (코드로, 0절 마지막 줄).
+
+**html·코드 서식은 studio 화면에서 고치지 않습니다.** 아래 표의 "고칠 곳" 파일을 직접 고치거나 LLM 에게 시킵니다. studio 는 그려 보기(미리보기)·검수만 합니다.
 
 ## 0. 하고 싶은 일 → 고칠 곳
 
 카드 맨 위 **종류:** 줄로 서식 종류를 봅니다: 코드 서식(값을 `generate.py` 가 만듦) · html 서식(값을 `fields.json` 의 `source` 가 만듦) · 원본 서식(`hf###`·`img_*`, 원본 그림 위에 값).
 
-| 하고 싶은 일 | 고칠 곳 | 직접 하기 (studio 서식 › 그 서식) | LLM 지시문의 `<할 일>` |
+| 하고 싶은 일 | 고칠 곳 | 원본 서식은 studio 에서 (서식 › 그 서식) | LLM 지시문의 `<할 일>` |
 |---|---|---|---|
-| ① 값이 이상함 (형식·범위, 칸끼리 안 맞음) | html: `fields.json` 그 칸 `source`, 칸끼리 관계는 `generate.py` 의 `adjust` · 코드: `generate.py` · 원본·그린: `fields.json` 그 칸 `source`·`kind`·`fmt`(표기), 칸끼리 관계는 `generate.py` 의 `adjust` (견본 `python -m docgen.formdir adjust <ID> --new`) | 원본: 영역 편집 → 칸을 눌러 생성 방법 · html·코드: **자리·템플릿** → 자리를 눌러 생성 방법 ([생성 방법 목록](_common/values.md)). `generate.py` 는 파일로 | `칸 <키> 의 값이 <증상>. 원본 서식처럼 나오게 값 만드는 곳을 고쳐라` |
-| ② 값 위치·박스가 어긋남 | 원본: `fields.json` 그 칸 `rect` · html·코드: 템플릿 배치 | 원본: 영역 편집에서 끌어 옮기기 · html·코드: **자리·템플릿** (자리를 누르면 템플릿 그 줄로) | `칸 <키> 가 원본의 <어디> 칸에 오게 고쳐라`. 원본 서식은 [FORM_SHELL_GUIDE.md](../manual/FORM_SHELL_GUIDE.md) 4장을 같이 준다 |
-| ③ 모양(표·문구·선)이 원본과 다름 | html·코드: `look/template.html.j2` (원본 서식은 그림이라 안 고침) | **자리·템플릿** (템플릿 고치기 → 미리보기 → 저장) | [FORM_SHELL_GUIDE.md](../manual/FORM_SHELL_GUIDE.md) 3장 + 원본 그림을 주고 `키는 그대로 두고 모양만 원본처럼 고쳐라` |
-| ④ 칸(추출 항목) 더하기·빼기·키 바꾸기 | html: 템플릿 `f("키", label=…)` + `fields.json` · 코드: 템플릿 + `generate.py` (+ `formdir declare <ID> --apply`) · 원본: `fields.json` | 원본: 영역 편집에서 그리기·지우기 · html·코드: **자리·템플릿** — 빈칸을 누르고 **[자리 넣기]** (키·항목명·생성 방법), 빼기는 템플릿에서 그 줄을 지움. 저장 전 키 전후 비교 | `원본의 <항목명> 칸을 키 <키> 로 더하라` (키 이름은 [키 이름 규칙](_common/README.md#키-이름-규칙)) |
+| ① 값이 이상함 (형식·범위, 칸끼리 안 맞음) | html: `fields.json` 그 칸 `source`, 칸끼리 관계는 `generate.py` 의 `adjust` · 코드: `generate.py` · 원본·그린: `fields.json` 그 칸 `source`·`kind`·`fmt`(표기), 칸끼리 관계는 `generate.py` 의 `adjust` (견본 `python -m docgen.formdir adjust <ID> --new`) | 영역 편집 → 칸을 눌러 생성 방법. html·코드는 파일로 ([생성 방법 목록](_common/values.md)) | `칸 <키> 의 값이 <증상>. 원본 서식처럼 나오게 값 만드는 곳을 고쳐라` |
+| ② 값 위치·박스가 어긋남 | 원본: `fields.json` 그 칸 `rect` · html·코드: 템플릿 배치 | 영역 편집에서 끌어 옮기기. html·코드는 파일로 | `칸 <키> 가 원본의 <어디> 칸에 오게 고쳐라`. 원본 서식은 [FORM_SHELL_GUIDE.md](../manual/FORM_SHELL_GUIDE.md) 4장을 같이 준다 |
+| ③ 모양(표·문구·선)이 원본과 다름 | html·코드: `look/template.html.j2` (원본 서식은 그림이라 안 고침) | — (html·코드만 해당, 파일로) | [FORM_SHELL_GUIDE.md](../manual/FORM_SHELL_GUIDE.md) 3장 + 원본 그림을 주고 `키는 그대로 두고 모양만 원본처럼 고쳐라` |
+| ④ 칸(추출 항목) 더하기·빼기·키 바꾸기 | html: 템플릿 `f("키", label=…)` + `fields.json` · 코드: 템플릿 + `generate.py` (+ `formdir declare <ID> --apply`) · 원본: `fields.json` | 영역 편집에서 그리기·지우기. html·코드는 파일로 (빼기는 템플릿에서 그 줄을 지움) | `원본의 <항목명> 칸을 키 <키> 로 더하라` (키 이름은 [키 이름 규칙](_common/README.md#키-이름-규칙)) |
 | ⑤ 질문 문장·답 모양 바꾸기, 어떤 칸은 묻지 않기 | `questions.json` (기본과 다른 것만), 칸마다는 `fields.json` 그 칸의 `"q"` | 파일로 (질문·답 › 실제 문항에서 결과 확인) | `kie 질문을 <문장> 으로, 답을 <꼴> 로 바꿔라` / `칸 <키> 는 묻지 마라` (5.1·5.2절) |
 | ⑤-1 표: 제목 정하기, 정해진 격자를 표가 아니라 kie 로, 행 순서 | `questions.json` 의 `table` (제목·`ask: false`), 행 순서는 `generate.py` | 파일로. 개요의 표 줄(또는 카드의 "표" 절)에서 묶음 이름 확인 | `표 <묶음> 의 제목을 <제목> 으로` / `<묶음> 은 개수가 정해진 격자라 kie 로 묻게` / `표 <묶음> 을 최신순으로` (5.5절) |
 | ⑥ 이 서식만의 질문 더하기 (계산·판단) | `qa.py` (함수 하나 = 질문 하나) | 파일로. 견본 `python -m docgen.formdir qa <ID> --new` | `qa.py 에 <질문> 을 더하라. 정답은 칸 <키…> 로 계산` (5.3절) |
 | ⑦ 채점을 다르게 | 서식 폴더가 아니라 `train/scorers/` (평가 세트에 붙임) | — | `train/scorers/<견본> 을 복사해 <규칙> 으로 채점하게 하라` (5.4절) |
-| 새 서식 추가 | → [guide/new-forms.md](../../guide/new-forms.md) | 왼쪽 메뉴 **새 서식 추가** | |
+| 새 서식 추가 (그림 위에 칸) | → [guide/new-forms.md](../../guide/new-forms.md) | 왼쪽 메뉴 **새 서식 추가** | |
+| 새 html 서식 추가 (코드로) | 새 폴더 `docgen/forms/<새 ID>/` 를 [NEW_FORM_SPEC.md](../manual/NEW_FORM_SPEC.md) 꼴로 (`form.json`·`fields.json`·`look/template.html.j2`, 선택 `generate.py`·`qa.py`). 비슷한 서식 폴더를 복사해 시작해도 됨 | 폴더를 두고 서식 목록의 **[서식 다시 읽기]** → 미리보기·검수 | `docgen/manual/NEW_FORM_SPEC.md 를 읽고, 이 그림의 서식을 docgen/forms/<새 ID>/ 에 그 꼴로 만들어라` (원본 그림은 사내 모델에만) |
 
 ①~④ 는 그림이 바뀌어 그 서식이 "재검수 필요"가 됩니다. ⑤~⑦ 은 그림을 바꾸지 않습니다.
 
@@ -47,7 +51,7 @@ docgen/forms/<ID>/FORM.md 와 docgen/forms/README.md 를 읽어라. <할 일>.
 2. `python -m docgen.formdir card <ID>` — 카드를 다시 만들고, 카드의 **질문→답 예시**가 바라던 대로인지 봅니다.
 3. **사람이 그림을 봅니다:** studio 서식 › 그림·검수 › 미리보기(행 최소·최대, seed 몇 개)에서 값이 칸 안에 들어가고 원본과 같은지. 맞으면 검수 탭에서 **검수 완료**.
    자동 검사 통과는 검수가 아닙니다.
-4. 이 서식만 데이터를 조금 만들어 봅니다: `python -m docgen.bench build --types <ID> --per-doc 2 --bundles 0 --out out/try_<ID>` → `tasks/*.jsonl`.
+4. 이 서식만 데이터를 조금 만들어 봅니다: `python -m docgen.bench build --types <ID> --per-doc 2 --out out/try_<ID>` → `tasks/*.jsonl`.
 
 ## 1. 무엇을 하는 곳인가
 
@@ -261,12 +265,12 @@ docgen 데이터셋을 학습 데이터(`data.train`)로 쓸 때는 채점 함�
 | 칸 키·항목명 | 템플릿의 `f("키", label=…)` | 템플릿 + `fields.json` | 영역 편집 (`fields.json` 그 칸 `key`·`label`) | 다시 |
 | 값 | `generate.py` | `fields.json` 의 `source` ([생성 방법 목록](_common/values.md)) | 생성 방법·값 종류 (`source`·`kind`) | 다시 |
 | 칸끼리 관계 (합계·날짜 순서) | `generate.py` | `generate.py` 의 `adjust(d, p, rng)` | — | 다시 |
-| 모양·표·문구 | 템플릿 파일 `look/template.html.j2` | 템플릿 (studio 자리·템플릿 또는 파일) | 바꾸지 않음 | 다시 |
+| 모양·표·문구 | 템플릿 파일 `look/template.html.j2` | 템플릿 파일 | 바꾸지 않음 | 다시 |
 | 답의 위치 (박스) | 템플릿 배치 | 같음 | `fields.json` 그 칸 `rect` | 다시 |
 | 질문 설정·질문 문장·답 모양·전용 질문 | 5절 | 5절 | 5절 | 필요 없음 |
 
 - **그림을 바꾸는 것**을 고치면 그 서식이 "재검수 필요"로 바뀝니다. 질문(`q`·`questions.json`·`qa.py`)은 그림을 바꾸지 않아 검수 상태가 그대로입니다.
-- 새 서식을 처음부터 만드는 절차는 [guide/new-forms.md](../../guide/new-forms.md), 결과물 형식은 [NEW_FORM_SPEC.md](../manual/NEW_FORM_SPEC.md).
+- 새 서식을 처음부터: 그림 서식은 [guide/new-forms.md](../../guide/new-forms.md) (studio), html 서식은 [NEW_FORM_SPEC.md](../manual/NEW_FORM_SPEC.md) 꼴로 폴더를 만듦 (코드).
 
 ## 7. 고친 뒤
 
