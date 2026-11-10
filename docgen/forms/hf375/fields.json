@@ -41,7 +41,9 @@
     181.9,
     547.3,
     197.9
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -53,7 +55,10 @@
     528.7,
     159.3
    ],
-   "free": true
+   "free": true,
+   "kind": "person",
+   "std": false,
+   "key": "직위/성명"
   },
   {
    "t": "text",
@@ -65,7 +70,9 @@
     528.7,
     180.5
    ],
-   "free": true
+   "free": true,
+   "kind": "address",
+   "key": "employer.address"
   },
   {
    "t": "date",
@@ -90,7 +97,8 @@
      325.8,
      280.5
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -107,7 +115,9 @@
     320.9,
     447.0,
     330.9
-   ]
+   ],
+   "who": "corp",
+   "what": "ceo"
   },
   {
    "t": "sign",
@@ -119,7 +129,8 @@
     378.6,
     447.0,
     388.6
-   ]
+   ],
+   "who": "bank"
   }
  ]
 }

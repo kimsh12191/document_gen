@@ -30,7 +30,9 @@
     165.3,
     483.0,
     179.9
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -42,7 +44,9 @@
     549.3,
     239.0
    ],
-   "section": "신 청 인"
+   "section": "신 청 인",
+   "kind": "text",
+   "key": "company.biz_item"
   },
   {
    "t": "text",
@@ -54,7 +58,9 @@
     549.3,
     261.7
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -66,7 +72,10 @@
     549.3,
     284.4
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "대주"
   },
   {
    "t": "text",
@@ -78,7 +87,10 @@
     549.3,
     307.0
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "amount",
+   "std": false,
+   "key": "통화및금액"
   },
   {
    "t": "text",
@@ -90,7 +102,10 @@
     549.3,
     329.7
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "date",
+   "std": false,
+   "key": "차입일/대출일"
   },
   {
    "t": "text",
@@ -102,7 +117,10 @@
     549.3,
     375.1
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "대차기간"
   },
   {
    "t": "text",
@@ -114,7 +132,10 @@
     549.3,
     397.7
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "reason",
+   "std": false,
+   "key": "사용용도"
   },
   {
    "t": "text",
@@ -126,7 +147,10 @@
     549.3,
     420.4
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "repay",
+   "std": false,
+   "key": "상환방법"
   },
   {
    "t": "text",
@@ -137,7 +161,10 @@
     529.9,
     549.3,
     552.6
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "신고번호"
   },
   {
    "t": "text",
@@ -148,7 +175,10 @@
     552.6,
     549.3,
     575.3
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "신고금액"
   },
   {
    "t": "text",
@@ -159,7 +189,10 @@
     575.3,
     549.3,
     597.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "유효기간"
   },
   {
    "t": "text",
@@ -173,7 +206,10 @@
    ],
    "group": "금전의 대차계약 신고(보고)서",
    "row": true,
-   "section": "금전의 대차계약 신고(보고)서"
+   "section": "금전의 대차계약 신고(보고)서",
+   "kind": "skip",
+   "std": false,
+   "key": "처리기간"
   },
   {
    "t": "date",
@@ -198,7 +234,8 @@
      500.9,
      482.0
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -209,7 +246,10 @@
     570.4,
     343.2,
     589.8
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "신고조건"
   },
   {
    "t": "date",
@@ -234,7 +274,8 @@
      498.1,
      630.2
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -251,7 +292,9 @@
     635.8,
     508.5,
     649.2
-   ]
+   ],
+   "who": "bank",
+   "what": "name"
   },
   {
    "t": "text",
@@ -263,7 +306,10 @@
     334.3,
     576.8
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "위의신청을다음과같이신고필함"
   }
  ]
 }

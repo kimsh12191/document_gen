@@ -29,7 +29,10 @@
     437.8,
     191.5,
     458.5
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "PostalCode"
   },
   {
    "t": "text",
@@ -40,7 +43,9 @@
     459.6,
     191.5,
     480.5
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -51,7 +56,10 @@
     261.1,
     551.7,
     283.7
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "CorporateIdentificationNo"
   },
   {
    "t": "text",
@@ -63,7 +71,10 @@
     551.7,
     306.4
    ],
-   "hint": "Enter educational institution’s Business Registration No."
+   "hint": "Enter educational institution’s Business Registration No.",
+   "kind": "biz_no",
+   "std": false,
+   "key": "BusinessRegistrationNo"
   },
   {
    "t": "text",
@@ -75,7 +86,10 @@
     551.7,
     329.1
    ],
-   "section": "Educational Institution Name *"
+   "section": "Educational Institution Name *",
+   "kind": "skip",
+   "std": false,
+   "key": "value"
   },
   {
    "t": "text",
@@ -86,7 +100,10 @@
     329.1,
     551.7,
     394.3
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "value"
   },
   {
    "t": "text",
@@ -97,7 +114,10 @@
     436.8,
     551.7,
     459.5
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "PostalCode"
   },
   {
    "t": "text",
@@ -108,7 +128,9 @@
     459.5,
     551.7,
     482.2
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -120,7 +142,10 @@
     551.7,
     527.5
    ],
-   "section": "Contact Info"
+   "section": "Contact Info",
+   "kind": "phone",
+   "std": false,
+   "key": "PhoneNo"
   },
   {
    "t": "text",
@@ -132,7 +157,10 @@
     551.7,
     550.2
    ],
-   "section": "Contact Info"
+   "section": "Contact Info",
+   "kind": "number",
+   "std": false,
+   "key": "FaxNo"
   },
   {
    "t": "text",
@@ -144,7 +172,9 @@
     123.7,
     651.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Currency",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -156,7 +186,9 @@
     123.7,
     674.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Currency",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -168,7 +200,9 @@
     123.7,
     696.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Currency",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -180,7 +214,9 @@
     123.7,
     719.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Currency",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -192,7 +228,9 @@
     123.7,
     742.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Currency",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -204,7 +242,9 @@
     123.7,
     764.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Currency",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -216,7 +256,9 @@
     293.7,
     651.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.AccountNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -228,7 +270,9 @@
     293.7,
     674.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.AccountNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -240,7 +284,9 @@
     293.7,
     696.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.AccountNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -252,7 +298,9 @@
     293.7,
     719.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.AccountNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -264,7 +312,9 @@
     293.7,
     742.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.AccountNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -276,7 +326,9 @@
     293.7,
     764.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.AccountNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -288,7 +340,9 @@
     422.7,
     651.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.AccountHolderName",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -300,7 +354,9 @@
     422.7,
     674.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.AccountHolderName",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -312,7 +368,9 @@
     422.7,
     696.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.AccountHolderName",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -324,7 +382,9 @@
     422.7,
     719.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.AccountHolderName",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -336,7 +396,9 @@
     422.7,
     742.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.AccountHolderName",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -348,7 +410,9 @@
     422.7,
     764.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.AccountHolderName",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -360,7 +424,9 @@
     551.7,
     651.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Seal/Signature",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -372,7 +438,9 @@
     551.7,
     674.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Seal/Signature",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -384,7 +452,9 @@
     551.7,
     696.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Seal/Signature",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -396,7 +466,9 @@
     551.7,
     719.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Seal/Signature",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -408,7 +480,9 @@
     551.7,
     742.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Seal/Signature",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -420,7 +494,9 @@
     551.7,
     764.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.Seal/Signature",
+   "kind": "text"
   },
   {
    "t": "check",
@@ -475,7 +551,8 @@
      ],
      "line": 39
     }
-   ]
+   ],
+   "key": "check.Iherebywishto"
   },
   {
    "t": "text",
@@ -487,7 +564,10 @@
     191.5,
     435.8
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Representative"
   },
   {
    "t": "text",
@@ -500,7 +580,9 @@
     143.2
    ],
    "hint": "Enter name of proxy who visited the branch",
-   "section": "PROXY"
+   "section": "PROXY",
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -513,7 +595,9 @@
     165.8
    ],
    "hint": "Enter address of proxy who visited the branch",
-   "section": "PROXY Address *"
+   "section": "PROXY Address *",
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -525,7 +609,9 @@
     551.2,
     188.5
    ],
-   "section": "PROXY Address *"
+   "section": "PROXY Address *",
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -538,7 +624,10 @@
     233.9
    ],
    "hint": "Enter if proxy who visited the branch is a Korean national",
-   "section": "PROXY"
+   "section": "PROXY",
+   "kind": "number",
+   "std": false,
+   "key": "ResidentRegistrationNo"
   },
   {
    "t": "text",
@@ -549,7 +638,10 @@
     233.9,
     551.2,
     256.5
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Relation"
   },
   {
    "t": "text",
@@ -560,7 +652,10 @@
     256.5,
     551.2,
     313.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Signature/Seal"
   },
   {
    "t": "text",
@@ -573,7 +668,10 @@
     501.5
    ],
    "hint": "Signature identical to seal acknowledged and registered by Bank or registered seal recognized by the Korean government",
-   "section": "“Customer”"
+   "section": "“Customer”",
+   "kind": "text",
+   "std": false,
+   "key": "Signature/Seal"
   },
   {
    "t": "text",
@@ -585,7 +683,10 @@
     551.2,
     598.9
    ],
-   "hint": "Enter name of Hana Bank staff person handling this transaction"
+   "hint": "Enter name of Hana Bank staff person handling this transaction",
+   "kind": "text",
+   "std": false,
+   "key": "BankVerifier’sName/Signature"
   },
   {
    "t": "text",
@@ -597,7 +698,10 @@
     551.2,
     621.6
    ],
-   "hint": "Enter date application is submitted"
+   "hint": "Enter date application is submitted",
+   "kind": "date",
+   "std": false,
+   "key": "DateSubmitted"
   },
   {
    "t": "text",
@@ -609,7 +713,10 @@
     551.2,
     644.3
    ],
-   "hint": "Enter date information is registered"
+   "hint": "Enter date information is registered",
+   "kind": "date",
+   "std": false,
+   "key": "DateRegistered"
   },
   {
    "t": "text",
@@ -620,7 +727,9 @@
     377.8,
     547.3,
     396.0
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -632,7 +741,10 @@
     163.2,
     199.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "PROXY"
   },
   {
    "t": "text",
@@ -644,7 +756,9 @@
     552.3,
     337.4
    ],
-   "free": true
+   "free": true,
+   "kind": "date",
+   "key": "date"
   }
  ]
 }

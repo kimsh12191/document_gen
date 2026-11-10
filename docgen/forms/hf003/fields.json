@@ -80,7 +80,9 @@
    ],
    "hint": "(본인계좌에 한함)",
    "row": true,
-   "group": "자유"
+   "group": "자유",
+   "key": "자유_목록.{i}.갋",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -94,7 +96,9 @@
    ],
    "hint": "(본인계좌에 한함)",
    "row": true,
-   "group": "자유"
+   "group": "자유",
+   "key": "자유_목록.{i}.갋",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -108,7 +112,9 @@
    ],
    "hint": "(본인계좌에 한함)",
    "row": true,
-   "group": "자유"
+   "group": "자유",
+   "key": "자유_목록.{i}.갋",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -119,7 +125,10 @@
     360.2,
     251.8,
     377.1
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "갋"
   },
   {
    "t": "text",
@@ -130,7 +139,10 @@
     418.8,
     251.8,
     437.7
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "갋"
   },
   {
    "t": "text",
@@ -141,7 +153,10 @@
     481.5,
     251.8,
     498.7
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "갋"
   },
   {
    "t": "text",
@@ -240,7 +255,9 @@
     409.3,
     139.4
    ],
-   "hint": "여권상 영문명 필수"
+   "hint": "여권상 영문명 필수",
+   "kind": "text",
+   "key": "customer.name_en"
   },
   {
    "t": "text",
@@ -274,7 +291,8 @@
    ],
    "section": "주 소",
    "key": "customer.address",
-   "edited": true
+   "edited": true,
+   "kind": "text"
   },
   {
    "t": "text",
@@ -289,7 +307,8 @@
    "hint": "직장주소 기재시 직장명, 부서까지 기재해 주시면 우편물이 보다 정확하게 배송됩니다.",
    "section": "주 소",
    "key": "employer.address",
-   "edited": true
+   "edited": true,
+   "kind": "text"
   },
   {
    "t": "text",
@@ -303,7 +322,8 @@
    ],
    "section": "전 화",
    "key": "customer.home_phone",
-   "edited": true
+   "edited": true,
+   "kind": "text"
   },
   {
    "t": "text",
@@ -317,7 +337,8 @@
    ],
    "section": "전 화",
    "key": "employer.phone",
-   "edited": true
+   "edited": true,
+   "kind": "text"
   },
   {
    "t": "text",
@@ -426,7 +447,8 @@
      ],
      "line": 147
     }
-   ]
+   ],
+   "key": "check.비과세종합저축/재형저축"
   },
   {
    "t": "check",
@@ -449,7 +471,8 @@
      ],
      "line": 148
     }
-   ]
+   ],
+   "key": "check.귀행에대한제대출금보증채"
   },
   {
    "t": "check",
@@ -472,7 +495,8 @@
      ],
      "line": 149
     }
-   ]
+   ],
+   "key": "check.본인은금융지주회사법제4"
   },
   {
    "t": "date",
@@ -497,7 +521,8 @@
      370.5,
      611.2
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -557,7 +582,8 @@
    "free": true,
    "key": "deposit.withdraw_account",
    "source": "profile.accounts.0.number",
-   "edited": true
+   "edited": true,
+   "kind": "account"
   },
   {
    "t": "text",
@@ -569,7 +595,9 @@
     562.0,
     607.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -581,7 +609,9 @@
     170.0,
     775.4
    ],
-   "free": true
+   "free": true,
+   "kind": "account",
+   "key": "account"
   },
   {
    "t": "text",
@@ -683,7 +713,9 @@
     237.1,
     389.7
    ],
-   "section": "개인사업자"
+   "section": "개인사업자",
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -695,7 +727,9 @@
     414.9,
     389.7
    ],
-   "section": "개인사업자"
+   "section": "개인사업자",
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -709,7 +743,8 @@
    ],
    "section": "개인사업자",
    "key": "company.established",
-   "edited": true
+   "edited": true,
+   "kind": "date"
   },
   {
    "t": "text",
@@ -720,7 +755,9 @@
     438.2,
     476.7,
     456.3
-   ]
+   ],
+   "kind": "account",
+   "key": "account"
   },
   {
    "t": "text",
@@ -732,7 +769,9 @@
     237.1,
     659.0
    ],
-   "section": "대 리 인 인적사항"
+   "section": "대 리 인 인적사항",
+   "kind": "person",
+   "key": "agent.name"
   },
   {
    "t": "text",
@@ -744,7 +783,9 @@
     237.1,
     677.3
    ],
-   "section": "대 리 인 인적사항"
+   "section": "대 리 인 인적사항",
+   "kind": "text",
+   "key": "agent.relation"
   },
   {
    "t": "text",
@@ -756,7 +797,9 @@
     396.1,
     659.0
    ],
-   "section": "대 리 인 인적사항"
+   "section": "대 리 인 인적사항",
+   "kind": "date",
+   "key": "agent.birth"
   },
   {
    "t": "text",
@@ -769,7 +812,9 @@
     677.3
    ],
    "hint": "선 택 항 목",
-   "section": "대 리 인 인적사항"
+   "section": "대 리 인 인적사항",
+   "kind": "address",
+   "key": "agent.address"
   },
   {
    "t": "text",
@@ -782,7 +827,9 @@
     659.0
    ],
    "hint": "선 택 항 목",
-   "section": "대 리 인 인적사항"
+   "section": "대 리 인 인적사항",
+   "kind": "phone",
+   "key": "agent.phone"
   },
   {
    "t": "text",
@@ -866,7 +913,9 @@
     556.0,
     152.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -878,7 +927,9 @@
     556.0,
     220.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -892,7 +943,8 @@
    ],
    "free": true,
    "key": "related.name",
-   "edited": true
+   "edited": true,
+   "kind": "person"
   },
   {
    "t": "text",
@@ -919,7 +971,9 @@
     556.0,
     477.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -931,7 +985,9 @@
     414.3,
     615.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -943,7 +999,9 @@
     556.0,
     615.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "agent.name"
   },
   {
    "t": "text",
@@ -955,7 +1013,9 @@
     558.0,
     695.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -967,7 +1027,9 @@
     169.2,
     775.4
    ],
-   "free": true
+   "free": true,
+   "kind": "account",
+   "key": "account"
   },
   {
    "t": "text",
@@ -1069,7 +1131,8 @@
     137.6
    ],
    "key": "customer.name",
-   "added": true
+   "added": true,
+   "kind": "person"
   },
   {
    "t": "text",
@@ -1082,7 +1145,8 @@
     137.6
    ],
    "key": "customer.birth",
-   "added": true
+   "added": true,
+   "kind": "date"
   },
   {
    "t": "text",
@@ -1095,7 +1159,8 @@
     160.9
    ],
    "key": "customer.phone",
-   "added": true
+   "added": true,
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -1108,7 +1173,8 @@
     333.0
    ],
    "key": "customer.email",
-   "added": true
+   "added": true,
+   "kind": "phone"
   },
   {
    "t": "text",
@@ -1373,7 +1439,8 @@
     610.1
    ],
    "key": "date",
-   "added": true
+   "added": true,
+   "kind": "date"
   },
   {
    "t": "text",
@@ -1429,7 +1496,8 @@
    ],
    "key": "ebank.passbook_memo",
    "source": "rule:free_text",
-   "added": true
+   "added": true,
+   "kind": "text"
   },
   {
    "t": "text",
@@ -1442,7 +1510,8 @@
     211.9
    ],
    "key": "customer.name_en",
-   "added": true
+   "added": true,
+   "kind": "text"
   },
   {
    "t": "text",

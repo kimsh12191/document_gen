@@ -30,7 +30,9 @@
     159.3,
     477.2,
     172.8
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -42,7 +44,9 @@
     553.1,
     230.6
    ],
-   "section": "신 청 인"
+   "section": "신 청 인",
+   "kind": "text",
+   "key": "company.biz_item"
   },
   {
    "t": "text",
@@ -54,7 +58,10 @@
     553.1,
     341.2
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "임대차물종류"
   },
   {
    "t": "text",
@@ -66,7 +73,9 @@
     553.1,
     366.7
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "address",
+   "key": "company.address"
   },
   {
    "t": "text",
@@ -78,7 +87,10 @@
     553.1,
     392.2
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "count",
+   "std": false,
+   "key": "수량"
   },
   {
    "t": "text",
@@ -90,7 +102,10 @@
     553.1,
     443.2
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "임대차기간"
   },
   {
    "t": "text",
@@ -102,7 +117,10 @@
     553.1,
     468.8
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "reason",
+   "std": false,
+   "key": "임대차사유"
   },
   {
    "t": "text",
@@ -113,7 +131,10 @@
     583.4,
     553.1,
     608.9
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "신고번호"
   },
   {
    "t": "text",
@@ -124,7 +145,9 @@
     608.9,
     553.1,
     634.5
-   ]
+   ],
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -138,7 +161,10 @@
    ],
    "group": "임 대 차 계 약 신 고 서",
    "row": true,
-   "section": "임 대 차 계 약 신 고 서"
+   "section": "임 대 차 계 약 신 고 서",
+   "kind": "skip",
+   "std": false,
+   "key": "처리기간"
   },
   {
    "t": "date",
@@ -163,7 +189,8 @@
      483.4,
      536.5
     ]
-   }
+   },
+   "key": "date"
   }
  ]
 }

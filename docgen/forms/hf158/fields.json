@@ -49,7 +49,9 @@
     131.4,
     244.7,
     156.7
-   ]
+   ],
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -60,7 +62,9 @@
     156.7,
     244.7,
     182.3
-   ]
+   ],
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -71,7 +75,9 @@
     182.3,
     446.2,
     213.4
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -82,7 +88,9 @@
     131.4,
     446.2,
     156.7
-   ]
+   ],
+   "kind": "text",
+   "key": "agent.relation"
   },
   {
    "t": "text",
@@ -93,7 +101,9 @@
     156.7,
     446.2,
     182.3
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "sign",
@@ -110,7 +120,9 @@
     517.2,
     509.9,
     530.1
-   ]
+   ],
+   "who": "bank",
+   "what": "name"
   },
   {
    "t": "date",
@@ -135,7 +147,8 @@
      345.7,
      662.6
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -152,7 +165,9 @@
     694.9,
     424.1,
     707.8
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "date",
@@ -177,7 +192,8 @@
      236.3,
      731.5
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -188,7 +204,10 @@
     737.2,
     547.3,
     756.2
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "소"
   },
   {
    "t": "text",
@@ -199,7 +218,9 @@
     759.9,
     547.3,
     778.9
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -211,7 +232,10 @@
     450.7,
     342.6
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-본인의투자성향파악여부에대한의사결정"
   },
   {
    "t": "text",
@@ -223,7 +247,10 @@
     450.7,
     355.3
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-본인의투자성향분석결과를확인하는행위"
   },
   {
    "t": "text",
@@ -235,7 +262,10 @@
     450.7,
     380.6
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "■하나골드신탁만기연장과관련한일체의사항"
   }
  ]
 }

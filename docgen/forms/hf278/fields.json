@@ -24,7 +24,9 @@
     127.9,
     347.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -36,7 +38,9 @@
     127.9,
     372.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -48,7 +52,9 @@
     127.9,
     398.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -60,7 +66,9 @@
     127.9,
     423.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -72,7 +80,9 @@
     127.9,
     449.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -84,7 +94,9 @@
     213.0,
     347.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.종류",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -96,7 +108,9 @@
     213.0,
     372.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.종류",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -108,7 +122,9 @@
     213.0,
     398.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.종류",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -120,7 +136,9 @@
     213.0,
     423.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.종류",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -132,7 +150,9 @@
     213.0,
     449.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.종류",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -144,7 +164,9 @@
     298.0,
     347.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화코드",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -156,7 +178,9 @@
     298.0,
     372.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화코드",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -168,7 +192,9 @@
     298.0,
     398.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화코드",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -180,7 +206,9 @@
     298.0,
     423.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화코드",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -192,7 +220,9 @@
     298.0,
     449.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화코드",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -204,7 +234,9 @@
     383.0,
     347.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.매입금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -216,7 +248,9 @@
     383.0,
     372.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.매입금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -228,7 +262,9 @@
     383.0,
     398.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.매입금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -240,7 +276,9 @@
     383.0,
     423.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.매입금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -252,7 +290,9 @@
     383.0,
     449.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.매입금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -264,7 +304,9 @@
     470.0,
     347.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.판매대금추심의뢰서번호",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -276,7 +318,9 @@
     470.0,
     372.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.판매대금추심의뢰서번호",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -288,7 +332,9 @@
     470.0,
     398.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.판매대금추심의뢰서번호",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -300,7 +346,9 @@
     470.0,
     423.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.판매대금추심의뢰서번호",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -312,7 +360,9 @@
     470.0,
     449.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.판매대금추심의뢰서번호",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -324,7 +374,9 @@
     548.5,
     347.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.매입점포코드",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -336,7 +388,9 @@
     548.5,
     372.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.매입점포코드",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -348,7 +402,9 @@
     548.5,
     398.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.매입점포코드",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -360,7 +416,9 @@
     548.5,
     423.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.매입점포코드",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -372,7 +430,9 @@
     548.5,
     449.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.매입점포코드",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -384,7 +444,10 @@
     298.0,
     718.1
    ],
-   "section": "개설 점포"
+   "section": "개설 점포",
+   "kind": "phone",
+   "std": false,
+   "key": "FAX-"
   },
   {
    "t": "text",
@@ -396,7 +459,10 @@
     548.5,
     718.1
    ],
-   "section": "개설 점포 추심의뢰 점포"
+   "section": "개설 점포 추심의뢰 점포",
+   "kind": "phone",
+   "std": false,
+   "key": "FAX-"
   },
   {
    "t": "date",
@@ -421,7 +487,8 @@
      332.8,
      138.9
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -438,7 +505,9 @@
     190.8,
     540.1,
     202.9
-   ]
+   ],
+   "who": "bank",
+   "what": "name"
   },
   {
    "t": "sign",
@@ -455,7 +524,9 @@
     626.4,
     546.2,
     638.5
-   ]
+   ],
+   "who": "bank",
+   "what": "name"
   },
   {
    "t": "text",
@@ -467,7 +538,10 @@
     468.7,
     688.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "추심의뢰"
   },
   {
    "t": "text",
@@ -479,7 +553,10 @@
     215.6,
     702.1
    ],
-   "free": true
+   "free": true,
+   "kind": "branch",
+   "std": false,
+   "key": "개설점포"
   },
   {
    "t": "text",
@@ -491,7 +568,10 @@
     468.7,
     709.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "점포"
   }
  ]
 }

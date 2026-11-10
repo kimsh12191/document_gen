@@ -23,7 +23,10 @@
     219.6,
     542.0,
     251.6
-   ]
+   ],
+   "kind": "bank",
+   "std": false,
+   "key": "주식회사하나은행"
   },
   {
    "t": "text",
@@ -34,7 +37,10 @@
     310.3,
     542.0,
     342.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "거래정보저장소"
   },
   {
    "t": "text",
@@ -45,7 +51,10 @@
     165.5,
     547.3,
     183.6
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "법인명/이름"
   },
   {
    "t": "text",
@@ -56,7 +65,10 @@
     180.5,
     497.7,
     198.7
-   ]
+   ],
+   "kind": "date",
+   "std": false,
+   "key": "명의인의인적사항사업자등록증번호/생년월일"
   },
   {
    "t": "text",
@@ -67,7 +79,9 @@
     195.5,
     547.3,
     213.6
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "date",
@@ -92,7 +106,8 @@
      528.2,
      664.2
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -104,7 +119,8 @@
     690.7,
     540.0,
     705.2
-   ]
+   ],
+   "who": "customer"
   },
   {
    "t": "text",
@@ -116,7 +132,10 @@
     541.1,
     278.3
    ],
-   "free": true
+   "free": true,
+   "kind": "person",
+   "std": false,
+   "key": "명의인에대한정보"
   },
   {
    "t": "text",
@@ -128,7 +147,10 @@
     541.1,
     308.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "금융거래관련정보"
   },
   {
    "t": "text",
@@ -140,7 +162,10 @@
     541.1,
     372.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "법령및금융투자업규정에따른보고의무이행"
   },
   {
    "t": "text",
@@ -152,7 +177,10 @@
     541.1,
     412.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "일로동의를철회할수있음"
   },
   {
    "t": "text",
@@ -164,7 +192,10 @@
     541.1,
     467.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "으로봄"
   }
  ]
 }

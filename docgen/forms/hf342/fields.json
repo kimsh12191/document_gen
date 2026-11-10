@@ -49,7 +49,9 @@
     244.9,
     271.1,
     264.8
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -60,7 +62,10 @@
     264.8,
     271.1,
     284.6
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "이용자ID"
   },
   {
    "t": "text",
@@ -71,7 +76,9 @@
     284.6,
     271.1,
     304.4
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -82,7 +89,9 @@
     304.4,
     548.7,
     324.3
-   ]
+   ],
+   "kind": "address",
+   "key": "employer.address"
   },
   {
    "t": "text",
@@ -93,7 +102,9 @@
     244.9,
     548.7,
     264.8
-   ]
+   ],
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -104,7 +115,10 @@
     264.8,
     548.7,
     284.6
-   ]
+   ],
+   "kind": "person",
+   "std": false,
+   "key": "담당자"
   },
   {
    "t": "text",
@@ -115,7 +129,10 @@
     284.6,
     548.7,
     304.4
-   ]
+   ],
+   "kind": "address",
+   "std": false,
+   "key": "e-Mail주소"
   },
   {
    "t": "text",
@@ -126,7 +143,10 @@
     375.5,
     548.7,
     395.4
-   ]
+   ],
+   "kind": "bank",
+   "std": false,
+   "key": "통지은행명"
   },
   {
    "t": "text",
@@ -137,7 +157,10 @@
     395.4,
     548.7,
     415.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "BankCode"
   },
   {
    "t": "text",
@@ -151,7 +174,9 @@
    ],
    "group": "통지계좌",
    "row": true,
-   "section": "통지계좌"
+   "section": "통지계좌",
+   "key": "통지계좌_목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -165,7 +190,9 @@
    ],
    "group": "통지계좌",
    "row": true,
-   "section": "통지계좌"
+   "section": "통지계좌",
+   "key": "통지계좌_목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -179,7 +206,9 @@
    ],
    "group": "통지계좌",
    "row": true,
-   "section": "통지계좌"
+   "section": "통지계좌",
+   "key": "통지계좌_목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -193,7 +222,9 @@
    ],
    "group": "통지계좌",
    "row": true,
-   "section": "통지계좌"
+   "section": "통지계좌",
+   "key": "통지계좌_목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -207,7 +238,9 @@
    ],
    "group": "통지계좌",
    "row": true,
-   "section": "통지계좌"
+   "section": "통지계좌",
+   "key": "통지계좌_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -221,7 +254,9 @@
    ],
    "group": "통지계좌",
    "row": true,
-   "section": "통지계좌"
+   "section": "통지계좌",
+   "key": "통지계좌_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -235,7 +270,9 @@
    ],
    "group": "통지계좌",
    "row": true,
-   "section": "통지계좌"
+   "section": "통지계좌",
+   "key": "통지계좌_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -249,7 +286,9 @@
    ],
    "group": "통지계좌",
    "row": true,
-   "section": "통지계좌"
+   "section": "통지계좌",
+   "key": "통지계좌_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -263,7 +302,9 @@
    ],
    "group": "통지계좌",
    "row": true,
-   "section": "통지계좌"
+   "section": "통지계좌",
+   "key": "통지계좌_목록.{i}.예금주",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -277,7 +318,9 @@
    ],
    "group": "통지계좌",
    "row": true,
-   "section": "통지계좌"
+   "section": "통지계좌",
+   "key": "통지계좌_목록.{i}.예금주",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -291,7 +334,9 @@
    ],
    "group": "통지계좌",
    "row": true,
-   "section": "통지계좌"
+   "section": "통지계좌",
+   "key": "통지계좌_목록.{i}.예금주",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -305,7 +350,9 @@
    ],
    "group": "통지계좌",
    "row": true,
-   "section": "통지계좌"
+   "section": "통지계좌",
+   "key": "통지계좌_목록.{i}.예금주",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -316,7 +363,9 @@
     546.8,
     317.3,
     564.6
-   ]
+   ],
+   "kind": "account",
+   "key": "account"
   },
   {
    "t": "text",
@@ -327,7 +376,8 @@
     545.8,
     548.7,
     565.6
-   ]
+   ],
+   "kind": "seal"
   },
   {
    "t": "check",
@@ -382,7 +432,8 @@
      ],
      "line": 44
     }
-   ]
+   ],
+   "key": "check.신청종류"
   },
   {
    "t": "check",
@@ -437,7 +488,8 @@
      ],
      "line": 52
     }
-   ]
+   ],
+   "key": "check.이용채널"
   },
   {
    "t": "date",
@@ -462,7 +514,8 @@
      541.8,
      673.6
     ]
-   }
+   },
+   "key": "date"
   }
  ]
 }

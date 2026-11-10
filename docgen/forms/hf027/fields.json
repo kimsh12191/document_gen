@@ -41,7 +41,8 @@
     244.5,
     548.9,
     281.4
-   ]
+   ],
+   "key": "check.Pleasetick√intherelevantbox"
   },
   {
    "t": "text",
@@ -55,7 +56,8 @@
    ],
    "section": "Proxy",
    "key": "agent.name_en",
-   "edited": true
+   "edited": true,
+   "kind": "text"
   },
   {
    "t": "text",
@@ -85,7 +87,8 @@
    "hint": "Optional",
    "section": "Proxy",
    "key": "agent.address",
-   "edited": true
+   "edited": true,
+   "kind": "text"
   },
   {
    "t": "check",
@@ -162,7 +165,8 @@
     281.4,
     548.9,
     318.2
-   ]
+   ],
+   "key": "check.AccountOpening"
   },
   {
    "t": "text",
@@ -175,7 +179,9 @@
     355.1
    ],
    "hint": "Describe in your own hand-written writing",
-   "section": "Powers given Changes (Report)"
+   "section": "Powers given Changes (Report)",
+   "kind": "number",
+   "key": "account"
   },
   {
    "t": "check",
@@ -252,7 +258,8 @@
     355.1,
     548.9,
     391.9
-   ]
+   ],
+   "key": "check.Details"
   },
   {
    "t": "text",
@@ -282,7 +289,8 @@
    ],
    "section": "Proxy",
    "key": "agent.birth",
-   "edited": true
+   "edited": true,
+   "kind": "date"
   },
   {
    "t": "text",
@@ -297,7 +305,8 @@
    "hint": "Optional",
    "section": "Proxy",
    "key": "agent.phone",
-   "edited": true
+   "edited": true,
+   "kind": "text"
   },
   {
    "t": "text",
@@ -327,7 +336,8 @@
    "hint": "(Sign)",
    "section": "Principal",
    "key": "customer.name_en",
-   "edited": true
+   "edited": true,
+   "kind": "text"
   },
   {
    "t": "text",
@@ -340,7 +350,9 @@
     745.7
    ],
    "hint": "Optional",
-   "section": "Principal"
+   "section": "Principal",
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -355,7 +367,8 @@
    "hint": "Optional",
    "section": "Principal",
    "key": "customer.phone",
-   "edited": true
+   "edited": true,
+   "kind": "text"
   },
   {
    "t": "text",
@@ -382,7 +395,8 @@
     553.1
    ],
    "key": "date",
-   "added": true
+   "added": true,
+   "kind": "date"
   },
   {
    "t": "text",
@@ -395,7 +409,8 @@
     710.2
    ],
    "key": "customer.birth",
-   "added": true
+   "added": true,
+   "kind": "date"
   }
  ],
  "dropped": [

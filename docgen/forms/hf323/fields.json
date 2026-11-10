@@ -30,7 +30,9 @@
     171.4,
     284.1,
     184.9
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -42,7 +44,10 @@
     553.1,
     259.8
    ],
-   "section": "신 청 인"
+   "section": "신 청 인",
+   "kind": "note",
+   "std": false,
+   "key": "영업내용"
   },
   {
    "t": "check",
@@ -87,7 +92,8 @@
     259.8,
     553.1,
     285.3
-   ]
+   ],
+   "key": "check.지점구분"
   },
   {
    "t": "text",
@@ -99,7 +105,10 @@
     553.1,
     310.8
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "branch",
+   "std": false,
+   "key": "지점명"
   },
   {
    "t": "text",
@@ -111,7 +120,9 @@
     553.1,
     336.3
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -123,7 +134,9 @@
     553.1,
     361.8
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "text",
+   "key": "company.biz_item"
   },
   {
    "t": "check",
@@ -152,7 +165,8 @@
     387.3,
     292.3,
     412.8
-   ]
+   ],
+   "key": "check.비독립채산지점"
   },
   {
    "t": "check",
@@ -181,7 +195,8 @@
     412.8,
     292.3,
     438.3
-   ]
+   ],
+   "key": "check.비독립채산지점"
   },
   {
    "t": "text",
@@ -193,7 +208,10 @@
     553.1,
     387.3
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "영업기금"
   },
   {
    "t": "text",
@@ -207,7 +225,9 @@
    ],
    "group": "비독립채산지점",
    "row": true,
-   "section": "신 청 내 역 비독립채산지점"
+   "section": "신 청 내 역 비독립채산지점",
+   "key": "비독립채산지점_목록.{i}.value",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -221,7 +241,9 @@
    ],
    "group": "비독립채산지점",
    "row": true,
-   "section": "신 청 내 역 비독립채산지점"
+   "section": "신 청 내 역 비독립채산지점",
+   "key": "비독립채산지점_목록.{i}.value",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -233,7 +255,10 @@
     553.1,
     463.8
    ],
-   "section": "신 청 내 역 비독립채산지점"
+   "section": "신 청 내 역 비독립채산지점",
+   "kind": "skip",
+   "std": false,
+   "key": "value"
   },
   {
    "t": "text",
@@ -245,7 +270,10 @@
     553.1,
     489.4
    ],
-   "section": "신 청 내 역 비독립채산지점"
+   "section": "신 청 내 역 비독립채산지점",
+   "kind": "skip",
+   "std": false,
+   "key": "value"
   },
   {
    "t": "text",
@@ -257,7 +285,9 @@
     553.1,
     191.7
    ],
-   "section": "신 청 인"
+   "section": "신 청 인",
+   "kind": "number",
+   "key": "customer.rrn"
   },
   {
    "t": "text",
@@ -268,7 +298,10 @@
     614.5,
     553.1,
     640.1
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "신고번호"
   },
   {
    "t": "text",
@@ -279,7 +312,10 @@
     640.1,
     553.1,
     665.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "유효기간"
   },
   {
    "t": "text",
@@ -293,7 +329,10 @@
    ],
    "group": "북한지점 경비지급신고서",
    "row": true,
-   "section": "북한지점 경비지급신고서"
+   "section": "북한지점 경비지급신고서",
+   "kind": "skip",
+   "std": false,
+   "key": "처리기간"
   },
   {
    "t": "date",
@@ -318,7 +357,8 @@
      514.8,
      569.6
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "date",
@@ -343,7 +383,8 @@
      513.8,
      707.3
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -360,7 +401,9 @@
     720.9,
     525.9,
     734.4
-   ]
+   ],
+   "who": "bank",
+   "what": "name"
   },
   {
    "t": "text",
@@ -372,7 +415,9 @@
     289.3,
     190.7
    ],
-   "free": true
+   "free": true,
+   "kind": "person",
+   "key": "customer.name"
   }
  ]
 }

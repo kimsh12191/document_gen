@@ -24,7 +24,10 @@
     553.1,
     174.7
    ],
-   "section": "신 청 인"
+   "section": "신 청 인",
+   "kind": "company",
+   "std": false,
+   "key": "명칭"
   },
   {
    "t": "sign",
@@ -42,7 +45,9 @@
     180.6,
     445.2,
     194.0
-   ]
+   ],
+   "who": "corp",
+   "what": "ceo"
   },
   {
    "t": "sign",
@@ -60,7 +65,9 @@
     243.7,
     435.5,
     257.1
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -72,7 +79,10 @@
     298.0,
     327.7
    ],
-   "section": "보 고 내 역"
+   "section": "보 고 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "증권종류"
   },
   {
    "t": "text",
@@ -84,7 +94,10 @@
     298.0,
     350.4
    ],
-   "section": "보 고 내 역"
+   "section": "보 고 내 역",
+   "kind": "amount",
+   "std": false,
+   "key": "발행금액"
   },
   {
    "t": "text",
@@ -96,7 +109,10 @@
     298.0,
     384.4
    ],
-   "section": "보 고 내 역"
+   "section": "보 고 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "계약체결시및장소"
   },
   {
    "t": "text",
@@ -108,7 +124,10 @@
     298.0,
     426.9
    ],
-   "section": "보 고 내 역"
+   "section": "보 고 내 역",
+   "kind": "percent",
+   "std": false,
+   "key": "표면금리"
   },
   {
    "t": "text",
@@ -120,7 +139,10 @@
     298.0,
     449.6
    ],
-   "section": "보 고 내 역"
+   "section": "보 고 내 역",
+   "kind": "date",
+   "std": false,
+   "key": "만기"
   },
   {
    "t": "text",
@@ -132,7 +154,10 @@
     553.1,
     483.6
    ],
-   "section": "보 고 내 역"
+   "section": "보 고 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "배당금지급시기및방법"
   },
   {
    "t": "text",
@@ -144,7 +169,10 @@
     553.1,
     506.3
    ],
-   "section": "보 고 내 역"
+   "section": "보 고 내 역",
+   "kind": "repay",
+   "std": false,
+   "key": "원리금상환방법"
   },
   {
    "t": "text",
@@ -156,7 +184,10 @@
     553.1,
     551.7
    ],
-   "section": "보 고 내 역"
+   "section": "보 고 내 역",
+   "kind": "reason",
+   "std": false,
+   "key": "자금용도"
   },
   {
    "t": "text",
@@ -168,7 +199,10 @@
     553.1,
     574.3
    ],
-   "section": "보 고 내 역"
+   "section": "보 고 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "발행관련기관"
   },
   {
    "t": "text",
@@ -180,7 +214,10 @@
     553.1,
     597.0
    ],
-   "section": "보 고 내 역"
+   "section": "보 고 내 역",
+   "kind": "note",
+   "std": false,
+   "key": "기타"
   },
   {
    "t": "text",
@@ -192,7 +229,10 @@
     553.1,
     327.7
    ],
-   "section": "보 고 내 역"
+   "section": "보 고 내 역",
+   "kind": "amount",
+   "std": false,
+   "key": "액면금액및수량"
   },
   {
    "t": "text",
@@ -204,7 +244,10 @@
     553.1,
     384.4
    ],
-   "section": "보 고 내 역"
+   "section": "보 고 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "발행시기및장소"
   },
   {
    "t": "text",
@@ -216,7 +259,10 @@
     553.1,
     426.9
    ],
-   "section": "보 고 내 역"
+   "section": "보 고 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "발행가격"
   },
   {
    "t": "text",
@@ -228,7 +274,10 @@
     553.1,
     449.6
    ],
-   "section": "보 고 내 역"
+   "section": "보 고 내 역",
+   "kind": "text",
+   "std": false,
+   "key": "해외판매여부"
   },
   {
    "t": "date",
@@ -253,7 +302,8 @@
      488.8,
      662.9
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -265,7 +315,10 @@
     306.7,
     403.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "상장여부"
   },
   {
    "t": "text",
@@ -277,7 +330,10 @@
     307.7,
     528.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "발행비용"
   }
  ]
 }

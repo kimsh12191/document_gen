@@ -86,7 +86,8 @@
      ],
      "line": 74
     }
-   ]
+   ],
+   "key": "check.신청구분"
   },
   {
    "t": "date",
@@ -111,7 +112,8 @@
      371.1,
      579.8
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "date",
@@ -137,7 +139,8 @@
      343.9,
      655.2
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -149,7 +152,10 @@
     535.2,
     332.9
    ],
-   "free": true
+   "free": true,
+   "kind": "loan_subject",
+   "std": false,
+   "key": "여신과목"
   },
   {
    "t": "text",
@@ -162,7 +168,10 @@
     364.6,
     355.5
    ],
-   "free": true
+   "free": true,
+   "kind": "amount",
+   "std": false,
+   "key": "신청금액"
   },
   {
    "t": "text",
@@ -174,7 +183,10 @@
     535.2,
     378.2
    ],
-   "free": true
+   "free": true,
+   "kind": "date",
+   "std": false,
+   "key": "기한"
   },
   {
    "t": "text",
@@ -186,7 +198,10 @@
     535.2,
     400.7
    ],
-   "free": true
+   "free": true,
+   "kind": "percent",
+   "std": false,
+   "key": "금리"
   },
   {
    "t": "text",
@@ -198,7 +213,10 @@
     535.2,
     423.3
    ],
-   "free": true
+   "free": true,
+   "kind": "reason",
+   "std": false,
+   "key": "자금용도"
   },
   {
    "t": "text",
@@ -210,7 +228,10 @@
     535.4,
     492.8
    ],
-   "free": true
+   "free": true,
+   "kind": "amount",
+   "std": false,
+   "key": "승인금액"
   },
   {
    "t": "text",
@@ -222,7 +243,10 @@
     535.4,
     515.6
    ],
-   "free": true
+   "free": true,
+   "kind": "amount",
+   "std": false,
+   "key": "여신잔액"
   },
   {
    "t": "text",
@@ -234,7 +258,10 @@
     535.4,
     538.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "본건신청액"
   },
   {
    "t": "text",
@@ -246,7 +273,10 @@
     535.4,
     557.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "본건취급후"
   },
   {
    "t": "text",
@@ -258,7 +288,10 @@
     535.4,
     561.0
    ],
-   "free": true
+   "free": true,
+   "kind": "amount",
+   "std": false,
+   "key": "잔액"
   }
  ]
 }

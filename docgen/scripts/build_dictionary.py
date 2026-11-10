@@ -299,6 +299,7 @@ def build() -> dict:
     fields = json.loads((ROOT / "guide" / "fields" / "fields.json").read_text(encoding="utf-8"))
     rules = json.loads((ROOT / "docgen" / "forms" / "_common" / "key_rules.json").read_text(encoding="utf-8"))
     from docgen import realform as RF
+    from docgen.scripts import freeze_keys as FK_   # 옮기기 전 항목명 규칙 (키 사전 초안 다시 만들기용)
     from docgen.registry import GROUPS, SCENARIOS, load_all
 
     reg = load_all()
@@ -447,7 +448,7 @@ def build() -> dict:
         if same:
             add("field", k["key"], same.most_common(1)[0][0], f"이름공간 {ns}: 같은 항목명을 쓰는 표준 키")
     for k in nonstd:   # 영어 표준꼴이 아닌 키 (주로 하나은행 영문 서식의 항목명 그대로)
-        into = next((RF.key_of(lab) for lab in [k["key"], *k.get("labels", [])] if RF.key_of(lab)), None) \
+        into = next((FK_.key_of(lab) for lab in [k["key"], *k.get("labels", [])] if FK_.key_of(lab)), None) \
             or alias.get(re.sub(r"[^a-z0-9]", "", k["key"].lower()))
         if into:
             add("field", k["key"], into, "항목명·이름이 표준 키 규칙·동의어에 맞음")
@@ -488,11 +489,11 @@ def build() -> dict:
             if base in single:
                 single[attr] = single[base]
                 continue
-            std = RF.key_of(k.get("label") or attr) or RF.key_of(attr)
+            std = FK_.key_of(k.get("label") or attr) or FK_.key_of(attr)
             if std:
                 single[attr] = party_of(std.split(".")[0] if "." in std else None, std)[0]
             else:
-                single[attr] = KIND_PARTY.get(RF.kind_of(k.get("label") or attr, None, None), "unassigned")
+                single[attr] = KIND_PARTY.get(FK_.kind_of(k.get("label") or attr, None, None), "unassigned")
             unsure.append(attr)
     for a in human:   # 사람이 정한 것 유지
         if a in prev_roles.get("single", {}):

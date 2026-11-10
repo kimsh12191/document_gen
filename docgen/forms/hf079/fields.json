@@ -50,7 +50,10 @@
     115.5,
     397.9
    ],
-   "row": true
+   "row": true,
+   "kind": "number",
+   "std": false,
+   "key": "미결제통보번호"
   },
   {
    "t": "text",
@@ -62,7 +65,10 @@
     188.4,
     397.9
    ],
-   "row": true
+   "row": true,
+   "kind": "date",
+   "std": false,
+   "key": "추심의뢰일"
   },
   {
    "t": "text",
@@ -74,7 +80,10 @@
     261.2,
     397.9
    ],
-   "row": true
+   "row": true,
+   "kind": "check_no",
+   "std": false,
+   "key": "금융결제원어음번호"
   },
   {
    "t": "text",
@@ -86,7 +95,10 @@
     334.1,
     397.9
    ],
-   "row": true
+   "row": true,
+   "kind": "amount",
+   "std": false,
+   "key": "어음금액"
   },
   {
    "t": "text",
@@ -98,7 +110,10 @@
     406.9,
     397.9
    ],
-   "row": true
+   "row": true,
+   "kind": "company",
+   "std": false,
+   "key": "발행인"
   },
   {
    "t": "text",
@@ -110,7 +125,10 @@
     479.8,
     397.9
    ],
-   "row": true
+   "row": true,
+   "kind": "reason",
+   "std": false,
+   "key": "사유"
   },
   {
    "t": "text",
@@ -122,7 +140,10 @@
     548.4,
     397.9
    ],
-   "row": true
+   "row": true,
+   "kind": "number",
+   "std": false,
+   "key": "미결제확인번호"
   },
   {
    "t": "text",
@@ -134,7 +155,10 @@
     297.6,
     766.3
    ],
-   "section": "지 급 은 행"
+   "section": "지 급 은 행",
+   "kind": "text",
+   "std": false,
+   "key": "Fax-"
   },
   {
    "t": "text",
@@ -146,7 +170,10 @@
     548.4,
     766.3
    ],
-   "section": "지 급 은 행 제 시 은 행"
+   "section": "지 급 은 행 제 시 은 행",
+   "kind": "text",
+   "std": false,
+   "key": "Fax-"
   },
   {
    "t": "date",
@@ -172,7 +199,8 @@
      350.6,
      132.4
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -184,7 +212,8 @@
     223.4,
     552.7,
     237.5
-   ]
+   ],
+   "who": "bank"
   },
   {
    "t": "sign",
@@ -196,7 +225,8 @@
     636.6,
     552.4,
     650.7
-   ]
+   ],
+   "who": "bank"
   }
  ]
 }

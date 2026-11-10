@@ -31,7 +31,10 @@
     62.6
    ],
    "row": true,
-   "group": "Clerk"
+   "group": "Clerk",
+   "kind": "text",
+   "std": false,
+   "key": "Clerk"
   },
   {
    "t": "text",
@@ -44,7 +47,10 @@
     62.6
    ],
    "row": true,
-   "group": "Clerk"
+   "group": "Clerk",
+   "kind": "text",
+   "std": false,
+   "key": "Mgr"
   },
   {
    "t": "text",
@@ -57,7 +63,10 @@
     62.6
    ],
    "row": true,
-   "group": "Clerk"
+   "group": "Clerk",
+   "kind": "text",
+   "std": false,
+   "key": "GM"
   },
   {
    "t": "text",
@@ -68,7 +77,10 @@
     144.6,
     333.7,
     163.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Name/CompanyName"
   },
   {
    "t": "text",
@@ -79,7 +91,9 @@
     182.0,
     552.3,
     200.4
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -91,7 +105,10 @@
     552.3,
     144.6
    ],
-   "hint": "Please describe your request"
+   "hint": "Please describe your request",
+   "kind": "text",
+   "std": false,
+   "key": "OtherRequest"
   },
   {
    "t": "text",
@@ -102,7 +119,10 @@
     144.6,
     552.3,
     163.6
-   ]
+   ],
+   "kind": "biz_no",
+   "std": false,
+   "key": "BusinessRegistrationNo"
   },
   {
    "t": "text",
@@ -117,7 +137,10 @@
    "unit": "(",
    "hint": "Account No.",
    "row": true,
-   "group": "DailyKRW"
+   "group": "DailyKRW",
+   "kind": "text",
+   "std": false,
+   "key": "DailyKRW"
   },
   {
    "t": "text",
@@ -129,7 +152,10 @@
     366.6,
     239.7
    ],
-   "hint": "Mark in English"
+   "hint": "Mark in English",
+   "kind": "text",
+   "std": false,
+   "key": "KRW"
   },
   {
    "t": "text",
@@ -141,7 +167,10 @@
     353.2,
     313.4
    ],
-   "hint": "Mark in English"
+   "hint": "Mark in English",
+   "kind": "text",
+   "std": false,
+   "key": "One-timeKRW"
   },
   {
    "t": "text",
@@ -153,7 +182,10 @@
     353.2,
     331.8
    ],
-   "hint": "Mark in English"
+   "hint": "Mark in English",
+   "kind": "text",
+   "std": false,
+   "key": "One-timeKRW"
   },
   {
    "t": "text",
@@ -168,7 +200,10 @@
    "unit": "(",
    "hint": "Account No.",
    "row": true,
-   "group": "DailyKRW"
+   "group": "DailyKRW",
+   "kind": "text",
+   "std": false,
+   "key": "One-timeKRW"
   },
   {
    "t": "text",
@@ -182,7 +217,9 @@
    ],
    "hint": "Bank name",
    "row": true,
-   "group": "DailyKRW"
+   "group": "DailyKRW",
+   "key": "DailyKRW_목록.{i}.OverseasIPBlockingService",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -196,7 +233,9 @@
    ],
    "hint": "Bank name",
    "row": true,
-   "group": "DailyKRW"
+   "group": "DailyKRW",
+   "key": "DailyKRW_목록.{i}.OverseasIPBlockingService",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -210,7 +249,9 @@
    ],
    "hint": "Bank name",
    "row": true,
-   "group": "DailyKRW"
+   "group": "DailyKRW",
+   "key": "DailyKRW_목록.{i}.OverseasIPBlockingService",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -224,7 +265,9 @@
    ],
    "hint": "Bank name",
    "row": true,
-   "group": "DailyKRW"
+   "group": "DailyKRW",
+   "key": "DailyKRW_목록.{i}.OverseasIPBlockingService",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -239,7 +282,10 @@
    "unit": "(",
    "hint": "Account No.",
    "row": true,
-   "group": "DailyKRW"
+   "group": "DailyKRW",
+   "kind": "text",
+   "std": false,
+   "key": "OTP"
   },
   {
    "t": "text",
@@ -252,7 +298,9 @@
     553.0
    ],
    "row": true,
-   "group": "Service"
+   "group": "Service",
+   "key": "Service_목록.{i}.OfficeName",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -265,7 +313,9 @@
     571.8
    ],
    "row": true,
-   "group": "Service"
+   "group": "Service",
+   "key": "Service_목록.{i}.OfficeName",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -276,7 +326,10 @@
     461.1,
     329.4,
     479.7
-   ]
+   ],
+   "kind": "phone",
+   "std": false,
+   "key": "PhoneNoforIdentityVerification"
   },
   {
    "t": "text",
@@ -289,7 +342,9 @@
     553.0
    ],
    "row": true,
-   "group": "Service"
+   "group": "Service",
+   "key": "Service_목록.{i}.BusinessRegistrationNo",
+   "kind": "biz_no"
   },
   {
    "t": "text",
@@ -302,7 +357,9 @@
     571.8
    ],
    "row": true,
-   "group": "Service"
+   "group": "Service",
+   "key": "Service_목록.{i}.BusinessRegistrationNo",
+   "kind": "biz_no"
   },
   {
    "t": "text",
@@ -314,7 +371,10 @@
     329.4,
     497.9
    ],
-   "hint": "Account No."
+   "hint": "Account No.",
+   "kind": "text",
+   "std": false,
+   "key": "RequestNotRequest"
   },
   {
    "t": "text",
@@ -327,7 +387,9 @@
     553.0
    ],
    "row": true,
-   "group": "Service"
+   "group": "Service",
+   "key": "Service_목록.{i}.CorporateRegistrationNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -340,7 +402,9 @@
     571.8
    ],
    "row": true,
-   "group": "Service"
+   "group": "Service",
+   "key": "Service_목록.{i}.CorporateRegistrationNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -354,7 +418,10 @@
    ],
    "hint": "Bankbook seal",
    "row": true,
-   "group": "Fee"
+   "group": "Fee",
+   "kind": "text",
+   "std": false,
+   "key": "Post-paidFee"
   },
   {
    "t": "text",
@@ -368,7 +435,10 @@
    ],
    "hint": "Account No.",
    "row": true,
-   "group": "Fee"
+   "group": "Fee",
+   "kind": "text",
+   "std": false,
+   "key": "RequestCancel"
   },
   {
    "t": "text",
@@ -380,7 +450,10 @@
     328.7,
     144.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "OtherChange"
   },
   {
    "t": "text",
@@ -392,7 +465,10 @@
     547.5,
     276.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "GeneralUser"
   },
   {
    "t": "text",
@@ -404,7 +480,10 @@
     352.6,
     297.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "OTP"
   },
   {
    "t": "text",
@@ -415,7 +494,10 @@
     536.7,
     280.7,
     554.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "UserCategory"
   },
   {
    "t": "text",
@@ -426,7 +508,10 @@
     555.2,
     277.7,
     570.8
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "RequestCancel"
   },
   {
    "t": "text",
@@ -438,7 +523,10 @@
     277.7,
     588.4
    ],
-   "hint": "Mark in English"
+   "hint": "Mark in English",
+   "kind": "text",
+   "std": false,
+   "key": "DailyKRW"
   },
   {
    "t": "text",
@@ -450,7 +538,10 @@
     277.7,
     606.0
    ],
-   "hint": "Mark in English"
+   "hint": "Mark in English",
+   "kind": "text",
+   "std": false,
+   "key": "One-timeKRW"
   },
   {
    "t": "text",
@@ -462,7 +553,10 @@
     176.0,
     642.1
    ],
-   "hint": "Account No."
+   "hint": "Account No.",
+   "kind": "text",
+   "std": false,
+   "key": "WithdrawalAccount"
   },
   {
    "t": "text",
@@ -474,7 +568,10 @@
     176.0,
     677.3
    ],
-   "hint": "Account No."
+   "hint": "Account No.",
+   "kind": "text",
+   "std": false,
+   "key": "WithdrawalAccount"
   },
   {
    "t": "text",
@@ -489,7 +586,9 @@
    "hint": "Bankbook seal",
    "group": "Withdrawal Account",
    "row": true,
-   "section": "Withdrawal Account"
+   "section": "Withdrawal Account",
+   "key": "WithdrawalAccount_목록.{i}.UserID",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -504,7 +603,9 @@
    "hint": "Bankbook seal",
    "group": "Withdrawal Account",
    "row": true,
-   "section": "Withdrawal Account"
+   "section": "Withdrawal Account",
+   "key": "WithdrawalAccount_목록.{i}.UserID",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -516,7 +617,10 @@
     555.2,
     588.4
    ],
-   "hint": "Mark in English"
+   "hint": "Mark in English",
+   "kind": "text",
+   "std": false,
+   "key": "DailyKRW"
   },
   {
    "t": "text",
@@ -528,7 +632,10 @@
     555.2,
     606.0
    ],
-   "hint": "Mark in English"
+   "hint": "Mark in English",
+   "kind": "text",
+   "std": false,
+   "key": "One-timeKRW"
   },
   {
    "t": "text",
@@ -541,7 +648,10 @@
     624.5
    ],
    "hint": "Bank name",
-   "section": "Withdrawal Account Designation of Beneficiary Account"
+   "section": "Withdrawal Account Designation of Beneficiary Account",
+   "kind": "text",
+   "std": false,
+   "key": "DesignationofBeneficiaryAccount"
   },
   {
    "t": "text",
@@ -554,7 +664,10 @@
     642.1
    ],
    "hint": "Bank name",
-   "section": "Withdrawal Account Designation of Beneficiary Account"
+   "section": "Withdrawal Account Designation of Beneficiary Account",
+   "kind": "text",
+   "std": false,
+   "key": "DesignationofBeneficiaryAccount"
   },
   {
    "t": "text",
@@ -567,7 +680,10 @@
     659.7
    ],
    "hint": "Bank name",
-   "section": "Withdrawal Account Designation of Beneficiary Account"
+   "section": "Withdrawal Account Designation of Beneficiary Account",
+   "kind": "text",
+   "std": false,
+   "key": "DesignationofBeneficiaryAccount"
   },
   {
    "t": "text",
@@ -580,7 +696,10 @@
     677.3
    ],
    "hint": "Bank name",
-   "section": "Withdrawal Account Designation of Beneficiary Account"
+   "section": "Withdrawal Account Designation of Beneficiary Account",
+   "kind": "text",
+   "std": false,
+   "key": "DesignationofBeneficiaryAccount"
   },
   {
    "t": "text",
@@ -592,7 +711,9 @@
     280.7,
     736.5
    ],
-   "section": "Proxy Profile"
+   "section": "Proxy Profile",
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -604,7 +725,9 @@
     558.2,
     754.1
    ],
-   "section": "Proxy Profile"
+   "section": "Proxy Profile",
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -616,7 +739,10 @@
     280.7,
     771.7
    ],
-   "section": "Proxy Profile"
+   "section": "Proxy Profile",
+   "kind": "text",
+   "std": false,
+   "key": "Relationship"
   },
   {
    "t": "text",
@@ -628,7 +754,9 @@
     558.2,
     736.5
    ],
-   "section": "Proxy Profile"
+   "section": "Proxy Profile",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -641,7 +769,10 @@
     771.7
    ],
    "hint": "(Registered corporate seal)",
-   "section": "Proxy Profile"
+   "section": "Proxy Profile",
+   "kind": "text",
+   "std": false,
+   "key": "Delegator"
   },
   {
    "t": "text",
@@ -653,7 +784,10 @@
     555.2,
     570.8
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "DoNOTAgree"
   }
  ]
 }

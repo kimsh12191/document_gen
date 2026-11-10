@@ -23,7 +23,10 @@
     155.6,
     496.6,
     193.2
-   ]
+   ],
+   "kind": "check_no",
+   "std": false,
+   "key": "어음번호"
   },
   {
    "t": "text",
@@ -37,7 +40,10 @@
    ],
    "unit": "월",
    "row": true,
-   "group": "년"
+   "group": "년",
+   "kind": "skip",
+   "std": false,
+   "key": "년"
   },
   {
    "t": "text",
@@ -50,7 +56,9 @@
     325.2
    ],
    "row": true,
-   "group": "월"
+   "group": "월",
+   "key": "월_목록.{i}.월",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -64,7 +72,9 @@
    ],
    "unit": "일",
    "row": true,
-   "group": "월"
+   "group": "월",
+   "key": "월_목록.{i}.월",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -77,7 +87,9 @@
     370.6
    ],
    "row": true,
-   "group": "일"
+   "group": "일",
+   "key": "일_목록.{i}.일",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -90,7 +102,9 @@
     393.4
    ],
    "row": true,
-   "group": "일"
+   "group": "일",
+   "key": "일_목록.{i}.일",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -104,7 +118,9 @@
    ],
    "group": "(인)",
    "row": true,
-   "section": "(인)"
+   "section": "(인)",
+   "key": "목록.{i}.일",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -118,7 +134,9 @@
    ],
    "group": "(인)",
    "row": true,
-   "section": "(인)"
+   "section": "(인)",
+   "key": "목록.{i}.일",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -132,7 +150,9 @@
    ],
    "group": "(인)",
    "row": true,
-   "section": "(인)"
+   "section": "(인)",
+   "key": "목록.{i}.일",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -146,7 +166,10 @@
    ],
    "group": "(인)",
    "row": true,
-   "section": "(인)"
+   "section": "(인)",
+   "kind": "skip",
+   "std": false,
+   "key": "년"
   },
   {
    "t": "text",
@@ -158,7 +181,10 @@
     520.8,
     279.9
    ],
-   "unit": "%"
+   "unit": "%",
+   "kind": "percent",
+   "std": false,
+   "key": "년"
   },
   {
    "t": "text",
@@ -169,7 +195,10 @@
     325.2,
     264.5,
     347.9
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "일"
   },
   {
    "t": "text",
@@ -181,7 +210,10 @@
     264.5,
     461.4
    ],
-   "section": "(인)"
+   "section": "(인)",
+   "kind": "skip",
+   "std": false,
+   "key": "년"
   },
   {
    "t": "text",
@@ -194,7 +226,10 @@
     393.4
    ],
    "row": true,
-   "group": "일"
+   "group": "일",
+   "kind": "date",
+   "std": false,
+   "key": "지급기일"
   },
   {
    "t": "text",
@@ -205,7 +240,10 @@
     439.6,
     534.6,
     460.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "비"
   },
   {
    "t": "text",
@@ -218,7 +256,10 @@
     393.4
    ],
    "row": true,
-   "group": "일"
+   "group": "일",
+   "kind": "percent",
+   "std": false,
+   "key": "선적기일할인료율"
   },
   {
    "t": "text",
@@ -229,7 +270,10 @@
     193.1,
     426.6,
     230.3
-   ]
+   ],
+   "kind": "address",
+   "std": false,
+   "key": "주소본인"
   }
  ]
 }

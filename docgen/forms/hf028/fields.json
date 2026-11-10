@@ -67,7 +67,8 @@
     211.6,
     549.0,
     240.0
-   ]
+   ],
+   "key": "check.해당"
   },
   {
    "t": "text",
@@ -79,7 +80,9 @@
     350.2,
     154.9
    ],
-   "section": "대리인"
+   "section": "대리인",
+   "kind": "person",
+   "key": "agent.name"
   },
   {
    "t": "text",
@@ -91,7 +94,9 @@
     350.2,
     183.3
    ],
-   "section": "대리인"
+   "section": "대리인",
+   "kind": "text",
+   "key": "agent.relation"
   },
   {
    "t": "text",
@@ -104,7 +109,9 @@
     211.6
    ],
    "hint": "선 택",
-   "section": "대리인"
+   "section": "대리인",
+   "kind": "address",
+   "key": "agent.address"
   },
   {
    "t": "check",
@@ -181,7 +188,8 @@
     240.0,
     549.0,
     268.3
-   ]
+   ],
+   "key": "check.신규계좌개설"
   },
   {
    "t": "check",
@@ -210,7 +218,8 @@
     268.3,
     549.0,
     296.7
-   ]
+   ],
+   "key": "check.신규계좌개설"
   },
   {
    "t": "text",
@@ -223,7 +232,9 @@
     325.0
    ],
    "hint": "자 필 기 재",
-   "section": "위임내용 제변경 (제신고)"
+   "section": "위임내용 제변경 (제신고)",
+   "kind": "account",
+   "key": "account"
   },
   {
    "t": "check",
@@ -300,7 +311,8 @@
     325.0,
     549.0,
     353.4
-   ]
+   ],
+   "key": "check.세부내용"
   },
   {
    "t": "text",
@@ -313,7 +325,10 @@
     455.4
    ],
    "hint": "※ 위임내용을 구체적으로 기재하여 주시기 바랍니다 자 필 기 재",
-   "section": "위임내용"
+   "section": "위임내용",
+   "kind": "note",
+   "std": false,
+   "key": "기타사항"
   },
   {
    "t": "text",
@@ -325,7 +340,9 @@
     549.0,
     154.9
    ],
-   "section": "대리인"
+   "section": "대리인",
+   "kind": "date",
+   "key": "agent.birth"
   },
   {
    "t": "text",
@@ -338,7 +355,9 @@
     183.3
    ],
    "hint": "선 택",
-   "section": "대리인"
+   "section": "대리인",
+   "kind": "phone",
+   "key": "agent.phone"
   },
   {
    "t": "text",
@@ -350,7 +369,10 @@
     549.0,
     622.6
    ],
-   "hint": "직 원 작 성 란"
+   "hint": "직 원 작 성 란",
+   "kind": "text",
+   "std": false,
+   "key": "위임내용확인일시"
   },
   {
    "t": "text",
@@ -361,7 +383,9 @@
     714.7,
     177.4,
     741.0
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "sign",
@@ -379,7 +403,9 @@
     656.6,
     480.8,
     667.5
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -391,7 +417,9 @@
     350.2,
     713.7
    ],
-   "section": "본인 (위임인)"
+   "section": "본인 (위임인)",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -404,7 +432,9 @@
     742.0
    ],
    "hint": "선 택",
-   "section": "본인 (위임인)"
+   "section": "본인 (위임인)",
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -417,7 +447,9 @@
     713.7
    ],
    "hint": "선 택",
-   "section": "본인 (위임인)"
+   "section": "본인 (위임인)",
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -428,7 +460,10 @@
     96.7,
     195.5,
     116.1
-   ]
+   ],
+   "kind": "branch",
+   "std": false,
+   "key": "취급점"
   },
   {
    "t": "date",
@@ -454,7 +489,8 @@
      347.6,
      547.0
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -466,7 +502,9 @@
     175.4,
     669.5
    ],
-   "free": true
+   "free": true,
+   "kind": "person",
+   "key": "customer.name"
   }
  ]
 }

@@ -30,7 +30,9 @@
     163.6,
     489.5,
     175.8
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -42,7 +44,9 @@
     553.1,
     246.9
    ],
-   "section": "신 청 인"
+   "section": "신 청 인",
+   "kind": "text",
+   "key": "company.biz_item"
   },
   {
    "t": "text",
@@ -54,7 +58,10 @@
     553.1,
     400.0
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "amount",
+   "std": false,
+   "key": "액면가액"
   },
   {
    "t": "text",
@@ -66,7 +73,10 @@
     553.1,
     422.7
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "count",
+   "std": false,
+   "key": "수량"
   },
   {
    "t": "text",
@@ -78,7 +88,10 @@
     553.1,
     445.4
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "amount",
+   "std": false,
+   "key": "취득단가"
   },
   {
    "t": "text",
@@ -90,7 +103,10 @@
     553.1,
     490.7
    ],
-   "section": "신 청 내 역"
+   "section": "신 청 내 역",
+   "kind": "reason",
+   "std": false,
+   "key": "취득사유"
   },
   {
    "t": "text",
@@ -101,7 +117,10 @@
     587.2,
     553.1,
     609.9
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "신고번호"
   },
   {
    "t": "text",
@@ -112,7 +131,10 @@
     609.9,
     553.1,
     632.6
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "신고금액"
   },
   {
    "t": "text",
@@ -123,7 +145,10 @@
     632.6,
     553.1,
     655.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "유효기간"
   },
   {
    "t": "text",
@@ -137,7 +162,10 @@
    ],
    "group": "증권 취득 신고서",
    "row": true,
-   "section": "증권 취득 신고서"
+   "section": "증권 취득 신고서",
+   "kind": "skip",
+   "std": false,
+   "key": "처리기간"
   },
   {
    "t": "date",
@@ -162,7 +190,8 @@
      439.3,
      542.5
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "date",
@@ -187,7 +216,8 @@
      439.4,
      682.6
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -199,7 +229,8 @@
     695.4,
     462.5,
     707.6
-   ]
+   ],
+   "who": "bank"
   }
  ]
 }

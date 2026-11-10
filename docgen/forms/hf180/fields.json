@@ -50,7 +50,9 @@
     170.2,
     387.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.이전하는금융회사",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -62,7 +64,9 @@
     170.2,
     416.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.이전하는금융회사",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -74,7 +78,9 @@
     170.2,
     444.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.이전하는금융회사",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -86,7 +92,9 @@
     170.2,
     472.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.이전하는금융회사",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -98,7 +106,9 @@
     170.2,
     501.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.이전하는금융회사",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -110,7 +120,9 @@
     170.2,
     529.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.이전하는금융회사",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -122,7 +134,9 @@
     170.2,
     558.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.이전하는금융회사",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -134,7 +148,9 @@
     170.2,
     586.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.이전하는금융회사",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -146,7 +162,9 @@
     170.2,
     614.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.이전하는금융회사",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -158,7 +176,9 @@
     170.2,
     643.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.이전하는금융회사",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -170,7 +190,9 @@
     170.2,
     671.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.이전하는금융회사",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -182,7 +204,9 @@
     170.2,
     699.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.이전하는금융회사",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -194,7 +218,9 @@
     280.7,
     387.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.운용관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -206,7 +232,9 @@
     280.7,
     416.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.운용관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -218,7 +246,9 @@
     280.7,
     444.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.운용관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -230,7 +260,9 @@
     280.7,
     472.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.운용관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -242,7 +274,9 @@
     280.7,
     501.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.운용관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -254,7 +288,9 @@
     280.7,
     529.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.운용관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -266,7 +302,9 @@
     280.7,
     558.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.운용관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -278,7 +316,9 @@
     280.7,
     586.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.운용관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -290,7 +330,9 @@
     280.7,
     614.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.운용관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -302,7 +344,9 @@
     280.7,
     643.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.운용관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -314,7 +358,9 @@
     280.7,
     671.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.운용관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -326,7 +372,9 @@
     280.7,
     699.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.운용관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -338,7 +386,9 @@
     391.1,
     387.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.자산관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -350,7 +400,9 @@
     391.1,
     416.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.자산관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -362,7 +414,9 @@
     391.1,
     444.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.자산관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -374,7 +428,9 @@
     391.1,
     472.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.자산관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -386,7 +442,9 @@
     391.1,
     501.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.자산관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -398,7 +456,9 @@
     391.1,
     529.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.자산관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -410,7 +470,9 @@
     391.1,
     558.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.자산관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -422,7 +484,9 @@
     391.1,
     586.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.자산관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -434,7 +498,9 @@
     391.1,
     614.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.자산관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -446,7 +512,9 @@
     391.1,
     643.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.자산관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -458,7 +526,9 @@
     391.1,
     671.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.자산관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -470,7 +540,9 @@
     391.1,
     699.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.자산관리기관명",
+   "kind": "bank"
   },
   {
    "t": "text",
@@ -482,7 +554,9 @@
     488.3,
     387.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.적립금이전액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -494,7 +568,9 @@
     488.3,
     416.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.적립금이전액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -506,7 +582,9 @@
     488.3,
     444.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.적립금이전액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -518,7 +596,9 @@
     488.3,
     472.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.적립금이전액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -530,7 +610,9 @@
     488.3,
     501.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.적립금이전액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -542,7 +624,9 @@
     488.3,
     529.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.적립금이전액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -554,7 +638,9 @@
     488.3,
     558.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.적립금이전액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -566,7 +652,9 @@
     488.3,
     586.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.적립금이전액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -578,7 +666,9 @@
     488.3,
     614.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.적립금이전액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -590,7 +680,9 @@
     488.3,
     643.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.적립금이전액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -602,7 +694,9 @@
     488.3,
     671.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.적립금이전액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -614,7 +708,9 @@
     488.3,
     699.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.적립금이전액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -627,7 +723,9 @@
     387.9
    ],
    "hint": "Y / N",
-   "row": true
+   "row": true,
+   "key": "목록.{i}.실물이전여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -639,7 +737,9 @@
     549.1,
     416.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.실물이전여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -651,7 +751,9 @@
     549.1,
     444.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.실물이전여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -663,7 +765,9 @@
     549.1,
     472.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.실물이전여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -675,7 +779,9 @@
     549.1,
     501.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.실물이전여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -687,7 +793,9 @@
     549.1,
     529.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.실물이전여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -699,7 +807,9 @@
     549.1,
     558.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.실물이전여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -711,7 +821,9 @@
     549.1,
     586.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.실물이전여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -723,7 +835,9 @@
     549.1,
     614.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.실물이전여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -735,7 +849,9 @@
     549.1,
     643.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.실물이전여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -747,7 +863,9 @@
     549.1,
     671.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.실물이전여부",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -759,7 +877,9 @@
     549.1,
     699.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.실물이전여부",
+   "kind": "text"
   }
  ]
 }

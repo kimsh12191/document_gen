@@ -124,24 +124,23 @@ def _overlay(doc_id: str, text: str) -> dict:
         label = it.get("label") or ""
         t = it["t"]
         if t == "text" and it.get("row"):
-            key_from = "파일 key" if it.get("key") else f"표 행 (묶음·항목명 '{label}')"
-            kind = it.get("kind") or RF.kind_of(label, it.get("unit"), it.get("hint"))
-            value_from = f"`{it['source']}` (파일)" if it.get("source") else \
-                f"값 종류 `{kind}` ({'파일' if it.get('kind') else '항목명 자동'})"
+            key_from = "파일 key" if it.get("key") else f"표 행 (묶음·키 설명 '{label}')"
+            kind = it.get("kind") or "text"
+            value_from = f"`{it['source']}` (파일)" if it.get("source") else f"값 종류 `{kind}`"
         elif t == "text":
             skey, kind = RF._text_key(it)
-            key_from = "파일 key" if it.get("key") else (f"규칙: '{label}' → `{skey}`" if skey else "항목명 그대로")
+            key_from = "파일 key" if it.get("key") else "키 설명 그대로"
             if it.get("source"):
                 value_from = f"`{it['source']}` (파일)"
-            elif skey and kind != "seal":
-                value_from = f"고객 정보 (키 `{skey}`)"
+            elif skey and kind != "seal" and it.get("std", True):
+                value_from = f"고객 정보 (키 `{skey}`, 없으면 값 종류 `{kind}`)"
             else:
-                value_from = f"값 종류 `{kind}` ({'파일' if it.get('kind') else '항목명 자동'})"
+                value_from = f"값 종류 `{kind}`"
         elif t == "check":
-            key_from = "파일 key" if it.get("key") else "체크 (항목명)"
+            key_from = "파일 key" if it.get("key") else "체크 (키 설명)"
             value_from = "보기 중 고름: " + " / ".join(o.get("text") or "?" for o in it.get("options", []))
         elif t == "date":
-            key_from, value_from = "날짜 칸 (항목명)", "작성일"
+            key_from, value_from = ("파일 key" if it.get("key") else "date"), "작성일"
         elif t == "sign":
             key_from, value_from = ("파일 key" if it.get("key") else "서명 자리"), "도장·서명 (표시 확률 marks.json)"
         else:

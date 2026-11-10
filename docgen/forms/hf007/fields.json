@@ -68,7 +68,9 @@
     105.8,
     304.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금종류",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -80,7 +82,9 @@
     105.8,
     332.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금종류",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -92,7 +96,9 @@
     105.8,
     361.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금종류",
+   "kind": "product"
   },
   {
    "t": "text",
@@ -104,7 +110,9 @@
     185.1,
     304.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금주",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -116,7 +124,9 @@
     185.1,
     332.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금주",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -128,7 +138,9 @@
     185.1,
     361.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금주",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -140,7 +152,9 @@
     300.7,
     304.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -152,7 +166,9 @@
     300.7,
     332.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -164,7 +180,9 @@
     300.7,
     361.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -176,7 +194,9 @@
     363.4,
     304.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -188,7 +208,9 @@
     363.4,
     332.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -200,7 +222,9 @@
     363.4,
     361.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -212,7 +236,9 @@
     425.2,
     304.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.만기일주1",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -224,7 +250,9 @@
     425.2,
     332.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.만기일주1",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -236,7 +264,9 @@
     425.2,
     361.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.만기일주1",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -248,7 +278,9 @@
     488.1,
     304.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.질권설정금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -260,7 +292,9 @@
     488.1,
     332.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.질권설정금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -272,7 +306,9 @@
     488.1,
     361.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.질권설정금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -284,7 +320,9 @@
     548.7,
     304.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.변제기일주1",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -296,7 +334,9 @@
     548.7,
     332.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.변제기일주1",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -308,7 +348,9 @@
     548.7,
     361.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.변제기일주1",
+   "kind": "date"
   },
   {
    "t": "sign",
@@ -326,7 +368,9 @@
     670.0,
     511.4,
     682.9
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -338,7 +382,9 @@
     363.4,
     723.1
    ],
-   "section": "질권자"
+   "section": "질권자",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -350,7 +396,9 @@
     548.7,
     754.3
    ],
-   "section": "질권자"
+   "section": "질권자",
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -362,7 +410,9 @@
     548.7,
     723.1
    ],
-   "section": "질권자"
+   "section": "질권자",
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -373,7 +423,10 @@
     168.4,
     177.9,
     187.3
-   ]
+   ],
+   "kind": "branch",
+   "std": false,
+   "key": "취급점"
   },
   {
    "t": "date",
@@ -399,7 +452,8 @@
      350.4,
      512.9
     ]
-   }
+   },
+   "key": "date"
   }
  ],
  "erase": [

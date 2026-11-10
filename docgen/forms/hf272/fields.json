@@ -63,7 +63,10 @@
     538.4
    ],
    "row": true,
-   "group": "NumberofLG"
+   "group": "NumberofLG",
+   "kind": "number",
+   "std": false,
+   "key": "NumberofL/G"
   },
   {
    "t": "text",
@@ -76,7 +79,10 @@
     538.4
    ],
    "row": true,
-   "group": "NumberofLG"
+   "group": "NumberofLG",
+   "kind": "number",
+   "std": false,
+   "key": "NumberofCredit"
   },
   {
    "t": "text",
@@ -89,7 +95,10 @@
     538.4
    ],
    "row": true,
-   "group": "NumberofLG"
+   "group": "NumberofLG",
+   "kind": "amount",
+   "std": false,
+   "key": "L/GAmount"
   },
   {
    "t": "text",
@@ -102,7 +111,10 @@
     538.4
    ],
    "row": true,
-   "group": "NumberofLG"
+   "group": "NumberofLG",
+   "kind": "number",
+   "std": false,
+   "key": "NumberofB/L"
   },
   {
    "t": "text",
@@ -115,7 +127,10 @@
     538.4
    ],
    "row": true,
-   "group": "NumberofLG"
+   "group": "NumberofLG",
+   "kind": "text",
+   "std": false,
+   "key": "VesselName"
   },
   {
    "t": "text",
@@ -126,7 +141,10 @@
     335.0,
     473.9,
     355.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Gentlemen"
   },
   {
    "t": "text",
@@ -139,7 +157,10 @@
     538.4
    ],
    "row": true,
-   "group": "NumberofLG2"
+   "group": "NumberofLG2",
+   "kind": "number",
+   "std": false,
+   "key": "NumberofL/G"
   },
   {
    "t": "text",
@@ -152,7 +173,10 @@
     538.4
    ],
    "row": true,
-   "group": "NumberofLG2"
+   "group": "NumberofLG2",
+   "kind": "number",
+   "std": false,
+   "key": "NumberofCredit"
   },
   {
    "t": "text",
@@ -165,7 +189,10 @@
     538.4
    ],
    "row": true,
-   "group": "NumberofLG2"
+   "group": "NumberofLG2",
+   "kind": "amount",
+   "std": false,
+   "key": "L/GAmount"
   },
   {
    "t": "text",
@@ -178,7 +205,10 @@
     538.4
    ],
    "row": true,
-   "group": "NumberofLG2"
+   "group": "NumberofLG2",
+   "kind": "number",
+   "std": false,
+   "key": "NumberofB/L"
   },
   {
    "t": "text",
@@ -191,7 +221,10 @@
     538.4
    ],
    "row": true,
-   "group": "NumberofLG2"
+   "group": "NumberofLG2",
+   "kind": "text",
+   "std": false,
+   "key": "VesselName"
   },
   {
    "t": "text",
@@ -202,7 +235,10 @@
     335.0,
     473.9,
     355.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Gentlemen"
   },
   {
    "t": "text",
@@ -215,7 +251,10 @@
     538.4
    ],
    "row": true,
-   "group": "NumberofLG3"
+   "group": "NumberofLG3",
+   "kind": "number",
+   "std": false,
+   "key": "NumberofL/G"
   },
   {
    "t": "text",
@@ -228,7 +267,10 @@
     538.4
    ],
    "row": true,
-   "group": "NumberofLG3"
+   "group": "NumberofLG3",
+   "kind": "number",
+   "std": false,
+   "key": "NumberofCredit"
   },
   {
    "t": "text",
@@ -241,7 +283,10 @@
     538.4
    ],
    "row": true,
-   "group": "NumberofLG3"
+   "group": "NumberofLG3",
+   "kind": "amount",
+   "std": false,
+   "key": "L/GAmount"
   },
   {
    "t": "text",
@@ -254,7 +299,10 @@
     538.4
    ],
    "row": true,
-   "group": "NumberofLG3"
+   "group": "NumberofLG3",
+   "kind": "number",
+   "std": false,
+   "key": "NumberofB/L"
   },
   {
    "t": "text",
@@ -267,7 +315,10 @@
     538.4
    ],
    "row": true,
-   "group": "NumberofLG3"
+   "group": "NumberofLG3",
+   "kind": "text",
+   "std": false,
+   "key": "VesselName"
   },
   {
    "t": "text",
@@ -278,7 +329,10 @@
     335.0,
     473.9,
     355.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Gentlemen"
   }
  ]
 }

@@ -23,7 +23,10 @@
     191.3,
     549.5,
     210.0
-   ]
+   ],
+   "kind": "currency",
+   "std": false,
+   "key": "통화선도"
   },
   {
    "t": "text",
@@ -34,7 +37,10 @@
     210.0,
     549.5,
     228.7
-   ]
+   ],
+   "kind": "currency",
+   "std": false,
+   "key": "통화옵션"
   },
   {
    "t": "text",
@@ -45,7 +51,10 @@
     228.7,
     549.5,
     247.4
-   ]
+   ],
+   "kind": "currency",
+   "std": false,
+   "key": "통화스왑"
   },
   {
    "t": "text",
@@ -56,7 +65,10 @@
     247.4,
     549.5,
     266.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "환변동보험"
   },
   {
    "t": "text",
@@ -67,7 +79,10 @@
     350.7,
     549.5,
     369.4
-   ]
+   ],
+   "kind": "currency",
+   "std": false,
+   "key": "통화선도"
   },
   {
    "t": "text",
@@ -78,7 +93,10 @@
     369.4,
     549.5,
     388.1
-   ]
+   ],
+   "kind": "currency",
+   "std": false,
+   "key": "통화옵션"
   },
   {
    "t": "text",
@@ -89,7 +107,10 @@
     388.1,
     549.5,
     406.8
-   ]
+   ],
+   "kind": "currency",
+   "std": false,
+   "key": "통화스왑"
   },
   {
    "t": "text",
@@ -100,7 +121,10 @@
     406.8,
     549.5,
     425.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "환변동보험"
   },
   {
    "t": "text",
@@ -112,7 +136,10 @@
     170.3,
     774.0
    ],
-   "row": true
+   "row": true,
+   "kind": "amount",
+   "std": false,
+   "key": "헤지거래한도"
   },
   {
    "t": "text",
@@ -124,7 +151,10 @@
     297.6,
     774.0
    ],
-   "row": true
+   "row": true,
+   "kind": "amount",
+   "std": false,
+   "key": "기체결외환파생거래금액"
   },
   {
    "t": "text",
@@ -136,7 +166,10 @@
     425.0,
     774.0
    ],
-   "row": true
+   "row": true,
+   "kind": "amount",
+   "std": false,
+   "key": "금번거래예정금액"
   },
   {
    "t": "text",
@@ -148,7 +181,10 @@
     549.5,
     774.0
    ],
-   "row": true
+   "row": true,
+   "kind": "percent",
+   "std": false,
+   "key": "위험헤지비율/100)"
   },
   {
    "t": "date",
@@ -173,7 +209,8 @@
      211.8,
      490.3
     ]
-   }
+   },
+   "key": "date"
   }
  ]
 }

@@ -49,7 +49,9 @@
     103.1,
     238.5,
     125.7
-   ]
+   ],
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -60,7 +62,9 @@
     125.7,
     238.5,
     148.7
-   ]
+   ],
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -71,7 +75,9 @@
     148.7,
     442.6,
     171.1
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -82,7 +88,9 @@
     103.1,
     442.6,
     125.7
-   ]
+   ],
+   "kind": "text",
+   "key": "agent.relation"
   },
   {
    "t": "text",
@@ -93,7 +101,9 @@
     125.7,
     442.6,
     148.7
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "sign",
@@ -110,7 +120,9 @@
     528.5,
     532.1,
     540.7
-   ]
+   ],
+   "who": "bank",
+   "what": "name"
   },
   {
    "t": "date",
@@ -136,7 +148,8 @@
      198.3,
      643.7
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -147,7 +160,9 @@
     642.8,
     547.3,
     662.2
-   ]
+   ],
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -158,7 +173,9 @@
     660.8,
     547.3,
     680.2
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -169,7 +186,9 @@
     678.8,
     466.7,
     699.7
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -181,7 +200,10 @@
     550.3,
     44.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "손실가능"
   },
   {
    "t": "text",
@@ -193,7 +215,10 @@
     482.6,
     274.5
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-본인의투자성향파악여부에대한의사결정"
   },
   {
    "t": "text",
@@ -205,7 +230,10 @@
     484.6,
     287.3
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-본인의투자성향분석결과를확인하는행위"
   },
   {
    "t": "text",
@@ -217,7 +245,9 @@
     178.4,
     723.9
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "agent.name"
   },
   {
    "t": "text",
@@ -229,7 +259,8 @@
     292.2,
     755.1
    ],
-   "free": true
+   "free": true,
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -241,7 +272,8 @@
     292.2,
     786.3
    ],
-   "free": true
+   "free": true,
+   "kind": "seal"
   }
  ]
 }

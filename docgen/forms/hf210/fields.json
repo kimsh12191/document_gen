@@ -31,7 +31,9 @@
     239.9
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -44,7 +46,9 @@
     239.9
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "key": "합계_목록.{i}.투자자",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -57,7 +61,10 @@
     239.9
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "kind": "text",
+   "std": false,
+   "key": "기업규모1"
   },
   {
    "t": "text",
@@ -70,7 +77,9 @@
     239.9
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "key": "합계_목록.{i}.현지법인명",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -83,7 +92,10 @@
     239.9
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "kind": "text",
+   "std": false,
+   "key": "투자지역2"
   },
   {
    "t": "text",
@@ -96,7 +108,10 @@
     239.9
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "kind": "text",
+   "std": false,
+   "key": "업종3"
   },
   {
    "t": "text",
@@ -109,7 +124,10 @@
     239.9
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "kind": "text",
+   "std": false,
+   "key": "투자방법4"
   },
   {
    "t": "text",
@@ -122,7 +140,10 @@
     239.9
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "kind": "percent",
+   "std": false,
+   "key": "비율"
   },
   {
    "t": "text",
@@ -135,7 +156,9 @@
     239.9
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "key": "합계_목록.{i}.현금",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -148,7 +171,10 @@
     239.9
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "kind": "text",
+   "std": false,
+   "key": "현물"
   },
   {
    "t": "text",
@@ -161,7 +187,10 @@
     239.9
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "kind": "note",
+   "std": false,
+   "key": "기타"
   },
   {
    "t": "text",
@@ -174,7 +203,10 @@
     239.9
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "kind": "text",
+   "std": false,
+   "key": "합작투자자"
   },
   {
    "t": "text",
@@ -187,7 +219,10 @@
     239.9
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "kind": "text",
+   "std": false,
+   "key": "신고기관"
   },
   {
    "t": "text",
@@ -200,7 +235,10 @@
     239.9
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "kind": "note",
+   "std": false,
+   "key": "비고4"
   },
   {
    "t": "text",
@@ -213,7 +251,9 @@
     403.6
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "key": "합계_목록.{i}.투자자",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -226,7 +266,9 @@
     403.6
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "key": "합계_목록.{i}.신고일자",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -239,7 +281,9 @@
     403.6
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "key": "합계_목록.{i}.신고금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -252,7 +296,10 @@
     403.6
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "kind": "date",
+   "std": false,
+   "key": "투자일자"
   },
   {
    "t": "text",
@@ -265,7 +312,10 @@
     403.6
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "kind": "text",
+   "std": false,
+   "key": "투자방법주"
   },
   {
    "t": "text",
@@ -278,7 +328,9 @@
     403.6
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "key": "합계_목록.{i}.현금",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -291,7 +343,10 @@
     403.6
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "kind": "note",
+   "std": false,
+   "key": "이익잉여금등기타"
   },
   {
    "t": "text",
@@ -304,7 +359,9 @@
     403.6
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "key": "합계_목록.{i}.현지법인명",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -317,7 +374,10 @@
     403.6
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "kind": "text",
+   "std": false,
+   "key": "신규증액"
   },
   {
    "t": "text",
@@ -330,7 +390,10 @@
     526.7
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "kind": "text",
+   "std": false,
+   "key": "투자자명"
   },
   {
    "t": "text",
@@ -343,7 +406,9 @@
     526.7
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "key": "합계_목록.{i}.신고일자",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -356,7 +421,9 @@
     526.7
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "key": "합계_목록.{i}.신고금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -369,7 +436,9 @@
     526.7
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "key": "합계_목록.{i}.현지법인명",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -382,7 +451,10 @@
     526.7
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "kind": "text",
+   "std": false,
+   "key": "구분주"
   },
   {
    "t": "text",
@@ -395,7 +467,10 @@
     526.7
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "kind": "date",
+   "std": false,
+   "key": "취득일"
   },
   {
    "t": "text",
@@ -408,7 +483,10 @@
     526.7
    ],
    "row": true,
-   "group": "합계"
+   "group": "합계",
+   "kind": "amount",
+   "std": false,
+   "key": "취득금액"
   },
   {
    "t": "text",
@@ -421,7 +499,9 @@
     128.3
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "key": "투자자_목록.{i}.투자자",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -434,7 +514,9 @@
     128.3
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -447,7 +529,9 @@
     128.3
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "key": "투자자_목록.{i}.신고금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -460,7 +544,9 @@
     128.3
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "key": "투자자_목록.{i}.현지법인명",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -473,7 +559,10 @@
     128.3
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "kind": "date",
+   "std": false,
+   "key": "외환매입일자"
   },
   {
    "t": "text",
@@ -486,7 +575,10 @@
     128.3
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "kind": "amount",
+   "std": false,
+   "key": "매입금액"
   },
   {
    "t": "text",
@@ -499,7 +591,10 @@
     128.3
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "kind": "text",
+   "std": false,
+   "key": "투자국"
   },
   {
    "t": "text",
@@ -512,7 +607,9 @@
     297.3
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -525,7 +622,9 @@
     297.3
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "key": "투자자_목록.{i}.투자자",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -538,7 +637,9 @@
     297.3
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "key": "투자자_목록.{i}.현지법인명",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -551,7 +652,10 @@
     297.3
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "kind": "text",
+   "std": false,
+   "key": "투자지역"
   },
   {
    "t": "text",
@@ -564,7 +668,10 @@
     297.3
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "kind": "text",
+   "std": false,
+   "key": "투자방법"
   },
   {
    "t": "text",
@@ -577,7 +684,10 @@
     297.3
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "kind": "percent",
+   "std": false,
+   "key": "비율"
   },
   {
    "t": "text",
@@ -590,7 +700,9 @@
     297.3
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "key": "투자자_목록.{i}.신고금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -603,7 +715,10 @@
     297.3
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "kind": "text",
+   "std": false,
+   "key": "회수내역주"
   },
   {
    "t": "text",
@@ -616,7 +731,10 @@
     297.3
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "kind": "amount",
+   "std": false,
+   "key": "회수금액"
   },
   {
    "t": "text",
@@ -629,7 +747,10 @@
     297.3
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "kind": "text",
+   "std": false,
+   "key": "합작투자자"
   },
   {
    "t": "text",
@@ -642,7 +763,10 @@
     297.3
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "kind": "note",
+   "std": false,
+   "key": "비고"
   },
   {
    "t": "text",
@@ -655,7 +779,10 @@
     507.8
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "kind": "text",
+   "std": false,
+   "key": "구분주"
   },
   {
    "t": "text",
@@ -668,7 +795,10 @@
     507.8
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "kind": "date",
+   "std": false,
+   "key": "변경일자"
   },
   {
    "t": "text",
@@ -681,7 +811,9 @@
     507.8
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "key": "투자자_목록.{i}.투자자",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -694,7 +826,10 @@
     507.8
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "kind": "note",
+   "std": false,
+   "key": "변경전"
   },
   {
    "t": "text",
@@ -707,7 +842,10 @@
     507.8
    ],
    "row": true,
-   "group": "투자자"
+   "group": "투자자",
+   "kind": "note",
+   "std": false,
+   "key": "변경후"
   }
  ]
 }

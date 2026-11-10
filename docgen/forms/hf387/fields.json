@@ -52,7 +52,9 @@
    ],
    "group": "원화계좌",
    "row": true,
-   "section": "원화계좌"
+   "section": "원화계좌",
+   "key": "원화계좌_목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -66,7 +68,9 @@
    ],
    "group": "원화계좌",
    "row": true,
-   "section": "원화계좌"
+   "section": "원화계좌",
+   "key": "원화계좌_목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -80,7 +84,9 @@
    ],
    "group": "원화계좌",
    "row": true,
-   "section": "원화계좌"
+   "section": "원화계좌",
+   "key": "원화계좌_목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -94,7 +100,9 @@
    ],
    "group": "외화계좌",
    "row": true,
-   "section": "외화계좌"
+   "section": "외화계좌",
+   "key": "외화계좌_목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -108,7 +116,9 @@
    ],
    "group": "외화계좌",
    "row": true,
-   "section": "외화계좌"
+   "section": "외화계좌",
+   "key": "외화계좌_목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -122,7 +132,9 @@
    ],
    "group": "외화계좌",
    "row": true,
-   "section": "외화계좌"
+   "section": "외화계좌",
+   "key": "외화계좌_목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -136,7 +148,9 @@
    ],
    "group": "외화계좌",
    "row": true,
-   "section": "외화계좌"
+   "section": "외화계좌",
+   "key": "외화계좌_목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -150,7 +164,9 @@
    ],
    "group": "외화계좌",
    "row": true,
-   "section": "외화계좌"
+   "section": "외화계좌",
+   "key": "외화계좌_목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -164,7 +180,9 @@
    ],
    "group": "원화계좌",
    "row": true,
-   "section": "원화계좌"
+   "section": "원화계좌",
+   "key": "원화계좌_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -178,7 +196,9 @@
    ],
    "group": "원화계좌",
    "row": true,
-   "section": "원화계좌"
+   "section": "원화계좌",
+   "key": "원화계좌_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -192,7 +212,9 @@
    ],
    "group": "원화계좌",
    "row": true,
-   "section": "원화계좌"
+   "section": "원화계좌",
+   "key": "원화계좌_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -206,7 +228,9 @@
    ],
    "group": "외화계좌",
    "row": true,
-   "section": "외화계좌"
+   "section": "외화계좌",
+   "key": "외화계좌_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -220,7 +244,9 @@
    ],
    "group": "외화계좌",
    "row": true,
-   "section": "외화계좌"
+   "section": "외화계좌",
+   "key": "외화계좌_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -234,7 +260,9 @@
    ],
    "group": "외화계좌",
    "row": true,
-   "section": "외화계좌"
+   "section": "외화계좌",
+   "key": "외화계좌_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -248,7 +276,9 @@
    ],
    "group": "외화계좌",
    "row": true,
-   "section": "외화계좌"
+   "section": "외화계좌",
+   "key": "외화계좌_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -262,7 +292,9 @@
    ],
    "group": "외화계좌",
    "row": true,
-   "section": "외화계좌"
+   "section": "외화계좌",
+   "key": "외화계좌_목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -276,7 +308,9 @@
    ],
    "group": "원화계좌",
    "row": true,
-   "section": "원화계좌"
+   "section": "원화계좌",
+   "key": "원화계좌_목록.{i}.통장용인감",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -290,7 +324,9 @@
    ],
    "group": "원화계좌",
    "row": true,
-   "section": "원화계좌"
+   "section": "원화계좌",
+   "key": "원화계좌_목록.{i}.통장용인감",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -304,7 +340,9 @@
    ],
    "group": "원화계좌",
    "row": true,
-   "section": "원화계좌"
+   "section": "원화계좌",
+   "key": "원화계좌_목록.{i}.통장용인감",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -318,7 +356,9 @@
    ],
    "group": "외화계좌",
    "row": true,
-   "section": "외화계좌"
+   "section": "외화계좌",
+   "key": "외화계좌_목록.{i}.통장용인감",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -332,7 +372,9 @@
    ],
    "group": "외화계좌",
    "row": true,
-   "section": "외화계좌"
+   "section": "외화계좌",
+   "key": "외화계좌_목록.{i}.통장용인감",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -346,7 +388,9 @@
    ],
    "group": "외화계좌",
    "row": true,
-   "section": "외화계좌"
+   "section": "외화계좌",
+   "key": "외화계좌_목록.{i}.통장용인감",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -360,7 +404,9 @@
    ],
    "group": "외화계좌",
    "row": true,
-   "section": "외화계좌"
+   "section": "외화계좌",
+   "key": "외화계좌_목록.{i}.통장용인감",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -374,7 +420,9 @@
    ],
    "group": "외화계좌",
    "row": true,
-   "section": "외화계좌"
+   "section": "외화계좌",
+   "key": "외화계좌_목록.{i}.통장용인감",
+   "kind": "seal"
   },
   {
    "t": "check",
@@ -419,7 +467,8 @@
     408.1,
     548.8,
     430.7
-   ]
+   ],
+   "key": "check.신청"
   },
   {
    "t": "check",
@@ -464,7 +513,8 @@
     430.7,
     548.8,
     453.4
-   ]
+   ],
+   "key": "check.신청"
   },
   {
    "t": "check",
@@ -509,7 +559,8 @@
     453.4,
     548.8,
     476.1
-   ]
+   ],
+   "key": "check.신청"
   },
   {
    "t": "check",
@@ -554,7 +605,8 @@
     476.1,
     548.8,
     498.8
-   ]
+   ],
+   "key": "check.신청"
   },
   {
    "t": "check",
@@ -599,7 +651,8 @@
     498.8,
     548.8,
     521.5
-   ]
+   ],
+   "key": "check.신청"
   },
   {
    "t": "check",
@@ -644,7 +697,8 @@
     521.5,
     548.8,
     544.1
-   ]
+   ],
+   "key": "check.신청"
   },
   {
    "t": "check",
@@ -689,7 +743,8 @@
     544.1,
     548.8,
     566.8
-   ]
+   ],
+   "key": "check.신청"
   },
   {
    "t": "check",
@@ -734,7 +789,8 @@
     566.8,
     548.8,
     589.5
-   ]
+   ],
+   "key": "check.신청"
   },
   {
    "t": "text",
@@ -745,7 +801,10 @@
     163.2,
     176.9,
     181.3
-   ]
+   ],
+   "kind": "branch",
+   "std": false,
+   "key": "취급점"
   },
   {
    "t": "date",
@@ -770,7 +829,8 @@
      323.3,
      256.8
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -781,7 +841,9 @@
     271.7,
     463.6,
     289.8
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "check",
@@ -820,7 +882,8 @@
      ],
      "line": 155
     }
-   ]
+   ],
+   "key": "check.■HANAFXTRADINGSYSTEM일괄예약결제"
   }
  ]
 }

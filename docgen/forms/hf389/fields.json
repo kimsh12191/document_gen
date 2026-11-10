@@ -23,7 +23,9 @@
     134.5,
     297.4,
     157.1
-   ]
+   ],
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -34,7 +36,9 @@
     157.1,
     297.4,
     179.8
-   ]
+   ],
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -45,7 +49,9 @@
     179.8,
     548.6,
     202.5
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -56,7 +62,9 @@
     134.5,
     548.6,
     157.1
-   ]
+   ],
+   "kind": "text",
+   "key": "agent.relation"
   },
   {
    "t": "text",
@@ -67,7 +75,9 @@
     157.1,
     548.6,
     179.8
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -78,7 +88,9 @@
     706.3,
     392.8,
     780.0
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "date",
@@ -103,7 +115,8 @@
      377.3,
      659.6
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -115,7 +128,10 @@
     479.6,
     353.1
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-본인의투자성향파악여부에대한의사결정"
   },
   {
    "t": "text",
@@ -127,7 +143,10 @@
     479.6,
     367.1
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-본인의투자성향분석결과를확인하는행위"
   }
  ]
 }

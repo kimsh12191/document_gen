@@ -49,7 +49,9 @@
     194.0,
     254.4,
     213.9
-   ]
+   ],
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -60,7 +62,9 @@
     194.0,
     548.9,
     213.9
-   ]
+   ],
+   "kind": "account",
+   "key": "account"
   },
   {
    "t": "check",
@@ -105,7 +109,8 @@
     231.7,
     254.4,
     265.5
-   ]
+   ],
+   "key": "check.신청구분"
   },
   {
    "t": "check",
@@ -214,7 +219,8 @@
     265.5,
     548.9,
     285.0
-   ]
+   ],
+   "key": "check.부담금종류"
   },
   {
    "t": "text",
@@ -226,7 +232,10 @@
     237.1,
     329.6
    ],
-   "unit": "명"
+   "unit": "명",
+   "kind": "count",
+   "std": false,
+   "key": "부담금등록가입자수"
   },
   {
    "t": "check",
@@ -287,7 +296,8 @@
     329.6,
     548.9,
     361.0
-   ]
+   ],
+   "key": "check.납부방법"
   },
   {
    "t": "check",
@@ -332,7 +342,8 @@
     231.7,
     548.9,
     265.5
-   ]
+   ],
+   "key": "check.부담금등록구분"
   },
   {
    "t": "text",
@@ -344,7 +355,9 @@
     176.0,
     526.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -356,7 +369,9 @@
     176.0,
     548.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -368,7 +383,9 @@
     176.0,
     569.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -380,7 +397,9 @@
     176.0,
     590.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -392,7 +411,9 @@
     176.0,
     612.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -404,7 +425,9 @@
     176.0,
     633.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -416,7 +439,9 @@
     176.0,
     654.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -428,7 +453,9 @@
     176.0,
     676.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -440,7 +467,9 @@
     176.0,
     697.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -452,7 +481,9 @@
     176.0,
     718.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.성명",
+   "kind": "person"
   },
   {
    "t": "text",
@@ -464,7 +495,9 @@
     324.1,
     526.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일주1",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -476,7 +509,9 @@
     324.1,
     548.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일주1",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -488,7 +523,9 @@
     324.1,
     569.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일주1",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -500,7 +537,9 @@
     324.1,
     590.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일주1",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -512,7 +551,9 @@
     324.1,
     612.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일주1",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -524,7 +565,9 @@
     324.1,
     633.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일주1",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -536,7 +579,9 @@
     324.1,
     654.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일주1",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -548,7 +593,9 @@
     324.1,
     676.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일주1",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -560,7 +607,9 @@
     324.1,
     697.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일주1",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -572,7 +621,9 @@
     324.1,
     718.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.생년월일주1",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -584,7 +635,9 @@
     437.5,
     526.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.기업부담금",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -596,7 +649,9 @@
     437.5,
     548.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.기업부담금",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -608,7 +663,9 @@
     437.5,
     569.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.기업부담금",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -620,7 +677,9 @@
     437.5,
     590.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.기업부담금",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -632,7 +691,9 @@
     437.5,
     612.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.기업부담금",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -644,7 +705,9 @@
     437.5,
     633.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.기업부담금",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -656,7 +719,9 @@
     437.5,
     654.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.기업부담금",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -668,7 +733,9 @@
     437.5,
     676.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.기업부담금",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -680,7 +747,9 @@
     437.5,
     697.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.기업부담금",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -692,7 +761,9 @@
     437.5,
     718.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.기업부담금",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -704,7 +775,9 @@
     548.9,
     526.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개인부담금",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -716,7 +789,9 @@
     548.9,
     548.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개인부담금",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -728,7 +803,9 @@
     548.9,
     569.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개인부담금",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -740,7 +817,9 @@
     548.9,
     590.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개인부담금",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -752,7 +831,9 @@
     548.9,
     612.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개인부담금",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -764,7 +845,9 @@
     548.9,
     633.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개인부담금",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -776,7 +859,9 @@
     548.9,
     654.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개인부담금",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -788,7 +873,9 @@
     548.9,
     676.1
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개인부담금",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -800,7 +887,9 @@
     548.9,
     697.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개인부담금",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -812,7 +901,9 @@
     548.9,
     718.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.개인부담금",
+   "kind": "amount"
   },
   {
    "t": "date",
@@ -838,7 +929,8 @@
      539.0,
      191.8
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -855,7 +947,9 @@
     764.2,
     374.9,
     775.1
-   ]
+   ],
+   "who": "corp",
+   "what": "name"
   }
  ]
 }

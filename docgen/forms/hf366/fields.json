@@ -29,7 +29,9 @@
     252.9,
     191.5,
     276.4
-   ]
+   ],
+   "kind": "number",
+   "key": "company.corp_no"
   },
   {
    "t": "text",
@@ -40,7 +42,9 @@
     380.4,
     191.5,
     404.0
-   ]
+   ],
+   "kind": "number",
+   "key": "customer.zipcode"
   },
   {
    "t": "text",
@@ -51,7 +55,9 @@
     404.8,
     191.5,
     427.0
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -62,7 +68,9 @@
     251.9,
     548.9,
     277.4
-   ]
+   ],
+   "kind": "number",
+   "key": "company.corp_no"
   },
   {
    "t": "text",
@@ -74,7 +82,9 @@
     548.9,
     302.9
    ],
-   "hint": "교육기관의 사업자 등록번호를 기입하시기 바랍니다."
+   "hint": "교육기관의 사업자 등록번호를 기입하시기 바랍니다.",
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -86,7 +96,10 @@
     548.9,
     328.4
    ],
-   "section": "교육기관 명*"
+   "section": "교육기관 명*",
+   "kind": "skip",
+   "std": false,
+   "key": "value"
   },
   {
    "t": "text",
@@ -98,7 +111,10 @@
     548.9,
     353.9
    ],
-   "section": "교육기관 명*"
+   "section": "교육기관 명*",
+   "kind": "skip",
+   "std": false,
+   "key": "value"
   },
   {
    "t": "text",
@@ -109,7 +125,10 @@
     353.9,
     548.9,
     379.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "교육기관대표자"
   },
   {
    "t": "text",
@@ -120,7 +139,9 @@
     379.4,
     548.9,
     405.0
-   ]
+   ],
+   "kind": "number",
+   "key": "customer.zipcode"
   },
   {
    "t": "text",
@@ -131,7 +152,9 @@
     405.0,
     548.9,
     430.5
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -143,7 +166,9 @@
     548.9,
     481.5
    ],
-   "section": "대표 연락처"
+   "section": "대표 연락처",
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -155,7 +180,10 @@
     548.9,
     507.0
    ],
-   "section": "대표 연락처"
+   "section": "대표 연락처",
+   "kind": "phone",
+   "std": false,
+   "key": "팩스번호"
   },
   {
    "t": "text",
@@ -167,7 +195,9 @@
     123.7,
     613.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -179,7 +209,9 @@
     123.7,
     639.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -191,7 +223,9 @@
     123.7,
     664.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -203,7 +237,9 @@
     123.7,
     690.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -215,7 +251,9 @@
     123.7,
     716.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -227,7 +265,9 @@
     123.7,
     741.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -239,7 +279,9 @@
     293.7,
     613.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -251,7 +293,9 @@
     293.7,
     639.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -263,7 +307,9 @@
     293.7,
     664.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -275,7 +321,9 @@
     293.7,
     690.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -287,7 +335,9 @@
     293.7,
     716.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -299,7 +349,9 @@
     293.7,
     741.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -311,7 +363,9 @@
     422.7,
     613.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금주명",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -323,7 +377,9 @@
     422.7,
     639.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금주명",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -335,7 +391,9 @@
     422.7,
     664.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금주명",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -347,7 +405,9 @@
     422.7,
     690.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금주명",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -359,7 +419,9 @@
     422.7,
     716.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금주명",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -371,7 +433,9 @@
     422.7,
     741.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.예금주명",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -383,7 +447,9 @@
     548.9,
     613.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감/서명",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -395,7 +461,9 @@
     548.9,
     639.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감/서명",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -407,7 +475,9 @@
     548.9,
     664.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감/서명",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -419,7 +489,9 @@
     548.9,
     690.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감/서명",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -431,7 +503,9 @@
     548.9,
     716.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감/서명",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -443,7 +517,9 @@
     548.9,
     741.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.인감/서명",
+   "kind": "seal"
   },
   {
    "t": "check",
@@ -498,7 +574,8 @@
      ],
      "line": 39
     }
-   ]
+   ],
+   "key": "check.다음과같이"
   },
   {
    "t": "text",
@@ -509,7 +586,8 @@
     247.9,
     163.2,
     270.1
-   ]
+   ],
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -520,7 +598,9 @@
     121.5,
     163.2,
     145.0
-   ]
+   ],
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -531,7 +611,9 @@
     145.9,
     163.2,
     168.1
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -544,7 +626,9 @@
     146.0
    ],
    "hint": "내점한 대리인의 성명을 기입하시기 바랍니다.",
-   "section": "대 리 인"
+   "section": "대 리 인",
+   "kind": "person",
+   "key": "agent.name"
   },
   {
    "t": "text",
@@ -557,7 +641,9 @@
     171.5
    ],
    "hint": "내점한 대리인의 근무처 주소를 기입하시기 바랍니다.",
-   "section": "대 리 인 주소 *"
+   "section": "대 리 인 주소 *",
+   "kind": "address",
+   "key": "agent.address"
   },
   {
    "t": "text",
@@ -569,7 +655,9 @@
     548.2,
     197.0
    ],
-   "section": "대 리 인 주소 *"
+   "section": "대 리 인 주소 *",
+   "kind": "address",
+   "key": "agent.address"
   },
   {
    "t": "text",
@@ -582,7 +670,9 @@
     222.5
    ],
    "hint": "내점한 대리인이 대한민국 국민인 경우에 기입합니다.",
-   "section": "대 리 인"
+   "section": "대 리 인",
+   "kind": "number",
+   "key": "agent.rrn"
   },
   {
    "t": "text",
@@ -594,7 +684,9 @@
     548.2,
     248.0
    ],
-   "hint": "내점한 대리인의 부서/직위를 기입하시기 바랍니다."
+   "hint": "내점한 대리인의 부서/직위를 기입하시기 바랍니다.",
+   "kind": "text",
+   "key": "agent.relation"
   },
   {
    "t": "text",
@@ -606,7 +698,8 @@
     548.2,
     304.7
    ],
-   "hint": "은행에서 인정하고 등록된 대표자의 서명감과 동일한 서명 또는 대한민국 법령에서 인정하는 법인의 등록된 인감 날인"
+   "hint": "은행에서 인정하고 등록된 대표자의 서명감과 동일한 서명 또는 대한민국 법령에서 인정하는 법인의 등록된 인감 날인",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -619,7 +712,8 @@
     490.2
    ],
    "hint": "은행에서 인정하고 등록된 대표자의 서명감과 동일한 서명 또는 대한민국 법령에서 인정하는 법인의 등록된 인감 날인",
-   "section": "“고객”"
+   "section": "“고객”",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -631,7 +725,8 @@
     548.2,
     567.7
    ],
-   "hint": "등록업무를 수행한 은행의 담당자 성명을 기입합니다."
+   "hint": "등록업무를 수행한 은행의 담당자 성명을 기입합니다.",
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -643,7 +738,10 @@
     548.2,
     593.3
    ],
-   "hint": "동 서류의 접수일자를 기입합니다."
+   "hint": "동 서류의 접수일자를 기입합니다.",
+   "kind": "date",
+   "std": false,
+   "key": "접수일자"
   },
   {
    "t": "text",
@@ -655,7 +753,10 @@
     548.2,
     618.8
    ],
-   "hint": "동 정보의 등록일자를 기입합니다."
+   "hint": "동 정보의 등록일자를 기입합니다.",
+   "kind": "date",
+   "std": false,
+   "key": "등록일자"
   },
   {
    "t": "date",
@@ -680,7 +781,8 @@
      462.0,
      325.3
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -691,7 +793,10 @@
     350.4,
     497.1,
     370.4
-   ]
+   ],
+   "kind": "bank",
+   "std": false,
+   "key": "“고객”교육기관명"
   },
   {
    "t": "text",
@@ -702,7 +807,9 @@
     369.4,
     547.3,
     387.6
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   }
  ]
 }

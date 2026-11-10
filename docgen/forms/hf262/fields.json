@@ -24,7 +24,10 @@
     549.0,
     188.1
    ],
-   "section": "신 청 인"
+   "section": "신 청 인",
+   "kind": "company",
+   "std": false,
+   "key": "상호대표자성명"
   },
   {
    "t": "text",
@@ -36,7 +39,10 @@
     549.0,
     230.6
    ],
-   "section": "신 청 인"
+   "section": "신 청 인",
+   "kind": "phone",
+   "std": false,
+   "key": "주소및전화번호"
   },
   {
    "t": "text",
@@ -48,7 +54,9 @@
     549.0,
     256.2
    ],
-   "section": "신 청 인"
+   "section": "신 청 인",
+   "kind": "text",
+   "key": "company.biz_item"
   },
   {
    "t": "text",
@@ -60,7 +68,9 @@
     549.0,
     281.7
    ],
-   "section": "신 청 인"
+   "section": "신 청 인",
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -72,7 +82,10 @@
     549.0,
     318.5
    ],
-   "section": "상 호 계 산 상 대 방"
+   "section": "상 호 계 산 상 대 방",
+   "kind": "company",
+   "std": false,
+   "key": "상호및대표자"
   },
   {
    "t": "text",
@@ -84,7 +97,9 @@
     549.0,
     344.0
    ],
-   "section": "상 호 계 산 상 대 방"
+   "section": "상 호 계 산 상 대 방",
+   "kind": "address",
+   "key": "foreign.address"
   },
   {
    "t": "text",
@@ -96,7 +111,9 @@
     549.0,
     369.5
    ],
-   "section": "상 호 계 산 상 대 방"
+   "section": "상 호 계 산 상 대 방",
+   "kind": "text",
+   "key": "company.biz_item"
   },
   {
    "t": "text",
@@ -108,7 +125,10 @@
     549.0,
     395.1
    ],
-   "section": "상 호 계 산 상 대 방"
+   "section": "상 호 계 산 상 대 방",
+   "kind": "text",
+   "std": false,
+   "key": "자본금"
   },
   {
    "t": "text",
@@ -120,7 +140,10 @@
     549.0,
     420.6
    ],
-   "section": "상 호 계 산 상 대 방"
+   "section": "상 호 계 산 상 대 방",
+   "kind": "text",
+   "std": false,
+   "key": "본지사여부"
   },
   {
    "t": "text",
@@ -131,7 +154,10 @@
     420.6,
     297.3,
     457.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "회계기간"
   },
   {
    "t": "text",
@@ -142,7 +168,10 @@
     457.1,
     549.0,
     482.6
-   ]
+   ],
+   "kind": "note",
+   "std": false,
+   "key": "변경내용"
   },
   {
    "t": "text",
@@ -153,7 +182,10 @@
     420.6,
     549.0,
     457.1
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "지사설치유효기간"
   },
   {
    "t": "text",
@@ -167,7 +199,10 @@
    ],
    "group": "상 호 계 산 신 고 서",
    "row": true,
-   "section": "상 호 계 산 신 고 서"
+   "section": "상 호 계 산 신 고 서",
+   "kind": "skip",
+   "std": false,
+   "key": "처리기간"
   },
   {
    "t": "date",
@@ -192,7 +227,8 @@
      466.2,
      566.4
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -209,7 +245,9 @@
     594.0,
     477.2,
     607.5
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   }
  ]
 }

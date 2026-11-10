@@ -30,7 +30,9 @@
     300.5,
     214.1
    ],
-   "section": "신 고 인 (보 고 인)"
+   "section": "신 고 인 (보 고 인)",
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "sign",
@@ -48,7 +50,9 @@
     221.9,
     293.4,
     234.9
-   ]
+   ],
+   "who": "corp",
+   "what": "ceo"
   },
   {
    "t": "text",
@@ -60,7 +64,9 @@
     549.6,
     299.1
    ],
-   "section": "신 고 인 (보 고 인)"
+   "section": "신 고 인 (보 고 인)",
+   "kind": "text",
+   "key": "company.biz_item"
   },
   {
    "t": "text",
@@ -72,7 +78,10 @@
     300.5,
     327.5
    ],
-   "section": "해 외 직 접 투 자 내 용"
+   "section": "해 외 직 접 투 자 내 용",
+   "kind": "country",
+   "std": false,
+   "key": "투자국명"
   },
   {
    "t": "text",
@@ -84,7 +93,10 @@
     300.5,
     355.8
    ],
-   "section": "해 외 직 접 투 자 내 용"
+   "section": "해 외 직 접 투 자 내 용",
+   "kind": "text",
+   "std": false,
+   "key": "투자방법"
   },
   {
    "t": "text",
@@ -96,7 +108,10 @@
     300.5,
     384.2
    ],
-   "section": "해 외 직 접 투 자 내 용"
+   "section": "해 외 직 접 투 자 내 용",
+   "kind": "text",
+   "std": false,
+   "key": "투자업종"
   },
   {
    "t": "text",
@@ -108,7 +123,10 @@
     300.5,
     412.5
    ],
-   "section": "해 외 직 접 투 자 내 용"
+   "section": "해 외 직 접 투 자 내 용",
+   "kind": "amount",
+   "std": false,
+   "key": "투자금액"
   },
   {
    "t": "text",
@@ -120,7 +138,10 @@
     300.5,
     440.9
    ],
-   "section": "해 외 직 접 투 자 내 용"
+   "section": "해 외 직 접 투 자 내 용",
+   "kind": "percent",
+   "std": false,
+   "key": "투자비율"
   },
   {
    "t": "text",
@@ -132,7 +153,10 @@
     300.5,
     469.2
    ],
-   "section": "해 외 직 접 투 자 내 용"
+   "section": "해 외 직 접 투 자 내 용",
+   "kind": "reason",
+   "std": false,
+   "key": "투자목적"
   },
   {
    "t": "text",
@@ -144,7 +168,9 @@
     549.6,
     185.8
    ],
-   "section": "신 고 인 (보 고 인) 상 호"
+   "section": "신 고 인 (보 고 인) 상 호",
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -156,7 +182,9 @@
     549.6,
     214.1
    ],
-   "section": "신 고 인 (보 고 인) 상 호"
+   "section": "신 고 인 (보 고 인) 상 호",
+   "kind": "number",
+   "key": "company.corp_no"
   },
   {
    "t": "text",
@@ -168,7 +196,9 @@
     549.6,
     242.4
    ],
-   "section": "신 고 인 (보 고 인)"
+   "section": "신 고 인 (보 고 인)",
+   "kind": "number",
+   "key": "customer.rrn"
   },
   {
    "t": "text",
@@ -180,7 +210,9 @@
     549.6,
     327.5
    ],
-   "section": "해 외 직 접 투 자 내 용"
+   "section": "해 외 직 접 투 자 내 용",
+   "kind": "address",
+   "key": "company.address"
   },
   {
    "t": "text",
@@ -192,7 +224,10 @@
     549.6,
     355.8
    ],
-   "section": "해 외 직 접 투 자 내 용"
+   "section": "해 외 직 접 투 자 내 용",
+   "kind": "text",
+   "std": false,
+   "key": "자금조달"
   },
   {
    "t": "text",
@@ -204,7 +239,10 @@
     549.6,
     384.2
    ],
-   "section": "해 외 직 접 투 자 내 용"
+   "section": "해 외 직 접 투 자 내 용",
+   "kind": "text",
+   "std": false,
+   "key": "주요제품"
   },
   {
    "t": "text",
@@ -216,7 +254,10 @@
     549.6,
     412.5
    ],
-   "section": "해 외 직 접 투 자 내 용"
+   "section": "해 외 직 접 투 자 내 용",
+   "kind": "amount",
+   "std": false,
+   "key": "출자금액"
   },
   {
    "t": "text",
@@ -228,7 +269,10 @@
     549.6,
     440.9
    ],
-   "section": "해 외 직 접 투 자 내 용"
+   "section": "해 외 직 접 투 자 내 용",
+   "kind": "text",
+   "std": false,
+   "key": "결산월"
   },
   {
    "t": "text",
@@ -240,7 +284,10 @@
     549.6,
     469.2
    ],
-   "section": "해 외 직 접 투 자 내 용"
+   "section": "해 외 직 접 투 자 내 용",
+   "kind": "text",
+   "std": false,
+   "key": "투자유형"
   },
   {
    "t": "text",
@@ -251,7 +298,10 @@
     582.4,
     549.6,
     605.1
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "신고번호"
   },
   {
    "t": "text",
@@ -262,7 +312,10 @@
     605.1,
     549.6,
     627.8
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "신고금액"
   },
   {
    "t": "text",
@@ -273,7 +326,10 @@
     627.8,
     549.6,
     650.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "유효기간"
   },
   {
    "t": "text",
@@ -284,7 +340,10 @@
     112.1,
     549.6,
     157.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "해외직접투자신고서"
   },
   {
    "t": "date",
@@ -309,7 +368,8 @@
      533.2,
      547.6
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -321,7 +381,9 @@
     271.4,
     241.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "company.ceo"
   },
   {
    "t": "text",
@@ -333,7 +395,10 @@
     297.5,
     630.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "위와같이신고되었음을확인함"
   }
  ]
 }

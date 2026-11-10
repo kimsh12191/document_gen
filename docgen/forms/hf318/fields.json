@@ -24,7 +24,9 @@
     312.2,
     204.4
    ],
-   "section": "신 고 인"
+   "section": "신 고 인",
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "sign",
@@ -42,7 +44,9 @@
     208.9,
     293.7,
     221.1
-   ]
+   ],
+   "who": "corp",
+   "what": "ceo"
   },
   {
    "t": "text",
@@ -54,7 +58,9 @@
     553.1,
     292.3
    ],
-   "section": "신 고 인"
+   "section": "신 고 인",
+   "kind": "text",
+   "key": "company.biz_item"
   },
   {
    "t": "check",
@@ -131,7 +137,8 @@
     292.3,
     553.1,
     315.0
-   ]
+   ],
+   "key": "check.투자구분"
   },
   {
    "t": "check",
@@ -192,7 +199,8 @@
     315.0,
     553.1,
     337.7
-   ]
+   ],
+   "key": "check.투자방식"
   },
   {
    "t": "text",
@@ -204,7 +212,10 @@
     312.2,
     374.2
    ],
-   "section": "신 고 내 용"
+   "section": "신 고 내 용",
+   "kind": "text",
+   "std": false,
+   "key": "투자업종"
   },
   {
    "t": "text",
@@ -216,7 +227,9 @@
     553.1,
     181.8
    ],
-   "section": "신 고 인 상 호"
+   "section": "신 고 인 상 호",
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -228,7 +241,9 @@
     553.1,
     204.4
    ],
-   "section": "신 고 인 상 호"
+   "section": "신 고 인 상 호",
+   "kind": "number",
+   "key": "company.corp_no"
   },
   {
    "t": "text",
@@ -240,7 +255,9 @@
     553.1,
     227.1
    ],
-   "section": "신 고 인"
+   "section": "신 고 인",
+   "kind": "number",
+   "key": "customer.rrn"
   },
   {
    "t": "text",
@@ -252,7 +269,10 @@
     553.1,
     374.2
    ],
-   "section": "신 고 내 용"
+   "section": "신 고 내 용",
+   "kind": "text",
+   "std": false,
+   "key": "주요제품"
   },
   {
    "t": "text",
@@ -263,7 +283,10 @@
     611.2,
     553.1,
     633.9
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "신고수리번호"
   },
   {
    "t": "text",
@@ -274,7 +297,10 @@
     634.9,
     550.1,
     655.6
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "value"
   },
   {
    "t": "date",
@@ -299,7 +325,8 @@
      529.3,
      674.2
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -313,7 +340,10 @@
    ],
    "group": "대북투자(변경)신고서",
    "row": true,
-   "section": "대북투자(변경)신고서"
+   "section": "대북투자(변경)신고서",
+   "kind": "skip",
+   "std": false,
+   "key": "처리기간"
   },
   {
    "t": "text",
@@ -324,7 +354,10 @@
     408.2,
     361.1,
     425.2
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "현금"
   },
   {
    "t": "text",
@@ -335,7 +368,10 @@
     425.2,
     361.1,
     442.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "현물"
   },
   {
    "t": "text",
@@ -346,7 +382,10 @@
     442.2,
     361.1,
     459.2
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "합계"
   },
   {
    "t": "text",
@@ -358,7 +397,9 @@
     446.1,
     425.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대부투자",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -370,7 +411,9 @@
     446.1,
     442.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대부투자",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -382,7 +425,9 @@
     446.1,
     459.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대부투자",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -394,7 +439,9 @@
     531.1,
     425.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.총투자액",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -406,7 +453,9 @@
     531.1,
     442.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.총투자액",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -418,7 +467,9 @@
     531.1,
     459.2
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.총투자액",
+   "kind": "text"
   },
   {
    "t": "date",
@@ -443,7 +494,8 @@
      529.3,
      582.3
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "date",
@@ -468,7 +520,8 @@
      528.6,
      706.6
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -485,7 +538,9 @@
     719.4,
     536.7,
     731.6
-   ]
+   ],
+   "who": "bank",
+   "what": "name"
   },
   {
    "t": "text",
@@ -497,7 +552,9 @@
     309.2,
     226.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "company.ceo"
   },
   {
    "t": "text",
@@ -509,7 +566,10 @@
     294.3,
     497.9
    ],
-   "free": true
+   "free": true,
+   "kind": "company",
+   "std": false,
+   "key": "현지법인명"
   },
   {
    "t": "text",
@@ -521,7 +581,10 @@
     309.2,
     656.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "위의신고를다음과같이신고필함"
   },
   {
    "t": "text",
@@ -534,7 +597,10 @@
     486.3,
     678.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "유효기간"
   }
  ]
 }

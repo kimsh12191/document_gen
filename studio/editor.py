@@ -58,12 +58,12 @@ def _rect_of(it: dict) -> list[float] | None:
 
 
 def _auto(it: dict) -> dict:
-    """자동 규칙이 이 영역에 붙이는 키·값 종류 (사람이 바꾸기 전)."""
+    """키를 적지 않은 칸이 그릴 때 받는 키·값 종류 (공통 규칙은 없다: 키는 키 설명 그대로, 값 종류는 text)."""
     label = it.get("label") or ""
     if it["t"] == "text":
         if it.get("row"):
-            return {"key": None, "kind": RF.kind_of(label, it.get("unit"), it.get("hint")), "row": True}
-        return {"key": RF.key_of(label), "kind": RF.kind_of(label, it.get("unit"), it.get("hint"))}
+            return {"key": None, "kind": it.get("kind") or "text", "row": True}
+        return {"key": it.get("key") or RF.norm(label) or None, "kind": it.get("kind") or "text"}
     return {"key": None, "kind": None}
 
 
@@ -128,11 +128,11 @@ def _auto_example(it: dict, cls: str, p) -> str | None:
     label = it.get("label") or ""
     try:
         if it.get("row"):
-            return vals.by_kind(it.get("kind") or RF.kind_of(label, it.get("unit"), it.get("hint")), label)
+            return vals.by_kind(it.get("kind") or "text", label)
         skey, kind = RF._text_key(it)
-        if skey:
+        if skey and it.get("std", True):
             v = vals.std(skey)
-            return v if v is not None or not it.get("key") else vals.by_kind(kind, label)
+            return v if v is not None or skey not in vals.not_profile else vals.by_kind(kind, label)
         return vals.by_kind(kind, label)
     except Exception:  # noqa: BLE001 — 예시를 못 만들면 표시만 안 한다
         return None
@@ -403,7 +403,7 @@ def checks(doc_id: str, label: dict | None = None, fields_keys: list[dict] | Non
                             f"({' '.join(g['words'][:6])}) — 안내 문구와 겹치면 영역을 줄이거나 배경을 지우세요"})
     junk = [it for it in live if it["t"] == "text" and it["status"] == "auto" and it.get("label")
             and not _ASCII.match(RF.norm(it["label"])) and len(RF.norm(it["label"])) <= 3 and not it["auto"].get("key")
-            and RF.kind_of(it["label"], it.get("unit"), it.get("hint")) == "text"]
+            and (it.get("kind") or "text") == "text"]
     if junk:
         out.append({"level": "info", "code": "fragment",
                     "text": f"뜻을 모르는 짧은 항목명 {len(junk)}개 (문장 조각일 수 있음): "

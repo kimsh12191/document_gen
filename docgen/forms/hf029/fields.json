@@ -49,7 +49,8 @@
     205.2,
     369.0,
     290.2
-   ]
+   ],
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -61,7 +62,9 @@
     312.2,
     383.0
    ],
-   "section": "대 리 인"
+   "section": "대 리 인",
+   "kind": "person",
+   "key": "agent.name"
   },
   {
    "t": "text",
@@ -73,7 +76,9 @@
     312.2,
     411.4
    ],
-   "section": "대 리 인"
+   "section": "대 리 인",
+   "kind": "phone",
+   "key": "agent.phone"
   },
   {
    "t": "text",
@@ -85,7 +90,9 @@
     546.6,
     439.7
    ],
-   "section": "대 리 인"
+   "section": "대 리 인",
+   "kind": "address",
+   "key": "agent.address"
   },
   {
    "t": "text",
@@ -97,7 +104,9 @@
     546.6,
     383.0
    ],
-   "section": "대 리 인"
+   "section": "대 리 인",
+   "kind": "date",
+   "key": "agent.birth"
   },
   {
    "t": "text",
@@ -109,7 +118,9 @@
     546.6,
     411.4
    ],
-   "section": "대 리 인"
+   "section": "대 리 인",
+   "kind": "text",
+   "key": "agent.relation"
   },
   {
    "t": "text",
@@ -120,7 +131,10 @@
     80.2,
     170.9,
     98.5
-   ]
+   ],
+   "kind": "branch",
+   "std": false,
+   "key": "취급점"
   },
   {
    "t": "date",
@@ -145,7 +159,8 @@
      467.4,
      531.2
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -156,7 +171,9 @@
     554.0,
     547.3,
     572.2
-   ]
+   ],
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -167,7 +184,9 @@
     574.0,
     431.3,
     592.2
-   ]
+   ],
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -178,7 +197,9 @@
     594.0,
     547.3,
     612.2
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -189,7 +210,9 @@
     614.0,
     547.3,
     632.2
-   ]
+   ],
+   "kind": "text",
+   "key": "company.ceo"
   }
  ]
 }

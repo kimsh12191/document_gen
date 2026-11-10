@@ -50,7 +50,10 @@
     549.1,
     195.1
    ],
-   "section": "상호"
+   "section": "상호",
+   "kind": "text",
+   "std": false,
+   "key": "한글"
   },
   {
    "t": "text",
@@ -62,7 +65,10 @@
     549.1,
     229.4
    ],
-   "section": "상호"
+   "section": "상호",
+   "kind": "text",
+   "std": false,
+   "key": "영문"
   },
   {
    "t": "text",
@@ -74,7 +80,10 @@
     549.1,
     263.7
    ],
-   "section": "상호"
+   "section": "상호",
+   "kind": "number",
+   "std": false,
+   "key": "무역업고유번호"
   },
   {
    "t": "text",
@@ -86,7 +95,9 @@
     549.1,
     298.0
    ],
-   "section": "상호"
+   "section": "상호",
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -98,7 +109,10 @@
     549.1,
     332.3
    ],
-   "section": "주소"
+   "section": "주소",
+   "kind": "text",
+   "std": false,
+   "key": "한글"
   },
   {
    "t": "text",
@@ -110,7 +124,10 @@
     549.1,
     366.6
    ],
-   "section": "주소"
+   "section": "주소",
+   "kind": "text",
+   "std": false,
+   "key": "영문"
   },
   {
    "t": "text",
@@ -121,7 +138,9 @@
     366.6,
     339.5,
     400.9
-   ]
+   ],
+   "kind": "text",
+   "key": "company.ceo"
   },
   {
    "t": "text",
@@ -132,7 +151,9 @@
     366.6,
     549.1,
     400.9
-   ]
+   ],
+   "kind": "text",
+   "key": "agent.name"
   },
   {
    "t": "date",
@@ -157,7 +178,8 @@
      433.7,
      477.8
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -174,7 +196,9 @@
     496.8,
     447.0,
     506.8
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -185,7 +209,9 @@
     523.8,
     547.3,
     539.8
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   }
  ]
 }

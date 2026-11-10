@@ -23,7 +23,10 @@
     208.1,
     544.4,
     230.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "HanaBank"
   },
   {
    "t": "text",
@@ -35,7 +38,10 @@
     547.4,
     349.2
    ],
-   "row": true
+   "row": true,
+   "kind": "text",
+   "std": false,
+   "key": "HanaBank"
   },
   {
    "t": "text",
@@ -46,7 +52,10 @@
     512.8,
     547.3,
     530.9
-   ]
+   ],
+   "kind": "email",
+   "std": false,
+   "key": "E-mailaddresstobenotified"
   },
   {
    "t": "text",
@@ -57,7 +66,10 @@
     697.3,
     547.3,
     715.4
-   ]
+   ],
+   "kind": "biz_no",
+   "std": false,
+   "key": "BusinessRegistrationNo"
   }
  ]
 }

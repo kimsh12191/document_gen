@@ -31,7 +31,9 @@
     275.3
    ],
    "row": true,
-   "group": "해외지사신고명세"
+   "group": "해외지사신고명세",
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -44,7 +46,9 @@
     275.3
    ],
    "row": true,
-   "group": "해외지사신고명세"
+   "group": "해외지사신고명세",
+   "key": "해외지사신고명세_목록.{i}.신고자",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -57,7 +61,9 @@
     275.3
    ],
    "row": true,
-   "group": "해외지사신고명세"
+   "group": "해외지사신고명세",
+   "key": "해외지사신고명세_목록.{i}.사업자번호",
+   "kind": "biz_no"
   },
   {
    "t": "text",
@@ -70,7 +76,10 @@
     275.3
    ],
    "row": true,
-   "group": "해외지사신고명세"
+   "group": "해외지사신고명세",
+   "kind": "text",
+   "std": false,
+   "key": "기업규모1"
   },
   {
    "t": "text",
@@ -83,7 +92,9 @@
     275.3
    ],
    "row": true,
-   "group": "해외지사신고명세"
+   "group": "해외지사신고명세",
+   "key": "해외지사신고명세_목록.{i}.지사명",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -96,7 +107,9 @@
     275.3
    ],
    "row": true,
-   "group": "해외지사신고명세"
+   "group": "해외지사신고명세",
+   "key": "해외지사신고명세_목록.{i}.설치국가",
+   "kind": "country"
   },
   {
    "t": "text",
@@ -109,7 +122,10 @@
     275.3
    ],
    "row": true,
-   "group": "해외지사신고명세"
+   "group": "해외지사신고명세",
+   "kind": "text",
+   "std": false,
+   "key": "구분2"
   },
   {
    "t": "text",
@@ -122,7 +138,10 @@
     275.3
    ],
    "row": true,
-   "group": "해외지사신고명세"
+   "group": "해외지사신고명세",
+   "kind": "text",
+   "std": false,
+   "key": "신고기관"
   },
   {
    "t": "text",
@@ -135,7 +154,9 @@
     456.1
    ],
    "row": true,
-   "group": "해외지사신고명세"
+   "group": "해외지사신고명세",
+   "key": "해외지사신고명세_목록.{i}.신고자",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -148,7 +169,9 @@
     456.1
    ],
    "row": true,
-   "group": "해외지사신고명세"
+   "group": "해외지사신고명세",
+   "key": "해외지사신고명세_목록.{i}.사업자번호",
+   "kind": "biz_no"
   },
   {
    "t": "text",
@@ -161,7 +184,9 @@
     456.1
    ],
    "row": true,
-   "group": "해외지사신고명세"
+   "group": "해외지사신고명세",
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -174,7 +199,10 @@
     456.1
    ],
    "row": true,
-   "group": "해외지사신고명세"
+   "group": "해외지사신고명세",
+   "kind": "date",
+   "std": false,
+   "key": "송금일자"
   },
   {
    "t": "text",
@@ -187,7 +215,10 @@
     456.1
    ],
    "row": true,
-   "group": "해외지사신고명세"
+   "group": "해외지사신고명세",
+   "kind": "text",
+   "std": false,
+   "key": "송금내역"
   },
   {
    "t": "text",
@@ -200,7 +231,9 @@
     456.1
    ],
    "row": true,
-   "group": "해외지사신고명세"
+   "group": "해외지사신고명세",
+   "key": "해외지사신고명세_목록.{i}.지사명",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -213,7 +246,9 @@
     456.1
    ],
    "row": true,
-   "group": "해외지사신고명세"
+   "group": "해외지사신고명세",
+   "key": "해외지사신고명세_목록.{i}.설치국가",
+   "kind": "country"
   },
   {
    "t": "text",
@@ -226,7 +261,9 @@
     181.3
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -239,7 +276,9 @@
     181.3
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "key": "해외지사폐쇄내역_목록.{i}.신고자",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -252,7 +291,9 @@
     181.3
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "key": "해외지사폐쇄내역_목록.{i}.사업자번호",
+   "kind": "biz_no"
   },
   {
    "t": "text",
@@ -265,7 +306,10 @@
     181.3
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "kind": "company",
+   "std": false,
+   "key": "해외지사명"
   },
   {
    "t": "text",
@@ -278,7 +322,10 @@
     181.3
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "kind": "country",
+   "std": false,
+   "key": "설치국가"
   },
   {
    "t": "text",
@@ -291,7 +338,10 @@
     181.3
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "kind": "text",
+   "std": false,
+   "key": "회수구분주"
   },
   {
    "t": "text",
@@ -304,7 +354,10 @@
     181.3
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "kind": "amount",
+   "std": false,
+   "key": "회수금액"
   },
   {
    "t": "text",
@@ -317,7 +370,10 @@
     181.3
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "kind": "note",
+   "std": false,
+   "key": "비고"
   },
   {
    "t": "text",
@@ -330,7 +386,10 @@
     347.0
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "kind": "text",
+   "std": false,
+   "key": "구분주"
   },
   {
    "t": "text",
@@ -343,7 +402,10 @@
     347.0
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "kind": "date",
+   "std": false,
+   "key": "변경일자"
   },
   {
    "t": "text",
@@ -356,7 +418,9 @@
     347.0
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "key": "해외지사폐쇄내역_목록.{i}.신고자",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -369,7 +433,9 @@
     347.0
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "key": "해외지사폐쇄내역_목록.{i}.사업자번호",
+   "kind": "biz_no"
   },
   {
    "t": "text",
@@ -382,7 +448,10 @@
     347.0
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "kind": "note",
+   "std": false,
+   "key": "변경전"
   },
   {
    "t": "text",
@@ -395,7 +464,10 @@
     347.0
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "kind": "note",
+   "std": false,
+   "key": "변경후"
   },
   {
    "t": "text",
@@ -408,7 +480,9 @@
     520.8
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "key": "해외지사폐쇄내역_목록.{i}.신고자",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -421,7 +495,9 @@
     520.8
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "key": "해외지사폐쇄내역_목록.{i}.사업자번호",
+   "kind": "biz_no"
   },
   {
    "t": "text",
@@ -434,7 +510,10 @@
     520.8
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "kind": "company",
+   "std": false,
+   "key": "지사명"
   },
   {
    "t": "text",
@@ -447,7 +526,10 @@
     520.8
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "kind": "date",
+   "std": false,
+   "key": "취득일"
   },
   {
    "t": "text",
@@ -460,7 +542,10 @@
     520.8
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "kind": "amount",
+   "std": false,
+   "key": "취득금액"
   },
   {
    "t": "text",
@@ -473,7 +558,10 @@
     520.8
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "kind": "date",
+   "std": false,
+   "key": "처분일"
   },
   {
    "t": "text",
@@ -486,7 +574,10 @@
     520.8
    ],
    "row": true,
-   "group": "해외지사폐쇄내역"
+   "group": "해외지사폐쇄내역",
+   "kind": "amount",
+   "std": false,
+   "key": "처분금액"
   }
  ]
 }

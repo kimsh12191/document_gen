@@ -35,7 +35,9 @@
     243.6,
     545.5,
     272.0
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -46,7 +48,9 @@
     272.0,
     545.5,
     300.3
-   ]
+   ],
+   "kind": "number",
+   "key": "customer.rrn"
   },
   {
    "t": "text",
@@ -57,7 +61,10 @@
     300.3,
     377.5,
     328.7
-   ]
+   ],
+   "kind": "passport",
+   "std": false,
+   "key": "여권번호"
   },
   {
    "t": "text",
@@ -68,7 +75,9 @@
     300.3,
     545.5,
     328.7
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.nationality"
   },
   {
    "t": "text",
@@ -80,7 +89,10 @@
     499.2,
     445.6
    ],
-   "section": "국민"
+   "section": "국민",
+   "kind": "text",
+   "std": false,
+   "key": "가외국에서영업활동에종사하고있습니까?"
   },
   {
    "t": "text",
@@ -92,7 +104,10 @@
     499.2,
     468.3
    ],
-   "section": "국민"
+   "section": "국민",
+   "kind": "text",
+   "std": false,
+   "key": "나외국에있는국제기구에서근무하고있습니까?"
   },
   {
    "t": "text",
@@ -106,7 +121,10 @@
    ],
    "group": "국민",
    "row": true,
-   "section": "국민"
+   "section": "국민",
+   "kind": "skip",
+   "std": false,
+   "key": "예"
   },
   {
    "t": "text",
@@ -120,7 +138,10 @@
    ],
    "group": "외국인",
    "row": true,
-   "section": "외국인"
+   "section": "외국인",
+   "kind": "skip",
+   "std": false,
+   "key": "예"
   },
   {
    "t": "text",
@@ -132,7 +153,10 @@
     499.2,
     564.6
    ],
-   "section": "외국인"
+   "section": "외국인",
+   "kind": "text",
+   "std": false,
+   "key": "마외국정부또는국제기구의공무로입국하는자입니까?"
   },
   {
    "t": "text",
@@ -144,7 +168,10 @@
     499.2,
     587.3
    ],
-   "section": "외국인"
+   "section": "외국인",
+   "kind": "text",
+   "std": false,
+   "key": "바거주자였던외국인으로서출국하여외국에서3개월이상체재중입니까?"
   },
   {
    "t": "text",
@@ -157,7 +184,10 @@
     641.2
    ],
    "row": true,
-   "group": "예"
+   "group": "예",
+   "kind": "skip",
+   "std": false,
+   "key": "예"
   },
   {
    "t": "text",
@@ -171,7 +201,9 @@
    ],
    "group": "국민",
    "row": true,
-   "section": "국민"
+   "section": "국민",
+   "key": "국민_목록.{i}.아니오",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -185,7 +217,9 @@
    ],
    "group": "국민",
    "row": true,
-   "section": "국민"
+   "section": "국민",
+   "key": "국민_목록.{i}.아니오",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -199,7 +233,9 @@
    ],
    "group": "국민",
    "row": true,
-   "section": "국민"
+   "section": "국민",
+   "key": "국민_목록.{i}.아니오",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -213,7 +249,9 @@
    ],
    "group": "외국인",
    "row": true,
-   "section": "외국인"
+   "section": "외국인",
+   "key": "외국인_목록.{i}.아니오",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -227,7 +265,9 @@
    ],
    "group": "외국인",
    "row": true,
-   "section": "외국인"
+   "section": "외국인",
+   "key": "외국인_목록.{i}.아니오",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -241,7 +281,9 @@
    ],
    "group": "외국인",
    "row": true,
-   "section": "외국인"
+   "section": "외국인",
+   "key": "외국인_목록.{i}.아니오",
+   "kind": "skip"
   },
   {
    "t": "text",
@@ -254,7 +296,10 @@
     641.2
    ],
    "row": true,
-   "group": "예"
+   "group": "예",
+   "kind": "skip",
+   "std": false,
+   "key": "아니오"
   },
   {
    "t": "check",
@@ -277,7 +322,8 @@
      ],
      "line": 165
     }
-   ]
+   ],
+   "key": "check.판정방법"
   },
   {
    "t": "text",
@@ -289,7 +335,10 @@
     441.1,
     421.9
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "항목"
   },
   {
    "t": "text",
@@ -301,7 +350,10 @@
     439.1,
     559.8
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "외국인"
   },
   {
    "t": "text",
@@ -314,7 +366,10 @@
     139.3
    ],
    "row": true,
-   "group": "아니오"
+   "group": "아니오",
+   "kind": "skip",
+   "std": false,
+   "key": "예"
   },
   {
    "t": "text",
@@ -325,7 +380,10 @@
     139.3,
     499.5,
     161.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "나비거주자이었던자로서입국하여국내에3개월이상체재중입니까?"
   },
   {
    "t": "text",
@@ -336,7 +394,10 @@
     161.9,
     499.5,
     184.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "다국내에서영업활동에종사하고있습니까?"
   },
   {
    "t": "text",
@@ -347,7 +408,10 @@
     184.6,
     499.5,
     207.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "라6개월이상국내에서체재하고있습니까?"
   },
   {
    "t": "check",
@@ -370,7 +434,8 @@
      ],
      "line": 56
     }
-   ]
+   ],
+   "key": "check.판정방법"
   },
   {
    "t": "text",
@@ -381,7 +446,10 @@
     370.2,
     476.8,
     389.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "거주성판정결과"
   },
   {
    "t": "date",
@@ -406,7 +474,8 @@
      537.8,
      509.5
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -423,7 +492,9 @@
     525.6,
     547.6,
     538.5
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -435,7 +506,10 @@
     441.1,
     115.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "항목"
   },
   {
    "t": "text",
@@ -447,7 +521,10 @@
     540.9,
     286.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "가외국에서영업활동에종사하고있는자"
   },
   {
    "t": "text",
@@ -459,7 +536,10 @@
     540.9,
     302.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "나외국에있는국제기구에서근무하고있는자"
   },
   {
    "t": "text",
@@ -471,7 +551,10 @@
     540.9,
     366.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "자로서재정경제부장관이정하는자"
   },
   {
    "t": "text",
@@ -483,7 +566,10 @@
     540.9,
     413.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "수행원이나사용인"
   },
   {
    "t": "text",
@@ -495,7 +581,10 @@
     549.4,
     479.3
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "■비거주자입증서류"
   },
   {
    "t": "text",
@@ -507,7 +596,10 @@
     538.9,
     529.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "영업활동입증서류"
   }
  ]
 }

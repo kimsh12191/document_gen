@@ -117,7 +117,9 @@
     335.2,
     547.8,
     374.9
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -156,7 +158,9 @@
     425.9,
     547.8,
     451.4
-   ]
+   ],
+   "kind": "account",
+   "key": "account"
   },
   {
    "t": "text",
@@ -195,7 +199,8 @@
      337.9,
      546.5
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -212,7 +217,9 @@
     632.8,
     421.8,
     646.2
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "sign",
@@ -268,7 +275,9 @@
     379.1,
     547.4,
     404.6
-   ]
+   ],
+   "kind": "account",
+   "key": "account"
   },
   {
    "t": "text",
@@ -307,7 +316,8 @@
      337.9,
      582.7
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -319,7 +329,8 @@
     644.1,
     441.6,
     657.6
-   ]
+   ],
+   "who": "bank"
   },
   {
    "t": "text",
@@ -331,7 +342,9 @@
     548.0,
     262.2
    ],
-   "free": true
+   "free": true,
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -359,7 +372,8 @@
     548.2
    ],
    "key": "date",
-   "added": true
+   "added": true,
+   "kind": "date"
   },
   {
    "t": "text",
@@ -372,7 +386,8 @@
     600.0
    ],
    "key": "customer.address",
-   "added": true
+   "added": true,
+   "kind": "address"
   },
   {
    "t": "text",
@@ -385,7 +400,8 @@
     624.4
    ],
    "key": "customer.birth",
-   "added": true
+   "added": true,
+   "kind": "date"
   },
   {
    "t": "text",
@@ -398,7 +414,8 @@
     648.8
    ],
    "key": "customer.name",
-   "added": true
+   "added": true,
+   "kind": "person"
   },
   {
    "t": "text",
@@ -439,7 +456,8 @@
     768.8
    ],
    "key": "related.name",
-   "added": true
+   "added": true,
+   "kind": "person"
   },
   {
    "t": "text",
@@ -452,7 +470,8 @@
     164.6
    ],
    "key": "related.name",
-   "added": true
+   "added": true,
+   "kind": "text"
   },
   {
    "t": "text",
@@ -465,7 +484,8 @@
     232.5
    ],
    "key": "customer.name",
-   "added": true
+   "added": true,
+   "kind": "person"
   },
   {
    "t": "text",
@@ -478,7 +498,8 @@
     295.5
    ],
    "key": "related.name",
-   "added": true
+   "added": true,
+   "kind": "person"
   },
   {
    "t": "text",
@@ -491,7 +512,8 @@
     585.0
    ],
    "key": "date",
-   "added": true
+   "added": true,
+   "kind": "date"
   }
  ],
  "updated": {

@@ -70,7 +70,10 @@
     93.4,
     307.4,
     112.7
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "접수일"
   },
   {
    "t": "text",
@@ -81,7 +84,10 @@
     93.4,
     440.6,
     112.7
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "처리일"
   },
   {
    "t": "text",
@@ -92,7 +98,10 @@
     152.2,
     544.8,
     178.5
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "신고된사업명"
   },
   {
    "t": "text",
@@ -103,7 +112,10 @@
     240.3,
     544.8,
     266.7
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "상호또는명칭"
   },
   {
    "t": "text",
@@ -114,7 +126,9 @@
     268.7,
     544.8,
     295.0
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.nationality"
   },
   {
    "t": "text",
@@ -128,7 +142,10 @@
    ],
    "group": "자본재등 도입물품명세",
    "row": true,
-   "section": "자본재등 도입물품명세"
+   "section": "자본재등 도입물품명세",
+   "kind": "number",
+   "std": false,
+   "key": "HSK분류번호"
   },
   {
    "t": "text",
@@ -142,7 +159,10 @@
    ],
    "group": "자본재등 도입물품명세",
    "row": true,
-   "section": "자본재등 도입물품명세"
+   "section": "자본재등 도입물품명세",
+   "kind": "goods",
+   "std": false,
+   "key": "품명"
   },
   {
    "t": "text",
@@ -156,7 +176,10 @@
    ],
    "group": "자본재등 도입물품명세",
    "row": true,
-   "section": "자본재등 도입물품명세"
+   "section": "자본재등 도입물품명세",
+   "kind": "count",
+   "std": false,
+   "key": "수량"
   },
   {
    "t": "text",
@@ -170,7 +193,10 @@
    ],
    "group": "자본재등 도입물품명세",
    "row": true,
-   "section": "자본재등 도입물품명세"
+   "section": "자본재등 도입물품명세",
+   "kind": "goods",
+   "std": false,
+   "key": "규격"
   },
   {
    "t": "text",
@@ -184,7 +210,10 @@
    ],
    "group": "자본재등 도입물품명세",
    "row": true,
-   "section": "자본재등 도입물품명세"
+   "section": "자본재등 도입물품명세",
+   "kind": "text",
+   "std": false,
+   "key": "제작자"
   },
   {
    "t": "text",
@@ -198,7 +227,10 @@
    ],
    "group": "자본재등 도입물품명세",
    "row": true,
-   "section": "자본재등 도입물품명세"
+   "section": "자본재등 도입물품명세",
+   "kind": "amount",
+   "std": false,
+   "key": "금액"
   },
   {
    "t": "date",
@@ -223,7 +255,8 @@
      322.2,
      196.5
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "date",
@@ -248,7 +281,8 @@
      541.3,
      417.4
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -265,7 +299,9 @@
     420.3,
     551.3,
     432.4
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "date",
@@ -290,7 +326,8 @@
      541.3,
      522.1
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -302,7 +339,10 @@
     183.5,
     112.7
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "접수번호"
   },
   {
    "t": "text",
@@ -314,7 +354,10 @@
     340.7,
     139.8
    ],
-   "free": true
+   "free": true,
+   "kind": "company",
+   "std": false,
+   "key": "상호또는명칭"
   },
   {
    "t": "text",
@@ -326,7 +369,9 @@
     552.3,
     139.8
    ],
-   "free": true
+   "free": true,
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -338,7 +383,10 @@
     379.3,
     230.9
    ],
-   "free": true
+   "free": true,
+   "kind": "percent",
+   "std": false,
+   "key": "외국인투자금액및비율"
   },
   {
    "t": "text",
@@ -349,7 +397,10 @@
     93.4,
     307.4,
     112.7
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "접수일"
   },
   {
    "t": "text",
@@ -360,7 +411,10 @@
     93.4,
     440.6,
     112.7
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "처리일"
   },
   {
    "t": "text",
@@ -371,7 +425,10 @@
     152.2,
     544.6,
     178.5
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "신고된사업명"
   },
   {
    "t": "text",
@@ -382,7 +439,10 @@
     240.3,
     544.6,
     266.7
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "상호또는명칭"
   },
   {
    "t": "text",
@@ -393,7 +453,9 @@
     268.7,
     544.6,
     295.0
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.nationality"
   },
   {
    "t": "text",
@@ -407,7 +469,10 @@
    ],
    "group": "자본재등 도입물품명세",
    "row": true,
-   "section": "자본재등 도입물품명세"
+   "section": "자본재등 도입물품명세",
+   "kind": "number",
+   "std": false,
+   "key": "HSK분류번호"
   },
   {
    "t": "text",
@@ -421,7 +486,10 @@
    ],
    "group": "자본재등 도입물품명세",
    "row": true,
-   "section": "자본재등 도입물품명세"
+   "section": "자본재등 도입물품명세",
+   "kind": "goods",
+   "std": false,
+   "key": "품명"
   },
   {
    "t": "text",
@@ -435,7 +503,10 @@
    ],
    "group": "자본재등 도입물품명세",
    "row": true,
-   "section": "자본재등 도입물품명세"
+   "section": "자본재등 도입물품명세",
+   "kind": "count",
+   "std": false,
+   "key": "수량"
   },
   {
    "t": "text",
@@ -449,7 +520,10 @@
    ],
    "group": "자본재등 도입물품명세",
    "row": true,
-   "section": "자본재등 도입물품명세"
+   "section": "자본재등 도입물품명세",
+   "kind": "goods",
+   "std": false,
+   "key": "규격"
   },
   {
    "t": "text",
@@ -463,7 +537,10 @@
    ],
    "group": "자본재등 도입물품명세",
    "row": true,
-   "section": "자본재등 도입물품명세"
+   "section": "자본재등 도입물품명세",
+   "kind": "text",
+   "std": false,
+   "key": "제작자"
   },
   {
    "t": "text",
@@ -477,7 +554,10 @@
    ],
    "group": "자본재등 도입물품명세",
    "row": true,
-   "section": "자본재등 도입물품명세"
+   "section": "자본재등 도입물품명세",
+   "kind": "amount",
+   "std": false,
+   "key": "금액"
   },
   {
    "t": "date",
@@ -502,7 +582,8 @@
      322.2,
      196.5
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "date",
@@ -527,7 +608,8 @@
      541.3,
      417.4
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -544,7 +626,9 @@
     420.3,
     551.3,
     432.4
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "date",
@@ -569,7 +653,8 @@
      541.3,
      522.1
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -581,7 +666,10 @@
     183.5,
     112.7
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "접수번호"
   },
   {
    "t": "text",
@@ -593,7 +681,10 @@
     340.7,
     139.8
    ],
-   "free": true
+   "free": true,
+   "kind": "company",
+   "std": false,
+   "key": "상호또는명칭"
   },
   {
    "t": "text",
@@ -605,7 +696,9 @@
     552.3,
     139.8
    ],
-   "free": true
+   "free": true,
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -617,7 +710,10 @@
     379.3,
     230.9
    ],
-   "free": true
+   "free": true,
+   "kind": "percent",
+   "std": false,
+   "key": "외국인투자금액및비율"
   },
   {
    "t": "text",
@@ -628,7 +724,10 @@
     93.4,
     307.4,
     112.7
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "접수일"
   },
   {
    "t": "text",
@@ -639,7 +738,10 @@
     93.4,
     440.6,
     112.7
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "처리일"
   },
   {
    "t": "text",
@@ -650,7 +752,10 @@
     152.2,
     543.9,
     178.5
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "신고된사업명"
   },
   {
    "t": "text",
@@ -661,7 +766,10 @@
     240.3,
     543.9,
     266.7
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "상호또는명칭"
   },
   {
    "t": "text",
@@ -672,7 +780,9 @@
     268.7,
     543.9,
     295.0
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.nationality"
   },
   {
    "t": "text",
@@ -686,7 +796,10 @@
    ],
    "group": "자본재등 도입물품명세",
    "row": true,
-   "section": "자본재등 도입물품명세"
+   "section": "자본재등 도입물품명세",
+   "kind": "number",
+   "std": false,
+   "key": "HSK분류번호"
   },
   {
    "t": "text",
@@ -700,7 +813,10 @@
    ],
    "group": "자본재등 도입물품명세",
    "row": true,
-   "section": "자본재등 도입물품명세"
+   "section": "자본재등 도입물품명세",
+   "kind": "goods",
+   "std": false,
+   "key": "품명"
   },
   {
    "t": "text",
@@ -714,7 +830,10 @@
    ],
    "group": "자본재등 도입물품명세",
    "row": true,
-   "section": "자본재등 도입물품명세"
+   "section": "자본재등 도입물품명세",
+   "kind": "count",
+   "std": false,
+   "key": "수량"
   },
   {
    "t": "text",
@@ -728,7 +847,10 @@
    ],
    "group": "자본재등 도입물품명세",
    "row": true,
-   "section": "자본재등 도입물품명세"
+   "section": "자본재등 도입물품명세",
+   "kind": "goods",
+   "std": false,
+   "key": "규격"
   },
   {
    "t": "text",
@@ -742,7 +864,10 @@
    ],
    "group": "자본재등 도입물품명세",
    "row": true,
-   "section": "자본재등 도입물품명세"
+   "section": "자본재등 도입물품명세",
+   "kind": "text",
+   "std": false,
+   "key": "제작자"
   },
   {
    "t": "text",
@@ -756,7 +881,10 @@
    ],
    "group": "자본재등 도입물품명세",
    "row": true,
-   "section": "자본재등 도입물품명세"
+   "section": "자본재등 도입물품명세",
+   "kind": "amount",
+   "std": false,
+   "key": "금액"
   },
   {
    "t": "date",
@@ -781,7 +909,8 @@
      322.2,
      196.5
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "date",
@@ -806,7 +935,8 @@
      541.3,
      417.4
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -823,7 +953,9 @@
     420.3,
     551.3,
     432.4
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "date",
@@ -848,7 +980,8 @@
      541.3,
      522.1
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -860,7 +993,10 @@
     183.5,
     112.7
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "접수번호"
   },
   {
    "t": "text",
@@ -872,7 +1008,10 @@
     340.7,
     139.8
    ],
-   "free": true
+   "free": true,
+   "kind": "company",
+   "std": false,
+   "key": "상호또는명칭"
   },
   {
    "t": "text",
@@ -884,7 +1023,9 @@
     552.3,
     139.8
    ],
-   "free": true
+   "free": true,
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -896,7 +1037,10 @@
     379.3,
     230.9
    ],
-   "free": true
+   "free": true,
+   "kind": "percent",
+   "std": false,
+   "key": "외국인투자금액및비율"
   }
  ]
 }

@@ -30,7 +30,10 @@
     504.5,
     97.4
    ],
-   "row": true
+   "row": true,
+   "kind": "text",
+   "std": false,
+   "key": "담당Prepare"
   },
   {
    "t": "text",
@@ -42,7 +45,10 @@
     549.8,
     97.4
    ],
-   "row": true
+   "row": true,
+   "kind": "text",
+   "std": false,
+   "key": "책임자Approval"
   },
   {
    "t": "text",
@@ -55,7 +61,10 @@
     181.9
    ],
    "hint": "한글 Korean",
-   "section": "신청인 Application 성 명 Name"
+   "section": "신청인 Application 성 명 Name",
+   "kind": "person",
+   "std": false,
+   "key": "성명Name"
   },
   {
    "t": "text",
@@ -68,7 +77,10 @@
     204.6
    ],
    "hint": "영문 여권과 일치하여야 함 English Name on your Passport",
-   "section": "신청인 Application 성 명 Name"
+   "section": "신청인 Application 성 명 Name",
+   "kind": "person",
+   "std": false,
+   "key": "성명Name"
   },
   {
    "t": "text",
@@ -80,7 +92,9 @@
     345.3,
     227.3
    ],
-   "section": "신청인 Application"
+   "section": "신청인 Application",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -95,7 +109,9 @@
    "hint": "한글 Korean",
    "group": "해외주소 Overseas Address",
    "row": true,
-   "section": "신청인 Application 해외주소 Overseas Address"
+   "section": "신청인 Application 해외주소 Overseas Address",
+   "key": "해외주소OverseasAddress_목록.{i}.직장Company",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -110,7 +126,9 @@
    "hint": "영문 English",
    "group": "해외주소 Overseas Address",
    "row": true,
-   "section": "신청인 Application 해외주소 Overseas Address"
+   "section": "신청인 Application 해외주소 Overseas Address",
+   "key": "해외주소OverseasAddress_목록.{i}.직장Company",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -125,7 +143,9 @@
    "hint": "(국가/지역번호 포함) 전화번호 Telephone No.",
    "group": "해외주소 Overseas Address",
    "row": true,
-   "section": "신청인 Application 해외주소 Overseas Address"
+   "section": "신청인 Application 해외주소 Overseas Address",
+   "key": "해외주소OverseasAddress_목록.{i}.직장Company",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -140,7 +160,9 @@
    "hint": "한글 Korean",
    "group": "자택 House",
    "row": true,
-   "section": "신청인 Application 국내주소 Domestic Address 선택 또는 전부 기재 Enter Selective or all items 자택 House"
+   "section": "신청인 Application 국내주소 Domestic Address 선택 또는 전부 기재 Enter Selective or all items 자택 House",
+   "key": "자택House_목록.{i}.여권번호PassportNo",
+   "kind": "passport"
   },
   {
    "t": "text",
@@ -155,7 +177,9 @@
    "hint": "영문 English",
    "group": "자택 House",
    "row": true,
-   "section": "신청인 Application 국내주소 Domestic Address 선택 또는 전부 기재 Enter Selective or all items 자택 House"
+   "section": "신청인 Application 국내주소 Domestic Address 선택 또는 전부 기재 Enter Selective or all items 자택 House",
+   "key": "자택House_목록.{i}.여권번호PassportNo",
+   "kind": "passport"
   },
   {
    "t": "text",
@@ -170,7 +194,9 @@
    "hint": "한글 Korean",
    "group": "직장 Company",
    "row": true,
-   "section": "신청인 Application 국내주소 Domestic Address 선택 또는 전부 기재 Enter Selective or all items 직장 Company"
+   "section": "신청인 Application 국내주소 Domestic Address 선택 또는 전부 기재 Enter Selective or all items 직장 Company",
+   "key": "직장Company_목록.{i}.여권번호PassportNo",
+   "kind": "passport"
   },
   {
    "t": "text",
@@ -185,7 +211,9 @@
    "hint": "영문 English",
    "group": "직장 Company",
    "row": true,
-   "section": "신청인 Application 국내주소 Domestic Address 선택 또는 전부 기재 Enter Selective or all items 직장 Company"
+   "section": "신청인 Application 국내주소 Domestic Address 선택 또는 전부 기재 Enter Selective or all items 직장 Company",
+   "key": "직장Company_목록.{i}.여권번호PassportNo",
+   "kind": "passport"
   },
   {
    "t": "text",
@@ -197,7 +225,10 @@
     549.8,
     227.3
    ],
-   "section": "신청인 Application"
+   "section": "신청인 Application",
+   "kind": "passport",
+   "std": false,
+   "key": "여권번호PassportNo"
   },
   {
    "t": "text",
@@ -208,7 +239,10 @@
     440.4,
     549.8,
     464.5
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "인터넷뱅킹이용자IDInternetBankingUserID"
   },
   {
    "t": "text",
@@ -219,7 +253,10 @@
     473.5,
     345.3,
     496.1
-   ]
+   ],
+   "kind": "account",
+   "std": false,
+   "key": "서비스이용계좌번호A/CNo"
   },
   {
    "t": "text",
@@ -230,7 +267,10 @@
     496.1,
     345.3,
     518.5
-   ]
+   ],
+   "kind": "bank",
+   "std": false,
+   "key": "개설은행/지점명Bank/Branch"
   },
   {
    "t": "text",
@@ -241,7 +281,8 @@
     568.6,
     345.3,
     591.1
-   ]
+   ],
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -252,7 +293,10 @@
     324.5,
     543.6,
     343.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "직장Company"
   },
   {
    "t": "text",
@@ -263,7 +307,10 @@
     336.0,
     541.8,
     355.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "e-Mail"
   },
   {
    "t": "sign",
@@ -280,7 +327,9 @@
     724.0,
     539.9,
     736.8
-   ]
+   ],
+   "who": "bank",
+   "what": "name"
   },
   {
    "t": "text",
@@ -292,7 +341,10 @@
     340.0,
     539.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "‌\u0007조회"
   },
   {
    "t": "text",
@@ -304,7 +356,10 @@
     443.7,
     539.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "‌\u0007조회"
   },
   {
    "t": "text",
@@ -316,7 +371,10 @@
     547.5,
     539.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "‌\u0007조회"
   },
   {
    "t": "text",
@@ -328,7 +386,10 @@
     340.0,
     550.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Inquiry"
   },
   {
    "t": "text",
@@ -340,7 +401,10 @@
     443.7,
     550.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Inquiry"
   },
   {
    "t": "text",
@@ -352,7 +416,10 @@
     547.5,
     550.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Inquiry"
   }
  ]
 }

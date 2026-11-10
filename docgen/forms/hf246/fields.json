@@ -55,7 +55,10 @@
     92.8,
     271.6,
     109.4
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "접수일"
   },
   {
    "t": "text",
@@ -66,7 +69,10 @@
     92.8,
     387.8,
     109.4
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "처리일"
   },
   {
    "t": "text",
@@ -77,7 +83,10 @@
     114.5,
     545.4,
     138.0
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "상호또는명칭"
   },
   {
    "t": "text",
@@ -89,7 +98,9 @@
     545.4,
     163.6
    ],
-   "hint": "(전화번호 : )"
+   "hint": "(전화번호 : )",
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -100,7 +111,10 @@
     165.6,
     407.7,
     189.1
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "상호또는명칭"
   },
   {
    "t": "text",
@@ -111,7 +125,9 @@
     191.1,
     545.4,
     214.6
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -125,7 +141,10 @@
    ],
    "group": "차관방법",
    "row": true,
-   "section": "차관방법"
+   "section": "차관방법",
+   "kind": "skip",
+   "std": false,
+   "key": "현금"
   },
   {
    "t": "text",
@@ -136,7 +155,10 @@
     334.6,
     269.0,
     357.3
-   ]
+   ],
+   "kind": "reason",
+   "std": false,
+   "key": "차관용도"
   },
   {
    "t": "text",
@@ -148,7 +170,10 @@
     339.5,
     292.1
    ],
-   "section": "차관의 내 용 차관조건"
+   "section": "차관의 내 용 차관조건",
+   "kind": "percent",
+   "std": false,
+   "key": "연이자율"
   },
   {
    "t": "text",
@@ -162,7 +187,10 @@
    ],
    "group": "차관방법",
    "row": true,
-   "section": "차관방법"
+   "section": "차관방법",
+   "kind": "text",
+   "std": false,
+   "key": "자본재"
   },
   {
    "t": "text",
@@ -173,7 +201,9 @@
     165.6,
     545.4,
     189.1
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.nationality"
   },
   {
    "t": "text",
@@ -185,7 +215,10 @@
     548.4,
     269.4
    ],
-   "section": "차관의 내 용 차관조건"
+   "section": "차관의 내 용 차관조건",
+   "kind": "text",
+   "std": false,
+   "key": "평균차관기간"
   },
   {
    "t": "text",
@@ -197,7 +230,10 @@
     548.4,
     292.1
    ],
-   "section": "차관의 내 용 차관조건"
+   "section": "차관의 내 용 차관조건",
+   "kind": "note",
+   "std": false,
+   "key": "기타"
   },
   {
    "t": "text",
@@ -211,7 +247,10 @@
    ],
    "group": "차관방법",
    "row": true,
-   "section": "차관방법"
+   "section": "차관방법",
+   "kind": "note",
+   "std": false,
+   "key": "기타"
   },
   {
    "t": "text",
@@ -222,7 +261,10 @@
     334.6,
     548.4,
     357.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "금번투자지역"
   },
   {
    "t": "text",
@@ -233,7 +275,10 @@
     377.5,
     339.5,
     414.3
-   ]
+   ],
+   "kind": "note",
+   "std": false,
+   "key": "변경신고의경우변경내용"
   },
   {
    "t": "text",
@@ -246,7 +291,10 @@
     414.3
    ],
    "row": true,
-   "group": "금번투자지역"
+   "group": "금번투자지역",
+   "kind": "note",
+   "std": false,
+   "key": "변경후내용"
   },
   {
    "t": "date",
@@ -271,7 +319,8 @@
      544.6,
      449.2
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -288,7 +337,9 @@
     456.3,
     553.5,
     467.2
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -299,7 +350,10 @@
     542.3,
     472.2,
     559.2
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "신고번호"
   },
   {
    "t": "date",
@@ -324,7 +378,8 @@
      542.4,
      571.7
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -336,7 +391,10 @@
     155.4,
     108.5
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "접수번호"
   },
   {
    "t": "text",
@@ -348,7 +406,10 @@
     499.7,
     621.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "<신고인경우>"
   },
   {
    "t": "text",
@@ -359,7 +420,10 @@
     92.8,
     271.6,
     109.4
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "접수일"
   },
   {
    "t": "text",
@@ -370,7 +434,10 @@
     92.8,
     387.8,
     109.4
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "처리일"
   },
   {
    "t": "text",
@@ -381,7 +448,10 @@
     114.5,
     545.0,
     138.0
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "상호또는명칭"
   },
   {
    "t": "text",
@@ -393,7 +463,9 @@
     545.0,
     163.6
    ],
-   "hint": "(전화번호 : )"
+   "hint": "(전화번호 : )",
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -404,7 +476,10 @@
     165.6,
     407.7,
     189.1
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "상호또는명칭"
   },
   {
    "t": "text",
@@ -415,7 +490,9 @@
     191.1,
     545.0,
     214.6
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -429,7 +506,10 @@
    ],
    "group": "차관방법",
    "row": true,
-   "section": "차관방법"
+   "section": "차관방법",
+   "kind": "skip",
+   "std": false,
+   "key": "현금"
   },
   {
    "t": "text",
@@ -440,7 +520,10 @@
     334.6,
     269.0,
     357.3
-   ]
+   ],
+   "kind": "reason",
+   "std": false,
+   "key": "차관용도"
   },
   {
    "t": "text",
@@ -452,7 +535,10 @@
     339.5,
     292.1
    ],
-   "section": "차관의 내 용 차관조건"
+   "section": "차관의 내 용 차관조건",
+   "kind": "percent",
+   "std": false,
+   "key": "연이자율"
   },
   {
    "t": "text",
@@ -466,7 +552,10 @@
    ],
    "group": "차관방법",
    "row": true,
-   "section": "차관방법"
+   "section": "차관방법",
+   "kind": "text",
+   "std": false,
+   "key": "자본재"
   },
   {
    "t": "text",
@@ -477,7 +566,9 @@
     165.6,
     545.0,
     189.1
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.nationality"
   },
   {
    "t": "text",
@@ -489,7 +580,10 @@
     548.0,
     269.4
    ],
-   "section": "차관의 내 용 차관조건"
+   "section": "차관의 내 용 차관조건",
+   "kind": "text",
+   "std": false,
+   "key": "평균차관기간"
   },
   {
    "t": "text",
@@ -501,7 +595,10 @@
     548.0,
     292.1
    ],
-   "section": "차관의 내 용 차관조건"
+   "section": "차관의 내 용 차관조건",
+   "kind": "note",
+   "std": false,
+   "key": "기타"
   },
   {
    "t": "text",
@@ -515,7 +612,10 @@
    ],
    "group": "차관방법",
    "row": true,
-   "section": "차관방법"
+   "section": "차관방법",
+   "kind": "note",
+   "std": false,
+   "key": "기타"
   },
   {
    "t": "text",
@@ -526,7 +626,10 @@
     334.6,
     548.0,
     357.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "금번투자지역"
   },
   {
    "t": "text",
@@ -537,7 +640,10 @@
     377.5,
     339.5,
     414.3
-   ]
+   ],
+   "kind": "note",
+   "std": false,
+   "key": "변경신고의경우변경내용"
   },
   {
    "t": "text",
@@ -550,7 +656,10 @@
     414.3
    ],
    "row": true,
-   "group": "금번투자지역2"
+   "group": "금번투자지역2",
+   "kind": "note",
+   "std": false,
+   "key": "변경후내용"
   },
   {
    "t": "date",
@@ -575,7 +684,8 @@
      544.6,
      449.2
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -592,7 +702,9 @@
     456.3,
     553.5,
     467.2
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -603,7 +715,10 @@
     542.3,
     472.2,
     559.2
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "신고번호"
   },
   {
    "t": "date",
@@ -628,7 +743,8 @@
      542.4,
      571.7
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -640,7 +756,10 @@
     155.4,
     108.5
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "접수번호"
   },
   {
    "t": "text",
@@ -652,7 +771,10 @@
     499.7,
     621.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "<신고인경우>"
   }
  ]
 }

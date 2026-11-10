@@ -24,7 +24,9 @@
     93.7,
     408.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.채권번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -36,7 +38,9 @@
     93.7,
     443.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.채권번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -48,7 +52,9 @@
     93.7,
     477.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.채권번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -60,7 +66,9 @@
     93.7,
     511.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.채권번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -72,7 +80,9 @@
     93.7,
     546.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.채권번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -84,7 +94,9 @@
     144.7,
     408.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.구매기업명",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -96,7 +108,9 @@
     144.7,
     443.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.구매기업명",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -108,7 +122,9 @@
     144.7,
     477.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.구매기업명",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -120,7 +136,9 @@
     144.7,
     511.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.구매기업명",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -132,7 +150,9 @@
     144.7,
     546.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.구매기업명",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -144,7 +164,9 @@
     195.7,
     408.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대표자",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -156,7 +178,9 @@
     195.7,
     443.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대표자",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -168,7 +192,9 @@
     195.7,
     477.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대표자",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -180,7 +206,9 @@
     195.7,
     511.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대표자",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -192,7 +220,9 @@
     195.7,
     546.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대표자",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -204,7 +234,9 @@
     246.6,
     408.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.공급물품명",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -216,7 +248,9 @@
     246.6,
     443.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.공급물품명",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -228,7 +262,9 @@
     246.6,
     477.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.공급물품명",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -240,7 +276,9 @@
     246.6,
     511.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.공급물품명",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -252,7 +290,9 @@
     246.6,
     546.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.공급물품명",
+   "kind": "goods"
   },
   {
    "t": "text",
@@ -264,7 +304,9 @@
     297.6,
     408.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.세금계산서발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -276,7 +318,9 @@
     297.6,
     443.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.세금계산서발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -288,7 +332,9 @@
     297.6,
     477.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.세금계산서발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -300,7 +346,9 @@
     297.6,
     511.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.세금계산서발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -312,7 +360,9 @@
     297.6,
     546.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.세금계산서발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -324,7 +374,9 @@
     348.6,
     408.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.전자채권금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -336,7 +388,9 @@
     348.6,
     443.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.전자채권금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -348,7 +402,9 @@
     348.6,
     477.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.전자채권금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -360,7 +416,9 @@
     348.6,
     511.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.전자채권금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -372,7 +430,9 @@
     348.6,
     546.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.전자채권금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -384,7 +444,9 @@
     399.6,
     408.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -396,7 +458,9 @@
     399.6,
     443.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -408,7 +472,9 @@
     399.6,
     477.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -420,7 +486,9 @@
     399.6,
     511.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -432,7 +500,9 @@
     399.6,
     546.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -444,7 +514,9 @@
     450.6,
     408.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출신청액",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -456,7 +528,9 @@
     450.6,
     443.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출신청액",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -468,7 +542,9 @@
     450.6,
     477.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출신청액",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -480,7 +556,9 @@
     450.6,
     511.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출신청액",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -492,7 +570,9 @@
     450.6,
     546.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출신청액",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -504,7 +584,9 @@
     502.1,
     408.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -516,7 +598,9 @@
     502.1,
     443.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -528,7 +612,9 @@
     502.1,
     477.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -540,7 +626,9 @@
     502.1,
     511.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -552,7 +640,9 @@
     502.1,
     546.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대출만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -564,7 +654,9 @@
     547.6,
     408.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.입금계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -576,7 +668,9 @@
     547.6,
     443.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.입금계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -588,7 +682,9 @@
     547.6,
     477.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.입금계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -600,7 +696,9 @@
     547.6,
     511.9
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.입금계좌번호",
+   "kind": "account"
   },
   {
    "t": "text",
@@ -612,7 +710,9 @@
     547.6,
     546.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.입금계좌번호",
+   "kind": "account"
   },
   {
    "t": "date",
@@ -638,7 +738,8 @@
      337.1,
      606.3
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -655,7 +756,9 @@
     638.8,
     415.8,
     647.8
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -666,7 +769,9 @@
     655.8,
     547.3,
     670.8
-   ]
+   ],
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -677,7 +782,10 @@
     675.8,
     547.3,
     690.8
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "소"
   }
  ]
 }

@@ -61,7 +61,10 @@
     84.0,
     294.6,
     95.6
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "접수일"
   },
   {
    "t": "text",
@@ -72,7 +75,10 @@
     84.0,
     422.2,
     95.6
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "처리일"
   },
   {
    "t": "text",
@@ -83,7 +89,10 @@
     84.0,
     544.2,
     95.6
-   ]
+   ],
+   "kind": "date",
+   "std": false,
+   "key": "처리기간1일"
   },
   {
    "t": "text",
@@ -94,7 +103,10 @@
     100.7,
     422.2,
     124.3
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "상호또는명칭"
   },
   {
    "t": "text",
@@ -105,7 +117,10 @@
     296.3,
     544.2,
     319.8
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "신고된사업명"
   },
   {
    "t": "text",
@@ -116,7 +131,10 @@
     321.8,
     544.2,
     345.4
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "자본금"
   },
   {
    "t": "text",
@@ -127,7 +145,10 @@
     154.6,
     422.2,
     178.1
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "value"
   },
   {
    "t": "text",
@@ -138,7 +159,10 @@
     180.1,
     422.2,
     203.6
-   ]
+   ],
+   "kind": "skip",
+   "std": false,
+   "key": "value"
   },
   {
    "t": "text",
@@ -149,7 +173,10 @@
     205.6,
     544.2,
     217.8
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "SPC여부예아니오"
   },
   {
    "t": "text",
@@ -161,7 +188,10 @@
     544.2,
     243.3
    ],
-   "hint": "(전화번호: ,FAX:"
+   "hint": "(전화번호: ,FAX:",
+   "kind": "text",
+   "std": false,
+   "key": "본사"
   },
   {
    "t": "text",
@@ -173,7 +203,10 @@
     544.2,
     268.8
    ],
-   "hint": "(전화번호: ,FAX:"
+   "hint": "(전화번호: ,FAX:",
+   "kind": "address",
+   "std": false,
+   "key": "주공장소재지"
   },
   {
    "t": "text",
@@ -184,7 +217,10 @@
     270.8,
     353.3,
     294.3
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "홈페이지"
   },
   {
    "t": "text",
@@ -195,7 +231,10 @@
     372.9,
     450.7,
     396.4
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "액면총액"
   },
   {
    "t": "text",
@@ -206,7 +245,10 @@
     517.3,
     422.2,
     549.3
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "상호또는명칭"
   },
   {
    "t": "text",
@@ -217,7 +259,10 @@
     551.3,
     422.2,
     583.3
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "상호또는명칭"
   },
   {
    "t": "text",
@@ -228,7 +273,10 @@
     270.8,
     544.2,
     294.3
-   ]
+   ],
+   "kind": "email",
+   "std": false,
+   "key": "대표E-mail"
   },
   {
    "t": "text",
@@ -239,7 +287,9 @@
     100.7,
     544.2,
     124.3
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.nationality"
   },
   {
    "t": "text",
@@ -250,7 +300,9 @@
     517.3,
     544.2,
     549.3
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.nationality"
   },
   {
    "t": "text",
@@ -261,7 +313,9 @@
     551.3,
     544.2,
     583.3
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.nationality"
   },
   {
    "t": "text",
@@ -274,7 +328,10 @@
     397.4
    ],
    "unit": "%",
-   "section": "외국인 투자기업"
+   "section": "외국인 투자기업",
+   "kind": "percent",
+   "std": false,
+   "key": "액면총액"
   },
   {
    "t": "date",
@@ -299,7 +356,8 @@
      544.5,
      724.7
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -316,7 +374,9 @@
     735.1,
     553.1,
     747.2
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -328,7 +388,10 @@
     167.1,
     95.6
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "접수번호"
   },
   {
    "t": "text",
@@ -340,7 +403,10 @@
     182.7,
     294.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "투자기업"
   },
   {
    "t": "text",
@@ -352,7 +418,10 @@
     552.3,
     370.9
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "상당"
   },
   {
    "t": "text",
@@ -365,7 +434,10 @@
     534.2,
     421.9
    ],
-   "free": true
+   "free": true,
+   "kind": "count",
+   "std": false,
+   "key": "등록후예상규모"
   },
   {
    "t": "text",
@@ -377,7 +449,10 @@
     182.7,
     557.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "투자기업"
   },
   {
    "t": "text",
@@ -389,7 +464,10 @@
     309.0,
     617.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "양도또는감소할"
   },
   {
    "t": "text",
@@ -401,7 +479,10 @@
     422.2,
     636.1
    ],
-   "free": true
+   "free": true,
+   "kind": "amount",
+   "std": false,
+   "key": "액면총액"
   },
   {
    "t": "check",
@@ -440,7 +521,8 @@
      ],
      "line": 43
     }
-   ]
+   ],
+   "key": "check.송달받는것에대하여"
   },
   {
    "t": "text",
@@ -452,7 +534,10 @@
     507.2,
     352.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "<신규등록인경우>"
   }
  ]
 }

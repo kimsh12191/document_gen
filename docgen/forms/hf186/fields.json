@@ -64,7 +64,9 @@
     183.3,
     202.0,
     200.3
-   ]
+   ],
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -75,7 +77,9 @@
     183.3,
     394.0,
     200.3
-   ]
+   ],
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -87,7 +91,10 @@
     537.3,
     223.8
    ],
-   "unit": "월"
+   "unit": "월",
+   "kind": "text",
+   "std": false,
+   "key": "회계결산월"
   },
   {
    "t": "date",
@@ -112,7 +119,8 @@
      239.0,
      261.7
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -125,7 +133,10 @@
     352.7
    ],
    "hint": "*계약형태가 복수계약인 경우만 작성",
-   "section": "퇴직연금 사업자"
+   "section": "퇴직연금 사업자",
+   "kind": "text",
+   "std": false,
+   "key": "간사기관"
   },
   {
    "t": "text",
@@ -138,7 +149,10 @@
     368.3
    ],
    "hint": "*계약형태가 복수계약인 경우만 작성",
-   "section": "퇴직연금 사업자"
+   "section": "퇴직연금 사업자",
+   "kind": "text",
+   "std": false,
+   "key": "비간사기관"
   },
   {
    "t": "text",
@@ -149,7 +163,10 @@
     407.6,
     546.0,
     419.8
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "동의󠇧미동의"
   },
   {
    "t": "date",
@@ -174,7 +191,8 @@
      490.0,
      318.3
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -185,7 +203,9 @@
     511.7,
     341.6,
     528.8
-   ]
+   ],
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -197,7 +217,9 @@
     341.6,
     545.8
    ],
-   "section": "퇴직연금 정보수신담당자* 주담당자"
+   "section": "퇴직연금 정보수신담당자* 주담당자",
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -209,7 +231,9 @@
     341.6,
     562.8
    ],
-   "section": "퇴직연금 정보수신담당자* 주담당자"
+   "section": "퇴직연금 정보수신담당자* 주담당자",
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "text",
@@ -220,7 +244,9 @@
     511.7,
     549.0,
     528.8
-   ]
+   ],
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -232,7 +258,9 @@
     549.0,
     545.8
    ],
-   "section": "퇴직연금 정보수신담당자* 주담당자"
+   "section": "퇴직연금 정보수신담당자* 주담당자",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -244,7 +272,9 @@
     549.0,
     562.8
    ],
-   "section": "퇴직연금 정보수신담당자* 주담당자"
+   "section": "퇴직연금 정보수신담당자* 주담당자",
+   "kind": "email",
+   "key": "customer.email"
   },
   {
    "t": "text",
@@ -255,7 +285,10 @@
     642.9,
     546.0,
     657.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "명미만󠇧"
   },
   {
    "t": "date",
@@ -280,7 +313,8 @@
      540.0,
      175.9
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -291,7 +325,9 @@
     198.1,
     545.3,
     213.8
-   ]
+   ],
+   "kind": "person",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -302,7 +338,9 @@
     209.1,
     545.3,
     224.8
-   ]
+   ],
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -313,7 +351,9 @@
     494.8,
     499.8,
     510.7
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -325,7 +365,10 @@
     545.5,
     282.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "제도가입이후근무분만󠇧"
   },
   {
    "t": "text",
@@ -337,7 +380,10 @@
     545.5,
     291.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "제도가입이전근무분포함󠇧"
   },
   {
    "t": "text",
@@ -349,7 +395,10 @@
     547.5,
     342.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "비대상󠇧"
   },
   {
    "t": "text",
@@ -362,7 +411,10 @@
     521.1,
     351.7
    ],
-   "free": true
+   "free": true,
+   "kind": "date",
+   "std": false,
+   "key": "대상(타사가입일자"
   },
   {
    "t": "text",
@@ -374,7 +426,10 @@
     547.5,
     373.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "비대상󠇧"
   },
   {
    "t": "text",
@@ -385,7 +440,10 @@
     71.1,
     543.8,
     88.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "가입자수"
   },
   {
    "t": "sign",
@@ -402,7 +460,9 @@
     730.3,
     384.4,
     740.2
-   ]
+   ],
+   "who": "corp",
+   "what": "name"
   },
   {
    "t": "text",
@@ -414,7 +474,10 @@
     286.8,
     157.8
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-성명"
   },
   {
    "t": "text",
@@ -426,7 +489,10 @@
     536.4,
     157.8
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "직원󠇧임원󠇧촉탁󠇧정년초과"
   },
   {
    "t": "text",
@@ -438,7 +504,10 @@
     286.8,
     168.8
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-주민등록번호"
   },
   {
    "t": "text",
@@ -450,7 +519,10 @@
     288.8,
     179.8
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-입사일-중간정산일자"
   },
   {
    "t": "text",
@@ -462,7 +534,10 @@
     286.8,
     188.9
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-사원번호-이메일󠇧"
   },
   {
    "t": "text",
@@ -474,7 +549,10 @@
     286.8,
     211.6
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-성명"
   },
   {
    "t": "text",
@@ -486,7 +564,10 @@
     536.4,
     211.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "직원󠇧임원󠇧촉탁󠇧정년초과"
   },
   {
    "t": "text",
@@ -498,7 +579,10 @@
     286.8,
     222.6
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-주민등록번호"
   },
   {
    "t": "text",
@@ -510,7 +594,10 @@
     288.8,
     233.6
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-입사일-중간정산일자"
   },
   {
    "t": "text",
@@ -522,7 +609,10 @@
     286.8,
     242.8
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-사원번호-이메일󠇧"
   },
   {
    "t": "text",
@@ -534,7 +624,10 @@
     286.8,
     265.5
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-성명"
   },
   {
    "t": "text",
@@ -546,7 +639,10 @@
     536.4,
     265.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "직원󠇧임원󠇧촉탁󠇧정년초과"
   },
   {
    "t": "text",
@@ -558,7 +654,10 @@
     286.8,
     276.5
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-주민등록번호"
   },
   {
    "t": "text",
@@ -570,7 +669,10 @@
     288.8,
     287.5
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-입사일-중간정산일자"
   },
   {
    "t": "text",
@@ -582,7 +684,10 @@
     286.8,
     296.6
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-사원번호-이메일󠇧"
   },
   {
    "t": "text",
@@ -594,7 +699,10 @@
     286.8,
     319.3
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-성명"
   },
   {
    "t": "text",
@@ -606,7 +714,10 @@
     536.4,
     319.3
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "직원󠇧임원󠇧촉탁󠇧정년초과"
   },
   {
    "t": "text",
@@ -618,7 +729,10 @@
     286.8,
     330.3
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-주민등록번호"
   },
   {
    "t": "text",
@@ -630,7 +744,10 @@
     288.8,
     341.3
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-입사일-중간정산일자"
   },
   {
    "t": "text",
@@ -642,7 +759,10 @@
     286.8,
     350.5
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-사원번호-이메일󠇧"
   },
   {
    "t": "text",
@@ -654,7 +774,10 @@
     286.8,
     373.2
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-성명"
   },
   {
    "t": "text",
@@ -666,7 +789,10 @@
     536.4,
     373.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "직원󠇧임원󠇧촉탁󠇧정년초과"
   },
   {
    "t": "text",
@@ -678,7 +804,10 @@
     286.8,
     384.2
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-주민등록번호"
   },
   {
    "t": "text",
@@ -690,7 +819,10 @@
     288.8,
     395.2
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-입사일-중간정산일자"
   },
   {
    "t": "text",
@@ -702,7 +834,10 @@
     286.8,
     404.4
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-사원번호-이메일󠇧"
   },
   {
    "t": "text",
@@ -714,7 +849,10 @@
     286.8,
     427.1
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-성명"
   },
   {
    "t": "text",
@@ -726,7 +864,10 @@
     536.4,
     427.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "직원󠇧임원󠇧촉탁󠇧정년초과"
   },
   {
    "t": "text",
@@ -738,7 +879,10 @@
     286.8,
     438.1
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-주민등록번호"
   },
   {
    "t": "text",
@@ -750,7 +894,10 @@
     288.8,
     449.1
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-입사일-중간정산일자"
   },
   {
    "t": "text",
@@ -762,7 +909,10 @@
     286.8,
     458.2
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-사원번호-이메일󠇧"
   },
   {
    "t": "text",
@@ -774,7 +924,10 @@
     286.8,
     480.9
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-성명"
   },
   {
    "t": "text",
@@ -786,7 +939,10 @@
     536.4,
     480.9
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "직원󠇧임원󠇧촉탁󠇧정년초과"
   },
   {
    "t": "text",
@@ -798,7 +954,10 @@
     286.8,
     491.9
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-주민등록번호"
   },
   {
    "t": "text",
@@ -810,7 +969,10 @@
     288.8,
     502.9
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-입사일-중간정산일자"
   },
   {
    "t": "text",
@@ -822,7 +984,10 @@
     286.8,
     512.1
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-사원번호-이메일󠇧"
   },
   {
    "t": "text",
@@ -834,7 +999,10 @@
     286.8,
     534.8
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-성명"
   },
   {
    "t": "text",
@@ -846,7 +1014,10 @@
     536.4,
     534.8
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "직원󠇧임원󠇧촉탁󠇧정년초과"
   },
   {
    "t": "text",
@@ -858,7 +1029,10 @@
     286.8,
     545.8
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-주민등록번호"
   },
   {
    "t": "text",
@@ -870,7 +1044,10 @@
     288.8,
     556.8
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-입사일-중간정산일자"
   },
   {
    "t": "text",
@@ -882,7 +1059,10 @@
     286.8,
     565.9
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-사원번호-이메일󠇧"
   },
   {
    "t": "text",
@@ -894,7 +1074,10 @@
     286.8,
     588.6
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-성명"
   },
   {
    "t": "text",
@@ -906,7 +1089,10 @@
     536.4,
     588.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "직원󠇧임원󠇧촉탁󠇧정년초과"
   },
   {
    "t": "text",
@@ -918,7 +1104,10 @@
     286.8,
     599.6
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-주민등록번호"
   },
   {
    "t": "text",
@@ -930,7 +1119,10 @@
     288.8,
     610.6
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-입사일-중간정산일자"
   },
   {
    "t": "text",
@@ -942,7 +1134,10 @@
     286.8,
     619.8
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-사원번호-이메일󠇧"
   },
   {
    "t": "text",
@@ -954,7 +1149,10 @@
     286.8,
     642.5
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-성명"
   },
   {
    "t": "text",
@@ -966,7 +1164,10 @@
     536.4,
     642.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "직원󠇧임원󠇧촉탁󠇧정년초과"
   },
   {
    "t": "text",
@@ -978,7 +1179,10 @@
     286.8,
     653.5
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-주민등록번호"
   },
   {
    "t": "text",
@@ -990,7 +1194,10 @@
     288.8,
     664.5
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-입사일-중간정산일자"
   },
   {
    "t": "text",
@@ -1002,7 +1209,10 @@
     286.8,
     673.6
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-사원번호-이메일󠇧"
   }
  ]
 }

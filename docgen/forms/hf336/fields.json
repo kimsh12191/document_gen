@@ -35,7 +35,9 @@
     156.5,
     304.7,
     174.0
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -46,7 +48,9 @@
     174.0,
     304.7,
     191.6
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -63,7 +67,9 @@
     191.6,
     304.7,
     206.8
-   ]
+   ],
+   "kind": "email",
+   "key": "customer.email"
   },
   {
    "t": "text",
@@ -74,7 +80,10 @@
     206.8,
     131.7,
     224.6
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "UserID"
   },
   {
    "t": "text",
@@ -86,7 +95,9 @@
     550.4,
     174.0
    ],
-   "hint": "“Date of Birth”"
+   "hint": "“Date of Birth”",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -98,7 +109,10 @@
     542.6,
     191.6
    ],
-   "unit": ")"
+   "unit": ")",
+   "kind": "text",
+   "std": false,
+   "key": "HomePhone"
   },
   {
    "t": "text",
@@ -111,7 +125,10 @@
     126.3
    ],
    "row": true,
-   "group": "Clerk"
+   "group": "Clerk",
+   "kind": "text",
+   "std": false,
+   "key": "GMgr"
   },
   {
    "t": "text",
@@ -124,7 +141,10 @@
     126.3
    ],
    "row": true,
-   "group": "Clerk"
+   "group": "Clerk",
+   "kind": "text",
+   "std": false,
+   "key": "Manager"
   },
   {
    "t": "text",
@@ -137,7 +157,10 @@
     126.3
    ],
    "row": true,
-   "group": "Clerk"
+   "group": "Clerk",
+   "kind": "text",
+   "std": false,
+   "key": "Clerk"
   },
   {
    "t": "text",
@@ -150,7 +173,9 @@
     402.1
    ],
    "row": true,
-   "group": "BankName"
+   "group": "BankName",
+   "key": "BankName_목록.{i}.BankName",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -163,7 +188,9 @@
     427.9
    ],
    "row": true,
-   "group": "BankName"
+   "group": "BankName",
+   "key": "BankName_목록.{i}.BankName",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -176,7 +203,9 @@
     402.1
    ],
    "row": true,
-   "group": "BankName"
+   "group": "BankName",
+   "key": "BankName_목록.{i}.AccountNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -189,7 +218,9 @@
     427.9
    ],
    "row": true,
-   "group": "BankName"
+   "group": "BankName",
+   "key": "BankName_목록.{i}.AccountNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -202,7 +233,9 @@
     402.1
    ],
    "row": true,
-   "group": "BankName"
+   "group": "BankName",
+   "key": "BankName_목록.{i}.SpeedDialNumberforPhoneBanking",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -215,7 +248,9 @@
     427.9
    ],
    "row": true,
-   "group": "BankName"
+   "group": "BankName",
+   "key": "BankName_목록.{i}.SpeedDialNumberforPhoneBanking",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -227,7 +262,9 @@
     135.7,
     657.2
    ],
-   "section": "Proxy Details"
+   "section": "Proxy Details",
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -241,7 +278,9 @@
    ],
    "group": "Proxy Details",
    "row": true,
-   "section": "Proxy Details"
+   "section": "Proxy Details",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -253,7 +292,10 @@
     550.4,
     688.1
    ],
-   "hint": "Registered seal/Sign"
+   "hint": "Registered seal/Sign",
+   "kind": "text",
+   "std": false,
+   "key": "Delegator"
   },
   {
    "t": "text",
@@ -265,7 +307,10 @@
     153.3,
     126.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "ToHanaBank"
   },
   {
    "t": "text",
@@ -277,7 +322,10 @@
     433.7,
     126.2
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "BranchGeneralManager"
   },
   {
    "t": "text",
@@ -289,7 +337,10 @@
     436.5,
     251.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": ")\u0000OTP(Manufacturer"
   },
   {
    "t": "text",
@@ -301,7 +352,10 @@
     550.4,
     274.2
    ],
-   "free": true
+   "free": true,
+   "kind": "company",
+   "std": false,
+   "key": "Applicant"
   },
   {
    "t": "text",
@@ -313,7 +367,10 @@
     550.4,
     326.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "KRW)"
   },
   {
    "t": "text",
@@ -325,7 +382,10 @@
     191.9,
     373.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Category"
   },
   {
    "t": "text",
@@ -337,7 +397,10 @@
     314.2,
     472.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "\u0000Designate\u0000Change"
   },
   {
    "t": "text",
@@ -349,7 +412,10 @@
     552.3,
     515.1
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "■OtherRequests"
   },
   {
    "t": "text",
@@ -361,7 +427,10 @@
     550.3,
     635.4
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "■PowerofAttorney"
   },
   {
    "t": "text",
@@ -372,7 +441,9 @@
     156.5,
     304.7,
     174.0
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -383,7 +454,9 @@
     174.0,
     304.7,
     191.6
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -400,7 +473,9 @@
     191.6,
     304.7,
     206.8
-   ]
+   ],
+   "kind": "email",
+   "key": "customer.email"
   },
   {
    "t": "text",
@@ -411,7 +486,10 @@
     206.8,
     131.7,
     224.6
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "UserID"
   },
   {
    "t": "text",
@@ -423,7 +501,9 @@
     550.3,
     174.0
    ],
-   "hint": "“Date of Birth”"
+   "hint": "“Date of Birth”",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -435,7 +515,10 @@
     542.6,
     191.6
    ],
-   "unit": ")"
+   "unit": ")",
+   "kind": "text",
+   "std": false,
+   "key": "HomePhone"
   },
   {
    "t": "text",
@@ -448,7 +531,9 @@
     402.1
    ],
    "row": true,
-   "group": "BankName2"
+   "group": "BankName2",
+   "key": "BankName2_목록.{i}.BankName",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -461,7 +546,9 @@
     427.9
    ],
    "row": true,
-   "group": "BankName2"
+   "group": "BankName2",
+   "key": "BankName2_목록.{i}.BankName",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -474,7 +561,9 @@
     402.1
    ],
    "row": true,
-   "group": "BankName2"
+   "group": "BankName2",
+   "key": "BankName2_목록.{i}.AccountNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -487,7 +576,9 @@
     427.9
    ],
    "row": true,
-   "group": "BankName2"
+   "group": "BankName2",
+   "key": "BankName2_목록.{i}.AccountNo",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -500,7 +591,9 @@
     402.1
    ],
    "row": true,
-   "group": "BankName2"
+   "group": "BankName2",
+   "key": "BankName2_목록.{i}.SpeedDialNumberforPhoneBanking",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -513,7 +606,9 @@
     427.9
    ],
    "row": true,
-   "group": "BankName2"
+   "group": "BankName2",
+   "key": "BankName2_목록.{i}.SpeedDialNumberforPhoneBanking",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -525,7 +620,9 @@
     135.7,
     657.2
    ],
-   "section": "Proxy Details"
+   "section": "Proxy Details",
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -539,7 +636,9 @@
    ],
    "group": "Proxy Details",
    "row": true,
-   "section": "Proxy Details"
+   "section": "Proxy Details",
+   "kind": "date",
+   "key": "customer.birth"
   },
   {
    "t": "text",
@@ -551,7 +650,10 @@
     550.3,
     688.1
    ],
-   "hint": "Registered seal/Sign"
+   "hint": "Registered seal/Sign",
+   "kind": "text",
+   "std": false,
+   "key": "Delegator"
   },
   {
    "t": "text",
@@ -563,7 +665,10 @@
     436.5,
     251.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": ")\u0000OTP(Manufacturer"
   },
   {
    "t": "text",
@@ -575,7 +680,10 @@
     550.4,
     274.2
    ],
-   "free": true
+   "free": true,
+   "kind": "company",
+   "std": false,
+   "key": "Applicant"
   },
   {
    "t": "text",
@@ -587,7 +695,10 @@
     550.4,
     326.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "KRW)"
   },
   {
    "t": "text",
@@ -599,7 +710,10 @@
     191.9,
     373.6
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "Category"
   },
   {
    "t": "text",
@@ -611,7 +725,10 @@
     314.2,
     472.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "\u0000Designate\u0000Change"
   },
   {
    "t": "text",
@@ -623,7 +740,10 @@
     552.3,
     515.1
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "■OtherRequests"
   },
   {
    "t": "text",
@@ -635,7 +755,10 @@
     550.3,
     635.4
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "■PowerofAttorney"
   }
  ]
 }

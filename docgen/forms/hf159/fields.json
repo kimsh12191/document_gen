@@ -59,7 +59,10 @@
     150.7,
     650.8
    ],
-   "row": true
+   "row": true,
+   "kind": "skip",
+   "std": false,
+   "key": "■신용능력정보"
   },
   {
    "t": "check",
@@ -104,7 +107,8 @@
     625.1,
     549.1,
     650.8
-   ]
+   ],
+   "key": "check.위개인정보수집이용에동의하십니까?"
   },
   {
    "t": "date",
@@ -129,7 +133,8 @@
      343.5,
      733.0
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -141,7 +146,10 @@
     550.3,
     292.4
    ],
-   "free": true
+   "free": true,
+   "kind": "skip",
+   "std": false,
+   "key": "-금융사고조사분쟁해결민원처리"
   },
   {
    "t": "text",
@@ -153,7 +161,10 @@
     541.2,
     541.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "직업에관한정보"
   },
   {
    "t": "text",
@@ -165,7 +176,10 @@
     541.2,
     600.6
    ],
-   "free": true
+   "free": true,
+   "kind": "amount",
+   "std": false,
+   "key": "연소득"
   },
   {
    "t": "text",
@@ -177,7 +191,9 @@
     358.8,
     761.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "agent.name"
   },
   {
    "t": "text",
@@ -189,7 +205,9 @@
     551.2,
     761.5
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "agent.name"
   }
  ]
 }

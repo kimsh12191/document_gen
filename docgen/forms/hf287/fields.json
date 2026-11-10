@@ -35,7 +35,8 @@
      ],
      "line": 24
     }
-   ]
+   ],
+   "key": "check.Amendment"
   },
   {
    "t": "check",
@@ -58,7 +59,8 @@
      ],
      "line": 29
     }
-   ]
+   ],
+   "key": "check.Cancellation"
   },
   {
    "t": "text",
@@ -69,7 +71,9 @@
     150.4,
     547.3,
     168.5
-   ]
+   ],
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -80,7 +84,10 @@
     176.7,
     535.1,
     194.9
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "L/CNo"
   },
   {
    "t": "text",
@@ -91,7 +98,10 @@
     191.7,
     511.7,
     209.9
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "L/CAmount"
   },
   {
    "t": "text",
@@ -102,7 +112,10 @@
     206.7,
     511.8,
     224.9
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "IssuingBank"
   },
   {
    "t": "text",
@@ -113,7 +126,10 @@
     221.7,
     535.6,
     239.9
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "T/SNo"
   },
   {
    "t": "text",
@@ -124,7 +140,10 @@
     236.7,
     512.9,
     254.9
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "T/SAmount"
   },
   {
    "t": "text",
@@ -135,7 +154,10 @@
     272.5,
     473.9,
     290.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Gentlemen"
   },
   {
    "t": "check",
@@ -174,7 +196,8 @@
      ],
      "line": 76
     }
-   ]
+   ],
+   "key": "check.amend"
   },
   {
    "t": "check",
@@ -213,7 +236,8 @@
      ],
      "line": 80
     }
-   ]
+   ],
+   "key": "check.cancel"
   },
   {
    "t": "check",
@@ -236,7 +260,8 @@
      ],
      "line": 95
     }
-   ]
+   ],
+   "key": "check.increasedby"
   },
   {
    "t": "text",
@@ -247,7 +272,10 @@
     377.5,
     545.3,
     395.6
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "Amount"
   },
   {
    "t": "check",
@@ -270,7 +298,8 @@
      ],
      "line": 98
     }
-   ]
+   ],
+   "key": "check.decreasedby"
   },
   {
    "t": "text",
@@ -281,7 +310,10 @@
     422.5,
     496.9,
     440.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Latestshippingdate"
   },
   {
    "t": "text",
@@ -292,7 +324,10 @@
     437.5,
     536.9,
     455.6
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Expirydate"
   }
  ]
 }

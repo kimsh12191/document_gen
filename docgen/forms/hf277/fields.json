@@ -49,7 +49,10 @@
     177.0,
     548.4,
     199.7
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "고객번호"
   },
   {
    "t": "text",
@@ -60,7 +63,10 @@
     199.7,
     548.4,
     222.3
-   ]
+   ],
+   "kind": "number",
+   "std": false,
+   "key": "거래번호"
   },
   {
    "t": "check",
@@ -137,7 +143,8 @@
     239.7,
     548.4,
     319.1
-   ]
+   ],
+   "key": "check.Forfaiting종류"
   },
   {
    "t": "text",
@@ -148,7 +155,10 @@
     336.5,
     548.4,
     364.8
-   ]
+   ],
+   "kind": "amount",
+   "std": false,
+   "key": "ForfaitingAmount"
   },
   {
    "t": "text",
@@ -159,7 +169,10 @@
     364.8,
     548.4,
     393.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "L/CNO"
   },
   {
    "t": "text",
@@ -170,7 +183,10 @@
     393.2,
     548.4,
     421.5
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "L/CIssuingBank"
   },
   {
    "t": "text",
@@ -181,7 +197,10 @@
     421.5,
     548.4,
     449.9
-   ]
+   ],
+   "kind": "company",
+   "std": false,
+   "key": "Applicant"
   },
   {
    "t": "text",
@@ -192,7 +211,10 @@
     449.9,
     548.4,
     478.2
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "Tenor"
   },
   {
    "t": "text",
@@ -203,7 +225,10 @@
     478.2,
     548.4,
     506.6
-   ]
+   ],
+   "kind": "date",
+   "std": false,
+   "key": "ExpiryDate"
   },
   {
    "t": "text",
@@ -214,7 +239,10 @@
     506.6,
     548.4,
     534.9
-   ]
+   ],
+   "kind": "date",
+   "std": false,
+   "key": "ShipmentDate"
   },
   {
    "t": "text",
@@ -225,7 +253,9 @@
     534.9,
     548.4,
     563.2
-   ]
+   ],
+   "kind": "account",
+   "key": "account"
   },
   {
    "t": "date",
@@ -250,7 +280,8 @@
      336.5,
      646.8
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -267,7 +298,9 @@
     672.1,
     450.5,
     685.5
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -278,7 +311,9 @@
     703.1,
     547.3,
     722.5
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   }
  ]
 }

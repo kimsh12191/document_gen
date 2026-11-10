@@ -59,7 +59,9 @@
     140.7,
     337.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.신용장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -71,7 +73,9 @@
     140.7,
     366.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.신용장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -83,7 +87,9 @@
     140.7,
     394.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.신용장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -95,7 +101,9 @@
     140.7,
     422.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.신용장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -107,7 +115,9 @@
     140.7,
     451.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.신용장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -119,7 +129,9 @@
     140.7,
     479.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.신용장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -131,7 +143,9 @@
     140.7,
     507.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.신용장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -143,7 +157,9 @@
     140.7,
     536.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.신용장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -155,7 +171,9 @@
     140.7,
     564.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.신용장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -167,7 +185,9 @@
     140.7,
     592.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.신용장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -179,7 +199,9 @@
     183.2,
     337.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -191,7 +213,9 @@
     183.2,
     366.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -203,7 +227,9 @@
     183.2,
     394.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -215,7 +241,9 @@
     183.2,
     422.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -227,7 +255,9 @@
     183.2,
     451.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -239,7 +269,9 @@
     183.2,
     479.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -251,7 +283,9 @@
     183.2,
     507.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -263,7 +297,9 @@
     183.2,
     536.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -275,7 +311,9 @@
     183.2,
     564.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -287,7 +325,9 @@
     183.2,
     592.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.통화",
+   "kind": "currency"
   },
   {
    "t": "text",
@@ -299,7 +339,9 @@
     254.1,
     337.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -311,7 +353,9 @@
     254.1,
     366.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -323,7 +367,9 @@
     254.1,
     394.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -335,7 +381,9 @@
     254.1,
     422.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -347,7 +395,9 @@
     254.1,
     451.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -359,7 +409,9 @@
     254.1,
     479.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -371,7 +423,9 @@
     254.1,
     507.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -383,7 +437,9 @@
     254.1,
     536.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -395,7 +451,9 @@
     254.1,
     564.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -407,7 +465,9 @@
     254.1,
     592.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -419,7 +479,9 @@
     296.6,
     337.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -431,7 +493,9 @@
     296.6,
     366.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -443,7 +507,9 @@
     296.6,
     394.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -455,7 +521,9 @@
     296.6,
     422.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -467,7 +535,9 @@
     296.6,
     451.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -479,7 +549,9 @@
     296.6,
     479.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -491,7 +563,9 @@
     296.6,
     507.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -503,7 +577,9 @@
     296.6,
     536.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -515,7 +591,9 @@
     296.6,
     564.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -527,7 +605,9 @@
     296.6,
     592.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -539,7 +619,9 @@
     339.1,
     337.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.항공화물운송장",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -551,7 +633,9 @@
     339.1,
     366.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.항공화물운송장",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -563,7 +647,9 @@
     339.1,
     394.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.항공화물운송장",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -575,7 +661,9 @@
     339.1,
     422.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.항공화물운송장",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -587,7 +675,9 @@
     339.1,
     451.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.항공화물운송장",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -599,7 +689,9 @@
     339.1,
     479.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.항공화물운송장",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -611,7 +703,9 @@
     339.1,
     507.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.항공화물운송장",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -623,7 +717,9 @@
     339.1,
     536.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.항공화물운송장",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -635,7 +731,9 @@
     339.1,
     564.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.항공화물운송장",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -647,7 +745,9 @@
     339.1,
     592.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.항공화물운송장",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -659,7 +759,9 @@
     381.6,
     337.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -671,7 +773,9 @@
     381.6,
     366.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -683,7 +787,9 @@
     381.6,
     394.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -695,7 +801,9 @@
     381.6,
     422.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -707,7 +815,9 @@
     381.6,
     451.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -719,7 +829,9 @@
     381.6,
     479.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -731,7 +843,9 @@
     381.6,
     507.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -743,7 +857,9 @@
     381.6,
     536.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -755,7 +871,9 @@
     381.6,
     564.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -767,7 +885,9 @@
     381.6,
     592.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -779,7 +899,9 @@
     424.0,
     337.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -791,7 +913,9 @@
     424.0,
     366.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -803,7 +927,9 @@
     424.0,
     394.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -815,7 +941,9 @@
     424.0,
     422.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -827,7 +955,9 @@
     424.0,
     451.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -839,7 +969,9 @@
     424.0,
     479.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -851,7 +983,9 @@
     424.0,
     507.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -863,7 +997,9 @@
     424.0,
     536.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -875,7 +1011,9 @@
     424.0,
     564.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -887,7 +1025,9 @@
     424.0,
     592.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.상업송장보험서류",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -899,7 +1039,9 @@
     494.7,
     337.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권번호/항공화물운송장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -911,7 +1053,9 @@
     494.7,
     366.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권번호/항공화물운송장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -923,7 +1067,9 @@
     494.7,
     394.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권번호/항공화물운송장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -935,7 +1081,9 @@
     494.7,
     422.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권번호/항공화물운송장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -947,7 +1095,9 @@
     494.7,
     451.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권번호/항공화물운송장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -959,7 +1109,9 @@
     494.7,
     479.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권번호/항공화물운송장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -971,7 +1123,9 @@
     494.7,
     507.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권번호/항공화물운송장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -983,7 +1137,9 @@
     494.7,
     536.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권번호/항공화물운송장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -995,7 +1151,9 @@
     494.7,
     564.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권번호/항공화물운송장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -1007,7 +1165,9 @@
     494.7,
     592.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.선하증권번호/항공화물운송장번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -1019,7 +1179,9 @@
     548.4,
     337.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대도금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -1031,7 +1193,9 @@
     548.4,
     366.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대도금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -1043,7 +1207,9 @@
     548.4,
     394.3
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대도금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -1055,7 +1221,9 @@
     548.4,
     422.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대도금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -1067,7 +1235,9 @@
     548.4,
     451.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대도금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -1079,7 +1249,9 @@
     548.4,
     479.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대도금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -1091,7 +1263,9 @@
     548.4,
     507.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대도금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -1103,7 +1277,9 @@
     548.4,
     536.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대도금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -1115,7 +1291,9 @@
     548.4,
     564.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대도금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -1127,7 +1305,9 @@
     548.4,
     592.7
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.대도금액",
+   "kind": "amount"
   },
   {
    "t": "check",
@@ -1150,7 +1330,8 @@
      ],
      "line": 23
     }
-   ]
+   ],
+   "key": "check.선적서류수령증"
   },
   {
    "t": "check",
@@ -1173,7 +1354,8 @@
      ],
      "line": 30
     }
-   ]
+   ],
+   "key": "check.수입화물대도신청서"
   },
   {
    "t": "check",
@@ -1196,7 +1378,8 @@
      ],
      "line": 48
     }
-   ]
+   ],
+   "key": "check.본인은아래신용장에의한선"
   },
   {
    "t": "check",
@@ -1219,7 +1402,8 @@
      ],
      "line": 51
     }
-   ]
+   ],
+   "key": "check.본인은아래신용장등에의하"
   },
   {
    "t": "date",
@@ -1244,7 +1428,8 @@
      332.8,
      637.2
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -1261,7 +1446,9 @@
     684.1,
     423.6,
     696.2
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -1272,7 +1459,9 @@
     721.1,
     547.3,
     739.2
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -1284,7 +1473,10 @@
     137.7,
     289.0
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "구분"
   }
  ]
 }

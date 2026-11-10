@@ -89,7 +89,8 @@
     618.3,
     566.3,
     711.5
-   ]
+   ],
+   "key": "check.위개인신용정보제공에동의하십니까?"
   },
   {
    "t": "text",
@@ -101,7 +102,10 @@
     158.3,
     637.6
    ],
-   "row": true
+   "row": true,
+   "kind": "skip",
+   "std": false,
+   "key": "■신용거래정보"
   },
   {
    "t": "date",
@@ -126,7 +130,8 @@
      383.9,
      792.2
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -139,7 +144,8 @@
     669.4
    ],
    "key": "customer.name",
-   "added": true
+   "added": true,
+   "kind": "person"
   },
   {
    "t": "text",
@@ -152,7 +158,8 @@
     697.5
    ],
    "key": "spouse.name",
-   "added": true
+   "added": true,
+   "kind": "person"
   },
   {
    "t": "text",
@@ -165,7 +172,8 @@
     789.4
    ],
    "key": "date",
-   "added": true
+   "added": true,
+   "kind": "date"
   }
  ],
  "dropped": [

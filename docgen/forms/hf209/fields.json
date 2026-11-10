@@ -26,7 +26,10 @@
    ],
    "group": "구분",
    "row": true,
-   "section": "영 수 사 유 구분"
+   "section": "영 수 사 유 구분",
+   "kind": "text",
+   "std": false,
+   "key": "무역"
   },
   {
    "t": "text",
@@ -40,7 +43,10 @@
    ],
    "group": "구분",
    "row": true,
-   "section": "영 수 사 유 구분"
+   "section": "영 수 사 유 구분",
+   "kind": "text",
+   "std": false,
+   "key": "용역및서비스"
   },
   {
    "t": "text",
@@ -54,7 +60,10 @@
    ],
    "group": "구분",
    "row": true,
-   "section": "영 수 사 유 구분"
+   "section": "영 수 사 유 구분",
+   "kind": "text",
+   "std": false,
+   "key": "증여"
   },
   {
    "t": "text",
@@ -68,7 +77,10 @@
    ],
    "group": "구분",
    "row": true,
-   "section": "영 수 사 유 구분"
+   "section": "영 수 사 유 구분",
+   "kind": "note",
+   "std": false,
+   "key": "기타"
   },
   {
    "t": "text",
@@ -80,7 +92,10 @@
     546.9,
     307.7
    ],
-   "section": "영수금액 (USD상당금액 : )"
+   "section": "영수금액 (USD상당금액 : )",
+   "kind": "text",
+   "std": false,
+   "key": "송금인"
   },
   {
    "t": "text",
@@ -92,7 +107,10 @@
     546.9,
     334.7
    ],
-   "section": "영수금액 (USD상당금액 : )"
+   "section": "영수금액 (USD상당금액 : )",
+   "kind": "text",
+   "std": false,
+   "key": "송금인과관계"
   },
   {
    "t": "text",
@@ -103,7 +121,9 @@
     190.1,
     473.9,
     210.4
-   ]
+   ],
+   "kind": "number",
+   "key": "customer.rrn"
   },
   {
    "t": "text",
@@ -114,7 +134,9 @@
     208.1,
     473.9,
     228.4
-   ]
+   ],
+   "kind": "phone",
+   "key": "customer.phone"
   },
   {
    "t": "date",
@@ -139,7 +161,8 @@
      524.3,
      664.4
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -156,7 +179,9 @@
     685.1,
     534.4,
     699.4
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   }
  ]
 }

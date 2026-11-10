@@ -31,7 +31,9 @@
     269.8
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -44,7 +46,9 @@
     269.8
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "key": "북한지사신고명세_목록.{i}.신고자",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -57,7 +61,10 @@
     269.8
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "kind": "text",
+   "std": false,
+   "key": "기업규모"
   },
   {
    "t": "text",
@@ -70,7 +77,9 @@
     269.8
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "key": "북한지사신고명세_목록.{i}.지사명",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -83,7 +92,9 @@
     269.8
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "key": "북한지사신고명세_목록.{i}.설치지역",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -96,7 +107,10 @@
     269.8
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "kind": "text",
+   "std": false,
+   "key": "구분"
   },
   {
    "t": "text",
@@ -109,7 +123,10 @@
     269.8
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "kind": "text",
+   "std": false,
+   "key": "투자금구분"
   },
   {
    "t": "text",
@@ -122,7 +139,9 @@
     269.8
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "key": "북한지사신고명세_목록.{i}.신고금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -135,7 +154,10 @@
     269.8
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "kind": "text",
+   "std": false,
+   "key": "신고기관"
   },
   {
    "t": "text",
@@ -148,7 +170,9 @@
     552.6
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "key": "북한지사신고명세_목록.{i}.신고자",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -161,7 +185,9 @@
     552.6
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -174,7 +200,9 @@
     552.6
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "key": "북한지사신고명세_목록.{i}.신고금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -187,7 +215,10 @@
     552.6
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "kind": "date",
+   "std": false,
+   "key": "송금일자"
   },
   {
    "t": "text",
@@ -200,7 +231,10 @@
     552.6
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "kind": "text",
+   "std": false,
+   "key": "영업기금"
   },
   {
    "t": "text",
@@ -213,7 +247,10 @@
     552.6
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "kind": "text",
+   "std": false,
+   "key": "설치비"
   },
   {
    "t": "text",
@@ -226,7 +263,10 @@
     552.6
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "kind": "text",
+   "std": false,
+   "key": "기본경비"
   },
   {
    "t": "text",
@@ -239,7 +279,10 @@
     552.6
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "kind": "note",
+   "std": false,
+   "key": "기타경비"
   },
   {
    "t": "text",
@@ -252,7 +295,9 @@
     552.6
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "key": "북한지사신고명세_목록.{i}.지사명",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -265,7 +310,9 @@
     552.6
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "key": "북한지사신고명세_목록.{i}.설치지역",
+   "kind": "text"
   },
   {
    "t": "text",
@@ -278,7 +325,10 @@
     552.6
    ],
    "row": true,
-   "group": "북한지사신고명세"
+   "group": "북한지사신고명세",
+   "kind": "text",
+   "std": false,
+   "key": "최초추가"
   },
   {
    "t": "text",
@@ -291,7 +341,9 @@
     127.7
    ],
    "row": true,
-   "group": "신고자"
+   "group": "신고자",
+   "key": "신고자_목록.{i}.신고자",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -304,7 +356,10 @@
     127.7
    ],
    "row": true,
-   "group": "신고자"
+   "group": "신고자",
+   "kind": "company",
+   "std": false,
+   "key": "지사명"
   },
   {
    "t": "text",
@@ -317,7 +372,10 @@
     127.7
    ],
    "row": true,
-   "group": "신고자"
+   "group": "신고자",
+   "kind": "text",
+   "std": false,
+   "key": "구분"
   },
   {
    "t": "text",
@@ -330,7 +388,10 @@
     127.7
    ],
    "row": true,
-   "group": "신고자"
+   "group": "신고자",
+   "kind": "date",
+   "std": false,
+   "key": "취득일"
   },
   {
    "t": "text",
@@ -343,7 +404,10 @@
     127.7
    ],
    "row": true,
-   "group": "신고자"
+   "group": "신고자",
+   "kind": "amount",
+   "std": false,
+   "key": "취득금액"
   },
   {
    "t": "text",
@@ -356,7 +420,10 @@
     127.7
    ],
    "row": true,
-   "group": "신고자"
+   "group": "신고자",
+   "kind": "date",
+   "std": false,
+   "key": "처분일"
   },
   {
    "t": "text",
@@ -369,7 +436,10 @@
     127.7
    ],
    "row": true,
-   "group": "신고자"
+   "group": "신고자",
+   "kind": "amount",
+   "std": false,
+   "key": "처분금액"
   },
   {
    "t": "text",
@@ -382,7 +452,10 @@
     244.0
    ],
    "row": true,
-   "group": "구분주"
+   "group": "구분주",
+   "kind": "text",
+   "std": false,
+   "key": "투자자명"
   },
   {
    "t": "text",
@@ -395,7 +468,9 @@
     244.0
    ],
    "row": true,
-   "group": "구분주"
+   "group": "구분주",
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -408,7 +483,9 @@
     244.0
    ],
    "row": true,
-   "group": "구분주"
+   "group": "구분주",
+   "key": "구분주_목록.{i}.북한지사명",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -421,7 +498,10 @@
     244.0
    ],
    "row": true,
-   "group": "구분주"
+   "group": "구분주",
+   "kind": "text",
+   "std": false,
+   "key": "주)구분"
   },
   {
    "t": "text",
@@ -434,7 +514,10 @@
     244.0
    ],
    "row": true,
-   "group": "구분주"
+   "group": "구분주",
+   "kind": "date",
+   "std": false,
+   "key": "설치일"
   },
   {
    "t": "text",
@@ -447,7 +530,9 @@
     374.2
    ],
    "row": true,
-   "group": "구분주"
+   "group": "구분주",
+   "kind": "date",
+   "key": "date"
   },
   {
    "t": "text",
@@ -460,7 +545,10 @@
     374.2
    ],
    "row": true,
-   "group": "구분주"
+   "group": "구분주",
+   "kind": "company",
+   "std": false,
+   "key": "신고자"
   },
   {
    "t": "text",
@@ -473,7 +561,9 @@
     374.2
    ],
    "row": true,
-   "group": "구분주"
+   "group": "구분주",
+   "key": "구분주_목록.{i}.북한지사명",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -486,7 +576,10 @@
     374.2
    ],
    "row": true,
-   "group": "구분주"
+   "group": "구분주",
+   "kind": "text",
+   "std": false,
+   "key": "설치지역"
   },
   {
    "t": "text",
@@ -499,7 +592,10 @@
     374.2
    ],
    "row": true,
-   "group": "구분주"
+   "group": "구분주",
+   "kind": "amount",
+   "std": false,
+   "key": "신고금액"
   },
   {
    "t": "text",
@@ -512,7 +608,10 @@
     374.2
    ],
    "row": true,
-   "group": "구분주"
+   "group": "구분주",
+   "kind": "text",
+   "std": false,
+   "key": "회수구분주"
   },
   {
    "t": "text",
@@ -525,7 +624,10 @@
     374.2
    ],
    "row": true,
-   "group": "구분주"
+   "group": "구분주",
+   "kind": "amount",
+   "std": false,
+   "key": "회수금액"
   },
   {
    "t": "text",
@@ -538,7 +640,10 @@
     374.2
    ],
    "row": true,
-   "group": "구분주"
+   "group": "구분주",
+   "kind": "note",
+   "std": false,
+   "key": "비고"
   },
   {
    "t": "text",
@@ -551,7 +656,10 @@
     523.6
    ],
    "row": true,
-   "group": "신고자"
+   "group": "신고자",
+   "kind": "text",
+   "std": false,
+   "key": "구분주"
   },
   {
    "t": "text",
@@ -564,7 +672,10 @@
     523.6
    ],
    "row": true,
-   "group": "신고자"
+   "group": "신고자",
+   "kind": "date",
+   "std": false,
+   "key": "변경일자"
   },
   {
    "t": "text",
@@ -577,7 +688,9 @@
     523.6
    ],
    "row": true,
-   "group": "신고자"
+   "group": "신고자",
+   "key": "신고자_목록.{i}.신고자",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -590,7 +703,10 @@
     523.6
    ],
    "row": true,
-   "group": "신고자"
+   "group": "신고자",
+   "kind": "note",
+   "std": false,
+   "key": "변경전"
   },
   {
    "t": "text",
@@ -603,7 +719,10 @@
     523.6
    ],
    "row": true,
-   "group": "신고자"
+   "group": "신고자",
+   "kind": "note",
+   "std": false,
+   "key": "변경후"
   }
  ]
 }

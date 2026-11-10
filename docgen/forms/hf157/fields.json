@@ -67,7 +67,9 @@
     439.4,
     379.1,
     462.0
-   ]
+   ],
+   "kind": "company",
+   "key": "company.name"
   },
   {
    "t": "text",
@@ -78,7 +80,9 @@
     462.0,
     379.1,
     484.8
-   ]
+   ],
+   "kind": "text",
+   "key": "company.ceo"
   },
   {
    "t": "text",
@@ -89,7 +93,9 @@
     484.8,
     379.1,
     507.4
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "text",
@@ -100,7 +106,10 @@
     507.4,
     379.1,
     547.0
-   ]
+   ],
+   "kind": "text",
+   "std": false,
+   "key": "명판"
   },
   {
    "t": "text",
@@ -111,7 +120,8 @@
     547.0,
     379.1,
     586.6
-   ]
+   ],
+   "kind": "seal"
   },
   {
    "t": "text",
@@ -123,7 +133,9 @@
     540.2,
     462.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.변경후",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -135,7 +147,9 @@
     540.2,
     484.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.변경후",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -147,7 +161,9 @@
     540.2,
     507.4
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.변경후",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -159,7 +175,9 @@
     540.2,
     547.0
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.변경후",
+   "kind": "note"
   },
   {
    "t": "text",
@@ -171,7 +189,9 @@
     540.2,
     586.6
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.변경후",
+   "kind": "note"
   },
   {
    "t": "sign",
@@ -188,7 +208,9 @@
     387.2,
     452.4,
     397.4
-   ]
+   ],
+   "who": "corp",
+   "what": "ceo"
   },
   {
    "t": "text",
@@ -200,7 +222,10 @@
     181.9,
     438.4
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "신고사항"
   }
  ]
 }

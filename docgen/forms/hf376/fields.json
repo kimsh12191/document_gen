@@ -50,7 +50,9 @@
     289.4,
     194.4
    ],
-   "section": "대 리 인"
+   "section": "대 리 인",
+   "kind": "person",
+   "key": "agent.name"
   },
   {
    "t": "text",
@@ -62,7 +64,9 @@
     289.4,
     219.9
    ],
-   "section": "대 리 인"
+   "section": "대 리 인",
+   "kind": "address",
+   "key": "agent.address"
   },
   {
    "t": "text",
@@ -74,7 +78,9 @@
     547.9,
     194.4
    ],
-   "section": "대 리 인"
+   "section": "대 리 인",
+   "kind": "date",
+   "key": "agent.birth"
   },
   {
    "t": "text",
@@ -86,7 +92,9 @@
     547.9,
     219.9
    ],
-   "section": "대 리 인"
+   "section": "대 리 인",
+   "kind": "text",
+   "key": "agent.relation"
   },
   {
    "t": "date",
@@ -112,7 +120,8 @@
      344.0,
      360.1
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -129,7 +138,9 @@
     406.1,
     333.1,
     419.4
-   ]
+   ],
+   "who": "customer",
+   "what": "name"
   },
   {
    "t": "text",
@@ -140,7 +151,10 @@
     622.7,
     506.8,
     642.1
-   ]
+   ],
+   "kind": "branch",
+   "std": false,
+   "key": "해외영업점"
   },
   {
    "t": "sign",
@@ -157,7 +171,9 @@
     661.7,
     334.6,
     675.1
-   ]
+   ],
+   "who": "bank",
+   "what": "name"
   },
   {
    "t": "text",
@@ -169,7 +185,10 @@
     206.0,
     248.7
    ],
-   "free": true
+   "free": true,
+   "kind": "number",
+   "std": false,
+   "key": "비밀번호재등록"
   },
   {
    "t": "text",
@@ -181,7 +200,10 @@
     549.5,
     248.7
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "std": false,
+   "key": "보안매체재발급"
   },
   {
    "t": "text",
@@ -193,7 +215,9 @@
     168.8,
     682.1
    ],
-   "free": true
+   "free": true,
+   "kind": "text",
+   "key": "employer.position"
   }
  ]
 }

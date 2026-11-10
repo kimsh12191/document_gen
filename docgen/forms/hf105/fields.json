@@ -24,7 +24,9 @@
     115.5,
     275.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.전자채권번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -36,7 +38,9 @@
     188.4,
     275.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행기업명",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -48,7 +52,9 @@
     261.2,
     275.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -60,7 +66,9 @@
     334.1,
     275.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -72,7 +80,9 @@
     406.9,
     275.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -84,7 +94,9 @@
     479.8,
     275.8
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.미결제사유",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -96,7 +108,10 @@
     547.6,
     275.8
    ],
-   "row": true
+   "row": true,
+   "kind": "text",
+   "std": false,
+   "key": "전자채권지급장소"
   },
   {
    "t": "text",
@@ -108,7 +123,9 @@
     115.5,
     658.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.전자채권번호",
+   "kind": "number"
   },
   {
    "t": "text",
@@ -120,7 +137,9 @@
     188.4,
     658.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행기업명",
+   "kind": "company"
   },
   {
    "t": "text",
@@ -132,7 +151,9 @@
     261.2,
     658.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.금액",
+   "kind": "amount"
   },
   {
    "t": "text",
@@ -144,7 +165,9 @@
     334.1,
     658.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.발행일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -156,7 +179,9 @@
     406.9,
     658.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.만기일",
+   "kind": "date"
   },
   {
    "t": "text",
@@ -168,7 +193,9 @@
     479.8,
     658.5
    ],
-   "row": true
+   "row": true,
+   "key": "목록.{i}.미결제사유",
+   "kind": "reason"
   },
   {
    "t": "text",
@@ -180,7 +207,10 @@
     547.6,
     658.5
    ],
-   "row": true
+   "row": true,
+   "kind": "bank",
+   "std": false,
+   "key": "발행은행지점"
   },
   {
    "t": "text",
@@ -191,7 +221,10 @@
     127.2,
     150.3,
     143.2
-   ]
+   ],
+   "kind": "branch",
+   "std": false,
+   "key": "취급점"
   },
   {
    "t": "date",
@@ -216,7 +249,8 @@
      324.6,
      308.7
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "text",
@@ -227,7 +261,9 @@
     324.0,
     473.5,
     339.0
-   ]
+   ],
+   "kind": "text",
+   "key": "customer.name"
   },
   {
    "t": "text",
@@ -238,7 +274,9 @@
     342.0,
     473.5,
     357.0
-   ]
+   ],
+   "kind": "biz_no",
+   "key": "company.biz_no"
   },
   {
    "t": "text",
@@ -249,7 +287,9 @@
     360.0,
     473.5,
     375.0
-   ]
+   ],
+   "kind": "address",
+   "key": "customer.address"
   },
   {
    "t": "date",
@@ -274,7 +314,8 @@
      324.6,
      691.4
     ]
-   }
+   },
+   "key": "date"
   },
   {
    "t": "sign",
@@ -286,7 +327,8 @@
     738.0,
     170.9,
     747.0
-   ]
+   ],
+   "who": "bank"
   }
  ]
 }
