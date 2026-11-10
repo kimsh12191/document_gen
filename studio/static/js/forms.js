@@ -159,7 +159,7 @@ function formTabs(d) {
     ["개요", "이 서식이 무엇을 묻는지와 상태", [["overview", "요약"], ["card", "카드 원문"], ["guide", "업무·시나리오"]]],
     ["그림·검수", "그린 그림과 정답이 맞는지 눈으로 보고 검수", [["preview", "미리보기"], ["examples", "여러 장 보기"],
       ["review", `검수${open ? ` · 문제 ${open}` : ""}`]]],
-    ["질문·답", "과제마다 실제 질문·정답·채점, 칸이 누구의 무엇인지", [["questions", "실제 문항"], ["keys", `키 (${d.keys.length})`]]],
+    ["질문·답", "과제마다 실제 질문·정답·채점", [["questions", "실제 문항"]]],
     ["고치기", "값·위치·모양·칸·질문 설정", [["edit", editable ? "영역 편집" : "자리·템플릿"],
       ...(!editable ? [["templates", "레이아웃·샘플링"]] : []),
       ...(!editable && d.origin !== "builtin" ? [["html", "html 편집"]] : []),
@@ -218,7 +218,6 @@ async function viewForm(id, tab) {
   if (tab === "templates") return viewTemplateVariants(d);
   if (tab === "html" && typeof viewHtmlEditor === "function") return viewHtmlEditor(d);
   if (tab === "review") return tabReview(d);
-  if (tab === "keys") return tabKeys(d);
   return tabFiles(d);
 }
 
@@ -596,34 +595,6 @@ async function tabReview(d) {
       : `<p class="muted">경고가 없습니다.${r.rendered ? "" : " (브라우저가 없어 한글 키 검사는 건너뜀)"}</p>`;
     $("#rv-checks").onclick = e => { const g = e.target.dataset.goto; if (g) state.editorFocus = { doc: d.id, id: g }; };
   } catch (e) { $("#rv-checks").innerHTML = `<span class="err">${esc(e.message)}</span>`; }
-}
-
-// 키 탭: 칸마다 이름표 · 누구의 · 무엇 · 키 (키 사전 keys.js 의 cellsView)
-function tabKeys(d) {
-  $("#tab").innerHTML = `<div class="sub">칸마다 키가 하나 있습니다. 칸이 <b>누구의 · 무엇</b>인지 정하면, 그 둘이 공통 키일 때 공통 키로 묻고 답합니다.
-    나머지는 문서별 키(서식의 키 그대로)입니다. 미리보기에서 칸을 눌러도 같은 것을 정합니다.</div><div id="k-cells"></div>`;
-  return cellsView($("#k-cells"), { form: d.id });
-}
-
-// 예전 키 목록 (30번 렌더링해 모은 키·채움률) -----------------------------------
-function tabKeysSampled(d) {
-  $("#tab").innerHTML = `
-    <div class="sub">서식마다 고객 30명으로 렌더링해 모은 키입니다 (<span class="mono">guide/fields/fields.json</span>).
-      채움률은 30번 중 그 키가 나온 비율, 예시가 비어 있으면 값이 한 번도 안 채워진 칸입니다.
-      <span class="kr">주황색</span>은 한글 키(영어 표준 키로 바꿀 대상)입니다.</div>
-    <div class="bar"><input type="text" id="k-q" placeholder="키·항목명 검색" style="width:240px"></div>
-    <div id="k-table"></div>`;
-  const draw = () => {
-    const q = $("#k-q").value.trim().toLowerCase();
-    const rows = d.keys.filter(k => !q || k.key.toLowerCase().includes(q) || (k.label || "").toLowerCase().includes(q));
-    $("#k-table").innerHTML = rows.length ? `<table><thead><tr><th>키</th><th>항목명</th><th>타입</th><th class="num">채움률</th><th>예시</th></tr></thead>
-      <tbody>${rows.map(k => `<tr><td class="mono ${/[^\x00-\x7f]/.test(k.key) ? "kr" : ""}">${esc(k.key)}</td>
-        <td>${esc(k.label ?? "")}</td><td>${esc(k.type)}</td><td class="num">${Math.round((k.fill_rate ?? 0) * 100)}%</td>
-        <td>${k.example ? esc(k.example) : `<span class="muted">(값 없음)</span>`}</td></tr>`).join("")}</tbody></table>`
-      : `<p class="muted">키 목록이 없습니다. <span class="mono">python docgen/scripts/build_schema.py</span>로 만듭니다.</p>`;
-  };
-  $("#k-q").oninput = draw;
-  draw();
 }
 
 function tabFiles(d) {

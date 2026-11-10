@@ -1,10 +1,9 @@
 // 문항 Q/A: 실제 생성기의 prompt·answer·eval 계약과 고객별 문항을 함께 보여 준다 (DESIGN.md 9.3.1).
-// ① 서식 › 문항 Q/A 탭(tabQuestions, forms.js 가 부름)과 ③ 처리 설정의 Q/A 창(showQuestionQA, scenario-processing.js).
+// ① 서식 › 문항 Q/A 탭(tabQuestions, forms.js 가 부름).
 // 서버: GET /api/question-formats, POST /api/forms/{id}/questions (studio/app.py, studio/questions.py)
 "use strict";
 
 let questionFormatsPromise = null;
-let questionDialog = null;
 const loadQuestionFormats = () => questionFormatsPromise || (questionFormatsPromise = api("/api/question-formats").catch(e => { questionFormatsPromise = null; throw e; }));
 const qaJSON = value => JSON.stringify(value, null, 2);
 
@@ -59,24 +58,6 @@ function questionItemsHTML(items) {
       <details><summary>문항 레코드 JSON</summary><pre class="ans mono">${esc(qaJSON(record))}</pre></details>
     </article>`;
   }).join("");
-}
-
-async function showQuestionQA(task, items = [], title = "", note = "") {
-  const formats = await loadQuestionFormats();
-  if (questionDialog) questionDialog.close();
-  const dialog = document.createElement("dialog");
-  questionDialog = dialog;
-  dialog.className = "qa-dialog";
-  const tasks = [...new Set([task, ...items.map(x => x.task)])];
-  dialog.innerHTML = `<div class="bar"><h2>${esc(title || formats[task].name)} · Q/A 포맷·예시</h2><button type="button" class="qa-close">닫기 ×</button></div>
-    ${note ? `<p class="qa-notice">${esc(note)}</p>` : ""}
-    ${tasks.map(t => `<h3>${esc(formats[t].name)} <span class="mono muted">${esc(t)}</span></h3>${questionContractHTML(formats[t])}`).join("")}
-    ${items.length ? questionItemsHTML(items) : `<p class="muted">현재 고객의 실행 가능한 문항 예시가 없습니다. 위에서 공통 질문과 정답 형식을 확인하세요.</p>`}`;
-  $(".qa-close", dialog).onclick = () => dialog.close();
-  dialog.addEventListener("close", () => { if (questionDialog === dialog) questionDialog = null; dialog.remove(); });
-  document.body.appendChild(dialog);
-  dialog.showModal();
-  $(".qa-close", dialog).focus();
 }
 
 async function tabQuestions(d) {

@@ -1,8 +1,9 @@
-// ⑥ 데이터셋 (등록부·설명서·문항 보기·모델 답 붙이기·채점·업무 묶음·학습 설정) · ⑦ 평가 (비교표).
+// ⑥ 데이터셋 (등록부·설명서·구성·문항 보기·업무 묶음). 평가·채점·학습은 학습 서버의 python -m train (guide/eval.md).
 // 생성 현황 목록은 dataset-builds.js, 새로 만들기(레시피)는 recipes.js.
-// 서버: studio/api_datasets.py·datasets.py (등록부·채점), studio/api_bank.py·bank_data.py·training_link.py (업무 묶음·학습)
+// 서버: studio/api_datasets.py·datasets.py (등록부), studio/api_bank.py·bank_data.py (레시피·빌드·업무 묶음)
 "use strict";
 
+addRoute(/^#\/datasets$/, () => view_datasets(), "datasets");
 addRoute(/^#\/datasets\/([^/]+)\/bundle\/(.+)$/, (id, bid) => viewBundle(decodeURIComponent(id), decodeURIComponent(bid)), "datasets");
 addRoute(/^#\/datasets\/([^/]+)(?:\/(\w+))?$/, (id, tab) => viewDataset(decodeURIComponent(id), tab || "card"), "datasets");
 
@@ -24,15 +25,14 @@ const TASK_HINT = { freetext: "기타·비고·사유 칸의 자유 기재를 DB
   table: "표(행 수가 서류마다 다른 반복 목록)의 모든 행을 정해 준 열로. 행 수는 모델이 정함",
   table_read: "표를 머리글까지 그대로 옮기기 (열을 정해 주지 않음)", table_find: "서류의 표를 모두 찾기 (머리글·위치·행 수)",
   table_qa: "표를 보고 행 수·찾기·합계 등을 묻기" };
-const LOWER_BETTER = new Set(["cer", "false_alarm", "matched_label_cer"]);
 const dsTag = d => (d.groups || []).map(g => `<span class="tag ${g === "ocr" ? "html" : g === "doc" ? "overlay" : ""}">${GROUP_NAME[g] || esc(g)}</span>`).join(" ");
 
 async function view_datasets() {
-  const [r, recipes, trainings] = await Promise.all([api("/api/datasets"), recipesPanel(), trainingsPanel()]);
+  const [r, recipes] = await Promise.all([api("/api/datasets"), recipesPanel()]);
   if (location.hash !== "#/datasets") return;
   main().innerHTML = `
     <h1>데이터셋</h1>
-    <div class="sub">레시피로 평가 세트·학습 데이터를 만들고(<b>새로 만들기</b>), 끝나면 아래 목록에서 문항을 보고 학습 설정을 씁니다.
+    <div class="sub">레시피로 평가 세트·학습 데이터를 만들고(<b>새로 만들기</b>), 끝나면 아래 목록에서 문항을 봅니다. 학습·평가는 학습 서버에서 (<a href="#/guide/training.md">training.md</a>).
       <a href="#/guide/studio.md">studio 사용법 3절</a> · 등록부 <span class="mono">${esc(r.workspace)}/registry.json</span></div>
     ${recipes}
     <div id="dataset-build-jobs"></div>
@@ -48,8 +48,7 @@ async function view_datasets() {
         <label><input type="checkbox" id="dr-real"> 실서류</label>
         <button class="primary" id="dr-go">등록</button>
       </div>
-    </details>
-    ${trainings}`;
+    </details>`;
   bindRecipesPanel();
   $("#dr-go").onclick = async () => {
     try {
@@ -63,8 +62,8 @@ async function view_datasets() {
 
 async function viewDataset(id, tab) {
   const d = await api(`/api/datasets/${encodeURIComponent(id)}`);
-  const tabs = [["card", "설명서"], ["tracking", "구성·추적"], ["items", "문항"], ...((d.groups || []).includes("work") ? [["bundles", "업무 묶음"]] : []),
-    ["runs", `모델 답 (${d.predictions.length})`], ["train", "학습"]];
+  const tabs = [["card", "설명서"], ["tracking", "구성"], ["items", "문항"], ...((d.groups || []).includes("work") ? [["bundles", "업무 묶음"]] : []),
+  ];
   main().innerHTML = `
     <div class="muted"><a href="#/datasets">데이터셋</a></div>
     <h1>${esc(d.name)} <span class="mono muted">${esc(d.id)}</span></h1>
@@ -84,9 +83,7 @@ async function viewDataset(id, tab) {
   };
   if (tab === "items") return dsItems(d);
   if (tab === "tracking") return dsTracking(d);
-  if (tab === "runs") return dsRuns(d);
   if (tab === "bundles") return dsBundles(d);
-  if (tab === "train") return dsTrain(d);
   return dsCard(d);
 }
 
@@ -136,17 +133,6 @@ function dsCard(d) {
 }
 
 // 문항 보기 -----------------------------------------------------------------
-function parseBoxes(text) {   // 모델 답에서 [{"bbox_2d": [...], "label": ...}] 꺼내기
-  if (typeof text !== "string") return [];
-  let t = text.trim().replace(/^<think>\s*<\/think>\s*/, "");
-  const m = t.match(/```(?:json)?\s*([\s\S]*?)```/);
-  if (m) t = m[1];
-  try {
-    const v = JSON.parse(t);
-    return Array.isArray(v) ? v.filter(x => x && Array.isArray(x.bbox_2d) && x.bbox_2d.length === 4) : [];
-  } catch { return []; }
-}
-
 function itemStage(d, it, img, k) {
   const url = `/api/datasets/${encodeURIComponent(d.id)}/file?p=${encodeURIComponent(img)}`;
   const rects = [];
@@ -154,19 +140,13 @@ function itemStage(d, it, img, k) {
     const [x0, y0, x1, y1] = b.box;
     rects.push(`<rect class="ds-${b.cls}" x="${x0}" y="${y0}" width="${Math.max(1, x1 - x0)}" height="${Math.max(1, y1 - y0)}"><title>${esc(b.label)}</title></rect>`);
   }
-  if (k === 0) it.preds.forEach((p, pi) => {
-    for (const b of parseBoxes(p.output)) {
-      const [x0, y0, x1, y1] = b.bbox_2d;
-      rects.push(`<rect class="ds-pred p${pi % 3}" x="${x0}" y="${y0}" width="${Math.max(1, x1 - x0)}" height="${Math.max(1, y1 - y0)}"><title>${esc(p.label)}: ${esc(b.label || "")}</title></rect>`);
-    }
-  });
   return `<div class="stage ds-stage"><img src="${url}" alt="" loading="lazy"><svg viewBox="0 0 1000 1000" preserveAspectRatio="none">${rects.join("")}</svg></div>`;
 }
 
 const showAns = a => typeof a === "string" ? esc(a) : `<pre class="ans">${esc(JSON.stringify(a, null, 1))}</pre>`;
 
 async function dsItems(d) {
-  const st = store.get(`ds.${d.id}`, { task: Object.keys(d.tasks)[0] || "", pids: [], order: "id" });
+  const st = store.get(`ds.${d.id}`, { task: Object.keys(d.tasks)[0] || "" });
   const tasks = Object.entries(d.tasks);
   const summary = await api(`/api/datasets/${encodeURIComponent(d.id)}/composition`).catch(() => null);
   st.filters ||= {};
@@ -175,26 +155,22 @@ async function dsItems(d) {
     <div class="bar">
       <select id="it-task"><option value="" ${st.task === "" ? "selected" : ""}>과제 전체</option>${tasks.map(([t, n]) => `<option value="${t}" title="${esc(TASK_HINT[t] || "")}" ${t === st.task ? "selected" : ""}>${esc(TASK_KO[t] || t)} (${t}) · ${n}</option>`).join("")}</select>
       <input type="text" id="it-q" placeholder="문항 안 글자 검색" style="width:180px">
-      <span class="muted">모델 답:</span>
-      ${d.predictions.map(p => `<label><input type="checkbox" data-pid="${p.pid}" ${st.pids.includes(p.pid) ? "checked" : ""}> ${esc(p.label)}</label>`).join("") || `<span class="muted">(없음 — 모델 답 탭에서 붙입니다)</span>`}
-      <label>순서 <select id="it-order"><option value="id">ID 순</option><option value="worst" ${st.order === "worst" ? "selected" : ""}>첫 답 점수 낮은 것부터</option></select></label>
       <span class="muted" id="it-stat"></span>
     </div>
     <div class="bar">${["task_group", "scenario", "label_format", "doc_type"].map(key => `<label>${TRACKING_TITLE[key]} <select data-track-filter="${key}" ${summary?'':'disabled'}><option value="">전체</option>${Object.keys(summary?.all.by[key] || {}).map(v => `<option value="${esc(v)}" ${st.filters[key] === v ? "selected" : ""}>${esc(trackName(v))}</option>`).join("")}</select></label>`).join("")}<label><input type="checkbox" id="it-evaluation-only" ${summary?'':'disabled'} ${st.evaluationOnly?'checked':''}> 평가 문항만</label><button id="it-clear-filters">필터 초기화</button></div>
-    <div class="keys-help">초록 박스 = 정답, 파랑 점선 = 질문 영역, 주황·보라·청록 = 모델 답. 점수는 채점한 뒤에 보입니다 (모델 답 탭).</div>
+    <div class="keys-help">초록 박스 = 정답, 파랑 점선 = 질문 영역. 모델 답과 점수는 학습 서버 결과의 answers.html 에서 봅니다 (guide/results.md).</div>
     <div id="it-list"></div>
     <div class="bar"><button id="it-prev">◀ 이전</button><button id="it-next">다음 ▶</button></div>`;
   let offset = 0;
   const load = async () => {
-    st.task = $("#it-task").value; st.order = $("#it-order").value;
-    st.pids = $$("[data-pid]").filter(x => x.checked).map(x => x.dataset.pid);
+    st.task = $("#it-task").value;
     st.filters = Object.fromEntries($$("[data-track-filter]").map(x => [x.dataset.trackFilter, x.value]));
     st.evaluationOnly = $("#it-evaluation-only").checked;
     store.set(`ds.${d.id}`, st);
     $("#it-stat").textContent = "읽는 중…";
     try {
       const r = await api(`/api/datasets/${encodeURIComponent(d.id)}/items?task=${encodeURIComponent(st.task)}&offset=${offset}&limit=10` +
-        `&pids=${st.pids.join(",")}&order=${st.order}&evaluation_only=${st.evaluationOnly}&q=${encodeURIComponent($("#it-q").value.trim())}&${new URLSearchParams(st.filters)}`);
+        `&evaluation_only=${st.evaluationOnly}&q=${encodeURIComponent($("#it-q").value.trim())}&${new URLSearchParams(st.filters)}`);
       $("#it-stat").textContent = `${r.total}개 중 ${r.total ? offset + 1 : 0}–${Math.min(r.total, offset + 10)}`;
       $("#it-list").innerHTML = r.items.map(it => `
         <div class="panel ds-item">
@@ -204,8 +180,6 @@ async function dsItems(d) {
             <div class="ds-text">
               <div class="muted">질문</div><div class="prompt">${esc(it.prompt)}</div>
               <div class="muted">정답</div><div>${showAns(it.answer)}</div>
-              ${it.preds.map(p => `<div class="muted">${esc(p.label)} ${p.score === null || p.score === undefined ? "" : `· 문항 점수 <b>${(p.score * 100).toFixed(0)}</b>`}</div>
-                <div>${p.output === null || p.output === undefined ? `<span class="muted">(답 없음)</span>` : `<pre class="ans">${esc(p.output)}</pre>`}</div>`).join("")}
             </div>
           </div>
         </div>`).join("") || `<p class="muted">문항이 없습니다.</p>`;
@@ -214,93 +188,14 @@ async function dsItems(d) {
     } catch (e) { $("#it-stat").innerHTML = `<span class="err">${esc(e.message)}</span>`; }
   };
   $("#it-task").onchange = () => { offset = 0; load(); };
-  $("#it-order").onchange = () => { offset = 0; load(); };
   $("#it-q").onchange = () => { offset = 0; load(); };
   $$("[data-track-filter]").forEach(x => x.onchange = () => { offset = 0; load(); });
   $("#it-evaluation-only").onchange = () => { offset = 0; load(); };
   $("#it-clear-filters").onclick = () => { $$("[data-track-filter]").forEach(x => { x.value = ""; }); $("#it-evaluation-only").checked = false; offset = 0; load(); };
-  $$("[data-pid]").forEach(x => x.onchange = () => { offset = 0; load(); });
   $("#it-prev").onclick = () => { offset = Math.max(0, offset - 10); load(); };
   $("#it-next").onclick = () => { offset += 10; load(); };
   load();
 }
-
-// 모델 답 ------------------------------------------------------------------
-function scoreTable(rows, tasks) {
-  return `<table><thead><tr><th>모델 답</th><th>채점</th>${tasks.map(t => `<th class="num" title="${t}${TASK_HINT[t] ? " · " + esc(TASK_HINT[t]) : ""}">${esc(TASK_KO[t] || t)}</th>`).join("")}</tr></thead>
-    <tbody>${rows.map(s => `<tr><td>${esc(s.label)}${s.dataset_name ? ` <span class="muted">· ${esc(s.dataset_name)}</span>` : ""}</td>
-      <td class="muted nw">${esc(s.scored_at || "")}${s.answered !== undefined ? ` · 답 ${s.answered}/${s.n}` : ""}</td>
-      ${tasks.map(t => { const m = (s.main || {})[t]; return `<td class="num" title="${m ? esc(m.metric) : ""}">${m && m.value !== null && m.value !== undefined ?
-        `${pct(m.value)}${LOWER_BETTER.has(m.metric) ? "<sup>↓</sup>" : ""}` : "-"}</td>`; }).join("")}</tr>`).join("")}</tbody></table>`;
-}
-
-async function dsRuns(d) {
-  const reps = await api(`/api/datasets/${encodeURIComponent(d.id)}/reports`).catch(() => ({ reports: [] }));
-  const tasks = Object.keys(d.tasks);
-  $("#tab").innerHTML = `
-    <div class="panel" style="margin-bottom:12px"><b>모델 답 붙이기</b>
-      <div class="bar" style="margin-top:6px"><input type="text" id="rn-path" style="width:560px"
-        placeholder="runs/<실험>/ (학습 실행 train/) · 예측 폴더 (docgen.bench run) · 답 파일 .jsonl">
-        <input type="text" id="rn-label" placeholder="이름 (선택)" style="width:160px"><button class="primary" id="rn-go">붙이기</button></div>
-      <div class="muted" style="font-size:12px">줄마다 {"id", "prediction"} 또는 {"id", "output"}. 붙인 폴더에는 쓰지 않습니다.</div></div>
-    <h2>모델 답 ${d.predictions.length}개</h2>
-    ${d.predictions.length ? table(d.predictions, [["label", "이름"], ["run", "붙인 결과"], ["path", "파일", p => `<span class="mono muted" style="font-size:12px">${esc(p.path)}</span>`],
-      ["act", "", p => `<button data-score="${p.pid}">${d.scores.some(s => s.pid === p.pid) ? "다시 채점" : "채점"}</button>
-        <a href="#/datasets/${encodeURIComponent(d.id)}/items" data-look="${p.pid}">문항 보기</a>`]]) : `<p class="muted">붙인 모델 답이 없습니다.</p>`}
-    <h2>studio 채점 결과 <span class="muted" style="font-weight:400;font-size:13px">명령줄 채점·학습 보상과 같은 함수 (docgen.bench.evaluate)</span></h2>
-    ${d.scores.length ? scoreTable(d.scores, tasks) : `<p class="muted">아직 채점하지 않았습니다.</p>`}
-    ${d.gt === "pseudo" ? `<p class="muted">정답이 의사정답이라 점수는 "사내 OCR·추론과 얼마나 같은지"입니다.</p>` : ""}
-    <h2>파이프라인이 낸 점수 파일</h2>
-    ${reps.reports.length ? reps.reports.map(r => `<details class="panel"><summary>${esc(r.name)} <span class="muted mono">${esc(r.file)}</span></summary>
-      ${table(Object.entries(r.tasks).map(([t, m]) => ({ t, m })), [["t", "과제", x => `<span title="${esc(TASK_HINT[x.t] || x.t)}">${esc(TASK_KO[x.t] || x.t)}</span>`],
-        ["m", "지표", x => Object.entries(x.m.metrics || x.m).filter(([, v]) => typeof v === "number").slice(0, 8)
-          .map(([k, v]) => `${esc(k)} ${v <= 1 ? pct(v) : v}`).join(" · ")]])}</details>`).join("") : `<p class="muted">없음</p>`}`;
-  $("#rn-go").onclick = async () => {
-    try {
-      await api(`/api/datasets/${encodeURIComponent(d.id)}/runs`, { path: $("#rn-path").value.trim(), label: $("#rn-label").value.trim() });
-      toast("붙였습니다"); viewDataset(d.id, "runs");
-    } catch (e) { toast(e.message, true); }
-  };
-  $("#tab").onclick = async e => {
-    const pid = e.target.dataset.score, look = e.target.dataset.look;
-    if (look) { const st = store.get(`ds.${d.id}`, { task: tasks[0], pids: [], order: "id" }); st.pids = [look]; st.order = "worst"; store.set(`ds.${d.id}`, st); return; }
-    if (!pid) return;
-    e.target.disabled = true; e.target.textContent = "채점 중…";
-    try { await api(`/api/datasets/${encodeURIComponent(d.id)}/score`, { pid }); toast("채점했습니다"); viewDataset(d.id, "runs"); }
-    catch (err) { toast(err.message, true); e.target.disabled = false; }
-  };
-}
-
-// ⑦ 평가: 여러 데이터셋의 점수를 한 표로 ------------------------------------------
-async function view_eval() {
-  const r = await api("/api/datasets");
-  const sel = store.get("eval.ids", r.datasets.filter(d => d.n_scores).map(d => d.id));
-  main().innerHTML = `
-    <h1>평가</h1>
-    <div class="sub">채점한 모델 답을 데이터셋끼리 나란히 봅니다: 모델끼리, 버전끼리, 합성·실서류, 의사정답·검수 정답.
-      채점은 데이터셋 화면의 모델 답 탭에서 합니다.</div>
-    <div class="panel" style="margin-bottom:12px">${r.datasets.length ? r.datasets.map(d => `<label style="margin-right:12px">
-      <input type="checkbox" data-ds="${esc(d.id)}" ${sel.includes(d.id) ? "checked" : ""}> ${dsTag(d)} ${esc(d.name)}
-      <span class="muted">(${esc(d.source)}·${esc(d.gt)}${d.real_data ? "·실서류" : ""}, 점수 ${d.n_scores})</span></label>`).join("")
-      : `<span class="muted">등록된 데이터셋이 없습니다 (데이터셋 메뉴에서 만들기).</span>`}</div>
-    <div id="ev-out"></div>`;
-  const draw = async () => {
-    const ids = $$("[data-ds]").filter(x => x.checked).map(x => x.dataset.ds);
-    store.set("eval.ids", ids);
-    if (!ids.length) { $("#ev-out").innerHTML = ""; return; }
-    const c = await api(`/api/compare?ids=${ids.map(encodeURIComponent).join(",")}`);
-    const out = [];
-    for (const g of ["ocr", "doc", "work"]) {   // 과제 묶음마다 표 하나 (한 데이터셋이 여러 묶음에 걸칠 수 있다)
-      const tasks = [...new Set(c.rows.flatMap(x => Object.keys(x.main || {})))].filter(t => (TASK_GROUP[t] || "doc") === g);
-      const rows = c.rows.filter(x => tasks.some(t => (x.main || {})[t]));
-      if (rows.length) out.push(`<h2>${GROUP_NAME[g]}</h2>${scoreTable(rows, tasks)}`);
-    }
-    $("#ev-out").innerHTML = out.join("") || `<p class="muted">고른 데이터셋에 채점 결과가 없습니다.</p>`;
-  };
-  $$("[data-ds]").forEach(x => x.onchange = draw);
-  draw();
-}
-
 
 // 업무 묶음 -----------------------------------------------------------------
 async function dsBundles(d) {
@@ -418,56 +313,4 @@ async function viewBundle(id, bid) {
     };
   };
   draw();
-}
-
-// 학습 -------------------------------------------------------------------
-async function trainingsPanel() {
-  const r = await api("/api/trainings").catch(() => ({ trainings: [] }));
-  if (!r.trainings.length) return "";
-  return `<h2>학습 기록</h2>${table(r.trainings, [["name", "학습"],
-    ["stages", "진행", t => t.started ? t.stages.map(s => `<span class="tag ${s.done ? "ok" : ""}" title="${esc(s.id)}">${esc(s.name)}</span>`).join("") : `<span class="muted">아직 시작 안 함</span>`],
-    ["command", "실행할 명령 (학습 컨테이너, 저장소 최상위에서)", t => `<span class="mono" style="font-size:12px">${esc(t.command)}</span>`],
-    ["benchmark", "평가 세트", t => (t.benchmark || []).map(b => `<a href="#/datasets/${encodeURIComponent(b)}/runs">${esc(b)}</a>`).join(", ") + (t.attached ? " ✓ 결과 붙음" : "")],
-    ["benchmark_units", "평가 단위", t => (t.benchmark_units || []).map(u=>`${esc(u.name)} · ${esc(u.id)} (${u.datasets.length}개)`).join('<br>')],
-    ["report", "평가 보고서", t => t.finished ? `<a href="/api/trainings/${encodeURIComponent(t.name)}/report/benchmark.html" target="_blank" rel="noopener">벤치마크별 비교</a>` : '—']])}`;
-}
-
-async function dsTrain(d) {
-  const all = (await api("/api/datasets")).datasets.filter(x => x.format === "docgen-tasks");
-  const hasTrain = x => ["train", "mixed"].includes(x.split) || (x.counts || {}).train_items;
-  const train = all.filter(hasTrain), bench = all.filter(x => x.split !== "train");
-  const benchmarkEditor = benchmarkConfigEditor(bench, d.split === 'train' ? null : d.id);
-  const row = (x, kind) => `<label style="display:block"><input type="checkbox" data-${kind}="${esc(x.id)}" ${x.id === d.id && (kind === "train" ? hasTrain(d) : d.split !== "train") ? "checked" : ""}>
-    ${dsTag(x)} ${esc(x.name)} <span class="muted">${esc(x.id)}</span>${kind === "train" ? ` <input type="number" min="1" placeholder="문항 수 (비우면 다)" data-count="${esc(x.id)}" style="width:150px">` : ""}</label>`;
-  $("#tab").innerHTML = `
-    <div class="sub">학습은 하나입니다 (<span class="mono">python -m train</span>): OCR·문서 이해·업무 처리 과제 데이터셋을 함께 골라 섞습니다.
-      studio 는 학습을 실행하지 않습니다. 설정 파일을 <span class="mono">train/configs/studio-&lt;이름&gt;.json</span>에 쓰고 학습 컨테이너에서 실행할 명령을 보여 줍니다.
-      진행은 공유 폴더의 state.json 으로 보고, 끝나면 고른 평가 세트마다 모델 답으로 붙습니다 (guide/training.md).</div>
-    <div class="panel">
-      <label class="fld">학습 이름 <input type="text" id="tr-name" value="${esc(d.id)}-${new Date().toISOString().slice(0, 10)}"></label>
-      <div class="fld">학습 데이터 (학습 문항이 있는 데이터셋, 문항 수를 적으면 그만큼만 무작위로) ${train.map(x => row(x, "train")).join("") || `<span class="muted">없음</span>`}</div>
-      ${benchmarkEditor.html}
-      <div class="bar"><button id="tr-preview">설정 미리보기</button><button class="primary" id="tr-save">설정 파일 쓰기</button></div>
-      <div id="tr-out"></div>
-    </div>
-    ${await trainingsPanel()}`;
-  benchmarkEditor.mount();
-  const req = () => {
-    if(!state.info?.features?.benchmark_units) throw new Error('벤치마크 평가 단위 설정을 사용하려면 Studio 서버를 재시작하세요.');
-    const units=benchmarkEditor.read();
-    return { train: $$("[data-train]").filter(x => x.checked).map(x => x.dataset.train),
-    counts: Object.fromEntries($$("[data-count]").filter(x => x.value).map(x => [x.dataset.count, +x.value])),
-    benchmark: [...new Set(units.flatMap(x=>x.datasets))], benchmark_units: units, name: $("#tr-name").value.trim() };
-  };
-  const show = info => {
-    $("#tr-out").innerHTML = `${(info.warnings || []).map(w => `<p class="kr">⚠ ${esc(w)}</p>`).join("")}
-      <div class="muted">파일 <span class="mono">train/${esc(info.file)}</span> (예시 파일과 합쳐서 씀) · ${esc(info.note || "")}</div>
-      <pre class="ans mono">${esc(JSON.stringify(info.config, null, 1))}</pre>
-      <div class="muted">학습 컨테이너의 저장소 최상위에서 실행</div><pre class="ans mono">${esc(info.command)}</pre>`;
-  };
-  $("#tr-preview").onclick = async () => { try { show(await api("/api/training/preview", req())); } catch (e) { toast(e.message, true); } };
-  $("#tr-save").onclick = async () => {
-    try { const rec = await api("/api/training/save", req()); toast(`썼습니다: ${rec.written}`); dsTrain(d); }
-    catch (e) { toast(e.message, true); }
-  };
 }

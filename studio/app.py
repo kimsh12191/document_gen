@@ -28,8 +28,7 @@ API
                                       · DELETE /api/marks/pools/{풀}/{id}
   GET  /preview/...                   미리보기 이미지 · /marks-img/... 풀 이미지 · /fonts/... 손글씨 글꼴
   (⑥⑦ 등록부·채점: api_datasets.py, ③⑥⑧ 레시피·빌드·작업·업무 묶음·학습 설정: api_bank.py,
-   키 사전: api_keys.py·api_dictionary.py, ④ 서류 넣기: api_intake.py, ④⑤ 이미지 묶음·OCR 검수: api_import.py, ④ 라벨 있는 데이터: api_labels.py, ④ 결과 폴더·⑤ 라벨 검수: api_review.py,
-   ① html 편집·복제·⑧ 분석기: api_html.py)
+   키 규칙·키 사전: api_keys.py·api_dictionary.py, ① html 편집·복제: api_html.py)
 """
 from __future__ import annotations
 
@@ -49,7 +48,7 @@ from pydantic import BaseModel, Field
 from docgen import marks as M
 from docgen.preview import CONDITIONS, MODES, Previewer
 
-from . import api_bank, api_datasets, api_dictionary, api_form_draft, api_html, api_import, api_intake, api_keys, api_labels, api_review, api_real_benchmark, catalog, editor, marks_admin
+from . import api_bank, api_datasets, api_dictionary, api_html, api_keys, catalog, editor, marks_admin
 from . import datasets as DS
 from .jobs import Jobs
 from .config import ROOT, load, resolve_path, setup_browser
@@ -135,17 +134,9 @@ REGISTRY = DS.Registry(resolve_path(CFG["workspace_dir"]), CFG.get("path_map") o
 JOBS = Jobs(REGISTRY.ws, ROOT)
 app.include_router(api_datasets.make_router(REGISTRY, guard, JOBS))
 app.include_router(api_bank.make_router(REGISTRY, JOBS, guard))
-# 실서류 검수 결과 (OCR 검수본 등). 설정이 없으면 작업 공간 안에 두고 화면에 경고한다
-REAL_ROOT = resolve_path(CFG.get("real_data_dir")) or REGISTRY.ws / "real_data"
-app.include_router(api_real_benchmark.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT))
-app.include_router(api_import.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT / "ocr_reviewed"))
-app.include_router(api_labels.make_router(REGISTRY, JOBS, guard, CFG))
-app.include_router(api_html.make_router(REGISTRY, JOBS, guard, CFG, previewer, lambda p: f"/preview/{p}"))   # html 편집·복제·분석기
-app.include_router(api_review.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT))   # 결과 폴더 검사, 라벨 검수
-app.include_router(api_intake.make_router(REGISTRY, JOBS, guard, CFG, REAL_ROOT))   # ④ 서류 넣기
-app.include_router(api_keys.make_router(guard))   # 키 사전 (키 규칙·값 종류)
-app.include_router(api_dictionary.make_router(guard))   # 키 사전 (당사자 계층·문서 분류·업무·합치기)
-app.include_router(api_form_draft.make_router(REGISTRY, JOBS, guard, CFG))   # 서식 초안 (예시 이미지 → html·키 추천)
+app.include_router(api_html.make_router(REGISTRY, JOBS, guard, CFG, previewer, lambda p: f"/preview/{p}"))   # html 편집·복제
+app.include_router(api_keys.make_router(guard))   # 키 규칙·값 종류 (영역 편집기의 키·생성 방법 고르기)
+app.include_router(api_dictionary.make_router(guard))   # 키 사전 (영역 편집기의 키 고르기)
 app.mount("/fonts", StaticFiles(directory=ROOT / "docgen" / "fonts"), name="fonts")   # 손글씨 글꼴 (화면의 글꼴 미리보기)
 
 
@@ -159,8 +150,8 @@ def info():
     return {
         "features": {"benchmark_units": True},
         "config_file": CFG["config_file"], "browser": BROWSER, "cache_dir": str(CACHE),
-        "paths": {k: CFG[k] for k in ("workspace_dir", "import_dir", "real_data_dir", "private_forms_dir")},
-        "ocr": CFG["ocr"], "providers": sorted(CFG["providers"]),
+        "paths": {k: CFG[k] for k in ("workspace_dir", "private_forms_dir")},
+        "ocr": CFG["ocr"],
         "conditions": CONDITIONS, "modes": MODES, "user": USER,
     }
 

@@ -10,7 +10,6 @@ from docgen import registry as R
 from docgen.bench import build as BUILD
 from studio import bank_data as BD
 from studio import datasets as DS
-from studio import training_link as TL
 
 
 def _args(**kw):
@@ -98,39 +97,6 @@ def _bench(tmp_path, name, split, split_counts=None):
         (root / "tasks" / "classify.jsonl").rename(root / "tasks" / "crop_ocr.jsonl")
     (root / "meta.json").write_text(json.dumps(meta), encoding="utf-8")
     return root
-
-
-def test_training_config_and_status(tmp_path, monkeypatch):
-    """학습 하나 (train/): 업무 학습 세트 + OCR 준비 결과(문항 수 제한)를 함께, 평가 세트 둘에 결과를 붙인다."""
-    monkeypatch.setitem(TL.DIRS, "train", tmp_path / "train")
-    (tmp_path / "train" / "configs").mkdir(parents=True)
-    (tmp_path / "train" / "configs" / "pipeline.example.json").write_text(
-        json.dumps({"workdir": "../runs/exp1", "ocr_prepare": "../../ocr_config.json", "model": "/m", "data": {"sft_max_examples": 20000}}), encoding="utf-8")
-    reg = DS.Registry(tmp_path / "ws", {str(tmp_path): "/share/x"})
-    t = reg.register(str(_bench(tmp_path, "train1", "train")))
-    b = reg.register(str(_bench(tmp_path, "bench1", "test")))
-    o = reg.register(str(_bench(tmp_path, "ocr1", "mixed", {"train": 5, "benchmark": 2})))
-    with pytest.raises(ValueError):
-        TL.training_config(reg, [b["id"]], [b["id"]], "t")   # 평가 세트를 학습에
-    info = TL.training_config(reg, [{"id": t["id"]}, {"id": o["id"], "count": 3}], [b["id"], o["id"]], "exp 1")
-    data = info["config"]["data"]
-    assert data["train"] == [{"path": "/share/x/train1"}, {"path": "/share/x/ocr1", "count": 3}]
-    assert data["benchmark"] == ["/share/x/bench1", "/share/x/ocr1"]
-    assert info["file"] == "configs/studio-exp-1.json" and info["command"] == "python -m train --config train/configs/studio-exp-1.json"
-    assert any("고정" in w for w in info["warnings"])
-    rec = TL.write_training(reg, info, [t["id"], b["id"], o["id"]], [b["id"], o["id"]], "exp 1")
-    written = json.loads((tmp_path / "train" / "configs" / "studio-exp-1.json").read_text(encoding="utf-8"))
-    assert "ocr_prepare" not in written   # 가진 이미지 OCR 준비는 손으로 넣는 칸
-    assert written["model"] == "/m" and written["data"]["sft_max_examples"] == 20000 and written["data"]["train"][1]["count"] == 3
-    st = TL.status(reg, rec)
-    assert not st["started"] and not st["finished"]
-    wd = (tmp_path / "train" / "runs" / "exp-1")
-    (wd / "predictions").mkdir(parents=True)
-    (wd / "predictions" / "base.jsonl").write_text('{"id": "x", "prediction": "a"}\n', encoding="utf-8")
-    (wd / "state.json").write_text(json.dumps({"done": TL.STAGES}), encoding="utf-8")
-    st = TL.status(reg, rec)
-    assert st["finished"] and st["attached"]
-    assert [r["label"] for r in reg.get(b["id"])["runs"]] == ["학습 exp-1"] == [r["label"] for r in reg.get(o["id"])["runs"]]
 
 
 def test_jobs_run_and_on_done(tmp_path):

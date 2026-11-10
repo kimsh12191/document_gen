@@ -66,7 +66,7 @@ const routes = [];
 const addRoute = (rx, fn, menu) => routes.push([rx, fn, menu]);
 // 메뉴마다 "이 화면 도움말" 이 여는 설명서 자리 (guide/studio.md 의 절)
 const HELP = { forms: "studio.md#1-서식", "new-forms": "studio.md#2-새-서식-추가", datasets: "studio.md#3-데이터셋",
-  scenarios: "studio.md#4-돕는-메뉴", keys: "keys.md", marks: "studio.md#4-돕는-메뉴", "ocr-examples": "benchmark.md", guide: "README.md" };
+  marks: "studio.md#4-돕는-메뉴", "ocr-examples": "benchmark.md", guide: "README.md" };
 const leaveGuards = [];   // 저장 안 한 편집이 있으면 화면을 떠나기 전에 묻는다
 
 window.addEventListener("keydown", e => state.keyHandler && state.keyHandler(e));
@@ -242,12 +242,6 @@ function scrollRowIntoView(box, row) {
   if (!box || !row) return;
   const rr = row.getBoundingClientRect(), sr = box.getBoundingClientRect();
   if (rr.top < sr.top || rr.bottom > sr.bottom) box.scrollTop += rr.top - sr.top - sr.height / 3;
-}
-
-// view_<메뉴> 가 없는 메뉴: 무엇이 들어올지 보여 준다 (misc.js 의 PLANS. 지금은 모든 메뉴에 화면이 있어 쓰이지 않는다)
-function viewPlan(title, stage, items) {
-  main().innerHTML = `<div class="plan"><h1>${title}</h1><div class="sub">${stage}에서 구현합니다. 설계: <span class="mono">studio/DESIGN.md</span></div>
-    <div class="panel"><ul>${items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></div></div>`;
 }
 
 // 간단한 표 (rows: 객체 목록, cols: [[키, 제목, 셀 함수?, 숫자?]])

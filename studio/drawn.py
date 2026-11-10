@@ -1,9 +1,10 @@
 """그려서 만드는 overlay 서식: 서식 그림(PNG·JPG·PDF)을 올리면 OCR 없이 그 그림을 배경으로 하는 image 서식 img_* 를 만든다.
 칸은 비어 있고, 사람이 영역 편집기에서 칸을 그리고 항목명·키·값 출처를 붙인다 (guide/new-forms.md "그림 위에 그려서 만들기").
 
-가져오기(studio/importer.py create_template)와 같은 서식 폴더 꼴이다. 다른 점:
-  - OCR 을 부르지 않는다. 그래서 배경 글자(layout.json texts)가 없다 → 합성 OCR 세트(docgen.ocr_set)에서는 빠진다
-    (쪽 전체 글자 정답을 만들 수 없음). 문서 이해 과제(분류·kie·표·체크 …)는 칸만으로 만들어진다.
+서식 폴더 꼴은 image 서식 img_* 그대로다. 다른 점:
+  - 만들 때 OCR 을 부르지 않는다. 배경 글자(layout.json texts)는 영역 편집기에서 사내 OCR 로 읽어 채운다 (아래 read_texts).
+    채우지 않으면 합성 OCR 세트(docgen.ocr_set)에서는 빠진다 (쪽 전체 글자 정답을 만들 수 없음).
+    문서 이해 과제(분류·kie·표·체크 …)는 칸만으로 만들어진다.
   - 쪽 크기를 A4 에 맞춘다: 긴 변이 A4 긴 변(842pt)이 되게 그림을 줄이거나 키운다. 그림 해상도가 달라도 값 글자 크기가 서류다워진다.
 
 실서류 견본(값이 적힌 서류)에서 만든 서식은 사내 서식 폴더(private_forms_dir)에만 둔다. 빈 서식·공개 서식만 저장소 docgen/forms/<ID>/.
@@ -98,16 +99,29 @@ def create(files: list[tuple[str, bytes]], form_id: str, name: str, real_data: b
 
 
 
+OCR_CONFIG = Path(__file__).resolve().parents[1] / "docgen" / "bench" / "ocr_config.example.json"   # mapping 기본값
+
+
+def ocr_settings(ocr: dict | None) -> dict:
+    """studio 설정의 ocr → 부를 함수·버전·캐시 폴더·결과 읽는 법(mapping). 옛 이름 internal_ocr_adapter:… 는 studio 로 옮긴 것."""
+    o = dict(ocr or {})
+    name = o.get("callable") or "studio.internal_ocr_adapter:ocr_from_file"
+    o["callable"] = f"studio.{name}" if name.startswith("internal_ocr_adapter:") else name
+    o.setdefault("revision", "")
+    o.setdefault("cache_dir", str(Path(__file__).resolve().parents[1] / "studio_cache" / "ocr"))
+    if not o.get("mapping"):
+        o["mapping"] = json.loads(OCR_CONFIG.read_text(encoding="utf-8"))["mapping"]
+    return o
+
+
 def read_texts(doc_id: str, ocr: dict | None, replace: bool = False) -> dict:
     """그린 서식의 배경 그림을 사내 OCR 로 읽어 layout.json 의 texts (배경 글자) 를 채운다 → 합성 OCR 세트에 들어갈 수 있다.
-    가져오기(studio/importer.py)와 같은 OCR 설정·캐시. 지운 곳의 글자는 정답에서 빠진다 (docgen/ocr_export.background_words).
+    OCR 설정·캐시는 OCR 준비(docgen.bench.ocr_prepare)와 같은 키. 지운 곳의 글자는 정답에서 빠진다 (docgen/ocr_export.background_words).
     실서류 견본 그림이면 사내 OCR 로만 (외부로 보내지 않음, AGENTS.md 규칙 10)."""
     import os
 
     from docgen import realform as RF
     from docgen.bench.ocr_data import canonical_image, digest, dumps, load_callable, parse_ocr, write_json
-
-    from . import importer as IM
 
     d = RF.image_form_dir(doc_id)
     if d is None:
@@ -115,7 +129,7 @@ def read_texts(doc_id: str, ocr: dict | None, replace: bool = False) -> dict:
     lay = json.loads((d / "layout.json").read_text(encoding="utf-8"))
     if lay.get("texts") and not replace:
         raise ValueError(f"이미 배경 글자가 있습니다 ({len(lay['texts'])}개). 다시 읽으려면 바꾸기를 고르세요")
-    o = IM._ocr_settings({"ocr": ocr or {}})
+    o = ocr_settings(ocr)
     if not o.get("revision"):
         raise ValueError("사내 OCR 설정이 없습니다 (studio 설정의 ocr.callable·revision). 사내 OCR 은 내부망에서만 쓸 수 있습니다")
     if o.get("base_url"):
