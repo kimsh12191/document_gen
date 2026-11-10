@@ -67,7 +67,7 @@ def questions(mod) -> list[tuple[str, callable]]:
 
 
 def values(fields: list[dict]) -> dict:
-    """그린 칸 목록 → v {키: 값}. 빈 칸은 뺀다. 질문 키와 서식의 원래 키(doc_key) 둘 다."""
+    """그린 칸 목록 → v {키: 값}. 빈 칸은 뺀다."""
     from .bench.metrics import is_null
 
     v = {}
@@ -81,9 +81,7 @@ def values(fields: list[dict]) -> dict:
             val = None if is_null(f.get("value")) else f["value"]
         if val is None:
             continue
-        for k in (f["key"], f.get("doc_key")):
-            if k:
-                v.setdefault(k, val)
+        v.setdefault(f["key"], val)
     return v
 
 
@@ -225,7 +223,7 @@ def check(doc_id: str, docs: list[list[dict]]) -> dict:
     notes, failed = [], bool(problems)   # 실행 오류가 났으면 그 뒤 문서는 돌리지 않았으니 "안 물음" 은 따지지 않는다
     for r in rows.values():
         if not r["asked"] and not failed:
-            miss = sorted(r["missing"] - {k for fs in docs for f in fs for k in (f["key"], f.get("doc_key")) if k})
+            miss = sorted(r["missing"] - {f["key"] for fs in docs for f in fs})
             problems.append(f"qa.py {r['name']}(): 그려 본 {len(docs)}개 문서에서 한 번도 묻지 않습니다"
                             + (f" — 칸에 없는 키 {miss}" if miss else " (칸이 늘 비었거나 None 을 돌려줌)"))
         elif r["asked"] < len(docs):

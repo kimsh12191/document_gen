@@ -44,8 +44,8 @@ def test_builder_single_is_the_task_files_in_order_and_answers_score_perfectly(t
     direct = T.make_single(r, "images/resident_id_card_42", tmp_path, 6, 40)
     assert [x["id"] for x in built] == [x["id"] for x in direct]
     assert all(x["answer"] == y["answer"] and x["prompt"] == y["prompt"] for x, y in zip(built, direct))
-    kie = next(x for x in direct if x["task"] == "kie")   # 성명은 키 사전의 공통 키로 묻는다
-    assert kie["answer"] == [{"key": "customer.name", "value": "홍길동", "bbox_2d": [100, 50, 600, 150], "page": 1},
+    kie = next(x for x in direct if x["task"] == "kie")   # 키는 서식의 키 그대로
+    assert kie["answer"] == [{"key": "name", "value": "홍길동", "bbox_2d": [100, 50, 600, 150], "page": 1},
                              {"key": "amount", "value": "1,000원", "bbox_2d": [100, 200, 600, 300], "page": 1},
                              {"key": "memo", "value": None}]
     marks = next(x for x in direct if x["task"] == "marks")

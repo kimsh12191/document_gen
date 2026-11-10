@@ -232,8 +232,7 @@ def excluded(q: dict | None, task: str, fields: list[dict], fq: dict | None = No
 # ---------------------------------------------------------------------------
 
 def seen_fields(doc_id: str, seeds: int = 8) -> list[list[dict]]:
-    """여러 seed 로 그린 칸 목록 (공통 키 적용, 위치 없이). 평가·학습 세트의 seed 범위에서 고른다."""
-    from . import dictionary as DIC
+    """여러 seed 로 그린 칸 목록 (위치 없이). 평가·학습 세트의 seed 범위에서 고른다."""
     from .bench.build import SPLITS
     from .entities import make_profile
     from .registry import load_all
@@ -245,7 +244,7 @@ def seen_fields(doc_id: str, seeds: int = 8) -> list[list[dict]]:
     for start in (SPLITS["test"][0], SPLITS["train"][0]):
         for k in range(seeds):
             _, raw, _ = render(spec, make_profile(start + k), start + k)
-            out.append(DIC.apply(doc_id, build_fields(raw)))
+            out.append(build_fields(raw))
     return out
 
 
@@ -254,7 +253,7 @@ MARK_KIND = {"checkbox": "체크박스", "checkbox_multi": "복수 선택", "sea
 
 def field_rows(task: str, docs: list[list[dict]]) -> list[dict]:
     """여러 번 그린 문서에서 kie·marks 로 물을 수 있는 칸 (문서 순서, 반복 행은 *):
-    [{"key", "label"(그릴 때마다 같으면), "labels", "from"?, "kind"?, "options"?, "seen": 나온 문서 수, "of": 그린 수}]."""
+    [{"key", "label"(그릴 때마다 같으면), "labels", "kind"?, "options"?, "seen": 나온 문서 수, "of": 그린 수}]."""
     from .bench.tasks import kie, marks
 
     choose = {"kie": kie.items, "marks": marks.items}[task]
@@ -266,8 +265,6 @@ def field_rows(task: str, docs: list[list[dict]]) -> list[dict]:
             r = rows.setdefault(k, {"key": k, "labels": [], "seen": 0, "of": len(docs)})
             if f.get("label") not in r["labels"]:
                 r["labels"].append(f.get("label"))
-            if f.get("doc_key") and f["doc_key"] != f["key"]:
-                r.setdefault("from", pattern(f["doc_key"]))
             if task == "marks":
                 r.setdefault("kind", MARK_KIND[f["type"]])
                 if f.get("options"):

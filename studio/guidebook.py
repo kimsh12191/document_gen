@@ -8,7 +8,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from docgen import dictionary as DIC
 from docgen.bench.contracts import contracts
 from docgen.bench.processing import validate, RULE_TITLES
 from docgen.bench.cases import CASES
@@ -63,7 +62,7 @@ def catalog() -> dict:
     forms = []
     for spec in reg.values():
         fields = schema.get(spec.id, {}).get("keys", [])
-        mapped = DIC.apply(spec.id, fields)
+        mapped = fields
         uses = []
         for scenario in scenarios:
             roles = [d for d in scenario["docs"] if d == spec.id or

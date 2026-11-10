@@ -4,7 +4,7 @@
   python -m docgen.formdir card <ID>… | --all [--stale] [--workers N]   만들기 (그림을 실제로 그려 위치를 잰다)
   python -m docgen.formdir card --all --check                          오래된 카드 (원본이 바뀐 뒤 안 다시 만든 것)
 
-카드 머리의 card-hash 는 이 서식의 파일(서식 해시)·fields.json(질문 설정 q 포함)·questions.json·공통 기본 질문·키 규칙·키 사전의
+카드 머리의 card-hash 는 이 서식의 파일(서식 해시)·fields.json(질문 설정 q 포함)·questions.json·공통 기본 질문·키 규칙의
 해시다. 그중 하나라도 바뀌면 "오래됨".
 엔진 코드(그리기·채점)가 바뀌는 것은 카드를 오래됨으로 만들지 않는다.
 """
@@ -47,7 +47,7 @@ def card_hash(doc_id: str) -> str:
     from . import formquestions as FQ
     from .preview import source_hash
 
-    shared = [SHARED / "questions.json", SHARED / "key_rules.json", *sorted((SHARED / "dictionary").glob("*.json"))]
+    shared = [SHARED / "questions.json", SHARED / "key_rules.json"]
     from . import formqa
 
     own = [FQ.path(doc_id), formfields.path(doc_id)] + ([formqa.path(doc_id)] if formqa.path(doc_id).exists() else [])
@@ -171,7 +171,6 @@ def _scenarios(doc_id: str) -> list[str]:
 
 def render_card(doc_id: str, builder) -> str:
     """builder: docgen.bench.build.Builder (그림을 그려 위치를 잰다)."""
-    from . import dictionary as DIC
     from . import formdir, formfields
     from . import formquestions as FQ
     from .bench import tasks as T
@@ -193,7 +192,7 @@ def render_card(doc_id: str, builder) -> str:
         return tc[0] if tc and tc[1] >= 0 and (tcfg.get(tc[0]) or {}).get("ask") is not False else None
     docs = FQ.seen_fields(doc_id)
     view = FQ.resolved(doc_id, docs)
-    fields = {f["key"]: f for f in DIC.apply(doc_id, r["fields"])}
+    fields = {f["key"]: f for f in r["fields"]}
     from . import fieldinfo
 
     info = fieldinfo.entries(doc_id)
@@ -242,7 +241,7 @@ def render_card(doc_id: str, builder) -> str:
         helpers = sorted(set(re.findall(r"^\s*from docgen\.docs\.(\w+) import", gen_text, re.M)) - {"_common"})
         if helpers:
             L.append(f"| {', '.join(f'`docgen/docs/{h}.py`' for h in helpers)} (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |")
-    L += ["| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |", ""]
+    L += ["| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |", ""]
 
     # 추출 항목
     sections = []
@@ -267,11 +266,11 @@ def render_card(doc_id: str, builder) -> str:
         L += [f"## {title} — {sum(it['ask'] for it in its)}{unit}", ""]
         if unit == "열":
             L += ["행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.", ""]
-        L += ["| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |", "|---|---|---|---|---|---|---|---|---|"]
+        L += ["| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |", "|---|---|---|---|---|---|---|---|---|"]
         label_seen: dict = {}
         for it in its:
             f = by_pattern.get(it["key"])
-            key = f"`{it['key']}`" + (f" ← `{it['from']}`" if it.get("from") else "")
+            key = f"`{it['key']}`"
             first_label = (it["labels"] or [None])[0]
             label_seen[first_label] = label_seen.get(first_label, 0) + 1
             label = it["q_label"] or " / ".join(str(x) for x in it["labels"])
@@ -282,7 +281,7 @@ def render_card(doc_id: str, builder) -> str:
                 typ += f" ({' / '.join(it['options'])})"
             seen = "늘" if it["seen"] == it["of"] else f"{it['seen']}/{it['of']}"
             pos = _pos(f, r["sizes"]) + (" (1행)" if "*" in it["key"] else "")
-            orig = it.get("from") or it["key"]
+            orig = it["key"]
             ask = ("묻기" if it["ask"] else "안 묻기") + (" ← 바꿈" if "ask" in it["changed"] else "")
             e = info.get(orig) or {}
             if kind in ("code", "html"):
@@ -294,7 +293,6 @@ def render_card(doc_id: str, builder) -> str:
             L.append(f"| {key} | {label} | {typ} | {pos} | {seen} | {key_from} | {value_from} | {where} | {ask} |")
         L.append("")
     L += ["- **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.",
-          "- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).",
           "- **키는·값은:** 어디서 정해지나. 원본 서식의 \"규칙\"·\"항목명 자동\" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 "
           "항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `\"key\"`·`\"kind\"`·`\"source\"` 를 적습니다.",
           "- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸"
@@ -370,7 +368,7 @@ def render_card(doc_id: str, builder) -> str:
           '| 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |',
           '| 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |',
           '| 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |',
-          "| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |", "",
+          "| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |", "",
           "\"다시\" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.",
           f"확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions {doc_id} --show` · `python -m docgen.preview {doc_id} --out work/{doc_id}`", ""]
     return "\n".join(L)

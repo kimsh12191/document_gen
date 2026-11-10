@@ -68,27 +68,23 @@ def _near(label: str, labels: set) -> bool:
 
 
 def _taken(doc) -> tuple[set, set]:
-    keys = {f["key"] for f in doc.fields} | {f.get("doc_key") for f in doc.fields if f.get("doc_key")}
+    keys = {f["key"] for f in doc.fields}
     labels = {_norm(f.get("label")) for f in doc.fields if f.get("label")}
     return keys, labels
 
 
 def absent_keys(doc, n: int) -> list[dict]:
     """kie 에 섞을 없는 칸 n 개 (doc.rng 로 고름): [{"key", "label", "type", "value": None, "_absent": 서식}]."""
-    from .. import dictionary as DIC
-
     pool, _ = pools(doc.r["group"])
     keys, labels = _taken(doc)
     cand, seen = [], set()
     for form, key, label, t in pool:
         if form == doc.r["doc_id"] or key in keys or _near(label, labels):
             continue
-        ck = DIC.field_key(form, key)
-        ck = ck["key"] if ck and ck.get("common") else key
-        if ck in keys or ck in seen or _norm(label) in seen:
+        if key in seen or _norm(label) in seen:
             continue
-        seen.update((ck, _norm(label)))
-        cand.append({"key": ck, "label": label, "type": t, "value": None, "_absent": form})
+        seen.update((key, _norm(label)))
+        cand.append({"key": key, "label": label, "type": t, "value": None, "_absent": form})
     if not cand:
         return []
     return doc.rng.sample(cand, min(n, len(cand)))

@@ -254,7 +254,7 @@ async function tabOverview(d) {
   const name = t => formats[t]?.name || t;
   const seen = it => it.seen < it.of ? ` <span class="muted" title="그려 본 ${it.of}장 중 이 칸이 나온 장 수">${it.seen}/${it.of}장</span>` : "";
   const label = it => esc(it.q_label || it.label || (it.labels || []).filter(Boolean).join(" / ") || "-");
-  const keyList = items => `<table class="ov-keys"><thead><tr><th>키</th><th>항목명 (질문에 쓰는 이름)</th><th></th></tr></thead><tbody>${items.map(it =>
+  const keyList = items => `<table class="ov-keys"><thead><tr><th>키</th><th>키 설명 (질문에 쓰는 이름)</th><th></th></tr></thead><tbody>${items.map(it =>
     `<tr class="${it.ask === false ? "muted" : ""}"><td class="mono">${esc(it.column || it.key)}</td><td>${label(it)}${it.note ? ` <span class="muted">(${esc(it.note)})</span>` : ""}${seen(it)}</td>
       <td>${it.ask === false ? `<span class="tag">묻지 않음</span>` : ""}${(it.changed || []).length ? ` <span class="tag warn" title="fields.json 그 칸의 q">바꿈: ${esc(it.changed.join(", "))}</span>` : ""}</td></tr>`).join("")}</tbody></table>`;
   const asked = items => items.filter(it => it.ask !== false).length;
@@ -266,7 +266,7 @@ async function tabOverview(d) {
     [`${name("ocr_page")} · ${name("ocr_field")}${changed("ocr_page")}`, `보이는 글자 전체 받아쓰기 · 값 칸 하나 읽기${o.ocr_off.length ? ` <span class="muted">— 뺀 칸 ${o.ocr_off.length}: ${o.ocr_off.map(esc).join(", ")}</span>` : ""}`,
       go(["ocr_page"]), "뺄 칸: <span class=mono>fields.json</span> 그 칸 <code>q.ocr</code>"],
     [name("kie") + changed("kie"), `<details><summary>칸 <b>${asked(o.kie)}</b>개의 값·위치${o.kie.length - asked(o.kie) ? ` <span class="muted">(묻지 않음 ${o.kie.length - asked(o.kie)})</span>` : ""}</summary>${keyList(o.kie)}</details>`,
-      go(["kie"]), "묻는 칸·항목명: <span class=mono>fields.json</span> 그 칸 <code>q</code> · 문장·답 틀: <span class=mono>questions.json</span>"],
+      go(["kie"]), "묻는 칸·키 설명: <span class=mono>fields.json</span> 그 칸 <code>q</code> · 문장·답 틀: <span class=mono>questions.json</span>"],
     ...o.tables.map(t => [`표 <span class="mono">${esc(t.group)}</span>${t.title ? ` '${esc(t.title)}'` : ""}`,
       `<details><summary>열 <b>${asked(t.columns)}</b>개, 행 수는 서류마다 다름 · ${["table", "table_read", "table_find", "table_qa"].map(name).join(" · ")}${t.seen < o.docs ? ` <span class="muted">· ${o.docs}장 중 ${t.seen}장에 행 있음</span>` : ""}</summary>${keyList(t.columns)}</details>`,
       go(["table"]), "제목·표 아님: <span class=mono>questions.json</span> 의 <code>table</code> · 열: <span class=mono>fields.json</span> <code>q</code> · 행 순서: 값 만드는 곳"]),
@@ -295,7 +295,7 @@ async function tabCard(d) {
     const md = (c.markdown || "").split("\n").filter(l => !l.startsWith("<!--")).join("\n");
     box.innerHTML = `<div class="bar">
         <span class="mono muted">${esc(c.path)}</span>
-        ${c.markdown == null ? `<span class="tag warn">카드 없음</span>` : c.stale ? `<span class="tag warn" title="이 서식의 파일·questions.json·공통 질문·키 사전이 카드를 만든 뒤 바뀌었습니다">오래됨</span>` : `<span class="tag ok">최신</span>`}
+        ${c.markdown == null ? `<span class="tag warn">카드 없음</span>` : c.stale ? `<span class="tag warn" title="이 서식의 파일·questions.json·공통 질문이 카드를 만든 뒤 바뀌었습니다">오래됨</span>` : `<span class="tag ok">최신</span>`}
         <button id="cd-make">${c.markdown == null ? "카드 만들기" : "카드 다시 만들기"}</button><span id="cd-status" class="muted" role="status"></span></div>
       <div class="sub">이 서식 폴더만 보고 무엇을 어디서 뽑고, 어떻게 묻고, 답이 어떤 모양인지 알 수 있게 자동으로 만든 문서입니다. 직접 고치지 않고 아래 "고치려면" 표의 파일을 고칩니다.
         명령줄: <span class="mono">python -m docgen.formdir card ${esc(d.id)}</span></div>
@@ -312,13 +312,7 @@ async function tabCard(d) {
 
 // 미리보기 탭 ---------------------------------------------------------------
 function tabPreview(d) {
-  const view = { label: null, page: 0, sel: -1, zoom: false, issueMode: false, cells: {} };
-  const loadCells = async () => {   // 서식의 키 → 칸 (최종 키 · 누구의 · 무엇, 키 사전)
-    await kpLoad();
-    const r = await api(`/api/dictionary/cells?form=${encodeURIComponent(d.id)}&limit=3000`);
-    view.cells = Object.fromEntries(r.rows.flatMap(c => c.raw.map(k => [k, c])));
-  };
-  const cellsReady = loadCells().catch(() => {});
+  const view = { label: null, page: 0, sel: -1, zoom: false, issueMode: false };
   $("#tab").innerHTML = `
     <div class="bar">${optionBar(true)}
       <button class="primary" id="o-go">렌더링</button>
@@ -348,11 +342,9 @@ function tabPreview(d) {
   };
   const drawSide = () => {
     const L = view.label, f = L.fields[view.sel];
-    const cell = f && view.cells[f.key];
     const detail = f ? `<div class="detail-box panel">
-        <div>${cell ? kpKeyCell({ common: !!(cell.keys || []).find(k => k.raw === f.key)?.common, key: finalKey(f.key) }) : `<b class="mono">${esc(f.key)}</b>`}</div>
-        ${cell && finalKey(f.key) !== f.key ? `<div class="muted" style="font-size:12px">서식의 키 <span class="mono">${esc(f.key)}</span></div>` : ""}
-        ${cell ? "" : `<div>이름표: ${esc(f.label ?? "")}</div>`}<div>타입: ${esc(f.type)}</div>
+        <div><b class="mono">${esc(f.key)}</b></div>
+        <div>키 설명: ${esc(f.label ?? "")}</div><div>타입: ${esc(f.type)}</div>
         <div>값: ${esc(valueText(f))}</div>
         ${f.norm !== undefined && f.norm !== f.value ? `<div>정규화 값: <span class="mono">${esc(JSON.stringify(f.norm))}</span></div>` : ""}
         ${f.options ? `<div>보기: ${f.options.map(o => `${o.checked ? "■" : "□"} ${esc(o.text)}`).join(" ")}</div>` : ""}
@@ -360,20 +352,16 @@ function tabPreview(d) {
         ${f.render ? `<div>풀 항목: ${esc(f.render)}</div>` : ""}
         ${f.corrected_from ? `<div>정정 전 값: ${esc(f.corrected_from)}</div>` : ""}
         <div>쪽: ${(f.page || 0) + 1} · 위치: ${f.bbox ? `<span class="mono">${f.bbox.map(Math.round).join(", ")}</span>` : "없음"}</div>
-        ${cell ? `<div id="v-kp"></div>` : ""}
       </div>` : "";
     $("#v-side").innerHTML = `${detail}
       <div class="muted" style="margin-bottom:4px">항목 ${L.fields.length}개 · ${L.pages.length}쪽${L.overflow ? " · <b class=kr>쪽 넘침</b>" : ""}</div>
       <table><thead><tr><th>쪽</th><th>키</th><th>값</th></tr></thead><tbody>${L.fields.map((x, i) => `
         <tr class="click ${i === view.sel ? "sel" : ""}" data-i="${i}">
-          <td>${(x.page || 0) + 1}</td><td class="mono ${/[^\x00-\x7f]/.test(finalKey(x.key)) ? "kr" : ""}">${(view.cells[x.key]?.keys || []).find(k => k.raw === x.key)?.common ? `<span class="tag ok">공통</span> ` : ""}${esc(finalKey(x.key))}</td>
+          <td>${(x.page || 0) + 1}</td><td class="mono ${/[^\x00-\x7f]/.test(x.key) ? "kr" : ""}">${esc(x.key)}</td>
           <td>${esc(valueText(x))}${x.bbox ? "" : ` <span class="muted">(위치 없음)</span>`}</td></tr>`).join("")}
       </tbody></table>`;
     scrollRowIntoView($("#v-side"), $("#v-side tr.sel"));
-    if (cell) kpPanel($("#v-kp"), d.id, cell, async () => { await loadCells(); drawSide(); }, { image: false });
   };
-  // 그 칸의 최종 키 (공통 키로 정했으면 공통 키). 서명 칸은 이름·서명·도장 키마다 따로
-  const finalKey = raw => (view.cells[raw]?.keys || []).find(k => k.raw === raw)?.key || raw;
   const select = i => {
     view.sel = i;
     const f = view.label.fields[i];
@@ -386,7 +374,6 @@ function tabPreview(d) {
     try {
       const t = performance.now();
       view.label = await renderOne(d.id, o, force);
-      await cellsReady;
       if (!$("#o-stat")) return;   // 렌더링하는 사이 다른 화면으로 넘어감
       view.page = Math.min(view.page, view.label.pages.length - 1);
       view.sel = -1;

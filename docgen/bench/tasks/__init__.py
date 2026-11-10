@@ -28,7 +28,6 @@ from __future__ import annotations
 import random
 from pathlib import Path
 
-from ... import dictionary as DIC
 from ... import fieldinfo
 from ... import formquestions as FQ
 from .. import perturb
@@ -98,7 +97,7 @@ class Doc:
         self.sid = Path(stem).name
         self.q = FQ.read(r["doc_id"])
         self.fq = fieldinfo.questions(r["doc_id"])   # 칸마다 질문 설정 (fields.json 의 q)
-        self.fields = DIC.apply(r["doc_id"], r["fields"])   # 공통 키로 정한 칸은 공통 키로 (3.0)
+        self.fields = r["fields"]   # 키는 서식의 키 그대로 (fields.json·템플릿)
         raw_key = dict(zip(range(len(r["raw_keys"])), r["raw_keys"]))
         self.visible = [f for i, f in enumerate(self.fields)
                         if not (f.get("value") is None or f["type"] in MARK_TYPES or f.get("group")

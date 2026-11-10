@@ -65,10 +65,3 @@ def test_enabling_labels_maps_overlay_field(rules):
     p = make_profile(5)
     assert RF.Values(p, random.Random(0), "기본").std("foreign.swift") == p.foreign.swift
     assert KR.alias_index()["bic"] == "foreign.swift"
-
-
-def test_affected_forms_counts_overlay_labels():
-    from studio.api_keys import affected_forms
-
-    assert affected_forms(["SWIFTCode"])                             # 그 항목명이 있는 overlay 서식이 있다
-    assert affected_forms(["   "]) == []

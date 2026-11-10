@@ -229,7 +229,7 @@ def test_mask_fields_blacks_out_and_nulls(tmp_path):
 
 
 def test_build_settings_have_nulls():
-    assert B.NULLS == {"blank": 0.3, "mask": 0.1} and B.VERSION == "4.2"
+    assert B.NULLS == {"blank": 0.3, "mask": 0.1} and B.VERSION == "5.0"
     p = B.single_profile(1_000_000, {"blank": 0.5})
     assert p.extra["blank_optional"] == 0.5 and "blank_optional" not in B.single_profile(1, None).extra
 

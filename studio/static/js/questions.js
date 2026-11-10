@@ -73,7 +73,7 @@ async function tabQuestions(d) {
       <div class="sub">질문 문장·질문 항목 줄 틀(item)·답 항목 틀(answer)은 공통 <span class="mono">docgen/forms/_common/questions.json</span>, 항목명은 칸의 항목명이 기본입니다.
         이 서식에서 다르게 할 것: 질문 문장 <code>prompt</code>·답 항목 틀 <code>answer</code>(JSON 틀 <code>{"key": "{key}", "value": "{value}"}</code> 또는 줄글 <code>"{label}: {value}"</code>)·분류 정답은 서식 폴더의 <span class="mono">questions.json</span>,
         이 서식만의 질문(form_qa)은 서식 폴더의 <span class="mono">qa.py</span> (함수 하나 = 질문 하나, 견본 <span class="mono">python -m docgen.formdir qa ${esc(d.id)} --new</span>),
-        칸마다(묻지 않기 <code>ask: false</code>, 항목명 <code>label</code>, 설명 <code>note</code>, OCR 빼기 <code>ocr: false</code>)는 칸 목록 <span class="mono">fields.json</span> 그 칸의 <code>"q"</code>.
+        칸마다(묻지 않기 <code>ask: false</code>, 키 설명 <code>label</code>, 설명 <code>note</code>, OCR 빼기 <code>ocr: false</code>)는 칸 목록 <span class="mono">fields.json</span> 그 칸의 <code>"q"</code>.
         과제마다 묻는 칸은 <a href="#/forms/${encodeURIComponent(d.id)}/overview">개요</a>, 합친 전체와 고칠 줄은 <a href="#/forms/${encodeURIComponent(d.id)}/card">카드 원문</a>. 고친 뒤 아래에서 문항을 다시 만들어 확인합니다.
         검사: <span class="mono">python -m docgen.formdir check ${esc(d.id)}</span> · 설명: <a href="#/guide/${encodeURIComponent("docgen/forms/README.md")}">서식 폴더 설명서</a></div>
       ${qf ? `<pre class="ans mono" style="max-height:420px;overflow:auto">${esc(qf.source)}</pre>` : ""}

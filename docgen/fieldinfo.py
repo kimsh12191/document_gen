@@ -179,5 +179,5 @@ def check_q(doc_id: str) -> list[str]:
 
 
 def doc_key_of(f: dict) -> str:
-    """그린 칸(공통 키 적용 뒤)의 서식 키 (반복 행은 *)."""
-    return pattern(f.get("doc_key") or f["key"])
+    """그린 칸의 서식 키 (반복 행은 *)."""
+    return pattern(f["key"])

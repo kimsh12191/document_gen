@@ -1,6 +1,6 @@
 """marks — 체크박스·도장·서명. 서류 한 건의 모든 쪽을 보고 체크된 보기, 도장·서명이 있는지와 그 위치를 답한다.
 
-질문: P_MARKS + 항목 줄 '- 키: 항목명 (종류, 보기: …)' (prompts.kie_line). 항목은 보기가 있는 체크박스와 도장·서명 자리,
+질문: P_MARKS + 항목 줄 '- 키: 키 설명 (종류, 보기: …)' (prompts.kie_line). 항목은 보기가 있는 체크박스와 도장·서명 자리,
       max_keys 개를 넘으면 그만큼만 골라 문서 순서로. 어떤 칸을 어떤 항목명으로 묻나는 칸 목록 fields.json 의 그 칸 "q"
 정답: 체크박스 — 체크된 보기마다 {"key", "value": 보기 글자, "bbox_2d": 체크된 □ 위치, "page"}, 없으면 {"key", "value": null}
       도장·서명 — {"key", "value": true/false, 있으면 위치}. 모두 그릴 때 기록한 체크 상태·위치 그대로
@@ -39,7 +39,7 @@ def make(doc):
         (lambda key, value, where: FQ.fill_answer(tpl, empty, key, value, where))
     lines, ans, types = [], [], {}
     for f in mf:
-        line = lambda extra: prompts.kie_line(doc.r["doc_id"], f["key"], f.get("label"), f.get("doc_key"), extra, all_mf,  # noqa: E731
+        line = lambda extra: prompts.kie_line(f["key"], f.get("label"), extra, all_mf,  # noqa: E731
                                               note=f.get("_note"), line=form_line)
         if f["type"] in ("checkbox", "checkbox_multi"):
             kind = "체크박스" if f["type"] == "checkbox" else "복수 선택"

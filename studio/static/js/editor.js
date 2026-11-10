@@ -9,17 +9,14 @@ const ED_TOOLS = [
 ];
 const ED_STATUS = { auto: "자동", edited: "수정", added: "추가", dropped: "뺌" };
 const ED_T = { text: "글자", check: "체크", date: "날짜", sign: "서명·도장", copy: "자필", staff: "결재란", float: "자유 위치" };
-let edKeys = null, edSources = null, edGens = null;
+let edSources = null, edGens = null;
 
 async function viewEditor(d, keep = null) {
   $("#tab").innerHTML = `<p class="spin">레이아웃을 읽는 중…</p>`;
   const [view] = await Promise.all([
     api(`/api/forms/${encodeURIComponent(d.id)}/layout`),
-    edKeys ? null : Promise.all([api("/api/keys"), api("/api/dictionary/keys?scope=common").catch(() => ({ rows: [] }))])
-      .then(([k, c]) => { edKeys = { ...k, common: c.rows }; }),   // 키 고르기: 공통 키(키 사전) 먼저
     edSources ? null : api("/api/sources").then(s => { edSources = s; }),
     edGens ? null : api("/api/generators").then(g => { edGens = g; }).catch(() => { edGens = { groups: [], howto: [] }; }),
-    kpLoad().catch(() => null),   // 공통 키 이름 (키 칸 표시)
   ]);
   const ed = {
     d, view, page: 0, tool: "select", sel: null, zoom: store.get("ed.zoom", 1), onlyBg: false, dirty: false, compare: null,
@@ -392,7 +389,7 @@ function edCreate(ed, box) {
     ed.items.push(x);
     ed.sel = { id: x.id, sub: "part:y" };
     ed.dirty = true; edDraw(ed);
-    setTimeout(() => $("#ed-label")?.focus(), 0);
+    setTimeout(() => $("#ed-key")?.focus(), 0);
     return;
   }
   const a = { t: ed.tool, page, label: "" };
@@ -407,7 +404,7 @@ function edCreate(ed, box) {
   ed.sel = { id: it.id, sub: subsOf(ed, it)[0].name };
   ed.tool = ed.tool === "check" ? "check" : "select";
   ed.dirty = true; edDraw(ed);
-  setTimeout(() => $("#ed-label")?.focus(), 0);
+  setTimeout(() => ($("#ed-key") || $("#ed-label"))?.focus(), 0);
 }
 
 function edDelete(ed) {
@@ -448,51 +445,13 @@ function edKey(ed, e) {
 // ---------------------------------------------------------------------------
 // 오른쪽: 고른 영역의 정보와 이 쪽의 영역 목록
 // ---------------------------------------------------------------------------
-// 항목명 추천: 지금 있는 서식들의 항목명(키 사전 keys.json, 서식 수)과 공통 키 이름. 일부만 쳐도 (앞부분 먼저, 많이 쓰인 순)
-let _labelIndex = null;
-function labelIndex() {
-  if (_labelIndex || !edKeys) return _labelIndex || [];
-  const common = new Map((edKeys.common || []).map(c => [c.key, c]));
-  const seen = new Map();
-  const add = (label, key, forms, isCommon) => {
-    if (!label || !/^[a-z][a-z0-9_.]*$/.test(key)) return;   // 영어 키만 (한글·번호 키는 추천하지 않음)
-    const id = label + "|" + key, old = seen.get(id);
-    if (old) old.forms = Math.max(old.forms, forms);
-    else seen.set(id, { label, key, forms, common: isCommon || common.has(key) });
-  };
-  for (const k of edKeys.keys || []) for (const l of k.labels) add(l, k.key, k.forms, false);
-  for (const c of edKeys.common || []) add(c.name.replace(/^(고객|대리인|직장|법인·사업자|보증인·공동|상대방|가족) /, ""), c.key, c.docs || 0, true);
-  _labelIndex = [...seen.values()];
-  return _labelIndex;
-}
-function showLabelSugg(text) {
-  const box = $("#ed-label-sugg");
-  if (!box) return;
-  const q = (text || "").replace(/[\s()·:*]/g, "");
-  if (q.length < 1) { box.innerHTML = ""; return; }
-  const norm = l => l.replace(/[\s()·:*]/g, "");
-  const all = labelIndex().map((x, i) => ({ ...x, i, n: norm(x.label) }));
-  const hit = all.filter(x => x.n.includes(q))
-    .sort((a, b) => (b.n.startsWith(q) - a.n.startsWith(q)) || (b.common - a.common) || (b.forms - a.forms) || (a.n.length - b.n.length))
-    .slice(0, 8);
-  box.innerHTML = hit.length ? hit.map(x => `<button type="button" class="sl" data-sl="${x.i}" title="누르면 항목명과 키를 함께 넣습니다">
-      <span style="font-weight:700">${esc(x.label)}</span> <span class="mono">${esc(x.key)}</span>${x.common ? ` <span class="tag ok">공통</span>` : ""} <span class="muted">${x.forms}개 서식</span></button>`).join("")
-    : `<div class="muted" style="font-size:12px">비슷한 항목명이 없습니다 — 새 항목이면 키를 직접 (guide/keys.md)</div>`;
-}
-
-function keyCandidates(label) {
-  if (!edKeys || !label) return [];
-  const n = label.replace(/[\s()·:*]/g, "");
-  return edKeys.keys.filter(k => k.labels.some(l => l.replace(/[\s()·:*]/g, "") === n)).sort((a, b) => b.forms - a.forms).slice(0, 8);
-}
-
 // 생성 방법 고르기 창: 묶음별 카드 (이름 + 예시 값), 새 생성 방법 만드는 곳 안내 (studio/generators.py, GET /api/generators)
 function genFind(src) {
   for (const g of edGens?.groups || []) for (const x of g.items) if (x.source === src) return x;
   return null;
 }
 function genName(src) {
-  if (!src) return "자동 (항목명으로)";
+  if (!src) return "자동 (키 설명으로)";
   const x = genFind(src);
   if (x) return x.name;
   if (src.startsWith("profile.")) return `고객 정보: ${src.slice(8)}`;
@@ -513,7 +472,7 @@ function genPicker(ed, it, apply) {
       <b>${esc(x.name)}</b>${x.examples && x.examples.length ? `<span class="gen-ex">${x.examples.map(esc).join(" · ")}</span>` : ""}
       ${x.note ? `<span class="muted gen-note">${esc(x.note)}</span>` : ""}</button>`;
   const auto = edGens?.auto || { name: "자동", source: "", note: "" };
-  dlg.innerHTML = `<div class="bar"><h2>생성 방법 — '${esc(c.label || "(항목명 없음)")}' 칸${peers > 1 ? ` (같은 열 ${peers}칸에 같이)` : ""}</h2>
+  dlg.innerHTML = `<div class="bar"><h2>생성 방법 — '${esc(c.label || "(키 설명 없음)")}' 칸${peers > 1 ? ` (같은 열 ${peers}칸에 같이)` : ""}</h2>
       <input type="search" id="gen-q" placeholder="찾기 (예: 날짜, 계좌)" style="width:16em"><button type="button" class="gen-close">닫기 ×</button></div>
     <p class="muted" style="margin:4px 0 10px">문서를 만들 때마다 이 칸에 넣을 값을 어떻게 만들지 고릅니다. 회색 글자가 실제로 나오는 값의 예입니다.</p>
     ${edGens?.generator_error ? `<p class="err">직접 만든 생성기 파일에 오류가 있어 그 묶음을 못 읽었습니다: ${esc(edGens.generator_error)}</p>` : ""}
@@ -546,7 +505,7 @@ const ED_SPECIAL = { choice: "보기 중 하나 (아래에 보기 목록)", fixe
   empty: "늘 빈 칸", date_seq: "행마다 늘어나는 날짜 (표의 날짜 열)" };
 function sourceOptions(curSrc, autoText = "") {
   const sel = v => v === curSrc ? "selected" : "";
-  const o = [`<option value="" ${sel("")}>자동 — 항목명으로 정함${autoText ? ` (${esc(autoText)})` : ""}</option>`];
+  const o = [`<option value="" ${sel("")}>자동 — 키 설명으로 정함${autoText ? ` (${esc(autoText)})` : ""}</option>`];
   const names = edSources?.rule_names || {};
   const rules = (edSources?.rules || []).map(r => `<option value="rule:${r}" ${sel(`rule:${r}`)}>${esc(names[r] || r)}</option>`);
   const sp = (edSources?.special || []).map(r => `<option value="rule:${r}" ${sel(`rule:${r}`)}>${esc(ED_SPECIAL[r] || r)}</option>`);
@@ -567,31 +526,24 @@ function edSide(ed) {
       <div class="bar"><button id="ed-del">지우기 영역 빼기</button><button id="ed-to-text">이 자리를 값 영역으로</button></div>
       <div class="muted" style="font-size:12px">값을 지운 자리는 대개 값이 들어갈 자리입니다. "값 영역으로"를 누르면 같은 자리에 글자 칸을 만듭니다.</div></div>`;
   } else if (it) {
-    const c = cur(ed, it), st = statusOf(ed, it), cands = keyCandidates(c.label);
+    const c = cur(ed, it), st = statusOf(ed, it);
     const auto = it.auto || {}, added = it.status === "added" || ed.view.origin === "drawn";   // 그려서 만든 서식은 저장한 칸도 그린 칸처럼
     html = `<div class="detail-box panel">
       <div><b>${esc(ED_T[c.t] || c.t)}</b> <span class="tag st-${st}">${ED_STATUS[st]}</span> <span class="muted mono" style="font-size:11px">${esc(it.id)}</span></div>
       ${st === "dropped" ? `<p class="muted">이 영역은 뺐습니다. 생성기가 값을 쓰지 않습니다.</p><button id="ed-undrop">되살리기</button>` : `
-      ${c.t === "staff" ? `<div class="fld muted">결재란은 은행·직원 칸입니다 (문서별 키).</div>` : `
-      <div class="fld">${it.cell && !ed.dirty ? `<div>키 ${kpKeyCell(it.cell)}</div><div id="ed-kp"></div>`
-        : `<div class="muted">${it.cell ? "저장하면" : "저장한 뒤"} 이 칸의 키(누구의 · 무엇)를 정합니다.</div>`}</div>`}
-      ${added ? `<label class="fld"><b>항목명</b> <span class="muted" style="font-size:12px">그림에 인쇄된 이름 그대로 — 질문(무엇을 읽을지)과 자동 키에 쓰입니다</span>
-        <input type="text" id="ed-label" value="${esc(c.label || "")}" placeholder="예: 성명, 지급총액 — 일부만 쳐도 비슷한 항목명을 추천" autocomplete="off"></label>
-        <div id="ed-label-sugg" class="lbl-sugg"></div>`
-        : `<div class="muted" style="font-size:12px">서식에 인쇄된 글자: ${esc(c.label || "(없음)")}</div>`}
-      <details class="fld"><summary class="muted">${added ? "자세히 — 키를 직접 적기" : "자세히 — 인쇄된 글자를 잘못 읽었을 때만 고칩니다"}</summary>
-      ${added ? "" : `<label class="fld">인쇄된 글자 <input type="text" id="ed-label" value="${esc(c.label || "")}"></label>`}
-      ${c.t === "staff" ? "</details>" : `
-      <label class="fld">서식의 키 <input type="text" id="ed-key" list="ed-keylist" value="${esc(c.key || "")}" placeholder="${esc(auto.key || "(자동: 인쇄된 글자로)")}"></label>
-      <datalist id="ed-keylist">${(edKeys?.common || []).map(k => `<option value="${esc(k.key)}">공통 키 · ${esc(k.name)}</option>`).join("")}${(edKeys?.keys || []).filter(k => !(edKeys?.common || []).some(c => c.key === k.key)).slice(0, 4000).map(k => `<option value="${esc(k.key)}">${esc(k.labels[0] || "")}</option>`).join("")}</datalist>
-      ${cands.length ? `<div class="cands">사전 후보: ${cands.map(k => `<a href="#" data-key="${esc(k.key)}" class="mono">${esc(k.key)}</a> <span class="muted">(${k.forms})</span>`).join(" · ")}</div>` : ""}
-      ${auto.key ? `<div class="muted" style="font-size:12px">자동 키: <span class="mono">${esc(auto.key)}</span></div>` : ""}</details>
+      ${c.t === "staff" ? `<div class="fld muted">결재란은 은행·직원 칸입니다 (키는 staff.&lt;칸 이름&gt;).</div>
+      <label class="fld">칸 이름 <input type="text" id="ed-label" value="${esc(c.label || "")}"></label>` : `
+      <label class="fld"><b>키</b> <span class="muted" style="font-size:12px">질문·정답에 나가는 이름. 이 서식 안에서만 정합니다 (영어 소문자·숫자·_·. — guide/keys.md)</span>
+        <input type="text" id="ed-key" value="${esc(c.key || "")}" placeholder="${esc(auto.key || "예: customer.name")}" autocomplete="off"></label>
+      ${!c.key && auto.key ? `<div class="muted" style="font-size:12px">지금 키: <span class="mono">${esc(auto.key)}</span> (적지 않으면 이 키)</div>` : ""}
+      <label class="fld"><b>키 설명</b> <span class="muted" style="font-size:12px">무엇을 읽는 칸인지 — 질문에 '- 키: 설명' 으로 나갑니다. 보통 서식에 인쇄된 칸 이름</span>
+        <input type="text" id="ed-label" value="${esc(c.label || "")}" placeholder="예: 성명, 지급총액" autocomplete="off"></label>
       ${c.t === "text" ? `<div class="fld" style="margin-top:8px"><b>값 만들기</b> <span class="muted" style="font-size:12px">문서를 만들 때마다 이 칸에 넣을 값${added && c.row ? " — 같은 열의 모든 행에 같이 적용" : ""}</span></div>
       <div class="fld gen-cur"><span>생성 방법</span> <b>${esc(genName(c.source))}</b>
         ${genExamples(c.source).length ? `<span class="muted" style="font-size:12px">예: ${genExamples(c.source).map(esc).join(" · ")}</span>` : ""}
         <button id="ed-gen" class="primary">고르기…</button></div>
       ${c.source ? "" : !("auto_example" in it) ? `<div class="muted" style="font-size:12px">저장하면 '자동'으로 나올 값의 예가 보입니다.</div>`
-        : it.auto_example == null ? `<div class="err" style="font-size:12px">'자동'으로는 이 칸이 <b>빈 칸</b>으로 나옵니다 (항목명으로 값 종류를 못 정함). 생성 방법을 고르세요.</div>`
+        : it.auto_example == null ? `<div class="err" style="font-size:12px">'자동'으로는 이 칸이 <b>빈 칸</b>으로 나옵니다 (키 설명으로 값 종류를 못 정함). 생성 방법을 고르세요.</div>`
         : `<div class="muted" style="font-size:12px">'자동'으로 나올 값의 예: <b>${esc(it.auto_example)}</b> — 아니면 생성 방법을 고르세요.</div>`}
       <details class="fld"><summary class="muted">전체 목록에서 고르기 (고객 정보의 모든 항목)</summary>
         <select id="ed-source">${sourceOptions(c.source || "", auto.kind ? (edSources?.rule_names || {})[auto.kind] || auto.kind : "")}</select></details>
@@ -603,18 +555,18 @@ function edSide(ed) {
         <input type="text" id="ed-pattern" class="mono" value="${esc(c.pattern || "")}" placeholder="HN-####-{A|B}"></label>
         ${c.pattern ? `<div class="muted" style="font-size:12px">예: ${[0, 1, 2].map(() => esc(patternSample(c.pattern))).join(" · ")}</div>` : ""}` : ""}
       ${(c.source === "rule:choice" && (c.choices || []).length) || (c.source === "rule:pattern" && c.pattern)
-        ? `<div class="bar"><button id="ed-savekind" title="이 보기·틀을 키 사전의 값 종류로 저장 → 다른 칸·다른 서식의 생성 방법 고르기에 나옵니다">다른 서식에서도 쓰게 저장</button></div>` : ""}
+        ? `<div class="bar"><button id="ed-savekind" title="이 보기·틀을 공통 값 종류로 저장 → 다른 칸·다른 서식의 생성 방법 고르기에 나옵니다">다른 서식에서도 쓰게 저장</button></div>` : ""}
       <label class="fld">표기 <span class="muted" style="font-size:12px">(날짜·금액을 서식에 적힌 꼴로)</span> <select id="ed-fmt"><option value="">(그대로)</option>${(edGens?.formats || []).map(f =>
         `<option value="${esc(f.id)}" ${c.fmt === f.id ? "selected" : ""}>${esc(f.name)}</option>`).join("")}</select></label>
       ${added && c.t === "text" ? `<label class="fld"><input type="checkbox" id="ed-row" ${c.row ? "checked" : ""}> 표의 반복 행 칸 <span class="muted" style="font-size:12px">(행마다 같은 항목을 적는 표 — 표 질문으로 묻습니다)</span></label>` : ""}
       ${c.row ? `${tableSettings(ed, it, c)}
         <label class="fld">표 묶음 <input type="text" id="ed-group" value="${esc(c.group || "")}" placeholder="(없음: 목록)"></label>
-        <div class="muted" style="font-size:12px">표 반복 행입니다. 같은 표의 칸은 같은 묶음, 다른 표는 다른 묶음 (키 <span class="mono">&lt;묶음&gt;_목록.&lt;행&gt;.&lt;항목명&gt;</span>).
+        <div class="muted" style="font-size:12px">표 반복 행입니다. 같은 표의 칸은 같은 묶음, 다른 표는 다른 묶음 (키 <span class="mono">&lt;묶음&gt;_목록.&lt;행&gt;.&lt;키 설명&gt;</span>).
           키에 <span class="mono">{i}</span>를 쓰면 행 번호가 들어갑니다 (예: products.{i}.name)</div>
         ${c.rect ? `<div class="bar" style="flex-wrap:wrap">아래로 <input type="number" id="ed-rown" value="4" min="1" max="50" style="width:4em"> 행,
           행 간격 <input type="number" id="ed-rowh" value="${r1(c.rect[3] - c.rect[1])}" min="1" step="0.5" style="width:5em"> pt <button id="ed-rowdup">이 행 복제</button>
-          <button id="ed-colfit" title="같은 표 묶음·같은 항목명(같은 열)의 모든 행 칸을 이 칸과 같은 가로 위치·폭으로">이 열 폭을 모든 행에</button></div>
-          <div class="muted" style="font-size:12px">첫 행의 칸을 모두 그리고(각 칸: 항목명 + 표의 반복 행 + 같은 표 묶음) 누릅니다. 이 칸과 같은 높이에 있는 같은 묶음의 칸을 함께 복제합니다.
+          <button id="ed-colfit" title="같은 표 묶음·같은 키 설명(같은 열)의 모든 행 칸을 이 칸과 같은 가로 위치·폭으로">이 열 폭을 모든 행에</button></div>
+          <div class="muted" style="font-size:12px">첫 행의 칸을 모두 그리고(각 칸: 키 설명 + 표의 반복 행 + 같은 표 묶음) 누릅니다. 이 칸과 같은 높이에 있는 같은 묶음의 칸을 함께 복제합니다.
             표 행이 둘 이상이어야 표가 됩니다 (한 행뿐이면 보통 칸).</div>` : ""}` : ""}` : ""}
       ${c.t === "copy" ? `<label class="fld">따라 쓸 문구 <input type="text" id="ed-copytext" value="${esc(c.text || "")}"></label>` : ""}
       ${c.t === "date" ? dateSettings(ed, it, c) : ""}
@@ -636,7 +588,7 @@ function edSide(ed) {
       const c = cur(ed, x), st = statusOf(ed, x);
       return `<tr class="click ${ed.sel && ed.sel.id === x.id ? "sel" : ""}" data-id="${esc(x.id)}"><td><span class="tag st-${st}">${ED_STATUS[st]}</span></td>
         <td class="nw">${esc(ED_T[c.t] || c.t)}</td>
-        <td>${x.cell ? kpKeyCell(x.cell) : `<span class="mono muted">${esc(c.key || x.auto?.key || "")}</span>`}
+        <td><span class="mono ${c.key ? "" : "muted"}">${esc(c.key || x.auto?.key || "")}</span>
           <div class="muted" style="font-size:11px">${esc(c.label || "")}</div></td>
         <td class="nw" style="font-size:12px">${c.t === "float" ? `${esc(floatPreset(c).name)} · ${Math.round((c.p ?? 0.5) * 100)}%` : c.t === "date" ? (c.source ? esc(genName(c.source)) : `<span class="muted">서류 날짜</span>`)
           : c.t !== "text" ? "" : c.source ? esc(genName(c.source))
@@ -666,18 +618,7 @@ function edSide(ed) {
     });
     return;
   }
-  if ($("#ed-kp")) kpPanel($("#ed-kp"), ed.d.id, it.cell, () => viewEditor(ed.d, { page: ed.page, tool: ed.tool, sel: ed.sel }), { label: false, image: false });
   on("#ed-label", "change", e => { setProp(ed, it, "label", e.target.value.trim()); redraw(); });
-  on("#ed-label", "input", e => showLabelSugg(e.target.value));
-  if ($("#ed-label-sugg")) $("#ed-label-sugg").onmousedown = e => {   // blur(change) 보다 먼저
-    const b = e.target.closest("[data-sl]");
-    if (!b) return;
-    e.preventDefault();
-    const x = labelIndex()[+b.dataset.sl];
-    setProp(ed, it, "label", x.label);
-    if (it.status === "added" || ed.view.origin === "drawn") setProp(ed, it, "key", x.key);
-    redraw();
-  };
   on("#ed-key", "change", e => { setProp(ed, it, "key", e.target.value.trim()); redraw(); });
   const setCol = (k, v) => { for (const x of colPeers(ed, it)) setProp(ed, x, k, v); };   // 표 칸이면 같은 열 전체
   on("#ed-kind", "change", e => { setCol("kind", e.target.value); redraw(); });
@@ -720,7 +661,6 @@ function edSide(ed) {
   on("#ed-savekind", "click", () => saveAsKind(ed, it, setCol));
   on("#ed-copytext", "change", e => { setProp(ed, it, "text", e.target.value); redraw(); });
   on("#ed-note", "change", e => { setProp(ed, it, "note", e.target.value.trim()); redraw(); });
-  $$("#ed-side [data-key]").forEach(a => a.onclick = e => { e.preventDefault(); setProp(ed, it, "key", a.dataset.key); redraw(); });
   $$("#ed-side [data-opt]").forEach(inp => inp.onchange = () => {
     const c = cur(ed, it), opts = clone(c.options);
     opts[+inp.dataset.opt].text = inp.value;
@@ -729,7 +669,7 @@ function edSide(ed) {
   });
 }
 
-// 표 그리기 (도구 B): 끈 영역 = 표의 값 행들 (머리글 줄 빼고). 열 항목명·행 수·표 묶음을 정하면 열 × 행 글자 칸을 한 번에 만든다
+// 표 그리기 (도구 B): 끈 영역 = 표의 값 행들 (머리글 줄 빼고). 열 설명·행 수·표 묶음을 정하면 열 × 행 글자 칸을 한 번에 만든다
 const edTableCols = text => (text || "").split("\n").map(x => x.trim()).filter(Boolean);
 
 function edTableForm(ed) {
@@ -737,7 +677,7 @@ function edTableForm(ed) {
   return `<div class="detail-box panel"><b>표 만들기</b> · ${t.page + 1}쪽
     <div class="muted" style="font-size:12px">끈 영역 = 표에서 값이 적히는 행들 (머리글 줄은 빼고). 열은 같은 폭으로 나눕니다.
       만든 뒤 첫 행 칸의 폭을 고치고 <b>이 열 폭을 모든 행에</b>로 맞춥니다. 영역을 다시 끌면 초안을 바꿉니다.</div>
-    <label class="fld">열 항목명 <span class="muted" style="font-size:12px">(한 줄에 하나, 왼쪽부터 — 그림의 머리글 그대로)</span>
+    <label class="fld">열 설명 <span class="muted" style="font-size:12px">(한 줄에 하나, 왼쪽부터 — 그림의 머리글 그대로)</span>
       <textarea id="ed-tb-cols" rows="4" placeholder="거래일&#10;적요&#10;금액">${esc(t.cols)}</textarea></label>
     <label class="fld">행 수 <input type="number" id="ed-tb-rows" min="2" max="60" value="${t.rows}" style="width:5em"></label>
     <label class="fld">표 묶음 이름 <input type="text" id="ed-tb-group" value="${esc(t.group)}" placeholder="예: 거래 (서식 안의 표마다 다르게)"></label>
@@ -746,9 +686,9 @@ function edTableForm(ed) {
     <label class="fld">채우는 행 수 <select id="ed-tb-fill">${(edGens?.fills || []).map(f => `<option value="${esc(f.id)}" ${(t.fill || "few") === f.id ? "selected" : ""}>${esc(f.name)}</option>`).join("")}</select></label>
     <details class="fld"><summary class="muted">영문 키 (선택 — 다른 서식과 같은 표면 같은 키로)</summary>
       <label class="fld">표 키 <input type="text" id="ed-tb-key" class="mono" value="${esc(t.tkey || "")}" placeholder="deals"></label>
-      <label class="fld">열 키 <span class="muted" style="font-size:12px">(한 줄에 하나, 열 항목명과 같은 순서)</span>
+      <label class="fld">열 키 <span class="muted" style="font-size:12px">(한 줄에 하나, 열 설명과 같은 순서)</span>
         <textarea id="ed-tb-ckeys" rows="3" class="mono" placeholder="date&#10;memo&#10;amount">${esc(t.ckeys || "")}</textarea></label>
-      <div class="muted" style="font-size:12px">비우면 <span class="mono">&lt;표 묶음&gt;_목록.&lt;행&gt;.&lt;항목명&gt;</span> (한글 키)</div></details>
+      <div class="muted" style="font-size:12px">비우면 <span class="mono">&lt;표 묶음&gt;_목록.&lt;행&gt;.&lt;키 설명&gt;</span> (한글 키)</div></details>
     <div class="bar"><button class="primary" id="ed-tb-make">표 칸 만들기</button><button id="ed-tb-cancel">취소</button></div></div>`;
 }
 
@@ -768,8 +708,8 @@ function edTableBind(ed) {
 
 function edMakeTable(ed) {
   const t = ed.tableDraft, cols = edTableCols(t.cols), n = t.rows;
-  if (!cols.length) { toast("열 항목명을 한 줄에 하나씩 적으세요", true); return; }
-  if (new Set(cols).size !== cols.length) { toast("열 항목명이 겹칩니다 (같은 이름 = 같은 열)", true); return; }
+  if (!cols.length) { toast("열 설명을 한 줄에 하나씩 적으세요", true); return; }
+  if (new Set(cols).size !== cols.length) { toast("열 설명이 겹칩니다 (같은 이름 = 같은 열)", true); return; }
   if (!(n >= 2 && n <= 60)) { toast("행 수는 2~60 (한 행뿐이면 표가 아니라 보통 칸)", true); return; }
   const used = new Set(ed.items.filter(x => x.kind !== "erase" && cur(ed, x).row).map(x => cur(ed, x).group || ""));
   let group = t.group;
@@ -778,7 +718,7 @@ function edMakeTable(ed) {
   const ID = /^[a-z][a-z0-9_]*$/, ckeys = edTableCols(t.ckeys);
   if (t.tkey && !ID.test(t.tkey)) { toast("표 키는 영어 소문자·숫자·밑줄 (예: deals)", true); return; }
   if (t.tkey && ckeys.length && (ckeys.length !== cols.length || ckeys.some(k => !ID.test(k)) || new Set(ckeys).size !== ckeys.length)) {
-    toast("열 키는 열 항목명과 같은 수, 영어 소문자·숫자·밑줄, 겹치지 않게", true); return;
+    toast("열 키는 열 설명과 같은 수, 영어 소문자·숫자·밑줄, 겹치지 않게", true); return;
   }
   const keyOf = c => t.tkey ? `${t.tkey}.{i}.${ckeys[c] || `col${c + 1}`}` : null;
   const [x0, y0, x1, y1] = t.rect, w = (x1 - x0) / cols.length, h = (y1 - y0) / n, pad = Math.min(1, h * 0.1);
@@ -881,7 +821,7 @@ async function saveTableTitle(ed, it, title) {
   } catch (e) { toast(e.message, true); }
 }
 
-// 보기·틀을 키 사전의 값 종류로 저장 → 다른 칸·다른 서식의 생성 방법 고르기에 나온다
+// 보기·틀을 공통 값 종류로 저장 (key_rules.json kinds) → 다른 칸·다른 서식의 생성 방법 고르기에 나온다
 async function saveAsKind(ed, it, setCol) {
   const c = cur(ed, it);
   const name = (prompt("값 종류 이름 (영어 소문자·숫자·밑줄, 예: txn_memo)", "") || "").trim();
@@ -896,7 +836,7 @@ async function saveAsKind(ed, it, setCol) {
     await api(`/api/keyrules/kinds/${encodeURIComponent(name)}`, body, "PUT");
     edGens = await api("/api/generators");
     setCol("source", `rule:${name}`);
-    toast(`값 종류 '${meaning || name}' 로 저장했습니다. 이 칸은 그 값 종류를 씁니다 (키 사전에서 고칠 수 있음)`);
+    toast(`값 종류 '${meaning || name}' 로 저장했습니다. 이 칸은 그 값 종류를 씁니다 (key_rules.json 에서 고칠 수 있음)`);
     edDraw(ed);
   } catch (e) { toast(e.message, true); }
 }
@@ -913,7 +853,7 @@ function colPeers(ed, it) {
   });
 }
 
-// 같은 표 묶음·같은 항목명(= 같은 열)의 표 칸을 이 칸의 가로 위치·폭으로
+// 같은 표 묶음·같은 키 설명(= 같은 열)의 표 칸을 이 칸의 가로 위치·폭으로
 function edFitColumn(ed, it) {
   const r = cur(ed, it).rect;
   let n = 0;
@@ -923,7 +863,7 @@ function edFitColumn(ed, it) {
     setGeom(ed, x, { rect: [r[0], y[1], r[2], y[3]] });
     n++;
   }
-  toast(n ? `'${cur(ed, it).label}' 열 ${n}칸을 맞췄습니다` : "같은 열(같은 묶음·항목명)의 다른 칸이 없습니다", !n);
+  toast(n ? `'${cur(ed, it).label}' 열 ${n}칸을 맞췄습니다` : "같은 열(같은 묶음·키 설명)의 다른 칸이 없습니다", !n);
   edDraw(ed);
 }
 
@@ -937,7 +877,7 @@ function edDupRows(ed, it, n, gap) {
     const y = cur(ed, x);
     return y.t === "text" && y.row && y.rect && (y.group || "") === grp && mid(y.rect) >= y0 && mid(y.rect) <= y1;
   });
-  if (row.some(x => !cur(ed, x).label)) { toast("이 행에 항목명이 없는 칸이 있습니다. 항목명을 먼저 적으세요 (같은 항목명끼리 한 열)", true); return; }
+  if (row.some(x => !cur(ed, x).label)) { toast("이 행에 키 설명이 없는 칸이 있습니다. 키 설명을 먼저 적으세요 (같은 키 설명끼리 한 열)", true); return; }
   const H = ed.view.pages[it.page].h, KEEP = ["t", "page", "label", "row", "group", "key", "kind", "source", "choices", "text", "note"];
   const taken = ed.items.filter(x => x.kind !== "erase" && x.page === it.page && statusOf(ed, x) !== "dropped" && cur(ed, x).rect).map(x => cur(ed, x).rect);
   const over = (a, b) => Math.max(0, Math.min(a[2], b[2]) - Math.max(a[0], b[0])) * Math.max(0, Math.min(a[3], b[3]) - Math.max(a[1], b[1]))

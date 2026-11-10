@@ -677,7 +677,7 @@ def check_form(doc_id: str, seeds: int = 4) -> dict:
         return {"problems": problems, "notes": notes}
     from .fieldinfo import pattern
 
-    drawn = {pattern(f.get("doc_key") or f["key"]) for fs in docs for f in fs}
+    drawn = {pattern(f["key"]) for fs in docs for f in fs}
     stray = [k for k in (body.get("q") or {}) if pattern(k.replace("*", "0")) not in drawn]
     if stray:
         problems.append(f"fields.json 맨 위 \"q\" 의 키가 그린 칸에 없습니다 (오타·반복 행은 *): {', '.join(stray[:8])}")

@@ -206,18 +206,18 @@ def test_train_and_test_seeds_do_not_overlap():
 
 
 def test_kie_line_explains_key():
-    """질문의 항목 줄은 키 사전의 누구의 무엇, 표의 행, 같은 항목명 칸의 순번으로 칸을 가리킨다."""
+    """질문의 항목 줄은 서식의 키·키 설명 그대로, 덧붙임은 표의 행과 같은 설명 칸의 순번뿐 (키 사전 없음)."""
     from docgen.bench.prompts import kie_line
 
-    assert kie_line(None, "customer.name", "성명") == "- customer.name: 성명 (고객 성명)"
-    assert kie_line(None, "debts.1.balance", "잔액") == "- debts.1.balance: 잔액 (2행)"
-    assert kie_line(None, "special_terms.2", "특약사항") == "- special_terms.2: 특약사항 (3번째)"
-    assert kie_line(None, "기업부담금_목록.0.상품명", "상품명") == "- 기업부담금_목록.0.상품명: 상품명 (기업부담금 목록 1행)"
-    assert kie_line(None, "memo", None) == "- memo: -"
+    assert kie_line("customer.name", "성명") == "- customer.name: 성명"
+    assert kie_line("debts.1.balance", "잔액") == "- debts.1.balance: 잔액 (2행)"
+    assert kie_line("special_terms.2", "특약사항") == "- special_terms.2: 특약사항 (3번째)"
+    assert kie_line("기업부담금_목록.0.상품명", "상품명") == "- 기업부담금_목록.0.상품명: 상품명 (기업부담금 목록 1행)"
+    assert kie_line("memo", None) == "- memo: -"
     sib = [{"key": "date", "label": "작성일"}, {"key": "memo", "label": "비고"}, {"key": "date2", "label": "작성일"}]
-    assert kie_line(None, "date2", "작성일", siblings=sib) == "- date2: 작성일 (같은 항목명 중 2번째 칸)"
-    assert kie_line(None, "memo", "비고", siblings=sib) == "- memo: 비고"
-    assert kie_line(None, "housing", "주택", extra="체크박스, 보기: 자가 / 전세") == "- housing: 주택 (체크박스, 보기: 자가 / 전세)"
+    assert kie_line("date2", "작성일", siblings=sib) == "- date2: 작성일 (같은 설명 중 2번째 칸)"
+    assert kie_line("memo", "비고", siblings=sib) == "- memo: 비고"
+    assert kie_line("housing", "주택", extra="체크박스, 보기: 자가 / 전세") == "- housing: 주택 (체크박스, 보기: 자가 / 전세)"
 
 
 def test_guide_quotes_every_benchmark_prompt():

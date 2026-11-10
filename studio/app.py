@@ -21,14 +21,13 @@ API
   POST /api/forms/{id}/review         검수 완료 {done}
   POST /api/forms/{id}/meta           학습/평가 배정·메모 {split, note}
   POST /api/forms/{id}/issues         문제 표시 추가 · PATCH /api/forms/{id}/issues/{iid} 상태·메모·삭제
-  GET  /api/keys                      표준 키 사전 (docgen/forms/_common/keys.json)
   GET  /api/sources                   값 출처 목록 (프로필 경로와 예시, 규칙)
   GET  /api/marks                     표시 요소 설정·풀 · PUT /api/marks/settings · PUT /api/marks/pools/{풀}
   POST /api/marks/pools/{풀}/upload   풀 이미지 올리기 · POST /api/marks/pools/{풀}/font 글꼴 · POST /api/marks/seal-template
                                       · DELETE /api/marks/pools/{풀}/{id}
   GET  /preview/...                   미리보기 이미지 · /marks-img/... 풀 이미지 · /fonts/... 손글씨 글꼴
   (⑥⑦ 등록부·채점: api_datasets.py, ③⑥⑧ 레시피·빌드·작업·업무 묶음·학습 설정: api_bank.py,
-   키 규칙·키 사전: api_keys.py·api_dictionary.py, ① html 편집·복제: api_html.py)
+   값 종류: api_keys.py, ① html 편집·복제: api_html.py)
 """
 from __future__ import annotations
 
@@ -48,7 +47,7 @@ from pydantic import BaseModel, Field
 from docgen import marks as M
 from docgen.preview import CONDITIONS, MODES, Previewer
 
-from . import api_bank, api_datasets, api_dictionary, api_html, api_keys, catalog, editor, marks_admin
+from . import api_bank, api_datasets, api_html, api_keys, catalog, editor, marks_admin
 from . import datasets as DS
 from .jobs import Jobs
 from .config import ROOT, load, resolve_path, setup_browser
@@ -135,8 +134,7 @@ JOBS = Jobs(REGISTRY.ws, ROOT)
 app.include_router(api_datasets.make_router(REGISTRY, guard, JOBS))
 app.include_router(api_bank.make_router(REGISTRY, JOBS, guard))
 app.include_router(api_html.make_router(REGISTRY, JOBS, guard, CFG, previewer, lambda p: f"/preview/{p}"))   # html 편집·복제
-app.include_router(api_keys.make_router(guard))   # 키 규칙·값 종류 (영역 편집기의 키·생성 방법 고르기)
-app.include_router(api_dictionary.make_router(guard))   # 키 사전 (영역 편집기의 키 고르기)
+app.include_router(api_keys.make_router(guard))   # 값 종류 저장 (영역 편집기의 "다른 서식에서도 쓰게 저장")
 app.mount("/fonts", StaticFiles(directory=ROOT / "docgen" / "fonts"), name="fonts")   # 손글씨 글꼴 (화면의 글꼴 미리보기)
 
 
@@ -546,19 +544,6 @@ class IssuePatch(BaseModel):
 @app.patch("/api/forms/{doc_id}/issues/{issue_id}")
 def patch_issue(doc_id: str, issue_id: str, req: IssuePatch):
     return guard(catalog.set_issue, doc_id, issue_id, req.status, req.note, req.delete)
-
-
-@lru_cache(maxsize=2)
-def _keys(mtime: float) -> dict:
-    return json.loads((ROOT / "docgen" / "forms" / "_common" / "keys.json").read_text(encoding="utf-8"))
-
-
-@app.get("/api/keys")
-def keys():
-    p = ROOT / "docgen" / "forms" / "_common" / "keys.json"
-    if not p.exists():
-        return {"keys": [], "duplicates": [], "synonyms": {}, "missing": True}
-    return _keys(p.stat().st_mtime)
 
 
 @lru_cache(maxsize=1)

@@ -34,10 +34,10 @@ def test_card_shows_fields_positions_and_the_real_questions(tmp_path):
     finally:
         b.close()
     assert "card-hash: " + FC.card_hash("employment_certificate") in text
-    assert "| `customer.name` ← `employee.name` | 성명 | text | 1쪽 [" in text   # 공통 키 ← 서식 키, 위치
+    assert "| `employee.name` | 성명 | text | 1쪽 [" in text   # 서식의 키, 위치
     assert "look/template.html.j2:" in text and "generate.py" in text
-    assert "- customer.name: 성명 (고객 성명)" in text   # 실제 질문 줄
-    assert '{"key": "customer.name", "value": "' in text   # 실제 정답
+    assert "- employee.name: 성명" in text   # 실제 질문 줄 (서식의 키·키 설명 그대로)
+    assert '{"key": "employee.name", "value": "' in text   # 실제 정답
     assert "## 고치려면" in text
 
 

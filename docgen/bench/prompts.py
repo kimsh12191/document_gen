@@ -72,20 +72,34 @@ def freetext_prompt(label: str, basis: str) -> str:
                              requests=", ".join(REQUESTS))
 
 
-def kie_line(form_id: str | None, key: str, label: str | None, doc_key: str | None = None, extra: str = "",
-             siblings: list[dict] | None = None, note: str | None = None, line: str | None = None) -> str:
-    """kie·marks 항목 한 줄: '- 키: 항목명 (설명)'. 설명은 키 사전의 누구의 무엇과 표의 행 (docgen.dictionary.describe).
-    extra 는 marks 의 종류·보기처럼 괄호에 같이 넣을 것. siblings(그 문서의 같은 과제 칸, 문서 순서)에 항목명이 같은 칸이
-    또 있으면 몇 번째 칸인지 붙인다 (작성일·작성일2 처럼 행 번호가 없는 반복 칸)."""
+def _norm(s: str) -> str:
+    return re.sub(r"[^0-9a-z가-힣]", "", (s or "").lower())
+
+
+def row_of(key: str) -> str:
+    """표 칸이면 몇 번째 행인지: "debts.1.balance" → "2행", "기업부담금_목록.0.상품명" → "기업부담금 목록 1행" (행은 0부터 센다)."""
+    segs = key.split(".")
+    nums = [i for i, s in enumerate(segs) if s.isdigit()]
+    if not nums:
+        return ""
+    i = nums[0]
+    table = ".".join(segs[:i]).replace("_", " ")   # 한글 키면 표 이름으로 쓴다
+    table = table + " " if re.search(r"[가-힣]", table) else ""
+    return f"{table}{int(segs[i]) + 1}{'번째' if i == len(segs) - 1 else '행'}"
+
+
+def kie_line(key: str, label: str | None, extra: str = "", siblings: list[dict] | None = None,
+             note: str | None = None, line: str | None = None) -> str:
+    """kie·marks 항목 한 줄: '- 키: 키 설명 (덧붙임)'. 키·키 설명은 서식의 칸 그대로(fields.json·템플릿).
+    덧붙임은 표의 몇 번째 행, extra(marks 의 종류·보기), 키 설명이 같은 칸이 또 있으면 몇 번째 칸인지
+    (작성일·작성일2 처럼 행 번호가 없는 반복 칸). 칸에 질문 설명 q.note 를 적었으면 그것만 쓴다."""
     if note is not None:   # 칸 목록 fields.json 의 그 칸 "q": {"note"} 그대로 (docgen/formquestions.pick)
         return item_line(key, label, ", ".join(x for x in [note, extra] if x), line)
-    from .. import dictionary as DIC
-
-    desc = DIC.describe(form_id, key, label, doc_key)
-    same = [s["key"] for s in siblings or [] if DIC._norm(s.get("label") or "") == DIC._norm(label or "")]
-    me = key if key in same else doc_key   # 공통 키로 묻는 칸은 서식의 키로 찾는다
-    if label and len(same) > 1 and me in same and not any(p.isdigit() for p in key.split(".")):
-        desc = ", ".join(x for x in [desc, f"같은 항목명 중 {same.index(me) + 1}번째 칸"] if x)
+    desc = row_of(key)
+    desc = "" if _norm(desc) == _norm(label or "") else desc
+    same = [s["key"] for s in siblings or [] if _norm(s.get("label") or "") == _norm(label or "")]
+    if label and len(same) > 1 and key in same and not any(p.isdigit() for p in key.split(".")):
+        desc = ", ".join(x for x in [desc, f"같은 설명 중 {same.index(key) + 1}번째 칸"] if x)
     return item_line(key, label, ", ".join(x for x in [desc, extra] if x), line)
 
 

@@ -1,6 +1,6 @@
 """kie — 정보 추출. 서류 한 건의 모든 쪽을 보고, 질문에 적은 항목마다 값과 위치를 답한다.
 
-질문: P_KIE + 항목 줄 '- 키: 항목명 (설명)' (prompts.kie_line). 항목은 체크·도장·서명과 묶음 칸, 표 칸(table 과제가 묻는다,
+질문: P_KIE + 항목 줄 '- 키: 키 설명 (덧붙임)' (prompts.kie_line). 항목은 체크·도장·서명과 묶음 칸, 표 칸(table 과제가 묻는다,
       Doc.table_keys)을 뺀 칸 전부, max_keys(기본 40)개를 넘으면 그만큼만 골라 문서 순서로.
       일부 문항(ABSENT_RATE)에는 이 서류에 없는 칸 1~3개를 아무 자리에나 섞는다 (같은 그룹 다른 서식의 칸, 정답 null —
       docgen/bench/absent.py).
@@ -56,7 +56,7 @@ def make(doc):
         for f in absent_keys(doc, doc.rng.randint(*ABSENT_N)):
             kf.insert(doc.rng.randrange(len(kf) + 1), f)
     item, tpl, empty = FQ.shell(doc.q, TASK)   # 질문 항목 줄 틀·답 항목 틀·빈 칸 틀 (서식 questions.json, 없으면 공통)
-    lines = "\n".join(prompts.kie_line(f.get("_absent") or doc.r["doc_id"], f["key"], f.get("label"), f.get("doc_key"), siblings=all_kf,
+    lines = "\n".join(prompts.kie_line(f["key"], f.get("label"), siblings=all_kf,
                                         note=f.get("_note"), line=item) for f in kf)
     ev = {"fields": {f["key"]: {"type": f["type"], "norm": f.get("norm"), "kind": "absent" if f.get("_absent") else field_kind(f)}
                      for f in kf}}

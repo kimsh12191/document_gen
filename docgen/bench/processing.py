@@ -140,7 +140,7 @@ def execute(conf: dict, docs: dict) -> list[dict]:
             answer = [{"key": key, "value": f["value"], "bbox_2d": normalize_box(f["bbox"], *sizes[page]), "page": page + 1}]
             row.update(answer=f["value"], question=f"{docs[did]['name']}의 {f.get('label') or key} 추출")
             row["item"] = {"task": "kie", "docs": [did], "prompt": P_KIE.format(items=kie_line(
-                did, key, f.get("label"), f["key"],
+                key, f.get("label"),
                 siblings=[x for x in docs[did]["fields"] if not x.get("group") and x.get("type") not in MARKS])),
                            "answer": answer, "eval": {"fields": {key: {"type": f["type"], "norm": f.get("norm")}}}}
         else:

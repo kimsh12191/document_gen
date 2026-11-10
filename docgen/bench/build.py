@@ -43,7 +43,7 @@ from .prompts import P_CROSS, P_DOC_CHECK, P_REVIEW
 from .tasks import MARK_TYPES, field_kind  # noqa: F401  (field_kind: 예전 import 자리 build.field_kind)
 from .rules import Bundle, questions, r_doc_valid, valid_candidates
 
-VERSION = "4.2"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
+VERSION = "5.0"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순서·프로세스 수와 무관), 1.2: 원본 서식 결재란에 직원 도장·서명,
 #                  2.0: kie·marks 답에 위치(bbox_2d 0~1000, page) — 값·위치·값+위치 점수. 건강보험료 납부확인서 정산 분할납부
 #                       변형이 정한 확률(15%)대로 나오게 고침
 #                  3.0: 키 사전(docgen/dictionary) 적용 — 공통 키에 이은 칸은 서식이 달라도 공통 키로 묻고 답함(customer.name …),
@@ -62,6 +62,8 @@ VERSION = "4.2"  # 1.1: 증강 노이즈를 이미지마다 고정 (작업 순�
 #                       레시피 page_view 비율, 기본 0.5)과 모든 쪽(view "all"). table·table_read 는 넣은 이미지에 보이는 행을
 #                       늘 전부 묻는다 ("N쪽에 있는 행만"·"앞에서부터 30행까지만" 으로 자르던 것 없앰). 한 쪽 서류도 30행 넘는
 #                       표의 문항이 4.1 과 다르다
+#                  5.0: 키는 서식의 키 그대로 (공통 키·키 사전 없앰 — 3.0 에서 공통 키로 바꾸던 칸이 서식의 키로 돌아감).
+#                       질문 항목 줄의 괄호는 키 설명이 아니라 표의 행·같은 설명 칸 순번만 ("누구의 무엇" 설명 없앰)
 # 1.x 세트(값만 있는 답)도 같은 채점기로 채점된다 (evaluate.py 가 두 형식을 다 읽음). 값 점수는 1.x 와 뜻이 같다.
 SEED_SINGLE = 1_000_000   # 단일 서류 과제 고객 seed 시작
 SEED_BUNDLE = 2_000_000   # 업무 묶음 고객 seed 시작

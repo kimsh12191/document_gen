@@ -146,13 +146,10 @@ def _public(it: dict) -> dict:
 
 
 def layout_view(doc_id: str) -> dict:
-    from docgen import dictionary as DIC
-
     _overlay(doc_id)
     raw = OV.base(doc_id)   # 칸 목록(fields.json), 아직 없으면 자동 추출 레이아웃
     ov = OV.load(doc_id)
     by_id = {OV.item_id({"n": 0, **o["match"]}): o for o in ov.get("items", [])}
-    cells = {c["id"]: c for c in DIC.form_cells(doc_id)}   # 저장된 레이아웃 기준 칸 키 (렌더링과 같은 계산, 키 사전의 누구의 · 무엇)
     items = []
     for it, m in OV.matches(raw):
         iid = OV.item_id(m)
@@ -163,10 +160,9 @@ def layout_view(doc_id: str) -> dict:
                 merged[k] = o[k]
         status = "auto" if not o else "dropped" if o.get("drop") else "edited"
         was = "edited" if it.get("edited") or it.get("added") else None   # 칸 목록에 이미 합친 사람 수정
-        items.append({"id": iid, "match": m, "status": status, "was": was, "auto": _auto(it), "base_raw": _public(it),
-                      "cell": cells.get(iid), **merged})
+        items.append({"id": iid, "match": m, "status": status, "was": was, "auto": _auto(it), "base_raw": _public(it), **merged})
     for k, a in enumerate(ov.get("add", [])):
-        items.append({"id": f"add:{k}", "status": "added", "auto": {"key": None, "kind": None}, "cell": cells.get(f"add:{k}"), **_public(a)})
+        items.append({"id": f"add:{k}", "status": "added", "auto": {"key": None, "kind": None}, **_public(a)})
     from docgen.entities import make_profile
 
     prof, cls = make_profile(0), (raw.get("class") or "기본").split("/")[0]
