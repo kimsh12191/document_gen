@@ -7,6 +7,7 @@
 | `swift_to_kie_tmp.py` | swift 추출 `.jsonl`의 질문·답을 kie 꼴(한국어 질문, `{키: 값}` 객체 답)로 바꾼 새 `.jsonl`을 만듦. 키는 질문의 `in order: [...]`에서 자동으로 뽑음 |
 | `swift_to_kie_v3_tmp.py` | v3: **합성 kie 와 같은 꼴**로 바꿈. 질문은 `docgen/bench/prompts.py` 의 `P_KIE` 그대로 + `- 키: 항목명`, 정답은 `[{"key", "value"}]` 목록 (위치 없음), 항목 40개마다 나눔. 채점 `train/scorers/kie_list_scorer.py` (합성과 같은 값 채점, 주 지표 f1) |
 | `pairs_to_swift_kie_tmp.py` | 그림 + 라벨 json 쌍 폴더(`007009.jpg` ↔ `007009.json`, `{항목명: 값}`)를 ms-swift `.jsonl`로. 정답은 v3 와 같은 `[{"key", "value"}]` 목록, 빈 값은 null, 항목 40개마다 나눔. 질문은 기본 값만 묻는 문장(`--prompt value`, 학습용), `--prompt synthetic` 이면 v3 와 같은 `P_KIE` |
+| `qlabel_to_swift_kie_tmp.py` | qlabel 라벨 JSON(`[그림 경로, {태그: [{"text", "bbox_2d"}]}]` 목록, 경로의 `{img_dir}` 은 `--img-dir`)을 ms-swift `.jsonl`로. 질문은 합성 kie 와 같은 `P_KIE`(값과 위치), 묻는 항목은 **그 그림에 있는 태그만**. 정답은 `[{"key", "value", "bbox_2d", "page"}]` — bbox_2d 첫 점(그림 크기)과 꼭짓점으로 0~1000 박스. 빈 글자는 null, 항목 40개마다 나눔. 채점 `kie_list_scorer.py` (위치가 있으므로 주 지표 vl_f1) |
 | `swift_to_kie_v2_tmp.py` | v2: 질문 문장만 고쳐 다시 씀 (그림·정답 그대로). 답 꼴 예시를 그 문항의 실제 키로(`{"HSCODE": "…", …}`, 예시 베끼기 방지), 키 옆에 한국어 항목명(`--labels` 표). 입력은 v1 변환본이나 swift 원본 |
 
 ```bash
@@ -43,3 +44,13 @@ python temp/swift_to_kie_v3_tmp.py convert <eval_qa_PO_kie.jsonl> <eval_qa_PO_ki
 python temp/pairs_to_swift_kie_tmp.py <폴더> <출력.jsonl>
 python temp/pairs_to_swift_kie_tmp.py keys <폴더> > labels.json   # 키에 항목명을 따로 붙일 때만 (--labels labels.json)
 ```
+
+```bash
+# qlabel 라벨 JSON → swift .jsonl (값과 위치). 그림 크기는 그림 파일에서 확인 (라벨 크기와 다르면 맞추고 알림)
+python temp/qlabel_to_swift_kie_tmp.py qlabel_json_final.json <출력.jsonl> --img-dir <그림 폴더> [--val-ratio 0.05]
+python temp/qlabel_to_swift_kie_tmp.py keys qlabel_json_final.json > labels.json   # 태그에 한국어 항목명을 붙일 때만 (--labels labels.json)
+```
+
+- 한 태그에 칸이 여럿이면 기본은 글자를 이어 한 값·감싸는 박스, `--multi number` 면 칸마다 `태그`, `태그#2` …
+- 학습: 설정 `data.train` 에 `{"path": "<출력.jsonl>", "format": "swift-fields", "scorer": "../scorers/kie_list_scorer.py:score"}`,
+  평가: `data.benchmark` 에 `{"id": "real-qlabel", "format": "swift-fields", "gt": "reviewed", "paths": ["<출력.val.jsonl>"], "scorer": "../scorers/kie_list_scorer.py:score"}`
