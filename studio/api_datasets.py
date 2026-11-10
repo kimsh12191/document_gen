@@ -1,12 +1,11 @@
 """⑥ 데이터셋 API (studio/datasets.py 를 부른다). 모델 답·채점은 학습 서버의 python -m train (guide/eval.md).
 
-  GET    /api/datasets                       등록부 목록 (먼저 놓친 자동 등록을 복구한다, build_registration.py)
-  POST   /api/datasets                       폴더 등록 {path, name, source?, gt?, real_data?}
-  GET    /api/datasets/{id}                  데이터셋 하나: 정보, 과제별 문항 수, 설명서
+  GET    /api/datasets                       등록부 목록 (읽기만. 놓친 자동 등록 복구·옛 줄 고치기는 띄울 때 한 번, app.py)
+  POST   /api/datasets                       폴더 등록 {path, name, source?, gt?, real_data?} (설명서도 쓴다)
+  GET    /api/datasets/{id}                  데이터셋 하나: 정보, 과제별 문항 수, 설명서 (읽기만)
   DELETE /api/datasets/{id}                  등록만 지운다 (폴더는 그대로)
-  PATCH  /api/datasets/{id}                  이름·출처·정답 종류·실서류 여부
   POST   /api/datasets/{id}/freeze           고정 {frozen}
-  PUT    /api/datasets/{id}/card             설명서의 사람 칸 {purpose, limits, not_for} · GET /api/datasets/{id}/card.md 설명서 원문
+  PUT    /api/datasets/{id}/card             설명서의 사람 칸 {purpose, limits, not_for}
   GET    /api/datasets/{id}/composition      구성 (과제·정답 구조별 문항 수, 생성 레시피·버전)
   GET    /api/datasets/{id}/items            문항 {task, offset, limit, q, 구성 필터}
   GET    /api/datasets/{id}/file?p=          문항 이미지
@@ -16,13 +15,13 @@ import json
 from pathlib import Path
 
 from fastapi import APIRouter, HTTPException
-from fastapi.responses import FileResponse, PlainTextResponse
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from . import datasets as DS
 
 
-def make_router(reg: DS.Registry, guard, jobs=None) -> APIRouter:
+def make_router(reg: DS.Registry, guard) -> APIRouter:
     r = APIRouter()
 
     def ds_or_404(ds_id: str) -> dict:
@@ -31,31 +30,14 @@ def make_router(reg: DS.Registry, guard, jobs=None) -> APIRouter:
         except KeyError:
             raise HTTPException(404, f"등록되지 않은 데이터셋: {ds_id}")
 
-    def card_path(ds: dict) -> Path:
-        return (Path(ds["path"]) / "DATASET.md") if not ds.get("registered") else (reg.ws / "cards" / f"{ds['id']}.md")
-
-    def write_card(ds: dict) -> str:
-        md = DS.card_markdown(ds)
-        if ds.get("frozen") and card_path(ds).exists() and not ds.get("registered"):
-            return card_path(ds).read_text(encoding="utf-8")   # 고정한 데이터셋은 자동 칸을 다시 쓰지 않는다
-        p = card_path(ds)
-        p.parent.mkdir(parents=True, exist_ok=True)
-        p.write_text(md, encoding="utf-8")
-        return md
-
     @r.get("/api/datasets")
     def list_datasets():
-        if jobs is not None:
-            from .build_registration import recover_completed
-
-            guard(recover_completed, jobs, reg)
-        d = reg.load()
+        d = guard(reg.load)
         out = []
         for k, v in d["datasets"].items():
             out.append({"id": k, **{x: v.get(x) for x in ("name", "groups", "kind", "split", "format", "source", "gt", "real_data", "frozen",
                                                          "version", "counts", "created", "registered", "path")},
-                        "exists": Path(v["path"]).exists(), "n_runs": len(v.get("runs", [])),
-                        "n_scores": len(saved_scores(k))})
+                        "exists": Path(v["path"]).exists()})
         return {"datasets": out, "workspace": str(reg.ws), "sources": DS.SOURCE_NAME, "gts": DS.GT_NAME, "groups": DS.GROUP_NAME}
 
     class RegisterReq(BaseModel):
@@ -68,16 +50,14 @@ def make_router(reg: DS.Registry, guard, jobs=None) -> APIRouter:
     @r.post("/api/datasets")
     def register(req: RegisterReq):
         meta = {k: v for k, v in req.model_dump().items() if k not in ("path", "name") and v is not None}
-        ds = guard(reg.register, req.path, req.name, **meta)
-        write_card(ds)
-        return ds
+        return guard(reg.register, req.path, req.name, **meta)
 
     @r.get("/api/datasets/{ds_id}")
     def get_dataset(ds_id: str):
         ds = ds_or_404(ds_id)
         return {**ds, "exists": Path(ds["path"]).exists(),
                 "tasks": {t: len(v) for t, v in guard(DS.items, ds).items()} if Path(ds["path"]).exists() else {},
-                "card_md": write_card(ds), "card_file": str(card_path(ds))}
+                "card_md": guard(reg.card_text, ds), "card_file": str(reg.card_path(ds))}
 
     @r.delete("/api/datasets/{ds_id}")
     def unregister(ds_id: str):
@@ -103,27 +83,17 @@ def make_router(reg: DS.Registry, guard, jobs=None) -> APIRouter:
                 "provenance": {k: recipe.get(k, meta.get(k)) for k in
                                ("generator_commit", "version", "created", "recipe", "form_hashes")}}
 
-    @r.patch("/api/datasets/{ds_id}")
-    def patch(ds_id: str, req: dict):
-        return guard(reg.set_meta, ds_id, req)
-
     class FreezeReq(BaseModel):
         frozen: bool = True
 
     @r.post("/api/datasets/{ds_id}/freeze")
     def freeze(ds_id: str, req: FreezeReq):
-        ds = guard(reg.set_frozen, ds_id, req.frozen)
-        write_card(ds)
-        return ds
+        return guard(reg.set_frozen, ds_id, req.frozen)
 
     @r.put("/api/datasets/{ds_id}/card")
     def card(ds_id: str, req: dict):
         ds = guard(reg.set_card, ds_id, req)
-        return {"card_md": write_card(ds)}
-
-    @r.get("/api/datasets/{ds_id}/card.md", response_class=PlainTextResponse)
-    def card_md(ds_id: str):
-        return write_card(ds_or_404(ds_id))
+        return {"card_md": reg.card_text(ds)}
 
     @r.get("/api/datasets/{ds_id}/items")
     def list_items(ds_id: str, task: str = "", offset: int = 0, limit: int = 20, q: str = "",

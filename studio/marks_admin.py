@@ -13,6 +13,8 @@ from pathlib import Path
 from docgen import marks as M
 
 IMAGE_POOLS = ("check", "sign", "seal")
+EDITABLE = ("name", "weight", "enabled", "kind", "scale", "shape", "border", "double", "font", "ink")   # 화면에서 고치는 칸
+# 파일 경로(file·font_file)와 builtin 은 서버만 정한다 (upload·글꼴 추가). 화면이 보낸 값은 받지 않는다.
 SEAL_SHAPES = ("circle", "square", "oval")
 PHOTO_EXTS = ("jpg", "jpeg", "webp")   # 도장 풀만: 사진도 받아 clean_seal 로 배경을 지운다
 
@@ -95,9 +97,11 @@ def save_pool(name: str, items: list[dict]) -> dict:
     for it in items:
         if not isinstance(it.get("id"), str) or not it["id"]:
             raise ValueError("항목마다 id 가 필요합니다")
-        base = dict(old.get(it["id"]) or it)   # 새 항목(add_font·add_seal_template)은 id·origin 까지 그대로
-        base.update({k: v for k, v in it.items() if k in ("name", "weight", "enabled", "kind", "scale", "shape", "border",
-                                                          "double", "font", "ink")})
+        if it["id"] in old:
+            base = dict(old[it["id"]])   # 있던 항목: 파일 경로·builtin 은 저장된 것 그대로
+        else:   # 새 항목(add_font·add_seal_template): id·origin 과 고치는 칸만
+            base = {"id": it["id"], **({"origin": it["origin"]} if isinstance(it.get("origin"), str) else {})}
+        base.update({k: v for k, v in it.items() if k in EDITABLE})
         if "weight" in base and (not isinstance(base["weight"], int) or not 0 <= base["weight"] <= 100):
             raise ValueError(f"{it['id']}: 가중치는 0~100 정수")
         if name == "seal" and not base.get("builtin"):
@@ -302,9 +306,19 @@ def delete_item(name: str, item_id: str) -> dict:
         raise ValueError("코드가 그리는 기본 항목은 지우지 않고 끕니다 (가중치 0 또는 끄기)")
     pools[name] = [x for x in items if x["id"] != item_id]
     _write_pools(pools)
-    if it.get("file") and not any(x.get("file") == it["file"] for x in pools[name]):
-        (M.POOLS_DIR / it["file"]).unlink(missing_ok=True)
-    ff = it.get("font_file")   # 경로로 등록하며 복사한 글꼴 파일 (다른 풀에서도 안 쓰면 지운다)
-    if ff and not any(x.get("font_file") == ff for items in pools.values() for x in items):
-        (M.FONTS_DIR / ff).unlink(missing_ok=True)
+    f = it.get("file")   # upload 가 만든 <풀>/<풀>_<해시>.<확장자> (다른 항목이 안 쓰면 지운다)
+    if f and not any(x.get("file") == f for x in pools[name]):
+        _unlink_inside(M.POOLS_DIR / name, M.POOLS_DIR / str(f))
+    ff = it.get("font_file")   # 경로로 등록하며 복사한 글꼴 파일 (다른 풀·기본 풀에서도 안 쓰면 지운다)
+    used = {M.font_file(pool, x) for pool, lst in [*pools.items(), *M.DEFAULT_POOLS.items()]
+            if pool in ("hand_fonts", "print_fonts") for x in lst}
+    if ff and ff not in used:
+        _unlink_inside(M.FONTS_DIR, M.FONTS_DIR / str(ff))
     return view()
+
+
+def _unlink_inside(folder: Path, f: Path) -> None:
+    """f 가 folder 바로 아래·그 안의 파일일 때만 지운다 (풀에 적힌 경로가 밖을 가리키면 지우지 않음)."""
+    root, target = folder.resolve(), f.resolve()
+    if root in target.parents and target.is_file():
+        target.unlink()

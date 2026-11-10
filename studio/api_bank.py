@@ -4,8 +4,9 @@
 
   GET    /api/recipes                     레시피 목록 · GET /api/recipes/options 편집용 목록(그룹·촬영 조건·서식틀)
   GET/PUT/DELETE /api/recipes/{이름}       레시피 하나
-  POST   /api/builds                      데이터셋 만들기 {recipe, name, workers} → 작업 (레시피 track 이 ocr 이면 합성 OCR)
-  GET    /api/builds                      생성 작업 목록 (⑥ 생성 현황). 재시작으로 놓친 자동 등록을 여기서 복구한다 (build_registration.py)
+  POST   /api/builds                      데이터셋 만들기 {recipe, name, workers} → 작업 (레시피 track 이 ocr 이면 합성 OCR).
+                                          같은 이름의 폴더가 있거나 그 폴더로 도는 작업이 있으면 409
+  GET    /api/builds                      생성 작업 목록 (⑥ 생성 현황). 읽기만 한다 — 놓친 자동 등록은 띄울 때 복구 (build_registration.py)
   GET    /api/jobs                       작업 목록 · GET /api/jobs/{id} · POST /api/jobs/{id}/cancel
 """
 from typing import Any
@@ -58,7 +59,7 @@ def make_router(reg, jobs, guard) -> APIRouter:
     def list_builds():
         from .build_registration import list_builds as builds
 
-        return {"jobs": guard(builds, jobs, reg)}
+        return {"jobs": guard(builds, jobs)}
 
     @r.get("/api/jobs")
     def list_jobs(kind: str | None = None):

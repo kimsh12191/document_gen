@@ -232,10 +232,17 @@ def _summary(spec, entry: dict, audit: bool = False) -> dict:
     }
 
 
+def clear_caches() -> None:
+    """이 모듈의 캐시를 비운다 (키 목록 guide/fields/fields.json, 값 점검)."""
+    _fields.cache_clear()
+    _audit_at.cache_clear()
+
+
 def refresh() -> dict:
     """서식 폴더를 다시 훑고 (docgen.registry.refresh) 서식 목록에 딸린 저장값을 비운다."""
     from docgen.registry import refresh as rescan
 
+    clear_caches()
     res = rescan()
     from docgen import formcard
 
@@ -386,7 +393,3 @@ def _qa_source(doc_id: str) -> dict | None:
 
     p = formqa.path(doc_id)
     return {"path": _rel(p), "source": p.read_text(encoding="utf-8")[:200_000]} if p.exists() else None
-
-
-def groups() -> list[dict]:
-    return [{"id": g, "name": n} for g, n in GROUPS.items()]

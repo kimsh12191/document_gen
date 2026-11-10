@@ -112,16 +112,3 @@ def test_jobs_run_and_on_done(tmp_path):
     assert got["status"] == "done" and got["result"] == {"ok": 1} and "2/2" in got["log_tail"]
 
 
-def test_consistency_flags_wrong_name():
-    from docgen.entities import make_profile
-
-    p = make_profile(5)
-    b = {"customer_seed": 5, "scenario": "mortgage", "docs": [
-        {"doc_id": "a", "name": "A", "fields": [{"key": "applicant.name", "value": p.person.name},
-                                                 {"key": "applicant.rrn", "value": p.person.rrn}]},
-        {"doc_id": "b", "name": "B", "fields": [{"key": "customer.name", "value": "다른사람"}]},
-        {"doc_id": "c", "name": "C", "why": "other_customer", "fields": [{"key": "customer.name", "value": "다른사람"}]}]}
-    w = BD.consistency(b)
-    assert [x["doc_id"] for x in w] == ["b"]
-    prof = {x["what"]: x for x in BD.profile_view(b)}
-    assert len(prof["성명"]["where"]) == 1 and len(prof["주민등록번호"]["where"]) == 1

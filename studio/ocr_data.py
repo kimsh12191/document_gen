@@ -1,11 +1,10 @@
 """⑥ 데이터셋의 OCR 쪽: 합성 OCR 레시피·빌드(docgen.ocr_set → OCR 준비).
 
-OCR 레시피는 은행 업무 레시피와 같은 docgen/recipes/ 에 track: "ocr" 로 둔다. 형식은 docgen/ocr_set.py 머리말.
+OCR 레시피는 은행 서류 레시피와 같은 docgen/recipes/ 에 track: "ocr" 로 둔다. 형식은 docgen/ocr_set.py 머리말.
 API 는 studio/api_bank.py (/api/builds), 화면은 static/js/recipes.js·datasets.js.
 """
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 from .config import ROOT
@@ -13,9 +12,9 @@ from .config import ROOT
 OCR_KEYS = {"name", "about", "track", "split", "types", "per_doc", "exclude", "reviewed_only", "conditions", "unit", "heavy",
             "special", "merge_manifests", "prepare", "start"}
 TEMPLATES = {
-    "ocr-bench": {"about": "합성 OCR 평가 세트: 서식 476종 × 1건, 쪽 전체 글자 정답 (쪽 OCR 8과제)", "track": "ocr", "split": "benchmark",
+    "ocr-bench": {"about": "합성 OCR 평가 세트: 모든 서식 × 1건, 쪽 전체 글자 정답 (쪽 OCR 8과제)", "track": "ocr", "split": "benchmark",
                   "types": "all", "per_doc": 1, "unit": "word"},
-    "ocr-train": {"about": "합성 OCR 학습 데이터: 서식 476종 × 3건 (문서 10% 를 평가로 떼어 둠)", "track": "ocr", "split": "train",
+    "ocr-train": {"about": "합성 OCR 학습 데이터: 모든 서식 × 3건 (문서 10% 를 평가로 떼어 둠)", "track": "ocr", "split": "train",
                   "types": "all", "per_doc": 3, "unit": "word", "prepare": {"benchmark_fraction": 0.1}},
     "ocr-try": {"about": "몇 분짜리 시험: 서식 3종 × 2건", "track": "ocr", "split": "benchmark",
                 "types": ["employment_certificate", "hf169", "resident_id_card"], "per_doc": 2, "unit": "word"},
@@ -55,9 +54,7 @@ def start_build(jobs, registry, recipes_dir: Path, recipe_name: str, out_name: s
 
     r = get_recipe(recipe_name)
     validate(r)
-    out = registry.ws / "datasets" / _slug(out_name)
-    if out.exists() and any(out.iterdir()):
-        raise ValueError(f"이미 있는 폴더입니다: {out}. 다른 이름을 쓰세요")
+    out = registry.ws / "datasets" / _slug(out_name)   # 이미 있는 폴더·같은 폴더로 도는 작업은 jobs.start 가 막는다 (409)
     rpath = recipes_dir / f"{_slug(recipe_name)}.json"
     cmd = [python(), "-m", "docgen.ocr_set", "build", "--recipe", str(rpath), "--out", str(out), "--workers", str(max(1, workers))]
 

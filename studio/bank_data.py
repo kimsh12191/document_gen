@@ -9,8 +9,6 @@ from __future__ import annotations
 
 import json
 import re
-import unicodedata
-from pathlib import Path
 
 from docgen.bench import build as BUILD
 from docgen.registry import GROUPS, load_all
@@ -20,9 +18,9 @@ from .config import ROOT
 RECIPES = ROOT / "docgen" / "recipes"
 TEMPLATES = {
     # docgen/scripts/make_bank_data.sh 와 같은 양 (평가 세트·학습 데이터)
-    "bank-bench": {"about": "은행 서류 평가 세트: 서류 476종 × 1건", "track": "bank", "split": "test",
+    "bank-bench": {"about": "은행 서류 평가 세트: 모든 서식 × 1건", "track": "bank", "split": "test",
                    "types": "all", "per_doc": 1},
-    "bank-train": {"about": "은행 서류 학습 데이터: 서류 476종 × 5건 (평가 세트와 seed 가 겹치지 않음)",
+    "bank-train": {"about": "은행 서류 학습 데이터: 모든 서식 × 5건 (평가 세트와 seed 가 겹치지 않음)",
                    "track": "bank", "split": "train", "types": "all", "per_doc": 5},
     "bank-try": {"about": "몇 분짜리 시험: 서식 몇 개", "track": "bank", "split": "test",
                  "types": ["resident_id_card", "loan_application"], "per_doc": 1},
@@ -119,9 +117,7 @@ def start_build(jobs, registry, recipe_name: str, out_name: str, workers: int = 
     r = get_recipe(recipe_name)
     if r.get("track", "bank") != "bank":
         raise ValueError("은행 서류 레시피가 아닙니다")
-    out = registry.ws / "datasets" / _slug(out_name)
-    if out.exists() and any(out.iterdir()):
-        raise ValueError(f"이미 있는 폴더입니다: {out}. 다른 이름을 쓰세요 (만든 데이터셋은 덮어쓰지 않습니다)")
+    out = registry.ws / "datasets" / _slug(out_name)   # 이미 있는 폴더·같은 폴더로 도는 작업은 jobs.start 가 막는다 (409)
     rpath = RECIPES / f"{_slug(recipe_name)}.json"
     cmd = [python(), "-m", "docgen.bench", "build", "--recipe", str(rpath), "--out", str(out), "--workers", str(max(1, workers))]
 

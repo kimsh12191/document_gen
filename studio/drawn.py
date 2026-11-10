@@ -102,13 +102,21 @@ def create(files: list[tuple[str, bytes]], form_id: str, name: str, real_data: b
 OCR_CONFIG = Path(__file__).resolve().parents[1] / "docgen" / "bench" / "ocr_config.example.json"   # mapping 기본값
 
 
+def ocr_configured(ocr: dict | None) -> bool:
+    """사내 OCR 설정이 있는지 (studio 설정 ocr.revision). 없으면 화면이 [사내 OCR 로 읽기]를 숨긴다 (/api/info 의 ocr_configured)."""
+    return bool((ocr or {}).get("revision"))
+
+
 def ocr_settings(ocr: dict | None) -> dict:
-    """studio 설정의 ocr → 부를 함수·버전·캐시 폴더·결과 읽는 법(mapping). 옛 이름 internal_ocr_adapter:… 는 studio 로 옮긴 것."""
+    """studio 설정의 ocr → 부를 함수·버전·캐시 폴더·결과 읽는 법(mapping). 옛 이름 internal_ocr_adapter:… 는 studio 로 옮긴 것.
+    cache_dir 는 OCR 준비의 cache_dir 와 같은 뜻 (응답은 <cache_dir>/ocr/<키>.json). 기본 studio_cache, 상대 경로는 저장소 기준."""
+    from .config import resolve_path
+
     o = dict(ocr or {})
     name = o.get("callable") or "studio.internal_ocr_adapter:ocr_from_file"
     o["callable"] = f"studio.{name}" if name.startswith("internal_ocr_adapter:") else name
     o.setdefault("revision", "")
-    o.setdefault("cache_dir", str(Path(__file__).resolve().parents[1] / "studio_cache" / "ocr"))
+    o["cache_dir"] = str(resolve_path(o.get("cache_dir") or "studio_cache"))
     if not o.get("mapping"):
         o["mapping"] = json.loads(OCR_CONFIG.read_text(encoding="utf-8"))["mapping"]
     return o
@@ -141,9 +149,11 @@ def read_texts(doc_id: str, ocr: dict | None, replace: bool = False) -> dict:
         img = d / "look" / f"page_{k}.png"
         im = canonical_image(str(img))
         sha = digest(str(im.size).encode() + im.tobytes())
-        cached = cache / "ocr" / f"{digest(dumps([sha, o['callable'], o['revision']]).encode())}.json"
-        if cached.exists():
-            raw = json.loads(cached.read_text(encoding="utf-8"))
+        name = f"{digest(dumps([sha, o['callable'], o['revision']]).encode())}.json"
+        cached = cache / "ocr" / name
+        old = cache / "ocr" / "ocr" / name   # 예전 기본값(studio_cache/ocr)이 만든 겹친 폴더도 읽는다
+        if cached.exists() or old.exists():
+            raw = json.loads((cached if cached.exists() else old).read_text(encoding="utf-8"))
         else:
             raw = adapter(str(img))
             if raw is None:

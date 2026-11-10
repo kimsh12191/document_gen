@@ -129,7 +129,7 @@ function viewOcrRecipe(name, r, opts) {
         ${formPickButton("rc-exclude", "뺄 서식")}
         <label><input type="checkbox" id="rc-reviewed" ${r.reviewed_only ? "checked" : ""}> 검수 완료 서식만</label>
         <label class="fld">정답 한 항목의 단위 <select id="rc-unit"><option value="word">단어 (줄 번호 함께)</option><option value="line" ${r.unit === "line" ? "selected" : ""}>줄</option></select></label>
-        <div class="muted" style="font-size:12px">사내 OCR 이 내는 단위에 맞추세요 (DESIGN.md 12절). 견본 표시·도장 안 글자·정정 글자는 신뢰도 0.3 으로 적어 1부가 그 자리를 뺍니다.</div>
+        <div class="muted" style="font-size:12px">사내 OCR 이 내는 단위에 맞추세요. 견본 표시·도장 안 글자·정정 글자는 신뢰도 0.3 으로 적어 1부가 그 자리를 뺍니다.</div>
         <div class="bar"><label>내용 많음 ${sel("rc-heavy", r.heavy)}</label><label>특수 상황 ${sel("rc-special", r.special)}</label></div>
       </div>
       <div class="panel"><b>촬영 조건 비율</b> <span class="muted">합 1 (OCR 준비가 노이즈 사본을 따로 더 만듭니다)</span>

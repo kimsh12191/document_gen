@@ -116,7 +116,7 @@ function dsCard(d) {
         <label class="fld">쓰면 안 되는 곳 <textarea id="cd-notfor" rows="2">${esc(c.not_for || "")}</textarea></label>
         <label class="fld">알려진 한계 <textarea id="cd-limits" rows="4">${esc(c.limits || "")}</textarea></label>
         <div class="bar"><button class="primary" id="cd-save">설명서 저장</button></div>
-        <div class="muted" style="font-size:12px">파일: <span class="mono">${esc(d.card_file)}</span>. 구성·점수·쓴 학습은 자동으로 채웁니다.</div>
+        <div class="muted" style="font-size:12px">파일: <span class="mono">${esc(d.card_file)}</span>. 구성·버전은 자동으로 채웁니다.</div>
       </div>
     </div>`;
   $("#cd-save").onclick = async () => {

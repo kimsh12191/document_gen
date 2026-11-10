@@ -5,9 +5,12 @@ API 는 studio/api_datasets.py, 화면은 static/js/datasets.js·dataset-builds.
   {"datasets": {"<ID>": {groups, kind, source, gt, real_data, path, format, name, created, frozen, split, card: {...}}}}
 
 형식은 하나 (studio/DESIGN.md 17절): docgen-tasks — meta.json + tasks/<과제>.jsonl, 문항 {id, task, images, prompt, answer, eval, meta}.
-  docgen.bench build(합성 업무·문서 과제), OCR 준비(docgen.bench.ocr_prepare: 쪽 OCR 8과제, 문항 meta.split 이 train·val·benchmark),
-  모두 이 형식을 쓴다. tasks/ 가 없는 옛 OCR 준비 폴더는 등록할 때 tasks/ 를 만들어 준다.
-  과제 묶음(groups: ocr·doc·work)은 들어 있는 과제로 정한다 (옛 track 대신).
+  docgen.bench build(문서 이해 과제), OCR 준비(docgen.bench.ocr_prepare: 쪽 OCR 8과제, 문항 meta.split 이 train·val·benchmark),
+  모두 이 형식을 쓴다. tasks/ 가 없는 옛 OCR 준비 폴더는 등록할 때, 이미 등록된 것은 studio 를 띄울 때(Registry.migrate) tasks/ 를 만든다.
+  과제 묶음(groups: ocr·doc)은 들어 있는 과제로 정한다 (옛 track 대신).
+
+설명서: 만든 데이터셋은 그 폴더의 DATASET.md, 등록만 한 폴더는 <workspace_dir>/cards/<ID>.md.
+  등록·고정·사람 칸을 고칠 때만 쓴다 (GET 은 쓰지 않는다). 데이터셋 폴더가 없으면 쓰지 않는다 (지운 폴더를 되살리지 않음).
 """
 from __future__ import annotations
 
@@ -20,23 +23,20 @@ from pathlib import Path
 
 _LOCK = threading.Lock()
 FORMAT = "docgen-tasks"
-SOURCES = ("synthetic", "images", "results")
-GTS = ("exact", "pseudo", "reviewed")
-SOURCE_NAME = {"synthetic": "합성", "images": "이미지 묶음", "results": "결과 폴더"}
-GROUP_NAME = {"ocr": "OCR", "doc": "문서 이해", "work": "업무 처리"}
+SOURCE_NAME = {"synthetic": "합성"}
+GROUP_NAME = {"ocr": "OCR", "doc": "문서 이해"}
 GT_NAME = {"exact": "생성 정답", "pseudo": "의사정답 (사내 OCR·추론 그대로)", "reviewed": "사람 검수 정답"}
 
 
-def _migrate(e: dict) -> None:
-    """옛 등록부 줄(track·옛 형식 이름)을 과제 형식으로 읽는다. tasks/ 없는 옛 OCR 준비 폴더는 그 자리에서 tasks/ 를 만든다."""
-    if e.get("format") == FORMAT and "groups" in e:
+def _current(e: dict) -> bool:
+    return e.get("format") == FORMAT and "groups" in e
+
+
+def _normalize(e: dict) -> None:
+    """옛 등록부 줄(track·옛 형식 이름)을 과제 형식으로 읽는다. 읽기만 한다 (파일을 쓰지 않음)."""
+    if _current(e):
         return
     root = Path(e.get("path", ""))
-    if e.get("format") != FORMAT and root.is_dir() and detect(root) is None and legacy_ocr(root):
-        try:
-            upgrade_ocr(root)
-        except (OSError, ValueError, KeyError):
-            pass
     if detect(root) == FORMAT:
         info = describe(root, FORMAT)
         e.update(format=FORMAT, groups=info["groups"], kind=info.get("kind"), counts=info["counts"])
@@ -54,13 +54,38 @@ class Registry:
     # -- 파일 ---------------------------------------------------------------
     def load(self) -> dict:
         if not self.file.exists():
-            return {"datasets": {}, "trainings": []}
+            return {"datasets": {}}
         d = json.loads(self.file.read_text(encoding="utf-8"))
         d.setdefault("datasets", {})
-        d.setdefault("trainings", [])
         for e in d["datasets"].values():
-            _migrate(e)
+            _normalize(e)
         return d
+
+    def migrate(self) -> list[str]:
+        """studio 를 띄울 때 한 번: 옛 등록부 줄을 과제 형식으로 고쳐 저장하고, tasks/ 없는 옛 OCR 준비 폴더는 tasks/ 를 만든다.
+        고친 데이터셋 ID 를 돌려준다."""
+        if not self.file.exists():
+            return []
+        with _LOCK:
+            d = json.loads(self.file.read_text(encoding="utf-8"))
+            changed = []
+            for k, e in (d.get("datasets") or {}).items():
+                if _current(e) and "track" not in e:
+                    continue
+                before = json.dumps(e, sort_keys=True)
+                root = Path(e.get("path", ""))
+                if root.is_dir() and detect(root) is None and legacy_ocr(root):
+                    try:
+                        upgrade_ocr(root)
+                    except (OSError, ValueError, KeyError):
+                        pass
+                _normalize(e)
+                e.pop("track", None)
+                if json.dumps(e, sort_keys=True) != before:
+                    changed.append(k)
+            if changed:
+                self.save(d)
+            return changed
 
     def save(self, d: dict) -> None:
         self.ws.mkdir(parents=True, exist_ok=True)
@@ -125,7 +150,9 @@ class Registry:
                                   if info_dj.get(k) is not None}
             d["datasets"][ds_id] = entry
             self.save(d)
-        return {"id": ds_id, **entry}
+        ds = {"id": ds_id, **entry}
+        self.write_card(ds)
+        return ds
 
     def unregister(self, ds_id: str) -> None:
         with _LOCK:
@@ -138,22 +165,39 @@ class Registry:
     def set_card(self, ds_id: str, card: dict) -> dict:
         def fn(e):
             e["card"] = {k: str(card.get(k, e.get("card", {}).get(k, ""))) for k in ("purpose", "limits", "not_for")}
-        return self.update(ds_id, fn)
+        ds = self.update(ds_id, fn)
+        self.write_card(ds)
+        return ds
 
     def set_frozen(self, ds_id: str, frozen: bool) -> dict:
         def fn(e):
             e["frozen"] = bool(frozen)
-        return self.update(ds_id, fn)
+        ds = self.update(ds_id, fn)
+        self.write_card(ds)
+        return ds
 
-    def set_meta(self, ds_id: str, meta: dict) -> dict:
-        def fn(e):
-            for k in ("name", "source", "gt", "real_data"):
-                if k in meta:
-                    v = meta[k]
-                    if k == "source" and v not in SOURCES or k == "gt" and v not in GTS:
-                        raise ValueError(f"{k}: 알 수 없는 값 {v}")
-                    e[k] = bool(v) if k == "real_data" else v
-        return self.update(ds_id, fn)
+    # -- 설명서 -------------------------------------------------------------
+    def card_path(self, ds: dict) -> Path:
+        return (self.ws / "cards" / f"{ds['id']}.md") if ds.get("registered") else (Path(ds["path"]) / "DATASET.md")
+
+    def card_text(self, ds: dict) -> str:
+        """설명서 내용 (쓰지 않음). 고정한 만든 데이터셋은 이미 쓴 파일 그대로 (자동 칸을 다시 만들지 않는다)."""
+        p = self.card_path(ds)
+        if ds.get("frozen") and not ds.get("registered") and p.is_file():
+            return p.read_text(encoding="utf-8")
+        return card_markdown(ds)
+
+    def write_card(self, ds: dict) -> str:
+        """설명서를 쓴다. 데이터셋 폴더가 없으면 쓰지 않는다 (지운 폴더를 다시 만들지 않음)."""
+        md = self.card_text(ds)
+        p = self.card_path(ds)
+        if ds.get("registered"):
+            p.parent.mkdir(parents=True, exist_ok=True)   # <workspace_dir>/cards/
+        elif not p.parent.is_dir():
+            return md
+        if not p.is_file() or p.read_text(encoding="utf-8") != md:
+            p.write_text(md, encoding="utf-8")
+        return md
 
     # -- 경로 ---------------------------------------------------------------
     def resolve_file(self, ds: dict, p: str) -> Path | None:
@@ -178,7 +222,7 @@ class Registry:
 
     def allowed(self, ds: dict, f: Path) -> bool:
         """화면에 내줄 수 있는 파일: 이 데이터셋 폴더, 다른 등록 데이터셋 폴더 안의 것만
-        (합친 데이터셋은 다른 과제 폴더의 이미지를 가리킬 때가 있다)."""
+        (옛 합친 데이터셋은 다른 과제 폴더의 이미지를 가리킬 때가 있다)."""
         f = f.resolve()
         roots = [Path(ds["path"]).resolve()]
         roots += [Path(v["path"]).resolve() for v in self.load()["datasets"].values()]
@@ -223,7 +267,7 @@ GT_OF_REFERENCE = {"synthetic_exact": "exact", "human_reviewed": "reviewed", "oc
 def groups_of(counts: dict) -> list[str]:
     from docgen.bench.evaluate import TASK_GROUP
 
-    return sorted({TASK_GROUP.get(t, "doc") for t, n in counts.items() if n}, key=["ocr", "doc", "work"].index)
+    return sorted({TASK_GROUP.get(t, "doc") for t, n in counts.items() if n}, key=["ocr", "doc"].index)
 
 
 def describe(root: Path, fmt: str) -> dict:
@@ -242,43 +286,6 @@ def describe(root: Path, fmt: str) -> dict:
         out["counts"]["documents"] = len({p.get("document_id") for p in pages})
     out["groups"] = groups_of(meta.get("counts", {}))
     return out
-
-
-def merge_tasks(dst: Path, src: Path) -> dict:
-    """src 과제 폴더의 문항을 dst 과제 폴더에 더한다 (OCR·업무 과제를 한 데이터셋으로). src 는 dst 안에 있어야 하고, 그림 경로는
-    dst 기준으로 고친다. dst 에 meta.json 이 없으면 src 것으로 시작한다. dataset.json 이 있으면 문항 수를 맞춘다."""
-    dst, src = Path(dst).resolve(), Path(src).resolve()
-    rel = src.relative_to(dst).as_posix()
-    fix = lambda p: p if not p or Path(p).is_absolute() else f"{rel}/{p}"  # noqa: E731
-    sm = json.loads((src / "meta.json").read_text(encoding="utf-8"))
-    dm = json.loads((dst / "meta.json").read_text(encoding="utf-8")) if (dst / "meta.json").exists() else \
-        {**{k: v for k, v in sm.items() if k not in ("counts", "split_counts")}, "counts": {}}
-    (dst / "tasks").mkdir(exist_ok=True)
-    added = {}
-    for f in sorted((src / "tasks").glob("*.jsonl")):
-        rows = _read_jsonl(f)
-        for r in rows:
-            r["images"] = [fix(i) for i in r.get("images", [])]
-            if (r.get("meta") or {}).get("context_image"):
-                r["meta"]["context_image"] = fix(r["meta"]["context_image"])
-        with (dst / "tasks" / f.name).open("a", encoding="utf-8") as out:
-            out.write("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
-        added[f.stem] = len(rows)
-    for t, n in added.items():
-        dm["counts"][t] = dm["counts"].get(t, 0) + n
-    if dm is not sm and dm.get("split") != sm.get("split"):
-        dm["split"] = "mixed"
-    if sm.get("split_counts"):
-        dm["split_counts"] = {k: dm.get("split_counts", {}).get(k, 0) + v for k, v in sm["split_counts"].items()}
-    if dm.get("kind") and sm.get("kind") and dm["kind"] != sm["kind"]:
-        dm["kind"] = "mixed"
-    dm.setdefault("parts", []).append({"path": rel, "kind": sm.get("kind"), "version": sm.get("version"), "counts": added})
-    (dst / "meta.json").write_text(json.dumps(dm, ensure_ascii=False, indent=1), encoding="utf-8")
-    if (dst / "dataset.json").exists():
-        dj = json.loads((dst / "dataset.json").read_text(encoding="utf-8"))
-        dj["counts"] = dm["counts"]
-        (dst / "dataset.json").write_text(json.dumps(dj, ensure_ascii=False, indent=1), encoding="utf-8")
-    return added
 
 
 # ---------------------------------------------------------------------------
@@ -314,7 +321,7 @@ _BOX = re.compile(r"bbox_2d\s*=\s*\[\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)
 
 
 def view_item(ds: dict, it: dict) -> dict:
-    """화면에 보일 모양으로: 질문, 이미지(주소), 정답(보기 좋게), 정답 박스(0~1000, 이미지마다). OCR·업무 과제 모두 같은 꼴."""
+    """화면에 보일 모양으로: 질문, 이미지(주소), 정답(보기 좋게), 정답 박스(0~1000, 이미지마다). OCR·문서 이해 과제 모두 같은 꼴."""
     boxes = []
     ans = it.get("answer")
     prompt = it.get("prompt", "")
@@ -343,7 +350,7 @@ def card_markdown(ds: dict) -> str:
     lines = [f"# {ds['name']}", "",
              f"- ID: `{ds['id']}` · 과제: {' · '.join(GROUP_NAME.get(g, g) for g in ds.get('groups') or [])} · 형식: `{ds['format']}`",
              f"- 출처: {SOURCE_NAME.get(ds['source'], ds['source'])} · 정답: {GT_NAME.get(ds['gt'], ds['gt'])}"
-             f"{' · **실서류** (저장소·외부 분석기 금지)' if ds.get('real_data') else ''}",
+             f"{' · **실서류** (저장소·외부 서비스로 보내지 않음)' if ds.get('real_data') else ''}",
              f"- 폴더: `{ds['path']}`" + (" (등록만 한 폴더, studio 는 읽기만)" if ds.get("registered") else ""),
              f"- 버전: {ds.get('version') or '-'} · 등록: {ds.get('created')} · {'고정됨' if ds.get('frozen') else '고정 전'}",
              "", "## 목적", c.get("purpose") or "(사람이 적는다)", "",
