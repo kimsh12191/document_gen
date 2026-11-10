@@ -22,7 +22,7 @@ import time
 from functools import lru_cache
 from pathlib import Path
 
-from docgen.registry import GROUPS, SCENARIOS, load_all
+from docgen.registry import GROUPS, load_all
 
 from .config import ROOT
 
@@ -166,15 +166,6 @@ def review_state(doc_id: str, entry: dict) -> str:
     return "stale" if rv.get("hash") and rv["hash"] != form_hash(doc_id) else "done"
 
 
-@lru_cache(maxsize=1)
-def _scenarios_of() -> dict[str, list[dict]]:
-    out: dict[str, list[dict]] = {}
-    for sid, (name, docs) in SCENARIOS.items():
-        for d in docs:
-            out.setdefault(d, []).append({"id": sid, "name": name})
-    return out
-
-
 def _tables(doc_id: str, text: list[dict]) -> list[str]:
     """표(반복 묶음) 이름. 표 과제와 같은 규칙 (docgen.bench.tasks.Doc._scan_tables): 겹친 목록·도장·서명 칸, questions.json 에서 ask false 인 묶음은 뺌."""
     from docgen import formquestions as FQ
@@ -234,7 +225,6 @@ def _summary(spec, entry: dict, audit: bool = False) -> dict:
         "kind": kind, "origin": origin, "category": spec.category, "page": spec.page,
         "official_source": official_source, "script": script,
         **({"value_audit": value_audit(spec.id)} if audit else {}),
-        "scenarios": [s["id"] for s in _scenarios_of().get(spec.id, [])],
         "reviewed": entry.get("reviewed"), "split": entry.get("split", "unassigned"),
         "open_issues": sum(1 for x in issues if x.get("status") == "open"),
         "edited": _edited(spec.id),
@@ -247,7 +237,6 @@ def refresh() -> dict:
     from docgen.registry import refresh as rescan
 
     res = rescan()
-    _scenarios_of.cache_clear()
     from docgen import formcard
 
     res["stale_cards"] = sorted(i for i in load_all() if formcard.stale(i))   # 서식 카드 FORM.md 가 없거나 오래됨
@@ -329,8 +318,6 @@ def _rel(p: Path) -> str:
 
 
 def form_detail(doc_id: str) -> dict:
-    from docgen.roles import index as role_index
-
     reg = load_all()
     if doc_id not in reg:
         raise KeyError(doc_id)
@@ -364,9 +351,7 @@ def form_detail(doc_id: str) -> dict:
     return {
         **_summary(spec, entry, audit=True),
         "description": spec.description,
-        "document_role": role_index().get(doc_id),
         "sample_mark": spec.sample_mark,
-        "scenario_names": _scenarios_of().get(doc_id, []),
         "note": entry.get("note", ""),
         "issues": entry.get("issues", []),
         "review_state": review_state(doc_id, entry),

@@ -1,5 +1,5 @@
 """ms-swift GRPO 보상 플러그인 하나 (옛 bank_ocr_reward.py·bank_task_reward.py): 보상 = docgen.bench.evaluate.reward —
-평가 채점과 같은 함수 (OCR 과제는 글자 유사도·박스 IoU, 업무 과제는 부분 점수). launch.py 가 절대 경로로 붙인다."""
+평가 채점과 같은 함수 (OCR 과제는 글자 유사도·박스 IoU, 그 밖은 주 지표). launch.py 가 절대 경로로 붙인다."""
 import json
 import sys
 from pathlib import Path

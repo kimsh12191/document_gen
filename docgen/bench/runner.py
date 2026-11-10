@@ -25,8 +25,8 @@ from pathlib import Path
 
 from .evaluate import load_items
 
-MAX_TOKENS = {"ocr_page": 4096, "kie": 2048, "marks": 1024, "freetext": 512, "cross_check": 1024, "doc_check": 512,
-              "ocr_field": 256, "classify": 128, "review": 256, "form_qa": 256,
+MAX_TOKENS = {"ocr_page": 4096, "kie": 2048, "marks": 1024, "freetext": 512,
+              "ocr_field": 256, "classify": 128, "form_qa": 256,
               "table": 3072, "table_read": 4096, "table_find": 1024, "table_qa": 256}
 
 

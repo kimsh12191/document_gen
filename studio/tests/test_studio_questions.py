@@ -7,7 +7,6 @@ from docgen.bench import prompts
 from docgen.bench.evaluate import SCORERS, main_metric
 from docgen.bench.runner import oracle_output
 from studio.questions import form_items
-from studio.scenario_processing import run
 
 
 def label(root):
@@ -51,25 +50,4 @@ def test_format_catalog_uses_generator_prompts_and_all_tasks():
     c = contracts()
     assert set(c) == set(SCORERS)
     assert c["kie"]["prompt_template"] == prompts.P_KIE
-    assert c["review"]["prompt_template"] == prompts.P_REVIEW
     assert c["kie"]["answer_schema"]["items"]["properties"]["page"]["minimum"] == 1
-
-
-def test_scenario_qa_exposes_real_kie_array_and_wrapped_review(tmp_path):
-    l = label(tmp_path)
-    conf = {"id": "account_opening", "name": "계좌개설", "docs": ["resident_id_card"],
-            "processing": {"cross_check": False, "review": False, "operations": [
-                {"id": "extract_name", "kind": "extract", "left": {"doc": "resident_id_card", "key": "name"}},
-                {"id": "same_name", "kind": "compare", "left": {"doc": "resident_id_card", "key": "name"},
-                 "right": {"doc": "resident_id_card", "key": "name"}, "operator": "equal"}]}}
-    result = run(conf, 42, lambda *args, **kw: l)
-    doc_check, extract, compare = result["rows"][:3]
-    assert "필수 제출 서류:" in doc_check["qa"][0]["prompt"]
-    assert isinstance(extract["answer"], str)
-    assert isinstance(extract["qa"][0]["answer"], list)
-    assert extract["qa"][0]["answer"][0]["page"] == 1
-    assert compare["qa"][0]["prompt"].startswith("고객이 '계좌개설'")
-    for row in (doc_check, extract, compare):
-        item = row["qa"][0]
-        scores = SCORERS[item["task"]](item, item["model_answer"])["metrics"]
-        assert scores[main_metric(item["task"], scores)] == 1

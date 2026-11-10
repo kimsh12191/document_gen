@@ -16,7 +16,7 @@
     variants/                            html 레이아웃 변형: variants.json, <변형>.html.j2 (docgen/template_variants.py)
 
   docgen/forms/_common/                  모든 서식이 같이 쓰는 것 (README.md): 바탕 틀 templates/(_base·_macros·_official_*·_real_form,
-                                         그룹 부품 _seal 등)·키 사전 dictionary/·기본 질문 questions.json
+                                         그룹 부품 _seal 등)·기본 질문 questions.json
   docgen/forms/하나은행_서식자료/        원본 다운로드 보관 (목록 csv·안내문, 레이아웃이 없는 파일)
   docgen/forms/official_sources/         공식 원본 대조용 PDF (여러 서식이 같이 쓰므로 보관소에 둔다)
 
@@ -50,7 +50,7 @@ from pathlib import Path
 DOCGEN = Path(__file__).resolve().parent
 PUBLIC = DOCGEN / "forms"
 NEW_FORMS = PUBLIC          # 새 공개 서식을 만드는 곳 (테스트는 임시 폴더로 바꾼다. 찾을 때는 이것부터 본다)
-SHARED = PUBLIC / "_common"  # 모든 서식이 같이 쓰는 것: 바탕 틀(templates/)·키 사전(dictionary/)·기본 질문(questions.json)
+SHARED = PUBLIC / "_common"  # 모든 서식이 같이 쓰는 것: 바탕 틀(templates/)·기본 질문(questions.json)
 TEMPLATES = SHARED / "templates"
 LEGACY_TEMPLATES = DOCGEN / "templates"   # 예전 자리 (코드 서식 템플릿·copies·variants·바탕 틀이 있던 곳)
 SHARED_FILES = ("key_rules.json", "keys.json", "marks.json", "freetext_templates.json")   # docgen/ 에서 공통 폴더로 옮긴 설정
@@ -350,8 +350,8 @@ def hash_label(path: Path) -> Path:
         return path
     doc_id, *rest = path.relative_to(r).parts
     if doc_id == SHARED.name and rest:   # 공통 폴더로 옮긴 바탕 틀·키 사전·설정 파일: 예전 자리 이름
-        if rest[0] in ("templates", "dictionary"):
-            return (LEGACY_TEMPLATES if rest[0] == "templates" else DOCGEN / "dictionary") / Path(*rest[1:])
+        if rest[0] == "templates":
+            return LEGACY_TEMPLATES / Path(*rest[1:])
         if rest[0] in SHARED_FILES:
             return DOCGEN / rest[0]
     if not rest or doc_id in ("layouts", "images", "regions", "하나은행_서식자료", "official_sources"):

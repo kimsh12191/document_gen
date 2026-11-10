@@ -1,5 +1,5 @@
 """모델끼리 나란히 놓은 벤치마크 보고서 (CSV, Markdown, HTML) — train.cli score 결과들로 (옛 bank_task/report.py + 1부 benchmark_report).
-OCR·문서 이해·업무 과제를 한 표에, 과제 묶음 순서로."""
+OCR·문서 이해 과제를 한 표에, 과제 묶음 순서로."""
 import csv
 import html
 import json
@@ -39,20 +39,9 @@ COLUMNS = [
     ("table_read", "cell_f1", "표 그대로 옮기기 칸 F1", False),
     ("table_find", "f1_iou50", "표 찾기 F1", False),
     ("table_qa", "acc", "표 질의 정확도", False),
-    ("doc_check", "exact", "서류 구비 완전 일치", False),
-    ("doc_check", "set_f1", "서류 구비 F1", False),
-    ("cross_check", "score", "서류 대조 종합", False),
-    ("cross_check", "detect", "서류 대조 탐지", False),
-    ("cross_check", "localize", "서류 대조 위치(변조 문항)", False),
-    ("cross_check", "false_alarm", "서류 대조 오탐률", True),
-    ("review", "acc", "심사 질의 정확도", False),
 ]
 SLICES = [("spotting", "view", "글자 찾기 — 깨끗한 쪽 / 변형한 쪽"),
           ("crop_ocr", "view", "칸 잘라 읽기 — 깨끗한 쪽 / 변형한 쪽"),
-          ("cross_check", "category", "서류 대조 — 불일치 분류별 종합 점수"),
-          ("cross_check", "case", "서류 대조 — 사례별 종합 점수"),
-          ("review", "skill", "심사 질의 — 능력별 정확도"),
-          ("doc_check", "n_missing", "서류 구비 — 빠진 서류 수별 완전 일치"),
           ("kie", "group", "정보 추출 — 서식 그룹별 F1"),
           ("ocr_field", "writing", "값 칸 OCR — 인쇄체/손글씨별 일치")]
 
@@ -198,7 +187,7 @@ def _build_reports(reports, output, check_images=True):
              "문항 수: " + ", ".join(f"{t} {n}" for t, n in counts.items()),
              "합성 서류(docgen) 평가는 학습 데이터와 같은 생성기라 실제 서류 성능보다 높게 나옵니다. "
              "OCR 과제의 정답이 사내 OCR 그대로(의사정답)면 점수는 '그것과 얼마나 같은지'입니다.",
-             "unknown은 메타데이터 누락, not_applicable은 업무 시나리오가 없는 단일 서류/OCR 문항입니다. 다른 과제의 점수는 평균내지 않습니다.",
+             "unknown은 메타데이터 누락입니다. 다른 과제의 점수는 평균내지 않습니다.",
              "구분별 상세 CSV·JSON: benchmark.breakdowns.* (CSV 값은 원 지표, delta_pp는 %p). 필드 타입 표의 n은 항목 수입니다.",
              "읽는 법: guide/results.md"]
 

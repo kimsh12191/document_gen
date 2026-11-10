@@ -12,18 +12,16 @@ def main(argv=None) -> None:
     b.add_argument("--out", default="bench_out")
     b.add_argument("--split", choices=("test", "train"), default="test",
                    help="test: 평가 세트 (기본) | train: 평가 세트와 겹치지 않는 seed 로 학습 데이터 + ms-swift jsonl(swift/)")
-    b.add_argument("--types", default="all", help="단일 서류 과제에 쓸 서류: all | 서류ID,... | 그룹명")
+    b.add_argument("--types", default="all", help="쓸 서류: all | 서류ID,... | 그룹명")
     b.add_argument("--per-doc", type=int, default=1, help="서류 종류마다 샘플 수")
-    b.add_argument("--scenarios", default="all", help="업무 묶음 과제에 쓸 시나리오: all | 이름,...")
-    b.add_argument("--bundles", type=int, default=4, help="시나리오마다 고객 묶음 수")
     b.add_argument("--fields-per-doc", type=int, default=6, help="서류마다 ocr_field 문항 수")
     b.add_argument("--max-keys", type=int, default=40, help="kie·marks 문항 하나에 묻는 최대 항목 수")
     b.add_argument("--scale", type=float, default=2.0, help="이미지 배율 (2.0 ≈ 192dpi)")
     b.add_argument("--start", type=int, default=0,
-                   help="seed 시작 번호 (학습 데이터를 나중에 더 만들 때 앞에서 만든 --bundles 만큼 올려 겹치지 않게)")
+                   help="seed 시작 번호 (학습 데이터를 나중에 더 만들 때 앞에서 만든 --per-doc 만큼 올려 겹치지 않게)")
     b.add_argument("--workers", type=int, default=1, help="동시에 렌더링할 프로세스 수 (결과는 작업 수와 상관없이 같음)")
     b.add_argument("--force", action="store_true", help="이미 있는 출력 폴더에 다시 만들기")
-    b.add_argument("--recipe", help="레시피 JSON (docgen/recipes/*.json): 위 설정과 묶음 구성 규칙·직접 만든 묶음")
+    b.add_argument("--recipe", help="레시피 JSON (docgen/recipes/*.json): 위 설정과 촬영 조건·빼는 서식 등")
     b.add_argument("--blank", type=float, help="비어 있기도 한 칸(용도·비고 …)을 비우는 비율 (기본 0.3, 0 이면 끔)")
     b.add_argument("--mask", type=float, help="값 칸 1~3개를 검은 상자로 가리는 서류 비율 (기본 0.1, 0 이면 끔)")
 

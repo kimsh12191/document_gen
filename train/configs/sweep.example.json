@@ -14,7 +14,7 @@
              "/database/docgen_studio/workspace/datasets/ocr-train-part-v1-2026-10-23/prepared",
              {"path": "/share/tom/env/2026_PROJECT/PT/docgen_studio/data/prepared-v2", "count": 20000}]},
   {"label": "a3-mix", "about": "과제 비율·문항 수·그림 예산",
-   "data": {"task_mix": {"kie": 0.3, "cross_check": 0.1}, "sft_max_examples": 30000,
+   "data": {"task_mix": {"kie": 0.3, "table": 0.1}, "sft_max_examples": 30000,
             "image_max_size": [1800, 1300], "max_image_tokens_per_sample": 9000}},
   {"label": "a4-lr", "about": "학습률·에폭·LoRA",
    "sft": {"learning_rate": 5e-5, "num_train_epochs": 2, "lora_rank": 64, "lora_alpha": 128}},

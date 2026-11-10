@@ -36,8 +36,8 @@ def _new_person(p: Profile, rng: random.Random, gender: str | None = None, age: 
 
 
 def _solo(p: Profile) -> bool:
-    """시나리오(서류 묶음) 생성이 아닐 때만 고객 자체가 바뀌는 변형(외국인 고객 등)을 쓴다."""
-    return "scenario" not in p.extra
+    """고객 자체가 바뀌는 변형(외국인 고객 등)을 쓸지. 예전 업무 묶음(같은 고객의 서류 여러 건)에서만 꺼졌고 지금은 늘 켬."""
+    return True
 
 
 def _spouse(p: Profile, rng: random.Random) -> Person:

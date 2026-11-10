@@ -79,9 +79,7 @@ def supports(bank: str, doc_id: str) -> bool:
 
 def default_form_bank(p: Profile) -> str | None:
     """--bank 를 주지 않았을 때 은행 서식을 옛 은행으로 만들 고객 (프로필 단위로 고정).
-    약 10% 외환은행, 6% KEB하나은행. 시나리오 생성에서는 서류 간 일관성을 위해 쓰지 않는다."""
-    if "scenario" in p.extra:
-        return None
+    약 10% 외환은행, 6% KEB하나은행."""
     x = random.Random(f"form_bank:{p.seed}").random()
     return "외환은행" if x < 0.10 else "KEB하나은행" if x < 0.16 else None
 

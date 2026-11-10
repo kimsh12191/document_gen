@@ -1,25 +1,22 @@
 #!/bin/bash
-# 은행 업무 학습 데이터 + 평가 세트를 만든다 (docgen 컨테이너 안에서 실행).
+# 은행 서류 학습 데이터 + 평가 세트를 만든다 (docgen 컨테이너 안에서 실행).
 #
 #   bash docgen/scripts/make_bank_data.sh                 기본값으로 만들기 (백그라운드, SSH 끊어도 계속)
 #   bash docgen/scripts/make_bank_data.sh --fg            이 터미널에서 실행
-#   TRAIN_BUNDLES=300 BENCH_BUNDLES=60 bash docgen/scripts/make_bank_data.sh    양 바꾸기
-#   OUT=/out/try TYPES=resident_id_card,loan_application SCENARIOS=mortgage TRAIN_BUNDLES=2 BENCH_BUNDLES=1 \
+#   TRAIN_PER_DOC=10 bash docgen/scripts/make_bank_data.sh    양 바꾸기
+#   OUT=/out/try TYPES=resident_id_card,loan_application TRAIN_PER_DOC=1 \
 #       bash docgen/scripts/make_bank_data.sh --fg                                 몇 분짜리 시험
 #
 # 만드는 것 (OUT 아래):
-#   bench/        평가 세트  : 서류 545종 x 1건 + 업무 12종 x 고객 BENCH_BUNDLES 명
-#   bank_train/   학습 데이터: 서류 545종 x TRAIN_PER_DOC 건 + 업무 12종 x 고객 TRAIN_BUNDLES 명 (--split train)
+#   bench/        평가 세트  : 서류 545종 x 1건
+#   bank_train/   학습 데이터: 서류 545종 x TRAIN_PER_DOC 건 (--split train)
 #   logs/         단계별 로그
 # 이미 다 만든 폴더(meta.json 있음)는 건너뛰고, 중간에 멈춘 폴더는 다시 만든다.
 set -euo pipefail
 
 OUT=${OUT:-/out}
 TRAIN_PER_DOC=${TRAIN_PER_DOC:-5}
-TRAIN_BUNDLES=${TRAIN_BUNDLES:-200}
-BENCH_BUNDLES=${BENCH_BUNDLES:-40}
 TYPES=${TYPES:-all}
-SCENARIOS=${SCENARIOS:-all}
 WORKERS=${WORKERS:-$(( $(nproc) < 8 ? $(nproc) : 8 ))}
 CODE=$(cd "$(dirname "$0")/../.." && pwd)   # 저장소 최상위
 LOG=$OUT/logs/make_bank_data.log
@@ -71,15 +68,15 @@ build() {
     [ -d "$dir" ] && force=(--force) && say "$name: 멈춘 흔적이 있어 다시 만듭니다"
     say "$name: 시작 (로그 $OUT/logs/$name.log)"
     local t0=$SECONDS
-    python -m docgen.bench build --out "$dir" --types "$TYPES" --scenarios "$SCENARIOS" --workers "$WORKERS" \
+    python -m docgen.bench build --out "$dir" --types "$TYPES" --workers "$WORKERS" \
         "${force[@]}" "$@" > "$OUT/logs/$name.log" 2>&1 \
         || { say "$name: 실패. 로그 끝부분:"; tail -20 "$OUT/logs/$name.log"; exit 1; }
     say "$name: 완료 ($(( (SECONDS - t0) / 60 ))분, $(du -sh "$dir" | cut -f1))"
 }
 
 start=$SECONDS
-build bench --bundles "$BENCH_BUNDLES"
-build bank_train --split train --per-doc "$TRAIN_PER_DOC" --bundles "$TRAIN_BUNDLES"
+build bench
+build bank_train --split train --per-doc "$TRAIN_PER_DOC"
 
 say "전부 완료 ($(( (SECONDS - start) / 60 ))분). 과제별 문항 수:"
 python - "$OUT" <<'EOF'

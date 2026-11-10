@@ -154,17 +154,6 @@ def _pos(f: dict | None, sizes) -> str:
     return f"{pg + 1}쪽 {normalize_box(f['bbox'], *sizes[pg])}"
 
 
-def _scenarios(doc_id: str) -> list[str]:
-    from .registry import SCENARIO_SAMPLING, SCENARIOS
-
-    out = []
-    for sid, (name, ids) in SCENARIOS.items():
-        cands = {d for c in (SCENARIO_SAMPLING.get(sid) or {}).values() for d in c.get("forms", [])}
-        if doc_id in ids or doc_id in cands:
-            out.append(name)
-    return out
-
-
 # ---------------------------------------------------------------------------
 # 카드
 # ---------------------------------------------------------------------------
@@ -217,7 +206,6 @@ def render_card(doc_id: str, builder) -> str:
          f"- **종류:** {KIND_NAME[kind]}",
          f"- **그룹:** {spec.group} · **쪽 수:** {len(r['images'])} (seed {seed} 로 그린 것) · **분류 정답:** {view['classify']['answer']}"
          + (f" (다른 이름: {', '.join(view['classify']['aliases'])})" if view["classify"]["aliases"] else ""),
-         f"- **쓰이는 업무:** {', '.join(_scenarios(doc_id)) or '없음 (서류 한 건 과제에만)'}",
          "- **질문·답:** " + ("이 폴더의 `questions.json` 에서 바꾼 것이 있음 (아래 ← 바꿈)" if q_exists
                               else "모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`"),
          "- **이 서식만의 질문:** " + (f"`qa.py` 의 {len(qa['rows'])}개 (아래)" if qa["rows"]

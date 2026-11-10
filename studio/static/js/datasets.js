@@ -1,23 +1,20 @@
-// ⑥ 데이터셋 (등록부·설명서·구성·문항 보기·업무 묶음). 평가·채점·학습은 학습 서버의 python -m train (guide/eval.md).
+// ⑥ 데이터셋 (등록부·설명서·구성·문항 보기). 평가·채점·학습은 학습 서버의 python -m train (guide/eval.md).
 // 생성 현황 목록은 dataset-builds.js, 새로 만들기(레시피)는 recipes.js.
-// 서버: studio/api_datasets.py·datasets.py (등록부), studio/api_bank.py·bank_data.py (레시피·빌드·업무 묶음)
+// 서버: studio/api_datasets.py·datasets.py (등록부), studio/api_bank.py·bank_data.py (레시피·빌드)
 "use strict";
 
 addRoute(/^#\/datasets$/, () => view_datasets(), "datasets");
-addRoute(/^#\/datasets\/([^/]+)\/bundle\/(.+)$/, (id, bid) => viewBundle(decodeURIComponent(id), decodeURIComponent(bid)), "datasets");
 addRoute(/^#\/datasets\/([^/]+)(?:\/(\w+))?$/, (id, tab) => viewDataset(decodeURIComponent(id), tab || "card"), "datasets");
 
-const GROUP_NAME = { ocr: "OCR", doc: "문서 이해", work: "업무 처리" };   // 과제 묶음 (docgen.bench.evaluate.TASK_GROUP)
+const GROUP_NAME = { ocr: "OCR", doc: "문서 이해" };   // 과제 묶음 (docgen.bench.evaluate.TASK_GROUP)
 const TASK_GROUP = { crop_ocr: "ocr", bbox_ocr: "ocr", region_ocr: "ocr", marked_ocr: "ocr", grounding: "ocr", spotting: "ocr",
   relation: "ocr", marked_box: "ocr", ocr_field: "ocr", ocr_page: "ocr", classify: "doc", kie: "doc", marks: "doc", freetext: "doc", form_qa: "doc",
-  table: "doc", table_read: "doc", table_find: "doc", table_qa: "doc",
-  doc_check: "work", cross_check: "work", review: "work" };
+  table: "doc", table_read: "doc", table_find: "doc", table_qa: "doc" };
 const TASK_KO = {
   crop_ocr: "잘라낸 글자 읽기", bbox_ocr: "박스 안 글자", region_ocr: "영역 받아쓰기", marked_ocr: "그린 박스 글자",
   grounding: "글자 위치 찾기", spotting: "전체 글자+위치", relation: "옆 글자 찾기", marked_box: "그린 박스 위치",
   ocr_field: "값 칸 인식", ocr_page: "전체 받아쓰기", classify: "서류 분류", kie: "정보 추출", marks: "체크·도장·서명", freetext: "기타 칸 정리", form_qa: "서식 전용 질문",
   table: "표 추출", table_read: "표 그대로 옮기기", table_find: "표 찾기", table_qa: "표 질의",
-  doc_check: "서류 구비", cross_check: "서류 대조", review: "심사 질의",
 };
 // 이름만으로 헷갈리는 과제의 설명 (과제 이름에 마우스를 올리면 보임)
 const TASK_HINT = { freetext: "기타·비고·사유 칸의 자유 기재를 DB 칸(용도·금액·날짜…)으로 정리. 정보 추출(kie)은 적힌 그대로, 이건 정리한 값",
@@ -62,7 +59,7 @@ async function view_datasets() {
 
 async function viewDataset(id, tab) {
   const d = await api(`/api/datasets/${encodeURIComponent(id)}`);
-  const tabs = [["card", "설명서"], ["tracking", "구성"], ["items", "문항"], ...((d.groups || []).includes("work") ? [["bundles", "업무 묶음"]] : []),
+  const tabs = [["card", "설명서"], ["tracking", "구성"], ["items", "문항"], 
   ];
   main().innerHTML = `
     <div class="muted"><a href="#/datasets">데이터셋</a></div>
@@ -83,7 +80,6 @@ async function viewDataset(id, tab) {
   };
   if (tab === "items") return dsItems(d);
   if (tab === "tracking") return dsTracking(d);
-  if (tab === "bundles") return dsBundles(d);
   return dsCard(d);
 }
 
@@ -157,7 +153,7 @@ async function dsItems(d) {
       <input type="text" id="it-q" placeholder="문항 안 글자 검색" style="width:180px">
       <span class="muted" id="it-stat"></span>
     </div>
-    <div class="bar">${["task_group", "scenario", "label_format", "doc_type"].map(key => `<label>${TRACKING_TITLE[key]} <select data-track-filter="${key}" ${summary?'':'disabled'}><option value="">전체</option>${Object.keys(summary?.all.by[key] || {}).map(v => `<option value="${esc(v)}" ${st.filters[key] === v ? "selected" : ""}>${esc(trackName(v))}</option>`).join("")}</select></label>`).join("")}<label><input type="checkbox" id="it-evaluation-only" ${summary?'':'disabled'} ${st.evaluationOnly?'checked':''}> 평가 문항만</label><button id="it-clear-filters">필터 초기화</button></div>
+    <div class="bar">${["task_group", "label_format", "doc_type"].map(key => `<label>${TRACKING_TITLE[key]} <select data-track-filter="${key}" ${summary?'':'disabled'}><option value="">전체</option>${Object.keys(summary?.all.by[key] || {}).map(v => `<option value="${esc(v)}" ${st.filters[key] === v ? "selected" : ""}>${esc(trackName(v))}</option>`).join("")}</select></label>`).join("")}<label><input type="checkbox" id="it-evaluation-only" ${summary?'':'disabled'} ${st.evaluationOnly?'checked':''}> 평가 문항만</label><button id="it-clear-filters">필터 초기화</button></div>
     <div class="keys-help">초록 박스 = 정답, 파랑 점선 = 질문 영역. 모델 답과 점수는 학습 서버 결과의 answers.html 에서 봅니다 (guide/results.md).</div>
     <div id="it-list"></div>
     <div class="bar"><button id="it-prev">◀ 이전</button><button id="it-next">다음 ▶</button></div>`;
@@ -195,122 +191,4 @@ async function dsItems(d) {
   $("#it-prev").onclick = () => { offset = Math.max(0, offset - 10); load(); };
   $("#it-next").onclick = () => { offset += 10; load(); };
   load();
-}
-
-// 업무 묶음 -----------------------------------------------------------------
-async function dsBundles(d) {
-  const r = await api(`/api/datasets/${encodeURIComponent(d.id)}/bundles`);
-  if (!r.bundles.length) {
-    $("#tab").innerHTML = `<p class="muted">bundles.jsonl 이 없습니다. 묶음 기록은 2026-10-20 이후 만든 데이터셋에 들어 있습니다 (다시 만들면 생김).</p>`;
-    return;
-  }
-  const scs = [...new Set(r.bundles.map(b => b.scenario))];
-  $("#tab").innerHTML = `
-    <div class="bar"><select id="bd-sc"><option value="">시나리오 전체</option>${scs.map(s => `<option>${esc(s)}</option>`).join("")}</select>
-      <label><input type="checkbox" id="bd-t"> 변조 있음</label><label><input type="checkbox" id="bd-m"> 빠진 서류 있음</label>
-      <label><input type="checkbox" id="bd-o"> 타인 서류</label><label><input type="checkbox" id="bd-c"> 직접 만든 묶음</label>
-      <span class="muted" id="bd-n"></span></div><div id="bd-list"></div>`;
-  const draw = () => {
-    const sc = $("#bd-sc").value;
-    const rows = r.bundles.filter(b => (!sc || b.scenario === sc) && (!$("#bd-t").checked || b.tampered) &&
-      (!$("#bd-m").checked || b.missing) && (!$("#bd-o").checked || b.other) && (!$("#bd-c").checked || b.custom));
-    $("#bd-n").textContent = `${rows.length}묶음`;
-    $("#bd-list").innerHTML = table(rows, [
-      ["bundle_id", "묶음", b => `<a href="#/datasets/${encodeURIComponent(d.id)}/bundle/${encodeURIComponent(b.bundle_id)}" class="mono">${esc(b.bundle_id)}</a>${b.custom ? ` <span class="tag">직접</span>` : ""}`],
-      ["task_name", "업무"], ["customer", "고객"], ["n_docs", "서류", null, 1], ["n_pages", "쪽", null, 1], ["n_items", "문항", null, 1],
-      ["missing", "빠짐", null, 1], ["other", "타인", null, 1], ["extra", "불필요", null, 1], ["tampered", "변조", null, 1],
-      ["conditions", "촬영", b => b.conditions.map(c => esc(COND_NAME[c] || c)).join(" ")]]);
-  };
-  ["#bd-sc", "#bd-t", "#bd-m", "#bd-o", "#bd-c"].forEach(s => $(s).onchange = draw);
-  draw();
-}
-
-// 그림 위 픽셀 박스: 이미지가 읽히면 원래 크기로 viewBox 를 맞춘다
-function pxStage(url, boxes) {
-  const id = "px" + Math.random().toString(36).slice(2, 8);
-  setTimeout(() => {
-    const img = document.getElementById(id);
-    if (!img) return;
-    const go = () => {
-      const svg = img.nextElementSibling;
-      svg.setAttribute("viewBox", `0 0 ${img.naturalWidth} ${img.naturalHeight}`);
-      svg.innerHTML = boxes.map(b => `<rect class="${b.cls}" x="${b.bbox[0]}" y="${b.bbox[1]}" width="${Math.max(2, b.bbox[2] - b.bbox[0])}" height="${Math.max(2, b.bbox[3] - b.bbox[1])}"><title>${esc(b.title || "")}</title></rect>`).join("");
-    };
-    if (img.complete && img.naturalWidth) go(); else img.onload = go;
-  }, 0);
-  return `<div class="stage ds-stage"><img id="${id}" src="${url}" alt="" loading="lazy"><svg preserveAspectRatio="none"></svg></div>`;
-}
-
-async function viewBundle(id, bid) {
-  const [d, b] = await Promise.all([api(`/api/datasets/${encodeURIComponent(id)}`), api(`/api/datasets/${encodeURIComponent(id)}/bundles/${encodeURIComponent(bid)}`)]);
-  const file = p => `/api/datasets/${encodeURIComponent(id)}/file?p=${encodeURIComponent(p)}`;
-  const dc = b.doc_check || {};
-  const base = b.docs.filter(x => !x.why), extra = b.docs.filter(x => x.why);
-  const sel = { what: null };
-  const draw = () => {
-    const hits = sel.what ? (b.profile.find(p => p.what === sel.what)?.where || []) : [];
-    const warn = b.consistency;
-    const docCard = x => {
-      const boxes = [];
-      for (const h of hits.filter(h => h.doc_id === x.doc_id)) if (h.bbox) boxes.push({ page: h.page || 0, bbox: h.bbox, cls: "ds-gt", title: `${h.key} = ${h.value}` });
-      for (const w of warn.filter(w => w.doc_id === x.doc_id)) if (w.bbox) boxes.push({ page: w.page || 0, bbox: w.bbox, cls: "ds-warn", title: `${w.key}: ${w.value} (프로필: ${w.expected})` });
-      const st = dc.missing?.includes(x.doc_id) ? `<span class="tag warn">빠짐</span>` : x.why === "other_customer" ? `<span class="tag warn">타인 서류</span>`
-        : x.why === "extra" ? `<span class="tag">불필요 서류</span>` : "";
-      return `<div class="panel bd-doc"><div class="bar"><b>${esc(x.name)}</b> <span class="mono muted">${esc(x.doc_id)}</span> ${st}
-        <span class="tag">${esc(COND_NAME[x.condition] || x.condition)}</span> <span class="muted">${x.images.length}쪽</span></div>
-        <div class="ds-imgs">${x.images.slice(0, 4).map((im, k) => pxStage(file(im), boxes.filter(bx => bx.page === k))).join("")}</div></div>`;
-    };
-    main().innerHTML = `
-      <div class="muted"><a href="#/datasets">데이터셋</a> › <a href="#/datasets/${encodeURIComponent(id)}/bundles">${esc(d.name)}</a></div>
-      <h1>${esc(b.task_name)} <span class="mono muted">${esc(b.bundle_id)}</span></h1>
-      <div class="bar"><span class="tag">고객 ${esc(b.customer)}${b.source === "labels" ? " · 가져온 라벨" : ` · seed ${b.customer_seed}`}</span>
-        <span class="tag">서류 ${base.length}</span><span class="tag">문항 ${(b.items || []).length}</span>
-        ${dc.missing?.length ? `<span class="tag warn">빠진 서류 ${dc.missing.length}</span>` : ""}
-        ${dc.not_customer?.length ? `<span class="tag warn">타인 서류 ${dc.not_customer.length}</span>` : ""}
-        ${dc.not_required?.length ? `<span class="tag">불필요 서류 ${dc.not_required.length}</span>` : ""}
-        ${b.plan ? `<span class="tag">직접 만든 묶음</span>` : ""}
-        ${b.source === "labels" ? "" : `<button id="bd-rebuild" title="같은 seed 로 이 묶음을 새로 만들어 (서식을 고친 뒤) 전후를 비교">같은 seed 로 다시 만들기</button>`}</div>
-      <div class="viewer" style="grid-template-columns:minmax(0,1fr) 420px">
-        <div>${base.map(docCard).join("")}${extra.length ? `<h2>바꿔 넣은 서류</h2>${extra.map(docCard).join("")}` : ""}</div>
-        <div class="side panel">
-          ${b.source === "labels" ? `<b>가져온 문서의 처리 결과</b><p class="muted">입력 라벨과 문서 연결을 사용합니다.</p>` : `<b>고객 프로필</b> <span class="muted" style="font-size:12px">값을 누르면 서류에서 그 값이 있는 자리를 초록 박스로</span>`}
-          ${table(b.profile, [["what", "항목", p => `<a href="#" data-what="${esc(p.what)}" class="${sel.what === p.what ? "kr" : ""}">${esc(p.what)}</a>`],
-            ["value", "값"], ["where", "나온 서류", p => p.where.length ? `${p.where.length}곳` : `<span class="muted">-</span>`]])}
-          <b>고객 일관성 검사</b> ${b.source === "labels" ? `<span class="muted">합성 프로필 검사 미적용</span>` : warn.length ? `<span class="tag warn">${warn.length}건</span>` : `<span class="tag ok">이상 없음</span>`}
-          ${warn.length ? `<ul class="checks">${warn.map(w => `<li class="warn">${esc(w.doc)} · ${esc(w.label || w.key)}: ${esc(w.value)} (프로필 ${esc(w.expected)})</li>`).join("")}</ul>` : ""}
-          ${b.source === "labels" ? "" : `<div class="muted" style="font-size:12px">고객 본인 역할 칸의 성명·주민번호·주소만 봅니다 (경고만).</div>`}
-          <b>대조 문항 (변조판)</b>
-          ${(b.variants || []).map(v => `<div class="bd-var"><span class="tag ${v.perturbed ? "warn" : "ok"}">${v.perturbed ? "변조" : "정상"}</span>
-            <span class="mono">${esc(v.case)}</span> <span class="muted">${esc(v.category)}</span>
-            ${v.changed.map(c => `<div class="muted" style="font-size:12px">${esc(c.doc_id)} ${c.kind === "swap" ? "다른 고객 서류로 바꿈" : ""}
-              ${c.changes.slice(0, 4).map(x => `<div>· ${esc(x.label || x.key)}: <s>${esc(x.old)}</s> → <b>${esc(x.new)}</b></div>`).join("")}
-              ${c.images.length ? `<a href="#" data-var="${esc(v.case)}|${esc(c.doc_id)}">변조판 보기</a>` : ""}</div>`).join("")}</div>`).join("") || `<p class="muted">없음</p>`}
-          <div id="bd-varview"></div>
-          ${b.source === "labels" ? `<b>라벨 처리 결과</b>${table(b.processing_results || [], [["id", "작업"], ["status", "상태"], ["answer", "결과", x => esc(x.answer === undefined ? "" : JSON.stringify(x.answer))], ["reason", "생략 사유"]])}` : ""}
-          <b>이 묶음의 문항</b><div class="mono" style="font-size:12px">${(b.items || []).map(esc).join("<br>")}</div>
-        </div>
-      </div>`;
-    main().onclick = e => {
-      const w = e.target.dataset.what, vv = e.target.dataset.var;
-      if (w) { e.preventDefault(); sel.what = sel.what === w ? null : w; draw(); }
-      if (vv) {
-        e.preventDefault();
-        const [cs, did] = vv.split("|");
-        const v = b.variants.find(x => x.case === cs), c = v.changed.find(x => x.doc_id === did);
-        const boxes = c.changes.filter(x => x.bbox).map(x => ({ page: x.page || 0, bbox: x.bbox, cls: "ds-warn", title: `${x.label || x.key}: ${x.old} → ${x.new}` }));
-        $("#bd-varview").innerHTML = `<div class="muted">${esc(cs)} · ${esc(did)} 변조판 (빨강 = 바뀐 칸)</div>${c.images.slice(0, 3).map((im, k) => pxStage(file(im), boxes.filter(bx => bx.page === k))).join("")}`;
-      }
-    };
-    if ($("#bd-rebuild")) $("#bd-rebuild").onclick = async () => {
-      const name = `${bid}-rebuild-${Date.now().toString(36)}`;
-      try {
-        await api(`/api/recipes/${encodeURIComponent(name)}`, { about: `${bid} 다시 만들기 (같은 seed)`, track: "bank", split: "test", types: [], per_doc: 0,
-          scenarios: [], bundles: 0, custom_bundles: [{ scenario: b.scenario, seed: b.customer_seed, name: "", ...(b.plan ? Object.fromEntries(Object.entries(b.plan).filter(([k]) => k !== "name")) : {}) }] }, "PUT");
-        const j = await api("/api/builds", { recipe: name, name, workers: 1 });
-        toast("같은 seed 로 다시 만듭니다. 끝나면 새 데이터셋의 업무 묶음 탭에서 비교하세요");
-        location.hash = `#/jobs/${encodeURIComponent(j.id)}`;
-      } catch (err) { toast(err.message, true); }
-    };
-  };
-  draw();
 }

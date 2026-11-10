@@ -20,7 +20,7 @@
     "benchmark": [
       {
         "id": "bank_synthetic_v1",
-        "name": "합성 문서·은행 업무",
+        "name": "합성 은행 서류",
         "group": "synthetic_bank",
         "paths": ["/share/studio_workspace/datasets/bank-bench"]
       },
@@ -51,19 +51,16 @@
     "output_dir": "../data/mixed-exp1",
     "sft_max_examples": 20000,
     "task_mix": {
-      "cross_check": 0.18,
-      "review": 0.18,
-      "doc_check": 0.1,
-      "kie": 0.12,
-      "marks": 0.07,
-      "freetext": 0.05,
-      "classify": 0.06,
-      "ocr_page": 0.04,
-      "ocr_field": 0.07,
-      "table": 0.07,
-      "table_qa": 0.03,
-      "table_read": 0.02,
-      "table_find": 0.01
+      "kie": 0.22,
+      "marks": 0.13,
+      "freetext": 0.09,
+      "classify": 0.11,
+      "ocr_page": 0.07,
+      "ocr_field": 0.13,
+      "table": 0.13,
+      "table_qa": 0.06,
+      "table_read": 0.04,
+      "table_find": 0.02
     },
     "max_image_tokens_per_sample": 12000,
     "sft_max_length": 16384
@@ -79,11 +76,9 @@
     "hard_fraction": 0.5,
     "seed": 42,
     "tasks": [
-      "cross_check",
-      "review",
-      "doc_check",
       "kie",
       "table",
+      "marks",
       "grounding",
       "spotting",
       "relation"

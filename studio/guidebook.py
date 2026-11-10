@@ -1,17 +1,7 @@
-"""Studio 안내와 guide 정적 문서가 공유하는 데이터 카탈로그.
-
-python -m studio.guidebook 으로 현재 설정의 Markdown·JSON 스냅샷을 갱신한다.
-렌더링 브라우저 없이 등록부·필드 스키마·시나리오 처리 설정을 읽는다.
-"""
+"""studio 사용 가이드 화면이 보여 주는 문서 목록 (guide/*.md 와 서식 만들기 참고 문서)."""
 from __future__ import annotations
 
-import json
 from pathlib import Path
-
-from docgen.bench.contracts import contracts
-from docgen.bench.processing import validate, RULE_TITLES
-from docgen.bench.cases import CASES
-from docgen.registry import GROUPS, load_all, load_scenarios, SCENARIOS, SCENARIO_PROCESSING, SCENARIO_SAMPLING
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCUMENTS = {
@@ -23,11 +13,10 @@ DOCUMENTS = {
     "training.md": "학습 설정·실행",
     "eval.md": "평가 세트·채점 함수·평가만·다시 채점",
     "results.md": "결과 해석",
-    "new-forms.md": "새 서식 추가 · 대형 모델로 html·키 만들기 → studio 에 넣기 → 검수",
+    "new-forms.md": "새 서식 추가 · 그림 위에 칸 그리기 → 검수",
     "keys.md": "칸의 키 이름 정하기 · 새 서식·외주용",
     "generators.md": "원하는 값이 고르기 창에 없을 때 · 보기·틀 / 값 하나 함수 / 칸끼리 관계",
     "ocr.md": "내 이미지로 OCR 데이터 준비",
-    "catalog.md": "업무별 서류 · 대조 사례 · 심사 규칙",
     "benchmark.md": "과제와 채점 규칙",
     "questions.md": "질문과 정답 형식",
     "tasks.md": "실제 데이터 예시",
@@ -36,7 +25,7 @@ DOCUMENTS = {
 # 서식 만들기 참고 문서 (docgen/manual, 저장소 기준 경로를 ID 로): 새 서식 가이드가 링크한다.
 MANUALS = {
     "docgen/forms/README.md": "서식 폴더 설명서 · 칸·값·질문·답·qa.py·채점·검사",
-    "docgen/manual/NEW_FORM_SPEC.md": "새 서식 결과물 형식 · 템플릿·칸 목록·키·생성 스크립트",
+    "docgen/manual/NEW_FORM_SPEC.md": "html 서식 파일 형식 · 템플릿·칸 목록·키·생성 스크립트 (코드로 고칠 때)",
     "docgen/manual/FORM_SHELL_GUIDE.md": "서식 모양(껍데기)만 고치기 · VLM 에게 맡길 때",
     "docker/README.md": "설치·내부망 반입 · studio 컨테이너 띄우기",
 }
@@ -48,97 +37,11 @@ for _path in sorted((ROOT / "guide").rglob("*.md")):
         DOCUMENTS[_name] = _path.read_text(encoding="utf-8").splitlines()[0].lstrip("# ") or _name
 
 
-def catalog() -> dict:
-    # 저장 후의 시나리오를 읽고, 필드는 build_schema가 수집한 스냅샷을 사용한다.
-    load_scenarios()
-    reg = load_all()
-    path = ROOT / "guide/fields/fields.json"
-    schema = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
-    scenarios = []
-    for sid, (name, docs) in SCENARIOS.items():
-        scenarios.append({"id": sid, "name": name, "docs": docs,
-                          "sampling": SCENARIO_SAMPLING.get(sid, {}),
-                          "processing": validate(SCENARIO_PROCESSING.get(sid), docs)})
-    forms = []
-    for spec in reg.values():
-        fields = schema.get(spec.id, {}).get("keys", [])
-        mapped = fields
-        uses = []
-        for scenario in scenarios:
-            roles = [d for d in scenario["docs"] if d == spec.id or
-                     spec.id in scenario["sampling"].get(d, {}).get("forms", [])]
-            if not roles:
-                continue
-            ops = [op for op in scenario["processing"]["operations"]
-                   if any((op.get(side) or {}).get("doc") in roles for side in ("left", "right"))]
-            uses.append({"id": scenario["id"], "name": scenario["name"], "roles": roles,
-                         "operations": ops, "processing": scenario["processing"]})
-        forms.append({"id": spec.id, "name": spec.name, "group": spec.group,
-                      "group_name": GROUPS.get(spec.group, spec.group), "description": spec.description,
-                      "schema_available": spec.id in schema,
-                      "fields": [{**f, "question_key": m["key"]} for f, m in zip(fields, mapped)],
-                      "scenarios": uses})
-    return {"format": "docgen-guide/1", "forms": forms, "scenarios": scenarios,
-            "tasks": contracts(), "rules": RULE_TITLES,
-            "cases": [{"id": c.id, "title": c.title, "basis": c.basis} for c in CASES],
-            "notes": "필드는 build_schema 수집 결과이며 가능한 항목 목록이다. 실제 문항·값·유효한 사례는 생성 결과로 확인한다."}
-
-
-def cell(value) -> str:
-    return str(value if value is not None else "").replace("|", "\\|").replace("\n", " ").replace("\r", "")
-
-
-def markdown(data: dict, form_id: str | None = None) -> str:
-    lines = ["# 업무별 서류·대조 사례·심사 규칙" if form_id is None else "# 서류별 추출 항목과 연결 업무", "",
-             "이 문서는 `python -m studio.guidebook`으로 현재 등록부·필드 스키마·시나리오 설정에서 생성합니다. 직접 수정하지 않습니다.", "",
-             "Studio의 **사용 가이드 → 서류·추출 카탈로그**와 서식 상세의 **개요 › 업무·시나리오** 화면은 같은 구조의 현재 데이터를 보여 줍니다. 이 파일과 catalog.json은 갱신 시점의 스냅샷입니다.", "",
-             "단일 서류 KIE는 해당 서식의 필드를 사용합니다. 업무 시나리오의 명시적 추출·비교 작업은 별도 설정입니다. 작업이 없더라도 켜진 기본 구비·대조·심사 과제는 유효한 서류·규칙에 따라 생성됩니다.", ""]
-    if form_id is None:
-        lines += ["## 업무별 서류와 처리 설정", ""]
-        for s in data["scenarios"]:
-            lines += [f"### {s['id']} · {s['name']}", "", "필수 역할/기준 서식: " + ", ".join(s["docs"]), "",
-                      "처리·추출·비교 및 후보 서식 설정 (현재 설정):", "", "```json",
-                      json.dumps({"sampling": s["sampling"], "processing": s["processing"]}, ensure_ascii=False, indent=2), "```", ""]
-        lines += ["## 기본 대조 사례", "", "| ID | 사례 | 근거 |", "|---|---|---|"]
-        lines += [f"| {c['id']} | {cell(c['title'])} | {cell(c['basis'])} |" for c in data["cases"]]
-        lines += ["", "## 기본 심사 규칙", "", "| ID | 계산·판단 |", "|---|---|"]
-        lines += [f"| {k} | {cell(v)} |" for k, v in data["rules"].items()]
-        lines += ["", "서류별 추출 항목은 서식마다 카드 `docgen/forms/<ID>/FORM.md` 와 studio 서식 상세의 **개요** 탭에 있습니다 (기계용 catalog.json).", ""]
-        return "\n".join(lines)
-    for f in data["forms"]:
-        if form_id is not None and f["id"] != form_id:
-            continue
-        lines += [f"### {f['id']} · {f['name']}", "", f"그룹: {f['group_name']} (`{f['group']}`)", "", cell(f["description"]), "",
-                  "연결 업무: " + (", ".join(f"{s['name']} ({s['id']})" for s in f["scenarios"]) or "없음 · 단일 서류 과제로 사용 가능"), ""]
-        if not f["schema_available"]:
-            lines += ["필드 목록 미수집. Studio 서식 › 질문·답 › 실제 문항으로 실제 문항을 확인하고 필드 스키마를 갱신하세요.", ""]
-        else:
-            lines += ["| 원본 필드 키 | 문항 키 | 항목명 | 타입 | 값 예시 |", "|---|---|---|---|---|"]
-            lines += ["| " + " | ".join(cell(x.get(k)) for k in ("key", "question_key", "label", "type", "example")) + " |" for x in f["fields"]]
-            lines += [""]
-        for s in f["scenarios"]:
-            lines += [f"연결 업무 {s['id']} · 추출/비교 작업:", ""]
-            if not s["operations"]:
-                lines += ["명시적 작업 없음. 업무별 기본 처리 설정은 위 업무 목록 또는 catalog.json에서 확인합니다.", ""]
-            for op in s["operations"]:
-                lines += ["```json", json.dumps(op, ensure_ascii=False, indent=2), "```", ""]
-    return "\n".join(lines)
-
-
 def document(name: str) -> str:
     if name not in DOCUMENTS:
         raise KeyError(name)
-    if name == "catalog.md":
-        return markdown(catalog())
     return (ROOT / name if name in MANUALS else ROOT / "guide" / name).read_text(encoding="utf-8")
 
 
-def export() -> None:
-    data = catalog()
-    (ROOT / "guide/catalog.json").write_text(json.dumps(data, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    (ROOT / "guide/catalog.md").write_text(markdown(data), encoding="utf-8")
-    print(f"Exported {len(data['forms'])} forms and {len(data['scenarios'])} scenarios.")
-
-
 if __name__ == "__main__":
-    export()
+    print("\n".join(f"{k}\t{v}" for k, v in DOCUMENTS.items()))

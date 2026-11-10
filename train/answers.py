@@ -108,7 +108,7 @@ def build(reports, sources, out, title="", base_label=None, per_task=30, take_al
                 text = E.answer_text(raw) if raw is not None else None
                 answers.append([label, per[label].get(it["id"]), _cut("(답 없음)" if text is None else text)])
             cards.append({"g": g, "id": it["id"], "prompt": _cut(prompt), "ref": _cut(_reference(it)),
-                          "info": " · ".join(str(meta[k]) for k in ("doc_type", "scenario", "label_format") if meta.get(k)),
+                          "info": " · ".join(str(meta[k]) for k in ("doc_type", "label_format") if meta.get(k)),
                           "images": [Path(os.path.relpath(p, out.parent)).as_posix() for p in row["images"]],
                           "answers": answers})
     payload = {"title": title, "base": base, "models": [m[0] for m in models], "groups": out_groups, "cards": cards,

@@ -6,13 +6,12 @@ API
   GET  /api/info                      설정 요약, 브라우저 경로
   GET  /api/groups                    서식 그룹
   GET  /api/forms                     서식 목록
-  GET  /api/forms/{id}                서식 상세 (키 목록, 파일, 시나리오, 검수·배정·문제 표시)
+  GET  /api/forms/{id}                서식 상세 (키 목록, 파일, 검수·배정·문제 표시)
   GET/POST /api/forms/{id}/card       서식 카드 FORM.md 보기 / 다시 만들기 (docgen/formcard.py)
   GET  /api/forms/{id}/overview       ① 개요 › 요약: 과제마다 묻는 것 (kie 칸·표·체크·qa.py) + 질문 검사·카드 상태
   POST /api/forms/{id}/render         미리보기 {seed, heavy, special, condition, force, draft?, extra?} → 라벨 + 이미지 주소
   POST /api/forms/{id}/questions      ① 질문·답 › 실제 문항: 그 미리보기로 실제 생성기(Builder.single)가 만드는 문항 (studio/questions.py)
   GET  /api/question-formats          과제별 공통 질문·answer 형식 (docgen.bench.contracts)
-  POST /api/scenarios/run             ③ 처리 설정 예시 실행 {scenario, seed} (studio/scenario_processing.py)
   GET  /api/forms/{id}/layout        overlay 영역 편집기: 영역(자동/수정/추가/뺌), 사람 수정, 깨진 수정
   PUT  /api/forms/{id}/overrides      사람 수정 저장 {overrides}
   GET  /api/forms/{id}/bg/{page}      지우기 전 배경 그림
@@ -173,29 +172,11 @@ def ocr_examples():
     return guard(examples)
 
 
-@app.get("/api/guide/catalog")
-def guide_catalog():
-    from .guidebook import catalog as data_catalog
-
-    return guard(data_catalog)
-
-
 @app.get("/api/guide/document")
 def guide_document(name: str):
     from .guidebook import document
 
     return {"name": name, "markdown": guard(document, name)}
-
-
-@app.get("/api/guide/forms/{doc_id}")
-def guide_form(doc_id: str):
-    from .guidebook import catalog as data_catalog
-
-    data = guard(data_catalog)
-    item = next((f for f in data["forms"] if f["id"] == doc_id), None)
-    if item is None:
-        raise HTTPException(404, "알 수 없는 서식")
-    return item
 
 
 @app.get("/api/forms")
@@ -306,29 +287,6 @@ def render(doc_id: str, req: RenderReq):
     except Exception as e:  # noqa: BLE001  렌더링 실패는 화면에 그대로 보여 준다
         raise HTTPException(500, f"{type(e).__name__}: {e}")
     return {**label, "image_urls": [f"/preview/{p}" for p in label["images"]]}
-
-
-class ScenarioRunReq(BaseModel):
-    scenario: dict
-    seed: int = Field(default=0, ge=0, le=2147483647)
-
-
-@app.post("/api/scenarios/run")
-def run_scenario(req: ScenarioRunReq):
-    from .scenario_processing import run
-
-    if not BROWSER:
-        raise HTTPException(503, "렌더링 브라우저가 없어 예시 고객의 문서를 만들 수 없습니다")
-    result = guard(run, req.scenario, req.seed, previewer.render)
-    result["labels"] = {did: {**label, "image_urls": [f"/preview/{p}" for p in label["images"]]}
-                        for did, label in result["labels"].items()}
-    return result
-
-
-@app.post("/api/scenarios/resolve")
-def resolve_scenario(req: ScenarioRunReq):
-    from docgen.roles import resolve
-    return {"selections":guard(resolve,req.scenario.get("docs"),req.scenario.get("sampling"),req.seed,req.scenario.get("id") or "draft")}
 
 
 @app.get("/api/question-formats")

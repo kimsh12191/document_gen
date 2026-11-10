@@ -29,24 +29,9 @@ def freetext(item, output):
 
 
 def form_qa(item, output):
-    """서식 전용 질문 (서식 폴더 qa.py): 정답 꼴로 — 숫자·예/아니오는 심사 질의와 같게, 글은 띄어쓰기·문장부호를 맞춰 같은지,
+    """서식 전용 질문 (서식 폴더 qa.py): 정답 꼴로 — 숫자는 허용 오차 안에서, 예/아니오는 같은지, 글은 띄어쓰기·문장부호를 맞춰 같은지,
     JSON 은 칸마다 같은지. 주 지표 acc. 질문 하나만 다르게 채점하려면 form_qa_example.py."""
     return E.s_form_qa(item, output)
-
-
-def doc_check(item, output):
-    """서류 구비 확인: missing·not_required·not_customer 세 목록이 모두 맞으면 exact (주 지표), 목록 F1 은 set_f1."""
-    return E.s_doc_check(item, output)
-
-
-def cross_check(item, output):
-    """서류 간 대조: 정상 문항은 consistent=true 면 1, 변조 문항은 탐지(detect) + 문제 서류·값까지 맞힘. 주 지표 score."""
-    return E.s_cross_check(item, output)
-
-
-def review(item, output):
-    """심사 질의: 예/아니오, 숫자(허용 오차 item["eval"]["tol"]), 짧은 답 일치. 주 지표 acc."""
-    return E.s_review(item, output)
 
 
 def ocr_field(item, output):
@@ -59,8 +44,8 @@ def ocr_page(item, output):
     return E.s_ocr_page(item, output)
 
 
-TASKS = {"classify": classify, "kie": kie, "marks": marks, "freetext": freetext, "form_qa": form_qa, "doc_check": doc_check,
-         "cross_check": cross_check, "review": review, "ocr_field": ocr_field, "ocr_page": ocr_page,
+TASKS = {"classify": classify, "kie": kie, "marks": marks, "freetext": freetext, "form_qa": form_qa,
+         "ocr_field": ocr_field, "ocr_page": ocr_page,
          **{t: E.SCORERS[t] for t in ("table", "table_read", "table_find", "table_qa")}}   # 표 과제는 기본 채점 그대로
 
 

@@ -21,7 +21,7 @@
 
 차례는 SINGLE 순서 그대로다. 과제들이 같은 난수(doc.rng)를 이어서 쓰므로 순서를 바꾸거나 중간에 난수를 더 쓰면
 같은 설정으로 만든 세트가 달라진다 — 새 과제는 끝에 붙이고, 세트가 달라지면 build.py 의 VERSION 을 올린다.
-채점은 docgen/bench/evaluate.py 의 s_<과제>. 업무 묶음 과제(doc_check·cross_check·review)는 build.py·cases.py·rules.py.
+채점은 docgen/bench/evaluate.py 의 s_<과제>.
 """
 from __future__ import annotations
 
@@ -58,7 +58,7 @@ def table_cell(key: str) -> tuple[str, int, str] | None:
 
 
 def field_kind(f: dict) -> str:
-    """cross_check·ocr_field 분석용 값 종류."""
+    """ocr_field·kie 분석용 값 종류."""
     lab, t = f.get("label") or "", f.get("type")
     if t in ("rrn", "biz_no", "corp_reg_no", "phone", "account_no", "date", "amount", "amount_korean"):
         return {"amount_korean": "amount", "biz_no": "reg_no", "corp_reg_no": "reg_no"}.get(t, t)

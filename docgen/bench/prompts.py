@@ -25,11 +25,8 @@ P_OCR_FIELD = _fmt(DEFAULTS["ocr_field"]["prompt"])
 # kie·marks 는 값과 함께 위치를 답한다 (평가 세트 2.0). 좌표는 OCR 과제와 같은 bbox_2d: 그 쪽 이미지 기준 0~1000 정수.
 P_KIE = _fmt(DEFAULTS["kie"]["prompt"], ("items",))
 P_MARKS = _fmt(DEFAULTS["marks"]["prompt"], ("items",))
-P_DOC_CHECK = _fmt(DEFAULTS["doc_check"]["prompt"], ("customer", "task", "required"))
-P_CROSS = _fmt(DEFAULTS["cross_check"]["prompt"], ("customer", "task", "n", "pages"))
 # freetext: 기타·비고·사유 칸의 자유 기재를 DB 칸으로. 보기 목록은 docgen/freetext.py (freetext_prompt 가 채운다)
 P_FREETEXT = _fmt(DEFAULTS["freetext"]["prompt"], ("label", "basis", "purposes", "reasons", "requests"))
-P_REVIEW = _fmt(DEFAULTS["review"]["prompt"], ("task", "pages", "question"))
 LINE = DEFAULTS["kie"]["item"]   # 질문의 항목 한 줄 틀 (서식의 questions.json 의 item 으로 바꿀 수 있다)
 # 표(목록) 과제 (docgen/bench/tasks/table*.py). {target} 표를 가리키는 말, {scope} 범위 (없으면 빈칸), {columns} 열 줄들
 P_TABLE = _fmt(DEFAULTS["table"]["prompt"], ("target", "scope", "columns"))

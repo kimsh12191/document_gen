@@ -2,7 +2,7 @@
 
   python -m docgen list [--markdown]                               서류·시나리오 목록 (--markdown 은 guide/documents.md)
   python -m docgen generate --types all --n 20 --out out --png     HTML·정답 라벨 (+ PNG·위치·ms-swift jsonl)
-  python -m docgen generate --scenario mortgage --n 5 --out out --png
+  python -m docgen generate --types income --n 5 --out out --png
   python -m docgen check --png                                     템플릿 검증 (예외, 표시하지 않은 값, 페이지 넘침)
 
 출력 형식은 docgen/README.md 의 '출력 구조'. 평가 세트는 docgen.bench, 합성 OCR 세트는 docgen.ocr_set 이 따로 만든다.
@@ -17,7 +17,7 @@ from pathlib import Path
 
 from .banks import BRANDS, LEGACY, supports
 from .entities import BANKS, make_profile
-from .registry import BANK_FORM_GROUPS, GROUPS, SCENARIO_EXTRA, SCENARIOS, load_all
+from .registry import BANK_FORM_GROUPS, GROUPS, load_all
 from .render import render, to_nested
 
 
@@ -40,10 +40,6 @@ def cmd_list(args) -> None:
                 mark = " · 견본표시" if s.sample_mark else ""
                 print(f"| `{s.id}` | {s.name} | {cat}{mark} | {s.description.splitlines()[0] if s.description else ''} |")
             print()
-        print("## 업무 시나리오\n")
-        print("| 시나리오 | 업무 | 서류 |\n|---|---|---|")
-        for k, (name, ids) in SCENARIOS.items():
-            print(f"| `{k}` | {name} | {', '.join(reg[i].name if i in reg else i for i in ids)} |")
         return
     for g, title in GROUPS.items():
         specs = by_group.get(g, [])
@@ -52,15 +48,10 @@ def cmd_list(args) -> None:
             cat = "은행서식" if s.category == "internal" else "외부발급"
             print(f"  {s.id:40s} {s.name}  ({cat}, {s.page})")
     print(f"\n총 {len(reg)}종")
-    print("\n[시나리오]")
-    for k, (name, ids) in SCENARIOS.items():
-        print(f"  {k:28s} {name}: {', '.join(ids)}")
 
 
 def _select(args, reg) -> list[str]:
-    if args.scenario:
-        ids = SCENARIOS[args.scenario][1]
-    elif args.types in (None, "all"):
+    if args.types in (None, "all"):
         ids = list(reg)
     else:
         ids = []
@@ -150,8 +141,6 @@ def cmd_generate(args) -> None:
         for i in range(args.n):
             seed = args.seed + i
             profile = _profile(seed, args)  # 같은 i 의 서류들은 모두 같은 고객
-            if args.scenario:
-                profile.extra.update(scenario=args.scenario, **SCENARIO_EXTRA.get(args.scenario, {}))
             for doc_id in ids:
                 spec = reg[doc_id]
                 sid = f"{doc_id}_{seed:06d}"
@@ -161,7 +150,7 @@ def cmd_generate(args) -> None:
                 fields = build_fields(raw, info)
                 label = {
                     "id": sid, "doc_type": doc_id, "doc_name": spec.name, "group": spec.group,
-                    "category": spec.category, "profile_seed": seed, "scenario": args.scenario,
+                    "category": spec.category, "profile_seed": seed,
                     **({"bank": fields_bank(fields)} if spec.group in BANK_FORM_GROUPS else {}),
                     "html": f"html/{sid}.html",
                 }
@@ -288,11 +277,10 @@ def main(argv=None) -> None:
     BANK_CHOICES = sorted(set(BANKS) | set(BRANDS), key=lambda b: (b in LEGACY, b))
     ap = argparse.ArgumentParser(prog="docgen", description="은행 제출 서류 합성 데이터 생성기")
     sub = ap.add_subparsers(dest="cmd", required=True)
-    ls = sub.add_parser("list", help="서류/시나리오 목록")
+    ls = sub.add_parser("list", help="서류 목록")
     ls.add_argument("--markdown", action="store_true", help="마크다운 표로 출력")
     g = sub.add_parser("generate", help="샘플 생성")
     g.add_argument("--types", default="all", help="all | 서류ID,... | 그룹명(identity,income,...)")
-    g.add_argument("--scenario", choices=list(SCENARIOS), help="업무 시나리오별 서류 묶음")
     g.add_argument("--n", type=int, default=10, help="고객 프로필 수 (서류별 샘플 수)")
     g.add_argument("--seed", type=int, default=0)
     g.add_argument("--out", default="out")
@@ -308,7 +296,6 @@ def main(argv=None) -> None:
     g.add_argument("--sample-mark", action="store_true", help="모든 서류에 '견본' 워터마크 (신분증류는 항상 표시)")
     c = sub.add_parser("check", help="템플릿 검증 (예외, 미표시 값, 페이지 넘침)")
     c.add_argument("--types", default="all")
-    c.add_argument("--scenario", choices=list(SCENARIOS))
     c.add_argument("--n", type=int, default=30, help="검사할 프로필 수")
     c.add_argument("--seed", type=int, default=0)
     c.add_argument("--bank", choices=BANK_CHOICES, metavar="은행", help="은행 서식을 낼 은행 고정")

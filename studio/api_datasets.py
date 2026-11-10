@@ -101,7 +101,7 @@ def make_router(reg: DS.Registry, guard, jobs=None) -> APIRouter:
         return {"all": summarize(x for rows in all_rows.values() for x in rows),
                 "evaluation": summarize(x for rows in eval_rows.values() for x in rows),
                 "provenance": {k: recipe.get(k, meta.get(k)) for k in
-                               ("generator_commit", "version", "created", "recipe", "form_hashes", "scenario_sampling", "scenario_processing")}}
+                               ("generator_commit", "version", "created", "recipe", "form_hashes")}}
 
     @r.patch("/api/datasets/{ds_id}")
     def patch(ds_id: str, req: dict):
@@ -127,7 +127,7 @@ def make_router(reg: DS.Registry, guard, jobs=None) -> APIRouter:
 
     @r.get("/api/datasets/{ds_id}/items")
     def list_items(ds_id: str, task: str = "", offset: int = 0, limit: int = 20, q: str = "",
-                   task_group: str = "", scenario: str = "", label_format: str = "", doc_type: str = "", evaluation_only: bool = False):
+                   task_group: str = "", label_format: str = "", doc_type: str = "", evaluation_only: bool = False):
         ds = ds_or_404(ds_id)
         by_task = guard(DS.items, ds)
         if task and task not in by_task:
@@ -138,7 +138,7 @@ def make_router(reg: DS.Registry, guard, jobs=None) -> APIRouter:
             rows = [x for x in rows if x["id"] in evaluation_ids]
         from docgen.bench.tracking import facets
 
-        filters = {"task_group": task_group, "scenario": scenario, "label_format": label_format, "doc_type": doc_type}
+        filters = {"task_group": task_group, "label_format": label_format, "doc_type": doc_type}
         rows = [x for x in rows if all(not v or facets(x)[k] == v for k, v in filters.items())]
         if q:
             rows = [x for x in rows if q.lower() in json.dumps(x, ensure_ascii=False).lower()]

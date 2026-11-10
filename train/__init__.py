@@ -1,4 +1,4 @@
-"""학습 실행 하나 — OCR·문서 이해·업무 처리 과제를 한 번에 (studio/DESIGN.md 17절, 옛 ocr/ 1부·bank/ 2부를 합침).
+"""학습 실행 하나 — OCR·문서 이해 과제를 한 번에 (studio/DESIGN.md 17절, 옛 ocr/ 1부·bank/ 2부를 합침).
 
   python -m train --config train/configs/<이름>.json [--smoke | --dry-run | --from sft | --only report]
 

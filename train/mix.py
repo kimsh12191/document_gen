@@ -1,5 +1,5 @@
 """데이터셋 섞기 (옛 bank_task/prepare.py + 1부 OCR SFT 묶기 + OCR replay 를 하나로): 과제 폴더(docgen-tasks) 여러 개
-→ 학습이 읽는 폴더. OCR·문서 이해·업무 과제가 같은 규칙으로 섞인다.
+→ 학습이 읽는 폴더. OCR·문서 이해 과제가 같은 규칙으로 섞인다.
 
   <output_dir>/
     DONE.json              이미지 예산, 수, 원본 데이터셋 (마지막에 쓴다)
@@ -19,7 +19,7 @@
   benchmark   평가 데이터셋 [경로 …] — 문항 meta.split 이 train·val 이 아닌 것
   task_mix    {과제: 비율} — 적힌 과제는 sft_max_examples 안에서 그 비율, 적히지 않은 과제는 있는 만큼 다 (예: OCR 은 count 로만 줄임).
               없으면 있는 비율대로 sft_max_examples 까지
-  grpo_holdout 학습 문항 중 이 비율의 고객(업무 묶음)·문서는 SFT 에 넣지 않고 GRPO 후보로
+  grpo_holdout 학습 문항 중 이 비율의 문서는 SFT 에 넣지 않고 GRPO 후보로
 평가 세트와 같은 고객·문서가 학습에 있으면 멈춘다. 이미지 예산: 그림 하나는 image_max_size 의 토큰까지, 문항 하나는 모든 그림 합쳐
 max_image_tokens_per_sample 까지 (여러 서류는 고르게 줄임). 평가도 같은 규칙이라 학습·평가가 같은 픽셀을 본다.
 평가 그림만 다르게: benchmark_image_max_size · benchmark_max_image_tokens_per_sample (실험 묶음이 모델마다 학습 그림 예산을
@@ -122,7 +122,7 @@ def split_of(item: dict, folder_split: str) -> str:
 
 
 def group_key(item: dict) -> str:
-    """같은 고객·문서의 문항끼리 같은 값: OCR 은 문서 ID, 업무 과제는 묶음 ('cross_check/<묶음>/<사례>' → '<묶음>')."""
+    """같은 문서의 문항끼리 같은 값: meta.document_id 가 있으면 그것, 없으면 문항 ID 의 서류 부분 ('kie/<서류>' → '<서류>')."""
     doc = (item.get("meta") or {}).get("document_id")
     if doc:
         return f"doc:{doc}"

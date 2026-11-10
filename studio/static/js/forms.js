@@ -36,7 +36,6 @@ async function viewForms() {
         `<option value="${v}" ${f.review === v ? "selected" : ""}>${n}</option>`).join("")}</select>
       <label><input type="checkbox" id="f-korean" ${f.korean ? "checked" : ""}> 한글 키 있음</label>
       <label title="행 수가 서류마다 달라지는 반복 묶음 (rows[].kind) — 표 과제 table·table_read·table_find·table_qa 가 묻는다"><input type="checkbox" id="f-tables" ${f.tables ? "checked" : ""}> 표 있음</label>
-      <label><input type="checkbox" id="f-scenario" ${f.scenario ? "checked" : ""}> 업무 시나리오에 쓰임</label>
       <label><input type="checkbox" id="f-issues" ${f.issues ? "checked" : ""}> 문제 표시 있음</label>
       <label><input type="checkbox" id="f-edited" ${f.edited ? "checked" : ""}> 사람 수정 있음</label>
       <span class="muted" id="f-count"></span>
@@ -66,11 +65,11 @@ async function viewForms() {
   });
   state.showRefreshed = false;   // 다시 읽기 결과는 누른 직후에만 (목록을 가리지 않게)
   $("#f-refreshed").addEventListener("click", e => { if (e.target.closest("[data-close]")) $("#f-refreshed").innerHTML = ""; });
-  const ids = ["#f-q", "#f-group", "#f-kind", "#f-review", "#f-korean", "#f-tables", "#f-scenario", "#f-issues", "#f-edited"];
+  const ids = ["#f-q", "#f-group", "#f-kind", "#f-review", "#f-korean", "#f-tables", "#f-issues", "#f-edited"];
   const update = () => {
     Object.assign(f, {
       q: $("#f-q").value.trim(), group: $("#f-group").value, kind: $("#f-kind").value, review: $("#f-review").value,
-      korean: $("#f-korean").checked, tables: $("#f-tables").checked, scenario: $("#f-scenario").checked, issues: $("#f-issues").checked,
+      korean: $("#f-korean").checked, tables: $("#f-tables").checked, issues: $("#f-issues").checked,
       edited: $("#f-edited").checked,
     });
     store.set("filter", f);
@@ -101,7 +100,7 @@ function drawFormTable() {
       (x.official_source && ("공식대조 HTML " + x.official_source.publisher).toLowerCase().includes(q))) &&
     (!f.group || x.group === f.group) && (!f.kind || x.kind === f.kind) &&
     (!f.review || (f.review === "yes") === !!x.reviewed) &&
-    (!f.korean || x.n_korean_keys > 0) && (!f.tables || x.tables.length > 0) && (!f.scenario || x.scenarios.length > 0) &&
+    (!f.korean || x.n_korean_keys > 0) && (!f.tables || x.tables.length > 0) &&
     (!f.issues || x.open_issues > 0) && (!f.edited || x.edited));
   const { key, dir } = state.sort;
   rows = rows.slice().sort((a, b) => {
@@ -111,7 +110,7 @@ function drawFormTable() {
   $("#f-count").textContent = `${rows.length}종`;
   const cols = [["id", "ID"], ["name", "서식명"], ["group_name", "그룹"], ["kind", "종류"], ["n_keys", "키", 1],
     ["n_korean_keys", "한글 키", 1], ["n_empty", "값 없는 칸", 1], ["n_marks", "체크·도장·서명", 1], ["tables", "표", 1],
-    ["scenarios", "시나리오"], ["split", "배정"], ["open_issues", "문제", 1], ["reviewed", "검수"]];
+    ["split", "배정"], ["open_issues", "문제", 1], ["reviewed", "검수"]];
   $("#f-table").innerHTML = `<table><thead><tr>${cols.map(([k, n, num]) =>
     `<th data-k="${k}" class="${num ? "num" : ""}">${n}${state.sort.key === k ? (dir > 0 ? " ▲" : " ▼") : ""}</th>`).join("")}
     </tr></thead><tbody>${rows.map(x => `
@@ -123,7 +122,6 @@ function drawFormTable() {
       <td class="num ${x.n_korean_keys ? "kr" : ""}">${x.n_korean_keys || ""}</td>
       <td class="num">${x.n_empty || ""}</td><td class="num">${x.n_marks || ""}</td>
       <td class="num" title="${esc(x.tables.join(", "))}">${x.tables.length || ""}</td>
-      <td>${x.scenarios.map(s => `<span class="tag">${esc(s)}</span>`).join("")}</td>
       <td class="nw">${x.split === "unassigned" ? `<span class="muted">-</span>` : esc(SPLIT_NAME[x.split] || x.split)}</td>
       <td class="num ${x.open_issues ? "kr" : ""}">${x.open_issues || ""}</td>
       <td class="nw">${x.reviewed ? `<span class="tag ok">완료</span>` : `<span class="muted">미검수</span>`}</td>
@@ -156,7 +154,7 @@ function formTabs(d) {
   const editable = d.kind === "overlay";
   const open = d.issues.filter(x => x.status === "open").length;
   return [
-    ["개요", "이 서식이 무엇을 묻는지와 상태", [["overview", "요약"], ["card", "카드 원문"], ["guide", "업무·시나리오"]]],
+    ["개요", "이 서식이 무엇을 묻는지와 상태", [["overview", "요약"], ["card", "카드 원문"]]],
     ["그림·검수", "그린 그림과 정답이 맞는지 눈으로 보고 검수", [["preview", "미리보기"], ["examples", "여러 장 보기"],
       ["review", `검수${open ? ` · 문제 ${open}` : ""}`]]],
     ["질문·답", "과제마다 실제 질문·정답·채점", [["questions", "실제 문항"]]],
@@ -185,7 +183,6 @@ async function viewForm(id, tab) {
       <span class="tag">배정: ${esc(SPLIT_NAME[d.split] || d.split)}</span>
       ${d.edited ? `<span class="tag ok">사람 수정 있음</span>` : ""}
       ${d.n_korean_keys ? `<span class="tag warn">한글 키 ${d.n_korean_keys}</span>` : ""}
-      ${d.scenario_names.map(s => `<span class="tag">시나리오: ${esc(s.name)}</span>`).join("")}
       ${d.kind === "html" ? `<button id="f-clone" title="템플릿을 사본으로 만들어 html 편집기에서 고칩니다 (값은 부모 생성 함수 + 칸 목록 fields.json)">복제</button>` : ""}
     </div>
     ${d.description ? `<div class="sub" style="margin-top:6px">${esc(d.description)}</div>` : ""}
@@ -210,7 +207,6 @@ async function viewForm(id, tab) {
   if (tab === "overview") return tabOverview(d);
   if (tab === "preview") return tabPreview(d);
   if (tab === "card") return tabCard(d);
-  if (tab === "guide") return tabGuide(d);
   if (tab === "examples") return tabExamples(d);
   if (tab === "questions") return tabQuestions(d);
   if (tab === "edit" && editable) return viewEditor(d);
@@ -276,8 +272,6 @@ async function tabOverview(d) {
     [name("form_qa"), o.form_qa.length ? o.form_qa.map(r => `<span class="tag" title="${esc(r.kind || "")}">${esc(r.name)}</span>${r.asked < r.of ? ` <span class="muted">${r.asked}/${r.of}장</span>` : ""}`).join(" ")
       : `<span class="muted">없음 — 견본 <span class="mono">python -m docgen.formdir qa ${esc(d.id)} --new</span></span>`,
       o.form_qa.length ? go(["form_qa"]) : "", "<span class=mono>qa.py</span> (함수 하나 = 질문 하나)"],
-    ["업무 묶음", d.scenario_names.length ? d.scenario_names.map(s => `<span class="tag">${esc(s.name)}</span>`).join(" ") + ` <span class="muted">— 구비 확인·대조·심사 문항에 쓰임</span>`
-      : `<span class="muted">없음 (서류 한 건 과제에만)</span>`, d.scenario_names.length ? `<a href="#/forms/${id}/guide">업무·시나리오</a>` : "", "시나리오·묶음 메뉴"],
   ];
   $("#ov-tasks").innerHTML = `<table class="ov-tasks"><thead><tr><th>과제</th><th>묻는 것</th><th></th><th>고치는 곳</th></tr></thead><tbody>${rows.map(([t, w, l, f]) =>
       `<tr><td class="nw">${t}</td><td>${w}</td><td class="nw">${l}</td><td class="muted">${f}</td></tr>`).join("")}</tbody></table>

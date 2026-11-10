@@ -38,7 +38,7 @@ const state = {
   info: null,
   forms: null,
   layers: store.get("layers", { value: true, label: false, check: true, seal: true, sign: true }),
-  filter: store.get("filter", { q: "", group: "", kind: "", review: "", korean: false, scenario: false }),
+  filter: store.get("filter", { q: "", group: "", kind: "", review: "", korean: false }),
   sort: { key: "id", dir: 1 },
   opts: store.get("opts", { seed: 0, heavy: "default", special: "default", condition: "clean" }),
 };

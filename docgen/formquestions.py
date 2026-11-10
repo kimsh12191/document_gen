@@ -279,7 +279,6 @@ def field_rows(task: str, docs: list[list[dict]]) -> list[dict]:
 
 def resolved(doc_id: str, docs: list[list[dict]] | None = None, seeds: int = 8) -> dict:
     """기본 + 이 서식에서 바꾼 것 = 실제로 쓰이는 전체. 값마다 "바꿈" 여부를 붙인다 (카드·--show)."""
-    from . import dictionary as DIC
     from .registry import load_all
 
     from . import fieldinfo
@@ -304,7 +303,7 @@ def resolved(doc_id: str, docs: list[list[dict]] | None = None, seeds: int = 8) 
         mine = q.get(task) or {}
         out[task] = {"prompt": mine.get("prompt") or defaults(task)["prompt"], "exclude": no_ocr,
                      "changed": sorted(k for k in ("prompt",) if k in mine)}
-    name, aliases = DIC.doc_name(doc_id, load_all()[doc_id].name)
+    name, aliases = load_all()[doc_id].name, []
     mine = q.get("classify") or {}
     out["classify"] = {"prompt": mine.get("prompt") or defaults("classify")["prompt"], "answer": mine.get("answer") or name,
                        "aliases": mine.get("aliases", aliases), "changed": sorted(k for k in ("prompt", "answer", "aliases") if k in mine)}
@@ -313,7 +312,6 @@ def resolved(doc_id: str, docs: list[list[dict]] | None = None, seeds: int = 8) 
 
 def slim(doc_id: str, body: dict, docs: list[list[dict]] | None = None) -> dict:
     """기본과 같은 것을 지운 본문 (예전 꼴의 전체 사본 → 바꾼 것만). 빈 dict 면 파일이 필요 없다."""
-    from . import dictionary as DIC
     from .registry import load_all
 
     out = {}
@@ -354,7 +352,7 @@ def slim(doc_id: str, body: dict, docs: list[list[dict]] | None = None) -> dict:
         if spec:
             out[task] = spec
     spec = dict(body.get("classify") or {})
-    name, aliases = DIC.doc_name(doc_id, load_all()[doc_id].name)
+    name, aliases = load_all()[doc_id].name, []
     for k, d in (("prompt", defaults("classify")["prompt"]), ("answer", name), ("aliases", aliases)):
         if spec.get(k) == d:
             spec.pop(k)

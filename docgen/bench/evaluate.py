@@ -21,28 +21,23 @@ from .metrics import (cer, is_null, loose_text, match, norm_text, parse_json, st
 
 OCR_TASKS = list(OM.TASKS)   # 쪽 OCR (옛 1부): 문항마다가 아니라 과제 전체로 지표를 낸다 (CER = 틀린 글자 합 / 글자 합)
 TABLE_TASKS = ["table", "table_read", "table_find", "table_qa"]
-TASK_ORDER = [*OCR_TASKS, "ocr_field", "ocr_page", "classify", "kie", "marks", "freetext", "form_qa", *TABLE_TASKS,
-              "doc_check", "cross_check", "review"]
+TASK_ORDER = [*OCR_TASKS, "ocr_field", "ocr_page", "classify", "kie", "marks", "freetext", "form_qa", *TABLE_TASKS]
 TASK_TITLE = {"crop_ocr": "OCR - 칸 잘라 읽기", "bbox_ocr": "OCR - 좌표 → 글자", "region_ocr": "OCR - 영역 받아쓰기",
               "marked_ocr": "OCR - 그린 박스 → 글자", "grounding": "OCR - 글자 → 좌표", "spotting": "OCR - 글자 찾기(좌표+글자)",
               "relation": "OCR - 항목명 → 값(좌표+글자)", "marked_box": "OCR - 그린 박스 → 좌표",
               "ocr_field": "OCR - 값 칸 인식", "ocr_page": "OCR - 전체 받아쓰기", "classify": "서류 분류",
               "kie": "정보 추출", "marks": "체크·도장·서명", "freetext": "기타 칸 정리", "form_qa": "서식 전용 질문",
-              "table": "표 추출", "table_read": "표 그대로 옮기기", "table_find": "표 찾기", "table_qa": "표 질의",
-              "doc_check": "서류 구비 확인",
-              "cross_check": "서류 간 대조", "review": "심사 질의"}
+              "table": "표 추출", "table_read": "표 그대로 옮기기", "table_find": "표 찾기", "table_qa": "표 질의"}
 TASK_GROUP = {**{t: "ocr" for t in [*OCR_TASKS, "ocr_field", "ocr_page"]}, "classify": "doc", "kie": "doc", "marks": "doc",
-              "freetext": "doc", "form_qa": "doc", **{t: "doc" for t in TABLE_TASKS},
-              "doc_check": "work", "cross_check": "work", "review": "work"}
-GROUP_TITLE = {"ocr": "OCR", "doc": "문서 이해", "work": "업무 처리"}
+              "freetext": "doc", "form_qa": "doc", **{t: "doc" for t in TABLE_TASKS}}
+GROUP_TITLE = {"ocr": "OCR", "doc": "문서 이해"}
 WORST = {"cer": 1.0, "false_alarm": 1.0, "extra_key": 1.0}
 LOWER_IS_BETTER = {"cer", "false_alarm", "matched_label_cer", "extra_key"}
 # OCR 과제의 대표 지표는 옛 1부 비교표(REPORT_METRICS)와 같다
 MAIN = {"crop_ocr": "cer", "bbox_ocr": "em", "region_ocr": "cer", "marked_ocr": "em", "grounding": "f1_iou50",
         "spotting": "e2e_f1", "relation": "e2e_f1", "marked_box": "f1_iou75",
         "ocr_field": "exact", "ocr_page": "recall", "classify": "acc", "kie": "vl_f1", "marks": "vl_f1", "freetext": "f1",
-        "form_qa": "acc", "table": "cell_f1", "table_read": "cell_f1", "table_find": "f1_iou50", "table_qa": "acc",
-        "doc_check": "exact", "cross_check": "score", "review": "acc"}
+        "form_qa": "acc", "table": "cell_f1", "table_read": "cell_f1", "table_find": "f1_iou50", "table_qa": "acc"}
 # 평가 세트 1.x 의 kie·marks 는 값만 답한다 → 주 지표가 값 점수 (f1 / acc). 2.0 부터 값+위치 (vl_f1).
 MAIN_V1 = {"kie": "f1", "marks": "acc"}
 
@@ -71,8 +66,7 @@ SLICES = {"ocr_field": ["writing", "condition", "kind", "corrected"], "ocr_page"
           "marks": ["group", "condition", "@type"], "freetext": ["group", "writing", "level", "@key"],
           "form_qa": ["doc_type", "question"],
           "table": ["group", "condition", "ref", "scope", "absent", "@kind"], "table_read": ["group", "condition", "ref", "scope"],
-          "table_find": ["group", "condition"], "table_qa": ["group", "kind"], "doc_check": ["n_missing", "not_customer", "not_required", "scenario"],
-          "cross_check": ["category", "case", "perturbed", "scenario"], "review": ["skill", "rule"],
+          "table_find": ["group", "condition"], "table_qa": ["group", "kind"],
           **{t: ["view", "confidence", "size"] for t in OCR_TASKS}}
 
 
@@ -567,78 +561,6 @@ def s_table_qa(item, out):
     return {"metrics": {"acc": float(ok)}}
 
 
-DOC_CHECK_KEYS = ("missing", "not_required", "not_customer")
-
-
-def s_doc_check(item, out):
-    pred = parse_json(out)
-    fail = not isinstance(pred, (dict, list))
-    if isinstance(pred, list):  # 목록만 답하면 missing 으로 본다
-        pred = {"missing": pred}
-    pred = pred if isinstance(pred, dict) else {}
-    names = item["eval"].get("names") or item["eval"]["required"]
-    tp = fp = fn = 0
-    exact = {}
-    for k in DOC_CHECK_KEYS:
-        gt = set(item["answer"].get(k, []))
-        lst = [x for x in (pred.get(k) or []) if not is_null(x)] if isinstance(pred.get(k) or [], list) else [pred.get(k)]
-        got = {m for m in (_name_match(str(x), names) for x in lst) if m}
-        unmatched = sum(1 for x in lst if _name_match(str(x), names) is None)
-        tp += len(got & gt)
-        fp += len(got - gt) + unmatched
-        fn += len(gt - got)
-        exact[k] = got == gt and not unmatched
-    f1 = 1.0 if not (tp + fp + fn) else 2 * tp / (2 * tp + fp + fn)
-    return {"metrics": {"exact": float(all(exact.values())), "set_f1": f1, "missing_exact": float(exact["missing"]),
-                        "not_required_exact": float(exact["not_required"]),
-                        "not_customer_exact": float(exact["not_customer"])}, "parse_fail": fail}
-
-
-def s_cross_check(item, out):
-    pred = parse_json(out)
-    fail = not isinstance(pred, dict)
-    pred = pred if isinstance(pred, dict) else {}
-    issues = [x for x in (pred.get("issues") or []) if isinstance(x, dict)]
-    cons = pred.get("consistent")
-    cons = _bool(cons) if cons is not None else (not issues if not fail else None)
-    gt = item["answer"]
-    detect = float(cons is not None and cons == gt["consistent"])
-    m = {"detect": detect}
-    if gt["consistent"]:
-        m["false_alarm"] = float(cons is False)
-        m["score"] = detect
-    else:
-        want = gt["issues"][0]
-        ok_docs = {want["document"], *want.get("alt_documents", [])}
-        hit = False
-        for x in issues:
-            doc = _name_match(str(x.get("document") or ""), item["eval"]["documents"])
-            if doc not in ok_docs:
-                continue
-            if (value_match(x.get("value"), want["value"]) or value_match(x.get("expected"), want["value"])
-                    or value_match(x.get("value"), want["expected"])
-                    or similar_label(want["field"], str(x.get("field") or ""))):
-                hit = True
-                break
-        m["localize"] = float(hit and cons is False)
-        m["score"] = m["localize"]
-    return {"metrics": m, "parse_fail": fail}
-
-
-def s_review(item, out):
-    ev, gt = item["eval"], item["answer"]
-    a = strip_answer(out)
-    if ev["answer_type"] == "yesno":
-        p = yes_no(a)
-        return {"metrics": {"acc": float(p is not None and p == (gt == "예"))}, "parse_fail": p is None}
-    p = to_number(a.rstrip("%").replace("배", "").replace("세", "").replace("년", "").replace("원", "").strip())
-    if p is None:
-        p = to_number(a)
-    ok = p is not None and abs(p - float(gt)) <= ev.get("tol", 0) + 1e-9
-    return {"metrics": {"acc": float(ok)}, "parse_fail": p is None}
-
-
-
 def s_form_qa(item, out):
     """서식 전용 질문 (서식 폴더 qa.py, docgen/formqa.py): 정답 꼴(eval.answer_type)로 기본 채점.
     number·yesno 는 심사 질의와 같게, text 는 띄어쓰기·문장부호를 맞춰 같은지, json 은 칸(목록은 항목)마다 같은지."""
@@ -712,8 +634,7 @@ def s_freetext(item, out):
 
 SCORERS = {"classify": s_classify, "ocr_field": s_ocr_field, "ocr_page": s_ocr_page, "kie": s_kie, "marks": s_marks,
            "freetext": s_freetext, "form_qa": s_form_qa, "table": s_table, "table_read": s_table_read,
-           "table_find": s_table_find, "table_qa": s_table_qa,
-           "doc_check": s_doc_check, "cross_check": s_cross_check, "review": s_review}
+           "table_find": s_table_find, "table_qa": s_table_qa}
 
 
 # ---------------------------------------------------------------------------
@@ -853,10 +774,7 @@ def reward(task: str, output: str | None, item: dict) -> float:
     """GRPO 보상 [0, 1] — 모든 과제 하나 (train/reward_plugin.py). 답이 없거나 읽을 수 없으면 0.
 
     OCR 과제: 옛 1부 보상 그대로 (글자 유사도 + 숫자, 박스는 IoU 부드러운 F1).
-    업무 과제: 평가 채점기 그대로, 여러 부분 중 다 맞아야 하는 지표는 부분 점수를 준다:
-      doc_check    0.5 × 완전 일치 + 0.5 × 세 목록 F1
-      cross_check  정상 문항: 맞다고 하면 1 / 변조 문항: 0.5 × (다르다고 함) + 0.5 × (서류·값까지 맞힘)
-      ocr_field    1 − CER,  ocr_page 오차 20% 허용 재현율,  그 밖은 주 지표 (kie·marks 값+위치 F1, classify·review 정확도)
+    그 밖: ocr_field 1 − CER,  ocr_page 오차 20% 허용 재현율,  나머지는 주 지표 (kie·marks 값+위치 F1, classify 정확도)
     채점 함수를 붙인 문항(eval.scorer — swift .jsonl 학습 데이터): 그 함수의 주 지표 (낮을수록 좋은 지표는 1 − 값).
     """
     spec = (item.get("eval") or {}).get("scorer")
@@ -878,11 +796,7 @@ def reward(task: str, output: str | None, item: dict) -> float:
     if result.get("parse_fail"):
         return 0.0
     m = result["metrics"]
-    if task == "doc_check":
-        value = 0.5 * m["exact"] + 0.5 * m["set_f1"]
-    elif task == "cross_check":
-        value = m["score"] if item["answer"]["consistent"] else 0.5 * m["detect"] + 0.5 * m["score"]
-    elif task == "ocr_field":
+    if task == "ocr_field":
         value = 1.0 - m["cer"]
     elif task == "ocr_page":
         value = m.get("recall_fuzzy", m["recall"])

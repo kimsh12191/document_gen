@@ -3,7 +3,7 @@
 예전에는 fields.json 에 key·kind 를 적지 않은 칸이 많았고, 그릴 때마다 모든 서식 공통 규칙이 항목명(지금 이름: 키 설명)을 보고
 정했다 (key_rules.json 의 label_rules·kind_rules, 대리인·받는 분 구역, 금액 단위, 서명 칸 주인은 키 사전 form_keys).
 이제 키는 서식마다 독립이라 그 결과를 각 서식의 fields.json 에 적어 두고, 그리는 코드(docgen/realform.py)는 칸에 적힌 것만 읽는다.
-서류 분류 정답(키 사전의 문서명·다른 이름)은 서식 폴더 questions.json 의 classify 로 옮긴다.
+서류 분류 정답(키 사전의 문서명·다른 이름)은 서식 폴더 questions.json 의 classify 로 옮겼다 (키 사전은 그 뒤 없앰).
 
   python -m docgen.scripts.freeze_keys                      저장소 서식 전부 (바뀌는 서식 수만 보임)
   python -m docgen.scripts.freeze_keys --write              적는다
@@ -104,39 +104,13 @@ def freeze_items(items: list[dict], sign_who: dict[int, dict]) -> int:
 
 
 def sign_owners(doc_id: str, items: list[dict]) -> dict[int, dict]:
-    """키 사전(form_keys)이 정한 서명 칸의 주인: 칸 순번 → {who, what}. 예전 realform._signer_name 과 같은 찾기."""
-    from docgen import dictionary as DIC
-    from docgen.realform import _uniq_fn
-
-    fk = DIC.form_entries(doc_id)
-    if not fk:
-        return {}
-    # 서명 칸의 자리 이름(role)은 그릴 때 모든 칸이 같이 쓰는 번호 붙이기로 정해진다 — layout_keys 와 같은 순서로 다시 센다
-    from docgen import realform as RF
-
-    keys = RF.layout_keys(doc_id)
-    by_id = {it.get("_id"): i for i, it in enumerate(items)}
-    out = {}
-    for iid, info in keys.items():
-        if info["t"] != "sign" or iid not in by_id:
-            continue
-        role = next(k[5:] for k in info["keys"] if k.startswith("seal."))
-        e = fk.get(f"{role}.name") or fk.get(f"sign.{role}") or fk.get(f"seal.{role}") or {}
-        who, what = e.get("who"), (fk.get(f"{role}.name") or {}).get("what")
-        if who:
-            out[by_id[iid]] = {"who": who, **({"what": what} if what else {})}
-    _ = _uniq_fn
-    return out
+    """서명 칸 주인(who·what)은 옮길 때 키 사전(form_keys.json)에서 가져왔다. 키 사전을 없앤 뒤에는 옮길 것이 없다."""
+    return {}
 
 
 def classify_answer(doc_id: str, name: str) -> dict | None:
-    """키 사전의 문서명·다른 이름이 서식 이름과 다르면 questions.json 의 classify 로 적을 것."""
-    from docgen import dictionary as DIC
-
-    answer, aliases = DIC.doc_name(doc_id, name)
-    if answer == name and not aliases:
-        return None
-    return {"answer": answer, **({"aliases": aliases} if aliases else {})}
+    """서류 분류 정답도 옮길 때 키 사전(doc_types.json)에서 questions.json 으로 옮겼다. 지금은 옮길 것이 없다."""
+    return None
 
 
 def main(argv=None) -> None:
