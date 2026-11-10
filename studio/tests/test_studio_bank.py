@@ -9,7 +9,6 @@ import pytest
 from docgen import registry as R
 from docgen.bench import build as BUILD
 from studio import bank_data as BD
-from studio import datasets as DS
 
 
 def _args(**kw):
