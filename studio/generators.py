@@ -3,9 +3,8 @@
 고르면 칸 목록 fields.json 의 "source" 가 된다 (docgen/sources.py). 여기는 고르기 쉬운 목록과 예시만 만들고,
 원하는 것이 없을 때 (화면의 "원하는 생성 방법이 없으면" 안내와 같은 내용, guide/generators.md):
 
-  1. 고르기 창에서 적기   보기 중 하나 (rule:choice + choices), 틀로 만들기 (rule:pattern + pattern)
-                          [다른 서식에서도 쓰게 저장] → 키 사전 값 종류 (PUT /api/keyrules/kinds/<이름>, key_rules.json "kinds")
-                          → "키 사전에서 더한 것" 묶음 (source = rule:<종류>)
+  1. 고르기 창에서 적기   보기 중 하나 (rule:choice + choices), 틀로 만들기 (rule:pattern + pattern) — 그 칸에만
+                          (예전에 key_rules.json "kinds" 에 저장한 공통 값 종류는 "공통 값 종류" 묶음으로 계속 나옴)
   2. 값 하나를 만드는 함수 docgen/forms/_common/generators.py 에 @generator 함수 (docgen/usergen.py)
                           → "직접 만든 생성기" 묶음 (source = rule:<함수 이름>)
   3. 칸끼리 관계 맞추기   합계 = 행의 합, 시작일 ≤ 종료일 … 은 칸 하나의 생성 방법이 아니라 서식 폴더 generate.py 의 adjust
@@ -17,7 +16,7 @@ import random
 
 # (묶음, [(이름, source, 설명)]) — 자주 쓰는 것을 앞에. 프로필 경로는 고객 정보 (같은 고객의 다른 서류와 같은 값)
 PRESETS = [
-    ("고객 정보 — 같은 고객의 다른 서류와 같은 값 (서류 대조에 필요)", [
+    ("고객 정보 — 가짜 고객 한 명의 값 (한 문서 안에서 서로 맞음)", [
         ("고객 이름", "profile.person.name", ""),
         ("영문 이름", "profile.person.name_en", ""),
         ("생년월일", "profile.person.birth", ""),
@@ -34,10 +33,10 @@ PRESETS = [
         ("입사일", "profile.employment.hire_date", ""),
         ("연봉", "profile.employment.annual_salary", ""),
         ("사업자등록번호 (직장)", "profile.employment.company.biz_no", ""),
-        ("서류 날짜 (발급·작성일)", "profile.issue_date", "그 고객의 서류 묶음에서 같은 날"),
+        ("서류 날짜 (발급·작성일)", "profile.issue_date", "이 문서의 발급·작성일"),
     ]),
     ("날짜·금액·숫자 — 문서마다 새로", [
-        ("날짜", "rule:date", "최근 날짜. 항목명에 만기·기한·종료가 있으면 앞날짜"),
+        ("날짜", "rule:date", "최근 날짜. 키 설명에 만기·기한·종료가 있으면 앞날짜"),
         ("행마다 늘어나는 날짜", "rule:date_seq", "표의 날짜 열 (거래일 등)"),
         ("원화 금액", "rule:amount", ""),
         ("외화 금액", "rule:fx_amount", ""),
@@ -66,13 +65,13 @@ PRESETS = [
         ("늘 빈 칸", "rule:empty", "인쇄만 있고 값을 쓰지 않는 칸"),
     ]),
 ]
-AUTO = ("자동", "", "항목명으로 값 종류를 추정해 만듭니다. 추정 못 하면 빈 칸")
+AUTO = ("자동", "", "키가 고객 정보 키(name·birth 등)면 그 값, 아니면 이 칸의 값 종류대로. 둘 다 아니면 빈 칸")
 HOWTO = [
     {"title": "1. 고르기 창에서 적기 (코드 없음)",
      "when": "몇 개 중 하나, 정해진 꼴의 번호",
      "example": "보기 중 하나: 이체 / 입금 / 출금 · 틀로 만들기: HN-####-{A|B} → HN-4821-B",
      "how": "위 '직접 정하기' 묶음에서 고르고 칸 오른쪽에 보기 목록(한 줄에 하나)이나 틀(# 숫자, A 대문자, a 소문자, {가|나} 하나)을 적습니다. "
-            "다른 서식에서도 쓰려면 칸 오른쪽 [다른 서식에서도 쓰게 저장] → 다음부터 '키 사전에서 더한 것' 묶음에 나옵니다 (선택)."},
+            "이 칸에만 적용됩니다. 여러 서식에서 같은 값이 필요하면 2번(함수)으로 만듭니다."},
     {"title": "2. 값 하나를 만드는 함수 (코드)",
      "when": "계산이 들어간 값 하나 — 가린 계좌번호, 행마다 1회·2회, 비율을 정한 보기",
      "example": "@generator(\"상환 회차\")\ndef repay_round(p, rng, item, row):\n    return f\"{row + 1}회\"",
@@ -109,7 +108,7 @@ def _examples(source: str, n: int = 3) -> list[str]:
 
 
 def catalog() -> dict:
-    """{groups: [{name, items: [{name, source, note, examples}]}], auto, howto}. 키 사전에서 더한 종류도 한 묶음."""
+    """{groups: [{name, items: [{name, source, note, examples}]}], auto, howto}. key_rules.json 의 공통 값 종류도 한 묶음."""
     from docgen import keyrules as KR
 
     groups = [{"name": g, "items": [{"name": n, "source": s, "note": note, "examples": _examples(s) if s not in ("rule:empty",) else []}
@@ -135,7 +134,7 @@ def catalog() -> dict:
                              for name, g in gens.items()]})
     kinds = KR.load()["kinds"]
     if kinds:
-        groups.append({"name": "키 사전에서 더한 것 (코드 없이 만든 값 종류)",
+        groups.append({"name": "공통 값 종류 (docgen/forms/_common/key_rules.json)",
                        "items": [{"name": k.get("meaning") or name, "source": f"rule:{name}", "note": name, "examples": _examples(f"rule:{name}")}
                                  for name, k in kinds.items()]})
     return {"groups": groups, "auto": {"name": AUTO[0], "source": AUTO[1], "note": AUTO[2]}, "howto": HOWTO,

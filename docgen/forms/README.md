@@ -94,7 +94,7 @@ docgen/forms/_common/      모든 서식이 같이 쓰는 것 (README.md): 기�
 |---|---|---|---|
 | 코드 서식 (70) | `look/template.html.j2` | `generate.py` 의 @doc 함수 | 템플릿 + `generate.py` |
 | html 서식 (69, 공식 대조·하나은행 `hana_*`·복제·새로 추가) | `look/template.html.j2` | `fields.json` 의 `source` (+ `generate.py` 의 adjust) | 템플릿 + `fields.json` |
-| 원본 서식 (406, 하나은행 원본 PDF `hf###`. studio 에서 그림으로 가져오거나 그림 위에 그려 만든 `img_*` 도 이 종류) | 원본 PDF·그림 | 칸 자리의 항목명 → 값 종류 (키 규칙) | studio 영역 편집 (`fields.json` items) |
+| 원본 서식 (406, 하나은행 원본 PDF `hf###`. studio 에서 그림으로 가져오거나 그림 위에 그려 만든 `img_*` 도 이 종류) | 원본 PDF·그림 | `fields.json` 의 칸마다 생성 방법(`source`), 비어 있으면 키·값 종류(`kind`)대로 | studio 영역 편집 (`fields.json` items) |
 
 ## 4. 데이터가 만들어지는 길
 
@@ -263,7 +263,7 @@ docgen 데이터셋을 학습 데이터(`data.train`)로 쓸 때는 채점 함�
 |---|---|---|---|---|
 | 칸(추출 항목) 더하기 | 템플릿에 `{{ f("키", label="항목명") }}` + `generate.py` 가 그 키 값. `fields.json` 줄은 `python -m docgen.formdir declare <ID> --apply` | 템플릿에 `f(…)` + `fields.json` `fields` 에 키·source | studio 영역 편집에서 칸 그리기 | 다시 |
 | 칸 키·항목명 | 템플릿의 `f("키", label=…)` | 템플릿 + `fields.json` | 영역 편집 (`fields.json` 그 칸 `key`·`label`) | 다시 |
-| 값 | `generate.py` | `fields.json` 의 `source` ([생성 방법 목록](_common/values.md)) | 생성 방법·값 종류 (`source`·`kind`) | 다시 |
+| 값 | `generate.py` | `fields.json` 의 `source` ([생성 방법 목록](_common/values.md)) | 영역 편집의 생성 방법 [고르기…] (`source`) | 다시 |
 | 칸끼리 관계 (합계·날짜 순서) | `generate.py` | `generate.py` 의 `adjust(d, p, rng)` | — | 다시 |
 | 모양·표·문구 | 템플릿 파일 `look/template.html.j2` | 템플릿 파일 | 바꾸지 않음 | 다시 |
 | 답의 위치 (박스) | 템플릿 배치 | 같음 | `fields.json` 그 칸 `rect` | 다시 |

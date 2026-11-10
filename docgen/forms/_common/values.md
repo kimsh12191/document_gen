@@ -53,7 +53,7 @@
 | `rule:office_phone` | 기관·회사 일반전화 |
 | `rule:note` | 비고 (해당 없음·일부 자유 기재) |
 
-## 값 종류 `rule:<종류>` — 키 사전에서 더한 것 (key_rules.json 의 kinds, studio 키 사전 화면이 고침)
+## 값 종류 `rule:<종류>` — 공통 값 종류 (key_rules.json 의 kinds, 파일로 고침)
 
 | source | 뜻 | 만드는 법 |
 |---|---|---|

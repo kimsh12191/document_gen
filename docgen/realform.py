@@ -433,7 +433,7 @@ class Values:
             return p.person.email
         if kind == "phone":
             return p.person.mobile if not re.search(r"팩스|FAX|직장|회사", label) else p.employment.company.phone
-        return KR.make_value(kind, p, r)  # 키 사전에서 더한 종류. 그 밖의 뜻을 모르는 칸은 비워 둔다 (실제 서식도 빈 칸이 많다)
+        return KR.make_value(kind, p, r)  # key_rules.json 의 공통 값 종류. 그 밖의 뜻을 모르는 칸은 비워 둔다 (실제 서식도 빈 칸이 많다)
 
 
 # ---------------------------------------------------------------------------

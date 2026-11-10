@@ -417,7 +417,7 @@ def write_many(ids: list[str], workers: int = 1) -> list[str]:
 # ---------------------------------------------------------------------------
 
 def values_md() -> str:
-    """fields.json 의 "source" 에 쓸 수 있는 것 전부: rule:<종류>, 키 사전에서 더한 종류, profile.<경로>(예시 값)."""
+    """fields.json 의 "source" 에 쓸 수 있는 것 전부: rule:<종류>, 공통 값 종류(key_rules.json), profile.<경로>(예시 값)."""
     from . import keyrules as R
     from . import sources as S
     from .entities import make_profile
@@ -437,7 +437,7 @@ def values_md() -> str:
     L += [f"| `rule:{k}` | {v} |" for k, v in R.CODE_KINDS.items() if k not in ("skip", "seal")]
     kinds = R.load().get("kinds", {})
     if kinds:
-        L += ["", "## 값 종류 `rule:<종류>` — 키 사전에서 더한 것 (key_rules.json 의 kinds, studio 키 사전 화면이 고침)", "",
+        L += ["", "## 값 종류 `rule:<종류>` — 공통 값 종류 (key_rules.json 의 kinds, 파일로 고침)", "",
               "| source | 뜻 | 만드는 법 |", "|---|---|---|"]
         for k, v in kinds.items():
             how = v.get("how")

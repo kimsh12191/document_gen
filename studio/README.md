@@ -43,7 +43,6 @@ sh docker/studio.sh --data /database/docgen_studio   # 내부망 도커 (처음 
 | 검수·배정·메모·문제 표시 | `docgen/catalog.json` | `docgen/bench/build.py` (학습 데이터에서 평가 전용 서식 빼기) |
 | 표시 요소 확률 | `docgen/forms/_common/marks.json` | `docgen/marks.py` |
 | 표시 요소 풀 | `docgen/assets/marks/pools.json`, `docgen/assets/marks/<풀>/` | `docgen/marks.py` → `realform.py`·`render.py` |
-| 값 종류 ("다른 서식에서도 쓰게 저장") | `docgen/forms/_common/key_rules.json` 의 `kinds` | `docgen/keyrules.py` |
 | 질문·답 (studio 는 보기만, 파일로 고침) | 칸마다 `fields.json` 의 `q`, 이 서식만 다르게 `docgen/forms/<ID>/questions.json`, 이 서식만의 질문 `qa.py`, 기본 `docgen/forms/_common/questions.json` ([서식 폴더 설명서 5절](../docgen/forms/README.md#5-질문과-답-고치기)) | `docgen/bench/prompts.py`, `docgen/bench/tasks/<과제>.py` |
 
 검수 완료 전의 그린·가져온 서식(`img_*`)은 레시피의 `"all"`·그룹 선택에 들어가지 않습니다 (ID 를 직접 적으면 시험용으로 들어감).
@@ -61,7 +60,6 @@ studio/
   editor.py       overlay 영역 편집기: 레이아웃 보기, 사람 수정 검사·저장, 검수 전 자동 검사
   drawn.py        새 서식 추가: 그림을 올려 빈 overlay 서식 img_* 만들기, 배경 글자 사내 OCR 로 읽기
   generators.py   영역 편집기의 생성 방법 고르기 목록·예시 값
-  api_keys.py     값 종류 저장 API (key_rules.json kinds)
   marks_admin.py  표시 요소 확률·풀 읽고 쓰기
   datasets.py     데이터셋 등록부, 문항 보기, 설명서 (api_datasets.py 가 API)
   bank_data.py    레시피, 은행 서류 데이터 빌드 (api_bank.py 가 API)

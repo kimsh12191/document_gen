@@ -24,8 +24,8 @@ API
   POST /api/marks/pools/{풀}/upload   풀 이미지 올리기 · POST /api/marks/pools/{풀}/font 글꼴 · POST /api/marks/seal-template
                                       · DELETE /api/marks/pools/{풀}/{id}
   GET  /preview/...                   미리보기 이미지 · /marks-img/... 풀 이미지 · /fonts/... 손글씨 글꼴
-  (⑥⑦ 등록부·채점: api_datasets.py, ③⑥⑧ 레시피·빌드·작업·업무 묶음·학습 설정: api_bank.py,
-   값 종류: api_keys.py). html 서식은 화면에서 고치지 않는다 (코드로: docgen/manual/NEW_FORM_SPEC.md)
+  (데이터셋 등록부: api_datasets.py, 레시피·빌드·작업: api_bank.py).
+  html 서식은 화면에서 고치지 않는다 (코드로: docgen/manual/NEW_FORM_SPEC.md)
 """
 from __future__ import annotations
 
@@ -45,7 +45,7 @@ from pydantic import BaseModel, Field
 from docgen import marks as M
 from docgen.preview import CONDITIONS, MODES, Previewer
 
-from . import api_bank, api_datasets, api_keys, catalog, editor, marks_admin
+from . import api_bank, api_datasets, catalog, editor, marks_admin
 from . import datasets as DS
 from .jobs import Jobs
 from .config import ROOT, load, resolve_path, setup_browser
@@ -131,7 +131,6 @@ REGISTRY = DS.Registry(resolve_path(CFG["workspace_dir"]), CFG.get("path_map") o
 JOBS = Jobs(REGISTRY.ws, ROOT)
 app.include_router(api_datasets.make_router(REGISTRY, guard, JOBS))
 app.include_router(api_bank.make_router(REGISTRY, JOBS, guard))
-app.include_router(api_keys.make_router(guard))   # 값 종류 저장 (영역 편집기의 "다른 서식에서도 쓰게 저장")
 app.mount("/fonts", StaticFiles(directory=ROOT / "docgen" / "fonts"), name="fonts")   # 손글씨 글꼴 (화면의 글꼴 미리보기)
 
 
