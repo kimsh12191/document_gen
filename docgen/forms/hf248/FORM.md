@@ -1,10 +1,9 @@
 # 주식등의 취득 또는 출연방식에 의한 외국인투자 내용변경 신고서, 허가신청서(영문) (`hf248`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf248 · card-hash: ddb26ca985f6 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf248 · card-hash: 96bdad7fb0e1 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 주식등의 취득 또는 출연방식에 의한 외국인투자 내용변경 신고서, 허가신청서(영문)
-- **쓰이는 업무:** 없음 (서류 한 건 과제에만)
 - **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
 - **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa hf248 --new`)
 - **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
@@ -18,40 +17,40 @@
 | `fields.json` | 칸 목록·값 출처 |
 | `layout.json` | 원본에서 자동 추출한 칸 자리 (초안) |
 | `look/original.pdf` | 원본 PDF |
-| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
 
 ## 추출 항목 (정보 추출 kie) — 24칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `ReceiptNumber` | ReceiptNumber | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:49 | 묻기 |
-| `DateofReceipt` | DateofReceipt | date | 1쪽 [389, 115, 466, 134] | 늘 | 항목명 그대로 | 값 종류 `date` (항목명 자동) | fields.json:60 | 묻기 |
-| `customer.name` | Name | text | 1쪽 [392, 167, 484, 193] | 늘 | 규칙: 'Name' → `customer.name` | 고객 정보 (키 `customer.name`) | fields.json:71 | 묻기 |
-| `customer.address` | Address | text | 1쪽 [405, 195, 781, 223] | 늘 | 규칙: 'Address' → `customer.address` | 고객 정보 (키 `customer.address`) | fields.json:82 | 묻기 |
-| `customer.name2` | Name | text | 1쪽 [390, 229, 482, 255] | 늘 | 규칙: 'Name' → `customer.name` | 고객 정보 (키 `customer.name`) | fields.json:94 | 묻기 |
-| `customer.nationality` | Nationality | text | 1쪽 [414, 261, 499, 286] | 늘 | 규칙: 'Nationality' → `customer.nationality` | 고객 정보 (키 `customer.nationality`) | fields.json:106 | 묻기 |
-| `AcquisitionPriceWon` | AcquisitionPrice:Won(USD) | number | 1쪽 [839, 294, 859, 319] | 늘 | 항목명 그대로 | 값 종류 `percent` (항목명 자동) | fields.json:117 | 묻기 |
-| `NotificationNo` | NotificationNo | text | 1쪽 [188, 573, 281, 597] | 늘 | 항목명 그대로 | 값 종류 `number` (항목명 자동) | fields.json:129 | 묻기 |
-| `DateofCompletion` | DateofCompletion | date | 1쪽 [614, 117, 683, 128] | 늘 | 항목명 그대로 | 값 종류 `date` (항목명 자동) | fields.json:140 | 묻기 |
-| `Changein` | Changein | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:152 | 묻기 |
-| `Information` | Information | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:164 | 묻기 |
-| `changed` | changed | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:176 | 묻기 |
-| `ReceiptNumber2` | ReceiptNumber | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:188 | 묻기 |
-| `DateofReceipt2` | DateofReceipt | date | 2쪽 [384, 117, 472, 130] | 늘 | 항목명 그대로 | 값 종류 `date` (항목명 자동) | fields.json:199 | 묻기 |
-| `customer.name3` | Name | text | 2쪽 [388, 167, 481, 192] | 늘 | 규칙: 'Name' → `customer.name` | 고객 정보 (키 `customer.name`) | fields.json:210 | 묻기 |
-| `customer.address2` | Address | text | 2쪽 [402, 194, 779, 223] | 늘 | 규칙: 'Address' → `customer.address` | 고객 정보 (키 `customer.address`) | fields.json:221 | 묻기 |
-| `customer.name4` | Name | text | 2쪽 [387, 231, 479, 256] | 늘 | 규칙: 'Name' → `customer.name` | 고객 정보 (키 `customer.name`) | fields.json:233 | 묻기 |
-| `customer.nationality2` | Nationality | text | 2쪽 [415, 260, 501, 286] | 늘 | 규칙: 'Nationality' → `customer.nationality` | 고객 정보 (키 `customer.nationality`) | fields.json:245 | 묻기 |
-| `AcquisitionPriceWon2` | AcquisitionPrice:Won(USD) | number | 2쪽 [837, 295, 860, 320] | 늘 | 항목명 그대로 | 값 종류 `percent` (항목명 자동) | fields.json:256 | 묻기 |
-| `NotificationNo2` | NotificationNo | rrn | 2쪽 [191, 572, 349, 595] | 늘 | 항목명 그대로 | 값 종류 `number` (항목명 자동) | fields.json:268 | 묻기 |
-| `DateofCompletion2` | DateofCompletion | date | 2쪽 [612, 116, 682, 131] | 늘 | 항목명 그대로 | 값 종류 `date` (항목명 자동) | fields.json:279 | 묻기 |
-| `Changein2` | Changein | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:291 | 묻기 |
-| `Information2` | Information | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:303 | 묻기 |
-| `changed2` | changed | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:315 | 묻기 |
+| `ReceiptNumber` | ReceiptNumber | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:49 | 묻기 |
+| `DateofReceipt` | DateofReceipt | date | 1쪽 [389, 115, 466, 134] | 늘 | 파일 key | 값 종류 `date` | fields.json:63 | 묻기 |
+| `customer.name` | Name | text | 1쪽 [392, 167, 484, 193] | 늘 | 파일 key | 고객 정보 (키 `customer.name`, 없으면 값 종류 `text`) | fields.json:77 | 묻기 |
+| `customer.address` | Address | text | 1쪽 [405, 195, 781, 223] | 늘 | 파일 key | 고객 정보 (키 `customer.address`, 없으면 값 종류 `text`) | fields.json:90 | 묻기 |
+| `customer.name2` | Name | text | 1쪽 [390, 229, 482, 255] | 늘 | 파일 key | 고객 정보 (키 `customer.name`, 없으면 값 종류 `text`) | fields.json:104 | 묻기 |
+| `customer.nationality` | Nationality | text | 1쪽 [414, 261, 499, 286] | 늘 | 파일 key | 고객 정보 (키 `customer.nationality`, 없으면 값 종류 `text`) | fields.json:118 | 묻기 |
+| `AcquisitionPriceWon` | AcquisitionPrice:Won(USD) | number | 1쪽 [839, 294, 859, 319] | 늘 | 파일 key | 값 종류 `percent` | fields.json:131 | 묻기 |
+| `NotificationNo` | NotificationNo | text | 1쪽 [188, 573, 281, 597] | 늘 | 파일 key | 값 종류 `number` | fields.json:146 | 묻기 |
+| `DateofCompletion` | DateofCompletion | date | 1쪽 [614, 117, 683, 128] | 늘 | 파일 key | 값 종류 `date` | fields.json:160 | 묻기 |
+| `Changein` | Changein | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:175 | 묻기 |
+| `Information` | Information | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:190 | 묻기 |
+| `changed` | changed | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:205 | 묻기 |
+| `ReceiptNumber2` | ReceiptNumber | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:220 | 묻기 |
+| `DateofReceipt2` | DateofReceipt | date | 2쪽 [384, 117, 472, 130] | 늘 | 파일 key | 값 종류 `date` | fields.json:234 | 묻기 |
+| `customer.name3` | Name | text | 2쪽 [388, 167, 481, 192] | 늘 | 파일 key | 고객 정보 (키 `customer.name`, 없으면 값 종류 `text`) | fields.json:248 | 묻기 |
+| `customer.address2` | Address | text | 2쪽 [402, 194, 779, 223] | 늘 | 파일 key | 고객 정보 (키 `customer.address`, 없으면 값 종류 `text`) | fields.json:261 | 묻기 |
+| `customer.name4` | Name | text | 2쪽 [387, 231, 479, 256] | 늘 | 파일 key | 고객 정보 (키 `customer.name`, 없으면 값 종류 `text`) | fields.json:275 | 묻기 |
+| `customer.nationality2` | Nationality | text | 2쪽 [415, 260, 501, 286] | 늘 | 파일 key | 고객 정보 (키 `customer.nationality`, 없으면 값 종류 `text`) | fields.json:289 | 묻기 |
+| `AcquisitionPriceWon2` | AcquisitionPrice:Won(USD) | number | 2쪽 [837, 295, 860, 320] | 늘 | 파일 key | 값 종류 `percent` | fields.json:302 | 묻기 |
+| `NotificationNo2` | NotificationNo | rrn | 2쪽 [191, 572, 349, 595] | 늘 | 파일 key | 값 종류 `number` | fields.json:317 | 묻기 |
+| `DateofCompletion2` | DateofCompletion | date | 2쪽 [612, 116, 682, 131] | 늘 | 파일 key | 값 종류 `date` | fields.json:331 | 묻기 |
+| `Changein2` | Changein | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:346 | 묻기 |
+| `Information2` | Information | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:361 | 묻기 |
+| `changed2` | changed | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:376 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 4칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `seal.staff.담당` | 담당 | seal | 1쪽 [795, 38, 839, 69] | 늘 | - | - | - | 묻기 |
 | `sign.staff.담당` | 담당 | signature | 1쪽 [786, 31, 849, 75] | 늘 | - | - | - | 묻기 |
@@ -59,8 +58,7 @@
 | `sign.staff.책임자` | 책임자 | signature | 1쪽 [849, 31, 922, 75] | 늘 | - | - | - | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
-- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
 - **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
@@ -149,31 +147,31 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
-- ReceiptNumber: ReceiptNumber (같은 항목명 중 1번째 칸)
-- DateofReceipt: DateofReceipt (같은 항목명 중 1번째 칸)
-- customer.name: Name (고객 성명, 같은 항목명 중 1번째 칸)
-- customer.address: Address (고객 주소, 같은 항목명 중 1번째 칸)
-- customer.name2: Name (같은 항목명 중 2번째 칸)
-- customer.nationality: Nationality (고객 국적, 같은 항목명 중 1번째 칸)
-- AcquisitionPriceWon: AcquisitionPrice:Won(USD) (같은 항목명 중 1번째 칸)
-- NotificationNo: NotificationNo (같은 항목명 중 1번째 칸)
-- DateofCompletion: DateofCompletion (같은 항목명 중 1번째 칸)
-- Changein: Changein (같은 항목명 중 1번째 칸)
-- Information: Information (같은 항목명 중 1번째 칸)
-- changed: changed (같은 항목명 중 1번째 칸)
-- ReceiptNumber2: ReceiptNumber (같은 항목명 중 2번째 칸)
-- DateofReceipt2: DateofReceipt (같은 항목명 중 2번째 칸)
-- customer.name3: Name (같은 항목명 중 3번째 칸)
-- customer.address2: Address (같은 항목명 중 2번째 칸)
-- customer.name4: Name (같은 항목명 중 4번째 칸)
-- customer.nationality2: Nationality (같은 항목명 중 2번째 칸)
-- AcquisitionPriceWon2: AcquisitionPrice:Won(USD) (같은 항목명 중 2번째 칸)
-- NotificationNo2: NotificationNo (같은 항목명 중 2번째 칸)
-- DateofCompletion2: DateofCompletion (같은 항목명 중 2번째 칸)
-- Changein2: Changein (같은 항목명 중 2번째 칸)
-- Information2: Information (같은 항목명 중 2번째 칸)
-- changed2: changed (같은 항목명 중 2번째 칸)
+항목 (키: 설명 (몇 번째 행))
+- ReceiptNumber: ReceiptNumber (같은 설명 중 1번째 칸)
+- DateofReceipt: DateofReceipt (같은 설명 중 1번째 칸)
+- customer.name: Name (같은 설명 중 1번째 칸)
+- customer.address: Address (같은 설명 중 1번째 칸)
+- customer.name2: Name (같은 설명 중 2번째 칸)
+- customer.nationality: Nationality (같은 설명 중 1번째 칸)
+- AcquisitionPriceWon: AcquisitionPrice:Won(USD) (같은 설명 중 1번째 칸)
+- NotificationNo: NotificationNo (같은 설명 중 1번째 칸)
+- DateofCompletion: DateofCompletion (같은 설명 중 1번째 칸)
+- Changein: Changein (같은 설명 중 1번째 칸)
+- Information: Information (같은 설명 중 1번째 칸)
+- changed: changed (같은 설명 중 1번째 칸)
+- ReceiptNumber2: ReceiptNumber (같은 설명 중 2번째 칸)
+- DateofReceipt2: DateofReceipt (같은 설명 중 2번째 칸)
+- customer.name3: Name (같은 설명 중 3번째 칸)
+- customer.address2: Address (같은 설명 중 2번째 칸)
+- customer.name4: Name (같은 설명 중 4번째 칸)
+- customer.nationality2: Nationality (같은 설명 중 2번째 칸)
+- AcquisitionPriceWon2: AcquisitionPrice:Won(USD) (같은 설명 중 2번째 칸)
+- NotificationNo2: NotificationNo (같은 설명 중 2번째 칸)
+- DateofCompletion2: DateofCompletion (같은 설명 중 2번째 칸)
+- Changein2: Changein (같은 설명 중 2번째 칸)
+- Information2: Information (같은 설명 중 2번째 칸)
+- changed2: changed (같은 설명 중 2번째 칸)
 ```
 
 답:
@@ -223,10 +221,10 @@ answer_empty: {"key": "{key}", "value": null}
 - 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)
 - 도장·서명: {"key": 키, "value": true 또는 false, "bbox_2d": 찍힌 자리, "page": 쪽} (비어 있으면 value 만 false)
 항목
-- seal.staff.담당: 담당 (같은 항목명 중 1번째 칸, 도장)
-- sign.staff.담당: 담당 (같은 항목명 중 2번째 칸, 서명)
-- seal.staff.책임자: 책임자 (같은 항목명 중 1번째 칸, 도장)
-- sign.staff.책임자: 책임자 (같은 항목명 중 2번째 칸, 서명)
+- seal.staff.담당: 담당 (같은 설명 중 1번째 칸, 도장)
+- sign.staff.담당: 담당 (같은 설명 중 2번째 칸, 서명)
+- seal.staff.책임자: 책임자 (같은 설명 중 1번째 칸, 도장)
+- sign.staff.책임자: 책임자 (같은 설명 중 2번째 칸, 서명)
 ```
 
 답:
@@ -256,7 +254,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 |---|---|---|
 | 칸(추출 항목) 더하기 | studio ① 서식 › 영역 편집에서 그리기 (`fields.json` items 에 한 칸) | 다시 |
 | 답의 위치 (박스) | `fields.json` 그 칸의 `rect` [x0, y0, x1, y1] (pt) — 또는 영역 편집 | 다시 |
-| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 규칙이 항목명으로 정함 — 모든 서식 공통 규칙은 studio 키 사전) | 다시 |
+| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 키 설명이 그대로 키) | 다시 |
 | 답의 값 | `fields.json` 그 칸에 `"source"` ([값 출처 목록](../_common/values.md)) 또는 값 종류 `"kind"` | 다시 |
 | 칸의 항목명 | `fields.json` 그 칸의 `label` | 다시 |
 | 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
@@ -269,7 +267,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
 | 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
 | 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
 확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions hf248 --show` · `python -m docgen.preview hf248 --out work/hf248`

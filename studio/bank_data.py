@@ -17,7 +17,7 @@ from .config import ROOT
 
 RECIPES = ROOT / "docgen" / "recipes"
 TEMPLATES = {
-    # docgen/scripts/make_bank_data.sh 와 같은 양 (평가 세트·학습 데이터)
+    # 기본 양: 평가 세트 서식마다 1건, 학습 데이터 서식마다 5건
     "bank-bench": {"about": "은행 서류 평가 세트: 모든 서식 × 1건", "track": "bank", "split": "test",
                    "types": "all", "per_doc": 1},
     "bank-train": {"about": "은행 서류 학습 데이터: 모든 서식 × 5건 (평가 세트와 seed 가 겹치지 않음)",

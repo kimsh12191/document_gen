@@ -1,10 +1,9 @@
 # 운전면허증 (`driver_license`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card driver_license · card-hash: b949538385c9 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card driver_license · card-hash: 54c9e1b4ef0c -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** identity · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 운전면허증
-- **쓰이는 업무:** 없음 (서류 한 건 과제에만)
 - **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
 - **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa driver_license --new`)
 - **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
@@ -19,18 +18,18 @@
 | `fields.json` | 칸 목록·값 출처 |
 | `generate.py` | 값 만들기 (코드 서식: 값 전부 / html 서식: adjust 로 칸끼리 관계) |
 | `docgen/docs/identity.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
-| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
 
 ## 추출 항목 (정보 추출 kie) — 11칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `license_type` | 면허종류 | text | 1쪽 [838, 65, 961, 124] | 늘 | 템플릿 | generate.py | look/template.html.j2:29 · fields.json:35 | 묻기 |
 | `serial` | 암호일련번호 | text | 1쪽 [84, 627, 182, 659] | 늘 | 템플릿 | generate.py | look/template.html.j2:34 · fields.json:60 | 묻기 |
 | `license_no` | 면허번호 | text | 1쪽 [257, 185, 533, 247] | 늘 | 템플릿 | generate.py | look/template.html.j2:37 · fields.json:30 | 묻기 |
-| `customer.name` ← `name` | 성명 | text | 1쪽 [257, 269, 411, 328] | 늘 | 템플릿 | generate.py | look/template.html.j2:38 · fields.json:40 | 묻기 |
-| `customer.rrn` ← `rrn` | 주민등록번호 | rrn | 1쪽 [257, 344, 467, 391] | 늘 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:50 | 묻기 |
-| `customer.address` ← `address` | 주소 | text | 1쪽 [257, 412, 713, 454] | 늘 | 템플릿 | generate.py | look/template.html.j2:40 · fields.json:5 | 묻기 |
+| `name` | 성명 | text | 1쪽 [257, 269, 411, 328] | 늘 | 템플릿 | generate.py | look/template.html.j2:38 · fields.json:40 | 묻기 |
+| `rrn` | 주민등록번호 | rrn | 1쪽 [257, 344, 467, 391] | 늘 | 템플릿 | generate.py | look/template.html.j2:39 · fields.json:50 | 묻기 |
+| `address` | 주소 | text | 1쪽 [257, 412, 713, 454] | 늘 | 템플릿 | generate.py | look/template.html.j2:40 · fields.json:5 | 묻기 |
 | `aptitude_period` | 적성검사기간 | text | 1쪽 [394, 515, 606, 556] | 9/16 | 템플릿 | generate.py | look/template.html.j2:41 · fields.json:10 | 묻기 |
 | `condition` | 조건 | text | 1쪽 [394, 571, 411, 613] | 6/16 | 템플릿 | generate.py | look/template.html.j2:43 · fields.json:15 | 묻기 |
 | `issue_date` | 발급일 | date | 1쪽 [745, 828, 872, 872] | 늘 | 템플릿 | generate.py | look/template.html.j2:47 · fields.json:20 | 묻기 |
@@ -39,13 +38,12 @@
 
 ## 체크·도장·서명 (marks) — 1칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `seal.issuer` | 발급기관직인 | seal | 1쪽 [879, 840, 962, 971] | 늘 | 템플릿 | generate.py | fields.json:55 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
-- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
 - **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
@@ -133,13 +131,13 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
+항목 (키: 설명 (몇 번째 행))
 - license_type: 면허종류
 - serial: 암호일련번호
 - license_no: 면허번호
-- customer.name: 성명 (고객 성명)
-- customer.rrn: 주민등록번호 (고객 주민등록번호)
-- customer.address: 주소 (고객 주소)
+- name: 성명
+- rrn: 주민등록번호
+- address: 주소
 - aptitude_period: 적성검사기간
 - condition: 조건
 - issue_date: 발급일
@@ -152,9 +150,9 @@ answer_empty: {"key": "{key}", "value": null}
 [{"key": "license_type", "value": "1종보통", "bbox_2d": [838, 65, 961, 124], "page": 1},
  {"key": "serial", "value": "KMNBCM", "bbox_2d": [84, 627, 182, 659], "page": 1},
  {"key": "license_no", "value": "11-08-457934-72", "bbox_2d": [257, 185, 533, 247], "page": 1},
- {"key": "customer.name", "value": "남궁예태", "bbox_2d": [257, 269, 411, 328], "page": 1},
- {"key": "customer.rrn", "value": "850328-2489940", "bbox_2d": [257, 344, 467, 391], "page": 1},
- {"key": "customer.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [257, 412, 713, 454], "page": 1},
+ {"key": "name", "value": "남궁예태", "bbox_2d": [257, 269, 411, 328], "page": 1},
+ {"key": "rrn", "value": "850328-2489940", "bbox_2d": [257, 344, 467, 391], "page": 1},
+ {"key": "address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [257, 412, 713, 454], "page": 1},
  {"key": "aptitude_period", "value": "2029.01.01~2029.12.31", "bbox_2d": [394, 515, 606, 556], "page": 1},
  {"key": "condition", "value": "D", "bbox_2d": [394, 571, 411, 613], "page": 1},
  {"key": "issue_date", "value": "2019.05.13", "bbox_2d": [745, 828, 872, 872], "page": 1},
@@ -208,7 +206,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` | 다시 |
 | 답의 값 | `generate.py` (값 만드는 함수). 파이썬 대신 정하려면 `fields.json` 의 그 칸 `source` | 다시 |
 | 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` | 다시 |
-| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (파일로). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
 | (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
 | 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
 | 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
@@ -220,7 +218,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
 | 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
 | 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
 확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions driver_license --show` · `python -m docgen.preview driver_license --out work/driver_license`

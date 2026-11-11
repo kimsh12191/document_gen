@@ -1,10 +1,9 @@
 # 주택임대차표준계약서 (`lease_contract`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card lease_contract · card-hash: 257ffc7a1ac4 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card lease_contract · card-hash: 8ee3ccacebf1 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** real_estate · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 주택임대차표준계약서
-- **쓰이는 업무:** 전세자금대출
 - **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
 - **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa lease_contract --new`)
 - **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
@@ -19,15 +18,15 @@
 | `fields.json` | 칸 목록·값 출처 |
 | `generate.py` | 값 만들기 (코드 서식: 값 전부 / html 서식: adjust 로 칸끼리 관계) |
 | `docgen/docs/real_estate.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
-| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
 
 ## 추출 항목 (정보 추출 kie) — 33칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `counterparty.name` ← `landlord_name` | 임대인 | text | 1쪽 [91, 62, 135, 73] | 늘 | 템플릿 | generate.py | look/template.html.j2:27 · fields.json:145 | 묻기 |
-| `customer.name` ← `tenant_name` | 임차인 | text | 1쪽 [206, 62, 264, 73] | 늘 | 템플릿 | generate.py | look/template.html.j2:27 · fields.json:225 | 묻기 |
-| `property.location` ← `house.location` | 소재지 | text | 1쪽 [224, 97, 723, 108] | 늘 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:100 | 묻기 |
+| `landlord_name` | 임대인 | text | 1쪽 [91, 62, 135, 73] | 늘 | 템플릿 | generate.py | look/template.html.j2:27 · fields.json:145 | 묻기 |
+| `tenant_name` | 임차인 | text | 1쪽 [206, 62, 264, 73] | 늘 | 템플릿 | generate.py | look/template.html.j2:27 · fields.json:225 | 묻기 |
+| `house.location` | 소재지 | text | 1쪽 [224, 97, 723, 108] | 늘 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:100 | 묻기 |
 | `house.land_category` | 지목 | text | 1쪽 [237, 113, 251, 124] | 늘 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:90 | 묻기 |
 | `house.land_area` | 토지면적 | text | 1쪽 [884, 113, 950, 124] | 늘 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:85 | 묻기 |
 | `house.structure_usage` | 구조·용도 | text | 1쪽 [237, 130, 504, 140] | 늘 | 템플릿 | generate.py | look/template.html.j2:33 · fields.json:105 | 묻기 |
@@ -46,13 +45,13 @@
 | `handover_date` | 인도일 | date | 1쪽 [541, 389, 640, 399] | 늘 | 템플릿 | generate.py | look/template.html.j2:60 · fields.json:75 | 묻기 |
 | `end_date` | 임대차종료일 | date | 1쪽 [43, 401, 139, 411] | 늘 | 템플릿 | generate.py | look/template.html.j2:60 · fields.json:55 | 묻기 |
 | `contract_date` | 계약일 | date | 1쪽 [851, 760, 957, 771] | 늘 | 템플릿 | generate.py | look/template.html.j2:77 · fields.json:35 | 묻기 |
-| `counterparty.address` ← `landlord.address` | 주소 | text | 1쪽 [222, 777, 707, 788] | 늘 | 템플릿 | generate.py | fields.json:110 | 묻기 |
+| `landlord.address` | 주소 | text | 1쪽 [222, 777, 707, 788] | 늘 | 템플릿 | generate.py | fields.json:110 | 묻기 |
 | `landlord.rrn` | 주민등록번호 | rrn | 1쪽 [253, 793, 352, 804] | 늘 | 템플릿 | generate.py | fields.json:125 | 묻기 |
 | `landlord.phone` | 전화 | phone | 1쪽 [465, 793, 554, 804] | 늘 | 템플릿 | generate.py | fields.json:120 | 묻기 |
 | `landlord.name` | 성명 | text | 1쪽 [635, 793, 678, 804] | 늘 | 템플릿 | generate.py | fields.json:115 | 묻기 |
-| `customer.address` ← `tenant.address` | 주소 | text | 1쪽 [222, 826, 720, 836] | 늘 | 템플릿 | generate.py | fields.json:205 | 묻기 |
-| `customer.rrn` ← `tenant.rrn` | 주민등록번호 | rrn | 1쪽 [253, 842, 352, 853] | 늘 | 템플릿 | generate.py | fields.json:220 | 묻기 |
-| `customer.phone` ← `tenant.phone` | 전화 | phone | 1쪽 [465, 842, 554, 853] | 늘 | 템플릿 | generate.py | fields.json:215 | 묻기 |
+| `tenant.address` | 주소 | text | 1쪽 [222, 826, 720, 836] | 늘 | 템플릿 | generate.py | fields.json:205 | 묻기 |
+| `tenant.rrn` | 주민등록번호 | rrn | 1쪽 [253, 842, 352, 853] | 늘 | 템플릿 | generate.py | fields.json:220 | 묻기 |
+| `tenant.phone` | 전화 | phone | 1쪽 [465, 842, 554, 853] | 늘 | 템플릿 | generate.py | fields.json:215 | 묻기 |
 | `tenant.name` | 성명 | text | 1쪽 [635, 842, 693, 853] | 늘 | 템플릿 | generate.py | look/template.html.j2:24 · fields.json:210 | 묻기 |
 | `co_landlord.address` | 주소 | - | - | 3/16 | 템플릿 | generate.py | fields.json:15 | 묻기 |
 | `co_landlord.rrn` | 주민등록번호 | - | - | 3/16 | 템플릿 | generate.py | fields.json:30 | 묻기 |
@@ -63,7 +62,7 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `specials.*` | 특약사항 | text | 1쪽 [54, 643, 939, 665] (1행) | 늘 | 템플릿 | generate.py | - | 묻기 |
 
@@ -71,7 +70,7 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `brokers.*.office_address` | 사무소소재지 | text | 1쪽 [222, 877, 504, 887] (1행) | 늘 | 템플릿 | generate.py | fields.json:240 | 묻기 |
 | `brokers.*.office_name` | 사무소명칭 | text | 1쪽 [222, 892, 394, 901] (1행) | 늘 | 템플릿 | generate.py | fields.json:245 | 묻기 |
@@ -82,19 +81,18 @@
 
 ## 체크·도장·서명 (marks) — 7칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `contract_type` | 계약의종류 | checkbox (신규 계약 / 합의에 의한 재계약 / 「주택임대차보호법」 제6조의3의 계약갱신요구권 행사에 의한 갱신계약) | 1쪽 [151, 165, 211, 176] | 늘 | 템플릿 | generate.py | look/template.html.j2:38 · fields.json:40 | 묻기 |
 | `seal.landlord` | 임대인 | seal | 1쪽 [839, 793, 950, 806] | 늘 | 템플릿 | generate.py | fields.json:165 | 묻기 |
 | `sign.landlord` | 임대인 | signature | 1쪽 [826, 780, 962, 815] | 늘 | 템플릿 | generate.py | fields.json:185 | 묻기 |
-| `seal.customer` ← `seal.tenant` | 임차인 | seal | 1쪽 [866, 828, 923, 868] | 늘 | 템플릿 | generate.py | fields.json:175 | 묻기 |
-| `sign.customer` ← `sign.tenant` | 임차인 | signature | 1쪽 [839, 841, 950, 854] | 늘 | 템플릿 | generate.py | fields.json:195 | 묻기 |
+| `seal.tenant` | 임차인 | seal | 1쪽 [866, 828, 923, 868] | 늘 | 템플릿 | generate.py | fields.json:175 | 묻기 |
+| `sign.tenant` | 임차인 | signature | 1쪽 [839, 841, 950, 854] | 늘 | 템플릿 | generate.py | fields.json:195 | 묻기 |
 | `seal.co_landlord` | 공동임대인 | 도장 | - | 3/16 | 템플릿 | generate.py | fields.json:160 | 묻기 |
 | `sign.co_landlord` | 공동임대인 | 서명 | - | 3/16 | 템플릿 | generate.py | fields.json:180 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
-- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
 - **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
@@ -207,10 +205,10 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
-- counterparty.name: 임대인 (상대방 성명)
-- customer.name: 임차인 (고객 성명)
-- property.location: 소재지 (물건 소재지)
+항목 (키: 설명 (몇 번째 행))
+- landlord_name: 임대인
+- tenant_name: 임차인
+- house.location: 소재지
 - house.land_category: 지목
 - house.land_area: 토지면적
 - house.structure_usage: 구조·용도
@@ -230,23 +228,23 @@ answer_empty: {"key": "{key}", "value": null}
 - handover_date: 인도일
 - end_date: 임대차종료일
 - contract_date: 계약일
-- counterparty.address: 주소 (상대방 주소, 같은 항목명 중 1번째 칸)
-- landlord.rrn: 주민등록번호 (같은 항목명 중 1번째 칸)
-- landlord.phone: 전화 (같은 항목명 중 1번째 칸)
-- landlord.name: 성명 (거래 상대(국내)의 성명, 같은 항목명 중 1번째 칸)
-- customer.address: 주소 (고객 주소, 같은 항목명 중 2번째 칸)
-- customer.rrn: 주민등록번호 (고객 주민등록번호, 같은 항목명 중 2번째 칸)
+- landlord.address: 주소 (같은 설명 중 1번째 칸)
+- landlord.rrn: 주민등록번호 (같은 설명 중 1번째 칸)
+- landlord.phone: 전화 (같은 설명 중 1번째 칸)
+- landlord.name: 성명 (같은 설명 중 1번째 칸)
+- tenant.address: 주소 (같은 설명 중 2번째 칸)
+- tenant.rrn: 주민등록번호 (같은 설명 중 2번째 칸)
 - issue_date: 발급일
-- customer.phone: 전화 (고객 연락처, 같은 항목명 중 2번째 칸)
-- tenant.name: 성명 (고객 본인의 성명, 같은 항목명 중 2번째 칸)
+- tenant.phone: 전화 (같은 설명 중 2번째 칸)
+- tenant.name: 성명 (같은 설명 중 2번째 칸)
 ```
 
 답:
 
 ```json
-[{"key": "counterparty.name", "value": "임채영", "bbox_2d": [91, 62, 135, 73], "page": 1},
- {"key": "customer.name", "value": "남궁예태", "bbox_2d": [206, 62, 264, 73], "page": 1},
- {"key": "property.location", "value": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)", "bbox_2d": [224, 97, 723, 108], "page": 1},
+[{"key": "landlord_name", "value": "임채영", "bbox_2d": [91, 62, 135, 73], "page": 1},
+ {"key": "tenant_name", "value": "남궁예태", "bbox_2d": [206, 62, 264, 73], "page": 1},
+ {"key": "house.location", "value": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)", "bbox_2d": [224, 97, 723, 108], "page": 1},
  {"key": "house.land_category", "value": "대", "bbox_2d": [237, 113, 251, 124], "page": 1},
  {"key": "house.land_area", "value": "46,962.2㎡", "bbox_2d": [884, 113, 950, 124], "page": 1},
  {"key": "house.structure_usage", "value": "철근콘크리트벽식구조 / 공동주택(아파트)", "bbox_2d": [237, 130, 504, 140], "page": 1},
@@ -266,14 +264,14 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "handover_date", "value": "2025년 04월 28일", "bbox_2d": [541, 389, 640, 399], "page": 1},
  {"key": "end_date", "value": "2027년 04월 27일", "bbox_2d": [43, 401, 139, 411], "page": 1},
  {"key": "contract_date", "value": "2025년 03월 24일", "bbox_2d": [851, 760, 957, 771], "page": 1},
- {"key": "counterparty.address", "value": "서울특별시 노원구 노원로 459-15, 116동 2102호 (중계동, SK뷰리버뷰아파트)", "bbox_2d": [222, 777, 707, 788], "page": 1},
+ {"key": "landlord.address", "value": "서울특별시 노원구 노원로 459-15, 116동 2102호 (중계동, SK뷰리버뷰아파트)", "bbox_2d": [222, 777, 707, 788], "page": 1},
  {"key": "landlord.rrn", "value": "501031-2509832", "bbox_2d": [253, 793, 352, 804], "page": 1},
  {"key": "landlord.phone", "value": "010-3389-7730", "bbox_2d": [465, 793, 554, 804], "page": 1},
  {"key": "landlord.name", "value": "임채영", "bbox_2d": [635, 793, 678, 804], "page": 1},
- {"key": "customer.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)", "bbox_2d": [222, 826, 720, 836], "page": 1},
- {"key": "customer.rrn", "value": "850328-2489940", "bbox_2d": [253, 842, 352, 853], "page": 1},
+ {"key": "tenant.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)", "bbox_2d": [222, 826, 720, 836], "page": 1},
+ {"key": "tenant.rrn", "value": "850328-2489940", "bbox_2d": [253, 842, 352, 853], "page": 1},
  {"key": "issue_date", "value": null},
- {"key": "customer.phone", "value": "010-6144-1173", "bbox_2d": [465, 842, 554, 853], "page": 1},
+ {"key": "tenant.phone", "value": "010-6144-1173", "bbox_2d": [465, 842, 554, 853], "page": 1},
  {"key": "tenant.name", "value": "남궁예태", "bbox_2d": [635, 842, 693, 853], "page": 1}]
 ```
 
@@ -296,10 +294,10 @@ answer_empty: {"key": "{key}", "value": null}
 - 도장·서명: {"key": 키, "value": true 또는 false, "bbox_2d": 찍힌 자리, "page": 쪽} (비어 있으면 value 만 false)
 항목
 - contract_type: 계약의종류 (체크박스, 보기: 신규 계약 / 합의에 의한 재계약 / 「주택임대차보호법」 제6조의3의 계약갱신요구권 행사에 의한 갱신계약)
-- seal.landlord: 임대인 (같은 항목명 중 1번째 칸, 도장)
-- sign.landlord: 임대인 (같은 항목명 중 2번째 칸, 서명)
-- seal.customer: 임차인 (고객 도장, 같은 항목명 중 1번째 칸, 도장)
-- sign.customer: 임차인 (고객 서명, 같은 항목명 중 2번째 칸, 서명)
+- seal.landlord: 임대인 (같은 설명 중 1번째 칸, 도장)
+- sign.landlord: 임대인 (같은 설명 중 2번째 칸, 서명)
+- seal.tenant: 임차인 (같은 설명 중 1번째 칸, 도장)
+- sign.tenant: 임차인 (같은 설명 중 2번째 칸, 서명)
 ```
 
 답:
@@ -308,8 +306,8 @@ answer_empty: {"key": "{key}", "value": null}
 [{"key": "contract_type", "value": "신규 계약", "bbox_2d": [139, 165, 147, 176], "page": 1},
  {"key": "seal.landlord", "value": false},
  {"key": "sign.landlord", "value": true, "bbox_2d": [826, 780, 962, 815], "page": 1},
- {"key": "seal.customer", "value": true, "bbox_2d": [866, 828, 923, 868], "page": 1},
- {"key": "sign.customer", "value": false}]
+ {"key": "seal.tenant", "value": true, "bbox_2d": [866, 828, 923, 868], "page": 1},
+ {"key": "sign.tenant", "value": false}]
 ```
 
 ### 표 추출 `table` · 채점 cell_f1 (칸)
@@ -324,7 +322,7 @@ answer_empty: {"key": "{key}", "value": null}
 - 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
 - row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
 - 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
-열 (키: 항목명)
+열 (키: 설명)
 - value: 특약사항
 - change: 변경사항
 ```
@@ -473,7 +471,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` | 다시 |
 | 답의 값 | `generate.py` (값 만드는 함수). 파이썬 대신 정하려면 `fields.json` 의 그 칸 `source` | 다시 |
 | 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` | 다시 |
-| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (파일로). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
 | (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
 | 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
 | 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
@@ -485,7 +483,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
 | 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
 | 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
 확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions lease_contract --show` · `python -m docgen.preview lease_contract --out work/lease_contract`

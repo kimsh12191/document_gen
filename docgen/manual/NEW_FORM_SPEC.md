@@ -149,8 +149,7 @@ Jinja2 + HTML 입니다. 쪽은 **A4 세로 794 × 1123 px** 입니다.
 키는 학습 데이터의 정답 키가 됩니다. 사람마다 다르게 지으면 학습 데이터가 흩어지므로 가장 신경 쓸 곳입니다.
 
 - 영어 소문자·숫자·밑줄, 점으로 나눈 경로: `applicant.name`, `account.number`, `rows.0.date`.
-- **이미 있는 키를 먼저 씁니다.** 키 사전: `docgen/forms/_common/dictionary/common.json`(공통 키), `docgen/forms/_common/keys.json`(서식들이 쓰는 키),
-  `docgen/forms/_common/dictionary/parties.json`(누구: 신청인·대리인·임대인 …). "누구의 무엇"으로 짓습니다: `agent.name`, `lessor.address`.
+- 키는 서식마다 정합니다 (모든 서식 공통 키 사전은 없음). "누구의 무엇"으로 짓습니다: `agent.name`, `lessor.address`. 자세한 규칙은 [guide/studio/keys.md](../../guide/studio/keys.md).
 - 한 키가 다른 키의 앞부분이면 안 됩니다: `account` 와 `account.number` 를 함께 쓸 수 없음.
 - 반복 표 하위 키는 행 안의 이름만 (`date`, `out`). 템플릿에서는 `rows.<번호>.date` 로 씁니다.
 - 도장·서명 키는 `seal.`·`sign.` 으로 시작: `seal.bank`, `sign.applicant`.

@@ -29,8 +29,8 @@ json.dump(cfg, open(f"{w}/ocr_config.json", "w", encoding="utf-8"), ensure_ascii
 EOF
 python -m docgen.bench.ocr_prepare "$W/ocr_config.json"
 
-# 4) 문서·업무 과제: 평가 세트 (실제 학습 데이터와 같은 build 코드, 업무마다 고객 6묶음)
-python -m docgen.bench build --out "$W/bench" --types loan_application --bundles 6 --workers 6
+# 4) 서류 한 건 과제: 평가 세트 (실제 데이터셋과 같은 build 코드). hf206·hf430 은 기타 칸 글(freetext)이 나오는 원본 서식
+python -m docgen.bench build --out "$W/bench" --types loan_application,hf206,hf430 --per-doc 3 --workers 6
 
 # 5) 끝. 아래는 --docs 일 때만
 [ "${2:-}" = "--docs" ] || { echo "데이터: $W  (문서 갱신은 --docs)"; exit 0; }

@@ -1,11 +1,10 @@
 # 개인(신용)정보 수집·이용·제공·조회 동의서 (`privacy_consent`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card privacy_consent · card-hash: 473d65f3ab48 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card privacy_consent · card-hash: 78ac6c909aa4 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** bank_form · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 개인(신용)정보 수집·이용·제공·조회 동의서 (다른 이름: [필수] 개인(신용)정보 수집·이용·제공_동의서[가계여신_금융거래])
-- **쓰이는 업무:** 개인 계좌개설, 개인 신용대출, 주택담보대출, 전세자금대출, 개인사업자 대출, 개인형IRP 개설, 전자금융 가입
-- **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
+- **질문·답:** 이 폴더의 `questions.json` 에서 바꾼 것이 있음 (아래 ← 바꿈)
 - **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa privacy_consent --new`)
 - **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
 
@@ -18,26 +17,27 @@
 | `look/template.html.j2` | 모양·칸 자리 (`{{ f("키", label="항목명") }}`) |
 | `fields.json` | 칸 목록·값 출처 |
 | `generate.py` | 값 만들기 (코드 서식: 값 전부 / html 서식: adjust 로 칸끼리 관계) |
+| `questions.json` | 기본 과제의 질문 문장·답 틀 (기본과 다른 것만) |
 | `docgen/docs/bank_form_account.py`, `docgen/docs/bank_form_loan.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
-| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
 
 ## 추출 항목 (정보 추출 kie) — 7칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `bank.name` | 은행명 | text | 1쪽 [76, 33, 166, 49] | 늘 | 템플릿 | generate.py | look/template.html.j2:19 · fields.json:15 | 묻기 |
 | `date` | 작성일 | date | 1쪽 [442, 713, 534, 722] | 늘 | 템플릿 | generate.py | look/template.html.j2:69 · fields.json:50 | 묻기 |
-| `customer.birth` ← `applicant.birth` | 생년월일 | date | 1쪽 [608, 713, 663, 722] | 늘 | 템플릿 | generate.py | look/template.html.j2:70 · fields.json:5 | 묻기 |
-| `customer.name` ← `applicant.name` | 본인성명 | text | 1쪽 [793, 708, 842, 718] | 늘 | 템플릿 | generate.py | look/template.html.j2:16 · fields.json:10 | 묻기 |
+| `applicant.birth` | 생년월일 | date | 1쪽 [608, 713, 663, 722] | 늘 | 템플릿 | generate.py | look/template.html.j2:70 · fields.json:5 | 묻기 |
+| `applicant.name` | 본인성명 | text | 1쪽 [793, 708, 842, 718] | 늘 | 템플릿 | generate.py | look/template.html.j2:16 · fields.json:10 | 묻기 |
 | `bank_use.clerk` | 본인확인 | text | 1쪽 [890, 777, 929, 789] | 늘 | 템플릿 | generate.py | look/template.html.j2:84 · fields.json:20 | 묻기 |
-| `agent.name` ← `legal_rep.name` | 법정대리인 | - | - | 3/16 | 템플릿 | generate.py | look/template.html.j2:16 · fields.json:55 | 묻기 |
-| `agent.relation` ← `legal_rep.relation` | 본인과의관계 | - | - | 3/16 | 템플릿 | generate.py | look/template.html.j2:74 · fields.json:60 | 묻기 |
+| `legal_rep.name` | 법정대리인 | - | - | 3/16 | 템플릿 | generate.py | look/template.html.j2:16 · fields.json:55 | 묻기 |
+| `legal_rep.relation` | 본인과의관계 | - | - | 3/16 | 템플릿 | generate.py | look/template.html.j2:74 · fields.json:60 | 묻기 |
 
 ## 표 `providers` (표 과제 table·table_read·table_find·table_qa) — 4열
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `providers.*.name` | 제공받는자 | text | 1쪽 [73, 359, 244, 368] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:40 · fields.json:125 | 묻기 |
 | `providers.*.purpose` | 제공받는자의이용목적 | text | 1쪽 [276, 354, 508, 373] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:40 · fields.json:135 | 묻기 |
@@ -48,13 +48,13 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `marketing.channels.*` | 연락방법 | - | - (1행) | 8/16 | 템플릿 | generate.py | - | 묻기 |
 
 ## 체크·도장·서명 (marks) — 13칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `consent.collect` | 수집이용동의 | checkbox (동의함 / 동의하지 않음) | 1쪽 [788, 291, 830, 302] | 늘 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:25 | 묻기 |
 | `consent.unique_id` | 고유식별정보처리동의 | checkbox (동의함 / 동의하지 않음) | 1쪽 [788, 307, 830, 318] | 늘 | 템플릿 | generate.py | look/template.html.j2:33 · fields.json:45 | 묻기 |
@@ -63,21 +63,20 @@
 | `consent.inquiry` | 조회동의 | checkbox (동의함 / 동의하지 않음) | 1쪽 [788, 563, 830, 573] | 늘 | 템플릿 | generate.py | look/template.html.j2:55 · fields.json:30 | 묻기 |
 | `marketing.collect` | 마케팅수집이용동의 | checkbox (동의함 / 동의하지 않음) | 1쪽 [775, 643, 950, 654] | 늘 | 템플릿 | generate.py | look/template.html.j2:63 · fields.json:70 | 묻기 |
 | `marketing.provide` | 마케팅제공동의 | checkbox (동의함 / 동의하지 않음) | 1쪽 [775, 660, 950, 670] | 늘 | 템플릿 | generate.py | look/template.html.j2:64 · fields.json:75 | 묻기 |
-| `seal.customer` ← `seal.applicant` | 본인 | seal | 1쪽 [875, 708, 950, 719] | 13/16 | 템플릿 | generate.py | fields.json:80 | 묻기 |
-| `sign.customer` ← `sign.applicant` | 본인 | signature | 1쪽 [830, 699, 995, 726] | 13/16 | 템플릿 | generate.py | fields.json:95 | 묻기 |
+| `seal.applicant` | 본인 | seal | 1쪽 [875, 708, 950, 719] | 13/16 | 템플릿 | generate.py | fields.json:80 | 묻기 |
+| `sign.applicant` | 본인 | signature | 1쪽 [830, 699, 995, 726] | 13/16 | 템플릿 | generate.py | fields.json:95 | 묻기 |
 | `seal.staff.clerk` | 본인확인 | seal | 1쪽 [882, 764, 936, 802] | 늘 | 템플릿 | generate.py | fields.json:90 | 묻기 |
 | `marketing.channels` | 연락방법 | checkbox_multi (전화 / 문자메시지 / 이메일 / 우편 / 앱 푸시) | - | 늘 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:65 | 묻기 |
-| `seal.agent` ← `seal.legal_rep` | 법정대리인 | 도장 | - | 3/16 | 템플릿 | generate.py | fields.json:85 | 묻기 |
-| `sign.agent` ← `sign.legal_rep` | 법정대리인 | 서명 | - | 3/16 | 템플릿 | generate.py | fields.json:100 | 묻기 |
+| `seal.legal_rep` | 법정대리인 | 도장 | - | 3/16 | 템플릿 | generate.py | fields.json:85 | 묻기 |
+| `sign.legal_rep` | 법정대리인 | 서명 | - | 3/16 | 템플릿 | generate.py | fields.json:100 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
-- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
 - **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
-질문은 모델에게 가는 글 전부, 답은 데이터의 정답 (그린 문서의 값·위치). 질문 문장·답 꼴은 공통 `docgen/forms/_common/questions.json`.
+질문은 모델에게 가는 글 전부, 답은 데이터의 정답 (그린 문서의 값·위치). 질문 문장·답 꼴은 이 폴더 `questions.json` 과 공통 `docgen/forms/_common/questions.json`.
 
 ### 서류 분류 `classify` · 채점 acc
 
@@ -167,11 +166,11 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
+항목 (키: 설명 (몇 번째 행))
 - bank.name: 은행명
 - date: 작성일
-- customer.birth: 생년월일 (고객 생년월일)
-- customer.name: 본인성명 (고객 성명)
+- applicant.birth: 생년월일
+- applicant.name: 본인성명
 - bank_use.clerk: 본인확인
 ```
 
@@ -180,8 +179,8 @@ answer_empty: {"key": "{key}", "value": null}
 ```json
 [{"key": "bank.name", "value": "국민은행", "bbox_2d": [76, 33, 166, 49], "page": 1},
  {"key": "date", "value": "2025년 04월 01일", "bbox_2d": [442, 713, 534, 722], "page": 1},
- {"key": "customer.birth", "value": "1985.03.28", "bbox_2d": [608, 713, 663, 722], "page": 1},
- {"key": "customer.name", "value": "남궁예태", "bbox_2d": [793, 708, 842, 718], "page": 1},
+ {"key": "applicant.birth", "value": "1985.03.28", "bbox_2d": [608, 713, 663, 722], "page": 1},
+ {"key": "applicant.name", "value": "남궁예태", "bbox_2d": [793, 708, 842, 718], "page": 1},
  {"key": "bank_use.clerk", "value": "석정재", "bbox_2d": [890, 777, 929, 789], "page": 1}]
 ```
 
@@ -210,8 +209,8 @@ answer_empty: {"key": "{key}", "value": null}
 - consent.inquiry: 조회동의 (체크박스, 보기: 동의함 / 동의하지 않음)
 - marketing.collect: 마케팅수집이용동의 (체크박스, 보기: 동의함 / 동의하지 않음)
 - marketing.provide: 마케팅제공동의 (체크박스, 보기: 동의함 / 동의하지 않음)
-- seal.customer: 본인 (고객 도장, 같은 항목명 중 1번째 칸, 도장)
-- sign.customer: 본인 (고객 서명, 같은 항목명 중 2번째 칸, 서명)
+- seal.applicant: 본인 (같은 설명 중 1번째 칸, 도장)
+- sign.applicant: 본인 (같은 설명 중 2번째 칸, 서명)
 - seal.staff.clerk: 본인확인 (도장)
 - marketing.channels: 연락방법 (복수 선택, 보기: 전화 / 문자메시지 / 이메일 / 우편 / 앱 푸시)
 ```
@@ -226,8 +225,8 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "consent.inquiry", "value": "동의함", "bbox_2d": [775, 563, 784, 573], "page": 1},
  {"key": "marketing.collect", "value": null},
  {"key": "marketing.provide", "value": null},
- {"key": "seal.customer", "value": false},
- {"key": "sign.customer", "value": true, "bbox_2d": [830, 699, 995, 726], "page": 1},
+ {"key": "seal.applicant", "value": false},
+ {"key": "sign.applicant", "value": true, "bbox_2d": [830, 699, 995, 726], "page": 1},
  {"key": "seal.staff.clerk", "value": true, "bbox_2d": [882, 764, 936, 802], "page": 1},
  {"key": "marketing.channels", "value": null}]
 ```
@@ -244,7 +243,7 @@ answer_empty: {"key": "{key}", "value": null}
 - 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
 - row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
 - 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
-열 (키: 항목명)
+열 (키: 설명)
 - nationality: 국적
 - name: 제공받는자
 - purpose: 제공받는자의이용목적
@@ -456,7 +455,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` | 다시 |
 | 답의 값 | `generate.py` (값 만드는 함수). 파이썬 대신 정하려면 `fields.json` 의 그 칸 `source` | 다시 |
 | 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` | 다시 |
-| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (파일로). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
 | (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
 | 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
 | 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
@@ -468,7 +467,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
 | 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
 | 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
 확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions privacy_consent --show` · `python -m docgen.preview privacy_consent --out work/privacy_consent`

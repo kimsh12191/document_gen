@@ -1,10 +1,9 @@
 # 외상매출채권 양도통지서(e-안심팩토링대출용) (`hf089`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf089 · card-hash: c1067a393221 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf089 · card-hash: 45bc8683a836 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 외상매출채권 양도통지서(e-안심팩토링대출용)
-- **쓰이는 업무:** 없음 (서류 한 건 과제에만)
 - **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
 - **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa hf089 --new`)
 - **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
@@ -18,22 +17,21 @@
 | `fields.json` | 칸 목록·값 출처 |
 | `layout.json` | 원본에서 자동 추출한 칸 자리 (초안) |
 | `look/original.pdf` | 원본 PDF |
-| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
 
 ## 추출 항목 (정보 추출 kie) — 6칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `customer.address` | 주소 | text | 1쪽 [125, 215, 500, 243] | 늘 | 규칙: '주소' → `customer.address` | 고객 정보 (키 `customer.address`) | fields.json:17 | 묻기 |
-| `date` | 작성일 | date | 1쪽 [221, 275, 395, 292] | 늘 | 날짜 칸 (항목명) | 작성일 | fields.json:28 | 묻기 |
-| `date2` | 작성일 | date | 1쪽 [438, 465, 679, 482] | 늘 | 날짜 칸 (항목명) | 작성일 | fields.json:54 | 묻기 |
-| `date3` | 작성일 | date | 1쪽 [614, 620, 784, 637] | 늘 | 날짜 칸 (항목명) | 작성일 | fields.json:79 | 묻기 |
-| `customer.address2` | 주소 | text | 1쪽 [575, 744, 823, 765] | 늘 | 규칙: '주 소' → `customer.address` | 고객 정보 (키 `customer.address`) | fields.json:105 | 묻기 |
-| `customer.address3` | 주소 | text | 1쪽 [581, 873, 830, 893] | 늘 | 규칙: '주 소' → `customer.address` | 고객 정보 (키 `customer.address`) | fields.json:116 | 묻기 |
+| `customer.address` | 주소 | text | 1쪽 [125, 215, 500, 243] | 늘 | 파일 key | 고객 정보 (키 `customer.address`, 없으면 값 종류 `address`) | fields.json:17 | 묻기 |
+| `date` | 작성일 | date | 1쪽 [221, 275, 395, 292] | 늘 | 파일 key | 작성일 | fields.json:30 | 묻기 |
+| `date2` | 작성일 | date | 1쪽 [438, 465, 679, 482] | 늘 | 파일 key | 작성일 | fields.json:57 | 묻기 |
+| `date3` | 작성일 | date | 1쪽 [614, 620, 784, 637] | 늘 | 파일 key | 작성일 | fields.json:83 | 묻기 |
+| `customer.address2` | 주소 | text | 1쪽 [575, 744, 823, 765] | 늘 | 파일 key | 고객 정보 (키 `customer.address`, 없으면 값 종류 `address`) | fields.json:110 | 묻기 |
+| `customer.address3` | 주소 | text | 1쪽 [581, 873, 830, 893] | 늘 | 파일 key | 고객 정보 (키 `customer.address`, 없으면 값 종류 `address`) | fields.json:123 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
-- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
 - **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
@@ -112,13 +110,13 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
-- customer.address: 주소 (고객 주소, 같은 항목명 중 1번째 칸)
-- date: 작성일 (같은 항목명 중 1번째 칸)
-- date2: 작성일 (같은 항목명 중 2번째 칸)
-- date3: 작성일 (같은 항목명 중 3번째 칸)
-- customer.address2: 주소 (같은 항목명 중 2번째 칸)
-- customer.address3: 주소 (같은 항목명 중 3번째 칸)
+항목 (키: 설명 (몇 번째 행))
+- customer.address: 주소 (같은 설명 중 1번째 칸)
+- date: 작성일 (같은 설명 중 1번째 칸)
+- date2: 작성일 (같은 설명 중 2번째 칸)
+- date3: 작성일 (같은 설명 중 3번째 칸)
+- customer.address2: 주소 (같은 설명 중 2번째 칸)
+- customer.address3: 주소 (같은 설명 중 3번째 칸)
 ```
 
 답:
@@ -150,7 +148,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 |---|---|---|
 | 칸(추출 항목) 더하기 | studio ① 서식 › 영역 편집에서 그리기 (`fields.json` items 에 한 칸) | 다시 |
 | 답의 위치 (박스) | `fields.json` 그 칸의 `rect` [x0, y0, x1, y1] (pt) — 또는 영역 편집 | 다시 |
-| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 규칙이 항목명으로 정함 — 모든 서식 공통 규칙은 studio 키 사전) | 다시 |
+| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 키 설명이 그대로 키) | 다시 |
 | 답의 값 | `fields.json` 그 칸에 `"source"` ([값 출처 목록](../_common/values.md)) 또는 값 종류 `"kind"` | 다시 |
 | 칸의 항목명 | `fields.json` 그 칸의 `label` | 다시 |
 | 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
@@ -163,7 +161,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
 | 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
 | 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
 확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions hf089 --show` · `python -m docgen.preview hf089 --out work/hf089`

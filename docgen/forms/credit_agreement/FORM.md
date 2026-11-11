@@ -1,10 +1,9 @@
 # 대출거래약정서(가계용) (`credit_agreement`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card credit_agreement · card-hash: fecc918fe6d2 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card credit_agreement · card-hash: 425ed36a8167 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** bank_form · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 대출거래약정서(가계용)
-- **쓰이는 업무:** 개인 신용대출, 주택담보대출, 개인사업자 대출
 - **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
 - **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa credit_agreement --new`)
 - **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
@@ -19,19 +18,19 @@
 | `fields.json` | 칸 목록·값 출처 |
 | `generate.py` | 값 만들기 (코드 서식: 값 전부 / html 서식: adjust 로 칸끼리 관계) |
 | `docgen/docs/bank_form_loan.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
-| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
 
 ## 추출 항목 (정보 추출 kie) — 34칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `bank` | 은행명 | text | 1쪽 [103, 39, 198, 61] | 늘 | 템플릿 | generate.py | fields.json:5 | 묻기 |
 | `creditor` | 채권자 | text | 1쪽 [76, 127, 195, 138] | 늘 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:40 | 묻기 |
 | `branch` | 취급점 | text | 1쪽 [274, 127, 329, 138] | 늘 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:10 | 묻기 |
-| `customer.name` ← `debtor.name` | 성명 | text | 1쪽 [277, 202, 335, 212] | 늘 | 템플릿 | generate.py | look/template.html.j2:13 · fields.json:50 | 묻기 |
-| `customer.rrn` ← `debtor.rrn` | 실명번호 | rrn | 1쪽 [688, 206, 787, 217] | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:60 | 묻기 |
-| `customer.address` ← `debtor.address` | 주소 | text | 1쪽 [215, 230, 714, 241] | 늘 | 템플릿 | generate.py | look/template.html.j2:29 · fields.json:45 | 묻기 |
-| `customer.phone` ← `debtor.phone` | 연락처 | phone | 1쪽 [739, 230, 824, 241] | 늘 | 템플릿 | generate.py | look/template.html.j2:29 · fields.json:55 | 묻기 |
+| `debtor.name` | 성명 | text | 1쪽 [277, 202, 335, 212] | 늘 | 템플릿 | generate.py | look/template.html.j2:13 · fields.json:50 | 묻기 |
+| `debtor.rrn` | 실명번호 | rrn | 1쪽 [688, 206, 787, 217] | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:60 | 묻기 |
+| `debtor.address` | 주소 | text | 1쪽 [215, 230, 714, 241] | 늘 | 템플릿 | generate.py | look/template.html.j2:29 · fields.json:45 | 묻기 |
+| `debtor.phone` | 연락처 | phone | 1쪽 [739, 230, 824, 241] | 늘 | 템플릿 | generate.py | look/template.html.j2:29 · fields.json:55 | 묻기 |
 | `loan.subject` | 대출과목 | text | 1쪽 [215, 273, 302, 284] | 늘 | 템플릿 | generate.py | look/template.html.j2:40 · fields.json:180 | 묻기 |
 | `loan.product` | 상품명 | text | 1쪽 [698, 273, 785, 284] | 늘 | 템플릿 | generate.py | look/template.html.j2:40 · fields.json:150 | 묻기 |
 | `loan.account_no` | 대출계좌번호 | account_no | 1쪽 [698, 293, 799, 304] | 늘 | 템플릿 | generate.py | look/template.html.j2:41 · fields.json:75 | 묻기 |
@@ -55,35 +54,34 @@
 | `handwritten` | 자필기재 | text | 2쪽 [163, 492, 370, 509] | 늘 | 템플릿 | generate.py | look/template.html.j2:86 · fields.json:70 | 묻기 |
 | `contract_date` | 약정일 | date | 2쪽 [91, 519, 185, 530] | 늘 | 템플릿 | generate.py | look/template.html.j2:90 · fields.json:35 | 묻기 |
 | `signature` | 채무자 | text | 2쪽 [749, 519, 807, 530] | 늘 | 템플릿 | generate.py | look/template.html.j2:91 · fields.json:205 | 묻기 |
-| `related.name` ← `co_borrower.name` | 공동차주성명 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:20 | 묻기 |
-| `related.rrn` ← `co_borrower.rrn` | 공동차주실명번호 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:30 | 묻기 |
-| `related.address` ← `co_borrower.address` | 공동차주주소 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:15 | 묻기 |
-| `related.phone` ← `co_borrower.phone` | 공동차주연락처 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:25 | 묻기 |
+| `co_borrower.name` | 공동차주성명 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:20 | 묻기 |
+| `co_borrower.rrn` | 공동차주실명번호 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:31 · fields.json:30 | 묻기 |
+| `co_borrower.address` | 공동차주주소 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:15 | 묻기 |
+| `co_borrower.phone` | 공동차주연락처 | - | - | 2/16 | 템플릿 | generate.py | look/template.html.j2:32 · fields.json:25 | 묻기 |
 
 ## 표 `special_terms` (표 과제 table·table_read·table_find·table_qa) — 1열
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `special_terms.*` | 특약사항 | text | 2쪽 [99, 404, 713, 415] (1행) | 7/16 | 템플릿 | generate.py | - | 묻기 |
 
 ## 체크·도장·서명 (marks) — 8칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `loan.method` | 거래구분 | checkbox (개별거래 / 한도거래) | 1쪽 [228, 293, 286, 304] | 늘 | 템플릿 | generate.py | look/template.html.j2:41 · fields.json:135 | 묻기 |
 | `loan.rate_type` | 금리종류 | checkbox (고정금리 / 변동금리 / 혼합금리) | 1쪽 [394, 376, 452, 386] | 늘 | 템플릿 | generate.py | look/template.html.j2:49 · fields.json:160 | 묻기 |
 | `loan.repayment` | 상환방법 | checkbox (만기일시상환 / 원금균등분할상환 / 원리금균등분할상환) | 1쪽 [480, 500, 611, 511] | 늘 | 템플릿 | generate.py | look/template.html.j2:61 · fields.json:165 | 묻기 |
 | `explained` | 설명이해확인 | checkbox (예 / 아니오) | 2쪽 [111, 479, 215, 490] | 늘 | 템플릿 | generate.py | look/template.html.j2:85 · fields.json:65 | 묻기 |
-| `seal.customer` ← `seal.debtor` | 채무자 | seal | 2쪽 [835, 518, 924, 532] | 늘 | 템플릿 | generate.py | fields.json:190 | 묻기 |
-| `sign.customer` ← `sign.debtor` | 채무자 | signature | 2쪽 [805, 510, 954, 537] | 늘 | 템플릿 | generate.py | fields.json:200 | 묻기 |
-| `seal.related` ← `seal.co_borrower` | 공동차주 | 도장 | - | 2/16 | 템플릿 | generate.py | fields.json:185 | 묻기 |
-| `sign.related` ← `sign.co_borrower` | 공동차주 | 서명 | - | 2/16 | 템플릿 | generate.py | fields.json:195 | 묻기 |
+| `seal.debtor` | 채무자 | seal | 2쪽 [835, 518, 924, 532] | 늘 | 템플릿 | generate.py | fields.json:190 | 묻기 |
+| `sign.debtor` | 채무자 | signature | 2쪽 [805, 510, 954, 537] | 늘 | 템플릿 | generate.py | fields.json:200 | 묻기 |
+| `seal.co_borrower` | 공동차주 | 도장 | - | 2/16 | 템플릿 | generate.py | fields.json:185 | 묻기 |
+| `sign.co_borrower` | 공동차주 | 서명 | - | 2/16 | 템플릿 | generate.py | fields.json:195 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
-- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
 - **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
@@ -141,12 +139,7 @@
  "국민은행 478303-40-826627",
  "중도상환금액 × 0.74% × 잔존일수 ÷ 대출기간일수 (3년 경과 시 면제)",
  "대출이자율 + 연체가산이자율 연 3% (현재 연 7.39%, 최고 연 15%)",
- "150,000원 (고객 75,000원 / 은행 75,000원)",
- "이 대출금은 생활안정자금 용도로만 사용하며, 은행이 요청하는 경우 자금 사용 증빙서류를 제출한다.",
- "채무자는 대출 실행일로부터 1개월 이내에 담보물건에 전입하여 실거주하여야 하며, 이를 이행하지 아니하는 경우 은행은 기한의 이익을 상실시킬 수 있다.",
- "기준금리 변동 시 대출이자율은 매 6개월 단위로 변경되며, 변경된 이자율은 은행 홈페이지 및 문자메시지로 통지한다.",
- "충분히 설명듣고 이해함",
- "2025년 4월 7일"
+ "150,000원 (고객 75,000원 / 은행 75,000원)"
 ]
 ```
 
@@ -161,7 +154,7 @@
 답:
 
 ```json
-"최초 5년 고정 후 6개월마다 변동"
+"010-6144-1173"
 ```
 
 ### 값 칸 읽기 `ocr_field` · 채점 exact
@@ -175,7 +168,7 @@
 답:
 
 ```json
-"남궁예태"
+"783-58-4706-019"
 ```
 
 ### 정보 추출 `kie` · 채점 vl_f1 (값+위치)
@@ -192,14 +185,14 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
+항목 (키: 설명 (몇 번째 행))
 - bank: 은행명
 - creditor: 채권자
 - branch: 취급점
-- customer.name: 성명 (고객 성명)
-- customer.rrn: 실명번호 (고객 주민등록번호)
-- customer.address: 주소 (고객 주소)
-- customer.phone: 연락처 (고객 연락처)
+- debtor.name: 성명
+- debtor.rrn: 실명번호
+- debtor.address: 주소
+- debtor.phone: 연락처
 - loan.subject: 대출과목
 - loan.product: 상품명
 - loan.account_no: 대출계좌번호
@@ -220,9 +213,6 @@ answer_empty: {"key": "{key}", "value": null}
 - loan.prepay_fee: 중도상환해약금
 - loan.late_rate: 지연배상금률
 - stamp_tax: 인지세
-- handwritten: 자필기재
-- contract_date: 약정일
-- signature: 채무자
 ```
 
 답:
@@ -231,10 +221,10 @@ answer_empty: {"key": "{key}", "value": null}
 [{"key": "bank", "value": "국민은행", "bbox_2d": [103, 39, 198, 61], "page": 1},
  {"key": "creditor", "value": "주식회사 국민은행", "bbox_2d": [76, 127, 195, 138], "page": 1},
  {"key": "branch", "value": "센텀지점", "bbox_2d": [274, 127, 329, 138], "page": 1},
- {"key": "customer.name", "value": "남궁예태", "bbox_2d": [277, 202, 335, 212], "page": 1},
- {"key": "customer.rrn", "value": "850328-2489940", "bbox_2d": [688, 206, 787, 217], "page": 1},
- {"key": "customer.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)", "bbox_2d": [215, 230, 714, 241], "page": 1},
- {"key": "customer.phone", "value": "010-6144-1173", "bbox_2d": [739, 230, 824, 241], "page": 1},
+ {"key": "debtor.name", "value": "남궁예태", "bbox_2d": [277, 202, 335, 212], "page": 1},
+ {"key": "debtor.rrn", "value": "850328-2489940", "bbox_2d": [688, 206, 787, 217], "page": 1},
+ {"key": "debtor.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)", "bbox_2d": [215, 230, 714, 241], "page": 1},
+ {"key": "debtor.phone", "value": "010-6144-1173", "bbox_2d": [739, 230, 824, 241], "page": 1},
  {"key": "loan.subject", "value": "주택담보대출", "bbox_2d": [215, 273, 302, 284], "page": 1},
  {"key": "loan.product", "value": "주택담보대출", "bbox_2d": [698, 273, 785, 284], "page": 1},
  {"key": "loan.account_no", "value": "783-58-4706-019", "bbox_2d": [698, 293, 799, 304], "page": 1},
@@ -254,10 +244,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "loan.debit_account", "value": "국민은행 478303-40-826627", "bbox_2d": [535, 520, 708, 531], "page": 1},
  {"key": "loan.prepay_fee", "value": "중도상환금액 × 0.74% × 잔존일수 ÷ 대출기간일수 (3년 경과 시 면제)", "bbox_2d": [86, 558, 519, 569], "page": 1},
  {"key": "loan.late_rate", "value": "대출이자율 + 연체가산이자율 연 3% (현재 연 7.39%, 최고 연 15%)", "bbox_2d": [86, 593, 921, 617], "page": 1},
- {"key": "stamp_tax", "value": "150,000원 (고객 75,000원 / 은행 75,000원)", "bbox_2d": [558, 640, 807, 651], "page": 1},
- {"key": "handwritten", "value": "충분히 설명듣고 이해함", "bbox_2d": [163, 492, 370, 509], "page": 2},
- {"key": "contract_date", "value": "2025년 4월 7일", "bbox_2d": [91, 519, 185, 530], "page": 2},
- {"key": "signature", "value": "남궁예태", "bbox_2d": [749, 519, 807, 530], "page": 2}]
+ {"key": "stamp_tax", "value": "150,000원 (고객 75,000원 / 은행 75,000원)", "bbox_2d": [558, 640, 807, 651], "page": 1}]
 ```
 
 ### 체크·도장·서명 `marks` · 채점 vl_f1 (값+위치)
@@ -281,9 +268,6 @@ answer_empty: {"key": "{key}", "value": null}
 - loan.method: 거래구분 (체크박스, 보기: 개별거래 / 한도거래)
 - loan.rate_type: 금리종류 (체크박스, 보기: 고정금리 / 변동금리 / 혼합금리)
 - loan.repayment: 상환방법 (체크박스, 보기: 만기일시상환 / 원금균등분할상환 / 원리금균등분할상환)
-- explained: 설명이해확인 (체크박스, 보기: 예 / 아니오)
-- seal.customer: 채무자 (고객 도장, 같은 항목명 중 1번째 칸, 도장)
-- sign.customer: 채무자 (고객 서명, 같은 항목명 중 2번째 칸, 서명)
 ```
 
 답:
@@ -291,119 +275,7 @@ answer_empty: {"key": "{key}", "value": null}
 ```json
 [{"key": "loan.method", "value": "개별거래", "bbox_2d": [215, 293, 224, 304], "page": 1},
  {"key": "loan.rate_type", "value": "혼합금리", "bbox_2d": [381, 376, 390, 386], "page": 1},
- {"key": "loan.repayment", "value": "원리금균등분할상환", "bbox_2d": [468, 500, 477, 511], "page": 1},
- {"key": "explained", "value": null},
- {"key": "seal.customer", "value": false},
- {"key": "sign.customer", "value": true, "bbox_2d": [805, 510, 954, 537], "page": 2}]
-```
-
-### 표 추출 `table` · 채점 cell_f1 (칸)
-
-질문:
-
-```
-이 문서에서 2쪽 bbox_2d=[99, 404, 924, 456] 위치의 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
-꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
-- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
-- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
-- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
-- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
-- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
-열 (키: 항목명)
-- value: 특약사항
-```
-
-답:
-
-```json
-{
- "columns": [
-  "value"
- ],
- "rows": [
-  [
-   "이 대출금은 생활안정자금 용도로만 사용하며, 은행이 요청하는 경우 자금 사용 증빙서류를 제출한다."
-  ],
-  [
-   "채무자는 대출 실행일로부터 1개월 이내에 담보물건에 전입하여 실거주하여야 하며, 이를 이행하지 아니하는 경우 은행은 기한의 이익을 상실시킬 수 있다."
-  ],
-  [
-   "기준금리 변동 시 대출이자율은 매 6개월 단위로 변경되며, 변경된 이자율은 은행 홈페이지 및 문자메시지로 통지한다."
-  ]
- ],
- "row_boxes": [
-  {
-   "bbox_2d": [
-    99,
-    404,
-    713,
-    415
-   ],
-   "page": 2
-  },
-  {
-   "bbox_2d": [
-    99,
-    418,
-    924,
-    442
-   ],
-   "page": 2
-  },
-  {
-   "bbox_2d": [
-    99,
-    445,
-    813,
-    456
-   ],
-   "page": 2
-  }
- ]
-}
-```
-
-### 표 찾기 `table_find` · 채점 f1_iou50 (위치)
-
-질문:
-
-```
-이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.
-표마다 {{"columns": [머리글 글자, …], "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호, "n_rows": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.
-```
-
-답:
-
-```json
-[{"columns": ["특약사항"], "bbox_2d": [99, 404, 924, 456], "page": 2, "n_rows": 3}]
-```
-
-### 표 질의 `table_qa` · 채점 acc
-
-질문:
-
-```
-이 문서의 '특약사항' 열이 있는 표를 보고 답하세요. '특약사항' 칸이 '기준금리 변동 시 대출이자율은 매 6개월 단위로 변경되며, 변경된 이자율은 은행 홈페이지 및 문자메시지로 통지한다.'인 행은 몇 개입니까? (숫자만 답하세요)
-```
-
-답:
-
-```json
-1
-```
-
-### 표 질의 `table_qa` · 채점 acc
-
-질문:
-
-```
-이 문서의 '특약사항' 열이 있는 표를 보고 답하세요. 마지막 행의 '특약사항' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
-```
-
-답:
-
-```json
-"기준금리 변동 시 대출이자율은 매 6개월 단위로 변경되며, 변경된 이자율은 은행 홈페이지 및 문자메시지로 통지한다."
+ {"key": "loan.repayment", "value": "원리금균등분할상환", "bbox_2d": [468, 500, 477, 511], "page": 1}]
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -426,7 +298,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` | 다시 |
 | 답의 값 | `generate.py` (값 만드는 함수). 파이썬 대신 정하려면 `fields.json` 의 그 칸 `source` | 다시 |
 | 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` | 다시 |
-| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (파일로). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
 | (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
 | 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
 | 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
@@ -438,7 +310,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
 | 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
 | 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
 확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions credit_agreement --show` · `python -m docgen.preview credit_agreement --out work/credit_agreement`

@@ -4,7 +4,7 @@
 설정 (data.benchmark 의 평가 세트 하나에, 경로는 설정 파일 기준):
   {"id": "syn", "paths": ["<bank 데이터셋>"], "scorer": "../scorers/my_form_qa.py:score"}
 이 함수는 그 세트의 평가 점수(보고서·studio)에 쓰인다.
-고친 뒤 학습 없이 다시 채점: python -m train report <결과 폴더> --rescore (guide/train/steps.md).
+고친 뒤 학습 없이 다시 채점: python -m train report <결과 폴더> --rescore (guide/train/steps.md 3절).
 
 문항에서 쓸 것
   item["meta"]["question"]   "<서식ID>.<qa.py 함수 이름>" (예: "employment_certificate.재직기간")

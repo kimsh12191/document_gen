@@ -28,7 +28,7 @@ def examples() -> dict:
         target = json.loads(blocks[1])
         if row["task"] != task or json.loads(row["target"]) != target:
             raise ValueError(f"OCR 예시 {task}: 문항과 정답이 다릅니다")
-        names = re.findall(r'<img src="examples/img/([^"/]+)"', section)
+        names = re.findall(r'<img src="(?:\.\./)?examples/img/([^"/]+)"', section)
         if not names or any(not (IMAGES / name).is_file() for name in names):
             raise ValueError(f"OCR 예시 {task}: 예시 이미지가 없습니다")
         how = re.search(r"\*\*어떻게 만드나:\*\* (.+)", section)

@@ -561,12 +561,26 @@ def s_table_qa(item, out):
     return {"metrics": {"acc": float(ok)}}
 
 
+def s_number_yesno(item, out):
+    """숫자 답 (단위 %·배·세·년·원을 떼고 eval.tol 안이면 정답) 또는 예/아니오 답 (네·아니요도 인정)."""
+    ev, gt = item["eval"], item["answer"]
+    a = strip_answer(out)
+    if ev["answer_type"] == "yesno":
+        p = yes_no(a)
+        return {"metrics": {"acc": float(p is not None and p == (gt == "예"))}, "parse_fail": p is None}
+    p = to_number(a.rstrip("%").replace("배", "").replace("세", "").replace("년", "").replace("원", "").strip())
+    if p is None:
+        p = to_number(a)
+    ok = p is not None and abs(p - float(gt)) <= ev.get("tol", 0) + 1e-9
+    return {"metrics": {"acc": float(ok)}, "parse_fail": p is None}
+
+
 def s_form_qa(item, out):
     """서식 전용 질문 (서식 폴더 qa.py, docgen/formqa.py): 정답 꼴(eval.answer_type)로 기본 채점.
-    number·yesno 는 심사 질의와 같게, text 는 띄어쓰기·문장부호를 맞춰 같은지, json 은 칸(목록은 항목)마다 같은지."""
+    number·yesno 는 s_number_yesno, text 는 띄어쓰기·문장부호를 맞춰 같은지, json 은 칸(목록은 항목)마다 같은지."""
     kind = item["eval"]["answer_type"]
     if kind in ("number", "yesno"):
-        return s_review(item, out)
+        return s_number_yesno(item, out)
     gt = item["answer"]
     if kind == "json":
         pred = parse_json(out)

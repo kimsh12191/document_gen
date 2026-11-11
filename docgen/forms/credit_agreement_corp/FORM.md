@@ -1,10 +1,9 @@
 # 여신거래약정서(기업용) (`credit_agreement_corp`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card credit_agreement_corp · card-hash: 624af8cfb32c -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card credit_agreement_corp · card-hash: 60bbc6fa545f -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** bank_form · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 여신거래약정서(기업용)
-- **쓰이는 업무:** 법인 여신
 - **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
 - **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa credit_agreement_corp --new`)
 - **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
@@ -19,21 +18,21 @@
 | `fields.json` | 칸 목록·값 출처 |
 | `generate.py` | 값 만들기 (코드 서식: 값 전부 / html 서식: adjust 로 칸끼리 관계) |
 | `docgen/docs/bank_form_loan.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
-| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
 
 ## 추출 항목 (정보 추출 kie) — 32칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `bank` | 은행명 | text | 1쪽 [88, 41, 186, 64] | 늘 | 템플릿 | generate.py | fields.json:5 | 묻기 |
 | `creditor` | 채권자 | text | 1쪽 [60, 131, 186, 143] | 늘 | 템플릿 | generate.py | look/template.html.j2:20 · fields.json:20 | 묻기 |
 | `branch` | 취급점 | text | 1쪽 [269, 132, 328, 143] | 늘 | 템플릿 | generate.py | look/template.html.j2:20 · fields.json:10 | 묻기 |
-| `customer.name` ← `debtor.name` | 상호(법인명) | text | 1쪽 [200, 222, 302, 234] | 늘 | 템플릿 | generate.py | look/template.html.j2:26 · fields.json:45 | 묻기 |
-| `customer.biz_no` ← `debtor.biz_no` | 사업자등록번호 | biz_no | 1쪽 [200, 242, 287, 255] | 늘 | 템플릿 | generate.py | look/template.html.j2:27 · fields.json:30 | 묻기 |
-| `customer.corp_reg_no` ← `debtor.corp_reg_no` | 법인등록번호 | corp_reg_no | 1쪽 [610, 242, 713, 255] | 늘 | 템플릿 | generate.py | fields.json:40 | 묻기 |
-| `customer.ceo` ← `debtor.ceo` | 대표이사 | text | 1쪽 [200, 263, 261, 276] | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:35 | 묻기 |
-| `customer.phone` ← `debtor.phone` | 전화번호 | phone | 1쪽 [610, 263, 696, 276] | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:50 | 묻기 |
-| `customer.address` ← `debtor.address` | 본점소재지 | text | 1쪽 [200, 284, 634, 297] | 늘 | 템플릿 | generate.py | look/template.html.j2:29 · fields.json:25 | 묻기 |
+| `debtor.name` | 상호(법인명) | text | 1쪽 [200, 222, 302, 234] | 늘 | 템플릿 | generate.py | look/template.html.j2:26 · fields.json:45 | 묻기 |
+| `debtor.biz_no` | 사업자등록번호 | biz_no | 1쪽 [200, 242, 287, 255] | 늘 | 템플릿 | generate.py | look/template.html.j2:27 · fields.json:30 | 묻기 |
+| `debtor.corp_no` | 법인등록번호 | corp_reg_no | 1쪽 [610, 242, 713, 255] | 늘 | 템플릿 | generate.py | look/template.html.j2:27 · fields.json:40 | 묻기 |
+| `debtor.ceo` | 대표이사 | text | 1쪽 [200, 263, 261, 276] | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:35 | 묻기 |
+| `debtor.phone` | 전화번호 | phone | 1쪽 [610, 263, 696, 276] | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:50 | 묻기 |
+| `debtor.address` | 본점소재지 | text | 1쪽 [200, 284, 634, 297] | 늘 | 템플릿 | generate.py | look/template.html.j2:29 · fields.json:25 | 묻기 |
 | `loan.subject` | 여신과목 | text | 1쪽 [200, 327, 292, 340] | 늘 | 템플릿 | generate.py | look/template.html.j2:35 · fields.json:165 | 묻기 |
 | `loan.product` | 상품명 | text | 1쪽 [684, 327, 806, 340] | 늘 | 템플릿 | generate.py | look/template.html.j2:35 · fields.json:130 | 묻기 |
 | `loan.account_no` | 여신계좌번호 | account_no | 1쪽 [684, 348, 791, 361] | 늘 | 템플릿 | generate.py | look/template.html.j2:36 · fields.json:60 | 묻기 |
@@ -62,7 +61,7 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `special_terms.*` | 특약사항 | - | - (1행) | 3/16 | 템플릿 | generate.py | - | 묻기 |
 
@@ -70,7 +69,7 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `guarantors.*.name` | 연대보증인 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:89 · fields.json:205 | 묻기 |
 | `guarantors.*.rrn` | 실명번호 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:89 · fields.json:215 | 묻기 |
@@ -79,18 +78,17 @@
 
 ## 체크·도장·서명 (marks) — 6칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `loan.method` | 거래방법 | checkbox (개별거래 / 한도거래) | 1쪽 [213, 348, 274, 361] | 늘 | 템플릿 | generate.py | look/template.html.j2:36 · fields.json:115 | 묻기 |
 | `loan.rate_type` | 금리종류 | checkbox (고정금리 / 변동금리) | 1쪽 [300, 454, 361, 466] | 늘 | 템플릿 | generate.py | look/template.html.j2:45 · fields.json:145 | 묻기 |
 | `explained` | 설명이해확인 | checkbox (예 / 아니오) | 1쪽 [183, 786, 197, 797] | 늘 | 템플릿 | generate.py | look/template.html.j2:72 · fields.json:55 | 묻기 |
 | `seal.corp` | 법인인감 | seal | 1쪽 [858, 813, 949, 877] | 늘 | 템플릿 | generate.py | fields.json:170 | 묻기 |
-| `seal.related` ← `seal.guarantor` | 보증인 | 도장 | - | 1/16 | 템플릿 | generate.py | fields.json:175 | 묻기 |
+| `seal.guarantor` | 보증인 | 도장 | - | 1/16 | 템플릿 | generate.py | fields.json:175 | 묻기 |
 | `seal.guarantor2` | 보증인 | 도장 | - | 1/16 | 템플릿 | generate.py | fields.json:180 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
-- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
 - **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
@@ -199,16 +197,16 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
+항목 (키: 설명 (몇 번째 행))
 - bank: 은행명
 - creditor: 채권자
 - branch: 취급점
-- customer.name: 상호(법인명) (고객 성명)
-- customer.biz_no: 사업자등록번호 (고객 사업자등록번호)
-- customer.corp_reg_no: 법인등록번호 (고객 법인등록번호)
-- customer.ceo: 대표이사 (고객 대표자, 같은 항목명 중 1번째 칸)
-- customer.phone: 전화번호 (고객 연락처)
-- customer.address: 본점소재지 (고객 주소)
+- debtor.name: 상호(법인명)
+- debtor.biz_no: 사업자등록번호
+- debtor.corp_no: 법인등록번호
+- debtor.ceo: 대표이사 (같은 설명 중 1번째 칸)
+- debtor.phone: 전화번호
+- debtor.address: 본점소재지
 - loan.subject: 여신과목
 - loan.product: 상품명
 - loan.account_no: 여신계좌번호
@@ -231,7 +229,7 @@ answer_empty: {"key": "{key}", "value": null}
 - loan.late_rate: 지연배상금률
 - stamp_tax: 인지세
 - contract_date: 약정일
-- signature: 대표이사 (같은 항목명 중 2번째 칸)
+- signature: 대표이사 (같은 설명 중 2번째 칸)
 ```
 
 답:
@@ -240,12 +238,12 @@ answer_empty: {"key": "{key}", "value": null}
 [{"key": "bank", "value": "국민은행", "bbox_2d": [88, 41, 186, 64], "page": 1},
  {"key": "creditor", "value": "주식회사 국민은행", "bbox_2d": [60, 131, 186, 143], "page": 1},
  {"key": "branch", "value": "센텀지점", "bbox_2d": [269, 132, 328, 143], "page": 1},
- {"key": "customer.name", "value": "(주)미래케미칼", "bbox_2d": [200, 222, 302, 234], "page": 1},
- {"key": "customer.biz_no", "value": "702-81-38348", "bbox_2d": [200, 242, 287, 255], "page": 1},
- {"key": "customer.corp_reg_no", "value": "200112-7951835", "bbox_2d": [610, 242, 713, 255], "page": 1},
- {"key": "customer.ceo", "value": "남궁예태", "bbox_2d": [200, 263, 261, 276], "page": 1},
- {"key": "customer.phone", "value": "064-756-8800", "bbox_2d": [610, 263, 696, 276], "page": 1},
- {"key": "customer.address", "value": "제주특별자치도 제주시 첨단로 381-19, 2층 (이도2동, 대성프라자)", "bbox_2d": [200, 284, 634, 297], "page": 1},
+ {"key": "debtor.name", "value": "(주)미래케미칼", "bbox_2d": [200, 222, 302, 234], "page": 1},
+ {"key": "debtor.biz_no", "value": "702-81-38348", "bbox_2d": [200, 242, 287, 255], "page": 1},
+ {"key": "debtor.corp_no", "value": "200112-7951835", "bbox_2d": [610, 242, 713, 255], "page": 1},
+ {"key": "debtor.ceo", "value": "남궁예태", "bbox_2d": [200, 263, 261, 276], "page": 1},
+ {"key": "debtor.phone", "value": "064-756-8800", "bbox_2d": [610, 263, 696, 276], "page": 1},
+ {"key": "debtor.address", "value": "제주특별자치도 제주시 첨단로 381-19, 2층 (이도2동, 대성프라자)", "bbox_2d": [200, 284, 634, 297], "page": 1},
  {"key": "loan.subject", "value": "시설자금대출", "bbox_2d": [200, 327, 292, 340], "page": 1},
  {"key": "loan.product", "value": "기업시설자금대출", "bbox_2d": [684, 327, 806, 340], "page": 1},
  {"key": "loan.account_no", "value": "713-61-4840-673", "bbox_2d": [684, 348, 791, 361], "page": 1},
@@ -292,7 +290,7 @@ answer_empty: {"key": "{key}", "value": null}
 - loan.method: 거래방법 (체크박스, 보기: 개별거래 / 한도거래)
 - loan.rate_type: 금리종류 (체크박스, 보기: 고정금리 / 변동금리)
 - explained: 설명이해확인 (체크박스, 보기: 예 / 아니오)
-- seal.corp: 법인인감 (법인·사업자 도장, 도장)
+- seal.corp: 법인인감 (도장)
 ```
 
 답:
@@ -324,7 +322,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` | 다시 |
 | 답의 값 | `generate.py` (값 만드는 함수). 파이썬 대신 정하려면 `fields.json` 의 그 칸 `source` | 다시 |
 | 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` | 다시 |
-| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (파일로). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
 | (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
 | 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
 | 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
@@ -336,7 +334,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
 | 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
 | 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
 확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions credit_agreement_corp --show` · `python -m docgen.preview credit_agreement_corp --out work/credit_agreement_corp`

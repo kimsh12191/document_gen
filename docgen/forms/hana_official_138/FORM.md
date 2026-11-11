@@ -1,10 +1,9 @@
 # 대출금 수령위임동의서 (`hana_official_138`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hana_official_138 · card-hash: 0f4933477685 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hana_official_138 · card-hash: cdb5a12d7b22 -->
 
 - **종류:** html 서식 (값은 fields.json 의 값 출처, 모양은 템플릿)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 대출금 수령위임동의서
-- **쓰이는 업무:** 없음 (서류 한 건 과제에만)
 - **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
 - **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa hana_official_138 --new`)
 - **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
@@ -18,32 +17,31 @@
 | `look/template.html.j2` | 모양·칸 자리 (`{{ f("키", label="항목명") }}`) |
 | `fields.json` | 칸 목록·값 출처 |
 | `form.json` | 이름·그룹·출처 |
-| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
 
 ## 추출 항목 (정보 추출 kie) — 6칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `용도` | 용도 | text | 1쪽 [319, 269, 391, 291] | 늘 | 템플릿 | - | - | 묻기 |
 | `수령금액` | 수령금액 | number | 1쪽 [487, 319, 576, 341] | 늘 | 템플릿 | - | - | 묻기 |
 | `customer.name` | 예금주 | text | 1쪽 [316, 420, 393, 441] | 늘 | 템플릿 | - | - | 묻기 |
 | `date` | 작성일 | date | 1쪽 [365, 594, 566, 611] | 늘 | 템플릿 | - | - | 묻기 |
 | `signer.name` | 수령위임인 | text | 1쪽 [688, 640, 765, 661] | 늘 | 템플릿 | - | - | 묻기 |
-| `agent.name` ← `signer2.name` | 수령위임인의대리인 | text | - | 늘 | 템플릿 | - | - | 묻기 |
+| `signer2.name` | 수령위임인의대리인 | text | - | 늘 | 템플릿 | - | - | 묻기 |
 
 ## 체크·도장·서명 (marks) — 5칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `check.차주와의관계` | 차주와의관계 | checkbox (부동산담보대출의 경우 매도인 / 전세자금대출의 경우 임대인 / 차주를 대신하여 당타행 대출의 상환을 위임받은 자 / 공사대금 수령업체 / 상기 외 제3자 (관계기재)) | 1쪽 [324, 482, 524, 496] | 늘 | 템플릿 | - | - | 묻기 |
-| `seal.customer` ← `seal.signer` | 수령위임인 | seal | 1쪽 [818, 643, 926, 657] | 늘 | 템플릿 | - | - | 묻기 |
-| `sign.customer` ← `sign.signer` | 수령위임인 | signature | 1쪽 [818, 643, 926, 657] | 늘 | 템플릿 | - | - | 묻기 |
-| `seal.agent` ← `seal.signer2` | 수령위임인의대리인 | seal | 1쪽 [818, 667, 926, 681] | 늘 | 템플릿 | - | - | 묻기 |
-| `sign.agent` ← `sign.signer2` | 수령위임인의대리인 | signature | 1쪽 [818, 667, 926, 681] | 늘 | 템플릿 | - | - | 묻기 |
+| `seal.signer` | 수령위임인 | seal | 1쪽 [818, 643, 926, 657] | 늘 | 템플릿 | - | - | 묻기 |
+| `sign.signer` | 수령위임인 | signature | 1쪽 [818, 643, 926, 657] | 늘 | 템플릿 | - | - | 묻기 |
+| `seal.signer2` | 수령위임인의대리인 | seal | 1쪽 [818, 667, 926, 681] | 늘 | 템플릿 | - | - | 묻기 |
+| `sign.signer2` | 수령위임인의대리인 | signature | 1쪽 [818, 667, 926, 681] | 늘 | 템플릿 | - | - | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
-- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
 - **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
@@ -124,13 +122,13 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
+항목 (키: 설명 (몇 번째 행))
 - 용도: 용도
 - 수령금액: 수령금액
-- customer.name: 예금주 (고객 성명)
+- customer.name: 예금주
 - date: 작성일
-- signer.name: 수령위임인 (고객 본인의 성명)
-- agent.name: 수령위임인의대리인 (대리인 성명)
+- signer.name: 수령위임인
+- signer2.name: 수령위임인의대리인
 ```
 
 답:
@@ -141,7 +139,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "customer.name", "value": "남궁예태", "bbox_2d": [316, 420, 393, 441], "page": 1},
  {"key": "date", "value": "2025년 4월 1일", "bbox_2d": [365, 594, 566, 611], "page": 1},
  {"key": "signer.name", "value": "남궁예태", "bbox_2d": [688, 640, 765, 661], "page": 1},
- {"key": "agent.name", "value": null}]
+ {"key": "signer2.name", "value": null}]
 ```
 
 ### 체크·도장·서명 `marks` · 채점 vl_f1 (값+위치)
@@ -163,20 +161,20 @@ answer_empty: {"key": "{key}", "value": null}
 - 도장·서명: {"key": 키, "value": true 또는 false, "bbox_2d": 찍힌 자리, "page": 쪽} (비어 있으면 value 만 false)
 항목
 - check.차주와의관계: 차주와의관계 (체크박스, 보기: 부동산담보대출의 경우 매도인 / 전세자금대출의 경우 임대인 / 차주를 대신하여 당타행 대출의 상환을 위임받은 자 / 공사대금 수령업체 / 상기 외 제3자 (관계기재))
-- seal.customer: 수령위임인 (고객 도장, 같은 항목명 중 1번째 칸, 도장)
-- sign.customer: 수령위임인 (고객 서명, 같은 항목명 중 2번째 칸, 서명)
-- seal.agent: 수령위임인의대리인 (대리인 도장, 같은 항목명 중 1번째 칸, 도장)
-- sign.agent: 수령위임인의대리인 (대리인 서명, 같은 항목명 중 2번째 칸, 서명)
+- seal.signer: 수령위임인 (같은 설명 중 1번째 칸, 도장)
+- sign.signer: 수령위임인 (같은 설명 중 2번째 칸, 서명)
+- seal.signer2: 수령위임인의대리인 (같은 설명 중 1번째 칸, 도장)
+- sign.signer2: 수령위임인의대리인 (같은 설명 중 2번째 칸, 서명)
 ```
 
 답:
 
 ```json
 [{"key": "check.차주와의관계", "value": "전세자금대출의 경우 임대인", "bbox_2d": [324, 482, 339, 496], "page": 1},
- {"key": "seal.customer", "value": false},
- {"key": "sign.customer", "value": true, "bbox_2d": [818, 643, 926, 657], "page": 1},
- {"key": "seal.agent", "value": false},
- {"key": "sign.agent", "value": false}]
+ {"key": "seal.signer", "value": false},
+ {"key": "sign.signer", "value": true, "bbox_2d": [818, 643, 926, 657], "page": 1},
+ {"key": "seal.signer2", "value": false},
+ {"key": "sign.signer2", "value": false}]
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -199,7 +197,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` + `fields.json` 의 그 키 | 다시 |
 | 답의 값 | `fields.json` 의 그 칸 `source` ([값 출처 목록](../_common/values.md)) | 다시 |
 | 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` 의 `adjust(d, p, rng)` | 다시 |
-| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (파일로). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
 | (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
 | 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
 | 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
@@ -211,7 +209,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
 | 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
 | 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
 확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions hana_official_138 --show` · `python -m docgen.preview hana_official_138 --out work/hana_official_138`

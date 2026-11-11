@@ -1,10 +1,9 @@
 # 등기사항전부증명서(집합건물) (`real_estate_registry`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card real_estate_registry · card-hash: e6c4784441f4 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card real_estate_registry · card-hash: a7b3cfef7664 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** real_estate · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 등기사항전부증명서(집합건물)
-- **쓰이는 업무:** 주택담보대출, 전세자금대출
 - **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
 - **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa real_estate_registry --new`)
 - **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
@@ -19,16 +18,16 @@
 | `fields.json` | 칸 목록·값 출처 |
 | `generate.py` | 값 만들기 (코드 서식: 값 전부 / html 서식: adjust 로 칸끼리 관계) |
 | `docgen/docs/real_estate.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
-| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
 
 ## 추출 항목 (정보 추출 kie) — 29칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `property` | 부동산의표시 | text | 1쪽 [122, 68, 618, 79] | 늘 | 템플릿 | generate.py | look/template.html.j2:43 · fields.json:80 | 묻기 |
 | `unique_no` | 고유번호 | text | 1쪽 [839, 68, 950, 79] | 늘 | 템플릿 | generate.py | look/template.html.j2:44 · fields.json:95 | 묻기 |
 | `land.display_no` | 표시번호 | number | 1쪽 [80, 272, 87, 283] | 15/16 | 템플릿 | generate.py | look/template.html.j2:121 · fields.json:45 | 묻기 |
-| `property.location` ← `land.location` | 소재지번 | text | 1쪽 [121, 272, 315, 283] | 15/16 | 템플릿 | generate.py | look/template.html.j2:122 · fields.json:50 | 묻기 |
+| `land.location` | 소재지번 | text | 1쪽 [121, 272, 315, 283] | 15/16 | 템플릿 | generate.py | look/template.html.j2:122 · fields.json:50 | 묻기 |
 | `land.category` | 지목 | text | 1쪽 [615, 272, 628, 283] | 15/16 | 템플릿 | generate.py | look/template.html.j2:123 · fields.json:35 | 묻기 |
 | `land.area` | 면적 | text | 1쪽 [718, 272, 780, 283] | 15/16 | 템플릿 | generate.py | look/template.html.j2:124 · fields.json:30 | 묻기 |
 | `land.cause` | 등기원인및기타사항 | text | 1쪽 [791, 272, 910, 283] | 15/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:40 | 묻기 |
@@ -38,7 +37,7 @@
 | `unit.detail` | 건물내역 | text | 1쪽 [431, 324, 567, 347] | 15/16 | 템플릿 | generate.py | look/template.html.j2:137 · fields.json:105 | 묻기 |
 | `unit.cause` | 등기원인및기타사항 | text | 1쪽 [791, 324, 934, 347] | 15/16 | 템플릿 | generate.py | look/template.html.j2:138 · fields.json:100 | 묻기 |
 | `land_right.display_no` | 표시번호 | number | 1쪽 [80, 388, 87, 398] | 15/16 | 템플릿 | generate.py | look/template.html.j2:146 · fields.json:60 | 묻기 |
-| `property.kind` ← `land_right.kind` | 대지권종류 | text | 1쪽 [121, 388, 213, 398] | 15/16 | 템플릿 | generate.py | look/template.html.j2:147 · fields.json:65 | 묻기 |
+| `land_right.kind` | 대지권종류 | text | 1쪽 [121, 388, 213, 398] | 15/16 | 템플릿 | generate.py | look/template.html.j2:147 · fields.json:65 | 묻기 |
 | `land_right.ratio` | 대지권비율 | text | 1쪽 [471, 388, 580, 398] | 15/16 | 템플릿 | generate.py | look/template.html.j2:148 · fields.json:70 | 묻기 |
 | `land_right.cause` | 등기원인및기타사항 | text | 1쪽 [753, 388, 886, 410] | 15/16 | 템플릿 | generate.py | look/template.html.j2:149 · fields.json:55 | 묻기 |
 | `registry_office` | 관할등기소 | text | 1쪽 [120, 806, 269, 815] | 15/16 | 템플릿 | generate.py | look/template.html.j2:232 · fields.json:85 | 묻기 |
@@ -59,7 +58,7 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `buildings.*.display_no` | 표시번호 | number | 1쪽 [80, 124, 87, 135] (1행) | 15/16 | 템플릿 | generate.py | fields.json:145 | 묻기 |
 | `buildings.*.receipt` | 접수 | date | 1쪽 [121, 124, 209, 135] (1행) | 15/16 | 템플릿 | generate.py | fields.json:155 | 묻기 |
@@ -71,7 +70,7 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `gapgu.*.rank` | 순위번호 | number | 1쪽 [80, 451, 87, 462] (1행) | 15/16 | 템플릿 | generate.py | fields.json:370 | 묻기 |
 | `gapgu.*.purpose` | 등기목적 | text | 1쪽 [121, 451, 189, 462] (1행) | 15/16 | 템플릿 | generate.py | fields.json:365 | 묻기 |
@@ -94,7 +93,7 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `eulgu.*.rank` | 순위번호 | number | 1쪽 [80, 695, 87, 705] (1행) | 14/16 | 템플릿 | generate.py | fields.json:250 | 묻기 |
 | `eulgu.*.purpose` | 등기목적 | text | 1쪽 [121, 695, 203, 705] (1행) | 14/16 | 템플릿 | generate.py | fields.json:245 | 묻기 |
@@ -123,7 +122,7 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `summary.owners.*.name` | 등기명의인 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:400 | 묻기 |
 | `summary.owners.*.reg_no` | (주민)등록번호 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:410 | 묻기 |
@@ -135,7 +134,7 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `summary.rights.*.rank` | 순위번호 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:435 | 묻기 |
 | `summary.rights.*.purpose` | 등기목적 | - | - (1행) | 1/16 | 템플릿 | generate.py | fields.json:430 | 묻기 |
@@ -145,13 +144,12 @@
 
 ## 체크·도장·서명 (marks) — 1칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `seal.issuer` | 발급기관직인 | 도장 | - | 7/16 | 템플릿 | generate.py | fields.json:90 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
-- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
 - **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
@@ -299,23 +297,23 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
+항목 (키: 설명 (몇 번째 행))
 - property: 부동산의표시
 - unique_no: 고유번호
-- land.display_no: 표시번호 (같은 항목명 중 1번째 칸)
-- property.location: 소재지번 (물건 소재지)
+- land.display_no: 표시번호 (같은 설명 중 1번째 칸)
+- land.location: 소재지번
 - land.category: 지목
 - land.area: 면적
-- land.cause: 등기원인및기타사항 (같은 항목명 중 1번째 칸)
-- unit.display_no: 표시번호 (같은 항목명 중 2번째 칸)
+- land.cause: 등기원인및기타사항 (같은 설명 중 1번째 칸)
+- unit.display_no: 표시번호 (같은 설명 중 2번째 칸)
 - unit.receipt: 접수
 - unit.unit_no: 건물번호
 - unit.detail: 건물내역
-- unit.cause: 등기원인및기타사항 (같은 항목명 중 2번째 칸)
-- land_right.display_no: 표시번호 (같은 항목명 중 3번째 칸)
-- property.kind: 대지권종류 (물건 종류)
+- unit.cause: 등기원인및기타사항 (같은 설명 중 2번째 칸)
+- land_right.display_no: 표시번호 (같은 설명 중 3번째 칸)
+- land_right.kind: 대지권종류
 - land_right.ratio: 대지권비율
-- land_right.cause: 등기원인및기타사항 (같은 항목명 중 3번째 칸)
+- land_right.cause: 등기원인및기타사항 (같은 설명 중 3번째 칸)
 - registry_office: 관할등기소
 - view_datetime: 열람일시
 ```
@@ -326,7 +324,7 @@ answer_empty: {"key": "{key}", "value": null}
 [{"key": "property", "value": "서울특별시 서초구 반포동 661 힐스테이트2차아파트 제103동 제13층 제1301호", "bbox_2d": [122, 68, 618, 79], "page": 1},
  {"key": "unique_no", "value": "2268-2012-072040", "bbox_2d": [839, 68, 950, 79], "page": 1},
  {"key": "land.display_no", "value": "1", "bbox_2d": [80, 272, 87, 283], "page": 1},
- {"key": "property.location", "value": "1. 서울특별시 서초구 반포동 661", "bbox_2d": [121, 272, 315, 283], "page": 1},
+ {"key": "land.location", "value": "1. 서울특별시 서초구 반포동 661", "bbox_2d": [121, 272, 315, 283], "page": 1},
  {"key": "land.category", "value": "대", "bbox_2d": [615, 272, 628, 283], "page": 1},
  {"key": "land.area", "value": "46,962.2㎡", "bbox_2d": [718, 272, 780, 283], "page": 1},
  {"key": "land.cause", "value": "1993년6월28일 등기", "bbox_2d": [791, 272, 910, 283], "page": 1},
@@ -336,7 +334,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "unit.detail", "value": "철근콘크리트벽식구조\n74.95㎡", "bbox_2d": [431, 324, 567, 347], "page": 1},
  {"key": "unit.cause", "value": "도면편철장 제9책 제655장", "bbox_2d": [791, 324, 934, 347], "page": 1},
  {"key": "land_right.display_no", "value": "1", "bbox_2d": [80, 388, 87, 398], "page": 1},
- {"key": "property.kind", "value": "1 소유권대지권", "bbox_2d": [121, 388, 213, 398], "page": 1},
+ {"key": "land_right.kind", "value": "1 소유권대지권", "bbox_2d": [121, 388, 213, 398], "page": 1},
  {"key": "land_right.ratio", "value": "46,962.2분의 46.94", "bbox_2d": [471, 388, 580, 398], "page": 1},
  {"key": "land_right.cause", "value": "1993년6월12일 대지권\n1993년6월28일 등기", "bbox_2d": [753, 388, 886, 410], "page": 1},
  {"key": "registry_office", "value": "서울중앙지방법원 등기국", "bbox_2d": [120, 806, 269, 815], "page": 1},
@@ -355,7 +353,7 @@ answer_empty: {"key": "{key}", "value": null}
 - 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
 - row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
 - 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
-열 (키: 항목명)
+열 (키: 설명)
 - display_no: 표시번호
 - receipt: 접수
 - location: 소재지번,건물명칭및번호
@@ -541,7 +539,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` | 다시 |
 | 답의 값 | `generate.py` (값 만드는 함수). 파이썬 대신 정하려면 `fields.json` 의 그 칸 `source` | 다시 |
 | 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` | 다시 |
-| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (파일로). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
 | (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
 | 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
 | 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
@@ -553,7 +551,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
 | 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
 | 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
 확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions real_estate_registry --show` · `python -m docgen.preview real_estate_registry --out work/real_estate_registry`

@@ -1,10 +1,9 @@
 # 퇴직연금 AI 포트폴리오 설계(신규 리밸런싱)신청서 (`hf175`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf175 · card-hash: 982312f3912a -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf175 · card-hash: 2828eb6765a0 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 퇴직연금 AI 포트폴리오 설계(신규 리밸런싱)신청서
-- **쓰이는 업무:** 없음 (서류 한 건 과제에만)
 - **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
 - **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa hf175 --new`)
 - **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
@@ -18,32 +17,32 @@
 | `fields.json` | 칸 목록·값 출처 |
 | `layout.json` | 원본에서 자동 추출한 칸 자리 (초안) |
 | `look/original.pdf` | 원본 PDF |
-| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
 
 ## 추출 항목 (정보 추출 kie) — 10칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `customer.name` | 성명 | text | 1쪽 [204, 227, 280, 248] | 늘 | 규칙: '성명' → `customer.name` | 고객 정보 (키 `customer.name`) | fields.json:52 | 묻기 |
-| `customer.birth` | 생년월일 | number | 1쪽 [611, 228, 671, 249] | 늘 | 규칙: '생년월일' → `customer.birth` | 고객 정보 (키 `customer.birth`) | fields.json:124 | 묻기 |
-| `계좌번호또는회사명` | 계좌번호또는회사명 | text | 1쪽 [614, 254, 754, 277] | 늘 | 항목명 그대로 | 값 종류 `account` (항목명 자동) | fields.json:135 | 묻기 |
-| `하나연금닥터AI연금투자솔루션` | 하나연금닥터AI연금투자솔루션 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:147 | 묻기 |
-| `상승` | 상승+( | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:264 | 묻기 |
-| `하락` | )%하락–( | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:276 | 묻기 |
-| `handwritten` | 설계신청을동의합니다. | text | 1쪽 [689, 561, 752, 582] | 늘 | copy | copy | fields.json:288 | 묻기 |
-| `date` | 작성일 | date | 1쪽 [681, 881, 926, 899] | 늘 | 날짜 칸 (항목명) | 작성일 | fields.json:300 | 묻기 |
-| `signer.name` | 신청인(본인) | text | 1쪽 [745, 909, 821, 931] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:325 | 묻기 |
-| `에도달할경우통지` | 에도달할경우통지 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:342 | 묻기 |
+| `customer.name` | 성명 | text | 1쪽 [204, 227, 280, 248] | 늘 | 파일 key | 고객 정보 (키 `customer.name`, 없으면 값 종류 `person`) | fields.json:52 | 묻기 |
+| `customer.birth` | 생년월일 | number | 1쪽 [611, 228, 671, 249] | 늘 | 파일 key | 고객 정보 (키 `customer.birth`, 없으면 값 종류 `date`) | fields.json:127 | 묻기 |
+| `계좌번호또는회사명` | 계좌번호또는회사명 | text | 1쪽 [614, 254, 754, 277] | 늘 | 파일 key | 값 종류 `account` | fields.json:140 | 묻기 |
+| `하나연금닥터AI연금투자솔루션` | 하나연금닥터AI연금투자솔루션 | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:155 | 묻기 |
+| `상승` | 상승+( | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:277 | 묻기 |
+| `하락` | )%하락–( | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:292 | 묻기 |
+| `handwritten` | 설계신청을동의합니다. | text | 1쪽 [689, 561, 752, 582] | 늘 | copy | copy | fields.json:307 | 묻기 |
+| `date` | 작성일 | date | 1쪽 [681, 881, 926, 899] | 늘 | 파일 key | 작성일 | fields.json:319 | 묻기 |
+| `signer.name` | 신청인(본인) | text | 1쪽 [745, 909, 821, 931] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:345 | 묻기 |
+| `에도달할경우통지` | 에도달할경우통지 | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:364 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 11칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `check.제도구분` | 제도구분 | checkbox (DC / 기업형IRP / 개인형IRP) | 1쪽 [218, 259, 258, 275] | 늘 | 체크 (항목명) | 보기 중 고름: DC / 기업형IRP / 개인형IRP | fields.json:63 | 묻기 |
-| `check.포트폴리오매수또는리밸런싱후6개월마다리밸런싱안내` | 포트폴리오매수또는리밸런싱후6개월마다리밸런싱안내 | checkbox (이메일 / 알림톡(LMS)) | 1쪽 [775, 650, 873, 665] | 늘 | 체크 (항목명) | 보기 중 고름: 이메일 / 알림톡(LMS) | fields.json:158 | 묻기 |
-| `check.신청여부` | 신청여부 | checkbox (신청안함 / 이메일 / 알림톡(LMS)) | 1쪽 [655, 732, 906, 747] | 늘 | 체크 (항목명) | 보기 중 고름: 신청안함 / 이메일 / 알림톡(LMS) | fields.json:203 | 묻기 |
-| `seal.customer` ← `seal.signer` | 신청인(본인) | seal | 1쪽 [886, 899, 929, 938] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:325 | 묻기 |
-| `sign.customer` ← `sign.signer` | 신청인(본인) | signature | 1쪽 [890, 911, 926, 926] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:325 | 묻기 |
+| `check.제도구분` | 제도구분 | checkbox (DC / 기업형IRP / 개인형IRP) | 1쪽 [218, 259, 258, 275] | 늘 | 파일 key | 보기 중 고름: DC / 기업형IRP / 개인형IRP | fields.json:65 | 묻기 |
+| `check.포트폴리오매수또는리밸런싱후6개월마다리밸런싱안내` | 포트폴리오매수또는리밸런싱후6개월마다리밸런싱안내 | checkbox (이메일 / 알림톡(LMS)) | 1쪽 [775, 650, 873, 665] | 늘 | 파일 key | 보기 중 고름: 이메일 / 알림톡(LMS) | fields.json:169 | 묻기 |
+| `check.신청여부` | 신청여부 | checkbox (신청안함 / 이메일 / 알림톡(LMS)) | 1쪽 [655, 732, 906, 747] | 늘 | 파일 key | 보기 중 고름: 신청안함 / 이메일 / 알림톡(LMS) | fields.json:215 | 묻기 |
+| `seal.signer` | 신청인(본인) | seal | 1쪽 [886, 899, 929, 938] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:345 | 묻기 |
+| `sign.signer` | 신청인(본인) | signature | 1쪽 [890, 911, 926, 926] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:345 | 묻기 |
 | `seal.staff.본인확인` | 본인확인 | seal | 1쪽 [710, 36, 782, 79] | 늘 | - | - | - | 묻기 |
 | `sign.staff.본인확인` | 본인확인 | signature | 1쪽 [710, 36, 782, 79] | 늘 | - | - | - | 묻기 |
 | `seal.staff.담당` | 담당 | seal | 1쪽 [782, 36, 843, 79] | 늘 | - | - | - | 묻기 |
@@ -52,8 +51,7 @@
 | `sign.staff.책임자` | 책임자 | signature | 1쪽 [843, 36, 922, 79] | 늘 | - | - | - | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
-- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
 - **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
@@ -135,18 +133,18 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
-- customer.name: 성명 (고객 성명)
-- customer.birth: 생년월일 (고객 생년월일)
-- IssuingBank: IssuingBank
+항목 (키: 설명 (몇 번째 행))
+- customer.name: 성명
+- customer.birth: 생년월일
+- Latestshippingdate: Latestshippingdate
 - 계좌번호또는회사명: 계좌번호또는회사명
-- written.year: 작성연도
+- 국적Nationality: 국적Nationality
 - 하나연금닥터AI연금투자솔루션: 하나연금닥터AI연금투자솔루션
 - 상승: 상승+(
 - 하락: )%하락–(
 - handwritten: 설계신청을동의합니다.
 - date: 작성일
-- signer.name: 신청인(본인) (고객 본인의 성명)
+- signer.name: 신청인(본인)
 - 에도달할경우통지: 에도달할경우통지
 ```
 
@@ -155,9 +153,9 @@ answer_empty: {"key": "{key}", "value": null}
 ```json
 [{"key": "customer.name", "value": "남궁예태", "bbox_2d": [204, 227, 280, 248], "page": 1},
  {"key": "customer.birth", "value": "850328", "bbox_2d": [611, 228, 671, 249], "page": 1},
- {"key": "IssuingBank", "value": null},
+ {"key": "Latestshippingdate", "value": null},
  {"key": "계좌번호또는회사명", "value": "241-813114-72117", "bbox_2d": [614, 254, 754, 277], "page": 1},
- {"key": "written.year", "value": null},
+ {"key": "국적Nationality", "value": null},
  {"key": "하나연금닥터AI연금투자솔루션", "value": null},
  {"key": "상승", "value": null},
  {"key": "하락", "value": null},
@@ -188,14 +186,14 @@ answer_empty: {"key": "{key}", "value": null}
 - check.제도구분: 제도구분 (체크박스, 보기: DC / 기업형IRP / 개인형IRP)
 - check.포트폴리오매수또는리밸런싱후6개월마다리밸런싱안내: 포트폴리오매수또는리밸런싱후6개월마다리밸런싱안내 (체크박스, 보기: 이메일 / 알림톡(LMS))
 - check.신청여부: 신청여부 (체크박스, 보기: 신청안함 / 이메일 / 알림톡(LMS))
-- seal.customer: 신청인(본인) (고객 도장, 같은 항목명 중 1번째 칸, 도장)
-- sign.customer: 신청인(본인) (고객 서명, 같은 항목명 중 2번째 칸, 서명)
-- seal.staff.본인확인: 본인확인 (같은 항목명 중 1번째 칸, 도장)
-- sign.staff.본인확인: 본인확인 (같은 항목명 중 2번째 칸, 서명)
-- seal.staff.담당: 담당 (같은 항목명 중 1번째 칸, 도장)
-- sign.staff.담당: 담당 (같은 항목명 중 2번째 칸, 서명)
-- seal.staff.책임자: 책임자 (같은 항목명 중 1번째 칸, 도장)
-- sign.staff.책임자: 책임자 (같은 항목명 중 2번째 칸, 서명)
+- seal.signer: 신청인(본인) (같은 설명 중 1번째 칸, 도장)
+- sign.signer: 신청인(본인) (같은 설명 중 2번째 칸, 서명)
+- seal.staff.본인확인: 본인확인 (같은 설명 중 1번째 칸, 도장)
+- sign.staff.본인확인: 본인확인 (같은 설명 중 2번째 칸, 서명)
+- seal.staff.담당: 담당 (같은 설명 중 1번째 칸, 도장)
+- sign.staff.담당: 담당 (같은 설명 중 2번째 칸, 서명)
+- seal.staff.책임자: 책임자 (같은 설명 중 1번째 칸, 도장)
+- sign.staff.책임자: 책임자 (같은 설명 중 2번째 칸, 서명)
 ```
 
 답:
@@ -204,8 +202,8 @@ answer_empty: {"key": "{key}", "value": null}
 [{"key": "check.제도구분", "value": "DC", "bbox_2d": [218, 261, 233, 273], "page": 1},
  {"key": "check.포트폴리오매수또는리밸런싱후6개월마다리밸런싱안내", "value": "알림톡(LMS)", "bbox_2d": [775, 650, 789, 665], "page": 1},
  {"key": "check.신청여부", "value": null},
- {"key": "seal.customer", "value": true, "bbox_2d": [886, 899, 929, 938], "page": 1},
- {"key": "sign.customer", "value": false},
+ {"key": "seal.signer", "value": true, "bbox_2d": [886, 899, 929, 938], "page": 1},
+ {"key": "sign.signer", "value": false},
  {"key": "seal.staff.본인확인", "value": false},
  {"key": "sign.staff.본인확인", "value": false},
  {"key": "seal.staff.담당", "value": false},
@@ -232,7 +230,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 |---|---|---|
 | 칸(추출 항목) 더하기 | studio ① 서식 › 영역 편집에서 그리기 (`fields.json` items 에 한 칸) | 다시 |
 | 답의 위치 (박스) | `fields.json` 그 칸의 `rect` [x0, y0, x1, y1] (pt) — 또는 영역 편집 | 다시 |
-| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 규칙이 항목명으로 정함 — 모든 서식 공통 규칙은 studio 키 사전) | 다시 |
+| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 키 설명이 그대로 키) | 다시 |
 | 답의 값 | `fields.json` 그 칸에 `"source"` ([값 출처 목록](../_common/values.md)) 또는 값 종류 `"kind"` | 다시 |
 | 칸의 항목명 | `fields.json` 그 칸의 `label` | 다시 |
 | 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
@@ -245,7 +243,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
 | 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
 | 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
 확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions hf175 --show` · `python -m docgen.preview hf175 --out work/hf175`

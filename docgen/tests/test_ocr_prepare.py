@@ -280,10 +280,7 @@ class IntegrationTests(unittest.TestCase):
         for image in {i for r in rows for i in r["images"]}:
             with Image.open(image) as im:
                 self.assertLessEqual(max(im.size), 2300)
-        for r in read_jsonl(out / "train_grpo.jsonl"):
-            self.assertEqual(len(r["messages"]), 1)
-            self.assertEqual(r["split"], "train")
-            self.assertIn(r["task"], ("grounding", "spotting", "relation"))
+        self.assertFalse((out / "train_grpo.jsonl").exists())
         sft_rows = read_jsonl(out / "train_sft.jsonl")
         for r in sft_rows:
             self.assertEqual(r["messages"][-1]["role"], "assistant")

@@ -1,10 +1,9 @@
 # 민원신청서 (`hf430`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf430 · card-hash: 4f32b31e8965 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf430 · card-hash: a25f6383b05e -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 4 (seed 1000000 로 그린 것) · **분류 정답:** 민원신청서
-- **쓰이는 업무:** 없음 (서류 한 건 과제에만)
 - **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
 - **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa hf430 --new`)
 - **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
@@ -18,64 +17,63 @@
 | `fields.json` | 칸 목록·값 출처 |
 | `layout.json` | 원본에서 자동 추출한 칸 자리 (초안) |
 | `look/original.pdf` | 원본 PDF |
-| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
 
 ## 추출 항목 (정보 추출 kie) — 21칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `기타` | 기타 | text | 1쪽 [383, 262, 713, 287] | 늘 | 항목명 그대로 | 값 종류 `note` (항목명 자동) | fields.json:227 | 묻기 |
-| `기타2` | 기타 | text | 1쪽 [381, 372, 467, 396] | 늘 | 항목명 그대로 | 값 종류 `note` (항목명 자동) | fields.json:239 | 묻기 |
-| `customer.email` | e-mail | text | 1쪽 [766, 223, 891, 239] | 늘 | 규칙: 'e-mail' → `customer.email` | 고객 정보 (키 `customer.email`) | fields.json:251 | 묻기 |
-| `agent.email` | e-mail | text | 1쪽 [765, 334, 896, 348] | 늘 | 규칙: 'e-mail' → `agent.email` | 고객 정보 (키 `agent.email`) | fields.json:263 | 묻기 |
-| `signer.name` | 본인확인(직원기재) | text | 1쪽 [732, 890, 808, 914] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:275 | 묻기 |
-| `date` | 작성일 | date | 1쪽 [368, 823, 563, 840] | 늘 | 날짜 칸 (항목명) | 작성일 | fields.json:292 | 묻기 |
-| `customer.name` | 신청인 | text | 1쪽 [198, 263, 271, 284] | 늘 | 규칙: '신청인' → `customer.name` | 고객 정보 (키 `customer.name`) | fields.json:317 | 묻기 |
-| `본인확인` | 본인확인(직원기재) | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:329 | 묻기 |
-| `신용거래정보` | ■신용거래정보 | text | - | 늘 | 표 행 (묶음·항목명 '■신용거래정보') | 값 종류 `skip` (항목명 자동) | fields.json:341 | 묻기 |
-| `신용거래정보2` | ■신용거래정보 | text | - | 늘 | 표 행 (묶음·항목명 '■신용거래정보') | 값 종류 `skip` (항목명 자동) | fields.json:443 | 묻기 |
-| `date2` | 작성일 | date | 3쪽 [418, 735, 597, 752] | 늘 | 날짜 칸 (항목명) | 작성일 | fields.json:545 | 묻기 |
-| `signer2.name` | 본인성명 | text | 3쪽 [751, 788, 834, 811] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:571 | 묻기 |
-| `agent.name` ← `signer3.name` | 대리인성명 | text | 3쪽 [757, 824, 826, 847] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:588 | 묻기 |
-| `기타3` | 기타 | text | 4쪽 [332, 320, 630, 352] | 늘 | 항목명 그대로 | 값 종류 `note` (항목명 자동) | fields.json:605 | 묻기 |
-| `기타4` | 기타 | text | 4쪽 [332, 491, 539, 517] | 늘 | 항목명 그대로 | 값 종류 `note` (항목명 자동) | fields.json:617 | 묻기 |
-| `customer.email2` | e-mail | text | 4쪽 [746, 260, 892, 278] | 늘 | 규칙: 'e-mail' → `customer.email` | 고객 정보 (키 `customer.email`) | fields.json:629 | 묻기 |
-| `agent.email2` | e-mail | text | 4쪽 [742, 429, 896, 448] | 늘 | 규칙: 'e-mail' → `agent.email` | 고객 정보 (키 `agent.email`) | fields.json:641 | 묻기 |
-| `signer4.name` | 본인확인(직원기재) | text | - | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:653 | 묻기 |
-| `date3` | 작성일 | date | 4쪽 [359, 780, 572, 797] | 늘 | 날짜 칸 (항목명) | 작성일 | fields.json:670 | 묻기 |
-| `signer5.name` | 위임자(본인) | text | 4쪽 [736, 815, 818, 838] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:695 | 묻기 |
-| `본인확인2` | 본인확인(직원기재) | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:712 | 묻기 |
+| `기타` | 기타 | text | 1쪽 [383, 262, 713, 287] | 늘 | 파일 key | 값 종류 `note` | fields.json:275 | 묻기 |
+| `기타2` | 기타 | text | 1쪽 [381, 372, 467, 396] | 늘 | 파일 key | 값 종류 `note` | fields.json:290 | 묻기 |
+| `customer.email` | e-mail | text | 1쪽 [766, 223, 891, 239] | 늘 | 파일 key | 고객 정보 (키 `customer.email`, 없으면 값 종류 `text`) | fields.json:305 | 묻기 |
+| `agent.email` | e-mail | text | 1쪽 [765, 334, 896, 348] | 늘 | 파일 key | 고객 정보 (키 `agent.email`, 없으면 값 종류 `text`) | fields.json:319 | 묻기 |
+| `signer.name` | 본인확인(직원기재) | text | 1쪽 [732, 890, 808, 914] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:333 | 묻기 |
+| `date` | 작성일 | date | 1쪽 [368, 823, 563, 840] | 늘 | 파일 key | 작성일 | fields.json:352 | 묻기 |
+| `customer.name` | 신청인 | text | 1쪽 [198, 263, 271, 284] | 늘 | 파일 key | 고객 정보 (키 `customer.name`, 없으면 값 종류 `text`) | fields.json:378 | 묻기 |
+| `본인확인` | 본인확인(직원기재) | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:392 | 묻기 |
+| `신용거래정보` | ■신용거래정보 | text | - | 늘 | 파일 key | 값 종류 `skip` | fields.json:407 | 묻기 |
+| `신용거래정보2` | ■신용거래정보 | text | - | 늘 | 파일 key | 값 종류 `skip` | fields.json:515 | 묻기 |
+| `date2` | 작성일 | date | 3쪽 [418, 735, 597, 752] | 늘 | 파일 key | 작성일 | fields.json:623 | 묻기 |
+| `signer2.name` | 본인성명 | text | 3쪽 [751, 788, 834, 811] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:650 | 묻기 |
+| `signer3.name` | 대리인성명 | text | 3쪽 [757, 824, 826, 847] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:669 | 묻기 |
+| `기타3` | 기타 | text | 4쪽 [332, 320, 630, 352] | 늘 | 파일 key | 값 종류 `note` | fields.json:688 | 묻기 |
+| `기타4` | 기타 | text | 4쪽 [332, 491, 539, 517] | 늘 | 파일 key | 값 종류 `note` | fields.json:703 | 묻기 |
+| `customer.email2` | e-mail | text | 4쪽 [746, 260, 892, 278] | 늘 | 파일 key | 고객 정보 (키 `customer.email`, 없으면 값 종류 `text`) | fields.json:718 | 묻기 |
+| `agent.email2` | e-mail | text | 4쪽 [742, 429, 896, 448] | 늘 | 파일 key | 고객 정보 (키 `agent.email`, 없으면 값 종류 `text`) | fields.json:732 | 묻기 |
+| `signer4.name` | 본인확인(직원기재) | text | - | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:746 | 묻기 |
+| `date3` | 작성일 | date | 4쪽 [359, 780, 572, 797] | 늘 | 파일 key | 작성일 | fields.json:765 | 묻기 |
+| `signer5.name` | 위임자(본인) | text | 4쪽 [736, 815, 818, 838] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:791 | 묻기 |
+| `본인확인2` | 본인확인(직원기재) | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:810 | 묻기 |
 
-## 표 `목록` (표 과제 table·table_read·table_find·table_qa) — 1열
+## 표 `전화_목록` (표 과제 table·table_read·table_find·table_qa) — 1열
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `목록.*.기타` | 기타 | text | 1쪽 [291, 395, 377, 419] (1행) | 늘 | 표 행 (묶음·항목명 '기 타') | 값 종류 `note` (항목명 자동) | fields.json:35 | 묻기 |
+| `전화_목록.*.기타` | 기타 | text | 1쪽 [291, 395, 377, 419] (1행) | 늘 | 파일 key | 값 종류 `note` | fields.json:35 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 14칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `seal.signer` | 본인확인(직원기재) | seal | 1쪽 [868, 894, 895, 909] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:275 | 묻기 |
-| `sign.signer` | 본인확인(직원기재) | signature | 1쪽 [868, 894, 895, 909] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:275 | 묻기 |
-| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox (동의하지 않음 / 동의함) | 2쪽 [717, 607, 832, 621] | 늘 | 체크 (항목명) | 보기 중 고름: 동의하지 않음 / 동의함 | fields.json:353 | 묻기 |
-| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox (동의하지 않음 / 동의함) | 2쪽 [717, 767, 832, 781] | 늘 | 체크 (항목명) | 보기 중 고름: 동의하지 않음 / 동의함 | fields.json:398 | 묻기 |
-| `check.위고유식별정보수집이용에동의하십니까2` | 위고유식별정보수집·이용에동의하십니까? | checkbox (동의하지 않음 / 동의함) | 3쪽 [851, 467, 917, 481] | 늘 | 체크 (항목명) | 보기 중 고름: 동의하지 않음 / 동의함 | fields.json:455 | 묻기 |
-| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox (동의하지 않음 / 동의함) | 3쪽 [851, 626, 917, 641] | 늘 | 체크 (항목명) | 보기 중 고름: 동의하지 않음 / 동의함 | fields.json:500 | 묻기 |
-| `seal.customer` ← `seal.signer2` | 본인성명 | seal | 3쪽 [882, 792, 923, 807] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:571 | 묻기 |
-| `sign.customer` ← `sign.signer2` | 본인성명 | signature | 3쪽 [882, 792, 923, 807] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:571 | 묻기 |
-| `seal.agent` ← `seal.signer3` | 대리인성명 | seal | 3쪽 [882, 829, 923, 843] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:588 | 묻기 |
-| `sign.agent` ← `sign.signer3` | 대리인성명 | signature | 3쪽 [882, 829, 923, 843] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:588 | 묻기 |
-| `seal.signer4` | 본인확인(직원기재) | seal | 4쪽 [868, 888, 895, 903] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:653 | 묻기 |
-| `sign.signer4` | 본인확인(직원기재) | signature | 4쪽 [868, 888, 895, 903] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:653 | 묻기 |
-| `seal.signer5` | 위임자(본인) | seal | 4쪽 [883, 818, 909, 833] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:695 | 묻기 |
-| `sign.signer5` | 위임자(본인) | signature | 4쪽 [883, 818, 909, 833] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:695 | 묻기 |
+| `seal.signer` | 본인확인(직원기재) | seal | 1쪽 [868, 894, 895, 909] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:333 | 묻기 |
+| `sign.signer` | 본인확인(직원기재) | signature | 1쪽 [868, 894, 895, 909] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:333 | 묻기 |
+| `check.위고유식별정보수집이용에동의하십니까` | 위고유식별정보수집·이용에동의하십니까? | checkbox (동의하지 않음 / 동의함) | 2쪽 [717, 607, 832, 621] | 늘 | 파일 key | 보기 중 고름: 동의하지 않음 / 동의함 | fields.json:423 | 묻기 |
+| `check.위개인신용정보수집이용에동의하십니까` | 위개인신용정보수집·이용에동의하십니까? | checkbox (동의하지 않음 / 동의함) | 2쪽 [717, 767, 832, 781] | 늘 | 파일 key | 보기 중 고름: 동의하지 않음 / 동의함 | fields.json:469 | 묻기 |
+| `check.위고유식별정보수집이용에동의하십니까2` | 위고유식별정보수집·이용에동의하십니까? | checkbox (동의하지 않음 / 동의함) | 3쪽 [851, 467, 917, 481] | 늘 | 파일 key | 보기 중 고름: 동의하지 않음 / 동의함 | fields.json:531 | 묻기 |
+| `check.위개인신용정보제공에동의하십니까` | 위개인신용정보제공에동의하십니까? | checkbox (동의하지 않음 / 동의함) | 3쪽 [851, 626, 917, 641] | 늘 | 파일 key | 보기 중 고름: 동의하지 않음 / 동의함 | fields.json:577 | 묻기 |
+| `seal.signer2` | 본인성명 | seal | 3쪽 [882, 792, 923, 807] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:650 | 묻기 |
+| `sign.signer2` | 본인성명 | signature | 3쪽 [882, 792, 923, 807] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:650 | 묻기 |
+| `seal.signer3` | 대리인성명 | seal | 3쪽 [882, 829, 923, 843] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:669 | 묻기 |
+| `sign.signer3` | 대리인성명 | signature | 3쪽 [882, 829, 923, 843] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:669 | 묻기 |
+| `seal.signer4` | 본인확인(직원기재) | seal | 4쪽 [868, 888, 895, 903] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:746 | 묻기 |
+| `sign.signer4` | 본인확인(직원기재) | signature | 4쪽 [868, 888, 895, 903] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:746 | 묻기 |
+| `seal.signer5` | 위임자(본인) | seal | 4쪽 [883, 818, 909, 833] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:791 | 묻기 |
+| `sign.signer5` | 위임자(본인) | signature | 4쪽 [883, 818, 909, 833] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:791 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
-- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
 - **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
@@ -162,28 +160,28 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
-- 기타: 기타 (같은 항목명 중 1번째 칸)
-- 기타2: 기타 (같은 항목명 중 2번째 칸)
-- customer.email: e-mail (고객 이메일, 같은 항목명 중 1번째 칸)
-- agent.email: e-mail (같은 항목명 중 2번째 칸)
-- signer.name: 본인확인(직원기재) (은행·직원의 성명, 같은 항목명 중 1번째 칸)
-- date: 작성일 (같은 항목명 중 1번째 칸)
-- customer.name: 신청인 (고객 성명)
-- 본인확인: 본인확인(직원기재) (같은 항목명 중 2번째 칸)
-- 신용거래정보: ■신용거래정보 (같은 항목명 중 1번째 칸)
-- 신용거래정보2: ■신용거래정보 (같은 항목명 중 2번째 칸)
-- date2: 작성일 (같은 항목명 중 2번째 칸)
-- signer2.name: 본인성명 (고객 본인의 성명)
-- agent.name: 대리인성명
-- 기타3: 기타 (같은 항목명 중 3번째 칸)
-- 기타4: 기타 (같은 항목명 중 4번째 칸)
-- customer.email2: e-mail (같은 항목명 중 3번째 칸)
-- agent.email2: e-mail (같은 항목명 중 4번째 칸)
-- signer4.name: 본인확인(직원기재) (은행·직원의 성명, 같은 항목명 중 3번째 칸)
-- date3: 작성일 (같은 항목명 중 3번째 칸)
-- signer5.name: 위임자(본인) (고객 본인의 성명)
-- 본인확인2: 본인확인(직원기재) (같은 항목명 중 4번째 칸)
+항목 (키: 설명 (몇 번째 행))
+- 기타: 기타 (같은 설명 중 1번째 칸)
+- 기타2: 기타 (같은 설명 중 2번째 칸)
+- customer.email: e-mail (같은 설명 중 1번째 칸)
+- agent.email: e-mail (같은 설명 중 2번째 칸)
+- signer.name: 본인확인(직원기재) (같은 설명 중 1번째 칸)
+- date: 작성일 (같은 설명 중 1번째 칸)
+- customer.name: 신청인
+- 본인확인: 본인확인(직원기재) (같은 설명 중 2번째 칸)
+- 신용거래정보: ■신용거래정보 (같은 설명 중 1번째 칸)
+- 신용거래정보2: ■신용거래정보 (같은 설명 중 2번째 칸)
+- date2: 작성일 (같은 설명 중 2번째 칸)
+- signer2.name: 본인성명
+- signer3.name: 대리인성명
+- 기타3: 기타 (같은 설명 중 3번째 칸)
+- 기타4: 기타 (같은 설명 중 4번째 칸)
+- customer.email2: e-mail (같은 설명 중 3번째 칸)
+- agent.email2: e-mail (같은 설명 중 4번째 칸)
+- signer4.name: 본인확인(직원기재) (같은 설명 중 3번째 칸)
+- date3: 작성일 (같은 설명 중 3번째 칸)
+- signer5.name: 위임자(본인)
+- 본인확인2: 본인확인(직원기재) (같은 설명 중 4번째 칸)
 ```
 
 답:
@@ -201,7 +199,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "신용거래정보2", "value": null},
  {"key": "date2", "value": "2025년 4월 1일", "bbox_2d": [418, 735, 597, 752], "page": 3},
  {"key": "signer2.name", "value": "남궁예태", "bbox_2d": [751, 788, 834, 811], "page": 3},
- {"key": "agent.name", "value": "남궁찬윤", "bbox_2d": [757, 824, 826, 847], "page": 3},
+ {"key": "signer3.name", "value": "남궁찬윤", "bbox_2d": [757, 824, 826, 847], "page": 3},
  {"key": "기타3", "value": "희망금액 300만원, 기간 6개월", "bbox_2d": [332, 320, 630, 352], "page": 4},
  {"key": "기타4", "value": "가족 명의 계좌 있음", "bbox_2d": [332, 491, 539, 517], "page": 4},
  {"key": "customer.email2", "value": "yetae741@gmail.com", "bbox_2d": [746, 260, 892, 278], "page": 4},
@@ -283,20 +281,20 @@ answer_empty: {"key": "{key}", "value": null}
 - 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)
 - 도장·서명: {"key": 키, "value": true 또는 false, "bbox_2d": 찍힌 자리, "page": 쪽} (비어 있으면 value 만 false)
 항목
-- seal.signer: 본인확인(직원기재) (은행·직원의 신청인, 같은 항목명 중 1번째 칸, 도장)
-- sign.signer: 본인확인(직원기재) (은행·직원의 신청인, 같은 항목명 중 2번째 칸, 서명)
-- check.위고유식별정보수집이용에동의하십니까: 위고유식별정보수집·이용에동의하십니까? (같은 항목명 중 1번째 칸, 체크박스, 보기: 동의하지 않음 / 동의함)
+- seal.signer: 본인확인(직원기재) (같은 설명 중 1번째 칸, 도장)
+- sign.signer: 본인확인(직원기재) (같은 설명 중 2번째 칸, 서명)
+- check.위고유식별정보수집이용에동의하십니까: 위고유식별정보수집·이용에동의하십니까? (같은 설명 중 1번째 칸, 체크박스, 보기: 동의하지 않음 / 동의함)
 - check.위개인신용정보수집이용에동의하십니까: 위개인신용정보수집·이용에동의하십니까? (체크박스, 보기: 동의하지 않음 / 동의함)
-- check.위고유식별정보수집이용에동의하십니까2: 위고유식별정보수집·이용에동의하십니까? (같은 항목명 중 2번째 칸, 체크박스, 보기: 동의하지 않음 / 동의함)
+- check.위고유식별정보수집이용에동의하십니까2: 위고유식별정보수집·이용에동의하십니까? (같은 설명 중 2번째 칸, 체크박스, 보기: 동의하지 않음 / 동의함)
 - check.위개인신용정보제공에동의하십니까: 위개인신용정보제공에동의하십니까? (체크박스, 보기: 동의하지 않음 / 동의함)
-- seal.customer: 본인성명 (고객 도장, 같은 항목명 중 1번째 칸, 도장)
-- sign.customer: 본인성명 (고객 서명, 같은 항목명 중 2번째 칸, 서명)
-- seal.agent: 대리인성명 (대리인 도장, 같은 항목명 중 1번째 칸, 도장)
-- sign.agent: 대리인성명 (대리인 서명, 같은 항목명 중 2번째 칸, 서명)
-- seal.signer4: 본인확인(직원기재) (은행·직원의 신청인, 같은 항목명 중 3번째 칸, 도장)
-- sign.signer4: 본인확인(직원기재) (은행·직원의 신청인, 같은 항목명 중 4번째 칸, 서명)
-- seal.signer5: 위임자(본인) (고객 본인의 신청인, 같은 항목명 중 1번째 칸, 도장)
-- sign.signer5: 위임자(본인) (고객 본인의 신청인, 같은 항목명 중 2번째 칸, 서명)
+- seal.signer2: 본인성명 (같은 설명 중 1번째 칸, 도장)
+- sign.signer2: 본인성명 (같은 설명 중 2번째 칸, 서명)
+- seal.signer3: 대리인성명 (같은 설명 중 1번째 칸, 도장)
+- sign.signer3: 대리인성명 (같은 설명 중 2번째 칸, 서명)
+- seal.signer4: 본인확인(직원기재) (같은 설명 중 3번째 칸, 도장)
+- sign.signer4: 본인확인(직원기재) (같은 설명 중 4번째 칸, 서명)
+- seal.signer5: 위임자(본인) (같은 설명 중 1번째 칸, 도장)
+- sign.signer5: 위임자(본인) (같은 설명 중 2번째 칸, 서명)
 ```
 
 답:
@@ -308,10 +306,10 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "check.위개인신용정보수집이용에동의하십니까", "value": "동의하지 않음", "bbox_2d": [717, 769, 734, 781], "page": 2},
  {"key": "check.위고유식별정보수집이용에동의하십니까2", "value": "동의함", "bbox_2d": [851, 469, 868, 481], "page": 3},
  {"key": "check.위개인신용정보제공에동의하십니까", "value": "동의함", "bbox_2d": [851, 629, 868, 641], "page": 3},
- {"key": "seal.customer", "value": false},
- {"key": "sign.customer", "value": true, "bbox_2d": [882, 792, 923, 807], "page": 3},
- {"key": "seal.agent", "value": false},
- {"key": "sign.agent", "value": true, "bbox_2d": [882, 829, 923, 843], "page": 3},
+ {"key": "seal.signer2", "value": false},
+ {"key": "sign.signer2", "value": true, "bbox_2d": [882, 792, 923, 807], "page": 3},
+ {"key": "seal.signer3", "value": false},
+ {"key": "sign.signer3", "value": true, "bbox_2d": [882, 829, 923, 843], "page": 3},
  {"key": "seal.signer4", "value": false},
  {"key": "sign.signer4", "value": false},
  {"key": "seal.signer5", "value": false},
@@ -330,9 +328,9 @@ answer_empty: {"key": "{key}", "value": null}
 - 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
 - row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
 - 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
-열 (키: 항목명)
+열 (키: 설명)
 - 기타: 기타
-- 보고업체명1: 보고업체명1)(본사명)
+- 지급보증기관13: 지급보증기관13
 ```
 
 답:
@@ -341,7 +339,7 @@ answer_empty: {"key": "{key}", "value": null}
 {
  "columns": [
   "기타",
-  "보고업체명1"
+  "지급보증기관13"
  ],
  "rows": [
   [
@@ -437,7 +435,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 |---|---|---|
 | 칸(추출 항목) 더하기 | studio ① 서식 › 영역 편집에서 그리기 (`fields.json` items 에 한 칸) | 다시 |
 | 답의 위치 (박스) | `fields.json` 그 칸의 `rect` [x0, y0, x1, y1] (pt) — 또는 영역 편집 | 다시 |
-| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 규칙이 항목명으로 정함 — 모든 서식 공통 규칙은 studio 키 사전) | 다시 |
+| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 키 설명이 그대로 키) | 다시 |
 | 답의 값 | `fields.json` 그 칸에 `"source"` ([값 출처 목록](../_common/values.md)) 또는 값 종류 `"kind"` | 다시 |
 | 칸의 항목명 | `fields.json` 그 칸의 `label` | 다시 |
 | 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
@@ -450,7 +448,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
 | 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
 | 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
 확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions hf430 --show` · `python -m docgen.preview hf430 --out work/hf430`

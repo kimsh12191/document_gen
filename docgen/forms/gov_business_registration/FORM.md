@@ -1,10 +1,9 @@
 # 사업자등록증 (`gov_business_registration`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card gov_business_registration · card-hash: 4c35b3547272 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card gov_business_registration · card-hash: c536fe89445f -->
 
 - **종류:** html 서식 (값은 fields.json 의 값 출처, 모양은 템플릿)
 - **그룹:** business · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 사업자등록증
-- **쓰이는 업무:** 없음 (서류 한 건 과제에만)
 - **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
 - **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa gov_business_registration --new`)
 - **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
@@ -18,18 +17,18 @@
 | `look/template.html.j2` | 모양·칸 자리 (`{{ f("키", label="항목명") }}`) |
 | `fields.json` | 칸 목록·값 출처 |
 | `form.json` | 이름·그룹·출처 |
-| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
 
 ## 추출 항목 (정보 추출 kie) — 23칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `corp.biz_no` ← `official.biz_no` | 등록번호 | biz_no | 1쪽 [382, 192, 476, 205] | 늘 | 템플릿 | `profile.business.biz_no` | look/template.html.j2:27 · fields.json:5 | 묻기 |
-| `corp.name` ← `official.company` | 상호 | text | 1쪽 [221, 232, 282, 247] | 늘 | 템플릿 | `profile.business.name` | look/template.html.j2:28 · fields.json:10 | 묻기 |
-| `customer.name` ← `official.name` | 성명 | text | 1쪽 [718, 232, 779, 247] | 늘 | 템플릿 | `profile.person.name` | look/template.html.j2:29 · fields.json:15 | 묻기 |
-| `corp.address` ← `official.address` | 사업장소재지 | text | 1쪽 [300, 325, 581, 340] | 늘 | 템플릿 | `profile.business.address.road_short` | look/template.html.j2:30 · fields.json:20 | 묻기 |
+| `official.biz_no` | 등록번호 | biz_no | 1쪽 [382, 192, 476, 205] | 늘 | 템플릿 | `profile.business.biz_no` | look/template.html.j2:27 · fields.json:5 | 묻기 |
+| `official.company` | 상호 | text | 1쪽 [221, 232, 282, 247] | 늘 | 템플릿 | `profile.business.name` | look/template.html.j2:28 · fields.json:10 | 묻기 |
+| `official.name` | 성명 | text | 1쪽 [718, 232, 779, 247] | 늘 | 템플릿 | `profile.person.name` | look/template.html.j2:29 · fields.json:15 | 묻기 |
+| `official.address` | 사업장소재지 | text | 1쪽 [300, 325, 581, 340] | 늘 | 템플릿 | `profile.business.address.road_short` | look/template.html.j2:30 · fields.json:20 | 묻기 |
 | `official.industry` | 업태 | text | 1쪽 [308, 401, 369, 416] | 늘 | 템플릿 | `profile.business.biz_type` | look/template.html.j2:31 · fields.json:25 | 묻기 |
-| `corp.biz_item` ← `official.item` | 종목 | text | 1쪽 [491, 401, 567, 416] | 늘 | 템플릿 | `profile.business.biz_item` | look/template.html.j2:32 · fields.json:30 | 묻기 |
+| `official.item` | 종목 | text | 1쪽 [491, 401, 567, 416] | 늘 | 템플릿 | `profile.business.biz_item` | look/template.html.j2:32 · fields.json:30 | 묻기 |
 | `official.taxpayer_type` | 과세유형 | text | 1쪽 [398, 168, 474, 183] | 늘 | 템플릿 | `rule:choice` | look/template.html.j2:33 · fields.json:35 | 묻기 |
 | `official.opened0` | 개업연월일년 | number | 1쪽 [321, 277, 355, 289] | 늘 | 템플릿 | `profile.business.established` | look/template.html.j2:34 · fields.json:45 | 묻기 |
 | `official.opened1` | 개업연월일월 | number | 1쪽 [401, 277, 418, 289] | 늘 | 템플릿 | `profile.business.established` | look/template.html.j2:35 · fields.json:52 | 묻기 |
@@ -49,8 +48,7 @@
 | `official.annex_issue2` | 부표발급일일 | number | 2쪽 [784, 785, 801, 797] | 늘 | 템플릿 | `profile.issue_date` | look/template.html.j2:85 · fields.json:150 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
-- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
 - **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
@@ -147,14 +145,14 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
-- corp.biz_no: 등록번호 (법인·사업자 사업자등록번호)
-- corp.name: 상호 (법인·사업자 상호)
-- customer.name: 성명 (고객 성명)
-- corp.address: 사업장소재지 (법인·사업자 주소)
-- income_statement.revenue: 매출액
+항목 (키: 설명 (몇 번째 행))
+- official.biz_no: 등록번호
+- official.company: 상호
+- official.name: 성명
+- official.address: 사업장소재지
+- balance_sheet.liab_equity: 부채와자본총계
 - official.industry: 업태
-- corp.biz_item: 종목 (법인·사업자 업종)
+- official.item: 종목
 - official.taxpayer_type: 과세유형
 - official.opened0: 개업연월일년
 - official.opened1: 개업연월일월
@@ -165,7 +163,7 @@ answer_empty: {"key": "{key}", "value": null}
 - official.einvoice_email: 전자세금계산서전용전자우편주소
 - official.issue0: 발급일년
 - official.issue1: 발급일월
-- income_statement.cogs: 매출원가
+- income_statement.revenue: 매출액
 - official.issue2: 발급일일
 - official.annex_biz_no0: 부표사업자등록번호앞
 - official.annex_biz_no1: 부표사업자등록번호가운데
@@ -178,13 +176,13 @@ answer_empty: {"key": "{key}", "value": null}
 답:
 
 ```json
-[{"key": "corp.biz_no", "value": "133-64-53148", "bbox_2d": [382, 192, 476, 205], "page": 1},
- {"key": "corp.name", "value": "새한커피", "bbox_2d": [221, 232, 282, 247], "page": 1},
- {"key": "customer.name", "value": "남궁예태", "bbox_2d": [718, 232, 779, 247], "page": 1},
- {"key": "corp.address", "value": "부산광역시 해운대구 좌동순환로 237, 7층", "bbox_2d": [300, 325, 581, 340], "page": 1},
- {"key": "income_statement.revenue", "value": null},
+[{"key": "official.biz_no", "value": "133-64-53148", "bbox_2d": [382, 192, 476, 205], "page": 1},
+ {"key": "official.company", "value": "새한커피", "bbox_2d": [221, 232, 282, 247], "page": 1},
+ {"key": "official.name", "value": "남궁예태", "bbox_2d": [718, 232, 779, 247], "page": 1},
+ {"key": "official.address", "value": "부산광역시 해운대구 좌동순환로 237, 7층", "bbox_2d": [300, 325, 581, 340], "page": 1},
+ {"key": "balance_sheet.liab_equity", "value": null},
  {"key": "official.industry", "value": "음식점업", "bbox_2d": [308, 401, 369, 416], "page": 1},
- {"key": "corp.biz_item", "value": "커피전문점", "bbox_2d": [491, 401, 567, 416], "page": 1},
+ {"key": "official.item", "value": "커피전문점", "bbox_2d": [491, 401, 567, 416], "page": 1},
  {"key": "official.taxpayer_type", "value": "간이과세자", "bbox_2d": [398, 168, 474, 183], "page": 1},
  {"key": "official.opened0", "value": "2018", "bbox_2d": [321, 277, 355, 289], "page": 1},
  {"key": "official.opened1", "value": "04", "bbox_2d": [401, 277, 418, 289], "page": 1},
@@ -195,7 +193,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "official.einvoice_email", "value": "admin@saehan.co.kr", "bbox_2d": [530, 624, 674, 636], "page": 1},
  {"key": "official.issue0", "value": "2025", "bbox_2d": [527, 714, 561, 726], "page": 1},
  {"key": "official.issue1", "value": "04", "bbox_2d": [653, 714, 670, 726], "page": 1},
- {"key": "income_statement.cogs", "value": null},
+ {"key": "income_statement.revenue", "value": null},
  {"key": "official.issue2", "value": "01", "bbox_2d": [776, 714, 793, 726], "page": 1},
  {"key": "official.annex_biz_no0", "value": "133", "bbox_2d": [505, 143, 530, 156], "page": 2},
  {"key": "official.annex_biz_no1", "value": "64", "bbox_2d": [551, 143, 568, 156], "page": 2},
@@ -240,7 +238,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` + `fields.json` 의 그 키 | 다시 |
 | 답의 값 | `fields.json` 의 그 칸 `source` ([값 출처 목록](../_common/values.md)) | 다시 |
 | 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` 의 `adjust(d, p, rng)` | 다시 |
-| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (파일로). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
 | (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
 | 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
 | 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
@@ -252,7 +250,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
 | 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
 | 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
 확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions gov_business_registration --show` · `python -m docgen.preview gov_business_registration --out work/gov_business_registration`

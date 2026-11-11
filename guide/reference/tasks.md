@@ -6,11 +6,9 @@
 - 이미지는 문서 크기 때문에 긴 변 1000px 로 줄인 사본입니다(`guide/examples/img/`). 모델이 보는 크기는 학습 설정(긴 변 2300·짧은 변 1600, 문항당 이미지 합 12,000토큰)을 따릅니다.
 
 **목차**
-- [OCR 과제](#ocr-과제) — 입력 데이터, 문항 필드, 과제 8종, SFT·GRPO 행
-- [은행 업무 과제](#은행-업무-과제) — 세트 구조, 필드 사전, 과제 8종
-- [3부. 서류 대조 사례 14종](#3부-서류-대조-사례-14종-cross_check-문항-하나씩)
-- [4부. 심사 질의 규칙](#4부-심사-질의-규칙-review-문항-하나씩)
-- [5부. 비슷한 문제를 새로 정의하려면](#5부-비슷한-문제를-새로-정의하려면)
+- [OCR 과제](#ocr-과제) — 입력 데이터, 문항 필드, 과제 8종, SFT 행
+- [서류 한 건 과제](#서류-한-건-과제) — 세트 구조, 필드 사전, 과제 11종
+- [3부. 비슷한 문제를 새로 정의하려면](#3부-비슷한-문제를-새로-정의하려면)
 
 ## OCR 과제
 
@@ -20,7 +18,7 @@
 
 **① 페이지 이미지** (원본, 1장)
 
-<p><a href="examples/img/loan_application_000000_p1_b632a7d4.jpg"><img src="../examples/img/loan_application_000000_p1_b632a7d4.jpg" width="420"></a></p>
+<p><a href="../examples/img/loan_application_000000_p1_b632a7d4.jpg"><img src="../examples/img/loan_application_000000_p1_b632a7d4.jpg" width="420"></a></p>
 
 **② 사내 OCR 결과 JSON** (`loan_application_000000_p1.json`, 이 페이지 전체. 실제 사내 OCR 응답과 같은 키)
 
@@ -337,11 +335,11 @@
 
 **어떻게 만드나:** OCR 단어 하나의 박스를 위아래 여백과 함께 잘라낸 이미지(`crops/`)를 준다. 신뢰도 0.95 이상·잘리지 않은 단어만
 
-**채점:** 글자: CER·완전 일치. GRPO 보상 0.7×문자 유사도+0.3×숫자 유사도
+**채점:** 글자: CER·완전 일치. 문항 점수 0.7×문자 유사도+0.3×숫자 유사도
 
 **입력 이미지** (왼쪽) 
 
-<p><a href="examples/img/d6cecc2b9d432b628bc11304_v1_90_1d985a36.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v1_90_1d985a36.jpg" width="360"></a></p>
+<p><a href="../examples/img/d6cecc2b9d432b628bc11304_v1_90_1d985a36.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v1_90_1d985a36.jpg" width="360"></a></p>
 
 **질문** (`messages[0].content`)
 
@@ -394,7 +392,7 @@
 
 **입력 이미지** (왼쪽) · 정답 박스 초록, 질문에 준 박스 파랑 (오른쪽)
 
-<p><a href="examples/img/d6cecc2b9d432b628bc11304_v1_17b871c9.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v1_17b871c9.jpg" width="360"></a> <a href="examples/img/d6cecc2b9d432b628bc11304_v1_bbox_ocr_2255bea6.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v1_bbox_ocr_2255bea6.jpg" width="360"></a></p>
+<p><a href="../examples/img/d6cecc2b9d432b628bc11304_v1_17b871c9.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v1_17b871c9.jpg" width="360"></a> <a href="../examples/img/d6cecc2b9d432b628bc11304_v1_bbox_ocr_2255bea6.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v1_bbox_ocr_2255bea6.jpg" width="360"></a></p>
 
 **질문** (`messages[0].content`)
 
@@ -448,11 +446,11 @@ bbox_2d=[346, 460, 392, 473] 영역 안의 글자를 그대로 읽으세요. 좌
 
 **어떻게 만드나:** 사본 페이지 + 글자. 페이지에 같은 글자가 여러 번 있으면 전부가 정답. 약 10%는 같은 분리의 다른 페이지에서 가져온, 이 페이지에 없는 글자(정답 [])
 
-**채점:** 박스: IoU 0.5 F1 등. 정답이 [] 이면 [] 일 때만 맞음. 보상 min(1, IoU/0.8) 짝별 soft F1
+**채점:** 박스: IoU 0.5 F1 등. 정답이 [] 이면 [] 일 때만 맞음. 문항 점수 min(1, IoU/0.8) 짝별 soft F1
 
 **입력 이미지** (왼쪽) · 정답 박스 초록, 질문에 준 박스 파랑 (오른쪽)
 
-<p><a href="examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg" width="360"></a> <a href="examples/img/d6cecc2b9d432b628bc11304_v0_grounding_0302c30c.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_grounding_0302c30c.jpg" width="360"></a></p>
+<p><a href="../examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg" width="360"></a> <a href="../examples/img/d6cecc2b9d432b628bc11304_v0_grounding_0302c30c.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_grounding_0302c30c.jpg" width="360"></a></p>
 
 **질문** (`messages[0].content`)
 
@@ -510,7 +508,7 @@ bbox_2d=[346, 460, 392, 473] 영역 안의 글자를 그대로 읽으세요. 좌
 
 **입력 이미지** (왼쪽) · 정답 박스 초록, 질문에 준 박스 파랑 (오른쪽)
 
-<p><a href="examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg" width="360"></a> <a href="examples/img/d6cecc2b9d432b628bc11304_v0_region_ocr_2a8116fb.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_region_ocr_2a8116fb.jpg" width="360"></a></p>
+<p><a href="../examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg" width="360"></a> <a href="../examples/img/d6cecc2b9d432b628bc11304_v0_region_ocr_2a8116fb.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_region_ocr_2a8116fb.jpg" width="360"></a></p>
 
 **질문** (`messages[0].content`)
 
@@ -568,11 +566,11 @@ bbox_2d=[274, 441, 458, 528] 영역 안의 모든 글자를 읽는 순서대로 
 
 **어떻게 만드나:** 페이지를 잘라낸 타일(`tiles/`), 타일당 단어 40개 이하. 신뢰도 낮은 단어는 배경색으로 지우고 정답에서 뺌
 
-**채점:** 박스+글자: 위치+글자 F1. 보상 0.5×min(1,IoU/0.8)+0.5×글자 유사도
+**채점:** 박스+글자: 위치+글자 F1. 문항 점수 0.5×min(1,IoU/0.8)+0.5×글자 유사도
 
 **입력 이미지** (왼쪽) · 정답 박스 초록, 질문에 준 박스 파랑 (오른쪽)
 
-<p><a href="examples/img/d6cecc2b9d432b628bc11304_v0_0_071d42c4.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_0_071d42c4.jpg" width="360"></a> <a href="examples/img/d6cecc2b9d432b628bc11304_v0_0_spotting_147013dd.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_0_spotting_147013dd.jpg" width="360"></a></p>
+<p><a href="../examples/img/d6cecc2b9d432b628bc11304_v0_0_071d42c4.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_0_071d42c4.jpg" width="360"></a> <a href="../examples/img/d6cecc2b9d432b628bc11304_v0_0_spotting_147013dd.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_0_spotting_147013dd.jpg" width="360"></a></p>
 
 **질문** (`messages[0].content`)
 
@@ -643,7 +641,7 @@ Detect every piece of text in the image in reading order. Coordinates are 0-1000
 
 **입력 이미지** (왼쪽) · 정답 박스 초록, 질문에 준 박스 파랑 (오른쪽)
 
-<p><a href="examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg" width="360"></a> <a href="examples/img/d6cecc2b9d432b628bc11304_v0_relation_683587c8.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_relation_683587c8.jpg" width="360"></a></p>
+<p><a href="../examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_aae6b8a8.jpg" width="360"></a> <a href="../examples/img/d6cecc2b9d432b628bc11304_v0_relation_683587c8.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_relation_683587c8.jpg" width="360"></a></p>
 
 **질문** (`messages[0].content`)
 
@@ -701,7 +699,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (왼쪽) 
 
-<p><a href="examples/img/d6cecc2b9d432b628bc11304_v0_1a3a3858.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_1a3a3858.jpg" width="360"></a></p>
+<p><a href="../examples/img/d6cecc2b9d432b628bc11304_v0_1a3a3858.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_1a3a3858.jpg" width="360"></a></p>
 
 **질문** (`messages[0].content`)
 
@@ -754,7 +752,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (왼쪽) · 정답 박스 초록, 질문에 준 박스 파랑 (오른쪽)
 
-<p><a href="examples/img/d6cecc2b9d432b628bc11304_v0_1a3a3858.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_1a3a3858.jpg" width="360"></a> <a href="examples/img/d6cecc2b9d432b628bc11304_v0_marked_box_db2a69d2.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_marked_box_db2a69d2.jpg" width="360"></a></p>
+<p><a href="../examples/img/d6cecc2b9d432b628bc11304_v0_1a3a3858.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_1a3a3858.jpg" width="360"></a> <a href="../examples/img/d6cecc2b9d432b628bc11304_v0_marked_box_db2a69d2.jpg"><img src="../examples/img/d6cecc2b9d432b628bc11304_v0_marked_box_db2a69d2.jpg" width="360"></a></p>
 
 **질문** (`messages[0].content`)
 
@@ -861,40 +859,17 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 }
 ```
 
-### 1-11. GRPO 문제 한 줄 (`train_grpo.jsonl`)
+## 서류 한 건 과제
 
-질문만 있고 답은 없습니다. 모델이 답을 여러 개 만들면 `target`으로 보상을 계산합니다.
-
-```json
-{
- "id": "f03c9cfbd81d9b58ba5cfb78_v0_grounding_0",
- "images": [
-  "<prepared>/views/f03c9cfbd81d9b58ba5cfb78_v0.png"
- ],
- "messages": [
-  {
-   "content": "<image>\nFind every occurrence of the exact text \"강원특별자치도 춘천시 공지로 302, 14층 07호\". Coordinates are 0-1000 relative to the image. Return only a JSON list like [{\"bbox_2d\": [x1, y1, x2, y2], \"label\": \"...\"}]; return [] if it does not appear.",
-   "role": "user"
-  }
- ],
- "split": "train",
- "target": "{\"boxes\": [{\"bbox_2d\": [640, 385, 912, 412], \"label\": \"강원특별자치도 춘천시 공지로 302, 14층 07호\"}]}",
- "task": "grounding"
-}
-```
-
-## 은행 업무 과제
-
-예시는 `python -m docgen.bench build` 로 만든 실제 평가 세트 형식 그대로입니다 (세트 버전 4.0, 생성기 커밋 `7a1f927`). 학습 데이터(`--split train`)도 같은 형식이고, 고객만 다릅니다.
+예시는 `python -m docgen.bench build` 로 만든 실제 평가 세트 형식 그대로입니다 (세트 버전 5.1, 생성기 커밋 `3f8dd92`). 학습 데이터(`--split train`)도 같은 형식이고, 가짜 고객(seed)만 다릅니다.
 
 ### 2-0. 세트 폴더와 문항 한 줄의 필드
 
 ```
 <세트>/
   meta.json                 만든 설정, 생성기 커밋, 과제별 문항 수, split (test / train)
-  images/<서류ID>_<seed>.jpg               서류 한 건 과제의 이미지 (여러 쪽이면 _p1, _p2 …)
-  images/bundles/<묶음ID>/<서류ID>.png     업무 묶음의 서류 이미지
-  images/bundles/<묶음ID>/<서류ID>_<사례>.png   값을 바꾼 사본 (other_person 은 다른 고객 서류)
+  dataset.json              (레시피로 만들 때) 레시피, 생성기 커밋, 서식 파일 해시
+  images/<서류ID>_<seed>.jpg               서류 이미지 (여러 쪽이면 _p1, _p2 …)
   crops/                    값 칸을 잘라낸 이미지 (ocr_field)
   tasks/<과제>.jsonl        문항, 한 줄에 하나
   swift/all.jsonl           (학습 세트만) 같은 문항의 학습 레코드
@@ -902,7 +877,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 | 키 | 뜻 |
 |---|---|
-| `id` | 문항 ID: `<과제>/<묶음 또는 서류 ID>/<구분>`. 두 번째 칸이 고객(묶음) 단위라서, 학습·평가의 고객 겹침 검사와 GRPO용 고객 분리에 쓰인다 |
+| `id` | 문항 ID: `<과제>/<서류ID>_<seed>[/<구분>]`. 두 번째 칸이 서류 한 건이라서 학습·평가의 겹침 검사에 쓰인다 |
 | `task` | 과제 이름 |
 | `images` | 질문 앞에 순서대로 넣는 이미지 (세트 폴더 기준 상대 경로). 여러 쪽 서류는 `_p1`, `_p2` … |
 | `prompt` | 질문 문장 (docgen/bench/prompts.py 의 틀에 값을 채운 것) |
@@ -914,27 +889,17 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 | 키 | 뜻 |
 |---|---|
-| `scenario` | 업무 ID (예: `jeonse_loan`) |
-| `task_name` | 업무 이름 (질문에 들어가는 이름) |
-| `bundle` | 고객 묶음 ID `<업무>_<seed>` |
-| `customer` | 고객 성명 (질문에 들어감) |
-| `n_missing` | 필수 서류 중 뺀 개수 (0~2, 다른 고객 서류로 바꾼 것은 세지 않음) |
-| `not_customer` | 다른 고객 서류를 섞었는지 |
-| `not_required` | 업무와 상관없는 서류를 끼워 넣었는지 |
-| `n_docs` | 질문에 보여 준 서류 수 |
-| `case` | 불일치 사례 ID |
-| `category` | 사례 분류: typo 오기 / other_person 타인 / amount 금액 / logic 관계 / format 표기만 다름 |
-| `perturbed` | 값을 바꾼 변조 문항인지 (false = 같은 서류 조합의 정상 문항) |
-| `rule` | 심사 질의 규칙 ID (`case:<사례>` = 서류 대조 사례에서 만든 예/아니오 질문) |
-| `skill` | 능력 분류: 계산(비율) / 계산(합계) / 날짜 계산 / 표 계산 / 서류 대조 |
-| `doc_type` | 서류 ID (guide/reference/documents.md) |
+| `doc_type` | 서식 ID (guide/reference/documents.md) |
 | `doc_name` | 서류 정식 명칭 |
-| `group` | 서류 그룹 |
+| `group` | 서식 그룹 |
 | `condition` | 촬영 조건: clean 원본 / scan 스캔 / photo 촬영 / fax 팩스 |
 | `writing` | 글씨: print 인쇄체 / hand 손글씨 |
-| `n_pages` | 쪽 수 |
+| `n_pages` | 쪽 수 (한 쪽만 물으면 1) |
+| `view` | 물은 범위: all 서류 전체 / page 여러 쪽 서류에서 한 쪽만 (레시피 page_view) |
+| `page` | (view page) 물은 쪽 번호, 1부터 |
+| `n_pages_doc` | (view page) 서류 전체 쪽 수 |
 | `key` | 값 칸의 정답 키 |
-| `label` | 값 칸의 항목명 |
+| `label` | 값 칸의 키 설명 |
 | `kind` | 값 종류 (이름·금액·날짜 …) |
 | `corrected` | 손글씨 정정(두 줄 긋고 고쳐 씀)이 있는 칸인지 |
 | `length` | 정답 글자 수 (공백 제외) |
@@ -948,7 +913,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 | `n_tables` | 서류의 표 수 |
 | `n_segments` | 표 조각 수 (여러 쪽 표는 쪽마다) |
 | `segments` | 같은 표가 나뉜 쪽 수 |
-| `task_group` | 과제 묶음: ocr / doc 문서 이해 / work 업무 처리 (점수를 묶어 보는 구분) |
+| `level` | 기타 칸 글의 꼴: short 짧은 말 / sentence 문장 / relative 상대 날짜 / approx 대략적인 값 |
+| `question` | 서식 전용 질문: `<서식ID>.<qa.py 함수 이름>` |
+| `task_group` | 과제 묶음: ocr 글자 읽기 / doc 문서 이해 (점수를 묶어 보는 구분) |
 | `label_format` | 정답 구조 (key_values, table_rows, scalar …) — 점수를 정답 꼴별로 나눠 볼 때 |
 | `template_variant` | 서식 레이아웃 변형 {id, name} |
 
@@ -956,12 +923,8 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 | 키 | 뜻 |
 |---|---|
-| `required` | 필수 서류 목록 (질문에 번호로 나열한 것) |
-| `names` | 모델 답의 서류명을 대응시킬 후보: 필수 서류 + 끼워 넣은 서류 |
-| `documents` | 질문에 보여 준 서류명 (모델 답의 document 를 이 중 하나로 대응시킴) |
-| `answer_type` | `number` 숫자 / `yesno` 예·아니오 |
-| `tol` | 숫자 답의 허용 오차 (질문에 적은 반올림 자릿수에 맞춤) |
-| `days` | 유효기간 문항: 발급일부터 신청일까지 일수 (정답 계산 근거) |
+| `answer_type` | 서식 전용 질문의 정답 꼴: `number` 숫자 / `yesno` 예·아니오 / `text` / `json` |
+| `tol` | 숫자 답의 허용 오차 |
 | `fields` | 키마다 `type`(값 타입), `norm`(정규화 값: 날짜 YYYY-MM-DD, 금액 정수 …), `kind`(값 종류). 타입별로 표기 차이를 맞춰 비교 |
 | `types` | 키마다 `checkbox` / `checkbox_multi` / `seal` / `signature` |
 | `absent` | 섞은 없는 키·열 (서류에 없음, 정답 null) |
@@ -970,803 +933,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 | `key` | 표 질의: 물은 열 키 |
 | `aliases` | 분류: 정답으로 인정하는 다른 서류명 |
 
-### 2-1. doc_check — 서류 구비 확인
-
-**정답 형식:** `missing` 빠진 필수 서류 (타인 서류만 낸 것 포함), `not_required` 필수 목록에 없는 서류, `not_customer` 고객 본인 명의가 아닌 서류. 세 목록이 모두 맞아야 완전 일치
-
-**채점:** 주 지표: 완전 일치. 함께: 세 목록 합친 F1, 목록별 일치. 서류명은 후보(eval.names) 중 비슷한 이름으로 대응
-
-**입력 이미지** (7장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/account_opening_application_p1_7c6cd821.jpg"><img src="../examples/img/account_opening_application_p1_7c6cd821.jpg" width="220"></a> <a href="examples/img/fatca_crs_b1b2b576.jpg"><img src="../examples/img/fatca_crs_b1b2b576.jpg" width="220"></a> <a href="examples/img/privacy_consent_893d641f.jpg"><img src="../examples/img/privacy_consent_893d641f.jpg" width="220"></a> <a href="examples/img/customer_due_diligence_fc8a9a9d.jpg"><img src="../examples/img/customer_due_diligence_fc8a9a9d.jpg" width="220"></a> <a href="examples/img/resident_id_card_other_504c97ab.jpg"><img src="../examples/img/resident_id_card_other_504c97ab.jpg" width="220"></a> <a href="examples/img/financial_transaction_purpose_3cc830f1.jpg"><img src="../examples/img/financial_transaction_purpose_3cc830f1.jpg" width="220"></a> <a href="examples/img/local_tax_payment_certificate_extra_0489c132.jpg"><img src="../examples/img/local_tax_payment_certificate_extra_0489c132.jpg" width="220"></a></p>
-
-1. `account_opening_application_p1.png` · 2. `fatca_crs.png` · 3. `privacy_consent.jpg` · 4. `customer_due_diligence.jpg` · 5. `resident_id_card_other.jpg` · 6. `financial_transaction_purpose.png` · 7. `local_tax_payment_certificate_extra.jpg`
-
-**질문** (`prompt`)
-
-```
-고객 '주하진' 님이 '개인 계좌개설' 업무를 위해 서류를 제출했습니다. 첨부 이미지는 제출된 서류의 첫 쪽입니다 (순서 무관).
-필수 제출 서류:
-1. 주민등록증
-2. 재직증명서
-3. 예금거래신청서
-4. 금융거래목적확인서
-5. 고객확인서(개인)
-6. 개인(신용)정보 수집·이용·제공·조회 동의서
-7. 해외금융계좌 납세자 확인서(개인)
-
-제출 서류를 확인해 다음을 JSON 으로 답하세요.
-- missing: 필수 서류 중 제출되지 않은 서류. 고객 본인 명의가 아닌 서류만 낸 경우도 제출되지 않은 것으로 봅니다.
-- not_required: 제출됐지만 필수 서류 목록에 없는 서류
-- not_customer: 고객 본인 명의가 아닌 서류
-{"missing": ["서류명", ...], "not_required": [...], "not_customer": [...]} 형식으로 답하고, 해당 없으면 빈 목록 [] 으로 두세요. 서류명은 목록에 있으면 목록 그대로, 없으면 서류에 적힌 제목대로 쓰세요.
-```
-
-**정답** (`answer`)
-
-```json
-{"missing": ["주민등록증", "재직증명서"], "not_required": ["지방세 납세증명서"], "not_customer": ["주민등록증"]}
-```
-
-**채점 정보** (`eval`)
-
-```json
-{
- "required": ["주민등록증", "재직증명서", "예금거래신청서", "금융거래목적확인서", "고객확인서(개인)", "개인(신용)정보 수집·이용·제공·조회 동의서", "해외금융계좌 납세자 확인서(개인)"],
- "names": [
-  "주민등록증",
-  "재직증명서",
-  "예금거래신청서",
-  "금융거래목적확인서",
-  "고객확인서(개인)",
-  "개인(신용)정보 수집·이용·제공·조회 동의서",
-  "해외금융계좌 납세자 확인서(개인)",
-  "지방세 납세증명서"
- ]
-}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "account_opening",
- "task_name": "개인 계좌개설",
- "bundle": "account_opening_2000002",
- "customer": "주하진",
- "n_missing": 1,
- "not_customer": true,
- "not_required": true,
- "n_docs": 7,
- "task_group": "work",
- "label_format": "document_sets"
-}
-```
-
-**문항 한 줄 전체** (`tasks/doc_check.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "doc_check/account_opening_2000002",
- "task": "doc_check",
- "images": [
-  "images/bundles/account_opening_2000002/account_opening_application_p1.png",
-  "images/bundles/account_opening_2000002/fatca_crs.png",
-  "images/bundles/account_opening_2000002/privacy_consent.jpg",
-  "images/bundles/account_opening_2000002/customer_due_diligence.jpg",
-  "images/bundles/account_opening_2000002/resident_id_card_other.jpg",
-  "images/bundles/account_opening_2000002/financial_transaction_purpose.png",
-  "images/bundles/account_opening_2000002/local_tax_payment_certificate_extra.jpg"
- ],
- "prompt": "고객 '주하진' 님이 '개인 계좌개설' 업무를 위해 서류를 제출했습니다. 첨부 이미지는 제출된 서류의 첫 쪽입니다 (순서 무관).\n필수 제출 서류:\n1. 주민등록증\n2. 재직증명서\n3. 예금거래신청서\n4. 금융거래목적확인서\n5. 고객확인서(개인)\n6. 개인(신용)정보 수집·이용·제공·조회 동의서\n7. 해외금융계좌 납세자 확인서(개인)\n\n제출 서류를 확인해 다음을 JSON 으로 답하세요.\n- missing: 필수 서류 중 제출되지 않은 서류. 고객 본인 명의가 아닌 서류만 낸 경우도 제출되지 않은 것으로 봅니다.\n- not_required: 제출됐지만 필수 서류 목록에 없는 서류\n- not_customer: 고객 본인 명의가 아닌 서류\n{\"missing\": [\"서류명\", ...], \"not_required\": [...], \"not_customer\": [...]} 형식으로 답하고, 해당 없으면 빈 목록 [] 으로 두세요. 서류명은 목록에 있으면 목록 그대로, 없으면 서류에 적힌 제목대로 쓰세요.",
- "answer": {"missing": ["주민등록증", "재직증명서"], "not_required": ["지방세 납세증명서"], "not_customer": ["주민등록증"]},
- "eval": {
-  "required": ["주민등록증", "재직증명서", "예금거래신청서", "금융거래목적확인서", "고객확인서(개인)", "개인(신용)정보 수집·이용·제공·조회 동의서", "해외금융계좌 납세자 확인서(개인)"],
-  "names": [
-   "주민등록증",
-   "재직증명서",
-   "예금거래신청서",
-   "금융거래목적확인서",
-   "고객확인서(개인)",
-   "개인(신용)정보 수집·이용·제공·조회 동의서",
-   "해외금융계좌 납세자 확인서(개인)",
-   "지방세 납세증명서"
-  ]
- },
- "meta": {
-  "scenario": "account_opening",
-  "task_name": "개인 계좌개설",
-  "bundle": "account_opening_2000002",
-  "customer": "주하진",
-  "n_missing": 1,
-  "not_customer": true,
-  "not_required": true,
-  "n_docs": 7,
-  "task_group": "work",
-  "label_format": "document_sets"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "doc_check/account_opening_2000002",
- "task": "doc_check",
- "images": [
-  "images/bundles/account_opening_2000002/account_opening_application_p1.png",
-  "images/bundles/account_opening_2000002/fatca_crs.png",
-  "images/bundles/account_opening_2000002/privacy_consent.jpg",
-  "images/bundles/account_opening_2000002/customer_due_diligence.jpg",
-  "images/bundles/account_opening_2000002/resident_id_card_other.jpg",
-  "images/bundles/account_opening_2000002/financial_transaction_purpose.png",
-  "images/bundles/account_opening_2000002/local_tax_payment_certificate_extra.jpg"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image><image><image><image><image><image>고객 '주하진' 님이 '개인 계좌개설' 업무를 위해 서류를 제출했습니다. 첨부 이미지는 제출된 서류의 첫 쪽입니다 (순서 무관).\n필수 제출 서류:\n1. 주민등록증\n2. 재직증명서\n3. 예금거래신청서\n4. 금융거래목적확인서\n5. 고객확인서(개인)\n6. 개인(신용)정보 수집·이용·제공·조회 동의서\n7. 해외금융계좌 납세자 확인서(개인)\n\n제출 서류를 확인해 다음을 JSON 으로 답하세요.\n- missing: 필수 서류 중 제출되지 않은 서류. 고객 본인 명의가 아닌 서류만 낸 경우도 제출되지 않은 것으로 봅니다.\n- not_required: 제출됐지만 필수 서류 목록에 없는 서류\n- not_customer: 고객 본인 명의가 아닌 서류\n{\"missing\": [\"서류명\", ...], \"not_required\": [...], \"not_customer\": [...]} 형식으로 답하고, 해당 없으면 빈 목록 [] 으로 두세요. 서류명은 목록에 있으면 목록 그대로, 없으면 서류에 적힌 제목대로 쓰세요."
-  },
-  {
-   "role": "assistant",
-   "content": "{\"missing\": [\"주민등록증\", \"재직증명서\"], \"not_required\": [\"지방세 납세증명서\"], \"not_customer\": [\"주민등록증\"]}"
-  }
- ]
-}
-```
-
-### 2-2. cross_check — 서류 대조
-
-**정답 형식:** `consistent` 불일치가 없으면 true. `issues[]`: `document` 문제 서류, `field` 항목명, `value` 그 서류에 적힌 값, `expected` 다른 서류에 적힌(맞아야 할) 값, `alt_documents` 짝 서류(이 서류를 짚어도 정답 인정, 학습 레코드에서는 뺌)
-
-**채점:** 정상 문항: consistent=true 면 1. 변조 문항: consistent=false 이고 issues 에 문제 서류(또는 짝 서류)와 값·원래 값·항목명 중 하나를 맞게 짚으면 1. 함께: 탐지, 위치, 오탐률
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/lease_contract_5a89b782.jpg"><img src="../examples/img/lease_contract_5a89b782.jpg" width="300"></a> <a href="examples/img/real_estate_registry_lease_owner_1412bcd2.jpg"><img src="../examples/img/real_estate_registry_lease_owner_1412bcd2.jpg" width="300"></a></p>
-
-1. `lease_contract.png` · 2. `real_estate_registry_lease_owner.png`
-
-**질문** (`prompt`)
-
-```
-고객 '방하주' 님이 '전세자금대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.
-{"consistent": true 또는 false, "issues": [{"document": "문제가 있는 서류명", "field": "항목명", "value": "그 서류에 적힌 값", "expected": "다른 서류에 적힌 값"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {"consistent": true, "issues": []} 입니다.
-```
-
-**정답** (`answer`)
-
-```json
-{
- "consistent": false,
- "issues": [
-  {
-   "document": "등기사항전부증명서(집합건물)",
-   "field": "소유자",
-   "value": "추규태",
-   "expected": "신수유",
-   "alt_documents": ["주택임대차표준계약서"]
-  }
- ]
-}
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"documents": ["주택임대차표준계약서", "등기사항전부증명서(집합건물)"]}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "jeonse_loan",
- "task_name": "전세자금대출",
- "bundle": "jeonse_loan_2003000",
- "customer": "방하주",
- "case": "lease_owner",
- "category": "logic",
- "perturbed": true,
- "n_docs": 2,
- "task_group": "work",
- "label_format": "consistency_issues"
-}
-```
-
-**문항 한 줄 전체** (`tasks/cross_check.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "cross_check/jeonse_loan_2003000/lease_owner",
- "task": "cross_check",
- "images": [
-  "images/bundles/jeonse_loan_2003000/lease_contract.png",
-  "images/bundles/jeonse_loan_2003000/real_estate_registry_lease_owner.png"
- ],
- "prompt": "고객 '방하주' 님이 '전세자금대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다.",
- "answer": {
-  "consistent": false,
-  "issues": [
-   {
-    "document": "등기사항전부증명서(집합건물)",
-    "field": "소유자",
-    "value": "추규태",
-    "expected": "신수유",
-    "alt_documents": ["주택임대차표준계약서"]
-   }
-  ]
- },
- "eval": {"documents": ["주택임대차표준계약서", "등기사항전부증명서(집합건물)"]},
- "meta": {
-  "scenario": "jeonse_loan",
-  "task_name": "전세자금대출",
-  "bundle": "jeonse_loan_2003000",
-  "customer": "방하주",
-  "case": "lease_owner",
-  "category": "logic",
-  "perturbed": true,
-  "n_docs": 2,
-  "task_group": "work",
-  "label_format": "consistency_issues"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "cross_check/jeonse_loan_2003000/lease_owner",
- "task": "cross_check",
- "images": [
-  "images/bundles/jeonse_loan_2003000/lease_contract.png",
-  "images/bundles/jeonse_loan_2003000/real_estate_registry_lease_owner.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객 '방하주' 님이 '전세자금대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다."
-  },
-  {
-   "role": "assistant",
-   "content": "{\"consistent\": false, \"issues\": [{\"document\": \"등기사항전부증명서(집합건물)\", \"field\": \"소유자\", \"value\": \"추규태\", \"expected\": \"신수유\"}]}"
-  }
- ]
-}
-```
-
-### 2-3. review — 심사 질의
-
-**정답 형식:** 숫자(문자열) 또는 `예` / `아니오`
-
-**채점:** 숫자: 단위(%, 배, 원 …)를 떼고 tol 안이면 정답. 예/아니오: 네·아니요도 인정
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/loan_application_10a3fd22.jpg"><img src="../examples/img/loan_application_10a3fd22.jpg" width="300"></a> <a href="examples/img/sales_contract_b1706022.jpg"><img src="../examples/img/sales_contract_b1706022.jpg" width="300"></a></p>
-
-1. `loan_application.jpg` · 2. `sales_contract.jpg`
-
-**질문** (`prompt`)
-
-```
-고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 2장).
-주택담보대출 심사입니다. '대출거래신청서'의 대출신청금액은 '부동산 매매계약서'의 매매대금의 몇 %입니까? (LTV, 소수 첫째 자리까지 반올림한 숫자만 답하세요)
-```
-
-**정답** (`answer`)
-
-```json
-23.7
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "number", "tol": 0.1}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "mortgage",
- "task_name": "주택담보대출",
- "bundle": "mortgage_2002000",
- "customer": "엄태정",
- "rule": "ltv",
- "skill": "계산(비율)",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/mortgage_2002000/ltv",
- "task": "review",
- "images": [
-  "images/bundles/mortgage_2002000/loan_application.jpg",
-  "images/bundles/mortgage_2002000/sales_contract.jpg"
- ],
- "prompt": "고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n주택담보대출 심사입니다. '대출거래신청서'의 대출신청금액은 '부동산 매매계약서'의 매매대금의 몇 %입니까? (LTV, 소수 첫째 자리까지 반올림한 숫자만 답하세요)",
- "answer": 23.7,
- "eval": {"answer_type": "number", "tol": 0.1},
- "meta": {
-  "scenario": "mortgage",
-  "task_name": "주택담보대출",
-  "bundle": "mortgage_2002000",
-  "customer": "엄태정",
-  "rule": "ltv",
-  "skill": "계산(비율)",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/mortgage_2002000/ltv",
- "task": "review",
- "images": [
-  "images/bundles/mortgage_2002000/loan_application.jpg",
-  "images/bundles/mortgage_2002000/sales_contract.jpg"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n주택담보대출 심사입니다. '대출거래신청서'의 대출신청금액은 '부동산 매매계약서'의 매매대금의 몇 %입니까? (LTV, 소수 첫째 자리까지 반올림한 숫자만 답하세요)"
-  },
-  {"role": "assistant", "content": "23.7"}
- ]
-}
-```
-
-### 2-4. kie — 정보 추출
-
-**정답 형식:** `[{"key", "value": 문서에 적힌 값, "bbox_2d", "page"}]`. 빈 칸·가린 칸·서류에 없는 항목은 `{"key", "value": null}`
-
-**채점:** 주 지표: 값+위치 F1 (값 F1·위치 F1 함께, 빈 칸에 값을 지어내면 감점). 날짜·금액·번호는 타입별로 표기를 맞춰 비교
-
-**입력 이미지** (1장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="../examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
-
-1. `loan_application_1000000.jpg`
-
-**질문** (`prompt`)
-
-```
-이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
-- bank: 은행명
-- branch: 취급점
-- customer.name: 성명 (고객 성명)
-- customer.rrn: 실명번호 (고객 주민등록번호)
-- applicant.zipcode: 우편번호
-- customer.address: 자택주소 (고객 주소)
-- customer.mobile: 휴대전화 (고객 휴대전화)
-- customer.home_phone: 자택전화 (고객 자택전화)
-- customer.email: E-mail (고객 이메일)
-- applicant.work_phone: 직장전화
-- employer.name: 직장명 (직장 이름)
-- employer.department: 근무부서 (직장 부서)
-- employer.position: 직위 (직장 직위)
-- employer.hire_date: 입사년월일 (직장 입사일)
-- workplace.annual_income: 연소득(본인)
-- employer.address: 직장주소
-- loan.subject: 대출과목
-- loan.product: 상품명
-- loan.amount_korean: 대출신청금액(한글)
-- loan.amount: 대출신청금액
-- loan.term: 대출기간
-- loan.hope_date: 대출희망일
-- loan.interest_day: 이자납입일
-- loan.purpose: 세부용도
-- collateral_detail: 담보내용
-- loan.debit_bank: 이체은행
-- loan.debit_account: 이체계좌번호
-- loan.debit_holder: 예금주
-- apply_date: 신청일
-- signature: 신청인
-```
-
-**정답** (`answer`)
-
-```json
-[
- {"key": "bank", "value": "국민은행", "bbox_2d": [103, 39, 197, 61], "page": 1},
- {"key": "branch", "value": "센텀지점", "bbox_2d": [725, 131, 780, 142], "page": 1},
- {"key": "customer.name", "value": "남궁예태", "bbox_2d": [200, 172, 257, 183], "page": 1},
- {"key": "customer.rrn", "value": "850328-2******", "bbox_2d": [644, 173, 742, 184], "page": 1},
- {"key": "applicant.zipcode", "value": null},
- {
-  "key": "customer.address",
-  "value": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)",
-  "bbox_2d": [231, 192, 723, 204],
-  "page": 1
- },
- {"key": "customer.mobile", "value": "010-6144-1173", "bbox_2d": [200, 212, 287, 223], "page": 1},
- {"key": "customer.home_phone", "value": null},
- {"key": "customer.email", "value": null},
- {"key": "applicant.work_phone", "value": null},
- {"key": "employer.name", "value": "주식회사 다온패션", "bbox_2d": [199, 331, 317, 342], "page": 1},
- {"key": "employer.department", "value": "고객지원팀", "bbox_2d": [643, 332, 715, 343], "page": 1},
- {"key": "employer.position", "value": "대리", "bbox_2d": [199, 351, 228, 362], "page": 1},
- {"key": "employer.hire_date", "value": "2021-03-06", "bbox_2d": [643, 352, 710, 363], "page": 1},
- {"key": "workplace.annual_income", "value": "5,170만원", "bbox_2d": [199, 371, 260, 382], "page": 1},
- {"key": "employer.address", "value": "부산광역시 해운대구 해운대로 326, 7층", "bbox_2d": [643, 372, 890, 383], "page": 1},
- {"key": "loan.subject", "value": "주택담보대출", "bbox_2d": [199, 502, 285, 512], "page": 1},
- {"key": "loan.product", "value": "주택담보대출", "bbox_2d": [643, 502, 729, 513], "page": 1},
- {"key": "loan.amount_korean", "value": "일금 삼억일백만원정", "bbox_2d": [199, 522, 331, 532], "page": 1},
- {"key": "loan.amount", "value": "301,000,000", "bbox_2d": [360, 522, 431, 533], "page": 1},
- {"key": "loan.term", "value": "30년", "bbox_2d": [199, 542, 227, 552], "page": 1},
- {"key": "loan.hope_date", "value": "2025-04-10", "bbox_2d": [643, 542, 710, 553], "page": 1},
- {"key": "loan.interest_day", "value": "매월 5일", "bbox_2d": [643, 582, 696, 593], "page": 1},
- {"key": "loan.purpose", "value": "생활안정자금", "bbox_2d": [261, 615, 346, 626], "page": 1},
- {
-  "key": "collateral_detail",
-  "value": "서울특별시 서초구 강남대로 357, 103동 1301호 (아파트, 전용 74.95㎡)",
-  "bbox_2d": [643, 635, 889, 660],
-  "page": 1
- },
- {"key": "loan.debit_bank", "value": "국민은행", "bbox_2d": [231, 675, 288, 686], "page": 1},
- {"key": "loan.debit_account", "value": "478303-40-826627", "bbox_2d": [359, 675, 469, 686], "page": 1},
- {"key": "loan.debit_holder", "value": "남궁예태", "bbox_2d": [526, 676, 583, 686], "page": 1},
- {"key": "apply_date", "value": "2025년 4월 1일", "bbox_2d": [582, 780, 675, 791], "page": 1},
- {"key": "signature", "value": "남궁예태", "bbox_2d": [758, 780, 815, 791], "page": 1}
-]
-```
-
-**채점 정보** (`eval`)
-
-```json
-{
- "fields": {
-  "bank": {"type": "text", "norm": "국민은행", "kind": "text"},
-  "branch": {"type": "text", "norm": "센텀지점", "kind": "text"},
-  "customer.name": {"type": "text", "norm": "남궁예태", "kind": "name"},
-  "customer.rrn": {"type": "rrn", "norm": "850328-2******", "kind": "rrn"},
-  "applicant.zipcode": {"type": "text", "norm": null, "kind": "text"},
-  "customer.address": {"type": "text", "norm": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)", "kind": "address"},
-  "customer.mobile": {"type": "phone", "norm": "01061441173", "kind": "phone"},
-  "customer.home_phone": {"type": "phone", "norm": null, "kind": "phone"},
-  "customer.email": {"type": "text", "norm": null, "kind": "text"},
-  "applicant.work_phone": {"type": "phone", "norm": null, "kind": "phone"},
-  "employer.name": {"type": "text", "norm": "주식회사 다온패션", "kind": "text"},
-  "employer.department": {"type": "text", "norm": "고객지원팀", "kind": "text"},
-  "employer.position": {"type": "text", "norm": "대리", "kind": "text"},
-  "employer.hire_date": {"type": "date", "norm": "2021-03-06", "kind": "date"},
-  "workplace.annual_income": {"type": "text", "norm": "5,170만원", "kind": "text"},
-  "employer.address": {"type": "text", "norm": "부산광역시 해운대구 해운대로 326, 7층", "kind": "address"},
-  "loan.subject": {"type": "text", "norm": "주택담보대출", "kind": "text"},
-  "loan.product": {"type": "text", "norm": "주택담보대출", "kind": "text"},
-  "loan.amount_korean": {"type": "amount_korean", "norm": 301000000, "kind": "amount"},
-  "loan.amount": {"type": "amount", "norm": 301000000, "kind": "amount"},
-  "loan.term": {"type": "text", "norm": "30년", "kind": "text"},
-  "loan.hope_date": {"type": "date", "norm": "2025-04-10", "kind": "date"},
-  "loan.interest_day": {"type": "text", "norm": "매월 5일", "kind": "text"},
-  "loan.purpose": {"type": "text", "norm": "생활안정자금", "kind": "text"},
-  "collateral_detail": {"type": "text", "norm": "서울특별시 서초구 강남대로 357, 103동 1301호 (아파트, 전용 74.95㎡)", "kind": "text"},
-  "loan.debit_bank": {"type": "text", "norm": "국민은행", "kind": "text"},
-  "loan.debit_account": {"type": "account_no", "norm": "478303-40-826627", "kind": "account_no"},
-  "loan.debit_holder": {"type": "text", "norm": "남궁예태", "kind": "name"},
-  "apply_date": {"type": "date", "norm": "2025-04-01", "kind": "date"},
-  "signature": {"type": "text", "norm": "남궁예태", "kind": "text"}
- }
-}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "doc_type": "loan_application",
- "doc_name": "대출거래신청서",
- "group": "bank_form",
- "condition": "scan",
- "writing": "print",
- "n_pages": 1,
- "task_group": "doc",
- "label_format": "key_values"
-}
-```
-
-**문항 한 줄 전체** (`tasks/kie.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "kie/loan_application_1000000",
- "task": "kie",
- "prompt": "이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {\"key\": 키, \"value\": 문서에 적힌 값 그대로, \"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {\"key\": 키, \"value\": null} 로 답하세요.\n항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))\n- bank: 은행명\n- branch: 취급점\n- customer.name: 성명 (고객 성명)\n- customer.rrn: 실명번호 (고객 주민등록번호)\n- applicant.zipcode: 우편번호\n- customer.address: 자택주소 (고객 주소)\n- customer.mobile: 휴대전화 (고객 휴대전화)\n- customer.home_phone: 자택전화 (고객 자택전화)\n- customer.email: E-mail (고객 이메일)\n- applicant.work_phone: 직장전화\n- employer.name: 직장명 (직장 이름)\n- employer.department: 근무부서 (직장 부서)\n- employer.position: 직위 (직장 직위)\n- employer.hire_date: 입사년월일 (직장 입사일)\n- workplace.annual_income: 연소득(본인)\n- employer.address: 직장주소\n- loan.subject: 대출과목\n- loan.product: 상품명\n- loan.amount_korean: 대출신청금액(한글)\n- loan.amount: 대출신청금액\n- loan.term: 대출기간\n- loan.hope_date: 대출희망일\n- loan.interest_day: 이자납입일\n- loan.purpose: 세부용도\n- collateral_detail: 담보내용\n- loan.debit_bank: 이체은행\n- loan.debit_account: 이체계좌번호\n- loan.debit_holder: 예금주\n- apply_date: 신청일\n- signature: 신청인",
- "answer": [
-  {"key": "bank", "value": "국민은행", "bbox_2d": [103, 39, 197, 61], "page": 1},
-  {"key": "branch", "value": "센텀지점", "bbox_2d": [725, 131, 780, 142], "page": 1},
-  {"key": "customer.name", "value": "남궁예태", "bbox_2d": [200, 172, 257, 183], "page": 1},
-  {"key": "customer.rrn", "value": "850328-2******", "bbox_2d": [644, 173, 742, 184], "page": 1},
-  {"key": "applicant.zipcode", "value": null},
-  {
-   "key": "customer.address",
-   "value": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)",
-   "bbox_2d": [231, 192, 723, 204],
-   "page": 1
-  },
-  {"key": "customer.mobile", "value": "010-6144-1173", "bbox_2d": [200, 212, 287, 223], "page": 1},
-  {"key": "customer.home_phone", "value": null},
-  {"key": "customer.email", "value": null},
-  {"key": "applicant.work_phone", "value": null},
-  {"key": "employer.name", "value": "주식회사 다온패션", "bbox_2d": [199, 331, 317, 342], "page": 1},
-  {"key": "employer.department", "value": "고객지원팀", "bbox_2d": [643, 332, 715, 343], "page": 1},
-  {"key": "employer.position", "value": "대리", "bbox_2d": [199, 351, 228, 362], "page": 1},
-  {"key": "employer.hire_date", "value": "2021-03-06", "bbox_2d": [643, 352, 710, 363], "page": 1},
-  {"key": "workplace.annual_income", "value": "5,170만원", "bbox_2d": [199, 371, 260, 382], "page": 1},
-  {"key": "employer.address", "value": "부산광역시 해운대구 해운대로 326, 7층", "bbox_2d": [643, 372, 890, 383], "page": 1},
-  {"key": "loan.subject", "value": "주택담보대출", "bbox_2d": [199, 502, 285, 512], "page": 1},
-  {"key": "loan.product", "value": "주택담보대출", "bbox_2d": [643, 502, 729, 513], "page": 1},
-  {"key": "loan.amount_korean", "value": "일금 삼억일백만원정", "bbox_2d": [199, 522, 331, 532], "page": 1},
-  {"key": "loan.amount", "value": "301,000,000", "bbox_2d": [360, 522, 431, 533], "page": 1},
-  {"key": "loan.term", "value": "30년", "bbox_2d": [199, 542, 227, 552], "page": 1},
-  {"key": "loan.hope_date", "value": "2025-04-10", "bbox_2d": [643, 542, 710, 553], "page": 1},
-  {"key": "loan.interest_day", "value": "매월 5일", "bbox_2d": [643, 582, 696, 593], "page": 1},
-  {"key": "loan.purpose", "value": "생활안정자금", "bbox_2d": [261, 615, 346, 626], "page": 1},
-  {
-   "key": "collateral_detail",
-   "value": "서울특별시 서초구 강남대로 357, 103동 1301호 (아파트, 전용 74.95㎡)",
-   "bbox_2d": [643, 635, 889, 660],
-   "page": 1
-  },
-  {"key": "loan.debit_bank", "value": "국민은행", "bbox_2d": [231, 675, 288, 686], "page": 1},
-  {"key": "loan.debit_account", "value": "478303-40-826627", "bbox_2d": [359, 675, 469, 686], "page": 1},
-  {"key": "loan.debit_holder", "value": "남궁예태", "bbox_2d": [526, 676, 583, 686], "page": 1},
-  {"key": "apply_date", "value": "2025년 4월 1일", "bbox_2d": [582, 780, 675, 791], "page": 1},
-  {"key": "signature", "value": "남궁예태", "bbox_2d": [758, 780, 815, 791], "page": 1}
- ],
- "eval": {
-  "fields": {
-   "bank": {"type": "text", "norm": "국민은행", "kind": "text"},
-   "branch": {"type": "text", "norm": "센텀지점", "kind": "text"},
-   "customer.name": {"type": "text", "norm": "남궁예태", "kind": "name"},
-   "customer.rrn": {"type": "rrn", "norm": "850328-2******", "kind": "rrn"},
-   "applicant.zipcode": {"type": "text", "norm": null, "kind": "text"},
-   "customer.address": {"type": "text", "norm": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)", "kind": "address"},
-   "customer.mobile": {"type": "phone", "norm": "01061441173", "kind": "phone"},
-   "customer.home_phone": {"type": "phone", "norm": null, "kind": "phone"},
-   "customer.email": {"type": "text", "norm": null, "kind": "text"},
-   "applicant.work_phone": {"type": "phone", "norm": null, "kind": "phone"},
-   "employer.name": {"type": "text", "norm": "주식회사 다온패션", "kind": "text"},
-   "employer.department": {"type": "text", "norm": "고객지원팀", "kind": "text"},
-   "employer.position": {"type": "text", "norm": "대리", "kind": "text"},
-   "employer.hire_date": {"type": "date", "norm": "2021-03-06", "kind": "date"},
-   "workplace.annual_income": {"type": "text", "norm": "5,170만원", "kind": "text"},
-   "employer.address": {"type": "text", "norm": "부산광역시 해운대구 해운대로 326, 7층", "kind": "address"},
-   "loan.subject": {"type": "text", "norm": "주택담보대출", "kind": "text"},
-   "loan.product": {"type": "text", "norm": "주택담보대출", "kind": "text"},
-   "loan.amount_korean": {"type": "amount_korean", "norm": 301000000, "kind": "amount"},
-   "loan.amount": {"type": "amount", "norm": 301000000, "kind": "amount"},
-   "loan.term": {"type": "text", "norm": "30년", "kind": "text"},
-   "loan.hope_date": {"type": "date", "norm": "2025-04-10", "kind": "date"},
-   "loan.interest_day": {"type": "text", "norm": "매월 5일", "kind": "text"},
-   "loan.purpose": {"type": "text", "norm": "생활안정자금", "kind": "text"},
-   "collateral_detail": {"type": "text", "norm": "서울특별시 서초구 강남대로 357, 103동 1301호 (아파트, 전용 74.95㎡)", "kind": "text"},
-   "loan.debit_bank": {"type": "text", "norm": "국민은행", "kind": "text"},
-   "loan.debit_account": {"type": "account_no", "norm": "478303-40-826627", "kind": "account_no"},
-   "loan.debit_holder": {"type": "text", "norm": "남궁예태", "kind": "name"},
-   "apply_date": {"type": "date", "norm": "2025-04-01", "kind": "date"},
-   "signature": {"type": "text", "norm": "남궁예태", "kind": "text"}
-  }
- },
- "images": ["images/loan_application_1000000.jpg"],
- "meta": {
-  "doc_type": "loan_application",
-  "doc_name": "대출거래신청서",
-  "group": "bank_form",
-  "condition": "scan",
-  "writing": "print",
-  "n_pages": 1,
-  "task_group": "doc",
-  "label_format": "key_values"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "kie/loan_application_1000000",
- "task": "kie",
- "images": ["images/loan_application_1000000.jpg"],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image>이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {\"key\": 키, \"value\": 문서에 적힌 값 그대로, \"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {\"key\": 키, \"value\": null} 로 답하세요.\n항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))\n- bank: 은행명\n- branch: 취급점\n- customer.name: 성명 (고객 성명)\n- customer.rrn: 실명번호 (고객 주민등록번호)\n- applicant.zipcode: 우편번호\n- customer.address: 자택주소 (고객 주소)\n- customer.mobile: 휴대전화 (고객 휴대전화)\n- customer.home_phone: 자택전화 (고객 자택전화)\n- customer.email: E-mail (고객 이메일)\n- applicant.work_phone: 직장전화\n- employer.name: 직장명 (직장 이름)\n- employer.department: 근무부서 (직장 부서)\n- employer.position: 직위 (직장 직위)\n- employer.hire_date: 입사년월일 (직장 입사일)\n- workplace.annual_income: 연소득(본인)\n- employer.address: 직장주소\n- loan.subject: 대출과목\n- loan.product: 상품명\n- loan.amount_korean: 대출신청금액(한글)\n- loan.amount: 대출신청금액\n- loan.term: 대출기간\n- loan.hope_date: 대출희망일\n- loan.interest_day: 이자납입일\n- loan.purpose: 세부용도\n- collateral_detail: 담보내용\n- loan.debit_bank: 이체은행\n- loan.debit_account: 이체계좌번호\n- loan.debit_holder: 예금주\n- apply_date: 신청일\n- signature: 신청인"
-  },
-  {
-   "role": "assistant",
-   "content": "[{\"key\": \"bank\", \"value\": \"국민은행\", \"bbox_2d\": [103, 39, 197, 61], \"page\": 1}, {\"key\": \"branch\", \"value\": \"센텀지점\", \"bbox_2d\": [725, 131, 780, 142], \"page\": 1}, {\"key\": \"customer.name\", \"value\": \"남궁예태\", \"bbox_2d\": [200, 172, 257, 183], \"page\": 1}, {\"key\": \"customer.rrn\", \"value\": \"850328-2******\", \"bbox_2d\": [644, 173, 742, 184], \"page\": 1}, {\"key\": \"applicant.zipcode\", \"value\": null}, {\"key\": \"customer.address\", \"value\": \"서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)\", \"bbox_2d\": [231, 192, 723, 204], \"page\": 1}, {\"key\": \"customer.mobile\", \"value\": \"010-6144-1173\", \"bbox_2d\": [200, 212, 287, 223], \"page\": 1}, {\"key\": \"customer.home_phone\", \"value\": null}, {\"key\": \"customer.email\", \"value\": null}, {\"key\": \"applicant.work_phone\", \"value\": null}, {\"key\": \"employer.name\", \"value\": \"주식회사 다온패션\", \"bbox_2d\": [199, 331, 317, 342], \"page\": 1}, {\"key\": \"employer.department\", \"value\": \"고객지원팀\", \"bbox_2d\": [643, 332, 715, 343], \"page\": 1}, {\"key\": \"employer.position\", \"value\": \"대리\", \"bbox_2d\": [199, 351, 228, 362], \"page\": 1}, {\"key\": \"employer.hire_date\", \"value\": \"2021-03-06\", \"bbox_2d\": [643, 352, 710, 363], \"page\": 1}, {\"key\": \"workplace.annual_income\", \"value\": \"5,170만원\", \"bbox_2d\": [199, 371, 260, 382], \"page\": 1}, {\"key\": \"employer.address\", \"value\": \"부산광역시 해운대구 해운대로 326, 7층\", \"bbox_2d\": [643, 372, 890, 383], \"page\": 1}, {\"key\": \"loan.subject\", \"value\": \"주택담보대출\", \"bbox_2d\": [199, 502, 285, 512], \"page\": 1}, {\"key\": \"loan.product\", \"value\": \"주택담보대출\", \"bbox_2d\": [643, 502, 729, 513], \"page\": 1}, {\"key\": \"loan.amount_korean\", \"value\": \"일금 삼억일백만원정\", \"bbox_2d\": [199, 522, 331, 532], \"page\": 1}, {\"key\": \"loan.amount\", \"value\": \"301,000,000\", \"bbox_2d\": [360, 522, 431, 533], \"page\": 1}, {\"key\": \"loan.term\", \"value\": \"30년\", \"bbox_2d\": [199, 542, 227, 552], \"page\": 1}, {\"key\": \"loan.hope_date\", \"value\": \"2025-04-10\", \"bbox_2d\": [643, 542, 710, 553], \"page\": 1}, {\"key\": \"loan.interest_day\", \"value\": \"매월 5일\", \"bbox_2d\": [643, 582, 696, 593], \"page\": 1}, {\"key\": \"loan.purpose\", \"value\": \"생활안정자금\", \"bbox_2d\": [261, 615, 346, 626], \"page\": 1}, {\"key\": \"collateral_detail\", \"value\": \"서울특별시 서초구 강남대로 357, 103동 1301호 (아파트, 전용 74.95㎡)\", \"bbox_2d\": [643, 635, 889, 660], \"page\": 1}, {\"key\": \"loan.debit_bank\", \"value\": \"국민은행\", \"bbox_2d\": [231, 675, 288, 686], \"page\": 1}, {\"key\": \"loan.debit_account\", \"value\": \"478303-40-826627\", \"bbox_2d\": [359, 675, 469, 686], \"page\": 1}, {\"key\": \"loan.debit_holder\", \"value\": \"남궁예태\", \"bbox_2d\": [526, 676, 583, 686], \"page\": 1}, {\"key\": \"apply_date\", \"value\": \"2025년 4월 1일\", \"bbox_2d\": [582, 780, 675, 791], \"page\": 1}, {\"key\": \"signature\", \"value\": \"남궁예태\", \"bbox_2d\": [758, 780, 815, 791], \"page\": 1}]"
-  }
- ]
-}
-```
-
-### 2-5. marks — 체크박스·도장·서명
-
-**정답 형식:** 체크박스: 체크된 보기 글자 (없으면 null) · 복수 선택: 목록 · 도장/서명: true / false
-
-**채점:** 항목별 정확도
-
-**입력 이미지** (1장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="../examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
-
-1. `loan_application_1000000.jpg`
-
-**질문** (`prompt`)
-
-```
-이 문서의 체크박스·도장·서명 상태와 위치를 확인해 JSON 목록으로 답하세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
-- 체크박스: 체크된 보기마다 {"key": 키, "value": 보기 글자, "bbox_2d": 체크된 □ 위치, "page": 쪽}. 체크된 것이 없으면 {"key": 키, "value": null}
-- 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)
-- 도장·서명: {"key": 키, "value": true 또는 false, "bbox_2d": 찍힌 자리, "page": 쪽} (비어 있으면 value 만 false)
-항목
-- housing: 주택소유구분 (체크박스, 보기: 자가 / 전세 / 월세 / 기타)
-- dwelling: 주거형태 (체크박스, 보기: 아파트 / 단독 / 다세대 / 연립·빌라 / 오피스텔 / 기타)
-- workplace.job_type: 직업구분 (체크박스, 보기: 급여소득자 / 공무원 / 전문직 / 자영업자 / 기타)
-- loan.repayment: 상환방법 (체크박스, 보기: 만기일시 / 원금균등분할 / 원리금균등분할 / 혼합)
-- loan.rate_type: 금리방식 (체크박스, 보기: 고정 / 변동 / 혼합)
-- loan.purpose_category: 자금용도구분 (체크박스, 보기: 주택구입 / 주택임차 / 부채상환 / 생활비 / 교육비 / 기타)
-- collateral: 담보구분 (체크박스, 보기: 신용 / 부동산 / 보증)
-- manual_received: 설명서수령확인 (체크박스, 보기: 예 / 아니오)
-- consent: 개인(신용)정보동의 (체크박스, 보기: 동의함 / 동의하지 않음)
-- seal.customer: 신청인 (고객 도장, 같은 항목명 중 1번째 칸, 도장)
-- sign.customer: 신청인 (고객 서명, 같은 항목명 중 2번째 칸, 서명)
-```
-
-**정답** (`answer`)
-
-```json
-[
- {"key": "housing", "value": "자가", "bbox_2d": [199, 259, 208, 269], "page": 1},
- {"key": "dwelling", "value": "아파트", "bbox_2d": [644, 253, 652, 263], "page": 1},
- {"key": "workplace.job_type", "value": "급여소득자", "bbox_2d": [199, 311, 208, 322], "page": 1},
- {"key": "loan.repayment", "value": "원리금균등분할", "bbox_2d": [391, 562, 400, 572], "page": 1},
- {"key": "loan.rate_type", "value": "혼합", "bbox_2d": [305, 582, 314, 592], "page": 1},
- {"key": "loan.purpose_category", "value": "생활비", "bbox_2d": [444, 602, 453, 612], "page": 1},
- {"key": "collateral", "value": "부동산", "bbox_2d": [252, 642, 260, 652], "page": 1},
- {"key": "manual_received", "value": "예", "bbox_2d": [324, 759, 333, 770], "page": 1},
- {"key": "consent", "value": "동의함", "bbox_2d": [627, 760, 635, 770], "page": 1},
- {"key": "seal.customer", "value": true, "bbox_2d": [852, 766, 909, 806], "page": 1},
- {"key": "sign.customer", "value": false}
-]
-```
-
-**채점 정보** (`eval`)
-
-```json
-{
- "types": {
-  "housing": "checkbox",
-  "dwelling": "checkbox",
-  "workplace.job_type": "checkbox",
-  "loan.repayment": "checkbox",
-  "loan.rate_type": "checkbox",
-  "loan.purpose_category": "checkbox",
-  "collateral": "checkbox",
-  "manual_received": "checkbox",
-  "consent": "checkbox",
-  "seal.customer": "seal",
-  "sign.customer": "signature"
- }
-}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "doc_type": "loan_application",
- "doc_name": "대출거래신청서",
- "group": "bank_form",
- "condition": "scan",
- "writing": "print",
- "n_pages": 1,
- "task_group": "doc",
- "label_format": "mark_states"
-}
-```
-
-**문항 한 줄 전체** (`tasks/marks.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "marks/loan_application_1000000",
- "task": "marks",
- "prompt": "이 문서의 체크박스·도장·서명 상태와 위치를 확인해 JSON 목록으로 답하세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.\n- 체크박스: 체크된 보기마다 {\"key\": 키, \"value\": 보기 글자, \"bbox_2d\": 체크된 □ 위치, \"page\": 쪽}. 체크된 것이 없으면 {\"key\": 키, \"value\": null}\n- 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)\n- 도장·서명: {\"key\": 키, \"value\": true 또는 false, \"bbox_2d\": 찍힌 자리, \"page\": 쪽} (비어 있으면 value 만 false)\n항목\n- housing: 주택소유구분 (체크박스, 보기: 자가 / 전세 / 월세 / 기타)\n- dwelling: 주거형태 (체크박스, 보기: 아파트 / 단독 / 다세대 / 연립·빌라 / 오피스텔 / 기타)\n- workplace.job_type: 직업구분 (체크박스, 보기: 급여소득자 / 공무원 / 전문직 / 자영업자 / 기타)\n- loan.repayment: 상환방법 (체크박스, 보기: 만기일시 / 원금균등분할 / 원리금균등분할 / 혼합)\n- loan.rate_type: 금리방식 (체크박스, 보기: 고정 / 변동 / 혼합)\n- loan.purpose_category: 자금용도구분 (체크박스, 보기: 주택구입 / 주택임차 / 부채상환 / 생활비 / 교육비 / 기타)\n- collateral: 담보구분 (체크박스, 보기: 신용 / 부동산 / 보증)\n- manual_received: 설명서수령확인 (체크박스, 보기: 예 / 아니오)\n- consent: 개인(신용)정보동의 (체크박스, 보기: 동의함 / 동의하지 않음)\n- seal.customer: 신청인 (고객 도장, 같은 항목명 중 1번째 칸, 도장)\n- sign.customer: 신청인 (고객 서명, 같은 항목명 중 2번째 칸, 서명)",
- "answer": [
-  {"key": "housing", "value": "자가", "bbox_2d": [199, 259, 208, 269], "page": 1},
-  {"key": "dwelling", "value": "아파트", "bbox_2d": [644, 253, 652, 263], "page": 1},
-  {"key": "workplace.job_type", "value": "급여소득자", "bbox_2d": [199, 311, 208, 322], "page": 1},
-  {"key": "loan.repayment", "value": "원리금균등분할", "bbox_2d": [391, 562, 400, 572], "page": 1},
-  {"key": "loan.rate_type", "value": "혼합", "bbox_2d": [305, 582, 314, 592], "page": 1},
-  {"key": "loan.purpose_category", "value": "생활비", "bbox_2d": [444, 602, 453, 612], "page": 1},
-  {"key": "collateral", "value": "부동산", "bbox_2d": [252, 642, 260, 652], "page": 1},
-  {"key": "manual_received", "value": "예", "bbox_2d": [324, 759, 333, 770], "page": 1},
-  {"key": "consent", "value": "동의함", "bbox_2d": [627, 760, 635, 770], "page": 1},
-  {"key": "seal.customer", "value": true, "bbox_2d": [852, 766, 909, 806], "page": 1},
-  {"key": "sign.customer", "value": false}
- ],
- "eval": {
-  "types": {
-   "housing": "checkbox",
-   "dwelling": "checkbox",
-   "workplace.job_type": "checkbox",
-   "loan.repayment": "checkbox",
-   "loan.rate_type": "checkbox",
-   "loan.purpose_category": "checkbox",
-   "collateral": "checkbox",
-   "manual_received": "checkbox",
-   "consent": "checkbox",
-   "seal.customer": "seal",
-   "sign.customer": "signature"
-  }
- },
- "images": ["images/loan_application_1000000.jpg"],
- "meta": {
-  "doc_type": "loan_application",
-  "doc_name": "대출거래신청서",
-  "group": "bank_form",
-  "condition": "scan",
-  "writing": "print",
-  "n_pages": 1,
-  "task_group": "doc",
-  "label_format": "mark_states"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "marks/loan_application_1000000",
- "task": "marks",
- "images": ["images/loan_application_1000000.jpg"],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image>이 문서의 체크박스·도장·서명 상태와 위치를 확인해 JSON 목록으로 답하세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.\n- 체크박스: 체크된 보기마다 {\"key\": 키, \"value\": 보기 글자, \"bbox_2d\": 체크된 □ 위치, \"page\": 쪽}. 체크된 것이 없으면 {\"key\": 키, \"value\": null}\n- 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)\n- 도장·서명: {\"key\": 키, \"value\": true 또는 false, \"bbox_2d\": 찍힌 자리, \"page\": 쪽} (비어 있으면 value 만 false)\n항목\n- housing: 주택소유구분 (체크박스, 보기: 자가 / 전세 / 월세 / 기타)\n- dwelling: 주거형태 (체크박스, 보기: 아파트 / 단독 / 다세대 / 연립·빌라 / 오피스텔 / 기타)\n- workplace.job_type: 직업구분 (체크박스, 보기: 급여소득자 / 공무원 / 전문직 / 자영업자 / 기타)\n- loan.repayment: 상환방법 (체크박스, 보기: 만기일시 / 원금균등분할 / 원리금균등분할 / 혼합)\n- loan.rate_type: 금리방식 (체크박스, 보기: 고정 / 변동 / 혼합)\n- loan.purpose_category: 자금용도구분 (체크박스, 보기: 주택구입 / 주택임차 / 부채상환 / 생활비 / 교육비 / 기타)\n- collateral: 담보구분 (체크박스, 보기: 신용 / 부동산 / 보증)\n- manual_received: 설명서수령확인 (체크박스, 보기: 예 / 아니오)\n- consent: 개인(신용)정보동의 (체크박스, 보기: 동의함 / 동의하지 않음)\n- seal.customer: 신청인 (고객 도장, 같은 항목명 중 1번째 칸, 도장)\n- sign.customer: 신청인 (고객 서명, 같은 항목명 중 2번째 칸, 서명)"
-  },
-  {
-   "role": "assistant",
-   "content": "[{\"key\": \"housing\", \"value\": \"자가\", \"bbox_2d\": [199, 259, 208, 269], \"page\": 1}, {\"key\": \"dwelling\", \"value\": \"아파트\", \"bbox_2d\": [644, 253, 652, 263], \"page\": 1}, {\"key\": \"workplace.job_type\", \"value\": \"급여소득자\", \"bbox_2d\": [199, 311, 208, 322], \"page\": 1}, {\"key\": \"loan.repayment\", \"value\": \"원리금균등분할\", \"bbox_2d\": [391, 562, 400, 572], \"page\": 1}, {\"key\": \"loan.rate_type\", \"value\": \"혼합\", \"bbox_2d\": [305, 582, 314, 592], \"page\": 1}, {\"key\": \"loan.purpose_category\", \"value\": \"생활비\", \"bbox_2d\": [444, 602, 453, 612], \"page\": 1}, {\"key\": \"collateral\", \"value\": \"부동산\", \"bbox_2d\": [252, 642, 260, 652], \"page\": 1}, {\"key\": \"manual_received\", \"value\": \"예\", \"bbox_2d\": [324, 759, 333, 770], \"page\": 1}, {\"key\": \"consent\", \"value\": \"동의함\", \"bbox_2d\": [627, 760, 635, 770], \"page\": 1}, {\"key\": \"seal.customer\", \"value\": true, \"bbox_2d\": [852, 766, 909, 806], \"page\": 1}, {\"key\": \"sign.customer\", \"value\": false}]"
-  }
- ]
-}
-```
-
-### 2-6. classify — 서류 분류
+### 2-1. classify — 서류 분류
 
 **정답 형식:** 서류 정식 명칭
 
@@ -1774,7 +941,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="../examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
+<p><a href="../examples/img/loan_application_1000000_c024fabb.jpg"><img src="../examples/img/loan_application_1000000_c024fabb.jpg" width="300"></a></p>
 
 1. `loan_application_1000000.jpg`
 
@@ -1806,6 +973,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "condition": "scan",
  "writing": "print",
  "n_pages": 1,
+ "view": "all",
  "task_group": "doc",
  "label_format": "text"
 }
@@ -1830,6 +998,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "condition": "scan",
   "writing": "print",
   "n_pages": 1,
+  "view": "all",
   "task_group": "doc",
   "label_format": "text"
  }
@@ -1851,7 +1020,573 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 }
 ```
 
-### 2-7. ocr_page — 전체 받아쓰기
+### 2-2. kie — 정보 추출
+
+**정답 형식:** `[{"key", "value": 문서에 적힌 값, "bbox_2d", "page"}]`. 빈 칸·가린 칸·서류에 없는 항목은 `{"key", "value": null}`
+
+**채점:** 주 지표: 값+위치 F1 (값 F1·위치 F1 함께, 빈 칸에 값을 지어내면 감점). 날짜·금액·번호는 타입별로 표기를 맞춰 비교
+
+**입력 이미지** (1장, 질문 앞에 이 순서로)
+
+<p><a href="../examples/img/loan_application_1000000_c024fabb.jpg"><img src="../examples/img/loan_application_1000000_c024fabb.jpg" width="300"></a></p>
+
+1. `loan_application_1000000.jpg`
+
+**질문** (`prompt`)
+
+```
+이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
+항목 (키: 설명 (몇 번째 행))
+- bank: 은행명
+- branch: 취급점
+- applicant.name: 성명
+- applicant.rrn: 실명번호
+- applicant.zipcode: 우편번호
+- applicant.address: 자택주소
+- applicant.mobile: 휴대전화
+- applicant.home_phone: 자택전화
+- applicant.email: E-mail
+- applicant.work_phone: 직장전화
+- workplace.name: 직장명
+- workplace.department: 근무부서
+- workplace.position: 직위
+- workplace.hire_date: 입사년월일
+- workplace.annual_income: 연소득(본인)
+- workplace.address: 직장주소
+- loan.subject: 대출과목
+- loan.product: 상품명
+- loan.amount_korean: 대출신청금액(한글)
+- loan.amount: 대출신청금액
+- customer.nationality: 국적
+- ebank.limit_once: 1회이체한도
+- loan.term: 대출기간
+- loan.hope_date: 대출희망일
+- bank_use.manager: 책임자
+- loan.interest_day: 이자납입일
+- loan.purpose: 세부용도
+- collateral_detail: 담보내용
+- loan.debit_bank: 이체은행
+- loan.debit_account: 이체계좌번호
+- loan.debit_holder: 예금주
+- apply_date: 신청일
+- signature: 신청인
+```
+
+**정답** (`answer`)
+
+```json
+[
+ {"key": "bank", "value": "SC제일은행", "bbox_2d": [103, 39, 227, 61], "page": 1},
+ {"key": "branch", "value": "을지로지점", "bbox_2d": [725, 131, 794, 142], "page": 1},
+ {"key": "applicant.name", "value": "조호빈", "bbox_2d": [200, 172, 243, 183], "page": 1},
+ {"key": "applicant.rrn", "value": "901216-1******", "bbox_2d": [644, 173, 742, 184], "page": 1},
+ {"key": "applicant.zipcode", "value": "18365", "bbox_2d": [222, 192, 258, 203], "page": 1},
+ {
+  "key": "applicant.address",
+  "value": "경기도 화성시 효행로 301, 113동 2004호 (반송동, e편한세상리버뷰아파트)",
+  "bbox_2d": [266, 192, 728, 204],
+  "page": 1
+ },
+ {"key": "applicant.mobile", "value": "010-4285-8633", "bbox_2d": [200, 212, 288, 223], "page": 1},
+ {"key": "applicant.home_phone", "value": null},
+ {"key": "applicant.email", "value": null},
+ {"key": "applicant.work_phone", "value": null},
+ {"key": "workplace.name", "value": "(주)코리아커뮤니케이션", "bbox_2d": [199, 331, 352, 342], "page": 1},
+ {"key": "workplace.department", "value": "영업1팀", "bbox_2d": [643, 332, 694, 343], "page": 1},
+ {"key": "workplace.position", "value": "대리", "bbox_2d": [199, 351, 228, 362], "page": 1},
+ {"key": "workplace.hire_date", "value": "2020-02-15", "bbox_2d": [643, 352, 710, 363], "page": 1},
+ {"key": "workplace.annual_income", "value": "5,260만원", "bbox_2d": [199, 371, 260, 382], "page": 1},
+ {
+  "key": "workplace.address",
+  "value": "경기도 고양시 일산동구 정발산로 139, 18층",
+  "bbox_2d": [643, 372, 915, 383],
+  "page": 1
+ },
+ {"key": "loan.subject", "value": "전세자금대출", "bbox_2d": [199, 502, 285, 512], "page": 1},
+ {"key": "loan.product", "value": "전세자금대출", "bbox_2d": [643, 502, 729, 513], "page": 1},
+ {"key": "loan.amount_korean", "value": "일금 삼억사천사백만원정", "bbox_2d": [199, 522, 360, 533], "page": 1},
+ {"key": "loan.amount", "value": "344,000,000", "bbox_2d": [389, 522, 460, 533], "page": 1},
+ {"key": "customer.nationality", "value": null},
+ {"key": "ebank.limit_once", "value": null},
+ {"key": "loan.term", "value": "2년", "bbox_2d": [199, 542, 220, 552], "page": 1},
+ {"key": "loan.hope_date", "value": "2026-07-17", "bbox_2d": [643, 542, 710, 553], "page": 1},
+ {"key": "bank_use.manager", "value": null},
+ {"key": "loan.interest_day", "value": "매월 15일", "bbox_2d": [643, 582, 704, 593], "page": 1},
+ {"key": "loan.purpose", "value": "주택 임차보증금", "bbox_2d": [261, 615, 364, 626], "page": 1},
+ {"key": "collateral_detail", "value": "한국주택금융공사 보증서", "bbox_2d": [643, 635, 803, 646], "page": 1},
+ {"key": "loan.debit_bank", "value": "SC제일은행", "bbox_2d": [231, 662, 305, 672], "page": 1},
+ {"key": "loan.debit_account", "value": "910-70-860556", "bbox_2d": [377, 662, 465, 673], "page": 1},
+ {"key": "loan.debit_holder", "value": "조호빈", "bbox_2d": [522, 662, 565, 673], "page": 1},
+ {"key": "apply_date", "value": "2026년 07월 14일", "bbox_2d": [568, 766, 675, 777], "page": 1},
+ {"key": "signature", "value": "조호빈", "bbox_2d": [765, 766, 808, 777], "page": 1}
+]
+```
+
+**채점 정보** (`eval`)
+
+```json
+{
+ "fields": {
+  "bank": {"type": "text", "norm": "SC제일은행", "kind": "text"},
+  "branch": {"type": "text", "norm": "을지로지점", "kind": "text"},
+  "applicant.name": {"type": "text", "norm": "조호빈", "kind": "name"},
+  "applicant.rrn": {"type": "rrn", "norm": "901216-1******", "kind": "rrn"},
+  "applicant.zipcode": {"type": "number", "norm": 18365, "kind": "number"},
+  "applicant.address": {"type": "text", "norm": "경기도 화성시 효행로 301, 113동 2004호 (반송동, e편한세상리버뷰아파트)", "kind": "address"},
+  "applicant.mobile": {"type": "phone", "norm": "01042858633", "kind": "phone"},
+  "applicant.home_phone": {"type": "phone", "norm": null, "kind": "phone"},
+  "applicant.email": {"type": "text", "norm": null, "kind": "text"},
+  "applicant.work_phone": {"type": "phone", "norm": null, "kind": "phone"},
+  "workplace.name": {"type": "text", "norm": "(주)코리아커뮤니케이션", "kind": "text"},
+  "workplace.department": {"type": "text", "norm": "영업1팀", "kind": "text"},
+  "workplace.position": {"type": "text", "norm": "대리", "kind": "text"},
+  "workplace.hire_date": {"type": "date", "norm": "2020-02-15", "kind": "date"},
+  "workplace.annual_income": {"type": "text", "norm": "5,260만원", "kind": "text"},
+  "workplace.address": {"type": "text", "norm": "경기도 고양시 일산동구 정발산로 139, 18층", "kind": "address"},
+  "loan.subject": {"type": "text", "norm": "전세자금대출", "kind": "text"},
+  "loan.product": {"type": "text", "norm": "전세자금대출", "kind": "text"},
+  "loan.amount_korean": {"type": "amount_korean", "norm": 344000000, "kind": "amount"},
+  "loan.amount": {"type": "amount", "norm": 344000000, "kind": "amount"},
+  "customer.nationality": {"type": "text", "norm": null, "kind": "absent"},
+  "ebank.limit_once": {"type": "amount", "norm": null, "kind": "absent"},
+  "loan.term": {"type": "text", "norm": "2년", "kind": "text"},
+  "loan.hope_date": {"type": "date", "norm": "2026-07-17", "kind": "date"},
+  "bank_use.manager": {"type": "text", "norm": null, "kind": "absent"},
+  "loan.interest_day": {"type": "text", "norm": "매월 15일", "kind": "text"},
+  "loan.purpose": {"type": "text", "norm": "주택 임차보증금", "kind": "text"},
+  "collateral_detail": {"type": "text", "norm": "한국주택금융공사 보증서", "kind": "text"},
+  "loan.debit_bank": {"type": "text", "norm": "SC제일은행", "kind": "text"},
+  "loan.debit_account": {"type": "account_no", "norm": "910-70-860556", "kind": "account_no"},
+  "loan.debit_holder": {"type": "text", "norm": "조호빈", "kind": "name"},
+  "apply_date": {"type": "date", "norm": "2026-07-14", "kind": "date"},
+  "signature": {"type": "text", "norm": "조호빈", "kind": "text"}
+ },
+ "absent": ["customer.nationality", "ebank.limit_once", "bank_use.manager"]
+}
+```
+
+**나눠 보기 정보** (`meta`)
+
+```json
+{
+ "doc_type": "loan_application",
+ "doc_name": "대출거래신청서",
+ "group": "bank_form",
+ "condition": "scan",
+ "writing": "print",
+ "n_pages": 1,
+ "view": "all",
+ "task_group": "doc",
+ "label_format": "key_values"
+}
+```
+
+**문항 한 줄 전체** (`tasks/kie.jsonl`)
+
+<details><summary>펼치기</summary>
+
+```json
+{
+ "id": "kie/loan_application_1000000",
+ "task": "kie",
+ "prompt": "이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {\"key\": 키, \"value\": 문서에 적힌 값 그대로, \"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {\"key\": 키, \"value\": null} 로 답하세요.\n항목 (키: 설명 (몇 번째 행))\n- bank: 은행명\n- branch: 취급점\n- applicant.name: 성명\n- applicant.rrn: 실명번호\n- applicant.zipcode: 우편번호\n- applicant.address: 자택주소\n- applicant.mobile: 휴대전화\n- applicant.home_phone: 자택전화\n- applicant.email: E-mail\n- applicant.work_phone: 직장전화\n- workplace.name: 직장명\n- workplace.department: 근무부서\n- workplace.position: 직위\n- workplace.hire_date: 입사년월일\n- workplace.annual_income: 연소득(본인)\n- workplace.address: 직장주소\n- loan.subject: 대출과목\n- loan.product: 상품명\n- loan.amount_korean: 대출신청금액(한글)\n- loan.amount: 대출신청금액\n- customer.nationality: 국적\n- ebank.limit_once: 1회이체한도\n- loan.term: 대출기간\n- loan.hope_date: 대출희망일\n- bank_use.manager: 책임자\n- loan.interest_day: 이자납입일\n- loan.purpose: 세부용도\n- collateral_detail: 담보내용\n- loan.debit_bank: 이체은행\n- loan.debit_account: 이체계좌번호\n- loan.debit_holder: 예금주\n- apply_date: 신청일\n- signature: 신청인",
+ "answer": [
+  {"key": "bank", "value": "SC제일은행", "bbox_2d": [103, 39, 227, 61], "page": 1},
+  {"key": "branch", "value": "을지로지점", "bbox_2d": [725, 131, 794, 142], "page": 1},
+  {"key": "applicant.name", "value": "조호빈", "bbox_2d": [200, 172, 243, 183], "page": 1},
+  {"key": "applicant.rrn", "value": "901216-1******", "bbox_2d": [644, 173, 742, 184], "page": 1},
+  {"key": "applicant.zipcode", "value": "18365", "bbox_2d": [222, 192, 258, 203], "page": 1},
+  {
+   "key": "applicant.address",
+   "value": "경기도 화성시 효행로 301, 113동 2004호 (반송동, e편한세상리버뷰아파트)",
+   "bbox_2d": [266, 192, 728, 204],
+   "page": 1
+  },
+  {"key": "applicant.mobile", "value": "010-4285-8633", "bbox_2d": [200, 212, 288, 223], "page": 1},
+  {"key": "applicant.home_phone", "value": null},
+  {"key": "applicant.email", "value": null},
+  {"key": "applicant.work_phone", "value": null},
+  {"key": "workplace.name", "value": "(주)코리아커뮤니케이션", "bbox_2d": [199, 331, 352, 342], "page": 1},
+  {"key": "workplace.department", "value": "영업1팀", "bbox_2d": [643, 332, 694, 343], "page": 1},
+  {"key": "workplace.position", "value": "대리", "bbox_2d": [199, 351, 228, 362], "page": 1},
+  {"key": "workplace.hire_date", "value": "2020-02-15", "bbox_2d": [643, 352, 710, 363], "page": 1},
+  {"key": "workplace.annual_income", "value": "5,260만원", "bbox_2d": [199, 371, 260, 382], "page": 1},
+  {
+   "key": "workplace.address",
+   "value": "경기도 고양시 일산동구 정발산로 139, 18층",
+   "bbox_2d": [643, 372, 915, 383],
+   "page": 1
+  },
+  {"key": "loan.subject", "value": "전세자금대출", "bbox_2d": [199, 502, 285, 512], "page": 1},
+  {"key": "loan.product", "value": "전세자금대출", "bbox_2d": [643, 502, 729, 513], "page": 1},
+  {"key": "loan.amount_korean", "value": "일금 삼억사천사백만원정", "bbox_2d": [199, 522, 360, 533], "page": 1},
+  {"key": "loan.amount", "value": "344,000,000", "bbox_2d": [389, 522, 460, 533], "page": 1},
+  {"key": "customer.nationality", "value": null},
+  {"key": "ebank.limit_once", "value": null},
+  {"key": "loan.term", "value": "2년", "bbox_2d": [199, 542, 220, 552], "page": 1},
+  {"key": "loan.hope_date", "value": "2026-07-17", "bbox_2d": [643, 542, 710, 553], "page": 1},
+  {"key": "bank_use.manager", "value": null},
+  {"key": "loan.interest_day", "value": "매월 15일", "bbox_2d": [643, 582, 704, 593], "page": 1},
+  {"key": "loan.purpose", "value": "주택 임차보증금", "bbox_2d": [261, 615, 364, 626], "page": 1},
+  {"key": "collateral_detail", "value": "한국주택금융공사 보증서", "bbox_2d": [643, 635, 803, 646], "page": 1},
+  {"key": "loan.debit_bank", "value": "SC제일은행", "bbox_2d": [231, 662, 305, 672], "page": 1},
+  {"key": "loan.debit_account", "value": "910-70-860556", "bbox_2d": [377, 662, 465, 673], "page": 1},
+  {"key": "loan.debit_holder", "value": "조호빈", "bbox_2d": [522, 662, 565, 673], "page": 1},
+  {"key": "apply_date", "value": "2026년 07월 14일", "bbox_2d": [568, 766, 675, 777], "page": 1},
+  {"key": "signature", "value": "조호빈", "bbox_2d": [765, 766, 808, 777], "page": 1}
+ ],
+ "eval": {
+  "fields": {
+   "bank": {"type": "text", "norm": "SC제일은행", "kind": "text"},
+   "branch": {"type": "text", "norm": "을지로지점", "kind": "text"},
+   "applicant.name": {"type": "text", "norm": "조호빈", "kind": "name"},
+   "applicant.rrn": {"type": "rrn", "norm": "901216-1******", "kind": "rrn"},
+   "applicant.zipcode": {"type": "number", "norm": 18365, "kind": "number"},
+   "applicant.address": {"type": "text", "norm": "경기도 화성시 효행로 301, 113동 2004호 (반송동, e편한세상리버뷰아파트)", "kind": "address"},
+   "applicant.mobile": {"type": "phone", "norm": "01042858633", "kind": "phone"},
+   "applicant.home_phone": {"type": "phone", "norm": null, "kind": "phone"},
+   "applicant.email": {"type": "text", "norm": null, "kind": "text"},
+   "applicant.work_phone": {"type": "phone", "norm": null, "kind": "phone"},
+   "workplace.name": {"type": "text", "norm": "(주)코리아커뮤니케이션", "kind": "text"},
+   "workplace.department": {"type": "text", "norm": "영업1팀", "kind": "text"},
+   "workplace.position": {"type": "text", "norm": "대리", "kind": "text"},
+   "workplace.hire_date": {"type": "date", "norm": "2020-02-15", "kind": "date"},
+   "workplace.annual_income": {"type": "text", "norm": "5,260만원", "kind": "text"},
+   "workplace.address": {"type": "text", "norm": "경기도 고양시 일산동구 정발산로 139, 18층", "kind": "address"},
+   "loan.subject": {"type": "text", "norm": "전세자금대출", "kind": "text"},
+   "loan.product": {"type": "text", "norm": "전세자금대출", "kind": "text"},
+   "loan.amount_korean": {"type": "amount_korean", "norm": 344000000, "kind": "amount"},
+   "loan.amount": {"type": "amount", "norm": 344000000, "kind": "amount"},
+   "customer.nationality": {"type": "text", "norm": null, "kind": "absent"},
+   "ebank.limit_once": {"type": "amount", "norm": null, "kind": "absent"},
+   "loan.term": {"type": "text", "norm": "2년", "kind": "text"},
+   "loan.hope_date": {"type": "date", "norm": "2026-07-17", "kind": "date"},
+   "bank_use.manager": {"type": "text", "norm": null, "kind": "absent"},
+   "loan.interest_day": {"type": "text", "norm": "매월 15일", "kind": "text"},
+   "loan.purpose": {"type": "text", "norm": "주택 임차보증금", "kind": "text"},
+   "collateral_detail": {"type": "text", "norm": "한국주택금융공사 보증서", "kind": "text"},
+   "loan.debit_bank": {"type": "text", "norm": "SC제일은행", "kind": "text"},
+   "loan.debit_account": {"type": "account_no", "norm": "910-70-860556", "kind": "account_no"},
+   "loan.debit_holder": {"type": "text", "norm": "조호빈", "kind": "name"},
+   "apply_date": {"type": "date", "norm": "2026-07-14", "kind": "date"},
+   "signature": {"type": "text", "norm": "조호빈", "kind": "text"}
+  },
+  "absent": ["customer.nationality", "ebank.limit_once", "bank_use.manager"]
+ },
+ "images": ["images/loan_application_1000000.jpg"],
+ "meta": {
+  "doc_type": "loan_application",
+  "doc_name": "대출거래신청서",
+  "group": "bank_form",
+  "condition": "scan",
+  "writing": "print",
+  "n_pages": 1,
+  "view": "all",
+  "task_group": "doc",
+  "label_format": "key_values"
+ }
+}
+```
+</details>
+
+**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
+
+```json
+{
+ "id": "kie/loan_application_1000000",
+ "task": "kie",
+ "images": ["images/loan_application_1000000.jpg"],
+ "messages": [
+  {
+   "role": "user",
+   "content": "<image>이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {\"key\": 키, \"value\": 문서에 적힌 값 그대로, \"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {\"key\": 키, \"value\": null} 로 답하세요.\n항목 (키: 설명 (몇 번째 행))\n- bank: 은행명\n- branch: 취급점\n- applicant.name: 성명\n- applicant.rrn: 실명번호\n- applicant.zipcode: 우편번호\n- applicant.address: 자택주소\n- applicant.mobile: 휴대전화\n- applicant.home_phone: 자택전화\n- applicant.email: E-mail\n- applicant.work_phone: 직장전화\n- workplace.name: 직장명\n- workplace.department: 근무부서\n- workplace.position: 직위\n- workplace.hire_date: 입사년월일\n- workplace.annual_income: 연소득(본인)\n- workplace.address: 직장주소\n- loan.subject: 대출과목\n- loan.product: 상품명\n- loan.amount_korean: 대출신청금액(한글)\n- loan.amount: 대출신청금액\n- customer.nationality: 국적\n- ebank.limit_once: 1회이체한도\n- loan.term: 대출기간\n- loan.hope_date: 대출희망일\n- bank_use.manager: 책임자\n- loan.interest_day: 이자납입일\n- loan.purpose: 세부용도\n- collateral_detail: 담보내용\n- loan.debit_bank: 이체은행\n- loan.debit_account: 이체계좌번호\n- loan.debit_holder: 예금주\n- apply_date: 신청일\n- signature: 신청인"
+  },
+  {
+   "role": "assistant",
+   "content": "[{\"key\": \"bank\", \"value\": \"SC제일은행\", \"bbox_2d\": [103, 39, 227, 61], \"page\": 1}, {\"key\": \"branch\", \"value\": \"을지로지점\", \"bbox_2d\": [725, 131, 794, 142], \"page\": 1}, {\"key\": \"applicant.name\", \"value\": \"조호빈\", \"bbox_2d\": [200, 172, 243, 183], \"page\": 1}, {\"key\": \"applicant.rrn\", \"value\": \"901216-1******\", \"bbox_2d\": [644, 173, 742, 184], \"page\": 1}, {\"key\": \"applicant.zipcode\", \"value\": \"18365\", \"bbox_2d\": [222, 192, 258, 203], \"page\": 1}, {\"key\": \"applicant.address\", \"value\": \"경기도 화성시 효행로 301, 113동 2004호 (반송동, e편한세상리버뷰아파트)\", \"bbox_2d\": [266, 192, 728, 204], \"page\": 1}, {\"key\": \"applicant.mobile\", \"value\": \"010-4285-8633\", \"bbox_2d\": [200, 212, 288, 223], \"page\": 1}, {\"key\": \"applicant.home_phone\", \"value\": null}, {\"key\": \"applicant.email\", \"value\": null}, {\"key\": \"applicant.work_phone\", \"value\": null}, {\"key\": \"workplace.name\", \"value\": \"(주)코리아커뮤니케이션\", \"bbox_2d\": [199, 331, 352, 342], \"page\": 1}, {\"key\": \"workplace.department\", \"value\": \"영업1팀\", \"bbox_2d\": [643, 332, 694, 343], \"page\": 1}, {\"key\": \"workplace.position\", \"value\": \"대리\", \"bbox_2d\": [199, 351, 228, 362], \"page\": 1}, {\"key\": \"workplace.hire_date\", \"value\": \"2020-02-15\", \"bbox_2d\": [643, 352, 710, 363], \"page\": 1}, {\"key\": \"workplace.annual_income\", \"value\": \"5,260만원\", \"bbox_2d\": [199, 371, 260, 382], \"page\": 1}, {\"key\": \"workplace.address\", \"value\": \"경기도 고양시 일산동구 정발산로 139, 18층\", \"bbox_2d\": [643, 372, 915, 383], \"page\": 1}, {\"key\": \"loan.subject\", \"value\": \"전세자금대출\", \"bbox_2d\": [199, 502, 285, 512], \"page\": 1}, {\"key\": \"loan.product\", \"value\": \"전세자금대출\", \"bbox_2d\": [643, 502, 729, 513], \"page\": 1}, {\"key\": \"loan.amount_korean\", \"value\": \"일금 삼억사천사백만원정\", \"bbox_2d\": [199, 522, 360, 533], \"page\": 1}, {\"key\": \"loan.amount\", \"value\": \"344,000,000\", \"bbox_2d\": [389, 522, 460, 533], \"page\": 1}, {\"key\": \"customer.nationality\", \"value\": null}, {\"key\": \"ebank.limit_once\", \"value\": null}, {\"key\": \"loan.term\", \"value\": \"2년\", \"bbox_2d\": [199, 542, 220, 552], \"page\": 1}, {\"key\": \"loan.hope_date\", \"value\": \"2026-07-17\", \"bbox_2d\": [643, 542, 710, 553], \"page\": 1}, {\"key\": \"bank_use.manager\", \"value\": null}, {\"key\": \"loan.interest_day\", \"value\": \"매월 15일\", \"bbox_2d\": [643, 582, 704, 593], \"page\": 1}, {\"key\": \"loan.purpose\", \"value\": \"주택 임차보증금\", \"bbox_2d\": [261, 615, 364, 626], \"page\": 1}, {\"key\": \"collateral_detail\", \"value\": \"한국주택금융공사 보증서\", \"bbox_2d\": [643, 635, 803, 646], \"page\": 1}, {\"key\": \"loan.debit_bank\", \"value\": \"SC제일은행\", \"bbox_2d\": [231, 662, 305, 672], \"page\": 1}, {\"key\": \"loan.debit_account\", \"value\": \"910-70-860556\", \"bbox_2d\": [377, 662, 465, 673], \"page\": 1}, {\"key\": \"loan.debit_holder\", \"value\": \"조호빈\", \"bbox_2d\": [522, 662, 565, 673], \"page\": 1}, {\"key\": \"apply_date\", \"value\": \"2026년 07월 14일\", \"bbox_2d\": [568, 766, 675, 777], \"page\": 1}, {\"key\": \"signature\", \"value\": \"조호빈\", \"bbox_2d\": [765, 766, 808, 777], \"page\": 1}]"
+  }
+ ]
+}
+```
+
+### 2-3. marks — 체크박스·도장·서명
+
+**정답 형식:** 체크박스: 체크된 보기 글자 (없으면 null) · 복수 선택: 목록 · 도장/서명: true / false
+
+**채점:** 항목별 정확도
+
+**입력 이미지** (1장, 질문 앞에 이 순서로)
+
+<p><a href="../examples/img/loan_application_1000000_c024fabb.jpg"><img src="../examples/img/loan_application_1000000_c024fabb.jpg" width="300"></a></p>
+
+1. `loan_application_1000000.jpg`
+
+**질문** (`prompt`)
+
+```
+이 문서의 체크박스·도장·서명 상태와 위치를 확인해 JSON 목록으로 답하세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+- 체크박스: 체크된 보기마다 {"key": 키, "value": 보기 글자, "bbox_2d": 체크된 □ 위치, "page": 쪽}. 체크된 것이 없으면 {"key": 키, "value": null}
+- 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)
+- 도장·서명: {"key": 키, "value": true 또는 false, "bbox_2d": 찍힌 자리, "page": 쪽} (비어 있으면 value 만 false)
+항목
+- housing: 주택소유구분 (체크박스, 보기: 자가 / 전세 / 월세 / 기타)
+- dwelling: 주거형태 (체크박스, 보기: 아파트 / 단독 / 다세대 / 연립·빌라 / 오피스텔 / 기타)
+- workplace.job_type: 직업구분 (체크박스, 보기: 급여소득자 / 공무원 / 전문직 / 자영업자 / 기타)
+- loan.repayment: 상환방법 (체크박스, 보기: 만기일시 / 원금균등분할 / 원리금균등분할 / 혼합)
+- loan.rate_type: 금리방식 (체크박스, 보기: 고정 / 변동 / 혼합)
+- loan.purpose_category: 자금용도구분 (체크박스, 보기: 주택구입 / 주택임차 / 부채상환 / 생활비 / 교육비 / 기타)
+- collateral: 담보구분 (체크박스, 보기: 신용 / 부동산 / 보증)
+- manual_received: 설명서수령확인 (체크박스, 보기: 예 / 아니오)
+- consent: 개인(신용)정보동의 (체크박스, 보기: 동의함 / 동의하지 않음)
+- seal.applicant: 신청인 (같은 설명 중 1번째 칸, 도장)
+- sign.applicant: 신청인 (같은 설명 중 2번째 칸, 서명)
+```
+
+**정답** (`answer`)
+
+```json
+[
+ {"key": "housing", "value": "전세", "bbox_2d": [253, 259, 262, 270], "page": 1},
+ {"key": "dwelling", "value": "아파트", "bbox_2d": [644, 253, 652, 263], "page": 1},
+ {"key": "workplace.job_type", "value": "급여소득자", "bbox_2d": [199, 311, 208, 322], "page": 1},
+ {"key": "loan.repayment", "value": "만기일시", "bbox_2d": [199, 561, 207, 572], "page": 1},
+ {"key": "loan.rate_type", "value": "변동", "bbox_2d": [252, 581, 261, 592], "page": 1},
+ {"key": "loan.purpose_category", "value": "주택임차", "bbox_2d": [280, 601, 289, 612], "page": 1},
+ {"key": "collateral", "value": "보증", "bbox_2d": [320, 635, 328, 646], "page": 1},
+ {"key": "manual_received", "value": "예", "bbox_2d": [324, 746, 333, 756], "page": 1},
+ {"key": "consent", "value": "동의함", "bbox_2d": [627, 746, 635, 757], "page": 1},
+ {"key": "seal.applicant", "value": true, "bbox_2d": [852, 752, 909, 793], "page": 1},
+ {"key": "sign.applicant", "value": false}
+]
+```
+
+**채점 정보** (`eval`)
+
+```json
+{
+ "types": {
+  "housing": "checkbox",
+  "dwelling": "checkbox",
+  "workplace.job_type": "checkbox",
+  "loan.repayment": "checkbox",
+  "loan.rate_type": "checkbox",
+  "loan.purpose_category": "checkbox",
+  "collateral": "checkbox",
+  "manual_received": "checkbox",
+  "consent": "checkbox",
+  "seal.applicant": "seal",
+  "sign.applicant": "signature"
+ }
+}
+```
+
+**나눠 보기 정보** (`meta`)
+
+```json
+{
+ "doc_type": "loan_application",
+ "doc_name": "대출거래신청서",
+ "group": "bank_form",
+ "condition": "scan",
+ "writing": "print",
+ "n_pages": 1,
+ "view": "all",
+ "task_group": "doc",
+ "label_format": "mark_states"
+}
+```
+
+**문항 한 줄 전체** (`tasks/marks.jsonl`)
+
+<details><summary>펼치기</summary>
+
+```json
+{
+ "id": "marks/loan_application_1000000",
+ "task": "marks",
+ "prompt": "이 문서의 체크박스·도장·서명 상태와 위치를 확인해 JSON 목록으로 답하세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.\n- 체크박스: 체크된 보기마다 {\"key\": 키, \"value\": 보기 글자, \"bbox_2d\": 체크된 □ 위치, \"page\": 쪽}. 체크된 것이 없으면 {\"key\": 키, \"value\": null}\n- 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)\n- 도장·서명: {\"key\": 키, \"value\": true 또는 false, \"bbox_2d\": 찍힌 자리, \"page\": 쪽} (비어 있으면 value 만 false)\n항목\n- housing: 주택소유구분 (체크박스, 보기: 자가 / 전세 / 월세 / 기타)\n- dwelling: 주거형태 (체크박스, 보기: 아파트 / 단독 / 다세대 / 연립·빌라 / 오피스텔 / 기타)\n- workplace.job_type: 직업구분 (체크박스, 보기: 급여소득자 / 공무원 / 전문직 / 자영업자 / 기타)\n- loan.repayment: 상환방법 (체크박스, 보기: 만기일시 / 원금균등분할 / 원리금균등분할 / 혼합)\n- loan.rate_type: 금리방식 (체크박스, 보기: 고정 / 변동 / 혼합)\n- loan.purpose_category: 자금용도구분 (체크박스, 보기: 주택구입 / 주택임차 / 부채상환 / 생활비 / 교육비 / 기타)\n- collateral: 담보구분 (체크박스, 보기: 신용 / 부동산 / 보증)\n- manual_received: 설명서수령확인 (체크박스, 보기: 예 / 아니오)\n- consent: 개인(신용)정보동의 (체크박스, 보기: 동의함 / 동의하지 않음)\n- seal.applicant: 신청인 (같은 설명 중 1번째 칸, 도장)\n- sign.applicant: 신청인 (같은 설명 중 2번째 칸, 서명)",
+ "answer": [
+  {"key": "housing", "value": "전세", "bbox_2d": [253, 259, 262, 270], "page": 1},
+  {"key": "dwelling", "value": "아파트", "bbox_2d": [644, 253, 652, 263], "page": 1},
+  {"key": "workplace.job_type", "value": "급여소득자", "bbox_2d": [199, 311, 208, 322], "page": 1},
+  {"key": "loan.repayment", "value": "만기일시", "bbox_2d": [199, 561, 207, 572], "page": 1},
+  {"key": "loan.rate_type", "value": "변동", "bbox_2d": [252, 581, 261, 592], "page": 1},
+  {"key": "loan.purpose_category", "value": "주택임차", "bbox_2d": [280, 601, 289, 612], "page": 1},
+  {"key": "collateral", "value": "보증", "bbox_2d": [320, 635, 328, 646], "page": 1},
+  {"key": "manual_received", "value": "예", "bbox_2d": [324, 746, 333, 756], "page": 1},
+  {"key": "consent", "value": "동의함", "bbox_2d": [627, 746, 635, 757], "page": 1},
+  {"key": "seal.applicant", "value": true, "bbox_2d": [852, 752, 909, 793], "page": 1},
+  {"key": "sign.applicant", "value": false}
+ ],
+ "eval": {
+  "types": {
+   "housing": "checkbox",
+   "dwelling": "checkbox",
+   "workplace.job_type": "checkbox",
+   "loan.repayment": "checkbox",
+   "loan.rate_type": "checkbox",
+   "loan.purpose_category": "checkbox",
+   "collateral": "checkbox",
+   "manual_received": "checkbox",
+   "consent": "checkbox",
+   "seal.applicant": "seal",
+   "sign.applicant": "signature"
+  }
+ },
+ "images": ["images/loan_application_1000000.jpg"],
+ "meta": {
+  "doc_type": "loan_application",
+  "doc_name": "대출거래신청서",
+  "group": "bank_form",
+  "condition": "scan",
+  "writing": "print",
+  "n_pages": 1,
+  "view": "all",
+  "task_group": "doc",
+  "label_format": "mark_states"
+ }
+}
+```
+</details>
+
+**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
+
+```json
+{
+ "id": "marks/loan_application_1000000",
+ "task": "marks",
+ "images": ["images/loan_application_1000000.jpg"],
+ "messages": [
+  {
+   "role": "user",
+   "content": "<image>이 문서의 체크박스·도장·서명 상태와 위치를 확인해 JSON 목록으로 답하세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.\n- 체크박스: 체크된 보기마다 {\"key\": 키, \"value\": 보기 글자, \"bbox_2d\": 체크된 □ 위치, \"page\": 쪽}. 체크된 것이 없으면 {\"key\": 키, \"value\": null}\n- 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)\n- 도장·서명: {\"key\": 키, \"value\": true 또는 false, \"bbox_2d\": 찍힌 자리, \"page\": 쪽} (비어 있으면 value 만 false)\n항목\n- housing: 주택소유구분 (체크박스, 보기: 자가 / 전세 / 월세 / 기타)\n- dwelling: 주거형태 (체크박스, 보기: 아파트 / 단독 / 다세대 / 연립·빌라 / 오피스텔 / 기타)\n- workplace.job_type: 직업구분 (체크박스, 보기: 급여소득자 / 공무원 / 전문직 / 자영업자 / 기타)\n- loan.repayment: 상환방법 (체크박스, 보기: 만기일시 / 원금균등분할 / 원리금균등분할 / 혼합)\n- loan.rate_type: 금리방식 (체크박스, 보기: 고정 / 변동 / 혼합)\n- loan.purpose_category: 자금용도구분 (체크박스, 보기: 주택구입 / 주택임차 / 부채상환 / 생활비 / 교육비 / 기타)\n- collateral: 담보구분 (체크박스, 보기: 신용 / 부동산 / 보증)\n- manual_received: 설명서수령확인 (체크박스, 보기: 예 / 아니오)\n- consent: 개인(신용)정보동의 (체크박스, 보기: 동의함 / 동의하지 않음)\n- seal.applicant: 신청인 (같은 설명 중 1번째 칸, 도장)\n- sign.applicant: 신청인 (같은 설명 중 2번째 칸, 서명)"
+  },
+  {
+   "role": "assistant",
+   "content": "[{\"key\": \"housing\", \"value\": \"전세\", \"bbox_2d\": [253, 259, 262, 270], \"page\": 1}, {\"key\": \"dwelling\", \"value\": \"아파트\", \"bbox_2d\": [644, 253, 652, 263], \"page\": 1}, {\"key\": \"workplace.job_type\", \"value\": \"급여소득자\", \"bbox_2d\": [199, 311, 208, 322], \"page\": 1}, {\"key\": \"loan.repayment\", \"value\": \"만기일시\", \"bbox_2d\": [199, 561, 207, 572], \"page\": 1}, {\"key\": \"loan.rate_type\", \"value\": \"변동\", \"bbox_2d\": [252, 581, 261, 592], \"page\": 1}, {\"key\": \"loan.purpose_category\", \"value\": \"주택임차\", \"bbox_2d\": [280, 601, 289, 612], \"page\": 1}, {\"key\": \"collateral\", \"value\": \"보증\", \"bbox_2d\": [320, 635, 328, 646], \"page\": 1}, {\"key\": \"manual_received\", \"value\": \"예\", \"bbox_2d\": [324, 746, 333, 756], \"page\": 1}, {\"key\": \"consent\", \"value\": \"동의함\", \"bbox_2d\": [627, 746, 635, 757], \"page\": 1}, {\"key\": \"seal.applicant\", \"value\": true, \"bbox_2d\": [852, 752, 909, 793], \"page\": 1}, {\"key\": \"sign.applicant\", \"value\": false}]"
+  }
+ ]
+}
+```
+
+### 2-4. freetext — 기타 칸 정리
+
+**정답 형식:** `{"purpose", "reason", "amount", "date", "period_months", "request", "memo", "approx"}` 중 글에 적힌 키만. 용도·사유·요청은 질문의 보기 중 하나, 금액은 원 단위 정수, 날짜 YYYY-MM-DD, approx 는 대략적인 값을 쓴 키 목록
+
+**채점:** 주 지표: 키 F1 (적히지 않은 키를 답하면 감점). 함께: approx 일치, 문서 완전 일치
+
+**입력 이미지** (4장, 질문 앞에 이 순서로)
+
+<p><a href="../examples/img/hf430_1000000_p1_4d6ed1c1.jpg"><img src="../examples/img/hf430_1000000_p1_4d6ed1c1.jpg" width="220"></a> <a href="../examples/img/hf430_1000000_p2_b6e91dd2.jpg"><img src="../examples/img/hf430_1000000_p2_b6e91dd2.jpg" width="220"></a> <a href="../examples/img/hf430_1000000_p3_2bc47b0f.jpg"><img src="../examples/img/hf430_1000000_p3_2bc47b0f.jpg" width="220"></a> <a href="../examples/img/hf430_1000000_p4_9a49ff2a.jpg"><img src="../examples/img/hf430_1000000_p4_9a49ff2a.jpg" width="220"></a></p>
+
+1. `hf430_1000000_p1.jpg` · 2. `hf430_1000000_p2.jpg` · 3. `hf430_1000000_p3.jpg` · 4. `hf430_1000000_p4.jpg`
+
+**질문** (`prompt`)
+
+```
+이 문서의 '기타' 칸에 적힌 내용을 DB에 넣을 수 있게 정리해 JSON 한 줄로 답하세요. 기준일(서류 작성일)은 2025-03-31 입니다.
+쓸 수 있는 키
+- purpose: 용도. 보기 중 하나: 생활자금, 주택구입, 전세자금, 사업자금, 학자금, 자녀 교육비, 의료비, 결혼자금, 차량구입
+- reason: 사유. 보기 중 하나: 만기 해지, 해외 이주, 타행 이체, 급여 수령, 본인 요청, 계좌 정리, 주소 변경, 분실
+- amount: 금액. 원 단위 정수 (3천만원 → 30000000)
+- date: 날짜. YYYY-MM-DD. 상대 날짜는 기준일로 계산 (초 = 1일, 중순 = 15일, 말 = 말일, 다음주 = 7일 뒤)
+- period_months: 기간. 개월 수 정수 (1년 → 12)
+- request: 요청. 보기 중 하나: 서류 추가 제출, 전화 연락, 우편 발송, 문자 안내, 방문 예정
+- memo: 위 키에 맞지 않는 내용. 적힌 그대로
+- approx: 대략적인 값(정도, 쯤, 약, 초·중순, 다음주 등)을 쓴 키의 목록
+적힌 내용만 쓰고 null 은 쓰지 않습니다. 대략적인 값도 가장 그럴듯한 값 하나로 쓰세요.
+```
+
+**정답** (`answer`)
+
+```json
+{"memo": "배우자 동의함", "request": "우편 발송"}
+```
+
+**나눠 보기 정보** (`meta`)
+
+```json
+{
+ "doc_type": "hf430",
+ "doc_name": "민원신청서",
+ "group": "hana",
+ "condition": "scan",
+ "writing": "print",
+ "n_pages": 4,
+ "view": "all",
+ "key": "기타",
+ "label": "기타",
+ "level": "short",
+ "task_group": "doc",
+ "label_format": "record"
+}
+```
+
+**문항 한 줄 전체** (`tasks/freetext.jsonl`)
+
+<details><summary>펼치기</summary>
+
+```json
+{
+ "id": "freetext/hf430_1000000/기타",
+ "task": "freetext",
+ "prompt": "이 문서의 '기타' 칸에 적힌 내용을 DB에 넣을 수 있게 정리해 JSON 한 줄로 답하세요. 기준일(서류 작성일)은 2025-03-31 입니다.\n쓸 수 있는 키\n- purpose: 용도. 보기 중 하나: 생활자금, 주택구입, 전세자금, 사업자금, 학자금, 자녀 교육비, 의료비, 결혼자금, 차량구입\n- reason: 사유. 보기 중 하나: 만기 해지, 해외 이주, 타행 이체, 급여 수령, 본인 요청, 계좌 정리, 주소 변경, 분실\n- amount: 금액. 원 단위 정수 (3천만원 → 30000000)\n- date: 날짜. YYYY-MM-DD. 상대 날짜는 기준일로 계산 (초 = 1일, 중순 = 15일, 말 = 말일, 다음주 = 7일 뒤)\n- period_months: 기간. 개월 수 정수 (1년 → 12)\n- request: 요청. 보기 중 하나: 서류 추가 제출, 전화 연락, 우편 발송, 문자 안내, 방문 예정\n- memo: 위 키에 맞지 않는 내용. 적힌 그대로\n- approx: 대략적인 값(정도, 쯤, 약, 초·중순, 다음주 등)을 쓴 키의 목록\n적힌 내용만 쓰고 null 은 쓰지 않습니다. 대략적인 값도 가장 그럴듯한 값 하나로 쓰세요.",
+ "answer": {"memo": "배우자 동의함", "request": "우편 발송"},
+ "images": [
+  "images/hf430_1000000_p1.jpg",
+  "images/hf430_1000000_p2.jpg",
+  "images/hf430_1000000_p3.jpg",
+  "images/hf430_1000000_p4.jpg"
+ ],
+ "meta": {
+  "doc_type": "hf430",
+  "doc_name": "민원신청서",
+  "group": "hana",
+  "condition": "scan",
+  "writing": "print",
+  "n_pages": 4,
+  "view": "all",
+  "key": "기타",
+  "label": "기타",
+  "level": "short",
+  "task_group": "doc",
+  "label_format": "record"
+ }
+}
+```
+</details>
+
+**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
+
+```json
+{
+ "id": "freetext/hf430_1000000/기타",
+ "task": "freetext",
+ "images": [
+  "images/hf430_1000000_p1.jpg",
+  "images/hf430_1000000_p2.jpg",
+  "images/hf430_1000000_p3.jpg",
+  "images/hf430_1000000_p4.jpg"
+ ],
+ "messages": [
+  {
+   "role": "user",
+   "content": "<image><image><image><image>이 문서의 '기타' 칸에 적힌 내용을 DB에 넣을 수 있게 정리해 JSON 한 줄로 답하세요. 기준일(서류 작성일)은 2025-03-31 입니다.\n쓸 수 있는 키\n- purpose: 용도. 보기 중 하나: 생활자금, 주택구입, 전세자금, 사업자금, 학자금, 자녀 교육비, 의료비, 결혼자금, 차량구입\n- reason: 사유. 보기 중 하나: 만기 해지, 해외 이주, 타행 이체, 급여 수령, 본인 요청, 계좌 정리, 주소 변경, 분실\n- amount: 금액. 원 단위 정수 (3천만원 → 30000000)\n- date: 날짜. YYYY-MM-DD. 상대 날짜는 기준일로 계산 (초 = 1일, 중순 = 15일, 말 = 말일, 다음주 = 7일 뒤)\n- period_months: 기간. 개월 수 정수 (1년 → 12)\n- request: 요청. 보기 중 하나: 서류 추가 제출, 전화 연락, 우편 발송, 문자 안내, 방문 예정\n- memo: 위 키에 맞지 않는 내용. 적힌 그대로\n- approx: 대략적인 값(정도, 쯤, 약, 초·중순, 다음주 등)을 쓴 키의 목록\n적힌 내용만 쓰고 null 은 쓰지 않습니다. 대략적인 값도 가장 그럴듯한 값 하나로 쓰세요."
+  },
+  {"role": "assistant", "content": "{\"memo\": \"배우자 동의함\", \"request\": \"우편 발송\"}"}
+ ]
+}
+```
+
+### 2-5. form_qa — 서식 전용 질문
+
+**정답 형식:** 서식 폴더 `qa.py` 의 함수가 돌려준 정답 그대로 (숫자·예/아니오·글·JSON)
+
+**채점:** eval.answer_type 으로: 숫자는 단위를 떼고 tol 안, 예/아니오는 네·아니요도 인정, 글은 띄어쓰기·문장부호를 맞춰 같은지, JSON 은 칸마다
+
+이 저장소의 서식에는 아직 `qa.py` 가 없어 예시가 없습니다. 서식 폴더에 `qa.py` 를 두면 그 서식 문서마다 함수 하나 = 질문 하나가 나옵니다 (`docgen/forms/README.md`).
+
+### 2-6. ocr_page — 전체 받아쓰기
 
 **정답 형식:** 서류에 채워 넣은 값들 (한 줄에 하나). 채점은 이 값들이 받아쓴 글에 들어 있는 비율
 
@@ -1859,7 +1594,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="../examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
+<p><a href="../examples/img/loan_application_1000000_c024fabb.jpg"><img src="../examples/img/loan_application_1000000_c024fabb.jpg" width="300"></a></p>
 
 1. `loan_application_1000000.jpg`
 
@@ -1873,43 +1608,29 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 ```json
 [
- "국민은행",
- "센텀지점",
- "남궁예태",
- "850328-2******",
- "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)",
- "010-6144-1173",
- "주식회사 다온패션",
- "고객지원팀",
+ "SC제일은행",
+ "을지로지점",
+ "조호빈",
+ "901216-1******",
+ "18365",
+ "경기도 화성시 효행로 301, 113동 2004호 (반송동, e편한세상리버뷰아파트)",
+ "010-4285-8633",
+ "(주)코리아커뮤니케이션",
+ "영업1팀",
  "대리",
- "2021-03-06",
- "5,170만원",
- "부산광역시 해운대구 해운대로 326, 7층",
- "농협은행",
- "신용대출",
- "12,500,000",
- "2028-01-19",
- "유지",
- "새마을금고",
- "학자금대출",
- "13,100,000",
- "2030-04-13",
- "아파트",
- "서울특별시 서초구 강남대로 357",
- "1,560,000,000",
- "예금",
- "국민은행, 카카오뱅크",
- "70,700,000",
- "주택담보대출",
- "일금 삼억일백만원정",
- "301,000,000",
- "30년",
- "2025-04-10",
- "매월 5일",
- "생활안정자금",
- "서울특별시 서초구 강남대로 357, 103동 1301호 (아파트, 전용 74.95㎡)",
- "478303-40-826627",
- "2025년 4월 1일"
+ "2020-02-15",
+ "5,260만원",
+ "경기도 고양시 일산동구 정발산로 139, 18층",
+ "전세자금대출",
+ "일금 삼억사천사백만원정",
+ "344,000,000",
+ "2년",
+ "2026-07-17",
+ "매월 15일",
+ "주택 임차보증금",
+ "한국주택금융공사 보증서",
+ "910-70-860556",
+ "2026년 07월 14일"
 ]
 ```
 
@@ -1923,6 +1644,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "condition": "scan",
  "writing": "print",
  "n_pages": 1,
+ "view": "all",
  "task_group": "ocr",
  "label_format": "text_list"
 }
@@ -1938,43 +1660,29 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "task": "ocr_page",
  "prompt": "이 문서 이미지에 보이는 모든 글자를 빠짐없이 읽어 텍스트로 옮기세요. 위에서 아래, 왼쪽에서 오른쪽 순서로 쓰고, 표는 한 행을 한 줄로 쓰세요. 설명 없이 읽은 글자만 출력하세요.",
  "answer": [
-  "국민은행",
-  "센텀지점",
-  "남궁예태",
-  "850328-2******",
-  "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)",
-  "010-6144-1173",
-  "주식회사 다온패션",
-  "고객지원팀",
+  "SC제일은행",
+  "을지로지점",
+  "조호빈",
+  "901216-1******",
+  "18365",
+  "경기도 화성시 효행로 301, 113동 2004호 (반송동, e편한세상리버뷰아파트)",
+  "010-4285-8633",
+  "(주)코리아커뮤니케이션",
+  "영업1팀",
   "대리",
-  "2021-03-06",
-  "5,170만원",
-  "부산광역시 해운대구 해운대로 326, 7층",
-  "농협은행",
-  "신용대출",
-  "12,500,000",
-  "2028-01-19",
-  "유지",
-  "새마을금고",
-  "학자금대출",
-  "13,100,000",
-  "2030-04-13",
-  "아파트",
-  "서울특별시 서초구 강남대로 357",
-  "1,560,000,000",
-  "예금",
-  "국민은행, 카카오뱅크",
-  "70,700,000",
-  "주택담보대출",
-  "일금 삼억일백만원정",
-  "301,000,000",
-  "30년",
-  "2025-04-10",
-  "매월 5일",
-  "생활안정자금",
-  "서울특별시 서초구 강남대로 357, 103동 1301호 (아파트, 전용 74.95㎡)",
-  "478303-40-826627",
-  "2025년 4월 1일"
+  "2020-02-15",
+  "5,260만원",
+  "경기도 고양시 일산동구 정발산로 139, 18층",
+  "전세자금대출",
+  "일금 삼억사천사백만원정",
+  "344,000,000",
+  "2년",
+  "2026-07-17",
+  "매월 15일",
+  "주택 임차보증금",
+  "한국주택금융공사 보증서",
+  "910-70-860556",
+  "2026년 07월 14일"
  ],
  "images": ["images/loan_application_1000000.jpg"],
  "meta": {
@@ -1984,6 +1692,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "condition": "scan",
   "writing": "print",
   "n_pages": 1,
+  "view": "all",
   "task_group": "ocr",
   "label_format": "text_list"
  }
@@ -2005,13 +1714,13 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   },
   {
    "role": "assistant",
-   "content": "국민은행\n센텀지점\n남궁예태\n850328-2******\n서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)\n010-6144-1173\n주식회사 다온패션\n고객지원팀\n대리\n2021-03-06\n5,170만원\n부산광역시 해운대구 해운대로 326, 7층\n농협은행\n신용대출\n12,500,000\n2028-01-19\n유지\n새마을금고\n학자금대출\n13,100,000\n2030-04-13\n아파트\n서울특별시 서초구 강남대로 357\n1,560,000,000\n예금\n국민은행, 카카오뱅크\n70,700,000\n주택담보대출\n일금 삼억일백만원정\n301,000,000\n30년\n2025-04-10\n매월 5일\n생활안정자금\n서울특별시 서초구 강남대로 357, 103동 1301호 (아파트, 전용 74.95㎡)\n478303-40-826627\n2025년 4월 1일"
+   "content": "SC제일은행\n을지로지점\n조호빈\n901216-1******\n18365\n경기도 화성시 효행로 301, 113동 2004호 (반송동, e편한세상리버뷰아파트)\n010-4285-8633\n(주)코리아커뮤니케이션\n영업1팀\n대리\n2020-02-15\n5,260만원\n경기도 고양시 일산동구 정발산로 139, 18층\n전세자금대출\n일금 삼억사천사백만원정\n344,000,000\n2년\n2026-07-17\n매월 15일\n주택 임차보증금\n한국주택금융공사 보증서\n910-70-860556\n2026년 07월 14일"
   }
  ]
 }
 ```
 
-### 2-8. ocr_field — 값 칸 읽기
+### 2-7. ocr_field — 값 칸 읽기
 
 **정답 형식:** 잘라낸 값 칸에 적힌 글자
 
@@ -2019,7 +1728,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_0_d743f248.jpg"><img src="../examples/img/loan_application_1000000_0_d743f248.jpg" width="300"></a></p>
+<p><a href="../examples/img/loan_application_1000000_0_3aa4c7e5.jpg"><img src="../examples/img/loan_application_1000000_0_3aa4c7e5.jpg" width="300"></a></p>
 
 1. `loan_application_1000000_0.png`
 
@@ -2032,7 +1741,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 **정답** (`answer`)
 
 ```
-센텀지점
+영업1팀
 ```
 
 **나눠 보기 정보** (`meta`)
@@ -2045,8 +1754,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
  "condition": "scan",
  "writing": "print",
  "n_pages": 1,
- "key": "branch",
- "label": "취급점",
+ "view": "all",
+ "key": "workplace.department",
+ "label": "근무부서",
  "kind": "text",
  "corrected": false,
  "length": 4,
@@ -2061,11 +1771,11 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 ```json
 {
- "id": "ocr_field/loan_application_1000000/branch",
+ "id": "ocr_field/loan_application_1000000/workplace.department",
  "task": "ocr_field",
  "images": ["crops/loan_application_1000000_0.png"],
  "prompt": "이미지에 적힌 글자를 그대로 읽어 옮기세요. 설명 없이 읽은 글자만 출력하세요.",
- "answer": "센텀지점",
+ "answer": "영업1팀",
  "meta": {
   "doc_type": "loan_application",
   "doc_name": "대출거래신청서",
@@ -2073,8 +1783,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   "condition": "scan",
   "writing": "print",
   "n_pages": 1,
-  "key": "branch",
-  "label": "취급점",
+  "view": "all",
+  "key": "workplace.department",
+  "label": "근무부서",
   "kind": "text",
   "corrected": false,
   "length": 4,
@@ -2089,17 +1800,17 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 ```json
 {
- "id": "ocr_field/loan_application_1000000/branch",
+ "id": "ocr_field/loan_application_1000000/workplace.department",
  "task": "ocr_field",
  "images": ["crops/loan_application_1000000_0.png"],
  "messages": [
   {"role": "user", "content": "<image>이미지에 적힌 글자를 그대로 읽어 옮기세요. 설명 없이 읽은 글자만 출력하세요."},
-  {"role": "assistant", "content": "센텀지점"}
+  {"role": "assistant", "content": "영업1팀"}
  ]
 }
 ```
 
-### 2-9. table — 표 추출
+### 2-8. table — 표 추출
 
 **정답 형식:** `{"columns": 질문의 열 키, "rows": [[값 …]], "row_boxes": [{"bbox_2d", "page"}]}`. 행은 보이는 순서, 빈 칸·없는 열은 null
 
@@ -2107,35 +1818,82 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="../examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
+<p><a href="../examples/img/hf206_1000000_p7_abb4abbd.jpg"><img src="../examples/img/hf206_1000000_p7_abb4abbd.jpg" width="300"></a></p>
 
-1. `loan_application_1000000.jpg`
+1. `hf206_1000000_p7.jpg`
 
 **질문** (`prompt`)
 
 ```
-이 문서에서 '금융기관'·'잔액' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+이 문서에서 '국가'·'상호또는성명' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
 꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
 - columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
 - 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
 - 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
 - row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
 - 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
-열 (키: 항목명)
-- lender: 금융기관
-- kind: 대출종류
-- balance: 잔액
-- maturity: 만기일
-- refinance: 상환여부
+열 (키: 설명)
+- 국가: 국가
+- 상호또는성명: 상호또는성명
+- 금기말: 금기말
+- 전기말: 전기말
+- 계열여부: 계열여부
+- 사업자번호: 사업자번호
 ```
 
 **정답** (`answer`)
 
 ```json
 {
- "columns": ["lender", "kind", "balance", "maturity", "refinance"],
- "rows": [["농협은행", "신용대출", "12,500,000", "2028-01-19", "유지"], ["새마을금고", "학자금대출", "13,100,000", "2030-04-13", "유지"]],
- "row_boxes": [{"bbox_2d": [97, 436, 504, 448], "page": 1}, {"bbox_2d": [90, 454, 504, 465], "page": 1}]
+ "columns": ["국가", "상호또는성명", "금기말", "전기말", "계열여부", "사업자번호"],
+ "rows": [
+  ["영국", "(주)블루파트너스", null, null, null, null],
+  ["중국", "(주)블루파트너스", null, null, null, null],
+  ["독일", "청솔정밀(주)", null, null, null, null],
+  ["영국", "주식회사 제일전자", null, null, null, null],
+  ["영국", "다온로지스(주)", null, null, null, null],
+  ["중국", "(주)블루파트너스", null, null, null, null],
+  ["영국", "주식회사 미래화학", null, null, null, null],
+  ["호주", "한빛정밀(주)", null, null, null, null],
+  ["독일", "(주)삼정전자", null, null, null, null],
+  ["영국", "(주)블루파트너스", null, null, null, null],
+  ["베트남", "(주)신영산업", null, null, null, null],
+  ["중국", "(주)새한산업", null, null, null, null],
+  ["호주", "가온화학", null, null, null, null],
+  ["중국", "신영화학", null, null, null, null],
+  ["중국", "유니온시스템즈(주)", null, null, null, null],
+  ["호주", "(주)한빛시스템즈", null, null, null, null],
+  ["캐나다", "주식회사 청솔화학", null, null, null, null],
+  ["일본", "(주)제일무역", null, null, null, null],
+  ["영국", "(주)블루파트너스", null, null, null, null],
+  ["필리핀", "(주)블루파트너스", null, null, null, null],
+  ["베트남", "청솔무역", null, null, null, null],
+  ["일본", "(주)블루파트너스", null, null, null, null]
+ ],
+ "row_boxes": [
+  {"bbox_2d": [133, 172, 306, 184], "page": 1},
+  {"bbox_2d": [133, 195, 307, 207], "page": 1},
+  {"bbox_2d": [133, 218, 295, 230], "page": 1},
+  {"bbox_2d": [134, 241, 323, 253], "page": 1},
+  {"bbox_2d": [134, 264, 299, 276], "page": 1},
+  {"bbox_2d": [135, 287, 308, 299], "page": 1},
+  {"bbox_2d": [135, 310, 322, 322], "page": 1},
+  {"bbox_2d": [135, 333, 299, 345], "page": 1},
+  {"bbox_2d": [136, 356, 304, 368], "page": 1},
+  {"bbox_2d": [136, 379, 309, 391], "page": 1},
+  {"bbox_2d": [136, 402, 303, 414], "page": 1},
+  {"bbox_2d": [137, 425, 304, 437], "page": 1},
+  {"bbox_2d": [137, 448, 281, 460], "page": 1},
+  {"bbox_2d": [137, 471, 284, 483], "page": 1},
+  {"bbox_2d": [138, 494, 319, 506], "page": 1},
+  {"bbox_2d": [138, 517, 318, 529], "page": 1},
+  {"bbox_2d": [138, 540, 322, 552], "page": 1},
+  {"bbox_2d": [139, 563, 303, 575], "page": 1},
+  {"bbox_2d": [139, 586, 313, 598], "page": 1},
+  {"bbox_2d": [139, 609, 313, 621], "page": 1},
+  {"bbox_2d": [140, 632, 281, 644], "page": 1},
+  {"bbox_2d": [140, 655, 314, 667], "page": 1}
+ ]
 }
 ```
 
@@ -2144,13 +1902,15 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 ```json
 {
  "fields": {
-  "lender": {"type": "text", "norm": null, "kind": "text", "label": "금융기관"},
-  "kind": {"type": "text", "norm": null, "kind": "text", "label": "대출종류"},
-  "balance": {"type": "amount", "norm": null, "kind": "amount", "label": "잔액"},
-  "maturity": {"type": "date", "norm": null, "kind": "date", "label": "만기일"},
-  "refinance": {"type": "text", "norm": null, "kind": "text", "label": "상환여부"}
+  "국가": {"type": "text", "norm": null, "kind": "text", "label": "국가"},
+  "상호또는성명": {"type": "text", "norm": null, "kind": "name", "label": "상호또는성명"},
+  "금기말": {"type": "text", "norm": null, "kind": "text", "label": "금기말"},
+  "전기말": {"type": "text", "norm": null, "kind": "text", "label": "전기말"},
+  "계열여부": {"type": "text", "norm": null, "kind": "text", "label": "계열여부"},
+  "사업자번호": {"type": "biz_no", "norm": null, "kind": "absent", "label": "사업자번호"}
  },
- "group": "debts"
+ "group": "주주현황7_목록",
+ "absent": ["사업자번호"]
 }
 ```
 
@@ -2158,18 +1918,21 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 ```json
 {
- "doc_type": "loan_application",
- "doc_name": "대출거래신청서",
- "group": "bank_form",
+ "doc_type": "hf206",
+ "doc_name": "연간사업실적보고서(투자잔액 1,000만불 초과 기업)",
+ "group": "hana",
  "condition": "scan",
- "writing": "print",
+ "writing": "hand",
  "n_pages": 1,
- "table": "debts",
+ "view": "page",
+ "page": 7,
+ "n_pages_doc": 7,
+ "table": "주주현황7_목록",
  "ref": "header",
  "scope": "all",
- "n_rows": 2,
- "n_cols": 5,
- "absent": false,
+ "n_rows": 22,
+ "n_cols": 6,
+ "absent": true,
  "task_group": "doc",
  "label_format": "table_rows"
 }
@@ -2181,38 +1944,89 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 ```json
 {
- "id": "table/loan_application_1000000/debts",
+ "id": "table/hf206_1000000_p7/주주현황7_목록",
  "task": "table",
- "prompt": "이 문서에서 '금융기관'·'잔액' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.\n꼴: {\"columns\": [열 키, …], \"rows\": [[값, …], …], \"row_boxes\": [{\"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호}, …]}\n- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.\n- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.\n- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.\n- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.\n- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.\n열 (키: 항목명)\n- lender: 금융기관\n- kind: 대출종류\n- balance: 잔액\n- maturity: 만기일\n- refinance: 상환여부",
+ "prompt": "이 문서에서 '국가'·'상호또는성명' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.\n꼴: {\"columns\": [열 키, …], \"rows\": [[값, …], …], \"row_boxes\": [{\"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호}, …]}\n- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.\n- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.\n- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.\n- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.\n- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.\n열 (키: 설명)\n- 국가: 국가\n- 상호또는성명: 상호또는성명\n- 금기말: 금기말\n- 전기말: 전기말\n- 계열여부: 계열여부\n- 사업자번호: 사업자번호",
  "answer": {
-  "columns": ["lender", "kind", "balance", "maturity", "refinance"],
-  "rows": [["농협은행", "신용대출", "12,500,000", "2028-01-19", "유지"], ["새마을금고", "학자금대출", "13,100,000", "2030-04-13", "유지"]],
-  "row_boxes": [{"bbox_2d": [97, 436, 504, 448], "page": 1}, {"bbox_2d": [90, 454, 504, 465], "page": 1}]
+  "columns": ["국가", "상호또는성명", "금기말", "전기말", "계열여부", "사업자번호"],
+  "rows": [
+   ["영국", "(주)블루파트너스", null, null, null, null],
+   ["중국", "(주)블루파트너스", null, null, null, null],
+   ["독일", "청솔정밀(주)", null, null, null, null],
+   ["영국", "주식회사 제일전자", null, null, null, null],
+   ["영국", "다온로지스(주)", null, null, null, null],
+   ["중국", "(주)블루파트너스", null, null, null, null],
+   ["영국", "주식회사 미래화학", null, null, null, null],
+   ["호주", "한빛정밀(주)", null, null, null, null],
+   ["독일", "(주)삼정전자", null, null, null, null],
+   ["영국", "(주)블루파트너스", null, null, null, null],
+   ["베트남", "(주)신영산업", null, null, null, null],
+   ["중국", "(주)새한산업", null, null, null, null],
+   ["호주", "가온화학", null, null, null, null],
+   ["중국", "신영화학", null, null, null, null],
+   ["중국", "유니온시스템즈(주)", null, null, null, null],
+   ["호주", "(주)한빛시스템즈", null, null, null, null],
+   ["캐나다", "주식회사 청솔화학", null, null, null, null],
+   ["일본", "(주)제일무역", null, null, null, null],
+   ["영국", "(주)블루파트너스", null, null, null, null],
+   ["필리핀", "(주)블루파트너스", null, null, null, null],
+   ["베트남", "청솔무역", null, null, null, null],
+   ["일본", "(주)블루파트너스", null, null, null, null]
+  ],
+  "row_boxes": [
+   {"bbox_2d": [133, 172, 306, 184], "page": 1},
+   {"bbox_2d": [133, 195, 307, 207], "page": 1},
+   {"bbox_2d": [133, 218, 295, 230], "page": 1},
+   {"bbox_2d": [134, 241, 323, 253], "page": 1},
+   {"bbox_2d": [134, 264, 299, 276], "page": 1},
+   {"bbox_2d": [135, 287, 308, 299], "page": 1},
+   {"bbox_2d": [135, 310, 322, 322], "page": 1},
+   {"bbox_2d": [135, 333, 299, 345], "page": 1},
+   {"bbox_2d": [136, 356, 304, 368], "page": 1},
+   {"bbox_2d": [136, 379, 309, 391], "page": 1},
+   {"bbox_2d": [136, 402, 303, 414], "page": 1},
+   {"bbox_2d": [137, 425, 304, 437], "page": 1},
+   {"bbox_2d": [137, 448, 281, 460], "page": 1},
+   {"bbox_2d": [137, 471, 284, 483], "page": 1},
+   {"bbox_2d": [138, 494, 319, 506], "page": 1},
+   {"bbox_2d": [138, 517, 318, 529], "page": 1},
+   {"bbox_2d": [138, 540, 322, 552], "page": 1},
+   {"bbox_2d": [139, 563, 303, 575], "page": 1},
+   {"bbox_2d": [139, 586, 313, 598], "page": 1},
+   {"bbox_2d": [139, 609, 313, 621], "page": 1},
+   {"bbox_2d": [140, 632, 281, 644], "page": 1},
+   {"bbox_2d": [140, 655, 314, 667], "page": 1}
+  ]
  },
  "eval": {
   "fields": {
-   "lender": {"type": "text", "norm": null, "kind": "text", "label": "금융기관"},
-   "kind": {"type": "text", "norm": null, "kind": "text", "label": "대출종류"},
-   "balance": {"type": "amount", "norm": null, "kind": "amount", "label": "잔액"},
-   "maturity": {"type": "date", "norm": null, "kind": "date", "label": "만기일"},
-   "refinance": {"type": "text", "norm": null, "kind": "text", "label": "상환여부"}
+   "국가": {"type": "text", "norm": null, "kind": "text", "label": "국가"},
+   "상호또는성명": {"type": "text", "norm": null, "kind": "name", "label": "상호또는성명"},
+   "금기말": {"type": "text", "norm": null, "kind": "text", "label": "금기말"},
+   "전기말": {"type": "text", "norm": null, "kind": "text", "label": "전기말"},
+   "계열여부": {"type": "text", "norm": null, "kind": "text", "label": "계열여부"},
+   "사업자번호": {"type": "biz_no", "norm": null, "kind": "absent", "label": "사업자번호"}
   },
-  "group": "debts"
+  "group": "주주현황7_목록",
+  "absent": ["사업자번호"]
  },
- "images": ["images/loan_application_1000000.jpg"],
+ "images": ["images/hf206_1000000_p7.jpg"],
  "meta": {
-  "doc_type": "loan_application",
-  "doc_name": "대출거래신청서",
-  "group": "bank_form",
+  "doc_type": "hf206",
+  "doc_name": "연간사업실적보고서(투자잔액 1,000만불 초과 기업)",
+  "group": "hana",
   "condition": "scan",
-  "writing": "print",
+  "writing": "hand",
   "n_pages": 1,
-  "table": "debts",
+  "view": "page",
+  "page": 7,
+  "n_pages_doc": 7,
+  "table": "주주현황7_목록",
   "ref": "header",
   "scope": "all",
-  "n_rows": 2,
-  "n_cols": 5,
-  "absent": false,
+  "n_rows": 22,
+  "n_cols": 6,
+  "absent": true,
   "task_group": "doc",
   "label_format": "table_rows"
  }
@@ -2224,23 +2038,23 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 ```json
 {
- "id": "table/loan_application_1000000/debts",
+ "id": "table/hf206_1000000_p7/주주현황7_목록",
  "task": "table",
- "images": ["images/loan_application_1000000.jpg"],
+ "images": ["images/hf206_1000000_p7.jpg"],
  "messages": [
   {
    "role": "user",
-   "content": "<image>이 문서에서 '금융기관'·'잔액' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.\n꼴: {\"columns\": [열 키, …], \"rows\": [[값, …], …], \"row_boxes\": [{\"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호}, …]}\n- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.\n- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.\n- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.\n- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.\n- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.\n열 (키: 항목명)\n- lender: 금융기관\n- kind: 대출종류\n- balance: 잔액\n- maturity: 만기일\n- refinance: 상환여부"
+   "content": "<image>이 문서에서 '국가'·'상호또는성명' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.\n꼴: {\"columns\": [열 키, …], \"rows\": [[값, …], …], \"row_boxes\": [{\"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호}, …]}\n- columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.\n- 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.\n- 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.\n- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.\n- 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.\n열 (키: 설명)\n- 국가: 국가\n- 상호또는성명: 상호또는성명\n- 금기말: 금기말\n- 전기말: 전기말\n- 계열여부: 계열여부\n- 사업자번호: 사업자번호"
   },
   {
    "role": "assistant",
-   "content": "{\"columns\": [\"lender\", \"kind\", \"balance\", \"maturity\", \"refinance\"], \"rows\": [[\"농협은행\", \"신용대출\", \"12,500,000\", \"2028-01-19\", \"유지\"], [\"새마을금고\", \"학자금대출\", \"13,100,000\", \"2030-04-13\", \"유지\"]], \"row_boxes\": [{\"bbox_2d\": [97, 436, 504, 448], \"page\": 1}, {\"bbox_2d\": [90, 454, 504, 465], \"page\": 1}]}"
+   "content": "{\"columns\": [\"국가\", \"상호또는성명\", \"금기말\", \"전기말\", \"계열여부\", \"사업자번호\"], \"rows\": [[\"영국\", \"(주)블루파트너스\", null, null, null, null], [\"중국\", \"(주)블루파트너스\", null, null, null, null], [\"독일\", \"청솔정밀(주)\", null, null, null, null], [\"영국\", \"주식회사 제일전자\", null, null, null, null], [\"영국\", \"다온로지스(주)\", null, null, null, null], [\"중국\", \"(주)블루파트너스\", null, null, null, null], [\"영국\", \"주식회사 미래화학\", null, null, null, null], [\"호주\", \"한빛정밀(주)\", null, null, null, null], [\"독일\", \"(주)삼정전자\", null, null, null, null], [\"영국\", \"(주)블루파트너스\", null, null, null, null], [\"베트남\", \"(주)신영산업\", null, null, null, null], [\"중국\", \"(주)새한산업\", null, null, null, null], [\"호주\", \"가온화학\", null, null, null, null], [\"중국\", \"신영화학\", null, null, null, null], [\"중국\", \"유니온시스템즈(주)\", null, null, null, null], [\"호주\", \"(주)한빛시스템즈\", null, null, null, null], [\"캐나다\", \"주식회사 청솔화학\", null, null, null, null], [\"일본\", \"(주)제일무역\", null, null, null, null], [\"영국\", \"(주)블루파트너스\", null, null, null, null], [\"필리핀\", \"(주)블루파트너스\", null, null, null, null], [\"베트남\", \"청솔무역\", null, null, null, null], [\"일본\", \"(주)블루파트너스\", null, null, null, null]], \"row_boxes\": [{\"bbox_2d\": [133, 172, 306, 184], \"page\": 1}, {\"bbox_2d\": [133, 195, 307, 207], \"page\": 1}, {\"bbox_2d\": [133, 218, 295, 230], \"page\": 1}, {\"bbox_2d\": [134, 241, 323, 253], \"page\": 1}, {\"bbox_2d\": [134, 264, 299, 276], \"page\": 1}, {\"bbox_2d\": [135, 287, 308, 299], \"page\": 1}, {\"bbox_2d\": [135, 310, 322, 322], \"page\": 1}, {\"bbox_2d\": [135, 333, 299, 345], \"page\": 1}, {\"bbox_2d\": [136, 356, 304, 368], \"page\": 1}, {\"bbox_2d\": [136, 379, 309, 391], \"page\": 1}, {\"bbox_2d\": [136, 402, 303, 414], \"page\": 1}, {\"bbox_2d\": [137, 425, 304, 437], \"page\": 1}, {\"bbox_2d\": [137, 448, 281, 460], \"page\": 1}, {\"bbox_2d\": [137, 471, 284, 483], \"page\": 1}, {\"bbox_2d\": [138, 494, 319, 506], \"page\": 1}, {\"bbox_2d\": [138, 517, 318, 529], \"page\": 1}, {\"bbox_2d\": [138, 540, 322, 552], \"page\": 1}, {\"bbox_2d\": [139, 563, 303, 575], \"page\": 1}, {\"bbox_2d\": [139, 586, 313, 598], \"page\": 1}, {\"bbox_2d\": [139, 609, 313, 621], \"page\": 1}, {\"bbox_2d\": [140, 632, 281, 644], \"page\": 1}, {\"bbox_2d\": [140, 655, 314, 667], \"page\": 1}]}"
   }
  ]
 }
 ```
 
-### 2-10. table_read — 표 그대로 옮기기
+### 2-9. table_read — 표 그대로 옮기기
 
 **정답 형식:** 같은 꼴, `columns` 는 머리글 글자 그대로 (여러 줄 머리글은 `위 > 아래`), 합계 행은 그대로
 
@@ -2248,14 +2062,14 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="../examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
+<p><a href="../examples/img/hf206_1000000_p7_abb4abbd.jpg"><img src="../examples/img/hf206_1000000_p7_abb4abbd.jpg" width="300"></a></p>
 
-1. `loan_application_1000000.jpg`
+1. `hf206_1000000_p7.jpg`
 
 **질문** (`prompt`)
 
 ```
-이 문서에서 1쪽 bbox_2d=[75, 415, 524, 465] 위치의 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.
+이 문서에서 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.
 꼴: {"columns": [머리글 글자, …], "rows": [[칸 글자, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
 - columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 " > " 로 잇습니다.
 - rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.
@@ -2267,9 +2081,55 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 ```json
 {
- "columns": ["금융기관", "대출종류", "잔액(원)", "만기일", "상환여부"],
- "rows": [["농협은행", "신용대출", "12,500,000", "2028-01-19", "유지"], ["새마을금고", "학자금대출", "13,100,000", "2030-04-13", "유지"]],
- "row_boxes": [{"bbox_2d": [75, 434, 524, 452], "page": 1}, {"bbox_2d": [75, 451, 524, 470], "page": 1}]
+ "columns": ["번호", "국가", "상호 또는 성명", "금기말", "전기말", "계열여부"],
+ "rows": [
+  ["16", "영국", "(주)블루파트너스", null, null, null],
+  ["17", "중국", "(주)블루파트너스", null, null, null],
+  ["18", "독일", "청솔정밀(주)", null, null, null],
+  ["19", "영국", "주식회사 제일전자", null, null, null],
+  ["20", "영국", "다온로지스(주)", null, null, null],
+  ["21", "중국", "(주)블루파트너스", null, null, null],
+  ["22", "영국", "주식회사 미래화학", null, null, null],
+  ["23", "호주", "한빛정밀(주)", null, null, null],
+  ["24", "독일", "(주)삼정전자", null, null, null],
+  ["25", "영국", "(주)블루파트너스", null, null, null],
+  ["26", "베트남", "(주)신영산업", null, null, null],
+  ["27", "중국", "(주)새한산업", null, null, null],
+  ["28", "호주", "가온화학", null, null, null],
+  ["29", "중국", "신영화학", null, null, null],
+  ["30", "중국", "유니온시스템즈(주)", null, null, null],
+  ["31", "호주", "(주)한빛시스템즈", null, null, null],
+  ["32", "캐나다", "주식회사 청솔화학", null, null, null],
+  ["33", "일본", "(주)제일무역", null, null, null],
+  ["34", "영국", "(주)블루파트너스", null, null, null],
+  ["35", "필리핀", "(주)블루파트너스", null, null, null],
+  ["36", "베트남", "청솔무역", null, null, null],
+  ["37", "일본", "(주)블루파트너스", null, null, null]
+ ],
+ "row_boxes": [
+  {"bbox_2d": [78, 162, 912, 191], "page": 1},
+  {"bbox_2d": [78, 185, 913, 214], "page": 1},
+  {"bbox_2d": [78, 208, 913, 237], "page": 1},
+  {"bbox_2d": [79, 231, 913, 260], "page": 1},
+  {"bbox_2d": [79, 254, 914, 283], "page": 1},
+  {"bbox_2d": [79, 277, 914, 306], "page": 1},
+  {"bbox_2d": [80, 300, 915, 329], "page": 1},
+  {"bbox_2d": [80, 323, 915, 352], "page": 1},
+  {"bbox_2d": [80, 346, 915, 375], "page": 1},
+  {"bbox_2d": [81, 369, 916, 398], "page": 1},
+  {"bbox_2d": [81, 392, 916, 421], "page": 1},
+  {"bbox_2d": [81, 415, 916, 444], "page": 1},
+  {"bbox_2d": [82, 438, 917, 467], "page": 1},
+  {"bbox_2d": [82, 461, 917, 490], "page": 1},
+  {"bbox_2d": [82, 484, 917, 513], "page": 1},
+  {"bbox_2d": [83, 507, 918, 536], "page": 1},
+  {"bbox_2d": [83, 530, 918, 559], "page": 1},
+  {"bbox_2d": [83, 553, 918, 582], "page": 1},
+  {"bbox_2d": [84, 575, 919, 605], "page": 1},
+  {"bbox_2d": [84, 598, 919, 628], "page": 1},
+  {"bbox_2d": [84, 621, 919, 651], "page": 1},
+  {"bbox_2d": [85, 644, 920, 674], "page": 1}
+ ]
 }
 ```
 
@@ -2277,17 +2137,20 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 ```json
 {
- "doc_type": "loan_application",
- "doc_name": "대출거래신청서",
- "group": "bank_form",
+ "doc_type": "hf206",
+ "doc_name": "연간사업실적보고서(투자잔액 1,000만불 초과 기업)",
+ "group": "hana",
  "condition": "scan",
- "writing": "print",
+ "writing": "hand",
  "n_pages": 1,
- "table": "debts",
- "ref": "box",
+ "view": "page",
+ "page": 7,
+ "n_pages_doc": 7,
+ "table": "주주현황7_목록",
+ "ref": "only",
  "scope": "all",
- "n_rows": 2,
- "n_cols": 5,
+ "n_rows": 22,
+ "n_cols": 6,
  "segments": 1,
  "task_group": "doc",
  "label_format": "table_rows"
@@ -2300,27 +2163,76 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 ```json
 {
- "id": "table_read/loan_application_1000000/debts/0",
+ "id": "table_read/hf206_1000000_p7/주주현황7_목록/0",
  "task": "table_read",
- "prompt": "이 문서에서 1쪽 bbox_2d=[75, 415, 524, 465] 위치의 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.\n꼴: {\"columns\": [머리글 글자, …], \"rows\": [[칸 글자, …], …], \"row_boxes\": [{\"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호}, …]}\n- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 \" > \" 로 잇습니다.\n- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.\n- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.\n- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.",
+ "prompt": "이 문서에서 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.\n꼴: {\"columns\": [머리글 글자, …], \"rows\": [[칸 글자, …], …], \"row_boxes\": [{\"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호}, …]}\n- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 \" > \" 로 잇습니다.\n- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.\n- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.\n- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.",
  "answer": {
-  "columns": ["금융기관", "대출종류", "잔액(원)", "만기일", "상환여부"],
-  "rows": [["농협은행", "신용대출", "12,500,000", "2028-01-19", "유지"], ["새마을금고", "학자금대출", "13,100,000", "2030-04-13", "유지"]],
-  "row_boxes": [{"bbox_2d": [75, 434, 524, 452], "page": 1}, {"bbox_2d": [75, 451, 524, 470], "page": 1}]
+  "columns": ["번호", "국가", "상호 또는 성명", "금기말", "전기말", "계열여부"],
+  "rows": [
+   ["16", "영국", "(주)블루파트너스", null, null, null],
+   ["17", "중국", "(주)블루파트너스", null, null, null],
+   ["18", "독일", "청솔정밀(주)", null, null, null],
+   ["19", "영국", "주식회사 제일전자", null, null, null],
+   ["20", "영국", "다온로지스(주)", null, null, null],
+   ["21", "중국", "(주)블루파트너스", null, null, null],
+   ["22", "영국", "주식회사 미래화학", null, null, null],
+   ["23", "호주", "한빛정밀(주)", null, null, null],
+   ["24", "독일", "(주)삼정전자", null, null, null],
+   ["25", "영국", "(주)블루파트너스", null, null, null],
+   ["26", "베트남", "(주)신영산업", null, null, null],
+   ["27", "중국", "(주)새한산업", null, null, null],
+   ["28", "호주", "가온화학", null, null, null],
+   ["29", "중국", "신영화학", null, null, null],
+   ["30", "중국", "유니온시스템즈(주)", null, null, null],
+   ["31", "호주", "(주)한빛시스템즈", null, null, null],
+   ["32", "캐나다", "주식회사 청솔화학", null, null, null],
+   ["33", "일본", "(주)제일무역", null, null, null],
+   ["34", "영국", "(주)블루파트너스", null, null, null],
+   ["35", "필리핀", "(주)블루파트너스", null, null, null],
+   ["36", "베트남", "청솔무역", null, null, null],
+   ["37", "일본", "(주)블루파트너스", null, null, null]
+  ],
+  "row_boxes": [
+   {"bbox_2d": [78, 162, 912, 191], "page": 1},
+   {"bbox_2d": [78, 185, 913, 214], "page": 1},
+   {"bbox_2d": [78, 208, 913, 237], "page": 1},
+   {"bbox_2d": [79, 231, 913, 260], "page": 1},
+   {"bbox_2d": [79, 254, 914, 283], "page": 1},
+   {"bbox_2d": [79, 277, 914, 306], "page": 1},
+   {"bbox_2d": [80, 300, 915, 329], "page": 1},
+   {"bbox_2d": [80, 323, 915, 352], "page": 1},
+   {"bbox_2d": [80, 346, 915, 375], "page": 1},
+   {"bbox_2d": [81, 369, 916, 398], "page": 1},
+   {"bbox_2d": [81, 392, 916, 421], "page": 1},
+   {"bbox_2d": [81, 415, 916, 444], "page": 1},
+   {"bbox_2d": [82, 438, 917, 467], "page": 1},
+   {"bbox_2d": [82, 461, 917, 490], "page": 1},
+   {"bbox_2d": [82, 484, 917, 513], "page": 1},
+   {"bbox_2d": [83, 507, 918, 536], "page": 1},
+   {"bbox_2d": [83, 530, 918, 559], "page": 1},
+   {"bbox_2d": [83, 553, 918, 582], "page": 1},
+   {"bbox_2d": [84, 575, 919, 605], "page": 1},
+   {"bbox_2d": [84, 598, 919, 628], "page": 1},
+   {"bbox_2d": [84, 621, 919, 651], "page": 1},
+   {"bbox_2d": [85, 644, 920, 674], "page": 1}
+  ]
  },
- "images": ["images/loan_application_1000000.jpg"],
+ "images": ["images/hf206_1000000_p7.jpg"],
  "meta": {
-  "doc_type": "loan_application",
-  "doc_name": "대출거래신청서",
-  "group": "bank_form",
+  "doc_type": "hf206",
+  "doc_name": "연간사업실적보고서(투자잔액 1,000만불 초과 기업)",
+  "group": "hana",
   "condition": "scan",
-  "writing": "print",
+  "writing": "hand",
   "n_pages": 1,
-  "table": "debts",
-  "ref": "box",
+  "view": "page",
+  "page": 7,
+  "n_pages_doc": 7,
+  "table": "주주현황7_목록",
+  "ref": "only",
   "scope": "all",
-  "n_rows": 2,
-  "n_cols": 5,
+  "n_rows": 22,
+  "n_cols": 6,
   "segments": 1,
   "task_group": "doc",
   "label_format": "table_rows"
@@ -2333,23 +2245,23 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 ```json
 {
- "id": "table_read/loan_application_1000000/debts/0",
+ "id": "table_read/hf206_1000000_p7/주주현황7_목록/0",
  "task": "table_read",
- "images": ["images/loan_application_1000000.jpg"],
+ "images": ["images/hf206_1000000_p7.jpg"],
  "messages": [
   {
    "role": "user",
-   "content": "<image>이 문서에서 1쪽 bbox_2d=[75, 415, 524, 465] 위치의 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.\n꼴: {\"columns\": [머리글 글자, …], \"rows\": [[칸 글자, …], …], \"row_boxes\": [{\"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호}, …]}\n- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 \" > \" 로 잇습니다.\n- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.\n- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.\n- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다."
+   "content": "<image>이 문서에서 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.\n꼴: {\"columns\": [머리글 글자, …], \"rows\": [[칸 글자, …], …], \"row_boxes\": [{\"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호}, …]}\n- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 \" > \" 로 잇습니다.\n- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.\n- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.\n- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다."
   },
   {
    "role": "assistant",
-   "content": "{\"columns\": [\"금융기관\", \"대출종류\", \"잔액(원)\", \"만기일\", \"상환여부\"], \"rows\": [[\"농협은행\", \"신용대출\", \"12,500,000\", \"2028-01-19\", \"유지\"], [\"새마을금고\", \"학자금대출\", \"13,100,000\", \"2030-04-13\", \"유지\"]], \"row_boxes\": [{\"bbox_2d\": [75, 434, 524, 452], \"page\": 1}, {\"bbox_2d\": [75, 451, 524, 470], \"page\": 1}]}"
+   "content": "{\"columns\": [\"번호\", \"국가\", \"상호 또는 성명\", \"금기말\", \"전기말\", \"계열여부\"], \"rows\": [[\"16\", \"영국\", \"(주)블루파트너스\", null, null, null], [\"17\", \"중국\", \"(주)블루파트너스\", null, null, null], [\"18\", \"독일\", \"청솔정밀(주)\", null, null, null], [\"19\", \"영국\", \"주식회사 제일전자\", null, null, null], [\"20\", \"영국\", \"다온로지스(주)\", null, null, null], [\"21\", \"중국\", \"(주)블루파트너스\", null, null, null], [\"22\", \"영국\", \"주식회사 미래화학\", null, null, null], [\"23\", \"호주\", \"한빛정밀(주)\", null, null, null], [\"24\", \"독일\", \"(주)삼정전자\", null, null, null], [\"25\", \"영국\", \"(주)블루파트너스\", null, null, null], [\"26\", \"베트남\", \"(주)신영산업\", null, null, null], [\"27\", \"중국\", \"(주)새한산업\", null, null, null], [\"28\", \"호주\", \"가온화학\", null, null, null], [\"29\", \"중국\", \"신영화학\", null, null, null], [\"30\", \"중국\", \"유니온시스템즈(주)\", null, null, null], [\"31\", \"호주\", \"(주)한빛시스템즈\", null, null, null], [\"32\", \"캐나다\", \"주식회사 청솔화학\", null, null, null], [\"33\", \"일본\", \"(주)제일무역\", null, null, null], [\"34\", \"영국\", \"(주)블루파트너스\", null, null, null], [\"35\", \"필리핀\", \"(주)블루파트너스\", null, null, null], [\"36\", \"베트남\", \"청솔무역\", null, null, null], [\"37\", \"일본\", \"(주)블루파트너스\", null, null, null]], \"row_boxes\": [{\"bbox_2d\": [78, 162, 912, 191], \"page\": 1}, {\"bbox_2d\": [78, 185, 913, 214], \"page\": 1}, {\"bbox_2d\": [78, 208, 913, 237], \"page\": 1}, {\"bbox_2d\": [79, 231, 913, 260], \"page\": 1}, {\"bbox_2d\": [79, 254, 914, 283], \"page\": 1}, {\"bbox_2d\": [79, 277, 914, 306], \"page\": 1}, {\"bbox_2d\": [80, 300, 915, 329], \"page\": 1}, {\"bbox_2d\": [80, 323, 915, 352], \"page\": 1}, {\"bbox_2d\": [80, 346, 915, 375], \"page\": 1}, {\"bbox_2d\": [81, 369, 916, 398], \"page\": 1}, {\"bbox_2d\": [81, 392, 916, 421], \"page\": 1}, {\"bbox_2d\": [81, 415, 916, 444], \"page\": 1}, {\"bbox_2d\": [82, 438, 917, 467], \"page\": 1}, {\"bbox_2d\": [82, 461, 917, 490], \"page\": 1}, {\"bbox_2d\": [82, 484, 917, 513], \"page\": 1}, {\"bbox_2d\": [83, 507, 918, 536], \"page\": 1}, {\"bbox_2d\": [83, 530, 918, 559], \"page\": 1}, {\"bbox_2d\": [83, 553, 918, 582], \"page\": 1}, {\"bbox_2d\": [84, 575, 919, 605], \"page\": 1}, {\"bbox_2d\": [84, 598, 919, 628], \"page\": 1}, {\"bbox_2d\": [84, 621, 919, 651], \"page\": 1}, {\"bbox_2d\": [85, 644, 920, 674], \"page\": 1}]}"
   }
  ]
 }
 ```
 
-### 2-11. table_find — 표 찾기
+### 2-10. table_find — 표 찾기
 
 **정답 형식:** `[{"columns": 머리글, "bbox_2d", "page", "n_rows"}]` 표마다 (여러 쪽이면 쪽마다), 없으면 []
 
@@ -2357,9 +2269,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="../examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
+<p><a href="../examples/img/hf206_1000000_p7_abb4abbd.jpg"><img src="../examples/img/hf206_1000000_p7_abb4abbd.jpg" width="300"></a></p>
 
-1. `loan_application_1000000.jpg`
+1. `hf206_1000000_p7.jpg`
 
 **질문** (`prompt`)
 
@@ -2372,8 +2284,7 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 ```json
 [
- {"columns": ["금융기관", "대출종류", "잔액", "만기일", "상환여부"], "bbox_2d": [75, 415, 524, 465], "page": 1, "n_rows": 2},
- {"columns": ["종류", "소재지", "평가금액"], "bbox_2d": [535, 416, 925, 466], "page": 1, "n_rows": 2}
+ {"columns": ["국가", "상호또는성명", "금기말", "전기말", "계열여부"], "bbox_2d": [124, 137, 912, 667], "page": 1, "n_rows": 22}
 ]
 ```
 
@@ -2381,14 +2292,17 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 ```json
 {
- "doc_type": "loan_application",
- "doc_name": "대출거래신청서",
- "group": "bank_form",
+ "doc_type": "hf206",
+ "doc_name": "연간사업실적보고서(투자잔액 1,000만불 초과 기업)",
+ "group": "hana",
  "condition": "scan",
- "writing": "print",
+ "writing": "hand",
  "n_pages": 1,
- "n_tables": 2,
- "n_segments": 2,
+ "view": "page",
+ "page": 7,
+ "n_pages_doc": 7,
+ "n_tables": 1,
+ "n_segments": 1,
  "task_group": "doc",
  "label_format": "table_list"
 }
@@ -2400,23 +2314,30 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 ```json
 {
- "id": "table_find/loan_application_1000000",
+ "id": "table_find/hf206_1000000_p7",
  "task": "table_find",
  "prompt": "이 문서에서 표를 모두 찾아 JSON 목록으로 답하세요. 여기서 표는 같은 항목 묶음(열)이 행마다 되풀이되고 행 수가 서류마다 달라지는 목록입니다. 항목명과 값이 번갈아 있는 신청서 칸, 칸 수가 정해진 결재란은 표가 아닙니다.\n표마다 {{\"columns\": [머리글 글자, …], \"bbox_2d\": [x1, y1, x2, y2], \"page\": 쪽 번호, \"n_rows\": 행 수}} 를 쓰고, 여러 쪽에 걸친 표는 쪽마다 따로 씁니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 행 수에는 머리글·합계 행과 모두 빈 행을 넣지 않습니다. 표가 없으면 [] 로 답하세요.",
  "answer": [
-  {"columns": ["금융기관", "대출종류", "잔액", "만기일", "상환여부"], "bbox_2d": [75, 415, 524, 465], "page": 1, "n_rows": 2},
-  {"columns": ["종류", "소재지", "평가금액"], "bbox_2d": [535, 416, 925, 466], "page": 1, "n_rows": 2}
+  {
+   "columns": ["국가", "상호또는성명", "금기말", "전기말", "계열여부"],
+   "bbox_2d": [124, 137, 912, 667],
+   "page": 1,
+   "n_rows": 22
+  }
  ],
- "images": ["images/loan_application_1000000.jpg"],
+ "images": ["images/hf206_1000000_p7.jpg"],
  "meta": {
-  "doc_type": "loan_application",
-  "doc_name": "대출거래신청서",
-  "group": "bank_form",
+  "doc_type": "hf206",
+  "doc_name": "연간사업실적보고서(투자잔액 1,000만불 초과 기업)",
+  "group": "hana",
   "condition": "scan",
-  "writing": "print",
+  "writing": "hand",
   "n_pages": 1,
-  "n_tables": 2,
-  "n_segments": 2,
+  "view": "page",
+  "page": 7,
+  "n_pages_doc": 7,
+  "n_tables": 1,
+  "n_segments": 1,
   "task_group": "doc",
   "label_format": "table_list"
  }
@@ -2428,9 +2349,9 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 ```json
 {
- "id": "table_find/loan_application_1000000",
+ "id": "table_find/hf206_1000000_p7",
  "task": "table_find",
- "images": ["images/loan_application_1000000.jpg"],
+ "images": ["images/hf206_1000000_p7.jpg"],
  "messages": [
   {
    "role": "user",
@@ -2438,13 +2359,13 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
   },
   {
    "role": "assistant",
-   "content": "[{\"columns\": [\"금융기관\", \"대출종류\", \"잔액\", \"만기일\", \"상환여부\"], \"bbox_2d\": [75, 415, 524, 465], \"page\": 1, \"n_rows\": 2}, {\"columns\": [\"종류\", \"소재지\", \"평가금액\"], \"bbox_2d\": [535, 416, 925, 466], \"page\": 1, \"n_rows\": 2}]"
+   "content": "[{\"columns\": [\"국가\", \"상호또는성명\", \"금기말\", \"전기말\", \"계열여부\"], \"bbox_2d\": [124, 137, 912, 667], \"page\": 1, \"n_rows\": 22}]"
   }
  ]
 }
 ```
 
-### 2-12. table_qa — 표 질의
+### 2-11. table_qa — 표 질의
 
 **정답 형식:** 숫자 하나 또는 칸 값 (비었으면 null)
 
@@ -2452,42 +2373,45 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 **입력 이미지** (1장, 질문 앞에 이 순서로)
 
-<p><a href="examples/img/loan_application_1000000_2f80df5e.jpg"><img src="../examples/img/loan_application_1000000_2f80df5e.jpg" width="300"></a></p>
+<p><a href="../examples/img/hf206_1000000_p7_abb4abbd.jpg"><img src="../examples/img/hf206_1000000_p7_abb4abbd.jpg" width="300"></a></p>
 
-1. `loan_application_1000000.jpg`
+1. `hf206_1000000_p7.jpg`
 
 **질문** (`prompt`)
 
 ```
-이 문서의 '만기일'·'상환여부' 열이 있는 표를 보고 답하세요. '잔액' 칸의 값을 모두 더하면 얼마입니까? 빈 칸은 0 으로 봅니다. (쉼표·단위 없이 숫자만 답하세요)
+이 문서의 '전기말'·'계열여부' 열이 있는 표를 보고 답하세요. 표의 행은 모두 몇 개입니까? 머리글·합계 행과 모두 빈 행은 세지 않습니다. (숫자만 답하세요)
 ```
 
 **정답** (`answer`)
 
 ```json
-25600000
+22
 ```
 
 **채점 정보** (`eval`)
 
 ```json
-{"answer_type": "number", "type": "amount", "key": "balance"}
+{"answer_type": "number", "type": null, "key": null}
 ```
 
 **나눠 보기 정보** (`meta`)
 
 ```json
 {
- "doc_type": "loan_application",
- "doc_name": "대출거래신청서",
- "group": "bank_form",
+ "doc_type": "hf206",
+ "doc_name": "연간사업실적보고서(투자잔액 1,000만불 초과 기업)",
+ "group": "hana",
  "condition": "scan",
- "writing": "print",
+ "writing": "hand",
  "n_pages": 1,
- "table": "debts",
- "kind": "sum",
+ "view": "page",
+ "page": 7,
+ "n_pages_doc": 7,
+ "table": "주주현황7_목록",
+ "kind": "count",
  "ref": "header",
- "n_rows": 2,
+ "n_rows": 22,
  "task_group": "doc",
  "label_format": "scalar"
 }
@@ -2499,23 +2423,26 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 ```json
 {
- "id": "table_qa/loan_application_1000000/debts/0",
+ "id": "table_qa/hf206_1000000_p7/주주현황7_목록/0",
  "task": "table_qa",
- "prompt": "이 문서의 '만기일'·'상환여부' 열이 있는 표를 보고 답하세요. '잔액' 칸의 값을 모두 더하면 얼마입니까? 빈 칸은 0 으로 봅니다. (쉼표·단위 없이 숫자만 답하세요)",
- "answer": 25600000,
- "eval": {"answer_type": "number", "type": "amount", "key": "balance"},
- "images": ["images/loan_application_1000000.jpg"],
+ "prompt": "이 문서의 '전기말'·'계열여부' 열이 있는 표를 보고 답하세요. 표의 행은 모두 몇 개입니까? 머리글·합계 행과 모두 빈 행은 세지 않습니다. (숫자만 답하세요)",
+ "answer": 22,
+ "eval": {"answer_type": "number", "type": null, "key": null},
+ "images": ["images/hf206_1000000_p7.jpg"],
  "meta": {
-  "doc_type": "loan_application",
-  "doc_name": "대출거래신청서",
-  "group": "bank_form",
+  "doc_type": "hf206",
+  "doc_name": "연간사업실적보고서(투자잔액 1,000만불 초과 기업)",
+  "group": "hana",
   "condition": "scan",
-  "writing": "print",
+  "writing": "hand",
   "n_pages": 1,
-  "table": "debts",
-  "kind": "sum",
+  "view": "page",
+  "page": 7,
+  "n_pages_doc": 7,
+  "table": "주주현황7_목록",
+  "kind": "count",
   "ref": "header",
-  "n_rows": 2,
+  "n_rows": 22,
   "task_group": "doc",
   "label_format": "scalar"
  }
@@ -2527,3948 +2454,29 @@ bbox_2d=[458, 441, 617, 460] 글자 바로 아래에 있는 글자를 찾으세�
 
 ```json
 {
- "id": "table_qa/loan_application_1000000/debts/0",
+ "id": "table_qa/hf206_1000000_p7/주주현황7_목록/0",
  "task": "table_qa",
- "images": ["images/loan_application_1000000.jpg"],
+ "images": ["images/hf206_1000000_p7.jpg"],
  "messages": [
   {
    "role": "user",
-   "content": "<image>이 문서의 '만기일'·'상환여부' 열이 있는 표를 보고 답하세요. '잔액' 칸의 값을 모두 더하면 얼마입니까? 빈 칸은 0 으로 봅니다. (쉼표·단위 없이 숫자만 답하세요)"
+   "content": "<image>이 문서의 '전기말'·'계열여부' 열이 있는 표를 보고 답하세요. 표의 행은 모두 몇 개입니까? 머리글·합계 행과 모두 빈 행은 세지 않습니다. (숫자만 답하세요)"
   },
-  {"role": "assistant", "content": "25600000"}
+  {"role": "assistant", "content": "22"}
  ]
 }
 ```
 
-## 3부. 서류 대조 사례 14종 (cross_check 문항 하나씩)
-
-사례마다 원본 서류에서 그 관계가 맞는지 먼저 확인하고, 50% 확률로 값 하나를 바꿔 다시 렌더링합니다(변조 문항). 나머지는 같은 서류 조합 그대로 냅니다(정상 문항). 아래는 사례마다 변조 문항 하나입니다(`format_only` 는 항상 정상 문항). 예/아니오로 물을 수 있는 사례는 같은 이미지로 심사 질의 문항(`review`, rule `case:<사례>`)도 만듭니다.
-
-### 3-1. typo — 성명·번호·주소 오기
-
-**분류:** `typo` · **실제 사례 근거:** 신청서·약정서 기재 오류 (성명·주민번호·연락처·주소 한 자리)
-
-**입력 이미지** (3장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/customer_due_diligence_fc8a9a9d.jpg"><img src="../examples/img/customer_due_diligence_fc8a9a9d.jpg" width="300"></a> <a href="examples/img/fatca_crs_typo_dfdccaa7.jpg"><img src="../examples/img/fatca_crs_typo_dfdccaa7.jpg" width="300"></a> <a href="examples/img/financial_transaction_purpose_3cc830f1.jpg"><img src="../examples/img/financial_transaction_purpose_3cc830f1.jpg" width="300"></a></p>
-
-1. `customer_due_diligence.jpg` · 2. `fatca_crs_typo.png` · 3. `financial_transaction_purpose.png`
-
-**질문** (`prompt`)
-
-```
-고객 '주하진' 님이 '개인 계좌개설' 업무를 위해 제출한 서류 3건입니다 (이미지 3장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.
-{"consistent": true 또는 false, "issues": [{"document": "문제가 있는 서류명", "field": "항목명", "value": "그 서류에 적힌 값", "expected": "다른 서류에 적힌 값"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {"consistent": true, "issues": []} 입니다.
-```
-
-**정답** (`answer`)
-
-```json
-{
- "consistent": false,
- "issues": [
-  {
-   "document": "해외금융계좌 납세자 확인서(개인)",
-   "field": "연락처",
-   "value": "010-2975-6008",
-   "expected": "010-2975-6068",
-   "alt_documents": []
-  }
- ]
-}
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"documents": ["고객확인서(개인)", "해외금융계좌 납세자 확인서(개인)", "금융거래목적확인서"]}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "account_opening",
- "task_name": "개인 계좌개설",
- "bundle": "account_opening_2000002",
- "customer": "주하진",
- "case": "typo",
- "category": "typo",
- "perturbed": true,
- "n_docs": 3,
- "task_group": "work",
- "label_format": "consistency_issues"
-}
-```
-
-**문항 한 줄 전체** (`tasks/cross_check.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "cross_check/account_opening_2000002/typo",
- "task": "cross_check",
- "images": [
-  "images/bundles/account_opening_2000002/customer_due_diligence.jpg",
-  "images/bundles/account_opening_2000002/fatca_crs_typo.png",
-  "images/bundles/account_opening_2000002/financial_transaction_purpose.png"
- ],
- "prompt": "고객 '주하진' 님이 '개인 계좌개설' 업무를 위해 제출한 서류 3건입니다 (이미지 3장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다.",
- "answer": {
-  "consistent": false,
-  "issues": [
-   {
-    "document": "해외금융계좌 납세자 확인서(개인)",
-    "field": "연락처",
-    "value": "010-2975-6008",
-    "expected": "010-2975-6068",
-    "alt_documents": []
-   }
-  ]
- },
- "eval": {"documents": ["고객확인서(개인)", "해외금융계좌 납세자 확인서(개인)", "금융거래목적확인서"]},
- "meta": {
-  "scenario": "account_opening",
-  "task_name": "개인 계좌개설",
-  "bundle": "account_opening_2000002",
-  "customer": "주하진",
-  "case": "typo",
-  "category": "typo",
-  "perturbed": true,
-  "n_docs": 3,
-  "task_group": "work",
-  "label_format": "consistency_issues"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "cross_check/account_opening_2000002/typo",
- "task": "cross_check",
- "images": [
-  "images/bundles/account_opening_2000002/customer_due_diligence.jpg",
-  "images/bundles/account_opening_2000002/fatca_crs_typo.png",
-  "images/bundles/account_opening_2000002/financial_transaction_purpose.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image><image>고객 '주하진' 님이 '개인 계좌개설' 업무를 위해 제출한 서류 3건입니다 (이미지 3장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다."
-  },
-  {
-   "role": "assistant",
-   "content": "{\"consistent\": false, \"issues\": [{\"document\": \"해외금융계좌 납세자 확인서(개인)\", \"field\": \"연락처\", \"value\": \"010-2975-6008\", \"expected\": \"010-2975-6068\"}]}"
-  }
- ]
-}
-```
-
-### 3-2. other_person — 타인 명의 서류
-
-**분류:** `other_person` · **실제 사례 근거:** 명의도용·가족 서류 혼입, 대리 제출 시 타인 서류
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/account_opening_application_965390df.jpg"><img src="../examples/img/account_opening_application_965390df.jpg" width="300"></a> <a href="examples/img/resident_id_card_other_person_a9da32b8.jpg"><img src="../examples/img/resident_id_card_other_person_a9da32b8.jpg" width="300"></a></p>
-
-1. `account_opening_application.png` · 2. `resident_id_card_other_person.png`
-
-**질문** (`prompt`)
-
-```
-고객 '박승주' 님이 '개인 계좌개설' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.
-{"consistent": true 또는 false, "issues": [{"document": "문제가 있는 서류명", "field": "항목명", "value": "그 서류에 적힌 값", "expected": "다른 서류에 적힌 값"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {"consistent": true, "issues": []} 입니다.
-```
-
-**정답** (`answer`)
-
-```json
-{
- "consistent": false,
- "issues": [{"document": "주민등록증", "field": "성명", "value": "함정재", "expected": "박승주", "alt_documents": []}]
-}
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"documents": ["예금거래신청서", "주민등록증"]}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "account_opening",
- "task_name": "개인 계좌개설",
- "bundle": "account_opening_2000003",
- "customer": "박승주",
- "case": "other_person",
- "category": "other_person",
- "perturbed": true,
- "n_docs": 2,
- "task_group": "work",
- "label_format": "consistency_issues"
-}
-```
-
-**문항 한 줄 전체** (`tasks/cross_check.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "cross_check/account_opening_2000003/other_person",
- "task": "cross_check",
- "images": [
-  "images/bundles/account_opening_2000003/account_opening_application.png",
-  "images/bundles/account_opening_2000003/resident_id_card_other_person.png"
- ],
- "prompt": "고객 '박승주' 님이 '개인 계좌개설' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다.",
- "answer": {
-  "consistent": false,
-  "issues": [{"document": "주민등록증", "field": "성명", "value": "함정재", "expected": "박승주", "alt_documents": []}]
- },
- "eval": {"documents": ["예금거래신청서", "주민등록증"]},
- "meta": {
-  "scenario": "account_opening",
-  "task_name": "개인 계좌개설",
-  "bundle": "account_opening_2000003",
-  "customer": "박승주",
-  "case": "other_person",
-  "category": "other_person",
-  "perturbed": true,
-  "n_docs": 2,
-  "task_group": "work",
-  "label_format": "consistency_issues"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "cross_check/account_opening_2000003/other_person",
- "task": "cross_check",
- "images": [
-  "images/bundles/account_opening_2000003/account_opening_application.png",
-  "images/bundles/account_opening_2000003/resident_id_card_other_person.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객 '박승주' 님이 '개인 계좌개설' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다."
-  },
-  {
-   "role": "assistant",
-   "content": "{\"consistent\": false, \"issues\": [{\"document\": \"주민등록증\", \"field\": \"성명\", \"value\": \"함정재\", \"expected\": \"박승주\"}]}"
-  }
- ]
-}
-```
-
-### 3-3. loan_vs_agreement — 신청금액 ≠ 약정금액
-
-**분류:** `amount` · **실제 사례 근거:** 신청서와 약정서 금액 상이 (약정서 작성 오류·변조)
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/loan_application_b96f2406.jpg"><img src="../examples/img/loan_application_b96f2406.jpg" width="300"></a> <a href="examples/img/credit_agreement_loan_vs_agreement_db79cfa4.jpg"><img src="../examples/img/credit_agreement_loan_vs_agreement_db79cfa4.jpg" width="300"></a></p>
-
-1. `loan_application.jpg` · 2. `credit_agreement_loan_vs_agreement.jpg`
-
-**질문** (`prompt`)
-
-```
-고객 '강서찬' 님이 '개인 신용대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.
-{"consistent": true 또는 false, "issues": [{"document": "문제가 있는 서류명", "field": "항목명", "value": "그 서류에 적힌 값", "expected": "다른 서류에 적힌 값"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {"consistent": true, "issues": []} 입니다.
-```
-
-**정답** (`answer`)
-
-```json
-{
- "consistent": false,
- "issues": [
-  {
-   "document": "대출거래약정서(가계용)",
-   "field": "대출(한도)금액",
-   "value": "33,000,000원",
-   "expected": "37,000,000원",
-   "alt_documents": ["대출거래신청서"]
-  }
- ]
-}
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"documents": ["대출거래신청서", "대출거래약정서(가계용)"]}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "personal_credit_loan",
- "task_name": "개인 신용대출",
- "bundle": "personal_credit_loan_2001000",
- "customer": "강서찬",
- "case": "loan_vs_agreement",
- "category": "amount",
- "perturbed": true,
- "n_docs": 2,
- "task_group": "work",
- "label_format": "consistency_issues"
-}
-```
-
-**문항 한 줄 전체** (`tasks/cross_check.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "cross_check/personal_credit_loan_2001000/loan_vs_agreement",
- "task": "cross_check",
- "images": [
-  "images/bundles/personal_credit_loan_2001000/loan_application.jpg",
-  "images/bundles/personal_credit_loan_2001000/credit_agreement_loan_vs_agreement.jpg"
- ],
- "prompt": "고객 '강서찬' 님이 '개인 신용대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다.",
- "answer": {
-  "consistent": false,
-  "issues": [
-   {
-    "document": "대출거래약정서(가계용)",
-    "field": "대출(한도)금액",
-    "value": "33,000,000원",
-    "expected": "37,000,000원",
-    "alt_documents": ["대출거래신청서"]
-   }
-  ]
- },
- "eval": {"documents": ["대출거래신청서", "대출거래약정서(가계용)"]},
- "meta": {
-  "scenario": "personal_credit_loan",
-  "task_name": "개인 신용대출",
-  "bundle": "personal_credit_loan_2001000",
-  "customer": "강서찬",
-  "case": "loan_vs_agreement",
-  "category": "amount",
-  "perturbed": true,
-  "n_docs": 2,
-  "task_group": "work",
-  "label_format": "consistency_issues"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "cross_check/personal_credit_loan_2001000/loan_vs_agreement",
- "task": "cross_check",
- "images": [
-  "images/bundles/personal_credit_loan_2001000/loan_application.jpg",
-  "images/bundles/personal_credit_loan_2001000/credit_agreement_loan_vs_agreement.jpg"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객 '강서찬' 님이 '개인 신용대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다."
-  },
-  {
-   "role": "assistant",
-   "content": "{\"consistent\": false, \"issues\": [{\"document\": \"대출거래약정서(가계용)\", \"field\": \"대출(한도)금액\", \"value\": \"33,000,000원\", \"expected\": \"37,000,000원\"}]}"
-  }
- ]
-}
-```
-
-### 3-4. income_inflated — 소득 부풀리기
-
-**분류:** `amount` · **실제 사례 근거:** 작업대출: 원천징수영수증 위·변조로 소득 과다 기재
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/income_certificate_43655b9f.jpg"><img src="../examples/img/income_certificate_43655b9f.jpg" width="300"></a> <a href="examples/img/withholding_receipt_income_inflated_db6bc1eb.jpg"><img src="../examples/img/withholding_receipt_income_inflated_db6bc1eb.jpg" width="300"></a></p>
-
-1. `income_certificate.jpg` · 2. `withholding_receipt_income_inflated.png`
-
-**질문** (`prompt`)
-
-```
-고객 '강서찬' 님이 '개인 신용대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.
-{"consistent": true 또는 false, "issues": [{"document": "문제가 있는 서류명", "field": "항목명", "value": "그 서류에 적힌 값", "expected": "다른 서류에 적힌 값"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {"consistent": true, "issues": []} 입니다.
-```
-
-**정답** (`answer`)
-
-```json
-{
- "consistent": false,
- "issues": [
-  {
-   "document": "근로소득 원천징수영수증",
-   "field": "계",
-   "value": "57,670,000",
-   "expected": "43,490,000",
-   "alt_documents": ["소득금액증명원"]
-  }
- ]
-}
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"documents": ["소득금액증명원", "근로소득 원천징수영수증"]}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "personal_credit_loan",
- "task_name": "개인 신용대출",
- "bundle": "personal_credit_loan_2001000",
- "customer": "강서찬",
- "case": "income_inflated",
- "category": "amount",
- "perturbed": true,
- "n_docs": 2,
- "task_group": "work",
- "label_format": "consistency_issues"
-}
-```
-
-**문항 한 줄 전체** (`tasks/cross_check.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "cross_check/personal_credit_loan_2001000/income_inflated",
- "task": "cross_check",
- "images": [
-  "images/bundles/personal_credit_loan_2001000/income_certificate.jpg",
-  "images/bundles/personal_credit_loan_2001000/withholding_receipt_income_inflated.png"
- ],
- "prompt": "고객 '강서찬' 님이 '개인 신용대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다.",
- "answer": {
-  "consistent": false,
-  "issues": [
-   {
-    "document": "근로소득 원천징수영수증",
-    "field": "계",
-    "value": "57,670,000",
-    "expected": "43,490,000",
-    "alt_documents": ["소득금액증명원"]
-   }
-  ]
- },
- "eval": {"documents": ["소득금액증명원", "근로소득 원천징수영수증"]},
- "meta": {
-  "scenario": "personal_credit_loan",
-  "task_name": "개인 신용대출",
-  "bundle": "personal_credit_loan_2001000",
-  "customer": "강서찬",
-  "case": "income_inflated",
-  "category": "amount",
-  "perturbed": true,
-  "n_docs": 2,
-  "task_group": "work",
-  "label_format": "consistency_issues"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "cross_check/personal_credit_loan_2001000/income_inflated",
- "task": "cross_check",
- "images": [
-  "images/bundles/personal_credit_loan_2001000/income_certificate.jpg",
-  "images/bundles/personal_credit_loan_2001000/withholding_receipt_income_inflated.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객 '강서찬' 님이 '개인 신용대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다."
-  },
-  {
-   "role": "assistant",
-   "content": "{\"consistent\": false, \"issues\": [{\"document\": \"근로소득 원천징수영수증\", \"field\": \"계\", \"value\": \"57,670,000\", \"expected\": \"43,490,000\"}]}"
-  }
- ]
-}
-```
-
-### 3-5. lease_owner — 임대인 ≠ 등기부 소유자
-
-**분류:** `logic` · **실제 사례 근거:** 전세사기: 계약서상 임대인이 등기부 소유자가 아님
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/lease_contract_5a89b782.jpg"><img src="../examples/img/lease_contract_5a89b782.jpg" width="300"></a> <a href="examples/img/real_estate_registry_lease_owner_1412bcd2.jpg"><img src="../examples/img/real_estate_registry_lease_owner_1412bcd2.jpg" width="300"></a></p>
-
-1. `lease_contract.png` · 2. `real_estate_registry_lease_owner.png`
-
-**질문** (`prompt`)
-
-```
-고객 '방하주' 님이 '전세자금대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.
-{"consistent": true 또는 false, "issues": [{"document": "문제가 있는 서류명", "field": "항목명", "value": "그 서류에 적힌 값", "expected": "다른 서류에 적힌 값"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {"consistent": true, "issues": []} 입니다.
-```
-
-**정답** (`answer`)
-
-```json
-{
- "consistent": false,
- "issues": [
-  {
-   "document": "등기사항전부증명서(집합건물)",
-   "field": "소유자",
-   "value": "추규태",
-   "expected": "신수유",
-   "alt_documents": ["주택임대차표준계약서"]
-  }
- ]
-}
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"documents": ["주택임대차표준계약서", "등기사항전부증명서(집합건물)"]}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "jeonse_loan",
- "task_name": "전세자금대출",
- "bundle": "jeonse_loan_2003000",
- "customer": "방하주",
- "case": "lease_owner",
- "category": "logic",
- "perturbed": true,
- "n_docs": 2,
- "task_group": "work",
- "label_format": "consistency_issues"
-}
-```
-
-**문항 한 줄 전체** (`tasks/cross_check.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "cross_check/jeonse_loan_2003000/lease_owner",
- "task": "cross_check",
- "images": [
-  "images/bundles/jeonse_loan_2003000/lease_contract.png",
-  "images/bundles/jeonse_loan_2003000/real_estate_registry_lease_owner.png"
- ],
- "prompt": "고객 '방하주' 님이 '전세자금대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다.",
- "answer": {
-  "consistent": false,
-  "issues": [
-   {
-    "document": "등기사항전부증명서(집합건물)",
-    "field": "소유자",
-    "value": "추규태",
-    "expected": "신수유",
-    "alt_documents": ["주택임대차표준계약서"]
-   }
-  ]
- },
- "eval": {"documents": ["주택임대차표준계약서", "등기사항전부증명서(집합건물)"]},
- "meta": {
-  "scenario": "jeonse_loan",
-  "task_name": "전세자금대출",
-  "bundle": "jeonse_loan_2003000",
-  "customer": "방하주",
-  "case": "lease_owner",
-  "category": "logic",
-  "perturbed": true,
-  "n_docs": 2,
-  "task_group": "work",
-  "label_format": "consistency_issues"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "cross_check/jeonse_loan_2003000/lease_owner",
- "task": "cross_check",
- "images": [
-  "images/bundles/jeonse_loan_2003000/lease_contract.png",
-  "images/bundles/jeonse_loan_2003000/real_estate_registry_lease_owner.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객 '방하주' 님이 '전세자금대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다."
-  },
-  {
-   "role": "assistant",
-   "content": "{\"consistent\": false, \"issues\": [{\"document\": \"등기사항전부증명서(집합건물)\", \"field\": \"소유자\", \"value\": \"추규태\", \"expected\": \"신수유\"}]}"
-  }
- ]
-}
-```
-
-### 3-6. seller_owner — 매도인 ≠ 등기부 소유자
-
-**분류:** `logic` · **실제 사례 근거:** 무권리자 매도·허위 매매계약
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/real_estate_registry_seller_owner_199a1edd.jpg"><img src="../examples/img/real_estate_registry_seller_owner_199a1edd.jpg" width="300"></a> <a href="examples/img/sales_contract_9a10688a.jpg"><img src="../examples/img/sales_contract_9a10688a.jpg" width="300"></a></p>
-
-1. `real_estate_registry_seller_owner.jpg` · 2. `sales_contract.jpg`
-
-**질문** (`prompt`)
-
-```
-고객 '반주현' 님이 '주택담보대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.
-{"consistent": true 또는 false, "issues": [{"document": "문제가 있는 서류명", "field": "항목명", "value": "그 서류에 적힌 값", "expected": "다른 서류에 적힌 값"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {"consistent": true, "issues": []} 입니다.
-```
-
-**정답** (`answer`)
-
-```json
-{
- "consistent": false,
- "issues": [
-  {
-   "document": "등기사항전부증명서(집합건물)",
-   "field": "소유자",
-   "value": "강태희",
-   "expected": "김건은",
-   "alt_documents": ["부동산 매매계약서"]
-  }
- ]
-}
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"documents": ["등기사항전부증명서(집합건물)", "부동산 매매계약서"]}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "mortgage",
- "task_name": "주택담보대출",
- "bundle": "mortgage_2002002",
- "customer": "반주현",
- "case": "seller_owner",
- "category": "logic",
- "perturbed": true,
- "n_docs": 2,
- "task_group": "work",
- "label_format": "consistency_issues"
-}
-```
-
-**문항 한 줄 전체** (`tasks/cross_check.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "cross_check/mortgage_2002002/seller_owner",
- "task": "cross_check",
- "images": [
-  "images/bundles/mortgage_2002002/real_estate_registry_seller_owner.jpg",
-  "images/bundles/mortgage_2002002/sales_contract.jpg"
- ],
- "prompt": "고객 '반주현' 님이 '주택담보대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다.",
- "answer": {
-  "consistent": false,
-  "issues": [
-   {
-    "document": "등기사항전부증명서(집합건물)",
-    "field": "소유자",
-    "value": "강태희",
-    "expected": "김건은",
-    "alt_documents": ["부동산 매매계약서"]
-   }
-  ]
- },
- "eval": {"documents": ["등기사항전부증명서(집합건물)", "부동산 매매계약서"]},
- "meta": {
-  "scenario": "mortgage",
-  "task_name": "주택담보대출",
-  "bundle": "mortgage_2002002",
-  "customer": "반주현",
-  "case": "seller_owner",
-  "category": "logic",
-  "perturbed": true,
-  "n_docs": 2,
-  "task_group": "work",
-  "label_format": "consistency_issues"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "cross_check/mortgage_2002002/seller_owner",
- "task": "cross_check",
- "images": [
-  "images/bundles/mortgage_2002002/real_estate_registry_seller_owner.jpg",
-  "images/bundles/mortgage_2002002/sales_contract.jpg"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객 '반주현' 님이 '주택담보대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다."
-  },
-  {
-   "role": "assistant",
-   "content": "{\"consistent\": false, \"issues\": [{\"document\": \"등기사항전부증명서(집합건물)\", \"field\": \"소유자\", \"value\": \"강태희\", \"expected\": \"김건은\"}]}"
-  }
- ]
-}
-```
-
-### 3-7. hire_date — 재직기간 부풀리기
-
-**분류:** `logic` · **실제 사례 근거:** 작업대출: 재직증명서 입사일 ≠ 건강보험 자격취득일
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/health_insurance_qualification_2d3c39c0.jpg"><img src="../examples/img/health_insurance_qualification_2d3c39c0.jpg" width="300"></a> <a href="examples/img/employment_certificate_hire_date_d3b1f6a2.jpg"><img src="../examples/img/employment_certificate_hire_date_d3b1f6a2.jpg" width="300"></a></p>
-
-1. `health_insurance_qualification.png` · 2. `employment_certificate_hire_date.jpg`
-
-**질문** (`prompt`)
-
-```
-고객 '임승우' 님이 '개인 신용대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.
-{"consistent": true 또는 false, "issues": [{"document": "문제가 있는 서류명", "field": "항목명", "value": "그 서류에 적힌 값", "expected": "다른 서류에 적힌 값"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {"consistent": true, "issues": []} 입니다.
-```
-
-**정답** (`answer`)
-
-```json
-{
- "consistent": false,
- "issues": [
-  {
-   "document": "재직증명서",
-   "field": "재직기간",
-   "value": "2006년 11월 16일 ~ 현재",
-   "expected": "2010년 09월 02일 ~ 현재",
-   "alt_documents": ["건강보험 자격득실확인서"]
-  }
- ]
-}
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"documents": ["건강보험 자격득실확인서", "재직증명서"]}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "personal_credit_loan",
- "task_name": "개인 신용대출",
- "bundle": "personal_credit_loan_2001001",
- "customer": "임승우",
- "case": "hire_date",
- "category": "logic",
- "perturbed": true,
- "n_docs": 2,
- "task_group": "work",
- "label_format": "consistency_issues"
-}
-```
-
-**문항 한 줄 전체** (`tasks/cross_check.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "cross_check/personal_credit_loan_2001001/hire_date",
- "task": "cross_check",
- "images": [
-  "images/bundles/personal_credit_loan_2001001/health_insurance_qualification.png",
-  "images/bundles/personal_credit_loan_2001001/employment_certificate_hire_date.jpg"
- ],
- "prompt": "고객 '임승우' 님이 '개인 신용대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다.",
- "answer": {
-  "consistent": false,
-  "issues": [
-   {
-    "document": "재직증명서",
-    "field": "재직기간",
-    "value": "2006년 11월 16일 ~ 현재",
-    "expected": "2010년 09월 02일 ~ 현재",
-    "alt_documents": ["건강보험 자격득실확인서"]
-   }
-  ]
- },
- "eval": {"documents": ["건강보험 자격득실확인서", "재직증명서"]},
- "meta": {
-  "scenario": "personal_credit_loan",
-  "task_name": "개인 신용대출",
-  "bundle": "personal_credit_loan_2001001",
-  "customer": "임승우",
-  "case": "hire_date",
-  "category": "logic",
-  "perturbed": true,
-  "n_docs": 2,
-  "task_group": "work",
-  "label_format": "consistency_issues"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "cross_check/personal_credit_loan_2001001/hire_date",
- "task": "cross_check",
- "images": [
-  "images/bundles/personal_credit_loan_2001001/health_insurance_qualification.png",
-  "images/bundles/personal_credit_loan_2001001/employment_certificate_hire_date.jpg"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객 '임승우' 님이 '개인 신용대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다."
-  },
-  {
-   "role": "assistant",
-   "content": "{\"consistent\": false, \"issues\": [{\"document\": \"재직증명서\", \"field\": \"재직기간\", \"value\": \"2006년 11월 16일 ~ 현재\", \"expected\": \"2010년 09월 02일 ~ 현재\"}]}"
-  }
- ]
-}
-```
-
-### 3-8. rep_director — 법인 대표자 불일치
-
-**분류:** `logic` · **실제 사례 근거:** 대표이사 변경 미반영·권한 없는 자의 신청
-
-**입력 이미지** (3장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/loan_application_corp_p1_15596e83.jpg"><img src="../examples/img/loan_application_corp_p1_15596e83.jpg" width="300"></a> <a href="examples/img/loan_application_corp_p2_7fe4d42f.jpg"><img src="../examples/img/loan_application_corp_p2_7fe4d42f.jpg" width="300"></a> <a href="examples/img/corporate_seal_certificate_rep_director_8b0e0fe1.jpg"><img src="../examples/img/corporate_seal_certificate_rep_director_8b0e0fe1.jpg" width="300"></a></p>
-
-1. `loan_application_corp_p1.jpg` · 2. `loan_application_corp_p2.jpg` · 3. `corporate_seal_certificate_rep_director.png`
-
-**질문** (`prompt`)
-
-```
-고객 '배연수' 님이 '법인 여신' 업무를 위해 제출한 서류 2건입니다 (이미지 3장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.
-{"consistent": true 또는 false, "issues": [{"document": "문제가 있는 서류명", "field": "항목명", "value": "그 서류에 적힌 값", "expected": "다른 서류에 적힌 값"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {"consistent": true, "issues": []} 입니다.
-```
-
-**정답** (`answer`)
-
-```json
-{
- "consistent": false,
- "issues": [{"document": "법인인감증명서", "field": "성명", "value": "이하도", "expected": "배연수", "alt_documents": ["기업여신 신청서"]}]
-}
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"documents": ["기업여신 신청서", "법인인감증명서"]}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "corporate_credit",
- "task_name": "법인 여신",
- "bundle": "corporate_credit_2005001",
- "customer": "배연수",
- "case": "rep_director",
- "category": "logic",
- "perturbed": true,
- "n_docs": 2,
- "task_group": "work",
- "label_format": "consistency_issues"
-}
-```
-
-**문항 한 줄 전체** (`tasks/cross_check.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "cross_check/corporate_credit_2005001/rep_director",
- "task": "cross_check",
- "images": [
-  "images/bundles/corporate_credit_2005001/loan_application_corp_p1.jpg",
-  "images/bundles/corporate_credit_2005001/loan_application_corp_p2.jpg",
-  "images/bundles/corporate_credit_2005001/corporate_seal_certificate_rep_director.png"
- ],
- "prompt": "고객 '배연수' 님이 '법인 여신' 업무를 위해 제출한 서류 2건입니다 (이미지 3장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다.",
- "answer": {
-  "consistent": false,
-  "issues": [{"document": "법인인감증명서", "field": "성명", "value": "이하도", "expected": "배연수", "alt_documents": ["기업여신 신청서"]}]
- },
- "eval": {"documents": ["기업여신 신청서", "법인인감증명서"]},
- "meta": {
-  "scenario": "corporate_credit",
-  "task_name": "법인 여신",
-  "bundle": "corporate_credit_2005001",
-  "customer": "배연수",
-  "case": "rep_director",
-  "category": "logic",
-  "perturbed": true,
-  "n_docs": 2,
-  "task_group": "work",
-  "label_format": "consistency_issues"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "cross_check/corporate_credit_2005001/rep_director",
- "task": "cross_check",
- "images": [
-  "images/bundles/corporate_credit_2005001/loan_application_corp_p1.jpg",
-  "images/bundles/corporate_credit_2005001/loan_application_corp_p2.jpg",
-  "images/bundles/corporate_credit_2005001/corporate_seal_certificate_rep_director.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image><image>고객 '배연수' 님이 '법인 여신' 업무를 위해 제출한 서류 2건입니다 (이미지 3장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다."
-  },
-  {
-   "role": "assistant",
-   "content": "{\"consistent\": false, \"issues\": [{\"document\": \"법인인감증명서\", \"field\": \"성명\", \"value\": \"이하도\", \"expected\": \"배연수\"}]}"
-  }
- ]
-}
-```
-
-### 3-9. contract_before_apply — 약정일 < 신청일
-
-**분류:** `logic` · **실제 사례 근거:** 서류 작성일 순서 오류 (사후 작성·소급 작성)
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/credit_agreement_contract_before_apply_b9e8bb9b.jpg"><img src="../examples/img/credit_agreement_contract_before_apply_b9e8bb9b.jpg" width="300"></a> <a href="examples/img/loan_application_75801dc1.jpg"><img src="../examples/img/loan_application_75801dc1.jpg" width="300"></a></p>
-
-1. `credit_agreement_contract_before_apply.jpg` · 2. `loan_application.png`
-
-**질문** (`prompt`)
-
-```
-고객 '남서희' 님이 '주택담보대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.
-{"consistent": true 또는 false, "issues": [{"document": "문제가 있는 서류명", "field": "항목명", "value": "그 서류에 적힌 값", "expected": "다른 서류에 적힌 값"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {"consistent": true, "issues": []} 입니다.
-```
-
-**정답** (`answer`)
-
-```json
-{
- "consistent": false,
- "issues": [
-  {
-   "document": "대출거래약정서(가계용)",
-   "field": "약정일",
-   "value": "2025년 7월 18일",
-   "expected": "2025년 8월 15일",
-   "alt_documents": ["대출거래신청서"]
-  }
- ]
-}
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"documents": ["대출거래약정서(가계용)", "대출거래신청서"]}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "mortgage",
- "task_name": "주택담보대출",
- "bundle": "mortgage_2002001",
- "customer": "남서희",
- "case": "contract_before_apply",
- "category": "logic",
- "perturbed": true,
- "n_docs": 2,
- "task_group": "work",
- "label_format": "consistency_issues"
-}
-```
-
-**문항 한 줄 전체** (`tasks/cross_check.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "cross_check/mortgage_2002001/contract_before_apply",
- "task": "cross_check",
- "images": [
-  "images/bundles/mortgage_2002001/credit_agreement_contract_before_apply.jpg",
-  "images/bundles/mortgage_2002001/loan_application.png"
- ],
- "prompt": "고객 '남서희' 님이 '주택담보대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다.",
- "answer": {
-  "consistent": false,
-  "issues": [
-   {
-    "document": "대출거래약정서(가계용)",
-    "field": "약정일",
-    "value": "2025년 7월 18일",
-    "expected": "2025년 8월 15일",
-    "alt_documents": ["대출거래신청서"]
-   }
-  ]
- },
- "eval": {"documents": ["대출거래약정서(가계용)", "대출거래신청서"]},
- "meta": {
-  "scenario": "mortgage",
-  "task_name": "주택담보대출",
-  "bundle": "mortgage_2002001",
-  "customer": "남서희",
-  "case": "contract_before_apply",
-  "category": "logic",
-  "perturbed": true,
-  "n_docs": 2,
-  "task_group": "work",
-  "label_format": "consistency_issues"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "cross_check/mortgage_2002001/contract_before_apply",
- "task": "cross_check",
- "images": [
-  "images/bundles/mortgage_2002001/credit_agreement_contract_before_apply.jpg",
-  "images/bundles/mortgage_2002001/loan_application.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객 '남서희' 님이 '주택담보대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다."
-  },
-  {
-   "role": "assistant",
-   "content": "{\"consistent\": false, \"issues\": [{\"document\": \"대출거래약정서(가계용)\", \"field\": \"약정일\", \"value\": \"2025년 7월 18일\", \"expected\": \"2025년 8월 15일\"}]}"
-  }
- ]
-}
-```
-
-### 3-10. collateral_short — 채권최고액 < 대출금
-
-**분류:** `logic` · **실제 사례 근거:** 근저당 설정 금액 부족
-
-**입력 이미지** (3장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/credit_agreement_d8d58a6f.jpg"><img src="../examples/img/credit_agreement_d8d58a6f.jpg" width="300"></a> <a href="examples/img/collateral_agreement_collateral_short_p1_5fa36c75.jpg"><img src="../examples/img/collateral_agreement_collateral_short_p1_5fa36c75.jpg" width="300"></a> <a href="examples/img/collateral_agreement_collateral_short_p2_c8435c7f.jpg"><img src="../examples/img/collateral_agreement_collateral_short_p2_c8435c7f.jpg" width="300"></a></p>
-
-1. `credit_agreement.png` · 2. `collateral_agreement_collateral_short_p1.png` · 3. `collateral_agreement_collateral_short_p2.png`
-
-**질문** (`prompt`)
-
-```
-고객 '반주현' 님이 '주택담보대출' 업무를 위해 제출한 서류 2건입니다 (이미지 3장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.
-{"consistent": true 또는 false, "issues": [{"document": "문제가 있는 서류명", "field": "항목명", "value": "그 서류에 적힌 값", "expected": "다른 서류에 적힌 값"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {"consistent": true, "issues": []} 입니다.
-```
-
-**정답** (`answer`)
-
-```json
-{
- "consistent": false,
- "issues": [
-  {
-   "document": "근저당권설정계약서",
-   "field": "채권최고액",
-   "value": "251,000,000",
-   "expected": "402,000,000",
-   "alt_documents": ["대출거래약정서(가계용)"]
-  }
- ]
-}
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"documents": ["대출거래약정서(가계용)", "근저당권설정계약서"]}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "mortgage",
- "task_name": "주택담보대출",
- "bundle": "mortgage_2002002",
- "customer": "반주현",
- "case": "collateral_short",
- "category": "logic",
- "perturbed": true,
- "n_docs": 2,
- "task_group": "work",
- "label_format": "consistency_issues"
-}
-```
-
-**문항 한 줄 전체** (`tasks/cross_check.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "cross_check/mortgage_2002002/collateral_short",
- "task": "cross_check",
- "images": [
-  "images/bundles/mortgage_2002002/credit_agreement.png",
-  "images/bundles/mortgage_2002002/collateral_agreement_collateral_short_p1.png",
-  "images/bundles/mortgage_2002002/collateral_agreement_collateral_short_p2.png"
- ],
- "prompt": "고객 '반주현' 님이 '주택담보대출' 업무를 위해 제출한 서류 2건입니다 (이미지 3장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다.",
- "answer": {
-  "consistent": false,
-  "issues": [
-   {
-    "document": "근저당권설정계약서",
-    "field": "채권최고액",
-    "value": "251,000,000",
-    "expected": "402,000,000",
-    "alt_documents": ["대출거래약정서(가계용)"]
-   }
-  ]
- },
- "eval": {"documents": ["대출거래약정서(가계용)", "근저당권설정계약서"]},
- "meta": {
-  "scenario": "mortgage",
-  "task_name": "주택담보대출",
-  "bundle": "mortgage_2002002",
-  "customer": "반주현",
-  "case": "collateral_short",
-  "category": "logic",
-  "perturbed": true,
-  "n_docs": 2,
-  "task_group": "work",
-  "label_format": "consistency_issues"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "cross_check/mortgage_2002002/collateral_short",
- "task": "cross_check",
- "images": [
-  "images/bundles/mortgage_2002002/credit_agreement.png",
-  "images/bundles/mortgage_2002002/collateral_agreement_collateral_short_p1.png",
-  "images/bundles/mortgage_2002002/collateral_agreement_collateral_short_p2.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image><image>고객 '반주현' 님이 '주택담보대출' 업무를 위해 제출한 서류 2건입니다 (이미지 3장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다."
-  },
-  {
-   "role": "assistant",
-   "content": "{\"consistent\": false, \"issues\": [{\"document\": \"근저당권설정계약서\", \"field\": \"채권최고액\", \"value\": \"251,000,000\", \"expected\": \"402,000,000\"}]}"
-  }
- ]
-}
-```
-
-### 3-11. jeonse_over — 전세대출 > 보증금
-
-**분류:** `logic` · **실제 사례 근거:** 허위 임대차계약·보증금 부풀리기
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/lease_contract_8fd8de80.jpg"><img src="../examples/img/lease_contract_8fd8de80.jpg" width="300"></a> <a href="examples/img/loan_application_jeonse_over_778b95f8.jpg"><img src="../examples/img/loan_application_jeonse_over_778b95f8.jpg" width="300"></a></p>
-
-1. `lease_contract.jpg` · 2. `loan_application_jeonse_over.png`
-
-**질문** (`prompt`)
-
-```
-고객 '이숙지' 님이 '전세자금대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.
-{"consistent": true 또는 false, "issues": [{"document": "문제가 있는 서류명", "field": "항목명", "value": "그 서류에 적힌 값", "expected": "다른 서류에 적힌 값"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {"consistent": true, "issues": []} 입니다.
-```
-
-**정답** (`answer`)
-
-```json
-{
- "consistent": false,
- "issues": [
-  {
-   "document": "대출거래신청서",
-   "field": "대출신청금액",
-   "value": "300,000,000",
-   "expected": "208,000,000",
-   "alt_documents": ["주택임대차표준계약서"]
-  }
- ]
-}
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"documents": ["주택임대차표준계약서", "대출거래신청서"]}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "jeonse_loan",
- "task_name": "전세자금대출",
- "bundle": "jeonse_loan_2003003",
- "customer": "이숙지",
- "case": "jeonse_over",
- "category": "logic",
- "perturbed": true,
- "n_docs": 2,
- "task_group": "work",
- "label_format": "consistency_issues"
-}
-```
-
-**문항 한 줄 전체** (`tasks/cross_check.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "cross_check/jeonse_loan_2003003/jeonse_over",
- "task": "cross_check",
- "images": [
-  "images/bundles/jeonse_loan_2003003/lease_contract.jpg",
-  "images/bundles/jeonse_loan_2003003/loan_application_jeonse_over.png"
- ],
- "prompt": "고객 '이숙지' 님이 '전세자금대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다.",
- "answer": {
-  "consistent": false,
-  "issues": [
-   {
-    "document": "대출거래신청서",
-    "field": "대출신청금액",
-    "value": "300,000,000",
-    "expected": "208,000,000",
-    "alt_documents": ["주택임대차표준계약서"]
-   }
-  ]
- },
- "eval": {"documents": ["주택임대차표준계약서", "대출거래신청서"]},
- "meta": {
-  "scenario": "jeonse_loan",
-  "task_name": "전세자금대출",
-  "bundle": "jeonse_loan_2003003",
-  "customer": "이숙지",
-  "case": "jeonse_over",
-  "category": "logic",
-  "perturbed": true,
-  "n_docs": 2,
-  "task_group": "work",
-  "label_format": "consistency_issues"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "cross_check/jeonse_loan_2003003/jeonse_over",
- "task": "cross_check",
- "images": [
-  "images/bundles/jeonse_loan_2003003/lease_contract.jpg",
-  "images/bundles/jeonse_loan_2003003/loan_application_jeonse_over.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객 '이숙지' 님이 '전세자금대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다."
-  },
-  {
-   "role": "assistant",
-   "content": "{\"consistent\": false, \"issues\": [{\"document\": \"대출거래신청서\", \"field\": \"대출신청금액\", \"value\": \"300,000,000\", \"expected\": \"208,000,000\"}]}"
-  }
- ]
-}
-```
-
-### 3-12. sales_sum — 업계약 (대금 합계 불일치)
-
-**분류:** `logic` · **실제 사례 근거:** 업계약: 대출 한도를 늘리려 매매대금을 부풀림
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/sales_contract_sales_sum_f04734cd.jpg"><img src="../examples/img/sales_contract_sales_sum_f04734cd.jpg" width="300"></a> <a href="examples/img/loan_application_10a3fd22.jpg"><img src="../examples/img/loan_application_10a3fd22.jpg" width="300"></a></p>
-
-1. `sales_contract_sales_sum.jpg` · 2. `loan_application.jpg`
-
-**질문** (`prompt`)
-
-```
-고객 '엄태정' 님이 '주택담보대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.
-{"consistent": true 또는 false, "issues": [{"document": "문제가 있는 서류명", "field": "항목명", "value": "그 서류에 적힌 값", "expected": "다른 서류에 적힌 값"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {"consistent": true, "issues": []} 입니다.
-```
-
-**정답** (`answer`)
-
-```json
-{
- "consistent": false,
- "issues": [
-  {
-   "document": "부동산 매매계약서",
-   "field": "매매대금",
-   "value": "금 구억사천만원정 (₩940,000,000)",
-   "expected": "금 팔억이천만원정 (₩820,000,000)",
-   "alt_documents": []
-  }
- ]
-}
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"documents": ["부동산 매매계약서", "대출거래신청서"]}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "mortgage",
- "task_name": "주택담보대출",
- "bundle": "mortgage_2002000",
- "customer": "엄태정",
- "case": "sales_sum",
- "category": "logic",
- "perturbed": true,
- "n_docs": 2,
- "task_group": "work",
- "label_format": "consistency_issues"
-}
-```
-
-**문항 한 줄 전체** (`tasks/cross_check.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "cross_check/mortgage_2002000/sales_sum",
- "task": "cross_check",
- "images": [
-  "images/bundles/mortgage_2002000/sales_contract_sales_sum.jpg",
-  "images/bundles/mortgage_2002000/loan_application.jpg"
- ],
- "prompt": "고객 '엄태정' 님이 '주택담보대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다.",
- "answer": {
-  "consistent": false,
-  "issues": [
-   {
-    "document": "부동산 매매계약서",
-    "field": "매매대금",
-    "value": "금 구억사천만원정 (₩940,000,000)",
-    "expected": "금 팔억이천만원정 (₩820,000,000)",
-    "alt_documents": []
-   }
-  ]
- },
- "eval": {"documents": ["부동산 매매계약서", "대출거래신청서"]},
- "meta": {
-  "scenario": "mortgage",
-  "task_name": "주택담보대출",
-  "bundle": "mortgage_2002000",
-  "customer": "엄태정",
-  "case": "sales_sum",
-  "category": "logic",
-  "perturbed": true,
-  "n_docs": 2,
-  "task_group": "work",
-  "label_format": "consistency_issues"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "cross_check/mortgage_2002000/sales_sum",
- "task": "cross_check",
- "images": [
-  "images/bundles/mortgage_2002000/sales_contract_sales_sum.jpg",
-  "images/bundles/mortgage_2002000/loan_application.jpg"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객 '엄태정' 님이 '주택담보대출' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다."
-  },
-  {
-   "role": "assistant",
-   "content": "{\"consistent\": false, \"issues\": [{\"document\": \"부동산 매매계약서\", \"field\": \"매매대금\", \"value\": \"금 구억사천만원정 (₩940,000,000)\", \"expected\": \"금 팔억이천만원정 (₩820,000,000)\"}]}"
-  }
- ]
-}
-```
-
-### 3-13. fx_beneficiary — 송금 수취인 ≠ 송장 수출자
-
-**분류:** `logic` · **실제 사례 근거:** 증빙과 다른 상대방에게 송금 (외국환 증빙 불일치)
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/overseas_remittance_application_fx_beneficiary_d44d885c.jpg"><img src="../examples/img/overseas_remittance_application_fx_beneficiary_d44d885c.jpg" width="300"></a> <a href="examples/img/commercial_invoice_564bb4a1.jpg"><img src="../examples/img/commercial_invoice_564bb4a1.jpg" width="300"></a></p>
-
-1. `overseas_remittance_application_fx_beneficiary.jpg` · 2. `commercial_invoice.jpg`
-
-**질문** (`prompt`)
-
-```
-고객 '장수주' 님이 '해외송금' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.
-{"consistent": true 또는 false, "issues": [{"document": "문제가 있는 서류명", "field": "항목명", "value": "그 서류에 적힌 값", "expected": "다른 서류에 적힌 값"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {"consistent": true, "issues": []} 입니다.
-```
-
-**정답** (`answer`)
-
-```json
-{
- "consistent": false,
- "issues": [
-  {
-   "document": "해외송금신청서",
-   "field": "수취인성명",
-   "value": "Golden Harbor Trading Ltd.",
-   "expected": "Rheinland Maschinenbau GmbH",
-   "alt_documents": ["상업송장(Commercial Invoice)"]
-  }
- ]
-}
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"documents": ["해외송금신청서", "상업송장(Commercial Invoice)"]}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "fx_remittance",
- "task_name": "해외송금",
- "bundle": "fx_remittance_2006000",
- "customer": "장수주",
- "case": "fx_beneficiary",
- "category": "logic",
- "perturbed": true,
- "n_docs": 2,
- "task_group": "work",
- "label_format": "consistency_issues"
-}
-```
-
-**문항 한 줄 전체** (`tasks/cross_check.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "cross_check/fx_remittance_2006000/fx_beneficiary",
- "task": "cross_check",
- "images": [
-  "images/bundles/fx_remittance_2006000/overseas_remittance_application_fx_beneficiary.jpg",
-  "images/bundles/fx_remittance_2006000/commercial_invoice.jpg"
- ],
- "prompt": "고객 '장수주' 님이 '해외송금' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다.",
- "answer": {
-  "consistent": false,
-  "issues": [
-   {
-    "document": "해외송금신청서",
-    "field": "수취인성명",
-    "value": "Golden Harbor Trading Ltd.",
-    "expected": "Rheinland Maschinenbau GmbH",
-    "alt_documents": ["상업송장(Commercial Invoice)"]
-   }
-  ]
- },
- "eval": {"documents": ["해외송금신청서", "상업송장(Commercial Invoice)"]},
- "meta": {
-  "scenario": "fx_remittance",
-  "task_name": "해외송금",
-  "bundle": "fx_remittance_2006000",
-  "customer": "장수주",
-  "case": "fx_beneficiary",
-  "category": "logic",
-  "perturbed": true,
-  "n_docs": 2,
-  "task_group": "work",
-  "label_format": "consistency_issues"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "cross_check/fx_remittance_2006000/fx_beneficiary",
- "task": "cross_check",
- "images": [
-  "images/bundles/fx_remittance_2006000/overseas_remittance_application_fx_beneficiary.jpg",
-  "images/bundles/fx_remittance_2006000/commercial_invoice.jpg"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객 '장수주' 님이 '해외송금' 업무를 위해 제출한 서류 2건입니다 (이미지 2장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다."
-  },
-  {
-   "role": "assistant",
-   "content": "{\"consistent\": false, \"issues\": [{\"document\": \"해외송금신청서\", \"field\": \"수취인성명\", \"value\": \"Golden Harbor Trading Ltd.\", \"expected\": \"Rheinland Maschinenbau GmbH\"}]}"
-  }
- ]
-}
-```
-
-### 3-14. format_only — 표기만 다름 (정상)
-
-**분류:** `format` · **실제 사례 근거:** 날짜·금액·주민번호·전화·주소 표기 차이는 불일치가 아님
-
-**입력 이미지** (3장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/financial_transaction_purpose_format_only_3e92695b.jpg"><img src="../examples/img/financial_transaction_purpose_format_only_3e92695b.jpg" width="300"></a> <a href="examples/img/customer_due_diligence_2bbead29.jpg"><img src="../examples/img/customer_due_diligence_2bbead29.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="../examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
-
-1. `financial_transaction_purpose_format_only.jpg` · 2. `customer_due_diligence.png` · 3. `account_opening_application.png`
-
-**질문** (`prompt`)
-
-```
-고객 '김상정' 님이 '개인 계좌개설' 업무를 위해 제출한 서류 3건입니다 (이미지 3장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.
-{"consistent": true 또는 false, "issues": [{"document": "문제가 있는 서류명", "field": "항목명", "value": "그 서류에 적힌 값", "expected": "다른 서류에 적힌 값"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {"consistent": true, "issues": []} 입니다.
-```
-
-**정답** (`answer`)
-
-```json
-{"consistent": true, "issues": []}
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"documents": ["금융거래목적확인서", "고객확인서(개인)", "예금거래신청서"]}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "account_opening",
- "task_name": "개인 계좌개설",
- "bundle": "account_opening_2000000",
- "customer": "김상정",
- "case": "format_only",
- "category": "format",
- "perturbed": false,
- "n_docs": 3,
- "task_group": "work",
- "label_format": "consistency_issues"
-}
-```
-
-**문항 한 줄 전체** (`tasks/cross_check.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "cross_check/account_opening_2000000/format_only",
- "task": "cross_check",
- "images": [
-  "images/bundles/account_opening_2000000/financial_transaction_purpose_format_only.jpg",
-  "images/bundles/account_opening_2000000/customer_due_diligence.png",
-  "images/bundles/account_opening_2000000/account_opening_application.png"
- ],
- "prompt": "고객 '김상정' 님이 '개인 계좌개설' 업무를 위해 제출한 서류 3건입니다 (이미지 3장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다.",
- "answer": {"consistent": true, "issues": []},
- "eval": {"documents": ["금융거래목적확인서", "고객확인서(개인)", "예금거래신청서"]},
- "meta": {
-  "scenario": "account_opening",
-  "task_name": "개인 계좌개설",
-  "bundle": "account_opening_2000000",
-  "customer": "김상정",
-  "case": "format_only",
-  "category": "format",
-  "perturbed": false,
-  "n_docs": 3,
-  "task_group": "work",
-  "label_format": "consistency_issues"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "cross_check/account_opening_2000000/format_only",
- "task": "cross_check",
- "images": [
-  "images/bundles/account_opening_2000000/financial_transaction_purpose_format_only.jpg",
-  "images/bundles/account_opening_2000000/customer_due_diligence.png",
-  "images/bundles/account_opening_2000000/account_opening_application.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image><image>고객 '김상정' 님이 '개인 계좌개설' 업무를 위해 제출한 서류 3건입니다 (이미지 3장). 서류들을 서로 대조해 맞지 않는 정보(성명, 주민등록번호, 생년월일, 주소, 연락처, 계좌번호, 상호, 금액, 날짜 등), 업무상 맞지 않는 관계(계약 상대방이 등기부 소유자가 아님, 금액·날짜 관계 오류 등), 고객 본인 명의가 아닌 서류가 있는지 확인하세요. 표기 방식만 다른 것(날짜 형식, 주민번호 뒷자리 가림, 하이픈 유무 등)은 불일치가 아닙니다.\n{\"consistent\": true 또는 false, \"issues\": [{\"document\": \"문제가 있는 서류명\", \"field\": \"항목명\", \"value\": \"그 서류에 적힌 값\", \"expected\": \"다른 서류에 적힌 값\"}]} 형식의 JSON 으로 답하세요. 문제가 없으면 {\"consistent\": true, \"issues\": []} 입니다."
-  },
-  {"role": "assistant", "content": "{\"consistent\": true, \"issues\": []}"}
- ]
-}
-```
-
-## 4부. 심사 질의 규칙 (review 문항 하나씩)
-
-정답은 서류의 정답 값으로 계산합니다. 질문에 반올림 자릿수·기준일·답 형식을 적어 정답이 하나로 정해집니다.
-
-### 4-1. ltv (계산(비율))
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/loan_application_10a3fd22.jpg"><img src="../examples/img/loan_application_10a3fd22.jpg" width="300"></a> <a href="examples/img/sales_contract_b1706022.jpg"><img src="../examples/img/sales_contract_b1706022.jpg" width="300"></a></p>
-
-1. `loan_application.jpg` · 2. `sales_contract.jpg`
-
-**질문** (`prompt`)
-
-```
-고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 2장).
-주택담보대출 심사입니다. '대출거래신청서'의 대출신청금액은 '부동산 매매계약서'의 매매대금의 몇 %입니까? (LTV, 소수 첫째 자리까지 반올림한 숫자만 답하세요)
-```
-
-**정답** (`answer`)
-
-```json
-23.7
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "number", "tol": 0.1}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "mortgage",
- "task_name": "주택담보대출",
- "bundle": "mortgage_2002000",
- "customer": "엄태정",
- "rule": "ltv",
- "skill": "계산(비율)",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/mortgage_2002000/ltv",
- "task": "review",
- "images": [
-  "images/bundles/mortgage_2002000/loan_application.jpg",
-  "images/bundles/mortgage_2002000/sales_contract.jpg"
- ],
- "prompt": "고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n주택담보대출 심사입니다. '대출거래신청서'의 대출신청금액은 '부동산 매매계약서'의 매매대금의 몇 %입니까? (LTV, 소수 첫째 자리까지 반올림한 숫자만 답하세요)",
- "answer": 23.7,
- "eval": {"answer_type": "number", "tol": 0.1},
- "meta": {
-  "scenario": "mortgage",
-  "task_name": "주택담보대출",
-  "bundle": "mortgage_2002000",
-  "customer": "엄태정",
-  "rule": "ltv",
-  "skill": "계산(비율)",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/mortgage_2002000/ltv",
- "task": "review",
- "images": [
-  "images/bundles/mortgage_2002000/loan_application.jpg",
-  "images/bundles/mortgage_2002000/sales_contract.jpg"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n주택담보대출 심사입니다. '대출거래신청서'의 대출신청금액은 '부동산 매매계약서'의 매매대금의 몇 %입니까? (LTV, 소수 첫째 자리까지 반올림한 숫자만 답하세요)"
-  },
-  {"role": "assistant", "content": "23.7"}
- ]
-}
-```
-
-### 4-2. collateral_ratio (계산(비율))
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/collateral_agreement_c277e776.jpg"><img src="../examples/img/collateral_agreement_c277e776.jpg" width="300"></a> <a href="examples/img/credit_agreement_785a59e0.jpg"><img src="../examples/img/credit_agreement_785a59e0.jpg" width="300"></a></p>
-
-1. `collateral_agreement.png` · 2. `credit_agreement.jpg`
-
-**질문** (`prompt`)
-
-```
-고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 2장).
-'근저당권설정계약서'의 채권최고액은 '대출거래약정서(가계용)'의 대출(한도)금액의 몇 %입니까? (소수 첫째 자리까지 반올림한 숫자만 답하세요)
-```
-
-**정답** (`answer`)
-
-```json
-120.1
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "number", "tol": 0.1}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "mortgage",
- "task_name": "주택담보대출",
- "bundle": "mortgage_2002000",
- "customer": "엄태정",
- "rule": "collateral_ratio",
- "skill": "계산(비율)",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/mortgage_2002000/collateral_ratio",
- "task": "review",
- "images": [
-  "images/bundles/mortgage_2002000/collateral_agreement.png",
-  "images/bundles/mortgage_2002000/credit_agreement.jpg"
- ],
- "prompt": "고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'근저당권설정계약서'의 채권최고액은 '대출거래약정서(가계용)'의 대출(한도)금액의 몇 %입니까? (소수 첫째 자리까지 반올림한 숫자만 답하세요)",
- "answer": 120.1,
- "eval": {"answer_type": "number", "tol": 0.1},
- "meta": {
-  "scenario": "mortgage",
-  "task_name": "주택담보대출",
-  "bundle": "mortgage_2002000",
-  "customer": "엄태정",
-  "rule": "collateral_ratio",
-  "skill": "계산(비율)",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/mortgage_2002000/collateral_ratio",
- "task": "review",
- "images": [
-  "images/bundles/mortgage_2002000/collateral_agreement.png",
-  "images/bundles/mortgage_2002000/credit_agreement.jpg"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'근저당권설정계약서'의 채권최고액은 '대출거래약정서(가계용)'의 대출(한도)금액의 몇 %입니까? (소수 첫째 자리까지 반올림한 숫자만 답하세요)"
-  },
-  {"role": "assistant", "content": "120.1"}
- ]
-}
-```
-
-### 4-3. jeonse_ratio (계산(비율))
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/loan_application_9ad08642.jpg"><img src="../examples/img/loan_application_9ad08642.jpg" width="300"></a> <a href="examples/img/lease_contract_5a89b782.jpg"><img src="../examples/img/lease_contract_5a89b782.jpg" width="300"></a></p>
-
-1. `loan_application.png` · 2. `lease_contract.png`
-
-**질문** (`prompt`)
-
-```
-고객이 '전세자금대출' 업무를 위해 제출한 서류입니다 (이미지 2장).
-전세자금대출 심사입니다. '대출거래신청서'의 대출신청금액은 '주택임대차표준계약서'의 보증금의 몇 %입니까? (소수 첫째 자리까지 반올림한 숫자만 답하세요)
-```
-
-**정답** (`answer`)
-
-```json
-49.4
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "number", "tol": 0.1}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "jeonse_loan",
- "task_name": "전세자금대출",
- "bundle": "jeonse_loan_2003000",
- "customer": "방하주",
- "rule": "jeonse_ratio",
- "skill": "계산(비율)",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/jeonse_loan_2003000/jeonse_ratio",
- "task": "review",
- "images": [
-  "images/bundles/jeonse_loan_2003000/loan_application.png",
-  "images/bundles/jeonse_loan_2003000/lease_contract.png"
- ],
- "prompt": "고객이 '전세자금대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n전세자금대출 심사입니다. '대출거래신청서'의 대출신청금액은 '주택임대차표준계약서'의 보증금의 몇 %입니까? (소수 첫째 자리까지 반올림한 숫자만 답하세요)",
- "answer": 49.4,
- "eval": {"answer_type": "number", "tol": 0.1},
- "meta": {
-  "scenario": "jeonse_loan",
-  "task_name": "전세자금대출",
-  "bundle": "jeonse_loan_2003000",
-  "customer": "방하주",
-  "rule": "jeonse_ratio",
-  "skill": "계산(비율)",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/jeonse_loan_2003000/jeonse_ratio",
- "task": "review",
- "images": [
-  "images/bundles/jeonse_loan_2003000/loan_application.png",
-  "images/bundles/jeonse_loan_2003000/lease_contract.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '전세자금대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n전세자금대출 심사입니다. '대출거래신청서'의 대출신청금액은 '주택임대차표준계약서'의 보증금의 몇 %입니까? (소수 첫째 자리까지 반올림한 숫자만 답하세요)"
-  },
-  {"role": "assistant", "content": "49.4"}
- ]
-}
-```
-
-### 4-4. income_multiple (계산(비율))
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/loan_application_b96f2406.jpg"><img src="../examples/img/loan_application_b96f2406.jpg" width="300"></a> <a href="examples/img/withholding_receipt_aged_c49b62bd.jpg"><img src="../examples/img/withholding_receipt_aged_c49b62bd.jpg" width="300"></a></p>
-
-1. `loan_application.jpg` · 2. `withholding_receipt_aged.png`
-
-**질문** (`prompt`)
-
-```
-고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 2장).
-'대출거래신청서'의 대출신청금액은 '근로소득 원천징수영수증'의 주(현)근무지 급여 합계(계)의 몇 배입니까? (소수 둘째 자리까지 반올림한 숫자만 답하세요)
-```
-
-**정답** (`answer`)
-
-```json
-0.85
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "number", "tol": 0.01}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "personal_credit_loan",
- "task_name": "개인 신용대출",
- "bundle": "personal_credit_loan_2001000",
- "customer": "강서찬",
- "rule": "income_multiple",
- "skill": "계산(비율)",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/personal_credit_loan_2001000/income_multiple",
- "task": "review",
- "images": [
-  "images/bundles/personal_credit_loan_2001000/loan_application.jpg",
-  "images/bundles/personal_credit_loan_2001000/withholding_receipt_aged.png"
- ],
- "prompt": "고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'대출거래신청서'의 대출신청금액은 '근로소득 원천징수영수증'의 주(현)근무지 급여 합계(계)의 몇 배입니까? (소수 둘째 자리까지 반올림한 숫자만 답하세요)",
- "answer": 0.85,
- "eval": {"answer_type": "number", "tol": 0.01},
- "meta": {
-  "scenario": "personal_credit_loan",
-  "task_name": "개인 신용대출",
-  "bundle": "personal_credit_loan_2001000",
-  "customer": "강서찬",
-  "rule": "income_multiple",
-  "skill": "계산(비율)",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/personal_credit_loan_2001000/income_multiple",
- "task": "review",
- "images": [
-  "images/bundles/personal_credit_loan_2001000/loan_application.jpg",
-  "images/bundles/personal_credit_loan_2001000/withholding_receipt_aged.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'대출거래신청서'의 대출신청금액은 '근로소득 원천징수영수증'의 주(현)근무지 급여 합계(계)의 몇 배입니까? (소수 둘째 자리까지 반올림한 숫자만 답하세요)"
-  },
-  {"role": "assistant", "content": "0.85"}
- ]
-}
-```
-
-### 4-5. age (날짜 계산)
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/resident_id_card_0ab2ad93.jpg"><img src="../examples/img/resident_id_card_0ab2ad93.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="../examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
-
-1. `resident_id_card.png` · 2. `account_opening_application.png`
-
-**질문** (`prompt`)
-
-```
-고객이 '개인 계좌개설' 업무를 위해 제출한 서류입니다 (이미지 2장).
-'주민등록증'의 주민등록번호로 보아, '예금거래신청서'의 신청일 당일 고객의 만 나이는 몇 세입니까? (숫자만 답하세요)
-```
-
-**정답** (`answer`)
-
-```json
-57
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "number", "tol": 0}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "account_opening",
- "task_name": "개인 계좌개설",
- "bundle": "account_opening_2000000",
- "customer": "김상정",
- "rule": "age",
- "skill": "날짜 계산",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/account_opening_2000000/age",
- "task": "review",
- "images": [
-  "images/bundles/account_opening_2000000/resident_id_card.png",
-  "images/bundles/account_opening_2000000/account_opening_application.png"
- ],
- "prompt": "고객이 '개인 계좌개설' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'주민등록증'의 주민등록번호로 보아, '예금거래신청서'의 신청일 당일 고객의 만 나이는 몇 세입니까? (숫자만 답하세요)",
- "answer": 57,
- "eval": {"answer_type": "number", "tol": 0},
- "meta": {
-  "scenario": "account_opening",
-  "task_name": "개인 계좌개설",
-  "bundle": "account_opening_2000000",
-  "customer": "김상정",
-  "rule": "age",
-  "skill": "날짜 계산",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/account_opening_2000000/age",
- "task": "review",
- "images": [
-  "images/bundles/account_opening_2000000/resident_id_card.png",
-  "images/bundles/account_opening_2000000/account_opening_application.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '개인 계좌개설' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'주민등록증'의 주민등록번호로 보아, '예금거래신청서'의 신청일 당일 고객의 만 나이는 몇 세입니까? (숫자만 답하세요)"
-  },
-  {"role": "assistant", "content": "57"}
- ]
-}
-```
-
-### 4-6. tenure (날짜 계산)
-
-**입력 이미지** (1장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/loan_application_b96f2406.jpg"><img src="../examples/img/loan_application_b96f2406.jpg" width="300"></a></p>
-
-1. `loan_application.jpg`
-
-**질문** (`prompt`)
-
-```
-고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 1장).
-'대출거래신청서'에 적힌 입사일과 신청일로 보아, 신청일 현재 재직기간은 만 몇 년입니까? (만 1년 미만은 버리고 숫자만 답하세요)
-```
-
-**정답** (`answer`)
-
-```json
-4
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "number", "tol": 0}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "personal_credit_loan",
- "task_name": "개인 신용대출",
- "bundle": "personal_credit_loan_2001000",
- "customer": "강서찬",
- "rule": "tenure",
- "skill": "날짜 계산",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/personal_credit_loan_2001000/tenure",
- "task": "review",
- "images": ["images/bundles/personal_credit_loan_2001000/loan_application.jpg"],
- "prompt": "고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 1장).\n'대출거래신청서'에 적힌 입사일과 신청일로 보아, 신청일 현재 재직기간은 만 몇 년입니까? (만 1년 미만은 버리고 숫자만 답하세요)",
- "answer": 4,
- "eval": {"answer_type": "number", "tol": 0},
- "meta": {
-  "scenario": "personal_credit_loan",
-  "task_name": "개인 신용대출",
-  "bundle": "personal_credit_loan_2001000",
-  "customer": "강서찬",
-  "rule": "tenure",
-  "skill": "날짜 계산",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/personal_credit_loan_2001000/tenure",
- "task": "review",
- "images": ["images/bundles/personal_credit_loan_2001000/loan_application.jpg"],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image>고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 1장).\n'대출거래신청서'에 적힌 입사일과 신청일로 보아, 신청일 현재 재직기간은 만 몇 년입니까? (만 1년 미만은 버리고 숫자만 답하세요)"
-  },
-  {"role": "assistant", "content": "4"}
- ]
-}
-```
-
-### 4-7. net_pay (계산(합계))
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/pay_stub_p1_5398461e.jpg"><img src="../examples/img/pay_stub_p1_5398461e.jpg" width="300"></a> <a href="examples/img/pay_stub_p2_2d3c610a.jpg"><img src="../examples/img/pay_stub_p2_2d3c610a.jpg" width="300"></a></p>
-
-1. `pay_stub_p1.png` · 2. `pay_stub_p2.png`
-
-**질문** (`prompt`)
-
-```
-고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 2장).
-'급여명세서'의 지급액계에서 공제액계를 빼면 얼마입니까? (원 단위 숫자만 답하세요)
-```
-
-**정답** (`answer`)
-
-```json
-5879250
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "number", "tol": 0}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "personal_credit_loan",
- "task_name": "개인 신용대출",
- "bundle": "personal_credit_loan_2001000",
- "customer": "강서찬",
- "rule": "net_pay",
- "skill": "계산(합계)",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/personal_credit_loan_2001000/net_pay",
- "task": "review",
- "images": [
-  "images/bundles/personal_credit_loan_2001000/pay_stub_p1.png",
-  "images/bundles/personal_credit_loan_2001000/pay_stub_p2.png"
- ],
- "prompt": "고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'급여명세서'의 지급액계에서 공제액계를 빼면 얼마입니까? (원 단위 숫자만 답하세요)",
- "answer": 5879250,
- "eval": {"answer_type": "number", "tol": 0},
- "meta": {
-  "scenario": "personal_credit_loan",
-  "task_name": "개인 신용대출",
-  "bundle": "personal_credit_loan_2001000",
-  "customer": "강서찬",
-  "rule": "net_pay",
-  "skill": "계산(합계)",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/personal_credit_loan_2001000/net_pay",
- "task": "review",
- "images": [
-  "images/bundles/personal_credit_loan_2001000/pay_stub_p1.png",
-  "images/bundles/personal_credit_loan_2001000/pay_stub_p2.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'급여명세서'의 지급액계에서 공제액계를 빼면 얼마입니까? (원 단위 숫자만 답하세요)"
-  },
-  {"role": "assistant", "content": "5879250"}
- ]
-}
-```
-
-### 4-8. sales_rest (계산(합계))
-
-**입력 이미지** (1장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/sales_contract_b1706022.jpg"><img src="../examples/img/sales_contract_b1706022.jpg" width="300"></a></p>
-
-1. `sales_contract.jpg`
-
-**질문** (`prompt`)
-
-```
-고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 1장).
-'부동산 매매계약서'의 매매대금에서 계약금과 중도금(없으면 0)을 빼면 얼마입니까? (원 단위 숫자만 답하세요)
-```
-
-**정답** (`answer`)
-
-```json
-738000000
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "number", "tol": 0}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "mortgage",
- "task_name": "주택담보대출",
- "bundle": "mortgage_2002000",
- "customer": "엄태정",
- "rule": "sales_rest",
- "skill": "계산(합계)",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/mortgage_2002000/sales_rest",
- "task": "review",
- "images": ["images/bundles/mortgage_2002000/sales_contract.jpg"],
- "prompt": "고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 1장).\n'부동산 매매계약서'의 매매대금에서 계약금과 중도금(없으면 0)을 빼면 얼마입니까? (원 단위 숫자만 답하세요)",
- "answer": 738000000,
- "eval": {"answer_type": "number", "tol": 0},
- "meta": {
-  "scenario": "mortgage",
-  "task_name": "주택담보대출",
-  "bundle": "mortgage_2002000",
-  "customer": "엄태정",
-  "rule": "sales_rest",
-  "skill": "계산(합계)",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/mortgage_2002000/sales_rest",
- "task": "review",
- "images": ["images/bundles/mortgage_2002000/sales_contract.jpg"],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image>고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 1장).\n'부동산 매매계약서'의 매매대금에서 계약금과 중도금(없으면 0)을 빼면 얼마입니까? (원 단위 숫자만 답하세요)"
-  },
-  {"role": "assistant", "content": "738000000"}
- ]
-}
-```
-
-### 4-9. invoice_sum (표 계산)
-
-**입력 이미지** (1장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/commercial_invoice_564bb4a1.jpg"><img src="../examples/img/commercial_invoice_564bb4a1.jpg" width="300"></a></p>
-
-1. `commercial_invoice.jpg`
-
-**질문** (`prompt`)
-
-```
-고객이 '해외송금' 업무를 위해 제출한 서류입니다 (이미지 1장).
-'상업송장(Commercial Invoice)'의 품목별 금액(Amount)을 모두 더하면 얼마입니까? (통화 기호 없이 숫자만 답하세요)
-```
-
-**정답** (`answer`)
-
-```json
-56317.98
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "number", "tol": 0.01}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "fx_remittance",
- "task_name": "해외송금",
- "bundle": "fx_remittance_2006000",
- "customer": "장수주",
- "rule": "invoice_sum",
- "skill": "표 계산",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/fx_remittance_2006000/invoice_sum",
- "task": "review",
- "images": ["images/bundles/fx_remittance_2006000/commercial_invoice.jpg"],
- "prompt": "고객이 '해외송금' 업무를 위해 제출한 서류입니다 (이미지 1장).\n'상업송장(Commercial Invoice)'의 품목별 금액(Amount)을 모두 더하면 얼마입니까? (통화 기호 없이 숫자만 답하세요)",
- "answer": 56317.98,
- "eval": {"answer_type": "number", "tol": 0.01},
- "meta": {
-  "scenario": "fx_remittance",
-  "task_name": "해외송금",
-  "bundle": "fx_remittance_2006000",
-  "customer": "장수주",
-  "rule": "invoice_sum",
-  "skill": "표 계산",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/fx_remittance_2006000/invoice_sum",
- "task": "review",
- "images": ["images/bundles/fx_remittance_2006000/commercial_invoice.jpg"],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image>고객이 '해외송금' 업무를 위해 제출한 서류입니다 (이미지 1장).\n'상업송장(Commercial Invoice)'의 품목별 금액(Amount)을 모두 더하면 얼마입니까? (통화 기호 없이 숫자만 답하세요)"
-  },
-  {"role": "assistant", "content": "56317.98"}
- ]
-}
-```
-
-### 4-10. tuition_due (계산(합계))
-
-**입력 이미지** (1장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/tuition_invoice_9c987358.jpg"><img src="../examples/img/tuition_invoice_9c987358.jpg" width="300"></a></p>
-
-1. `tuition_invoice.png`
-
-**질문** (`prompt`)
-
-```
-고객이 '유학생 송금' 업무를 위해 제출한 서류입니다 (이미지 1장).
-'학비 청구서(Tuition Invoice)'에서 Previous Balance + New Charges - Payments/Credits 는 얼마입니까? (통화 기호 없이 숫자만 답하세요)
-```
-
-**정답** (`answer`)
-
-```json
-35380.0
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "number", "tol": 0.01}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "study_abroad_remittance",
- "task_name": "유학생 송금",
- "bundle": "study_abroad_remittance_2007000",
- "customer": "박재성",
- "rule": "tuition_due",
- "skill": "계산(합계)",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/study_abroad_remittance_2007000/tuition_due",
- "task": "review",
- "images": ["images/bundles/study_abroad_remittance_2007000/tuition_invoice.png"],
- "prompt": "고객이 '유학생 송금' 업무를 위해 제출한 서류입니다 (이미지 1장).\n'학비 청구서(Tuition Invoice)'에서 Previous Balance + New Charges - Payments/Credits 는 얼마입니까? (통화 기호 없이 숫자만 답하세요)",
- "answer": 35380.0,
- "eval": {"answer_type": "number", "tol": 0.01},
- "meta": {
-  "scenario": "study_abroad_remittance",
-  "task_name": "유학생 송금",
-  "bundle": "study_abroad_remittance_2007000",
-  "customer": "박재성",
-  "rule": "tuition_due",
-  "skill": "계산(합계)",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/study_abroad_remittance_2007000/tuition_due",
- "task": "review",
- "images": ["images/bundles/study_abroad_remittance_2007000/tuition_invoice.png"],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image>고객이 '유학생 송금' 업무를 위해 제출한 서류입니다 (이미지 1장).\n'학비 청구서(Tuition Invoice)'에서 Previous Balance + New Charges - Payments/Credits 는 얼마입니까? (통화 기호 없이 숫자만 답하세요)"
-  },
-  {"role": "assistant", "content": "35380.0"}
- ]
-}
-```
-
-### 4-11. debt_ratio (표 계산)
-
-**입력 이미지** (1장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/financial_statements_a3657a13.jpg"><img src="../examples/img/financial_statements_a3657a13.jpg" width="300"></a></p>
-
-1. `financial_statements.jpg`
-
-**질문** (`prompt`)
-
-```
-고객이 '법인 여신' 업무를 위해 제출한 서류입니다 (이미지 1장).
-'재무제표(재무상태표·손익계산서)'의 당기 기준 부채비율(부채총계 ÷ 자본총계 × 100)은 몇 %입니까? (소수 첫째 자리까지 반올림한 숫자만 답하세요)
-```
-
-**정답** (`answer`)
-
-```json
-178.6
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "number", "tol": 0.1}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "corporate_credit",
- "task_name": "법인 여신",
- "bundle": "corporate_credit_2005000",
- "customer": "석석유",
- "rule": "debt_ratio",
- "skill": "표 계산",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/corporate_credit_2005000/debt_ratio",
- "task": "review",
- "images": ["images/bundles/corporate_credit_2005000/financial_statements.jpg"],
- "prompt": "고객이 '법인 여신' 업무를 위해 제출한 서류입니다 (이미지 1장).\n'재무제표(재무상태표·손익계산서)'의 당기 기준 부채비율(부채총계 ÷ 자본총계 × 100)은 몇 %입니까? (소수 첫째 자리까지 반올림한 숫자만 답하세요)",
- "answer": 178.6,
- "eval": {"answer_type": "number", "tol": 0.1},
- "meta": {
-  "scenario": "corporate_credit",
-  "task_name": "법인 여신",
-  "bundle": "corporate_credit_2005000",
-  "customer": "석석유",
-  "rule": "debt_ratio",
-  "skill": "표 계산",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/corporate_credit_2005000/debt_ratio",
- "task": "review",
- "images": ["images/bundles/corporate_credit_2005000/financial_statements.jpg"],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image>고객이 '법인 여신' 업무를 위해 제출한 서류입니다 (이미지 1장).\n'재무제표(재무상태표·손익계산서)'의 당기 기준 부채비율(부채총계 ÷ 자본총계 × 100)은 몇 %입니까? (소수 첫째 자리까지 반올림한 숫자만 답하세요)"
-  },
-  {"role": "assistant", "content": "178.6"}
- ]
-}
-```
-
-### 4-12. doc_valid (날짜 계산)
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/employment_certificate_aged_781b138d.jpg"><img src="../examples/img/employment_certificate_aged_781b138d.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="../examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
-
-1. `employment_certificate_aged.jpg` · 2. `account_opening_application.png`
-
-**질문** (`prompt`)
-
-```
-고객이 '개인 계좌개설' 업무를 위해 제출한 서류입니다 (이미지 2장).
-은행은 제출 서류가 업무 신청일 기준 발급 후 90일 이내여야 받습니다. '재직증명서'의 발급일부터 '예금거래신청서'의 신청일까지 90일 이내입니까? ('예' 또는 '아니오'로만 답하세요)
-```
-
-**정답** (`answer`)
-
-```
-아니오
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "yesno", "tol": 0, "days": 166}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "account_opening",
- "task_name": "개인 계좌개설",
- "bundle": "account_opening_2000000",
- "customer": "김상정",
- "rule": "doc_valid",
- "skill": "날짜 계산",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/account_opening_2000000/doc_valid",
- "task": "review",
- "images": [
-  "images/bundles/account_opening_2000000/employment_certificate_aged.jpg",
-  "images/bundles/account_opening_2000000/account_opening_application.png"
- ],
- "prompt": "고객이 '개인 계좌개설' 업무를 위해 제출한 서류입니다 (이미지 2장).\n은행은 제출 서류가 업무 신청일 기준 발급 후 90일 이내여야 받습니다. '재직증명서'의 발급일부터 '예금거래신청서'의 신청일까지 90일 이내입니까? ('예' 또는 '아니오'로만 답하세요)",
- "answer": "아니오",
- "eval": {"answer_type": "yesno", "tol": 0, "days": 166},
- "meta": {
-  "scenario": "account_opening",
-  "task_name": "개인 계좌개설",
-  "bundle": "account_opening_2000000",
-  "customer": "김상정",
-  "rule": "doc_valid",
-  "skill": "날짜 계산",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/account_opening_2000000/doc_valid",
- "task": "review",
- "images": [
-  "images/bundles/account_opening_2000000/employment_certificate_aged.jpg",
-  "images/bundles/account_opening_2000000/account_opening_application.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '개인 계좌개설' 업무를 위해 제출한 서류입니다 (이미지 2장).\n은행은 제출 서류가 업무 신청일 기준 발급 후 90일 이내여야 받습니다. '재직증명서'의 발급일부터 '예금거래신청서'의 신청일까지 90일 이내입니까? ('예' 또는 '아니오'로만 답하세요)"
-  },
-  {"role": "assistant", "content": "아니오"}
- ]
-}
-```
-
-### 4-13. case:other_person (서류 대조)
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/employment_certificate_b8df591b.jpg"><img src="../examples/img/employment_certificate_b8df591b.jpg" width="300"></a> <a href="examples/img/account_opening_application_3ed40913.jpg"><img src="../examples/img/account_opening_application_3ed40913.jpg" width="300"></a></p>
-
-1. `employment_certificate.jpg` · 2. `account_opening_application.png`
-
-**질문** (`prompt`)
-
-```
-고객이 '개인 계좌개설' 업무를 위해 제출한 서류입니다 (이미지 2장).
-'재직증명서'의 본인(명의자) 성명이 '예금거래신청서'의 고객 성명과 같습니까? ('예' 또는 '아니오'로만 답하세요)
-```
-
-**정답** (`answer`)
-
-```
-예
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "yesno", "tol": 0}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "account_opening",
- "task_name": "개인 계좌개설",
- "bundle": "account_opening_2000000",
- "customer": "김상정",
- "case": "other_person",
- "category": "other_person",
- "perturbed": false,
- "n_docs": 2,
- "rule": "case:other_person",
- "skill": "서류 대조",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/account_opening_2000000/case_other_person",
- "task": "review",
- "images": [
-  "images/bundles/account_opening_2000000/employment_certificate.jpg",
-  "images/bundles/account_opening_2000000/account_opening_application.png"
- ],
- "prompt": "고객이 '개인 계좌개설' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'재직증명서'의 본인(명의자) 성명이 '예금거래신청서'의 고객 성명과 같습니까? ('예' 또는 '아니오'로만 답하세요)",
- "answer": "예",
- "eval": {"answer_type": "yesno", "tol": 0},
- "meta": {
-  "scenario": "account_opening",
-  "task_name": "개인 계좌개설",
-  "bundle": "account_opening_2000000",
-  "customer": "김상정",
-  "case": "other_person",
-  "category": "other_person",
-  "perturbed": false,
-  "n_docs": 2,
-  "rule": "case:other_person",
-  "skill": "서류 대조",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/account_opening_2000000/case_other_person",
- "task": "review",
- "images": [
-  "images/bundles/account_opening_2000000/employment_certificate.jpg",
-  "images/bundles/account_opening_2000000/account_opening_application.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '개인 계좌개설' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'재직증명서'의 본인(명의자) 성명이 '예금거래신청서'의 고객 성명과 같습니까? ('예' 또는 '아니오'로만 답하세요)"
-  },
-  {"role": "assistant", "content": "예"}
- ]
-}
-```
-
-### 4-14. case:loan_vs_agreement (서류 대조)
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/loan_application_b96f2406.jpg"><img src="../examples/img/loan_application_b96f2406.jpg" width="300"></a> <a href="examples/img/credit_agreement_loan_vs_agreement_db79cfa4.jpg"><img src="../examples/img/credit_agreement_loan_vs_agreement_db79cfa4.jpg" width="300"></a></p>
-
-1. `loan_application.jpg` · 2. `credit_agreement_loan_vs_agreement.jpg`
-
-**질문** (`prompt`)
-
-```
-고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 2장).
-'대출거래신청서'의 대출신청금액과 '대출거래약정서(가계용)'의 대출(한도)금액이 같습니까? ('예' 또는 '아니오'로만 답하세요)
-```
-
-**정답** (`answer`)
-
-```
-아니오
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "yesno", "tol": 0}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "personal_credit_loan",
- "task_name": "개인 신용대출",
- "bundle": "personal_credit_loan_2001000",
- "customer": "강서찬",
- "case": "loan_vs_agreement",
- "category": "amount",
- "perturbed": true,
- "n_docs": 2,
- "rule": "case:loan_vs_agreement",
- "skill": "서류 대조",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/personal_credit_loan_2001000/case_loan_vs_agreement",
- "task": "review",
- "images": [
-  "images/bundles/personal_credit_loan_2001000/loan_application.jpg",
-  "images/bundles/personal_credit_loan_2001000/credit_agreement_loan_vs_agreement.jpg"
- ],
- "prompt": "고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'대출거래신청서'의 대출신청금액과 '대출거래약정서(가계용)'의 대출(한도)금액이 같습니까? ('예' 또는 '아니오'로만 답하세요)",
- "answer": "아니오",
- "eval": {"answer_type": "yesno", "tol": 0},
- "meta": {
-  "scenario": "personal_credit_loan",
-  "task_name": "개인 신용대출",
-  "bundle": "personal_credit_loan_2001000",
-  "customer": "강서찬",
-  "case": "loan_vs_agreement",
-  "category": "amount",
-  "perturbed": true,
-  "n_docs": 2,
-  "rule": "case:loan_vs_agreement",
-  "skill": "서류 대조",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/personal_credit_loan_2001000/case_loan_vs_agreement",
- "task": "review",
- "images": [
-  "images/bundles/personal_credit_loan_2001000/loan_application.jpg",
-  "images/bundles/personal_credit_loan_2001000/credit_agreement_loan_vs_agreement.jpg"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'대출거래신청서'의 대출신청금액과 '대출거래약정서(가계용)'의 대출(한도)금액이 같습니까? ('예' 또는 '아니오'로만 답하세요)"
-  },
-  {"role": "assistant", "content": "아니오"}
- ]
-}
-```
-
-### 4-15. case:income_inflated (서류 대조)
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/income_certificate_43655b9f.jpg"><img src="../examples/img/income_certificate_43655b9f.jpg" width="300"></a> <a href="examples/img/withholding_receipt_income_inflated_db6bc1eb.jpg"><img src="../examples/img/withholding_receipt_income_inflated_db6bc1eb.jpg" width="300"></a></p>
-
-1. `income_certificate.jpg` · 2. `withholding_receipt_income_inflated.png`
-
-**질문** (`prompt`)
-
-```
-고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 2장).
-'근로소득 원천징수영수증'의 주(현)근무지 급여 합계(계)와 '소득금액증명원'의 2025년 소득금액(과세대상급여액)이 같습니까? ('예' 또는 '아니오'로만 답하세요)
-```
-
-**정답** (`answer`)
-
-```
-아니오
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "yesno", "tol": 0}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "personal_credit_loan",
- "task_name": "개인 신용대출",
- "bundle": "personal_credit_loan_2001000",
- "customer": "강서찬",
- "case": "income_inflated",
- "category": "amount",
- "perturbed": true,
- "n_docs": 2,
- "rule": "case:income_inflated",
- "skill": "서류 대조",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/personal_credit_loan_2001000/case_income_inflated",
- "task": "review",
- "images": [
-  "images/bundles/personal_credit_loan_2001000/income_certificate.jpg",
-  "images/bundles/personal_credit_loan_2001000/withholding_receipt_income_inflated.png"
- ],
- "prompt": "고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'근로소득 원천징수영수증'의 주(현)근무지 급여 합계(계)와 '소득금액증명원'의 2025년 소득금액(과세대상급여액)이 같습니까? ('예' 또는 '아니오'로만 답하세요)",
- "answer": "아니오",
- "eval": {"answer_type": "yesno", "tol": 0},
- "meta": {
-  "scenario": "personal_credit_loan",
-  "task_name": "개인 신용대출",
-  "bundle": "personal_credit_loan_2001000",
-  "customer": "강서찬",
-  "case": "income_inflated",
-  "category": "amount",
-  "perturbed": true,
-  "n_docs": 2,
-  "rule": "case:income_inflated",
-  "skill": "서류 대조",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/personal_credit_loan_2001000/case_income_inflated",
- "task": "review",
- "images": [
-  "images/bundles/personal_credit_loan_2001000/income_certificate.jpg",
-  "images/bundles/personal_credit_loan_2001000/withholding_receipt_income_inflated.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'근로소득 원천징수영수증'의 주(현)근무지 급여 합계(계)와 '소득금액증명원'의 2025년 소득금액(과세대상급여액)이 같습니까? ('예' 또는 '아니오'로만 답하세요)"
-  },
-  {"role": "assistant", "content": "아니오"}
- ]
-}
-```
-
-### 4-16. case:lease_owner (서류 대조)
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/lease_contract_5a89b782.jpg"><img src="../examples/img/lease_contract_5a89b782.jpg" width="300"></a> <a href="examples/img/real_estate_registry_lease_owner_1412bcd2.jpg"><img src="../examples/img/real_estate_registry_lease_owner_1412bcd2.jpg" width="300"></a></p>
-
-1. `lease_contract.png` · 2. `real_estate_registry_lease_owner.png`
-
-**질문** (`prompt`)
-
-```
-고객이 '전세자금대출' 업무를 위해 제출한 서류입니다 (이미지 2장).
-'주택임대차표준계약서'의 임대인이 '등기사항전부증명서(집합건물)'의 현재 소유자와 같은 사람입니까? ('예' 또는 '아니오'로만 답하세요)
-```
-
-**정답** (`answer`)
-
-```
-아니오
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "yesno", "tol": 0}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "jeonse_loan",
- "task_name": "전세자금대출",
- "bundle": "jeonse_loan_2003000",
- "customer": "방하주",
- "case": "lease_owner",
- "category": "logic",
- "perturbed": true,
- "n_docs": 2,
- "rule": "case:lease_owner",
- "skill": "서류 대조",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/jeonse_loan_2003000/case_lease_owner",
- "task": "review",
- "images": [
-  "images/bundles/jeonse_loan_2003000/lease_contract.png",
-  "images/bundles/jeonse_loan_2003000/real_estate_registry_lease_owner.png"
- ],
- "prompt": "고객이 '전세자금대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'주택임대차표준계약서'의 임대인이 '등기사항전부증명서(집합건물)'의 현재 소유자와 같은 사람입니까? ('예' 또는 '아니오'로만 답하세요)",
- "answer": "아니오",
- "eval": {"answer_type": "yesno", "tol": 0},
- "meta": {
-  "scenario": "jeonse_loan",
-  "task_name": "전세자금대출",
-  "bundle": "jeonse_loan_2003000",
-  "customer": "방하주",
-  "case": "lease_owner",
-  "category": "logic",
-  "perturbed": true,
-  "n_docs": 2,
-  "rule": "case:lease_owner",
-  "skill": "서류 대조",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/jeonse_loan_2003000/case_lease_owner",
- "task": "review",
- "images": [
-  "images/bundles/jeonse_loan_2003000/lease_contract.png",
-  "images/bundles/jeonse_loan_2003000/real_estate_registry_lease_owner.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '전세자금대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'주택임대차표준계약서'의 임대인이 '등기사항전부증명서(집합건물)'의 현재 소유자와 같은 사람입니까? ('예' 또는 '아니오'로만 답하세요)"
-  },
-  {"role": "assistant", "content": "아니오"}
- ]
-}
-```
-
-### 4-17. case:seller_owner (서류 대조)
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/sales_contract_b1706022.jpg"><img src="../examples/img/sales_contract_b1706022.jpg" width="300"></a> <a href="examples/img/real_estate_registry_adf93d9e.jpg"><img src="../examples/img/real_estate_registry_adf93d9e.jpg" width="300"></a></p>
-
-1. `sales_contract.jpg` · 2. `real_estate_registry.png`
-
-**질문** (`prompt`)
-
-```
-고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 2장).
-'부동산 매매계약서'의 매도인이 '등기사항전부증명서(집합건물)'의 현재 소유자와 같은 사람입니까? ('예' 또는 '아니오'로만 답하세요)
-```
-
-**정답** (`answer`)
-
-```
-예
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "yesno", "tol": 0}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "mortgage",
- "task_name": "주택담보대출",
- "bundle": "mortgage_2002000",
- "customer": "엄태정",
- "case": "seller_owner",
- "category": "logic",
- "perturbed": false,
- "n_docs": 2,
- "rule": "case:seller_owner",
- "skill": "서류 대조",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/mortgage_2002000/case_seller_owner",
- "task": "review",
- "images": [
-  "images/bundles/mortgage_2002000/sales_contract.jpg",
-  "images/bundles/mortgage_2002000/real_estate_registry.png"
- ],
- "prompt": "고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'부동산 매매계약서'의 매도인이 '등기사항전부증명서(집합건물)'의 현재 소유자와 같은 사람입니까? ('예' 또는 '아니오'로만 답하세요)",
- "answer": "예",
- "eval": {"answer_type": "yesno", "tol": 0},
- "meta": {
-  "scenario": "mortgage",
-  "task_name": "주택담보대출",
-  "bundle": "mortgage_2002000",
-  "customer": "엄태정",
-  "case": "seller_owner",
-  "category": "logic",
-  "perturbed": false,
-  "n_docs": 2,
-  "rule": "case:seller_owner",
-  "skill": "서류 대조",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/mortgage_2002000/case_seller_owner",
- "task": "review",
- "images": [
-  "images/bundles/mortgage_2002000/sales_contract.jpg",
-  "images/bundles/mortgage_2002000/real_estate_registry.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'부동산 매매계약서'의 매도인이 '등기사항전부증명서(집합건물)'의 현재 소유자와 같은 사람입니까? ('예' 또는 '아니오'로만 답하세요)"
-  },
-  {"role": "assistant", "content": "예"}
- ]
-}
-```
-
-### 4-18. case:hire_date (서류 대조)
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/employment_certificate_2a2674ca.jpg"><img src="../examples/img/employment_certificate_2a2674ca.jpg" width="300"></a> <a href="examples/img/health_insurance_qualification_71184daf.jpg"><img src="../examples/img/health_insurance_qualification_71184daf.jpg" width="300"></a></p>
-
-1. `employment_certificate.jpg` · 2. `health_insurance_qualification.png`
-
-**질문** (`prompt`)
-
-```
-고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 2장).
-'재직증명서'의 입사일(재직기간 시작일)과 '건강보험 자격득실확인서'의 자격취득일이 같습니까? ('예' 또는 '아니오'로만 답하세요)
-```
-
-**정답** (`answer`)
-
-```
-예
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "yesno", "tol": 0}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "personal_credit_loan",
- "task_name": "개인 신용대출",
- "bundle": "personal_credit_loan_2001000",
- "customer": "강서찬",
- "case": "hire_date",
- "category": "logic",
- "perturbed": false,
- "n_docs": 2,
- "rule": "case:hire_date",
- "skill": "서류 대조",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/personal_credit_loan_2001000/case_hire_date",
- "task": "review",
- "images": [
-  "images/bundles/personal_credit_loan_2001000/employment_certificate.jpg",
-  "images/bundles/personal_credit_loan_2001000/health_insurance_qualification.png"
- ],
- "prompt": "고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'재직증명서'의 입사일(재직기간 시작일)과 '건강보험 자격득실확인서'의 자격취득일이 같습니까? ('예' 또는 '아니오'로만 답하세요)",
- "answer": "예",
- "eval": {"answer_type": "yesno", "tol": 0},
- "meta": {
-  "scenario": "personal_credit_loan",
-  "task_name": "개인 신용대출",
-  "bundle": "personal_credit_loan_2001000",
-  "customer": "강서찬",
-  "case": "hire_date",
-  "category": "logic",
-  "perturbed": false,
-  "n_docs": 2,
-  "rule": "case:hire_date",
-  "skill": "서류 대조",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/personal_credit_loan_2001000/case_hire_date",
- "task": "review",
- "images": [
-  "images/bundles/personal_credit_loan_2001000/employment_certificate.jpg",
-  "images/bundles/personal_credit_loan_2001000/health_insurance_qualification.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'재직증명서'의 입사일(재직기간 시작일)과 '건강보험 자격득실확인서'의 자격취득일이 같습니까? ('예' 또는 '아니오'로만 답하세요)"
-  },
-  {"role": "assistant", "content": "예"}
- ]
-}
-```
-
-### 4-19. case:rep_director (서류 대조)
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/loan_application_corp_e2f515f8.jpg"><img src="../examples/img/loan_application_corp_e2f515f8.jpg" width="300"></a> <a href="examples/img/corporate_seal_certificate_90aa67f7.jpg"><img src="../examples/img/corporate_seal_certificate_90aa67f7.jpg" width="300"></a></p>
-
-1. `loan_application_corp.jpg` · 2. `corporate_seal_certificate.jpg`
-
-**질문** (`prompt`)
-
-```
-고객이 '법인 여신' 업무를 위해 제출한 서류입니다 (이미지 2장).
-'법인인감증명서'의 대표자와 '기업여신 신청서'의 대표자가 같은 사람입니까? ('예' 또는 '아니오'로만 답하세요)
-```
-
-**정답** (`answer`)
-
-```
-예
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "yesno", "tol": 0}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "corporate_credit",
- "task_name": "법인 여신",
- "bundle": "corporate_credit_2005000",
- "customer": "석석유",
- "case": "rep_director",
- "category": "logic",
- "perturbed": false,
- "n_docs": 2,
- "rule": "case:rep_director",
- "skill": "서류 대조",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/corporate_credit_2005000/case_rep_director",
- "task": "review",
- "images": [
-  "images/bundles/corporate_credit_2005000/loan_application_corp.jpg",
-  "images/bundles/corporate_credit_2005000/corporate_seal_certificate.jpg"
- ],
- "prompt": "고객이 '법인 여신' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'법인인감증명서'의 대표자와 '기업여신 신청서'의 대표자가 같은 사람입니까? ('예' 또는 '아니오'로만 답하세요)",
- "answer": "예",
- "eval": {"answer_type": "yesno", "tol": 0},
- "meta": {
-  "scenario": "corporate_credit",
-  "task_name": "법인 여신",
-  "bundle": "corporate_credit_2005000",
-  "customer": "석석유",
-  "case": "rep_director",
-  "category": "logic",
-  "perturbed": false,
-  "n_docs": 2,
-  "rule": "case:rep_director",
-  "skill": "서류 대조",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/corporate_credit_2005000/case_rep_director",
- "task": "review",
- "images": [
-  "images/bundles/corporate_credit_2005000/loan_application_corp.jpg",
-  "images/bundles/corporate_credit_2005000/corporate_seal_certificate.jpg"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '법인 여신' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'법인인감증명서'의 대표자와 '기업여신 신청서'의 대표자가 같은 사람입니까? ('예' 또는 '아니오'로만 답하세요)"
-  },
-  {"role": "assistant", "content": "예"}
- ]
-}
-```
-
-### 4-20. case:contract_before_apply (서류 대조)
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/credit_agreement_539884fb.jpg"><img src="../examples/img/credit_agreement_539884fb.jpg" width="300"></a> <a href="examples/img/loan_application_b96f2406.jpg"><img src="../examples/img/loan_application_b96f2406.jpg" width="300"></a></p>
-
-1. `credit_agreement.jpg` · 2. `loan_application.jpg`
-
-**질문** (`prompt`)
-
-```
-고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 2장).
-'대출거래약정서(가계용)'의 약정일이 '대출거래신청서'의 신청일과 같거나 그 이후입니까? ('예' 또는 '아니오'로만 답하세요)
-```
-
-**정답** (`answer`)
-
-```
-예
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "yesno", "tol": 0}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "personal_credit_loan",
- "task_name": "개인 신용대출",
- "bundle": "personal_credit_loan_2001000",
- "customer": "강서찬",
- "case": "contract_before_apply",
- "category": "logic",
- "perturbed": false,
- "n_docs": 2,
- "rule": "case:contract_before_apply",
- "skill": "서류 대조",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/personal_credit_loan_2001000/case_contract_before_apply",
- "task": "review",
- "images": [
-  "images/bundles/personal_credit_loan_2001000/credit_agreement.jpg",
-  "images/bundles/personal_credit_loan_2001000/loan_application.jpg"
- ],
- "prompt": "고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'대출거래약정서(가계용)'의 약정일이 '대출거래신청서'의 신청일과 같거나 그 이후입니까? ('예' 또는 '아니오'로만 답하세요)",
- "answer": "예",
- "eval": {"answer_type": "yesno", "tol": 0},
- "meta": {
-  "scenario": "personal_credit_loan",
-  "task_name": "개인 신용대출",
-  "bundle": "personal_credit_loan_2001000",
-  "customer": "강서찬",
-  "case": "contract_before_apply",
-  "category": "logic",
-  "perturbed": false,
-  "n_docs": 2,
-  "rule": "case:contract_before_apply",
-  "skill": "서류 대조",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/personal_credit_loan_2001000/case_contract_before_apply",
- "task": "review",
- "images": [
-  "images/bundles/personal_credit_loan_2001000/credit_agreement.jpg",
-  "images/bundles/personal_credit_loan_2001000/loan_application.jpg"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '개인 신용대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'대출거래약정서(가계용)'의 약정일이 '대출거래신청서'의 신청일과 같거나 그 이후입니까? ('예' 또는 '아니오'로만 답하세요)"
-  },
-  {"role": "assistant", "content": "예"}
- ]
-}
-```
-
-### 4-21. case:collateral_short (서류 대조)
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/collateral_agreement_c277e776.jpg"><img src="../examples/img/collateral_agreement_c277e776.jpg" width="300"></a> <a href="examples/img/credit_agreement_785a59e0.jpg"><img src="../examples/img/credit_agreement_785a59e0.jpg" width="300"></a></p>
-
-1. `collateral_agreement.png` · 2. `credit_agreement.jpg`
-
-**질문** (`prompt`)
-
-```
-고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 2장).
-'근저당권설정계약서'의 채권최고액이 '대출거래약정서(가계용)'의 대출(한도)금액보다 큽니까? ('예' 또는 '아니오'로만 답하세요)
-```
-
-**정답** (`answer`)
-
-```
-예
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "yesno", "tol": 0}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "mortgage",
- "task_name": "주택담보대출",
- "bundle": "mortgage_2002000",
- "customer": "엄태정",
- "case": "collateral_short",
- "category": "logic",
- "perturbed": false,
- "n_docs": 2,
- "rule": "case:collateral_short",
- "skill": "서류 대조",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/mortgage_2002000/case_collateral_short",
- "task": "review",
- "images": [
-  "images/bundles/mortgage_2002000/collateral_agreement.png",
-  "images/bundles/mortgage_2002000/credit_agreement.jpg"
- ],
- "prompt": "고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'근저당권설정계약서'의 채권최고액이 '대출거래약정서(가계용)'의 대출(한도)금액보다 큽니까? ('예' 또는 '아니오'로만 답하세요)",
- "answer": "예",
- "eval": {"answer_type": "yesno", "tol": 0},
- "meta": {
-  "scenario": "mortgage",
-  "task_name": "주택담보대출",
-  "bundle": "mortgage_2002000",
-  "customer": "엄태정",
-  "case": "collateral_short",
-  "category": "logic",
-  "perturbed": false,
-  "n_docs": 2,
-  "rule": "case:collateral_short",
-  "skill": "서류 대조",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/mortgage_2002000/case_collateral_short",
- "task": "review",
- "images": [
-  "images/bundles/mortgage_2002000/collateral_agreement.png",
-  "images/bundles/mortgage_2002000/credit_agreement.jpg"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'근저당권설정계약서'의 채권최고액이 '대출거래약정서(가계용)'의 대출(한도)금액보다 큽니까? ('예' 또는 '아니오'로만 답하세요)"
-  },
-  {"role": "assistant", "content": "예"}
- ]
-}
-```
-
-### 4-22. case:jeonse_over (서류 대조)
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/lease_contract_5a89b782.jpg"><img src="../examples/img/lease_contract_5a89b782.jpg" width="300"></a> <a href="examples/img/loan_application_9ad08642.jpg"><img src="../examples/img/loan_application_9ad08642.jpg" width="300"></a></p>
-
-1. `lease_contract.png` · 2. `loan_application.png`
-
-**질문** (`prompt`)
-
-```
-고객이 '전세자금대출' 업무를 위해 제출한 서류입니다 (이미지 2장).
-'대출거래신청서'의 대출신청금액이 '주택임대차표준계약서'의 보증금 이하입니까? ('예' 또는 '아니오'로만 답하세요)
-```
-
-**정답** (`answer`)
-
-```
-예
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "yesno", "tol": 0}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "jeonse_loan",
- "task_name": "전세자금대출",
- "bundle": "jeonse_loan_2003000",
- "customer": "방하주",
- "case": "jeonse_over",
- "category": "logic",
- "perturbed": false,
- "n_docs": 2,
- "rule": "case:jeonse_over",
- "skill": "서류 대조",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/jeonse_loan_2003000/case_jeonse_over",
- "task": "review",
- "images": [
-  "images/bundles/jeonse_loan_2003000/lease_contract.png",
-  "images/bundles/jeonse_loan_2003000/loan_application.png"
- ],
- "prompt": "고객이 '전세자금대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'대출거래신청서'의 대출신청금액이 '주택임대차표준계약서'의 보증금 이하입니까? ('예' 또는 '아니오'로만 답하세요)",
- "answer": "예",
- "eval": {"answer_type": "yesno", "tol": 0},
- "meta": {
-  "scenario": "jeonse_loan",
-  "task_name": "전세자금대출",
-  "bundle": "jeonse_loan_2003000",
-  "customer": "방하주",
-  "case": "jeonse_over",
-  "category": "logic",
-  "perturbed": false,
-  "n_docs": 2,
-  "rule": "case:jeonse_over",
-  "skill": "서류 대조",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/jeonse_loan_2003000/case_jeonse_over",
- "task": "review",
- "images": [
-  "images/bundles/jeonse_loan_2003000/lease_contract.png",
-  "images/bundles/jeonse_loan_2003000/loan_application.png"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '전세자금대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'대출거래신청서'의 대출신청금액이 '주택임대차표준계약서'의 보증금 이하입니까? ('예' 또는 '아니오'로만 답하세요)"
-  },
-  {"role": "assistant", "content": "예"}
- ]
-}
-```
-
-### 4-23. case:sales_sum (서류 대조)
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/sales_contract_sales_sum_f04734cd.jpg"><img src="../examples/img/sales_contract_sales_sum_f04734cd.jpg" width="300"></a> <a href="examples/img/loan_application_10a3fd22.jpg"><img src="../examples/img/loan_application_10a3fd22.jpg" width="300"></a></p>
-
-1. `sales_contract_sales_sum.jpg` · 2. `loan_application.jpg`
-
-**질문** (`prompt`)
-
-```
-고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 2장).
-'부동산 매매계약서'의 계약금·중도금·잔금을 모두 더한 금액이 매매대금과 같습니까? ('예' 또는 '아니오'로만 답하세요)
-```
-
-**정답** (`answer`)
-
-```
-아니오
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "yesno", "tol": 0}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "mortgage",
- "task_name": "주택담보대출",
- "bundle": "mortgage_2002000",
- "customer": "엄태정",
- "case": "sales_sum",
- "category": "logic",
- "perturbed": true,
- "n_docs": 2,
- "rule": "case:sales_sum",
- "skill": "서류 대조",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/mortgage_2002000/case_sales_sum",
- "task": "review",
- "images": [
-  "images/bundles/mortgage_2002000/sales_contract_sales_sum.jpg",
-  "images/bundles/mortgage_2002000/loan_application.jpg"
- ],
- "prompt": "고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'부동산 매매계약서'의 계약금·중도금·잔금을 모두 더한 금액이 매매대금과 같습니까? ('예' 또는 '아니오'로만 답하세요)",
- "answer": "아니오",
- "eval": {"answer_type": "yesno", "tol": 0},
- "meta": {
-  "scenario": "mortgage",
-  "task_name": "주택담보대출",
-  "bundle": "mortgage_2002000",
-  "customer": "엄태정",
-  "case": "sales_sum",
-  "category": "logic",
-  "perturbed": true,
-  "n_docs": 2,
-  "rule": "case:sales_sum",
-  "skill": "서류 대조",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/mortgage_2002000/case_sales_sum",
- "task": "review",
- "images": [
-  "images/bundles/mortgage_2002000/sales_contract_sales_sum.jpg",
-  "images/bundles/mortgage_2002000/loan_application.jpg"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '주택담보대출' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'부동산 매매계약서'의 계약금·중도금·잔금을 모두 더한 금액이 매매대금과 같습니까? ('예' 또는 '아니오'로만 답하세요)"
-  },
-  {"role": "assistant", "content": "아니오"}
- ]
-}
-```
-
-### 4-24. case:fx_beneficiary (서류 대조)
-
-**입력 이미지** (2장, 질문 앞에 이 순서로)
-
-<p><a href="examples/img/overseas_remittance_application_fx_beneficiary_d44d885c.jpg"><img src="../examples/img/overseas_remittance_application_fx_beneficiary_d44d885c.jpg" width="300"></a> <a href="examples/img/commercial_invoice_564bb4a1.jpg"><img src="../examples/img/commercial_invoice_564bb4a1.jpg" width="300"></a></p>
-
-1. `overseas_remittance_application_fx_beneficiary.jpg` · 2. `commercial_invoice.jpg`
-
-**질문** (`prompt`)
-
-```
-고객이 '해외송금' 업무를 위해 제출한 서류입니다 (이미지 2장).
-'해외송금신청서'의 수취인이 '상업송장(Commercial Invoice)'의 수출자(Shipper)와 같습니까? ('예' 또는 '아니오'로만 답하세요)
-```
-
-**정답** (`answer`)
-
-```
-아니오
-```
-
-**채점 정보** (`eval`)
-
-```json
-{"answer_type": "yesno", "tol": 0}
-```
-
-**나눠 보기 정보** (`meta`)
-
-```json
-{
- "scenario": "fx_remittance",
- "task_name": "해외송금",
- "bundle": "fx_remittance_2006000",
- "customer": "장수주",
- "case": "fx_beneficiary",
- "category": "logic",
- "perturbed": true,
- "n_docs": 2,
- "rule": "case:fx_beneficiary",
- "skill": "서류 대조",
- "task_group": "work",
- "label_format": "scalar"
-}
-```
-
-**문항 한 줄 전체** (`tasks/review.jsonl`)
-
-<details><summary>펼치기</summary>
-
-```json
-{
- "id": "review/fx_remittance_2006000/case_fx_beneficiary",
- "task": "review",
- "images": [
-  "images/bundles/fx_remittance_2006000/overseas_remittance_application_fx_beneficiary.jpg",
-  "images/bundles/fx_remittance_2006000/commercial_invoice.jpg"
- ],
- "prompt": "고객이 '해외송금' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'해외송금신청서'의 수취인이 '상업송장(Commercial Invoice)'의 수출자(Shipper)와 같습니까? ('예' 또는 '아니오'로만 답하세요)",
- "answer": "아니오",
- "eval": {"answer_type": "yesno", "tol": 0},
- "meta": {
-  "scenario": "fx_remittance",
-  "task_name": "해외송금",
-  "bundle": "fx_remittance_2006000",
-  "customer": "장수주",
-  "case": "fx_beneficiary",
-  "category": "logic",
-  "perturbed": true,
-  "n_docs": 2,
-  "rule": "case:fx_beneficiary",
-  "skill": "서류 대조",
-  "task_group": "work",
-  "label_format": "scalar"
- }
-}
-```
-</details>
-
-**학습 레코드** (`swift/all.jsonl` 한 줄: 같은 문항을 질문 + 정답 답변 대화로 바꾼 것)
-
-```json
-{
- "id": "review/fx_remittance_2006000/case_fx_beneficiary",
- "task": "review",
- "images": [
-  "images/bundles/fx_remittance_2006000/overseas_remittance_application_fx_beneficiary.jpg",
-  "images/bundles/fx_remittance_2006000/commercial_invoice.jpg"
- ],
- "messages": [
-  {
-   "role": "user",
-   "content": "<image><image>고객이 '해외송금' 업무를 위해 제출한 서류입니다 (이미지 2장).\n'해외송금신청서'의 수취인이 '상업송장(Commercial Invoice)'의 수출자(Shipper)와 같습니까? ('예' 또는 '아니오'로만 답하세요)"
-  },
-  {"role": "assistant", "content": "아니오"}
- ]
-}
-```
-
-## 5부. 비슷한 문제를 새로 정의하려면
+## 3부. 비슷한 문제를 새로 정의하려면
 
 | 바꾸고 싶은 것 | 고칠 곳 |
 |---|---|
-| 질문 문장 | `docgen/bench/prompts.py` (평가·학습·studio 가 같이 씀. `guide/reference/questions.md` 와 테스트도 같이 고침) |
-| 새 서류 대조 사례 | `docgen/bench/cases.py` 의 `CASES` 에 `Case(id, 제목, 분류, 근거, 함수)` 추가. 함수는 원본에서 관계가 맞는지 확인하고, 바꿀 서류·키·값과 짝 서류를 돌려줌 |
-| 새 심사 질의 규칙 | `docgen/bench/rules.py` 의 `RULES` 에 함수 추가. `{"question", "answer", "answer_type", "tol", "docs", "skill"}` 를 돌려줌 |
-| 업무와 필수 서류 | `docgen/registry.py` 의 `SCENARIOS` |
-| 서식마다 묻는 칸·항목명, 질문 문장·답 모양, 서식 전용 질문 | 칸의 `q`(`fields.json`), 서식 폴더의 `questions.json`·`qa.py` (`docgen/forms/README.md`) |
-| 서류 한 건 과제의 정답 만드는 방식·답 형식 | `docgen/bench/tasks/<과제>.py` (과제 하나 = 파일 하나: `make(doc)`, `ANSWER`·`EXAMPLE`·`NOTES`) |
-| 업무 묶음 문항 만드는 방식 (빼는 서류 수, 타인 서류 비율 등) | `docgen/bench/build.py` 의 `doc_check`, `cross_checks` |
-| 채점 | `docgen/bench/evaluate.py` (OCR 과제 포함, GRPO 보상도 같은 `evaluate.reward`: `train/reward_plugin.py`) |
+| 질문 문장 | 공통 `docgen/forms/_common/questions.json`, 서식마다 다르게는 그 서식 폴더의 `questions.json` (`guide/reference/questions.md`) |
+| 서식마다 묻는 칸·키 설명 | 칸의 `q` (`fields.json`) |
+| 서식 하나에만 묻는 질문 | 서식 폴더의 `qa.py` → 과제 `form_qa` (`docgen/forms/README.md`) |
+| 과제의 정답 만드는 방식·답 형식 | `docgen/bench/tasks/<과제>.py` (과제 하나 = 파일 하나: `make(doc)`, `ANSWER`·`EXAMPLE`·`NOTES`) |
+| 기타 칸 글의 문장 틀 | `docgen/forms/_common/freetext_templates.json` |
+| 채점 | `docgen/bench/evaluate.py` (OCR 과제 포함) |
 | OCR 과제 질문·만드는 방식 | `docgen/bench/ocr_tasks.py` (`PROMPTS`, 과제별 함수), 개수는 OCR 준비 설정의 `tasks_per_view` (`docgen/bench/ocr_config.example.json`) |
 
-실제 서류로 같은 형식의 문항을 만들면 코드 수정 없이 파이프라인에 연결됩니다. 위 `2-0` 의 폴더 구조와 필드를 그대로 따르면 됩니다.
+실서류로 같은 형식의 문항을 만들면 코드 수정 없이 학습·평가에 쓸 수 있습니다. 위 `2-0` 의 폴더 구조와 필드를 그대로 따르면 됩니다.

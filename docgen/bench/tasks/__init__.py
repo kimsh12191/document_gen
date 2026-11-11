@@ -78,7 +78,7 @@ class Doc:
 
     r          render_doc 결과 그대로 (doc_id, name, images, sizes, data …)
     sid        문항 ID 의 서류 부분 (<서류ID>_<seed>)
-    fields     칸 목록: {"key", "label", "type", "value", "bbox", "page", …}. 공통 키로 정한 칸은 공통 키로 (키 사전)
+    fields     칸 목록: {"key", "label", "type", "value", "bbox", "page", …}. 키는 서식 파일에 적힌 그대로
     visible    이미지에 보이고 값이 있는 칸 (체크·도장·서명, 묶음 칸 제외) — 받아쓰기·값 칸 읽기의 정답 재료
     meta, base 문항 meta / 문항에 공통으로 붙는 {"images", "meta"}
     rng        과제들이 차례로 같이 쓰는 난수

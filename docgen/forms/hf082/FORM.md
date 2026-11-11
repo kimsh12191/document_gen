@@ -1,10 +1,9 @@
 # 채권발행 등록 신청서 (`hf082`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf082 · card-hash: 65cc2e753d4b -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf082 · card-hash: 0d3c5e36a66a -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 채권발행 등록 신청서
-- **쓰이는 업무:** 없음 (서류 한 건 과제에만)
 - **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
 - **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa hf082 --new`)
 - **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
@@ -18,56 +17,55 @@
 | `fields.json` | 칸 목록·값 출처 |
 | `layout.json` | 원본에서 자동 추출한 칸 자리 (초안) |
 | `look/original.pdf` | 원본 PDF |
-| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
 
 ## 추출 항목 (정보 추출 kie) — 12칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `구매기업명` | 구매기업명 | text | 1쪽 [274, 282, 385, 294] | 늘 | 항목명 그대로 | 값 종류 `company` (항목명 자동) | fields.json:49 | 묻기 |
-| `총처리건수` | 총처리건수 | number | 1쪽 [367, 326, 386, 338] | 늘 | 항목명 그대로 | 값 종류 `count` (항목명 자동) | fields.json:60 | 묻기 |
-| `구매기업사업자등록번호` | 구매기업사업자등록번호 | biz_no | 1쪽 [701, 282, 805, 294] | 늘 | 항목명 그대로 | 값 종류 `biz_no` (항목명 자동) | fields.json:72 | 묻기 |
-| `총처리금액` | 총처리금액 | number | 1쪽 [778, 326, 871, 338] | 늘 | 항목명 그대로 | 값 종류 `amount` (항목명 자동) | fields.json:83 | 묻기 |
-| `취급점` | 취급점 | text | 1쪽 [237, 221, 304, 233] | 늘 | 항목명 그대로 | 값 종류 `branch` (항목명 자동) | fields.json:95 | 묻기 |
-| `date` | 작성일 | date | 1쪽 [416, 412, 604, 429] | 늘 | 날짜 칸 (항목명) | 작성일 | fields.json:106 | 묻기 |
-| `호` | 호 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:132 | 묻기 |
-| `corp.biz_no` ← `company.biz_no` | 사업자등록번호 | biz_no | 1쪽 [443, 514, 547, 525] | 늘 | 규칙: '사 업 자 등 록 번 호' → `company.biz_no` | 고객 정보 (키 `company.biz_no`) | fields.json:143 | 묻기 |
-| `customer.name` ← `signer.name` | 자 | text | 1쪽 [537, 534, 604, 546] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:154 | 묻기 |
-| `소` | 소 | text | - | 늘 | 항목명 그대로 | 값 종류 `skip` (항목명 자동) | fields.json:171 | 묻기 |
-| `signer2.name` | 명 | text | 1쪽 [537, 619, 604, 631] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:182 | 묻기 |
-| `customer.phone` | 연락처 | phone | 1쪽 [446, 659, 558, 671] | 늘 | 규칙: '연 락 처' → `customer.phone` | 고객 정보 (키 `customer.phone`) | fields.json:199 | 묻기 |
+| `구매기업명` | 구매기업명 | text | 1쪽 [274, 282, 385, 294] | 늘 | 파일 key | 값 종류 `company` | fields.json:49 | 묻기 |
+| `총처리건수` | 총처리건수 | number | 1쪽 [367, 326, 386, 338] | 늘 | 파일 key | 값 종류 `count` | fields.json:63 | 묻기 |
+| `구매기업사업자등록번호` | 구매기업사업자등록번호 | biz_no | 1쪽 [701, 282, 805, 294] | 늘 | 파일 key | 값 종류 `biz_no` | fields.json:78 | 묻기 |
+| `총처리금액` | 총처리금액 | number | 1쪽 [778, 326, 871, 338] | 늘 | 파일 key | 값 종류 `amount` | fields.json:92 | 묻기 |
+| `취급점` | 취급점 | text | 1쪽 [237, 221, 304, 233] | 늘 | 파일 key | 값 종류 `branch` | fields.json:107 | 묻기 |
+| `date` | 작성일 | date | 1쪽 [416, 412, 604, 429] | 늘 | 파일 key | 작성일 | fields.json:121 | 묻기 |
+| `호` | 호 | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:148 | 묻기 |
+| `company.biz_no` | 사업자등록번호 | biz_no | 1쪽 [443, 514, 547, 525] | 늘 | 파일 key | 고객 정보 (키 `company.biz_no`, 없으면 값 종류 `biz_no`) | fields.json:162 | 묻기 |
+| `signer.name` | 자 | text | 1쪽 [537, 534, 604, 546] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:175 | 묻기 |
+| `소` | 소 | text | - | 늘 | 파일 key | 값 종류 `skip` | fields.json:194 | 묻기 |
+| `signer2.name` | 명 | text | 1쪽 [537, 619, 604, 631] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:208 | 묻기 |
+| `customer.phone` | 연락처 | phone | 1쪽 [446, 659, 558, 671] | 늘 | 파일 key | 고객 정보 (키 `customer.phone`, 없으면 값 종류 `phone`) | fields.json:225 | 묻기 |
 
 ## 표 `목록` (표 과제 table·table_read·table_find·table_qa) — 8열
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `목록.*.중심업체코드` | 중심업체코드 | number | 2쪽 [91, 193, 129, 205] (1행) | 늘 | 표 행 (묶음·항목명 '중심업체코드') | 값 종류 `number` (항목명 자동) | fields.json:210 | 묻기 |
-| `목록.*.판매기업사업자번호` | 판매기업사업자번호 | biz_no | 2쪽 [157, 196, 216, 203] (1행) | 늘 | 표 행 (묶음·항목명 '판매기업 사업자번호') | 값 종류 `biz_no` (항목명 자동) | fields.json:426 | 묻기 |
-| `목록.*.판매기업명` | 판매기업명 | text | 2쪽 [233, 196, 294, 203] (1행) | 늘 | 표 행 (묶음·항목명 '판매기업명') | 값 종류 `company` (항목명 자동) | fields.json:642 | 묻기 |
-| `목록.*.채권발행일자채권만기일자` | 채권발행일자채권만기일자 | date | 2쪽 [310, 196, 370, 202] (1행) | 늘 | 표 행 (묶음·항목명 '채권발행일자채권만기일자') | 값 종류 `date` (항목명 자동) | fields.json:858 | 묻기 |
-| `목록.*.채권금액` | 채권금액 | number | 2쪽 [471, 195, 528, 204] (1행) | 늘 | 표 행 (묶음·항목명 '채권금액') | 값 종류 `amount` (항목명 자동) | fields.json:1290 | 묻기 |
-| `목록.*.세금계산서승인번호` | 세금계산서승인번호 | text | 2쪽 [539, 195, 600, 204] (1행) | 늘 | 표 행 (묶음·항목명 '세금계산서 승인번호') | 값 종류 `number` (항목명 자동) | fields.json:1506 | 묻기 |
-| `목록.*.세금계산서합계금액` | 세금계산서합계금액 | number | 2쪽 [624, 195, 681, 203] (1행) | 늘 | 표 행 (묶음·항목명 '세금계산서 합계금액') | 값 종류 `amount` (항목명 자동) | fields.json:1722 | 묻기 |
-| `목록.*.세금계산서작성일자` | 세금계산서작성일자 | date | 2쪽 [694, 195, 753, 203] (1행) | 늘 | 표 행 (묶음·항목명 '세금계산서 작성일자') | 값 종류 `date` (항목명 자동) | fields.json:1938 | 묻기 |
+| `목록.*.중심업체코드` | 중심업체코드 | number | 2쪽 [91, 193, 129, 205] (1행) | 늘 | 파일 key | 값 종류 `number` | fields.json:238 | 묻기 |
+| `목록.*.판매기업사업자번호` | 판매기업사업자번호 | biz_no | 2쪽 [157, 196, 216, 203] (1행) | 늘 | 파일 key | 값 종류 `biz_no` | fields.json:490 | 묻기 |
+| `목록.*.판매기업명` | 판매기업명 | text | 2쪽 [233, 196, 294, 203] (1행) | 늘 | 파일 key | 값 종류 `company` | fields.json:742 | 묻기 |
+| `목록.*.채권발행일자채권만기일자` | 채권발행일자채권만기일자 | date | 2쪽 [310, 196, 370, 202] (1행) | 늘 | 파일 key | 값 종류 `date` | fields.json:994 | 묻기 |
+| `목록.*.채권금액` | 채권금액 | number | 2쪽 [471, 195, 528, 204] (1행) | 늘 | 파일 key | 값 종류 `amount` | fields.json:1498 | 묻기 |
+| `목록.*.세금계산서승인번호` | 세금계산서승인번호 | text | 2쪽 [539, 195, 600, 204] (1행) | 늘 | 파일 key | 값 종류 `number` | fields.json:1750 | 묻기 |
+| `목록.*.세금계산서합계금액` | 세금계산서합계금액 | number | 2쪽 [624, 195, 681, 203] (1행) | 늘 | 파일 key | 값 종류 `amount` | fields.json:2002 | 묻기 |
+| `목록.*.세금계산서작성일자` | 세금계산서작성일자 | date | 2쪽 [694, 195, 753, 203] (1행) | 늘 | 파일 key | 값 종류 `date` | fields.json:2254 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 8칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `seal.customer` ← `seal.signer` | 자 | seal | 1쪽 [703, 520, 742, 559] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:154 | 묻기 |
-| `sign.customer` ← `sign.signer` | 자 | signature | 1쪽 [712, 534, 734, 546] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:154 | 묻기 |
-| `seal.signer2` | 명 | seal | 1쪽 [703, 605, 743, 644] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:182 | 묻기 |
-| `sign.signer2` | 명 | signature | 1쪽 [711, 619, 734, 631] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:182 | 묻기 |
+| `seal.signer` | 자 | seal | 1쪽 [703, 520, 742, 559] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:175 | 묻기 |
+| `sign.signer` | 자 | signature | 1쪽 [712, 534, 734, 546] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:175 | 묻기 |
+| `seal.signer2` | 명 | seal | 1쪽 [703, 605, 743, 644] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:208 | 묻기 |
+| `sign.signer2` | 명 | signature | 1쪽 [711, 619, 734, 631] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:208 | 묻기 |
 | `seal.staff.담당` | 담당 | seal | 1쪽 [809, 178, 844, 203] | 늘 | - | - | - | 묻기 |
 | `sign.staff.담당` | 담당 | signature | 1쪽 [793, 172, 860, 208] | 늘 | - | - | - | 묻기 |
 | `seal.staff.책임자` | 책임자 | seal | 1쪽 [872, 178, 907, 203] | 늘 | - | - | - | 묻기 |
 | `sign.staff.책임자` | 책임자 | signature | 1쪽 [860, 172, 919, 208] | 늘 | - | - | - | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
-- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
 - **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
@@ -160,7 +158,7 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
+항목 (키: 설명 (몇 번째 행))
 - 구매기업명: 구매기업명
 - 총처리건수: 총처리건수
 - 구매기업사업자등록번호: 구매기업사업자등록번호
@@ -168,12 +166,12 @@ answer_empty: {"key": "{key}", "value": null}
 - 취급점: 취급점
 - date: 작성일
 - 호: 호
-- 연대보증제도폐지에따른사후관리강화: ▦연대보증제도폐지에따른사후관리강화
-- corp.biz_no: 사업자등록번호 (법인·사업자 사업자등록번호)
-- customer.name: 자 (고객 성명)
+- 개인식별정보외에고객이제공한정보: ■개인식별정보외에고객이제공한정보
+- company.biz_no: 사업자등록번호
+- signer.name: 자
 - 소: 소
 - signer2.name: 명
-- customer.phone: 연락처 (고객 연락처)
+- customer.phone: 연락처
 ```
 
 답:
@@ -186,9 +184,9 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "취급점", "value": "센텀지점", "bbox_2d": [237, 221, 304, 233], "page": 1},
  {"key": "date", "value": "2025년 4월 1일", "bbox_2d": [416, 412, 604, 429], "page": 1},
  {"key": "호", "value": null},
- {"key": "연대보증제도폐지에따른사후관리강화", "value": null},
- {"key": "corp.biz_no", "value": "702-81-38348", "bbox_2d": [443, 514, 547, 525], "page": 1},
- {"key": "customer.name", "value": "남궁예태", "bbox_2d": [537, 534, 604, 546], "page": 1},
+ {"key": "개인식별정보외에고객이제공한정보", "value": null},
+ {"key": "company.biz_no", "value": "702-81-38348", "bbox_2d": [443, 514, 547, 525], "page": 1},
+ {"key": "signer.name", "value": "남궁예태", "bbox_2d": [537, 534, 604, 546], "page": 1},
  {"key": "소", "value": null},
  {"key": "signer2.name", "value": "남궁예태", "bbox_2d": [537, 619, 604, 631], "page": 1},
  {"key": "customer.phone", "value": "010-6144-1173", "bbox_2d": [446, 659, 558, 671], "page": 1}]
@@ -212,21 +210,21 @@ answer_empty: {"key": "{key}", "value": null}
 - 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)
 - 도장·서명: {"key": 키, "value": true 또는 false, "bbox_2d": 찍힌 자리, "page": 쪽} (비어 있으면 value 만 false)
 항목
-- seal.customer: 자 (고객 도장, 같은 항목명 중 1번째 칸, 도장)
-- sign.customer: 자 (고객 서명, 같은 항목명 중 2번째 칸, 서명)
-- seal.signer2: 명 (같은 항목명 중 1번째 칸, 도장)
-- sign.signer2: 명 (같은 항목명 중 2번째 칸, 서명)
-- seal.staff.담당: 담당 (같은 항목명 중 1번째 칸, 도장)
-- sign.staff.담당: 담당 (같은 항목명 중 2번째 칸, 서명)
-- seal.staff.책임자: 책임자 (같은 항목명 중 1번째 칸, 도장)
-- sign.staff.책임자: 책임자 (같은 항목명 중 2번째 칸, 서명)
+- seal.signer: 자 (같은 설명 중 1번째 칸, 도장)
+- sign.signer: 자 (같은 설명 중 2번째 칸, 서명)
+- seal.signer2: 명 (같은 설명 중 1번째 칸, 도장)
+- sign.signer2: 명 (같은 설명 중 2번째 칸, 서명)
+- seal.staff.담당: 담당 (같은 설명 중 1번째 칸, 도장)
+- sign.staff.담당: 담당 (같은 설명 중 2번째 칸, 서명)
+- seal.staff.책임자: 책임자 (같은 설명 중 1번째 칸, 도장)
+- sign.staff.책임자: 책임자 (같은 설명 중 2번째 칸, 서명)
 ```
 
 답:
 
 ```json
-[{"key": "seal.customer", "value": true, "bbox_2d": [703, 520, 742, 559], "page": 1},
- {"key": "sign.customer", "value": false},
+[{"key": "seal.signer", "value": true, "bbox_2d": [703, 520, 742, 559], "page": 1},
+ {"key": "sign.signer", "value": false},
  {"key": "seal.signer2", "value": true, "bbox_2d": [703, 605, 743, 644], "page": 1},
  {"key": "sign.signer2", "value": false},
  {"key": "seal.staff.담당", "value": true, "bbox_2d": [809, 178, 844, 203], "page": 1},
@@ -247,7 +245,7 @@ answer_empty: {"key": "{key}", "value": null}
 - 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
 - row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
 - 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
-열 (키: 항목명)
+열 (키: 설명)
 - 중심업체코드: 중심업체코드
 - 판매기업사업자번호: 판매기업사업자번호
 - 판매기업명: 판매기업명
@@ -359,7 +357,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 |---|---|---|
 | 칸(추출 항목) 더하기 | studio ① 서식 › 영역 편집에서 그리기 (`fields.json` items 에 한 칸) | 다시 |
 | 답의 위치 (박스) | `fields.json` 그 칸의 `rect` [x0, y0, x1, y1] (pt) — 또는 영역 편집 | 다시 |
-| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 규칙이 항목명으로 정함 — 모든 서식 공통 규칙은 studio 키 사전) | 다시 |
+| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 키 설명이 그대로 키) | 다시 |
 | 답의 값 | `fields.json` 그 칸에 `"source"` ([값 출처 목록](../_common/values.md)) 또는 값 종류 `"kind"` | 다시 |
 | 칸의 항목명 | `fields.json` 그 칸의 `label` | 다시 |
 | 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
@@ -372,7 +370,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
 | 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
 | 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
 확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions hf082 --show` · `python -m docgen.preview hf082 --out work/hf082`

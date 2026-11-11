@@ -1,6 +1,6 @@
 # 실험 기록
 
-실험 하나에 파일 하나: `experiments/E<번호>-<짧은이름>.md` (예: `E01-realgap.md`; E01 은 예전 꼴 `E01_add-realocr.md` 그대로 둠). 새 실험은 [_template.md](_template.md)를 복사해 시작합니다.
+실험 하나에 파일 하나: `experiments/E<번호>-<짧은이름>.md` (예: `E02-realgap.md`; E01 은 예전 꼴 `E01_add-realocr.md` 그대로 둠). 새 실험은 [_template.md](_template.md)를 복사해 시작합니다.
 
 ## 목록
 

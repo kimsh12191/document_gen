@@ -1,10 +1,9 @@
 # 사채원리금 지급대행 계약서 (`hf042`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf042 · card-hash: b9e20125248e -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf042 · card-hash: 4624097e837d -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 4 (seed 1000000 로 그린 것) · **분류 정답:** 사채원리금 지급대행 계약서
-- **쓰이는 업무:** 없음 (서류 한 건 과제에만)
 - **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
 - **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa hf042 --new`)
 - **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
@@ -18,53 +17,52 @@
 | `fields.json` | 칸 목록·값 출처 |
 | `layout.json` | 원본에서 자동 추출한 칸 자리 (초안) |
 | `look/original.pdf` | 원본 PDF |
-| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
 
 ## 추출 항목 (정보 추출 kie) — 19칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `사채의명칭` | 사채의명칭 | text | 1쪽 [189, 219, 363, 237] | 늘 | 항목명 그대로 | 값 종류 `company` (항목명 자동) | fields.json:35 | 묻기 |
-| `사채의종류` | 사채의종류 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:46 | 묻기 |
-| `사채의전자등록총액` | 사채의전자등록총액 | number | 1쪽 [702, 258, 792, 277] | 늘 | 항목명 그대로 | 값 종류 `amount` (항목명 자동) | fields.json:57 | 묻기 |
-| `사채의발행가액` | 사채의발행가액 | number | 1쪽 [708, 279, 794, 296] | 늘 | 항목명 그대로 | 값 종류 `amount` (항목명 자동) | fields.json:68 | 묻기 |
-| `사채의발행가액총액` | 사채의발행가액총액 | number | 1쪽 [726, 300, 791, 318] | 늘 | 항목명 그대로 | 값 종류 `amount` (항목명 자동) | fields.json:79 | 묻기 |
-| `사채의거래단위` | 사채의거래단위 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:90 | 묻기 |
-| `사채의이율` | 사채의이율 | number | 1쪽 [469, 340, 506, 357] | 늘 | 항목명 그대로 | 값 종류 `percent` (항목명 자동) | fields.json:101 | 묻기 |
-| `date` | 작성일 | date | 1쪽 [149, 361, 304, 378] | 늘 | 날짜 칸 (항목명) | 작성일 | fields.json:112 | 묻기 |
-| `date2` | 작성일 | date | 1쪽 [311, 381, 466, 398] | 늘 | 날짜 칸 (항목명) | 작성일 | fields.json:137 | 묻기 |
-| `이자지급기일` | 이자지급기일 | date | 1쪽 [208, 422, 344, 440] | 늘 | 항목명 그대로 | 값 종류 `date` (항목명 자동) | fields.json:162 | 묻기 |
-| `연체이자` | 연체이자 | amount | 1쪽 [678, 442, 791, 461] | 늘 | 항목명 그대로 | 값 종류 `amount` (항목명 자동) | fields.json:173 | 묻기 |
-| `사채관리회사` | 사채관리회사 | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:184 | 묻기 |
-| `기타` | 기타 | text | 1쪽 [147, 542, 359, 561] | 늘 | 항목명 그대로 | 값 종류 `note` (항목명 자동) | fields.json:195 | 묻기 |
-| `담당자성명` | 담당자성명 | text | 2쪽 [96, 740, 153, 757] | 늘 | 표 행 (묶음·항목명 '담당자 성명') | 값 종류 `person` (항목명 자동) | fields.json:254 | 묻기 |
-| `customer.phone` | 핸드폰번호(SMS교환안내수신번호) | phone | 2쪽 [380, 740, 496, 758] | 늘 | 표 행 (묶음·항목명 '핸드폰 번호 (SMS 교환안내 수신번호)') | 값 종류 `number` (항목명 자동) | fields.json:266 | 묻기 |
-| `회사전화번호` | 회사전화번호 | phone | 2쪽 [714, 740, 820, 757] | 늘 | 표 행 (묶음·항목명 '회사 전화번호') | 값 종류 `phone` (항목명 자동) | fields.json:278 | 묻기 |
-| `customer.address` | 주소 | text | 4쪽 [676, 696, 861, 705] | 늘 | 규칙: '주 소' → `customer.address` | 고객 정보 (키 `customer.address`) | fields.json:290 | 묻기 |
-| `corp.ceo` ← `signer.name` | 대표이사 | text | 4쪽 [764, 721, 840, 739] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:301 | 묻기 |
-| `signer2.name` | 지점지점장 | text | 4쪽 [807, 892, 864, 910] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:318 | 묻기 |
+| `사채의명칭` | 사채의명칭 | text | 1쪽 [189, 219, 363, 237] | 늘 | 파일 key | 값 종류 `company` | fields.json:35 | 묻기 |
+| `사채의종류` | 사채의종류 | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:49 | 묻기 |
+| `사채의전자등록총액` | 사채의전자등록총액 | number | 1쪽 [702, 258, 792, 277] | 늘 | 파일 key | 값 종류 `amount` | fields.json:63 | 묻기 |
+| `사채의발행가액` | 사채의발행가액 | number | 1쪽 [708, 279, 794, 296] | 늘 | 파일 key | 값 종류 `amount` | fields.json:77 | 묻기 |
+| `사채의발행가액총액` | 사채의발행가액총액 | number | 1쪽 [726, 300, 791, 318] | 늘 | 파일 key | 값 종류 `amount` | fields.json:91 | 묻기 |
+| `사채의거래단위` | 사채의거래단위 | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:105 | 묻기 |
+| `사채의이율` | 사채의이율 | number | 1쪽 [469, 340, 506, 357] | 늘 | 파일 key | 값 종류 `percent` | fields.json:119 | 묻기 |
+| `date` | 작성일 | date | 1쪽 [149, 361, 304, 378] | 늘 | 파일 key | 작성일 | fields.json:133 | 묻기 |
+| `date2` | 작성일 | date | 1쪽 [311, 381, 466, 398] | 늘 | 파일 key | 작성일 | fields.json:159 | 묻기 |
+| `이자지급기일` | 이자지급기일 | date | 1쪽 [208, 422, 344, 440] | 늘 | 파일 key | 값 종류 `date` | fields.json:185 | 묻기 |
+| `연체이자` | 연체이자 | amount | 1쪽 [678, 442, 791, 461] | 늘 | 파일 key | 값 종류 `amount` | fields.json:199 | 묻기 |
+| `사채관리회사` | 사채관리회사 | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:213 | 묻기 |
+| `기타` | 기타 | text | 1쪽 [147, 542, 359, 561] | 늘 | 파일 key | 값 종류 `note` | fields.json:227 | 묻기 |
+| `담당자성명` | 담당자성명 | text | 2쪽 [96, 740, 153, 757] | 늘 | 파일 key | 값 종류 `person` | fields.json:301 | 묻기 |
+| `customer.phone` | 핸드폰번호(SMS교환안내수신번호) | phone | 2쪽 [380, 740, 496, 758] | 늘 | 파일 key | 값 종류 `number` | fields.json:317 | 묻기 |
+| `회사전화번호` | 회사전화번호 | phone | 2쪽 [714, 740, 820, 757] | 늘 | 파일 key | 값 종류 `phone` | fields.json:332 | 묻기 |
+| `customer.address` | 주소 | text | 4쪽 [676, 696, 861, 705] | 늘 | 파일 key | 고객 정보 (키 `customer.address`, 없으면 값 종류 `address`) | fields.json:348 | 묻기 |
+| `signer.name` | 대표이사 | text | 4쪽 [764, 721, 840, 739] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:361 | 묻기 |
+| `signer2.name` | 지점지점장 | text | 4쪽 [807, 892, 864, 910] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:380 | 묻기 |
 
-## 표 `목록` (표 과제 table·table_read·table_find·table_qa) — 2열
+## 표 `사채원리금출금계좌_목록` (표 과제 table·table_read·table_find·table_qa) — 2열
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `목록.*.예금주` | 예금주 | text | - (1행) | 늘 | 표 행 (묶음·항목명 '예 금 주') | 값 종류 `text` (항목명 자동) | fields.json:206 | 묻기 |
-| `목록.*.계좌번호` | 계좌번호 | text | 2쪽 [379, 467, 540, 488] (1행) | 늘 | 표 행 (묶음·항목명 '계좌번호') | 값 종류 `account` (항목명 자동) | fields.json:218 | 묻기 |
+| `사채원리금출금계좌_목록.*.예금주` | 예금주 | text | - (1행) | 늘 | 파일 key | 값 종류 `text` | fields.json:241 | 묻기 |
+| `사채원리금출금계좌_목록.*.계좌번호` | 계좌번호 | text | 2쪽 [379, 467, 540, 488] (1행) | 늘 | 파일 key | 값 종류 `account` | fields.json:256 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 4칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `seal.corp` ← `seal.signer` | 대표이사 | seal | 4쪽 [893, 710, 932, 749] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:301 | 묻기 |
-| `sign.customer` ← `sign.signer` | 대표이사 | signature | 4쪽 [899, 722, 926, 736] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:301 | 묻기 |
-| `seal.signer2` | 지점지점장 | seal | 4쪽 [887, 880, 939, 921] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:318 | 묻기 |
-| `sign.signer2` | 지점지점장 | signature | 4쪽 [899, 893, 926, 908] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:318 | 묻기 |
+| `seal.signer` | 대표이사 | seal | 4쪽 [893, 710, 932, 749] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:361 | 묻기 |
+| `sign.signer` | 대표이사 | signature | 4쪽 [899, 722, 926, 736] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:361 | 묻기 |
+| `seal.signer2` | 지점지점장 | seal | 4쪽 [887, 880, 939, 921] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:380 | 묻기 |
+| `sign.signer2` | 지점지점장 | signature | 4쪽 [899, 893, 926, 908] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:380 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
-- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
 - **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
@@ -158,7 +156,7 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
+항목 (키: 설명 (몇 번째 행))
 - 사채의명칭: 사채의명칭
 - 사채의종류: 사채의종류
 - 사채의전자등록총액: 사채의전자등록총액
@@ -166,18 +164,18 @@ answer_empty: {"key": "{key}", "value": null}
 - 사채의발행가액총액: 사채의발행가액총액
 - 사채의거래단위: 사채의거래단위
 - 사채의이율: 사채의이율
-- date: 작성일 (같은 항목명 중 1번째 칸)
-- date2: 작성일 (같은 항목명 중 2번째 칸)
+- date: 작성일 (같은 설명 중 1번째 칸)
+- date2: 작성일 (같은 설명 중 2번째 칸)
 - 이자지급기일: 이자지급기일
 - 연체이자: 연체이자
 - 사채관리회사: 사채관리회사
 - 기타: 기타
 - 담당자성명: 담당자성명
-- customer.phone: 핸드폰번호(SMS교환안내수신번호) (고객 연락처)
+- customer.phone: 핸드폰번호(SMS교환안내수신번호)
 - 회사전화번호: 회사전화번호
-- customer.address: 주소 (고객 주소)
-- corp.ceo: 대표이사 (법인·사업자 대표자)
-- signer2.name: 지점지점장 (은행·직원의 성명)
+- customer.address: 주소
+- signer.name: 대표이사
+- signer2.name: 지점지점장
 ```
 
 답:
@@ -200,7 +198,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "customer.phone", "value": "010-6144-1173", "bbox_2d": [380, 740, 496, 758], "page": 2},
  {"key": "회사전화번호", "value": "051-509-1176", "bbox_2d": [714, 740, 820, 757], "page": 2},
  {"key": "customer.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [676, 696, 861, 705], "page": 4},
- {"key": "corp.ceo", "value": "남궁예태", "bbox_2d": [764, 721, 840, 739], "page": 4},
+ {"key": "signer.name", "value": "남궁예태", "bbox_2d": [764, 721, 840, 739], "page": 4},
  {"key": "signer2.name", "value": "원용서", "bbox_2d": [807, 892, 864, 910], "page": 4}]
 ```
 
@@ -248,17 +246,17 @@ answer_empty: {"key": "{key}", "value": null}
 - 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)
 - 도장·서명: {"key": 키, "value": true 또는 false, "bbox_2d": 찍힌 자리, "page": 쪽} (비어 있으면 value 만 false)
 항목
-- seal.corp: 대표이사 (법인·사업자 도장, 같은 항목명 중 1번째 칸, 도장)
-- sign.customer: 대표이사 (고객 서명, 같은 항목명 중 2번째 칸, 서명)
-- seal.signer2: 지점지점장 (은행·직원의 신청인, 같은 항목명 중 1번째 칸, 도장)
-- sign.signer2: 지점지점장 (은행·직원의 신청인, 같은 항목명 중 2번째 칸, 서명)
+- seal.signer: 대표이사 (같은 설명 중 1번째 칸, 도장)
+- sign.signer: 대표이사 (같은 설명 중 2번째 칸, 서명)
+- seal.signer2: 지점지점장 (같은 설명 중 1번째 칸, 도장)
+- sign.signer2: 지점지점장 (같은 설명 중 2번째 칸, 서명)
 ```
 
 답:
 
 ```json
-[{"key": "seal.corp", "value": true, "bbox_2d": [893, 710, 932, 749], "page": 4},
- {"key": "sign.customer", "value": false},
+[{"key": "seal.signer", "value": true, "bbox_2d": [893, 710, 932, 749], "page": 4},
+ {"key": "sign.signer", "value": false},
  {"key": "seal.signer2", "value": true, "bbox_2d": [887, 880, 939, 921], "page": 4},
  {"key": "sign.signer2", "value": false}]
 ```
@@ -275,7 +273,7 @@ answer_empty: {"key": "{key}", "value": null}
 - 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
 - row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
 - 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
-열 (키: 항목명)
+열 (키: 설명)
 - 계좌번호: 계좌번호
 - 예금주: 예금주
 ```
@@ -382,7 +380,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 |---|---|---|
 | 칸(추출 항목) 더하기 | studio ① 서식 › 영역 편집에서 그리기 (`fields.json` items 에 한 칸) | 다시 |
 | 답의 위치 (박스) | `fields.json` 그 칸의 `rect` [x0, y0, x1, y1] (pt) — 또는 영역 편집 | 다시 |
-| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 규칙이 항목명으로 정함 — 모든 서식 공통 규칙은 studio 키 사전) | 다시 |
+| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 키 설명이 그대로 키) | 다시 |
 | 답의 값 | `fields.json` 그 칸에 `"source"` ([값 출처 목록](../_common/values.md)) 또는 값 종류 `"kind"` | 다시 |
 | 칸의 항목명 | `fields.json` 그 칸의 `label` | 다시 |
 | 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
@@ -395,7 +393,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
 | 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
 | 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
 확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions hf042 --show` · `python -m docgen.preview hf042 --out work/hf042`

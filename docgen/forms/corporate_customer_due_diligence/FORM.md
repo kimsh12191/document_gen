@@ -1,11 +1,10 @@
 # 고객확인서(법인·단체) (`corporate_customer_due_diligence`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card corporate_customer_due_diligence · card-hash: 335ea5b0acb7 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card corporate_customer_due_diligence · card-hash: 7b20ff9936e2 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** bank_form · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 고객확인서(법인·단체) (다른 이름: 고객확인서(법인,고유번호나 납세번호가 있는 임의 단체용))
-- **쓰이는 업무:** 법인 여신
-- **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
+- **질문·답:** 이 폴더의 `questions.json` 에서 바꾼 것이 있음 (아래 ← 바꿈)
 - **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa corporate_customer_due_diligence --new`)
 - **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
 
@@ -18,18 +17,19 @@
 | `look/template.html.j2` | 모양·칸 자리 (`{{ f("키", label="항목명") }}`) |
 | `fields.json` | 칸 목록·값 출처 |
 | `generate.py` | 값 만들기 (코드 서식: 값 전부 / html 서식: adjust 로 칸끼리 관계) |
+| `questions.json` | 기본 과제의 질문 문장·답 틀 (기본과 다른 것만) |
 | `docgen/docs/bank_form_account.py`, `docgen/docs/bank_form_loan.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
-| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
 
 ## 추출 항목 (정보 추출 kie) — 22칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `bank.name` | 은행명 | text | 1쪽 [74, 33, 171, 50] | 늘 | 템플릿 | generate.py | fields.json:20 | 묻기 |
 | `corp.name` | 법인명(국문) | text | 1쪽 [182, 193, 283, 206] | 늘 | 템플릿 | generate.py | look/template.html.j2:21 · fields.json:95 | 묻기 |
 | `corp.name_en` | 법인명(영문) | text | 1쪽 [739, 193, 894, 206] | 늘 | 템플릿 | generate.py | look/template.html.j2:21 · fields.json:100 | 묻기 |
 | `corp.biz_no` | 사업자등록번호 | biz_no | 1쪽 [182, 212, 268, 225] | 늘 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:55 | 묻기 |
-| `corp.corp_reg_no` | 법인등록번호 | corp_reg_no | 1쪽 [739, 212, 842, 225] | 늘 | 템플릿 | generate.py | fields.json:60 | 묻기 |
+| `corp.corp_no` | 법인등록번호 | corp_reg_no | 1쪽 [739, 212, 842, 225] | 늘 | 템플릿 | generate.py | look/template.html.j2:22 · fields.json:60 | 묻기 |
 | `corp.established` | 설립일 | date | 1쪽 [182, 231, 250, 244] | 늘 | 템플릿 | generate.py | look/template.html.j2:23 · fields.json:75 | 묻기 |
 | `corp.industry` | 업종 | text | 1쪽 [739, 231, 857, 244] | 늘 | 템플릿 | generate.py | look/template.html.j2:23 · fields.json:85 | 묻기 |
 | `corp.hq_address` | 본점주소 | text | 1쪽 [182, 250, 613, 263] | 늘 | 템플릿 | generate.py | look/template.html.j2:24 · fields.json:80 | 묻기 |
@@ -52,7 +52,7 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `owners.*.name` | 성명 | text | 1쪽 [234, 572, 295, 584] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:53 · fields.json:190 | 묻기 |
 | `owners.*.birth` | 생년월일 | date | 1쪽 [478, 572, 546, 584] (1행) | 늘 | 템플릿 | generate.py | look/template.html.j2:53 · fields.json:185 | 묻기 |
@@ -64,7 +64,7 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `bank_use.documents.*` | 징구서류 | text | 1쪽 [200, 875, 291, 887] (1행) | 늘 | 템플릿 | generate.py | - | 묻기 |
 
@@ -72,7 +72,7 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `shareholders.*.name` | 주주명 | - | - (1행) | 3/16 | 템플릿 | generate.py | look/template.html.j2:53 · fields.json:220 | 묻기 |
 | `shareholders.*.birth` | 생년월일 | - | - (1행) | 3/16 | 템플릿 | generate.py | look/template.html.j2:53 · fields.json:215 | 묻기 |
@@ -82,7 +82,7 @@
 
 ## 체크·도장·서명 (marks) — 11칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `corp.corp_type` | 법인구분 | checkbox (대기업 / 중소기업 / 국가·지자체·공공단체 / 금융기관 / 비영리법인(단체) / 외국법인(단체)) | 1쪽 [264, 307, 324, 319] | 늘 | 템플릿 | generate.py | look/template.html.j2:27 · fields.json:65 | 묻기 |
 | `corp.listed` | 상장여부 | checkbox (유가증권시장 / 코스닥 / 코넥스 / 비상장) | 1쪽 [446, 326, 491, 338] | 늘 | 템플릿 | generate.py | look/template.html.j2:28 · fields.json:90 | 묻기 |
@@ -97,13 +97,12 @@
 | `bank_use.documents` | 징구서류 | checkbox_multi (사업자등록증 / 법인등기사항전부증명서 / 주주명부 / 정관 / 법인인감증명서) | - | 늘 | 템플릿 | generate.py | look/template.html.j2:100 · fields.json:35 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
-- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
 - **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
-질문은 모델에게 가는 글 전부, 답은 데이터의 정답 (그린 문서의 값·위치). 질문 문장·답 꼴은 공통 `docgen/forms/_common/questions.json`.
+질문은 모델에게 가는 글 전부, 답은 데이터의 정답 (그린 문서의 값·위치). 질문 문장·답 꼴은 이 폴더 `questions.json` 과 공통 `docgen/forms/_common/questions.json`.
 
 ### 서류 분류 `classify` · 채점 acc
 
@@ -201,20 +200,20 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
+항목 (키: 설명 (몇 번째 행))
 - bank.name: 은행명
-- corp.name: 법인명(국문) (법인·사업자 상호)
-- corp.name_en: 법인명(영문) (법인·사업자 영문 상호)
-- corp.biz_no: 사업자등록번호 (법인·사업자 사업자등록번호)
-- corp.corp_reg_no: 법인등록번호 (법인·사업자 법인등록번호)
-- corp.established: 설립일 (법인·사업자 설립일)
-- corp.industry: 업종 (법인·사업자 업태·종목)
+- corp.name: 법인명(국문)
+- corp.name_en: 법인명(영문)
+- corp.biz_no: 사업자등록번호
+- corp.corp_no: 법인등록번호
+- corp.established: 설립일
+- corp.industry: 업종
 - corp.hq_address: 본점주소
 - corp.biz_address: 사업장주소
-- corp.phone: 대표전화 (법인·사업자 연락처)
+- corp.phone: 대표전화
 - corp.email: 이메일
-- rep.name: 대표자성명 (법인·사업자의 성명)
-- rep.name_en: 대표자영문성명 (법인·사업자의 영문명)
+- rep.name: 대표자성명
+- rep.name_en: 대표자영문성명
 - rep.birth: 대표자생년월일
 - rep.nationality: 대표자국적
 - date: 작성일
@@ -234,7 +233,7 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "corp.name", "value": "(주)미래케미칼", "bbox_2d": [182, 193, 283, 206], "page": 1},
  {"key": "corp.name_en", "value": "Mirae Chemical Co., Ltd.", "bbox_2d": [739, 193, 894, 206], "page": 1},
  {"key": "corp.biz_no", "value": "702-81-38348", "bbox_2d": [182, 212, 268, 225], "page": 1},
- {"key": "corp.corp_reg_no", "value": "200112-7951835", "bbox_2d": [739, 212, 842, 225], "page": 1},
+ {"key": "corp.corp_no", "value": "200112-7951835", "bbox_2d": [739, 212, 842, 225], "page": 1},
  {"key": "corp.established", "value": "2020.06.15", "bbox_2d": [182, 231, 250, 244], "page": 1},
  {"key": "corp.industry", "value": "제조업 / 화학제품", "bbox_2d": [739, 231, 857, 244], "page": 1},
  {"key": "corp.hq_address", "value": "제주특별자치도 제주시 첨단로 381-19, 2층 (이도2동, 대성프라자)", "bbox_2d": [182, 250, 613, 263], "page": 1},
@@ -279,7 +278,7 @@ answer_empty: {"key": "{key}", "value": null}
 - transaction.fund_source: 자금원천 (체크박스, 보기: 영업수익 / 자본금 / 차입금 / 투자수익 / 기타)
 - owner_step: 실제소유자확인단계 (체크박스, 보기: 1단계 / 2단계 / 3단계)
 - pep: 외국의정치적주요인물여부 (체크박스, 보기: 예 / 아니오)
-- seal.corp: 법인인감 (법인·사업자 도장, 도장)
+- seal.corp: 법인인감 (도장)
 - bank_use.risk_grade: 고객위험등급 (체크박스, 보기: 저위험 / 중위험 / 고위험)
 - seal.staff.clerk: 담당 (도장)
 - seal.staff.manager: 책임자 (도장)
@@ -317,7 +316,7 @@ answer_empty: {"key": "{key}", "value": null}
 - 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
 - row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
 - 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
-열 (키: 항목명)
+열 (키: 설명)
 - name: 성명
 - birth: 생년월일
 - nationality: 국적
@@ -505,7 +504,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` | 다시 |
 | 답의 값 | `generate.py` (값 만드는 함수). 파이썬 대신 정하려면 `fields.json` 의 그 칸 `source` | 다시 |
 | 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` | 다시 |
-| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (파일로). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
 | (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
 | 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
 | 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
@@ -517,7 +516,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
 | 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
 | 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
 확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions corporate_customer_due_diligence --show` · `python -m docgen.preview corporate_customer_due_diligence --out work/corporate_customer_due_diligence`

@@ -1,11 +1,10 @@
 # 근저당권설정계약서 (`collateral_agreement`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card collateral_agreement · card-hash: 63b6b222deae -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card collateral_agreement · card-hash: 3f71d87cd429 -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** bank_form · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 근저당권설정계약서 (다른 이름: 근저당권설정계약서(근담보용))
-- **쓰이는 업무:** 주택담보대출
-- **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
+- **질문·답:** 이 폴더의 `questions.json` 에서 바꾼 것이 있음 (아래 ← 바꿈)
 - **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa collateral_agreement --new`)
 - **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
 
@@ -18,21 +17,22 @@
 | `look/template.html.j2` | 모양·칸 자리 (`{{ f("키", label="항목명") }}`) |
 | `fields.json` | 칸 목록·값 출처 |
 | `generate.py` | 값 만들기 (코드 서식: 값 전부 / html 서식: adjust 로 칸끼리 관계) |
+| `questions.json` | 기본 과제의 질문 문장·답 틀 (기본과 다른 것만) |
 | `docgen/docs/bank_form_loan.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
-| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
 
 ## 추출 항목 (정보 추출 kie) — 33칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `bank` | 은행명 | text | 1쪽 [101, 41, 198, 64] | 늘 | 템플릿 | generate.py | fields.json:5 | 묻기 |
-| `counterparty.name` ← `creditor.name` | 채권자겸근저당권자 | text | 1쪽 [73, 134, 199, 147] | 늘 | 템플릿 | generate.py | look/template.html.j2:17 · fields.json:40 | 묻기 |
+| `creditor.name` | 채권자겸근저당권자 | text | 1쪽 [73, 134, 199, 147] | 늘 | 템플릿 | generate.py | look/template.html.j2:17 · fields.json:40 | 묻기 |
 | `creditor.branch` | 취급점 | text | 1쪽 [282, 135, 340, 147] | 늘 | 템플릿 | generate.py | look/template.html.j2:17 · fields.json:35 | 묻기 |
-| `related.name` ← `mortgagor.name` | 근저당권설정자 | text | 1쪽 [286, 207, 349, 221] | 늘 | 템플릿 | generate.py | look/template.html.j2:24 · fields.json:75 | 묻기 |
-| `related.rrn` ← `mortgagor.rrn` | 실명번호 | rrn | 1쪽 [491, 208, 595, 220] | 늘 | 템플릿 | generate.py | look/template.html.j2:24 · fields.json:80 | 묻기 |
-| `related.address` ← `mortgagor.address` | 설정자주소 | text | 1쪽 [286, 227, 624, 243] | 늘 | 템플릿 | generate.py | look/template.html.j2:25 · fields.json:70 | 묻기 |
-| `customer.name` ← `debtor.name` | 채무자 | text | 1쪽 [286, 249, 349, 262] | 늘 | 템플릿 | generate.py | look/template.html.j2:30 · fields.json:50 | 묻기 |
-| `customer.address` ← `debtor.address` | 채무자주소 | text | 1쪽 [491, 248, 828, 263] | 늘 | 템플릿 | generate.py | look/template.html.j2:30 · fields.json:45 | 묻기 |
+| `mortgagor.name` | 근저당권설정자 | text | 1쪽 [286, 207, 349, 221] | 늘 | 템플릿 | generate.py | look/template.html.j2:24 · fields.json:75 | 묻기 |
+| `mortgagor.rrn` | 실명번호 | rrn | 1쪽 [491, 208, 595, 220] | 늘 | 템플릿 | generate.py | look/template.html.j2:24 · fields.json:80 | 묻기 |
+| `mortgagor.address` | 설정자주소 | text | 1쪽 [286, 227, 624, 243] | 늘 | 템플릿 | generate.py | look/template.html.j2:25 · fields.json:70 | 묻기 |
+| `debtor.name` | 채무자 | text | 1쪽 [286, 249, 349, 262] | 늘 | 템플릿 | generate.py | look/template.html.j2:30 · fields.json:50 | 묻기 |
+| `debtor.address` | 채무자주소 | text | 1쪽 [491, 248, 828, 263] | 늘 | 템플릿 | generate.py | look/template.html.j2:30 · fields.json:45 | 묻기 |
 | `rank` | 순위 | number | 1쪽 [724, 272, 732, 284] | 늘 | 템플릿 | generate.py | look/template.html.j2:33 · fields.json:135 | 묻기 |
 | `max_amount_korean` | 채권최고액(한글) | amount_korean | 1쪽 [449, 325, 671, 344] | 늘 | 템플릿 | generate.py | look/template.html.j2:38 · fields.json:65 | 묻기 |
 | `max_amount` | 채권최고액 | amount | 1쪽 [732, 331, 808, 343] | 늘 | 템플릿 | generate.py | look/template.html.j2:38 · fields.json:60 | 묻기 |
@@ -63,7 +63,7 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `joint_collateral.*.kind` | 종류 | text | 1쪽 [140, 768, 172, 781] (1행) | 6/16 | 템플릿 | generate.py | look/template.html.j2:76 · fields.json:205 | 묻기 |
 | `joint_collateral.*.location` | 소재지번 | text | 1쪽 [198, 768, 429, 781] (1행) | 6/16 | 템플릿 | generate.py | look/template.html.j2:76 · fields.json:210 | 묻기 |
@@ -74,27 +74,26 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `special_terms.*` | 특약사항 | text | 2쪽 [98, 509, 762, 520] (1행) | 6/16 | 템플릿 | generate.py | - | 묻기 |
 
 ## 체크·도장·서명 (marks) — 4칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `seal.customer` ← `seal.debtor` | 채무자 | seal | 2쪽 [884, 646, 927, 670] | 늘 | 템플릿 | generate.py | fields.json:155 | 묻기 |
-| `sign.customer` ← `sign.debtor` | 채무자 | signature | 2쪽 [884, 646, 927, 670] | 늘 | 템플릿 | generate.py | fields.json:180 | 묻기 |
-| `seal.related` ← `seal.mortgagor` | 근저당권설정자 | seal | 2쪽 [860, 650, 951, 714] | 늘 | 템플릿 | generate.py | fields.json:160 | 묻기 |
+| `seal.debtor` | 채무자 | seal | 2쪽 [884, 646, 927, 670] | 늘 | 템플릿 | generate.py | fields.json:155 | 묻기 |
+| `sign.debtor` | 채무자 | signature | 2쪽 [884, 646, 927, 670] | 늘 | 템플릿 | generate.py | fields.json:180 | 묻기 |
+| `seal.mortgagor` | 근저당권설정자 | seal | 2쪽 [860, 650, 951, 714] | 늘 | 템플릿 | generate.py | fields.json:160 | 묻기 |
 | `seal.co_mortgagor` | 인감 | 도장 | - | 2/16 | 템플릿 | generate.py | fields.json:150 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
-- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
 - **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
-질문은 모델에게 가는 글 전부, 답은 데이터의 정답 (그린 문서의 값·위치). 질문 문장·답 꼴은 공통 `docgen/forms/_common/questions.json`.
+질문은 모델에게 가는 글 전부, 답은 데이터의 정답 (그린 문서의 값·위치). 질문 문장·답 꼴은 이 폴더 `questions.json` 과 공통 `docgen/forms/_common/questions.json`.
 
 ### 서류 분류 `classify` · 채점 acc
 
@@ -226,15 +225,15 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
+항목 (키: 설명 (몇 번째 행))
 - bank: 은행명
-- counterparty.name: 채권자겸근저당권자 (상대방 성명)
+- creditor.name: 채권자겸근저당권자
 - creditor.branch: 취급점
-- related.name: 근저당권설정자 (보증인·공동 성명, 같은 항목명 중 1번째 칸)
-- related.rrn: 실명번호 (보증인·공동 주민등록번호)
-- related.address: 설정자주소 (보증인·공동 주소)
-- customer.name: 채무자 (고객 성명, 같은 항목명 중 1번째 칸)
-- customer.address: 채무자주소 (고객 주소)
+- mortgagor.name: 근저당권설정자 (같은 설명 중 1번째 칸)
+- mortgagor.rrn: 실명번호
+- mortgagor.address: 설정자주소
+- debtor.name: 채무자 (같은 설명 중 1번째 칸)
+- debtor.address: 채무자주소
 - rank: 순위
 - max_amount_korean: 채권최고액(한글)
 - max_amount: 채권최고액
@@ -242,33 +241,33 @@ answer_empty: {"key": "{key}", "value": null}
 - secured_debt: 피담보채무
 - settlement_type: 결산기유형
 - settlement: 결산기
-- property.location: 소재지 (물건 소재지)
+- property.location: 소재지
 - property.road_address: 도로명주소
-- property.structure: 구조 (물건 구조)
+- property.structure: 구조
 - property.floors: 층수
 - property.unit: 건물번호
-- property.kind: 건물종류 (물건 종류)
+- property.kind: 건물종류
 - property.exclusive_area: 전용면적
-- property.land_right: 대지권 (물건 대지권)
+- property.land_right: 대지권
 - property.unique_no: 고유번호
 - scope_handwritten: 자필기재(피담보채무범위)
 - handwritten_confirm: 자필기재(확인)
 - contract_date: 계약일
-- signature_debtor: 채무자 (같은 항목명 중 2번째 칸)
-- signature_mortgagor: 근저당권설정자 (같은 항목명 중 2번째 칸)
+- signature_debtor: 채무자 (같은 설명 중 2번째 칸)
+- signature_mortgagor: 근저당권설정자 (같은 설명 중 2번째 칸)
 ```
 
 답:
 
 ```json
 [{"key": "bank", "value": "국민은행", "bbox_2d": [101, 41, 198, 64], "page": 1},
- {"key": "counterparty.name", "value": "주식회사 국민은행", "bbox_2d": [73, 134, 199, 147], "page": 1},
+ {"key": "creditor.name", "value": "주식회사 국민은행", "bbox_2d": [73, 134, 199, 147], "page": 1},
  {"key": "creditor.branch", "value": "센텀지점", "bbox_2d": [282, 135, 340, 147], "page": 1},
- {"key": "related.name", "value": "남궁예태", "bbox_2d": [286, 207, 349, 221], "page": 1},
- {"key": "related.rrn", "value": "850328-2489940", "bbox_2d": [491, 208, 595, 220], "page": 1},
- {"key": "related.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [286, 227, 624, 243], "page": 1},
- {"key": "customer.name", "value": "남궁예태", "bbox_2d": [286, 249, 349, 262], "page": 1},
- {"key": "customer.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [491, 248, 828, 263], "page": 1},
+ {"key": "mortgagor.name", "value": "남궁예태", "bbox_2d": [286, 207, 349, 221], "page": 1},
+ {"key": "mortgagor.rrn", "value": "850328-2489940", "bbox_2d": [491, 208, 595, 220], "page": 1},
+ {"key": "mortgagor.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [286, 227, 624, 243], "page": 1},
+ {"key": "debtor.name", "value": "남궁예태", "bbox_2d": [286, 249, 349, 262], "page": 1},
+ {"key": "debtor.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [491, 248, 828, 263], "page": 1},
  {"key": "rank", "value": "1", "bbox_2d": [724, 272, 732, 284], "page": 1},
  {"key": "max_amount_korean", "value": "금 삼억육천일백만원정", "bbox_2d": [449, 325, 671, 344], "page": 1},
  {"key": "max_amount", "value": "361,000,000", "bbox_2d": [732, 331, 808, 343], "page": 1},
@@ -310,17 +309,17 @@ answer_empty: {"key": "{key}", "value": null}
 - 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)
 - 도장·서명: {"key": 키, "value": true 또는 false, "bbox_2d": 찍힌 자리, "page": 쪽} (비어 있으면 value 만 false)
 항목
-- seal.customer: 채무자 (고객 도장, 같은 항목명 중 1번째 칸, 도장)
-- sign.customer: 채무자 (고객 서명, 같은 항목명 중 2번째 칸, 서명)
-- seal.related: 근저당권설정자 (보증인·공동 도장, 도장)
+- seal.debtor: 채무자 (같은 설명 중 1번째 칸, 도장)
+- sign.debtor: 채무자 (같은 설명 중 2번째 칸, 서명)
+- seal.mortgagor: 근저당권설정자 (도장)
 ```
 
 답:
 
 ```json
-[{"key": "seal.customer", "value": false},
- {"key": "sign.customer", "value": false},
- {"key": "seal.related", "value": true, "bbox_2d": [860, 650, 951, 714], "page": 2}]
+[{"key": "seal.debtor", "value": false},
+ {"key": "sign.debtor", "value": false},
+ {"key": "seal.mortgagor", "value": true, "bbox_2d": [860, 650, 951, 714], "page": 2}]
 ```
 
 ### 표 추출 `table` · 채점 cell_f1 (칸)
@@ -335,10 +334,9 @@ answer_empty: {"key": "{key}", "value": null}
 - 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
 - row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
 - 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
-열 (키: 항목명)
+열 (키: 설명)
 - kind: 종류
 - location: 소재지번
-- ratio: 지분율
 - detail: 지목면적
 - unique_no: 고유번호
 ```
@@ -350,7 +348,6 @@ answer_empty: {"key": "{key}", "value": null}
  "columns": [
   "kind",
   "location",
-  "ratio",
   "detail",
   "unique_no"
  ],
@@ -358,70 +355,60 @@ answer_empty: {"key": "{key}", "value": null}
   [
    "토지",
    "서울특별시 서초구 반포동 669-21",
-   null,
    "대 211.0㎡",
    "2759-2002-054633"
   ],
   [
    "토지",
    "서울특별시 서초구 반포동 677-13",
-   null,
    "전 904.6㎡",
    "2114-2023-048770"
   ],
   [
    "토지",
    "서울특별시 서초구 반포동 665-37",
-   null,
    "대 936.6㎡",
    "1942-2010-039093"
   ],
   [
    "토지",
    "서울특별시 서초구 반포동 668",
-   null,
    "답 536.5㎡",
    "1361-2014-086596"
   ],
   [
    "토지",
    "서울특별시 서초구 반포동 632",
-   null,
    "답 622.7㎡",
    "1204-2006-037636"
   ],
   [
    "건물",
    "서울특별시 서초구 반포동 668",
-   null,
    "경량철골조 근린생활시설 194.85㎡",
    "2371-2023-035325"
   ],
   [
    "토지",
    "서울특별시 서초구 반포동 645-31",
-   null,
    "답 702.1㎡",
    "1168-1990-093548"
   ],
   [
    "토지",
    "서울특별시 서초구 반포동 677",
-   null,
    "대 772.6㎡",
    "2824-2015-028833"
   ],
   [
    "토지",
    "서울특별시 서초구 반포동 653",
-   null,
    "임야 91.4㎡",
    "1840-1998-012736"
   ],
   [
    "토지",
    "서울특별시 서초구 반포동 640",
-   null,
    "답 867.9㎡",
    "1673-2016-024539"
   ]
@@ -543,7 +530,7 @@ answer_empty: {"key": "{key}", "value": null}
 질문:
 
 ```
-이 문서의 1쪽 bbox_2d=[122, 743, 926, 932] 위치의 표를 보고 답하세요. 표의 행은 모두 몇 개입니까? 머리글·합계 행과 모두 빈 행은 세지 않습니다. (숫자만 답하세요)
+이 문서의 '지목면적'·'고유번호' 열이 있는 표를 보고 답하세요. 표의 행은 모두 몇 개입니까? 머리글·합계 행과 모두 빈 행은 세지 않습니다. (숫자만 답하세요)
 ```
 
 답:
@@ -557,7 +544,7 @@ answer_empty: {"key": "{key}", "value": null}
 질문:
 
 ```
-이 문서의 1쪽 bbox_2d=[122, 743, 926, 932] 위치의 표를 보고 답하세요. '종류' 칸이 '토지'인 행은 몇 개입니까? (숫자만 답하세요)
+이 문서의 '지목면적'·'고유번호' 열이 있는 표를 보고 답하세요. '종류' 칸이 '토지'인 행은 몇 개입니까? (숫자만 답하세요)
 ```
 
 답:
@@ -729,7 +716,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` | 다시 |
 | 답의 값 | `generate.py` (값 만드는 함수). 파이썬 대신 정하려면 `fields.json` 의 그 칸 `source` | 다시 |
 | 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` | 다시 |
-| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (파일로). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
 | (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
 | 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
 | 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
@@ -741,7 +728,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
 | 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
 | 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
 확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions collateral_agreement --show` · `python -m docgen.preview collateral_agreement --out work/collateral_agreement`

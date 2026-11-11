@@ -1,11 +1,10 @@
 # 종합소득세 과세표준확정신고 및 납부계산서 (`income_tax_return`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card income_tax_return · card-hash: 9787298fd6ec -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card income_tax_return · card-hash: 0643fb0b04eb -->
 
 - **종류:** 코드 서식 (값은 generate.py 의 함수, 모양은 템플릿)
 - **그룹:** tax · **쪽 수:** 1 (seed 1000000 로 그린 것) · **분류 정답:** 종합소득세 과세표준확정신고 및 납부계산서 (다른 이름: 종합소득세 과세표준확정신고 및 납부계산서(일반))
-- **쓰이는 업무:** 없음 (서류 한 건 과제에만)
-- **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
+- **질문·답:** 이 폴더의 `questions.json` 에서 바꾼 것이 있음 (아래 ← 바꿈)
 - **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa income_tax_return --new`)
 - **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
 
@@ -18,20 +17,21 @@
 | `look/template.html.j2` | 모양·칸 자리 (`{{ f("키", label="항목명") }}`) |
 | `fields.json` | 칸 목록·값 출처 |
 | `generate.py` | 값 만들기 (코드 서식: 값 전부 / html 서식: adjust 로 칸끼리 관계) |
+| `questions.json` | 기본 과제의 질문 문장·답 틀 (기본과 다른 것만) |
 | `docgen/docs/business.py`, `docgen/docs/tax.py` (폴더 밖) | 같은 그룹 서식들이 같이 쓰는 도우미 |
-| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
 
 ## 추출 항목 (정보 추출 kie) — 43칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `tax_year` | 귀속연도 | number | 1쪽 [387, 90, 422, 103] | 늘 | 템플릿 | generate.py | look/template.html.j2:50 · fields.json:215 | 묻기 |
-| `customer.name` ← `taxpayer.name` | 성명 | text | 1쪽 [255, 178, 313, 189] | 늘 | 템플릿 | generate.py | look/template.html.j2:43 · fields.json:240 | 묻기 |
-| `customer.rrn` ← `taxpayer.rrn` | 주민등록번호 | rrn | 1쪽 [666, 178, 765, 189] | 늘 | 템플릿 | generate.py | look/template.html.j2:62 · fields.json:245 | 묻기 |
-| `customer.address` ← `taxpayer.address` | 주소 | text | 1쪽 [255, 199, 754, 209] | 늘 | 템플릿 | generate.py | look/template.html.j2:63 · fields.json:220 | 묻기 |
-| `customer.email` ← `taxpayer.email` | 전자우편주소 | text | 1쪽 [255, 219, 382, 229] | 늘 | 템플릿 | generate.py | look/template.html.j2:64 · fields.json:230 | 묻기 |
+| `taxpayer.name` | 성명 | text | 1쪽 [255, 178, 313, 189] | 늘 | 템플릿 | generate.py | look/template.html.j2:43 · fields.json:240 | 묻기 |
+| `taxpayer.rrn` | 주민등록번호 | rrn | 1쪽 [666, 178, 765, 189] | 늘 | 템플릿 | generate.py | look/template.html.j2:62 · fields.json:245 | 묻기 |
+| `taxpayer.address` | 주소 | text | 1쪽 [255, 199, 754, 209] | 늘 | 템플릿 | generate.py | look/template.html.j2:63 · fields.json:220 | 묻기 |
+| `taxpayer.email` | 전자우편주소 | text | 1쪽 [255, 219, 382, 229] | 늘 | 템플릿 | generate.py | look/template.html.j2:64 · fields.json:230 | 묻기 |
 | `taxpayer.biz_phone` | 사업장전화번호 | phone | 1쪽 [255, 239, 337, 249] | 늘 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:225 | 묻기 |
-| `customer.mobile` ← `taxpayer.mobile` | 휴대전화번호 | phone | 1쪽 [666, 239, 754, 249] | 늘 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:235 | 묻기 |
+| `taxpayer.mobile` | 휴대전화번호 | phone | 1쪽 [666, 239, 754, 249] | 늘 | 템플릿 | generate.py | look/template.html.j2:65 · fields.json:235 | 묻기 |
 | `filing_type` | 신고유형 | text | 1쪽 [394, 260, 454, 272] | 늘 | 템플릿 | generate.py | look/template.html.j2:66 · fields.json:65 | 묻기 |
 | `bookkeeping` | 기장의무 | text | 1쪽 [285, 298, 391, 310] | 늘 | 템플릿 | generate.py | look/template.html.j2:67 · fields.json:5 | 묻기 |
 | `filing_kind` | 신고구분 | text | 1쪽 [292, 320, 352, 333] | 늘 | 템플릿 | generate.py | look/template.html.j2:68 · fields.json:60 | 묻기 |
@@ -55,9 +55,9 @@
 | `national.installment` | 분납할세액 | number | 1쪽 [714, 685, 721, 696] | 늘 | 템플릿 | generate.py | fields.json:105 | 묻기 |
 | `national.due_payable` | 신고기한이내납부할세액 | amount | 1쪽 [663, 702, 721, 713] | 늘 | 템플릿 | generate.py | fields.json:100 | 묻기 |
 | `filed_date` | 신고일 | date | 1쪽 [802, 754, 911, 764] | 늘 | 템플릿 | generate.py | look/template.html.j2:45 · fields.json:55 | 묻기 |
-| `related.name` ← `tax_agent.name` | 세무대리인 | text | 1쪽 [771, 801, 814, 812] | 11/16 | 템플릿 | generate.py | look/template.html.j2:108 · fields.json:200 | 묻기 |
+| `tax_agent.name` | 세무대리인 | text | 1쪽 [771, 801, 814, 812] | 11/16 | 템플릿 | generate.py | look/template.html.j2:108 · fields.json:200 | 묻기 |
 | `tax_agent.biz_no` | 세무대리인사업자등록번호 | biz_no | 1쪽 [297, 823, 383, 836] | 11/16 | 템플릿 | generate.py | look/template.html.j2:111 · fields.json:195 | 묻기 |
-| `related.phone` ← `tax_agent.phone` | 세무대리인전화번호 | phone | 1쪽 [684, 823, 770, 836] | 11/16 | 템플릿 | generate.py | look/template.html.j2:112 · fields.json:205 | 묻기 |
+| `tax_agent.phone` | 세무대리인전화번호 | phone | 1쪽 [684, 823, 770, 836] | 11/16 | 템플릿 | generate.py | look/template.html.j2:112 · fields.json:205 | 묻기 |
 | `tax_office` | 세무서장 | text | 1쪽 [89, 846, 203, 861] | 늘 | 템플릿 | generate.py | look/template.html.j2:114 · fields.json:210 | 묻기 |
 | `business_income.address` | 사업장소재지 | - | - | 14/16 | 템플릿 | generate.py | look/template.html.j2:143 · fields.json:10 | 묻기 |
 | `business_income.trade_name` | 상호 | - | - | 14/16 | 템플릿 | generate.py | look/template.html.j2:144 · fields.json:50 | 묻기 |
@@ -73,7 +73,7 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `incomes.*.type` | 소득구분 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:134 · fields.json:317 | 묻기 |
 | `incomes.*.payer` | 소득의지급자 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:134 · fields.json:325 | 묻기 |
@@ -86,7 +86,7 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `dependents.*.relation` | 관계 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:156 · fields.json:300 | 묻기 |
 | `dependents.*.name` | 성명 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:156 · fields.json:295 | 묻기 |
@@ -98,7 +98,7 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `deduction_items.*.item` | 소득공제항목 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:275 | 묻기 |
 | `deduction_items.*.amount` | 금액 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:270 | 묻기 |
@@ -107,7 +107,7 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `credit_items.*.item` | 세액공제항목 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:260 | 묻기 |
 | `credit_items.*.amount` | 금액 | - | - (1행) | 14/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:255 | 묻기 |
@@ -116,7 +116,7 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `prepaid_items.*.item` | 기납부세액항목 | - | - (1행) | 13/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:370 | 묻기 |
 | `prepaid_items.*.amount` | 금액 | - | - (1행) | 13/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:365 | 묻기 |
@@ -125,30 +125,29 @@
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `penalty_items.*.item` | 가산세항목 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:355 | 묻기 |
 | `penalty_items.*.amount` | 금액 | - | - (1행) | 1/16 | 템플릿 | generate.py | look/template.html.j2:125 · fields.json:350 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 6칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
 | `residency` | 거주구분 | checkbox (거주자 / 비거주자) | 1쪽 [742, 89, 785, 99] | 늘 | 템플릿 | generate.py | look/template.html.j2:54 · fields.json:170 | 묻기 |
-| `customer.nationality` ← `nationality` | 내ㆍ외국인 | checkbox (내국인 / 외국인) | 1쪽 [742, 111, 785, 122] | 늘 | 템플릿 | generate.py | look/template.html.j2:55 · fields.json:155 | 묻기 |
-| `seal.customer` ← `seal.taxpayer` | 신고인 | seal | 1쪽 [821, 767, 911, 781] | 늘 | 템플릿 | generate.py | fields.json:180 | 묻기 |
-| `sign.customer` ← `sign.taxpayer` | 신고인 | signature | 1쪽 [821, 767, 911, 781] | 늘 | 템플릿 | generate.py | fields.json:190 | 묻기 |
-| `seal.related` ← `seal.tax_agent` | 세무대리인 | seal | 1쪽 [821, 800, 911, 814] | 11/16 | 템플릿 | generate.py | fields.json:175 | 묻기 |
-| `sign.related` ← `sign.tax_agent` | 세무대리인 | signature | 1쪽 [821, 800, 911, 814] | 11/16 | 템플릿 | generate.py | fields.json:185 | 묻기 |
+| `nationality` | 내ㆍ외국인 | checkbox (내국인 / 외국인) | 1쪽 [742, 111, 785, 122] | 늘 | 템플릿 | generate.py | look/template.html.j2:55 · fields.json:155 | 묻기 |
+| `seal.taxpayer` | 신고인 | seal | 1쪽 [821, 767, 911, 781] | 늘 | 템플릿 | generate.py | fields.json:180 | 묻기 |
+| `sign.taxpayer` | 신고인 | signature | 1쪽 [821, 767, 911, 781] | 늘 | 템플릿 | generate.py | fields.json:190 | 묻기 |
+| `seal.tax_agent` | 세무대리인 | seal | 1쪽 [821, 800, 911, 814] | 11/16 | 템플릿 | generate.py | fields.json:175 | 묻기 |
+| `sign.tax_agent` | 세무대리인 | signature | 1쪽 [821, 800, 911, 814] | 11/16 | 템플릿 | generate.py | fields.json:185 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
-- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
 - **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
-질문은 모델에게 가는 글 전부, 답은 데이터의 정답 (그린 문서의 값·위치). 질문 문장·답 꼴은 공통 `docgen/forms/_common/questions.json`.
+질문은 모델에게 가는 글 전부, 답은 데이터의 정답 (그린 문서의 값·위치). 질문 문장·답 꼴은 이 폴더 `questions.json` 과 공통 `docgen/forms/_common/questions.json`.
 
 ### 서류 분류 `classify` · 채점 acc
 
@@ -248,14 +247,14 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
+항목 (키: 설명 (몇 번째 행))
 - tax_year: 귀속연도
-- customer.name: 성명 (고객 성명)
-- customer.rrn: 주민등록번호 (고객 주민등록번호)
-- customer.address: 주소 (고객 주소)
-- customer.email: 전자우편주소 (고객 이메일)
+- taxpayer.name: 성명
+- taxpayer.rrn: 주민등록번호
+- taxpayer.address: 주소
+- taxpayer.email: 전자우편주소
 - taxpayer.biz_phone: 사업장전화번호
-- customer.mobile: 휴대전화번호 (고객 휴대전화)
+- taxpayer.mobile: 휴대전화번호
 - filing_type: 신고유형
 - bookkeeping: 기장의무
 - filing_kind: 신고구분
@@ -279,9 +278,9 @@ answer_empty: {"key": "{key}", "value": null}
 - national.installment: 분납할세액
 - national.due_payable: 신고기한이내납부할세액
 - filed_date: 신고일
-- related.name: 세무대리인 (보증인·공동 성명)
+- tax_agent.name: 세무대리인
 - tax_agent.biz_no: 세무대리인사업자등록번호
-- related.phone: 세무대리인전화번호 (보증인·공동 연락처)
+- tax_agent.phone: 세무대리인전화번호
 - tax_office: 세무서장
 ```
 
@@ -289,12 +288,12 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```json
 [{"key": "tax_year", "value": "2023", "bbox_2d": [387, 90, 422, 103], "page": 1},
- {"key": "customer.name", "value": "남궁예태", "bbox_2d": [255, 178, 313, 189], "page": 1},
- {"key": "customer.rrn", "value": "850328-2******", "bbox_2d": [666, 178, 765, 189], "page": 1},
- {"key": "customer.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)", "bbox_2d": [255, 199, 754, 209], "page": 1},
- {"key": "customer.email", "value": "yetae741@gmail.com", "bbox_2d": [255, 219, 382, 229], "page": 1},
+ {"key": "taxpayer.name", "value": "남궁예태", "bbox_2d": [255, 178, 313, 189], "page": 1},
+ {"key": "taxpayer.rrn", "value": "850328-2******", "bbox_2d": [666, 178, 765, 189], "page": 1},
+ {"key": "taxpayer.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호 (반포동, 힐스테이트2차아파트)", "bbox_2d": [255, 199, 754, 209], "page": 1},
+ {"key": "taxpayer.email", "value": "yetae741@gmail.com", "bbox_2d": [255, 219, 382, 229], "page": 1},
  {"key": "taxpayer.biz_phone", "value": "051-410-9614", "bbox_2d": [255, 239, 337, 249], "page": 1},
- {"key": "customer.mobile", "value": "010-6144-1173", "bbox_2d": [666, 239, 754, 249], "page": 1},
+ {"key": "taxpayer.mobile", "value": "010-6144-1173", "bbox_2d": [666, 239, 754, 249], "page": 1},
  {"key": "filing_type", "value": "외부조정", "bbox_2d": [394, 260, 454, 272], "page": 1},
  {"key": "bookkeeping", "value": "복식부기의무자", "bbox_2d": [285, 298, 391, 310], "page": 1},
  {"key": "filing_kind", "value": "정기신고", "bbox_2d": [292, 320, 352, 333], "page": 1},
@@ -318,9 +317,9 @@ answer_empty: {"key": "{key}", "value": null}
  {"key": "national.installment", "value": "0", "bbox_2d": [714, 685, 721, 696], "page": 1},
  {"key": "national.due_payable", "value": "5,120,760", "bbox_2d": [663, 702, 721, 713], "page": 1},
  {"key": "filed_date", "value": "2024년 05월 30일", "bbox_2d": [802, 754, 911, 764], "page": 1},
- {"key": "related.name", "value": "기혁찬", "bbox_2d": [771, 801, 814, 812], "page": 1},
+ {"key": "tax_agent.name", "value": "기혁찬", "bbox_2d": [771, 801, 814, 812], "page": 1},
  {"key": "tax_agent.biz_no", "value": "843-44-26624", "bbox_2d": [297, 823, 383, 836], "page": 1},
- {"key": "related.phone", "value": "051-458-0003", "bbox_2d": [684, 823, 770, 836], "page": 1},
+ {"key": "tax_agent.phone", "value": "051-458-0003", "bbox_2d": [684, 823, 770, 836], "page": 1},
  {"key": "tax_office", "value": "반포세무서장", "bbox_2d": [89, 846, 203, 861], "page": 1}]
 ```
 
@@ -343,22 +342,22 @@ answer_empty: {"key": "{key}", "value": null}
 - 도장·서명: {"key": 키, "value": true 또는 false, "bbox_2d": 찍힌 자리, "page": 쪽} (비어 있으면 value 만 false)
 항목
 - residency: 거주구분 (체크박스, 보기: 거주자 / 비거주자)
-- customer.nationality: 내ㆍ외국인 (고객 국적, 체크박스, 보기: 내국인 / 외국인)
-- seal.customer: 신고인 (고객 도장, 같은 항목명 중 1번째 칸, 도장)
-- sign.customer: 신고인 (고객 서명, 같은 항목명 중 2번째 칸, 서명)
-- seal.related: 세무대리인 (보증인·공동 도장, 같은 항목명 중 1번째 칸, 도장)
-- sign.related: 세무대리인 (보증인·공동 서명, 같은 항목명 중 2번째 칸, 서명)
+- nationality: 내ㆍ외국인 (체크박스, 보기: 내국인 / 외국인)
+- seal.taxpayer: 신고인 (같은 설명 중 1번째 칸, 도장)
+- sign.taxpayer: 신고인 (같은 설명 중 2번째 칸, 서명)
+- seal.tax_agent: 세무대리인 (같은 설명 중 1번째 칸, 도장)
+- sign.tax_agent: 세무대리인 (같은 설명 중 2번째 칸, 서명)
 ```
 
 답:
 
 ```json
 [{"key": "residency", "value": "거주자", "bbox_2d": [720, 89, 738, 99], "page": 1},
- {"key": "customer.nationality", "value": "내국인", "bbox_2d": [720, 111, 738, 122], "page": 1},
- {"key": "seal.customer", "value": false},
- {"key": "sign.customer", "value": false},
- {"key": "seal.related", "value": false},
- {"key": "sign.related", "value": false}]
+ {"key": "nationality", "value": "내국인", "bbox_2d": [720, 111, 738, 122], "page": 1},
+ {"key": "seal.taxpayer", "value": false},
+ {"key": "sign.taxpayer", "value": false},
+ {"key": "seal.tax_agent", "value": false},
+ {"key": "sign.tax_agent", "value": false}]
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -381,7 +380,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 답의 키·칸의 항목명 | `look/template.html.j2` 의 `f("키", label=…)` | 다시 |
 | 답의 값 | `generate.py` (값 만드는 함수). 파이썬 대신 정하려면 `fields.json` 의 그 칸 `source` | 다시 |
 | 칸끼리 관계 (합계·날짜 순서·조건) | `generate.py` | 다시 |
-| 답의 위치 (박스) | `look/template.html.j2` 배치 (studio html 편집). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
+| 답의 위치 (박스) | `look/template.html.j2` 배치 (파일로). 숫자로 고정하려면 `fields.json` `regions` | 다시 |
 | (칸 줄이 없는 칸의 질문 설정) | `fields.json` 맨 위에 `"q": {"키": {"ask": false}}` (반복 행은 `rows.*.amount`) | 필요 없음 |
 | 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
 | 질문의 항목명·괄호 설명 | `fields.json` 그 칸에 `"q": {"label": "…", "note": "…"}` | 필요 없음 |
@@ -393,7 +392,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
 | 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
 | 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
 확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions income_tax_return --show` · `python -m docgen.preview income_tax_return --out work/income_tax_return`

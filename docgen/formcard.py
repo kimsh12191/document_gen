@@ -140,7 +140,7 @@ def _source_of(kind: str, key: str, declared: dict) -> str:
         return "generate.py" if src in (None, "code") else f"`{src}` (fields.json 이 덮어씀)"
     if kind == "html":
         return f"`{src}`" if src else "-"
-    return "원본 칸 (항목명 → 값 종류)"
+    return "원본 칸 (`fields.json` 의 kind·source)"
 
 
 def _pos(f: dict | None, sizes) -> str:
@@ -281,8 +281,8 @@ def render_card(doc_id: str, builder) -> str:
             L.append(f"| {key} | {label} | {typ} | {pos} | {seen} | {key_from} | {value_from} | {where} | {ask} |")
         L.append("")
     L += ["- **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.",
-          "- **키는·값은:** 어디서 정해지나. 원본 서식의 \"규칙\"·\"항목명 자동\" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 "
-          "항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `\"key\"`·`\"kind\"`·`\"source\"` 를 적습니다.",
+          "- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "
+          "\"키 설명 그대로\" 는 칸에 `\"key\"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `\"key\"`·`\"kind\"`·`\"source\"` 를 적습니다.",
           "- **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸"
           "(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `\"q\": {\"키\": {…}}` 묶음에.", ""]
 
@@ -341,7 +341,7 @@ def render_card(doc_id: str, builder) -> str:
     else:
         L += ["| 칸(추출 항목) 더하기 | studio ① 서식 › 영역 편집에서 그리기 (`fields.json` items 에 한 칸) | 다시 |",
               "| 답의 위치 (박스) | `fields.json` 그 칸의 `rect` [x0, y0, x1, y1] (pt) — 또는 영역 편집 | 다시 |",
-              "| 답의 키 | `fields.json` 그 칸에 `\"key\"` (없으면 규칙이 항목명으로 정함 — 모든 서식 공통 규칙은 studio 키 사전) | 다시 |",
+              "| 답의 키 | `fields.json` 그 칸에 `\"key\"` (없으면 키 설명이 그대로 키) | 다시 |",
               "| 답의 값 | `fields.json` 그 칸에 `\"source\"` ([값 출처 목록](../_common/values.md)) 또는 값 종류 `\"kind\"` | 다시 |",
               "| 칸의 항목명 | `fields.json` 그 칸의 `label` | 다시 |"]
     if kind in ("code", "html"):
@@ -459,7 +459,7 @@ def values_md() -> str:
     L += ["", "## 표기 (칸의 `fmt`) — 값을 이 꼴로 바꿔 적는다 (읽지 못하는 값은 그대로)", "", "| fmt | 뜻 | 예 |", "|---|---|---|"]
     L += [f"| `{k}` | {n} | {ex} |" for k, (n, ex) in FORMATS.items()]
     L += ["", "## 고객 프로필 `profile.<경로>` (예시 값은 seed 0 고객)", "",
-          "한 문서·한 업무 묶음 안에서 같은 사람의 값이 서로 맞아야 하면 이쪽 (성명·주민번호·주소·직장 …).", "",
+          "한 문서 안에서 같은 사람의 값이 서로 맞아야 하면 이쪽 (성명·주민번호·주소·직장 …).", "",
           "| source | 예시 |", "|---|---|"]
     for row in S.profile_paths(make_profile(0)):
         ex = str(row.get("example", "")).replace("|", "\\|").replace("\n", " ")

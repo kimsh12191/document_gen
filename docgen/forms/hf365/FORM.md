@@ -1,10 +1,9 @@
 # Hana 1Q bank CMS iNet 서비스 이용 추가신청서(iSBS)(영문) (`hf365`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf365 · card-hash: 76ce5f6e45d5 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf365 · card-hash: b3ca873e31ba -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
-- **그룹:** hana · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** Hana 1Q bank CMS iNet 서비스 이용 추가신청서(iSBS)(영문)
-- **쓰이는 업무:** 없음 (서류 한 건 과제에만)
+- **그룹:** hana · **쪽 수:** 3 (seed 1000000 로 그린 것) · **분류 정답:** Hana 1Q bank CMS iNet 서비스 이용 추가신청서(iSBS)(영문)
 - **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
 - **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa hf365 --new`)
 - **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
@@ -18,57 +17,56 @@
 | `fields.json` | 칸 목록·값 출처 |
 | `layout.json` | 원본에서 자동 추출한 칸 자리 (초안) |
 | `look/original.pdf` | 원본 PDF |
-| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
 
 ## 추출 항목 (정보 추출 kie) — 24칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `PostalCode` | PostalCode* | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:23 | 묻기 |
-| `customer.address` | Address* | text | 1쪽 [163, 556, 288, 561] | 늘 | 규칙: 'Address *' → `customer.address` | 고객 정보 (키 `customer.address`) | fields.json:34 | 묻기 |
-| `CorporateIdentificationNo` | CorporateIdentificationNo.* | rrn | 1쪽 [336, 315, 448, 333] | 늘 | 항목명 그대로 | 값 종류 `number` (항목명 자동) | fields.json:45 | 묻기 |
-| `BusinessRegistrationNo` | BusinessRegistrationNo.* | biz_no | 1쪽 [334, 340, 445, 360] | 늘 | 항목명 그대로 | 값 종류 `biz_no` (항목명 자동) | fields.json:56 | 묻기 |
-| `value` | (Korean)* | amount | - | 늘 | 항목명 그대로 | 값 종류 `skip` (항목명 자동) | fields.json:68 | 묻기 |
-| `value2` | (English)* | amount | - | 늘 | 항목명 그대로 | 값 종류 `skip` (항목명 자동) | fields.json:80 | 묻기 |
-| `PostalCode2` | PostalCode* | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:91 | 묻기 |
-| `customer.address2` | Address* | text | 1쪽 [332, 548, 724, 572] | 늘 | 규칙: 'Address *' → `customer.address` | 고객 정보 (키 `customer.address`) | fields.json:102 | 묻기 |
-| `PhoneNo` | PhoneNo.* | phone | 1쪽 [329, 604, 440, 623] | 늘 | 항목명 그대로 | 값 종류 `phone` (항목명 자동) | fields.json:113 | 묻기 |
-| `FaxNo` | FaxNo.* | text | 1쪽 [329, 631, 406, 650] | 늘 | 항목명 그대로 | 값 종류 `number` (항목명 자동) | fields.json:125 | 묻기 |
-| `Representative` | Representative* | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:480 | 묻기 |
-| `customer.name` | Name* | text | 2쪽 [284, 147, 363, 165] | 늘 | 규칙: 'Name *' → `customer.name` | 고객 정보 (키 `customer.name`) | fields.json:492 | 묻기 |
-| `customer.address3` | Address* | text | 2쪽 [287, 171, 678, 197] | 늘 | 규칙: 'Address *' → `customer.address` | 고객 정보 (키 `customer.address`) | fields.json:505 | 묻기 |
-| `customer.address4` | Address* | text | 2쪽 [286, 198, 677, 220] | 늘 | 규칙: 'Address *' → `customer.address` | 고객 정보 (키 `customer.address`) | fields.json:518 | 묻기 |
-| `ResidentRegistrationNo` | ResidentRegistrationNo. | text | 2쪽 [286, 242, 368, 260] | 늘 | 항목명 그대로 | 값 종류 `number` (항목명 자동) | fields.json:530 | 묻기 |
-| `Relation` | Relation(Dept./Position) | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:543 | 묻기 |
-| `SignatureSeal` | Signature/Seal* | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:554 | 묻기 |
-| `SignatureSeal2` | Signature/Seal | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:565 | 묻기 |
-| `BankVerifiersNameSignature` | BankVerifier’sName/Signature* | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:578 | 묻기 |
-| `DateSubmitted` | DateSubmitted* | date | 2쪽 [235, 717, 368, 735] | 늘 | 항목명 그대로 | 값 종류 `date` (항목명 자동) | fields.json:590 | 묻기 |
-| `DateRegistered` | DateRegistered* | date | 2쪽 [237, 743, 332, 761] | 늘 | 항목명 그대로 | 값 종류 `date` (항목명 자동) | fields.json:602 | 묻기 |
-| `customer.address5` | Address | text | 2쪽 [287, 446, 678, 471] | 늘 | 규칙: 'Address' → `customer.address` | 고객 정보 (키 `customer.address`) | fields.json:614 | 묻기 |
-| `PROXY` | PROXY | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:625 | 묻기 |
-| `date` | Date | date | 2쪽 [806, 380, 895, 392] | 늘 | 규칙: 'Date' → `date` | 고객 정보 (키 `date`) | fields.json:637 | 묻기 |
+| `PostalCode` | PostalCode* | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:23 | 묻기 |
+| `customer.address` | Address* | text | 1쪽 [163, 556, 288, 561] | 늘 | 파일 key | 고객 정보 (키 `customer.address`, 없으면 값 종류 `text`) | fields.json:37 | 묻기 |
+| `CorporateIdentificationNo` | CorporateIdentificationNo.* | rrn | 1쪽 [336, 315, 448, 333] | 늘 | 파일 key | 값 종류 `number` | fields.json:50 | 묻기 |
+| `BusinessRegistrationNo` | BusinessRegistrationNo.* | biz_no | 1쪽 [334, 340, 445, 360] | 늘 | 파일 key | 값 종류 `biz_no` | fields.json:64 | 묻기 |
+| `value` | (Korean)* | amount | - | 늘 | 파일 key | 값 종류 `skip` | fields.json:79 | 묻기 |
+| `value2` | (English)* | amount | - | 늘 | 파일 key | 값 종류 `skip` | fields.json:94 | 묻기 |
+| `PostalCode2` | PostalCode* | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:108 | 묻기 |
+| `customer.address2` | Address* | text | 1쪽 [332, 548, 724, 572] | 늘 | 파일 key | 고객 정보 (키 `customer.address`, 없으면 값 종류 `text`) | fields.json:122 | 묻기 |
+| `PhoneNo` | PhoneNo.* | phone | 1쪽 [329, 604, 440, 623] | 늘 | 파일 key | 값 종류 `phone` | fields.json:135 | 묻기 |
+| `FaxNo` | FaxNo.* | text | 1쪽 [329, 631, 406, 650] | 늘 | 파일 key | 값 종류 `number` | fields.json:150 | 묻기 |
+| `Representative` | Representative* | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:557 | 묻기 |
+| `customer.name` | Name* | text | 2쪽 [283, 147, 362, 166] | 늘 | 파일 key | 고객 정보 (키 `customer.name`, 없으면 값 종류 `text`) | fields.json:572 | 묻기 |
+| `customer.address3` | Address* | text | 2쪽 [286, 174, 677, 195] | 늘 | 파일 key | 고객 정보 (키 `customer.address`, 없으면 값 종류 `text`) | fields.json:587 | 묻기 |
+| `customer.address4` | Address* | text | 2쪽 [283, 202, 674, 221] | 늘 | 파일 key | 고객 정보 (키 `customer.address`, 없으면 값 종류 `text`) | fields.json:602 | 묻기 |
+| `ResidentRegistrationNo` | ResidentRegistrationNo. | rrn | 2쪽 [282, 241, 411, 261] | 늘 | 파일 key | 값 종류 `number` | fields.json:616 | 묻기 |
+| `Relation` | Relation(Dept./Position) | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:632 | 묻기 |
+| `SignatureSeal` | Signature/Seal* | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:646 | 묻기 |
+| `SignatureSeal2` | Signature/Seal | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:660 | 묻기 |
+| `BankVerifiersNameSignature` | BankVerifier’sName/Signature* | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:676 | 묻기 |
+| `DateSubmitted` | DateSubmitted* | date | 2쪽 [237, 716, 338, 734] | 늘 | 파일 key | 값 종류 `date` | fields.json:691 | 묻기 |
+| `DateRegistered` | DateRegistered* | date | 2쪽 [236, 744, 317, 762] | 늘 | 파일 key | 값 종류 `date` | fields.json:706 | 묻기 |
+| `customer.address5` | Address | text | 2쪽 [289, 450, 680, 470] | 늘 | 파일 key | 고객 정보 (키 `customer.address`, 없으면 값 종류 `text`) | fields.json:721 | 묻기 |
+| `PROXY` | PROXY | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:734 | 묻기 |
+| `date` | Date | date | 2쪽 [808, 382, 897, 395] | 늘 | 파일 key | 고객 정보 (키 `date`, 없으면 값 종류 `date`) | fields.json:749 | 묻기 |
 
 ## 표 `목록` (표 과제 table·table_read·table_find·table_qa) — 4열
 
 행 수는 서류마다 다르다 (모델이 정함). 표 칸은 kie 가 묻지 않는다. 열의 질문 설정(q)은 kie 칸과 같은 곳.
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `목록.*.Currency` | Currency | text | 1쪽 [83, 752, 115, 769] (1행) | 늘 | 표 행 (묶음·항목명 'Currency') | 값 종류 `currency` (항목명 자동) | fields.json:137 | 묻기 |
-| `목록.*.AccountNo` | AccountNo.(AccountType) | phone | 1쪽 [214, 751, 298, 769] (1행) | 늘 | 표 행 (묶음·항목명 'Account No. (Account Type)') | 값 종류 `number` (항목명 자동) | fields.json:209 | 묻기 |
-| `목록.*.AccountHolderName` | AccountHolderName | text | - (1행) | 늘 | 표 행 (묶음·항목명 'Account Holder Name') | 값 종류 `text` (항목명 자동) | fields.json:281 | 묻기 |
-| `목록.*.SealSignature` | Seal/Signature | text | - (1행) | 늘 | 표 행 (묶음·항목명 'Seal / Signature') | 값 종류 `text` (항목명 자동) | fields.json:353 | 묻기 |
+| `목록.*.Currency` | Currency | text | 1쪽 [83, 752, 115, 769] (1행) | 늘 | 파일 key | 값 종류 `currency` | fields.json:165 | 묻기 |
+| `목록.*.AccountNo` | AccountNo.(AccountType) | rrn | 1쪽 [210, 750, 338, 770] (1행) | 늘 | 파일 key | 값 종류 `number` | fields.json:249 | 묻기 |
+| `목록.*.AccountHolderName` | AccountHolderName | text | - (1행) | 늘 | 파일 key | 값 종류 `text` | fields.json:333 | 묻기 |
+| `목록.*.SealSignature` | Seal/Signature | text | - (1행) | 늘 | 파일 key | 값 종류 `text` | fields.json:417 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 1칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `check.Iherebywishto` | Iherebywishto | checkbox (Subscribe to / Change/Add / Terminate the service) | 1쪽 [307, 179, 416, 194] | 늘 | 체크 (항목명) | 보기 중 고름: Subscribe to / Change/Add / Terminate the service | fields.json:425 | 묻기 |
+| `check.Iherebywishto` | Iherebywishto | checkbox (Subscribe to / Change/Add / Terminate the service) | 1쪽 [307, 179, 416, 194] | 늘 | 파일 key | 보기 중 고름: Subscribe to / Change/Add / Terminate the service | fields.json:501 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
-- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
 - **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
@@ -101,21 +99,24 @@
 
 ```json
 [
- "서울특별시 서초구 강남대로 357, 103동 1301호",
- "657531-6811393",
- "264-69-40618",
- "010-6144-1173",
- "3955-3969",
+ "EUR",
+ "8980-9315",
+ "790-697878-79005",
+ "GBP",
+ "699-682425-95143",
+ "2546-4381",
  "CNY",
+ "7248-9702",
  "USD",
- "1570-6440",
- "837-150072-49231",
- "679862-8730090",
- "남궁예태",
- "7207-6459",
- "2024년 6월 15일",
- "2024-05-01",
- "2025년 04월 01일"
+ "1148-3378",
+ "0309-4353",
+ "0694-1289",
+ "AUD",
+ "7545-5723",
+ "JPY",
+ "925-445667-35263",
+ "CAD",
+ "7077-5269"
 ]
 ```
 
@@ -130,7 +131,7 @@
 답:
 
 ```json
-"서울특별시 서초구 강남대로 357, 103동 1301호"
+"GBP"
 ```
 
 ### 값 칸 읽기 `ocr_field` · 채점 exact
@@ -147,122 +148,19 @@
 "USD"
 ```
 
-### 정보 추출 `kie` · 채점 vl_f1 (값+위치)
-
-틀 (질문의 항목 한 줄 · 답 항목 하나 · 빈 칸일 때) — `questions.json` 의 `kie`:
-
-```
-item:         - {key}: {label}{note}
-answer:       {"key": "{key}", "value": "{value}", "bbox_2d": "{bbox_2d}", "page": "{page}"}
-answer_empty: {"key": "{key}", "value": null}
-```
-
-질문:
-
-```
-이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
-- PostalCode: PostalCode* (같은 항목명 중 1번째 칸)
-- customer.address: Address* (고객 주소, 같은 항목명 중 1번째 칸)
-- CorporateIdentificationNo: CorporateIdentificationNo.*
-- BusinessRegistrationNo: BusinessRegistrationNo.*
-- value: (Korean)*
-- 변경사항: 변경사항
-- value2: (English)*
-- PostalCode2: PostalCode* (같은 항목명 중 2번째 칸)
-- customer.address2: Address* (같은 항목명 중 2번째 칸)
-- PhoneNo: PhoneNo.*
-- FaxNo: FaxNo.*
-- Representative: Representative*
-- customer.name: Name* (고객 성명)
-- customer.address3: Address* (같은 항목명 중 3번째 칸)
-- 주소및전화번호: 주소및전화번호
-- 취득기간: 취득기간
-- customer.address4: Address* (같은 항목명 중 4번째 칸)
-- ResidentRegistrationNo: ResidentRegistrationNo.
-- Relation: Relation(Dept./Position)
-- SignatureSeal: Signature/Seal* (같은 항목명 중 1번째 칸)
-- SignatureSeal2: Signature/Seal (같은 항목명 중 2번째 칸)
-- BankVerifiersNameSignature: BankVerifier’sName/Signature*
-- DateSubmitted: DateSubmitted*
-- DateRegistered: DateRegistered*
-- customer.address5: Address (같은 항목명 중 5번째 칸)
-- PROXY: PROXY
-- date: Date
-```
-
-답:
-
-```json
-[{"key": "PostalCode", "value": null},
- {"key": "customer.address", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [163, 556, 288, 561], "page": 1},
- {"key": "CorporateIdentificationNo", "value": "657531-6811393", "bbox_2d": [336, 315, 448, 333], "page": 1},
- {"key": "BusinessRegistrationNo", "value": "264-69-40618", "bbox_2d": [334, 340, 445, 360], "page": 1},
- {"key": "value", "value": null},
- {"key": "변경사항", "value": null},
- {"key": "value2", "value": null},
- {"key": "PostalCode2", "value": null},
- {"key": "customer.address2", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [332, 548, 724, 572], "page": 1},
- {"key": "PhoneNo", "value": "010-6144-1173", "bbox_2d": [329, 604, 440, 623], "page": 1},
- {"key": "FaxNo", "value": "3955-3969", "bbox_2d": [329, 631, 406, 650], "page": 1},
- {"key": "Representative", "value": null},
- {"key": "customer.name", "value": "남궁예태", "bbox_2d": [284, 147, 363, 165], "page": 2},
- {"key": "customer.address3", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [287, 171, 678, 197], "page": 2},
- {"key": "주소및전화번호", "value": null},
- {"key": "취득기간", "value": null},
- {"key": "customer.address4", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [286, 198, 677, 220], "page": 2},
- {"key": "ResidentRegistrationNo", "value": "7207-6459", "bbox_2d": [286, 242, 368, 260], "page": 2},
- {"key": "Relation", "value": null},
- {"key": "SignatureSeal", "value": null},
- {"key": "SignatureSeal2", "value": null},
- {"key": "BankVerifiersNameSignature", "value": null},
- {"key": "DateSubmitted", "value": "2024년 6월 15일", "bbox_2d": [235, 717, 368, 735], "page": 2},
- {"key": "DateRegistered", "value": "2024-05-01", "bbox_2d": [237, 743, 332, 761], "page": 2},
- {"key": "customer.address5", "value": "서울특별시 서초구 강남대로 357, 103동 1301호", "bbox_2d": [287, 446, 678, 471], "page": 2},
- {"key": "PROXY", "value": null},
- {"key": "date", "value": "2025년 04월 01일", "bbox_2d": [806, 380, 895, 392], "page": 2}]
-```
-
-### 체크·도장·서명 `marks` · 채점 vl_f1 (값+위치)
-
-틀 (질문의 항목 한 줄 · 답 항목 하나 · 빈 칸일 때) — `questions.json` 의 `marks`:
-
-```
-item:         - {key}: {label}{note}
-answer:       {"key": "{key}", "value": "{value}", "bbox_2d": "{bbox_2d}", "page": "{page}"}
-answer_empty: {"key": "{key}", "value": null}
-```
-
-질문:
-
-```
-이 문서의 체크박스·도장·서명 상태와 위치를 확인해 JSON 목록으로 답하세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
-- 체크박스: 체크된 보기마다 {"key": 키, "value": 보기 글자, "bbox_2d": 체크된 □ 위치, "page": 쪽}. 체크된 것이 없으면 {"key": 키, "value": null}
-- 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)
-- 도장·서명: {"key": 키, "value": true 또는 false, "bbox_2d": 찍힌 자리, "page": 쪽} (비어 있으면 value 만 false)
-항목
-- check.Iherebywishto: Iherebywishto (체크박스, 보기: Subscribe to / Change/Add / Terminate the service)
-```
-
-답:
-
-```json
-[{"key": "check.Iherebywishto", "value": "Change/Add", "bbox_2d": [307, 181, 323, 194], "page": 1}]
-```
-
 ### 표 추출 `table` · 채점 cell_f1 (칸)
 
 질문:
 
 ```
-이 문서에서 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
+이 문서에서 'Currency'·'AccountNo.(AccountType)' 열이 있는 표의 모든 행을 문서에 보이는 순서대로(위에서 아래, 앞쪽부터) 읽어 JSON 으로 답하세요.
 꼴: {"columns": [열 키, …], "rows": [[값, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
 - columns 는 아래 열 키를 그 순서 그대로 쓰고, rows 는 행마다 같은 순서로 값을 씁니다.
 - 값은 문서에 적힌 그대로 씁니다. 빈 칸과 표에 없는 열은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 값을 씁니다.
 - 합계·소계 행, 다음 쪽에서 다시 나온 머리글 행, 모두 빈 행은 뺍니다.
 - row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
 - 그런 표가 없으면 rows 와 row_boxes 를 [] 로 답하세요.
-열 (키: 항목명)
+열 (키: 설명)
 - Currency: Currency
 - AccountNo: AccountNo.(AccountType)
 - AccountHolderName: AccountHolderName
@@ -281,20 +179,68 @@ answer_empty: {"key": "{key}", "value": null}
  ],
  "rows": [
   [
-   "CNY",
-   "1570-6440",
+   "EUR",
+   "8980-9315",
+   null,
+   null
+  ],
+  [
+   "EUR",
+   "790-697878-79005",
+   null,
+   null
+  ],
+  [
+   "GBP",
+   "699-682425-95143",
+   null,
+   null
+  ],
+  [
+   "GBP",
+   "2546-4381",
    null,
    null
   ],
   [
    "CNY",
-   "837-150072-49231",
+   "7248-9702",
    null,
    null
   ],
   [
    "USD",
-   "679862-8730090",
+   "1148-3378",
+   null,
+   null
+  ],
+  [
+   "GBP",
+   "0309-4353",
+   null,
+   null
+  ],
+  [
+   "USD",
+   "0694-1289",
+   null,
+   null
+  ],
+  [
+   "AUD",
+   "7545-5723",
+   null,
+   null
+  ],
+  [
+   "JPY",
+   "925-445667-35263",
+   null,
+   null
+  ],
+  [
+   "CAD",
+   "7077-5269",
    null,
    null
   ]
@@ -302,28 +248,100 @@ answer_empty: {"key": "{key}", "value": null}
  "row_boxes": [
   {
    "bbox_2d": [
-    83,
-    751,
-    298,
-    769
+    132,
+    168,
+    286,
+    179
    ],
    "page": 1
   },
   {
    "bbox_2d": [
-    83,
-    778,
-    356,
-    797
+    132,
+    192,
+    326,
+    202
    ],
    "page": 1
   },
   {
    "bbox_2d": [
-    76,
-    805,
-    337,
-    824
+    132,
+    215,
+    326,
+    225
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    132,
+    238,
+    290,
+    249
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    132,
+    261,
+    289,
+    272
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    132,
+    284,
+    286,
+    295
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    132,
+    307,
+    291,
+    318
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    132,
+    331,
+    287,
+    341
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    132,
+    354,
+    289,
+    365
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    132,
+    377,
+    329,
+    388
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    132,
+    400,
+    287,
+    411
    ],
    "page": 1
   }
@@ -343,7 +361,7 @@ answer_empty: {"key": "{key}", "value": null}
 답:
 
 ```json
-[{"columns": ["Currency", "AccountNo.(AccountType)", "AccountHolderName", "Seal/Signature"], "bbox_2d": [76, 751, 356, 824], "page": 1, "n_rows": 3}]
+[{"columns": ["Currency", "AccountNo.(AccountType)", "AccountHolderName", "Seal/Signature"], "bbox_2d": [124, 138, 923, 411], "page": 1, "n_rows": 11}]
 ```
 
 ### 표 질의 `table_qa` · 채점 acc
@@ -351,13 +369,13 @@ answer_empty: {"key": "{key}", "value": null}
 질문:
 
 ```
-이 문서의 1쪽 bbox_2d=[76, 751, 356, 824] 위치의 표를 보고 답하세요. 'Currency' 칸이 'CNY'인 행은 몇 개입니까? (숫자만 답하세요)
+이 문서의 'AccountHolderName'·'Seal/Signature' 열이 있는 표를 보고 답하세요. 'AccountNo.(AccountType)' 칸이 '7545-5723'인 행의 'Seal/Signature' 값은 무엇입니까? (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
 ```
 
 답:
 
 ```json
-2
+null
 ```
 
 ### 표 질의 `table_qa` · 채점 acc
@@ -365,13 +383,220 @@ answer_empty: {"key": "{key}", "value": null}
 질문:
 
 ```
-이 문서의 1쪽 bbox_2d=[76, 751, 356, 824] 위치의 표를 보고 답하세요. 'AccountNo.(AccountType)' 칸이 '679862-8730090'인 행은 몇 개입니까? (숫자만 답하세요)
+이 문서의 'AccountHolderName'·'Seal/Signature' 열이 있는 표를 보고 답하세요. 위에서 10번째 행의 'AccountNo.(AccountType)' 값은 무엇입니까? 머리글은 세지 않습니다. (문서에 적힌 그대로 답하고, 비어 있으면 null 로 답하세요)
 ```
 
 답:
 
 ```json
-1
+"925-445667-35263"
+```
+
+### 표 그대로 옮기기 `table_read` · 채점 cell_f1 (칸)
+
+질문:
+
+```
+이 문서에서 'AccountNo.(AccountType)'·'Seal/Signature' 열이 있는 표를 머리글까지 그대로 옮겨 JSON 으로 답하세요.
+꼴: {"columns": [머리글 글자, …], "rows": [[칸 글자, …], …], "row_boxes": [{"bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호}, …]}
+- columns 는 표의 머리글을 왼쪽부터 쓰고, 머리글이 여러 줄이면 위 칸과 아래 칸 글자를 " > " 로 잇습니다.
+- rows 는 행마다 columns 와 같은 순서로 칸 글자를 씁니다. 빈 칸은 null, 칸 안의 여러 줄은 공백 하나로 잇고, 여러 행에 걸친 칸은 행마다 같은 글자를 씁니다.
+- 다음 쪽에서 다시 나온 머리글 행과 모두 빈 행은 빼고, 합계·소계 행은 그대로 둡니다.
+- row_boxes 는 rows 와 같은 순서로 행마다 그 행을 감싸는 상자입니다. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다.
+```
+
+답:
+
+```json
+{
+ "columns": [
+  "번호",
+  "Currency",
+  "Account No. (Account Type)",
+  "Account Holder Name",
+  "Seal / Signature"
+ ],
+ "rows": [
+  [
+   "7",
+   "EUR",
+   "8980-9315",
+   null,
+   null
+  ],
+  [
+   "8",
+   "EUR",
+   "790-697878-79005",
+   null,
+   null
+  ],
+  [
+   "9",
+   "GBP",
+   "699-682425-95143",
+   null,
+   null
+  ],
+  [
+   "10",
+   "GBP",
+   "2546-4381",
+   null,
+   null
+  ],
+  [
+   "11",
+   "CNY",
+   "7248-9702",
+   null,
+   null
+  ],
+  [
+   "12",
+   "USD",
+   "1148-3378",
+   null,
+   null
+  ],
+  [
+   "13",
+   "GBP",
+   "0309-4353",
+   null,
+   null
+  ],
+  [
+   "14",
+   "USD",
+   "0694-1289",
+   null,
+   null
+  ],
+  [
+   "15",
+   "AUD",
+   "7545-5723",
+   null,
+   null
+  ],
+  [
+   "16",
+   "JPY",
+   "925-445667-35263",
+   null,
+   null
+  ],
+  [
+   "17",
+   "CAD",
+   "7077-5269",
+   null,
+   null
+  ]
+ ],
+ "row_boxes": [
+  {
+   "bbox_2d": [
+    76,
+    163,
+    923,
+    186
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    76,
+    186,
+    923,
+    209
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    76,
+    209,
+    923,
+    232
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    76,
+    232,
+    923,
+    255
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    76,
+    255,
+    923,
+    279
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    76,
+    279,
+    923,
+    302
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    76,
+    302,
+    923,
+    325
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    76,
+    325,
+    923,
+    348
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    76,
+    348,
+    923,
+    371
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    76,
+    371,
+    923,
+    394
+   ],
+   "page": 1
+  },
+  {
+   "bbox_2d": [
+    76,
+    394,
+    923,
+    418
+   ],
+   "page": 1
+  }
+ ]
+}
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -392,7 +617,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 |---|---|---|
 | 칸(추출 항목) 더하기 | studio ① 서식 › 영역 편집에서 그리기 (`fields.json` items 에 한 칸) | 다시 |
 | 답의 위치 (박스) | `fields.json` 그 칸의 `rect` [x0, y0, x1, y1] (pt) — 또는 영역 편집 | 다시 |
-| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 규칙이 항목명으로 정함 — 모든 서식 공통 규칙은 studio 키 사전) | 다시 |
+| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 키 설명이 그대로 키) | 다시 |
 | 답의 값 | `fields.json` 그 칸에 `"source"` ([값 출처 목록](../_common/values.md)) 또는 값 종류 `"kind"` | 다시 |
 | 칸의 항목명 | `fields.json` 그 칸의 `label` | 다시 |
 | 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
@@ -405,7 +630,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
 | 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
 | 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
 확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions hf365 --show` · `python -m docgen.preview hf365 --out work/hf365`

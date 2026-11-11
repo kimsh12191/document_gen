@@ -21,7 +21,7 @@ from . import keyrules as _KR
 # 키 통일: 서류마다 다르게 붙은 같은 뜻의 마지막 키 이름을 하나로 맞춘다.
 # 규칙: 영어 snake_case, 역할(applicant/employee/company ...) 아래에 속성(name/rrn/address ...).
 # ---------------------------------------------------------------------------
-# 동의어는 docgen/forms/_common/key_rules.json 의 synonyms (studio 키 사전 화면이 고친다). LEAF_SYNONYMS 는 지금 파일 내용.
+# 동의어는 docgen/forms/_common/key_rules.json 의 synonyms (파일로 고친다, 지금은 비어 있음). LEAF_SYNONYMS 는 지금 파일 내용.
 LEAF_SYNONYMS = dict(_KR.load()["synonyms"])
 
 

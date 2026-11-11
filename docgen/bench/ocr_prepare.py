@@ -367,12 +367,9 @@ def build_datasets(pages, out, cfg, skipped=None):
     sft_samples = group_turns(list(sft(chosen)), turns, chars, cfg.get("seed", 42))
     write_jsonl(out / "train_sft.jsonl", sft_samples)
     write_jsonl(out / "val_sft.jsonl", group_turns(list(sft(val[:cfg.get("val_max_examples", 2000)])), turns, chars, cfg.get("seed", 42)))
-    grpo_tasks = cfg.get("grpo_tasks", ["grounding", "spotting", "relation"])
-    grpo = [{k: r[k] for k in ("id", "task", "split", "messages", "images", "target")} for r in train if r["task"] in grpo_tasks]
-    write_jsonl(out / "train_grpo.jsonl", grpo)
     count = lambda rows: dict(sorted(Counter(r["task"] for r in rows).items()))
     return {"sft_examples": len(chosen), "sft_samples": len(sft_samples), "sft_task_counts": count(chosen),
-            "grpo_examples": len(grpo), "benchmark_examples": len(pools["benchmark"]),
+            "benchmark_examples": len(pools["benchmark"]),
             "benchmark_task_counts": count(pools["benchmark"]),
             "benchmark_view_counts": dict(Counter(r["view"] for r in pools["benchmark"])),
             "image_max_size": max_size, "ocr_region_counts": dict(candidates), "filter_audit": dict(sorted(audit.items()))}

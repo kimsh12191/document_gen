@@ -1,11 +1,10 @@
 # 외화송금신청서 (`hf199`)
 
-<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf199 · card-hash: dc2cc18d0924 -->
+<!-- 자동 생성 — 직접 고치지 마세요. 다시 만들기: python -m docgen.formdir card hf199 · card-hash: 585e4280ebd4 -->
 
 - **종류:** 원본 서식 (하나은행 원본 PDF 위에 칸을 얹음, 칸은 fields.json items)
 - **그룹:** hana · **쪽 수:** 2 (seed 1000000 로 그린 것) · **분류 정답:** 해외송금신청서 (다른 이름: 외화송금신청서)
-- **쓰이는 업무:** 없음 (서류 한 건 과제에만)
-- **질문·답:** 모두 기본 (공통 `docgen/forms/_common/questions.json` + 칸의 항목명). 바꾸려면 이 폴더에 `questions.json`
+- **질문·답:** 이 폴더의 `questions.json` 에서 바꾼 것이 있음 (아래 ← 바꿈)
 - **이 서식만의 질문:** 없음. 더하려면 이 폴더에 `qa.py` (견본: `python -m docgen.formdir qa hf199 --new`)
 - **설명서:** [docgen/forms/README.md](../README.md) — 이 폴더의 파일마다 무엇이고 무엇을 고치면 데이터가 어떻게 바뀌는지
 
@@ -16,88 +15,88 @@
 | 파일 | 정하는 것 |
 |---|---|
 | `fields.json` | 칸 목록·값 출처 |
+| `questions.json` | 기본 과제의 질문 문장·답 틀 (기본과 다른 것만) |
 | `layout.json` | 원본에서 자동 추출한 칸 자리 (초안) |
 | `look/original.pdf` | 원본 PDF |
-| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·키 사전·바탕 틀 ([README](../_common/README.md)) |
+| `docgen/forms/_common/` (폴더 밖) | 모든 서식 공통: 기본 질문·바탕 틀 ([README](../_common/README.md)) |
 
 ## 추출 항목 (정보 추출 kie) — 28칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `담당` | 담당(실명확인) | text | - | 늘 | 표 행 (묶음·항목명 '담당 (실명확인)') | 값 종류 `text` (항목명 자동) | fields.json:23 | 묻기 |
-| `영문` | 영문(English) | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:189 | 묻기 |
-| `국문` | 국문(Korean) | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:200 | 묻기 |
-| `customer.rrn` | 주민(사업자)번호(I.DNo./PassportNo.) | rrn | 1쪽 [239, 228, 368, 240] | 늘 | 규칙: '주민(사업자)번호 (I.D No. / Passport No.)' → `customer.rrn` | 고객 정보 (키 `customer.rrn`) | fields.json:211 | 묻기 |
-| `과거송금번호` | 과거송금번호(EXISTINGREF.NO) | text | 1쪽 [243, 277, 387, 289] | 늘 | 항목명 그대로 | 값 종류 `number` (항목명 자동) | fields.json:223 | 묻기 |
-| `송금목적` | 송금목적(송금사유)(PURPOSEOFPAYMENT) | text | 1쪽 [245, 626, 313, 638] | 늘 | 항목명 그대로 | 값 종류 `reason` (항목명 자동) | fields.json:326 | 묻기 |
-| `적요` | 적요(DETAILSOFPAYMENT) | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:339 | 묻기 |
-| `은행코드` | 은행코드(SWIFTBIC) | number | 1쪽 [392, 363, 430, 375] | 늘 | 항목명 그대로 | 값 종류 `number` (항목명 자동) | fields.json:352 | 묻기 |
-| `은행명` | 은행명(BANKNAME) | text | 1쪽 [392, 387, 460, 399] | 늘 | 항목명 그대로 | 값 종류 `bank` (항목명 자동) | fields.json:365 | 묻기 |
-| `은행명2` | 은행명(BANKNAME) | text | 1쪽 [387, 410, 455, 422] | 늘 | 항목명 그대로 | 값 종류 `bank` (항목명 자동) | fields.json:377 | 묻기 |
-| `통화금액` | 통화(CURRENCY):금액(AMOUNT) | number | 1쪽 [894, 434, 969, 446] | 늘 | 표 행 (묶음·항목명 '통화(CURRENCY): 금액(AMOUNT)') | 값 종류 `amount` (항목명 자동) | fields.json:389 | 묻기 |
-| `은행코드2` | 은행코드(BANKCODE) | number | 1쪽 [391, 482, 447, 494] | 늘 | 항목명 그대로 | 값 종류 `number` (항목명 자동) | fields.json:403 | 묻기 |
-| `수취인계좌번호` | 수취인계좌번호(BNF'sA/CNo.) | text | 1쪽 [390, 506, 534, 518] | 늘 | 항목명 그대로 | 값 종류 `account` (항목명 자동) | fields.json:416 | 묻기 |
-| `foreign.name` | 성명(Name) | text | 1쪽 [392, 531, 596, 543] | 늘 | 규칙: '성명 (Name)' → `foreign.name` | 고객 정보 (키 `foreign.name`) | fields.json:428 | 묻기 |
-| `신청인과의관계` | 신청인과의관계(RELATIONTOAPPLICANT) | text | - | 늘 | 표 행 (묶음·항목명 '신청인과의 관계 (RELATION TO APPLICANT)') | 값 종류 `text` (항목명 자동) | fields.json:440 | 묻기 |
-| `보내는분계좌번호` | 보내는분계좌번호(A/CNO) | text | 1쪽 [734, 228, 877, 240] | 늘 | 항목명 그대로 | 값 종류 `account` (항목명 자동) | fields.json:528 | 묻기 |
-| `신청인과의관계2` | 신청인과의관계(RELATIONTOAPPLICANT) | text | - | 늘 | 항목명 그대로 | 값 종류 `text` (항목명 자동) | fields.json:569 | 묻기 |
-| `customer.name` ← `signer.name` | 예금주명(A/CHOLDERNAME) | text | 1쪽 [676, 769, 742, 780] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:620 | 묻기 |
-| `date` | 작성일 | date | 1쪽 [728, 790, 909, 804] | 늘 | 날짜 칸 (항목명) | 작성일 | fields.json:637 | 묻기 |
-| `signer2.name` | 신청인(Applicant) | text | 1쪽 [695, 814, 760, 825] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:662 | 묻기 |
-| `agent.name` ← `signer3.name` | 대리인(Agent) | text | - | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:679 | 묻기 |
-| `date2` | 작성일 | date | 1쪽 [311, 886, 485, 900] | 늘 | 날짜 칸 (항목명) | 작성일 | fields.json:696 | 묻기 |
-| `대리인실명번호` | 대리인실명번호(AGENTID.NO) | rrn | 1쪽 [668, 856, 793, 867] | 늘 | 항목명 그대로 | 값 종류 `number` (항목명 자동) | fields.json:733 | 묻기 |
-| `인출계좌번호` | 인출계좌번호 | text | 2쪽 [241, 191, 384, 203] | 늘 | 항목명 그대로 | 값 종류 `account` (항목명 자동) | fields.json:864 | 묻기 |
-| `사전송금방식국내통관전수입대금을지급` | 사전송금방식:국내통관(물품인수)전수입대금을지급 | number | 2쪽 [836, 418, 912, 430] | 늘 | 항목명 그대로 | 값 종류 `amount` (항목명 자동) | fields.json:1007 | 묻기 |
-| `date3` | 작성일 | date | 2쪽 [693, 271, 891, 286] | 늘 | 날짜 칸 (항목명) | 작성일 | fields.json:1221 | 묻기 |
-| `signer5.name` | 신청인 | text | 2쪽 [748, 752, 816, 764] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:1246 | 묻기 |
-| `대금송금후물품수령예정일` | 대금송금후물품(선적서류)수령예정일 | date | 2쪽 [340, 456, 424, 468] | 늘 | 항목명 그대로 | 값 종류 `date` (항목명 자동) | fields.json:1263 | 묻기 |
+| `담당` | 담당(실명확인) | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:23 | 묻기 |
+| `영문` | 영문(English) | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:194 | 묻기 |
+| `국문` | 국문(Korean) | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:208 | 묻기 |
+| `customer.rrn` | 주민(사업자)번호(I.DNo./PassportNo.) | rrn | 1쪽 [239, 228, 368, 240] | 늘 | 파일 key | 고객 정보 (키 `customer.rrn`, 없으면 값 종류 `number`) | fields.json:222 | 묻기 |
+| `과거송금번호` | 과거송금번호(EXISTINGREF.NO) | text | 1쪽 [243, 277, 387, 289] | 늘 | 파일 key | 값 종류 `number` | fields.json:236 | 묻기 |
+| `송금목적` | 송금목적(송금사유)(PURPOSEOFPAYMENT) | text | 1쪽 [245, 626, 313, 638] | 늘 | 파일 key | 값 종류 `reason` | fields.json:344 | 묻기 |
+| `적요` | 적요(DETAILSOFPAYMENT) | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:360 | 묻기 |
+| `은행코드` | 은행코드(SWIFTBIC) | number | 1쪽 [392, 363, 430, 375] | 늘 | 파일 key | 값 종류 `number` | fields.json:376 | 묻기 |
+| `은행명` | 은행명(BANKNAME) | text | 1쪽 [392, 387, 460, 399] | 늘 | 파일 key | 값 종류 `bank` | fields.json:392 | 묻기 |
+| `은행명2` | 은행명(BANKNAME) | text | 1쪽 [387, 410, 455, 422] | 늘 | 파일 key | 값 종류 `bank` | fields.json:407 | 묻기 |
+| `통화금액` | 통화(CURRENCY):금액(AMOUNT) | number | 1쪽 [894, 434, 969, 446] | 늘 | 파일 key | 값 종류 `amount` | fields.json:422 | 묻기 |
+| `은행코드2` | 은행코드(BANKCODE) | number | 1쪽 [391, 482, 447, 494] | 늘 | 파일 key | 값 종류 `number` | fields.json:439 | 묻기 |
+| `수취인계좌번호` | 수취인계좌번호(BNF'sA/CNo.) | text | 1쪽 [390, 506, 534, 518] | 늘 | 파일 key | 값 종류 `account` | fields.json:455 | 묻기 |
+| `foreign.name` | 성명(Name) | text | 1쪽 [392, 531, 596, 543] | 늘 | 파일 key | 고객 정보 (키 `foreign.name`, 없으면 값 종류 `person`) | fields.json:470 | 묻기 |
+| `신청인과의관계` | 신청인과의관계(RELATIONTOAPPLICANT) | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:484 | 묻기 |
+| `보내는분계좌번호` | 보내는분계좌번호(A/CNO) | text | 1쪽 [734, 228, 877, 240] | 늘 | 파일 key | 값 종류 `account` | fields.json:577 | 묻기 |
+| `신청인과의관계2` | 신청인과의관계(RELATIONTOAPPLICANT) | text | - | 늘 | 파일 key | 값 종류 `text` | fields.json:622 | 묻기 |
+| `signer.name` | 예금주명(A/CHOLDERNAME) | text | 1쪽 [676, 769, 742, 780] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:677 | 묻기 |
+| `date` | 작성일 | date | 1쪽 [728, 790, 909, 804] | 늘 | 파일 key | 작성일 | fields.json:696 | 묻기 |
+| `signer2.name` | 신청인(Applicant) | text | 1쪽 [695, 814, 760, 825] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:722 | 묻기 |
+| `signer3.name` | 대리인(Agent) | text | - | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:741 | 묻기 |
+| `date2` | 작성일 | date | 1쪽 [311, 886, 485, 900] | 늘 | 파일 key | 작성일 | fields.json:760 | 묻기 |
+| `대리인실명번호` | 대리인실명번호(AGENTID.NO) | rrn | 1쪽 [668, 856, 793, 867] | 늘 | 파일 key | 값 종류 `number` | fields.json:799 | 묻기 |
+| `인출계좌번호` | 인출계좌번호 | text | 2쪽 [241, 191, 384, 203] | 늘 | 파일 key | 값 종류 `account` | fields.json:936 | 묻기 |
+| `사전송금방식국내통관전수입대금을지급` | 사전송금방식:국내통관(물품인수)전수입대금을지급 | number | 2쪽 [836, 418, 912, 430] | 늘 | 파일 key | 값 종류 `amount` | fields.json:1086 | 묻기 |
+| `date3` | 작성일 | date | 2쪽 [693, 271, 891, 286] | 늘 | 파일 key | 작성일 | fields.json:1310 | 묻기 |
+| `signer5.name` | 신청인 | text | 2쪽 [748, 752, 816, 764] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:1336 | 묻기 |
+| `대금송금후물품수령예정일` | 대금송금후물품(선적서류)수령예정일 | date | 2쪽 [340, 456, 424, 468] | 늘 | 파일 key | 값 종류 `date` | fields.json:1355 | 묻기 |
 
 ## 체크·도장·서명 (marks) — 32칸
 
-| 키 | 항목명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
+| 키 | 키 설명 | 타입 | 위치 (쪽, 0~1000) | 나옴 | 키는 | 값은 | 고칠 곳 | 질문 |
 |---|---|---|---|---|---|---|---|---|
-| `check.송금방법` | 송금방법 | checkbox (국외전신송금(OTT) / 국내전신송금(ODT) / 송금수표 (D/D) / 금융결제원이체(국내) / 금융결제원이체(국가간송금)) | 1쪽 [246, 128, 373, 140] | 늘 | 체크 (항목명) | 보기 중 고름: 국외전신송금(OTT) / 국내전신송금(ODT) / 송금수표 (D/D) / 금융결제원이체(국내) / 금융결제원이체(국가간송금) | fields.json:35 | 묻기 |
-| `check.송금정보등록` | 송금정보등록 | checkbox (신규 / 변경 (NO. / 해지 (NO.) | 1쪽 [246, 148, 287, 160] | 늘 | 체크 (항목명) | 보기 중 고름: 신규 / 변경 (NO. / 해지 (NO. | fields.json:128 | 묻기 |
-| `check.결제은행수수료부담` | 결제은행수수료부담(REIMBURSINGBANKCHG.) | checkbox (송금인 (DEBT) / 수취인 (SHAR) / 수취인 (CRED - 수취인이 송금과 관련한 국내 , 국외 수수료 모두 ) | 1쪽 [293, 339, 393, 351] | 늘 | 체크 (항목명) | 보기 중 고름: 송금인 (DEBT) / 수취인 (SHAR) / 수취인 (CRED - 수취인이 송금과 관련한 국내 , 국외 수수료 모두  | fields.json:236 | 묻기 |
-| `check.받으실분` | 받으실분(Beneficiary) | checkbox (HAPPY E-MAIL 서비스 신청 (무료)) | 1쪽 [240, 602, 454, 614] | 늘 | 체크 (항목명) | 보기 중 고름: HAPPY E-MAIL 서비스 신청 (무료) | fields.json:297 | 묻기 |
-| `check.송금정보등록건송금결과통지` | 송금정보등록건송금결과통지 | checkbox (SMS / E-MAIL) | 1쪽 [658, 148, 711, 160] | 늘 | 체크 (항목명) | 보기 중 고름: SMS / E-MAIL | fields.json:454 | 묻기 |
-| `check.통화금액` | 통화(CURRENCY):금액(AMOUNT) | checkbox (수수료 별도납부) | 1쪽 [690, 316, 796, 329] | 늘 | 체크 (항목명) | 보기 중 고름: 수수료 별도납부 | fields.json:499 | 묻기 |
-| `check.수수료차감후송금` | 수수료차감후송금 | checkbox (수수료차감후 송금) | 1쪽 [835, 316, 957, 329] | 늘 | 체크 (항목명) | 보기 중 고름: 수수료차감후 송금 | fields.json:540 | 묻기 |
-| `check.귀행을` | ●귀행을 | checkbox (해외체재비 / 외국인 또는 비거주자의 국내보수 등을 위한 거래 외국환 은행으로 지정하고) | 1쪽 [89, 725, 161, 736] | 늘 | 체크 (항목명) | 보기 중 고름: 해외체재비 / 외국인 또는 비거주자의 국내보수 등을 위한 거래 외국환 은행으로 지정하고 | fields.json:581 | 묻기 |
-| `seal.customer` ← `seal.signer` | 예금주명(A/CHOLDERNAME) | seal | 1쪽 [804, 769, 824, 780] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:620 | 묻기 |
-| `sign.customer` ← `sign.signer` | 예금주명(A/CHOLDERNAME) | signature | 1쪽 [804, 769, 824, 780] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:620 | 묻기 |
-| `seal.signer2` | 신청인(Applicant) | seal | 1쪽 [803, 814, 823, 825] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:662 | 묻기 |
-| `sign.signer2` | 신청인(Applicant) | signature | 1쪽 [803, 814, 823, 825] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:662 | 묻기 |
-| `seal.agent` ← `seal.signer3` | 대리인(Agent) | seal | 1쪽 [803, 837, 823, 849] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:679 | 묻기 |
-| `sign.agent` ← `sign.signer3` | 대리인(Agent) | signature | 1쪽 [803, 837, 823, 849] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:679 | 묻기 |
-| `seal.signer4` | 지점장 | seal | 1쪽 [827, 873, 879, 914] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:721 | 묻기 |
-| `sign.signer4` | 지점장 | signature | 1쪽 [842, 887, 864, 899] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:721 | 묻기 |
-| `check.자동화기기를이용한외화송금서비스신청` | ◈자동화기기를이용한외화송금서비스신청( | checkbox (신규 / 변경 / 해지) | 2쪽 [447, 119, 494, 138] | 늘 | 체크 (항목명) | 보기 중 고름: 신규 / 변경 / 해지 | fields.json:745 | 묻기 |
-| `check.송금항목` | 송금항목 | checkbox (거주자의 무증빙 해외송금) | 2쪽 [283, 144, 445, 156] | 늘 | 체크 (항목명) | 보기 중 고름: 거주자의 무증빙 해외송금 | fields.json:806 | 묻기 |
-| `check.송금항목2` | 송금항목 | checkbox (체재비 송금) | 2쪽 [321, 167, 407, 180] | 늘 | 체크 (항목명) | 보기 중 고름: 체재비 송금 | fields.json:835 | 묻기 |
-| `check.송금결과통보` | 송금결과통보 | checkbox (SMS / E-MAIL) | 2쪽 [572, 214, 641, 226] | 늘 | 체크 (항목명) | 보기 중 고름: SMS / E-MAIL | fields.json:875 | 묻기 |
-| `check.유학생송금` | 유학생송금 | checkbox (유학생 송금) | 2쪽 [668, 144, 754, 156] | 늘 | 체크 (항목명) | 보기 중 고름: 유학생 송금 | fields.json:920 | 묻기 |
-| `check.외국인근로자의보수송금` | 외국인근로자의보수송금 | checkbox (외국인 근로자의 보수 송금) | 2쪽 [521, 167, 684, 180] | 늘 | 체크 (항목명) | 보기 중 고름: 외국인 근로자의 보수 송금 | fields.json:949 | 묻기 |
-| `check.국내전신송금` | 국내전신송금 | checkbox (국내 전신 송금) | 2쪽 [770, 167, 868, 180] | 늘 | 체크 (항목명) | 보기 중 고름: 국내 전신 송금 | fields.json:978 | 묻기 |
-| `check.대금송금후물품수령예정일` | 대금송금후물품(선적서류)수령예정일 | checkbox (년 이내) | 2쪽 [579, 442, 647, 456] | 늘 | 체크 (항목명) | 보기 중 고름: 년 이내 | fields.json:1018 | 묻기 |
-| `check.대금송금후물품수령예정일2` | 대금송금후물품(선적서류)수령예정일 | checkbox (년 초과 () | 2쪽 [579, 468, 785, 481] | 늘 | 체크 (항목명) | 보기 중 고름: 년 초과 ( | fields.json:1047 | 묻기 |
-| `check.일반수입` | 일반수입 | checkbox (일반 수입) | 2쪽 [101, 567, 182, 581] | 늘 | 체크 (항목명) | 보기 중 고름: 일반 수입 | fields.json:1076 | 묻기 |
-| `check.중계무역` | 중계무역 | checkbox (중계 무역) | 2쪽 [101, 603, 182, 616] | 늘 | 체크 (항목명) | 보기 중 고름: 중계 무역 | fields.json:1105 | 묻기 |
-| `check.외국인수수입` | 외국인수수입 | checkbox (외국인수 수입) | 2쪽 [101, 638, 207, 652] | 늘 | 체크 (항목명) | 보기 중 고름: 외국인수 수입 | fields.json:1134 | 묻기 |
-| `check.현재수출계약체결` | 현재수출계약체결 | checkbox (현재 수출계약 체결) | 2쪽 [574, 593, 702, 606] | 늘 | 체크 (항목명) | 보기 중 고름: 현재 수출계약 체결 | fields.json:1163 | 묻기 |
-| `check.현재수출계약미체결` | 현재수출계약미체결 | checkbox (현재 수출계약 미체결) | 2쪽 [574, 613, 714, 627] | 늘 | 체크 (항목명) | 보기 중 고름: 현재 수출계약 미체결 | fields.json:1192 | 묻기 |
-| `seal.signer5` | 신청인 | seal | 2쪽 [866, 752, 921, 765] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:1246 | 묻기 |
-| `sign.signer5` | 신청인 | signature | 2쪽 [866, 752, 921, 765] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:1246 | 묻기 |
+| `check.송금방법` | 송금방법 | checkbox (국외전신송금(OTT) / 국내전신송금(ODT) / 송금수표 (D/D) / 금융결제원이체(국내) / 금융결제원이체(국가간송금)) | 1쪽 [246, 128, 373, 140] | 늘 | 파일 key | 보기 중 고름: 국외전신송금(OTT) / 국내전신송금(ODT) / 송금수표 (D/D) / 금융결제원이체(국내) / 금융결제원이체(국가간송금) | fields.json:38 | 묻기 |
+| `check.송금정보등록` | 송금정보등록 | checkbox (신규 / 변경 (NO. / 해지 (NO.) | 1쪽 [246, 148, 287, 160] | 늘 | 파일 key | 보기 중 고름: 신규 / 변경 (NO. / 해지 (NO. | fields.json:132 | 묻기 |
+| `check.결제은행수수료부담` | 결제은행수수료부담(REIMBURSINGBANKCHG.) | checkbox (송금인 (DEBT) / 수취인 (SHAR) / 수취인 (CRED - 수취인이 송금과 관련한 국내 , 국외 수수료 모두 ) | 1쪽 [293, 339, 393, 351] | 늘 | 파일 key | 보기 중 고름: 송금인 (DEBT) / 수취인 (SHAR) / 수취인 (CRED - 수취인이 송금과 관련한 국내 , 국외 수수료 모두  | fields.json:252 | 묻기 |
+| `check.받으실분` | 받으실분(Beneficiary) | checkbox (HAPPY E-MAIL 서비스 신청 (무료)) | 1쪽 [240, 602, 454, 614] | 늘 | 파일 key | 보기 중 고름: HAPPY E-MAIL 서비스 신청 (무료) | fields.json:314 | 묻기 |
+| `check.송금정보등록건송금결과통지` | 송금정보등록건송금결과통지 | checkbox (SMS / E-MAIL) | 1쪽 [658, 148, 711, 160] | 늘 | 파일 key | 보기 중 고름: SMS / E-MAIL | fields.json:501 | 묻기 |
+| `check.통화금액` | 통화(CURRENCY):금액(AMOUNT) | checkbox (수수료 별도납부) | 1쪽 [690, 316, 796, 329] | 늘 | 파일 key | 보기 중 고름: 수수료 별도납부 | fields.json:547 | 묻기 |
+| `check.수수료차감후송금` | 수수료차감후송금 | checkbox (수수료차감후 송금) | 1쪽 [835, 316, 957, 329] | 늘 | 파일 key | 보기 중 고름: 수수료차감후 송금 | fields.json:592 | 묻기 |
+| `check.귀행을` | ●귀행을 | checkbox (해외체재비 / 외국인 또는 비거주자의 국내보수 등을 위한 거래 외국환 은행으로 지정하고) | 1쪽 [89, 725, 161, 736] | 늘 | 파일 key | 보기 중 고름: 해외체재비 / 외국인 또는 비거주자의 국내보수 등을 위한 거래 외국환 은행으로 지정하고 | fields.json:637 | 묻기 |
+| `seal.signer` | 예금주명(A/CHOLDERNAME) | seal | 1쪽 [804, 769, 824, 780] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:677 | 묻기 |
+| `sign.signer` | 예금주명(A/CHOLDERNAME) | signature | 1쪽 [804, 769, 824, 780] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:677 | 묻기 |
+| `seal.signer2` | 신청인(Applicant) | seal | 1쪽 [803, 814, 823, 825] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:722 | 묻기 |
+| `sign.signer2` | 신청인(Applicant) | signature | 1쪽 [803, 814, 823, 825] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:722 | 묻기 |
+| `seal.signer3` | 대리인(Agent) | seal | 1쪽 [803, 837, 823, 849] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:741 | 묻기 |
+| `sign.signer3` | 대리인(Agent) | signature | 1쪽 [803, 837, 823, 849] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:741 | 묻기 |
+| `seal.signer4` | 지점장 | seal | 1쪽 [827, 873, 879, 914] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:786 | 묻기 |
+| `sign.signer4` | 지점장 | signature | 1쪽 [842, 887, 864, 899] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:786 | 묻기 |
+| `check.자동화기기를이용한외화송금서비스신청` | ◈자동화기기를이용한외화송금서비스신청( | checkbox (신규 / 변경 / 해지) | 2쪽 [447, 119, 494, 138] | 늘 | 파일 key | 보기 중 고름: 신규 / 변경 / 해지 | fields.json:814 | 묻기 |
+| `check.송금항목` | 송금항목 | checkbox (거주자의 무증빙 해외송금) | 2쪽 [283, 144, 445, 156] | 늘 | 파일 key | 보기 중 고름: 거주자의 무증빙 해외송금 | fields.json:876 | 묻기 |
+| `check.송금항목2` | 송금항목 | checkbox (체재비 송금) | 2쪽 [321, 167, 407, 180] | 늘 | 파일 key | 보기 중 고름: 체재비 송금 | fields.json:906 | 묻기 |
+| `check.송금결과통보` | 송금결과통보 | checkbox (SMS / E-MAIL) | 2쪽 [572, 214, 641, 226] | 늘 | 파일 key | 보기 중 고름: SMS / E-MAIL | fields.json:950 | 묻기 |
+| `check.유학생송금` | 유학생송금 | checkbox (유학생 송금) | 2쪽 [668, 144, 754, 156] | 늘 | 파일 key | 보기 중 고름: 유학생 송금 | fields.json:996 | 묻기 |
+| `check.외국인근로자의보수송금` | 외국인근로자의보수송금 | checkbox (외국인 근로자의 보수 송금) | 2쪽 [521, 167, 684, 180] | 늘 | 파일 key | 보기 중 고름: 외국인 근로자의 보수 송금 | fields.json:1026 | 묻기 |
+| `check.국내전신송금` | 국내전신송금 | checkbox (국내 전신 송금) | 2쪽 [770, 167, 868, 180] | 늘 | 파일 key | 보기 중 고름: 국내 전신 송금 | fields.json:1056 | 묻기 |
+| `check.대금송금후물품수령예정일` | 대금송금후물품(선적서류)수령예정일 | checkbox (년 이내) | 2쪽 [579, 442, 647, 456] | 늘 | 파일 key | 보기 중 고름: 년 이내 | fields.json:1100 | 묻기 |
+| `check.대금송금후물품수령예정일2` | 대금송금후물품(선적서류)수령예정일 | checkbox (년 초과 () | 2쪽 [579, 468, 785, 481] | 늘 | 파일 key | 보기 중 고름: 년 초과 ( | fields.json:1130 | 묻기 |
+| `check.일반수입` | 일반수입 | checkbox (일반 수입) | 2쪽 [101, 567, 182, 581] | 늘 | 파일 key | 보기 중 고름: 일반 수입 | fields.json:1160 | 묻기 |
+| `check.중계무역` | 중계무역 | checkbox (중계 무역) | 2쪽 [101, 603, 182, 616] | 늘 | 파일 key | 보기 중 고름: 중계 무역 | fields.json:1190 | 묻기 |
+| `check.외국인수수입` | 외국인수수입 | checkbox (외국인수 수입) | 2쪽 [101, 638, 207, 652] | 늘 | 파일 key | 보기 중 고름: 외국인수 수입 | fields.json:1220 | 묻기 |
+| `check.현재수출계약체결` | 현재수출계약체결 | checkbox (현재 수출계약 체결) | 2쪽 [574, 593, 702, 606] | 늘 | 파일 key | 보기 중 고름: 현재 수출계약 체결 | fields.json:1250 | 묻기 |
+| `check.현재수출계약미체결` | 현재수출계약미체결 | checkbox (현재 수출계약 미체결) | 2쪽 [574, 613, 714, 627] | 늘 | 파일 key | 보기 중 고름: 현재 수출계약 미체결 | fields.json:1280 | 묻기 |
+| `seal.signer5` | 신청인 | seal | 2쪽 [866, 752, 921, 765] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:1336 | 묻기 |
+| `sign.signer5` | 신청인 | signature | 2쪽 [866, 752, 921, 765] | 늘 | 서명 자리 | 도장·서명 (표시 확률 marks.json) | fields.json:1336 | 묻기 |
 
 - **나옴:** 여러 seed 로 그렸을 때 그 칸이 나온 문서 수 (조건부 칸). **위치:** seed 하나로 그린 것 — 행 수·변형에 따라 달라질 수 있음.
-- **키 `a` ← `b`:** 질문·정답은 공통 키 a, 서식의 원래 키는 b (키 사전이 정함).
-- **키는·값은:** 어디서 정해지나. 원본 서식의 "규칙"·"항목명 자동" 은 키 사전(studio 키 사전 화면, `_common/key_rules.json`)이 항목명으로 정한 것 — 모든 서식에 같이 적용. 이 서식의 그 칸만 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
+- **키는·값은:** 어디서 정해지나. 키·값 종류는 이 서식 파일에 적힌 그대로입니다 (모든 서식 공통 키 사전은 없음). "키 설명 그대로" 는 칸에 `"key"` 가 없어 키 설명이 키로 나가는 것. 바꾸려면 **고칠 곳** 줄(칸)에 `"key"`·`"kind"`·`"source"` 를 적습니다.
 - **고칠 곳:** html·코드 서식은 템플릿 줄(칸 자리·키·항목명)과 fields.json 줄(값 출처·질문 설정 q), 원본 서식은 fields.json 의 그 칸(박스 `rect`·항목명·키·값·q). html·코드 서식에서 fields.json 에 줄이 없는 칸의 질문 설정은 fields.json 맨 위 `"q": {"키": {…}}` 묶음에.
 
 ## 질문 → 답 (seed 1000000 로 그린 실제 문항)
 
-질문은 모델에게 가는 글 전부, 답은 데이터의 정답 (그린 문서의 값·위치). 질문 문장·답 꼴은 공통 `docgen/forms/_common/questions.json`.
+질문은 모델에게 가는 글 전부, 답은 데이터의 정답 (그린 문서의 값·위치). 질문 문장·답 꼴은 이 폴더 `questions.json` 과 공통 `docgen/forms/_common/questions.json`.
 
 ### 서류 분류 `classify` · 채점 acc
 
@@ -125,21 +124,9 @@
 
 ```json
 [
- "850328-2489940",
- "983-182834-65991",
- "결혼자금",
- "8789",
- "신한은행",
- "기업은행",
- "1,540,000",
- "205787",
- "437-025269-18324",
- "Tokyo Seimitsu Kogyo K.K.",
- "419-625268-59084",
- "남궁예태",
- "803268-3668718",
  "663-930877-92207",
  "7,050,000",
+ "남궁예태",
  "2024.10.11"
 ]
 ```
@@ -155,7 +142,7 @@
 답:
 
 ```json
-"7,050,000"
+"663-930877-92207"
 ```
 
 ### 값 칸 읽기 `ocr_field` · 채점 exact
@@ -169,7 +156,7 @@
 답:
 
 ```json
-"남궁예태"
+"2024.10.11"
 ```
 
 ### 정보 추출 `kie` · 채점 vl_f1 (값+위치)
@@ -186,68 +173,22 @@ answer_empty: {"key": "{key}", "value": null}
 
 ```
 이 문서에서 아래 항목의 값과 위치를 찾아 JSON 목록으로 답하세요. 항목마다 {"key": 키, "value": 문서에 적힌 값 그대로, "bbox_2d": [x1, y1, x2, y2], "page": 쪽 번호} 를 쓰세요. 좌표는 그 쪽 이미지 기준 0~1000 정수, 쪽 번호는 1부터입니다. 키는 그대로 쓰고, 문서에 비어 있거나 없는 항목은 {"key": 키, "value": null} 로 답하세요.
-항목 (키: 서식의 항목명 (누구의 무엇·몇 번째 행))
-- 담당: 담당(실명확인)
-- 영문: 영문(English)
-- 국문: 국문(Korean)
-- customer.rrn: 주민(사업자)번호(I.DNo./PassportNo.) (고객 주민등록번호)
-- 과거송금번호: 과거송금번호(EXISTINGREF.NO)
-- 송금목적: 송금목적(송금사유)(PURPOSEOFPAYMENT)
-- 적요: 적요(DETAILSOFPAYMENT)
-- 은행코드: 은행코드(SWIFTBIC)
-- 은행명: 은행명(BANKNAME) (같은 항목명 중 1번째 칸)
-- 은행명2: 은행명(BANKNAME) (같은 항목명 중 2번째 칸)
-- 통화금액: 통화(CURRENCY):금액(AMOUNT)
-- 은행코드2: 은행코드(BANKCODE)
-- 수취인계좌번호: 수취인계좌번호(BNF'sA/CNo.)
-- foreign.name: 성명(Name) (외국 상대 이름)
-- 신청인과의관계: 신청인과의관계(RELATIONTOAPPLICANT) (같은 항목명 중 1번째 칸)
-- 보내는분계좌번호: 보내는분계좌번호(A/CNO)
-- 신청인과의관계2: 신청인과의관계(RELATIONTOAPPLICANT) (같은 항목명 중 2번째 칸)
-- customer.name: 예금주명(A/CHOLDERNAME) (고객 성명)
-- date: 작성일 (같은 항목명 중 1번째 칸)
-- signer2.name: 신청인(Applicant) (고객 본인의 성명)
-- agent.name: 대리인(Agent) (대리인 성명)
-- date2: 작성일 (같은 항목명 중 2번째 칸)
-- 대리인실명번호: 대리인실명번호(AGENTID.NO)
+항목 (키: 설명 (몇 번째 행))
 - 인출계좌번호: 인출계좌번호
 - 사전송금방식국내통관전수입대금을지급: 사전송금방식:국내통관(물품인수)전수입대금을지급
-- date3: 작성일 (같은 항목명 중 3번째 칸)
-- signer5.name: 신청인 (고객 본인의 성명)
+- date3: 작성일
+- signer5.name: 신청인
 - 대금송금후물품수령예정일: 대금송금후물품(선적서류)수령예정일
 ```
 
 답:
 
 ```json
-[{"key": "담당", "value": null},
- {"key": "영문", "value": null},
- {"key": "국문", "value": null},
- {"key": "customer.rrn", "value": "850328-2489940", "bbox_2d": [239, 228, 368, 240], "page": 1},
- {"key": "과거송금번호", "value": "983-182834-65991", "bbox_2d": [243, 277, 387, 289], "page": 1},
- {"key": "송금목적", "value": "결혼자금", "bbox_2d": [245, 626, 313, 638], "page": 1},
- {"key": "적요", "value": null},
- {"key": "은행코드", "value": "8789", "bbox_2d": [392, 363, 430, 375], "page": 1},
- {"key": "은행명", "value": "신한은행", "bbox_2d": [392, 387, 460, 399], "page": 1},
- {"key": "은행명2", "value": "기업은행", "bbox_2d": [387, 410, 455, 422], "page": 1},
- {"key": "통화금액", "value": "1,540,000", "bbox_2d": [894, 434, 969, 446], "page": 1},
- {"key": "은행코드2", "value": "205787", "bbox_2d": [391, 482, 447, 494], "page": 1},
- {"key": "수취인계좌번호", "value": "437-025269-18324", "bbox_2d": [390, 506, 534, 518], "page": 1},
- {"key": "foreign.name", "value": "Tokyo Seimitsu Kogyo K.K.", "bbox_2d": [392, 531, 596, 543], "page": 1},
- {"key": "신청인과의관계", "value": null},
- {"key": "보내는분계좌번호", "value": "419-625268-59084", "bbox_2d": [734, 228, 877, 240], "page": 1},
- {"key": "신청인과의관계2", "value": null},
- {"key": "customer.name", "value": "남궁예태", "bbox_2d": [676, 769, 742, 780], "page": 1},
- {"key": "date", "value": "2025년 4월 1일", "bbox_2d": [728, 790, 909, 804], "page": 1},
- {"key": "signer2.name", "value": "남궁예태", "bbox_2d": [695, 814, 760, 825], "page": 1},
- {"key": "agent.name", "value": null},
- {"key": "date2", "value": "2025년 4월 1일", "bbox_2d": [311, 886, 485, 900], "page": 1},
- {"key": "대리인실명번호", "value": "803268-3668718", "bbox_2d": [668, 856, 793, 867], "page": 1},
- {"key": "인출계좌번호", "value": "663-930877-92207", "bbox_2d": [241, 191, 384, 203], "page": 2},
- {"key": "사전송금방식국내통관전수입대금을지급", "value": "7,050,000", "bbox_2d": [836, 418, 912, 430], "page": 2},
- {"key": "date3", "value": "2025년 4월 1일", "bbox_2d": [693, 271, 891, 286], "page": 2},
- {"key": "signer5.name", "value": "남궁예태", "bbox_2d": [748, 752, 816, 764], "page": 2},
- {"key": "대금송금후물품수령예정일", "value": "2024.10.11", "bbox_2d": [340, 456, 424, 468], "page": 2}]
+[{"key": "인출계좌번호", "value": "663-930877-92207", "bbox_2d": [241, 191, 384, 203], "page": 1},
+ {"key": "사전송금방식국내통관전수입대금을지급", "value": "7,050,000", "bbox_2d": [836, 418, 912, 430], "page": 1},
+ {"key": "date3", "value": "2025년 4월 1일", "bbox_2d": [693, 271, 891, 286], "page": 1},
+ {"key": "signer5.name", "value": "남궁예태", "bbox_2d": [748, 752, 816, 764], "page": 1},
+ {"key": "대금송금후물품수령예정일", "value": "2024.10.11", "bbox_2d": [340, 456, 424, 468], "page": 1}]
 ```
 
 ### 체크·도장·서명 `marks` · 채점 vl_f1 (값+위치)
@@ -268,75 +209,43 @@ answer_empty: {"key": "{key}", "value": null}
 - 복수 선택: 체크된 보기마다 한 줄 (위와 같은 꼴)
 - 도장·서명: {"key": 키, "value": true 또는 false, "bbox_2d": 찍힌 자리, "page": 쪽} (비어 있으면 value 만 false)
 항목
-- check.송금방법: 송금방법 (체크박스, 보기: 국외전신송금(OTT) / 국내전신송금(ODT) / 송금수표 (D/D) / 금융결제원이체(국내) / 금융결제원이체(국가간송금))
-- check.송금정보등록: 송금정보등록 (체크박스, 보기: 신규 / 변경 (NO. / 해지 (NO.)
-- check.결제은행수수료부담: 결제은행수수료부담(REIMBURSINGBANKCHG.) (체크박스, 보기: 송금인 (DEBT) / 수취인 (SHAR) / 수취인 (CRED - 수취인이 송금과 관련한 국내 , 국외 수수료 모두 )
-- check.받으실분: 받으실분(Beneficiary) (체크박스, 보기: HAPPY E-MAIL 서비스 신청 (무료))
-- check.송금정보등록건송금결과통지: 송금정보등록건송금결과통지 (체크박스, 보기: SMS / E-MAIL)
-- check.통화금액: 통화(CURRENCY):금액(AMOUNT) (체크박스, 보기: 수수료 별도납부)
-- check.수수료차감후송금: 수수료차감후송금 (체크박스, 보기: 수수료차감후 송금)
-- check.귀행을: ●귀행을 (체크박스, 보기: 해외체재비 / 외국인 또는 비거주자의 국내보수 등을 위한 거래 외국환 은행으로 지정하고)
-- seal.customer: 예금주명(A/CHOLDERNAME) (고객 도장, 같은 항목명 중 1번째 칸, 도장)
-- sign.customer: 예금주명(A/CHOLDERNAME) (고객 서명, 같은 항목명 중 2번째 칸, 서명)
-- seal.signer2: 신청인(Applicant) (고객 본인의 신청인, 같은 항목명 중 1번째 칸, 도장)
-- sign.signer2: 신청인(Applicant) (고객 본인의 신청인, 같은 항목명 중 2번째 칸, 서명)
-- seal.agent: 대리인(Agent) (대리인 도장, 같은 항목명 중 1번째 칸, 도장)
-- sign.agent: 대리인(Agent) (대리인 서명, 같은 항목명 중 2번째 칸, 서명)
-- seal.signer4: 지점장 (은행·직원의 신청인, 같은 항목명 중 1번째 칸, 도장)
-- sign.signer4: 지점장 (은행·직원의 신청인, 같은 항목명 중 2번째 칸, 서명)
 - check.자동화기기를이용한외화송금서비스신청: ◈자동화기기를이용한외화송금서비스신청( (체크박스, 보기: 신규 / 변경 / 해지)
-- check.송금항목: 송금항목 (같은 항목명 중 1번째 칸, 체크박스, 보기: 거주자의 무증빙 해외송금)
-- check.송금항목2: 송금항목 (같은 항목명 중 2번째 칸, 체크박스, 보기: 체재비 송금)
+- check.송금항목: 송금항목 (같은 설명 중 1번째 칸, 체크박스, 보기: 거주자의 무증빙 해외송금)
+- check.송금항목2: 송금항목 (같은 설명 중 2번째 칸, 체크박스, 보기: 체재비 송금)
 - check.송금결과통보: 송금결과통보 (체크박스, 보기: SMS / E-MAIL)
 - check.유학생송금: 유학생송금 (체크박스, 보기: 유학생 송금)
 - check.외국인근로자의보수송금: 외국인근로자의보수송금 (체크박스, 보기: 외국인 근로자의 보수 송금)
 - check.국내전신송금: 국내전신송금 (체크박스, 보기: 국내 전신 송금)
-- check.대금송금후물품수령예정일: 대금송금후물품(선적서류)수령예정일 (같은 항목명 중 1번째 칸, 체크박스, 보기: 년 이내)
-- check.대금송금후물품수령예정일2: 대금송금후물품(선적서류)수령예정일 (같은 항목명 중 2번째 칸, 체크박스, 보기: 년 초과 ()
+- check.대금송금후물품수령예정일: 대금송금후물품(선적서류)수령예정일 (같은 설명 중 1번째 칸, 체크박스, 보기: 년 이내)
+- check.대금송금후물품수령예정일2: 대금송금후물품(선적서류)수령예정일 (같은 설명 중 2번째 칸, 체크박스, 보기: 년 초과 ()
 - check.일반수입: 일반수입 (체크박스, 보기: 일반 수입)
 - check.중계무역: 중계무역 (체크박스, 보기: 중계 무역)
 - check.외국인수수입: 외국인수수입 (체크박스, 보기: 외국인수 수입)
 - check.현재수출계약체결: 현재수출계약체결 (체크박스, 보기: 현재 수출계약 체결)
 - check.현재수출계약미체결: 현재수출계약미체결 (체크박스, 보기: 현재 수출계약 미체결)
-- seal.signer5: 신청인 (고객 본인의 신청인, 같은 항목명 중 1번째 칸, 도장)
-- sign.signer5: 신청인 (고객 본인의 신청인, 같은 항목명 중 2번째 칸, 서명)
+- seal.signer5: 신청인 (같은 설명 중 1번째 칸, 도장)
+- sign.signer5: 신청인 (같은 설명 중 2번째 칸, 서명)
 ```
 
 답:
 
 ```json
-[{"key": "check.송금방법", "value": "국외전신송금(OTT)", "bbox_2d": [246, 129, 259, 139], "page": 1},
- {"key": "check.송금정보등록", "value": "신규", "bbox_2d": [246, 149, 259, 159], "page": 1},
- {"key": "check.결제은행수수료부담", "value": "송금인 (DEBT)", "bbox_2d": [293, 340, 306, 350], "page": 1},
- {"key": "check.받으실분", "value": "HAPPY E-MAIL 서비스 신청 (무료)", "bbox_2d": [240, 603, 253, 613], "page": 1},
- {"key": "check.송금정보등록건송금결과통지", "value": "SMS", "bbox_2d": [658, 149, 672, 159], "page": 1},
- {"key": "check.통화금액", "value": null},
- {"key": "check.수수료차감후송금", "value": "수수료차감후 송금", "bbox_2d": [835, 318, 848, 327], "page": 1},
- {"key": "check.귀행을", "value": "해외체재비", "bbox_2d": [89, 726, 102, 735], "page": 1},
- {"key": "seal.customer", "value": false},
- {"key": "sign.customer", "value": true, "bbox_2d": [804, 769, 824, 780], "page": 1},
- {"key": "seal.signer2", "value": false},
- {"key": "sign.signer2", "value": true, "bbox_2d": [803, 814, 823, 825], "page": 1},
- {"key": "seal.agent", "value": false},
- {"key": "sign.agent", "value": false},
- {"key": "seal.signer4", "value": true, "bbox_2d": [827, 873, 879, 914], "page": 1},
- {"key": "sign.signer4", "value": false},
- {"key": "check.자동화기기를이용한외화송금서비스신청", "value": "변경", "bbox_2d": [447, 119, 463, 138], "page": 2},
+[{"key": "check.자동화기기를이용한외화송금서비스신청", "value": "변경", "bbox_2d": [447, 119, 463, 138], "page": 1},
  {"key": "check.송금항목", "value": null},
  {"key": "check.송금항목2", "value": null},
- {"key": "check.송금결과통보", "value": "E-MAIL", "bbox_2d": [572, 215, 585, 225], "page": 2},
- {"key": "check.유학생송금", "value": "유학생 송금", "bbox_2d": [668, 145, 681, 155], "page": 2},
- {"key": "check.외국인근로자의보수송금", "value": "외국인 근로자의 보수 송금", "bbox_2d": [521, 169, 535, 178], "page": 2},
- {"key": "check.국내전신송금", "value": "국내 전신 송금", "bbox_2d": [770, 169, 784, 178], "page": 2},
+ {"key": "check.송금결과통보", "value": "E-MAIL", "bbox_2d": [572, 215, 585, 225], "page": 1},
+ {"key": "check.유학생송금", "value": "유학생 송금", "bbox_2d": [668, 145, 681, 155], "page": 1},
+ {"key": "check.외국인근로자의보수송금", "value": "외국인 근로자의 보수 송금", "bbox_2d": [521, 169, 535, 178], "page": 1},
+ {"key": "check.국내전신송금", "value": "국내 전신 송금", "bbox_2d": [770, 169, 784, 178], "page": 1},
  {"key": "check.대금송금후물품수령예정일", "value": null},
- {"key": "check.대금송금후물품수령예정일2", "value": "년 초과 (", "bbox_2d": [579, 470, 593, 479], "page": 2},
+ {"key": "check.대금송금후물품수령예정일2", "value": "년 초과 (", "bbox_2d": [579, 470, 593, 479], "page": 1},
  {"key": "check.일반수입", "value": null},
- {"key": "check.중계무역", "value": "중계 무역", "bbox_2d": [101, 605, 114, 615], "page": 2},
- {"key": "check.외국인수수입", "value": "외국인수 수입", "bbox_2d": [101, 640, 114, 650], "page": 2},
- {"key": "check.현재수출계약체결", "value": "현재 수출계약 체결", "bbox_2d": [574, 595, 588, 604], "page": 2},
- {"key": "check.현재수출계약미체결", "value": "현재 수출계약 미체결", "bbox_2d": [574, 615, 588, 625], "page": 2},
+ {"key": "check.중계무역", "value": "중계 무역", "bbox_2d": [101, 605, 114, 615], "page": 1},
+ {"key": "check.외국인수수입", "value": "외국인수 수입", "bbox_2d": [101, 640, 114, 650], "page": 1},
+ {"key": "check.현재수출계약체결", "value": "현재 수출계약 체결", "bbox_2d": [574, 595, 588, 604], "page": 1},
+ {"key": "check.현재수출계약미체결", "value": "현재 수출계약 미체결", "bbox_2d": [574, 615, 588, 625], "page": 1},
  {"key": "seal.signer5", "value": false},
- {"key": "sign.signer5", "value": true, "bbox_2d": [866, 752, 921, 765], "page": 2}]
+ {"key": "sign.signer5", "value": true, "bbox_2d": [866, 752, 921, 765], "page": 1}]
 ```
 
 ## 이 서식만의 질문 `qa.py` (과제 form_qa)
@@ -357,7 +266,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 |---|---|---|
 | 칸(추출 항목) 더하기 | studio ① 서식 › 영역 편집에서 그리기 (`fields.json` items 에 한 칸) | 다시 |
 | 답의 위치 (박스) | `fields.json` 그 칸의 `rect` [x0, y0, x1, y1] (pt) — 또는 영역 편집 | 다시 |
-| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 규칙이 항목명으로 정함 — 모든 서식 공통 규칙은 studio 키 사전) | 다시 |
+| 답의 키 | `fields.json` 그 칸에 `"key"` (없으면 키 설명이 그대로 키) | 다시 |
 | 답의 값 | `fields.json` 그 칸에 `"source"` ([값 출처 목록](../_common/values.md)) 또는 값 종류 `"kind"` | 다시 |
 | 칸의 항목명 | `fields.json` 그 칸의 `label` | 다시 |
 | 질문에서 이 칸을 빼기 | `fields.json` 그 칸에 `"q": {"ask": false}` | 필요 없음 |
@@ -370,7 +279,7 @@ def 직위(v):                       # v = 이 문서에 그린 칸 값 {키: �
 | 분류 정답 | `questions.json`: `{"classify": {"answer": "…", "aliases": […]}}` | 필요 없음 |
 | 표를 가리키는 제목 (표 과제 질문) | `questions.json`: `{"table": {"<묶음>": {"title": "…"}}}` (묶음 = 키의 행 번호 앞, `rows.0.x` → `rows`) | 필요 없음 |
 | 개수가 정해진 격자를 표가 아니라 kie 로 | `questions.json`: `{"table": {"<묶음>": {"ask": false}}}` | 필요 없음 |
-| 모든 서식에 같은 것 (기본 문장·키 사전·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
+| 모든 서식에 같은 것 (기본 문장·바탕 틀) | `docgen/forms/_common/` ([README](../_common/README.md)) | 바탕 틀이면 다시 |
 
 "다시" = 그림이 바뀌어 재검수 필요로 바뀝니다. 질문 설정(`q`)·`questions.json`·`qa.py` 는 그림을 바꾸지 않아 검수 상태가 그대로입니다.
 확인: studio ① 서식 › 카드·문항 Q/A · `python -m docgen.formdir questions hf199 --show` · `python -m docgen.preview hf199 --out work/hf199`

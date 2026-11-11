@@ -8,7 +8,7 @@
 
 | 명령 | 하는 일 |
 |---|---|
-| `python -m docgen.bench build --recipe <레시피> --out <폴더>` | 서류 한 건 과제(문서 이해·값 칸 OCR) 데이터셋 (`tasks/<과제>.jsonl`). `run`·`eval` 은 API 모델 평가 ([guide/train/steps.md 6절](../guide/train/steps.md)) |
+| `python -m docgen.bench build --recipe <레시피> --out <폴더>` | 서류 한 건 과제(문서 이해·값 칸 OCR) 데이터셋 (`tasks/<과제>.jsonl`). `run`·`eval` 은 OpenAI 호환 API 하나를 바로 채점하는 간이 평가 (아래 "벤치마크"). 모델 비교는 학습 서버의 `python -m train eval` ([steps.md 2절](../guide/train/steps.md#2-평가만-하기-python--m-train-eval)) |
 | `python -m docgen.ocr_set build --recipe <레시피> --out <폴더>` | 합성 쪽 OCR 데이터셋 (OCR 준비까지) |
 | `python -m docgen.formdir check\|card\|path\|questions\|qa\|adjust\|declare\|values <ID>` | 서식 폴더: 검사(**고친 뒤 이것 하나**)·카드·파일 목록·질문 보기·`qa.py` 견본·`generate.py` 견본·코드 서식 칸 적기·생성 방법 목록 |
 | `python -m docgen.preview <ID> --out <폴더>` | 서식 하나 그려 보기 (`--rows max`, `--dir <초안 폴더>`) |
@@ -309,7 +309,7 @@ docgen/
   ocr_export.py, ocr_set.py   생성 정답 → 사내 OCR 형식, 합성 OCR 세트 (OCR 준비 → 과제 폴더)
   cli.py                   list / generate / check
   bench/                   벤치마크: 평가 세트·학습 데이터 만들기(build), 모델 실행(run), 채점(eval) — guide/reference/benchmark.md
-                           evaluate.py(채점 하나, 학습 보상과 같음), tracking.py(구분별 점수), ocr_prepare.py·ocr_*(OCR 준비), table_audit.py
+                           evaluate.py(채점, 학습 평가도 같은 코드), tracking.py(구분별 점수), ocr_prepare.py·ocr_*(OCR 준비), table_audit.py
   bench/tasks/<과제>.py    서류 한 건 과제: 과제 하나 = 파일 하나 (질문, 정답 만드는 make(doc), 답 형식). 견본 kie.py
   formquestions.py         서식 폴더의 questions.json: 질문 문장·질문 항목 줄 틀·답 항목 틀, 분류 정답 (docgen/forms/README.md)
   formqa.py                서식 폴더의 qa.py (서식 전용 질문 → 과제 form_qa)와 qa.py 도우미 number·date·months
@@ -334,14 +334,14 @@ docgen/
   scripts/                 extract_form_layout.py(서식 PDF → 기재 자리), make_samples.py,
                            build_schema.py(→ guide/fields/fields.json), build_keys.py(→ keys.json),
                            audit_form_values.py(값 점검), build_official_html.py·verify_official_html.py(공식 대조 HTML),
-                           visualize_labels.py, make_bank_data.sh(평가 세트·학습 데이터)
+                           visualize_labels.py
   manual/                  NEW_FORM_SPEC.md(새 서식 결과물 형식, 코드 서식 12절), FORM_SHELL_GUIDE.md(모양만 고치기: VLM 에게 넘길 문서),
                            official_html_sources.json (점검 보고·현실화 기록은 archive/docgen/manual/)
   tests/                   pytest (생성기·벤치마크)
   requirements.txt         생성기 파이썬 패키지 (도커 이미지는 docker/requirements.lock)
 ```
 
-학습은 옆 폴더 `train/`(`python -m train`)에서 합니다. 이 생성기의 평가 세트·학습 데이터와 OCR 준비 결과를 studio 데이터셋으로 등록해 섞어 씁니다. 채점은 모두 `docgen/bench/evaluate.py` 입니다.
+학습은 옆 폴더 `train/`(`python -m train`)에서 합니다. 이 생성기로 만든 데이터셋 폴더 경로를 학습 설정의 `data.train`·`data.benchmark` 에 적습니다. 채점은 모두 `docgen/bench/evaluate.py` 입니다.
 
 은행이 직접 쓰는 서식 그룹(`bank_form`)은 `registry.BANK_FORM_GROUPS`로 묶여 있습니다. 이 그룹의 서류는 렌더링할 때 서식을 낸 은행(옛 은행 포함)에 맞춰 프로필이 바뀌고, 템플릿에 서식 문맥 `bk`가 들어갑니다. 그룹을 새로 만들 때 이 집합에 넣어 주면 같은 동작을 받습니다.
 

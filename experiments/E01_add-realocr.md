@@ -6,7 +6,7 @@
 | 기간 | 2026-10-23 ~ |
 | 담당 | |
 | 묶음 파일 | `train/configs/E01_add-realocr.json` (base `train/configs/pipeline.json`) |
-| 결과 폴더 | `train/runs/E01_add-realocr/` — 비교표 `compare.md`·`compare.html`, 진행 `python -m train sweep --config train/configs/E01_add-realocr.json --status` |
+| 결과 폴더 | `train/runs/E01_add-realocr/` — 보고서 `report.html`·`scores.csv`·`answers.html` (예전 코드로 돌렸으면 `compare.md`, `python -m train report <폴더>` 로 새 보고서), 진행 `python -m train sweep --config train/configs/E01_add-realocr.json --status` |
 
 ## 무엇을 보려는 실험인가
 
@@ -44,7 +44,7 @@
 | `real-fx-bl` | 실서류 BL 추출 (swift) | `REAL/FE_eval/eval_qa_BL.jsonl` | 사람 검수 |
 
 - 같게 둔 것: 출발 모델, SFT 설정(`sft.yaml`), seed, `sft_max_examples` 20000, `task_mix`, 평가 세트 6개, GPU 7번 1장.
-- `part`: `sft` (GRPO 없음). 출발 모델 평가는 `a1-syn`에서 한 번.
+- SFT 만 (GRPO 없음). 출발 모델 평가는 한 번 (같은 모델·세트의 답은 `cache_dir` 에서 다시 씀).
 - 판단 기준: (정할 것)
 
 ## 실행
@@ -57,7 +57,7 @@
 
 ## 결과
 
-(`train/runs/E01_add-realocr/compare.md`에서 옮김)
+(`train/runs/E01_add-realocr/scores.csv` 에서 옮김)
 
 ## 해석
 
