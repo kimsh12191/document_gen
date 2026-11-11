@@ -13,14 +13,14 @@ def tracking_api(tmp_path):
     rows = [
         {"id": "ocr-train", "task": "crop_ocr", "answer": {"text": "abc"}, "meta": {"split": "train"}},
         {"id": "ocr-test", "task": "crop_ocr", "answer": {"text": "abc"}, "meta": {"split": "benchmark", "doc_type": "employment_certificate"}},
-        *[{"id": f"review-{s}", "task": "review", "answer": "예", "eval": {"answer_type": "yesno", "tol": 0},
-           "meta": {"split": "benchmark", "scenario": s, "skill": "test"}} for s in ("mortgage", "jeonse_loan")],
+        *[{"id": f"formqa-{s}", "task": "form_qa", "answer": "예", "eval": {"answer_type": "yesno", "tol": 0},
+           "meta": {"split": "benchmark", "doc_type": s, "question": f"{s}.test"}} for s in ("pay_stub", "income_certificate")],
         {"id": "kie", "task": "kie", "answer": {"name": "Alice"}, "eval": {"fields": {"name": {"type": "text", "kind": "name"}}},
          "meta": {"split": "benchmark", "group": "income", "condition": "clean"}},
     ]
     for task in {r["task"] for r in rows}:
         (root / "tasks" / f"{task}.jsonl").write_text("\n".join(json.dumps(r, ensure_ascii=False) for r in rows if r["task"] == task), encoding="utf-8")
-    (root / "meta.json").write_text(json.dumps({"version": "3.0", "split": "mixed", "counts": {"crop_ocr": 2, "review": 2, "kie": 1}}), encoding="utf-8")
+    (root / "meta.json").write_text(json.dumps({"version": "3.0", "split": "mixed", "counts": {"crop_ocr": 2, "form_qa": 2, "kie": 1}}), encoding="utf-8")
     reg = DS.Registry(tmp_path / "workspace")
     ds = reg.register(str(root))
     router = api_datasets.make_router(reg, lambda fn, *a, **kw: fn(*a, **kw))
@@ -35,5 +35,5 @@ def test_composition_filters_and_evaluation_scope(tracking_api):
     assert summary["evaluation"]["field_kind_counts"] == {"name": 1}
     lookup = api["GET", "/api/datasets/{ds_id}/items"]
     assert lookup(ds["id"], task="crop_ocr", evaluation_only=True)["total"] == 1
-    rows = lookup(ds["id"], scenario="mortgage", task_group="work", label_format="scalar")["items"]
-    assert [r["id"] for r in rows] == ["review-mortgage"]
+    rows = lookup(ds["id"], doc_type="pay_stub", task_group="doc", label_format="scalar")["items"]
+    assert [r["id"] for r in rows] == ["formqa-pay_stub"]

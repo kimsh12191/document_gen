@@ -6,27 +6,28 @@ from docgen.bench.tracking import composition, enrich, evaluate_groups
 from train.score import score
 
 
-def text_item(ident, text, scenario=None):
+def text_item(ident, text, doc_type=None):
     return {"id": ident, "task": "crop_ocr", "answer": {"text": text}, "eval": {},
-            "meta": {"scenario": scenario} if scenario else {}}
+            "meta": {"doc_type": doc_type} if doc_type else {}}
 
 
 def test_group_cer_recomputed_from_characters_not_item_mean():
-    items = [text_item("short", "a", "mortgage"), text_item("long", "b" * 100, "mortgage")]
+    items = [text_item("short", "a", "pay_stub"), text_item("long", "b" * 100, "pay_stub")]
     result = evaluate_groups(items, {"short": "x", "long": "b" * 100})
-    subset = result["breakdowns"]["scenario"]["mortgage"]["tasks"]["crop_ocr"]
+    subset = result["breakdowns"]["doc_type"]["pay_stub"]["tasks"]["crop_ocr"]
     assert subset["n"] == 2
     assert subset["metrics"]["cer"] == pytest.approx(1 / 101)
     assert result["composition"]["by"]["label_format"] == {"text": 2}
 
 
-def test_missing_scenario_and_field_units_are_explicit():
-    items = [text_item("ocr", "a"), {"id": "work", "task": "doc_check", "meta": {}},
-             {"id": "kie", "task": "kie", "meta": {"scenario": "mortgage"},
+def test_missing_doc_type_and_field_units_are_explicit():
+    items = [text_item("ocr", "a"), {"id": "cls", "task": "classify", "meta": {}},
+             {"id": "kie", "task": "kie", "meta": {"doc_type": "pay_stub", "view": "page"},
               "eval": {"fields": {"a": {"type": "amount"}, "b": {"kind": "date"}}}}]
     summary = composition(items)
     assert summary["n"] == 3
-    assert summary["by"]["scenario"] == {"mortgage": 1, "not_applicable": 1, "unknown": 1}
+    assert summary["by"]["doc_type"] == {"pay_stub": 1, "unknown": 2}
+    assert summary["by"]["view"] == {"not_applicable": 2, "page": 1}
     assert summary["field_kind_counts"] == {"amount": 1, "date": 1}
     enriched = enrich(items[0], "dataset-a")
     assert "source_dataset" not in items[0]["meta"]
@@ -38,7 +39,7 @@ def test_tracking_survives_train_mix_and_score(tmp_path):
 
     root = tmp_path / "evaluation"
     (root / "tasks").mkdir(parents=True)
-    raw = [text_item("m", "abc", "mortgage"), text_item("j", "def", "jeonse_loan")]
+    raw = [text_item("m", "abc", "pay_stub"), text_item("j", "def", "income_certificate")]
     (root / "meta.json").write_text(json.dumps({"version": "test", "split": "test"}))
     (root / "tasks/crop_ocr.jsonl").write_text("\n".join(json.dumps(x) for x in raw))
     _, items = load_folder(root)

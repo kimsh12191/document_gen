@@ -38,18 +38,6 @@ def test_binding_and_addition_preserve_original(tmp_path, monkeypatch):
     assert render(spec,p,7)[0]==html
 
 
-def test_role_membership_and_distinct_scopes():
-    from docgen.roles import catalog,index
-
-    rows=catalog();idx=index()
-    members=[did for r in rows for did in r["forms"]]
-    assert len(members)==len(set(members))==len(load_all())
-    assert idx["loan_application"]["id"]==idx["hana_official_049"]["id"]==idx["hf049"]["id"]
-    assert idx["balance_certificate"]["id"]!=idx["hana_official_011"]["id"]
-    assert idx["pension_enrollment_certificate"]["id"]!=idx["gov_pension"]["id"]
-    assert idx["tax_payment_certificate_corp"]["id"]!=idx["gov_national_tax"]["id"]
-
-
 def test_amount_cell_does_not_use_person_name():
     import random
     from docgen.realform import build_form
@@ -59,25 +47,14 @@ def test_amount_cell_does_not_use_person_name():
     assert values and all(i["unit"]=="백만원" and float(i["value"].replace(",",""))<1000 for i in values)
 
 
-def test_units_compare_in_won_and_role_selection_is_saved(monkeypatch):
-    from docgen.bench.processing import compare
-    from studio import bank_data
-
+def test_units_normalize_to_won():
     a,b=build_fields([{"key":"amount","label":"금액","value":"12.5","unit":"백만원"},
                       {"key":"amount2","label":"금액","value":"12,500,000","unit":"원"}])
-    assert a["value"]=="12.5" and a["norm"]==12500000
-    assert compare(a,b,"equal") is True
-    saved=[]
-    monkeypatch.setattr(bank_data,"save_scenarios",lambda rows:saved.extend(rows))
-    bank_data.save_scenarios_list([{"id":"role_selection_test","docs":["hana_official_049"],"name":"대출 신청"}])
-    assert saved[0]["docs"]==["hana_official_049"]
-    with pytest.raises(ValueError,match="같은 제출 역할"):
-        bank_data.save_scenarios_list([{"id":"role_duplicate_test","docs":["loan_application","hana_official_049"]}])
+    assert a["value"]=="12.5" and a["norm"]==12500000 and b["norm"]==12500000
 
 
 def test_actual_image_placement_and_extraction(tmp_path,monkeypatch):
     from docgen.image import ImageRenderer
-    from docgen.bench.processing import execute,validate
 
     forms_sandbox(monkeypatch,tmp_path,"gov_income")
     spec=load_all()["gov_income"]
@@ -92,9 +69,6 @@ def test_actual_image_placement_and_extraction(tmp_path,monkeypatch):
     assert name["value"]=="영역 검증" and 59 <= name["bbox"][0] <= 62 and 80<=name["bbox"][1]<=105
     added=next(f for f in fields if f["key"]=="added.test")
     assert added["bbox"] and added["value"]==make_profile(7).person.mobile
-    conf=validate({"operations":[{"id":"phone","kind":"extract","left":{"doc":spec.id,"key":"added.test"}}]},[spec.id])
-    result=execute(conf,{spec.id:{"name":spec.name,"fields":fields,"pages":info["pages"]}})
-    assert result[0]["status"]=="ready" and result[0]["item"]["answer"][0]["value"]==added["value"]
     HR.save(spec.id,config)
     saved=json.loads(HR.path(spec.id).read_text(encoding="utf-8"))   # 칸 목록 fields.json (값 선언 fields 와 함께)
     assert saved["engine"]=="html" and saved["regions"]==config["regions"] and saved["fields"]

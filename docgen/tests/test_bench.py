@@ -60,7 +60,7 @@ def test_guide_quotes_every_benchmark_prompt():
 
     from docgen.bench import prompts
 
-    guide = (Path(__file__).resolve().parents[2] / "guide" / "questions.md").read_text(encoding="utf-8")
+    guide = (Path(__file__).resolve().parents[2] / "guide" / "reference" / "questions.md").read_text(encoding="utf-8")
     for name in [n for n in dir(prompts) if n.startswith("P_")]:
         assert getattr(prompts, name).replace("{{", "{").replace("}}", "}") in guide, name
 

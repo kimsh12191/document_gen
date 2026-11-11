@@ -134,7 +134,7 @@ def items(form: str, task: str, max_keys: int = MAX_KEYS) -> tuple[str, int]:
                 extra = f"{kind}, 보기: {' / '.join(f['options'])}"
             else:
                 extra = "도장" if f["type"] == "seal" else "서명"
-        out.append(prompts.kie_line(form, f["key"], f.get("label"), None, extra, picked, note=f.get("_note"), line=line))
+        out.append(prompts.kie_line(f["key"], f.get("label"), extra, picked, note=f.get("_note"), line=line))
     return "\n".join(out), len(picked)
 
 

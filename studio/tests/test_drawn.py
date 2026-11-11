@@ -73,7 +73,7 @@ def test_drawn_cells_keys_and_table_rows(roots):
             add.append({"t": "text", "page": 0, "label": lab, "rect": [x0, 300 + r * 20, x0 + 200, 318 + r * 20], "row": True, "group": "거래"})
     editor.save("img_drawn_c", {"add": add}, "test")
     keys = [k for c in RF.layout_keys("img_drawn_c").values() for k in c["keys"]]
-    assert keys[:2] == ["customer.name", "customer.phone"]   # 항목명만으로 공통 키, 직접 적은 키는 그대로
+    assert keys[:2] == ["성명", "customer.phone"]   # 키를 안 적으면 키 설명 그대로 (공통 키 규칙 없음), 직접 적은 키는 그대로
     assert "거래_목록.2.금액" in keys and "거래_목록.0.거래일" in keys   # 표 행 칸 (행 번호가 든 키 = 표 과제)
 
 
@@ -105,12 +105,12 @@ def test_generator_catalog_sources_are_saveable():
 def test_auto_example_warns_empty(roots):
     _, priv = roots
     drawn.create([("a.png", png())], "img_drawn_e", "확인서", True, str(priv))
-    add = [{"t": "text", "page": 0, "label": "성명", "rect": [100, 100, 300, 120]},
+    add = [{"t": "text", "page": 0, "label": "성명", "rect": [100, 100, 300, 120], "key": "customer.name"},
            {"t": "text", "page": 0, "label": "적요", "rect": [100, 130, 300, 150]},
            {"t": "text", "page": 0, "label": "적요", "rect": [100, 160, 300, 180], "source": "rule:choice", "choices": ["이체"]}]
     v = editor.save("img_drawn_e", {"add": add}, "test")
     got = {(i["label"], i.get("source")): i for i in v["items"]}
-    assert got[("성명", None)]["auto_example"]                         # 자동 → 고객 이름
+    assert got[("성명", None)]["auto_example"]                         # 고객 정보 키 + 자동 → 고객 이름
     assert got[("적요", None)]["auto_example"] is None                 # 자동 → 빈 칸 (화면이 경고)
     assert "auto_example" not in got[("적요", "rule:choice")]          # 고른 칸은 예시 계산 안 함
 
@@ -123,13 +123,13 @@ def test_format_pattern_fill_and_usergen(roots):
 
     _, priv = roots
     drawn.create([("a.png", png())], "img_drawn_f", "확인서", True, str(priv))
-    add = [{"t": "text", "page": 0, "label": "생년월일", "rect": [100, 100, 300, 120], "fmt": "date.yyyymmdd"},
+    add = [{"t": "text", "page": 0, "label": "생년월일", "rect": [100, 100, 300, 120], "key": "customer.birth", "fmt": "date.yyyymmdd"},
            {"t": "text", "page": 0, "label": "관리번호", "rect": [100, 130, 300, 150], "source": "rule:pattern", "pattern": "HN-####-{A|B}"},
            {"t": "text", "page": 0, "label": "카드", "rect": [100, 160, 300, 180], "source": "rule:card_masked"}]
     for r in range(4):
         for lab, x0, k in (("거래일", 60, "date"), ("금액", 300, "amount")):
             add.append({"t": "text", "page": 0, "label": lab, "rect": [x0, 300 + r * 20, x0 + 200, 318 + r * 20], "row": True, "group": "거래",
-                        "key": f"deals.{{i}}.{k}", "fill": "full", **({"fmt": "amount.won"} if k == "amount" else {})})
+                        "key": f"deals.{{i}}.{k}", "kind": k, "fill": "full", **({"fmt": "amount.won"} if k == "amount" else {})})
     editor.save("img_drawn_f", {"add": add}, "test")
     with pytest.raises(ValueError, match="표기"):
         editor.validate("img_drawn_f", {"add": [{**add[0], "fmt": "nope"}]})
@@ -250,7 +250,7 @@ def test_date_cell_parts_source_and_key(roots):
     parts = lambda y: {"y": [100, y, 140, y + 15], "m": [150, y, 170, y + 15], "d": [180, y, 200, y + 15]}  # noqa: E731
     editor.save("img_drawn_k", {"add": [
         {"t": "date", "page": 0, "label": "신청일", "parts": parts(100), "key": "apply_date"},
-        {"t": "date", "page": 0, "label": "생년월일", "parts": parts(140), "source": "profile.person.birth", "yy": True}]}, "test")
+        {"t": "date", "page": 0, "label": "생년월일", "parts": parts(140), "source": "profile.person.birth", "yy": True, "key": "customer.birth"}]}, "test")
     p = make_profile(3)
     d = RF.build_form("img_drawn_k", p, random.Random(3))
     hid = {i["key"]: i["value"] for i in d["items"] if i["t"] == "hidden"}
@@ -269,7 +269,7 @@ def test_dup_key_warning(roots):
                                         {"t": "text", "page": 0, "label": "성명", "rect": [100, 200, 300, 220]}],
                                 "erase": [{"page": 0, "rect": [1, 1, 5, 5]}]}, "test")
     w = [c for c in editor.checks("img_drawn_l") if c["code"] == "dup_key"]
-    assert w and "customer.name2" in w[0]["text"]
+    assert w and "성명2" in w[0]["text"]
     drawn.create([("a.png", png())], "img_drawn_m", "신청서", True, str(priv))   # 뒤 칸에 역할 키를 주면 경고 없음
     editor.save("img_drawn_m", {"add": [{"t": "text", "page": 0, "label": "성명", "rect": [100, 100, 300, 120]},
                                         {"t": "text", "page": 0, "label": "성명", "rect": [100, 200, 300, 220], "key": "applicant.name"}],
@@ -379,7 +379,7 @@ def test_formdir_check_overlay_script(roots):
 
     _, priv = roots
     drawn.create([("a.png", png())], "img_drawn_o", "신청서", True, str(priv))
-    editor.save("img_drawn_o", {"add": [{"t": "text", "page": 0, "label": "성명", "rect": [100, 100, 300, 120]}],
+    editor.save("img_drawn_o", {"add": [{"t": "text", "page": 0, "label": "성명", "rect": [100, 100, 300, 120], "key": "customer.name"}],
                                 "erase": [{"page": 0, "rect": [1, 1, 5, 5]}]}, "test")
     script = priv / "img_drawn_o" / "generate.py"
     script.write_text("def adjust(d, p, rng):\n    x = d['nope']\n    return d\n", encoding="utf-8")

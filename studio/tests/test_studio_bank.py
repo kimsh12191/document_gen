@@ -1,4 +1,4 @@
-"""studio 4단계 시험: 레시피·묶음 규칙 기본값, 시나리오 저장, 학습 설정 내보내기, 작업, 고객 일관성 검사."""
+"""studio 데이터셋 시험: 레시피 기본값·덮어쓰기, 레시피 검사, 작업, 등록."""
 import argparse
 import json
 import sys
@@ -6,14 +6,12 @@ import time
 
 import pytest
 
-from docgen import registry as R
 from docgen.bench import build as BUILD
 from studio import bank_data as BD
 
 
 def _args(**kw):
-    a = argparse.Namespace(types="all", per_doc=1, scenarios="all", bundles=4, fields_per_doc=6, max_keys=40, scale=2.0,
-                           start=0, split="test")
+    a = argparse.Namespace(types="all", per_doc=1, fields_per_doc=6, max_keys=40, scale=2.0, start=0, split="test")
     for k, v in kw.items():
         setattr(a, k, v)
     return a
@@ -24,27 +22,25 @@ def test_empty_recipe_keeps_defaults(tmp_path):
     f.write_text("{}", encoding="utf-8")
     a = _args()
     rc = BUILD.load_recipe(f, a)
-    assert (a.types, a.per_doc, a.bundles) == ("all", 1, 4)
-    b = BUILD.Builder.__new__(BUILD.Builder)   # 렌더러 없이 규칙만 본다
-    b.rules = {**BUILD.BUNDLE_RULES, **(rc["rules"]["bundle"] or {})}
-    assert b.rules == {"missing": [0.3, 0.5, 0.2], "other_customer": 0.3, "extra_doc": 0.35, "tamper": 0.5}
-    assert rc["rules"]["conditions"] is None and rc["custom"] == []
+    assert (a.types, a.per_doc, a.split) == ("all", 1, "test")
+    assert rc["rules"] == {"conditions": None, "exclude": [], "nulls": {}}
+    assert rc["exclude"] == set() and rc["reviewed_only"] is False
 
 
 def test_recipe_overrides(tmp_path):
     f = tmp_path / "r.json"
-    f.write_text(json.dumps({"split": "train", "types": ["resident_id_card"], "scenarios": ["mortgage"],
-                             "bundles": {"default": 2, "mortgage": 5}, "conditions": {"clean": 1.0},
-                             "bundle": {"tamper": 0.9}, "custom_bundles": [{"scenario": "mortgage", "name": ""}]}), encoding="utf-8")
+    f.write_text(json.dumps({"split": "train", "types": ["resident_id_card", "hf169"], "per_doc": 3, "conditions": {"clean": 1.0},
+                             "exclude": ["hf001"], "nulls": {"blank": 0.2}, "page_view": 0.3, "reviewed_only": True}), encoding="utf-8")
     a = _args()
     rc = BUILD.load_recipe(f, a)
-    assert a.split == "train" and a.types == "resident_id_card" and a.scenarios == "mortgage"
-    assert a.bundles == 2 and a.bundles_per == {"mortgage": 5}
-    assert rc["rules"]["conditions"] == [("clean", 1.0)] and rc["rules"]["bundle"] == {"tamper": 0.9}
-    bad = tmp_path / "bad.json"
-    bad.write_text(json.dumps({"nope": 1}), encoding="utf-8")
-    with pytest.raises(SystemExit):
-        BUILD.load_recipe(bad, _args())
+    assert a.split == "train" and a.types == "resident_id_card,hf169" and a.per_doc == 3
+    assert rc["rules"] == {"conditions": [("clean", 1.0)], "exclude": ["hf001"], "nulls": {"blank": 0.2}, "page_view": 0.3}
+    assert rc["reviewed_only"] is True
+    for bad in ({"nope": 1}, {"scenarios": ["mortgage"]}, {"conditions": {"clean": 0.5}}, {"page_view": 2}, {"nulls": {"x": 0.1}}):
+        g = tmp_path / "bad.json"
+        g.write_text(json.dumps(bad), encoding="utf-8")
+        with pytest.raises(SystemExit):
+            BUILD.load_recipe(g, _args())
 
 
 def test_pick_condition_default_unchanged():
@@ -62,28 +58,6 @@ def test_validate_recipe():
         BD.validate_recipe({"cases": {"nope": {"enabled": False}}})
     with pytest.raises(ValueError):
         BD.validate_recipe({"custom_bundles": [{"scenario": "nope"}]})
-
-
-@pytest.fixture()
-def scenarios_file(tmp_path, monkeypatch):
-    original = R.SCENARIOS_JSON
-    f = tmp_path / "scenarios.json"
-    f.write_text(original.read_text(encoding="utf-8"), encoding="utf-8")
-    monkeypatch.setattr(R, "SCENARIOS_JSON", f)
-    yield f
-    R.SCENARIOS_JSON = original
-    R.load_scenarios()
-
-
-def test_save_scenarios_keeps_order(scenarios_file):
-    items = [{"id": k, "name": n, "docs": d} for k, (n, d) in R.SCENARIOS.items()]
-    with pytest.raises(ValueError):   # 순서 바꾸기 금지
-        BD.save_scenarios_list(items[::-1])
-    with pytest.raises(ValueError):   # 모르는 서식
-        BD.save_scenarios_list(items + [{"id": "x", "name": "x", "docs": ["nope"]}])
-    BD.save_scenarios_list(items + [{"id": "new_one", "name": "새 업무", "docs": ["resident_id_card"]}])
-    assert list(R.SCENARIOS)[-1] == "new_one" and R.SCENARIOS["new_one"][1] == ["resident_id_card"]
-    assert json.loads(scenarios_file.read_text(encoding="utf-8"))["scenarios"][-1]["id"] == "new_one"
 
 
 def _bench(tmp_path, name, split, split_counts=None):
