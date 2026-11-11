@@ -135,11 +135,13 @@ def to_number(v) -> float | None:
     if (k := korean_number(s)) is not None:
         return float(k)
     mult = 1
-    if re.search(r"\d\s*억", s) or re.search(r"\d\s*만\s*원?$", s):  # '3억 2천만원' 같은 혼용 표기
-        total, rest = 0.0, s.replace(",", "")
-        for num, unit in re.findall(r"(\d+(?:\.\d+)?)\s*(조|억|천만|백만|십만|만|천|백)?", rest):
-            total += float(num) * {"조": 1e12, "억": 1e8, "천만": 1e7, "백만": 1e6, "십만": 1e5, "만": 1e4,
-                                   "천": 1e3, "백": 1e2}.get(unit, 1)
+    if re.search(r"\d\s*(?:[십백천]\s*)?(?:조|억|만)", s):  # '3억 2천만원'·'2천만원'·'1천2백만원' 같은 혼용 표기
+        total = 0.0
+        # 조·억·만 단위 하나 앞의 작은 수 ('1천2백') 를 모아 곱한다. 단위가 없는 끝 수는 그대로 더함
+        for small, big in re.findall(r"((?:\d+(?:\.\d+)?\s*[십백천]?\s*)+)(조|억|만)?", s.replace(",", "")):
+            part = sum(float(n) * {"천": 1e3, "백": 1e2, "십": 10}.get(u, 1)
+                       for n, u in re.findall(r"(\d+(?:\.\d+)?)\s*([십백천]?)", small))
+            total += part * {"조": 1e12, "억": 1e8, "만": 1e4}.get(big, 1)
         return total if total else None
     if re.search(r"천원\s*$", s):
         mult = 1000

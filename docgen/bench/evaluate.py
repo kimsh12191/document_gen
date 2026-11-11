@@ -1,4 +1,4 @@
-"""채점 — OCR 8과제(ocr_metrics)와 은행 업무 8과제 모두 여기서 (archive/studio/DESIGN.md 17절). GRPO 보상도 reward() 하나.
+"""채점 — 쪽 OCR 8과제(ocr_metrics)와 서류 한 건 과제 11종 모두 여기서 (archive/studio/DESIGN.md 17절). 문항 하나의 0~1 점수는 reward().
 
   python -m docgen.bench eval --bench bench_out --pred preds/model_a [--pred preds/model_b ...]
 
@@ -14,7 +14,6 @@ import re
 import sys
 from pathlib import Path
 
-from ..schema import similar_label
 from . import ocr_metrics as OM
 from .metrics import (cer, is_null, loose_text, match, norm_text, parse_json, strip_answer, substring_distance, to_number,
                       valid_box, value_match, yes_no)
@@ -690,7 +689,7 @@ def _ocr_slice(item: dict, name: str):
 
 
 def _score_ocr(task: str, items: list[dict], preds: dict[str, str]) -> dict:
-    """OCR 과제: 옛 1부와 같은 계산 (빈 답·없는 답은 빈 글자, 지표는 과제 전체로). 문항 점수는 GRPO 보상."""
+    """OCR 과제: 옛 1부와 같은 계산 (빈 답·없는 답은 빈 글자, 지표는 과제 전체로). 문항 점수는 ocr_metrics.reward (0~1)."""
     have = {it["id"]: OM.answer(preds[it["id"]]) for it in items if preds.get(it["id"])}
     rows = [{"id": it["id"], "task": task, "target": it["answer"]} for it in items]
     full = {r["id"]: have.get(r["id"], "") for r in rows}

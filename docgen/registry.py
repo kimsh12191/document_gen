@@ -6,7 +6,6 @@
 from __future__ import annotations
 
 import importlib
-import json
 import pkgutil
 import random
 import sys

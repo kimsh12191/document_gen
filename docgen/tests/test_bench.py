@@ -1,9 +1,6 @@
 """벤치마크 채점기·변조 함수 검사 (렌더링 없이)."""
-import json
-import random
 
 from docgen.bench import evaluate as E
-from docgen.bench import perturb
 from docgen.bench.metrics import cer, parse_json, substring_distance, to_number, value_match
 
 

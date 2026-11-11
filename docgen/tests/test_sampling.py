@@ -1,6 +1,4 @@
 """두 단계 샘플링의 재현성·키 연결·실제 이미지/정답 일치."""
-import copy
-import random
 
 import pytest
 

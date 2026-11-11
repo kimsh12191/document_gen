@@ -69,7 +69,7 @@ def test_to_nested_lists():
 # 은행별 서식 (하나은행, 옛 은행 외환은행·KEB하나은행)
 # ---------------------------------------------------------------------------
 
-from docgen.banks import BRANDS, LEGACY, bank_view, form_bank, supports  # noqa: E402
+from docgen.banks import BRANDS, LEGACY, bank_view, supports  # noqa: E402
 
 from docgen.registry import BANK_FORM_GROUPS  # noqa: E402
 

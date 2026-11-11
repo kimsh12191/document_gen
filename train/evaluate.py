@@ -137,7 +137,10 @@ def run(path, smoke=False, dry=False):
     from .report import write_safe
     from .serve import Evaluator
 
-    cfg = load(path)
+    try:
+        cfg = load(path)
+    except (ValueError, KeyError, OSError) as exc:   # 설정 잘못 (없는 폴더·칸·같은 label): traceback 대신 한 줄
+        raise SystemExit(f"평가 설정 {path} 을 확인하세요: {exc}") from None
     if not dry:
         check(cfg)
     root = Path(cfg["root"]) / ("smoke" if smoke else "")

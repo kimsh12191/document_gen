@@ -545,7 +545,6 @@ def unknown_id(doc_id: str) -> str:
 
 
 def describe(doc_id: str) -> list[tuple[str, Path | None]]:
-    from . import regions
     from .registry import load_all
 
     spec = load_all()[doc_id]

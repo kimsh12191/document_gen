@@ -120,8 +120,6 @@ def mask_fields(fields: list[dict], paths: list[Path], key: str, data: dict | No
     같은 칸이 여러 곳에 찍혔으면(anchors, 렌더러가 잰 칸마다의 자리) 모두 가린다 — 한 곳이라도 보이면 정답 null 이 틀리므로."""
     from PIL import Image, ImageDraw
 
-    from .tasks import MARK_TYPES, field_kind
-
     rng = random.Random(f"bench:mask:{key}")
     written = (data or {}).get("_freetext") or {}
     cand = [f for f in fields if f.get("value") is not None and f.get("bbox") and f["type"] not in MARK_TYPES

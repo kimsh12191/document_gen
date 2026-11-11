@@ -10,7 +10,7 @@ import json
 import time
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 
 from docgen.entities import make_profile
 from docgen.image import ImageRenderer
