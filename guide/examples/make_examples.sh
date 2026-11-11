@@ -22,6 +22,7 @@ from docgen.bench.ocr_data import scan, write_jsonl
 w = sys.argv[1]
 write_jsonl(f"{w}/ocr_manifest.jsonl", scan(f"{w}/gen/images", "train", r"(?P<document_id>[^/]+_\d+)(_p\d+)?\.png$", False, f"{w}/ocr_json"))
 cfg = json.load(open("docgen/bench/ocr_config.example.json", encoding="utf-8"))
+cfg.pop("images", None)   # 예시는 이미지 폴더가 아니라 위 manifest(문서 ID·OCR JSON 포함)로
 # 예시용으로 바꾼 값: 경로, OCR 버전 이름, 문서 9건이라 벤치마크·검증 비율을 키우고 SFT 수를 줄임
 cfg.update(manifest=f"{w}/ocr_manifest.jsonl", output_dir=f"{w}/ocr_prepared", cache_dir=f"{w}/ocr_cache",
            ocr_revision="example-labels-v1", benchmark_fraction=0.3, sft_max_examples=200, val_fraction=0.15)
