@@ -57,20 +57,32 @@ Linux 서버에서 (컨테이너 밖):
 
 ```bash
 cd ~/docgen/document_gen
-sh docker/studio.sh --data /database/docgen_studio    # 처음 한 번: 저장 폴더를 정해 띄우기
-sh docker/studio.sh                                   # 그다음부터: 정한 저장 폴더·포트 그대로
+# 처음 한 번: 이미지 판·저장 폴더·포트·여는 범위를 정해 띄우기 (지금 쓰는 명령)
+DOCGEN_IMAGE=docgen:1.3 sh docker/studio.sh --data /database/cv_database/docgen_studio -p 30009 --open
+# 그다음부터: 정한 저장 폴더·포트·여는 범위 그대로
+sh docker/studio.sh
 ```
+
+| 부분 | 뜻 |
+|---|---|
+| `DOCGEN_IMAGE=docgen:1.3` | 반입한 이미지 판. 안 적으면 `docgen:1.2` 를 찾습니다 (`docker images docgen` 으로 있는 판 확인) |
+| `--data /database/cv_database/docgen_studio` | 저장 폴더 (데이터셋·작업 기록이 쌓이는 곳, 학습 서버와 같이 봄) |
+| `-p 30009` | 서버 포트 (기본 8765) |
+| `--open` | 터널 없이 `http://<서버IP>:30009` 로 접속 (로그인 없음, 아래 주의). 빼면 이 서버에서만 열리고 다른 PC 는 SSH 터널 |
+
+- 저장 폴더·포트·여는 범위는 컨테이너에 남아, 다음부터는 `sh docker/studio.sh` 만 해도 그대로 뜹니다.
+- **이미지 판은 남지 않고, 바꿔도 컨테이너를 새로 만들지 않습니다.** 새 이미지를 반입했으면 `sh docker/studio.sh rm` 로 지운 뒤 위 명령을 새 판으로 다시 칩니다 (데이터·코드는 그대로).
 
 저장 폴더 안은 studio 가 알아서 나눠 씁니다.
 
 ```
-/database/docgen_studio/          (컨테이너 안에서는 /out)
+<저장 폴더>/                      (컨테이너 안에서는 /out)
   workspace/datasets/<이름>/      만든 데이터셋 (데이터셋 › 새로 만들기, remote_build.py)
   workspace/registry.json, jobs/  데이터셋 목록, 생성 작업 기록
   real_data/                      실서류 검수 결과
 ```
 
-윈도우 PC 에서 (PowerShell). 이 창을 켜 둔 동안 브라우저에서 `http://localhost:8765` 로 들어갑니다. `studio.sh` 가 끝에 맞는 명령을 보여 줍니다.
+접속: `--open` 으로 띄웠으면 브라우저에서 바로 `http://<서버IP>:30009`. `--open` 없이 띄웠으면 윈도우 PC 에서 (PowerShell) 아래 터널을 켜 둔 동안 `http://localhost:8765` 로 들어갑니다. `studio.sh` 가 끝에 맞는 주소·명령을 보여 줍니다.
 
 ```powershell
 ssh -N -L 8765:localhost:8765 <서버 계정>@<서버IP>
@@ -94,7 +106,7 @@ ssh -N -L 8765:localhost:8765 <서버 계정>@<서버IP>
 - 저장 폴더·포트·주소는 한 번 정하면 컨테이너에 남아, 다음부터는 옵션 없이 `sh docker/studio.sh` 만 해도 그대로 뜹니다. `--data` 를 안 주고 처음 띄우면 `~/docgen/data` 를 씁니다.
 - 컨테이너 안 계정 번호를 서버 사용자와 맞춰 띄우므로, studio 가 만든 파일도 서버 사용자 것입니다.
 - studio 화면·로그에 나오는 경로는 컨테이너 안 경로입니다: `/out` = 저장 폴더, `/home/docgen/document_gen` = 코드 폴더. `studio.sh` 가 끝에 데이터셋이 생기는 서버 경로를 보여 주고, 다른 곳에서는 `python remote_build.py paths` 로 봅니다.
-- 다른 이미지·컨테이너 이름: 환경변수 `DOCGEN_IMAGE=docgen:1.2`, `STUDIO_NAME=docgen-studio`.
+- 이미지·컨테이너 이름: 환경변수 `DOCGEN_IMAGE` (기본 `docgen:1.2`, 지금 서버는 `docgen:1.3`), `STUDIO_NAME` (기본 `docgen-studio`).
 - 학습 컨테이너가 저장 폴더를 `/out` 이 아닌 다른 경로로 연결했다면, studio 가 내보내는 학습 설정의 경로를 바꿔 쓰도록 코드 폴더에 `studio/config.json` 을 둡니다: `{"path_map": {"/out": "<학습 컨테이너에서 보이는 경로>"}}` (그 밖의 설정은 필요 없음).
 - 원본 서식 배경 캐시(약 165MB)는 `docgen-cache` 볼륨에 남아, 컨테이너를 다시 만들어도 새로 그리지 않습니다.
 
