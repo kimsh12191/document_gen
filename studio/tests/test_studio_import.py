@@ -196,3 +196,35 @@ def test_unreviewed_imported_forms_stay_out_of_builds(batch, tmp_path, monkeypat
     assert ocr_set.select_ids({"types": ["img_pay_test"]}) == ["img_pay_test"]
     monkeypatch.setattr(ocr_set, "_reviewed", lambda: {"img_pay_test"})
     assert "img_pay_test" in ocr_set.select_ids({"types": "all"})
+
+
+def test_masked_image_of_imported_form(batch, tmp_path, monkeypatch):
+    """템플릿으로 만든 서식(초안 지우기)의 마스킹 그림: 값 자리는 지워지고 항목명은 남는다. 실서류 서식이면 private."""
+    from PIL import ImageDraw
+
+    from docgen.registry import REGISTRY
+    from docgen import realform as RF
+    from studio import editor
+
+    priv = tmp_path / "private"
+    monkeypatch.setenv("DOCGEN_PRIVATE_FORMS", str(priv))
+    fx = IM.run_group(batch)
+    pay = next(f for f in fx["formats"] if f["name"] == "급여명세서")
+    IM.create_template(batch, pay["id"], pay["docs"]["pay0"], "img_pay_test", "급여", str(priv))
+    monkeypatch.setitem(REGISTRY, "img_pay_test", None)   # 시험이 끝나면 등록을 지운다
+    del REGISTRY["img_pay_test"]
+    RF.register_images()
+    words = {w["text"]: w["bbox"] for w in words_of("pay", 0)}
+    page = priv / "img_pay_test" / "look" / "page_0.png"
+    im = Image.open(page)
+    for t in ("성명", "김하나"):   # 시험 그림은 빈 종이라 글자 자리를 검게 칠해 둔다
+        ImageDraw.Draw(im).rectangle(words[t], fill="black")
+    im.save(page)
+    share = tmp_path / "share"
+    share.mkdir()
+    r = editor.export_masked("img_pay_test", str(share))
+    assert r["private"] and r["files"] == [str(share / "img_pay_test" / "page_0.png")]
+    out = Image.open(r["files"][0]).convert("L")
+    assert out.crop(words["김하나"]).getextrema() == (255, 255)   # 값은 지워짐
+    assert out.crop(words["성명"]).getextrema() == (0, 0)         # 항목명은 그대로
+    assert Image.open(page).convert("L").crop(words["김하나"]).getextrema() == (0, 0)   # 원본 그림은 그대로

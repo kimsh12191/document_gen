@@ -157,7 +157,7 @@ def info():
     return {
         "features": {"benchmark_units": True},
         "config_file": CFG["config_file"], "browser": BROWSER, "cache_dir": str(CACHE),
-        "paths": {k: CFG[k] for k in ("workspace_dir", "import_dir", "real_data_dir", "private_forms_dir")},
+        "paths": {k: CFG[k] for k in ("workspace_dir", "import_dir", "real_data_dir", "private_forms_dir", "masked_dir")},
         "ocr": CFG["ocr"], "providers": sorted(CFG["providers"]),
         "conditions": CONDITIONS, "modes": MODES, "user": USER,
     }
@@ -375,6 +375,16 @@ class OverridesReq(BaseModel):
 @app.put("/api/forms/{doc_id}/overrides")
 def save_overrides(doc_id: str, req: OverridesReq):
     return guard(editor.save, doc_id, req.overrides, USER)
+
+
+class MaskedReq(BaseModel):
+    dir: str = ""   # 비우면 설정의 masked_dir
+
+
+@app.post("/api/forms/{doc_id}/masked")
+def export_masked(doc_id: str, req: MaskedReq):
+    """저장된 배경 지우기를 적용한 쪽 그림을 <dir>/<서식 ID>/page_<n>.png 로."""
+    return guard(editor.export_masked, doc_id, req.dir.strip() or CFG.get("masked_dir") or "")
 
 
 @app.get("/api/forms/{doc_id}/bg/{page}")

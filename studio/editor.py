@@ -1,9 +1,10 @@
-"""① 서식 › 영역 편집 (overlay)의 서버 쪽: 레이아웃 보기, 사람 수정 저장, 검수 전 자동 검사.
-API 는 studio/app.py (/api/forms/{id}/layout·overrides·checks), 화면은 static/js/editor.js.
+"""① 서식 › 영역 편집 (overlay)의 서버 쪽: 레이아웃 보기, 사람 수정 저장, 마스킹 그림 받기, 검수 전 자동 검사.
+API 는 studio/app.py (/api/forms/{id}/layout·overrides·masked·checks), 화면은 static/js/editor.js.
 
 화면은 사람 수정(서식 폴더의 regions.json, docgen/regions.py)을 그대로 들고 고친 뒤 통째로 저장한다. 여기서는
   - 자동 추출 영역마다 id·match·상태(자동/수정/뺌)를 붙여 보여 주고 (docgen/overrides.py 와 같은 규칙)
   - 저장할 때 형식을 검사하고
+  - 저장된 배경 지우기를 적용한 쪽 그림(마스킹 그림)을 고른 폴더에 쓰고
   - 검수 버튼을 누를 때 보여 줄 경고(한글 키, 겹침, 깨진 수정, 값이 안 채워지는 칸)를 만든다.
 좌표는 모두 레이아웃과 같은 PDF pt. 배경 그림은 pt × 2.667(BG_ZOOM) 픽셀이다.
 """
@@ -11,6 +12,7 @@ from __future__ import annotations
 
 import copy
 import re
+from pathlib import Path
 
 from docgen import overrides as OV
 from docgen import realform as RF
@@ -196,6 +198,32 @@ def save(doc_id: str, ov: dict, by: str = "") -> dict:
         clean["updated"] = {"by": by or "studio", "at": time.strftime("%Y-%m-%d %H:%M")}
     OV.save(doc_id, clean)
     return layout_view(doc_id)
+
+
+# ---------------------------------------------------------------------------
+# 마스킹 그림 받기
+# ---------------------------------------------------------------------------
+
+def export_masked(doc_id: str, folder: str) -> dict:
+    """저장된 배경 지우기를 적용한 쪽 그림을 <folder>/<서식 ID>/page_<n>.png 로 쓴다 (있으면 새것으로 바꾼다).
+    folder 는 이미 있는 절대 경로. private: 실서류에서 만든 서식 (지우지 못한 개인 값이 남았을 수 있다)."""
+    from docgen import formdir
+
+    _overlay(doc_id)
+    root = Path(folder or "").expanduser()
+    if not folder or not root.is_absolute():
+        raise ValueError("저장 폴더는 절대 경로로 적습니다 (예: /share/me/masked)")
+    if not root.is_dir():
+        raise ValueError(f"저장 폴더가 없습니다: {root}")
+    out = root / doc_id
+    out.mkdir(exist_ok=True)
+    files = []
+    for k in range(len(OV.base(doc_id)["pages"])):
+        p = out / f"page_{k}.png"
+        p.write_bytes(RF.background_png(doc_id, k))
+        files.append(str(p))
+    d = formdir.image_dir(doc_id) or formdir.folder(doc_id)
+    return {"dir": str(out), "files": files, "private": bool(d and formdir.is_private(d))}
 
 
 # ---------------------------------------------------------------------------

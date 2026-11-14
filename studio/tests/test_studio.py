@@ -136,6 +136,32 @@ def test_layout_view_ids_and_status(tmp_overrides):
     assert auto.get("key") is None   # 자동 추출 초안(layout.json)은 그대로
 
 
+def test_export_masked(tmp_path, tmp_overrides):
+    import io
+
+    from PIL import Image
+
+    from studio import editor
+
+    with pytest.raises(ValueError):
+        editor.export_masked("hf169", "share")   # 상대 경로
+    with pytest.raises(ValueError):
+        editor.export_masked("hf169", str(tmp_path / "없는폴더"))
+    w = editor._pdf_words("hf169")[0][0]   # 인쇄된 글자 하나를 지운다
+    OV.save("hf169", {"erase": [{"page": 0, "rect": [w[0] - 1, w[1] - 1, w[2] + 1, w[3] + 1], "fill": "white"}]})
+    share = tmp_path / "share"
+    share.mkdir()
+    r = editor.export_masked("hf169", str(share))
+    assert r["dir"] == str(share / "hf169") and not r["private"]
+    assert len(r["files"]) == len(RF.raw_layout("hf169")["pages"])
+    img = Image.open(share / "hf169" / "page_0.png").convert("RGB")
+    raw = Image.open(io.BytesIO(RF.raw_background("hf169", 0))).convert("RGB")
+    assert img.size == raw.size and img.tobytes() != raw.tobytes()   # 지우기가 적용된 그림
+    box = tuple(int(v * RF.BG_ZOOM) for v in w[:4])
+    assert img.crop(box).getextrema() == ((255, 255), (255, 255), (255, 255))
+    assert editor.export_masked("hf169", str(share))["files"] == r["files"]   # 다시 받으면 같은 자리에 새것으로
+
+
 def test_catalog_review_goes_stale(tmp_path, monkeypatch, tmp_overrides):
     from studio import catalog
 
