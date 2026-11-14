@@ -1,6 +1,7 @@
 // ① 서식 › 영역 편집 (overlay): 값 영역 그리기·옮기기·크기 바꾸기·빼기, 키·값 종류·값 출처, 배경 지우기, 수정 전후 비교.
 // 고친 것은 서식 폴더의 사람 수정 파일(docgen/forms/<ID>/regions.json, 실서류에서 만든 서식은 private_forms_dir/<ID>/regions.json)에 저장한다.
-// 좌표는 레이아웃과 같은 PDF pt. 서버: studio/app.py (/api/forms/{id}/layout·overrides·bg·checks), studio/editor.py
+// 마스킹 그림 받기: 저장된 배경 지우기를 적용한 쪽 그림을 고른 폴더(기본은 설정의 masked_dir)/<ID>/page_<n>.png 로.
+// 좌표는 레이아웃과 같은 PDF pt. 서버: studio/app.py (/api/forms/{id}/layout·overrides·masked·bg·checks), studio/editor.py
 "use strict";
 
 const ED_TOOLS = [
@@ -151,6 +152,10 @@ function edLayout(ed) {
       <span class="sep"></span>
       <button class="primary" id="ed-save">저장</button><button id="ed-reload">저장된 것으로 되돌리기</button>
       <span id="ed-dirty" class="muted"></span>
+      <span class="sep"></span>
+      <label title="이 폴더 아래 <서식 ID>/page_<n>.png 로 씁니다 (서버의 폴더, 이미 있어야 함)">저장 폴더
+        <input type="text" id="ed-mask-dir" value="${esc(store.get("ed.maskDir", state.info?.paths?.masked_dir || "/share"))}" style="width:200px"></label>
+      <button id="ed-mask" title="저장된 배경 지우기를 적용한 쪽 그림을 저장 폴더에 씁니다">마스킹 그림 받기</button>
     </div>
     ${v.broken.length ? `<div class="panel warnbox">깨진 수정 ${v.broken.length}개: 레이아웃을 다시 추출해 대상 영역을 못 찾았습니다.
       ${v.broken.map(o => `<span class="tag warn">${esc(o.match.page + 1)}쪽 ${esc(ED_T[o.match.t] || o.match.t)} '${esc(o.match.label)}'</span>`).join("")}
@@ -168,6 +173,7 @@ function edLayout(ed) {
   $("#ed-zoom").onchange = e => { ed.zoom = +e.target.value; store.set("ed.zoom", ed.zoom); edDraw(ed); };
   $("#ed-onlybg").onchange = e => { ed.onlyBg = e.target.checked; edDraw(ed); };
   $("#ed-save").onclick = () => edSave(ed);
+  $("#ed-mask").onclick = () => edMasked(ed);
   $("#ed-reload").onclick = () => { if (!ed.dirty || confirm("고친 것을 버리고 저장본으로 되돌릴까요?")) { ed.dirty = false; viewEditor(ed.d); } };
   if ($("#ed-drop-broken")) $("#ed-drop-broken").onclick = () => {
     const found = new Set(ed.items.filter(x => x.match).map(x => `${x.match.page}|${x.match.t}|${x.match.label}|${x.match.n}`));
@@ -504,6 +510,22 @@ async function edSave(ed) {
     delete formCache[ed.d.id];
     const sel = ed.sel && !ed.sel.id.startsWith("add:") && !ed.sel.id.startsWith("erase:") ? ed.sel : null;
     await viewEditor(ed.d, { page: ed.page, tool: ed.tool, sel });
+  } catch (e) { toast(e.message, true); }
+}
+
+// 마스킹 그림은 저장된 수정으로 만든다: 고친 것이 있으면 먼저 저장
+async function edMasked(ed) {
+  const dir = $("#ed-mask-dir").value.trim();
+  if (!dir) { toast("저장 폴더를 적으세요", true); return; }
+  store.set("ed.maskDir", dir);   // 저장하면 화면을 다시 그리므로 먼저 기억
+  if (ed.dirty) {
+    if (!confirm("저장하지 않은 수정이 있습니다. 저장한 뒤 마스킹 그림을 받을까요?")) return;
+    await edSave(ed);
+    if (ed.dirty) return;   // 저장 실패 (edSave 가 알림)
+  }
+  try {
+    const r = await api(`/api/forms/${encodeURIComponent(ed.d.id)}/masked`, { dir });
+    toast(`마스킹 그림 ${r.files.length}장을 ${r.dir} 에 저장했습니다${r.private ? ". 실서류 서식이니 지우지 못한 개인 값이 없는지 확인하세요" : ""}`);
   } catch (e) { toast(e.message, true); }
 }
 
