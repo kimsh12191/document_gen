@@ -240,3 +240,7 @@ p.warn { color: var(--warn); }
 
 /* 왼쪽 메뉴 아래 "이 화면 도움말" (core.js 의 HELP 가 메뉴마다 설명서 절로) */
 #nav .nav-help { margin-top: 14px; border-top: 1px solid #2a3344; font-size: 13px; color: #9fb4d8; }
+
+/* 글자처럼 보이는 작은 버튼 (목록의 등록 해제·기록 지우기) */
+button.link { background: none; border: none; padding: 0 2px; color: var(--accent); cursor: pointer; font-size: 12px; text-decoration: underline; }
+button.link:hover { color: var(--bad); }

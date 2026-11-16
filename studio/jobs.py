@@ -19,6 +19,7 @@ import json
 import logging
 import os
 import re
+import shutil
 import subprocess
 import sys
 import threading
@@ -59,6 +60,15 @@ class Jobs:
             if j is not None and j.get("status") == "running":
                 j["status"] = "interrupted"
                 f.write_text(json.dumps(j, ensure_ascii=False, indent=1), encoding="utf-8")
+
+    def remove(self, job_id: str) -> None:
+        """작업 기록 폴더(job.json·log.txt)를 지운다. 돌고 있는지는 부르는 쪽이 본다 (build_registration.forget_job)."""
+        d = self.root / job_id
+        if not self._file(job_id).exists() or d.resolve().parent != self.root.resolve():
+            raise KeyError(job_id)
+        if job_id in self.live:
+            raise ValueError("돌고 있는 작업입니다")
+        shutil.rmtree(d)
 
     def _file(self, job_id: str) -> Path:
         return self.root / job_id / "job.json"

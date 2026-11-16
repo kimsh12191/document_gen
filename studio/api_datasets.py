@@ -64,6 +64,14 @@ def make_router(reg: DS.Registry, guard) -> APIRouter:
         guard(reg.unregister, ds_id)
         return {"ok": True}
 
+    @r.post("/api/datasets/prune-missing")
+    def prune_missing():
+        """폴더가 없어진 데이터셋을 모두 등록 해제 (폴더는 이미 없음)."""
+        gone = [k for k, v in reg.load()["datasets"].items() if not Path(v["path"]).exists()]
+        for k in gone:
+            guard(reg.unregister, k)
+        return {"removed": gone}
+
     @r.get("/api/datasets/{ds_id}/composition")
     def composition(ds_id: str):
         from docgen.bench.tracking import composition as summarize

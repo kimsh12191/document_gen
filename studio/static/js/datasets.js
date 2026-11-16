@@ -6,7 +6,7 @@
 addRoute(/^#\/datasets$/, () => view_datasets(), "datasets");
 addRoute(/^#\/datasets\/([^/]+)(?:\/(\w+))?$/, (id, tab) => viewDataset(decodeURIComponent(id), tab || "card"), "datasets");
 
-const GROUP_NAME = { ocr: "OCR", doc: "문서 이해" };   // 과제 묶음 (docgen.bench.evaluate.TASK_GROUP)
+const GROUP_NAME = { ocr: "OCR", doc: "문서 이해", work: "예전 업무 과제" };   // work: 지금은 없앤 업무 묶음 과제가 든 예전 데이터셋   // 과제 묶음 (docgen.bench.evaluate.TASK_GROUP)
 const TASK_KO = {
   crop_ocr: "잘라낸 글자 읽기", bbox_ocr: "박스 안 글자", region_ocr: "영역 받아쓰기", marked_ocr: "그린 박스 글자",
   grounding: "글자 위치 찾기", spotting: "전체 글자+위치", relation: "옆 글자 찾기", marked_box: "그린 박스 위치",

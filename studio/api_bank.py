@@ -8,6 +8,7 @@
                                           같은 이름의 폴더가 있거나 그 폴더로 도는 작업이 있으면 409
   GET    /api/builds                      생성 작업 목록 (⑥ 생성 현황). 읽기만 한다 — 놓친 자동 등록은 띄울 때 복구 (build_registration.py)
   GET    /api/jobs                       작업 목록 · GET /api/jobs/{id} · POST /api/jobs/{id}/cancel
+  DELETE /api/jobs/{id}                  끝난 작업 기록 지우기 · POST /api/builds/cleanup 지워도 되는 생성 기록 모두 (데이터셋 폴더는 그대로)
 """
 from typing import Any
 
@@ -72,5 +73,18 @@ def make_router(reg, jobs, guard) -> APIRouter:
     @r.post("/api/jobs/{job_id}/cancel")
     def cancel(job_id: str):
         return guard(jobs.cancel, job_id)
+
+    @r.delete("/api/jobs/{job_id}")
+    def forget(job_id: str):
+        from .build_registration import forget_job
+
+        guard(forget_job, jobs, reg, job_id)
+        return {"ok": True}
+
+    @r.post("/api/builds/cleanup")
+    def cleanup():
+        from .build_registration import cleanup_jobs
+
+        return {"removed": guard(cleanup_jobs, jobs, reg)}
 
     return r

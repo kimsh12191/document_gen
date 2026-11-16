@@ -213,3 +213,46 @@ def test_started_job_records_pid(tmp_path):
             break
         time.sleep(0.05)
     assert isinstance(jobs.get(j["id"]).get("pid"), int)
+
+
+def test_cleanup_removes_only_finished_records(tmp_path):
+    """끝난 기록 정리: 실패·취소, 데이터셋이 없어진 완료 작업만 지우고, 등록된 데이터셋이 있는 작업·데이터셋 폴더는 그대로."""
+    from studio.build_registration import cleanup_jobs, forget_job
+
+    reg, jobs = Registry(tmp_path), Jobs(tmp_path, tmp_path)
+    keep_out = tmp_path / "datasets" / "kept"
+    bank_output(keep_out)
+    job_record(jobs, keep_out, id="b-kept", status="interrupted", pid=999999)
+    recover_completed(jobs, reg)                                    # 등록됨 → 지우지 않음
+    job_record(jobs, tmp_path / "datasets" / "x", id="b-failed", status="failed", code=1)
+    job_record(jobs, tmp_path / "datasets" / "y", id="b-cancel", status="cancelled")
+    gone_out = tmp_path / "datasets" / "gone"
+    bank_output(gone_out)
+    job_record(jobs, gone_out, id="b-gone", status="interrupted", pid=999999)
+    recover_completed(jobs, reg)
+    reg.unregister("gone")                                          # 등록 해제한 데이터셋 → 기록은 지워도 됨
+    with pytest.raises(ValueError):
+        forget_job(jobs, reg, "b-kept")
+    assert sorted(cleanup_jobs(jobs, reg)) == ["b-cancel", "b-failed", "b-gone"]
+    assert [j["id"] for j in jobs.list()] == ["b-kept"]
+    assert keep_out.exists() and gone_out.exists()                  # 데이터셋 폴더는 그대로
+
+
+def test_prune_missing_datasets_api(tmp_path):
+    from fastapi import FastAPI
+    from fastapi.testclient import TestClient
+
+    from studio import api_datasets
+
+    reg = Registry(tmp_path)
+    here, gone = tmp_path / "datasets" / "here", tmp_path / "datasets" / "gone"
+    bank_output(here)
+    bank_output(gone)
+    reg.register(str(here))
+    reg.register(str(gone))
+    import shutil
+    shutil.rmtree(gone)
+    app = FastAPI()
+    app.include_router(api_datasets.make_router(reg, lambda fn, *a, **kw: fn(*a, **kw)))
+    assert TestClient(app).post("/api/datasets/prune-missing").json() == {"removed": ["gone"]}
+    assert list(reg.load()["datasets"]) == ["here"] and here.exists()

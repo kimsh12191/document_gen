@@ -6,6 +6,7 @@
   끊긴 작업이라도 완료 파일이 다 있으면 등록한다. 프로세스가 끝났는데 완료 파일이 없으면 실패로 바꾼다.
   은행 서류는 dataset.json·meta.json 과 tasks/<과제>.jsonl 문항 수, OCR 은 prepared/DONE.json·pages.jsonl 로 완료를 판단한다.
 - <workspace_dir>/datasets/ 밖의 폴더, 실패·취소한 작업은 등록하지 않는다. 같은 폴더는 한 번만 등록한다.
+- forget_job·cleanup_jobs: 끝난 작업 기록(jobs/<ID>/)을 지운다. 데이터셋 폴더는 지우지 않는다.
 """
 from __future__ import annotations
 
@@ -158,6 +159,37 @@ def settle_interrupted(jobs, registry) -> int:
                        error="studio 가 다시 뜬 사이 생성이 멈췄고 완료 파일이 없습니다. 로그 끝을 보고, 새 이름으로 다시 만드세요")
             jobs._save(job)
     return left
+
+
+def _removable(jobs, registry, job: dict) -> bool:
+    """기록을 지워도 되는 작업: 돌고 있지 않고, 실패·취소했거나, 끝났지만 등록한 데이터셋이 없어졌거나(등록 해제·폴더 삭제)."""
+    if job.get("status") == "running" or job["id"] in jobs.live:
+        return False
+    if job.get("status") == "interrupted":
+        return not _still_running(jobs, job)
+    if job.get("status") in ("failed", "cancelled"):
+        return True
+    ds_id = (job.get("result") or {}).get("dataset")
+    ds = registry.load()["datasets"].get(ds_id) if ds_id else None
+    return ds is None or not Path(ds["path"]).exists()
+
+
+def forget_job(jobs, registry, job_id: str) -> None:
+    """작업 기록 하나 지우기 (jobs/<ID>/ 의 job.json·log.txt). 만든 데이터셋 폴더는 건드리지 않는다."""
+    job = jobs.get(job_id)
+    if not _removable(jobs, registry, job):
+        raise ValueError("돌고 있거나, 만든 데이터셋이 아직 등록돼 있는 작업입니다 (데이터셋을 먼저 등록 해제하세요)")
+    jobs.remove(job_id)
+
+
+def cleanup_jobs(jobs, registry) -> list[str]:
+    """지워도 되는 생성 작업 기록을 모두 지운다 (실패·취소·멈춘 작업, 데이터셋이 없어진 작업). 지운 작업 ID 목록."""
+    gone = []
+    for job in jobs.list():
+        if job.get("kind") in BUILD_KINDS and _removable(jobs, registry, job):
+            jobs.remove(job["id"])
+            gone.append(job["id"])
+    return gone
 
 
 def list_builds(jobs) -> list[dict]:
