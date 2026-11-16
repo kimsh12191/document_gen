@@ -66,19 +66,33 @@ def value_audit(doc_id: str) -> dict | None:
     return {**row, "stale": row.get("source_hash") != source_hash(doc_id)}
 
 
+@lru_cache(maxsize=512)
+def _live_keys(doc_id: str, source: str) -> tuple:
+    """seed 0 으로 그려 본 칸 (source = 서식 파일 해시: 서식을 고치면 다시 그림)."""
+    from docgen.entities import make_profile
+    from docgen.render import render
+    from docgen.schema import build_fields
+
+    _, raw, _ = render(load_all()[doc_id], make_profile(0), 0)
+    return tuple({**f, "example": f.get("value")} for f in build_fields(raw))
+
+
 def _keys(doc_id: str) -> list[dict]:
-    keys = list(_fields().get(doc_id, {}).get("keys", []))
+    """서식의 정답 키. 미리 모은 키 목록(guide/fields/fields.json, 저장소 서식으로 만든 것)이 기본이고,
+    그 목록에 없는 서식(나중에 더한 서식·저장소 밖 서식)과 사람이 칸을 고친 html 서식은 그려 보고 센다."""
+    known = _fields().get(doc_id)
+    keys = list((known or {}).get("keys", []))
     from docgen import regions
 
-    if load_all()[doc_id].template != "_real_form.html.j2" and regions.exists(doc_id):
-        from docgen.entities import make_profile
-        from docgen.render import render
-        from docgen.schema import build_fields
+    edited_html = load_all()[doc_id].template != "_real_form.html.j2" and regions.exists(doc_id)
+    if known is None or edited_html:
+        from docgen.preview import source_hash
 
-        _, raw, _ = render(load_all()[doc_id], make_profile(0), 0)
-        live = {f["key"]: {**f, "example": f.get("value")} for f in build_fields(raw)}
-        live = {**{f["key"]: f for f in keys}, **live}
-        keys = list(live.values())
+        try:
+            live = {f["key"]: dict(f) for f in _live_keys(doc_id, source_hash(doc_id))}
+        except Exception:  # noqa: BLE001  그리지 못하는 서식은 목록의 키를 그대로 (서식 화면이 오류를 보여 줌)
+            return keys
+        keys = list({**{f["key"]: f for f in keys}, **live}.values())
     return keys
 
 
@@ -236,6 +250,7 @@ def clear_caches() -> None:
     """이 모듈의 캐시를 비운다 (키 목록 guide/fields/fields.json, 값 점검)."""
     _fields.cache_clear()
     _audit_at.cache_clear()
+    _live_keys.cache_clear()
 
 
 def refresh() -> dict:
