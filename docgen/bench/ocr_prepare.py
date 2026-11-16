@@ -30,6 +30,8 @@ def prepare(config_path):
     if out.exists():
         raise ValueError(f"Output already exists: {out}. Use a new output_dir; OCR cache is reusable.")
     seed = cfg.get("seed", 42)
+    if cfg.get("images") and cfg.get("manifest"):
+        raise ValueError('설정에 "images"(이미지 폴더)와 "manifest"(이미지 목록 파일)가 둘 다 있습니다. 하나만 적으세요 (guide/train/ocr.md)')
     if cfg.get("images"):
         # Image folder only: one image = one document, so no manifest or document ids to write.
         split = cfg.get("split", "train")

@@ -256,6 +256,7 @@ def build(args) -> None:
             f.write(json.dumps({k: r[k] for k in ("document_id", "page_id", "image", "split", "ocr_json", *PROVENANCE_KEYS) if k in r},
                                ensure_ascii=False) + "\n")
     cfg = json.loads((ROOT / "docgen" / "bench" / "ocr_config.example.json").read_text(encoding="utf-8"))
+    cfg.pop("images", None)   # 예시의 이미지 폴더 칸은 빼고 위에서 만든 manifest 로 (둘 다 있으면 OCR 준비가 멈춤)
     cfg.update({"manifest": str((out / "manifest.jsonl").resolve()), "output_dir": str((out / "prepared").resolve()),
                 "cache_dir": str((out / "ocr_cache").resolve()), "ocr_revision": f"docgen-synthetic-{unit}-v2"})
     for k, v in PREPARE_DEFAULTS.items():
