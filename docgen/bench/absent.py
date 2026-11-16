@@ -1,6 +1,6 @@
 """서류에 없는 키·열 (정답 null): kie·table 질문의 일부에 섞어 "물어도 없으면 null" 을 배우게 한다.
 
-후보는 같은 그룹(registry group) 다른 서식의 칸 — 서식 카탈로그 guide/fields/fields.json (python docgen/scripts/build_schema.py
+후보는 같은 그룹(registry group) 다른 서식의 칸 — 서식 카탈로그 docgen/forms/_common/fields_catalog.json (python docgen/scripts/build_schema.py
 가 만드는 자동 생성 파일, 그리지 않고 읽음). 카탈로그가 없으면 후보가 없어 섞지 않는다. 서식을 더하거나 키를 바꾸면
 다시 만든다 — 데이터셋 dataset.json 의 absent_catalog_hash 에 어떤 카탈로그로 만들었는지 남는다.
 이 서류에 같은 키, 같은 항목명(공백·문장부호 무시), 한쪽이 다른 쪽을 품는 항목명(대출금액 ↔ 대출신청금액)이 있으면
@@ -14,7 +14,7 @@ import re
 from functools import lru_cache
 from pathlib import Path
 
-CATALOG = Path(__file__).resolve().parents[2] / "guide" / "fields" / "fields.json"
+CATALOG = Path(__file__).resolve().parents[1] / "forms" / "_common" / "fields_catalog.json"
 MARK = ("checkbox", "checkbox_multi", "seal", "signature")
 GUESSABLE = re.compile(r"생년월일|나이|연령|성별|만\d+세")
 

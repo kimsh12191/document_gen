@@ -1,7 +1,7 @@
 """① 서식의 서버 쪽: 서식 목록과 서식 정보 (목록 화면·상세 화면), 검수·배정·문제 표시. API 는 studio/app.py, 화면은 static/js/forms.js.
 
 - 서식: docgen 레지스트리 (`docgen.registry.load_all`)
-- 서식별 키 목록: guide/fields/fields.json (`docgen/scripts/build_schema.py`가 서식마다 30번 렌더링해 모은 것)
+- 서식별 키 목록: docgen/forms/_common/fields_catalog.json (`docgen/scripts/build_schema.py`가 서식마다 30번 렌더링해 모은 것)
 - 검수·배정·메모·문제 표시: docgen/catalog.json (없으면 모두 미검수·미배정)
 
 docgen/catalog.json
@@ -26,7 +26,7 @@ from docgen.registry import GROUPS, load_all
 
 from .config import ROOT
 
-FIELDS_JSON = ROOT / "guide" / "fields" / "fields.json"
+FIELDS_JSON = ROOT / "docgen" / "forms" / "_common" / "fields_catalog.json"
 CATALOG_JSON = ROOT / "docgen" / "catalog.json"
 MARK_TYPES = {"checkbox", "checkbox_multi", "seal", "signature"}
 AUDIT_JSON = ROOT / "docgen" / "manual" / "form_value_audit.json"
@@ -78,7 +78,7 @@ def _live_keys(doc_id: str, source: str) -> tuple:
 
 
 def _keys(doc_id: str) -> list[dict]:
-    """서식의 정답 키. 미리 모은 키 목록(guide/fields/fields.json, 저장소 서식으로 만든 것)이 기본이고,
+    """서식의 정답 키. 미리 모은 키 목록(docgen/forms/_common/fields_catalog.json, 저장소 서식으로 만든 것)이 기본이고,
     그 목록에 없는 서식(나중에 더한 서식·저장소 밖 서식)과 사람이 칸을 고친 html 서식은 그려 보고 센다."""
     known = _fields().get(doc_id)
     keys = list((known or {}).get("keys", []))
@@ -247,7 +247,7 @@ def _summary(spec, entry: dict, audit: bool = False) -> dict:
 
 
 def clear_caches() -> None:
-    """이 모듈의 캐시를 비운다 (키 목록 guide/fields/fields.json, 값 점검)."""
+    """이 모듈의 캐시를 비운다 (키 목록 docgen/forms/_common/fields_catalog.json, 값 점검)."""
     _fields.cache_clear()
     _audit_at.cache_clear()
     _live_keys.cache_clear()

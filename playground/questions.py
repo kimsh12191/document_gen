@@ -1,5 +1,5 @@
 """고를 수 있는 질문: 벤치마크와 같은 문장 (docgen/bench/prompts.py·ocr_tasks.py, 서식의 questions.json·fields.json 의 q).
-서식의 칸 목록은 guide/fields/fields.json (studio 카탈로그와 같은 자동 생성 파일, 그리지 않고 읽음)."""
+서식의 칸 목록은 docgen/forms/_common/fields_catalog.json (studio 카탈로그와 같은 자동 생성 파일, 그리지 않고 읽음)."""
 from __future__ import annotations
 
 import datetime
@@ -15,7 +15,7 @@ from docgen.bench.tasks import MARK_TYPES
 
 from .images import COLORS, marker_rect, norm
 
-CATALOG = Path(__file__).resolve().parents[1] / "guide" / "fields" / "fields.json"
+CATALOG = Path(__file__).resolve().parents[1] / "docgen" / "forms" / "_common" / "fields_catalog.json"
 MAX_KEYS = 40   # 벤치마크 kie·marks 도 서류 하나에 40개까지 묻는다
 
 # needs: 질문을 만들려면 화면에서 정할 것. box 끌기 / text 찾을 글자 / anchor 기준(글자 또는 상자)+방향 / marker 색 상자 /

@@ -2,7 +2,7 @@
 
   python docgen/scripts/build_keys.py
 
-- 재료: guide/fields/fields.json (서식마다 30번 렌더링해 모은 키, docgen/scripts/build_schema.py) 과 docgen/realform.py 의 KEY_RULES.
+- 재료: docgen/forms/_common/fields_catalog.json (서식마다 30번 렌더링해 모은 키, docgen/scripts/build_schema.py) 과 docgen/realform.py 의 KEY_RULES.
 - 영어 키만 사전에 넣는다. 반복 행 번호는 * 로 묶는다 (rows.3.amount → rows.*.amount).
 - 키마다 항목명(한글) 예시, 타입, 쓰는 서식 수, 그룹을 남긴다.
 - 같은 뜻인데 이름이 두 벌인 키는 duplicates 에 모은다. 이름을 실제로 바꾸는 일은 평가 세트 버전을 올릴 때 한다
@@ -22,7 +22,7 @@ sys.path.insert(0, str(ROOT))
 from docgen.realform import KEY_RULES  # noqa: E402
 from docgen.schema import LEAF_SYNONYMS  # noqa: E402
 
-FIELDS = ROOT / "guide" / "fields" / "fields.json"
+FIELDS = ROOT / "docgen" / "forms" / "_common" / "fields_catalog.json"
 OUT = ROOT / "docgen" / "forms" / "_common" / "keys.json"
 ASCII = re.compile(r"^[A-Za-z0-9_.]+$")
 

@@ -1,4 +1,4 @@
-"""서류별 정답 키 목록(스키마)을 만든다 → guide/fields/fields.json (studio 카탈로그·키 목록의 재료. 키 이름 규칙은 docgen/forms/_common/README.md)
+"""서류별 정답 키 목록(스키마)을 만든다 → docgen/forms/_common/fields_catalog.json (studio 카탈로그·키 목록의 재료. 키 이름 규칙은 docgen/forms/_common/README.md)
 
   python docgen/scripts/build_schema.py            # 서류당 프로필 30개로 집계 (--n 으로 바꾼다)
 
@@ -63,10 +63,8 @@ def main() -> None:
                       "fill_rate": round(st["n"] / args.n, 2), "example": st["example"],
                       **({"options": st["options"]} if st["options"] else {})} for k, st in stats.items()],
         }
-    out = ROOT / "guide" / "fields"
-    out.mkdir(parents=True, exist_ok=True)
-    (out / "fields.json").write_text(json.dumps(schema, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"{len(schema)}종 → guide/fields/fields.json")
+    (ROOT / "docgen" / "forms" / "_common" / "fields_catalog.json").write_text(json.dumps(schema, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"{len(schema)}종 → docgen/forms/_common/fields_catalog.json")
 
 
 if __name__ == "__main__":

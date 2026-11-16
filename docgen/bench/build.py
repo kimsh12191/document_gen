@@ -422,7 +422,7 @@ def build(args) -> None:
                 "version": VERSION, "created": meta["created"], "counts": meta["counts"], "split": split,
                 "form_hashes": {i: source_hash(i, common=False) for i in used if i in reg},
                 "question_hashes": FQ.hashes([i for i in used if i in reg]),   # 서식별 질문·답 파일 (그림은 안 바꾼다)
-                "absent_catalog_hash": absent.catalog_hash(),   # 없는 키·열 후보 (guide/fields/fields.json)
+                "absent_catalog_hash": absent.catalog_hash(),   # 없는 키·열 후보 (docgen/forms/_common/fields_catalog.json)
                 "composition": tracking.result()}
         (out / "dataset.json").write_text(json.dumps(info, ensure_ascii=False, indent=1), encoding="utf-8")
     what = "학습 데이터" if split == "train" else "평가 세트"

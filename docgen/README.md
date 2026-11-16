@@ -19,7 +19,7 @@
 **문서 자동 생성** (손으로 고치지 않는 문서들):
 
 ```bash
-python docgen/scripts/build_schema.py                   # guide/fields/fields.json (studio 카탈로그의 재료)
+python docgen/scripts/build_schema.py                   # docgen/forms/_common/fields_catalog.json (studio 카탈로그의 재료)
 python -m docgen list --markdown > guide/reference/documents.md   # documents.md
 bash guide/examples/make_examples.sh <작업 폴더> --docs   # guide/reference/tasks.md, examples/img/ (약 10분)
 python -m docgen.formdir card --all --stale --workers 4 # 서식 카드 FORM.md
@@ -190,7 +190,7 @@ out/
 - **값(`value`)과 정규화 값(`norm`):** `value`는 문서에 찍힌 그대로, `norm`은 날짜 `YYYY-MM-DD`, 금액 정수, 전화번호 숫자 등입니다. 빈 칸은 `null`입니다.
 - **체크박스:** 보기마다 체크 여부와 □/■ 칸 위치(`box_bbox`)가 있습니다. 정답 값은 체크된 보기입니다.
 - **도장·서명:** `seal.<자리>`, `sign.<자리>`. 서명란은 랜덤으로 도장 / 서명 / 빈 칸이 되고, 없을 때도 그 자리 위치가 기록됩니다.
-- **키 목록과 규칙:** 서식마다 키는 그 서식 카드 `FORM.md`, 키 이름 규칙은 [forms/_common/README.md](forms/_common/README.md#키-이름-규칙), 기계용 전체 목록 `guide/fields/fields.json`.
+- **키 목록과 규칙:** 서식마다 키는 그 서식 카드 `FORM.md`, 키 이름 규칙은 [forms/_common/README.md](forms/_common/README.md#키-이름-규칙), 기계용 전체 목록 `docgen/forms/_common/fields_catalog.json`.
 - **좌표 확인:** `python docgen/scripts/visualize_labels.py out/labels/<파일>.json` 으로 위치를 그린 이미지를 만듭니다.
 
 ### swift/*.jsonl (ms-swift 학습용)
@@ -324,7 +324,7 @@ docgen/
 
   forms/<ID>/               서식 폴더 545종 + 등록 안 되는 hf 레이아웃 (위 "서식 = 폴더 하나"). FORM.md 카드부터, 고치는 법은 forms/README.md
   forms/_common/            모든 서식 공통: questions.json(기본 질문), templates/(바탕 틀·그룹 부품),
-                           key_rules.json(값 규칙: keys·kinds), keys.json(예전 키 목록 초안), marks.json(표시 설정), freetext_templates.json, values.md,
+                           key_rules.json(값 규칙: keys·kinds), fields_catalog.json(모든 서식의 칸 목록, 자동), keys.json(예전 키 목록 초안), marks.json(표시 설정), freetext_templates.json, values.md,
                            hash_moves.json — 무엇이 어디에 영향을 주는지는 forms/_common/README.md
   forms/하나은행_서식자료/  원본 다운로드 보관 (목록 csv·안내문, 레이아웃이 없는 파일). forms/official_sources/: 공식 원본 대조용 PDF
   assets/marks/            표시 요소 풀 (pools.json, 올린 체크·서명 이미지)
@@ -332,7 +332,7 @@ docgen/
   samples/                 서류별 대표 샘플 이미지·정답 (scripts/make_samples.py)
   recipes/                 데이터셋 레시피 (docgen.bench build --recipe, docgen.ocr_set build --recipe, studio 가 고침)
   scripts/                 extract_form_layout.py(서식 PDF → 기재 자리), make_samples.py,
-                           build_schema.py(→ guide/fields/fields.json), build_keys.py(→ keys.json),
+                           build_schema.py(→ docgen/forms/_common/fields_catalog.json), build_keys.py(→ keys.json),
                            audit_form_values.py(값 점검), build_official_html.py·verify_official_html.py(공식 대조 HTML),
                            visualize_labels.py
   manual/                  NEW_FORM_SPEC.md(새 서식 결과물 형식, 코드 서식 12절), FORM_SHELL_GUIDE.md(모양만 고치기: VLM 에게 넘길 문서),

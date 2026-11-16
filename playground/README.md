@@ -60,7 +60,7 @@ python -m playground --port 7860 --open            # 다른 PC 의 브라우저�
 | 직접 쓰기 | 빈칸 | 고른 그림 |
 
    - OCR 질문은 한국어·영어 두 문장이 있습니다 (벤치마크도 둘 다).
-   - 서식의 항목 목록은 `guide/fields/fields.json`(자동 생성 카탈로그)에서 읽고, 서식 폴더의 `questions.json`·`fields.json` 의 `q`(묻지 않기·항목명)를 따릅니다.
+   - 서식의 항목 목록은 `docgen/forms/_common/fields_catalog.json`(자동 생성 카탈로그)에서 읽고, 서식 폴더의 `questions.json`·`fields.json` 의 `q`(묻지 않기·항목명)를 따릅니다.
 4. **[묻기]**. "평가와 같은 크기로 줄여 보내기"(기본 켬)는 평가 세트를 만들 때처럼 그림을 줄입니다 (`train/mix.py` 의 `image_max_size`, 여러 장이면 한 질문의 그림 몫을 나눔). 끄면 원본 크기로 보냅니다.
    - 요청도 평가와 같습니다: `temperature`·`max_tokens`·`enable_thinking` 은 `train/configs/inference.json`, 그림을 질문 앞에.
 5. **답**: 모델마다 원래 답, JSON 으로 읽은 결과, 걸린 시간, 보낸 그림.

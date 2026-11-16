@@ -1,4 +1,4 @@
-"""공식 대조 HTML의 항목만 guide/fields/fields.json에 추가·갱신한다.
+"""공식 대조 HTML의 항목만 docgen/forms/_common/fields_catalog.json에 추가·갱신한다.
 
 기존 서식 항목은 바꾸지 않는다. 문서 전체 재생성은 build_schema.py를 쓴다.
 python -m docgen.scripts.update_official_schema [--n 30]
@@ -24,7 +24,7 @@ def main():
     if args.n < 1:
         ap.error('--n은 1 이상')
     manifest = json.loads((ROOT/'docgen/manual/official_html_sources.json').read_text(encoding='utf8'))
-    target = ROOT/'guide/fields/fields.json'
+    target = ROOT/'docgen/forms/_common/fields_catalog.json'
     schema = json.loads(target.read_text(encoding='utf8')) if target.exists() else {}
     reg = load_all()
     for entry in manifest['forms']:

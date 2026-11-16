@@ -27,6 +27,7 @@ docgen/forms/
 | `freetext_templates.json` | 기타·비고 칸의 자유 기재 문장 틀 (freetext 과제) | 그 칸의 글과 정답 | 파일로 |
 | `templates/` | **바탕 틀**: `_base.html.j2`(쪽·글꼴), `_macros.html.j2`(`f()`·`m.check`·`m.seal` …), `_official_*`, `_real_form.html.j2`(원본 서식), 그룹 부품(`bank_form/`, `corporate/_seal` …) | 모든 html·코드 서식의 그림 → 재검수 | 파일로 (조심) |
 | `generators.py` | **사람이 더하는 생성 방법**: `@generator` 함수 하나 = 생성 방법 `rule:<함수 이름>` 하나 (고르기 창 "직접 만든 생성기") | 그 생성 방법을 고른 모든 칸 | 파일로 — 함수를 더하기만, 기존 함수는 고치지 않음 ([guide/studio/generators.md](../../../guide/studio/generators.md) 2절) |
+| `fields_catalog.json` | 모든 서식의 칸 목록 (서식마다 여러 번 그려 모은 키·키 설명·타입·채워지는 비율·예시). 읽는 곳: 데이터셋의 없는 키·열 후보(`docgen/bench/absent.py`, 같은 그룹 다른 서식의 칸), studio 서식 목록의 키 수, playground 질문 | 없는 키 문항 → 같은 레시피라도 데이터셋이 달라짐 (`dataset.json` 의 `absent_catalog_hash`) | 자동: `python docgen/scripts/build_schema.py` (서식을 더하거나 키를 바꾼 뒤, 몇 분) |
 | `values.md` | 생성 방법 목록 (`fields.json` 의 `source` 에 쓰는 것) | — | 자동: `python -m docgen.formdir values` |
 | `hash_moves.json` | 파일을 옮기기만 한 서식의 예전 서식 해시 (검수 기록이 그대로 맞게) | — | 고치지 않음 |
 
@@ -50,7 +51,7 @@ docgen/forms/
 > 새 서식에 키를 붙일 때의 기준 문서는 [guide/studio/keys.md](../../../guide/studio/keys.md) 입니다 (예시·순서·표·체크·서명).
 
 모든 서식이 같이 쓰는 키 사전·공통 키는 없습니다. 칸의 키(정답 JSON 의 키)는 **그 서식 파일에 적힌 그대로** 질문·정답에 나갑니다.
-서식마다 쓰는 키는 그 서식 카드 `FORM.md`, 모든 서식의 칸 목록은 `guide/fields/fields.json` (자동, `python docgen/scripts/build_schema.py`. 없는 키·열 후보로도 씀).
+서식마다 쓰는 키는 그 서식 카드 `FORM.md`, 모든 서식의 칸 목록은 `docgen/forms/_common/fields_catalog.json` (자동, `python docgen/scripts/build_schema.py`. 없는 키·열 후보로도 씀).
 
 - **형식:** 영어 snake_case, 점(.)으로 중첩, `역할.속성` 순서 (`applicant.name`, `company.biz_no`, `loan.amount`).
 - **반복 항목:** 순번이 들어감 (`rows.0.amount`, `rows.1.amount`).
