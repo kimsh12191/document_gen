@@ -4,8 +4,9 @@
                                log.txt    명령의 출력 그대로
 
 - 명령은 명령줄과 똑같은 것(예: python -m docgen.bench build --recipe …)을 그대로 실행한다. 화면 없이도 같은 결과.
-- studio 를 다시 띄우면 돌던 작업은 "끊김"(interrupted)으로 표시된다. 생성이 끝난 데이터셋은 studio 를 띄울 때 한 번
-  완료 파일을 확인해 자동 등록을 복구한다 (build_registration.py). 미완성 작업은 다시 실행해야 한다.
+- studio 를 다시 띄우면(코드를 바꾸면 저절로) 돌던 작업은 "끊김"(interrupted)으로 표시되지만 명령은 따로 떠 있어 계속 돈다.
+  studio 가 30초마다 확인해 완료 파일이 다 있으면 자동 등록하고, 프로세스가 끝났는데 완료 파일이 없으면 실패로 둔다
+  (build_registration.settle_interrupted). 실패한 작업은 새 이름으로 다시 만든다.
 - 진행: 명령이 stderr 에 쓰는 "\\r서류 3/40" 같은 줄에서 마지막 "a/b" 를 읽는다.
 - 끝나면 on_done(job) 을 부른다 (예: 만든 폴더를 데이터셋 등록부에 올리기).
 - 같은 출력 폴더(info.out)로 도는 작업이 있거나 그 폴더가 이미 있으면 시작하지 않는다 (Conflict → HTTP 409).
@@ -144,6 +145,8 @@ class Jobs:
             raise
         with self.lock:
             self.live[job_id] = p
+        j["pid"] = p.pid   # studio 가 다시 떠도 이 프로세스가 살아 있는지 볼 수 있게 (build_registration.settle_interrupted)
+        self._save(j)
 
         def wait():
             try:

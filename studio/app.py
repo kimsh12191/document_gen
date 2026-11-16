@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import logging
 import os
+import threading
 from contextlib import asynccontextmanager
 from functools import lru_cache
 from pathlib import Path
@@ -94,12 +95,26 @@ def startup_once() -> None:
             logging.getLogger("studio").warning("%s 실패: %s: %s", step, type(e).__name__, e)
 
 
+def _watch_interrupted(stop: threading.Event) -> None:
+    """끊긴 생성 작업을 30초마다 확인 (끝났으면 등록, 멈췄으면 실패로). 끊긴 작업이 없으면 파일을 읽기만 한다."""
+    from .build_registration import settle_interrupted
+
+    while not stop.wait(30):
+        try:
+            settle_interrupted(JOBS, REGISTRY)
+        except Exception as e:  # noqa: BLE001  확인이 실패해도 studio 는 돈다
+            logging.getLogger("studio").warning("끊긴 작업 확인 실패: %s: %s", type(e).__name__, e)
+
+
 @asynccontextmanager
 async def lifespan(_app):
     startup_once()
+    stop = threading.Event()
+    threading.Thread(target=_watch_interrupted, args=(stop,), daemon=True, name="studio-interrupted").start()
     if BROWSER and not os.environ.get("STUDIO_NO_WARM"):
         previewer.warm()   # 첫 미리보기 전에 브라우저를 띄워 둔다
     yield
+    stop.set()
     previewer.close()
 
 

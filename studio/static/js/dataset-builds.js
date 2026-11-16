@@ -25,7 +25,7 @@ function datasetBuildsHTML(jobs) {
   const pending = j => ["running", "interrupted"].includes(j.status);
   const shown = [...jobs.filter(pending), ...jobs.filter(j => !pending(j)).slice(0, 5)];
   const status = j => j.stage === "registering" ? "등록 중" : j.stage === "registration_failed" ? "등록 실패"
-    : ({ running: "생성 중", done: j.result?.dataset ? "자동 등록 완료" : "완료 · 등록 확인 필요", failed: "생성 실패", cancelled: "취소", interrupted: "연결 끊김 · 완료 결과 확인 중" }[j.status] || j.status);
+    : ({ running: "생성 중", done: j.result?.dataset ? "자동 등록 완료" : "완료 · 등록 확인 필요", failed: "생성 실패", cancelled: "취소", interrupted: "studio 재시작 · 생성은 계속 (확인 중)" }[j.status] || j.status);
   return `<div class="panel ds-build-panel"><h2>데이터셋 생성 현황</h2>
     <div class="sub">완료하면 아래 등록 목록에 자동으로 추가됩니다. 상세 로그는 작업 이름을 눌러 확인합니다.</div>
     ${shown.length ? table(shown, [
@@ -34,7 +34,7 @@ function datasetBuildsHTML(jobs) {
         ${j.recovered ? `<div class="muted">완성된 결과 자동 복구</div>` : ""}`],
       ["progress", "진행", j => j.status === "running" && j.progress ? `${j.progress[0]} / ${j.progress[1]}` : ""],
       ["result", "결과", j => j.result?.dataset ? `<a href="#/datasets/${encodeURIComponent(j.result.dataset)}">등록된 데이터셋 열기</a>`
-        : j.error ? `<span class="err">${esc(j.error)}</span>` : j.status === "interrupted" ? `<span class="muted">완료 파일이 확인되면 자동 등록합니다. 미완성 작업은 작업 화면에서 확인하세요.</span>` : ""],
+        : j.error ? `<span class="err">${esc(j.error)}</span>` : j.status === "interrupted" ? `<span class="muted">studio 가 다시 떴지만 생성은 따로 계속 돕니다. 30초마다 확인해 끝나면 자동 등록하고, 멈췄으면 실패로 바꿉니다.</span>` : ""],
     ]) : `<p class="muted">생성 작업이 없습니다.</p>`}</div>`;
 }
 

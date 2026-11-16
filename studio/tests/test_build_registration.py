@@ -172,3 +172,44 @@ def test_new_builds_persist_auto_registration_spec(tmp_path, monkeypatch, track)
     else:
         ocr_output(Path(spec["path"]))
     assert jobs.done({}) == {"dataset": "output"}
+
+
+def test_interrupted_builds_settle_while_studio_runs(tmp_path):
+    """studio 가 다시 뜬 뒤: 끝난 작업은 등록, 아직 도는 작업은 그대로, 멈췄는데 완료 파일이 없으면 실패."""
+    import os
+    import subprocess
+
+    from studio import build_registration as BR
+
+    reg, jobs = Registry(tmp_path), Jobs(tmp_path, tmp_path)
+    done_out = tmp_path / "datasets" / "finished"
+    bank_output(done_out)
+    job_record(jobs, done_out, id="b-done", pid=999999)
+    job_record(jobs, tmp_path / "datasets" / "dead", id="b-dead", pid=999999)
+    live = subprocess.Popen([sys.executable, "-c", "import time; time.sleep(30)"])
+    try:
+        job_record(jobs, tmp_path / "datasets" / "live", id="b-live", pid=live.pid)
+        job_record(jobs, tmp_path / "datasets" / "old", id="b-old")          # pid 를 모르는 예전 작업: 로그가 오래 멈춤
+        log = jobs.root / "b-old" / "log.txt"
+        log.write_text("서류 3/40", encoding="utf-8")
+        os.utime(log, (time.time() - 3600, time.time() - 3600))
+        assert BR.settle_interrupted(jobs, reg) == 1
+        assert jobs.get("b-done")["status"] == "done" and reg.get("finished")
+        assert jobs.get("b-live")["status"] == "interrupted"
+        for jid in ("b-dead", "b-old"):
+            j = jobs.get(jid)
+            assert j["status"] == "failed" and j["stage"] == "interrupted_incomplete" and "다시 만드세요" in j["error"]
+    finally:
+        live.kill()
+        live.wait()
+    assert BR.settle_interrupted(jobs, reg) == 0 and jobs.get("b-live")["status"] == "failed"
+
+
+def test_started_job_records_pid(tmp_path):
+    jobs = Jobs(tmp_path, tmp_path)
+    j = jobs.start("t", "시험", [sys.executable, "-c", "print('ok')"])
+    for _ in range(100):
+        if jobs.get(j["id"])["status"] != "running":
+            break
+        time.sleep(0.05)
+    assert isinstance(jobs.get(j["id"]).get("pid"), int)

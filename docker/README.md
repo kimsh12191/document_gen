@@ -119,7 +119,7 @@ tar -xzf docgen-code-1.3.tar.gz -C ~/docgen
 ```
 
 - `studio/`·`docgen/` 의 `.py` 가 바뀌면 studio 가 몇 초 안에 다시 뜹니다. 화면 파일(`studio/static`)은 브라우저 새로고침만 하면 됩니다. 서버에서 파일을 직접 고쳐도 같습니다.
-- 다시 뜰 때 돌고 있던 생성 작업은 (데이터셋 › 생성 현황) "끊김"으로 표시됩니다 (생성은 끝까지 돌고, 끝난 데이터셋은 데이터셋 목록을 열면 자동 등록이 복구됨). 긴 빌드 중에는 코드 반입을 미루세요.
+- 다시 뜰 때 돌고 있던 생성 작업은 (데이터셋 › 생성 현황) "studio 재시작 · 생성은 계속"으로 표시됩니다. 생성은 따로 끝까지 돌고, studio 가 30초마다 확인해 끝나면 자동 등록합니다. 그 사이 생성이 멈췄으면(완료 파일 없음) "생성 실패"로 바뀌니 새 이름으로 다시 만듭니다.
 - 풀어도 지워진 파일은 남습니다. 2026-10-20 재배치·2026-10-21 학습 통합(`ocr/`·`bank/` → `train/`) 전 코드에서 넘어왔다면 옛 폴더(`scripts/`, `templates/`, `training/`, `ocr/`, `bank/` …)가 남지만 쓰이지 않습니다. `training/` 아래 git 에 없는 데이터·결과를 옮기는 방법은 [저장소 README](../archive/MIGRATION.md)에 있습니다.
 - 이미지는 `docker/Dockerfile`·`docker/requirements.lock`·`studio/requirements.txt` 가 바뀌었을 때만 새로 반입합니다. 반입 뒤 `sh docker/studio.sh rm` → `DOCGEN_IMAGE=docgen:<새 버전> sh docker/studio.sh`.
 

@@ -2,13 +2,15 @@
 
 - 생성 작업(build_bank·build_ocr: 은행 서류 레시피, 합성 OCR 레시피)은 job.json 의 info.dataset 에
   등록할 {path, name, meta} 를 남기고, 끝나면 register_output 으로 등록부(studio/datasets.py)에 올린다.
-- recover_completed 는 studio 를 띄울 때 한 번 돈다 (app.py lifespan): 끊긴(interrupted) 작업이라도 완료 파일이 다 있으면 등록한다.
+- recover_completed 는 studio 를 띄울 때, 그리고 끊긴(interrupted) 작업이 있는 동안 30초마다 돈다 (app.py, settle_interrupted):
+  끊긴 작업이라도 완료 파일이 다 있으면 등록한다. 프로세스가 끝났는데 완료 파일이 없으면 실패로 바꾼다.
   은행 서류는 dataset.json·meta.json 과 tasks/<과제>.jsonl 문항 수, OCR 은 prepared/DONE.json·pages.jsonl 로 완료를 판단한다.
 - <workspace_dir>/datasets/ 밖의 폴더, 실패·취소한 작업은 등록하지 않는다. 같은 폴더는 한 번만 등록한다.
 """
 from __future__ import annotations
 
 import json
+import os
 import threading
 import time
 from pathlib import Path
@@ -107,6 +109,55 @@ def recover_completed(jobs, registry) -> None:
             job.setdefault("ended", job["recovered_at"])
             job.pop("error", None)
             jobs._save(job)
+
+
+STALE_MINUTES = 15   # pid 를 모르는 예전 작업: 로그가 이만큼 멈춰 있으면 끝난 것으로 본다
+
+
+def _pid_running(pid) -> bool:
+    if not isinstance(pid, int) or pid <= 0:
+        return False
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+    except OSError:
+        return False
+    try:   # 끝났지만 거두지 않은 프로세스(좀비)는 끝난 것
+        return Path(f"/proc/{pid}/stat").read_text().split(") ", 1)[1][:1] != "Z"
+    except (OSError, IndexError):
+        return True
+
+
+def _still_running(jobs, job: dict) -> bool:
+    if job.get("pid"):
+        return _pid_running(job["pid"])
+    log = jobs.root / job["id"] / "log.txt"
+    try:
+        return time.time() - log.stat().st_mtime < STALE_MINUTES * 60
+    except OSError:
+        return False
+
+
+def settle_interrupted(jobs, registry) -> int:
+    """끊긴 생성 작업 정리: 완료 파일이 다 있으면 등록, 프로세스가 끝났는데 없으면 실패로. 남은 끊긴 작업 수를 돌려준다."""
+    if not any(j.get("status") == "interrupted" and j.get("kind") in BUILD_KINDS for j in jobs.list()):
+        return 0
+    recover_completed(jobs, registry)
+    left = 0
+    with _LOCK:
+        for job in jobs.list():
+            if job.get("kind") not in BUILD_KINDS or job.get("status") != "interrupted":
+                continue
+            if _still_running(jobs, job):
+                left += 1
+                continue
+            job.update(status="failed", stage="interrupted_incomplete", ended=job.get("ended") or time.strftime("%Y-%m-%d %H:%M:%S"),
+                       error="studio 가 다시 뜬 사이 생성이 멈췄고 완료 파일이 없습니다. 로그 끝을 보고, 새 이름으로 다시 만드세요")
+            jobs._save(job)
+    return left
 
 
 def list_builds(jobs) -> list[dict]:
