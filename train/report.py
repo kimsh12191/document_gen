@@ -20,7 +20,7 @@ from docgen.bench.tracking import DIMENSIONS
 
 LOWER = E.LOWER_IS_BETTER
 DIMS = ("doc_type", "source_dataset", "label_format", "view")   # 구분별 표 (그룹이 둘 이상일 때만)
-SCORE_VERSION = 1
+SCORE_VERSION = 2   # 2: 잘못된 이스케이프(\N 등)가 든 JSON 답도 읽음 — 예전 점수 캐시는 다시 채점
 
 
 def _pct(v):

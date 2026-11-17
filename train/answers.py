@@ -13,6 +13,7 @@ import random
 from pathlib import Path
 
 from docgen.bench import evaluate as E
+from docgen.bench.metrics import parse_json
 from docgen.bench.ocr_data import read_jsonl
 
 LIMIT = 4000   # 질문·답 글자 수 (넘으면 자른다)
@@ -82,18 +83,22 @@ def build(models, out, title="", base_label=None, per_task=30, take_all=False, s
                 row = rows[it["id"]]
                 prompt = "".join(m["content"] for m in row["messages"] if m.get("role") == "user").replace("<image>", "")
                 meta = it.get("meta") or {}
-                answers = []
+                answers, unread = [], []
+                json_answer = isinstance(it.get("answer"), (list, dict)) or isinstance(parse_json(it.get("answer")), (list, dict))   # 정답이 JSON 인 문항: 답을 JSON 으로 못 읽으면 0점
                 for label in labels:
                     if label not in preds:
                         answers.append(None)
+                        unread.append(False)
                         continue
                     raw = preds[label].get(it["id"])
                     text = E.answer_text(raw) if raw is not None else None
                     answers.append(_cut("(답 없음)" if text is None else text))
+                    unread.append(bool(json_answer and text is not None and not isinstance(parse_json(text), (list, dict))))
                 cards.append({"g": g, "id": it["id"], "prompt": _cut(prompt), "ref": _cut(_reference(it)),
                               "info": " · ".join(str(meta[k]) for k in ("doc_type", "label_format") if meta.get(k)),
                               "images": [Path(os.path.relpath(p, out.parent)).as_posix() for p in row["images"]],
-                              "scores": [per.get(l, {}).get(it["id"]) if l in per else None for l in labels], "answers": answers})
+                              "scores": [per.get(l, {}).get(it["id"]) if l in per else None for l in labels], "answers": answers,
+                              "unread": unread})
     payload = {"title": title, "base": base, "models": labels, "groups": groups, "cards": cards, "scores": scores,
                "per_task": None if take_all else per_task}
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -118,7 +123,7 @@ details>summary{cursor:pointer;color:var(--muted)}
 .wrap{overflow-x:auto}table{border-collapse:collapse;width:100%}
 th,td{border:1px solid var(--line);padding:4px 8px;text-align:left;vertical-align:top}th{background:var(--head);white-space:nowrap}
 td.s{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;width:5em}
-.up{color:var(--up);font-weight:600}.down{color:var(--down);font-weight:600}tr.ref td,tr.ref th{background:var(--head)}tr.other{opacity:.75}
+.unread{color:var(--down);font-size:11px;white-space:normal}.up{color:var(--up);font-weight:600}.down{color:var(--down);font-weight:600}tr.ref td,tr.ref th{background:var(--head)}tr.other{opacity:.75}
 </style></head><body>
 <h1 id='t'></h1><p id='d'></p>
 <div class='bar'><label>평가 세트 · 과제 <select id='g'></select></label>
@@ -162,7 +167,7 @@ function show() {
       const r = i === A ? 0 : cmp(c.scores[i], c.scores[A], H.lower);
       const tag = i === A ? ' (A)' : i === B ? ' (B)' : '';
       return '<tr class="' + (i !== A && i !== B ? 'other' : '') + '"><th>' + esc(D.models[i]) + tag + '</th><td class="s ' + (r > 0 ? 'up' : r < 0 ? 'down' : '') + '">'
-        + pct(c.scores[i]) + '</td><td><pre>' + esc(c.answers[i] == null ? '(이 모델은 다른 평가 문항)' : c.answers[i]) + '</pre></td></tr>';
+        + pct(c.scores[i]) + ((c.unread || [])[i] ? '<div class="unread">답을 JSON 으로 못 읽음</div>' : '') + '</td><td><pre>' + esc(c.answers[i] == null ? '(이 모델은 다른 평가 문항)' : c.answers[i]) + '</pre></td></tr>';
     }).join('');
     return '<div class="card"><h3>' + esc(c.id) + (q ? ' <span class="muted">' + esc(H.set + ' · ' + H.task) + '</span>' : '') + '</h3>'
       + (c.info ? '<div class="muted">' + esc(c.info) + '</div>' : '')

@@ -112,3 +112,12 @@ def test_train_and_test_seeds_do_not_overlap():
     train = set(range(SPLITS["train"][0], SPLITS["train"][0] + 100_000))
     assert not test & train
     assert min(test | train) > 100_000  # docgen generate 의 seed(0부터)와도 떨어져 있음
+
+
+def test_parse_json_repairs_bad_escapes():
+    """모델이 대문자 글 속에서 \\n 을 \\N 으로 쓰면 JSON 이 깨져 답 전체가 0점 — 고쳐 읽는다. 올바른 \\\\ 는 그대로."""
+    from docgen.bench.metrics import parse_json
+
+    out = '```json\n[{"key": "A", "value": "ROAD\\NDANDENONG\\nAU", "p": "C:\\\\Net \\Q"}]\n```'
+    assert parse_json(out) == [{"key": "A", "value": "ROAD\nDANDENONG\nAU", "p": "C:\\Net \\Q"}]
+    assert parse_json('{"a": "x\\ty"}') == {"a": "x\ty"} and parse_json("답 없음") is None

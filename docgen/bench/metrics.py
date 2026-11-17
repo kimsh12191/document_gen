@@ -23,8 +23,32 @@ NO = {"아니오", "아니요", "아니", "no", "n", "false", "x", "없음", "�
 # 출력 파싱
 # ---------------------------------------------------------------------------
 
+_ESCAPE = re.compile(r"\\(.)", re.S)   # 앞에서부터 '\\' + 한 글자씩 짝지어 읽음 (\\\\ 다음 글자를 따로 보지 않게)
+
+
+def _fix_escapes(t: str) -> str:
+    """JSON 에 없는 이스케이프를 고친다: 대문자 \\N·\\T·\\R·\\B·\\F → 소문자 (모델이 대문자 글 속에서 \\n 을 \\N 으로 씀),
+    그 밖의 \\X 는 글자 그대로 (\\\\X). 하나만 틀려도 답 전체를 못 읽어 0점이 되지 않게."""
+    def fix(m):
+        c = m.group(1)
+        if c in '"\\/bfnrtu':
+            return m.group(0)
+        return "\\" + c.lower() if c in "NTRBF" else "\\\\" + c
+    return _ESCAPE.sub(fix, t)
+
+
+def _loads(t: str):
+    try:
+        return json.loads(t)
+    except (ValueError, TypeError):
+        fixed = _fix_escapes(t)
+        if fixed == t:
+            raise
+        return json.loads(fixed)
+
+
 def parse_json(text: str | None):
-    """모델 출력에서 JSON 값을 꺼낸다. 못 꺼내면 None."""
+    """모델 출력에서 JSON 값을 꺼낸다 (코드 블록 안, 앞뒤 말 무시, 잘못된 이스케이프는 고쳐 읽음). 못 꺼내면 None."""
     if text is None:
         return None
     if not isinstance(text, str):
@@ -34,14 +58,14 @@ def parse_json(text: str | None):
     if m:
         t = m.group(1).strip()
     try:
-        return json.loads(t)
+        return _loads(t)
     except (ValueError, TypeError):
         pass
     for open_, close in (("{", "}"), ("[", "]")):
         i, j = t.find(open_), t.rfind(close)
         if 0 <= i < j:
             try:
-                return json.loads(t[i:j + 1])
+                return _loads(t[i:j + 1])
             except ValueError:
                 continue
     return None
